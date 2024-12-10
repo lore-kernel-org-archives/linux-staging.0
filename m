@@ -1,93 +1,112 @@
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1AFC5196C7C
-	for <linux-staging@lists.linux.dev>; Mon,  9 Dec 2024 21:36:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 040D522F3AB
+	for <linux-staging@lists.linux.dev>; Tue, 10 Dec 2024 07:28:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733780166; cv=none; b=N4QFePmjI1EQAtlr378851jP2KysHV0x5vEDNFEf9MIu/TP4ib3ryvxupNknW2AGqwhLcWjllZ5DSWQsawDCg+56zEdPPrMwhkRuVjlnL66gUYYZfrOO+lyG3SUmeoiyk1KzcXEw1t+9Xpa7tiHCWkcxNSLytUMiGrvvQ6PDS0g=
+	t=1733815738; cv=none; b=qs6TTdsWSNTmL6gJxOHNgTg9J1/iif8i2nz83RLgya4IV/dzh94gmd25mdD/TePaLruy6VsrdVyvp4vtscLo+PPtAggCe7DockB7J3sm3c4x6HK+KRlOnwPoI5BBAZdD2VQwuzz731zNRgAMB9175q4//6uI4K56ao6TQ0xQ/Jw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733780166; c=relaxed/simple;
-	bh=D0GwfPYzY3d075kroJefVRvpK4Ym45rskIgN5d2eWRY=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=J8IEpfzD1sIm2eGXge7pKzL8EW/qtlyg3sZvjVQEp78ccCyf2HyYdddeuPPQ8J/ujpcivcE6tf8gBp28qXRATcuCfbhvvWeVndNvZLwLh1J09ZlUUHGidjbQDtVhlo4rtwjTk+GDu/jO3tT1DDh5+/LE7SQmJeXaCCH8590DIv4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Z03d5d8M; arc=none smtp.client-ip=209.85.214.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1733815738; c=relaxed/simple;
+	bh=jcBjzE6y4SuGYTvQrZw6rDbaF2EAFAUFjnWErKsWp2I=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=sLNZnJQLFVvF77uCzrlzrsfP60CGyMZQ+oH9+XpuJHkL7/bQReiTsRM/SBFOS5YqpPmGNpW5Hljf+XJF6w2sk4ai8xMRY9KvzjDEA1Y8U0UdjD7mnnzx8lNJbOA+FSurPs7rAlBRoMUWMa777v35ikJv6NscNbatvZZrb5xBwHQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=LQN61fxs; arc=none smtp.client-ip=209.85.128.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Z03d5d8M"
-Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-21619108a6bso23749995ad.3
-        for <linux-staging@lists.linux.dev>; Mon, 09 Dec 2024 13:36:04 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="LQN61fxs"
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-434acf1f9abso50254075e9.2
+        for <linux-staging@lists.linux.dev>; Mon, 09 Dec 2024 23:28:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1733780164; x=1734384964; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=7pMt4qFSFzCxvYGSp6kfDCRph+Y7dx/tSTao0y9+V/Q=;
-        b=Z03d5d8M8vuFFTrmP2idn+V7MQmOuSVZnOeqR1WoRcna+njomLSvg3V7rzcEMTPSRE
-         9AroFkbUZ7I3XTKcMoVIKPk5KalWKnWgYNBDatsIPXUusotuzkujuBdVwusGhyfNcd/r
-         72RuGK50c5r28bURuQ0NZ/oBN2pNu/OPF2kpsUMq+mEHGNmzX/MVS/lTMbQExc6/drNG
-         CTRhE8uKhAN/0bPyYS384QTytTvaMOueD2kETp7LhIQiQKPK5DGlL8ZlSwF1tkROvFm5
-         3SsjJA+35VojrtSZR3S4q3t3j8YGqXkxfV5oVKWd4/gsa9gYmsIZvERGskMjFhVujgXc
-         cfog==
+        d=linaro.org; s=google; t=1733815734; x=1734420534; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=U4JB1lq6UZAc6HCGowqpxl9Kk5HX97ITZ41Bl06+0/o=;
+        b=LQN61fxsjjCmrUInCTa/YjTA218MTWjAZ9OM29/pgvxvMf8cte38JfvQMiMggZku0K
+         ceBZsVYJpQ2HF5KBxPKzK2YyOPb46DxUsjsWRLfQ6BUTtsotXxRIPFx+OLF6Gcyyn0iH
+         gcpePUjfv/rOFlI6cSaApy2NsJ3ySB9Jp1VzDYNmQq3Au4Yt1a7df7a9x5vvQZoo4SBl
+         u6T07/P9PSvSDHBIWq6MiQ1ptgHduSmOocZiTAHy2CwcNIW1evvRpBYtxqRC7GmmHkEN
+         hj/D/YeyrTT/so/fBFCoU0x+pQeZH+YxzSFQYH+CD8beLQhi6mpyinByd6wrNx4yMiGX
+         A3qQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733780164; x=1734384964;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=7pMt4qFSFzCxvYGSp6kfDCRph+Y7dx/tSTao0y9+V/Q=;
-        b=G8eOiL7F3oPjqgmW+b/a8herWxQx2oQX91WPg+aZ2r10I60YFNQm8Vxyt5N15pcQOu
-         EKkoVdmUWPJNdTVl6E/ic/1gztH8x2zqYkygWE/6SbXDQMinV3kjQXxP67bPDpU/MOqV
-         mBqJyM2DGasmTxwzQwqdg/n5UvSGvQTe4Qmo9d1XYpRljOiT4Abkh8cCa20JTwiARv3j
-         O2cU8dYEmIR03Z/hEtFl8qbBtXn7i2GMEiPLXN4DSpcKoLovYjqBk8RnUHGHSRMqgvMN
-         SZ8D6z6YhAP3BPiDfZFSjH/qI2Kdy2Z/8aJbcHfY4eH6oZ5XNTWNvtxClWADOKXuyVCb
-         r8Lw==
-X-Forwarded-Encrypted: i=1; AJvYcCVSENGKQKoTR5WRUZBW1SssntyOYmWQj6Q8OsU9alq1dkpy5nQH8mSXQuIq+kPBpxhDQ2RDjGFRpaYoOFA8@lists.linux.dev
-X-Gm-Message-State: AOJu0YxS3XwDkoyEshtMw87WlttfTRz984LN4IMnJa9xe4GTvPe2MfMk
-	Hp1x2EWCt2bMDpcSWmDsNWGE+YA6rBH2kvgNXTRRXl3ZpKzCEKp2
-X-Gm-Gg: ASbGncuHBgEXAemeRTLDbB2KevAxmpvNZr5eC/fy/Ep29hbTIK1unx2d2E1iwHe1NZu
-	WGhc6yeUyfsdnwMjiJMMSbNUXgBdts1gn0Ek3iODXxqa9JqI8dXkHN57XCfaeBsM4wb0OyArRqz
-	Xs0+gkCZT00H3QgZFfsyMrKbIyHOm1ZtZ41V8VSRsE2fqauMQ6kGfTVveiQMg424uVSdFVqJoc/
-	bCXgzfghLEgH7bMupjyB1/rGMnUuJZh7bbDKw2K5tq3WmKA1AhmcAZlFdDypNTMVjA8Au0cQwqs
-	wg==
-X-Google-Smtp-Source: AGHT+IGsrljXaZKtJMEfPwNsl5nnfyFklzAzvDNzZO2kCxojOA6DcgslKTWJXpL0hci5T4lQb5O0jQ==
-X-Received: by 2002:a17:903:1ca:b0:215:6489:cfb8 with SMTP id d9443c01a7336-21669fd0edamr33805595ad.10.1733780164144;
-        Mon, 09 Dec 2024 13:36:04 -0800 (PST)
-Received: from localhost.localdomain ([2804:14d:4c64:81ec:7409:107a:a63b:a3da])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-216634dd69esm14523955ad.40.2024.12.09.13.36.01
+        d=1e100.net; s=20230601; t=1733815734; x=1734420534;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=U4JB1lq6UZAc6HCGowqpxl9Kk5HX97ITZ41Bl06+0/o=;
+        b=sB+OyvCkKN84NkSg01MOuLj7GoPaAlU3PeuqdMnnuUwKqNpcgbc8lBgzRIo+dlYkVU
+         0d0ep3TR4tmpObb2GfFQW4bKfmqQnfmm93wLFDz/Ue8bKrRjvuYv8WmuNHZcr0uvtxck
+         wm/NVUPQ7YnCxztRulAaPsNtWAM50WVX2d3d38+asDX19SkkpnZ2/kvoEpgg4q+h0E/h
+         MwrnK2xZREXsCwNXMkG9bIjL2dsVTv3uAyCoPrBPV6YVt6TQ9Kfz9/snhJg/os2oeXcG
+         qvi1zH7UWrgrIHLd+jVECqOsWsr/QIsH4mkSyafBt8anF8O0yEB4xLXzuXlSBWz+iP5M
+         tDhw==
+X-Forwarded-Encrypted: i=1; AJvYcCUdho+ajfojWKB4OY+761TrEJN1RdIfiSmJ1W6j4CXRzJVsBHSHB6G9HsIyaF5rfUsgiAys3eYnv/dce3Kj@lists.linux.dev
+X-Gm-Message-State: AOJu0Yzmy4TK2saV849NwzUGL7ssHwQg1ob0IkH7msSgzfahgs1QOmv3
+	eRcHfCr5UhYFZkN0k6+dMLP4Xg5vwZDah1xgeY6PD5SmGk7eoNptOgz0j3i1yIc=
+X-Gm-Gg: ASbGncv2Ogy2oV1XHi3awVU/sSaxXTdrMs6nDuPoRz8SLCeleES6WbesxYbeBfTVz3j
+	cj39XbKDVzeDgPov0lH488laKw7nJ6hUFbW5h6hD/eNqihkBlOgGP/Ly01omXzJZfqcqUpppneU
+	uYBm9y1BcWfeIBnQe1wVDShzdC+5BsLUHUc+EY1LzUXmy2kxAX5F27f3SD7T9S6W8d469XqWMmH
+	18JcZ+isqc/7dv3F8tGC92npgK3vtEAirozN45iXWdvNygA6wj0JGB6b8A=
+X-Google-Smtp-Source: AGHT+IErBp3nB27t8Idia9cetAVpCVdYB5xJ411doFQHPuwsK44xALnFKbTnOl7EG470VnVrE5IKHQ==
+X-Received: by 2002:a05:600c:4f02:b0:434:a10f:9b with SMTP id 5b1f17b1804b1-434fff3d8f5mr29019345e9.14.1733815734174;
+        Mon, 09 Dec 2024 23:28:54 -0800 (PST)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-434d52cbd42sm216710555e9.38.2024.12.09.23.28.53
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 09 Dec 2024 13:36:03 -0800 (PST)
-From: Rodrigo Gobbi <rodrigo.gobbi.7@gmail.com>
-To: dan.carpenter@linaro.org
-Cc: gregkh@linuxfoundation.org,
-	linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	philipp.g.hortmann@gmail.com,
-	rodrigo.gobbi.7@gmail.com,
+        Mon, 09 Dec 2024 23:28:53 -0800 (PST)
+Date: Tue, 10 Dec 2024 10:28:48 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Rodrigo Gobbi <rodrigo.gobbi.7@gmail.com>
+Cc: gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev, philipp.g.hortmann@gmail.com,
 	~lkcamp/patches@lists.sr.ht
 Subject: Re: [PATCH v3] staging: rtl8723bs: remove code depending on cflag
-Date: Mon,  9 Dec 2024 18:33:36 -0300
-Message-ID: <20241209213528.5917-1-rodrigo.gobbi.7@gmail.com>
-X-Mailer: git-send-email 2.47.0
-In-Reply-To: <42d24db0-b403-4c4b-8607-38f3cd55cf63@stanley.mountain>
+Message-ID: <21d2d3f7-c94a-454b-92b4-2eb6a4be6ce9@stanley.mountain>
 References: <42d24db0-b403-4c4b-8607-38f3cd55cf63@stanley.mountain>
+ <20241209213528.5917-1-rodrigo.gobbi.7@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241209213528.5917-1-rodrigo.gobbi.7@gmail.com>
 
-> The commit message should answer any kind of reasonable questions
-> a review is probably going to ask but it doesn't give any information on
-> this.
+On Mon, Dec 09, 2024 at 06:33:36PM -0300, Rodrigo Gobbi wrote:
+> > The commit message should answer any kind of reasonable questions
+> > a review is probably going to ask but it doesn't give any information on
+> > this.
+> 
+> I'll try to improve this for future patches, tks for pointing that out.
+> 
+> > This commit would easier to review if it were broken up in a different
+> > way.
+> 
+> Ok, in that way, a patch series is the best approach here, right?
 
-I'll try to improve this for future patches, tks for pointing that out.
+I'm not your boss, right?  And I can't tell you what to do and what I'm
+suggesting is more work.  If you just want to send patch 1 from the
+series instead of all three patches, that's fine.  No one is going to
+be annoyed by that.
 
-> This commit would easier to review if it were broken up in a different
-> way.
+In patch 1, you would only delete code which is obviously surrounded
+by #ifdef DBG_RX_SIGNAL_DISPLAY_RAW_DATA so the case statement would
+look like:
 
-Ok, in that way, a patch series is the best approach here, right? 
-Despite the changes in the series being dependent on each other in this case.
-Tks and regards.
+	case HAL_DEF_DBG_RX_INFO_DUMP:
+		break;
+
+It's basically the same as what you wrote but slightly smaller and
+easier to review.  But yeah, we're not going to merge this as-is.
+
+> Despite the changes in the series being dependent on each other in this case.
+
+Yep.  Patchsets are generally dependent on each other.  The rule is that
+each patch has to make sense on its own.  You can't break the build.  But
+they work on top of each other and they're applied in order.
+
+regards,
+dan carpenter
