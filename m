@@ -1,34 +1,33 @@
 Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 342C523EBE2
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 19C0C23EC1F
 	for <linux-staging@lists.linux.dev>; Tue, 10 Dec 2024 22:02:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733868170; cv=none; b=jKcUyeJWmVJmjUgO/aulphVNw6egKdGLVsRlfP6Vcvi7ENiCnL0LfCIlE9k3+ldqlSM4b7BZgfLlkdRUCP7WJIRdGh/1ziollc8709Gnj+zesrt6J2IQ0ydRB2eVgZJpFWtcpV4i3d/XRhdH1m4AAVVNwhAXc/xNqF76mhD0MOw=
+	t=1733868170; cv=none; b=KSlfY9sJsmUWPo+CQNu0zAal26MsKA75F/oTyzirUbcxDLR0KK8pk/upe4kVNS6V4KwBLBos6YltGiutLmODJSsQOizI1bPcDwZIIHqtnVTgYBwkEZjIur0v5RHN6IqmNwCYjrCiZyXzPqRNRVFJ76x8ttgfYCjtt2UKjN5RnEg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1733868170; c=relaxed/simple;
-	bh=frqXhZTljXQf4Hj4uuht2qQqPwJblQXtPO/1Lu5KZMY=;
+	bh=siPScLtqpZlGpP8htPBFN6m6C31j8AmD1yYypWDBtIs=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=ZZgRAO4ZxGgwcegwiN62AFwPibN5iQSH0r/5BwNOV1ylxeuJePPINd8Td0r31MQAQVjMM8DLexpkOUXeBihdeqZkDT8SSlkdApIIm+GiHAsX1gMFpSYC9r4L3lQm2HgcTqOhzlPXN7wuDqG8kLdHEwYhlFItyd+QhK3evWGjkEw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=ey2u4hFu; arc=none smtp.client-ip=13.77.154.182
+	 In-Reply-To:To:Cc; b=PydpvrD316IeD+zVDsgo1Q7AapTXbHRI+PJlsxaaFOkaKTXnTPPVquDHepVuO3wL9uvtKFcJVy6zaHkiog6MqYqXUlHxLlSFOMGCyv9dMi5qosMxekcEEL9AGjQ1FwPuUYnGEh5HdOHjqAOm2KMLKy+ltocrJW1Vkf7wr6APeDU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=VsljeNAY; arc=none smtp.client-ip=13.77.154.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="ey2u4hFu"
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="VsljeNAY"
 Received: from eahariha-devbox.internal.cloudapp.net (unknown [40.91.112.99])
-	by linux.microsoft.com (Postfix) with ESMTPSA id 4B3EA204722C;
-	Tue, 10 Dec 2024 14:02:37 -0800 (PST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 4B3EA204722C
+	by linux.microsoft.com (Postfix) with ESMTPSA id 93EFE20ACD6D;
+	Tue, 10 Dec 2024 14:02:39 -0800 (PST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 93EFE20ACD6D
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1733868157;
-	bh=pNf1urZZ7beXITMyG6cNpTQM4ujE/reyCjI7dxR8TrA=;
+	s=default; t=1733868159;
+	bh=2Yxce1Hb0/0P5cE6q+zb1yt8qEYqdCG+5Hx3X7W7CLE=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=ey2u4hFur56upsg36Bzzf5E6sp9TxIQJWauHtVHyZKWxl2TYAXbOMES9gB/LrtTHt
-	 EMIcdvfnDr4nFfA+fPKgnRb6wrIZBNFQYmxUUa3IOMgJ6rbLPy51pP+s0wIlgpVbyY
-	 W7PI6jGCodUt7pK+WAXoxoZrhQg9ZJ/5kGvj+4iw=
+	b=VsljeNAYadFajIAeGJ9FMKFBGspy6ozrhBqU582XvcWkNMj13LfQdRwOadXZG5Pxf
+	 Argps4EtZvFIc7JynbCTgqDrOVF3u5K7Ah2l9+nekqV0coL2L+cEZsIcBHPG5GDao7
+	 B4HNxmwT4io4VbogtubQ+pF0xj14MXNsqvxe10Z0=
 From: Easwar Hariharan <eahariha@linux.microsoft.com>
-Date: Tue, 10 Dec 2024 22:02:36 +0000
-Subject: [PATCH v3 05/19] powerpc/papr_scm: Convert timeouts to
- secs_to_jiffies()
+Date: Tue, 10 Dec 2024 22:02:48 +0000
+Subject: [PATCH v3 17/19] ceph: Convert timeouts to secs_to_jiffies()
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -37,7 +36,7 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20241210-converge-secs-to-jiffies-v3-5-ddfefd7e9f2a@linux.microsoft.com>
+Message-Id: <20241210-converge-secs-to-jiffies-v3-17-ddfefd7e9f2a@linux.microsoft.com>
 References: <20241210-converge-secs-to-jiffies-v3-0-ddfefd7e9f2a@linux.microsoft.com>
 In-Reply-To: <20241210-converge-secs-to-jiffies-v3-0-ddfefd7e9f2a@linux.microsoft.com>
 To: Pablo Neira Ayuso <pablo@netfilter.org>, 
@@ -122,22 +121,22 @@ the following Coccinelle rules:
 
 Signed-off-by: Easwar Hariharan <eahariha@linux.microsoft.com>
 ---
- arch/powerpc/platforms/pseries/papr_scm.c | 2 +-
+ fs/ceph/quota.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/arch/powerpc/platforms/pseries/papr_scm.c b/arch/powerpc/platforms/pseries/papr_scm.c
-index f84ac9fbe203c111046464b9100866dddae687bb..f7c9271bda58433f395648063e60409a8d3c11d9 100644
---- a/arch/powerpc/platforms/pseries/papr_scm.c
-+++ b/arch/powerpc/platforms/pseries/papr_scm.c
-@@ -544,7 +544,7 @@ static int drc_pmem_query_health(struct papr_scm_priv *p)
- 
- 	/* Jiffies offset for which the health data is assumed to be same */
- 	cache_timeout = p->lasthealth_jiffies +
--		msecs_to_jiffies(MIN_HEALTH_QUERY_INTERVAL * 1000);
-+		secs_to_jiffies(MIN_HEALTH_QUERY_INTERVAL);
- 
- 	/* Fetch new health info is its older than MIN_HEALTH_QUERY_INTERVAL */
- 	if (time_after(jiffies, cache_timeout))
+diff --git a/fs/ceph/quota.c b/fs/ceph/quota.c
+index 06ee397e0c3a6172592e62dba95cd267cfff0db1..d90eda19bcc4618f98bfed833c10a6071cf2e2ac 100644
+--- a/fs/ceph/quota.c
++++ b/fs/ceph/quota.c
+@@ -166,7 +166,7 @@ static struct inode *lookup_quotarealm_inode(struct ceph_mds_client *mdsc,
+ 	if (IS_ERR(in)) {
+ 		doutc(cl, "Can't lookup inode %llx (err: %ld)\n", realm->ino,
+ 		      PTR_ERR(in));
+-		qri->timeout = jiffies + msecs_to_jiffies(60 * 1000); /* XXX */
++		qri->timeout = jiffies + secs_to_jiffies(60); /* XXX */
+ 	} else {
+ 		qri->timeout = 0;
+ 		qri->inode = in;
 
 -- 
 2.43.0
