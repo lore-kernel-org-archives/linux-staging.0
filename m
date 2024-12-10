@@ -1,112 +1,98 @@
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+Received: from mail-ua1-f41.google.com (mail-ua1-f41.google.com [209.85.222.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 040D522F3AB
-	for <linux-staging@lists.linux.dev>; Tue, 10 Dec 2024 07:28:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA15713AD20
+	for <linux-staging@lists.linux.dev>; Tue, 10 Dec 2024 07:52:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733815738; cv=none; b=qs6TTdsWSNTmL6gJxOHNgTg9J1/iif8i2nz83RLgya4IV/dzh94gmd25mdD/TePaLruy6VsrdVyvp4vtscLo+PPtAggCe7DockB7J3sm3c4x6HK+KRlOnwPoI5BBAZdD2VQwuzz731zNRgAMB9175q4//6uI4K56ao6TQ0xQ/Jw=
+	t=1733817146; cv=none; b=cbG8oSwHoeGp7ejfpSKsHclZzORu5a1MPuy7CCBWjNAlrV1ZGkjlCJCFJpZT79XLKEhhfDrmReROPaou3zOR5RJoRd55wCJ7fosisCAfe6Izo4JVWKXg+PYeY5nOLB1hukBaDcJud3y+zOPgZ0F+EfcmvRSMhfe3NcTwhAbwHfk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733815738; c=relaxed/simple;
-	bh=jcBjzE6y4SuGYTvQrZw6rDbaF2EAFAUFjnWErKsWp2I=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=sLNZnJQLFVvF77uCzrlzrsfP60CGyMZQ+oH9+XpuJHkL7/bQReiTsRM/SBFOS5YqpPmGNpW5Hljf+XJF6w2sk4ai8xMRY9KvzjDEA1Y8U0UdjD7mnnzx8lNJbOA+FSurPs7rAlBRoMUWMa777v35ikJv6NscNbatvZZrb5xBwHQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=LQN61fxs; arc=none smtp.client-ip=209.85.128.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="LQN61fxs"
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-434acf1f9abso50254075e9.2
-        for <linux-staging@lists.linux.dev>; Mon, 09 Dec 2024 23:28:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1733815734; x=1734420534; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=U4JB1lq6UZAc6HCGowqpxl9Kk5HX97ITZ41Bl06+0/o=;
-        b=LQN61fxsjjCmrUInCTa/YjTA218MTWjAZ9OM29/pgvxvMf8cte38JfvQMiMggZku0K
-         ceBZsVYJpQ2HF5KBxPKzK2YyOPb46DxUsjsWRLfQ6BUTtsotXxRIPFx+OLF6Gcyyn0iH
-         gcpePUjfv/rOFlI6cSaApy2NsJ3ySB9Jp1VzDYNmQq3Au4Yt1a7df7a9x5vvQZoo4SBl
-         u6T07/P9PSvSDHBIWq6MiQ1ptgHduSmOocZiTAHy2CwcNIW1evvRpBYtxqRC7GmmHkEN
-         hj/D/YeyrTT/so/fBFCoU0x+pQeZH+YxzSFQYH+CD8beLQhi6mpyinByd6wrNx4yMiGX
-         A3qQ==
+	s=arc-20240116; t=1733817146; c=relaxed/simple;
+	bh=fb9XBheC5AF6NuNLIs6+iRITBsPUYizJNiY0NNOZSbU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Xw0Nt5fqVZnQGixfwTShJXyRIsTkgS1/kFGXHUo/1XXnOaxdNPA8Fw6WtieemOZv/hEqav5qVumZ40Kyh263K+SlGzEYrHmhN8Yg3TA+7QaEaDQ+pwBG2grB0i9jfgM5BfVUufpQIdRlfLQBuLqHYsstXl6XWIBX3pRMKuzaYK4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.222.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ua1-f41.google.com with SMTP id a1e0cc1a2514c-85c4cd95885so716768241.1
+        for <linux-staging@lists.linux.dev>; Mon, 09 Dec 2024 23:52:24 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733815734; x=1734420534;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=U4JB1lq6UZAc6HCGowqpxl9Kk5HX97ITZ41Bl06+0/o=;
-        b=sB+OyvCkKN84NkSg01MOuLj7GoPaAlU3PeuqdMnnuUwKqNpcgbc8lBgzRIo+dlYkVU
-         0d0ep3TR4tmpObb2GfFQW4bKfmqQnfmm93wLFDz/Ue8bKrRjvuYv8WmuNHZcr0uvtxck
-         wm/NVUPQ7YnCxztRulAaPsNtWAM50WVX2d3d38+asDX19SkkpnZ2/kvoEpgg4q+h0E/h
-         MwrnK2xZREXsCwNXMkG9bIjL2dsVTv3uAyCoPrBPV6YVt6TQ9Kfz9/snhJg/os2oeXcG
-         qvi1zH7UWrgrIHLd+jVECqOsWsr/QIsH4mkSyafBt8anF8O0yEB4xLXzuXlSBWz+iP5M
-         tDhw==
-X-Forwarded-Encrypted: i=1; AJvYcCUdho+ajfojWKB4OY+761TrEJN1RdIfiSmJ1W6j4CXRzJVsBHSHB6G9HsIyaF5rfUsgiAys3eYnv/dce3Kj@lists.linux.dev
-X-Gm-Message-State: AOJu0Yzmy4TK2saV849NwzUGL7ssHwQg1ob0IkH7msSgzfahgs1QOmv3
-	eRcHfCr5UhYFZkN0k6+dMLP4Xg5vwZDah1xgeY6PD5SmGk7eoNptOgz0j3i1yIc=
-X-Gm-Gg: ASbGncv2Ogy2oV1XHi3awVU/sSaxXTdrMs6nDuPoRz8SLCeleES6WbesxYbeBfTVz3j
-	cj39XbKDVzeDgPov0lH488laKw7nJ6hUFbW5h6hD/eNqihkBlOgGP/Ly01omXzJZfqcqUpppneU
-	uYBm9y1BcWfeIBnQe1wVDShzdC+5BsLUHUc+EY1LzUXmy2kxAX5F27f3SD7T9S6W8d469XqWMmH
-	18JcZ+isqc/7dv3F8tGC92npgK3vtEAirozN45iXWdvNygA6wj0JGB6b8A=
-X-Google-Smtp-Source: AGHT+IErBp3nB27t8Idia9cetAVpCVdYB5xJ411doFQHPuwsK44xALnFKbTnOl7EG470VnVrE5IKHQ==
-X-Received: by 2002:a05:600c:4f02:b0:434:a10f:9b with SMTP id 5b1f17b1804b1-434fff3d8f5mr29019345e9.14.1733815734174;
-        Mon, 09 Dec 2024 23:28:54 -0800 (PST)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-434d52cbd42sm216710555e9.38.2024.12.09.23.28.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 09 Dec 2024 23:28:53 -0800 (PST)
-Date: Tue, 10 Dec 2024 10:28:48 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Rodrigo Gobbi <rodrigo.gobbi.7@gmail.com>
-Cc: gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev, philipp.g.hortmann@gmail.com,
-	~lkcamp/patches@lists.sr.ht
-Subject: Re: [PATCH v3] staging: rtl8723bs: remove code depending on cflag
-Message-ID: <21d2d3f7-c94a-454b-92b4-2eb6a4be6ce9@stanley.mountain>
-References: <42d24db0-b403-4c4b-8607-38f3cd55cf63@stanley.mountain>
- <20241209213528.5917-1-rodrigo.gobbi.7@gmail.com>
+        d=1e100.net; s=20230601; t=1733817142; x=1734421942;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Zd5kJW4NoChkFf/vXmMTY/HBELzUe+qzSNYi9IJ5t8E=;
+        b=sIk9MGTggy6G7UG5I2jlnwwOMfWV6mKts8kAwcvKXckMqQHuazrW3S+3Xu0rgXQHgW
+         2FLMdoj3UxgPtK+F9ERFAPOdlaAbw3z93MARKqNU5m7AvhlQ9rf9vOGgu1lum5pbSYaO
+         bTXX9x69GrRZOsF6WPq04UKa2s4+iQRDBj3VQ8ZzdSw//LYOxAxmBpeIlmq2HnT6V3wS
+         g7RIQO7R6P5wlJl1daw3ydzWmAtkkdlMKHlap2sEHbo5GDb4DSrrOzs5RgGE/U3Y3Ccv
+         dIIN2nfIOzLWaHYOu5q8TqRala8SVt6Vm/9gv6gPY7Q1khm1L+dxFrX14x6XKLkoF3Y9
+         2sAw==
+X-Forwarded-Encrypted: i=1; AJvYcCWmnI1soXfSldPDPAcLpqUSUqzxTMvWQ6DsbujfRQVgouNjpM64gXY6WdxQ1iC3NFBRZcK8g2tIbhSP01m/@lists.linux.dev
+X-Gm-Message-State: AOJu0Yzg7JP61u71zlJjn3nJXONiqZ94sDXi1JE3R4VUt1I18EV3P7b/
+	OPVodham5uuQODniYQX67nW+eqMjprqlC7s89h0mH71VvDXDaLRI/Sj2MLFtidg=
+X-Gm-Gg: ASbGncsThiotYMdBFypUuchdoLnN9NeI9GLgECGKVRwBoSXec/ZmoKTz6TPQq853+q6
+	CzQvFjCLXyRBNfkk9ci9fOJ84/d2AUDbTM+8beuR2B+nZX2oMb0CnIaaArxeCjKMqDJEaaknr4Q
+	gtY4QzheW0FCHZi5G35WsR2IQ9jmbsJlcjaqNbveMaW/UeDM89ZgQ5cQQBj3S7a7i0HMk79UqUa
+	mioPkqEoYpSFmILrCKGvGH8bHRfwkIQlWtuE9YSQK5Hgzja5ZR7TaYgGv+xjTGkwcerIb0EX+lC
+	eGUfglZQvFRkXUa0tk2i
+X-Google-Smtp-Source: AGHT+IGu1PkMN8EJPw38/NArfx6goWoZLC9/kaCfxb8Uxqpuzka9J7akcJiVAHWdrxwZinq87qqSpw==
+X-Received: by 2002:a67:cf88:0:b0:4b1:1a10:d02a with SMTP id ada2fe7eead31-4b11a10d5d7mr1536949137.13.1733817141668;
+        Mon, 09 Dec 2024 23:52:21 -0800 (PST)
+Received: from mail-vk1-f178.google.com (mail-vk1-f178.google.com. [209.85.221.178])
+        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-85ca76b8277sm204504241.4.2024.12.09.23.52.20
+        for <linux-staging@lists.linux.dev>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 09 Dec 2024 23:52:20 -0800 (PST)
+Received: by mail-vk1-f178.google.com with SMTP id 71dfb90a1353d-5187f0b893dso460125e0c.3
+        for <linux-staging@lists.linux.dev>; Mon, 09 Dec 2024 23:52:20 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCWNAMpVf+k1xC6EGLeqzRc4DJtGJ+Z4a8nKhkOf0I8jm23Bjcl7zVZ83TIKuWfh7gziqsxs5uWtujIG4f9K@lists.linux.dev
+X-Received: by 2002:a05:6122:3806:b0:518:859e:87ab with SMTP id
+ 71dfb90a1353d-51888540275mr4084739e0c.9.1733817140651; Mon, 09 Dec 2024
+ 23:52:20 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241209213528.5917-1-rodrigo.gobbi.7@gmail.com>
+References: <20241204162128.25617-1-dpenkler@gmail.com> <CAMuHMdVUnr4iAZmuy8Z3S+sCYN4P26RdpPwXevwiJrh+KN025Q@mail.gmail.com>
+ <ddc720b2-8bb4-4a07-8280-dadeb2de5b26@roeck-us.net>
+In-Reply-To: <ddc720b2-8bb4-4a07-8280-dadeb2de5b26@roeck-us.net>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Tue, 10 Dec 2024 08:52:08 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdUb-tpmTiKV5BFopCWoY96D_HYNG60Kv+wVRKnDFF+COA@mail.gmail.com>
+Message-ID: <CAMuHMdUb-tpmTiKV5BFopCWoY96D_HYNG60Kv+wVRKnDFF+COA@mail.gmail.com>
+Subject: Re: [PATCH v5] staging: gpib: Fix i386 build issue
+To: Guenter Roeck <linux@roeck-us.net>
+Cc: Dave Penkler <dpenkler@gmail.com>, gregkh@linuxfoundation.org, 
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, Dec 09, 2024 at 06:33:36PM -0300, Rodrigo Gobbi wrote:
-> > The commit message should answer any kind of reasonable questions
-> > a review is probably going to ask but it doesn't give any information on
-> > this.
-> 
-> I'll try to improve this for future patches, tks for pointing that out.
-> 
-> > This commit would easier to review if it were broken up in a different
-> > way.
-> 
-> Ok, in that way, a patch series is the best approach here, right?
+Hi G=C3=BCnter,
 
-I'm not your boss, right?  And I can't tell you what to do and what I'm
-suggesting is more work.  If you just want to send patch 1 from the
-series instead of all three patches, that's fine.  No one is going to
-be annoyed by that.
+On Mon, Dec 9, 2024 at 5:18=E2=80=AFPM Guenter Roeck <linux@roeck-us.net> w=
+rote:
+> The underlying problem is that the code uses a pointer to store the physi=
+cal
+> address. That doesn't work if sizeof(pointer) < sizeof(physical address),
+> which affects systems with X86_PAE enabled. I have not seen the problem
+> anywhere else.
 
-In patch 1, you would only delete code which is obviously surrounded
-by #ifdef DBG_RX_SIGNAL_DISPLAY_RAW_DATA so the case statement would
-look like:
+I could reproduce the build issue on ARM, with CONFIG_ARM_LPAE=3Dy,
+which is not enabled by allmodconfig.
 
-	case HAL_DEF_DBG_RX_INFO_DUMP:
-		break;
+Gr{oetje,eeting}s,
 
-It's basically the same as what you wrote but slightly smaller and
-easier to review.  But yeah, we're not going to merge this as-is.
+                        Geert
 
-> Despite the changes in the series being dependent on each other in this case.
+--=20
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
 
-Yep.  Patchsets are generally dependent on each other.  The rule is that
-each patch has to make sense on its own.  You can't break the build.  But
-they work on top of each other and they're applied in order.
-
-regards,
-dan carpenter
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
