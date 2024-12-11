@@ -1,145 +1,92 @@
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07B4E1DDC11
-	for <linux-staging@lists.linux.dev>; Wed, 11 Dec 2024 19:42:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 928CF210F56
+	for <linux-staging@lists.linux.dev>; Wed, 11 Dec 2024 20:01:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733946161; cv=none; b=VHqCWPirWT94ISysw7A+VTDqGz+g7dglpeCjqUIy9X6eIbuDrkQVk9dvVZL2qBZLVYJjiR5fHhXaq6+2/oLeZoq5SWhtBBZeHrCqHZXpupz486gD4JAEW0bKXh87LEyFxKIIm3ksymfJ0iuPCDWl9aNEKZeoNJOc5W85LSPeWwg=
+	t=1733947311; cv=none; b=hdwhkRDj0AuJgEQ4bgIFwtTTxSMKw+VXchje4DOI5kdr87qvm5oE+DqFoO1o6q55SpddKkf50IuYlkpiNdKXfpJWeiQIH6WmyCoPWZMvFYd6SCThGV5hq6kMCIz7UbtrWvXvpqeqjRjYZraDumpUMsV3NxNcGhD8V4h/662Ma4k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733946161; c=relaxed/simple;
-	bh=XyOkt5ib8aWsKpIvF89r5dE0RH8x90F9mgNYhpJ0UIE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=VXoDQLBxZaBjiZVew/sG6s9pGR5f/OrCR5oxBD/BVTpK9zkhrfdi2aIOxi/fj/hO5/uydLsjzGgdu2nd4Yfsaa0JAlKII3oWBPHkIG6A/TG2xkxnwSgYgs5wBqThVl0Gg0JG1Vpg6VE5ARXxyJbdDLnuU62bEBbOJPcWsmdyoNI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bPHUBkMC; arc=none smtp.client-ip=209.85.214.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1733947311; c=relaxed/simple;
+	bh=jvNr/mm/KISVeWk0aeIVt8GN7pPxb3OnVWvrYZ/AUP8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=NyveCLdklAMbuhNww2v+aVajcdbuMI9MOcxxopL1pzHWTpRaCf8P9lzAKEKQnt8+71G4hQuRgZqO0KIcBtf/FNVxsXwl5PBsHo0/T9ra6U7E9W5ULfuEwfDCtG9L1PWl5dxwHU4pEmchm7FVWnql16q/lvsntCf3FI8zst8mSVo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=w5bF3aqC; arc=none smtp.client-ip=209.85.128.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bPHUBkMC"
-Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-21669fd5c7cso29592055ad.3
-        for <linux-staging@lists.linux.dev>; Wed, 11 Dec 2024 11:42:39 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="w5bF3aqC"
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-434a1fe2b43so71350385e9.2
+        for <linux-staging@lists.linux.dev>; Wed, 11 Dec 2024 12:01:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1733946159; x=1734550959; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=lj1zpDLbQ67q+xn4Tg+T12p4jMesEEeen1UDILleHrY=;
-        b=bPHUBkMCCRExKdiP2NDQOBPU23V+uXz7Bnu7f40Jv4DKDElkGCeXAYFaRJBxMSG64W
-         qhzDJFhfneEDMNmI4kM2pmAdGPFo9s/lV3FQrBuyhpukgxABUHnRCWp+0zLrkN/wq3i9
-         /wBMzlTt1Ah3WooaRCU6np9Hhz94eTkuMfUvl0FogGEZ2QVzgOXNjvFwypA8jVfZW+TN
-         FvHMcDgC7fnq99RemrMnt0B/+Jqejiwu9U1T5VZe18EmLGr0GHxNfa5+6cTVdbyF9Aft
-         g7gW3HiuiuzNgJijKn04vNj5ZFuGIi3jWLEVM8J6gGs9SII0xAx2BIzkuO95VaZNWZma
-         +tOw==
+        d=linaro.org; s=google; t=1733947308; x=1734552108; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=Xy0r5zhlEBX198RCSafsNFSDYJdvGKEyDvKJy8g2liM=;
+        b=w5bF3aqC9asMsWN+hp1MyW0HccAKehGD+R5mIGQ1BO1zJmzjlzKNCc8C6e57ftgCuU
+         ROfZH/UeT1RXEdFp6aI1A9JMBdY/NhM92CmVbrC95pzQMqAvdw+l/xl38zxKW56YOrcq
+         r7vw0mwHZ/0KW8bvx68o+jZgIuO0IZs+OYKySnWGxuLjGSqSJbk0472Z8UMioaV89v/C
+         f8SKamld1Tw4KYXTz59YW2ugSLHS2KQnOEb0f8a/MTYVOKTINnnUI62gKiBE6zH1SF/3
+         nrXo3ZGlTa05i2XM0qOqgJGS+0g0Dtywk7WMW156J4wZrpfMRoQ+h48oC1Z0ffxdZprQ
+         nnXQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733946159; x=1734550959;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:x-gm-message-state:from:to:cc:subject:date
+        d=1e100.net; s=20230601; t=1733947308; x=1734552108;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=lj1zpDLbQ67q+xn4Tg+T12p4jMesEEeen1UDILleHrY=;
-        b=fMrRxuZsQ92L46knMBwmQAvidOptYnc49c8PEhcaz25ECTcUs4JWBDdhs9bS3MVlrn
-         nYeGmmPLa1Rd0JAYj4U/vjTLX4wJU9foiFDsukeWNkKi7TwQp+PpJldiKFZxq5063rMD
-         cl1Q8ZEmUGRYYNdIAiD2DLcOlRMtXIx9G/BSxBgcR6e5U12ocN3TeqfflHT5gu7zyFgd
-         xpE7OEczTWKNaH87wdz7AMUhkM2j0Urwa8127tpCulV23MEU6A7WJgJvqh3Nv6Drodqw
-         l3iimWxtayYrVKbrjdIpY27oEqZge/vCDIijRZDpnMXkCJf1GgMBSVJwDF+bdsIo9IX1
-         Xe6g==
-X-Forwarded-Encrypted: i=1; AJvYcCWtwTpwH920Jz5Mg+jU8BH3BMeTNwlCxfXs3Xj4QOBXEuysFmB8nXXj7IUOUKRBkexJ4X327CkWjgDNW95j@lists.linux.dev
-X-Gm-Message-State: AOJu0Yz1teLbR/kcoLz/IWUygIxM7k5FyUiMEf3uBWfPBLRMk4cVlDhp
-	616dYDt104aT7HJh6aNdd5G3XtAyhsTYH1W7W6LEaQmRq1R97asz
-X-Gm-Gg: ASbGncs3yCepHrAcH+ywW3g9kgTOf52JqBvhpNtta+AxezyFzXT9j28iInwKf5ImogV
-	SSD1lYoIwepKyFAsDheDfD1kt1a/M6Au3juJqr7ZSmcY0Sy9YoOjt7+EuZsqA8wp3ivOKr8RDua
-	5qyaKHHzruzqa+B3DDhwmTqpW21Tyty5A5dwWvS5UzT1pohtuBdRX8ZftGpfqKaLEIfSt0EcvTu
-	/EqtgBuzzEk26Ns3Ob66ir2s0VGLc2sulRJS0u1/WqcaCoFbhXc6H8HAh58mVpCy4DOBn+4cpQO
-	tabfyRGvUO6g2XEsWo/QjxqKffw=
-X-Google-Smtp-Source: AGHT+IHVkA8DVUJYDwX+EPn3giKM/n6cInzivkc5RJH3XpPbPzFpgQyyW3v2CSEkeuHacnnFqFOkjA==
-X-Received: by 2002:a17:902:d48c:b0:215:b9a6:5cb9 with SMTP id d9443c01a7336-2178ae4c25dmr14877385ad.5.1733946159160;
-        Wed, 11 Dec 2024 11:42:39 -0800 (PST)
-Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2161eb94f17sm89412675ad.220.2024.12.11.11.42.37
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 11 Dec 2024 11:42:38 -0800 (PST)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Message-ID: <670d63a3-6b20-41a3-a4db-96b407b80202@roeck-us.net>
-Date: Wed, 11 Dec 2024 11:42:36 -0800
+        bh=Xy0r5zhlEBX198RCSafsNFSDYJdvGKEyDvKJy8g2liM=;
+        b=m+vMCyxij37pG/cfpD4lYDWLY1zaej6pw3f9neYTAsmaMXiB9seOOp73H3056Rg4ik
+         mKam9b8t3tx+F81AxD3+IxprSauYTHQAwaHgp3Da54JJ9fWRllssdBKhViodE0R5OUpi
+         ihpwkG/u/YlZvnz6VYrmVHcqE/CRMMDxcysi6LvS0RCXG6Jp1IK6vrwxYUqmtGQMZZPh
+         S6Hxo7oADlZLGw6A5uJgzZiz5DZWBYLUeQ7ywp9HHKptiZ9piJzpT9HgSPgsg93bP9ge
+         D14NHyReY5So1unKptsw9x1M4+L4Hm0dlPaSD5vBjCGXa/HkCj2Ih8+/Q4uoQrUV+7xu
+         aTmA==
+X-Forwarded-Encrypted: i=1; AJvYcCUk94wDbolp0+pxbejDhniW2TXK852tFcxIJ1idMrGBBvMvgloPqX+ADJW4AtzgF2GzKw/Q4tTKK3h18cFe@lists.linux.dev
+X-Gm-Message-State: AOJu0Yxy/KdYtXMyfgPrQRFf41+y2gj9cJtwmbFjnM/URCTdIog97PSQ
+	YOM8JXev1ObQtsMsNxgmXjWiXjRavGtTAEVPJr1l9FWmhKHVzz8dY9JarwDpok0=
+X-Gm-Gg: ASbGnct1fO0xVfuWr0wey7WjIe+jvvT8/Yh9ECgx308sOoWPjPPFegqrFYUUQU0OgAG
+	hFKDzrr9piYc76NtxRmFyZCHqmtt2zf/4L9kOCmoNDjRenknM3SnTV4VSbelArCnZH3GHOMI4dX
+	bo5B3rmgytZYB3nMAIlsOwxhhv8xeGiCRiICXTYhqQSqt2COsVluSppj9Pld+Ww5v7Frk3T17OO
+	RuOcE91DQcqyPXdut8OSymTgWqP00h7Za1UelLyHbSrJx35TyPxQuU/Pxk=
+X-Google-Smtp-Source: AGHT+IEOphev5W0KGJg+nO81TIAt1Rqh9pfXsnfrArp+4ViyI3T7Wf3ChJSDYoItEG2a8bgxut2RoQ==
+X-Received: by 2002:a05:6000:186b:b0:386:4a24:1916 with SMTP id ffacd0b85a97d-387877c2690mr705067f8f.55.1733947307320;
+        Wed, 11 Dec 2024 12:01:47 -0800 (PST)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-387824bf19dsm1966698f8f.53.2024.12.11.12.01.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 11 Dec 2024 12:01:46 -0800 (PST)
+Date: Wed, 11 Dec 2024 23:01:43 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: eisantosh95@gmail.com
+Cc: Dave Penkler <dpenkler@gmail.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Rohit Chavan <roheetchavan@gmail.com>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: gpib: Wrapped macro in parentheses to ensure
+ the correct evaluation order
+Message-ID: <292b38bb-6dc7-4ea0-889c-deefadc1b3f6@stanley.mountain>
+References: <20241211192209.22493-1-eisantosh95@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6] staging: gpib: Fix i386 build issue
-To: Dave Penkler <dpenkler@gmail.com>, gregkh@linuxfoundation.org,
- linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Cc: dan.carpenter@linaro.org, geert@linux-m68k.org
-References: <20241211164452.27464-1-dpenkler@gmail.com>
-Content-Language: en-US
-From: Guenter Roeck <linux@roeck-us.net>
-Autocrypt: addr=linux@roeck-us.net; keydata=
- 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
- mDW4+i+XlNFUPUYMrIKi9joBhu18ssf5i5Q=
-In-Reply-To: <20241211164452.27464-1-dpenkler@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241211192209.22493-1-eisantosh95@gmail.com>
 
-On 12/11/24 08:44, Dave Penkler wrote:
-> These drivers cast resource_type_t to void * causing the build to fail.
+On Thu, Dec 12, 2024 at 12:52:04AM +0530, eisantosh95@gmail.com wrote:
+> From: Santosh Mahto <eisantosh95@gmail.com>
 > 
-> With a 32 bit build and PHYS_ADDR_T_64BIT enabled the resource_size_t
-> type is a 64bit unsigned int which cannot be cast to a 32 bit pointer.
+> ERROR found by checkpatch.pl script
 > 
-> Disable these drivers if not 64BIT and PHYS_ADDR_T_64BIT are configured.
-> 
-> Link: https://lore.kernel.org/linux-staging/2c6c7e9d-ca10-47a9-82a7-a2e26b1f51ef@roeck-us.net/
-> Reported-by: Guenter Roeck <linux@roeck-us.net>
-> Closes: https://lore.kernel.org/all/f10e976e-7a04-4454-b38d-39cd18f142da@roeck-us.net/
-> Fixes: e9dc69956d4d ("staging: gpib: Add Computer Boards GPIB driver")
-> Fixes: e1339245eba3 ("staging: gpib: Add Computer Equipment Corporation GPIB driver")
-> Fixes: bb1bd92fa0f2 ("staging: gpib: Add ines GPIB driver")
-> Fixes: 0cd5b05551e0 ("staging: gpib: Add TNT4882 chip based GPIB driver")
-> Signed-off-by: Dave Penkler <dpenkler@gmail.com>
+> Signed-off-by: Santosh Mahto <eisantosh95@gmail.com>
+> ---
 
-Tested-by: Guenter Roeck <linux@roeck-us.net>
+Checkpatch isn't always right.  Adding parentheses breaks the build.
 
-Guenter
+regards,
+dan carpenter
 
