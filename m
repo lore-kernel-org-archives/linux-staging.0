@@ -1,202 +1,118 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B98391C5CD6
-	for <linux-staging@lists.linux.dev>; Wed, 11 Dec 2024 08:01:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4EE6821577D
+	for <linux-staging@lists.linux.dev>; Wed, 11 Dec 2024 09:00:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733904071; cv=none; b=RuiqRpsNDOth5YuQcF5QnHKWZaYEJhiQ7lndN/3EfOtSmMZ2ZjKQxSCVa7XFES54W5XVOxVbOgc3R/y0XXa+bHYQpt63SM8Qf7PN06m8j34rEGlZ4w58G4Ri+vDTvfb3rJeDAWmcGyJoQE74q9OelTmpeC+Qivb4WM8nkPJAy/U=
+	t=1733907655; cv=none; b=Mhrnjmn39KUXi2r2eLbtc1ETMau7ePS1FeVszBYhwJvV0TwAx7JNVVyPLvI9lFNvS3UHssIHNgbeABTa8ekSqTJqwihbrjSwwY04wYaprUptIWTGgrUIM0yzNp4YYEMY0M7av0wFhnu2mxTwcqCnVwwm7YO0TTppS6E4/biTDj4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733904071; c=relaxed/simple;
-	bh=0vRIXiBcCKNQvSXS9ocTW33BeE6y07+9M5ovs/D8lMU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=bdk9EXOPZu15kNi9FMi3mzC7OJSHLiZjX4ejWzW52AmPRcw/aqD/zqOSbSQ744lXHsssVz5EIDf8E4PFb7kH7q6y2R0TQ4cGiIr6FyJho3jeWAaYSNdA55F7L+d7SugW9KKAbVHlAzzD+g+39vM5j6xXVLI1ZPJHNPA8F96nzRM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id DE0952115D;
-	Wed, 11 Dec 2024 08:01:07 +0000 (UTC)
-Authentication-Results: smtp-out1.suse.de;
-	none
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 926DC13983;
-	Wed, 11 Dec 2024 08:01:07 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id zT5tIsNGWWePLwAAD6G6ig
-	(envelope-from <tzimmermann@suse.de>); Wed, 11 Dec 2024 08:01:07 +0000
-Message-ID: <16c09ca8-aa73-4fc2-b693-0bfcc8dcac6d@suse.de>
-Date: Wed, 11 Dec 2024 09:01:07 +0100
+	s=arc-20240116; t=1733907655; c=relaxed/simple;
+	bh=rOgeUWSp6bFTjRYXEmRP5Xg9oywmiCVNYTXOjviZUf8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=n4tyt6Va2iJNnMPqIbvLaw04JAfjLMAUCf3Ej8cTMSp/AYV9TABmFPdmzSusCZOqxD0Nbo5+wCBqEyIdv5BTIP0txZrgU5Q7kHCwgIInydEXLL6OmhAYxmulf4MK35yyagUMrmUfgiWroTJQAMDtzw7/RphqjoBkcT3xc1r04TU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=an6ZV+I0; arc=none smtp.client-ip=209.85.128.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="an6ZV+I0"
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-4361b0ec57aso8469625e9.0
+        for <linux-staging@lists.linux.dev>; Wed, 11 Dec 2024 01:00:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1733907651; x=1734512451; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=ehgtAI9FILi9H1ERbtTxfeQX/RXwTuwJwbHxNT8tUfM=;
+        b=an6ZV+I09mQz9fek+Rd+4+H1f/6EeI2ahyoZCBBXs9Bm0cPUsDeYCWzA28/Tn3wBvN
+         3HRV9SJMB6haSKoWASpnR+tMBbCTJE7ZpBAhkFhQg+Pii6epF/Yt5KA+pxEfgVOsZdNd
+         MSdJU6/r03sPauSSWwhY4KbPbclrhKRwHo6ZBXgBSP+EomVkl32NAg5jdT1wyROqd4su
+         DhhJGyymE+sSM1uvxmAg+DdbsJi3QUYx7Auip6V9P2skgV2IWTffhuWwT+4PDmGw4V+e
+         caFM3dYBzt63thN7KlTBE7aOw7JNdZDIoqAX/XBI8S5GUjOHTKP0senW2plrbLhtotKr
+         CXmg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1733907651; x=1734512451;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ehgtAI9FILi9H1ERbtTxfeQX/RXwTuwJwbHxNT8tUfM=;
+        b=jFXUZq33WUaacgXUlvEJQeZ8bBo26K5qHzUsEfUwHl2tlWQWkA3FLQj9Q/BS/6dbIC
+         pFalBU/HzQDnoGtpaBOecMVBRZoDmpdcJGc22Vdm3t71eJKbZnnYw2pKUP8Jwl/80yHq
+         BnQbiBQ7TvuXrK/0JCZsu5uhCgRjjLR6aeeGdYldfSs6KVzvyZpGNmhl5pd6MaIgMiRx
+         LikyDggIMIooUvmc69Nckdwi0IrmpSNM1Tu262EFzrB/wBqZVr1mP3Fx2W2WoWH7gebt
+         CD5+JPhOCzeppczp+xdqO+6uJVzCp1NY9FnEK/gT7qcLepDqSEGDBrkJ/MlSSpjwXQSb
+         ZpnA==
+X-Forwarded-Encrypted: i=1; AJvYcCVrBh7eBI5vn59KbxICIo/WOPb1Ov/v+x2bVrWVQEoLkDTqae716jBIPzJz+T4niWUSq4KGSdU1C/KCJvJg@lists.linux.dev
+X-Gm-Message-State: AOJu0YxW1WXinWU9SSY5rkkQY8z37dERVPAyKkmoXvsWH6WgrLjDQpst
+	B0UY/jI1jOy9c9xWFjqzKK/yo7RIOGHfHd0I4Qkkm8XxSjEjh/GgMGPSA9AJWfo=
+X-Gm-Gg: ASbGncuasUFyq3GgQQFxLDHyib29RJ+/aFR6miWu+XpFgdYFgohAiGZGZH/Z7rLemOA
+	YNadYkDT6R2ajjE5gI8ozherPIsEWnsqG24bdTxEBaa95E4zwBH7alznKMuRZWIf/Mscx5hbSRq
+	eRG0V6nllpWZASDT7fqP7kGgDPwFyVfzUz9KC7CboRsZ53BTPh1/0HGTjmMt0HwumIGTrfgfvAM
+	SC1sX987DcgsvqeuOvfGk5XSVqy0tarzcBl5OUU0uUqAONIQr/q6znxYjI=
+X-Google-Smtp-Source: AGHT+IFrbT6yUxTVKlbXZAWJjA6u6YhH7qTzIBw1u2o+5qJHy+OJ03YHoWeo2ICrxH825yoy49qOMQ==
+X-Received: by 2002:a05:6000:156d:b0:385:fa26:f0d9 with SMTP id ffacd0b85a97d-3864cdec006mr1484907f8f.0.1733907651524;
+        Wed, 11 Dec 2024 01:00:51 -0800 (PST)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38782514f29sm805341f8f.77.2024.12.11.01.00.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 11 Dec 2024 01:00:51 -0800 (PST)
+Date: Wed, 11 Dec 2024 12:00:47 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Rodrigo Gobbi <rodrigo.gobbi.7@gmail.com>
+Cc: gregkh@linuxfoundation.org, philipp.g.hortmann@gmail.com,
+	~lkcamp/patches@lists.sr.ht, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v4 2/3] staging: rtl8723bs: delete
+ HAL_DEF_DBG_RX_INFO_DUMP enum
+Message-ID: <6a5f8451-32cb-4784-b8c0-ca4a07df8764@stanley.mountain>
+References: <20241210210741.17101-1-rodrigo.gobbi.7@gmail.com>
+ <20241210210741.17101-3-rodrigo.gobbi.7@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/3] fbdev: Fix recursive dependencies wrt
- BACKLIGHT_CLASS_DEVICE
-To: Helge Deller <deller@gmx.de>, javierm@redhat.com, arnd@arndb.de,
- simona@ffwll.ch, airlied@gmail.com
-Cc: dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
- linux-staging@lists.linux.dev, linuxppc-dev@lists.ozlabs.org
-References: <20241210142329.660801-1-tzimmermann@suse.de>
- <20241210142329.660801-2-tzimmermann@suse.de>
- <b5136312-e18c-46cb-9a01-3efc61d6fd9a@gmx.de>
- <de810def-84ac-4d55-b625-536b5781a20f@gmx.de>
- <e7d5fba5-7ecd-4ed3-be7a-56bf82030e67@suse.de>
- <6b543ccd-23dd-474d-9828-1eb0ecec9c5d@gmx.de>
-Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <6b543ccd-23dd-474d-9828-1eb0ecec9c5d@gmx.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Rspamd-Pre-Result: action=no action;
-	module=replies;
-	Message is reply to one we originated
-X-Spam-Level: 
-X-Spamd-Result: default: False [-4.00 / 50.00];
-	REPLY(-4.00)[]
-X-Spam-Score: -4.00
-X-Spam-Flag: NO
-X-Rspamd-Queue-Id: DE0952115D
-X-Rspamd-Pre-Result: action=no action;
-	module=replies;
-	Message is reply to one we originated
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241210210741.17101-3-rodrigo.gobbi.7@gmail.com>
 
-Hi
+On Tue, Dec 10, 2024 at 05:48:19PM -0300, Rodrigo Gobbi wrote:
+> After removing code isolated by DBG_RX_SIGNAL_DISPLAY_RAW_DATA cflag,
+> HAL_DEF_DBG_RX_INFO_DUMP enum lost it's use.
+> 
+> Signed-off-by: Rodrigo Gobbi <rodrigo.gobbi.7@gmail.com>
+> ---
+>  drivers/staging/rtl8723bs/hal/hal_com.c      | 2 --
+>  drivers/staging/rtl8723bs/include/hal_intf.h | 1 -
+>  2 files changed, 3 deletions(-)
+> 
+> diff --git a/drivers/staging/rtl8723bs/hal/hal_com.c b/drivers/staging/rtl8723bs/hal/hal_com.c
+> index 1803c0cd3a7e..b41ec89932af 100644
+> --- a/drivers/staging/rtl8723bs/hal/hal_com.c
+> +++ b/drivers/staging/rtl8723bs/hal/hal_com.c
+> @@ -682,8 +682,6 @@ u8 SetHalDefVar(
+>  	u8 bResult = _SUCCESS;
+>  
+>  	switch (variable) {
+> -	case HAL_DEF_DBG_RX_INFO_DUMP:
+> -		break;
+>  	case HW_DEF_ODM_DBG_FLAG:
+>  		ODM_CmnInfoUpdate(odm, ODM_CMNINFO_DBG_COMP, *((u64 *)value));
+>  		break;
+> diff --git a/drivers/staging/rtl8723bs/include/hal_intf.h b/drivers/staging/rtl8723bs/include/hal_intf.h
+> index 282e141616b0..85de862823c2 100644
+> --- a/drivers/staging/rtl8723bs/include/hal_intf.h
+> +++ b/drivers/staging/rtl8723bs/include/hal_intf.h
+> @@ -144,7 +144,6 @@ enum hal_def_variable {
+>  	HAL_DEF_PCI_AMD_L1_SUPPORT,
+>  	HAL_DEF_PCI_ASPM_OSC, /*  Support for ASPM OSC, added by Roger, 2013.03.27. */
+>  	HAL_DEF_MACID_SLEEP, /*  Support for MACID sleep */
+> -	HAL_DEF_DBG_RX_INFO_DUMP,
 
+You have to combine patch 2 and 3 together otherwise it breaks the build.
+The fact that any mistakes break the build is what makes this sort of patch
+easy to review.
 
-Am 11.12.24 um 00:37 schrieb Helge Deller:
-> On 12/10/24 16:41, Thomas Zimmermann wrote:
->> Hi
->>
->>
->> Am 10.12.24 um 15:34 schrieb Helge Deller:
->>> On 12/10/24 15:29, Helge Deller wrote:
->>>> On 12/10/24 15:09, Thomas Zimmermann wrote:
->>>>> diff --git a/drivers/staging/fbtft/Kconfig 
->>>>> b/drivers/staging/fbtft/Kconfig
->>>>> index 77ab44362f16..577e91ff7bf6 100644
->>>>> --- a/drivers/staging/fbtft/Kconfig
->>>>> +++ b/drivers/staging/fbtft/Kconfig
->>>>> @@ -3,6 +3,7 @@ menuconfig FB_TFT
->>>>>       tristate "Support for small TFT LCD display modules"
->>>>>       depends on FB && SPI
->>>>>       depends on FB_DEVICE
->>>>> +    depends on BACKLIGHT_DEVICE_CLASS
->>>>
->>>> Typo. Should be BACKLIGHT_CLASS_DEVICE...
->>
->> Ah, thanks. I'll better check the rest of the series for similar 
->> mistakes.
->>
->>>
->>> Beside the typo:
->>> In this case, doesn't it make sense to "select 
->>> BACKLIGHT_DEVICE_CLASS" instead?
->>
->> That causes the dependency error mentioned in the commit message. 
->> This time it's just for fbtft instead of shmobilefb.
->>
->>> If people want the fbtft, backlight support should be enabled too.
->>
->> As a user-visible option, it should not be auto-selected
->> unnecessarily.
->
-> Right, it should not be auto-selected.
-> Unless if fbtft really needs it enabled to function.
-> IMHO all fb/drm drivers have higher priority than some low-level
-> background backlight controller code.
-
-By that logic, we'd list always list all drivers and each driver would 
-auso-select the subsystems it requires. So each fbdev driver would 
-select CONFIG_FB.
-
-That's not how it works, of course. Instead, each subsystem is 
-user-selected and Kconfig offers the drivers that have their 
-dependencies met. The documentation for Kconfig clearly states that 
-select should be used carefully. [1]
-
-[1] 
-https://elixir.bootlin.com/linux/v6.12.4/source/Documentation/kbuild/kconfig-language.rst#L137
-
->
->> The DRM panel drivers already depend on the backlight
->> instead of selecting it. It's the correct approach.
->
-> Sounds wrong IMHO.
-
-Generally, it's the right approach. I guess what could be done is to 
-make backlight support optional in the driver code, and use the imply 
-attribute [2] instead of depends. So the driver would indicate a 
-preference for backlight support, but still work without. That could 
-also be done for the fbdev drivers, of course.
-
-[2] 
-https://elixir.bootlin.com/linux/v6.12.4/source/Documentation/kbuild/kconfig-language.rst#L163
-
-Best regards
-Thomas
-
->
->> As I mentioned
->> in the cover letter, the few remaining driver that select it should
->> probably be updated.
->
-> That dependency sounds weird, but maybe I simply misunderstand your 
-> logic...?
->
-> As a Linux end user I usually know which graphic cards are in my machine
-> and which ones I want to enable.
-> But as a normal user I think I shouldn't be expected to know
-> that I first need to enable the "backlight class device"
-> so that I'm then able to afterwards enable the fbtft (or any other 
-> drm/fb driver).
->
-> Am I wrong?
->
-> Helge
-
--- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstrasse 146, 90461 Nuernberg, Germany
-GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
-HRB 36809 (AG Nuernberg)
+regards,
+dan carpenter
 
