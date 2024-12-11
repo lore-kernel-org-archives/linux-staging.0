@@ -1,92 +1,102 @@
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com [209.85.215.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 928CF210F56
-	for <linux-staging@lists.linux.dev>; Wed, 11 Dec 2024 20:01:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1C1C1C3F27
+	for <linux-staging@lists.linux.dev>; Wed, 11 Dec 2024 23:34:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733947311; cv=none; b=hdwhkRDj0AuJgEQ4bgIFwtTTxSMKw+VXchje4DOI5kdr87qvm5oE+DqFoO1o6q55SpddKkf50IuYlkpiNdKXfpJWeiQIH6WmyCoPWZMvFYd6SCThGV5hq6kMCIz7UbtrWvXvpqeqjRjYZraDumpUMsV3NxNcGhD8V4h/662Ma4k=
+	t=1733960097; cv=none; b=a4hMKAHxjiDW2cnN5bj9wdw1muruw3yHQ123grYdfKKjYzForBvDtZQs+FzD9uwi96s/yrX+dVwfC7S6UPN41f6CziPPlSuwmqhx902Am1QQPcqwcetz6NagY7C3NMGREkS1KurYRb1fF7gTrk+O4SghZxUTgT6e9BywkxFt/HU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733947311; c=relaxed/simple;
-	bh=jvNr/mm/KISVeWk0aeIVt8GN7pPxb3OnVWvrYZ/AUP8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=NyveCLdklAMbuhNww2v+aVajcdbuMI9MOcxxopL1pzHWTpRaCf8P9lzAKEKQnt8+71G4hQuRgZqO0KIcBtf/FNVxsXwl5PBsHo0/T9ra6U7E9W5ULfuEwfDCtG9L1PWl5dxwHU4pEmchm7FVWnql16q/lvsntCf3FI8zst8mSVo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=w5bF3aqC; arc=none smtp.client-ip=209.85.128.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1733960097; c=relaxed/simple;
+	bh=eMLic35cf/eX08d8I2ED//w1v1wA9RtWBLf//qQKFBU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=AFctX2ttAXwjHHS00+G/drTPrcjQP9HOP+dnF+QQ0xU6WF3EItTLpiiRbSwYc+OpvqCz6fQ85cDX+eaAtvIn0bD67OBeu1wqznNkckNJB6PtlIsu8MwcXmMx7Ym8eDfWO8kpdD98DxvbYJjOsC+RjWxrqK3/rqxoJC+enz1zhws=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HAsoUXVu; arc=none smtp.client-ip=209.85.215.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="w5bF3aqC"
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-434a1fe2b43so71350385e9.2
-        for <linux-staging@lists.linux.dev>; Wed, 11 Dec 2024 12:01:49 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HAsoUXVu"
+Received: by mail-pg1-f182.google.com with SMTP id 41be03b00d2f7-7fbbe0fb0b8so48956a12.0
+        for <linux-staging@lists.linux.dev>; Wed, 11 Dec 2024 15:34:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1733947308; x=1734552108; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=Xy0r5zhlEBX198RCSafsNFSDYJdvGKEyDvKJy8g2liM=;
-        b=w5bF3aqC9asMsWN+hp1MyW0HccAKehGD+R5mIGQ1BO1zJmzjlzKNCc8C6e57ftgCuU
-         ROfZH/UeT1RXEdFp6aI1A9JMBdY/NhM92CmVbrC95pzQMqAvdw+l/xl38zxKW56YOrcq
-         r7vw0mwHZ/0KW8bvx68o+jZgIuO0IZs+OYKySnWGxuLjGSqSJbk0472Z8UMioaV89v/C
-         f8SKamld1Tw4KYXTz59YW2ugSLHS2KQnOEb0f8a/MTYVOKTINnnUI62gKiBE6zH1SF/3
-         nrXo3ZGlTa05i2XM0qOqgJGS+0g0Dtywk7WMW156J4wZrpfMRoQ+h48oC1Z0ffxdZprQ
-         nnXQ==
+        d=gmail.com; s=20230601; t=1733960095; x=1734564895; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=d1Tinz4BBwqpe3R6VLjSQyHb2GEpopW54u5t8XOl8EY=;
+        b=HAsoUXVu4kEH2ZSK7YZq/mIuhIhhmPilVei1FkT12es8ZS5qrW5oISf8+1mBmmQY1c
+         lrhq8iuykrQKUBjtR6bnck+5zZptbMhzbVaVW78igG9uvmXH/vBKajse7DpGzI81la3p
+         YgYKnCHcFHxynsAX8Ozo0YRY8Kf61C1biD38PE6WEBGUBm7sf1Hlde29RGts8lGFrWQE
+         b6J0OKA2QW5J6SkibouYgF8fLCBlARBC42Ud6qbkqlDLPAKwLMXE44q8i21sg0JFUWgv
+         8PwwIST1+Hj41e3vP4WhZ66/29o3Npv4T9xnObx4EXwbqOMKbQB2ehKh2YkFyuFNp2HV
+         16ew==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733947308; x=1734552108;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Xy0r5zhlEBX198RCSafsNFSDYJdvGKEyDvKJy8g2liM=;
-        b=m+vMCyxij37pG/cfpD4lYDWLY1zaej6pw3f9neYTAsmaMXiB9seOOp73H3056Rg4ik
-         mKam9b8t3tx+F81AxD3+IxprSauYTHQAwaHgp3Da54JJ9fWRllssdBKhViodE0R5OUpi
-         ihpwkG/u/YlZvnz6VYrmVHcqE/CRMMDxcysi6LvS0RCXG6Jp1IK6vrwxYUqmtGQMZZPh
-         S6Hxo7oADlZLGw6A5uJgzZiz5DZWBYLUeQ7ywp9HHKptiZ9piJzpT9HgSPgsg93bP9ge
-         D14NHyReY5So1unKptsw9x1M4+L4Hm0dlPaSD5vBjCGXa/HkCj2Ih8+/Q4uoQrUV+7xu
-         aTmA==
-X-Forwarded-Encrypted: i=1; AJvYcCUk94wDbolp0+pxbejDhniW2TXK852tFcxIJ1idMrGBBvMvgloPqX+ADJW4AtzgF2GzKw/Q4tTKK3h18cFe@lists.linux.dev
-X-Gm-Message-State: AOJu0Yxy/KdYtXMyfgPrQRFf41+y2gj9cJtwmbFjnM/URCTdIog97PSQ
-	YOM8JXev1ObQtsMsNxgmXjWiXjRavGtTAEVPJr1l9FWmhKHVzz8dY9JarwDpok0=
-X-Gm-Gg: ASbGnct1fO0xVfuWr0wey7WjIe+jvvT8/Yh9ECgx308sOoWPjPPFegqrFYUUQU0OgAG
-	hFKDzrr9piYc76NtxRmFyZCHqmtt2zf/4L9kOCmoNDjRenknM3SnTV4VSbelArCnZH3GHOMI4dX
-	bo5B3rmgytZYB3nMAIlsOwxhhv8xeGiCRiICXTYhqQSqt2COsVluSppj9Pld+Ww5v7Frk3T17OO
-	RuOcE91DQcqyPXdut8OSymTgWqP00h7Za1UelLyHbSrJx35TyPxQuU/Pxk=
-X-Google-Smtp-Source: AGHT+IEOphev5W0KGJg+nO81TIAt1Rqh9pfXsnfrArp+4ViyI3T7Wf3ChJSDYoItEG2a8bgxut2RoQ==
-X-Received: by 2002:a05:6000:186b:b0:386:4a24:1916 with SMTP id ffacd0b85a97d-387877c2690mr705067f8f.55.1733947307320;
-        Wed, 11 Dec 2024 12:01:47 -0800 (PST)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-387824bf19dsm1966698f8f.53.2024.12.11.12.01.46
+        d=1e100.net; s=20230601; t=1733960095; x=1734564895;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=d1Tinz4BBwqpe3R6VLjSQyHb2GEpopW54u5t8XOl8EY=;
+        b=BmS3/czNh/7O/8kWkh6woHk7E3m9Uj/HvMtTOYRz8UIr9t4BTgVAXbUAxNpZdsOTZH
+         cqGzQ1Ej0wLOhK0p1LZtU8Cs/0n3NNlcvYwYrminZJYw2IBfUy5lTG1tcsArOGPjaNVh
+         YkovO8sG35+15VPzcZSHWAH/Dq/RNdg4I7d7D8M8Vg23wur8EPI6B0Xcxy2EAZJ7DSpm
+         KvGHMFav1kOf9bgS7w/vrFy6ycTMEwTX8oBCSu7r0OAG84w2wLRdxvfpDbL9/wT80FzB
+         M2yja7e9USuijSCDkt97AGtkycwG9IO11m47ELbVHqevs8hrQAg9IZiYi9H/IRZw9Gvg
+         glJQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWwHiulJpa4Xv19TpCNfs1Tv3MwtlfxEObu30dobz4I4le+Ks0jJ5ZWNiHTYzGSWS+2m749F2G0LYd0+4cx@lists.linux.dev
+X-Gm-Message-State: AOJu0YzqyHWQ03ujJsMtFN+vyMk5bRBiy811UjIyx+kEuAj/nk+D6kxa
+	JjgXGWisjti6WiGD2Ne2CgCdj73ZD3ypNB+E4QPBQ7lnY0wtBYY6
+X-Gm-Gg: ASbGncvEqJkFQI7gGK5LRP0g9fYzksVCfjfIWT2cMEzPPZXBAVOUD7tzM9mp648x2rw
+	hkOR1GoH6kpihZW13LnoBBo+g4yeFKLm2XvMiU8XvPJkVBb62OL3ekRtfqRmr9Bska0Rf1iHy1F
+	l8UrAldaaav51RO+WZ367PJ2A7UMc8kTPgRHADeEzaehbuQwZ0T422KiFjl9h77kQjJ6KUIJ7UX
+	zlv8cdata3nyiyW/b4KSG+YVH8E+QnwUMYGYnysB+WVS1fh9RS3fvM6wa84cenX0ahA5qeQUV7G
+	p7Er
+X-Google-Smtp-Source: AGHT+IG+WQ9mstysIjwHMPfhE+Ar1lGJ9FUQmUcjyUC8/XNA91MVn14I6WJqJR/yBHRF9KjOcRXhVw==
+X-Received: by 2002:a17:90b:3812:b0:2ee:bbe0:98cd with SMTP id 98e67ed59e1d1-2f127f55039mr7960606a91.7.1733960094982;
+        Wed, 11 Dec 2024 15:34:54 -0800 (PST)
+Received: from localhost.localdomain ([2804:14d:4c64:81ec:7409:107a:a63b:a3da])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2ef8a933fdbsm9229485a91.41.2024.12.11.15.34.52
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 11 Dec 2024 12:01:46 -0800 (PST)
-Date: Wed, 11 Dec 2024 23:01:43 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: eisantosh95@gmail.com
-Cc: Dave Penkler <dpenkler@gmail.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Rohit Chavan <roheetchavan@gmail.com>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: gpib: Wrapped macro in parentheses to ensure
- the correct evaluation order
-Message-ID: <292b38bb-6dc7-4ea0-889c-deefadc1b3f6@stanley.mountain>
-References: <20241211192209.22493-1-eisantosh95@gmail.com>
+        Wed, 11 Dec 2024 15:34:54 -0800 (PST)
+From: Rodrigo Gobbi <rodrigo.gobbi.7@gmail.com>
+To: gregkh@linuxfoundation.org,
+	philipp.g.hortmann@gmail.com
+Cc: ~lkcamp/patches@lists.sr.ht,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v5 0/2] staging: rtl8723bs: remove code depending on cflag
+Date: Wed, 11 Dec 2024 20:26:38 -0300
+Message-ID: <20241211233415.37702-1-rodrigo.gobbi.7@gmail.com>
+X-Mailer: git-send-email 2.47.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241211192209.22493-1-eisantosh95@gmail.com>
+Content-Transfer-Encoding: 8bit
 
-On Thu, Dec 12, 2024 at 12:52:04AM +0530, eisantosh95@gmail.com wrote:
-> From: Santosh Mahto <eisantosh95@gmail.com>
-> 
-> ERROR found by checkpatch.pl script
-> 
-> Signed-off-by: Santosh Mahto <eisantosh95@gmail.com>
-> ---
+The proposal is to remove the code isolated with DBG_RX_SIGNAL_DISPLAY_RAW_DATA and
+all the related code since it was not compiling and there is no information about it's usage.
 
-Checkpatch isn't always right.  Adding parentheses breaks the build.
+v5 is just joining 2th and 3th patches from v4.
+Tks again and regards.
+---
+Changelog
+v4: https://lore.kernel.org/linux-staging/20241210210741.17101-1-rodrigo.gobbi.7@gmail.com/
+v3: https://lore.kernel.org/linux-staging/20241206230110.11893-1-rodrigo.gobbi.7@gmail.com/
+v2: https://lore.kernel.org/lkml/20241125225308.8702-1-rodrigo.gobbi.7@gmail.com/t/#mf22f30a9c689bd793988d7e7a58c0b119206116c
+v1: https://lore.kernel.org/linux-staging/2024112500-authentic-primarily-b5da@gregkh/T/#mea4fba3775a1015f345dfe322854c55db0cddf43
+---
+Rodrigo Gobbi (2):
+  staging: rtl8723bs: delete DBG_RX_SIGNAL_DISPLAY_RAW_DATA ifdef code
+  staging: rtl8723bs: delete HAL_DEF_DBG_RX_INFO_DUMP enum and caller
 
-regards,
-dan carpenter
+ drivers/staging/rtl8723bs/core/rtw_mlme_ext.c |  1 -
+ drivers/staging/rtl8723bs/hal/hal_com.c       | 55 -------------------
+ .../staging/rtl8723bs/hal/rtl8723b_rxdesc.c   |  4 --
+ drivers/staging/rtl8723bs/include/hal_com.h   |  5 --
+ drivers/staging/rtl8723bs/include/hal_intf.h  |  1 -
+ drivers/staging/rtl8723bs/include/rtw_recv.h  | 18 ------
+ 6 files changed, 84 deletions(-)
+
+-- 
+2.47.0
 
