@@ -1,96 +1,158 @@
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E4021632F2
-	for <linux-staging@lists.linux.dev>; Thu, 12 Dec 2024 05:42:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D58CC210197
+	for <linux-staging@lists.linux.dev>; Thu, 12 Dec 2024 10:06:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733982157; cv=none; b=WQh3p1WL2bU1a7UDMNQQv4yFTD8NhTQI9c9jtLB2re9mQmsEJ4prh74fm5pCxW9OKNeblSRI6v2Whsp3NRPzTnYX6ltLBgc3WzLdEBRtvn2OB0jxgrmyAUO8F6iX3WxwfIn9I2KTi1wiaXzQMDluHrtnxAvYIgNl2h4Cn7blpXY=
+	t=1733998011; cv=none; b=qWOTSNW7djW6TBsjkeTIzQzaDgFGW86AU1b/E8JtXY/O4bJR55n2n7785lLbQrvoyFVpmAqtgl0NLW4l624CL5rsgVDYKbN3SIht1xGRMQ59SyqMp0+oWL174Z4AVyO43hs+z1nmcvwI3JLvOC5O37+ugs79mAmBBZRWHl/FVZY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733982157; c=relaxed/simple;
-	bh=gcWZF19+DRzGzwl8aVWSk1HUkyqc588yBy6aNF+LLvE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=AxGURh8zOwnNb6/oHJ0WPYS7GKLF53wbhOpKPw0ktSqdhXM1pJAmr7V/ws1T0fSy445EQHQ5FAgoiu/zBMHdHtMyDruAYjn7GcU/zOw2GFyLhmeTA9iX0tRCal6/LBW6iiRevvudPnC0toK4XDtb7WX5BmKzwPRGqxW3qTCX65M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=JkbU87Pw; arc=none smtp.client-ip=209.85.128.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1733998011; c=relaxed/simple;
+	bh=ecDIoMe6xeSi2wG4NptFtfmCHydhk9YvAbBViXdKRnU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=VO//8aNSZwWRFcq2DhKPMByvNYS/JtRZsIEyMAR2SkfC8TdKWDk8CEH/0ZXdYlW+AyTgbBu1gkt2cgvs58Z3qGKyt0k2s5HUwDyr2DVQvEyhcA8obbu1eiXDyrE3Px+YO1U2XMVy1y+M7ibi1remrwnomlCOv3TXMc/rbnMurTQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=SzM+e4c5; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=zFPTjN+S; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=C88eEKfu; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=m3hu/pJr; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="JkbU87Pw"
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-434ab938e37so1151515e9.0
-        for <linux-staging@lists.linux.dev>; Wed, 11 Dec 2024 21:42:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1733982153; x=1734586953; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=TSoY8FmmkeLy1cIzhiayaqEXOMLeH2MO/C02Ui4iNR8=;
-        b=JkbU87PwAGOywsFPNWITjeNG+spfNZyBloZF425vi+BrrBvFvUj/JHhM41Mgs3p0Xp
-         amOne1Ixlig0NnufOfSu9UVtasMRDowli5xH61a69b8AnyV6S9S2O55uUzhEgiXz5K28
-         IGJlAyTSU8Z5Swi/Cw/gMX/F6JrpsPIRKFSHh40Iz5VG6hfQ4r0lx7EsrF/hQwrjTFLq
-         309SJTuWVlcjr1aRKjuCLqUyRAAxUq94w1oOwnaWYM4WPjJ7eS77e0vvjX4qI+6CbuoI
-         btMkxsTPtHH3ui8Km91s7oxjO/kVT6CIpoJ2YoJttdrCslC1EqEuHR9ljKeykjMdCyyz
-         a19A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733982153; x=1734586953;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=TSoY8FmmkeLy1cIzhiayaqEXOMLeH2MO/C02Ui4iNR8=;
-        b=r2jO27Kud41EwxV6hnD4nLBoCcE6q+2u2jsjEanapJSC6v9YLBU8wmUYcSQkvF9KCh
-         OBP9aY/jVeP35VsALURWj7jgXNTXg/EeoRIlRNw4ma4FTxKEsZryR58/hpxxnHNuU0Xm
-         KC6A7RSVp38X59460122CI9pRj/z7HkVuAgSMGg2ObB2tP48/K9q3hjAKOOytf8aH0UF
-         +s/YYm/Z7aN48bPHM/dq2KUXHP/xdv+pGbPU4E6kbsrdy1zNwQhudSNZ3ehyyhrIQPwL
-         oqvVA+zGnlNiQwm0GqBIQbcFk3/iVDR0PD6A+5JODpRiStTGsk93tHSSh/aXG72UwVfr
-         TJ6g==
-X-Forwarded-Encrypted: i=1; AJvYcCX8nN7DJ2MPJCb5gMXn+5uZWImZ5CZrw/n8TEmYoKCIU4xvAJGuTmriGc/CUo7No0HkrMVnJSiLx5ApyGay@lists.linux.dev
-X-Gm-Message-State: AOJu0YxJjqiFM2aNOm6Juw5FBdjiYXqSjghGx5asYQCJEeZ13PpPxc2X
-	rM19IQRF57FknM+hOKTvhlX00XuJiB3CpI8hBLgaZShdm3/b71XeIvEqj1ytcDQ=
-X-Gm-Gg: ASbGncvPNBQNHYGsxMHFQ27arxCMajl0Y+/X0E3G+qHWrNyJiZg2q/EhZklcIe0eOdB
-	iUHkQ31Pm6nbov2QS8hLfxMY3TYeXsUQk1OolZFKLX2lKlFOaMylrBwdQ/pJkP1mD3b5xbkgab9
-	wDoCBbeh9ItGvBTiL0cVN8HXfBKtSm5ID53K4Es27TKM4K1HL1JB/UkCIfBxv0wN2EWwGy3l9tf
-	2MYaTVJzOTAc2tpTxYBO7oqW4rl7fupCQHJkZ9IW6NulNRqqd/Qdd5ZbMA6Pg==
-X-Google-Smtp-Source: AGHT+IHrSg7hk/G4icQhSNLkWSliDmfnvtcZ0Hc/oR6N1zAGQ9eaOtiBf/S4QxnV0x+Y88vzskH6Iw==
-X-Received: by 2002:a5d:6c6a:0:b0:385:fc97:9c71 with SMTP id ffacd0b85a97d-3864ce895a8mr3702933f8f.12.1733982152823;
-        Wed, 11 Dec 2024 21:42:32 -0800 (PST)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43625550555sm5552355e9.5.2024.12.11.21.42.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 11 Dec 2024 21:42:32 -0800 (PST)
-Date: Thu, 12 Dec 2024 08:42:28 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Rodrigo Gobbi <rodrigo.gobbi.7@gmail.com>
-Cc: gregkh@linuxfoundation.org, philipp.g.hortmann@gmail.com,
-	~lkcamp/patches@lists.sr.ht, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v5 0/2] staging: rtl8723bs: remove code depending on cflag
-Message-ID: <2eba9c05-4efc-4060-8cdf-26f701ba9794@stanley.mountain>
-References: <20241211233415.37702-1-rodrigo.gobbi.7@gmail.com>
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="SzM+e4c5";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="zFPTjN+S";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="C88eEKfu";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="m3hu/pJr"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id EA3121F445;
+	Thu, 12 Dec 2024 10:06:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1733998008; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=INRxU7ywg6HovcPyrlJbcPMTZP3ggyxEfuKjc8HY5a0=;
+	b=SzM+e4c5Ym1h/jm5jVRn2Nl51bBZwlCrsSXJWKE8eSsIvW1x9151YFQ/8jopNe/WT25DGg
+	dd1JI7f5fPyaMHMgN/Ns+wcJEoBAlD4ktf1B5G0Rxga4vLYmWhLSQa2b/9SiuHDatXE9HY
+	OzOzrwlsl6v5KmUvSCQM31/RRV2N4gA=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1733998008;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=INRxU7ywg6HovcPyrlJbcPMTZP3ggyxEfuKjc8HY5a0=;
+	b=zFPTjN+SsvBeunjkwP/6JkWexsWilBM8ALnk3ZViWyFS1fpwyJhjXgRJzw0NyKM21lX+lG
+	LIfa6gdLNBg95qBQ==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1733998007; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=INRxU7ywg6HovcPyrlJbcPMTZP3ggyxEfuKjc8HY5a0=;
+	b=C88eEKfuMDlPH1HvCmRgYqp7pDVG0sASkljzBfoFjeIItcffK0rfCEdrJ6k6fzsg2nJixD
+	ehYwzmW1s/iAjBGe1kDFRbd0z2U+Z76a6jqrJ3XZLxn+NeyeS9jXOgjRu1dmjfQei+JTv+
+	/CUM5DG9DIH47O3FPita/Ms4GR3rDzc=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1733998007;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=INRxU7ywg6HovcPyrlJbcPMTZP3ggyxEfuKjc8HY5a0=;
+	b=m3hu/pJriaq1pEPdNSNu7jWg+8lOgOsUJfmtvq7KSt8hFHyu4O52BzltbsBFM3X7OFUdd3
+	yYq2vSEFm2yEa6Dw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id A70C013939;
+	Thu, 12 Dec 2024 10:06:47 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id uB+YJ7e1WmeaGwAAD6G6ig
+	(envelope-from <tzimmermann@suse.de>); Thu, 12 Dec 2024 10:06:47 +0000
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: javierm@redhat.com,
+	arnd@arndb.de,
+	deller@gmx.de,
+	simona@ffwll.ch,
+	airlied@gmail.com
+Cc: dri-devel@lists.freedesktop.org,
+	linux-fbdev@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linuxppc-dev@lists.ozlabs.org,
+	Thomas Zimmermann <tzimmermann@suse.de>
+Subject: [PATCH v2 0/3] drm,fbdev: Fix module dependencies
+Date: Thu, 12 Dec 2024 11:04:42 +0100
+Message-ID: <20241212100636.45875-1-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.47.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241211233415.37702-1-rodrigo.gobbi.7@gmail.com>
+Content-Transfer-Encoding: 8bit
+X-Spam-Score: -2.80
+X-Spamd-Result: default: False [-2.80 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_MISSING_CHARSET(0.50)[];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FROM_HAS_DN(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid];
+	FREEMAIL_TO(0.00)[redhat.com,arndb.de,gmx.de,ffwll.ch,gmail.com];
+	RCVD_TLS_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	RCPT_COUNT_SEVEN(0.00)[10];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	TO_DN_SOME(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com,gmx.de]
+X-Spam-Flag: NO
+X-Spam-Level: 
 
-On Wed, Dec 11, 2024 at 08:26:38PM -0300, Rodrigo Gobbi wrote:
-> The proposal is to remove the code isolated with DBG_RX_SIGNAL_DISPLAY_RAW_DATA and
-> all the related code since it was not compiling and there is no information about it's usage.
-> 
-> v5 is just joining 2th and 3th patches from v4.
-> Tks again and regards.
-> ---
-> Changelog
-> v4: https://lore.kernel.org/linux-staging/20241210210741.17101-1-rodrigo.gobbi.7@gmail.com/
-> v3: https://lore.kernel.org/linux-staging/20241206230110.11893-1-rodrigo.gobbi.7@gmail.com/
-> v2: https://lore.kernel.org/lkml/20241125225308.8702-1-rodrigo.gobbi.7@gmail.com/t/#mf22f30a9c689bd793988d7e7a58c0b119206116c
-> v1: https://lore.kernel.org/linux-staging/2024112500-authentic-primarily-b5da@gregkh/T/#mea4fba3775a1015f345dfe322854c55db0cddf43
+Fix the dependencies among the various graphics modules.
 
-Perfect.  Thanks!
+Before addressing the FB_CORE issue, patch 1 first resolves a problem
+with BACKLIGHT_CLASS_DEVICE. A number of fbdev drivers select it, which
+results in a recursive-dependency error after patch has been applied.
+Making these drivers (or parts of them) depend on BACKLIGHT_CLASS_DEVICE
+fixes this.
 
-Reviewed-by: Dan Carpenter <dan.carpenter@linaro.org>
+Patch 2 selects FB_CORE for DRM_GEM_DMA_HELPER and DRM_TTM_HELPER.
+This is necessary with the recently added DRM client library.
 
-regards,
-dan carpenter
+Patch 3 is the second half of the patch provided by Arnd at [1]. It
+could not yet be merged because of the issues fixed by patch 1.
+
+Side note: For the majority of graphics drivers, backlight functionality
+depends on BACKLIGHT_CLASS_DEVICE. In a few cases drivers select the
+Kconfig token automatically. These drivers should be updated to depends
+on the token as well, such that backlight functionality is fully user-
+controlled.
+
+v2:
+- s/BACKLIGHT_DEVICE_CLASS/BACKLIGHT_CLASS_DEVICE (Helge)
+- Fix fbdev driver-dependency corner case (Arnd)
+
+[1] https://patchwork.freedesktop.org/series/141411/
+
+Arnd Bergmann (1):
+  drm: rework FB_CORE dependency
+
+Thomas Zimmermann (2):
+  fbdev: Fix recursive dependencies wrt BACKLIGHT_CLASS_DEVICE
+  drm/fbdev: Select FB_CORE dependency for fbdev on DMA and TTM
+
+ drivers/auxdisplay/Kconfig       |  2 +-
+ drivers/gpu/drm/Kconfig          |  3 +++
+ drivers/macintosh/Kconfig        |  1 +
+ drivers/staging/fbtft/Kconfig    |  1 +
+ drivers/video/fbdev/Kconfig      | 18 +++++++++++++-----
+ drivers/video/fbdev/core/Kconfig |  3 +--
+ 6 files changed, 20 insertions(+), 8 deletions(-)
+
+-- 
+2.47.1
 
