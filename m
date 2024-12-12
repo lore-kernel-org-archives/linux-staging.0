@@ -1,43 +1,75 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f175.google.com (mail-pg1-f175.google.com [209.85.215.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42401222D68;
-	Thu, 12 Dec 2024 15:43:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0546A238E13
+	for <linux-staging@lists.linux.dev>; Thu, 12 Dec 2024 16:23:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734018208; cv=none; b=UC2gzG/TZx9rI19KUuLdBjeyDrVNXv0t2EdwbDYWY1bpyD97DvldyoMA1mDDzAAd7eSEGzup0KsUCUA/fS0gbQQD8w99ds7lc3xSwxg6ruKNoiKRe3vAwQjKK08x4w6uPWilJ2te72+LzpjawYBPUgo6aqjW0AK8mYfPJqXsHc0=
+	t=1734020601; cv=none; b=qeObeVFlEc5scZANL0d3AgamC/bk+MdJE7KIyWNezYBTn/JRJgoC3H319Pm/SQe75JX7nTxiM4jrlXiSb4ZP2C06oyhmWhacdkkBHPLUheaVtoXOaEDJ1CG1Sb0KmL9K36InbBE7+XfoXa+EbcuRt67mXzyZ9iM8YBFYzsBAdTc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734018208; c=relaxed/simple;
-	bh=SxOy+O54beF7mqmszdcpVt9QZurotODus5niEge6VxA=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=c3mTvjldnM9i9d9qf4ilwPaHmJkefGsJWmUc6p1Hx3dkP46h+ynzvuDqPcFQ8emuB5ho5NLFejVMjQSJ3JWrjhNP21xSZZZd/AE84k+Pok01ajfOGT5MW7shpd1Qt2CtREwwKFftiCUndu3AWmoVwzLrb4kpMRjIFYhwonhVRoA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NZTSyhbE; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1734020601; c=relaxed/simple;
+	bh=IzklbWzy9pJje/+zq7AmwrNbl70oVhHVRnM3SQomDbM=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=aaJEVuUOhzCDDRrPnftejGlu1ExXJbJkPwH2hcxavNfiq1Y2X1C7B7YlDfKHALZlCtR28SGCwjvZG94jr8yUWcMQ2aX3rtJYMrItAhOXGmqAZhhni1OUc2JizIijIoqS+bo9IMsmvA5trI2cnnkydgUZ9tQSJc8++WsE6OP8iLo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CbV6AB2V; arc=none smtp.client-ip=209.85.215.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NZTSyhbE"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DB1DCC4CED4;
-	Thu, 12 Dec 2024 15:43:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1734018206;
-	bh=SxOy+O54beF7mqmszdcpVt9QZurotODus5niEge6VxA=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=NZTSyhbEdVCOJbNv2/sb2vesrbJH8oYHg2gXpP08DkZcLhj9HBbwCeP7+1FpdwhU3
-	 CFEzPxaoudpQTT/ofcE8LuwlgbGFcndjVTcm+96KnCbctN9lAfFYF5U1OA2EBp4Hk4
-	 5F8eR/cyk3WUGd7yTljyzy2a6wsKG9eztu+u8mQ5bnUhQ26bdfoeM6dKsOwqB+IU0/
-	 c+ay0wfoIw1qn/v6BdUWKvWJSY6qp7Bo6+z9pGqJp+sJH8kWMIkm4xuDbXd8JCaiuQ
-	 /UPUFBm5RgX4wHXAH3Fqy//BtvyXp++LblmDgFvnFebxlCb8niSupqjvc6T7CQQ7vw
-	 bPaWdn2eihwPA==
-From: Arnd Bergmann <arnd@kernel.org>
-To: Dave Penkler <dpenkler@gmail.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Arnd Bergmann <arnd@arndb.de>,
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CbV6AB2V"
+Received: by mail-pg1-f175.google.com with SMTP id 41be03b00d2f7-7fc93152edcso692005a12.0
+        for <linux-staging@lists.linux.dev>; Thu, 12 Dec 2024 08:23:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1734020598; x=1734625398; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=bq/tKrrwiZQZ2snWS/YijPFN2wQqiF36DpzF3YYYeY8=;
+        b=CbV6AB2VF1ZpgA8BpN4DTghjVdjVPbkisJvR6gZW2kJq0+07ED527W/lnIsi8qFRRT
+         waGO6w4NPp0lOV2Lu1znizJJmKqJ5HfGtQO3lNOFROAa5Ad0SH/C5cZGunkveiYnUUVV
+         M+HNZafCZeTGm3EVcCYuQ3/M2FTVKW8ac6Sv8HDToCDY+dmv94e9RXEibJUx96/12UAS
+         4adPQmVEvLhOg/bBubEl9EvniOLc9mgR2a2wvNEPVo03aO2gUTfR8EzJZwI9U7lm+5B7
+         R3buKP+64GXDEDbnKwJxb6la9rR7/RnP68KlKuBaN5nW9aQgwd99TLhbKvEYrj8V8pXo
+         sSZQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1734020598; x=1734625398;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=bq/tKrrwiZQZ2snWS/YijPFN2wQqiF36DpzF3YYYeY8=;
+        b=l/GoMFAvuNTZJhfV9fAGaO2wcDSDq8YFMfEJ9SDWQUEIfnJ0ZzVl/5DEIVvM+0Adtv
+         L+8IFaT1843t8Q/AJdKtKCUgZECsUyz4jpA8M+AzB3TOtf6PGWxzZcdofKVF+2Jq62iV
+         bcqH5WK+enRw9j2Eoju/ORBuYuVqp72CqwAE+zceDh/opnlQdN2OmTbnDIQ6qMsUbnSr
+         XGTq02HIkKrKa/pLz1el7oyM2TeXt/ictwVbxSe3jPIpqPRVTMWT+zSeTq9dWRTLCmqx
+         Nmbpi+ANwdISiGt+UD0Ebgo9G/jze7EqprSlR5cB+J+y69sHPZpcwu9B9qAswjNBjSWE
+         F2JQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXMSAu9ecyGEQFUUULm4Ewq3kJ4XjiEgvkGwjbryaxDv6yLqijGfGvHXQLGp1bcEzcGAZCbINHVPpv/yAqa@lists.linux.dev
+X-Gm-Message-State: AOJu0YzNvKyaoewQzyej7ggekhX+q7ilpr+pUaS4NHCXb96nScgWhFpB
+	6S1dMloQaa5XyKu0yhQDrx3N6Gg7whyL1/37nagdePSc4VLR7VFO
+X-Gm-Gg: ASbGncsYAQnKErK+BRxaVExdhQ9RkQqCEP9WDakX+pscOuRWnNROUbzYJ2gtiORKZgN
+	RoLcKgzz9GUQXWker33Ha4hczEDmpjCpTZYes9qilydk8L2UN8rCshNHGaG5usfFINCuc+GO+b5
+	bVvDDnujfO9AN2cEeL+AEiFv65RAe1KiIufTdKm0jPi/Yb/rB+N+E/FgIjNYXo9+ImsjYVfjfgF
+	lSP2DRL7iDeDuqlnIQUxSHE0RDBbTAGaOnKBzOBckpivzTOZaSGZlOI00S3kzEQOmos1A==
+X-Google-Smtp-Source: AGHT+IFDSdz3HsqecrqzbH4bwfGPjStZ3BmAF/QNIlVOG4Eq1G9A0y1LMHnGeH2BBI8c3HCpEQbfzw==
+X-Received: by 2002:a17:902:fc48:b0:216:59f1:c7d9 with SMTP id d9443c01a7336-2178c87873emr51058945ad.19.1734020598109;
+        Thu, 12 Dec 2024 08:23:18 -0800 (PST)
+Received: from localhost.localdomain ([101.0.62.135])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-216356f24d8sm85058595ad.242.2024.12.12.08.23.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 12 Dec 2024 08:23:17 -0800 (PST)
+From: eisantosh95@gmail.com
+To: 
+Cc: eisantosh95@gmail.com,
+	Dave Penkler <dpenkler@gmail.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Dan Carpenter <dan.carpenter@linaro.org>,
+	"Everest K.C." <everestkc@everestkc.com.np>,
+	Kees Bakker <kees@ijzerbout.nl>,
+	Arnd Bergmann <arnd@arndb.de>,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH 2/2] staging: gpib: fix Makefiles
-Date: Thu, 12 Dec 2024 16:42:35 +0100
-Message-Id: <20241212154245.1411411-2-arnd@kernel.org>
-X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20241212154245.1411411-1-arnd@kernel.org>
-References: <20241212154245.1411411-1-arnd@kernel.org>
+Subject: [PATCH] staging: gpib: Replace semaphore with completion for one-time signaling
+Date: Thu, 12 Dec 2024 21:51:04 +0530
+Message-Id: <20241212162112.13083-1-eisantosh95@gmail.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -46,199 +78,104 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Arnd Bergmann <arnd@arndb.de>
+From: Santosh Mahto <eisantosh95@gmail.com>
 
-Having gpib drivers built-in rather than as loadable modules causes
-link failure because the drivers are never actually built:
+Replaced 'down_interruptible()' and 'up()' calls
+with 'wait_for_completion_interruptible()' and
+'complete()' respectively. The completion API
+simplifies the code and adheres to kernel best
+practices for synchronization primitive
 
-arm-linux-gnueabi-ld: drivers/staging/gpib/fmh_gpib/fmh_gpib.o: in function `fmh_gpib_t1_delay':
-fmh_gpib.c:(.text+0x3b0): undefined reference to `nec7210_t1_delay'
-arm-linux-gnueabi-ld: drivers/staging/gpib/fmh_gpib/fmh_gpib.o: in function `fmh_gpib_serial_poll_status':
-fmh_gpib.c:(.text+0x418): undefined reference to `nec7210_serial_poll_status'
-arm-linux-gnueabi-ld: drivers/staging/gpib/fmh_gpib/fmh_gpib.o: in function `fmh_gpib_secondary_address':
-fmh_gpib.c:(.text+0x57c): undefined reference to `nec7210_secondary_address'
-arm-linux-gnueabi-ld: drivers/staging/gpib/fmh_gpib/fmh_gpib.o: in function `fmh_gpib_primary_address':
-fmh_gpib.c:(.text+0x5ac): undefined reference to `nec7210_primary_address'
-
-Change this to use the correct Makefile syntax, setting either obj-m or obj-y.
-
-Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+Signed-off-by: Santosh Mahto <eisantosh95@gmail.com>
 ---
- drivers/staging/gpib/agilent_82350b/Makefile | 2 +-
- drivers/staging/gpib/agilent_82357a/Makefile | 2 +-
- drivers/staging/gpib/cb7210/Makefile         | 2 +-
- drivers/staging/gpib/cec/Makefile            | 2 +-
- drivers/staging/gpib/common/Makefile         | 2 +-
- drivers/staging/gpib/eastwood/Makefile       | 2 +-
- drivers/staging/gpib/gpio/Makefile           | 2 +-
- drivers/staging/gpib/hp_82335/Makefile       | 2 +-
- drivers/staging/gpib/hp_82341/Makefile       | 2 +-
- drivers/staging/gpib/ines/Makefile           | 2 +-
- drivers/staging/gpib/lpvo_usb_gpib/Makefile  | 2 +-
- drivers/staging/gpib/nec7210/Makefile        | 2 +-
- drivers/staging/gpib/ni_usb/Makefile         | 2 +-
- drivers/staging/gpib/pc2/Makefile            | 2 +-
- drivers/staging/gpib/tms9914/Makefile        | 2 +-
- drivers/staging/gpib/tnt4882/Makefile        | 2 +-
- 16 files changed, 16 insertions(+), 16 deletions(-)
+ drivers/staging/gpib/ni_usb/ni_usb_gpib.c | 16 ++++++++--------
+ drivers/staging/gpib/ni_usb/ni_usb_gpib.h |  2 +-
+ 2 files changed, 9 insertions(+), 9 deletions(-)
 
-diff --git a/drivers/staging/gpib/agilent_82350b/Makefile b/drivers/staging/gpib/agilent_82350b/Makefile
-index d9236c92e04b..f24e1e713a63 100644
---- a/drivers/staging/gpib/agilent_82350b/Makefile
-+++ b/drivers/staging/gpib/agilent_82350b/Makefile
-@@ -1,2 +1,2 @@
+diff --git a/drivers/staging/gpib/ni_usb/ni_usb_gpib.c b/drivers/staging/gpib/ni_usb/ni_usb_gpib.c
+index b7b6fb1be379..70b8b305e13b 100644
+--- a/drivers/staging/gpib/ni_usb/ni_usb_gpib.c
++++ b/drivers/staging/gpib/ni_usb/ni_usb_gpib.c
+@@ -85,7 +85,7 @@ static void ni_usb_bulk_complete(struct urb *urb)
  
--obj-m += agilent_82350b.o
-+obj-$(CONFIG_GPIB_AGILENT_82350B) += agilent_82350b.o
-diff --git a/drivers/staging/gpib/agilent_82357a/Makefile b/drivers/staging/gpib/agilent_82357a/Makefile
-index 4a1d940fce2b..81a55c257a6e 100644
---- a/drivers/staging/gpib/agilent_82357a/Makefile
-+++ b/drivers/staging/gpib/agilent_82357a/Makefile
-@@ -1,4 +1,4 @@
+ //	printk("debug: %s: status=0x%x, error_count=%i, actual_length=%i\n",  __func__,
+ //		urb->status, urb->error_count, urb->actual_length);
+-	up(&context->complete);
++	complete(&context->complete);
+ }
  
--obj-m += agilent_82357a.o
-+obj-$(CONFIG_GPIB_AGILENT_82357A) += agilent_82357a.o
+ static void ni_usb_timeout_handler(struct timer_list *t)
+@@ -94,7 +94,7 @@ static void ni_usb_timeout_handler(struct timer_list *t)
+ 	struct ni_usb_urb_ctx *context = &ni_priv->context;
  
+ 	context->timed_out = 1;
+-	up(&context->complete);
++	complete(&context->complete);
+ };
  
-diff --git a/drivers/staging/gpib/cb7210/Makefile b/drivers/staging/gpib/cb7210/Makefile
-index 22e0214fc17d..cda0725d6487 100644
---- a/drivers/staging/gpib/cb7210/Makefile
-+++ b/drivers/staging/gpib/cb7210/Makefile
-@@ -1,4 +1,4 @@
- ccflags-$(CONFIG_GPIB_PCMCIA) := -DGPIB_PCMCIA
--obj-m += cb7210.o
-+obj-$(CONFIG_GPIB_CB7210) += cb7210.o
+ // I'm using nonblocking loosely here, it only means -EAGAIN can be returned in certain cases
+@@ -124,7 +124,7 @@ static int ni_usb_nonblocking_send_bulk_msg(struct ni_usb_priv *ni_priv, void *d
+ 	}
+ 	usb_dev = interface_to_usbdev(ni_priv->bus_interface);
+ 	out_pipe = usb_sndbulkpipe(usb_dev, ni_priv->bulk_out_endpoint);
+-	sema_init(&context->complete, 0);
++	init_completion(&context->complete);
+ 	context->timed_out = 0;
+ 	usb_fill_bulk_urb(ni_priv->bulk_urb, usb_dev, out_pipe, data, data_length,
+ 			  &ni_usb_bulk_complete, context);
+@@ -143,7 +143,7 @@ static int ni_usb_nonblocking_send_bulk_msg(struct ni_usb_priv *ni_priv, void *d
+ 		return retval;
+ 	}
+ 	mutex_unlock(&ni_priv->bulk_transfer_lock);
+-	down(&context->complete);    // wait for ni_usb_bulk_complete
++	wait_for_completion(&context->complete);    // wait for ni_usb_bulk_complete
+ 	if (context->timed_out) {
+ 		usb_kill_urb(ni_priv->bulk_urb);
+ 		dev_err(&usb_dev->dev, "%s: killed urb due to timeout\n", __func__);
+@@ -210,7 +210,7 @@ static int ni_usb_nonblocking_receive_bulk_msg(struct ni_usb_priv *ni_priv,
+ 	}
+ 	usb_dev = interface_to_usbdev(ni_priv->bus_interface);
+ 	in_pipe = usb_rcvbulkpipe(usb_dev, ni_priv->bulk_in_endpoint);
+-	sema_init(&context->complete, 0);
++	init_completion(&context->complete);
+ 	context->timed_out = 0;
+ 	usb_fill_bulk_urb(ni_priv->bulk_urb, usb_dev, in_pipe, data, data_length,
+ 			  &ni_usb_bulk_complete, context);
+@@ -231,7 +231,7 @@ static int ni_usb_nonblocking_receive_bulk_msg(struct ni_usb_priv *ni_priv,
+ 	}
+ 	mutex_unlock(&ni_priv->bulk_transfer_lock);
+ 	if (interruptible) {
+-		if (down_interruptible(&context->complete)) {
++		if (wait_for_completion_interruptible(&context->complete)) {
+ 			/* If we got interrupted by a signal while
+ 			 * waiting for the usb gpib to respond, we
+ 			 * should send a stop command so it will
+@@ -243,10 +243,10 @@ static int ni_usb_nonblocking_receive_bulk_msg(struct ni_usb_priv *ni_priv,
+ 			/* now do an uninterruptible wait, it shouldn't take long
+ 			 *	for the board to respond now.
+ 			 */
+-			down(&context->complete);
++			wait_for_completion(&context->complete);
+ 		}
+ 	} else {
+-		down(&context->complete);
++		wait_for_completion(&context->complete);
+ 	}
+ 	if (context->timed_out) {
+ 		usb_kill_urb(ni_priv->bulk_urb);
+diff --git a/drivers/staging/gpib/ni_usb/ni_usb_gpib.h b/drivers/staging/gpib/ni_usb/ni_usb_gpib.h
+index 9b21dfa0f3f6..4b297db09a9b 100644
+--- a/drivers/staging/gpib/ni_usb/ni_usb_gpib.h
++++ b/drivers/staging/gpib/ni_usb/ni_usb_gpib.h
+@@ -56,7 +56,7 @@ enum hs_plus_endpoint_addresses {
+ };
  
- 
-diff --git a/drivers/staging/gpib/cec/Makefile b/drivers/staging/gpib/cec/Makefile
-index f4638628ff29..b7141e23d4e0 100644
---- a/drivers/staging/gpib/cec/Makefile
-+++ b/drivers/staging/gpib/cec/Makefile
-@@ -1,3 +1,3 @@
- 
--obj-m += cec_gpib.o
-+obj-$(CONFIG_GPIB_CEC_PCI) += cec_gpib.o
- 
-diff --git a/drivers/staging/gpib/common/Makefile b/drivers/staging/gpib/common/Makefile
-index 0c4c77bea75b..460586edb574 100644
---- a/drivers/staging/gpib/common/Makefile
-+++ b/drivers/staging/gpib/common/Makefile
-@@ -1,5 +1,5 @@
- 
--obj-m += gpib_common.o
-+obj-$(CONFIG_GPIB_COMMON) += gpib_common.o
- 
- gpib_common-objs := gpib_os.o iblib.o
- 
-diff --git a/drivers/staging/gpib/eastwood/Makefile b/drivers/staging/gpib/eastwood/Makefile
-index c74056f959d0..384825195f77 100644
---- a/drivers/staging/gpib/eastwood/Makefile
-+++ b/drivers/staging/gpib/eastwood/Makefile
-@@ -1,3 +1,3 @@
- 
--obj-m += fluke_gpib.o
-+obj-$(CONFIG_GPIB_FLUKE) += fluke_gpib.o
- 
-diff --git a/drivers/staging/gpib/gpio/Makefile b/drivers/staging/gpib/gpio/Makefile
-index a31ded6e5924..00ea52abdda7 100644
---- a/drivers/staging/gpib/gpio/Makefile
-+++ b/drivers/staging/gpib/gpio/Makefile
-@@ -1,4 +1,4 @@
- 
--obj-m += gpib_bitbang.o
-+obj-$(CONFIG_GPIB_GPIO) += gpib_bitbang.o
- 
- 
-diff --git a/drivers/staging/gpib/hp_82335/Makefile b/drivers/staging/gpib/hp_82335/Makefile
-index 8b7a552e9355..305ce44ee48a 100644
---- a/drivers/staging/gpib/hp_82335/Makefile
-+++ b/drivers/staging/gpib/hp_82335/Makefile
-@@ -1,4 +1,4 @@
- 
--obj-m += hp82335.o
-+obj-$(CONFIG_GPIB_HP82335) += hp82335.o
- 
- 
-diff --git a/drivers/staging/gpib/hp_82341/Makefile b/drivers/staging/gpib/hp_82341/Makefile
-index 1fe7db4f8ca4..21367310a17e 100644
---- a/drivers/staging/gpib/hp_82341/Makefile
-+++ b/drivers/staging/gpib/hp_82341/Makefile
-@@ -1,2 +1,2 @@
- 
--obj-m += hp_82341.o
-+obj-$(CONFIG_GPIB_HP82341) += hp_82341.o
-diff --git a/drivers/staging/gpib/ines/Makefile b/drivers/staging/gpib/ines/Makefile
-index cdcaa59a4e39..6b6e480fd811 100644
---- a/drivers/staging/gpib/ines/Makefile
-+++ b/drivers/staging/gpib/ines/Makefile
-@@ -1,4 +1,4 @@
- ccflags-$(CONFIG_GPIB_PCMCIA) := -DGPIB_PCMCIA
--obj-m += ines_gpib.o
-+obj-$(CONFIG_GPIB_INES) += ines_gpib.o
- 
- 
-diff --git a/drivers/staging/gpib/lpvo_usb_gpib/Makefile b/drivers/staging/gpib/lpvo_usb_gpib/Makefile
-index 137511acce63..360553488e6d 100644
---- a/drivers/staging/gpib/lpvo_usb_gpib/Makefile
-+++ b/drivers/staging/gpib/lpvo_usb_gpib/Makefile
-@@ -1,3 +1,3 @@
- 
--obj-m += lpvo_usb_gpib.o
-+obj-$(CONFIG_GPIB_LPVO) += lpvo_usb_gpib.o
- 
-diff --git a/drivers/staging/gpib/nec7210/Makefile b/drivers/staging/gpib/nec7210/Makefile
-index 8d4d90f21109..64330f2e89d1 100644
---- a/drivers/staging/gpib/nec7210/Makefile
-+++ b/drivers/staging/gpib/nec7210/Makefile
-@@ -1,4 +1,4 @@
- 
--obj-m += nec7210.o
-+obj-$(CONFIG_GPIB_NEC7210) += nec7210.o
- 
- 
-diff --git a/drivers/staging/gpib/ni_usb/Makefile b/drivers/staging/gpib/ni_usb/Makefile
-index e22b3b21a62c..469c5d16add3 100644
---- a/drivers/staging/gpib/ni_usb/Makefile
-+++ b/drivers/staging/gpib/ni_usb/Makefile
-@@ -1,4 +1,4 @@
- 
--obj-m += ni_usb_gpib.o
-+obj-$(CONFIG_GPIB_NI_USB) += ni_usb_gpib.o
- 
- 
-diff --git a/drivers/staging/gpib/pc2/Makefile b/drivers/staging/gpib/pc2/Makefile
-index 8148425e0f87..481ee4296e1b 100644
---- a/drivers/staging/gpib/pc2/Makefile
-+++ b/drivers/staging/gpib/pc2/Makefile
-@@ -1,5 +1,5 @@
- 
--obj-m += pc2_gpib.o
-+obj-$(CONFIG_GPIB_PC2) += pc2_gpib.o
- 
- 
- 
-diff --git a/drivers/staging/gpib/tms9914/Makefile b/drivers/staging/gpib/tms9914/Makefile
-index 81b7e3cf104c..4705ab07f413 100644
---- a/drivers/staging/gpib/tms9914/Makefile
-+++ b/drivers/staging/gpib/tms9914/Makefile
-@@ -1,5 +1,5 @@
- 
--obj-m += tms9914.o
-+obj-$(CONFIG_GPIB_TMS9914) += tms9914.o
- 
- 
- 
-diff --git a/drivers/staging/gpib/tnt4882/Makefile b/drivers/staging/gpib/tnt4882/Makefile
-index f767c990db7a..04a4520ed3b7 100644
---- a/drivers/staging/gpib/tnt4882/Makefile
-+++ b/drivers/staging/gpib/tnt4882/Makefile
-@@ -1,5 +1,5 @@
- ccflags-$(CONFIG_GPIB_PCMCIA) := -DGPIB_PCMCIA
--obj-m += tnt4882.o
-+obj-$(CONFIG_GPIB_TNT4882) += tnt4882.o
- 
- tnt4882-objs := tnt4882_gpib.o mite.o
+ struct ni_usb_urb_ctx {
+-	struct semaphore complete;
++	struct completion complete;
+ 	unsigned timed_out : 1;
+ };
  
 -- 
-2.39.5
+2.25.1
 
