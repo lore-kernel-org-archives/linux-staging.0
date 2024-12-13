@@ -1,90 +1,87 @@
-Received: from mail-10631.protonmail.ch (mail-10631.protonmail.ch [79.135.106.31])
+Received: from pegase2.c-s.fr (pegase2.c-s.fr [93.17.235.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 738021B392F
-	for <linux-staging@lists.linux.dev>; Fri, 13 Dec 2024 09:38:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=79.135.106.31
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FCB718A6D4
+	for <linux-staging@lists.linux.dev>; Fri, 13 Dec 2024 10:15:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=93.17.235.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734082686; cv=none; b=LZTXFth3SSlT3OJwMCIvHJiY/kHqb/gL3KnAObm+9O56PADD6zIZySSHFF6408Poa8cm1cRqFQoHqo3+mT+W1pS5AC8OFoElr76U+v4Bp82pMFydQoVYWJumI9EbKw2Uclzt7GHyiLnaF3KnkdTRfnKashnvqbpxzjrohxfzTsQ=
+	t=1734084941; cv=none; b=POvjLDq7BBgFIshPALNlzMXiCO1ZoL3yUn0NIHYWp6q0/C+aSdX8Y5Ywo3vH81YYyU+YnULZxv7xXKE+/K0hYphjuYy6I3TMrDcgOZ1dlMCN2bAMJ8TtNY1kiMCngQYEY0+q5dugR6Fg15M5vA+XbIoJPwt1lI+R373nn3IXWGE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734082686; c=relaxed/simple;
-	bh=oQpzYtOejXAwIFbpnjsdqVXPeMH8rc28IecS7Aq9/50=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=ReOddey0/ICpy90clZUwhgf9BzXGswNK3xZB4I3EWaaQfiGb6XG9R/px1PwG5KH7dlDzsiHo8KJOsh/ScpWDulP6++WBMg/nwyNGQ0lRX0oX7nSTsSAwnlqpm3pKVGbsL+RxqMG/+jSNHfp9h86GXTRfXxRx8qPjYBoYkRdjQlQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=protonmail.com; spf=pass smtp.mailfrom=protonmail.com; dkim=pass (2048-bit key) header.d=protonmail.com header.i=@protonmail.com header.b=PaUn84Hx; arc=none smtp.client-ip=79.135.106.31
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=protonmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=protonmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=protonmail.com header.i=@protonmail.com header.b="PaUn84Hx"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
-	s=protonmail3; t=1734082682; x=1734341882;
-	bh=oQpzYtOejXAwIFbpnjsdqVXPeMH8rc28IecS7Aq9/50=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
-	 Message-ID:BIMI-Selector:List-Unsubscribe:List-Unsubscribe-Post;
-	b=PaUn84Hxaqn47iGdI9O9vUWWLYCo3qHbJYGnyPgieIkfFAzOVaIocQjRaa+90DCnD
-	 BjsWN9KIO+yUGx0PWfABY+ydOZCQLiAf5Kz6Euy0IzMbUbK0TaEHVhofPo2DdVkaEA
-	 n+6SVrnSVtobLgJ1prtno3uoG+yoVjIyHf1gj20s9CG26xsoYdCJdb+B/53tMzcf8f
-	 UcSMWD7IYxl3UwnPw/77DY5kGsV84ckHkbZWOcQXgsTdt8j/zg1CtTxr2dlBTTiCgV
-	 5HQWfy0PX71LSSTlDd+LVq3kt9R6T04Gpg5lrAcGQDdronusNvxYg5L8kjGjnfWD2T
-	 B7FXx5F26b3bA==
-Date: Fri, 13 Dec 2024 09:37:55 +0000
-To: Arnd Bergmann <arnd@kernel.org>
-From: =?utf-8?Q?Dominik_Karol_Pi=C4=85tkowski?= <dominik.karol.piatkowski@protonmail.com>
-Cc: Dave Penkler <dpenkler@gmail.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Arnd Bergmann <arnd@arndb.de>, Dan Carpenter <dan.carpenter@linaro.org>, Nathan Chancellor <nathan@kernel.org>, "Everest K.C." <everestkc@everestkc.com.np>, linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: gpib: add module author and description fields
-Message-ID: <MGy6QhNfv7Nkp5Z1jG8CBnrfIL7idxS2qFncLvVaWUaIETm6hpWlQ5le4wpmw5RtMZx7utyDvuAGg2aks7E9seY_umnTkGSdkzYL5oVBxhM=@protonmail.com>
-In-Reply-To: <20241213083119.2607901-1-arnd@kernel.org>
-References: <20241213083119.2607901-1-arnd@kernel.org>
-Feedback-ID: 117888567:user:proton
-X-Pm-Message-ID: 0c7a6274337e56c3497552b65fca9db309cf2ba4
+	s=arc-20240116; t=1734084941; c=relaxed/simple;
+	bh=qC2zro0kKmEsnpOYP2/rSLqAoj7cMOHkQpcqzVhMvrI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=kvPA51yMWSibMh/t86a5M9naYLuvIBHmwSyZBSpdSJtCnyeWN6yHM77O0tbuoPqtowDiauYHnLJ3B/1SlDzqJN8d1/PgjhYUjM25i1WUeii9hb04QZQmk/yZS8ORq1g6na/xFgoaNX5c2oroHingCgIbEuWkxYszKN5bSC9i7LQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=csgroup.eu; spf=pass smtp.mailfrom=csgroup.eu; arc=none smtp.client-ip=93.17.235.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=csgroup.eu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=csgroup.eu
+Received: from localhost (mailhub3.si.c-s.fr [172.26.127.67])
+	by localhost (Postfix) with ESMTP id 4Y8lbF67nTz9svS;
+	Fri, 13 Dec 2024 11:15:37 +0100 (CET)
+X-Virus-Scanned: amavisd-new at c-s.fr
+Received: from pegase2.c-s.fr ([172.26.127.65])
+	by localhost (pegase2.c-s.fr [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id 6-COpe8Oi0vZ; Fri, 13 Dec 2024 11:15:37 +0100 (CET)
+Received: from messagerie.si.c-s.fr (messagerie.si.c-s.fr [192.168.25.192])
+	by pegase2.c-s.fr (Postfix) with ESMTP id 4Y8lbB1Gh4z9svV;
+	Fri, 13 Dec 2024 11:15:34 +0100 (CET)
+Received: from localhost (localhost [127.0.0.1])
+	by messagerie.si.c-s.fr (Postfix) with ESMTP id 197918B773;
+	Fri, 13 Dec 2024 11:15:34 +0100 (CET)
+X-Virus-Scanned: amavisd-new at c-s.fr
+Received: from messagerie.si.c-s.fr ([127.0.0.1])
+	by localhost (messagerie.si.c-s.fr [127.0.0.1]) (amavisd-new, port 10023)
+	with ESMTP id YjGKXVr-q2aq; Fri, 13 Dec 2024 11:15:34 +0100 (CET)
+Received: from [192.168.232.97] (unknown [192.168.232.97])
+	by messagerie.si.c-s.fr (Postfix) with ESMTP id 96D688B763;
+	Fri, 13 Dec 2024 11:15:33 +0100 (CET)
+Message-ID: <941b3560-6572-476b-9e9f-c0a6df3e9ff4@csgroup.eu>
+Date: Fri, 13 Dec 2024 11:15:33 +0100
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 1/3] fbdev: Fix recursive dependencies wrt
+ BACKLIGHT_CLASS_DEVICE
+To: Thomas Zimmermann <tzimmermann@suse.de>, javierm@redhat.com,
+ arnd@arndb.de, deller@gmx.de, simona@ffwll.ch, airlied@gmail.com
+Cc: dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
+ linux-staging@lists.linux.dev, linuxppc-dev@lists.ozlabs.org
+References: <20241212100636.45875-1-tzimmermann@suse.de>
+ <20241212100636.45875-2-tzimmermann@suse.de>
+ <8403f989-c1de-48c9-ab48-83c1abb9e6f2@csgroup.eu>
+ <5484d576-d63e-4166-85ea-0b508b0cb865@suse.de>
+ <1248a2b6-71b0-4909-917f-a5605415a816@csgroup.eu>
+ <690acce6-3e57-4731-9949-f8bb06d9cb58@suse.de>
+Content-Language: fr-FR
+From: Christophe Leroy <christophe.leroy@csgroup.eu>
+In-Reply-To: <690acce6-3e57-4731-9949-f8bb06d9cb58@suse.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Friday, December 13th, 2024 at 09:31, Arnd Bergmann <arnd@kernel.org> wr=
-ote:
 
->=20
->=20
-> From: Arnd Bergmann arnd@arndb.de
->=20
->=20
-> The FMH driver is still missing both, so take them from the comment
-> at the start of the file.
->=20
-> Fixes: 8e4841a0888c ("staging: gpib: Add Frank Mori Hess FPGA PCI GPIB dr=
-iver")
-> Signed-off-by: Arnd Bergmann arnd@arndb.de
->=20
-> ---
-> drivers/staging/gpib/fmh_gpib/fmh_gpib.c | 2 ++
-> 1 file changed, 2 insertions(+)
->=20
-> diff --git a/drivers/staging/gpib/fmh_gpib/fmh_gpib.c b/drivers/staging/g=
-pib/fmh_gpib/fmh_gpib.c
-> index 2ed286fa5d6e..0662b20a45e7 100644
-> --- a/drivers/staging/gpib/fmh_gpib/fmh_gpib.c
-> +++ b/drivers/staging/gpib/fmh_gpib/fmh_gpib.c
-> @@ -24,6 +24,8 @@
-> #include <linux/slab.h>
->=20
->=20
-> MODULE_LICENSE("GPL");
-> +MODULE_DESCRIPTION("GPIB Driver for fmh_gpib_core");
-> +MODULE_AUTHOR("Frank Mori Hess fmh6jj@gmail.com");
->=20
->=20
-> static irqreturn_t fmh_gpib_interrupt(int irq, void *arg);
-> static int fmh_gpib_attach_holdoff_all(gpib_board_t *board, const gpib_bo=
-ard_config_t *config);
-> --
-> 2.39.5
 
-Reviewed-by: Dominik Karol Pi=C4=85tkowski <dominik.karol.piatkowski@proton=
-mail.com>
+Le 13/12/2024 à 09:41, Thomas Zimmermann a écrit :
+> Hi
+> 
+> 
+> Am 13.12.24 um 09:33 schrieb Christophe Leroy:
+>>
+>>>
+>>> The attached patch selects backlight support in the defconfigs that 
+>>> also have PMAC_BACKLIGHT=y. Can you please apply it on top of the 
+>>> patchset and report on the results?
+>>>
+>>
+>> That works for the defconfig but it is still possible to change 
+>> CONFIG_BACKLIGHT_CLASS_DEVICE manually.
+>>
+>> If it is necessary for PMAC_BACKLIGHT then it shouldn't be possible to 
+>> deselect it.
+> 
+> Here's another patch that make it depend on BACKLIGHT_CLASS_DEVICE=y. 
+> Can you please try this as well?
+
+That looks good, no build failure anymore with BACKLIGHT_CLASS_DEVICE=m
