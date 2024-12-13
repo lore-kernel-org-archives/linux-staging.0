@@ -1,70 +1,74 @@
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 103711C3BE7
-	for <linux-staging@lists.linux.dev>; Fri, 13 Dec 2024 10:53:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C3F41DFE23
+	for <linux-staging@lists.linux.dev>; Fri, 13 Dec 2024 13:09:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734087210; cv=none; b=AS1ADyvWwGuCkn+tJpnVMlCDdkWdnSLiLZKHKJnz32GxaaqVnIbpuwDaS7pyDNRtyPBZbmPWJfvxG+6tTG8Zp0PyrfAN6UxcenyMMu/fsteyhYN9+jPNO/gySqf937G33thYTxwhlPe4CHdR/IIaeFtMRobNCFyAByHvdLRiLIE=
+	t=1734095344; cv=none; b=jv7h/gMVJmTGnYqufYmLrFjiDHV8RPTaRvJSKXUvIfh2KUkxI03origkEAQ2qH/qcxCV+rXWnfja6nhKHcxxKbIB0Q6iVhJroLi15TGvsad6fKd5KvVVSozrB/l2CO+kBRs/kxYsueBdL0eO6ot+E1YsHnmRgt/HTEWKNmRkjYQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734087210; c=relaxed/simple;
-	bh=3RAKuwhJziTT1DeTTJ7GjajGteL0tlZLFZr1flfX9JA=;
+	s=arc-20240116; t=1734095344; c=relaxed/simple;
+	bh=rqaTtvm5IEyKWS5ONUaBUZiybgpVMBEkcAqj9ZEe5vo=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tm4QFeyhi34Kjug4NZxFIpMqf4/87pU+AnlJdZvlZGliMEEhDLTdehvbgORDsYVvz6QWnFYnm/EbF6VsXfTMjoPcIUtvYze0XgXxhhVRRs2PajAy85sgI2RR8DCXf5JtgulqdtMWB5+t7/sXiNy3M2gfLDN0/kGai3DeSkSRZLk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WnoXoNHH; arc=none smtp.client-ip=209.85.128.47
+	 Content-Type:Content-Disposition:In-Reply-To; b=O+k4y4RYQtMiE99+fy5Vi+wcsSOW4DPiSSLANJQunvZDqYUA8uxjqwDQHvZ8RByHsPkPua54pyFLE3JKzrU/NXzE98zhvs3HC3FIkvzE0uKKo/AeggbFx5KwLPjKN9dAglO5YJKRcP6SmfKnyIvJrcZb+MRHt3qraIsT6pXzDno=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AaUC9AKF; arc=none smtp.client-ip=209.85.128.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WnoXoNHH"
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-4361f664af5so16864615e9.1
-        for <linux-staging@lists.linux.dev>; Fri, 13 Dec 2024 02:53:27 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AaUC9AKF"
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-43623f0c574so12025055e9.2
+        for <linux-staging@lists.linux.dev>; Fri, 13 Dec 2024 05:09:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1734087206; x=1734692006; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1734095341; x=1734700141; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=yf+WwbETet8e5i96HNJic3txU9PUcKXniPQhzUEgHIM=;
-        b=WnoXoNHHbRI7rAmIoZ+DwMbE4KxNxp4eWJQ8NA+mfx2ghkX+ShTdHvitt9Igy1e5R6
-         o87Mqx76rRFyRMqbErV0nw00JistkDcH7DoOjdQHc55ToKb0rlD7wzkz8oVUCUbbBjtF
-         d4c9wDY1Qa0XhsjfvAhcY0Zt5kW0TmtIJ+AmzL4pCQPmvcF68TZOO6d9iCqKa54SxOKa
-         R4r4C2koDylo+/nWDogj97EdQh1EsNVzcOLI9Qw/qLJf8lTOxsHradVVkZMWUaAEQ84n
-         KXVpRkAKnZpbjN4lgdGrV/unQfsIawt+YU6n/UfC8lOe8A5CJ+9I5cbyKmHh4g9hf4AV
-         fk+g==
+        bh=Ti6eEstcDMekLF5cg8h/xv4zkeUEnh0EvJjkx52ON2A=;
+        b=AaUC9AKFHQ0IgyUGGU8GZYphD3sjuRoGvq/qGfVySSROTNIdvkYfVDu3dbL4Vq8PTg
+         Xnl9YYFEyt2IcdJr3QNDg/WDrOtuaGrwfIhmEcphB0JGycfkC5+PXTfiofjPOE+2EGNo
+         r+p8tmQMSwi8boERYj8B4haxPSfcmIQwrfMXVvMfCMtY6rnvdUr8jG8Nw+mojXLlU7ia
+         a90y1FTvmsUaMfb6q5uJLaYKIxboTej1/sxzOIGFier9Gae6UdJ9Ovsq6LyLepT0C3TG
+         Anbratct+ooHeDtwlCQkTapm6LMW+QMvHO2+BGAvicJoVCWTSh0G1ZvKtnstZ1fyxHdL
+         xIkA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1734087206; x=1734692006;
+        d=1e100.net; s=20230601; t=1734095341; x=1734700141;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=yf+WwbETet8e5i96HNJic3txU9PUcKXniPQhzUEgHIM=;
-        b=hIEWvFuRFtugV27VyjwKweHpxh7OjHAmuem9k0fRVRO9tHXqSuZpr7Mkc9GGIp9RdE
-         +DMZDp/HiQ3YK/RuB9o8591OywxpJsjnevdB7Eq1Be95XqgAA51bUQfaSPRFxPLeYIgG
-         lBUS823NhDQnj5YcivpxI+eECETsWOGWgzAogyI5ZwGCRIwm5uCxtaiEmyOALdPwbYTh
-         OI/ec7R+vi+Eu/rz+KLses5p1uLuLEI/lMGjhHd1wQXwrzPb8OX+xsVMZ1I/ALlufbKj
-         /8Rx1ndiMcKDDNnpTOJzaFbp5MyHup5vp9q3T3pEP9YclLu5LdxWIqj9YVBVTUA9LiE3
-         Q2CA==
-X-Forwarded-Encrypted: i=1; AJvYcCVbbhJ8w9ttccT9rkDRUylQ8yESSa8FBXt8KRy3vQrkR1F5Gy2fnULqivD3j+Tlh//k3VsoF8LN1i7aYplQ@lists.linux.dev
-X-Gm-Message-State: AOJu0YymZ0jZZ4+u5ZaVwWQeitWz9JFHABtfWI7rihCKuxh4RkAoKJms
-	TcTLVqeIb95beCRTBeWewL2hbP7R5+0lkyQ9qKotFEAgHVVeLVE2
-X-Gm-Gg: ASbGnctOvDQ26OMcPPzg+jEx2p2EI6uHBLCwmv68Je9+W1G6U/+K7nSP1UJuK7RlnSb
-	i75DbFi7mfypZuSnA4/C6fXF8nCobdsHZzaSB+jkolXxTaQwsWYZ0Rv7vPUr4bHT81FRBf+yyC0
-	T+HEG38+zs9NaDINhrlRr9YxPShDoDMk3J9zBnoKTEfWo09nXq0SaJxT8bR7PwmV0c8MmpnbD1H
-	rZZyXGhbAagtc285h4hSk3fktgJOUbh0eCyRtFUAcsmVjWrLILg/xRSPWJcEhFBTwESOosT
-X-Google-Smtp-Source: AGHT+IF7wpcLBiHevBCqFWuwzVTAWqMl+5sNE/JupCPWSPoBAsIudx1Jcm4rfZoivatzYHnZakf6UQ==
-X-Received: by 2002:a05:600c:4e01:b0:434:a202:7a0d with SMTP id 5b1f17b1804b1-4362aa94055mr12963585e9.22.1734087206038;
-        Fri, 13 Dec 2024 02:53:26 -0800 (PST)
+        bh=Ti6eEstcDMekLF5cg8h/xv4zkeUEnh0EvJjkx52ON2A=;
+        b=Sp4wUUh7/qmbBgxNP4Uwo82bNESqxRDRBRVarMVSVgndncpL+kCWaXr0Yk8+10x/a6
+         HM9fSHjDpscooOjQAeM3Bx5lKr2Lb6lk91DTXwzm56xWKgYXcD0E46pv08PTn1+Qa8g5
+         ZRKftE6zAZAcPy+h/USFKOSlxQCBmVpsbdrjq980AgNuk0C/Yh1Ts5tL7Z3ZYfzE/A31
+         lhJGjKsFtq/y1I9JtmA5jTuP5rZcHkjbnqoOeinB5YXyLQQj0D5le5xNlt4vyaDVizLp
+         txJdP5Z8xDrWdriRMtgmAYPnil9TctiDnOEhkjGbpdpczCnd7Mr41B244Qdfd9jAyMf5
+         Qjfw==
+X-Forwarded-Encrypted: i=1; AJvYcCUE1cR6FDDC10yADuZq3S5Pw/FeUCPKyUAiGDlzERrl/uHGh7CTYBr0HMjuodNQqMOGt/QYvhHjEEU+4Jbs@lists.linux.dev
+X-Gm-Message-State: AOJu0Yz+cK4ZgI8yhrSkc8EAYXP+v9sr14n4k7cOe7rD9we2nGhVs2sM
+	/76ux9ywogyRZdX4S/b/X/CST5PZCXXetNGu+bNlKmirQXEgHto8
+X-Gm-Gg: ASbGncuNxDUbugUuD5YEGbasEVoW0NlMCluVPBLGKRTLfDrA61Wjftwiz/mJ6G6Qwgd
+	e8AUkshZ/YVQPDbEmkUk87pquj7QYlI5uN11HPa5muYF+fBWfx2ifb9ovx06/wOZE8FYE4Kg6qj
+	ev8VxFM/2lg+1rF4yWvYeWqOKy/zuxhIBvnIqLYtcMTA/p2jVY4nMLvKv8wBsnDZ34AEXYp1Unh
+	JPgWjouYQGX/qKls9lXL68HzY1vySjvBRM5LEqe7TLW5Fbz91JnaXLslEzdKplGRrIQ0JpZ
+X-Google-Smtp-Source: AGHT+IGwFfs8iXyzrUmAhIxlrYsb8xItJ9t24BgPCHxAf5Rmj6592z/EvjXbYKnSSg7OPilEoegBwQ==
+X-Received: by 2002:a05:6000:4025:b0:385:f1f2:13f1 with SMTP id ffacd0b85a97d-3888dcd4796mr1824519f8f.22.1734095341001;
+        Fri, 13 Dec 2024 05:09:01 -0800 (PST)
 Received: from egonzo (82-64-73-52.subs.proxad.net. [82.64.73.52])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43625706588sm46607105e9.29.2024.12.13.02.53.24
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38782514ec8sm7196646f8f.75.2024.12.13.05.08.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 13 Dec 2024 02:53:25 -0800 (PST)
-Date: Fri, 13 Dec 2024 11:53:23 +0100
+        Fri, 13 Dec 2024 05:09:00 -0800 (PST)
+Date: Fri, 13 Dec 2024 14:08:58 +0100
 From: Dave Penkler <dpenkler@gmail.com>
-To: Guenter Roeck <linux@roeck-us.net>
-Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org, dan.carpenter@linaro.org,
-	geert@linux-m68k.org, arnd@kernel.org
-Subject: Re: [PATCH v6] staging: gpib: Fix i386 build issue
-Message-ID: <Z1wSIzBOZu4gUJhv@egonzo>
-References: <20241211164452.27464-1-dpenkler@gmail.com>
- <670d63a3-6b20-41a3-a4db-96b407b80202@roeck-us.net>
+To: Arnd Bergmann <arnd@kernel.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Dan Carpenter <dan.carpenter@linaro.org>,
+	Rohit Chavan <roheetchavan@gmail.com>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Prarit Bhargava <prarit@redhat.com>, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 3/3] staging: gpib: fix address space mixup
+Message-ID: <Z1wx6pzVdh0y9w4d@egonzo>
+References: <20241213064959.1045243-1-arnd@kernel.org>
+ <20241213064959.1045243-3-arnd@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -73,37 +77,51 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <670d63a3-6b20-41a3-a4db-96b407b80202@roeck-us.net>
+In-Reply-To: <20241213064959.1045243-3-arnd@kernel.org>
 
-On Wed, Dec 11, 2024 at 11:42:36AM -0800, Guenter Roeck wrote:
-> On 12/11/24 08:44, Dave Penkler wrote:
-> > These drivers cast resource_type_t to void * causing the build to fail.
-> > 
-> > With a 32 bit build and PHYS_ADDR_T_64BIT enabled the resource_size_t
-> > type is a 64bit unsigned int which cannot be cast to a 32 bit pointer.
-> > 
-> > Disable these drivers if not 64BIT and PHYS_ADDR_T_64BIT are configured.
-> > 
-> > Link: https://lore.kernel.org/linux-staging/2c6c7e9d-ca10-47a9-82a7-a2e26b1f51ef@roeck-us.net/
-> > Reported-by: Guenter Roeck <linux@roeck-us.net>
-> > Closes: https://lore.kernel.org/all/f10e976e-7a04-4454-b38d-39cd18f142da@roeck-us.net/
-> > Fixes: e9dc69956d4d ("staging: gpib: Add Computer Boards GPIB driver")
-> > Fixes: e1339245eba3 ("staging: gpib: Add Computer Equipment Corporation GPIB driver")
-> > Fixes: bb1bd92fa0f2 ("staging: gpib: Add ines GPIB driver")
-> > Fixes: 0cd5b05551e0 ("staging: gpib: Add TNT4882 chip based GPIB driver")
-> > Signed-off-by: Dave Penkler <dpenkler@gmail.com>
+On Fri, Dec 13, 2024 at 07:49:51AM +0100, Arnd Bergmann wrote:
+> From: Arnd Bergmann <arnd@arndb.de>
 > 
-> Tested-by: Guenter Roeck <linux@roeck-us.net>
+> Throughout the gpib drivers, a 'void *' struct member is used in place
+> of either port numbers or __iomem pointers, which leads to lots of extra
+> type casts, sparse warnings and less portable code.
 > 
-> Guenter
+> Split the struct member in two separate ones with the correct types,
+> so each driver can pick which one to use.
 > 
-Hi Guenter,
-These nice patches from Arnd fix the i386 build issue without having applied 
-my v6 patch:
-Link: https://lore.kernel.org/linux-staging/20241213064959.1045243-1-arnd@kernel.org/
-
-I tested only 
-make ARCH=i386 allmodconfig
-make ARCH=i386 M=drivers/staging/gpib
-
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+> ---
+>  .../gpib/agilent_82350b/agilent_82350b.c      |  4 +-
+>  drivers/staging/gpib/cb7210/cb7210.c          | 12 ++---
+>  drivers/staging/gpib/cb7210/cb7210.h          |  4 +-
+>  drivers/staging/gpib/cec/cec_gpib.c           |  4 +-
+>  drivers/staging/gpib/common/gpib_os.c         |  2 +-
+>  drivers/staging/gpib/eastwood/fluke_gpib.c    | 12 ++---
+>  drivers/staging/gpib/eastwood/fluke_gpib.h    |  4 +-
+>  drivers/staging/gpib/fmh_gpib/fmh_gpib.c      | 25 +++++-----
+>  drivers/staging/gpib/fmh_gpib/fmh_gpib.h      |  4 +-
+>  drivers/staging/gpib/hp_82335/hp82335.c       | 21 +++++----
+>  drivers/staging/gpib/hp_82341/hp_82341.c      | 16 +++----
+>  drivers/staging/gpib/include/gpib_types.h     |  3 +-
+>  drivers/staging/gpib/include/nec7210.h        |  5 +-
+>  drivers/staging/gpib/include/tms9914.h        |  5 +-
+>  drivers/staging/gpib/ines/ines.h              |  4 +-
+>  drivers/staging/gpib/ines/ines_gpib.c         | 22 ++++-----
+>  .../gpib/lpvo_usb_gpib/lpvo_usb_gpib.c        |  2 +-
+>  drivers/staging/gpib/nec7210/nec7210.c        | 16 +++----
+>  drivers/staging/gpib/pc2/pc2_gpib.c           | 16 +++----
+>  drivers/staging/gpib/tms9914/tms9914.c        |  8 ++--
+>  drivers/staging/gpib/tnt4882/mite.h           |  4 +-
+>  drivers/staging/gpib/tnt4882/tnt4882_gpib.c   | 46 +++++++++----------
+>  22 files changed, 123 insertions(+), 116 deletions(-)
+> 
+[ skip ]
+Hi Arnd,
+Thank you so much for these valuable patches.
+I have successfully tested them on the agilent and ni pci boards
+on an amd x86_64 system.
+This exercises the agilent_82350b, tms9914 and tnt4882 modules.
+Your patches have also fixed the i386 build issue as far as I can tell.
+Link: https://lore.kernel.org/all/f10e976e-7a04-4454-b38d-39cd18f142da@roeck-us.net/
+cheers,
 -Dave
