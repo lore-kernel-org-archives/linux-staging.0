@@ -1,204 +1,109 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2877D1B4148
-	for <linux-staging@lists.linux.dev>; Fri, 13 Dec 2024 10:24:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 103711C3BE7
+	for <linux-staging@lists.linux.dev>; Fri, 13 Dec 2024 10:53:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734085465; cv=none; b=mzq/u+HvFjmTgsY9kv+6HO9TjUJWNUPbdYa/ZPUYOQDjrqkwjN9JoiKVxyeXLXqfjVqDkBAABOHWlWVcX9Oux1afu+dRd9Tsx916faMRobJfHTE5lJITudz6ez/h5Wf5RYGBD12+YiP+kwDe2TMBuIq+4cHxM5l5WXblveObk9c=
+	t=1734087210; cv=none; b=AS1ADyvWwGuCkn+tJpnVMlCDdkWdnSLiLZKHKJnz32GxaaqVnIbpuwDaS7pyDNRtyPBZbmPWJfvxG+6tTG8Zp0PyrfAN6UxcenyMMu/fsteyhYN9+jPNO/gySqf937G33thYTxwhlPe4CHdR/IIaeFtMRobNCFyAByHvdLRiLIE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734085465; c=relaxed/simple;
-	bh=Aw6JHmCl1VWLKX2/sE4YgAqjtp7IoTiRAOMRCD0BNl4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Ji+9RYs1s+EJX5PwZEHQtZGYSXYtq83SCtWu61PompA49/7yhys5aYe/UlFuptGLHByDOx9Xj4qR/cieYUIHtGclFjComNvcQ+HDhAiou0d8D1lPSar2ArxG+KXmM93j58iyWrDrCwPdMMUMFdsE5h9LrHPqAM9LUDkTvAmxfrI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=QB3BAAvl; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=j6UBVK3e; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=tPrPshOR; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=F35EiPjf; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1734087210; c=relaxed/simple;
+	bh=3RAKuwhJziTT1DeTTJ7GjajGteL0tlZLFZr1flfX9JA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=tm4QFeyhi34Kjug4NZxFIpMqf4/87pU+AnlJdZvlZGliMEEhDLTdehvbgORDsYVvz6QWnFYnm/EbF6VsXfTMjoPcIUtvYze0XgXxhhVRRs2PajAy85sgI2RR8DCXf5JtgulqdtMWB5+t7/sXiNy3M2gfLDN0/kGai3DeSkSRZLk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WnoXoNHH; arc=none smtp.client-ip=209.85.128.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="QB3BAAvl";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="j6UBVK3e";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="tPrPshOR";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="F35EiPjf"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 4AE222115C;
-	Fri, 13 Dec 2024 10:24:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1734085462; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=wj3FQ4EHvuZ3Loo4qRwR0MhYvA8lZqwuoXZj5chSjlA=;
-	b=QB3BAAvlMjSbem64YecmVjJGmws8bfOvUTD+KKvi7kRCMKvWOApY0uIfCet5lxrNDfoDUF
-	kYKima0XfjJ//cp6X9aPRpiv/cXNNNy+DfGwJ7aRzfdpnBl+Q98kMFgLY0/8dCj8FH7Eso
-	yySpVrlwNrq43Uq6G/B7E43pyz64j4Y=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1734085462;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=wj3FQ4EHvuZ3Loo4qRwR0MhYvA8lZqwuoXZj5chSjlA=;
-	b=j6UBVK3eUBa8uR6nex3nUMjcfXl1CQPkSFrZPH8x2W8kQHDeRo1nrlthyHhnPsC73eZWWs
-	xJe2M8NkIDdXsJAA==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=tPrPshOR;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=F35EiPjf
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1734085461; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=wj3FQ4EHvuZ3Loo4qRwR0MhYvA8lZqwuoXZj5chSjlA=;
-	b=tPrPshOR8OGskNXqtHG5zsWfTFtAWkW2VMrNqELtJBW6l/2NFdcLs1OxedCw7R6xiZ51m7
-	h9tq3+U4I4rCuekR9CMWLRcbws6ajAhE5g6ncB3sCzZigANSiWhCZINWRagT/etWKBQbFJ
-	69sP2Jse0IoReokkrtrtOL0MchDeYg8=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1734085461;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=wj3FQ4EHvuZ3Loo4qRwR0MhYvA8lZqwuoXZj5chSjlA=;
-	b=F35EiPjf6rljhpNclFMv1DDqnxhLuSBOgjJzXGatSr0F1Y6LNmfwdq48C8L2640wlOpX+G
-	v8fzZgkVV3eOKTCQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id B8DF813939;
-	Fri, 13 Dec 2024 10:24:20 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id +v76KVQLXGdsSAAAD6G6ig
-	(envelope-from <tzimmermann@suse.de>); Fri, 13 Dec 2024 10:24:20 +0000
-Message-ID: <eea7e1f0-cdcf-49ca-b50b-cac9bb320f4e@suse.de>
-Date: Fri, 13 Dec 2024 11:24:20 +0100
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WnoXoNHH"
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-4361f664af5so16864615e9.1
+        for <linux-staging@lists.linux.dev>; Fri, 13 Dec 2024 02:53:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1734087206; x=1734692006; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=yf+WwbETet8e5i96HNJic3txU9PUcKXniPQhzUEgHIM=;
+        b=WnoXoNHHbRI7rAmIoZ+DwMbE4KxNxp4eWJQ8NA+mfx2ghkX+ShTdHvitt9Igy1e5R6
+         o87Mqx76rRFyRMqbErV0nw00JistkDcH7DoOjdQHc55ToKb0rlD7wzkz8oVUCUbbBjtF
+         d4c9wDY1Qa0XhsjfvAhcY0Zt5kW0TmtIJ+AmzL4pCQPmvcF68TZOO6d9iCqKa54SxOKa
+         R4r4C2koDylo+/nWDogj97EdQh1EsNVzcOLI9Qw/qLJf8lTOxsHradVVkZMWUaAEQ84n
+         KXVpRkAKnZpbjN4lgdGrV/unQfsIawt+YU6n/UfC8lOe8A5CJ+9I5cbyKmHh4g9hf4AV
+         fk+g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1734087206; x=1734692006;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=yf+WwbETet8e5i96HNJic3txU9PUcKXniPQhzUEgHIM=;
+        b=hIEWvFuRFtugV27VyjwKweHpxh7OjHAmuem9k0fRVRO9tHXqSuZpr7Mkc9GGIp9RdE
+         +DMZDp/HiQ3YK/RuB9o8591OywxpJsjnevdB7Eq1Be95XqgAA51bUQfaSPRFxPLeYIgG
+         lBUS823NhDQnj5YcivpxI+eECETsWOGWgzAogyI5ZwGCRIwm5uCxtaiEmyOALdPwbYTh
+         OI/ec7R+vi+Eu/rz+KLses5p1uLuLEI/lMGjhHd1wQXwrzPb8OX+xsVMZ1I/ALlufbKj
+         /8Rx1ndiMcKDDNnpTOJzaFbp5MyHup5vp9q3T3pEP9YclLu5LdxWIqj9YVBVTUA9LiE3
+         Q2CA==
+X-Forwarded-Encrypted: i=1; AJvYcCVbbhJ8w9ttccT9rkDRUylQ8yESSa8FBXt8KRy3vQrkR1F5Gy2fnULqivD3j+Tlh//k3VsoF8LN1i7aYplQ@lists.linux.dev
+X-Gm-Message-State: AOJu0YymZ0jZZ4+u5ZaVwWQeitWz9JFHABtfWI7rihCKuxh4RkAoKJms
+	TcTLVqeIb95beCRTBeWewL2hbP7R5+0lkyQ9qKotFEAgHVVeLVE2
+X-Gm-Gg: ASbGnctOvDQ26OMcPPzg+jEx2p2EI6uHBLCwmv68Je9+W1G6U/+K7nSP1UJuK7RlnSb
+	i75DbFi7mfypZuSnA4/C6fXF8nCobdsHZzaSB+jkolXxTaQwsWYZ0Rv7vPUr4bHT81FRBf+yyC0
+	T+HEG38+zs9NaDINhrlRr9YxPShDoDMk3J9zBnoKTEfWo09nXq0SaJxT8bR7PwmV0c8MmpnbD1H
+	rZZyXGhbAagtc285h4hSk3fktgJOUbh0eCyRtFUAcsmVjWrLILg/xRSPWJcEhFBTwESOosT
+X-Google-Smtp-Source: AGHT+IF7wpcLBiHevBCqFWuwzVTAWqMl+5sNE/JupCPWSPoBAsIudx1Jcm4rfZoivatzYHnZakf6UQ==
+X-Received: by 2002:a05:600c:4e01:b0:434:a202:7a0d with SMTP id 5b1f17b1804b1-4362aa94055mr12963585e9.22.1734087206038;
+        Fri, 13 Dec 2024 02:53:26 -0800 (PST)
+Received: from egonzo (82-64-73-52.subs.proxad.net. [82.64.73.52])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43625706588sm46607105e9.29.2024.12.13.02.53.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 13 Dec 2024 02:53:25 -0800 (PST)
+Date: Fri, 13 Dec 2024 11:53:23 +0100
+From: Dave Penkler <dpenkler@gmail.com>
+To: Guenter Roeck <linux@roeck-us.net>
+Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org, dan.carpenter@linaro.org,
+	geert@linux-m68k.org, arnd@kernel.org
+Subject: Re: [PATCH v6] staging: gpib: Fix i386 build issue
+Message-ID: <Z1wSIzBOZu4gUJhv@egonzo>
+References: <20241211164452.27464-1-dpenkler@gmail.com>
+ <670d63a3-6b20-41a3-a4db-96b407b80202@roeck-us.net>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/3] fbdev: Fix recursive dependencies wrt
- BACKLIGHT_CLASS_DEVICE
-To: Christophe Leroy <christophe.leroy@csgroup.eu>, javierm@redhat.com,
- arnd@arndb.de, deller@gmx.de, simona@ffwll.ch, airlied@gmail.com
-Cc: dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
- linux-staging@lists.linux.dev, linuxppc-dev@lists.ozlabs.org
-References: <20241212100636.45875-1-tzimmermann@suse.de>
- <20241212100636.45875-2-tzimmermann@suse.de>
- <8403f989-c1de-48c9-ab48-83c1abb9e6f2@csgroup.eu>
- <5484d576-d63e-4166-85ea-0b508b0cb865@suse.de>
- <1248a2b6-71b0-4909-917f-a5605415a816@csgroup.eu>
- <690acce6-3e57-4731-9949-f8bb06d9cb58@suse.de>
- <941b3560-6572-476b-9e9f-c0a6df3e9ff4@csgroup.eu>
-Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <941b3560-6572-476b-9e9f-c0a6df3e9ff4@csgroup.eu>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: 4AE222115C
-X-Spam-Score: -4.51
-X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-4.51 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com,gmx.de];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	FREEMAIL_TO(0.00)[csgroup.eu,redhat.com,arndb.de,gmx.de,ffwll.ch,gmail.com];
-	ARC_NA(0.00)[];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_TRACE(0.00)[suse.de:+];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	RCPT_COUNT_SEVEN(0.00)[10];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:dkim,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo]
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spam-Flag: NO
-X-Spam-Level: 
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <670d63a3-6b20-41a3-a4db-96b407b80202@roeck-us.net>
 
-Hi
+On Wed, Dec 11, 2024 at 11:42:36AM -0800, Guenter Roeck wrote:
+> On 12/11/24 08:44, Dave Penkler wrote:
+> > These drivers cast resource_type_t to void * causing the build to fail.
+> > 
+> > With a 32 bit build and PHYS_ADDR_T_64BIT enabled the resource_size_t
+> > type is a 64bit unsigned int which cannot be cast to a 32 bit pointer.
+> > 
+> > Disable these drivers if not 64BIT and PHYS_ADDR_T_64BIT are configured.
+> > 
+> > Link: https://lore.kernel.org/linux-staging/2c6c7e9d-ca10-47a9-82a7-a2e26b1f51ef@roeck-us.net/
+> > Reported-by: Guenter Roeck <linux@roeck-us.net>
+> > Closes: https://lore.kernel.org/all/f10e976e-7a04-4454-b38d-39cd18f142da@roeck-us.net/
+> > Fixes: e9dc69956d4d ("staging: gpib: Add Computer Boards GPIB driver")
+> > Fixes: e1339245eba3 ("staging: gpib: Add Computer Equipment Corporation GPIB driver")
+> > Fixes: bb1bd92fa0f2 ("staging: gpib: Add ines GPIB driver")
+> > Fixes: 0cd5b05551e0 ("staging: gpib: Add TNT4882 chip based GPIB driver")
+> > Signed-off-by: Dave Penkler <dpenkler@gmail.com>
+> 
+> Tested-by: Guenter Roeck <linux@roeck-us.net>
+> 
+> Guenter
+> 
+Hi Guenter,
+These nice patches from Arnd fix the i386 build issue without having applied 
+my v6 patch:
+Link: https://lore.kernel.org/linux-staging/20241213064959.1045243-1-arnd@kernel.org/
 
+I tested only 
+make ARCH=i386 allmodconfig
+make ARCH=i386 M=drivers/staging/gpib
 
-Am 13.12.24 um 11:15 schrieb Christophe Leroy:
->
->
-> Le 13/12/2024 à 09:41, Thomas Zimmermann a écrit :
->> Hi
->>
->>
->> Am 13.12.24 um 09:33 schrieb Christophe Leroy:
->>>
->>>>
->>>> The attached patch selects backlight support in the defconfigs that 
->>>> also have PMAC_BACKLIGHT=y. Can you please apply it on top of the 
->>>> patchset and report on the results?
->>>>
->>>
->>> That works for the defconfig but it is still possible to change 
->>> CONFIG_BACKLIGHT_CLASS_DEVICE manually.
->>>
->>> If it is necessary for PMAC_BACKLIGHT then it shouldn't be possible 
->>> to deselect it.
->>
->> Here's another patch that make it depend on BACKLIGHT_CLASS_DEVICE=y. 
->> Can you please try this as well?
->
-> That looks good, no build failure anymore with BACKLIGHT_CLASS_DEVICE=m
-
-Great, I'll add this change to the next iteration.
-
-Best regards
-Thomas
-
--- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstrasse 146, 90461 Nuernberg, Germany
-GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
-HRB 36809 (AG Nuernberg)
-
+-Dave
