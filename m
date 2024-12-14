@@ -1,79 +1,63 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C70AEC0;
-	Sat, 14 Dec 2024 14:35:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0115193425;
+	Sat, 14 Dec 2024 17:39:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734186914; cv=none; b=WzJVGj1IDChya+WNNXMUylcI1wLBq6JTs0w23ALiiN4vxv+E90XxglaKDG72O44uOla1WvlF+cdgfB36MXhNmXd49r4g9MBEGJBX/fJYoxfyvpAMEdiY3MyvBlmgc8Iso7HSWxaIVdxo7rzUfa+A+HJQD10g3YWfYFMS/+eYk8A=
+	t=1734197945; cv=none; b=CSphc3vJ/4U2aPJ3MDeobwE/AqrSHhycn4jZBf4EHLCs8TT7xmAUFRwGA0AynvA6e5ydGrUq0JOLw9OfpxpvD/TQsuJQYksYIlDw8ytsQarHIDgncETGRc0tZE7eWv4K5FoBP6Js5Ra3vftVDeKOgjmbx4Z8129WfEZ61EQXzq0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734186914; c=relaxed/simple;
-	bh=UVxnbUO8JX+rjSTQQp+2gGGKnFIJqpZ4zXzIXYk4nh4=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=GxCS26s/gx7bNz9SzPufbrsLHoLPgyFh596xPouX+OJ/YoLa6UepYUSKJGRxfwrE4PuHmPer6azPbbq+NBjOia/bX/2ax1IdYhJHKh/keCtSR3Vtr7+3yvgwTHeeoJlEPqx3LWub8BrHyjM+NQvtraee0dpDSQiBPsqBgCtTXsU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=nvTkvjat; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1734197945; c=relaxed/simple;
+	bh=rB4PmbjB781kMTe5m3If/2B8I5tqZVX+vIzbEpHICxA=;
+	h=Subject:From:In-Reply-To:References:Message-Id:Date:To:Cc; b=WIck81Ju6war1ybFct4/4G0wTqZ9bE+Cd213M9LHeAzJ4fU6vBCITmMJhHSzi73pXWvJzqku7yfKp1RsAq/CCIXegiQMSfwYH67pNgbB3s6jpQRcJod8WRpAsp2Wb9mL7PMOACjUAFffLQsI+MihziON0YFcXmWKOEsYsLA9pAc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=T7bj6uDq; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="nvTkvjat"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B6A9DC4CED1;
-	Sat, 14 Dec 2024 14:35:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1734186914;
-	bh=UVxnbUO8JX+rjSTQQp+2gGGKnFIJqpZ4zXzIXYk4nh4=;
-	h=Date:From:To:Cc:Subject:From;
-	b=nvTkvjat/r3TDS1Oz7nZDU0kFmKCJL8pDudugPQKa6wqlDjjZ0MOPjRN2qQO/+EaN
-	 uHis1iq5ArlztdePC+qSa9MwbeiYGV2gvbzFvv5U1KwkKqA48nrbxr8yPZ+grZFsMl
-	 PvQXedQFgookc9IJg7t4tFLxVEqhKdLQtssaOuZU=
-Date: Sat, 14 Dec 2024 15:35:10 +0100
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Linus Torvalds <torvalds@linux-foundation.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Stephen Rothwell <sfr@canb.auug.org.au>
-Cc: linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
-Subject: [GIT PULL] Staging driver fixes for 6.13-rc3
-Message-ID: <Z12XnpkeQSJZoClu@kroah.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="T7bj6uDq"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 56B8AC4CED1;
+	Sat, 14 Dec 2024 17:39:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1734197945;
+	bh=rB4PmbjB781kMTe5m3If/2B8I5tqZVX+vIzbEpHICxA=;
+	h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
+	b=T7bj6uDqbfNPbonjmYZFa/6bDzTd5p/DA8sU7QV1NuTN08g4CQD+0wgzaFrowBPop
+	 +VL94LjHT/DVGpKihSkgso+N4hszrO3PmQZn3pwXaYYpcpriShQp8xQuYPL35i7xxT
+	 PXMmABpqp5I8pmrWKAgUDknrgZI+YfB26pL75HVpkfPWD2iE2GlkVhHOnEbk+BAhXd
+	 WQ60atouGEQQkElkisWZbI4XNsJni4Feh4rkwq2t9TosJI1qAxHhydlKbeKZYeujv7
+	 7pTg/EO+v72YdLFsAQUc2tUdoO1z/8qHrrO3WTMaPKgbGiCi+WV14IFHzjTfubXWVX
+	 EloK6tGI+wGag==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 34AC3380A959;
+	Sat, 14 Dec 2024 17:39:23 +0000 (UTC)
+Subject: Re: [GIT PULL] Staging driver fixes for 6.13-rc3
+From: pr-tracker-bot@kernel.org
+In-Reply-To: <Z12XnpkeQSJZoClu@kroah.com>
+References: <Z12XnpkeQSJZoClu@kroah.com>
+X-PR-Tracked-List-Id: <linux-staging.lists.linux.dev>
+X-PR-Tracked-Message-Id: <Z12XnpkeQSJZoClu@kroah.com>
+X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git tags/staging-6.13-rc3
+X-PR-Tracked-Commit-Id: 48e8a8160dba523af7074e668b2a458250838a3d
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: 3de4f6d919195678fa400c4da2bb5fda4a124632
+Message-Id: <173419796185.3365831.8418692257563485289.pr-tracker-bot@kernel.org>
+Date: Sat, 14 Dec 2024 17:39:21 +0000
+To: Greg KH <gregkh@linuxfoundation.org>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>, Andrew Morton <akpm@linux-foundation.org>, Stephen Rothwell <sfr@canb.auug.org.au>, linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
 
-The following changes since commit cdd30ebb1b9f36159d66f088b61aee264e649d7a:
+The pull request you sent on Sat, 14 Dec 2024 15:35:10 +0100:
 
-  module: Convert symbol namespace to string literal (2024-12-02 11:34:44 -0800)
+> git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git tags/staging-6.13-rc3
 
-are available in the Git repository at:
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/3de4f6d919195678fa400c4da2bb5fda4a124632
 
-  git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git tags/staging-6.13-rc3
+Thank you!
 
-for you to fetch changes up to 48e8a8160dba523af7074e668b2a458250838a3d:
-
-  staging: gpib: Fix i386 build issue (2024-12-04 17:29:20 +0100)
-
-----------------------------------------------------------------
-Staging driver fixes for 6.13-rc3
-
-Here are some small staging gpib driver build and bugfixes for issues
-that have been much-reported (should finally fix Guenter's build
-issues).  There are more of these coming in later -rc releases, but for
-now this should fix the majority of the reported problems.
-
-All of these have been in linux-next for a while with no reported
-issues.
-
-Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-
-----------------------------------------------------------------
-Dave Penkler (3):
-      staging: gpib: Workaround for ppc build failure
-      staging: gpib: Fix faulty workaround for assignment in if
-      staging: gpib: Fix i386 build issue
-
-Nathan Chancellor (1):
-      staging: gpib: Make GPIB_NI_PCI_ISA depend on HAS_IOPORT
-
- drivers/staging/gpib/Kconfig                       | 7 ++++++-
- drivers/staging/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c | 2 +-
- 2 files changed, 7 insertions(+), 2 deletions(-)
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/prtracker.html
