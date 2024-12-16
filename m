@@ -1,168 +1,81 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 769C01F7548
-	for <linux-staging@lists.linux.dev>; Mon, 16 Dec 2024 07:45:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26C6C1FFC64;
+	Mon, 16 Dec 2024 07:59:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734335105; cv=none; b=tHcPM7dHZhBm7zuPZflErXUiFN/Sf3E/jd+EGVw81YUEst/mNRuS5j6mW0a6VZrf69UrvPqUIJP5b9i4yDs6QXL10UojA2t+pmWugBfI97hYOL7w54UEH6P/QZbE/GsaHlRKrWsmuMmz+6h8NiLWbIvYfKAsgmpnggG+0F/qjaw=
+	t=1734335965; cv=none; b=BMZxW2WrclYLy32iZcg5UOVLi52Ree1x7nNvG3h6caqdXoLBT5BvB+ZWA2BsjynTwAkbyrT9j9YB4lTP3830BUFR1WMbJYAgzEBqx1zXPfz4YerRwEzLiGcqXiqTaam9b6DWDrc8d3ucjVp4z67KsnzUxYqArsD7RP9DO6Ffh5c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734335105; c=relaxed/simple;
-	bh=7uTJ0FCbAuSF44PipioUkFizPMW1Qptr38vs0++S4DE=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=p4vB/O7DRKddHVaKiZf7igfrg0yUuygd8Kb1BXlo1RYu9pKNbhNJPVFapetRswKwnQdoL65yqC+QpELAYcBGtrHDk3ov5SVQA472YdGp1VJ9hdXhdd1pPc/IO6CAgtOqW0O0rjc/MFYWwHUDgOLUIUdMiIJUo01Lid3KMMqQ1aA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=m/p2ltQU; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=3nz2fXgx; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=m/p2ltQU; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=3nz2fXgx; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1734335965; c=relaxed/simple;
+	bh=ZJxNjYJAcQD7xS3URzocfolx7l6/wY5FbnRznSfHSbM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=m2GczZo8OiOUQ/H1VhbhrmeWDWYGHFWuW8r3lABOmQXFZd+AkYgPBpNdm+nEIaYuNrA8Xtl7ZNnFlaciQ9a+ZvcO6xmDzeUTtlJcIwv1uBrcDLBluj3AflsqYKmfdibhq6ZS+PuwI0ytKyClTvrkDM2xYsSC466NJsiOm7N+c8I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=qPP1Jvt2; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="m/p2ltQU";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="3nz2fXgx";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="m/p2ltQU";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="3nz2fXgx"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id AE3201F441;
-	Mon, 16 Dec 2024 07:45:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1734335101; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ErN9wcGBgiB6JprkFXTrxRToJxKIiYBt8gCDJYKfCZU=;
-	b=m/p2ltQU07FOSRB/0oMKIbbKi0qbzJtaRXnTmnrjKmzo91ghJsUWwrxWX37v+aFW9fAbr5
-	cNp5+8gyWon33wVe5J7wtlGzhgaR9d6t1Z2kJGJUAMQr8jbjzsqIeNL6AedHp7kxcL+WVh
-	dCZGJHMOscWUC/sMLkGk94CqgLljSvw=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1734335101;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ErN9wcGBgiB6JprkFXTrxRToJxKIiYBt8gCDJYKfCZU=;
-	b=3nz2fXgxmUgckT/dc1Y+F2wHfc+aBr5cjtyriaVo3Zo5anrzSfvl7SkJO5+DYXfFitEeMN
-	l/sjuB4LUD6ZzWAw==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1734335101; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ErN9wcGBgiB6JprkFXTrxRToJxKIiYBt8gCDJYKfCZU=;
-	b=m/p2ltQU07FOSRB/0oMKIbbKi0qbzJtaRXnTmnrjKmzo91ghJsUWwrxWX37v+aFW9fAbr5
-	cNp5+8gyWon33wVe5J7wtlGzhgaR9d6t1Z2kJGJUAMQr8jbjzsqIeNL6AedHp7kxcL+WVh
-	dCZGJHMOscWUC/sMLkGk94CqgLljSvw=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1734335101;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ErN9wcGBgiB6JprkFXTrxRToJxKIiYBt8gCDJYKfCZU=;
-	b=3nz2fXgxmUgckT/dc1Y+F2wHfc+aBr5cjtyriaVo3Zo5anrzSfvl7SkJO5+DYXfFitEeMN
-	l/sjuB4LUD6ZzWAw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 5F63313A62;
-	Mon, 16 Dec 2024 07:45:01 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id EOoXFn3aX2egZAAAD6G6ig
-	(envelope-from <tzimmermann@suse.de>); Mon, 16 Dec 2024 07:45:01 +0000
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: javierm@redhat.com,
-	arnd@arndb.de,
-	deller@gmx.de,
-	jani.nikula@linux.intel.com,
-	christophe.leroy@csgroup.eu,
-	simona@ffwll.ch,
-	airlied@gmail.com
-Cc: dri-devel@lists.freedesktop.org,
-	linux-fbdev@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linuxppc-dev@lists.ozlabs.org,
-	Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH v3 3/3] drm: rework FB_CORE dependency
-Date: Mon, 16 Dec 2024 08:42:49 +0100
-Message-ID: <20241216074450.8590-4-tzimmermann@suse.de>
-X-Mailer: git-send-email 2.47.1
-In-Reply-To: <20241216074450.8590-1-tzimmermann@suse.de>
-References: <20241216074450.8590-1-tzimmermann@suse.de>
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="qPP1Jvt2"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 36EA9C4CED0;
+	Mon, 16 Dec 2024 07:59:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1734335964;
+	bh=ZJxNjYJAcQD7xS3URzocfolx7l6/wY5FbnRznSfHSbM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=qPP1Jvt2P2WRPO9pHj6MaXW6ne68Z26NLkPJlqbgit6WZGxlJ5ub3iDqGGKgmDILz
+	 kV/YpocLyjHX/pQoXSTN+3UCIgtigrooTcLTN1x4JVwDfSLmoH+LYv3qDii/91/LYJ
+	 1PD3g3w95iq0VV/O8tHZmn3sYW0j8y0YKztRsEk0=
+Date: Mon, 16 Dec 2024 08:58:44 +0100
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Guenter Roeck <linux@roeck-us.net>
+Cc: Dave Penkler <dpenkler@gmail.com>, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org, sfr@canb.auug.org.au
+Subject: Re: [PATCH] staging: gpib: Workaround for ppc build failure
+Message-ID: <2024121622-sensitive-curtain-7d45@gregkh>
+References: <20241204134736.6660-1-dpenkler@gmail.com>
+ <b6102c6b-693f-4237-8c0c-83c5936aab3c@roeck-us.net>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Level: 
-X-Spamd-Result: default: False [-6.80 / 50.00];
-	REPLY(-4.00)[];
-	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_MISSING_CHARSET(0.50)[];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	ARC_NA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,suse.de:mid,imap1.dmz-prg2.suse.org:helo];
-	RCPT_COUNT_TWELVE(0.00)[12];
-	MIME_TRACE(0.00)[0:+];
-	TO_DN_SOME(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_TO(0.00)[redhat.com,arndb.de,gmx.de,linux.intel.com,csgroup.eu,ffwll.ch,gmail.com];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	R_RATELIMIT(0.00)[to_ip_from(RLykjg6e7ifkwtw7jmpw7b9yio)];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com,gmx.de]
-X-Spam-Score: -6.80
-X-Spam-Flag: NO
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <b6102c6b-693f-4237-8c0c-83c5936aab3c@roeck-us.net>
 
-From: Arnd Bergmann <arnd@arndb.de>
+On Sun, Dec 15, 2024 at 03:23:55PM -0800, Guenter Roeck wrote:
+> On Wed, Dec 04, 2024 at 02:47:36PM +0100, Dave Penkler wrote:
+> > Make GPIB_FMH depend on !PPC
+> > 
+> > Reported_by: Stephen Rothwell <sfr@canb.auug.org.au>
+> > Link: https://lore.kernel.org/all/20241015165538.634707e5@canb.auug.org.au/
+> > 
+> > Signed-off-by: Dave Penkler <dpenkler@gmail.com>
+> 
+> This patch just exposes other build failures, for example
+> i386:allyesconfig or x86_64:allyesconfig.
+> 
+> Error log:
+> x86_64-linux-ld: vmlinux.o: in function `fmh_gpib_t1_delay':
+> fmh_gpib.c:(.text+0xfd49dbd): undefined reference to `nec7210_t1_delay'
+> 
+> There are many more missing functions. FWIW, I don't know how this is
+> supposed to work in the first place, since pretty much all gpib Makefiles
+> say
+> 
+> obj-m += <object file>
+> 
+> meaning they won't be built with allyesconfig. fmh_gpib is the only
+> exception with
+> 
+> obj-$(CONFIG_GPIB_FMH) += fmh_gpib.o
+> 
+> which means it _will_ be built with allyesconfig. So it is not surprising
+> that it fails to link allyesconfig builds. Actually, it will fail all builds
+> with CONFIG_GPIB_FMH=y.
 
-The 'select FB_CORE' statement moved from CONFIG_DRM to DRM_CLIENT_LIB,
-but there are now configurations that have code calling into fb_core
-as built-in even though the client_lib itself is a loadable module:
+Arnd has a patch for this that I'll be queueing up this week and getting
+to Linus also this week.
 
-x86_64-linux-ld: drivers/gpu/drm/drm_fb_helper.o: in function `drm_fb_helper_set_suspend':
-drm_fb_helper.c:(.text+0x2c6): undefined reference to `fb_set_suspend'
-x86_64-linux-ld: drivers/gpu/drm/drm_fb_helper.o: in function `drm_fb_helper_resume_worker':
-drm_fb_helper.c:(.text+0x2e1): undefined reference to `fb_set_suspend'
+thanks,
 
-In addition to DRM_CLIENT_LIB, the 'select' needs to be at least in
-DRM_KMS_HELPER and DRM_GEM_SHMEM_HELPER, so add it here.
-
-This patch is the KMS_HELPER part of [1].
-
-Fixes: dadd28d4142f ("drm/client: Add client-lib module")
-Signed-off-by: Arnd Bergmann <arnd@arndb.de>
-Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
-Link: https://patchwork.freedesktop.org/series/141411/ # 1
----
- drivers/gpu/drm/Kconfig | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
-index 55ce61a46984..2f51546b0b88 100644
---- a/drivers/gpu/drm/Kconfig
-+++ b/drivers/gpu/drm/Kconfig
-@@ -99,6 +99,7 @@ config DRM_KUNIT_TEST
- config DRM_KMS_HELPER
- 	tristate
- 	depends on DRM
-+	select FB_CORE if DRM_FBDEV_EMULATION
- 	help
- 	  CRTC helpers for KMS drivers.
- 
--- 
-2.47.1
-
+greg k-h
