@@ -1,96 +1,129 @@
-Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
+Received: from fout-a6-smtp.messagingengine.com (fout-a6-smtp.messagingengine.com [103.168.172.149])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F96D2E628;
-	Mon, 16 Dec 2024 09:11:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.158.5
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2063D433B1
+	for <linux-staging@lists.linux.dev>; Mon, 16 Dec 2024 10:13:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.149
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734340315; cv=none; b=IJkEz76JFscEjusV/XMXxGHaqFwKQDOEQH/qGn7VdsSIu3ZXn7F+WPmB2YrbVYg7UlHOr1xr48CtU7UL2Otjtymkqg5xRuGEbNa5RxcHZ6BZD3HZTt8mFWy2HHWIa34MAeEAUIfNu0SSImqMr+lhsoX+sVpQclGxZXjC4vRUpOI=
+	t=1734344001; cv=none; b=om5ri+W5qyOh1kz0l4OsIqs4YMKQ29EGlXBChBoi6Q7LI990siwTSs8RO/uS4i1G0hib8u9brZANyk1mWJR1eQ6zbS7My6LwTYAPjl/at01CIeRWc/V00nS8uHt5To/SDRIVMWmEb7YoModm0Llkm0kz81TbKwekETza4Kwvsq4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734340315; c=relaxed/simple;
-	bh=jc+ktQpe1snGAisoPsN0qsFlu6le9/TqPnUf04ohDYE=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=dUt9IhzOQZjIigNx8S/ocQv4xnmrbmJX5rWOSQgRoo7Bc6QJKKAOqE+EFpDZfGos4p+4NkUhdiF5zR6JsD9681uTerZuqgZkJWYVNi3riss94upbyScdGBTlwogcMnKyoJfau/qzZCBJCp6lBrS6k8TyUxRKTXWRi6fgqcM/c3g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=LgjlQtsF; arc=none smtp.client-ip=148.163.158.5
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
+	s=arc-20240116; t=1734344001; c=relaxed/simple;
+	bh=wivUGdcXYn6VwelfaLekmpNak5Bcy3xhV06KWiQzClA=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=UVpKag0ERHjvVSbtEetppWdGNb9QHh38rDbiu6fNrmnCMco8ad0vyjnVdj5Oy9yaIL4l3J1qljKBUa9+z/ZDY9MwwHx41aj2YMsqaEaROfyZVqldN9Qov42Gd+glhmbFzhoW1R8YP1YyZlyDRcG6PhJEN7cRaaqqPwrC/muvNAE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=E4Wy5Iut; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=qDCud6QC; arc=none smtp.client-ip=103.168.172.149
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="LgjlQtsF"
-Received: from pps.filterd (m0360072.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4BG85Um5027009;
-	Mon, 16 Dec 2024 09:11:52 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-type:date:from:message-id:mime-version:subject:to; s=
-	pp1; bh=jc+ktQpe1snGAisoPsN0qsFlu6le9/TqPnUf04ohDYE=; b=LgjlQtsF
-	uCWedpcoooVezw6YEMeSvHgzLqd9LocHH2MRUbSTRMZ7w9QACBO2I3GgqW5I/9il
-	gcgr44ZNVF2FsuX6nJF/TcHum9wzmG+STIZfKut3ClrLhGQOlG7mCcw0dkS8kuyq
-	vJMLWmWaK2jfbGBuP4w1sO53a+XgEp2Z6M2Ib2Dcem7YfjK34RhwXYVRdlaAqXbK
-	NY4zifyNvNP0t5jYAy6QfudDIG1uobDdf2HLVykLm4grP1YhVP1papB7yFZtfrOm
-	8XZ7TGxbLJigvyX+UHlCYZsJo3T0REFRfmX0wzevYQfCzcx8Q/qoumuWlr72GjAn
-	TVXbk6bAMpcxnA==
-Received: from pps.reinject (localhost [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 43jgd289fa-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 16 Dec 2024 09:11:51 +0000 (GMT)
-Received: from m0360072.ppops.net (m0360072.ppops.net [127.0.0.1])
-	by pps.reinject (8.18.0.8/8.18.0.8) with ESMTP id 4BG97mSa025745;
-	Mon, 16 Dec 2024 09:11:51 GMT
-Received: from ppma23.wdc07v.mail.ibm.com (5d.69.3da9.ip4.static.sl-reverse.com [169.61.105.93])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 43jgd289f7-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 16 Dec 2024 09:11:51 +0000 (GMT)
-Received: from pps.filterd (ppma23.wdc07v.mail.ibm.com [127.0.0.1])
-	by ppma23.wdc07v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 4BG56cqV024044;
-	Mon, 16 Dec 2024 09:11:50 GMT
-Received: from smtprelay04.fra02v.mail.ibm.com ([9.218.2.228])
-	by ppma23.wdc07v.mail.ibm.com (PPS) with ESMTPS id 43hnuk54c8-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 16 Dec 2024 09:11:50 +0000
-Received: from smtpav01.fra02v.mail.ibm.com (smtpav01.fra02v.mail.ibm.com [10.20.54.100])
-	by smtprelay04.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 4BG9BmiQ29295160
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Mon, 16 Dec 2024 09:11:49 GMT
-Received: from smtpav01.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id D4BBF2004D;
-	Mon, 16 Dec 2024 09:11:48 +0000 (GMT)
-Received: from smtpav01.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 1C4AB20040;
-	Mon, 16 Dec 2024 09:11:48 +0000 (GMT)
-Received: from li-008a6a4c-3549-11b2-a85c-c5cc2836eea2.ibm.com (unknown [9.179.5.32])
-	by smtpav01.fra02v.mail.ibm.com (Postfix) with ESMTPS;
-	Mon, 16 Dec 2024 09:11:48 +0000 (GMT)
-Date: Mon, 16 Dec 2024 10:11:46 +0100
-From: Alexander Gordeev <agordeev@linux.ibm.com>
-To: Dave Penkler <dpenkler@gmail.com>
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-        linux-s390@vger.kernel.org,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: GPIB build failures
-Message-ID: <Z1/u0u9Nu4aEHA5h@li-008a6a4c-3549-11b2-a85c-c5cc2836eea2.ibm.com>
+	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="E4Wy5Iut";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="qDCud6QC"
+Received: from phl-compute-10.internal (phl-compute-10.phl.internal [10.202.2.50])
+	by mailfout.phl.internal (Postfix) with ESMTP id 26BA91383AB0;
+	Mon, 16 Dec 2024 05:13:18 -0500 (EST)
+Received: from phl-imap-11 ([10.202.2.101])
+  by phl-compute-10.internal (MEProxy); Mon, 16 Dec 2024 05:13:18 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+	:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm1; t=1734343998;
+	 x=1734430398; bh=wivUGdcXYn6VwelfaLekmpNak5Bcy3xhV06KWiQzClA=; b=
+	E4Wy5IutbDxBHk8+mFIuN+1AMbV4u7yWjqcjs/ohVZLVVAHXszEUEfWI3EsvKgD4
+	uGHO1ky7A2JnKY2b5V/o9gedVq3mfvmB0O8n/hZ9Zdp6sjQsjJ0Ss/M3xVECN9Y2
+	285OVJ2qtUIguSLeU1h+ZUU/0jzDa2LhbSBGEWhfrYt//H/yqE4YoxhEepgVE6Te
+	gNB7/czcXQQcRG1Vxod/itgte84EX/Q50lRxM6pbOhkBoOGrrtMn61f5hcZb2CT/
+	pxYTDGtgm6ItwrkMC6ymMSxThAJ8e9LXE6jI2YFP6qlw9dU2yn4dzM10/fS9bSAM
+	kdE7SyinUJAW3+lsJ47EdA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1734343998; x=
+	1734430398; bh=wivUGdcXYn6VwelfaLekmpNak5Bcy3xhV06KWiQzClA=; b=q
+	DCud6QCp0V1iCaJmCs2gPw/rtFX7/5LQjHdNzXb950CIQJV2tBHWlSTERH+wu5mU
+	OcvaV78TQd0hdsZM555o6WkvKoVqP/ThqsQ5QxDAJmiS0GiDXkPrQmva0u9BYBWJ
+	hOP9ulZksMG4v43kVrklzDxoEllOTLJFKOdL3SFyLL0UqZBJ4WK/qYX+i9w0oZRf
+	Q+cO07omolM2Kd2chyN+Seph2Kh1dWLA1dU+ybfR9BhQjBUEF2I4IQk8ysq+CHQP
+	KXMuytkmU+Fs8vuZprFplJNUjlBIZLud0IFNOTjYeMd58fGjiSlvdG3w25P2Wih6
+	Ak7fL31c0qlMcGiu8+1LA==
+X-ME-Sender: <xms:Pf1fZwQL3IFh4yAdP0IZXTOYWupixVQKRIR2VXACtF0FIwMKs2bbnw>
+    <xme:Pf1fZ9xkPOTDIun49Y_r06EpTBwZraZgBdfcPadFOjHKiCOZrw5Mvrr9hLtoeI0-O
+    qduH0dY9WYQkb8KUtk>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefuddrleefgddufecutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdpuffr
+    tefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnth
+    hsucdlqddutddtmdenucfjughrpefoggffhffvvefkjghfufgtgfesthejredtredttden
+    ucfhrhhomhepfdetrhhnugcuuegvrhhgmhgrnhhnfdcuoegrrhhnugesrghrnhgusgdrug
+    gvqeenucggtffrrghtthgvrhhnpefhtdfhvddtfeehudekteeggffghfejgeegteefgffg
+    vedugeduveelvdekhfdvieenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmh
+    grihhlfhhrohhmpegrrhhnugesrghrnhgusgdruggvpdhnsggprhgtphhtthhopeduuddp
+    mhhouggvpehsmhhtphhouhhtpdhrtghpthhtoheptghhrhhishhtohhphhgvrdhlvghroh
+    ihsegtshhgrhhouhhprdgvuhdprhgtphhtthhopehsihhmohhnrgesfhhffihllhdrtghh
+    pdhrtghpthhtoheprghirhhlihgvugesghhmrghilhdrtghomhdprhgtphhtthhopeguvg
+    hllhgvrhesghhmgidruggvpdhrtghpthhtohepjhgrnhhirdhnihhkuhhlrgeslhhinhhu
+    gidrihhnthgvlhdrtghomhdprhgtphhtthhopegurhhiqdguvghvvghlsehlihhsthhsrd
+    hfrhgvvgguvghskhhtohhprdhorhhgpdhrtghpthhtoheplhhinhhugidqshhtrghgihhn
+    gheslhhishhtshdrlhhinhhugidruggvvhdprhgtphhtthhopehlihhnuhigphhptgdqug
+    gvvheslhhishhtshdrohiilhgrsghsrdhorhhgpdhrtghpthhtohepjhgrvhhivghrmhes
+    rhgvughhrghtrdgtohhm
+X-ME-Proxy: <xmx:Pf1fZ93xhCqySX7gHNrptVHxhMGCe3rk4EOLDa7frWmCUGYK_WrnNQ>
+    <xmx:Pf1fZ0D1hm5-bVL5XAY4NjKbP6tXldx00oItEU-lMwIamAYLcIOwQw>
+    <xmx:Pf1fZ5iwESOtKK7P3N9JqntnJqIadOwfNE_dBBE1NGPtU5ub9ty3eA>
+    <xmx:Pf1fZwpdN_CUM20AQx7drnZuBhUmFQoV_uy_M_QXfCL0YxMag_ob-g>
+    <xmx:Pv1fZ-aYJaDSAZC-h4tgh1CAopr3btq1o-_2Lt81K2X-t6HIex-fugaU>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id 52B3A2220072; Mon, 16 Dec 2024 05:13:17 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: n7FPiz6nEczHTxmAXZPgqfP8F6fAcdDe
-X-Proofpoint-GUID: swZOic95wKZ-YcZEdGzI69jv_opTL1sv
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1051,Hydra:6.0.680,FMLib:17.12.62.30
- definitions=2024-10-15_01,2024-10-11_01,2024-09-30_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 spamscore=0 bulkscore=0
- suspectscore=0 lowpriorityscore=0 adultscore=0 clxscore=1011
- mlxlogscore=588 priorityscore=1501 malwarescore=0 impostorscore=0
- mlxscore=0 phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2411120000 definitions=main-2412160074
+Date: Mon, 16 Dec 2024 11:12:32 +0100
+From: "Arnd Bergmann" <arnd@arndb.de>
+To: "Thomas Zimmermann" <tzimmermann@suse.de>,
+ "Javier Martinez Canillas" <javierm@redhat.com>,
+ "Helge Deller" <deller@gmx.de>, "Jani Nikula" <jani.nikula@linux.intel.com>,
+ "Christophe Leroy" <christophe.leroy@csgroup.eu>,
+ "Simona Vetter" <simona@ffwll.ch>, "Dave Airlie" <airlied@gmail.com>
+Cc: dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
+ linux-staging@lists.linux.dev, linuxppc-dev@lists.ozlabs.org
+Message-Id: <1dcda6ee-dc0f-4d2e-b234-6f03b5637d01@app.fastmail.com>
+In-Reply-To: <20241216074450.8590-1-tzimmermann@suse.de>
+References: <20241216074450.8590-1-tzimmermann@suse.de>
+Subject: Re: [PATCH v3 0/3] drm,fbdev: Fix module dependencies
+Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
 
-Hi Dave,
+On Mon, Dec 16, 2024, at 08:42, Thomas Zimmermann wrote:
+> Fix the dependencies among the various graphics modules.
+>
+> Before addressing the FB_CORE issue, patch 1 first resolves a problem
+> with BACKLIGHT_CLASS_DEVICE. A number of fbdev drivers select it, which
+> results in a recursive-dependency error after patch has been applied.
+> Making these drivers (or parts of them) depend on BACKLIGHT_CLASS_DEVICE
+> fixes this.
+>
+> Patch 2 selects FB_CORE for DRM_GEM_DMA_HELPER and DRM_TTM_HELPER.
+> This is necessary with the recently added DRM client library.
+>
+> Patch 3 is the second half of the patch provided by Arnd at [1]. It
+> could not yet be merged because of the issues fixed by patch 1.
+>
+> Side note: For the majority of graphics drivers, backlight functionality
+> depends on BACKLIGHT_CLASS_DEVICE. In a few cases drivers select the
+> Kconfig token automatically. These drivers should be updated to depend
+> on the token as well, such that backlight functionality is fully user-
+> controlled.
+>
+> v3:
+> - Fix PMAC_BACKLIGHT case (Christophe)
+> v2:
 
-Drivers in drivers/staging/gpib/ cause multiple build errors (I guess not only)
-on s390, when allyesconfig configuration is used. Please, let me know if I am
-missing something.
+The patches look good to me. I've had a slightly different version
+in my randconfig test tree and have replaced it with yours now
+to do some more regression testing, but I expect this to be fine.
 
-Thanks!
+Reviewed-by: Arnd Bergmann <arnd@arndb.de>
