@@ -1,108 +1,164 @@
-Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1CB71EEF9
-	for <linux-staging@lists.linux.dev>; Sun, 15 Dec 2024 23:23:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 239CB1F709A
+	for <linux-staging@lists.linux.dev>; Mon, 16 Dec 2024 07:45:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734305040; cv=none; b=YPcYpT/2nKq29QkxxuCq/yEJt0rvdB66cwUxfFlLWYb4Ded+M1N/cBCbapZ6BBvH+WQ/rLZbdyAQRfYYvzHvSriWUu/Yp4K6DeWGSrsvyW8YmqaYRiNhJmymOJu+VC4KOz/oA7tp2A5b8s/0NJORSGqBeWQACvmHsff0vSiyIlE=
+	t=1734335103; cv=none; b=A1Qu1lTV+aIzd5IvXHC0gaqLQKh4kt3BREsJzbZaYWwD5As1OgYXcODzSF3JP4YslEzqZVf9V1q1rqKQWPY5ooeIOd3ooIMPwixBHUXldKMniyigobNJEywviR8Uxugxf9oc0+vGi7mdr7Oddb69iFfS+riMB2YHlng2t2sEHWk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734305040; c=relaxed/simple;
-	bh=h0FYrYATPQdlmulxPGcmaER2U5+TMtyT0/7oQz10eZM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CQDe4taBadSqWcuo+2eP0p5K44X6aH+az0tx53iplbsmhI1WmI/WWwEQNTXhWR0cTw9z19QG/C9e/6mfvixrqEJCdw5eDtAqxXchFpa+ogLWLPRxdVRf8V0nj3SRpnTg69PyrwXixgQW2/smmWYfzUbynneeVwQMYQyGSlh0IQw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gQMt10AN; arc=none smtp.client-ip=209.85.214.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1734335103; c=relaxed/simple;
+	bh=jKX3AXY1BmQvmE0Q4NoVN9fOhrPT+EPZMh/TVDIq1LY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=PO/JdK2Osvjs3fWhsKKZYUBp71ACbCMYbTyQNe9Dmkh/c+3ZgMpH1TFH96koG2jgQ7dYUtlDJaOIEr8Us3Q5DcN/5NANTq0oqFGCcD5C8f2fK/+J9xa/VkEXhF4kHWPnD/S52NeGRg6Bp2yWvuOGxSlTmzwQI7zk5/6Uwm3EnwA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Okj3ZMHN; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=WzKNXkba; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Okj3ZMHN; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=WzKNXkba; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gQMt10AN"
-Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-2166360285dso29244085ad.1
-        for <linux-staging@lists.linux.dev>; Sun, 15 Dec 2024 15:23:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1734305038; x=1734909838; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=nWWZuxEzXqbDg7/DsXgrSxhRT6PifOagMeAUD/7eOt0=;
-        b=gQMt10ANX94NcdqmzkML7HYSjxzAWUPk8tzEXifpC9AOrI517UcypUi89aGz3V+I60
-         DsWDeGO+5+lrwszU+NaG3uHz1Xha8WVMXyooo8nVkejFODERFgkgPt3Twzbbvfwmne0G
-         w1FaUDDhBy6BTmv2eJ5O3Brw60FWCJP9NpjnlZAtuEuIBJpo5+Ey/WSEOFpvXa9Ly8rp
-         8vUerjAuK8jZbH+KSuSDF8GoLYNqiTCxDSWEoFTT+9wGYvMGwHqIJo2Pw3OjOfjygcUd
-         /LKlrGUsjrKB85UdcdRTquHAJjrfHT7SPACCfGyJPF1/SWj1j8BLSUW4XxAIg/LQ9GQb
-         ah2g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1734305038; x=1734909838;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=nWWZuxEzXqbDg7/DsXgrSxhRT6PifOagMeAUD/7eOt0=;
-        b=T00bd2+nWrZvLX8i8yfQbc6GWhNi5cHxOa9psv5x5JmSHSP5dDxcmRmBn4VZlhcf3G
-         2EylNUb1jC2FUfAwAFXd8I08uYT2NjFIEh2JHUeOHJ8IJUldL5+ysbem+8mhWeyy0w8e
-         IWDWtndKkgvHx0nf+L56/ynL9kRgRIcFfgL0IC1WLZ1SYfNySJS6sWL6CIRfiPQp+uvi
-         pEgiT7kw19IKPXY8kr5XbWjhvq/s8rxXcpvbF5JehWHi8sGHS0yUowfY+Yn7EWu5o22n
-         k5LSGBN0by5io0YzaOxbpbcKPaTWCKrH8qGNym51OXLM8q5fW44jo2Owjlq49AY5h67M
-         K73g==
-X-Forwarded-Encrypted: i=1; AJvYcCUie3Bpvmp6m0FyVS4huhh9fq/rRzb1GqffG14k44gQ33f7Z+ygxrgfkVZzcgTQO0fsCWeQ3mutWumDroWa@lists.linux.dev
-X-Gm-Message-State: AOJu0Yxbz+bLZS88m3Za9U6AV6rNBtJyRFDuIxxXw+FMAD36tYFasFgf
-	x0EsoCokK7+x8u2ntcYq2loTaZR0VuowVfwafgKqfS5m5kbDclNO
-X-Gm-Gg: ASbGncs1idGWJJoNhlnv9Nzm819Zy8K1H9eZ4Ns44tU4XA9/WXc3XVUAAIiWv+QgLbB
-	YG9y36snXjAzDvPXMxV7+3hkzPwVOOVvzPrI5jKhRe8AzplBlHPAsyNDJrIScUVxo8KUvPJlOqu
-	ee6Xe2qqsXlgzjBWcK+2BcninpJMjBYafsIXzAi4MYrbvDWOOZaTfCYyZaeySpvr381l2k6wUOp
-	6UiwqAI6ZxRh2beZLwEqP3t+hoWY3HFXfpyppdKqKAcxalJRFy5zbGLBX5hOaWsTkKRYg==
-X-Google-Smtp-Source: AGHT+IHcFri9lc9NhsBUklSUjNqdUKX6evC5mOSz6ro40NIxE+FHD8rBUZNEsndpRhsnA81fnoOyqA==
-X-Received: by 2002:a17:903:1c6:b0:215:b18d:ef with SMTP id d9443c01a7336-218929e8849mr147905365ad.25.1734305037965;
-        Sun, 15 Dec 2024 15:23:57 -0800 (PST)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-218a1e65461sm31001025ad.238.2024.12.15.15.23.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 15 Dec 2024 15:23:57 -0800 (PST)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Date: Sun, 15 Dec 2024 15:23:55 -0800
-From: Guenter Roeck <linux@roeck-us.net>
-To: Dave Penkler <dpenkler@gmail.com>
-Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org, sfr@canb.auug.org.au
-Subject: Re: [PATCH] staging: gpib: Workaround for ppc build failure
-Message-ID: <b6102c6b-693f-4237-8c0c-83c5936aab3c@roeck-us.net>
-References: <20241204134736.6660-1-dpenkler@gmail.com>
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Okj3ZMHN";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="WzKNXkba";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Okj3ZMHN";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="WzKNXkba"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 6C9A7211FB;
+	Mon, 16 Dec 2024 07:45:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1734335100; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=NR2odFMvBCSBarTSuL9QZZ7twh0d73aEvCeSX/f3wKk=;
+	b=Okj3ZMHNM6Li+6wpDps878NCGBMzeVck3GY5Tk2IhZu14S/9wmXf/KNrFBPGkig6Z9ZNMf
+	8wk0axdhfzBXjfz+n0TzY0vHDNWtKGcrGB98oimtlxMyhLPDzh4PiBOgu/b/rZhO6F6D2T
+	gOKNGxJgnjyLDLyWp2qaLGiUET0HQ9I=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1734335100;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=NR2odFMvBCSBarTSuL9QZZ7twh0d73aEvCeSX/f3wKk=;
+	b=WzKNXkba+1EoE226aQkH+8inEyCvYVZVYeut2y+GW00I75kVl3KzVws+gu2VwAFeniUNfA
+	Q/1fY41DBpldtCDw==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1734335100; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=NR2odFMvBCSBarTSuL9QZZ7twh0d73aEvCeSX/f3wKk=;
+	b=Okj3ZMHNM6Li+6wpDps878NCGBMzeVck3GY5Tk2IhZu14S/9wmXf/KNrFBPGkig6Z9ZNMf
+	8wk0axdhfzBXjfz+n0TzY0vHDNWtKGcrGB98oimtlxMyhLPDzh4PiBOgu/b/rZhO6F6D2T
+	gOKNGxJgnjyLDLyWp2qaLGiUET0HQ9I=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1734335100;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=NR2odFMvBCSBarTSuL9QZZ7twh0d73aEvCeSX/f3wKk=;
+	b=WzKNXkba+1EoE226aQkH+8inEyCvYVZVYeut2y+GW00I75kVl3KzVws+gu2VwAFeniUNfA
+	Q/1fY41DBpldtCDw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 1B19E13418;
+	Mon, 16 Dec 2024 07:45:00 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id J6sCBXzaX2egZAAAD6G6ig
+	(envelope-from <tzimmermann@suse.de>); Mon, 16 Dec 2024 07:45:00 +0000
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: javierm@redhat.com,
+	arnd@arndb.de,
+	deller@gmx.de,
+	jani.nikula@linux.intel.com,
+	christophe.leroy@csgroup.eu,
+	simona@ffwll.ch,
+	airlied@gmail.com
+Cc: dri-devel@lists.freedesktop.org,
+	linux-fbdev@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linuxppc-dev@lists.ozlabs.org,
+	Thomas Zimmermann <tzimmermann@suse.de>
+Subject: [PATCH v3 0/3] drm,fbdev: Fix module dependencies
+Date: Mon, 16 Dec 2024 08:42:46 +0100
+Message-ID: <20241216074450.8590-1-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.47.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241204134736.6660-1-dpenkler@gmail.com>
+Content-Transfer-Encoding: 8bit
+X-Spam-Score: -2.80
+X-Spamd-Result: default: False [-2.80 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_MISSING_CHARSET(0.50)[];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	ARC_NA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[12];
+	MIME_TRACE(0.00)[0:+];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:mid];
+	FREEMAIL_TO(0.00)[redhat.com,arndb.de,gmx.de,linux.intel.com,csgroup.eu,ffwll.ch,gmail.com];
+	RCVD_TLS_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	FROM_EQ_ENVFROM(0.00)[];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	TO_DN_SOME(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com,gmx.de]
+X-Spam-Flag: NO
+X-Spam-Level: 
 
-On Wed, Dec 04, 2024 at 02:47:36PM +0100, Dave Penkler wrote:
-> Make GPIB_FMH depend on !PPC
-> 
-> Reported_by: Stephen Rothwell <sfr@canb.auug.org.au>
-> Link: https://lore.kernel.org/all/20241015165538.634707e5@canb.auug.org.au/
-> 
-> Signed-off-by: Dave Penkler <dpenkler@gmail.com>
+Fix the dependencies among the various graphics modules.
 
-This patch just exposes other build failures, for example
-i386:allyesconfig or x86_64:allyesconfig.
+Before addressing the FB_CORE issue, patch 1 first resolves a problem
+with BACKLIGHT_CLASS_DEVICE. A number of fbdev drivers select it, which
+results in a recursive-dependency error after patch has been applied.
+Making these drivers (or parts of them) depend on BACKLIGHT_CLASS_DEVICE
+fixes this.
 
-Error log:
-x86_64-linux-ld: vmlinux.o: in function `fmh_gpib_t1_delay':
-fmh_gpib.c:(.text+0xfd49dbd): undefined reference to `nec7210_t1_delay'
+Patch 2 selects FB_CORE for DRM_GEM_DMA_HELPER and DRM_TTM_HELPER.
+This is necessary with the recently added DRM client library.
 
-There are many more missing functions. FWIW, I don't know how this is
-supposed to work in the first place, since pretty much all gpib Makefiles
-say
+Patch 3 is the second half of the patch provided by Arnd at [1]. It
+could not yet be merged because of the issues fixed by patch 1.
 
-obj-m += <object file>
+Side note: For the majority of graphics drivers, backlight functionality
+depends on BACKLIGHT_CLASS_DEVICE. In a few cases drivers select the
+Kconfig token automatically. These drivers should be updated to depend
+on the token as well, such that backlight functionality is fully user-
+controlled.
 
-meaning they won't be built with allyesconfig. fmh_gpib is the only
-exception with
+v3:
+- Fix PMAC_BACKLIGHT case (Christophe)
+v2:
+- s/BACKLIGHT_DEVICE_CLASS/BACKLIGHT_CLASS_DEVICE (Helge)
+- Fix fbdev driver-dependency corner case (Arnd)
 
-obj-$(CONFIG_GPIB_FMH) += fmh_gpib.o
+[1] https://patchwork.freedesktop.org/series/141411/
 
-which means it _will_ be built with allyesconfig. So it is not surprising
-that it fails to link allyesconfig builds. Actually, it will fail all builds
-with CONFIG_GPIB_FMH=y.
+Arnd Bergmann (1):
+  drm: rework FB_CORE dependency
 
-Guenter
+Thomas Zimmermann (2):
+  fbdev: Fix recursive dependencies wrt BACKLIGHT_CLASS_DEVICE
+  drm/fbdev: Select FB_CORE dependency for fbdev on DMA and TTM
+
+ arch/powerpc/configs/pmac32_defconfig |  1 +
+ arch/powerpc/configs/ppc6xx_defconfig |  1 +
+ drivers/auxdisplay/Kconfig            |  2 +-
+ drivers/gpu/drm/Kconfig               |  3 +++
+ drivers/macintosh/Kconfig             |  1 +
+ drivers/staging/fbtft/Kconfig         |  1 +
+ drivers/video/fbdev/Kconfig           | 18 +++++++++++++-----
+ drivers/video/fbdev/core/Kconfig      |  3 +--
+ 8 files changed, 22 insertions(+), 8 deletions(-)
+
+-- 
+2.47.1
+
