@@ -1,37 +1,72 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26C6C1FFC64;
-	Mon, 16 Dec 2024 07:59:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F96D2E628;
+	Mon, 16 Dec 2024 09:11:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.158.5
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734335965; cv=none; b=BMZxW2WrclYLy32iZcg5UOVLi52Ree1x7nNvG3h6caqdXoLBT5BvB+ZWA2BsjynTwAkbyrT9j9YB4lTP3830BUFR1WMbJYAgzEBqx1zXPfz4YerRwEzLiGcqXiqTaam9b6DWDrc8d3ucjVp4z67KsnzUxYqArsD7RP9DO6Ffh5c=
+	t=1734340315; cv=none; b=IJkEz76JFscEjusV/XMXxGHaqFwKQDOEQH/qGn7VdsSIu3ZXn7F+WPmB2YrbVYg7UlHOr1xr48CtU7UL2Otjtymkqg5xRuGEbNa5RxcHZ6BZD3HZTt8mFWy2HHWIa34MAeEAUIfNu0SSImqMr+lhsoX+sVpQclGxZXjC4vRUpOI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734335965; c=relaxed/simple;
-	bh=ZJxNjYJAcQD7xS3URzocfolx7l6/wY5FbnRznSfHSbM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=m2GczZo8OiOUQ/H1VhbhrmeWDWYGHFWuW8r3lABOmQXFZd+AkYgPBpNdm+nEIaYuNrA8Xtl7ZNnFlaciQ9a+ZvcO6xmDzeUTtlJcIwv1uBrcDLBluj3AflsqYKmfdibhq6ZS+PuwI0ytKyClTvrkDM2xYsSC466NJsiOm7N+c8I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=qPP1Jvt2; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1734340315; c=relaxed/simple;
+	bh=jc+ktQpe1snGAisoPsN0qsFlu6le9/TqPnUf04ohDYE=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=dUt9IhzOQZjIigNx8S/ocQv4xnmrbmJX5rWOSQgRoo7Bc6QJKKAOqE+EFpDZfGos4p+4NkUhdiF5zR6JsD9681uTerZuqgZkJWYVNi3riss94upbyScdGBTlwogcMnKyoJfau/qzZCBJCp6lBrS6k8TyUxRKTXWRi6fgqcM/c3g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=LgjlQtsF; arc=none smtp.client-ip=148.163.158.5
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="qPP1Jvt2"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 36EA9C4CED0;
-	Mon, 16 Dec 2024 07:59:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1734335964;
-	bh=ZJxNjYJAcQD7xS3URzocfolx7l6/wY5FbnRznSfHSbM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=qPP1Jvt2P2WRPO9pHj6MaXW6ne68Z26NLkPJlqbgit6WZGxlJ5ub3iDqGGKgmDILz
-	 kV/YpocLyjHX/pQoXSTN+3UCIgtigrooTcLTN1x4JVwDfSLmoH+LYv3qDii/91/LYJ
-	 1PD3g3w95iq0VV/O8tHZmn3sYW0j8y0YKztRsEk0=
-Date: Mon, 16 Dec 2024 08:58:44 +0100
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Guenter Roeck <linux@roeck-us.net>
-Cc: Dave Penkler <dpenkler@gmail.com>, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org, sfr@canb.auug.org.au
-Subject: Re: [PATCH] staging: gpib: Workaround for ppc build failure
-Message-ID: <2024121622-sensitive-curtain-7d45@gregkh>
-References: <20241204134736.6660-1-dpenkler@gmail.com>
- <b6102c6b-693f-4237-8c0c-83c5936aab3c@roeck-us.net>
+	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="LgjlQtsF"
+Received: from pps.filterd (m0360072.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4BG85Um5027009;
+	Mon, 16 Dec 2024 09:11:52 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-type:date:from:message-id:mime-version:subject:to; s=
+	pp1; bh=jc+ktQpe1snGAisoPsN0qsFlu6le9/TqPnUf04ohDYE=; b=LgjlQtsF
+	uCWedpcoooVezw6YEMeSvHgzLqd9LocHH2MRUbSTRMZ7w9QACBO2I3GgqW5I/9il
+	gcgr44ZNVF2FsuX6nJF/TcHum9wzmG+STIZfKut3ClrLhGQOlG7mCcw0dkS8kuyq
+	vJMLWmWaK2jfbGBuP4w1sO53a+XgEp2Z6M2Ib2Dcem7YfjK34RhwXYVRdlaAqXbK
+	NY4zifyNvNP0t5jYAy6QfudDIG1uobDdf2HLVykLm4grP1YhVP1papB7yFZtfrOm
+	8XZ7TGxbLJigvyX+UHlCYZsJo3T0REFRfmX0wzevYQfCzcx8Q/qoumuWlr72GjAn
+	TVXbk6bAMpcxnA==
+Received: from pps.reinject (localhost [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 43jgd289fa-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 16 Dec 2024 09:11:51 +0000 (GMT)
+Received: from m0360072.ppops.net (m0360072.ppops.net [127.0.0.1])
+	by pps.reinject (8.18.0.8/8.18.0.8) with ESMTP id 4BG97mSa025745;
+	Mon, 16 Dec 2024 09:11:51 GMT
+Received: from ppma23.wdc07v.mail.ibm.com (5d.69.3da9.ip4.static.sl-reverse.com [169.61.105.93])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 43jgd289f7-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 16 Dec 2024 09:11:51 +0000 (GMT)
+Received: from pps.filterd (ppma23.wdc07v.mail.ibm.com [127.0.0.1])
+	by ppma23.wdc07v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 4BG56cqV024044;
+	Mon, 16 Dec 2024 09:11:50 GMT
+Received: from smtprelay04.fra02v.mail.ibm.com ([9.218.2.228])
+	by ppma23.wdc07v.mail.ibm.com (PPS) with ESMTPS id 43hnuk54c8-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 16 Dec 2024 09:11:50 +0000
+Received: from smtpav01.fra02v.mail.ibm.com (smtpav01.fra02v.mail.ibm.com [10.20.54.100])
+	by smtprelay04.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 4BG9BmiQ29295160
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Mon, 16 Dec 2024 09:11:49 GMT
+Received: from smtpav01.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id D4BBF2004D;
+	Mon, 16 Dec 2024 09:11:48 +0000 (GMT)
+Received: from smtpav01.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 1C4AB20040;
+	Mon, 16 Dec 2024 09:11:48 +0000 (GMT)
+Received: from li-008a6a4c-3549-11b2-a85c-c5cc2836eea2.ibm.com (unknown [9.179.5.32])
+	by smtpav01.fra02v.mail.ibm.com (Postfix) with ESMTPS;
+	Mon, 16 Dec 2024 09:11:48 +0000 (GMT)
+Date: Mon, 16 Dec 2024 10:11:46 +0100
+From: Alexander Gordeev <agordeev@linux.ibm.com>
+To: Dave Penkler <dpenkler@gmail.com>
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+        linux-s390@vger.kernel.org,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: GPIB build failures
+Message-ID: <Z1/u0u9Nu4aEHA5h@li-008a6a4c-3549-11b2-a85c-c5cc2836eea2.ibm.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -40,42 +75,22 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <b6102c6b-693f-4237-8c0c-83c5936aab3c@roeck-us.net>
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: n7FPiz6nEczHTxmAXZPgqfP8F6fAcdDe
+X-Proofpoint-GUID: swZOic95wKZ-YcZEdGzI69jv_opTL1sv
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1051,Hydra:6.0.680,FMLib:17.12.62.30
+ definitions=2024-10-15_01,2024-10-11_01,2024-09-30_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 spamscore=0 bulkscore=0
+ suspectscore=0 lowpriorityscore=0 adultscore=0 clxscore=1011
+ mlxlogscore=588 priorityscore=1501 malwarescore=0 impostorscore=0
+ mlxscore=0 phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2411120000 definitions=main-2412160074
 
-On Sun, Dec 15, 2024 at 03:23:55PM -0800, Guenter Roeck wrote:
-> On Wed, Dec 04, 2024 at 02:47:36PM +0100, Dave Penkler wrote:
-> > Make GPIB_FMH depend on !PPC
-> > 
-> > Reported_by: Stephen Rothwell <sfr@canb.auug.org.au>
-> > Link: https://lore.kernel.org/all/20241015165538.634707e5@canb.auug.org.au/
-> > 
-> > Signed-off-by: Dave Penkler <dpenkler@gmail.com>
-> 
-> This patch just exposes other build failures, for example
-> i386:allyesconfig or x86_64:allyesconfig.
-> 
-> Error log:
-> x86_64-linux-ld: vmlinux.o: in function `fmh_gpib_t1_delay':
-> fmh_gpib.c:(.text+0xfd49dbd): undefined reference to `nec7210_t1_delay'
-> 
-> There are many more missing functions. FWIW, I don't know how this is
-> supposed to work in the first place, since pretty much all gpib Makefiles
-> say
-> 
-> obj-m += <object file>
-> 
-> meaning they won't be built with allyesconfig. fmh_gpib is the only
-> exception with
-> 
-> obj-$(CONFIG_GPIB_FMH) += fmh_gpib.o
-> 
-> which means it _will_ be built with allyesconfig. So it is not surprising
-> that it fails to link allyesconfig builds. Actually, it will fail all builds
-> with CONFIG_GPIB_FMH=y.
+Hi Dave,
 
-Arnd has a patch for this that I'll be queueing up this week and getting
-to Linus also this week.
+Drivers in drivers/staging/gpib/ cause multiple build errors (I guess not only)
+on s390, when allyesconfig configuration is used. Please, let me know if I am
+missing something.
 
-thanks,
-
-greg k-h
+Thanks!
