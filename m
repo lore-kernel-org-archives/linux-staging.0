@@ -1,120 +1,195 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DFFE1F7073;
-	Tue, 17 Dec 2024 15:18:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE8831527B1
+	for <linux-staging@lists.linux.dev>; Tue, 17 Dec 2024 17:29:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.158.5
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734448710; cv=none; b=WTMz+16UInWXct4c1dcCjkv9fVEdp0+MzdKWTHiBja7Fz0NuJBj3zIT/SI7tvjIVX5HnWQYE5iLGi92K9EmkUI9AjYDfkZY2GWp+SsdQVhzjt+g0MuOr663BzIXS7rbOHwA9bZGFlnl6JZhNzylVnSBL8oJXP5amVAHBDdpF7dM=
+	t=1734456599; cv=none; b=jVgqRhN1kLZsBck1BiyFTND8Oh3gzXwEJzLkL9OiBm99grNz74K2IZuERwlN15tRT3V5R9A5A+g2vn+AwFPdSHps+jAp42NXRE/SoT0tSwdlJoWkq0Qs3tIFZgUjEskJ/1aDbrULxwUnmfyDaNzD/G2+y71UgnRPDmFIr91c3QM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734448710; c=relaxed/simple;
-	bh=7MBMiE/oizu7qjst5QPV5DHgtwVbZGV41mHe79c8yXc=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=XcTrduKYOuPlaAvj3DtJITpYn+VXIyvrZj8T/W1ny0mYjih5f70UjvdRCkOJpNx07xLavOOU4Wddjz05BrrE32qAgljnRIRyXqoelLT7O7V20WJ9XJf+rPm3PQhmGa0HqHtlGryA2Adc6y5mIXiAfqzVcTb/4j18ykTWzhEySGw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F17FAC4CED6;
-	Tue, 17 Dec 2024 15:18:28 +0000 (UTC)
-Date: Tue, 17 Dec 2024 10:19:04 -0500
-From: Steven Rostedt <rostedt@goodmis.org>
-To: LKML <linux-kernel@vger.kernel.org>, linux-staging@lists.linux.dev
-Cc: Dave Penkler <dpenkler@gmail.com>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, Linus Torvalds
- <torvalds@linux-foundation.org>
-Subject: [PATCH] staging: gpib: Fix allyesconfig build failures
-Message-ID: <20241217101904.370bca1a@gandalf.local.home>
-X-Mailer: Claws Mail 3.20.0git84 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	s=arc-20240116; t=1734456599; c=relaxed/simple;
+	bh=5pZ3VHzHC4E9oZDpCgM75Zh6ux4FAUr0FIbkyLOg/Nk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=XcuTJMQ+p0sdudu6Lx6VKL9AKiZAzzB8vw/IdKjo/5qOpmJBEuOxUqrosxNdrnNG7banIV7Zf5L288efwhr816eVvKZ0t4k7ejotUtp+oE4jXC5RlxgH1qbEGN0XYc+teop7EzptFvYbjtxMQJxGGGhV5/bhzFmfitdce9HDzi8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=cl9r35o3; arc=none smtp.client-ip=148.163.158.5
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="cl9r35o3"
+Received: from pps.filterd (m0360072.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4BHHJOLq032407;
+	Tue, 17 Dec 2024 17:29:15 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=pp1; bh=g1hrCVwsLDHFXBw9S8SSEtW44ND3hI
+	e5hEs7mvzMcv0=; b=cl9r35o36KsL7jJKYCoj5LWAqgbCAwKQJ20PeY0lNPC00K
+	Wb2kXbck5OilzEheJEhO1UdwI+su1vwZEx+ymJ0mFVZPhk383HWoO7VUfjl4QPyC
+	NRZU5GuH7HUeI7pIrbgheTo3G3YyL9iJUTzTdJ2rQy11ZZUXxk/oz1ZsT4ro/HXW
+	RF1p1weL++6yCLkAsXqi4doi+5uKWL9CuTqE9RqoY9qtQhM5eVDQSPo42O2F/pZf
+	1E2hEAM56w/Zk8qrE4sU++MACbkaEvxnTnuSkGX19AfN+yNNhecbQM6ZfMsHhRv0
+	9OFeYY0UtsvX1JEiQmcTgZp6vrtBDv/o0B5nndaw==
+Received: from ppma11.dal12v.mail.ibm.com (db.9e.1632.ip4.static.sl-reverse.com [50.22.158.219])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 43k5g2jmnp-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 17 Dec 2024 17:29:14 +0000 (GMT)
+Received: from pps.filterd (ppma11.dal12v.mail.ibm.com [127.0.0.1])
+	by ppma11.dal12v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 4BHDmDdx014412;
+	Tue, 17 Dec 2024 17:29:03 GMT
+Received: from smtprelay03.fra02v.mail.ibm.com ([9.218.2.224])
+	by ppma11.dal12v.mail.ibm.com (PPS) with ESMTPS id 43hq21kfhm-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 17 Dec 2024 17:29:03 +0000
+Received: from smtpav06.fra02v.mail.ibm.com (smtpav06.fra02v.mail.ibm.com [10.20.54.105])
+	by smtprelay03.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 4BHHT0u259441574
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Tue, 17 Dec 2024 17:29:00 GMT
+Received: from smtpav06.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 0EEE820040;
+	Tue, 17 Dec 2024 17:29:00 +0000 (GMT)
+Received: from smtpav06.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id E39DD2004B;
+	Tue, 17 Dec 2024 17:28:58 +0000 (GMT)
+Received: from li-008a6a4c-3549-11b2-a85c-c5cc2836eea2.ibm.com (unknown [9.155.204.135])
+	by smtpav06.fra02v.mail.ibm.com (Postfix) with ESMTPS;
+	Tue, 17 Dec 2024 17:28:58 +0000 (GMT)
+Date: Tue, 17 Dec 2024 18:28:57 +0100
+From: Alexander Gordeev <agordeev@linux.ibm.com>
+To: Easwar Hariharan <eahariha@linux.microsoft.com>
+Cc: Pablo Neira Ayuso <pablo@netfilter.org>,
+        Jozsef Kadlecsik <kadlec@netfilter.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>,
+        Julia Lawall <Julia.Lawall@inria.fr>,
+        Nicolas Palix <nicolas.palix@imag.fr>, Daniel Mack <daniel@zonque.org>,
+        Haojian Zhuang <haojian.zhuang@gmail.com>,
+        Robert Jarzmik <robert.jarzmik@free.fr>,
+        Russell King <linux@armlinux.org.uk>,
+        Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>,
+        Christian Borntraeger <borntraeger@linux.ibm.com>,
+        Sven Schnelle <svens@linux.ibm.com>, Ofir Bitton <obitton@habana.ai>,
+        Oded Gabbay <ogabbay@kernel.org>,
+        Lucas De Marchi <lucas.demarchi@intel.com>,
+        Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
+        Rodrigo Vivi <rodrigo.vivi@intel.com>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+        Jeroen de Borst <jeroendb@google.com>,
+        Praveen Kaligineedi <pkaligineedi@google.com>,
+        Shailend Chand <shailend@google.com>,
+        Andrew Lunn <andrew+netdev@lunn.ch>,
+        James Smart <james.smart@broadcom.com>,
+        Dick Kennedy <dick.kennedy@broadcom.com>,
+        "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
+        "Martin K. Petersen" <martin.petersen@oracle.com>,
+        Roger Pau =?iso-8859-1?Q?Monn=E9?= <roger.pau@citrix.com>,
+        Jens Axboe <axboe@kernel.dk>, Kalle Valo <kvalo@kernel.org>,
+        Jeff Johnson <jjohnson@kernel.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Jack Wang <jinpu.wang@cloud.ionos.com>,
+        Marcel Holtmann <marcel@holtmann.org>,
+        Johan Hedberg <johan.hedberg@gmail.com>,
+        Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Florian Fainelli <florian.fainelli@broadcom.com>,
+        Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
+        Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+        Xiubo Li <xiubli@redhat.com>, Ilya Dryomov <idryomov@gmail.com>,
+        Josh Poimboeuf <jpoimboe@kernel.org>, Jiri Kosina <jikos@kernel.org>,
+        Miroslav Benes <mbenes@suse.cz>, Petr Mladek <pmladek@suse.com>,
+        Joe Lawrence <joe.lawrence@redhat.com>,
+        Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+        Louis Peens <louis.peens@corigine.com>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Nicholas Piggin <npiggin@gmail.com>,
+        Christophe Leroy <christophe.leroy@csgroup.eu>,
+        Naveen N Rao <naveen@kernel.org>,
+        Madhavan Srinivasan <maddy@linux.ibm.com>,
+        netfilter-devel@vger.kernel.org, coreteam@netfilter.org,
+        netdev@vger.kernel.org, linux-kernel@vger.kernel.org, cocci@inria.fr,
+        linux-arm-kernel@lists.infradead.org, linux-s390@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
+        linux-scsi@vger.kernel.org, xen-devel@lists.xenproject.org,
+        linux-block@vger.kernel.org, linux-wireless@vger.kernel.org,
+        ath11k@lists.infradead.org, linux-mm@kvack.org,
+        linux-bluetooth@vger.kernel.org, linux-staging@lists.linux.dev,
+        linux-rpi-kernel@lists.infradead.org, ceph-devel@vger.kernel.org,
+        live-patching@vger.kernel.org, linux-sound@vger.kernel.org,
+        oss-drivers@corigine.com, linuxppc-dev@lists.ozlabs.org,
+        Anna-Maria Behnsen <anna-maria@linutronix.de>
+Subject: Re: [PATCH v3 02/19] coccinelle: misc: Add secs_to_jiffies script
+Message-ID: <Z2G02RN7VelcrjNT@li-008a6a4c-3549-11b2-a85c-c5cc2836eea2.ibm.com>
+References: <20241210-converge-secs-to-jiffies-v3-0-ddfefd7e9f2a@linux.microsoft.com>
+ <20241210-converge-secs-to-jiffies-v3-2-ddfefd7e9f2a@linux.microsoft.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241210-converge-secs-to-jiffies-v3-2-ddfefd7e9f2a@linux.microsoft.com>
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: fnzByXeLFO0AZ_AJF8SbPJqhCHN_hCrL
+X-Proofpoint-GUID: fnzByXeLFO0AZ_AJF8SbPJqhCHN_hCrL
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1051,Hydra:6.0.680,FMLib:17.12.62.30
+ definitions=2024-10-15_01,2024-10-11_01,2024-09-30_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 bulkscore=0
+ phishscore=0 clxscore=1011 priorityscore=1501 lowpriorityscore=0
+ impostorscore=0 suspectscore=0 spamscore=0 mlxlogscore=985 malwarescore=0
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2411120000 definitions=main-2412170134
 
-From: Steven Rostedt <rostedt@goodmis.org>
+On Tue, Dec 10, 2024 at 10:02:33PM +0000, Easwar Hariharan wrote:
 
-My tests run an allyesconfig build and it failed with the following errors:
+Hi Easwar,
 
-  LD [M]  samples/kfifo/dma-example.ko
-ld.lld: error: undefined symbol: nec7210_board_reset
->>> referenced by fmh_gpib.c:1512 (/work/build/trace/nobackup/linux-test.git/drivers/staging/gpib/fmh_gpib/fmh_gpib.c:1512)
->>>               vmlinux.o:(fmh_gpib_detach)
->>> referenced by fmh_gpib.c:1637 (/work/build/trace/nobackup/linux-test.git/drivers/staging/gpib/fmh_gpib/fmh_gpib.c:1637)
->>>               vmlinux.o:(fmh_gpib_pci_detach)
->>> referenced by fmh_gpib.c:1342 (/work/build/trace/nobackup/linux-test.git/drivers/staging/gpib/fmh_gpib/fmh_gpib.c:1342)
->>>               vmlinux.o:(fmh_gpib_init)
+> This script finds and suggests conversions of timeout patterns that
+> result in seconds-denominated timeouts to use the new secs_to_jiffies()
+> API in include/linux/jiffies.h for better readability.
+> 
+> Suggested-by: Anna-Maria Behnsen <anna-maria@linutronix.de>
+> Signed-off-by: Easwar Hariharan <eahariha@linux.microsoft.com>
+> ---
+>  scripts/coccinelle/misc/secs_to_jiffies.cocci | 22 ++++++++++++++++++++++
+>  1 file changed, 22 insertions(+)
+> 
+> diff --git a/scripts/coccinelle/misc/secs_to_jiffies.cocci b/scripts/coccinelle/misc/secs_to_jiffies.cocci
+> new file mode 100644
+> index 0000000000000000000000000000000000000000..8bbb2884ea5db939c63fd4513cf5ca8c977aa8cb
+> --- /dev/null
+> +++ b/scripts/coccinelle/misc/secs_to_jiffies.cocci
+> @@ -0,0 +1,22 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +///
+> +/// Find usages of:
+> +/// - msecs_to_jiffies(value*1000)
+> +/// - msecs_to_jiffies(value*MSEC_PER_SEC)
+> +///
+> +// Confidence: High
+> +// Copyright: (C) 2024 Easwar Hariharan, Microsoft
+> +// Keywords: secs, seconds, jiffies
+> +//
+> +
+> +virtual patch
+> +
+> +@depends on patch@ constant C; @@
+> +
+> +- msecs_to_jiffies(C * 1000)
+> ++ secs_to_jiffies(C)
+> +
+> +@depends on patch@ constant C; @@
+> +
+> +- msecs_to_jiffies(C * MSEC_PER_SEC)
+> ++ secs_to_jiffies(C)
 
-ld.lld: error: undefined symbol: nec7210_read
->>> referenced by fmh_gpib.c:46 (/work/build/trace/nobackup/linux-test.git/drivers/staging/gpib/fmh_gpib/fmh_gpib.c:46)
->>>               vmlinux.o:(fmh_gpib_read)
+If you used this script only, then it did not seem to recognize line arch/s390/mm/cmm.c:207
 
-ld.lld: error: undefined symbol: nec7210_write
->>> referenced by fmh_gpib.c:54 (/work/build/trace/nobackup/linux-test.git/drivers/staging/gpib/fmh_gpib/fmh_gpib.c:54)
->>>               vmlinux.o:(fmh_gpib_write)
+	mod_timer(&cmm_timer, jiffies + msecs_to_jiffies(cmm_timeout_seconds * MSEC_PER_SEC));
 
-It appears that some modules call the function nec7210_board_reset() that
-is defined in nec7210.c. In an allyesconfig build, these other modules are
-built in. But the file that holds nec7210_board_reset() has:
-
-  obj-m += nec7210.o
-
-Where that "-m" means it only gets built as a module. With the other
-modules built in, they have no access to nec7210_board_reset() and the build
-fails.
-
-This isn't the only function. After fixing that one, I hit another:
-
-ld.lld: error: undefined symbol: push_gpib_event
->>> referenced by fmh_gpib.c:1166 (/work/build/trace/nobackup/linux-test.git/drivers/staging/gpib/fmh_gpib/fmh_gpib.c:1166)
->>>               vmlinux.o:(fmh_gpib_internal_interrupt)
->>> referenced by nec7210.c:956 (/work/build/trace/nobackup/linux-test.git/drivers/staging/gpib/nec7210/nec7210.c:956)
->>>               vmlinux.o:(nec7210_interrupt_have_status)
->>> referenced by nec7210.c:962 (/work/build/trace/nobackup/linux-test.git/drivers/staging/gpib/nec7210/nec7210.c:962)
->>>               vmlinux.o:(nec7210_interrupt_have_status)
-
-ld.lld: error: undefined symbol: gpib_match_device_path
->>> referenced by fmh_gpib.c:1370 (/work/build/trace/nobackup/linux-test.git/drivers/staging/gpib/fmh_gpib/fmh_gpib.c:1370)
->>>               vmlinux.o:(fmh_gpib_device_match)
-
-Where push_gpib_event() was also used outside of the file it was defined
-in, and that file too only was built as a module.
-
-Since the directory that nec7210.c is only traversed when
-CONFIG_GPIB_NEC7210 is set, and the directory with gpib_common.c is only
-traversed when CONFIG_GPIB_COMMON is set, use those configs as the option to
-build those modules. When it is an allyesconfig, then they will both be
-built in and their functions will be available to the other modules that
-are also built in.
-
-Fixes: 3ba84ac69b53e ("staging: gpib: Add nec7210 GPIB chip driver")
-Fixes: 9dde4559e9395 ("staging: gpib: Add GPIB common core driver")
-Signed-off-by: Steven Rostedt (Google) <rostedt@goodmis.org>
----
- drivers/staging/gpib/common/Makefile  | 2 +-
- drivers/staging/gpib/nec7210/Makefile | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/staging/gpib/common/Makefile b/drivers/staging/gpib/common/Makefile
-index 0c4c77bea75b..460586edb574 100644
---- a/drivers/staging/gpib/common/Makefile
-+++ b/drivers/staging/gpib/common/Makefile
-@@ -1,5 +1,5 @@
- 
--obj-m += gpib_common.o
-+obj-$(CONFIG_GPIB_COMMON) += gpib_common.o
- 
- gpib_common-objs := gpib_os.o iblib.o
- 
-diff --git a/drivers/staging/gpib/nec7210/Makefile b/drivers/staging/gpib/nec7210/Makefile
-index 8d4d90f21109..64330f2e89d1 100644
---- a/drivers/staging/gpib/nec7210/Makefile
-+++ b/drivers/staging/gpib/nec7210/Makefile
-@@ -1,4 +1,4 @@
- 
--obj-m += nec7210.o
-+obj-$(CONFIG_GPIB_NEC7210) += nec7210.o
- 
- 
--- 
-2.45.2
-
+Thanks!
