@@ -1,65 +1,93 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from fout-b3-smtp.messagingengine.com (fout-b3-smtp.messagingengine.com [202.12.124.146])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 031DE1990CD
-	for <linux-staging@lists.linux.dev>; Tue, 17 Dec 2024 07:18:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A1732CCC0
+	for <linux-staging@lists.linux.dev>; Tue, 17 Dec 2024 14:31:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.146
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734419929; cv=none; b=THd5MW/AQhjd94pPYHQFqi/VeNKNk+Urj5sm/jOXer2hLSkg4ggifyPouQl5ZeGm1QdUChEtpmayrMpJX3LqpRLWxc1lpK72nhpfZtJEmwc/hr2leB62ZvzO67eVBk8qaXRbqEg23UtQMsDN/QajAu0WZKdfWcXOrMIhxTqXBCU=
+	t=1734445879; cv=none; b=VxJUc31yAw8ENJBZjiikl/9HlpFtsaONefcwMm10xiW5ITaebwZG5dA1E6kDGXo+6rqY+q+XcmX2Cac0pXK2guUiVSS4VjmZ3rIU6mVgN2x9ApA+/j6msytQ1phre6FncQ6ESvRH/zHuizFdkgBpodGQvO+UQZ41/82ipE8zVg4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734419929; c=relaxed/simple;
-	bh=LNlNnwNuXsVzox3ZB3P2TEiz00AMaabmgjM3esEcg8k=;
+	s=arc-20240116; t=1734445879; c=relaxed/simple;
+	bh=R5AEPOhE5zimeSFXlqP2ApxVlRFcLe3DttjDO3/lbmY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=O3PI1PImY8AU4Rm3bbt5BemQ1AHT/3vof1GYwb7SPIoKxDrrzr081hoMD9nkyIZ71dTtageAabCgi3zxFbovoOYfx4InZPzZJjbABUALfEsshrw4u/JLUAqr2HR5QuV1vAyGar9WAlEYgwwc2VtpSHusyRkxm7F2W5lGwJOrptU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fTi2Kk6U; arc=none smtp.client-ip=198.175.65.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=O5jIA0XoNjTAS71nrhd4wxkMyidVYC6rPMVoT4s2wmHNsyeF+/7s42iS0K5XhK1SLSCtcGdqMyegj/+fSwB+YT6VNhLWwnDf6kHV7Dms7SvaE4l8f9GMbfP9Yg6C3sqVeZAMMG74zuSJ8fiv+JQ02uo5ONesbRjz3OZB1O56u8Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=FbluKOuK; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=uANGbWrz; arc=none smtp.client-ip=202.12.124.146
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fTi2Kk6U"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1734419927; x=1765955927;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=LNlNnwNuXsVzox3ZB3P2TEiz00AMaabmgjM3esEcg8k=;
-  b=fTi2Kk6ULyAsSB49WkZlTKXzclW87VVhsTdr4MUsqn0XfHHdiCYlj+4o
-   +G9KsgGPaLUfJgCfVPB9cNVcai3INAC/tcyl1hyVsXIvRiKBnh95NMNjm
-   zfFQFUIed1yIq/OK8UWPDU0F4+rh1DsbRLcas64L8gf3bOntecX8Ni7i9
-   o8RBFYemGAmqRREzgql6ejRrW85GFJhB5c0vS+0ip6J/Z/NtRuCr9Zdet
-   nMoJ9hFDsIpB6aV1cW9WVjb08hY6jzyr1Bjyk1DBzij6AlE2m+49+JIHM
-   6cgCh4DCFImZdY62uIb3M94VNeHO6+IE8VEn7RjYvtASCMC5xwZpQEH5o
-   Q==;
-X-CSE-ConnectionGUID: GseBQmYISp6BRmZAwdjBOg==
-X-CSE-MsgGUID: tJyv8NQjTLONckRXxTbDyA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11288"; a="38505560"
-X-IronPort-AV: E=Sophos;i="6.12,241,1728975600"; 
-   d="scan'208";a="38505560"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Dec 2024 23:18:46 -0800
-X-CSE-ConnectionGUID: RXX72eciREyZ/EWk/HC7Lg==
-X-CSE-MsgGUID: wjdesa4/S7mH6B6f8TtPNg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,241,1728975600"; 
-   d="scan'208";a="97345947"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Dec 2024 23:18:44 -0800
-Received: from kekkonen.localdomain (localhost [127.0.0.1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id 5FF4811F775;
-	Tue, 17 Dec 2024 09:18:41 +0200 (EET)
-Date: Tue, 17 Dec 2024 07:18:41 +0000
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
+	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="FbluKOuK";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="uANGbWrz"
+Received: from phl-compute-03.internal (phl-compute-03.phl.internal [10.202.2.43])
+	by mailfout.stl.internal (Postfix) with ESMTP id 207751140099;
+	Tue, 17 Dec 2024 09:31:16 -0500 (EST)
+Received: from phl-mailfrontend-02 ([10.202.2.163])
+  by phl-compute-03.internal (MEProxy); Tue, 17 Dec 2024 09:31:16 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm3; t=1734445875;
+	 x=1734532275; bh=T2z4S2KdGYMfZ5CZdK1KVnHbTmI/csXLkb+hBPu559g=; b=
+	FbluKOuKFoFROqVNIowWnfHBIBYNueAei5d3Wo7aUbzKPb+ceZR1yGJjTgZviBnO
+	TGeuuzJolBzIuoncn1MP5v2BTJ6U9YGnK07qJa4LbfFLIRwWo5NnYYbsH6mA+pfK
+	Z7YdDkkYQBftKu9cCz5fh8UyJnli0y47Ppqq+cJiJ4x3q2X2mZTpIX7ZGlp49+TI
+	Jj3uwpCxaEkHU1ZfBfgPxuVdhNL4jMd0BOiOetBJzFBbq+7DhwST0sidUrVElMvV
+	H5xMg7cHZTPwhGmVi3spk6vh/GVbwlLlY1XN52jYqE7bnFzRtQN/1LWlPKTiokmD
+	VPpTEz46ieDRHAAzfnpDpA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1734445875; x=
+	1734532275; bh=T2z4S2KdGYMfZ5CZdK1KVnHbTmI/csXLkb+hBPu559g=; b=u
+	ANGbWrzcLIrsmFkRwsoFzliT4xWjzv0XtPnzbAPeAr6r0Q1byFK++lsdcUsoAJbZ
+	6jCPaCp7V9hZJFP0Wnc6CVklvDc0e+Xzkpq6K8cVFokMDfV7RwfFn91iUha1mz/w
+	A2WlPQP124IuixqDfUoUilZGGAlK68V1bWYdwnXdmbT8RP5iDK/jUoCtQCyY98RH
+	anteWK803a0p/l2Li6GMigvUCpZEraiTFtIYCk3x7aCNYBiyVGhFFlxRLFS7Ugeq
+	bqB96Po2OhV1pEWggjYkqW4353wvxxBpWZbP4T4PbUkEP3jEX6w9K6lCiBSAUM8B
+	F7fqFV+4AYQRowAv9hnxQ==
+X-ME-Sender: <xms:M4thZ54NMKQljdzx_XpTMq8E46_OKgEJROKqYkfezNNtjFxEC2bBdw>
+    <xme:M4thZ27cT-6TtqlfAPNht4RkLSnC5_RhlgQklveAk0q6_9Tsp9tS8KB2LDUDcoaYc
+    92RoE3z-NabSAe6bNI>
+X-ME-Received: <xmr:M4thZwcH1Mgdmij4EDBmnITiGYeqQ9d2GGlb9OE-D8VUJr6Pecig9aSK-SaINiRQ15JBJ0ea8xzfRykEK4WE6S0n5fExadHtSA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefuddrleehgdeiiecutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdpuffr
+    tefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnth
+    hsucdlqddutddtmdenucfjughrpeffhffvvefukfhfgggtugfgjgesthekredttddtjeen
+    ucfhrhhomheppfhikhhlrghsucfunpguvghrlhhunhguuceonhhikhhlrghsrdhsohguvg
+    hrlhhunhgusehrrghgnhgrthgvtghhrdhsvgeqnecuggftrfgrthhtvghrnhepveetgedt
+    vddvhfdtkeeghfeffeehteehkeekgeefjeduieduueelgedtheekkeetnecuvehluhhsth
+    gvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepnhhikhhlrghsrdhsohgu
+    vghrlhhunhgusehrrghgnhgrthgvtghhrdhsvgdpnhgspghrtghpthhtohepkedpmhhoug
+    gvpehsmhhtphhouhhtpdhrtghpthhtoheplhgruhhrvghnthhiuhdrphgrlhgtuhesohhs
+    shdrnhigphdrtghomhdprhgtphhtthhopehmtghhvghhrggssehkvghrnhgvlhdrohhrgh
+    dprhgtphhtthhopehgrhgvghhkhheslhhinhhugihfohhunhgurghtihhonhdrohhrghdp
+    rhgtphhtthhopehsrghkrghrihdrrghilhhusheslhhinhhugidrihhnthgvlhdrtghomh
+    dprhgtphhtthhopehlihhnuhigqdhkvghrnhgvlhesvhhgvghrrdhkvghrnhgvlhdrohhr
+    ghdprhgtphhtthhopehlihhnuhigqdhmvgguihgrsehvghgvrhdrkhgvrhhnvghlrdhorh
+    hgpdhrtghpthhtoheplhhinhhugidqshhtrghgihhngheslhhishhtshdrlhhinhhugidr
+    uggvvhdprhgtphhtthhopehmtghhvghhrggsodhhuhgrfigviheskhgvrhhnvghlrdhorh
+    hg
+X-ME-Proxy: <xmx:M4thZyK07tF8R5Vy4bNCzkbsfDJHrbBAkDbWT0cQo8E2RtPjzkWtCg>
+    <xmx:M4thZ9ICFaA2-DmtvM3MF8UlzIjOxvPO_CFoukHSZXRnwjjHzBHSeQ>
+    <xmx:M4thZ7x7-T9u_u2kIg3eCwKfJ-Dhn-x7U200xl4sO1GWyJyHqa2V5w>
+    <xmx:M4thZ5IoUu4hZEt3lDpXNtEuyg9DIZCYDI2XhNKZhlIC11QZF8h1Gg>
+    <xmx:M4thZ0-_vqxqw9whJDPIs3-d3P3YS8yE2YsNBK_sxmnIR63gzxEPQOtT>
+Feedback-ID: i80c9496c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 17 Dec 2024 09:31:14 -0500 (EST)
+Date: Tue, 17 Dec 2024 15:31:12 +0100
+From: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>
 To: Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>
-Cc: Niklas =?iso-8859-1?Q?S=F6derlund?= <niklas.soderlund@ragnatech.se>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
 	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
 	linux-staging@lists.linux.dev,
-	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-	Niklas =?iso-8859-1?Q?S=F6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Subject: Re: [PATCH v2] staging: media: max96712: fix kernel oops when
  removing module
-Message-ID: <Z2El0RShqHTKdsil@kekkonen.localdomain>
+Message-ID: <20241217143112.GL878403@ragnatech.se>
 References: <20241217065151.1281037-1-laurentiu.palcu@oss.nxp.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -67,15 +95,14 @@ List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 In-Reply-To: <20241217065151.1281037-1-laurentiu.palcu@oss.nxp.com>
 
-Hi Laurentiu,
+Hello Laurentiu,
 
-Thanks for the patch.
-
-On Tue, Dec 17, 2024 at 08:51:50AM +0200, Laurentiu Palcu wrote:
+On 2024-12-17 08:51:50 +0200, Laurentiu Palcu wrote:
 > The following kernel oops is thrown when trying to remove the max96712
 > module:
 > 
@@ -148,8 +175,9 @@ On Tue, Dec 17, 2024 at 08:51:50AM +0200, Laurentiu Palcu wrote:
 > Fixes: 5814f32fef13 ("media: staging: max96712: Add basic support for MAX96712 GMSL2 deserializer")
 > Signed-off-by: Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>
 
-I believe Cc: stable is needed here, too, I'll add it. max96712 has been
-around for quite some time...
+Thanks for catching this.
+
+Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
 
 > ---
 > Changes in v2:
@@ -185,8 +213,10 @@ around for quite some time...
 >  
 >  	v4l2_async_unregister_subdev(&priv->sd);
 >  
+> -- 
+> 2.44.1
+> 
 
 -- 
-Regards,
-
-Sakari Ailus
+Kind Regards,
+Niklas Söderlund
