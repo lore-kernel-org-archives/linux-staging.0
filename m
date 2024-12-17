@@ -1,222 +1,120 @@
-Received: from fout-b3-smtp.messagingengine.com (fout-b3-smtp.messagingengine.com [202.12.124.146])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A1732CCC0
-	for <linux-staging@lists.linux.dev>; Tue, 17 Dec 2024 14:31:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.146
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DFFE1F7073;
+	Tue, 17 Dec 2024 15:18:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734445879; cv=none; b=VxJUc31yAw8ENJBZjiikl/9HlpFtsaONefcwMm10xiW5ITaebwZG5dA1E6kDGXo+6rqY+q+XcmX2Cac0pXK2guUiVSS4VjmZ3rIU6mVgN2x9ApA+/j6msytQ1phre6FncQ6ESvRH/zHuizFdkgBpodGQvO+UQZ41/82ipE8zVg4=
+	t=1734448710; cv=none; b=WTMz+16UInWXct4c1dcCjkv9fVEdp0+MzdKWTHiBja7Fz0NuJBj3zIT/SI7tvjIVX5HnWQYE5iLGi92K9EmkUI9AjYDfkZY2GWp+SsdQVhzjt+g0MuOr663BzIXS7rbOHwA9bZGFlnl6JZhNzylVnSBL8oJXP5amVAHBDdpF7dM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734445879; c=relaxed/simple;
-	bh=R5AEPOhE5zimeSFXlqP2ApxVlRFcLe3DttjDO3/lbmY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=O5jIA0XoNjTAS71nrhd4wxkMyidVYC6rPMVoT4s2wmHNsyeF+/7s42iS0K5XhK1SLSCtcGdqMyegj/+fSwB+YT6VNhLWwnDf6kHV7Dms7SvaE4l8f9GMbfP9Yg6C3sqVeZAMMG74zuSJ8fiv+JQ02uo5ONesbRjz3OZB1O56u8Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=FbluKOuK; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=uANGbWrz; arc=none smtp.client-ip=202.12.124.146
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="FbluKOuK";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="uANGbWrz"
-Received: from phl-compute-03.internal (phl-compute-03.phl.internal [10.202.2.43])
-	by mailfout.stl.internal (Postfix) with ESMTP id 207751140099;
-	Tue, 17 Dec 2024 09:31:16 -0500 (EST)
-Received: from phl-mailfrontend-02 ([10.202.2.163])
-  by phl-compute-03.internal (MEProxy); Tue, 17 Dec 2024 09:31:16 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm3; t=1734445875;
-	 x=1734532275; bh=T2z4S2KdGYMfZ5CZdK1KVnHbTmI/csXLkb+hBPu559g=; b=
-	FbluKOuKFoFROqVNIowWnfHBIBYNueAei5d3Wo7aUbzKPb+ceZR1yGJjTgZviBnO
-	TGeuuzJolBzIuoncn1MP5v2BTJ6U9YGnK07qJa4LbfFLIRwWo5NnYYbsH6mA+pfK
-	Z7YdDkkYQBftKu9cCz5fh8UyJnli0y47Ppqq+cJiJ4x3q2X2mZTpIX7ZGlp49+TI
-	Jj3uwpCxaEkHU1ZfBfgPxuVdhNL4jMd0BOiOetBJzFBbq+7DhwST0sidUrVElMvV
-	H5xMg7cHZTPwhGmVi3spk6vh/GVbwlLlY1XN52jYqE7bnFzRtQN/1LWlPKTiokmD
-	VPpTEz46ieDRHAAzfnpDpA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1734445875; x=
-	1734532275; bh=T2z4S2KdGYMfZ5CZdK1KVnHbTmI/csXLkb+hBPu559g=; b=u
-	ANGbWrzcLIrsmFkRwsoFzliT4xWjzv0XtPnzbAPeAr6r0Q1byFK++lsdcUsoAJbZ
-	6jCPaCp7V9hZJFP0Wnc6CVklvDc0e+Xzkpq6K8cVFokMDfV7RwfFn91iUha1mz/w
-	A2WlPQP124IuixqDfUoUilZGGAlK68V1bWYdwnXdmbT8RP5iDK/jUoCtQCyY98RH
-	anteWK803a0p/l2Li6GMigvUCpZEraiTFtIYCk3x7aCNYBiyVGhFFlxRLFS7Ugeq
-	bqB96Po2OhV1pEWggjYkqW4353wvxxBpWZbP4T4PbUkEP3jEX6w9K6lCiBSAUM8B
-	F7fqFV+4AYQRowAv9hnxQ==
-X-ME-Sender: <xms:M4thZ54NMKQljdzx_XpTMq8E46_OKgEJROKqYkfezNNtjFxEC2bBdw>
-    <xme:M4thZ27cT-6TtqlfAPNht4RkLSnC5_RhlgQklveAk0q6_9Tsp9tS8KB2LDUDcoaYc
-    92RoE3z-NabSAe6bNI>
-X-ME-Received: <xmr:M4thZwcH1Mgdmij4EDBmnITiGYeqQ9d2GGlb9OE-D8VUJr6Pecig9aSK-SaINiRQ15JBJ0ea8xzfRykEK4WE6S0n5fExadHtSA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefuddrleehgdeiiecutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdpuffr
-    tefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnth
-    hsucdlqddutddtmdenucfjughrpeffhffvvefukfhfgggtugfgjgesthekredttddtjeen
-    ucfhrhhomheppfhikhhlrghsucfunpguvghrlhhunhguuceonhhikhhlrghsrdhsohguvg
-    hrlhhunhgusehrrghgnhgrthgvtghhrdhsvgeqnecuggftrfgrthhtvghrnhepveetgedt
-    vddvhfdtkeeghfeffeehteehkeekgeefjeduieduueelgedtheekkeetnecuvehluhhsth
-    gvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepnhhikhhlrghsrdhsohgu
-    vghrlhhunhgusehrrghgnhgrthgvtghhrdhsvgdpnhgspghrtghpthhtohepkedpmhhoug
-    gvpehsmhhtphhouhhtpdhrtghpthhtoheplhgruhhrvghnthhiuhdrphgrlhgtuhesohhs
-    shdrnhigphdrtghomhdprhgtphhtthhopehmtghhvghhrggssehkvghrnhgvlhdrohhrgh
-    dprhgtphhtthhopehgrhgvghhkhheslhhinhhugihfohhunhgurghtihhonhdrohhrghdp
-    rhgtphhtthhopehsrghkrghrihdrrghilhhusheslhhinhhugidrihhnthgvlhdrtghomh
-    dprhgtphhtthhopehlihhnuhigqdhkvghrnhgvlhesvhhgvghrrdhkvghrnhgvlhdrohhr
-    ghdprhgtphhtthhopehlihhnuhigqdhmvgguihgrsehvghgvrhdrkhgvrhhnvghlrdhorh
-    hgpdhrtghpthhtoheplhhinhhugidqshhtrghgihhngheslhhishhtshdrlhhinhhugidr
-    uggvvhdprhgtphhtthhopehmtghhvghhrggsodhhuhgrfigviheskhgvrhhnvghlrdhorh
-    hg
-X-ME-Proxy: <xmx:M4thZyK07tF8R5Vy4bNCzkbsfDJHrbBAkDbWT0cQo8E2RtPjzkWtCg>
-    <xmx:M4thZ9ICFaA2-DmtvM3MF8UlzIjOxvPO_CFoukHSZXRnwjjHzBHSeQ>
-    <xmx:M4thZ7x7-T9u_u2kIg3eCwKfJ-Dhn-x7U200xl4sO1GWyJyHqa2V5w>
-    <xmx:M4thZ5IoUu4hZEt3lDpXNtEuyg9DIZCYDI2XhNKZhlIC11QZF8h1Gg>
-    <xmx:M4thZ0-_vqxqw9whJDPIs3-d3P3YS8yE2YsNBK_sxmnIR63gzxEPQOtT>
-Feedback-ID: i80c9496c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 17 Dec 2024 09:31:14 -0500 (EST)
-Date: Tue, 17 Dec 2024 15:31:12 +0100
-From: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>
-To: Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Subject: Re: [PATCH v2] staging: media: max96712: fix kernel oops when
- removing module
-Message-ID: <20241217143112.GL878403@ragnatech.se>
-References: <20241217065151.1281037-1-laurentiu.palcu@oss.nxp.com>
+	s=arc-20240116; t=1734448710; c=relaxed/simple;
+	bh=7MBMiE/oizu7qjst5QPV5DHgtwVbZGV41mHe79c8yXc=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=XcTrduKYOuPlaAvj3DtJITpYn+VXIyvrZj8T/W1ny0mYjih5f70UjvdRCkOJpNx07xLavOOU4Wddjz05BrrE32qAgljnRIRyXqoelLT7O7V20WJ9XJf+rPm3PQhmGa0HqHtlGryA2Adc6y5mIXiAfqzVcTb/4j18ykTWzhEySGw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F17FAC4CED6;
+	Tue, 17 Dec 2024 15:18:28 +0000 (UTC)
+Date: Tue, 17 Dec 2024 10:19:04 -0500
+From: Steven Rostedt <rostedt@goodmis.org>
+To: LKML <linux-kernel@vger.kernel.org>, linux-staging@lists.linux.dev
+Cc: Dave Penkler <dpenkler@gmail.com>, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>, Linus Torvalds
+ <torvalds@linux-foundation.org>
+Subject: [PATCH] staging: gpib: Fix allyesconfig build failures
+Message-ID: <20241217101904.370bca1a@gandalf.local.home>
+X-Mailer: Claws Mail 3.20.0git84 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20241217065151.1281037-1-laurentiu.palcu@oss.nxp.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Hello Laurentiu,
+From: Steven Rostedt <rostedt@goodmis.org>
 
-On 2024-12-17 08:51:50 +0200, Laurentiu Palcu wrote:
-> The following kernel oops is thrown when trying to remove the max96712
-> module:
-> 
-> Unable to handle kernel paging request at virtual address 00007375746174db
-> Mem abort info:
->   ESR = 0x0000000096000004
->   EC = 0x25: DABT (current EL), IL = 32 bits
->   SET = 0, FnV = 0
->   EA = 0, S1PTW = 0
->   FSC = 0x04: level 0 translation fault
-> Data abort info:
->   ISV = 0, ISS = 0x00000004, ISS2 = 0x00000000
->   CM = 0, WnR = 0, TnD = 0, TagAccess = 0
->   GCS = 0, Overlay = 0, DirtyBit = 0, Xs = 0
-> user pgtable: 4k pages, 48-bit VAs, pgdp=000000010af89000
-> [00007375746174db] pgd=0000000000000000, p4d=0000000000000000
-> Internal error: Oops: 0000000096000004 [#1] PREEMPT SMP
-> Modules linked in: crct10dif_ce polyval_ce mxc_jpeg_encdec flexcan
->     snd_soc_fsl_sai snd_soc_fsl_asoc_card snd_soc_fsl_micfil dwc_mipi_csi2
->     imx_csi_formatter polyval_generic v4l2_jpeg imx_pcm_dma can_dev
->     snd_soc_imx_audmux snd_soc_wm8962 snd_soc_imx_card snd_soc_fsl_utils
->     max96712(C-) rpmsg_ctrl rpmsg_char pwm_fan fuse
->     [last unloaded: imx8_isi]
-> CPU: 0 UID: 0 PID: 754 Comm: rmmod
-> 	    Tainted: G         C    6.12.0-rc6-06364-g327fec852c31 #17
-> Tainted: [C]=CRAP
-> Hardware name: NXP i.MX95 19X19 board (DT)
-> pstate: 60400009 (nZCv daif +PAN -UAO -TCO -DIT -SSBS BTYPE=--)
-> pc : led_put+0x1c/0x40
-> lr : v4l2_subdev_put_privacy_led+0x48/0x58
-> sp : ffff80008699bbb0
-> x29: ffff80008699bbb0 x28: ffff00008ac233c0 x27: 0000000000000000
-> x26: 0000000000000000 x25: 0000000000000000 x24: 0000000000000000
-> x23: ffff000080cf1170 x22: ffff00008b53bd00 x21: ffff8000822ad1c8
-> x20: ffff000080ff5c00 x19: ffff00008b53be40 x18: 0000000000000000
-> x17: 0000000000000000 x16: 0000000000000000 x15: 0000000000000000
-> x14: 0000000000000004 x13: ffff0000800f8010 x12: 0000000000000000
-> x11: ffff000082acf5c0 x10: ffff000082acf478 x9 : ffff0000800f8010
-> x8 : 0101010101010101 x7 : 7f7f7f7f7f7f7f7f x6 : fefefeff6364626d
-> x5 : 8080808000000000 x4 : 0000000000000020 x3 : 00000000553a3dc1
-> x2 : ffff00008ac233c0 x1 : ffff00008ac233c0 x0 : ff00737574617473
-> Call trace:
->  led_put+0x1c/0x40
->  v4l2_subdev_put_privacy_led+0x48/0x58
->  v4l2_async_unregister_subdev+0x2c/0x1a4
->  max96712_remove+0x1c/0x38 [max96712]
->  i2c_device_remove+0x2c/0x9c
->  device_remove+0x4c/0x80
->  device_release_driver_internal+0x1cc/0x228
->  driver_detach+0x4c/0x98
->  bus_remove_driver+0x6c/0xbc
->  driver_unregister+0x30/0x60
->  i2c_del_driver+0x54/0x64
->  max96712_i2c_driver_exit+0x18/0x1d0 [max96712]
->  __arm64_sys_delete_module+0x1a4/0x290
->  invoke_syscall+0x48/0x10c
->  el0_svc_common.constprop.0+0xc0/0xe0
->  do_el0_svc+0x1c/0x28
->  el0_svc+0x34/0xd8
->  el0t_64_sync_handler+0x120/0x12c
->  el0t_64_sync+0x190/0x194
-> Code: f9000bf3 aa0003f3 f9402800 f9402000 (f9403400)
-> ---[ end trace 0000000000000000 ]---
-> 
-> This happens because in v4l2_i2c_subdev_init(), the i2c_set_cliendata()
-> is called again and the data is overwritten to point to sd, instead of
-> priv. So, in remove(), the wrong pointer is passed to
-> v4l2_async_unregister_subdev(), leading to a crash.
-> 
-> Fixes: 5814f32fef13 ("media: staging: max96712: Add basic support for MAX96712 GMSL2 deserializer")
-> Signed-off-by: Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>
+My tests run an allyesconfig build and it failed with the following errors:
 
-Thanks for catching this.
+  LD [M]  samples/kfifo/dma-example.ko
+ld.lld: error: undefined symbol: nec7210_board_reset
+>>> referenced by fmh_gpib.c:1512 (/work/build/trace/nobackup/linux-test.git/drivers/staging/gpib/fmh_gpib/fmh_gpib.c:1512)
+>>>               vmlinux.o:(fmh_gpib_detach)
+>>> referenced by fmh_gpib.c:1637 (/work/build/trace/nobackup/linux-test.git/drivers/staging/gpib/fmh_gpib/fmh_gpib.c:1637)
+>>>               vmlinux.o:(fmh_gpib_pci_detach)
+>>> referenced by fmh_gpib.c:1342 (/work/build/trace/nobackup/linux-test.git/drivers/staging/gpib/fmh_gpib/fmh_gpib.c:1342)
+>>>               vmlinux.o:(fmh_gpib_init)
 
-Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+ld.lld: error: undefined symbol: nec7210_read
+>>> referenced by fmh_gpib.c:46 (/work/build/trace/nobackup/linux-test.git/drivers/staging/gpib/fmh_gpib/fmh_gpib.c:46)
+>>>               vmlinux.o:(fmh_gpib_read)
 
-> ---
-> Changes in v2:
->  * removed call to i2c_set_clientdata() in probe;
->  * cleaned up the trace in commit message as the tmux status line string
->    sneaked into it;
-> 
-> Thanks,
-> Laurentiu
-> 
->  drivers/staging/media/max96712/max96712.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/staging/media/max96712/max96712.c b/drivers/staging/media/max96712/max96712.c
-> index ede02e8c891cb..0751b2e048958 100644
-> --- a/drivers/staging/media/max96712/max96712.c
-> +++ b/drivers/staging/media/max96712/max96712.c
-> @@ -418,7 +418,6 @@ static int max96712_probe(struct i2c_client *client)
->  	priv->info = of_device_get_match_data(&client->dev);
->  
->  	priv->client = client;
-> -	i2c_set_clientdata(client, priv);
->  
->  	priv->regmap = devm_regmap_init_i2c(client, &max96712_i2c_regmap);
->  	if (IS_ERR(priv->regmap))
-> @@ -448,7 +447,8 @@ static int max96712_probe(struct i2c_client *client)
->  
->  static void max96712_remove(struct i2c_client *client)
->  {
-> -	struct max96712_priv *priv = i2c_get_clientdata(client);
-> +	struct v4l2_subdev *sd = i2c_get_clientdata(client);
-> +	struct max96712_priv *priv = container_of(sd, struct max96712_priv, sd);
->  
->  	v4l2_async_unregister_subdev(&priv->sd);
->  
-> -- 
-> 2.44.1
-> 
+ld.lld: error: undefined symbol: nec7210_write
+>>> referenced by fmh_gpib.c:54 (/work/build/trace/nobackup/linux-test.git/drivers/staging/gpib/fmh_gpib/fmh_gpib.c:54)
+>>>               vmlinux.o:(fmh_gpib_write)
 
+It appears that some modules call the function nec7210_board_reset() that
+is defined in nec7210.c. In an allyesconfig build, these other modules are
+built in. But the file that holds nec7210_board_reset() has:
+
+  obj-m += nec7210.o
+
+Where that "-m" means it only gets built as a module. With the other
+modules built in, they have no access to nec7210_board_reset() and the build
+fails.
+
+This isn't the only function. After fixing that one, I hit another:
+
+ld.lld: error: undefined symbol: push_gpib_event
+>>> referenced by fmh_gpib.c:1166 (/work/build/trace/nobackup/linux-test.git/drivers/staging/gpib/fmh_gpib/fmh_gpib.c:1166)
+>>>               vmlinux.o:(fmh_gpib_internal_interrupt)
+>>> referenced by nec7210.c:956 (/work/build/trace/nobackup/linux-test.git/drivers/staging/gpib/nec7210/nec7210.c:956)
+>>>               vmlinux.o:(nec7210_interrupt_have_status)
+>>> referenced by nec7210.c:962 (/work/build/trace/nobackup/linux-test.git/drivers/staging/gpib/nec7210/nec7210.c:962)
+>>>               vmlinux.o:(nec7210_interrupt_have_status)
+
+ld.lld: error: undefined symbol: gpib_match_device_path
+>>> referenced by fmh_gpib.c:1370 (/work/build/trace/nobackup/linux-test.git/drivers/staging/gpib/fmh_gpib/fmh_gpib.c:1370)
+>>>               vmlinux.o:(fmh_gpib_device_match)
+
+Where push_gpib_event() was also used outside of the file it was defined
+in, and that file too only was built as a module.
+
+Since the directory that nec7210.c is only traversed when
+CONFIG_GPIB_NEC7210 is set, and the directory with gpib_common.c is only
+traversed when CONFIG_GPIB_COMMON is set, use those configs as the option to
+build those modules. When it is an allyesconfig, then they will both be
+built in and their functions will be available to the other modules that
+are also built in.
+
+Fixes: 3ba84ac69b53e ("staging: gpib: Add nec7210 GPIB chip driver")
+Fixes: 9dde4559e9395 ("staging: gpib: Add GPIB common core driver")
+Signed-off-by: Steven Rostedt (Google) <rostedt@goodmis.org>
+---
+ drivers/staging/gpib/common/Makefile  | 2 +-
+ drivers/staging/gpib/nec7210/Makefile | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/staging/gpib/common/Makefile b/drivers/staging/gpib/common/Makefile
+index 0c4c77bea75b..460586edb574 100644
+--- a/drivers/staging/gpib/common/Makefile
++++ b/drivers/staging/gpib/common/Makefile
+@@ -1,5 +1,5 @@
+ 
+-obj-m += gpib_common.o
++obj-$(CONFIG_GPIB_COMMON) += gpib_common.o
+ 
+ gpib_common-objs := gpib_os.o iblib.o
+ 
+diff --git a/drivers/staging/gpib/nec7210/Makefile b/drivers/staging/gpib/nec7210/Makefile
+index 8d4d90f21109..64330f2e89d1 100644
+--- a/drivers/staging/gpib/nec7210/Makefile
++++ b/drivers/staging/gpib/nec7210/Makefile
+@@ -1,4 +1,4 @@
+ 
+-obj-m += nec7210.o
++obj-$(CONFIG_GPIB_NEC7210) += nec7210.o
+ 
+ 
 -- 
-Kind Regards,
-Niklas Söderlund
+2.45.2
+
