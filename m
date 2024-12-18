@@ -1,106 +1,114 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39FAD148850;
-	Tue, 17 Dec 2024 21:12:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6826E5473C
+	for <linux-staging@lists.linux.dev>; Wed, 18 Dec 2024 02:53:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734469945; cv=none; b=BnSzVQoPRnr+ERuP3JjClXumpKL+DwiDGMO0hWqPZg5lBHdhqByHQa6R1CFEbpqrt29sstxSFxsiBecVlN5WNwNug4kQSLbv5nAwITxV6T3CRyzBywI3URTzxRacCQNEx/cq5wqLEN4Unrh+tOHpBCJcoMi40Bqyxolkq1gTHJM=
+	t=1734490418; cv=none; b=Evl+WbFSCllq9uEA+71/Lq1zvlihX70RBAOA2dHZtVYVBgeIAhq5PMXfDrUZd/VYCFI3lrsMCb6wmne6UDNVi0fNyJ/7wTdFLI0kvtZNR/bn8KVkv64EUBHzzzSTZ2UhjaixmzN2WjAZE1u33r6W0u+af44h0ePp1VObPzu7ESo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734469945; c=relaxed/simple;
-	bh=6wrZIip+47/78xZMxlKfy5iKCSXmDm0ozFscqh0XaL0=;
-	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
-	 Mime-Version:Content-Type; b=BDxnZIV7DYhFkaZVCqHYVN+Wvrk8lae8Cdw7IXFIe1h5nu+RLs+Nkf0AIbpcIM4nY8BmwhjP+Ux08m1ozuEPlWHBSiCFgR+eUfMF1L6Afb9ttFhXVXQN5UVesoBroT+CLoFcvzIu4fe8bh9Zs8kazZ/jtu2wkt8hswD9FsURX8g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=nmF/sQCS; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="nmF/sQCS"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 30F7CC4CED7;
-	Tue, 17 Dec 2024 21:12:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
-	s=korg; t=1734469944;
-	bh=6wrZIip+47/78xZMxlKfy5iKCSXmDm0ozFscqh0XaL0=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=nmF/sQCS1D3KNHotz6/Uis21dHNJl7nLly6pcknq1IkDIafHawvIl5RaL9/QyQcZn
-	 nyGQz6EdiI98Lm7qeFHMwWswlC3Qfefy9eWeYO8Zhv+gHExXCf5+0KsSm0kSj2kwOJ
-	 8nof/rwPL6N6M8ZNuUmnLRmLS4svJ9udLDC6DdE4=
-Date: Tue, 17 Dec 2024 13:12:21 -0800
-From: Andrew Morton <akpm@linux-foundation.org>
-To: Easwar Hariharan <eahariha@linux.microsoft.com>
-Cc: Pablo Neira Ayuso <pablo@netfilter.org>, Jozsef Kadlecsik
- <kadlec@netfilter.org>, "David S. Miller" <davem@davemloft.net>, Eric
- Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo
- Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, Julia Lawall
- <Julia.Lawall@inria.fr>, Nicolas Palix <nicolas.palix@imag.fr>, Daniel Mack
- <daniel@zonque.org>, Haojian Zhuang <haojian.zhuang@gmail.com>, Robert
- Jarzmik <robert.jarzmik@free.fr>, Russell King <linux@armlinux.org.uk>,
- Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>,
- Alexander Gordeev <agordeev@linux.ibm.com>, Christian Borntraeger
- <borntraeger@linux.ibm.com>, Sven Schnelle <svens@linux.ibm.com>, Ofir
- Bitton <obitton@habana.ai>, Oded Gabbay <ogabbay@kernel.org>, Lucas De
- Marchi <lucas.demarchi@intel.com>, Thomas =?ISO-8859-1?Q?Hellstr=F6m?=
- <thomas.hellstrom@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
- <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Jeroen de Borst
- <jeroendb@google.com>, Praveen Kaligineedi <pkaligineedi@google.com>,
- Shailend Chand <shailend@google.com>, Andrew Lunn <andrew+netdev@lunn.ch>,
- James Smart <james.smart@broadcom.com>, Dick Kennedy
- <dick.kennedy@broadcom.com>, "James E.J. Bottomley"
- <James.Bottomley@HansenPartnership.com>, "Martin K. Petersen"
- <martin.petersen@oracle.com>, Roger Pau =?ISO-8859-1?Q?Monn=E9?=
- <roger.pau@citrix.com>, Jens Axboe <axboe@kernel.dk>, Kalle Valo
- <kvalo@kernel.org>, Jeff Johnson <jjohnson@kernel.org>, Catalin Marinas
- <catalin.marinas@arm.com>, Jack Wang <jinpu.wang@cloud.ionos.com>, Marcel
- Holtmann <marcel@holtmann.org>, Johan Hedberg <johan.hedberg@gmail.com>,
- Luiz Augusto von Dentz <luiz.dentz@gmail.com>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, Florian Fainelli
- <florian.fainelli@broadcom.com>, Ray Jui <rjui@broadcom.com>, Scott Branden
- <sbranden@broadcom.com>, Broadcom internal kernel review list
- <bcm-kernel-feedback-list@broadcom.com>, Xiubo Li <xiubli@redhat.com>, Ilya
- Dryomov <idryomov@gmail.com>, Josh Poimboeuf <jpoimboe@kernel.org>, Jiri
- Kosina <jikos@kernel.org>, Miroslav Benes <mbenes@suse.cz>, Petr Mladek
- <pmladek@suse.com>, Joe Lawrence <joe.lawrence@redhat.com>, Jaroslav Kysela
- <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Louis Peens
- <louis.peens@corigine.com>, Michael Ellerman <mpe@ellerman.id.au>, Nicholas
- Piggin <npiggin@gmail.com>, Christophe Leroy <christophe.leroy@csgroup.eu>,
- Naveen N Rao <naveen@kernel.org>, Madhavan Srinivasan
- <maddy@linux.ibm.com>, netfilter-devel@vger.kernel.org,
- coreteam@netfilter.org, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, cocci@inria.fr,
- linux-arm-kernel@lists.infradead.org, linux-s390@vger.kernel.org,
- dri-devel@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
- linux-scsi@vger.kernel.org, xen-devel@lists.xenproject.org,
- linux-block@vger.kernel.org, linux-wireless@vger.kernel.org,
- ath11k@lists.infradead.org, linux-mm@kvack.org,
- linux-bluetooth@vger.kernel.org, linux-staging@lists.linux.dev,
- linux-rpi-kernel@lists.infradead.org, ceph-devel@vger.kernel.org,
- live-patching@vger.kernel.org, linux-sound@vger.kernel.org,
- oss-drivers@corigine.com, linuxppc-dev@lists.ozlabs.org, Anna-Maria Behnsen
- <anna-maria@linutronix.de>, Jeff Johnson <quic_jjohnson@quicinc.com>,
- paul@paul-moore.com
-Subject: Re: [PATCH v3 00/19] Converge on using secs_to_jiffies()
-Message-Id: <20241217131221.e1b1262f97dc6a5d616ca8e7@linux-foundation.org>
-In-Reply-To: <14ad0c08-7b3b-47b6-8cc1-8a4179238e5a@linux.microsoft.com>
-References: <20241210-converge-secs-to-jiffies-v3-0-ddfefd7e9f2a@linux.microsoft.com>
-	<20241210163520.95fa1c8aa83e1915004ed884@linux-foundation.org>
-	<422470cd-84f0-469e-93c2-493c5091391d@linux.microsoft.com>
-	<14ad0c08-7b3b-47b6-8cc1-8a4179238e5a@linux.microsoft.com>
-X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	s=arc-20240116; t=1734490418; c=relaxed/simple;
+	bh=P13MpzFB28MXXAI9pAmD8x9mJmi7UrWXJDnsPidwUbU=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=M0qkLZ6Ba50TXD1UpJeF0RNGQV7iVQRLVfnKdfDgqXVkA2Og/x89tXQ4Tg0ybiilIPcnk4Y9b63DOY7RHi6Wh3NXCSA8sbraqhqPCOL1C2RDKFo8SvlXmmgftN6fEwLgmUV90rtfIJA2xZ3nHpAVgk9q+8jAtghStzjBVwgDD7g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
+X-UUID: 3e94f322bceb11efa216b1d71e6e1362-20241218
+X-CTIC-Tags:
+	HR_CC_COUNT, HR_CC_DOMAIN_COUNT, HR_CC_NAME, HR_CC_NO_NAME, HR_CTE_8B
+	HR_CTT_MISS, HR_DATE_H, HR_DATE_WKD, HR_DATE_ZONE, HR_FROM_NAME
+	HR_SJ_DIGIT_LEN, HR_SJ_LANG, HR_SJ_LEN, HR_SJ_LETTER, HR_SJ_NOR_SYM
+	HR_SJ_PHRASE, HR_SJ_PHRASE_LEN, HR_SJ_WS, HR_TO_COUNT, HR_TO_DOMAIN_COUNT
+	HR_TO_NAME, IP_TRUSTED, SRC_TRUSTED, DN_TRUSTED, SA_EXISTED
+	SN_EXISTED, SPF_NOPASS, DKIM_NOPASS, DMARC_NOPASS, CIE_BAD
+	CIE_GOOD, CIE_GOOD_SPF, GTI_FG_BS, GTI_RG_INFO, GTI_C_BU
+	AMN_GOOD, ABX_MISS_RDNS
+X-CID-O-RULE: Release_Ham
+X-CID-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.41,REQID:7af7a8ff-ea22-4af3-b512-c4ab1afb936b,IP:10,
+	URL:0,TC:0,Content:-5,EDM:0,RT:0,SF:-15,FILE:0,BULK:0,RULE:Release_Ham,ACT
+	ION:release,TS:-10
+X-CID-INFO: VERSION:1.1.41,REQID:7af7a8ff-ea22-4af3-b512-c4ab1afb936b,IP:10,UR
+	L:0,TC:0,Content:-5,EDM:0,RT:0,SF:-15,FILE:0,BULK:0,RULE:Release_Ham,ACTIO
+	N:release,TS:-10
+X-CID-META: VersionHash:6dc6a47,CLOUDID:46106bf9ae48c36350ad67386fbc80e4,BulkI
+	D:2412181053233PHOL3KN,BulkQuantity:0,Recheck:0,SF:17|19|24|38|44|66|78|10
+	2,TC:nil,Content:0,EDM:-3,IP:-2,URL:11|1,File:nil,RT:nil,Bulk:nil,QS:nil,B
+	EC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 0,NGT
+X-CID-BAS: 0,NGT,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_FAS,TF_CID_SPAM_FSD,TF_CID_SPAM_FSI,
+	TF_CID_SPAM_ULN
+X-UUID: 3e94f322bceb11efa216b1d71e6e1362-20241218
+X-User: zhaochenguang@kylinos.cn
+Received: from localhost.localdomain [(223.70.160.239)] by mailgw.kylinos.cn
+	(envelope-from <zhaochenguang@kylinos.cn>)
+	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
+	with ESMTP id 989597429; Wed, 18 Dec 2024 10:53:22 +0800
+From: Chenguang Zhao <zhaochenguang@kylinos.cn>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Philipp Hortmann <philipp.g.hortmann@gmail.com>,
+	Dan Carpenter <dan.carpenter@linaro.org>
+Cc: Chenguang Zhao <zhaochenguang@kylinos.cn>,
+	linux-staging@lists.linux.dev
+Subject: [RESEND PATCH v2] staging: rtl8723bs: Cleanups for rtw_inc_and_chk_continual_io_error
+Date: Wed, 18 Dec 2024 10:53:09 +0800
+Message-Id: <20241218025309.948-1-zhaochenguang@kylinos.cn>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-On Tue, 17 Dec 2024 12:53:22 -0800 Easwar Hariharan <eahariha@linux.microsoft.com> wrote:
+There's a warning when using checkpatch.pl check rtw_io.c:
 
-> There have been a couple of comments[1][2] that came in after you queued
-> the series to mm. Would you rather I send individual patches addressing
-> these, or just send a v4 of the entire series (-netdev of course) so you
-> can replace it wholesale?
+    WARNING: Missing a blank line after declarations
+    146: FILE: drivers/staging/rtl8723bs/core/rtw_io.c:146:
+    int value = atomic_inc_return(&dvobj->continual_io_error);
+    if (value > MAX_CONTINUAL_IO_ERR)
 
-Individual small fixes would be preferable please.  Mainly to
-preserve the validity of current review efforts.
+The patch fixes it.
+
+In addition, also rename 'value' variable to 'error_count' and drop
+'ret' variable.
+
+Reviewed-by: Dan Carpenter <dan.carpenter@linaro.org>
+Signed-off-by: Chenguang Zhao <zhaochenguang@kylinos.cn>
+---
+RESEND:
+ - add Dan's reviewed-by tag.
+v2:
+ - rename 'value' variable to 'error_count' and drop 'ret' variable
+ as Dan suggested.
+---
+ drivers/staging/rtl8723bs/core/rtw_io.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
+
+diff --git a/drivers/staging/rtl8723bs/core/rtw_io.c b/drivers/staging/rtl8723bs/core/rtw_io.c
+index fcda9db6ebb5..79d543d88278 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_io.c
++++ b/drivers/staging/rtl8723bs/core/rtw_io.c
+@@ -141,12 +141,12 @@ int rtw_init_io_priv(struct adapter *padapter, void (*set_intf_ops)(struct adapt
+ */
+ int rtw_inc_and_chk_continual_io_error(struct dvobj_priv *dvobj)
+ {
+-	int ret = false;
+-	int value = atomic_inc_return(&dvobj->continual_io_error);
+-	if (value > MAX_CONTINUAL_IO_ERR)
+-		ret = true;
++	int error_count = atomic_inc_return(&dvobj->continual_io_error);
+ 
+-	return ret;
++	if (error_count > MAX_CONTINUAL_IO_ERR)
++		return true;
++
++	return false;
+ }
+ 
+ /*
+-- 
+2.25.1
+
