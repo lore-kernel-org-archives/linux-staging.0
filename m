@@ -1,60 +1,67 @@
-Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6826E5473C
-	for <linux-staging@lists.linux.dev>; Wed, 18 Dec 2024 02:53:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C38944C62E
+	for <linux-staging@lists.linux.dev>; Thu, 19 Dec 2024 02:39:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734490418; cv=none; b=Evl+WbFSCllq9uEA+71/Lq1zvlihX70RBAOA2dHZtVYVBgeIAhq5PMXfDrUZd/VYCFI3lrsMCb6wmne6UDNVi0fNyJ/7wTdFLI0kvtZNR/bn8KVkv64EUBHzzzSTZ2UhjaixmzN2WjAZE1u33r6W0u+af44h0ePp1VObPzu7ESo=
+	t=1734575955; cv=none; b=An2ctBgnhmjiGfZVKKwcViEd8s37e2wDqs15Z+l3Jzwa/POSKaKmsnudxJ6nLDS8howk4Z/M3TGdGC8B0G0FAPApZsSPUbfpQg/bkRumR61t1/Rw3NEgg1ljA7tYVa0UqIzfBuUS+pLRp4H8CgTYf7s5V4UF9/ZKJMYHm7HEBVc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734490418; c=relaxed/simple;
-	bh=P13MpzFB28MXXAI9pAmD8x9mJmi7UrWXJDnsPidwUbU=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=M0qkLZ6Ba50TXD1UpJeF0RNGQV7iVQRLVfnKdfDgqXVkA2Og/x89tXQ4Tg0ybiilIPcnk4Y9b63DOY7RHi6Wh3NXCSA8sbraqhqPCOL1C2RDKFo8SvlXmmgftN6fEwLgmUV90rtfIJA2xZ3nHpAVgk9q+8jAtghStzjBVwgDD7g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
-X-UUID: 3e94f322bceb11efa216b1d71e6e1362-20241218
-X-CTIC-Tags:
-	HR_CC_COUNT, HR_CC_DOMAIN_COUNT, HR_CC_NAME, HR_CC_NO_NAME, HR_CTE_8B
-	HR_CTT_MISS, HR_DATE_H, HR_DATE_WKD, HR_DATE_ZONE, HR_FROM_NAME
-	HR_SJ_DIGIT_LEN, HR_SJ_LANG, HR_SJ_LEN, HR_SJ_LETTER, HR_SJ_NOR_SYM
-	HR_SJ_PHRASE, HR_SJ_PHRASE_LEN, HR_SJ_WS, HR_TO_COUNT, HR_TO_DOMAIN_COUNT
-	HR_TO_NAME, IP_TRUSTED, SRC_TRUSTED, DN_TRUSTED, SA_EXISTED
-	SN_EXISTED, SPF_NOPASS, DKIM_NOPASS, DMARC_NOPASS, CIE_BAD
-	CIE_GOOD, CIE_GOOD_SPF, GTI_FG_BS, GTI_RG_INFO, GTI_C_BU
-	AMN_GOOD, ABX_MISS_RDNS
-X-CID-O-RULE: Release_Ham
-X-CID-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.41,REQID:7af7a8ff-ea22-4af3-b512-c4ab1afb936b,IP:10,
-	URL:0,TC:0,Content:-5,EDM:0,RT:0,SF:-15,FILE:0,BULK:0,RULE:Release_Ham,ACT
-	ION:release,TS:-10
-X-CID-INFO: VERSION:1.1.41,REQID:7af7a8ff-ea22-4af3-b512-c4ab1afb936b,IP:10,UR
-	L:0,TC:0,Content:-5,EDM:0,RT:0,SF:-15,FILE:0,BULK:0,RULE:Release_Ham,ACTIO
-	N:release,TS:-10
-X-CID-META: VersionHash:6dc6a47,CLOUDID:46106bf9ae48c36350ad67386fbc80e4,BulkI
-	D:2412181053233PHOL3KN,BulkQuantity:0,Recheck:0,SF:17|19|24|38|44|66|78|10
-	2,TC:nil,Content:0,EDM:-3,IP:-2,URL:11|1,File:nil,RT:nil,Bulk:nil,QS:nil,B
-	EC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
-X-CID-BVR: 0,NGT
-X-CID-BAS: 0,NGT,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_FAS,TF_CID_SPAM_FSD,TF_CID_SPAM_FSI,
-	TF_CID_SPAM_ULN
-X-UUID: 3e94f322bceb11efa216b1d71e6e1362-20241218
-X-User: zhaochenguang@kylinos.cn
-Received: from localhost.localdomain [(223.70.160.239)] by mailgw.kylinos.cn
-	(envelope-from <zhaochenguang@kylinos.cn>)
-	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
-	with ESMTP id 989597429; Wed, 18 Dec 2024 10:53:22 +0800
-From: Chenguang Zhao <zhaochenguang@kylinos.cn>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Philipp Hortmann <philipp.g.hortmann@gmail.com>,
-	Dan Carpenter <dan.carpenter@linaro.org>
-Cc: Chenguang Zhao <zhaochenguang@kylinos.cn>,
-	linux-staging@lists.linux.dev
-Subject: [RESEND PATCH v2] staging: rtl8723bs: Cleanups for rtw_inc_and_chk_continual_io_error
-Date: Wed, 18 Dec 2024 10:53:09 +0800
-Message-Id: <20241218025309.948-1-zhaochenguang@kylinos.cn>
-X-Mailer: git-send-email 2.25.1
+	s=arc-20240116; t=1734575955; c=relaxed/simple;
+	bh=jIM9fOqcR7haxlGnqj9DETKtQ1U544iCkTxQZetDk7I=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=QG3F/C2LqeRb+sEcaOv8Md6u3+xGdVMUzxUNPpFiXRhPwiVdK2jlPSmfTUpMRit/NaibNv6ZBIOH3Xm1UMbxfyD8YklaLBpLH6jv/gzpQi8lTqb6GUm3iTXVIdfypghewFcwlEAUpdV+fCklHLigVq4vbdJMm6swz8ARstvYsi0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bK81fHT/; arc=none smtp.client-ip=209.85.210.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bK81fHT/"
+Received: by mail-pf1-f174.google.com with SMTP id d2e1a72fcca58-725ee6f56b4so263907b3a.3
+        for <linux-staging@lists.linux.dev>; Wed, 18 Dec 2024 18:39:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1734575953; x=1735180753; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=2+v/vdte2Kq8gnROS9NJV8yM8eVS77LonN5sAlNjLdM=;
+        b=bK81fHT/6Zztuluz78p3M0iZKthFw6V1w016gap/1P8c/SnVJ4q2hTQ081g0BYr+UB
+         ONadqHfbr9mN28pxuOQhufsHqCk3+AQDEhzeatzbhq18BaXs9jxnH0PM2KZlVKxSs98C
+         FdvBFd9s605nPwaEHkLF3eO7nte3qm19uwiS3Rh0gzV1lYsaeeIsBrqkD6wPZs8C7+Nh
+         wr9W1I5ZeSv5zgoba2SwRZkc6YExFTRyCmEJqYWqSTFmSPE89QzDh0atAYC/dhK2qTwS
+         HSdhVI7//DS76PgJuaZhqPdNJb9aGM60dV2D52SZN9+z/ByoaCv/Hughh/lerpgZggbD
+         orKQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1734575953; x=1735180753;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=2+v/vdte2Kq8gnROS9NJV8yM8eVS77LonN5sAlNjLdM=;
+        b=KtxD4DZivdZEqXKeSUUY2bi6mGLg3cCnonBEX0Gi/iZfqEMn8R6uCeU3tYtPRAb1R7
+         sFR9/1IWruKzghUbfBhvwt8KDkuhGziujcIuzodK/ocZwQ9+qYww9q8RwEjknJM3g0c+
+         H2LSeax4xE8eWzomjGMjQfwGUhjopD1TFDsOTVYhul7Hzm6YTGNHRg4TbMkXVXKKZupO
+         eCfl9LsGgYTrILqqPK9eORfRI5hSGw9xeNs2Z/w1W3hFGpoBS0FrBYM6AXeNHhIX7+D/
+         pv+FqzfVuWfvNZ3aS18q41stGvEuO5hEnd5POP/XQN0s6rNFL2HUvxWSQyg9n/F5j5rV
+         gE9A==
+X-Gm-Message-State: AOJu0Yx/pc8WXzjaNh9DbBgKUpCBrTEAFjebQbymnBSscONekafG9qQ0
+	R+OfEh6gPnUZCZo38xKqmhH6ExY0BexBeDbvRb1fB+FmCQsTLxuP
+X-Gm-Gg: ASbGnctRrasOEWXQASYgAtzaLmtbq1F53Mq87TPeQ63VeJnuh5HljnjfXmT0tRU2W8D
+	gpSaxTPJxXbRFW+uJPVrfMpx21qbdeo9WVs8pU2EFUz+/6rQmT1k2OMIAyJmpFS0otUGYS6dS3y
+	10RsI8O3hx8YaEWsX8a7dkpxvDQ7A+icu3b23gtRB5m8vfjvnrX0+6ivtSHui73t35bA2xzArZ6
+	Acp21d9ko/W5WnSSl2o8qwqrwF0sz2SetcMR1bTLJ/eJftxN5+wsiTuTLo=
+X-Google-Smtp-Source: AGHT+IFqwRX1Od8kvYG4oww2GHUgR56fcYOkw035wU9tG5QLyNseuazB2liPSfoLUWFlBfXhzig8Cg==
+X-Received: by 2002:a05:6a00:2906:b0:725:df1a:285 with SMTP id d2e1a72fcca58-72a8d26174fmr7418652b3a.12.1734575952915;
+        Wed, 18 Dec 2024 18:39:12 -0800 (PST)
+Received: from localhost ([104.28.201.73])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-72aad8dbcbbsm178622b3a.97.2024.12.18.18.39.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 18 Dec 2024 18:39:12 -0800 (PST)
+From: Sandeep Salwan <salwansandeep5@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Sandeep Salwan <salwansandeep5@gmail.com>
+Subject: [PATCH] staging: fbtft: Remove unnecessary parentheses in fbtft-core.c
+Date: Wed, 18 Dec 2024 18:37:41 -0800
+Message-Id: <20241219023741.11100-1-salwansandeep5@gmail.com>
+X-Mailer: git-send-email 2.39.5 (Apple Git-154)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -63,52 +70,24 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-There's a warning when using checkpatch.pl check rtw_io.c:
-
-    WARNING: Missing a blank line after declarations
-    146: FILE: drivers/staging/rtl8723bs/core/rtw_io.c:146:
-    int value = atomic_inc_return(&dvobj->continual_io_error);
-    if (value > MAX_CONTINUAL_IO_ERR)
-
-The patch fixes it.
-
-In addition, also rename 'value' variable to 'error_count' and drop
-'ret' variable.
-
-Reviewed-by: Dan Carpenter <dan.carpenter@linaro.org>
-Signed-off-by: Chenguang Zhao <zhaochenguang@kylinos.cn>
+Signed-off-by: Sandeep Salwan <salwansandeep5@gmail.com>
 ---
-RESEND:
- - add Dan's reviewed-by tag.
-v2:
- - rename 'value' variable to 'error_count' and drop 'ret' variable
- as Dan suggested.
----
- drivers/staging/rtl8723bs/core/rtw_io.c | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+ drivers/staging/fbtft/fbtft-core.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_io.c b/drivers/staging/rtl8723bs/core/rtw_io.c
-index fcda9db6ebb5..79d543d88278 100644
---- a/drivers/staging/rtl8723bs/core/rtw_io.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_io.c
-@@ -141,12 +141,12 @@ int rtw_init_io_priv(struct adapter *padapter, void (*set_intf_ops)(struct adapt
- */
- int rtw_inc_and_chk_continual_io_error(struct dvobj_priv *dvobj)
- {
--	int ret = false;
--	int value = atomic_inc_return(&dvobj->continual_io_error);
--	if (value > MAX_CONTINUAL_IO_ERR)
--		ret = true;
-+	int error_count = atomic_inc_return(&dvobj->continual_io_error);
+diff --git a/drivers/staging/fbtft/fbtft-core.c b/drivers/staging/fbtft/fbtft-core.c
+index 4cfa494243b9..b4e9d6000b9a 100644
+--- a/drivers/staging/fbtft/fbtft-core.c
++++ b/drivers/staging/fbtft/fbtft-core.c
+@@ -664,7 +664,7 @@ struct fb_info *fbtft_framebuffer_alloc(struct fbtft_display *display,
+ 		txbuflen = 0;
  
--	return ret;
-+	if (error_count > MAX_CONTINUAL_IO_ERR)
-+		return true;
-+
-+	return false;
- }
+ #ifdef __LITTLE_ENDIAN
+-	if ((!txbuflen) && (bpp > 8))
++	if (!txbuflen && bpp > 8)
+ 		txbuflen = PAGE_SIZE; /* need buffer for byteswapping */
+ #endif
  
- /*
 -- 
-2.25.1
+2.39.5 (Apple Git-154)
 
