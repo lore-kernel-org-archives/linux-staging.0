@@ -1,148 +1,159 @@
-Received: from fhigh-b3-smtp.messagingengine.com (fhigh-b3-smtp.messagingengine.com [202.12.124.154])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA2A51A4E77
-	for <linux-staging@lists.linux.dev>; Thu, 19 Dec 2024 17:14:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.154
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D748D1BEF71
+	for <linux-staging@lists.linux.dev>; Thu, 19 Dec 2024 20:45:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734628482; cv=none; b=YvkjfMZfb6ogA9Or5M6/RcIZ+1xPpMZ17Xsh78YcnG9HIrWUaDKf4mRFKWjsZSfYJANJZU4eD2xVjnRHIxqT/J2R05B8W+M0iXULl27bV4g3n118HdHpphn0iiwUVzgV36yLvQdmZTnTDSReZDQmhU0Zt31Foh1bXilx3yvjKfo=
+	t=1734641136; cv=none; b=V3t1s78z70z++W0r2hujxA5iqLDRKble5GOH08POxZXhk4llYxa5GwWNntuYuPiVb5eXOUkFQ1CRBUhM7cjtruP5do3fBvP7+uTChnhk4ZDf1bH3td19IijzoEXR69SCMi7t10CnIe4c9a9Y7hdXqLfenDSYuhNFLvKYgjUi+Vg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734628482; c=relaxed/simple;
-	bh=Xg1C2iJ4K5oZh9M/EIDIU50ffNdbmFoAr94V3xtyUvc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=j54i8mJnPq6/f3n3yGXEmvf6BRagDw9Ckb3qc4OJFelXfIWz2W/JSk4vtYTXWvegS9B3X3Z9txQUdXLpulwx8YnaaTitpLTAewZDzzTt3Xxjg+bdXEegjbblZ4Zp6/F1NlIUWv87xHxmoyaHjXMoikLv/pN8Jz+heQPkkVYz0oo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=lheJY7d0; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=o+uzEG3i; arc=none smtp.client-ip=202.12.124.154
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
+	s=arc-20240116; t=1734641136; c=relaxed/simple;
+	bh=JZ9kuIjLGYKrsdfVnek3gAP91z2OeLTb9p4Uy8pGFHs=;
+	h=Date:Subject:In-Reply-To:CC:From:To:Message-ID; b=e1Q14DjB6XeIVw9tKwlJzIEXlsqmie5O+10umY/9PE3+Bc5m+EVUL1s0xlCvB2rdbS7nknpU6Mf3BM21Cjm9PdgcwMqtss8jIn4gQpkKwxBbj8vOx1s2CjWKfW7F676CiW6lp8OFo53Z3+AImarpErZ3XkjBuolFnzKw0AqTw34=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dabbelt.com; spf=pass smtp.mailfrom=dabbelt.com; dkim=pass (2048-bit key) header.d=dabbelt-com.20230601.gappssmtp.com header.i=@dabbelt-com.20230601.gappssmtp.com header.b=G3Wb0QVt; arc=none smtp.client-ip=209.85.216.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dabbelt.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dabbelt.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="lheJY7d0";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="o+uzEG3i"
-Received: from phl-compute-12.internal (phl-compute-12.phl.internal [10.202.2.52])
-	by mailfhigh.stl.internal (Postfix) with ESMTP id C398325400C9;
-	Thu, 19 Dec 2024 12:14:39 -0500 (EST)
-Received: from phl-mailfrontend-02 ([10.202.2.163])
-  by phl-compute-12.internal (MEProxy); Thu, 19 Dec 2024 12:14:39 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm3; t=1734628479;
-	 x=1734714879; bh=aIyekHhCawgtcmQatCUbCPUrM/1cHIrTjIbSKG+/RAk=; b=
-	lheJY7d0smDVnxj1rta8/JEnetVM4Wf0T4lgJN5M8yq8o7l2o6hGPCcu//djIQmY
-	qymdpwlkRWmkuqLhRnjWqYrpxQXD3YWpcNj1zTa2QzNL4Znaj3BN0Vp0vWgBH/Wy
-	i7l4V6UM1KmwjU/rmBSCVJ+cRkFhlqG0nVrEBotU316oIfrzJsFMQOnhmJM11rT4
-	jLKZQa57ppzKIqJJ0vjVdAb/4RefM2x+CekwAYcnpueARCSdNgvcyFghw7zM6Gp6
-	iQy/w1cE4MKhISjP+auasI8T+vJRTcqVTSyBzkqhCGaUImxldKWucikpVKeUU3k/
-	r6OGx5AKxp3mC+YoCYcWhQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1734628479; x=
-	1734714879; bh=aIyekHhCawgtcmQatCUbCPUrM/1cHIrTjIbSKG+/RAk=; b=o
-	+uzEG3iciBD6imlhaiK8qiCEEhe4iJzD+8AWbIIZ2CO37GgvC//tJIlDOBvDFRrw
-	11+thtJ2WO5qvdVA/bdyBomb63qa9TzAbYeEdN8qRK239epXEELe5rZGT/a604OJ
-	qZCENaEkOgtk4c64fpCED/H3jNRN7OXQJQp8QmqLsAYzPgF2yj5n6LbNUmf6yFXS
-	Tyw2t4owColZgdcct9K5IUCNA73euuO7sLUTEV4vn1E3tRIUWfWa6UBvDE4kAnlC
-	eWEUsnkcRf71/9kCm30+O4kjchYTVG64LE0bojpJul41RI0kWAaOTNT8UijlXwMd
-	v8WhcRwxvkswBsCfzhfZw==
-X-ME-Sender: <xms:f1RkZ8H_78j5GhVtAdagE52UUJyfxE0iXCR1VmhpOXEeay0H9WjA5Q>
-    <xme:f1RkZ1Vn2ZlT5nkVko29Y90x91NWSCql-5XhZXxZw3jVbBowYQqny1ucsoxaaHR3M
-    RWn1WFamYVuzjs1ETE>
-X-ME-Received: <xmr:f1RkZ2K1I8Q1FbCD9NclFKwCzNI4VIqsD3Pw3zq4xqQpLGc7YRCw8RoZKNWpKVPbPiZapbujT41-U9Qr7C9K6R1cLamRFCW1Lw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefuddruddttddgleeiucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggvpdfu
-    rfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnh
-    htshculddquddttddmnecujfgurhepfffhvfevuffkfhggtggugfgjsehtkeertddttdej
-    necuhfhrohhmpefpihhklhgrshcuufpnuggvrhhluhhnugcuoehnihhklhgrshdrshhoug
-    gvrhhluhhnugesrhgrghhnrghtvggthhdrshgvqeenucggtffrrghtthgvrhhnpedtgfeu
-    gfdtfedvkeffvdevheeuteffvefgvedvieduueegheetgffhvdfhtdeggfenucffohhmrg
-    hinheprghnrghlohhgrdgtohhmnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghm
-    pehmrghilhhfrhhomhepnhhikhhlrghsrdhsohguvghrlhhunhgusehrrghgnhgrthgvtg
-    hhrdhsvgdpnhgspghrtghpthhtohepiedpmhhouggvpehsmhhtphhouhhtpdhrtghpthht
-    oheplhgruhhrvghnthhiuhdrphgrlhgtuhesohhsshdrnhigphdrtghomhdprhgtphhtth
-    hopehmtghhvghhrggssehkvghrnhgvlhdrohhrghdprhgtphhtthhopehgrhgvghhkhhes
-    lhhinhhugihfohhunhgurghtihhonhdrohhrghdprhgtphhtthhopehlihhnuhigqdhmvg
-    guihgrsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhinhhugidqshht
-    rghgihhngheslhhishhtshdrlhhinhhugidruggvvhdprhgtphhtthhopehlihhnuhigqd
-    hkvghrnhgvlhesvhhgvghrrdhkvghrnhgvlhdrohhrgh
-X-ME-Proxy: <xmx:f1RkZ-GyZQ9t4N6Y8V4PqnZ21tAdmc72i22nLwTlqyWVHD_tlHev1A>
-    <xmx:f1RkZyUUsy6nWHp7GyIMTs5KRbnvQWY_S35ZdgXLY7FPPlP469qFZQ>
-    <xmx:f1RkZxNuW-9DL9m1RvRtU6xo6Nguhoe_EOYyNOGhkZLUJXKiMibVYw>
-    <xmx:f1RkZ52B9HR2RkhjqNDOowhHvi3hObAg1Ko2iNU7sv4e2nWgpz5ghQ>
-    <xmx:f1RkZ0LX0NPEjyoWpu7LR9QlDXReM4_uubtZnk8KvpyuQVwuuILS7m7P>
-Feedback-ID: i80c9496c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 19 Dec 2024 12:14:38 -0500 (EST)
-Date: Thu, 19 Dec 2024 18:14:37 +0100
-From: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>
-To: Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 0/3] staging: media: max96712: a few, mainly cosmetic,
- changes
-Message-ID: <20241219171437.GE3377144@ragnatech.se>
-References: <20241219150644.64507-1-laurentiu.palcu@oss.nxp.com>
+	dkim=pass (2048-bit key) header.d=dabbelt-com.20230601.gappssmtp.com header.i=@dabbelt-com.20230601.gappssmtp.com header.b="G3Wb0QVt"
+Received: by mail-pj1-f41.google.com with SMTP id 98e67ed59e1d1-2ef6c56032eso805924a91.2
+        for <linux-staging@lists.linux.dev>; Thu, 19 Dec 2024 12:45:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=dabbelt-com.20230601.gappssmtp.com; s=20230601; t=1734641132; x=1735245932; darn=lists.linux.dev;
+        h=message-id:to:from:cc:in-reply-to:subject:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=34fOr+sBMBO+x2ZRjtswvbVc5FTdkFy/NURmt1Uylmw=;
+        b=G3Wb0QVtClIkrzI+tDVYYZfcrn8pAhS70EhvZ5PgynjUylCoiXy5FUVY2nptsbWuWY
+         Je0XZQ67H41TyORTdVueojmgT9ixYbj3Bf32dFRFh12UPSuMhaf0FGQSpDF9K792669r
+         gk12vp6c7ZkAwuaeGiAUiWnDgBnKC1QK7pkc2LIf9IIBknd6sl9s0h4NYN3tl6ItM5LN
+         WRp43vJUFI6zdtq7F2l3y1sUfwMpB+sw4djCLcGBdm+EJJsYAvDNcpEPe7ptU80jUD1y
+         lQ7tOlgJ5JF3OLQ734XXwEGI6TM2DXsmGRWVU8q58Xj0Z+/xZm9IGWmw8lHRLZcao7Hh
+         MzHg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1734641132; x=1735245932;
+        h=message-id:to:from:cc:in-reply-to:subject:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=34fOr+sBMBO+x2ZRjtswvbVc5FTdkFy/NURmt1Uylmw=;
+        b=v8UW1e2KL0nac1tV3GqirRye9PvSv3FhJzTjN/74ZG8RNRYakU9y2o8btRFsOpcQm5
+         9tyHuNZTplgLbLq7T+vZxJ9k3LioxCZz0xq+8V3ypc8mSroNyUhNl7VoayNXwLEvZXXE
+         lXPG+bcrmz3FozhsyffyrgE3rigNWtyb6yzdnkA0exxqmo/XnZkAJJNYmDOf3KgBld2r
+         IQo4Sm8XVhaOBRtf4/DfAQEStmuxq9I7T/byPx4qrurYL5eMcJ5usMM1mNhyUeeXriwl
+         l8gZxRPxAUdqUVnKcTkIQOjKj4/jOjhJTfTNmkxhXkd+ZJ/yvu9PFKDExYIXmmKGlBoY
+         vVDg==
+X-Forwarded-Encrypted: i=1; AJvYcCU24U95s5YBNOhxyc7ppS6enFcvy8R1AduwgxW/rU6/tLEekNuElC4KlC7M1QPpbSUWvqgTF+Od7T4l6lH7@lists.linux.dev
+X-Gm-Message-State: AOJu0Ywub84NcviN0L1BtX++P/ybvnCv3m2kyFJKF8zQkiseTPcuRkyG
+	aitCpwXtNdABYmg5SXZtVtYMMKIbdYu5YDd+c1cNSlLqEIuTrwNvF7Bacev167I=
+X-Gm-Gg: ASbGnctPxhoP9jyu4SoeDN2/pkSGpCK2ZXB/LZwE5g7f/bIi5D5ibUoqb0JodNYQtVU
+	/4l3fv3o6x6fi18kyVyLAsy8V/yGoJjP136JR8hyQfPNtDzQgz2fOc4bXgYQdHIy1dUMg7gfDAt
+	0mWJV19BpsIcdp4dU/QNYgAem/a2cH/55eHzzZ/wmn4qlMkcXWdCSE4HInBEplbcR04LFb8EG1P
+	EgtZIBzpHi+iQgAB+AA3yGrFS4gCuigTyQM/N9FLXE/GisfXe5viQ==
+X-Google-Smtp-Source: AGHT+IFfsH6nItmnV1XFAuzY6o7+fvj0dTuG3GgNIqcyFmA/JXY781LWRbrgWJGPhnc8FcLqpXIDTA==
+X-Received: by 2002:a17:90b:514d:b0:2f1:2fa5:1924 with SMTP id 98e67ed59e1d1-2f452ec1ceemr532698a91.26.1734641131935;
+        Thu, 19 Dec 2024 12:45:31 -0800 (PST)
+Received: from localhost ([192.184.165.199])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2f447798801sm1868196a91.8.2024.12.19.12.45.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 19 Dec 2024 12:45:31 -0800 (PST)
+Date: Thu, 19 Dec 2024 12:45:31 -0800 (PST)
+X-Google-Original-Date: Thu, 19 Dec 2024 12:45:29 PST (-0800)
+Subject:     Re: [PATCH] staging: gpib: Fix allyesconfig build failures
+In-Reply-To: <20241217101904.370bca1a@gandalf.local.home>
+CC: linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev, dpenkler@gmail.com,
+  Greg KH <gregkh@linuxfoundation.org>, Linus Torvalds <torvalds@linux-foundation.org>
+From: Palmer Dabbelt <palmer@dabbelt.com>
+To: rostedt@goodmis.org
+Message-ID: <mhng-cc2b2d1a-227f-484a-a3ac-94927f8d336c@palmer-ri-x1c9>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20241219150644.64507-1-laurentiu.palcu@oss.nxp.com>
 
-Hello Laurentiu,
+On Tue, 17 Dec 2024 07:19:04 PST (-0800), rostedt@goodmis.org wrote:
+> From: Steven Rostedt <rostedt@goodmis.org>
+>
+> My tests run an allyesconfig build and it failed with the following errors:
+>
+>   LD [M]  samples/kfifo/dma-example.ko
+> ld.lld: error: undefined symbol: nec7210_board_reset
+>>>> referenced by fmh_gpib.c:1512 (/work/build/trace/nobackup/linux-test.git/drivers/staging/gpib/fmh_gpib/fmh_gpib.c:1512)
+>>>>               vmlinux.o:(fmh_gpib_detach)
+>>>> referenced by fmh_gpib.c:1637 (/work/build/trace/nobackup/linux-test.git/drivers/staging/gpib/fmh_gpib/fmh_gpib.c:1637)
+>>>>               vmlinux.o:(fmh_gpib_pci_detach)
+>>>> referenced by fmh_gpib.c:1342 (/work/build/trace/nobackup/linux-test.git/drivers/staging/gpib/fmh_gpib/fmh_gpib.c:1342)
+>>>>               vmlinux.o:(fmh_gpib_init)
+>
+> ld.lld: error: undefined symbol: nec7210_read
+>>>> referenced by fmh_gpib.c:46 (/work/build/trace/nobackup/linux-test.git/drivers/staging/gpib/fmh_gpib/fmh_gpib.c:46)
+>>>>               vmlinux.o:(fmh_gpib_read)
+>
+> ld.lld: error: undefined symbol: nec7210_write
+>>>> referenced by fmh_gpib.c:54 (/work/build/trace/nobackup/linux-test.git/drivers/staging/gpib/fmh_gpib/fmh_gpib.c:54)
+>>>>               vmlinux.o:(fmh_gpib_write)
+>
+> It appears that some modules call the function nec7210_board_reset() that
+> is defined in nec7210.c. In an allyesconfig build, these other modules are
+> built in. But the file that holds nec7210_board_reset() has:
+>
+>   obj-m += nec7210.o
+>
+> Where that "-m" means it only gets built as a module. With the other
+> modules built in, they have no access to nec7210_board_reset() and the build
+> fails.
+>
+> This isn't the only function. After fixing that one, I hit another:
+>
+> ld.lld: error: undefined symbol: push_gpib_event
+>>>> referenced by fmh_gpib.c:1166 (/work/build/trace/nobackup/linux-test.git/drivers/staging/gpib/fmh_gpib/fmh_gpib.c:1166)
+>>>>               vmlinux.o:(fmh_gpib_internal_interrupt)
+>>>> referenced by nec7210.c:956 (/work/build/trace/nobackup/linux-test.git/drivers/staging/gpib/nec7210/nec7210.c:956)
+>>>>               vmlinux.o:(nec7210_interrupt_have_status)
+>>>> referenced by nec7210.c:962 (/work/build/trace/nobackup/linux-test.git/drivers/staging/gpib/nec7210/nec7210.c:962)
+>>>>               vmlinux.o:(nec7210_interrupt_have_status)
+>
+> ld.lld: error: undefined symbol: gpib_match_device_path
+>>>> referenced by fmh_gpib.c:1370 (/work/build/trace/nobackup/linux-test.git/drivers/staging/gpib/fmh_gpib/fmh_gpib.c:1370)
+>>>>               vmlinux.o:(fmh_gpib_device_match)
+>
+> Where push_gpib_event() was also used outside of the file it was defined
+> in, and that file too only was built as a module.
+>
+> Since the directory that nec7210.c is only traversed when
+> CONFIG_GPIB_NEC7210 is set, and the directory with gpib_common.c is only
+> traversed when CONFIG_GPIB_COMMON is set, use those configs as the option to
+> build those modules. When it is an allyesconfig, then they will both be
+> built in and their functions will be available to the other modules that
+> are also built in.
+>
+> Fixes: 3ba84ac69b53e ("staging: gpib: Add nec7210 GPIB chip driver")
+> Fixes: 9dde4559e9395 ("staging: gpib: Add GPIB common core driver")
+> Signed-off-by: Steven Rostedt (Google) <rostedt@goodmis.org>
+> ---
+>  drivers/staging/gpib/common/Makefile  | 2 +-
+>  drivers/staging/gpib/nec7210/Makefile | 2 +-
+>  2 files changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/drivers/staging/gpib/common/Makefile b/drivers/staging/gpib/common/Makefile
+> index 0c4c77bea75b..460586edb574 100644
+> --- a/drivers/staging/gpib/common/Makefile
+> +++ b/drivers/staging/gpib/common/Makefile
+> @@ -1,5 +1,5 @@
+>
+> -obj-m += gpib_common.o
+> +obj-$(CONFIG_GPIB_COMMON) += gpib_common.o
+>
+>  gpib_common-objs := gpib_os.o iblib.o
+>
+> diff --git a/drivers/staging/gpib/nec7210/Makefile b/drivers/staging/gpib/nec7210/Makefile
+> index 8d4d90f21109..64330f2e89d1 100644
+> --- a/drivers/staging/gpib/nec7210/Makefile
+> +++ b/drivers/staging/gpib/nec7210/Makefile
+> @@ -1,4 +1,4 @@
+>
+> -obj-m += nec7210.o
+> +obj-$(CONFIG_GPIB_NEC7210) += nec7210.o
 
-On 2024-12-19 17:06:40 +0200, Laurentiu Palcu wrote:
-> Hi,
-> 
-> This is in preparation for bringing our downstream max96724 work into
-> the max96712 driver. The changes in this patch-set are mainly cosmetic
-> to increase readability, with one exception related to the PCLK debug
-> register which appears to exist in MAX96724 as well(see VPG section in
-> users guide [1]).
-> 
-> Unfortunately, I couldn't find any max96712 reference manual anywhere to
-> make sure the registers match between the 2 chips, nor I have a max96712
-> to test with.
+Reviewed-by: Palmer Dabbelt <palmer@rivosinc.com>
 
-I have tested this series with both MAX96712 and MAX96724 and I can 
-capture the test patterns correctly. For the series,
-
-Tested-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-
-> 
-> However, since the max96724 compatible was added here, according to the
-> commit
-> 
-> 6c872b782ae ("media: staging: max96712: Add support for MAX96724")
-> 
-> the chips are "almost identical". So, I used max96724 register and
-> field descriptions instead. Someone with a max96712 RM may want to
-> double-check though.
-> 
-> Thanks,
-> Laurentiu
-> 
-> [1] https://www.analog.com/media/en/technical-documentation/user-guides/max96724fr-user-guide.pdf
-> 
-> Laurentiu Palcu (3):
->   staging: media: max96712: fix typo
->   staging: media: max96712: enable extra debug register for max96724
->   staging: media: max96712: add some register and field definitions
-> 
->  drivers/staging/media/max96712/max96712.c | 210 +++++++++++++++++-----
->  1 file changed, 165 insertions(+), 45 deletions(-)
-> 
-> -- 
-> 2.44.1
-> 
-
--- 
-Kind Regards,
-Niklas Söderlund
+Thanks, this was breaking my stuff too.  I was just going to send a 
+revert, but this seems better.  I've got it stacked up locally for the 
+testers, so no rush on my end.
