@@ -1,186 +1,200 @@
-Received: from fout-b7-smtp.messagingengine.com (fout-b7-smtp.messagingengine.com [202.12.124.150])
+Received: from EUR05-AM6-obe.outbound.protection.outlook.com (mail-am6eur05on2046.outbound.protection.outlook.com [40.107.22.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6408F1C07D8
-	for <linux-staging@lists.linux.dev>; Fri, 20 Dec 2024 11:37:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.150
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1734694675; cv=none; b=EHbZd8DxEezPrbMc4UHt/DIjNU+T+a30ELzNzyZ/9EIfv7K6uLAo7NtzsH7hPHeFVcg8uLm+ilObPDVlKcnEGu8EMFPsMos272QewoXdnaRhP0NJllruT4dPGDiS7M4VyFWDFAnxJb+oiYzN9XXBZ7+CIHvbMFXG6hAkpIx+Zxg=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1734694675; c=relaxed/simple;
-	bh=wuFGPhy9WZm5f+oeGzkf9TvXfz8DDZ7jl9+zKUXcsV4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=W+TXNgieUbpIUyr26QxmYKBB1sinub3DQ2fKUNgSM/Q7/nWWPdP2efoa4UuelK5tlWnC1BS37Gg45jxIcXOn96B99mwHK4k3MIVklnOA0bB1yUerllRb0MTJTq/NNAamD0IbAyM0ccEaWO07RuBc+rEHWcgIJwxB1rrDvZR4aM0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=eKwh3xhP; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=EEtcuSZ8; arc=none smtp.client-ip=202.12.124.150
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD72A211498
+	for <linux-staging@lists.linux.dev>; Fri, 20 Dec 2024 12:36:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.22.46
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1734698167; cv=fail; b=PYbVfkOXiWS7WyweRmvF3ywS0Ma7LO67gY2jaJRMAQ58zvON5fvjqXuG5RjykjVEfQRriJHAQaJIunKipRqYN5whXiLycsxzoNPWzAa7sxpVtKwep5Hx5odbbBfd30BKCfUEoa+oIb36UnZreqjKC9cze3zOhMVm74HGkePuXtQ=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1734698167; c=relaxed/simple;
+	bh=AvGnJ0N5/kSD/TOUidJiBsIjmM2akYykMWC7IsD4LtQ=;
+	h=From:To:Cc:Subject:Date:Message-Id:Content-Type:MIME-Version; b=loeoadTZpH4BfHkmV/Q6lq2UBhZvXDZSHaq/h7KvvGXXlY35dxcFXDiBvBCW5rhSW5UfNMWNQMjCkQYSzxNT6b7IlPkKdhDpTLZ8lXkxxyJUT6juqNtxLs1MUP+5V2Lb/g02j6ktgsQBnkMhEPtkVwou0/x59B16P9hjvoqvWh0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com; spf=pass smtp.mailfrom=oss.nxp.com; dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b=wZ9h450W; arc=fail smtp.client-ip=40.107.22.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.nxp.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="eKwh3xhP";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="EEtcuSZ8"
-Received: from phl-compute-06.internal (phl-compute-06.phl.internal [10.202.2.46])
-	by mailfout.stl.internal (Postfix) with ESMTP id 45B4711401CE;
-	Fri, 20 Dec 2024 06:37:52 -0500 (EST)
-Received: from phl-mailfrontend-01 ([10.202.2.162])
-  by phl-compute-06.internal (MEProxy); Fri, 20 Dec 2024 06:37:52 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm1; t=1734694672;
-	 x=1734781072; bh=Di6cLCqCm7jZ3LW3UbdfOWR9Pp66Myiu4Q6HCa2mYtE=; b=
-	eKwh3xhPzBsXhhJkUgGMjQnNVb6LyXtPGMdpbJX4Kz+Dp5jdM+7AE8u1iuVM7pjh
-	0YpjPTaxayCvCJc8XKm1LNq+4tBGJ3CmTRV2duUEsJEjFJRl+jojS3jxRhs3WJhg
-	Yaajafbt8Xc4EtzGuWGRcdI/710F4kmI1wI0QppbCsnDaQeAix3MxAgSiaiP7WGE
-	Yj//vq97PmW3MbCF2pbsJwENgCQZh8B7OUJsWVxUCE5YOFEj9f/HXzLEVLaYjDgx
-	oJcGG3YS7nNBiy6kTzGbM4zutRPU6F6QAPi31h+6JzjKqpgfLLPMYPF08gv1KtUk
-	WT8OjHeUmFa64NWQOAc+6g==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1734694672; x=
-	1734781072; bh=Di6cLCqCm7jZ3LW3UbdfOWR9Pp66Myiu4Q6HCa2mYtE=; b=E
-	EtcuSZ8qf7F5CYw2Zsml5RgdLYQE/c14CrbzZokU+Yi5j0zNmAsw2sljtCUAifWp
-	62VwpVe2afqFjpoyUlbebJaTGFr5ObOir/YFampzlMXCmM3vx3UdTlc2r41xwxrQ
-	aMcw87AJsRu2vwKKRfdGCLsGqgEEhlpW498CcxWz4qoEViYZveWOXgmtVKSyddoB
-	jk/UIeMV8SuzAj7B/Vw4guQ6Z/tkNHMyeqmht/nabsB3XCaKs3BK2eZt+Ba+fqul
-	EoclyzgfPOuoXUFf8FGPdYAFSDj9k/f6l+NnIpNe8gYygFj2rQUyZAlQGQ3lg8+e
-	WCYv4+IBlVzE8Lh3GnjXg==
-X-ME-Sender: <xms:D1dlZyclykfNHfvPTl1w0KwKd5l40U6VMdyo1TD7hl1hge7CwPNq7Q>
-    <xme:D1dlZ8P3XIiZ2ZkAvQCGpiFWyW1EtpqFGZyeaH9gE_iW1-KqhM-KPD4_U30OrvsVm
-    Nuk6w0SYiqK4IlbPzY>
-X-ME-Received: <xmr:D1dlZzgIUw_NL657y0sCKLEpVRK4yCrpdQXUQSQe-Fkb8s2C2yP9BUUeX3XFKc-pf1JFtWqnC8CMQ5j1j1KxLOM2NPHbsLASPw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefuddruddtvddgvdekucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggvpdfu
-    rfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnh
-    htshculddquddttddmnecujfgurhepfffhvfevuffkfhggtggugfgjsehtkeertddttdej
-    necuhfhrohhmpefpihhklhgrshcuufpnuggvrhhluhhnugcuoehnihhklhgrshdrshhoug
-    gvrhhluhhnugesrhgrghhnrghtvggthhdrshgvqeenucggtffrrghtthgvrhhnpeevteeg
-    tddvvdfhtdekgefhfeefheetheekkeegfeejudeiudeuleegtdehkeekteenucevlhhush
-    htvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehnihhklhgrshdrshho
-    uggvrhhluhhnugesrhgrghhnrghtvggthhdrshgvpdhnsggprhgtphhtthhopeeipdhmoh
-    guvgepshhmthhpohhuthdprhgtphhtthhopehlrghurhgvnhhtihhurdhprghltghuseho
-    shhsrdhngihprdgtohhmpdhrtghpthhtohepmhgthhgvhhgrsgeskhgvrhhnvghlrdhorh
-    hgpdhrtghpthhtohepghhrvghgkhhhsehlihhnuhigfhhouhhnuggrthhiohhnrdhorhhg
-    pdhrtghpthhtoheplhhinhhugidqkhgvrhhnvghlsehvghgvrhdrkhgvrhhnvghlrdhorh
-    hgpdhrtghpthhtoheplhhinhhugidqmhgvughirgesvhhgvghrrdhkvghrnhgvlhdrohhr
-    ghdprhgtphhtthhopehlihhnuhigqdhsthgrghhinhhgsehlihhsthhsrdhlihhnuhigrd
-    guvghv
-X-ME-Proxy: <xmx:D1dlZ_87QIjQlUrlFUPegIhB1iLC8uxDckPLNPBDccWlOsJcsvAE4w>
-    <xmx:D1dlZ-tpmGYMzk0LJVKLPTOXJI8K1inRB28zQDvXmYRLnh1g4ZfUTQ>
-    <xmx:D1dlZ2HXmI0PVYnNwyyINDr-ECsnrrNyawwd3Sqw6r8jjaeFOC53AQ>
-    <xmx:D1dlZ9NrnrnQSO4pNFxdsuG3MnWnWDCsoOACmj83YhuMTYE9Il3QJQ>
-    <xmx:EFdlZygit-_Ny0hBi8YsBdsHVAeT_y4-cR3CkMA_oYetTFCzOt1_sXQ1>
-Feedback-ID: i80c9496c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 20 Dec 2024 06:37:51 -0500 (EST)
-Date: Fri, 20 Dec 2024 12:37:49 +0100
-From: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>
-To: Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+	dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b="wZ9h450W"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=aPraxjqPgra0ijFb9rKJ38JhFCRjqBSnSjPEuODcWdVcl0s2i3hY7Ewc1GFzT3wuoWTVxKIiSA6oJa3lALy9NzLgVFU3Xa/2uGybiw6r5ma1tlxtL0ZVn62YeoPBuYPW7SOIIbJLW5qHvqOyV+QxSQU7jN39n0RoQhvkGxn2SLufBOkdpeAiMEGg6PX6LRFuleKsgjb3bh0SBlVE9ziRMqCpWzIWl7TO8WbQ3RlwhIr1rqTBAN6ff4Ek9BQk5OwJQsuftSr7A0zdc77Ifzl7dOzggUztDvtFLr6GePhaKwv3MnWgYkKAJ6kOAsO2HKWydApcfEcd/gPO3wHXWDx3xg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=s7cSB+B4KZSTNlLThf8oGP6QS0niocMJAtIzzpi0DJQ=;
+ b=NozlGnNc7r+/FjK1mw6sF15nm6E9JH7qpuJzBYVHvOtwtJPooLVGw47xy7f4SY1ehvONJnxngxvGEx4XEfCI2Cmkg4aeQk9VNxrDPweD0jSre3jSeUQzhXLIt5AM4L04O5yJ97ggokxPZn60i6FDC8gAdOqlT9quwUebKVOBO69VthXka6gay1GGbi9a0r5MvkI8jtTUQLiYC3Xa7teHIIzyE7zE1fz3X8qn1LJoYdmUNo0IS0RVBikEknA+o+xCOYYOJpEGepblEjLLB6VyTg/9HLTfjdwh2D9xyhlSfHoRsZxVKQvIEQGbqSP852667F/x4auVA+cW2kMmpPm+8w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
+ dkim=pass header.d=oss.nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
+ s=selector1-NXP1-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=s7cSB+B4KZSTNlLThf8oGP6QS0niocMJAtIzzpi0DJQ=;
+ b=wZ9h450Wld65MtcdI1qSuP3XBz+Q4obdfJv1qQl6dUxAICzq1AMZeyCHx3RAhvABUGJeDmR3t1AJEtuqlnPJPO8T5nbnvJ1CfGeqrnV5WH/00wP+Dj+1bLLLhGW/Bl+c/CPKEwvk84UI0jFdBFVJYR30eqcvG9iTej0JOwMtZEBXyy9rE8PimUknyjkODJbYfVN7q61q/bNWFdsXajX2bdsXMLWyw0qwGcKHsXI4j1E1aMEq6vF4S1VNqFU3A84cepsGL7yw8wq+hyGHuLA+DsBJ7HNdTscNFrgVDVx3MxeCf+LAoVO9Nl0Lysxr23CSboxTHOzg1RJO2oueDOeffw==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=oss.nxp.com;
+Received: from AS4PR04MB9576.eurprd04.prod.outlook.com (2603:10a6:20b:4fe::12)
+ by GVXPR04MB10047.eurprd04.prod.outlook.com (2603:10a6:150:117::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8272.14; Fri, 20 Dec
+ 2024 12:36:01 +0000
+Received: from AS4PR04MB9576.eurprd04.prod.outlook.com
+ ([fe80::9cf2:8eae:c3d1:2f30]) by AS4PR04MB9576.eurprd04.prod.outlook.com
+ ([fe80::9cf2:8eae:c3d1:2f30%4]) with mapi id 15.20.8272.005; Fri, 20 Dec 2024
+ 12:36:01 +0000
+From: Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>
+To: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>,
+	linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org,
 	linux-staging@lists.linux.dev
-Subject: Re: [PATCH v2 1/3] staging: media: max96712: fix typo
-Message-ID: <20241220113749.GC3634024@ragnatech.se>
-References: <20241220104939.503547-1-laurentiu.palcu@oss.nxp.com>
- <20241220104939.503547-2-laurentiu.palcu@oss.nxp.com>
- <20241220105934.GB3634024@ragnatech.se>
- <km7kpbkmdzkkuta2jlr4eql437mfkpv7oeeub4iajqex3na4vr@hqyapkdocyzp>
- <skhr66jhvuaostv6w7dbddynpcqrmjsghelyp7lp73keqwar4b@nzfdlmrw4ts5>
+Subject: [PATCH v3 0/3] staging: media: max96712: a few, mainly cosmetic, changes
+Date: Fri, 20 Dec 2024 14:35:47 +0200
+Message-Id: <20241220123551.696330-1-laurentiu.palcu@oss.nxp.com>
+X-Mailer: git-send-email 2.34.1
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: AM0PR02CA0156.eurprd02.prod.outlook.com
+ (2603:10a6:20b:28d::23) To AS4PR04MB9576.eurprd04.prod.outlook.com
+ (2603:10a6:20b:4fe::12)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <skhr66jhvuaostv6w7dbddynpcqrmjsghelyp7lp73keqwar4b@nzfdlmrw4ts5>
+X-MS-Exchange-MessageSentRepresentingType: 1
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: AS4PR04MB9576:EE_|GVXPR04MB10047:EE_
+X-MS-Office365-Filtering-Correlation-Id: 3e2082f6-0704-4e01-1083-08dd20f2dcb1
+X-MS-Exchange-SharedMailbox-RoutingAgent-Processed: True
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|376014;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?QjVnalAxYlk4RFVlK0dSK1lNTU5pMWs2cm5ncUYydkR3dnduZWZ0RWlJaDAr?=
+ =?utf-8?B?U1pxS04xbFZYV1d0Z1MwS3V5c3J1WHhpQ0t3Y1haR0FHeEh4ZlZSb3JoMFh1?=
+ =?utf-8?B?d3NKR3lRZmJqMmFMN3YxVmpiSnI4SUV5VzhoZmJ1YTN6emEwOHJjMFhsV09l?=
+ =?utf-8?B?TnBwQXkyckhOKzNUYVEzcjFNekRGdElrS2tkREl5WmcwblEyWkhiczQwL2Nq?=
+ =?utf-8?B?cHplYVY4bUx4bU5zZUNhUFE5UEtLS2dKd2cyTy9LenhlU1hQaXpvRDlqWDRH?=
+ =?utf-8?B?MUlxL1V4MU9Cb0I4RjFsT2RMK2ZJM2lDeXhPaEx0MTVTVTRPWkZITTNNQmMx?=
+ =?utf-8?B?S21uMy95ZlBRbjFCOEd6TUtXY29VZGhXaHhBL25IaFFoR2NwREVGbkdvT3Fh?=
+ =?utf-8?B?emdIejh2dE1RTHdnZHM0M0ErUjV2UHZhSjZWci9qTEZJWjZqQVBHc2thT3pP?=
+ =?utf-8?B?aTBmQ1NOeGRiLy9vRDlnMFk5SHdVS1cyMy9oaDBvZ0lUZmdIRDVNVWF3Z05W?=
+ =?utf-8?B?OC9ZZjZCekM5YlBzWWdTS3JXSDJkdmdKWUhCZi83Zzc2QWY2a1d4WjREMUZq?=
+ =?utf-8?B?dDFQb0ZBMTJoY09zbk12TklPMnBjZkZHL3A5TDlvcUh4OHFEVW1waUJPUzYz?=
+ =?utf-8?B?ZmQvMDFrb1pDSzExM2NMaVNBYVB4SWY5YS93QUZNVCtHb2pKMTZBMXhSMkxH?=
+ =?utf-8?B?NWlqNm9ERmNSbk9aaTR6NkpmMThlcEEwVWVyMmpFeStqME1JZHdhazN1d3Er?=
+ =?utf-8?B?dFE1RUhEZGYwSDF6MnhqdFp6UnpTY2VyeVV3Ly9SRjl3dkJWY05JbDF4MHhm?=
+ =?utf-8?B?NWYyT25qMjZORlRUYWNZcWR6dmVUcWh0OHlwUUhUQk5TTDBLZk1GT2lSUEx6?=
+ =?utf-8?B?U0d0WDRPOFgxYmg5bExLbU9yOHc5bnZ5eVVBdGxzdW1OYm1PUUdzZmQ0L1hy?=
+ =?utf-8?B?Ym0vUm1zc1lLUFo0c2ZnaHBsbm1lN09LcTVOTlB2eDEzVi9IYVBMdmhUbTVm?=
+ =?utf-8?B?cnFJcEVvL2VBTjN5NE5TTG10NDdQcTRDVmhwT1VVS0tEK3NnblJhWUVUMVRi?=
+ =?utf-8?B?TjBKWFFWMThLbFNncjRHdE1JZ0Z1UjZMSVV3LzVEZE5HWDM5eldKUE52RHdW?=
+ =?utf-8?B?bFNDTHBwOHFkZkRHd3JlSFpodVBua1QvVklteTlUTGN3dzdGQzk0UEhVWHM1?=
+ =?utf-8?B?Z2pvblYwc0taaUkydFZ6ZGoydHUxQzNUbEFQWkVSTnlSSXFuWExYVWhaaW41?=
+ =?utf-8?B?Tk9jRW1rVnVKNC9JTmlsUXFwWGRVbTl3R21PVzRmcWc2YmZUK09IS2RHZk9F?=
+ =?utf-8?B?cENSU0l5bjc0a0hNUGhPNkwvOEw3MHhNSFB3VlNFbDQ1bTk1OVB1SGE4dWZo?=
+ =?utf-8?B?ejJVTlI3NElENnVtbHd5SGFZUWFNT01aWk81dFowR3RYWTE1NlF6U1BQWW1w?=
+ =?utf-8?B?V1l3c1JDSVpRY3B0SklOVTBJb2c3dTJYUmFsTURTWStObHF6a3VuZytPZ3po?=
+ =?utf-8?B?ZnN4eSt4Uy9aQ3RCTDdLLzI0d1lhZFdqNUR3T3VSRkY2UVBkaUozT2JYYVVy?=
+ =?utf-8?B?TVVkVW9Wd3Babi9BSzNUY1BiMEtESWJ3ekJQbmdRRWpOVEY2aWJhVVYzamhl?=
+ =?utf-8?B?a0N2anltK0lkTmRSWGlDdkpWMEY0c2UrNmVhNGdxVGNLWUlHMzRSc3Vmc05V?=
+ =?utf-8?B?SU50TmRUK25RTXRWMEN5L3piM2FiN0xqSGFldklqNFhaRHJFaTRKMjN2YjZ6?=
+ =?utf-8?B?VGJvMVVLY1hnSGJpQVFobmZXUHBmVVl2eElsNXdUYUF1Y3VlV1JWa0hWakNN?=
+ =?utf-8?B?bjhubXdlQ2ZldGxrOVhBaGNoVnQyQklqdExzTzFpUlB2dFJRT0ZlS2lvL2s0?=
+ =?utf-8?Q?4P4uF8SUnzRh2?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS4PR04MB9576.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?NTNEYXlBWXFVVHpRdXB4ajVLaE4yMXRXdnJ3bFBlMWh5L3pWQUlndCtwVzNu?=
+ =?utf-8?B?VDJ0bnJxYW8wMDVZZHhLTnpkVVJDaUprSUUzRUJTRXFyaC8vUFpzS09XNXZv?=
+ =?utf-8?B?M2JuYjcyQ2FVQ01QdVVnc2NXL1N4VVh5cXg1QzBSNGRlSEN0a0UzNTFIdXBU?=
+ =?utf-8?B?aFdwTXlSUE1rTlJhSmtwTzRaNlZHR2NZdzY2WUtTVGZCVmhzS1Z3UHFsSkJu?=
+ =?utf-8?B?K0V5USt1N2JWZEZjU3JoYTM0TTFXM291YVJqZitIa052RWNxQ21CV21Ock1x?=
+ =?utf-8?B?TzlsaTM3RTNvWElBUFRhTU9Odzd4SU9zdzdONG1kMmNrTEE0L2Evd1AyMGgz?=
+ =?utf-8?B?K2ZLakZWdVQ5R0xFOFRCKy9jc1BBcjBSTTAzQW1penhXQTRmb0o5TmtFVmdu?=
+ =?utf-8?B?TUp1Z29Gd3R2UVpjaWxRaTI0b1JvQnlMTnJuL1hQRFYzdC96NmV2ZzF2Mmpi?=
+ =?utf-8?B?Y25KQUFYZDM3Ni84anp0WGlMVXR4dkREcTB3RzdIWWFVMFFsaDZNOGd3ZUd5?=
+ =?utf-8?B?aW82MktteCsrbXNkSjBmMHVrbmRMUVhCTG1IT21xdk5odDlTZ2pxckRDNWt4?=
+ =?utf-8?B?cTkxcVYxaHRZa3p0dnM0YU5GbmRKUEVMWDBhS3lJa3BNMW55SEdpdllDRlZN?=
+ =?utf-8?B?dEFCKy9HaVZOck9ET01ZSm9LNUhadmJFRlZxbnJ1ZVlFL0VVV1RkV0xYdlNJ?=
+ =?utf-8?B?c1VpNDd5UisxWVgzSU9iS3doNUlTajFoMDRTRWhqNEQ2cVBrSmp1MFJFZStM?=
+ =?utf-8?B?RjBUVGdLWVBRT0NIcmpEUDBPTVNDRnZ6VW9qUnNQSXBMUHRNbXQ3Y1dPUXVy?=
+ =?utf-8?B?a3IvUG5qT0N0ME9mSWd6Sy8vWWh3cmtaeGd4eVk5ZDNWcFVyWWVjY3QyNUZ3?=
+ =?utf-8?B?Kzh3bTl5Mkg5bkV5U3owNkNtYmJzdFN5eWJNemNnRnJPL3JqNGlaOU5jZGFS?=
+ =?utf-8?B?SlJuRHBXVE1ISHRYcFhnL0xJUXpRMC9Od1ZvaHl5a2diVE8xK0pxK0t3OEpV?=
+ =?utf-8?B?UmhiZnV1VGZTMEZHdVV1b3JLZFNCdndEb1pHY3pOY0ZYb2N5dlNkQ1hVckx4?=
+ =?utf-8?B?OU5QdmtXT2VOVnM3STRmTCtNN2xBR2NvVHZIOUNuTXNtaVBXMzZqTncxT3JJ?=
+ =?utf-8?B?anJVMlNWenBKVXFjRFh1Z3o1eEtXTDd5bU96dFBmb2xYWi8rL0c5dm1EVDdK?=
+ =?utf-8?B?UTVKMTR6UkVHdEZ2ZGdoeGd1L0ZKQjZkMVJ0eXFtSm5oWWw5bzIrWTVjM1pZ?=
+ =?utf-8?B?SDZiR1QzVGg5Qzk2UDBRQzladXBBWmlPVEJhdjVkWmtiWUZKYVowMzdmQlI5?=
+ =?utf-8?B?ZzBneTc5WEE1VnlyblV5cCtTcVRkUGQ1cVZWQXQrb0s4Lzd5b2tvSXNrOXV6?=
+ =?utf-8?B?YThqcDMzQ3FITUhHZGpqY2RCMCtJcHlrbHR5UFdrWGdqZis3MUdhTHpVM1hT?=
+ =?utf-8?B?RXRBWS9PaXI2UjZEczJVT2EwbjVsMmJ4ZmFLdzFraHpDNVQ3NDBaQ0pHb0lC?=
+ =?utf-8?B?V1FjbWRoNk5iUU5wUHVscHNCTWpVSGZReXN6UnVMekpsdzF1Si85aHd3YnYy?=
+ =?utf-8?B?UlNzZVUrRVA1UUNjZHlEMmorcmppTy84cG9Qck1hdmFIeG9qWXZmQXBteSs3?=
+ =?utf-8?B?SFRDOXdiUWZxL2dUdEJiN3YwRkwrc1pYdDdEYU5ESHQ4OVdPQmRFeTVVM2Fa?=
+ =?utf-8?B?WEpxSjdyZncwVnJhTTV5aW1ud1Nrb3kyUnJMS1Zialp5WTVOVWhYUm52N3Zy?=
+ =?utf-8?B?QitycU0xaCtuamRtTXllK0owR2x2TFdtMEwyTUxXOXR2VE9MZkR5V1E1MUtj?=
+ =?utf-8?B?ZERtZWF1VWFsczJNUXRId3ZqanhkSmcxcmJqbStBckszVDNEcW45NFRhZ3B5?=
+ =?utf-8?B?RXZ2d1RZMVdTT3ZJYlNnem5rODczVkgrUDNiY0NzRDVnRWhjN1JnKzJJdEVU?=
+ =?utf-8?B?WThhQmgyZTNJUUYxNVB6cU0wWTRPL0FpU1FNYWRiNGs1KzA5ZjhEYUxPa0to?=
+ =?utf-8?B?eDlqcEUyYzQxRUVpYW9mTFJVNFJjRHQ4NTN3S1pzS3ljMEh6T2pBLzJhL1JN?=
+ =?utf-8?B?R0lDU1NPUEZ1eER0Z3d5ZGNyUi9VTTRTYWU2eVBPWkdIcXNDeU1KQXgvb0N2?=
+ =?utf-8?B?SUtJMGdiM2hLUnFDRGU0c3g2Zy9oVnU4V2lIV0FZcE9QVkxJM3ZMMDlRekpQ?=
+ =?utf-8?B?VlE9PQ==?=
+X-OriginatorOrg: oss.nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3e2082f6-0704-4e01-1083-08dd20f2dcb1
+X-MS-Exchange-CrossTenant-AuthSource: AS4PR04MB9576.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Dec 2024 12:36:01.5436
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: wifFElQxA9Usc3a+a3qFdCOz6E/byWRX1JMzDmi2glu4dpsVTAyTAzBihpt2VNjmu9chLjZSlUyJUkCSbFTHCQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: GVXPR04MB10047
 
-On 2024-12-20 13:23:37 +0200, Laurentiu Palcu wrote:
-> ok, I figured it out... I had 'format' set in my ~/.gitconfig to
-> us-ascii. :/ My bad after all. :)
-> 
-> Thanks for the heads-up.
+This is just a resend after fixing my .gitconfig issue with the mail
+Content-Type header. While at it, collect the r-b tag for 2/3.
 
-No worries, thanks for figuring it out.
+Hi,
 
-> 
-> Do you think it's worth sending this patch-set again to fix that? I
-> suppose it could also be fixed before pushing...
+This is in preparation for bringing our downstream max96724 work into
+the max96712 driver. The changes in this patch-set are mainly cosmetic
+to increase readability, with one exception related to the PCLK debug
+register which appears to exist in MAX96724 as well(see VPG section in
+users guide [1]).
 
-I see no harm in resending, you could collect my R-b on 2/3 as well.
+Unfortunately, I couldn't find any max96712 reference manual anywhere to
+make sure the registers match between the 2 chips, nor I have a max96712
+to test with.
 
-> 
-> Thanks,
-> Laurentiu
-> 
-> On Fri, Dec 20, 2024 at 01:09:59PM +0200, Laurentiu Palcu wrote:
-> > Hi Niklas,
-> > 
-> > On Fri, Dec 20, 2024 at 11:59:34AM +0100, Niklas Söderlund wrote:
-> > > Hi Laurentiu,
-> > > 
-> > > On 2024-12-20 12:49:36 +0200, Laurentiu Palcu wrote:
-> > > > Fix a typo in VS_LOW expression.
-> > > > 
-> > > > Signed-off-by: Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>
-> > > > Reviewed-by: Niklas S??derlund <niklas.soderlund+renesas@ragnatech.se>
-> > > 
-> > > I think your mail setup mangled my döts ;-) The Content-Type header for 
-> > > this mail is set to 'text/plain; charset="us-ascii"' while the patch is 
-> > > likely utf-8 encoded. Same in patch 3/3.
-> > 
-> > Sorry about that. I didn't mean to mess-up your name... :/ Apparently,
-> > this how 'git format-patch' generated the patch header:
-> > 
-> > ===
-> > From 19c513feb2003dff89c28ef9e54c0e06929efb0a Mon Sep 17 00:00:00 2001
-> > From: Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>
-> > Date: Thu, 19 Dec 2024 09:28:54 +0000
-> > Subject: [PATCH v2 1/3] staging: media: max96712: fix typo
-> > MIME-Version: 1.0
-> > Content-Type: text/plain; charset=UTF-8
-> > Content-Transfer-Encoding: 8bit
-> > Content-Type: text/plain; charset="us-ascii"
-> > ===
-> > 
-> > It looks like it generated 2 Content-Type lines. And the last one
-> > took precedence... 
-> > 
-> > Looks like a git bug?!? I'm no expert in this area though.
-> > 
-> > Thanks,
-> > Laurentiu
-> > 
-> > > 
-> > > > ---
-> > > >  drivers/staging/media/max96712/max96712.c | 2 +-
-> > > >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > > > 
-> > > > diff --git a/drivers/staging/media/max96712/max96712.c b/drivers/staging/media/max96712/max96712.c
-> > > > index 0751b2e048958..5228f9ec60859 100644
-> > > > --- a/drivers/staging/media/max96712/max96712.c
-> > > > +++ b/drivers/staging/media/max96712/max96712.c
-> > > > @@ -182,7 +182,7 @@ static void max96712_pattern_enable(struct max96712_priv *priv, bool enable)
-> > > >  	max96712_write_bulk_value(priv, 0x1052, 0, 3);
-> > > >  	max96712_write_bulk_value(priv, 0x1055, v_sw * h_tot, 3);
-> > > >  	max96712_write_bulk_value(priv, 0x1058,
-> > > > -				  (v_active + v_fp + + v_bp) * h_tot, 3);
-> > > > +				  (v_active + v_fp + v_bp) * h_tot, 3);
-> > > >  	max96712_write_bulk_value(priv, 0x105b, 0, 3);
-> > > >  	max96712_write_bulk_value(priv, 0x105e, h_sw, 2);
-> > > >  	max96712_write_bulk_value(priv, 0x1060, h_active + h_fp + h_bp, 2);
-> > > > -- 
-> > > > 2.34.1
-> > > > 
-> > > 
-> > > -- 
-> > > Kind Regards,
-> > > Niklas Söderlund
+However, since the max96724 compatible was added here, according to the
+commit
+
+6c872b782ae ("media: staging: max96712: Add support for MAX96724")
+
+the chips are "almost identical". So, I used max96724 register and
+field descriptions instead. Someone with a max96712 RM may want to
+double-check though.
+
+Thanks,
+Laurentiu
+
+[1] https://www.analog.com/media/en/technical-documentation/user-guides/max96724fr-user-guide.pdf
+
+Laurentiu Palcu (3):
+  staging: media: max96712: fix typo
+  staging: media: max96712: remove extra debug register flag
+  staging: media: max96712: add some register and field definitions
+
+ drivers/staging/media/max96712/max96712.c | 213 +++++++++++++++++-----
+ 1 file changed, 164 insertions(+), 49 deletions(-)
 
 -- 
-Kind Regards,
-Niklas Söderlund
+2.34.1
+
