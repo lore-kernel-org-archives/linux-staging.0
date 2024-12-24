@@ -1,115 +1,195 @@
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 380542030A
-	for <linux-staging@lists.linux.dev>; Tue, 24 Dec 2024 13:20:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 608E71D89FE;
+	Tue, 24 Dec 2024 16:52:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735046430; cv=none; b=PY9DZV6CPMvDxjlfHFEiGumUs8uPcnJtXdPM/B9cShUkS2hWleCWS4MYZNfO365C2TZzRYSk36kVm4vdmKNW9uNSGEO5nvzK+gjBsMzHAcmt4PGkxmD/RFKRYFWzpWyEutpptHbNgQlAXzFc6yTwysS891vAEnOQbffyXliSKOY=
+	t=1735059142; cv=none; b=sD7HgA8UOyY8QGwZZEYzF3Gr4PNDTMQKWVfUhZYeFDEEyfngxd7BHM3gnmtmQWMMAtQuzDJb7XJxnYBDGxFmODiXA0n+Ek2ShslQHKWM2Qs720fLRWdIgjaW3pjqq1pfPzLcJec8P2GP3smJ3wRrQ7exW9AANg7V6HdV1IkH3VA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735046430; c=relaxed/simple;
-	bh=So07i7TsRc8MZo97SNl3OBIKdmzGjmYOs15PooVy7f0=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=S6lUEzjacJ9YHFIxRAJ/d4AEQmdLN1D3OMXPOLIausojvQbKDybmKY/3zJGLtaRovfAGFMUF3U2+mS9ETlnhUBA57cPu0J6xbWVC+wORo+J2u7Efy+slrwavagroF4BNl2kAivVKRUczA7UleEPLM+Ts7DQFYcneHfG9xuEnBDk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ky6zG5ki; arc=none smtp.client-ip=209.85.214.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1735059142; c=relaxed/simple;
+	bh=Xiy95Bg/zDApQ8v5g8I2W7fl2ycrxRwkKRdmziiZBmk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=TeKuf6xkFHF5AObC6bOhC2KSlATnIqIJ9j23JdsUvMXuiWY6mX8AOoRmMtYKo1bP9rbaTsR+aX/bjGxricSIJohLFT+wkXe2hJhd7DIH2kGMDPjr4bzdcBl7kRJUZEQoEUWsS1D82YI1WncG7luycfbZt67W2w3Nex9fmoUgd5E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SgziVUb4; arc=none smtp.client-ip=192.198.163.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ky6zG5ki"
-Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-21661be2c2dso47039205ad.1
-        for <linux-staging@lists.linux.dev>; Tue, 24 Dec 2024 05:20:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1735046428; x=1735651228; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=hhd15APbcYRqWh+wXaifbceYc7BmeJiVjQiC8yBJW2Y=;
-        b=Ky6zG5kiwn6QJC0OnUOKDai74nBWuc915fd62EWNViqO+USTaNJqs0NhlVuP3qJO+e
-         QBBGJ6zSyVOSK5/3Ok9jTQra7IZOYBLvFq4Jq5TU2YG3d9ZcyLd//cQUlmwuT/aMMkc/
-         /z+8WiFZDzp69KGocAOXM2syCDg72MMSWJm6R+iyuIw0UqCfbzZGCSjewy830WZY4uhd
-         6Ort2rywMXOf8Ttx/argLohoJboQU2WuaOQTd4uge82VVVOpR/QqWHevb7Wru42/9Iva
-         0X72g6Sl71mLD1vF3VKumTVFHnkqfdidN5rcZyNpH+hrMe7TCs2Uhs/bzt6WrgmY9WHp
-         8VSw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1735046428; x=1735651228;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=hhd15APbcYRqWh+wXaifbceYc7BmeJiVjQiC8yBJW2Y=;
-        b=SU/hikvmoa5Ts98R3korFXa+mJurpLP5fXJ2l9a/c1GrCX+di6O0Tmd64tffyzFQn/
-         npWt+HqhsXWgHCrCLAmsNNq7OWdtzOjTegE4XOSGz4MPYWaaLK96dJPt3N4hKv32zkl5
-         405e0dBEsXaPkEiZm/eKraarUidSpdoUyxa1MgBlGg647S6ZggqPf5UmWOE2Bss6o6lk
-         RJfMtXO3FTJN7TdmxT63lzKz3uzbCKmDDQ64KNBGSSISR44h01zxVgWIjHscE/Ua5qiW
-         qH7Pl821VwstncpX19Y5HzYVWikl13kSaOuJwY/ZbuHv0ZWzU52d9EMISqs6BtTYTgma
-         lHRg==
-X-Forwarded-Encrypted: i=1; AJvYcCUToPZVQoJ22xm837VmPs74wrzO9wcsbeQCuJ+2tlfreCWIBHdfDiUXkQsNS3JQi/sAdlk8ysenpRiRzkTW@lists.linux.dev
-X-Gm-Message-State: AOJu0YyQSHpqH4RREub7GolsTC2WrfFChCwRM5/Bkw6IHuVydUq+YNiv
-	Fjd2b5F1Bcj0yEfwLBgsk2/NT418lRC+mGIIPPcF1tCh57cg4AiP
-X-Gm-Gg: ASbGncvJY9/mi9Sn3jXoR7oKkOWXVOC7iwdNLuPzfEBdhQgxOUIaL9L/93OmE/87DkS
-	pGh1AaJD65OEq3e0F20sEtSxF8+xRkHgzqjBgIKA5f1WeRYj+jcNq50IlU2OA/RbTpfAD+K7vwA
-	TnfAyEdFI8paqoJLoLJ7ji0PGNxldrQhA7CEFJOuDpyRj12rZ+voBUti4vjdOtB3gHjoiJ7KrJS
-	g2kPOyaBZVlBYNTPTqPDYuHoaPjR4ews7qmioEt2Vf0fTYYbpyq3jW9ofLaNqx9TasJrLcT8Nk=
-X-Google-Smtp-Source: AGHT+IHJZM5TNdcX3fuV0F4Sl/9lZE4ImDD1ZRKAbGw+CJz9LYrra657DAAEa2qeZaSgxLGWaQV7nA==
-X-Received: by 2002:a05:6a00:8089:b0:728:f337:a721 with SMTP id d2e1a72fcca58-72abdd7bc30mr19857385b3a.7.1735046428465;
-        Tue, 24 Dec 2024 05:20:28 -0800 (PST)
-Received: from localhost.localdomain ([2401:4900:5aa6:b9fe:4943:be7f:75fd:aab3])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-842b2b3e83dsm7545589a12.32.2024.12.24.05.20.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 24 Dec 2024 05:20:27 -0800 (PST)
-From: Atharva Tiwari <evepolonium@gmail.com>
-To: 
-Cc: evepolonium@gmail.com,
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SgziVUb4"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1735059140; x=1766595140;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Xiy95Bg/zDApQ8v5g8I2W7fl2ycrxRwkKRdmziiZBmk=;
+  b=SgziVUb46b6ZbOULawp6iJV7UDB86d0z2ckYPXjZjmBT51pvcFsH3yUB
+   or0pqtkfwIvnEQBN4Ue6JbgWrsTigMvBzo9k77OCINkoxP9BC9V6H10Sb
+   MKUtSwacknvKsGOHcWf1ThMZoXi9Lw02qJGI93M0g97lpo7c2qwj/VRat
+   5AkY56BqO51FPLgFk+RnYcxLwr6c/n1u4d+odw7ak3e5FTKe/zykh3T95
+   u90QBK6LO+m+eybFqW9kjnyG1s5oP4ETcPi2p64IC3A0eLlP9mtJAONTG
+   8L3cSKq9g+USf4tAVhBcYBj8dIIQR+iUkGYz9nwVSx2ZKckd405xrTG8W
+   w==;
+X-CSE-ConnectionGUID: 6KinpzSVR5OhHCuLHykseA==
+X-CSE-MsgGUID: Ag4lIVqJQ5Wil6HvPCZu4A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11296"; a="34804019"
+X-IronPort-AV: E=Sophos;i="6.12,260,1728975600"; 
+   d="scan'208";a="34804019"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Dec 2024 08:52:20 -0800
+X-CSE-ConnectionGUID: srDiq7g7QJSgVkYp6bXT1A==
+X-CSE-MsgGUID: 2zdFszxLQpiu4pqEkhmBFA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,260,1728975600"; 
+   d="scan'208";a="104375838"
+Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
+  by fmviesa004.fm.intel.com with ESMTP; 24 Dec 2024 08:52:17 -0800
+Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tQ88l-0001It-1W;
+	Tue, 24 Dec 2024 16:52:15 +0000
+Date: Wed, 25 Dec 2024 00:51:37 +0800
+From: kernel test robot <lkp@intel.com>
+To: Atharva Tiwari <evepolonium@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, evepolonium@gmail.com,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Meir Elisha <meir6264@gmail.com>,
 	Philipp Hortmann <philipp.g.hortmann@gmail.com>,
-	Dan Carpenter <dan.carpenter@linaro.org>,
-	linux-staging@lists.linux.dev,
+	Dan Carpenter <error27@gmail.com>, linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v2] staging: rtl8723bs: fix network selection in rtw_mlme.c
-Date: Tue, 24 Dec 2024 18:50:17 +0530
-Message-Id: <20241224132019.75475-1-evepolonium@gmail.com>
-X-Mailer: git-send-email 2.39.5
+Subject: Re: [PATCH] staging: rtl8723bs: fix network selection and A-MPDU
+ reordering in rtw_mlme.c
+Message-ID: <202412250035.fWv25gIa-lkp@intel.com>
+References: <20241224072754.2352-1-evepolonium@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241224072754.2352-1-evepolonium@gmail.com>
 
-this patch fixes the network selection logic to avoid selecting a network
-with the same ESSID as the olddest scanned network if it was scanned
-within the last 500 millisecounds
+Hi Atharva,
 
-and please give a specific value for "new enough" on line 481,
-i have estimated 500 millisecound but inform me if the value
-needs to be changed
+kernel test robot noticed the following build errors:
 
-Signed-off-by: Atharva Tiwari <evepolonium@gmail.com>
----
-Changes since v1:
-- Changed the "new enough" value from 1000 millisecounds to 500
-- fixed some styling issue
+[auto build test ERROR on staging/staging-testing]
 
- drivers/staging/rtl8723bs/core/rtw_mlme.c | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+url:    https://github.com/intel-lab-lkp/linux/commits/Atharva-Tiwari/staging-rtl8723bs-fix-network-selection-and-A-MPDU-reordering-in-rtw_mlme-c/20241224-152918
+base:   staging/staging-testing
+patch link:    https://lore.kernel.org/r/20241224072754.2352-1-evepolonium%40gmail.com
+patch subject: [PATCH] staging: rtl8723bs: fix network selection and A-MPDU reordering in rtw_mlme.c
+config: csky-randconfig-001-20241224 (https://download.01.org/0day-ci/archive/20241225/202412250035.fWv25gIa-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241225/202412250035.fWv25gIa-lkp@intel.com/reproduce)
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme.c b/drivers/staging/rtl8723bs/core/rtw_mlme.c
-index 5ded183aa08c..6604619d1b99 100644
---- a/drivers/staging/rtl8723bs/core/rtw_mlme.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_mlme.c
-@@ -481,8 +481,11 @@ void rtw_update_scanned_network(struct adapter *adapter, struct wlan_bssid_ex *t
- 		}
- 
- 		if (rtw_roam_flags(adapter)) {
--			/* TODO: don't select network in the same ess as oldest if it's new enough*/
--		}
-+			if (is_same_ess(&pnetwork->network, &oldest->network) &&
-+				time_after(pnetwork->last_scanned,
-+					(unsigned long)msecs_to_jiffies(500)))
-+				continue;
-+			}
- 
- 		if (!oldest || time_after(oldest->last_scanned, pnetwork->last_scanned))
- 			oldest = pnetwork;
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412250035.fWv25gIa-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   drivers/staging/rtl8723bs/core/rtw_mlme.c: In function 'rtw_joinbss_update_stainfo':
+>> drivers/staging/rtl8723bs/core/rtw_mlme.c:1005:21: error: implicit declaration of function 'rtw_check_ap_supports_ampdu' [-Wimplicit-function-declaration]
+    1005 |                 if (rtw_check_ap_supports_ampdu(pnetwork)) {
+         |                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+vim +/rtw_check_ap_supports_ampdu +1005 drivers/staging/rtl8723bs/core/rtw_mlme.c
+
+   946	
+   947	static struct sta_info *rtw_joinbss_update_stainfo(struct adapter *padapter, struct wlan_network *pnetwork)
+   948	{
+   949		int i;
+   950		struct sta_info *bmc_sta, *psta = NULL;
+   951		struct recv_reorder_ctrl *preorder_ctrl;
+   952		struct sta_priv *pstapriv = &padapter->stapriv;
+   953		struct mlme_ext_priv *pmlmeext = &padapter->mlmeextpriv;
+   954	
+   955		psta = rtw_get_stainfo(pstapriv, pnetwork->network.mac_address);
+   956		if (!psta)
+   957			psta = rtw_alloc_stainfo(pstapriv, pnetwork->network.mac_address);
+   958	
+   959		if (psta) { /* update ptarget_sta */
+   960	
+   961			psta->aid  = pnetwork->join_res;
+   962	
+   963			update_sta_info(padapter, psta);
+   964	
+   965			/* update station supportRate */
+   966			psta->bssratelen = rtw_get_rateset_len(pnetwork->network.supported_rates);
+   967			memcpy(psta->bssrateset, pnetwork->network.supported_rates, psta->bssratelen);
+   968			rtw_hal_update_sta_rate_mask(padapter, psta);
+   969	
+   970			psta->wireless_mode = pmlmeext->cur_wireless_mode;
+   971			psta->raid = networktype_to_raid_ex(padapter, psta);
+   972	
+   973			/* sta mode */
+   974			rtw_hal_set_odm_var(padapter, HAL_ODM_STA_INFO, psta, true);
+   975	
+   976			/* security related */
+   977			if (padapter->securitypriv.dot11AuthAlgrthm == dot11AuthAlgrthm_8021X) {
+   978				padapter->securitypriv.binstallGrpkey = false;
+   979				padapter->securitypriv.busetkipkey = false;
+   980				padapter->securitypriv.bgrpkey_handshake = false;
+   981	
+   982				psta->ieee8021x_blocked = true;
+   983				psta->dot118021XPrivacy = padapter->securitypriv.dot11PrivacyAlgrthm;
+   984	
+   985				memset((u8 *)&psta->dot118021x_UncstKey, 0, sizeof(union Keytype));
+   986	
+   987				memset((u8 *)&psta->dot11tkiprxmickey, 0, sizeof(union Keytype));
+   988				memset((u8 *)&psta->dot11tkiptxmickey, 0, sizeof(union Keytype));
+   989	
+   990				memset((u8 *)&psta->dot11txpn, 0, sizeof(union pn48));
+   991				psta->dot11txpn.val = psta->dot11txpn.val + 1;
+   992				memset((u8 *)&psta->dot11wtxpn, 0, sizeof(union pn48));
+   993				memset((u8 *)&psta->dot11rxpn, 0, sizeof(union pn48));
+   994			}
+   995	
+   996			/* When doing the WPS, the wps_ie_len won't equal to 0 */
+   997			/* And the Wi-Fi driver shouldn't allow the data packet to be transmitted. */
+   998			if (padapter->securitypriv.wps_ie_len != 0) {
+   999				psta->ieee8021x_blocked = true;
+  1000				padapter->securitypriv.wps_ie_len = 0;
+  1001			}
+  1002	
+  1003			/* for A-MPDU Rx reordering buffer control for bmc_sta & sta_info */
+  1004			/* if A-MPDU Rx is enabled, resetting  rx_ordering_ctrl wstart_b(indicate_seq) to default value = 0xffff */
+> 1005			if (rtw_check_ap_supports_ampdu(pnetwork)) {
+  1006				for (i = 0; i < 16 ; i++) {
+  1007					preorder_ctrl = &psta->recvreorder_ctrl[i];
+  1008					preorder_ctrl->enable = true; /* Enable A-MPDU reordering */
+  1009					preorder_ctrl->indicate_seq = 0; /* Starting sequence number */
+  1010					preorder_ctrl->wend_b = 0xffff;
+  1011					preorder_ctrl->wsize_b = 64;/* max_ampdu_sz;ex. 32(kbytes) -> wsize_b =32 */
+  1012				}
+  1013			} else {
+  1014				for (i = 0; i < 16; i++) {
+  1015					preorder_ctrl = &psta->recvreorder_ctrl[i];
+  1016					preorder_ctrl->enable = false;
+  1017					preorder_ctrl->indicate_seq = 0xffff;
+  1018					preorder_ctrl->wend_b = 0xffff;
+  1019					preorder_ctrl->wsize_b = 64;  /* max_ampdu_sz; adjust as needed */
+  1020				}
+  1021			}
+  1022			bmc_sta = rtw_get_bcmc_stainfo(padapter);
+  1023			if (bmc_sta) {
+  1024				for (i = 0; i < 16 ; i++) {
+  1025					preorder_ctrl = &bmc_sta->recvreorder_ctrl[i];
+  1026					preorder_ctrl->enable = false;
+  1027					preorder_ctrl->indicate_seq = 0xffff;
+  1028					preorder_ctrl->wend_b = 0xffff;
+  1029					preorder_ctrl->wsize_b = 64;/* max_ampdu_sz;ex. 32(kbytes) -> wsize_b =32 */
+  1030				}
+  1031			}
+  1032		}
+  1033	
+  1034		return psta;
+  1035	
+
 -- 
-2.39.5
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
