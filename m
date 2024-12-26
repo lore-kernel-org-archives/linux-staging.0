@@ -1,61 +1,61 @@
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07B171CD213
-	for <linux-staging@lists.linux.dev>; Thu, 26 Dec 2024 19:49:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03BD81CEAD1
+	for <linux-staging@lists.linux.dev>; Thu, 26 Dec 2024 19:49:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735242582; cv=none; b=FPcc78JcyFzYbjOCBisekKH3CGs8n3eqORC65EVKnkmaDTZNt0BGxBBFCsJaxnz/LY23vfrwLzmTIqmonmaHSzt9PiKOfJ/ZdGHx8mKtz+8ExzXKBk0NV1E2tOrnR3dwyw0LFbWVL8B4iJ20ea2zptnUPtAgZ3MPCDuVdpTT5T4=
+	t=1735242586; cv=none; b=ZEEqYFSPPYnSHH6dMe0nochWnWmlSp7+IkBg7pC2Q5nUD2TcAr7Q1V9P57fYA8e7FAhRdQ4MwT0elUL4m3gsLIm3Xn1ZBkym1mq4a3E6vtOe7GhU40TIHdHJTRymbrOSIxC+YVLFhaMfEiRHrH6NAHY8a16/QIzkn+GNArBQEB0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735242582; c=relaxed/simple;
-	bh=1QbddRKCNYr3HYo4IhQB9/Bf6CeIQvgX6GjTWhQ89Ls=;
+	s=arc-20240116; t=1735242586; c=relaxed/simple;
+	bh=C1m2qIRcVhbyiBfPZcibOHclNLGXibt0YYCUhqw/+Ls=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=uxlacO6HI5JD1NWlefUWoWBYXSt+z+L6Bh1H8V1aS7K2AZBHYLf43QLT56aggoVuZA6NdLXPuMeNxjqdx+VhJqCxvPi3NNG5Ki/N1580ka/4kunGN9xfSdTuIjQTVOtJvAf/R1WTO814y6BdYsMk3Q27SVJNpkW6b1WxaH4v/nc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UNFMePe7; arc=none smtp.client-ip=209.85.214.171
+	 MIME-Version; b=qYGz5LK4sZFclYvP/nTvWKCniYElvZdzZpX3YUymQ3JnV9TCvo22JAXFih8aDzAXYJFQCxZ66HS2632duEoDCHt0OsjDasj/zG8YhzDWxxG/6gK5mANAOjOoig6MWurWF2GgZEH+I9bvAXFYywwmCIJAA0qGW6c3jQEd0ZHGJyM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Cw6jkvRU; arc=none smtp.client-ip=209.85.214.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UNFMePe7"
-Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-2166db59927so9430715ad.0
-        for <linux-staging@lists.linux.dev>; Thu, 26 Dec 2024 11:49:41 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Cw6jkvRU"
+Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-21a0374a1fcso5057705ad.2
+        for <linux-staging@lists.linux.dev>; Thu, 26 Dec 2024 11:49:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1735242580; x=1735847380; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1735242584; x=1735847384; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=iqW9Swsnv7VLS6ZMLw89eDGe2BsxNZ7CXUs3SW+g2Lo=;
-        b=UNFMePe7wv2Jh7NqyKBEp4QhW2XN8pVm4fyst0hnVLszj2C/tVa/h2nYwz0GdsiSIg
-         Vq0cdAxoGYrNQJV1sovQFbPz9uIdBkHgjfd0uT6eXyubJ8glTx92MgHE8UerrlKslPkR
-         q9hbhQrJsqrzyUoJYLx6OGvHuJLfMPg/KelzlD+6teIc4gI4qWpujCPgO+MX7a/swgqk
-         xigMOJHnYopub5/EzpX6Z4pX1Jd4WGnDDYUpdGOVBTKwgVnVT3Ul5sWnX1r/J/KfX2KW
-         oDr3xnRlJMl8/G3zIe/P0yFvz3vZUigjXjcnoxVqVPM4kyVLSLLE6MJGAN5w0AWVBsUQ
-         ko/Q==
+        bh=4COc1F2QXFTwXqtvB4VWYIZTqsLaKCmT1xH03KuvEOg=;
+        b=Cw6jkvRUPjK34SY2iwW1BrNY2wjOkHfsfVKoAbdFDHdXelHk8pB5SWc8LMzfVO3rN9
+         hAl+81Ig4WiHdbn/+1Dm+3e3yBBWVl8hwOVghNolabKdVBziGDjvmzrHDxFe/a4E2+5+
+         55obPaXkdCjnfbQVHatj6mvfoM+3LBkwRMAufVNEAF6evuuq+cNmul8A3VuyzDuN97WC
+         NiRp0/a2CFcDKeHLV9rhqTfppCk1uuKEcDpnRU4voolSzIK3tTtcFElkC9k/WOLzkdQS
+         Hch+CFkYrfCxnc6HkksTQzrABP6mvpeUCnlDqmGsmU5D1ZuVo/kkgT+h/ncTMfi43bOe
+         Z1JA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1735242580; x=1735847380;
+        d=1e100.net; s=20230601; t=1735242584; x=1735847384;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=iqW9Swsnv7VLS6ZMLw89eDGe2BsxNZ7CXUs3SW+g2Lo=;
-        b=jokskXwQRQ4wyj196wxCEFCFjm6LtElDWLBpH/fJ49jjiwg6JDFhAW+hb5uy2CVLrc
-         3+Amk5STO0wvp6fg7MLWBy1SWZI1FyXKE9jnlfgI/uO46ww3tipb4M+chJHJVnMLdRo2
-         lR0Bg8Jcc1O/KSkVxI7Noq829Y6qkf3Ex7z3gXiGgov/ElNimRaQ4cj3TAO9D0mXf5PR
-         CBs7do1MBZ/7cvMA2fOPlqTSlQE3DGmrZM919QEXIBmJi+Fm1b+kdWJ0BOhVOepUhEe+
-         UtBPYw5GvQOW1BDd+rZV3+1ROCHnjqg8kbtosSSYZ2WyIF1zIDWE1nzkDEVec+T2GUf+
-         VLAA==
-X-Forwarded-Encrypted: i=1; AJvYcCXLLdBz17tCI9R0PnREJsVnhYPwisKxBCYQnUPQelhG2Tf/TRVCFNVhNNYKpucQITBGCfWzmK3vBiS0RePa@lists.linux.dev
-X-Gm-Message-State: AOJu0YxwW5GBloPqseMg2Kp2VHrPoRrY+wDdbWJlto9+RrPgJgb1yXcJ
-	8+9aBFSCQD19kI8OL13DytoV3ldNQJNsRQPwWHvz1DQ5Qs8cC0hV
-X-Gm-Gg: ASbGnctGuUaPftRvbJ1OkwQG6xuPNAf10AocEduoM7VUQ8YjuJMqoHIbJ3zHLKUud/S
-	q3f+V/auGKf58w7CaTIgp4I6qPQTFBwkxE68hBMNtsElbSTnxBkjhOydQ/z+5BeyKS8rw4IqhuF
-	0jGVBdsGRfDf6C5MuuZ7GMV1GtlpysjHmdGeLEIFRwxHyDa4lzPBnGcBZEeHSgm1ZQQ8FcvDrK+
-	YczdMBOSBF3OJ6I7+tumebu5t8gKsjRkVErIRevUFiQBWp242GD2s8=
-X-Google-Smtp-Source: AGHT+IGJHnyHlHs1hPjONK46MhelbvDImJ/ZpAqtTjiBRJ7oN6fZpHhJaDQL8rrZudWKWC7KD09S2g==
-X-Received: by 2002:a05:6a21:3381:b0:1e1:d2a0:46ae with SMTP id adf61e73a8af0-1e5e081ee64mr15060906637.12.1735242580514;
-        Thu, 26 Dec 2024 11:49:40 -0800 (PST)
+        bh=4COc1F2QXFTwXqtvB4VWYIZTqsLaKCmT1xH03KuvEOg=;
+        b=ETW9JqbpmVJ9jpGPfnWR5dbb0Tfp818vQN3OQpZx5UfB1DvIPMFc3khBannRWNe07f
+         WIjy2dLvD2aP6irHwlFE9ebrl6gl7ZgauWBiuz4W7qy5y5IlY1BRYv5bs9rHjoUnXcHQ
+         hxeECCIXwBm9T7x836GS/5T8ynbxY5SRnM+4MqgoQ0cXMY1laHEPU1xSUagAGvyUtqu7
+         VrmUXbYaQL5Sr+phcFvQbgh/9J5NyAaI8Atm4p+P65wmAbrWFtleHp5Jy16P3BOhdkv3
+         l8KnbYqCHuRRk4wQShlCVc0FCthyrjutO3Jz8KatN6iOvCjoQJpZ8Y6YKPkgFAeMzfq0
+         bSQg==
+X-Forwarded-Encrypted: i=1; AJvYcCX5SALj8O1UfQNTHDi4vomU89y5uA7Vy3J30XDlR2+LrVsRCPSVSF7BNBSPV1Kh3OLkrtXOLtpCUrro4bIt@lists.linux.dev
+X-Gm-Message-State: AOJu0YyRADIv03rskGaKmdJY0bEFpJKMUmjWLLIlq9tm83LR2LpT5WFU
+	uqD57W6nnlZxPmsaKrYYIrpkOsXmatjdeEG9Rfb5nrYWZ7746XOk
+X-Gm-Gg: ASbGnctuC6X8qK6Z25/4h5W8ERIQ8rrXuToCnRxt0TzpfAPfU/n0YoA2VDF8im1oEsD
+	RBCRAFPT7FFPx2Fp1hMzWYDJps/qwdiH+wyQfAXeRxsvBn2XqXDQJZnP5dRgZR5U+Pxuf5U6DpQ
+	EIjdFRsAkCrXBH8ZrjFfBaDSa7XQAq/zut6u4tE4E8/0MiwWGOpdUWEx8/7f/JYdySNiDxAlhK1
+	LoCe+Rpnh8HCFsR2C5/AsLUGD8HpFAfjnl2HXRUOpmrHU2glBZROgI=
+X-Google-Smtp-Source: AGHT+IG17vjbgwMDwKMBDYcO5TCiXPz5GHom6B27qRh7AqF7BUvk2ZTdW0B7Pdz++QoHgNIV/bSGJg==
+X-Received: by 2002:a05:6a21:999e:b0:1e1:94e6:db0f with SMTP id adf61e73a8af0-1e5e07f182fmr14783323637.8.1735242584397;
+        Thu, 26 Dec 2024 11:49:44 -0800 (PST)
 Received: from ice.. ([171.76.83.141])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-842e35d4becsm10304580a12.79.2024.12.26.11.49.37
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-842e35d4becsm10304580a12.79.2024.12.26.11.49.40
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 26 Dec 2024 11:49:40 -0800 (PST)
+        Thu, 26 Dec 2024 11:49:44 -0800 (PST)
 From: Nihar Chaithanya <niharchaithanya@gmail.com>
 To: dpenkler@gmail.com,
 	gregkh@linuxfoundation.org
@@ -64,9 +64,9 @@ Cc: dan.carpenter@linaro.org,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Nihar Chaithanya <niharchaithanya@gmail.com>
-Subject: [PATCH v4 11/15] staging: gpib: ines: Handle gpib_register_driver() errors
-Date: Fri, 27 Dec 2024 01:06:35 +0530
-Message-Id: <20241226193637.241049-12-niharchaithanya@gmail.com>
+Subject: [PATCH v4 12/15] staging: gpib: lpvo_usb: Return error value from gpib_register_driver()
+Date: Fri, 27 Dec 2024 01:06:36 +0530
+Message-Id: <20241226193637.241049-13-niharchaithanya@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20241226193637.241049-1-niharchaithanya@gmail.com>
 References: <20241226193637.241049-1-niharchaithanya@gmail.com>
@@ -78,126 +78,31 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The function ines_pcmcia_init_module() can be replaced by calling
-pcmcia_register_driver() directly. The error value from this
-function is not returned and the previous registering functions
-are not unregistered.
+The function gpib_register_driver() can fail and does not return an
+error value if it fails.
 
-The function gpib_register_driver() can fail and similar to
-pcmcia_register_driver() function failing, the previous registering
-functions are not unregistered.
-
-Replace cb_pcmcia_init_module() with pcmcia_register_driver().
-Unregister the gpib and pci register functions if the subsequent
-gpib or pcmcia register functions fail and return the error value.
+Return the error value if gpib_register_driver() fails.
 
 Signed-off-by: Nihar Chaithanya <niharchaithanya@gmail.com>
 ---
- drivers/staging/gpib/ines/ines_gpib.c | 78 +++++++++++++++++++--------
- 1 file changed, 56 insertions(+), 22 deletions(-)
+ drivers/staging/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/staging/gpib/ines/ines_gpib.c b/drivers/staging/gpib/ines/ines_gpib.c
-index 9d8387c3bf01..dda9205bfd97 100644
---- a/drivers/staging/gpib/ines/ines_gpib.c
-+++ b/drivers/staging/gpib/ines/ines_gpib.c
-@@ -1227,12 +1227,6 @@ static struct pcmcia_driver ines_gpib_cs_driver = {
- 	.resume		= ines_gpib_resume,
- };
+diff --git a/drivers/staging/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c b/drivers/staging/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c
+index 796c3a5be545..d8af811c75ca 100644
+--- a/drivers/staging/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c
++++ b/drivers/staging/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c
+@@ -1181,7 +1181,9 @@ static int usb_gpib_init_module(struct usb_interface *interface)
+ 		return rv;
  
--int ines_pcmcia_init_module(void)
--{
--	pcmcia_register_driver(&ines_gpib_cs_driver);
--	return 0;
--}
--
- void ines_pcmcia_cleanup_module(void)
- {
- 	DEBUG(0, "ines_cs: unloading\n");
-@@ -1420,28 +1414,68 @@ void ines_pcmcia_detach(gpib_board_t *board)
- 
- static int __init ines_init_module(void)
- {
--	int err = 0;
-+	int ret;
- 
--	err = pci_register_driver(&ines_pci_driver);
--	if (err) {
--		pr_err("ines_gpib: pci_driver_register failed!\n");
--		return err;
--	}
-+	ret = pci_register_driver(&ines_pci_driver);
-+	if (ret)
-+		return ret;
-+
-+	ret = gpib_register_driver(&ines_pci_interface, THIS_MODULE);
-+	if (ret)
-+		goto err_pci;
-+
-+	ret = gpib_register_driver(&ines_pci_unaccel_interface, THIS_MODULE);
-+	if (ret)
-+		goto err_pci_unaccel;
-+
-+	ret = gpib_register_driver(&ines_pci_accel_interface, THIS_MODULE);
-+	if (ret)
-+		goto err_pci_accel;
-+
-+	ret = gpib_register_driver(&ines_isa_interface, THIS_MODULE);
-+	if (ret)
-+		goto err_isa;
- 
--	gpib_register_driver(&ines_pci_interface, THIS_MODULE);
--	gpib_register_driver(&ines_pci_unaccel_interface, THIS_MODULE);
--	gpib_register_driver(&ines_pci_accel_interface, THIS_MODULE);
--	gpib_register_driver(&ines_isa_interface, THIS_MODULE);
- #ifdef GPIB_PCMCIA
--	gpib_register_driver(&ines_pcmcia_interface, THIS_MODULE);
--	gpib_register_driver(&ines_pcmcia_unaccel_interface, THIS_MODULE);
--	gpib_register_driver(&ines_pcmcia_accel_interface, THIS_MODULE);
--	err += ines_pcmcia_init_module();
-+	ret = gpib_register_driver(&ines_pcmcia_interface, THIS_MODULE);
-+	if (ret)
-+		goto err_pcmcia;
-+
-+	ret = gpib_register_driver(&ines_pcmcia_unaccel_interface, THIS_MODULE);
-+	if (ret)
-+		goto err_pcmcia_unaccel;
-+
-+	ret = gpib_register_driver(&ines_pcmcia_accel_interface, THIS_MODULE);
-+	if (ret)
-+		goto err_pcmcia_accel;
-+
-+	ret = pcmcia_register_driver(&ines_gpib_cs_driver);
-+	if (ret)
-+		goto err_pcmcia_driver;
- #endif
--	if (err)
--		return -1;
- 
- 	return 0;
-+
-+#ifdef GPIB_PCMCIA
-+err_pcmcia_driver:
-+	gpib_unregister_driver(&ines_pcmcia_accel_interface);
-+err_pcmcia_accel:
-+	gpib_unregister_driver(&ines_pcmcia_unaccel_interface);
-+err_pcmcia_unaccel:
-+	gpib_unregister_driver(&ines_pcmcia_interface);
-+err_pcmcia:
-+#endif
-+	gpib_unregister_driver(&ines_isa_interface);
-+err_isa:
-+	gpib_unregister_driver(&ines_pci_accel_interface);
-+err_pci_accel:
-+	gpib_unregister_driver(&ines_pci_unaccel_interface);
-+err_pci_unaccel:
-+	gpib_unregister_driver(&ines_pci_interface);
-+err_pci:
-+	pci_unregister_driver(&ines_pci_driver);
-+
-+	return ret;
- }
- 
- static void __exit ines_exit_module(void)
+ 	if (!assigned_usb_minors) {
+-		gpib_register_driver(&usb_gpib_interface, THIS_MODULE);
++		rv = gpib_register_driver(&usb_gpib_interface, THIS_MODULE);
++		if (rv)
++			goto exit;
+ 	} else {
+ 		/* check if minor is already registered - maybe useless, but if
+ 		 *  it happens the code is inconsistent somewhere
 -- 
 2.34.1
 
