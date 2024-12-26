@@ -1,61 +1,61 @@
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C912A1D364C
-	for <linux-staging@lists.linux.dev>; Thu, 26 Dec 2024 19:49:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9526F1D4605
+	for <linux-staging@lists.linux.dev>; Thu, 26 Dec 2024 19:49:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735242590; cv=none; b=KDd5d0Z7lxpxmR39YAOJuWtBwyMOaz2PhU09rxgCND/VMEpkxcEGxyDTXRUDR2xtQmDfFi4DuK8e7GyXB6yA+gdQXpHu/9y2qrC3mBqxQBLbeh1kDUsiytmWuXeamOBaN38cuACzezhBDdMfphfVMbilV2io2Ugjk2KWmZD4aWE=
+	t=1735242593; cv=none; b=h/g6eXyEsIWfKDxQ6OKLAZ2UYKwBm6feWTSiPsVflVZh1QcZ5fXQxec4J/qvuJPTV9NtlF0+bngPkmkm84lkdCx1N+wrSsPT4Hg428+qW7L20dU3oCtojzMdm/SAY+fZueQ7c+Tf19LHDYAE5jqIun/lp72f1jpq0lCjO30Yq8o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735242590; c=relaxed/simple;
-	bh=lM4F4tNWhI9bXPIjvz5N58CH3ALV+ujeYhLvFQ2TUJ8=;
+	s=arc-20240116; t=1735242593; c=relaxed/simple;
+	bh=uoRS2FQJmsfyJ4pjwVrUVvJUL2CXgWB/WSSSY69yO8o=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=AP88tcdEF5mP+V6Oo1VQM9fdPUFxmpxJRVPlKnBhcSaOteQYA/WLLgX33joq5SSOLDx9bhAJl5HEhvbRsYWeR9duXsqU6iZt8mv/Am8qf9DPxSLm1LC3CvtZ8NDptFQUyb7WTvqdqZRRSEk0A/srcZwMGY1sqNgTeAEGOXLadAc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cVfuO7dA; arc=none smtp.client-ip=209.85.214.175
+	 MIME-Version; b=ESam9fVFwv794nG/4HzQbk0NX9itvXll27thqNxwUJrlVVz7m5y8EdlEPDHK77xI/lSwU1IBCDqbcqIgD8zAi11OHRUn/dyLSpLBMmaRnuJMBa1/8QBj6Fz8G/5S8VGbOSiVkK7OhCF/wDUgTfI/HQB758rhPEEoSu3z46e/u78=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=D7Ed5wSo; arc=none smtp.client-ip=209.85.214.169
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cVfuO7dA"
-Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-21644db9f3cso9240495ad.2
-        for <linux-staging@lists.linux.dev>; Thu, 26 Dec 2024 11:49:48 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="D7Ed5wSo"
+Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-216325f516fso8594945ad.3
+        for <linux-staging@lists.linux.dev>; Thu, 26 Dec 2024 11:49:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1735242588; x=1735847388; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1735242591; x=1735847391; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=SaMYoJWCSlwYzZZh/EkMcwMBpZjwpcPJiIs7cTJyhsk=;
-        b=cVfuO7dA8jxxaINSmqsKJamXW9IMqCycBIlvQy6ckmV7nMXXfYvsO0/KfI9QdRwOzU
-         9Ku4DI9Gn1jZaO5ZtLRwF0ugXG2Re6RJgp6+tkHjhZHse3pNwrLYiSDu7yDkc0sKFOIP
-         j8fLOEDJEpjRlSW4dEmFv0atag51+eYV0Rpy5Nd2m6ZfQVxcaxU5JEEOiDuAhGAZJKvk
-         FgwGTOorldCJyqq27BRz6kfsFbHykMdp4MW3TJmCNbrmLLmI3YdUSafakLd+lXikHbHe
-         QS07uNDYq98KBbOchyOtvK30+Cyzl7OA7VCXz9Qj+scyROuoREl8yzhb1HZI818S/x5Y
-         /0lg==
+        bh=lzTMfFBlFZr+lpOgXP6pxefjRutEhsyjgWDG/oae2Wg=;
+        b=D7Ed5wSoIP4cP2O99R6eML6EUc3k8Q/PZXg2pVXWFChwq/OtqmCIkZuhWEmgLz77qj
+         4FpAxWI5De2PI3nfJNAdGdCeEhOOZsjaXLuLGT+1xb/JBPZHg8CjnFoVpKvZXDtnC515
+         NXogSzRlZaw80swvfs806ymKgyT/VlBkG0yxQPYNpW7tO+aBZAbRDliTepB2WiRG55mZ
+         iFXReuMzFDcVQLr21PN1FTAMf8ODtXPAdXLWNdkQJUfPEjBJBf7ySBkfgMucnGNP4afP
+         0+MLcBz66b7RPUv/Hg9XyFwlg+uXALrlTGzkn63H6zamdCeSbnns2IktGr67Q0t551jp
+         ZExQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1735242588; x=1735847388;
+        d=1e100.net; s=20230601; t=1735242591; x=1735847391;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=SaMYoJWCSlwYzZZh/EkMcwMBpZjwpcPJiIs7cTJyhsk=;
-        b=vB/wer6egxvvjpomuzt7pXuWqojMso+XQNyvzPmKATZQD9Rhb0bn6UJIHqi2WmIqcd
-         iZOcRVLSHS3dWJJjzB+9cWvSuEH86f7a/TbOlep3K5u3AifpPflBioOUwNvScIiv90Hq
-         L5/jIebAQh9qws4aST/d7aeeC18WSks9eR0FWCW4YFbrmRh33brYwJnin5oZjlzvkc+e
-         IaEs0FzDSgFrvIQsPZ/JkJNiOMpyOFByFhUA+OC4VZr0btHB4wy40jbgBvMJHyFl54jR
-         xUN6vYb0nbzoVKQPToAC7FL6Cs9TRNZjDpQC4Po4qnUe8lxCrNsaupsODujyHiQSL3XO
-         B9CQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUzuyH9z13mDoRimeLcJgXhcF3GPtoxLc/GRumV38wmM2nxeuyrnm97688vqUMvMAoiDbA0kWM7IMJH0jXK@lists.linux.dev
-X-Gm-Message-State: AOJu0YyLqw9HH72VOqT1A0g4qkeRKHwop6i4S8yDsCOQ7o0IKCjQHvX6
-	zOpL2y2lQ+8T/NKlH22wl2HAGe+zLoGtsDHfEJ3kbNh4WkjQAaJ9BJm2dRYqEds=
-X-Gm-Gg: ASbGnctbquf+jFsLlOVRm5fPaJdfKZMKgwYvPCl44syz5fyncS3sNJ24mT1L3Nbp6lb
-	E4d+CE3G1owOnnT/F7YZ6IPwaZfl4MLbD8Rum85/7sfZ7Ifo2m+69m9bKxygJ88Npch/PjBgqIv
-	vFFwEYPidXFG/95cdyMgDIyqCss/asMyHBQTQyfj6fD3ubsbAs0FdF0ugBS3OpXkPWPlSQwMzaY
-	sBEgTwdshR+twI50gAyX23/ftUL5iyqJwJ0PXSa44z7WnSfQ6nsa2w=
-X-Google-Smtp-Source: AGHT+IFKEXpSh+f0GaZDDZpL0smypeehq7M391fZ2nFcOvkX0+NwgFglxPr3xc4HbKcntFIcmLMPkw==
-X-Received: by 2002:a17:902:c408:b0:216:526a:5403 with SMTP id d9443c01a7336-219e6e887dbmr127996065ad.3.1735242588222;
-        Thu, 26 Dec 2024 11:49:48 -0800 (PST)
+        bh=lzTMfFBlFZr+lpOgXP6pxefjRutEhsyjgWDG/oae2Wg=;
+        b=V8rNC2+8zrs7AV3LQtjUZ1en+KXP8PEvfmwXrKYXPMPLDEfV4s1BcZoq8zHvE+EY31
+         fBii5c8or50YixuXNUseHDJSyC+lZ/rtqWSPXpaORWkShU1STpKPrn0lh34ggw9whSci
+         xl17ise1YDBNTMseLwH5Y8Pg17sDPyLxWQZhaWNh8+p3GqFrOsXxhiJ5RT0qGCb1VgI9
+         HdJ7SqT9600TyyS8nQLO4J/tUKYtwfLII/boB9pG3Y7Z9Hbc9CUinmRLJ+RBv+eI5To7
+         AcZXYcg87f7jS41UvvKv00v64Y5EvOHB2cUY455aVgt7ez+ll/ggHQuKiBUmot13Dfet
+         sQvA==
+X-Forwarded-Encrypted: i=1; AJvYcCUhSOHMpdrq/Q8cAFMD81T4kK4+Qw8ZKYgbaAGLMWvRXIQkgl/H1RmdX/Z365IA00rqO+dVTOUR2tWqTKHi@lists.linux.dev
+X-Gm-Message-State: AOJu0YzWHZ7qAhu1scC47G5NWvpn49Qn+z3vT9T9GxoQhfdPtzGopFWH
+	r79xrOCLysx0nkKqYPbh6sMoKNzvQczzXBuV4YmbKWq5fJNAcw9V
+X-Gm-Gg: ASbGncu/mvTVtSpLHoM4OHstnX0H0klPFpfUDXbgwFCPUQqtMDXiteTps1rNVqJNPK2
+	ASX1JlXVtEvoipQiWq67yxs3gUmhNtxQF4JZ+prVuCGqV9c6UMzT5WxB8/Y6Ual14XPNPw0itTt
+	IXsjmn/9AyTTgOIaS2jHfBwE+nZWO9952a0FoZtcVsCD0kx3Ko7pDDa6p4DFjDQZhXaMX/nD3iU
+	24OMPFDMq+NA4YflZxzhwXNxP8wEd/bSYc7sn8e3AtFXcPYUQ7KG38=
+X-Google-Smtp-Source: AGHT+IEFjWIkssF5xwActXI8r1y01mJnLV/vNZGiVEfCF5IFGTaaL4qeFUKa1NL7iaHwb6KheZ9v7A==
+X-Received: by 2002:a05:6a20:8409:b0:1e1:c26d:d81a with SMTP id adf61e73a8af0-1e5e080dcc1mr14527061637.8.1735242590764;
+        Thu, 26 Dec 2024 11:49:50 -0800 (PST)
 Received: from ice.. ([171.76.83.141])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-842e35d4becsm10304580a12.79.2024.12.26.11.49.44
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-842e35d4becsm10304580a12.79.2024.12.26.11.49.48
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 26 Dec 2024 11:49:47 -0800 (PST)
+        Thu, 26 Dec 2024 11:49:50 -0800 (PST)
 From: Nihar Chaithanya <niharchaithanya@gmail.com>
 To: dpenkler@gmail.com,
 	gregkh@linuxfoundation.org
@@ -64,9 +64,9 @@ Cc: dan.carpenter@linaro.org,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Nihar Chaithanya <niharchaithanya@gmail.com>
-Subject: [PATCH v4 13/15] staging: gpib: ni_usb: Handle gpib_register_driver() errors
-Date: Fri, 27 Dec 2024 01:06:37 +0530
-Message-Id: <20241226193637.241049-14-niharchaithanya@gmail.com>
+Subject: [PATCH v4 14/15] staging: gpib: pc2: Handle gpib_register_driver() errors
+Date: Fri, 27 Dec 2024 01:06:38 +0530
+Message-Id: <20241226193637.241049-15-niharchaithanya@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20241226193637.241049-1-niharchaithanya@gmail.com>
 References: <20241226193637.241049-1-niharchaithanya@gmail.com>
@@ -78,48 +78,61 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The usb_register() function can fail and returns an error value which
-is not returned. The function gpib_register_driver() can also fail
-which can result in semi-registered module.
+The function gpib_register_driver() can fail, resulting in a
+semi-registered module and does not return an error value if it
+fails.
 
-In case gpib_register_driver() fails unregister the previous usb driver
-registering function. Return the error value if gpib_register_driver()
-or usb_register() functions fail.
+Unregister the previous gpib registering functions if subsequent
+gpib_register_driver() fail and return the error value.
 
 Signed-off-by: Nihar Chaithanya <niharchaithanya@gmail.com>
 ---
- drivers/staging/gpib/ni_usb/ni_usb_gpib.c | 13 ++++++++++---
- 1 file changed, 10 insertions(+), 3 deletions(-)
+ drivers/staging/gpib/pc2/pc2_gpib.c | 30 +++++++++++++++++++++++++----
+ 1 file changed, 26 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/staging/gpib/ni_usb/ni_usb_gpib.c b/drivers/staging/gpib/ni_usb/ni_usb_gpib.c
-index b7b6fb1be379..f20a23a023d9 100644
---- a/drivers/staging/gpib/ni_usb/ni_usb_gpib.c
-+++ b/drivers/staging/gpib/ni_usb/ni_usb_gpib.c
-@@ -2619,14 +2619,21 @@ static struct usb_driver ni_usb_bus_driver = {
- static int __init ni_usb_init_module(void)
+diff --git a/drivers/staging/gpib/pc2/pc2_gpib.c b/drivers/staging/gpib/pc2/pc2_gpib.c
+index 7b3b34f47341..1d42ced67b2c 100644
+--- a/drivers/staging/gpib/pc2/pc2_gpib.c
++++ b/drivers/staging/gpib/pc2/pc2_gpib.c
+@@ -635,12 +635,34 @@ void pc2_2a_detach(gpib_board_t *board)
+ 
+ static int __init pc2_init_module(void)
  {
- 	int i;
-+	int ret = 0;
- 
- 	pr_info("ni_usb_gpib driver loading\n");
- 	for (i = 0; i < MAX_NUM_NI_USB_INTERFACES; i++)
- 		ni_usb_driver_interfaces[i] = NULL;
--	usb_register(&ni_usb_bus_driver);
--	gpib_register_driver(&ni_usb_gpib_interface, THIS_MODULE);
- 
--	return 0;
-+	ret = usb_register(&ni_usb_bus_driver);
+-	gpib_register_driver(&pc2_interface, THIS_MODULE);
+-	gpib_register_driver(&pc2a_interface, THIS_MODULE);
+-	gpib_register_driver(&pc2a_cb7210_interface, THIS_MODULE);
+-	gpib_register_driver(&pc2_2a_interface, THIS_MODULE);
++	int ret;
++
++	ret = gpib_register_driver(&pc2_interface, THIS_MODULE);
 +	if (ret)
 +		return ret;
 +
-+	ret = gpib_register_driver(&ni_usb_gpib_interface, THIS_MODULE);
++	ret = gpib_register_driver(&pc2a_interface, THIS_MODULE);
 +	if (ret)
-+		usb_deregister(&ni_usb_bus_driver);
++		goto err_pc2a;
++
++	ret = gpib_register_driver(&pc2a_cb7210_interface, THIS_MODULE);
++	if (ret)
++		goto err_cb7210;
++
++	ret = gpib_register_driver(&pc2_2a_interface, THIS_MODULE);
++	if (ret)
++		goto err_pc2_2a;
+ 
+ 	return 0;
++
++err_pc2_2a:
++	gpib_unregister_driver(&pc2a_cb7210_interface);
++err_cb7210:
++	gpib_unregister_driver(&pc2a_interface);
++err_pc2a:
++	gpib_unregister_driver(&pc2_interface);
 +
 +	return ret;
  }
  
- static void __exit ni_usb_exit_module(void)
+ static void __exit pc2_exit_module(void)
 -- 
 2.34.1
 
