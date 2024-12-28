@@ -1,61 +1,61 @@
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC0BD145A11
-	for <linux-staging@lists.linux.dev>; Sat, 28 Dec 2024 06:26:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DCEE14A62A
+	for <linux-staging@lists.linux.dev>; Sat, 28 Dec 2024 06:26:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735367167; cv=none; b=q+09KccM0OX0V1yUUIAvLEvoEi3rIYstft1D2ADE1AdxoIa4JPTzvWt8ZD5zaRHJMHFyrKaxJfwM0u0fRLajmy3udK3diqrfR29TtZ6mgHUS2xklB7tCMjnumY3e5tRd588pWdk7GgG6jC8OFBkn4QXq0k94Sczl2FVEJ2cSEqE=
+	t=1735367169; cv=none; b=j1iB3dn4aqbnZWX+ZGKamMdSsrniPKnZUBv3q3VRSu9RrsdUwm3GLdcQTb24E4GPfvCzMeNIrSoSCTsDzGkRc838+eoCJOU50vlyae1ivltCn6G3GLCOfOBeEMFNrZiTRWR5ua5+rso7x072SYyMPDl/D8PEwOmuRTZsgITURkU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735367167; c=relaxed/simple;
-	bh=Xkj3OhYt0HsoR7LS8r60bpO4lP0pmIMbSAM1dLoqnkI=;
+	s=arc-20240116; t=1735367169; c=relaxed/simple;
+	bh=5RPOADarcrakfDotD1CuhKlQhRBJCGEbR9E+aj4sxmQ=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=kwNJ0rBmXWCR82ZKt+SMmsoS0be145dsC2MjN1SE8zINpdy3QTqkRBWS9WrTED/bDMlMV7FOAeQsBZos8nIQTJeNWKsERxr3jclKftRoan2vXEC6JZ3kuVJowF8HY/vonDXH2K69QbyA2j/qQiVHUK29fFTUfwGk16FEW6Gbi3Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BT/adNCR; arc=none smtp.client-ip=209.85.214.179
+	 MIME-Version; b=U+2KqjlLIPi4/TqlHXuIr5cgSVWSBTwMVtvg48y5Ci9GWXqRciiEOX/zm5XkfELwiT04eOWnyyRax2d716XfymlJA5oDTpby04x99viw3dWSR9MSBygfL9isbn3oHr2IOaW2ZB0fRVzGYY7C25w/3Wc0Bg2KDEPNNlZc3u58IbM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=c+buZ1wq; arc=none smtp.client-ip=209.85.214.178
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BT/adNCR"
-Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-2162b5d2e1fso12336345ad.3
-        for <linux-staging@lists.linux.dev>; Fri, 27 Dec 2024 22:26:05 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="c+buZ1wq"
+Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-218c8ac69faso11734905ad.3
+        for <linux-staging@lists.linux.dev>; Fri, 27 Dec 2024 22:26:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1735367165; x=1735971965; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1735367168; x=1735971968; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Bu+fa23bR/zX4SKFUNVb2wSGAsaVSctXfIzv3zCZzfM=;
-        b=BT/adNCR+BfBzsgdU8vFwAQgbcm6Y0vPw7vk5yJ+chINHMuqOQvgy4pI2Rooi665Gd
-         1LJbogru4VIpm9AE0fyTS1USFrzCmqarinota2ayXk4/HZeL8nngKdQFPu8MVMB4a0Wg
-         IDt6/JmxJb+2VMBzOIJzfx81LCvY4VDBq1heee27sbU5pbAvBONk+TRkrCDnoje+KygO
-         GjYu1MQcC+qi2jIsuXklLMuJdPm79xN8tg6MFUDUxZGCIRyp7YP/e8fRaqGrs5evR8d9
-         JFO/V84S2M0DVRxtLJSgKGxmxVyexp1qYORFILBNBQPENH4cTrHiL1UEhPSvEGPpKNtc
-         paKg==
+        bh=g4bIH6RGM0z1JJhXp40bqSwGh6KzMQQ7CPOGwKP/Daw=;
+        b=c+buZ1wqX0ptCCcrsg2jCC+IaTXY6NSnP7f9PScD+8nb2bZL2fabPNNF6ym61WVRPg
+         imHUh+bbHwZe/z17t4i9px9dX2IF0OrDIpX++heB84w/bR7nymtNn8vG2Zz4wMl92I8+
+         42EFjqd/DauIlMFSCjVBWyp+auzgr355JZP9+k7dSHTdh6S+MnP3I11IYoimdRBddKxZ
+         eHI+F/l1EUDfVgg/kTMGYYYU0b+mxnlotp3eC7wxSnsSDqCxQ0HumUHFNdodYpTSfzNf
+         Zcg1mGYO8GWfte+Y38Xq2XHrwLN1bGvxIwWctB+lPesfzwp+yBickj9ul9bXMUlpsXGz
+         zSgw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1735367165; x=1735971965;
+        d=1e100.net; s=20230601; t=1735367168; x=1735971968;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=Bu+fa23bR/zX4SKFUNVb2wSGAsaVSctXfIzv3zCZzfM=;
-        b=Td9CbtrZoTbK1MeoxRiv4ytE3mn2n9gYtZhhgjJGXEM5o+BB2YpQmttC47N4mFLpCE
-         ay1zo2YtgxC+4HZtb762iWWK3x6NYAX++VYSAuONUcaqv+Z4L/INjMf0LY6YyhHhZkgc
-         D4hywKUw5OssRuLSOBrvABS1IFgES5z8beEy1ye8vU/a+pSSBR3BCtqbCXNU4x5KhRgo
-         k9NHsBtF3cvPMUEKKZ0WcdKyvljeiu1FPlorKie3CIM7v6dRDC6hAtUAMpjip5ikf04d
-         kO6HZX3iXjKJ/OmI6JhG9EixCTnObc3tTjfroyrEigWz+CnrGDOxqbitJ2vjcxC4OaPh
-         kPMQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXNHtThdTG/874Sw0uTu+TYu0v2U6+3h5BhB8ew2qQvmdyM0++rglrqrAMROJj6adbK8I3J5k6XVBnEbmzo@lists.linux.dev
-X-Gm-Message-State: AOJu0YwSxev57+6GGw1BwZHjcML7HjXhjfYNq2YDF2MG8zVseggJP/Sx
-	V9/aiB3wyeZgaYdqShDNb8jKpSO61TwfJqOYKbpKWKP5VYqGRunH
-X-Gm-Gg: ASbGncsHTGbdNP/v9bKRh5doAWGFeq5kG0YTn81WXYTW0GdGgkoyojn4dgneHDg7Hsh
-	lzbr0eIk1Htv6b7oUhGYoSRZdi1a2Bg06Xj5EXGwMaSPysqFeF/MAOc/dc7XLg1J7DGXVmHA6Y0
-	3lRGlFY8BCYj44lVscPaHGH1kpUkJZ578aYFZjX2FM5fXHQUC1gwPOXGKTYFqA/fFE/kOc5onjP
-	sCsFHvOPmstBiqyRzgMTDefIx77R2R2Jcs7LfHBaNtDnnxo8m7+Y4U=
-X-Google-Smtp-Source: AGHT+IFvF6NazmgBMZtn6N3YueQInbnzxTDwbrKgIMEWlCqAUdHFmci1WI98dcBWquRlmr4b9CpDCg==
-X-Received: by 2002:a17:903:2345:b0:215:435d:b41a with SMTP id d9443c01a7336-219e6e857b8mr150776455ad.1.1735367165378;
-        Fri, 27 Dec 2024 22:26:05 -0800 (PST)
+        bh=g4bIH6RGM0z1JJhXp40bqSwGh6KzMQQ7CPOGwKP/Daw=;
+        b=CcU4+HyKMJdr7Z04UCVJ4Mb7fzZLDSecxaLJxE4EmS0I8QxhodFEKAhWUoVfkh3lDz
+         lt4sKthgL5RJfinyew9lKhCxoM33xWHU6+m0lczk2PrsBCUuLNasa55zRSlleDH2pavB
+         Xh+f7l2a1yAd/a87Vr/NABqsdzLLYVKaEeHRlN2Y+zqtjh8gbLAkd4G0/MCGj5L26CpF
+         OQflITRC7Dp+hR1D0CphevVJGZtq6/UM6g0ur64BHley0d0B6fmUQZAuK51SqG6EqoT9
+         VMmaG6oinH6BmjTBWIm/hsokST62x4QTtEo/K931U7L8ciG/3DqC5Muv75DiunwSraVY
+         kVOA==
+X-Forwarded-Encrypted: i=1; AJvYcCWdHYkR0GCfY+7kjaEeWaWglQshBp4l3lmF+ztBCMQgW8vj8f9uxJjNONVtJIxevOWHQm/lVlB85t+QlpDv@lists.linux.dev
+X-Gm-Message-State: AOJu0YxJqBID4Hu5NKOd5u7OlKuvdf3OTZjbI2uUhl64AauD+Pwrnp6J
+	uq8ZJzjmKKtfDIGHX0+nBgd6xd0zHgG8MkSqXm8Hu2lyfrjQnGLi
+X-Gm-Gg: ASbGncsIIzXCX5lzYxjnk4Qm5kmK3uMOZutKOihmbuVJLR+Rwgk58NclFhxMIOLyeyi
+	zsMa1DgAykR5zV4/WAb5ut3y3I0fYUJ431PnZxfded+2u9mO8F9jn7C2TtSetJfUMeISpiME4nm
+	SPGJtw7UsXFQwInCXuhROiTDTeeuTf/vzG7XmU+wst36YPs0H8g2uINXkjEUDUy2AhVnK578fy6
+	YZ2l/SyG6gTaWmblqJNYPnlrzR7Ms3NMhEtI5iW2tVhHWxIZIRtVsw=
+X-Google-Smtp-Source: AGHT+IGTxlsItD+a8SxlZhWTnZItAiFo7zZPWh18ByNq8xeO2EVO9u7NmUA8jRJYh6dcBsSGECDbkw==
+X-Received: by 2002:a17:903:228d:b0:215:9d47:4897 with SMTP id d9443c01a7336-219e6e9a124mr150181775ad.4.1735367167839;
+        Fri, 27 Dec 2024 22:26:07 -0800 (PST)
 Received: from ice.. ([171.76.83.141])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-219dc9f73f6sm144479455ad.222.2024.12.27.22.26.03
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-219dc9f73f6sm144479455ad.222.2024.12.27.22.26.05
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 27 Dec 2024 22:26:05 -0800 (PST)
+        Fri, 27 Dec 2024 22:26:07 -0800 (PST)
 From: Nihar Chaithanya <niharchaithanya@gmail.com>
 To: dpenkler@gmail.com,
 	gregkh@linuxfoundation.org
@@ -64,9 +64,9 @@ Cc: dan.carpenter@linaro.org,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Nihar Chaithanya <niharchaithanya@gmail.com>
-Subject: [PATCH v5 09/15] staging: gpib: hp_82335: Return error value from gpib_register_driver()
-Date: Sat, 28 Dec 2024 11:37:57 +0530
-Message-Id: <20241228060800.107653-10-niharchaithanya@gmail.com>
+Subject: [PATCH v5 10/15] staging: gpib: hp_82341: Handle gpib_register_driver() errors
+Date: Sat, 28 Dec 2024 11:37:58 +0530
+Message-Id: <20241228060800.107653-11-niharchaithanya@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20241228060800.107653-1-niharchaithanya@gmail.com>
 References: <20241228060800.107653-1-niharchaithanya@gmail.com>
@@ -78,33 +78,45 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The function gpib_register_driver() can fail and does not return an
-error value if it fails.
+The function gpib_register_driver() can fail, resulting in a
+semi-registered module and does not return an error value if it
+fails.
 
-Return the error value if gpib_register_driver() fails.
+Return the error value if the first gpib_register_driver() fails
+and if the second gpib_register_driver() fails unregister the first
+gpib_register_driver() and return the error value.
 
 Signed-off-by: Nihar Chaithanya <niharchaithanya@gmail.com>
 ---
- drivers/staging/gpib/hp_82335/hp82335.c | 9 ++++++++-
- 1 file changed, 8 insertions(+), 1 deletion(-)
+ drivers/staging/gpib/hp_82341/hp_82341.c | 18 ++++++++++++++++--
+ 1 file changed, 16 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/staging/gpib/hp_82335/hp82335.c b/drivers/staging/gpib/hp_82335/hp82335.c
-index 40afe42aea47..af8ddc173d12 100644
---- a/drivers/staging/gpib/hp_82335/hp82335.c
-+++ b/drivers/staging/gpib/hp_82335/hp82335.c
-@@ -325,7 +325,14 @@ void hp82335_detach(gpib_board_t *board)
+diff --git a/drivers/staging/gpib/hp_82341/hp_82341.c b/drivers/staging/gpib/hp_82341/hp_82341.c
+index 8ad1c885a9fb..eaeed8fb77c3 100644
+--- a/drivers/staging/gpib/hp_82341/hp_82341.c
++++ b/drivers/staging/gpib/hp_82341/hp_82341.c
+@@ -807,8 +807,22 @@ MODULE_DEVICE_TABLE(pnp, hp_82341_pnp_table);
  
- static int __init hp82335_init_module(void)
+ static int __init hp_82341_init_module(void)
  {
--	gpib_register_driver(&hp82335_interface, THIS_MODULE);
-+	int result = gpib_register_driver(&hp82335_interface, THIS_MODULE);
+-	gpib_register_driver(&hp_82341_unaccel_interface, THIS_MODULE);
+-	gpib_register_driver(&hp_82341_interface, THIS_MODULE);
++	int ret;
 +
-+	if (result) {
-+		pr_err("hp82335: gpib_register_driver failed!\n");
-+		return result;
++	ret = gpib_register_driver(&hp_82341_unaccel_interface, THIS_MODULE);
++	if (ret) {
++		pr_err("hp_82341: gpib_register_driver failed!\n");
++		return ret;
 +	}
 +
-+	pr_info("hp82335: module init is complete\n");
++	ret = gpib_register_driver(&hp_82341_interface, THIS_MODULE);
++	if (ret) {
++		pr_err("hp_82341: gpib_register_driver failed!\n");
++		gpib_unregister_driver(&hp_82341_unaccel_interface);
++		return ret;
++	}
++
++	pr_info("hp_82341: module init is complete\n");
  	return 0;
  }
  
