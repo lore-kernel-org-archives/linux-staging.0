@@ -1,61 +1,61 @@
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 881C019CD17
-	for <linux-staging@lists.linux.dev>; Mon, 30 Dec 2024 19:09:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79D2D19A298
+	for <linux-staging@lists.linux.dev>; Mon, 30 Dec 2024 19:09:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735585796; cv=none; b=ZdDGX0LmFsYvxPa11WWum6P+euV47QWaG8cm/x+ajjxcelPnC/xWA9YoNiowZf6onxSjsuX44IoM4tpp9GvKyNxNDyDqlxnepkW45B94hJW8S4GQVV6gHj3Mp6TvLZdsJDHq9ERt2pqXTTF/Z+PowXMWbXXHUal3b6a5s9Sukr0=
+	t=1735585796; cv=none; b=ocZ4olCZ07Tb/TiGVIJuWljntBjxNJQZEPzlvuBHj7cCZhJNyJC0Bqd/5eTDVXH7nxKiPzrJcpbYKEZenvCPsbFmferwVgcmus1FXOFQVYF1PNUFYUtjqqEwPa9dyaU5c6qkOGlzOe+ssB7FX5U9Cau3jfakTD8tI4M3OHgblzI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1735585796; c=relaxed/simple;
-	bh=CQeDTHpEokis/9sOyp7wowTDF0BeyBtYFlHbHL8DiVM=;
+	bh=+/U6TP0u4+L0ticmjRX+UP8OM1S6krGy8xWAWPiUEKE=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=jLQnmqEu5s8S87NqQvDypTRCzYCJxOl+YSACTB3sSTTdWnl+KYpmLaBhfGZnJu+6n9MzrwdY/1vsg5I56Mp8YN4yQtR12hQLazUVnmNPNdQkB7NlUbTTFDEKrmOrFrhKUcYMTbizJnJ0SwzRulPLoY+FbiiFvBtmvPDk0v7Hzqs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SbzcDPaJ; arc=none smtp.client-ip=209.85.214.181
+	 MIME-Version; b=b9RUpsfSkSNe4prMSOrpYwdOmuCgTjtsK9Q8AWRRYUbLRIf6Hn5dKeXJ6yhVx3g+gvoX9BXHuxh2iZWLS26Tr5nnt+GUmhHxD26Nq/GyWo3kOGyyv2Pp6tb0xj4zCxcPkL8X5UW02mNGENbXx5kGcOUI8vRtMjSfx2UzhAVHfcM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Y5StX91T; arc=none smtp.client-ip=209.85.214.170
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SbzcDPaJ"
-Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-21a0374a1fcso9936425ad.2
-        for <linux-staging@lists.linux.dev>; Mon, 30 Dec 2024 11:09:54 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Y5StX91T"
+Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-21a0374a1fcso9936475ad.2
+        for <linux-staging@lists.linux.dev>; Mon, 30 Dec 2024 11:09:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1735585794; x=1736190594; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1735585795; x=1736190595; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Xsa2/8UPc8Me8x5Dx2SCikAH5NYtOL4yIBVFykWklUE=;
-        b=SbzcDPaJc9IFq9dX+QEPIjKQrsHGtGKWTcZWD0RzgLJ8V4wZEz64/uJnXPL6iCPrW+
-         0OIFIp2RIWkOrAD2uRMjNaGi8kl5bCWk5vRnXZyy2vFgrjgPwv5wdC0hMW9GbC0/Omcn
-         kngLqtM1I3UdFslf8XMoPvOBRJXJaEp7+LZ3Gc4qDp0PAM203B8Z7OoLi7XVm+t1KHrz
-         5kMsOErPUJI64RQvk3EZ2oxAG3x+dNkkpe2RaUYPSDKVNzY1H0b1kDrZKZIpD0xvmK6r
-         uA1WST6CtC3nqsS9WnhzwtLW0ULUxgl7lX2gaWftYKeaZbYc691qK5EzJ/H/q956Erh2
-         Znrg==
+        bh=oT5isU+QbLuiUavKN59sWsElBo1xMBVRc25NaB2S0Ro=;
+        b=Y5StX91T+s37p+oIb5xl/q9JAyPBGsYL/MVIRgMtsmm5Jn+wCacOzjHrMv4e/Mbpwl
+         6zfWE2OzRtL+n4YUFYasp7s5VWyWUKv0pG9vsci824ZTSXz9uet+j86O3MiPnvOZL9ZP
+         SlnbMfhICls5Z8wDDM1NGm7jGyafmHrIBQp1SgzMyoklXI1llfnn8Xjwqjyyby4vpC3p
+         tWEPbQsQDEX0bcZE3U0Na3YmK4qe141yEeQ+/xWbOYyB5z41tPxwOv/XjXFO1wUrbIAC
+         ShEDihHxJNtTTDrmS7n9vd+lmhXRgne3MrQu6QEm17SVUDUdgN1WPmDg86DA/aIJSbUB
+         CdEw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1735585794; x=1736190594;
+        d=1e100.net; s=20230601; t=1735585795; x=1736190595;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=Xsa2/8UPc8Me8x5Dx2SCikAH5NYtOL4yIBVFykWklUE=;
-        b=FkHxjoabIgShnYJBzVsEb606u/OBC1pMAUZ7LrcAFTTCZIJ9k+eBfrOqqR3InWU9XF
-         H7C6WBXo2gIlopENqFtX+GBQUzzuyEKEXIRhaH7QMAkn5Qk7xiB6LcsFB5Pk/oVz3We4
-         A6lA+q8QpWV9i3yKdNX1dXYllgtLd5vGHQACxhjS5CY9DngS1qNdL8GJIch7kcBAhZyo
-         xZiVvQYpkjKwGrj0kitJi4VWjZZ7Iawc1HlVYRJkXy+tsbU6+JozDszRw+cLLr15zh3a
-         PlK/sRqxgRqwqnFudFO7r7TZL9XhxuBxQ+Vxkg7gWw4YNXMZ9bX1aRaed3IzFVTuhkPB
-         FffQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXutNb5ifXOQuKiio60Ye4oOlHC+n7iKydJkMUPy2mpqKlbCcbmcfwysJ/o7DweQu0NN4zXaEfLEtm4BAXg@lists.linux.dev
-X-Gm-Message-State: AOJu0YydnPFlTIkILsBAkcCrbShdIa+WU28CGoLdICzchi+/MPUFyWrh
-	oX43OWPLW+1oO5kcITV0/+ejPwd8en4D0IPpXqUCg3oQauy3gPbj
-X-Gm-Gg: ASbGncsXtwv2qeYpTUHeOYkLncJP9C+xMWq5ith2tm1HnbfardhYUPYIhgJVmaHJ2fA
-	tioyQcX2PTq2lWf4IZSxiLI4w7ZaK6/9ic3g2PROWA/q1lvjAQMg6GaZYjQ84QyrxFTGadlW5HB
-	oMlnpkwmmUYRDcBCmgeE4V6opWUUiNKku3OerhByguo0gSnGfgyN/0npR/FgZVv4a+0DX5pczwk
-	+fy6znADeKSU+TbngCNQjrk/NU3x2bdie7nnkFLnW0ZNDSBt9xgZXs=
-X-Google-Smtp-Source: AGHT+IEgWZ8CFGHO61/QnxIFYs8noH2nN7yjt92e7XABnMDSgY7V6wf4kSGKGXJrt4Axkvc8tI4UwQ==
-X-Received: by 2002:a17:902:f542:b0:215:b8b6:d2c4 with SMTP id d9443c01a7336-219e6e9a23amr190536675ad.4.1735585792238;
-        Mon, 30 Dec 2024 11:09:52 -0800 (PST)
+        bh=oT5isU+QbLuiUavKN59sWsElBo1xMBVRc25NaB2S0Ro=;
+        b=xSH5cM5v2XlgIQfNQCEdpTLlXnH8uIJMLn5qoIkPpdvvkAVpwrVsao5svhzJzkoz9T
+         cGk9madDBJqCyQrSeBzRp8zLgxJhnZkb4evG3D9u5ew+4vDXUigE6ZvclyxLG0FIKkn2
+         N94gwP7chbzkkp5XRWvzX599USoJ+khL2k0r3g4fw3S97dmPZRLTFhPeJpkmeSwOtc9M
+         yxbp+J2Q/DnmBzEd2wlZ6RDHZUVj5LiCiY0EHa37h7/sp75DC9qWuMTGXs4fogWqIXBt
+         c5Ff0GxfLG7jARRP8UglPbAW2AMJzOwcbDrr4vSRtQIGahlnQS6HHxxAO+tcEneZYRD2
+         IA2w==
+X-Forwarded-Encrypted: i=1; AJvYcCX2NC6u/o554Kb+qoo4tRLwu+ugzfEx9WWQfSmpCFIj3wm4qZ5aFVI2rWfsXkP/bea92YYigp+84SeQPULm@lists.linux.dev
+X-Gm-Message-State: AOJu0Yxri7q1PsxgNJALgTD+KRuXLAMX2k2p1vvGzEClgMvh4ryRvIW2
+	Oq5k+f6A6Oa3BiPsZBaLyCZpDY1fy0sLgmt7nU+n4nniLrrdZvRA
+X-Gm-Gg: ASbGncuZN5RFmMPiWASUM1pItYe9HeMEVVBTGqCS84J/E6H0TRtOMoqBrbgJZ3UPr1+
+	v1onvDYaE3+SrUN++OhR0zHMM0hthBb93fcKzSW5EJnyl9nB0YjIuVQv0L+aMHFCcGzJK9TSKJh
+	XTnuoHv/CTRTsctyYzXf9WKuzFK14+JPzBksjbcCw3uCorNiMZIzRlF0tki0URYln6zARCCskPG
+	hQxI443tv7qW1hukb/coo+EkrGMjClgnLEFg89cZlJGlDB2K5WZ21g=
+X-Google-Smtp-Source: AGHT+IHY/qiDc4ESBgY9biNcH91XNLwJ0wzCiwd+E9nfO4KdooIKN/6Kym6OcqndVAqo2gvhOdyEXQ==
+X-Received: by 2002:a17:902:c40b:b0:216:6590:d477 with SMTP id d9443c01a7336-219e6e854c7mr199666195ad.2.1735585794810;
+        Mon, 30 Dec 2024 11:09:54 -0800 (PST)
 Received: from ice.. ([171.76.81.193])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-219dc964f09sm182886795ad.26.2024.12.30.11.09.50
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-219dc964f09sm182886795ad.26.2024.12.30.11.09.52
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 30 Dec 2024 11:09:51 -0800 (PST)
+        Mon, 30 Dec 2024 11:09:54 -0800 (PST)
 From: Nihar Chaithanya <niharchaithanya@gmail.com>
 To: dpenkler@gmail.com,
 	gregkh@linuxfoundation.org
@@ -64,9 +64,9 @@ Cc: dan.carpenter@linaro.org,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Nihar Chaithanya <niharchaithanya@gmail.com>
-Subject: [PATCH v6 04/15] staging: gpib: cb7210: Handle gpib_register_driver() errors
-Date: Tue, 31 Dec 2024 00:26:24 +0530
-Message-Id: <20241230185633.175690-5-niharchaithanya@gmail.com>
+Subject: [PATCH v6 05/15] staging: gpib: cec: Handle gpib_register_driver() errors
+Date: Tue, 31 Dec 2024 00:26:25 +0530
+Message-Id: <20241230185633.175690-6-niharchaithanya@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20241230185633.175690-1-niharchaithanya@gmail.com>
 References: <20241230185633.175690-1-niharchaithanya@gmail.com>
@@ -78,166 +78,41 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The function cb_pcmcia_init_module() can be replaced by calling
-pcmcia_register_driver() directly. The error value from this
-function is not returned and the previous registering functions
-are not unregistered.
+The function gpib_register_driver() can fail and result in a
+semi-registered module and does not return an error value if it
+fails.
 
-The function gpib_register_driver() can fail and similar to
-pcmcia_register_driver() function failing, the previous registering
-functions are not unregistered.
-
-Replace cb_pcmcia_init_module() with pcmcia_register_driver().
-Unregister the gpib and pci register functions if the subsequent
-gpib or pcmcia register functions fail and return the error value.
-Add pr_err() statements to indicate the fail and also the error
-value.
+Unregister the pci registering function in case gpib_register_driver()
+fails and return the error value. Add pr_err() statements indicating the
+fail and also the error value.
 
 Signed-off-by: Nihar Chaithanya <niharchaithanya@gmail.com>
 ---
- drivers/staging/gpib/cb7210/cb7210.c | 116 +++++++++++++++++++++------
- 1 file changed, 90 insertions(+), 26 deletions(-)
+ drivers/staging/gpib/cec/cec_gpib.c | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/staging/gpib/cb7210/cb7210.c b/drivers/staging/gpib/cb7210/cb7210.c
-index 63df7f3eb3f3..45a54219ea6d 100644
---- a/drivers/staging/gpib/cb7210/cb7210.c
-+++ b/drivers/staging/gpib/cb7210/cb7210.c
-@@ -1351,12 +1351,6 @@ static struct pcmcia_driver cb_gpib_cs_driver = {
- 	.resume		= cb_gpib_resume,
- };
+diff --git a/drivers/staging/gpib/cec/cec_gpib.c b/drivers/staging/gpib/cec/cec_gpib.c
+index 3dc933deb401..e5b0941872f5 100644
+--- a/drivers/staging/gpib/cec/cec_gpib.c
++++ b/drivers/staging/gpib/cec/cec_gpib.c
+@@ -365,11 +365,15 @@ static int __init cec_init_module(void)
  
--int cb_pcmcia_init_module(void)
--{
--	pcmcia_register_driver(&cb_gpib_cs_driver);
--	return 0;
--}
--
- void cb_pcmcia_cleanup_module(void)
- {
- 	DEBUG(0, "cb_gpib_cs: unloading\n");
-@@ -1506,32 +1500,102 @@ void cb_pcmcia_detach(gpib_board_t *board)
- 
- static int __init cb7210_init_module(void)
- {
--	int err = 0;
--	int result;
-+	int ret;
-+
-+	ret = pci_register_driver(&cb7210_pci_driver);
-+	if (ret) {
-+		pr_err("cb7210: pci_register_driver failed: error = %d\n", ret);
-+		return ret;
-+	}
-+
-+	ret = gpib_register_driver(&cb_pci_interface, THIS_MODULE);
-+	if (ret) {
-+		pr_err("cb7210: gpib_register_driver failed: error = %d\n", ret);
-+		goto err_pci;
-+	}
-+
-+	ret = gpib_register_driver(&cb_isa_interface, THIS_MODULE);
-+	if (ret) {
-+		pr_err("cb7210: gpib_register_driver failed: error = %d\n", ret);
-+		goto err_isa;
-+	}
- 
--	result = pci_register_driver(&cb7210_pci_driver);
--	if (result) {
--		pr_err("cb7210: pci_driver_register failed!\n");
--		return result;
-+	ret = gpib_register_driver(&cb_pci_accel_interface, THIS_MODULE);
-+	if (ret) {
-+		pr_err("cb7210: gpib_register_driver failed: error = %d\n", ret);
-+		goto err_pci_accel;
+ 	result = pci_register_driver(&cec_pci_driver);
+ 	if (result) {
+-		pr_err("cec_gpib: pci_driver_register failed!\n");
++		pr_err("cec_gpib: pci_register_driver failed: error = %d\n", result);
+ 		return result;
  	}
  
--	gpib_register_driver(&cb_pci_interface, THIS_MODULE);
--	gpib_register_driver(&cb_isa_interface, THIS_MODULE);
--	gpib_register_driver(&cb_pci_accel_interface, THIS_MODULE);
--	gpib_register_driver(&cb_pci_unaccel_interface, THIS_MODULE);
--	gpib_register_driver(&cb_isa_accel_interface, THIS_MODULE);
--	gpib_register_driver(&cb_isa_unaccel_interface, THIS_MODULE);
--
--#ifdef GPIB__PCMCIA
--	gpib_register_driver(&cb_pcmcia_interface, THIS_MODULE);
--	gpib_register_driver(&cb_pcmcia_accel_interface, THIS_MODULE);
--	gpib_register_driver(&cb_pcmcia_unaccel_interface, THIS_MODULE);
--	err += cb_pcmcia_init_module();
-+	ret = gpib_register_driver(&cb_pci_unaccel_interface, THIS_MODULE);
-+	if (ret) {
-+		pr_err("cb7210: gpib_register_driver failed: error = %d\n", ret);
-+		goto err_pci_unaccel;
+-	gpib_register_driver(&cec_pci_interface, THIS_MODULE);
++	result = gpib_register_driver(&cec_pci_interface, THIS_MODULE);
++	if (result) {
++		pr_err("cec_gpib: gpib_register_driver failed: error = %d\n", result);
++		return result;
 +	}
-+
-+	ret = gpib_register_driver(&cb_isa_accel_interface, THIS_MODULE);
-+	if (ret) {
-+		pr_err("cb7210: gpib_register_driver failed: error = %d\n", ret);
-+		goto err_isa_accel;
-+	}
-+
-+	ret = gpib_register_driver(&cb_isa_unaccel_interface, THIS_MODULE);
-+	if (ret) {
-+		pr_err("cb7210: gpib_register_driver failed: error = %d\n", ret);
-+		goto err_isa_unaccel;
-+	}
-+
-+#ifdef GPIB_PCMCIA
-+	ret = gpib_register_driver(&cb_pcmcia_interface, THIS_MODULE);
-+	if (ret) {
-+		pr_err("cb7210: gpib_register_driver failed: error = %d\n", ret);
-+		goto err_pcmcia;
-+	}
-+
-+	ret = gpib_register_driver(&cb_pcmcia_accel_interface, THIS_MODULE);
-+	if (ret) {
-+		pr_err("cb7210: gpib_register_driver failed: error = %d\n", ret);
-+		goto err_pcmcia_accel;
-+	}
-+
-+	ret = gpib_register_driver(&cb_pcmcia_unaccel_interface, THIS_MODULE);
-+	if (ret) {
-+		pr_err("cb7210: gpib_register_driver failed: error = %d\n", ret);
-+		goto err_pcmcia_unaccel;
-+	}
-+
-+	ret = pcmcia_register_driver(&cb_gpib_cs_driver);
-+	if (ret) {
-+		pr_err("cb7210: pcmcia_register_driver failed: error = %d\n", ret);
-+		goto err_pcmcia_driver;
-+	}
- #endif
--	if (err)
--		return -1;
  
  	return 0;
-+
-+#ifdef GPIB_PCMCIA
-+err_pcmcia_driver:
-+	gpib_unregister_driver(&cb_pcmcia_unaccel_interface);
-+err_pcmcia_unaccel:
-+	gpib_unregister_driver(&cb_pcmcia_accel_interface);
-+err_pcmcia_accel:
-+	gpib_unregister_driver(&cb_pcmcia_interface);
-+err_pcmcia:
-+#endif
-+	gpib_unregister_driver(&cb_isa_unaccel_interface);
-+err_isa_unaccel:
-+	gpib_unregister_driver(&cb_isa_accel_interface);
-+err_isa_accel:
-+	gpib_unregister_driver(&cb_pci_unaccel_interface);
-+err_pci_unaccel:
-+	gpib_unregister_driver(&cb_pci_accel_interface);
-+err_pci_accel:
-+	gpib_unregister_driver(&cb_isa_interface);
-+err_isa:
-+	gpib_unregister_driver(&cb_pci_interface);
-+err_pci:
-+	pci_unregister_driver(&cb7210_pci_driver);
-+
-+	return ret;
  }
- 
- static void __exit cb7210_exit_module(void)
 -- 
 2.34.1
 
