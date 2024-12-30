@@ -1,61 +1,61 @@
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
+Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98C6619D089
-	for <linux-staging@lists.linux.dev>; Mon, 30 Dec 2024 19:10:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A90C19DF9A
+	for <linux-staging@lists.linux.dev>; Mon, 30 Dec 2024 19:10:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735585802; cv=none; b=TE0d75tZtJmyN/uBKil757fJWgCnlLcrV+nI4u9CROTznBQ9fJs1BkqJre2F2hpoTC22CkSJvApkaPUS85W6bc7d1ERInvHsXWHuZhKG5efgEVIrzlHLVorJ+LNVrrFr66FU1dLhCAEHyRjekoR+n8kqL+erjAyWR01cQTgGWIg=
+	t=1735585804; cv=none; b=Grbb6uHzQWqW8UcJCSw/1J6HMx4jrZrIlZsVnBo2fMQS9EtR6k43RAHEuYI+84m0U9fVH3BmldjYhSWnMMG+Bo4J0OLG5cstGGZswJoT8elK967DJYlqv1ymt+RTt449WxpUiBGkVPLxmb439ZO7W5Y2K/srh2RwtHPOY3FPYt0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735585802; c=relaxed/simple;
-	bh=cE62QEV/KBVbpuEXEN04Haz247wnPx6ZbxQNPO1vYBI=;
+	s=arc-20240116; t=1735585804; c=relaxed/simple;
+	bh=NVeaPMc2nCJbhLmBVQxHS97kOfSb9r+NuAjGgpepxUs=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=P0f/VmkTG2XSsyrqoL52yNm8OKfnclgfbwZQqUH8OW77sQ/Vq1ZUv68/XzEEUYPHUUozkiIuWvxYFzQ7A+rfww7wmnLZBzbjj8/CSXNacBFiToDGvuhY2WNy2bGyaPil/GQLJ9wQyJUbdWxWeQMJ+qEa+oFzBWIu33vCIEe9c6Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=eN9eJEZh; arc=none smtp.client-ip=209.85.214.182
+	 MIME-Version; b=KWhfa2sEqO9Y4EL23TaLv+7qMKC9Qw4ArGNr5VFkydysnelqUWRwH81CHM0qww+T0WXwjd0I9jJqol3tnyXIa3v7Km989wnwTlQ821oPcbUUrNrm4o2Aye10q19P6HrCNo/HoeNc4VsmggyeU/D3PzhqJ4PCH6s82Hi4Ygbq/MU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LhV3aX5y; arc=none smtp.client-ip=209.85.214.173
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="eN9eJEZh"
-Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-21644b473ddso13625405ad.0
-        for <linux-staging@lists.linux.dev>; Mon, 30 Dec 2024 11:10:00 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LhV3aX5y"
+Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-215607278acso10737075ad.1
+        for <linux-staging@lists.linux.dev>; Mon, 30 Dec 2024 11:10:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1735585800; x=1736190600; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1735585802; x=1736190602; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=yOUO9YPsefTgfIOt0AUjXALb7a4R9PKwgM8CDJeJtxk=;
-        b=eN9eJEZhY7+HeOjyxRBc/KrEmA764NQF28ncvR8i2+4U/OmXvgNxz3cpRtYormyHNU
-         CYSq/qDSEF7LIfxL9bIdFS3hvkuTDHAAfE4aMBwJ/3zI+vwXsO+5dEpAcwb07XalXe4S
-         cpHzeTi6Q/mLXSIs0qxViHSJf21ouO/0vJHxvm1wvgekgkDoXe3l36PB5NNZHk/au2hv
-         dN/Fg5IJIY0Duv6y36gzpXRZmW5oLYV9jzQpFAh9/SNcMNgUjhirP306FUivjxlVNrqP
-         7RNQKaxrP4kbU+gK3HlcgKVsZlkPaaEDgyZdLKpxLeMAOTpqBI/XkBrkEjhoDlEBSolK
-         8lQg==
+        bh=HWznVxxStAUDNkIlcoS5NcdooWzDrhHOwRt+GbhpQcA=;
+        b=LhV3aX5yz8Yx1tqJZKVi8XZHVVGqUKrSiwjk6Jn+o+B51iwFlTBSzFc6lfXIXEMaKb
+         7hj0xIuIOhZe9aLxNNHPCw/bTB+DXlytSF+hX0JWm68iVDW+znKRycJpuBpoEzJqeScb
+         reF4ihDZm4sYHPAGBr9ZsBCsmOKT8zQdse4YnxQO72jcVulGh354DN5AwNSPhQHY32+v
+         X/ZAY+BmK6lLqMAuQ7AmsxYVV/25sp01FT2gRBbU8+Z67i0QJhBf4ECKJ6weOBx2li+i
+         LyW7A4blTDbFW0Q9Y/NIEYUVPvh3rkfBD34NlvgGz7R9NCOt/GnWUpOwmrXFDdJMVHnq
+         BlJA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1735585800; x=1736190600;
+        d=1e100.net; s=20230601; t=1735585802; x=1736190602;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=yOUO9YPsefTgfIOt0AUjXALb7a4R9PKwgM8CDJeJtxk=;
-        b=S6Mh38pe+Ix+47IKM3hRMalCFRAg+J1zvaZUhJFOglCOnAhr8noJIt1+A1pPb18iNy
-         wzVovDkrL75IECay+KatGrT36kAex5NI6yvOD77futQ6O72hT+2OrTnCb7XHT9LvmBcR
-         vONr+nz7fY+sUDAAQjpvbnYEkT0ULqpXKFRcKYz3zJ0Yy14y7rrJHcSFDAq3QuEhDBcp
-         /VU2xCh/kkGqTJzfW7b9yWy2tkjhFFM7zJ+8pIYdsDILrFuXj1ImLs9skS//8cakWOlh
-         bWTt1DmBu2GoPOMpCw/Uh1ZM/x9LcTTXBgDJhdSG0pucAz/AJ10AockdpWIv9J4X81UG
-         mJ1w==
-X-Forwarded-Encrypted: i=1; AJvYcCXw2vqvgvgE6l8m56VgBwFHqmNfj9kvM8WQRC6ubW8ExEnYyT1S9hr8pVF6O3dKhO9O3vbt/5vxWAMzKfiZ@lists.linux.dev
-X-Gm-Message-State: AOJu0YwcjnJZUo61qF5Z7flmWErTfK3pt7MAIIK1cmgtt/6aFRfRPApQ
-	q4lbta1hZ8k4rETpBwqzy19VcRo07b8iwDbLnbLFQ7t5plxioNJ+
-X-Gm-Gg: ASbGncv+Ozy2gsGo9fBjnNCxhGJME/Fu/+43lu50O6LzUpz1RckBs6bLPzU+sNZl++5
-	Ml20wveoOdws3wIwbm1XQv3vKgk60iw3EemNpNXohUbdiN8NMI4BBLB42DzAxNV/y0NTGIuiyvH
-	whHchOW2A60Iy2aBAxs95sFUPqJ0Gh1wdxy5fg2Yb6OAOeV/6nVQGTdNa8sg+w1xZ8/mjryELUJ
-	e78IFAZYTBsUI88yYpl7M4x9AbtYiQrTJqKt72klT09CvchkQih3cU=
-X-Google-Smtp-Source: AGHT+IHpjjH9niowQTZF88GunjXK3G9QKnriFbYqrDJc/MYzo+JYu1+AdCCZCrxWNN09hylMh9tXzw==
-X-Received: by 2002:a17:902:ea05:b0:216:282d:c691 with SMTP id d9443c01a7336-219e6f1d288mr190075575ad.13.1735585800007;
-        Mon, 30 Dec 2024 11:10:00 -0800 (PST)
+        bh=HWznVxxStAUDNkIlcoS5NcdooWzDrhHOwRt+GbhpQcA=;
+        b=Jdsckos4JjgJrBvLG/hPlRGVVkhgpkhGxKWmmx3xZYOGaH4mpCDFvuX1ibfut1GKYS
+         MlhyUdoXTYb/3VTOVzx6qlTFWa0ztL+OgsrT92KYvjI/rpNDnYZAMJDZQ9P/KiaCq2Y3
+         D7DohuSQ3OrxLoUtrHoOrwLvu3WI2gkIR960Sdpo7aFgAMEbwnaDkSVibn/qnBz3G6pd
+         9Ic1uqUENnhYxqaoX8unuPImiIjWmfMX50411lhksdkv88P12O06wj3aWBECb/MlRIKn
+         T/c22BitFnv8VskfaHyqqmCMUQDUW6iZEVRk9yTXAW1yHtO/XSVWSudMOqc4Q+4cDhXY
+         jEHA==
+X-Forwarded-Encrypted: i=1; AJvYcCV2VSzdrUUl6Qjd6O8NkwPnC+aqRiO27AMDsFIdBkj3OyO0k4fGt+dWioPHjzQ/Hrg9IXGrXx/8DAp86Pv6@lists.linux.dev
+X-Gm-Message-State: AOJu0Yz8vSn4lUPXL7HCpK45ckBZjIM9M4mYBFESmnK0qPzI/CLvGzWj
+	p780MpyNsnygds4PUuIeOdQmESSFscgTjURb8O12vRpQ1CNG+PmFvCziGQ==
+X-Gm-Gg: ASbGncukA6y+pUW6OlxrVmPCblRefvKNCvjtcpziZu4k9MWOg7KxVMhUjVnHH+VlJiL
+	EaST7ertBKSJc8r1Msqk+QtKvAlxApbTjIaBjSi07gaTVuQp2Bgogh0xY3HxKuhamh7rZj07l1U
+	nh3/WJY3NLhGhVQW8VuUP+D9fXNPrd965jUePpB5PpOSA27lk+2Ayn+cWZyfsjEJyimTnc0DcH6
+	s/sqDOPSnkbfexv1FWaPGu/Z13DL+asOqo/GTdhTjuMtoyS6XH27hg=
+X-Google-Smtp-Source: AGHT+IGbYSrGkEeU/+nvbTWUrx2+wqeKKwAbRjtiQQhHNdBHD7V+odq7z21preBe4lNqcIH59Gpj/Q==
+X-Received: by 2002:a17:902:c941:b0:216:3dd1:5460 with SMTP id d9443c01a7336-219e6e853a1mr199344655ad.2.1735585802531;
+        Mon, 30 Dec 2024 11:10:02 -0800 (PST)
 Received: from ice.. ([171.76.81.193])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-219dc964f09sm182886795ad.26.2024.12.30.11.09.57
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-219dc964f09sm182886795ad.26.2024.12.30.11.10.00
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 30 Dec 2024 11:09:59 -0800 (PST)
+        Mon, 30 Dec 2024 11:10:02 -0800 (PST)
 From: Nihar Chaithanya <niharchaithanya@gmail.com>
 To: dpenkler@gmail.com,
 	gregkh@linuxfoundation.org
@@ -64,9 +64,9 @@ Cc: dan.carpenter@linaro.org,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Nihar Chaithanya <niharchaithanya@gmail.com>
-Subject: [PATCH v6 07/15] staging: gpib: fmh: Handle gpib_register_driver() errors
-Date: Tue, 31 Dec 2024 00:26:27 +0530
-Message-Id: <20241230185633.175690-8-niharchaithanya@gmail.com>
+Subject: [PATCH v6 08/15] staging: gpib: gpio: Return error value from gpib_register_driver()
+Date: Tue, 31 Dec 2024 00:26:28 +0530
+Message-Id: <20241230185633.175690-9-niharchaithanya@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20241230185633.175690-1-niharchaithanya@gmail.com>
 References: <20241230185633.175690-1-niharchaithanya@gmail.com>
@@ -78,87 +78,35 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The function gpib_register_driver() can fail, resulting in a
-semi-registered module and does not return an error value if it
-fails.
+The function gpib_register_driver() can fail and does not return an
+error value if it fails.
 
-Unregister the previous platform driver, pci and gpib registering
-functions if subsequent gpib_register_driver() fail and return the
-error value. Add pr_err() statements indicating the fail and also the
-error value.
+Return the error value if gpib_register_driver() fails. Add pr_err()
+statement indicating the fail and also the error value.
 
 Signed-off-by: Nihar Chaithanya <niharchaithanya@gmail.com>
 ---
- drivers/staging/gpib/fmh_gpib/fmh_gpib.c | 47 ++++++++++++++++++++----
- 1 file changed, 39 insertions(+), 8 deletions(-)
+ drivers/staging/gpib/gpio/gpib_bitbang.c | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/staging/gpib/fmh_gpib/fmh_gpib.c b/drivers/staging/gpib/fmh_gpib/fmh_gpib.c
-index 62791db1c34a..90108ce0304a 100644
---- a/drivers/staging/gpib/fmh_gpib/fmh_gpib.c
-+++ b/drivers/staging/gpib/fmh_gpib/fmh_gpib.c
-@@ -1691,23 +1691,54 @@ static int __init fmh_gpib_init_module(void)
+diff --git a/drivers/staging/gpib/gpio/gpib_bitbang.c b/drivers/staging/gpib/gpio/gpib_bitbang.c
+index a2d562cbd65b..057f9264de34 100644
+--- a/drivers/staging/gpib/gpio/gpib_bitbang.c
++++ b/drivers/staging/gpib/gpio/gpib_bitbang.c
+@@ -1341,7 +1341,12 @@ return_to_local : bb_return_to_local,
  
- 	result = platform_driver_register(&fmh_gpib_platform_driver);
- 	if (result) {
--		pr_err("fmh_gpib: platform_driver_register failed!\n");
-+		pr_err("fmh_gpib: platform_driver_register failed: error = %d\n", result);
- 		return result;
- 	}
- 
- 	result = pci_register_driver(&fmh_gpib_pci_driver);
- 	if (result) {
--		pr_err("fmh_gpib: pci_driver_register failed!\n");
--		return result;
-+		pr_err("fmh_gpib: pci_register_driver failed: error = %d\n", result);
-+		goto err_pci_driver;
-+	}
+ static int __init bb_init_module(void)
+ {
+-	gpib_register_driver(&bb_interface, THIS_MODULE);
++	int result = gpib_register_driver(&bb_interface, THIS_MODULE);
 +
-+	result = gpib_register_driver(&fmh_gpib_unaccel_interface, THIS_MODULE);
 +	if (result) {
-+		pr_err("fmh_gpib: gpib_register_driver failed: error = %d\n", result);
-+		goto err_unaccel;
-+	}
-+
-+	result = gpib_register_driver(&fmh_gpib_interface, THIS_MODULE);
-+	if (result) {
-+		pr_err("fmh_gpib: gpib_register_driver failed: error = %d\n", result);
-+		goto err_interface;
- 	}
- 
--	gpib_register_driver(&fmh_gpib_unaccel_interface, THIS_MODULE);
--	gpib_register_driver(&fmh_gpib_interface, THIS_MODULE);
--	gpib_register_driver(&fmh_gpib_pci_unaccel_interface, THIS_MODULE);
--	gpib_register_driver(&fmh_gpib_pci_interface, THIS_MODULE);
-+	result = gpib_register_driver(&fmh_gpib_pci_unaccel_interface, THIS_MODULE);
-+	if (result) {
-+		pr_err("fmh_gpib: gpib_register_driver failed: error = %d\n", result);
-+		goto err_pci_unaccel;
-+	}
-+
-+	result = gpib_register_driver(&fmh_gpib_pci_interface, THIS_MODULE);
-+	if (result) {
-+		pr_err("fmh_gpib: gpib_register_driver failed: error = %d\n", result);
-+		goto err_pci;
++		pr_err("gpib_bitbang: gpib_register_driver failed: error = %d\n", result);
++		return result;
 +	}
  
--	pr_info("fmh_gpib\n");
- 	return 0;
-+
-+err_pci:
-+	gpib_unregister_driver(&fmh_gpib_pci_unaccel_interface);
-+err_pci_unaccel:
-+	gpib_unregister_driver(&fmh_gpib_interface);
-+err_interface:
-+	gpib_unregister_driver(&fmh_gpib_unaccel_interface);
-+err_unaccel:
-+	pci_unregister_driver(&fmh_gpib_pci_driver);
-+err_pci_driver:
-+	platform_driver_unregister(&fmh_gpib_platform_driver);
-+
-+	return result;
- }
- 
- static void __exit fmh_gpib_exit_module(void)
+ 	dbg_printk(0, "module loaded with pin map \"%s\"%s\n",
+ 		   pin_map, (sn7516x_used) ? " and SN7516x driver support" : "");
 -- 
 2.34.1
 
