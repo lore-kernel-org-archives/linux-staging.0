@@ -1,199 +1,137 @@
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
+Received: from mail-vs1-f42.google.com (mail-vs1-f42.google.com [209.85.217.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8D8816F8F5
-	for <linux-staging@lists.linux.dev>; Fri,  3 Jan 2025 06:44:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38A551CD1FB
+	for <linux-staging@lists.linux.dev>; Fri,  3 Jan 2025 08:53:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1735886679; cv=none; b=Uy9dYutisyGAe60GoH+Hd8ux2nOBBuSEVYNIu8uj0EmIjDxj20/MT8ARZFAwlOjYVfthdcYWbQXOruO5dhG7QG1A3TXAIzfrcCsIVv8IANFQZv2+uC8zeLia+cCS//xbqX1l2LIJLTNNyxd0fOoJgtCK4Bxm2gTeADiq5qnBuwk=
+	t=1735894428; cv=none; b=XI/3PwJskX0mkvGhLTThHDVbDSoaQ+dEwT/OcwF1gRb8+B5b67BCrwoxpYaL7oD5hQcuw7F/oaAZisTui3pu+rqK8AXxMHARmrgLwpbiZUBO5/X+LM2tDbQMgLDSDd42Onkp0tAcIDRUnE5AHBhOw0IRJ1jJL53cTQGmgdDnDp8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1735886679; c=relaxed/simple;
-	bh=3KP0nCS6lvOsicuamKMU2eVXmaOYVs8MJvEzz0z93VM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=R4kFrAN0e6cbRHNvxyoJ9iPXq1XjYasrmjPvlptnt1xFqoVwR0XbZHFwBZjhzXc4A2szvkzOw5/Gj4bT3YmOHHUVNDLuPkrSt+S3a4puPo2rKH3rpig2HoS68C6SJsBmAMX+FtAROHDld5olAk8P5gVuHvtGajFr0yD0cREJPU8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=T7oC8q+b; arc=none smtp.client-ip=209.85.221.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+	s=arc-20240116; t=1735894428; c=relaxed/simple;
+	bh=hnBq03WxBk2PG7EPavzS0kBmjxZJX+qxr5LBLBcNk+c=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=uJTN7tCr0Nbwmm70pI0ZGW7E21m2EgPC0F7RqxfJlTA1FhcmjpxysXaAz/SZ/KgSqb5F9ylkXe72UUtKcSY7xFEngt2fWkUanaiVu5VZD5NU8m9XF6rv90RVahgXUppsOUbKWjnF8+lpf/jYWMovXiKsKKwnBg+8RD7UaqCWudA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.217.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="T7oC8q+b"
-Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-3862b364538so6837122f8f.1
-        for <linux-staging@lists.linux.dev>; Thu, 02 Jan 2025 22:44:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1735886676; x=1736491476; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=ABL1p7nta/CRl8BsVQhOmjXI/HpJhPxNL3TKYtG8RXE=;
-        b=T7oC8q+b2OEl4WiyplS/G6kbhKeu88G5m2Zjea+LyuKkWb72vFqk6LwU1ANeFOoB/M
-         lJkO0DSP6uoZHgpwONVcsszC5X7VTAE9hfa8VJyTjGnhQoU+zsbpcV+DE2xXnr4fhFXX
-         DZF3Pe0uCss9f2YBYwTmh8cwhk4h3bHSoWoQ5e+FrRWsgJ7e7Ouh4k7P2IXYIar1Vi5n
-         Kp3oft+4GJxmGlkIhWSqUESNdj7B2tK4XS9JmEb5LXErYMuSpVcZJWSpEIqozyamVSvq
-         ql41wfGmX6l0E4XrJOe94RoZX0TqIJ0z6StNDz5+Rc2BIgj/t34kC1b9+DEoYZ/cnMps
-         7VCg==
+Received: by mail-vs1-f42.google.com with SMTP id ada2fe7eead31-4b11a11a4f0so3060791137.3
+        for <linux-staging@lists.linux.dev>; Fri, 03 Jan 2025 00:53:45 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1735886676; x=1736491476;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ABL1p7nta/CRl8BsVQhOmjXI/HpJhPxNL3TKYtG8RXE=;
-        b=VfCnvCYgY6l10fj8RBgmyVcK7L0BP/X5IxQwWFpRCvu+ejABBHRRHnTIU5bmRl9oHr
-         IOfa8zzaw8Y63O1WHvCvS+LFG8zcX+LX0YEkOnygLsHBkdG1zvkUlj2HF+vSVcHtOTez
-         qnsBUbl/rCrf3wIcK7YNzcBfk9nvLvzfZt7tYkFPjf36Wb1QL/maG4M5b8mK9hGMkSS0
-         6IblIrj/RKHGMfVn553lsA0zukO9iclthmuP6IWF80BEDwt6t3EKwPrbYaj0t7ZXE95b
-         qoU0ega6C+1Z5YjKRZdZcY7wC9+ODeZJthNdqGHiBGf5xZUH0Mrch4YgbiHNw8P2aOph
-         gmVg==
-X-Forwarded-Encrypted: i=1; AJvYcCX2KqcSlyrjcCD+qBqRol90wbFUrRG4lWsNKKZDKpaCvaBOucNIAE1e1WVGIBqPFFmpPDGvjfLVaV4EEkY8@lists.linux.dev
-X-Gm-Message-State: AOJu0Yx18bZ6dIpD1Aezuxww9RJij1PagYjTuqfRdZU7eM35YOcgDaum
-	R40tg0Tvy/TY2vyYgUxyBDdn4vTb9RzQcJIeTjWtj01PJ+AmfRVJ
-X-Gm-Gg: ASbGncvxeRdxaITNYuhgJp8hLE0sLhXty1SLlAjWaCA8Pq69vsGRuHmAr/4l93cpbpw
-	/Dze7oeIEZWBN6AOsqYOqzyHQ4pW2IoLi/WIchN/F0nlaQ52KV0z8R6M8OGOArd69Bg8Kbn2X3z
-	GxuNeIduDY3txfu8yMJM0//xzUK5dobheqnp3ipaMMVGjh8q9a53HL/9EGk0Z0JEvoMaw7OAIRH
-	7d0crQQeOmZp8PtfAB5P87pRRDbxy8gaCCP2aIaiIdktZRv59E+ipgly7OzXZyQ41k87Ry9XS+O
-	lYOGv4vzBEcKA7ZaaO6LC82V/d8=
-X-Google-Smtp-Source: AGHT+IGAa139yx3LH2QxpRgTHdKaVEYWhB6ijI8gOCJypp9phUqVp1ost3xXdpx7HlRS9Snm1/kE5w==
-X-Received: by 2002:a05:6000:2af:b0:388:ce0c:9f19 with SMTP id ffacd0b85a97d-38a1a177e24mr44534740f8f.0.1735886675749;
-        Thu, 02 Jan 2025 22:44:35 -0800 (PST)
-Received: from [192.168.2.105] (p57935577.dip0.t-ipconnect.de. [87.147.85.119])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4366128a44fsm471876805e9.43.2025.01.02.22.44.34
+        d=1e100.net; s=20230601; t=1735894422; x=1736499222;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=j30abThuUeHkj5Ij3LGKLh6rqpnb67GZgQG4O9gJV1M=;
+        b=H2zoa6qffBU7my3hhI2svsQP8jvjx/bjfL5FB0IKgW3K8Y3MUUuzrG9ikv5zu/1ZGJ
+         MHC+GBdHaDhIoZzOBtnYaRNjU8PhsWV5WcCv4NE6ZI/t71frvFHAa215nnGWPnUg8Hgn
+         n3pQx6ZoMKc7mlylQrdp/XVSFfBvLUMKdgt6O2CZ5DbOJs+HWEpKEH2fWGHJvWCF9zzT
+         JN60V0bp8j6Wt4VMd19PPXpuRgn/tNUNgRlh8JW5IEVKbUmY3BvJ9BJnKmjN6lquO5F0
+         EV7Z7c2zdIZHMvjKDF/LcqvZJdC5gpdL+C+t0eq7I76xOWgLzQ8q+pKs1hSyXNHIaeXd
+         ECMQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWqgiSUR4RomUOX3rvuZz6Ed/gUkMMgO2WsXUsjUlyqVQVLMZb1o4Z3Gtxx2kKmkZAJkJftPw8Mpyyg9Bhd@lists.linux.dev
+X-Gm-Message-State: AOJu0YxunEM6zKoZ1Eu8OiPaxioleGX1EaEpq43fG4fe2O6a/i+wMZRn
+	TLtqAZkUg9j7+hHptlNfRRA1L8v5yThYY8EEjTPWL+UOOixZgPx72ZlImN7r
+X-Gm-Gg: ASbGnct8u//oNIe9UEZkz+/b3rA72QEyP3JrdNlUs4yX8YpB9kWpKptbMKc5jJXDzRI
+	6af/512lrlakYAp59kz5xqmyKcTvyRQs2NSXndCRg0QudlSUQSKt7rY9VbRMxUTJ6u5xxz1mAix
+	EkKwIvuupE7B/pW37i34NVs94UQckzCc+lk+l7DB+p8eqMNcElkawQ9DTiXCZ3256rRYVADgl1B
+	+7dVmRNJT4PXvRfsBbaCr9bhJuTP4F7p14ad3LlXWWnwUzv3PGacImBcTPtW3K8Dsa62puNxsQB
+	8HIn1zSL6JBv5SL3tLw=
+X-Google-Smtp-Source: AGHT+IFwzhmi6Rv2CVb7a3geYZmxhTmawskMyz3qh/Mjfy0/O5SYTELzLwioIA93DRmBqepmZ5oVRQ==
+X-Received: by 2002:a05:6102:dd1:b0:4af:3973:6b22 with SMTP id ada2fe7eead31-4b2cc4684dcmr39373431137.22.1735894421999;
+        Fri, 03 Jan 2025 00:53:41 -0800 (PST)
+Received: from mail-ua1-f41.google.com (mail-ua1-f41.google.com. [209.85.222.41])
+        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-8610ad575fasm5432449241.29.2025.01.03.00.53.39
+        for <linux-staging@lists.linux.dev>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 02 Jan 2025 22:44:35 -0800 (PST)
-Message-ID: <39256db9-3d73-4e86-a49b-300dfd670212@gmail.com>
-Date: Fri, 3 Jan 2025 07:44:32 +0100
+        Fri, 03 Jan 2025 00:53:40 -0800 (PST)
+Received: by mail-ua1-f41.google.com with SMTP id a1e0cc1a2514c-85baea70afeso2437966241.2
+        for <linux-staging@lists.linux.dev>; Fri, 03 Jan 2025 00:53:39 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCW6bFaiG+JPXxBmO3oNyXlFuErtO5SWTzAAtVbw0wUIeou1LUmEpXcZNbrt/3YhSMTUV3GTHdmuq7deNC3R@lists.linux.dev
+X-Received: by 2002:a05:6102:160e:b0:4b2:bdf1:c1ba with SMTP id
+ ada2fe7eead31-4b2cc380883mr40018988137.13.1735894419660; Fri, 03 Jan 2025
+ 00:53:39 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
+References: <20241224080755.194508-1-philipp.g.hortmann@gmail.com>
+ <b811d4af6a634d61389dfefacd49853c0e77f1d7.camel@sipsolutions.net> <39256db9-3d73-4e86-a49b-300dfd670212@gmail.com>
+In-Reply-To: <39256db9-3d73-4e86-a49b-300dfd670212@gmail.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Fri, 3 Jan 2025 09:53:27 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdVGdpVqkdvoFxu84YgBh_0fsAKeBhWFEg+nDyGLwbruig@mail.gmail.com>
+Message-ID: <CAMuHMdVGdpVqkdvoFxu84YgBh_0fsAKeBhWFEg+nDyGLwbruig@mail.gmail.com>
 Subject: Re: [PATCH] net: ethernet: toshiba: ps3_gelic_wireless: Remove driver
  using deprecated API wext
-To: Johannes Berg <johannes@sipsolutions.net>,
- Andrew Lunn <andrew+netdev@lunn.ch>, "David S . Miller"
- <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- Geoff Levand <geoff@infradead.org>, Simon Horman <horms@kernel.org>,
- Alexander Lobakin <aleksander.lobakin@intel.com>, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Cc: Kalle Valo <kvalo@kernel.org>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Claudiu Beznea <claudiu.beznea@tuxon.dev>,
- Geert Uytterhoeven <geert@linux-m68k.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Jeff Johnson <quic_jjohnson@quicinc.com>,
- Larry Finger <Larry.Finger@lwfinger.net>,
- Nicolas Ferre <nicolas.ferre@microchip.com>, Pavel Machek <pavel@ucw.cz>,
- Stanislaw Gruszka <stf_xl@wp.pl>,
- Gregory Greenman <gregory.greenman@intel.com>,
- linuxppc-dev <linuxppc-dev@lists.ozlabs.org>, linux-staging@lists.linux.dev,
- linux-wireless@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
- Stefan Lippers-Hollmann <s.l-h@gmx.de>
-References: <20241224080755.194508-1-philipp.g.hortmann@gmail.com>
- <b811d4af6a634d61389dfefacd49853c0e77f1d7.camel@sipsolutions.net>
-Content-Language: en-US
-From: Philipp Hortmann <philipp.g.hortmann@gmail.com>
-In-Reply-To: <b811d4af6a634d61389dfefacd49853c0e77f1d7.camel@sipsolutions.net>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+To: Philipp Hortmann <philipp.g.hortmann@gmail.com>
+Cc: Johannes Berg <johannes@sipsolutions.net>, Andrew Lunn <andrew+netdev@lunn.ch>, 
+	"David S . Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Geoff Levand <geoff@infradead.org>, 
+	Simon Horman <horms@kernel.org>, Alexander Lobakin <aleksander.lobakin@intel.com>, netdev@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Kalle Valo <kvalo@kernel.org>, 
+	Alexandre Belloni <alexandre.belloni@bootlin.com>, Claudiu Beznea <claudiu.beznea@tuxon.dev>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Jeff Johnson <quic_jjohnson@quicinc.com>, 
+	Larry Finger <Larry.Finger@lwfinger.net>, Nicolas Ferre <nicolas.ferre@microchip.com>, 
+	Pavel Machek <pavel@ucw.cz>, Stanislaw Gruszka <stf_xl@wp.pl>, 
+	Gregory Greenman <gregory.greenman@intel.com>, linuxppc-dev <linuxppc-dev@lists.ozlabs.org>, 
+	linux-staging@lists.linux.dev, linux-wireless@vger.kernel.org, 
+	Arnd Bergmann <arnd@arndb.de>, Stefan Lippers-Hollmann <s.l-h@gmx.de>, Christoph Hellwig <hch@lst.de>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 30.12.24 09:22, Johannes Berg wrote:
-> On Tue, 2024-12-24 at 09:07 +0100, Philipp Hortmann wrote:
->> Driver was contributed in 2008.
->>
->> The following reasons lead to the removal:
->> - This driver generates maintenance workload for itself and for API wext
-> 
-> So I've been wondering, why are you so concerned about this? And in
-> particular, more concerned about it than the people actually doing the
-> maintenance? :)
+Hi Philipp,
 
-One of my big fears is the hand over to the next generation maintainers 
-and developers. The less code and the less exceptions due to old 
-interfaces the easier it will be. We loose maintainers and developers 
-for many reasons, like: retirement, burnout, embargos or simply because 
-they are not paid and need to earn money. After giving some support on 
-the staging subsystem I cannot see at all that we can attract so many 
-talented people as required for a save future beyond 7 years...
+CC hch
 
-People who evolved with the kernel development do not have a good sense 
-how difficult it can be to join nowadays.
+On Fri, Jan 3, 2025 at 7:44=E2=80=AFAM Philipp Hortmann
+<philipp.g.hortmann@gmail.com> wrote:
+> T2 is working but to make this happen the T2 Author has an own repo for
+> patches to apply. In the following video he publishes his view on how
+> well the ps3disk is maintained and tested by the linux kernel community.
+> My impression of this is that ps3disk is not tested on hardware at all.
+> You can find this in a youtube video: =E2=80=9CI can't believe VIP Linux =
+kernel
+> developer BROKE PS3 support=E2=80=9D but watch out that you are in a good=
+ mood
+> otherwise it is pulling you down like me...
+>
+> The commit that is breaking the function is:
+> commit a7f18b74dbe171625afc2751942a92f71a4dd4ba
 
-A friend just bought two servers. One with a paid OS and one planned 
-with Linux as OS. The difference was over 12000 € due to licenses. What 
-would be the price when we do not have a choice? Do not feel save 
-because of today. We need to fight for tomorrow.
+Thanks, I see no evidence of this ever being reported upstream, which
+makes it rather difficult to be aware of the issue...
 
-Where do you want to invest your time? Into the new technologies to keep 
-up at the front edge or to keep old stuff running that is not productive 
-anymore. But there might be someone who can pull the hardware once every 
-two month out of the shelf and ask why this is not working. Should this 
-really stop us from progress?
+> This fixes are not in Mainline up to today. So who beside T2 Linux is
+> using this? You can find more of those breaking patches... and videos...
 
-> 
-> We got here because I removed a *staging* driver that was in the way of
-> some wext cleanups, but that had a thousand other reasons to never go
-> anywhere anyway.
-> 
+Care to tell us where the fix is?
 
-Partial, for me more important was the try to remove all wext drivers in 
-October 2023 by Arnd Bergmann.
-[PATCH] [RFC] wireless: move obsolete drivers to staging
-https://lore.kernel.org/linux-staging/20231010155444.858483-1-arnd@kernel.org/
+/me looks at the bad commit...
 
->> - wext is deprecated and only used by two wireless drivers in
->>    mainline kernel
-> 
-> true
-> 
->> - no progress changing to mac80211
-> 
-> It fundamentally cannot be converted to mac80211, it has a whole
-> different model. In fact it cannot even be converted to cfg80211 because
-> some APIs it uses just never existed there, and likely never will.
-> 
->> Tested a rebased version of this patch on the Playstation 3. Used
->> T2 Linux with Kernel 6.12.5 to test the Ethernet connection.
->>
-> 
-> Arguably that's a pretty strong argument for *not* removing it, if it's
-> actually relatively simple today to bring up the latest kernel on a PS3.
+Oh, dev->bounce_size is used before set. Patch sent.
+https://lore.kernel.org/06988f959ea6885b8bd7fb3b9059dd54bc6bbad7.1735894216=
+.git.geert+renesas@glider.be
 
-I was not able to use the WLAN on T2 Linux. I just tested the Ethernet 
-connection as I know that the developer of T2 is using it. The reason 
-why I bought the PS3 is to see if Linux on it is really a use case. But 
-all I found is that it is only a test vehicle to say T2 is working on 
-Power PC architecture.
+> The following points are also in the list of reasons:
+> - This driver has a maximum 54MBit/s as it supports only 802.11 b/g.
+> - Using this hardware is security wise not state of the art as WPA3 is
+>    not supported.
 
-At the time the PS3 WLAN driver was added to the mainline kernel it was 
-really cool stuff. But nowadays it is just a high Power consuming device 
-with a noisy fan and not enough RAM to do anything (256MB). The 
-powerfull GPU is not supported by the kernel.
+If you only do VPN over such an insecure link, I guess it's still safe?
 
-Do I need to find out why the WLAN is not working under T2 on PS3 to 
-convince you? The WLAN is working under redribbon Linux with Kernel 3.5 
-on the PS3.
+Gr{oetje,eeting}s,
 
-T2 is working but to make this happen the T2 Author has an own repo for 
-patches to apply. In the following video he publishes his view on how 
-well the ps3disk is maintained and tested by the linux kernel community. 
-My impression of this is that ps3disk is not tested on hardware at all.
-You can find this in a youtube video: “I can't believe VIP Linux kernel 
-developer BROKE PS3 support” but watch out that you are in a good mood 
-otherwise it is pulling you down like me...
-
-The commit that is breaking the function is:
-commit a7f18b74dbe171625afc2751942a92f71a4dd4ba
-
-This fixes are not in Mainline up to today. So who beside T2 Linux is 
-using this? You can find more of those breaking patches... and videos...
-
-The following points are also in the list of reasons:
-- This driver has a maximum 54MBit/s as it supports only 802.11 b/g.
-- Using this hardware is security wise not state of the art as WPA3 is
-   not supported.
-
-Thanks for your patience.
-
-Bye Philipp
+                        Geert
 
 
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
+.org
+
+In personal conversations with technical people, I call myself a hacker. Bu=
+t
+when I'm talking to journalists I just say "programmer" or something like t=
+hat.
+                                -- Linus Torvalds
