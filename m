@@ -1,96 +1,88 @@
-Received: from mail-qv1-f47.google.com (mail-qv1-f47.google.com [209.85.219.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from sipsolutions.net (s3.sipsolutions.net [168.119.38.16])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A243539ACC
-	for <linux-staging@lists.linux.dev>; Sun,  5 Jan 2025 17:49:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D32451D79A0;
+	Mon,  6 Jan 2025 08:06:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=168.119.38.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736099385; cv=none; b=RcqfTS8XU1czhwWwTXhEc3SJWO8BzeMxqgJ94kTFvLf10gar1PWtDk8U+LR/I06BPj05Qh8eRbkcDl7TFdPhkdo5m3S49bPNmS0lMHLL6Kq2JMwaEW874NgEQ/n08iMH4DGSKqWNoK3fnTDcAHujRylnVJy2c96jYVom8abFdwY=
+	t=1736150812; cv=none; b=f+ZmZuL6Weqeqn4Wj0eRKokNxrRngXqZv6yI8YXPVq20aXaVY0eie+GTKvntWazxjoBmFVcp4Vfiy9C/p4H2T5VBqx4bEVKRlQfScTDRXdyKTM5AynOKwfNbeIRMXWb6pOaBfFlGgYWZnf/0YL9aUv5WGkYn654L8oyWlkcYy68=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736099385; c=relaxed/simple;
-	bh=WrEfCQVxDZO4swQLEbXa5Ld0i35i6BUungRLjvDn0Qk=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=G0WPY9FyvbfOgOsRLpWMe6yf1Mubtlmmes/2ajHizS61VmukxU+wvItUOzL363cbtibKwZj3Hyx0E0KENtl4GqKgyrrJS5Y4jjevp/NF7UBYzHje9D55+GFyxIjuhZe2+MQGfJ1cdXWRQ0xJFrdd+pTgT7X8SrvyyUSeB3qYBug=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gacRZoO5; arc=none smtp.client-ip=209.85.219.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1736150812; c=relaxed/simple;
+	bh=UOjMZRVKEF8pAw+QVhlAmTbkMlSLTFrv44rO0QDuaHI=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=T3dC2XibmBGdIkJyIPEbDWGllWBw42PP7uJC25EqiTziJF3Ay+usHKd7glmDssejVxqozPd+1sbuiYcv3WIncRQi/4K1srIjL8Zwm7aZaT777BNke/FiWKdyh2gT6UNtzreeddAKJfmULK2Ky5RwM9hPLiYfO5yHGrMoIspMu/0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sipsolutions.net; spf=pass smtp.mailfrom=sipsolutions.net; dkim=pass (2048-bit key) header.d=sipsolutions.net header.i=@sipsolutions.net header.b=lBSlYloT; arc=none smtp.client-ip=168.119.38.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sipsolutions.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sipsolutions.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gacRZoO5"
-Received: by mail-qv1-f47.google.com with SMTP id 6a1803df08f44-6dd1962a75bso101680636d6.3
-        for <linux-staging@lists.linux.dev>; Sun, 05 Jan 2025 09:49:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1736099381; x=1736704181; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=Tb0Xiqlp+6RGByGsrR2ucX9Rr3Ty6tkGl7t5YNTWkR0=;
-        b=gacRZoO5Zs5jaKYOUH/FrSIH6eH1Yz0XsSikSETLqvUWZ9Wxj/PFuQKdOsd+bhlnRC
-         hJDjNemmvtpQwvn5SYehZ/iQgbYWSMpqXVUJuNs9ZmZ23zo0hCdeamO1fEJd9chzbZ4p
-         5+I1NUUEK8pOvTZMYUA72M1ni5uA77epee0lzYjM5u9nWCJs4YuISjaow52gSjW2hrFm
-         yvp8dM0D2zXURUCjpTmsCWJHwkR1fsLk66kBJQxXPaeKLsw5p+LHfJrqUYK6RA3USYCt
-         HuJduf3YQkytI5y9tLRuaCTst2c8sXulYXSaMjmSRTLERZWSYa939cLn+XQ5jRvf381i
-         VwXQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736099381; x=1736704181;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Tb0Xiqlp+6RGByGsrR2ucX9Rr3Ty6tkGl7t5YNTWkR0=;
-        b=dc3UspiCgkQ6BJm2KGdD7hapQ1989R2Y+Wu6PfJDJfkHACnoRSNgN9UCcpZEj4JdjR
-         wTOmzhqaNp9VNSkVOSWsZ4eHiYQXCSWY/wUld8cx4cRm3oduFWkMPcW3YLjWSZGleADF
-         HdZlNxT4snJKaxYEeq6QAh3PiUcUz414Md2aFL2G0U3jldUMHDMn7vW7OhFhLT/avQHk
-         uspGmytQAVXDL5jw+UogfA2QCyUjtbuw/og0DQFcpOVd3km/LxGBvh9sx6t3FAILNJQg
-         I5Z/5pv1+oaD8M1YTJy7UQ6yAsOSOUI7C0WZody3xBZwkIxt1VXC5r8HGcla53GWIFgP
-         FY3A==
-X-Gm-Message-State: AOJu0YwqSqU2lzd0NNevyhgkegzBCnqlAImY5RO1dwgOA1l/5zNfRmuA
-	vmZnYIpwoiPWSXe9PQu/dXS5QBbfBRnw+xhTKvXtlAmoBl5pomXt8jDg7bCJvb8=
-X-Gm-Gg: ASbGnctNSm1JugdRzMiVjv6MCHLbr1BEJNursMuy7Rw+b2hcGOEfnn74to3Doutpuj4
-	b8NIrIbSnmAfFT6DhUFwxuT1bAVlTwAbxmlgx0Vm5fVhciEKL34kfmnd9wRjPZNy16MZDgguB48
-	3MqcJMi/RODS42W4KobSefS1SoOJwhO4Dt5pRbrF7RdpNW31RHRQAHWVXuDhMO4cnSyiGQ3pARr
-	7mH9J3FZIsb1UlJzcnUR+jq/oC39G6jLm3M2DMs1B255J/mK3fRaxjTXz8w
-X-Google-Smtp-Source: AGHT+IEK/t/nz2KgUo040p7w2hO8sV8PIe1vJpZl1lY19fd7DoVijkBNfhL8QGW5MGVben+mlIjsOg==
-X-Received: by 2002:a05:6214:b6e:b0:6d4:36ff:4356 with SMTP id 6a1803df08f44-6dd2334645fmr955404406d6.19.1736099381595;
-        Sun, 05 Jan 2025 09:49:41 -0800 (PST)
-Received: from localhost ([104.28.203.246])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6dd18137373sm161582886d6.64.2025.01.05.09.49.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 05 Jan 2025 09:49:40 -0800 (PST)
-From: Sandeep Salwan <salwansandeep5@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Sandeep Salwan <salwansandeep5@gmail.com>
-Subject: [PATCH] staging: fbtft: Remove unnecessary parentheses in fbtft-core.c
-Date: Sun,  5 Jan 2025 12:49:37 -0500
-Message-ID: <20250105174937.71423-1-salwansandeep5@gmail.com>
-X-Mailer: git-send-email 2.47.1
+	dkim=pass (2048-bit key) header.d=sipsolutions.net header.i=@sipsolutions.net header.b="lBSlYloT"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=sipsolutions.net; s=mail; h=MIME-Version:Content-Transfer-Encoding:
+	Content-Type:References:In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender
+	:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-To:
+	Resent-Cc:Resent-Message-ID; bh=UOjMZRVKEF8pAw+QVhlAmTbkMlSLTFrv44rO0QDuaHI=;
+	t=1736150810; x=1737360410; b=lBSlYloTtX2e7qVzJsCoI3iCmBY0n5hs76jC1EHEMmN0YVY
+	orXZT/8dxZWBL9fSlNjEWy+ZiykiVEpx44v1lMdyeQP6FlnVZn0cjcXksAYtDQuQzgynyrWGP3Ooy
+	Usdmnie6KopLxPq/GvpVgZXzGKjelskAj6sIqjleshvhUO0gFESOWFm+O/k/qTd7lS6pPAGlToivp
+	epdXbOCll/jaLfdPgTufFC9oz5pE0tcr3OJrk46tQoNOV4I9GPSKYIMEIV2jRtxnos6GmTeoRKqGO
+	izhnp1+5Vk91VPG2BrMoLgzR3yUVmQtygoIDiHa0lwSwuyrdnPfZvzV4/D45DJpg==;
+Received: by sipsolutions.net with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
+	(Exim 4.98)
+	(envelope-from <johannes@sipsolutions.net>)
+	id 1tUi7e-00000005muW-0BHU;
+	Mon, 06 Jan 2025 09:06:02 +0100
+Message-ID: <edc31a6341e810e23c342f1e90776a3e764c4924.camel@sipsolutions.net>
+Subject: Re: [PATCH] net: ethernet: toshiba: ps3_gelic_wireless: Remove
+ driver using deprecated API wext
+From: Johannes Berg <johannes@sipsolutions.net>
+To: Arnd Bergmann <arnd@arndb.de>, Philipp Hortmann	
+ <philipp.g.hortmann@gmail.com>, Andrew Lunn <andrew+netdev@lunn.ch>, "David
+ S . Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
+ Jakub Kicinski <kuba@kernel.org>,  Paolo Abeni <pabeni@redhat.com>, Geoff
+ Levand <geoff@infradead.org>, Simon Horman <horms@kernel.org>,  Alexander
+ Lobakin <aleksander.lobakin@intel.com>, Netdev <netdev@vger.kernel.org>,
+ linux-kernel@vger.kernel.org
+Cc: Kalle Valo <kvalo@kernel.org>, Alexandre Belloni	
+ <alexandre.belloni@bootlin.com>, Claudiu Beznea <claudiu.beznea@tuxon.dev>,
+  Geert Uytterhoeven <geert@linux-m68k.org>, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>, Jeff Johnson	 <quic_jjohnson@quicinc.com>,
+ Larry Finger <Larry.Finger@lwfinger.net>,  Nicolas Ferre
+ <nicolas.ferre@microchip.com>, Pavel Machek <pavel@ucw.cz>, Stanislaw
+ Gruszka <stf_xl@wp.pl>,  Gregory Greenman <gregory.greenman@intel.com>,
+ linuxppc-dev <linuxppc-dev@lists.ozlabs.org>, 
+	linux-staging@lists.linux.dev, linux-wireless@vger.kernel.org, Stefan
+ Lippers-Hollmann	 <s.l-h@gmx.de>
+Date: Mon, 06 Jan 2025 09:06:00 +0100
+In-Reply-To: <cecd584c-46c0-4c0b-b3fb-b5cee4bbfd12@app.fastmail.com>
+References: <20241224080755.194508-1-philipp.g.hortmann@gmail.com>
+	 <b811d4af6a634d61389dfefacd49853c0e77f1d7.camel@sipsolutions.net>
+	 <39256db9-3d73-4e86-a49b-300dfd670212@gmail.com>
+	 <8414fd0c552de87b3471468665f7fc540b9bfa69.camel@sipsolutions.net>
+	 <cecd584c-46c0-4c0b-b3fb-b5cee4bbfd12@app.fastmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.54.2 (3.54.2-1.fc41) 
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-malware-bazaar: not-scanned
 
-This patch removes unnecessary parentheses around the conditional checks (!txbuflen) and (bpp > 8) in fbtft-core.c. According to the kernel coding style, reducing superfluous parentheses makes the code more readable and straightforward. There are no functional changes; it’s purely a cleanup to align the code with kernel style guidelines.
+On Sat, 2025-01-04 at 05:15 +0100, Arnd Bergmann wrote:
+>=20
+> I would assume that once removing CFG80211_WEXT becomes an option, we
+> can just put the remaining parts of net/wireless/wext-*.c into both
+> ps3_gelic and ipw2x00, duplicating and then simplifying the
+> implementation. As far as I can tell, there is very little that is
+> actually shared between the two anyway.
 
-Signed-off-by: Sandeep Salwan <salwansandeep5@gmail.com>
----
- drivers/staging/fbtft/fbtft-core.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Indeed.
 
-diff --git a/drivers/staging/fbtft/fbtft-core.c b/drivers/staging/fbtft/fbtft-core.c
-index 4cfa494243b9..b4e9d6000b9a 100644
---- a/drivers/staging/fbtft/fbtft-core.c
-+++ b/drivers/staging/fbtft/fbtft-core.c
-@@ -664,7 +664,7 @@ struct fb_info *fbtft_framebuffer_alloc(struct fbtft_display *display,
- 		txbuflen = 0;
- 
- #ifdef __LITTLE_ENDIAN
--	if ((!txbuflen) && (bpp > 8))
-+	if (!txbuflen && bpp > 8)
- 		txbuflen = PAGE_SIZE; /* need buffer for byteswapping */
- #endif
- 
--- 
-2.47.1
+Note that net/wireless/wext-{core,proc,priv}.c are not even related to
+CFG80211_WEXT (wext-{compat,sme}.c are), and just form the core wext
+code that can be treated completely orthogonal and independent of
+cfg80211. This driver doesn't even use CFG80211_WEXT code at all.
 
+johannes
