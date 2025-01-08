@@ -1,75 +1,162 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09D7E1A9B48;
-	Wed,  8 Jan 2025 08:13:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26EDB1F7097;
+	Wed,  8 Jan 2025 09:10:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736324028; cv=none; b=TswzniBXVaqaGK2u7uDQaYqrC0IsvyWGeM18oenbqiKsDl+BqOk4MK1Z5N3pNdwEEAj01KtsFScL/283vigrRfIlwDmE4mcYWyhgMUxJWx+DyEl2rYkSIVbnhuKaLSYx4ulQvFxXyhNbUJ4mjqSPF0tAtwcSneEgxOHue2cURdU=
+	t=1736327416; cv=none; b=M22/ct0r8bN2W7Ypr71zxpH3qEaVt337bO8fpthJ96oT5hRXTz7QXMVesJpT5Z/GPWUa83QYVsnfJx1gXsom/FfG+YsoefUXEAJnDZLl3876HmBnic1k+FOgUV5ekQ8mMPjIirMEMZXxKCBbmUvFxbJGO642coo33UqDsX0Ztek=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736324028; c=relaxed/simple;
-	bh=gSoJWANRYgLw7Dg5/le74mCK1MVa9m5Y9gkHSrJ+33I=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KG3YJY2CLyFyBhVmSfNP42JxrWXw9vYZq4n88+xh5tihWlRIknPsUX62CuaeyPCe7P63X7Ct3s4sy+/xiS3G3Dv39RdzbGcsZN5IEHxTJXnQZBmZxEtvvwkr3F9ZMQwfaNZd0hmqQ0rUoToYyifB/6nh6z/j4QZHodRzfAD131Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=D6qqs1xX; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1736327416; c=relaxed/simple;
+	bh=KNP4gnkNVodC0hrOJO/PHpGkHZweK1Qz9ot5/Z/UEkU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=KLFtFTc867t7KI7z+bT0PyZS1BTEGvzk27kdDjq4uUwmoWSmCZKXPd1L4FC02csyF/uBjuDmHf8pJ2A5+C2fz2TvEJmmHGvXL1MseVrpyl1PkG8kJvo7849Mn1uEpSjqnSSyjccIIVV8nT+LbgHMWnXa/xxqYu1QiM7XKQg+cZA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=dbv0Ispc; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="D6qqs1xX"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 80293C4CEE0;
-	Wed,  8 Jan 2025 08:13:47 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="dbv0Ispc"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 29B6BC4CEE1;
+	Wed,  8 Jan 2025 09:10:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1736324027;
-	bh=gSoJWANRYgLw7Dg5/le74mCK1MVa9m5Y9gkHSrJ+33I=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=D6qqs1xXn6axR1UgdikpvxpbvuwO6cEzjZHNDygw7gk8Mmeo5GZ9key+VExNi5Y8M
-	 9EYcVlSb2U4jaz9QiNJhqRIhTP1giUxgL4CJ4bgNtcRDWb65Y1+M1858SSewUm1rAS
-	 xAq0Yz5Cd/RYZ1USGQzAq/V7UqBOZVEM9aZAXFB4=
-Date: Wed, 8 Jan 2025 09:13:45 +0100
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Sandeep Salwan <salwansandeep5@gmail.com>
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: gpib: Convert // comments to kernel-style block
- comments
-Message-ID: <2025010827-crablike-giggly-c261@gregkh>
-References: <20250108002757.43896-1-salwansandeep5@gmail.com>
+	s=korg; t=1736327415;
+	bh=KNP4gnkNVodC0hrOJO/PHpGkHZweK1Qz9ot5/Z/UEkU=;
+	h=From:To:Cc:Subject:Date:From;
+	b=dbv0Ispc1Q3pChJSTMEzt5R/2DGHL7svXz9BL50hSveeqFWIlgmsaN/VkTXQR9alP
+	 MoRUNp6eVFtljsFE1Yo9PW0MvqUdOeqFGWnqlbIbBEStGxNKX0Z9AQmDC2V5fg4lOV
+	 fydEtW/qQmVQMH1bc25RsL1Srv2bZ9Txjk4HS9pw=
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: linux-staging@lists.linux.dev
+Cc: dpenkler@gmail.com,
+	prarit@redhat.com,
+	roheetchavan@gmail.com,
+	linux-kernel@vger.kernel.org,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	kernel test robot <lkp@intel.com>
+Subject: [PATCH] staging: gpib: mite: remove unused global functions
+Date: Wed,  8 Jan 2025 10:10:10 +0100
+Message-ID: <2025010809-padding-survive-91b3@gregkh>
+X-Mailer: git-send-email 2.47.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250108002757.43896-1-salwansandeep5@gmail.com>
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4435; i=gregkh@linuxfoundation.org; h=from:subject:message-id; bh=KNP4gnkNVodC0hrOJO/PHpGkHZweK1Qz9ot5/Z/UEkU=; b=owGbwMvMwCRo6H6F97bub03G02pJDOl1Dh91dtY+r13DufbjvHlrK5j1u7I/THnIkyG05n7Di yKfECf5jlgWBkEmBlkxRZYv23iO7q84pOhlaHsaZg4rE8gQBi5OAZjI+iiGedYdeh/XTTTPffJW 6/jB6vIHy378qWeYw/HtD+O8zllStdtb5yhkpOtVfQw6AwA=
+X-Developer-Key: i=gregkh@linuxfoundation.org; a=openpgp; fpr=F4B60CC5BF78C2214A313DCB3147D40DDB2DFB29
+Content-Transfer-Encoding: 8bit
 
-On Tue, Jan 07, 2025 at 07:27:57PM -0500, Sandeep Salwan wrote:
-> This patch replaces several // single-line comments with multiline
-> block comments in agilent_82350b.c. According to kernel coding style
-> guidelines, we should prefer /* ... */ over // comments, especially
-> for multi-line or verbose text. This is purely code cleanup only.
-> 
-> Signed-off-by: Sandeep Salwan <salwansandeep5@gmail.com>
-> ---
->  drivers/staging/gpib/agilent_82350b/agilent_82350b.c | 6 ++++--
->  1 file changed, 4 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/staging/gpib/agilent_82350b/agilent_82350b.c b/drivers/staging/gpib/agilent_82350b/agilent_82350b.c
-> index 53006d0cc79c..3cd01613d067 100644
-> --- a/drivers/staging/gpib/agilent_82350b/agilent_82350b.c
-> +++ b/drivers/staging/gpib/agilent_82350b/agilent_82350b.c
-> @@ -31,8 +31,10 @@ int agilent_82350b_accel_read(gpib_board_t *board, uint8_t *buffer, size_t lengt
->  	int i, num_fifo_bytes;
->  	//hardware doesn't support checking for end-of-string character when using fifo
->  	if (tms_priv->eos_flags & REOS) {
-> -		//pr_info("ag-rd: using tms9914 read for REOS %x EOS %x\n",tms_priv->eos_flags,
-> -		// tms_priv->eos);
-> +		/*
-> +		 * pr_info("ag-rd: using tms9914 read for REOS %x EOS %x\n",tms_priv->eos_flags,
-> +		 * tms_priv->eos);
-> +		 */
+The mite.c file was originally copied from the COMEDI code, and now that
+it is in the kernel tree, along with the comedi code, on some build
+configurations there are errors due to duplicate symbols (specifically
+mite_dma_disarm).
 
-That's not really a valid comment, right?  Why not just delete the line
-entirely?
+Remove all of the unused functions in the gpib mite.c and .h files as
+they aren't needed and cause the compiler to be confused.
 
-thanks,
+Reported-by: kernel test robot <lkp@intel.com>
+Closes: https://lore.kernel.org/r/202501081239.BAPhfAHJ-lkp@intel.com/
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+---
+ drivers/staging/gpib/tnt4882/mite.c | 69 -----------------------------
+ drivers/staging/gpib/tnt4882/mite.h |  9 ----
+ 2 files changed, 78 deletions(-)
 
-greg k-h
+diff --git a/drivers/staging/gpib/tnt4882/mite.c b/drivers/staging/gpib/tnt4882/mite.c
+index 90341f8c394e..ea64dde46bcb 100644
+--- a/drivers/staging/gpib/tnt4882/mite.c
++++ b/drivers/staging/gpib/tnt4882/mite.c
+@@ -148,72 +148,3 @@ void mite_list_devices(void)
+ 	}
+ 	pr_info("\n");
+ }
+-
+-int mite_bytes_transferred(struct mite_struct *mite, int chan)
+-{
+-	int dar, fcr;
+-
+-	dar = readl(mite->mite_io_addr + MITE_DAR + CHAN_OFFSET(chan));
+-	fcr = readl(mite->mite_io_addr + MITE_FCR + CHAN_OFFSET(chan)) & 0x000000FF;
+-	return dar - fcr;
+-}
+-
+-int mite_dma_tcr(struct mite_struct *mite)
+-{
+-	int tcr;
+-	int lkar;
+-
+-	lkar = readl(mite->mite_io_addr + CHAN_OFFSET(0) + MITE_LKAR);
+-	tcr = readl(mite->mite_io_addr + CHAN_OFFSET(0) + MITE_TCR);
+-	MDPRINTK("lkar=0x%08x tcr=%d\n", lkar, tcr);
+-
+-	return tcr;
+-}
+-
+-void mite_dma_disarm(struct mite_struct *mite)
+-{
+-	int chor;
+-
+-	/* disarm */
+-	chor = CHOR_ABORT;
+-	writel(chor, mite->mite_io_addr + CHAN_OFFSET(0) + MITE_CHOR);
+-}
+-
+-void mite_dump_regs(struct mite_struct *mite)
+-{
+-	void *addr = 0;
+-	unsigned long temp = 0;
+-
+-	pr_info("mite address is  =0x%p\n", mite->mite_io_addr);
+-
+-	addr = mite->mite_io_addr + MITE_CHOR + CHAN_OFFSET(0);
+-	pr_info("mite status[CHOR]at 0x%p =0x%08lx\n", addr, temp = readl(addr));
+-	//mite_decode(mite_CHOR_strings,temp);
+-	addr = mite->mite_io_addr + MITE_CHCR + CHAN_OFFSET(0);
+-	pr_info("mite status[CHCR]at 0x%p =0x%08lx\n", addr, temp = readl(addr));
+-	//mite_decode(mite_CHCR_strings,temp);
+-	addr = mite->mite_io_addr + MITE_TCR + CHAN_OFFSET(0);
+-	pr_info("mite status[TCR] at 0x%p =0x%08x\n", addr, readl(addr));
+-	addr = mite->mite_io_addr + MITE_MCR + CHAN_OFFSET(0);
+-	pr_info("mite status[MCR] at 0x%p =0x%08lx\n", addr, temp = readl(addr));
+-	//mite_decode(mite_MCR_strings,temp);
+-	addr = mite->mite_io_addr + MITE_MAR + CHAN_OFFSET(0);
+-	pr_info("mite status[MAR] at 0x%p =0x%08x\n", addr, readl(addr));
+-	addr = mite->mite_io_addr + MITE_DCR + CHAN_OFFSET(0);
+-	pr_info("mite status[DCR] at 0x%p =0x%08lx\n", addr, temp = readl(addr));
+-	//mite_decode(mite_CR_strings,temp);
+-	addr = mite->mite_io_addr + MITE_DAR + CHAN_OFFSET(0);
+-	pr_info("mite status[DAR] at 0x%p =0x%08x\n", addr, readl(addr));
+-	addr = mite->mite_io_addr + MITE_LKCR + CHAN_OFFSET(0);
+-	pr_info("mite status[LKCR]at 0x%p =0x%08lx\n", addr, temp = readl(addr));
+-	//mite_decode(mite_CR_strings,temp);
+-	addr = mite->mite_io_addr + MITE_LKAR + CHAN_OFFSET(0);
+-	pr_info("mite status[LKAR]at 0x%p =0x%08x\n", addr, readl(addr));
+-
+-	addr = mite->mite_io_addr + MITE_CHSR + CHAN_OFFSET(0);
+-	pr_info("mite status[CHSR]at 0x%p =0x%08lx\n", addr, temp = readl(addr));
+-	//mite_decode(mite_CHSR_strings,temp);
+-	addr = mite->mite_io_addr + MITE_FCR + CHAN_OFFSET(0);
+-	pr_info("mite status[FCR] at 0x%p =0x%08x\n\n", addr, readl(addr));
+-}
+-
+diff --git a/drivers/staging/gpib/tnt4882/mite.h b/drivers/staging/gpib/tnt4882/mite.h
+index fb84eaa83de3..d49c348a1c80 100644
+--- a/drivers/staging/gpib/tnt4882/mite.h
++++ b/drivers/staging/gpib/tnt4882/mite.h
+@@ -61,15 +61,6 @@ int mite_setup(struct mite_struct *mite);
+ void mite_unsetup(struct mite_struct *mite);
+ void mite_list_devices(void);
+ 
+-int mite_dma_tcr(struct mite_struct *mite);
+-
+-void mite_dma_arm(struct mite_struct *mite);
+-void mite_dma_disarm(struct mite_struct *mite);
+-
+-void mite_dump_regs(struct mite_struct *mite);
+-void mite_setregs(struct mite_struct *mite, unsigned long ll_start, int chan, int dir);
+-int mite_bytes_transferred(struct mite_struct *mite, int chan);
+-
+ #define CHAN_OFFSET(x)			(0x100 * (x))
+ 
+ /* DMA base for chan 0 is 0x500, chan 1 is 0x600 */
+-- 
+2.47.1
+
