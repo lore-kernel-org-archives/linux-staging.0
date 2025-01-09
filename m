@@ -1,118 +1,97 @@
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86609214802
-	for <linux-staging@lists.linux.dev>; Thu,  9 Jan 2025 07:43:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DF552036F6
+	for <linux-staging@lists.linux.dev>; Thu,  9 Jan 2025 07:45:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736408623; cv=none; b=US4iSZGzP0QEBRHhhZ9fmBJS1PYb4PITV6Fw4dmfYPi08J+VAYeBGd8PqXKORIi395Hkumc421FcyQPVjZovVwoIpb3Dlca6XGLQHkA3SKoP57pXOZWTVrYJ9IA8NacixUYYdmny4D5gN62AdMjmtCCw3lL7OcnDC849p20euM8=
+	t=1736408758; cv=none; b=Ow6dwAvBfratgrxu7Oz38WCm7pcukTnmjI7C+ts7nMwajQq75k7X826kpSriCvud3/wt63PqO3jAecM1AkZN0vAoSL+rWiV4LdEKQ/eCMY4OMwc3sVICeXN+uZ6LV8FoIWBZnCHQkAkR3ycCM3NSI/GYe3+7ZUnx7mj03biZT4c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736408623; c=relaxed/simple;
-	bh=o8I4CKv2t24jZedmnbTtU4Gs3sA5LsC+rd6Kogi6hbk=;
+	s=arc-20240116; t=1736408758; c=relaxed/simple;
+	bh=wJLBLVJw1KkjAyK32dUglrjiyJ1EAVE+CqnalBZuC5c=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Er2YQ7fx9bJWKSImTbWFhlZS8LBRWb1BnILCJlPAaIxzSv+fBfgOX7su+9azOAM8x4Ac6y3APEr9Bv5uztHGlxzuJhhh+YhyIALpJBM0BKNyjOZu8z2+FGquQ9c8zLhPlBEGybZzBrzRHdS3XBISza4OrjUKsTWYn4N3MNiffMs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=sRZzYt/A; arc=none smtp.client-ip=209.85.128.53
+	 Content-Type:Content-Disposition:In-Reply-To; b=f8otlE7Heihhm1j7vqeqrkWreL83pMnQmJMnCxCueug4lDmn3cJcPissrlXsxJKZujvzfCkpbErMOROHh0Y+5rNtGLj1hPhs2Hkm0755UMO+mhE3ZcWVrV1i4FE4VV0DyCIaSMOzrHRJiI7ZH+72874Z/eRaWpLzdq+eqyinzN8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=IRnLmlAN; arc=none smtp.client-ip=209.85.128.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="sRZzYt/A"
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-436a03197b2so4298235e9.2
-        for <linux-staging@lists.linux.dev>; Wed, 08 Jan 2025 23:43:41 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="IRnLmlAN"
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-4361fe642ddso6730665e9.2
+        for <linux-staging@lists.linux.dev>; Wed, 08 Jan 2025 23:45:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1736408620; x=1737013420; darn=lists.linux.dev;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=jh+wwxjIWe7Gi85zIpTYnZ3FRcd2JxnVHEsCva5iTpU=;
-        b=sRZzYt/Ax0EBYlZaNPRI4zgypitxhNwMGZ+MPQAWK48v8xblnesG6eRZkqrhA7T4A9
-         8HBuDRr9UyRBqFJBzmybVpXBLcdWda+faV6A20iglOeFK14U2fEb6YvkZkitX5jEuCaQ
-         NfDDvdxf4KZQWJ7ysyWhM/av9eufQBhuJMOJWTOD/ugqCermxIyj6weFSHQmkS83T+WI
-         DJFBuXl0JZe40l381kwAWLOSrrbe5v5kV2ZCmzPww1dPo0pNZ5YfErnpUGeqvKoTKXIi
-         Pnjladw6dV1awYQW0A+HyeVDgJmh2DvwhJEkb0ZfVjOcXw1y5qxccvvug6+PTqpDWnkd
-         Wf8Q==
+        d=linaro.org; s=google; t=1736408754; x=1737013554; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=wDPDfFPx9ymk/j+yrQwmFxxKqrVHqKkdkC69CbeqD5s=;
+        b=IRnLmlANhVQBk+d2eIkF7OMGbXvfJokydSM7eUw89CP7luClwEuEn3GB9R07/nwY88
+         D/WAERDTwd8Bbyyc9lm7+MqZOEitRI+27KwhdQX3bVdiYM7hi3JEVpVJC2kJZfmQ/P3L
+         rfrK9g6Eoca0iFwI95w1J3L/ElQsY66O9qgrffN+CqdvP7d9eVWu+RNLoxi2kCwb4ioe
+         NFFjmTTStM8USNHeZAep4L6rr88u5qdzn2YFQDru2SkyuOFF8Bqp+nGkpSh1mFsHoF1b
+         l7aCL8107YYZSkokC+gyBD70lI9osILBZBM6u8j0tHWMbBKRpQzbFefDxYOq+B2Z5iZp
+         0/WA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736408620; x=1737013420;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=jh+wwxjIWe7Gi85zIpTYnZ3FRcd2JxnVHEsCva5iTpU=;
-        b=ZeEUf/ujcMg6j0YXrknqEDKWVlB+EJw1fox2BA9pyjzB8Vhs2iRj1NkIt8N7eVcbK+
-         GXmeEFqcYMUolM3tT9pUPAKg4NDwLkNo34+gfO2aZ9vNI8CZhXvW+9mK40yBgWcqs1y7
-         gfcIm9kLat7nTW/oSMOaCICbp2sy39n9PM1Nhu9jKB5SYkyMbqK6kkYVbb/XSLRg9DKw
-         lklbPbbiqyx9JLC4KO+qG4rzDAvyhAMdmiE3M1UbWUa1vi1RossLV/6eNU/n+yOhXZ5y
-         m/VONrQJy0MBG6bQwOzCKc85/N6MNkz3+OyeWpgLmxEnDhwlb/Tm4ciFyxH+kENcZAzx
-         luBA==
-X-Forwarded-Encrypted: i=1; AJvYcCVMZrRiJllBhEg7JeWQnasP/ZFqy8GwO3PI2ybMHs7Jxd6nX/Bxy/S++3CWFUr6h7jABIaqoy39PFTohM8+@lists.linux.dev
-X-Gm-Message-State: AOJu0YzbsXowsUlkZ76IdYJT+yokqkMPUqaPUng7/FnYAMADQ9o0Ahq+
-	7OYOYmr2K0gCCfnISyLOVgNHDBn8jdshQ0YbtVri8GxXcOj5pW26vzIJerRIEFSb53MEOd8uwXJ
-	f
-X-Gm-Gg: ASbGnctbAc0mgW3XCxsF6/83yATym6cpPja+Hh2T2rXjVGYEBBD0bP5HsiwJL4F55u8
-	n4gim1+EWIpA6+U7gSgzmfOGMjyU5NgKTfr0rlgUsR1AZV8f6zxdUYmTFEliE1SXP2O+g5LSxGG
-	GldT3h0JDCQ8+F4TfdIxVrQFYTrZWQiY0pMwemlN/AO+4sX8o8vMrPAaD2vOHadnLUvhfXVZead
-	SuHRpLbSsbx+8rdFKHpjFv6iIZM6BoKJZA61eKERsZURpTMqrDTqSHYinIzww==
-X-Google-Smtp-Source: AGHT+IG9Emr+GDLnC8gqqwHA+S34356wIMM4OfWPXphI8Xzji2jA9fchokaaaeT7GvxQmyRqyXJn3w==
-X-Received: by 2002:adf:9b99:0:b0:38a:6929:ff9e with SMTP id ffacd0b85a97d-38a872d2bbemr3513005f8f.7.1736408619837;
-        Wed, 08 Jan 2025 23:43:39 -0800 (PST)
+        d=1e100.net; s=20230601; t=1736408754; x=1737013554;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=wDPDfFPx9ymk/j+yrQwmFxxKqrVHqKkdkC69CbeqD5s=;
+        b=QIuoy/OqNt7xHL6gY/5W6M2TMdtNM7n0LkwRKrbkmvVPcY+RsCpijNMDxPjcSpAOmp
+         t2p0adcTYKdfFyXSbk9xQ6mgc8z/UauQ6tjn0SN+c/5U55VSxTm5PaIQ32pIN94usYzP
+         O831U0ztV2wNegG0tk19XBx4YiEWaJMtorAhd+XECf0CrQHQ3YuKxIlkexocwvhctUua
+         IoQWN5r0/Ddjgevss1eWOTa6utmv5NA5dQn2XzSlG4SlXduTgWUd+mLxcRGGdhWmNhpY
+         r6i1NXBj9AkKjzgAUaX4CM2CuVE5z94UA+OLgECGWwvAP0Vf92yhQzjZHJ6qyw8z8F/M
+         3/Ew==
+X-Forwarded-Encrypted: i=1; AJvYcCVpRqdGozDH3qIZi3taskqgmK5mQoVsuTKUBJgqVAbBpZB8G5/5pnxg5oBxIsSoeVVjuZTsf+YUBBNXpoki@lists.linux.dev
+X-Gm-Message-State: AOJu0YziaeXMgosSVpmuDThbQ22P7/EDfoNsBQA+13m6E9U9McGuV3To
+	7w9xboeDP0l3tmgGhy8UUvKWGrMkfPCEl4dYlSLZkWCsXxqcFQKvtdyZiBHTS2w=
+X-Gm-Gg: ASbGnctr1Miux4sX53N3QElKuR/fh1XA3lPivuJmmSL4FZYx8LiBvnxXcJWgLsv0u/p
+	1dJ9dZD2RSq0oU/aTUvgKXlPb2umDK0CXkSOScswe42QlP0J9Grm+UNfPO3jHnrXWXm17eIDUEK
+	nD42xsUasTpr7KKOkd7RN57NiIi244f4wdnUyj0C0i3sJujEKcXWcGxIn6OWjuYpdmpiGPikCJB
+	zB17retBRiVtzrgC8a9DV9lSLVk+Mws6Q0q9HnPSAcHDZWld5MVvE/CdrlG/w==
+X-Google-Smtp-Source: AGHT+IEo1TDze8qDTS+/8umRS35r51lCZq582badmEBI2lk5GEiWcjyQ1m1M0MbTn8XadxGeH7MivQ==
+X-Received: by 2002:a5d:5f82:0:b0:386:3262:28c6 with SMTP id ffacd0b85a97d-38a872fc0famr4878299f8f.5.1736408754580;
+        Wed, 08 Jan 2025 23:45:54 -0800 (PST)
 Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38a8e38c7aesm1036006f8f.53.2025.01.08.23.43.37
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38a8e4c1dc6sm1015700f8f.96.2025.01.08.23.45.53
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 08 Jan 2025 23:43:38 -0800 (PST)
-Date: Thu, 9 Jan 2025 10:43:35 +0300
+        Wed, 08 Jan 2025 23:45:53 -0800 (PST)
+Date: Thu, 9 Jan 2025 10:45:50 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Sandeep Salwan <salwansandeep5@gmail.com>
-Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: gpib: Remove commented-out line entirely (v2)
-Message-ID: <d17e78a2-ad49-42da-a0d4-56c2f28baee4@stanley.mountain>
-References: <20250108211127.13963-1-salwansandeep5@gmail.com>
+To: Alex Elder <elder@ieee.org>
+Cc: Will Walsh <iron.will.walsh@gmail.com>,
+	Vaibhav Agarwal <vaibhav.sr@gmail.com>,
+	Mark Greer <mgreer@animalcreek.com>,
+	Johan Hovold <johan@kernel.org>, Alex Elder <elder@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org, outreachy@lists.linux.dev
+Subject: Re: [PATCH] staging: greybus: remove unnecessary parentheses
+Message-ID: <dcf6ec9f-39f2-4729-9250-14eb4d8d2adb@stanley.mountain>
+References: <20250109003624.37323-1-iron.will.walsh@gmail.com>
+ <ed70a5d5-8e85-495b-9e56-eae472ba3046@ieee.org>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250108211127.13963-1-salwansandeep5@gmail.com>
+In-Reply-To: <ed70a5d5-8e85-495b-9e56-eae472ba3046@ieee.org>
 
-On Wed, Jan 08, 2025 at 04:11:27PM -0500, Sandeep Salwan wrote:
-> Per Greg’s feedback, remove the line instead of leaving it as a comment.
-> It's not needed for debugging, so let's delete it completely. Thanks.
-
-This isn't how we typically write commit messages.  Instead say:
-This code has some debug code which is commented out.  Delete it.
-
+On Wed, Jan 08, 2025 at 08:56:50PM -0600, Alex Elder wrote:
+> On 1/8/25 6:36 PM, Will Walsh wrote:
+> > Unnecessary parentheses in boolean comparisons make it harder to read.
+> > 
+> > Removed the extra parentheses on line 305 for code readability.
+> > 
+> > Signed-off-by: Will Walsh <iron.will.walsh@gmail.com>
 > 
-> Signed-off-by: Sandeep Salwan <salwansandeep5@gmail.com>
+> I'm not sure this makes a big difference in readability but I
+> personally avoid extra parentheses unless adding them makes a
+> compiler warning go away.
 
-There is a specific formula for v2 patches:
-https://staticthinking.wordpress.com/2022/07/27/how-to-send-a-v2-patch/
-
-> ---
->  drivers/staging/gpib/agilent_82350b/agilent_82350b.c | 4 ----
->  1 file changed, 4 deletions(-)
-> 
-> diff --git a/drivers/staging/gpib/agilent_82350b/agilent_82350b.c b/drivers/staging/gpib/agilent_82350b/agilent_82350b.c
-> index 3cd01613d067..7ba968e24add 100644
-> --- a/drivers/staging/gpib/agilent_82350b/agilent_82350b.c
-> +++ b/drivers/staging/gpib/agilent_82350b/agilent_82350b.c
-> @@ -31,10 +31,6 @@ int agilent_82350b_accel_read(gpib_board_t *board, uint8_t *buffer, size_t lengt
->  	int i, num_fifo_bytes;
->  	//hardware doesn't support checking for end-of-string character when using fifo
->  	if (tms_priv->eos_flags & REOS) {
-> -		/*
-> -		 * pr_info("ag-rd: using tms9914 read for REOS %x EOS %x\n",tms_priv->eos_flags,
-> -		 * tms_priv->eos);
-> -		 */
->  		return tms9914_read(board, tms_priv, buffer, length, end, bytes_read);
->  	}
-
-Now that you have deleted the commented out code, the curly braces need
-to be deleted as well.  You don't need to mention this in the commit
-message.  It is obvious and assumed.
-
-Please send a v3 of this patch.
+It's not a compiler warning, it checkpatch.
 
 regards,
 dan carpenter
