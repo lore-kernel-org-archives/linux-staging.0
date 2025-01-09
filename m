@@ -1,67 +1,67 @@
-Received: from mail-qk1-f177.google.com (mail-qk1-f177.google.com [209.85.222.177])
+Received: from mail-qt1-f182.google.com (mail-qt1-f182.google.com [209.85.160.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D4E81369A8
-	for <linux-staging@lists.linux.dev>; Thu,  9 Jan 2025 22:45:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A0892063DD
+	for <linux-staging@lists.linux.dev>; Thu,  9 Jan 2025 23:15:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736462758; cv=none; b=H2C6I7MZoB4AAHxwMPyzmxg1I3rtUBAGv5nIWitZZOKGI7zsAQbvC+ONdAXrgxl0WdvJLAI5D3m9laDWmNfMuSnRCKEeH1x+zhN9h65MgZAUjFiUydbHs7qxPvF69ps4KJFf7uRZR3ru/MMcxa2fz5lrZ4b5RUv6/Cu4XM2ZtEs=
+	t=1736464522; cv=none; b=Ym7TRxvUcu0c9hnjTks3Ua/j7qPLezZ/8bgFEC8AG5g2g2MM7ntOgA3C0+wSxqIqg317Gx7/YObyyWzhX1IRgxDqBLqOUyc///2mNdgqr47k57OUVIiB89zwa0woJnGM/5uTrM7l/MN6ZHOFbf+ZF4l+3M7PzIgX9niCJIlD2R4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736462758; c=relaxed/simple;
-	bh=OjYCI0BbnpB2zRassYnaiQIJ8xbpk25OdCXTlvpb2nw=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=uZl/RxUhtwfjf7g+ay8SNcFV0nbwpe4mb3EveKYKFpscFwAW7FuXT7PyBHwmPSo1iytiJA/6/t4kZPGloCsSoIWrjFF+HkhqmixBR9VXGh1oiLb1ngMiWKmR9SWnmprCPFBX3e74tbrxprxCF9LDr1wbc3oDtATEnfJHz0bGZ6o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cF6ruIxX; arc=none smtp.client-ip=209.85.222.177
+	s=arc-20240116; t=1736464522; c=relaxed/simple;
+	bh=GntAsuQDHmsWftO6YHKhmbGjDH1zyHSudJ+QQjk4Bec=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Stqe0MwYldVLnmx+TRte5hItR5lrdMYL4tdkTOQwRetwyEIhRZQ2cYih8viIp+s1mwYg/clz8bcoP9fjylSMr8R4qu+ARn8TRh85wdwyD5gEhjpjH/vSuxMpjOprR/9CoeLNSscV8L9ydpakm9LRer1QIaJ5CzR+FoDOsJ4/5jk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Gf0JMaJ2; arc=none smtp.client-ip=209.85.160.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cF6ruIxX"
-Received: by mail-qk1-f177.google.com with SMTP id af79cd13be357-7b6eeff1fdfso119772785a.2
-        for <linux-staging@lists.linux.dev>; Thu, 09 Jan 2025 14:45:56 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Gf0JMaJ2"
+Received: by mail-qt1-f182.google.com with SMTP id d75a77b69052e-467838e75ffso16856981cf.3
+        for <linux-staging@lists.linux.dev>; Thu, 09 Jan 2025 15:15:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1736462756; x=1737067556; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1736464520; x=1737069320; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=Hqk+IDh33fhRc89QK0TwcVQABgWpgviljaMOw1Zj5QU=;
-        b=cF6ruIxXHxA+Uxlpwacfu3J+GyWUHCMT3TRCDB9gLI1+w/wgqFIDn9sN+rxZVov4HN
-         cTC20TVJAmCXTC21ni1UFzPgb6eAnpjGAz7V45EaReS+XqJ03Sbm2IqpmrI12rI/j2pR
-         9HyKogpwCszW15lUcYfiDGM613s++jJvvvz/N+MWHZnIfIbch39fdNkUlezFn1nALgja
-         U+7ioXfNb6yR2mpaj93crnB9jWPlMkCBMahxPaOLglEW/EG9sXA4HipOe4DwCHGJxViz
-         /G+f1q1Y7IQa6xftl007DNimDcdP0dbZeoxxgVMX8BTCNP4Z0/NpRge8/AqpvEJPFGvZ
-         1kPA==
+        bh=pv0NGeNwZKhFRgGjyWSpgP4ysEE2XhRvF/3to1xVEY0=;
+        b=Gf0JMaJ22YV3aEF7V0UWRGyqMZw7i7f1CuYbooyJtzCfjFfIkSjW603qZXje95ZHX0
+         tVxfitdsrOcsQvymZ0JJJ+J3EV3EKWax26yTgKpRU9v52TbWabI/ZBcglqh/CCbXy+ng
+         6sPauweMMqmaFy/qA/v9vyUnK1KhniBTbvW6qCAhGTFTPAwpSnqMRVJNYPV9huAOEcDn
+         PCE2hRfsCabNfVnVbJN8j1mAuA/uDDKQP+EranpPfd+r5IKNj98j8jagDZAoMIQucu1B
+         JAAih2a0U8NrOGgtsnhRqEoVGMXkImZg+gn6qEs4NwliKGUwNjh1yZbdcr49fW4ZHt54
+         1rEA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736462756; x=1737067556;
+        d=1e100.net; s=20230601; t=1736464520; x=1737069320;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=Hqk+IDh33fhRc89QK0TwcVQABgWpgviljaMOw1Zj5QU=;
-        b=d2xjPO+IZDJRt8jftLwRKQRz4Y2gpCk0fEERheXZWHC6x9KmTrLDSPvhLwPr9Gp0lc
-         /aW1ywlsC+zI+8UohrMemJO5zEV4WTekh+8ApPNJIoSsI0HEbyUXwOSo7nLD5/VbuZBl
-         e1L2JNEpdggQNRlU4KRUnPfPVxExUXI7ABtvY0aIWxX57qb9olL9BA3f9Qtc5dWNpSiQ
-         6gBsBi3HJ/vIxNSlrvZGQJ7SdhhpoCF/GhOt1Mk2jMpzZkvFfa0QPhQ6/fj7gl9TkxYa
-         G/Q04diHfS/CqWT/zhZesQdezFa//BTJryPUFpuLhlB0lD+lPmWcosv1zUYIqRPSLS9Y
-         OU/A==
-X-Gm-Message-State: AOJu0YwuLgpCa4nSQM8Z+EilcCQLEIVqIEjR4ibk4VFTC4aZD4yfBB9n
-	beLsUEoM3TkFoKL1RlWNsAhuqatYnvibehboYpw/VGYHhwhLChtW
-X-Gm-Gg: ASbGncs+4JrTlbwiFpRX99GBl3u7BLOQOAEa64FQgKYmo1jhWGurIFq+obZkGXphaKM
-	Hw+dRciLwoloKAP1Np4mrWD8vKI+TRWk1jhtMnhx0aDraiZ7Zhx7rdwFGmEY/6S1B3JmdoqHe+l
-	ZXhXvRzM4zC7s2L7xZ1SAwYHTHOpjgvMGqQUQqynbmqvv++DrkoOB+un1j0I4w8N4ul5SdmmeBa
-	klk7nl7VNZYRwmk2F6TpFmYkfPMD0kWcVo/8kR4yWAS9I9aIrujuJ7/oLuy
-X-Google-Smtp-Source: AGHT+IGXJgmOmUUcYYTZHc6q+4uqRMyFf5gIVdr06UIXN+N9zhePOL/tm40IZwjYg2Fc5QDlzo2YFw==
-X-Received: by 2002:a05:620a:2454:b0:7b6:7ac5:5de4 with SMTP id af79cd13be357-7bcd975ad3emr1210674785a.29.1736462754465;
-        Thu, 09 Jan 2025 14:45:54 -0800 (PST)
+        bh=pv0NGeNwZKhFRgGjyWSpgP4ysEE2XhRvF/3to1xVEY0=;
+        b=AbjJvghqENbliPYXn4JvEfl/t0Rb3fkErMgHRh9imBdUvnsYsGkMYRgZ9TyoZ2JjiP
+         IzlbGTV9D8REyDPBPIKWZIhG89ZkKnKPeAXnsmDGw17ToWP2bMK+rK4Ufvd6lLPIDFGs
+         Lsau8nC6RAMRn4pUokKzJ6ud5oBuEw5qpAG6eYZQtNIRlxeCoxYj9MgCtdhrVOglZJZg
+         nad+S6OUl6tenhJOVge+sZsWSqsLkySoFgNSkf0dgvSYX0JendRoUbmLc9JsiMcbCCcg
+         ydGdiewvGKqG8oTk6LfcCJ9mEG5JSkNLXbdtUDQ4oJVmhU3KAOSGXzlP6jCSgpZyK/He
+         wgzw==
+X-Gm-Message-State: AOJu0YxKI1X8v2uXWBZXFwkLbSRdEIbgjOCIGDlCuhRZ98l8C05T+rGW
+	yI6yR0SrWIKidv0SIRCYyrJnQSweK7WtXEvoWls4WVQTRfsi1Kl3
+X-Gm-Gg: ASbGncujeXQWqGtD9mRPDiiMimLVHymviGcsjiRJyjhm5lYSSjog+LKi23MtcUnC8iM
+	3306F8ZQkXqr+MsJCJvPGYCANVP9nLVQd7iK3XdKMeXJDA9n1EDdoTJjwPHVlwvMq65FVNrC2+c
+	Sk/doDrjbTjo18akqiOy2XfuJMFhrr625FIO6HpXrW0F0mV7l9cZ1ABpCGXYQM8HI2ZAgryMMuN
+	xIEDb3zgulBkNF1yc0qQ4P2Yl39FUA8tJ1ZuF5F1j+y3ndoSio9IAoc7dip
+X-Google-Smtp-Source: AGHT+IESkxF39gckc/+ieWmV10jk4RZKfdYrLAYxJJKvACYK09DQW16sMU4Twknn5QeeNPTRpC6RZw==
+X-Received: by 2002:a05:6214:e8b:b0:6d8:81cd:a0ce with SMTP id 6a1803df08f44-6df9b327016mr160369146d6.43.1736464519931;
+        Thu, 09 Jan 2025 15:15:19 -0800 (PST)
 Received: from localhost ([104.28.203.246])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6dfad85f6bdsm3153396d6.17.2025.01.09.14.45.53
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-7bce3237e46sm115186185a.24.2025.01.09.15.15.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 09 Jan 2025 14:45:54 -0800 (PST)
+        Thu, 09 Jan 2025 15:15:18 -0800 (PST)
 From: Sandeep Salwan <salwansandeep5@gmail.com>
 To: gregkh@linuxfoundation.org,
 	dan.carpenter@linaro.org
 Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Sandeep Salwan <salwansandeep5@gmail.com>
-Subject: [PATCH] staging: gpib: Remove commented-out debug code (v3) Code cleanup. This code has some debug code which is commented out. Delete it.
-Date: Thu,  9 Jan 2025 17:45:36 -0500
-Message-ID: <20250109224536.3531-1-salwansandeep5@gmail.com>
+Subject: [PATCH] staging: gpib: Remove commented-out debug code (v4)
+Date: Thu,  9 Jan 2025 18:15:09 -0500
+Message-ID: <20250109231509.32810-1-salwansandeep5@gmail.com>
 X-Mailer: git-send-email 2.47.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -71,8 +71,12 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
+Code cleanup. This code has some debug code which is commented out.
+Delete it.
+
 Signed-off-by: Sandeep Salwan <salwansandeep5@gmail.com>
 ---
+v4: fix title description
 v3: remove leftover braces, re-write commit message
 v2: removed commented-out code only
 ---
