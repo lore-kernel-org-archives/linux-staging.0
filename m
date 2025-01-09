@@ -1,1419 +1,213 @@
-Received: from out203-205-221-233.mail.qq.com (out203-205-221-233.mail.qq.com [203.205.221.233])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 367BE207A06
-	for <linux-staging@lists.linux.dev>; Thu,  9 Jan 2025 13:26:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.205.221.233
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35EE518C34B;
+	Thu,  9 Jan 2025 14:49:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736429203; cv=none; b=RB5O+8yhJekgq2Cgu8BQjhfrYijZffwJ8gJ3l52DVk7V6D+eO2cYBep08oUvWn+4TBz4s4JaPqXckkjmGqPd1T7GnGU0DZTXZlyi7JZIgwUJvEU/5Oaf9H9dGw835NhwiBDP8ZC871zSnByOvWdrZwsnNqvc5WY5GtUKjQKr66s=
+	t=1736434150; cv=none; b=e2XlZheynG1TVcNbNDIDAywBg/+sE+KNLHlD+3Eq6tAm+XOY+kzsvAxs+tBdKE9V+SKQWrrDTs2lxTiolG9vMcGKBASp5N6Q+k+uRh2D4FcjGEjAwg5PUFrYRvZIb/YKRdTdYyBXkr1lexoLALUpj3sS8higHZX4K2OT6Ae77K8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736429203; c=relaxed/simple;
-	bh=PKhTiwOaTerVsRbLji8I3/bsj5BIEt2VRagRcT9P96I=;
-	h=Message-ID:From:To:Cc:Subject:Date:MIME-Version:Content-Type; b=tWB8ZD1oH6W481xsEB26M7iFcadz99V4OOl/KeazWMVMzYHXxDYCBcz3FKhLbSaBL+hzJIDiELZayAYqz4nJzvoZORLHxJ0s0tiURL7uqalQrjFqklfhbk2CtXLqRdTCbdIwYIyxVmU/DVfwSp1I5TEFMUfD7q3p6ajspiYCaPw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=Red54.com; spf=pass smtp.mailfrom=red54.com; dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b=R/6kjRgD; arc=none smtp.client-ip=203.205.221.233
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=Red54.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=red54.com
+	s=arc-20240116; t=1736434150; c=relaxed/simple;
+	bh=O6fsU0JZahUF5E1dAq6GkWvSrB2t14Uj/4mxy9yau1Y=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=WNR+g3bE89m+7y0Oi2f5d8B55gyNXTjZyRaXmzZatRmdhm/NSp7OuetxI60BkArQqggDFGw/NYGZYme4oTVFEhlDaw0Igu7t+b83pTMzbRX0+SLiXmviPQ2vqDtEbATFZDB/6xF9Kef2L2hVhXDMAQfoUsVUYGQrNMf0fotTsME=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Hm0VYv25; arc=none smtp.client-ip=198.175.65.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b="R/6kjRgD"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
-	t=1736428886; bh=d+iS7wvEqnOO2CaRaklD+VE/qlxcWhpK2sTm+HNLXEE=;
-	h=From:To:Cc:Subject:Date;
-	b=R/6kjRgDP+ARxSQcssHSc024a/KMCtZ673wU7+o+v5UzEeIJwpTPiC00Xz3a1fQxf
-	 SScpWNP3KxVaYcjB6Ruh3PGR45R10CFc2ra/jTaFjX7LBZETJBTj1WQfWMx0fe8rEh
-	 QolocLyy3bZ9j61Oid9fJKexvL2ppCmntIBw07/4=
-Received: from mail.red54.com ([192.42.116.214])
-	by newxmesmtplogicsvrszc16-0.qq.com (NewEsmtp) with SMTP
-	id 541A8A94; Thu, 09 Jan 2025 21:21:01 +0800
-X-QQ-mid: xmsmtpt1736428861t40lqvf5q
-Message-ID: <tencent_E4A835D41FF1F35C7BDFCF4EA0136D548F06@qq.com>
-X-QQ-XMAILINFO: MIAHdi1iQo+zoTtq1yrEAmXAR8J7GjekbpcWuF3dNKoiwqIriC5K1sw/bcwNws
-	 ek+zmiHsnLhF2s1U6R+ZaacRwfrJ6HaTo8gqZFroXWSHzkkA+O5L6pevhjJmC8m6orMiEUE319pE
-	 ZRfWbaNLLPGmHZVlYZ3OXHmKV6IqZe6uC55T1I7wECFg1YvnBSwPsUWIkViaGUSFTFw22sDrINkE
-	 YL96c7+Sbd6f9xoewfNsy+zxCDrl6QUjQKqVfqBNSHaD4GkQl5/tYMC3i5XyotHrXGZ4LwLlT0BZ
-	 VX+d7g01YwlEVn+7XSyMR/HUvXi5ToK4tD42l3StK27UufMpNrcKAzKGOZ+mWsOSOy5IJS2Gnm96
-	 mpTtYGyoQFGffwFqZE80oHzOVM/AUJP/JoQfutfq65zZ4Ax+pUbT87f5xCeJEJ8FpjUD6CglAXKN
-	 +J1WJrxfDvrCe4/yRIQco7vTwc5PqgIbxrBWqtqC+Z/xU/tRZJ0NWmFeiA3glb9g95YGoh3AfNjA
-	 /3Yq+PUdwxYaqAV5PYEWGPsUFdBu7fvQ5ZGOat2sqWQxEPedOpxoV1xZTLYXzp99YHzJaNvLby90
-	 OkkTDFkQnmp7sqJVNY1ViVMBXmR6mqxAZcwQL3CWK3NWIeKA+BU2P68np/6D5RYr/sk3OZbcGb3E
-	 1kZ7W48l22iN7MmJowdsdiOD0fL7lr8XOfxqHHHd7jqjZP+eMkye+w2im4pXo3XPb52uBDGLyF0m
-	 P4HDOztFzpl4b4i1d8w1q/mgzkfPPEOmLsslSlj3lpAtfeuEwSDljuMqTXumfyWqImnn/nevmjka
-	 tsW1ipuVNVluvNNQDmtB30JNDQJolo1E+fAV1s2i4UPu6qMreCFXxWSG91VYTExJJ0CIFeYhZ57i
-	 amTATrFQXaQ0XbfJBsMFkwjFAddUqC9goPT3u1YauIn82Nv3Idg+ZCN/XmMIDKST04jqVKD+Y1Ws
-	 G0m47d1LaY8/fSAPIWEd379ngRgvLS
-X-QQ-XMRINFO: NI4Ajvh11aEj8Xl/2s1/T8w=
-Sender: yeking@red54.com
-From: Yeking@Red54.com
-To: linux-staging@lists.linux.dev
-Cc: =?UTF-8?q?=E8=B0=A2=E8=87=B4=E9=82=A6=20=28XIE=20Zhibang=29?= <Yeking@Red54.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Philipp Hortmann <philipp.g.hortmann@gmail.com>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Nicolas Schier <nicolas@fjasle.eu>,
-	Hans de Goede <hdegoede@redhat.com>,
-	Rodrigo Gobbi <rodrigo.gobbi.7@gmail.com>,
-	Dan Carpenter <dan.carpenter@linaro.org>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Justin Stitt <justinstitt@google.com>,
-	Johannes Berg <johannes.berg@intel.com>,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] staging: rtl8723bs: Remove ioctl interface
-Date: Thu,  9 Jan 2025 13:20:48 +0000
-X-OQ-MSGID: <20250109132048.60762-1-Yeking@Red54.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Hm0VYv25"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1736434148; x=1767970148;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=O6fsU0JZahUF5E1dAq6GkWvSrB2t14Uj/4mxy9yau1Y=;
+  b=Hm0VYv25f/ACydUiPiC8lOuY8UbVP0AFMYvkCvmtx/AXnP9X1D2qDbgy
+   466NDslVJlvC0N5wMPqDtA0DZ7C1v/N4mCLJaoMRV+eMB7dc7F66+Mn8X
+   XtiIJ9ay0uPmBKR2sH8rT7JUEnh87OmbGwWKPOrCcdu4dvKlLA4YFq4RC
+   Ilejo3QdQWJzm32viy8zTuSnTDkllqWSpJWI/DYV+0oA40MSBCrn1J9tk
+   TgRWooPixZXtCYCDqxK8FDXbDvdhJZ2E9m+pc/kBr1yjLtDk4QlK5+1L3
+   ZfXXZ4BhIySfGZlNYawQItPXuxT//Uf0L4sJECoowWQGwYj4FPXfWQhO2
+   A==;
+X-CSE-ConnectionGUID: xwmsQh5dRdGZSVm6pX2wRA==
+X-CSE-MsgGUID: SimEP/nLQlSyFv8PDD7xCQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11310"; a="36578876"
+X-IronPort-AV: E=Sophos;i="6.12,301,1728975600"; 
+   d="scan'208";a="36578876"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jan 2025 06:49:08 -0800
+X-CSE-ConnectionGUID: TbmdtFvrTUuTDTtJCsBQrg==
+X-CSE-MsgGUID: 8s0WCBz2SKGUDc+9+/fsig==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="140742904"
+Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
+  by orviesa001.jf.intel.com with ESMTP; 09 Jan 2025 06:49:07 -0800
+Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tVtqK-000Hgp-0o;
+	Thu, 09 Jan 2025 14:49:04 +0000
+Date: Thu, 9 Jan 2025 22:48:28 +0800
+From: kernel test robot <lkp@intel.com>
+To: Dave Penkler <dpenkler@gmail.com>, gregkh@linuxfoundation.org,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, Dave Penkler <dpenkler@gmail.com>
+Subject: Re: [PATCH v2] staging: gpib: Modernize gpib_interface_t
+ initialization and make static
+Message-ID: <202501092221.k9rTlGeN-lkp@intel.com>
+References: <20250108174121.23044-1-dpenkler@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250108174121.23044-1-dpenkler@gmail.com>
 
-From: 谢致邦 (XIE Zhibang) <Yeking@Red54.com>
+Hi Dave,
 
-Wireless drivers should not use the ioctl interface, so remove this
-interface for the rtl8723bs driver. (found by code inspection)
+kernel test robot noticed the following build errors:
 
-Fixes: 8bfb36766064 ("wireless: wext: remove ndo_do_ioctl fallback")
-Fixes: 554c0a3abf21 ("staging: Add rtl8723bs sdio wifi driver")
-Signed-off-by: 谢致邦 (XIE Zhibang) <Yeking@Red54.com>
----
- drivers/staging/rtl8723bs/Makefile            |    1 -
- .../staging/rtl8723bs/include/osdep_intf.h    |    2 -
- .../staging/rtl8723bs/os_dep/ioctl_linux.c    | 1286 -----------------
- drivers/staging/rtl8723bs/os_dep/os_intfs.c   |    1 -
- 4 files changed, 1290 deletions(-)
- delete mode 100644 drivers/staging/rtl8723bs/os_dep/ioctl_linux.c
+[auto build test ERROR on staging/staging-testing]
 
-diff --git a/drivers/staging/rtl8723bs/Makefile b/drivers/staging/rtl8723bs/Makefile
-index ba200ee66..8560b84a3 100644
---- a/drivers/staging/rtl8723bs/Makefile
-+++ b/drivers/staging/rtl8723bs/Makefile
-@@ -48,7 +48,6 @@ r8723bs-y = \
- 		hal/HalHWImg8723B_RF.o \
- 		hal/HalPhyRf_8723B.o \
- 		os_dep/ioctl_cfg80211.o \
--		os_dep/ioctl_linux.o \
- 		os_dep/mlme_linux.o \
- 		os_dep/osdep_service.o \
- 		os_dep/os_intfs.o \
-diff --git a/drivers/staging/rtl8723bs/include/osdep_intf.h b/drivers/staging/rtl8723bs/include/osdep_intf.h
-index 215ece612..73199be78 100644
---- a/drivers/staging/rtl8723bs/include/osdep_intf.h
-+++ b/drivers/staging/rtl8723bs/include/osdep_intf.h
-@@ -47,8 +47,6 @@ u32 rtw_start_drv_threads(struct adapter *padapter);
- void rtw_stop_drv_threads(struct adapter *padapter);
- void rtw_cancel_all_timer(struct adapter *padapter);
- 
--int rtw_ioctl(struct net_device *dev, struct ifreq *rq, int cmd);
--
- int rtw_init_netdev_name(struct net_device *pnetdev, const char *ifname);
- struct net_device *rtw_init_netdev(struct adapter *padapter);
- void rtw_unregister_netdevs(struct dvobj_priv *dvobj);
-diff --git a/drivers/staging/rtl8723bs/os_dep/ioctl_linux.c b/drivers/staging/rtl8723bs/os_dep/ioctl_linux.c
-deleted file mode 100644
-index 793b05153..000000000
---- a/drivers/staging/rtl8723bs/os_dep/ioctl_linux.c
-+++ /dev/null
-@@ -1,1286 +0,0 @@
--// SPDX-License-Identifier: GPL-2.0
--/******************************************************************************
-- *
-- * Copyright(c) 2007 - 2012 Realtek Corporation. All rights reserved.
-- *
-- ******************************************************************************/
--
--#include <linux/etherdevice.h>
--#include <drv_types.h>
--#include <rtw_mp.h>
--#include <hal_btcoex.h>
--#include <linux/jiffies.h>
--#include <linux/kernel.h>
--
--#define RTL_IOCTL_WPA_SUPPLICANT	(SIOCIWFIRSTPRIV + 30)
--
--static int wpa_set_auth_algs(struct net_device *dev, u32 value)
--{
--	struct adapter *padapter = rtw_netdev_priv(dev);
--	int ret = 0;
--
--	if ((value & IW_AUTH_ALG_SHARED_KEY) && (value & IW_AUTH_ALG_OPEN_SYSTEM)) {
--		padapter->securitypriv.ndisencryptstatus = Ndis802_11Encryption1Enabled;
--		padapter->securitypriv.ndisauthtype = Ndis802_11AuthModeAutoSwitch;
--		padapter->securitypriv.dot11AuthAlgrthm = dot11AuthAlgrthm_Auto;
--	} else if (value & IW_AUTH_ALG_SHARED_KEY)	{
--		padapter->securitypriv.ndisencryptstatus = Ndis802_11Encryption1Enabled;
--
--		padapter->securitypriv.ndisauthtype = Ndis802_11AuthModeShared;
--		padapter->securitypriv.dot11AuthAlgrthm = dot11AuthAlgrthm_Shared;
--	} else if (value & IW_AUTH_ALG_OPEN_SYSTEM) {
--		/* padapter->securitypriv.ndisencryptstatus = Ndis802_11EncryptionDisabled; */
--		if (padapter->securitypriv.ndisauthtype < Ndis802_11AuthModeWPAPSK) {
--			padapter->securitypriv.ndisauthtype = Ndis802_11AuthModeOpen;
--			padapter->securitypriv.dot11AuthAlgrthm = dot11AuthAlgrthm_Open;
--		}
--	} else {
--		ret = -EINVAL;
--	}
--
--	return ret;
--}
--
--static int wpa_set_encryption(struct net_device *dev, struct ieee_param *param, u32 param_len)
--{
--	int ret = 0;
--	u8 max_idx;
--	u32 wep_key_idx, wep_key_len, wep_total_len;
--	struct ndis_802_11_wep	 *pwep = NULL;
--	struct adapter *padapter = rtw_netdev_priv(dev);
--	struct mlme_priv *pmlmepriv = &padapter->mlmepriv;
--	struct security_priv *psecuritypriv = &padapter->securitypriv;
--
--	param->u.crypt.err = 0;
--	param->u.crypt.alg[IEEE_CRYPT_ALG_NAME_LEN - 1] = '\0';
--
--	if (param_len < (u32)((u8 *)param->u.crypt.key - (u8 *)param) + param->u.crypt.key_len) {
--		ret =  -EINVAL;
--		goto exit;
--	}
--
--	if (param->sta_addr[0] != 0xff || param->sta_addr[1] != 0xff ||
--	    param->sta_addr[2] != 0xff || param->sta_addr[3] != 0xff ||
--	    param->sta_addr[4] != 0xff || param->sta_addr[5] != 0xff) {
--		ret = -EINVAL;
--		goto exit;
--	}
--
--	if (strcmp(param->u.crypt.alg, "WEP") == 0)
--		max_idx = WEP_KEYS - 1;
--	else
--		max_idx = BIP_MAX_KEYID;
--
--	if (param->u.crypt.idx > max_idx) {
--		netdev_err(dev, "Error crypt.idx %d > %d\n", param->u.crypt.idx, max_idx);
--		ret = -EINVAL;
--		goto exit;
--	}
--
--	if (strcmp(param->u.crypt.alg, "WEP") == 0) {
--		padapter->securitypriv.ndisencryptstatus = Ndis802_11Encryption1Enabled;
--		padapter->securitypriv.dot11PrivacyAlgrthm = _WEP40_;
--		padapter->securitypriv.dot118021XGrpPrivacy = _WEP40_;
--
--		wep_key_idx = param->u.crypt.idx;
--		wep_key_len = param->u.crypt.key_len;
--
--		if (wep_key_len > 0) {
--			wep_key_len = wep_key_len <= 5 ? 5 : 13;
--			wep_total_len = wep_key_len + FIELD_OFFSET(struct ndis_802_11_wep, key_material);
--			/* Allocate a full structure to avoid potentially running off the end. */
--			pwep = kzalloc(sizeof(*pwep), GFP_KERNEL);
--			if (!pwep) {
--				ret = -ENOMEM;
--				goto exit;
--			}
--
--			pwep->key_length = wep_key_len;
--			pwep->length = wep_total_len;
--
--			if (wep_key_len == 13) {
--				padapter->securitypriv.dot11PrivacyAlgrthm = _WEP104_;
--				padapter->securitypriv.dot118021XGrpPrivacy = _WEP104_;
--			}
--		} else {
--			ret = -EINVAL;
--			goto exit;
--		}
--
--		pwep->key_index = wep_key_idx;
--		pwep->key_index |= 0x80000000;
--
--		memcpy(pwep->key_material,  param->u.crypt.key, pwep->key_length);
--
--		if (param->u.crypt.set_tx) {
--			if (rtw_set_802_11_add_wep(padapter, pwep) == (u8)_FAIL)
--				ret = -EOPNOTSUPP;
--		} else {
--			/* don't update "psecuritypriv->dot11PrivacyAlgrthm" and */
--			/* psecuritypriv->dot11PrivacyKeyIndex =keyid", but can rtw_set_key to fw/cam */
--
--			if (wep_key_idx >= WEP_KEYS) {
--				ret = -EOPNOTSUPP;
--				goto exit;
--			}
--
--			memcpy(&psecuritypriv->dot11DefKey[wep_key_idx].skey[0], pwep->key_material, pwep->key_length);
--			psecuritypriv->dot11DefKeylen[wep_key_idx] = pwep->key_length;
--			rtw_set_key(padapter, psecuritypriv, wep_key_idx, 0, true);
--		}
--
--		goto exit;
--	}
--
--	if (padapter->securitypriv.dot11AuthAlgrthm == dot11AuthAlgrthm_8021X) { /*  802_1x */
--		struct sta_info *psta, *pbcmc_sta;
--		struct sta_priv *pstapriv = &padapter->stapriv;
--
--		if (check_fwstate(pmlmepriv, WIFI_STATION_STATE | WIFI_MP_STATE) == true) { /* sta mode */
--			psta = rtw_get_stainfo(pstapriv, get_bssid(pmlmepriv));
--			if (psta) {
--				/* Jeff: don't disable ieee8021x_blocked while clearing key */
--				if (strcmp(param->u.crypt.alg, "none") != 0)
--					psta->ieee8021x_blocked = false;
--
--				if ((padapter->securitypriv.ndisencryptstatus == Ndis802_11Encryption2Enabled) ||
--				    (padapter->securitypriv.ndisencryptstatus ==  Ndis802_11Encryption3Enabled)) {
--					psta->dot118021XPrivacy = padapter->securitypriv.dot11PrivacyAlgrthm;
--				}
--
--				if (param->u.crypt.set_tx == 1) { /* pairwise key */
--					memcpy(psta->dot118021x_UncstKey.skey, param->u.crypt.key, (param->u.crypt.key_len > 16 ? 16 : param->u.crypt.key_len));
--
--					if (strcmp(param->u.crypt.alg, "TKIP") == 0) { /* set mic key */
--						memcpy(psta->dot11tkiptxmickey.skey, &param->u.crypt.key[16], 8);
--						memcpy(psta->dot11tkiprxmickey.skey, &param->u.crypt.key[24], 8);
--
--						padapter->securitypriv.busetkipkey = false;
--						/* _set_timer(&padapter->securitypriv.tkip_timer, 50); */
--					}
--
--					rtw_setstakey_cmd(padapter, psta, true, true);
--				} else { /* group key */
--					if (strcmp(param->u.crypt.alg, "TKIP") == 0 || strcmp(param->u.crypt.alg, "CCMP") == 0) {
--						memcpy(padapter->securitypriv.dot118021XGrpKey[param->u.crypt.idx].skey, param->u.crypt.key, (param->u.crypt.key_len > 16 ? 16 : param->u.crypt.key_len));
--						/* only TKIP group key need to install this */
--						if (param->u.crypt.key_len > 16) {
--							memcpy(padapter->securitypriv.dot118021XGrptxmickey[param->u.crypt.idx].skey, &param->u.crypt.key[16], 8);
--							memcpy(padapter->securitypriv.dot118021XGrprxmickey[param->u.crypt.idx].skey, &param->u.crypt.key[24], 8);
--						}
--						padapter->securitypriv.binstallGrpkey = true;
--
--						padapter->securitypriv.dot118021XGrpKeyid = param->u.crypt.idx;
--
--						rtw_set_key(padapter, &padapter->securitypriv, param->u.crypt.idx, 1, true);
--					} else if (strcmp(param->u.crypt.alg, "BIP") == 0) {
--						/* save the IGTK key, length 16 bytes */
--						memcpy(padapter->securitypriv.dot11wBIPKey[param->u.crypt.idx].skey, param->u.crypt.key, (param->u.crypt.key_len > 16 ? 16 : param->u.crypt.key_len));
--						padapter->securitypriv.dot11wBIPKeyid = param->u.crypt.idx;
--						padapter->securitypriv.binstallBIPkey = true;
--					}
--				}
--			}
--
--			pbcmc_sta = rtw_get_bcmc_stainfo(padapter);
--			if (pbcmc_sta) {
--				/* Jeff: don't disable ieee8021x_blocked while clearing key */
--				if (strcmp(param->u.crypt.alg, "none") != 0)
--					pbcmc_sta->ieee8021x_blocked = false;
--
--				if ((padapter->securitypriv.ndisencryptstatus == Ndis802_11Encryption2Enabled) ||
--				    (padapter->securitypriv.ndisencryptstatus ==  Ndis802_11Encryption3Enabled)) {
--					pbcmc_sta->dot118021XPrivacy = padapter->securitypriv.dot11PrivacyAlgrthm;
--				}
--			}
--		} else if (check_fwstate(pmlmepriv, WIFI_ADHOC_STATE)) {
--			/* adhoc mode */
--		}
--	}
--
--exit:
--
--	kfree(pwep);
--	return ret;
--}
--
--static int rtw_set_wpa_ie(struct adapter *padapter, char *pie, unsigned short ielen)
--{
--	u8 *buf = NULL;
--	int group_cipher = 0, pairwise_cipher = 0;
--	int ret = 0;
--	u8 null_addr[] = {0, 0, 0, 0, 0, 0};
--
--	if (ielen > MAX_WPA_IE_LEN || !pie) {
--		_clr_fwstate_(&padapter->mlmepriv, WIFI_UNDER_WPS);
--		if (!pie)
--			return ret;
--		else
--			return -EINVAL;
--	}
--
--	if (ielen) {
--		buf = rtw_zmalloc(ielen);
--		if (!buf) {
--			ret =  -ENOMEM;
--			goto exit;
--		}
--
--		memcpy(buf, pie, ielen);
--
--		if (ielen < RSN_HEADER_LEN) {
--			ret  = -1;
--			goto exit;
--		}
--
--		if (rtw_parse_wpa_ie(buf, ielen, &group_cipher, &pairwise_cipher, NULL) == _SUCCESS) {
--			padapter->securitypriv.dot11AuthAlgrthm = dot11AuthAlgrthm_8021X;
--			padapter->securitypriv.ndisauthtype = Ndis802_11AuthModeWPAPSK;
--			memcpy(padapter->securitypriv.supplicant_ie, &buf[0], ielen);
--		}
--
--		if (rtw_parse_wpa2_ie(buf, ielen, &group_cipher, &pairwise_cipher, NULL) == _SUCCESS) {
--			padapter->securitypriv.dot11AuthAlgrthm = dot11AuthAlgrthm_8021X;
--			padapter->securitypriv.ndisauthtype = Ndis802_11AuthModeWPA2PSK;
--			memcpy(padapter->securitypriv.supplicant_ie, &buf[0], ielen);
--		}
--
--		if (group_cipher == 0)
--			group_cipher = WPA_CIPHER_NONE;
--		if (pairwise_cipher == 0)
--			pairwise_cipher = WPA_CIPHER_NONE;
--
--		switch (group_cipher) {
--		case WPA_CIPHER_NONE:
--			padapter->securitypriv.dot118021XGrpPrivacy = _NO_PRIVACY_;
--			padapter->securitypriv.ndisencryptstatus = Ndis802_11EncryptionDisabled;
--			break;
--		case WPA_CIPHER_WEP40:
--			padapter->securitypriv.dot118021XGrpPrivacy = _WEP40_;
--			padapter->securitypriv.ndisencryptstatus = Ndis802_11Encryption1Enabled;
--			break;
--		case WPA_CIPHER_TKIP:
--			padapter->securitypriv.dot118021XGrpPrivacy = _TKIP_;
--			padapter->securitypriv.ndisencryptstatus = Ndis802_11Encryption2Enabled;
--			break;
--		case WPA_CIPHER_CCMP:
--			padapter->securitypriv.dot118021XGrpPrivacy = _AES_;
--			padapter->securitypriv.ndisencryptstatus = Ndis802_11Encryption3Enabled;
--			break;
--		case WPA_CIPHER_WEP104:
--			padapter->securitypriv.dot118021XGrpPrivacy = _WEP104_;
--			padapter->securitypriv.ndisencryptstatus = Ndis802_11Encryption1Enabled;
--			break;
--		}
--
--		switch (pairwise_cipher) {
--		case WPA_CIPHER_NONE:
--			padapter->securitypriv.dot11PrivacyAlgrthm = _NO_PRIVACY_;
--			padapter->securitypriv.ndisencryptstatus = Ndis802_11EncryptionDisabled;
--			break;
--		case WPA_CIPHER_WEP40:
--			padapter->securitypriv.dot11PrivacyAlgrthm = _WEP40_;
--			padapter->securitypriv.ndisencryptstatus = Ndis802_11Encryption1Enabled;
--			break;
--		case WPA_CIPHER_TKIP:
--			padapter->securitypriv.dot11PrivacyAlgrthm = _TKIP_;
--			padapter->securitypriv.ndisencryptstatus = Ndis802_11Encryption2Enabled;
--			break;
--		case WPA_CIPHER_CCMP:
--			padapter->securitypriv.dot11PrivacyAlgrthm = _AES_;
--			padapter->securitypriv.ndisencryptstatus = Ndis802_11Encryption3Enabled;
--			break;
--		case WPA_CIPHER_WEP104:
--			padapter->securitypriv.dot11PrivacyAlgrthm = _WEP104_;
--			padapter->securitypriv.ndisencryptstatus = Ndis802_11Encryption1Enabled;
--			break;
--		}
--
--		_clr_fwstate_(&padapter->mlmepriv, WIFI_UNDER_WPS);
--		{/* set wps_ie */
--			u16 cnt = 0;
--			u8 eid, wps_oui[4] = {0x0, 0x50, 0xf2, 0x04};
--
--			while (cnt < ielen) {
--				eid = buf[cnt];
--
--				if ((eid == WLAN_EID_VENDOR_SPECIFIC) && (!memcmp(&buf[cnt + 2], wps_oui, 4))) {
--					padapter->securitypriv.wps_ie_len = ((buf[cnt + 1] + 2) < MAX_WPS_IE_LEN) ? (buf[cnt + 1] + 2) : MAX_WPS_IE_LEN;
--
--					memcpy(padapter->securitypriv.wps_ie, &buf[cnt], padapter->securitypriv.wps_ie_len);
--
--					set_fwstate(&padapter->mlmepriv, WIFI_UNDER_WPS);
--
--					cnt += buf[cnt + 1] + 2;
--
--					break;
--				} else {
--					cnt += buf[cnt + 1] + 2; /* goto next */
--				}
--			}
--		}
--	}
--
--	/* TKIP and AES disallow multicast packets until installing group key */
--	if (padapter->securitypriv.dot11PrivacyAlgrthm == _TKIP_ ||
--	    padapter->securitypriv.dot11PrivacyAlgrthm == _TKIP_WTMIC_ ||
--	    padapter->securitypriv.dot11PrivacyAlgrthm == _AES_)
--		/* WPS open need to enable multicast */
--		/*  check_fwstate(&padapter->mlmepriv, WIFI_UNDER_WPS) == true) */
--		rtw_hal_set_hwreg(padapter, HW_VAR_OFF_RCR_AM, null_addr);
--
--exit:
--
--	kfree(buf);
--
--	return ret;
--}
--
--static int wpa_set_param(struct net_device *dev, u8 name, u32 value)
--{
--	uint ret = 0;
--	struct adapter *padapter = rtw_netdev_priv(dev);
--
--	switch (name) {
--	case IEEE_PARAM_WPA_ENABLED:
--
--		padapter->securitypriv.dot11AuthAlgrthm = dot11AuthAlgrthm_8021X; /* 802.1x */
--
--		/* ret = ieee80211_wpa_enable(ieee, value); */
--
--		switch ((value) & 0xff) {
--		case 1: /* WPA */
--			padapter->securitypriv.ndisauthtype = Ndis802_11AuthModeWPAPSK; /* WPA_PSK */
--			padapter->securitypriv.ndisencryptstatus = Ndis802_11Encryption2Enabled;
--			break;
--		case 2: /* WPA2 */
--			padapter->securitypriv.ndisauthtype = Ndis802_11AuthModeWPA2PSK; /* WPA2_PSK */
--			padapter->securitypriv.ndisencryptstatus = Ndis802_11Encryption3Enabled;
--			break;
--		}
--
--		break;
--
--	case IEEE_PARAM_TKIP_COUNTERMEASURES:
--		/* ieee->tkip_countermeasures =value; */
--		break;
--
--	case IEEE_PARAM_DROP_UNENCRYPTED:
--	{
--		/* HACK:
--		 *
--		 * wpa_supplicant calls set_wpa_enabled when the driver
--		 * is loaded and unloaded, regardless of if WPA is being
--		 * used.  No other calls are made which can be used to
--		 * determine if encryption will be used or not prior to
--		 * association being expected.  If encryption is not being
--		 * used, drop_unencrypted is set to false, else true -- we
--		 * can use this to determine if the CAP_PRIVACY_ON bit should
--		 * be set.
--		 */
--		break;
--	}
--	case IEEE_PARAM_PRIVACY_INVOKED:
--
--		/* ieee->privacy_invoked =value; */
--
--		break;
--
--	case IEEE_PARAM_AUTH_ALGS:
--
--		ret = wpa_set_auth_algs(dev, value);
--
--		break;
--
--	case IEEE_PARAM_IEEE_802_1X:
--
--		/* ieee->ieee802_1x =value; */
--
--		break;
--
--	case IEEE_PARAM_WPAX_SELECT:
--
--		/*  added for WPA2 mixed mode */
--		/*
--		spin_lock_irqsave(&ieee->wpax_suitlist_lock, flags);
--		ieee->wpax_type_set = 1;
--		ieee->wpax_type_notify = value;
--		spin_unlock_irqrestore(&ieee->wpax_suitlist_lock, flags);
--		*/
--
--		break;
--
--	default:
--
--		ret = -EOPNOTSUPP;
--
--		break;
--	}
--
--	return ret;
--}
--
--static int wpa_mlme(struct net_device *dev, u32 command, u32 reason)
--{
--	int ret = 0;
--	struct adapter *padapter = rtw_netdev_priv(dev);
--
--	switch (command) {
--	case IEEE_MLME_STA_DEAUTH:
--
--		if (!rtw_set_802_11_disassociate(padapter))
--			ret = -1;
--
--		break;
--
--	case IEEE_MLME_STA_DISASSOC:
--
--		if (!rtw_set_802_11_disassociate(padapter))
--			ret = -1;
--
--		break;
--
--	default:
--		ret = -EOPNOTSUPP;
--		break;
--	}
--
--	return ret;
--}
--
--static int wpa_supplicant_ioctl(struct net_device *dev, struct iw_point *p)
--{
--	struct ieee_param *param;
--	uint ret = 0;
--
--	/* down(&ieee->wx_sem); */
--
--	if (!p->pointer || p->length != sizeof(struct ieee_param))
--		return -EINVAL;
--
--	param = rtw_malloc(p->length);
--	if (!param)
--		return -ENOMEM;
--
--	if (copy_from_user(param, p->pointer, p->length)) {
--		kfree(param);
--		return -EFAULT;
--	}
--
--	switch (param->cmd) {
--	case IEEE_CMD_SET_WPA_PARAM:
--		ret = wpa_set_param(dev, param->u.wpa_param.name, param->u.wpa_param.value);
--		break;
--
--	case IEEE_CMD_SET_WPA_IE:
--		/* ret = wpa_set_wpa_ie(dev, param, p->length); */
--		ret =  rtw_set_wpa_ie(rtw_netdev_priv(dev), (char *)param->u.wpa_ie.data, (u16)param->u.wpa_ie.len);
--		break;
--
--	case IEEE_CMD_SET_ENCRYPTION:
--		ret = wpa_set_encryption(dev, param, p->length);
--		break;
--
--	case IEEE_CMD_MLME:
--		ret = wpa_mlme(dev, param->u.mlme.command, param->u.mlme.reason_code);
--		break;
--
--	default:
--		ret = -EOPNOTSUPP;
--		break;
--	}
--
--	if (ret == 0 && copy_to_user(p->pointer, param, p->length))
--		ret = -EFAULT;
--
--	kfree(param);
--
--	/* up(&ieee->wx_sem); */
--	return ret;
--}
--
--static int rtw_set_encryption(struct net_device *dev, struct ieee_param *param, u32 param_len)
--{
--	int ret = 0;
--	u32 wep_key_idx, wep_key_len, wep_total_len;
--	struct ndis_802_11_wep	 *pwep = NULL;
--	struct sta_info *psta = NULL, *pbcmc_sta = NULL;
--	struct adapter *padapter = rtw_netdev_priv(dev);
--	struct mlme_priv *pmlmepriv = &padapter->mlmepriv;
--	struct security_priv *psecuritypriv = &padapter->securitypriv;
--	struct sta_priv *pstapriv = &padapter->stapriv;
--	char *txkey = padapter->securitypriv.dot118021XGrptxmickey[param->u.crypt.idx].skey;
--	char *rxkey = padapter->securitypriv.dot118021XGrprxmickey[param->u.crypt.idx].skey;
--	char *grpkey = psecuritypriv->dot118021XGrpKey[param->u.crypt.idx].skey;
--
--	param->u.crypt.err = 0;
--	param->u.crypt.alg[IEEE_CRYPT_ALG_NAME_LEN - 1] = '\0';
--
--	/* sizeof(struct ieee_param) = 64 bytes; */
--	/* if (param_len !=  (u32) ((u8 *) param->u.crypt.key - (u8 *) param) + param->u.crypt.key_len) */
--	if (param_len !=  sizeof(struct ieee_param) + param->u.crypt.key_len) {
--		ret =  -EINVAL;
--		goto exit;
--	}
--
--	if (param->sta_addr[0] == 0xff && param->sta_addr[1] == 0xff &&
--	    param->sta_addr[2] == 0xff && param->sta_addr[3] == 0xff &&
--	    param->sta_addr[4] == 0xff && param->sta_addr[5] == 0xff) {
--		if (param->u.crypt.idx >= WEP_KEYS) {
--			ret = -EINVAL;
--			goto exit;
--		}
--	} else {
--		psta = rtw_get_stainfo(pstapriv, param->sta_addr);
--		if (!psta)
--			/* ret = -EINVAL; */
--			goto exit;
--	}
--
--	if (strcmp(param->u.crypt.alg, "none") == 0 && !psta) {
--		/* todo:clear default encryption keys */
--
--		psecuritypriv->dot11AuthAlgrthm = dot11AuthAlgrthm_Open;
--		psecuritypriv->ndisencryptstatus = Ndis802_11EncryptionDisabled;
--		psecuritypriv->dot11PrivacyAlgrthm = _NO_PRIVACY_;
--		psecuritypriv->dot118021XGrpPrivacy = _NO_PRIVACY_;
--
--		goto exit;
--	}
--
--	if (strcmp(param->u.crypt.alg, "WEP") == 0 && !psta) {
--		wep_key_idx = param->u.crypt.idx;
--		wep_key_len = param->u.crypt.key_len;
--
--		if ((wep_key_idx >= WEP_KEYS) || (wep_key_len <= 0)) {
--			ret = -EINVAL;
--			goto exit;
--		}
--
--		if (wep_key_len > 0) {
--			wep_key_len = wep_key_len <= 5 ? 5 : 13;
--			wep_total_len = wep_key_len + FIELD_OFFSET(struct ndis_802_11_wep, key_material);
--			/* Allocate a full structure to avoid potentially running off the end. */
--			pwep = kzalloc(sizeof(*pwep), GFP_KERNEL);
--			if (!pwep)
--				goto exit;
--
--			pwep->key_length = wep_key_len;
--			pwep->length = wep_total_len;
--		}
--
--		pwep->key_index = wep_key_idx;
--
--		memcpy(pwep->key_material,  param->u.crypt.key, pwep->key_length);
--
--		if (param->u.crypt.set_tx) {
--			psecuritypriv->dot11AuthAlgrthm = dot11AuthAlgrthm_Auto;
--			psecuritypriv->ndisencryptstatus = Ndis802_11Encryption1Enabled;
--			psecuritypriv->dot11PrivacyAlgrthm = _WEP40_;
--			psecuritypriv->dot118021XGrpPrivacy = _WEP40_;
--
--			if (pwep->key_length == 13) {
--				psecuritypriv->dot11PrivacyAlgrthm = _WEP104_;
--				psecuritypriv->dot118021XGrpPrivacy = _WEP104_;
--			}
--
--			psecuritypriv->dot11PrivacyKeyIndex = wep_key_idx;
--
--			memcpy(&psecuritypriv->dot11DefKey[wep_key_idx].skey[0], pwep->key_material, pwep->key_length);
--
--			psecuritypriv->dot11DefKeylen[wep_key_idx] = pwep->key_length;
--
--			rtw_ap_set_wep_key(padapter, pwep->key_material, pwep->key_length, wep_key_idx, 1);
--		} else {
--			/* don't update "psecuritypriv->dot11PrivacyAlgrthm" and */
--			/* psecuritypriv->dot11PrivacyKeyIndex =keyid", but can rtw_set_key to cam */
--
--			memcpy(&psecuritypriv->dot11DefKey[wep_key_idx].skey[0], pwep->key_material, pwep->key_length);
--
--			psecuritypriv->dot11DefKeylen[wep_key_idx] = pwep->key_length;
--
--			rtw_ap_set_wep_key(padapter, pwep->key_material, pwep->key_length, wep_key_idx, 0);
--		}
--
--		goto exit;
--	}
--
--	if (!psta && check_fwstate(pmlmepriv, WIFI_AP_STATE)) { /*  group key */
--		if (param->u.crypt.set_tx == 1) {
--			if (strcmp(param->u.crypt.alg, "WEP") == 0) {
--				memcpy(grpkey, param->u.crypt.key, (param->u.crypt.key_len > 16 ? 16 : param->u.crypt.key_len));
--
--				psecuritypriv->dot118021XGrpPrivacy = _WEP40_;
--				if (param->u.crypt.key_len == 13)
--					psecuritypriv->dot118021XGrpPrivacy = _WEP104_;
--
--			} else if (strcmp(param->u.crypt.alg, "TKIP") == 0) {
--				psecuritypriv->dot118021XGrpPrivacy = _TKIP_;
--
--				memcpy(grpkey, param->u.crypt.key, (param->u.crypt.key_len > 16 ? 16 : param->u.crypt.key_len));
--
--				/* set mic key */
--				memcpy(txkey, &param->u.crypt.key[16], 8);
--				memcpy(psecuritypriv->dot118021XGrprxmickey[param->u.crypt.idx].skey, &param->u.crypt.key[24], 8);
--
--				psecuritypriv->busetkipkey = true;
--
--			} else if (strcmp(param->u.crypt.alg, "CCMP") == 0) {
--				psecuritypriv->dot118021XGrpPrivacy = _AES_;
--
--				memcpy(grpkey, param->u.crypt.key, (param->u.crypt.key_len > 16 ? 16 : param->u.crypt.key_len));
--			} else {
--				psecuritypriv->dot118021XGrpPrivacy = _NO_PRIVACY_;
--			}
--
--			psecuritypriv->dot118021XGrpKeyid = param->u.crypt.idx;
--
--			psecuritypriv->binstallGrpkey = true;
--
--			psecuritypriv->dot11PrivacyAlgrthm = psecuritypriv->dot118021XGrpPrivacy;/*  */
--
--			rtw_ap_set_group_key(padapter, param->u.crypt.key, psecuritypriv->dot118021XGrpPrivacy, param->u.crypt.idx);
--
--			pbcmc_sta = rtw_get_bcmc_stainfo(padapter);
--			if (pbcmc_sta) {
--				pbcmc_sta->ieee8021x_blocked = false;
--				pbcmc_sta->dot118021XPrivacy = psecuritypriv->dot118021XGrpPrivacy;/* rx will use bmc_sta's dot118021XPrivacy */
--			}
--		}
--
--		goto exit;
--	}
--
--	if (psecuritypriv->dot11AuthAlgrthm == dot11AuthAlgrthm_8021X && psta) { /*  psk/802_1x */
--		if (check_fwstate(pmlmepriv, WIFI_AP_STATE)) {
--			if (param->u.crypt.set_tx == 1)	{
--				memcpy(psta->dot118021x_UncstKey.skey, param->u.crypt.key, (param->u.crypt.key_len > 16 ? 16 : param->u.crypt.key_len));
--
--				if (strcmp(param->u.crypt.alg, "WEP") == 0) {
--					psta->dot118021XPrivacy = _WEP40_;
--					if (param->u.crypt.key_len == 13)
--						psta->dot118021XPrivacy = _WEP104_;
--				} else if (strcmp(param->u.crypt.alg, "TKIP") == 0) {
--					psta->dot118021XPrivacy = _TKIP_;
--
--					/* set mic key */
--					memcpy(psta->dot11tkiptxmickey.skey, &param->u.crypt.key[16], 8);
--					memcpy(psta->dot11tkiprxmickey.skey, &param->u.crypt.key[24], 8);
--
--					psecuritypriv->busetkipkey = true;
--
--				} else if (strcmp(param->u.crypt.alg, "CCMP") == 0) {
--					psta->dot118021XPrivacy = _AES_;
--				} else {
--					psta->dot118021XPrivacy = _NO_PRIVACY_;
--				}
--
--				rtw_ap_set_pairwise_key(padapter, psta);
--
--				psta->ieee8021x_blocked = false;
--
--			} else { /* group key??? */
--				if (strcmp(param->u.crypt.alg, "WEP") == 0) {
--					memcpy(grpkey, param->u.crypt.key, (param->u.crypt.key_len > 16 ? 16 : param->u.crypt.key_len));
--
--					psecuritypriv->dot118021XGrpPrivacy = _WEP40_;
--					if (param->u.crypt.key_len == 13)
--						psecuritypriv->dot118021XGrpPrivacy = _WEP104_;
--				} else if (strcmp(param->u.crypt.alg, "TKIP") == 0) {
--					psecuritypriv->dot118021XGrpPrivacy = _TKIP_;
--
--					memcpy(grpkey, param->u.crypt.key, (param->u.crypt.key_len > 16 ? 16 : param->u.crypt.key_len));
--
--					/* set mic key */
--					memcpy(txkey, &param->u.crypt.key[16], 8);
--					memcpy(rxkey, &param->u.crypt.key[24], 8);
--
--					psecuritypriv->busetkipkey = true;
--
--				} else if (strcmp(param->u.crypt.alg, "CCMP") == 0) {
--					psecuritypriv->dot118021XGrpPrivacy = _AES_;
--
--					memcpy(grpkey, param->u.crypt.key, (param->u.crypt.key_len > 16 ? 16 : param->u.crypt.key_len));
--				} else {
--					psecuritypriv->dot118021XGrpPrivacy = _NO_PRIVACY_;
--				}
--
--				psecuritypriv->dot118021XGrpKeyid = param->u.crypt.idx;
--
--				psecuritypriv->binstallGrpkey = true;
--
--				psecuritypriv->dot11PrivacyAlgrthm = psecuritypriv->dot118021XGrpPrivacy;/*  */
--
--				rtw_ap_set_group_key(padapter, param->u.crypt.key, psecuritypriv->dot118021XGrpPrivacy, param->u.crypt.idx);
--
--				pbcmc_sta = rtw_get_bcmc_stainfo(padapter);
--				if (pbcmc_sta) {
--					pbcmc_sta->ieee8021x_blocked = false;
--					pbcmc_sta->dot118021XPrivacy = psecuritypriv->dot118021XGrpPrivacy;/* rx will use bmc_sta's dot118021XPrivacy */
--				}
--			}
--		}
--	}
--
--exit:
--	kfree(pwep);
--
--	return ret;
--}
--
--static int rtw_set_beacon(struct net_device *dev, struct ieee_param *param, int len)
--{
--	int ret = 0;
--	struct adapter *padapter = rtw_netdev_priv(dev);
--	struct mlme_priv *pmlmepriv = &padapter->mlmepriv;
--	struct sta_priv *pstapriv = &padapter->stapriv;
--	unsigned char *pbuf = param->u.bcn_ie.buf;
--
--	if (check_fwstate(pmlmepriv, WIFI_AP_STATE) != true)
--		return -EINVAL;
--
--	memcpy(&pstapriv->max_num_sta, param->u.bcn_ie.reserved, 2);
--
--	if ((pstapriv->max_num_sta > NUM_STA) || (pstapriv->max_num_sta <= 0))
--		pstapriv->max_num_sta = NUM_STA;
--
--	if (rtw_check_beacon_data(padapter, pbuf,  (len - 12 - 2)) == _SUCCESS)/*  12 = param header, 2:no packed */
--		ret = 0;
--	else
--		ret = -EINVAL;
--
--	return ret;
--}
--
--static void rtw_hostapd_sta_flush(struct net_device *dev)
--{
--	/* _irqL irqL; */
--	/* struct list_head	*phead, *plist; */
--	/* struct sta_info *psta = NULL; */
--	struct adapter *padapter = rtw_netdev_priv(dev);
--	/* struct sta_priv *pstapriv = &padapter->stapriv; */
--
--	flush_all_cam_entry(padapter);	/* clear CAM */
--
--	rtw_sta_flush(padapter);
--}
--
--static int rtw_add_sta(struct net_device *dev, struct ieee_param *param)
--{
--	int ret = 0;
--	struct sta_info *psta = NULL;
--	struct adapter *padapter = rtw_netdev_priv(dev);
--	struct mlme_priv *pmlmepriv = &padapter->mlmepriv;
--	struct sta_priv *pstapriv = &padapter->stapriv;
--
--	if (check_fwstate(pmlmepriv, (_FW_LINKED | WIFI_AP_STATE)) != true)
--		return -EINVAL;
--
--	if (param->sta_addr[0] == 0xff && param->sta_addr[1] == 0xff &&
--	    param->sta_addr[2] == 0xff && param->sta_addr[3] == 0xff &&
--	    param->sta_addr[4] == 0xff && param->sta_addr[5] == 0xff) {
--		return -EINVAL;
--	}
--
--/*
--	psta = rtw_get_stainfo(pstapriv, param->sta_addr);
--	if (psta)
--	{
--		rtw_free_stainfo(padapter,  psta);
--
--		psta = NULL;
--	}
--*/
--	/* psta = rtw_alloc_stainfo(pstapriv, param->sta_addr); */
--	psta = rtw_get_stainfo(pstapriv, param->sta_addr);
--	if (psta) {
--		int flags = param->u.add_sta.flags;
--
--		psta->aid = param->u.add_sta.aid;/* aid = 1~2007 */
--
--		memcpy(psta->bssrateset, param->u.add_sta.tx_supp_rates, 16);
--
--		/* check wmm cap. */
--		if (WLAN_STA_WME & flags)
--			psta->qos_option = 1;
--		else
--			psta->qos_option = 0;
--
--		if (pmlmepriv->qospriv.qos_option == 0)
--			psta->qos_option = 0;
--
--		/* chec 802.11n ht cap. */
--		if (WLAN_STA_HT & flags) {
--			psta->htpriv.ht_option = true;
--			psta->qos_option = 1;
--			memcpy((void *)&psta->htpriv.ht_cap, (void *)&param->u.add_sta.ht_cap, sizeof(struct ieee80211_ht_cap));
--		} else {
--			psta->htpriv.ht_option = false;
--		}
--
--		if (!pmlmepriv->htpriv.ht_option)
--			psta->htpriv.ht_option = false;
--
--		update_sta_info_apmode(padapter, psta);
--
--	} else {
--		ret = -ENOMEM;
--	}
--
--	return ret;
--}
--
--static int rtw_del_sta(struct net_device *dev, struct ieee_param *param)
--{
--	int ret = 0;
--	struct sta_info *psta = NULL;
--	struct adapter *padapter = rtw_netdev_priv(dev);
--	struct mlme_priv *pmlmepriv = &padapter->mlmepriv;
--	struct sta_priv *pstapriv = &padapter->stapriv;
--
--	if (check_fwstate(pmlmepriv, (_FW_LINKED | WIFI_AP_STATE)) != true)
--		return -EINVAL;
--
--	if (param->sta_addr[0] == 0xff && param->sta_addr[1] == 0xff &&
--	    param->sta_addr[2] == 0xff && param->sta_addr[3] == 0xff &&
--	    param->sta_addr[4] == 0xff && param->sta_addr[5] == 0xff) {
--		return -EINVAL;
--	}
--
--	psta = rtw_get_stainfo(pstapriv, param->sta_addr);
--	if (psta) {
--		u8 updated = false;
--
--		spin_lock_bh(&pstapriv->asoc_list_lock);
--		if (list_empty(&psta->asoc_list) == false) {
--			list_del_init(&psta->asoc_list);
--			pstapriv->asoc_list_cnt--;
--			updated = ap_free_sta(padapter, psta, true, WLAN_REASON_DEAUTH_LEAVING);
--		}
--		spin_unlock_bh(&pstapriv->asoc_list_lock);
--
--		associated_clients_update(padapter, updated);
--
--		psta = NULL;
--	}
--
--	return ret;
--}
--
--static int rtw_ioctl_get_sta_data(struct net_device *dev, struct ieee_param *param, int len)
--{
--	int ret = 0;
--	struct sta_info *psta = NULL;
--	struct adapter *padapter = rtw_netdev_priv(dev);
--	struct mlme_priv *pmlmepriv = &padapter->mlmepriv;
--	struct sta_priv *pstapriv = &padapter->stapriv;
--	struct ieee_param_ex *param_ex = (struct ieee_param_ex *)param;
--	struct sta_data *psta_data = (struct sta_data *)param_ex->data;
--
--	if (check_fwstate(pmlmepriv, (_FW_LINKED | WIFI_AP_STATE)) != true)
--		return -EINVAL;
--
--	if (param_ex->sta_addr[0] == 0xff && param_ex->sta_addr[1] == 0xff &&
--	    param_ex->sta_addr[2] == 0xff && param_ex->sta_addr[3] == 0xff &&
--	    param_ex->sta_addr[4] == 0xff && param_ex->sta_addr[5] == 0xff) {
--		return -EINVAL;
--	}
--
--	psta = rtw_get_stainfo(pstapriv, param_ex->sta_addr);
--	if (psta) {
--		psta_data->aid = (u16)psta->aid;
--		psta_data->capability = psta->capability;
--		psta_data->flags = psta->flags;
--
--/*
--		nonerp_set : BIT(0)
--		no_short_slot_time_set : BIT(1)
--		no_short_preamble_set : BIT(2)
--		no_ht_gf_set : BIT(3)
--		no_ht_set : BIT(4)
--		ht_20mhz_set : BIT(5)
--*/
--
--		psta_data->sta_set = ((psta->nonerp_set) |
--							 (psta->no_short_slot_time_set << 1) |
--							 (psta->no_short_preamble_set << 2) |
--							 (psta->no_ht_gf_set << 3) |
--							 (psta->no_ht_set << 4) |
--							 (psta->ht_20mhz_set << 5));
--
--		psta_data->tx_supp_rates_len =  psta->bssratelen;
--		memcpy(psta_data->tx_supp_rates, psta->bssrateset, psta->bssratelen);
--		memcpy(&psta_data->ht_cap, &psta->htpriv.ht_cap, sizeof(struct ieee80211_ht_cap));
--		psta_data->rx_pkts = psta->sta_stats.rx_data_pkts;
--		psta_data->rx_bytes = psta->sta_stats.rx_bytes;
--		psta_data->rx_drops = psta->sta_stats.rx_drops;
--
--		psta_data->tx_pkts = psta->sta_stats.tx_pkts;
--		psta_data->tx_bytes = psta->sta_stats.tx_bytes;
--		psta_data->tx_drops = psta->sta_stats.tx_drops;
--
--	} else {
--		ret = -1;
--	}
--
--	return ret;
--}
--
--static int rtw_get_sta_wpaie(struct net_device *dev, struct ieee_param *param)
--{
--	int ret = 0;
--	struct sta_info *psta = NULL;
--	struct adapter *padapter = rtw_netdev_priv(dev);
--	struct mlme_priv *pmlmepriv = &padapter->mlmepriv;
--	struct sta_priv *pstapriv = &padapter->stapriv;
--
--	if (check_fwstate(pmlmepriv, (_FW_LINKED | WIFI_AP_STATE)) != true)
--		return -EINVAL;
--
--	if (param->sta_addr[0] == 0xff && param->sta_addr[1] == 0xff &&
--	    param->sta_addr[2] == 0xff && param->sta_addr[3] == 0xff &&
--	    param->sta_addr[4] == 0xff && param->sta_addr[5] == 0xff) {
--		return -EINVAL;
--	}
--
--	psta = rtw_get_stainfo(pstapriv, param->sta_addr);
--	if (psta) {
--		if ((psta->wpa_ie[0] == WLAN_EID_RSN) || (psta->wpa_ie[0] == WLAN_EID_VENDOR_SPECIFIC)) {
--			int wpa_ie_len;
--			int copy_len;
--
--			wpa_ie_len = psta->wpa_ie[1];
--
--			copy_len = ((wpa_ie_len + 2) > sizeof(psta->wpa_ie)) ? (sizeof(psta->wpa_ie)) : (wpa_ie_len + 2);
--
--			param->u.wpa_ie.len = copy_len;
--
--			memcpy(param->u.wpa_ie.reserved, psta->wpa_ie, copy_len);
--		}
--	} else {
--		ret = -1;
--	}
--
--	return ret;
--}
--
--static int rtw_set_wps_beacon(struct net_device *dev, struct ieee_param *param, int len)
--{
--	int ret = 0;
--	unsigned char wps_oui[4] = {0x0, 0x50, 0xf2, 0x04};
--	struct adapter *padapter = rtw_netdev_priv(dev);
--	struct mlme_priv *pmlmepriv = &padapter->mlmepriv;
--	struct mlme_ext_priv *pmlmeext = &padapter->mlmeextpriv;
--	int ie_len;
--
--	if (check_fwstate(pmlmepriv, WIFI_AP_STATE) != true)
--		return -EINVAL;
--
--	ie_len = len - 12 - 2;/*  12 = param header, 2:no packed */
--
--	kfree(pmlmepriv->wps_beacon_ie);
--	pmlmepriv->wps_beacon_ie = NULL;
--
--	if (ie_len > 0) {
--		pmlmepriv->wps_beacon_ie = rtw_malloc(ie_len);
--		pmlmepriv->wps_beacon_ie_len = ie_len;
--		if (!pmlmepriv->wps_beacon_ie)
--			return -EINVAL;
--
--		memcpy(pmlmepriv->wps_beacon_ie, param->u.bcn_ie.buf, ie_len);
--
--		update_beacon(padapter, WLAN_EID_VENDOR_SPECIFIC, wps_oui, true);
--
--		pmlmeext->bstart_bss = true;
--	}
--
--	return ret;
--}
--
--static int rtw_set_wps_probe_resp(struct net_device *dev, struct ieee_param *param, int len)
--{
--	int ret = 0;
--	struct adapter *padapter = rtw_netdev_priv(dev);
--	struct mlme_priv *pmlmepriv = &padapter->mlmepriv;
--	int ie_len;
--
--	if (check_fwstate(pmlmepriv, WIFI_AP_STATE) != true)
--		return -EINVAL;
--
--	ie_len = len - 12 - 2;/*  12 = param header, 2:no packed */
--
--	kfree(pmlmepriv->wps_probe_resp_ie);
--	pmlmepriv->wps_probe_resp_ie = NULL;
--
--	if (ie_len > 0) {
--		pmlmepriv->wps_probe_resp_ie = rtw_malloc(ie_len);
--		pmlmepriv->wps_probe_resp_ie_len = ie_len;
--		if (!pmlmepriv->wps_probe_resp_ie)
--			return -EINVAL;
--
--		memcpy(pmlmepriv->wps_probe_resp_ie, param->u.bcn_ie.buf, ie_len);
--	}
--
--	return ret;
--}
--
--static int rtw_set_wps_assoc_resp(struct net_device *dev, struct ieee_param *param, int len)
--{
--	int ret = 0;
--	struct adapter *padapter = rtw_netdev_priv(dev);
--	struct mlme_priv *pmlmepriv = &padapter->mlmepriv;
--	int ie_len;
--
--	if (check_fwstate(pmlmepriv, WIFI_AP_STATE) != true)
--		return -EINVAL;
--
--	ie_len = len - 12 - 2;/*  12 = param header, 2:no packed */
--
--	kfree(pmlmepriv->wps_assoc_resp_ie);
--	pmlmepriv->wps_assoc_resp_ie = NULL;
--
--	if (ie_len > 0) {
--		pmlmepriv->wps_assoc_resp_ie = rtw_malloc(ie_len);
--		pmlmepriv->wps_assoc_resp_ie_len = ie_len;
--		if (!pmlmepriv->wps_assoc_resp_ie)
--			return -EINVAL;
--
--		memcpy(pmlmepriv->wps_assoc_resp_ie, param->u.bcn_ie.buf, ie_len);
--	}
--
--	return ret;
--}
--
--static int rtw_set_hidden_ssid(struct net_device *dev, struct ieee_param *param, int len)
--{
--	int ret = 0;
--	struct adapter *adapter = rtw_netdev_priv(dev);
--	struct mlme_priv *mlmepriv = &adapter->mlmepriv;
--	struct mlme_ext_priv *mlmeext = &adapter->mlmeextpriv;
--	struct mlme_ext_info *mlmeinfo = &mlmeext->mlmext_info;
--	int ie_len;
--	u8 *ssid_ie;
--	char ssid[NDIS_802_11_LENGTH_SSID + 1];
--	signed int ssid_len;
--	u8 ignore_broadcast_ssid;
--
--	if (check_fwstate(mlmepriv, WIFI_AP_STATE) != true)
--		return -EPERM;
--
--	if (param->u.bcn_ie.reserved[0] != 0xea)
--		return -EINVAL;
--
--	mlmeinfo->hidden_ssid_mode = ignore_broadcast_ssid = param->u.bcn_ie.reserved[1];
--
--	ie_len = len - 12 - 2;/*  12 = param header, 2:no packed */
--	ssid_ie = rtw_get_ie(param->u.bcn_ie.buf,  WLAN_EID_SSID, &ssid_len, ie_len);
--
--	if (ssid_ie && ssid_len > 0 && ssid_len <= NDIS_802_11_LENGTH_SSID) {
--		struct wlan_bssid_ex *pbss_network = &mlmepriv->cur_network.network;
--		struct wlan_bssid_ex *pbss_network_ext = &mlmeinfo->network;
--
--		memcpy(ssid, ssid_ie + 2, ssid_len);
--		ssid[ssid_len] = 0x0;
--
--		memcpy(pbss_network->ssid.ssid, (void *)ssid, ssid_len);
--		pbss_network->ssid.ssid_length = ssid_len;
--		memcpy(pbss_network_ext->ssid.ssid, (void *)ssid, ssid_len);
--		pbss_network_ext->ssid.ssid_length = ssid_len;
--	}
--
--	return ret;
--}
--
--static int rtw_ioctl_acl_remove_sta(struct net_device *dev, struct ieee_param *param, int len)
--{
--	struct adapter *padapter = rtw_netdev_priv(dev);
--	struct mlme_priv *pmlmepriv = &padapter->mlmepriv;
--
--	if (check_fwstate(pmlmepriv, WIFI_AP_STATE) != true)
--		return -EINVAL;
--
--	if (param->sta_addr[0] == 0xff && param->sta_addr[1] == 0xff &&
--	    param->sta_addr[2] == 0xff && param->sta_addr[3] == 0xff &&
--	    param->sta_addr[4] == 0xff && param->sta_addr[5] == 0xff) {
--		return -EINVAL;
--	}
--
--	rtw_acl_remove_sta(padapter, param->sta_addr);
--	return 0;
--}
--
--static int rtw_ioctl_acl_add_sta(struct net_device *dev, struct ieee_param *param, int len)
--{
--	struct adapter *padapter = rtw_netdev_priv(dev);
--	struct mlme_priv *pmlmepriv = &padapter->mlmepriv;
--
--	if (check_fwstate(pmlmepriv, WIFI_AP_STATE) != true)
--		return -EINVAL;
--
--	if (param->sta_addr[0] == 0xff && param->sta_addr[1] == 0xff &&
--	    param->sta_addr[2] == 0xff && param->sta_addr[3] == 0xff &&
--	    param->sta_addr[4] == 0xff && param->sta_addr[5] == 0xff) {
--		return -EINVAL;
--	}
--
--	return rtw_acl_add_sta(padapter, param->sta_addr);
--}
--
--static int rtw_ioctl_set_macaddr_acl(struct net_device *dev, struct ieee_param *param, int len)
--{
--	int ret = 0;
--	struct adapter *padapter = rtw_netdev_priv(dev);
--	struct mlme_priv *pmlmepriv = &padapter->mlmepriv;
--
--	if (check_fwstate(pmlmepriv, WIFI_AP_STATE) != true)
--		return -EINVAL;
--
--	rtw_set_macaddr_acl(padapter, param->u.mlme.command);
--
--	return ret;
--}
--
--static int rtw_hostapd_ioctl(struct net_device *dev, struct iw_point *p)
--{
--	struct ieee_param *param;
--	int ret = 0;
--	struct adapter *padapter = rtw_netdev_priv(dev);
--
--	/*
--	 * this function is expect to call in master mode, which allows no power saving
--	 * so, we just check hw_init_completed
--	 */
--
--	if (!padapter->hw_init_completed)
--		return -EPERM;
--
--	if (!p->pointer || p->length != sizeof(*param))
--		return -EINVAL;
--
--	param = rtw_malloc(p->length);
--	if (!param)
--		return -ENOMEM;
--
--	if (copy_from_user(param, p->pointer, p->length)) {
--		kfree(param);
--		return -EFAULT;
--	}
--
--	switch (param->cmd) {
--	case RTL871X_HOSTAPD_FLUSH:
--
--		rtw_hostapd_sta_flush(dev);
--
--		break;
--
--	case RTL871X_HOSTAPD_ADD_STA:
--
--		ret = rtw_add_sta(dev, param);
--
--		break;
--
--	case RTL871X_HOSTAPD_REMOVE_STA:
--
--		ret = rtw_del_sta(dev, param);
--
--		break;
--
--	case RTL871X_HOSTAPD_SET_BEACON:
--
--		ret = rtw_set_beacon(dev, param, p->length);
--
--		break;
--
--	case RTL871X_SET_ENCRYPTION:
--
--		ret = rtw_set_encryption(dev, param, p->length);
--
--		break;
--
--	case RTL871X_HOSTAPD_GET_WPAIE_STA:
--
--		ret = rtw_get_sta_wpaie(dev, param);
--
--		break;
--
--	case RTL871X_HOSTAPD_SET_WPS_BEACON:
--
--		ret = rtw_set_wps_beacon(dev, param, p->length);
--
--		break;
--
--	case RTL871X_HOSTAPD_SET_WPS_PROBE_RESP:
--
--		ret = rtw_set_wps_probe_resp(dev, param, p->length);
--
--		break;
--
--	case RTL871X_HOSTAPD_SET_WPS_ASSOC_RESP:
--
--		ret = rtw_set_wps_assoc_resp(dev, param, p->length);
--
--		break;
--
--	case RTL871X_HOSTAPD_SET_HIDDEN_SSID:
--
--		ret = rtw_set_hidden_ssid(dev, param, p->length);
--
--		break;
--
--	case RTL871X_HOSTAPD_GET_INFO_STA:
--
--		ret = rtw_ioctl_get_sta_data(dev, param, p->length);
--
--		break;
--
--	case RTL871X_HOSTAPD_SET_MACADDR_ACL:
--
--		ret = rtw_ioctl_set_macaddr_acl(dev, param, p->length);
--
--		break;
--
--	case RTL871X_HOSTAPD_ACL_ADD_STA:
--
--		ret = rtw_ioctl_acl_add_sta(dev, param, p->length);
--
--		break;
--
--	case RTL871X_HOSTAPD_ACL_REMOVE_STA:
--
--		ret = rtw_ioctl_acl_remove_sta(dev, param, p->length);
--
--		break;
--
--	default:
--		ret = -EOPNOTSUPP;
--		break;
--	}
--
--	if (ret == 0 && copy_to_user(p->pointer, param, p->length))
--		ret = -EFAULT;
--
--	kfree(param);
--	return ret;
--}
--
--/*  copy from net/wireless/wext.c end */
--
--int rtw_ioctl(struct net_device *dev, struct ifreq *rq, int cmd)
--{
--	struct iwreq *wrq = (struct iwreq *)rq;
--	int ret = 0;
--
--	switch (cmd) {
--	case RTL_IOCTL_WPA_SUPPLICANT:
--		ret = wpa_supplicant_ioctl(dev, &wrq->u.data);
--		break;
--	case RTL_IOCTL_HOSTAPD:
--		ret = rtw_hostapd_ioctl(dev, &wrq->u.data);
--		break;
--	default:
--		ret = -EOPNOTSUPP;
--		break;
--	}
--
--	return ret;
--}
-diff --git a/drivers/staging/rtl8723bs/os_dep/os_intfs.c b/drivers/staging/rtl8723bs/os_dep/os_intfs.c
-index 4e1917c05..738a601c5 100644
---- a/drivers/staging/rtl8723bs/os_dep/os_intfs.c
-+++ b/drivers/staging/rtl8723bs/os_dep/os_intfs.c
-@@ -407,7 +407,6 @@ static const struct net_device_ops rtw_netdev_ops = {
- 	.ndo_select_queue	= rtw_select_queue,
- 	.ndo_set_mac_address = rtw_net_set_mac_address,
- 	.ndo_get_stats = rtw_net_get_stats,
--	.ndo_do_ioctl = rtw_ioctl,
- };
- 
- int rtw_init_netdev_name(struct net_device *pnetdev, const char *ifname)
+url:    https://github.com/intel-lab-lkp/linux/commits/Dave-Penkler/staging-gpib-Modernize-gpib_interface_t-initialization-and-make-static/20250109-014247
+base:   staging/staging-testing
+patch link:    https://lore.kernel.org/r/20250108174121.23044-1-dpenkler%40gmail.com
+patch subject: [PATCH v2] staging: gpib: Modernize gpib_interface_t initialization and make static
+config: loongarch-allyesconfig (https://download.01.org/0day-ci/archive/20250109/202501092221.k9rTlGeN-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250109/202501092221.k9rTlGeN-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202501092221.k9rTlGeN-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   drivers/staging/gpib/cb7210/cb7210.c: In function 'cb7210_line_status':
+   drivers/staging/gpib/cb7210/cb7210.c:383:30: warning: variable 'nec_priv' set but not used [-Wunused-but-set-variable]
+     383 |         struct nec7210_priv *nec_priv;
+         |                              ^~~~~~~~
+   drivers/staging/gpib/cb7210/cb7210.c: In function 'cb_gpib_config':
+   drivers/staging/gpib/cb7210/cb7210.c:1265:28: warning: variable 'dev' set but not used [-Wunused-but-set-variable]
+    1265 |         struct local_info *dev;
+         |                            ^~~
+   drivers/staging/gpib/cb7210/cb7210.c:1264:31: warning: variable 'handle' set but not used [-Wunused-but-set-variable]
+    1264 |         struct pcmcia_device *handle;
+         |                               ^~~~~~
+   drivers/staging/gpib/cb7210/cb7210.c: At top level:
+>> drivers/staging/gpib/cb7210/cb7210.c:1360:25: error: static declaration of 'cb_pcmcia_unaccel_interface' follows non-static declaration
+    1360 | static gpib_interface_t cb_pcmcia_unaccel_interface = {
+         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from drivers/staging/gpib/cb7210/cb7210.c:8:
+   drivers/staging/gpib/cb7210/cb7210.h:42:25: note: previous declaration of 'cb_pcmcia_unaccel_interface' with type 'gpib_interface_t' {aka 'struct gpib_interface_struct'}
+      42 | extern gpib_interface_t cb_pcmcia_unaccel_interface;
+         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/staging/gpib/cb7210/cb7210.c:1388:25: error: static declaration of 'cb_pcmcia_interface' follows non-static declaration
+    1388 | static gpib_interface_t cb_pcmcia_interface = {
+         |                         ^~~~~~~~~~~~~~~~~~~
+   drivers/staging/gpib/cb7210/cb7210.h:40:25: note: previous declaration of 'cb_pcmcia_interface' with type 'gpib_interface_t' {aka 'struct gpib_interface_struct'}
+      40 | extern gpib_interface_t cb_pcmcia_interface;
+         |                         ^~~~~~~~~~~~~~~~~~~
+>> drivers/staging/gpib/cb7210/cb7210.c:1416:25: error: static declaration of 'cb_pcmcia_accel_interface' follows non-static declaration
+    1416 | static gpib_interface_t cb_pcmcia_accel_interface = {
+         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/staging/gpib/cb7210/cb7210.h:41:25: note: previous declaration of 'cb_pcmcia_accel_interface' with type 'gpib_interface_t' {aka 'struct gpib_interface_struct'}
+      41 | extern gpib_interface_t cb_pcmcia_accel_interface;
+         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+vim +/cb_pcmcia_unaccel_interface +1360 drivers/staging/gpib/cb7210/cb7210.c
+
+  1359	
+> 1360	static gpib_interface_t cb_pcmcia_unaccel_interface = {
+  1361		.name = "cbi_pcmcia_unaccel",
+  1362		.attach = cb_pcmcia_attach,
+  1363		.detach = cb_pcmcia_detach,
+  1364		.read = cb7210_read,
+  1365		.write = cb7210_write,
+  1366		.command = cb7210_command,
+  1367		.take_control = cb7210_take_control,
+  1368		.go_to_standby = cb7210_go_to_standby,
+  1369		.request_system_control = cb7210_request_system_control,
+  1370		.interface_clear = cb7210_interface_clear,
+  1371		.remote_enable = cb7210_remote_enable,
+  1372		.enable_eos = cb7210_enable_eos,
+  1373		.disable_eos = cb7210_disable_eos,
+  1374		.parallel_poll = cb7210_parallel_poll,
+  1375		.parallel_poll_configure = cb7210_parallel_poll_configure,
+  1376		.parallel_poll_response = cb7210_parallel_poll_response,
+  1377		.local_parallel_poll_mode = NULL, // XXX
+  1378		.line_status = cb7210_line_status,
+  1379		.update_status = cb7210_update_status,
+  1380		.primary_address = cb7210_primary_address,
+  1381		.secondary_address = cb7210_secondary_address,
+  1382		.serial_poll_response = cb7210_serial_poll_response,
+  1383		.serial_poll_status = cb7210_serial_poll_status,
+  1384		.t1_delay = cb7210_t1_delay,
+  1385		.return_to_local = cb7210_return_to_local,
+  1386	};
+  1387	
+> 1388	static gpib_interface_t cb_pcmcia_interface = {
+  1389		.name = "cbi_pcmcia",
+  1390		.attach = cb_pcmcia_attach,
+  1391		.detach = cb_pcmcia_detach,
+  1392		.read = cb7210_accel_read,
+  1393		.write = cb7210_accel_write,
+  1394		.command = cb7210_command,
+  1395		.take_control = cb7210_take_control,
+  1396		.go_to_standby = cb7210_go_to_standby,
+  1397		.request_system_control = cb7210_request_system_control,
+  1398		.interface_clear = cb7210_interface_clear,
+  1399		.remote_enable = cb7210_remote_enable,
+  1400		.enable_eos = cb7210_enable_eos,
+  1401		.disable_eos = cb7210_disable_eos,
+  1402		.parallel_poll = cb7210_parallel_poll,
+  1403		.parallel_poll_configure = cb7210_parallel_poll_configure,
+  1404		.parallel_poll_response = cb7210_parallel_poll_response,
+  1405		.local_parallel_poll_mode = NULL, // XXX
+  1406		.line_status = cb7210_line_status,
+  1407		.update_status = cb7210_update_status,
+  1408		.primary_address = cb7210_primary_address,
+  1409		.secondary_address = cb7210_secondary_address,
+  1410		.serial_poll_response = cb7210_serial_poll_response,
+  1411		.serial_poll_status = cb7210_serial_poll_status,
+  1412		.t1_delay = cb7210_t1_delay,
+  1413		.return_to_local = cb7210_return_to_local,
+  1414	};
+  1415	
+> 1416	static gpib_interface_t cb_pcmcia_accel_interface = {
+  1417		.name = "cbi_pcmcia_accel",
+  1418		.attach = cb_pcmcia_attach,
+  1419		.detach = cb_pcmcia_detach,
+  1420		.read = cb7210_accel_read,
+  1421		.write = cb7210_accel_write,
+  1422		.command = cb7210_command,
+  1423		.take_control = cb7210_take_control,
+  1424		.go_to_standby = cb7210_go_to_standby,
+  1425		.request_system_control = cb7210_request_system_control,
+  1426		.interface_clear = cb7210_interface_clear,
+  1427		.remote_enable = cb7210_remote_enable,
+  1428		.enable_eos = cb7210_enable_eos,
+  1429		.disable_eos = cb7210_disable_eos,
+  1430		.parallel_poll = cb7210_parallel_poll,
+  1431		.parallel_poll_configure = cb7210_parallel_poll_configure,
+  1432		.parallel_poll_response = cb7210_parallel_poll_response,
+  1433		.local_parallel_poll_mode = NULL, // XXX
+  1434		.line_status = cb7210_line_status,
+  1435		.update_status = cb7210_update_status,
+  1436		.primary_address = cb7210_primary_address,
+  1437		.secondary_address = cb7210_secondary_address,
+  1438		.serial_poll_response = cb7210_serial_poll_response,
+  1439		.serial_poll_status = cb7210_serial_poll_status,
+  1440		.t1_delay = cb7210_t1_delay,
+  1441		.return_to_local = cb7210_return_to_local,
+  1442	};
+  1443	
+
 -- 
-2.30.2
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
