@@ -1,213 +1,110 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oa1-f51.google.com (mail-oa1-f51.google.com [209.85.160.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35EE518C34B;
-	Thu,  9 Jan 2025 14:49:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0B6221C195
+	for <linux-staging@lists.linux.dev>; Thu,  9 Jan 2025 14:54:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736434150; cv=none; b=e2XlZheynG1TVcNbNDIDAywBg/+sE+KNLHlD+3Eq6tAm+XOY+kzsvAxs+tBdKE9V+SKQWrrDTs2lxTiolG9vMcGKBASp5N6Q+k+uRh2D4FcjGEjAwg5PUFrYRvZIb/YKRdTdYyBXkr1lexoLALUpj3sS8higHZX4K2OT6Ae77K8=
+	t=1736434478; cv=none; b=nCuqe6uls6La9XDupiZlV/pkQEaUtrUpYCablSCf62K97bbwbhNYOAETGU/K7hgF1h+sI+ACmwvix3hlx/CyDo7EY5Utu2fLvrNFj1ziDiROoP+8pBdZ1ikMB0hrkJGwbwX4KwspdlYzUJik3ZuWtGCuk3Xg0LmBdfae6fwAOB8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736434150; c=relaxed/simple;
-	bh=O6fsU0JZahUF5E1dAq6GkWvSrB2t14Uj/4mxy9yau1Y=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WNR+g3bE89m+7y0Oi2f5d8B55gyNXTjZyRaXmzZatRmdhm/NSp7OuetxI60BkArQqggDFGw/NYGZYme4oTVFEhlDaw0Igu7t+b83pTMzbRX0+SLiXmviPQ2vqDtEbATFZDB/6xF9Kef2L2hVhXDMAQfoUsVUYGQrNMf0fotTsME=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Hm0VYv25; arc=none smtp.client-ip=198.175.65.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1736434478; c=relaxed/simple;
+	bh=wOsesOoGMFQwvrii1vVjREg0VcRWtZbQQYagw76DDMs=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Vu+63WOFtkBg99QM1moNl8LioRt0Tt7CpikQF8/vjOZ5z53vZTJ62asSaK0TmB/vLp1A0YrnYAUWlMTwQM+7nWcBsntLosZZcf/1cPHWHE89SRn8vFrhX/DH+6crj+uAWdWa24CoacTCZMf+oPaMyBAKCI1Ux1kfW1MBQwk7/i0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ieee.org; spf=pass smtp.mailfrom=ieee.org; dkim=pass (1024-bit key) header.d=ieee.org header.i=@ieee.org header.b=UPvwU8NZ; arc=none smtp.client-ip=209.85.160.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ieee.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ieee.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Hm0VYv25"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1736434148; x=1767970148;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=O6fsU0JZahUF5E1dAq6GkWvSrB2t14Uj/4mxy9yau1Y=;
-  b=Hm0VYv25f/ACydUiPiC8lOuY8UbVP0AFMYvkCvmtx/AXnP9X1D2qDbgy
-   466NDslVJlvC0N5wMPqDtA0DZ7C1v/N4mCLJaoMRV+eMB7dc7F66+Mn8X
-   XtiIJ9ay0uPmBKR2sH8rT7JUEnh87OmbGwWKPOrCcdu4dvKlLA4YFq4RC
-   Ilejo3QdQWJzm32viy8zTuSnTDkllqWSpJWI/DYV+0oA40MSBCrn1J9tk
-   TgRWooPixZXtCYCDqxK8FDXbDvdhJZ2E9m+pc/kBr1yjLtDk4QlK5+1L3
-   ZfXXZ4BhIySfGZlNYawQItPXuxT//Uf0L4sJECoowWQGwYj4FPXfWQhO2
-   A==;
-X-CSE-ConnectionGUID: xwmsQh5dRdGZSVm6pX2wRA==
-X-CSE-MsgGUID: SimEP/nLQlSyFv8PDD7xCQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11310"; a="36578876"
-X-IronPort-AV: E=Sophos;i="6.12,301,1728975600"; 
-   d="scan'208";a="36578876"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jan 2025 06:49:08 -0800
-X-CSE-ConnectionGUID: TbmdtFvrTUuTDTtJCsBQrg==
-X-CSE-MsgGUID: 8s0WCBz2SKGUDc+9+/fsig==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="140742904"
-Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 09 Jan 2025 06:49:07 -0800
-Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tVtqK-000Hgp-0o;
-	Thu, 09 Jan 2025 14:49:04 +0000
-Date: Thu, 9 Jan 2025 22:48:28 +0800
-From: kernel test robot <lkp@intel.com>
-To: Dave Penkler <dpenkler@gmail.com>, gregkh@linuxfoundation.org,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Dave Penkler <dpenkler@gmail.com>
-Subject: Re: [PATCH v2] staging: gpib: Modernize gpib_interface_t
- initialization and make static
-Message-ID: <202501092221.k9rTlGeN-lkp@intel.com>
-References: <20250108174121.23044-1-dpenkler@gmail.com>
+	dkim=pass (1024-bit key) header.d=ieee.org header.i=@ieee.org header.b="UPvwU8NZ"
+Received: by mail-oa1-f51.google.com with SMTP id 586e51a60fabf-29fb5257e05so366781fac.0
+        for <linux-staging@lists.linux.dev>; Thu, 09 Jan 2025 06:54:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ieee.org; s=google; t=1736434476; x=1737039276; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=5VULE0UjHIqRlagW/OYJxPj5F0JvqA3RxB6BIakMShg=;
+        b=UPvwU8NZu+H1me/9nIfBc3kiaL3GNwO31E/m5vwExgndLTYYvzPQKI/RZtgfNiJDB2
+         VMJlwJNgkx2UVgPfTlfq7iXyHvFvdRgI8J5662p9rTgsBKVD/z6wt1BR3d13fx8cOdB2
+         kXZJFMqduKt2CdwP3k+gb2N2FaYhVswIIQNx8=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1736434476; x=1737039276;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=5VULE0UjHIqRlagW/OYJxPj5F0JvqA3RxB6BIakMShg=;
+        b=SMPEsio6pp8D1RV1kN23ERSTW+TQhI/d0rzvx8/tzMSD9cfu0EZnVicqL0TCmWb0PV
+         IwpcckQ+S1EQmy+vSywSz+QBezJEdqqm/GJS13Vb+Wzd2McMn6azUzJq0JE8jGbNbuJ9
+         QZ+t6L9Ya/fNfT36eitm1Oxrn2Vq2/rtDRLpwLYvVEnW+ZhK0nFMVNshE1NTvdKDRc49
+         1xxKCjsaHwJr8bJk1jDPSyiqTx5GI8yt7WgmDoibErxdbYtGiDoSOs+vYcgXuesq7xEa
+         ryo3KEVZtp0zr/zU04dHYnJcCscEehBpl8Iqz3u4DaI4qjOxBX5ZB3LJeDFSyEd68xNj
+         Z9Vw==
+X-Forwarded-Encrypted: i=1; AJvYcCUdGmYDKmEEsGsZAu5eYFSPET4GBrqGSefYk3msIj2eWGu+n0+YYn+3GHTDY43IwTRyN2VIxpvQpz5sMOIH@lists.linux.dev
+X-Gm-Message-State: AOJu0Yy99mDLV5qZQxlFAh5YK02SZ5E3UL8wcPoJ9hztB9zAGjaD7Vlp
+	2NNExbrUxSYNhTWly/J4YLGScf2Q6KboJJNjeEXuPzjqvhHOGO/e6cHIacI3IQ==
+X-Gm-Gg: ASbGnctx8PNmFNMmufe4i+Mb1OSELiMiR7B0eB/JA72YYneKYFq1sTAZKxf1kcbcdPe
+	LllhS+S0t/Eapu20yTcWiOTlt+Ge7R62IEVuOQQxxG9WDpU+Axbjci+83EYF8wp1ZZDewVoTV2i
+	33AggutNvA436SRCXeMO7oFMprkHkh9WEwJU6OGtCe+oNbCHjOlHaki720TmIAvUPWgaLZ5Ys4D
+	2sxAzpy5lHBp6azir5eeiZBMAcY2z3SSFmnLs/xcdb/5tePkLKqyXNUvVhKzPak2GhT8Ok3i4xe
+	EGpoRiJ++fgZjo4=
+X-Google-Smtp-Source: AGHT+IGX2grguxXy8gLo4Q2N5Rw0zTtUivQW6kIzq7+qZBHhu/OTKNSPcrnL7pgVNEyxcTF+JDsc/Q==
+X-Received: by 2002:a05:6870:b9c7:b0:29e:69d9:8834 with SMTP id 586e51a60fabf-2aa0609b208mr3769848fac.0.1736434474369;
+        Thu, 09 Jan 2025 06:54:34 -0800 (PST)
+Received: from [172.22.22.28] (c-73-228-159-35.hsd1.mn.comcast.net. [73.228.159.35])
+        by smtp.googlemail.com with ESMTPSA id 586e51a60fabf-2ad8059e39esm350832fac.31.2025.01.09.06.54.31
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 09 Jan 2025 06:54:33 -0800 (PST)
+Message-ID: <46653b18-42b1-4511-afad-4f5a15e2fceb@ieee.org>
+Date: Thu, 9 Jan 2025 08:54:30 -0600
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250108174121.23044-1-dpenkler@gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] staging: greybus: remove unnecessary parentheses
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: Will Walsh <iron.will.walsh@gmail.com>,
+ Vaibhav Agarwal <vaibhav.sr@gmail.com>, Mark Greer <mgreer@animalcreek.com>,
+ Johan Hovold <johan@kernel.org>, Alex Elder <elder@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org, outreachy@lists.linux.dev
+References: <20250109003624.37323-1-iron.will.walsh@gmail.com>
+ <ed70a5d5-8e85-495b-9e56-eae472ba3046@ieee.org>
+ <dcf6ec9f-39f2-4729-9250-14eb4d8d2adb@stanley.mountain>
+Content-Language: en-US
+From: Alex Elder <elder@ieee.org>
+In-Reply-To: <dcf6ec9f-39f2-4729-9250-14eb4d8d2adb@stanley.mountain>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Hi Dave,
+On 1/9/25 1:45 AM, Dan Carpenter wrote:
+> On Wed, Jan 08, 2025 at 08:56:50PM -0600, Alex Elder wrote:
+>> On 1/8/25 6:36 PM, Will Walsh wrote:
+>>> Unnecessary parentheses in boolean comparisons make it harder to read.
+>>>
+>>> Removed the extra parentheses on line 305 for code readability.
+>>>
+>>> Signed-off-by: Will Walsh <iron.will.walsh@gmail.com>
+>>
+>> I'm not sure this makes a big difference in readability but I
+>> personally avoid extra parentheses unless adding them makes a
+>> compiler warning go away.
+> 
+> It's not a compiler warning, it checkpatch.
 
-kernel test robot noticed the following build errors:
+I meant compiler "-Wparentheses" warnings, like "suggest
+parentheses around ‘+’ inside ‘<<’".
 
-[auto build test ERROR on staging/staging-testing]
+But anyway, I have no problem with this being rejected,
+it doesn't really add value, and to some, it subtracts.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Dave-Penkler/staging-gpib-Modernize-gpib_interface_t-initialization-and-make-static/20250109-014247
-base:   staging/staging-testing
-patch link:    https://lore.kernel.org/r/20250108174121.23044-1-dpenkler%40gmail.com
-patch subject: [PATCH v2] staging: gpib: Modernize gpib_interface_t initialization and make static
-config: loongarch-allyesconfig (https://download.01.org/0day-ci/archive/20250109/202501092221.k9rTlGeN-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250109/202501092221.k9rTlGeN-lkp@intel.com/reproduce)
+					-Alex
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202501092221.k9rTlGeN-lkp@intel.com/
+> 
+> regards,
+> dan carpenter
+> 
 
-All errors (new ones prefixed by >>):
-
-   drivers/staging/gpib/cb7210/cb7210.c: In function 'cb7210_line_status':
-   drivers/staging/gpib/cb7210/cb7210.c:383:30: warning: variable 'nec_priv' set but not used [-Wunused-but-set-variable]
-     383 |         struct nec7210_priv *nec_priv;
-         |                              ^~~~~~~~
-   drivers/staging/gpib/cb7210/cb7210.c: In function 'cb_gpib_config':
-   drivers/staging/gpib/cb7210/cb7210.c:1265:28: warning: variable 'dev' set but not used [-Wunused-but-set-variable]
-    1265 |         struct local_info *dev;
-         |                            ^~~
-   drivers/staging/gpib/cb7210/cb7210.c:1264:31: warning: variable 'handle' set but not used [-Wunused-but-set-variable]
-    1264 |         struct pcmcia_device *handle;
-         |                               ^~~~~~
-   drivers/staging/gpib/cb7210/cb7210.c: At top level:
->> drivers/staging/gpib/cb7210/cb7210.c:1360:25: error: static declaration of 'cb_pcmcia_unaccel_interface' follows non-static declaration
-    1360 | static gpib_interface_t cb_pcmcia_unaccel_interface = {
-         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   In file included from drivers/staging/gpib/cb7210/cb7210.c:8:
-   drivers/staging/gpib/cb7210/cb7210.h:42:25: note: previous declaration of 'cb_pcmcia_unaccel_interface' with type 'gpib_interface_t' {aka 'struct gpib_interface_struct'}
-      42 | extern gpib_interface_t cb_pcmcia_unaccel_interface;
-         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/staging/gpib/cb7210/cb7210.c:1388:25: error: static declaration of 'cb_pcmcia_interface' follows non-static declaration
-    1388 | static gpib_interface_t cb_pcmcia_interface = {
-         |                         ^~~~~~~~~~~~~~~~~~~
-   drivers/staging/gpib/cb7210/cb7210.h:40:25: note: previous declaration of 'cb_pcmcia_interface' with type 'gpib_interface_t' {aka 'struct gpib_interface_struct'}
-      40 | extern gpib_interface_t cb_pcmcia_interface;
-         |                         ^~~~~~~~~~~~~~~~~~~
->> drivers/staging/gpib/cb7210/cb7210.c:1416:25: error: static declaration of 'cb_pcmcia_accel_interface' follows non-static declaration
-    1416 | static gpib_interface_t cb_pcmcia_accel_interface = {
-         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/staging/gpib/cb7210/cb7210.h:41:25: note: previous declaration of 'cb_pcmcia_accel_interface' with type 'gpib_interface_t' {aka 'struct gpib_interface_struct'}
-      41 | extern gpib_interface_t cb_pcmcia_accel_interface;
-         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~
-
-
-vim +/cb_pcmcia_unaccel_interface +1360 drivers/staging/gpib/cb7210/cb7210.c
-
-  1359	
-> 1360	static gpib_interface_t cb_pcmcia_unaccel_interface = {
-  1361		.name = "cbi_pcmcia_unaccel",
-  1362		.attach = cb_pcmcia_attach,
-  1363		.detach = cb_pcmcia_detach,
-  1364		.read = cb7210_read,
-  1365		.write = cb7210_write,
-  1366		.command = cb7210_command,
-  1367		.take_control = cb7210_take_control,
-  1368		.go_to_standby = cb7210_go_to_standby,
-  1369		.request_system_control = cb7210_request_system_control,
-  1370		.interface_clear = cb7210_interface_clear,
-  1371		.remote_enable = cb7210_remote_enable,
-  1372		.enable_eos = cb7210_enable_eos,
-  1373		.disable_eos = cb7210_disable_eos,
-  1374		.parallel_poll = cb7210_parallel_poll,
-  1375		.parallel_poll_configure = cb7210_parallel_poll_configure,
-  1376		.parallel_poll_response = cb7210_parallel_poll_response,
-  1377		.local_parallel_poll_mode = NULL, // XXX
-  1378		.line_status = cb7210_line_status,
-  1379		.update_status = cb7210_update_status,
-  1380		.primary_address = cb7210_primary_address,
-  1381		.secondary_address = cb7210_secondary_address,
-  1382		.serial_poll_response = cb7210_serial_poll_response,
-  1383		.serial_poll_status = cb7210_serial_poll_status,
-  1384		.t1_delay = cb7210_t1_delay,
-  1385		.return_to_local = cb7210_return_to_local,
-  1386	};
-  1387	
-> 1388	static gpib_interface_t cb_pcmcia_interface = {
-  1389		.name = "cbi_pcmcia",
-  1390		.attach = cb_pcmcia_attach,
-  1391		.detach = cb_pcmcia_detach,
-  1392		.read = cb7210_accel_read,
-  1393		.write = cb7210_accel_write,
-  1394		.command = cb7210_command,
-  1395		.take_control = cb7210_take_control,
-  1396		.go_to_standby = cb7210_go_to_standby,
-  1397		.request_system_control = cb7210_request_system_control,
-  1398		.interface_clear = cb7210_interface_clear,
-  1399		.remote_enable = cb7210_remote_enable,
-  1400		.enable_eos = cb7210_enable_eos,
-  1401		.disable_eos = cb7210_disable_eos,
-  1402		.parallel_poll = cb7210_parallel_poll,
-  1403		.parallel_poll_configure = cb7210_parallel_poll_configure,
-  1404		.parallel_poll_response = cb7210_parallel_poll_response,
-  1405		.local_parallel_poll_mode = NULL, // XXX
-  1406		.line_status = cb7210_line_status,
-  1407		.update_status = cb7210_update_status,
-  1408		.primary_address = cb7210_primary_address,
-  1409		.secondary_address = cb7210_secondary_address,
-  1410		.serial_poll_response = cb7210_serial_poll_response,
-  1411		.serial_poll_status = cb7210_serial_poll_status,
-  1412		.t1_delay = cb7210_t1_delay,
-  1413		.return_to_local = cb7210_return_to_local,
-  1414	};
-  1415	
-> 1416	static gpib_interface_t cb_pcmcia_accel_interface = {
-  1417		.name = "cbi_pcmcia_accel",
-  1418		.attach = cb_pcmcia_attach,
-  1419		.detach = cb_pcmcia_detach,
-  1420		.read = cb7210_accel_read,
-  1421		.write = cb7210_accel_write,
-  1422		.command = cb7210_command,
-  1423		.take_control = cb7210_take_control,
-  1424		.go_to_standby = cb7210_go_to_standby,
-  1425		.request_system_control = cb7210_request_system_control,
-  1426		.interface_clear = cb7210_interface_clear,
-  1427		.remote_enable = cb7210_remote_enable,
-  1428		.enable_eos = cb7210_enable_eos,
-  1429		.disable_eos = cb7210_disable_eos,
-  1430		.parallel_poll = cb7210_parallel_poll,
-  1431		.parallel_poll_configure = cb7210_parallel_poll_configure,
-  1432		.parallel_poll_response = cb7210_parallel_poll_response,
-  1433		.local_parallel_poll_mode = NULL, // XXX
-  1434		.line_status = cb7210_line_status,
-  1435		.update_status = cb7210_update_status,
-  1436		.primary_address = cb7210_primary_address,
-  1437		.secondary_address = cb7210_secondary_address,
-  1438		.serial_poll_response = cb7210_serial_poll_response,
-  1439		.serial_poll_status = cb7210_serial_poll_status,
-  1440		.t1_delay = cb7210_t1_delay,
-  1441		.return_to_local = cb7210_return_to_local,
-  1442	};
-  1443	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
