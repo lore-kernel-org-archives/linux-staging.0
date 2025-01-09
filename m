@@ -1,110 +1,119 @@
-Received: from mail-il1-f175.google.com (mail-il1-f175.google.com [209.85.166.175])
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D139439AEB
-	for <linux-staging@lists.linux.dev>; Thu,  9 Jan 2025 02:56:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86609214802
+	for <linux-staging@lists.linux.dev>; Thu,  9 Jan 2025 07:43:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736391416; cv=none; b=Gf/+Uuyg7yHLwWgxgDE82n0dUxhZj23gVESuPn1qcFRnNE84v0jpc84z8sso0w1yDxPEaGK+Qz5NUvIZMa2b4E10nAMMqdy3OjCeMbpW4wJQ2ZmRoeppH+RMfI4p1Va8AYEvrO6lWJN2VRBK082ixi45bNYEgfPEMbillEwui2U=
+	t=1736408623; cv=none; b=US4iSZGzP0QEBRHhhZ9fmBJS1PYb4PITV6Fw4dmfYPi08J+VAYeBGd8PqXKORIi395Hkumc421FcyQPVjZovVwoIpb3Dlca6XGLQHkA3SKoP57pXOZWTVrYJ9IA8NacixUYYdmny4D5gN62AdMjmtCCw3lL7OcnDC849p20euM8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736391416; c=relaxed/simple;
-	bh=9B8YRNjUJJIAtie6xNtNUlo59KixKJFSb9y515QztWE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=aqZ3DJiDNSMWZj2xVasns1xYk2LHJpRUa3ebATG503j6pNElJ2nI9YnR/HzMHunHWQCKbHYSKmRhh94NyKLmeC1qnhWZLJlrUrKiGegvaJVT5t77wCCFQzTbIiVTvFmTXdiouxf4qP3zzoBMdzBBtLm5zj7wC/4fz2+32HTClKs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ieee.org; spf=pass smtp.mailfrom=ieee.org; dkim=pass (1024-bit key) header.d=ieee.org header.i=@ieee.org header.b=K7ylyqX1; arc=none smtp.client-ip=209.85.166.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ieee.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ieee.org
+	s=arc-20240116; t=1736408623; c=relaxed/simple;
+	bh=o8I4CKv2t24jZedmnbTtU4Gs3sA5LsC+rd6Kogi6hbk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Er2YQ7fx9bJWKSImTbWFhlZS8LBRWb1BnILCJlPAaIxzSv+fBfgOX7su+9azOAM8x4Ac6y3APEr9Bv5uztHGlxzuJhhh+YhyIALpJBM0BKNyjOZu8z2+FGquQ9c8zLhPlBEGybZzBrzRHdS3XBISza4OrjUKsTWYn4N3MNiffMs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=sRZzYt/A; arc=none smtp.client-ip=209.85.128.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ieee.org header.i=@ieee.org header.b="K7ylyqX1"
-Received: by mail-il1-f175.google.com with SMTP id e9e14a558f8ab-3a9cb8460f7so2694315ab.2
-        for <linux-staging@lists.linux.dev>; Wed, 08 Jan 2025 18:56:54 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="sRZzYt/A"
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-436a03197b2so4298235e9.2
+        for <linux-staging@lists.linux.dev>; Wed, 08 Jan 2025 23:43:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ieee.org; s=google; t=1736391414; x=1736996214; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=OQoas5DH36I60K0+5Ey1X6fUKABteJPmp5UP7F+QaHc=;
-        b=K7ylyqX1Z65mnZByV6sBrtuJHNU0oS86hMxa8H4LhZgTMArBIEm6urX7STHFgX6nB+
-         m8U5vOPH+7s/YNFg1Sg8ZvHwpPTlWQrx9K+8Oc15JHc5hLLEiJyMEZBpBiK3Jc3s1QFv
-         zvH9hpKOxoIDLO0+3btmGHrO8QqwnR9eUyQDs=
+        d=linaro.org; s=google; t=1736408620; x=1737013420; darn=lists.linux.dev;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=jh+wwxjIWe7Gi85zIpTYnZ3FRcd2JxnVHEsCva5iTpU=;
+        b=sRZzYt/Ax0EBYlZaNPRI4zgypitxhNwMGZ+MPQAWK48v8xblnesG6eRZkqrhA7T4A9
+         8HBuDRr9UyRBqFJBzmybVpXBLcdWda+faV6A20iglOeFK14U2fEb6YvkZkitX5jEuCaQ
+         NfDDvdxf4KZQWJ7ysyWhM/av9eufQBhuJMOJWTOD/ugqCermxIyj6weFSHQmkS83T+WI
+         DJFBuXl0JZe40l381kwAWLOSrrbe5v5kV2ZCmzPww1dPo0pNZ5YfErnpUGeqvKoTKXIi
+         Pnjladw6dV1awYQW0A+HyeVDgJmh2DvwhJEkb0ZfVjOcXw1y5qxccvvug6+PTqpDWnkd
+         Wf8Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736391414; x=1736996214;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id
+        d=1e100.net; s=20230601; t=1736408620; x=1737013420;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=OQoas5DH36I60K0+5Ey1X6fUKABteJPmp5UP7F+QaHc=;
-        b=Ranc3WpwwIzMYFmNMBlL7gbK1krIkZ6nldDM6bFZ+YjDrl/BuCWNeU0Gs7sollXVt3
-         3HMmqlX0aLY+DYobWmex1jEXf0xPBNWD53n2FS+ImOu0tcKyKrd6+sERXsYaMJgQfBG4
-         sdk9JPUUL3fpBx+t676jcMVMpbFYQNzCj1l7UcIxrYq7O9BaKz8FDk064nvzV3mYiOaH
-         qFbXPhSjXOOpgqVfKYkUFt4IRej+HQO8qXUEMtUqsSPSsFTxt3WxNzCYdZT7zE3mvFy3
-         tNk3GvhldaARHZrE0XQesoE0xVivT6DffQFTCm5iDbHI2aw3WWT6OooXn9j/iSj5itX+
-         i4ng==
-X-Forwarded-Encrypted: i=1; AJvYcCUGfFGuLkChySdJmULXn+/uM8FQS6GCyDxoGjulWG2Cmolw5XXIMLrGucPly+vx906l+cx/bDp2AeWy7tTy@lists.linux.dev
-X-Gm-Message-State: AOJu0YzUzJzwHaAIDoQOGKtiIb8MfL8coaquBIO2DHdheY97bUQwDtub
-	We7WJ46CjD7ldUhmvlyrsI+ix91D1f7VJIkX4jrpLy/TZ3GxzxT64AxsDii6yg==
-X-Gm-Gg: ASbGncus4qz6Dpx3mBCMY2AWC5GfVMhPcsvq8tVBnAmCoBApWjy0f92lLY53eZP/95I
-	mth5kBNO4L+HnCmgXYG5wFqbc/sbRCZRhjr3sqmbxt75Un5bl4xOu6RnkDozhWp/YKiO69WmP46
-	hawVD566TiNRvJUmPhCL0q9A07Veips4p+Cy27o/OlGcZFfFx5oFYKPKeJxR3cFedrjsrFjwQjG
-	9zsd94UaDRu4SMJU+fURU86PIrWMVmKoZJDowzJFTvQQ9SixiHMNBkRZ2EM7asoCzzpiq4yaKSq
-	QlctRhELOOyQtFdvlXtX+za1
-X-Google-Smtp-Source: AGHT+IEajqyZSFI6x8zRKHY2KDK0g90kONHNeVJTjiY08S3QtHt3Nsi+T1PC6jWHNCj/IPMZsGntjw==
-X-Received: by 2002:a05:6e02:1f8a:b0:3a7:e528:6f1e with SMTP id e9e14a558f8ab-3ce3a8880c6mr40555375ab.11.1736391413895;
-        Wed, 08 Jan 2025 18:56:53 -0800 (PST)
-Received: from [10.211.55.5] (c-73-228-159-35.hsd1.mn.comcast.net. [73.228.159.35])
-        by smtp.googlemail.com with ESMTPSA id 8926c6da1cb9f-4ea1b7458f8sm86608173.137.2025.01.08.18.56.51
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 08 Jan 2025 18:56:52 -0800 (PST)
-Message-ID: <ed70a5d5-8e85-495b-9e56-eae472ba3046@ieee.org>
-Date: Wed, 8 Jan 2025 20:56:50 -0600
+        bh=jh+wwxjIWe7Gi85zIpTYnZ3FRcd2JxnVHEsCva5iTpU=;
+        b=ZeEUf/ujcMg6j0YXrknqEDKWVlB+EJw1fox2BA9pyjzB8Vhs2iRj1NkIt8N7eVcbK+
+         GXmeEFqcYMUolM3tT9pUPAKg4NDwLkNo34+gfO2aZ9vNI8CZhXvW+9mK40yBgWcqs1y7
+         gfcIm9kLat7nTW/oSMOaCICbp2sy39n9PM1Nhu9jKB5SYkyMbqK6kkYVbb/XSLRg9DKw
+         lklbPbbiqyx9JLC4KO+qG4rzDAvyhAMdmiE3M1UbWUa1vi1RossLV/6eNU/n+yOhXZ5y
+         m/VONrQJy0MBG6bQwOzCKc85/N6MNkz3+OyeWpgLmxEnDhwlb/Tm4ciFyxH+kENcZAzx
+         luBA==
+X-Forwarded-Encrypted: i=1; AJvYcCVMZrRiJllBhEg7JeWQnasP/ZFqy8GwO3PI2ybMHs7Jxd6nX/Bxy/S++3CWFUr6h7jABIaqoy39PFTohM8+@lists.linux.dev
+X-Gm-Message-State: AOJu0YzbsXowsUlkZ76IdYJT+yokqkMPUqaPUng7/FnYAMADQ9o0Ahq+
+	7OYOYmr2K0gCCfnISyLOVgNHDBn8jdshQ0YbtVri8GxXcOj5pW26vzIJerRIEFSb53MEOd8uwXJ
+	f
+X-Gm-Gg: ASbGnctbAc0mgW3XCxsF6/83yATym6cpPja+Hh2T2rXjVGYEBBD0bP5HsiwJL4F55u8
+	n4gim1+EWIpA6+U7gSgzmfOGMjyU5NgKTfr0rlgUsR1AZV8f6zxdUYmTFEliE1SXP2O+g5LSxGG
+	GldT3h0JDCQ8+F4TfdIxVrQFYTrZWQiY0pMwemlN/AO+4sX8o8vMrPAaD2vOHadnLUvhfXVZead
+	SuHRpLbSsbx+8rdFKHpjFv6iIZM6BoKJZA61eKERsZURpTMqrDTqSHYinIzww==
+X-Google-Smtp-Source: AGHT+IG9Emr+GDLnC8gqqwHA+S34356wIMM4OfWPXphI8Xzji2jA9fchokaaaeT7GvxQmyRqyXJn3w==
+X-Received: by 2002:adf:9b99:0:b0:38a:6929:ff9e with SMTP id ffacd0b85a97d-38a872d2bbemr3513005f8f.7.1736408619837;
+        Wed, 08 Jan 2025 23:43:39 -0800 (PST)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38a8e38c7aesm1036006f8f.53.2025.01.08.23.43.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 08 Jan 2025 23:43:38 -0800 (PST)
+Date: Thu, 9 Jan 2025 10:43:35 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Sandeep Salwan <salwansandeep5@gmail.com>
+Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: gpib: Remove commented-out line entirely (v2)
+Message-ID: <d17e78a2-ad49-42da-a0d4-56c2f28baee4@stanley.mountain>
+References: <20250108211127.13963-1-salwansandeep5@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] staging: greybus: remove unnecessary parentheses
-To: Will Walsh <iron.will.walsh@gmail.com>,
- Vaibhav Agarwal <vaibhav.sr@gmail.com>, Mark Greer <mgreer@animalcreek.com>,
- Johan Hovold <johan@kernel.org>, Alex Elder <elder@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org, outreachy@lists.linux.dev
-References: <20250109003624.37323-1-iron.will.walsh@gmail.com>
-Content-Language: en-US
-From: Alex Elder <elder@ieee.org>
-In-Reply-To: <20250109003624.37323-1-iron.will.walsh@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250108211127.13963-1-salwansandeep5@gmail.com>
 
-On 1/8/25 6:36 PM, Will Walsh wrote:
-> Unnecessary parentheses in boolean comparisons make it harder to read.
+On Wed, Jan 08, 2025 at 04:11:27PM -0500, Sandeep Salwan wrote:
+> Per Greg’s feedback, remove the line instead of leaving it as a comment.
+> It's not needed for debugging, so let's delete it completely. Thanks.
+
+This isn't how we typically write commit messages.  Instead say:
+This code has some debug code which is commented out.  Delete it.
+
 > 
-> Removed the extra parentheses on line 305 for code readability.
-> 
-> Signed-off-by: Will Walsh <iron.will.walsh@gmail.com>
+> Signed-off-by: Sandeep Salwan <salwansandeep5@gmail.com>
 
-I'm not sure this makes a big difference in readability but I
-personally avoid extra parentheses unless adding them makes a
-compiler warning go away.
-
-Reviewed-by: Alex Elder <elder@kernel.org>
+There is a specific formula for v2 patches:
+https://staticthinking.wordpress.com/2022/07/27/how-to-send-a-v2-patch/
 
 > ---
->   drivers/staging/greybus/audio_codec.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
+>  drivers/staging/gpib/agilent_82350b/agilent_82350b.c | 4 ----
+>  1 file changed, 4 deletions(-)
 > 
-> diff --git a/drivers/staging/greybus/audio_codec.c b/drivers/staging/greybus/audio_codec.c
-> index 2f05e761fb9a..dfb5322964de 100644
-> --- a/drivers/staging/greybus/audio_codec.c
-> +++ b/drivers/staging/greybus/audio_codec.c
-> @@ -305,7 +305,7 @@ int gbaudio_module_update(struct gbaudio_codec_info *codec,
->   	dev_dbg(module->dev, "%s:Module update %s sequence\n", w->name,
->   		enable ? "Enable" : "Disable");
->   
-> -	if ((w->id != snd_soc_dapm_aif_in) && (w->id != snd_soc_dapm_aif_out)) {
-> +	if (w->id != snd_soc_dapm_aif_in && w->id != snd_soc_dapm_aif_out) {
->   		dev_dbg(codec->dev, "No action required for %s\n", w->name);
->   		return 0;
->   	}
+> diff --git a/drivers/staging/gpib/agilent_82350b/agilent_82350b.c b/drivers/staging/gpib/agilent_82350b/agilent_82350b.c
+> index 3cd01613d067..7ba968e24add 100644
+> --- a/drivers/staging/gpib/agilent_82350b/agilent_82350b.c
+> +++ b/drivers/staging/gpib/agilent_82350b/agilent_82350b.c
+> @@ -31,10 +31,6 @@ int agilent_82350b_accel_read(gpib_board_t *board, uint8_t *buffer, size_t lengt
+>  	int i, num_fifo_bytes;
+>  	//hardware doesn't support checking for end-of-string character when using fifo
+>  	if (tms_priv->eos_flags & REOS) {
+> -		/*
+> -		 * pr_info("ag-rd: using tms9914 read for REOS %x EOS %x\n",tms_priv->eos_flags,
+> -		 * tms_priv->eos);
+> -		 */
+>  		return tms9914_read(board, tms_priv, buffer, length, end, bytes_read);
+>  	}
+
+Now that you have deleted the commented out code, the curly braces need
+to be deleted as well.  You don't need to mention this in the commit
+message.  It is obvious and assumed.
+
+Please send a v3 of this patch.
+
+regards,
+dan carpenter
 
