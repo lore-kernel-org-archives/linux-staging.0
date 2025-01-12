@@ -1,112 +1,138 @@
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6AA461A9B49
-	for <linux-staging@lists.linux.dev>; Sat, 11 Jan 2025 16:15:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7D921B4F21;
+	Sun, 12 Jan 2025 14:05:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1736612154; cv=none; b=gddqFTT6iCTQQ90kQsl+Tr2ZyoqKa6hE6SvNi+0nuFL/ZCP8XyiwWJYm/2magj1eoCrtVi3PVl8J90/ueplnwrFAYRUdm1ZlZueMfEGahzQk+C0qF5e50No9jqmUnn5Hxi7fZEjj1Y+/EM+XsfqUcH47rlKoYbvXFak7zRi9/ts=
+	t=1736690751; cv=none; b=GaEKDmKvwJpO7V9wY9aFaGGVktJdU5f1EeOClqWWzuoe+iYun08SDexYApdPBpO1wlqLSwnd9R0MBFmq9biltisdln9XeSPBkkMkfgHzwYB169KhnUx03ct4FanUEsUFiTUqBsMGgAfkUP/TGHPI3OWTgayIvbOJKftfduCvIqw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1736612154; c=relaxed/simple;
-	bh=OI68onKi6KoJtopdFkSsGF2khOUuq6xNaRWnaWzYi6g=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=QdWVBN+qmWIz1xFiunDPsBzWdGKD9zGsL0LF6Uh7WS6zO3E6tqoa2LzDNmBiRp3r4xAKZ79Nsap7fpaiFPvYmCc2THww8xcU2lKZj7YKTO1ZisU8xSeRoKCta14DK1IzjQqzj7MIPjuhPXrRX5dHXpqZllElucwl7388vjTcP9M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WwDjXfM9; arc=none smtp.client-ip=209.85.221.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1736690751; c=relaxed/simple;
+	bh=86kaDfOY62xlzjVV9X5PuVZgXxgCzzaneNy3EaVKF88=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=TNukI3TOc+GMt75NV1tBf7J01A9LmLuLpq61rIYlG0UF8kW1WnNtzdd8VEsrTlkpF8aL+2gu1ZMkQT7LH1ZBN+e8ypG065taBAsCHKCgzoWqsl6IyBP3e4Q2PXJ3PSerr9V4k8BdUQvpEMczXC5gcYTHjejFefwQVyXCHrfHYhI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=xMWVVtLe; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WwDjXfM9"
-Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-385de9f789cso2115886f8f.2
-        for <linux-staging@lists.linux.dev>; Sat, 11 Jan 2025 08:15:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1736612151; x=1737216951; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=XLNrcx9cjynqqzuzB4NpWA0HHiIsSv6AxtzMCkQZk1s=;
-        b=WwDjXfM9goc2JO8RPmFk3OfNVcPoX/eUCVn73z86NZWhFgmhhfQ/PTOvb4a7+kOWnz
-         fdQKdPbTKjctLo23s7do8zq2QeDVJ5JJEiDU+rDi083+cUsPZwNwDRuUkus4sOVCcvhZ
-         tCtt+qzNV36gv3x7TuYOcK42ZbxpbZ7J4R8AohYt1TUdcGi7VaQqT3o22auRhVmTXgAv
-         XYXqaEIHIi4qlXDaZAzREFxt2jiU5zRQwaFPKgN2kXb7XATUwJhBHU2WsKsmxRnCa52v
-         XeNCiIWCS59vKIVNkBAP4OzVVKNlnTORORLIWHo60hG3Jtbqw/FCLvX36sl5mjm+hIAc
-         GZ1w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1736612151; x=1737216951;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=XLNrcx9cjynqqzuzB4NpWA0HHiIsSv6AxtzMCkQZk1s=;
-        b=N7L8w2u5TLIFwLqNAI6aPWrzI1V0PA7wcrb+ei5Lhdg5+ljk66G6cEBTf/0Q8KlyWY
-         IcuYoP8EYliQrBdpPXyiC4/58G9VIxeIKORPJayK44kLf/+JOLFcGrlA0eYHba2Zv0SQ
-         j1QGRyW7rSkoOtENPg8x+GNuKxYG6jaW07TmG6OScUMhNSLyEz4rka8CP0X3DtgTbXpB
-         xzjCJW/+yOrwn5BbA/GQ1uo1mbS5Gw2T0pgJaXQ8yNIgai5Rkz5/vtaRPToqDBo0Ki80
-         V9FVi8ePHIRIffGxV/dUixuR8+OIQDE2vVteFxrC7/BSXPwD1AC5kqFBtRqk+bHNyPXk
-         utzA==
-X-Forwarded-Encrypted: i=1; AJvYcCUEK6VdmuWsqoiBRQ7KHFvnvx4zNKWOfsWILAvUiSYMZDDWb3pK70CVGGB55GIc8c0JHp2Z4fasN4X+YBNB@lists.linux.dev
-X-Gm-Message-State: AOJu0YzpPw2mRaYarW6rykEMlmDV73+bX1JuStJiezROwyrqco9oE7+y
-	kQUfopa6d8QnzYiL1gRycscQ5rfHwf3l/40rhSgpvsSw5gCBd1rx
-X-Gm-Gg: ASbGncuPRPLHSxJYxLmo2mdMREHZiwWl0uMyu4noM0o1wki3AXumt3uzZriYlKzRKCi
-	qm3bd/aMekjyVNWA7QxGPkhux7hExdIM1h26c6oLwjlQJ2dkqwWRczXtPv+DpsjzBDT+JoSztZL
-	EzxehZZxwz2f8JP6W4/6dkFz9gYdufQZyYtrZo3ICxm/RPdCCoVF7+a1+UMZw4kfzaPt0/iIESE
-	u8Za73QFQohyXFctBXWA4d1grIN84MV4H0dzvZe3bkWYXEacRYgGmgc7YLAtaxKR1CoumMZb8V0
-	TLUBTIilXY7/fhYY
-X-Google-Smtp-Source: AGHT+IEUChZgtpBjDlM2swaLKM2R4wrNHUEikBNxyzZVL/fE7uEOs5QujBKNP/q4E4vMj0WslPyUEQ==
-X-Received: by 2002:a05:6000:401f:b0:385:f7d9:99f5 with SMTP id ffacd0b85a97d-38a87316b7emr13412096f8f.51.1736612150599;
-        Sat, 11 Jan 2025 08:15:50 -0800 (PST)
-Received: from localhost.localdomain (82-64-73-52.subs.proxad.net. [82.64.73.52])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38a8e38bf65sm7493122f8f.49.2025.01.11.08.15.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 11 Jan 2025 08:15:50 -0800 (PST)
-From: Dave Penkler <dpenkler@gmail.com>
-To: gregkh@linuxfoundation.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Cc: Dave Penkler <dpenkler@gmail.com>,
-	kernel test robot <lkp@intel.com>,
-	Dan Carpenter <dan.carpenter@linaro.org>
-Subject: [PATCH v3] staging: gpib: Add missing mutex unlock in ni usb driver
-Date: Sat, 11 Jan 2025 17:15:48 +0100
-Message-ID: <20250111161548.27601-1-dpenkler@gmail.com>
-X-Mailer: git-send-email 2.47.1
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="xMWVVtLe"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C7C5AC4CEDF;
+	Sun, 12 Jan 2025 14:05:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1736690751;
+	bh=86kaDfOY62xlzjVV9X5PuVZgXxgCzzaneNy3EaVKF88=;
+	h=Date:From:To:Cc:Subject:From;
+	b=xMWVVtLe3T5s4llZxBkYtDIUkOLo/T294toyCzL966r/0n2B1JE3nODd7lNniL4RG
+	 n34pTcKPOrGio3W/Io/wQNrloWMKOcLS9w3eBXO6GJmEp7ng5LfdfoCOX65NDL+yrg
+	 njuDMTpvNgtKej0XhRXXw9rGhQg2On+WjPrlleBI=
+Date: Sun, 12 Jan 2025 15:05:47 +0100
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Linus Torvalds <torvalds@linux-foundation.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Stephen Rothwell <sfr@canb.auug.org.au>
+Cc: linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
+Subject: [GIT PULL] Staging driver fixes for 6.13-rc7
+Message-ID: <Z4PMO3PX6837NuL6@kroah.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-When the buffer allocation for return data in ni_usb_write() fails
-we were returning without unlocking the addressed_transfer_lock.
+The following changes since commit 78d4f34e2115b517bcbfe7ec0d018bbbb6f9b0b8:
 
-Add the unlock call.
+  Linux 6.13-rc3 (2024-12-15 15:58:23 -0800)
 
-This was detected by smatch:
-New smatch warnings:
-drivers/staging/gpib/ni_usb/ni_usb_gpib.c:837 ni_usb_write() warn: inconsistent returns '&ni_priv->addressed_transfer_lock'.
+are available in the Git repository at:
 
-Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-Closes: https://lore.kernel.org/r/202412201550.9NCO57Ye-lkp@intel.com/
-Signed-off-by: Dave Penkler <dpenkler@gmail.com>
----
- drivers/staging/gpib/ni_usb/ni_usb_gpib.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+  git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git tags/staging-6.13-rc7
 
-diff --git a/drivers/staging/gpib/ni_usb/ni_usb_gpib.c b/drivers/staging/gpib/ni_usb/ni_usb_gpib.c
-index 2c0a0d7e36c6..d0656dc520f5 100644
---- a/drivers/staging/gpib/ni_usb/ni_usb_gpib.c
-+++ b/drivers/staging/gpib/ni_usb/ni_usb_gpib.c
-@@ -783,8 +783,10 @@ static int ni_usb_write(gpib_board_t *board, uint8_t *buffer, size_t length,
- 	}
- 
- 	in_data = kmalloc(in_data_length, GFP_KERNEL);
--	if (!in_data)
-+	if (!in_data) {
-+		mutex_unlock(&ni_priv->addressed_transfer_lock);
- 		return -ENOMEM;
-+	}
- 	retval = ni_usb_receive_bulk_msg(ni_priv, in_data, in_data_length, &usb_bytes_read,
- 					 ni_usb_timeout_msecs(board->usec_timeout), 1);
- 
--- 
-2.47.1
+for you to fetch changes up to 6f79db028e827b023623a6ff825952e0d5fb619f:
 
+  staging: gpib: mite: remove unused global functions (2025-01-08 13:15:52 +0100)
+
+----------------------------------------------------------------
+Staging driver fixes for 6.13-rc7
+
+Here are some small staging driver fixes that resolve some reported
+issues and have been in my tree for too long due to the holiday break.
+They resolve the following issues:
+  - lots of gpib build-time fixes as reported by testers and 0-day
+  - gpib logical fixes
+  - mailmap fix (already in your tree, but git merge should handle it.)
+
+All of these have been in linux-next for a while, with no reported
+issues other than the duplicated change.
+
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+
+----------------------------------------------------------------
+Arnd Bergmann (6):
+      staging: gpib: make global 'usec_diff' functions static
+      staging: gpib: fix Makefiles
+      staging: gpib: add module author and description fields
+      staging: gpib: fix pcmcia dependencies
+      staging: gpib: use ioport_map
+      staging: gpib: fix address space mixup
+
+Bingwu Zhang (1):
+      mailmap: update Bingwu Zhang's email address
+
+Dave Penkler (2):
+      staging: gpib: Fix erroneous removal of blank before newline
+      staging: gpib: Add lower bound check for secondary address
+
+Greg Kroah-Hartman (1):
+      staging: gpib: mite: remove unused global functions
+
+Jiapeng Chong (1):
+      staging: gpib: Modify mismatched function name
+
+Lukas Bulwahn (1):
+      staging: gpib: refer to correct config symbol in tnt4882 Makefile
+
+ .mailmap                                           |  2 +
+ drivers/staging/gpib/Kconfig                       |  8 ++-
+ drivers/staging/gpib/agilent_82350b/Makefile       |  2 +-
+ .../staging/gpib/agilent_82350b/agilent_82350b.c   |  4 +-
+ drivers/staging/gpib/agilent_82357a/Makefile       |  2 +-
+ drivers/staging/gpib/cb7210/Makefile               |  2 +-
+ drivers/staging/gpib/cb7210/cb7210.c               | 12 ++--
+ drivers/staging/gpib/cb7210/cb7210.h               |  4 +-
+ drivers/staging/gpib/cec/Makefile                  |  2 +-
+ drivers/staging/gpib/cec/cec_gpib.c                |  4 +-
+ drivers/staging/gpib/common/Makefile               |  2 +-
+ drivers/staging/gpib/common/gpib_os.c              | 54 +----------------
+ drivers/staging/gpib/eastwood/Makefile             |  2 +-
+ drivers/staging/gpib/eastwood/fluke_gpib.c         | 12 ++--
+ drivers/staging/gpib/eastwood/fluke_gpib.h         |  4 +-
+ drivers/staging/gpib/fmh_gpib/fmh_gpib.c           | 27 +++++----
+ drivers/staging/gpib/fmh_gpib/fmh_gpib.h           |  4 +-
+ drivers/staging/gpib/gpio/Makefile                 |  2 +-
+ drivers/staging/gpib/gpio/gpib_bitbang.c           |  2 +-
+ drivers/staging/gpib/hp_82335/Makefile             |  2 +-
+ drivers/staging/gpib/hp_82335/hp82335.c            | 21 +++----
+ drivers/staging/gpib/hp_82341/Makefile             |  2 +-
+ drivers/staging/gpib/hp_82341/hp_82341.c           | 16 ++---
+ drivers/staging/gpib/include/gpibP.h               | 12 +---
+ drivers/staging/gpib/include/gpib_types.h          |  3 +-
+ drivers/staging/gpib/include/nec7210.h             |  5 +-
+ drivers/staging/gpib/include/tms9914.h             |  5 +-
+ drivers/staging/gpib/ines/Makefile                 |  2 +-
+ drivers/staging/gpib/ines/ines.h                   |  4 +-
+ drivers/staging/gpib/ines/ines_gpib.c              | 22 +++----
+ drivers/staging/gpib/lpvo_usb_gpib/Makefile        |  2 +-
+ drivers/staging/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c | 18 +++---
+ drivers/staging/gpib/nec7210/Makefile              |  2 +-
+ drivers/staging/gpib/nec7210/nec7210.c             | 16 ++---
+ drivers/staging/gpib/ni_usb/Makefile               |  2 +-
+ drivers/staging/gpib/pc2/Makefile                  |  2 +-
+ drivers/staging/gpib/pc2/pc2_gpib.c                | 16 ++---
+ drivers/staging/gpib/tms9914/Makefile              |  2 +-
+ drivers/staging/gpib/tms9914/tms9914.c             |  8 +--
+ drivers/staging/gpib/tnt4882/Makefile              |  2 +-
+ drivers/staging/gpib/tnt4882/mite.c                | 69 ----------------------
+ drivers/staging/gpib/tnt4882/mite.h                | 13 +---
+ drivers/staging/gpib/tnt4882/tnt4882_gpib.c        | 67 ++++++++++-----------
+ 43 files changed, 167 insertions(+), 297 deletions(-)
