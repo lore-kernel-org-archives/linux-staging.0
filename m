@@ -1,123 +1,162 @@
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE34E1E3DEB
-	for <linux-staging@lists.linux.dev>; Mon, 20 Jan 2025 14:52:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0ABE81E0DAF
+	for <linux-staging@lists.linux.dev>; Mon, 20 Jan 2025 15:15:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737384778; cv=none; b=qM1Y7AgTaw9hMCTgWgELlRTvX2N2DCY8AqhcM+Gf+1kssfpA3J+HdWV6dUz8cd3QvHr1SqtOQb0QIivxKfOKCsi+H3eGyUsAFZeeuQWYJ66aXwdeLIqLIgpFtPgHSTknpFHJStH1Dq+q2yPDdhpFoU49d7j6PkO1ae+TLAxofvE=
+	t=1737386124; cv=none; b=jTVWf1ln18cQTe32Oeck6nihOCxHKwJ3N4Q+/CoAYMCX8K9SLqJ5KRcX2S0NzicwUqLb4j/3JdAqzkfkeF2+OdJjYpt1ZSPbC9Nq9JTYXHQqbayuQT8xcihIMl6upTDfXCSaansgRtJSc7FT4huehvHv1PBjuKS32QXBoBGFmvY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737384778; c=relaxed/simple;
-	bh=QDc8x9r37GU/iPsqZdSzA4IMotb1DbSARr1kdyfx6wc=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=WoYHRnijen9OSBvntyvoAKLBCd5/ZIt4astQcuqv9AU09IoBUFzOc3tOYha2EEtq7bYrWIQtRVlexlPV9anSzK3gufgPLfky4fUQrN9tNt1MSuZcgqeO5XIuOeSbHPTCAT6DsBPUhMnHv9TXKyzJdjibnQk+LyE4xPjPHXZxUCQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MBpt3veY; arc=none smtp.client-ip=209.85.128.44
+	s=arc-20240116; t=1737386124; c=relaxed/simple;
+	bh=pdfD+WMJzLpldEAxMBN+beptAi+MOuTFE9aVXXo20RY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=VZ9OO+uOymbP7oh0e3xkrpctnhhIf5FmPOW0CD9XNzAkwIJfcg3ey+yNzBIKvOgdGEBV/CE+FedPYzkuoatNVhooOXAyARXYBihjrlcfZZmWycDlHi38O0Y/lsSrSy8sf1TP/auMVr91Cmh7z+D7XZlN7TDN8TEaMGp3UB1SL/U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fUbeUGiR; arc=none smtp.client-ip=209.85.128.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MBpt3veY"
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-436281c8a38so32614005e9.3
-        for <linux-staging@lists.linux.dev>; Mon, 20 Jan 2025 06:52:56 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fUbeUGiR"
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-436249df846so31091685e9.3
+        for <linux-staging@lists.linux.dev>; Mon, 20 Jan 2025 07:15:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1737384775; x=1737989575; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=luZW0ROky4WuRwlQ5C5hlO70LT6nQT/pOM86+71SSCc=;
-        b=MBpt3veYYKuiBtGr6jm8dQJa5f46vHuzTWXpARRArpGXb9XtwaPpxSxmUr345s3Nbm
-         B+wgmYXDOy+DNqsp3lJGGKbgJ7tnSxP5eIr4zL6U4e4eNiDGfswB/5wuNfx4sBA9OM5M
-         J2oYztRvzmYEw2bhwoa0pVKcYiIAKCqlQb3LjPmlJZSL9aS/qD3fPaziLHoWX27wxd1B
-         h/XXVmYOidaS0fvcwAQKXg2Ntp6iUOaBPoePn4hAIr39G4ap2DVdBJ0njz6AzpxAF13P
-         8SH748w/qzjG7sQQHzhQn9KMnW9+UcVwRModyrdROOuu9tf8rY0RWNYmU//s+Db49AsN
-         LTRg==
+        d=gmail.com; s=20230601; t=1737386121; x=1737990921; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=jCi2OnTM5qC2jJdB+QtoqWue7Uopuli4sTbtNpaftoE=;
+        b=fUbeUGiRiinnKEz6uykCGZNDODZ56cKcXNYgurF5hf4e0axDDpmZRIVeeDha7a93k2
+         E/g66NhDEZtqYXtjOShlUMEET8zSbgSDgUf4quLwzjexKxdae3k9TTOtbYtjFRA5bvQ3
+         mTcaJalzCRbG5MnmldkwzzFT8fD6LzwqAWO2sxqlOX+sIDRfe6V1TRyjwgOfy26UfNSK
+         n4H7eczTuizT5s2uhHKVTiFikdFCNdvWl9V1alT58FelM9eQisuruuEGxKbwNJGA8tN9
+         B2AL7+7OsbtIozJx8tvHYS9KtiaDvvNzIpIMzlW6HOgk7rY01dm4YCicO2yNsJLZrJHJ
+         EAhg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1737384775; x=1737989575;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=luZW0ROky4WuRwlQ5C5hlO70LT6nQT/pOM86+71SSCc=;
-        b=Bb7S3wXXbQ+7svwgWHmCQjFFQZFNz40e9/2nmqMiager2yNiHPzbEjxWVfpV+MaImz
-         6kUGwPMU808EopenW7blXX6ozhT8veh50uqGEyDgwePSKGnHrwd+GVF/3sWWl+yvbag0
-         04uaiawgFeZXllrkV0YyYJZhqUPxtMsvzyE5ZTpN8trEQJDzGIfGrqnPbWRgCVbR2K5u
-         lk39DHtTH6Iy5txNqRKgeMRKhBsfcIzL4owbk70v41b9WPF2rr5pQlVKu4OxDswK0020
-         dX7Z6G3lCv/TF9jkYPLwuFu9VzAKJUbUY5F8oLheHeTXzWEoK4TCfSRSlG2iC4q3g5KG
-         SZ1w==
-X-Forwarded-Encrypted: i=1; AJvYcCVog1KtDVGQiGajY/gRzDb5pUqOtf3YX6jz8IPwVw7K2rJWXDwnfOL5yO9zu7lnrzJwhw209AVgqKzwJpZ8@lists.linux.dev
-X-Gm-Message-State: AOJu0Yy5aBkpGufyUwaJ58s5vEdCFCf6FT1qwjvn8UL6jOLf6ZzzJXQc
-	D8I6oYYJPRpdqb07v5/Szh6IRnPaTEBqPnjmOIwomvaGPpGm8aLE
-X-Gm-Gg: ASbGncvGyjfA3vli/osxUJ5jED7Y+cONOavCvi4w1uCRonKx59JIKeueqbma8FnSxfP
-	m88yTuB4OcHT1528OZyRwW/pbxrI+bHmJnqsgW/xgu8DmI5wqm/xmA6gprf1iNGfBV0vVuIVvQG
-	gta2q2pxnV+rLkYcdNoRtEH7XJQoQWvkUWjX4tFvyYRl+LWzVi8+qLRzgQRgW3FzLqHrmPJ37bl
-	hnzT59Gjpx20Dj7w+nERjza3LhRzK4BvwlPJiNgvkR/Fa2gtY66dG0U4yivymor2Ao0o9Ttepf5
-	EQ+E0lgUMXf2/fUDGovrUSuPpIVIvNYZWE8ZnAWu
-X-Google-Smtp-Source: AGHT+IFCNOU0S2uUlzM7p8bBbP2OVjzPxPn0kPkEMd4xPgltgn7EOZwMgGDQJm71NLT8Lg5hVF1fig==
-X-Received: by 2002:a05:600c:4ece:b0:434:f609:1afa with SMTP id 5b1f17b1804b1-438913c6787mr123435635e9.4.1737384773263;
-        Mon, 20 Jan 2025 06:52:53 -0800 (PST)
-Received: from localhost.localdomain (82-64-73-52.subs.proxad.net. [82.64.73.52])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38bf3275562sm10925841f8f.66.2025.01.20.06.52.51
+        d=1e100.net; s=20230601; t=1737386121; x=1737990921;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=jCi2OnTM5qC2jJdB+QtoqWue7Uopuli4sTbtNpaftoE=;
+        b=rkNh4ulMmSlMnkPoOVknvxlsZJLdaeGJ5SlI2hyaKHCQdoKoADBaHQ9i1JWRxkQKtD
+         OM6ac6fSBlI9t99hOFNOFdTUr9xdrP13sp5YQBC3un4m6CewCe/i3NmziCnxfcyYkliK
+         yfWvnN2zSjk4YOxrwr0A60OrroufqJ/iWn5ZzrxR6u/2PqIlpk7hfAX7X0cgcnkkuXUX
+         LBBph9wDB/1ifQmbleJQrZgJGE2d0NeaNQrIPXi56KXmAOl33/mpKHRkcDnRGz5S/Pfl
+         BqqeruVMXzfqcrbJhOv7KnAv/Au0rvp2tVjzVd+Fm/NfkMrnCCIwtjwXVaQ3PZWog0IO
+         67Lw==
+X-Forwarded-Encrypted: i=1; AJvYcCUGHhG+XkxnWaCWrNs63Gs4H6SPO0BdDWQg/YC8AWroW7y9RYKbS3cZPFs9X2s2mvpTZ0M8ldFNjwHev4XI@lists.linux.dev
+X-Gm-Message-State: AOJu0YzhRQgpqkXCvGdRSyAU1XqimmwquDHS2ZZbDYVeZfTGcCo+aPiK
+	E9l0a3dy+xVidU3V+qju5fWCmi3vuhcOsEegG7HVMmlmNgSDzcgy
+X-Gm-Gg: ASbGncs638Wvxvrlq7BLRV9IhdAyHwxdf3aMKC5RKkWEZLT/vI+avr3RWrBK8mZeo94
+	bJL6XWNLBFc26296Et8WGJFIZ+6r9pcnO7LTKZq0zrdPfP/HBQ2veOKpO9Qw26lzhJyT16vk3hX
+	/LiJDwqSs+l5wj1dLGfhEBCfB0krR+aj0KLuQpBKzWjtBn4Pbm8rIEjmQqU8rV6CN39v6Q5ahM1
+	fbJlGE7rv9UsDYEZQxbdWhSmxmYZBrl6St4q+TVvwNWaJlw4eJSOfVIweHggUSWl44dtaV6GVVD
+	YDivkEqyXw==
+X-Google-Smtp-Source: AGHT+IG1DgjFv6bPcJnBgOMYqLB0iv+3Hhda6aDLo4vOr3ZL1xBdy3Zx2Qxb+B6dlbJou6UJjxFWCw==
+X-Received: by 2002:a05:600c:4ec8:b0:434:f219:6b28 with SMTP id 5b1f17b1804b1-43891435c37mr113466355e9.24.1737386121121;
+        Mon, 20 Jan 2025 07:15:21 -0800 (PST)
+Received: from egonzo (82-64-73-52.subs.proxad.net. [82.64.73.52])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-437c74995f6sm206237005e9.1.2025.01.20.07.15.20
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 Jan 2025 06:52:52 -0800 (PST)
+        Mon, 20 Jan 2025 07:15:20 -0800 (PST)
+Date: Mon, 20 Jan 2025 16:15:18 +0100
 From: Dave Penkler <dpenkler@gmail.com>
-To: gregkh@linuxfoundation.org,
-	linux-staging@lists.linux.dev,
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Cc: Dave Penkler <dpenkler@gmail.com>,
-	kernel test robot <lkp@intel.com>,
-	Julia Lawall <julia.lawall@inria.fr>
-Subject: [PATCH] staging: gpib: Use min for calculating transfer length
-Date: Mon, 20 Jan 2025 15:50:30 +0100
-Message-ID: <20250120145030.29684-1-dpenkler@gmail.com>
-X-Mailer: git-send-email 2.47.1
+Subject: Re: [PATCH 2/2] staging: gpib: Agilent usb code cleanup
+Message-ID: <Z45ohsfgCSN44rAC@egonzo>
+References: <20250118145046.12181-1-dpenkler@gmail.com>
+ <20250118145046.12181-3-dpenkler@gmail.com>
+ <3a31262b-6bed-4f74-b00e-a124a9486e07@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <3a31262b-6bed-4f74-b00e-a124a9486e07@stanley.mountain>
 
-In the accel read and write functions the transfer length
-was being calculated by an if statement setting it to
-the lesser of the remaining bytes to read/write and the
-fifo size.
+On Mon, Jan 20, 2025 at 10:15:55AM +0300, Dan Carpenter wrote:
+> This patch does too many things...  It should be split up.  People
+> complain about this requirement a lot, but eventually it will become
+> instinctive.  I use `git citool` so I can highlight and click to add
+> lines to a commit.  In this code there were some dev_info() changes
+> mixed into the unwind code in ->attach() that were hard to separate out
+> into their own commit but it wasn't too complicated.
+> 
+> On Sat, Jan 18, 2025 at 03:50:46PM +0100, Dave Penkler wrote:
+> > Remove useless #ifdef RESET_USB_CONFIG code.
+> > 
+> 
+> patch 1.
+> 
+> > Change kalloc / memset to kzalloc
+> > 
+> 
+> patch 2.
+> 
+> > The attach function was not freeing the private data on error
+> > returns. Separate the releasing of urbs and private data and
+> > add a common error exit for attach failure.
+> > 
+> > Set the board private data pointer to NULL after freeing
+> > the private data.
+> 
+> By setting the private data, this patch actually does fix the
+> double free that I mentioned earlier.  It changes the ->detach into
+> a no-op if ->attach fails.  Needs a Fixes tag.  ;)
+> 
+> But I still hope my blog will convince you that the error handling can be
+> re-written in a better way.  It shouldn't matter if ->private_data is
+> NULL or non-NULL because the caller should only have to handle success
+> or failure.  The caller shouldn't have to handle a dozen different
+> failure modes:
+> 
+> 1) Failure but the ->private_data is NULL
+> 2) Failure but the foo->frob pointer is an error pointer
+> 3) Failure but the foo->frob pointer needs to be freed.
+> 4) Failure but the foo->frob pointer contains other pointers which
+>    need to be freed.
+> 5) ...
+> 
+> It should just be
+> 
+> 1) Success: Everything is allocated
+> 2) Failure: Everything is cleaned up and any accesses are probably a
+>    use after free.
+> 
+> > 
+> > Reduce console spam by emitting only one attach message.
+> > 
+> > Change last pr_err in attach to dev_err
+> > 
+> 
+> These last two can probably be combined into one patch?
+> 
+> > @@ -1388,11 +1367,19 @@ static int agilent_82357a_attach(gpib_board_t *board, const gpib_board_config_t
+> >  	retval = agilent_82357a_init(board);
+> >  
+> >  	if (retval < 0)	{
+> > -		mutex_unlock(&agilent_82357a_hotplug_lock);
+> > -		return retval;
+> > +		agilent_82357a_cleanup_urbs(a_priv);
+> > +		agilent_82357a_release_urbs(a_priv);
+> > +		goto attach_fail;
+> >  	}
+> 
+> In my blog talk about how every allocation function should have a
+> matching free() function.  These two functions match
+> agilent_82357a_setup_urbs() so we should have a single function to
+> release the urbs.
+Hi,
+I fully agree with you and this is the direction we are pursuing in
+the gpib driver code base. We have very long way to go still and
+I apologize for not splitting up the changes into multiple patches.
+Thanks for the pointer to git citool.
+-dave
 
-Replace both instances with min() which is clearer and
-more compact.
 
-Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Julia Lawall <julia.lawall@inria.fr>
-Closes: https://lore.kernel.org/r/202501182153.qHfL4Fbc-lkp@intel.com/
-Signed-off-by: Dave Penkler <dpenkler@gmail.com>
----
- drivers/staging/gpib/agilent_82350b/agilent_82350b.c | 10 ++--------
- 1 file changed, 2 insertions(+), 8 deletions(-)
-
-diff --git a/drivers/staging/gpib/agilent_82350b/agilent_82350b.c b/drivers/staging/gpib/agilent_82350b/agilent_82350b.c
-index 3f4f95b7fe34..0ba592dc9849 100644
---- a/drivers/staging/gpib/agilent_82350b/agilent_82350b.c
-+++ b/drivers/staging/gpib/agilent_82350b/agilent_82350b.c
-@@ -66,10 +66,7 @@ int agilent_82350b_accel_read(gpib_board_t *board, uint8_t *buffer, size_t lengt
- 		int j;
- 		int count;
- 
--		if (num_fifo_bytes - i < agilent_82350b_fifo_size)
--			block_size = num_fifo_bytes - i;
--		else
--			block_size = agilent_82350b_fifo_size;
-+		block_size = min(num_fifo_bytes - i, agilent_82350b_fifo_size);
- 		set_transfer_counter(a_priv, block_size);
- 		writeb(ENABLE_TI_TO_SRAM | DIRECTION_GPIB_TO_HOST,
- 		       a_priv->gpib_base + SRAM_ACCESS_CONTROL_REG);
-@@ -200,10 +197,7 @@ int agilent_82350b_accel_write(gpib_board_t *board, uint8_t *buffer, size_t leng
- 	for (i = 1; i < fifotransferlength;) {
- 		clear_bit(WRITE_READY_BN, &tms_priv->state);
- 
--		if (fifotransferlength - i < agilent_82350b_fifo_size)
--			block_size = fifotransferlength - i;
--		else
--			block_size = agilent_82350b_fifo_size;
-+		block_size = min(fifotransferlength - i, agilent_82350b_fifo_size);
- 		set_transfer_counter(a_priv, block_size);
- 		for (j = 0; j < block_size; ++j, ++i) {
- 			// load data into board's sram
--- 
-2.47.1
-
+> 
+> regards,
+> dan carpenter
+> 
