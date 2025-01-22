@@ -1,115 +1,99 @@
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47D1B1C07ED
-	for <linux-staging@lists.linux.dev>; Wed, 22 Jan 2025 07:44:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B18B1C1F23
+	for <linux-staging@lists.linux.dev>; Wed, 22 Jan 2025 07:56:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737531873; cv=none; b=cGyltiwSE4Oyd/DN6nOSBDnD04DlzSuD9vAJ4lxtnvTdYOw1pSDqd5iSneGSw7QIUXNEqfN7pl26/g4jd6YAmT7G/tnDAnvj24ujitUHRov7/x/Ih9fex0oTYU99FKVUVAZ0oLMIYY76ZNBxRdEFSNVSF5c2kgBC2VC65nt0HBI=
+	t=1737532579; cv=none; b=sPSUvuXzZboXQnSOtE0rI2kj8J8TMJ0an1w7gA8eH5uP6jx/GIm7YdNSnaeIMBu4l8yg4eyjdwR85ayFRQF9sCb7xJoxCCHTvmO2u4DOESXTpyyKFHIfblLNZmQzuM+Da+X7i6TahOMU7fSqWSt2w/iRnQWTRst5sKsq+gCvnoE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737531873; c=relaxed/simple;
-	bh=QLnRU0MWnrg9x3301DNkdRln9BGx5mG+TSPmx9dhhsQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=RUoiICPAGlAWl+BMYpRgcYjDSPDxH+SDAhAEzRgFvUQynXp+0JPr3l/yssGKP1L0SAxwZJbT0v1iONvE/9b9FuFIn5mlle1vWeoqPSpECp97/bKb3cmDf/h8YeEWExt8vY/0cFnVv47CrG6CBTZXW8w8rL7FUFgS0P1eyY5i38Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=qzBRhXHP; arc=none smtp.client-ip=209.85.128.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1737532579; c=relaxed/simple;
+	bh=/Fxv2JtExRqbompYD7DxopdeoYMAmFs208nqIqyZr2I=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=PUW+k1uTyeHHutYdGoVe8xAebBf8COH1cO0TlFEsMlBTRG8DUdd/DFbp2FaIo/SBnGIuPZkT/pbTu97qj3oAeNtrlRo3dqt7xlgXbpvQ2UEI/b1Grb3VozcwXqrV7wKmvoH47LOyrXKAhe4wBhBTo0UOW4zG+rU6x0b0SA0z+no=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=J/haZQES; arc=none smtp.client-ip=209.85.216.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="qzBRhXHP"
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-436281c8a38so47445165e9.3
-        for <linux-staging@lists.linux.dev>; Tue, 21 Jan 2025 23:44:29 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="J/haZQES"
+Received: by mail-pj1-f51.google.com with SMTP id 98e67ed59e1d1-2efd81c7ca4so8868423a91.2
+        for <linux-staging@lists.linux.dev>; Tue, 21 Jan 2025 23:56:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1737531868; x=1738136668; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=Bsmxo8ok0PWoDNVNxNxbEGNCPBLfV7kz8NTtIfG+KwI=;
-        b=qzBRhXHPFJ0XzC+v5H3rUWx763p9BtoZdkg4zJ1gA5J8V1hIVtyLlrtkEG/rNWUaKY
-         F9HgsQ9EIsto0qWHvZgXKhRs9oFysrUkgXEdNOfMrjFUfsg8plFhFANIOWAKn8mKv+dk
-         QJKytxm9SXupFj5/NDcoXDVxV44C6prO9fsdF/LUc1n+iu290/eKwulI3k24zeI/J0kT
-         2ZomkTIbfV1uAonFh6EfOKwlEl2Qlq88TT4VyowLbiyvhz310t+iXLC3NTroaEn/ln3h
-         j2bgT38HcT4wWUEG3yGa/3UICHzumx3IaJr56YWH9RiEYB12A1NypIXQjCAbEUeQ6t2n
-         9qyA==
+        d=gmail.com; s=20230601; t=1737532577; x=1738137377; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=f8RKyK8Rw5AmWg4/nWoSnA+iuCNtoKxRRgaqotVjYXA=;
+        b=J/haZQES/IgMFLZurFyopPK4zBkuWwleRUV+/L8a9g7rNqx81mDQcLov9sgq1IT3+G
+         Ap8IYu55j81hfCdrNt1p/4NNptACZ1IxiUwcjF9lAUtsxGgSYXxWHZDoRIYxkxgJYhAj
+         82C2rPC7Hc36S2ALdELtdnXNwe4PrJG1Mc5KWDaRV6QOqQBxA59TfKsOr5ChuidMixD3
+         vYRjIGgIC1QVtIlyuf+5Js+LUbzIO9ibf65tf4nArJ1WYfTu+xRxTldVU3R2SR+qREz7
+         NznIG/DL5pSKF20sC70U68Vjmp9qe25qPttVbVrX/e6jBN8yTkaW42fio61fvYFCBu1E
+         cVjA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1737531868; x=1738136668;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Bsmxo8ok0PWoDNVNxNxbEGNCPBLfV7kz8NTtIfG+KwI=;
-        b=mlzMSIqvcgNw5Qznbb4ZOQROU2ZZSz7OE2EgN+k2ZxG4C37HDdR6OkLj2cfI5oIHjD
-         2XOd8CZFEg1zpuKASUiM0VyMYAsR6lJUvQZ1TaSSxV1Gg3TiUMbEBvdE/QfFXSEYaIlp
-         LRmHKOY1Hj2Xt/FgWlaZMFACeCl4nuzJc3ngSh8tcpvpCZ/v1sSpxhKPcukZi8CKjHlp
-         Y+bCOyasOUNfqfqRYyQcFiWLu1Ls1PKEC/fAzCFg8y40gy0fur5eiwdSxMkR53lIoVqv
-         ibnCjabIDlBAgW4YH0pZk7P6RW+/tsejFhVGl2UUPj3uZHPEgVP/iLikL0Lj/8oqH7EK
-         j76Q==
-X-Forwarded-Encrypted: i=1; AJvYcCUPf3QDuP31oUS+uY06gU3Oh7VCMyeg0YcXWCIU7zoRBoMN25mNLyYIicejHuF1tmQwMcAWSjKXTyEZqF9U@lists.linux.dev
-X-Gm-Message-State: AOJu0Yx/rJ8x8MyR+uTHGvtD+YaqU/35xQWBDjWR+nMFypvb/I8MhaWV
-	Nm7s1cWkLxiHql4+HuNanUsZmDBc+daQxpV7vNxnuh7D1dUgQChd70IZ5RyyIIc=
-X-Gm-Gg: ASbGncvk4xp0Gfgf4cCIUq7XDLicEIXa1b8ZcD6qmzB5SwE9lDryfprHoSbY/mT90pE
-	+N1AGA8YqNg+qXbg9Y0SzH8bqT7h3Aghw6ERmW66rNf4OtQ6MaWOSgRPFmVZaRJVhAG4i2Bwjnj
-	tTgpk+xwZUHlKqCqPKnJ/LA5T8Zdsxsk0hz9b64Mf5rkYtBr2keYEtokWWChq3HUEolzpw+dIw2
-	U5R6D+htFDB6qEqx2rdeEzdZrlCG6fgk2sfRtcaYNJxDlVnkQMvW4swlfWNQkFfBvsbbi/HHRI=
-X-Google-Smtp-Source: AGHT+IFdii86nzRckkv7+ZhJvESX26haiGxkZ4n+5uLX7IO8Tv3+bylFRFp3PbXap4gvqUW3Z5V8ag==
-X-Received: by 2002:a05:600c:1987:b0:436:faf1:9da with SMTP id 5b1f17b1804b1-438913c68ebmr189076215e9.2.1737531868551;
-        Tue, 21 Jan 2025 23:44:28 -0800 (PST)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38bf327574asm15586266f8f.68.2025.01.21.23.44.27
+        d=1e100.net; s=20230601; t=1737532577; x=1738137377;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=f8RKyK8Rw5AmWg4/nWoSnA+iuCNtoKxRRgaqotVjYXA=;
+        b=gBCJrRwzQz9cO2J1p251cCQTAVTkcJq0PvmVXHbLGAEB2Oo3RLqlTeAHHQkp6GwOzJ
+         mNFH1Kj+oipUxq11vX21kGgx/tWy1c4prM4AFEe0l2gz1WrcIAhGcjrjKmauGMZ4FHcB
+         BxuvWCXp1SSI0npbsOXjVPDGjuCBZYWF4QhNo5sFOTx8bVdLaEqnAWsuFmYTS8JPkHdM
+         PsE4U9vQKckbEHLrRFsawGk2HhnbHgXhULNT2O3rLEysjuK1Lh3m6IEIGYX0j6EQBwl3
+         ywOWdvvXEM3kJXk2jtvCo28uzFq6eSt5tzhdzL/M9L/c9mSk3Ocl1BntJUfM4ylsXowd
+         r9Xw==
+X-Gm-Message-State: AOJu0YxTteQ83tjyUftayJhzOekNTr5JugdRhx72vfz2TS5X7NcjrObU
+	Z4Rh+ev0nnvna28DHiSGKtYXgGgdCNkOA88k9OEZGw6JYe9Px37U
+X-Gm-Gg: ASbGncv9gEd+wQb9lbwBZsCNOJpstATHXj4vID/HfgkNCb6HJslYKi31DGFQYKd1hCO
+	n1CQXn+QYbf0/WIPRE8Ky8iJr0VJe7GEKgwD79JXk/UqmkwG9cQCtr1iI+V/tiHWL3OfLUqHO1v
+	Tr+gdiV+pOZ9PXZwwSV0o8ZE+AjNP0KQp3vzXDMPJOx9B425nu6Q6IW0LlVtObZX6aQJ03l7Alg
+	zkX99jwK3lADOchK4fAiWUOQB4fQ961y3WmyE4AhZtbG7LH/8OdICQpOlpPR+witjkcMBWlSdo=
+X-Google-Smtp-Source: AGHT+IFGKN7uDM/wQ0lPbZ6gVLar/SttsWQVpGPZ8e35diEBxYqc5+MoOGAEfR2yJlahQ+elCRqRZQ==
+X-Received: by 2002:a17:90b:534c:b0:2f6:dcc9:38e0 with SMTP id 98e67ed59e1d1-2f782b01f69mr36715608a91.0.1737532576885;
+        Tue, 21 Jan 2025 23:56:16 -0800 (PST)
+Received: from virtualbox.. ([103.16.71.114])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2f7e6a79a9bsm918156a91.17.2025.01.21.23.56.15
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 21 Jan 2025 23:44:28 -0800 (PST)
-Date: Wed, 22 Jan 2025 10:44:24 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Dave Penkler <dpenkler@gmail.com>
-Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: gpib: Make static and reduce forward
- declarations
-Message-ID: <fec1be85-0aa0-4591-9a6e-c4f5d4efd237@stanley.mountain>
-References: <20250121203342.20410-1-dpenkler@gmail.com>
- <6889992d-043d-4af8-869a-84eea9609148@stanley.mountain>
+        Tue, 21 Jan 2025 23:56:16 -0800 (PST)
+From: Ajith P V <ajithpv.linux@gmail.com>
+To: dpenkler@gmail.com,
+	gregkh@linuxfoundation.org
+Cc: linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Ajith P V <ajithpv.linux@gmail.com>
+Subject: [PATCH] staging: gpib: fix prefixing 0x with decimal output
+Date: Wed, 22 Jan 2025 13:25:44 +0530
+Message-ID: <20250122075545.33146-1-ajithpv.linux@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <6889992d-043d-4af8-869a-84eea9609148@stanley.mountain>
+Content-Transfer-Encoding: 8bit
 
-On Wed, Jan 22, 2025 at 10:37:33AM +0300, Dan Carpenter wrote:
-> On Tue, Jan 21, 2025 at 09:33:42PM +0100, Dave Penkler wrote:
-> > Declaring the entry points as static caused a warning that the
-> > serial_poll_status function of the agilent_82350b driver was
-> > unused.
-> > 
-> > Add the entry point to the corresponding interface structure
-> > initializations where it was missing.
-> 
-> ...
-> 
-> > @@ -842,6 +824,7 @@ static gpib_interface_t agilent_82350b_unaccel_interface = {
-> >  	.primary_address = agilent_82350b_primary_address,
-> >  	.secondary_address = agilent_82350b_secondary_address,
-> >  	.serial_poll_response = agilent_82350b_serial_poll_response,
-> > +	.serial_poll_status = agilent_82350b_serial_poll_status,
-> >  	.t1_delay = agilent_82350b_t1_delay,
-> >  	.return_to_local = agilent_82350b_return_to_local,
-> >  };
-> > @@ -869,12 +852,12 @@ static gpib_interface_t agilent_82350b_interface = {
-> >  	.primary_address = agilent_82350b_primary_address,
-> >  	.secondary_address = agilent_82350b_secondary_address,
-> >  	.serial_poll_response = agilent_82350b_serial_poll_response,
-> > +	.serial_poll_status = agilent_82350b_serial_poll_status,
-> >  	.t1_delay = agilent_82350b_t1_delay,
-> >  	.return_to_local = agilent_82350b_return_to_local,
-> >  };
-> 
-> So what happened is that Sparse was complaining and you were cleaning
-> up the code and you discovered this bug.  Fine.  But bug fixes need to
-> be in their own commit, not hidden inside a giant cleanup patch.  They
-> need to have a commit message.
+- pr_err() of pc2a_common_attach() in pc2_gpib uses 0x%d.
+- The config->ibbase is of u32 and correct prefix is 0x%x.
+- This error reported by checkpatch with below message:
+  ERROR: Prefixing 0x with decimal output is defective
 
-s/commit message/Fixes tag/...
+Signed-off-by: Ajith P V <ajithpv.linux@gmail.com>
+---
+ drivers/staging/gpib/pc2/pc2_gpib.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-regards,
-dan carpenter
+diff --git a/drivers/staging/gpib/pc2/pc2_gpib.c b/drivers/staging/gpib/pc2/pc2_gpib.c
+index c0b07cb63d9a..6a1c0cb1d0ed 100644
+--- a/drivers/staging/gpib/pc2/pc2_gpib.c
++++ b/drivers/staging/gpib/pc2/pc2_gpib.c
+@@ -505,7 +505,7 @@ static int pc2a_common_attach(gpib_board_t *board, const gpib_board_config_t *co
+ 	case 0x62e1:
+ 		break;
+ 	default:
+-		pr_err("PCIIa base range invalid, must be one of 0x[0246]2e1, but is 0x%d\n",
++		pr_err("PCIIa base range invalid, must be one of 0x[0246]2e1, but is 0x%x\n",
+ 		       config->ibbase);
+ 		return -1;
+ 	}
+-- 
+2.43.0
 
