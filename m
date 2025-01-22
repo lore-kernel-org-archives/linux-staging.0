@@ -1,136 +1,108 @@
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DCE84502A
-	for <linux-staging@lists.linux.dev>; Wed, 22 Jan 2025 10:32:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 376001F8F19
+	for <linux-staging@lists.linux.dev>; Wed, 22 Jan 2025 10:39:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737541968; cv=none; b=rdOe8Xp2losNeTep1nUD/bsyfFyBqBF9P3GMc/87Tub5jK+5s/rX+nS07tYbmvYgE0sQ9aQgjBEBV8aC3/KiVDScFtQtzTWzgywCZwj+BPw1pX0NpgH9+KcwiHwP2lQOlixtV/JJEEulc5D3h8jdRkcFNMNipSIRaqJZ3BUFyNw=
+	t=1737542347; cv=none; b=T6rVkfq2QlrvCB/FaplVzyeYldbxVhbVVjXlMLAZK4L4OfpvHwaHnCYFQNPmFpoJrii1xGbsw4ZlbedTTdQbfx7GJwe6Jv4RBdiGWsIxHs6Ll/BCsFY3C9t8sepcRCmImTWQErbs7rC/OjijctHPOYOC8Fan3Aq67vsFF1U2GYc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737541968; c=relaxed/simple;
-	bh=xxdnRxJo9EYSB6NDN79OhYHS4GdenSQMtLSz+tRfN50=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qURrDTuw8ppQ4TUxUQqzQSoWnnIUPC06bAPt5D503+EQTPixmXY8eWDpOb6MtU9AApW3RetqvhbTYyhFDAXZM09Cayp9Hf2hwLjRGcuMd5fS375xSeYWdkf1Kdc178hIqkurQAtFuRws7//J5UdBs6yF+n8EnJeyXGIBvG0Ciuo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=M7fbRMDI; arc=none smtp.client-ip=209.85.128.49
+	s=arc-20240116; t=1737542347; c=relaxed/simple;
+	bh=dAy+S2w9cUh0R8EYp0QYkI7U7tXGPjByBZtpfUBTjko=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=P729F5Lgj7SPUmuVfwlt4ZM1o2R1HP8/M4ITtRZjHjMnRRJdTItUTUOyK4nX1wW/CJnoIg37ARYcjjJ2968eGrkcz0ii22x/s5BaE3j2Qt/TK/Lptp8rNfxPPqCWJ1wkM+pnBDaiGl4ZTgvUZb4R7/8bKa/0vIW4bpCjCxOSqRk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=aB0MoEYs; arc=none smtp.client-ip=209.85.221.44
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="M7fbRMDI"
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-436341f575fso73506885e9.1
-        for <linux-staging@lists.linux.dev>; Wed, 22 Jan 2025 02:32:45 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aB0MoEYs"
+Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-38637614567so3266484f8f.3
+        for <linux-staging@lists.linux.dev>; Wed, 22 Jan 2025 02:39:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1737541964; x=1738146764; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=sk2qk1CXGKikQHG8pNoA8W9N2pmJaIAGArLyoFJspTk=;
-        b=M7fbRMDI4PDjzWwCfY/vglIcSlW8uZ8IlOrdceIsnSfHUcX5xLX6SfQvSKeKlUNr6R
-         TeLvhHfGtkmQGm4HECyW41jubeAEjwCGajvGNg687ve0axuh/urgWLgcF3VKhca8vY0n
-         A/XIAGohX/Y8FSEkXPP2gkXQENrobSi/2okMo5quexiHONFx9O0YmzFAW7rXWhLzGaHa
-         /CmDz0sZT9h56zFOxAvczfA9PA2K263ijCojXILdixci0LwOL8jgG2Fe6Z+4nFJM7WDq
-         KIrcCmFbP0PRr+YMlV9R/HmJGGsHB+2PGhv1pm5OT8arPoDUy9kSkywVpaR5nxTaRuKO
-         R2zw==
+        d=gmail.com; s=20230601; t=1737542344; x=1738147144; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=1Pk7oVaD9xaNG6FC+wI0nCYDaGmSZYDv8FosrgIBx8A=;
+        b=aB0MoEYsi5OBU6SPJs5jP2lvYpXSFDhlB6UUhb/lB2ZtJCU3aCvHDLIDzpTUcSSmTd
+         57PDvo0fUsGZAADISSgNbZe90eYYR2c+LSrhvm4ocfi/CZTA3B5kqsopPkaIYOVX6wM4
+         +rxqlfrzqXCJWzInMIiUHqZE8nvcixvvsblYEmNtH7+2n9IH3fhGhIwpBDphPNuMeihO
+         5oCcsz6WDU3K6rxkuz4hPZt3pqJnn9zIHeNq5Uc3gLC2MhPkXCaBx7hKEK46To3NwZrD
+         qWreu1FD5XnKL1RpkpnkAuukM54Z/3tpuSeeoPY5Q3Ow5qYpDx9YjRIckTi85JuP/GNt
+         WHcA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1737541964; x=1738146764;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=sk2qk1CXGKikQHG8pNoA8W9N2pmJaIAGArLyoFJspTk=;
-        b=fWdm2UC1mIKGR1UUw8KDT7QvfAAMlxtvr7h5YZ9LqWc2rJklNb/fnH6otRRLc36hpf
-         Qq/npC8oHZMoKo0wcOrx8JyIEKlaZ/uFpjHRAxf2brGhspAfkVwjzxSBQKmSik/IT/5E
-         T/NYSa2i07DW79gHrKOwcnVcJG7ffJy3Kk/9FTqlazmLQ+Bf4lpvsdoeJ6jgJsV2rrVO
-         WqD0J/PrwG1eScGw8imalCb//9kLddi4cmr077bHve575PwDjG4YSrf/MVgyEiOuqpJB
-         J+INOIZ/VPISnt24awy2e1axFN2zL9yWczbZe+Iwq6xDAJJWKb9Wnx/rlQtp0TO8mtla
-         +C3A==
-X-Forwarded-Encrypted: i=1; AJvYcCUTSd/XJ9ZgScizykCZF0O5+zIHg5nBheJdVccR4r4H6QfbR9o6YD1C6XIwnBsBnA5pjSyIxwUO9N7X4jbg@lists.linux.dev
-X-Gm-Message-State: AOJu0YwUzyOl8InX26UP2TDLx7uhyXoGYSAOSibx5vqxdg3MKRg5GU3d
-	nn8q1ZiVoGEy/HTSxT0iIeJBiVnOdk1Olb95ElOA0Gk9HUZpV+pxFhkbhIHD
-X-Gm-Gg: ASbGncvhuEVEHN2fVB15JqZGK9XrQHcAooo9TieczDihX1TswE8Ak0tny/x5amnNTF2
-	IwBBjIoU34m5SFyAZNpsi9uhTgZIJplydPr30tc5it4hz2muyNpC6CLMC007EU6YYVxOf6u09kf
-	57vKDITA95M/8Hlwrthtc+JSf8h2jbIwFqZJbq061QQphgNIG5wGDTCTTSwRuVGH1USQikOd0RC
-	EnfdTiAqO07yph2tbKTswNYqZMyFMdNHOOJTY/kblADqzXBqht5DsVgZUgMN204es52aSH5kwYv
-	kB+lsh5HDQ==
-X-Google-Smtp-Source: AGHT+IH3cGesaANWOVg2V250ubV+xkFFVIkxUOQGnCUXei0oYyiXcz68JyvgxGH2R+fi68e/ZNBD/Q==
-X-Received: by 2002:a05:600c:6c95:b0:438:a1f5:3e41 with SMTP id 5b1f17b1804b1-438a1f53fa6mr156547375e9.12.1737541964260;
-        Wed, 22 Jan 2025 02:32:44 -0800 (PST)
-Received: from egonzo (82-64-73-52.subs.proxad.net. [82.64.73.52])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-438b1cc8151sm17244075e9.1.2025.01.22.02.32.43
+        d=1e100.net; s=20230601; t=1737542344; x=1738147144;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=1Pk7oVaD9xaNG6FC+wI0nCYDaGmSZYDv8FosrgIBx8A=;
+        b=VbriVi+0N5ELIyOOSyVK8GnPDYn/9STVtnQsTiPqoGf8V7ZiPWL7N+fFvnQ+dZLC1w
+         X/HZMGn8xOVZZo2pB1hTcBJtnSAHGp8VJfrVu/76ydecLAoFjof51dGJJbVCHrMSET0f
+         xmteStEwsK+lmHwX+5tBQk/2dDiyM8Zj4WQPWCuf2yM4E32znPBRfJwZ/rFLQ6aGyjtd
+         vk/Ve4mtazJThEE+o4rXUqdj6qUzzRejWyVjfnf5ppkKUX4SLg6PGDUw0VYXG/wStYH7
+         Vqt7osnS6QC1EfQXHurfdGH7hmGGBF5U3iF22D8FdwkNZzcWp2ZpkMzzRGCtRDY3VFrz
+         JkKA==
+X-Forwarded-Encrypted: i=1; AJvYcCWQkzIi6Jc9eU/8PEEwG8kRjICpKfXW281hRZzGEWGByneQH2HFiNSa+WilZ+6eo2UDph8v3j3Thn69FVvs@lists.linux.dev
+X-Gm-Message-State: AOJu0Yzzs2v3moKRAfGnczcImKXxqQ/ycOofmeMtM++JdaZpz6zbxSqI
+	KJW1vDI1XshqsZArsN4ZryuqNN2gMGrkG3q4vs+lxA1PvyKy1ZQ53LRX/Y2u
+X-Gm-Gg: ASbGncul5s1VxCGnJtu8SvHKBCNmEep7hSUy29GjjrY2S0K6INsExiL+uL5f6LjnDdl
+	2puO9mgcUcfprFtmb9uUP3+WGVI88xPVoJ57/6fNr8RIFeDwo9fC5mgyWNHnNWHqMawL5rRzqbt
+	/SsiNnz45p4r7DrmfCJ2b8Zl6PKA1HX9g2GL3+t7YiIxZLXLTkVSJbGUAjSgS8T5O5XeNl1qB6c
+	tqtNeSdkdSUSGCTYpLKHaMEoQE7614W9YNOEegQJD/7cnIfyYxfcrWupnixYQMFObYdzoYJ6001
+	iSJZdIqMSbfHvKYVlctUKqHbqWqV8g==
+X-Google-Smtp-Source: AGHT+IEAKdsmN11UZ53C0EniwcJHZ3xd/zK4GEq/Y8cRG95vGWNY6LkcONMklYIBfr7lJO8j3q51qQ==
+X-Received: by 2002:a5d:6a92:0:b0:386:3403:7b63 with SMTP id ffacd0b85a97d-38bf57b3d42mr13597623f8f.36.1737542344078;
+        Wed, 22 Jan 2025 02:39:04 -0800 (PST)
+Received: from localhost.localdomain (82-64-73-52.subs.proxad.net. [82.64.73.52])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38bf327ded8sm15661328f8f.89.2025.01.22.02.39.03
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 22 Jan 2025 02:32:43 -0800 (PST)
-Date: Wed, 22 Jan 2025 11:32:41 +0100
+        Wed, 22 Jan 2025 02:39:03 -0800 (PST)
 From: Dave Penkler <dpenkler@gmail.com>
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
+To: gregkh@linuxfoundation.org,
+	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: gpib: Make static and reduce forward
- declarations
-Message-ID: <Z5DJSQUkEsLuzcke@egonzo>
-References: <20250121203342.20410-1-dpenkler@gmail.com>
- <6889992d-043d-4af8-869a-84eea9609148@stanley.mountain>
+Cc: dan.carpenter@linaro.org,
+	Dave Penkler <dpenkler@gmail.com>
+Subject: [PATCH 0/2] Driver entry point clean-up
+Date: Wed, 22 Jan 2025 11:38:57 +0100
+Message-ID: <20250122103859.25499-1-dpenkler@gmail.com>
+X-Mailer: git-send-email 2.47.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <6889992d-043d-4af8-869a-84eea9609148@stanley.mountain>
+Content-Transfer-Encoding: 8bit
 
-On Wed, Jan 22, 2025 at 10:37:33AM +0300, Dan Carpenter wrote:
-> On Tue, Jan 21, 2025 at 09:33:42PM +0100, Dave Penkler wrote:
-> > Declaring the entry points as static caused a warning that the
-> > serial_poll_status function of the agilent_82350b driver was
-> > unused.
-> > 
-> > Add the entry point to the corresponding interface structure
-> > initializations where it was missing.
-> 
-> ...
-> 
-> > @@ -842,6 +824,7 @@ static gpib_interface_t agilent_82350b_unaccel_interface = {
-> >  	.primary_address = agilent_82350b_primary_address,
-> >  	.secondary_address = agilent_82350b_secondary_address,
-> >  	.serial_poll_response = agilent_82350b_serial_poll_response,
-> > +	.serial_poll_status = agilent_82350b_serial_poll_status,
-> >  	.t1_delay = agilent_82350b_t1_delay,
-> >  	.return_to_local = agilent_82350b_return_to_local,
-> >  };
-> > @@ -869,12 +852,12 @@ static gpib_interface_t agilent_82350b_interface = {
-> >  	.primary_address = agilent_82350b_primary_address,
-> >  	.secondary_address = agilent_82350b_secondary_address,
-> >  	.serial_poll_response = agilent_82350b_serial_poll_response,
-> > +	.serial_poll_status = agilent_82350b_serial_poll_status,
-> >  	.t1_delay = agilent_82350b_t1_delay,
-> >  	.return_to_local = agilent_82350b_return_to_local,
-> >  };
-> 
-> So what happened is that Sparse was complaining and you were cleaning
-> up the code and you discovered this bug.  Fine.  But bug fixes need to
-> be in their own commit, not hidden inside a giant cleanup patch.  They
-> need to have a commit message.
-> 
-> Quite often it sucks to discover a bug like this because the bugs have
-> to be fixed first before the cleanup.  We're a bit less strict on this
-> in staging because realistically there are lots of bugs and lots of
-> cleanups and they're going to get mixed together.  But other subsystems
-> maintain a fixes branch and a new development branch and so bug fixes
-> have to apply cleanly to the fixes branch.
-> 
-> So in that case you would need to save the diff of the cleanup.  Go back
-> to the start.  Write the fix.  Apply the cleanup diff on the top.  Deal
-> with any failed chunks.  What a headache!  I get that.  And you're from
-> a gmail.com address so I don't even know if you're getting paid to deal
-> with this crap...
-> 
-> Quite often it sucks but in this case, it's really easy.  Use
-> `git citool`, highlight the bugfix lines, right click, add to commit
-> write a commit message and done.  Make sure it still builds as a stand
-> alone patch, though.  Quite often when I try to highlight and click on
-> all the lines in a bugfix, I accidentally leave out essential pieces.
-> 
-> regards,
-> dan carpenter
-> 
-OK I will send a new patch set splitting the patch as you suggested.
-Thanks,
--dave
+These patches make the driver entry points static and tries
+to minimize the number of forward declarations.
+
+In the course of the cleanup a missing entry point in the
+interface structures of the agilent_82350b driver was
+discovered.
+
+Patch 1 fixes the missing entry point.
+Patch 2 makes the driver entry points static and moves
+        the interface structures to the end of the drivers
+	where needed.
+
+Dave Penkler (2):
+  staging: gpib: Add missing interface entry point
+  staging: gpib: Make static and reduce forward declarations
+
+ .../gpib/agilent_82350b/agilent_82350b.c      | 110 ++-
+ .../gpib/agilent_82350b/agilent_82350b.h      |  47 --
+ drivers/staging/gpib/cb7210/cb7210.c          |  89 ++-
+ drivers/staging/gpib/cb7210/cb7210.h          |  45 --
+ drivers/staging/gpib/cec/cec.h                |  29 -
+ drivers/staging/gpib/cec/cec_gpib.c           |  51 +-
+ drivers/staging/gpib/hp_82335/hp82335.c       |  52 +-
+ drivers/staging/gpib/hp_82335/hp82335.h       |  30 -
+ drivers/staging/gpib/hp_82341/hp_82341.c      |  71 +-
+ drivers/staging/gpib/hp_82341/hp_82341.h      |  40 -
+ drivers/staging/gpib/pc2/pc2_gpib.c           | 247 +++---
+ drivers/staging/gpib/tnt4882/tnt4882_gpib.c   | 718 ++++++++----------
+ 12 files changed, 638 insertions(+), 891 deletions(-)
+
+-- 
+2.47.1
+
