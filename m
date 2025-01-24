@@ -1,109 +1,88 @@
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 788611CC899
-	for <linux-staging@lists.linux.dev>; Fri, 24 Jan 2025 11:01:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A49F4219A8D
+	for <linux-staging@lists.linux.dev>; Fri, 24 Jan 2025 12:24:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737716504; cv=none; b=qRk47RnLEX4q44O3n6gJGcBkWGBhOSSUqUu1ZY7LtFJwjcnsq03XwYq9DrZcGaHkQPOcxMLchoKM6vT6TPltctcXizs8oO/MTwrzM4txjv/Y/A+nooWze2UkFBwAGqCxUhIqZdKsyagu/GiPP+eg8yIpyf/qeqMM3iYpuyRdUbU=
+	t=1737721498; cv=none; b=GlCczTxqEpxL/ZA5sL7aiLB8BygG27MNq+zclRIPkm4Kp/WikHRV6ccVnvlVOQ9vPcwHqynIvKV1iFVE4fOHVJ9BKI6SczMrJPxYB0H+7CSMKOPkuFMrpsokhszQcVf459ugEl4PkkEJol771cAr0sMCvPT5pZGvoefvRjoZU0Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737716504; c=relaxed/simple;
-	bh=gQiollDy+BqlWZlky2v9IBzRbeq1WXtZcTIxkajHpng=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=bLNj+gI3ARrVPE/lN6awnYhlxaqgIHshWNWAti3Dpccwt4CYcDkiWq8L57hU/NOAHT7K9Aq88eGabKGoGtsUXjKSPFSnjvD3UfoxC1F+GbayoTTM02//E4cZTxecxAg5dKw5FriiHeRkNIwre2ayycARIp5OLL/c7M4RjWqGHmI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FGDSFW0N; arc=none smtp.client-ip=209.85.128.45
+	s=arc-20240116; t=1737721498; c=relaxed/simple;
+	bh=Ez2SUlRyvGQWFaRonAO1AfYboy0jbqyl3K6PdJMFs6o=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=fdQllXZeqXGSKCEm0QRPrdoEPvGG3f+jVbXhlhFigojI5p6wMxH63ggPzoJWC9bPlqPL7KdR05kl4yCZ0NFhdR2T93kySN27UOquUqMtpPi9ujgBRSddUKGnO07bv0HfFx6cblvJhTcndSHELNSqs1bUL6ad4z78vp8g6zkTAkk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mbuWGKkb; arc=none smtp.client-ip=209.85.208.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FGDSFW0N"
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-436a39e4891so12972325e9.1
-        for <linux-staging@lists.linux.dev>; Fri, 24 Jan 2025 03:01:42 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mbuWGKkb"
+Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-5dc052246e3so4346221a12.2
+        for <linux-staging@lists.linux.dev>; Fri, 24 Jan 2025 04:24:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1737716501; x=1738321301; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1737721495; x=1738326295; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=DUwlmDmwejBJP87JAahqezz2ee8z+ZzwE8A5wOy/g6U=;
-        b=FGDSFW0NNEw+CbNDnqA/Q7kVnVOVdhmbUDt6t3tvtBL/3Sf/TTH0CPucyKSyHh3Dy1
-         eG8Dzlty3qd6ZOHSbikNHk+rIK4olq9Re42V+foZj5KDnJOO9CjqQUba3UTFL/24P/3L
-         v652zUaXamIku9AqLVde0yWjvOK+hE8oUSs9RmDMLpuJoZI+uByQyGnfaK8m203lbNC8
-         kqjdzmF50KKf7iyi+6T2KatiPqDpapEWUoYgofscUJi/jsZ0Gn2XeRV8apCfPbHBilzQ
-         u6GBrkV8iVzUfyh0qR6zCed12i/0ZEI/AP7narNwm+wmB6wp211diftU6j7kkkfSy70R
-         cbdA==
+        bh=Ez2SUlRyvGQWFaRonAO1AfYboy0jbqyl3K6PdJMFs6o=;
+        b=mbuWGKkbG6CwzPe8EtprcplE0mxDClAntRfVeueB56GUkSju9VKC/EPT6+/SqidHyx
+         ns4y1+AtUewbKRGnRyu4+nU/CeZK5ewI59Sqh/j1ZsufkU+fgz+vLn2CcVKo+L3GxP1w
+         20/GO5YZEeeX45KDQlU1Nm+sTau+/Wp8iB3WUrwEQVDrARF2hvG+9e+MTssc9FFY6YFE
+         F1t9OJ2rdYsErvGoRMzATzXBV7ekGBXWFidO8lPqnQzgwQpWnc8zPPB1T+BU0XxLQpzh
+         tnI/Oty72UMlo3fMi+RRUxtSsqkJ7SzezbwWL16Wp1LVXQJdH9dUGizbBCJMZHzMRrK9
+         LllA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1737716501; x=1738321301;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20230601; t=1737721495; x=1738326295;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=DUwlmDmwejBJP87JAahqezz2ee8z+ZzwE8A5wOy/g6U=;
-        b=mC1L4C79Ag1VKJpB6tyKP/7ZWd1a8U4CvKORKqywPsHV2WAvbCWdTEhLmA+Eb1edrv
-         SfxqA03Mu58blMeWK1BSjbCy/QP29yp1EiGShJHJeDfHAypZXG9+fYebR1guwmYvU32h
-         OdCHiiiI/7/Q/Z+AGOot6au4nqHFVPWsnFp9Pw+tq9NwuExLH3Z9NQvI3JFovDHSLP8E
-         v4rAD/1JDbC5n9eWvUyqFrWivwH7K/6FwB/DX/6fQLYNvCgyJtGxVQN3+QHFvYP1rqGX
-         qFaGzrggkzRxeeAIXZgoQ2SgsIO16Lyo8IcxIKrakFwUC5IfNigRIn8TT75UeKtJ5IrB
-         657g==
-X-Forwarded-Encrypted: i=1; AJvYcCWjd4I+BSE+TQwWCTgjVXEwuqQlKsBNS9veq+NsWtO76xJJ1jVHk4cSgtfSTeZf3/D9xQKFrsyYBfXIvQh3@lists.linux.dev
-X-Gm-Message-State: AOJu0YxJM7u7pn6LpK8Sf2iqEgJmty2YoJOjdMmYaQORixQT4Cjq3fQo
-	VkDdE0x1Zhv2pwSGltzSdbl3rfpBtyW3Wkn/ZzldG4+fl+7X1g/KJkdGgM3s
-X-Gm-Gg: ASbGncsEQjAoze0i1MW3FbMEzXEXEvfKBRBmwmVfUsfnfZSkpzoT2dBc3ltr38YAgRh
-	n+IrhxP9zWqNXgrELHsrl3SUN8A9xV3JyJZCfAtC1965qGKiclqlvMCuqCRaMfiJrN2q/M8/V5C
-	HEo+FEDxVzXGB45Jmh9tV1S0f3qQEpByum4etJMc1u7VVjXjfT4xG7D3X0s1jFDyOdGI0UwZPf1
-	d/ChlF9W5oh8YbG19EW+Xjmx16Tklkr4lZSztZpbmsVwJ2WBDlo2HnvQIaK+zYCAmCH2Pk2jXG3
-	0YAiN6VxEFNTBZptDHS6FZ1CQNean7sumBc0EBhm
-X-Google-Smtp-Source: AGHT+IE9HjoOhHt5dU524zom0XeW2iea2WF+cfMiT3gB1zuR7gXmKLV0E20Ce0xTbggBwNkPeRkazg==
-X-Received: by 2002:a05:600c:1e0b:b0:434:ea21:e14f with SMTP id 5b1f17b1804b1-438913ed04amr268997355e9.13.1737716500651;
-        Fri, 24 Jan 2025 03:01:40 -0800 (PST)
-Received: from localhost.localdomain (82-64-73-52.subs.proxad.net. [82.64.73.52])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-438bd501f1esm22101185e9.12.2025.01.24.03.01.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 24 Jan 2025 03:01:39 -0800 (PST)
-From: Dave Penkler <dpenkler@gmail.com>
-To: gregkh@linuxfoundation.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Cc: Dave Penkler <dpenkler@gmail.com>
-Subject: [PATCH 3/3] staging: gpib: Remove depends on BROKEN
-Date: Fri, 24 Jan 2025 11:59:00 +0100
-Message-ID: <20250124105900.27592-4-dpenkler@gmail.com>
-X-Mailer: git-send-email 2.47.1
-In-Reply-To: <20250124105900.27592-1-dpenkler@gmail.com>
-References: <20250124105900.27592-1-dpenkler@gmail.com>
+        bh=Ez2SUlRyvGQWFaRonAO1AfYboy0jbqyl3K6PdJMFs6o=;
+        b=LjmUYPuNNnbfACO1x70h2x3U1T9u6fGaRrQVXLFPpA57LJCeZeg3FMw4MygZXiymNH
+         ehmwP3dk2sK6hT6nZsMvH4cjU4LL/mFnjMMXRRtx/cVEjIxAZHAwCMY0rgDupxJzG5Bb
+         mtt8V+bUOyM2YWEQfvAXtNtUuRv78SK37DddrYRFllcLBJNbHc+gNjRWrcwxVxW27jG9
+         KxIfulY6UAMqw1hkTkUrciV20tnCd0mbO26yiSltkYsNWPP72BbumHRAcCPqvLA+dr8N
+         gUdtRhaW165Ilw/ZoAkhuFKw3VxkLogi3HM4UqO4Sv6qcCSPlq28WTlKY7EXLAGAhvTQ
+         5P5A==
+X-Forwarded-Encrypted: i=1; AJvYcCWQvoyrK/EGQhlW2KG/OF+9tx5ZYLhrI6KWTkdEtrAstqtHeTqeJf3zYNgewNef4qvnfYdzdens3FOy19oH@lists.linux.dev
+X-Gm-Message-State: AOJu0YzNS8faSvEeGXBbbQx/xJ0Q2XtDYX2nqpFQa3xbBlqvahP4Jbhm
+	PMHiH+PYvrS6DYZdGe7h41YEqLsNbsMK9EsrnsY33iGDkszl5jJcd6PwSt0Avr1YsnXgI2HTN3g
+	/7M5ns8tGHFf3DcfTM0Xc27x2BSQ=
+X-Gm-Gg: ASbGncvaqZy3sw8y9/BmWxilOUvkABLtQFq5E7GHJc39VYB/nk7pI4dcO3gh+1WYDTw
+	dvAHG7LhLF4tyLZFX8RN+o+vRrvFQCZOBdqUIxbBmPm4mSgWHwxzouVhi7iIviA==
+X-Google-Smtp-Source: AGHT+IH7FFyODV+v1X7zscNsvWrVSCtN2/X2KIAW2/2W40Xjumsu+sIF0BJPdjbE/jACAI/w07aysYDlAo3xtMe9ywY=
+X-Received: by 2002:a17:907:7f17:b0:ab2:b5f1:5698 with SMTP id
+ a640c23a62f3a-ab38b44e10emr3083236166b.38.1737721494768; Fri, 24 Jan 2025
+ 04:24:54 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <78C4C3F9E650FD04+20250124034402.540943-1-wangyuli@uniontech.com>
+In-Reply-To: <78C4C3F9E650FD04+20250124034402.540943-1-wangyuli@uniontech.com>
+From: Andy Shevchenko <andy.shevchenko@gmail.com>
+Date: Fri, 24 Jan 2025 14:24:18 +0200
+X-Gm-Features: AWEUYZksS6rM_MVX07XY5v4VK89J11NA6n6GtHKDlIW8nNRKM6w2dUUbBkcDiqo
+Message-ID: <CAHp75VcQupMnxkaObctgBAqZsbyJbDjYueE3rsSOLUM256vomQ@mail.gmail.com>
+Subject: Re: [PATCH] media: atomisp: i2c: Remove unused macro definitions
+To: WangYuli <wangyuli@uniontech.com>
+Cc: hdegoede@redhat.com, mchehab@kernel.org, sakari.ailus@linux.intel.com, 
+	andy@kernel.org, gregkh@linuxfoundation.org, linux-media@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev, 
+	zhanjun@uniontech.com, guanwentao@uniontech.com, chenlinxuan@uniontech.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-The build of drivers/staging/gpib/hp_82341 driver was failing
-with:
+On Fri, Jan 24, 2025 at 5:45=E2=80=AFAM WangYuli <wangyuli@uniontech.com> w=
+rote:
+>
+> Delete obsolete macro definitions that are no longer in use in
+> mt9m114.h to improve code readability and maintainability.
 
-ERROR: modpost: "isapnp_read_byte"
-[drivers/staging/gpib/hp_82341/hp_82341.ko] undefined!
+It looks okay, but as far as I know this driver needs a lot of work
+and some of those macros actually may be needed. Do you have a full
+roadmap of making this driver to be in shape?
 
-The driver was marked BROKEN to fix this issue
-Link: https://lore.kernel.org/all/2024101412-outsider-icing-052e@gregkh/
-
-Remove the dependency on BROKEN
-
-Signed-off-by: Dave Penkler <dpenkler@gmail.com>
----
- drivers/staging/gpib/Kconfig | 1 -
- 1 file changed, 1 deletion(-)
-
-diff --git a/drivers/staging/gpib/Kconfig b/drivers/staging/gpib/Kconfig
-index 81510db3072e..2bf11df122e2 100644
---- a/drivers/staging/gpib/Kconfig
-+++ b/drivers/staging/gpib/Kconfig
-@@ -169,7 +169,6 @@ config GPIB_HP82341
-        tristate "HP82341x"
-        select GPIB_COMMON
-        select GPIB_TMS9914
--       depends on BROKEN
-        depends on ISA_BUS || EISA
-        help
-          GPIB driver for HP82341 A/B/C/D boards
--- 
-2.47.1
-
+--=20
+With Best Regards,
+Andy Shevchenko
