@@ -1,70 +1,73 @@
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 067F770815
-	for <linux-staging@lists.linux.dev>; Fri, 24 Jan 2025 11:00:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6EBFF1CDA19
+	for <linux-staging@lists.linux.dev>; Fri, 24 Jan 2025 11:01:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737716432; cv=none; b=gTy4XCrxx35Wq0XP67l6G1SKaR4opbErb7GS7tokbsY5OJ+llSIzUvIdZBfKf+lDT5B/ZkT0MvigrI55QIdWpNAzNflUXVKG4l4x6Oq4NdmTIBgNVGysCBLS6Pw5LLIIS+mR/CHrZPElOySDaN9EwwNJDE7+ggcaI4TcrSWeNmI=
+	t=1737716494; cv=none; b=i4sZ5jswBEymrYLFvPnPD8gMDJwSe78kaPno+0+JC6sNFNusVYEiW8gejuqh1+3HSyNdVc8nD4GO1SJQpxY/nu9ITrP370bYTxKq4Zl88XOcuqWvAH23ki2Uwb3fzbaHszdpxEL63o6fUi8u//vt6JmT4sPUltLg/+rM0/wAsAU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737716432; c=relaxed/simple;
-	bh=K3lXE34v3bAKQCBs5HiG80OEqBCSOkm+2psFYeZcL0k=;
+	s=arc-20240116; t=1737716494; c=relaxed/simple;
+	bh=2y9QcdyURhsOTT4phqP/68t5bbg59K9y07oHH+MlTmc=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=uswtaZG+4Vfyjgb/v1NzxfodQptbwcpEAAXHs6EYAH3dqik/FPsYavwZCJteD30D3J12Ra0GVjbfgBUADoxswJehZOL6PUiYV0dvDJuV6Vv3MMfz6ipbPNj2uCuBTb9inNB5X0mezC7wC9VAGt54I1xLbhC1H4Iamqdhta8YlNc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AA032+4U; arc=none smtp.client-ip=209.85.128.48
+	 MIME-Version; b=QaSJIDJPCas+HLvZW0XujlkzJkkZqAIxr7qGyO//D9OWGnprwIPvh/kMtianxjHVIVbUQKeofuTCE0IyaHYwWDdrLoP9J63Q+nPbFgK9OFoVimhk6bYwwP96a40fJar0QfzTKh7hmjKnLAuh3rSFezMjVmMW6ZUXZcwDtXCN9qg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Zfa1hcJP; arc=none smtp.client-ip=209.85.128.52
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AA032+4U"
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-436a39e4891so12961325e9.1
-        for <linux-staging@lists.linux.dev>; Fri, 24 Jan 2025 03:00:30 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Zfa1hcJP"
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-4362f61757fso20042995e9.2
+        for <linux-staging@lists.linux.dev>; Fri, 24 Jan 2025 03:01:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1737716429; x=1738321229; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1737716491; x=1738321291; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=z54+9WQWLutDiVJQz03gQKo3yyUNOVr5XixFhEZ4iPA=;
-        b=AA032+4UaK+jmHMsaYrQI+zAHWozOdWqZtwgkQjFXvGkIaJ8f1oM1483rcZawG9R9S
-         H2UxSQTDD9+mMzKyvnne0dYbxDB5okyblLM4RO4TD25b0syRtkbtkJYBo9J72pz5NcRn
-         ghZD6ygwSXFPj6rsOxxraCEs1ZPTVy7G3pgJ9QqU18oe3S4a14Ifb/FbIKN5lRgD896P
-         0LBAUQOZLPwN+5U7AkK5bdbp0cdf2swXVtF/XsytdaTrpHmxAHz2BdNaRzczSXz+qHvU
-         iGRvkZG+36PankCLdqCwOCQPpc5Ckknyl046Xa13t3CaEA/TCQHpcBJxFTmFuS3ZqxVg
-         vwrg==
+        bh=SU0v4OLfbyg2BcXH+Gm7C0wnMA6JMbZdY3F/aBWgBnc=;
+        b=Zfa1hcJPcmJVeyL7dk26Jz+t853v1+lE3HsZ/2bMg0TIHWDPKy89YrnK+VnOr1q5d9
+         eBLLBzspC0Y31HBPLAlKpTCIaooUOz8NsfHLUDNP+Hd4W2cuMe7ZUhaFFPTFgHmrxEZV
+         7TzyXsmInKQUU9uw7QuAuQkeo5Bpn87KpFF3Yvbl8bgGN+JyIJIWHTgyQ1BAH9Yy1g5j
+         QZdPhFAuYWQEQet9lUE9AKNatTt3b+GPA7MIuuMBlXDAKt+OJPCiOFHPfrm2LBweo+lf
+         mWvTb9TeDwDdE5igaW4mgssq0/IkANhEm5d6rFBZw58AtdMj/gjQq/XWcvqAQQupXom1
+         fxtw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1737716429; x=1738321229;
+        d=1e100.net; s=20230601; t=1737716491; x=1738321291;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=z54+9WQWLutDiVJQz03gQKo3yyUNOVr5XixFhEZ4iPA=;
-        b=tiTj9LJpGRR4FDzWxQGc7Ii8u6k53lXwa7dpYJu7E31KINCrGegjsdjNAix27Fe0y9
-         AK1GvfU4zeh4G4+EtnZQiuvSaw9pW9AJwma0KU12EIrI6jwx5klClwhDc5mYFx4xwUnZ
-         BNtJuACg1Ovxv+SNmpnGmQIs0GyJ+JB1dACu7iOS52241l5tsdUXVm7p7S3jEnTLG5zl
-         J6ecQDA38jwt5r8/+twXvRESv9oN/GsI1KGwaG+gYg67xYAKZypztsKMA4IxgyPR3X+Y
-         WpWuPq99DnOBVdTl/gDtUcD9RSbSgnTJe7fSwnoYz79A3wTJBQK4wA3o0w13PUbPOsax
-         h87A==
-X-Forwarded-Encrypted: i=1; AJvYcCWw3iboIn8LJ1l3Odoo4dCwBZbpnpnpgKCyvKt8elZC1nH1WPDft0LPq0UMpIsVvjmFzl05XaQYAG80f/QQ@lists.linux.dev
-X-Gm-Message-State: AOJu0YyjcjGGtB0Pwsr+hSzCV+EDQj0Vwj5NPNppVlIjEQTukK1fBuIV
-	23/2Tz0P4uSQe6sDdrfbZrqO+WMdQ0fXbqYg1Z2T3jXm4LJLjhOeeLvT7Q==
-X-Gm-Gg: ASbGncsR6sbhpQc8h3I79vaCpxNchUhPJnu1AA76uzT7vGhIKHqPb6eYmU3OIDTqTqb
-	8Q2bIuAzTlAO7um+Pi4cKgDZbw9tZSp9iGCaUonpGkl3nXS5VBR9O90NmPuTy97K8DLHbnmKzHQ
-	xul824UJcj846Jyre5iKM3WDtM/kXl/ml+aCNl3NUnbx9jqOYxEDPkXtfsdSzjK1xdltUxHTb7o
-	QjIxnyl+hJvuQo638l0MUcNBl+8YQ9zasHzK1+zAokmpw2q/WreUpfldW3pUulTZ3ac60NheKtk
-	kQw/j3ZkA1v9qgGhjLLCz4hiLUnhEPfhEnHMpykR
-X-Google-Smtp-Source: AGHT+IEaf/HCd4r1H97dhs1o0rKPHUdKBLJhFr1IOQK31EYIxfQvIfOy07DaokwsIf2LW0X3PqsTyw==
-X-Received: by 2002:a05:600c:35d6:b0:431:5aea:95f with SMTP id 5b1f17b1804b1-438913ed550mr316865145e9.16.1737716429138;
-        Fri, 24 Jan 2025 03:00:29 -0800 (PST)
+        bh=SU0v4OLfbyg2BcXH+Gm7C0wnMA6JMbZdY3F/aBWgBnc=;
+        b=WpeEzaSEd3+AjceW32Rugmyoy/6B5czvn8mYNpz/J1eaLzwsPuYwjF9djWJWZ7QC2u
+         1TQKYUWENPJFZI2M8Fn08YbQtYdP8kxwRSqGriC6BXt+AzRvxTPgS4gDgkrmBjfdoTlx
+         ArPtVMNXbI99MJcOpMBeIR+ZIBr70hoyWAfPi4txnML3lz+kocwm5e3mOBaYb+uG/7NW
+         PqMjVaBpfKfPqJ4DkvHWSSyphcR40+/EEswS2h/iCiuYPqPz8e2tAIHRUkpwJbCkicno
+         6pnEtIDJuQdp5h60W3FdnJpu6/FxcdLeOFX7Z18ZLvXCK8zy0+EFqXFg8z5DG/aI4HH4
+         ZLfw==
+X-Forwarded-Encrypted: i=1; AJvYcCVRh1D8mmlMdQsE4i+aAc3HaAT3nQm9EhPu4XMvwH9StE9OYf5iRreY3ZBfyVsH+O/2h+b2UhzKSB9GFhr8@lists.linux.dev
+X-Gm-Message-State: AOJu0Yx9AjaVHMM34xEFtpHNwGZ/gXtCem3AiBVuX8404dyBFvXxWU1T
+	CoEew6hDetykx8voCsjlT718pUshf2S06Q2lhfJoY14+W4GQ3ZPl
+X-Gm-Gg: ASbGnctFFjJXbIOndLaTLoHfnPodAhlVhnAroWLf23jYfG+fX9zAalQ3Dlitg388d9f
+	VpCX9UncyVB2PCKmbwW9yFRTjWgzylm0S44lQUcLUZflwxki5jAeTJQHCexEqmf+OCeYQoWKaX0
+	cCI3jpUWOpP4Ts/XZfxw0Jf0gBFv1C7ksg0XhWIY6V4mB1qCAoCsUPsssTiCGOHDCnp1aVQ469q
+	CVizBdqJvBRhdGE9L675OaeHScxJ9khuz3KaI9HvkvXulHZ83H+3skXF2dOGl43Xk9Z+4PO2q5L
+	SCnlurF8pHLdVzvZzxgWbpbPtOOVqEIj981vgyNa
+X-Google-Smtp-Source: AGHT+IGU4ejgFSioRIT0T+/LllXGVfXWrqYGm/tEsmQ9EqlzD3jz/OP3Nr4w6Cj9FvgI0yTmkcYJ7g==
+X-Received: by 2002:a05:600c:3544:b0:434:a781:f5e2 with SMTP id 5b1f17b1804b1-438913cabedmr251091075e9.8.1737716490321;
+        Fri, 24 Jan 2025 03:01:30 -0800 (PST)
 Received: from localhost.localdomain (82-64-73-52.subs.proxad.net. [82.64.73.52])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-438bd501f1esm22101185e9.12.2025.01.24.03.00.28
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-438bd501f1esm22101185e9.12.2025.01.24.03.01.29
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 24 Jan 2025 03:00:28 -0800 (PST)
+        Fri, 24 Jan 2025 03:01:29 -0800 (PST)
 From: Dave Penkler <dpenkler@gmail.com>
 To: gregkh@linuxfoundation.org,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Cc: Dave Penkler <dpenkler@gmail.com>
-Subject: [PATCH 1/3] staging: gpib: Fix pr_err format warning
-Date: Fri, 24 Jan 2025 11:58:58 +0100
-Message-ID: <20250124105900.27592-2-dpenkler@gmail.com>
+Cc: Dave Penkler <dpenkler@gmail.com>,
+	Stephen Rothwell <sfr@canb.auug.org.au>,
+	Jaroslav Kysela <perex@perex.cz>,
+	Arnd Bergmann <arnd@arndb.de>
+Subject: [PATCH 2/3] pnp: isapnp: Export isapnp_read_byte again
+Date: Fri, 24 Jan 2025 11:58:59 +0100
+Message-ID: <20250124105900.27592-3-dpenkler@gmail.com>
 X-Mailer: git-send-email 2.47.1
 In-Reply-To: <20250124105900.27592-1-dpenkler@gmail.com>
 References: <20250124105900.27592-1-dpenkler@gmail.com>
@@ -76,36 +79,44 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This patch fixes the following compile warning:
+The build of drivers/staging/gpib/hp_82341 driver was failing
+with:
 
-drivers/staging/gpib/hp_82341/hp_82341.c: In function 'hp_82341_attach':
-./include/linux/kern_levels.h:5:25: warning: format '%lx' expects argument of type 'long unsigned int', but argument 2 has type 'u32' {aka 'unsigned int'} [-Wformat=]
+ERROR: modpost: "isapnp_read_byte"
+[drivers/staging/gpib/hp_82341/hp_82341.ko] undefined!
 
-It was introduced in
+because the symbol was not exported for modules.
 
-commit baf8855c9160 ("staging: gpib: fix address space mixup")
+There were no errors building with allyesconfig
 
-but was not detected as the build of the driver depended on BROKEN.
+The symbol was removed by
+Link: https://lore.kernel.org/all/20051030202734.GN4180@stusta.de/
+because it was no longer used by any mainline modules.
 
-Fixes: baf8855c9160 ("staging: gpib: fix address space mixup")
+Export the symbol again.
+
+Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
+Closes: https://lore.kernel.org/r/20241014162054.2b91b5af@canb.auug.org.au
+Cc: Jaroslav Kysela <perex@perex.cz> (maintainer:ISAPNP)
+Cc: Rafael J. Wysocki" <rafael.j.wysocki@intel.com>
+Cc: Arnd Bergmann <arnd@arndb.de>
 Signed-off-by: Dave Penkler <dpenkler@gmail.com>
 ---
- drivers/staging/gpib/hp_82341/hp_82341.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/pnp/isapnp/core.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/staging/gpib/hp_82341/hp_82341.c b/drivers/staging/gpib/hp_82341/hp_82341.c
-index 9cd2a2f50ff1..800f99c05566 100644
---- a/drivers/staging/gpib/hp_82341/hp_82341.c
-+++ b/drivers/staging/gpib/hp_82341/hp_82341.c
-@@ -727,7 +727,7 @@ static int hp_82341_attach(gpib_board_t *board, const gpib_board_config_t *confi
- 	for (i = 0; i < hp_82341_num_io_regions; ++i) {
- 		start_addr = iobase + i * hp_priv->io_region_offset;
- 		if (!request_region(start_addr, hp_82341_region_iosize, "hp_82341")) {
--			pr_err("hp_82341: failed to allocate io ports 0x%lx-0x%lx\n",
-+			pr_err("hp_82341: failed to allocate io ports 0x%x-0x%x\n",
- 			       start_addr,
- 			       start_addr + hp_82341_region_iosize - 1);
- 			return -EIO;
+diff --git a/drivers/pnp/isapnp/core.c b/drivers/pnp/isapnp/core.c
+index c43d8ad02529..d2ff76e74a05 100644
+--- a/drivers/pnp/isapnp/core.c
++++ b/drivers/pnp/isapnp/core.c
+@@ -843,6 +843,7 @@ EXPORT_SYMBOL(isapnp_protocol);
+ EXPORT_SYMBOL(isapnp_present);
+ EXPORT_SYMBOL(isapnp_cfg_begin);
+ EXPORT_SYMBOL(isapnp_cfg_end);
++EXPORT_SYMBOL(isapnp_read_byte);
+ EXPORT_SYMBOL(isapnp_write_byte);
+ 
+ static int isapnp_get_resources(struct pnp_dev *dev)
 -- 
 2.47.1
 
