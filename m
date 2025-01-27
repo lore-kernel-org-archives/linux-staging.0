@@ -1,70 +1,130 @@
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4540C153808;
-	Sun, 26 Jan 2025 18:18:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEDE31FF60F;
+	Mon, 27 Jan 2025 13:25:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737915504; cv=none; b=W3zLQT6tUlhcYfqR8ICufeg1HhHKLBc0mnyYZ3yZDJsRGDOBzUDwR62PcLiwIqBUSpV1/QF4b6weahodUBr4siamxVaw194hv78AjWqoB0S/IWEqPcizbLIQxYc/6vFDo8m/ZhoyQ7VrfEBPK3Mw+b4jHuoxKOns8d/pZso/hWk=
+	t=1737984331; cv=none; b=ftbI7iVt3e+DnsELGXNoebxH8Jm6yzOlxPrOgt5nljdP9ZBVeGoIzaAH+d4Ea1vKppGJgAwiVVCJW5OxiQQhpcv/QeEI2auDVhkeLaJ2+8DfZBxGLaagqawbnkB8J8JeexnY5cJelNksglNC+dV03JtiuIAxNCUrPeOWpQ0xe7I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737915504; c=relaxed/simple;
-	bh=bjQ+BjqsN+XaNUDeaG65fQ5MfWBsAKH/MIoVme5Ghyo=;
+	s=arc-20240116; t=1737984331; c=relaxed/simple;
+	bh=RjFj+btLOrA1I0c/0XDEPot6dd9rNyckywxmgkJzq3o=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=emlOsr3Nh4kE2VZ4dY+z1IIypBIWsYuAycKKvxteQmBq0WEn77/tSEfBy62BH2S3FZfWn+IQECdiBCfetoBW68fMEoRmgpx508pVdxSJtveVoOu5fXr9ta5qLkEtebCIUTFrR464iPhj90UKijlhU5yoDA0CLTfjzMpA2iQSUQU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ax0GM5bH; arc=none smtp.client-ip=209.85.128.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=QY1HaSC+tcqkRu16uCdXF39TDHwhZxP/RUVWHFe5g7CshiLGX82kYTkNsCdeGTROYWqjmlThPqSz2fO8JVIRFVs9lAKMmvJRhjWNo37kyVL+oTX1ddKyauCUJ7DA8kANbAJ25HMreryqFqq6ri+oZOBLQm0bjzatcgsN8Ky8zLM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=c4TphOHn; arc=none smtp.client-ip=198.175.65.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ax0GM5bH"
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-4361f796586so40259715e9.3;
-        Sun, 26 Jan 2025 10:18:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1737915501; x=1738520301; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=Bnh+p1HEbTCxFxa6ALnjoJvMm9vVF7/t6oC1k+ZUFf0=;
-        b=Ax0GM5bHEpHltjFowo0S1j5geodXZ2b5oYGykB3mYYjoDYwzZMWHndIgSmjEFvo7d8
-         BN/LnwENp057Jb2EZnx8o0MeSEDV+D6n+hz3ZXLhI33ohRSmN0EC/5/o6thGT70R5NrA
-         nY2FAkMGoqqYvTxRm/76HMs8y/jN3dCJj6jqPqkri4bojh05nOJ0Mo3yWwovP56YwmQH
-         aNGa8Jg3JbO3aD/trWHyS2xUj7NWaZ8X80rsF16ditzefNhuNDUWPaopRKOT58QTUrWF
-         Il0+qb/ywvRBh/zNjnKKzUKh6VV7r/jJYZvOa7ZTbBrVk99Ni4QT8Qcj0HZl3Kf0s0at
-         PizQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1737915501; x=1738520301;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Bnh+p1HEbTCxFxa6ALnjoJvMm9vVF7/t6oC1k+ZUFf0=;
-        b=hzCF7yGpucKawBfTesThzSY9ML+L/WQQ9oG57gyZJh9AKRtEiCKwlyZWR1p5ULodDf
-         98j8xuJJ1qk7pan0YNQC9pwfVTXjRC7u+1Occ/0bccZ93mkoBI6bXTNcWfZzWc7dk640
-         VCvg4sVDG/56Oz0JVpRG0mmNAyNluLaGU+SOlTzLrNh3LlK86ycfapHbYMA+1/IHXWvq
-         bkvzhUBoh3jzDNahCv6tDntvHTOhK9dtknbuVhsJDIjTIy9KyN08VZNJUWb+UIbcc5Gh
-         CCPxg77gT93Z/+1iL7WdqgJ2t364DEHvW6I8bBNJPyDdJ4iLgtnsjSyany9z6giv5qVE
-         2vQg==
-X-Forwarded-Encrypted: i=1; AJvYcCUULGVhCUvcndr1kpzjM9FoNAWpsYx7WnNf1mn+cc6oPLzIQPO40LzxhabyCM42b0VlPwGg/KxGcotBeDNT@lists.linux.dev, AJvYcCVHYVbVl5FjdASiU8oFOxRQuwN2fD9VjNniznPn1GflIlVZaNUr7OcUoUKBtcqZJrlxovTZptCFoxynK0nykw==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxJNI7PZa1kqChCfHA8KZZVKdPyPbWXz/f2kdg3uNUuYshdDAtc
-	5wnn3ljp6JinP5qvl2M7+5qbTE3GZL8PpjX/LGFIzuG1lZIZTSKqpWfv78ox
-X-Gm-Gg: ASbGncsTp/+XvZwgB7eN1WLPEXJtQqGgrgxhbfqeXVWiYEC6gY5qLt7K8In07mhl9Qa
-	mx7qrQwvIGvResSnrcc+UIxzC4QlINjOicFmSCU6e2yV8q+34kQooqGkUqyTqahIqLARJz9Js+7
-	bEpNYhM9A21/p+dK04WDZA9oxA7F8f0GqxgOfYVLQA2zX9smhv0yNL4skdjzmxk7ImsjbPen6kh
-	5dkijvuAwQEFo7qAqacqUtf28eNfjvpEnvBs8H83pcx+b+iMnwkf/BkV4+jYMIQ1x6y1Z2SA+4h
-	+Q3bKkQyY5ar3I5X4C98
-X-Google-Smtp-Source: AGHT+IHc4CHZsEKtrbKoqsvQuk7s8d7ztPIkr6RcVt80vc3QzxXaarBhX6RGKClxBNRbJgcbdd+I5g==
-X-Received: by 2002:a05:600c:3c82:b0:434:f5c0:329f with SMTP id 5b1f17b1804b1-438913f08a2mr390752945e9.14.1737915501290;
-        Sun, 26 Jan 2025 10:18:21 -0800 (PST)
-Received: from egonzo (82-64-73-52.subs.proxad.net. [82.64.73.52])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-438bd4900e2sm102554375e9.24.2025.01.26.10.18.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 26 Jan 2025 10:18:19 -0800 (PST)
-Date: Sun, 26 Jan 2025 19:18:17 +0100
-From: Dave Penkler <dpenkler@gmail.com>
-To: kernel test robot <lkp@intel.com>
-Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH 3/3] staging: gpib: Remove depends on BROKEN
-Message-ID: <Z5Z8aaPYfxtOnMJV@egonzo>
-References: <20250124105900.27592-4-dpenkler@gmail.com>
- <202501252201.OmgbVCva-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="c4TphOHn"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1737984329; x=1769520329;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=RjFj+btLOrA1I0c/0XDEPot6dd9rNyckywxmgkJzq3o=;
+  b=c4TphOHnOc6wrt2+smoGshV7o6p9F15alON/EAq8PJ9nPfbZ03eYHLE0
+   LYEzkqP7sUu1f+2XxTk/YsB9lnpxeEF47VM6CUyO+9OW3IMs1Kawc/NFa
+   8YAxQTeA2bfAwhdxu5fS0sAmFL+70H5LHFcLwKMXCMm3q0wo3f2YM+rnS
+   2smR6qVdZbEekuIHYXyn7CVaFjL+tPhRIxEiurTqCD/obnKOS6wOFFwuK
+   7xAaPlJ2FXdQNs3dbJNsiLAgc8fy/HnuvaSw+ixLvP6ElLLr0i77w2/ZQ
+   qZ9uCGjnqRBmH8v/E0VyKAgUV2U7XeG6qaZBDUUPhEZPxf2/dU1HrgRoi
+   Q==;
+X-CSE-ConnectionGUID: hnQP/NfES8C1CqTjUlYg3g==
+X-CSE-MsgGUID: HGeRKCaCRVicLpUxN+FMag==
+X-IronPort-AV: E=McAfee;i="6700,10204,11328"; a="42105370"
+X-IronPort-AV: E=Sophos;i="6.13,238,1732608000"; 
+   d="scan'208";a="42105370"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jan 2025 05:25:22 -0800
+X-CSE-ConnectionGUID: oOw//HyuRH2sXbDiVD3/cA==
+X-CSE-MsgGUID: F7vXYkyrSx2N1gt4t3xT9A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="131730368"
+Received: from smile.fi.intel.com ([10.237.72.58])
+  by fmviesa002.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jan 2025 05:25:02 -0800
+Received: from andy by smile.fi.intel.com with local (Exim 4.98)
+	(envelope-from <andriy.shevchenko@intel.com>)
+	id 1tcP6l-00000005jpm-3fIe;
+	Mon, 27 Jan 2025 15:24:55 +0200
+Date: Mon, 27 Jan 2025 15:24:55 +0200
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: Arnd Bergmann <arnd@kernel.org>
+Cc: linux-kernel@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	Christophe Leroy <christophe.leroy@csgroup.eu>,
+	Damien Le Moal <dlemoal@kernel.org>, Jiri Kosina <jikos@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Corey Minyard <minyard@acm.org>, Peter Huewe <peterhuewe@gmx.de>,
+	Jarkko Sakkinen <jarkko@kernel.org>,
+	Tero Kristo <kristo@kernel.org>, Stephen Boyd <sboyd@kernel.org>,
+	Ian Abbott <abbotti@mev.co.uk>,
+	H Hartley Sweeten <hsweeten@visionengravers.com>,
+	Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+	Len Brown <lenb@kernel.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	John Allen <john.allen@amd.com>,
+	Herbert Xu <herbert@gondor.apana.org.au>,
+	Vinod Koul <vkoul@kernel.org>, Ard Biesheuvel <ardb@kernel.org>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Moritz Fischer <mdf@kernel.org>, Liviu Dudau <liviu.dudau@arm.com>,
+	Benjamin Tissoires <benjamin.tissoires@redhat.com>,
+	Andi Shyti <andi.shyti@kernel.org>,
+	Michael Hennerich <michael.hennerich@analog.com>,
+	Peter Rosin <peda@axentia.se>, Lars-Peter Clausen <lars@metafoo.de>,
+	Jonathan Cameron <jic23@kernel.org>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Markuss Broks <markuss.broks@gmail.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Lee Jones <lee@kernel.org>, Jakub Kicinski <kuba@kernel.org>,
+	Shyam Sundar S K <Shyam-sundar.S-k@amd.com>,
+	Iyappan Subramanian <iyappan@os.amperecomputing.com>,
+	Yisen Zhuang <yisen.zhuang@huawei.com>,
+	Stanislaw Gruszka <stf_xl@wp.pl>, Kalle Valo <kvalo@kernel.org>,
+	Sebastian Reichel <sre@kernel.org>,
+	Tony Lindgren <tony@atomide.com>, Mark Brown <broonie@kernel.org>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Xiang Chen <chenxiang66@hisilicon.com>,
+	"Martin K. Petersen" <martin.petersen@oracle.com>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Heiko Stuebner <heiko@sntech.de>,
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+	Vaibhav Hiremath <hvaibhav.linux@gmail.com>,
+	Alex Elder <elder@kernel.org>, Jiri Slaby <jirislaby@kernel.org>,
+	Jacky Huang <ychuang3@nuvoton.com>, Helge Deller <deller@gmx.de>,
+	Christoph Hellwig <hch@lst.de>, Robin Murphy <robin.murphy@arm.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Kees Cook <keescook@chromium.org>,
+	Trond Myklebust <trond.myklebust@hammerspace.com>,
+	Anna Schumaker <anna@kernel.org>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Takashi Iwai <tiwai@suse.com>, linuxppc-dev@lists.ozlabs.org,
+	linux-ide@vger.kernel.org, openipmi-developer@lists.sourceforge.net,
+	linux-integrity@vger.kernel.org, linux-omap@vger.kernel.org,
+	linux-clk@vger.kernel.org, linux-pm@vger.kernel.org,
+	linux-crypto@vger.kernel.org, dmaengine@vger.kernel.org,
+	linux-efi@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+	linux-fpga@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	linux-input@vger.kernel.org, linux-i2c@vger.kernel.org,
+	linux-iio@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com,
+	linux-arm-kernel@lists.infradead.org, netdev@vger.kernel.org,
+	linux-leds@vger.kernel.org, linux-wireless@vger.kernel.org,
+	linux-rtc@vger.kernel.org, linux-scsi@vger.kernel.org,
+	linux-spi@vger.kernel.org, linux-amlogic@lists.infradead.org,
+	linux-rockchip@lists.infradead.org,
+	linux-samsung-soc@vger.kernel.org, greybus-dev@lists.linaro.org,
+	linux-staging@lists.linux.dev, linux-serial@vger.kernel.org,
+	linux-usb@vger.kernel.org, linux-fbdev@vger.kernel.org,
+	iommu@lists.linux.dev, linux-trace-kernel@vger.kernel.org,
+	kasan-dev@googlegroups.com, linux-hardening@vger.kernel.org,
+	linux-nfs@vger.kernel.org, linux-kbuild@vger.kernel.org,
+	alsa-devel@alsa-project.org, linux-sound@vger.kernel.org
+Subject: Re: [PATCH 00/34] address all -Wunused-const warnings
+Message-ID: <Z5eJJ199QwL0HVJT@smile.fi.intel.com>
+References: <20240403080702.3509288-1-arnd@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -73,45 +133,47 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <202501252201.OmgbVCva-lkp@intel.com>
+In-Reply-To: <20240403080702.3509288-1-arnd@kernel.org>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-On Sat, Jan 25, 2025 at 10:47:53PM +0800, kernel test robot wrote:
-> Hi Dave,
+On Wed, Apr 03, 2024 at 10:06:18AM +0200, Arnd Bergmann wrote:
+> From: Arnd Bergmann <arnd@arndb.de>
 > 
-> kernel test robot noticed the following build errors:
+> Compilers traditionally warn for unused 'static' variables, but not
+> if they are constant. The reason here is a custom for C++ programmers
+> to define named constants as 'static const' variables in header files
+> instead of using macros or enums.
 > 
-> [auto build test ERROR on staging/staging-testing]
+> In W=1 builds, we get warnings only static const variables in C
+> files, but not in headers, which is a good compromise, but this still
+> produces warning output in at least 30 files. These warnings are
+> almost all harmless, but also trivial to fix, and there is no
+> good reason to warn only about the non-const variables being unused.
 > 
-> url:    https://github.com/intel-lab-lkp/linux/commits/Dave-Penkler/staging-gpib-Fix-pr_err-format-warning/20250124-190232
-> base:   staging/staging-testing
-> patch link:    https://lore.kernel.org/r/20250124105900.27592-4-dpenkler%40gmail.com
-> patch subject: [PATCH 3/3] staging: gpib: Remove depends on BROKEN
-> config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20250125/202501252201.OmgbVCva-lkp@intel.com/config)
-> compiler: alpha-linux-gcc (GCC) 14.2.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250125/202501252201.OmgbVCva-lkp@intel.com/reproduce)
+> I've gone through all the files that I found using randconfig and
+> allmodconfig builds and created patches to avoid these warnings,
+> with the goal of retaining a clean build once the option is enabled
+> by default.
 > 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202501252201.OmgbVCva-lkp@intel.com/
+> Unfortunately, there is one fairly large patch ("drivers: remove
+> incorrect of_match_ptr/ACPI_PTR annotations") that touches
+> 34 individual drivers that all need the same one-line change.
+> If necessary, I can split it up by driver or by subsystem,
+> but at least for reviewing I would keep it as one piece for
+> the moment.
 > 
-> All errors (new ones prefixed by >>):
-> 
->    alpha-linux-ld: drivers/staging/gpib/hp_82341/hp_82341.o: in function `read_and_clear_event_status':
-> >> (.text+0x1400): multiple definition of `read_and_clear_event_status'; drivers/staging/gpib/agilent_82350b/agilent_82350b.o:(.text+0x13c0): first defined here
->    alpha-linux-ld: drivers/staging/gpib/hp_82341/hp_82341.o: in function `read_transfer_counter':
-> >> (.text+0x1480): multiple definition of `read_transfer_counter'; drivers/staging/gpib/agilent_82350b/agilent_82350b.o:(.text+0x1440): first defined here
->    alpha-linux-ld: drivers/staging/gpib/hp_82341/hp_82341.o: in function `set_transfer_counter':
-> >> (.text+0x1510): multiple definition of `set_transfer_counter'; drivers/staging/gpib/agilent_82350b/agilent_82350b.o:(.text+0x14d0): first defined here
-> 
-> -- 
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
+> Please merge the individual patches through subsystem trees.
+> I expect that some of these will have to go through multiple
+> revisions before they are picked up, so anything that gets
+> applied early saves me from resending.
 
-This problem has been resolved by a previous patch:
-Link: https://lore.kernel.org/linux-staging/20250122103859.25499-3-dpenkler@gmail.com/T/#u
+Arnd, can you refresh this one? It seems some misses still...
+I have got 3+ 0-day reports against one of the mux drivers.
 
-This patch has not yet been applied to the staging-testing branch.
+https://lore.kernel.org/all/?q=adg792a.c
 
--dave
+-- 
+With Best Regards,
+Andy Shevchenko
+
 
