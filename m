@@ -1,179 +1,181 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEDE31FF60F;
-	Mon, 27 Jan 2025 13:25:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E3AB18B477;
+	Mon, 27 Jan 2025 17:58:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1737984331; cv=none; b=ftbI7iVt3e+DnsELGXNoebxH8Jm6yzOlxPrOgt5nljdP9ZBVeGoIzaAH+d4Ea1vKppGJgAwiVVCJW5OxiQQhpcv/QeEI2auDVhkeLaJ2+8DfZBxGLaagqawbnkB8J8JeexnY5cJelNksglNC+dV03JtiuIAxNCUrPeOWpQ0xe7I=
+	t=1738000736; cv=none; b=P9rXNsGuH1EP+ynMYfgT6EIrM/cPJDxm0KwDROjIP4xXZqsGesQ776BA7vMUOTPN+GsgyoeO0J+xjT9V5gcvL6iPy/W/veL9Ib0W4BSBV/P0IE79mXgT+1Disz5wjZXsfAiYmx+grl9zWjfx1Ffue+h2lRWNeIXOL2tD77PihCQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1737984331; c=relaxed/simple;
-	bh=RjFj+btLOrA1I0c/0XDEPot6dd9rNyckywxmgkJzq3o=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QY1HaSC+tcqkRu16uCdXF39TDHwhZxP/RUVWHFe5g7CshiLGX82kYTkNsCdeGTROYWqjmlThPqSz2fO8JVIRFVs9lAKMmvJRhjWNo37kyVL+oTX1ddKyauCUJ7DA8kANbAJ25HMreryqFqq6ri+oZOBLQm0bjzatcgsN8Ky8zLM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=c4TphOHn; arc=none smtp.client-ip=198.175.65.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1738000736; c=relaxed/simple;
+	bh=z3szoN3emW+a/fwkyjwHitUGgUCvvX9839xwcA+sgkU=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=i/CRP5EC9E73gkS+1ECrCvp4ak4yV4POmO6Y06D4xSada3GXOnFe1qSFHTXC0acjG55RZxH7xFx0SNjHrNLSvn4t4Er1QeYBNoqnM0qEs/4XZwG/6M5CSDizK5y1hfpN/BoU+tVPeFk8w1JXlWQl/KSRnK2bixO1I2WHiPBbX9w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=nYdIdRnj; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="c4TphOHn"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1737984329; x=1769520329;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=RjFj+btLOrA1I0c/0XDEPot6dd9rNyckywxmgkJzq3o=;
-  b=c4TphOHnOc6wrt2+smoGshV7o6p9F15alON/EAq8PJ9nPfbZ03eYHLE0
-   LYEzkqP7sUu1f+2XxTk/YsB9lnpxeEF47VM6CUyO+9OW3IMs1Kawc/NFa
-   8YAxQTeA2bfAwhdxu5fS0sAmFL+70H5LHFcLwKMXCMm3q0wo3f2YM+rnS
-   2smR6qVdZbEekuIHYXyn7CVaFjL+tPhRIxEiurTqCD/obnKOS6wOFFwuK
-   7xAaPlJ2FXdQNs3dbJNsiLAgc8fy/HnuvaSw+ixLvP6ElLLr0i77w2/ZQ
-   qZ9uCGjnqRBmH8v/E0VyKAgUV2U7XeG6qaZBDUUPhEZPxf2/dU1HrgRoi
-   Q==;
-X-CSE-ConnectionGUID: hnQP/NfES8C1CqTjUlYg3g==
-X-CSE-MsgGUID: HGeRKCaCRVicLpUxN+FMag==
-X-IronPort-AV: E=McAfee;i="6700,10204,11328"; a="42105370"
-X-IronPort-AV: E=Sophos;i="6.13,238,1732608000"; 
-   d="scan'208";a="42105370"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jan 2025 05:25:22 -0800
-X-CSE-ConnectionGUID: oOw//HyuRH2sXbDiVD3/cA==
-X-CSE-MsgGUID: F7vXYkyrSx2N1gt4t3xT9A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="131730368"
-Received: from smile.fi.intel.com ([10.237.72.58])
-  by fmviesa002.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jan 2025 05:25:02 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.98)
-	(envelope-from <andriy.shevchenko@intel.com>)
-	id 1tcP6l-00000005jpm-3fIe;
-	Mon, 27 Jan 2025 15:24:55 +0200
-Date: Mon, 27 Jan 2025 15:24:55 +0200
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: Arnd Bergmann <arnd@kernel.org>
-Cc: linux-kernel@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	Christophe Leroy <christophe.leroy@csgroup.eu>,
-	Damien Le Moal <dlemoal@kernel.org>, Jiri Kosina <jikos@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Corey Minyard <minyard@acm.org>, Peter Huewe <peterhuewe@gmx.de>,
-	Jarkko Sakkinen <jarkko@kernel.org>,
-	Tero Kristo <kristo@kernel.org>, Stephen Boyd <sboyd@kernel.org>,
-	Ian Abbott <abbotti@mev.co.uk>,
-	H Hartley Sweeten <hsweeten@visionengravers.com>,
-	Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
-	Len Brown <lenb@kernel.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	John Allen <john.allen@amd.com>,
-	Herbert Xu <herbert@gondor.apana.org.au>,
-	Vinod Koul <vkoul@kernel.org>, Ard Biesheuvel <ardb@kernel.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Moritz Fischer <mdf@kernel.org>, Liviu Dudau <liviu.dudau@arm.com>,
-	Benjamin Tissoires <benjamin.tissoires@redhat.com>,
-	Andi Shyti <andi.shyti@kernel.org>,
-	Michael Hennerich <michael.hennerich@analog.com>,
-	Peter Rosin <peda@axentia.se>, Lars-Peter Clausen <lars@metafoo.de>,
-	Jonathan Cameron <jic23@kernel.org>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Markuss Broks <markuss.broks@gmail.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Lee Jones <lee@kernel.org>, Jakub Kicinski <kuba@kernel.org>,
-	Shyam Sundar S K <Shyam-sundar.S-k@amd.com>,
-	Iyappan Subramanian <iyappan@os.amperecomputing.com>,
-	Yisen Zhuang <yisen.zhuang@huawei.com>,
-	Stanislaw Gruszka <stf_xl@wp.pl>, Kalle Valo <kvalo@kernel.org>,
-	Sebastian Reichel <sre@kernel.org>,
-	Tony Lindgren <tony@atomide.com>, Mark Brown <broonie@kernel.org>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Xiang Chen <chenxiang66@hisilicon.com>,
-	"Martin K. Petersen" <martin.petersen@oracle.com>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Heiko Stuebner <heiko@sntech.de>,
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-	Vaibhav Hiremath <hvaibhav.linux@gmail.com>,
-	Alex Elder <elder@kernel.org>, Jiri Slaby <jirislaby@kernel.org>,
-	Jacky Huang <ychuang3@nuvoton.com>, Helge Deller <deller@gmx.de>,
-	Christoph Hellwig <hch@lst.de>, Robin Murphy <robin.murphy@arm.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="nYdIdRnj"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 49338C4CED2;
+	Mon, 27 Jan 2025 17:58:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1738000735;
+	bh=z3szoN3emW+a/fwkyjwHitUGgUCvvX9839xwcA+sgkU=;
+	h=Date:From:To:Cc:Subject:From;
+	b=nYdIdRnjnwKj6Litb8uhXCiJzwohrmPsIzPRDGbIVYnzO5rBOVkqZ9eRcYqXel7Qa
+	 0TTL1pnxZlsTEZbFkUXzEAjIjWWeD98RS516DZHWz00wVZUjxB9b7FIRYWlnp3H6eN
+	 uU188GesbMvh5PTl0BVVT9knjJ9t3W/zxHSRhyu8=
+Date: Mon, 27 Jan 2025 18:58:52 +0100
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Linus Torvalds <torvalds@linux-foundation.org>,
 	Andrew Morton <akpm@linux-foundation.org>,
-	Kees Cook <keescook@chromium.org>,
-	Trond Myklebust <trond.myklebust@hammerspace.com>,
-	Anna Schumaker <anna@kernel.org>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Takashi Iwai <tiwai@suse.com>, linuxppc-dev@lists.ozlabs.org,
-	linux-ide@vger.kernel.org, openipmi-developer@lists.sourceforge.net,
-	linux-integrity@vger.kernel.org, linux-omap@vger.kernel.org,
-	linux-clk@vger.kernel.org, linux-pm@vger.kernel.org,
-	linux-crypto@vger.kernel.org, dmaengine@vger.kernel.org,
-	linux-efi@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-	linux-fpga@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	linux-input@vger.kernel.org, linux-i2c@vger.kernel.org,
-	linux-iio@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com,
-	linux-arm-kernel@lists.infradead.org, netdev@vger.kernel.org,
-	linux-leds@vger.kernel.org, linux-wireless@vger.kernel.org,
-	linux-rtc@vger.kernel.org, linux-scsi@vger.kernel.org,
-	linux-spi@vger.kernel.org, linux-amlogic@lists.infradead.org,
-	linux-rockchip@lists.infradead.org,
-	linux-samsung-soc@vger.kernel.org, greybus-dev@lists.linaro.org,
-	linux-staging@lists.linux.dev, linux-serial@vger.kernel.org,
-	linux-usb@vger.kernel.org, linux-fbdev@vger.kernel.org,
-	iommu@lists.linux.dev, linux-trace-kernel@vger.kernel.org,
-	kasan-dev@googlegroups.com, linux-hardening@vger.kernel.org,
-	linux-nfs@vger.kernel.org, linux-kbuild@vger.kernel.org,
-	alsa-devel@alsa-project.org, linux-sound@vger.kernel.org
-Subject: Re: [PATCH 00/34] address all -Wunused-const warnings
-Message-ID: <Z5eJJ199QwL0HVJT@smile.fi.intel.com>
-References: <20240403080702.3509288-1-arnd@kernel.org>
+	Stephen Rothwell <sfr@canb.auug.org.au>
+Cc: linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
+Subject: [GIT PULL] Staging driver updates for 6.14-rc1
+Message-ID: <Z5fJXGnAxELspPkC@kroah.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20240403080702.3509288-1-arnd@kernel.org>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Content-Transfer-Encoding: 8bit
 
-On Wed, Apr 03, 2024 at 10:06:18AM +0200, Arnd Bergmann wrote:
-> From: Arnd Bergmann <arnd@arndb.de>
-> 
-> Compilers traditionally warn for unused 'static' variables, but not
-> if they are constant. The reason here is a custom for C++ programmers
-> to define named constants as 'static const' variables in header files
-> instead of using macros or enums.
-> 
-> In W=1 builds, we get warnings only static const variables in C
-> files, but not in headers, which is a good compromise, but this still
-> produces warning output in at least 30 files. These warnings are
-> almost all harmless, but also trivial to fix, and there is no
-> good reason to warn only about the non-const variables being unused.
-> 
-> I've gone through all the files that I found using randconfig and
-> allmodconfig builds and created patches to avoid these warnings,
-> with the goal of retaining a clean build once the option is enabled
-> by default.
-> 
-> Unfortunately, there is one fairly large patch ("drivers: remove
-> incorrect of_match_ptr/ACPI_PTR annotations") that touches
-> 34 individual drivers that all need the same one-line change.
-> If necessary, I can split it up by driver or by subsystem,
-> but at least for reviewing I would keep it as one piece for
-> the moment.
-> 
-> Please merge the individual patches through subsystem trees.
-> I expect that some of these will have to go through multiple
-> revisions before they are picked up, so anything that gets
-> applied early saves me from resending.
+The following changes since commit 5bc55a333a2f7316b58edc7573e8e893f7acb532:
 
-Arnd, can you refresh this one? It seems some misses still...
-I have got 3+ 0-day reports against one of the mux drivers.
+  Linux 6.13-rc7 (2025-01-12 14:37:56 -0800)
 
-https://lore.kernel.org/all/?q=adg792a.c
+are available in the Git repository at:
 
--- 
-With Best Regards,
-Andy Shevchenko
+  git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git tags/staging-6.14-rc1
 
+for you to fetch changes up to 579b6f18c5ca162af040f44684cc55f7da182236:
 
+  staging: gpib: Agilent usb code cleanup (2025-01-19 09:06:31 +0100)
+
+----------------------------------------------------------------
+Staging driver updates for 6.14-rc1
+
+Here's the pretty small staging driver tree update for 6.14-rc1.  Not
+much happened this development cycle:
+  - deleted some unused ioctl code from the rtl8723bs driver
+  - gpib driver cleanups and fixes
+  - other tiny minor coding style fixes.
+
+All of these have been in linux-next for a while with no reported
+issues.
+
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+
+----------------------------------------------------------------
+Ajith P V (1):
+      staging: gpib: fix prefixing 0x with decimal output
+
+Antonio Riccio (1):
+      staging: vme_user: vme_tsi148.c: avoid parenthesis line ending
+
+Chenguang Zhao (1):
+      staging: rtl8723bs: Cleanups for rtw_inc_and_chk_continual_io_error
+
+Dave Penkler (12):
+      staging: gpib: Remove useless include
+      staging: gpib: Remove duplicate include
+      staging: gpib: Modernize gpib_interface_t initialization and make static
+      staging: gpib: Add missing mutex unlock in agilent usb driver
+      staging: gpib: Add missing mutex unlock in ni usb driver
+      staging: gpib: Use __iomem attribute for io addresses
+      staging: gpib: Use __user for user space pointers
+      staging: gpib: Avoid plain integers as NULL pointers
+      staging: gpib: Use C99 syntax and make static
+      staging: gpib: Fix inadvertent negative shift
+      staging: gpib: Fix NULL pointer dereference in detach
+      staging: gpib: Agilent usb code cleanup
+
+Greg Kroah-Hartman (2):
+      Merge 6.13-rc3 into staging-next
+      Merge 6.13-rc7 into staging next
+
+Marcelo Moreira (1):
+      staging: rtl8723bs: change pointer initialization style
+
+Nihar Chaithanya (15):
+      staging: gpib: Modify gpib_register_driver() to return error if it fails
+      staging: gpib: agilent_82350b: Handle gpib_register_driver() errors
+      staging: gpib: agilent_82357a: Handle gpib_register_driver() errors
+      staging: gpib: cb7210: Handle gpib_register_driver() errors
+      staging: gpib: cec: Handle gpib_register_driver() errors
+      staging: gpib: fluke: Handle gpib_register_driver() errors
+      staging: gpib: fmh: Handle gpib_register_driver() errors
+      staging: gpib: gpio: Return error value from gpib_register_driver()
+      staging: gpib: hp_82335: Return error value from gpib_register_driver()
+      staging: gpib: hp_82341: Handle gpib_register_driver() errors
+      staging: gpib: ines: Handle gpib_register_driver() errors
+      staging: gpib: lpvo_usb: Return error value from gpib_register_driver()
+      staging: gpib: ni_usb: Handle gpib_register_driver() errors
+      staging: gpib: pc2: Handle gpib_register_driver() errors
+      staging: gpib: tnt4882: Handle gpib_register_driver() errors
+
+Paolo Perego (1):
+      staging:fbtft: Using str_true_false() helper instead of hardcoded strings
+
+Prarit Bhargava (1):
+      staging: Fix tnt4882 license to be SPDX compliant
+
+Rodrigo Gobbi (2):
+      staging: rtl8723bs: delete DBG_RX_SIGNAL_DISPLAY_RAW_DATA ifdef code
+      staging: rtl8723bs: delete HAL_DEF_DBG_RX_INFO_DUMP enum and caller
+
+Sandeep Salwan (1):
+      staging: gpib: Remove commented-out debug code
+
+Santosh Mahto (1):
+      staging: gpib: Replace semaphore with completion for one-time signaling
+
+谢致邦 (XIE Zhibang) (1):
+      staging: rtl8723bs: Remove ioctl interface
+
+ drivers/staging/fbtft/fb_ssd1351.c                 |    3 +-
+ .../staging/gpib/agilent_82350b/agilent_82350b.c   |  138 ++-
+ .../staging/gpib/agilent_82350b/agilent_82350b.h   |   12 +-
+ .../staging/gpib/agilent_82357a/agilent_82357a.c   |  161 ++-
+ drivers/staging/gpib/cb7210/cb7210.c               |  586 +++++----
+ drivers/staging/gpib/cb7210/cb7210.h               |    5 -
+ drivers/staging/gpib/cec/cec.h                     |    4 -
+ drivers/staging/gpib/cec/cec_gpib.c                |   60 +-
+ drivers/staging/gpib/common/gpib_os.c              |  126 +-
+ drivers/staging/gpib/common/iblib.c                |    2 +-
+ drivers/staging/gpib/eastwood/fluke_gpib.c         |  182 +--
+ drivers/staging/gpib/eastwood/fluke_gpib.h         |    2 +-
+ drivers/staging/gpib/fmh_gpib/fmh_gpib.c           |  255 ++--
+ drivers/staging/gpib/fmh_gpib/fmh_gpib.h           |    2 +-
+ drivers/staging/gpib/gpio/gpib_bitbang.c           |   65 +-
+ drivers/staging/gpib/hp_82335/hp82335.c            |   60 +-
+ drivers/staging/gpib/hp_82335/hp82335.h            |    3 -
+ drivers/staging/gpib/hp_82341/hp_82341.c           |  119 +-
+ drivers/staging/gpib/hp_82341/hp_82341.h           |    2 -
+ drivers/staging/gpib/include/amcc5920.h            |    2 +-
+ drivers/staging/gpib/include/gpibP.h               |    2 +-
+ drivers/staging/gpib/ines/ines.h                   |    7 -
+ drivers/staging/gpib/ines/ines_gpib.c              |  524 ++++----
+ drivers/staging/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c |   66 +-
+ drivers/staging/gpib/ni_usb/ni_usb_gpib.c          |   89 +-
+ drivers/staging/gpib/ni_usb/ni_usb_gpib.h          |    2 +-
+ drivers/staging/gpib/pc2/pc2_gpib.c                |  248 ++--
+ drivers/staging/gpib/tnt4882/mite.c                |    2 +-
+ drivers/staging/gpib/tnt4882/mite.h                |    2 +-
+ drivers/staging/gpib/tnt4882/tnt4882_gpib.c        |  634 +++++-----
+ drivers/staging/rtl8723bs/Makefile                 |    1 -
+ drivers/staging/rtl8723bs/core/rtw_io.c            |   10 +-
+ drivers/staging/rtl8723bs/core/rtw_mlme_ext.c      |    1 -
+ drivers/staging/rtl8723bs/core/rtw_xmit.c          |    6 +-
+ drivers/staging/rtl8723bs/hal/hal_com.c            |   55 -
+ drivers/staging/rtl8723bs/hal/rtl8723b_rxdesc.c    |    4 -
+ drivers/staging/rtl8723bs/include/hal_com.h        |    5 -
+ drivers/staging/rtl8723bs/include/hal_intf.h       |    1 -
+ drivers/staging/rtl8723bs/include/osdep_intf.h     |    2 -
+ drivers/staging/rtl8723bs/include/rtw_recv.h       |   18 -
+ drivers/staging/rtl8723bs/os_dep/ioctl_linux.c     | 1286 --------------------
+ drivers/staging/rtl8723bs/os_dep/os_intfs.c        |    1 -
+ drivers/staging/vme_user/vme_tsi148.c              |    3 +-
+ 43 files changed, 1850 insertions(+), 2908 deletions(-)
+ delete mode 100644 drivers/staging/rtl8723bs/os_dep/ioctl_linux.c
