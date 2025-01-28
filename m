@@ -1,20 +1,21 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78A6742AA3
-	for <linux-staging@lists.linux.dev>; Tue, 28 Jan 2025 15:07:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2237342AA3;
+	Tue, 28 Jan 2025 15:14:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738076855; cv=none; b=gZv/xqzTe5a0cozQmGYlAL2VMF2HCSxeiFleF+AtMGHWWeed5zXDD7I1iGa3yylOH8Fi8xjIVamIzyQvZHlbYZ2yignzOnmWsOZ51gyWPDwdE0Tk6FHor3PdnR/NQ1lKOqvVO2Zcl89H6eL/L4YT3KleWGTR4IlWYyAyA6CAE8s=
+	t=1738077256; cv=none; b=J6+N52GE3ocm8lflJZRvWLbJjcop5qzSrYcuxt9fAFS9Z/BBXCoMTWWZYEV2d4X3YUsDqYF85nQf8lCtaa8dTlatIBvLGK5v9ZwqPQr6QC1lXYMCG73+c71QMZzoU4R1H8ZM+5xyxkGZIK3oSPOhHRL00ZpwnOHEghlLoy2FxW0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738076855; c=relaxed/simple;
-	bh=DhuAt/Elbl5f3Zf89VL382c5eOkcgFj1T90cETsXEUY=;
-	h=Message-ID:Date:MIME-Version:To:Cc:From:Subject:Content-Type; b=cH3gKs0Y4sirDwgHqJY1ImsZ3OcHl5lh1PjAdUqt9K8iE2swgA00NIq58GY3Vt1VAlBVQfWdfgiit2tapvQvk96xa0+bko9EPlVBbrShRCsJoCf7C3yWGB2NVIc22aV3BJcE2nJhbYc8gZ1Ti9ZFNjD2WVGRc6fh2C0FEJFg5RI=
+	s=arc-20240116; t=1738077256; c=relaxed/simple;
+	bh=W6yFCVARpS+3ojPzRWRmAjVT58mW7GMrK2b6KLA6EK0=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=V8INO1hOOysRxaT6Xw2TzlUIT9OdTSvSjmWZ7RcrOgiRdpgr4UIbiN0ripJaFp+EuSh4ry6p30EWlg/fw1cZJHJT9Mpa6vtlQdT0XG/Yp816cXbZ9U6PK1Yg4Hj9RsK7juK/5brrywhImZpsgtYqHTiOttqwsOYEs7Gl7t1OnF0=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B8A6AC4CED3;
-	Tue, 28 Jan 2025 15:07:33 +0000 (UTC)
-Message-ID: <7df01ba7-5d2e-48fd-91ff-3c0d9973b183@xs4all.nl>
-Date: Tue, 28 Jan 2025 16:07:32 +0100
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C9A9AC4CED3;
+	Tue, 28 Jan 2025 15:14:14 +0000 (UTC)
+Message-ID: <d96432bd-dda0-4d26-9825-391206ebf6ab@xs4all.nl>
+Date: Tue, 28 Jan 2025 16:14:13 +0100
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -22,16 +23,13 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Content-Language: en-US, nl
-To: "open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Florian Fainelli <florian.fainelli@broadcom.com>,
- Scott Branden <sbranden@broadcom.com>,
- Umang Jain <umang.jain@ideasonboard.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- linux-rpi-kernel@lists.infradead.org
+Subject: Re: [PATCH 0/6]
 From: Hans Verkuil <hverkuil@xs4all.nl>
-Subject: [PATCH] staging: bcm2835-camera: drop vb2_ops_wait_prepare/finish
+To: linux-media@vger.kernel.org
+Cc: linux-input@vger.kernel.org, linux-usb@vger.kernel.org,
+ linux-staging@lists.linux.dev
+References: <cover.1738076484.git.hverkuil@xs4all.nl>
+Content-Language: en-US, nl
 Autocrypt: addr=hverkuil@xs4all.nl; keydata=
  xsFNBFQ84W0BEAC7EF1iL4s3tY8cRTVkJT/297h0Hz0ypA+ByVM4CdU9sN6ua/YoFlr9k0K4
  BFUlg7JzJoUuRbKxkYb8mmqOe722j7N3HO8+ofnio5cAP5W0WwDpM0kM84BeHU0aPSTsWiGR
@@ -75,37 +73,13 @@ Autocrypt: addr=hverkuil@xs4all.nl; keydata=
  e8tSeEXX8BZIen6y/y+U2CedzEsMKGjy5WNmufiPOzB3q2JwFQCw8AoNic7soPN9CVCEgd2r
  XS+OUZb8VvEDVRSK5Yf79RveqHvmhAdNOVh70f5CvwR/bfX/Ei2Szxz47KhZXpn1lxmcds6b
  LYjTAZF0anym44vsvOEuQg3rqxj/7Hiz4A3HIkrpTWclV6ru1tuGp/ZJ7aY8bdvztP2KTw==
+In-Reply-To: <cover.1738076484.git.hverkuil@xs4all.nl>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-Since commit 88785982a19d ("media: vb2: use lock if wait_prepare/finish
-are NULL") it is no longer needed to set the wait_prepare/finish
-vb2_ops callbacks as long as the lock field in vb2_queue is set.
+On 28/01/2025 16:01, Hans Verkuil wrote:
+> 
 
-Since the vb2_ops_wait_prepare/finish callbacks already rely on that field,
-we can safely drop these callbacks.
+Sorry, email mishap. Just ignore.
 
-This simplifies the code and this is a step towards the goal of deleting
-these callbacks.
-
-Signed-off-by: Hans Verkuil <hverkuil@xs4all.nl>
----
- drivers/staging/vc04_services/bcm2835-camera/bcm2835-camera.c | 2 --
- 1 file changed, 2 deletions(-)
-
-diff --git a/drivers/staging/vc04_services/bcm2835-camera/bcm2835-camera.c b/drivers/staging/vc04_services/bcm2835-camera/bcm2835-camera.c
-index deec33f63bcf..b839b50ac26a 100644
---- a/drivers/staging/vc04_services/bcm2835-camera/bcm2835-camera.c
-+++ b/drivers/staging/vc04_services/bcm2835-camera/bcm2835-camera.c
-@@ -658,8 +658,6 @@ static const struct vb2_ops bcm2835_mmal_video_qops = {
- 	.buf_queue = buffer_queue,
- 	.start_streaming = start_streaming,
- 	.stop_streaming = stop_streaming,
--	.wait_prepare = vb2_ops_wait_prepare,
--	.wait_finish = vb2_ops_wait_finish,
- };
-
- /* ------------------------------------------------------------------
--- 
-2.45.2
-
+	Hans
