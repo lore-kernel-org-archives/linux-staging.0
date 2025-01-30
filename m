@@ -1,153 +1,131 @@
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 342A41AD403
-	for <linux-staging@lists.linux.dev>; Wed, 29 Jan 2025 16:51:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738169466; cv=pass; b=U0gEc3RKhDflU1jpCs3cauJj6cdP2ER0ZmflJZ2mRXfRfz1EuLlht/gb8Yi+X4orEH9Pn4Gm+pBlc6auzGgVs90+1okJJ833agVOZqX/4ZP51DMR/32t8WgPiPB5ICgBL6j1zlAaK01TY7+BoO6LIryMkXKEGyDW3+fEHwVKAEY=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738169466; c=relaxed/simple;
-	bh=iha0Qb5CHXCtlSASKRIfGOfEeYnumvLm3mgF4a5jMWA=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=dEcPKH1Fj122Yaexad3xsDhCVKAo2SxisFp2QccHkzGaJ8uEiRgUmyzPxY3UA8Jvxrw/XSyT6nVywSGwY42ppvNxq9NRkT6AEpcoJMdHU3VaqROoUTKPnaxiNZMzTGEgoQk2LblChks+Q0w8RAb9oypV/fSTzWajCMVpcWamk+0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=detlev.casanova@collabora.com header.b=Z1AkDh9a; arc=pass smtp.client-ip=136.143.188.112
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F43520328
+	for <linux-staging@lists.linux.dev>; Thu, 30 Jan 2025 10:22:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.42
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1738232562; cv=none; b=JfaKQHmtixJLyD9WV/mdPkyfbsE3zFFF2kQaQt5mF/gSWglzZCC1T69mlGCslugfWrHx4F8VSmXFaS281mQCAb/uq6h0LgMwEyyEasxSOEY9zgxJsXbpgWUQcQoU78XtyAIXfjd+HR0maC5txYLacUV2sEAT1wRlXlNJA8M2LeY=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1738232562; c=relaxed/simple;
+	bh=B4+bp2b1ViozWo8E/9w0GJxuWnjNWQF/PE+csQWrg+E=;
+	h=Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
+	 Message-Id:References:To; b=bCg1gTHKm2Q1ozD22+Of63lACg0NN95F9+ctJFS8qol94O9QWVEt7QiMRKudb14blgOc1YE2/Tjwve97CmFmBrsBH40FNnFAmUwS2vj0vZ+9qryW0XRR4rR8rzyNrlt/+nShfRZPB6b51dX22yL7Osfj9ZbLhcrY9q9ofx6rMVI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=b/Z5QCyA; arc=none smtp.client-ip=209.85.218.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=collabora.com header.i=detlev.casanova@collabora.com header.b="Z1AkDh9a"
-ARC-Seal: i=1; a=rsa-sha256; t=1738169451; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=UgrcL6rMN/4wU8bq3QwCfqoUIJD14WOSBWTAEdNDTNn2oXvmKKlCeC8wFspeGiQad5gFf6LED4uJb/SNP0VFW90337Whkh/4SK4PYFrS57uGRnirxsXGfFsQbCtNCxu3yvP+pDXZibjUgKevgz89uDnByim6O8HrWIsez/BVILQ=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1738169451; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=wPGGfc1qwmOrQZGLlJNOWgBoAZRzR/BbTbOKRT5al8k=; 
-	b=NG7AtYb2a2Q5uo4vpFBu/10e+848SICc0+d/3SduQISEn8qKRlBI1j7E1wi3ijsWsd4RICHqZybgQYOoIqJUPX5XlWeQznaAn6LF+wDPmUNfCDLAFge0Y+/kH6OAjfkVJ090In9m2yAC4XYDDKIU194LOeGIpen1EXTtjyb+sV4=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=collabora.com;
-	spf=pass  smtp.mailfrom=detlev.casanova@collabora.com;
-	dmarc=pass header.from=<detlev.casanova@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1738169451;
-	s=zohomail; d=collabora.com; i=detlev.casanova@collabora.com;
-	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Content-Type:Message-Id:Reply-To;
-	bh=wPGGfc1qwmOrQZGLlJNOWgBoAZRzR/BbTbOKRT5al8k=;
-	b=Z1AkDh9apOD+PwP6D7Nj3dw6dqAoxWhEZZpoE5MTrY+XFHQCP9YIKzk3aDle8Zw3
-	Igc8acgOSzr2oLLACUvyF3DZ48n/hhVyo6eUi6KajltJ7gnrpSFAIkWISzEhoajoj+w
-	hneSRZi4L/It/R0udbKYbQ+V4OfqoE1V5VU13v3A=
-Received: by mx.zohomail.com with SMTPS id 1738169445054994.6577657400422;
-	Wed, 29 Jan 2025 08:50:45 -0800 (PST)
-From: Detlev Casanova <detlev.casanova@collabora.com>
-To: Piotr Oniszczuk <piotr.oniszczuk@gmail.com>
-Cc: linux-kernel@vger.kernel.org, Diederik de Haas <didi.debian@cknow.org>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
- Heiko Stuebner <heiko@sntech.de>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Sebastian Reichel <sebastian.reichel@collabora.com>,
- Dragan Simic <dsimic@manjaro.org>, Alexey Charkov <alchark@gmail.com>,
- Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
- Andy Yan <andy.yan@rock-chips.com>, linux-media@vger.kernel.org,
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev
-Subject: Re: [PATCH 1/3] media: rockchip: Introduce the rkvdec2 driver
-Date: Wed, 29 Jan 2025 11:50:43 -0500
-Message-ID: <8541055.T7Z3S40VBb@trenzalore>
-In-Reply-To: <CE4343FE-94AA-4F84-8C43-8366013AED84@gmail.com>
-References:
- <20240615015734.1612108-1-detlev.casanova@collabora.com>
- <5969581.LvFx2qVVIh@arisu> <CE4343FE-94AA-4F84-8C43-8366013AED84@gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="b/Z5QCyA"
+Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-aaf0f1adef8so131346066b.3
+        for <linux-staging@lists.linux.dev>; Thu, 30 Jan 2025 02:22:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1738232559; x=1738837359; darn=lists.linux.dev;
+        h=to:references:message-id:content-transfer-encoding:cc:date
+         :in-reply-to:from:subject:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=B4+bp2b1ViozWo8E/9w0GJxuWnjNWQF/PE+csQWrg+E=;
+        b=b/Z5QCyAYG7d+YeZrfEuKGwM75RaeCwg7quXaBS/6Qn7RWMZyUQrAQsBErowWqJxiD
+         UdeKLaxuZHxVTqFWynfpQZsBy1JDi3HW8ecVJEYl0EX2JwB4f3Nc28tGyIt2qI0N+4Lt
+         2wfGQ0eMmrc8X/yIUMaI9mTfC+9ucZcerpxBLS801nI7is4FCbif5qJbs95+fHWtWafL
+         1G6qWVDQYA+e0FBRkeyWloITXVcJo5b7LO3dZoLzTUehsC8HHcMY165QXdQPkBIxw0I4
+         Vyg77f4xfqIwH2UeJJzQTJwlY6CW0HK5Ic3EtyCLbZMeAHm9+rmiTs9JnkpBhz3M+Gv1
+         Jrcw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1738232559; x=1738837359;
+        h=to:references:message-id:content-transfer-encoding:cc:date
+         :in-reply-to:from:subject:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=B4+bp2b1ViozWo8E/9w0GJxuWnjNWQF/PE+csQWrg+E=;
+        b=A2W3Wz4QInK22Cl1fnh/6VCVEAYC5NvzL9b4DRsFckQQEzS9SvOT6qfOLJNREnXh4x
+         MYxrJ+e43LsPfkkTqHZb9BFkVs4a1FjUDYYyep5UfXH/fL+Syxg/ES81g36xOMbsxqP+
+         /+tHwXA8oGs6mBIdxgpISNm+b0eQ0XG272ZDxO0FSQXIbzUJwMSeHswZpoKYd2+31wU1
+         Wmb9hWgzO1ayNmdToVWhISOJ2GLEsTqVV6PK9M/0Y+boMfGwpdCALukiPqaPL0tjwAZU
+         /w/RLyacpxmsdocuNEfZLmJ/xuv/DjOAYKV8nvTKQul4mwZJSTiK32udgsXwyRR3cRxI
+         y71w==
+X-Forwarded-Encrypted: i=1; AJvYcCVBI+xfgGrYKiw2NyHfnH4EIF72EaUCeI7pvBAw2rV0H93fro8Rnu+Jz7Uk/r9QlFhD29WVlRfIy/qFDrpU@lists.linux.dev
+X-Gm-Message-State: AOJu0YyYCwDCvNuUw4tkc1x3h5uLOH15mh3WhAHWfNZun1IQnqjj2mOL
+	BjFwe0H1Hx/T4PqIUm/r6HN3T3XG1QWCYL3EvZprQHl6asXWeZhH
+X-Gm-Gg: ASbGncsH/4Pn/ksKW12qzitTeK08bho30pw/vH827ruO6FODSeugO0hb9RIdIjjS+Xi
+	qHX1IQIjU7pui2mDQzylR2lommk1IAW70RtbMOD4sdKa9OnGqWFYfWzyaqZ+rwLB97pjDeOosU+
+	FM8rqgDpGCbV8TqYjxv1rsRjJvor/1e25ulWeWl1uB3yPg5CtUNKoi+F7WuMY0EHfid19/d4juk
+	2pNqyM8V0kP3lEWLFkQ4Frv0MBs3HNIfKG+c9OyQUw1HJmKOnxQ0F4FOValJz6+BS+c0EbIAt1C
+	kkpAvhab4R0soUzrVdg72MD95Pp5WfHXzeNm9o4HZ73PUtPyEd2JNHUeWoE3kWL5BnMdeo61
+X-Google-Smtp-Source: AGHT+IH6fi2JsJCdV1ZJxiNR7fFgOilQuJF8BsN86Z3dOweQ3P5ERklBaSx+eh4geAQyzNLMc51j1Q==
+X-Received: by 2002:a17:907:9704:b0:aae:bd4c:2683 with SMTP id a640c23a62f3a-ab6cfe12da4mr678404366b.49.1738232558971;
+        Thu, 30 Jan 2025 02:22:38 -0800 (PST)
+Received: from smtpclient.apple (89-66-237-154.dynamic.chello.pl. [89.66.237.154])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ab6e47a7ffasm96854766b.7.2025.01.30.02.22.37
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Thu, 30 Jan 2025 02:22:38 -0800 (PST)
+Content-Type: text/plain;
+	charset=utf-8
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3826.300.87.4.3\))
+Subject: Re: [PATCH 1/3] media: rockchip: Introduce the rkvdec2 driver
+From: Piotr Oniszczuk <piotr.oniszczuk@gmail.com>
+In-Reply-To: <bd5abd7f1e29853729c1c9b57b62e2e4a9524e6d.camel@ndufresne.ca>
+Date: Thu, 30 Jan 2025 11:22:26 +0100
+Cc: Detlev Casanova <detlev.casanova@collabora.com>,
+ linux-kernel@vger.kernel.org,
+ Diederik de Haas <didi.debian@cknow.org>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Heiko Stuebner <heiko@sntech.de>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Sebastian Reichel <sebastian.reichel@collabora.com>,
+ Dragan Simic <dsimic@manjaro.org>,
+ Alexey Charkov <alchark@gmail.com>,
+ Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
+ Andy Yan <andy.yan@rock-chips.com>,
+ linux-media@vger.kernel.org,
+ devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org,
+ linux-rockchip@lists.infradead.org,
+ linux-staging@lists.linux.dev
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="utf-8"
-X-ZohoMailClient: External
+Message-Id: <171D4C9F-AA88-4DC5-87F2-142D642ECACE@gmail.com>
+References: <20240615015734.1612108-1-detlev.casanova@collabora.com>
+ <20240615015734.1612108-2-detlev.casanova@collabora.com>
+ <3333233.eAoTOS8U2s@bagend> <5969581.LvFx2qVVIh@arisu>
+ <CE4343FE-94AA-4F84-8C43-8366013AED84@gmail.com>
+ <bd5abd7f1e29853729c1c9b57b62e2e4a9524e6d.camel@ndufresne.ca>
+To: Nicolas Dufresne <nicolas@ndufresne.ca>
+X-Mailer: Apple Mail (2.3826.300.87.4.3)
 
-Hi Piotr,
 
-On Wednesday, 29 January 2025 09:48:51 EST Piotr Oniszczuk wrote:
-> > Wiadomo=C5=9B=C4=87 napisana przez Detlev Casanova <detlev.casanova@col=
-labora.com> w
-> > dniu 15 cze 2024, o godz. 21:44:
-> >=20
-> >=20
-> >=20
-> >=20
-> > Yes, the vdpu34x decoder on rk356x socs should be supported by this dri=
-ver
-> > but I don't have boards to test that unfortunately.
+
+> Wiadomo=C5=9B=C4=87 napisana przez Nicolas Dufresne =
+<nicolas@ndufresne.ca> w dniu 29 sty 2025, o godz. 17:20:
 >=20
-> Detlev,
+> Hi Piotr,
 >=20
-> Just FYI:
+> Le mercredi 29 janvier 2025 =C3=A0 15:48 +0100, Piotr Oniszczuk a =
+=C3=A9crit :
+>>=20
 >=20
-> I done some tests of rkvdec2 on 6.12.11 on 3588, 3568 and 3566
+> As for most codec, when working with larger group of developpers, its =
+better to
+> start with getting the ITU conformance tests passing. Once we reach an =
+excellant
+> score then we can start looking at specific streams. The benefit is =
+that ITU
+> conformance can be run with fluster which removes a lot of possible =
+human
+> errors.
 >=20
-> For enabling rkvdec2 on 356x i:
-> -add 356x compatible in rkvdec2.c
-> -add dtsi nodes like this:
-> https://github.com/warpme/minimyth2/blob/master/script/kernel/linux-6.12/=
-fi
-> les/1078-arm64-dtsi-rockchip-rk356x-add-rkvdec2-video-decoder-nodes.patch
->=20
-> With this i can say:
-> -on rk3588 i have some hevc 4k decoding perfectly but some others are
-> failing -on rk3566/3568 only subset of 3588=E2=80=99s samples is decoded =
-well. (but
-> is works then works perfectly fine) -when not failing on 3588 sample fails
-> on 356x - is see errors like:
->=20
-> [   95.666669] iova: 0x00000000f2e80000 already mapped to 0x0000000037378=
-000
-> cannot remap to phys: 0x000000002f8c0000 prot: 0x3 [   95.745082] iova:
-> 0x00000000f2f46000 already mapped to 0x00000000372b6000 cannot remap to
-> phys: 0x000000003a403000 prot: 0x3 [   95.822012] iova: 0x00000000f2ee6000
-> already mapped to 0x0000000037126000 cannot remap to phys:
-> 0x000000003a803000 prot: 0x3 [   95.896802] iova: 0x00000000f2ec6000
-> already mapped to 0x0000000029fe6000 cannot remap to phys:
-> 0x000000003a403000 prot: 0x3 turning-off iommu makes above errors disappe=
-ar
-> - but sample still fails.
 
-I suppose you tested with my hevc branch, which is not really ready yet (So=
-me=20
-ref frames will work but usually, it won't) Can you confirm which branch/co=
-mmit=20
-you based your tests on ?
+Ah indeed.
+ITU conformance approach is for sure best one.
 
-=46or the iommu, do you see those errors like that only on 356x or also on =
-3588=20
-? The hevc branch should have the iommu patches to fix that kind of things.=
-=20
-(but note that hevc support is really new, so it may have bugs with buffer=
-=20
-allocations)
-
-> If anybody hints me for way/tool to analyse of playing/failing samples to
-> catch: what encoding specifics makes given sample failing to decode  on
-> rkvdec2 - i'll be more that happy to provide details=E2=80=A6 (doing simp=
-le
-> mediainfo <file> shows no differences for me=E2=80=A6)
-
-=46ew features are supported for HEVC as of now:
- - No scanlist support (only default 16x16 blocks will work)
- - Long term reference frames are also not configured yet.
- - hevc 10 bits is also not supported yet
-
-These are specific to the encoding and mediainfo won't really give you=20
-information on that, except maybe on the 10 bits format.
-
-You can also checkout YUView (https://github.com/IENT/YUView) to get=20
-information on media files structure, but I have had issues with HEVC suppo=
-rt=20
-lately.
-
-Regards,
-
-Detlev.
-
+By asking for way/tool to analyse of playing/failing samples I was just =
+curious: is there any pattern here (e.g. specific encoding mode; etc).
+I assumed - it there is - this might be good pointer in narrowing =
+decoder code which needs fixing.=20
 
 
