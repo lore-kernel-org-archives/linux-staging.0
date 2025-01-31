@@ -1,72 +1,65 @@
-Received: from PA4PR04CU001.outbound.protection.outlook.com (mail-francecentralazon11013063.outbound.protection.outlook.com [40.107.162.63])
+Received: from PA4PR04CU001.outbound.protection.outlook.com (mail-francecentralazon11013013.outbound.protection.outlook.com [40.107.162.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0694C1EE7A5
-	for <linux-staging@lists.linux.dev>; Fri, 31 Jan 2025 16:34:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.162.63
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C2871F37DD
+	for <linux-staging@lists.linux.dev>; Fri, 31 Jan 2025 16:34:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.162.13
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738341271; cv=fail; b=R9zMoFh3taKOgFwWW4C5233LiwNkqYyEYJVec7ghXKfVEuRiqUtc0lpRmSoEN3POpRfmYoviMPlX/Zvhl9sksSf3zaJz3ZEn+vv3xrTxHfFdmWfixvx5i1gnP7jP0pXSjqqc2w5Uc3UDN9jRaTHULM698Uk+0Vqb/IZL+uNmWYs=
+	t=1738341278; cv=fail; b=OqVoJgkN94q328dHElIiEmgpV6adx3HJ1KW8bdm+LhMn3neEEkfSvzWDyBBLNXpng8tqGf8BiIxFL94+CbMR9fCsNtokxUspYJqXjuWiwMFYPCMLJJ3JE49bTsWS2EAJ/WQ4YsXHymz+5n6GkHxZAYgS+vGq4643pRL9EWNpxpo=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738341271; c=relaxed/simple;
-	bh=JGMiLOPliWJYCOJ/oSKwmppPItKLP7OAecIbXnUpgNI=;
-	h=From:To:Cc:Subject:Date:Message-Id:Content-Type:MIME-Version; b=EiuApIpQzEQBgfE9TDuTAT/YNTk41LeUpyXK59B4MQHjHUsf4BD/T2nMq7woaXEEgdfdwKYs3ngRMghZLx2smsk/cILoCTDARWuUPC3KonVFTtjrQvCRe/hLkV1tzzCtvaCdr8DF2BnHMSW8gNCzBwKVWyWkliUKCk92SWj+2yI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com; spf=pass smtp.mailfrom=oss.nxp.com; dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b=XY+9tFBy; arc=fail smtp.client-ip=40.107.162.63
+	s=arc-20240116; t=1738341278; c=relaxed/simple;
+	bh=0L6AP5OqHs7iZtlI4niQM+FgMvW1e4iphoVJbXOUXUI=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=sjYccknzs2dBGLZk1W1IL4VuCpEriUDCRW4BUifgKe9pYNM2DBPScz9bgjwuGwhdX+/iNE0xMPINqilJHa+7AJYl/y4uDh0yg7h5PFP5g4eMjhEAnj3YkzS7jQjXAMHXjf0eptk1nfrqdWcoD+JQbwhVe74Hp3JNb3yuq2lx6QU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com; spf=pass smtp.mailfrom=oss.nxp.com; dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b=oypUF9h/; arc=fail smtp.client-ip=40.107.162.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.nxp.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b="XY+9tFBy"
+	dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b="oypUF9h/"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=jgCUbMn6fuBqIpBC7YcZYXfsY33iLkcWclpcWu1PZ4zHHSUROywuuxzy7L7B/qTK8z019GTOXJP6qv7UAR1ohuavdqslmZEw8HRWLBdZ/Dqg11dsw5dhppS/AndV+AN5soHLdnieUD8RWdabVrRn+yLcIQ7rWbN/GnmSCpVVZfxBbJbd1lcK39LHKADbKB4+hGOFTgyq9IbkqohyBLPKfoBKQtu647xf7RvQ8PbiSVK4i87+tBocK2XYjXpUifwd3UCR0rkWZLP88rLPuQBlS/Wby/v97yu/N6dh74U0yxbfUmJGjFlFuW0QatpLyVGzu9QoaIG1MImaLaxP/gej/A==
+ b=MaZ/gnNj/nYIgwbe1rnDipxwZwl5Oo1EOHAXfwmHUA1UX3WxPp5d6SwOCIoQJJkvBX/g3GZM26F1O58PgJDhMtOeWyxtYO5UCeTZ4zZ56hG43tgj970C4CV/vC/CbMPnEB/YV8XQ2jQ/YZAysV+ZYQT9sYPuYc6LaBn5bBrpsVm1v3zGV0V5JhCgxCMa9cpVqRIdUzyfShKL6N7/7c/cQLStNobO0V7tlTETzxEITw6nKwm8HAmmYV14Ij9AH7PZ4hTu8g8lg0pWklUDxU4Pk3/NkUz9zZFhUaq0CskXZQ7uysyVQZSdH8Q/9S5bYOuGPE2U6fYyCfer2v13s2y6Ag==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=0qn/3wXg5+hOb6JQc8b09u4aVJDQBmKYi9pOk2UgKa8=;
- b=NVR0MZEX0dyQSwTUKIxtOm+/So/YI3JCgXgqk7YhLKAQrwcDVWgbKLHNiKnovLsRL2Y3N44W/8fZjiL92cKJQvh+9EmMEVQbHgCg3U+upwsz9V+gwccRO2E8cqf0DKtT0jothZYWHsJPF98/IdRDCQteIZRiGTkXTMSSqTWgVXYS2otmH+WwY5/5NJj1vkPLjKcWo6pfLFqqhQlTPL68xkqM+6ni44pjD7C+aQRGCRin+aNK5+0sbYwQoimkdloNHHfd0shSr8i3gGi77iXfqRKiyp+zpof4bXUF6aL0R5VPVtro2iS6gCKpRXaCGYUdLIfeyd1Q3af4KV/5Q7BRuQ==
+ bh=HWU5/XBDyTBVXhHWFqQtcuSVFXOSDkAyN/L7zhGL4JU=;
+ b=p+sOMJeA83aiL7fwoRW+Z40VCuNSKAuVlKDMHGJoWL3C+qKK2lnsimuKPzTRcIPNTqZrBDO7M6Yc4xmgEeVn99ZpJteG4t4tnCIL9DLIU2Qw8iBM67HfdknxZsnqriJVg7OGezOuRqqEASAo5/Lr3z6TxpG5aQj1viWnsV9qbrIoNE8IMnQafNLjYa0t74E3ExaYW9CNu9Zbw5hVaR5F4LCZC7ncVKWtMsoMpZrVZx6s7AwjPFaQXNa7T5986mLmXrviSTPdj1AsrZU+urPxlu2GbvdhdySGuItao3wL56jp486g20kmpYarpnQeVoKX3dliOFSgY2Rh/d0IAOw7wg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
  dkim=pass header.d=oss.nxp.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
  s=selector1-NXP1-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=0qn/3wXg5+hOb6JQc8b09u4aVJDQBmKYi9pOk2UgKa8=;
- b=XY+9tFByEYdsryYscqH1Sp/N7ns4sSkdRezmYlfVVF6syoV8ISfw4EwyDalS44zDtV1u3WKW372NUMfsNRQVmG4TQWo/q+/OwLCI/+nLVo+04ft6UyAib1gsXtqE/MR6JPlxX47dXwWmZ4xYOFEpAmZBCfFUeffHvEYbfAI8s/9D98htD0k37b5EmAgfc8LBnChYbtmo73nTnXVprpvQbZ7EUpQZhmDi/cvzk8z1SwGs5V9SFCQ/2KFtIMBwXpB3QBYyjURG+nQJvLutp/K04vN+xl9dqCwXxP+NvGRLZJBl8QSqCWfkYjEuurAsb3SOG5uVHTHfMSDKJFGEcCqMjQ==
+ bh=HWU5/XBDyTBVXhHWFqQtcuSVFXOSDkAyN/L7zhGL4JU=;
+ b=oypUF9h/I0f/p0dj98m+dseb97fQZDgSQctdF2UApZmqPRgQ5Btp0jpd+b4gjaBdlouM+OYbDltKFLr8GgOa5sNYC/4xhd+Sb7Ykl+09fNGTgsPS/xkekRAuBfEtOaCQ0mI0i2xaDhTjjwRkPM9lb2qstW+QUCL51wUScBfbHdbl4m7orCnEVxysgnIChXll1F3GwT/BqBF1bj0rIbGsXd9xlpGsHGSfUkQfADQ2qjnUhn1l+xmK5xaHVxOIscBFYTRJzqJdTzkTUlKhZuia/wKkJZ6WaLh8TNPUeRCBE9qp+mAW6T6X3Y4qFp+/5urtRdabnXh8gr2HFrulA07uIw==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=oss.nxp.com;
 Received: from AS4PR04MB9576.eurprd04.prod.outlook.com (2603:10a6:20b:4fe::12)
  by AS8PR04MB8529.eurprd04.prod.outlook.com (2603:10a6:20b:420::5) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8398.20; Fri, 31 Jan
- 2025 16:34:25 +0000
+ 2025 16:34:33 +0000
 Received: from AS4PR04MB9576.eurprd04.prod.outlook.com
  ([fe80::9cf2:8eae:c3d1:2f30]) by AS4PR04MB9576.eurprd04.prod.outlook.com
  ([fe80::9cf2:8eae:c3d1:2f30%6]) with mapi id 15.20.8398.017; Fri, 31 Jan 2025
- 16:34:25 +0000
+ 16:34:33 +0000
 From: Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>
 To: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Bartosz Golaszewski <brgl@bgdev.pl>
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>,
-	devicetree@vger.kernel.org,
-	linux-gpio@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	=?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-Subject: [RFC 00/12] staging: media: max96712: Add support for streams and multiple sensors
-Date: Fri, 31 Jan 2025 18:33:54 +0200
-Message-Id: <20250131163408.2019144-1-laurentiu.palcu@oss.nxp.com>
+	linux-staging@lists.linux.dev
+Subject: [RFC 03/12] staging: media: max96712: convert to using CCI register access helpers
+Date: Fri, 31 Jan 2025 18:33:57 +0200
+Message-Id: <20250131163408.2019144-4-laurentiu.palcu@oss.nxp.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20250131163408.2019144-1-laurentiu.palcu@oss.nxp.com>
+References: <20250131163408.2019144-1-laurentiu.palcu@oss.nxp.com>
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-ClientProxiedBy: AS4P189CA0002.EURP189.PROD.OUTLOOK.COM
- (2603:10a6:20b:5d7::11) To AS4PR04MB9576.eurprd04.prod.outlook.com
+X-ClientProxiedBy: AM0PR05CA0086.eurprd05.prod.outlook.com
+ (2603:10a6:208:136::26) To AS4PR04MB9576.eurprd04.prod.outlook.com
  (2603:10a6:20b:4fe::12)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -77,127 +70,337 @@ MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: AS4PR04MB9576:EE_|AS8PR04MB8529:EE_
-X-MS-Office365-Filtering-Correlation-Id: bd6ee848-56f1-417a-48a2-08dd42151fd4
+X-MS-Office365-Filtering-Correlation-Id: 99f744b2-bb31-40c7-5e79-08dd4215246b
 X-MS-Exchange-SharedMailbox-RoutingAgent-Processed: True
-X-LD-Processed: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635,ExtAddr
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
- BCL:0;ARA:13230040|1800799024|7416014|376014|366016|921020;
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|376014|366016;
 X-Microsoft-Antispam-Message-Info:
- =?us-ascii?Q?xL3R6dNgsIhwOfyJWT+pAxaU1DEYKQGxz4OPxP6Nu5qK5EkU2pOakJ9BlST+?=
- =?us-ascii?Q?nEAEPbLloGRK2JqyS2mGDQc9PPrM+CEqEzko3cndBnIBY6dY9kRZEO42OO67?=
- =?us-ascii?Q?4ngpzfpSfOpBMSjCbvBy6XlxWGd4lJetgU6W9k9dq3xhTBS3K6A5srK43Ul0?=
- =?us-ascii?Q?Ly1T9r6OeGlui3w367FiTY7guTeXa+Eg3+kkfpove3dKkuFEEnbJMwe810Ha?=
- =?us-ascii?Q?0ANT673YiQrvGGCSOKL+/YHRpEsxh+K7ZC9vm2e+YOoWfJOruDWFhbIXyz++?=
- =?us-ascii?Q?flnzeaqKucp67tP8p8o8hyBaowMQbD2jinTpEnSqZCNyudUz38g8E8ZFsfYt?=
- =?us-ascii?Q?kljP0pGB25FQa78P0aGKUNwX4CVQtpx27QHpiTnjo6raTeO4AMuN+yPIUy1e?=
- =?us-ascii?Q?xjAxebfj4GC7ZufI56M93bfhU/YzuD3NbMs3OU7uAJiKiThCR7lYqQc1zDsJ?=
- =?us-ascii?Q?DoIKPyISl2g2lUy3ckflbbL6nu98OJ+dlsGNDDzHAUS7SEOIdqBOUJ1Qd2D3?=
- =?us-ascii?Q?sCsw3O4pV11QjH5fGFbCJwG2zHM8Dv1spxsq1gwgnalW5lNsd4n6aDWkwLHq?=
- =?us-ascii?Q?5UlKUoCkGaG+RY+fg6MZmD1I7J02IYmNCmNxpqgOIZQQJ8iBNKskf4INnOsY?=
- =?us-ascii?Q?6V7IranrrBEgtS1dyQ3JJhTkOX+KELaTSOPbWI/xNGb+L1HA87akXyvRqrMt?=
- =?us-ascii?Q?dFUPTVTmABoM/625G2p7+pTYBifQV4HBQAUL2yHENB6WTdnQ3ygdE8Uz5JFg?=
- =?us-ascii?Q?sVHDybgErlBYMbL1XAB6l0QMUeTb9JxpmRoQ3wIjs6EMAb31FnNpKCSsRAUd?=
- =?us-ascii?Q?BteULJ3i4hq+8oCimUTrOylhQWkiYol2LhmqYboKtDOhppYoLPjIUE0DeWTI?=
- =?us-ascii?Q?UFfOc3rseO66UjgUz17Ypa5jDhW2bf0TqOiKrF66lEXuS5xHw1vmKLSwsAzr?=
- =?us-ascii?Q?wp6KBvUnMmMxmBwtaOAHjVVf4QE2JD0w1qHBz9jrfS9sWGhIAAu+6t9vjUd6?=
- =?us-ascii?Q?YCtw2DdptDAWqyI9OQbbxOWseGJlijeVd9LvL4IEHWlp8dk3TYmjv2/IlO12?=
- =?us-ascii?Q?hmjH3komg19Bho4zwQoQrW9AfnBwtvJ8cnJeBPzfgvAwhCPJx3QDB5f/FF7b?=
- =?us-ascii?Q?BvHd3tvPzPTJdBKqKCbKqjZLCWL+aGwKzS+4yoRzsMR5DJK05FMZlQuJeFKE?=
- =?us-ascii?Q?gt9/83jzYk7xF6ZZdQQZ//04vaH3mKpYya0BNNuJmUaZHAY4PJSs2h5+forW?=
- =?us-ascii?Q?V86lQwD5VwwoXar/ZWi2Id5uDVyea4oEHVHumbJpzB5hj7XAIfg2qE6Mi1EG?=
- =?us-ascii?Q?+74/Me2sDamxD5yxYEg2xuwaz0x8wOuRQwzmatSmaoIgmBXZ1FkiI0Kw2cig?=
- =?us-ascii?Q?eTq5syZ983/P2j0eK9MYO1Q4duBZ?=
+	=?us-ascii?Q?Nwsbwbvse/IJqDoZgsLYQqiSbuo9Rp1hHZtDXvdf4s0/h/7gt036pd2N5GU6?=
+ =?us-ascii?Q?kH8kCDOjLEeiyq1SRaYu6SzBjVLT/y1ORScve+kZZ0suInlP94CEI0nC7/4Y?=
+ =?us-ascii?Q?ZTr2t/bJxq+sQFp1j4iFNvGmzIpGFGkPPBAn3s3ON7RldGY5BN2aev55Ud5Y?=
+ =?us-ascii?Q?m4mVHW8IsfnoKKowGrFOT1ygzwyNwkJk8RyB7t7pqI7yu1b0JBHqRjDSkHqA?=
+ =?us-ascii?Q?qS1LYRfN4cC4nvscIHLYsRYybAHrFpRU0zwCabbgfS/G76Fkgp0YdWM12onz?=
+ =?us-ascii?Q?xBTV/eVjDQ1mdO9Nr7bWXJ8Dz2/3e0Guuljc+wvzhIAXAWlgH+gbVUNXgR28?=
+ =?us-ascii?Q?2oqyayx7OvQVG64Koftw/WkWk4LTtqBY8HSr8JC1/le/BKY6fqpKW+4flHWc?=
+ =?us-ascii?Q?rB3a3QZNPcZy0ObGLaatWxWz/ifnxwf9bgiG4LyEa5fs/IS7axBzd69KVIqF?=
+ =?us-ascii?Q?0JiQRni4TCgp5Cx70bm3wBcsbT+i2ExzRph2eJQF+AXErJykDbUWm9fd7oAm?=
+ =?us-ascii?Q?08ivQ4Hf5yQzH5OvtwtobOjWbQuSYL1kXHm6tuWJc9C4//7Ku473O9i3jAMs?=
+ =?us-ascii?Q?PiOl8ekfgpi07RtvGM4T0c4GHIFcxiAc3MUoOhaJGDtsGQwgUPH9m8anI9G5?=
+ =?us-ascii?Q?9UW5gV9TLgMDYmmPQjfZk9O/ZVin3XQHNHpBlErd6Hz4sDwiki/1WPVgjiSY?=
+ =?us-ascii?Q?K+QfBTIjcDRuKiq5h0CrxSLlc+jMbMiZZrK3N5odXZLemR7ao9nhDORbeblU?=
+ =?us-ascii?Q?v4hz9gEzerr9m5QlpyQnGRcs9Zb73MVX0Yib+dTFKttW3tjZKgA8TN5LHMVW?=
+ =?us-ascii?Q?ShwFD0ZBto+imSILx8B0VP30opKRLla2KZggEEMk0E8hu5QT2TrUvTDzdr/w?=
+ =?us-ascii?Q?jHBpGlsI0VJMquvchirsbtQKCbbewPrOEE9IcQsw/8Xozvyn5tzCFWM7uiTm?=
+ =?us-ascii?Q?o9WPmS9I96lmopXnpj68t7BxpRqG69a5U005Ia/ulfrm97eNoUIdlCU5a+Gu?=
+ =?us-ascii?Q?vt8pb4XMdef50FR60VxxLWis7nhQVmmNYGY3sCZNsqyy104Y7fUope39sfU5?=
+ =?us-ascii?Q?FgIbTWuWLUhNlh38uA8eUI6TQADXJcH13Z+NB7VFJEO29TrueBMVJAQ3+wyV?=
+ =?us-ascii?Q?QgSfG4+zaW97qJnapmy2VZ9TFQeFYavVG97ZHEE/C5fY6Z2CFWA4AiSHUSqh?=
+ =?us-ascii?Q?WzhhCuIrRgweVDdSjFX3XjHfFgzK4iN37Ep4Rsv1mray9cn9qn70tMxRLRxA?=
+ =?us-ascii?Q?0RjEl/lG9B+WhDMXyu7g7pjM2/zsTgLKUjEClcZQWW0zJim1C4FxKxeTpSRu?=
+ =?us-ascii?Q?2i8AHXbQNisbibIE1u0D+GoFlmbluhxGuOChapwNCCXI3xy0xSV3ohuNDWSA?=
+ =?us-ascii?Q?dGkwwMkVXD9gFK32acisXE/6U500?=
 X-Forefront-Antispam-Report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS4PR04MB9576.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(7416014)(376014)(366016)(921020);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS4PR04MB9576.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(366016);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
- =?us-ascii?Q?yY/WnYlyeNCnHxTh37VReqWEcHiPE9pJ5sey/h1qbzo3Qsl1J8JOV161wNDy?=
- =?us-ascii?Q?F6H2zuOt2gOkq8tL1q/V3pzNIvbB69/hKSVUdRTjXyb1REXpozQLBSe/9SU6?=
- =?us-ascii?Q?gCC4zd72DD7mJmylBiwcNFPzQXvzPMBXb8qK57KzPTJlJAISprwBvosLzCAr?=
- =?us-ascii?Q?TaChGSvHvTz4USjqc9oAkGf7k8d0HM4KE0OAkNvUDiZbCLdMQyGTKlZlpREC?=
- =?us-ascii?Q?lZAVufdlSZBWt7G8ky58cDwtvLBkADM3gqlI04neiR7L1sjUbbbiZZuXGcoz?=
- =?us-ascii?Q?Phyd1Pqrr5/2WwklMKM0t4LzdGIV2tpknqfAdmo0vPxJz9iz6fdbdOMD9SYC?=
- =?us-ascii?Q?nvY81FPeH5Aw+XeOjzeYhDSynqoouewGJmpLff5d6/AuFJWXKwSRcKXC9KaX?=
- =?us-ascii?Q?MZXbSFWnAdYV+Z87zpqzWgytFMnt0nPmUVDSQT4VoauG0p1efhp9DrAM/16M?=
- =?us-ascii?Q?1vw0hcnTCCVDAS38w+SuSHw7zSy5s8RY8T/PEYSqnyiAt8rReXAQtkp1oXMx?=
- =?us-ascii?Q?oQHCbDhPHV0K9jJTxZDlrP2UxMJoApMShoHOVluEI4k8HXcDrQQlhk6UUD9c?=
- =?us-ascii?Q?5lUeXowrJXrYsECWDJ7IDkYp0zSHgp8YzDZRsEqbYIVeYCGicRzfnlPBM05K?=
- =?us-ascii?Q?LhjTe5gFDML0bgmeXj3ONScS62yfcnv2JMJKAK5e8TVNaon8Ad/tCkZyT0vS?=
- =?us-ascii?Q?todAeIXCCrq4aZvYF5i/joqDsWTHSaRW0aKTBQKnPm2gOqdfL3fCP1tWd6+p?=
- =?us-ascii?Q?btHhrCPmboP8y62CdgB2utPm3KNIqS4DJX8WSrszA0LrajXC8KJhs05ufTL+?=
- =?us-ascii?Q?63n4IYFFUzGls9g25MnFd1oGCUxLd0ieK4ILFjfVN7fQmJ4oWoOUHU3q6j4F?=
- =?us-ascii?Q?Fwv7eSAsGFw5cGMm6trD5OruGRjfpHmPrNXBFZiQtJNdoeOBsY7cMPseocWc?=
- =?us-ascii?Q?eq8F3S6aN6OP9yIRFt5XHvMKEUUKNBgo6uU4rJxa9AHEQar3hKM56Xvx6xu5?=
- =?us-ascii?Q?hg8xBIoO8SEtUt+vb+PQhvD8VKAj/gvV629A3Hot6bRxkLjLANAygCxKoIES?=
- =?us-ascii?Q?7wAmUVUVYEd6R4yrhRfp1GbRA0SZCSeVfCD49Ut1z/0AFPjh9XRl6WEl/GKq?=
- =?us-ascii?Q?TuBqounkSNgVuJchfwmjRnNE0FhzkKs+qPgcUkLobXwYYl4jxsj0NRCEgQye?=
- =?us-ascii?Q?GUeiWPL/+VYWnUmUQO1uPLbJm9ByCky6uTfc3lHeLStCmRnWUuLNaL1Z9RBA?=
- =?us-ascii?Q?NCMtlzuQXE7OwLoXYIX31fHj/hKULF0080hzbp8QtwxnGxYJ1jhXJDcHgB+P?=
- =?us-ascii?Q?fzIfPCdnJflX0KhadKVB9ZpuXj7ajvE27X1Fj7r89R1oWHq/60XPIFoVGls7?=
- =?us-ascii?Q?8wgLvMMNhI4F2exF2jCauFjQwvhvrnaxMiw8j6sny+3px6rTcVNCAKOnKdQX?=
- =?us-ascii?Q?4DSLQEQOwqusAMjTX3WAgpcpKykPnL6ZRHkQBDrNN/vMXERsxfmEwle8VLBY?=
- =?us-ascii?Q?U2MW9+uTv5guipFrX9FjA4dAonQwMdZUKbZtdFDmncD17hjzJD5xINQ/a7uT?=
- =?us-ascii?Q?VM6erv/TdhFtik8DAFfdaJC2T6xKTn2LpS8JMjBk1mSD6cVrbgW55/TU0MjD?=
- =?us-ascii?Q?ug=3D=3D?=
+	=?us-ascii?Q?RnN0WZ3PafGOMZE3jKfzJc6Zz9JmZcHSBkihv8QON1iRcI2TVQ8aZ1OwYOg3?=
+ =?us-ascii?Q?YT61hkk2xbqU7XqleuL3QRhWc+72bMevQQ5CsWTAa5IJXx5lFO5gWIkSmaOG?=
+ =?us-ascii?Q?GrDwQZ0SpSQsofncOUf2Mms0G3KU+uDWy9rlud3asU6nZ5lALlLy9kp076zO?=
+ =?us-ascii?Q?D3vSkPxF8BtMdV0HYIu5TaI12fyxe8P0I+a6dy+3V34+Td2gpIo5xYMCzObc?=
+ =?us-ascii?Q?l2UVbiZgeF1Y9lLVS9QYKg37mezUY82FxaqviLgeiob+hGzV4SKHBYDvbOw5?=
+ =?us-ascii?Q?KVbJN6AieQQMiJFYrix1hyA2TDiHlpbZWCBRbX44EkXN+8BisWwI9Y0FLhuq?=
+ =?us-ascii?Q?NDnwYWu+fMUZF3drkdsxfSIBKrDugg7PYoHtHLY/EvBj9M8tfaqxylU11EBK?=
+ =?us-ascii?Q?aMB04VSaZdJLXjul5gMcIV3g77f39vVOYTS+KMot8kKltDZdtFL2gehlKKLR?=
+ =?us-ascii?Q?sGTprhXrN1SANvtlquuCfOyK2ENy7y+YVQJMysY9zBqMIqbGbmOlaTRMLD2x?=
+ =?us-ascii?Q?/VXtopMOWpIBG3JKEbGFkzEkufyfDFtuPY0/rk57t/SrrON0BNkn9qEHlsrr?=
+ =?us-ascii?Q?+JGlGzFDj0Ha+44pUc4DYTAf+ZEtYzOn9WVkuG6y9FZxqhPMldR+4wY/gNIX?=
+ =?us-ascii?Q?RWtMGnahvmVGNZp8aWiUkw7W64CY3hsRo4Eiq4+Cx0sNXA4nHglk9xdPeMr8?=
+ =?us-ascii?Q?GPwGhr/G7TFH7cpgMUrNabpTPIy1eNOnJAYMNoNMSFEyKBLmr2oQUmYnlotA?=
+ =?us-ascii?Q?YCqIQ1z+s18CJJT6wvPqxN8a0D8IzJ0+bx3ni95PM26RbyuIUuRPOApivbwA?=
+ =?us-ascii?Q?VTR8RzdPZ89K1dqCqlFVWZDgAV8UCt9yrLQ10IyzqcBPwR4gSbrN+8997lar?=
+ =?us-ascii?Q?AjPIC09QH1qgcHzCPns6H3MurmZAf9+s5y+Qt68I0f/oq2CSB0thY5B7XasT?=
+ =?us-ascii?Q?L/m/0zNpXl/j8EoseM5c+sgCqM4L+jCHjup2KP2mKqwgBYcwM6HviqeKPS7s?=
+ =?us-ascii?Q?H5cbEUPaWO2ADhZrXaG3HqIOBtkjlLqpf+Kn8P5dSyf0q5hdqXV56dGYHqpN?=
+ =?us-ascii?Q?PkoAxDVb2GIJc8Xrm1mTXIRikEraQPEzrBFlrp3ibSaijq0pRmykv7VBN8rs?=
+ =?us-ascii?Q?/Eli5od0veixEGDE9UfpGuHIxQpt+0//9amHwdxCD9Z334loqJVnkZKR9N0m?=
+ =?us-ascii?Q?CNwB9USVDc/+wdntd7KYJ9Ln75fYIcmKi15aWrpcP3VsOiZOPlbv6Re2paaV?=
+ =?us-ascii?Q?1IPQ338ev595jmfDJ4zbePp/aKi/cFh5lFf2wcsn/7+qIyWUDVQZHKiRS0P1?=
+ =?us-ascii?Q?8Bt3fBgLkRF1IVfT2OJOfThen7MOZxlySIX38QynD4b0wikyjhE5zfotec9k?=
+ =?us-ascii?Q?GiKw5cVs+kKw2skHoRxBpTsf/8V0tiU4AEl0VU/jbqnyN1sVtDQgb2BE9/mA?=
+ =?us-ascii?Q?Oraljg5Blj6U0AOzphz5vAFSk8L2I7pfVAeU1PJO1Ub8Oba7c8hlF74UWh8Y?=
+ =?us-ascii?Q?NgztgoEfYgpHUn8IJLPvpveXTnHrhJjIkL413ZUWAiq1Khma+yJmJlZ7/HZ0?=
+ =?us-ascii?Q?Tsvxyn8BNz07xOb2ybOQl6X1PAgAOeMmsHNDkYOaG35ywuL16+yYfjsVdrtv?=
+ =?us-ascii?Q?2g=3D=3D?=
 X-OriginatorOrg: oss.nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: bd6ee848-56f1-417a-48a2-08dd42151fd4
+X-MS-Exchange-CrossTenant-Network-Message-Id: 99f744b2-bb31-40c7-5e79-08dd4215246b
 X-MS-Exchange-CrossTenant-AuthSource: AS4PR04MB9576.eurprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Jan 2025 16:34:25.3813
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Jan 2025 16:34:33.1015
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: /rKKTJHugETBgOCZDY4tefbLoHCviAFNiu7YrzRsd/58ZI+e4+phg202SirGS7MC2B+QlyU9N0BxwAi4hjAeFw==
+X-MS-Exchange-CrossTenant-UserPrincipalName: MUc/eycoRbx8eafFr4n/g7O8NXQn5u/m4q7IZ0kJ/Gac1YiUYoRITRLinq5IE+zRASQEfiVhXAVMjc+mfmOAZg==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR04MB8529
 
-Hi,
+Use the CCI register access helpers instead of regmap's.
 
-This series adds more functionality to the existing max96712 staging
-driver allowing multiple sensors to be connected through other
-compatible serializers. I tried to split the changes in smaller logical
-changes to make them easier to review while not altering the existing
-VPG functionality but I could squash all of them together if needed.
+Signed-off-by: Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>
+---
+ drivers/staging/media/max96712/max96712.c | 126 +++++++++-------------
+ 1 file changed, 51 insertions(+), 75 deletions(-)
 
-The series only supports tunneling mode and uses the first MIPI-CSI
-port. Support for more functionality can be added later, if needed.
-
-I sent the set as a RFC because it depends on Sakari's pending internal
-pads patch which is needed if we want to have an elegant solution for
-allowing the user to switch between streaming from sensors or just
-video pattern generation.
-
-Also, the set depends on my previous series which was not yet merged:
-https://patchwork.linuxtv.org/project/linux-media/list/?series=14255
-
-Thanks,
-Laurentiu
-
-Laurentiu Palcu (11):
-  dt-bindings: i2c: maxim,max96712: add a couple of new properties
-  staging: media: max96712: convert to using CCI register access helpers
-  staging: media: max96712: change DT parsing routine
-  staging: media: max96712: add link frequency V4L2 control
-  staging: media: max96712: add I2C mux support
-  staging: media: max96712: add support for streams
-  staging: media: max96712: allow enumerating MBUS codes
-  staging: media: max96712: add set_fmt routine
-  staging: media: max96712: add gpiochip functionality
-  staging: media: max96712: add fsync support
-  staging: media: max96712: allow streaming from connected sensors
-
-Sakari Ailus (1):
-  media: mc: Add INTERNAL pad flag
-
- .../bindings/media/i2c/maxim,max96712.yaml    |   45 +
- .../media/mediactl/media-types.rst            |    8 +
- drivers/media/mc/mc-entity.c                  |   10 +-
- drivers/staging/media/max96712/max96712.c     | 1406 +++++++++++++++--
- include/uapi/linux/media.h                    |    1 +
- 5 files changed, 1352 insertions(+), 118 deletions(-)
-
+diff --git a/drivers/staging/media/max96712/max96712.c b/drivers/staging/media/max96712/max96712.c
+index 47842facec125..cf39f5243cd6d 100644
+--- a/drivers/staging/media/max96712/max96712.c
++++ b/drivers/staging/media/max96712/max96712.c
+@@ -12,24 +12,25 @@
+ #include <linux/of_graph.h>
+ #include <linux/regmap.h>
+ 
++#include <media/v4l2-cci.h>
+ #include <media/v4l2-ctrls.h>
+ #include <media/v4l2-fwnode.h>
+ #include <media/v4l2-subdev.h>
+ 
+ /* TOP_CTRL */
+-#define MAX96712_DEBUG_EXTRA_REG			0x0009
++#define MAX96712_DEBUG_EXTRA_REG			CCI_REG8(0x0009)
+ #define   DEBUG_EXTRA_PCLK_25MHZ			0x00
+ #define   DEBUG_EXTRA_PCLK_75MHZ			0x01
+-#define MAX96724_TOP_CTRL_PWR1				0x0013
++#define MAX96724_TOP_CTRL_PWR1				CCI_REG8(0x0013)
+ #define   RESET_ALL					BIT(6)
+ 
+ /* BACKTOP0 */
+-#define MAX96712_BACKTOP0_12				0x040b
++#define MAX96712_BACKTOP0_12				CCI_REG8(0x040b)
+ #define   CSI_OUT_EN					BIT(1)
+ #define   SOFT_BPP_0_MASK				GENMASK(7, 3)
+ #define   SOFT_BPP_0_SHIFT				3
+-#define MAX96712_BACKTOP0_22				0x0415
+-#define MAX96712_BACKTOP0_25				0x0418
++#define MAX96712_BACKTOP0_22				CCI_REG8(0x0415)
++#define MAX96712_BACKTOP0_25				CCI_REG8(0x0418)
+ #define   PHY_CSI_TX_DPLL_PREDEF_FREQ_MASK		GENMASK(4, 0)
+ #define   PHY_CSI_TX_DPLL_PREDEF_FREQ_SHIFT		0
+ #define   PHY_CSI_TX_DPLL_FB_FRACTION_PREDEF_EN		BIT(5)
+@@ -37,7 +38,7 @@
+ #define   OVERRIDE_BPP_VC_DT_1_3			BIT(7)
+ 
+ /* MIPI_PHY */
+-#define MAX96712_MIPI_PHY_0				0x08a0
++#define MAX96712_MIPI_PHY_0				CCI_REG8(0x08a0)
+ #define   PHY_4X2					BIT(0)
+ #define   PHY_2X4					BIT(2)
+ #define   PHY_1X4A_22					BIT(3)
+@@ -45,7 +46,7 @@
+ #define   FORCE_CLK0_EN					BIT(5)
+ #define   FORCE_CLK3_EN					BIT(6)
+ #define   FORCE_CSI_OUT_EN				BIT(7)
+-#define MAX96712_MIPI_PHY_2				0x08a2
++#define MAX96712_MIPI_PHY_2				CCI_REG8(0x08a2)
+ #define   T_HS_TRAIL_MASK				GENMASK(1, 0)
+ #define   T_HS_TRAIL_SHIFT				0
+ #define   T_LPX_MASK					GENMASK(3, 2)
+@@ -56,22 +57,22 @@
+ #define   PHY1_EN					BIT(5)
+ #define   PHY2_EN					BIT(6)
+ #define   PHY3_EN					BIT(7)
+-#define MAX96712_MIPI_PHY_3				0x08a3
++#define MAX96712_MIPI_PHY_3				CCI_REG8(0x08a3)
+ #define   PHY0_LANE_MAP_MASK				GENMASK(3, 0)
+ #define   PHY0_LANE_MAP_SHIFT				0
+ #define   PHY1_LANE_MAP_MASK				GENMASK(7, 4)
+ #define   PHY1_LANE_MAP_SHIFT				4
+-#define MAX96712_MIPI_PHY_5				0x08a5
++#define MAX96712_MIPI_PHY_5				CCI_REG8(0x08a5)
+ #define   PHY0_POL_MAP_MASK				GENMASK(2, 0)
+ #define   PHY0_POL_MAP_SHIFT				0
+ #define   PHY1_POL_MAP_MASK				GENMASK(5, 3)
+ #define   PHY1_POL_MAP_SHIFT				3
+ #define   T_CLK_PREP_MASK				GENMASK(7, 6)
+ #define   T_CLK_PREP_SHIFT				6
+-#define MAX96712_MIPI_PHY_13				0x08ad
++#define MAX96712_MIPI_PHY_13				CCI_REG8(0x08ad)
+ #define   T_T3_PREBEGIN_MASK				GENMASK(5, 0)
+ #define   T_T3_PREBEGIN_SHIFT				0
+-#define MAX96712_MIPI_PHY_14				0x08ae
++#define MAX96712_MIPI_PHY_14				CCI_REG8(0x08ae)
+ #define   T_T3_PREP_MASK				GENMASK(1, 0)
+ #define   T_T3_PREP_SHIFT				0
+ #define   T_T3_PREP_40NS				0
+@@ -82,7 +83,7 @@
+ #define   T_T3_POST_SHIFT				2
+ 
+ /* MIPI_TX: 0 <= phy < 4 */
+-#define MAX96712_MIPI_TX_10(phy)			(0x090a + (phy) * 0x40)
++#define MAX96712_MIPI_TX_10(phy)			CCI_REG8(0x090a + (phy) * 0x40)
+ #define   CSI2_TWAKEUP_H_MASK				GENMASK(2, 0)
+ #define   CSI2_TWAKEUP_H_SHIFT				0
+ #define   CSI2_VCX_EN					BIT(4)
+@@ -91,7 +92,7 @@
+ #define   CSI2_LANE_CNT_SHIFT				6
+ 
+ /* VRX_PATGEN */
+-#define MAX96712_VRX_PATGEN_0				0x1050
++#define MAX96712_VRX_PATGEN_0				CCI_REG8(0x1050)
+ #define   VTG_MODE_MASK					GENMASK(1, 0)
+ #define   VTG_MODE_SHIFT				0
+ #define   VTG_MODE_VS_TRACKING				0
+@@ -104,30 +105,30 @@
+ #define   GEN_DE					BIT(5)
+ #define   GEN_HS					BIT(6)
+ #define   GEN_VS					BIT(7)
+-#define MAX96712_VRX_PATGEN_1				0x1051
++#define MAX96712_VRX_PATGEN_1				CCI_REG8(0x1051)
+ #define   VS_TRIG					BIT(0)
+ #define   PATGEN_MODE_MASK				GENMASK(5, 4)
+ #define   PATGEN_MODE_SHIFT				4
+ #define   PATGEN_MODE_CHECKERBOARD			(1 << PATGEN_MODE_SHIFT)
+ #define   PATGEN_MODE_GRADIENT				(2 << PATGEN_MODE_SHIFT)
+ #define   GRAD_MODE					BIT(7)
+-#define MAX96712_VRX_PATGEN_VS_DLY			0x1052
+-#define MAX96712_VRX_PATGEN_VS_HIGH			0x1055
+-#define MAX96712_VRX_PATGEN_VS_LOW			0x1058
+-#define MAX96712_VRX_PATGEN_V2H				0x105b
+-#define MAX96712_VRX_PATGEN_HS_HIGH			0x105e
+-#define MAX96712_VRX_PATGEN_HS_LOW			0x1060
+-#define MAX96712_VRX_PATGEN_HS_CNT			0x1062
+-#define MAX96712_VRX_PATGEN_V2D				0x1064
+-#define MAX96712_VRX_PATGEN_DE_HIGH			0x1067
+-#define MAX96712_VRX_PATGEN_DE_LOW			0x1069
+-#define MAX96712_VRX_PATGEN_DE_CNT			0x106b
+-#define MAX96712_VRX_PATGEN_GRAD_INCR			0x106d
+-#define MAX96712_VRX_PATGEN_CHKR_COLOR_A		0x106e
+-#define MAX96712_VRX_PATGEN_CHKR_COLOR_B		0x1071
+-#define MAX96712_VRX_PATGEN_CHKR_RPT_A			0x1074
+-#define MAX96712_VRX_PATGEN_CHKR_RPT_B			0x1075
+-#define MAX96712_VRX_PATGEN_CHKR_ALT			0x1076
++#define MAX96712_VRX_PATGEN_VS_DLY			CCI_REG24(0x1052)
++#define MAX96712_VRX_PATGEN_VS_HIGH			CCI_REG24(0x1055)
++#define MAX96712_VRX_PATGEN_VS_LOW			CCI_REG24(0x1058)
++#define MAX96712_VRX_PATGEN_V2H				CCI_REG16(0x105b)
++#define MAX96712_VRX_PATGEN_HS_HIGH			CCI_REG16(0x105e)
++#define MAX96712_VRX_PATGEN_HS_LOW			CCI_REG16(0x1060)
++#define MAX96712_VRX_PATGEN_HS_CNT			CCI_REG16(0x1062)
++#define MAX96712_VRX_PATGEN_V2D				CCI_REG24(0x1064)
++#define MAX96712_VRX_PATGEN_DE_HIGH			CCI_REG16(0x1067)
++#define MAX96712_VRX_PATGEN_DE_LOW			CCI_REG16(0x1069)
++#define MAX96712_VRX_PATGEN_DE_CNT			CCI_REG16(0x106b)
++#define MAX96712_VRX_PATGEN_GRAD_INCR			CCI_REG8(0x106d)
++#define MAX96712_VRX_PATGEN_CHKR_COLOR_A		CCI_REG24(0x106e)
++#define MAX96712_VRX_PATGEN_CHKR_COLOR_B		CCI_REG24(0x1071)
++#define MAX96712_VRX_PATGEN_CHKR_RPT_A			CCI_REG8(0x1074)
++#define MAX96712_VRX_PATGEN_CHKR_RPT_B			CCI_REG8(0x1075)
++#define MAX96712_VRX_PATGEN_CHKR_ALT			CCI_REG8(0x1076)
+ 
+ enum max96712_pattern {
+ 	MAX96712_PATTERN_CHECKERBOARD = 0,
+@@ -155,11 +156,11 @@ struct max96712_priv {
+ 	enum max96712_pattern pattern;
+ };
+ 
+-static int max96712_write(struct max96712_priv *priv, unsigned int reg, u8 val)
++static int max96712_write(struct max96712_priv *priv, unsigned int reg, u64 val)
+ {
+ 	int ret;
+ 
+-	ret = regmap_write(priv->regmap, reg, val);
++	ret = cci_write(priv->regmap, reg, val, NULL);
+ 	if (ret)
+ 		dev_err(&priv->client->dev, "write 0x%04x failed\n", reg);
+ 
+@@ -167,42 +168,17 @@ static int max96712_write(struct max96712_priv *priv, unsigned int reg, u8 val)
+ }
+ 
+ static int max96712_update_bits(struct max96712_priv *priv, unsigned int reg,
+-				u8 mask, u8 val)
++				u64 mask, u64 val)
+ {
+ 	int ret;
+ 
+-	ret = regmap_update_bits(priv->regmap, reg, mask, val);
++	ret = cci_update_bits(priv->regmap, reg, mask, val, NULL);
+ 	if (ret)
+ 		dev_err(&priv->client->dev, "update 0x%04x failed\n", reg);
+ 
+ 	return ret;
+ }
+ 
+-static int max96712_write_bulk(struct max96712_priv *priv, unsigned int reg,
+-			       const void *val, size_t val_count)
+-{
+-	int ret;
+-
+-	ret = regmap_bulk_write(priv->regmap, reg, val, val_count);
+-	if (ret)
+-		dev_err(&priv->client->dev, "bulk write 0x%04x failed\n", reg);
+-
+-	return ret;
+-}
+-
+-static int max96712_write_bulk_value(struct max96712_priv *priv,
+-				     unsigned int reg, unsigned int val,
+-				     size_t val_count)
+-{
+-	unsigned int i;
+-	u8 values[4];
+-
+-	for (i = 1; i <= val_count; i++)
+-		values[i - 1] = (val >> ((val_count - i) * 8)) & 0xff;
+-
+-	return max96712_write_bulk(priv, reg, &values, val_count);
+-}
+-
+ static void max96712_reset(struct max96712_priv *priv)
+ {
+ 	max96712_update_bits(priv, MAX96724_TOP_CTRL_PWR1, RESET_ALL, RESET_ALL);
+@@ -293,19 +269,19 @@ static void max96712_pattern_enable(struct max96712_priv *priv, bool enable)
+ 	max96712_write(priv, MAX96712_DEBUG_EXTRA_REG, DEBUG_EXTRA_PCLK_75MHZ);
+ 
+ 	/* Configure Video Timing Generator for 1920x1080 @ 30 fps. */
+-	max96712_write_bulk_value(priv, MAX96712_VRX_PATGEN_VS_DLY, 0, 3);
+-	max96712_write_bulk_value(priv, MAX96712_VRX_PATGEN_VS_HIGH, v_sw * h_tot, 3);
+-	max96712_write_bulk_value(priv, MAX96712_VRX_PATGEN_VS_LOW,
+-				  (v_active + v_fp + v_bp) * h_tot, 3);
+-	max96712_write_bulk_value(priv, MAX96712_VRX_PATGEN_V2H, 0, 3);
+-	max96712_write_bulk_value(priv, MAX96712_VRX_PATGEN_HS_HIGH, h_sw, 2);
+-	max96712_write_bulk_value(priv, MAX96712_VRX_PATGEN_HS_LOW, h_active + h_fp + h_bp, 2);
+-	max96712_write_bulk_value(priv, MAX96712_VRX_PATGEN_HS_CNT, v_tot, 2);
+-	max96712_write_bulk_value(priv, MAX96712_VRX_PATGEN_V2D,
+-				  h_tot * (v_sw + v_bp) + (h_sw + h_bp), 3);
+-	max96712_write_bulk_value(priv, MAX96712_VRX_PATGEN_DE_HIGH, h_active, 2);
+-	max96712_write_bulk_value(priv, MAX96712_VRX_PATGEN_DE_LOW, h_fp + h_sw + h_bp, 2);
+-	max96712_write_bulk_value(priv, MAX96712_VRX_PATGEN_DE_CNT, v_active, 2);
++	max96712_write(priv, MAX96712_VRX_PATGEN_VS_DLY, 0);
++	max96712_write(priv, MAX96712_VRX_PATGEN_VS_HIGH, v_sw * h_tot);
++	max96712_write(priv, MAX96712_VRX_PATGEN_VS_LOW,
++		       (v_active + v_fp + v_bp) * h_tot);
++	max96712_write(priv, MAX96712_VRX_PATGEN_V2H, 0);
++	max96712_write(priv, MAX96712_VRX_PATGEN_HS_HIGH, h_sw);
++	max96712_write(priv, MAX96712_VRX_PATGEN_HS_LOW, h_active + h_fp + h_bp);
++	max96712_write(priv, MAX96712_VRX_PATGEN_HS_CNT, v_tot);
++	max96712_write(priv, MAX96712_VRX_PATGEN_V2D,
++		       h_tot * (v_sw + v_bp) + (h_sw + h_bp));
++	max96712_write(priv, MAX96712_VRX_PATGEN_DE_HIGH, h_active);
++	max96712_write(priv, MAX96712_VRX_PATGEN_DE_LOW, h_fp + h_sw + h_bp);
++	max96712_write(priv, MAX96712_VRX_PATGEN_DE_CNT, v_active);
+ 
+ 	/* Generate VS, HS and DE in free-running mode. */
+ 	max96712_write(priv, MAX96712_VRX_PATGEN_0,
+@@ -320,8 +296,8 @@ static void max96712_pattern_enable(struct max96712_priv *priv, bool enable)
+ 		max96712_write(priv, MAX96712_VRX_PATGEN_CHKR_ALT, 0x3c);
+ 
+ 		/* Set checkerboard pattern colors. */
+-		max96712_write_bulk_value(priv, MAX96712_VRX_PATGEN_CHKR_COLOR_A, 0xfecc00, 3);
+-		max96712_write_bulk_value(priv, MAX96712_VRX_PATGEN_CHKR_COLOR_B, 0x006aa7, 3);
++		max96712_write(priv, MAX96712_VRX_PATGEN_CHKR_COLOR_A, 0xfecc00);
++		max96712_write(priv, MAX96712_VRX_PATGEN_CHKR_COLOR_B, 0x006aa7);
+ 
+ 		/* Generate checkerboard pattern. */
+ 		max96712_write(priv, MAX96712_VRX_PATGEN_1, PATGEN_MODE_CHECKERBOARD);
 -- 
 2.44.1
 
