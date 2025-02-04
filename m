@@ -1,356 +1,216 @@
-Received: from mail-ot1-f53.google.com (mail-ot1-f53.google.com [209.85.210.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fout-a4-smtp.messagingengine.com (fout-a4-smtp.messagingengine.com [103.168.172.147])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C12162045A8
-	for <linux-staging@lists.linux.dev>; Tue,  4 Feb 2025 06:58:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E0A220A5D0
+	for <linux-staging@lists.linux.dev>; Tue,  4 Feb 2025 12:39:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.147
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738652310; cv=none; b=ROlSDM4r9DWtr4q0ebq/XODvs9f/wLWOlmrKa3l/wUNJr71lBlvayZEkq9yi82O/w6YBYAuvZxeVZu0ZyXyKKZi2TM5e9ppbpUtNUrj7SxlhTZMlSBt7hmosWrshZ9hpw4uXAHdCCEInpE7WCdcX80nNQcHKt4Yr2sGVUJFsGjo=
+	t=1738672779; cv=none; b=ZokX69r6AvV48LLVStHqb10De+ZRBk8kq6YsikNvbKmyjBO/gvhjsxCxyQ/PoE/4lHDyvLSwExC7mAa3UH3hzVgWwsJia8l4p5Fssu+0giOTtpKXPR2WJcparfaOHQQ7Lu9ZHo1iy6lGgWeTCxIT6XuVvOKk1kCbGraUqvNCQ6E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738652310; c=relaxed/simple;
-	bh=96HgJQVXEtnEWvGQaz3WHV5fyZYlxatEwWd2O8eUxTE=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=qunBe2p6I7NsH7vG/a3MO69+GeLESBKRSV8V4QNx5tBmhsTm0rjinVHIctJ4rkjuZzA2SD+1QLclxIdSgkBhUVFMUzZ0sj33jzmTcKMlfogbWrSkyb/ZMo2T2dTzrhpul/gCXyWx6mydQqXP2CgXY9viwaDvyrtNyR7r2Fk1g8o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CPO5ggQN; arc=none smtp.client-ip=209.85.210.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1738672779; c=relaxed/simple;
+	bh=C+WW04rOkNf9/3ddJyzFOngTsJFYSfBkPZb9JcPjaO4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=PgyzzG14zuu1eWWL7RysWpfgRjbx51q3W5JjPYUxW80Opivl47oY7XvjEdMJut06wiYODyqMIlIDBLnDSduxu2Eufsn/Dn3R68WzNwgHg3bcQCs3VSg+QXYYZkYvIHZfdidTzD/WW6rRY4P91MD0SOaW/LFQudas5fBao0xqmkk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=b7kI/tKT; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=jWWCZNAH; arc=none smtp.client-ip=103.168.172.147
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CPO5ggQN"
-Received: by mail-ot1-f53.google.com with SMTP id 46e09a7af769-71e3005916aso1290765a34.2
-        for <linux-staging@lists.linux.dev>; Mon, 03 Feb 2025 22:58:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1738652305; x=1739257105; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=a65k5SXteKyuZ7RWFZV+p3mgGeMzOMzhhd+ce8eWs20=;
-        b=CPO5ggQNpK12tQZuitkwDKllD2BAABFtxK8SaHv3PQKOl9SIONonQVM4/SS2qZvGR3
-         BtsXDPWhqLI7sG5XCucFqRyZ9J/03gZ6k9fMGq2SlTYUL6w4w5zeMKA5hM4FxR7yA077
-         JaGGasAdKXrA1xYcY6WXCotCmifJ/YL6cGQoneOy1MpLPq7PLWFll8qrFO9Un8ioBQ5d
-         euoMvmCD05DMOJolmXLSNU/T5P+LnuohGh70kLcZ498soH54sm/MrVni7uGjX7wu49Zx
-         Bf6gC3SFqMd0HyQ8ZPcYzzE4OfbvzB6cdr94JwZnXM364E4Xmx1/OE6Ya83+HW5Klpz1
-         /xAQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738652305; x=1739257105;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=a65k5SXteKyuZ7RWFZV+p3mgGeMzOMzhhd+ce8eWs20=;
-        b=WqFWijOzQKwKPG/ZKL64EP8iUWvMhCsfKbyZBKh9sD+LizgqNlk1evUlt1kGwFTG7A
-         fYxkUpx4nl29l7e459sE8idA9pZHoTDbaYenFYtBSpxrPOT6WX7en68CCdBjxgPwUBce
-         OLAY5faHhpOLn9LbBe5UQpBtlN/N2f6LBpCKL9E0JJot2JLVD/MZx14s+L7X8IDu5tHf
-         jNClfAIbwD8XBwg8GTJJDQiHLhEON9HwfunZY7VfiFDRPD/Cnfe9G3qvHX9typsxk1hy
-         HEjvYfzb/XMs23LlH5O0+akxMCKkpGTMYJYtY2+sDGaCp8BzPg1aTXxYAaaiEWAt4lwR
-         9xjg==
-X-Gm-Message-State: AOJu0YyRCzlU4wwLDp4euyonbEPvqM77iectlVcnNkOqK18XXJcl/pCK
-	PzmJzB1Ske0biy9l0L7CZt7K06vlcrigLUg8FGHJ2jDzkS6r4L5X
-X-Gm-Gg: ASbGncuMuVHsRtaljYVJspesMRsx5raMiwENN8PdQcQ85Fkb02Xql/cz5QoszMKTw6u
-	Nq07HE81bRIcl26/uzDhR+aCu/Asj7pH46WJ7ssHAz16eifN6M1S8C+v95cENiHOJ/TcYr0OZkm
-	i29Tu1ngM3F6T34loIwR/lowVBv4w/G6KrqNj8XDKm9gJEQYUKRCV2rkCw8PbY4lzaU03JNSTyO
-	ms0SulAuxw/OgZy2zUxbjxNu3o647XBVEfR774AiOebkw+qCFsl0x6bDjbbuR/HgfqrKemgiRFk
-	RiWxKtKwL59RUDOTMNt2nfWNHtP0qZkSJg25V/5BL7Ax5I5JUZpqm7Q38BbYt9s/cwfQXhPhxeG
-	+
-X-Google-Smtp-Source: AGHT+IHFvSdICYcWLZNF1kSu8yn1yGi/SdtEjNcRIwBz65TqXYEOxSVtPbF5IH6eNl0ZTzAu2RIC2Q==
-X-Received: by 2002:a05:6830:370b:b0:71e:223c:1789 with SMTP id 46e09a7af769-7265678521emr17539000a34.16.1738652305498;
-        Mon, 03 Feb 2025 22:58:25 -0800 (PST)
-Received: from DESKTOP-GL3U3CJ (162-207-94-177.lightspeed.irvnca.sbcglobal.net. [162.207.94.177])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-726617cc389sm3214721a34.23.2025.02.03.22.58.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 03 Feb 2025 22:58:24 -0800 (PST)
-From: Ian To <onlyian4981@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Ian To <onlyian4981@gmail.com>
-Subject: [PATCH 3/4] staging: rtl8723bs: Remove unnecessary parentheses
-Date: Mon,  3 Feb 2025 22:57:21 -0800
-Message-ID: <3163c1de16443eddce6ab5cd31a891e0ce00c344.1738651582.git.onlyian4981@gmail.com>
-X-Mailer: git-send-email 2.45.3
-In-Reply-To: <cover.1738651582.git.onlyian4981@gmail.com>
-References: <cover.1738651582.git.onlyian4981@gmail.com>
+	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="b7kI/tKT";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="jWWCZNAH"
+Received: from phl-compute-01.internal (phl-compute-01.phl.internal [10.202.2.41])
+	by mailfout.phl.internal (Postfix) with ESMTP id 27F75138029F;
+	Tue,  4 Feb 2025 07:39:36 -0500 (EST)
+Received: from phl-mailfrontend-01 ([10.202.2.162])
+  by phl-compute-01.internal (MEProxy); Tue, 04 Feb 2025 07:39:36 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm2; t=1738672776;
+	 x=1738759176; bh=YbVXoTpDaqORN+HVxnshz48Sy0diKVLvnlQjJs9SqrU=; b=
+	b7kI/tKTx/NZEI0DCACLiXHAf1LmrvyAWzkW0I4xuRubr2f+l2eiEVPjG2nqhxnQ
+	99E2ipMLZfuisPpdKeqGdEcDXP3ScwGBKhbjxR3VkEQGP9HqEIhmkiEpZ8xmIGHY
+	yzppI5KIF88/1yJQdrV6VRLtDTUR+uly9tti9NjaTyUnlGDk8UbfCi1XH/l27zSd
+	kQeHirGo8dQslOSqlmPYx7rJbAKJc6YiNSL9neaU6tTox2oxL2PqVCpSnIBc15n5
+	e1neelWGpC1k2/dqdeiNj0ULqK3CkesLEALC05nhkiurcaM2UoAo6bf4RE2NdeDQ
+	7i7tOIDGurMKkdKtBau5zA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1738672776; x=
+	1738759176; bh=YbVXoTpDaqORN+HVxnshz48Sy0diKVLvnlQjJs9SqrU=; b=j
+	WWCZNAHeAGDXUTzkt00/RBGhPbFxP0gnj2GOfFJtb9WT137Dx0kcZ+q49lrtnTX+
+	zFhBwLCgusNr3jBOYPCD4AR8REKBm2wd6kjumIJkdavFSqzYrSzHVSMVQlThcfDA
+	QiJrc1NigdJ9VB8kQ1KvTXUlrxpu4EZOeNLF/5/TUuxQ0tCJEpnVbY1y9WeAhcP0
+	M2poduWy0VcBjPKZYE1OJiTy9nqBwhAenoX6g+kJIFaDnEu1D5hglwMT8Y27W0De
+	6z6eaEaDlm4yoNZ0hev6ObaV9c6fWUqpn1+PKveMyJ3LgkEd+FdI8KWm4JRq06Sq
+	ROodb2sTOHwzcAOvXP6rA==
+X-ME-Sender: <xms:hgqiZ-OcP1J5Th6C_6oiRLRnJmHDLpDY2_RvwtBC8fE5sWA6hNb9gg>
+    <xme:hgqiZ8_aQ-8ahTh2B1b41iOp04o5KDsgS2dzJJOMRPfPcX2gxXmAGcLnxx1Imx9QW
+    pjFJDzS02a4VYSrIJ4>
+X-ME-Received: <xmr:hgqiZ1R8rgaHkKuOzMn01meV8pwlAL8RHnlhazvIytHAh1d1LTQFA5LAQh8BlyYcwswRD6vOLyRI4-d8l4pgARXkEy3h2t0-qw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddvtdehhecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdp
+    uffrtefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivg
+    hnthhsucdlqddutddtmdenucfjughrpeffhffvvefukfhfgggtugfgjgesthekredttddt
+    jeenucfhrhhomheppfhikhhlrghsucfunpguvghrlhhunhguuceonhhikhhlrghsrdhsoh
+    guvghrlhhunhgusehrrghgnhgrthgvtghhrdhsvgeqnecuggftrfgrthhtvghrnhephffh
+    ueeuhfdugfetvdeutdfhteekkeejtddtkeefuedtfefghfetkeehiedvfeefnecuffhomh
+    grihhnpedvhedruggvvhdplhhinhhugihtvhdrohhrghenucevlhhushhtvghrufhiiigv
+    pedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehnihhklhgrshdrshhouggvrhhluhhnug
+    esrhgrghhnrghtvggthhdrshgvpdhnsggprhgtphhtthhopeduhedpmhhouggvpehsmhht
+    phhouhhtpdhrtghpthhtoheplhgruhhrvghnthhiuhdrphgrlhgtuhesohhsshdrnhigph
+    drtghomhdprhgtphhtthhopehmtghhvghhrggssehkvghrnhgvlhdrohhrghdprhgtphht
+    thhopehrohgshheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepkhhriihkodgutheskh
+    gvrhhnvghlrdhorhhgpdhrtghpthhtoheptghonhhorhdoughtsehkvghrnhgvlhdrohhr
+    ghdprhgtphhtthhopehsrghkrghrihdrrghilhhusheslhhinhhugidrihhnthgvlhdrtg
+    homhdprhgtphhtthhopehlrghurhgvnhhtrdhpihhntghhrghrthesihguvggrshhonhgs
+    ohgrrhgurdgtohhmpdhrtghpthhtohepghhrvghgkhhhsehlihhnuhigfhhouhhnuggrth
+    hiohhnrdhorhhgpdhrtghpthhtoheplhhinhhushdrfigrlhhlvghijheslhhinhgrrhho
+    rdhorhhg
+X-ME-Proxy: <xmx:hgqiZ-vTUVZD888UlcsSJ4m9w9Fz_wgo0UU_OGwNttKrzGmZ6cdHow>
+    <xmx:hgqiZ2chJKiVamuS32oAfcmmSOxCBKhwDARcis9mMUNml6TqdoDK7A>
+    <xmx:hgqiZy1fP6uFUb8PLwGfD1A0F2sr_wxnNyHkYBoL2sXlaYKvX28scg>
+    <xmx:hgqiZ6-Flw_vuwSCMSm7Gxtv2RfZYA4ShGGfbIXcEqGil29Z2RJWcQ>
+    <xmx:iAqiZy-xmfm8enQJwZC9ER_tNyyPFd9xXPGFafFGI83TVyWdY28qzw-m>
+Feedback-ID: i80c9496c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 4 Feb 2025 07:39:34 -0500 (EST)
+Date: Tue, 4 Feb 2025 13:39:25 +0100
+From: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>
+To: Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Bartosz Golaszewski <brgl@bgdev.pl>, devicetree@vger.kernel.org,
+	linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org, linux-staging@lists.linux.dev
+Subject: Re: [RFC 00/12] staging: media: max96712: Add support for streams
+ and multiple sensors
+Message-ID: <20250204123925.GA3720681@ragnatech.se>
+References: <20250131163408.2019144-1-laurentiu.palcu@oss.nxp.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250131163408.2019144-1-laurentiu.palcu@oss.nxp.com>
 
-Unnecessary parentheses were present and removed
+Hi Laurentiu,
 
-Signed-off-by: Ian To <onlyian4981@gmail.com>
----
- .../staging/rtl8723bs/core/rtw_wlan_util.c    | 68 +++++++++----------
- 1 file changed, 34 insertions(+), 34 deletions(-)
+Thanks for your work. I'm happy someone with a both GMSL cameras and a 
+max96712 found time to work on this driver.
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_wlan_util.c b/drivers/staging/rtl8723bs/core/rtw_wlan_util.c
-index 7929e93c23ac..dfe036cd4ef7 100644
---- a/drivers/staging/rtl8723bs/core/rtw_wlan_util.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_wlan_util.c
-@@ -381,7 +381,7 @@ int is_client_associated_to_ap(struct adapter *padapter)
- 		return _FAIL;
- 
- 	pmlmeext = &padapter->mlmeextpriv;
--	pmlmeinfo = &(pmlmeext->mlmext_info);
-+	pmlmeinfo = &pmlmeext->mlmext_info;
- 
- 	if ((pmlmeinfo->state & WIFI_FW_ASSOC_SUCCESS) &&
- 	    ((pmlmeinfo->state & 0x03) == WIFI_FW_STATION_STATE))
-@@ -393,7 +393,7 @@ int is_client_associated_to_ap(struct adapter *padapter)
- int is_client_associated_to_ibss(struct adapter *padapter)
- {
- 	struct mlme_ext_priv *pmlmeext = &padapter->mlmeextpriv;
--	struct mlme_ext_info *pmlmeinfo = &(pmlmeext->mlmext_info);
-+	struct mlme_ext_info *pmlmeinfo = &pmlmeext->mlmext_info;
- 
- 	if ((pmlmeinfo->state & WIFI_FW_ASSOC_SUCCESS) &&
- 	    ((pmlmeinfo->state & 0x03) == WIFI_FW_ADHOC_STATE))
-@@ -406,7 +406,7 @@ int is_IBSS_empty(struct adapter *padapter)
- {
- 	unsigned int i;
- 	struct mlme_ext_priv *pmlmeext = &padapter->mlmeextpriv;
--	struct mlme_ext_info *pmlmeinfo = &(pmlmeext->mlmext_info);
-+	struct mlme_ext_info *pmlmeinfo = &pmlmeext->mlmext_info;
- 
- 	for (i = IBSS_START_MAC_ID; i < NUM_STA; i++) {
- 		if (pmlmeinfo->FW_sta_info[i].status == 1)
-@@ -510,7 +510,7 @@ void clear_cam_cache(struct adapter *adapter, u8 id)
- 
- 	spin_lock_bh(&cam_ctl->lock);
- 
--	memset(&(dvobj->cam_cache[id]), 0, sizeof(struct cam_entry_cache));
-+	memset(&dvobj->cam_cache[id], 0, sizeof(struct cam_entry_cache));
- 
- 	spin_unlock_bh(&cam_ctl->lock);
- }
-@@ -660,7 +660,7 @@ int allocate_fw_sta_entry(struct adapter *padapter)
- {
- 	unsigned int mac_id;
- 	struct mlme_ext_priv *pmlmeext = &padapter->mlmeextpriv;
--	struct mlme_ext_info *pmlmeinfo = &(pmlmeext->mlmext_info);
-+	struct mlme_ext_info *pmlmeinfo = &pmlmeext->mlmext_info;
- 
- 	for (mac_id = IBSS_START_MAC_ID; mac_id < NUM_STA; mac_id++) {
- 		if (pmlmeinfo->FW_sta_info[mac_id].status == 0) {
-@@ -676,7 +676,7 @@ int allocate_fw_sta_entry(struct adapter *padapter)
- void flush_all_cam_entry(struct adapter *padapter)
- {
- 	struct mlme_ext_priv *pmlmeext = &padapter->mlmeextpriv;
--	struct mlme_ext_info *pmlmeinfo = &(pmlmeext->mlmext_info);
-+	struct mlme_ext_info *pmlmeinfo = &pmlmeext->mlmext_info;
- 
- 	invalidate_cam_all(padapter);
- 	/* clear default key related key search setting */
-@@ -688,19 +688,19 @@ void flush_all_cam_entry(struct adapter *padapter)
- int WMM_param_handler(struct adapter *padapter, struct ndis_80211_var_ie *pIE)
- {
- 	/* struct registry_priv *pregpriv = &padapter->registrypriv; */
--	struct mlme_priv *pmlmepriv = &(padapter->mlmepriv);
-+	struct mlme_priv *pmlmepriv = &padapter->mlmepriv;
- 	struct mlme_ext_priv *pmlmeext = &padapter->mlmeextpriv;
--	struct mlme_ext_info *pmlmeinfo = &(pmlmeext->mlmext_info);
-+	struct mlme_ext_info *pmlmeinfo = &pmlmeext->mlmext_info;
- 
- 	if (pmlmepriv->qospriv.qos_option == 0) {
- 		pmlmeinfo->WMM_enable = 0;
- 		return false;
- 	}
- 
--	if (!memcmp(&(pmlmeinfo->WMM_param), (pIE->data + 6), sizeof(struct WMM_para_element)))
-+	if (!memcmp(&pmlmeinfo->WMM_param, (pIE->data + 6), sizeof(struct WMM_para_element)))
- 		return false;
- 	else
--		memcpy(&(pmlmeinfo->WMM_param), (pIE->data + 6), sizeof(struct WMM_para_element));
-+		memcpy(&pmlmeinfo->WMM_param, (pIE->data + 6), sizeof(struct WMM_para_element));
- 
- 	pmlmeinfo->WMM_enable = 1;
- 	return true;
-@@ -740,7 +740,7 @@ void WMMOnAssocRsp(struct adapter *padapter)
- 	u32 acParm, i;
- 	u32 edca[4], inx[4];
- 	struct mlme_ext_priv *pmlmeext = &padapter->mlmeextpriv;
--	struct mlme_ext_info *pmlmeinfo = &(pmlmeext->mlmext_info);
-+	struct mlme_ext_info *pmlmeinfo = &pmlmeext->mlmext_info;
- 	struct xmit_priv *pxmitpriv = &padapter->xmitpriv;
- 	struct registry_priv *pregpriv = &padapter->registrypriv;
- 
-@@ -841,9 +841,9 @@ static void bwmode_update_check(struct adapter *padapter, struct ndis_80211_var_
- 	unsigned char  new_bwmode;
- 	unsigned char  new_ch_offset;
- 	struct HT_info_element	 *pHT_info;
--	struct mlme_priv *pmlmepriv = &(padapter->mlmepriv);
-+	struct mlme_priv *pmlmepriv = &padapter->mlmepriv;
- 	struct mlme_ext_priv *pmlmeext = &padapter->mlmeextpriv;
--	struct mlme_ext_info *pmlmeinfo = &(pmlmeext->mlmext_info);
-+	struct mlme_ext_info *pmlmeinfo = &pmlmeext->mlmext_info;
- 	struct registry_priv *pregistrypriv = &padapter->registrypriv;
- 	struct ht_priv *phtpriv = &pmlmepriv->htpriv;
- 	u8 cbw40_enable = 0;
-@@ -903,7 +903,7 @@ static void bwmode_update_check(struct adapter *padapter, struct ndis_80211_var_
- 
- 	if (true == pmlmeinfo->bwmode_updated) {
- 		struct sta_info *psta;
--		struct wlan_bssid_ex	*cur_network = &(pmlmeinfo->network);
-+		struct wlan_bssid_ex *cur_network = &pmlmeinfo->network;
- 		struct sta_priv *pstapriv = &padapter->stapriv;
- 
- 		/* set_channel_bwmode(padapter, pmlmeext->cur_channel, pmlmeext->cur_ch_offset, pmlmeext->cur_bwmode); */
-@@ -933,7 +933,7 @@ void HT_caps_handler(struct adapter *padapter, struct ndis_80211_var_ie *pIE)
- 	u8 max_AMPDU_len, min_MPDU_spacing;
- 	u8 cur_ldpc_cap = 0, cur_stbc_cap = 0;
- 	struct mlme_ext_priv *pmlmeext = &padapter->mlmeextpriv;
--	struct mlme_ext_info *pmlmeinfo = &(pmlmeext->mlmext_info);
-+	struct mlme_ext_info *pmlmeinfo = &pmlmeext->mlmext_info;
- 	struct mlme_priv *pmlmepriv = &padapter->mlmepriv;
- 	struct ht_priv *phtpriv = &pmlmepriv->htpriv;
- 
-@@ -996,7 +996,7 @@ void HT_caps_handler(struct adapter *padapter, struct ndis_80211_var_ie *pIE)
- void HT_info_handler(struct adapter *padapter, struct ndis_80211_var_ie *pIE)
- {
- 	struct mlme_ext_priv *pmlmeext = &padapter->mlmeextpriv;
--	struct mlme_ext_info *pmlmeinfo = &(pmlmeext->mlmext_info);
-+	struct mlme_ext_info *pmlmeinfo = &pmlmeext->mlmext_info;
- 	struct mlme_priv *pmlmepriv = &padapter->mlmepriv;
- 	struct ht_priv *phtpriv = &pmlmepriv->htpriv;
- 
-@@ -1010,7 +1010,7 @@ void HT_info_handler(struct adapter *padapter, struct ndis_80211_var_ie *pIE)
- 		return;
- 
- 	pmlmeinfo->HT_info_enable = 1;
--	memcpy(&(pmlmeinfo->HT_info), pIE->data, pIE->length);
-+	memcpy(&pmlmeinfo->HT_info, pIE->data, pIE->length);
- }
- 
- void HTOnAssocRsp(struct adapter *padapter)
-@@ -1019,7 +1019,7 @@ void HTOnAssocRsp(struct adapter *padapter)
- 	unsigned char min_MPDU_spacing;
- 	/* struct registry_priv  *pregpriv = &padapter->registrypriv; */
- 	struct mlme_ext_priv *pmlmeext = &padapter->mlmeextpriv;
--	struct mlme_ext_info *pmlmeinfo = &(pmlmeext->mlmext_info);
-+	struct mlme_ext_info *pmlmeinfo = &pmlmeext->mlmext_info;
- 
- 	if ((pmlmeinfo->HT_info_enable) && (pmlmeinfo->HT_caps_enable)) {
- 		pmlmeinfo->HT_enable = 1;
-@@ -1046,20 +1046,20 @@ void HTOnAssocRsp(struct adapter *padapter)
- void ERP_IE_handler(struct adapter *padapter, struct ndis_80211_var_ie *pIE)
- {
- 	struct mlme_ext_priv *pmlmeext = &padapter->mlmeextpriv;
--	struct mlme_ext_info *pmlmeinfo = &(pmlmeext->mlmext_info);
-+	struct mlme_ext_info *pmlmeinfo = &pmlmeext->mlmext_info;
- 
- 	if (pIE->length > 1)
- 		return;
- 
- 	pmlmeinfo->ERP_enable = 1;
--	memcpy(&(pmlmeinfo->ERP_IE), pIE->data, pIE->length);
-+	memcpy(&pmlmeinfo->ERP_IE, pIE->data, pIE->length);
- }
- 
- void VCS_update(struct adapter *padapter, struct sta_info *psta)
- {
- 	struct registry_priv  *pregpriv = &padapter->registrypriv;
- 	struct mlme_ext_priv *pmlmeext = &padapter->mlmeextpriv;
--	struct mlme_ext_info *pmlmeinfo = &(pmlmeext->mlmext_info);
-+	struct mlme_ext_info *pmlmeinfo = &pmlmeext->mlmext_info;
- 
- 	switch (pregpriv->vrtl_carrier_sense) {/* 0:off 1:on 2:auto */
- 	case 0: /* off */
-@@ -1114,7 +1114,7 @@ int rtw_check_bcn_info(struct adapter *Adapter, u8 *pframe, u32 packet_len)
- 	unsigned int len;
- 	unsigned char *p;
- 	unsigned short	val16, subtype;
--	struct wlan_network *cur_network = &(Adapter->mlmepriv.cur_network);
-+	struct wlan_network *cur_network = &Adapter->mlmepriv.cur_network;
- 	/* u8 wpa_ie[255], rsn_ie[255]; */
- 	u16 wpa_len = 0, rsn_len = 0;
- 	u8 encryp_protocol = 0;
-@@ -1336,8 +1336,8 @@ unsigned int is_ap_in_tkip(struct adapter *padapter)
- 	u32 i;
- 	struct ndis_80211_var_ie *pIE;
- 	struct mlme_ext_priv *pmlmeext = &padapter->mlmeextpriv;
--	struct mlme_ext_info *pmlmeinfo = &(pmlmeext->mlmext_info);
--	struct wlan_bssid_ex		*cur_network = &(pmlmeinfo->network);
-+	struct mlme_ext_info *pmlmeinfo = &pmlmeext->mlmext_info;
-+	struct wlan_bssid_ex *cur_network = &pmlmeinfo->network;
- 
- 	if (rtw_get_capability((struct wlan_bssid_ex *)cur_network) & WLAN_CAPABILITY_PRIVACY) {
- 		for (i = sizeof(struct ndis_802_11_fix_ie); i < pmlmeinfo->network.ie_length;) {
-@@ -1373,7 +1373,7 @@ int support_short_GI(struct adapter *padapter, struct HT_caps_element *pHT_caps,
- {
- 	unsigned char bit_offset;
- 	struct mlme_ext_priv *pmlmeext = &padapter->mlmeextpriv;
--	struct mlme_ext_info *pmlmeinfo = &(pmlmeext->mlmext_info);
-+	struct mlme_ext_info *pmlmeinfo = &pmlmeext->mlmext_info;
- 
- 	if (!(pmlmeinfo->HT_enable))
- 		return _FAIL;
-@@ -1482,7 +1482,7 @@ unsigned char check_assoc_AP(u8 *pframe, uint len)
- void update_IOT_info(struct adapter *padapter)
- {
- 	struct mlme_ext_priv *pmlmeext = &padapter->mlmeextpriv;
--	struct mlme_ext_info *pmlmeinfo = &(pmlmeext->mlmext_info);
-+	struct mlme_ext_info *pmlmeinfo = &pmlmeext->mlmext_info;
- 
- 	switch (pmlmeinfo->assoc_AP_vendor) {
- 	case HT_IOT_PEER_MARVELL:
-@@ -1512,7 +1512,7 @@ void update_IOT_info(struct adapter *padapter)
- void update_capinfo(struct adapter *Adapter, u16 updateCap)
- {
- 	struct mlme_ext_priv *pmlmeext = &Adapter->mlmeextpriv;
--	struct mlme_ext_info *pmlmeinfo = &(pmlmeext->mlmext_info);
-+	struct mlme_ext_info *pmlmeinfo = &pmlmeext->mlmext_info;
- 	bool		ShortPreamble;
- 
- 	/*  Check preamble mode, 2005.01.06, by rcnjko. */
-@@ -1564,8 +1564,8 @@ void update_wireless_mode(struct adapter *padapter)
- 	int network_type = 0;
- 	u32 SIFS_Timer;
- 	struct mlme_ext_priv *pmlmeext = &padapter->mlmeextpriv;
--	struct mlme_ext_info *pmlmeinfo = &(pmlmeext->mlmext_info);
--	struct wlan_bssid_ex *cur_network = &(pmlmeinfo->network);
-+	struct mlme_ext_info *pmlmeinfo = &pmlmeext->mlmext_info;
-+	struct wlan_bssid_ex *cur_network = &pmlmeinfo->network;
- 	unsigned char *rate = cur_network->supported_rates;
- 
- 	if ((pmlmeinfo->HT_info_enable) && (pmlmeinfo->HT_caps_enable))
-@@ -1588,7 +1588,7 @@ void update_wireless_mode(struct adapter *padapter)
- 
- 	SetHwReg8723BS(padapter, HW_VAR_RESP_SIFS,  (u8 *)&SIFS_Timer);
- 
--	SetHwReg8723BS(padapter, HW_VAR_WIRELESS_MODE,  (u8 *)&(pmlmeext->cur_wireless_mode));
-+	SetHwReg8723BS(padapter, HW_VAR_WIRELESS_MODE,  (u8 *)&pmlmeext->cur_wireless_mode);
- 
- 	if (pmlmeext->cur_wireless_mode & WIRELESS_11B)
- 		update_mgnt_tx_rate(padapter, IEEE80211_CCK_RATE_1MB);
-@@ -1613,8 +1613,8 @@ int update_sta_support_rate(struct adapter *padapter, u8 *pvar_ie, uint var_ie_l
- 	unsigned int	ie_len;
- 	struct ndis_80211_var_ie *pIE;
- 	int	supportRateNum = 0;
--	struct mlme_ext_priv *pmlmeext = &(padapter->mlmeextpriv);
--	struct mlme_ext_info *pmlmeinfo = &(pmlmeext->mlmext_info);
-+	struct mlme_ext_priv *pmlmeext = &padapter->mlmeextpriv;
-+	struct mlme_ext_info *pmlmeinfo = &pmlmeext->mlmext_info;
- 
- 	pIE = (struct ndis_80211_var_ie *)rtw_get_ie(pvar_ie, WLAN_EID_SUPP_RATES, &ie_len, var_ie_len);
- 	if (!pIE)
-@@ -1640,7 +1640,7 @@ void process_addba_req(struct adapter *padapter, u8 *paddba_req, u8 *addr)
- 	struct sta_priv *pstapriv = &padapter->stapriv;
- 	struct ADDBA_request *preq = (struct ADDBA_request *)paddba_req;
- 	struct mlme_ext_priv *pmlmeext = &padapter->mlmeextpriv;
--	struct mlme_ext_info *pmlmeinfo = &(pmlmeext->mlmext_info);
-+	struct mlme_ext_info *pmlmeinfo = &pmlmeext->mlmext_info;
- 
- 	psta = rtw_get_stainfo(pstapriv, addr);
- 
-@@ -1683,7 +1683,7 @@ void adaptive_early_32k(struct mlme_ext_priv *pmlmeext, u8 *pframe, uint len)
- 	__le32 *pbuf;
- 	u64 tsf = 0;
- 	u32 delay_ms;
--	struct mlme_ext_info *pmlmeinfo = &(pmlmeext->mlmext_info);
-+	struct mlme_ext_info *pmlmeinfo = &pmlmeext->mlmext_info;
- 
- 	pmlmeext->bcn_cnt++;
- 
+On 2025-01-31 18:33:54 +0200, Laurentiu Palcu wrote:
+> Hi,
+> 
+> This series adds more functionality to the existing max96712 staging
+> driver allowing multiple sensors to be connected through other
+> compatible serializers. I tried to split the changes in smaller logical
+> changes to make them easier to review while not altering the existing
+> VPG functionality but I could squash all of them together if needed.
+
+With this series and it's listed dependencies applied my CI tests using 
+the VPG breaks. The controls to select test-pattern seems to be invalid,
+
+    $ yavta --set-control '0x009f0903 0' /dev/v4l-subdev6
+    Device /dev/v4l-subdev6 opened.
+    unable to set control 0x009f0903: Permission denied (13).
+    Unable to get format: Inappropriate ioctl for device (25).
+
+    (/dev/v4l-subdev6 here is max96712 1-0049)
+
+    $ yavta -c10 --file=/tmp/vin-capture/isp0-checkerboard-#.bin /dev/video0
+    Device /dev/video0 opened.
+    Device `R_Car_VIN' on `platform:e6ef0000.video' (driver 'rcar_vin') supports video, capture, without mplanes.
+    Video format: ABGR32 (34325241) 1920x1080 (stride 7680) field none buffer size 8294400
+    8 buffers requested.
+    length: 8294400 offset: 0 timestamp type/source: mono/EoF
+    Buffer 0/0 mapped at address 0xffffbe5d7000.
+    length: 8294400 offset: 32768 timestamp type/source: mono/EoF
+    Buffer 1/0 mapped at address 0xffffbddee000.
+    length: 8294400 offset: 65536 timestamp type/source: mono/EoF
+    Buffer 2/0 mapped at address 0xffffbd605000.
+    length: 8294400 offset: 98304 timestamp type/source: mono/EoF
+    Buffer 3/0 mapped at address 0xffffbce1c000.
+    length: 8294400 offset: 131072 timestamp type/source: mono/EoF
+    Buffer 4/0 mapped at address 0xffffbc633000.
+    length: 8294400 offset: 163840 timestamp type/source: mono/EoF
+    Buffer 5/0 mapped at address 0xffffbbe4a000.
+    length: 8294400 offset: 196608 timestamp type/source: mono/EoF
+    Buffer 6/0 mapped at address 0xffffbb661000.
+    length: 8294400 offset: 229376 timestamp type/source: mono/EoF
+    Buffer 7/0 mapped at address 0xffffbae78000.
+    Unable to start streaming: Invalid argument (22).
+
+I read in patch 12/12 "The user can also switch over to testing the test 
+pattern by configuring the routes accordingly", but not how to do that 
+to achieve the same functionality as the staging driver. Inspecting the 
+media graph gives little help. Would it be possible to extend the cover 
+letter with this information?
+
+To be clear, I don't care about the change in behavior as this driver 
+obviously primary aim should be to  support GMSL2 cameras, not 
+test-pattern generation. It is important for me that it is possible to 
+enable the test pattern generation $somehow at runtime (i.e. no DTS 
+changes). As this is the only method I have to test a bunch of boards.
+
+It would also be nice if the patterns generated (output frames) as 
+closely as possible would resembles what is generated today. That way I 
+don't have to alter my CI pipelines too much :-)
+
+> 
+> The series only supports tunneling mode and uses the first MIPI-CSI
+> port. Support for more functionality can be added later, if needed.
+> 
+> I sent the set as a RFC because it depends on Sakari's pending internal
+> pads patch which is needed if we want to have an elegant solution for
+> allowing the user to switch between streaming from sensors or just
+> video pattern generation.
+> 
+> Also, the set depends on my previous series which was not yet merged:
+> https://patchwork.linuxtv.org/project/linux-media/list/?series=14255
+> 
+> Thanks,
+> Laurentiu
+> 
+> Laurentiu Palcu (11):
+>   dt-bindings: i2c: maxim,max96712: add a couple of new properties
+>   staging: media: max96712: convert to using CCI register access helpers
+>   staging: media: max96712: change DT parsing routine
+>   staging: media: max96712: add link frequency V4L2 control
+>   staging: media: max96712: add I2C mux support
+>   staging: media: max96712: add support for streams
+>   staging: media: max96712: allow enumerating MBUS codes
+>   staging: media: max96712: add set_fmt routine
+>   staging: media: max96712: add gpiochip functionality
+>   staging: media: max96712: add fsync support
+>   staging: media: max96712: allow streaming from connected sensors
+> 
+> Sakari Ailus (1):
+>   media: mc: Add INTERNAL pad flag
+> 
+>  .../bindings/media/i2c/maxim,max96712.yaml    |   45 +
+>  .../media/mediactl/media-types.rst            |    8 +
+>  drivers/media/mc/mc-entity.c                  |   10 +-
+>  drivers/staging/media/max96712/max96712.c     | 1406 +++++++++++++++--
+>  include/uapi/linux/media.h                    |    1 +
+>  5 files changed, 1352 insertions(+), 118 deletions(-)
+> 
+> -- 
+> 2.44.1
+> 
+
 -- 
-2.45.3
-
+Kind Regards,
+Niklas Söderlund
