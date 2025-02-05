@@ -1,69 +1,69 @@
-Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
+Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A33D20F09D
-	for <linux-staging@lists.linux.dev>; Wed,  5 Feb 2025 01:50:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9658211A0C
+	for <linux-staging@lists.linux.dev>; Wed,  5 Feb 2025 01:50:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738720231; cv=none; b=CvhufQ0/AkugoGwW/qxtbXS/ZOHJQ6MHTn6BrT2vfsmcAFv4TjpSEvPeiVR7Rjnj/i7skr0TomuoCPWs5IHSO0qMnwBrC9wmLpbDxJNldd4F5jGKDfgphNZG82rqZt+6nwRvyyaFIFzSlnqwZ7lil5hzaEJ+4e8XCEAS2sDEH0E=
+	t=1738720231; cv=none; b=K6CD2fy/8vauItqPC5xnBDzsEEe+fxKj0QjXwrYa1Ua4V36ChDhzQzlFoP+TEc0i/fIPOUf15FToqPhlUS4mYCTCuaxGclLOKVCugrRzpurGkXzTzJrviHNMFnQCZiKG//TeDKAT7sNBpjEKVVN84WeV3pKuZs20d+DjyaAOms0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1738720231; c=relaxed/simple;
-	bh=c2VTN2W1nRF0pZZq+dlOuESRn5VnZB/1yQJjq13S4s4=;
+	bh=vsfosK4EDGncw/JpLWreyZi0mpIhSDZJ0eulurqB8Js=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=bfWtZWUpsbC5ExcK4MznNrWZBrUkwzbjjuw+reKnORuHLkxgebGmiA3D4I2e0J9LMnxMgClZC5KgczSu53wsHqlvMVZZFVjgjDp9sY1/pium+zNaTlzhgj6By4FV4Aa6LVDOR401cdvKyOI4RPLxZ4eo5TJmhC9kBMarip3h024=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TDDuaQVj; arc=none smtp.client-ip=209.85.214.173
+	 MIME-Version; b=nLcszGZGqBmc2Y09kKW65KaD2flKZzCzLTm79YWvgeYOBjoKTkgZPnNfEcdQscDdjCPa9pIgdbAj9o+OA75mdGJmBQGBbeb2BOn3TeeJoDgc2acMwZI78Ojg4ADlZCiiP188bGPK4Gj2SbFxMC/Bin8O/euuE2auZsmjLk5ARjo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SOznCks4; arc=none smtp.client-ip=209.85.216.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TDDuaQVj"
-Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-2162c0f6a39so6519635ad.0
-        for <linux-staging@lists.linux.dev>; Tue, 04 Feb 2025 17:50:28 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SOznCks4"
+Received: by mail-pj1-f45.google.com with SMTP id 98e67ed59e1d1-2f9d74037a7so1493111a91.2
+        for <linux-staging@lists.linux.dev>; Tue, 04 Feb 2025 17:50:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1738720228; x=1739325028; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1738720229; x=1739325029; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=ZSX8ryuK3S8lNUicFwqniT9eS96hC7AK+sPyMLhyXhU=;
-        b=TDDuaQVjAyEdRL0xwRMauTjD5Q3DVAvGNrTMc3wL1O4l+MqUQgeWpozVxsVe65N42H
-         Rn+2CaJz/wBmlR/3VLJ+YyXvVEolwX3fADoPoqzr8zga7szc2Axjgr1qSfQxyCDLIthT
-         ulCQNO4obC/JvNgILlcDSDFODtHDS6oz4mI4nGxUgz/ZsJNcUiDfzEtwngbBG9slOjpv
-         Ip61zOa1mIPPpeNNImiZ2xZNiTNqoieHPxSjHV6kDc8VPuJzTzM4jpnkLp6NMx9G8Hm7
-         fX0rNOJi0shoBqG/X5elUsMthxg0N7gheqwUNyzDDqQ1PJyQXTODkrR7GUq1wo3lhCz5
-         DzAA==
+        bh=hJ08YcfgbUiop8dwOeKgURJ7wcJBnOw/KKn3/YRa9b0=;
+        b=SOznCks4HsGLnfW5mPtaUodwtz+we5QPxUEK8FjnYQWT7Yk+lMuIFpEFpSl8RR5mkj
+         s6pjlCZhgEHkLneij41EzjLAov+KZJ7EW3iRm3v+i43B/YGBRcyXClX9ZapX0aNXsbvq
+         fPMpqMHUBTOpWrr48qvzwXau5/baAnewepbzFfpPm2gkXY46WsIYclrxVNEX+1FMeWR4
+         OpyRC5cS3NdQnEQRIPXaPd3kkcLbkKh6aQtn0rc8kcTETDUeVVZYYkiOHPpk8GX6+FL7
+         NCIh0Qlnj8y0iqGJaxXB9D4/6OIL/DMM/9B/em/k4W0SY1Uw1ZYygNjBdrr2grZt3HNh
+         /qtg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738720228; x=1739325028;
+        d=1e100.net; s=20230601; t=1738720229; x=1739325029;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=ZSX8ryuK3S8lNUicFwqniT9eS96hC7AK+sPyMLhyXhU=;
-        b=RjY2jME5yp7+yLl3ee1AWHSEQyUvfe2JVE93sce/NrDLJjThHuB6jVvPnDXmvbpHxE
-         6Yhpe+H0uLXlwW0RSruZ1gzyPe5Vhi4PreY4VuBSpUKNkPEKfiaElPTpkvcINr/cUTrJ
-         irc0dpIVyGGk+QZqTWTh3spL9K+g6Kqr2x9YTkFWnB4Xvs1Gk0Am/qJdOr5i0pCTtttY
-         4jIi6BHxayqENPykYKPXUveHizIVCMTiob7HzyRrjTxVFLXZkehZgmdGKsUbfc3RfOfJ
-         +0ELjXxw2YvpIwHYu7Coo7z2RpRO8koq25grz4bqPOstaS0hYW2GrO75vgWyvPmcuNge
-         ZjUw==
-X-Gm-Message-State: AOJu0YxrUxDLkUvyEmknCIAbsI07xUvGMhCf9Fb0/eNq45DHONTMYUrE
-	+h9Y4F3fffBQlCDf5SMFHVJkcLTLzM1E90YyLR88FTx+aJICETJIGdVXtjUa
-X-Gm-Gg: ASbGnctOjisv+RzTNVwAq3Df0DdWVPIz7bzK4zM0Y3bJO8AG1j/wlAptWSN7nNt54Vn
-	ubFoS7XOWksowrKc4x/VlZYwnzJGJARafVqRQ/fCRL04Dfd3yovJpHUK8gPLhZju2V85uleUjgA
-	aPeNNNoH5SjOnWtvpx420N4JAatZgjyL6WvZaM58EocwRv0WDpPZkTtchUN8NDFBboaazZw2bQ9
-	qcSTmYWoDx+FmCPBkvDhfWoLzkPdMjGFEGiIi0ZYZNuYy10gvWOjIY9SP7aBFjmwQ88YQl/GRv0
-	Q9AGXZUncVJpHf0cZ+3bdyg=
-X-Google-Smtp-Source: AGHT+IFiFvSYxcg0SM88lbp3FidV8ium9N04sA3SYMiW6rmtm7x9jnQ1lUa40c1gsBsqlzVSaHfKFw==
-X-Received: by 2002:a05:6a20:3d81:b0:1e1:b0e8:11dc with SMTP id adf61e73a8af0-1ede8344fe0mr1691167637.21.1738720227625;
-        Tue, 04 Feb 2025 17:50:27 -0800 (PST)
+        bh=hJ08YcfgbUiop8dwOeKgURJ7wcJBnOw/KKn3/YRa9b0=;
+        b=M+BFxNWfLYlnJa062eZnr6bvHiX9taweM/o4G0XwwM0JPqx+5N6knPqwusDrbTE/9s
+         wtuZrcvnkve/3I9qqWO8o2ym1B1HxIUsJ4/8DzwgJnHyngIiSDV+VAq6YzSixVJaY9Fz
+         fWSEOOlS1uNrFTRMc4zr9+/TLK/oi+FNCF2iO/UNafHODqo/xTaSMqc3whC8UOpgzxnU
+         /Lo33tLpZQ0XpOIONxe/rnbzYmLzH9TQA9M2HnCiPZ0rPxql4XMUTYialFOSYwP61Kvv
+         9ajHBhwiQzQW1XxkAPV5oNYqquYJyR3v/+PSKZwRt0Q0c1RsmgWBsN//xtnPgq2ep6GA
+         5aSQ==
+X-Gm-Message-State: AOJu0YxL5SttL4D8RZIUhgDHtuZa7f5lWLMNd4fvKexnye4CTfPnRUN4
+	8juJlLTsfjkWQeZ8ZGTwQWbzE1YbolSf+/qRN5n4kubcl60OTnWH
+X-Gm-Gg: ASbGnctL9ONIewH6KyhhsVtf4nz5kBcp4mkdqHYHZjUp6n2y+9m+OHuBJvqJbfPaCl2
+	GpjmBGy8pg6lbZnO81t8z9f78oI5iFb5sT14qEy048VU30xVRraO/2+DnZ6/F+U+X1qTrhQlPAF
+	YTXRFK1XxGFDzjZkwdlvSnGoDer3ZPCy8EEmn4v3lmlaWNJMHGlTVk2SsMDqhFuFf3CxnrmikQH
+	A45HjZkdisGso55PgVgwGtiGLToJa1otA9VRl+IM8r3M3ns/Wq3Z/JyslgSE4hj1FwsTATc5U3b
+	DtLvVHph4GtVU/dmA2A35NA=
+X-Google-Smtp-Source: AGHT+IEApOZoxGoFfiDhvmmSwV9n5I2Bw3v+HjLfPGoYIQ9JHhyVVPDO7bDJYvKmPKmMKTla9hFX5A==
+X-Received: by 2002:a17:90b:1809:b0:2ee:8430:b847 with SMTP id 98e67ed59e1d1-2f9e0753844mr1485997a91.6.1738720229067;
+        Tue, 04 Feb 2025 17:50:29 -0800 (PST)
 Received: from DESKTOP-GL3U3CJ ([146.70.174.231])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-acebe94af26sm9118495a12.45.2025.02.04.17.50.27
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2f9c314b64fsm1302137a91.1.2025.02.04.17.50.28
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 04 Feb 2025 17:50:27 -0800 (PST)
+        Tue, 04 Feb 2025 17:50:28 -0800 (PST)
 From: Ian To <onlyian4981@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Ian To <onlyian4981@gmail.com>
-Subject: [PATCH 3/4] staging: rtl8723bs: fix spacing issues
-Date: Tue,  4 Feb 2025 17:50:18 -0800
-Message-ID: <31e556ebf3b356e604b9c72122b031c1a91e20dd.1738720049.git.onlyian4981@gmail.com>
+Subject: [PATCH 4/4] staging: rtl8723bs: fixed comment styling
+Date: Tue,  4 Feb 2025 17:50:19 -0800
+Message-ID: <c167a99c0a96f5eba7e5d10fef947da3edf7d4d9.1738720049.git.onlyian4981@gmail.com>
 X-Mailer: git-send-email 2.45.3
 In-Reply-To: <cover.1738720049.git.onlyian4981@gmail.com>
 References: <cover.1738720049.git.onlyian4981@gmail.com>
@@ -75,432 +75,174 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Spacing was not compliant with the coding style.
+Comments were not neat and did not comply with the coding style.
 
 Signed-off-by: Ian To <onlyian4981@gmail.com>
 ---
- drivers/staging/rtl8723bs/core/rtw_mlme.c | 110 +++++++++-------------
- 1 file changed, 47 insertions(+), 63 deletions(-)
+ drivers/staging/rtl8723bs/core/rtw_mlme.c | 71 +++++++++++------------
+ 1 file changed, 35 insertions(+), 36 deletions(-)
 
 diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme.c b/drivers/staging/rtl8723bs/core/rtw_mlme.c
-index e33f37f71d92..4d8dc7646867 100644
+index 4d8dc7646867..9bd36440a15b 100644
 --- a/drivers/staging/rtl8723bs/core/rtw_mlme.c
 +++ b/drivers/staging/rtl8723bs/core/rtw_mlme.c
-@@ -151,7 +151,7 @@ void _rtw_free_network(struct	mlme_priv *pmlmepriv, struct wlan_network *pnetwor
- 		return;
- 
- 	if ((check_fwstate(pmlmepriv, WIFI_ADHOC_MASTER_STATE) == true) ||
--		(check_fwstate(pmlmepriv, WIFI_ADHOC_STATE) == true))
-+	    (check_fwstate(pmlmepriv, WIFI_ADHOC_STATE) == true))
- 		lifetime = 1;
- 
- 	if (!isfreeall) {
-@@ -225,11 +225,9 @@ void rtw_free_network_queue(struct adapter *padapter, u8 isfreeall)
- 
- 	phead = get_list_head(scanned_queue);
- 	list_for_each_safe(plist, tmp, phead) {
--
- 		pnetwork = list_entry(plist, struct wlan_network, list);
- 
- 		_rtw_free_network(pmlmepriv, pnetwork, isfreeall);
--
- 	}
- 
- 	spin_unlock_bh(&scanned_queue->lock);
-@@ -240,7 +238,7 @@ signed int rtw_if_up(struct adapter *padapter)
- 	signed int res;
- 
- 	if (padapter->bDriverStopped || padapter->bSurpriseRemoved ||
--		(check_fwstate(&padapter->mlmepriv, _FW_LINKED) == false))
-+	    (check_fwstate(&padapter->mlmepriv, _FW_LINKED) == false))
- 		res = false;
- 	else
- 		res =  true;
-@@ -256,8 +254,8 @@ void rtw_generate_random_ibss(u8 *pibss)
- 	pibss[1] = 0x11;
- 	pibss[2] = 0x87;
- 	pibss[3] = (u8)(curtime & 0xff) ;/* p[0]; */
--	pibss[4] = (u8)((curtime>>8) & 0xff) ;/* p[1]; */
--	pibss[5] = (u8)((curtime>>16) & 0xff) ;/* p[2]; */
-+	pibss[4] = (u8)((curtime >> 8) & 0xff) ;/* p[1]; */
-+	pibss[5] = (u8)((curtime >> 16) & 0xff) ;/* p[2]; */
- }
- 
- u8 *rtw_get_capability_from_ie(u8 *ie)
-@@ -309,7 +307,7 @@ int rtw_is_same_ibss(struct adapter *adapter, struct wlan_network *pnetwork)
- 	struct security_priv *psecuritypriv = &adapter->securitypriv;
- 
- 	if ((psecuritypriv->dot11PrivacyAlgrthm != _NO_PRIVACY_) &&
--		    (pnetwork->network.privacy == 0))
-+	    (pnetwork->network.privacy == 0))
- 		ret = false;
- 	else if ((psecuritypriv->dot11PrivacyAlgrthm == _NO_PRIVACY_) &&
- 		 (pnetwork->network.privacy == 1))
-@@ -318,13 +316,12 @@ int rtw_is_same_ibss(struct adapter *adapter, struct wlan_network *pnetwork)
- 		ret = true;
- 
- 	return ret;
--
- }
- 
- inline int is_same_ess(struct wlan_bssid_ex *a, struct wlan_bssid_ex *b)
- {
--	return (a->ssid.ssid_length == b->ssid.ssid_length)
--		&&  !memcmp(a->ssid.ssid, b->ssid.ssid, a->ssid.ssid_length);
-+	return (a->ssid.ssid_length == b->ssid.ssid_length) &&
-+		!memcmp(a->ssid.ssid, b->ssid.ssid, a->ssid.ssid_length);
- }
- 
- int is_same_network(struct wlan_bssid_ex *src, struct wlan_bssid_ex *dst, u8 feature)
-@@ -380,7 +377,6 @@ struct	wlan_network	*rtw_get_oldest_wlan_network(struct __queue *scanned_queue)
- 	phead = get_list_head(scanned_queue);
- 
- 	list_for_each(plist, phead) {
--
- 		pwlan = list_entry(plist, struct wlan_network, list);
- 
- 		if (!pwlan->fixed) {
-@@ -389,11 +385,10 @@ struct	wlan_network	*rtw_get_oldest_wlan_network(struct __queue *scanned_queue)
- 		}
- 	}
- 	return oldest;
--
- }
- 
- void update_network(struct wlan_bssid_ex *dst, struct wlan_bssid_ex *src,
--	struct adapter *padapter, bool update_ie)
-+		    struct adapter *padapter, bool update_ie)
- {
- 	long rssi_ori = dst->rssi;
- 
-@@ -411,21 +406,20 @@ void update_network(struct wlan_bssid_ex *dst, struct wlan_bssid_ex *src,
- 		sq_final = padapter->recvpriv.signal_qual;
- 		/* the rssi value here is undecorated, and will be used for antenna diversity */
- 		if (sq_smp != 101) /* from the right channel */
--			rssi_final = (src->rssi+dst->rssi*4)/5;
-+			rssi_final = (src->rssi + dst->rssi * 4) / 5;
- 		else
- 			rssi_final = rssi_ori;
- 	} else {
- 		if (sq_smp != 101) { /* from the right channel */
--			ss_final = ((u32)(src->phy_info.signal_strength)+(u32)(dst->phy_info.signal_strength)*4)/5;
--			sq_final = ((u32)(src->phy_info.signal_quality)+(u32)(dst->phy_info.signal_quality)*4)/5;
--			rssi_final = (src->rssi+dst->rssi*4)/5;
-+			ss_final = ((u32)(src->phy_info.signal_strength) + (u32)(dst->phy_info.signal_strength) * 4) / 5;
-+			sq_final = ((u32)(src->phy_info.signal_quality) + (u32)(dst->phy_info.signal_quality) * 4) / 5;
-+			rssi_final = (src->rssi + dst->rssi * 4) / 5;
- 		} else {
- 			/* bss info not receiving from the right channel, use the original RX signal infos */
- 			ss_final = dst->phy_info.signal_strength;
- 			sq_final = dst->phy_info.signal_quality;
- 			rssi_final = dst->rssi;
- 		}
--
- 	}
- 
- 	if (update_ie) {
-@@ -842,14 +836,14 @@ void rtw_free_assoc_resources(struct adapter *adapter, int lock_scanned_queue)
- 	struct dvobj_priv *psdpriv = adapter->dvobj;
- 	struct debug_priv *pdbgpriv = &psdpriv->drv_dbg;
- 
--	if (check_fwstate(pmlmepriv, WIFI_STATION_STATE|WIFI_AP_STATE)) {
-+	if (check_fwstate(pmlmepriv, WIFI_STATION_STATE | WIFI_AP_STATE)) {
- 		struct sta_info *psta;
- 
- 		psta = rtw_get_stainfo(&adapter->stapriv, tgt_network->network.mac_address);
- 		rtw_free_stainfo(adapter,  psta);
- 	}
- 
--	if (check_fwstate(pmlmepriv, WIFI_ADHOC_STATE|WIFI_ADHOC_MASTER_STATE|WIFI_AP_STATE)) {
-+	if (check_fwstate(pmlmepriv, WIFI_ADHOC_STATE | WIFI_ADHOC_MASTER_STATE | WIFI_AP_STATE)) {
- 		struct sta_info *psta;
- 
- 		rtw_free_all_stainfo(adapter);
-@@ -878,7 +872,6 @@ void rtw_indicate_connect(struct adapter *padapter)
- 	pmlmepriv->to_join = false;
- 
- 	if (!check_fwstate(&padapter->mlmepriv, _FW_LINKED)) {
--
- 		set_fwstate(pmlmepriv, _FW_LINKED);
- 
- 		rtw_os_indicate_connect(padapter);
-@@ -886,7 +879,6 @@ void rtw_indicate_connect(struct adapter *padapter)
- 
- 	rtw_set_to_roam(padapter, 0);
- 	rtw_set_scan_deny(padapter, 3000);
--
+@@ -185,10 +185,10 @@ void _rtw_free_network_nolock(struct	mlme_priv *pmlmepriv, struct wlan_network *
  }
  
  /*
-@@ -896,7 +888,7 @@ void rtw_indicate_disconnect(struct adapter *padapter)
+-	return the wlan_network with the matching addr
+-
+-	Shall be called under atomic context... to avoid possible racing condition...
+-*/
++ *	return the wlan_network with the matching addr
++ *
++ *	Shall be called under atomic context... to avoid possible racing condition...
++ */
+ struct wlan_network *_rtw_find_network(struct __queue *scanned_queue, u8 *addr)
+ {
+ 	struct list_head	*phead, *plist;
+@@ -290,10 +290,10 @@ void rtw_free_network_nolock(struct adapter *padapter, struct wlan_network *pnet
+ }
+ 
+ /*
+-	return the wlan_network with the matching addr
+-
+-	Shall be called under atomic context... to avoid possible racing condition...
+-*/
++ *	return the wlan_network with the matching addr
++ *
++ *	Shall be called under atomic context... to avoid possible racing condition...
++ */
+ struct	wlan_network *rtw_find_network(struct __queue *scanned_queue, u8 *addr)
+ {
+ 	struct	wlan_network *pnetwork = _rtw_find_network(scanned_queue, addr);
+@@ -483,11 +483,11 @@ void rtw_update_scanned_network(struct adapter *adapter, struct wlan_bssid_ex *t
+ 
+ 		if (!oldest || time_after(oldest->last_scanned, pnetwork->last_scanned))
+ 			oldest = pnetwork;
+-
+ 	}
+ 
+ 	/* If we didn't find a match, then get a new network slot to initialize
+-	 * with this beacon's information */
++	 * with this beacon's information
++	 */
+ 	if (!target_find) {
+ 		if (list_empty & pmlmepriv->free_bss_pool.queue) {
+ 			/* If there are no more slots, expire the oldest */
+@@ -564,11 +564,11 @@ void rtw_add_network(struct adapter *adapter, struct wlan_bssid_ex *pnetwork)
+ }
+ 
+ /* select the desired network based on the capability of the (i)bss. */
+-/*  check items: (1) security */
+-/* 			   (2) network_type */
+-/* 			   (3) WMM */
+-/* 			   (4) HT */
+-/*                      (5) others */
++/* check items: (1) security */
++/* 		(2) network_type */
++/* 		(3) WMM */
++/* 		(4) HT */
++/*		(5) others */
+ int rtw_is_desired_network(struct adapter *adapter, struct wlan_network *pnetwork);
+ int rtw_is_desired_network(struct adapter *adapter, struct wlan_network *pnetwork)
+ {
+@@ -827,8 +827,8 @@ static void find_network(struct adapter *adapter)
+ }
+ 
+ /*
+-*rtw_free_assoc_resources: the caller has to lock pmlmepriv->lock
+-*/
++ *rtw_free_assoc_resources: the caller has to lock pmlmepriv->lock
++ */
+ void rtw_free_assoc_resources(struct adapter *adapter, int lock_scanned_queue)
+ {
+ 	struct	mlme_priv *pmlmepriv = &adapter->mlmepriv;
+@@ -863,8 +863,8 @@ void rtw_free_assoc_resources(struct adapter *adapter, int lock_scanned_queue)
+ }
+ 
+ /*
+-*rtw_indicate_connect: the caller has to lock pmlmepriv->lock
+-*/
++ *rtw_indicate_connect: the caller has to lock pmlmepriv->lock
++ */
+ void rtw_indicate_connect(struct adapter *padapter)
+ {
+ 	struct mlme_priv *pmlmepriv = &padapter->mlmepriv;
+@@ -882,8 +882,8 @@ void rtw_indicate_connect(struct adapter *padapter)
+ }
+ 
+ /*
+-*rtw_indicate_disconnect: the caller has to lock pmlmepriv->lock
+-*/
++ *rtw_indicate_disconnect: the caller has to lock pmlmepriv->lock
++ */
+ void rtw_indicate_disconnect(struct adapter *padapter)
  {
  	struct	mlme_priv *pmlmepriv = &padapter->mlmepriv;
- 
--	_clr_fwstate_(pmlmepriv, _FW_UNDER_LINKING|WIFI_UNDER_WPS);
-+	_clr_fwstate_(pmlmepriv, _FW_UNDER_LINKING | WIFI_UNDER_WPS);
- 
- 	if (rtw_to_roam(padapter) > 0)
- 		_clr_fwstate_(pmlmepriv, _FW_LINKED);
-@@ -923,7 +915,7 @@ inline void rtw_indicate_scan_done(struct adapter *padapter, bool aborted)
- 
- 	if ((!adapter_to_pwrctl(padapter)->bInSuspend) &&
- 	    (!check_fwstate(&padapter->mlmepriv,
--			    WIFI_ASOC_STATE|WIFI_UNDER_LINKING))) {
-+			    WIFI_ASOC_STATE | WIFI_UNDER_LINKING))) {
- 		rtw_set_ips_deny(padapter, 0);
- 		_set_timer(&padapter->mlmepriv.dynamic_chk_timer, 1);
- 	}
-@@ -1032,7 +1024,6 @@ static struct sta_info *rtw_joinbss_update_stainfo(struct adapter *padapter,
- 	}
- 
- 	return psta;
--
+@@ -1466,9 +1466,9 @@ void rtw_wmm_event_callback(struct adapter *padapter, u8 *pbuf)
  }
  
- /* pnetwork : returns from rtw_joinbss_event_callback */
-@@ -1064,8 +1055,8 @@ static void rtw_joinbss_update_network(struct adapter *padapter, struct wlan_net
- 	switch (pnetwork->network.infrastructure_mode) {
- 	case Ndis802_11Infrastructure:
- 
--			if (pmlmepriv->fw_state&WIFI_UNDER_WPS)
--				pmlmepriv->fw_state = WIFI_STATION_STATE|WIFI_UNDER_WPS;
-+			if (pmlmepriv->fw_state & WIFI_UNDER_WPS)
-+				pmlmepriv->fw_state = WIFI_STATION_STATE | WIFI_UNDER_WPS;
- 			else
- 				pmlmepriv->fw_state = WIFI_STATION_STATE;
- 
-@@ -1320,7 +1311,7 @@ void rtw_stassoc_event_callback(struct adapter *adapter, u8 *pbuf)
- 	spin_lock_bh(&pmlmepriv->lock);
- 
- 	if ((check_fwstate(pmlmepriv, WIFI_ADHOC_MASTER_STATE) == true) ||
--		(check_fwstate(pmlmepriv, WIFI_ADHOC_STATE) == true)) {
-+	    (check_fwstate(pmlmepriv, WIFI_ADHOC_STATE) == true)) {
- 		if (adapter->stapriv.asoc_sta_count == 2) {
- 			spin_lock_bh(&pmlmepriv->scanned_queue.lock);
- 			ptarget_wlan = rtw_find_network(&pmlmepriv->scanned_queue, cur_network->network.mac_address);
-@@ -1360,13 +1351,13 @@ void rtw_stadel_event_callback(struct adapter *adapter, u8 *pbuf)
- 	if (mac_id >= 0) {
- 		u16 media_status;
- 
--		media_status = (mac_id<<8)|0; /*   MACID|OPMODE:0 means disconnect */
-+		media_status = (mac_id << 8) | 0; /*   MACID|OPMODE:0 means disconnect */
- 		/* for STA, AP, ADHOC mode, report disconnect stauts to FW */
- 		rtw_hal_set_hwreg(adapter, HW_VAR_H2C_MEDIA_STATUS_RPT, (u8 *)&media_status);
- 	}
- 
- 	/* if (check_fwstate(pmlmepriv, WIFI_AP_STATE)) */
--	if ((pmlmeinfo->state&0x03) == WIFI_FW_AP_STATE)
-+	if ((pmlmeinfo->state & 0x03) == WIFI_FW_AP_STATE)
- 		return;
- 
- 	mlmeext_sta_del_event_callback(adapter);
-@@ -1416,8 +1407,7 @@ void rtw_stadel_event_callback(struct adapter *adapter, u8 *pbuf)
- 	}
- 
- 	if (check_fwstate(pmlmepriv, WIFI_ADHOC_MASTER_STATE) ||
--	      check_fwstate(pmlmepriv, WIFI_ADHOC_STATE)) {
--
-+	    check_fwstate(pmlmepriv, WIFI_ADHOC_STATE)) {
- 		rtw_free_stainfo(adapter,  psta);
- 
- 		if (adapter->stapriv.asoc_sta_count == 1) {/* a sta + bc/mc_stainfo (not Ibss_stainfo) */
-@@ -1455,7 +1445,6 @@ void rtw_stadel_event_callback(struct adapter *adapter, u8 *pbuf)
- 			if (ret != _SUCCESS)
- 				goto unlock;
- 		}
--
- 	}
- 
- unlock:
-@@ -1548,7 +1537,7 @@ void rtw_mlme_reset_auto_scan_int(struct adapter *adapter)
- 	if (pmlmeinfo->VHT_enable) /* disable auto scan when connect to 11AC AP */
- 		mlme->auto_scan_int_ms = 0;
- 	else if (adapter->registrypriv.wifi_spec && is_client_associated_to_ap(adapter) == true)
--		mlme->auto_scan_int_ms = 60*1000;
-+		mlme->auto_scan_int_ms = 60 * 1000;
- 	else if (rtw_chk_roam_flags(adapter, RTW_ROAM_ACTIVE)) {
- 		if (check_fwstate(mlme, WIFI_STATION_STATE) && check_fwstate(mlme, _FW_LINKED))
- 			mlme->auto_scan_int_ms = mlme->roam_scan_int_ms;
-@@ -1794,12 +1783,10 @@ int rtw_select_and_join_from_scanned_queue(struct mlme_priv *pmlmepriv)
- 
- 	phead = get_list_head(queue);
- 	list_for_each(pmlmepriv->pscanned, phead) {
--
- 		pnetwork = list_entry(pmlmepriv->pscanned,
- 				      struct wlan_network, list);
- 
- 		rtw_check_join_candidate(pmlmepriv, &candidate, pnetwork);
--
- 	}
- 
- 	if (!candidate) {
-@@ -1961,11 +1948,10 @@ int rtw_restruct_wmm_ie(struct adapter *adapter, u8 *in_ie, u8 *out_ie, uint in_
- 			break;
- 		}
- 
--		i += (in_ie[i+1]+2); /*  to the next IE element */
-+		i += (in_ie[i + 1] + 2); /*  to the next IE element */
- 	}
- 
- 	return ielength;
--
- }
- 
- /*  */
-@@ -1986,7 +1972,7 @@ static int SecIsInPMKIDList(struct adapter *Adapter, u8 *bssid)
- 
- 	for (i = 0; i < NUM_PMKID_CACHE; i++)
- 		if ((p->PMKIDList[i].bUsed) &&
--				(!memcmp(p->PMKIDList[i].Bssid, bssid, ETH_ALEN)))
-+		    (!memcmp(p->PMKIDList[i].Bssid, bssid, ETH_ALEN)))
- 			return i;
- 	return -1;
- }
-@@ -2035,7 +2021,7 @@ signed int rtw_restruct_sec_ie(struct adapter *adapter, u8 *in_ie, u8 *out_ie, u
- 		authmode = WLAN_EID_RSN;
- 
- 	if (check_fwstate(pmlmepriv, WIFI_UNDER_WPS)) {
--		memcpy(out_ie+ielength, psecuritypriv->wps_ie, psecuritypriv->wps_ie_len);
-+		memcpy(out_ie + ielength, psecuritypriv->wps_ie, psecuritypriv->wps_ie_len);
- 
- 		ielength += psecuritypriv->wps_ie_len;
- 	} else if ((authmode == WLAN_EID_VENDOR_SPECIFIC) || (authmode == WLAN_EID_RSN)) {
-@@ -2130,7 +2116,7 @@ void rtw_joinbss_reset(struct adapter *padapter)
- 	u8 threshold;
- 	struct mlme_priv *pmlmepriv = &padapter->mlmepriv;
- 
--	struct ht_priv 	*phtpriv = &pmlmepriv->htpriv;
-+	struct ht_priv *phtpriv = &pmlmepriv->htpriv;
- 
- 	/* todo: if you want to do something io/reg/hw setting before join_bss, please add code here */
- 
-@@ -2156,11 +2142,11 @@ void rtw_joinbss_reset(struct adapter *padapter)
- 
- void rtw_ht_use_default_setting(struct adapter *padapter)
+ /*
+-* _rtw_join_timeout_handler - Timeout/failure handler for CMD JoinBss
+-* @adapter: pointer to struct adapter structure
+-*/
++ * _rtw_join_timeout_handler - Timeout/failure handler for CMD JoinBss
++ * @adapter: pointer to struct adapter structure
++ */
+ void _rtw_join_timeout_handler(struct timer_list *t)
  {
--	struct mlme_priv 	*pmlmepriv = &padapter->mlmepriv;
--	struct ht_priv 	*phtpriv = &pmlmepriv->htpriv;
-+	struct mlme_priv *pmlmepriv = &padapter->mlmepriv;
-+	struct ht_priv *phtpriv = &pmlmepriv->htpriv;
- 	struct registry_priv *pregistrypriv = &padapter->registrypriv;
--	bool		bHwLDPCSupport = false, bHwSTBCSupport = false;
--	bool		bHwSupportBeamformer = false, bHwSupportBeamformee = false;
-+	bool bHwLDPCSupport = false, bHwSTBCSupport = false;
-+	bool bHwSupportBeamformer = false, bHwSupportBeamformee = false;
+ 	struct adapter *adapter = from_timer(adapter, t,
+@@ -1503,16 +1503,15 @@ void _rtw_join_timeout_handler(struct timer_list *t)
  
- 	if (pregistrypriv->wifi_spec)
- 		phtpriv->bss_coexist = 1;
-@@ -2214,7 +2200,7 @@ void rtw_build_wmm_ie_ht(struct adapter *padapter, u8 *out_ie, uint *pout_len)
- 
- 	if (padapter->mlmepriv.qospriv.qos_option == 0) {
- 		out_len = *pout_len;
--		rtw_set_ie(out_ie+out_len, WLAN_EID_VENDOR_SPECIFIC,
-+		rtw_set_ie(out_ie + out_len, WLAN_EID_VENDOR_SPECIFIC,
- 			   _WMM_IE_Length_, WMM_IE, pout_len);
- 
- 		padapter->mlmepriv.qospriv.qos_option = 1;
-@@ -2232,7 +2218,7 @@ unsigned int rtw_restructure_ht_ie(struct adapter *padapter, u8 *in_ie, u8 *out_
- 	u8 cbw40_enable = 0, stbc_rx_enable = 0, operation_bw = 0;
- 	struct registry_priv *pregistrypriv = &padapter->registrypriv;
- 	struct mlme_priv *pmlmepriv = &padapter->mlmepriv;
--	struct ht_priv 	*phtpriv = &pmlmepriv->htpriv;
-+	struct ht_priv *phtpriv = &pmlmepriv->htpriv;
- 	struct mlme_ext_priv *pmlmeext = &padapter->mlmeextpriv;
- 
- 	phtpriv->ht_option = false;
-@@ -2259,7 +2245,7 @@ unsigned int rtw_restructure_ht_ie(struct adapter *padapter, u8 *in_ie, u8 *out_
- 	} else {
- 		p = rtw_get_ie(in_ie, WLAN_EID_HT_OPERATION, &ielen, in_len);
- 		if (p && (ielen == sizeof(struct ieee80211_ht_addt_info))) {
--			struct HT_info_element *pht_info = (struct HT_info_element *)(p+2);
-+			struct HT_info_element *pht_info = (struct HT_info_element *)(p + 2);
- 
- 			if (pht_info->infos[0] & BIT(2)) {
- 				switch (pht_info->infos[0] & 0x3) {
-@@ -2327,14 +2313,14 @@ unsigned int rtw_restructure_ht_ie(struct adapter *padapter, u8 *in_ie, u8 *out_
- 		rtw_hal_get_def_var(padapter, HW_VAR_MAX_RX_AMPDU_FACTOR,
- 				    &max_rx_ampdu_factor);
- 
--	ht_capie.ampdu_params_info = (max_rx_ampdu_factor&0x03);
-+	ht_capie.ampdu_params_info = (max_rx_ampdu_factor & 0x03);
- 
- 	if (padapter->securitypriv.dot11PrivacyAlgrthm == _AES_)
--		ht_capie.ampdu_params_info |= (IEEE80211_HT_CAP_AMPDU_DENSITY&(0x07<<2));
-+		ht_capie.ampdu_params_info |= (IEEE80211_HT_CAP_AMPDU_DENSITY & (0x07 << 2));
- 	else
--		ht_capie.ampdu_params_info |= (IEEE80211_HT_CAP_AMPDU_DENSITY&0x00);
-+		ht_capie.ampdu_params_info |= (IEEE80211_HT_CAP_AMPDU_DENSITY & 0x00);
- 
--	rtw_set_ie(out_ie+out_len, WLAN_EID_HT_CAPABILITY,
-+	rtw_set_ie(out_ie + out_len, WLAN_EID_HT_CAPABILITY,
- 		   sizeof(struct ieee80211_ht_cap), (unsigned char *)&ht_capie, pout_len);
- 
- 	phtpriv->ht_option = true;
-@@ -2343,12 +2329,11 @@ unsigned int rtw_restructure_ht_ie(struct adapter *padapter, u8 *in_ie, u8 *out_
- 		p = rtw_get_ie(in_ie, WLAN_EID_HT_OPERATION, &ielen, in_len);
- 		if (p && (ielen == sizeof(struct ieee80211_ht_addt_info))) {
- 			out_len = *pout_len;
--			rtw_set_ie(out_ie+out_len, WLAN_EID_HT_OPERATION, ielen, p+2, pout_len);
-+			rtw_set_ie(out_ie + out_len, WLAN_EID_HT_OPERATION, ielen, p + 2, pout_len);
- 		}
+ 		/* indicate disconnect for the case that join_timeout and check_fwstate != FW_LINKED */
+ 		rtw_cfg80211_indicate_disconnect(adapter);
+-
  	}
  
- 	return phtpriv->ht_option;
--
+ 	spin_unlock_bh(&pmlmepriv->lock);
  }
  
- /* the function is > passive_level (in critical_section) */
-@@ -2379,12 +2364,11 @@ void rtw_update_ht_cap(struct adapter *padapter, u8 *pie, uint ie_len, u8 channe
- 	p = rtw_get_ie(pie + sizeof(struct ndis_802_11_fix_ie), WLAN_EID_HT_CAPABILITY, &len,
- 		       ie_len - sizeof(struct ndis_802_11_fix_ie));
- 	if (p && len > 0) {
--		pht_capie = (struct ieee80211_ht_cap *)(p+2);
-+		pht_capie = (struct ieee80211_ht_cap *)(p + 2);
- 		max_ampdu_sz = (pht_capie->ampdu_params_info & IEEE80211_HT_CAP_AMPDU_FACTOR);
--		max_ampdu_sz = 1 << (max_ampdu_sz+3); /*  max_ampdu_sz (kbytes); */
-+		max_ampdu_sz = 1 << (max_ampdu_sz + 3); /*  max_ampdu_sz (kbytes); */
- 
- 		phtpriv->rx_ampdu_maxlen = max_ampdu_sz;
--
- 	}
- 
- 	len = 0;
-@@ -2473,21 +2457,20 @@ void rtw_issue_addbareq_cmd(struct adapter *padapter, struct xmit_frame *pxmitfr
- 	phtpriv = &psta->htpriv;
- 
- 	if (phtpriv->ht_option && phtpriv->ampdu_enable) {
--		issued = (phtpriv->agg_enable_bitmap>>priority)&0x1;
--		issued |= (phtpriv->candidate_tid_bitmap>>priority)&0x1;
-+		issued = (phtpriv->agg_enable_bitmap >> priority) & 0x1;
-+		issued |= (phtpriv->candidate_tid_bitmap >> priority) & 0x1;
- 
- 		if (issued == 0) {
- 			psta->htpriv.candidate_tid_bitmap |= BIT((u8)priority);
--			rtw_addbareq_cmd(padapter, (u8) priority, pattrib->ra);
-+			rtw_addbareq_cmd(padapter, (u8)priority, pattrib->ra);
- 		}
- 	}
--
+ /*
+-* rtw_scan_timeout_handler - Timeout/Failure handler for CMD SiteSurvey
+-* @adapter: pointer to struct adapter structure
+-*/
++ * rtw_scan_timeout_handler - Timeout/Failure handler for CMD SiteSurvey
++ * @adapter: pointer to struct adapter structure
++ */
+ void rtw_scan_timeout_handler(struct timer_list *t)
+ {
+ 	struct adapter *adapter = from_timer(adapter, t,
+@@ -1628,10 +1627,10 @@ void rtw_set_scan_deny(struct adapter *adapter, u32 ms)
  }
  
- void rtw_append_exented_cap(struct adapter *padapter, u8 *out_ie, uint *pout_len)
+ /*
+-* Select a new roaming candidate from the original @param candidate and @param competitor
+-* @return true: candidate is updated
+-* @return false: candidate is not updated
+-*/
++ * Select a new roaming candidate from the original @param candidate and @param competitor
++ * @return true: candidate is updated
++ * @return false: candidate is not updated
++ */
+ static int rtw_check_roaming_candidate(struct mlme_priv *mlme
+ 	, struct wlan_network **candidate, struct wlan_network *competitor)
  {
- 	struct mlme_priv *pmlmepriv = &padapter->mlmepriv;
--	struct ht_priv 	*phtpriv = &pmlmepriv->htpriv;
-+	struct ht_priv *phtpriv = &pmlmepriv->htpriv;
- 	u8 cap_content[8] = {0};
+@@ -1710,10 +1709,10 @@ int rtw_select_roaming_candidate(struct mlme_priv *mlme)
+ }
  
- 	if (phtpriv->bss_coexist)
-@@ -2547,7 +2530,8 @@ void _rtw_roaming(struct adapter *padapter, struct wlan_network *tgt_network)
- signed int rtw_linked_check(struct adapter *padapter)
+ /*
+-* Select a new join candidate from the original @param candidate and @param competitor
+-* @return true: candidate is updated
+-* @return false: candidate is not updated
+-*/
++ * Select a new join candidate from the original @param candidate and @param competitor
++ * @return true: candidate is updated
++ * @return false: candidate is not updated
++ */
+ static int rtw_check_join_candidate(struct mlme_priv *mlme
+ 	, struct wlan_network **candidate, struct wlan_network *competitor)
  {
- 	if ((check_fwstate(&padapter->mlmepriv, WIFI_AP_STATE) == true) ||
--			(check_fwstate(&padapter->mlmepriv, WIFI_ADHOC_STATE|WIFI_ADHOC_MASTER_STATE) == true)) {
-+	    (check_fwstate(&padapter->mlmepriv,
-+			   WIFI_ADHOC_STATE | WIFI_ADHOC_MASTER_STATE) == true)) {
- 		if (padapter->stapriv.asoc_sta_count > 2)
- 			return true;
- 	} else {	/* Station mode */
 -- 
 2.45.3
 
