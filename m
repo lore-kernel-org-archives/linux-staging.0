@@ -1,84 +1,85 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f169.google.com (mail-qt1-f169.google.com [209.85.160.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCE1A82D98;
-	Wed,  5 Feb 2025 13:28:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E551C1FDA9B
+	for <linux-staging@lists.linux.dev>; Wed,  5 Feb 2025 18:31:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738762092; cv=none; b=LoOrF170kVPO70BOdGlwVmVZVFpd7pMIK3Y82XEJDztgpvzfaaVssyUwCD9DE0zj7Twht+QGQiPw4dAMA2T5bYkt4MkFBZJrYWumnBNGnVQeSdPKp+Op+RAL7qyBvGo9MkI4mMeldowLfS+4lFsCasEdbtmF3CFmh097Y++cdw0=
+	t=1738780264; cv=none; b=D606IKrV0q5Zqs/VBpbqCPEenXeLrf5copAZhW1Jg3gLHHpIGYivn8sB6CtB1mhSBsey5+veC8a5Hwz1sCaAYKTZ/PaY50fxTnD02xFfaBSjZykKN/+TqYK8lI8DH+wERoWUUASyaJ9DMUc2A9kJgdKStIEW5DDZk6afXZNpBV0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738762092; c=relaxed/simple;
-	bh=//kvva3iZqW8obzgAlWViejdA8i1gDjetT5FaEKlR74=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=rDsE98I7KX06bl6xnn7s4YAjreR5LI7Zhu4RcAfn0pml0pSViFiNdFgexd4+1LrF5P1tDdre/Ms/a22DQK6PDkRsdW/euvFiXriPtn6KvcA+YFzzYN9tuzXfRudhBdv4fi8gR6V/e3E2e7LmQumpsRix6y0G1vlbUyXux1bNOZc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=a9GILhbQ; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1738780264; c=relaxed/simple;
+	bh=AgAXFdLVVEihfeM8ysZZmEU+gEAxaTs8AYeDW7rK1OQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=cb2FEPncnTQgCfvqTUKTI5CCKvWk15u+NZBPNjoWhE0Jpz/jRYaYd25Ww1v9LZFTYjiXfHqRH+O3i9mzH8/hjbZK0LEWfPLKoydjRz0iJ32qXxsxIV46pEknw1ajw5IdBuD2RFIar2AZ7M12Utx6jXDSs7yhRaGrn+DvWzjs/Ok=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=K+GJtOgP; arc=none smtp.client-ip=209.85.160.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="a9GILhbQ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A62B3C4CEE2;
-	Wed,  5 Feb 2025 13:28:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1738762092;
-	bh=//kvva3iZqW8obzgAlWViejdA8i1gDjetT5FaEKlR74=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=a9GILhbQ5I2l1a1J2F6mOoyTpCRmFFujMYGOKaYtpTZIZqQwm5hBE0LiZmourKzwt
-	 DH4kseSDUOERqf7QqrplxBjNRADy98ZLEuYX+q5QQUsgb48eKFsH30wkCsxXldfhG0
-	 htl68LJEAKTicO8Cl29JEc82BpVSlqk6uu3T6fww=
-Date: Wed, 5 Feb 2025 14:28:08 +0100
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Arnd Bergmann <arnd@arndb.de>
-Cc: Arnd Bergmann <arnd@kernel.org>, Dave Penkler <dpenkler@gmail.com>,
-	Dan Carpenter <dan.carpenter@linaro.org>,
-	Nihar Chaithanya <niharchaithanya@gmail.com>,
-	Rohit Chavan <roheetchavan@gmail.com>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] gpib: mark pnp_device_id tables as __maybe_unused
-Message-ID: <2025020548-tropical-thickness-52a0@gregkh>
-References: <20250205121244.322054-1-arnd@kernel.org>
- <2025020532-roast-shortage-4086@gregkh>
- <19cc695e-47e6-451a-a443-384e2b423953@app.fastmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="K+GJtOgP"
+Received: by mail-qt1-f169.google.com with SMTP id d75a77b69052e-46fa7678ef3so1216881cf.1
+        for <linux-staging@lists.linux.dev>; Wed, 05 Feb 2025 10:31:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1738780262; x=1739385062; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=YRu8lJ2S+gftV8NR6vzgjYQmf6hY04ZpBFo14C7wy6U=;
+        b=K+GJtOgPBeY2eeSCe5wToA6zXBdDoUenc7bGhkLaGzRbRV42AUVtGHo34NYGSsiSNk
+         WRaT/vcnabWyzxhcMSydm71eGC8N8k/KI1zWwUSh2c6vk88wN5+l1up0jomxqbuRHevh
+         y++ob7WOAVHO7idYEn329b13XIZ8Y7Uk965G/4Ff+0P7hgMneC0pLiSOuK+NtKsmA95A
+         J9/kqy7c06nA36PS63FzhmuoP8fwK4fWBZYmm6Rodt/lO+DymRIFedL0oQC5ektqpvL9
+         /w2SnxaJK2Ab4NR8fX7rDWNaMEVoP1Y2vzDuxV7UURQsOclOePOkE2O5YC8Om4UOtQCk
+         HrNA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1738780262; x=1739385062;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=YRu8lJ2S+gftV8NR6vzgjYQmf6hY04ZpBFo14C7wy6U=;
+        b=fn3PDDcFdloPIQVnQYQyZUgWcq4kEy0IXll3X6lbd36Y1OQNhqPyFu9X499D5Ioqsn
+         ChDa8tqlYPxVK7u/29fjO5kybLoy+Du4kfE2OJ0Hl6o822RI7erw+OgziPNrw2F5BADP
+         ohZUpyo6gMJT6ysG6LKL1LmHMOnPTUbxWkLhnF20cn1cqbCSbr5AphCDod1QLwlhNWQJ
+         7GkFXuulmKjALumBTqgCJ8QUe00WMgccyx7YsKxOCVfAqzlpsa8/L8KTP8upyG3Lt4f/
+         +TS8H9nChQIig4YACSOvzLsoN+yrKuOMauPKMZPEXXcvxb8Ly6PDShwyruU6YCJa7ZmC
+         jgag==
+X-Gm-Message-State: AOJu0Yzy4u9VtRVmW0/l0weglQigQId3F/QWS+Pu6Oeej2QZA+sufXu0
+	DKxWyImkQ1cx7hxkOneOwinG78IxxJ9wVEZs5N8Xq8GbXvypLRUI
+X-Gm-Gg: ASbGncuI1RBDDvCPXSYmJK2mPamlbWwoWbFt2SEoIjm+AM+3O4jjISHt3Lz/MxQ8Xrm
+	JFElMup6zUF/DZo5lF3QFuFdOTrngWX2Z64J4LWc39HAhWhD5EevhT7c2G7ZDWn9fDw70285YcE
+	xnz4FP+V7rNV7latPbzq0HxGErUjzGgHT0P2OyWGIBUXq1EcKS+CMn80niNmg7GKOLNSpRkApC/
+	eTL0oyvNO7FmgR05EmEMLRb9QVdvoPDDDFOrNiINF+s+LKzuX4Ju+2dsGNox+meHlcqkOiES74Z
+	T1zoHygk155LLOLzzIpwsw==
+X-Google-Smtp-Source: AGHT+IHn5QFciUJNlaHMn2u9bwUYf1eujyg9AiM+KsaTgTPiGuqF2MJbbwWul1/abgvi7UoF9jQH7w==
+X-Received: by 2002:a05:622a:5186:b0:467:63fb:68d7 with SMTP id d75a77b69052e-47028303855mr70329291cf.50.1738780261741;
+        Wed, 05 Feb 2025 10:31:01 -0800 (PST)
+Received: from DESKTOP-GL3U3CJ ([149.88.18.213])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-46ff3bbe998sm57498451cf.24.2025.02.05.10.31.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 05 Feb 2025 10:31:01 -0800 (PST)
+From: Ian To <onlyian4981@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Ian To <onlyian4981@gmail.com>
+Subject: [PATCH 0/2] staging: rtl8723bs: Fix coding style
+Date: Wed,  5 Feb 2025 10:30:52 -0800
+Message-ID: <cover.1738780135.git.onlyian4981@gmail.com>
+X-Mailer: git-send-email 2.45.3
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <19cc695e-47e6-451a-a443-384e2b423953@app.fastmail.com>
+Content-Transfer-Encoding: 8bit
 
-On Wed, Feb 05, 2025 at 02:04:37PM +0100, Arnd Bergmann wrote:
-> On Wed, Feb 5, 2025, at 13:25, Greg Kroah-Hartman wrote:
-> > On Wed, Feb 05, 2025 at 01:12:26PM +0100, Arnd Bergmann wrote:
-> >>
-> >> @@ -1390,7 +1390,7 @@ static struct pci_driver tnt4882_pci_driver = {
-> >>  	.probe = &tnt4882_pci_probe
-> >>  };
-> >>  
-> >> -static const struct pnp_device_id tnt4882_pnp_table[] = {
-> >> +static __maybe_unused const struct pnp_device_id tnt4882_pnp_table[] = {
-> >
-> > I see this happening in many different drivers right now, what is so
-> > unique about pnp that causes this?  Shouldn't we fix up the
-> > MODULE_DEVICE_TABLE() macro to not require stuff like this instead?
-> 
-> I think the other drivers that produce a similar warning usually
-> have a different bug, they have an incorrect of_match_ptr() or
-> ACPI_PTR() around the reference to that table, and the correct
-> fix is usually to just remove those macros. I have previously
-> sent patches for all of these, and could resend those.
-> 
-> These two pnp drivers are special because they predate the
-> linux-2.6 driver model and there is no reference to the table
-> at all in the drivers.
+Fix the coding style issues. Reported by checkpatch
 
-Ah.  Then the variable should just be removed as it's obviously not
-doing anything :)
+Ian To (2):
+  staging: rtl8723bs: fix spacing complaints
+  staging: rtl8723bs: break up lines
 
-(I know it's doing module loading, but that's not ok to just fake it
-this way, it should use that table when it is searching the pnp area.)
+ drivers/staging/rtl8723bs/core/rtw_xmit.c | 182 ++++++++++++----------
+ 1 file changed, 103 insertions(+), 79 deletions(-)
 
-So a nice "#if 0" carve out for now perhaps?
+-- 
+2.45.3
 
-thanks,
-
-greg k-h
