@@ -1,117 +1,90 @@
-Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D481238D5F
-	for <linux-staging@lists.linux.dev>; Fri,  7 Feb 2025 15:06:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.172
+Received: from bout3.ijzerbout.nl (bout3.ijzerbout.nl [136.144.140.114])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4389A23C8CB
+	for <linux-staging@lists.linux.dev>; Fri,  7 Feb 2025 19:56:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=136.144.140.114
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1738940812; cv=none; b=HO+GVfs4LU7Rxo6wmtqAjhVzi1ycjNUjJdsDnwl7Ka92XrfTHhaNGaf4VSn+BFYqOxUtIZhydu3Y0LPtjDOIHYO+20zFNj7aLuUc9DnwxZBN/rL9HPodTnn0ehCWtdkAx3A4MWib+RM2A6Zf83YQuTxb/ca5bbas11akUHRRLP8=
+	t=1738958208; cv=none; b=LaKvmL6HgXvsyiL4h742Jk1w5ArVpF36ohV4OFhEDnkSm0W5UeGeBAp3dD6FtT6X3+l1aMo24WudlC1Z/G0yuWWpuaoBCxwytUnC4QInl9k5FjB3V8IKZCRjg/8i5+rp+RFmfMdLdvLJwHTxJhWpXmPDgQ7EXNI1ScX/Mzh/PM4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1738940812; c=relaxed/simple;
-	bh=+BED1zjhttU/x4Q+azgCmxlLeaM0If4jCDXrHqEmxTc=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Zc2XhmDE1clDAQqIg4pLRehnE9tGkm8cXc/E0d4bw6u5wvTqr7/AyfZ/7zkQvjBHRsxDFaSM1rnmvA8ppjHxj6LpgfuBxFQ7/muoxVSLgGzXGc+uhWwHrKtzIODXu9N4MBINy9pQQIoKLzBmsSKyS0WuCSvC/N1tSbD/QKiYtao=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lZ3jJEiy; arc=none smtp.client-ip=209.85.214.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1738958208; c=relaxed/simple;
+	bh=hvf8Bs2/54mKsud0F53VBvuIO272se3qdishAUui/iU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=gZ7RB0oPV/rCARVamTW/919cK9HSoDcbAzq1X12FspFlljdrOzdURDbYdxjqPu69BckbmlFr4lRWNbOAVG7fhK1gy7KRRUk4WYN+S9gj0DO2ax3iFR8Ub2z5jsl0o33FxyqMS8ZAVZPl7pZA/RIP9AEKOA3fgxSEZLlpah49tho=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ijzerbout.nl; spf=pass smtp.mailfrom=ijzerbout.nl; dkim=pass (4096-bit key) header.d=ijzerbout.nl header.i=@ijzerbout.nl header.b=FG4ITyAt; arc=none smtp.client-ip=136.144.140.114
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ijzerbout.nl
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ijzerbout.nl
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lZ3jJEiy"
-Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-2162b5d2e1fso4948885ad.3
-        for <linux-staging@lists.linux.dev>; Fri, 07 Feb 2025 07:06:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1738940810; x=1739545610; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=BQMc8vD8km902bdCWkfekYhqGdyiSxRELEICgzxDFSE=;
-        b=lZ3jJEiy+wAzaPSL4eOnHoHNJVats47UDHdO7wzmdJMalIMS9op7umFpjMe2UO1P4H
-         FncVRJKFZOnjZpkfruskbtxZiGcxHxG04gh41rTPKMA6UKVuSsMyxTa3DIzQlgiS8KLX
-         yxR5UioQIgSNVd+fcedhwrBnaAl5zu1Qb6WhnTHFK/l5HdGUMfrD/2UdkeckyiVYQ3Eu
-         qozsRimuABTEMHn1UhMp2/vBjdnkfdMPt4iNxA5sKA4P/9Mx7gZNmHs3jT1Onu5GwUlI
-         HjMUJQWT7gxlhj9xymKf3smHaQMLXBIIcb2/dwClASkasvI/PfGv7m0RHpwqV3bYjaEy
-         UmCQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1738940810; x=1739545610;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=BQMc8vD8km902bdCWkfekYhqGdyiSxRELEICgzxDFSE=;
-        b=oVa3t/4DvbI69n+Xs4zJZHeMF1wicqb6+fSQ1FKwqfTH1wEFkO6Tj+vq5HKJj22VdN
-         NeNvkbprcV/DDI+kOUiRg4S+PFQVYbvoomKdWZ6NOvPcltcxz57dbncl5j0Ev55u8dV6
-         NC66AR7ENeMv6ARvIhYQnyIjJq51VLNC/Kz+BxaIAp1r98KWBH5AsbScNLuEuMyQXmIV
-         hEXMmaOATmoevF0LFt8FZk98BLP2bn0Mq5/RpSUvE3W3yhnxr6Hhy3y9F0/OkFXa8zBV
-         AqVi/NQLlnwtR+8xGDIluIenpT+XgyZvcBezSnY7A/2wlaus6M72MqXCnAt8qCU48mne
-         tkiQ==
-X-Gm-Message-State: AOJu0YzERHjEbDBeinhaxWQisg+DyM43qNtMklPXM3oROG9MV2mCY6pj
-	3cwrL8GcSW0Mca0Knx7D2wQtTi17V24L2vj0QmYy0KKpcow6tFKr6K0D8zBe
-X-Gm-Gg: ASbGnct6RRML6Xh0vwQRHmoeHjBzKmvJo+7eKgAwm4snVb93OsGaTHaWYxqIe0cRjJK
-	epuPc5GvzYmKjAm5bPtAwe3I8Lweu4TubEkkT0vRIrgokKPBFCYjFtwSrOGHwt2FxZtjIvrpNG1
-	oksiwgeEmaJ5jli3byDkaOHrx9MJ8Oy0n17R0txJKjVCaV+SjlH/8wFlSI2spplFdCJ1AXnjCUJ
-	MLgMg2WWysJtjhvfqK/+ylM6P37aHev1CGBt9LdJXzBoyKJbhNW2eGigHJRkLKwjxrz5wuv/CBx
-	ZamrSkdDn6ccF8DF/gego8I6L0qk
-X-Google-Smtp-Source: AGHT+IGBDJlKN0DY1VF4om1iheLjSRpsYUIOfGKNZ/wqIcT4HB2axzTOeDZuaNC2EYDK96dQn4ymXA==
-X-Received: by 2002:a17:902:e946:b0:21d:cdb7:876c with SMTP id d9443c01a7336-21f4e6a5403mr21483705ad.3.1738940810327;
-        Fri, 07 Feb 2025 07:06:50 -0800 (PST)
-Received: from localhost.localdomain ([2802:8012:30:9200:a83e:911f:eb3e:1cb7])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-21f3653b143sm31855815ad.54.2025.02.07.07.06.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 07 Feb 2025 07:06:49 -0800 (PST)
-From: Gaston Gonzalez <gascoar@gmail.com>
-To: linux-staging@lists.linux.dev
-Cc: dpenkler@gmail.com,
-	gregkh@linuxfoundation.org,
-	arnd@arndb.de,
-	dan.carpenter@oracle.com,
-	ajithpv.linux@gmail.com,
-	roheetchavan@gmail.com,
-	niharchaithanya@gmail.com,
-	eleanor15x@gmail.com,
-	everestkc@everestkc.com.np,
-	kees@ijzerbout.nl,
-	skhan@linuxfoundation.org,
-	linux-kernel@vger.kernel.org,
-	gascoar@gmail.com
-Subject: [PATCH 5/5] staging: gpib: ines: remove unused variable
-Date: Fri,  7 Feb 2025 12:04:13 -0300
-Message-ID: <20250207150427.153982-11-gascoar@gmail.com>
-X-Mailer: git-send-email 2.48.1
-In-Reply-To: <20250207150427.153982-1-gascoar@gmail.com>
-References: <20250207150427.153982-1-gascoar@gmail.com>
+	dkim=pass (4096-bit key) header.d=ijzerbout.nl header.i=@ijzerbout.nl header.b="FG4ITyAt"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ijzerbout.nl; s=key;
+	t=1738957622; bh=hvf8Bs2/54mKsud0F53VBvuIO272se3qdishAUui/iU=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=FG4ITyAtuDc6qwHLQ625TR+T96IXB3S2RK7yfPgEwcF67dJ39MLLJyAzpDVogmWts
+	 Y/SdFPbIwbDyvXMY7n8N+L2NHtehycuSh99uSaPCguy/78Pb3ANIf0Loc1+msxBccn
+	 1cb3xF4Sw0WS3nG0Uk1vhJamy8K/VmuJ3rueSZ0qTmkJFtRyOvGUaO7PchnTqRBNvz
+	 KE+Ad+L1g8dZBHSJ+Zom0IXqaHKvhDZL1rGlFeZ2QmvDrnviEwJpLxLOZnPoi1EzYf
+	 CfC4XxGCDp0DWJHwjUehLYkJPEityLWBDfyDebJVZppOFEl05/zgXmL3JHl5zJUnpv
+	 At2lD5ssvyKBExClVPu1QHepfRAL6k65uWR7qpkAETjdRZC61HAOCBeedaYGcKFE5l
+	 gDmru+kISvDc4ALvPLdwMQDyaDleOBHohWq2vQtyuKo8cWXX5b6dmVb3TakV04ukWa
+	 XKkqH324L7Dg7hXPeDTeI2eiPGD6KyC6zheicaCi8dMu2nH2j/idm6t+P5J6jyF/nr
+	 OiEvJDDy1FyN/pe30oWR5DixZcoks9tzYikWHSPEdeESXg1bU5HClqjNfqha0vxz6P
+	 JCSCher1gdkF9pmgTl5FPQmExHs7kqEEI9hXPCkWI+PuobBm3m9TMiWTsdm1ZbG/Ne
+	 I+Ygb3FOhvUfMT7eD1ThDHwU=
+Received: from [IPV6:2a10:3781:99:1:1ac0:4dff:fea7:ec3a] (racer.ijzerbout.nl [IPv6:2a10:3781:99:1:1ac0:4dff:fea7:ec3a])
+	by bout3.ijzerbout.nl (Postfix) with ESMTPSA id A7EF3160328;
+	Fri,  7 Feb 2025 20:46:58 +0100 (CET)
+Message-ID: <2a172c30-3df6-4f5b-a63a-04d279738b64@ijzerbout.nl>
+Date: Fri, 7 Feb 2025 20:46:53 +0100
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 3/5] staging: gpib: ni_usb: remove unused variable
+To: Gaston Gonzalez <gascoar@gmail.com>, linux-staging@lists.linux.dev
+Cc: dpenkler@gmail.com, gregkh@linuxfoundation.org, arnd@arndb.de,
+ dan.carpenter@oracle.com, ajithpv.linux@gmail.com, roheetchavan@gmail.com,
+ niharchaithanya@gmail.com, eleanor15x@gmail.com, everestkc@everestkc.com.np,
+ skhan@linuxfoundation.org, linux-kernel@vger.kernel.org
+References: <20250207150427.153982-1-gascoar@gmail.com>
+ <20250207150427.153982-7-gascoar@gmail.com>
+Content-Language: en-US
+From: Kees Bakker <kees@ijzerbout.nl>
+In-Reply-To: <20250207150427.153982-7-gascoar@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-Remove unused variable 'nec_priv' in function 'ines_line_status'.
-
-This change removes the following warning:
-
-warning: variable ‘nec_priv’ set but not used [-Wunused-but-set-variable]
-
-Signed-off-by: Gaston Gonzalez <gascoar@gmail.com>
----
- drivers/staging/gpib/ines/ines_gpib.c | 2 --
- 1 file changed, 2 deletions(-)
-
-diff --git a/drivers/staging/gpib/ines/ines_gpib.c b/drivers/staging/gpib/ines/ines_gpib.c
-index 22a05a287bce..ba07dfb0697a 100644
---- a/drivers/staging/gpib/ines/ines_gpib.c
-+++ b/drivers/staging/gpib/ines/ines_gpib.c
-@@ -26,10 +26,8 @@ int ines_line_status(const gpib_board_t *board)
- 	int status = ValidALL;
- 	int bcm_bits;
- 	struct ines_priv *ines_priv;
--	struct nec7210_priv *nec_priv;
- 
- 	ines_priv = board->private_data;
--	nec_priv = &ines_priv->nec7210_priv;
- 
- 	bcm_bits = ines_inb(ines_priv, BUS_CONTROL_MONITOR);
- 
--- 
-2.47.2
+Op 07-02-2025 om 16:04 schreef Gaston Gonzalez:
+> Remove unused variable 'adr1_bits' in function 'parse_board_ibrd_readback'
+>
+> This change removes the following warning:
+>
+> warning: variable ‘adr1_bits’ set but not used [-Wunused-but-set-variable]
+>
+> Signed-off-by: Gaston Gonzalez <gascoar@gmail.com>
+> ---
+>   drivers/staging/gpib/ni_usb/ni_usb_gpib.c | 2 --
+>   1 file changed, 2 deletions(-)
+>
+> diff --git a/drivers/staging/gpib/ni_usb/ni_usb_gpib.c b/drivers/staging/gpib/ni_usb/ni_usb_gpib.c
+> index d0656dc520f5..b7f221def217 100644
+> --- a/drivers/staging/gpib/ni_usb/ni_usb_gpib.c
+> +++ b/drivers/staging/gpib/ni_usb/ni_usb_gpib.c
+> @@ -427,7 +427,6 @@ static int parse_board_ibrd_readback(const u8 *raw_data, struct ni_usb_status_bl
+>   	int i = 0;
+>   	int j = 0;
+>   	int k;
+> -	unsigned int adr1_bits;
+>   	int num_data_blocks = 0;
+>   	struct ni_usb_status_block register_write_status;
+>   	int unexpected = 0;
+> @@ -460,7 +459,6 @@ static int parse_board_ibrd_readback(const u8 *raw_data, struct ni_usb_status_bl
+>   		pr_err("%s: bug: status->id=%i, != ibrd_status_id\n", __func__, status->id);
+>   		return -EIO;
+>   	}
+> -	adr1_bits = raw_data[i++];
+Careful. You're removing the i++ as well.
+>   	if (num_data_blocks) {
+>   		*actual_bytes_read = (num_data_blocks - 1) * data_block_length + raw_data[i++];
+>   	} else {
 
