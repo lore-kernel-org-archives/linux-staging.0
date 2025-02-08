@@ -1,102 +1,256 @@
-Received: from mail-ot1-f51.google.com (mail-ot1-f51.google.com [209.85.210.51])
+Received: from mail-ot1-f43.google.com (mail-ot1-f43.google.com [209.85.210.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D97228F3
-	for <linux-staging@lists.linux.dev>; Sat,  8 Feb 2025 08:16:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 193E91A8F71
+	for <linux-staging@lists.linux.dev>; Sat,  8 Feb 2025 08:16:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739002597; cv=none; b=qsUn9zrCdkoj3TPWJ/W4+RTIcFTNYB2B3LZp2d7SWoFwWZg0NBexQreDfkcQi9aPUPWUAhpwu2+jnKp1OekXswmZCIDouCfCqNMiegL58+AUP7PrRrMQTx6EoToKN86WPBPK7EOCBDrzGGcTRRbQHPioTsUmNT11PnZtR5DZid0=
+	t=1739002598; cv=none; b=NZ3C1wND/F6ipAIautYYUehw4Ud7GSYsn4IUJTwqXnEOLiCNze8v/dkgC6+6LZduxXYK/r0vppuv4fQ61odNMtFHMMO9z1y9X00XXbdWeE7t6rgsZXt46jeKBpjRne2aWX+ZErm6IaC9Xwhw6MRu6YhizsU0PUeuUzue3+5MNOM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739002597; c=relaxed/simple;
-	bh=YmsF3FA9wQc6E333xr0Xx4xLIsDEX8jsyRvV/iqNYnA=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Z8HQZaypMUeberDVv3vd04X+Xem0sZfJZDOlJBPxsNfhJq8fsqPhcLYxy2vLbIG5wG8JAvd6+ZeCZxxBV2bfl+MXZjKKQg6ebpaA2QWboK3s8zHXi7hTDPWqgK3n4FEkyc2KRr/j1PvW43wq8zX1HJbUQ6k4oRlzh62u+wTCEWM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=k/nFXcOk; arc=none smtp.client-ip=209.85.210.51
+	s=arc-20240116; t=1739002598; c=relaxed/simple;
+	bh=hoK6kVOl90R9ZDB6MrJ7GFKqUrExq0t/KrPdz5I4iNM=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=htCr5/S9fir/x30qlaH2r0fO4ZYGBY0ferWYZ3KEUhf2fZNzDJPjo+qW12a4dTFz4Wx+LhJBmRoNYxg52N8QarS8vNTY001E1bayvPIjc/rXR9ZthbN1xBGWq7SMg7qlp2NhedKeP5Chk4efLVSifgSOV3WmTlY7C8vLkphIYG8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CfItugdt; arc=none smtp.client-ip=209.85.210.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="k/nFXcOk"
-Received: by mail-ot1-f51.google.com with SMTP id 46e09a7af769-71e181fb288so1897359a34.2
-        for <linux-staging@lists.linux.dev>; Sat, 08 Feb 2025 00:16:34 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CfItugdt"
+Received: by mail-ot1-f43.google.com with SMTP id 46e09a7af769-71e17ab806bso1708848a34.2
+        for <linux-staging@lists.linux.dev>; Sat, 08 Feb 2025 00:16:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1739002594; x=1739607394; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=tXoG7XaqENK2zN10Ebh6bFl5WkX7laHfMpPE30E2n0U=;
-        b=k/nFXcOkqRFOUN3fDs5TCfUEPxi3ZaqIuOnFylUlvZnBvtiRPV2gINenAz6twp4wUX
-         902dvNsphQsPAcImwrG7mF2S6F3nEbJALWcYW3zveACiBqrk/d4BMx7vrJDyuH1BK5to
-         HZlCiKVq1ebe4EuomC7l4/mxJ40H6Xof5s6Inl3qeR+TvpNYpeuS+1qIgudXIUOflgxg
-         UzgtAwtwH1y4Hl+FH11tAnEtad9m8ickZKorDTyl9DRInqLr6tv7hCpT2dQgebWCr/Re
-         JOC+6A/4ldZGP1eFVjISaqzO2ikdbtbm8FsXJh8nD/NWhRYl3JpF2JSWwOYX00h4L/3w
-         jHXg==
+        d=gmail.com; s=20230601; t=1739002596; x=1739607396; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=034aISQuP2pj9Ag8Kzle6unMeO4J8N/HAuZ/EK4mAcY=;
+        b=CfItugdtMsplVMLX0fhT1RK6zW+A3MCNxc/E3Fyq3V709UrKw0FF2K2c3aqNpYI3QL
+         e8j0hytQ8DlkhkAXVZLB2BivvsyF9bHuFjdEJtofzlfOYEjVIAkSeV8rmgU7MvyleZZH
+         N4rYg5Bue/tyZwfV+Y6+imFZdIy9+Dd3z4vLiCaU8wd+oMfu2piTScpUqLqtTqMJanYW
+         hGL2OtWxd3kEqQgETCXlflnTEVX86dzRXujS44h0ajKq3ZlbDnpBxut2VmMZgRU18dHY
+         7f4zqOhr2VsSd8sDD8aO4j2byqaX8xk26RJTRG2rnCV3ppAKEaWSENh7ckakP2ncQAjW
+         xDEg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739002594; x=1739607394;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=tXoG7XaqENK2zN10Ebh6bFl5WkX7laHfMpPE30E2n0U=;
-        b=u/DciibO1hDVCzV6gQDn1sp9BE94iab3Ejcx61VGG73kIaXn0K8rKtZP7JwqaIqdz7
-         C+cKFzPBx2zJprjCBchprBjaqrzw0B9ZKF08nRNg5PwGovAdD//QXsShdNWGAQvtRzd7
-         5YTpAoutI07UW4x9jMoMA27AUhwjDmgl8lqzXRDp481B0o17d/mo1WQHR5//gQfergVy
-         VJNC5Eq1fIqOcmpn+x3KbWfTbzPysZzo2ZtSobkT0yjCaGwji3CkfEer+96tbAgeJhYe
-         9KA/0qUEXFUTp+ABz6y008Rixbp32AibHQqj4Q0mIhA5lv1ZzbiY643tOkrcuX1PmOjj
-         urEw==
-X-Gm-Message-State: AOJu0YwHcZehQEx2Xu6Iivu5Jd/DitispuI9zvo3N+ED5DnCokDL62H3
-	oUPWcEN6/io0lV+92LpuWOpAyI8gVdB9e4V6PD45vX5m3jeWl5FK
-X-Gm-Gg: ASbGncto5t0KJihqm/lg7l8gdZzSeX29CdCnYjDEJhaFaNGaZOd1Qkh6kp05aClTYq0
-	fHcWRAxB0hgAtyyalhKsPkFJWLmqnq+3sw84RYHmpf1YOw/8HheJ/LYBaddK3Cajv95AZgQ9dVd
-	9suQYjma/7Jzkaf4kmlz9t0tNL7HRT0HsHOeyjrsdVWB0rWLUDYMjpkNUaLioSB/dw0ypbpmwos
-	6k0TvX2RlOEQu2nQFw130pwR2ianM5r9J2Y7TB3mGmtYapsKF0WD5zGUIdVE0ke1n/YumzCHxFj
-	QpW+kR0yzXFE4uKEt+8FL2Fw6X4SvWt8QikwTjXeOHm/mKsDagEJpojr5ePPwMbju4dMf3PzBW5
-	b
-X-Google-Smtp-Source: AGHT+IFbqyEXqJ2M84FBVS3QUAXmHze7vLJBVil8Ilsyy2KXeJgbsvrw3VvXCLh3Mc96pEZOtgwSSg==
-X-Received: by 2002:a05:6830:6f06:b0:718:f57:11ea with SMTP id 46e09a7af769-726b87a4e60mr4190310a34.3.1739002594131;
-        Sat, 08 Feb 2025 00:16:34 -0800 (PST)
+        d=1e100.net; s=20230601; t=1739002596; x=1739607396;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=034aISQuP2pj9Ag8Kzle6unMeO4J8N/HAuZ/EK4mAcY=;
+        b=AkZ+KInB1ia0xD4l7GX7iCokAhC3dNEETOy3ZycdTSqywqDzuhhoP5W2ffWvWmqiTU
+         37b4nf+Ts8eu6vBmVceLIWSan6TUSifdLo5pzlX9lYd0exzRIP+gkzpfW143X2pLdKYT
+         2I+HlW3RE1LbwqYWaAmsieJiRO8xtC+9vovzHlLStU4W1jVQxI9QnwHI8I9Fl9AW2niP
+         Ikj9736wkzWCM7t4Ecz4cXbocXGULSvH14rxXV7isE4FHCJQAbSLosva66FajZq+iehK
+         qYl08NeaoM7Ck3nJ0lHz2UX6VqK7nTIVOpheNWrrfBmAAegylSxoNkb0MhjgR+lToCp1
+         veyQ==
+X-Gm-Message-State: AOJu0YxIa67ELUGVeQ1hkwYxV7sahizF4JRRgJO4J0eF7nThTR2RBruq
+	N1WI6O/H6ZrpNHpladiZeGxvGJnQJEQJp1u5wWUd8pCLXha3JCL/oJjqSsfQ
+X-Gm-Gg: ASbGncttrMYGlFEcwpkw57xj26Gzgd2+6jWiQSoWy6FHNv2FLYKB2KJUG2TYeuFRQH1
+	sNzS0yrXazLZljo2kiQlqC6iv8LtZaot3rgdH+4pkI3rlJVzi88gBEgL5G4Cmuic2HMx8CFaDCh
+	dIEBEbJpLYFBfm7CzYl9HL1LwPj2VRz8ruQ8/8Ighxg/Y7xyEzUg4XUZ7AkWEeQGBIkdP1aEBCx
+	k5nhS4NXbrpaybf5q+OrWxltla9Qan7A7nUqCYjBr8nXFb131VdS2Vm5VGIMY9Ilip9NCkeldiE
+	tCvx9gvsm8wNP9c9lXwFoqF85K8dHmdspT/2qQO5bfpXXwp+oFT6Mx0t4s1D06rZ9vSRO5HUToQ
+	h
+X-Google-Smtp-Source: AGHT+IGkgJRWdGhjMT5V05IN9A23cZqkeUrU/gnxlMZkF2B/AXcpktdMTkpzlL+zdsxALdZu/NGRWw==
+X-Received: by 2002:a05:6808:23c3:b0:3db:1cd1:cadd with SMTP id 5614622812f47-3f3922bb3c5mr3941813b6e.18.1739002595998;
+        Sat, 08 Feb 2025 00:16:35 -0800 (PST)
 Received: from DESKTOP-GL3U3CJ (162-207-94-177.lightspeed.irvnca.sbcglobal.net. [162.207.94.177])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-726af914457sm1290441a34.2.2025.02.08.00.16.33
+        by smtp.gmail.com with ESMTPSA id 5614622812f47-3f389fd5d48sm1185571b6e.42.2025.02.08.00.16.35
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 08 Feb 2025 00:16:33 -0800 (PST)
+        Sat, 08 Feb 2025 00:16:35 -0800 (PST)
 From: Ian To <onlyian4981@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Ian To <onlyian4981@gmail.com>
-Subject: [PATCH 0/3] Adhere to coding style
-Date: Sat,  8 Feb 2025 00:15:53 -0800
-Message-ID: <cover.1739001527.git.onlyian4981@gmail.com>
+Subject: [PATCH 1/3] staging: rtl8723bs: format comments
+Date: Sat,  8 Feb 2025 00:15:54 -0800
+Message-ID: <b58a9f5b579e17f70681f8419b54d7d9864d1730.1739001527.git.onlyian4981@gmail.com>
 X-Mailer: git-send-email 2.45.3
+In-Reply-To: <cover.1739001527.git.onlyian4981@gmail.com>
+References: <cover.1739001527.git.onlyian4981@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=358; i=onlyian4981@gmail.com;
- h=from:subject:message-id; bh=YmsF3FA9wQc6E333xr0Xx4xLIsDEX8jsyRvV/iqNYnA=;
- b=owEBbQKS/ZANAwAIAepTOeN7sYcPAcsmYgBnpxK4bCgoP4OUciUh7UqkIorYsKZA0CKdDTud8
- 8Oza3RNvjaJAjMEAAEIAB0WIQRWEQChjkHIk0vVfn3qUznje7GHDwUCZ6cSuAAKCRDqUznje7GH
- D3hJEACu7z2e/IU8awuvIUCVfDU6WIL2IVe9fjVtoj2oDWOJF1FYHefm/kf+bPUJxioAAy2WW21
- pJr74WJ42QGHukBv0wti6iupJLK78mPpK4HWWk4HuQ+BikLiTjRXLPBNJt26FRNRsM/h/BfAbFF
- 3dlZ8ZEfrN85kpyXLfLr2Pz7p8DNZ6yhoAD6+ZOhcJzVOv3x0x02t55JLJrnP6LeLCWOWQXs9Qx
- cOzQc4/eW+mBthmzYfqwhJnT5mohXG+GIZcBjDnTxgX/e82IEz82FgUIXK4qNZq+BphKm/zG85g
- 0v1s6dG/5NnYqwtUmHC5vczYSHVuqp+Fcna8AB1JHjsPRaaW6LXpyzX3C4nye9Nzm3onr7R5tWB
- wm2O+gfgvsQKVSM18oZWRmvMlw7iTtwf5BKKO3cSUcvN7GFMPG7EXpfphLmgpJDrxKaA++vJ6+t
- a/if1h+T139VbtcZqatbRk82DIpCOAQcOY9MM0/+JOYxSZfNscwad8MuYRv9sGAB1DGoLPsWR0j
- dvL+NmhZnRyBYxqiG9fLh1IdKsjt8KZczmFp4DILgg0bSUKcpc/TdpXxFWB8gJJBxPyIVihX54Z
- c713mcYllK48tZ4zo+zP2zXOiT9q0HiQevvjWwQNL6Srhxv2N7TLeQ1OaMrI/64aPVRDQvjQbyB L5JrErLtnC+Z+wA==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=6384; i=onlyian4981@gmail.com;
+ h=from:subject:message-id; bh=hoK6kVOl90R9ZDB6MrJ7GFKqUrExq0t/KrPdz5I4iNM=;
+ b=owEBbQKS/ZANAwAIAepTOeN7sYcPAcsmYgBnpxK4ChSQoc+I4fuI0bz7+uSSvavF50RYe1oHR
+ BIpY5Ph1i6JAjMEAAEIAB0WIQRWEQChjkHIk0vVfn3qUznje7GHDwUCZ6cSuAAKCRDqUznje7GH
+ D/pTEADAbvj1/lSpFJtJvhO6JgeQ+MTqqa2JVUeFEqjm+o7tP3mIvAjRypxk48ycEofEts/rAaE
+ 2gLnC1G/yQfxE6ck/lZDimR/KZeU2zsJNtd1HVSZCTaJFVFZYo0mxKy5WyV0NzOcfOrJtTnJTDd
+ gznyyhCxi2kF5O60V7YMYnalmNu1DyjJnKtiBk+li/kMlfWc+FNE8CP0azWZGfeSTtePeUqzVfs
+ 0+1gT7ItnDaJki3XqwddBDUEQyvMPkebZKQ5EfT9w1y/ED7l7rLCtDqiCXjftPYiAW1oVclbHEu
+ T9K81BfKqhFR1xDmhlRn9S6UddHiepQGk8vXvfsc8tN76YE3IZ3lSusPmZrw5eWadvEt75wsPwj
+ dwPY3H6TZdR/YCiAoaYLImDuAnwmfp1QnhqX3CiRA3ek75GgGXuKqhHMrD41Rj2LrBZA9Hx9rQD
+ J7zYTWhkf30nLo7Shp3QwCIO1qpCDZb7SfX8Bl5az1aoMvgGOaV+47FRpjrnutnxr3BPh8fDxXy
+ 7WQseiFNmrqe5+0/rkr+xPcsBIj5pJD4QrB4ALk+9a5D4cxjN+dEjDyY+9i/ljDXD5BDyQudBGo
+ E6OXMUY57D7zIoN3Kx/xiti24hYY8YgXMwpe5sL1UwzrzSCrkq6aXxU/ywxXjSJzPRUnUoL23Be VeBmTiVGY2DDb6w==
 X-Developer-Key: i=onlyian4981@gmail.com; a=openpgp; fpr=561100A18E41C8934BD57E7DEA5339E37BB1870F
 Content-Transfer-Encoding: 8bit
 
-Edit the file to adhere to the kernel coding style. Reported by
-checkpatch.
+Some comments were not formatted correctly. Reported by checkpatch.
 
-Ian To (3):
-  staging: rtl8723bs: format comments
-  stagin: rtl8723bs: fix spacing
-  staging: rtl8723bs: remove extra blank lines
+Signed-off-by: Ian To <onlyian4981@gmail.com>
+---
+ drivers/staging/rtl8723bs/core/rtw_security.c | 102 +++++++++---------
+ 1 file changed, 51 insertions(+), 51 deletions(-)
 
- drivers/staging/rtl8723bs/core/rtw_security.c | 279 +++++++++---------
- 1 file changed, 133 insertions(+), 146 deletions(-)
-
+diff --git a/drivers/staging/rtl8723bs/core/rtw_security.c b/drivers/staging/rtl8723bs/core/rtw_security.c
+index 1e9eff01b1aa..3281751436fd 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_security.c
++++ b/drivers/staging/rtl8723bs/core/rtw_security.c
+@@ -30,10 +30,10 @@ const char *security_type_str(u8 value)
+ /* WEP related ===== */
+ 
+ /*
+-	Need to consider the fragment  situation
+-*/
++ *	Need to consider the fragment  situation
++ */
+ void rtw_wep_encrypt(struct adapter *padapter, u8 *pxmitframe)
+-{																	/*  exclude ICV */
++{								/*  exclude ICV */
+ 	union {
+ 		__le32 f0;
+ 		unsigned char f1[4];
+@@ -342,23 +342,23 @@ static const unsigned short Sbox1[2][256] = {      /* Sbox for hash (can be in R
+ 	}
+ };
+ 
+- /*
+-**********************************************************************
+-* Routine: Phase 1 -- generate P1K, given TA, TK, IV32
+-*
+-* Inputs:
+-*     tk[]      = temporal key                         [128 bits]
+-*     ta[]      = transmitter's MAC address            [ 48 bits]
+-*     iv32      = upper 32 bits of IV                  [ 32 bits]
+-* Output:
+-*     p1k[]     = Phase 1 key                          [ 80 bits]
+-*
+-* Note:
+-*     This function only needs to be called every 2**16 packets,
+-*     although in theory it could be called every packet.
+-*
+-**********************************************************************
+-*/
++/*
++ **********************************************************************
++ * Routine: Phase 1 -- generate P1K, given TA, TK, IV32
++ *
++ * Inputs:
++ *     tk[]      = temporal key                         [128 bits]
++ *     ta[]      = transmitter's MAC address            [ 48 bits]
++ *     iv32      = upper 32 bits of IV                  [ 32 bits]
++ * Output:
++ *     p1k[]     = Phase 1 key                          [ 80 bits]
++ *
++ * Note:
++ *     This function only needs to be called every 2**16 packets,
++ *     although in theory it could be called every packet.
++ *
++ **********************************************************************
++ */
+ static void phase1(u16 *p1k, const u8 *tk, const u8 *ta, u32 iv32)
+ {
+ 	signed int  i;
+@@ -374,39 +374,38 @@ static void phase1(u16 *p1k, const u8 *tk, const u8 *ta, u32 iv32)
+ 	/* size on the 80-bit block P1K[], using the 128-bit key TK[] */
+ 	for (i = 0; i < PHASE1_LOOP_CNT; i++) {
+ 		/* Each add operation here is mod 2**16 */
+-		p1k[0] += _S_(p1k[4] ^ TK16((i&1)+0));
+-		p1k[1] += _S_(p1k[0] ^ TK16((i&1)+2));
+-		p1k[2] += _S_(p1k[1] ^ TK16((i&1)+4));
+-		p1k[3] += _S_(p1k[2] ^ TK16((i&1)+6));
+-		p1k[4] += _S_(p1k[3] ^ TK16((i&1)+0));
++		p1k[0] += _S_(p1k[4] ^ TK16((i & 1) + 0));
++		p1k[1] += _S_(p1k[0] ^ TK16((i & 1) + 2));
++		p1k[2] += _S_(p1k[1] ^ TK16((i & 1) + 4));
++		p1k[3] += _S_(p1k[2] ^ TK16((i & 1) + 6));
++		p1k[4] += _S_(p1k[3] ^ TK16((i & 1) + 0));
+ 		p1k[4] +=  (unsigned short)i;          /* avoid "slide attacks" */
+ 	}
+ }
+ 
+-
+ /*
+-**********************************************************************
+-* Routine: Phase 2 -- generate RC4KEY, given TK, P1K, IV16
+-*
+-* Inputs:
+-*     tk[]      = Temporal key                         [128 bits]
+-*     p1k[]     = Phase 1 output key                   [ 80 bits]
+-*     iv16      = low 16 bits of IV counter            [ 16 bits]
+-* Output:
+-*     rc4key[]  = the key used to encrypt the packet   [128 bits]
+-*
+-* Note:
+-*     The value {TA, IV32, IV16} for Phase1/Phase2 must be unique
+-*     across all packets using the same key TK value. Then, for a
+-*     given value of TK[], this TKIP48 construction guarantees that
+-*     the final RC4KEY value is unique across all packets.
+-*
+-* Suggested implementation optimization: if PPK[] is "overlaid"
+-*     appropriately on RC4KEY[], there is no need for the final
+-*     for loop below that copies the PPK[] result into RC4KEY[].
+-*
+-**********************************************************************
+-*/
++ **********************************************************************
++ * Routine: Phase 2 -- generate RC4KEY, given TK, P1K, IV16
++ *
++ * Inputs:
++ *     tk[]      = Temporal key                         [128 bits]
++ *     p1k[]     = Phase 1 output key                   [ 80 bits]
++ *     iv16      = low 16 bits of IV counter            [ 16 bits]
++ * Output:
++ *     rc4key[]  = the key used to encrypt the packet   [128 bits]
++ *
++ * Note:
++ *     The value {TA, IV32, IV16} for Phase1/Phase2 must be unique
++ *     across all packets using the same key TK value. Then, for a
++ *     given value of TK[], this TKIP48 construction guarantees that
++ *     the final RC4KEY value is unique across all packets.
++ *
++ * Suggested implementation optimization: if PPK[] is "overlaid"
++ *     appropriately on RC4KEY[], there is no need for the final
++ *     for loop below that copies the PPK[] result into RC4KEY[].
++ *
++ **********************************************************************
++ */
+ static void phase2(u8 *rc4key, const u8 *tk, const u16 *p1k, u16 iv16)
+ {
+ 	signed int  i;
+@@ -1456,7 +1455,7 @@ static void gf_mulx(u8 *pad)
+ 		pad[AES_BLOCK_SIZE - 1] ^= 0x87;
+ }
+ 
+-/**
++/*
+  * omac1_aes_128_vector - One-Key CBC MAC (OMAC1) hash with AES-128
+  * @key: 128-bit key for the hash operation
+  * @num_elem: Number of elements in the data vector
+@@ -1530,7 +1529,7 @@ static int omac1_aes_128_vector(u8 *key, size_t num_elem,
+ 	return 0;
+ }
+ 
+-/**
++/*
+  * omac1_aes_128 - One-Key CBC MAC (OMAC1) hash with AES-128 (aka AES-CMAC)
+  * @key: 128-bit key for the hash operation
+  * @data: Data buffer for which a MAC is determined
+@@ -1541,7 +1540,8 @@ static int omac1_aes_128_vector(u8 *key, size_t num_elem,
+  * This is a mode for using block cipher (AES in this case) for authentication.
+  * OMAC1 was standardized with the name CMAC by NIST in a Special Publication
+  * (SP) 800-38B.
+- * modify for CONFIG_IEEE80211W */
++ * modify for CONFIG_IEEE80211W
++ */
+ int omac1_aes_128(u8 *key, u8 *data, size_t data_len, u8 *mac)
+ {
+ 	return omac1_aes_128_vector(key, 1, &data, &data_len, mac);
 -- 
 2.45.3
 
