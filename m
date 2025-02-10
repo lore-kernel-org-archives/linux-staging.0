@@ -1,69 +1,73 @@
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6221075809
-	for <linux-staging@lists.linux.dev>; Mon, 10 Feb 2025 15:10:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 495A0222575
+	for <linux-staging@lists.linux.dev>; Mon, 10 Feb 2025 15:10:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739200233; cv=none; b=AmoujAhmoLyQR6BwXZfPgP5sJ/RwtHYkqqdsHxYftwiFury6aFzjBGVo/QvZ8wgcTRzqNoZdy/SIFECUTLi5vNJU7T2/ehlddJxKyLk+YZJLtNq3UMnOLbM0am7mdamCSCRyumiWsEl0ZRltLhJAamtxX7dGBZMqaYWWArabhds=
+	t=1739200236; cv=none; b=Oe/jnafZSiQpGguOhUckjPVnnon6vE1M47ebk7DsLTWV70bKQV+2I9aYkHpPXlxFPFWn3tLrmLMffJnnXkE1v1+JncCw/HceQTAc30ver9DIJNBRrYl8TvmQAOif+oZ7vmBirx7c2sQiZiYXA5c/fye29QRbxevCYg9JqDylBgs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739200233; c=relaxed/simple;
-	bh=/WED9W7vj071TIVLce8utn3oZWKaP0jz++GiWe9APm4=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=bG0ZUYNI27qg8dUgtNN32W2kXxUOYH8Ybfd28loUCkuBYyhCoYc7gZYOBRNgQUzDtRN07v0ycN/vgsPorPe7S73zy+KN4WI9UmqElgfutINFppwgavTm6A9zsM+JZXQPQGlIUt9lE86gUQvMKXxMjhBQGi3fTuisc7Fqt9o7BrE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dKQRDMgJ; arc=none smtp.client-ip=209.85.128.46
+	s=arc-20240116; t=1739200236; c=relaxed/simple;
+	bh=f1cUq1UU1acaXrytvJEwuasE5bEnYhx5cwjqMWLkEMg=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=jwODmq5dB8YqxlZNszF44Tzo0DjiLjqMC6s+UDJOi+2p8oiMNcRU95H66q8GtAkgDLz8xHg3XN72Ad1KvYlZ5fmenK6PW3YHGvuFrqrdBtj9Tv9lwo+YbK2aEFY/6VkOIAsWyAbJ36XEckrxWKA4WcPBWyYAIq9ebXDDpXcZt2I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WcpYx4s8; arc=none smtp.client-ip=209.85.221.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dKQRDMgJ"
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-436345cc17bso30942705e9.0
-        for <linux-staging@lists.linux.dev>; Mon, 10 Feb 2025 07:10:31 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WcpYx4s8"
+Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-38dc8b5bb0bso1843740f8f.1
+        for <linux-staging@lists.linux.dev>; Mon, 10 Feb 2025 07:10:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1739200230; x=1739805030; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=H7ywKxO6aRoA2l5hpZMYFuLPKAduv3SkzGzfh6WzbJg=;
-        b=dKQRDMgJKv3Q02q4W//ugH96y0k3pgw/7KJrC4k+6YJWWwAC7gI6QX/TdVKlMa5HK+
-         zuxnc5Np6PDSXMw1JVu5M6kYYIfSfLNtmL4sp74eCB+72FXNCQSRWMQ2dq5yL1n5EeZo
-         Vj+XgcihzGdStkpfcrgDFSiYTtJocLMe7MenWQoifWYvWAygUJ2AIRVd0EqQciGcaZ9N
-         y/EVyNL+iY7KBbyl1HiQ5oVpJJhTot/wqJFveChZM5R/hl/zfOKectudHm723/k0txTs
-         zi0yyXsGF9Vutqv+OK9J9r9TJRWmnJPLbEUC9yViHG5+rpWG+6Zk/n5I7FQM/SRrLQI2
-         t1Rw==
+        d=gmail.com; s=20230601; t=1739200232; x=1739805032; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Xl2nJlOCFZTAIC1OoXJAI/OcnqLnmeZQqMPsY2a6JMo=;
+        b=WcpYx4s8vgAMN+X3cUZeG9ylvff/0t8a+DkuTC8b4IZYCcwFWZdhEjn+3PvjyuxjnF
+         EPrl9lEV3ye1pP6a/SYtKGkVBLINP5Dp/B8PZWN06KK+L+M3G5y6kEf+jW8NYxeNb12a
+         qML1eqShCukQRN8MMmWEuA988GmFoPtwg/igBfDeKNrCAKoxdXwGEK0Am8jPj9bE2c78
+         i/rJC+Pi9XBnrZJ6JrVDzXrF4CeMUsJXg/Cub+c7qcRYwZ8FDwfXZOZPqUIt/N95Iw/z
+         ysDqUkbkxZMNO5TBBk+zQUpL4EiQA9TU8crC0DR3o3w4jAdyx5SLJigrekGHMrE/q/pe
+         MaBA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739200230; x=1739805030;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=H7ywKxO6aRoA2l5hpZMYFuLPKAduv3SkzGzfh6WzbJg=;
-        b=XRTi9BCI42E3V6aOF0Htga9Q8m/OU4GqjOmv+AkxOssH74rTaGi0RwYJndzNPmSZWi
-         HyZXUuyCtjRLKgI0+YgBrX/L69miXSfKgW9ysmWtBc1j4JrAGkgMExI61QfhlEECqRg0
-         6Ju/fDZF19+ByGR+oIXIysci24arxzNjdbrXwhdsicjIIiBT6YhnUNOUk/8T/b4cITk4
-         FbVmapfYbRxTTysANHccottcMNwmX5B8zwY9dM44Oh26v5sm5WxEvrKAB8dFDBOyfEP1
-         munrkIm1c+//6dHECwHGb0GQQnBalPVDUjhqO9We4U+FRC+aB2NRG8LvVRTX1L03sVOw
-         ys9A==
-X-Forwarded-Encrypted: i=1; AJvYcCXO7acnZSUQztSjsgg9yvZbTHIOdVJCwcaiYkvIgmAYAWoxFMUIrj/e7EuWrB6GnZ0zwhV607NnrS4wnEgO@lists.linux.dev
-X-Gm-Message-State: AOJu0YwOS+V6SbH1iOLeL+llLU7lQtmFUWoK+t6oK0wOBPPlUuLsDt/g
-	YzvWT1r0kfLAH4DNOqS1JSIxeVcF8xJ5xtK3Fhp2ZSRrnmcNxKhp
-X-Gm-Gg: ASbGncveIIrbdHdK0gsxTSkCzn+IuRIP0R7FaDfaQ22cXoPNiiKl5NI/PwnF5tAvYW2
-	4dYLGY1GZbFRoqTCTzm5rgWIJKtXbcIXpCxmPu5G6VgXIJYJc/UNqn6OHQu9fffF2dOo6IMKrCN
-	lRXjiVsp2ezV3Ug7G28EkfvG16hiZ6RDLs5fBRw42qdbrMDjiAufksm7PqSqt5zc/+G5eYOZZgj
-	tGPtqda4YWAY+KboqmdyaieYhm2etNmtc0qyaeV5rWq3ji5cPqXsIrKhu25KCM0xBbmq3Oqs2k1
-	R3JBB0GeE4mZt+oKlRA7rtOlzZWVzlIj7KkUwQb/E87JAVrfEl0=
-X-Google-Smtp-Source: AGHT+IHgCpTtZ8NwKI57dDhEmalZGMf7ijeLpRg5cTwpLhLrHKRjjs//L8dap3yq1hkftdRf+672lA==
-X-Received: by 2002:a7b:c4ce:0:b0:439:4696:c063 with SMTP id 5b1f17b1804b1-4394c8461d5mr1393855e9.19.1739200229421;
-        Mon, 10 Feb 2025 07:10:29 -0800 (PST)
+        d=1e100.net; s=20230601; t=1739200232; x=1739805032;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Xl2nJlOCFZTAIC1OoXJAI/OcnqLnmeZQqMPsY2a6JMo=;
+        b=KVM+Ha9qmfwrFQ1CwwJqt0qy9pGgqaoygR3Jd3WnAqwVt234kc/Chv1oPeLwQkzYLE
+         EDshE4cm//OPaQUynm5cNX/h01ZjE6H64nqBdTH9n1CtjfgnQP8CrcKKUALAcCqejVXg
+         Mm83XXUyxJWR6izDKZz0hQ9R8ZaOjwTMGMibm/0oaNJtJ5otvyaWJuET1VH4p4uw0KhB
+         rd8kZpRpwdeUBhRISAkLzaS/5JK82ejt77X2P238cP+Ou1njSGwdT/lXrbIf+WUE1adE
+         SDxMJITWFL1wyOMqzqRMRl29/0Qzub4W57ZnIn2PkdmK8/yERbd13WtCOHIu2NgLWzzZ
+         uo0A==
+X-Forwarded-Encrypted: i=1; AJvYcCWaSsgqSZGnDrgF4bXusWE+GLmQQ7SJnZdst8uxUIRHm8sT70yNeDmuoN5CvDAnDgQU1g6aRQ7OpCvfa9Rr@lists.linux.dev
+X-Gm-Message-State: AOJu0YwppIR5ZuwneA164teuTHddqTI0PQOo99VdtYp5qUe43LEOdaWC
+	nVoOie5zgSdxhA4Be3WDwat6/G1DgeSm5hxxd2m7meQWLRFz4/zO
+X-Gm-Gg: ASbGncsDIB2rzKZ8MewQ+1P1Pe72V8jCVdZeV2jpKGAeMGxNY0r5dH5eTvWgCRyc0Mw
+	QYti9W6fxHsZFVuaELv7EDMAPSH+4OBf6mGSioXLHtO20S1QlSqLQv5pxQcup1k8afWjBdiv1pe
+	kS+AJfHdIFnF9kcHP9rWP7Z2Ok+nOPtzJ0ZCsw3oN4cJV3KnkJfDd8pDRRgc+n4df7QddN5Cjxt
+	TadoTRwybm21SaN0m4jZ9mOwxGFqwJmdvkms0UQFcsxlxi3uLED1cgT2m/pY+G+/BmbmOJyAOdY
+	+u071gsP5blfUbRpdiPSLobDzeo4EnUK2i+6p8PAh/OYI4kMqos=
+X-Google-Smtp-Source: AGHT+IEHu5etgn+A71oVAkdO4/2R9sTH3Y7763cMKXHK3U/jOMtFLHoAyQ/xNkUp4HQgu48VhWZ9CQ==
+X-Received: by 2002:a5d:5f4a:0:b0:38d:cfff:c0d9 with SMTP id ffacd0b85a97d-38dcfffc217mr9125602f8f.39.1739200232299;
+        Mon, 10 Feb 2025 07:10:32 -0800 (PST)
 Received: from localhost.localdomain (82-64-73-52.subs.proxad.net. [82.64.73.52])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4391dfc8881sm146834645e9.28.2025.02.10.07.10.28
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4391dfc8881sm146834645e9.28.2025.02.10.07.10.30
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 10 Feb 2025 07:10:28 -0800 (PST)
+        Mon, 10 Feb 2025 07:10:30 -0800 (PST)
 From: Dave Penkler <dpenkler@gmail.com>
 To: gregkh@linuxfoundation.org,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
 Cc: Dave Penkler <dpenkler@gmail.com>
-Subject: [PATCH 0/2] staging: gpib: Remove redundant compilation symbol
-Date: Mon, 10 Feb 2025 16:10:20 +0100
-Message-ID: <20250210151022.4358-1-dpenkler@gmail.com>
+Subject: [PATCH 1/2] staging;gpib: Use Kconfig PCMCIA compilation symbol
+Date: Mon, 10 Feb 2025 16:10:21 +0100
+Message-ID: <20250210151022.4358-2-dpenkler@gmail.com>
 X-Mailer: git-send-email 2.48.1
+In-Reply-To: <20250210151022.4358-1-dpenkler@gmail.com>
+References: <20250210151022.4358-1-dpenkler@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -72,28 +76,168 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The intermediate symbol GPIB_PCMCIA was used for compiling the optional
-PCMCIA support in the out-of-tree drivers. These patches now replace the
-redundant symbol with the Kconfig symbol and remove its definition.
+The drivers supporting the PCMCIA bus were using an intermediate
+symbol GPIB_PCMCIA for compiling optional PCMCIA support.
+This symbol is no longer needed for the in-tree drivers as the
+Kconfig symbol is available.
 
-Patch 1: Changes the drivers to use the Kconfig symbol CONFIG_GPIB_PCMCIA
-         directly.
+Use the Kconfig symbol CONFIG_GPIB_PCMCIA directly for conditional
+compilation of PCMCIA support.
 
-Patch 2: Removes the definition of the intermediate symbol from the
-         respective Makefiles.
-
-Dave Penkler (2):
-  staging;gpib: Use Kconfig PCMCIA conditional compilation symbol
-  staging:gpib: Remove definition of GPIB_PCMCIA in Makefiles
-
- drivers/staging/gpib/cb7210/Makefile        |  1 -
+Signed-off-by: Dave Penkler <dpenkler@gmail.com>
+---
  drivers/staging/gpib/cb7210/cb7210.c        | 10 +++++-----
- drivers/staging/gpib/ines/Makefile          |  1 -
  drivers/staging/gpib/ines/ines_gpib.c       |  8 ++++----
- drivers/staging/gpib/tnt4882/Makefile       |  1 -
  drivers/staging/gpib/tnt4882/tnt4882_gpib.c | 12 ++++++------
- 6 files changed, 15 insertions(+), 18 deletions(-)
+ 3 files changed, 15 insertions(+), 15 deletions(-)
 
+diff --git a/drivers/staging/gpib/cb7210/cb7210.c b/drivers/staging/gpib/cb7210/cb7210.c
+index 381c508f62eb..7785d674f397 100644
+--- a/drivers/staging/gpib/cb7210/cb7210.c
++++ b/drivers/staging/gpib/cb7210/cb7210.c
+@@ -1111,7 +1111,7 @@ static struct pci_driver cb7210_pci_driver = {
+  *  pcmcia skeleton example (presumably David Hinds)
+  ***************************************************************************/
+ 
+-#ifdef GPIB_PCMCIA
++#ifdef CONFIG_GPIB_PCMCIA
+ 
+ #include <linux/kernel.h>
+ #include <linux/ptrace.h>
+@@ -1501,7 +1501,7 @@ static void cb_pcmcia_detach(gpib_board_t *board)
+ 	cb7210_generic_detach(board);
+ }
+ 
+-#endif /* GPIB_PCMCIA */
++#endif /* CONFIG_GPIB_PCMCIA */
+ 
+ static int __init cb7210_init_module(void)
+ {
+@@ -1549,7 +1549,7 @@ static int __init cb7210_init_module(void)
+ 		goto err_isa_unaccel;
+ 	}
+ 
+-#ifdef GPIB_PCMCIA
++#ifdef CONFIG_GPIB_PCMCIA
+ 	ret = gpib_register_driver(&cb_pcmcia_interface, THIS_MODULE);
+ 	if (ret) {
+ 		pr_err("cb7210: gpib_register_driver failed: error = %d\n", ret);
+@@ -1577,7 +1577,7 @@ static int __init cb7210_init_module(void)
+ 
+ 	return 0;
+ 
+-#ifdef GPIB_PCMCIA
++#ifdef CONFIG_GPIB_PCMCIA
+ err_pcmcia_driver:
+ 	gpib_unregister_driver(&cb_pcmcia_unaccel_interface);
+ err_pcmcia_unaccel:
+@@ -1611,7 +1611,7 @@ static void __exit cb7210_exit_module(void)
+ 	gpib_unregister_driver(&cb_pci_unaccel_interface);
+ 	gpib_unregister_driver(&cb_isa_accel_interface);
+ 	gpib_unregister_driver(&cb_isa_unaccel_interface);
+-#ifdef GPIB_PCMCIA
++#ifdef CONFIG_GPIB_PCMCIA
+ 	gpib_unregister_driver(&cb_pcmcia_interface);
+ 	gpib_unregister_driver(&cb_pcmcia_accel_interface);
+ 	gpib_unregister_driver(&cb_pcmcia_unaccel_interface);
+diff --git a/drivers/staging/gpib/ines/ines_gpib.c b/drivers/staging/gpib/ines/ines_gpib.c
+index 22a05a287bce..73dafbe68acb 100644
+--- a/drivers/staging/gpib/ines/ines_gpib.c
++++ b/drivers/staging/gpib/ines/ines_gpib.c
+@@ -977,7 +977,7 @@ static struct pci_driver ines_pci_driver = {
+ 	.probe = &ines_pci_probe
+ };
+ 
+-#ifdef GPIB_PCMCIA
++#ifdef CONFIG_GPIB_PCMCIA
+ 
+ #include <linux/kernel.h>
+ #include <linux/ptrace.h>
+@@ -1410,7 +1410,7 @@ void ines_pcmcia_detach(gpib_board_t *board)
+ 	ines_free_private(board);
+ }
+ 
+-#endif /* GPIB_PCMCIA */
++#endif /* CONFIG_GPIB_PCMCIA */
+ 
+ static int __init ines_init_module(void)
+ {
+@@ -1446,7 +1446,7 @@ static int __init ines_init_module(void)
+ 		goto err_isa;
+ 	}
+ 
+-#ifdef GPIB_PCMCIA
++#ifdef CONFIG_GPIB_PCMCIA
+ 	ret = gpib_register_driver(&ines_pcmcia_interface, THIS_MODULE);
+ 	if (ret) {
+ 		pr_err("ines_gpib: gpib_register_driver failed: error = %d\n", ret);
+@@ -1474,7 +1474,7 @@ static int __init ines_init_module(void)
+ 
+ 	return 0;
+ 
+-#ifdef GPIB_PCMCIA
++#ifdef CONFIG_GPIB_PCMCIA
+ err_pcmcia_driver:
+ 	gpib_unregister_driver(&ines_pcmcia_accel_interface);
+ err_pcmcia_accel:
+diff --git a/drivers/staging/gpib/tnt4882/tnt4882_gpib.c b/drivers/staging/gpib/tnt4882/tnt4882_gpib.c
+index 2e1c3cbebaca..3118fe7613f6 100644
+--- a/drivers/staging/gpib/tnt4882/tnt4882_gpib.c
++++ b/drivers/staging/gpib/tnt4882/tnt4882_gpib.c
+@@ -1396,7 +1396,7 @@ static const struct pnp_device_id tnt4882_pnp_table[] = {
+ };
+ MODULE_DEVICE_TABLE(pnp, tnt4882_pnp_table);
+ 
+-#ifdef GPIB_PCMCIA
++#ifdef CONFIG_GPIB_PCMCIA
+ static gpib_interface_t ni_pcmcia_interface;
+ static gpib_interface_t ni_pcmcia_accel_interface;
+ static int __init init_ni_gpib_cs(void);
+@@ -1461,7 +1461,7 @@ static int __init tnt4882_init_module(void)
+ 		goto err_pci_accel;
+ 	}
+ 
+-#ifdef GPIB_PCMCIA
++#ifdef CONFIG_GPIB_PCMCIA
+ 	result = gpib_register_driver(&ni_pcmcia_interface, THIS_MODULE);
+ 	if (result) {
+ 		pr_err("tnt4882_gpib: gpib_register_driver failed: error = %d\n", result);
+@@ -1486,7 +1486,7 @@ static int __init tnt4882_init_module(void)
+ 
+ 	return 0;
+ 
+-#ifdef GPIB_PCMCIA
++#ifdef CONFIG_GPIB_PCMCIA
+ err_pcmcia_driver:
+ 	gpib_unregister_driver(&ni_pcmcia_accel_interface);
+ err_pcmcia_accel:
+@@ -1524,7 +1524,7 @@ static void __exit tnt4882_exit_module(void)
+ 	gpib_unregister_driver(&ni_nec_isa_accel_interface);
+ 	gpib_unregister_driver(&ni_pci_interface);
+ 	gpib_unregister_driver(&ni_pci_accel_interface);
+-#ifdef GPIB_PCMCIA
++#ifdef CONFIG_GPIB_PCMCIA
+ 	gpib_unregister_driver(&ni_pcmcia_interface);
+ 	gpib_unregister_driver(&ni_pcmcia_accel_interface);
+ 	exit_ni_gpib_cs();
+@@ -1535,7 +1535,7 @@ static void __exit tnt4882_exit_module(void)
+ 	pci_unregister_driver(&tnt4882_pci_driver);
+ }
+ 
+-#ifdef GPIB_PCMCIA
++#ifdef CONFIG_GPIB_PCMCIA
+ 
+ #include <linux/kernel.h>
+ #include <linux/moduleparam.h>
+@@ -1889,7 +1889,7 @@ static gpib_interface_t ni_pcmcia_accel_interface = {
+ 	.return_to_local = tnt4882_return_to_local,
+ };
+ 
+-#endif	// GPIB_PCMCIA
++#endif	// CONFIG_GPIB_PCMCIA
+ 
+ module_init(tnt4882_init_module);
+ module_exit(tnt4882_exit_module);
 -- 
 2.48.1
 
