@@ -1,119 +1,99 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B36F2231A31;
-	Mon, 10 Feb 2025 14:09:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6221075809
+	for <linux-staging@lists.linux.dev>; Mon, 10 Feb 2025 15:10:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739196570; cv=none; b=Th393XU+qkHnx6AJIA1iN56YuTNqJtLtfXbEfXRNGmpDq5ZBDRSrnW88sf9/ZFL2ngEuKfhca3SJy4R9HNwaQv3jC7twMTbHcBHwz6woKnk2aIIYs2i0DQ+vHYqoXZY03hK4TXN0hWWNeTo7Fkz9/BrU5r6mo+34jUFs+KZWPc0=
+	t=1739200233; cv=none; b=AmoujAhmoLyQR6BwXZfPgP5sJ/RwtHYkqqdsHxYftwiFury6aFzjBGVo/QvZ8wgcTRzqNoZdy/SIFECUTLi5vNJU7T2/ehlddJxKyLk+YZJLtNq3UMnOLbM0am7mdamCSCRyumiWsEl0ZRltLhJAamtxX7dGBZMqaYWWArabhds=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739196570; c=relaxed/simple;
-	bh=C7SkemvwORgaUl1YU8GiXRM6pVvQ3d9ddNlbK0UE0Cw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pza+lLiho6n4BakDPMFugqDUesojoGM8Xz2h+nX9pZYZleKXQnUp26WQ2dsjuZC6mGKjCkupqTUbAP/AQd+u6dnapDjw/O7wmXOmxVhzAve1z0XYuK3RVprS4SD+Sk4bOFrMrY0oH9Tk4aOlY4p0ecU9gJ4x59ujd9nFvxyuw88=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cDhgJZ4v; arc=none smtp.client-ip=198.175.65.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1739200233; c=relaxed/simple;
+	bh=/WED9W7vj071TIVLce8utn3oZWKaP0jz++GiWe9APm4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=bG0ZUYNI27qg8dUgtNN32W2kXxUOYH8Ybfd28loUCkuBYyhCoYc7gZYOBRNgQUzDtRN07v0ycN/vgsPorPe7S73zy+KN4WI9UmqElgfutINFppwgavTm6A9zsM+JZXQPQGlIUt9lE86gUQvMKXxMjhBQGi3fTuisc7Fqt9o7BrE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dKQRDMgJ; arc=none smtp.client-ip=209.85.128.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cDhgJZ4v"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1739196568; x=1770732568;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=C7SkemvwORgaUl1YU8GiXRM6pVvQ3d9ddNlbK0UE0Cw=;
-  b=cDhgJZ4va6LI6IJKv+JoEU19hQkAZNdPyTos++q7pkD+z8SfImndjNIh
-   W1IR/TEwcBZPoyIguMr8oKrNtYcAtTLvfeuhD8F/i2V0Zc5vm3UCbcQAR
-   y5GCAMDMgoUQkJDNcT1pIKwowm6SnPK45RnT8tomNOOtf2DCSXHvLXr03
-   rNlks0yuK/3qkiqjJcwRVqQCBSrvYPOq1/uv1Y+Hi5NuyFpvkSX7+q3em
-   AeOyzXcge9Y+k/LFKTfFctvQpqhp25gFbvozxaTtWdJ04vHl3q7AJiQaS
-   v5V8BJsjQMgTT6zcd1fp1YRM5BPJNsi9evuZaYnEmtYFzwdCyUfzYYu4w
-   Q==;
-X-CSE-ConnectionGUID: ma9Y7PQ5RpuaSV7TyCz97Q==
-X-CSE-MsgGUID: fE1Gq9eQR9+7Y8+8SfHsww==
-X-IronPort-AV: E=McAfee;i="6700,10204,11341"; a="57190260"
-X-IronPort-AV: E=Sophos;i="6.13,274,1732608000"; 
-   d="scan'208";a="57190260"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Feb 2025 06:09:28 -0800
-X-CSE-ConnectionGUID: aoJ+IyDKRqKAgTib5FLPkQ==
-X-CSE-MsgGUID: zQEtYhgISoS9JkphlkdvDQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,274,1732608000"; 
-   d="scan'208";a="111964109"
-Received: from lkp-server01.sh.intel.com (HELO d63d4d77d921) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 10 Feb 2025 06:09:25 -0800
-Received: from kbuild by d63d4d77d921 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1thUTS-0012rL-27;
-	Mon, 10 Feb 2025 14:09:22 +0000
-Date: Mon, 10 Feb 2025 22:08:30 +0800
-From: kernel test robot <lkp@intel.com>
-To: Dima Volkovsk <s0ldw3ll@gmail.com>, marvin24@gmx.de,
-	gregkh@linuxfoundation.org, ac100@lists.launchpad.net,
-	linux-tegra@vger.kernel.org, linux-staging@lists.linux.dev,
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dKQRDMgJ"
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-436345cc17bso30942705e9.0
+        for <linux-staging@lists.linux.dev>; Mon, 10 Feb 2025 07:10:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1739200230; x=1739805030; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=H7ywKxO6aRoA2l5hpZMYFuLPKAduv3SkzGzfh6WzbJg=;
+        b=dKQRDMgJKv3Q02q4W//ugH96y0k3pgw/7KJrC4k+6YJWWwAC7gI6QX/TdVKlMa5HK+
+         zuxnc5Np6PDSXMw1JVu5M6kYYIfSfLNtmL4sp74eCB+72FXNCQSRWMQ2dq5yL1n5EeZo
+         Vj+XgcihzGdStkpfcrgDFSiYTtJocLMe7MenWQoifWYvWAygUJ2AIRVd0EqQciGcaZ9N
+         y/EVyNL+iY7KBbyl1HiQ5oVpJJhTot/wqJFveChZM5R/hl/zfOKectudHm723/k0txTs
+         zi0yyXsGF9Vutqv+OK9J9r9TJRWmnJPLbEUC9yViHG5+rpWG+6Zk/n5I7FQM/SRrLQI2
+         t1Rw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1739200230; x=1739805030;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=H7ywKxO6aRoA2l5hpZMYFuLPKAduv3SkzGzfh6WzbJg=;
+        b=XRTi9BCI42E3V6aOF0Htga9Q8m/OU4GqjOmv+AkxOssH74rTaGi0RwYJndzNPmSZWi
+         HyZXUuyCtjRLKgI0+YgBrX/L69miXSfKgW9ysmWtBc1j4JrAGkgMExI61QfhlEECqRg0
+         6Ju/fDZF19+ByGR+oIXIysci24arxzNjdbrXwhdsicjIIiBT6YhnUNOUk/8T/b4cITk4
+         FbVmapfYbRxTTysANHccottcMNwmX5B8zwY9dM44Oh26v5sm5WxEvrKAB8dFDBOyfEP1
+         munrkIm1c+//6dHECwHGb0GQQnBalPVDUjhqO9We4U+FRC+aB2NRG8LvVRTX1L03sVOw
+         ys9A==
+X-Forwarded-Encrypted: i=1; AJvYcCXO7acnZSUQztSjsgg9yvZbTHIOdVJCwcaiYkvIgmAYAWoxFMUIrj/e7EuWrB6GnZ0zwhV607NnrS4wnEgO@lists.linux.dev
+X-Gm-Message-State: AOJu0YwOS+V6SbH1iOLeL+llLU7lQtmFUWoK+t6oK0wOBPPlUuLsDt/g
+	YzvWT1r0kfLAH4DNOqS1JSIxeVcF8xJ5xtK3Fhp2ZSRrnmcNxKhp
+X-Gm-Gg: ASbGncveIIrbdHdK0gsxTSkCzn+IuRIP0R7FaDfaQ22cXoPNiiKl5NI/PwnF5tAvYW2
+	4dYLGY1GZbFRoqTCTzm5rgWIJKtXbcIXpCxmPu5G6VgXIJYJc/UNqn6OHQu9fffF2dOo6IMKrCN
+	lRXjiVsp2ezV3Ug7G28EkfvG16hiZ6RDLs5fBRw42qdbrMDjiAufksm7PqSqt5zc/+G5eYOZZgj
+	tGPtqda4YWAY+KboqmdyaieYhm2etNmtc0qyaeV5rWq3ji5cPqXsIrKhu25KCM0xBbmq3Oqs2k1
+	R3JBB0GeE4mZt+oKlRA7rtOlzZWVzlIj7KkUwQb/E87JAVrfEl0=
+X-Google-Smtp-Source: AGHT+IHgCpTtZ8NwKI57dDhEmalZGMf7ijeLpRg5cTwpLhLrHKRjjs//L8dap3yq1hkftdRf+672lA==
+X-Received: by 2002:a7b:c4ce:0:b0:439:4696:c063 with SMTP id 5b1f17b1804b1-4394c8461d5mr1393855e9.19.1739200229421;
+        Mon, 10 Feb 2025 07:10:29 -0800 (PST)
+Received: from localhost.localdomain (82-64-73-52.subs.proxad.net. [82.64.73.52])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4391dfc8881sm146834645e9.28.2025.02.10.07.10.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 10 Feb 2025 07:10:28 -0800 (PST)
+From: Dave Penkler <dpenkler@gmail.com>
+To: gregkh@linuxfoundation.org,
+	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Dima Volkovsk <s0ldw3ll@gmail.com>
-Subject: Re: [PATCH] Staging: nvec: Fix pm_power_off reset condition in
- tegra_nvec_remove
-Message-ID: <202502102138.1CqFj1nV-lkp@intel.com>
-References: <20250209201752.66313-1-s0ldw3ll@gmail.com>
+Cc: Dave Penkler <dpenkler@gmail.com>
+Subject: [PATCH 0/2] staging: gpib: Remove redundant compilation symbol
+Date: Mon, 10 Feb 2025 16:10:20 +0100
+Message-ID: <20250210151022.4358-1-dpenkler@gmail.com>
+X-Mailer: git-send-email 2.48.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250209201752.66313-1-s0ldw3ll@gmail.com>
+Content-Transfer-Encoding: 8bit
 
-Hi Dima,
+The intermediate symbol GPIB_PCMCIA was used for compiling the optional
+PCMCIA support in the out-of-tree drivers. These patches now replace the
+redundant symbol with the Kconfig symbol and remove its definition.
 
-kernel test robot noticed the following build warnings:
+Patch 1: Changes the drivers to use the Kconfig symbol CONFIG_GPIB_PCMCIA
+         directly.
 
-[auto build test WARNING on staging/staging-testing]
+Patch 2: Removes the definition of the intermediate symbol from the
+         respective Makefiles.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Dima-Volkovsk/Staging-nvec-Fix-pm_power_off-reset-condition-in-tegra_nvec_remove/20250210-041929
-base:   staging/staging-testing
-patch link:    https://lore.kernel.org/r/20250209201752.66313-1-s0ldw3ll%40gmail.com
-patch subject: [PATCH] Staging: nvec: Fix pm_power_off reset condition in tegra_nvec_remove
-config: arm-allmodconfig (https://download.01.org/0day-ci/archive/20250210/202502102138.1CqFj1nV-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250210/202502102138.1CqFj1nV-lkp@intel.com/reproduce)
+Dave Penkler (2):
+  staging;gpib: Use Kconfig PCMCIA conditional compilation symbol
+  staging:gpib: Remove definition of GPIB_PCMCIA in Makefiles
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202502102138.1CqFj1nV-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
-   drivers/staging/nvec/nvec.c: In function 'tegra_nvec_remove':
->> drivers/staging/nvec/nvec.c:908:13: warning: suggest parentheses around assignment used as truth value [-Wparentheses]
-     908 |         if (pm_power_off = nvec_power_off)
-         |             ^~~~~~~~~~~~
-
-
-vim +908 drivers/staging/nvec/nvec.c
-
-   896	
-   897	static void tegra_nvec_remove(struct platform_device *pdev)
-   898	{
-   899		struct nvec_chip *nvec = platform_get_drvdata(pdev);
-   900	
-   901		nvec_toggle_global_events(nvec, false);
-   902		mfd_remove_devices(nvec->dev);
-   903		nvec_unregister_notifier(nvec, &nvec->nvec_status_notifier);
-   904		cancel_work_sync(&nvec->rx_work);
-   905		cancel_work_sync(&nvec->tx_work);
-   906	
-   907		/* only reset pm_power_off if it's our handler */
- > 908		if (pm_power_off = nvec_power_off)
-   909			pm_power_off = NULL;
-   910	}
-   911	
+ drivers/staging/gpib/cb7210/Makefile        |  1 -
+ drivers/staging/gpib/cb7210/cb7210.c        | 10 +++++-----
+ drivers/staging/gpib/ines/Makefile          |  1 -
+ drivers/staging/gpib/ines/ines_gpib.c       |  8 ++++----
+ drivers/staging/gpib/tnt4882/Makefile       |  1 -
+ drivers/staging/gpib/tnt4882/tnt4882_gpib.c | 12 ++++++------
+ 6 files changed, 15 insertions(+), 18 deletions(-)
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.48.1
+
