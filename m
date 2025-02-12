@@ -1,71 +1,72 @@
-Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62B112045A3
-	for <linux-staging@lists.linux.dev>; Wed, 12 Feb 2025 07:33:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68688204C26
+	for <linux-staging@lists.linux.dev>; Wed, 12 Feb 2025 07:43:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739345600; cv=none; b=Gd1Ce5FuTlCLeAsPynHdVvDcY3Fj1eT/Vg5dQNJi8xzpQStL6hmLVaNIkYy67moyB22e9O+Z09GDZxC8+OnKNS6Aus+OikcMBwT/LHhuhiQFKMkD2aw78wApnQiB10MgMFUHQD/hP9QLHdPChZfXG5WD6OZelEFjntSauFsvZcA=
+	t=1739346198; cv=none; b=e0hbWPes9bygXsXo/QreBMc29GwS1HFw2bp1EzOQUfRrJNuG4XfIhGOQdxt5/cRYD8Z73rjKPiDBB/rpHm2tI4tALqDJrfvfVjxjIR3o5eDfXalCdiqKKENJQvXB805VY2pK41LppRkxNq3ZqX1+xeEJj5O/M4Bf3SZrRGWqSGw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739345600; c=relaxed/simple;
-	bh=hYJSw/8vcXikwAiQGAZCaAebtEtzVdMa9zLS/tqsQfw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=RdeZjkn/SPSS6fL62McfcEFUhuBLE61W+i3ezbggQskOGdhrGuguQtXGzTthK7fx2tcQ2Xu6Mi60kHNXEW2n+tRdYSBIFwHlMqBLo4vaezN0S0OnZKG1T3ZLUq/L2Ob92uEPtT8wAn7GMkl/jwlgITlcLeF7zWOeT6AaDC8KSng=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=G8BkvI+N; arc=none smtp.client-ip=209.85.208.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1739346198; c=relaxed/simple;
+	bh=uYeXJyn5UeUw6qcDYRDrfV4PFQBbTfNbcG3JQxPQTfc=;
+	h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=VM0PshiYb5VNAv9yhYI9ORCfV3X3V/TF42v8pNSzMcR8zNFoKq+0rxi0jCkBex68aZq35xGrbNXVgC9D48VuQwGXkHVOGOFfCO4adXGduPmw0W2OOLSUZUofqtC/RmmhNa0E1glabfeIrHqh7FJvK9mABLDijw+hgbogsI9+CDg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=H0JLvjAf; arc=none smtp.client-ip=209.85.128.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="G8BkvI+N"
-Received: by mail-ed1-f45.google.com with SMTP id 4fb4d7f45d1cf-5de5a8a96abso6866567a12.3
-        for <linux-staging@lists.linux.dev>; Tue, 11 Feb 2025 23:33:18 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="H0JLvjAf"
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-4395560cc13so14404965e9.3
+        for <linux-staging@lists.linux.dev>; Tue, 11 Feb 2025 23:43:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1739345597; x=1739950397; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=iRzoLQjUR383Rec3XjmkK4huVUopwWO1GBDIhR8udRI=;
-        b=G8BkvI+NJ6QAY405Nue1rcluwl1Z2vLp0n5kDBoswPM437Gpd4kgn/R3a2W9cCLH6K
-         UMdPd1EvtiTRncjLPvaMUJGk35EG9j+ocfPv1JkINjQ9m3M52THZ4pYDun0js2MKaeJy
-         TFbMedOn2FrPP0xbZ8LAX6C3hZR1moVDAYezJ56SE3U7pHZYb0gV2Gaf0u4t6PCl5Ex2
-         JZf2/rTN7VK/nZr17aPHvje3Pn+CLfNIk8cSz4oYr39YAbXeplIJSMkhhQ/QV9Acc6MA
-         dhH/3B++3QBnlSqRaVQkkqz6eFuTCzQK/mAz0BKXzvUtQYQ1UxI5m/TWDkTPJpxYCeMR
-         cOhQ==
+        d=gmail.com; s=20230601; t=1739346195; x=1739950995; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=faKuoffM1gAZWq51vkqkknQzyRKywd6R7upna9jS1Us=;
+        b=H0JLvjAfY+dB8+csOqT4+2rOJgo8KW43mjtgvZJ4qG6ToiT19/V4Wkk0oeKRCsrjjV
+         uPjmY3rQdd7/v3DgDYSsAVuGqJs7ZaBseBxJZHZDbbyDmWzdYAdgaPomJtgjNbunBA8b
+         t7THUyyZiQcMhVix+QrKtDArqZjahrkhURhgDkJL1UDb8CQjhm1e1kUC1bmk/j2udFcS
+         4dUr5jVtOUMvR30HoNx/zwC1wr/3DTXCUyFuZz2Q5J0bOgqo1EPNeUp3m72W4OCcP3/y
+         pMKUlg2uX2biERhQrBCKT0quAk37M4K7w3cZA87/4W8CmUT2Xr7E6PMlvQkBdRSRzruf
+         zvoQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739345597; x=1739950397;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=iRzoLQjUR383Rec3XjmkK4huVUopwWO1GBDIhR8udRI=;
-        b=p4cq9HPC5eqzrBwShvSVX8xG1VknqaKGKEKTt7yUlPwixbrNn2OrYhHVs6XVVmJfVN
-         QmU7dghqPYPeCrYgE2oVrauU/6l9qgFcvH0FACPkUpLcou6UlxFYn5+QHJym8uIEJqvb
-         HlEI4zWIkE4az0w/HJqSF9JP/tp0nZzNB5VvfOKK7cS5F9PxHJNxLyCZxS4pXpLbhQf9
-         7gfl0n2LKRMtu6DmZIbTYWXC4nlqsiiHLzGZJjJFurPgnds1JeUR4xPWnQwvsyHzAUzr
-         a1CxMTqnM4hRgQLe0QcOPvWc/dEmIgN1VOXBNik2CbpafxgLllMpjCRv7Sxm03/5evmp
-         z1Sw==
-X-Forwarded-Encrypted: i=1; AJvYcCV/4cDuRaI9I+4wm/Xe96OLErTptjBVrkbuWz/dBFjN3VddIu7UNqWZWFEYcXaYYIVNc0qd3DpbPGiPuZsS@lists.linux.dev
-X-Gm-Message-State: AOJu0YzaIkQPldS9BXqPDzsv/Nt66mLd3RBR4WgERFYByJygY8d1DHUv
-	cnatCZKFEAkXSaNdOFouoYG6RD1E4oL191CccTYIe6/MJscoGp+zKwuBRDwGkt0=
-X-Gm-Gg: ASbGnctF4fsQu396K/fxXq4gQjdAazvL3/LgYN69gGAsn16MQPM9yM9flAxJitxfUdP
-	ZkMFH+H4hzTwuUDunEU1J9kncS4//1Pt9FHw9xDbQjCS12vUIu4Glxliox+oIAkZxaHaHapRgBr
-	ODZAoH81WonfbejC2CgiVzYoVJQ1vo4hwAe1/TUc1Ey8ZSCtLpFnXfIIBogo6J13x0oRplImsSm
-	AYjVl1xf14lGQTgKHK8Hh4hPp1e5r7T9Xjl/z2C9fhkxSeDfhSDr/oUSJlr1Xg37aeIl5qsvIoY
-	2FtBFIKBLWEKExO9EuiA
-X-Google-Smtp-Source: AGHT+IHEkyu5VJUntgvHMtsslwDLby1dwnGZEm2O9JyjbaJVp2KAlFWei0TrRWLwCNwYOoR6u4aUbQ==
-X-Received: by 2002:a05:6402:5250:b0:5dc:74fd:abf1 with SMTP id 4fb4d7f45d1cf-5deadd9cd42mr5209426a12.15.1739345596558;
-        Tue, 11 Feb 2025 23:33:16 -0800 (PST)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id a640c23a62f3a-ab7b30aeb7bsm696331266b.131.2025.02.11.23.33.15
+        d=1e100.net; s=20230601; t=1739346195; x=1739950995;
+        h=content-disposition:mime-version:message-id:subject:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=faKuoffM1gAZWq51vkqkknQzyRKywd6R7upna9jS1Us=;
+        b=HEEtU0EhrAlolqTB2FlJFqNWU2KIzszAO0dpUjy9wlUFCz3UgmtPTXsZCrixhKMMFt
+         +Y8wy//5RPcNVfnovwP9S07gqc8XnzaD03Ic9ONNCobTdA/lPGz48TFniOBevvHdvZqC
+         8debp+3mEUv7hq+GGpldlD8JBFjJLY8gmtCgvQoJ+SiIkbXYied7zF2JSKBbSRPCIYhJ
+         MV6bZH5me5ddTDr+6UVAAcoWL3bvVVjecgd3K7UeDFpCn/vURZ+WOPYPDhmyjzJk2VHe
+         e9iqo+WQm1jKcUesLc2dExVJARLHTB2O3Er96MY1jth8Q1sc3F0v08ssmkstBLKmcRJB
+         bW+Q==
+X-Forwarded-Encrypted: i=1; AJvYcCWxTbGmvRuFkOcX0zkCspL1ZToK0TtiCW2t/kBorsQwQnXfQ+fwCXdPyeSNAiAykXyiX+9ImgcVRZzNAd+K@lists.linux.dev
+X-Gm-Message-State: AOJu0YyysoHSZdR0hcaY3wlSrMWqjreKQAz/zonb6TqX4wyXThFRIhlK
+	v9KQ/Ll1AYGc1YkUA71pTSWhiqh0D9AwpzPHyp162vnRdJkwUGiL
+X-Gm-Gg: ASbGncunOwSqtct12EGdbEKIXPme4M5GUnhfw3QaPQj2J9a8BH768tyM+FVWulKlJPF
+	Rm8QBAqyR8f5/ZEw5E+tFc2En7ovrP9xTqrHx4iNF5UnAKo4HJYTss5NCgRJNTvw3OhBaUzM94+
+	hZa0dY1VQyVub3ebQHAD3wh6Dt3FtG2Arh4TvyH3D7Xgut0Zm3iVB7H9nkewDxmCTZMGCy1zype
+	eroXrrRijc8/9szJQhymcrUqywZq/p4CuOwVJ0fBvJ6MdLv2n5j5RIGZvb8i/OA3/5tS/8Hcs0v
+	S5wmXS0Y8ahoSOWp7IfRSuBUVgxgIHVscU8mUpsOCVtwiL4pUWVRRs/zXmNEXhExu9SUjmxgzIe
+	Sj0he+zS3
+X-Google-Smtp-Source: AGHT+IFLnB8Ymq1rlUTsAloZXjXNuyEHGglxk1LiY+nVnHMEX5ZdXYat3hHkscmmVysqmC10clk5kQ==
+X-Received: by 2002:a05:600c:510c:b0:439:45ce:15c0 with SMTP id 5b1f17b1804b1-439581bed06mr15039995e9.25.1739346194504;
+        Tue, 11 Feb 2025 23:43:14 -0800 (PST)
+Received: from michael-devbox (ec2-52-59-234-77.eu-central-1.compute.amazonaws.com. [52.59.234.77])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4395a06d22csm11458725e9.22.2025.02.11.23.43.13
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 11 Feb 2025 23:33:16 -0800 (PST)
-Date: Wed, 12 Feb 2025 10:33:13 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Dima Volkovsk <s0ldw3ll@gmail.com>
-Cc: marvin24@gmx.de, gregkh@linuxfoundation.org, ac100@lists.launchpad.net,
-	linux-tegra@vger.kernel.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Staging: nvec: Fix pm_power_off reset condition in
- tegra_nvec_remove
-Message-ID: <429e6aa2-b195-4624-a609-e1445dcbd150@stanley.mountain>
-References: <20250209201752.66313-1-s0ldw3ll@gmail.com>
+        Tue, 11 Feb 2025 23:43:14 -0800 (PST)
+Date: Wed, 12 Feb 2025 07:43:13 +0000
+From: Michael Anckaert <michael.anckaert@gmail.com>
+To: Sudip Mukherjee <sudipm.mukherjee@gmail.com>,
+	Teddy Wang <teddy.wang@siliconmotion.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"open list:STAGING - SILICON MOTION SM750 FRAME BUFFER DRIVER" <linux-fbdev@vger.kernel.org>,
+	"open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>,
+	open list <linux-kernel@vger.kernel.org>
+Subject: [PATCH] staging: sm750fb: fix checkpatch warning architecture
+ specific defines should be avoided
+Message-ID: <Z6xREbLLtexX4_uh@michael-devbox>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -74,18 +75,34 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250209201752.66313-1-s0ldw3ll@gmail.com>
 
-On Sun, Feb 09, 2025 at 09:16:48PM +0100, Dima Volkovsk wrote:
-> In the current implementation of tegra_nvec_remove, the pm_power_off handler
-> is set to NULL without checking if it is actually set to nvec_power_off. This
-> change ensures that pm_power_off is only reset if it was previously set to
-> nvec_power_off, preventing unintended side effects when removing the device.
-> 
-> Signed-off-by: Dima Volkovsk <s0ldw3ll@gmail.com>
+Replace architecture-specific defines with CONFIG_X86 checks to improve
+portability and adhere to kernel coding standards.
 
-What everyone else said and also you forgot to add a Fixes tag.
+Fixes checkpatch warning:
+- CHECK: architecture specific defines should be avoided.
 
-regards,
-dan carpenter
+Changes made:
+- Using CONFIG_X86 instead of i386 and x86.
+
+Signed-off-by: Michael Anckaert <michael.anckaert@gmail.com>
+---
+ drivers/staging/sm750fb/ddk750_chip.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/staging/sm750fb/ddk750_chip.c b/drivers/staging/sm750fb/ddk750_chip.c
+index 02860d3ec365..67a2f60440ca 100644
+--- a/drivers/staging/sm750fb/ddk750_chip.c
++++ b/drivers/staging/sm750fb/ddk750_chip.c
+@@ -229,7 +229,7 @@ int ddk750_init_hw(struct initchip_param *p_init_param)
+ 		reg |= (VGA_CONFIGURATION_PLL | VGA_CONFIGURATION_MODE);
+ 		poke32(VGA_CONFIGURATION, reg);
+ 	} else {
+-#if defined(__i386__) || defined(__x86_64__)
++#ifdef CONFIG_X86
+ 		/* set graphic mode via IO method */
+ 		outb_p(0x88, 0x3d4);
+ 		outb_p(0x06, 0x3d5);
+-- 
+2.39.5
 
