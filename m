@@ -1,72 +1,72 @@
-Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
+Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4AA31E9B04
-	for <linux-staging@lists.linux.dev>; Wed, 12 Feb 2025 07:05:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 228121F8BCA
+	for <linux-staging@lists.linux.dev>; Wed, 12 Feb 2025 07:07:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739343927; cv=none; b=l6dEgrofvZZ6YUBWqgUuXoMjblknRv6zem7YVSCYhj4pQuPjqj4O8k1wKZkSF35xfjJSSBQMt+AZwbfUsvUdR4wFNr3br+TTo7F9NS24+uDD75DP52JZYUSCLMh5XVpsSxuAaPdiiqc8XlRCcNlBRlDxkbq1jMZWrvX92ejM49g=
+	t=1739344075; cv=none; b=RdxHBA0TPbmNwRYL86Wp/TJDF0c2nRYT9lThPvyn3f4SnUsjo6P/XyPEA7FmI6u7ayRWklTR0hkpkciTRoquRKpoE0ocgNnB0R9uCpDkDBJqwYr/dOqXLUlLrY1bbvdWs6NwkYMjvyBHAaHBCqVVTXZPBh75O3yn9bC3X0krJAU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739343927; c=relaxed/simple;
-	bh=zXcsr3pYSv/96sSEGUCA4EAQ0xqtIRVkV7ZrcBxxVWE=;
+	s=arc-20240116; t=1739344075; c=relaxed/simple;
+	bh=dkRYyiNHgbX4E6o4jZE7sY+B/pqUL1x5kYNpWL116yE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=p0QQtH2P1cKhfSLnBNI0cpSWCLw5++FxEDIhpnwrDr2ruUUzXlKFpG158YRJG80CIJ+Owu8VN3bYarAxweH/3gjXRDbBqsTIRK4e/rn9ib095VLXLQ2pwLxh937McEYevMtk5Dg+XuYFgekVfN1oU0NSRZ1VQatE2jg4J4dz/Wc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=nQU60RaV; arc=none smtp.client-ip=209.85.218.49
+	 Content-Type:Content-Disposition:In-Reply-To; b=dulcd45AgfhDe/s2R9YXC+PlLU2vwtgxM17X62FYlxK7JtToqBA8qdLePNlgjHix6Zv1p7dEa00Gf+8t4PKpz/rS15Sh36d9iRIxoP5h9vUShC6neEvwMHbfA+ht8JJSHxBNnv5CncyOqYIKVnzBLJMsboH8bd/INjHWPe3oJxQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=VC067Iz7; arc=none smtp.client-ip=209.85.208.48
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="nQU60RaV"
-Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-ab7c6fc35b3so487289166b.2
-        for <linux-staging@lists.linux.dev>; Tue, 11 Feb 2025 23:05:25 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="VC067Iz7"
+Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-5dccaaca646so1056763a12.0
+        for <linux-staging@lists.linux.dev>; Tue, 11 Feb 2025 23:07:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1739343924; x=1739948724; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1739344072; x=1739948872; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=euETd8cRVjpfUqZLd/hQWqqaZoYqUqUdjkzivEPa4lo=;
-        b=nQU60RaVGbcrx4/DI/HqdSkpwnPkPLii+1MN4BU2Xr9HnEAWqPz/yF+N6HqUCBVsoc
-         0RXr5eQzNOiTbb4RvKXtiQobksBFQ7SMDS9MhZvJthK4eHyQppl9IW7skC+t1g3KFbQS
-         2L1sZxPrmcAWSrja8VU3hE0hiFNbyznXswyQQT5MC1hJzgopLn6LRsG+AlQ0hkT/cPyj
-         LENcZTT9ZRjLM1XLT6Pm+9v7b95nVSNlV+BRas+rBoQtoLOtjTRBN5n+5+PeJ1PDfhu1
-         o99Imsqb8tUn6ey0wv6exeXyWU4sxhYG6rqlUDeSVnANqeH1RdQIADv1REcMcqNXIh61
-         gN2w==
+        bh=6vdw5JAh/EXyOI+v6B5L7CVRs51CFfVUUaX686Jwf6M=;
+        b=VC067Iz7iizUENFnH/IObt9EUzYSdHqjWX/a9Cg/0dhx7NTKXF+9KdSc2G3HRC/MKi
+         f+iu8N+hhaRPlG/xsHXOpQb5eigFwA/9aGwgVPJdUvFkhOXqeOCVA/27+O9a3Fy4FzS0
+         4IRWM3xb3jWeytoyufBmVmj9WXzkh/7S1ZD79x5sEdAHzUJVED0H534IjvkPowZWtlz4
+         hvyEC4UMfYvAA9vaSL5e2TYDtLV9Uqs6Q1BGV6cIRH7wn7ZWAbgD69uoyhkRT3glyOc+
+         H9wDDZE1yk/BLpmsmtTtrRt6gmekkJfTXR5yxQtgKFf3/mvSN4RZ5fKZtgfcaHlmH8+/
+         1sqg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739343924; x=1739948724;
+        d=1e100.net; s=20230601; t=1739344072; x=1739948872;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=euETd8cRVjpfUqZLd/hQWqqaZoYqUqUdjkzivEPa4lo=;
-        b=peHIR2FLeJV3/GJItxkv/rV/LARcc+zRFwSSGich08n3HklZrW4Acn0EUR6BxR5QrV
-         lGmmUOoctxHRfj/NyjzBfL5iohfOFPZbl1sGuwSDHCfHJrSDieWs0FoEjlKPAhulPbLZ
-         pfhSerW7BTYE4sFTJrKhxhTUvIrdyn0ZuhxnxFv/AWEgLUFPMhEDFD16XJrjIBQC1HwZ
-         8gJQkVzkvc3TkajJnL0KrGEnFkz2W9cWhYeHN021yTA/0VWB9K72SDUCGe2WIi2EjjT3
-         YMpNb/uWKZ9i7lP3cwDK9iCNHjkDpkyRRQiAI9NJW8Ox9yU44Ld9y28jpOwb5C+7TAjO
-         X0Pw==
-X-Forwarded-Encrypted: i=1; AJvYcCX4X1QaX6uSHCE/Gfpt/IJNTkV/3G5esRZCeyYzskonHZdM0fR9upAUk3ROXS9LPJQq/iRInx4JkL/sYIli@lists.linux.dev
-X-Gm-Message-State: AOJu0YwPYvhTL3A+rmVyZRX3LMttLo17JXJKMJRolZQrIOgL748sM21a
-	wrkfqUzpwPrTW9nSAh2KHC7HHvKp3o+h5iwN2XKSv7wZVGjNRdvHeX4X1moGQNE=
-X-Gm-Gg: ASbGncsfapGAMltB0gE3tqGFq+6X5Dg7T3Kb8eK0x4A54NkgTLQmKcET59LTWLo32UP
-	WOkV8tWhb8ck9A9Z9Rnbslbb3mD0iGcGklcn8csZ2MVcRXqNRsoh5XbvzO87XIMr6Ea0foCaqBa
-	DRHJ3+0H5eU3OTZaoBvg9dKB5Xvpqmd8Sn60t+lCjkMsWRprci+QF3qBW8jlGsz1tqMwvKKLV67
-	VjrmHxoroUbQMbv8VcGNjlFU+t2ukb8nQzMhu4oWSe4SQmqJricv7EVxjoQpKqFHb/g5l+4Ybpq
-	UzJK5WHDKBUb4ekPCtNK
-X-Google-Smtp-Source: AGHT+IEm2y8yicAGvHFY6cOVVOaorfYDtm2HfwUzjHmoNrYmYq8SoNb0GQoTipxLHQvOSBL85AXRNw==
-X-Received: by 2002:a17:907:2ce1:b0:ab7:be81:892a with SMTP id a640c23a62f3a-ab7f3714cf7mr129434666b.12.1739343924046;
-        Tue, 11 Feb 2025 23:05:24 -0800 (PST)
+        bh=6vdw5JAh/EXyOI+v6B5L7CVRs51CFfVUUaX686Jwf6M=;
+        b=QLbK5OKS5hCd/vXVVYkiuv6X12B9KqcEzUPQ6gLmwCVaiJ6QC4pN56xMrVTr3jPhza
+         6NVhGxvr0lmAaHquSFjgD5hYJM6I8qk8YoVpmW8nCIetnWpl31BZay8/VHoZY3UY4Y9e
+         84mVng87t5tvCVcK9F7a0HrBfq2gn+wyhfQe3YP9D6e8+APfWCzvH5XAHGaPCN7lzRa1
+         xHndxxl8g42DczO7aKI33Shla3hQyHNTjVBLSuUMV2mTT/2hPkk8VSfr3IvRwr7L7flZ
+         +YETx+z7MGGxUmCv1VsukXc0FGqJOrKXyQzImqsZE4ngMi9Qr/BLqkX3Tx5WDw8izzjn
+         kVtg==
+X-Forwarded-Encrypted: i=1; AJvYcCUFS+OOWRc6LSC+hyuN7NCFFmvbh/BVFtYnr39YQIlbUCxFtEQ1oXZ7Lp4feYCUyvv5ZoWifh1EnOs0xseg@lists.linux.dev
+X-Gm-Message-State: AOJu0YzmwW3n4FCNvWGE6VcVsX9k9ADQdlEGYZ1J8JwiOiCmtHDqp5Nm
+	yQVGbCZ2pjkuvNs2Wtcn8FLF4uw8zgrKExo8urhcy5VZofcE8idWx1C+f9lXhY8=
+X-Gm-Gg: ASbGnct8d+Hej9WYGuvPUngGATNN7vbZ3IVdFwaHC2E/vbgUolgRL36dtyZH9GezOv/
+	CIHTagB8s0gUUFBaiWL65xUdEj2OmYj8aQGeutExKvRMWrLdYefZFoOBBLv82uf5iLvnBuN6v0x
+	+wGmytOycOqCQDIUitsrTsAdVfNoCxhLjcxuBY/Zp6sAfxOQGbE2fVpkLkh+bWVRs8mSWEIiYyP
+	eVZR0cc96aQOajHixmnPJQM5tN5+oWCbNqlLmtwCYAxL83qAQmrgKV9dYW5mF50r0MBQpky2oct
+	RAkXTEpk1SHfcGcNi6+n
+X-Google-Smtp-Source: AGHT+IFgfEsk45w4BbHfHihrHNRv5cyQh7wnujELnD449C9j+IMucFgzuOEVQz03tIYly8IZgxS/Wg==
+X-Received: by 2002:a05:6402:3481:b0:5de:5e08:babd with SMTP id 4fb4d7f45d1cf-5de9b9b7230mr5460876a12.11.1739344072391;
+        Tue, 11 Feb 2025 23:07:52 -0800 (PST)
 Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id a640c23a62f3a-ab7832a02fcsm1116402966b.94.2025.02.11.23.05.23
+        by smtp.gmail.com with UTF8SMTPSA id 4fb4d7f45d1cf-5de6d3c6785sm6421368a12.55.2025.02.11.23.07.51
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 11 Feb 2025 23:05:23 -0800 (PST)
-Date: Wed, 12 Feb 2025 10:05:20 +0300
+        Tue, 11 Feb 2025 23:07:52 -0800 (PST)
+Date: Wed, 12 Feb 2025 10:07:48 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
 To: Rodrigo Gobbi <rodrigo.gobbi.7@gmail.com>
 Cc: gregkh@linuxfoundation.org, dpenkler@gmail.com,
 	~lkcamp/patches@lists.sr.ht, linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/2] staging: gpib: change return type of t1_delay
- function to report errors
-Message-ID: <90c2bfc7-9a76-483c-8cb6-4dfd358d586f@stanley.mountain>
+Subject: Re: [PATCH 2/2] staging: gpib: fix style at nec7210_t1_delay
+ definition
+Message-ID: <a8da3395-e383-48d2-8c1e-fa70874ad551@stanley.mountain>
 References: <20250212024247.176572-1-rodrigo.gobbi.7@gmail.com>
- <20250212024247.176572-2-rodrigo.gobbi.7@gmail.com>
+ <20250212024247.176572-3-rodrigo.gobbi.7@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -75,59 +75,20 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250212024247.176572-2-rodrigo.gobbi.7@gmail.com>
+In-Reply-To: <20250212024247.176572-3-rodrigo.gobbi.7@gmail.com>
 
-On Tue, Feb 11, 2025 at 11:35:36PM -0300, Rodrigo Gobbi wrote:
-> Propagate t1 delay configuration error to userspace
+On Tue, Feb 11, 2025 at 11:35:37PM -0300, Rodrigo Gobbi wrote:
+> due a change of the return type of t1_delay function, checkpatch
+> was triggering a style error.
 > 
+> Signed-off-by: Rodrigo Gobbi <rodrigo.gobbi.7@gmail.com>
 
-Better to spell out the problem a bit more.  What is the effect in terms
-of what the user experiences and explain why what you are doing is safe.
-
-  The current code returns "unsigned int" and it doesn't handle errors
-  correctly.
-
-  The ni_usb_t1_delay() is the only function which returned an error (-1).
-  The caller, t1_delay_ioctl() doesn't check for errors and sets
-  board->t1_nano_sec to -1 and returns success.  The board->t1_nano_sec
-  value is used in ni_usb_setup_t1_delay() and a value of -1 is treated as
-  being above 1100ns.  It may or may not have a noticeable effect, but
-  it's obviously not right.
-
-  Typical delays are in the 200-2000 range, but definitely not more
-  than INT_MAX so we can fix this code by changing the return type to int
-  and adding a check for errors.  While we're at it, lets change the error
-  code in ni_usb_t1_delay() from -1 and instead propagate the error from
-  ni_usb_write_registers().
-
-You should add a Fixes tag.
-
-
-> diff --git a/drivers/staging/gpib/ni_usb/ni_usb_gpib.c b/drivers/staging/gpib/ni_usb/ni_usb_gpib.c
-> index d0656dc520f5..cb8840f2a461 100644
-> --- a/drivers/staging/gpib/ni_usb/ni_usb_gpib.c
-> +++ b/drivers/staging/gpib/ni_usb/ni_usb_gpib.c
-> @@ -1591,7 +1591,7 @@ static int ni_usb_setup_t1_delay(struct ni_usb_register *reg, unsigned int nano_
->  	return i;
->  }
->  
-> -static unsigned int ni_usb_t1_delay(gpib_board_t *board, unsigned int nano_sec)
-> +static int ni_usb_t1_delay(gpib_board_t *board, unsigned int nano_sec)
->  {
->  	int retval;
->  	struct ni_usb_priv *ni_priv = board->private_data;
-> @@ -1605,7 +1605,7 @@ static unsigned int ni_usb_t1_delay(gpib_board_t *board, unsigned int nano_sec)
->  	retval = ni_usb_write_registers(ni_priv, writes, i, &ibsta);
->  	if (retval < 0) {
->  		dev_err(&usb_dev->dev, "%s: register write failed, retval=%i\n", __func__, retval);
-> -		return -1;	//FIXME should change return type to int for error reporting
-> +		return -EIO;
-
-Better to "return retval;"
-
->  	}
->  	board->t1_nano_sec = actual_ns;
->  	ni_usb_soft_update_status(board, ibsta, 0);
+This should be folded into the previous patch.  Generally we avoid
+introducing checkpatch warnings and then fixing them later.  Sometimes
+that ignoring checkpatch and then fixing it later can make the review
+easier if a patch is really massive but this change is only medium sized.
 
 regards,
 dan carpenter
+
+
