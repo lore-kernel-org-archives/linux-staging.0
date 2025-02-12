@@ -1,210 +1,91 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E35E1D517E
-	for <linux-staging@lists.linux.dev>; Wed, 12 Feb 2025 08:00:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E75CC2046A1
+	for <linux-staging@lists.linux.dev>; Wed, 12 Feb 2025 09:23:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739347250; cv=none; b=XfMxGvGb77VdKp8ZovyYoJ0Jgem8yl17ZAspTq3VCrlbgPGnOj5wbIaY0pZGTLbQi132fWXPj7LXbG1uCu3wVQrIIyLeu0T28FxuwMYftiG9tOabVXoEshx+DqFv1rEtaXV4OkD9cJwU6Lo4rarQ7/6XZM8oIAUyv/RRgMLixJs=
+	t=1739352183; cv=none; b=t81ppzTGa9DKYawUxqXYOvFGLXQ39x38soCVtwj1n1Yc+cK5N3N1JobJ8OudC5uN3gJXgvXNjns+r+tSm6Xc6PoDjJyLYwGu1d52JMWJmqqvf68lDMWl2lSThaE97bB4jcZqnQTn36UppTcccrsKiquTUPR2zcJnJsgC5FQ/77A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739347250; c=relaxed/simple;
-	bh=bixpMBuwKYzDyx9clsv4wYgY1daUXWR3gPgy0UrCtas=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=MP+RMwDD6uhW4yJjpkF8aGh39YfZISfwxUlVuxsX1WbAM3km2c7zzKVtc3dDc7Mz/76uR06usPOz5Rd4nls83iGz/JyWi1Ok2LagFFMzXAIaue3Wi/eVaNNKQre9LfDYd5doIICNnNGpPkeNprpLWaNIhYaRxZh34dZkj0KMaJw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Z0jRsKH0; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=j/fgVu9b; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Z0jRsKH0; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=j/fgVu9b; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1739352183; c=relaxed/simple;
+	bh=zQgtlrGgU2i403MDcE/W3UsKyOZHuds3X4vIFaE7F+k=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=cLuonTqBebaU+obRlzRcnt6g9B+w/1b40pYjdQRNXUsB+ivGd8wdkNVcPsEZm/b8htvvMbV5Qzw9I/7OXz/ADkDshcXfAJXNPrLkrc4O9C4C2/9c9fDBllhwt+1Hqjd19XVKCbCupeJRgxtqqoiy0vmw9on3aNX3MXy2HIHVHFA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jqy7ctjh; arc=none smtp.client-ip=209.85.214.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Z0jRsKH0";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="j/fgVu9b";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Z0jRsKH0";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="j/fgVu9b"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 5E4951F387;
-	Wed, 12 Feb 2025 08:00:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1739347247; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=ABLupZVwpHeRErONSJ8n8zXCa8toCkM1y7FD+5WvAAk=;
-	b=Z0jRsKH0WdvF5yu0al3xcdsIDTZllvMQ2uo2XArMlEJQuSpQJS71uZE8YgPyagV0da8V9V
-	RwohJ+CMrF9swbKqYDkM1L0gv/udaDDtsge70AQpDx2qCejAJdLE+gOQtoBtS5cdhDHDYx
-	qGLQOPn8lLSU5/YvoVkeW9tz3y6nIPk=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1739347247;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=ABLupZVwpHeRErONSJ8n8zXCa8toCkM1y7FD+5WvAAk=;
-	b=j/fgVu9bYHYKw9/N+/UmOr6sUdO+LtMu9vpW8WTtcY++KEqrATgCTDNPUVKvJFolVvCuin
-	+v0Gi7mUZ+PWk/Aw==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=Z0jRsKH0;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b="j/fgVu9b"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1739347247; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=ABLupZVwpHeRErONSJ8n8zXCa8toCkM1y7FD+5WvAAk=;
-	b=Z0jRsKH0WdvF5yu0al3xcdsIDTZllvMQ2uo2XArMlEJQuSpQJS71uZE8YgPyagV0da8V9V
-	RwohJ+CMrF9swbKqYDkM1L0gv/udaDDtsge70AQpDx2qCejAJdLE+gOQtoBtS5cdhDHDYx
-	qGLQOPn8lLSU5/YvoVkeW9tz3y6nIPk=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1739347247;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=ABLupZVwpHeRErONSJ8n8zXCa8toCkM1y7FD+5WvAAk=;
-	b=j/fgVu9bYHYKw9/N+/UmOr6sUdO+LtMu9vpW8WTtcY++KEqrATgCTDNPUVKvJFolVvCuin
-	+v0Gi7mUZ+PWk/Aw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 2B5B513AEF;
-	Wed, 12 Feb 2025 08:00:47 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id jX9FCS9VrGeDJQAAD6G6ig
-	(envelope-from <tzimmermann@suse.de>); Wed, 12 Feb 2025 08:00:47 +0000
-Message-ID: <8ec292d5-86b8-4670-8990-91deb627ee0b@suse.de>
-Date: Wed, 12 Feb 2025 09:00:46 +0100
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jqy7ctjh"
+Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-220c8eb195aso507085ad.0
+        for <linux-staging@lists.linux.dev>; Wed, 12 Feb 2025 01:23:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1739352181; x=1739956981; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=IKlIbv0ydKkFArCDNqMZeYZ6rB/W8yZFPWOF9LQ+RT4=;
+        b=jqy7ctjhVqyvsQbcYh0Q9fgpdAHTT6Gmmk/Jg29SGNz0mDmETFFOpxAtGBgREB3Exw
+         r+c6EA/3JCb/JmSwatp9ELZZcRwYcO+OO0J0FXtf733RB83fxmP4jON7ub2/Ik9C1qgo
+         1JpkAW97wBPsRTvLdd9QMiYV/JyL7AAN4GMU7fAVxn+OUZVTlk+1798PsYQ9M31FQkNz
+         Y462XAQemUdEWocQ72v9gD5WDLPSg0NKq7s/OA1byBJJvKT8uMD6LDVNTnC6wPmRfw5f
+         YncM+6NPRpocpCTW8BklFRHWWyn2P/Nldu8OZmI8Jw1zPfnn8pm20x4aUQd8eyJnOlKa
+         kJvQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1739352181; x=1739956981;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=IKlIbv0ydKkFArCDNqMZeYZ6rB/W8yZFPWOF9LQ+RT4=;
+        b=tzSio7c5QRN4bFabzOdfLPWNMVhZxap/74mE+AvteU0zRHCzvNqba7qSfA8/+rxmS/
+         j3Xjuv1RQnwBNu6g7QdP3tLDVNBoaOkMZ9aLgBIFUMDQrrOcx4qDXyODb5oeI7KQ/lxT
+         b+HB1KIEAkvDD7qmzQ/k4RdqB7HtXEjnohU74CfC9EZvuC/3EstjeE5DEG+wNMqsRDDE
+         q8OYIz6yueqTCjjhd5oVy7CBYJpStXgJ9ZYA/AdG5BdfLXNOF9KA7jO0VWb3+P57VWbm
+         +0I6sq8N/X8jSKtkwuop3VFF+BzuhW/wkmYEumvsF8dZhF9txVnLfuPyBhn0a1u1cBWS
+         ZO0Q==
+X-Gm-Message-State: AOJu0Yxj1JgEdmbbMK1UlB1ezej+armvxwRYQsBuYw2Dzi3QDw14Hgyf
+	j5tqqmp5BYOQ8vlFzoafqZcvQ+v54Yb54OO07WQVkmdiyHx+ht/S
+X-Gm-Gg: ASbGncs0AozGfWcX8vbknZb7dkBkKjcGBLlR7c3H99J6Jf1i89l8fcJpIv3+KQGrl/+
+	3XRFE4ri/6iJloINprkzMdD9tyrNVH4vrtvdxVCtmluVfiopYauu6zyE0zjofThixs6nVp5xBA3
+	1hRKrX8Ak91QYJIXtYApfI2W8vWI2ngFzjzLPxD0NNqGOjVswbHOTEAL6HAT2BTyvWDAfw8ANyi
+	yy75vUy2LqGzgsbapVyJ4OygqlPmrSv3pKLG3nswD+0mF50sAFFiaYRMPpI3uoEF6NLQbPjiZcX
+	dLxDJtcbA/S3mH/pqe9hHlzAIFggkJX+DZc/g52UtbUI//Z/2o/pGY6N892y+DVPa40tm/wLWE1
+	D
+X-Google-Smtp-Source: AGHT+IE5oLYTMyFHny3/RYjVJxsAC85hBSzY2pJoFOwuIMqob2VPFNiq2o/BVLmGBBQ01OeCii55nQ==
+X-Received: by 2002:a05:6a00:1d9a:b0:732:1f45:fcca with SMTP id d2e1a72fcca58-7322c411718mr4580354b3a.21.1739352181265;
+        Wed, 12 Feb 2025 01:23:01 -0800 (PST)
+Received: from DESKTOP-GL3U3CJ (162-207-94-177.lightspeed.irvnca.sbcglobal.net. [162.207.94.177])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7307e29bd5csm6550442b3a.26.2025.02.12.01.23.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 12 Feb 2025 01:23:00 -0800 (PST)
+From: Ian To <onlyian4981@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Ian To <onlyian4981@gmail.com>
+Subject: [PATCH v2 0/3] Adhere to coding style
+Date: Wed, 12 Feb 2025 01:22:53 -0800
+Message-ID: <cover.1739351267.git.onlyian4981@gmail.com>
+X-Mailer: git-send-email 2.45.3
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] staging: sm750fb: fix checkpatch warning architecture
- specific defines should be avoided
-To: Michael Anckaert <michael.anckaert@gmail.com>,
- Sudip Mukherjee <sudipm.mukherjee@gmail.com>,
- Teddy Wang <teddy.wang@siliconmotion.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "open list:STAGING - SILICON MOTION SM750 FRAME BUFFER DRIVER"
- <linux-fbdev@vger.kernel.org>,
- "open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>,
- open list <linux-kernel@vger.kernel.org>
-References: <Z6xREbLLtexX4_uh@michael-devbox>
-Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <Z6xREbLLtexX4_uh@michael-devbox>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Rspamd-Queue-Id: 5E4951F387
-X-Spam-Score: -3.01
-X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-3.01 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	FREEMAIL_TO(0.00)[gmail.com,siliconmotion.com,linuxfoundation.org,vger.kernel.org,lists.linux.dev];
-	TAGGED_RCPT(0.00)[];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	ARC_NA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_SEVEN(0.00)[7];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	RCVD_TLS_ALL(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:mid,suse.de:email];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	TO_DN_ALL(0.00)[];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spam-Flag: NO
-X-Spam-Level: 
+Content-Transfer-Encoding: 8bit
 
-Hi
+Edit the file to adhere to the kernel coding style. Reported by
+checkpatch.
 
-Am 12.02.25 um 08:43 schrieb Michael Anckaert:
-> Replace architecture-specific defines with CONFIG_X86 checks to improve
-> portability and adhere to kernel coding standards.
->
-> Fixes checkpatch warning:
-> - CHECK: architecture specific defines should be avoided.
->
-> Changes made:
-> - Using CONFIG_X86 instead of i386 and x86.
->
-> Signed-off-by: Michael Anckaert <michael.anckaert@gmail.com>
-> ---
->   drivers/staging/sm750fb/ddk750_chip.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/staging/sm750fb/ddk750_chip.c b/drivers/staging/sm750fb/ddk750_chip.c
-> index 02860d3ec365..67a2f60440ca 100644
-> --- a/drivers/staging/sm750fb/ddk750_chip.c
-> +++ b/drivers/staging/sm750fb/ddk750_chip.c
-> @@ -229,7 +229,7 @@ int ddk750_init_hw(struct initchip_param *p_init_param)
->   		reg |= (VGA_CONFIGURATION_PLL | VGA_CONFIGURATION_MODE);
->   		poke32(VGA_CONFIGURATION, reg);
->   	} else {
-> -#if defined(__i386__) || defined(__x86_64__)
-> +#ifdef CONFIG_X86
->   		/* set graphic mode via IO method */
->   		outb_p(0x88, 0x3d4);
->   		outb_p(0x06, 0x3d5);
+v2 changes: Fix some edits put in the wrong patch, thanks to Dan's keen
+eyes.
 
-Maybe move the '} else {' into the ifdef to avoid the possibly empty 
-else branch. I also wonder why this is only being done on x86. There are 
-other systems with VGA.
+Ian To (3):
+  staging: rtl8723bs: format comments
+  stagin: rtl8723bs: fix spacing
+  staging: rtl8723bs: remove extra blank lines
 
-In any case
-
-Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
-
-Best regards
-Thomas
-
+ drivers/staging/rtl8723bs/core/rtw_security.c | 279 +++++++++---------
+ 1 file changed, 133 insertions(+), 146 deletions(-)
 
 -- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstrasse 146, 90461 Nuernberg, Germany
-GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
-HRB 36809 (AG Nuernberg)
+2.45.3
 
