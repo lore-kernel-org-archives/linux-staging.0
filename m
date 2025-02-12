@@ -1,163 +1,114 @@
-Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54])
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81EAD2066C5
-	for <linux-staging@lists.linux.dev>; Wed, 12 Feb 2025 09:23:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 266A62066C5
+	for <linux-staging@lists.linux.dev>; Wed, 12 Feb 2025 10:12:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739352187; cv=none; b=ZHx0TzoZIx0crvCoNKy9J9XICYgbMFsZXmQABbj1rTX3wqkocimelDzXnjDPMcoW+00gmal61llM/2fdWXqgXp6sqh4aS1Z7479hCSsQ6qK1HLBlrjI7DjJ5zJKw2Ox8jnGpRXjq6cc9wfB1O3hrEwXrQk5vYJGAoCxT1JKshRQ=
+	t=1739355165; cv=none; b=oZ+0gjmWqvSaKSN86yHAzoPH90UVpdDuQDYDEOfWUqrdcpwAE+ra3ErhYtHgBo0KYMo6brY59aZDvxgD6hecrJHweESWxbkM8mGWPqykutxL3I2x0rPJ2q4jEAtZREI0QVA9TaFdkKic8sBWA5AWZfGhv3J7DEssPWYCNq5XsWE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739352187; c=relaxed/simple;
-	bh=MURvAg/sBedQVDaqiX8ATHeyU/kkbdU1HxDIqzhOcZQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=WnxZP9eGi6+Y6Gt/UIk3bBTfmA7PhsIPT04Zihz0XT+BLq5iWlPGOge4M5QwFP5OvqZIksVaARPP117oU2L1yAfHofHd2I4XFBV5HmQf3GUeALJTMItsYNoSEY2Vt+frQCnTD3cMvo14DpPXLG/bVs8MhuMIAw0t3SFD7ISRh9A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZwrztJ/Z; arc=none smtp.client-ip=209.85.216.54
+	s=arc-20240116; t=1739355165; c=relaxed/simple;
+	bh=Ipdw+HzMVUc1a2SsAq+NMqJ+fJDERecKuobxFYR7C5g=;
+	h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=PGr7ZFq4Ho4lDryAht8XBcQIqqyVqpUGIH3SMAOg5Cdvw08+uaU9jgB0kSeM4WGwvdy08On9OYW12hKitoPZDFqtoEFNG1QjX8R2mwqhvcc5Xaw8OMV0acC1bZ/zXNYx/4k/bwBqOOvF4YT5z9hzqh1hupX18oEo3SG225Fl7r0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kI0BLF6H; arc=none smtp.client-ip=209.85.128.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZwrztJ/Z"
-Received: by mail-pj1-f54.google.com with SMTP id 98e67ed59e1d1-2fa48404207so7725042a91.1
-        for <linux-staging@lists.linux.dev>; Wed, 12 Feb 2025 01:23:05 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kI0BLF6H"
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-4395817a7f2so4780855e9.1
+        for <linux-staging@lists.linux.dev>; Wed, 12 Feb 2025 02:12:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1739352185; x=1739956985; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=NgEO1HivjLZosJKcVciMU/JqLrezg/Bp0TI7/JZ0WxI=;
-        b=ZwrztJ/ZM8tgbYj01yMifaHrBpGoqvW173Prqt6p89e0OK40pWD6I2u12ls24eXLz6
-         XIppBPFFU7JBxDUeiu8COV47etmC1DIO5WXWJcvCW/Ta2FFpF1zCQMlwZpEj/BjL/IYZ
-         npfPKa19cY83PK69osui7QLoWlkz8/oi/MpcpglGy49guhhHH2g1Wiiw5tzIIM65r4Vl
-         WPiqzZxhsXbHAH8rd2XvJ7njxHGJETRRfVV8p+wT3g84hc/UwVvHH4PjxMeqBgKxG/3D
-         F/xnt/5t5rqC9IxJhekFNAdIgLFBzYZ5lmuJnFpgY/dtgI+RfLpt45S3siCuw6RmQmFo
-         x/UQ==
+        d=gmail.com; s=20230601; t=1739355161; x=1739959961; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=mNNKBtbX7Tvug8Fw4Lq02BaT1unD/9lLJspUhFklJfQ=;
+        b=kI0BLF6H5EzDA4955MaA0lwPuXzIXYYfwU4f87DNVq05YIQ3MtvR3VZyCdoolWLhqc
+         ZEXwi7jPvEkrfBrB1gOML2g/I721bpBk5TNZ4vUlPKZmXdw774MywRibwKc91+sMPBnn
+         4ywKFq+MTXmNwLeXrHzfuMjG0Nm0FFs3hU6i6RF3R11dCHyjSbxsY2zDDkHnfSs0qfut
+         rTmNikj2Qg9TGIqVrSDOHjxV+vqEunF0DwpBL6/G0PiB+lxJkV6cOArWhgxTHh4rxKCB
+         JI6jh4+J0zicXtdEfkXQuly34Vv2DE8cEpzPgZTtJQWTQaR+XzbREvUQYAGxGpBTggFA
+         3gxQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739352185; x=1739956985;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=NgEO1HivjLZosJKcVciMU/JqLrezg/Bp0TI7/JZ0WxI=;
-        b=BpI6f9+10atQYsGkkN5F0Rh/+DOVX3X9sn6BNtMaU3nj55Jo24M1qRhR+TbmAeveel
-         nXHYa49EveFOJVlSHjFTNeMQCfkpSErghAl0QwDmBGi2ZQAw0AZ3qT13dN3014DQ/zrn
-         jIuvq93G4nhTDs1O13izI13dnFNVmKDtYHXywS3VjB75P2isFn4q53AE0w9Vw37fI8si
-         1ducB1hxtAdHVxMhuNYg8+xlO7u2bZL0P0rQDuLDC43He4ZwbD+Bn3wVJ41Jm4Ro2osZ
-         S8NJ2O/j9xqEJ7SMij4dHgfr/rcV/0FfGW3XWcFONSk08z/HoZOMBuyV/dJ5w7Tt7gXy
-         DvVQ==
-X-Gm-Message-State: AOJu0YzfgdGsUH/K+8nu/8R7fLEAnn5bROKNSzu8KXR/7nA6+xb8VCuC
-	Pa+a90hamx//rUNOYqsLmDOwnLXNcecf5s9xUj0SWkH02c8SZpXEkRHexzVN
-X-Gm-Gg: ASbGncu1/OvsfK3yoBEH8UdL/weLEiHuumjn+3hFsNiBTspVSH5J4j73Eil4OEAPCmx
-	5lNf19//+EWt1XlwDcspRo+sQ1Si3s0L7esl5zdtPudRFZ0H1CqBiev+/QZ3Te7dsDhg2aBtOZg
-	r22lHKQ7SNqynDaD8A5hJKneQ5CLc/y7S5+Tnp3PxxVH2c+ittkMW6w3oPygqr+TRMcmxnb4E2l
-	Vd+Spy4emNEm/4cR80jkRatynGyL+tV/lGqR7x3wve2OE2BOCCpNvBWRwVzSQ49Zrc+vdO/iU4g
-	yfW8z5WtQTlJGiBMRr9kO/EcHLwzoPLzWo9B2wCoT1rBQQWiKPfNxntJ+0FB7RSXaf7WH0PiYbg
-	L
-X-Google-Smtp-Source: AGHT+IG1ahvxK+oTK9DbeXMioV1blXV5WcLhl8ADWWvqnSEDFUqzJnKABHHxbLg8LD/6rx9betQF9w==
-X-Received: by 2002:a17:90b:2742:b0:2f4:4003:f3ea with SMTP id 98e67ed59e1d1-2fbf5c6ac92mr4543043a91.33.1739352184850;
-        Wed, 12 Feb 2025 01:23:04 -0800 (PST)
-Received: from DESKTOP-GL3U3CJ (162-207-94-177.lightspeed.irvnca.sbcglobal.net. [162.207.94.177])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2fbf98f9b80sm998177a91.38.2025.02.12.01.23.04
+        d=1e100.net; s=20230601; t=1739355161; x=1739959961;
+        h=content-disposition:mime-version:message-id:subject:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=mNNKBtbX7Tvug8Fw4Lq02BaT1unD/9lLJspUhFklJfQ=;
+        b=TZSScUeF/Ge7za/asm/zlGSsevPi4yLK2TZCR+ZAOWKcMe0Ubmh7ETyN75PrEGtni6
+         NfBCG3vP4wzQdzua3fQUljy8Xi5VORvbWMY4SctzLFiBCgxNIzjvJidQz48WFbmaFOXj
+         bm2TTLHu003AMih89zjcVX480+uM0YZv+yeVfj1Yolaa/lM9bi8O9OhN7syKwzLmGiDk
+         ZQtOdgN2fiCWiYBroylinjc6988XEduRTXujaGCpOJDDF/fJME5Fzf0Hdeo3I7ygI3cP
+         BtlVqRYkk7Z5iOsTw90ND6TOVPzh20mhitjxdtrM8+V0p5zbLKHDNRMW4GbaZrpIDVde
+         YMIA==
+X-Forwarded-Encrypted: i=1; AJvYcCWPOOhxWoCifxJrfEx/jc2Hgr8o0pyeUg7btYhGQVmCQbk+osUyCiS6OaMqPZFOov2s457uJSiAbLjTSylc@lists.linux.dev
+X-Gm-Message-State: AOJu0YxWWDDQt+MPDcWWFZO0hanSuYnFuvYmoQp5IA+f6jkVCLAc6y/3
+	DE1sqNQ5Qnku+8inHMUdAZdwMh91CspZkW0zmvsCJFg1X1d9A3ID
+X-Gm-Gg: ASbGncvQAngoel73J+59ChEA5dOaxhEPKsc4SwS6J16Ba0a/8cG6pC3kCYL0x9t7KsL
+	YEMXm3EigOVt3HLDV5eo6xxnN+dEroaL57Z9eTh2CsrWcfdoGVxEvfntM46wNxkMWOPiESohUba
+	W902aQzbrU1iBIMyC8pU4yPAXgQsy9S8qu4X8C+znuocZTAPco/tJT2bDAhg7+AvPKvQNjD76PH
+	NQ+WcRYczG/1I/4TuITaBU6h9cb89fIM3wWje6cjMB4IWPuvKzSOazO0hwP2h+zh/802t855wDX
+	WRP58TErRDgCX9/tBB9aAOZYfRuFnOsZKA6ptxvm1NDR/TdmNR0WoGD43M/0bLOBBZkI5lO3sEW
+	fKciSHOlb
+X-Google-Smtp-Source: AGHT+IHhRK8nxFM1MkvP02b1tIRnIroxS4UXE3wB4NUmuptZfBzKer8oXq6j4K8FtetcxrRrEyBHDQ==
+X-Received: by 2002:a05:600c:5487:b0:439:3dc0:29b6 with SMTP id 5b1f17b1804b1-4395815fcc5mr23241965e9.2.1739355161186;
+        Wed, 12 Feb 2025 02:12:41 -0800 (PST)
+Received: from michael-devbox (ec2-52-59-234-77.eu-central-1.compute.amazonaws.com. [52.59.234.77])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4395a1b83a3sm14845085e9.33.2025.02.12.02.12.40
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 12 Feb 2025 01:23:04 -0800 (PST)
-From: Ian To <onlyian4981@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Ian To <onlyian4981@gmail.com>
-Subject: [PATCH v2 3/3] staging: rtl8723bs: remove extra blank lines
-Date: Wed, 12 Feb 2025 01:22:56 -0800
-Message-ID: <78f3702e2810424d12785f64334127a0f3cd82ef.1739351267.git.onlyian4981@gmail.com>
-X-Mailer: git-send-email 2.45.3
-In-Reply-To: <cover.1739351267.git.onlyian4981@gmail.com>
-References: <cover.1739351267.git.onlyian4981@gmail.com>
+        Wed, 12 Feb 2025 02:12:40 -0800 (PST)
+Date: Wed, 12 Feb 2025 10:12:40 +0000
+From: Michael Anckaert <michael.anckaert@gmail.com>
+To: Sudip Mukherjee <sudipm.mukherjee@gmail.com>,
+	Teddy Wang <teddy.wang@siliconmotion.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"open list:STAGING - SILICON MOTION SM750 FRAME BUFFER DRIVER" <linux-fbdev@vger.kernel.org>,
+	"open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v2] staging: sm750fb: fix checkpatch warning architecture
+ specific defines should be avoided
+Message-ID: <Z6x0GEM5sxcruYlS@michael-devbox>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Repeated blank lines were present and removed. Reported by checkpatch.
+Replace architecture-specific defines with CONFIG_X86 checks to improve
+portability and adhere to kernel coding standards.
 
-Signed-off-by: Ian To <onlyian4981@gmail.com>
+Fixes checkpatch warning:
+- CHECK: architecture specific defines should be avoided.
+
+Changes made:
+- Using CONFIG_X86 instead of i386 and x86.
+
+Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
+Signed-off-by: Michael Anckaert <michael.anckaert@gmail.com>
 ---
- drivers/staging/rtl8723bs/core/rtw_security.c | 11 -----------
- 1 file changed, 11 deletions(-)
+Changes in v2:
+ - Moved the '} else {' into the ifdef to avoid the possibly empty
+else branch
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_security.c b/drivers/staging/rtl8723bs/core/rtw_security.c
-index e8f583206f92..18f640d48701 100644
---- a/drivers/staging/rtl8723bs/core/rtw_security.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_security.c
-@@ -123,7 +123,6 @@ void rtw_wep_decrypt(struct adapter  *padapter, u8 *precvframe)
- 
- 		/* calculate icv and compare the icv */
- 		*((u32 *)crc) = ~crc32_le(~0, payload, length - 4);
--
- 	}
- }
- 
-@@ -219,10 +218,8 @@ void rtw_secgetmic(struct mic_data *pmicdata, u8 *dst)
- 	secmicclear(pmicdata);
- }
- 
--
- void rtw_seccalctkipmic(u8 *key, u8 *header, u8 *data, u32 data_len, u8 *mic_code, u8 pri)
- {
--
- 	struct mic_data	micdata;
- 	u8 priority[4] = {0x0, 0x0, 0x0, 0x0};
- 
-@@ -245,7 +242,6 @@ void rtw_seccalctkipmic(u8 *key, u8 *header, u8 *data, u32 data_len, u8 *mic_cod
- 	}
- 	rtw_secmicappend(&micdata, &priority[0], 4);
- 
--
- 	rtw_secmicappend(&micdata, data, data_len);
- 
- 	rtw_secgetmic(&micdata, mic_code);
-@@ -305,7 +301,6 @@ static const unsigned short Sbox1[2][256] = {      /* Sbox for hash (can be in R
- 	 0x82C3, 0x29B0, 0x5A77, 0x1E11, 0x7BCB, 0xA8FC, 0x6DD6, 0x2C3A,
- 	},
- 
--
- 	{  /* second half of table is unsigned char-reversed version of first! */
- 	 0xA5C6, 0x84F8, 0x99EE, 0x8DF6, 0x0DFF, 0xBDD6, 0xB1DE, 0x5491,
- 	 0x5060, 0x0302, 0xA9CE, 0x7D56, 0x19E7, 0x62B5, 0xE64D, 0x9AEC,
-@@ -480,7 +475,6 @@ u32 rtw_tkip_encrypt(struct adapter *padapter, u8 *pxmitframe)
- 
- 	/* 4 start to encrypt each fragment */
- 	if (pattrib->encrypt == _TKIP_) {
--
- 		{
- 			if (is_multicast_ether_addr(pattrib->ra))
- 				prwskey = psecuritypriv->dot118021XGrpKey[psecuritypriv->dot118021XGrpKeyid].skey;
-@@ -525,7 +519,6 @@ u32 rtw_tkip_encrypt(struct adapter *padapter, u8 *pxmitframe)
- 	return res;
- }
- 
--
- /* The hlen isn't include the IV */
- u32 rtw_tkip_decrypt(struct adapter *padapter, u8 *precvframe)
- {																	/*  exclude ICV */
-@@ -627,11 +620,8 @@ u32 rtw_tkip_decrypt(struct adapter *padapter, u8 *precvframe)
- 	return res;
- }
- 
--
- /* 3			=====AES related ===== */
- 
--
--
- #define MAX_MSG_SIZE	2048
- 
- /*****************************/
-@@ -664,7 +654,6 @@ static void construct_ctr_preload(u8 *ctr_preload,
- 
- static void aes128k128d(u8 *key, u8 *data, u8 *ciphertext);
- 
--
- /****************************************/
- /* aes128k128d()                        */
- /* Performs a 128 bit AES encrypt with  */
+ drivers/staging/sm750fb/ddk750_chip.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/staging/sm750fb/ddk750_chip.c b/drivers/staging/sm750fb/ddk750_chip.c
+index 02860d3ec365..025dae3756aa 100644
+--- a/drivers/staging/sm750fb/ddk750_chip.c
++++ b/drivers/staging/sm750fb/ddk750_chip.c
+@@ -228,8 +228,8 @@ int ddk750_init_hw(struct initchip_param *p_init_param)
+ 		reg = peek32(VGA_CONFIGURATION);
+ 		reg |= (VGA_CONFIGURATION_PLL | VGA_CONFIGURATION_MODE);
+ 		poke32(VGA_CONFIGURATION, reg);
++#ifdef CONFIG_X86
+ 	} else {
+-#if defined(__i386__) || defined(__x86_64__)
+ 		/* set graphic mode via IO method */
+ 		outb_p(0x88, 0x3d4);
+ 		outb_p(0x06, 0x3d5);
 -- 
-2.45.3
+2.39.5
 
