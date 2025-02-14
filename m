@@ -1,70 +1,70 @@
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 103D3264A61
-	for <linux-staging@lists.linux.dev>; Fri, 14 Feb 2025 11:47:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B421264A61
+	for <linux-staging@lists.linux.dev>; Fri, 14 Feb 2025 11:47:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739533668; cv=none; b=S7xI3UpPRT17uEMKBQJmd9IwCIoXqXsqq7mqUSBnP6ekRfo3+6amvNbYwXPbvm2QqMmqqGQrSy0zMoc0TFUkhVly9ZANyjXNZkF6VVjjwmEL3bs3N4jzff3uxMHc5Z3ZgTRQPFpJA4dVAqQW+l8z9nIK1xJ7sCx/2mz5RF6m3Jo=
+	t=1739533671; cv=none; b=TObSwWYpYq7nYNBq8ei/pmH+Wz6xhbsQv/THbYuXcREfghZ3T3uN+15HyHwp1ot9cmFu9dfpPB9Mrf3tYJGor4v1bEECgK/pTTKpX0Tf5/fa5hPBP+gA5qnFEd2EHrL7LD8bKGcIQ/hjLkA4R3IcCB96rn2XEGVilQnVqqqME+o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739533668; c=relaxed/simple;
-	bh=otW1RJyE4F3ikNxsbuQW9V3/snb/w7z5xN/QWk8BC4U=;
+	s=arc-20240116; t=1739533671; c=relaxed/simple;
+	bh=ijyH4DVGB8FNQ0gY42wKtBKYVu7WhC3PPIBdhg4FeIo=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=sEBRAQiobroWr2qkPBOI62SXHQlDZqEOTUemMI953EoOUQ37lB47gPeyUCr20zfiy9nRzSryeGqy5gxxeSLdzrc8+VmJIWGDOMBJUomSCiQ1vF9FlL5NVNa61B7JiCkncup0QxIISKlzyYX9ZfGlZ4AfnFF5DGfl/rCCbOxprNs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=g7s5vm4p; arc=none smtp.client-ip=209.85.128.43
+	 MIME-Version; b=ML7/XxQrbTFnwpu66BJHv8zRzf15If/lr58EYs44gwy+T5LeFtIi1ojUhupGq05hwwRKADaDEu1RI5sRnAyNU2//A+ObB8SZ5wQOO+AZVBKLl4lUlhNbKLVdzIUijf2gy41rSUVQmMwqa5u/5+yPgVa0XQ03tc7okK4HiOMhPCw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FPBCgxzr; arc=none smtp.client-ip=209.85.128.48
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="g7s5vm4p"
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-4396a82daf5so3328225e9.1
-        for <linux-staging@lists.linux.dev>; Fri, 14 Feb 2025 03:47:45 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FPBCgxzr"
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-43948021a45so20424875e9.1
+        for <linux-staging@lists.linux.dev>; Fri, 14 Feb 2025 03:47:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1739533664; x=1740138464; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1739533667; x=1740138467; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=LVmtBhEiVyNl8QZ1O6tERZVz1PTbfN4nkq7rh5ldJZo=;
-        b=g7s5vm4pXIutV/oOQr63TcvzNvJDIf1+JQaYpEnzX1MHFWx1j5dzMQsNQhS/wGHTJn
-         A4O7mMpLIn/0XkPra9Y+dOX6XHiraFqLVlGaXZSqX8zL606ROdXZb2A/JZDQVEpJg2NN
-         cVG2ci8+LHBuvqDZ3AJWzT3MQgX6oDaBWP9W9uhUn4naxdsf2T3xCsLesUlFqX0G9XI4
-         aBpZjqv3t2KBUG7rWN7M3I6CaEGpoYjkYJbQ9E/DYJWOIVrbF0MO7jLzOh7RqQbqMO6I
-         INV9dEjWTxtCTkKEusZcgtmXWxMoliaCj1GSb3p8+obgJT0lT8GDultE9ko4EJtlzqbd
-         /9sw==
+        bh=qgvV/67S4yU4G2qIKWOT0FF3EvbLiZzOC/0UnfzPRlU=;
+        b=FPBCgxzr0j+IG3cPz4XO90t9Y6qxH07W6wxlnz70A0nCT9g4JrLigxr3obNYIYAAHi
+         pBqK2f/NHelSpv6DUs26culdVmZO8bAGeqTvrs2/PSbb9w4QZu0Ex/jfxg5XmKyR3amY
+         ZoZa1sVWK5yPrl/LNpv/0aDE6lMS0PzDPv285AsXB5KZQ9Pl8heew84mIWgs8kTKPYCQ
+         0WHENFDBoK2tYR6Rzzw0kOpKGOa1Y57n6xJcA5Rt/l73qel9D/7/iDwTe5F0vm/uPSTk
+         wPQNlr0/wnf5OSIHAP8x11jy1db+QZukON7Dl6g+urL1XSJ6mkbXcrAkwmMiCjrrb4e1
+         Mrew==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739533664; x=1740138464;
+        d=1e100.net; s=20230601; t=1739533667; x=1740138467;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=LVmtBhEiVyNl8QZ1O6tERZVz1PTbfN4nkq7rh5ldJZo=;
-        b=v18sQFrENwsxwn+uLuB/EmBFaMeWuswoQERhe4WGbpaYSJrz0g4fLnKLuEF1MYCtNo
-         vjBuTa1dpc+iemR5qmIU6KLEQYlsW9P9cs90Xv0csCe/r1E/aUUkC6/dYvinaJpPiU44
-         f1TZMiGIaaHtp3DGIFQQ4SmjJPAXVArU9Ua/zS7tcawsb/04TFBQNKe7fUtBf5Kakb1L
-         1FZnr3Adxorcw1zNt9P0D+RiMQy6Q96w289cV8WG2Z+akJVgvzSv/vtrzAv0ymh7v1Bw
-         5FbAtNgt3pTrpIznU+zIi/5Wc8WXLNSzEb0sd4kL1n3nRtx1IXx1PIOEqSZOVBajg5ZN
-         Ka4Q==
-X-Forwarded-Encrypted: i=1; AJvYcCUvLmTtTWrrWtNUZ3y+zuWC/CdwSs4H8Kaq+pnTqskLb2Q7EmsnnKVdFG50BmgolQXOW96RlxxXk/U4DbFw@lists.linux.dev
-X-Gm-Message-State: AOJu0YzTvmT+y/BlnTH4tO1qqZ2zUZV5mPKlQeiotdgHVWLUCABKHZXA
-	9Chf7h9RufBeqH2M/6xoHskviuQMr7KwGBw96qA+mCbirY2hfAMTdY8pCg==
-X-Gm-Gg: ASbGncv6p6yJxgorNgSQBYtTUpdGf7ViZaLuIfhW8TUcqoEq9ZIOXxZLZFHA7u3O1ja
-	biFp0jMLUPF4PrSR8nA7QhVyy37oPvbyjXBPYcOxBF30N904/pYQIPBjvBH4u5M4jR76HybTlW3
-	tPBDVj4hBcVZkheAzsHhDZNgHS1GI313guiyE1gks+yvc43olFcvxj7rbEiNe+BtdOCkdNEU9Am
-	zZrw1pnxitQiwfJbr1zrOx+OTQkLQMHd21Fy5TDfFF9JoLenx41gu8Is1YOjMae37lPbavkzNWT
-	VfkLOvyX3RQzmS1w2n8Yq8WugCRsecx1Kz0++OlsdwFqtUzFElc=
-X-Google-Smtp-Source: AGHT+IHJe9C5L7fJm3g1s0tX91oj/gwWsIwn+t9Y/6w2fpyFGBvil/NIo8HpbEWwojtJCTK1tz+sJQ==
-X-Received: by 2002:a05:600c:c14:b0:439:63cb:ff7e with SMTP id 5b1f17b1804b1-43963cc00d4mr82079965e9.10.1739533664177;
-        Fri, 14 Feb 2025 03:47:44 -0800 (PST)
+        bh=qgvV/67S4yU4G2qIKWOT0FF3EvbLiZzOC/0UnfzPRlU=;
+        b=TmpoOArDJVFI0novxRGmqJ9hD4CZR4HOvlCtKq3AtHZjPkdGKNehxs9q+wfYaA5jeA
+         PDG7/Evxeoq7K52fugEmRZ2C9l4LduM9BzCK9dvClRkLahe/mbPu5TBW1d78zN81kRnA
+         vpiQvRxKPlrVC6npoEBqngnoPXnjdbVf9L+srr5Tct8eGSGAM3LOLBByHPlL4iXSgLMy
+         PYmWNybdrDQmgTm52K3RU7aszXQ9sagoRESMtBwS72cI5nHIWQBmb6iLqANweU3i204U
+         4kZWVmxGeXQMIic9BwWMhzSK4wdTg7+SmBXykVjOW3kJMLmx/hYAZFpX8wjTk4K/nfHm
+         QMOQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVtIXiE1lDDemVZaExiRh65HcCXzysZ13TsS7ZstglRg6344uJybz23Ji7tML+frvPCz9W9NiIbjrUo8RMJ@lists.linux.dev
+X-Gm-Message-State: AOJu0Yzo9fGhP1mZplyRSSrzp6Pw6dslMBGdbFdTgJT1pRMIFFVlSszt
+	00qmPf80YlfTsTQK8av5RJJ1t9OVOTLQa3El7tpICkZXuMLeNzPN
+X-Gm-Gg: ASbGncs5z9l4bXjhBEsP6CH7u1oPEzNs77SlUh9jQ31MROYV2gNdPSi9UVWpT9RT8E/
+	UxK8AG8bPlEtZUhtuOLIRdUnzu8cmJUdGlNFzewjV9lB8rZgIHaoddoQAFuh4Bdud+vIJE36TI5
+	Untn6ypCkx45YlW9gMQTochCutmZDNQTzXmXMuQEWT8D7eOaTIlYyFtuIrOIkj1Y7GJdN+++cRL
+	QhqP9T3FbuQiqIYfVqX1L/A83mxUyNHCeWdDEH7grVRWU/TRir76q/Q5YjQ5yE3nA6yiQ42TVZw
+	yXk69JKpms92Zm4UelIEFcZo3aAjGN+YYBHaAZOu2RtRgJPSqAQ=
+X-Google-Smtp-Source: AGHT+IEHR4rOwR3AojbDga7TpmFjdPf9C2oBcw7THoky/+/GclhGxBbaPuDFPPXE01+4RGtdv/O2Cw==
+X-Received: by 2002:a05:600c:4e4f:b0:439:6304:e28a with SMTP id 5b1f17b1804b1-4396304e556mr90090845e9.0.1739533666396;
+        Fri, 14 Feb 2025 03:47:46 -0800 (PST)
 Received: from localhost.localdomain (82-64-73-52.subs.proxad.net. [82.64.73.52])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-439617fccfesm41945245e9.11.2025.02.14.03.47.42
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-439617fccfesm41945245e9.11.2025.02.14.03.47.44
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 14 Feb 2025 03:47:43 -0800 (PST)
+        Fri, 14 Feb 2025 03:47:44 -0800 (PST)
 From: Dave Penkler <dpenkler@gmail.com>
 To: gregkh@linuxfoundation.org,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
 Cc: Dave Penkler <dpenkler@gmail.com>
-Subject: [PATCH 09/17] staging: gpib: hp82335 console messaging cleanup
-Date: Fri, 14 Feb 2025 12:47:00 +0100
-Message-ID: <20250214114708.28947-10-dpenkler@gmail.com>
+Subject: [PATCH 10/17] staging: gpib: hp82341 console messaging cleanup
+Date: Fri, 14 Feb 2025 12:47:01 +0100
+Message-ID: <20250214114708.28947-11-dpenkler@gmail.com>
 X-Mailer: git-send-email 2.48.1
 In-Reply-To: <20250214114708.28947-1-dpenkler@gmail.com>
 References: <20250214114708.28947-1-dpenkler@gmail.com>
@@ -78,76 +78,298 @@ Content-Transfer-Encoding: 8bit
 
 Enable module name to be printed in pr_xxx and dev_xxx
 Use DRV_NAME defined as KBUILD_MODNAME instead of hard coded
-string "hp82335" in request_irq
+string "hp82341" in request_region and request_irq
 
 Change pr_err to dev_err wherever possible
 
-Remove pr_info's
+Remove pr_warn and pr_debug for timed out or interrupted
+reads and writes.
 
-Remove "hp83335:" prefix in messages since this is
+Remove "hp_82341:" prefix in messages since this is
 printed with the module name.
+
+Remove __func__ parameter in pr_err.
+
+Remove pr_info's.
+
+Remove cpmmented printk's.
 
 Signed-off-by: Dave Penkler <dpenkler@gmail.com>
 ---
- drivers/staging/gpib/hp_82335/hp82335.c | 19 ++++++++++---------
- 1 file changed, 10 insertions(+), 9 deletions(-)
+ drivers/staging/gpib/hp_82341/hp_82341.c | 70 ++++++++++--------------
+ 1 file changed, 30 insertions(+), 40 deletions(-)
 
-diff --git a/drivers/staging/gpib/hp_82335/hp82335.c b/drivers/staging/gpib/hp_82335/hp82335.c
-index 451d5dc6d340..982544d1b382 100644
---- a/drivers/staging/gpib/hp_82335/hp82335.c
-+++ b/drivers/staging/gpib/hp_82335/hp82335.c
-@@ -8,6 +8,10 @@
-  *	implement recovery from bus errors (if necessary)
-  */
+diff --git a/drivers/staging/gpib/hp_82341/hp_82341.c b/drivers/staging/gpib/hp_82341/hp_82341.c
+index 800f99c05566..3ac87d1a1fab 100644
+--- a/drivers/staging/gpib/hp_82341/hp_82341.c
++++ b/drivers/staging/gpib/hp_82341/hp_82341.c
+@@ -6,6 +6,10 @@
+  *   copyright            : (C) 2002, 2005 by Frank Mori Hess              *
+  ***************************************************************************/
  
 +#define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
 +#define dev_fmt pr_fmt
 +#define DRV_NAME KBUILD_MODNAME
 +
- #include "hp82335.h"
- #include <linux/io.h>
+ #include "hp_82341.h"
+ #include <linux/delay.h>
  #include <linux/ioport.h>
-@@ -274,26 +278,23 @@ static int hp82335_attach(gpib_board_t *board, const gpib_board_config_t *config
- 	case 0xfc000:
- 		break;
- 	default:
--		pr_err("hp82335: invalid base io address 0x%u\n", config->ibbase);
-+		dev_err(board->gpib_dev, "invalid base io address 0x%x\n", config->ibbase);
- 		return -EINVAL;
+@@ -57,7 +61,7 @@ static int hp_82341_accel_read(gpib_board_t *board, uint8_t *buffer, size_t leng
+ 		retval = tms9914_read(board, tms_priv, buffer, 1, end, &num_bytes);
+ 		*bytes_read += num_bytes;
+ 		if (retval < 0)
+-			pr_err("tms9914_read failed retval=%i\n", retval);
++			dev_err(board->gpib_dev, "tms9914_read failed retval=%i\n", retval);
+ 		if (retval < 0 || *end)
+ 			return retval;
+ 		++buffer;
+@@ -93,7 +97,6 @@ static int hp_82341_accel_read(gpib_board_t *board, uint8_t *buffer, size_t leng
+ 						  test_bit(DEV_CLEAR_BN, &tms_priv->state) ||
+ 						  test_bit(TIMO_NUM, &board->status));
+ 		if (retval)  {
+-			pr_warn("%s: read wait interrupted\n", __func__);
+ 			retval = -ERESTARTSYS;
+ 			break;
+ 		}
+@@ -118,12 +121,10 @@ static int hp_82341_accel_read(gpib_board_t *board, uint8_t *buffer, size_t leng
+ 			tms_priv->holdoff_active = 1;
+ 		}
+ 		if (test_bit(TIMO_NUM, &board->status))	{
+-			pr_debug("%s: minor %i: read timed out\n", __FILE__, board->minor);
+ 			retval = -ETIMEDOUT;
+ 			break;
+ 		}
+ 		if (test_bit(DEV_CLEAR_BN, &tms_priv->state)) {
+-			pr_warn("%s: device clear interrupted read\n", __FILE__);
+ 			retval = -EINTR;
+ 			break;
+ 		}
+@@ -211,7 +212,7 @@ static int hp_82341_accel_write(gpib_board_t *board, uint8_t *buffer, size_t len
+ 		outb(ENABLE_TI_BUFFER_BIT, hp_priv->iobase[3] + BUFFER_CONTROL_REG);
+ 		retval = restart_write_fifo(board, hp_priv);
+ 		if (retval < 0)	{
+-			pr_err("hp82341: failed to restart write stream\n");
++			dev_err(board->gpib_dev, "failed to restart write stream\n");
+ 			break;
+ 		}
+ 		retval = wait_event_interruptible(board->wait,
+@@ -223,17 +224,14 @@ static int hp_82341_accel_write(gpib_board_t *board, uint8_t *buffer, size_t len
+ 		outb(0, hp_priv->iobase[3] + BUFFER_CONTROL_REG);
+ 		*bytes_written += block_size - read_transfer_counter(hp_priv);
+ 		if (retval) {
+-			pr_warn("%s: write wait interrupted\n", __FILE__);
+ 			retval = -ERESTARTSYS;
+ 			break;
+ 		}
+ 		if (test_bit(TIMO_NUM, &board->status))	{
+-			pr_debug("%s: minor %i: write timed out\n", __FILE__, board->minor);
+ 			retval = -ETIMEDOUT;
+ 			break;
+ 		}
+ 		if (test_bit(DEV_CLEAR_BN, &tms_priv->state)) {
+-			pr_warn("%s: device clear interrupted write\n", __FILE__);
+ 			retval = -EINTR;
+ 			break;
+ 		}
+@@ -495,21 +493,21 @@ static int hp_82341_find_isapnp_board(struct pnp_dev **dev)
+ 	*dev = pnp_find_dev(NULL, ISAPNP_VENDOR('H', 'W', 'P'),
+ 			    ISAPNP_FUNCTION(0x1411), NULL);
+ 	if (!*dev || !(*dev)->card) {
+-		pr_err("hp_82341: failed to find isapnp board\n");
++		pr_err("failed to find isapnp board\n");
+ 		return -ENODEV;
  	}
- 	if (!request_mem_region(upper_iomem_base, hp82335_upper_iomem_size, "hp82335")) {
--		pr_err("hp82335: failed to allocate io memory region 0x%lx-0x%lx\n",
--		       upper_iomem_base, upper_iomem_base + hp82335_upper_iomem_size - 1);
-+		dev_err(board->gpib_dev, "failed to allocate io memory region 0x%lx-0x%lx\n",
-+			upper_iomem_base, upper_iomem_base + hp82335_upper_iomem_size - 1);
+ 	if (pnp_device_attach(*dev) < 0) {
+-		pr_err("hp_82341: board already active, skipping\n");
++		pr_err("board already active, skipping\n");
  		return -EBUSY;
  	}
- 	hp_priv->raw_iobase = upper_iomem_base;
- 	tms_priv->mmiobase = ioremap(upper_iomem_base, hp82335_upper_iomem_size);
--	pr_info("hp82335: upper half of 82335 iomem region 0x%lx remapped to 0x%p\n",
--		hp_priv->raw_iobase, tms_priv->mmiobase);
- 
--	retval = request_irq(config->ibirq, hp82335_interrupt, 0, "hp82335", board);
-+	retval = request_irq(config->ibirq, hp82335_interrupt, 0, DRV_NAME, board);
- 	if (retval) {
--		pr_err("hp82335: can't request IRQ %d\n", config->ibirq);
-+		dev_err(board->gpib_dev, "can't request IRQ %d\n", config->ibirq);
+ 	if (pnp_activate_dev(*dev) < 0) {
+ 		pnp_device_detach(*dev);
+-		pr_err("hp_82341: failed to activate() atgpib/tnt, aborting\n");
++		pr_err("failed to activate(), aborting\n");
+ 		return -EAGAIN;
+ 	}
+ 	if (!pnp_port_valid(*dev, 0) || !pnp_irq_valid(*dev, 0)) {
+ 		pnp_device_detach(*dev);
+-		pr_err("hp_82341: invalid port or irq for atgpib/tnt, aborting\n");
++		pr_err("invalid port or irq, aborting\n");
+ 		return -ENOMEM;
+ 	}
+ 	return 0;
+@@ -530,7 +528,7 @@ static int xilinx_ready(struct hp_82341_priv *hp_priv)
+ 		else
+ 			return 0;
+ 	default:
+-		pr_err("hp_82341: %s: bug! unknown hw_version\n", __func__);
++		pr_err("bug! unknown hw_version\n");
+ 		break;
+ 	}
+ 	return 0;
+@@ -550,7 +548,7 @@ static int xilinx_done(struct hp_82341_priv *hp_priv)
+ 		else
+ 			return 0;
+ 	default:
+-		pr_err("hp_82341: %s: bug! unknown hw_version\n", __func__);
++		pr_err("bug! unknown hw_version\n");
+ 		break;
+ 	}
+ 	return 0;
+@@ -571,7 +569,7 @@ static int irq_valid(struct hp_82341_priv *hp_priv, int irq)
+ 		case 15:
+ 			return 1;
+ 		default:
+-			pr_err("hp_82341: invalid irq=%i for 82341C, irq must be 3, 5, 7, 9, 10, 11, 12, or 15.\n",
++			pr_err("invalid irq=%i for 82341C, irq must be 3, 5, 7, 9, 10, 11, 12, or 15.\n",
+ 			       irq);
+ 			return 0;
+ 		}
+@@ -579,7 +577,7 @@ static int irq_valid(struct hp_82341_priv *hp_priv, int irq)
+ 	case HW_VERSION_82341D:
+ 		return 1;
+ 	default:
+-		pr_err("hp_82341: %s: bug! unknown hw_version\n", __func__);
++		pr_err("bug! unknown hw_version\n");
+ 		break;
+ 	}
+ 	return 0;
+@@ -601,7 +599,7 @@ static int hp_82341_load_firmware_array(struct hp_82341_priv *hp_priv,
+ 			usleep_range(10, 15);
+ 		}
+ 		if (j == timeout) {
+-			pr_err("hp_82341: timed out waiting for Xilinx ready.\n");
++			pr_err("timed out waiting for Xilinx ready.\n");
+ 			return -ETIMEDOUT;
+ 		}
+ 		outb(firmware_data[i], hp_priv->iobase[0] + XILINX_DATA_REG);
+@@ -614,7 +612,7 @@ static int hp_82341_load_firmware_array(struct hp_82341_priv *hp_priv,
+ 		usleep_range(10, 15);
+ 	}
+ 	if (j == timeout) {
+-		pr_err("hp_82341: timed out waiting for Xilinx done.\n");
++		pr_err("timed out waiting for Xilinx done.\n");
+ 		return -ETIMEDOUT;
+ 	}
+ 	return 0;
+@@ -625,27 +623,27 @@ static int hp_82341_load_firmware(struct hp_82341_priv *hp_priv, const gpib_boar
+ 	if (config->init_data_length == 0) {
+ 		if (xilinx_done(hp_priv))
+ 			return 0;
+-		pr_err("hp_82341: board needs be initialized with firmware upload.\n"
++		pr_err("board needs be initialized with firmware upload.\n"
+ 		       "\tUse the --init-data option of gpib_config.\n");
+ 		return -EINVAL;
+ 	}
+ 	switch (hp_priv->hw_version) {
+ 	case HW_VERSION_82341C:
+ 		if (config->init_data_length != hp_82341c_firmware_length) {
+-			pr_err("hp_82341: bad firmware length=%i for 82341c (expected %i).\n",
++			pr_err("bad firmware length=%i for 82341c (expected %i).\n",
+ 			       config->init_data_length, hp_82341c_firmware_length);
+ 			return -EINVAL;
+ 		}
+ 		break;
+ 	case HW_VERSION_82341D:
+ 		if (config->init_data_length != hp_82341d_firmware_length) {
+-			pr_err("hp_82341: bad firmware length=%i for 82341d (expected %i).\n",
++			pr_err("bad firmware length=%i for 82341d (expected %i).\n",
+ 			       config->init_data_length, hp_82341d_firmware_length);
+ 			return -EINVAL;
+ 		}
+ 		break;
+ 	default:
+-		pr_err("hp_82341: %s: bug! unknown hw_version\n", __func__);
++		pr_err("bug! unknown hw_version\n");
+ 		break;
+ 	}
+ 	return hp_82341_load_firmware_array(hp_priv, config->init_data, config->init_data_length);
+@@ -723,13 +721,12 @@ static int hp_82341_attach(gpib_board_t *board, const gpib_board_config_t *confi
+ 		hp_priv->hw_version = HW_VERSION_82341C;
+ 		hp_priv->io_region_offset = 0x400;
+ 	}
+-	pr_info("hp_82341: base io 0x%u\n", iobase);
+ 	for (i = 0; i < hp_82341_num_io_regions; ++i) {
+ 		start_addr = iobase + i * hp_priv->io_region_offset;
+-		if (!request_region(start_addr, hp_82341_region_iosize, "hp_82341")) {
+-			pr_err("hp_82341: failed to allocate io ports 0x%x-0x%x\n",
+-			       start_addr,
+-			       start_addr + hp_82341_region_iosize - 1);
++		if (!request_region(start_addr, hp_82341_region_iosize, DRV_NAME)) {
++			dev_err(board->gpib_dev, "failed to allocate io ports 0x%x-0x%x\n",
++				start_addr,
++				start_addr + hp_82341_region_iosize - 1);
+ 			return -EIO;
+ 		}
+ 		hp_priv->iobase[i] = start_addr;
+@@ -739,7 +736,7 @@ static int hp_82341_attach(gpib_board_t *board, const gpib_board_config_t *confi
+ 		retval = isapnp_cfg_begin(hp_priv->pnp_dev->card->number,
+ 					  hp_priv->pnp_dev->number);
+ 		if (retval < 0)	{
+-			pr_err("hp_82341: isapnp_cfg_begin returned error\n");
++			dev_err(board->gpib_dev, "isapnp_cfg_begin returned error\n");
+ 			return retval;
+ 		}
+ 		isapnp_write_byte(PIO_DIRECTION_REG, HP_82341D_XILINX_READY_BIT |
+@@ -755,12 +752,11 @@ static int hp_82341_attach(gpib_board_t *board, const gpib_board_config_t *confi
  		return retval;
+ 	if (irq_valid(hp_priv, irq) == 0)
+ 		return -EINVAL;
+-	if (request_irq(irq, hp_82341_interrupt, 0, "hp_82341", board))	{
+-		pr_err("hp_82341: failed to allocate IRQ %d\n", irq);
++	if (request_irq(irq, hp_82341_interrupt, 0, DRV_NAME, board))	{
++		dev_err(board->gpib_dev, "failed to allocate IRQ %d\n", irq);
+ 		return -EIO;
  	}
- 	hp_priv->irq = config->ibirq;
--	pr_info("hp82335: IRQ %d\n", config->ibirq);
+ 	hp_priv->irq = irq;
+-	pr_info("hp_82341: IRQ %d\n", irq);
+ 	hp_priv->config_control_bits &= ~IRQ_SELECT_MASK;
+ 	hp_priv->config_control_bits |= IRQ_SELECT_BITS(irq);
+ 	outb(hp_priv->config_control_bits, hp_priv->iobase[0] + CONFIG_CONTROL_STATUS_REG);
+@@ -777,9 +773,7 @@ static int hp_82341_attach(gpib_board_t *board, const gpib_board_config_t *confi
+ 	     hp_priv->iobase[0] + EVENT_STATUS_REG);
  
- 	tms9914_board_reset(tms_priv);
+ 	tms9914_online(board, tms_priv);
+-	pr_info("hp_82341: board id %x %x %x %x\n", inb(hp_priv->iobase[1] + ID0_REG),
+-		inb(hp_priv->iobase[1] + ID1_REG), inb(hp_priv->iobase[2] + ID2_REG),
+-		inb(hp_priv->iobase[2] + ID3_REG));
++
+ 	return 0;
+ }
  
-@@ -331,7 +332,7 @@ static int __init hp82335_init_module(void)
- 	int result = gpib_register_driver(&hp82335_interface, THIS_MODULE);
+@@ -820,13 +814,13 @@ static int __init hp_82341_init_module(void)
  
- 	if (result) {
--		pr_err("hp82335: gpib_register_driver failed: error = %d\n", result);
-+		pr_err("gpib_register_driver failed: error = %d\n", result);
- 		return result;
+ 	ret = gpib_register_driver(&hp_82341_unaccel_interface, THIS_MODULE);
+ 	if (ret) {
+-		pr_err("hp_82341: gpib_register_driver failed: error = %d\n", ret);
++		pr_err("gpib_register_driver failed: error = %d\n", ret);
+ 		return ret;
  	}
  
+ 	ret = gpib_register_driver(&hp_82341_interface, THIS_MODULE);
+ 	if (ret) {
+-		pr_err("hp_82341: gpib_register_driver failed: error = %d\n", ret);
++		pr_err("gpib_register_driver failed: error = %d\n", ret);
+ 		gpib_unregister_driver(&hp_82341_unaccel_interface);
+ 		return ret;
+ 	}
+@@ -871,7 +865,6 @@ static irqreturn_t hp_82341_interrupt(int irq, void *arg)
+ 
+ 	spin_lock_irqsave(&board->spinlock, flags);
+ 	event_status = inb(hp_priv->iobase[0] + EVENT_STATUS_REG);
+-//	printk("hp_82341: interrupt event_status=0x%x\n", event_status);
+ 	if (event_status & INTERRUPT_PENDING_EVENT_BIT)
+ 		retval = IRQ_HANDLED;
+ 	//write-clear status bits
+@@ -886,9 +879,6 @@ static irqreturn_t hp_82341_interrupt(int irq, void *arg)
+ 		status1 = read_byte(tms_priv, ISR0);
+ 		status2 = read_byte(tms_priv, ISR1);
+ 		tms9914_interrupt_have_status(board, tms_priv, status1, status2);
+-/*		printk("hp_82341: interrupt status1=0x%x status2=0x%x\n",
+- *			status1, status2);
+- */
+ 	}
+ 	spin_unlock_irqrestore(&board->spinlock, flags);
+ 	return retval;
 -- 
 2.48.1
 
