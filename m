@@ -1,70 +1,70 @@
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97113265637
-	for <linux-staging@lists.linux.dev>; Fri, 14 Feb 2025 11:47:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5FF0266182
+	for <linux-staging@lists.linux.dev>; Fri, 14 Feb 2025 11:47:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739533676; cv=none; b=t28+JaZZm8SncYwTK9muSdRMALwn8DsgBBgYy2aF0OMuLQCLWtnsEOleSmcFb+CLoD9yrhGzoS+yK5Z91zDczHpRWHnRL+pVJRcGyCJxBgcEmUEI4tpKbFYVI2IfNoDuA/o74/n091ggBBjptjuCBC9djPf4ahDo1zm1vy8Xj5o=
+	t=1739533678; cv=none; b=YV50j1V/EoPjtX+skijorRKEaL5yFs5lZqxg8M0aHM5ISisBfq1Thc4u94zTKdc5YB8amRQYKG8j1Y0XE2/+yGWWyFVkNqqQ3JB/NMLSkOMRaPx8JVvxdi1x0E3M+DaEEzi47wR9HKjluijsRfpYADVMTcLBhxxaJIwrTttKpCQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739533676; c=relaxed/simple;
-	bh=aVgUx88kEl7lJykIBQ151ja7csomMZwy9qb3bZX2VWc=;
+	s=arc-20240116; t=1739533678; c=relaxed/simple;
+	bh=ZPsxNDdLxN/WEv2Kchtqn9tK2nC5fl4GJweyGM1bGwk=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=tU8rJXaF+ELurJLoR/SWrDeLVV5Tv9rsPAB4gDDbA89quggYaixfkz77BpeTUaPKjvzJArnZzqkAq9z0XVlrEQSM8qPrs4n26Jd8LBCZi2qoBT9p0E3Vmnc0Jlhi6cl9s/XnEUloPfhH3eEpZF8GHmloSQrGYh6lP0H7jzk94nQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XHtW0sCr; arc=none smtp.client-ip=209.85.128.52
+	 MIME-Version; b=cKZbtha+nTYyIlMOwB3Y4j2mpNkpTxquaSpHnw3MIL+Ngon7gWZL7Ad5TB1co3JLeFDknGqqutcTkRY7rJP2OtEtZTh8iYKdkB7ouXXZPPRZtegs6WOD4JgEkFAWdK7sXzbQ4+4U84aaPauuZv027MwZtCHJHO2pu23EbDdc4N0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CNcWxqjZ; arc=none smtp.client-ip=209.85.128.48
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XHtW0sCr"
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-4396d2e32b7so507915e9.0
-        for <linux-staging@lists.linux.dev>; Fri, 14 Feb 2025 03:47:54 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CNcWxqjZ"
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-43948021a45so20425905e9.1
+        for <linux-staging@lists.linux.dev>; Fri, 14 Feb 2025 03:47:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1739533673; x=1740138473; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1739533674; x=1740138474; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=JV/wHIcyPiJMDVxZsFhDgKvFfe1nNbR9A63exHbBC8Y=;
-        b=XHtW0sCrGYM9y/Wx+CrX4HN8CKLfPXzOrHhxS4WLesoOFgTA73z4Xc7foV35Yp5/U5
-         BLrApTuSuGHTUZODqkBB3T0HLP6bEqWut4cXmVLibyyp9fwONkndgw7mFRXD7JGREwWF
-         2L5hfoCqAP/FAB1hBDp4BsvMBEBOdkSh3FdXiF5CMKZFWTDw9jOP3twzN/JejI3tntFU
-         BxuYr4be0Nvx1uQf0/bbYU9CXpjiQu8k1MRNLwwDQtH4ZMdHorUfS/jlmahFuWvnVP+l
-         sC/BpZurzfdZMACAB0nZhnZzscX89hPQWKmKPeh+2nIqcG+IRE6ltiYH7LQUby1lttNa
-         +X+g==
+        bh=Ec71cd/p1hU2cNYNpB/ZLydfzU3d5LhvXmsLFtr772Q=;
+        b=CNcWxqjZv293/kP6PIkJxuPsaQmNYjhC7bzyCCxM/Fbb/ecM5ZHnTXrqxqNgW+vQNO
+         4Dp+815TBK8U52tuyvrr0iSaM7txTv0m23ht92eR6+80ue/Wf66i4KIi1We9DORKsixO
+         nLMEP90YhV4AXTNJP90bGi9XGZ0qBs6wpDm8539vJDmfAB3i3l3TGRH3nlpKghWnC3tP
+         RRz8dTLtOYNNfXkiJkn+8dtHWegtcPoaIPt1FTMaQRMb/ZFHn604Sd7WjDxmibpOs1wS
+         UpU7CA8uIIKFpppsClvnrr6KrM+14qmPvquiGSYgrUufn0uBTxO4rOOuyl9YNz7kqOot
+         ANyw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739533673; x=1740138473;
+        d=1e100.net; s=20230601; t=1739533674; x=1740138474;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=JV/wHIcyPiJMDVxZsFhDgKvFfe1nNbR9A63exHbBC8Y=;
-        b=ODxFpBGgOvbeWQxYcR6t8fb2apHFZ5XP+Z6Mf7NAcVIUTHSti33BHgsOwuX472I0i5
-         MH9n+Izq83RCC0fdbTnneongsXzd2L16w4T+6svZcDymhmHf7EhdnxLWwMMjo4BUkmPM
-         uxaYctFZAO2HJDwK7B/ocde7W4cXUst3GZCCWmDSx5On3PgP3COnsy+CDtug8HsTlxXT
-         MHKb0/SW+wPRIc0yIQfffP6EbwP3LFUuxYIaUjjafbgvmGWSqSeuXqd8gDmrti03++oQ
-         vXNz/i0LM5epNbXDpXfcYXtlq5tyxc3O/exoeHTskXTF2Tzc6lGsEEgRM7285keRU/53
-         oZDw==
-X-Forwarded-Encrypted: i=1; AJvYcCXocdcaF6Vvswhf7TuEtIITGL1hBgDhFHD04Q43GDdVkn5Nk9/C8YJuirnkBbx1p7BV9i3n++G/Rls3b4ja@lists.linux.dev
-X-Gm-Message-State: AOJu0YxdtOh++MffbOZaJn+vYajkaG/QJB27M2k89c+D+JERlkUZxoPf
-	HFw5lAlIZVngE0fcCLMO8kAf4Yf4h8MD4iZr8vdJEgu7LNvYnl1V
-X-Gm-Gg: ASbGncsEiAlIJcd5MV2AxuM0Gi9nAIdE4wfRdir2dZR1ZkctEL//wk8E5KSloVtZ45I
-	MSSl38qBB1zlRh5Q5R0GOoo+o2ADk2XLT5qFGI9V7l3uWyp6FsR/yP1k7BGPU0kQwDUjfAcf8hf
-	fnrNF/WApjC3kA+VWxSCZczOXHP0C1KgjwyghfBRX3pJqbUSJtW5e+A8xyz9UmnWZj06CkGsC+z
-	klrLpoqIsm2+4BLMMfPAiUAePihSU7xmeFvQDQW28z6ds3YFhvg6/ZJqXXjqFraW/Y98x8xtq4y
-	Di6d6N+jymup59tR6jff1UrGNvHjl0wuDMJWfMytLxfHmq1sBKM=
-X-Google-Smtp-Source: AGHT+IFJz7z4il1DFNeT4rPu0PDh1kHLOWbD2DZnmKMPGgAexEJbFEFDsP1t2ZmaaGzmCBim1WVMTg==
-X-Received: by 2002:a05:600c:5492:b0:439:45e2:897f with SMTP id 5b1f17b1804b1-43959a39e2amr150237205e9.11.1739533672855;
-        Fri, 14 Feb 2025 03:47:52 -0800 (PST)
+        bh=Ec71cd/p1hU2cNYNpB/ZLydfzU3d5LhvXmsLFtr772Q=;
+        b=WgfpFhQFcpISsE/vnAgbC10YkF1fXvMQ+f19WEMOIFAYkhzjEgiMFQcaBVH/goEXdz
+         K2XOtUeeylWue9HxDKls3wy0SD1e1ATkXDQa+EswCG0hefahly8o+Kr1PQhb0R1//+Gl
+         ebmd1xVvrkCyvpWhOPiAQjxkYgJJ3jt3o+9Pe4WDnZKsPPhEFL13wSCC410MMoEc+cIS
+         DcZoWngSBIfFYpTWHyj9XxWLLO5X2M/jNlXB7eFJLhupFN1YXAg7k72/iEHTc8DABUg7
+         F+2KCTmSgLJCMZygSI8MewHpkeMEVc6tJkny69NCm7nW5VFMCm0XlMRNqaHrC5khCQts
+         9xSA==
+X-Forwarded-Encrypted: i=1; AJvYcCV4xkAsHR2utZOQ4jp9NPiXjrOXiAap6v2JDEwgzWFpIqLy22CgVsb34GUnTkkT2fcSAEeGM/UH+bcFq7Rm@lists.linux.dev
+X-Gm-Message-State: AOJu0Yw1HaPqyL2r2N9711xAx/6evAXRABWtB06p1ZvVDow4jozPmx7E
+	9557TXfte6F2yVLuLdQA4fY3n5F+JpMQqCyY3BDUoH5tNh0RzZ7v
+X-Gm-Gg: ASbGncvHFTaToycgT9T78YsdV6W3EzIL+Jt6kpammKssxpVjHUASykxnF8ZbQVkYjJN
+	/1ikqIPg0pao4q3z/0e3tHqT0rON96T0C75Zk6Rs7IWlIUiQ6sDv9kzS9gCxWQv8SaKPG21iwTV
+	9qCcHTeHUNG2gKOvRUHUt7jZKX8SXHVAqcMc3Mrv6djt94k8rtXajT4hxTQ/THG1AjcRr8wQI6K
+	ZgL/vqsggbruHOpMfWvAwg7/phnAnx31yob/m6bBLICSrvuAATxR68FmdHYEWjVBu9Vd6RPxjUl
+	iFQQUFoNHnM8vkMJCaEF+RzfrjYAkDzFpAYnI/jofiPgCy45Iyk=
+X-Google-Smtp-Source: AGHT+IGgguSbTbESk+Ov1C1vagzixWuyEOgymSOQurmS8GN7IKNeKOjCL+nOvt0DUJLwkNwpAHQhRw==
+X-Received: by 2002:a05:600c:511a:b0:439:6b57:c68 with SMTP id 5b1f17b1804b1-4396b570e93mr9299385e9.17.1739533674023;
+        Fri, 14 Feb 2025 03:47:54 -0800 (PST)
 Received: from localhost.localdomain (82-64-73-52.subs.proxad.net. [82.64.73.52])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-439617fccfesm41945245e9.11.2025.02.14.03.47.51
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-439617fccfesm41945245e9.11.2025.02.14.03.47.52
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 14 Feb 2025 03:47:52 -0800 (PST)
+        Fri, 14 Feb 2025 03:47:53 -0800 (PST)
 From: Dave Penkler <dpenkler@gmail.com>
 To: gregkh@linuxfoundation.org,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
 Cc: Dave Penkler <dpenkler@gmail.com>
-Subject: [PATCH 15/17] staging: gpib: pc2 console messaging cleanup
-Date: Fri, 14 Feb 2025 12:47:06 +0100
-Message-ID: <20250214114708.28947-16-dpenkler@gmail.com>
+Subject: [PATCH 16/17] staging: gpib: tms9914 console messaging cleanup
+Date: Fri, 14 Feb 2025 12:47:07 +0100
+Message-ID: <20250214114708.28947-17-dpenkler@gmail.com>
 X-Mailer: git-send-email 2.48.1
 In-Reply-To: <20250214114708.28947-1-dpenkler@gmail.com>
 References: <20250214114708.28947-1-dpenkler@gmail.com>
@@ -78,23 +78,29 @@ Content-Transfer-Encoding: 8bit
 
 Enable module name to be printed in pr_xxx and dev_xxx
 
-Turn long pr_err into comment, short message in dev_err.
+Remove pr_err on go_to_standby timeout.
+
+Remove write wait and command wait interrupted messages.
+
+Remove __func__ parameter on error messages
 
 Change pr_err to dev_err where possible.
 
-Use error return codes consistent with messages.
+Remove commented printk
+
+Uncomment dev_dbg in interrupt_have status
 
 Signed-off-by: Dave Penkler <dpenkler@gmail.com>
 ---
- drivers/staging/gpib/pc2/pc2_gpib.c | 51 ++++++++++++++++-------------
- 1 file changed, 28 insertions(+), 23 deletions(-)
+ drivers/staging/gpib/tms9914/tms9914.c | 33 +++++++++++---------------
+ 1 file changed, 14 insertions(+), 19 deletions(-)
 
-diff --git a/drivers/staging/gpib/pc2/pc2_gpib.c b/drivers/staging/gpib/pc2/pc2_gpib.c
-index 3eccd4c54afa..6711851301ec 100644
---- a/drivers/staging/gpib/pc2/pc2_gpib.c
-+++ b/drivers/staging/gpib/pc2/pc2_gpib.c
+diff --git a/drivers/staging/gpib/tms9914/tms9914.c b/drivers/staging/gpib/tms9914/tms9914.c
+index ec8e1d4d762f..1f2bb163cfb5 100644
+--- a/drivers/staging/gpib/tms9914/tms9914.c
++++ b/drivers/staging/gpib/tms9914/tms9914.c
 @@ -4,6 +4,9 @@
-  *    copyright            : (C) 2001, 2002 by Frank Mori Hess
+  *   copyright		  : (C) 2001, 2002 by Frank Mori Hess
   ***************************************************************************/
  
 +#define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
@@ -103,153 +109,103 @@ index 3eccd4c54afa..6711851301ec 100644
  #include <linux/ioport.h>
  #include <linux/sched.h>
  #include <linux/module.h>
-@@ -268,7 +271,8 @@ static int pc2_generic_attach(gpib_board_t *board, const gpib_board_config_t *co
- 	 *  is adapted to use isa_register_driver.
- 	 */
- 	if (config->ibdma)
--		pr_err("DMA disabled for pc2 gpib, driver needs to be adapted to use isa_register_driver to get a struct device*");
-+	// driver needs to be adapted to use isa_register_driver to get a struct device*
-+		dev_err(board->gpib_dev, "DMA disabled for pc2 gpib");
- #else
- 	if (config->ibdma) {
- 		nec_priv->dma_buffer_length = 0x1000;
-@@ -280,7 +284,7 @@ static int pc2_generic_attach(gpib_board_t *board, const gpib_board_config_t *co
- 
- 		// request isa dma channel
- 		if (request_dma(config->ibdma, "pc2")) {
--			pr_err("gpib: can't request DMA %d\n", config->ibdma);
-+			dev_err(board->gpib_dev, "can't request DMA %d\n", config->ibdma);
- 			return -1;
- 		}
- 		nec_priv->dma_channel = config->ibdma;
-@@ -306,8 +310,8 @@ static int pc2_attach(gpib_board_t *board, const gpib_board_config_t *config)
- 	nec_priv->offset = pc2_reg_offset;
- 
- 	if (!request_region(config->ibbase, pc2_iosize, "pc2")) {
--		pr_err("gpib: ioports are already in use\n");
--		return -1;
-+		dev_err(board->gpib_dev, "ioports are already in use\n");
-+		return -EBUSY;
+@@ -83,10 +86,8 @@ int tms9914_go_to_standby(gpib_board_t *board, struct tms9914_priv *priv)
+ 			break;
+ 		udelay(1);
  	}
- 	nec_priv->iobase = config->ibbase;
+-	if (i == timeout) {
+-		pr_err("error waiting for NATN\n");
++	if (i == timeout)
+ 		return -ETIMEDOUT;
+-	}
  
-@@ -316,14 +320,14 @@ static int pc2_attach(gpib_board_t *board, const gpib_board_config_t *config)
- 	// install interrupt handler
- 	if (config->ibirq) {
- 		if (request_irq(config->ibirq, pc2_interrupt, isr_flags, "pc2", board))	{
--			pr_err("gpib: can't request IRQ %d\n", config->ibirq);
--			return -1;
-+			dev_err(board->gpib_dev, "can't request IRQ %d\n", config->ibirq);
-+			return -EBUSY;
- 		}
- 	}
- 	pc2_priv->irq = config->ibirq;
- 	/* poll so we can detect assertion of ATN */
- 	if (gpib_request_pseudo_irq(board, pc2_interrupt)) {
--		pr_err("pc2_gpib: failed to allocate pseudo_irq\n");
-+		dev_err(board->gpib_dev, "failed to allocate pseudo_irq\n");
- 		return -1;
- 	}
- 	/* set internal counter register for 8 MHz input clock */
-@@ -384,18 +388,19 @@ static int pc2a_common_attach(gpib_board_t *board, const gpib_board_config_t *co
- 	case 0x62e1:
+ 	clear_bit(COMMAND_READY_BN, &priv->state);
+ 
+@@ -175,7 +176,7 @@ void tms9914_set_holdoff_mode(struct tms9914_priv *priv, enum tms9914_holdoff_mo
+ 		write_byte(priv, AUX_HLDA | AUX_CS, AUXCR);
  		break;
  	default:
--		pr_err("PCIIa base range invalid, must be one of 0x[0246]2e1, but is 0x%x\n",
--		       config->ibbase);
-+		dev_err(board->gpib_dev, "PCIIa base range invalid, must be one of 0x[0246]2e1, but is 0x%x\n",
-+			config->ibbase);
- 		return -1;
+-		pr_err("%s: bug! bad holdoff mode %i\n", __func__, mode);
++		pr_err("bug! bad holdoff mode %i\n", mode);
+ 		break;
+ 	}
+ 	priv->holdoff_mode = mode;
+@@ -437,10 +438,9 @@ static int wait_for_read_byte(gpib_board_t *board, struct tms9914_priv *priv)
+ 	if (wait_event_interruptible(board->wait,
+ 				     test_bit(READ_READY_BN, &priv->state) ||
+ 				     test_bit(DEV_CLEAR_BN, &priv->state) ||
+-				     test_bit(TIMO_NUM, &board->status))) {
+-		pr_debug("gpib: pio read wait interrupted\n");
++				     test_bit(TIMO_NUM, &board->status)))
+ 		return -ERESTARTSYS;
+-	}
++
+ 	if (test_bit(TIMO_NUM, &board->status))
+ 		return -ETIMEDOUT;
+ 
+@@ -472,7 +472,7 @@ static inline uint8_t tms9914_read_data_in(gpib_board_t *board, struct tms9914_p
+ 	case TMS9914_HOLDOFF_NONE:
+ 		break;
+ 	default:
+-		pr_err("%s: bug! bad holdoff mode %i\n", __func__, priv->holdoff_mode);
++		dev_err(board->gpib_dev, "bug! bad holdoff mode %i\n", priv->holdoff_mode);
+ 		break;
+ 	}
+ 	spin_unlock_irqrestore(&board->spinlock, flags);
+@@ -548,10 +548,9 @@ static int pio_write_wait(gpib_board_t *board, struct tms9914_priv *priv)
+ 				     test_bit(WRITE_READY_BN, &priv->state) ||
+ 				     test_bit(BUS_ERROR_BN, &priv->state) ||
+ 				     test_bit(DEV_CLEAR_BN, &priv->state) ||
+-				     test_bit(TIMO_NUM, &board->status))) {
+-		dev_dbg(board->gpib_dev, "gpib write interrupted!\n");
++				     test_bit(TIMO_NUM, &board->status)))
+ 		return -ERESTARTSYS;
+-	}
++
+ 	if (test_bit(TIMO_NUM, &board->status))
+ 		return -ETIMEDOUT;
+ 	if (test_bit(BUS_ERROR_BN, &priv->state))
+@@ -667,10 +666,8 @@ int tms9914_command(gpib_board_t *board, struct tms9914_priv *priv,  uint8_t *bu
+ 		if (wait_event_interruptible(board->wait,
+ 					     test_bit(COMMAND_READY_BN,
+ 						      &priv->state) ||
+-					     test_bit(TIMO_NUM, &board->status))) {
+-			pr_debug("gpib command wait interrupted\n");
++					     test_bit(TIMO_NUM, &board->status)))
+ 			break;
+-		}
+ 		if (test_bit(TIMO_NUM, &board->status))
+ 			break;
+ 
+@@ -761,8 +758,6 @@ irqreturn_t tms9914_interrupt_have_status(gpib_board_t *board, struct tms9914_pr
+ 					write_byte(priv, AUX_INVAL, AUXCR);
+ 				}
+ 			} else	{
+-				// printk("tms9914: unrecognized gpib command pass thru 0x%x\n",
+-				// command_byte);
+ 				// clear dac holdoff
+ 				write_byte(priv, AUX_INVAL, AUXCR);
+ 			}
+@@ -799,7 +794,7 @@ irqreturn_t tms9914_interrupt_have_status(gpib_board_t *board, struct tms9914_pr
+ 	// check for being addressed with secondary addressing
+ 	if (status1 & HR_APT) {
+ 		if (board->sad < 0)
+-			pr_err("tms9914: bug, APT interrupt without secondary addressing?\n");
++			dev_err(board->gpib_dev, "bug, APT interrupt without secondary addressing?\n");
+ 		if ((read_byte(priv, CPTR) & gpib_command_mask) == MSA(board->sad))
+ 			write_byte(priv, AUX_VAL, AUXCR);
+ 		else
+@@ -807,8 +802,8 @@ irqreturn_t tms9914_interrupt_have_status(gpib_board_t *board, struct tms9914_pr
  	}
  
- 	if (config->ibirq) {
- 		if (config->ibirq < 2 || config->ibirq > 7) {
--			pr_err("pc2_gpib: illegal interrupt level %i\n", config->ibirq);
-+			dev_err(board->gpib_dev, "illegal interrupt level %i\n",
-+				config->ibirq);
- 			return -1;
- 		}
- 	} else	{
--		pr_err("pc2_gpib: interrupt disabled, using polling mode (slow)\n");
-+		dev_err(board->gpib_dev, "interrupt disabled, using polling mode (slow)\n");
+ 	if ((status0 & priv->imr0_bits) || (status1 & priv->imr1_bits))	{
+-//		dev_dbg(board->gpib_dev, "isr0 0x%x, imr0 0x%x, isr1 0x%x, imr1 0x%x\n",
+-//			status0, priv->imr0_bits, status1, priv->imr1_bits);
++		dev_dbg(board->gpib_dev, "isr0 0x%x, imr0 0x%x, isr1 0x%x, imr1 0x%x\n",
++			status0, priv->imr0_bits, status1, priv->imr1_bits);
+ 		update_status_nolock(board, priv);
+ 		wake_up_interruptible(&board->wait);
  	}
- #ifdef CHECK_IOPORTS
- 	unsigned int err = 0;
-@@ -407,36 +412,36 @@ static int pc2a_common_attach(gpib_board_t *board, const gpib_board_config_t *co
- 	if (config->ibirq && check_region(pc2a_clear_intr_iobase + config->ibirq, 1))
- 		err++;
- 	if (err) {
--		pr_err("gpib: ioports are already in use");
--		return -1;
-+		dev_err(board->gpib_dev, "ioports are already in use");
-+		return -EBUSY;
- 	}
- #endif
- 	for (i = 0; i < num_registers; i++) {
- 		if (!request_region(config->ibbase +
- 					i * pc2a_reg_offset, 1, "pc2a")) {
--			pr_err("gpib: ioports are already in use");
-+			dev_err(board->gpib_dev, "ioports are already in use");
- 			for (j = 0; j < i; j++)
- 				release_region(config->ibbase +
- 					j * pc2a_reg_offset, 1);
--			return -1;
-+			return -EBUSY;
- 		}
- 	}
- 	nec_priv->iobase = config->ibbase;
- 	if (config->ibirq) {
- 		if (!request_region(pc2a_clear_intr_iobase + config->ibirq, 1, "pc2a"))  {
--			pr_err("gpib: ioports are already in use");
-+			dev_err(board->gpib_dev, "ioports are already in use");
- 			return -1;
- 		}
- 		pc2_priv->clear_intr_addr = pc2a_clear_intr_iobase + config->ibirq;
- 		if (request_irq(config->ibirq, pc2a_interrupt, 0, "pc2a", board)) {
--			pr_err("gpib: can't request IRQ %d\n", config->ibirq);
--			return -1;
-+			dev_err(board->gpib_dev, "can't request IRQ %d\n", config->ibirq);
-+			return -EBUSY;
- 		}
- 	}
- 	pc2_priv->irq = config->ibirq;
- 	/* poll so we can detect assertion of ATN */
- 	if (gpib_request_pseudo_irq(board, pc2_interrupt)) {
--		pr_err("pc2_gpib: failed to allocate pseudo_irq\n");
-+		dev_err(board->gpib_dev, "failed to allocate pseudo_irq\n");
- 		return -1;
- 	}
- 
-@@ -630,25 +635,25 @@ static int __init pc2_init_module(void)
- 
- 	ret = gpib_register_driver(&pc2_interface, THIS_MODULE);
- 	if (ret) {
--		pr_err("pc2_gpib: gpib_register_driver failed: error = %d\n", ret);
-+		pr_err("gpib_register_driver failed: error = %d\n", ret);
- 		return ret;
- 	}
- 
- 	ret = gpib_register_driver(&pc2a_interface, THIS_MODULE);
- 	if (ret) {
--		pr_err("pc2_gpib: gpib_register_driver failed: error = %d\n", ret);
-+		pr_err("gpib_register_driver failed: error = %d\n", ret);
- 		goto err_pc2a;
- 	}
- 
- 	ret = gpib_register_driver(&pc2a_cb7210_interface, THIS_MODULE);
- 	if (ret) {
--		pr_err("pc2_gpib: gpib_register_driver failed: error = %d\n", ret);
-+		pr_err("gpib_register_driver failed: error = %d\n", ret);
- 		goto err_cb7210;
- 	}
- 
- 	ret = gpib_register_driver(&pc2_2a_interface, THIS_MODULE);
- 	if (ret) {
--		pr_err("pc2_gpib: gpib_register_driver failed: error = %d\n", ret);
-+		pr_err("gpib_register_driver failed: error = %d\n", ret);
- 		goto err_pc2_2a;
- 	}
- 
 -- 
 2.48.1
 
