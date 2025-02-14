@@ -1,59 +1,61 @@
-Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
+Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C89111C84C0
-	for <linux-staging@lists.linux.dev>; Fri, 14 Feb 2025 19:55:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A59A11C84CA
+	for <linux-staging@lists.linux.dev>; Fri, 14 Feb 2025 19:55:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739562921; cv=none; b=TAcrLD2zFxforWidPSs7W7PyqTu7VLmAI+VKlkfkb++9S8rvoo8o9iOxH3Pa+RWW0Bh7s8AFv6UQP9jCe9x50n9zpkUA9NgOAwt1wwDr+jHrznJTlSvF/BjvsaqAngFFB7OfgYN8cjSJ8t3X2vi7UvaZeF+1z3d1JSYeFt3JyLg=
+	t=1739562933; cv=none; b=EeGSfPELAMpSQxAOvI61T+VmjjWyGTIIo6X8tK8yRro6Ee+dO9M/j8uDU1PKUFUy3HZZAb1aK3IFlNWN207KyTsWvy9ASAj5Ez/Ik2WGFZyzWT2MZzJcH0PdAxcHXqitOFKWxYNhfA751mmPomn8R8cmC+P8Jq7tuP0/LJGq4nI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739562921; c=relaxed/simple;
-	bh=jDZUbPR3az1p6TTvnGVdNLc+wKH51rUHZj5XjVm5igU=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=SV6gyDV7Toz6un6ZZf10BhdmYdSLD5b1I4GZ+y/OTcUzx5tQNmNqJbOBPGAeRXeoazaIf3/DPhpvqaUA+4SVOpg2b/yXmxmScFYsIszc5NYg2UMrB540JjjSqPI3psdFGge8tCtECVQf6XsHBT3jz1GpWsgpYzjeD95RlBni7xQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=crBBSlHD; arc=none smtp.client-ip=209.85.216.48
+	s=arc-20240116; t=1739562933; c=relaxed/simple;
+	bh=GlLftjDRagTS13s5Ysn5RJqGQA/ImDdXkaSwQnm1HmM=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=XJVgTZMd6fJc3ZVMc3xzFbj8UJvMDC21XndCMNupA2WhIM8Opy8VT8/MQuyOyU56zXP0+ChZTQ6Kgd6B4FcBwgyTDLvaWzEuyfQl6Dq2HyQ89WEovrKqq8fGTNxg+2BQpavhlSitnunFXW1bLyl6aAaWGRSNLz7p7/smbfxH0vI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GiB4tTNe; arc=none smtp.client-ip=209.85.216.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="crBBSlHD"
-Received: by mail-pj1-f48.google.com with SMTP id 98e67ed59e1d1-2fc3035e947so209471a91.1
-        for <linux-staging@lists.linux.dev>; Fri, 14 Feb 2025 11:55:19 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GiB4tTNe"
+Received: by mail-pj1-f42.google.com with SMTP id 98e67ed59e1d1-2f9f90103bbso532484a91.3
+        for <linux-staging@lists.linux.dev>; Fri, 14 Feb 2025 11:55:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1739562919; x=1740167719; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=DXg7EqlSdEA/crnBb3uF53Gz+hB8878Qt+C1oVENMmY=;
-        b=crBBSlHDESvq0O2wE3fzUooaxqzGRPwOcfea5wVBobnoStJDKdC4RVLCdNmd4KaMJH
-         13huiju0++hoQdTEzDYW9qUoFwj2w7pKLJFFGjq+2GMBjjuVROkPZeIghMX72WBmlS7+
-         uhsQiMdH3cmc/4u45mCAFUm/KcySoxl5eb9zAFMXNFEPvvdyVsCH58zObfhA2EP5lcgg
-         UnUDw2AFJ5hk1uavvEnOAb92zwM5td7AdB/FuRj41vBRlrtW6x2ER4GF+PLhT9b0Prwg
-         ErVeNcvj2suzyHdpfpGhhwEp5zjArLt9baLxWRotRSTgWlHktqmZI4TyFNz171RhtlOy
-         sdzA==
+        d=gmail.com; s=20230601; t=1739562930; x=1740167730; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=D1ls72V8E9puB3eNgIJ94RbIr4YeTpcns67AF/rE8Ko=;
+        b=GiB4tTNeDJ7kIuwfoaMBuMzoQ+P2ySAs6dpHnDkngdG/YOyTrFL2BpOt+XCNgeKheb
+         7RQcmu7z5b3Ue2mjdfSD9jdH1EpoYZwHtl/nspVVZi7wtU8ExpkyNADAvbLFdhjTGK7Y
+         GiQRThAcfUJZIxv8fQiX00plR/6UQ6herImPuVT3/XOIWLdZ7rzEp5bEJSKqtFS8vbcn
+         wAdx+hAk98PFFWOjYNf6gZ9Wd5VPptUvDwEKIFz7J3iCxQYOnCzngUXfLYAtCRyb8Y6R
+         yvaFCijFiTXbiCxQZhJNUOVHZ2zAUjSo4lnkD68YBC3KwE7P6hObiCJTz6lLRKX+7ffu
+         hjdQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739562919; x=1740167719;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=DXg7EqlSdEA/crnBb3uF53Gz+hB8878Qt+C1oVENMmY=;
-        b=vgF0s4Uh0V2kN3O7MEew1wkN9kLCiYsi0DK/e5TSgXzn0llcw38Iy1uPPZX1b8lNTj
-         lWXu7QeoL7APnrlvJI+XWDPOM6Rs77BQtmO7jkRLT38mUn0WZHAX6nO+65y0D/VjyMMX
-         SMxebR647u5a3npZ0gMMXMIXHi4+Hxp80zZDjIn9WN35Q3Ytxa4oqV+OAb2fwhJtEd2p
-         55CPPn3RETo7Fi2V/iQ2JqpMWdOYwIsuuCxYGAzu++JxI7Fx5sggGu9rC/U5cFYFq0Sb
-         vi7mh3gSIh0YlrhtN7IoZ5H46SKvdC0lNFWh8NZJUTQnSlsqOE9VNkyTYQezDDaDwlvC
-         f6GQ==
-X-Gm-Message-State: AOJu0YybIuOgryfrdWUfxoJ4etp1P+SskUU/6t2aY7+qX/cVUO0c/Ann
-	NTXCMbrGdFqJG+/89clmfikXwao81z6BxvMPIIAdpWD9AgwRaaGWScXwS84C
-X-Gm-Gg: ASbGnctqlpr8Ex0I5s3PTtxAWH32bYRU5Gm8SfLFsAj94B0ndSkHGki61G1Mz/B8YW5
-	ahdBrkvx5FCwXZ8CdtZXkheQS0EVPAX+h3ITHeVIaiMlUABk4R1p/7l93KaI2HJc5EHyK/sw+V3
-	SsRbZrdln2wucLnJSJRtFzSqxrNvN4X6jQMlCbZNJHdvZcKcX8PWC51yzLIOT6x7JtFriMkqvXZ
-	TTbDrlSjk/zYykL9OT/PjDoMzBs6sTjtAFo9xOeTerAkINAohWZWOB/MfAuSfSD6C+7tUYAEdOY
-	FnowfWToNp9gLoIBBPusgW+SCHVRABA=
-X-Google-Smtp-Source: AGHT+IEuICp6EtALJXy283hrSRQaWrcDpqt0WHRnxkzJBQJ8uYfMznB+3fZfRTwEqjsTZ2Uk0MMhdQ==
-X-Received: by 2002:a05:6a00:99a:b0:725:f1f2:43eb with SMTP id d2e1a72fcca58-732619706e7mr381284b3a.6.1739562918522;
-        Fri, 14 Feb 2025 11:55:18 -0800 (PST)
+        d=1e100.net; s=20230601; t=1739562930; x=1740167730;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=D1ls72V8E9puB3eNgIJ94RbIr4YeTpcns67AF/rE8Ko=;
+        b=tXA8ijZ0iKBNxp/KfHVzVwth6OcQ6szGcd3i9PNualMbFO8uDAgKa2LKBn7lANRAnw
+         x4BQ0YIpMBkf1/FW174dzAQ9IZswUO9QOWpT3x576YPMvx7sbPW41ND+RqN013/aOv/j
+         7XqU6kaFmFRq+J0rIYkXE6rZsBtp7SVI4B3InzAjEdLra6rtLd13IwRIaz7VLNRoA6f7
+         z5346BPjfXY9i67hsywIs2eFqlIBWBXZXx0IrB7mNxK+7mfccGGR3+yTsVISJRhgFp03
+         yV+maGcgQ+05L8+igbGuACM1LTQZVbzTxKck6D7nndaaYCa74YpMoqFMuIGtC9QMfuoQ
+         dFDg==
+X-Gm-Message-State: AOJu0YzEVKeNOXvXUXU93Ei+iC5UE1jubRqsQ7GoEXYFeTDcPw2vHJwD
+	5pYvTITdtDBgaH5Far67rsH4eJAXc+IeiCmx2ECIsLXWwRKk5badI2+npte8
+X-Gm-Gg: ASbGncvLVUN8h4FUlMk/WtYV4Jo409ApT6oXasTE+SHXhO0c/G9nDehvvaL3GFEKCtg
+	NIp3NkSXG9wpMYLNPM/10cD33pnPAnzWUZCR3OAkfD/qc+m4ZukmbL9NCtnnuuUmrwWkpYEVNFp
+	35u2UcjEfI/owjkNO4ZPAvpED4yNNvfCng06Q6mGz6+/Pj00MLma5+XdHLZD55NE5tVi0STHh+b
+	9Bjoii2mswhb2xcr8o3TS+QGLTH+Pyz29LYBvTbQRN/gTLzlPllbyug37doJwaNnv8KfK0kFTII
+	v2jYL3Q6e+7XDDBX/s3uapIRnvViU0w=
+X-Google-Smtp-Source: AGHT+IFjYT/m1MRnPua56A4ceDqKHqnT27HdXDvwyL2LyaK5ILMPgH1OeLlvurwBgPORnzf4Xg755w==
+X-Received: by 2002:aa7:8893:0:b0:730:f1b7:9ba9 with SMTP id d2e1a72fcca58-7326197e823mr404985b3a.7.1739562930518;
+        Fri, 14 Feb 2025 11:55:30 -0800 (PST)
 Received: from localhost.lp.veng.com.ar ([200.10.125.114])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-73249fe96b4sm2670530b3a.75.2025.02.14.11.55.14
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-73249fe96b4sm2670530b3a.75.2025.02.14.11.55.27
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 14 Feb 2025 11:55:17 -0800 (PST)
+        Fri, 14 Feb 2025 11:55:29 -0800 (PST)
 From: Gaston Gonzalez <gascoar@gmail.com>
 To: linux-staging@lists.linux.dev
 Cc: dpenkler@gmail.com,
@@ -69,10 +71,12 @@ Cc: dpenkler@gmail.com,
 	skhan@linuxfoundation.org,
 	linux-kernel@vger.kernel.org,
 	gascoar@gmail.com
-Subject: [PATCH v2 0/5] staging: gpib: remove unused variables
-Date: Fri, 14 Feb 2025 16:54:38 -0300
-Message-ID: <20250214195456.104075-1-gascoar@gmail.com>
+Subject: [PATCH v2 1/5] staging: gpib: cb7210: remove unused variable
+Date: Fri, 14 Feb 2025 16:54:40 -0300
+Message-ID: <20250214195456.104075-3-gascoar@gmail.com>
 X-Mailer: git-send-email 2.48.1
+In-Reply-To: <20250214195456.104075-1-gascoar@gmail.com>
+References: <20250214195456.104075-1-gascoar@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -82,29 +86,34 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Remove some unused variables found compiling with W=1.
+Remove unused variable 'nec_priv' in function 'cb7210_line_status'.
 
-v1 -> v2:
+This removes the following warning found compiling with W=1:
 
-Address Kees Bakker review:
+warning: variable ‘nec_priv’ set but not used [-Wunused-but-set-variable]
 
-- Keep the post increment expression (i++) in patch 3.
-- Keep the call to nec7210_update_status_nolock() in patch 4.
+Signed-off-by: Gaston Gonzalez <gascoar@gmail.com>
+---
+v2: no changes in this patch.
 
-Gaston Gonzalez (5):
-  staging: gpib: cb7210: remove unused variable
-  staging: gpib: eastwood: remove unused variable
-  staging: gpib: ni_usb: remove unused variable
-  staging: gpib: tnt4882: remove unused variable
-  staging: gpib: ines: remove unused variable
+ drivers/staging/gpib/cb7210/cb7210.c | 2 --
+ 1 file changed, 2 deletions(-)
 
- drivers/staging/gpib/cb7210/cb7210.c        | 2 --
- drivers/staging/gpib/eastwood/fluke_gpib.c  | 2 --
- drivers/staging/gpib/ines/ines_gpib.c       | 2 --
- drivers/staging/gpib/ni_usb/ni_usb_gpib.c   | 3 +--
- drivers/staging/gpib/tnt4882/tnt4882_gpib.c | 3 +--
- 5 files changed, 2 insertions(+), 10 deletions(-)
-
+diff --git a/drivers/staging/gpib/cb7210/cb7210.c b/drivers/staging/gpib/cb7210/cb7210.c
+index 381c508f62eb..5c2b2c382df3 100644
+--- a/drivers/staging/gpib/cb7210/cb7210.c
++++ b/drivers/staging/gpib/cb7210/cb7210.c
+@@ -383,10 +383,8 @@ static int cb7210_line_status(const gpib_board_t *board)
+ 	int status = ValidALL;
+ 	int bsr_bits;
+ 	struct cb7210_priv *cb_priv;
+-	struct nec7210_priv *nec_priv;
+ 
+ 	cb_priv = board->private_data;
+-	nec_priv = &cb_priv->nec7210_priv;
+ 
+ 	bsr_bits = cb7210_paged_read_byte(cb_priv, BUS_STATUS, BUS_STATUS_PAGE);
+ 
 -- 
 2.48.1
 
