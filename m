@@ -1,111 +1,110 @@
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FD73221DA0
-	for <linux-staging@lists.linux.dev>; Fri, 14 Feb 2025 12:04:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C89111C84C0
+	for <linux-staging@lists.linux.dev>; Fri, 14 Feb 2025 19:55:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739534672; cv=none; b=VTWBv2aLv9DESl8JDtxbHmcgoJSHbieIOoAeNUHE+XA+TvnbJa5/qGhJsf5xc4yhTczqGnh4+woaDJ1UpIydK7hzPvRVzlSBUfl2mbHSiIp4qbb+QbjSSTHHERhZyCsLmoAc2HCm/GZQMkvcqFlAl3zerVJR/TeiKTXGLP+Ix1s=
+	t=1739562921; cv=none; b=TAcrLD2zFxforWidPSs7W7PyqTu7VLmAI+VKlkfkb++9S8rvoo8o9iOxH3Pa+RWW0Bh7s8AFv6UQP9jCe9x50n9zpkUA9NgOAwt1wwDr+jHrznJTlSvF/BjvsaqAngFFB7OfgYN8cjSJ8t3X2vi7UvaZeF+1z3d1JSYeFt3JyLg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739534672; c=relaxed/simple;
-	bh=wFAGqe8fwXyyIsVzC6HVfv41qXizSC8Sy/9GVTM/gZU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=aL6OH864l+Iz3FFdJ0JG1tfrt8OPyoSOPlx4MWGbrS7G2cd3eX/TQe5Gz4Cb7f3k2t5mXXWuKw1k2oR35ryNLdO9IxPSfQx2Ozc6ZDGl8oiE1Cma3/avcwfoY0nkaA7z2km45VIwjyxOy/8NgiECQrXZXJzdTg26AZlFvROV49M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YH68fv22; arc=none smtp.client-ip=209.85.128.43
+	s=arc-20240116; t=1739562921; c=relaxed/simple;
+	bh=jDZUbPR3az1p6TTvnGVdNLc+wKH51rUHZj5XjVm5igU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=SV6gyDV7Toz6un6ZZf10BhdmYdSLD5b1I4GZ+y/OTcUzx5tQNmNqJbOBPGAeRXeoazaIf3/DPhpvqaUA+4SVOpg2b/yXmxmScFYsIszc5NYg2UMrB540JjjSqPI3psdFGge8tCtECVQf6XsHBT3jz1GpWsgpYzjeD95RlBni7xQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=crBBSlHD; arc=none smtp.client-ip=209.85.216.48
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YH68fv22"
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-43690d4605dso12752455e9.0
-        for <linux-staging@lists.linux.dev>; Fri, 14 Feb 2025 04:04:30 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="crBBSlHD"
+Received: by mail-pj1-f48.google.com with SMTP id 98e67ed59e1d1-2fc3035e947so209471a91.1
+        for <linux-staging@lists.linux.dev>; Fri, 14 Feb 2025 11:55:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1739534669; x=1740139469; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=H2/EmkyG86XB4+zPcE4otxsWMOKAE2ROdD+dHLtdsjQ=;
-        b=YH68fv22ZCrabdnLQCTCNdTnHZd+7zyLebkdBaLu6dkbmIa0bA60sIENuiZobu7CKF
-         vmwsK1mQg5YEv0ZHCajYwzFD6mDRO4S72xOh/lCuoh72F0QyioZUfZEBXhKX9mJg8Q8I
-         u9KpgWN0C/QTSRQvdmQr1Sd1JzqmdWdnC5M33ij5VQIIAA5nLVQKMAKflwTLMLK9UTgG
-         ot1k5LcRhPG7X2NbiubbxR6h0ZpjyFfYHjqa0FZAmB0aqRWoOlMhb3Vk95vACDUH0A1N
-         JlYwIEW0uRkU0Tlbo2l83aA+/0xxGf3x93tKfYwNOSpPcnMbwUEYRgaZ5rKOHJ945hxz
-         Vf0g==
+        d=gmail.com; s=20230601; t=1739562919; x=1740167719; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=DXg7EqlSdEA/crnBb3uF53Gz+hB8878Qt+C1oVENMmY=;
+        b=crBBSlHDESvq0O2wE3fzUooaxqzGRPwOcfea5wVBobnoStJDKdC4RVLCdNmd4KaMJH
+         13huiju0++hoQdTEzDYW9qUoFwj2w7pKLJFFGjq+2GMBjjuVROkPZeIghMX72WBmlS7+
+         uhsQiMdH3cmc/4u45mCAFUm/KcySoxl5eb9zAFMXNFEPvvdyVsCH58zObfhA2EP5lcgg
+         UnUDw2AFJ5hk1uavvEnOAb92zwM5td7AdB/FuRj41vBRlrtW6x2ER4GF+PLhT9b0Prwg
+         ErVeNcvj2suzyHdpfpGhhwEp5zjArLt9baLxWRotRSTgWlHktqmZI4TyFNz171RhtlOy
+         sdzA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739534669; x=1740139469;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=H2/EmkyG86XB4+zPcE4otxsWMOKAE2ROdD+dHLtdsjQ=;
-        b=SM7UUw+9uNywFqftvVOK3lzwgLElfTfxHQHy6cH83DlmjubJGseV+xuPyaR9sJJWQN
-         1iUqHDXc8NNpdaLtSDsdZlxHnvUGBZ0NqwRpYr4Hx6okbqkdXn7BZzgooc5spO9+KSzX
-         /hOnhD1/AJjDmeYbLCNDYeSe0YABLUgHe/b2VKAvxSQLpBD7EV+j7kfZWFEanSC9Fzqj
-         9Ul1l3b/LXRIz7vQAZzohtIuwS7dU1dfe5ky+5YBfQ4+xDwcDVTp3XbDSolEq6bLyhR+
-         5IQz55cwLXZZ7ljulGPQzd4u2S3bbYbpeYmG5EBagub19GqyBzhd2J1ViUzWyzU69wiN
-         INFw==
-X-Forwarded-Encrypted: i=1; AJvYcCXPy7l3jeFQ/AynMNwuB5wQ5U4qINO9BboCrZoSJKvGBBYZ/xQEuu+wJO7Gb5hYDeuX3a63smWDDprDetKk@lists.linux.dev
-X-Gm-Message-State: AOJu0Yx7uy8jS5z+iSeSikM4ovC5QR4DKXCkw/Mq8oz8qy9xQNY0cvtJ
-	TignV7Gkpn41SGhG4vL75PDXJrNfFAu0A8HZ/lzkWEr05acrwaOv
-X-Gm-Gg: ASbGnctTSpCWUYUUJ94qWfRkLs9CD8GT+72jB/hbEIG4cgsOEHgwZ9bL1dSxMYENvbg
-	XQJifgHuc1y0A3cvb1wrLgGT/K/D+uIZncaQLNGbLM5qgqJTr7wW31z1+FDf3IZ92nPLxKQjAYZ
-	hXl9MipDM5YGNbDSLO9S2N2ygDSmy/5fzfHladnBRpuPkTskXB8agPmk4nU91xTjCKgWtPjgs5d
-	oQIL6drZsOxDB/oiCOUQSABeIrTq8Wa8uU30dUGGIDjyyXJBiuP9XwyZIVSaTebtQv50NcC15mK
-	OAbgA944/MtXf6wWQWnISjBUFZDWkJk=
-X-Google-Smtp-Source: AGHT+IHrlbR4VIv9nfE0+FPkbcscuBRo8nT4S+i0mXwVTsqlmVQjTcn0OZ3jXYuJt036YYwFj1nuSg==
-X-Received: by 2002:a05:600c:1c15:b0:434:a525:7257 with SMTP id 5b1f17b1804b1-439601a116bmr79885005e9.21.1739534667950;
-        Fri, 14 Feb 2025 04:04:27 -0800 (PST)
-Received: from egonzo (82-64-73-52.subs.proxad.net. [82.64.73.52])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4395a1aa7c7sm74879825e9.27.2025.02.14.04.04.27
+        d=1e100.net; s=20230601; t=1739562919; x=1740167719;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=DXg7EqlSdEA/crnBb3uF53Gz+hB8878Qt+C1oVENMmY=;
+        b=vgF0s4Uh0V2kN3O7MEew1wkN9kLCiYsi0DK/e5TSgXzn0llcw38Iy1uPPZX1b8lNTj
+         lWXu7QeoL7APnrlvJI+XWDPOM6Rs77BQtmO7jkRLT38mUn0WZHAX6nO+65y0D/VjyMMX
+         SMxebR647u5a3npZ0gMMXMIXHi4+Hxp80zZDjIn9WN35Q3Ytxa4oqV+OAb2fwhJtEd2p
+         55CPPn3RETo7Fi2V/iQ2JqpMWdOYwIsuuCxYGAzu++JxI7Fx5sggGu9rC/U5cFYFq0Sb
+         vi7mh3gSIh0YlrhtN7IoZ5H46SKvdC0lNFWh8NZJUTQnSlsqOE9VNkyTYQezDDaDwlvC
+         f6GQ==
+X-Gm-Message-State: AOJu0YybIuOgryfrdWUfxoJ4etp1P+SskUU/6t2aY7+qX/cVUO0c/Ann
+	NTXCMbrGdFqJG+/89clmfikXwao81z6BxvMPIIAdpWD9AgwRaaGWScXwS84C
+X-Gm-Gg: ASbGnctqlpr8Ex0I5s3PTtxAWH32bYRU5Gm8SfLFsAj94B0ndSkHGki61G1Mz/B8YW5
+	ahdBrkvx5FCwXZ8CdtZXkheQS0EVPAX+h3ITHeVIaiMlUABk4R1p/7l93KaI2HJc5EHyK/sw+V3
+	SsRbZrdln2wucLnJSJRtFzSqxrNvN4X6jQMlCbZNJHdvZcKcX8PWC51yzLIOT6x7JtFriMkqvXZ
+	TTbDrlSjk/zYykL9OT/PjDoMzBs6sTjtAFo9xOeTerAkINAohWZWOB/MfAuSfSD6C+7tUYAEdOY
+	FnowfWToNp9gLoIBBPusgW+SCHVRABA=
+X-Google-Smtp-Source: AGHT+IEuICp6EtALJXy283hrSRQaWrcDpqt0WHRnxkzJBQJ8uYfMznB+3fZfRTwEqjsTZ2Uk0MMhdQ==
+X-Received: by 2002:a05:6a00:99a:b0:725:f1f2:43eb with SMTP id d2e1a72fcca58-732619706e7mr381284b3a.6.1739562918522;
+        Fri, 14 Feb 2025 11:55:18 -0800 (PST)
+Received: from localhost.lp.veng.com.ar ([200.10.125.114])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-73249fe96b4sm2670530b3a.75.2025.02.14.11.55.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 14 Feb 2025 04:04:27 -0800 (PST)
-Date: Fri, 14 Feb 2025 13:04:25 +0100
-From: Dave Penkler <dpenkler@gmail.com>
-To: Ajith P V <ajithpv.linux@gmail.com>
-Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: gpib: Resolve prefixing 0x with decimal
-Message-ID: <Z68xSay4rBSecuMO@egonzo>
-References: <20250206092815.3267-1-ajithpv.linux@gmail.com>
+        Fri, 14 Feb 2025 11:55:17 -0800 (PST)
+From: Gaston Gonzalez <gascoar@gmail.com>
+To: linux-staging@lists.linux.dev
+Cc: dpenkler@gmail.com,
+	gregkh@linuxfoundation.org,
+	arnd@arndb.de,
+	dan.carpenter@linaro.org,
+	ajithpv.linux@gmail.com,
+	roheetchavan@gmail.com,
+	niharchaithanya@gmail.com,
+	eleanor15x@gmail.com,
+	everestkc@everestkc.com.np,
+	kees@ijzerbout.nl,
+	skhan@linuxfoundation.org,
+	linux-kernel@vger.kernel.org,
+	gascoar@gmail.com
+Subject: [PATCH v2 0/5] staging: gpib: remove unused variables
+Date: Fri, 14 Feb 2025 16:54:38 -0300
+Message-ID: <20250214195456.104075-1-gascoar@gmail.com>
+X-Mailer: git-send-email 2.48.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250206092815.3267-1-ajithpv.linux@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Thu, Feb 06, 2025 at 02:58:15PM +0530, Ajith P V wrote:
-> - pr_err() of hp82335_attach() in hp82335 uses 0x%u which is defective.
-> - The iobase is of u32 and correct prefix is 0x%x.
-> - This error reported by checkpatch with below message:
->   ERROR: Prefixing 0x with decimal output is defective
-> 
-> Signed-off-by: Ajith P V <ajithpv.linux@gmail.com>
-> ---
->  drivers/staging/gpib/hp_82335/hp82335.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/staging/gpib/hp_82335/hp82335.c b/drivers/staging/gpib/hp_82335/hp82335.c
-> index 451d5dc6d340..6ce79b17a419 100644
-> --- a/drivers/staging/gpib/hp_82335/hp82335.c
-> +++ b/drivers/staging/gpib/hp_82335/hp82335.c
-> @@ -274,7 +274,7 @@ static int hp82335_attach(gpib_board_t *board, const gpib_board_config_t *config
->  	case 0xfc000:
->  		break;
->  	default:
-> -		pr_err("hp82335: invalid base io address 0x%u\n", config->ibbase);
-> +		pr_err("hp82335: invalid base io address 0x%x\n", config->ibbase);
->  		return -EINVAL;
->  	}
->  	if (!request_mem_region(upper_iomem_base, hp82335_upper_iomem_size, "hp82335")) {
-> -- 
-> 2.43.0
-> 
-Hi,
-Thanks for your patch.
-This patch is now superseded by
-https://lore.kernel.org/linux-staging/20250214114708.28947-10-dpenkler@gmail.com/T/#u
+Remove some unused variables found compiling with W=1.
 
-which uses dev_err instead of pr_err and corrects the defective 
-prefix problem also.
--dave
+v1 -> v2:
+
+Address Kees Bakker review:
+
+- Keep the post increment expression (i++) in patch 3.
+- Keep the call to nec7210_update_status_nolock() in patch 4.
+
+Gaston Gonzalez (5):
+  staging: gpib: cb7210: remove unused variable
+  staging: gpib: eastwood: remove unused variable
+  staging: gpib: ni_usb: remove unused variable
+  staging: gpib: tnt4882: remove unused variable
+  staging: gpib: ines: remove unused variable
+
+ drivers/staging/gpib/cb7210/cb7210.c        | 2 --
+ drivers/staging/gpib/eastwood/fluke_gpib.c  | 2 --
+ drivers/staging/gpib/ines/ines_gpib.c       | 2 --
+ drivers/staging/gpib/ni_usb/ni_usb_gpib.c   | 3 +--
+ drivers/staging/gpib/tnt4882/tnt4882_gpib.c | 3 +--
+ 5 files changed, 2 insertions(+), 10 deletions(-)
+
+-- 
+2.48.1
+
