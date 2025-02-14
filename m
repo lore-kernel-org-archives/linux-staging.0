@@ -1,61 +1,61 @@
 Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D8B41C84C6
-	for <linux-staging@lists.linux.dev>; Fri, 14 Feb 2025 19:56:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 420601C84D3
+	for <linux-staging@lists.linux.dev>; Fri, 14 Feb 2025 19:56:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739563002; cv=none; b=szpNSKMWWM/3kCb3zJZs3n/6BCNpndfqGbjxhi74e2aDWpAfhsHTbc7rYkO9j/s83ywLjDUNS77V2YwoZeYxylEGFJZALEzEuCvPQt8HTQlmHG8S5Gm840E5/qrSMK0uvnO8b1egEeyMZ/cUfRhiCNmTKhJcxcTCoPv5SL0aDlI=
+	t=1739563011; cv=none; b=ZmYOW1UIwnEF6kOxR+9rF8BFC10rmFIsSH3czbFho77pe1L6iGOvLbX51Twy+hJvxJX5HgBSZPEm8pP+vwt2dEG8vZusF+9LaH/HXsf4qgK/Zf8QU5YS3XrhGD8sXL1gVTWtKczaZ4jI8z/L0IsEy4064Kmbc8yU6sMdsbD6bPE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739563002; c=relaxed/simple;
-	bh=echjav+toUtLY8bX7ph9CHbII8dhqhEq8q/MKj+NGVw=;
+	s=arc-20240116; t=1739563011; c=relaxed/simple;
+	bh=YBwPeQCDJxOHmq/Co+incHBL3UWPQ6vi3ncG/nUGZ8Y=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=TcOPZNKH2uhRa+DNX7VNz6bp72Ev3BK3ZbwaZLJ/hrsMRJ7rB2Y5kfTTWozcV9LpFIBbwvIMPaQblV4Tt5eAdzXGz9NH8+eCk+vc2QmXaaqDNamXJdP4/M+lnQEarLGTjlBrEHy+dU7GvEGg+V0CWb4ReI6LLLaMPGQM892H53g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cJT/zBjN; arc=none smtp.client-ip=209.85.216.46
+	 MIME-Version:Content-Type; b=qwHGQUKPmAyYkTjS18YuCU36QrhWN07w6DNHE+YscBklL+JyDmNqRrL4EMCbaEpMm2PvRfZxyt0d+UpOxNM9uk+kqc+7Sl/SoLCr0eZtlrFtufvoF5EmHOnfotq1+82gyBLghFCOyiwWUYdEh6l72qWw/hSzph89z1rN1f/OODs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=aoAgcmGO; arc=none smtp.client-ip=209.85.216.46
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cJT/zBjN"
-Received: by mail-pj1-f46.google.com with SMTP id 98e67ed59e1d1-2fbf706c9cbso531895a91.3
-        for <linux-staging@lists.linux.dev>; Fri, 14 Feb 2025 11:56:41 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aoAgcmGO"
+Received: by mail-pj1-f46.google.com with SMTP id 98e67ed59e1d1-2fc29ac55b5so297061a91.2
+        for <linux-staging@lists.linux.dev>; Fri, 14 Feb 2025 11:56:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1739563000; x=1740167800; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1739563009; x=1740167809; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=8wx473TxCM555Yxh01S9xtHDPkAuBmTyv1sHlXyhK+8=;
-        b=cJT/zBjNxbz4JZNqh8mw1XnqXtDYT/31ca6vsIkpkLUvgFFSdA8udxT9E8hSwK89Kr
-         brDkzu3YyIGRNJ3BgFXuAV2vnwjKM3nSQvaI0//xZyNtDlhDk3ZQatkCtD2J+frAHg81
-         74loyqCbypO0L7UQVPpYO/KEv5TQQHiHnHVNahT4GUGOeimCoq99wR+dMdohWIaJi73k
-         h+bVuJP+cNxoBJ89nfNDFSjOrPWvgnd5IdHDf0FK9aSedCFTT8v9Aa0XZl94eP8GT7ju
-         soNPkAFVV18Xstfs94e4CUbmZYnTH3Ly7YWeflWVH5rHz+oCCkIaTTUPYE8g5ZqxlTFY
-         iB/Q==
+        bh=iZe63HKM8wngZcB9fftBtwVVvlWOpcDUXEwsaiq1API=;
+        b=aoAgcmGOVyoyWCOBQM7njlT7GZk3kXjHDSr7k+KTvHARQTzHEGu2/WEUwWxdrjb5w7
+         UMXUZRmPZmmsYRP7w99698N0ZDY8ftAH354iFW4HO7id3a8MMlOjQcnnqBwDZwP6LvM2
+         9s+LZ6yr+2lqw5svgnyteoL+w+4ssrcDYR25p7z8zU00Rd6AGt3RK2KD2uyW7L6EJH9T
+         weKiKlqIb5tixizsjRfKLzlva3e4eIk8oRMllWEpm+z7nVgEjGNo5QThi3+zkjku1lj0
+         E6vkwbTa1rIsNdZ1U9SB5YinFSn5bh3bM5BjGY9Z+msGoaoCewSB/CVPwiIPPPT3bTRG
+         YI5w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739563000; x=1740167800;
+        d=1e100.net; s=20230601; t=1739563009; x=1740167809;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=8wx473TxCM555Yxh01S9xtHDPkAuBmTyv1sHlXyhK+8=;
-        b=atPnunN1F9ip+FBga0gWKiqU2Xfek8FFBNGxqm2qBiRqbi1f0AzCmUQNYjshZi/f72
-         uZdl9F2N2P+J4EAMJ0TJmy9KXMVYmkGJGewxjZh1shsACxJW3P/4t+fhue3ZaDr5cdio
-         TU8eJxTmGMEs72nhSpUktb8ljN0J3k8z46v6NjJSiEX/sE4/SdlbYDoJKhkGPXs4oES2
-         4VL3JFS3yhVSmE6jjbpYoEddOJOKNHta8W0IgtkG3qb8OD7PJQqNB9SjnkDbmsMnkjGH
-         teW2gSoD4P9yDFYa1N7C6Umupty6asQdUITopLrWjay0hdtj+XlYIGF99sUHfM72s7jS
-         5SIg==
-X-Gm-Message-State: AOJu0Yxidn6rYovvfWatdxjlOMaM7XLmlK4KzCHOL3qQht/wE71oi8Nm
-	mDOjd44aNKYxnCpNuSta3oA5f5Tbu7SmeCCyjeLnCOeBQw95aDKQmLCFGHmt
-X-Gm-Gg: ASbGnctBhDV6V6zmqC5xdLJOJwhkUibIgKreO1oz+WoxHIHxEHM4sqMdZUsqoBNZqN6
-	keDGLN5J/ROdnUWud62RS94BHJ8wFxc8lUwQiAcHv0giyKmUxr5+2xEWGqea7tXHVmM472aAmBD
-	WvpEYv2yykxrAGxsL5pGHrkWfUNqHwStxhEwap4YWEMfzOg6ibLOKGJ1PqZ9RLGraDSgScKH+0R
-	kKlIW/Zvj1D0kbOPReMd8k/NXj67Llq1ixrRtQZ2rFVfm50GLHe+Spy2Vo9pkOP3bANlMShwyP3
-	VKnlDPf+6f1yi7k8HYm1LvWeUVzzl+w=
-X-Google-Smtp-Source: AGHT+IH8byrqt7eq9hY+C/QRNXxcZ9q+AeahMXsTlX/kzcus3VCl/XbmWsIev1W1My1h0CgwErORZQ==
-X-Received: by 2002:a05:6a00:ccc:b0:730:96fa:bdb5 with SMTP id d2e1a72fcca58-732619416acmr391931b3a.6.1739563000043;
-        Fri, 14 Feb 2025 11:56:40 -0800 (PST)
+        bh=iZe63HKM8wngZcB9fftBtwVVvlWOpcDUXEwsaiq1API=;
+        b=sySyVV1UHZ7fKaX4c10AOYMwgjtBZ6qyug13XG3AgXQIUCDgW68gUAwcjohRopAimQ
+         MHrELq7SSeFy6ZIFNQOk3NbwHDggcKoYMuFSndyNdyHSTSzyQUGcXF1bBrrYU6j/7kPB
+         QzrzSIaTNlGlYn+eT2QeSim4DcVGfnJRjy90MjQF9zoSw6muEeRm8197ZRVJjOlxa9FP
+         l2ypaTnkjFLakFfFzLjli5om/MyxjfkDVJxhxiW75aHbkz/MNv5O/N4PCNlc9tRy7Y+2
+         jIrbaCuMWWS4EacwIkqkSB6Xw3XWlDqk3rYyG4i3PBFT0UhV32oYM9iREiEz+05AfDw1
+         HYdQ==
+X-Gm-Message-State: AOJu0Yxs+FX6bzAb70K3ukrMxblKSslhF7Gl/HFnDCzt5W2x+3jZJbZR
+	b5OKtldFcd/0rXQ0ArKhEY11JtAo1YZUiGUAPiJZuZCdmPc+JbNshawu2VMz
+X-Gm-Gg: ASbGnctFrSq8p/7WjgobV6R8P6GClqz7WrdpE7qdyuFcELBr9VvslEqRZKY5GyGiwjo
+	usSBK0LXUOSJCZFvbH378m4YoBjQeXiwOaW/5GIYZ+9JwcCD5crppdaTFgr3DzMKOk3Fsl7pt2s
+	2zMObF41rp2YT/n3Ck1mRxk6XAv4OdkafqL4OrigN1e7uV3YYPOzTbSbwub7zr46CggQ5xeSpUa
+	WqIAD3VF2sMs6mt1mB+V2QH5qfXHe1dzA9w5CXxmOFHoPjeZBnTAYZsimenWkdH2O7EtuJv2vjZ
+	Ny+2lnhU5EiTZjNTAYj6mlOdGveVwQA=
+X-Google-Smtp-Source: AGHT+IG+/GJB7UKuBoebjGFibYJBhi5i0M3ekF7jrMwSS7Pg5F3IV+gTj1kHaiZigFpU3lR6DmIt7w==
+X-Received: by 2002:a05:6a00:3e0c:b0:72a:a7a4:99ca with SMTP id d2e1a72fcca58-73261778caamr439948b3a.2.1739563009122;
+        Fri, 14 Feb 2025 11:56:49 -0800 (PST)
 Received: from localhost.lp.veng.com.ar ([200.10.125.114])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-73249fe96b4sm2670530b3a.75.2025.02.14.11.56.36
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-73249fe96b4sm2670530b3a.75.2025.02.14.11.56.45
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 14 Feb 2025 11:56:39 -0800 (PST)
+        Fri, 14 Feb 2025 11:56:48 -0800 (PST)
 From: Gaston Gonzalez <gascoar@gmail.com>
 To: linux-staging@lists.linux.dev
 Cc: dpenkler@gmail.com,
@@ -71,9 +71,9 @@ Cc: dpenkler@gmail.com,
 	skhan@linuxfoundation.org,
 	linux-kernel@vger.kernel.org,
 	gascoar@gmail.com
-Subject: [PATCH v2 4/5] staging: gpib: tnt4882: remove unused variable
-Date: Fri, 14 Feb 2025 16:54:46 -0300
-Message-ID: <20250214195456.104075-9-gascoar@gmail.com>
+Subject: [PATCH v2 5/5] staging: gpib: ines: remove unused variable
+Date: Fri, 14 Feb 2025 16:54:48 -0300
+Message-ID: <20250214195456.104075-11-gascoar@gmail.com>
 X-Mailer: git-send-email 2.48.1
 In-Reply-To: <20250214195456.104075-1-gascoar@gmail.com>
 References: <20250214195456.104075-1-gascoar@gmail.com>
@@ -86,40 +86,34 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Remove unused variable 'retval' in function 'tnt4882_update_status'.
-
-A call to nec7210_update_status_nolock() is added as the status bits are written
-to board->status in that function.
+Remove unused variable 'nec_priv' in function 'ines_line_status'.
 
 This change removes the following warning:
 
-warning: variable ‘retval’ set but not used [-Wunused-but-set-variable]
+warning: variable ‘nec_priv’ set but not used [-Wunused-but-set-variable]
 
 Signed-off-by: Gaston Gonzalez <gascoar@gmail.com>
 ---
-v2: add call to nec7210_update_status_nolock() function.
+v2: no changes in this patch.
 
- drivers/staging/gpib/tnt4882/tnt4882_gpib.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ drivers/staging/gpib/ines/ines_gpib.c | 2 --
+ 1 file changed, 2 deletions(-)
 
-diff --git a/drivers/staging/gpib/tnt4882/tnt4882_gpib.c b/drivers/staging/gpib/tnt4882/tnt4882_gpib.c
-index 2e1c3cbebaca..19f6d798f09c 100644
---- a/drivers/staging/gpib/tnt4882/tnt4882_gpib.c
-+++ b/drivers/staging/gpib/tnt4882/tnt4882_gpib.c
-@@ -704,12 +704,11 @@ static unsigned int tnt4882_update_status(gpib_board_t *board, unsigned int clea
- {
- 	unsigned long flags;
- 	u8 line_status;
--	unsigned int retval;
- 	struct tnt4882_priv *priv = board->private_data;
+diff --git a/drivers/staging/gpib/ines/ines_gpib.c b/drivers/staging/gpib/ines/ines_gpib.c
+index 22a05a287bce..ba07dfb0697a 100644
+--- a/drivers/staging/gpib/ines/ines_gpib.c
++++ b/drivers/staging/gpib/ines/ines_gpib.c
+@@ -26,10 +26,8 @@ int ines_line_status(const gpib_board_t *board)
+ 	int status = ValidALL;
+ 	int bcm_bits;
+ 	struct ines_priv *ines_priv;
+-	struct nec7210_priv *nec_priv;
  
- 	spin_lock_irqsave(&board->spinlock, flags);
- 	board->status &= ~clear_mask;
--	retval = nec7210_update_status_nolock(board, &priv->nec7210_priv);
-+	nec7210_update_status_nolock(board, &priv->nec7210_priv);
- 	/* set / clear SRQ state since it is not cleared by interrupt */
- 	line_status = tnt_readb(priv, BSR);
- 	if (line_status & BCSR_SRQ_BIT)
+ 	ines_priv = board->private_data;
+-	nec_priv = &ines_priv->nec7210_priv;
+ 
+ 	bcm_bits = ines_inb(ines_priv, BUS_CONTROL_MONITOR);
+ 
 -- 
 2.48.1
 
