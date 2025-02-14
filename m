@@ -1,70 +1,70 @@
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA6FC2641D9
-	for <linux-staging@lists.linux.dev>; Fri, 14 Feb 2025 11:47:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 103D3264A61
+	for <linux-staging@lists.linux.dev>; Fri, 14 Feb 2025 11:47:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739533667; cv=none; b=ttaCOCHgnIL2kwGxKBdEjcbItuzbM7hA+oS8o4cbIVSbttEcSqIaNbw+EqSzXyp+VLjGNuWN23iJsol/NKHtPPRD1DwoC8nyXGfUFJ3ERaG2qlKV+0ydel90Ux/M/iWqPwqtc6tSXpBqFd9duV4BFl3G3ik/rERY3iIZ1gvvMq0=
+	t=1739533668; cv=none; b=S7xI3UpPRT17uEMKBQJmd9IwCIoXqXsqq7mqUSBnP6ekRfo3+6amvNbYwXPbvm2QqMmqqGQrSy0zMoc0TFUkhVly9ZANyjXNZkF6VVjjwmEL3bs3N4jzff3uxMHc5Z3ZgTRQPFpJA4dVAqQW+l8z9nIK1xJ7sCx/2mz5RF6m3Jo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739533667; c=relaxed/simple;
-	bh=tohAi5nBFkHj/tAgmQNpX3rhDfpyKrO/zJJ46ZJn49E=;
+	s=arc-20240116; t=1739533668; c=relaxed/simple;
+	bh=otW1RJyE4F3ikNxsbuQW9V3/snb/w7z5xN/QWk8BC4U=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=GwtUc4K8vHnXxTMKVO7PwVobw/hzXVjHVcpUJHKgOuX2Q/MtbY7LZ1e7qkrA0s2ZTAZqRbFAfgwUTqPyJROpp256J1RsC/xMI5wtBW1RZqb//z2W9JbaOvUDI9tLwKZ2JQGcu2gIVmkm6xokzOr81vNYthrJPO/YvRJ98nLh2qA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=arxFDOnA; arc=none smtp.client-ip=209.85.221.42
+	 MIME-Version; b=sEBRAQiobroWr2qkPBOI62SXHQlDZqEOTUemMI953EoOUQ37lB47gPeyUCr20zfiy9nRzSryeGqy5gxxeSLdzrc8+VmJIWGDOMBJUomSCiQ1vF9FlL5NVNa61B7JiCkncup0QxIISKlzyYX9ZfGlZ4AfnFF5DGfl/rCCbOxprNs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=g7s5vm4p; arc=none smtp.client-ip=209.85.128.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="arxFDOnA"
-Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-38dd14c9a66so921074f8f.0
-        for <linux-staging@lists.linux.dev>; Fri, 14 Feb 2025 03:47:44 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="g7s5vm4p"
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-4396a82daf5so3328225e9.1
+        for <linux-staging@lists.linux.dev>; Fri, 14 Feb 2025 03:47:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1739533663; x=1740138463; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1739533664; x=1740138464; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=ZTJq08jTmKdGfD1Y04JBtH26qiXRl5lyzw01SEJq/fg=;
-        b=arxFDOnAo7G+jy4VxdVPolB+DYBuNLZM8Sk6788bxbIpVMAg79RaBYrYgD59MIrlZI
-         WBDHZhT7TOzjCkyMyNJiwf1L8AOW+3WWHnP46KtKSRDOwcwL+MsYHVk1pCT9n9CGjF+W
-         3OXq/TgBPJQUNZvKIoYvNDVhRV8e3/kyA/GZGx3TJ9u2BBIO6I2thcNPaUhT/mqIlRrG
-         975RgTZ9LAB8OVEziVDrH29r0XFJAI5qFD0bgCAIuaf209kM/3g/rY+LicYD7DOMKVv4
-         Ldg40ER7ikA2HASFwjxwGExScDDXsiAQGSYWsjenNUiPhQwy8xgEtmyPkqaQJT8C4XH/
-         5WfQ==
+        bh=LVmtBhEiVyNl8QZ1O6tERZVz1PTbfN4nkq7rh5ldJZo=;
+        b=g7s5vm4pXIutV/oOQr63TcvzNvJDIf1+JQaYpEnzX1MHFWx1j5dzMQsNQhS/wGHTJn
+         A4O7mMpLIn/0XkPra9Y+dOX6XHiraFqLVlGaXZSqX8zL606ROdXZb2A/JZDQVEpJg2NN
+         cVG2ci8+LHBuvqDZ3AJWzT3MQgX6oDaBWP9W9uhUn4naxdsf2T3xCsLesUlFqX0G9XI4
+         aBpZjqv3t2KBUG7rWN7M3I6CaEGpoYjkYJbQ9E/DYJWOIVrbF0MO7jLzOh7RqQbqMO6I
+         INV9dEjWTxtCTkKEusZcgtmXWxMoliaCj1GSb3p8+obgJT0lT8GDultE9ko4EJtlzqbd
+         /9sw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739533663; x=1740138463;
+        d=1e100.net; s=20230601; t=1739533664; x=1740138464;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=ZTJq08jTmKdGfD1Y04JBtH26qiXRl5lyzw01SEJq/fg=;
-        b=pSojmtd7QvqtWc/aXg/whFenN2iyejREmPO72/JbG5p/XlvydjGIsJZc3fH1bfEyko
-         YSfCVwqMl1nBqfTjcKNfcZAG9ApjddciNVffgtaGQ+8onZpa/SEKW+OuZP9XACoTWZaG
-         nr7xVdQ30al0qNT9eru40nlzxi9GYd0pbKHalMDramxGyH5Kq/xnqVY/HZmIIJOXtD7F
-         hqMTQja7dvvf+zgstMe2Aj/M8Dcb96sBTU5LXTSDYR4Jtdi9C1aV5tmIpcL5dsg/Taal
-         2wpvi0Nw9pqxWHR9HF1rLUHSImFhRDoLmHnN0/rNj2wJoJe35HWhGulT+tfQTp8q45cx
-         VnAw==
-X-Forwarded-Encrypted: i=1; AJvYcCVelcyS1C/sgqxaO6egaYd4mnV17ZbozlSrlTDmPMlT1v5QIZCtFtcsfx4SctFBmx347xAx8VxT82nUeWc4@lists.linux.dev
-X-Gm-Message-State: AOJu0Yw0rWm8A/+1dom0gwUfccNPv/febTzmytFByiF/vOL46Gc49XX6
-	yRrOjcEgAaxJcvuKCTzrFC8dwgXRxuhw8Nw+1znD8csp99aVLEtz
-X-Gm-Gg: ASbGnctk3KoV6OKNnqiI7eiPDbGLecgYLsUOlp0WPoCDZM8Ob7dvv6quIkjDdypJfuP
-	rG9Ei7uoaVG3YKr733OBDY/1tn9rrq35vUVzh2aFlC7f7prad2SVNKzHpzvHh+1K3YtBvjI7cMU
-	6WLN6ZFvMHqyfVOdTLcWNvPO7BoAneX3PSOfYlz6bashdNYgHMYS8sslJslX3oeBwdndJ1oMd6+
-	NY8TEJKLZQi2FI6E6OeN9F9FKIFH8TYt7oEiHtkqRJd+Tj926hL+tVKkwqun1GfpSOrVkQcOIUg
-	sob/+nqsDpBsQ/EZv5h/OmbB11p5tVwKVctHzFwT1tVTgB+zkrY=
-X-Google-Smtp-Source: AGHT+IH3wicaWkeg29PW3y29BTX1IqB2mNLTjCCohqYxqTgqaedsp7JwXU3vPw0NBa0TmTQN+0R5ZA==
-X-Received: by 2002:a05:6000:18ab:b0:38f:276a:1662 with SMTP id ffacd0b85a97d-38f276a1705mr8044195f8f.13.1739533662814;
-        Fri, 14 Feb 2025 03:47:42 -0800 (PST)
+        bh=LVmtBhEiVyNl8QZ1O6tERZVz1PTbfN4nkq7rh5ldJZo=;
+        b=v18sQFrENwsxwn+uLuB/EmBFaMeWuswoQERhe4WGbpaYSJrz0g4fLnKLuEF1MYCtNo
+         vjBuTa1dpc+iemR5qmIU6KLEQYlsW9P9cs90Xv0csCe/r1E/aUUkC6/dYvinaJpPiU44
+         f1TZMiGIaaHtp3DGIFQQ4SmjJPAXVArU9Ua/zS7tcawsb/04TFBQNKe7fUtBf5Kakb1L
+         1FZnr3Adxorcw1zNt9P0D+RiMQy6Q96w289cV8WG2Z+akJVgvzSv/vtrzAv0ymh7v1Bw
+         5FbAtNgt3pTrpIznU+zIi/5Wc8WXLNSzEb0sd4kL1n3nRtx1IXx1PIOEqSZOVBajg5ZN
+         Ka4Q==
+X-Forwarded-Encrypted: i=1; AJvYcCUvLmTtTWrrWtNUZ3y+zuWC/CdwSs4H8Kaq+pnTqskLb2Q7EmsnnKVdFG50BmgolQXOW96RlxxXk/U4DbFw@lists.linux.dev
+X-Gm-Message-State: AOJu0YzTvmT+y/BlnTH4tO1qqZ2zUZV5mPKlQeiotdgHVWLUCABKHZXA
+	9Chf7h9RufBeqH2M/6xoHskviuQMr7KwGBw96qA+mCbirY2hfAMTdY8pCg==
+X-Gm-Gg: ASbGncv6p6yJxgorNgSQBYtTUpdGf7ViZaLuIfhW8TUcqoEq9ZIOXxZLZFHA7u3O1ja
+	biFp0jMLUPF4PrSR8nA7QhVyy37oPvbyjXBPYcOxBF30N904/pYQIPBjvBH4u5M4jR76HybTlW3
+	tPBDVj4hBcVZkheAzsHhDZNgHS1GI313guiyE1gks+yvc43olFcvxj7rbEiNe+BtdOCkdNEU9Am
+	zZrw1pnxitQiwfJbr1zrOx+OTQkLQMHd21Fy5TDfFF9JoLenx41gu8Is1YOjMae37lPbavkzNWT
+	VfkLOvyX3RQzmS1w2n8Yq8WugCRsecx1Kz0++OlsdwFqtUzFElc=
+X-Google-Smtp-Source: AGHT+IHJe9C5L7fJm3g1s0tX91oj/gwWsIwn+t9Y/6w2fpyFGBvil/NIo8HpbEWwojtJCTK1tz+sJQ==
+X-Received: by 2002:a05:600c:c14:b0:439:63cb:ff7e with SMTP id 5b1f17b1804b1-43963cc00d4mr82079965e9.10.1739533664177;
+        Fri, 14 Feb 2025 03:47:44 -0800 (PST)
 Received: from localhost.localdomain (82-64-73-52.subs.proxad.net. [82.64.73.52])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-439617fccfesm41945245e9.11.2025.02.14.03.47.41
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-439617fccfesm41945245e9.11.2025.02.14.03.47.42
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 14 Feb 2025 03:47:42 -0800 (PST)
+        Fri, 14 Feb 2025 03:47:43 -0800 (PST)
 From: Dave Penkler <dpenkler@gmail.com>
 To: gregkh@linuxfoundation.org,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
 Cc: Dave Penkler <dpenkler@gmail.com>
-Subject: [PATCH 08/17] staging: gpib: gpio bitbang console messaging cleanup
-Date: Fri, 14 Feb 2025 12:46:59 +0100
-Message-ID: <20250214114708.28947-9-dpenkler@gmail.com>
+Subject: [PATCH 09/17] staging: gpib: hp82335 console messaging cleanup
+Date: Fri, 14 Feb 2025 12:47:00 +0100
+Message-ID: <20250214114708.28947-10-dpenkler@gmail.com>
 X-Mailer: git-send-email 2.48.1
 In-Reply-To: <20250214114708.28947-1-dpenkler@gmail.com>
 References: <20250214114708.28947-1-dpenkler@gmail.com>
@@ -77,241 +77,76 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
 Enable module name to be printed in pr_xxx and dev_xxx
+Use DRV_NAME defined as KBUILD_MODNAME instead of hard coded
+string "hp82335" in request_irq
 
-Change pr_info in the dbg_printk macro to dev_dbg.
+Change pr_err to dev_err wherever possible
 
-In order for dbg_printk macro to have the board variable
-defined the signatures and calls to bb_buffer_print and
-set_atn were changed to include board as a parameter.
+Remove pr_info's
 
-Remove the #ifdef CONFIG_GPIB_DEBUG code.
-
-Remove commented dbk_printk's.
-
-Change dbg_printk(0, to dev_err where an error message is needed.
-
-Remove dbg_printk for "not implemented" functions.
-
-Remove "gpib_bitbang:" prefix in pr_err as it will be printed
-with the module name.
+Remove "hp83335:" prefix in messages since this is
+printed with the module name.
 
 Signed-off-by: Dave Penkler <dpenkler@gmail.com>
 ---
- drivers/staging/gpib/gpio/gpib_bitbang.c | 56 ++++++++++--------------
- 1 file changed, 23 insertions(+), 33 deletions(-)
+ drivers/staging/gpib/hp_82335/hp82335.c | 19 ++++++++++---------
+ 1 file changed, 10 insertions(+), 9 deletions(-)
 
-diff --git a/drivers/staging/gpib/gpio/gpib_bitbang.c b/drivers/staging/gpib/gpio/gpib_bitbang.c
-index 828c99ea613f..2012db188f58 100644
---- a/drivers/staging/gpib/gpio/gpib_bitbang.c
-+++ b/drivers/staging/gpib/gpio/gpib_bitbang.c
-@@ -25,6 +25,8 @@
-  *	device support (non master operation)
+diff --git a/drivers/staging/gpib/hp_82335/hp82335.c b/drivers/staging/gpib/hp_82335/hp82335.c
+index 451d5dc6d340..982544d1b382 100644
+--- a/drivers/staging/gpib/hp_82335/hp82335.c
++++ b/drivers/staging/gpib/hp_82335/hp82335.c
+@@ -8,6 +8,10 @@
+  *	implement recovery from bus errors (if necessary)
   */
  
 +#define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
 +#define dev_fmt pr_fmt
- #define NAME KBUILD_MODNAME
- 
- #define ENABLE_IRQ(IRQ, TYPE) irq_set_irq_type(IRQ, TYPE)
-@@ -41,7 +43,7 @@
-  */
- #define dbg_printk(level, frm, ...)					\
- 	do { if (debug >= (level))					\
--			pr_info("%s:%s - " frm, NAME, __func__, ## __VA_ARGS__); } \
-+			dev_dbg(board->gpib_dev, frm, ## __VA_ARGS__); } \
- 	while (0)
- 
- #define LINVAL gpiod_get_value(DAV),		\
-@@ -316,13 +318,14 @@ struct bb_priv {
- };
- 
- static inline long usec_diff(struct timespec64 *a, struct timespec64 *b);
--static void bb_buffer_print(unsigned char *buffer, size_t length, int cmd, int eoi);
-+static void bb_buffer_print(gpib_board_t *board, unsigned char *buffer, size_t length,
-+			    int cmd, int eoi);
- static void set_data_lines(u8 byte);
- static u8 get_data_lines(void);
- static void set_data_lines_input(void);
- static void set_data_lines_output(void);
- static inline int check_for_eos(struct bb_priv *priv, uint8_t byte);
--static void set_atn(struct bb_priv *priv, int atn_asserted);
-+static void set_atn(gpib_board_t *board, int atn_asserted);
- 
- static inline void SET_DIR_WRITE(struct bb_priv *priv);
- static inline void SET_DIR_READ(struct bb_priv *priv);
-@@ -334,11 +337,7 @@ MODULE_LICENSE("GPL");
- MODULE_DESCRIPTION("GPIB helper functions for bitbanging I/O");
- 
- /****  global variables	 ****/
--#ifdef CONFIG_GPIB_DEBUG
--static int debug = 1;
--#else
- static int debug;
--#endif
- module_param(debug, int, 0644);
- 
- static char printable(char x)
-@@ -508,7 +507,7 @@ static int bb_write(gpib_board_t *board, uint8_t *buffer, size_t length,
- 		   board, mutex_is_locked(&board->user_mutex), length);
- 
- 	if (debug > 1)
--		bb_buffer_print(buffer, length, priv->cmd, send_eoi);
-+		bb_buffer_print(board, buffer, length, priv->cmd, send_eoi);
- 	priv->count = 0;
- 	priv->phase = 300;
- 
-@@ -550,7 +549,6 @@ static int bb_write(gpib_board_t *board, uint8_t *buffer, size_t length,
- 			dbg_printk(1, "timeout after %zu/%zu at %d " LINFMT " eoi: %d\n",
- 				   priv->w_cnt, length, priv->phase, LINVAL, send_eoi);
- 		} else {
--			// dbg_printk(1,"written %zu\n", priv->w_cnt);
- 			retval = priv->w_cnt;
- 		}
- 	} else {
-@@ -811,7 +809,8 @@ static char *cmd_string[32] = {
- 	"CFE"  // 0x1f
- };
- 
--static void bb_buffer_print(unsigned char *buffer, size_t length, int cmd, int eoi)
-+static void bb_buffer_print(gpib_board_t *board, unsigned char *buffer, size_t length,
-+			    int cmd, int eoi)
- {
- 	int i;
- 
-@@ -843,11 +842,13 @@ static void bb_buffer_print(unsigned char *buffer, size_t length, int cmd, int e
-  * STATUS Management							   *
-  *									   *
-  ***************************************************************************/
--static void set_atn(struct bb_priv *priv, int atn_asserted)
-+static void set_atn(gpib_board_t *board, int atn_asserted)
- {
-+	struct bb_priv *priv = board->private_data;
++#define DRV_NAME KBUILD_MODNAME
 +
- 	if (priv->listener_state != listener_idle &&
- 	    priv->talker_state != talker_idle) {
--		dbg_printk(0, "listener/talker state machine conflict\n");
-+		dev_err(board->gpib_dev, "listener/talker state machine conflict\n");
+ #include "hp82335.h"
+ #include <linux/io.h>
+ #include <linux/ioport.h>
+@@ -274,26 +278,23 @@ static int hp82335_attach(gpib_board_t *board, const gpib_board_config_t *config
+ 	case 0xfc000:
+ 		break;
+ 	default:
+-		pr_err("hp82335: invalid base io address 0x%u\n", config->ibbase);
++		dev_err(board->gpib_dev, "invalid base io address 0x%x\n", config->ibbase);
+ 		return -EINVAL;
  	}
- 	if (atn_asserted) {
- 		if (priv->listener_state == listener_active)
-@@ -869,7 +870,7 @@ static void set_atn(struct bb_priv *priv, int atn_asserted)
- static int bb_take_control(gpib_board_t *board, int synchronous)
- {
- 	dbg_printk(2, "%d\n", synchronous);
--	set_atn(board->private_data, 1);
-+	set_atn(board, 1);
- 	set_bit(CIC_NUM, &board->status);
- 	return 0;
- }
-@@ -877,7 +878,7 @@ static int bb_take_control(gpib_board_t *board, int synchronous)
- static int bb_go_to_standby(gpib_board_t *board)
- {
- 	dbg_printk(2, "\n");
--	set_atn(board->private_data, 0);
-+	set_atn(board, 0);
- 	return 0;
- }
- 
-@@ -988,13 +989,11 @@ static int bb_secondary_address(gpib_board_t *board, unsigned int address, int e
- 
- static int bb_parallel_poll(gpib_board_t *board, uint8_t *result)
- {
--	dbg_printk(1, "%s\n", "not implemented");
--	return -EPERM;
-+	return -ENOENT;
- }
- 
- static void bb_parallel_poll_configure(gpib_board_t *board, uint8_t config)
- {
--	dbg_printk(1, "%s\n", "not implemented");
- }
- 
- static void bb_parallel_poll_response(gpib_board_t *board, int ist)
-@@ -1003,13 +1002,11 @@ static void bb_parallel_poll_response(gpib_board_t *board, int ist)
- 
- static void bb_serial_poll_response(gpib_board_t *board, uint8_t status)
- {
--	dbg_printk(1, "%s\n", "not implemented");
- }
- 
- static uint8_t bb_serial_poll_status(gpib_board_t *board)
- {
--	dbg_printk(1, "%s\n", "not implemented");
--	return 0; // -ENOSYS;
-+	return 0; // -ENOENT;
- }
- 
- static unsigned int bb_t1_delay(gpib_board_t *board,  unsigned int nano_sec)
-@@ -1030,15 +1027,12 @@ static unsigned int bb_t1_delay(gpib_board_t *board,  unsigned int nano_sec)
- 
- static void bb_return_to_local(gpib_board_t *board)
- {
--	dbg_printk(1, "%s\n", "not implemented");
- }
- 
- static int bb_line_status(const gpib_board_t *board)
- {
- 	int line_status = ValidALL;
- 
--//	  dbg_printk(1,"\n");
--
- 	if (gpiod_get_value(REN) == 0)
- 		line_status |= BusREN;
- 	if (gpiod_get_value(IFC) == 0)
-@@ -1091,11 +1085,11 @@ static int bb_get_irq(gpib_board_t *board, char *name,
- 	*irq = gpiod_to_irq(gpio);
- 	dbg_printk(2, "IRQ %s: %d\n", name, *irq);
- 	if (*irq < 0) {
--		dbg_printk(0, "gpib: can't get IRQ for %s\n", name);
-+		dev_err(board->gpib_dev, "can't get IRQ for %s\n", name);
- 		return -1;
+ 	if (!request_mem_region(upper_iomem_base, hp82335_upper_iomem_size, "hp82335")) {
+-		pr_err("hp82335: failed to allocate io memory region 0x%lx-0x%lx\n",
+-		       upper_iomem_base, upper_iomem_base + hp82335_upper_iomem_size - 1);
++		dev_err(board->gpib_dev, "failed to allocate io memory region 0x%lx-0x%lx\n",
++			upper_iomem_base, upper_iomem_base + hp82335_upper_iomem_size - 1);
+ 		return -EBUSY;
  	}
- 	if (request_threaded_irq(*irq, handler, thread_fn, flags, name, board)) {
--		dbg_printk(0, "gpib: can't request IRQ for %s %d\n", name, *irq);
-+		dev_err(board->gpib_dev, "can't request IRQ for %s %d\n", name, *irq);
- 		*irq = 0;
- 		return -1;
+ 	hp_priv->raw_iobase = upper_iomem_base;
+ 	tms_priv->mmiobase = ioremap(upper_iomem_base, hp82335_upper_iomem_size);
+-	pr_info("hp82335: upper half of 82335 iomem region 0x%lx remapped to 0x%p\n",
+-		hp_priv->raw_iobase, tms_priv->mmiobase);
+ 
+-	retval = request_irq(config->ibirq, hp82335_interrupt, 0, "hp82335", board);
++	retval = request_irq(config->ibirq, hp82335_interrupt, 0, DRV_NAME, board);
+ 	if (retval) {
+-		pr_err("hp82335: can't request IRQ %d\n", config->ibirq);
++		dev_err(board->gpib_dev, "can't request IRQ %d\n", config->ibirq);
+ 		return retval;
  	}
-@@ -1163,8 +1157,8 @@ static int allocate_gpios(gpib_board_t *board)
- 				gpiod_add_lookup_table(lookup_table);
- 				goto try_again;
- 			}
--			dbg_printk(0, "Unable to obtain gpio descriptor for pin %d error %ld\n",
--				   gpios_vector[j], PTR_ERR(desc));
-+			dev_err(board->gpib_dev, "Unable to obtain gpio descriptor for pin %d error %ld\n",
-+				gpios_vector[j], PTR_ERR(desc));
- 			error = true;
- 			break;
- 		}
-@@ -1253,7 +1247,7 @@ static int bb_attach(gpib_board_t *board, const gpib_board_config_t *config)
- 		gpios_vector[&(DC)  - &all_descriptors[0]] = -1;
- 		gpios_vector[&(ACT_LED)	 - &all_descriptors[0]] = -1;
- 	} else {
--		dbg_printk(0, "Unrecognized pin mapping.\n");
-+		dev_err(board->gpib_dev, "Unrecognized pin map %s\n", pin_map);
- 		goto bb_attach_fail;
- 	}
- 	dbg_printk(0, "Using pin map \"%s\" %s\n", pin_map, (sn7516x) ?
-@@ -1344,19 +1338,15 @@ static int __init bb_init_module(void)
- 	int result = gpib_register_driver(&bb_interface, THIS_MODULE);
+ 	hp_priv->irq = config->ibirq;
+-	pr_info("hp82335: IRQ %d\n", config->ibirq);
+ 
+ 	tms9914_board_reset(tms_priv);
+ 
+@@ -331,7 +332,7 @@ static int __init hp82335_init_module(void)
+ 	int result = gpib_register_driver(&hp82335_interface, THIS_MODULE);
  
  	if (result) {
--		pr_err("gpib_bitbang: gpib_register_driver failed: error = %d\n", result);
+-		pr_err("hp82335: gpib_register_driver failed: error = %d\n", result);
 +		pr_err("gpib_register_driver failed: error = %d\n", result);
  		return result;
  	}
- 
--	dbg_printk(0, "module loaded with pin map \"%s\"%s\n",
--		   pin_map, (sn7516x_used) ? " and SN7516x driver support" : "");
- 	return 0;
- }
- 
- static void __exit bb_exit_module(void)
- {
--	dbg_printk(0, "module unloaded!");
--
- 	gpib_unregister_driver(&bb_interface);
- }
  
 -- 
 2.48.1
