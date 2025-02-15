@@ -1,36 +1,36 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BD4C1C7011;
-	Sat, 15 Feb 2025 16:56:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FE8F1DD0D4;
+	Sat, 15 Feb 2025 16:57:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739638617; cv=none; b=e0ksiP7FUM9Bkq7v9wva1bW3gBvkGfEWe019oCPlOm2ftlmnWDHs0SouOpYwT3lgZZGjMnxNCXsOacokk1zKT/pVB0u2gN+qYdP+/mfY70H0P93DilXAdVk9R9ms1SVNiVvW09qH7psqG7SBwooqWEVPGOdkAF6XDQMrngtTb8I=
+	t=1739638650; cv=none; b=nSWL+sloaJ4OpVC2Lg6p9pTnMoluh9DcX+pCZdhTb5O9l4Nrjxzq0afFgJFJAQCstKgmQwg16ZMMvI8/tCYqHSkVG+bWcEbs+TsQHb4DwnZBIIESlzyPa9TtlKo+My5W+zhJkPXtqhP0YZdsl5EQrC9jZbi7FgPWC/OBwIRGOzA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739638617; c=relaxed/simple;
-	bh=wyw8Ovh8n7iuN0KZVDZ5yM4pmIpJuKuYOg7F8OqhR2Y=;
+	s=arc-20240116; t=1739638650; c=relaxed/simple;
+	bh=GXCQN7MT8CGnTqQ/r1HzEwnjX/Ald9z+Yq32owjT0Oc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=B+dFTyLJww12SicatweWF9kwcDzKvHir5uAkDrf4GOvwCD1RVspUtpc2jf6Z1VcdfhzI3hvD4kbkVK8ctpHHsKFvJM1deRmrWH3VktaKzmR4dAYo1KA0zg+TXCLP6Jc5gmHlzfa11+9Dg3Yo2VI1BX7R4N7DApbck/ldUsUIMy0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=Pe3YZ3y8; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=cbIEPdfeK0Jz3uIureQT0KiBmdE7EuiPqFBHXriYmJWlunS8CTYc7n5VRvZsMEBS/YoRQ1sfVTd0f8/6dPdcJ1lZnzmNR38FZG3fFvWFI+jCltOdhrB/uhUMGlKf8mBRbvIaHgzToj0i6fvJlBg2Y//cgfJEYQajynqpXXLxCU4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=cjDYoPbu; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="Pe3YZ3y8"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 63BE9C4CEDF;
-	Sat, 15 Feb 2025 16:56:56 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="cjDYoPbu"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A9FDFC4CEDF;
+	Sat, 15 Feb 2025 16:57:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1739638616;
-	bh=wyw8Ovh8n7iuN0KZVDZ5yM4pmIpJuKuYOg7F8OqhR2Y=;
+	s=korg; t=1739638650;
+	bh=GXCQN7MT8CGnTqQ/r1HzEwnjX/Ald9z+Yq32owjT0Oc=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Pe3YZ3y8ct0kRMusplLlWkv1fnkQGWM2FHYRkQIORDM1aXxaTnHGjMY1A+GaKPQP7
-	 7YGksMnp5hsxdjwTHW+zJnkMrrUhLnBr3aZ/bDuEOf8TsHU4QxGpzyN7Oa6LH6Gmij
-	 O3LqHMFnxZnyUSGtINrz4h/IwZqP6D7jAe/nIMNA=
-Date: Sat, 15 Feb 2025 17:56:54 +0100
+	b=cjDYoPbulN4eFAhyWGt+lJUe3eYaieS50A3cyBOVnif3RwWjnucb/8h9xkJ4eFU65
+	 dTyGyr0/D2l+TKI9bZiW0Gt7itdmjZ3KzscsTcsvUAVvWUhvZSB5atI50tmnLrxEWt
+	 ZGgiwjwuQIX7+2g0zh7IM0FnUOlPisSBc/4zCumw=
+Date: Sat, 15 Feb 2025 17:57:26 +0100
 From: Greg KH <gregkh@linuxfoundation.org>
 To: Ian To <onlyian4981@gmail.com>
 Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 1/3] staging: rtl8723bs: format comments
-Message-ID: <2025021510-surround-drainage-1425@gregkh>
+Subject: Re: [PATCH v2 2/3] stagin: rtl8723bs: fix spacing
+Message-ID: <2025021557-unrated-stinger-dcab@gregkh>
 References: <cover.1739351267.git.onlyian4981@gmail.com>
- <2e6dc11ef35d5af653095e416f2a48b6dbcc0de1.1739351267.git.onlyian4981@gmail.com>
+ <63dcd7cb7ef3f3e441b63ce0339747abda946f15.1739351267.git.onlyian4981@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -39,78 +39,17 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <2e6dc11ef35d5af653095e416f2a48b6dbcc0de1.1739351267.git.onlyian4981@gmail.com>
+In-Reply-To: <63dcd7cb7ef3f3e441b63ce0339747abda946f15.1739351267.git.onlyian4981@gmail.com>
 
-On Wed, Feb 12, 2025 at 01:22:54AM -0800, Ian To wrote:
-> Some comments were not formatted correctly. Reported by checkpatch.
+On Wed, Feb 12, 2025 at 01:22:55AM -0800, Ian To wrote:
+> Fixed spacing issues. Reported by checkpatch.
 > 
 > Signed-off-by: Ian To <onlyian4981@gmail.com>
 > ---
->  drivers/staging/rtl8723bs/core/rtw_security.c | 92 +++++++++----------
->  1 file changed, 46 insertions(+), 46 deletions(-)
-> 
-> diff --git a/drivers/staging/rtl8723bs/core/rtw_security.c b/drivers/staging/rtl8723bs/core/rtw_security.c
-> index 1e9eff01b1aa..f4556ae54352 100644
-> --- a/drivers/staging/rtl8723bs/core/rtw_security.c
-> +++ b/drivers/staging/rtl8723bs/core/rtw_security.c
-> @@ -30,10 +30,10 @@ const char *security_type_str(u8 value)
->  /* WEP related ===== */
->  
->  /*
-> -	Need to consider the fragment  situation
-> -*/
-> + *	Need to consider the fragment  situation
-> + */
->  void rtw_wep_encrypt(struct adapter *padapter, u8 *pxmitframe)
-> -{																	/*  exclude ICV */
-> +{
->  	union {
->  		__le32 f0;
->  		unsigned char f1[4];
-> @@ -342,23 +342,23 @@ static const unsigned short Sbox1[2][256] = {      /* Sbox for hash (can be in R
->  	}
->  };
->  
-> - /*
-> -**********************************************************************
-> -* Routine: Phase 1 -- generate P1K, given TA, TK, IV32
-> -*
-> -* Inputs:
-> -*     tk[]      = temporal key                         [128 bits]
-> -*     ta[]      = transmitter's MAC address            [ 48 bits]
-> -*     iv32      = upper 32 bits of IV                  [ 32 bits]
-> -* Output:
-> -*     p1k[]     = Phase 1 key                          [ 80 bits]
-> -*
-> -* Note:
-> -*     This function only needs to be called every 2**16 packets,
-> -*     although in theory it could be called every packet.
-> -*
-> -**********************************************************************
-> -*/
-> +/*
-> + **********************************************************************
+>  drivers/staging/rtl8723bs/core/rtw_security.c | 176 +++++++++---------
+>  1 file changed, 87 insertions(+), 89 deletions(-)
 
-Why the long line of **** ?
-
-That should not be needed.
-
-> -/**
-> +/*
-
-Why are you removing kerneldoc comment style?
-
->   * omac1_aes_128_vector - One-Key CBC MAC (OMAC1) hash with AES-128
->   * @key: 128-bit key for the hash operation
->   * @num_elem: Number of elements in the data vector
-> @@ -1530,7 +1529,7 @@ static int omac1_aes_128_vector(u8 *key, size_t num_elem,
->  	return 0;
->  }
->  
-> -/**
-> +/*
-
-Same here?
+Subject line needs a spelling check :(
 
 thanks,
 
