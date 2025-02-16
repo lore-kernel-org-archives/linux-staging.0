@@ -1,36 +1,71 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C26301C7011;
-	Sat, 15 Feb 2025 16:58:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3A7D78F45
+	for <linux-staging@lists.linux.dev>; Sun, 16 Feb 2025 15:11:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739638686; cv=none; b=VKQiHAYtqyMqWW13igwAF6tkRF+/msyvUnUk30FRWIrmz0MX0QesqeEwVHnkbQmb0fxZFACbWpAiCsz+IqSbuP1/ZEtOlZo1zBm343QfOjOY5UmImFESrKQGVa5erPD7+0lroR8mJXe7aVGcB0XACmbj3OPMd2bA+BTs8gdJ5Ac=
+	t=1739718680; cv=none; b=gK8vVfrb8JX/Y7s5vGcp1VmnmFP6T3Rw/RIdP4F/cQDqc2AhTP9/Kbin1Dpdr4gWFxl2q1FyGzU88HJe+Sy2Bq+Sao0z9HoxXIxLA8qMsFZAkif1eIPeiVAfzNMuEDy8JCF4mg1OfkYtpbCgz2lglK7ljlACIyadm1WyPd+mCJY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739638686; c=relaxed/simple;
-	bh=6B6zoiCNIqlHv0DUk8i1Yt74gncjmTv9FpzXd+uhWjY=;
+	s=arc-20240116; t=1739718680; c=relaxed/simple;
+	bh=7WAIv/jydcGvBTgK8OPF3JMDNPpY8FU3evihuDqV3eo=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kKL1e+edSkzZdkJVHTo92bOkXDYb8gIyZb5TRMi06VwQeWDoKXPsEvZYFfGMwl3qB5VRjwoSFhStGl7sG/FHy0nlG3ESWcqkjOQnvwfdEpaJaaz1KteLMYxAsYQaGCQ+d1sYXs6tAPaucVeqD488tQuFWePNDei8XiEsLVGr0So=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=P+1AxeRN; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=s01PlgmtXOdpW45DLkyNr0eNTwDs9oNzBoArTEYi9j8zdzQPfUbq6ggVkn2b7uO+t6bOBWn94PUqvAHAz1XAdRKkZAhapKzy88Hl5mQg5dqqXpX1a3sNfT8WWgYB+a8C9iCciTY00T7ITt4cpv9Gx/gx9LuKXlu04YdPiuPZm5Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=KxeTg1It; arc=none smtp.client-ip=209.85.208.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="P+1AxeRN"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D2A12C4CEDF;
-	Sat, 15 Feb 2025 16:58:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1739638686;
-	bh=6B6zoiCNIqlHv0DUk8i1Yt74gncjmTv9FpzXd+uhWjY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=P+1AxeRN2xmGRtomDVev2ZJZaSIcHqW6kueTTEhyomw15yIwaTRi6VIx5EmyJOp22
-	 d2V9OuSqXMBFc3+6kEXQbbx/1WnVFFxsZgEQxp/4E4lmdWQ6KsiX/Ry8LYoXCSvQ8w
-	 74hhobng4aSNT8Lib4PcuARxsMJfKvhSmCjkGrRU=
-Date: Sat, 15 Feb 2025 17:58:03 +0100
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Ian To <onlyian4981@gmail.com>
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 3/3] staging: rtl8723bs: remove extra blank lines
-Message-ID: <2025021535-riding-darkening-1c0d@gregkh>
-References: <cover.1739351267.git.onlyian4981@gmail.com>
- <78f3702e2810424d12785f64334127a0f3cd82ef.1739351267.git.onlyian4981@gmail.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="KxeTg1It"
+Received: by mail-ed1-f50.google.com with SMTP id 4fb4d7f45d1cf-5e04f87584dso622223a12.3
+        for <linux-staging@lists.linux.dev>; Sun, 16 Feb 2025 07:11:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1739718677; x=1740323477; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=TspFxOjpJNNIOaEIYEoqWsypLxhWcsewPPhTBv8nP+M=;
+        b=KxeTg1ItcxL8BF6zmljJ/1KUxwJMMXmM/R30jT0Gdivb67r0Q75No8cMQrpSuga7/X
+         FObKHldxchXDJtEklI8Qi9B8Inq8elcR+idqHmzvh4ykqVq/bsWa7Pko0ed05SwP2GEJ
+         rJeGcubyCv31wE6UPJKJeswIZdubBwWQ4gQT1Xu32+3h4WpjCDHf92E+7/9pD8xu9i8e
+         P9NlYyti9G7xKjhiGFXJj+G6Lz01sT8Pt0tiWSQRzLhGeZe36nu1BWV28BMJhOTQmLz3
+         2U1GMmll8we0pnc6TW+QPKb+pHw4loHfw71o0CF2qVp7CNDjCtlX3liha0P2LdjKORZc
+         qi2w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1739718677; x=1740323477;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=TspFxOjpJNNIOaEIYEoqWsypLxhWcsewPPhTBv8nP+M=;
+        b=LR9vQlDzkNsXNkP1AFn7JRPhYQxZorpoqrBNEFuPXflto0LTbT34BxaWaOtP3aWCV8
+         WqzZY0kNc9qwgzfN+Fv+0q2UQ2XOLPNjbmNnu42U/fUcWuSwxjpeyAbOxOCTVFUaB7lU
+         PVAH9twDOjOA+E9U9apoq4bg7VISHE9I6YZn6NgpM6327MUMcrbAsAzLbAP6SZfQYoHI
+         /N2BqNYleysKnssstk2m50CBhJg8e3xriEpvSsIX110yOK/6S6ux8MncdrnYBLYpd82/
+         whpOpKynDsh8JPN64HCXVjqNgd/c2Hq7x73Z0EcB8dutIYRcm/b1Z/Fjq8IuNouST6K/
+         Fx3Q==
+X-Gm-Message-State: AOJu0YwH9SKbaL3CHbyfjVARHzbPJ2tWHCU6QJmHBnqq8nt6EEFgqETM
+	aTT6HfRhOdGeFwSRkGhEVwH/Z9IH/tKSppbvxYJiEp8b4TiJssj7jXMusVxXC6Y=
+X-Gm-Gg: ASbGncvYTBmQJd+hrZKrHeCNIbvyoyEFTu1Fck/ElbISoYzKPoaZMaAP44X4I6uQ3EU
+	8uuwI4wRczRFhY1WcpZRqK5Rwu6/rxMYJtCDXV9gV4tKRElLQGd9xKRjudQQVBaZPBkwIWnNY/e
+	KMhLT7GPE327W+QyMOk0v/g4i8ABUaektN7581cw/IvLzaV5uplLXr+OjQZdGmiC0CcgLtbZ1Zp
+	1ASGxqBqdGsoZZsoQlg0ttG9WsK5qWswaehGQtIIo4F26X66UxIPAIWDqvGh3cJfwbpP0xm6Ix2
+	whrv/jQJUXaH7w8KExOG
+X-Google-Smtp-Source: AGHT+IH6o0esJkgkTbUCvIMQRI/0gjQPiw2MQI3TprBRP0yx0cbzYpgZU75xT6HBbS0hknVkKfQMiQ==
+X-Received: by 2002:a05:6402:350b:b0:5de:a74c:3dbf with SMTP id 4fb4d7f45d1cf-5e036175cc1mr7121487a12.28.1739718677152;
+        Sun, 16 Feb 2025 07:11:17 -0800 (PST)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with UTF8SMTPSA id 4fb4d7f45d1cf-5ded709a92bsm5000065a12.63.2025.02.16.07.11.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 16 Feb 2025 07:11:16 -0800 (PST)
+Date: Sun, 16 Feb 2025 18:11:13 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Gaston Gonzalez <gascoar@gmail.com>
+Cc: linux-staging@lists.linux.dev, dpenkler@gmail.com,
+	gregkh@linuxfoundation.org, arnd@arndb.de, ajithpv.linux@gmail.com,
+	roheetchavan@gmail.com, niharchaithanya@gmail.com,
+	eleanor15x@gmail.com, everestkc@everestkc.com.np, kees@ijzerbout.nl,
+	skhan@linuxfoundation.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 0/5] staging: gpib: remove unused variables
+Message-ID: <cff414c8-4820-4d46-92c6-09683a005ea8@stanley.mountain>
+References: <20250214195456.104075-1-gascoar@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -39,47 +74,20 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <78f3702e2810424d12785f64334127a0f3cd82ef.1739351267.git.onlyian4981@gmail.com>
+In-Reply-To: <20250214195456.104075-1-gascoar@gmail.com>
 
-On Wed, Feb 12, 2025 at 01:22:56AM -0800, Ian To wrote:
-> Repeated blank lines were present and removed. Reported by checkpatch.
+On Fri, Feb 14, 2025 at 04:54:38PM -0300, Gaston Gonzalez wrote:
+> Remove some unused variables found compiling with W=1.
 > 
-> Signed-off-by: Ian To <onlyian4981@gmail.com>
-> ---
->  drivers/staging/rtl8723bs/core/rtw_security.c | 11 -----------
->  1 file changed, 11 deletions(-)
+> v1 -> v2:
 > 
-> diff --git a/drivers/staging/rtl8723bs/core/rtw_security.c b/drivers/staging/rtl8723bs/core/rtw_security.c
-> index e8f583206f92..18f640d48701 100644
-> --- a/drivers/staging/rtl8723bs/core/rtw_security.c
-> +++ b/drivers/staging/rtl8723bs/core/rtw_security.c
-> @@ -123,7 +123,6 @@ void rtw_wep_decrypt(struct adapter  *padapter, u8 *precvframe)
->  
->  		/* calculate icv and compare the icv */
->  		*((u32 *)crc) = ~crc32_le(~0, payload, length - 4);
-> -
->  	}
+> Address Kees Bakker review:
 
-This was not a "repeated blank line".
+This looks good to me now.  Thanks Kees for finding the bugs in
+v1.
 
->  }
->  
-> @@ -219,10 +218,8 @@ void rtw_secgetmic(struct mic_data *pmicdata, u8 *dst)
->  	secmicclear(pmicdata);
->  }
->  
-> -
->  void rtw_seccalctkipmic(u8 *key, u8 *header, u8 *data, u32 data_len, u8 *mic_code, u8 pri)
->  {
-> -
->  	struct mic_data	micdata;
->  	u8 priority[4] = {0x0, 0x0, 0x0, 0x0};
->  
+Reviewed-by: Dan Carpenter <dan.carpenter@linaro.org>
 
-Neither was that :(
+regards,
+dan carpenter
 
-I've stopped reviewing here.
-
-thanks,
-
-greg k-h
