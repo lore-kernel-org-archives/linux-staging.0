@@ -1,78 +1,43 @@
-Received: from mail-pl1-f196.google.com (mail-pl1-f196.google.com [209.85.214.196])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E511821B8FE
-	for <linux-staging@lists.linux.dev>; Mon, 17 Feb 2025 12:56:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.196
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDF2821C192;
+	Mon, 17 Feb 2025 13:14:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739797014; cv=none; b=jhYz2jKSGGO1sLVhW2fW9yck0UN2PiteS98B2rI6QSnn+MILZzbcEVe/cKhlfZ5t6HLiBMwWRyR5trL+BcM6FEEMHZ3DuSudqfVHTdcuDenXQ2WdssuGkoeRk6AeIjUgCY/QjquRNX1ekaR6kUnBugkjx0ROHZFbSv+o3+4CqK4=
+	t=1739798041; cv=none; b=kq2fcbXbbBNCM7lu7QI8HGkEw5Fzp2dVIkiYr8hx6M7g7qlvKKGGf+Wdo4K6SBp25KU8xzKcvGvO1Oeh57NvsIPfTRpveXwZs2de6+lVUdH5Z6jGUwEBeLR9x0wbKznShlZP3nJ5ASo3urfcpOubEyC4C5PDPUm5pXZSED5OfFU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739797014; c=relaxed/simple;
-	bh=Tj1MUtrrHYN3dtuh02om2PeXmRrh4rBT8jyqsExbAhg=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=prruqRkabfFmWRwBFLHbHHWWNXk67KkyHPt5ZDB5FXOXR4pQlzNiZJc9XLxGvDa/BwvR2+7e66ERXaB1vXj9ZtwNF81i9kYIbKDyf/V2Xnz+U0QanaZ5jW8SWNHk/E3tbu9JhrUi5S9EwJ+Jba/rUwAtH2kmUuMfGgZwDG3Cw/I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Cx9tRzbV; arc=none smtp.client-ip=209.85.214.196
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1739798041; c=relaxed/simple;
+	bh=w4r9lnxn7sqsNE3KWaJopKWBLuYC6f5wRbkt5y/Q6Pk=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=Fw6zTztUOKRKD+Gt+g1SyfFYx0ONu+wxbQ3TWnTNut032X5bio7H/96BGVND0gUUQ2P+jCOMsg0vipVlu9mZLoxZou02+h8CPHNNcj/aZioKd83ZRWMiVoAispN3AbphkJJzKRwe2VWRxS3yQ/JLndDT+uureYPUQaIq0zlI5mc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oJUDj7Uq; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Cx9tRzbV"
-Received: by mail-pl1-f196.google.com with SMTP id d9443c01a7336-220c2a87378so59330205ad.1
-        for <linux-staging@lists.linux.dev>; Mon, 17 Feb 2025 04:56:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1739797012; x=1740401812; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=iqT+HtUapWQjxJsoaklq/LsDFIgfZnyX69Um1q4t73o=;
-        b=Cx9tRzbVFiZWAl6Y/7nUsNZRGtOUtoln0gy99w6WyUOBcaj+83UlvwTqBq/t89cIkY
-         HRnGYBrAZkjZg0gtzWnFVv6gcliUHIKq9WOMVyfRfSNX3lysCfLnmGD4jlVJIGWL3ISm
-         oqsyMBy7Ypc6heDmf++aWp5Hk2Z7cqmUoLWLA4u5Ft04QZB+ADu13rFhAmF/Hw+5JpeH
-         7U3wwinFrTdzdeHdKA9iPzshXmvQgd/nSQ5eALO6p+E65qrnM0mLNUW8buRiHrjxL4cu
-         RRDb6qbWDAsS7N33ZrSiItlLI3FcOmhURMdsEMzjgbleX+btwBv7tdyuiZzu1uOqpkL/
-         Mdng==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739797012; x=1740401812;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=iqT+HtUapWQjxJsoaklq/LsDFIgfZnyX69Um1q4t73o=;
-        b=bdrtMXpIZm7uDtrkOt4YRoPipovL/zYbqUsXo5c4Yl3KKFzi0cf0cJLNxAJ95oje+Q
-         v5zMUmOCEp5XMK9ayyimRUbneotkZL7aNDLGzPfiHJQZovZzhELugXhvB3KMxW2RMjRS
-         bSNldJLbkTDJypMp/kwEracfQi8klDPWs2/OP+hYzTt+0nHCy/0qKMm4sDNANmNVVDrY
-         TcDyO69YM59S+CL7Dzt27VQ3BJqFsC7l3LTiFc/RCXlRj7gp+lOPrx4nRZsjfYKB1jCH
-         EcuIJ4kb0nQujPlDxzUCwKMWsUvZbFmypPbAYv3unMFKNC2r8ZcjY7aHNFAvYKM/566M
-         FhPw==
-X-Forwarded-Encrypted: i=1; AJvYcCWmCaKruzl6vmA0kGKX++Jqj/mcLi1zXQUAuqSybTS+ncJ8D6HCNo3g4faPTS2YECQcl12UI9FXf2hhuzZE@lists.linux.dev
-X-Gm-Message-State: AOJu0YwxMVaRnM261AT1uDdUmUvuDTZhV/BReb+Iqder5noNYQpYwAuV
-	Kl1h3YrlHVt36BpmskR4+zZNtnKq3Cb8BmHLCeREo84VtjvJJa/4
-X-Gm-Gg: ASbGncupIgIypoVJsRjrpBrGbmNQELBfS+XiIVwdj1GdixB38ekCEifFoOkt38V7tKD
-	LnPxF58N38ZjE2eZbzJ6jhdFe/2p17qN55F6K6jxXzV9MbkhqFT6Uylu+k2m1jUKvfB7mKNxqrs
-	hTWNqovVQ/++FAaG4UJ7IaQoZ1MqnEdjaXF94XoOo4Qool8QEribrlna0xVxFunNVjC/oVbbeuw
-	q5Phqod5R+nW6c1nsMOwLCSqci6oAm7slbH7BG6AVQEbBfUBr+qq0W+75/PN2PblNrOyd/it8Gp
-	kznj3mgBuc8JzmsF19Yl
-X-Google-Smtp-Source: AGHT+IFQsDLLICtZTwp1fHa3MkySuBKcyWhJhsaW31e/cQmIMTsA8p9xCDYokjLDXm1wveuKaXpjdg==
-X-Received: by 2002:a17:902:e54e:b0:220:ff3f:6cc5 with SMTP id d9443c01a7336-221040bf806mr162699635ad.35.1739797011931;
-        Mon, 17 Feb 2025 04:56:51 -0800 (PST)
-Received: from localhost ([2409:4066:d04:319e:1d76:db25:b6bf:4f52])
-        by smtp.gmail.com with UTF8SMTPSA id d9443c01a7336-220d556d45dsm71102925ad.168.2025.02.17.04.56.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 17 Feb 2025 04:56:51 -0800 (PST)
-From: Ravi Kumar kairi <kumarkairiravi@gmail.com>
-To: dpenkler@gmail.com,
-	gregkh@linuxfoundation.org,
-	kuba@kernel.org,
-	rmk+kernel@armlinux.org.uk,
-	broonie@kernel.org
-Cc: arnd@arndb.de,
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oJUDj7Uq"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BEA71C4CED1;
+	Mon, 17 Feb 2025 13:13:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1739798040;
+	bh=w4r9lnxn7sqsNE3KWaJopKWBLuYC6f5wRbkt5y/Q6Pk=;
+	h=From:To:Cc:Subject:Date:From;
+	b=oJUDj7UqvID+hjCoFOi6b1ew4PuLIGJ/kN0fcMYxfWsRTpsUNKBRylxR7QDmtIors
+	 FoH7905zTMw7WZmqWD+yZa+i/VzrXe8x2imsUTHr8EiUMpFK4k64HvXTuDIA6bcxTi
+	 mdDK1xecw4i7y/INz0XuWiY1S4NnUOhgOUEyTZFSqlBPz6PZ3TVEZOgQp3QXmanhDm
+	 F5ioEtci9GJ5i/guQu6NfujdlvjCvyP2nq9aQz0yiuiXlKCJdVqlOUGkDwNoKdYNL6
+	 awmDMcipzdQYImjIGDoPANUt/MR3Syn2q/tBkFBVgIFSAPXzZjDOEx4nGmgXEdjaO0
+	 9pte0NiscM8NQ==
+From: Arnd Bergmann <arnd@kernel.org>
+To: Dave Penkler <dpenkler@gmail.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Arnd Bergmann <arnd@arndb.de>,
+	Dan Carpenter <dan.carpenter@linaro.org>,
+	Nihar Chaithanya <niharchaithanya@gmail.com>,
+	Rohit Chavan <roheetchavan@gmail.com>,
 	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Ravi Kumar Kairi <kumarkairiravi@gmail.com>
-Subject: [PATCH 2/2] [PATCH 2/2] staging:glib:hp_82335: Refactor kzalloc size calculation to use pointer dereference
-Date: Mon, 17 Feb 2025 18:26:17 +0530
-Message-ID: <b3358e0d2c50a7d0777dd11d6e34ed9a52c00377.1739794938.git.kumarkairiravi@gmail.com>
-X-Mailer: git-send-email 2.48.1
-In-Reply-To: <cover.1739794938.git.kumarkairiravi@gmail.com>
-References: <cover.1739794938.git.kumarkairiravi@gmail.com>
+	linux-kernel@vger.kernel.org
+Subject: [PATCH 1/2] static: gpib: hp82341: add MODULE_DESCRIPTION
+Date: Mon, 17 Feb 2025 14:13:35 +0100
+Message-Id: <20250217131356.3759347-1-arnd@kernel.org>
+X-Mailer: git-send-email 2.39.5
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -81,29 +46,29 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Ravi Kumar Kairi <kumarkairiravi@gmail.com>
+From: Arnd Bergmann <arnd@arndb.de>
 
-Replaced sizeof(struct hp82335_priv) with sizeof(*board->private_data)
-*as checkpatch* suggested.
+One more description turned out to be missing
 
-Signed-off-by: Ravi Kumar Kairi <kumarkairiravi@gmail.com>
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/gpib/hp_82341/hp_82341.o
+
+Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 ---
- drivers/staging/gpib/hp_82335/hp82335.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/staging/gpib/hp_82341/hp_82341.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/staging/gpib/hp_82335/hp82335.c b/drivers/staging/gpib/hp_82335/hp82335.c
-index f1c2045570..66557d6964 100644
---- a/drivers/staging/gpib/hp_82335/hp82335.c
-+++ b/drivers/staging/gpib/hp_82335/hp82335.c
-@@ -205,7 +205,7 @@ static gpib_interface_t hp82335_interface = {
+diff --git a/drivers/staging/gpib/hp_82341/hp_82341.c b/drivers/staging/gpib/hp_82341/hp_82341.c
+index 800f99c05566..cf5cd1edc41d 100644
+--- a/drivers/staging/gpib/hp_82341/hp_82341.c
++++ b/drivers/staging/gpib/hp_82341/hp_82341.c
+@@ -16,6 +16,7 @@
+ #include <linux/isapnp.h>
  
- static int hp82335_allocate_private(gpib_board_t *board)
- {
--	board->private_data = kzalloc(sizeof(struct hp82335_priv), GFP_KERNEL);
-+	board->private_data = kzalloc(sizeof(*board->private_data), GFP_KERNEL);
- 	if (!board->private_data)
- 		return -1;
- 	return 0;
+ MODULE_LICENSE("GPL");
++MODULE_DESCRIPTION("GPIB driver for hp 82341a/b/c/d boards");
+ 
+ static unsigned short read_and_clear_event_status(gpib_board_t *board);
+ static void set_transfer_counter(struct hp_82341_priv *hp_priv, int count);
 -- 
-2.48.1
+2.39.5
 
