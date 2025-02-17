@@ -1,60 +1,62 @@
-Received: from mail-pl1-f194.google.com (mail-pl1-f194.google.com [209.85.214.194])
+Received: from mail-pl1-f196.google.com (mail-pl1-f196.google.com [209.85.214.196])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD49F21B1AB
-	for <linux-staging@lists.linux.dev>; Mon, 17 Feb 2025 12:56:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.194
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E8E9219E9E
+	for <linux-staging@lists.linux.dev>; Mon, 17 Feb 2025 12:56:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.196
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739796994; cv=none; b=OBHHfjKotUhhoRShejzmG6pBSLz3OPXhmZCdug3ZptwT/qC89JYCgAyuEizr894WMlpV1ue9l+fHI7YGOhJrqBfjGgYTRyAW7kx7U4gzgcTtSBOLJ4sLfyG7Y5cOkiLmxu/Qf5BloaXa3qhJXd3hfzpbjdEpJ1FlnTIJSgCTdrI=
+	t=1739797005; cv=none; b=Z2Upyi0vmP8Bj26ciq5sYTIadSimXv9QS5sj/W+glAlvZZrZPXr9USLPuEKKwHIkUGpfsR99uf+FXqWgOMOVwAkcV/uAa/16x1g+ERo1D75KnU/jPEFBhvnoESdVW++ZaJXa9rX/+IeMstahPeWGx0ET0GshOxV2FUJdi9g6o8U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739796994; c=relaxed/simple;
-	bh=0Lsx/C4UCcCrKw05NcJnCPZjnOR7o1gKd5NLSlEnz4k=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=lIVRRZ3xGdLARRpQcS/l47R4O/40Lq7oOVWrnYXPuGk6SwpDgf+7RYuKjZe6esCO3bvwaU4Ks6TSWqe45l63+dyhHcKQfsiIqjVi/2izE8m3HFunDXVdMT5A0ipg6VavKlSluGpIql6D1gv6EwJuJv6CFYG3Lrh88AJLFw4CrjI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VTyMKNvI; arc=none smtp.client-ip=209.85.214.194
+	s=arc-20240116; t=1739797005; c=relaxed/simple;
+	bh=RzszDZP0yG2wXMCuyILVdPYmMGztwNcJ7s4yFtngP8Q=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=of/iHF6yQYjvcB2uYFZPxdhs0LRtWSBYB6jyiHGadBdRFwaYI+EwF0Xew+78T99vmybclgKr4SdjwHYNhJWxaR/NnJ0oBWf5LlAH6PJb1KAJC4STWsBRMtD+nTbknjZ9bwNT/hNZiDiIvdOiT5a2MUhTl0U7KgXpWbhMFVdbZcw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BoDuqLv7; arc=none smtp.client-ip=209.85.214.196
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VTyMKNvI"
-Received: by mail-pl1-f194.google.com with SMTP id d9443c01a7336-219f8263ae0so75935885ad.0
-        for <linux-staging@lists.linux.dev>; Mon, 17 Feb 2025 04:56:32 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BoDuqLv7"
+Received: by mail-pl1-f196.google.com with SMTP id d9443c01a7336-220f4dd756eso49023355ad.3
+        for <linux-staging@lists.linux.dev>; Mon, 17 Feb 2025 04:56:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1739796992; x=1740401792; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=DhXYHMceaATkeZwBak3g2eCtVGrZxSSMr61b+pgDgh4=;
-        b=VTyMKNvIbXJ4JZmwRmg2chA0piczNJdwEmuaPrwxoGaGRD+WWKRaIAOWcFuvlE/1wl
-         HKzgf//zsmqK64P5NkUuFWN6UotmOL5LYvEw3Eiri/KSaWnKgsuNHR37FOYtCsHU9d9Z
-         QhQhU9Y0nniWDe98F0PLGd5zBgcNkTpwF8jEpZ5tUCqJxuy8zZZ2l9hMduc+SE6xHwlx
-         iGRJw4/f6+2Z4F84f0+bt/A4+CHUQdELqfHHpv81FoFDfgV0kCKqpt0Bu2CnP2E/EnCy
-         81e7Buh5WTsPUBdPiAS57yO7JKPgkZuIHs2XD2hpRHS0rrD35/Iyf/x+AAVPCw7ernNL
-         NT3A==
+        d=gmail.com; s=20230601; t=1739797003; x=1740401803; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=tMv/zSSTQbD/xLU+9HCbjZPBCs+m5GIXQdkA1TcQxe4=;
+        b=BoDuqLv7J83an5jzAl3+PY0RodiFPvv/KnbESw+pmFIofwpIqMKmpjwhB8nHNjedSF
+         dzmFbkt8IZrcmtZdXCTx9PivnIR8QUag+092JDAurkZs2B7pDeQGX9mI+m9dbnxhJO5q
+         TyA1hIj0ogCTRpCNPI/Uad4k+m0PpLbwnzelpLv+P1Lbl7PIGXyOL0pt4s54Im8A+2Fg
+         GChLVb9Ks6bUIYtPbnx0X0YLBeIwxYuwS63SnsL0yvGZwiqpItewxRS4s6Ux/fptVaHf
+         cyW0PtRtYg32gmxs+7uzhpkMvY6UvEm5ws8aH1UBOXotSGyYKlKgkilski2FQFX9tvjE
+         SBLA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739796992; x=1740401792;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=DhXYHMceaATkeZwBak3g2eCtVGrZxSSMr61b+pgDgh4=;
-        b=pnBtguC+jAZg4SLkGZNSxer/t6HWT/VdYOB2wWD2aAPfrcNzo0gSjE4LABW9P4CNU6
-         6vOW6JrnzRZKjIseJDss+IaiApKayNGTO0pcbJUOtou++u6OlClO7ZRovaADVna8vFEs
-         bvy/31xFFwA1komu2ku+b9Ja4FN5XxVLJjQgiY+/wSHVfSC7QEwKHsWKHrbQUPTfUIv9
-         jW2zGWmfAOAN3bk0ncBzBSc6Micrppf1sEAV49+0CXCLA8Eg3GvSddAPtBfQzfUtfpKP
-         xRsOMijfVIpLd9rObEKD3mKAsdcqehgJ4nEyI4DVS+l0P5gPiiDdOMwaeFT1I3xiHbwc
-         x8eg==
-X-Forwarded-Encrypted: i=1; AJvYcCXijXLmB+6ndytom47klw7jsc/zJPgg/C/BY4hMUKHhNDD2CwY05cwP/MWXcER5euxl169HAe4Zfsf1u/Eh@lists.linux.dev
-X-Gm-Message-State: AOJu0Ywp1A8pEEYED8+jWf1asRy2/6ROqLiZiYTErF1dUyloxQtTrqYj
-	Z2Qhw3MqmRcvJn5DGq8r5gCn3ZUwxnHk7lSNlxhswz9AgnK8UZ8e
-X-Gm-Gg: ASbGncvGZKHlO/FNYjckfVtntaRB6dVieXNCqTdJ7dx8tJolcBo6vgx6ch676+wkW+Y
-	JyQZY74SGHzH91bLXUUXevVCiLVRTmcPIq2uuW9xKSuxb/VXB8osVWmTYGsRVzd7wFfOraSy4CI
-	QGEz/M2GEU16/N12YqHZFcmjpVGdwF2uIa23HcIPR3c2Rj8HUsAg7boVH4CWX4NhLTRFmxWnCZA
-	aHlVrhCwa31RETG/Fkd2tjh/KkZ4I3SoaPCuk7qW/sSjEXgcMLCEwaKx8BonruHJE4p0bOcYe7U
-	i5OMP+NjKBMvURWkG9rC
-X-Google-Smtp-Source: AGHT+IH4mg/5JQuKZpcZB/tPTXHHc/VOc8GskFvFYoZ+313+CE9jE/meeMS0IG9GKD66TlKAQgifng==
-X-Received: by 2002:a05:6a20:734c:b0:1ee:7ea6:8e0c with SMTP id adf61e73a8af0-1ee8cac55c9mr20369896637.8.1739796990719;
-        Mon, 17 Feb 2025 04:56:30 -0800 (PST)
+        d=1e100.net; s=20230601; t=1739797003; x=1740401803;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=tMv/zSSTQbD/xLU+9HCbjZPBCs+m5GIXQdkA1TcQxe4=;
+        b=cePdGjwi0/spFitR1AKr8jvQ23tiAFxRfAfSwVwWTO5IiBKV5ZWzTOBNA6aYgHoJaE
+         orivDnm4kdrCEH41p/PJ2C9DSC+439GWW3oKrBxEAHr/Wprt3LruTFzbjaWQm9Tw9Kyd
+         IhocRoKO+THAc4AsCFXpnRbwbsGg5/Dpxprb3A9QAjrD1K4eFDUgS6buiwtldd9l+cNK
+         Y5VG3zwtbqQK2NU82O9fNndavr6fzCcfA2DJsj98I7tUipAz5jIJ+eFr+pbK4Ann4oCV
+         fYWRPaCebX4OmjjIT+ojZDMYg5N2OY7NE28Fz5/n3WKD1AV7isSnYqRZZhYhuDsbILb2
+         tzzA==
+X-Forwarded-Encrypted: i=1; AJvYcCUbweb+0umvx8h83lnOd1DQbqTQ5STIEU9sZ1gH9xNtEdVuHnUoR2dSba92eWP1elv4j1z8yXFpNrgY0Hy6@lists.linux.dev
+X-Gm-Message-State: AOJu0Yxu19DrdX8pXSBsnOO9YEo1ft3TT8//UQcy89qg7yxaV3VeKUwo
+	0l8djO5ivz2KZsIENwKuHcf3/d0A52gCUFv9nYMdzwiIm3yOe6kn
+X-Gm-Gg: ASbGncuZ7N7P0/R59fVZuGGdXeIngbl6MRc3BB9CRsQQvdFVU7zY768TgcKoeMDHPW1
+	Q1gqWJ6H7xEYpOp3xf4TcuSofAyr+GRUYPJ+syj9NLaZkg/t26ewiV8H7syOLs/V2PTh4spf7RT
+	tWS4Wz/hQ0/ct9LgbJsvQSy7mFL86d0m29Fo/P3zfzSxZfIwemE/KoyMnwIzb/v4g8RMZqOehEe
+	nmV5cuaBmhpDS6CI1Mu8E2xtgJObilRlS/5pEo7s8oWbBHKsBRi7rpsOc2OVQsl+qIg6M+vkrzj
+	rqUN75L6XyYMuZJ8dG8Q
+X-Google-Smtp-Source: AGHT+IG7RfJ78Ke3TOD7UhjYlnkWAAzlWWZixmgLKPiIceLEOn28Akbe2ZRpNs/gev9QvJ6MiFecKA==
+X-Received: by 2002:a17:902:e545:b0:21f:6dbf:1850 with SMTP id d9443c01a7336-221040bd704mr164901815ad.40.1739797003521;
+        Mon, 17 Feb 2025 04:56:43 -0800 (PST)
 Received: from localhost ([2409:4066:d04:319e:1d76:db25:b6bf:4f52])
-        by smtp.gmail.com with UTF8SMTPSA id 41be03b00d2f7-adcd481d902sm4706160a12.21.2025.02.17.04.56.29
+        by smtp.gmail.com with UTF8SMTPSA id d9443c01a7336-220d5349047sm71475415ad.7.2025.02.17.04.56.42
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 17 Feb 2025 04:56:30 -0800 (PST)
+        Mon, 17 Feb 2025 04:56:43 -0800 (PST)
 From: Ravi Kumar kairi <kumarkairiravi@gmail.com>
 To: dpenkler@gmail.com,
 	gregkh@linuxfoundation.org,
@@ -65,10 +67,12 @@ Cc: arnd@arndb.de,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Ravi Kumar Kairi <kumarkairiravi@gmail.com>
-Subject: [PATCH 0/2] staging:gpib: Fix error message formatting and adjust memory allocation style
-Date: Mon, 17 Feb 2025 18:26:15 +0530
-Message-ID: <cover.1739794938.git.kumarkairiravi@gmail.com>
+Subject: [PATCH 1/2] [PATCH 1/2] staging:gpib:hp_82335: Fix error message format for invalid base IO address
+Date: Mon, 17 Feb 2025 18:26:16 +0530
+Message-ID: <eb8368ee9fff0076ea1f97d154ff2b07d2fec572.1739794938.git.kumarkairiravi@gmail.com>
 X-Mailer: git-send-email 2.48.1
+In-Reply-To: <cover.1739794938.git.kumarkairiravi@gmail.com>
+References: <cover.1739794938.git.kumarkairiravi@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -79,20 +83,27 @@ Content-Transfer-Encoding: 8bit
 
 From: Ravi Kumar Kairi <kumarkairiravi@gmail.com>
 
-This patch series includes two minor improvements:
-1. Updates the error message format for invalid base I/O addresses to use hexadecimal notation.
-2. Changes the memory allocation style for `private_data` to use pointer dereference rather than hardcoding the struct type.
-   which is perfered by checkpatch.
+Updated the error message to correctly format the base IO address using %#x
+instead of %u, ensuring it is displayed with a leading '0x'.
 
-Ravi Kumar Kairi (2):
-  staging:gpib:hp_82335: Fix error message format for invalid base IO
-    address
-  staging:glib:hp_82335: Refactor kzalloc size calculation to use
-    pointer dereference
+Signed-off-by: Ravi Kumar Kairi <kumarkairiravi@gmail.com>
+---
+ drivers/staging/gpib/hp_82335/hp82335.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
- drivers/staging/gpib/hp_82335/hp82335.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
+diff --git a/drivers/staging/gpib/hp_82335/hp82335.c b/drivers/staging/gpib/hp_82335/hp82335.c
+index 451d5dc6d3..f1c2045570 100644
+--- a/drivers/staging/gpib/hp_82335/hp82335.c
++++ b/drivers/staging/gpib/hp_82335/hp82335.c
+@@ -274,7 +274,7 @@ static int hp82335_attach(gpib_board_t *board, const gpib_board_config_t *config
+ 	case 0xfc000:
+ 		break;
+ 	default:
+-		pr_err("hp82335: invalid base io address 0x%u\n", config->ibbase);
++		pr_err("hp82335: invalid base io address 0x%#x\n", config->ibbase);
+ 		return -EINVAL;
+ 	}
+ 	if (!request_mem_region(upper_iomem_base, hp82335_upper_iomem_size, "hp82335")) {
 -- 
 2.48.1
 
