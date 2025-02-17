@@ -1,38 +1,38 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E80321917D7;
-	Mon, 17 Feb 2025 10:31:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6EDB12135AF;
+	Mon, 17 Feb 2025 10:37:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739788319; cv=none; b=U53bwrtaK4Mu1yY2b5dj4S+cm+/iy2pBpiAcLLFStkkM1F+CLw3+2yTO/M3VaMB/7I6VH87qsL/vezmdQl8iSS2HUWtTL6G39qEB1WHPdJ6obRn5WNlrCMNmbfnFh2agqfZlOqrwe+8vPXihMqiUu+d2f42yYtWKjHoNFXOUv4M=
+	t=1739788662; cv=none; b=UCj9bK5hH2eigD8pFz4c8jL946cM8v2Ch5pXewp9WsRupG0XigkH4PcVP56rnRc2xB7GosTPh0sN+m2Jox0QLb9M0Q2zU5ay8UI8lgLxrCwCWZ7jD05IAZEdEUmLV6+Dtwch8Lelh0rkN060p+yFyQWgfs5MrV+aVdvx6/Ui4dY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739788319; c=relaxed/simple;
-	bh=kNWeVzEdKM2vjX9bON7JjoAEnQKOTqfdp3/XMoeAn9E=;
+	s=arc-20240116; t=1739788662; c=relaxed/simple;
+	bh=iBLZunpQkV0eZdxdtQfqi1BGUSJgxcqK7ZA6bk5kouU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=IkPd/o9FPMfoxwho5bLw9ptTmaP163zhD4nSAgf6cGrpBF04xp1lJUWFoSkk7cVPX+htGFcSeLU28+PFax6kuDen5+2vpVHXpKGh8Fura36LgQYJhwLqunC2JUgK2G+rvBDYkEuo8iCbClV91rvgVPC6LQD0RmjPJq+A8jh8uF8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=PYq7Rqwh; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=qKhHjlp1IZcZ9NNy1hXeeWnu/zs6+xlZS3ZhfxzXQjxPp18yk9km48g08I8FWRfMw2xAX9NRQa3CkWx5AeVmR5h/5GonFUhQoS5OzUsUH4UyKIKp70LBPUiNON9F3TiwLwnrMce1pfU2+NLRxznQocaqfasiJzFPdj4pRgJose8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=rTfblvDO; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="PYq7Rqwh"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C019CC4CED1;
-	Mon, 17 Feb 2025 10:31:57 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="rTfblvDO"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C4CE6C4CED1;
+	Mon, 17 Feb 2025 10:37:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1739788318;
-	bh=kNWeVzEdKM2vjX9bON7JjoAEnQKOTqfdp3/XMoeAn9E=;
+	s=korg; t=1739788662;
+	bh=iBLZunpQkV0eZdxdtQfqi1BGUSJgxcqK7ZA6bk5kouU=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=PYq7Rqwh350BzNF1zSzPqSGcomuTtI70hAm79ghpTCBnYiusx8OflCZHE1iQeNlTh
-	 HW9EkqGeGwYuO9qZGWlUPHoSgZodj4AZFqvf/2r6rFek7zVtWCXARNSIY00o2elir9
-	 kwkFAWcDMzqGArHnK0wjqFFmx1ZFWhdG2KtJ8x2Y=
-Date: Mon, 17 Feb 2025 11:31:54 +0100
+	b=rTfblvDOzgaTeG81ekV4S99YU+TvTo2R+fz49RpuptwKBb3cvBUZg1hVfq0oAdFkn
+	 44sDsfwBZuJpO9omKEB5Fun91iemr6L6c8XjZMby6ThdYOUrv+57fpKlcsPQuSsljK
+	 CclLKBmgOJBExu9FwJRysBxF5bx0CG1GkENthEcY=
+Date: Mon, 17 Feb 2025 11:37:39 +0100
 From: Greg KH <gregkh@linuxfoundation.org>
 To: Ravi Kumar kairi <kumarkairiravi@gmail.com>
 Cc: dpenkler@gmail.com, linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org, kuba@kernel.org,
 	dan.carpenter@linaro.org, rmk+kernel@armlinux.org.uk
-Subject: Re: [PATCH 0/4] staging:gpib:agilent_82350b:Cleanup and spelling
- fixes
-Message-ID: <2025021729-angular-ignition-0858@gregkh>
-References: <20250217100526.49495-1-kumarkairiravi@gmail.com>
+Subject: Re: [PATCH v3 0/4] staging:gpib:agilent_82350b: Code cleanup,
+ spelling fixes
+Message-ID: <2025021728-overboard-eloquence-f0fa@gregkh>
+References: <20250217103046.54294-1-kumarkairiravi@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -42,24 +42,22 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250217100526.49495-1-kumarkairiravi@gmail.com>
+In-Reply-To: <20250217103046.54294-1-kumarkairiravi@gmail.com>
 
-On Mon, Feb 17, 2025 at 03:35:09PM +0530, Ravi Kumar kairi wrote:
+On Mon, Feb 17, 2025 at 04:00:34PM +0530, Ravi Kumar kairi wrote:
 > From: Ravi Kumar Kairi <kumarkairiravi@gmail.com>
 > 
+> This patch series addresses the following changes:
 > 1. Fixing spelling mistakes such as "havn't" → "haven't"
 > 2. Removing unnecessary commented-out code
 > 3. Cleaning up whitespace and formatting inconsistencies
-> 4. Removing a empty line in if{} which was casuing it be read as single
-> line
+> 4. Removing an empty line in if{} which was causing it to be read as a single line
 > 
 > These are minor changes aimed at improving code readability and maintainability.
 > 
-> I appreciate your time in reviewing this series.
-> 
-> Thanks,  
-> Ravi Kumar Kairi
-> 
+> I appreciate your time in reviewing this series. and I'm deeply sorry
+> for the spam beacuse I messed up last time I sumbiited
+> Thanks,
 > Ravi Kumar Kairi (4):
 >   staging:gpib:agilent_82350b: Fixed spelling error
 >   staging:gpib:agilent_82350b: Removed commented out code
@@ -74,22 +72,30 @@ On Mon, Feb 17, 2025 at 03:35:09PM +0530, Ravi Kumar kairi wrote:
 > 
 > 
 
-Something went wrong with your submission here, look at how these show
-up on lore.kernel.org and in my inbox:
+Hi,
 
- Feb 17 Ravi Kumar kair (0.9K) ┬─>[PATCH 4/4] [PATCH V2 4/4] staging:gpib:agilent_82350b: Fix Indent issue with block
- Feb 17 Ravi Kumar kair (1.5K) ├─>[PATCH 3/4] [PATCH V2 3/4] staging:gpib:agilent_82350b:Removed blank line
- Feb 17 Ravi Kumar kair (1.5K) ├─>[PATCH 2/2] [PATCH V2 3/4] staging:gpib:agilent_82350b:Removed blank line
- Feb 17 Ravi Kumar kair (3.0K) ├─>[PATCH 2/4] [PATCH V2 2/4] staging:gpib:agilent_82350b: Removed commented out code
- Feb 17 Ravi Kumar kair (3.0K) └─>[PATCH 1/2] [PATCH V2 2/4] staging:gpib:agilent_82350b: Removed commented out code
- Feb 17 Ravi Kumar kair (0.8K) [PATCH 0/4] staging:gpib:agilent_82350b:Cleanup and spelling fixes
- Feb 17 Ravi Kumar kair (0.9K) └─>[PATCH 1/4] [PATCH V2 1/4] staging:gpib:agilent_82350b: Fixed spelling error
+This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
+a patch that has triggered this response.  He used to manually respond
+to these common problems, but in order to save his sanity (he kept
+writing the same thing over and over, yet to different people), I was
+created.  Hopefully you will not take offence and will fix the problem
+in your patch and resubmit it so that it can be accepted into the Linux
+kernel tree.
 
-I count 6 patches in a patch series of 4?  And the threading is broken
-in a very odd way?
+You are receiving this message because of the following common error(s)
+as indicated below:
 
-Please fix up and send a proper v3 series.
+- This looks like a new version of a previously submitted patch, but you
+  did not list below the --- line any changes from the previous version.
+  Please read the section entitled "The canonical patch format" in the
+  kernel file, Documentation/process/submitting-patches.rst for what
+  needs to be done here to properly describe this.
+
+If you wish to discuss this problem further, or you have questions about
+how to resolve this issue, please feel free to respond to this email and
+Greg will reply once he has dug out from the pending patches received
+from other developers.
 
 thanks,
 
-greg k-h
+greg k-h's patch email bot
