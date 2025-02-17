@@ -1,60 +1,62 @@
-Received: from mail-pl1-f195.google.com (mail-pl1-f195.google.com [209.85.214.195])
+Received: from mail-pl1-f194.google.com (mail-pl1-f194.google.com [209.85.214.194])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6358422E3E2
-	for <linux-staging@lists.linux.dev>; Mon, 17 Feb 2025 19:51:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03E6B22B5A3
+	for <linux-staging@lists.linux.dev>; Mon, 17 Feb 2025 19:51:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.194
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739821861; cv=none; b=nntx/GX2ZS3aYsFivxGu/12vEJSukykVYdpH4vLgRHz/OEkofzZKweSVkoHSOEnkxujUrd1VNGj1gblJpRgy7tRmJaVUS96BqaiO2bq3988b9exvbX8T3DoDWyFjOZ85diQG8qF7/wTJZJM6sxCzXZpkgnA4DqDFzJExh1d5mno=
+	t=1739821867; cv=none; b=pfJPJpIAkDSDgQNVDGt1H9TQYM/si3GMq65fYeivjtAS7o6Xhzb1xEDcin0ZEj1k3XGmo5bcRKFX3Vo+UkwB+CfKGoCbAmo3/rfDtv9XFTOPhjEYItdD9TvlJh0QelGBN0Uxgi+B7f5w+a66okOCpd+3CUhY7xqsLwkbkCwR8Wo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739821861; c=relaxed/simple;
-	bh=8djotlyOow3U6WpdapdKdiyo3bMweGbclUeA8Uvft7E=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=TcvxARcT4vrgPazNQxwhn3vffJ6eNyeMwJudqEOGejgmW883Kv+ZfIQXpeOlUe8X2rIfXs2IwN5D+7k6QLqrZk7uBcVi5skZoPIVyGcNYhS4La8/xXrI4YtAUYm6duIfBCbJaEWZuNg6TTMLCpwmHsxhlwTSrE0jhaqYOqu8ShQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QysNjOKu; arc=none smtp.client-ip=209.85.214.195
+	s=arc-20240116; t=1739821867; c=relaxed/simple;
+	bh=fvxc2nA5l9IF9nEr97T0t174jPkXXoOp2oMvRCWYwHk=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=kgmPxOd3VmaoCUZGCwBwDLROiLbs/FVaE524Pg2B0B6CeK/xD5q27N3SoRRHxPybY3Hzmnn05xLPUsRuXA+wzZfkBnQw58oLlL/74QMqDzoTL52CVP1Ivy5ejUNTKwcfuKatpc2NqSz5Tuc/nkCnEtM+Su2pZ4BFo1Z/3/DbTBQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=B4M8kNRZ; arc=none smtp.client-ip=209.85.214.194
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QysNjOKu"
-Received: by mail-pl1-f195.google.com with SMTP id d9443c01a7336-2211cd4463cso30040615ad.2
-        for <linux-staging@lists.linux.dev>; Mon, 17 Feb 2025 11:51:00 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="B4M8kNRZ"
+Received: by mail-pl1-f194.google.com with SMTP id d9443c01a7336-221050f3f00so41506845ad.2
+        for <linux-staging@lists.linux.dev>; Mon, 17 Feb 2025 11:51:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1739821860; x=1740426660; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=1MqTA0vRxn2Uf7ysEV4axwxSXNlJYZ63FyMvrvWVGdU=;
-        b=QysNjOKutPFvIkAfqOrjQ/bRKnD5OpaN9RvlodVoqLnnrWuBywUfLpP1uIEfghEVjT
-         YtmkoTwCkY3YB8Xp315uasWOVMptrQOvc3PJr/I5F/bJOMUxSl2QeMpgiSNRu62OvIgh
-         rkoh77/GqWgE3MboXfisHTFY6Mt4pqDgi7v9WnzGujAQ1ElghSZ7PKzHz56zM3BvtSZo
-         gZ+ZNNXOTxX8KVyUmI9UKO5WQGXXQUVLQR6NYs6/bEl23DVcJnhZ4Tjv3VpdaEe5ptOI
-         x1fwmjPQVxsINRUNEAvCVrph6veItLzBvjBrSUgYmIAZWLN+GUQJd0HxQAXk7nzrFuwc
-         hndg==
+        d=gmail.com; s=20230601; t=1739821865; x=1740426665; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=yuS0adcc8Fxg+8m6s8u569Uh3Sx/1Cru69GJC1Yskkg=;
+        b=B4M8kNRZP4eSteISV5nefqqIK18k6D0s4UzxGT+v6M0dfQmPgwNj0d+Kpho+ceGfhW
+         LgHRd9zrXTzwZgVizG2tkNvSjV5wPC5kaRchM6u5gCUj0yBiNVwpTjsfmKdvRAfEUF0f
+         50I8U7tpL8n0bG3PDlYBj9f8QsjzGDnk89Xe9qS7y48M6a7WyKRrxts5e0LZOd812SHa
+         0FNePN9vmzpgspSgRrqdevAw9zmQtUaoR2/jK6N5R8EdG7Kk3IWYHT/z6UDgvouS2G9b
+         +3HRay/vj/AmIhP27isLmNNEpDwWPGFD7UtnnOiqzK4hbUPU+p5GZEEwX7ZCYBJynXP5
+         z8tQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739821860; x=1740426660;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=1MqTA0vRxn2Uf7ysEV4axwxSXNlJYZ63FyMvrvWVGdU=;
-        b=K3bkA925VchTOH0mDUaUKk6pv4mLl6VLYVCjb2gorhVpE+VQ/1hT2tJRwx1b3L0OhG
-         YbJLvCHHwz7NPD5Bj5Y7N9acOVHeIhmBEbzaPFzzgR5SVdjSOyR9SdP1ue3yfb8XUMd/
-         zh1k2ZciJLvyLIiAr6Jo+8KKN6IKxc/hxijOsRzVpWrqYQgOhCgoroyh0I0It7mE6Dpn
-         MkPKb+UjO0VQbzi72t4zy1uWpHZVOrxbytHR4Cx7sdiwcVQR2vmkGj063CRgEay+sT/r
-         G/ADFEfIb6L3zx6qyUohTR+06rMIlJcGOyte7+74RnW2pKNOiTjED8dqbfblEnIAze5M
-         mLIQ==
-X-Forwarded-Encrypted: i=1; AJvYcCU32cZbLJA07AvESexrxAG+BNOz4RBCEf9Fa/pV/9/FE3UPr+1jVupS6XAFuQrOWAxcAtt+Zs/6+0DfODg/@lists.linux.dev
-X-Gm-Message-State: AOJu0YyeqMEc/Vf5461HSRaA7a2ptjHLjQTNBcC16pqwVBxGLTn+R0l6
-	DR9s7Ui0xsjsGOac6VnL7n6wVxfWuPr/acR8CT32Y9LgG29J1+jQ
-X-Gm-Gg: ASbGnctkAt+LfWpw33qsPnT4Iaqd9u1XMnvYX0v8JDbWTOsrbs7clwO8qCNexpgTNMm
-	sF2gQu+cmVdVzCju8ScfsA3vwmgTA+hKiIJrl9UPxnr+8MaQJsUsnBZHyhloIVMXalbZNo+i+eX
-	I4quSSCAAPEiATUfXJ8wZLfRkhKxPvznaPiWh1Pyvckr/RX2UMMoBMEUbjP9Gr64MSHhWypWDam
-	PmmWiuyML2FA6QFgM8rpaSrxcMLszCTcP4+hpURomUS0Lb2ZzgM4cwtYf3ByUP9u+rXBWZDWkgz
-	OQGDdOyEZPCCXdTHIwRI
-X-Google-Smtp-Source: AGHT+IFQqlyGGnwP1AKUpdQjn6VhX+4WnkPIk9II4OV70FotBJjNMX3/QzGFqNNsrzKLYgtOZkRjGg==
-X-Received: by 2002:a17:902:e890:b0:21f:6885:2b0b with SMTP id d9443c01a7336-221040697ecmr172506445ad.26.1739821859667;
-        Mon, 17 Feb 2025 11:50:59 -0800 (PST)
+        d=1e100.net; s=20230601; t=1739821865; x=1740426665;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=yuS0adcc8Fxg+8m6s8u569Uh3Sx/1Cru69GJC1Yskkg=;
+        b=FMSw1r9iAqlfTh3jKQMGxkRscV+xrQndf7n5ucFcThHF8X5rsrLGMExQcgLQ4ocd53
+         XjFOc3zPrhRpKxNCUWhMULiXvRe7LUYAkBUaM9lpZGr2e4lLGPE72XJG77c7JEy/52fc
+         CYMQrss8B0LxDWX8olZbEZfRvpMH7a1Rbj+otf097yq+4Wdorc8IDu9SVyphoMSGqpgy
+         V7x0tp90yS/21JSlxY5aBYF/tapRKy9esepIEXaUdfba4pmWbwukx8uNAVy2pokGOWu5
+         D68wvtZltUUmOUdBD9uubfmL8uxM9Oh0tPBq+6cQajq0FB4+PYptt6S3ELcSsG1KD7X7
+         8Nhw==
+X-Forwarded-Encrypted: i=1; AJvYcCVpzxuF8LSGTMIFBzLe91l6Sp+vlKxNVzpp/6wCjavbRMkwCKKyU8px6153xM5U30YV4Xhl2NS9QymsXtWG@lists.linux.dev
+X-Gm-Message-State: AOJu0YwsqxTQPuyZq6oNCdiIk5N/OTl19/ludGl6GESq9xBxI1kqr8zi
+	EuDPepfmOWeulxWk+2/6PYS24Lj54O6o0H5O2x4vO3Ce+5gKW3E3
+X-Gm-Gg: ASbGncsKJzWsGsw+fBRO3A/GmUDFnF9vr5ANbcD88uK8ksA9TU8s/QnE2LJcvibnhtu
+	kQlrs/Bu2Qdabokcfdz6lxXmVDqhJ5YRqhSi86tyFVav3RDxaYGK3IYNRmb/Pb1zsoFqgVh5OGa
+	FS/CgqNNx3PtfofQifQMrF2pBGrhwUK+raU77lPMuys0rOqqC0U0xiqkDBqEwZciL0p61ZY3md+
+	4Of76e3/3x8AWSC+eX3Xk6xPVdfCMUQcKIOwALnCesEKtLvvjpTa5R84RclDhce4QlNx3EIGNs5
+	MBTfDRP+l22NMT1kg91O
+X-Google-Smtp-Source: AGHT+IEZXTjLtFwTNfFx61i+LqglEKU3cBTh4eu1bK0kAaX4GJOeFlHPzDJQh4QCeI77CQd314ubaA==
+X-Received: by 2002:a17:902:c94d:b0:21f:5cd8:c52 with SMTP id d9443c01a7336-221040eb619mr150146455ad.53.1739821865173;
+        Mon, 17 Feb 2025 11:51:05 -0800 (PST)
 Received: from localhost ([2409:4066:d04:319e:1d76:db25:b6bf:4f52])
-        by smtp.gmail.com with UTF8SMTPSA id 41be03b00d2f7-adb5aa216f2sm7856362a12.69.2025.02.17.11.50.58
+        by smtp.gmail.com with UTF8SMTPSA id d9443c01a7336-220d536698fsm74948865ad.91.2025.02.17.11.51.03
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 17 Feb 2025 11:50:59 -0800 (PST)
+        Mon, 17 Feb 2025 11:51:04 -0800 (PST)
 From: Ravi Kumar kairi <kumarkairiravi@gmail.com>
 To: dpenkler@gmail.com
 Cc: gregkh@linuxfoundation.org,
@@ -64,10 +66,12 @@ Cc: gregkh@linuxfoundation.org,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Ravi Kumar Kairi <kumarkairiravi@gmail.com>
-Subject: [PATCH v5 0/3] staging:gpib: typo fix and cleam up
-Date: Tue, 18 Feb 2025 01:20:47 +0530
-Message-ID: <20250217195050.117167-1-kumarkairiravi@gmail.com>
+Subject: [PATCH v5 1/3] staging:gpib:agilent_82350b.c: fixed a typo
+Date: Tue, 18 Feb 2025 01:20:48 +0530
+Message-ID: <20250217195050.117167-2-kumarkairiravi@gmail.com>
 X-Mailer: git-send-email 2.48.1
+In-Reply-To: <20250217195050.117167-1-kumarkairiravi@gmail.com>
+References: <20250217195050.117167-1-kumarkairiravi@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -78,17 +82,26 @@ Content-Transfer-Encoding: 8bit
 
 From: Ravi Kumar Kairi <kumarkairiravi@gmail.com>
 
-minor typo fix and cleanup
+from havn't -> haven't
 
-Ravi Kumar Kairi (3):
-  staging:gpib:agilent_82350b.c: fixed a typo
-  staging:gpib:agilent_82350b.c: cleaned commented out code
-  staging:gpib:agilent_82350b.c: removed braces from a single if
-    statement
+Signed-off-by: Ravi Kumar Kairi <kumarkairiravi@gmail.com>
+---
+ drivers/staging/gpib/agilent_82350b/agilent_82350b.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
- .../gpib/agilent_82350b/agilent_82350b.c      | 19 ++-----------------
- 1 file changed, 2 insertions(+), 17 deletions(-)
-
+diff --git a/drivers/staging/gpib/agilent_82350b/agilent_82350b.c b/drivers/staging/gpib/agilent_82350b/agilent_82350b.c
+index 5c62ec24fc..5a74a22015 100644
+--- a/drivers/staging/gpib/agilent_82350b/agilent_82350b.c
++++ b/drivers/staging/gpib/agilent_82350b/agilent_82350b.c
+@@ -121,7 +121,7 @@ static int agilent_82350b_accel_read(gpib_board_t *board, uint8_t *buffer, size_
+ 	writeb(DIRECTION_GPIB_TO_HOST, a_priv->gpib_base + SRAM_ACCESS_CONTROL_REG);
+ 	if (retval < 0)
+ 		return retval;
+-	// read last bytes if we havn't received an END yet
++	// read last bytes if we haven't received an END yet
+ 	if (*end == 0) {
+ 		size_t num_bytes;
+ 		// try to make sure we holdoff after last byte read
 -- 
 2.48.1
 
