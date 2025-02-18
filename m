@@ -1,60 +1,62 @@
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59C7217A30E
-	for <linux-staging@lists.linux.dev>; Tue, 18 Feb 2025 18:43:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB7492356BA
+	for <linux-staging@lists.linux.dev>; Tue, 18 Feb 2025 18:45:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739904236; cv=none; b=CxoQaWBzp16yxnYkSgWAUpPeJSBdqOC6wB0j9pNmKAUZTX6pCgJm4hCENNRe//lLas2IdaBFtl0adve1KwX2UcgIWCAOGDYvgQxb/fEoyp6kXJjpoBT2v1v8x4vmy6tn6x9ZNz+hbG9ZavEZs9r73Mkr58NBx3HUz1Ep4v5Oke4=
+	t=1739904353; cv=none; b=uK6mg/0KQ7UkkSXo3Rsaku0theW05xRPONbBbX3htGUXwUzu3LbmqsUAz/USVJm1qowjWyfA8zeBW9ZDjl1/lsInmk2XL1IL4F3PIOJnV/oBjZx+/PCVDinui0jItZDJDi5zLOT8pzrs+EmrXvo2OQrgK37Z6Sv0aD3hZWyeZNI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739904236; c=relaxed/simple;
-	bh=hvZcOaRWTZt7I/ohEbGV1TNNQ8QnQUTy8eIf0ctTcf0=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=isIx1FO1qqfTN7RESWZMDPnNkvr4KQN9HA4Sz12CNC9jheB2fHF7V7Jj3lIiDzNvtPQQAjf+r/QfBecNMF+8Yj5jR+NqVYaks93JNRY8SYTLu6XuJOm5jxHKWb6BzCg+x9dTHTofKQXals2ltpJHo07m/ffkBubygmcK8q0ngAU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DcX8HbJ/; arc=none smtp.client-ip=209.85.214.178
+	s=arc-20240116; t=1739904353; c=relaxed/simple;
+	bh=3ug5I39Iw8x6Y6jc39rUJTXPU+71BExIWBhPGgNeFEw=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=TnjtIemJa8Y6Jlv67cljC81J6UEI89+XDc3WIetnaVuMHTsrom6VlQjyed0oH7s8iFLne+lAdrbq1fiFeDibLwk2yMgnRdML5mGsUYETKg42vE+dYXBY0XUh4M3DmYu0bWMZBYVPLkPDvwpQI1EnonJUf/T5AdlzDMIja4JH8zU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ACHXfKUk; arc=none smtp.client-ip=209.85.214.181
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DcX8HbJ/"
-Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-220f048c038so74785445ad.2
-        for <linux-staging@lists.linux.dev>; Tue, 18 Feb 2025 10:43:52 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ACHXfKUk"
+Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-22104c4de96so57513575ad.3
+        for <linux-staging@lists.linux.dev>; Tue, 18 Feb 2025 10:45:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1739904231; x=1740509031; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=SArq1RurjwhDWZzXQ/vuJZPCcvt8Vb3Tsr8PPtyd9XA=;
-        b=DcX8HbJ/eUTjO5Ntr+DwfJXA0cXwmJZz3ppDBfO8Vl9yih36Ojjem7fzfmpZ9kP24/
-         1LxIYSkrHPkXyj3tQ0Dfpkz3AI1i/t0rnVmpx9MvykXgLGqfvm+/YzO6r4mhDLhT0pZD
-         /d5/82bAiIixmMTwuQjAbsCDw/rb1tCwKXJbIbfUW+8jcmvW4XV1bBz1j0vOye7YzDPT
-         GxsRzAvqsJCuVMRt3+qPjW1TFhFEQY++tl42o9mw/xWDqEDsWwKLynX+TELEQ/T2O2wo
-         ciR/Gyw7zJ/u5paiiJKpxLS38nHVqxPCeA3P3+iWMWcbDVdkylPsttc4JGXL2De4YeP+
-         AaKg==
+        d=gmail.com; s=20230601; t=1739904350; x=1740509150; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=t6BRDxVGpWSFTwDe61xOfIgbPPO/rM0g8mV2Mr7/4Xk=;
+        b=ACHXfKUkp6xuAFPUKbatuaeUM32nFRHTyqzJa++ntdmX2khNoKPoa3SjiUF2EGC0lU
+         TI5f2yi2mw9d+Z0jWQ8vfTPDE4WKRc7dGGp2V/sIK0/TchFnX8Z/tv11uVu5cKxpWn95
+         ZGO4CZNApUt9cZ7bsm8Nw2JxBb+d4jw39+l4/ihf+x2sPwu/XzgC9BsrwI78REKgEVCG
+         mQPpqifC8wqrjYS7GEAo8Mr8vbrzGTZYWkOd0rBqn/4Epo+d+7K0UvIpT9uXWt0v0xqk
+         A52/PbQ/xijHfAHXa2BZMCInQKumk4raAwoqeNLHz8GVq2RNPmOK4KY5k7lBu/q8M6l1
+         vgSw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739904231; x=1740509031;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=SArq1RurjwhDWZzXQ/vuJZPCcvt8Vb3Tsr8PPtyd9XA=;
-        b=SKK6OedZRsIjbBxhkxGD4j49JH9mL0f2F8P65f3yOdgVYXJAzVokct61O0Z/CcoMv5
-         yhIDI4XORpYiUyCawqfU5NOUxzooWFzJMcE7XUycZRB5GTYonPrE8gAhVUNVByDUq0Pe
-         LGZ9l45hU0fH8bMxLmiAYuiM0F8ngRUbP/B+s8LiDZBPtuFVmgOuB3leIgVT/Nvbw4nz
-         LHDR8Eq9wWeoo7RQ9uFJ34FRjiFHx/Irklcsi86VEM8fJb8xE7UttL/2HvVWc78qAp26
-         glFRHEJ6LofV3ST/q+aUm0VWkt6iUDHCbdV+uF8JEKIb1v5834DOZAx01hFk9+sgiXLY
-         9SUA==
-X-Forwarded-Encrypted: i=1; AJvYcCXdmK59+d8ylS+iEk9IDtJPl9MlTeFpqEFmLbeO64w0krSjBJ38x8srG/pcdCuhIpCauLU5EzviZjANucxo@lists.linux.dev
-X-Gm-Message-State: AOJu0YyqV94dYuoH9kdKmM156zscH6v+W7NNarJrZM1P/GGBycFaiFR8
-	1oQJukcQw604d3QfbLXdQFru+t8T3FemESUv1ptdhJle5j6TOMyntbJGItDuvyE=
-X-Gm-Gg: ASbGncu4EjY7/N3M6MXtgYiA9Uz7/8hl7xoCkTJgivwEr1E7l/HPIpuH00m8/oaMEjK
-	M971Vp3i/EDxZzyhzYKoc/mjEABqFOXCE3XZg2BLL67eDZaquoh7MslP1rvBxd6vWjL4ObmhxQX
-	I7p223PqKg3OY3DOOBf7YAIyo5SnBRMZYpVXSzs4PBBFdsA/xyS+Pas1NysHMom3y+Vx8on//4b
-	HyxruheWSWRVi0tAjD5MQPnLnRWv1ttgaMWNm7H/R7JHGuIv52mMvJcbtZxLoi1Nr9qAEUzGbZt
-	oi5rm0mYYeSXRTPcFR5Abh0fkrsTZNIh
-X-Google-Smtp-Source: AGHT+IFq50N+Qtk4EaE5J44iYXpZVRp390AhADutuSxFBh2wYwfZ5I0i889pR5fToKOrZGPBUe4EQQ==
-X-Received: by 2002:a17:902:f543:b0:21f:542e:dd0a with SMTP id d9443c01a7336-221040a99d9mr213463445ad.41.1739904231077;
-        Tue, 18 Feb 2025 10:43:51 -0800 (PST)
+        d=1e100.net; s=20230601; t=1739904350; x=1740509150;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=t6BRDxVGpWSFTwDe61xOfIgbPPO/rM0g8mV2Mr7/4Xk=;
+        b=Hx6vD5oh4XZMZfaGjhKE51Cba4d9poEMtBCWmeD3X0Ig0UKAAfrm5TguJ62JrfYNVR
+         8t+efp9FQ7d5uZGjz6C7Lmgc2Gwzf/rxvYYHVc7wOqB74VX4wrD+HG09CQI2aEsEG/T3
+         JMW56k7dpCbFxdgRLyb7ATKIYDrSHsLTUb6eiOfbWRqdhtHAcleGgg7X1I/RzRHE7flV
+         hBN4NnC4Oe3JLa4/WX/yLq3XxNNBkOdC098OcifZ2fc2K5onkZ73ueoib9FtdHjT2M/l
+         Kxj3Rg08Kb2tRKEb/BoGjWOYySGQkTZ54NbSntddrYdSi8eKQlZ+mD8aoQs9N4/IEz71
+         JkxQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWsuXkqIKYPR08DoKOdfkM5ja/0Ws4faWJ/QA8hYslyvsyUt05yGUtiIqnlj8HhpE9lTG5CmcXFVZljwLWK@lists.linux.dev
+X-Gm-Message-State: AOJu0YwKsLT132+x0jrCkvvoKreG8PTENz2yqlt1SRogqwRE4mDecyBW
+	dTLndhPt4FkMxqzSmRHeozF+0DaMMDFdBay+8QmGcbcr38PGmCvg177GoTMGNp8=
+X-Gm-Gg: ASbGnctwmaSeQs8LPeq8wJSW/06whtRzVoCx+mMhSQoCTH0AqE1vwgw3dD7zvqtZwNA
+	kIyV6wsQFqoI6lo64R7l+eCCxWbdL1CzsiJ54fxEpyl6x8wZBwtcR0+zjQV/WfCQKlthrD2i7vE
+	XRzvIksRUIG2Zmtmpu/64Vz1Sppl3MZVbCDwI6dBzouULR3dkxAQKHUSATSyRutu4lkTqudcmKX
+	H9JW+skmTc9mTiSEuuOS8n/uHxtwKUEqEB4gszgMUew/0rcGBAi942M7svGhUzW0ECDTrqEMp/x
+	sAdsWjdn0V7UCJ/tQvxBZ7lZzXZzBR/G
+X-Google-Smtp-Source: AGHT+IEoYhiZJOLB7Ro75I4D3eHRrbuS/DcM3nAWfOsRHjtntxDWl2Ud4kst4qqDqF+5RW15Ou+5Ww==
+X-Received: by 2002:a17:902:e550:b0:215:8ca3:3bac with SMTP id d9443c01a7336-22104034f53mr219665455ad.16.1739904349839;
+        Tue, 18 Feb 2025 10:45:49 -0800 (PST)
 Received: from localhost.localdomain ([36.255.84.58])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-220d545d474sm91231615ad.116.2025.02.18.10.43.48
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-220d545d474sm91231615ad.116.2025.02.18.10.45.46
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 18 Feb 2025 10:43:50 -0800 (PST)
+        Tue, 18 Feb 2025 10:45:49 -0800 (PST)
 From: Madhur Kumar <madhurkumar004@gmail.com>
 To: sudipm.mukherjee@gmail.com,
 	teddy.wang@siliconmotion.com
@@ -63,10 +65,12 @@ Cc: gregkh@linuxfoundation.org,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Madhur Kumar <madhurkumar004@gmail.com>
-Subject: [PATCH] staging: sm750fb: Fix CamelCase and remove volatile warnings
-Date: Wed, 19 Feb 2025 00:13:42 +0530
-Message-ID: <20250218184343.20585-1-madhurkumar004@gmail.com>
+Subject: [PATCH] staging: sm750fb: Fix CamelCase issues across multiple files
+Date: Wed, 19 Feb 2025 00:13:43 +0530
+Message-ID: <20250218184343.20585-2-madhurkumar004@gmail.com>
 X-Mailer: git-send-email 2.48.1
+In-Reply-To: <20250218184343.20585-1-madhurkumar004@gmail.com>
+References: <20250218184343.20585-1-madhurkumar004@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -75,39 +79,21 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Fixed multiple coding style issues in sm750fb:
-- Replaced CamelCase variable names with snake_case.
-- Removed incorrect use of volatile in memory-mapped IO.
-
 Signed-off-by: Madhur Kumar <madhurkumar004@gmail.com>
 ---
- drivers/staging/sm750fb/ddk750_chip.c   |   2 +-
  drivers/staging/sm750fb/ddk750_dvi.c    |  16 ++--
  drivers/staging/sm750fb/ddk750_power.h  |   9 +-
  drivers/staging/sm750fb/ddk750_sii164.c | 120 ++++++++++++------------
  drivers/staging/sm750fb/ddk750_sii164.h |  36 +++----
- drivers/staging/sm750fb/sm750.c         | 108 ++++++++++-----------
- drivers/staging/sm750fb/sm750.h         |  56 +++++------
+ drivers/staging/sm750fb/sm750.c         | 106 +++++++++++----------
+ drivers/staging/sm750fb/sm750.h         |  54 +++++------
  drivers/staging/sm750fb/sm750_accel.c   | 120 ++++++++++++------------
  drivers/staging/sm750fb/sm750_accel.h   |  16 ++--
  drivers/staging/sm750fb/sm750_cursor.c  |  14 +--
  drivers/staging/sm750fb/sm750_cursor.h  |  12 +--
  drivers/staging/sm750fb/sm750_hw.c      |  60 ++++++------
- 12 files changed, 286 insertions(+), 283 deletions(-)
+ 11 files changed, 283 insertions(+), 280 deletions(-)
 
-diff --git a/drivers/staging/sm750fb/ddk750_chip.c b/drivers/staging/sm750fb/ddk750_chip.c
-index 02860d3ec365..67a2f60440ca 100644
---- a/drivers/staging/sm750fb/ddk750_chip.c
-+++ b/drivers/staging/sm750fb/ddk750_chip.c
-@@ -229,7 +229,7 @@ int ddk750_init_hw(struct initchip_param *p_init_param)
- 		reg |= (VGA_CONFIGURATION_PLL | VGA_CONFIGURATION_MODE);
- 		poke32(VGA_CONFIGURATION, reg);
- 	} else {
--#if defined(__i386__) || defined(__x86_64__)
-+#ifdef CONFIG_X86
- 		/* set graphic mode via IO method */
- 		outb_p(0x88, 0x3d4);
- 		outb_p(0x06, 0x3d5);
 diff --git a/drivers/staging/sm750fb/ddk750_dvi.c b/drivers/staging/sm750fb/ddk750_dvi.c
 index 8b81e8642f9e..6fef1ab484c1 100644
 --- a/drivers/staging/sm750fb/ddk750_dvi.c
@@ -499,18 +485,9 @@ index 71a7c1cb42c4..737b0e4869ff 100644
  /*
   * below register definition is used for
 diff --git a/drivers/staging/sm750fb/sm750.c b/drivers/staging/sm750fb/sm750.c
-index 04c1b32a22c5..2cce27effc46 100644
+index 04c1b32a22c5..cab879ab58bd 100644
 --- a/drivers/staging/sm750fb/sm750.c
 +++ b/drivers/staging/sm750fb/sm750.c
-@@ -33,7 +33,7 @@
- static int g_hwcursor = 1;
- static int g_noaccel;
- static int g_nomtrr;
--static const char *g_fbmode[] = {NULL, NULL};
-+static const char * const g_fbmode[] = {NULL, NULL};
- static const char *g_def_fbmode = "1024x768-32@60";
- static char *g_settings;
- static int g_dualview;
 @@ -120,14 +120,14 @@ static int lynxfb_ops_cursor(struct fb_info *info, struct fb_cursor *fbcursor)
  
  	sm750_hw_cursor_disable(cursor);
@@ -843,7 +820,7 @@ index 04c1b32a22c5..2cce27effc46 100644
  }
  
 diff --git a/drivers/staging/sm750fb/sm750.h b/drivers/staging/sm750fb/sm750.h
-index aff69661c8e6..8eab90f0f33b 100644
+index aff69661c8e6..097d6558b7fc 100644
 --- a/drivers/staging/sm750fb/sm750.h
 +++ b/drivers/staging/sm750fb/sm750.h
 @@ -14,8 +14,8 @@
@@ -876,10 +853,10 @@ index aff69661c8e6..8eab90f0f33b 100644
  struct lynx_accel {
  	/* base virtual address of DPR registers */
 -	volatile unsigned char __iomem *dprBase;
-+	unsigned char __iomem *dpr_base;
++	volatile unsigned char __iomem *dpr_base;
  	/* base virtual address of de data port */
 -	volatile unsigned char __iomem *dpPortBase;
-+	unsigned char __iomem *dp_port_base;
++	volatile unsigned char __iomem *dp_port_base;
  
  	/* function pointers */
  	void (*de_init)(struct lynx_accel *accel);
@@ -908,15 +885,6 @@ index aff69661c8e6..8eab90f0f33b 100644
  };
  
  struct lynx_cursor {
-@@ -128,7 +128,7 @@ struct lynx_cursor {
- 	char __iomem *vstart;
- 	int offset;
- 	/* mmio addr of hw cursor */
--	volatile char __iomem *mmio;
-+	char __iomem *mmio;
- };
- 
- struct lynxfb_crtc {
 @@ -170,7 +170,7 @@ struct lynxfb_output {
  	 */
  	void *priv;
