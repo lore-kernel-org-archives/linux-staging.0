@@ -1,89 +1,142 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F24D820F062;
-	Thu, 20 Feb 2025 11:16:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C1B21F63F5;
+	Thu, 20 Feb 2025 13:55:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740050208; cv=none; b=XxzZkHDq7Bpala8lEV/kOpC4BVFdcCv4UlJCJFVnDH+HOlzFkNuVWUXdRuaLUif4p2324Y0wnfHKYzmIHLgoHfLrm6zMzN3fphCyI1xbPJoWC5lV5nd43YmwtOWSbhgshrbiE40b5x5+qStptHxGCilvghUzVByk0c6Oxmp3z+E=
+	t=1740059748; cv=none; b=gDMXwXIjLOtqqKn7ovj3R2fhSVAEeiVkyfG4MH/95LR4sz05gUrADIHlE0x6STgwMMBhfC4t3s7aeYpy1QV/BWHbdqfBjJ6Fs04ucucLyPXIwluGsCjms8wm6FbLJFmNHkAVhRPVZ6JDcw073KteUeN9OrP7F0TECb7EFvzIjgw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740050208; c=relaxed/simple;
-	bh=q06lJb7Uuv9M4Jo7kpt4iRsXe9J/IElgAndhhLU6hCE=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=XsA5/cztFFGpgMSRlyws0m+3MwTl8uy8DKg1qvwQEUTEtagKZtV0LLr20d1tAD4F71/O7wgU55mfWXOdZarTgn4P5YST9TY85KD8dZ4dPi2szRBHu3uP3RNP7YYyujejg95Wg9B8oDF5V1cbTpwvDfOMPASiSaXlbUJUvGbQUjQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FM0Rx13S; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FM0Rx13S"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D526CC4CED1;
-	Thu, 20 Feb 2025 11:16:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1740050207;
-	bh=q06lJb7Uuv9M4Jo7kpt4iRsXe9J/IElgAndhhLU6hCE=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=FM0Rx13Sebhc81c+tBWlFkcUyYPtfPmHAmp4XIhZ/iYgkyeG00jU1KeE6mbfyMfp+
-	 Km/Zr8WcQowsJzgD5se/uJwHXaOrWD5BjX+gK704D1Wj3MPdElMOxGXPW9LZsLIqUR
-	 yvAKnAyBSBMxbQN9DeQJ5YalzTsqKtotdRbul3sbrHRyOAs9wBZyDa8vAUe8LQbtvu
-	 94yR16gUdBQe7viUwM+29ItuLcDdL0YvdC64Td/5OI4MF0o4VfrCI66Vvqdlg8bGsB
-	 TwX1dj5TwGj8tLnXx+Tg8RmldtZztA7gNGlk9gxvdztaNnn9TBya1HxsnBqNCo1Lsc
-	 qikW9AZaaB3yw==
-From: "Jiri Slaby (SUSE)" <jirislaby@kernel.org>
-To: gregkh@linuxfoundation.org
-Cc: linux-serial@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	"Jiri Slaby (SUSE)" <jirislaby@kernel.org>,
-	David Lin <dtwlin@gmail.com>,
-	Johan Hovold <johan@kernel.org>,
-	Alex Elder <elder@kernel.org>,
-	greybus-dev@lists.linaro.org,
-	linux-staging@lists.linux.dev
-Subject: [PATCH 21/29] tty: staging/greybus: pass tty_driver flags to tty_alloc_driver()
-Date: Thu, 20 Feb 2025 12:15:58 +0100
-Message-ID: <20250220111606.138045-22-jirislaby@kernel.org>
-X-Mailer: git-send-email 2.48.1
-In-Reply-To: <20250220111606.138045-1-jirislaby@kernel.org>
-References: <20250220111606.138045-1-jirislaby@kernel.org>
+	s=arc-20240116; t=1740059748; c=relaxed/simple;
+	bh=kAq/HYLtL9V56JsyiHkrDyP7zD0/m2fHT0iIr6/MOpg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=MN+CCFaRy5DosAGZo/IUX/i0JoG9VYl8nInAA/WHuofEXlY+Pcs8i9dCi0FM70CzaFnyUWuS0tQC16Wnc9p1RscmaoMCsTRP/jGCmd7kYvQslQWjJsMqOtcP0+gyf9NWchRyWvWfLGjB7t5IiYhIS5DIZ+EJC1E5d2sWTVL5CEA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D95B3C4CED1;
+	Thu, 20 Feb 2025 13:55:43 +0000 (UTC)
+Message-ID: <c896221c-5ff2-4a2b-b431-7c7f805b4f68@xs4all.nl>
+Date: Thu, 20 Feb 2025 14:55:42 +0100
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/3] media: cx231xx: Convert enum into a define
+Content-Language: en-US
+To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+ Ricardo Ribalda <ribalda@chromium.org>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Nathan Chancellor <nathan@kernel.org>,
+ Nick Desaulniers <ndesaulniers@google.com>, Bill Wendling
+ <morbo@google.com>, Justin Stitt <justinstitt@google.com>,
+ Hans de Goede <hdegoede@redhat.com>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Andy Shevchenko <andy@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Tiffany Lin <tiffany.lin@mediatek.com>,
+ Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+ Yunfei Dong <yunfei.dong@mediatek.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+ llvm@lists.linux.dev, linux-staging@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org
+References: <20241202-fix-llvm9-v1-0-2a50f5acfd0b@chromium.org>
+ <20241202-fix-llvm9-v1-1-2a50f5acfd0b@chromium.org>
+ <20241203093114.0ca49c01@foz.lan>
+From: Hans Verkuil <hverkuil@xs4all.nl>
+In-Reply-To: <20241203093114.0ca49c01@foz.lan>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-tty_alloc_driver() is supposed to receive tty driver flags.
+On 12/3/24 09:31, Mauro Carvalho Chehab wrote:
+> Em Mon, 02 Dec 2024 15:47:15 +0000
+> Ricardo Ribalda <ribalda@chromium.org> escreveu:
+> 
+>> The code is running arithmentics with the enum, which when not done with
+>> care makes the compiler a bit nervous.
+>>
+>> Because those enums are only used as defines (no argument or variable
+>> from that enumeration type), convert it into a define and move on.
+>>
+>> It is required to build with llvm 9 without these warnings:
+>> drivers/media/usb/cx231xx/cx231xx-pcb-cfg.c:673:17: warning: bitwise operation between different enumeration types ('enum TS_PORT' and 'enum POWE_TYPE') [-Wenum-enum-conversion]
+>> drivers/media/usb/cx231xx/cx231xx-pcb-cfg.c:680:21: warning: bitwise operation between different enumeration types ('enum AVDEC_STATUS' and 'enum POWE_TYPE') [-Wenum-enum-conversion]
+>> drivers/media/usb/cx231xx/cx231xx-pcb-cfg.c:687:21: warning: bitwise operation between different enumeration types ('enum AVDEC_STATUS' and 'enum POWE_TYPE') [-Wenum-enum-conversion]
+>> drivers/media/usb/cx231xx/cx231xx-pcb-cfg.c:702:17: warning: bitwise operation between different enumeration types ('enum TS_PORT' and 'enum POWE_TYPE') [-Wenum-enum-conversion]
+>> drivers/media/usb/cx231xx/cx231xx-pcb-cfg.c:709:21: warning: bitwise operation between different enumeration types ('enum TS_PORT' and 'enum POWE_TYPE') [-Wenum-enum-conversion]
+>> drivers/media/usb/cx231xx/cx231xx-pcb-cfg.c:718:21: warning: bitwise operation between different enumeration types ('enum AVDEC_STATUS' and 'enum POWE_TYPE') [-Wenum-enum-conversion]
+>> drivers/media/usb/cx231xx/cx231xx-pcb-cfg.c:727:21: warning: bitwise operation between different enumeration types ('enum AVDEC_STATUS' and 'enum TS_PORT') [-Wenum-enum-conversion]
+>> drivers/media/usb/cx231xx/cx231xx-pcb-cfg.c:737:21: warning: bitwise operation between different enumeration types ('enum AVDEC_STATUS' and 'enum TS_PORT') [-Wenum-enum-conversion]
+>> drivers/media/usb/cx231xx/cx231xx-pcb-cfg.c:749:21: warning: bitwise operation between different enumeration types ('enum AVDEC_STATUS' and 'enum TS_PORT') [-Wenum-enum-conversion]
+>>
+>> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+>> ---
+>>  drivers/media/usb/cx231xx/cx231xx-pcb-cfg.h | 18 +++++++-----------
+>>  1 file changed, 7 insertions(+), 11 deletions(-)
+>>
+>> diff --git a/drivers/media/usb/cx231xx/cx231xx-pcb-cfg.h b/drivers/media/usb/cx231xx/cx231xx-pcb-cfg.h
+>> index 5bc44f194d0a..62ffa16bb82c 100644
+>> --- a/drivers/media/usb/cx231xx/cx231xx-pcb-cfg.h
+>> +++ b/drivers/media/usb/cx231xx/cx231xx-pcb-cfg.h
+>> @@ -57,19 +57,17 @@ enum USB_SPEED{
+>>  };
+>>  
+>>  #define TS_MASK         0x6
+>> -enum TS_PORT{
+>> -	NO_TS_PORT = 0x0,	/* 2'b00: Neither port used. PCB not a Hybrid,
+>> +#define NO_TS_PORT	0x0	/* 2'b00: Neither port used. PCB not a Hybrid,
+>>  				   only offers Analog TV or Video */
+>> -	TS1_PORT = 0x4,		/* 2'b10: TS1 Input (Hybrid mode :
+>> +#define TS1_PORT	0x4	/* 2'b10: TS1 Input (Hybrid mode :
+>>  				Digital or External Analog/Compressed source) */
+>> -	TS1_TS2_PORT = 0x6,	/* 2'b11: TS1 & TS2 Inputs
+>> +#define TS1_TS2_PORT	0x6	/* 2'b11: TS1 & TS2 Inputs
+>>  				(Dual inputs from Digital and/or
+>>  				External Analog/Compressed sources) */
+>> -	TS1_EXT_CLOCK = 0x6,	/* 2'b11: TS1 & TS2 as selector
+>> +#define TS1_EXT_CLOCK	0x6	/* 2'b11: TS1 & TS2 as selector
+>>  						to external clock */
+>> -	TS1VIP_TS2_PORT = 0x2	/* 2'b01: TS1 used as 656/VIP Output,
+>> +#define TS1VIP_TS2_PORT 0x2	/* 2'b01: TS1 used as 656/VIP Output,
+>>  				   TS2 Input (from Compressor) */
+>> -};
+>>  
+>>  #define EAVP_MASK       0x8
+>>  enum EAV_PRESENT{
+>> @@ -89,10 +87,8 @@ enum AT_MODE{
+>>  };
+>>  
+>>  #define PWR_SEL_MASK    0x40
+>> -enum POWE_TYPE{
+>> -	SELF_POWER = 0x0,	/* 0: self power */
+>> -	BUS_POWER = 0x40	/* 1: bus power */
+>> -};
+>> +#define SELF_POWER	0x0	/* 0: self power */
+>> +#define BUS_POWER	0x40	/* 1: bus power */
+>>  
+>>  enum USB_POWE_TYPE{
+>>  	USB_SELF_POWER = 0,
+>>
+> 
+> IMO keeping them into enums are a lot better than defines.
+> 
+> Perhaps the right thing would be to join both enums here.
 
-Signed-off-by: Jiri Slaby (SUSE) <jirislaby@kernel.org>
-Cc: David Lin <dtwlin@gmail.com>
-Cc: Johan Hovold <johan@kernel.org>
-Cc: Alex Elder <elder@kernel.org>
-Cc: greybus-dev@lists.linaro.org
-Cc: linux-staging@lists.linux.dev
----
- drivers/staging/greybus/uart.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ORing enums is really not a good idea: you would normally never do that, and the
+compiler warning is IMHO appropriate.
 
-diff --git a/drivers/staging/greybus/uart.c b/drivers/staging/greybus/uart.c
-index 8eab94cb06fa..308ed1ca9947 100644
---- a/drivers/staging/greybus/uart.c
-+++ b/drivers/staging/greybus/uart.c
-@@ -948,7 +948,8 @@ static int gb_tty_init(void)
- {
- 	int retval = 0;
- 
--	gb_tty_driver = tty_alloc_driver(GB_NUM_MINORS, 0);
-+	gb_tty_driver = tty_alloc_driver(GB_NUM_MINORS, TTY_DRIVER_REAL_RAW |
-+					 TTY_DRIVER_DYNAMIC_DEV);
- 	if (IS_ERR(gb_tty_driver)) {
- 		pr_err("Can not allocate tty driver\n");
- 		retval = -ENOMEM;
-@@ -961,7 +962,6 @@ static int gb_tty_init(void)
- 	gb_tty_driver->minor_start = 0;
- 	gb_tty_driver->type = TTY_DRIVER_TYPE_SERIAL;
- 	gb_tty_driver->subtype = SERIAL_TYPE_NORMAL;
--	gb_tty_driver->flags = TTY_DRIVER_REAL_RAW | TTY_DRIVER_DYNAMIC_DEV;
- 	gb_tty_driver->init_termios = tty_std_termios;
- 	gb_tty_driver->init_termios.c_cflag = B9600 | CS8 |
- 		CREAD | HUPCL | CLOCAL;
--- 
-2.48.1
+I think this is a good change and I plan to take this.
+
+Regards,
+
+	Hans
+
+> 
+> 
+> Thanks,
+> Mauro
+> 
 
