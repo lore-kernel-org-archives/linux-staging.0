@@ -1,105 +1,113 @@
-Received: from mail-pl1-f193.google.com (mail-pl1-f193.google.com [209.85.214.193])
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E18821507E
-	for <linux-staging@lists.linux.dev>; Wed, 19 Feb 2025 18:32:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.193
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DAA01BE251
+	for <linux-staging@lists.linux.dev>; Thu, 20 Feb 2025 08:55:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1739989941; cv=none; b=VwcmNBxht5BMQEvojFLsKlaNIeeRn7mIdUcO1h4Jj4U8eJOz9eoCtQo1sXAqQP/nS/0iX5ibupApvAb7FCb1YxajpaSsfahlZUTvz+hh7cb4qn3nUerbuMMeF+5t7tVJv7fJTMuUb4f66eTJdyh/cUZqxErFTWqkD4XV/X6UVg4=
+	t=1740041735; cv=none; b=RULMi0Q47kpO79dmtuCBtlBesX5AZDt5OHLUdbSndEHg2eTZitwZdfrhmLjDnUX25uIl/0Ld0ezUgKclT59Qvz0wljoeek/paIkRkYYibJyaPuLqBtRSDURqOFjgYPM57J9kzmAO4h8t+/KIc2QB5bO5txyWd/LejOkKgfXB/Hw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1739989941; c=relaxed/simple;
-	bh=fpeqhpGWkHurwYKTB1xKAEQUJ9Ttk3Bi42IWr/pT15I=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=ueSr01gJ684n871KXagslVGHpruPq0KMXBG0wYzr483ckqbeaFOG4mNFtO7cqQUBvfyIK4VsINirpMMQxdNiFHG+vOjpx7RLIWEgBj6usK1L7AJiBv5W0z46lZKYPg3O8Ct+Yf05JM6Kz7UtqE0c1vK6mIYUvyNyRbA/q0RF3Kw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iD3vxJM0; arc=none smtp.client-ip=209.85.214.193
+	s=arc-20240116; t=1740041735; c=relaxed/simple;
+	bh=SdNR4ClrBx/eeZAz7z2iazWjvr1avPuKNfaN72mYIGQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=nH/7XVkhokCaLICWJqLX0AQdSd+g+TAUMc6KEsMD+DZaSG9y3+eUBgTBzh6jtxqbIJnU5A78f/l+WDn7Zc20SgwNNQxrqyBz6/ELzUaqgKstPaw5/80laP51QVaicDJ03aa3Oagjmw2wwIPTGXxDovH5aztzA14OqZrRJ08ON50=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ElGidC+L; arc=none smtp.client-ip=209.85.128.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iD3vxJM0"
-Received: by mail-pl1-f193.google.com with SMTP id d9443c01a7336-22101839807so438045ad.3
-        for <linux-staging@lists.linux.dev>; Wed, 19 Feb 2025 10:32:19 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ElGidC+L"
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-43984e9cc90so10333235e9.1
+        for <linux-staging@lists.linux.dev>; Thu, 20 Feb 2025 00:55:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1739989939; x=1740594739; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=4AsR67bqF+fqYAZ1L+J2XlKEArNOWP27kWrQCUz/8HA=;
-        b=iD3vxJM0hjdHmcgP6NrgM9oScQe7rKNZBAbKrgLrw5Ucs558tZ3ZjtCqwGIWp7rRHG
-         BKTRXmbkNZM/wjoPmIZnpnuVrmRLhKOyklpVT8xYiFaJ9M9D/FCkT9bDNOZWAk42nUZX
-         Dx7vJQ1XZecvVouXX3dSuTGpzRAeYbvhBMJ8yH06vcINHVXqDYyFGHwwGKwKRYmtyp8I
-         y0HQK+l8d6N3ZY5jYwxjC2FDHLlVTRUhIJwM2gkLOJjh9bdB9l6YJsCmu0Um7DK8ZeMt
-         DOoDxJTg5LDgjOPAWw7ggA9XmM95uOlcjGHFxykbOqCnhlsy41Y+xdhVbGh/jzX+1pye
-         jgKA==
+        d=gmail.com; s=20230601; t=1740041732; x=1740646532; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=vJy3bOqSsh0t+h28vp9n62Av8VDeBRdvNoL1U3ajQ+A=;
+        b=ElGidC+LJdAB9pn6L+o6T27HZrtdbf1l4F4ou+KWotO/Jxx08pY3zSWNABPEJm306N
+         OGxtDAFbwLIFwJ9uNVGARww4dzxgBcTfkaTMqBG8lJ5tXDdXAtBRAgBKI9cua4PbrXv6
+         Hq77+CAWZSDmJcfsvYblwMDKPoKaFP5KEhSsV+pBlEcp1lT7KmJ6YlQWGAceplx5esfO
+         KAxEI73SCcER1WtMF6ZgbZCsfulW25fsnUvSdq830IDWdKk98v9ZNT+NYbi2fcoOtngE
+         jYBTsyEkPb2TT3FG7cX1lTxEokxonWzthUec4eoQ6WoyLSZLpYKYkzwXrS7cI6bIA4Zx
+         jG8g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1739989939; x=1740594739;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=4AsR67bqF+fqYAZ1L+J2XlKEArNOWP27kWrQCUz/8HA=;
-        b=WyCeCWtEniMukiHeL9Ha7sdt7PfYV9nUEAYvYxS/mgyemkM710oemTMbRfEubAkLL2
-         GqIcAyqcte7PK2udyMSYvAUt2zGMd8R/y9SBp+Erqjgstte65tSJ4/0jmKWlbRE9bLOH
-         DG0obQxwzWc9z+a7HzLO1JkHa3wi76811fAGZhGvCxvqx11tuZX1qIpFpL332Gf3zdIN
-         96Wqh39ucJBSkHCyFpGkXtaLWaUT7ikTnsCgTa0dy7yu+kfrP1bQe0lT/f0Wc9b3UX2X
-         IcfqSTmOqL5zY9FDVAgxvv28x0J1/AZdQCTs1ldRSj3e7li+kRsAuRKPoUFtItKjxVA5
-         /g4A==
-X-Gm-Message-State: AOJu0YxYYohGppYLW92MCtS9B1c6yESgqlasoRvmPcJHgUgd2sUCtZtJ
-	cBvOuEG5uStJTmb5iqI3ayNJWNt7tY7OLwKgem4K+3IJDSGglQFT
-X-Gm-Gg: ASbGncsBt+A+mN5DMb4YjmGsmUNSeP8Hme1tzK50lVAYQa9HFihR182HhLtsuBiamHx
-	BeKgSm5xYXaTXteN1ejaQyupehLWsQ07gZVcoIpGYaEPPJ0HS5daNnxwQ/7tkF7gIkOz3V0Tmlz
-	YYWgMktvbT81eONiWO3SrVUvt0FPDOHXNGT5fD3ChCXltAosZSfc1azwXrrZPBHMOcNbxTlzFR/
-	J5ash51Sa/txgmPl8mxkNe+RQ0u8OIeP6hRA6rbpV2G/zgZSEtjQ2QTCbr4yDk0SvJ4lMwGWQ71
-	AHhO265IT80LEzFcJ+hy
-X-Google-Smtp-Source: AGHT+IFN9puy/zUj37o1/n/BhUF6gbtq8eYesYjBrUEvPWWngj5jKhyU6I6JOVjKzlM/PyHF2yhbDg==
-X-Received: by 2002:a05:6a20:3942:b0:1ee:64c4:89bb with SMTP id adf61e73a8af0-1eed4fd4566mr6900917637.42.1739989938742;
-        Wed, 19 Feb 2025 10:32:18 -0800 (PST)
-Received: from localhost ([2409:4066:d04:319e:e1bd:18fd:9875:3b67])
-        by smtp.gmail.com with UTF8SMTPSA id d2e1a72fcca58-7327fa51eb9sm5848883b3a.166.2025.02.19.10.32.17
+        d=1e100.net; s=20230601; t=1740041732; x=1740646532;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=vJy3bOqSsh0t+h28vp9n62Av8VDeBRdvNoL1U3ajQ+A=;
+        b=iX33T1W4onhNMFpNqql2aymlz2Dv+5qDJeO2HMCSBHb35Qnn0npU+Hbk+jp6rHiR6w
+         idL5JTUJ+RNe7yGYHbjAbfY93i4DdghIo153RjF/dLfVF/bBATWE4nKj1la3F2H4oMTG
+         zNMdScElSqSxIA0iomJ3a7wYSlfaBlENgL8eD/XpmpVPM14W6w0orFOS2FRgILyi0qZn
+         w8Q7iaxz4P0qRC5i4kY0ncb1zs6udq5f0s4pS+0TGZ33VKM9tVbbdatZdsXCihveW8js
+         9YaYdKpV0wsk2BYG1Hmc2+3YrpbOm0sTjgEQaJQ3zuqSVpHi0/VWyev28nB/6m7WeQz+
+         8S/g==
+X-Gm-Message-State: AOJu0YyGptYsricpRzrToKX7SVBZFLm46fD4N0r3z+/QM4p0+MKsUHun
+	gDQFQ8emBTumRVjvzVwaTEy5BOvPumCMYZui/nbGSVJxdqXNInPmiLXbfg==
+X-Gm-Gg: ASbGncuZ67RUJ5Z9k3CSWJrU7WiTpcziAnN/duLAkdikl/BOpSahqQkT+U8deRNpjAS
+	Y0KgTcyndBV7oIHTD4acoFcg7I/aDagdct7m23QQ6BYQTRi9Ro8eQQVx2Vs7+qyn3q48ItnYwjY
+	Rb1ZiS8VZhiUCtVZzPw5TMA8CzBLqVJ2nVMqR07Kk6nGFWfM4Nm/sx4r6xSbAxS9odTKEISa9eh
+	8shpccoF6C5f4Z2g3FEw97hZjj6X2uZWG1RCkinUUN3jPTIajahiZcwSthrYTXxGd5c7DuK4fEB
+	M59vlaR6toVTUjhOkSC58LzZyqNgzLY=
+X-Google-Smtp-Source: AGHT+IFfnW0cyW8E119bHHz9+mtO1ESWRT3Yf6hjXrVMUeUMEiuamjADqrwKcqa55mog5vcRyrjChA==
+X-Received: by 2002:a5d:5847:0:b0:38f:3e0a:ca6a with SMTP id ffacd0b85a97d-38f614991c2mr1920875f8f.2.1740041731399;
+        Thu, 20 Feb 2025 00:55:31 -0800 (PST)
+Received: from egonzo (82-64-73-52.subs.proxad.net. [82.64.73.52])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38f259d5c36sm20239545f8f.67.2025.02.20.00.55.30
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 19 Feb 2025 10:32:18 -0800 (PST)
-From: Ravi Kumar kairi <kumarkairiravi@gmail.com>
-To: parthiban.veerasooran@microchip.com,
-	christian.gromm@microchip.com,
-	gregkh@linuxfoundation.org
-Cc: linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Ravi Kumar Kairi <kumarkairiravi@gmail.com>
-Subject: [PATCH] staging: most: Remove unused spinlock from most_video_dev
-Date: Thu, 20 Feb 2025 00:01:52 +0530
-Message-ID: <20250219183152.176679-3-kumarkairiravi@gmail.com>
-X-Mailer: git-send-email 2.48.1
-In-Reply-To: <20250219183152.176679-1-kumarkairiravi@gmail.com>
-References: <20250219183152.176679-1-kumarkairiravi@gmail.com>
+        Thu, 20 Feb 2025 00:55:30 -0800 (PST)
+Date: Thu, 20 Feb 2025 09:55:28 +0100
+From: Dave Penkler <dpenkler@gmail.com>
+To: Greg KH <gregkh@linuxfoundation.org>
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 00/17] staging: gpib: Console messaging cleanup
+Message-ID: <Z7buAACkugsEOa13@egonzo>
+References: <20250214114708.28947-1-dpenkler@gmail.com>
+ <2025021923-leverage-endpoint-c06e@gregkh>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <2025021923-leverage-endpoint-c06e@gregkh>
 
-From: Ravi Kumar Kairi <kumarkairiravi@gmail.com>
-
-The `list_lock` spinlock in struct most_video_dev is never used
-anywhere in the codebase. Since it serves no purpose, remove it
-to clean up the structure.
-
-Signed-off-by: Ravi Kumar Kairi <kumarkairiravi@gmail.com>
----
- drivers/staging/most/video/video.c | 1 -
- 1 file changed, 1 deletion(-)
-
-diff --git a/drivers/staging/most/video/video.c b/drivers/staging/most/video/video.c
-index bd51125698..83b46476ca 100644
---- a/drivers/staging/most/video/video.c
-+++ b/drivers/staging/most/video/video.c
-@@ -33,7 +33,6 @@ struct most_video_dev {
- 	bool mute;
- 
- 	struct list_head pending_mbos;
--	spinlock_t list_lock;
- 
- 	struct v4l2_device v4l2_dev;
- 	atomic_t access_ref;
--- 
-2.48.1
-
+On Wed, Feb 19, 2025 at 04:48:39PM +0100, Greg KH wrote:
+> On Fri, Feb 14, 2025 at 12:46:51PM +0100, Dave Penkler wrote:
+> > The GPIB drivers printed a lot of spurious console messages. This
+> > was linked to the level of code maturity, often using console
+> > messages for debug.
+> > 
+> > This patch set cleans up the console messaging in the spirit of Greg's
+> > recommendation: "When drivers are successful, they should be quiet"
+> > 
+> > All pr_info's have been removed except for one which is in the module
+> > init of the common core driver indicating that the GPIB subsystem is
+> > initialized.
+> > 
+> > All dev_info's have been removed or changed to dev_dbg except for the
+> > attach and probe messages in the agilent and ni usb drivers. This is
+> > to facilitate the creation of config and udev scripts to ensure that a
+> > particular usb device is systematically attached to the same gpib
+> > device file.
+> > 
+> > All custom debug and tty logging has been removed or replaced with
+> > dev_dbg.
+> > 
+> > Error messages where the user can figure out what went wrong with
+> > errno have also been removed, particularly timeouts and interrupts
+> > during reads and writes which can occur quite frequently uneccessarily
+> > cluttering up the console log.
+> > 
+> > The patches are 1 per driver.
+> 
+> All but 4 of these applied, can you rebase and resend the remaining
+> ones?
+> 
+> thanks,
+> 
+> greg k-h
+Sure, thanks.
+(Could only find 3 that were not applied, will send those)
+-dave
