@@ -1,74 +1,47 @@
-Received: from mail-pl1-f194.google.com (mail-pl1-f194.google.com [209.85.214.194])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1103F20A5D1
-	for <linux-staging@lists.linux.dev>; Fri, 21 Feb 2025 16:35:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.194
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A594C2500AA;
+	Fri, 21 Feb 2025 17:31:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740155705; cv=none; b=f+GH6yQJ9qFGT0cWU3bin/D9Kez2c6GRDI0B80v6AL8xTeOve3yUxJ9sB3T36Dp1Av8iCbH/o/g2jq+pZPpPidJPp9RRzRJkkGkn+qGd8A+GA1VwGzYydKeb7I/IIaJw7N1OMk8UL8xKM4YMZbe+5yZFaYVnuOHoSR4IcLe/mHc=
+	t=1740159101; cv=none; b=mAvJI8WAPE6wXXmj+DiMp9Ba3wpqZdHuHTp+x+GH4DfUuV8t3edWjDIuDV3LhhYZ9weylKEbXRPJSHBX+ChRhBRfJWxhjj3nDIGkOr0DPSqN0MoCLTrekC505bJD1cRERZ1Qb/KsMYTA+ypF6l36Iacqv8SkVmWQeTrbr9W6gn4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740155705; c=relaxed/simple;
-	bh=fpeqhpGWkHurwYKTB1xKAEQUJ9Ttk3Bi42IWr/pT15I=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Lrhm86IKj9df9L7i7w+UAhfsbPUmIuZB85MqnvCxNmdzMMy3tAbjkvSUJG7I6HklhPPNhL0MtpBg/81sYA63j365Wj25rAJ/rOGkplZg0tsW+xBZQm1lh2xCl7unA2WauvZiV0b+jaQ86MFBcxZqFlkH2LiW70pzMihSZyiFwFs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cEQz6+ja; arc=none smtp.client-ip=209.85.214.194
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1740159101; c=relaxed/simple;
+	bh=8/rF8J69+3gOYWulVtfv+etD5x/gFP+fkCXTyZNERUM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=caFT7Pz5a5zsymcVYt7JGVMjkdtU2Bvz5pS8ayI+D3ojgsoZfQ9J366PqJkZZnmXpTWpVHkb3s92qp2e81ANRJ2Xid3BMv2phqqqtPK/5t84Q0fVM8msowsJuM3HwuTKv0iCxPuiLVCvzKaij2HqwtaKFR8t9jTUT1FIDkuZHog=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=mfwduxJQ; arc=none smtp.client-ip=90.155.50.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cEQz6+ja"
-Received: by mail-pl1-f194.google.com with SMTP id d9443c01a7336-221050f3f00so52244205ad.2
-        for <linux-staging@lists.linux.dev>; Fri, 21 Feb 2025 08:35:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1740155703; x=1740760503; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=4AsR67bqF+fqYAZ1L+J2XlKEArNOWP27kWrQCUz/8HA=;
-        b=cEQz6+ja1c6UAYqjAx2cLJRAYqbXjTXShESg25TvdfeM3LPvjhDk2osCNrjB+0xQbU
-         c5SnCwyTC8vu+vIJco7iRKiLJrglygKIKMiSXPeFuRYYkPqzSMwOKyV5yWt65Im9TKdM
-         QkN2KdnK4xO3SJMGS35SV2Tj0DYk/xnr0UIi0Wx+r018Po6Km97WsC1WjQFEA8533+bV
-         YsOsHj/oNnleBm/WzMjnk8pZzRwnnubNG1V6aMXEWkgQh3z/GPesrfQKkGWzp3veiKnE
-         JFxSZltY/oacOHukwbJZEC9tjjsrRmJz+pK3DYakiEhmTAM7AbzTbu+pW0m+2MsRzDxp
-         Bs1g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740155703; x=1740760503;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=4AsR67bqF+fqYAZ1L+J2XlKEArNOWP27kWrQCUz/8HA=;
-        b=fv1xKpJ6BuBp2QnXc/pz5rEA+GYCQ8ZxSh+Wip6e9r+1YYZk+KdtOh9Ym4jP/QEOXr
-         HvIFNHb+8ajqKewVEB6e1pcgjAa6JejB0rUpO//TQOgHmTQLK3GsWCaehY1efbbw2N0y
-         vOI8xqWX8yO9O2rmrNAT+o0ROxuvlrBpCSigTn3i5Tx9iIIWwngVKY8nBjuRY4rT71Iy
-         2xiCtGDd5IrTxkPtGx/JE+hZzywo8CTZX2YztmOMzt861iosu1BmxIy9UY309vmztdVF
-         HE+wSX23I/NbgO9o2K5kim8dyCO1nLhaSxYMrkw2Xlpa532JIKzpErpHznW6PBL2gjll
-         LRFw==
-X-Gm-Message-State: AOJu0Yzt9BnGQnI7aQ97lz724f6XfL15yus92WUT/zMU5yd+/HD5Zi9J
-	0XdmpRgrBy9cQ5p/fLvhYR9EuYAByHGr6peHKnpAje5neBbF6rlL
-X-Gm-Gg: ASbGncvgONAqCsBV+xAPlOnOlKmDO9Okg66NGHrGudRCRHJ8OSsULDt/SkhvKfdAux+
-	kB7iihW5WGm/i2LvAbMORaHRyrfTjxed1l1OzDeRn49cRfmQ4N2a9AqjIHDAWACdAni2FiBD1Ja
-	GAVLAJD7aBBYrlAbpjxqY7qrqBiLxbPzSwf1Z0E5whJ6cwlX1ZA/BhV4i9LjmU2sPNUvdPCgARV
-	qw3TNGcLc401jI6SF2DsPZkACYe9tsxbWY8WQfNddDbm0Ps9y+yUPIPKRav7KnzSPj/VNSAqq10
-	xA0osby6FDOkTM1d9qxEqKD6ydlw4bmtuRSn
-X-Google-Smtp-Source: AGHT+IGctPnJHG4Of691gOP5YNdzGWLI1p5+EWLvVFReLXo7Ywxv+0S0bElzEnW04iePSBpgf4qHFg==
-X-Received: by 2002:a17:902:c950:b0:220:e1e6:4457 with SMTP id d9443c01a7336-2219ff5e979mr56553245ad.26.1740155703134;
-        Fri, 21 Feb 2025 08:35:03 -0800 (PST)
-Received: from localhost ([2409:4066:d04:319e:1d76:db25:b6bf:4f52])
-        by smtp.gmail.com with UTF8SMTPSA id d2e1a72fcca58-7326a52f865sm11737379b3a.80.2025.02.21.08.35.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 21 Feb 2025 08:35:02 -0800 (PST)
-From: Ravi Kumar kairi <kumarkairiravi@gmail.com>
-To: parthiban.veerasooran@microchip.com,
-	christian.gromm@microchip.com,
-	gregkh@linuxfoundation.org
-Cc: linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Ravi Kumar Kairi <kumarkairiravi@gmail.com>
-Subject: [PATCH] staging: most: Remove unused spinlock from most_video_dev
-Date: Fri, 21 Feb 2025 22:04:26 +0530
-Message-ID: <20250221163444.57492-3-kumarkairiravi@gmail.com>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="mfwduxJQ"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
+	Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
+	Content-Description:In-Reply-To:References;
+	bh=Y3q5SEZ22PIlzGuL/p51TBUcu7BuCGZLgTAPxKOn4WE=; b=mfwduxJQZv1iIbvGuFxS8NULnT
+	WF/z8ONiiCdtuqi90QA5YkhyfYqGA+fhoJ1lHxGZkEretuIMA2HKggJF4cm8Xh0QK+Rn6CCwefAbz
+	iCpL3spMKUFPtI1oTRdrar+x+WmshCut9jlUML8gwB0MVlOxJDmXG6mSCw4img7n+cDAC5wNlmVsK
+	gSsgllRwaeVl5Efs1L52KxZ5StRZcjdQyKFvOy4Ril7jrqCGPm4wIkRnOQy30okc+XwiOL9gu7BBO
+	cWkjau1NnIXmByPCpbr61A/9o9LVdQvEoaXTQpX9NIj1CItTGG66q+L/b0W06y1nPiXrm5/Cx+ap1
+	zriGYDvA==;
+Received: from willy by casper.infradead.org with local (Exim 4.98 #2 (Red Hat Linux))
+	id 1tlWs9-0000000EYtb-37Jg;
+	Fri, 21 Feb 2025 17:31:33 +0000
+From: "Matthew Wilcox (Oracle)" <willy@infradead.org>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: "Matthew Wilcox (Oracle)" <willy@infradead.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Jeff Johnson <jeff.johnson@oss.qualcomm.com>,
+	Thomas Petazzoni <thomas.petazzoni@free-electrons.com>,
+	dri-devel@lists.freedesktop.org,
+	linux-fbdev@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+Subject: [PATCH] fbtft: Remove access to page->index
+Date: Fri, 21 Feb 2025 17:31:29 +0000
+Message-ID: <20250221173131.3470667-1-willy@infradead.org>
 X-Mailer: git-send-email 2.48.1
-In-Reply-To: <20250221163444.57492-1-kumarkairiravi@gmail.com>
-References: <20250221163444.57492-1-kumarkairiravi@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -77,29 +50,28 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Ravi Kumar Kairi <kumarkairiravi@gmail.com>
+There is no need to print out page->index as part of the debug message.
 
-The `list_lock` spinlock in struct most_video_dev is never used
-anywhere in the codebase. Since it serves no purpose, remove it
-to clean up the structure.
-
-Signed-off-by: Ravi Kumar Kairi <kumarkairiravi@gmail.com>
+Signed-off-by: Matthew Wilcox (Oracle) <willy@infradead.org>
 ---
- drivers/staging/most/video/video.c | 1 -
- 1 file changed, 1 deletion(-)
+ drivers/staging/fbtft/fbtft-core.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
-diff --git a/drivers/staging/most/video/video.c b/drivers/staging/most/video/video.c
-index bd51125698..83b46476ca 100644
---- a/drivers/staging/most/video/video.c
-+++ b/drivers/staging/most/video/video.c
-@@ -33,7 +33,6 @@ struct most_video_dev {
- 	bool mute;
- 
- 	struct list_head pending_mbos;
--	spinlock_t list_lock;
- 
- 	struct v4l2_device v4l2_dev;
- 	atomic_t access_ref;
+diff --git a/drivers/staging/fbtft/fbtft-core.c b/drivers/staging/fbtft/fbtft-core.c
+index 4cfa494243b9..da9c64152a60 100644
+--- a/drivers/staging/fbtft/fbtft-core.c
++++ b/drivers/staging/fbtft/fbtft-core.c
+@@ -337,9 +337,7 @@ static void fbtft_deferred_io(struct fb_info *info, struct list_head *pagereflis
+ 	list_for_each_entry(pageref, pagereflist, list) {
+ 		y_low = pageref->offset / info->fix.line_length;
+ 		y_high = (pageref->offset + PAGE_SIZE - 1) / info->fix.line_length;
+-		dev_dbg(info->device,
+-			"page->index=%lu y_low=%d y_high=%d\n",
+-			pageref->page->index, y_low, y_high);
++		dev_dbg(info->device, "y_low=%d y_high=%d\n", y_low, y_high);
+ 		if (y_high > info->var.yres - 1)
+ 			y_high = info->var.yres - 1;
+ 		if (y_low < dirty_lines_start)
 -- 
-2.48.1
+2.47.2
 
