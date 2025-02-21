@@ -1,142 +1,120 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f195.google.com (mail-pl1-f195.google.com [209.85.214.195])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5AE5209F2E;
-	Fri, 21 Feb 2025 12:27:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 471811D54F7
+	for <linux-staging@lists.linux.dev>; Fri, 21 Feb 2025 16:24:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740140841; cv=none; b=dqBhHsbBvEtnhlBJ0k8Y+PQEDvw7HUujpxx0Qgyol9+oSAS9GerwZY+KiO9q4tIYWL2XIK2t+2foaKDx5DX71AnoOoXreOGxZuROjlTtxCRwDm7xBJ9qSCNRboafeNry25/bOLfUXxZhJpfLoeiuuOxSbFkUfrncDbGiX/TDGHo=
+	t=1740155049; cv=none; b=W21lCvOOXCmqbsrowUC+ztZYVJII22SLh9E+PMdv8+VedHQkQYlH94p8Mpdyk3YZYwHvHl9tW3TotmrYBVT3JPAQUR1VfebKCvf5LrKdQLGS+xba3LAaaN/FCt5R20KATh9Za+iDEN6h4zA64v2KBD0minRf/Rnq7ry7W5yBE+s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740140841; c=relaxed/simple;
-	bh=lZoHxOGcfy3q2OL6Eli0jg/KBp4T/ELGKhLw5xt4kgw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=WBVTHE6DwwKyT+7iyDCNBQ9dMy2RM+wCOvcb9YidcRp3FM09pHEP50rh4IwfCAwRn8EtstbEE+tTgLvGlnOdJnW9RcXPKcoq8Ba7JkIr15ovAh8nP5aIxGceNn8QQ6Gbni+JJrjS5vJ4VMn15DcplIywQ53xURRCv8TqT7kl4io=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D893DC4CED6;
-	Fri, 21 Feb 2025 12:27:18 +0000 (UTC)
-Message-ID: <310e5f92-e4d9-4127-afff-9566ba8a075e@xs4all.nl>
-Date: Fri, 21 Feb 2025 13:27:17 +0100
+	s=arc-20240116; t=1740155049; c=relaxed/simple;
+	bh=S42VEDXVz9SDKKgFcIHAWaqDHqsQdQy6R4zhiBxiNiY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=U1SdVm2OY7/hizpiaHiPqA86kfyxu6/YbQnylRmcUJ4nPAQywbRX6xBElw/xysLeiJ3c1pkq+ywuPevj+pXky14KgdYmZYnGGoqR5+ek1jTGmB6Z+QPV53dMBM6CSagQCy8KySUCQhcDtYizn7M4XREMcs6n+peehHNXELHaQ7w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=aUaKmBE2; arc=none smtp.client-ip=209.85.214.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aUaKmBE2"
+Received: by mail-pl1-f195.google.com with SMTP id d9443c01a7336-220ecbdb4c2so63156185ad.3
+        for <linux-staging@lists.linux.dev>; Fri, 21 Feb 2025 08:24:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1740155047; x=1740759847; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=a7niOwmDgSgvTHiVMtFqKUeR7FmrJKPDgfZyIEaZPhU=;
+        b=aUaKmBE2Ccn+E0cstCCZvv8+6dCQy45cKBU4/q4xcGFkXOHOEhInV8MYUn7OQFjZBX
+         ifpfDpvFp6a3YDyp5BstdwiJkBveFf0zZ5q7NgzLDZBtjGwKRbvLTKM0mc58ko3tANfV
+         g2ILJFUe666D2IvdfpiAnraIMY4pvo76UWurGueSQpIvSgcWPEWdqk03nKbi9fOhQRyn
+         pVwvRVjXpZhCPU0EntZ9HqpA3s+bb1EeYroNj//ab4Z0Gr+nZFLsCnzUNKLcnDo7YieQ
+         lppAEPsKgaHVOdCbS7J7HtI74Jyn5iPXYJD6u/SAPgGaMuHwLC8lqi3mRQeHrSfvcXb2
+         +I2Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1740155047; x=1740759847;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=a7niOwmDgSgvTHiVMtFqKUeR7FmrJKPDgfZyIEaZPhU=;
+        b=StTc6kEDgBIg63qnoKCKnQlzthK2duPnxCS6SKH51sfMP5IaFp5qPiSvvZeQm+nLJS
+         hFrL/RRyx5/nEBIpiZtcETj1gs48hgxGgNbZvFKvE0AKrd1wwdl1ac/FVHP91MVFw7pl
+         R7Fzf8F59dxaxyFNClCfRqwSLV6Shvas/W5oU/Rc+HLnoT2AE09ZQ3bnR/y3QtUysRG8
+         MxycCrh50I1yibNZyFlOSnMvK50C2/UjDLnf/dXG/yVAQomPQNt0lzrZvw5UjX5Rfav+
+         ahzWK/G7bM0e2vWcYGCn4X6vGjNUe7jyAtvVHMoVVJmKbn/UscUaiqnXIYqi5f/qveca
+         9kUg==
+X-Gm-Message-State: AOJu0YwYWbzHiier3wuELfnV/u+3ncWZbsw6pY8G4jcW6Y+lAWHI8AuP
+	rrfO+aAg6Er4zTm+M1IW37uYdKyYkHQEyFCcOb3ln5rgUto2Qrz7
+X-Gm-Gg: ASbGncsIibiJdM6VgSPuYgtq+Gf67q8FdNmrkSGnovrlCnZ32250NYsuzrSnLyS0YZl
+	TmGz84pZyqjG6ZW2FInHYntN3PvyBWuShmIujBgnL8NmbeV6nnuhLiV0VfT5lr78FjXmUzrz2Al
+	5Et/WbH8Qh70PXrzfsxBs0h2CHmpkpKy7vUNb7nmK0FocwR/nv5wn9owIjAss0HZH/+bchzSgqI
+	C8sa0WHv1IxxDchIcyWo/3mXnf/S4VJ5x6dXs/TKHX0gycl2HZNaqQRBvsvitxPLv1RkXS5qNBT
+	fPeaOEJcBzpaZD7UYgLMaVGhfN0gRj4ygYwO
+X-Google-Smtp-Source: AGHT+IFa6u35srflL9gb016qqxixWBZsztkue+dJYqy8+vJfV5rQKbhF2ojkYXB6/MN4EMaGHC1lvQ==
+X-Received: by 2002:a05:6a00:1813:b0:732:6221:7180 with SMTP id d2e1a72fcca58-73426c943c4mr6434262b3a.5.1740155047355;
+        Fri, 21 Feb 2025 08:24:07 -0800 (PST)
+Received: from localhost ([2409:4066:d04:319e:1d76:db25:b6bf:4f52])
+        by smtp.gmail.com with UTF8SMTPSA id d2e1a72fcca58-7324254618dsm15948797b3a.26.2025.02.21.08.24.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 21 Feb 2025 08:24:06 -0800 (PST)
+From: Ravi Kumar kairi <kumarkairiravi@gmail.com>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: linux-staging@lists.linux.dev,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Florian Fainelli <florian.fainelli@broadcom.com>,
+	Scott Branden <sbranden@broadcom.com>,
+	Umang Jain <umang.jain@ideasonboard.com>,
+	linux-rpi-kernel@lists.infradead.org,
+	linux-media@vger.kernel.org,
+	Ravi Kumar Kairi <kumarkairiravi@gmail.com>
+Subject: [PATCH] staging: vc04_services: Fix function call formatting
+Date: Fri, 21 Feb 2025 21:53:47 +0530
+Message-ID: <20250221162358.53913-1-kumarkairiravi@gmail.com>
+X-Mailer: git-send-email 2.48.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 00/11] media: Remove vidioc_g/s_ctrl and
- vidioc_queryctrl callbacks
-To: Ricardo Ribalda <ribalda@chromium.org>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Mike Isely <isely@pobox.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Hans de Goede <hdegoede@redhat.com>,
- Sakari Ailus <sakari.ailus@linux.intel.com>,
- Andy Shevchenko <andy@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-staging@lists.linux.dev
-References: <20241210-queryctrl-v2-0-c0a33d69f416@chromium.org>
-Content-Language: en-US, nl
-From: Hans Verkuil <hverkuil@xs4all.nl>
-Autocrypt: addr=hverkuil@xs4all.nl; keydata=
- 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
-In-Reply-To: <20241210-queryctrl-v2-0-c0a33d69f416@chromium.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 10/12/2024 10:28, Ricardo Ribalda wrote:
-> Most of the drivers use the control framework or can use the superset
-> version of these callbacks: vidioc_g/s_ext_ctrl and
-> vidioc_query_ext_ctrl.
-> 
-> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
-> ---
-> Changes in v2:
-> - v4l2_query_ext_ctrl_to_v4l2_queryctrl
-> - Fix conversion (Thanks Hans)
-> - Link to v1: https://lore.kernel.org/r/20241209-queryctrl-v1-0-deff7acfcdcb@chromium.org
-> 
-> ---
-> Ricardo Ribalda (11):
->       media: ioctl: Simulate v4l2_queryctrl with v4l2_query_ext_ctrl
->       media: pvrusb2: Convert queryctrl to query_ext_ctrl
->       media: pvrusb2: Remove g/s_ctrl callbacks
->       media: uvcvideo: Remove vidioc_queryctrl
->       media: atomisp: Replace queryctrl with query_ext_ctrl
->       media: atomisp: Remove vidioc_g/s callback
->       media: v4l2: Remove vidioc_queryctrl callback
->       media: v4l2: Remove vidioc_g_ctrl callback
->       media: cx231xx: Replace s_ctrl with s_ext_ctrls
->       media: v4l2: Remove vidioc_s_ctrl callback
->       media: v4l2-core: Introduce v4l2_query_ext_ctrl_to_v4l2_queryctrl
-> 
->  drivers/media/usb/cx231xx/cx231xx-417.c           | 21 ++++++----
->  drivers/media/usb/pvrusb2/pvrusb2-v4l2.c          | 40 ++++--------------
->  drivers/media/usb/uvc/uvc_v4l2.c                  | 10 -----
->  drivers/media/v4l2-core/v4l2-ctrls-api.c          | 51 +++++++++++++----------
->  drivers/media/v4l2-core/v4l2-dev.c                |  6 +--
->  drivers/media/v4l2-core/v4l2-ioctl.c              | 19 +++++----
->  drivers/staging/media/atomisp/pci/atomisp_ioctl.c | 35 ++++++++--------
->  include/media/v4l2-ctrls.h                        | 12 ++++++
->  include/media/v4l2-ioctl.h                        | 12 ------
->  9 files changed, 97 insertions(+), 109 deletions(-)
-> ---
-> base-commit: 6c10d1adae82e1c8da16e7ebd2320e69f20b9d6f
-> change-id: 20241209-queryctrl-5c3632b7c857
-> 
-> Best regards,
+From: Ravi Kumar Kairi <kumarkairiravi@gmail.com>
 
-$ git grep vidioc_s_ctrl
-drivers/media/radio/radio-wl1273.c:static int wl1273_fm_vidioc_s_ctrl(struct v4l2_ctrl *ctrl)
-drivers/media/radio/radio-wl1273.c:     .s_ctrl = wl1273_fm_vidioc_s_ctrl,
+Adjust function calls to avoid placing an opening parenthesis at
+the end of a line, improving readability and maintaining proper
+kernel coding style.
 
-Now that s_ctrl is the callback of the control handler ops, but
-I think it is wise if you add a patch that renames wl1273_fm_vidioc_s_ctrl to wl1273_fm_s_ctrl.
+Signed-off-by: Ravi Kumar Kairi <kumarkairiravi@gmail.com>
+---
+ .../vc04_services/bcm2835-camera/controls.c        | 14 ++++++--------
+ 1 file changed, 6 insertions(+), 8 deletions(-)
 
-Just so the string 'vidioc_s_ctrl' no longer exists in the code base.
-Besides, it isn't the correct name of this function anyway. It's clearly a left-over
-from the past.
+diff --git a/drivers/staging/vc04_services/bcm2835-camera/controls.c b/drivers/staging/vc04_services/bcm2835-camera/controls.c
+index 6bce45925b..d00d910989 100644
+--- a/drivers/staging/vc04_services/bcm2835-camera/controls.c
++++ b/drivers/staging/vc04_services/bcm2835-camera/controls.c
+@@ -533,17 +533,15 @@ static int ctrl_set_image_effect(struct bcm2835_mmal_dev *dev,
+ 
+ 		control = &dev->component[COMP_CAMERA]->control;
+ 
+-		ret = vchiq_mmal_port_parameter_set(
+-				dev->instance, control,
+-				MMAL_PARAMETER_IMAGE_EFFECT_PARAMETERS,
+-				&imagefx, sizeof(imagefx));
++		ret = vchiq_mmal_port_parameter_set(dev->instance,
++						    control, MMAL_PARAMETER_IMAGE_EFFECT_PARAMETERS,
++						    &imagefx, sizeof(imagefx));
+ 		if (ret)
+ 			goto exit;
+ 
+-		ret = vchiq_mmal_port_parameter_set(
+-				dev->instance, control,
+-				MMAL_PARAMETER_COLOUR_EFFECT,
+-				&dev->colourfx, sizeof(dev->colourfx));
++		ret = vchiq_mmal_port_parameter_set(dev->instance,
++						    control, MMAL_PARAMETER_COLOUR_EFFECT,
++						    &dev->colourfx, sizeof(dev->colourfx));
+ 	}
+ 
+ exit:
+-- 
+2.48.1
 
-Regards,
-
-	Hans
