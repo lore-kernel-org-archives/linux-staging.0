@@ -1,102 +1,95 @@
-Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out162-62-57-210.mail.qq.com (out162-62-57-210.mail.qq.com [162.62.57.210])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25D13145B16
-	for <linux-staging@lists.linux.dev>; Sat, 22 Feb 2025 19:33:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4974120101F
+	for <linux-staging@lists.linux.dev>; Sat, 22 Feb 2025 19:43:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=162.62.57.210
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740252792; cv=none; b=LFMHFekxOKzMtc+5wp8j05UgfBXsa8xugUyeSiTqVMSubCVI1C/J722XzpenfQ78ssH6WdvvGT/H/RnLqadpDEJJwoKDE5W131KVzvzZk7kAF+mN3hHTubIQLUfdX1nUqrYKuoh0UJ89sg5aO44NcPxhdpjn8ukH6Yr492atAmM=
+	t=1740253405; cv=none; b=lRpg6qvEMvPOb9DucHn68HM4O7GivnqzE0qNK+JRkzhvJKF0tRJuglir5fO+9VI4x+n0k8oH7XDiD3Fzpwc903X5Ly5xAJO1KbAZSVy3kiO+Gi8jP6bV8CAD6h2+Yb5BuDj6iwjPftLcxdr09rSIepycuqOYakCr07W1sRG2Qb0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740252792; c=relaxed/simple;
-	bh=OfmZMEvJIkp5Fj0oy2tReM70wDR8EHOpSUyCFLG25yI=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=e6K7VsCYaYWTemNpiDH35W2La6o37cbBEQuM6J3J0xinEENpaGhuh/QXjSvxQFcg+ouBtuXe+PAV75kiUgk1J7SA6EpQdIYlwr7DuNGpj4vyXgwKnz+kEdZLloeNHJC0gejy1j/9fnAjeivtR3jDtd78R1rrHAqQO/akOL8kSQQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=e0BQ9Oxz; arc=none smtp.client-ip=209.85.214.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1740253405; c=relaxed/simple;
+	bh=j1q5n/HUVw/zxMoNDqNZmL4I4OG1BZVMxCj88fnlUTM=;
+	h=Message-ID:From:To:Cc:Subject:Date:MIME-Version:Content-Type; b=Re+I1jA2ILH8a46SOwuta1LLVvJ9tw7MFtMzcB/TDs//cmUR7f8y3Gb/dgeKMSNrkXl+C+6PFZ4556pEMm6YdKekTg0jdfWvk8nyYa0nxXq7jzgDTFEJnqU3fL3e8eOYXeNjGlsiS4GO+ZAcdLGofkj9VHu9Ai7eh88NKJUQKBw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=Red54.com; spf=pass smtp.mailfrom=red54.com; dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b=dQ5yhVJx; arc=none smtp.client-ip=162.62.57.210
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=Red54.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=red54.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="e0BQ9Oxz"
-Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-221050f3f00so71546135ad.2
-        for <linux-staging@lists.linux.dev>; Sat, 22 Feb 2025 11:33:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1740252790; x=1740857590; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=oG1Y4xUVBy90l/AWrqKDSxBw1CTC/BkXHI7h/Zxom7o=;
-        b=e0BQ9OxzqEkQcY0A+O3Ax/3dO9FgKc10R17nlPuOxSpB89yDwe7k73smW6kbJEYlP0
-         gmv4ytec5AEHTulL5OzZxi8JpiqMV7jDpL8zbwopH/kQaP0IYT5j/sUKbOsFWHozIEPZ
-         Gw3Rd0RBJAwGM12KzFBE7DSa1BX3ISwZgCnSqeUXG0c4j4dbKtVSsrIEe/vz14hwn8Mh
-         83vuKpPD5om5sGMVhHOsy+rehvp97O9dKRdG1c7EErxaXx3vhrNVo8CklVGRx7tnsfLM
-         sGsF0eOoaVfgKmWpfx2d870GYiePlA9H4V2fLm1tmaSEbqIZQ2jH6aGI9PhND5rbMUBF
-         Ra6w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740252790; x=1740857590;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=oG1Y4xUVBy90l/AWrqKDSxBw1CTC/BkXHI7h/Zxom7o=;
-        b=RKIDu1jJ+C1vZtmG1DiRM0doO+sjgsfijWAVvTx10gNOWIIYyeXi1bpRYIDFHdNNoj
-         mIr8Ge6nYjljYe4jbXTGrqVRd5up8LgKVDOA4rhZ2AXJFkRAi1JHsOvlHJy6Fnlt5Xvo
-         mTISs5jwye1pfBI54cr/hh2jl5f967swEGUtSLXESTMwvh4/CeaH/tNA0tFndz8mfCEK
-         iGMa1PwM9Ip0jrW7bq1+TI0cU529pdX+PemUJs+baLHX+VFTePWnIq9w/IFOlBiP+6DN
-         oUVAuTag0EiubQPcadKIgcuXTr/Raf2jRRXPNk4uMFzmoLeiBZ/3KXRbYrvNmCjbGa8n
-         r3LQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXvSuFHxaDmNebVVmR0qRLqRfiJWyYqfUpAf8GmKH5ha8O2SCWe4gVWHEovmpjUVXlMP/ur+kcFyZ7GR1Se@lists.linux.dev
-X-Gm-Message-State: AOJu0YyvEtr2gyyfoTT2KI/gzpaYmQYioU6iBbgpLK82h0CY5nhFf/uW
-	F3CfKpSfJAnU18aQYmHWvdDBs1dqKqr4jLGan83OGsrzKbHc2WAgbGW/FbPXUKA=
-X-Gm-Gg: ASbGncsC93g8g/IKikN+6BE4K8EF51+epSRjjvu0JwMZOIKiG/1sKCLnAzoHzeP38UA
-	nGJHpLvoueMwEgao0/UuHfJndsMUa4XszNFa5fGcI99GGz9zlxpmlpUkZeNo1Za48Vu6U2ZPk31
-	YE+4RotWfiKD5Lw3ifxfKoQBL55LrKySCSjmBPmbUfg6kUfJbppko0ktgzoKeUy8NDwze7YVk2Q
-	fAJYqOkJMK6wYEjx9As/4JO/hJt9RyDw184zECPTNSfX2GB3fmfHlFiv2ejlyTSb6ugLVk78DQ7
-	jJoLCaJ4xD/dCAFvcG3vDUbhqlU2Dt9YaqySqF/2jR8=
-X-Google-Smtp-Source: AGHT+IGds9hYYhM7lhNXaP5V5VGPOZOdlf0A/D+v1WqyQMFkqW1PLY9zki3n+7oIDnzn3VBbkXHGRA==
-X-Received: by 2002:a17:902:cec1:b0:21f:55e:ed71 with SMTP id d9443c01a7336-2219ff31895mr143259245ad.5.1740252790272;
-        Sat, 22 Feb 2025 11:33:10 -0800 (PST)
-Received: from localhost.localdomain ([36.255.84.61])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-220d536375fsm154131165ad.53.2025.02.22.11.33.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 22 Feb 2025 11:33:09 -0800 (PST)
-From: Madhur Kumar <madhurkumar004@gmail.com>
-To: sudipm.mukherjee@gmail.com,
-	teddy.wang@siliconmotion.com
-Cc: gregkh@linuxfoundation.org,
-	linux-fbdev@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Madhur Kumar <madhurkumar004@gmail.com>
-Subject: [PATCH] staging: sm750fb: Replace architecture-specific defines with CONFIG_X86
-Date: Sun, 23 Feb 2025 01:02:42 +0530
-Message-ID: <20250222193242.14302-1-madhurkumar004@gmail.com>
-X-Mailer: git-send-email 2.48.1
+	dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b="dQ5yhVJx"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
+	t=1740253398; bh=aynS2a/kPanX+LjKJ5jXaswTqt6h+e7tIoipmNInIxw=;
+	h=From:To:Cc:Subject:Date;
+	b=dQ5yhVJxV7IAlcECrYL8zy8dz138IZvnYhgjFN96vRndunOfupibhBSgQgFaIRv0e
+	 XJ3R1HJdKi0uSAxRJoYs2UxyQum03BvMnITcdJzAZ5EB+CYh8xnalRiZpuEh8p85yy
+	 KyxTDHObIxq3I2sLLtWl9nKiHMzNgN4DnPeXNh1A=
+Received: from mail.red54.com ([139.99.8.57])
+	by newxmesmtplogicsvrszc13-0.qq.com (NewEsmtp) with SMTP
+	id 93031CFF; Sun, 23 Feb 2025 03:36:48 +0800
+X-QQ-mid: xmsmtpt1740253008t1qpfuhzk
+Message-ID: <tencent_0BDDF3A721708D16A2E7C3DAFF0FEC79A105@qq.com>
+X-QQ-XMAILINFO: NDgMZBR9sMma2vJX+AgOZyC9uQnYIokU47mtTtkAAMa2B6aY7d1ha3Ux33Mz/9
+	 cKVaJuZUw64Zqu57ZKMFL3rLA7hn/4nzCXclFHGy3Tddi+AF+oUwIcTeBGkPqbcuo7bpvFOPO4op
+	 70ZIL3ymqbifxqsOLlsAujJO8p4PQBWwMubpY+QnSNtpFGXlOb8zGPR1YhMyry2nOHJa+rBlbNZ/
+	 EU7CfRlQL+k1C5yOWxwPm8rbEnP39+iuLO9qosVTI17XjZfkN3BBvkUBCyTGSP3+jM5Gx3nVWzxZ
+	 pOOc2gHuHzSru8YRmhMVAMynroEzo3Y1yno6I8PssjkZf3xp/RolyaNPNeLS3A9c/UNJzQ9aDhyy
+	 iI+I0/kAzhEd1DnAH+fF+LjqvPNBmrik7C5F+Gj4Fh/vZwGJqVgeYjzAsuMDEErs8eREOpoXgWbZ
+	 PMYgl4W40DdyzIYS+FxgSh5ZSOcU2jA24Mw+KqMLFr7BLs+amEc1ZWCQDqH5p0V5bc8Xjxr1HS97
+	 5+yoiFb1cdMJOzPGCINzi1kxbNuhFbbEwf9mIAapL5FrANAc3FJZl/b0lcj7bXoh0TaGVfpkjtxX
+	 gI6OC9dUkZOlahvB1kVl8Pv9YY/zlo3edyLeONcmALwyRahIaW9HdTVh5nXDo/Km/+exx7RZ+AS+
+	 tLyc/nnOM5DfW+K6qz19inRMMaGCxGJMMNuB0AH3NGmSVazk6OQEyZhk1aL4KJdEDxtjTm2T04r8
+	 NSHUffdB6ffEB17m6cOXBapjLad6c0+z/POa4cqfL+F81wDWL542T1cvjCdoD2paFkLnUkiK2uUU
+	 ER0YWz6enPSiJE9sekVjWZlzxjjAsNbNSqsW/JujU2tgBT8FJFOAwkfOdYUU/V9hpEn16ot6thJ6
+	 JJf/nAqzq09vMbLqXLQ3r3L5PN8WA0vXdGPSGubDnlLIziH8UhVDRAoJ3JiJvSbYZRzFnqRXlDSS
+	 C1Ac1K1ur6K7FyFc14qsuQ/5ArzCln
+X-QQ-XMRINFO: NS+P29fieYNw95Bth2bWPxk=
+Sender: yeking@red54.com
+From: Yeking@Red54.com
+To: linux-kernel@vger.kernel.org
+Cc: =?UTF-8?q?=E8=B0=A2=E8=87=B4=E9=82=A6=20=28XIE=20Zhibang=29?= <Yeking@Red54.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Peter Robinson <pbrobinson@gmail.com>,
+	Hans de Goede <hdegoede@redhat.com>,
+	Fabio Aiuto <fabioaiuto83@gmail.com>,
+	linux-staging@lists.linux.dev
+Subject: [PATCH] staging: rtl8723bs: select CONFIG_CRYPTO_LIB_AES
+Date: Sat, 22 Feb 2025 19:36:17 +0000
+X-OQ-MSGID: <20250222193617.396927-1-Yeking@Red54.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Replace the use of __i386__ and __x86_64__ with CONFIG_X86 to adhere to
-kernel coding guideline, make the code more portable and integrates
-better with the Kconfig system.
+From: 谢致邦 (XIE Zhibang) <Yeking@Red54.com>
 
-Signed-off-by: Madhur Kumar <madhurkumar004@gmail.com>
+This fixes the following issue:
+ERROR: modpost: "aes_expandkey" [drivers/staging/rtl8723bs/r8723bs.ko]
+undefined!
+ERROR: modpost: "aes_encrypt" [drivers/staging/rtl8723bs/r8723bs.ko]
+undefined!
+
+Fixes: 7d40753d8820 ("staging: rtl8723bs: use in-kernel aes encryption in OMAC1 routines")
+Fixes: 3d3a170f6d80 ("staging: rtl8723bs: use in-kernel aes encryption")
+Signed-off-by: 谢致邦 (XIE Zhibang) <Yeking@Red54.com>
 ---
- drivers/staging/sm750fb/ddk750_chip.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/staging/rtl8723bs/Kconfig | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/staging/sm750fb/ddk750_chip.c b/drivers/staging/sm750fb/ddk750_chip.c
-index 02860d3ec..67a2f6044 100644
---- a/drivers/staging/sm750fb/ddk750_chip.c
-+++ b/drivers/staging/sm750fb/ddk750_chip.c
-@@ -229,7 +229,7 @@ int ddk750_init_hw(struct initchip_param *p_init_param)
- 		reg |= (VGA_CONFIGURATION_PLL | VGA_CONFIGURATION_MODE);
- 		poke32(VGA_CONFIGURATION, reg);
- 	} else {
--#if defined(__i386__) || defined(__x86_64__)
-+#ifdef CONFIG_X86
- 		/* set graphic mode via IO method */
- 		outb_p(0x88, 0x3d4);
- 		outb_p(0x06, 0x3d5);
+diff --git a/drivers/staging/rtl8723bs/Kconfig b/drivers/staging/rtl8723bs/Kconfig
+index 8d48c61961a6..353e6ee2c145 100644
+--- a/drivers/staging/rtl8723bs/Kconfig
++++ b/drivers/staging/rtl8723bs/Kconfig
+@@ -4,6 +4,7 @@ config RTL8723BS
+ 	depends on WLAN && MMC && CFG80211
+ 	depends on m
+ 	select CRYPTO
++	select CRYPTO_LIB_AES
+ 	select CRYPTO_LIB_ARC4
+ 	help
+ 	This option enables support for RTL8723BS SDIO drivers, such as
 -- 
-2.48.1
+2.43.0
 
