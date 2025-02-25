@@ -1,122 +1,96 @@
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
+Received: from mout.web.de (mout.web.de [212.227.17.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 436F4267B91
-	for <linux-staging@lists.linux.dev>; Tue, 25 Feb 2025 09:42:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740476570; cv=pass; b=SXAKRSwJzrmLP7LLFyIZt17H30FdnqvtWJ65SWEzKp3LaGltGLQjyGDahrCvv/YRfG3L5W3NtHCdv/1pxRGlj/sVD5x4kxQAXJP1qEKqdxUcwWGHw48nA6yBcpA15YJhbKuKIbqYiajmlDhcqIGQAfffCHYsuOdmvgmwf5u/AOs=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740476570; c=relaxed/simple;
-	bh=udQgYnY0T+LsKgOGYVjffMy7LxsVcTFzEcKMkmphUrM=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=OItHeUJV/UIEcIYCnQgrOauvjmKmMLBAmE0Z7n7kd4i+DPcVOMHKkkMT/88DNJRTTNfsozfZeMCszDvs37vljpteHT9A36ThISPCv6C8vY8CpeowL4FawVXDAwClAtReRr77uLbjLYymmyZ2/NexWRtQ/9h1HbHCnWGh/2UPctQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=sebastian.fricke@collabora.com header.b=SwTZhSUS; arc=pass smtp.client-ip=136.143.188.112
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B6492571AD
+	for <linux-staging@lists.linux.dev>; Tue, 25 Feb 2025 12:31:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.11
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1740486719; cv=none; b=Y2eFJre/pnvYVtkazZ9KIt6A42LBl5sYUasnxWfLR1nrs7/rn56tXpE85Bp3+dW8SZ7XOeIWIhzrYLan5a6+91jPiIUZBRoIzjyZPrEtGaUMGrRhJBiN0DB0aKuxKIxLNOv/a/NonA6H0j0Hifz7KmE9OxDxIG1E90oVk3KTkBI=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1740486719; c=relaxed/simple;
+	bh=BE3dddq/PJ2LGVwbssOwVpXeFrwbodiYdIqHe8+jSQ8=;
+	h=Message-ID:Date:MIME-Version:To:Cc:References:Subject:From:
+	 In-Reply-To:Content-Type; b=poQ5KnC5q1LsDgYabItgMIdqkPqoqdc9pQXlqHsj0S04BGLNe6vXVIP0epI0M7gmkT0WPy07zhVVOMrwhlQcDLVZQ1eE232cTCqmv7Y6MCd7wVtIgg8GZifrtT1h1Lr5XvdmnHLTvqOhn/XfqW9Ge+3afDtnh4Rs6bXjIOw5jZ0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=P5YmsyYX; arc=none smtp.client-ip=212.227.17.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=collabora.com header.i=sebastian.fricke@collabora.com header.b="SwTZhSUS"
-ARC-Seal: i=1; a=rsa-sha256; t=1740476561; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=ZWUJALE3X+EXUeuC2EHLQZNFqyFdh0NyYCe1oJLHcFinI5O1gqcZwIuo8zzBTELcLU/U55QeGCcAI4g5ZBV6vX/sFX7Hkah1yxdCN0R7W9Wmy7XXNT6wWUXxKUKYg1t0nLYPw5tnsfiC1cKh3dzFcoPEQDnLLgGwCErkhDCbDWA=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1740476561; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=PhcqlwF/W6SeudJ8/ZbUsIGtxuzwWHoYjUaWleuL8+I=; 
-	b=TA3afxHgC71oyjPZoqoTxcGG3fe5GS22oaYJI6oa/b0s8LbNxX7KfG85qGUb7ipfnFfn4MM2nc6U60+CfMTHIMa0/4AlttB1/OD6zi01EO4FftTDb4SCLulgIBNLUquRbfdnMdDsnPrkaKLrHrky3+2Ut55aaqH61rZILxBLdJ8=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=collabora.com;
-	spf=pass  smtp.mailfrom=sebastian.fricke@collabora.com;
-	dmarc=pass header.from=<sebastian.fricke@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1740476561;
-	s=zohomail; d=collabora.com; i=sebastian.fricke@collabora.com;
-	h=From:From:Date:Date:Subject:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Message-Id:References:In-Reply-To:To:To:Cc:Cc:Reply-To;
-	bh=PhcqlwF/W6SeudJ8/ZbUsIGtxuzwWHoYjUaWleuL8+I=;
-	b=SwTZhSUSS07oCVYZ7P8zHNLwJATsEosEOvICiwuAzESDn4DYfSTXFpIXdr9S+xQC
-	6D8v8KR197526XXRCrYmO+CHelHCXvScBaZvkScaXl4QJeXbqfvn2k9GWnpPBNYc4P9
-	IMZLAegHQE3sh0zbiE9W81ETWhT0qqSAIDQPnfWs=
-Received: by mx.zohomail.com with SMTPS id 1740476559938497.44456290913297;
-	Tue, 25 Feb 2025 01:42:39 -0800 (PST)
-From: Sebastian Fricke <sebastian.fricke@collabora.com>
-Date: Tue, 25 Feb 2025 10:40:33 +0100
-Subject: [PATCH v7 12/12] media: rkvdec: Fix frame size enumeration
+	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="P5YmsyYX"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
+	s=s29768273; t=1740486703; x=1741091503; i=markus.elfring@web.de;
+	bh=BE3dddq/PJ2LGVwbssOwVpXeFrwbodiYdIqHe8+jSQ8=;
+	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:References:
+	 Subject:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:
+	 cc:content-transfer-encoding:content-type:date:from:message-id:
+	 mime-version:reply-to:subject:to;
+	b=P5YmsyYXGHN9ZDoNse3XScWxylVITeZpAIWcAOUmyhrmA68rPjTm0sZ22D1WyTvK
+	 BOxMec3dWIxSQXHym+YEnGigQp/+GT5foQ2vBMamjnCDDa6F5/uLE8yi4YaYMa0sE
+	 9zr+7tO9tnsgr+n2W4ZfvrZbQUNiO1UAe3cwS7Ldgmz5nja893r+355qLWl20BrHX
+	 xlczbC4QTb9GLY3fWUejz02PH2Ozf76zwLted6YcPF8Uip9hbfn4PmLxrbJsbdKFF
+	 U4D8iMTN18F80ZrlxOJWo5QEjh3iNimfIDCPyORlJt8A+dueZqZMFReMwlXjI58s6
+	 17RQJY6/nt/IvSrT2g==
+X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
+Received: from [192.168.178.29] ([94.31.70.36]) by smtp.web.de (mrweb105
+ [213.165.67.124]) with ESMTPSA (Nemesis) id 1M9qhD-1th7LG2WVZ-004otk; Tue, 25
+ Feb 2025 13:31:43 +0100
+Message-ID: <9bc553de-2266-4134-b370-bb287d3538dd@web.de>
+Date: Tue, 25 Feb 2025 13:31:43 +0100
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250225-rkvdec_h264_high10_and_422_support-v7-12-7992a68a4910@collabora.com>
-References: <20250225-rkvdec_h264_high10_and_422_support-v7-0-7992a68a4910@collabora.com>
-In-Reply-To: <20250225-rkvdec_h264_high10_and_422_support-v7-0-7992a68a4910@collabora.com>
-To: Mauro Carvalho Chehab <mchehab@kernel.org>, 
- Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Hans Verkuil <hverkuil@xs4all.nl>, 
- Boris Brezillon <boris.brezillon@collabora.com>
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev, 
- Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, 
- Alex Bee <knaerzche@gmail.com>, 
- Nicolas Dufresne <nicolas.dufresne@collabora.com>, 
- Benjamin Gaignard <benjamin.gaignard@collabora.com>, 
- Detlev Casanova <detlev.casanova@collabora.com>, 
- Dan Carpenter <dan.carpenter@linaro.org>, Jonas Karlman <jonas@kwiboo.se>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1740476426; l=1653;
- i=sebastian.fricke@collabora.com; s=linux-media; h=from:subject:message-id;
- bh=XlwiKB1TZIfyBLPYonxnSRa0aWPI3tSsmicak1dzrfc=;
- b=q/95JUmsPUkLNHHlVioAh4sQTO1NQQiDcwSphBb+wKl6MvHs3vchivIK17RMr3pyksypC7hAwrpN
- iaWY0pKgCJzs8UZvgM6oJzdXtbl5LzubPtqBjgNQy6OtSPsbiUoj
-X-Developer-Key: i=sebastian.fricke@collabora.com; a=ed25519;
- pk=pYXedPwrTtErcj7ERYeo/IpTrpe4QbJuEzSB52fslBg=
-X-ZohoMailClient: External
+User-Agent: Mozilla Thunderbird
+To: Dave Penkler <dpenkler@gmail.com>, linux-staging@lists.linux.dev
+Cc: LKML <linux-kernel@vger.kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+References: <20250222202301.3729-1-dpenkler@gmail.com>
+Subject: Re: [PATCH] staging: gpib: Add return value to request_control
+Content-Language: en-GB
+From: Markus Elfring <Markus.Elfring@web.de>
+In-Reply-To: <20250222202301.3729-1-dpenkler@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:A4K7lIFDn9B7GUN6vCI4Ifk5k7USBdi47WS54kZMNLKMDtceSNI
+ OTCseK2vw1k7OinV996DZAUzfi/i6KBUdU/NsON/bGTiAchru/KqlEa+9xmsyUmGnKe6bjR
+ lB2t/YBzjKGt4H1TZg3iKrlAw0gJtcW7FaSy4sNe/q/NpEYh03uQMOd54PDyF4OyTp5bc4F
+ NOPFaV2vEBnMXdfUckb4Q==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:8uJ62oDRgss=;bxudl0MtuFdFeSmj6qNLHwpY+HW
+ gb0Mv0Cwwbsqbq/4UeogT6P2Hc8yrhV+aWXP2xnmWD21Qb6raqZGqlHdEnb1HzWzMMHFW2sGo
+ uX9SmW2+bYAJx7msKV1rjLBloLwsLc0e++at2hCQNN+M4jlP8eu9a8i2uwolB/mHpz3J524fD
+ KcMQMWEKU2M9VOXrXlWTfbIanOey2x/BOPGhzRTl7WexvKKd4FwOJEiasq12axFjTUOnEnH/V
+ ibTB413iaiqaBM0Ljihk0QsmXPNlIzMmBOAfgtsed4+oELK8PRm+hafZN3N+F/wnMDwzkiTep
+ foPjI2yFRjdZRlrNcf9kgYssOKKtz6ERegBgkpPMlNPNVNMUYnEZglD0bCx1psxfsVNJsUzk6
+ Jazm3wq70jO5/r7V+9lc5te3wWwaFDgBptVi+MBApTz0X/9/W0rXzM54aZYq7q9WGHttkcIWz
+ sW40upVDh7Qrz9L+QYriEuxj+cYYJ7M1IeEY6Nl01rUhcljNDIO0HmBkCdpZiEsIeJ5R8LGm+
+ Hwsrn9AbG6Q4Je4b1GSBdFbkhrc1D+daezZLV4pzxvclxDssxje32Of3N+n5sK9IzDDLYyIrK
+ Q2FnUnY8aCuw2rLr0uEXEY8ZSDFSK7CWkNmb1eUD+hhxhrnM9f48Uz0KV1j/TSMB5g/YDWeAb
+ Jgs/lynZrxvIymK3ZsAz/shxsWruJF665mlj1sRmMXzCKSOn0CCmO5g1qSUgKmWgqu/yw4ij4
+ JG+dp1CmRsJpaffXhOWufZ0CLSref6f7Yj5K809mn38qOEuMi1M0PUvMytJcNmpyVY5HDdNgX
+ A/VJbIAJOkVWnDUMUxU8FZGghXIz3R37teb0hTLiRXv5c84ErmhUVtfQ8+HcmKPCVIhvBMkff
+ vxV0WD1juuIbzJeAmwRSomwijOxHc0tjrg1ZE2KmtZG5lNjByaHf9y6OTqlPcB2cjHHGGDeVC
+ sTp7okPLeQz8e6x5TC+5yB+5qRubQSlWK0DRBq3LExlq90dEh0F/wDzUG90PlvoG9wKSTezPK
+ +MPjBHokEdKwT3sFfDvV6KgmoCkQwayYOo14Xv2Y/EUACwe72TTGBS3N04bdM9c7an+ElKQh6
+ TcFnNjtIVkOz+9vo0cIIn32Yg2LE7YDdkkl0PFNrLeGU3gpk9+dxCi80G6A0z+pKKBj9I06Om
+ /Q7p6qCUgZC0cEeP8ODJ66uBFOR1nD6Y+ieJm3mMQtsLi++2+nv4Heed5DMPSWvZVyB7jueHN
+ jWQis1Y87kjpurM6VzG3PvQ2OSRT5gutE8cgra+M3m/uUhrTcNd/vn5+RHIm2oRwbQOxmdx8J
+ YzW2yt1JswZ3SigNSqYnERomkw0g1WiPwYj7a4V0+/Nezd5i26BxoUP20D9H5vFRPbhYUyc+p
+ uHE2kvVQu/MlJ8qOiiUOfB0kEN0pvD/1oL9N8Zbvc63VHIUaSDZo9QI/itFmE/sqNz6of2a9T
+ 3h43GgZPjIdvTbq+7k7Csx7Sn3aE=
 
-From: Jonas Karlman <jonas@kwiboo.se>
+=E2=80=A6
+> This patch changes the prototype of request_control to int
+=E2=80=A6
 
-The VIDIOC_ENUM_FRAMESIZES ioctl should return all frame sizes (i.e.
-width and height in pixels) that the device supports for the given pixel
-format.
+You may occasionally put more than 58 characters into text lines
+of such a change description.
 
-It doesn't make a lot of sense to return the frame-sizes in a stepwise
-manner, which is used to enforce hardware alignments requirements for
-CAPTURE buffers, for coded formats.
 
-Instead, applications should receive an indication, about the maximum
-supported frame size for that hardware decoder, via a continuous
-frame-size enumeration.
+See also:
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Do=
+cumentation/process/submitting-patches.rst?h=3Dv6.14-rc4#n94
 
-Fixes: cd33c830448b ("media: rkvdec: Add the rkvdec driver")
-Suggested-by: Alex Bee <knaerzche@gmail.com>
-Signed-off-by: Jonas Karlman <jonas@kwiboo.se>
-Reviewed-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
----
- drivers/staging/media/rkvdec/rkvdec.c | 10 ++++++++--
- 1 file changed, 8 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/staging/media/rkvdec/rkvdec.c b/drivers/staging/media/rkvdec/rkvdec.c
-index 2859041bcc932bd638b4288bb8eba6b1443a08e3..619031b8cadc8d7185712ec6121a895e6ab89046 100644
---- a/drivers/staging/media/rkvdec/rkvdec.c
-+++ b/drivers/staging/media/rkvdec/rkvdec.c
-@@ -334,8 +334,14 @@ static int rkvdec_enum_framesizes(struct file *file, void *priv,
- 	if (!fmt)
- 		return -EINVAL;
- 
--	fsize->type = V4L2_FRMSIZE_TYPE_STEPWISE;
--	fsize->stepwise = fmt->frmsize;
-+	fsize->type = V4L2_FRMSIZE_TYPE_CONTINUOUS;
-+	fsize->stepwise.min_width = 1;
-+	fsize->stepwise.max_width = fmt->frmsize.max_width;
-+	fsize->stepwise.step_width = 1;
-+	fsize->stepwise.min_height = 1;
-+	fsize->stepwise.max_height = fmt->frmsize.max_height;
-+	fsize->stepwise.step_height = 1;
-+
- 	return 0;
- }
- 
-
--- 
-2.25.1
-
+Regards,
+Markus
