@@ -1,45 +1,44 @@
 Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CB1D267B70
-	for <linux-staging@lists.linux.dev>; Tue, 25 Feb 2025 09:42:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 436F4267B91
+	for <linux-staging@lists.linux.dev>; Tue, 25 Feb 2025 09:42:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740476560; cv=pass; b=gqPDjgLyHqU0s2z6kjBwr9Bpf4mv04U6LTw9QsY6jS9UI9ef9Zlrk/PtBKVbbj+hgmr48wsEFF9DUqL+dwq/PGCLHEo0KPfSZErqFdm/mjsr4Be3OssE+5CHXR1iVSF7Y0UkZ4uQ+Iag4HQsrNUtomSaBsxJEeT9rnjhWc6VYAU=
+	t=1740476570; cv=pass; b=SXAKRSwJzrmLP7LLFyIZt17H30FdnqvtWJ65SWEzKp3LaGltGLQjyGDahrCvv/YRfG3L5W3NtHCdv/1pxRGlj/sVD5x4kxQAXJP1qEKqdxUcwWGHw48nA6yBcpA15YJhbKuKIbqYiajmlDhcqIGQAfffCHYsuOdmvgmwf5u/AOs=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740476560; c=relaxed/simple;
-	bh=Ja1ASVEnylkVDPrnaxfL7Gu8Auz2+lAQasPZ0WLJwiQ=;
+	s=arc-20240116; t=1740476570; c=relaxed/simple;
+	bh=udQgYnY0T+LsKgOGYVjffMy7LxsVcTFzEcKMkmphUrM=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=sT0G8DYUhNZ2YRfk2oNq3K+vCzIaJhmZBuP5y7ciGNTBpXCUz8ouSDpi58i3qu8A0fqYPzZN6LddpXc++tMbdYldYqxc/XzDDAhCqTnVU0A3RyZHT+ykHFcthLATjcDZhpk/IcPf7vawAuXXpKIrvc6I3yZkScZR88DEY+jfJb0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=sebastian.fricke@collabora.com header.b=J2HBSLG9; arc=pass smtp.client-ip=136.143.188.112
+	 In-Reply-To:To:Cc; b=OItHeUJV/UIEcIYCnQgrOauvjmKmMLBAmE0Z7n7kd4i+DPcVOMHKkkMT/88DNJRTTNfsozfZeMCszDvs37vljpteHT9A36ThISPCv6C8vY8CpeowL4FawVXDAwClAtReRr77uLbjLYymmyZ2/NexWRtQ/9h1HbHCnWGh/2UPctQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=sebastian.fricke@collabora.com header.b=SwTZhSUS; arc=pass smtp.client-ip=136.143.188.112
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=collabora.com header.i=sebastian.fricke@collabora.com header.b="J2HBSLG9"
-ARC-Seal: i=1; a=rsa-sha256; t=1740476551; cv=none; 
+	dkim=pass (1024-bit key) header.d=collabora.com header.i=sebastian.fricke@collabora.com header.b="SwTZhSUS"
+ARC-Seal: i=1; a=rsa-sha256; t=1740476561; cv=none; 
 	d=zohomail.com; s=zohoarc; 
-	b=XcKkwdx9WAj/+w3pEg9D1riD9Ej2y49bwpT5CVEQOJRLWnd9j2xE7/epKX1Fd9E525SzUdH1zZy1+FsdVLbGw88lRkfEWxr74wRkDveXzl2pDHLiLiWP+hLYPvKPzPVe4rppkw50D/7yiAjQhlOiNUNDN6XSmMGCoYUlveewJyc=
+	b=ZWUJALE3X+EXUeuC2EHLQZNFqyFdh0NyYCe1oJLHcFinI5O1gqcZwIuo8zzBTELcLU/U55QeGCcAI4g5ZBV6vX/sFX7Hkah1yxdCN0R7W9Wmy7XXNT6wWUXxKUKYg1t0nLYPw5tnsfiC1cKh3dzFcoPEQDnLLgGwCErkhDCbDWA=
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1740476551; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=98NKcVOP3m83E8hgMre8aUN2HOMmw9MEKVvfDL7Tcc8=; 
-	b=DlD+jrIoHeXj3b1Rwemq2gusKxNVIUQ4VyVHrQM0a6rs7LRPLYzU8hSmuKRZ9Aq72aOXLT2f0IO+YFVsrbe/qS9IFil0AD/HTt9RIN1DGBz8e+uGAxsjAC8L3yEKWWvnaS2gT2LiGgml8bGUwgax8B4ZXcmOvKjmlMxAXYEFCHA=
+	t=1740476561; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=PhcqlwF/W6SeudJ8/ZbUsIGtxuzwWHoYjUaWleuL8+I=; 
+	b=TA3afxHgC71oyjPZoqoTxcGG3fe5GS22oaYJI6oa/b0s8LbNxX7KfG85qGUb7ipfnFfn4MM2nc6U60+CfMTHIMa0/4AlttB1/OD6zi01EO4FftTDb4SCLulgIBNLUquRbfdnMdDsnPrkaKLrHrky3+2Ut55aaqH61rZILxBLdJ8=
 ARC-Authentication-Results: i=1; mx.zohomail.com;
 	dkim=pass  header.i=collabora.com;
 	spf=pass  smtp.mailfrom=sebastian.fricke@collabora.com;
 	dmarc=pass header.from=<sebastian.fricke@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1740476551;
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1740476561;
 	s=zohomail; d=collabora.com; i=sebastian.fricke@collabora.com;
 	h=From:From:Date:Date:Subject:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Message-Id:References:In-Reply-To:To:To:Cc:Cc:Reply-To;
-	bh=98NKcVOP3m83E8hgMre8aUN2HOMmw9MEKVvfDL7Tcc8=;
-	b=J2HBSLG9tEeaR5etzB/5j2NnH+69/VFx1w27JFQKpKfN2dJJ5q3TOpGEW0CHpCQC
-	2FBrh6nYYaYeAbhnzqU1mJYi/ebCtOQswTF2x90jkJvzfkxjTYnEL2ay8G+N1K2aScW
-	zHP+wa0FhISfT8dBJRLHf6QYiqOGWn8fybovzRx0=
-Received: by mx.zohomail.com with SMTPS id 1740476550430177.37442835818695;
-	Tue, 25 Feb 2025 01:42:30 -0800 (PST)
+	bh=PhcqlwF/W6SeudJ8/ZbUsIGtxuzwWHoYjUaWleuL8+I=;
+	b=SwTZhSUSS07oCVYZ7P8zHNLwJATsEosEOvICiwuAzESDn4DYfSTXFpIXdr9S+xQC
+	6D8v8KR197526XXRCrYmO+CHelHCXvScBaZvkScaXl4QJeXbqfvn2k9GWnpPBNYc4P9
+	IMZLAegHQE3sh0zbiE9W81ETWhT0qqSAIDQPnfWs=
+Received: by mx.zohomail.com with SMTPS id 1740476559938497.44456290913297;
+	Tue, 25 Feb 2025 01:42:39 -0800 (PST)
 From: Sebastian Fricke <sebastian.fricke@collabora.com>
-Date: Tue, 25 Feb 2025 10:40:32 +0100
-Subject: [PATCH v7 11/12] media: rkvdec: h264: Limit minimum profile to
- constrained baseline
+Date: Tue, 25 Feb 2025 10:40:33 +0100
+Subject: [PATCH v7 12/12] media: rkvdec: Fix frame size enumeration
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -48,7 +47,7 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250225-rkvdec_h264_high10_and_422_support-v7-11-7992a68a4910@collabora.com>
+Message-Id: <20250225-rkvdec_h264_high10_and_422_support-v7-12-7992a68a4910@collabora.com>
 References: <20250225-rkvdec_h264_high10_and_422_support-v7-0-7992a68a4910@collabora.com>
 In-Reply-To: <20250225-rkvdec_h264_high10_and_422_support-v7-0-7992a68a4910@collabora.com>
 To: Mauro Carvalho Chehab <mchehab@kernel.org>, 
@@ -63,41 +62,60 @@ Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
  Nicolas Dufresne <nicolas.dufresne@collabora.com>, 
  Benjamin Gaignard <benjamin.gaignard@collabora.com>, 
  Detlev Casanova <detlev.casanova@collabora.com>, 
- Dan Carpenter <dan.carpenter@linaro.org>, Jonas Karlman <jonas@kwiboo.se>, 
- Sebastian Fricke <sebastian.fricke@collabora.com>
+ Dan Carpenter <dan.carpenter@linaro.org>, Jonas Karlman <jonas@kwiboo.se>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1740476426; l=1122;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1740476426; l=1653;
  i=sebastian.fricke@collabora.com; s=linux-media; h=from:subject:message-id;
- bh=Ja1ASVEnylkVDPrnaxfL7Gu8Auz2+lAQasPZ0WLJwiQ=;
- b=4vOCbtcqOkYByVo62A8sEoTu4EZtDldVj+O7DdsEOGtQgEmOM1EC0Zx+6aLDY/FGgAPmZmrp7hxs
- u7G3NTenB+Oto3zQbZdnya5Y+xgoAiN1tsdce1NRp4GPFMZS5Twg
+ bh=XlwiKB1TZIfyBLPYonxnSRa0aWPI3tSsmicak1dzrfc=;
+ b=q/95JUmsPUkLNHHlVioAh4sQTO1NQQiDcwSphBb+wKl6MvHs3vchivIK17RMr3pyksypC7hAwrpN
+ iaWY0pKgCJzs8UZvgM6oJzdXtbl5LzubPtqBjgNQy6OtSPsbiUoj
 X-Developer-Key: i=sebastian.fricke@collabora.com; a=ed25519;
  pk=pYXedPwrTtErcj7ERYeo/IpTrpe4QbJuEzSB52fslBg=
 X-ZohoMailClient: External
 
-Neither the hardware nor the kernel API support FMO/ASO features
-required by the full baseline profile. Therefore limit the minimum
-profile to the constrained baseline profile explicitly.
+From: Jonas Karlman <jonas@kwiboo.se>
 
-Suggested-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-Signed-off-by: Sebastian Fricke <sebastian.fricke@collabora.com>
+The VIDIOC_ENUM_FRAMESIZES ioctl should return all frame sizes (i.e.
+width and height in pixels) that the device supports for the given pixel
+format.
+
+It doesn't make a lot of sense to return the frame-sizes in a stepwise
+manner, which is used to enforce hardware alignments requirements for
+CAPTURE buffers, for coded formats.
+
+Instead, applications should receive an indication, about the maximum
+supported frame size for that hardware decoder, via a continuous
+frame-size enumeration.
+
+Fixes: cd33c830448b ("media: rkvdec: Add the rkvdec driver")
+Suggested-by: Alex Bee <knaerzche@gmail.com>
+Signed-off-by: Jonas Karlman <jonas@kwiboo.se>
+Reviewed-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
 ---
- drivers/staging/media/rkvdec/rkvdec.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/staging/media/rkvdec/rkvdec.c | 10 ++++++++--
+ 1 file changed, 8 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/staging/media/rkvdec/rkvdec.c b/drivers/staging/media/rkvdec/rkvdec.c
-index 351444d569316cf52850a1831710fb5c1aceaa70..2859041bcc932bd638b4288bb8eba6b1443a08e3 100644
+index 2859041bcc932bd638b4288bb8eba6b1443a08e3..619031b8cadc8d7185712ec6121a895e6ab89046 100644
 --- a/drivers/staging/media/rkvdec/rkvdec.c
 +++ b/drivers/staging/media/rkvdec/rkvdec.c
-@@ -195,7 +195,7 @@ static const struct rkvdec_ctrl_desc rkvdec_h264_ctrl_descs[] = {
- 	},
- 	{
- 		.cfg.id = V4L2_CID_MPEG_VIDEO_H264_PROFILE,
--		.cfg.min = V4L2_MPEG_VIDEO_H264_PROFILE_BASELINE,
-+		.cfg.min = V4L2_MPEG_VIDEO_H264_PROFILE_CONSTRAINED_BASELINE,
- 		.cfg.max = V4L2_MPEG_VIDEO_H264_PROFILE_HIGH_422_INTRA,
- 		.cfg.menu_skip_mask =
- 			BIT(V4L2_MPEG_VIDEO_H264_PROFILE_EXTENDED) |
+@@ -334,8 +334,14 @@ static int rkvdec_enum_framesizes(struct file *file, void *priv,
+ 	if (!fmt)
+ 		return -EINVAL;
+ 
+-	fsize->type = V4L2_FRMSIZE_TYPE_STEPWISE;
+-	fsize->stepwise = fmt->frmsize;
++	fsize->type = V4L2_FRMSIZE_TYPE_CONTINUOUS;
++	fsize->stepwise.min_width = 1;
++	fsize->stepwise.max_width = fmt->frmsize.max_width;
++	fsize->stepwise.step_width = 1;
++	fsize->stepwise.min_height = 1;
++	fsize->stepwise.max_height = fmt->frmsize.max_height;
++	fsize->stepwise.step_height = 1;
++
+ 	return 0;
+ }
+ 
 
 -- 
 2.25.1
