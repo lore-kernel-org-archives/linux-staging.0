@@ -1,137 +1,74 @@
-Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5EB81FC7D5
-	for <linux-staging@lists.linux.dev>; Tue, 25 Feb 2025 14:05:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B0B5268C56
+	for <linux-staging@lists.linux.dev>; Tue, 25 Feb 2025 14:33:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740492337; cv=none; b=nmzbKh836e4QOt30PSNCXhmgsaVDpxnB5xfbxHmGZsqfEbcj1KN4kdXAePkXK6ATZ0Tt0YW4To05C9q4upyVrnUnN4mz6qbgUyzNwbp2/uMadyOLGxisqySiy54/bJEJ2h4s5tlabRHvTJ+EuZxsEWbRE2LpPs3vpj23OdPGnUM=
+	t=1740494027; cv=none; b=sGfLS+cmgIuvLMRvPB6roagFO84uFhTIg3/i9H80jQnAMLBQm5E60IkRqnzio+uGPbjG9qROAPpsvw1Fgl0SLOkv9mKdWfyhiziTAaC5vnsAUNszeIlynTgxuNQ9VgC1ecvcJWpg3QI35IQjH40g7M1lx9gjUDIsv1nd+YNE2Ng=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740492337; c=relaxed/simple;
-	bh=SrlaSBpwPqmnPKBwwpLbhryOe+dfDdFe+sPMj9Vemu4=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=ZNED8rKoSZGDmGOeU1L7ZyVbt++hGNwaw+vi6C13+xZIjF5A6mrjd/DWgRGxbCIKYWRkKKTXVzjbKcLbUcN8wRn8qHoS7/A3jOLVDa8oGRsslkQMjTVtjwQz97hn49bDcSOpBsG+0yMSTiYFA23BswS8rN3RJ17rajaUseM3onc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=N1q6kuDK; arc=none smtp.client-ip=148.251.105.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	s=arc-20240116; t=1740494027; c=relaxed/simple;
+	bh=dd0Lvu9vWtwP6hlte0aze2JQWGVV9KkpYgCO1cFK9G0=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=Rp0nPGQFiQ1U86ZkUzdGSDMrJIaBTvQSSYaSfFoUlCme+SErHiTnvq9lnYA/UEFd7SfgCiMpNlgz84FJUlOOOCvWj6u0D6n/h9YxZqdHM1bQYSWiXP28OrvTH0cbNSOsmSsXi+c6j/Zyl1mhR6BGGQr7yJVMeDq63CSKA6EXxyk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=fJ2lbiyl; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="N1q6kuDK"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1740492331;
-	bh=SrlaSBpwPqmnPKBwwpLbhryOe+dfDdFe+sPMj9Vemu4=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-	b=N1q6kuDK+8ntA0AaElI0VJl2/OzVvACcjDQ/P2V6svRV3s3WHMve5JiVdUTd80Qnr
-	 K58KBSM2Qb7dmqKHwGdQaEiK3UWwswphxj1skJWk1RbYRl4Fj7bXE/qs/9fgEg50J1
-	 BUP3XOGCQjOG8C/VDC0iKES/YCq/oVsixPwtuRDOfp3wtG2gZxbKZOIkh59FjX7prU
-	 k5WwdWnA5MuwVDcYr2pkAGTOoAABa8gLQTvBDrGUiJ4VFzdwQHUOpvoXn2UXoNOzgs
-	 47beLJVO33KZ7Qr8qaSaU7DXYtnjHXjT2fRY6GwNfwkZe2dUs3zweivyihBuC63lEM
-	 Y9DZpkTydLIRA==
-Received: from [IPv6:2606:6d00:11:e976::5ac] (unknown [IPv6:2606:6d00:11:e976::5ac])
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="fJ2lbiyl"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 34F2548EC5
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1740494025; bh=8knubZjmHbdNkHXs0YlcIjXdMA+wkzMRlO4Ystvh0HU=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=fJ2lbiyl+z6/FsuYjWGBrBwIHkHmPy7ibREYGbz9UuV60mZK4BNRPz1Lgo1WVIQq9
+	 19Pyfw84KfLZbaLggWDVZckJRO0sTWXEuxMWGK/vRLwccHhnuPIEMv+F4plDw7aAOs
+	 EEUTstgDy3GFZmy/C42fY5fJblcGTbg6wcMyMN+JoyKm07/XT0VeDpHSiigRISWYq1
+	 QlgCJhHwSQmGRo5wubqAAvQQlu4DfljzHFRWHd9Rv7sQOaMY88EWvAr8voOPs0i80p
+	 DFzYgP9CZkY+KrfT78qIcNx4/anbyvEOUeYpkLtAOKdcTieCzVFai/+NUGuhidDU6Z
+	 t4hahOylxScGQ==
+Received: from localhost (unknown [IPv6:2601:280:4600:2d7f::1fe])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	(Authenticated sender: nicolas)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id 4453317E09B5;
-	Tue, 25 Feb 2025 15:05:29 +0100 (CET)
-Message-ID: <808a9d14be9c8de25e2ba5232ee01f874acb66b6.camel@collabora.com>
-Subject: Re: [PATCH] fixup! media: v4l2-common: Add helpers to calculate
- bytesperline and sizeimage
-From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-To: Hans Verkuil <hverkuil@xs4all.nl>, Sebastian Fricke
-	 <sebastian.fricke@collabora.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Ezequiel Garcia	
- <ezequiel@vanguardiasur.com.ar>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>,  Boris Brezillon
- <boris.brezillon@collabora.com>, linux-media <linux-media@vger.kernel.org>,
- linux-kernel	 <linux-kernel@vger.kernel.org>, linux-rockchip	
- <linux-rockchip@lists.infradead.org>, linux-staging	
- <linux-staging@lists.linux.dev>, Mauro Carvalho Chehab	
- <mchehab+huawei@kernel.org>, Alex Bee <knaerzche@gmail.com>, Benjamin
- Gaignard	 <benjamin.gaignard@collabora.com>, Detlev Casanova	
- <detlev.casanova@collabora.com>, Dan Carpenter <dan.carpenter@linaro.org>, 
- Jonas Karlman <jonas@kwiboo.se>
-Date: Tue, 25 Feb 2025 09:05:27 -0500
-In-Reply-To: <795082c4-499f-4935-b580-72b01d82fe1b@xs4all.nl>
-References: 
-	<20250225-rkvdec_h264_high10_and_422_support-v7-0-7992a68a4910@collabora.com>
-	 <20250225124008.195405-1-sebastian.fricke@collabora.com>
-	 <1953d249c3c.d1d6678f34821.5333341344528638254@collabora.com>
-	 <795082c4-499f-4935-b580-72b01d82fe1b@xs4all.nl>
-Organization: Collabora Canada
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.54.3 (3.54.3-1.fc41) 
+	by ms.lwn.net (Postfix) with ESMTPSA id 34F2548EC5;
+	Tue, 25 Feb 2025 14:33:45 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc: Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+ linux-kernel@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>, Bingbu Cao
+ <bingbu.cao@intel.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>, Takashi Sakamoto
+ <o-takashi@sakamocchi.jp>, Tianshu Qiu <tian.shu.qiu@intel.com>,
+ linux-arch@vger.kernel.org, linux-hardening@vger.kernel.org,
+ linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+ linux1394-devel@lists.sourceforge.net
+Subject: Re: [PATCH v2 00/39] Implement kernel-doc in Python
+In-Reply-To: <20250225085406.7fa87ee3@foz.lan>
+References: <cover.1740387599.git.mchehab+huawei@kernel.org>
+ <87msea29ah.fsf@trenco.lwn.net> <20250225085406.7fa87ee3@foz.lan>
+Date: Tue, 25 Feb 2025 07:33:44 -0700
+Message-ID: <8734g214c7.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-Le mardi 25 février 2025 à 13:50 +0100, Hans Verkuil a écrit :
-> On 2/25/25 13:46, Sebastian Fricke wrote:
-> > Hey,
-> > 
-> > sorry about missing this in the patch series, if you don't like the
-> > fixup path, then I can send a new patch series as well.
-> > I just thought the change was minor enough and addressed the final
-> > comments.
-> 
-> Ah, this relates to patch 01/12 of this patch series:
-> 
-> https://patchwork.linuxtv.org/project/linux-media/list/?series=14577
-> 
-> Next time it might be better to just reply to the offending patch
-> with the fixup.
-> 
-> That way it is clear for the maintainer what the fixup is for.
+Mauro Carvalho Chehab <mchehab+huawei@kernel.org> writes:
 
-I believe you could have used:
+> There's no need to rush things there, provided that people refrain
+> touching the Perl version of kernel-doc. So yeah, postponing it to
+> the next merge window makes sense to me. Perhaps we should announce
+> somewhere that we're in the process of doing such replacement, asking
+> people to wait for 6.15-rc before sending any changes to kernel-doc.
 
-  git send-email -in-reply-to=9db356bd-4d71-4975-91c6-7435bee8aef3@xs4all.nl <somepatch>
+I have no problem with sending an announcement ... but I wouldn't worry
+about a flood of changes to the Perl script creating more work.  There's
+not a lot of people willing to dive into that thing in the first
+place...
 
-To make that a reply.
+Thanks,
 
-cheers,
-Nicolas
-> 
-> Regards,
-> 
-> 	Hans
-> 
-> > 
-> > Regards,
-> > Sebastian
-> > 
-> >  ---- On Tue, 25 Feb 2025 13:40:08 +0100  Sebastian Fricke
-> > <sebastian.fricke@collabora.com> wrote --- 
-> >  > ---
-> >  >  drivers/media/v4l2-core/v4l2-common.c | 2 +-
-> >  >  1 file changed, 1 insertion(+), 1 deletion(-)
-> >  > 
-> >  > diff --git a/drivers/media/v4l2-core/v4l2-common.c
-> > b/drivers/media/v4l2-core/v4l2-common.c
-> >  > index 07a999f75755..aa86b8c6aa75 100644
-> >  > --- a/drivers/media/v4l2-core/v4l2-common.c
-> >  > +++ b/drivers/media/v4l2-core/v4l2-common.c
-> >  > @@ -360,7 +360,7 @@ static inline unsigned int
-> > v4l2_format_block_height(const struct v4l2_format_inf
-> >  >  }
-> >  >  
-> >  >  static inline unsigned int v4l2_format_plane_stride(const
-> > struct v4l2_format_info *info, int plane,
-> >  > -                           unsigned int width)
-> >  > +                            unsigned int width)
-> >  >  {
-> >  >      unsigned int hdiv = plane ? info->hdiv : 1;
-> >  >      unsigned int aligned_width =
-> >  > -- 
-> >  > 2.25.1
-> >  > 
-> >  > 
-> > 
-> 
-
--- 
-Nicolas Dufresne
-Principal Engineer at Collabora
+jon
