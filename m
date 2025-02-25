@@ -1,96 +1,91 @@
-Received: from mout.web.de (mout.web.de [212.227.17.11])
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B6492571AD
-	for <linux-staging@lists.linux.dev>; Tue, 25 Feb 2025 12:31:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.11
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740486719; cv=none; b=Y2eFJre/pnvYVtkazZ9KIt6A42LBl5sYUasnxWfLR1nrs7/rn56tXpE85Bp3+dW8SZ7XOeIWIhzrYLan5a6+91jPiIUZBRoIzjyZPrEtGaUMGrRhJBiN0DB0aKuxKIxLNOv/a/NonA6H0j0Hifz7KmE9OxDxIG1E90oVk3KTkBI=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740486719; c=relaxed/simple;
-	bh=BE3dddq/PJ2LGVwbssOwVpXeFrwbodiYdIqHe8+jSQ8=;
-	h=Message-ID:Date:MIME-Version:To:Cc:References:Subject:From:
-	 In-Reply-To:Content-Type; b=poQ5KnC5q1LsDgYabItgMIdqkPqoqdc9pQXlqHsj0S04BGLNe6vXVIP0epI0M7gmkT0WPy07zhVVOMrwhlQcDLVZQ1eE232cTCqmv7Y6MCd7wVtIgg8GZifrtT1h1Lr5XvdmnHLTvqOhn/XfqW9Ge+3afDtnh4Rs6bXjIOw5jZ0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=P5YmsyYX; arc=none smtp.client-ip=212.227.17.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07F813A1DB
+	for <linux-staging@lists.linux.dev>; Tue, 25 Feb 2025 12:40:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1740487254; cv=pass; b=TcTKsPSR0lGKosAw9190YlcEWY1GpmxmovZ/dpztF2PP7KqkjvlbTTA8xKu+o+trdiOBBofJVX/WUaTb3rzJdN793SiIyzj6wJo3jhgl3ECX08ZyzSxqEw1qiBZ361PhDjxMYQhjD5Mb0Mnw66V2ZpOLICR1K6xdK66iy5S7a7w=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1740487254; c=relaxed/simple;
+	bh=AUEz4a3RiSL5/cLF/pQMmxgREDX4arxTDXKFwwi9EuA=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=YVeusNpqi5BB2C4+IfuNUhCf+GQq67F8ek1EUXfp3BY6deuY5PL1GrjCg5a0Mn96YctcBzOxLNYwskVL30DLJIyv0ayVAPxjJjroJurPadZFhnyKyHAeU7kw6zLSkTxD9Nu9j/NJCqlzxpkWRtGVspR9hFu0NhUEvxC8YfWRZj0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=sebastian.fricke@collabora.com header.b=ZGwN9TGX; arc=pass smtp.client-ip=136.143.188.112
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="P5YmsyYX"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
-	s=s29768273; t=1740486703; x=1741091503; i=markus.elfring@web.de;
-	bh=BE3dddq/PJ2LGVwbssOwVpXeFrwbodiYdIqHe8+jSQ8=;
-	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:References:
-	 Subject:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:
-	 cc:content-transfer-encoding:content-type:date:from:message-id:
-	 mime-version:reply-to:subject:to;
-	b=P5YmsyYXGHN9ZDoNse3XScWxylVITeZpAIWcAOUmyhrmA68rPjTm0sZ22D1WyTvK
-	 BOxMec3dWIxSQXHym+YEnGigQp/+GT5foQ2vBMamjnCDDa6F5/uLE8yi4YaYMa0sE
-	 9zr+7tO9tnsgr+n2W4ZfvrZbQUNiO1UAe3cwS7Ldgmz5nja893r+355qLWl20BrHX
-	 xlczbC4QTb9GLY3fWUejz02PH2Ozf76zwLted6YcPF8Uip9hbfn4PmLxrbJsbdKFF
-	 U4D8iMTN18F80ZrlxOJWo5QEjh3iNimfIDCPyORlJt8A+dueZqZMFReMwlXjI58s6
-	 17RQJY6/nt/IvSrT2g==
-X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from [192.168.178.29] ([94.31.70.36]) by smtp.web.de (mrweb105
- [213.165.67.124]) with ESMTPSA (Nemesis) id 1M9qhD-1th7LG2WVZ-004otk; Tue, 25
- Feb 2025 13:31:43 +0100
-Message-ID: <9bc553de-2266-4134-b370-bb287d3538dd@web.de>
-Date: Tue, 25 Feb 2025 13:31:43 +0100
+	dkim=pass (1024-bit key) header.d=collabora.com header.i=sebastian.fricke@collabora.com header.b="ZGwN9TGX"
+ARC-Seal: i=1; a=rsa-sha256; t=1740487242; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=aL/yndbaWtbjDj26LcXfza+N/18ktplU4cYjzN8NJ6uso/gKOkg7hpxUkXtm6+TW9MNu5kPYtZS3bbCXt3JL4CNeyoFLWQ3JpwROIijZPuKQTJhjmoFqtgAiNv2codaijnCBQmPq50D771VEUONIigk/j9mq+D6pn+U2+eprEek=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1740487242; h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=kDN54TSKQCXwGr0WnQvfL3hvKdHgbSFGpuQMUeaewhA=; 
+	b=TpklSVtemRmlUXiIKkZorzpWgRCMGq+RAMxdZZAA0QYZZEhi5vRtiGs8qQaeyxjddrjUY2xxrv93BX/P2LhHpBypv+kwYaentedbx2oCq5D05O3pk8eXwian+77VYaGAILNuKfOl8VAF4e2ozi+gIa02jTJM/X8vDbiKp9yGBkM=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=collabora.com;
+	spf=pass  smtp.mailfrom=sebastian.fricke@collabora.com;
+	dmarc=pass header.from=<sebastian.fricke@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1740487242;
+	s=zohomail; d=collabora.com; i=sebastian.fricke@collabora.com;
+	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-Id:Message-Id:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Reply-To;
+	bh=kDN54TSKQCXwGr0WnQvfL3hvKdHgbSFGpuQMUeaewhA=;
+	b=ZGwN9TGX/W+xjOAr4VQfD1lO+OtDQobGeGI+OUKCkythx6wVHbHLodDOuWutdUX0
+	FCVJ6LFC/mFCXpvN5rQKvXcuzUSCPLuoq1nQr5/YcTCcVzPgArTYEHZZdRvdjPkV5k1
+	iwjD1stQtv9UvpWqyTLObc3oA6pAT9iDUYj43eFU=
+Received: by mx.zohomail.com with SMTPS id 1740487240110120.34947032551383;
+	Tue, 25 Feb 2025 04:40:40 -0800 (PST)
+From: Sebastian Fricke <sebastian.fricke@collabora.com>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Hans Verkuil <hverkuil@xs4all.nl>,
+	Boris Brezillon <boris.brezillon@collabora.com>
+Cc: linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-rockchip@lists.infradead.org,
+	linux-staging@lists.linux.dev,
+	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+	Alex Bee <knaerzche@gmail.com>,
+	Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+	Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+	Detlev Casanova <detlev.casanova@collabora.com>,
+	Dan Carpenter <dan.carpenter@linaro.org>,
+	Jonas Karlman <jonas@kwiboo.se>,
+	Sebastian Fricke <sebastian.fricke@collabora.com>
+Subject: [PATCH] fixup! media: v4l2-common: Add helpers to calculate bytesperline and sizeimage
+Date: Tue, 25 Feb 2025 13:40:08 +0100
+Message-Id: <20250225124008.195405-1-sebastian.fricke@collabora.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20250225-rkvdec_h264_high10_and_422_support-v7-0-7992a68a4910@collabora.com>
+References: <20250225-rkvdec_h264_high10_and_422_support-v7-0-7992a68a4910@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-To: Dave Penkler <dpenkler@gmail.com>, linux-staging@lists.linux.dev
-Cc: LKML <linux-kernel@vger.kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-References: <20250222202301.3729-1-dpenkler@gmail.com>
-Subject: Re: [PATCH] staging: gpib: Add return value to request_control
-Content-Language: en-GB
-From: Markus Elfring <Markus.Elfring@web.de>
-In-Reply-To: <20250222202301.3729-1-dpenkler@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:A4K7lIFDn9B7GUN6vCI4Ifk5k7USBdi47WS54kZMNLKMDtceSNI
- OTCseK2vw1k7OinV996DZAUzfi/i6KBUdU/NsON/bGTiAchru/KqlEa+9xmsyUmGnKe6bjR
- lB2t/YBzjKGt4H1TZg3iKrlAw0gJtcW7FaSy4sNe/q/NpEYh03uQMOd54PDyF4OyTp5bc4F
- NOPFaV2vEBnMXdfUckb4Q==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:8uJ62oDRgss=;bxudl0MtuFdFeSmj6qNLHwpY+HW
- gb0Mv0Cwwbsqbq/4UeogT6P2Hc8yrhV+aWXP2xnmWD21Qb6raqZGqlHdEnb1HzWzMMHFW2sGo
- uX9SmW2+bYAJx7msKV1rjLBloLwsLc0e++at2hCQNN+M4jlP8eu9a8i2uwolB/mHpz3J524fD
- KcMQMWEKU2M9VOXrXlWTfbIanOey2x/BOPGhzRTl7WexvKKd4FwOJEiasq12axFjTUOnEnH/V
- ibTB413iaiqaBM0Ljihk0QsmXPNlIzMmBOAfgtsed4+oELK8PRm+hafZN3N+F/wnMDwzkiTep
- foPjI2yFRjdZRlrNcf9kgYssOKKtz6ERegBgkpPMlNPNVNMUYnEZglD0bCx1psxfsVNJsUzk6
- Jazm3wq70jO5/r7V+9lc5te3wWwaFDgBptVi+MBApTz0X/9/W0rXzM54aZYq7q9WGHttkcIWz
- sW40upVDh7Qrz9L+QYriEuxj+cYYJ7M1IeEY6Nl01rUhcljNDIO0HmBkCdpZiEsIeJ5R8LGm+
- Hwsrn9AbG6Q4Je4b1GSBdFbkhrc1D+daezZLV4pzxvclxDssxje32Of3N+n5sK9IzDDLYyIrK
- Q2FnUnY8aCuw2rLr0uEXEY8ZSDFSK7CWkNmb1eUD+hhxhrnM9f48Uz0KV1j/TSMB5g/YDWeAb
- Jgs/lynZrxvIymK3ZsAz/shxsWruJF665mlj1sRmMXzCKSOn0CCmO5g1qSUgKmWgqu/yw4ij4
- JG+dp1CmRsJpaffXhOWufZ0CLSref6f7Yj5K809mn38qOEuMi1M0PUvMytJcNmpyVY5HDdNgX
- A/VJbIAJOkVWnDUMUxU8FZGghXIz3R37teb0hTLiRXv5c84ErmhUVtfQ8+HcmKPCVIhvBMkff
- vxV0WD1juuIbzJeAmwRSomwijOxHc0tjrg1ZE2KmtZG5lNjByaHf9y6OTqlPcB2cjHHGGDeVC
- sTp7okPLeQz8e6x5TC+5yB+5qRubQSlWK0DRBq3LExlq90dEh0F/wDzUG90PlvoG9wKSTezPK
- +MPjBHokEdKwT3sFfDvV6KgmoCkQwayYOo14Xv2Y/EUACwe72TTGBS3N04bdM9c7an+ElKQh6
- TcFnNjtIVkOz+9vo0cIIn32Yg2LE7YDdkkl0PFNrLeGU3gpk9+dxCi80G6A0z+pKKBj9I06Om
- /Q7p6qCUgZC0cEeP8ODJ66uBFOR1nD6Y+ieJm3mMQtsLi++2+nv4Heed5DMPSWvZVyB7jueHN
- jWQis1Y87kjpurM6VzG3PvQ2OSRT5gutE8cgra+M3m/uUhrTcNd/vn5+RHIm2oRwbQOxmdx8J
- YzW2yt1JswZ3SigNSqYnERomkw0g1WiPwYj7a4V0+/Nezd5i26BxoUP20D9H5vFRPbhYUyc+p
- uHE2kvVQu/MlJ8qOiiUOfB0kEN0pvD/1oL9N8Zbvc63VHIUaSDZo9QI/itFmE/sqNz6of2a9T
- 3h43GgZPjIdvTbq+7k7Csx7Sn3aE=
+Content-Transfer-Encoding: 8bit
+X-ZohoMailClient: External
 
-=E2=80=A6
-> This patch changes the prototype of request_control to int
-=E2=80=A6
+---
+ drivers/media/v4l2-core/v4l2-common.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-You may occasionally put more than 58 characters into text lines
-of such a change description.
+diff --git a/drivers/media/v4l2-core/v4l2-common.c b/drivers/media/v4l2-core/v4l2-common.c
+index 07a999f75755..aa86b8c6aa75 100644
+--- a/drivers/media/v4l2-core/v4l2-common.c
++++ b/drivers/media/v4l2-core/v4l2-common.c
+@@ -360,7 +360,7 @@ static inline unsigned int v4l2_format_block_height(const struct v4l2_format_inf
+ }
+ 
+ static inline unsigned int v4l2_format_plane_stride(const struct v4l2_format_info *info, int plane,
+-						   unsigned int width)
++						    unsigned int width)
+ {
+ 	unsigned int hdiv = plane ? info->hdiv : 1;
+ 	unsigned int aligned_width =
+-- 
+2.25.1
 
-
-See also:
-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Do=
-cumentation/process/submitting-patches.rst?h=3Dv6.14-rc4#n94
-
-Regards,
-Markus
