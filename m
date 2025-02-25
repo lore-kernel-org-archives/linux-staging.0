@@ -1,141 +1,178 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0886F25EFBC;
-	Tue, 25 Feb 2025 08:19:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7AE1F261590
+	for <linux-staging@lists.linux.dev>; Tue, 25 Feb 2025 09:00:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740471553; cv=none; b=skh9mqPw5o66YIeYIgNgt52Vw63o45XD1wB71YmHsq3WeCzGk+Ju+uEhXj2rkPOYRxU6/Pf6O8vH9UMmFW1DW0SwxEVCM17SIYPPXah3C+gsmQFT2GCEoTYZf5aYXNz/oiSijCD0G41OrwaZm6JbtqdRoJRSzPC0mw+3bV2hNuc=
+	t=1740474005; cv=none; b=NA9xFvVOr0nQZ+X1iKcjlBVarTGuawWYjZbBHDKBo40fdERgfg+ZyxfWWrjNCrPLtPWATTuG6C+dJgCI/Q0IpAZ40oHPmAv1vdb2oyJeK3ckFgOWU2H6Wp156Qx9UkmgzSf3UtGk8MfeCOJJ1OwQ1+fTyZS3nUEVhrYp7mB0BUI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740471553; c=relaxed/simple;
-	bh=fX+vDu5tpVOloBke0+b3EbF+Ei4LRiFkovA+2DtZnbc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Mg8HrHN0q4Ixsbwh9xPlkXvlP61q9j1ZagXox5wFEXPgjWJ6dnr62iohZqR5ew4x8n++AfaT454aWIDd03e6qP0rpZFLlrsTEQ6o1PmFSUrDr4LR33uSzWiDy59lYdz6DIHLmvW3OyDd/6+fnXtuPvxQr8CVCBGMe+yUX9/g+Fo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 35248C4CEDD;
-	Tue, 25 Feb 2025 08:19:10 +0000 (UTC)
-Message-ID: <34f42e07-b543-4cf7-b0a1-cf72eba70786@xs4all.nl>
-Date: Tue, 25 Feb 2025 09:19:08 +0100
+	s=arc-20240116; t=1740474005; c=relaxed/simple;
+	bh=boTfjNidvkL9xSdsP+7mdkh2MyGP2uPcA28blGXnIoI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=O+oxoparOibZwlPYL1lI0CkO0YiFsWUdjrriLnOcbzFpLFog6TcalKWcKwEasbHJSpND7xhQxmGLK4Zcc6/FHxgSUuHfqBQBK8SSSmvBnJYI9f3JAbW8UhAFb/BouScOl7mZZMdkiceWpd7iMGgofM7OI94Aj1TgIehfls3K7CQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=TkZF9JxY; arc=none smtp.client-ip=209.85.218.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="TkZF9JxY"
+Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-aaeec07b705so882193466b.2
+        for <linux-staging@lists.linux.dev>; Tue, 25 Feb 2025 01:00:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1740474001; x=1741078801; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=3nWDpO2Hjvy5Jf1DN3BUQOgX67wDnAHnQxhRWc9ZcCE=;
+        b=TkZF9JxYZNCfmQ1icqSbsSf0zb1wXjElsyiAo+eiMdtogcyyd7cwhuMcFm/4EbPzdX
+         7alxMI4eq2QOdTIfAHIZMuKl2WX7qr5vfRsxc2AIqgSN/+k+q0+gGP6sdk6NfVoi+Ces
+         9HJ9hJylPEj731hKBjpECSa2a819cYXVvp9pEfawTfVH5MntaomHVK9JaUIXUeukk1hi
+         +Xvn8B2i1m0/0IiukIWrSr8sbziCg+Jnf5uZTcCp0PjcBP3ROviMtTH/RKxOfGMjTyxT
+         xIg4a854eYfQvCykKVaX/HHE0L23iL5EEIoKQw5PdVaaUg4OiSwEiXlGrVEAff9J6m/x
+         w2SQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1740474001; x=1741078801;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=3nWDpO2Hjvy5Jf1DN3BUQOgX67wDnAHnQxhRWc9ZcCE=;
+        b=gepy9BNzxbLlw9BEZzE42qyXKe/PLRKxie15hXX8efQbQLfgDERMdtKOsIFaUEkNdm
+         SseynOCnc+Jeepr2P5be8MQBsAmGyjgqLrfvjt0zZrsmA9b3pWXRaS09p3LVbios7UkB
+         gU5pUJut1voSiTS5IATMGHX8fqIVo2VF0sWA+wMCSfSRJnYjOtR1+itby14lRAXIS2v0
+         Tk5HnuZcLIKwZo8jJmqGK9u1uoeEOfEozxVgFZzqOWD2NVly0Zz5z2Riqg0XnFU1QBN0
+         AUP9eWJn9m+/uge5yFGiIgDwqREKz0WaiHVXopAqbjN56yFbBZW0DRu3yzhqrMnZo3CG
+         uvIA==
+X-Forwarded-Encrypted: i=1; AJvYcCXvQomGAO4pqNyW1t/bTZnId1eXCKBgDGAHyLUv9NUZFbkhbyR/esx9zuT0r31Dg1Ser+LPBAP9lw4FnLvS@lists.linux.dev
+X-Gm-Message-State: AOJu0YzQJNBxjvqxdHcYYPSpWcRATQwGExO0Vi2Fd8igQwbm8JlJvxxY
+	cKOVxMlmfNl4hx5abqJJK+AVlZ+ypYmxaCSJ9fq3HvX2kg1p8PxBEF4j+QGf81s=
+X-Gm-Gg: ASbGncu7MQUPufPC/8TVSTpvGKYQwci9RENxv3S5VLhTov13V540Ukbd+JrYddbrsJ6
+	DI1sZsG7BIkkYuCI2P9tjMhoEMldpbaYSyInYeWbaVCWMSD+dkKydy+f1jz5lSB+TZ5e1pKrYeW
+	veL0KDu70fl3B3xrxq995rt9J8ZcSrnvBAO+axXjDHSCVcC+g+uz3aPJ8QfEaxx+Lmnm4dGkWKi
+	BY+PiDuKRtGDeit/3phZyZFTERJn9sPEWuELWUb5zA+uw7RTUlxaVLIx4beoWRQ+V7PBlzKV5ER
+	6xLQZSLuBQm5WYE1JL4YVyUnnOJadTQ=
+X-Google-Smtp-Source: AGHT+IHamUcVmT0cGXoadH2vs+yJ3faYw3PpkiOoCJcL9UZbYnBclxMPxwyo75rCi5dXwBfvFaNHbw==
+X-Received: by 2002:a17:906:7311:b0:ab7:cfe7:116f with SMTP id a640c23a62f3a-abc0de0de62mr1522518766b.46.1740474000688;
+        Tue, 25 Feb 2025 01:00:00 -0800 (PST)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with UTF8SMTPSA id a640c23a62f3a-abed1d68de8sm105893666b.70.2025.02.25.00.59.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 25 Feb 2025 01:00:00 -0800 (PST)
+Date: Tue, 25 Feb 2025 11:59:56 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Dave Penkler <dpenkler@gmail.com>
+Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: gpib: Add return value to request_control
+Message-ID: <f7521c95-e69c-4618-b078-283c156ca594@stanley.mountain>
+References: <20250222202301.3729-1-dpenkler@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 09/12] media: cx231xx: Remove vidioc_s_ctrl callback
-To: Ricardo Ribalda <ribalda@chromium.org>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Mike Isely <isely@pobox.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Hans de Goede <hdegoede@redhat.com>,
- Sakari Ailus <sakari.ailus@linux.intel.com>,
- Andy Shevchenko <andy@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-staging@lists.linux.dev
-References: <20250223-queryctrl-v3-0-4292911cab6b@chromium.org>
- <20250223-queryctrl-v3-9-4292911cab6b@chromium.org>
-Content-Language: en-US, nl
-From: Hans Verkuil <hverkuil@xs4all.nl>
-Autocrypt: addr=hverkuil@xs4all.nl; keydata=
- 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
-In-Reply-To: <20250223-queryctrl-v3-9-4292911cab6b@chromium.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250222202301.3729-1-dpenkler@gmail.com>
 
-On 23/02/2025 19:58, Ricardo Ribalda wrote:
-> The driver has been converted to the control framework in the past:
-> commit 88b6ffedd901 ("[media] cx231xx-417: convert to the control
-> framework").
+On Sat, Feb 22, 2025 at 09:23:01PM +0100, Dave Penkler wrote:
+> A number of drivers are unable to release control due to
+> hardware or software limitations. As request_control was defined
+> as void - no error could be signalled. Some drivers also did
+> not implement request_control correctly by setting
+> controller_in_charge instead of system_controller.
 > 
-> This function is never called, the core will only use the control
-> framework instead.
+> This patch changes the prototype of request_control to int
+> and adds the appropriate checking and returns. In the case
+> that a board cannot release control EPERM is returned. The
+> faulty implementations have been corrected.
 > 
-> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
 
-Tested-by: Hans Verkuil <hverkuil@xs4all.nl>
+This patch is hard to read because it does several things:
+1) It changes the functions from returning void to int.
+   This is the overwhelming noisiest part of the patch so
+   it's hard to even see the other changes in amongst the
+   noise.
+2) Returns -EPERM if request_control is false.
+3) Changes some stuff like SET_DIR_WRITE(priv); and
+   ENABLE_IRQ(priv->irq_SRQ, IRQ_TYPE_EDGE_FALLING);  I can't tell if
+   that's related or not.
 
-Regards,
+You'll need to do it in two or three patches.  The first thing is to
+just change the void to int.  That's a simple mechanical change.  The
+only worry is if some functions are returning an error code on failure
+and I don't know the answer to that.  (That would break git bisect so it
+would be against the rules, even if it's fixed in patch 2 and 3).
 
-	Hans
+The actual logic changes will hopefully be easier to understand when the
+diff is smaller.
 
-> ---
->  drivers/media/usb/cx231xx/cx231xx-417.c | 15 ---------------
->  1 file changed, 15 deletions(-)
-> 
-> diff --git a/drivers/media/usb/cx231xx/cx231xx-417.c b/drivers/media/usb/cx231xx/cx231xx-417.c
-> index a4a9781328c5..5a4b0f96cca2 100644
-> --- a/drivers/media/usb/cx231xx/cx231xx-417.c
-> +++ b/drivers/media/usb/cx231xx/cx231xx-417.c
-> @@ -1538,20 +1538,6 @@ static int vidioc_s_std(struct file *file, void *priv, v4l2_std_id id)
+> -static void agilent_82350b_request_system_control(gpib_board_t *board, int request_control)
+> +static int agilent_82350b_request_system_control(gpib_board_t *board, int request_control)
+>  
+>  {
+>  	struct agilent_82350b_priv *a_priv = board->private_data;
+> +	int retval;
+>  
+>  	if (request_control) {
+>  		a_priv->card_mode_bits |= CM_SYSTEM_CONTROLLER_BIT;
+> @@ -354,7 +355,9 @@ static void agilent_82350b_request_system_control(gpib_board_t *board, int reque
+>  			writeb(0, a_priv->gpib_base + INTERNAL_CONFIG_REG);
+>  	}
+>  	writeb(a_priv->card_mode_bits, a_priv->gpib_base + CARD_MODE_REG);
+> -	tms9914_request_system_control(board, &a_priv->tms9914_priv, request_control);
+> +	retval = tms9914_request_system_control(board, &a_priv->tms9914_priv, request_control);
+> +
+> +	return retval;
+
+Get rid of the retval variable.  This should be:
+
+	return tms9914_request_system_control(board, &a_priv->tms9914_priv, request_control);
+
+> diff --git a/drivers/staging/gpib/common/iblib.c b/drivers/staging/gpib/common/iblib.c
+> index fd2874c2fff4..3d51a093fc8b 100644
+> --- a/drivers/staging/gpib/common/iblib.c
+> +++ b/drivers/staging/gpib/common/iblib.c
+> @@ -418,12 +418,19 @@ int ibsic(gpib_board_t *board, unsigned int usec_duration)
 >  	return 0;
 >  }
 >  
-> -static int vidioc_s_ctrl(struct file *file, void *priv,
-> -				struct v4l2_control *ctl)
-> -{
-> -	struct cx231xx *dev = video_drvdata(file);
-> -	struct v4l2_subdev *sd;
-> -
-> -	dprintk(3, "enter vidioc_s_ctrl()\n");
-> -	/* Update the A/V core */
-> -	v4l2_device_for_each_subdev(sd, &dev->v4l2_dev)
-> -		v4l2_s_ctrl(NULL, sd->ctrl_handler, ctl);
-> -	dprintk(3, "exit vidioc_s_ctrl()\n");
-> -	return 0;
-> -}
-> -
->  static int vidioc_enum_fmt_vid_cap(struct file *file, void  *priv,
->  					struct v4l2_fmtdesc *f)
+> -	/* FIXME make int */
+> -void ibrsc(gpib_board_t *board, int request_control)
+> +int ibrsc(gpib_board_t *board, int request_control)
 >  {
-> @@ -1627,7 +1613,6 @@ static const struct v4l2_ioctl_ops mpeg_ioctl_ops = {
->  	.vidioc_enum_input	 = cx231xx_enum_input,
->  	.vidioc_g_input		 = cx231xx_g_input,
->  	.vidioc_s_input		 = cx231xx_s_input,
-> -	.vidioc_s_ctrl		 = vidioc_s_ctrl,
->  	.vidioc_g_pixelaspect	 = vidioc_g_pixelaspect,
->  	.vidioc_g_selection	 = vidioc_g_selection,
->  	.vidioc_querycap	 = cx231xx_querycap,
-> 
+> -	board->master = request_control != 0;
+> +	int retval;
+> +
+>  	if (board->interface->request_system_control)
+> -		board->interface->request_system_control(board, request_control);
+> +		retval = board->interface->request_system_control(board, request_control);
+> +	else
+> +		retval = -EPERM;
+> +
+> +	if (!retval)
+> +		board->master = request_control != 0;
+> +
+> +	return retval;
+>  }
+>  
 
+It would be better to reverse some of these conditions are return earlier
+where it's possible.  (Always do failure handling, not success handling).
+
+int ibrsc(gpib_board_t *board, int request_control)
+{
+        int ret;
+
+        if (!board->interface->request_system_control)
+                return -EPERM;
+        ret = board->interface->request_system_control(board, request_control);
+        if (ret)
+                return ret;
+
+        board->master = !request_control;
+
+        return 0;
+}
+
+regards,
+dan carpenter
