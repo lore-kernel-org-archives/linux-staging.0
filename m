@@ -1,42 +1,48 @@
-Received: from out30-132.freemail.mail.aliyun.com (out30-132.freemail.mail.aliyun.com [115.124.30.132])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7473A260A20
-	for <linux-staging@lists.linux.dev>; Wed, 26 Feb 2025 06:07:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.132
+Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.2])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 08CA1191F6A;
+	Wed, 26 Feb 2025 14:22:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=117.135.210.2
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740550079; cv=none; b=MHzv6pC2ToXGD9s/7AUChGiHwkHJFNZfuBrAUKA9ZSXXQnR1dwp56Xdcal12P+S+st1W1IGgDSluwb/AAQtdr9xPa/y5iEuUJyw7gQCJUVJoMDp1hFI6qqm0LYZz8Z7CciAe37058rdFF8pjWXvI9Jj2W0KKwjPoC0Sc2QVlSHI=
+	t=1740579724; cv=none; b=KcwFKDO3LhjgpXe5Gl8WnkOgq4O8s3qE9krmbz65XdShSNlX15jfCndc02n4lE3m2UBrF6jbhfcuywPWj/kqp/der/977AgyD7PTEaztUpa8cfMap4uwQfd/Wcf6D9bsWf2lbNkE3Xbsz7A5UWCHxkUc9RZAJjmij9wS7ksWNTQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740550079; c=relaxed/simple;
-	bh=fWzUrYTgV/wkqfEfRgamQ/cX79EECnU/IgMQ8Q0sjW4=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=p2QrOdH4Exa/jyCpIRFKEpIK64xhrKiIfFzyg7v+zfvIF7+cgPzddkoQVF8eWDqXjjG9QUQaiwnfKua/sFzg8S8NIH0T1dpUjsKbiinn8fUtSdxRsH98vVvNkVEeiwvPUxuhM9wcNLuTRoOjeFbU5OlgugajQxcc/37oSv8qd7g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=e1KTJu5c; arc=none smtp.client-ip=115.124.30.132
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
+	s=arc-20240116; t=1740579724; c=relaxed/simple;
+	bh=7MWAvDS1sUySSkaCp7pr/xs+1jMl8D4sSiP1dEcJvvU=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=VrbjTvj9D2UqUBZ/dRcriJS4Qy2IUJZ2arNChEI5GkOJGbc+2285k8tt+3pYmf/T5hwlLt5DqTJBV36X4DvUEbFJscsYZvoTiJDGuVLCUP7H3ExtpueIOq4mPB9ORkKGwWG8fNMbz4FUinYI/sQadtN9zz15Zgtpbu38oHT0Aa0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=b9R/2bqE; arc=none smtp.client-ip=117.135.210.2
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="e1KTJu5c"
-DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux.alibaba.com; s=default;
-	t=1740550069; h=From:To:Subject:Date:Message-Id:MIME-Version;
-	bh=TRolnCN3rTtJQxrW336J3gSU5hfuVtg1DupPkCZXpkA=;
-	b=e1KTJu5cl//+tzoPgNEObtNDKNbmNYBN/340cZogIkdZgwf9mX5GCAF7vgF/WqDyQi+UnbBd9jBiHzvG0zPffJ+KNwuIoLv38/j1GQa8hamm51qbHKcz0krTT2OytSttoj9wRv/+GZepAgPcIQPfgg200UL7b+Vg+PqcRFFe91g=
-Received: from localhost(mailfrom:jiapeng.chong@linux.alibaba.com fp:SMTPD_---0WQH5E58_1740550064 cluster:ay36)
-          by smtp.aliyun-inc.com;
-          Wed, 26 Feb 2025 14:07:46 +0800
-From: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
-To: dpenkler@gmail.com
-Cc: gregkh@linuxfoundation.org,
+	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="b9R/2bqE"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=G1DsQ
+	8xw/CbJlnE26e47lsHv8AyG3/Yu1byV8dq/fhY=; b=b9R/2bqED/xY7w5nVSLAw
+	9l9GF6Uf30+u9FHRoc8pgM2NYUsEG0LzNIBRoGu2ODaHN0ede47vEvmVdNsQ7SpV
+	tGVVbPLlPPIQVDpyKl2dA2M5qNINFRP9BemySV0mRBHnUHlOAi/fY5vxzNiOpEJe
+	4DcWLN2bot18n+BJP1vP3U=
+Received: from icess-ProLiant-DL380-Gen10.. (unknown [])
+	by gzga-smtp-mtada-g1-1 (Coremail) with SMTP id _____wAHpyRoI79nVfm6Ow--.12430S4;
+	Wed, 26 Feb 2025 22:21:30 +0800 (CST)
+From: Haoxiang Li <haoxiang_li2024@163.com>
+To: slongerbeam@gmail.com,
+	p.zabel@pengutronix.de,
+	mchehab@kernel.org,
+	gregkh@linuxfoundation.org,
+	shawnguo@kernel.org,
+	s.hauer@pengutronix.de,
+	kernel@pengutronix.de,
+	festevam@gmail.com,
+	hverkuil@xs4all.nl
+Cc: linux-media@vger.kernel.org,
 	linux-staging@lists.linux.dev,
+	imx@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
 	linux-kernel@vger.kernel.org,
-	Jiapeng Chong <jiapeng.chong@linux.alibaba.com>,
-	Abaci Robot <abaci@linux.alibaba.com>
-Subject: [PATCH -next 2/2] staging: gpib: Remove unnecessary print function dev_err()
-Date: Wed, 26 Feb 2025 14:07:35 +0800
-Message-Id: <20250226060735.7484-2-jiapeng.chong@linux.alibaba.com>
-X-Mailer: git-send-email 2.32.0.3.g01195cf9f
-In-Reply-To: <20250226060735.7484-1-jiapeng.chong@linux.alibaba.com>
-References: <20250226060735.7484-1-jiapeng.chong@linux.alibaba.com>
+	Haoxiang Li <haoxiang_li2024@163.com>,
+	stable@vger.kernel.org
+Subject: [PATCH] media: imx: fix a potential memory leak in imx_media_csc_scaler_device_init()
+Date: Wed, 26 Feb 2025 22:21:26 +0800
+Message-Id: <20250226142126.3620482-1-haoxiang_li2024@163.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -44,36 +50,35 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:_____wAHpyRoI79nVfm6Ow--.12430S4
+X-Coremail-Antispam: 1Uf129KBjvdXoWrtF17Wr1rWw15ZrWDWFy3urg_yoWfZFX_CF
+	4vgryxXrWjk393t3WYyF18Z34Sqrs29rWFq3Z0va95WFWjya4avr4qvwsYq3yjgrWS9F9x
+	Ar1rJr13Kr92kjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+	9fnUUvcSsGvfC2KfnxnUUI43ZEXa7sRuBTYDUUUUU==
+X-CM-SenderInfo: xkdr5xpdqjszblsqjki6rwjhhfrp/1tbiqB4Abme-HD3S3gAAst
 
-The print function dev_err() is redundant because platform_get_irq()
-already prints an error.
+Add video_device_release() in label 'err_m2m' to release the memory
+allocated by video_device_alloc() and prevent potential memory leaks.
 
-./drivers/staging/gpib/fmh_gpib/fmh_gpib.c:1426:2-9: line 1426 is redundant because platform_get_irq() already prints an error.
-
-Reported-by: Abaci Robot <abaci@linux.alibaba.com>
-Closes: https://bugzilla.openanolis.cn/show_bug.cgi?id=19059
-Signed-off-by: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
+Fixes: a8ef0488cc59 ("media: imx: add csc/scaler mem2mem device")
+Cc: stable@vger.kernel.org
+Signed-off-by: Haoxiang Li <haoxiang_li2024@163.com>
 ---
- drivers/staging/gpib/fmh_gpib/fmh_gpib.c | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+ drivers/staging/media/imx/imx-media-csc-scaler.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/staging/gpib/fmh_gpib/fmh_gpib.c b/drivers/staging/gpib/fmh_gpib/fmh_gpib.c
-index d62c83368518..613bdcac12d1 100644
---- a/drivers/staging/gpib/fmh_gpib/fmh_gpib.c
-+++ b/drivers/staging/gpib/fmh_gpib/fmh_gpib.c
-@@ -1422,10 +1422,9 @@ static int fmh_gpib_attach_impl(gpib_board_t *board, const gpib_board_config_t *
- 		(unsigned long)resource_size(e_priv->dma_port_res));
+diff --git a/drivers/staging/media/imx/imx-media-csc-scaler.c b/drivers/staging/media/imx/imx-media-csc-scaler.c
+index e5e08c6f79f2..f99c88e87a94 100644
+--- a/drivers/staging/media/imx/imx-media-csc-scaler.c
++++ b/drivers/staging/media/imx/imx-media-csc-scaler.c
+@@ -913,6 +913,7 @@ imx_media_csc_scaler_device_init(struct imx_media_dev *md)
  
- 	irq = platform_get_irq(pdev, 0);
--	if (irq < 0) {
--		dev_err(board->dev, "request for IRQ failed\n");
-+	if (irq < 0)
- 		return -EBUSY;
--	}
-+
- 	retval = request_irq(irq, fmh_gpib_interrupt, IRQF_SHARED, pdev->name, board);
- 	if (retval) {
- 		dev_err(board->dev,
+ err_m2m:
+ 	video_set_drvdata(vfd, NULL);
++	video_device_release(vfd);
+ err_vfd:
+ 	kfree(priv);
+ 	return ERR_PTR(ret);
 -- 
-2.32.0.3.g01195cf9f
+2.25.1
 
