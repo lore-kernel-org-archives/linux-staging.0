@@ -1,116 +1,148 @@
-Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fout-b1-smtp.messagingengine.com (fout-b1-smtp.messagingengine.com [202.12.124.144])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93BE81F0991
-	for <linux-staging@lists.linux.dev>; Fri, 28 Feb 2025 17:40:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B8DF1DED69;
+	Fri, 28 Feb 2025 23:04:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.144
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740764408; cv=none; b=lsGAc0Ti4F0obKwPbwFdprp8TV23TGeeG+HqbGe7jxYztzSrRR/1euKxuGA9pMv9acq0FCn/xH3aCOU2L9/FN4MSYUFUqxjmsCvNhg9+6RVhJ1hV+THZ7kisoAoIe8p+qdc4gc1JrTaRgWCFDxNjAi0n3/LjIny7McY87fIhM+Y=
+	t=1740783893; cv=none; b=fH1071nEyoZ6etwklXngeTUJNrM783kC9/h4KORFVljV8/xtB3XhdkiSAjFiXHZx/wKEuKC2IBShyf1qdz7ycygBbgb/0Jte5cUFoxLjQzd29azQZ1CLjkNduI4wkj2yeRQ6GxYWEqO7BN+3Kf2W9N+s4WNCSCe5oFz6sl2xw5Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740764408; c=relaxed/simple;
-	bh=nhR/P/6U5t/QZbBIPrPO7uVnSy5xVoKPhPv0X5+5HOY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MUPpIHtl4e1/0MWhbDoJQnPtHrI4ZtHB7eSQPxUv328s4Xm40CEfVzPshxlLBw8hfyFjw4cZHCXyMOvhzdYBH7Cymkj6xMal++8gj0AdC9XQC/041Axb2siIBCbDT8huXRKw39IbYKP8QZomwzbUjbTJKAdFpP2t3gnsz5z1Nz4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=eHY6otDW; arc=none smtp.client-ip=209.85.208.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1740783893; c=relaxed/simple;
+	bh=jhwqS+8UgHrU+nFfkhLgpKb37PyoJnMpRYl+nlaOack=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=bBcDbFhvnhLOCoTsxZ46+s4wJ6XlW6Y7cjx8mYI3KoSIFqvVjahLcIeWqXqPCiBmHOGSmCp+tK+T4spFUpPj/C7mqDQmco0I3i1+ruhleWqVtRgTkCQyWtRL16xSUsirUsd8MI0PU4bjgNfxgOqXmxmSmLH4wsCrpQHRp+XoV+o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=svenpeter.dev; spf=pass smtp.mailfrom=svenpeter.dev; dkim=pass (2048-bit key) header.d=svenpeter.dev header.i=@svenpeter.dev header.b=tvR27nhR; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=d03nxS+H; arc=none smtp.client-ip=202.12.124.144
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=svenpeter.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=svenpeter.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="eHY6otDW"
-Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-5e4d50ed90aso1991922a12.0
-        for <linux-staging@lists.linux.dev>; Fri, 28 Feb 2025 09:40:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1740764405; x=1741369205; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=riQXDN9QZs6LxV8yAa+6lbOT9fE5uen2D3eotym0+Xk=;
-        b=eHY6otDWiBq4pOyPce5b6fDutOvhSon3zgsZ2sDGvubfR3fNoRP7qfBWaDBZUFrV39
-         rFk7CQ50HJHMBCsyfWeoGwSOGIfCYg4qlaO594eWXAW2Xca+Dgp8vTio4q6wuy0HNJ5I
-         ItMXH7qY65UHqIiJTWmIAHv3+/jrlojI0OwACQwhJ8anN6qxZzJ4YhXwCI5tGZuF+zdS
-         jd0w3GZc0eNcPi+/V6vsREx4da2j5iPY8BUyOjfgia/l4MDQdmGewaMpfF+H9XFEYWDw
-         9PZ8g6/ZQXNRle07knAidv6lAxPKdI0D1FN5Pe5hFE5abDovHpqY6bgTbYi9MpXkJ+vJ
-         HgvA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740764405; x=1741369205;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=riQXDN9QZs6LxV8yAa+6lbOT9fE5uen2D3eotym0+Xk=;
-        b=OKBdP9rxMIugDXvphzlf26NL0VMUM1CdRNgJuwlfIe083waY4SEMmq9il2+bpKKXvU
-         +kuxQDV/dhtAIUJ9CyWuHxkXh2j0DBeeyRKaMnqWbVXoBgOjlaeL3bc8tSOuIWTaZ2JR
-         y61AK+OMo35YxhPO2Sd1kDv7pgeMDFwAMl1gIbwPeS0Fp/D548+MRp+jwIMoAbtQGFqi
-         oQXadf3whk0+1a3PhroE8BL94HseUPe62IHrCoJxNsoCjF3IxGm+hUo9a9t9wafIG9jP
-         G2ZAKaaOX2wAT+fsTed+MMoPdqOD96p+bKadhmwriAuxvKu/5o40Z2Whz+nBYqBI8ydq
-         +Sow==
-X-Forwarded-Encrypted: i=1; AJvYcCUgPlPmd62W8hpbD0JaJdeT1Rhzdm/lbziMmlM+z845dZhIsOFifJknng8m2BpqGUs1MHlPNhWVj/qY3AHn@lists.linux.dev
-X-Gm-Message-State: AOJu0YzxSE9zituxAjeBw8VC/ApLLVgiiLXsQi6LJZIjxGIo744sGRj3
-	c7fI/yXXiorsQKP/t0sCUgCH4ldj2tPnUpAAH+AAYczNPtVQa6iUBOZxGQReqHg=
-X-Gm-Gg: ASbGnct3/C3zSIuOTtSo4tuL1aURk2tYsZzNPfNWw5KEPbmOaEchno6/fV7bCAjXnsh
-	w8VieCrKhuLXvhSaG95Br5y3wNVUWGPSxaUFr/Wg4avZVXSw1UJK7BRHo7xQMozyb8NCZP50JLt
-	a75+/Gx/m75DCJuxaJS099/JrUo5OpEt5vNT/Wp7OqBBgb0NhA+/apdcRQZ/+trrqVeUB7bPdQD
-	0SOCFtGxLz/TI2Q4Z512ZQk52KArIL4va+lzPywgk7r7d/wS9ZB0VolmCi8jNIFZ7pLNNSO3fzL
-	9TLsL9/z2ZwnqA184UCzenKCW3s8cIw=
-X-Google-Smtp-Source: AGHT+IH9J6JKqMSthgE9WEHmeCIetbaaQ9ZpNXV3XeAC+1XH1Fo46T2ivFKqFX77iByopRqjkr30Kg==
-X-Received: by 2002:a17:907:3e0b:b0:aa6:832b:8d76 with SMTP id a640c23a62f3a-abf25d95298mr449951666b.12.1740764404831;
-        Fri, 28 Feb 2025 09:40:04 -0800 (PST)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id a640c23a62f3a-abf0c6ee4b3sm316011766b.112.2025.02.28.09.40.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 28 Feb 2025 09:40:04 -0800 (PST)
-Date: Fri, 28 Feb 2025 20:40:00 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Gabriel Lima Luz <lima.gabriel.luz@gmail.com>
-Cc: linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Sudip Mukherjee <sudipm.mukherjee@gmail.com>,
-	Teddy Wang <teddy.wang@siliconmotion.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	~lkcamp/patches@lists.sr.ht
-Subject: Re: [PATCH] staging: sm750fb: Fix CamelCase variable naming
-Message-ID: <ba45d980-c6b1-482a-8bfd-457a92d3e24b@stanley.mountain>
-References: <20250228162359.14029-1-lima.gabriel.luz@gmail.com>
+	dkim=pass (2048-bit key) header.d=svenpeter.dev header.i=@svenpeter.dev header.b="tvR27nhR";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="d03nxS+H"
+Received: from phl-compute-03.internal (phl-compute-03.phl.internal [10.202.2.43])
+	by mailfout.stl.internal (Postfix) with ESMTP id 2D8281140142;
+	Fri, 28 Feb 2025 18:04:49 -0500 (EST)
+Received: from phl-imap-07 ([10.202.2.97])
+  by phl-compute-03.internal (MEProxy); Fri, 28 Feb 2025 18:04:49 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=svenpeter.dev;
+	 h=cc:cc:content-transfer-encoding:content-type:content-type
+	:date:date:from:from:in-reply-to:in-reply-to:message-id
+	:mime-version:references:reply-to:subject:subject:to:to; s=fm2;
+	 t=1740783889; x=1740870289; bh=1wPPLlxLV8AoIw8qmI9GdCQUordZNsKK
+	ATsbb1y5JqA=; b=tvR27nhRRPzWtgJ/xWx0rUYDqXK2P5r499BJ3UPpXhEoTLCS
+	UAUT2yCihs2A39iMOJKFxAfNZcqtpE+0HC6DcQ/LUoloRqepQEtoXC8VN2Ga/xR5
+	jcHepNyyXmtE/tCOY3UrODH5baP8rZBgETUSbmRjYACygmqx9dnZEOYchQXgF+NS
+	g1eRjIa55uRacBdLyFvyGH5+ESo3eXpMu2LzCN7cN5cSGeYV+D4EX2CwDNCylRvs
+	w9A4Q+T2fG1K+/8s3uu2q0yUjBR9URpqnxujattCddYQ7+pSMqlNOzzTNV/4ZaZF
+	OGOyF7Wf+qQJyEn1VELKeTOXR++B8re09d7EUw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1740783889; x=
+	1740870289; bh=1wPPLlxLV8AoIw8qmI9GdCQUordZNsKKATsbb1y5JqA=; b=d
+	03nxS+HIq65zT1rBDtqLq7XLN7yQ8qo23nO5ERm+u90QYIFEXfBCN+H+p+AMxldi
+	P+WyO7EaNHWAZsfnIfUMLgTDECFxdpgd2shMCoX0SdwlHzaZT0hW6SPQ5JGjrm2v
+	RXahm8U6D4s1fom7zQNvxvWFbaeR2CxtZn1FJv19VyH8PyCfzaero4RRZMWKLICC
+	yPBPHbpCZNjp/KWVXBtSh9p2M4Bt3WbculMQHuCkFeQpQi7Qt8rKs8hbw+qPGiG6
+	NP0qknnCtHiHBgFHeo5PwVT6tACxITmA9WQGm/vPkzx+MYldp3o6888DHLdU4iJb
+	uGuw/qmCfk3by9dAe0e6g==
+X-ME-Sender: <xms:EEHCZ-wOlwM-6n0gLPYG04iVmFtBS6SrUmJskghJfDcp3-LwM4hC4A>
+    <xme:EEHCZ6R-P_C5dOLyjOIDngOMxmiBUGVJFR-ZKJxSk1aA9F7vxvU7pW29j_YCIzUe2
+    6bsElLVhUxFt1KFEhI>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdeludeiiecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdp
+    uffrtefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivg
+    hnthhsucdlqddutddtmdenucfjughrpefoggffhffvvefkjghfufgtgfesthejredtredt
+    tdenucfhrhhomhepfdfuvhgvnhcurfgvthgvrhdfuceoshhvvghnsehsvhgvnhhpvghtvg
+    hrrdguvghvqeenucggtffrrghtthgvrhhnpeelfeetueegudduueduuefhfeehgeevkeeu
+    feffvdffkedtffffleevffdvvdeuffenucevlhhushhtvghrufhiiigvpedtnecurfgrrh
+    grmhepmhgrihhlfhhrohhmpehsvhgvnhesshhvvghnphgvthgvrhdruggvvhdpnhgspghr
+    tghpthhtohephedpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtohepvghthhgrnhesvg
+    hthhgrnhgtvggufigrrhgushdrtghomhdprhgtphhtthhopegrshgrhhhisehlihhsthhs
+    rdhlihhnuhigrdguvghvpdhrtghpthhtoheplhhinhhugidqshhtrghgihhngheslhhish
+    htshdrlhhinhhugidruggvvhdprhgtphhtthhopehlihhnuhigqdhfshguvghvvghlsehv
+    ghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhinhhugidqkhgvrhhnvghlse
+    hvghgvrhdrkhgvrhhnvghlrdhorhhg
+X-ME-Proxy: <xmx:EEHCZwWcYEV3dQxBmnNhsnIxeWJKZvlIfdUF0o0IU0e_z3bQrYKFKw>
+    <xmx:EEHCZ0hYzsWqnJGalWq-8DVI0_He2rWZPFYcz4VI00XuyUjoqNM-sQ>
+    <xmx:EEHCZwAL0KqJNQO50a-NulLpX0_QuXMcmXpOuSvKAp3108F3nejdBg>
+    <xmx:EEHCZ1JLXUm7ljlFcJ2GVJK6uDF4ReVdpVHaJSB123HVu38_hgkiIQ>
+    <xmx:EUHCZz9cXNdOIDaEcHPaqEYkeSK9NmG4EMJcoCdmmDnbz52h0BL_V2gF>
+Feedback-ID: i51094778:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id A471EBA0070; Fri, 28 Feb 2025 18:04:48 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250228162359.14029-1-lima.gabriel.luz@gmail.com>
+Date: Sat, 01 Mar 2025 00:04:27 +0100
+From: "Sven Peter" <sven@svenpeter.dev>
+To: "Ethan Carter Edwards" <ethan@ethancedwards.com>,
+ linux-kernel@vger.kernel.org
+Cc: linux-fsdevel@vger.kernel.org, linux-staging@lists.linux.dev,
+ asahi@lists.linux.dev
+Message-Id: <d0be518b-3abf-497a-b342-ff862dd985a7@app.fastmail.com>
+In-Reply-To: 
+ <rxefeexzo2lol3qph7xo5tgnykp5c6wcepqewrze6cqfk22leu@wwkiu7yzkpvp>
+References: <rxefeexzo2lol3qph7xo5tgnykp5c6wcepqewrze6cqfk22leu@wwkiu7yzkpvp>
+Subject: Re: [RFC] apfs: thoughts on upstreaming an out-of-tree module
+Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
 
-On Fri, Feb 28, 2025 at 01:23:54PM -0300, Gabriel Lima Luz wrote:
-> Adhere to Linux kernel coding style.
-> 
-> Reported by checkpatch:
-> 
-> CHECK: Avoid CamelCase
-> 
-> Signed-off-by: Gabriel Lima Luz <lima.gabriel.luz@gmail.com>
-> ---
->  drivers/staging/sm750fb/ddk750_power.h | 8 ++++----
->  1 file changed, 4 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/staging/sm750fb/ddk750_power.h b/drivers/staging/sm750fb/ddk750_power.h
-> index 63c9e8b6ffb3..33e852fe6949 100644
-> --- a/drivers/staging/sm750fb/ddk750_power.h
-> +++ b/drivers/staging/sm750fb/ddk750_power.h
-> @@ -3,10 +3,10 @@
->  #define DDK750_POWER_H__
->  
->  enum dpms {
-> -	crtDPMS_ON = 0x0,
-> -	crtDPMS_STANDBY = 0x1,
-> -	crtDPMS_SUSPEND = 0x2,
-> -	crtDPMS_OFF = 0x3,
-> +	crt_DPMS_ON = 0x0,
-> +	crt_DPMS_STANDBY = 0x1,
-> +	crt_DPMS_SUSPEND = 0x2,
-> +	crt_DPMS_OFF = 0x3,
->  };
->  
+Hi,
 
-It seems these are not used.  Just delete them.
 
-regards,
-dan carpenter
+On Fri, Feb 28, 2025, at 02:53, Ethan Carter Edwards wrote:
+> Lately, I have been thinking a lot about the lack of APFS support on
+> Linux. I was wondering what I could do about that. APFS support is not 
+> in-tree, but there is a proprietary module sold by Paragon software [0].
+> Obviously, this could not be used in-tree. However, there is also an 
+> open source driver that, from what I can tell, was once planned to be 
+> upstreamed [1] with associated filesystem progs [2]. I think I would 
+> base most of my work off of the existing FOSS tree.
+>
+> The biggest barrier I see currently is the driver's use of bufferheads.
+> I realize that there has been a lot of work to move existing filesystem
+> implementations to iomap/folios, and adding a filesystem that uses
+> bufferheads would be antithetical to the purpose of that effort.
+> Additionally, there is a lot of ifndefs/C preprocessor magic littered
+> throughout the codebase that fixes functionality with various different
+> versions of Linux. 
+>
+> The first step would be to move away from bufferheads and the
+> versioning. I plan to start my work in the next few weeks, and hope to
+> have a working driver to submit to staging by the end of June. From
+> there, I will work to have it meet more kernel standards and hopefully
+> move into fs/ by the end of the year.
+>
+> Before I started, I was wondering if anyone had any thoughts. I am open
+> to feedback. If you think this is a bad idea, let me know. I am very
+> passionate about the Asahi Linux project. I think this would be a good
+> way to indirectly give back and contribute to the project. While I
+> recognize that it is not one of Asahi's project goals (those being
+> mostly hardware support), I am confident many users would find it
+> helpful. I sure would.
+
+Agreed, I think it would be helpful for many people (especially those
+who still regularly dual boot between macOS and Linux) to have a working
+APFS driver upstream.
+This may also be useful once we fully bring up the Secure Enclave and need
+to read/write to at least a single file on the xART partition which has
+to be APFS because it's shared between all operating systems running on
+a single machine.
+
+
+It looks like there's still recent activity on that linux-apfs github
+repository. Have you reached out to the people working on it to see
+what their plans for upstreaming and/or future work are?
+
+
+
+Best,
+
+
+Sven
 
