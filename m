@@ -1,44 +1,35 @@
-Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
+Received: from outgoing.mit.edu (outgoing-auth-1.mit.edu [18.9.28.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D162738FB0;
-	Fri, 28 Feb 2025 01:54:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.151
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39EE526B0BF
+	for <linux-staging@lists.linux.dev>; Fri, 28 Feb 2025 12:56:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=18.9.28.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740707648; cv=none; b=alwwxMBVj6XGZHzljxfoKbrogbLVTrLYjQKoyYfC2G+4bQ/TyQAQbb5mx2TpwgrcE3OMiDa06FiId/XiaTsKmgv8sLsIV021URYTW9B9wifnr1hWIufN7WEQ90zbv3dxsG74R7bl3aUEGyspeIls76XKaxoOO6MKnnIhmljx5Bo=
+	t=1740747364; cv=none; b=bdbHTmaqN4GmtQpHQ0X2kaz2Xhg1iR+X91L9uJJjSOIF5spnPz5D5gnhcLshvkZ8+fK2Dlh6o5zwLh+9yw8v+Y5c/AzTg9IXla1zjFFEbl+Znx2Z0CCk8BNMnAu3H9LOYU6A9iobuUwwkqgngTO02iIrmFZpKSQ7+toYxkeqs2A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740707648; c=relaxed/simple;
-	bh=evrMTEDSuyIa1W0y6REU7nRQBwJltHcgM+KqsBzG52o=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=qF9+e44p3VL9HaLtexZODm8SnYWCALegroecGE3eH1Ky7jlqqiQ+39GFcwOb0t5wHUrMNQKLEJ8iDjdfg01q3W2td2Why0w0tvNKIEPoF6EKXKgNsQPWWX2VnH8SN9tgVz0PYmY61IRf0zFH0UQTCx/ylI3bgPe6GTp94mJGkEQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ethancedwards.com; spf=pass smtp.mailfrom=ethancedwards.com; dkim=pass (2048-bit key) header.d=ethancedwards.com header.i=@ethancedwards.com header.b=1GTD2Xup; arc=none smtp.client-ip=80.241.56.151
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ethancedwards.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ethancedwards.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ethancedwards.com header.i=@ethancedwards.com header.b="1GTD2Xup"
-Received: from smtp2.mailbox.org (smtp2.mailbox.org [10.196.197.2])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4Z3rpv711hz9sRk;
-	Fri, 28 Feb 2025 02:53:59 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ethancedwards.com;
-	s=MBO0001; t=1740707640;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type;
-	bh=27+nlWbol20EEU9VGn+hQa4trjf7i7iixdALr91E0Po=;
-	b=1GTD2XupHD3pmOuBMNbiAI9CRQ7NpWmMWttdol1n4lkPvWkniRnI5X15iMGUaHGRD7JaV6
-	J1nAdr8+svXAgvqoegydBSDNTixrrFPo2GweU6XSGBpKRLReUhfXrHWaREhzxyUcEB2jqM
-	pS5qiiFLs4Y9Qh5cqiIfvYX9vGvC3jLRHu3G2/MoLroMvQw8wX2QoSlJcyvCVhvc+EyP2u
-	wRO/AU5Jx8pjjE71bZ13CcwETHQgg4Vb7aGwKwnxuq+rt6VARtbEKUUpll+DmzTkxoHOTt
-	S5wjPn/h0/ukT5JhrgjgGSoT8vCL9+OtWkii2ywoJ31d3/DMb2NmDF4AOCXP0w==
-Date: Thu, 27 Feb 2025 20:53:56 -0500
-From: Ethan Carter Edwards <ethan@ethancedwards.com>
-To: linux-kernel@vger.kernel.org
-Cc: linux-fsdevel@vger.kernel.org, linux-staging@lists.linux.dev, 
-	asahi@lists.linux.dev
-Subject: [RFC] apfs: thoughts on upstreaming an out-of-tree module
-Message-ID: <rxefeexzo2lol3qph7xo5tgnykp5c6wcepqewrze6cqfk22leu@wwkiu7yzkpvp>
+	s=arc-20240116; t=1740747364; c=relaxed/simple;
+	bh=dzZoHI9rMddSbHvJRJirHefyns5NJEYPlg5bQ0h6LgY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=oeAfO11SG40Fz1k1/XnZ1F53oWC87ojmTZEN/15yj18tyH+YU9K7MOsxm6/NUpnGiY+R8wU25R2mVP+fWs+1ficRGqnb0twqZ1QyXH1ktxMPF+Wz4Sqwiy4oDi8Ij4R2QHqDdPDSZpN09x96vZ1oiu2alebH0KAs1QHLnZX/hyo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mit.edu; spf=pass smtp.mailfrom=mit.edu; arc=none smtp.client-ip=18.9.28.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mit.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mit.edu
+Received: from trampoline.thunk.org (pool-173-48-112-92.bstnma.fios.verizon.net [173.48.112.92])
+	(authenticated bits=0)
+        (User authenticated as tytso@ATHENA.MIT.EDU)
+	by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id 51SCtgrI031380
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 28 Feb 2025 07:55:43 -0500
+Received: by trampoline.thunk.org (Postfix, from userid 15806)
+	id 78D4B2E010B; Fri, 28 Feb 2025 07:55:42 -0500 (EST)
+Date: Fri, 28 Feb 2025 07:55:42 -0500
+From: "Theodore Ts'o" <tytso@mit.edu>
+To: Ethan Carter Edwards <ethan@ethancedwards.com>
+Cc: linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-staging@lists.linux.dev, asahi@lists.linux.dev
+Subject: Re: [RFC] apfs: thoughts on upstreaming an out-of-tree module
+Message-ID: <20250228125542.GA15240@mit.edu>
+References: <rxefeexzo2lol3qph7xo5tgnykp5c6wcepqewrze6cqfk22leu@wwkiu7yzkpvp>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -47,40 +38,103 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <rxefeexzo2lol3qph7xo5tgnykp5c6wcepqewrze6cqfk22leu@wwkiu7yzkpvp>
 
-Lately, I have been thinking a lot about the lack of APFS support on
-Linux. I was wondering what I could do about that. APFS support is not 
-in-tree, but there is a proprietary module sold by Paragon software [0].
-Obviously, this could not be used in-tree. However, there is also an 
-open source driver that, from what I can tell, was once planned to be 
-upstreamed [1] with associated filesystem progs [2]. I think I would 
-base most of my work off of the existing FOSS tree.
+On Thu, Feb 27, 2025 at 08:53:56PM -0500, Ethan Carter Edwards wrote:
+> Lately, I have been thinking a lot about the lack of APFS support on
+> Linux. I was wondering what I could do about that. APFS support is not 
+> in-tree, but there is a proprietary module sold by Paragon software [0].
+> Obviously, this could not be used in-tree. However, there is also an 
+> open source driver that, from what I can tell, was once planned to be 
+> upstreamed [1] with associated filesystem progs [2]. I think I would 
+> base most of my work off of the existing FOSS tree.
+> 
+> The biggest barrier I see currently is the driver's use of bufferheads.
+> I realize that there has been a lot of work to move existing filesystem
+> implementations to iomap/folios, and adding a filesystem that uses
+> bufferheads would be antithetical to the purpose of that effort.
+> Additionally, there is a lot of ifndefs/C preprocessor magic littered
+> throughout the codebase that fixes functionality with various different
+> versions of Linux.
 
-The biggest barrier I see currently is the driver's use of bufferheads.
-I realize that there has been a lot of work to move existing filesystem
-implementations to iomap/folios, and adding a filesystem that uses
-bufferheads would be antithetical to the purpose of that effort.
-Additionally, there is a lot of ifndefs/C preprocessor magic littered
-throughout the codebase that fixes functionality with various different
-versions of Linux. 
+I don't see the use of bufferheads as a fundamental barrier to the
+mainline kernel; certainly not for staging.  First of all, there are a
+huge number of file systems which still use buffer heads, including:
 
-The first step would be to move away from bufferheads and the
-versioning. I plan to start my work in the next few weeks, and hope to
-have a working driver to submit to staging by the end of June. From
-there, I will work to have it meet more kernel standards and hopefully
-move into fs/ by the end of the year.
+   adfs affs befs bfs ecryptfs efs exfat ext2 ext4 fat
+   freevxfs gfs2 hfs hfsplus hpfs isofs jfs minix nilfs2
+   ntfs3 ocfs2 omfs pstore qnx4 qnx6 romfs sysv udf ufs
 
-Before I started, I was wondering if anyone had any thoughts. I am open
-to feedback. If you think this is a bad idea, let me know. I am very
-passionate about the Asahi Linux project. I think this would be a good
-way to indirectly give back and contribute to the project. While I
-recognize that it is not one of Asahi's project goals (those being
-mostly hardware support), I am confident many users would find it
-helpful. I sure would.
+There are many reasons to move to folios, including better
+performance, and making it easier to make sure things are done
+correctly if you can take advantage of iomap.
 
-Thanks,
-Ethan Carter Edwards <ethan@ethancedwards.com>
+For example, with ext4 we plan to work towards moving to use folios
+and iomap for the data plane operations for buffered write (we already
+use iomap for Direct I/O, FIEMAP support, etc.) and while we might
+want to move away from buffer heads for metadata blocks, we would need
+to change the jbd2 layer to use some simplified layer that looks an
+awful lot like buffer heads before we could do that.  We might try to
+fork buffer heads, and strip out everything we don't need, and then
+merge that with jbd2's journal_head structure, for example.  But
+that's a mid-term to long-term project, because using bufferheads
+doesn't actually hurt anyone.  (That being said, if anyone wants to
+help out with the project of allowing us to move jbd2 away from buffer
+heads, let me know --- patches are welcome.)
 
-[0]: https://www.paragon-software.com/us/home/apfs-linux/
-[1]: https://github.com/linux-apfs/linux-apfs-rw
-[2]: https://github.com/linux-apfs/apfsprogs
+In any case, cleaning up preprocessor magic and other thigns that were
+needed because the code was designed for out of tree use would be
+something that I'd encourage you to focus on first, and then try a
+proposal to submit it to staging.
+
+Cheers,
+
+					- Ted
+
+P.S.  Something that you might want to consider using is fstests (AKA
+xfstests), which is the gold standard for file system testing in
+Linux.  I have a test appliance VM of xfstests, which you can find
+here[1].  I test x86 and arm64 kernels using Google Cloud, and on
+local systems, using qemu/kvm.  For qemu/kvm testing, this is being
+used on Debian, Fedora, OpenSuSE, and MacOS.
+
+[1] https://github.com/tytso/xfstests-bld
+
+For kernel development on my Macbook Air M2, I can build arm64 kernels
+using Debian running in a Parallels VM, and then to avoid the double
+virtualization overhead, I run qemu on MacOS using the hvf
+accelerator.  It shouldn't be hard to make this work on your Ashai
+Linux development system; see more on that below.
+
+For more details about this test infrastructure, including its use on
+Google Cloud see the presentation here[2].  I am using gce-xfstests to
+perform continuous integration testing by watching a git branch, and
+when it gets updated, the test manager (running in an e2-micro VM)
+automatically starts a 4 CPU VM to build the kernel, and then launches
+multiple 2 CPU VM's to test multiple file system configurations in
+parallel --- for example, I am currently running over two dozen fs
+kernels testing ext4, xfs, btrfs, and f2fs on a Linux-next branch
+every day).  Running a smoke test costs pennies.  A full-up test of a
+dozen ext4 configuration (a dozen VM's, running for 2 hours of wall
+clock time), costs under $2 at US retail prices.  For APFS, if you
+start with a single configuration, with many of the tests disable
+because APFS won't many of the advanced file systems of ext4 and xfs,
+I'm guessing it will cost you less than 25 cents per test run.
+
+[2] https://thunk.org/gce-xfstests
+
+Or of course you can use qemu-xfstests or kvm-xfstests using local
+compute.  I do love though being able to fire off a set of tests, then
+suspend my laptop, knowing that I will receive e-mail with the test
+results when they are ready.
+
+If you are interested in trying to use this on Asahi linux, I'd
+certainly be happy help you with it.  I suspect modulo some
+instructures about which packages are needed, it shouldn't be that
+hard to run a test appliance.  Building new versions of the appliance
+does require a Debian build chroot, which might be tricker to set up
+on Asahi, but that's not necessary while you are getting started.
+
+In any case, I strongly encourage file system developers to use
+xfstests earlier rather than later.  See the last slide of [2] for my
+opinion of "File system development without testing".  :-)
