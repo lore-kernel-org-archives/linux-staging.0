@@ -1,140 +1,109 @@
-Received: from outgoing.mit.edu (outgoing-auth-1.mit.edu [18.9.28.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39EE526B0BF
-	for <linux-staging@lists.linux.dev>; Fri, 28 Feb 2025 12:56:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=18.9.28.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 086F627425C
+	for <linux-staging@lists.linux.dev>; Fri, 28 Feb 2025 16:24:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740747364; cv=none; b=bdbHTmaqN4GmtQpHQ0X2kaz2Xhg1iR+X91L9uJJjSOIF5spnPz5D5gnhcLshvkZ8+fK2Dlh6o5zwLh+9yw8v+Y5c/AzTg9IXla1zjFFEbl+Znx2Z0CCk8BNMnAu3H9LOYU6A9iobuUwwkqgngTO02iIrmFZpKSQ7+toYxkeqs2A=
+	t=1740759847; cv=none; b=tstoyB9diiFOwNU8DySZOX5uGXyMeW7xzEGTvIZdYukTUoSIjKJTx9pnxkkNI5piYq7f1Ulxe7yLNuphwf3v05GoBk40pWlK/kgJZksWSa5yJNPqY0RJp7qnut4WaL7nTcAueJTtm8aqR7SWyw2kZ2OXvqvg6K+L6OtOgWuFPJc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740747364; c=relaxed/simple;
-	bh=dzZoHI9rMddSbHvJRJirHefyns5NJEYPlg5bQ0h6LgY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=oeAfO11SG40Fz1k1/XnZ1F53oWC87ojmTZEN/15yj18tyH+YU9K7MOsxm6/NUpnGiY+R8wU25R2mVP+fWs+1ficRGqnb0twqZ1QyXH1ktxMPF+Wz4Sqwiy4oDi8Ij4R2QHqDdPDSZpN09x96vZ1oiu2alebH0KAs1QHLnZX/hyo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mit.edu; spf=pass smtp.mailfrom=mit.edu; arc=none smtp.client-ip=18.9.28.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mit.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mit.edu
-Received: from trampoline.thunk.org (pool-173-48-112-92.bstnma.fios.verizon.net [173.48.112.92])
-	(authenticated bits=0)
-        (User authenticated as tytso@ATHENA.MIT.EDU)
-	by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id 51SCtgrI031380
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 28 Feb 2025 07:55:43 -0500
-Received: by trampoline.thunk.org (Postfix, from userid 15806)
-	id 78D4B2E010B; Fri, 28 Feb 2025 07:55:42 -0500 (EST)
-Date: Fri, 28 Feb 2025 07:55:42 -0500
-From: "Theodore Ts'o" <tytso@mit.edu>
-To: Ethan Carter Edwards <ethan@ethancedwards.com>
-Cc: linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-staging@lists.linux.dev, asahi@lists.linux.dev
-Subject: Re: [RFC] apfs: thoughts on upstreaming an out-of-tree module
-Message-ID: <20250228125542.GA15240@mit.edu>
-References: <rxefeexzo2lol3qph7xo5tgnykp5c6wcepqewrze6cqfk22leu@wwkiu7yzkpvp>
+	s=arc-20240116; t=1740759847; c=relaxed/simple;
+	bh=vw7uvbl/KnjEf50NZ9ggW2ca9g1yuG4sjfLATHQRM0I=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version; b=H7Uk/jfll1FffFFsU3iM9VH/BMVUw4nk6oG0kZmQflMuFW8MzRiP9WG5y68GKieu2emoNaz+DpyxKg/oXeFRUHDvZUKfDknS820NaksfX4i4KtVEery/kL9GGYoezz7JEEVd6zwMBe5m3aX2jYlmvHrdRaVAKsTsNoni6ST5GlY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=N13l16Yo; arc=none smtp.client-ip=209.85.214.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="N13l16Yo"
+Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-22104c4de96so41167215ad.3
+        for <linux-staging@lists.linux.dev>; Fri, 28 Feb 2025 08:24:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1740759845; x=1741364645; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=UZpdt6SfKLnffkI9zi8NmCtVZiMpf5sWSLXSEwyV0aY=;
+        b=N13l16YoWeQsPTxQrUMNT513NUa4I9bOt34JElyYBSdyfl3nGb/IRn685/IiakNUZV
+         qU2lgGr/BYKPMBUovBC7jIAMX+eZEupTS1MgCbsCiNJ7lDxy0CpTOO8tTk3XF9aVacm3
+         xwypiuy1551/ifAZfhzT40aX23daLdRztaagvmBfv3+tgTo00huJxglJNJ7a+6SUeXcx
+         7D/3W2PX6EbHdGcvn9/PwONFmalSunqUymbPxMSzmLiDsPU2XNEedBP0Sjcmad3EjUqP
+         +PMzbbyN2a9m1be0e66duO3FZwpXmxxzlGTGXhHlciDw01Ys5CbZVS4XYDOPpG18VUjO
+         Jpyw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1740759845; x=1741364645;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=UZpdt6SfKLnffkI9zi8NmCtVZiMpf5sWSLXSEwyV0aY=;
+        b=CyGGwjBfqTAnRq7/7W9wxSgfK27BFYPuP9MQ1vZKmJxIX3CugShAuQzXBz8lCfslAd
+         n1Ay8KwrMLCdQPSuOe7ZPUfoq3LD2c7LwKvPYYd0cRke/UUvWcQb5qnPxqYEaTB1dHCD
+         3rXD5e04aXeDMtNttj6Jch29s9QyLp+mXGClhxIOz8KrdIl824IIn6scnZBq5ENSigFG
+         Dsek0vdFGNl2Rkfg+/3pHBxEd5elbGM/KEwCi+D8wFnCJ7QXfHQVJBz+jvTXoTCfOTkb
+         DNFFtU1eKgnjxhdhYNW4mGe2aVAWKPAMj9NKbNXT766ItnhWK7g2ZZ/JBORxi0yoH5oS
+         5cFA==
+X-Forwarded-Encrypted: i=1; AJvYcCW3p5q0U+mglPuc7PPzjEgqogIXcX5D0kSJ1Gl9gzdX1GBp+41DSep2xkFnIX7c4JY3swx11zBRIFHZKLJE@lists.linux.dev
+X-Gm-Message-State: AOJu0YyeBUJAPlkaeTIGnnvCCQ5TgRUs7f0KBhEPmK+oD3I/xPf4TNHQ
+	Xys9tKNhK0AVNxa5R1JmE3NdWFz4PKaA22Oo0Wa95PtqYfEEM6du
+X-Gm-Gg: ASbGnctG69JSkBVIxalciXi2DS7Xe5CFAWlS8RK9SxnSxKx7KKHc3a1rxyDyq2KIg9x
+	R4Dsq+zn/1KX90BmYR6TrXAN+Hxj+Z/NmU885Bp15VUeDDdvFIGvYDHfq353pZMpM6/QCAauHYP
+	lrz7n+sqiu3XE/nnxcKNRg9Sdj8tS93VDMj5KIdUs2BXqzjQ4ag+EY2n61/MAKql+++nMYHPVi6
+	M0sF4wXMu9oQ7OFYQEpMLVzDbuTYQQPF7tFvoDL6RWjHBPeLVHWWRYdIUdYdEHCtK9+i3d3Z5Pz
+	DglSXXGuFBAkYFTqRGvNFtMvS2NB1Gsi
+X-Google-Smtp-Source: AGHT+IHrtOlJgkuMI5Re9PzG8aqsWYDH3G9O4iLan31cBeWX+IS4/S5MnY7luo+6Iswn9cjuJoEaTg==
+X-Received: by 2002:a17:903:98f:b0:215:9894:5679 with SMTP id d9443c01a7336-22368ac4102mr65842995ad.0.1740759845165;
+        Fri, 28 Feb 2025 08:24:05 -0800 (PST)
+Received: from Grommit.. ([2804:7f0:3f4:eda3:51e0:e6f3:28de:c05a])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-734a0024d1fsm4084725b3a.103.2025.02.28.08.24.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 28 Feb 2025 08:24:04 -0800 (PST)
+From: Gabriel Lima Luz <lima.gabriel.luz@gmail.com>
+To: linux-fbdev@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Sudip Mukherjee <sudipm.mukherjee@gmail.com>,
+	Teddy Wang <teddy.wang@siliconmotion.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	~lkcamp/patches@lists.sr.ht
+Subject: [PATCH] staging: sm750fb: Fix CamelCase variable naming
+Date: Fri, 28 Feb 2025 13:23:54 -0300
+Message-ID: <20250228162359.14029-1-lima.gabriel.luz@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <rxefeexzo2lol3qph7xo5tgnykp5c6wcepqewrze6cqfk22leu@wwkiu7yzkpvp>
+Content-Transfer-Encoding: 8bit
 
-On Thu, Feb 27, 2025 at 08:53:56PM -0500, Ethan Carter Edwards wrote:
-> Lately, I have been thinking a lot about the lack of APFS support on
-> Linux. I was wondering what I could do about that. APFS support is not 
-> in-tree, but there is a proprietary module sold by Paragon software [0].
-> Obviously, this could not be used in-tree. However, there is also an 
-> open source driver that, from what I can tell, was once planned to be 
-> upstreamed [1] with associated filesystem progs [2]. I think I would 
-> base most of my work off of the existing FOSS tree.
-> 
-> The biggest barrier I see currently is the driver's use of bufferheads.
-> I realize that there has been a lot of work to move existing filesystem
-> implementations to iomap/folios, and adding a filesystem that uses
-> bufferheads would be antithetical to the purpose of that effort.
-> Additionally, there is a lot of ifndefs/C preprocessor magic littered
-> throughout the codebase that fixes functionality with various different
-> versions of Linux.
+Adhere to Linux kernel coding style.
 
-I don't see the use of bufferheads as a fundamental barrier to the
-mainline kernel; certainly not for staging.  First of all, there are a
-huge number of file systems which still use buffer heads, including:
+Reported by checkpatch:
 
-   adfs affs befs bfs ecryptfs efs exfat ext2 ext4 fat
-   freevxfs gfs2 hfs hfsplus hpfs isofs jfs minix nilfs2
-   ntfs3 ocfs2 omfs pstore qnx4 qnx6 romfs sysv udf ufs
+CHECK: Avoid CamelCase
 
-There are many reasons to move to folios, including better
-performance, and making it easier to make sure things are done
-correctly if you can take advantage of iomap.
+Signed-off-by: Gabriel Lima Luz <lima.gabriel.luz@gmail.com>
+---
+ drivers/staging/sm750fb/ddk750_power.h | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-For example, with ext4 we plan to work towards moving to use folios
-and iomap for the data plane operations for buffered write (we already
-use iomap for Direct I/O, FIEMAP support, etc.) and while we might
-want to move away from buffer heads for metadata blocks, we would need
-to change the jbd2 layer to use some simplified layer that looks an
-awful lot like buffer heads before we could do that.  We might try to
-fork buffer heads, and strip out everything we don't need, and then
-merge that with jbd2's journal_head structure, for example.  But
-that's a mid-term to long-term project, because using bufferheads
-doesn't actually hurt anyone.  (That being said, if anyone wants to
-help out with the project of allowing us to move jbd2 away from buffer
-heads, let me know --- patches are welcome.)
+diff --git a/drivers/staging/sm750fb/ddk750_power.h b/drivers/staging/sm750fb/ddk750_power.h
+index 63c9e8b6ffb3..33e852fe6949 100644
+--- a/drivers/staging/sm750fb/ddk750_power.h
++++ b/drivers/staging/sm750fb/ddk750_power.h
+@@ -3,10 +3,10 @@
+ #define DDK750_POWER_H__
+ 
+ enum dpms {
+-	crtDPMS_ON = 0x0,
+-	crtDPMS_STANDBY = 0x1,
+-	crtDPMS_SUSPEND = 0x2,
+-	crtDPMS_OFF = 0x3,
++	crt_DPMS_ON = 0x0,
++	crt_DPMS_STANDBY = 0x1,
++	crt_DPMS_SUSPEND = 0x2,
++	crt_DPMS_OFF = 0x3,
+ };
+ 
+ #define set_DAC(off) {							\
+-- 
+2.43.0
 
-In any case, cleaning up preprocessor magic and other thigns that were
-needed because the code was designed for out of tree use would be
-something that I'd encourage you to focus on first, and then try a
-proposal to submit it to staging.
-
-Cheers,
-
-					- Ted
-
-P.S.  Something that you might want to consider using is fstests (AKA
-xfstests), which is the gold standard for file system testing in
-Linux.  I have a test appliance VM of xfstests, which you can find
-here[1].  I test x86 and arm64 kernels using Google Cloud, and on
-local systems, using qemu/kvm.  For qemu/kvm testing, this is being
-used on Debian, Fedora, OpenSuSE, and MacOS.
-
-[1] https://github.com/tytso/xfstests-bld
-
-For kernel development on my Macbook Air M2, I can build arm64 kernels
-using Debian running in a Parallels VM, and then to avoid the double
-virtualization overhead, I run qemu on MacOS using the hvf
-accelerator.  It shouldn't be hard to make this work on your Ashai
-Linux development system; see more on that below.
-
-For more details about this test infrastructure, including its use on
-Google Cloud see the presentation here[2].  I am using gce-xfstests to
-perform continuous integration testing by watching a git branch, and
-when it gets updated, the test manager (running in an e2-micro VM)
-automatically starts a 4 CPU VM to build the kernel, and then launches
-multiple 2 CPU VM's to test multiple file system configurations in
-parallel --- for example, I am currently running over two dozen fs
-kernels testing ext4, xfs, btrfs, and f2fs on a Linux-next branch
-every day).  Running a smoke test costs pennies.  A full-up test of a
-dozen ext4 configuration (a dozen VM's, running for 2 hours of wall
-clock time), costs under $2 at US retail prices.  For APFS, if you
-start with a single configuration, with many of the tests disable
-because APFS won't many of the advanced file systems of ext4 and xfs,
-I'm guessing it will cost you less than 25 cents per test run.
-
-[2] https://thunk.org/gce-xfstests
-
-Or of course you can use qemu-xfstests or kvm-xfstests using local
-compute.  I do love though being able to fire off a set of tests, then
-suspend my laptop, knowing that I will receive e-mail with the test
-results when they are ready.
-
-If you are interested in trying to use this on Asahi linux, I'd
-certainly be happy help you with it.  I suspect modulo some
-instructures about which packages are needed, it shouldn't be that
-hard to run a test appliance.  Building new versions of the appliance
-does require a Debian build chroot, which might be tricker to set up
-on Asahi, but that's not necessary while you are getting started.
-
-In any case, I strongly encourage file system developers to use
-xfstests earlier rather than later.  See the last slide of [2] for my
-opinion of "File system development without testing".  :-)
