@@ -1,47 +1,69 @@
-Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1A4E1D8A0B;
-	Sat,  1 Mar 2025 16:39:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FA4F208A9
+	for <linux-staging@lists.linux.dev>; Sun,  2 Mar 2025 10:55:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740847203; cv=none; b=E/OjNM0SlJMFI8+5pFkiR5G4CUqmoniyFf/GhOfrdDkMgkkj/U/eqXK6Xr9rKin7TNsvUW7a0Nn+c3A5W/Sp+gKhacpVJLbYsCGXWQvfK/ZSS2JafCLG6HRdNwTtggicPemxrQNQXMMz+qVgJUO3TXBOP1bKd3Qnv16xdSklaQ4=
+	t=1740912925; cv=none; b=rSQFOxx3u8kKELc9Uea2GxX7dfgvw1iLhRRcqwViZQ5XnEJxg46NuG9acluoEKnmFEW+hvtqki81PnWcsxIF6Rn5LwYGMjhaiXokwCC9nvFQhMf6ue9yW39d6mW5VKyZFbeeoiOTUuByOH1Boiqwn29SJ9y5jVilYzxehL2Bq+0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740847203; c=relaxed/simple;
-	bh=FVQpJz2NQLO72Ywv6QilmFahoejCINbXoE91tlE00/U=;
+	s=arc-20240116; t=1740912925; c=relaxed/simple;
+	bh=YP9vFesE7FOkWTsjQeuOzqlZhTxpNdth3TwzKIctpts=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bj0OzmdzBbRrSuVY/eCOOCHW6bcWCIdoXf9BZ5pnuP8CtaDcLu0F+eYW6OWVbPVZpQZXvNeAODyD6Z9q9kibaaoa+eQOfDHzVLTUh8rzAroiSAgzIqWIGqqquP53rhbkcCx3Mgnb5L8i/meei10hNtspaCZ4oUlBjzB14gLUQZg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ethancedwards.com; spf=pass smtp.mailfrom=ethancedwards.com; dkim=pass (2048-bit key) header.d=ethancedwards.com header.i=@ethancedwards.com header.b=A2jA9XJy; arc=none smtp.client-ip=80.241.56.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ethancedwards.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ethancedwards.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=YBGtFXpqpcH2BM+JOc/143GBMDMikPbSFSs4d/CPyyhRf89XT2OuvmnYzg3kVxgNxH2ejRb576JATyb0O4rnN/yxY3YiK0x/jW5Ara96X+r9oEHkmeXI7wVTjo5NWZb6aNQ+41QJDANv4CYlUlI5doN8HRe5Xm8rdhmjeexYp2Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=qg/OrGqK; arc=none smtp.client-ip=209.85.208.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ethancedwards.com header.i=@ethancedwards.com header.b="A2jA9XJy"
-Received: from smtp2.mailbox.org (smtp2.mailbox.org [10.196.197.2])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4Z4rQY4q0Hz9sl3;
-	Sat,  1 Mar 2025 17:39:49 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ethancedwards.com;
-	s=MBO0001; t=1740847190;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=2U/JC9Mkv2iTVLlyM6LmZFkoV9o6Q7G7toYDxFnoFrQ=;
-	b=A2jA9XJyjbGcbS47afkSTerq1syUKrXRObXYBL1JQNZrC9B/DDbXSdIryAkOlqWo0Z+CcU
-	8xZueFTRziHzn+JQQ0mHIpCtSJXI0td/jKn3u90tZ7HqG+fZgVPlsxZBKAn87ZE/KKtebY
-	r7oRypgas1aMscsLfRYmh/WFKhBS9tTaHTy0scPDsIhvCwYxaqpQT+cCnFpjhWG/B8FS7b
-	vJPZ7P9b1wG05AucfmNpakKsu+PjzD/S1R0I5kvbxXXxm8rH9PyZvaG61An3Os2yZmS42d
-	B/L5dzwYMUAmDdPDG+BJBjib0x8E2vfhJ8uh7yNeNTOY+97c95p1r7oZjDC0gg==
-Date: Sat, 1 Mar 2025 11:39:46 -0500
-From: Ethan Carter Edwards <ethan@ethancedwards.com>
-To: Sven Peter <sven@svenpeter.dev>, Theodore Ts'o <tytso@mit.edu>
-Cc: linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="qg/OrGqK"
+Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-5e5491eb37dso140856a12.0
+        for <linux-staging@lists.linux.dev>; Sun, 02 Mar 2025 02:55:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1740912922; x=1741517722; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=yVNL0sPyTN/JB4JKueVcudW2dTNqPhTdzuxyAD7JqBI=;
+        b=qg/OrGqK4EA4jHnm1WDt35ARvH11Ol9bkLq0yT8F/GkAeqJIEP7paVkr9vd4soa3pn
+         bvyW8h/0DrtsLvQyjTAtCu78bq9SWbmrczOXPeFGqKDNLwvF8KQt5pPGX0nAEMIHqj5l
+         HQF6+kKSMJPKbFJX9joqNFR11Ku9fXythGy1kydzI35mUvCc0R2lxK6GWpTQYZ7LHeI9
+         F3LjcTZVdgFyqMlIcgyC6yrTZQRnDZm6eDnmGRKJqBgDHvR3LV2IHc9UGjTwkc3BeKl0
+         I6+ry2x7vzh9V12qDBCgP788bfABCqPybgkOme6deTQLGOA51mxN87hW2vrtPuwWwaqB
+         ua6g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1740912922; x=1741517722;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=yVNL0sPyTN/JB4JKueVcudW2dTNqPhTdzuxyAD7JqBI=;
+        b=S8I0fM/0ojcVMTRz4QsdRsHHyJijbXDmOfEsNwrLN2g/amvicr0unYIw09UQe9L8UV
+         XTpwyu8uY89bhNgdyliuKAj524Px8h9i2busGcxMNdiGFktU4CEpTFNCDnb9eDAyxUPL
+         RuRHEvEjiwn/1IauDRqczXliIttRwqNtB2Ccfsig5EkJjVukXGDJ6fyawg67cvFcSuvo
+         cxvVVToUSYE3uPmbS9yxi/FcR7z7vnFmrI/ENL43ETwcy2hjP8P/pBG7VxThM/nKo2u6
+         J8DSJO3k4OARWFi1zyYQrsrnRSqBvMdOrA3jEKY9g2L8Tgfb7zSNsGSKqm5U6sGOQLc0
+         tuvg==
+X-Forwarded-Encrypted: i=1; AJvYcCVXt8YbSHjQfY36F0zfTjBle/gWbr1HGyj7Xy+Kj4m0qcRl/SxJA/Y+uY6N7lq43gSoPcd7l2YmeCJbn7HT@lists.linux.dev
+X-Gm-Message-State: AOJu0YwQwjz17iltoP62BjB5g8CzO2cEtT38rkgdWI1xBgxHONloY1Sw
+	F//WxQFHXVjTpGgJ9TEGlfbx4bZI2+FsQNzirAeqOBfKdNahpClv+mlVZt6aAZw=
+X-Gm-Gg: ASbGncsUEhBpihO8yAB2cXR/3gnlKR8nqrFrKPV501gDLq5/TDLjqDvfYvzRRcU/t/h
+	AN5jFGiSE8gGXtsbthPX6KVfwyk+tdRZJagfiMa0MwdNk86u7xt3JEZDGGHTqe9zl2O3rnavhLM
+	sczRovRHRnksN1CX4P6SSM837YYRqaxmqVl3qjLQLpo2ariNtQWOPv4pvhlEc9TWsN0gUQd9uT+
+	VMuPloUt0e0T3uY8ltV1WdqwhdhluH8rLequBIZWyMDFKNo7pW6dCLKMvWRdWi16TO2D+SV/jV2
+	0II0VL9c/zQUSmLE0BkcpQdBcMVxFh1RnA98HtuPYKvCBClYmQ==
+X-Google-Smtp-Source: AGHT+IF5u6hOznuueVO45DvOr3tnpJV+3iyHP7nKiHIBEz75iKNJU9mKeQvZWjwJzKMqMC7qM6j60Q==
+X-Received: by 2002:a05:6402:3512:b0:5e4:d13b:e65 with SMTP id 4fb4d7f45d1cf-5e4d6af15damr10563438a12.9.1740912921716;
+        Sun, 02 Mar 2025 02:55:21 -0800 (PST)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with UTF8SMTPSA id 4fb4d7f45d1cf-5e4c3b4aa46sm5309846a12.1.2025.03.02.02.55.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 02 Mar 2025 02:55:21 -0800 (PST)
+Date: Sun, 2 Mar 2025 13:55:17 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Ethan Carter Edwards <ethan@ethancedwards.com>
+Cc: linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
 	linux-staging@lists.linux.dev, asahi@lists.linux.dev
 Subject: Re: [RFC] apfs: thoughts on upstreaming an out-of-tree module
-Message-ID: <upqd7zp2cwg2nzfuc7spttzf44yr3ylkmti46d5udutme4cpgv@nbi3tpjsbx5e>
+Message-ID: <b9c2ce02-dab6-4b4d-b8ca-ac1e7769e0c3@stanley.mountain>
 References: <rxefeexzo2lol3qph7xo5tgnykp5c6wcepqewrze6cqfk22leu@wwkiu7yzkpvp>
- <d0be518b-3abf-497a-b342-ff862dd985a7@app.fastmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -50,82 +72,14 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <d0be518b-3abf-497a-b342-ff862dd985a7@app.fastmail.com>
+In-Reply-To: <rxefeexzo2lol3qph7xo5tgnykp5c6wcepqewrze6cqfk22leu@wwkiu7yzkpvp>
 
-On 25/03/01 12:04AM, Sven Peter wrote:
-> Hi,
-> 
-> 
-> On Fri, Feb 28, 2025, at 02:53, Ethan Carter Edwards wrote:
-> > Lately, I have been thinking a lot about the lack of APFS support on
-> > Linux. I was wondering what I could do about that. APFS support is not 
-> > in-tree, but there is a proprietary module sold by Paragon software [0].
-> > Obviously, this could not be used in-tree. However, there is also an 
-> > open source driver that, from what I can tell, was once planned to be 
-> > upstreamed [1] with associated filesystem progs [2]. I think I would 
-> > base most of my work off of the existing FOSS tree.
-> >
-> > The biggest barrier I see currently is the driver's use of bufferheads.
-> > I realize that there has been a lot of work to move existing filesystem
-> > implementations to iomap/folios, and adding a filesystem that uses
-> > bufferheads would be antithetical to the purpose of that effort.
-> > Additionally, there is a lot of ifndefs/C preprocessor magic littered
-> > throughout the codebase that fixes functionality with various different
-> > versions of Linux. 
-> >
-> > The first step would be to move away from bufferheads and the
-> > versioning. I plan to start my work in the next few weeks, and hope to
-> > have a working driver to submit to staging by the end of June. From
-> > there, I will work to have it meet more kernel standards and hopefully
-> > move into fs/ by the end of the year.
-> >
-> > Before I started, I was wondering if anyone had any thoughts. I am open
-> > to feedback. If you think this is a bad idea, let me know. I am very
-> > passionate about the Asahi Linux project. I think this would be a good
-> > way to indirectly give back and contribute to the project. While I
-> > recognize that it is not one of Asahi's project goals (those being
-> > mostly hardware support), I am confident many users would find it
-> > helpful. I sure would.
-> 
-> Agreed, I think it would be helpful for many people (especially those
-> who still regularly dual boot between macOS and Linux) to have a working
-> APFS driver upstream.
-> This may also be useful once we fully bring up the Secure Enclave and need
-> to read/write to at least a single file on the xART partition which has
-> to be APFS because it's shared between all operating systems running on
-> a single machine.
-> 
-> 
-> It looks like there's still recent activity on that linux-apfs github
-> repository. Have you reached out to the people working on it to see
-> what their plans for upstreaming and/or future work are?
+If you're going to do a major re-work it might be easier to do that first
+before you upstream it.  Once it's in the kernel then you have to follow
+all the rules like breaking your commits up into reviewable patches and
+not breaking git bisect.  The rules are good for quality control but they
+can be burdensome for people who want to move fast and break things.
 
-I did ask the upstream maintainer and he said he did not see it
-happening. He specifically mentioned the use of bufferheads as a barrier
-to mainline merging, but I get the sense that he does not have the
-time/desire to commit to upstreaming it. [0]
+regards,
+dan carpenter
 
-I did have a question/concern over the inclusion of the LZFSE/LZVN [1]
-compression library included in the module. It is BSD3 licensed, which,
-as far as I know is GPL-compatible, but what is the kernel's policy on
-external algorithms being included? It was originally developed by Apple
-and as far as I can tell is pretty necessary to read (and write)
-compressed files on APFS. Also, the library does produce an objtool
-warning.
-
-Ted, looping you in here, your thoughts?
-
-> 
-> 
-> 
-> Best,
-> 
-> 
-> Sven
-> 
-
-Thanks,
-Ethan
-
-[0]: https://github.com/linux-apfs/linux-apfs-rw/issues/68
-[1]: https://github.com/linux-apfs/linux-apfs-rw/tree/master/lzfse
