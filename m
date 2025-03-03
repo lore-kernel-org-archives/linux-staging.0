@@ -1,53 +1,53 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B94A8156237;
-	Mon,  3 Mar 2025 03:19:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACDB2188CDB;
+	Mon,  3 Mar 2025 07:12:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740971956; cv=none; b=SAQZny/ctNV9GNpr0cl+HXgCKxjA1NhharvvlR+IQJBmdGqkxMUjozvjh8sR53D9IwVPUBhiaAZbAAMKp3wmV9vcjGgxwwMgGx+lGRni1AfStdaweyJz9f8t4pZjImbreL9rISeZh77E7A8vNdGaQkX9lc93dGYnW3sc4aaKF7E=
+	t=1740985967; cv=none; b=Ft/ZK3Q3DqlsYdTDdpV5V4P80zu+8DmrQZljl2tT5deSNrdCV6U6CHUTTv9TpAzhJqh9KZ1Wx0c1jLyDvDyxVbbjcY1KeCjT3TeFXp87XildisBR6M8PqPHnCBgkxrEL29R5F6+TbB5ZyX4oZfrWYbW3iosQhBJf37KFNV9+6pg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740971956; c=relaxed/simple;
-	bh=LpbJaumBcgre4NBn4OhRtfHLMsAu9iuCRYQuxGfvQF8=;
+	s=arc-20240116; t=1740985967; c=relaxed/simple;
+	bh=Bm40aZPKh+7xNA+sXqZ7uh5Cs/1UdisbSRks9+IkP4U=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Rzdjnoj9ZcGl8gtT9gutwYvAjhl0IL8EeGG1o9SbkzARLAg9bB+I6CjamqOMIzPBJ0r4oNmQKnZO03Z4Gd1cH4pB+0wAJhU27Fwaa4EkN76nBvXFNmKerrBoySDQ4/Zsulmwo1uYEiWMFcyXZtDSp0WV1JrPaMc2nJ8Iowo9r1w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JkQaCxBB; arc=none smtp.client-ip=192.198.163.12
+	 Content-Type:Content-Disposition:In-Reply-To; b=QGHNdZLf+dQLcC38Vlm6UCVjI5L0purlKmt9BfbWstUglBb9+bfJfYnEXfPcVeBmifZ29+jjVwSiJJi4v8vnj/iEjAoktJgXVk8QQlUJw7Rk0xNJpbe980XyzSsKy9sHYjDS9UHpSjl9p+H+H6L9sQJp36Qdnu22OeNZSvibaQs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mLWznx9Z; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JkQaCxBB"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mLWznx9Z"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1740971954; x=1772507954;
+  t=1740985965; x=1772521965;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=LpbJaumBcgre4NBn4OhRtfHLMsAu9iuCRYQuxGfvQF8=;
-  b=JkQaCxBBHYIVC45+g18FmZOdDnXEsgXy5pu0TwGjzw00jcU0vVLVvu1F
-   fui3IsdBWcOgxf985TT1kEdykPDGJQkckYqS8ux9hvo1RbmwgY6oFV5Ug
-   A9o7zVGfU7S3sBuTI82SrwD+hsarvFm6Mmh85P4IhloXNULa47UYvNmm1
-   R7XcqomMDfsuj9bW5nEapviiHHgqXKgfAONtLpZXzraYSTwb64w1gkbYR
-   QKwbzgsbr5XuSZyb5KeHHGrUcUlsUgzyu4oZ76c9EgjBH0uLv9p4LBfs1
-   xTkPks25p6ffmu8nVLQyU3AiZQeDyZNap+w6nlt6WhZ6IGPje5gYHLLzd
-   g==;
-X-CSE-ConnectionGUID: i2PPGNDESciMCllAQlBPOQ==
-X-CSE-MsgGUID: NOYno1H0Qo2NgHp1faMWgg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11361"; a="45761602"
-X-IronPort-AV: E=Sophos;i="6.13,328,1732608000"; 
-   d="scan'208";a="45761602"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Mar 2025 19:19:13 -0800
-X-CSE-ConnectionGUID: K6c59+FjQxiurRjuHKDVCw==
-X-CSE-MsgGUID: nL3hLtZISvanyYlJjmZreQ==
+  bh=Bm40aZPKh+7xNA+sXqZ7uh5Cs/1UdisbSRks9+IkP4U=;
+  b=mLWznx9ZFnk1ReyXCsXUOsL3/M38sP1C0dZr55Gfs3ZVjd6qLjPiH/TN
+   ZeGM2Y3f3nqJ9K2xRN0wIQ2H1YCM6MMsKdllc0EkiApFjbLEzH+OyD2fv
+   AAqNRfFGTSRjbOurLfVUR8TfFL2ThwaYk+I0eOKy1TIUTzj/TgCvDnu86
+   n2VpSdXe46TGU5LQGyLdKGXFvGcYKtCvDQ20n94iTEawW/ZbOn6uRaZO1
+   BViZWkILXs0yKVIlsMajwPd0D9zbfUM2+VNEiqsorFR5zgxE1xP52miPm
+   mDKU3iTFCUjwZhMckWGZl8zVHxvZ55PtILLtKDPreQdQyXOwClgrfv/+W
+   A==;
+X-CSE-ConnectionGUID: jH6DQMdTSVSH6ldjLZHvHQ==
+X-CSE-MsgGUID: Ubcf7ChEQEmTfeMinakgvQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11361"; a="59262032"
+X-IronPort-AV: E=Sophos;i="6.13,329,1732608000"; 
+   d="scan'208";a="59262032"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Mar 2025 23:12:45 -0800
+X-CSE-ConnectionGUID: eH7cdqHvTBCEWqu9TnH3Cw==
+X-CSE-MsgGUID: JnDxc/ChS9+imSM3RQ0Pmg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="122012073"
+   d="scan'208";a="118467223"
 Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
-  by fmviesa003.fm.intel.com with ESMTP; 02 Mar 2025 19:19:11 -0800
+  by orviesa007.jf.intel.com with ESMTP; 02 Mar 2025 23:12:43 -0800
 Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1towKi-000HsF-2X;
-	Mon, 03 Mar 2025 03:19:08 +0000
-Date: Mon, 3 Mar 2025 11:19:02 +0800
+	id 1tozyi-000I8v-2A;
+	Mon, 03 Mar 2025 07:12:40 +0000
+Date: Mon, 3 Mar 2025 15:12:03 +0800
 From: kernel test robot <lkp@intel.com>
 To: Ravi Kumar kairi <kumarkairiravi@gmail.com>,
 	parthiban.veerasooran@microchip.com, christian.gromm@microchip.com,
@@ -55,9 +55,9 @@ To: Ravi Kumar kairi <kumarkairiravi@gmail.com>,
 Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
 	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
 	Ravi Kumar Kairi <kumarkairiravi@gmail.com>
-Subject: Re: [PATCH] staging: most: Remove unused spinlock from most_video_dev
-Message-ID: <202503031028.7ZRlzYcI-lkp@intel.com>
-References: <20250221163444.57492-3-kumarkairiravi@gmail.com>
+Subject: Re: [PATCH] staging: most: Remove unused mutex from most_video_dev
+Message-ID: <202503031448.eqB11EdG-lkp@intel.com>
+References: <20250221163444.57492-2-kumarkairiravi@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -66,7 +66,7 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250221163444.57492-3-kumarkairiravi@gmail.com>
+In-Reply-To: <20250221163444.57492-2-kumarkairiravi@gmail.com>
 
 Hi Ravi,
 
@@ -74,101 +74,66 @@ kernel test robot noticed the following build errors:
 
 [auto build test ERROR on staging/staging-testing]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Ravi-Kumar-kairi/staging-most-Remove-unused-spinlock-from-most_video_dev/20250222-004552
+url:    https://github.com/intel-lab-lkp/linux/commits/Ravi-Kumar-kairi/staging-most-Remove-unused-mutex-from-most_video_dev/20250222-004322
 base:   staging/staging-testing
-patch link:    https://lore.kernel.org/r/20250221163444.57492-3-kumarkairiravi%40gmail.com
-patch subject: [PATCH] staging: most: Remove unused spinlock from most_video_dev
-config: hexagon-allyesconfig (https://download.01.org/0day-ci/archive/20250303/202503031028.7ZRlzYcI-lkp@intel.com/config)
+patch link:    https://lore.kernel.org/r/20250221163444.57492-2-kumarkairiravi%40gmail.com
+patch subject: [PATCH] staging: most: Remove unused mutex from most_video_dev
+config: hexagon-allyesconfig (https://download.01.org/0day-ci/archive/20250303/202503031448.eqB11EdG-lkp@intel.com/config)
 compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250303/202503031028.7ZRlzYcI-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250303/202503031448.eqB11EdG-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503031028.7ZRlzYcI-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503031448.eqB11EdG-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> drivers/staging/most/video/video.c:130:23: error: no member named 'list_lock' in 'struct most_video_dev'
-     130 |         spin_lock_irq(&mdev->list_lock);
-         |                        ~~~~  ^
-   drivers/staging/most/video/video.c:134:26: error: no member named 'list_lock' in 'struct most_video_dev'
-     134 |                 spin_unlock_irq(&mdev->list_lock);
-         |                                  ~~~~  ^
-   drivers/staging/most/video/video.c:136:24: error: no member named 'list_lock' in 'struct most_video_dev'
-     136 |                 spin_lock_irq(&mdev->list_lock);
-         |                                ~~~~  ^
-   drivers/staging/most/video/video.c:138:25: error: no member named 'list_lock' in 'struct most_video_dev'
-     138 |         spin_unlock_irq(&mdev->list_lock);
-         |                          ~~~~  ^
-   drivers/staging/most/video/video.c:191:25: error: no member named 'list_lock' in 'struct most_video_dev'
-     191 |                         spin_lock_irq(&mdev->list_lock);
-         |                                        ~~~~  ^
-   drivers/staging/most/video/video.c:193:27: error: no member named 'list_lock' in 'struct most_video_dev'
-     193 |                         spin_unlock_irq(&mdev->list_lock);
-         |                                          ~~~~  ^
-   drivers/staging/most/video/video.c:392:27: error: no member named 'list_lock' in 'struct most_video_dev'
-     392 |         spin_lock_irqsave(&mdev->list_lock, flags);
-         |                            ~~~~  ^
-   include/linux/spinlock.h:381:39: note: expanded from macro 'spin_lock_irqsave'
-     381 |         raw_spin_lock_irqsave(spinlock_check(lock), flags);     \
-         |                                              ^~~~
-   include/linux/spinlock.h:244:34: note: expanded from macro 'raw_spin_lock_irqsave'
-     244 |                 flags = _raw_spin_lock_irqsave(lock);   \
-         |                                                ^~~~
-   drivers/staging/most/video/video.c:394:33: error: no member named 'list_lock' in 'struct most_video_dev'
-     394 |                 spin_unlock_irqrestore(&mdev->list_lock, flags);
-         |                                         ~~~~  ^
-   drivers/staging/most/video/video.c:399:32: error: no member named 'list_lock' in 'struct most_video_dev'
-     399 |         spin_unlock_irqrestore(&mdev->list_lock, flags);
-         |                                 ~~~~  ^
-   drivers/staging/most/video/video.c:477:24: error: no member named 'list_lock' in 'struct most_video_dev'
-     477 |         spin_lock_init(&mdev->list_lock);
-         |                         ~~~~  ^
-   include/linux/spinlock.h:335:38: note: expanded from macro 'spin_lock_init'
-     335 |         __raw_spin_lock_init(spinlock_check(lock),              \
-         |                                             ^~~~
-   10 errors generated.
+>> drivers/staging/most/video/video.c:417:28: error: no member named 'lock' in 'struct most_video_dev'
+     417 |         mdev->vdev->lock = &mdev->lock;
+         |                             ~~~~  ^
+   drivers/staging/most/video/video.c:474:20: error: no member named 'lock' in 'struct most_video_dev'
+     474 |         mutex_init(&mdev->lock);
+         |                     ~~~~  ^
+   include/linux/mutex.h:64:16: note: expanded from macro 'mutex_init'
+      64 |         __mutex_init((mutex), #mutex, &__key);                          \
+         |                       ^~~~~
+   2 errors generated.
 
 
-vim +130 drivers/staging/most/video/video.c
+vim +417 drivers/staging/most/video/video.c
 
-3d31c0cb6c127b drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  114  
-1b10a0316e2d5e drivers/staging/most/video/video.c    Christian Gromm 2017-11-21  115  static int comp_vdev_close(struct file *filp)
-3d31c0cb6c127b drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  116  {
-1b10a0316e2d5e drivers/staging/most/video/video.c    Christian Gromm 2017-11-21  117  	struct comp_fh *fh = filp->private_data;
-3d31c0cb6c127b drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  118  	struct most_video_dev *mdev = fh->mdev;
-3d31c0cb6c127b drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  119  	struct mbo *mbo, *tmp;
-3d31c0cb6c127b drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  120  
-3d31c0cb6c127b drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  121  	/*
-3d31c0cb6c127b drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  122  	 * We need to put MBOs back before we call most_stop_channel()
-3d31c0cb6c127b drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  123  	 * to deallocate MBOs.
-3d31c0cb6c127b drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  124  	 * From the other hand mostcore still calling rx_completion()
-3d31c0cb6c127b drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  125  	 * to deliver MBOs until most_stop_channel() is called.
-3d31c0cb6c127b drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  126  	 * Use mute to work around this issue.
-3d31c0cb6c127b drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  127  	 * This must be implemented in core.
-3d31c0cb6c127b drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  128  	 */
-3d31c0cb6c127b drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  129  
-e494df039df0fc drivers/staging/most/aim-v4l2/video.c Christian Gromm 2016-06-06 @130  	spin_lock_irq(&mdev->list_lock);
-3d31c0cb6c127b drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  131  	mdev->mute = true;
-3d31c0cb6c127b drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  132  	list_for_each_entry_safe(mbo, tmp, &mdev->pending_mbos, list) {
-3d31c0cb6c127b drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  133  		list_del(&mbo->list);
-e494df039df0fc drivers/staging/most/aim-v4l2/video.c Christian Gromm 2016-06-06  134  		spin_unlock_irq(&mdev->list_lock);
-3d31c0cb6c127b drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  135  		most_put_mbo(mbo);
-e494df039df0fc drivers/staging/most/aim-v4l2/video.c Christian Gromm 2016-06-06  136  		spin_lock_irq(&mdev->list_lock);
-3d31c0cb6c127b drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  137  	}
-e494df039df0fc drivers/staging/most/aim-v4l2/video.c Christian Gromm 2016-06-06  138  	spin_unlock_irq(&mdev->list_lock);
-1b10a0316e2d5e drivers/staging/most/video/video.c    Christian Gromm 2017-11-21  139  	most_stop_channel(mdev->iface, mdev->ch_idx, &comp);
-3d31c0cb6c127b drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  140  	mdev->mute = false;
-3d31c0cb6c127b drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  141  
-3d31c0cb6c127b drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  142  	v4l2_fh_del(&fh->fh);
-3d31c0cb6c127b drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  143  	v4l2_fh_exit(&fh->fh);
-3d31c0cb6c127b drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  144  
-3d31c0cb6c127b drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  145  	atomic_dec(&mdev->access_ref);
-3d31c0cb6c127b drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  146  	kfree(fh);
-3d31c0cb6c127b drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  147  	return 0;
-3d31c0cb6c127b drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  148  }
-3d31c0cb6c127b drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  149  
+3d31c0cb6c127b drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  402  
+1b10a0316e2d5e drivers/staging/most/video/video.c    Christian Gromm 2017-11-21  403  static int comp_register_videodev(struct most_video_dev *mdev)
+3d31c0cb6c127b drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  404  {
+3d31c0cb6c127b drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  405  	int ret;
+3d31c0cb6c127b drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  406  
+3d31c0cb6c127b drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  407  	init_waitqueue_head(&mdev->wait_data);
+3d31c0cb6c127b drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  408  
+3d31c0cb6c127b drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  409  	/* allocate and fill v4l2 video struct */
+3d31c0cb6c127b drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  410  	mdev->vdev = video_device_alloc();
+3d31c0cb6c127b drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  411  	if (!mdev->vdev)
+3d31c0cb6c127b drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  412  		return -ENOMEM;
+3d31c0cb6c127b drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  413  
+3d31c0cb6c127b drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  414  	/* Fill the video capture device struct */
+1b10a0316e2d5e drivers/staging/most/video/video.c    Christian Gromm 2017-11-21  415  	*mdev->vdev = comp_videodev_template;
+3d31c0cb6c127b drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  416  	mdev->vdev->v4l2_dev = &mdev->v4l2_dev;
+3d31c0cb6c127b drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24 @417  	mdev->vdev->lock = &mdev->lock;
+323977d5d33a8d drivers/staging/most/aim-v4l2/video.c Christian Gromm 2016-06-06  418  	snprintf(mdev->vdev->name, sizeof(mdev->vdev->name), "MOST: %s",
+323977d5d33a8d drivers/staging/most/aim-v4l2/video.c Christian Gromm 2016-06-06  419  		 mdev->v4l2_dev.name);
+3d31c0cb6c127b drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  420  
+3d31c0cb6c127b drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  421  	/* Register the v4l2 device */
+3d31c0cb6c127b drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  422  	video_set_drvdata(mdev->vdev, mdev);
+e653614ee1832c drivers/staging/most/video/video.c    Hans Verkuil    2020-02-03  423  	ret = video_register_device(mdev->vdev, VFL_TYPE_VIDEO, -1);
+b23e8e51e6dc40 drivers/staging/most/aim-v4l2/video.c Christian Gromm 2016-06-06  424  	if (ret) {
+8f6f9ed15d679a drivers/staging/most/aim-v4l2/video.c Christian Gromm 2016-06-06  425  		v4l2_err(&mdev->v4l2_dev, "video_register_device failed (%d)\n",
+b23e8e51e6dc40 drivers/staging/most/aim-v4l2/video.c Christian Gromm 2016-06-06  426  			 ret);
+eab231c0398a91 drivers/staging/most/aim-v4l2/video.c Christian Gromm 2016-06-06  427  		video_device_release(mdev->vdev);
+3d31c0cb6c127b drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  428  	}
+3d31c0cb6c127b drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  429  
+3d31c0cb6c127b drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  430  	return ret;
+3d31c0cb6c127b drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  431  }
+3d31c0cb6c127b drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  432  
 
 -- 
 0-DAY CI Kernel Test Service
