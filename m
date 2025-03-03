@@ -1,69 +1,63 @@
-Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FA4F208A9
-	for <linux-staging@lists.linux.dev>; Sun,  2 Mar 2025 10:55:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B94A8156237;
+	Mon,  3 Mar 2025 03:19:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740912925; cv=none; b=rSQFOxx3u8kKELc9Uea2GxX7dfgvw1iLhRRcqwViZQ5XnEJxg46NuG9acluoEKnmFEW+hvtqki81PnWcsxIF6Rn5LwYGMjhaiXokwCC9nvFQhMf6ue9yW39d6mW5VKyZFbeeoiOTUuByOH1Boiqwn29SJ9y5jVilYzxehL2Bq+0=
+	t=1740971956; cv=none; b=SAQZny/ctNV9GNpr0cl+HXgCKxjA1NhharvvlR+IQJBmdGqkxMUjozvjh8sR53D9IwVPUBhiaAZbAAMKp3wmV9vcjGgxwwMgGx+lGRni1AfStdaweyJz9f8t4pZjImbreL9rISeZh77E7A8vNdGaQkX9lc93dGYnW3sc4aaKF7E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740912925; c=relaxed/simple;
-	bh=YP9vFesE7FOkWTsjQeuOzqlZhTxpNdth3TwzKIctpts=;
+	s=arc-20240116; t=1740971956; c=relaxed/simple;
+	bh=LpbJaumBcgre4NBn4OhRtfHLMsAu9iuCRYQuxGfvQF8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YBGtFXpqpcH2BM+JOc/143GBMDMikPbSFSs4d/CPyyhRf89XT2OuvmnYzg3kVxgNxH2ejRb576JATyb0O4rnN/yxY3YiK0x/jW5Ara96X+r9oEHkmeXI7wVTjo5NWZb6aNQ+41QJDANv4CYlUlI5doN8HRe5Xm8rdhmjeexYp2Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=qg/OrGqK; arc=none smtp.client-ip=209.85.208.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Type:Content-Disposition:In-Reply-To; b=Rzdjnoj9ZcGl8gtT9gutwYvAjhl0IL8EeGG1o9SbkzARLAg9bB+I6CjamqOMIzPBJ0r4oNmQKnZO03Z4Gd1cH4pB+0wAJhU27Fwaa4EkN76nBvXFNmKerrBoySDQ4/Zsulmwo1uYEiWMFcyXZtDSp0WV1JrPaMc2nJ8Iowo9r1w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JkQaCxBB; arc=none smtp.client-ip=192.198.163.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="qg/OrGqK"
-Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-5e5491eb37dso140856a12.0
-        for <linux-staging@lists.linux.dev>; Sun, 02 Mar 2025 02:55:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1740912922; x=1741517722; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=yVNL0sPyTN/JB4JKueVcudW2dTNqPhTdzuxyAD7JqBI=;
-        b=qg/OrGqK4EA4jHnm1WDt35ARvH11Ol9bkLq0yT8F/GkAeqJIEP7paVkr9vd4soa3pn
-         bvyW8h/0DrtsLvQyjTAtCu78bq9SWbmrczOXPeFGqKDNLwvF8KQt5pPGX0nAEMIHqj5l
-         HQF6+kKSMJPKbFJX9joqNFR11Ku9fXythGy1kydzI35mUvCc0R2lxK6GWpTQYZ7LHeI9
-         F3LjcTZVdgFyqMlIcgyC6yrTZQRnDZm6eDnmGRKJqBgDHvR3LV2IHc9UGjTwkc3BeKl0
-         I6+ry2x7vzh9V12qDBCgP788bfABCqPybgkOme6deTQLGOA51mxN87hW2vrtPuwWwaqB
-         ua6g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740912922; x=1741517722;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=yVNL0sPyTN/JB4JKueVcudW2dTNqPhTdzuxyAD7JqBI=;
-        b=S8I0fM/0ojcVMTRz4QsdRsHHyJijbXDmOfEsNwrLN2g/amvicr0unYIw09UQe9L8UV
-         XTpwyu8uY89bhNgdyliuKAj524Px8h9i2busGcxMNdiGFktU4CEpTFNCDnb9eDAyxUPL
-         RuRHEvEjiwn/1IauDRqczXliIttRwqNtB2Ccfsig5EkJjVukXGDJ6fyawg67cvFcSuvo
-         cxvVVToUSYE3uPmbS9yxi/FcR7z7vnFmrI/ENL43ETwcy2hjP8P/pBG7VxThM/nKo2u6
-         J8DSJO3k4OARWFi1zyYQrsrnRSqBvMdOrA3jEKY9g2L8Tgfb7zSNsGSKqm5U6sGOQLc0
-         tuvg==
-X-Forwarded-Encrypted: i=1; AJvYcCVXt8YbSHjQfY36F0zfTjBle/gWbr1HGyj7Xy+Kj4m0qcRl/SxJA/Y+uY6N7lq43gSoPcd7l2YmeCJbn7HT@lists.linux.dev
-X-Gm-Message-State: AOJu0YwQwjz17iltoP62BjB5g8CzO2cEtT38rkgdWI1xBgxHONloY1Sw
-	F//WxQFHXVjTpGgJ9TEGlfbx4bZI2+FsQNzirAeqOBfKdNahpClv+mlVZt6aAZw=
-X-Gm-Gg: ASbGncsUEhBpihO8yAB2cXR/3gnlKR8nqrFrKPV501gDLq5/TDLjqDvfYvzRRcU/t/h
-	AN5jFGiSE8gGXtsbthPX6KVfwyk+tdRZJagfiMa0MwdNk86u7xt3JEZDGGHTqe9zl2O3rnavhLM
-	sczRovRHRnksN1CX4P6SSM837YYRqaxmqVl3qjLQLpo2ariNtQWOPv4pvhlEc9TWsN0gUQd9uT+
-	VMuPloUt0e0T3uY8ltV1WdqwhdhluH8rLequBIZWyMDFKNo7pW6dCLKMvWRdWi16TO2D+SV/jV2
-	0II0VL9c/zQUSmLE0BkcpQdBcMVxFh1RnA98HtuPYKvCBClYmQ==
-X-Google-Smtp-Source: AGHT+IF5u6hOznuueVO45DvOr3tnpJV+3iyHP7nKiHIBEz75iKNJU9mKeQvZWjwJzKMqMC7qM6j60Q==
-X-Received: by 2002:a05:6402:3512:b0:5e4:d13b:e65 with SMTP id 4fb4d7f45d1cf-5e4d6af15damr10563438a12.9.1740912921716;
-        Sun, 02 Mar 2025 02:55:21 -0800 (PST)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id 4fb4d7f45d1cf-5e4c3b4aa46sm5309846a12.1.2025.03.02.02.55.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 02 Mar 2025 02:55:21 -0800 (PST)
-Date: Sun, 2 Mar 2025 13:55:17 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Ethan Carter Edwards <ethan@ethancedwards.com>
-Cc: linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-	linux-staging@lists.linux.dev, asahi@lists.linux.dev
-Subject: Re: [RFC] apfs: thoughts on upstreaming an out-of-tree module
-Message-ID: <b9c2ce02-dab6-4b4d-b8ca-ac1e7769e0c3@stanley.mountain>
-References: <rxefeexzo2lol3qph7xo5tgnykp5c6wcepqewrze6cqfk22leu@wwkiu7yzkpvp>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JkQaCxBB"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1740971954; x=1772507954;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=LpbJaumBcgre4NBn4OhRtfHLMsAu9iuCRYQuxGfvQF8=;
+  b=JkQaCxBBHYIVC45+g18FmZOdDnXEsgXy5pu0TwGjzw00jcU0vVLVvu1F
+   fui3IsdBWcOgxf985TT1kEdykPDGJQkckYqS8ux9hvo1RbmwgY6oFV5Ug
+   A9o7zVGfU7S3sBuTI82SrwD+hsarvFm6Mmh85P4IhloXNULa47UYvNmm1
+   R7XcqomMDfsuj9bW5nEapviiHHgqXKgfAONtLpZXzraYSTwb64w1gkbYR
+   QKwbzgsbr5XuSZyb5KeHHGrUcUlsUgzyu4oZ76c9EgjBH0uLv9p4LBfs1
+   xTkPks25p6ffmu8nVLQyU3AiZQeDyZNap+w6nlt6WhZ6IGPje5gYHLLzd
+   g==;
+X-CSE-ConnectionGUID: i2PPGNDESciMCllAQlBPOQ==
+X-CSE-MsgGUID: NOYno1H0Qo2NgHp1faMWgg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11361"; a="45761602"
+X-IronPort-AV: E=Sophos;i="6.13,328,1732608000"; 
+   d="scan'208";a="45761602"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Mar 2025 19:19:13 -0800
+X-CSE-ConnectionGUID: K6c59+FjQxiurRjuHKDVCw==
+X-CSE-MsgGUID: nL3hLtZISvanyYlJjmZreQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="122012073"
+Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
+  by fmviesa003.fm.intel.com with ESMTP; 02 Mar 2025 19:19:11 -0800
+Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1towKi-000HsF-2X;
+	Mon, 03 Mar 2025 03:19:08 +0000
+Date: Mon, 3 Mar 2025 11:19:02 +0800
+From: kernel test robot <lkp@intel.com>
+To: Ravi Kumar kairi <kumarkairiravi@gmail.com>,
+	parthiban.veerasooran@microchip.com, christian.gromm@microchip.com,
+	gregkh@linuxfoundation.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Ravi Kumar Kairi <kumarkairiravi@gmail.com>
+Subject: Re: [PATCH] staging: most: Remove unused spinlock from most_video_dev
+Message-ID: <202503031028.7ZRlzYcI-lkp@intel.com>
+References: <20250221163444.57492-3-kumarkairiravi@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -72,14 +66,110 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <rxefeexzo2lol3qph7xo5tgnykp5c6wcepqewrze6cqfk22leu@wwkiu7yzkpvp>
+In-Reply-To: <20250221163444.57492-3-kumarkairiravi@gmail.com>
 
-If you're going to do a major re-work it might be easier to do that first
-before you upstream it.  Once it's in the kernel then you have to follow
-all the rules like breaking your commits up into reviewable patches and
-not breaking git bisect.  The rules are good for quality control but they
-can be burdensome for people who want to move fast and break things.
+Hi Ravi,
 
-regards,
-dan carpenter
+kernel test robot noticed the following build errors:
 
+[auto build test ERROR on staging/staging-testing]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Ravi-Kumar-kairi/staging-most-Remove-unused-spinlock-from-most_video_dev/20250222-004552
+base:   staging/staging-testing
+patch link:    https://lore.kernel.org/r/20250221163444.57492-3-kumarkairiravi%40gmail.com
+patch subject: [PATCH] staging: most: Remove unused spinlock from most_video_dev
+config: hexagon-allyesconfig (https://download.01.org/0day-ci/archive/20250303/202503031028.7ZRlzYcI-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250303/202503031028.7ZRlzYcI-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503031028.7ZRlzYcI-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+>> drivers/staging/most/video/video.c:130:23: error: no member named 'list_lock' in 'struct most_video_dev'
+     130 |         spin_lock_irq(&mdev->list_lock);
+         |                        ~~~~  ^
+   drivers/staging/most/video/video.c:134:26: error: no member named 'list_lock' in 'struct most_video_dev'
+     134 |                 spin_unlock_irq(&mdev->list_lock);
+         |                                  ~~~~  ^
+   drivers/staging/most/video/video.c:136:24: error: no member named 'list_lock' in 'struct most_video_dev'
+     136 |                 spin_lock_irq(&mdev->list_lock);
+         |                                ~~~~  ^
+   drivers/staging/most/video/video.c:138:25: error: no member named 'list_lock' in 'struct most_video_dev'
+     138 |         spin_unlock_irq(&mdev->list_lock);
+         |                          ~~~~  ^
+   drivers/staging/most/video/video.c:191:25: error: no member named 'list_lock' in 'struct most_video_dev'
+     191 |                         spin_lock_irq(&mdev->list_lock);
+         |                                        ~~~~  ^
+   drivers/staging/most/video/video.c:193:27: error: no member named 'list_lock' in 'struct most_video_dev'
+     193 |                         spin_unlock_irq(&mdev->list_lock);
+         |                                          ~~~~  ^
+   drivers/staging/most/video/video.c:392:27: error: no member named 'list_lock' in 'struct most_video_dev'
+     392 |         spin_lock_irqsave(&mdev->list_lock, flags);
+         |                            ~~~~  ^
+   include/linux/spinlock.h:381:39: note: expanded from macro 'spin_lock_irqsave'
+     381 |         raw_spin_lock_irqsave(spinlock_check(lock), flags);     \
+         |                                              ^~~~
+   include/linux/spinlock.h:244:34: note: expanded from macro 'raw_spin_lock_irqsave'
+     244 |                 flags = _raw_spin_lock_irqsave(lock);   \
+         |                                                ^~~~
+   drivers/staging/most/video/video.c:394:33: error: no member named 'list_lock' in 'struct most_video_dev'
+     394 |                 spin_unlock_irqrestore(&mdev->list_lock, flags);
+         |                                         ~~~~  ^
+   drivers/staging/most/video/video.c:399:32: error: no member named 'list_lock' in 'struct most_video_dev'
+     399 |         spin_unlock_irqrestore(&mdev->list_lock, flags);
+         |                                 ~~~~  ^
+   drivers/staging/most/video/video.c:477:24: error: no member named 'list_lock' in 'struct most_video_dev'
+     477 |         spin_lock_init(&mdev->list_lock);
+         |                         ~~~~  ^
+   include/linux/spinlock.h:335:38: note: expanded from macro 'spin_lock_init'
+     335 |         __raw_spin_lock_init(spinlock_check(lock),              \
+         |                                             ^~~~
+   10 errors generated.
+
+
+vim +130 drivers/staging/most/video/video.c
+
+3d31c0cb6c127b drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  114  
+1b10a0316e2d5e drivers/staging/most/video/video.c    Christian Gromm 2017-11-21  115  static int comp_vdev_close(struct file *filp)
+3d31c0cb6c127b drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  116  {
+1b10a0316e2d5e drivers/staging/most/video/video.c    Christian Gromm 2017-11-21  117  	struct comp_fh *fh = filp->private_data;
+3d31c0cb6c127b drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  118  	struct most_video_dev *mdev = fh->mdev;
+3d31c0cb6c127b drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  119  	struct mbo *mbo, *tmp;
+3d31c0cb6c127b drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  120  
+3d31c0cb6c127b drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  121  	/*
+3d31c0cb6c127b drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  122  	 * We need to put MBOs back before we call most_stop_channel()
+3d31c0cb6c127b drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  123  	 * to deallocate MBOs.
+3d31c0cb6c127b drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  124  	 * From the other hand mostcore still calling rx_completion()
+3d31c0cb6c127b drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  125  	 * to deliver MBOs until most_stop_channel() is called.
+3d31c0cb6c127b drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  126  	 * Use mute to work around this issue.
+3d31c0cb6c127b drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  127  	 * This must be implemented in core.
+3d31c0cb6c127b drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  128  	 */
+3d31c0cb6c127b drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  129  
+e494df039df0fc drivers/staging/most/aim-v4l2/video.c Christian Gromm 2016-06-06 @130  	spin_lock_irq(&mdev->list_lock);
+3d31c0cb6c127b drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  131  	mdev->mute = true;
+3d31c0cb6c127b drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  132  	list_for_each_entry_safe(mbo, tmp, &mdev->pending_mbos, list) {
+3d31c0cb6c127b drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  133  		list_del(&mbo->list);
+e494df039df0fc drivers/staging/most/aim-v4l2/video.c Christian Gromm 2016-06-06  134  		spin_unlock_irq(&mdev->list_lock);
+3d31c0cb6c127b drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  135  		most_put_mbo(mbo);
+e494df039df0fc drivers/staging/most/aim-v4l2/video.c Christian Gromm 2016-06-06  136  		spin_lock_irq(&mdev->list_lock);
+3d31c0cb6c127b drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  137  	}
+e494df039df0fc drivers/staging/most/aim-v4l2/video.c Christian Gromm 2016-06-06  138  	spin_unlock_irq(&mdev->list_lock);
+1b10a0316e2d5e drivers/staging/most/video/video.c    Christian Gromm 2017-11-21  139  	most_stop_channel(mdev->iface, mdev->ch_idx, &comp);
+3d31c0cb6c127b drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  140  	mdev->mute = false;
+3d31c0cb6c127b drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  141  
+3d31c0cb6c127b drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  142  	v4l2_fh_del(&fh->fh);
+3d31c0cb6c127b drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  143  	v4l2_fh_exit(&fh->fh);
+3d31c0cb6c127b drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  144  
+3d31c0cb6c127b drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  145  	atomic_dec(&mdev->access_ref);
+3d31c0cb6c127b drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  146  	kfree(fh);
+3d31c0cb6c127b drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  147  	return 0;
+3d31c0cb6c127b drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  148  }
+3d31c0cb6c127b drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  149  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
