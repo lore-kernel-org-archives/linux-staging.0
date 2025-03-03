@@ -1,140 +1,138 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACDB2188CDB;
-	Mon,  3 Mar 2025 07:12:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA3647DA6C
+	for <linux-staging@lists.linux.dev>; Mon,  3 Mar 2025 12:53:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740985967; cv=none; b=Ft/ZK3Q3DqlsYdTDdpV5V4P80zu+8DmrQZljl2tT5deSNrdCV6U6CHUTTv9TpAzhJqh9KZ1Wx0c1jLyDvDyxVbbjcY1KeCjT3TeFXp87XildisBR6M8PqPHnCBgkxrEL29R5F6+TbB5ZyX4oZfrWYbW3iosQhBJf37KFNV9+6pg=
+	t=1741006382; cv=none; b=hGGomOhGJYeMQ+0UzHEz3vFUJLuSIYrGY+gNR1drP9y+qgKUUBQw6ysPL7Kg7yaRq3rlQV+ocnih/JLAM+HmyHp5FdEfnnZhxF3f/HGCz9T3GJLCl+0YFOzgYcL7N7ukWaaNmprn+jzFc1QHchSVAjh3YZbZFcME2cjTGkWos3Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740985967; c=relaxed/simple;
-	bh=Bm40aZPKh+7xNA+sXqZ7uh5Cs/1UdisbSRks9+IkP4U=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QGHNdZLf+dQLcC38Vlm6UCVjI5L0purlKmt9BfbWstUglBb9+bfJfYnEXfPcVeBmifZ29+jjVwSiJJi4v8vnj/iEjAoktJgXVk8QQlUJw7Rk0xNJpbe980XyzSsKy9sHYjDS9UHpSjl9p+H+H6L9sQJp36Qdnu22OeNZSvibaQs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mLWznx9Z; arc=none smtp.client-ip=198.175.65.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1741006382; c=relaxed/simple;
+	bh=utD4m9KxZU2qXxJGpfZMJDAIaQB3fI8qf3jyLQewJIY=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=sT1LlCBUTi2/EbA7Cdr7fTsA0f3PUWhstH03mcdJqgM6ANGzbBGshhQNuMfVa0AY1yPgSSSDgQ16tJsE5n2ni4sqVCSfCHmyFoa4h7oTGONZ2SEDgHnu7n1TOTt/zpSKlSUjqPSmjkcEScfJhbk7JBcz/EziI5WmMD6MiYr6YiQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bMBugims; arc=none smtp.client-ip=209.85.214.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mLWznx9Z"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1740985965; x=1772521965;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Bm40aZPKh+7xNA+sXqZ7uh5Cs/1UdisbSRks9+IkP4U=;
-  b=mLWznx9ZFnk1ReyXCsXUOsL3/M38sP1C0dZr55Gfs3ZVjd6qLjPiH/TN
-   ZeGM2Y3f3nqJ9K2xRN0wIQ2H1YCM6MMsKdllc0EkiApFjbLEzH+OyD2fv
-   AAqNRfFGTSRjbOurLfVUR8TfFL2ThwaYk+I0eOKy1TIUTzj/TgCvDnu86
-   n2VpSdXe46TGU5LQGyLdKGXFvGcYKtCvDQ20n94iTEawW/ZbOn6uRaZO1
-   BViZWkILXs0yKVIlsMajwPd0D9zbfUM2+VNEiqsorFR5zgxE1xP52miPm
-   mDKU3iTFCUjwZhMckWGZl8zVHxvZ55PtILLtKDPreQdQyXOwClgrfv/+W
-   A==;
-X-CSE-ConnectionGUID: jH6DQMdTSVSH6ldjLZHvHQ==
-X-CSE-MsgGUID: Ubcf7ChEQEmTfeMinakgvQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11361"; a="59262032"
-X-IronPort-AV: E=Sophos;i="6.13,329,1732608000"; 
-   d="scan'208";a="59262032"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Mar 2025 23:12:45 -0800
-X-CSE-ConnectionGUID: eH7cdqHvTBCEWqu9TnH3Cw==
-X-CSE-MsgGUID: JnDxc/ChS9+imSM3RQ0Pmg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="118467223"
-Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
-  by orviesa007.jf.intel.com with ESMTP; 02 Mar 2025 23:12:43 -0800
-Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tozyi-000I8v-2A;
-	Mon, 03 Mar 2025 07:12:40 +0000
-Date: Mon, 3 Mar 2025 15:12:03 +0800
-From: kernel test robot <lkp@intel.com>
-To: Ravi Kumar kairi <kumarkairiravi@gmail.com>,
-	parthiban.veerasooran@microchip.com, christian.gromm@microchip.com,
-	gregkh@linuxfoundation.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Ravi Kumar Kairi <kumarkairiravi@gmail.com>
-Subject: Re: [PATCH] staging: most: Remove unused mutex from most_video_dev
-Message-ID: <202503031448.eqB11EdG-lkp@intel.com>
-References: <20250221163444.57492-2-kumarkairiravi@gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bMBugims"
+Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-22349bb8605so82090205ad.0
+        for <linux-staging@lists.linux.dev>; Mon, 03 Mar 2025 04:53:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1741006380; x=1741611180; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=g7nF4G/QoMSbEjpBCaNBZjiOr+K5P7XYwcdTcf4W28Q=;
+        b=bMBugimsHDndlp3c+46j4Q3AkA09lYxQb9rUfZoFaP3bWsy7Rlhdtj4Tc2LpKXLq1T
+         O8ZV1mMuGBdxle8LFExrN0fhiPjMaqj75ghfUkw3Avuoo58X4fATKnJvtXumLSzhrPa4
+         DkL09NsyS81XJ4FDEFRUY6HgDXKpWGeXXPks6JyGY3lPIHRY27Vz/9ncQicIwTI+y95V
+         rmO/wk89IxBSK5P3COe3zp3fuzEPc6XURG33d/93FdkAJltLqc6L5DPOnFL3XWBKZPY3
+         9kOkynZGDs/1Z1+Vd8ImlIQk5+lgz3+mZmCVvsrMv9g7X6RwwaT0H6QSG0tm5eZj+/WO
+         OxLw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1741006380; x=1741611180;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=g7nF4G/QoMSbEjpBCaNBZjiOr+K5P7XYwcdTcf4W28Q=;
+        b=Aj8eomkH9+TsS4AjO5HUFEeJr6JW5b31VL7B2USOd4fYJ3vGkm5AEXZT3PkumDkJ/M
+         luJX+kVhMQu4M1zFOEoLMdjvJJ4aotH3pXuNSepteTiahYEAZWldWibDXrQE6eEpZdKR
+         NlpbEI79brppGiPR1pOXLBKUVnSI+s+KIEAgoBDhw7tzxvUHrlgm7RgkzSy2+BdqjHhu
+         Z05lPHf36IaFCIvsc9dQN6RI2VOcgKfZBV5Mah6d979Siw7OLayC3+AQlNnVhDFtECfO
+         o3CvMdJB6aLA2DVlqc8Rtii5zrMiY5Nc9FecweurST+4ZuGF0EQBo/59QgaUOFZWlI3A
+         e90Q==
+X-Forwarded-Encrypted: i=1; AJvYcCUiQQ6JbN5mkOxNDvYzs+PNiYgkSBPeJmo0t81oBepknxYUMJgcpRYQICpGbsb0nmpU5CWZCxHro3wlzMto@lists.linux.dev
+X-Gm-Message-State: AOJu0YxOi5QCoqAf8GgmE6ULPVFgXDcLUYy4/guqu7Tn7wbb2kJc2N3B
+	vAd3EwZSB47YPXBcS5hr+sona1LSoDhHed/c22tltTyZfmfjIj3Y
+X-Gm-Gg: ASbGnctu6HLAZxffNtMaIaj4zV6ZYJyUy5yqd7IV68ojsHP6ix2TLdu83PkUgK1KZ1B
+	2b1/VOciIZztmuywoFTLqTeASrw/0PMCTXhlmB0E41sKvDohv+7sgy7DtTLbDLKyJjqAraE981r
+	MifUjMJiAV1JIcfysVPp9tULZ5flU0SlNru6vuFm/XTPdLiWPcXGOYRK7STA90ngk1dsFhD6MKd
+	RhWKRrMUnNyd5xDhj7mociXPyUsikCzmf1isIHa7CC8MHUtatTiy3djLCfizrs4U4dMSQ/UZR5I
+	fTHr1Kee6QSzEd3elHv8RrdL0iWlC+Tgsw6UeRNcCNBzaw/LU329i7vUkF7tq/IfpQ==
+X-Google-Smtp-Source: AGHT+IF1rgR/bzCyH/MBlhqBNS9tlfKghtSxJphh7ZXwoa+zdyxUgqJSdsvP8GW9uDtbgiIC8Ss9sQ==
+X-Received: by 2002:a17:902:e54a:b0:223:4b8d:32f1 with SMTP id d9443c01a7336-22368f6360dmr208146755ad.1.1741006379784;
+        Mon, 03 Mar 2025 04:52:59 -0800 (PST)
+Received: from danascape.tail34aafc.ts.net ([2402:e280:218d:2e5:dd9a:b4a:c5e:4e48])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-223501fa5a6sm77291805ad.72.2025.03.03.04.52.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 03 Mar 2025 04:52:59 -0800 (PST)
+From: Saalim Quadri <danascape@gmail.com>
+To: jic23@kernel.org
+Cc: lars@metafoo.de,
+	Michael.Hennerich@analog.com,
+	gregkh@linuxfoundation.org,
+	linux-iio@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	Saalim Quadri <danascape@gmail.com>
+Subject: [PATCH] staging: iio: ad5933: Fix CamelCase naming
+Date: Mon,  3 Mar 2025 18:22:46 +0530
+Message-Id: <20250303125246.342704-1-danascape@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250221163444.57492-2-kumarkairiravi@gmail.com>
+Content-Transfer-Encoding: 8bit
 
-Hi Ravi,
+Reported by checkpatch:
 
-kernel test robot noticed the following build errors:
+CHECK: Avoid CamelCase
 
-[auto build test ERROR on staging/staging-testing]
+Signed-off-by: Saalim Quadri <danascape@gmail.com>
+---
+ drivers/staging/iio/impedance-analyzer/ad5933.c | 16 ++++++++--------
+ 1 file changed, 8 insertions(+), 8 deletions(-)
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Ravi-Kumar-kairi/staging-most-Remove-unused-mutex-from-most_video_dev/20250222-004322
-base:   staging/staging-testing
-patch link:    https://lore.kernel.org/r/20250221163444.57492-2-kumarkairiravi%40gmail.com
-patch subject: [PATCH] staging: most: Remove unused mutex from most_video_dev
-config: hexagon-allyesconfig (https://download.01.org/0day-ci/archive/20250303/202503031448.eqB11EdG-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250303/202503031448.eqB11EdG-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503031448.eqB11EdG-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
->> drivers/staging/most/video/video.c:417:28: error: no member named 'lock' in 'struct most_video_dev'
-     417 |         mdev->vdev->lock = &mdev->lock;
-         |                             ~~~~  ^
-   drivers/staging/most/video/video.c:474:20: error: no member named 'lock' in 'struct most_video_dev'
-     474 |         mutex_init(&mdev->lock);
-         |                     ~~~~  ^
-   include/linux/mutex.h:64:16: note: expanded from macro 'mutex_init'
-      64 |         __mutex_init((mutex), #mutex, &__key);                          \
-         |                       ^~~~~
-   2 errors generated.
-
-
-vim +417 drivers/staging/most/video/video.c
-
-3d31c0cb6c127b drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  402  
-1b10a0316e2d5e drivers/staging/most/video/video.c    Christian Gromm 2017-11-21  403  static int comp_register_videodev(struct most_video_dev *mdev)
-3d31c0cb6c127b drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  404  {
-3d31c0cb6c127b drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  405  	int ret;
-3d31c0cb6c127b drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  406  
-3d31c0cb6c127b drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  407  	init_waitqueue_head(&mdev->wait_data);
-3d31c0cb6c127b drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  408  
-3d31c0cb6c127b drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  409  	/* allocate and fill v4l2 video struct */
-3d31c0cb6c127b drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  410  	mdev->vdev = video_device_alloc();
-3d31c0cb6c127b drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  411  	if (!mdev->vdev)
-3d31c0cb6c127b drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  412  		return -ENOMEM;
-3d31c0cb6c127b drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  413  
-3d31c0cb6c127b drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  414  	/* Fill the video capture device struct */
-1b10a0316e2d5e drivers/staging/most/video/video.c    Christian Gromm 2017-11-21  415  	*mdev->vdev = comp_videodev_template;
-3d31c0cb6c127b drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  416  	mdev->vdev->v4l2_dev = &mdev->v4l2_dev;
-3d31c0cb6c127b drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24 @417  	mdev->vdev->lock = &mdev->lock;
-323977d5d33a8d drivers/staging/most/aim-v4l2/video.c Christian Gromm 2016-06-06  418  	snprintf(mdev->vdev->name, sizeof(mdev->vdev->name), "MOST: %s",
-323977d5d33a8d drivers/staging/most/aim-v4l2/video.c Christian Gromm 2016-06-06  419  		 mdev->v4l2_dev.name);
-3d31c0cb6c127b drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  420  
-3d31c0cb6c127b drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  421  	/* Register the v4l2 device */
-3d31c0cb6c127b drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  422  	video_set_drvdata(mdev->vdev, mdev);
-e653614ee1832c drivers/staging/most/video/video.c    Hans Verkuil    2020-02-03  423  	ret = video_register_device(mdev->vdev, VFL_TYPE_VIDEO, -1);
-b23e8e51e6dc40 drivers/staging/most/aim-v4l2/video.c Christian Gromm 2016-06-06  424  	if (ret) {
-8f6f9ed15d679a drivers/staging/most/aim-v4l2/video.c Christian Gromm 2016-06-06  425  		v4l2_err(&mdev->v4l2_dev, "video_register_device failed (%d)\n",
-b23e8e51e6dc40 drivers/staging/most/aim-v4l2/video.c Christian Gromm 2016-06-06  426  			 ret);
-eab231c0398a91 drivers/staging/most/aim-v4l2/video.c Christian Gromm 2016-06-06  427  		video_device_release(mdev->vdev);
-3d31c0cb6c127b drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  428  	}
-3d31c0cb6c127b drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  429  
-3d31c0cb6c127b drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  430  	return ret;
-3d31c0cb6c127b drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  431  }
-3d31c0cb6c127b drivers/staging/most/aim-v4l2/video.c Christian Gromm 2015-07-24  432  
-
+diff --git a/drivers/staging/iio/impedance-analyzer/ad5933.c b/drivers/staging/iio/impedance-analyzer/ad5933.c
+index d5544fc2fe98..a1a5eee4f736 100644
+--- a/drivers/staging/iio/impedance-analyzer/ad5933.c
++++ b/drivers/staging/iio/impedance-analyzer/ad5933.c
+@@ -43,10 +43,10 @@
+ #define AD5933_CTRL_POWER_DOWN		(0xA << 4)
+ #define AD5933_CTRL_STANDBY		(0xB << 4)
+ 
+-#define AD5933_CTRL_RANGE_2000mVpp	(0x0 << 1)
+-#define AD5933_CTRL_RANGE_200mVpp	(0x1 << 1)
+-#define AD5933_CTRL_RANGE_400mVpp	(0x2 << 1)
+-#define AD5933_CTRL_RANGE_1000mVpp	(0x3 << 1)
++#define AD5933_CTRL_RANGE_2000MVPP	(0x0 << 1)
++#define AD5933_CTRL_RANGE_200MVPP	(0x1 << 1)
++#define AD5933_CTRL_RANGE_400MVPP	(0x2 << 1)
++#define AD5933_CTRL_RANGE_1000MVPP	(0x3 << 1)
+ #define AD5933_CTRL_RANGE(x)		((x) << 1)
+ 
+ #define AD5933_CTRL_PGA_GAIN_1		(0x1 << 0)
+@@ -68,8 +68,8 @@
+ #define AD5933_I2C_ADDR_POINTER		0xB0
+ 
+ /* Device Specs */
+-#define AD5933_INT_OSC_FREQ_Hz		16776000
+-#define AD5933_MAX_OUTPUT_FREQ_Hz	100000
++#define AD5933_INT_OSC_FREQ_HZ		16776000
++#define AD5933_MAX_OUTPUT_FREQ_HZ	100000
+ #define AD5933_MAX_RETRIES		100
+ 
+ #define AD5933_OUT_RANGE		1
+@@ -302,7 +302,7 @@ static ssize_t ad5933_store_frequency(struct device *dev,
+ 	if (ret)
+ 		return ret;
+ 
+-	if (val > AD5933_MAX_OUTPUT_FREQ_Hz)
++	if (val > AD5933_MAX_OUTPUT_FREQ_HZ)
+ 		return -EINVAL;
+ 
+ 	ret = iio_device_claim_direct_mode(indio_dev);
+@@ -695,7 +695,7 @@ static int ad5933_probe(struct i2c_client *client)
+ 		st->mclk_hz = ext_clk_hz;
+ 		st->ctrl_lb = AD5933_CTRL_EXT_SYSCLK;
+ 	} else {
+-		st->mclk_hz = AD5933_INT_OSC_FREQ_Hz;
++		st->mclk_hz = AD5933_INT_OSC_FREQ_HZ;
+ 		st->ctrl_lb = AD5933_CTRL_INT_SYSCLK;
+ 	}
+ 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.34.1
+
