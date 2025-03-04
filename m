@@ -1,86 +1,65 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B181625F995;
-	Tue,  4 Mar 2025 14:39:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5277C29AAF0;
+	Tue,  4 Mar 2025 16:23:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741099171; cv=none; b=eM6viki32ZtMyaR4Dik2iM4LSZQE2i4j4u9y+PG8vkWkM5YpSvK9Tz3fkQrnqUJcMVeSgoCA3AnOeNdboCZsL2St3FfZVnethClhHnDn5XHLm8QEu3ZlxditqnFTRGDNnrggNM0X1WPpSX9f7Yd6DrjvQwcxBK6QeC9WG5MbKt4=
+	t=1741105399; cv=none; b=a02iHM+6ypD1dynK0IBgZKYGFrGYZbdufLCkHZDlkdopB5vDtg585mq4/KX+tphyoLr8kB0NXKIrZcr0PKl6pjHfSG0UaFGhC9q8usQ/YeB3UCk8z9QmiJpTF8igBNf8H9RjTj35YKU2ffpg1b8M5r+K7q5z73w3k8LcwoOkotQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741099171; c=relaxed/simple;
-	bh=jnOdfuXRrGxj9sTQZc1Iuu4zBup/Ee2nCQGAIKhACUI=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=h/aJL2zn/4O6eYTXOBILJ/zulHoJ+80YgbVsInxEcYkmeKMG4i1CLN9awfsI+nHhJizwNOqFbfZQjbmmv8HEyf3jB8XzQicWRO87xItMgOGf3XED0bU5YQE3LZDEwYajr90BixAqw+42UI9iUIGr6NDaEkauLGXv76oDuVuTA0Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hqXkAB6s; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1741105399; c=relaxed/simple;
+	bh=MPawbIJcENnfcWBzE8ARs/VX8aAD+0rWnhUzTNkxxl4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=qiPJhP5ho33N+rYelbQgfdpuDUDDqnqpvqbmoear8V5TwwQ2tSIiNj5rzT+LyCeaCaTZaPaan9WwqYJxYmy44QO1jKh10/UWUp0Nuh5u40HXuXuYQQwXTNScYmzKvgI7T743W8V93JNEzMpBD+2TDn4rrIb6KQamg4vRH0qa9p8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=f9RGc3Rf; arc=none smtp.client-ip=90.155.50.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hqXkAB6s"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CA02CC4CEE5;
-	Tue,  4 Mar 2025 14:39:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1741099171;
-	bh=jnOdfuXRrGxj9sTQZc1Iuu4zBup/Ee2nCQGAIKhACUI=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=hqXkAB6sEb4EV+vf4Er52IUXMbw615GLEf3AhgXy4lBggSUFamqIOcZnmJJ2eWPzG
-	 lYyM22liWT1LV3qGgW3TnxLH2RBsibw1iUultdO5SbJmWDZ5v7TJn+15Qcrfjt28jc
-	 DVBz0AZI+w5iFYvY/32Um53KqrDqVOjBI9MZ/rVwcwvQQYu88343PgIvx+RVOcs3Ma
-	 3Uy6m2CIapeOGJg9NvHIzGqmqH8L1NCkobz6xjD/utBzhk2m++sl81tJAfh5cVIPFo
-	 8KvGdDzXCZdW9k0ngoul3cvwqkLCFQAP1ClO5Vf1MXEhGSRFc889PUrEA5img4ESbm
-	 +nQ95ATNH6OCw==
-Date: Tue, 4 Mar 2025 14:39:18 +0000
-From: Jonathan Cameron <jic23@kernel.org>
-To: Saalim Quadri <danascape@gmail.com>
-Cc: lars@metafoo.de, Michael.Hennerich@analog.com,
- gregkh@linuxfoundation.org, linux-iio@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev,
- 21cnbao@gmail.com, robh@kernel.org, krzk+dt@kernel.org,
- conor+dt@kernel.org, devicetree@vger.kernel.org
-Subject: Re: [PATCH v2] dt-bindings: iio: accel: add binding documentation
- for ADIS16203
-Message-ID: <20250304143918.733d6cca@jic23-huawei>
-In-Reply-To: <20250303235930.68731-1-danascape@gmail.com>
-References: <20250303235930.68731-1-danascape@gmail.com>
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.48; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="f9RGc3Rf"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=FZJncvRlAU5SBAYX1vQ2enRjbM6jVubiJ0n/QmKhBmU=; b=f9RGc3RfzGcoGsmGMUeGU2eI3G
+	c2CPso4DPlhpl7VJr8pPYIsP8e0l5qeN+Dn1QF56cI94dW8iSkjwjWIRLDpVr/BiQJhEYvBQ3iLCj
+	0+DsrLMVlelE+p1jh3ymjl2VtUokUHqyibB0Tazu6iFBDzG9CkB6YysYnQG9OVQAcjXc2InLaJQ0K
+	fkbG2jbYjJIDJtIPDk7Y8/4WC4JrKOO4QlJllbfRd6aHWCEvasWTuwUe9rtZ2Wlkcj2DTWDgQVh6F
+	kfFj6nvXDGKVxxE6/G8K11/BK8j4lDYumcScqLN+7zskCdywym1giLoVEeJbBDG3i4FJzyPDxtqEE
+	1hvVQchw==;
+Received: from willy by casper.infradead.org with local (Exim 4.98 #2 (Red Hat Linux))
+	id 1tpV1O-00000001rNs-35pX;
+	Tue, 04 Mar 2025 16:22:21 +0000
+Date: Tue, 4 Mar 2025 16:21:30 +0000
+From: Matthew Wilcox <willy@infradead.org>
+To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Jeff Johnson <jeff.johnson@oss.qualcomm.com>,
+	Thomas Petazzoni <thomas.petazzoni@free-electrons.com>,
+	dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
+	linux-staging@lists.linux.dev
+Subject: Re: [PATCH] fbtft: Remove access to page->index
+Message-ID: <Z8coiv3rn8loOltq@casper.infradead.org>
+References: <20250221173131.3470667-1-willy@infradead.org>
+ <27cc53b9-0db7-451c-9136-5fdcf42145f7@lucifer.local>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <27cc53b9-0db7-451c-9136-5fdcf42145f7@lucifer.local>
 
-On Tue,  4 Mar 2025 05:29:30 +0530
-Saalim Quadri <danascape@gmail.com> wrote:
+On Fri, Feb 21, 2025 at 05:53:16PM +0000, Lorenzo Stoakes wrote:
+> On Fri, Feb 21, 2025 at 05:31:29PM +0000, Matthew Wilcox (Oracle) wrote:
+> > There is no need to print out page->index as part of the debug message.
+> >
+> > Signed-off-by: Matthew Wilcox (Oracle) <willy@infradead.org>
+> 
+> LGTM from my side,
+> 
+> Reviewed-by: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
 
-> This patch add device tree binding documentation for ADIS16203.
-> 
-> Signed-off-by: Saalim Quadri <danascape@gmail.com>
-> ---
-> Changes:
-> V1 - V2: change compatible property from enum to const
-> 
->  .../bindings/iio/accel/adi,adis16203.yaml     | 52 +++++++++++++++++++
->  1 file changed, 52 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/iio/accel/adi,adis16203.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/iio/accel/adi,adis16203.yaml b/Documentation/devicetree/bindings/iio/accel/adi,adis16203.yaml
-> new file mode 100644
-> index 000000000000..64370f13e1dc
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/iio/accel/adi,adis16203.yaml
-> @@ -0,0 +1,52 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/iio/accel/adi,adis16203.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Analog Devices ADIS16203 Programmable 360 Degrees Inclinometer
-> +
-> +maintainers:
-> +  - Barry Song <21cnbao@gmail.com>
-I think you'll be dropping this patch anyway, but just a quick not that
-it isn't good to volunteer people.  Barry hasn't worked on these
-devices for quite a long time now so seems unlikely he agreed to this.
-
-Jonathan
+This patch is not yet in linux-next; can I expect it to go in soon?
