@@ -1,64 +1,120 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8ED2B1F8BC9;
-	Tue,  4 Mar 2025 07:46:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59A531F8918;
+	Tue,  4 Mar 2025 07:53:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741074367; cv=none; b=b8vjl9aNzSV6oDxQpD9/ugYUun1i8pJ0nVL4MauG444iJ9ZZmsOdgZGiML4L9iGP3NpKrpfjGWX/9uS7RT9eV8hgXMjS7hm5RxgOk16HOqIC5YpSqy4GrLOVJCg9Ijhvz2xaEqs2USZzqXsi79QixEs6ADiDP4CmKn3x4iqjBNQ=
+	t=1741074800; cv=none; b=iU6grsq77JjdzCVsMMSTxvKBATn/Lw51ntfQVcWTWRqC15Oagyg9m1B4hG/LsAvHoH+gyXDfDtYSo1wwha4rq1zEQlyHLwtJLLMMcsMDVlhB35d6ouTDgd/UfukJl9eiCqstx+4ccyJcv07z5NnW0xYwxFFyMrApESz1XcC7DJk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741074367; c=relaxed/simple;
-	bh=fUi7irrO/Msp0XYZH+52BjNdyYaZGzh2oyrpCmkcRR4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MUntHVoQY3UeXf9EZuOu2IFf0BSG4tlYorIWcQMnRxJjEE7oeGxqZOuEvm27gelPFNR8S24qXAvuWNSD+zEbcQoxaSa3so2oMQmfKQCnNFBwMx87QDiajtapAqFYHmGtOT0S8XrRzTkVu3NsyL6ycb8tJHEyn/xYNmaKtpZrlsg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Cvs40gUE; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1741074800; c=relaxed/simple;
+	bh=16rZxsXvQ14pNvHWwDRJ01iCVRuQesjFsZ/vK7SxrK8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=QgqIZXB1dOxTnewPZ/mkVl8tcs6TE4wGh32dMaAMaV4WJu21EXDwkSyne9PbEUNNEGrxqfY6UC1+MbigTVZYXnbWgVZ8Ei1/iAijKmVN94xez2coOqLPIydmMfcZutacn99oJKsOm07WUp2NQ/LiwS9SdYXyVQ1pUa9U9Gaa1TY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nlAD+VrT; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Cvs40gUE"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 164E3C4CEEA;
-	Tue,  4 Mar 2025 07:46:04 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nlAD+VrT"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 17FD0C4CEE5;
+	Tue,  4 Mar 2025 07:53:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1741074366;
-	bh=fUi7irrO/Msp0XYZH+52BjNdyYaZGzh2oyrpCmkcRR4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Cvs40gUEns0ZXfI/qnJCK3C4bGP8ybjlCE4p5nrZNhdZiRybkiA/Mc/r3ANdx0q+G
-	 UhpZ9Qp6hvoi/7Bik/ViG+5bAzHAvUL8Ebxu28Jp751IdhmBYV6Gu2V7Aqplp0cqP2
-	 P0LoCyBQML0ve09O0a/PyD1WZeRucAm/+RsEVUFu+JtARdhG4pB401rV5l65gOaESt
-	 x/Fy2FoKBHpMCF8QNrJvDnq9myoh6QOhJiyr3xeu/9er3PZVMLvYjAIATqoSiSohNa
-	 H+oBvBEqLFta0+FyMvw+cO/5r2zlI2Bri0rzKV547+bO9pPk8kHUrk6ixaY4yBdHox
-	 RJG1BoeMYuwuQ==
-Date: Tue, 4 Mar 2025 08:46:02 +0100
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Saalim Quadri <danascape@gmail.com>
-Cc: jic23@kernel.org, lars@metafoo.de, Michael.Hennerich@analog.com, 
-	gregkh@linuxfoundation.org, linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-staging@lists.linux.dev, 21cnbao@gmail.com, robh@kernel.org, krzk+dt@kernel.org, 
-	conor+dt@kernel.org, devicetree@vger.kernel.org
-Subject: Re: [PATCH v2] dt-bindings: iio: accel: add binding documentation
- for ADIS16203
-Message-ID: <20250304-chubby-amusing-loon-ac7e3b@krzk-bin>
-References: <20250303235930.68731-1-danascape@gmail.com>
+	s=k20201202; t=1741074799;
+	bh=16rZxsXvQ14pNvHWwDRJ01iCVRuQesjFsZ/vK7SxrK8=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=nlAD+VrTJFtVxu+6xNRbVb+FjBkyKklT+otVGQQlGd1bMN/wUnfG+V7TCyvAFEaIM
+	 8PppV7wIxiAzdQ4Ug++kWeMGepmzet6Ph69Z/ASjfS3lbOKaYGQE7lN9DDWC8HDeYO
+	 NdMZgTmdE+8bmyqfOQZjNathQMS7QDr1dkbSFPP7eEiJwtY3l5Dw7cFO4ELgbzQmjg
+	 cO9YLAHjbDsqVdzH9CJxUx1jxv/KtkNMb3oMTkerQumc+L/tg0artXH/IxxYBoC6F2
+	 Jc8ofGGx6XrxB3fHgf5BlbIWu3hWpz6PiuDrWXLZ5PDYu7v86wdFtcDO1CJHue2+C/
+	 DxsE/U46bwuVw==
+Message-ID: <5390c973-6a92-4de8-b00a-cd62af347ccb@kernel.org>
+Date: Tue, 4 Mar 2025 08:53:12 +0100
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20250303235930.68731-1-danascape@gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] dt-bindings: iio: accel: add binding documentation for
+ ADIS16203
+To: Saalim Quadri <danascape@gmail.com>, jic23@kernel.org
+Cc: lars@metafoo.de, Michael.Hennerich@analog.com,
+ gregkh@linuxfoundation.org, linux-iio@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev,
+ 21cnbao@gmail.com, robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
+ devicetree@vger.kernel.org
+References: <20250303234913.66614-1-danascape@gmail.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 fv0=
+In-Reply-To: <20250303234913.66614-1-danascape@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Tue, Mar 04, 2025 at 05:29:30AM +0530, Saalim Quadri wrote:
+On 04/03/2025 00:49, Saalim Quadri wrote:
 > This patch add device tree binding documentation for ADIS16203.
 > 
 > Signed-off-by: Saalim Quadri <danascape@gmail.com>
 > ---
-> Changes:
-> V1 - V2: change compatible property from enum to const
+>  .../bindings/iio/accel/adi,adis16203.yaml     | 52 +++++++++++++++++++
+>  1 file changed, 52 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/iio/accel/adi,adis16203.yaml
 > 
+> diff --git a/Documentation/devicetree/bindings/iio/accel/adi,adis16203.yaml b/Documentation/devicetree/bindings/iio/accel/adi,adis16203.yaml
+> new file mode 100644
+> index 000000000000..e67e856266f5
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/iio/accel/adi,adis16203.yaml
+> @@ -0,0 +1,52 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/iio/accel/adi,adis16203.yaml#
 
-Please kindly test your patch before posting, instead of using community
-as a testing service.
+That's identical to adi,adis16201 which already covers more than one
+device. Don't create unnecessary bindings, so this goes to existing binding.
 
 Best regards,
 Krzysztof
-
