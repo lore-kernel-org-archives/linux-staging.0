@@ -1,54 +1,53 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D489273FD;
-	Tue,  4 Mar 2025 01:24:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8ED2B1F8BC9;
+	Tue,  4 Mar 2025 07:46:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741051450; cv=none; b=kcQ7PKagwy24UELTZ/jhGmhMnuMad8ZHJncmhqJXKnMA/0tTO3CHCz1Dhiw2DlZSMiFW+5aY/svfNFkTZ4Y61qgqGFz/Vd8OwEjDANYXEb15XZ17IvEO+oCv/0aZlberJ00ZQaS9mGpdxSvKXnYxTPKsxyQ9nvn/1Gsfnd2oy6s=
+	t=1741074367; cv=none; b=b8vjl9aNzSV6oDxQpD9/ugYUun1i8pJ0nVL4MauG444iJ9ZZmsOdgZGiML4L9iGP3NpKrpfjGWX/9uS7RT9eV8hgXMjS7hm5RxgOk16HOqIC5YpSqy4GrLOVJCg9Ijhvz2xaEqs2USZzqXsi79QixEs6ADiDP4CmKn3x4iqjBNQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741051450; c=relaxed/simple;
-	bh=E2F08/o2OSzuu8jrFvRof23F4wF1UTe9v7R9uNKJugM=;
-	h=Date:Content-Type:MIME-Version:From:Cc:To:In-Reply-To:References:
-	 Message-Id:Subject; b=mcgixihuHdlnr/VQT0vk2+lSM/2qwZGE2nRRqk+fpBESGxY59gR+Lz4XxLTgADvoO+xykhqzbLY+KXVD0ijjtzIRkzlUM9PqFGx0pKukNLGicp1ORQtV3K+aRZP+8jwnxZ1cQpSKyIpbJgx/6ipoQu1A6AkydaDan9vyAzWmCLM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=u8LSoMnO; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1741074367; c=relaxed/simple;
+	bh=fUi7irrO/Msp0XYZH+52BjNdyYaZGzh2oyrpCmkcRR4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=MUntHVoQY3UeXf9EZuOu2IFf0BSG4tlYorIWcQMnRxJjEE7oeGxqZOuEvm27gelPFNR8S24qXAvuWNSD+zEbcQoxaSa3so2oMQmfKQCnNFBwMx87QDiajtapAqFYHmGtOT0S8XrRzTkVu3NsyL6ycb8tJHEyn/xYNmaKtpZrlsg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Cvs40gUE; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="u8LSoMnO"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B7ED6C4CEE4;
-	Tue,  4 Mar 2025 01:24:09 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Cvs40gUE"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 164E3C4CEEA;
+	Tue,  4 Mar 2025 07:46:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1741051449;
-	bh=E2F08/o2OSzuu8jrFvRof23F4wF1UTe9v7R9uNKJugM=;
-	h=Date:From:Cc:To:In-Reply-To:References:Subject:From;
-	b=u8LSoMnOcd05kRsUfZGCFaY1x+Gj/801isMvowIZCnI3uz1CUHEK+dU+svd5YHEVm
-	 10Ru54utTdmBkSyqfGcfMt9vPuWCtCXQx1ieHg7CuJ22bsTMAXg3thcrZWqtHIUp56
-	 5yNxN1JeRyiaWJpla12/uHsY/+sad2oLMDntjPUSTxR5edCA6MIE6YVvLLz/pFdcfU
-	 ERmMJdAUWBRpREHjTRQEif16hFvrGg/mP9jkzXEE506Ly/BS+SEPlgEE2cheRab4sL
-	 TuoKKFKwBrb33Rt5dzPUt6yPFEPOIRt/FLWj9bkB0wS2EFIXUpzKrFURp6XpAJ6siY
-	 6kkR8/vWSfUQw==
-Date: Mon, 03 Mar 2025 19:24:08 -0600
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+	s=k20201202; t=1741074366;
+	bh=fUi7irrO/Msp0XYZH+52BjNdyYaZGzh2oyrpCmkcRR4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Cvs40gUEns0ZXfI/qnJCK3C4bGP8ybjlCE4p5nrZNhdZiRybkiA/Mc/r3ANdx0q+G
+	 UhpZ9Qp6hvoi/7Bik/ViG+5bAzHAvUL8Ebxu28Jp751IdhmBYV6Gu2V7Aqplp0cqP2
+	 P0LoCyBQML0ve09O0a/PyD1WZeRucAm/+RsEVUFu+JtARdhG4pB401rV5l65gOaESt
+	 x/Fy2FoKBHpMCF8QNrJvDnq9myoh6QOhJiyr3xeu/9er3PZVMLvYjAIATqoSiSohNa
+	 H+oBvBEqLFta0+FyMvw+cO/5r2zlI2Bri0rzKV547+bO9pPk8kHUrk6ixaY4yBdHox
+	 RJG1BoeMYuwuQ==
+Date: Tue, 4 Mar 2025 08:46:02 +0100
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Saalim Quadri <danascape@gmail.com>
+Cc: jic23@kernel.org, lars@metafoo.de, Michael.Hennerich@analog.com, 
+	gregkh@linuxfoundation.org, linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-staging@lists.linux.dev, 21cnbao@gmail.com, robh@kernel.org, krzk+dt@kernel.org, 
+	conor+dt@kernel.org, devicetree@vger.kernel.org
+Subject: Re: [PATCH v2] dt-bindings: iio: accel: add binding documentation
+ for ADIS16203
+Message-ID: <20250304-chubby-amusing-loon-ac7e3b@krzk-bin>
+References: <20250303235930.68731-1-danascape@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-From: "Rob Herring (Arm)" <robh@kernel.org>
-Cc: linux-kernel@vger.kernel.org, Michael.Hennerich@analog.com, 
- jic23@kernel.org, linux-iio@vger.kernel.org, linux-staging@lists.linux.dev, 
- devicetree@vger.kernel.org, gregkh@linuxfoundation.org, conor+dt@kernel.org, 
- krzk+dt@kernel.org, 21cnbao@gmail.com, lars@metafoo.de
-To: Saalim Quadri <danascape@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 In-Reply-To: <20250303235930.68731-1-danascape@gmail.com>
-References: <20250303235930.68731-1-danascape@gmail.com>
-Message-Id: <174105144819.171181.14482923503787621828.robh@kernel.org>
-Subject: Re: [PATCH v2] dt-bindings: iio: accel: add binding documentation
- for ADIS16203
 
-
-On Tue, 04 Mar 2025 05:29:30 +0530, Saalim Quadri wrote:
+On Tue, Mar 04, 2025 at 05:29:30AM +0530, Saalim Quadri wrote:
 > This patch add device tree binding documentation for ADIS16203.
 > 
 > Signed-off-by: Saalim Quadri <danascape@gmail.com>
@@ -56,36 +55,10 @@ On Tue, 04 Mar 2025 05:29:30 +0530, Saalim Quadri wrote:
 > Changes:
 > V1 - V2: change compatible property from enum to const
 > 
->  .../bindings/iio/accel/adi,adis16203.yaml     | 52 +++++++++++++++++++
->  1 file changed, 52 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/iio/accel/adi,adis16203.yaml
-> 
 
-My bot found errors running 'make dt_binding_check' on your patch:
+Please kindly test your patch before posting, instead of using community
+as a testing service.
 
-yamllint warnings/errors:
-
-dtschema/dtc warnings/errors:
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/iio/accel/adi,adis16203.yaml: properties:compatible:const: ['adi,adis16203'] is not of type 'integer', 'string'
-	from schema $id: http://devicetree.org/meta-schemas/keywords.yaml#
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/iio/accel/adi,adis16203.yaml: properties:compatible:const: ['adi,adis16203'] is not of type 'string'
-	from schema $id: http://devicetree.org/meta-schemas/string-array.yaml#
-Documentation/devicetree/bindings/iio/accel/adi,adis16203.example.dtb: /example-0/spi/accelerometer@0: failed to match any schema with compatible: ['adi,adis16203']
-
-doc reference errors (make refcheckdocs):
-
-See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20250303235930.68731-1-danascape@gmail.com
-
-The base for the series is generally the latest rc1. A different dependency
-should be noted in *this* patch.
-
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
-
-pip3 install dtschema --upgrade
-
-Please check and re-submit after running the above command yourself. Note
-that DT_SCHEMA_FILES can be set to your schema file to speed up checking
-your schema. However, it must be unset to test all examples with your schema.
+Best regards,
+Krzysztof
 
