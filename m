@@ -1,77 +1,73 @@
-Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
+Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFD8E253F22
-	for <linux-staging@lists.linux.dev>; Wed,  5 Mar 2025 19:38:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2DBE207A09
+	for <linux-staging@lists.linux.dev>; Wed,  5 Mar 2025 23:49:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741203489; cv=none; b=gghzb4hHYyZvRtTBwNQ5e8xvSFVlJ+56OmprrRzUjC/P6ByDujfz3rqOn2pWqm1Wbwlkj+8X6WcHOPwcju4pTPZwJ7B2D5YFF8plAY49zHoQMfrQdYmFeuMPxDdOmFr2BXeg7XZhxL0VXhtKnULG/oyJos/z+xPIg6+xmU++Uko=
+	t=1741218601; cv=none; b=lClDg1DBo4flnfADTNBlApzuvFm5T3opwEyyIjf1B4choozpVe6wrsA0YfbcveeJ/XLw0FDQQK0VmsyIxVlYYJ/98PTXCPtsAUsgtX3gH2nstU3QBlv9NYFSiK/eDKs2JGNX+F5xAt7OwadP3+MbVeL+QC6iUyHOFpcYc2ArgdE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741203489; c=relaxed/simple;
-	bh=j/iTviw7PJPcpETuVwwtmw6HSTOe+M0fePl8x0v8b/A=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=B5kBcunKD7kgcLjKh0FyU3mjxSnyVZJDVjPE1DtS6e0P6bGax2wY6AEENnUKNAYwr9yl1fgnTkMgD3Fd5ocwfleis5ldwhd2vehk+qJwHC2VJsJPVhJWZMCfltJpRJ0hHuFPkHN07pMYdW+CYmEC4ogNpSK1VBc60qyCX4WlbMo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=R0pNpVTj; arc=none smtp.client-ip=209.85.216.45
+	s=arc-20240116; t=1741218601; c=relaxed/simple;
+	bh=srv7+73zZ3QRWDNH+XUQfVHz07EIMvSwvA+4Vv4LBUQ=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=amkbYhVLTMuuiR7YHP+p7ohxBHSyl2MFCxp79JxOzFyejVJ15lQvDIhlM1yP6+KizBl/JKB7RtC2UpbbyHFfHv5DGfIvBo7jrd2Gev2MqYWLbERReEmdYO6ld+EF5eXZxoGkvjzdm8tHQq4RmgnNzgKUAPgBwvfr/bZpVWvDZqQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VNOq7P0p; arc=none smtp.client-ip=209.85.216.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="R0pNpVTj"
-Received: by mail-pj1-f45.google.com with SMTP id 98e67ed59e1d1-2f74e6c6cbcso2024819a91.2
-        for <linux-staging@lists.linux.dev>; Wed, 05 Mar 2025 11:38:07 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VNOq7P0p"
+Received: by mail-pj1-f54.google.com with SMTP id 98e67ed59e1d1-2fee4d9c2efso162752a91.3
+        for <linux-staging@lists.linux.dev>; Wed, 05 Mar 2025 15:49:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1741203487; x=1741808287; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=d7sXbP8vy3+v83lKPy6uZAVEBdTCaE0ovfzAtTI97R0=;
-        b=R0pNpVTjBdfzN5XhgfNh9xJHAgunwDtS2fCZYcfBdZydrFeV7d4CbNVggj6igPzBil
-         Xc9O/ROySmTiDJTlG1iFKp6oDdJAFnKI/y67xVFnURJUiOSdxqqPBJEUQGrR5NrfNM4k
-         eS1CSm+L9dr1ur8ldRZrbsBu/H1N5J8DJeEoY8G+aaXaaDgZ85wEHNOndhT8Yn1egfkr
-         eJo3ICWKxUzqYSiyKWgY8jyU5ByfgAUpfwD3Sn8AvTj3P0L+bLbnJnJ7meNVy9S9i7/q
-         blPvQqm5gPfszGzQ77z3xSFeWVSJQCsksj9cfGOuQx9cx7PNpXR80sOEokgCXWL3NZdN
-         mdLw==
+        d=gmail.com; s=20230601; t=1741218598; x=1741823398; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=FXrDkcy8Q6nQXUpC8HwRtU5ASiNa8W4yd1e69lH3gRQ=;
+        b=VNOq7P0pRjZ77283xSoi8O4IfnIOSwyJ0dQx0EAfsQU2JLzlgYBflyikblHiCoPrKi
+         v7jDChMSecprc6y+HsDFGq6nElJ3ZmrEcTMqEbY/0dpqcZ3ulRNqYt+YXZpqJ9YyKi5Z
+         eGmnhpEqCJQDUwL3KxVHjC439AqMWUrATsRaEYNTSmHb5rMih8DLr50dPHbCkOEmiNcx
+         T4Oj/JBYlaD3Hy05l9kEcuVNbQ8P2pmoA5DhLIfx1+Fd93C8mSc4vJnjjB31GUshWDnl
+         5LDX/fDAU0g2HPLIV8Uv3KO/nLVvYha1fous3RUMSG180iSW6aS+djvoxZbdJjaXF0fv
+         P7VQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741203487; x=1741808287;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=d7sXbP8vy3+v83lKPy6uZAVEBdTCaE0ovfzAtTI97R0=;
-        b=VB3wKKiUHwgm3A6lCvIhQiQspe3JU5ifEb2jLw2GCgG4UrZ8vr2AdtFNWoklNt9x5h
-         SIC/qyH/qGZmrkoxqZ2aoa+HnDC2GspaiSOKy5GE1JKofruIqdsEBOOA9dZvU6XvL7SP
-         zqHGPL7lrQH7PUqgi+FV81HorOtLNFO3JvugcrOa5kv/rkPh/UR/4mG4hGHDW33Juq3I
-         tikplpuErfV1BIdEV/DHstdpSbiRhbtTsvSdFtee+JWFXLQ0aCSu1g86JM5nkSzGz1Ae
-         RjBO1jg/pTzOozxOUuGCKwQ98Iry8tycjAXwU4SIP2cpWK1s61Pp7CvWDHi5zx1Zk/Bz
-         zJxA==
-X-Gm-Message-State: AOJu0YxcFAVXVaN2sFSUtv0d0E4LNXU50D1+IjvMFM8F1t5jSO7JpQyw
-	uGaARtik4l1CbXbFOVebgIBN10FdDiLYncw3l9cKEcXSvmp7AFqmjt1asg==
-X-Gm-Gg: ASbGncu/yrDV+I16k/EqCxXrHzoOU5w22SJvcMAl6CJJDzfEdNZVFVfcfXSGyx5YMUW
-	euuYDEYMn6xlzEoCa/xBbj5DXhWihyHpY7OX9hVmFqMYHNlYQsviqoDvkb0B1wiZPO1SDaEKbxq
-	6cfYbhUHzfUWZNz554cpW/7ybqx9VfRHzKOEWzaQ2UAXr8YPtHE+dXcIMSENU3YPWMPBrm+HvCy
-	Uo8CLzK2D85ps6AspiqckCVAwmmQSUF/caiT2C5o8iYGkaTjFAIpY7sSrTMO5ljRjSqUQlHjVYR
-	5m+3reCqZLQ6jQ5X4OFyIkTTMf6Dlt04MWW6TTrrB2jqgkDrIHQ0vew5b1Qf
-X-Google-Smtp-Source: AGHT+IHsjbx1miPTQBNrX7ZjboroAqHyYvjM19R16VWGXNXNp7juxMRcFLx8vf3UD4OuEm12sLJK7g==
-X-Received: by 2002:a17:90b:3a91:b0:2fe:b879:b68c with SMTP id 98e67ed59e1d1-2ff49824430mr2883031a91.6.1741203486654;
-        Wed, 05 Mar 2025 11:38:06 -0800 (PST)
-Received: from localhost.lp.veng.com.ar ([200.10.125.114])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2ff4e7a2bbesm1898148a91.37.2025.03.05.11.38.04
+        d=1e100.net; s=20230601; t=1741218598; x=1741823398;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=FXrDkcy8Q6nQXUpC8HwRtU5ASiNa8W4yd1e69lH3gRQ=;
+        b=BwNveWYKI/KGxA+kvXEEm914ncIHLaMiz/j2WIaz1q6I0JhLrXUe3wTR/tCe0Qh6OW
+         p/n6oB2bBYCF1JahVDhOadm3i5GOwLCnIy6loBw4bfjw4LhmvBhb/XkUsbGfqDi4uL31
+         TzRSTTDCx/Q8mx7bGv6Mm850+STTN7m5nbSsL3/7k3w3C+6uRGtc2uuuEv/9lbSQauqa
+         JFDpifQu9fg209WjgGb+gMLys0SmIgG5y1XqnlevQFZ+VkG2VMlN/3hzlxfw1FGWvu24
+         PhHqiL+BY2bGBQonYXmVZfYL6VSdt5yDJMkXN03MXtok+7JsYK91bqvFzw/GRUcg4AKI
+         QkiA==
+X-Forwarded-Encrypted: i=1; AJvYcCXXATZfrgpNtflNTN2KRPYjDTdxYkSDJjeqbOEB/yEv1mU6FcH9jPHHRp0zypXop/2tz4x6YpmcYIghJNcz@lists.linux.dev
+X-Gm-Message-State: AOJu0YxVjqxP+N3WVESYpwTVXZATJuDMrOWizesbBbpvSkPfFJUoNNZ+
+	dl2X6q68y7x34nZmJhyb/C60K92i0YkiqTmJ/aTu3WIV8J7AJkLh
+X-Gm-Gg: ASbGncu3ERt03HAAaRsjP460QPOXcQLd3/q0FJouDFLvxHCgiUC0umi8IRyxSep4xhY
+	pB9ttsqYLQCFCT1scdNEfOlAkBMej0JOo9EhdikvaB1+xWcNqUyuaZmy/Vcxgs4BeIzdBjQbFPR
+	oi7jiFbploi82YA7f6XYDojOfdkLrsg+NSYb4tGvN4vDrrTYyC7Z2jGdSOUKlm2E30WLwLfou2b
+	f8fNXfD/K1UFA5Vl2a2B79eyMVQdA2pt+1dAKbmJyrkPw6dvLtHSW64D2LfhMMOAFx2r1/cU9ot
+	Pdm9On+HFzPkJFBfEyrC9s8ViLsUmgc+7bgbkR0O/K6Hdq4Iu1C7zWEFNz5wVQyQAUQ=
+X-Google-Smtp-Source: AGHT+IGlLVFKV+bPSwKWxrV0p1XcSjqEKjMMcOVLXGy3X1qxV6UJqiIFM8Cvzo8f79okMG49rA/FyQ==
+X-Received: by 2002:a05:6a21:33a1:b0:1ee:ced0:f0a4 with SMTP id adf61e73a8af0-1f34952dc23mr10368128637.34.1741218597780;
+        Wed, 05 Mar 2025 15:49:57 -0800 (PST)
+Received: from danascape.tail34aafc.ts.net ([2402:e280:218d:2e5:857:3077:7768:d8a9])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-af2810c1cf1sm16274a12.40.2025.03.05.15.49.54
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 05 Mar 2025 11:38:06 -0800 (PST)
-From: Gaston Gonzalez <gascoar@gmail.com>
-To: linux-staging@lists.linux.dev
-Cc: dpenkler@gmail.com,
+        Wed, 05 Mar 2025 15:49:57 -0800 (PST)
+From: Saalim Quadri <danascape@gmail.com>
+To: jic23@kernel.org
+Cc: lars@metafoo.de,
+	Michael.Hennerich@analog.com,
 	gregkh@linuxfoundation.org,
-	dan.carpenter@linaro.org,
-	arnd@arndb.de,
-	niharchaithanya@gmail.com,
-	jiapeng.chong@linux.alibaba.com,
+	linux-iio@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	Gaston Gonzalez <gascoar@gmail.com>
-Subject: [PATCH v2 4/4] staging: gpib: remove commented-out lines
-Date: Wed,  5 Mar 2025 16:32:22 -0300
-Message-ID: <20250305193614.39604-9-gascoar@gmail.com>
-X-Mailer: git-send-email 2.49.0.rc0
-In-Reply-To: <20250305193614.39604-1-gascoar@gmail.com>
-References: <20250305193614.39604-1-gascoar@gmail.com>
+	linux-staging@lists.linux.dev,
+	Saalim Quadri <danascape@gmail.com>
+Subject: [PATCH v2] staging: iio: adis16203: Remove unneeded spi_set_drvdata()
+Date: Thu,  6 Mar 2025 05:19:49 +0530
+Message-Id: <20250305234949.1548646-1-danascape@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -80,38 +76,29 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Remove commented-out code in function write_loop().
+By making use of devm_iio_device_register(), we no longer have a driver
+remove callback.
+Since this was the last user of spi_get_drvdata(),
+we can drop the call to spi_set_drvdata().
 
-Signed-off-by: Gaston Gonzalez <gascoar@gmail.com>
+Signed-off-by: Saalim Quadri <danascape@gmail.com>
 ---
-v1 -> v2: no changes in this patch.
+ drivers/staging/iio/accel/adis16203.c | 2 --
+ 1 file changed, 2 deletions(-)
 
- drivers/staging/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c | 11 -----------
- 1 file changed, 11 deletions(-)
-
-diff --git a/drivers/staging/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c b/drivers/staging/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c
-index 4a8e5905daf9..08c64b111a1f 100644
---- a/drivers/staging/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c
-+++ b/drivers/staging/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c
-@@ -217,18 +217,7 @@ static inline int usec_diff(struct timespec64 *a, struct timespec64 *b)
+diff --git a/drivers/staging/iio/accel/adis16203.c b/drivers/staging/iio/accel/adis16203.c
+index c1c73308800c..3faf3c61046a 100644
+--- a/drivers/staging/iio/accel/adis16203.c
++++ b/drivers/staging/iio/accel/adis16203.c
+@@ -267,8 +267,6 @@ static int adis16203_probe(struct spi_device *spi)
+ 	if (!indio_dev)
+ 		return -ENOMEM;
+ 	st = iio_priv(indio_dev);
+-	/* this is only used for removal purposes */
+-	spi_set_drvdata(spi, indio_dev);
  
- static int write_loop(void *dev, char *msg, int leng)
- {
--//	  int nchar = 0, val;
--
--//	  do {
--
- 	return skel_do_write(dev, msg, leng);
--
--//		  if (val < 1) {
--//			  return -EIO;
--//		  }
--//		  nchar +=val;
--//	  } while (nchar < leng);
--//	  return leng;
- }
- 
- /**
+ 	indio_dev->name = spi->dev.driver->name;
+ 	indio_dev->channels = adis16203_channels;
 -- 
-2.49.0.rc0
+2.34.1
 
