@@ -1,75 +1,98 @@
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3EB771C6FFE;
-	Wed,  5 Mar 2025 17:49:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5289D2512F5
+	for <linux-staging@lists.linux.dev>; Wed,  5 Mar 2025 19:36:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741196996; cv=none; b=AE0qJomMClWQxG5TS1sipQcui7hEt7bbAiY4kprWPvgncZ9dN6lv7SxExL8rsHQJFdc3WFq7F50XzGXXRYxfZvvZNtD7RQvKWU2MY7ilGFdeAIGSDGEuBhS173bUDlf7BY+4SwCNnLOWvz2shxXwWvw64M6PtLovtTpXH74HGGQ=
+	t=1741203388; cv=none; b=d/PLENG880wAqSh0nVBy4VPslrHycAcF/w29DMQ2qS81opAgUhYvrPX3fCn8E2U7rgStig/G3WveEVa+UwYlMVTd42OwqL6NbXQYJETWFreHp/z3khRdlpFXkaxcDdd9UOirPA4+UkJ93jnaXswAu7tASUAOXteeCLR3cq6ByPM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741196996; c=relaxed/simple;
-	bh=69xZ7A8/E0lWdoqkf+tuuEaLuZ2WxiW8WXs0lKR/Ju0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SLmnUFSoEIK5tznpqLJjulFVQldvabHI8oXpeW7JzDOCtMM/Q21/keqzIjDlmhf/lHJUKemcaUbhymrr/Oh5INpbVBiK+FbyxA41iWp5ce3Vf7TvenUD5If8VlgZS5lkcO6sZueJqxjU9Z28vmewiEYZeNNjtc221gt8ltWT0h0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=kUFw1NTY; arc=none smtp.client-ip=90.155.50.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1741203388; c=relaxed/simple;
+	bh=Ks8X7EPJ54VCXSHM7sl3Hrc7gHBCTE9UxNQ0VdzAcDQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=RjWAmRxO5E/TyHAwAYr2NqQkn4LiFnu7KGg02vQkKqGAUoOqbX2ECH0SqInN2v3IbboZGVTKbAi7S0hrWVCljCten3Iw/kHC15g39Q+Gj933P74ts1zY8geRLLlkBPYN1JSz6G0vc8eUQ2dpY7Y0B7iDl3my0i2jmHijgq/g4WE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OBIaP4iV; arc=none smtp.client-ip=209.85.216.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="kUFw1NTY"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=0/5pFhUYG/qRloabUrp96KV5uy7jgbm8O+Ry5t7s1T4=; b=kUFw1NTYDgyfSoerNNJcA28H77
-	grP2L7d7Wrw1ojFFqBXLiSTQztpgEGCN73eXG9Mv7FeE1/KuX91SNZ6HP+0o5PYIWmYobJoaWQHQI
-	Q0x9flzcKbcM9cRbQCeDkZjGfqPZhUaHjeW5ZrW9eSV9/LxSBxHxODhYwHuiLphLY8EwyZPpWjpp8
-	VVcAo/l4OnLUDaBNnNoq/VuGVeXZjFiD/otvKzg6BhnwOCSE9JH9eo8j0goYZ33fyWPiX1fPsDF08
-	bDLjh7CvS1qfOTfctPjD8WYYvKC9NI/9JwlIz4ZROPAu7/Da0iX5aivcMoqkmnDLJ6P9gh7nY5Sgk
-	InbAHd1w==;
-Received: from willy by casper.infradead.org with local (Exim 4.98 #2 (Red Hat Linux))
-	id 1tpssM-00000005yAg-1QZ7;
-	Wed, 05 Mar 2025 17:49:46 +0000
-Date: Wed, 5 Mar 2025 17:49:46 +0000
-From: Matthew Wilcox <willy@infradead.org>
-To: Simona Vetter <simona.vetter@ffwll.ch>
-Cc: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Jeff Johnson <jeff.johnson@oss.qualcomm.com>,
-	Thomas Petazzoni <thomas.petazzoni@free-electrons.com>,
-	dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
-	linux-staging@lists.linux.dev
-Subject: Re: [PATCH] fbtft: Remove access to page->index
-Message-ID: <Z8iOuvGKrWa4kEz_@casper.infradead.org>
-References: <20250221173131.3470667-1-willy@infradead.org>
- <27cc53b9-0db7-451c-9136-5fdcf42145f7@lucifer.local>
- <Z8coiv3rn8loOltq@casper.infradead.org>
- <Z8f_pcnaC5iJMz-Z@phenom.ffwll.local>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OBIaP4iV"
+Received: by mail-pj1-f41.google.com with SMTP id 98e67ed59e1d1-2f9b8ef4261so1884074a91.1
+        for <linux-staging@lists.linux.dev>; Wed, 05 Mar 2025 11:36:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1741203386; x=1741808186; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=BX6Xw+vu38MTqxN013edOzT70ivLZgV/Gxi462fO01Y=;
+        b=OBIaP4iVgYLuDub9/NcjSRziMRSjRfHh2NiIPljFEc2zKR+PcK2bTrZ4eKVq2NnWx8
+         rEveidGUrFvnN5Bf6LFH0VdmXaMir0FQyr1B1ihq6zSRwxLQedVIp6WgCQ94S2cQM7cm
+         lC+elWh8KBkgfak72YpWpc+osZ6xOY/KLTOglUsjMQEOi+jGoF5HfdJfy7OYgxSuT0fl
+         WV3omQBYunpE4BI8lYTIuYCD0+MoJXdJJCBnEktL4jDoGEBoGuV717bRktLvNjRLSyx3
+         +LeQjUd8IBujqaSVukuTWLHTaWA180gIZaMKe/we1HKXhiroFC/vWmzBWfk5ccRJUCfB
+         Vlng==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1741203386; x=1741808186;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=BX6Xw+vu38MTqxN013edOzT70ivLZgV/Gxi462fO01Y=;
+        b=XsZUPR02dM26/73SN0xO8XsnVZOdRrxKJgiNDc6HJPeQOuXAy0NGXoBoqYPwql2LQS
+         gyqL3a45xlO7ybVuYphD3+Kr4glI4NKdbhX3TE/MOCZBHdQ42PlQuoZ5HjAExAf2tV5d
+         ze8ClMIWUUeMaMBx340sdSXk3hwNAXQA0sdCbFeOZgnIRnIUfqEke8dJsCrbsOsjQeUo
+         UkXn17bO5lL1mRlaSftCpPmVWZpU5z55RsDwfrhc2zqpacaQzFHEck64sIRfb3OYsxOm
+         X2hTgJQ944/l+Z7u+CqGDtUWqlEM6a3PdX91lO1yoSWiu0TVGN6zYD3hNxgMo9n3pLRX
+         cjBA==
+X-Gm-Message-State: AOJu0YzW/nBjxUcbPTRk+fJFAV9xXUqky0Xi+MevGPUiaKrShcplv3E0
+	ZNNCrAS31EKxNdj19/RaL8pEG9EvBHYF1vgVcaNIxHM8lIf3+Y0m4q40aw==
+X-Gm-Gg: ASbGncvUBg/GBAjTZ7CrLRVx5NPdy+dLq+nP9OV4pqy+RSUx/U6rzgjCcsmiVYS6K5r
+	9AqC4kkCjooyZEd3zJB72o3EACpPDLy55HEkbstriDdQU16voxij5zJFAesSNVQnS0TEs2ezLEu
+	9UI2buMAZ1oqP1kiLEusJEevnmvKIqaPrB8e/DF1J4jZjNpJ4rnctoZRrosi1RnmJkLMekcxfxE
+	7Tbf1IjUd+tuLoNontobMLU+Ep8LvSeHj7MqXrCuG9WzTswXFwVBIj5yf2v5+TGkyF2P/Vl53eN
+	gj9o6qTyNP6EL1CMYdEhe1S/9b7+e3s5NNkCLug0eIS0m7DqYbV+9l5joHuk
+X-Google-Smtp-Source: AGHT+IEkUCi8wPyvxb82rYx6xJGYrqZ1lV9KvMi9G2GkzNJ99fuVhxFU500SJah2gefci1i/MU3RIw==
+X-Received: by 2002:a17:90b:3b8f:b0:2fe:9730:8e42 with SMTP id 98e67ed59e1d1-2ff497a62femr2867938a91.3.1741203385976;
+        Wed, 05 Mar 2025 11:36:25 -0800 (PST)
+Received: from localhost.lp.veng.com.ar ([200.10.125.114])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2ff4e7a2bbesm1898148a91.37.2025.03.05.11.36.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 05 Mar 2025 11:36:25 -0800 (PST)
+From: Gaston Gonzalez <gascoar@gmail.com>
+To: linux-staging@lists.linux.dev
+Cc: dpenkler@gmail.com,
+	gregkh@linuxfoundation.org,
+	dan.carpenter@linaro.org,
+	arnd@arndb.de,
+	niharchaithanya@gmail.com,
+	jiapeng.chong@linux.alibaba.com,
+	linux-kernel@vger.kernel.org,
+	Gaston Gonzalez <gascoar@gmail.com>
+Subject: [PATCH v2 0/4] staging: gpib: some cleanups in lpvo_usb_gpib.c
+Date: Wed,  5 Mar 2025 16:32:14 -0300
+Message-ID: <20250305193614.39604-1-gascoar@gmail.com>
+X-Mailer: git-send-email 2.49.0.rc0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Z8f_pcnaC5iJMz-Z@phenom.ffwll.local>
+Content-Transfer-Encoding: 8bit
 
-On Wed, Mar 05, 2025 at 08:39:17AM +0100, Simona Vetter wrote:
-> On Tue, Mar 04, 2025 at 04:21:30PM +0000, Matthew Wilcox wrote:
-> > On Fri, Feb 21, 2025 at 05:53:16PM +0000, Lorenzo Stoakes wrote:
-> > > On Fri, Feb 21, 2025 at 05:31:29PM +0000, Matthew Wilcox (Oracle) wrote:
-> > > > There is no need to print out page->index as part of the debug message.
-> > > >
-> > > > Signed-off-by: Matthew Wilcox (Oracle) <willy@infradead.org>
-> > > 
-> > > LGTM from my side,
-> > > 
-> > > Reviewed-by: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
-> > 
-> > This patch is not yet in linux-next; can I expect it to go in soon?
-> 
-> Being both staging and fbdev it's double orphaned, I stuffed it into
-> drm-misc-next now, thanks for the ping&patch.
+This series comprises three kernel-doc comments fixes and one commented-out code
+cleanup.
 
-Thanks!
+v1 -> v2: remove extra blank line in patch 3: 'staging: gpib: fix kernel-doc
+section for usb_gpib_line_status() function'
+
+Gaston Gonzalez (4):
+  staging: gpib: fix kernel-doc section for write_loop() function
+  staging: gpib: fix kernel-doc section for function
+    usb_gpib_interface_clear()
+  staging: gpib: fix kernel-doc section for usb_gpib_line_status()
+    function
+  staging: gpib: remove commented-out lines
+
+ .../gpib/lpvo_usb_gpib/lpvo_usb_gpib.c        | 26 +++++--------------
+ 1 file changed, 7 insertions(+), 19 deletions(-)
+
+-- 
+2.49.0.rc0
+
