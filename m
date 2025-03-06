@@ -1,60 +1,60 @@
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3AFCC367
-	for <linux-staging@lists.linux.dev>; Thu,  6 Mar 2025 00:00:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A05A175AB
+	for <linux-staging@lists.linux.dev>; Thu,  6 Mar 2025 00:05:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741219251; cv=none; b=tcLBcyz6yoX1odBzYxY4b1xHRcwB4V15qv9jYBfO8MGuf/YTnkjRYMiKgoNSMD9VfVjA5c/vPzvHPHyEDe/NUDHuUwBGqldnSFHpy8M1Zv6tgsgEX59u4e/uCBcLZS4O6AiiOxfC4Ldd5cz4CCMkUYqQT9zEcm9GkxZ1GURBDGk=
+	t=1741219507; cv=none; b=bZ1DiKVlGhIJV5xWQ1qagL1lyeXFUHKCxdBEGcF3c2P6+TxU8++DTH+Bp3lW6YBkO7uNdSWpAebSpkPebzmSudxRJ5TEiQglIXzJ1/gFllfJnFxS3wV9Ly4akdlSwyovCyPm5IcI4WYjGrVjmPhIyPjG+egeDIVblfCJGF3xSVY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741219251; c=relaxed/simple;
-	bh=39CDkvz6XO+Ri5q7s/t0liHhr7O/gnB1BvM5MuQxcsc=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=ROhq1BZBsmRxx8n1iJGVlLQYunfDmXkoKQTCc6v0DqwtXd9oSJsKUsO+j9K5UNkQQT4dbMSH/Hy+meBnUclB+3Io6H7afXbHPHv0KP/mPDh/ML9EJLm2iM4p6hGTunNYu8BfLbErvE6wc7HlsLWtXW76MnFMarCVNOqhGBpW+D0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GbmCdeRC; arc=none smtp.client-ip=209.85.214.179
+	s=arc-20240116; t=1741219507; c=relaxed/simple;
+	bh=gwRerhKsJhNh4ZpQR4SajjAscqi9DkY5YwLDwNvtn9Q=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=EhEr9RgZoORGU0hsbzZVZVlGiJKY5g6fgFBQTXJVe1Kg2AMoPijVF91hU2tkRNHt5GFzwwuGiQ9jPiYPZy/Ks+eVn7l6x7hkiyEOjRkRJ6JYI1Nftn8/xqUL80aAwF1Y9c8QA7onZKNMVZKoUKuh+GelI6XZY9XfbPTP9lgUuJY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jHZn89/C; arc=none smtp.client-ip=209.85.214.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GbmCdeRC"
-Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-2239aa5da08so375275ad.3
-        for <linux-staging@lists.linux.dev>; Wed, 05 Mar 2025 16:00:49 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jHZn89/C"
+Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-22337bc9ac3so664405ad.1
+        for <linux-staging@lists.linux.dev>; Wed, 05 Mar 2025 16:05:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1741219248; x=1741824048; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1741219505; x=1741824305; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=YfpB7be3WQ+25k2CF8K/o3LEES2vCMRSkQKM3K3lwew=;
-        b=GbmCdeRC4WTfQ97JQdtZvsrzATkV3kfWVd9A66TrWtL0as1mCY3I5IWnE9CU6RcaYc
-         zvfbL+d2hFqD0nSJ4FFlu0KWDRjyNlCgoVG7bkwTB5bfFVB1py1fdwpScTJAsUAENeaT
-         k3YXnfEMsWQZc2OZUxDhnyFbdVVYskZPv+KYxPLUpXRXKTOAIMr2sxhuV5RlbKcPyBNH
-         KZboYlUIO+q4TfpLur+WE38gNmWdasBggpICa6ocoWj1WhRux+Kl47emKRLc22Go+Q9y
-         uty9A2lYcJzV4I32W4RsF2gkOhY31TIS53mTW/ypreR82ePFxkGptRTGQyyoFuYxrpcC
-         CFlA==
+        bh=X6f/NDGo0Vf2cKafvbyrDyAvIQAgQfr1nIMxIAZAPi4=;
+        b=jHZn89/Ch+50u2ZE64AM5cEXD8SRRSG+9n1PpqbGQLoE3ZvouSAVMQH1/kzrIfdP6Q
+         Qv1tfjO5pPxbusMaB1NdUerGfBmf4/QmkTWHhpAyANa10I41S0kIGOtQPqw7hrKwdQVV
+         S36IvRCpoVtSRu6K/yxoYf8VN27/eLs9HhoXMqgwmpb/bYF0M3vPt+7p56tL4ky4pDx2
+         mdqVZ5OWSrABxDNc6TehI4/exoMwcO2WT1yI4f0WQAqdve3ENbTyXAigTgSphAS1LxdW
+         l9CAcxuXB7JhTA0b3qpZEz155OWB9DmKDYCI/gHoul/mgRZ/qsilHYlxc7aeliJueecC
+         1jGw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741219248; x=1741824048;
+        d=1e100.net; s=20230601; t=1741219505; x=1741824305;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=YfpB7be3WQ+25k2CF8K/o3LEES2vCMRSkQKM3K3lwew=;
-        b=gGmgo5Vh5XWO5K8Rqd7gVcdWP3cyK1dAMSGCWACnRNBOwPQaheaUiqRUQRBwP5Q5Za
-         K6lWVEilM+3kITnfPCimqzfqOfDdjj5d84aTMyBqryPwdxN6jErPzWbC3QUxgcRoJUux
-         Q0MYgAlQDZMWjBQlQ50RqEkLjLrPREPzDrMx89xzzGuvnlx0d5N9AUoeFH1N4AI2EPYF
-         78zvgyCj/OoJHHnJhniX5HXkKYzBqiEADhnEJ0ksoyuS2haUFmHRlLn0wdz+aUw2FAcf
-         fQ2I30fG2J9W36KgKv8w5mbnN30NPiMwxLrTlFlcDDtoWpF+5htr/qDhzPYqo1zhSv2Z
-         gJOQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWsTIb12wvi2WXaPmjh5qpVlKZKpdYDBwkOfj9bPwaJvgNDRanzFTtWhlWmjWt62QloQwFnihksY2MvNZ3D@lists.linux.dev
-X-Gm-Message-State: AOJu0YxI5vW4Qjlj9hBFlPQ0N8uPTo++k/yh96rl8d7Z8kfjgyz8k7V6
-	5b0KWt6Na4aA5tO9BZmNvBQwEo4ZGd5apZ4Wo7Vm2mOTx4IYHdhc
-X-Gm-Gg: ASbGncsPGI1cFzQN3khkCoZe4RfZplh3H1v/8k8AhnTgdCX83LRY8ZIcwcUGm2/5/ml
-	KCyzLPi2NTPuzKEAcZIRA2jEDfJfRoSjGlbT+SMBvfRB1tj0h3CpQNel39coiqVNki2YbGrTxor
-	4pKZSAFqyQ9XN2G+h284L5uCdDcWnhm1dCkrftzzzxxzB2+vWIpX3wLvHXaAMj3OkG5K/2Yu33x
-	F9cE54o6NhER9+c1vH/qinv4H8QXFgp4zzx1/6Sf9BLTbvfgD9Syf87p/6ZuK8x/DGUQKesMCHX
-	lpstywULQO3xVOxWOAjli77pdU53MZw+T22BZM3XiFu7yFwX90VLC1Wr9DVzcJn5AHs=
-X-Google-Smtp-Source: AGHT+IFxHf1uKo8PUiFp492BtjX06i1u/Qae1B6ppFKhEAKyOZPZE48UtdR1xOkhQD05jGDzH74hrg==
-X-Received: by 2002:a17:903:3ba5:b0:21f:ba77:c45e with SMTP id d9443c01a7336-223f1d81964mr73730045ad.45.1741219248439;
-        Wed, 05 Mar 2025 16:00:48 -0800 (PST)
+        bh=X6f/NDGo0Vf2cKafvbyrDyAvIQAgQfr1nIMxIAZAPi4=;
+        b=L4JG4hrUSIl9jQWgu6bpzGqLDIm4k+rMe7uY13Ena2anfXuF6k7mu4HYSVQ9gvWj/O
+         u8u6R6l4C5n1rS/hOkcoyVeiXZ/8YEYU403fpLup1D+zrWZf+F6LQlc72VdGPAMBDD4f
+         u4Ydc67d0d7ZKHanJTOFzQGPv85WowV3fc7DwCXMm8e0T13BLHjWpzNlR4ARISKxh8Hq
+         taOWk+E0aPS1Eggy/E0V7xwtVustFjQ7e2Ynl1SEtFSww51JxYeb7427ikhPpEPoiHLj
+         fdXwNd1C1Ktb1g8fT6c4FWK5nnnDHVU4QqcWrW863Mlk8YPD26oMErXIZV5A+3YwO+f5
+         3KuA==
+X-Forwarded-Encrypted: i=1; AJvYcCX8/mCkAqj7bFCDVrDwv/e+NtveKi6+6dDn6gVD9VhZp3vwcEP6lS0Z/H8GrsKOrhga8EwbVrTxOif0HiiA@lists.linux.dev
+X-Gm-Message-State: AOJu0YyYkYMTldPvMnSlDI5ms1w5EzLa1vG6la3iKUMTSUAKsRW5t2cA
+	RU2ZPYCmIkX4JhF4gehvBuVBQmDSLrAkAW6yQRDVHAm7l3TkXw3EVzouVQ==
+X-Gm-Gg: ASbGncsruHbM5H/eO0gmpBxY+3ron6OhoyuMHxHTIHQ7ZjTbDxj6ecGOoVteTelLPfa
+	a1pZZNTgF7VrQE+T9Uw0/D5boELMsgBxkQRzvm+h5MOca+mfzc66bMBQYwgHkMfOsHs3gFo46Oe
+	jxfhvJemnfqQxYX3vI9tCjBt+k3OO4E+hvGNuvOsFSJJKv6zUnAuLy4Y7Kh/H0NkMt8SB1AqHCG
+	KEpjwt/n/s0wbFYxO31lNNMcdjL3J0jOHydcvg8iONee0H7gQ5i2y+J3QHzYiIzTlcbkFT+0pjg
+	uJb2H4PUyzor++mbq4oyXSN3ROnteGWvBTWurObid+ps+aRtYIMtB7kaWyYPkr6cSE8=
+X-Google-Smtp-Source: AGHT+IE46kf0YUY8UFiD6hZaGT679Z/DNfrodG1uHsXyVqNtQrbPapBDoHF0DTFrnDnBcXneh5xRUg==
+X-Received: by 2002:a17:903:1984:b0:21f:4c8b:c4de with SMTP id d9443c01a7336-223f1cf33ebmr75271685ad.42.1741219505410;
+        Wed, 05 Mar 2025 16:05:05 -0800 (PST)
 Received: from danascape.tail34aafc.ts.net ([2402:e280:218d:2e5:857:3077:7768:d8a9])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-224109ddce7sm68625ad.3.2025.03.05.16.00.45
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-22410a91b95sm18915ad.188.2025.03.05.16.05.02
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 05 Mar 2025 16:00:48 -0800 (PST)
+        Wed, 05 Mar 2025 16:05:05 -0800 (PST)
 From: Saalim Quadri <danascape@gmail.com>
 To: jic23@kernel.org
 Cc: lars@metafoo.de,
@@ -64,9 +64,9 @@ Cc: lars@metafoo.de,
 	linux-kernel@vger.kernel.org,
 	linux-staging@lists.linux.dev,
 	Saalim Quadri <danascape@gmail.com>
-Subject: [PATCH v2] staging: iio: ad9832: Use devm_regulator_get_enable()
-Date: Thu,  6 Mar 2025 05:30:40 +0530
-Message-Id: <20250306000040.1550656-1-danascape@gmail.com>
+Subject: [PATCH v2] staging: iio: ad9834: Use devm_regulator_get_enable()
+Date: Thu,  6 Mar 2025 05:34:59 +0530
+Message-Id: <20250306000459.1554007-1-danascape@gmail.com>
 X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -82,83 +82,51 @@ devm_regulator_get_enable() helper.
 
 Signed-off-by: Saalim Quadri <danascape@gmail.com>
 ---
-V1 -> V2: Fixed indentations and commit description
+V1 -> V2: Update commit description and return the correct error content
 
- drivers/staging/iio/frequency/ad9832.c | 37 +++-----------------------
- 1 file changed, 4 insertions(+), 33 deletions(-)
+ drivers/staging/iio/frequency/ad9834.c | 22 ++--------------------
+ 1 file changed, 2 insertions(+), 20 deletions(-)
 
-diff --git a/drivers/staging/iio/frequency/ad9832.c b/drivers/staging/iio/frequency/ad9832.c
-index 140ee4f9c137..db42810c7664 100644
---- a/drivers/staging/iio/frequency/ad9832.c
-+++ b/drivers/staging/iio/frequency/ad9832.c
-@@ -74,8 +74,6 @@
- /**
-  * struct ad9832_state - driver instance specific data
-  * @spi:		spi_device
-- * @avdd:		supply regulator for the analog section
-- * @dvdd:		supply regulator for the digital section
-  * @mclk:		external master clock
-  * @ctrl_fp:		cached frequency/phase control word
-  * @ctrl_ss:		cached sync/selsrc control word
-@@ -94,8 +92,6 @@
- 
- struct ad9832_state {
- 	struct spi_device		*spi;
--	struct regulator		*avdd;
--	struct regulator		*dvdd;
- 	struct clk			*mclk;
- 	unsigned short			ctrl_fp;
- 	unsigned short			ctrl_ss;
-@@ -297,11 +293,6 @@ static const struct iio_info ad9832_info = {
- 	.attrs = &ad9832_attribute_group,
+diff --git a/drivers/staging/iio/frequency/ad9834.c b/drivers/staging/iio/frequency/ad9834.c
+index 6e99e008c5f4..50413da2aa65 100644
+--- a/drivers/staging/iio/frequency/ad9834.c
++++ b/drivers/staging/iio/frequency/ad9834.c
+@@ -387,33 +387,15 @@ static const struct iio_info ad9833_info = {
+ 	.attrs = &ad9833_attribute_group,
  };
  
--static void ad9832_reg_disable(void *reg)
+-static void ad9834_disable_reg(void *data)
 -{
+-	struct regulator *reg = data;
+-
 -	regulator_disable(reg);
 -}
 -
- static int ad9832_probe(struct spi_device *spi)
+ static int ad9834_probe(struct spi_device *spi)
  {
- 	struct ad9832_platform_data *pdata = dev_get_platdata(&spi->dev);
-@@ -320,33 +311,13 @@ static int ad9832_probe(struct spi_device *spi)
+ 	struct ad9834_state *st;
+ 	struct iio_dev *indio_dev;
+-	struct regulator *reg;
+ 	int ret;
  
- 	st = iio_priv(indio_dev);
- 
--	st->avdd = devm_regulator_get(&spi->dev, "avdd");
--	if (IS_ERR(st->avdd))
--		return PTR_ERR(st->avdd);
+-	reg = devm_regulator_get(&spi->dev, "avdd");
+-	if (IS_ERR(reg))
+-		return PTR_ERR(reg);
 -
--	ret = regulator_enable(st->avdd);
+-	ret = regulator_enable(reg);
 -	if (ret) {
 -		dev_err(&spi->dev, "Failed to enable specified AVDD supply\n");
 -		return ret;
 -	}
 -
--	ret = devm_add_action_or_reset(&spi->dev, ad9832_reg_disable, st->avdd);
+-	ret = devm_add_action_or_reset(&spi->dev, ad9834_disable_reg, reg);
 +	ret = devm_regulator_get_enable(&spi->dev, "avdd");
  	if (ret)
 -		return ret;
--
--	st->dvdd = devm_regulator_get(&spi->dev, "dvdd");
--	if (IS_ERR(st->dvdd))
--		return PTR_ERR(st->dvdd);
-+		return dev_err_probe(&spi->dev, ret, "failed to enable specified AVDD voltage\n");
++		return dev_err_probe(&spi->dev, ret, "Failed to enable specified AVDD supply\n");
  
--	ret = regulator_enable(st->dvdd);
--	if (ret) {
--		dev_err(&spi->dev, "Failed to enable specified DVDD supply\n");
--		return ret;
--	}
--
--	ret = devm_add_action_or_reset(&spi->dev, ad9832_reg_disable, st->dvdd);
-+	ret = devm_regulator_get_enable(&spi->dev, "dvdd");
- 	if (ret)
--		return ret;
-+		return dev_err_probe(&spi->dev, ret, "Failed to enable specified DVDD supply\n");
- 
- 	st->mclk = devm_clk_get_enabled(&spi->dev, "mclk");
- 	if (IS_ERR(st->mclk))
+ 	indio_dev = devm_iio_device_alloc(&spi->dev, sizeof(*st));
+ 	if (!indio_dev) {
 -- 
 2.34.1
 
