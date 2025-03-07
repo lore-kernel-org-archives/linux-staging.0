@@ -1,88 +1,70 @@
-Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [185.185.170.37])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64C822063EB;
-	Thu,  6 Mar 2025 21:13:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=185.185.170.37
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741295634; cv=pass; b=jWO/B3uZY+T7dvbta5KhDoWOx/rTTTti8kyxMrmqhEdlajIvdaUsD/ltJIZJQjpxMVOtpBk+F4io6lzS0dJtiXzt8OAsqHWobYuU+/ONDrXqkS4V5QwkmVxsUb8e9y5KOmnanvFs8GiYDjs9hh0BjfAHWOz8B8YGHMt6jazFpmQ=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741295634; c=relaxed/simple;
-	bh=2YeV/1mWxuLyHhkSMOigK8GBrpDYk/+Quuds0otH2Z0=;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BF5A3FB3B
+	for <linux-staging@lists.linux.dev>; Fri,  7 Mar 2025 03:31:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.178
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1741318300; cv=none; b=QJYT/p+pmO+BdarbUC35tr2kpN4p8Cs5UD606oXL7JVsCM2qVSi6YJHYiDGFJiTlrqlnjKjpcRJBS2HGeZQkiAkhQhVXk5W81mRcA4doD4Gi3pNrhDyzM3Oh3QpMuJ+X923znna++WbEN+tbO1Wtq2YA2b/dfNMWPZPuvAQVpRI=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1741318300; c=relaxed/simple;
+	bh=gCOOcyBomA8ym/MPB9dZ8uybUtzLM0QMJZ7UNpi5h38=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=AYNV8xHnvv5q3tUSkzqwJm0PXZxaai3SjrP1gDR7si3EkTy3P4nYzloJBeLW7e7ylrYppgHMGinjln07gmU9XFTmZLz1AwgN9aOAYHUManw1WWYvGIWlqsmZsqMfQ4xjqxzPmVKwuPIlLhajKH5zs1WbqwWzL1z1R1dmcprqokc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi; spf=pass smtp.mailfrom=iki.fi; dkim=pass (2048-bit key) header.d=iki.fi header.i=@iki.fi header.b=QHKpVznW; arc=pass smtp.client-ip=185.185.170.37
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iki.fi
+	 Content-Type:Content-Disposition:In-Reply-To; b=qmBdQ522RlKwI8kJ78m/lGOgFhUwBQ0LFiLTy8Wq1NivnA4WbqLI7l+/J6MskBjRGIO7E2SwzP48asC0DJMpBHC5OYqjzUKjO9VklXqLXm1agfYTvI4te0RiPco1SZsXbxAJh7GzLZrKqgniUaEpZvLWpDAwlFDAisJt2ifOgbc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PiCozPTW; arc=none smtp.client-ip=209.85.214.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=iki.fi header.i=@iki.fi header.b="QHKpVznW"
-Received: from hillosipuli.retiisi.eu (2a00-1190-d1dd-0-c641-1eff-feae-163c.v6.cust.suomicom.net [IPv6:2a00:1190:d1dd:0:c641:1eff:feae:163c])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: sailus)
-	by lahtoruutu.iki.fi (Postfix) with ESMTPSA id 4Z82GN1hW5z49Q16;
-	Thu,  6 Mar 2025 23:13:48 +0200 (EET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
-	t=1741295629;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=RyXNjuHLnx3cU+qPnE9MNm9qjAiojX2ux1nNWDZm2TY=;
-	b=QHKpVznW8iOM4SSfMfAUzcBerrMwpo5ndWtah6O0FYF5U5qIavbQWW0yuVdXBWA1duZfPG
-	/tPNUGI/434peavUNxEA2kX3HSOY9FIMbXWNYSAPJKQdVQ7rgoY+fQnCfgOk1SxxG1BHxc
-	23NY7Y6H0hyhzO6u2omYlpkPPM/s6q9LNlrxIWndp5uz99rOSfAxRhvL92OD3YWvxGpy0U
-	YJ+iPeMNPhJGbqwzzEa0omqYpudmdFN7+Jp4Lz2X86ldR8Sx94xeFlvOhcwhj0cd/io67F
-	W3As/b7mzHhPVyiTFykzsK9o4FIFi5weN9IMheju33jYHCZVd+/nB9nx3wAnZg==
-ARC-Seal: i=1; s=lahtoruutu; d=iki.fi; t=1741295629; a=rsa-sha256;
-	cv=none;
-	b=odHNYxXjVxIMvfaBsNyalVkmcTcgedlDXyrhQhsDLMI56nvguJdnH9gEt1w0TSUd5UJwJ5
-	cLwunozpTjPqWC33xOmxa/EE8rfzQLM4rGvYTc1+ziYvrPJT8zjsyTyAjcQIgQDBDKDQ0L
-	jRAhQ39xD6luECNolcTi0pLdNZGO6cRihpAnNXEKq96nd+JY72TWHGwqDGY+1y2PKVGStZ
-	o3ed7haqNQr3UlHxrQByRgXhgZlI+WQZQUJQPlQ6N8P7y7EkBGzgsu/B5PmeLS9iNA9uUE
-	W98onpkBkWErJ2mECRo0vso+TTrKHKPeeyjv4vfFPSP8hlvPhtE+M210UOlhGg==
-ARC-Authentication-Results: i=1;
-	ORIGINATING;
-	auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
-	s=lahtoruutu; t=1741295629;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=RyXNjuHLnx3cU+qPnE9MNm9qjAiojX2ux1nNWDZm2TY=;
-	b=eJzhBEsC+Ytpu13kBlhPZecQyJnWw45qF0/4DHv8VDb+WsOQoiPKvwZDprykmqqd61Tk+W
-	M+/yFaW2nLr3dI+hzkbXgNlIy9WkyjULc0TMPcNPEMWS1lXV2mSQ4gQ//71LERkXyEX8kg
-	GhY/y6YffUbBlB9s8lCfVY3pv0nsFw92Y/OGVWeOF1vBNetpA0guOfq0liwMN9VIX80QII
-	28OgfEKAcYtP8Y69c/6tJkOGvVGjnrB5Vp8xOPj1J7errMK189/gEl57RcyvZN9uuyNTdS
-	5XDgw/x4K0wal3SYfTSUdf4YF8qd2ViDIDxaIeWS09XUPFBG6jdm3zJfi3yDeg==
-Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 095B1634C93;
-	Thu,  6 Mar 2025 23:13:47 +0200 (EET)
-Date: Thu, 6 Mar 2025 21:13:46 +0000
-From: Sakari Ailus <sakari.ailus@iki.fi>
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: Mathis Foerst <mathis.foerst@mt.com>, linux-kernel@vger.kernel.org,
-	Steve Longerbeam <slongerbeam@gmail.com>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>, linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev, imx@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org, manuel.traut@mt.com,
-	mathis.foerst@zuehlke.com
-Subject: Re: [PATCH v1 1/1] media: imx: csi: Parse link configuration from
- fw_node
-Message-ID: <Z8oQCuqKVH225lPw@valkosipuli.retiisi.eu>
-References: <20250305113802.897087-1-mathis.foerst@mt.com>
- <20250305113802.897087-2-mathis.foerst@mt.com>
- <Z8nOTrjEW_OYBGlq@valkosipuli.retiisi.eu>
- <84aa2d87-d7f1-46c9-b28d-6f0e9a78788d@stanley.mountain>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PiCozPTW"
+Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-223fd89d036so27756495ad.1
+        for <linux-staging@lists.linux.dev>; Thu, 06 Mar 2025 19:31:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1741318298; x=1741923098; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=POmXH3RB5AOdcM4iy/V5RM3jxDeeDKhoQuC/nTf0CE8=;
+        b=PiCozPTWy+IPdfC84+RTN9/aV1bDJK4+n4pIi0BY5OLyAk/2chKveY4fphUEDFoh5J
+         mRiq0/g5CPUlIK0icFZQNoOGIg7A54mFP5nbyFZU8051tWF2gu97M6P/+qCRSnUunv2Y
+         NGJFT3XXD17sDaShiLXlSlrugbRe5uA4kSGl/7SzFtE84sn+PDN4b3BnPW9WNtmwzcb7
+         7mkprEEnswPJPMOonWYr6O1R/57Qx5YtwH3RxDMhw63oc91fj6w8QXMszcOqhBjO7rfE
+         Nh/cz21R4rt7N9zQYZ5G+gvLKWCbk1cSaopieNFFxpS0g+TklnmlIb1VCXLL0lpL99Ie
+         VVCA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1741318298; x=1741923098;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=POmXH3RB5AOdcM4iy/V5RM3jxDeeDKhoQuC/nTf0CE8=;
+        b=C9CGlNKatZ9MuC8gxt0Nt0HwM/QDhvl9kHrbSxFeQTi5wN/KoGiIkXBG06hE4ytCCv
+         Ve4F/jEWL2VHPv++oUOTwkRG1GfN5bT1HuivByed1VwfPVjiEfCE8CVA9iAyeLDYfNmk
+         OUK4DoD8OdldBZNhPZ3e7hSW0w11OVbXowib28iyiDAjQ5NTJDUJLdEgPLxtHZPVQ8B5
+         xIiKxBvWokbPny2lzClxSs+O9tHgYnXtYahMKq7RN1xWnEknb/KGg+qQ0m8LL+aD1K3h
+         tLl7Kx1sgQpJby8sKMzY2YUhYOED2gcnah3HYAhycaCdagyzR0siqa7DS7EmQDvhTxfP
+         Qh9Q==
+X-Forwarded-Encrypted: i=1; AJvYcCXpOT/7ncVchRe6d86bKtojBSNloP8Ite24KIV03uvgpkNtrImOMncz1AWAp7hBTj/heEBp41s7KpUaiN/Z@lists.linux.dev
+X-Gm-Message-State: AOJu0YxsDNEipoFuIVjrnWYb8WoRm3k1FtYhtYHuJw7H5vZKPYfdgEiQ
+	dL+Cw2hXKoRGdYhxnHgQUpWxWpM0KLXXHWHWTOjrbcxWhtcBVk++
+X-Gm-Gg: ASbGncs3t57ktcNjk7SjJc4myxHkehTTGUjxTdxKghmj4fXqvpbIlvAa6KUO4V9e6lt
+	/gHuGBv2o9ujr4kIqjN2iuWSaqi9wmVfBBKsKJouVMw9wHaTODKTfT7xWhtwjZy75t76WiXL9mv
+	WUp65F3MJvrMIL/yJmcMDhKyMMpib/fPALCzWzKjn84XZsHhm5L+dDXIrVk8D85E3pjp6xkHjWn
+	zNCR0HrHmLB7ACzAQOQBxP0bAEZYixRaE+kJXoeM9gUQhDZpgYcayW5wfd+YzaC9heitd2uYN4d
+	axuxBNzpmB8xFrt3FcLDDp0GhBUBAEKi11+j29a4q3cCY5BkgE1QBXw=
+X-Google-Smtp-Source: AGHT+IGkebL+fF1LPcEVxoOTh8Md9lfPjHNCFJiq4bU7ai9wRrrBoKSjgRruULMi73fEeTWoN6quYQ==
+X-Received: by 2002:a17:902:e5d2:b0:224:160d:3f5b with SMTP id d9443c01a7336-22428c1169cmr29142615ad.49.1741318298523;
+        Thu, 06 Mar 2025 19:31:38 -0800 (PST)
+Received: from localhost ([2804:30c:1f21:4300:1cf6:c485:6555:b1c5])
+        by smtp.gmail.com with UTF8SMTPSA id d9443c01a7336-224109fee78sm20022575ad.105.2025.03.06.19.31.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 06 Mar 2025 19:31:37 -0800 (PST)
+Date: Fri, 7 Mar 2025 00:32:30 -0300
+From: Marcelo Schmitt <marcelo.schmitt1@gmail.com>
+To: Saalim Quadri <danascape@gmail.com>
+Cc: jic23@kernel.org, lars@metafoo.de, Michael.Hennerich@analog.com,
+	gregkh@linuxfoundation.org, linux-iio@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
+Subject: Re: [RFC]: Getting ADIS16203 out of staging
+Message-ID: <Z8pozuvS1a3sa039@debian-BULLSEYE-live-builder-AMD64>
+References: <20250306002645.1555569-1-danascape@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -91,123 +73,47 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <84aa2d87-d7f1-46c9-b28d-6f0e9a78788d@stanley.mountain>
+In-Reply-To: <20250306002645.1555569-1-danascape@gmail.com>
 
-Hi Dan,
+Hi Saalim,
 
-On Thu, Mar 06, 2025 at 10:07:20PM +0300, Dan Carpenter wrote:
-> On Thu, Mar 06, 2025 at 04:33:18PM +0000, Sakari Ailus wrote:
-> > Hi Mathis,
-> > 
-> > Thanks for the patch.
-> > 
-> > On Wed, Mar 05, 2025 at 12:38:02PM +0100, Mathis Foerst wrote:
-> > > The imx-media-csi driver requires upstream camera drivers to implement
-> > > the subdev-pad-op "get_mbus_config" [0]. Camera drivers that don't
-> > > implement this function are not usable on the i.MX6.
-> > > 
-> > > The docs for get_mbus_config [1] say:
-> > > @get_mbus_config: get the media bus configuration of a remote sub-device.
-> > >             The media bus configuration is usually retrieved from the
-> > >             firmware interface at sub-device probe time, immediately
-> > >             applied to the hardware and eventually adjusted by the
-> > >             driver.
-> > > 
-> > > Currently, the imx-media-csi driver is not incorporating the information
-> > > from the firmware interface and therefore relies on the implementation of
-> > > get_mbus_config by the camera driver.
-> > > 
-> > > To be compatible with camera drivers not implementing get_mbus_config
-> > > (which is the usual case), use the bus information from the fw interface:
-> > > 
-> > > The camera does not necessarily has a direct media bus link to the CSI as
-> > > the video-mux and/or the MIPI CSI-2 receiver of the i.MX6 might be in
-> > > between them on the media pipeline.
-> > > The CSI driver already implements the functionality to find the connected
-> > > camera sub-device to call get_mbus_config on it.
-> > > 
-> > > At this point the driver is modified as follows:
-> > > In the case that get_mbus_config is not implemented by the upstream
-> > > camera, try to get its endpoint configuration from the firmware interface
-> > > usign v4l2_fwnode_endpoint_parse.
-> > > For the supported mbus_types (V4L2_MBUS_PARALLEL, V4L2_MBUS_BT656 and
-> > > V4L2_MBUS_CSI2_DPHY), extract the mbus_config from the endpoint
-> > > configuration.
-> > > For all other mbus_types, return an error.
-> > > 
-> > > Note that parsing the mbus_config from the fw interface is not done during
-> > > probing because the camera that's connected to the CSI can change based on
-> > > the selected input of the video-mux at runtime.
-> > > 
-> > > [0] drivers/staging/media/imx/imx-media-csi.c - line 211..216
-> > > [1] include/media/v4l2-subdev.h - line 814
-> > > 
-> > > Signed-off-by: Mathis Foerst <mathis.foerst@mt.com>
-> > > ---
-> > >  drivers/staging/media/imx/imx-media-csi.c | 36 ++++++++++++++++++++---
-> > >  1 file changed, 32 insertions(+), 4 deletions(-)
-> > > 
-> > > diff --git a/drivers/staging/media/imx/imx-media-csi.c b/drivers/staging/media/imx/imx-media-csi.c
-> > > index 3edbc57be2ca..394a9321a10b 100644
-> > > --- a/drivers/staging/media/imx/imx-media-csi.c
-> > > +++ b/drivers/staging/media/imx/imx-media-csi.c
-> > > @@ -169,6 +169,8 @@ static int csi_get_upstream_mbus_config(struct csi_priv *priv,
-> > >  {
-> > >  	struct v4l2_subdev *sd, *remote_sd;
-> > >  	struct media_pad *remote_pad;
-> > > +	struct fwnode_handle *ep_node;
-> > > +	struct v4l2_fwnode_endpoint ep = { .bus_type = 0 };
-> > 
-> > Are there any defaults in DT bindings (other than 0's)? Also initialising a
-> > field to zero this way is redundant, just use {}.
-> > 
+On 03/06, Saalim Quadri wrote:
+> ADIS16203 and ADIS16201 are very similar in functionality whilst the
+> major difference between the accuracy in ADIS16201, I wonder if they
+> can be merged together into single driver, whilst also implementing
+> platform_device support in them.
 > 
-> I was going to respond in much the same way.  This is equivalen to:
-> 
-> struct v4l2_fwnode_endpoint ep = { .bus_type = V4L2_MBUS_UNKNOWN };
+From quick datasheet comparison, yes, I think the drivers could be merged.
 
-Thinking about this in a context of parsing the endpoint, in fact the
-bus_type should be specified. Presumably the hardware is D-PHY, so the
-correct value would be V4L2_MBUS_CSI2_DPHY. This way
-v4l2_fwnode_endpoint_parse() doesn't need to guess.
+> I want to work on this, provided some opinions for me to work with
+> or to have a separate driver for both of them.
+
+I often look at two things when assessing if two or more devices can be
+supported by the same driver, the protocol and internal register structure. For
+IIO devices, the protocol is usually I2C or SPI. Though, even between devices of
+same protocol, there may be differences on how the data is structured in
+read/write commands. Also, if internal registers have very different addresses
+or meanings, it makes it harder to reuse code because the configuration
+procedure for each distinct design/device will tend to require specific
+handling.
+
+That said, ADIS16201 and ADIS16203 SPI read/write commands seem to be the same,
+and ADIS16203 registers seem to be a subset of ADIS16201's. That's why I think
+it may be worth merging the drivers. I didn't read the datasheets thoroughly,
+though.
 
 > 
-> > >  	int ret;
-> > >  
-> > >  	if (!priv->src_sd)
-> > > @@ -210,11 +212,37 @@ static int csi_get_upstream_mbus_config(struct csi_priv *priv,
-> > >  
-> > >  	ret = v4l2_subdev_call(remote_sd, pad, get_mbus_config,
-> > >  			       remote_pad->index, mbus_cfg);
-> > > -	if (ret == -ENOIOCTLCMD)
-> > > -		v4l2_err(&priv->sd,
-> > > -			 "entity %s does not implement get_mbus_config()\n",
-> > > -			 remote_pad->entity->name);
-> > > +	if (ret == -ENOIOCTLCMD) {
-> > 
-> > 	if (!ret)
-> > 		return 0;
-> > 
-> > And you can unindent the rest.
+> I see that there has been some discussion regarding the same at [1].
 > 
-> I was going to say this too but then I thought actually this needs to
-> be:
-> 
-> 	if (ret != -ENOIOCTLCMD)
-> 		return ret;
-> 
-> Which is weird.  Better to break all the new code into a separate
-> helper function.
-> 
-> 	if (ret == -ENOIOCTLCMD)
-> 		ret = parse_fw_link_config_stuff();
-> 
-> 	return ret;
+> [1]: https://lore.kernel.org/linux-iio/20230124094450.0000272b@Huawei.com
 
-Indeed. get_mbus_config() presumably wouldn't return an error but
-correctness is usually a good idea.
+Git tends to rename/move files when we move a file from one directory to another.
+IIRC, Jonathan prefers the drivers to be completely removed from staging to then
+be added under iio directory to sort of make it clearer that something is
+being added to official (not staging) IIO drivers. To accomplish that, we
+use --no-renames flag (e.g. git format-patch --no-renames ...).
 
--- 
-Regards,
-
-Sakari Ailus
+> 
+> Sincerely,
+> Saalim Quadri
+> 
