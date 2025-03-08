@@ -1,62 +1,62 @@
-Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
+Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAFA720F083
-	for <linux-staging@lists.linux.dev>; Sat,  8 Mar 2025 18:34:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F37DA211A36
+	for <linux-staging@lists.linux.dev>; Sat,  8 Mar 2025 18:34:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741458887; cv=none; b=K7QuV2TeGQ2GLV5CgzIwjWebkW30d3DaUEVXREdi6+g8+mkzcNsMlyDCgQMKTi1due3Joqq06jocItSe89x5YqFkFH3yhk7S3yDUTwc2Q20pTbNFrk2LMv7iC7TRkX1Gja725ZL7tQGv6Uey+vpahepZyfWkO0cU7j3U+YCr8jU=
+	t=1741458890; cv=none; b=gXLwrToWS7R771GozeN9wW9aLFth/u6X5d1NMCJk78NFdaAajhLHG35ZMdzv6xD7CFvmO+mFUTI4ZOL9Q+ATzQa8/s6+e6e8Fyk/CLIscmqJTrjSZEPV6pO+PI0AVY1aLqlMN279f5dMvCAfIZExTlHOhkg2FaSK61ISoIUnKII=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741458887; c=relaxed/simple;
-	bh=JcNX+Uwj8MrIGD510BeCEpEVIg+bwj5e+9GO+9IhS7U=;
+	s=arc-20240116; t=1741458890; c=relaxed/simple;
+	bh=5BmJ708+8yLNhEiLFxS9ZrT1GPmVWS8r+iO9v8SdOuU=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=RG2tHyIiA+5ft3H5MQr963gTM5RjPoCQdPGq3g57nI9A49FXTPRl85ywssJfW1aFAQyAkM3EMalp0rnKRe84tXDlu79gMvdiztNCFSZQmU4g0pmwofSmF7WsoVt2QQjkqPcKiBXhacHLR9zX1k1vFCVbK7zG8dGGC2a92BQtPpc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Eg6nuZNo; arc=none smtp.client-ip=209.85.218.42
+	 MIME-Version; b=FKxWhc3G3fIG7NnpDfrGWrwnvMTyoxLXZ5bIyzjG1YWjPm8q/zw/QrIp85j4iH+D2m4BKKaIDza2hQqznbKO5hIQti+8Fgns6R69TPgj8rDnc4z+HQP7uJXoRDygZiFiqQ0BrBqPBVLtPLyeu8yWE21sbBNVhVUyqMjw/hoH8mE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AzA0mcIA; arc=none smtp.client-ip=209.85.208.44
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Eg6nuZNo"
-Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-ac2400d1c01so499000266b.1
-        for <linux-staging@lists.linux.dev>; Sat, 08 Mar 2025 10:34:45 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AzA0mcIA"
+Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-5e64700a38cso369094a12.1
+        for <linux-staging@lists.linux.dev>; Sat, 08 Mar 2025 10:34:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1741458884; x=1742063684; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1741458887; x=1742063687; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=H3B4HVT5Pw89yNuuwGAR+e1ksx1vA1Amc86HOn9OXiU=;
-        b=Eg6nuZNoGJkwpza7sW6cn1yH2Ii2RRCaEm+MoX7MYM890NUm0Z+EqcMreCn8ELiBO9
-         /a5zFNeSDXUWjPOBo+O/sDjDOmabOF35KQPcIqQr7tJCoV6dNXCQqvfLIRQka6St+Akv
-         6svfSIFzuJ8g8rhpEK/6maa3R2CJisCrLsfOaIywN0MwMrf39HCmzWpEb8/6jK0p8gGG
-         TpWi9G7JbjuTEvDA585FZ4uYNjNodlYARQnF6mWlN7W3hJ4Ed3iCb1zVOVqsQSV76qIU
-         t8ha1OG9hmcZNJYRFFFbVLn2DNMR/vT0o5oKxH44qGjfciWnXM3rf+p3VKi2oLO+joVR
-         L3fA==
+        bh=niTukLIvAiAEZdTX9VzP25J+OMwBy7xtkz5/2stDFtA=;
+        b=AzA0mcIARDl0O3UmIW6+/wIyZiUTpMotwiLBGeKH025N71r1U5pSOr57dC40wSHU1O
+         urowxA4WFb+BO+JA6dEiRKJPyiXWQMpvig5cKCa0YdtYGPDFShWlLuJrreBOy94alO48
+         C6ImbxeOIOsL4B3PCNmUEjY4RmEigOt+7jDsfrJS8yR6BNPtP7sRHUvtwDzSWdu6aSs8
+         UbqJavVej0J9WpQyVd31ui3PMsAWuq7Yyywo02nD1a57I7WKuB1PfTWnRZa+QpnActED
+         vrLoXoZULvKCD+vNBeFKlnHopjq8abfwkaxxw5v/X/WUcNfMlsTsaGNHbcJHz80/GNWb
+         xabQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741458884; x=1742063684;
+        d=1e100.net; s=20230601; t=1741458887; x=1742063687;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=H3B4HVT5Pw89yNuuwGAR+e1ksx1vA1Amc86HOn9OXiU=;
-        b=CjMbx+cx/jGV8d2AHG+nPjTGkVBKgPkTAoIcS0Q1yDka21KRwEwpBJEgP55T4y3SGx
-         OtQ4ljdJo6bE3M198eoyWr6xgUKNYCc18TTbganrh3mx5XcbvIs1ivBBDEk+geKmdmeX
-         nJawYfJY/CV86ZH6SpXLG99BEf5C+8UzjVMdd3Xh24po2hSc7iAshvlpV86xmxMGE8yP
-         9rkW5F/VXqT16M4+aUemiTNRNwcD3PPbeVX2zTF3yfYtz4IjC5C4JyvXWoru5ERUWuGG
-         2sAU+uogMVemOEkzNiILHiDMb25d5EaJxCikRjVj+z9OMdqRc5hEXLtuArLRxM6OB9ca
-         8f0Q==
-X-Forwarded-Encrypted: i=1; AJvYcCWUvTq5RzCNxKyM/PbxoOW+eICp+ZP5That2IWjPkS/t+zjrf3+v/OqDJC3++sR4Nt0MlLC93P8njRzHhDu@lists.linux.dev
-X-Gm-Message-State: AOJu0YzH6qP8opfeCIEqYHRhqbvqXf9swJle6RVi3xa72Q0NZaJqdx6A
-	G80T5ilLcW1evkAQu/Z2DfYuhSyO5+p59NOjGD38hFF0B5/I+0ay
-X-Gm-Gg: ASbGnctEMLivrK95YRvlNkV4aHx/Vmio9zTzw3BFP96n6kYHU+NfWPKqMkmHDJgm5mc
-	V1tqsc9ExlfXlfk1jm13a8DLF/vk3RCAdDAXQXX4oPsLjIlXiaRZE0D1O02U1WPQJYJD3BHJelT
-	1QN/bQKkoTZ7qV/hPzXqZb1MrXnNeeqyFfsGSAAIqLKAbMC+MW+fq3GjZLWxqlZTzotkR+bR3um
-	uBfsH/04RHw2wNJm9Rr0scQPIGVlpMsRKKkYVhT5eFRJi8duopKc53U2N+A4uvuJGuW7/gom4ib
-	01j5F2n8j7Yz5AqC509JLRE257KVaDPa+SqLaiZ10XdtLmGEneYi5UVsYA==
-X-Google-Smtp-Source: AGHT+IFNSueh0kjG5Dw4oKrSBt0pxkCJRfwG8SDYdVUY+KWspoiw5fa0VzHeIZu860SzagBERe1Ohw==
-X-Received: by 2002:a17:907:a4c7:b0:abf:6f95:22fc with SMTP id a640c23a62f3a-ac26cc768f8mr411691166b.28.1741458883641;
-        Sat, 08 Mar 2025 10:34:43 -0800 (PST)
+        bh=niTukLIvAiAEZdTX9VzP25J+OMwBy7xtkz5/2stDFtA=;
+        b=ru7LS1KOQ8PTKHQJsbp6OKvKbwwECVUDkq1hY+j06Iv14SSF06ShUkcvImG9moS+98
+         N0OBNgXPlU0qr0YziA2/8CsHCL0Nns2POr82eZn64XrZ8CYsFU6rqpfbcMOuTZ+fDOh4
+         MNpHZ0Yhvgs6mhZADGk/s/vyscE8atWKnzfvJ7axFGtDUvgyFOXlU/iy045/vxmQDdUa
+         YZ8j3ZAhz//JX6ZJiKl97EYWYqh5FOYhtrz3qqV0RQlpyew9rBnaT5ldWpJR+GTw85UB
+         grcwMoeLQ0waHK8FggNb0GL2yABahWVxStcn7PBHjo/E4DrSS6s6G46GPLAt0BE5tzDM
+         saHA==
+X-Forwarded-Encrypted: i=1; AJvYcCUhJRzpKBDXglCrUdex8wQyuJ/8ZiU3oJVphK2RBPY/nTMvKNB9mP6ZvW/olcrpji7hE+MswK18Z4/m8fKR@lists.linux.dev
+X-Gm-Message-State: AOJu0YwcODROBvvxEXMoXLZcDXPF2oQQ5QoKWnuGcXfhJ2BSYVMFTwPw
+	p2TVzL/rNw6Bi0rKSDpyc3HzYkfGtY9BfkxLkv/0vwNjWuCOLL1f
+X-Gm-Gg: ASbGncuSGAH70BKge0NZx9iA21jj10L3Fz7Af+KD5p6by+6oJMkRCq/5YrFPYyBWNfW
+	h9VVqRl5sNXZFnAFU2eHF11kHnm32ODaHRhYJheCxe5CIvI91DmM8l5qAdC5xHydt2bPS0rMTq/
+	xsVtJEOgn/Gpw2tEvo4GuZPf2XaJa9sA+28hIakPWhLM14FI1KxrN94Sp6shzALLtPI0K28kDis
+	rGA2EsKSdp5B0XFY9bXR0BR+8brjA/dtM5HTW6btXGuhUyrzfRvZTkosdoPW83OL7A9BaE2Ck0d
+	Wh/OXE7paowYlalU76wovfuLhY3REex5a03Zu5hloANAb5kNRvFY90i4lQ==
+X-Google-Smtp-Source: AGHT+IEYfnZZSKKwlnhzVkFTovCEetnxmc3aAYiYEW+59CxQQ6vlMjKTl8zXdIYjCmymG9n4u7FXQg==
+X-Received: by 2002:a17:906:f59c:b0:abf:6389:6d19 with SMTP id a640c23a62f3a-ac252a9e5demr952699666b.15.1741458887103;
+        Sat, 08 Mar 2025 10:34:47 -0800 (PST)
 Received: from demon-pc.localdomain ([188.27.130.21])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ac24a84397fsm379693666b.96.2025.03.08.10.34.40
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ac24a84397fsm379693666b.96.2025.03.08.10.34.44
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 08 Mar 2025 10:34:43 -0800 (PST)
+        Sat, 08 Mar 2025 10:34:46 -0800 (PST)
 From: Cosmin Tanislav <demonsingur@gmail.com>
 To: 
 Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
@@ -105,9 +105,9 @@ Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
 	linux-staging@lists.linux.dev,
 	linux-gpio@vger.kernel.org,
 	Cosmin Tanislav <demonsingur@gmail.com>
-Subject: [RFC PATCH 04/24] dt-bindings: media: i2c: max96717: add support for pinctrl/pinconf
-Date: Sat,  8 Mar 2025 20:33:33 +0200
-Message-ID: <20250308183410.3013996-5-demonsingur@gmail.com>
+Subject: [RFC PATCH 05/24] dt-bindings: media: i2c: max96717: add support for MAX9295A
+Date: Sat,  8 Mar 2025 20:33:34 +0200
+Message-ID: <20250308183410.3013996-6-demonsingur@gmail.com>
 X-Mailer: git-send-email 2.48.1
 In-Reply-To: <20250308183410.3013996-1-demonsingur@gmail.com>
 References: <20250308183410.3013996-1-demonsingur@gmail.com>
@@ -119,134 +119,35 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-MAX96717 is capable of configuring various pin properties.
+MAX9295A is an older variant of the MAX96717 which does not support
+tunnel mode.
 
-Add pinctrl/pinconf properties to support this usecase.
+Document the compatibility.
 
 Signed-off-by: Cosmin Tanislav <demonsingur@gmail.com>
 ---
- .../media/i2c/maxim,max96717-pinctrl.yaml     | 71 +++++++++++++++++++
- .../bindings/media/i2c/maxim,max96717.yaml    | 16 ++++-
- MAINTAINERS                                   |  1 +
- 3 files changed, 87 insertions(+), 1 deletion(-)
- create mode 100644 Documentation/devicetree/bindings/media/i2c/maxim,max96717-pinctrl.yaml
+ .../devicetree/bindings/media/i2c/maxim,max96717.yaml          | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/media/i2c/maxim,max96717-pinctrl.yaml b/Documentation/devicetree/bindings/media/i2c/maxim,max96717-pinctrl.yaml
-new file mode 100644
-index 000000000000..9480d3127643
---- /dev/null
-+++ b/Documentation/devicetree/bindings/media/i2c/maxim,max96717-pinctrl.yaml
-@@ -0,0 +1,71 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+# Copyright (C) 2025 Analog Devices Inc.
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/media/i2c/maxim,max96717-pinctrl.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Maxim GMSL2 Serializer Pinctrl
-+
-+maintainers:
-+  - Cosmin Tanislav <cosmin.tanislav@analog.com>
-+
-+allOf:
-+  - $ref: /schemas/pinctrl/pincfg-node.yaml#
-+  - $ref: /schemas/pinctrl/pinmux-node.yaml#
-+
-+unevaluatedProperties: false
-+
-+properties:
-+  function: true
-+  pins: true
-+  drive-open-drain: true
-+  drive-push-pull: true
-+  bias-disable: true
-+  bias-pull-up: true
-+  bias-pull-down: true
-+  output-disable: true
-+  output-enable: true
-+  output-low: true
-+  output-high: true
-+  slew-rate: true
-+  input-enable: true
-+
-+  maxim,jitter-compensation:
-+    type: boolean
-+    description: Enables jitter compensation.
-+
-+  maxim,gmsl-tx:
-+    type: boolean
-+    description: Enable transmitting pin value to GMSL link.
-+
-+  maxim,gmsl-rx:
-+    type: boolean
-+    description: Enable receiving pin value from GMSL link.
-+
-+  maxim,gmsl-tx-id:
-+    $ref: /schemas/types.yaml#/definitions/uint32
-+    description: |
-+      Identifier used while transmitting value to GMSL link.
-+      Default value matches the pin number.
-+    min: 0
-+    max: 31
-+
-+  maxim,gmsl-rx-id:
-+    $ref: /schemas/types.yaml#/definitions/uint32
-+    description: |
-+      Identifier used while receiving value from GMSL link.
-+      Default value matches the pin number.
-+    min: 0
-+    max: 31
-+
-+  maxim,rclkout-clock:
-+    $ref: /schemas/types.yaml#/definitions/uint32
-+    description: |
-+      Clock value.
-+      0 - XTAL / 1 = 25MHz
-+      1 - XTAL / 2 = 12.5MHz
-+      2 - XTAL / 4 = 6.25MHz
-+      3 - Reference PLL output
-+    min: 0
-+    max: 3
 diff --git a/Documentation/devicetree/bindings/media/i2c/maxim,max96717.yaml b/Documentation/devicetree/bindings/media/i2c/maxim,max96717.yaml
-index 7d77cc9dcd96..20114c252e01 100644
+index 20114c252e01..1e5b85167d0e 100644
 --- a/Documentation/devicetree/bindings/media/i2c/maxim,max96717.yaml
 +++ b/Documentation/devicetree/bindings/media/i2c/maxim,max96717.yaml
-@@ -88,7 +88,21 @@ required:
-   - reg
-   - ports
+@@ -24,11 +24,14 @@ description:
  
--additionalProperties: false
-+additionalProperties:
-+  anyOf:
-+    - type: object
-+      allOf:
-+        - $ref: /schemas/media/i2c/maxim,max96717-pinctrl.yaml#
+   The GMSL2 serial link operates at a fixed rate of 3Gbps or 6Gbps in the
+   forward direction and 187.5Mbps in the reverse direction.
 +
-+      unevaluatedProperties: false
-+
-+    - type: object
-+      additionalProperties:
-+        type: object
-+        allOf:
-+          - $ref: /schemas/media/i2c/maxim,max96717-pinctrl.yaml#
-+
-+        unevaluatedProperties: false
+   MAX96717F only supports a fixed rate of 3Gbps in the forward direction.
++  MAX9295A only supports pixel mode.
  
- allOf:
-   - $ref: /schemas/i2c/i2c-atr.yaml#
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 8f463ebca056..f8ffb7cff9c5 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -14201,6 +14201,7 @@ M:	Julien Massot <julien.massot@collabora.com>
- M:	Cosmin Tanislav <cosmin.tanislav@analog.com>
- L:	linux-media@vger.kernel.org
- S:	Maintained
-+F:	Documentation/devicetree/bindings/media/i2c/maxim,max96717-pinctrl.yaml
- F:	Documentation/devicetree/bindings/media/i2c/maxim,max96717.yaml
- F:	drivers/media/i2c/max96717.c
- 
+ properties:
+   compatible:
+     oneOf:
++      - const: maxim,max9295a
+       - const: maxim,max96717f
+       - items:
+           - enum:
 -- 
 2.48.1
 
