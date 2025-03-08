@@ -1,80 +1,311 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B04611FC8;
-	Sat,  8 Mar 2025 14:49:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1C611E835E
+	for <linux-staging@lists.linux.dev>; Sat,  8 Mar 2025 18:34:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741445390; cv=none; b=R5INOqSBZq59u9Vqd1eGTgkeQjNTxX9JiKO1sR2mfCXYd0Ngqtrf2NOMNGY++zsxX3jI7MSd5Gh7eLw0lzc1S+OQ+hghi8iaTBKLW96Q7CXv2AFwIHsI6t7wHzdzVEAyLPm3825P1tu2FHAtLbdlusCABiWpYDmw1fbXJbyYCAY=
+	t=1741458872; cv=none; b=k6g0xp04asaMz1EQdKMprjb27VuYWvN0uRkLyN9vHwtaJ8+gWzgWEWfwiXy9E0TBFK/N+XgCmMS6XGczSffLq14+iqMn/hOK1vLJ09tUxEzcK6LEkcvl2X5z85tUqCoUT6h2Ui5Z5PmfpDFEtmQ+Mo9DX3IGxOCS+3MxYMAgSkc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741445390; c=relaxed/simple;
-	bh=R8wIqEEh7oZBD4/sfetEpw/Svjr9aZZPk0tYe3G4/i8=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=gzBHRz9AvTey9L7GtGIGmO/lREmpUEg9i5G8NUgpJUM9YVMIYkuC4wpVT4DKAc1zlFUTYdYl6zqk5pgE5E5OkWfPIjQqsOVQyuU0ByzQzsuyR2FVuhkW3fJRSUiDr/eUArqFV4d3yCaIRkJcFBvctYcZh2SeSuirDqdx2VMN9Qk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mNIcDDZc; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1741458872; c=relaxed/simple;
+	bh=NZUEtbJq5bu1tJCRUKEYacZtpI3V7Bf5yJ2ZzcKmhtw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=cHp91eMpXHaKFPipx/Du7q+DUIeNjpk9bQYnBnAQQgskuGkDqkTNfDiqR6Sk7VvZHw5/ch0oX/i3NOk7/DG8xWD/fvOXiDZG8QFZxytoyvPLjKxK7t2p37xZg6Paz5BUrERZeEryUqpZ/4usuorDSwXuxqwz4xX7KyZxp/U8ktE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Bcmhooyr; arc=none smtp.client-ip=209.85.218.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mNIcDDZc"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E321FC4CEE0;
-	Sat,  8 Mar 2025 14:49:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1741445390;
-	bh=R8wIqEEh7oZBD4/sfetEpw/Svjr9aZZPk0tYe3G4/i8=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=mNIcDDZcJ7rpK3ytm/2AB+YbYYCPtu4Jh9rIo1a2NZynXZa9BhED3KfBC5H1sd4xC
-	 katP8D/ejb8x6XJ4LJwX/vUc6KH1rqW120vwj+KtZIOmxENelqPM966EKJCYb1ff4o
-	 MWqw/qrOUmJGWocxfM/pkRZMm0//o7ifH9v69AKzX/y+AE672+f8EMrGJetUYR9+1t
-	 DDNjF7ItGDr4zEipRCJK1tVYy28IX/91G4Rv4mBS01pURQX8OMm3NI0iMv5I4kxtoZ
-	 P11fZsKsVGfH5GUffjUl6szRlfR0idgLNg1yJgyEyUGW4+SR26c9KDnyrxDiL/MdaY
-	 WFJv3SSCcsG6Q==
-Date: Sat, 8 Mar 2025 14:49:44 +0000
-From: Jonathan Cameron <jic23@kernel.org>
-To: Siddharth Menon <simeddon@gmail.com>
-Cc: linux-iio@vger.kernel.org, marcelo.schmitt1@gmail.com,
- gregkh@linuxfoundation.org, lars@metafoo.de, Michael.Hennerich@analog.com,
- linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev, lars@metafoo.d
-Subject: Re: [PATCH 0/2] iio: accel: adis16203: cleanup and standardization
-Message-ID: <20250308144944.668d79b5@jic23-huawei>
-In-Reply-To: <20250308144357.20f24fa6@jic23-huawei>
-References: <20250305155712.49833-2-simeddon@gmail.com>
-	<20250308144357.20f24fa6@jic23-huawei>
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.48; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Bcmhooyr"
+Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-abec8b750ebso483175166b.0
+        for <linux-staging@lists.linux.dev>; Sat, 08 Mar 2025 10:34:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1741458869; x=1742063669; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=cnph4Pjkh7NDe/vO7CvtB8Q7vW3zaR6uOeHtknwGb3Q=;
+        b=BcmhooyrXsqy6/PwcuczKz9xXcM6C8+pjBs4hiELav6xySLLwOq+bLvWarc1QrC4VZ
+         ucBGpafVz84ce4lorIFRiy0uXbltNUVDavPKZjI2N/lx8Io4TnRhJBdJ4qhdZapRWCXc
+         weGMkZ8Gk+TVptD/TLr05qJDAZ/AwYrxjFdhhl571YRCLrYbLP49cqx3EK4HG5a4M42Q
+         YFEQZfekpH1F+uptOJnM/1TcD+y5lxVtWDCVnAOukCAuumfgokztbPNyW786DAVx3MrW
+         KXUl/ZQD2nqtNL7/reylDQAqloFaJJrI19EkVUNasuO6wuXrJ17HLVOz1r9vhVCO5/ep
+         i65Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1741458869; x=1742063669;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=cnph4Pjkh7NDe/vO7CvtB8Q7vW3zaR6uOeHtknwGb3Q=;
+        b=t6pibcqAuQdEKIkcuzeplac2rgCEk23/+QNWChMkKr6pFPC/VgrmDerOTT6I++aQaA
+         +bxBqCYNRiNPzeSS+KU7aEgqWXKn8pcIGVza8+78KCBedC6640uGw0UMFcPGhiE6+ATc
+         mSPhUZ/BetPv5IMzVwjUCcgHFc/uwbKOn2932MH9PB37phDNyrT0sQ3IyCHwoSULYJbz
+         YkrVPDjSaMOZ1cPOGv5dWReRaS2v78eP+IdV5ad2/aKn29zEvLxlIB2v5P/m2KAeNZvL
+         iZY8KbWL95oCg5cOy//cgyiTYZF+lf869s1HqQ7vVPHT377rInijm+kTW1RhVJ1jAWaw
+         a0Ew==
+X-Forwarded-Encrypted: i=1; AJvYcCUYdoUvLqC1oFw0p1G4m7R9wWI/7l3LSKHoOjumLkwCmGpbBL+abf6ED8Q6EwEEHvtqf1dzFegMu918MBeE@lists.linux.dev
+X-Gm-Message-State: AOJu0YxXE+iFCBOhUW4GHThdzTK0wZuPCQPvFwWlO8xVmVPl3/fYhbg7
+	spwhzbLNLYYWV+98NxQnAmkt7WfJx8qEqpa3NehQkZx3Qz7TK807
+X-Gm-Gg: ASbGncvZ2ZJhXOUrLAgYhVs9T4wLHc0y3JFjtTJMqyeY9Q4wKW19nDtEJ6mnKWlL6BN
+	AKqU2KHVd2ci7D26yXwlxvZ3bomhe1vRcz1XIrVdFdMlRpW1BoFZhp4K4T7xY4JJ+0qsE5GbRXy
+	M9z8YiXThZBzCUEzy7GErypYHpsn0ZLQHlRvaqv8YYQQJy8Rw1VzRJ35XojSnyhfzw98k4mtcSb
+	OXYbklbe69NIN/1G/Q7Idkba7H8TcPLyz96JTZhVkoe9+SVQACTqzKY0T6VH6J1nLg3mwrVMNx1
+	ZFp4Uf8Z1m2xLjoaOw7Vmklrk6mqG6yHwwZuJ0AtdXfytdRNX6HW9MhJ4Q==
+X-Google-Smtp-Source: AGHT+IFlQa0WMb2+wSlKNfDHlapXAeQqbXw15a3LXATAfKzeJE3GltkLPgSDOpIdBu646StR1yvVuA==
+X-Received: by 2002:a17:906:dc8e:b0:abf:6ec7:65e9 with SMTP id a640c23a62f3a-ac252f8f556mr813756566b.43.1741458868737;
+        Sat, 08 Mar 2025 10:34:28 -0800 (PST)
+Received: from demon-pc.localdomain ([188.27.130.21])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ac24a84397fsm379693666b.96.2025.03.08.10.34.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 08 Mar 2025 10:34:28 -0800 (PST)
+From: Cosmin Tanislav <demonsingur@gmail.com>
+To: 
+Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+	=?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+	Cosmin Tanislav <cosmin.tanislav@analog.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Julien Massot <julien.massot@collabora.com>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Bartosz Golaszewski <brgl@bgdev.pl>,
+	Bjorn Andersson <quic_bjorande@quicinc.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+	Heiko Stuebner <heiko@sntech.de>,
+	Biju Das <biju.das.jz@bp.renesas.com>,
+	Taniya Das <quic_tdas@quicinc.com>,
+	=?UTF-8?q?N=C3=ADcolas=20F=20=2E=20R=20=2E=20A=20=2E=20Prado?= <nfraprado@collabora.com>,
+	Eric Biggers <ebiggers@google.com>,
+	Javier Carrasco <javier.carrasco@wolfvision.net>,
+	Ross Burton <ross.burton@arm.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Hans Verkuil <hverkuil@xs4all.nl>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Umang Jain <umang.jain@ideasonboard.com>,
+	Zhi Mao <zhi.mao@mediatek.com>,
+	Kieran Bingham <kieran.bingham@ideasonboard.com>,
+	Dongcheng Yan <dongcheng.yan@intel.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
+	Tommaso Merciai <tomm.merciai@gmail.com>,
+	Dan Carpenter <dan.carpenter@linaro.org>,
+	Ricardo Ribalda <ribalda@chromium.org>,
+	Ihor Matushchak <ihor.matushchak@foobox.net>,
+	Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>,
+	linux-media@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-staging@lists.linux.dev,
+	linux-gpio@vger.kernel.org,
+	Cosmin Tanislav <demonsingur@gmail.com>
+Subject: [RFC PATCH 00/24] media: i2c: add Maxim GMSL2/3 serializer and deserializer drivers
+Date: Sat,  8 Mar 2025 20:33:29 +0200
+Message-ID: <20250308183410.3013996-1-demonsingur@gmail.com>
+X-Mailer: git-send-email 2.48.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On Sat, 8 Mar 2025 14:43:57 +0000
-Jonathan Cameron <jic23@kernel.org> wrote:
+This series adds new drivers for multiple Maxim GMSL2 and GMSL3 devices,
+replacing the few GMSL2 drivers already in upstream, and introducing a
+common framework that can be used to implement such GMSL chips, which
+avoids code duplication while also adding support for previously
+unsupported features.
 
-> On Wed,  5 Mar 2025 20:59:10 +0530
-> Siddharth Menon <simeddon@gmail.com> wrote:
-> 
-> > This series improves the adis16203 driver by using standard unit macros
-> > and removing an unused spi_set_drvdata() call.
-> > 
-> > Siddharth Menon (2):
-> >   iio: accel: adis16203: Use units.h macros for voltage values
-> >   iio: accel: adis16203: Remove spi_set_drvdata()
-> > 
-> >  drivers/staging/iio/accel/adis16203.c | 9 ++++-----
-> >  1 file changed, 4 insertions(+), 5 deletions(-)
-> >   
-> 
-> I'm not going to apply these because I think you correct
-> identified that the device support should just be added
-> to the adis16201 driver and this one dropped.
-> Good thing you were more awake on this than me ;)
-> 
-Sorry - wrong person.  
-https://lore.kernel.org/all/20250306002645.1555569-1-danascape@gmail.com/
+While the normally acceptable and polite way would be to extend the
+current mainline drivers, the choice was made here to add a totally new
+set of drivers. The current drivers support only a small subset of the
+possible features, and only a few devices, so the end result after
+extending them would in any case be essentially fully rewritten, new
+drivers.
 
-I'm definitely not awake today.
+This series depends on these two series:
+ * https://lore.kernel.org/lkml/20250306-fpc202-v9-0-2779af6780f6@bootlin.com
+ * https://lore.kernel.org/lkml/20250228151730.1874916-1-demonsingur@gmail.com
 
-Jonathan
+The following deserializers are supported:
+ * MAX96712 (already exists in staging)
+ * MAX96714 (already exists)
+ * MAX96716 (GMSL2)
+ * MAX96724 (part of existing MAX96712 driver)
+ * MAX9296A (GMSL2)
+ * MAX96792A (GMSL3)
 
-> Jonathan
+The following serializers are supported:
+ * MAX96717 (already exists)
+ * MAX9295A (GMSL2)
+ * MAX96793 (GMSL3)
+
+Missing features:
+ * The current TPG implementation makes use of the V4L2_CID_TEST_PATTERN
+   V4L2 control. With V4L2 streams support added, we would like to hook
+   up TPG using the internal pad feature which has not been accepted
+   upstream yet. We decided to leave TPG out for the moment and add it
+   back after internal pads have been accepted.
+
+Known backward compatibility breakages:
+ * No default routing. Default routing has been intentionally ommitted
+   as the devices support quite complex routing and it would be
+   unfeasible to provide sane defaults for multi-link deserialziers.
+   It is expected that userspace programs would set appropritate
+   routing. 
+
+The following list enumerates new features that are supported by the
+common framework and their respective chip-specific drivers:
+ * Full Streams API support. Most deserializers have support for more
+   than one link, and more than one PHY. Streams support allows
+   configuration of routing between these links and PHYs.
+
+ * .get_frame_desc() support. Both the serializers and deserializers
+   implement this to query and provide frame descriptor data. This is
+   used in features explained in-depth below.
+
+ * .get_mbus_config() support. The deserializers implement this to allow
+   upstream devices to query the link frequency of its pads.
+
+ * Address translation with I2C ATR for the serializers.
+
+ * I2C MUX where supported by the hardware for deserializers, otherwise
+   I2C ATR translation - some deserializers cannot do muxing since I2C
+   communication channel masking is not available per-link, and the only
+   other way to select links is to turn them off, causing link resets.
+   For such cases, I2C ATR is used to change the address of
+   the serializers at probe time.
+
+ * Automatic VC remapping on the deserializers. VCs are picked so that
+   if they were unique on the sink pad, they will end up as unique on
+   the source pad they are routed to too, prioritizing using the same
+   VC ID as the sink pad, to facilitate the possibility of using tunnel
+   mode.
+
+ * Automatic pixel mode / tunnel mode selection. Tunnel mode is used
+   when VC IDs do not need to be changed and all hardware supports
+   tunnel mode, otherwise, pixel mode is used. The serializers are
+   automatically switched between the two by using a private API.
+
+ * Automatic double mode selection. In pixel mode, double mode can be
+   used to pack two pixels into a single data unit, optimizing bandwidth
+   usage. The serializers are automatically set up to support the double
+   modes determined by the deserializers using a private API.
+
+ * Automatic data padding. In pixel mode, if the data being transferred
+   uses two different BPPs, data needs to be padded. The serializers
+   automatically set this up depending on the configured double mode
+   settings and incoming data types.
+
+ * Logging. Both the deserializers and serializers implement the V4L2
+   .log_status() ops to allow debugging of the internal state and
+   important chip status registers.
+
+ * PHY modes. Deserializer chips commonly have more than a single PHY.
+   The firmware ports are parsed to determine the modes in which to
+   configure the PHYs (2x4, 4x2, 1x4+2x2, 2x2+1x4, and variations using
+   fewer lanes).
+
+ * Serializer pinctrl. Serializers implement pinctrl to allow setting
+   configs which would otherwise be inaccessible through GPIO: TX/RX via
+   GMSL link, pull-up & pull-down (with strength), open-drain &
+   push-pull, slew rate, RCLK pin selection.
+
+The drivers have been tested on the following hardware combinations, but
+further testing is welcome to ensure no / minimal breakage:
+ * Raspberry Pi 5 + MAX96724 + 4xMAX96717 + 4xIMX219
+ * Raspberry Pi 5 + MAX96792A + 1xMAX96793 + 1xMAX96717 + 2xIMX219
+ * Raspberry Pi 5 + MAX96792A + 2xMAX96717 + 2xIMX219
+ * Renesas V4H + MAX96712 + 2xMAX96717 + 2xIMX219 
+
+Analog Devices is taking responsibility for the maintenance of these
+drivers and common framework, and plans to add support for new
+broad-market chips on top of them.
+
+Special thanks go to Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+for testing the drivers, helping debug and coming up with ideas /
+implementations for various features.
+
+Cosmin Tanislav (24):
+  dt-bindings: media: i2c: max96717: add myself as maintainer
+  dt-bindings: media: i2c: max96717: reflow text
+  dt-bindings: media: i2c: max96717: add support for I2C ATR
+  dt-bindings: media: i2c: max96717: add support for pinctrl/pinconf
+  dt-bindings: media: i2c: max96717: add support for MAX9295A
+  dt-bindings: media: i2c: max96717: add support for MAX96793
+  dt-bindings: media: i2c: max96714: add myself as maintainer
+  dt-bindings: media: i2c: max96714: reflow text
+  dt-bindings: media: i2c: max96714: make i2c-gate conditional on
+    compatible
+  dt-bindings: media: i2c: max96714: make ports conditional on
+    compatible
+  dt-bindings: media: i2c: max96714: make supply conditional on
+    compatible
+  dt-bindings: media: i2c: max96714: add support for MAX9296A
+  dt-bindings: media: i2c: max96714: add support for MAX96716A
+  dt-bindings: media: i2c: max96714: add support for MAX96792A
+  dt-bindings: media: i2c: max96712: add myself as maintainer
+  dt-bindings: media: i2c: max96712: use pattern properties for input
+    ports
+  dt-bindings: media: i2c: max96712: increase number of output ports
+  dt-bindings: media: i2c: max96712: add support for I2C MUX
+  dt-bindings: media: i2c: max96712: add support for POC supplies
+  media: i2c: add Maxim GMSL2/3 serializer and deserializer drivers
+  arm64: defconfig: disable deprecated MAX96712 driver
+  staging: media: remove MAX96712 driver
+  media: i2c: remove MAX96717 driver
+  media: i2c: remove MAX96714 driver
+
+ .../bindings/media/i2c/maxim,max96712.yaml    |   49 +-
+ .../bindings/media/i2c/maxim,max96714.yaml    |  245 +-
+ .../media/i2c/maxim,max96717-pinctrl.yaml     |   71 +
+ .../bindings/media/i2c/maxim,max96717.yaml    |   75 +-
+ MAINTAINERS                                   |   13 +-
+ arch/arm64/configs/defconfig                  |    1 -
+ drivers/media/i2c/Kconfig                     |   34 +-
+ drivers/media/i2c/Makefile                    |    3 +-
+ drivers/media/i2c/max96714.c                  | 1024 --------
+ drivers/media/i2c/max96717.c                  | 1103 --------
+ drivers/media/i2c/maxim-serdes/Kconfig        |   53 +
+ drivers/media/i2c/maxim-serdes/Makefile       |    6 +
+ drivers/media/i2c/maxim-serdes/max9296a.c     | 1146 ++++++++
+ drivers/media/i2c/maxim-serdes/max96717.c     | 1500 +++++++++++
+ drivers/media/i2c/maxim-serdes/max96724.c     |  905 +++++++
+ drivers/media/i2c/maxim-serdes/max_des.c      | 2321 +++++++++++++++++
+ drivers/media/i2c/maxim-serdes/max_des.h      |  135 +
+ drivers/media/i2c/maxim-serdes/max_ser.c      | 1584 +++++++++++
+ drivers/media/i2c/maxim-serdes/max_ser.h      |  132 +
+ drivers/media/i2c/maxim-serdes/max_serdes.c   |  302 +++
+ drivers/media/i2c/maxim-serdes/max_serdes.h   |   88 +
+ drivers/staging/media/Kconfig                 |    2 -
+ drivers/staging/media/Makefile                |    1 -
+ drivers/staging/media/max96712/Kconfig        |   14 -
+ drivers/staging/media/max96712/Makefile       |    2 -
+ drivers/staging/media/max96712/max96712.c     |  487 ----
+ 26 files changed, 8523 insertions(+), 2773 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/media/i2c/maxim,max96717-pinctrl.yaml
+ delete mode 100644 drivers/media/i2c/max96714.c
+ delete mode 100644 drivers/media/i2c/max96717.c
+ create mode 100644 drivers/media/i2c/maxim-serdes/Kconfig
+ create mode 100644 drivers/media/i2c/maxim-serdes/Makefile
+ create mode 100644 drivers/media/i2c/maxim-serdes/max9296a.c
+ create mode 100644 drivers/media/i2c/maxim-serdes/max96717.c
+ create mode 100644 drivers/media/i2c/maxim-serdes/max96724.c
+ create mode 100644 drivers/media/i2c/maxim-serdes/max_des.c
+ create mode 100644 drivers/media/i2c/maxim-serdes/max_des.h
+ create mode 100644 drivers/media/i2c/maxim-serdes/max_ser.c
+ create mode 100644 drivers/media/i2c/maxim-serdes/max_ser.h
+ create mode 100644 drivers/media/i2c/maxim-serdes/max_serdes.c
+ create mode 100644 drivers/media/i2c/maxim-serdes/max_serdes.h
+ delete mode 100644 drivers/staging/media/max96712/Kconfig
+ delete mode 100644 drivers/staging/media/max96712/Makefile
+ delete mode 100644 drivers/staging/media/max96712/max96712.c
+
+-- 
+2.48.1
 
