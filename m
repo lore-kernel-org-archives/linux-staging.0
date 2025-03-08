@@ -1,62 +1,62 @@
-Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
+Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11C4220E00D
-	for <linux-staging@lists.linux.dev>; Sat,  8 Mar 2025 18:35:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF0FC217650
+	for <linux-staging@lists.linux.dev>; Sat,  8 Mar 2025 18:35:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741458942; cv=none; b=GA5t6t45pKFB/lfrfq8IQy5xEWsFghNMg7HloKT2I/LZjShl4sFVIgcVHdWNcQR3U9bRpyZXcHgONGUFy1xq7qDN2NyTGX2xwjghHrUWCz7LUOaqwIp2eWc4UpFdD2PLQXhGa7yxxQwteW40Rdq367UhbQM0EUD+f+gH1FUkdYo=
+	t=1741458947; cv=none; b=ZmC7yrkipPyR5NThEFDSEoU6umKSzWS7Nw2fJMZKuzM0e0cMCTyNVa9/bXkv2Odp88cvthwlmuA44Yc2tBZm1RFyigH0iuT8bs2RZZNbih/Rj7L/ho2U5U+ytodUEj6yiD+5dpMJfhmQVlfCqxjjodrmedW/y1epIZq3peJSYC8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741458942; c=relaxed/simple;
-	bh=PSA5fazrZYGh2STXG+59g+TiLDvJm5XnM9PxyZImEvM=;
+	s=arc-20240116; t=1741458947; c=relaxed/simple;
+	bh=ht5ypYiEkwHxwMKy5bQfucXh4XtSV3csZ6nPeORtxLE=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=UQzsHVZmvuKO55XGUjbyOcqoqlH+iJNc0vXqgoUCPaXBxtmmsCQ9xFT6VauxwkLPAkV0d/CgqZ1SAzHNO2kAstKB8LobfM+bN6YBAFTLomaAK8drKOPy+ZHiTsaWqlGUnInv/FtdDaNClqIY00u1gxf56rJTtx9H/COqNC0yDJ4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WeLJTLCy; arc=none smtp.client-ip=209.85.218.50
+	 MIME-Version; b=UILQPyFh2Xp7bCgH1iSgJYOiTgDxv3ld0a2KOwt3p0gY3Jea0mzckjVV2pucUVkXLoA0K4tN/d3tS+n0ene4XhkdWfUAu4GGrNhFJ4/1+zKpsD5G/gjUebwvyNZBn0l+WLfmRfObJmvYQ/LYaG7utSH08y237LkV8MbEJS6YUMY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kf206maw; arc=none smtp.client-ip=209.85.208.52
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WeLJTLCy"
-Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-ac286d4ed05so25166666b.3
-        for <linux-staging@lists.linux.dev>; Sat, 08 Mar 2025 10:35:40 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kf206maw"
+Received: by mail-ed1-f52.google.com with SMTP id 4fb4d7f45d1cf-5e5e1a38c1aso2193792a12.2
+        for <linux-staging@lists.linux.dev>; Sat, 08 Mar 2025 10:35:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1741458939; x=1742063739; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1741458943; x=1742063743; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=2cOgPHAoL12m9EBozXzMPJw28vDXvvK81+CTquR3Aqw=;
-        b=WeLJTLCySZiJ4NT4fTysVdYpWc6blSutaq6sLQYwMbHaivePLkMLWFS44dFO7kC3gO
-         AlDKENDZN+QbmuMxRJUFY/70V9Td0Svz1FbeVOZkO+WaR0GXmGwTsV0Md8G02nvfSw64
-         X5YuB+4Q7vmLgrJOXPjlfdMOGqvHsHjsbizNfOEBcntmuPVwi5zQIv7kbHi9L27tX38K
-         ehZshBCTtTgmSxLJTRaTG8KzgnnIP81/euBJHTQuc1XfCWzSMKi/scgY2tMhAl8Sertp
-         hpD7q8Vxfzs8T/wPMoEKCH7UHTDmzQ0q0PkZqsB9wfvkfgKZxDk50AkTgyPu8rp5GczK
-         qqHw==
+        bh=ZAHmn6rG6ETfCx5uG55oa9NiQsZ2fVF1iLru44ItkPk=;
+        b=kf206mawyZkHr1Rt1pqLevESzYowbr0sRSium0RnB9wjwnDxoVTTmtO+YIMV7YnECr
+         v4JX5plbFKHOl8Qxof/L3T7Nn5YoAGK3S34I1rHjd49X9aer87KPUENHrb58pecpv35G
+         smVDSZib+/JUxDwMwwSwOysfZQaV+qEuNvt1AHkpR6WK3nFiQ9RWw8kCj4RU6h/h2tcP
+         uILh//lF4aoOtivJedChwKzxAFc4nKICEWUP8xgN0eDm1euEes0ABQIT942F+hwMeCoU
+         CR0p/OP15DugEqHKh7dyZPL5oOPxmme8Op71vc22jAj9DZTMN4jBT1UenBH7aJ+OntrI
+         2KHw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741458939; x=1742063739;
+        d=1e100.net; s=20230601; t=1741458943; x=1742063743;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=2cOgPHAoL12m9EBozXzMPJw28vDXvvK81+CTquR3Aqw=;
-        b=MVKAxWVdLFWuzh9L62XAurVbTNU1Kr+V0tMg2fJ21EInDrTGHVAZHAD6C/amwZ0kF1
-         xQRXWY/UuJjzC+lgWvlHCObZQoqmWCnvfQwOTciaHEa5wxILGtGNSU43TUDj+0wnxyHo
-         QeAG9QREDJOL6QoKSmT8lsfu5RP2sECM/VnBXrsyut8kLWE8RcHv6edjGL4LhMWyxtRQ
-         b+ICFcuoh3dYDZ0lJuxQJGhVQYOFkZ8Pnaq4viYoP0j/x1fUAvdJg2Ayfiq4IceVTpnX
-         3tiuGXJJyM5kzWMdm5g4UFNe8Zx8lREd7gHh7o8dNkay0nzAIT5uMZ9q0QJHk6gkKpPC
-         UQbQ==
-X-Forwarded-Encrypted: i=1; AJvYcCU4Vt8whvj45NNVs0AaRUNw2uZebzGPJgB2nr9hPmHAl/q16lMNA3oY3Tos+YtiyIkg/IO0u+4hnHdtOwCM@lists.linux.dev
-X-Gm-Message-State: AOJu0YzxvsnFyC3hGCKlVKTQbdx5CLnUZn47fbLhP4ezwjs2c/loobBk
-	IHWjOnsPgKJvgijbbgp+ks7Pv8k6R8kIHBYGr6z30julEaPMfckj
-X-Gm-Gg: ASbGncv8UOVpvtJiYMQgYh0x8/4za1FZto3kHZuBpvJ1tWH42M1phVrMNw7xzne7f4k
-	gpb22Ls5fnTlSHIiGSK6xhUbFZ0VGC85WURpMS9WaGmfhV7DdEBmVK/KA4kNaNBLVIUJZePt136
-	OZZCvp94kmQX0h0KV1BX3V+smXNqqp8XV6dsRjVkvXZNhShg/WOeaYf2hdyIfAlE6KUd/ViUKJs
-	jLWZY4SCKKHYOBY+vBJbxbMVqcoTdgAPY72KuGrnFMAubol/pDf8L/fIuVV0JISuIcvgzKsmTQR
-	LNqAzpfrzDN3uA6agPUxj3dTso18BVXNpA9ObwDtLq9XbeN+XQJa6kpv6w==
-X-Google-Smtp-Source: AGHT+IHcPwKF5eB7VgOS8H61Ng0ywU+slTryB/Bsve8lxLP4Zc7Uc+Ntz4kGcsZJIup2zLzGgH7gHw==
-X-Received: by 2002:a17:906:5ac8:b0:ac2:7a6d:c918 with SMTP id a640c23a62f3a-ac27a6dd696mr229761566b.57.1741458939203;
-        Sat, 08 Mar 2025 10:35:39 -0800 (PST)
+        bh=ZAHmn6rG6ETfCx5uG55oa9NiQsZ2fVF1iLru44ItkPk=;
+        b=uE8XHMz06+xkWpbPeR+h6KOZkubvC8Qj/B3w5+jxowUTOJ16S8bZHqdZPOh1LpBYab
+         4XKi98Wkxc/cj1CDAqzL0SI0uYc7tADSQxw21Fx9EXiQ1x2kIhgYC++RY+Kr7GLQHeEO
+         +KbiHWVi/0HUCTGWaP5LiFpddJ8s+GDfAnXDtTndQN6T93ycTxUPWkbcVNWp4/u0Ecj0
+         Sq9iDQ77axrOuIkx8ySZGMeOu1x3dtGhXGDza9YjVk6nLSTZnHHuJl2PFP9zC7XOBXv7
+         YCN1U6JssaIWCDHW3mNZIStOml5h85FnHXVECTOq6tA0Fh+gzcd3KE+clnWDtCK9ncKP
+         eysQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWFTRsjLuNzThuzaDB4c2CZADSf2g4O+5777Rxadl0KpTykhYhftbBpY+XjwIAvIqm6TOxKpwVzJDEWNCUa@lists.linux.dev
+X-Gm-Message-State: AOJu0Yy516vGouc+QLSAc07C4lF6HRlhYJqZg8erO0laxAWHcq/nDVxj
+	tOxKOnUcmJSGg7YHc1gMF1+549Ijg8V7J4yhZ8TLpTxEVNHV1TFg
+X-Gm-Gg: ASbGnct8tGiePzk9WZUlltqlre4Td5YN1UtIyLxTSOBN4uq3qGCejzjDwvhNonI/edP
+	JmC3anNjiq8rZ2sj4cHxMkAdTM5DSWeHL6NiDUrjlpApHuzdkdw2OLKGZGpxJ39C9H0aovIgRkm
+	CkxRGTZsGgzyPzDtVT3s2MfkrxxvUXI6snVPchILAZSBBsTB4SVWxztZSWG9o2X+3belcZN7wJN
+	W08ybNCL3tqZ4I/G6JBNfHvkPkmMGT5YdHi6m/S4HodAkcylZtHc0eLmBF0mr/FY8yf2Ymz5v8V
+	u6D+wvpZxiMZg8kwrfPyUFJ4kI2cVpcM+YAzOuY1pB5x9mCPFlZ8G8r1/g==
+X-Google-Smtp-Source: AGHT+IGrMwcZh0pY9ViCetXCuLx6l8flR98nHFGVJmFE5NhrBR9RFuGiHgNwfMO7DQSkLgJr5+3lrA==
+X-Received: by 2002:a05:6402:845:b0:5e5:c76f:c019 with SMTP id 4fb4d7f45d1cf-5e5e22d8d92mr22199896a12.17.1741458942777;
+        Sat, 08 Mar 2025 10:35:42 -0800 (PST)
 Received: from demon-pc.localdomain ([188.27.130.21])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ac24a84397fsm379693666b.96.2025.03.08.10.35.36
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ac24a84397fsm379693666b.96.2025.03.08.10.35.39
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 08 Mar 2025 10:35:38 -0800 (PST)
+        Sat, 08 Mar 2025 10:35:42 -0800 (PST)
 From: Cosmin Tanislav <demonsingur@gmail.com>
 To: 
 Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
@@ -105,9 +105,9 @@ Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
 	linux-staging@lists.linux.dev,
 	linux-gpio@vger.kernel.org,
 	Cosmin Tanislav <demonsingur@gmail.com>
-Subject: [RFC PATCH 16/24] dt-bindings: media: i2c: max96712: use pattern properties for input ports
-Date: Sat,  8 Mar 2025 20:33:45 +0200
-Message-ID: <20250308183410.3013996-17-demonsingur@gmail.com>
+Subject: [RFC PATCH 17/24] dt-bindings: media: i2c: max96712: increase number of output ports
+Date: Sat,  8 Mar 2025 20:33:46 +0200
+Message-ID: <20250308183410.3013996-18-demonsingur@gmail.com>
 X-Mailer: git-send-email 2.48.1
 In-Reply-To: <20250308183410.3013996-1-demonsingur@gmail.com>
 References: <20250308183410.3013996-1-demonsingur@gmail.com>
@@ -119,43 +119,51 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The input ports are all the same, use patternProperties for them.
+The MAX96712 and MAX96724 support up to 4 separate PHYs, depending on
+the selected PHY configuration.
+
+Document this possibility by increasing the number of output ports.
 
 Signed-off-by: Cosmin Tanislav <demonsingur@gmail.com>
 ---
- .../bindings/media/i2c/maxim,max96712.yaml     | 18 +++---------------
- 1 file changed, 3 insertions(+), 15 deletions(-)
+ .../bindings/media/i2c/maxim,max96712.yaml        | 15 +++++++++++----
+ 1 file changed, 11 insertions(+), 4 deletions(-)
 
 diff --git a/Documentation/devicetree/bindings/media/i2c/maxim,max96712.yaml b/Documentation/devicetree/bindings/media/i2c/maxim,max96712.yaml
-index efdece2b33b9..148d196b9acc 100644
+index 148d196b9acc..52b5603c2f53 100644
 --- a/Documentation/devicetree/bindings/media/i2c/maxim,max96712.yaml
 +++ b/Documentation/devicetree/bindings/media/i2c/maxim,max96712.yaml
-@@ -40,22 +40,10 @@ properties:
-   ports:
-     $ref: /schemas/graph.yaml#/properties/ports
- 
--    properties:
--      port@0:
-+    patternProperties:
-+      port@[0-3]:
+@@ -45,10 +45,10 @@ properties:
          $ref: /schemas/graph.yaml#/properties/port
--        description: GMSL Input 0
--
--      port@1:
--        $ref: /schemas/graph.yaml#/properties/port
--        description: GMSL Input 1
--
--      port@2:
--        $ref: /schemas/graph.yaml#/properties/port
--        description: GMSL Input 2
--
--      port@3:
--        $ref: /schemas/graph.yaml#/properties/port
--        description: GMSL Input 3
-+        description: GMSL Input port
+         description: GMSL Input port
  
-       port@4:
+-      port@4:
++      port@[4-7]:
          $ref: /schemas/graph.yaml#/$defs/port-base
+         unevaluatedProperties: false
+-        description: CSI-2 Output
++        description: CSI-2 Output port
+ 
+         properties:
+           endpoint:
+@@ -66,8 +66,15 @@ properties:
+               - data-lanes
+               - bus-type
+ 
+-    required:
+-      - port@4
++    anyOf:
++      - required:
++          - port@4
++      - required:
++          - port@5
++      - required:
++          - port@6
++      - required:
++          - port@7
+ 
+ required:
+   - compatible
 -- 
 2.48.1
 
