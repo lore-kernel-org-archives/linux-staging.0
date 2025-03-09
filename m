@@ -1,38 +1,38 @@
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.19])
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B96F40849
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 888991DFE8
 	for <linux-staging@lists.linux.dev>; Sun,  9 Mar 2025 12:50:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.19
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741524631; cv=none; b=RIXDp71i7Wm5Pzr9TB7bypZThSfuWAf6N6HhRFlIwYnL1wTrVz3IsH98zKNEZ/AyFYA/JgAUO6Pops3GDNuS8h8PaiXOZ2w+d5v6wiPrQ09YZL/OFTt13n7aA3ts+BTF7i2Iq1NZnSDC4nwjRRqQqClW5nw6/4f8bxgUzkqRwhg=
+	t=1741524631; cv=none; b=V+NGE0GkRgG1prDS7kFbv1H93H4RqxOshcAQT/QABx1ObgiMGNHzWzOrWT4sr930kBqJWnhNB252COqiHWSIpcyTwonnqllpve38WB/zNkKLSdVnP9FnCVbU/k/XZD3sqyQnFnu/OKbBl6lJCg5a7wXDxuPNHU+EajFRHfXzfIQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1741524631; c=relaxed/simple;
-	bh=DzzFsJ8eWRmbTnpQrLit7KPM/tJFK2b4OrUnu1fkjAs=;
+	bh=cqAN1gi0PgQHW+CGQGc48+3XOjm/3QY2QoB+OJtYfBo=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=GjDjbMgM08vorwYeTB2M2IU1TM/eYlzEii5b9gjNOQZcq29Li0KKY1Dgh3M+JN80vLrewnRNc/5ZYrBk46pn9028gi0hM2Hq0AViWlgtNcFjQ91DDZqyi/62zVXd4hn+d+ZVXmb6CB/fRcACvSs872Hfe82LtEHTQftzViuJQnw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.net; spf=pass smtp.mailfrom=gmx.net; dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b=e+2Rs/vs; arc=none smtp.client-ip=212.227.15.19
+	 MIME-Version; b=n8rpMAKDQM3YJ9LMAQMl5cPsJU800DnAqPXN6F6WqHJMmfn4fB96v58vGY4PodPQicsAs8Qr0hdOF9Ajn1FXTmXw/OvsV7MsURIjW0JyON0TQebFCC7oE+EATsFTvzvybKfMnPM77K3RMZ96vZW/YB/F7DMSrpcnXo9+I/zBtqo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.net; spf=pass smtp.mailfrom=gmx.net; dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b=e5hsBrOY; arc=none smtp.client-ip=212.227.15.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b="e+2Rs/vs"
+	dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b="e5hsBrOY"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.net;
 	s=s31663417; t=1741524621; x=1742129421; i=wahrenst@gmx.net;
-	bh=IMW8k1nI/dgdeyw/NhQxjX7qpdqP40lF9jKMaJt7+LQ=;
+	bh=L81Da1fwz3YhZrikm7gOGIYqhJdk4hwp55sdoIZ0BJk=;
 	h=X-UI-Sender-Class:From:To:Cc:Subject:Date:Message-Id:In-Reply-To:
 	 References:MIME-Version:Content-Transfer-Encoding:cc:
 	 content-transfer-encoding:content-type:date:from:message-id:
 	 mime-version:reply-to:subject:to;
-	b=e+2Rs/vs826tmnRSYrKLREDD0tzr6jmZn6C/Tl5vmJ5hS6VDIfG6qo0loofWFhfu
-	 kYnqgWp5WSArpyOBCzWaw6HPTgdv5FXVhCETeY1aO6rMSYnPXYEEyXaoxLdEOw05S
-	 xYGRKSlzYRh/TIPc1J8NhFaGGTFWW1LHQCY69whNxGzN8hgL2Xo3GbYvsgr3dH7Xq
-	 efYw4LDLCMHv7DRt6UXW6JYQdAsa/m/92Uaron0w6sCIRI7r1N5qWuS7DdtB/ew60
-	 X7c7De174IvT6H6PYW58+SIGvANfieLCOd5UAnf7wT1agf1DN61o72mPVqLZt531K
-	 lnzowSawyZsUcIvJUA==
+	b=e5hsBrOYwtTfJCvhnKKEuwJLWUoUnNqI37yRzfA+2pTYao6pVmmkEKVDP/oX4B59
+	 JeL77DR7KyceKaCnWhKfa7KGlvhUrl+mwJNHaXkHiLZUO+lbWqVMgnybdTTesbuNA
+	 dDcMqAA8R+0ZSFJdFCCRA8KHEtrjO792EhoF0Ixlsr6nAADMpDFj3e3QXy5mLd4jI
+	 mOeu1xAFx3pR8Ji8WvgI7kO5BvdXfqXp6/zQrV32sEq0mftu8mPyvb3L8STOUJPPB
+	 Mb06lxNA1vkbIZNNuprq7/N7ResNETMoLGV2lxkZEEv0F4RidOtb83DHrEeYIZfLD
+	 eCX4i7iQ14oragT5mw==
 X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
 Received: from stefanw-SCHENKER ([37.4.251.153]) by mail.gmx.net (mrgmx005
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1M3DJv-1tnfjk1M33-006KOF; Sun, 09
- Mar 2025 13:50:21 +0100
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1MZkpR-1tm9Kl3VbT-00U6QH; Sun, 09
+ Mar 2025 13:50:20 +0100
 From: Stefan Wahren <wahrenst@gmx.net>
 To: Florian Fainelli <florian.fainelli@broadcom.com>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
@@ -46,9 +46,9 @@ Cc: Umang Jain <umang.jain@ideasonboard.com>,
 	kernel-list@raspberrypi.com,
 	linux-staging@lists.linux.dev,
 	Stefan Wahren <wahrenst@gmx.net>
-Subject: [PATCH 4/5] staging: vchiq_arm: Create keep-alive thread during probe
-Date: Sun,  9 Mar 2025 13:50:13 +0100
-Message-Id: <20250309125014.37166-5-wahrenst@gmx.net>
+Subject: [PATCH 3/5] staging: vchiq_arm: Stop kthreads if vchiq cdev register fails
+Date: Sun,  9 Mar 2025 13:50:12 +0100
+Message-Id: <20250309125014.37166-4-wahrenst@gmx.net>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20250309125014.37166-1-wahrenst@gmx.net>
 References: <20250309125014.37166-1-wahrenst@gmx.net>
@@ -59,160 +59,101 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:HDJIk4tIYimiHZF2NbRm3BtZemIDLp0JOg4FIVzSC6KtMikw2vO
- 0TP7V3zvpHqzTgADwMeKP3UOL5EScw71WbOQC414qhyaRRmwBjd8HUFJ16FaCOOlGf3Nx2l
- 1+1sdgH5J34onXnDDo4vaZb8Vq+4a1VXl5pLtD7wQ/hfvwf1J07eGThvNgLNrN/EQI64tZL
- p0ebEoop8muR6dZgCYHlw==
+X-Provags-ID: V03:K1:kS7DLLj2vdWuPI1nrmfS3oHbOvUv+XHxzXuEpzaDvzVe55MhS7D
+ CBtHOtBVrkEYJj8QgrsZhvy5MPNFtk8EU980pmJiojb8SX5XME7j3lMixYCV765e9r7SB49
+ xSawcq4CVzLCQFsj3FNSBY68RnGhWb6XShaAbrhFV1pzNQWwiMnsC6B7AGxAJ0oHDCMGi3M
+ HHWcWFQxp3THsW9lBgbkw==
 X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:w1NyaykYv84=;FgHtxjabk8vWDmPUJrKgoUclf79
- HKvO8paN/ErWQyyWsPQf237qn+MXko9sPUqN0Jk92ZHLLhHbwggKwDMi65TJjSCbIo5GutbSH
- grhwqAdILYWLdbuKZxaXcdJsb3xSddHzejR9gl4Ql6L4RCffWiYcYs3XMs+Fe1V9zaR3aEsg7
- +YHoxEA1ivSU9eeca5h2VCizRT8NhhGbjwmVpww59cTR14hryT1gmbURpIatWCOpaS7aDvXZG
- mNhKl6aIlXkhfVKCJRuxByk39UAUlq+914oK41V/tezjvFLfLVizaZynTlVXIqxrK9AKnQ80m
- AqVjO0m1FPrlDXqVhsNUJje2NS3cxwJlG/+25anRLOjMOh0XVRc1DSXROrmT7X2tnsjN8QkR6
- Lmvd66msgP7B72pfwK/3j5p/dSm+g1IT/qraU5eWKonBgLUX/Qm2HNrlpJbGBHfrwmB4BH3xt
- lhE34c/uzmIDGkN9ec+8PJCh5WHAaBKB4VwF8iZu+vx64cBjR2TfKvZkMZfEHvcgfM7x6dIbI
- jL/4s7bbjidIOyiYdnLt5MoAG22LF5JGKEnXsF7DAH7RK81redQsytIfMa/ilkuua7u44G7PT
- sHmqinfbmiRq8B2on1XRoe+gXXcAv0+IfecvbVW10w+SKLVfBDOTeXgbrc5YOOTJrNGX4lzx5
- jnN8j3cxEKO3bWvgVt26dFTl8bqkbanlxMZnD7RYZSsclM9WOPEXDe0dHwvlqa/ybIKVEF6PE
- D4WSb/3XcCVrfcuWuFyKjNVEEsWC8mdLtlJjXO02Rl1ukQ8Jxv4ncJ+P8FLx+YcmPNCQpKkvR
- bJtiSzyopD8dbk2ADh2HfRyTfSdH8cSdzqoV6wYQKOMD4qPV8YWXcu/G7fG0+5Ya2KB9Nh+72
- FdDKoLgXsFqznz6LVipoW23ipHKBRAgqX1qmKxxwkL7+yiU1FpcuLNz67Bc+okP3MDrujqiyE
- pPp8vF7Q+6iR4DV0RgNwZbv1++VPCeAWOjzBHv76ZNyJNuRqpMFY6+RvxbFZFpxSKkounpCH1
- ivO6/GWX5r1UtopyKk0u3VMf7kCFm55u40WlXJN1YHfGiSK08JuSW0HpQtr9bLgcJPuL7UyD1
- 1O3HURrf9Ig3alfbH9p80mPWhsfNJXo6gQmJ9IxBpWFlFUft0OSNBkLvkOm6t0K5l2I8Jflg1
- nSgy70NWJhiL5J2peq4GFcO2uBE53xOkzqem/ui8AGTSB+//Y75IXyR7VVoc/7Rwmq3R2AFhv
- 2cVnGr3sgB8B7MBFmBkVW16rFUcDBv4xMXTODESxTe1EMo1mGcBN/s5lb7jLR5TqbwgoLi3T1
- iYnY6bZCMMI6udnqhpr4SRCRJLUjpeFrv+/dnDDeKKHtaOwM21R6eHes8F2qZUYGn0U2OWHi+
- or0/84wUZKfzTcMtGzLem0yc+R+d2dYmK9B90XLzG3OjvFxHfXYNKID59T
+UI-OutboundReport: notjunk:1;M01:P0:KlqeDkoNN7E=;fZbia8Tl4jXYgfeTQK8fcqMwgH4
+ KCwrGPphznyY4bJAp+lFO6TbE4MvMidpU2fYFoHiLAujLDG4wiVSkPlvp85KDjb0vbi5Essu3
+ 6lLwPzfzPFzGkDcsUaITukxEhDNMVfNBWzpsQC3DLRUX3Fu5AS5H5gbAYnjt/DvNpTyhaxokL
+ RU9M5Ba52zSItrxnJlwGVd4A2PSPr0hDOl34S/uWCa2nji9B1iZLhCtif2/1YA+jtsTb3srR9
+ xptitbHFFsPNJDi77Y8nrWa4ulmshtsJOXbhZ4Ucojrw1cx9Fg6mMIRlvNisQiIwuaI2rsIhI
+ BlOrf8yU06XgLTI4O/5w1E00nsqmgM7GNGMvopkZvRcRP2PeNZ3HtpJn19xSiFPT1NGlGTelD
+ o3Ku0pymlkpZrFQlSERjq0Vig056q/qQGZ63gFoyIW5/ife9wnP6ZsRB3jHD7Y609brkzl0rs
+ yU3Lq1nNwwvKG7d50igEilMPY9WT9yrZwHXYQvYU2KdRic8KoKv27HZgi7zSi/TIX8XaIPzTx
+ 3+FnDJP5M7MPS07CfRmXzeNRIcw7k8gkp2S3uqJh6PSwBL8tJnxzCX7DySNfgBtrk1JKySd4P
+ PiNuNMGqKjPc8MafAjkrS/ReZUsODJoO6Z4gID9lm/1dMD6KdadaUO8TZMZBqfYayz9Uzfzdy
+ Z1Vqu24TuAezw1PwONvz9uJEzqhUu8fb1GeHJnBfXIj4IZlHLUNfEDAoJbxckoytumkX4bksj
+ U/LtGDFJi2+15TT+7PXFWs5Kug24BAk6XIqMV1ja7M4xKffc4EGzXXHbmW2pmmnzkLsnHVrjD
+ bnc1hNaqs6L/G0avFt8JKRcYZiJvW3s3aQJi3gx0R3kLKjM9Ldn03YKEoqXYq7ro3p/+GvMOH
+ p0nMgaktDTpgLPMU8yT6Xl4cJ7Vljkt4+/Fn5dOwgaYrN9M63SArpG/i99bXeGeE6CAYJPPmV
+ GEIKr4pNLOJyrRPOy8rv/e04a8GW1MCW7hNX1UFiaUwLm9vEziQhmCTfVSp9K18ioBcThsLnB
+ C/TdnK1jAOt8M/pkYETxWKLVHQ4sABHMqI+hStbko9ZwTwVsE5MCRudFNFP5rdbQVcnk3pAep
+ 1YE5x7lxou2Dsf20YJp6OMdCfnRNkWT9zkiI6ZhMClAvhXyA0S+c+RCq1Ut1DZJxYia+dVeQG
+ T0C9+vyvg5vL3IC2F6TEiBfpdMeSczhrDzW063hngcW8rdAkh7w+/epoNY/odR3cbxqL4lmsO
+ pyh1qbM1pxHtNuY548N9ca8WnvAUoxxgZDGfXX8XE1uh8wXDcfqJLv9JBsgj5eX1d3SLO/dwq
+ kp3iqGAtWFUEbFY6hU2fANZY5GyH1sWEtSht3fyZkDH5wd+5Eiziuem9emQzkE3NAxiciBC/w
+ LWM21x6P0m1GGGkhfwMdA6EQT6AMBigyrwsPS06VIv/457dqYHQhYZac7l
 
-Creating the keep-alive thread in vchiq_platform_init_state have
-the following advantages:
-- abort driver probe if kthread_create fails (more consistent behavior)
-- make resource release process easier
+In case the vchiq character device cannot be registered during probe,
+all kthreads needs to be stopped to avoid resource leaks.
 
-Since vchiq_keepalive_thread_func is defined below
-vchiq_platform_init_state, the latter must be moved.
-
+Fixes: 863a756aaf49 ("staging: vc04_services: vchiq_core: Stop kthreads on=
+ vchiq module unload")
 Signed-off-by: Stefan Wahren <wahrenst@gmx.net>
 =2D--
- .../interface/vchiq_arm/vchiq_arm.c           | 69 +++++++++----------
- 1 file changed, 34 insertions(+), 35 deletions(-)
+ .../interface/vchiq_arm/vchiq_arm.c           | 25 ++++++++++++-------
+ 1 file changed, 16 insertions(+), 9 deletions(-)
 
 diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c=
  b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-index 0c7ea2d0ee85..64f9536f1232 100644
+index d3b7d1227d7d..0c7ea2d0ee85 100644
 =2D-- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
 +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-@@ -280,29 +280,6 @@ static int vchiq_platform_init(struct platform_device=
- *pdev, struct vchiq_state
- 	return 0;
- }
-
--int
--vchiq_platform_init_state(struct vchiq_state *state)
--{
--	struct vchiq_arm_state *platform_state;
--
--	platform_state =3D devm_kzalloc(state->dev, sizeof(*platform_state), GFP=
-_KERNEL);
--	if (!platform_state)
--		return -ENOMEM;
--
--	rwlock_init(&platform_state->susp_res_lock);
--
--	init_completion(&platform_state->ka_evt);
--	atomic_set(&platform_state->ka_use_count, 0);
--	atomic_set(&platform_state->ka_use_ack_count, 0);
--	atomic_set(&platform_state->ka_release_count, 0);
--
--	platform_state->state =3D state;
--
--	state->platform_state =3D (struct opaque_platform_state *)platform_state=
-;
--
--	return 0;
--}
--
- static struct vchiq_arm_state *vchiq_platform_get_arm_state(struct vchiq_=
-state *state)
- {
+@@ -308,6 +308,20 @@ static struct vchiq_arm_state *vchiq_platform_get_arm=
+_state(struct vchiq_state *
  	return (struct vchiq_arm_state *)state->platform_state;
-@@ -1011,6 +988,39 @@ vchiq_keepalive_thread_func(void *v)
- 	return 0;
  }
 
-+int
-+vchiq_platform_init_state(struct vchiq_state *state)
++static void
++vchiq_platform_uninit(struct vchiq_drv_mgmt *mgmt)
 +{
-+	struct vchiq_arm_state *platform_state;
-+	char threadname[16];
++	struct vchiq_arm_state *arm_state;
 +
-+	platform_state =3D devm_kzalloc(state->dev, sizeof(*platform_state), GFP=
-_KERNEL);
-+	if (!platform_state)
-+		return -ENOMEM;
++	kthread_stop(mgmt->state.sync_thread);
++	kthread_stop(mgmt->state.recycle_thread);
++	kthread_stop(mgmt->state.slot_handler_thread);
 +
-+	snprintf(threadname, sizeof(threadname), "vchiq-keep/%d",
-+		 state->id);
-+	platform_state->ka_thread =3D kthread_create(&vchiq_keepalive_thread_fun=
-c,
-+						   (void *)state, threadname);
-+	if (IS_ERR(platform_state->ka_thread)) {
-+		dev_err(state->dev, "couldn't create thread %s\n", threadname);
-+		return PTR_ERR(platform_state->ka_thread);
-+	}
-+
-+	rwlock_init(&platform_state->susp_res_lock);
-+
-+	init_completion(&platform_state->ka_evt);
-+	atomic_set(&platform_state->ka_use_count, 0);
-+	atomic_set(&platform_state->ka_use_ack_count, 0);
-+	atomic_set(&platform_state->ka_release_count, 0);
-+
-+	platform_state->state =3D state;
-+
-+	state->platform_state =3D (struct opaque_platform_state *)platform_state=
-;
-+
-+	return 0;
++	arm_state =3D vchiq_platform_get_arm_state(&mgmt->state);
++	if (!IS_ERR_OR_NULL(arm_state->ka_thread))
++		kthread_stop(arm_state->ka_thread);
 +}
 +
- int
- vchiq_use_internal(struct vchiq_state *state, struct vchiq_service *servi=
-ce,
- 		   enum USE_TYPE_E use_type)
-@@ -1331,7 +1341,6 @@ void vchiq_platform_conn_state_changed(struct vchiq_=
-state *state,
- 				       enum vchiq_connstate newstate)
+ void vchiq_dump_platform_state(struct seq_file *f)
  {
- 	struct vchiq_arm_state *arm_state =3D vchiq_platform_get_arm_state(state=
-);
--	char threadname[16];
+ 	seq_puts(f, "  Platform: 2835 (VC master)\n");
+@@ -1396,6 +1410,7 @@ static int vchiq_probe(struct platform_device *pdev)
+ 	ret =3D vchiq_register_chrdev(&pdev->dev);
+ 	if (ret) {
+ 		dev_err(&pdev->dev, "arm: Failed to initialize vchiq cdev\n");
++		vchiq_platform_uninit(mgmt);
+ 		return ret;
+ 	}
 
- 	dev_dbg(state->dev, "suspend: %d: %s->%s\n",
- 		state->id, get_conn_state_name(oldstate), get_conn_state_name(newstate)=
-);
-@@ -1346,17 +1355,7 @@ void vchiq_platform_conn_state_changed(struct vchiq=
-_state *state,
+@@ -1410,20 +1425,12 @@ static int vchiq_probe(struct platform_device *pde=
+v)
+ static void vchiq_remove(struct platform_device *pdev)
+ {
+ 	struct vchiq_drv_mgmt *mgmt =3D dev_get_drvdata(&pdev->dev);
+-	struct vchiq_arm_state *arm_state;
 
- 	arm_state->first_connect =3D 1;
- 	write_unlock_bh(&arm_state->susp_res_lock);
--	snprintf(threadname, sizeof(threadname), "vchiq-keep/%d",
--		 state->id);
--	arm_state->ka_thread =3D kthread_create(&vchiq_keepalive_thread_func,
--					      (void *)state,
--					      threadname);
--	if (IS_ERR(arm_state->ka_thread)) {
--		dev_err(state->dev, "suspend: Couldn't create thread %s\n",
--			threadname);
--	} else {
--		wake_up_process(arm_state->ka_thread);
--	}
-+	wake_up_process(arm_state->ka_thread);
+ 	vchiq_device_unregister(bcm2835_audio);
+ 	vchiq_device_unregister(bcm2835_camera);
+ 	vchiq_debugfs_deinit();
+ 	vchiq_deregister_chrdev();
+-
+-	kthread_stop(mgmt->state.sync_thread);
+-	kthread_stop(mgmt->state.recycle_thread);
+-	kthread_stop(mgmt->state.slot_handler_thread);
+-
+-	arm_state =3D vchiq_platform_get_arm_state(&mgmt->state);
+-	if (!IS_ERR_OR_NULL(arm_state->ka_thread))
+-		kthread_stop(arm_state->ka_thread);
++	vchiq_platform_uninit(mgmt);
  }
 
- static const struct of_device_id vchiq_of_match[] =3D {
+ static struct platform_driver vchiq_driver =3D {
 =2D-
 2.34.1
 
