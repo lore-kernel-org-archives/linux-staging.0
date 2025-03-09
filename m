@@ -1,38 +1,37 @@
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.19])
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81FAC1C760A
-	for <linux-staging@lists.linux.dev>; Sun,  9 Mar 2025 12:50:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBCE31D61B9
+	for <linux-staging@lists.linux.dev>; Sun,  9 Mar 2025 12:50:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741524628; cv=none; b=UuOJ7MYUEYVrJHV/D0JowAPiRRyiqSfZ7TtSpPqrRPgRdn4dHvCqFh0irRQlu5HpNmWsR4+3HvfB5g2lwZ/i2qwi12yCtipQRl7DsQkDd3zd83b88LIf8pDd6Ic59C+El4v0NFywwyyR+Wgk9V+xPjjCV9MU4cWoq/ngFtZ/LgI=
+	t=1741524630; cv=none; b=eQhBQV5lZ4DuZHHcr2mZbYOb6b6XHRv3pvYVyMuq+uQ8VXKVL6cdkkP/Pq9vyCybCbrEGYh0TQnnWFo1x4y/Y5nVH6QmECejq5p5sUdpBL1xs6ai8c14IUQ1Pgr0lTEVdSDZmu+XuXa7WXUccQGfURJHhRX8B44XY/DwqSfWaRs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741524628; c=relaxed/simple;
-	bh=7VPmfadHrCMEiEI+S5QOzlxkVfKFBIiAb0a9Od6PYpc=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=gcEKWIlcNY+N4GEkreQPNKMCqraiu1C0mp2VlpBZbMbccF1ts4iw04EyJX7dBCJvmzZWGcu0YjsvZlDOSP6Yic8Zjrl4WjnNAAqOCw0teqHClOvvfaifS/qlYSAkfftt6U9XnYv7YmADL5MzAZTnmHtP4EECDrj2NcagS14C/zQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.net; spf=pass smtp.mailfrom=gmx.net; dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b=biz3TKPn; arc=none smtp.client-ip=212.227.15.19
+	s=arc-20240116; t=1741524630; c=relaxed/simple;
+	bh=9qyVUMgHyvBkSaU5rZ5eEyzeksQGec5p54t38wUZWyw=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=NcGOz4tJMgwOO3sJWxrGo+Ja+Xkh7jVZLI18jsJnzfV04U3E+aCipkTQk6ow5ijHpR5KWLiNjVBuDRN5O8ZzjQZUk9B5vXEX38faRIN7bzfusgY8uFdSfyMNwYDy0ZlWEoqXj6HyeoyB4BM7KJK5Rx9jXgykfljDuwUlqhzbw6s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.net; spf=pass smtp.mailfrom=gmx.net; dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b=lRZrm5Ad; arc=none smtp.client-ip=212.227.15.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b="biz3TKPn"
+	dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b="lRZrm5Ad"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.net;
-	s=s31663417; t=1741524620; x=1742129420; i=wahrenst@gmx.net;
-	bh=h7/mEgicejaKA4VrMPZI0e0xkSVHXfl/zPMNtGlu1+o=;
-	h=X-UI-Sender-Class:From:To:Cc:Subject:Date:Message-Id:In-Reply-To:
-	 References:MIME-Version:Content-Transfer-Encoding:cc:
+	s=s31663417; t=1741524619; x=1742129419; i=wahrenst@gmx.net;
+	bh=pLb8CZ/yCsK0onb7oAbrJ7xNsSeNVG+Pj2jfFRdvfzU=;
+	h=X-UI-Sender-Class:From:To:Cc:Subject:Date:Message-Id:
+	 MIME-Version:Content-Transfer-Encoding:cc:
 	 content-transfer-encoding:content-type:date:from:message-id:
 	 mime-version:reply-to:subject:to;
-	b=biz3TKPnrFbr4v0B8nI1bjcL2Ucg9DsIOi7SuySBUgI2WlHtDnDJoDQirUoaJgs+
-	 AA7F8VQbwkHVY3q10XyupSbcmsFJpx8/9Kc+/d/Uhz3mh1ojpZG2qW6ra2NwKlUo7
-	 kgJtU9lbRgpTkO7EHZ/4auGDOSUppTHYWr5v/0kmWSTJAunlzRILAHEFQ5HhublpE
-	 Q3rZpgzIwk2YHCuTWeMgjZno+Wy4ivZiqHsOHBdcw0xGU+g5JMst0QeUGI0wjHdsJ
-	 5T5Ap0jCoYvCQWn8bfj+Bk2rjNzP0tr498gEXNCPBiU6eAhQ58MYVb2CGrCMo8MSU
-	 F0J0VLZ+QccNezfreg==
+	b=lRZrm5Ad2wIVbJ2AsuDrIws9O0ImNKSytWYRRFa4knclT5E/jCqmRL9q9sK58O+g
+	 O6rIeoGUFAmry2McYuo+lNZvqNuxran+O7xEGQm67Nn17bdp8AsC9crHirEYL/5cH
+	 fTZMOh2SM03Yuar1zcAtULSOfIYkBjEKbLJ0YZZzX3zXNskX42l8VDGgUE8Ay+iE/
+	 RKRHw5eyfOVhaoqVMcBSnQb4kFGIDye8a3fOFJLzcXW86uRXqTS9/5pi7XGkO6ObV
+	 +8ZI4fE6DTtqWurj8/MPI8BkhcHKSXTk9vRyx0EpHTBO6yN7jtdOnAjBj2oixtv2p
+	 TaqiCSvFx10SVmPbQw==
 X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
 Received: from stefanw-SCHENKER ([37.4.251.153]) by mail.gmx.net (mrgmx005
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1MD9T1-1tzopZ1Hn7-00GH4N; Sun, 09
- Mar 2025 13:50:20 +0100
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1M2f5Z-1toDhc1UyN-005m9t; Sun, 09
+ Mar 2025 13:50:19 +0100
 From: Stefan Wahren <wahrenst@gmx.net>
 To: Florian Fainelli <florian.fainelli@broadcom.com>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
@@ -46,12 +45,10 @@ Cc: Umang Jain <umang.jain@ideasonboard.com>,
 	kernel-list@raspberrypi.com,
 	linux-staging@lists.linux.dev,
 	Stefan Wahren <wahrenst@gmx.net>
-Subject: [PATCH 2/5] staging: vchiq_arm: Fix possible NPR of keep-alive thread
-Date: Sun,  9 Mar 2025 13:50:11 +0100
-Message-Id: <20250309125014.37166-3-wahrenst@gmx.net>
+Subject: [PATCH 0/5] staging: vchiq_arm: Fix & improve resource handling
+Date: Sun,  9 Mar 2025 13:50:09 +0100
+Message-Id: <20250309125014.37166-1-wahrenst@gmx.net>
 X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20250309125014.37166-1-wahrenst@gmx.net>
-References: <20250309125014.37166-1-wahrenst@gmx.net>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -59,61 +56,48 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:WwznDqt6oKXT5S2jrIInUGthm4b8b3T3xCA8v2HsfRauQegO+dH
- UJR9xNK9TSDODWvlF7zEksnZqB/g5CJkXda4ij+b7tTexLA9IyPTARYNPCoJwQXrA1pocvq
- O4WQ4pbkJDl8SZO6N7wyZtlB9IKDl9wMIbZZLtZ8GPV56k3/yvUBq5P6roX3YLxKIb7bExK
- bLHfrZ6p+z2suRqmZZn9g==
+X-Provags-ID: V03:K1:p8fIGmiRZLax356bRabe21HXoRTe+69EeTlX8M64FZeUd+wEvWl
+ PbgAZgqjeGm/iH9srgb0KpZe0mOT89WCOlhr7whqfUwfY2ND/E5Cz6y8acfN9cefza7/86Z
+ MfLX+LQwHB1wTgyukvfablyRn1AdWwZ5QdMAaykery3EY6RvqAW9IJ1xNzQwQteDEdbOAr2
+ yaq8lG+YNMqKEmYy+sc0A==
 X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:HFKrSyDKaiM=;qaWKqODarzkqXYJgcRjPbZuykZq
- uHaxkI0emexZIU8JhP8qBhmtWj/3OvF8kXUh8T+ja/WsqODaEwLBPk/iJihLWQAYE/chJfgi0
- 3bYvCh606au6m1UVmBmIuVTcAF+oEg8GcVIkZh/3bFa2T6IaaartgGlm+NOqRBAZtFro/zPkl
- UZy5UGikEVxLclX0F116aPR4Pqmh2ht//BPOdKXsXisi+1qhj1cn6OGvKST+CjSar9TCVv54i
- ipcMaDJWyVzkOOoylouIh8fxVywB5mbxk8n5D4HPHpkKQlMO+8xtryeTwyLCfiXc2ntwle+1T
- mAToBNKwEPUobSTQ+rKV6SosuOGyBgi2uUrTnar+POgOqQGVDZVyNkdWjwxs6OXzch5uH8qOf
- TPZs3zgjWZxr1jyNGjjsLs8/CgkWvB25RF0vmlBDVyxhbfqtYtx9uGGf6/xian1fwBPpyr7Sv
- 9SqwokTvtNGUKdm5eeUqnQMbPTu+xMQvA8rzwRp0QONdLAx1iXDoacN1b7d300ZbpcNlIdCJr
- QL8CSNMXxtwH6fyr+IsbP2hoE6Sjz/yzVGPhh8o9fGiQswix4nk6lXVcbIEhb2WAXMDiC+grk
- OZlL6w1dDAytuf1s0Ap5lGJ+jaVezjoX5nWqe7X/4zBsWWwJT0QA+FP8dwUwaeNT0Pc5+SDO7
- AQmOfnjBvAju8UDnfZSXKt8ll7PwXIAL84H+yozVQpxNJzmfQ7AJQbGDo/bn0tlU7x5OuLj/T
- R4LMDB3OvtFRDrMz/2s0PyUUEtOa38/6Z9eKOvG9ziH5vTLaZny3Z5dgEXz/rChtZt3qGSoHq
- rz9EEkwVt3EJCjN0c5XcUV8RVtjRM9pQPXGpiSPb3tsspcx6Ew2bI4sXq7kQPKtKOAneMkORl
- MpXTVBIVyLZodntwcGkZnufSwrjnJEVqHftLeqfbL2KHgICMgrmm78P6whqqvxeb8KnlMyYab
- QfGz0rLDkUCZwWIyoNTZeSDDOkSSFDfps2Vyq83VKe7fWY/E8n+pIL8CLCm85B5PYvDe5F/Pb
- lI2dKbQszFttX3ftt1TtbrVZNz5OaWhztOfJzRg86pdWHk4LNqDuqBBUqhsciYcvHj/AZkcgO
- /0rNgi4fc0KAc/pDclT35sAhIf5/2nS+1l8ex85X27cBfLLSTGgIAcPwL92i4ZGL3V0eCKz0U
- gJ2ZZpsQ+X5NKbJ5PFuFB3gLbd7dcEnqHY4sewSqdJrjzFaCDKYQPURrM38pHlY9sPwUnNhuK
- fN3YpIdLTfai4MptOmCewlc+ta3sbwRyAXL3EDzuhm+T6jPicObRs5l9GHcEytlVGtRc9xUcX
- rmpVezJdKEaKT9giF3ucVFwoddqJWvKLuKfXGX8/7Bp5UhfCYMmGlwcmsLr0DEzNzY2rG/uHz
- 7vIycBk/QgSmdkliaaG5Mgk1jyfGs9Y+604JZfCq/L+IacUokDfb6OczMc
+UI-OutboundReport: notjunk:1;M01:P0:Xfq5icII74M=;VQaZ/ysS41AIf8FtPNB9BlP1pCy
+ 9/C88lHgIXDYuPBtONFwacPDZvNlJyEoAEpgUIdbIqsCSLiS4sOaxOdNwccLD+4ptFdk+3jl/
+ uwN5Qvvy8HrWXnL1yhJFUs65gFk7fUkznD4YJ6p92xjX3aAabEXV5NearXIbyAtSzn15PgHKM
+ n2z3XfmUG/texm4aXSsv+jhA/iOfRQA89hnP7kgPVIp8AIFpyG+uIL5EYsuoqVUBXEL9992gJ
+ xCd9NtRAgv4Ppd5Dmyx6CAqqsKD432vfsOxsQxrUWVff5YqXQ0JhkkxZtYxF6lC/CBIcAfwW9
+ qL7LJjBaREkt+CR+XX5Zeql2tq9glNOJ9yzNCzvPIO7z7D/jo+X5HvaZN39cSh4dC93n7k13L
+ jczUYMIGAuEd0TBnHQJdoSPx+DsDdquMuumqvcbola5bRGFzMgHnTbZOv+Wt9BHcycz2FSnzd
+ V5g8CN1nXxmn3cHGn9oUq/SxIxtG7/oUAt5mfuSoY3OpeKWpJFCkqUKUfGnbcnlECbo1Jyv1E
+ I1yIKqtwSZ5ofIhQxqysg143H7tcMwXgK6kRLxobXtIQscbLMN/I5XmoXs/fotzZPA1IQCTs5
+ UU2GzDVfz7h5yGGRk2UkLswIGenmVs2YutURmgMkR3OagzXaYdRBmJr9eAddX2wrKFlELUn78
+ SQ3J12kKgfFkyXeXe6ebgzvQT8OFo/vm88UtwYtmCLvL8VO4MmMOX/do4Dnk0CRVq9z0Ve22w
+ SyOS6L9oRXnqifij4grVm3AJH9cIGKnwT3ClW9DOb83CrjargqP49fsXGdYtA8sH8J+ke/sIQ
+ YQthucr2kTeE0uo8CeLAX4HfXbSgahvIyJbGFP3MBMpF8Dkp85ftvCAQOjIxSaTHD5/7duapB
+ ugqmTrlsP3hLR+YBmCHOGMFm7pp4m05Ox7+BFclasygvys5hgn6943kAb7z3WknItybzO+czG
+ RF65wr6BUPM76uOPo2QLC0JCAdiJTGNSxwA1Dj0vUShcLgUMwdjspFZyKVB5bwmFG0ebaFXcV
+ gfnkrVUS3HUhynAwn/CnYOueW5zLUU5Th7OzhWvz/CFfG1e4BAIMBC3NVarulphiK6g3VPyuE
+ smesFTBz1OLtttMryREv3JTZc+moUhDhD0jGSSfUZqdjxa2VZY8eTk4LTuq7cNPyTjqV63tYI
+ fJUpueI6UTatnOZ58thvgP5tyDE5CkmgpX3hZBKG6jrxzzHtYIETT6MbqNqtso8Qtne2Omlau
+ 4mthf/S/hsllDpeYffsC5p0vbtv6EoLnyD/AK8lhgJ37G9iDRmEroXpq0qfciAYlRj3wj//wW
+ UdivT1ZGdVUgnjboLwoCuSGilNy65W5trO1UD9fIKi8TXeBChd4Nhe9qRzvdCnP0JUyOdxsTD
+ JEmyPO8tKkD+uKyI4zPydJwszWRsX+x599AGPF9rjjn+EEYyk+4aBoFNcT
 
-In case vchiq_platform_conn_state_changed() is never called or fails befor=
-e
-driver removal, ka_thread won't be a valid pointer to a task_struct. So
-do the necessary checks before calling kthread_stop to avoid a crash.
+VCHIQ driver probe und remove have some resource release issues regarding
+kthread and debugfs handling.
 
-Fixes: 863a756aaf49 ("staging: vc04_services: vchiq_core: Stop kthreads on=
- vchiq module unload")
-Signed-off-by: Stefan Wahren <wahrenst@gmx.net>
-=2D--
- drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+Stefan Wahren (5):
+  staging: vchiq_arm: Register debugfs after cdev
+  staging: vchiq_arm: Fix possible NPR of keep-alive thread
+  staging: vchiq_arm: Stop kthreads if vchiq cdev register fails
+  staging: vchiq_arm: Create keep-alive thread during probe
+  staging: vchiq_arm: Improve initial VCHIQ connect
 
-diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c=
- b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-index e2e80e90b555..d3b7d1227d7d 100644
-=2D-- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-+++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-@@ -1422,7 +1422,8 @@ static void vchiq_remove(struct platform_device *pde=
-v)
- 	kthread_stop(mgmt->state.slot_handler_thread);
+ .../interface/vchiq_arm/vchiq_arm.c           | 121 +++++++++---------
+ .../interface/vchiq_arm/vchiq_core.c          |   1 +
+ .../interface/vchiq_arm/vchiq_core.h          |   2 +
+ 3 files changed, 60 insertions(+), 64 deletions(-)
 
- 	arm_state =3D vchiq_platform_get_arm_state(&mgmt->state);
--	kthread_stop(arm_state->ka_thread);
-+	if (!IS_ERR_OR_NULL(arm_state->ka_thread))
-+		kthread_stop(arm_state->ka_thread);
- }
-
- static struct platform_driver vchiq_driver =3D {
 =2D-
 2.34.1
 
