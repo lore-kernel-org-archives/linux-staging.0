@@ -1,37 +1,38 @@
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.18])
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBCE31D61B9
-	for <linux-staging@lists.linux.dev>; Sun,  9 Mar 2025 12:50:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B96F40849
+	for <linux-staging@lists.linux.dev>; Sun,  9 Mar 2025 12:50:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741524630; cv=none; b=eQhBQV5lZ4DuZHHcr2mZbYOb6b6XHRv3pvYVyMuq+uQ8VXKVL6cdkkP/Pq9vyCybCbrEGYh0TQnnWFo1x4y/Y5nVH6QmECejq5p5sUdpBL1xs6ai8c14IUQ1Pgr0lTEVdSDZmu+XuXa7WXUccQGfURJHhRX8B44XY/DwqSfWaRs=
+	t=1741524631; cv=none; b=RIXDp71i7Wm5Pzr9TB7bypZThSfuWAf6N6HhRFlIwYnL1wTrVz3IsH98zKNEZ/AyFYA/JgAUO6Pops3GDNuS8h8PaiXOZ2w+d5v6wiPrQ09YZL/OFTt13n7aA3ts+BTF7i2Iq1NZnSDC4nwjRRqQqClW5nw6/4f8bxgUzkqRwhg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741524630; c=relaxed/simple;
-	bh=9qyVUMgHyvBkSaU5rZ5eEyzeksQGec5p54t38wUZWyw=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=NcGOz4tJMgwOO3sJWxrGo+Ja+Xkh7jVZLI18jsJnzfV04U3E+aCipkTQk6ow5ijHpR5KWLiNjVBuDRN5O8ZzjQZUk9B5vXEX38faRIN7bzfusgY8uFdSfyMNwYDy0ZlWEoqXj6HyeoyB4BM7KJK5Rx9jXgykfljDuwUlqhzbw6s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.net; spf=pass smtp.mailfrom=gmx.net; dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b=lRZrm5Ad; arc=none smtp.client-ip=212.227.15.18
+	s=arc-20240116; t=1741524631; c=relaxed/simple;
+	bh=DzzFsJ8eWRmbTnpQrLit7KPM/tJFK2b4OrUnu1fkjAs=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=GjDjbMgM08vorwYeTB2M2IU1TM/eYlzEii5b9gjNOQZcq29Li0KKY1Dgh3M+JN80vLrewnRNc/5ZYrBk46pn9028gi0hM2Hq0AViWlgtNcFjQ91DDZqyi/62zVXd4hn+d+ZVXmb6CB/fRcACvSs872Hfe82LtEHTQftzViuJQnw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.net; spf=pass smtp.mailfrom=gmx.net; dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b=e+2Rs/vs; arc=none smtp.client-ip=212.227.15.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b="lRZrm5Ad"
+	dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b="e+2Rs/vs"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.net;
-	s=s31663417; t=1741524619; x=1742129419; i=wahrenst@gmx.net;
-	bh=pLb8CZ/yCsK0onb7oAbrJ7xNsSeNVG+Pj2jfFRdvfzU=;
-	h=X-UI-Sender-Class:From:To:Cc:Subject:Date:Message-Id:
-	 MIME-Version:Content-Transfer-Encoding:cc:
+	s=s31663417; t=1741524621; x=1742129421; i=wahrenst@gmx.net;
+	bh=IMW8k1nI/dgdeyw/NhQxjX7qpdqP40lF9jKMaJt7+LQ=;
+	h=X-UI-Sender-Class:From:To:Cc:Subject:Date:Message-Id:In-Reply-To:
+	 References:MIME-Version:Content-Transfer-Encoding:cc:
 	 content-transfer-encoding:content-type:date:from:message-id:
 	 mime-version:reply-to:subject:to;
-	b=lRZrm5Ad2wIVbJ2AsuDrIws9O0ImNKSytWYRRFa4knclT5E/jCqmRL9q9sK58O+g
-	 O6rIeoGUFAmry2McYuo+lNZvqNuxran+O7xEGQm67Nn17bdp8AsC9crHirEYL/5cH
-	 fTZMOh2SM03Yuar1zcAtULSOfIYkBjEKbLJ0YZZzX3zXNskX42l8VDGgUE8Ay+iE/
-	 RKRHw5eyfOVhaoqVMcBSnQb4kFGIDye8a3fOFJLzcXW86uRXqTS9/5pi7XGkO6ObV
-	 +8ZI4fE6DTtqWurj8/MPI8BkhcHKSXTk9vRyx0EpHTBO6yN7jtdOnAjBj2oixtv2p
-	 TaqiCSvFx10SVmPbQw==
+	b=e+2Rs/vs826tmnRSYrKLREDD0tzr6jmZn6C/Tl5vmJ5hS6VDIfG6qo0loofWFhfu
+	 kYnqgWp5WSArpyOBCzWaw6HPTgdv5FXVhCETeY1aO6rMSYnPXYEEyXaoxLdEOw05S
+	 xYGRKSlzYRh/TIPc1J8NhFaGGTFWW1LHQCY69whNxGzN8hgL2Xo3GbYvsgr3dH7Xq
+	 efYw4LDLCMHv7DRt6UXW6JYQdAsa/m/92Uaron0w6sCIRI7r1N5qWuS7DdtB/ew60
+	 X7c7De174IvT6H6PYW58+SIGvANfieLCOd5UAnf7wT1agf1DN61o72mPVqLZt531K
+	 lnzowSawyZsUcIvJUA==
 X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
 Received: from stefanw-SCHENKER ([37.4.251.153]) by mail.gmx.net (mrgmx005
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1M2f5Z-1toDhc1UyN-005m9t; Sun, 09
- Mar 2025 13:50:19 +0100
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1M3DJv-1tnfjk1M33-006KOF; Sun, 09
+ Mar 2025 13:50:21 +0100
 From: Stefan Wahren <wahrenst@gmx.net>
 To: Florian Fainelli <florian.fainelli@broadcom.com>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
@@ -45,10 +46,12 @@ Cc: Umang Jain <umang.jain@ideasonboard.com>,
 	kernel-list@raspberrypi.com,
 	linux-staging@lists.linux.dev,
 	Stefan Wahren <wahrenst@gmx.net>
-Subject: [PATCH 0/5] staging: vchiq_arm: Fix & improve resource handling
-Date: Sun,  9 Mar 2025 13:50:09 +0100
-Message-Id: <20250309125014.37166-1-wahrenst@gmx.net>
+Subject: [PATCH 4/5] staging: vchiq_arm: Create keep-alive thread during probe
+Date: Sun,  9 Mar 2025 13:50:13 +0100
+Message-Id: <20250309125014.37166-5-wahrenst@gmx.net>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20250309125014.37166-1-wahrenst@gmx.net>
+References: <20250309125014.37166-1-wahrenst@gmx.net>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -56,48 +59,160 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:p8fIGmiRZLax356bRabe21HXoRTe+69EeTlX8M64FZeUd+wEvWl
- PbgAZgqjeGm/iH9srgb0KpZe0mOT89WCOlhr7whqfUwfY2ND/E5Cz6y8acfN9cefza7/86Z
- MfLX+LQwHB1wTgyukvfablyRn1AdWwZ5QdMAaykery3EY6RvqAW9IJ1xNzQwQteDEdbOAr2
- yaq8lG+YNMqKEmYy+sc0A==
+X-Provags-ID: V03:K1:HDJIk4tIYimiHZF2NbRm3BtZemIDLp0JOg4FIVzSC6KtMikw2vO
+ 0TP7V3zvpHqzTgADwMeKP3UOL5EScw71WbOQC414qhyaRRmwBjd8HUFJ16FaCOOlGf3Nx2l
+ 1+1sdgH5J34onXnDDo4vaZb8Vq+4a1VXl5pLtD7wQ/hfvwf1J07eGThvNgLNrN/EQI64tZL
+ p0ebEoop8muR6dZgCYHlw==
 X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:Xfq5icII74M=;VQaZ/ysS41AIf8FtPNB9BlP1pCy
- 9/C88lHgIXDYuPBtONFwacPDZvNlJyEoAEpgUIdbIqsCSLiS4sOaxOdNwccLD+4ptFdk+3jl/
- uwN5Qvvy8HrWXnL1yhJFUs65gFk7fUkznD4YJ6p92xjX3aAabEXV5NearXIbyAtSzn15PgHKM
- n2z3XfmUG/texm4aXSsv+jhA/iOfRQA89hnP7kgPVIp8AIFpyG+uIL5EYsuoqVUBXEL9992gJ
- xCd9NtRAgv4Ppd5Dmyx6CAqqsKD432vfsOxsQxrUWVff5YqXQ0JhkkxZtYxF6lC/CBIcAfwW9
- qL7LJjBaREkt+CR+XX5Zeql2tq9glNOJ9yzNCzvPIO7z7D/jo+X5HvaZN39cSh4dC93n7k13L
- jczUYMIGAuEd0TBnHQJdoSPx+DsDdquMuumqvcbola5bRGFzMgHnTbZOv+Wt9BHcycz2FSnzd
- V5g8CN1nXxmn3cHGn9oUq/SxIxtG7/oUAt5mfuSoY3OpeKWpJFCkqUKUfGnbcnlECbo1Jyv1E
- I1yIKqtwSZ5ofIhQxqysg143H7tcMwXgK6kRLxobXtIQscbLMN/I5XmoXs/fotzZPA1IQCTs5
- UU2GzDVfz7h5yGGRk2UkLswIGenmVs2YutURmgMkR3OagzXaYdRBmJr9eAddX2wrKFlELUn78
- SQ3J12kKgfFkyXeXe6ebgzvQT8OFo/vm88UtwYtmCLvL8VO4MmMOX/do4Dnk0CRVq9z0Ve22w
- SyOS6L9oRXnqifij4grVm3AJH9cIGKnwT3ClW9DOb83CrjargqP49fsXGdYtA8sH8J+ke/sIQ
- YQthucr2kTeE0uo8CeLAX4HfXbSgahvIyJbGFP3MBMpF8Dkp85ftvCAQOjIxSaTHD5/7duapB
- ugqmTrlsP3hLR+YBmCHOGMFm7pp4m05Ox7+BFclasygvys5hgn6943kAb7z3WknItybzO+czG
- RF65wr6BUPM76uOPo2QLC0JCAdiJTGNSxwA1Dj0vUShcLgUMwdjspFZyKVB5bwmFG0ebaFXcV
- gfnkrVUS3HUhynAwn/CnYOueW5zLUU5Th7OzhWvz/CFfG1e4BAIMBC3NVarulphiK6g3VPyuE
- smesFTBz1OLtttMryREv3JTZc+moUhDhD0jGSSfUZqdjxa2VZY8eTk4LTuq7cNPyTjqV63tYI
- fJUpueI6UTatnOZ58thvgP5tyDE5CkmgpX3hZBKG6jrxzzHtYIETT6MbqNqtso8Qtne2Omlau
- 4mthf/S/hsllDpeYffsC5p0vbtv6EoLnyD/AK8lhgJ37G9iDRmEroXpq0qfciAYlRj3wj//wW
- UdivT1ZGdVUgnjboLwoCuSGilNy65W5trO1UD9fIKi8TXeBChd4Nhe9qRzvdCnP0JUyOdxsTD
- JEmyPO8tKkD+uKyI4zPydJwszWRsX+x599AGPF9rjjn+EEYyk+4aBoFNcT
+UI-OutboundReport: notjunk:1;M01:P0:w1NyaykYv84=;FgHtxjabk8vWDmPUJrKgoUclf79
+ HKvO8paN/ErWQyyWsPQf237qn+MXko9sPUqN0Jk92ZHLLhHbwggKwDMi65TJjSCbIo5GutbSH
+ grhwqAdILYWLdbuKZxaXcdJsb3xSddHzejR9gl4Ql6L4RCffWiYcYs3XMs+Fe1V9zaR3aEsg7
+ +YHoxEA1ivSU9eeca5h2VCizRT8NhhGbjwmVpww59cTR14hryT1gmbURpIatWCOpaS7aDvXZG
+ mNhKl6aIlXkhfVKCJRuxByk39UAUlq+914oK41V/tezjvFLfLVizaZynTlVXIqxrK9AKnQ80m
+ AqVjO0m1FPrlDXqVhsNUJje2NS3cxwJlG/+25anRLOjMOh0XVRc1DSXROrmT7X2tnsjN8QkR6
+ Lmvd66msgP7B72pfwK/3j5p/dSm+g1IT/qraU5eWKonBgLUX/Qm2HNrlpJbGBHfrwmB4BH3xt
+ lhE34c/uzmIDGkN9ec+8PJCh5WHAaBKB4VwF8iZu+vx64cBjR2TfKvZkMZfEHvcgfM7x6dIbI
+ jL/4s7bbjidIOyiYdnLt5MoAG22LF5JGKEnXsF7DAH7RK81redQsytIfMa/ilkuua7u44G7PT
+ sHmqinfbmiRq8B2on1XRoe+gXXcAv0+IfecvbVW10w+SKLVfBDOTeXgbrc5YOOTJrNGX4lzx5
+ jnN8j3cxEKO3bWvgVt26dFTl8bqkbanlxMZnD7RYZSsclM9WOPEXDe0dHwvlqa/ybIKVEF6PE
+ D4WSb/3XcCVrfcuWuFyKjNVEEsWC8mdLtlJjXO02Rl1ukQ8Jxv4ncJ+P8FLx+YcmPNCQpKkvR
+ bJtiSzyopD8dbk2ADh2HfRyTfSdH8cSdzqoV6wYQKOMD4qPV8YWXcu/G7fG0+5Ya2KB9Nh+72
+ FdDKoLgXsFqznz6LVipoW23ipHKBRAgqX1qmKxxwkL7+yiU1FpcuLNz67Bc+okP3MDrujqiyE
+ pPp8vF7Q+6iR4DV0RgNwZbv1++VPCeAWOjzBHv76ZNyJNuRqpMFY6+RvxbFZFpxSKkounpCH1
+ ivO6/GWX5r1UtopyKk0u3VMf7kCFm55u40WlXJN1YHfGiSK08JuSW0HpQtr9bLgcJPuL7UyD1
+ 1O3HURrf9Ig3alfbH9p80mPWhsfNJXo6gQmJ9IxBpWFlFUft0OSNBkLvkOm6t0K5l2I8Jflg1
+ nSgy70NWJhiL5J2peq4GFcO2uBE53xOkzqem/ui8AGTSB+//Y75IXyR7VVoc/7Rwmq3R2AFhv
+ 2cVnGr3sgB8B7MBFmBkVW16rFUcDBv4xMXTODESxTe1EMo1mGcBN/s5lb7jLR5TqbwgoLi3T1
+ iYnY6bZCMMI6udnqhpr4SRCRJLUjpeFrv+/dnDDeKKHtaOwM21R6eHes8F2qZUYGn0U2OWHi+
+ or0/84wUZKfzTcMtGzLem0yc+R+d2dYmK9B90XLzG3OjvFxHfXYNKID59T
 
-VCHIQ driver probe und remove have some resource release issues regarding
-kthread and debugfs handling.
+Creating the keep-alive thread in vchiq_platform_init_state have
+the following advantages:
+- abort driver probe if kthread_create fails (more consistent behavior)
+- make resource release process easier
 
-Stefan Wahren (5):
-  staging: vchiq_arm: Register debugfs after cdev
-  staging: vchiq_arm: Fix possible NPR of keep-alive thread
-  staging: vchiq_arm: Stop kthreads if vchiq cdev register fails
-  staging: vchiq_arm: Create keep-alive thread during probe
-  staging: vchiq_arm: Improve initial VCHIQ connect
+Since vchiq_keepalive_thread_func is defined below
+vchiq_platform_init_state, the latter must be moved.
 
- .../interface/vchiq_arm/vchiq_arm.c           | 121 +++++++++---------
- .../interface/vchiq_arm/vchiq_core.c          |   1 +
- .../interface/vchiq_arm/vchiq_core.h          |   2 +
- 3 files changed, 60 insertions(+), 64 deletions(-)
+Signed-off-by: Stefan Wahren <wahrenst@gmx.net>
+=2D--
+ .../interface/vchiq_arm/vchiq_arm.c           | 69 +++++++++----------
+ 1 file changed, 34 insertions(+), 35 deletions(-)
 
+diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c=
+ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+index 0c7ea2d0ee85..64f9536f1232 100644
+=2D-- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
++++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+@@ -280,29 +280,6 @@ static int vchiq_platform_init(struct platform_device=
+ *pdev, struct vchiq_state
+ 	return 0;
+ }
+
+-int
+-vchiq_platform_init_state(struct vchiq_state *state)
+-{
+-	struct vchiq_arm_state *platform_state;
+-
+-	platform_state =3D devm_kzalloc(state->dev, sizeof(*platform_state), GFP=
+_KERNEL);
+-	if (!platform_state)
+-		return -ENOMEM;
+-
+-	rwlock_init(&platform_state->susp_res_lock);
+-
+-	init_completion(&platform_state->ka_evt);
+-	atomic_set(&platform_state->ka_use_count, 0);
+-	atomic_set(&platform_state->ka_use_ack_count, 0);
+-	atomic_set(&platform_state->ka_release_count, 0);
+-
+-	platform_state->state =3D state;
+-
+-	state->platform_state =3D (struct opaque_platform_state *)platform_state=
+;
+-
+-	return 0;
+-}
+-
+ static struct vchiq_arm_state *vchiq_platform_get_arm_state(struct vchiq_=
+state *state)
+ {
+ 	return (struct vchiq_arm_state *)state->platform_state;
+@@ -1011,6 +988,39 @@ vchiq_keepalive_thread_func(void *v)
+ 	return 0;
+ }
+
++int
++vchiq_platform_init_state(struct vchiq_state *state)
++{
++	struct vchiq_arm_state *platform_state;
++	char threadname[16];
++
++	platform_state =3D devm_kzalloc(state->dev, sizeof(*platform_state), GFP=
+_KERNEL);
++	if (!platform_state)
++		return -ENOMEM;
++
++	snprintf(threadname, sizeof(threadname), "vchiq-keep/%d",
++		 state->id);
++	platform_state->ka_thread =3D kthread_create(&vchiq_keepalive_thread_fun=
+c,
++						   (void *)state, threadname);
++	if (IS_ERR(platform_state->ka_thread)) {
++		dev_err(state->dev, "couldn't create thread %s\n", threadname);
++		return PTR_ERR(platform_state->ka_thread);
++	}
++
++	rwlock_init(&platform_state->susp_res_lock);
++
++	init_completion(&platform_state->ka_evt);
++	atomic_set(&platform_state->ka_use_count, 0);
++	atomic_set(&platform_state->ka_use_ack_count, 0);
++	atomic_set(&platform_state->ka_release_count, 0);
++
++	platform_state->state =3D state;
++
++	state->platform_state =3D (struct opaque_platform_state *)platform_state=
+;
++
++	return 0;
++}
++
+ int
+ vchiq_use_internal(struct vchiq_state *state, struct vchiq_service *servi=
+ce,
+ 		   enum USE_TYPE_E use_type)
+@@ -1331,7 +1341,6 @@ void vchiq_platform_conn_state_changed(struct vchiq_=
+state *state,
+ 				       enum vchiq_connstate newstate)
+ {
+ 	struct vchiq_arm_state *arm_state =3D vchiq_platform_get_arm_state(state=
+);
+-	char threadname[16];
+
+ 	dev_dbg(state->dev, "suspend: %d: %s->%s\n",
+ 		state->id, get_conn_state_name(oldstate), get_conn_state_name(newstate)=
+);
+@@ -1346,17 +1355,7 @@ void vchiq_platform_conn_state_changed(struct vchiq=
+_state *state,
+
+ 	arm_state->first_connect =3D 1;
+ 	write_unlock_bh(&arm_state->susp_res_lock);
+-	snprintf(threadname, sizeof(threadname), "vchiq-keep/%d",
+-		 state->id);
+-	arm_state->ka_thread =3D kthread_create(&vchiq_keepalive_thread_func,
+-					      (void *)state,
+-					      threadname);
+-	if (IS_ERR(arm_state->ka_thread)) {
+-		dev_err(state->dev, "suspend: Couldn't create thread %s\n",
+-			threadname);
+-	} else {
+-		wake_up_process(arm_state->ka_thread);
+-	}
++	wake_up_process(arm_state->ka_thread);
+ }
+
+ static const struct of_device_id vchiq_of_match[] =3D {
 =2D-
 2.34.1
 
