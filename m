@@ -1,183 +1,475 @@
-Received: from MA0PR01CU009.outbound.protection.outlook.com (mail-southindiaazolkn19010013.outbound.protection.outlook.com [52.103.67.13])
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CB3B22CBF4;
-	Mon, 10 Mar 2025 14:00:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.103.67.13
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741615209; cv=fail; b=T5VTUKmgfeu0rYuHSJIc12mqKctxtbWlpB73OdnCmGWcqa+/6U1BesVhyFi808knIz0cueH9BIdGcwYpaU2vdU1pTIA0R+gNfluFyDyAlJZ3r6yPmoZlGG15syuun2UeLJDvGrxHOt2YdHofA1V+OH18iy604RRI1pyi09Rvyks=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741615209; c=relaxed/simple;
-	bh=ieBbQje/JzRsj1rhIukgIVoz2dE3IKtKD0QTXHC6IJ4=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=UDhuG+/3zgpn/yqu7H9ygk6tHATKczTVMt15YTJ96XFZVmuJ3PT2uSSiJPF+dZgO12cw5cZeMV8KmPfG6+97z39pUxDOWb1cIwcZGJZtQ5bqDCoh/mEE1OTA2KrdA3Kjt4u8tSwWvcB+JCbSaxzHJZvl/aJaZauAiJfgnyWpj/Q=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=live.com; spf=pass smtp.mailfrom=live.com; dkim=pass (2048-bit key) header.d=live.com header.i=@live.com header.b=AEq9ZZlc; arc=fail smtp.client-ip=52.103.67.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=live.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=live.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7104022A4F6
+	for <linux-staging@lists.linux.dev>; Mon, 10 Mar 2025 15:53:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1741622029; cv=none; b=fhpKJyqloTQDQa4wo0J0Ycg4mhEx7R4FJAAe+Mm6l/fQ4q2BA8MbYB7nnKGj8KKFOAMB2ni2enXOgXPmnTmisIx+ZGGusSzqCt7L87sZZNut2FYc9lN1p1xqlZ1cvVriyE8XcXnVtTw9R5ri0p7LmUT1Obm6wXF5P7Y9HS3zKTA=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1741622029; c=relaxed/simple;
+	bh=Atk6OMVin/EOz8ZdGNieyaE+Uh2XwrKNmR0ammlzGbk=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=nZZgoRmCHTVeMngZ2cKskvS7t8RMds1MgpPtLIPZjeovKNl+tU8GHRykyY5zR9zo25sLNsB67WMzMvc5B6F+6m1bwvVWt6wDux0uux+sNByTsC6PzXJA9QznJzPOaEi2SJQpv/LqYWpNo5nRel1feuTy+9Q51WJX3TT4Ur3eEWs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=Ea6mL/Hh; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=IAejmD9G; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=live.com header.i=@live.com header.b="AEq9ZZlc"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=hvzjnv5HUczSPgdqNedFo6aHvki9GxkAI2+DV3QhiVU9jGmIWrStewjCNkuLqu3NWff2PlsF6NBP9YUxFMNcWSulnbcN3tAggksG0jjZAVqu70kQdXFxFLSioDmmy9++Yw0ciPfQep4STUqroE6jZW6zd4q4uWNSHdwEtWw8PlbIiJBzisZkpQ9FQa0z/vPYBzhVGH1wTwKB3UmzqY4L9nU6efd+0iOe1ndOb1B2+BoHxOL9W5A7dEOGXVPSUveiPK5AC1jEpP8qXGQ3dBK4fytjZjXYpZas1e+SWHxaAbysELQyT+Y7LdUNURHlaKSbO3w9ALpP+xeXf1W4mrUcSA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ieBbQje/JzRsj1rhIukgIVoz2dE3IKtKD0QTXHC6IJ4=;
- b=WosWGEpPNNvwFunWXxwCjI+ADBv0h7psHB4JX/qTczD5xz9XGAV5J7ekWISzb4RKQKXkHtRHSNiwT5HqFXcXL4GcmMBAjtqOTARioxhKXVhifJAYUI9/HZ4JNf2CRtT3AZDk2k92ArIrn3+uUY1AGl4svs0+m+0FSCRiQMdigg8S6UM0RC+hOUNuPK4bdpwSLUzOMRbfnQxiXAxEqvtUVKCz3L+6Locu4UMnhBN9UE1MwYit3Cn3YnZN1PM7UUdm+MPcRAynweS6OrOe/VKMYwxGz+PN66e8m0k4iPgr3hkU8L1vb7zD4nFxN88MZR3aazSukWYDSywOf33Cto7zCQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=live.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ieBbQje/JzRsj1rhIukgIVoz2dE3IKtKD0QTXHC6IJ4=;
- b=AEq9ZZlcQt7NnPeY36REV9mr3dx1/mHJ4qtU3Cw9EiIi76X800aV7mLArMd45ndFJuY5Hm7C5rVhw0fwbWSLne+16TP9w7O2p6peVW7i7mLtYQigPWEJUhf9g77lOeYbhULz8lOLnz3xI4ri1U99yaq/DAWxkLzoCKukCNVY7dKwNyDx2Eo/r4+5eSAWRNie38r5TM0lLRcW6hfiNqXGK/O+wn2MzC4ur2xasAmzhYTREiGc4jJr9PpMcHVMM+22ySZR+kNsM79v2e8pKn2GcJgyrcseUJNl1tkn6Fg5dlstlItYF2M+nUCoX3yqW6CkDC8ehTxLsO1XAQqzFG8nQA==
-Received: from PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM (2603:1096:c01:f7::14)
- by PN3PR01MB7031.INDPRD01.PROD.OUTLOOK.COM (2603:1096:c01:ab::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8511.27; Mon, 10 Mar
- 2025 14:00:00 +0000
-Received: from PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM
- ([fe80::324:c085:10c8:4e77]) by PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM
- ([fe80::324:c085:10c8:4e77%7]) with mapi id 15.20.8511.025; Mon, 10 Mar 2025
- 14:00:00 +0000
-From: Aditya Garg <gargaditya08@live.com>
-To: "andriy.shevchenko@linux.intel.com" <andriy.shevchenko@linux.intel.com>
-CC: Robin Murphy <robin.murphy@arm.com>, "gregkh@linuxfoundation.org"
-	<gregkh@linuxfoundation.org>, "bhelgaas@google.com" <bhelgaas@google.com>,
-	"joro@8bytes.org" <joro@8bytes.org>, "will@kernel.org" <will@kernel.org>,
-	"linux-staging@lists.linux.dev" <linux-staging@lists.linux.dev>, Linux Kernel
- Mailing List <linux-kernel@vger.kernel.org>, "linux-pci@vger.kernel.org"
-	<linux-pci@vger.kernel.org>, "iommu@lists.linux.dev" <iommu@lists.linux.dev>,
-	Aun-Ali Zaidi <admin@kodeit.net>, "paul@mrarm.io" <paul@mrarm.io>, Orlando
- Chamberlain <orlandoch.dev@gmail.com>
-Subject: Re: [PATCH RFC] staging: Add driver to communicate with the T2
- Security Chip
-Thread-Topic: [PATCH RFC] staging: Add driver to communicate with the T2
- Security Chip
-Thread-Index: AQHbkM7rYdRJRFFoLkaQD5PHjXHnmrNsZMuAgAABkgCAAAFwwQ==
-Date: Mon, 10 Mar 2025 13:59:59 +0000
-Message-ID:
- <PN3PR01MB95970AA2AD456AC15B7AD3C6B8D62@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
-References: <1A12CB39-B4FD-4859-9CD7-115314D97C75@live.com>
- <ef8dcf7a-34ed-4b27-a154-e01bc167d4e6@arm.com>
- <Z87vKltfijzRtlpL@smile.fi.intel.com>
-In-Reply-To: <Z87vKltfijzRtlpL@smile.fi.intel.com>
-Accept-Language: en-IN, en-US
-Content-Language: en-IN
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-x-ms-exchange-messagesentrepresentingtype: 1
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: PN3PR01MB9597:EE_|PN3PR01MB7031:EE_
-x-ms-office365-filtering-correlation-id: 3f2cffa8-edd4-44d3-1d50-08dd5fdbd90b
-x-microsoft-antispam:
- BCL:0;ARA:14566002|8062599003|461199028|8060799006|19110799003|15080799006|7092599003|6072599003|10035399004|440099028|3412199025|21061999003|12071999003|102099032;
-x-microsoft-antispam-message-info:
- =?utf-8?B?UDZuQll5RkRTaUs1N29WQ1N3MWkxcUJqMnkvQUZPbnBJSjlzTkM3LzBDQnEv?=
- =?utf-8?B?Qlc1R1VHRkljYVd5S0djTGNXd1FIK2tOU3F3YVA5L01QTFZiQlBsVEJCWk5I?=
- =?utf-8?B?cjlXZk43cGxqak5YUG1UWHE5WlVpZTZEQ0tMM2JnWVEyYlNFRnlCTUFEUTFO?=
- =?utf-8?B?S3NJZFlUNHpHakhaWGE3UHRMSkx6aWN5VTI1MU1VTStkWFExRW43TUkyL2Iv?=
- =?utf-8?B?VW5EUVFaQ0JjdEtYWTlUeGFtNDNHaHZGdDU0T3p0SFhmNmVqNVdSTlZJazRU?=
- =?utf-8?B?OTFYalNmWlR3eDZHWXQ5V2JxZEluZnFNQlQzeHBFakZRRVhUcFBwcXN0NGJR?=
- =?utf-8?B?L0UxWkw0Zk5vVDdBV2tIdjRTSW9TTFhOVUtNMXFlMkxISSs4U2FiWHZ4UHVX?=
- =?utf-8?B?Rm12M0RtYTBRbUZKR056a1hxaWxTd0RscDJybmVwYnJTV2dZZlJ4OGdwblZK?=
- =?utf-8?B?cHNHeHp4SFdOREFJNHZJYlVsQmErOFBNZUd4MVJXOXlWSUk2dHBka09DVHBC?=
- =?utf-8?B?THVXV3l5MTRWOEpsdzVkN05yTXdtYnJ6SmNseEd0VHJpQWc2b1N6Qno2SDNP?=
- =?utf-8?B?WDJmd212MCsvZjN3d3RTRFdpNG81c1BNQTlnekE5YmVwUzBLUFJFSUhjOU5N?=
- =?utf-8?B?Mk5KQ29VNVhsZEp2czFMb2lidDRpcVBTcE9qclF6ZWtTZHJsRzZWekVxNTJo?=
- =?utf-8?B?QklGL28veDBCM0NmWDBFT3hYQU9Hdm5CUDZQZW9mdzNSd1Y2U3owMTRIWTZr?=
- =?utf-8?B?eXpDc2NHSEhBNVE0WTdCYkxmOGxxQ1B0WmQwWkl2VkcrTlBFSkYwMUVqZGRC?=
- =?utf-8?B?a2JDOFU5Z1pjSHAydEF4elBrUnR0bnF4aWdrbUFNdDdORkJVWUNOR090MnZB?=
- =?utf-8?B?QitvRkZCL1lUdi81WU53dFVVNFk1R01OK3RTdjBQTnFzUjk5d1BqT0xHSXlk?=
- =?utf-8?B?WkQ2THFna0NjUm1sYkNDalg4b1JsY2ljbEdCd0tsSFpXNWFHUGU5QXI4RkNq?=
- =?utf-8?B?R3Q4YzEwOEw5emNNU05RNDBwazhoejR4cGlEK2tOT2pRM2tRSDBSSTlsVFBj?=
- =?utf-8?B?bWtTUjc4bmdBZTI3STYrMDc2SmRuaVIvV3ZTMGcwdWwyZDlJUEIvNDY2MFll?=
- =?utf-8?B?VFB4S3dNTU4wamVlR1FpUmw1UTVIL3djRS93WFA3VFY1QXVBaDVFZWZaem1w?=
- =?utf-8?B?aEhMdGxNZVNjYk44emVaR1JoeFZqTmIwdFFlY3FrUldlSXVhQ3Ewb3MwSVhs?=
- =?utf-8?B?dXJ2YUQxakhhQ0MvT1ZndVo1K3o3d1FJZXF2eWsrOWtweDI1Z2JCYUQxYWlt?=
- =?utf-8?B?WlE4Wk4yNVdJSDJ4QlZSMnpoc1pBdDZYenlJTEJNSW9uWXU4YW9DWUdBRmFP?=
- =?utf-8?B?UHlCSUhDNkMvUHhMVzhGakloeEFmaFh5aHZiYndsNCtVMzV6R3lCa2QyWXVl?=
- =?utf-8?B?SXBsR01RcWFaVHdMUVBTUnRpZFhwaW1uRk1ZTEpaZG5hRDUrS1Y1c0NCK0Fz?=
- =?utf-8?B?N0FkdzhYc0lSMGZyd00rQWwya055Rk9mOUVoaVAxUWsvQVhsbDJwd3ZHV2dt?=
- =?utf-8?B?emhXY09sdEVyRlczWjcrVUdMOVIzTmxaRDExTDk0eU1Td1daNjNCemExSExn?=
- =?utf-8?B?MjE4ZFM3UTlyZUo1a0J0RzhVdVdkSVVLN0dCOUNtTjliYmFKVGphalBFYk51?=
- =?utf-8?B?cWRKR3JVMlJDUWljRjFnQ0lxV3RobEh1SWZpUDNSeTh0USt3UGFsbXlRPT0=?=
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?utf-8?B?QVIyYThZRnJ1NTh6N3BtaTBvcnQvNERqMjNnd0h0QlF5OFJkRUFaTHZ2d0Ry?=
- =?utf-8?B?bXB1MU5mWWdDVnlyazl5SHh5THoxUjJmWUlHQTJVc2g3WmdjU0QvUTAwbXF4?=
- =?utf-8?B?R0VqTWI1Q2xFSU9QYzdQTHEwL1BFazByWjduaDU4TmtRWFIzWkNNenEzSStJ?=
- =?utf-8?B?OU5KWTEyMHYxVnNLSDEvc1BxMEhVdjZHUHpkVEIwa2Jpb2Flb0lTRGFmY0ZR?=
- =?utf-8?B?VUkxZXVaS0p3VjQveVlQSkRJWVRTOHloNno1bTh5cDNJSHJyYjY2TVN3TUJP?=
- =?utf-8?B?WGE4MkRvU0s4blROendLejlUMFhvVHJZYWtjMmZBSlJqY1hiOWxGSUZhU25Q?=
- =?utf-8?B?dDhpRjBaejU1WkhraHJCZEpUODNJejdNYlpDRzVqdmUyVWxiZEwwVTRnbHNF?=
- =?utf-8?B?WE5jUmNMMDZLaU1sdVdPb3JnVGY1V2JnOEhYOHFRQjYydFJmaHR0bWNuOEdF?=
- =?utf-8?B?MDV0SnlMSEp1TEZrWDdncTZ4Qy95YnJ1ZVNBZ1hsL1FieEkwYm5jNnBNWFR0?=
- =?utf-8?B?aUVSdnpQZTk2UG84MnZzUjBhV20vL2Y1TWZleTZRenRQOUNWYTJsNWQ4Y3Zk?=
- =?utf-8?B?R0hwcjZWclE1NXlJUnVYMmpEekprdVBERTBjeE96aitNeSsrdmg3d2lGeDhE?=
- =?utf-8?B?c2FOSXVndmZMOTRkN3QwS3Z2WFAwbXdBY1dWTG1WYkY1QnY3VXJOU1I2am1r?=
- =?utf-8?B?VEFzVXNRVVpjZGRoVHRUMWVZNVBrQUE5aDVnZkx4TEJXZERhQ3B2OFlDTnNo?=
- =?utf-8?B?bis5ZzVVWDBmSjVLWHlHZndDN3p5NWw1VTBVcXhOUlhjY0R5QjExeG5kcm5H?=
- =?utf-8?B?b1ZMV1BKckRoVGhOWkhaTEFnT0xtUFQ4eWRPNmRDOWRIK01rWWx5U1BrVkdN?=
- =?utf-8?B?Z28zaS9KOUp5cXpEZU1pNUNDTzE0UHpCUGRlQXc0UTlMTHRXQXowbzRJTTVO?=
- =?utf-8?B?Z1hhcXZUYWZnck9hUFBxUWd1RHRxZGMxMHQzeUNJWWEyajI5S2JneFI1UmdH?=
- =?utf-8?B?UU1lcmVPd052T1Q3TzVWeXFKNldSVDhsbHpLS0h2TjJ6TzlLY1ZPR1hLaU5w?=
- =?utf-8?B?OENwL2Z0azJvVjdnVjZGeExOSlUvMFBrcTJ6VjJrbHB4UkpMMFZLZnRmeTdk?=
- =?utf-8?B?VDE4YzdTQTdiVDVoSVlYVkJmb2pxaUU0MzZ5N3EyNng2aHpIb0Vha0xNRk5B?=
- =?utf-8?B?eUorYWFLZkdTYWppcjc4SWVOTC9BR3pCUVNHaDZxL0pJTDhGQ0FETnB2MVI5?=
- =?utf-8?B?UTVyeG44Rjl5bVB1WFM4SjVIZit0bEVldFJEYjA2cXAzK2NmMUNnUk5Xckc3?=
- =?utf-8?B?VkhjTEI3RUZGajRWTHpZS1BjREpTZUhTKzY5UWtOMnFTdmRkTDlhZTJzb2gy?=
- =?utf-8?B?WnpyMmVVSXdmWEwzOUNZcllxTlpzTEVscWJWOFk2cThhTkNyQ3hYbDB3VGwz?=
- =?utf-8?B?WW1LcmZpelJ4Tk5hODI4d1oraUs1QzNpZVUzRGdRVDc2T2IrS2dUV3NwQjZ0?=
- =?utf-8?B?RDBqbzJlUDVVTDcxM2lIMzdDYWw1dHVQUjl2eDg0WFN0T1o3SnpiREFqa0V3?=
- =?utf-8?B?VmVUTkJ3NFFVVExmMjliYWZQZ0ExL2g5SFNGZzdXb2Zpd2k1cUJTZUlMWkN2?=
- =?utf-8?Q?ghyUghyaVZgyoEmQ7Ba2/nOZn8LJh66qVk8aUTpO4Cao=3D?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="Ea6mL/Hh";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="IAejmD9G"
+From: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1741622024;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=zUTRJvbaP4Vnt2yXqQTeEmOb6qSlIcttM/04AIzyrUk=;
+	b=Ea6mL/HhYgRpclWPB0PuaL4U8mxvjgcNp+YKGh/bxV+bpBeGCWlzmB6NfCitxcyrFtkhB9
+	L44RqL8tslFZEVa0iH2GiBOudsQoCKI+zSWeaa87jXJAU9g7/rpofOxKKPg5UiOhXoSbFh
+	x8jQ4X+7gAC52ml0TofiO7yZGVp4Z7y81OwCQuCPp4SgjgNSTc0GwMgfVkrFh6/y3QieUd
+	qfEOpu+lSMZ80tPnSgUaBKHC3cNaoTSshvd+qZU1RJQt0NKuwPHk8/7RyWmLWhDNbXs4pt
+	0uJdkHvej6nn0qPJ3wn0qyKFic25j4lN7IN02o917mmjuRadWN474YLkiPaxxw==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1741622024;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=zUTRJvbaP4Vnt2yXqQTeEmOb6qSlIcttM/04AIzyrUk=;
+	b=IAejmD9GV1N5KNyOYO5A8O7scMHral9dnJQVV9jRga/Dyg0CwttQtmmbztiP4BJDvBZDBE
+	OpWuy3x6la16lFCw==
+Date: Mon, 10 Mar 2025 16:53:33 +0100
+Subject: [PATCH] staging: vchiq_arm: Don't use %pK through printk
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-OriginatorOrg: sct-15-20-7719-20-msonline-outlook-ae5c4.templateTenant
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3f2cffa8-edd4-44d3-1d50-08dd5fdbd90b
-X-MS-Exchange-CrossTenant-originalarrivaltime: 10 Mar 2025 13:59:59.9764
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-rms-persistedconsumerorg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PN3PR01MB7031
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+Message-Id: <20250310-restricted-pointers-vchiq_arm-v1-1-dd04f208ee55@linutronix.de>
+X-B4-Tracking: v=1; b=H4sIAPwKz2cC/x3MQQqEMAwAwK9IzgZauyviV0RE26g5WDUpIoh/3
+ 7LHucwDSsKk0BYPCF2svMcMWxbg1zEuhByyoTLV1zhrUEiTsE8U8Ng5JhLFy698DqNsaBtjp7k
+ JtftMkI9DaOb7/3f9+/4Am28nAG8AAAA=
+X-Change-ID: 20250310-restricted-pointers-vchiq_arm-1801bf8d634b
+To: Florian Fainelli <florian.fainelli@broadcom.com>, 
+ Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-rpi-kernel@lists.infradead.org, 
+ linux-arm-kernel@lists.infradead.org, linux-staging@lists.linux.dev, 
+ linux-kernel@vger.kernel.org, 
+ =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1741622024; l=18803;
+ i=thomas.weissschuh@linutronix.de; s=20240209; h=from:subject:message-id;
+ bh=Atk6OMVin/EOz8ZdGNieyaE+Uh2XwrKNmR0ammlzGbk=;
+ b=v6zBodXAAmgbQGNZibaurBgBDKVcldjmgCmyEJyOwugqlRgGwt+hZMzhRmf4/GMITbZXWVY69
+ /GZXHqiCzO1DxVw+y5z4DoJTX0W6jmN2HglFXBfZEgDwD0ayuFdVy5q
+X-Developer-Key: i=thomas.weissschuh@linutronix.de; a=ed25519;
+ pk=pfvxvpFUDJV2h2nY0FidLUml22uGLSjByFbM6aqQQws=
 
-DQoNCj4gT24gMTAgTWFyIDIwMjUsIGF0IDc6MjXigK9QTSwgYW5kcml5LnNoZXZjaGVua29AbGlu
-dXguaW50ZWwuY29tIHdyb3RlOg0KPiANCj4g77u/T24gTW9uLCBNYXIgMTAsIDIwMjUgYXQgMDE6
-NDk6MTNQTSArMDAwMCwgUm9iaW4gTXVycGh5IHdyb3RlOg0KPj4+IE9uIDIwMjUtMDMtMDkgODo0
-MCBhbSwgQWRpdHlhIEdhcmcgd3JvdGU6DQo+Pj4gRnJvbTogUGF1bCBQYXdsb3dza2kgPHBhdWxA
-bXJhcm0uaW8+DQo+Pj4gDQo+Pj4gVGhpcyBwYXRjaCBhZGRzIGEgZHJpdmVyIG5hbWVkIGFwcGxl
-LWJjZSwgdG8gYWRkIHN1cHBvcnQgZm9yIHRoZSBUMg0KPj4+IFNlY3VyaXR5IENoaXAgZm91bmQg
-b24gY2VydGFpbiBNYWNzLg0KPj4+IA0KPj4+IFRoZSBkcml2ZXIgaGFzIDMgbWFpbiBjb21wb25l
-bnRzOg0KPj4+IA0KPj4+IEJDRSAoQnVmZmVyIENvcHkgRW5naW5lKSAtIHRoaXMgaXMgd2hhdCB0
-aGUgZmlsZXMgaW4gdGhlIHJvb3QgZGlyZWN0b3J5DQo+Pj4gYXJlIGZvci4gVGhpcyBlc3RhYmls
-aXNoZXMgYSBiYXNpYyBjb21tdW5pY2F0aW9uIGNoYW5uZWwgd2l0aCB0aGUgVDIuDQo+Pj4gVkhD
-SSBhbmQgQXVkaW8gYm90aCByZXF1aXJlIHRoaXMgY29tcG9uZW50Lg0KPj4+IA0KPj4+IFZIQ0kg
-LSB0aGlzIGlzIGEgdmlydHVhbCBVU0IgaG9zdCBjb250cm9sbGVyOyBrZXlib2FyZCwgbW91c2Ug
-YW5kDQo+Pj4gb3RoZXIgc3lzdGVtIGNvbXBvbmVudHMgYXJlIHByb3ZpZGVkIGJ5IHRoaXMgY29t
-cG9uZW50IChvdGhlcg0KPj4+IGRyaXZlcnMgdXNlIHRoaXMgaG9zdCBjb250cm9sbGVyIHRvIHBy
-b3ZpZGUgbW9yZSBmdW5jdGlvbmFsaXR5KS4NCj4+PiANCj4+PiBBdWRpbyAtIGEgZHJpdmVyIGZv
-ciB0aGUgVDIgYXVkaW8gaW50ZXJmYWNlLCBjdXJyZW50bHkgb25seSBhdWRpbw0KPj4+IG91dHB1
-dCBpcyBzdXBwb3J0ZWQuDQo+Pj4gDQo+Pj4gQ3VycmVudGx5LCBzdXNwZW5kIGFuZCByZXN1bWUg
-Zm9yIFZIQ0kgaXMgYnJva2VuIGFmdGVyIGEgZmlybXdhcmUNCj4+PiB1cGRhdGUgaW4gaUJyaWRn
-ZSBzaW5jZSBtYWNPUyBTb25vbWEuDQo+IA0KPj4gSSdtIHNsaWdodGx5IHB1enpsZWQgd2h5IHRo
-aXMgd2FzIHNlbnQgdG8gdGhlIElPTU1VIG1haW50YWluZXJzIHdoZW4gaXQNCj4+IGRvZXNuJ3Qg
-dG91Y2ggYW55IElPTU1VIGNvZGUsIG5vciBldmVuIGNvbnRhaW4gYW55IHJlZmVyZW5jZSB0byB0
-aGUgSU9NTVUNCj4+IEFQSSBhdCBhbGwuLi4NCj4gDQo+IFBlb3BsZSBsaWtlIHRvIHB1dCBhIHJh
-bmRvbSBwZW9wbGUgdG8gYSByYW5kb20gY29udHJpYnV0aW9ucyA6LSkNCj4gDQo+IEFkaXR5YSwg
-eW91IGNhbiB1dGlsaXNlIG15ICJzbWFydCIgc2NyaXB0IFsxXSB0byBzZW5kIHRoZSBzZXJpZXMN
-Cj4gdG8gbW9yZS1vci1sZXNzIHJlbGV2YW50IHBlb3BsZSAoYnV0IGRlZmluaXRlbHkgdG8gdGhl
-IHJpZ2h0IG9uZXMNCj4gwrEgcG90ZW50aWFsbHkgaW50ZXJlc3RlZCwgaXQgaGFzIGEgaGV1cmlz
-dGljcyBpbnNpZGUpLg0KDQpUaGFua3MgYSBsb3QgZm9yIHRoaXMuIEkgdXNlZCBhIGJpdCBBSSB0
-byBnZXQgbWFpbnRhaW5lcnMgZm9yIHRoaXMsIGxvb2tzIGxpa2UgSU9NTVUgZ290IGFkZGVkLiBT
-b3JyeSBmb3IgdGhhdCA6KQ0KPiANCj4gWzFdOiBodHRwczovL2dpdGh1Yi5jb20vYW5keS1zaGV2
-L2hvbWUtYmluLXRvb2xzL2Jsb2IvbWFzdGVyL2dlMm1haW50YWluZXIuc2gNCj4gDQo+IC0tDQo+
-IFdpdGggQmVzdCBSZWdhcmRzLA0KPiBBbmR5IFNoZXZjaGVua28NCj4gDQo+IA0K
+In the past %pK was preferable to %p as it would not leak raw pointer
+values into the kernel log.
+Since commit ad67b74d2469 ("printk: hash addresses printed with %p")
+the regular %p has been improved to avoid this issue.
+Furthermore, restricted pointers ("%pK") were never meant to be used
+through printk(). They can still unintentionally leak raw pointers or
+acquire sleeping looks in atomic contexts.
+
+Switch to the regular pointer formatting which is safer and
+easier to reason about.
+There are still a few users of %pK left, but these use it through seq_file,
+for which its usage is safe.
+
+Link: https://lore.kernel.org/lkml/20250113171731-dc10e3c1-da64-4af0-b767-7c7070468023@linutronix.de/
+Signed-off-by: Thomas Weißschuh <thomas.weissschuh@linutronix.de>
+---
+ .../vc04_services/interface/vchiq_arm/vchiq_arm.c  |  6 +-
+ .../vc04_services/interface/vchiq_arm/vchiq_core.c | 64 +++++++++++-----------
+ .../vc04_services/interface/vchiq_arm/vchiq_dev.c  | 14 ++---
+ 3 files changed, 42 insertions(+), 42 deletions(-)
+
+diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+index a4e83e5d619bc95f1d4ba311a201bba8c05cd030..2db219e4786f236ce4c37afa86a12615a091c637 100644
+--- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
++++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+@@ -271,7 +271,7 @@ static int vchiq_platform_init(struct platform_device *pdev, struct vchiq_state
+ 		return -ENXIO;
+ 	}
+ 
+-	dev_dbg(&pdev->dev, "arm: vchiq_init - done (slots %pK, phys %pad)\n",
++	dev_dbg(&pdev->dev, "arm: vchiq_init - done (slots %p, phys %pad)\n",
+ 		vchiq_slot_zero, &slot_phys);
+ 
+ 	mutex_init(&drv_mgmt->connected_mutex);
+@@ -368,7 +368,7 @@ void free_bulk_waiter(struct vchiq_instance *instance)
+ 				 &instance->bulk_waiter_list, list) {
+ 		list_del(&waiter->list);
+ 		dev_dbg(instance->state->dev,
+-			"arm: bulk_waiter - cleaned up %pK for pid %d\n",
++			"arm: bulk_waiter - cleaned up %p for pid %d\n",
+ 			waiter, waiter->pid);
+ 		kfree(waiter);
+ 	}
+@@ -622,7 +622,7 @@ vchiq_blocking_bulk_transfer(struct vchiq_instance *instance, unsigned int handl
+ 		mutex_lock(&instance->bulk_waiter_list_mutex);
+ 		list_add(&waiter->list, &instance->bulk_waiter_list);
+ 		mutex_unlock(&instance->bulk_waiter_list_mutex);
+-		dev_dbg(instance->state->dev, "arm: saved bulk_waiter %pK for pid %d\n",
++		dev_dbg(instance->state->dev, "arm: saved bulk_waiter %p for pid %d\n",
+ 			waiter, current->pid);
+ 	}
+ 
+diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
+index 8d5795db4f39f8003310a54ba369367c95e6c079..52126d11e57cced24f10efadd1e79d8378031ec2 100644
+--- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
++++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
+@@ -470,7 +470,7 @@ make_service_callback(struct vchiq_service *service, enum vchiq_reason reason,
+ 		cb_userdata = bulk->cb_userdata;
+ 	}
+ 
+-	dev_dbg(service->state->dev, "core: %d: callback:%d (%s, %pK, %pK %pK)\n",
++	dev_dbg(service->state->dev, "core: %d: callback:%d (%s, %p, %p %p)\n",
+ 		service->state->id, service->localport, reason_names[reason],
+ 		header, cb_data, cb_userdata);
+ 	status = service->base.callback(service->instance, reason, header, service->handle,
+@@ -778,7 +778,7 @@ process_free_data_message(struct vchiq_state *state, u32 *service_found,
+ 		complete(&quota->quota_event);
+ 	} else if (count == 0) {
+ 		dev_err(state->dev,
+-			"core: service %d message_use_count=%d (header %pK, msgid %x, header->msgid %x, header->size %x)\n",
++			"core: service %d message_use_count=%d (header %p, msgid %x, header->msgid %x, header->size %x)\n",
+ 			port, quota->message_use_count, header, msgid,
+ 			header->msgid, header->size);
+ 		WARN(1, "invalid message use count\n");
+@@ -799,11 +799,11 @@ process_free_data_message(struct vchiq_state *state, u32 *service_found,
+ 			 * it has dropped below its quota
+ 			 */
+ 			complete(&quota->quota_event);
+-			dev_dbg(state->dev, "core: %d: pfq:%d %x@%pK - slot_use->%d\n",
++			dev_dbg(state->dev, "core: %d: pfq:%d %x@%p - slot_use->%d\n",
+ 				state->id, port, header->size, header, count - 1);
+ 		} else {
+ 			dev_err(state->dev,
+-				"core: service %d slot_use_count=%d (header %pK, msgid %x, header->msgid %x, header->size %x)\n",
++				"core: service %d slot_use_count=%d (header %p, msgid %x, header->msgid %x, header->size %x)\n",
+ 				port, count, header, msgid, header->msgid, header->size);
+ 			WARN(1, "bad slot use count\n");
+ 		}
+@@ -845,7 +845,7 @@ process_free_queue(struct vchiq_state *state, u32 *service_found,
+ 		 */
+ 		rmb();
+ 
+-		dev_dbg(state->dev, "core: %d: pfq %d=%pK %x %x\n",
++		dev_dbg(state->dev, "core: %d: pfq %d=%p %x %x\n",
+ 			state->id, slot_index, data, local->slot_queue_recycle,
+ 			slot_queue_available);
+ 
+@@ -868,7 +868,7 @@ process_free_queue(struct vchiq_state *state, u32 *service_found,
+ 			pos += calc_stride(header->size);
+ 			if (pos > VCHIQ_SLOT_SIZE) {
+ 				dev_err(state->dev,
+-					"core: pfq - pos %x: header %pK, msgid %x, header->msgid %x, header->size %x\n",
++					"core: pfq - pos %x: header %p, msgid %x, header->msgid %x, header->size %x\n",
+ 					pos, header, msgid, header->msgid, header->size);
+ 				WARN(1, "invalid slot position\n");
+ 			}
+@@ -1060,7 +1060,7 @@ queue_message(struct vchiq_state *state, struct vchiq_service *service,
+ 		int tx_end_index;
+ 		int slot_use_count;
+ 
+-		dev_dbg(state->dev, "core: %d: qm %s@%pK,%zx (%d->%d)\n",
++		dev_dbg(state->dev, "core: %d: qm %s@%p,%zx (%d->%d)\n",
+ 			state->id, msg_type_str(VCHIQ_MSG_TYPE(msgid)), header, size,
+ 			VCHIQ_MSG_SRCPORT(msgid), VCHIQ_MSG_DSTPORT(msgid));
+ 
+@@ -1117,7 +1117,7 @@ queue_message(struct vchiq_state *state, struct vchiq_service *service,
+ 		VCHIQ_SERVICE_STATS_INC(service, ctrl_tx_count);
+ 		VCHIQ_SERVICE_STATS_ADD(service, ctrl_tx_bytes, size);
+ 	} else {
+-		dev_dbg(state->dev, "core: %d: qm %s@%pK,%zx (%d->%d)\n",
++		dev_dbg(state->dev, "core: %d: qm %s@%p,%zx (%d->%d)\n",
+ 			state->id, msg_type_str(VCHIQ_MSG_TYPE(msgid)), header, size,
+ 			VCHIQ_MSG_SRCPORT(msgid), VCHIQ_MSG_DSTPORT(msgid));
+ 		if (size != 0) {
+@@ -1204,7 +1204,7 @@ queue_message_sync(struct vchiq_state *state, struct vchiq_service *service,
+ 				state->id, oldmsgid);
+ 	}
+ 
+-	dev_dbg(state->dev, "sync: %d: qms %s@%pK,%x (%d->%d)\n",
++	dev_dbg(state->dev, "sync: %d: qms %s@%p,%x (%d->%d)\n",
+ 		state->id, msg_type_str(VCHIQ_MSG_TYPE(msgid)), header, size,
+ 		VCHIQ_MSG_SRCPORT(msgid), VCHIQ_MSG_DSTPORT(msgid));
+ 
+@@ -1539,7 +1539,7 @@ create_pagelist(struct vchiq_instance *instance, struct vchiq_bulk *bulk)
+ 	pagelist = dma_alloc_coherent(instance->state->dev, pagelist_size, &dma_addr,
+ 				      GFP_KERNEL);
+ 
+-	dev_dbg(instance->state->dev, "arm: %pK\n", pagelist);
++	dev_dbg(instance->state->dev, "arm: %p\n", pagelist);
+ 
+ 	if (!pagelist)
+ 		return NULL;
+@@ -1692,7 +1692,7 @@ free_pagelist(struct vchiq_instance *instance, struct vchiq_pagelist_info *pagel
+ 	unsigned int num_pages = pagelistinfo->num_pages;
+ 	unsigned int cache_line_size;
+ 
+-	dev_dbg(instance->state->dev, "arm: %pK, %d\n", pagelistinfo->pagelist, actual);
++	dev_dbg(instance->state->dev, "arm: %p, %d\n", pagelistinfo->pagelist, actual);
+ 
+ 	drv_mgmt = dev_get_drvdata(instance->state->dev);
+ 
+@@ -1849,7 +1849,7 @@ parse_open(struct vchiq_state *state, struct vchiq_header *header)
+ 
+ 	payload = (struct vchiq_open_payload *)header->data;
+ 	fourcc = payload->fourcc;
+-	dev_dbg(state->dev, "core: %d: prs OPEN@%pK (%d->'%p4cc')\n",
++	dev_dbg(state->dev, "core: %d: prs OPEN@%p (%d->'%p4cc')\n",
+ 		state->id, header, localport, &fourcc);
+ 
+ 	service = get_listening_service(state, fourcc);
+@@ -1976,14 +1976,14 @@ parse_message(struct vchiq_state *state, struct vchiq_header *header)
+ 			service = get_connected_service(state, remoteport);
+ 			if (service)
+ 				dev_warn(state->dev,
+-					 "core: %d: prs %s@%pK (%d->%d) - found connected service %d\n",
++					 "core: %d: prs %s@%p (%d->%d) - found connected service %d\n",
+ 					 state->id, msg_type_str(type), header,
+ 					 remoteport, localport, service->localport);
+ 		}
+ 
+ 		if (!service) {
+ 			dev_err(state->dev,
+-				"core: %d: prs %s@%pK (%d->%d) - invalid/closed service %d\n",
++				"core: %d: prs %s@%p (%d->%d) - invalid/closed service %d\n",
+ 				state->id, msg_type_str(type), header, remoteport,
+ 				localport, localport);
+ 			goto skip_message;
+@@ -2003,7 +2003,7 @@ parse_message(struct vchiq_state *state, struct vchiq_header *header)
+ 
+ 	if (((unsigned long)header & VCHIQ_SLOT_MASK) +
+ 	    calc_stride(size) > VCHIQ_SLOT_SIZE) {
+-		dev_err(state->dev, "core: header %pK (msgid %x) - size %x too big for slot\n",
++		dev_err(state->dev, "core: header %K (msgid %x) - size %x too big for slot\n",
+ 			header, (unsigned int)msgid, (unsigned int)size);
+ 		WARN(1, "oversized for slot\n");
+ 	}
+@@ -2022,7 +2022,7 @@ parse_message(struct vchiq_state *state, struct vchiq_header *header)
+ 			service->peer_version = payload->version;
+ 		}
+ 		dev_dbg(state->dev,
+-			"core: %d: prs OPENACK@%pK,%x (%d->%d) v:%d\n",
++			"core: %d: prs OPENACK@%p,%x (%d->%d) v:%d\n",
+ 			state->id, header, size, remoteport, localport,
+ 			service->peer_version);
+ 		if (service->srvstate == VCHIQ_SRVSTATE_OPENING) {
+@@ -2037,7 +2037,7 @@ parse_message(struct vchiq_state *state, struct vchiq_header *header)
+ 	case VCHIQ_MSG_CLOSE:
+ 		WARN_ON(size); /* There should be no data */
+ 
+-		dev_dbg(state->dev, "core: %d: prs CLOSE@%pK (%d->%d)\n",
++		dev_dbg(state->dev, "core: %d: prs CLOSE@%p (%d->%d)\n",
+ 			state->id, header, remoteport, localport);
+ 
+ 		mark_service_closing_internal(service, 1);
+@@ -2049,7 +2049,7 @@ parse_message(struct vchiq_state *state, struct vchiq_header *header)
+ 			&service->base.fourcc, service->localport, service->remoteport);
+ 		break;
+ 	case VCHIQ_MSG_DATA:
+-		dev_dbg(state->dev, "core: %d: prs DATA@%pK,%x (%d->%d)\n",
++		dev_dbg(state->dev, "core: %d: prs DATA@%p,%x (%d->%d)\n",
+ 			state->id, header, size, remoteport, localport);
+ 
+ 		if ((service->remoteport == remoteport) &&
+@@ -2069,7 +2069,7 @@ parse_message(struct vchiq_state *state, struct vchiq_header *header)
+ 		}
+ 		break;
+ 	case VCHIQ_MSG_CONNECT:
+-		dev_dbg(state->dev, "core: %d: prs CONNECT@%pK\n",
++		dev_dbg(state->dev, "core: %d: prs CONNECT@%p\n",
+ 			state->id, header);
+ 		state->version_common =	((struct vchiq_slot_zero *)
+ 					 state->slot_data)->version;
+@@ -2102,7 +2102,7 @@ parse_message(struct vchiq_state *state, struct vchiq_header *header)
+ 			if ((int)(queue->remote_insert -
+ 				queue->local_insert) >= 0) {
+ 				dev_err(state->dev,
+-					"core: %d: prs %s@%pK (%d->%d) unexpected (ri=%d,li=%d)\n",
++					"core: %d: prs %s@%p (%d->%d) unexpected (ri=%d,li=%d)\n",
+ 					state->id, msg_type_str(type), header, remoteport,
+ 					localport, queue->remote_insert, queue->local_insert);
+ 				mutex_unlock(&service->bulk_mutex);
+@@ -2120,7 +2120,7 @@ parse_message(struct vchiq_state *state, struct vchiq_header *header)
+ 			bulk->actual = *(int *)header->data;
+ 			queue->remote_insert++;
+ 
+-			dev_dbg(state->dev, "core: %d: prs %s@%pK (%d->%d) %x@%pad\n",
++			dev_dbg(state->dev, "core: %d: prs %s@%p (%d->%d) %x@%pad\n",
+ 				state->id, msg_type_str(type), header, remoteport,
+ 				localport, bulk->actual, &bulk->dma_addr);
+ 
+@@ -2140,12 +2140,12 @@ parse_message(struct vchiq_state *state, struct vchiq_header *header)
+ 		}
+ 		break;
+ 	case VCHIQ_MSG_PADDING:
+-		dev_dbg(state->dev, "core: %d: prs PADDING@%pK,%x\n",
++		dev_dbg(state->dev, "core: %d: prs PADDING@%p,%x\n",
+ 			state->id, header, size);
+ 		break;
+ 	case VCHIQ_MSG_PAUSE:
+ 		/* If initiated, signal the application thread */
+-		dev_dbg(state->dev, "core: %d: prs PAUSE@%pK,%x\n",
++		dev_dbg(state->dev, "core: %d: prs PAUSE@%p,%x\n",
+ 			state->id, header, size);
+ 		if (state->conn_state == VCHIQ_CONNSTATE_PAUSED) {
+ 			dev_err(state->dev, "core: %d: PAUSE received in state PAUSED\n",
+@@ -2162,7 +2162,7 @@ parse_message(struct vchiq_state *state, struct vchiq_header *header)
+ 		vchiq_set_conn_state(state, VCHIQ_CONNSTATE_PAUSED);
+ 		break;
+ 	case VCHIQ_MSG_RESUME:
+-		dev_dbg(state->dev, "core: %d: prs RESUME@%pK,%x\n",
++		dev_dbg(state->dev, "core: %d: prs RESUME@%p,%x\n",
+ 			state->id, header, size);
+ 		/* Release the slot mutex */
+ 		mutex_unlock(&state->slot_mutex);
+@@ -2179,7 +2179,7 @@ parse_message(struct vchiq_state *state, struct vchiq_header *header)
+ 		break;
+ 
+ 	default:
+-		dev_err(state->dev, "core: %d: prs invalid msgid %x@%pK,%x\n",
++		dev_err(state->dev, "core: %d: prs invalid msgid %x@%p,%x\n",
+ 			state->id, msgid, header, size);
+ 		WARN(1, "invalid message\n");
+ 		break;
+@@ -2400,7 +2400,7 @@ sync_func(void *v)
+ 
+ 		if (!service) {
+ 			dev_err(state->dev,
+-				"sync: %d: sf %s@%pK (%d->%d) - invalid/closed service %d\n",
++				"sync: %d: sf %s@%p (%d->%d) - invalid/closed service %d\n",
+ 				state->id, msg_type_str(type), header, remoteport,
+ 				localport, localport);
+ 			release_message_sync(state, header);
+@@ -2422,7 +2422,7 @@ sync_func(void *v)
+ 					header->data;
+ 				service->peer_version = payload->version;
+ 			}
+-			dev_err(state->dev, "sync: %d: sf OPENACK@%pK,%x (%d->%d) v:%d\n",
++			dev_err(state->dev, "sync: %d: sf OPENACK@%p,%x (%d->%d) v:%d\n",
+ 				state->id, header, size, remoteport, localport,
+ 				service->peer_version);
+ 			if (service->srvstate == VCHIQ_SRVSTATE_OPENING) {
+@@ -2435,7 +2435,7 @@ sync_func(void *v)
+ 			break;
+ 
+ 		case VCHIQ_MSG_DATA:
+-			dev_dbg(state->dev, "sync: %d: sf DATA@%pK,%x (%d->%d)\n",
++			dev_dbg(state->dev, "sync: %d: sf DATA@%p,%x (%d->%d)\n",
+ 				state->id, header, size, remoteport, localport);
+ 
+ 			if ((service->remoteport == remoteport) &&
+@@ -2449,7 +2449,7 @@ sync_func(void *v)
+ 			break;
+ 
+ 		default:
+-			dev_err(state->dev, "sync: error: %d: sf unexpected msgid %x@%pK,%x\n",
++			dev_err(state->dev, "sync: error: %d: sf unexpected msgid %x@%p,%x\n",
+ 				state->id, msgid, header, size);
+ 			release_message_sync(state, header);
+ 			break;
+@@ -2926,13 +2926,13 @@ release_service_messages(struct vchiq_service *service)
+ 			int port = VCHIQ_MSG_DSTPORT(msgid);
+ 
+ 			if ((port == service->localport) && (msgid & VCHIQ_MSGID_CLAIMED)) {
+-				dev_dbg(state->dev, "core:  fsi - hdr %pK\n", header);
++				dev_dbg(state->dev, "core:  fsi - hdr %p\n", header);
+ 				release_slot(state, slot_info, header, NULL);
+ 			}
+ 			pos += calc_stride(header->size);
+ 			if (pos > VCHIQ_SLOT_SIZE) {
+ 				dev_err(state->dev,
+-					"core: fsi - pos %x: header %pK, msgid %x, header->msgid %x, header->size %x\n",
++					"core: fsi - pos %x: header %p, msgid %x, header->msgid %x, header->size %x\n",
+ 					pos, header, msgid, header->msgid, header->size);
+ 				WARN(1, "invalid slot position\n");
+ 			}
+@@ -3091,7 +3091,7 @@ vchiq_bulk_xfer_queue_msg_killable(struct vchiq_service *service,
+ 	 */
+ 	wmb();
+ 
+-	dev_dbg(state->dev, "core: %d: bt (%d->%d) %cx %x@%pad %pK\n",
++	dev_dbg(state->dev, "core: %d: bt (%d->%d) %cx %x@%pad %p\n",
+ 		state->id, service->localport, service->remoteport,
+ 		dir_char, bulk->size, &bulk->dma_addr, bulk->cb_data);
+ 
+diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_dev.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_dev.c
+index 454f4341650306654d1365653ab3b570795f3331..3b20ba5c736221ce1cacfc9ce86eca623382a30b 100644
+--- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_dev.c
++++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_dev.c
+@@ -270,7 +270,7 @@ static int vchiq_ioc_dequeue_message(struct vchiq_instance *instance,
+ 		}
+ 	} else {
+ 		dev_err(service->state->dev,
+-			"arm: header %pK: bufsize %x < size %x\n",
++			"arm: header %p: bufsize %x < size %x\n",
+ 			header, args->bufsize, header->size);
+ 		WARN(1, "invalid size\n");
+ 		ret = -EMSGSIZE;
+@@ -328,7 +328,7 @@ static int vchiq_irq_queue_bulk_tx_rx(struct vchiq_instance *instance,
+ 			ret = -ESRCH;
+ 			goto out;
+ 		}
+-		dev_dbg(service->state->dev, "arm: found bulk_waiter %pK for pid %d\n",
++		dev_dbg(service->state->dev, "arm: found bulk_waiter %p for pid %d\n",
+ 			waiter, current->pid);
+ 
+ 		status = vchiq_bulk_xfer_waiting(instance, args->handle,
+@@ -366,7 +366,7 @@ static int vchiq_irq_queue_bulk_tx_rx(struct vchiq_instance *instance,
+ 		mutex_lock(&instance->bulk_waiter_list_mutex);
+ 		list_add(&waiter->list, &instance->bulk_waiter_list);
+ 		mutex_unlock(&instance->bulk_waiter_list_mutex);
+-		dev_dbg(service->state->dev, "arm: saved bulk_waiter %pK for pid %d\n",
++		dev_dbg(service->state->dev, "arm: saved bulk_waiter %p for pid %d\n",
+ 			waiter, current->pid);
+ 
+ 		ret = put_user(mode_waiting, mode);
+@@ -512,7 +512,7 @@ static int vchiq_ioc_await_completion(struct vchiq_instance *instance,
+ 			/* This must be a VCHIQ-style service */
+ 			if (args->msgbufsize < msglen) {
+ 				dev_err(service->state->dev,
+-					"arm: header %pK: msgbufsize %x < msglen %x\n",
++					"arm: header %p: msgbufsize %x < msglen %x\n",
+ 					header, args->msgbufsize, msglen);
+ 				WARN(1, "invalid message size\n");
+ 				if (ret == 0)
+@@ -588,7 +588,7 @@ vchiq_ioctl(struct file *file, unsigned int cmd, unsigned long arg)
+ 	long ret = 0;
+ 	int i, rc;
+ 
+-	dev_dbg(instance->state->dev, "arm: instance %pK, cmd %s, arg %lx\n", instance,
++	dev_dbg(instance->state->dev, "arm: instance %p, cmd %s, arg %lx\n", instance,
+ 		((_IOC_TYPE(cmd) == VCHIQ_IOC_MAGIC) && (_IOC_NR(cmd) <= VCHIQ_IOC_MAX)) ?
+ 		ioctl_names[_IOC_NR(cmd)] : "<invalid>", arg);
+ 
+@@ -874,12 +874,12 @@ vchiq_ioctl(struct file *file, unsigned int cmd, unsigned long arg)
+ 
+ 	if (!status && (ret < 0) && (ret != -EINTR) && (ret != -EWOULDBLOCK)) {
+ 		dev_dbg(instance->state->dev,
+-			"arm: ioctl instance %pK, cmd %s -> status %d, %ld\n",
++			"arm: ioctl instance %p, cmd %s -> status %d, %ld\n",
+ 			instance, (_IOC_NR(cmd) <= VCHIQ_IOC_MAX) ?
+ 			ioctl_names[_IOC_NR(cmd)] : "<invalid>", status, ret);
+ 	} else {
+ 		dev_dbg(instance->state->dev,
+-			"arm: ioctl instance %pK, cmd %s -> status %d\n, %ld\n",
++			"arm: ioctl instance %p, cmd %s -> status %d\n, %ld\n",
+ 			instance, (_IOC_NR(cmd) <= VCHIQ_IOC_MAX) ?
+ 			ioctl_names[_IOC_NR(cmd)] : "<invalid>", status, ret);
+ 	}
+
+---
+base-commit: 80e54e84911a923c40d7bee33a34c1b4be148d7a
+change-id: 20250310-restricted-pointers-vchiq_arm-1801bf8d634b
+
+Best regards,
+-- 
+Thomas Weißschuh <thomas.weissschuh@linutronix.de>
+
