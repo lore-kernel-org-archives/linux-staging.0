@@ -1,64 +1,25 @@
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B441235963
-	for <linux-staging@lists.linux.dev>; Mon, 10 Mar 2025 12:53:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4B47722ACF1;
+	Mon, 10 Mar 2025 13:49:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741611187; cv=none; b=ACQSi+r/W+ONXzWnj1DRrc91kOhSkT7nb1e/QIwgj3rbvT4G4ERA4Tmvad+TIaAYDPZnMRsNWs28nrIpQd6WGE7Ex0iVGqVBHCIW31QR6IJpDxfLC2/Qj1akbANIv/Ji0uUMZGGYWRLw9lHw096BI1faatKuSn8n7lc8IkvMMic=
+	t=1741614559; cv=none; b=sihKpmNwreD5MqNjsx/brM9D2kQr6Gw0eoD6PcMOuFXrQMsdJ5BRXQBYuIwgWA9erkqvd4WWFVu0mOxOt2GhPS43LWgU34I94hP+A+kpcLiozP1kmAwNuQuGn6MIYXXTfn02qgKwmYcwjlk5aVYjXoujqLVQm0wBNL2kfjs/GYY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741611187; c=relaxed/simple;
-	bh=o/3MJR4W9NItfw0SrVoJ/M//jzgjRKVDn1Euno7ZE0U=;
+	s=arc-20240116; t=1741614559; c=relaxed/simple;
+	bh=xxjqROJ5NoqPCw4FvlDpsExVDNSnd34Bn+fRqX582rg=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=WeGBf5lq9pTaycMo3u5OwMP6Yclcr4TlIPyvecbsa693kbq0wR0U03pXOtQl4v15/S5Mu5W2rVU3N8/lr2D/vmA6tJHVB1Ua0dXgUlZc/4Rq5BdkD/TP5yhJ/ClwGyeH5x/5NkB9qSxf2XoFDZfGhCtszoxiW8FbNRu7vrtl9WQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BsDM/KuQ; arc=none smtp.client-ip=209.85.128.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BsDM/KuQ"
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-43cef0f03cfso8189535e9.3
-        for <linux-staging@lists.linux.dev>; Mon, 10 Mar 2025 05:53:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1741611184; x=1742215984; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=0sWDRwWoRdNhoRB0y9hERNCky7r+xUDq97SjfCdwVrk=;
-        b=BsDM/KuQH1KL2du/pbUKDxcSun9RevVDteCB+V0l5RHPDvzozZXUdbbFGEBKNTJTFN
-         YIAaXc9bVXYWtPD1oFOcOb9nnMeo74ZlNJ/OAqXKPyYcYaOXnmNwiHW18AAvZbjIN/7A
-         ar01knCwUGhQaTb2xlh9akzhrq5fSQ6avV/iaslLCcODFRYrayP6jXUiVlUXpR/V0cSy
-         YoEtents9SEkc8iLGMdmG5TtMhxo/Loxi7YZtAMMu4O1tYy3s7zg1H4a/31cXFp5RtdZ
-         Cid4/LZZt5NfWU7v3KN66+tRNaTIxm9lEeYLWybww2N3kU+v3d8fAoZm9gBL73YWzHWZ
-         sf8Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741611184; x=1742215984;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=0sWDRwWoRdNhoRB0y9hERNCky7r+xUDq97SjfCdwVrk=;
-        b=j9/wDEsBmyD64TRTMnrj4GylFlEJmvAOze0FCknwQEvB2BBWnsKwXDFAqM7uRSw7Iq
-         PFwXFRQg970ZD0XTGV19tmyJ2cTOHPHedVSyuMLszkAMowxWFsztB4J4YGEEP7Ku/ypY
-         UwOZpOYZPAVlcCvAgkwMeV6/YkCEAkRK80h/nUdUwXyUDYEhAv6Uf39OPAH3UF6E5PYE
-         9lQkpBzLE0st+Cg95tZQstW+yWkQ5mF9hjsTVDuYrwnURZk7iY2GHvV8m+x7ZLf0n5wt
-         8tISSCAH9x0C4Tit843aeILBMB44mAPPhZIvqM7g7tK6Xl7UqcmO/791C0Ip5zV0pkot
-         2hSw==
-X-Forwarded-Encrypted: i=1; AJvYcCUDreQ/v30aWyDmJAwiL1/sS/pdOmKz1CLTd4wOCzAZ27sXaxqDJe7PaJbKT9heMWQX5pBDUESQEzluLoB7@lists.linux.dev
-X-Gm-Message-State: AOJu0YzFofpAbVMSLM0IHlBpSGBi5tgxZTNgXMvU6Ce2/nlazvPOtVW2
-	6F/hN2v0nEonc5CPV2wzt5QsrZu1CVUpjKdVBnzRvDIH0M2x9pdK
-X-Gm-Gg: ASbGncuaPIosclwxPOxHjyq4dYvkU69CUmCu39RI6cf/iAdUG4oOm+fS8IkLiNHRyts
-	iTi8rJr0k20il6IEdUanWUiQ86gIYHYkoFnyxr1rPVcwaMBm7pJwQOyXD2mVtVbf/e7NgkkUWE2
-	2fHJV1auKy4CcwZYjWLgh4A5dYMrxHD6Cw+N9LyPRFeqMYiLQCX5gbP9c+30txsq+7DX7hdwC4C
-	3MVjYkCC6FgfMq9yvg9VDoFjJP7XySY5qywNs5FLXYHt6S0izJhlEjV8hLn+gD1pSCuSZa9F9in
-	qztufZA7vaPS2TBMmOXtE8VdGD6H8dIOpKhPhoSndw6oVdlM+OILVcpuO8VhLg==
-X-Google-Smtp-Source: AGHT+IFXHPnb5VsbdVssO26dYn3ROjMGlquFXlpHNlrLpPV4oHZpx61k7zyc+Kw7eGGnGWzsoTXBrQ==
-X-Received: by 2002:a05:6000:144d:b0:391:2e58:f085 with SMTP id ffacd0b85a97d-39132dab192mr8031238f8f.54.1741611183673;
-        Mon, 10 Mar 2025 05:53:03 -0700 (PDT)
-Received: from [192.168.0.100] ([188.27.130.21])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3912c0195bfsm14704645f8f.48.2025.03.10.05.53.00
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 10 Mar 2025 05:53:02 -0700 (PDT)
-Message-ID: <a678823b-de37-461f-991f-fe8b3a7e7c40@gmail.com>
-Date: Mon, 10 Mar 2025 14:52:57 +0200
+	 In-Reply-To:Content-Type; b=PxcGrFAxNT1b+fxbZBk4DQleCbd48EMjUmHMRMdh1GQ3b8f5vavV4tQxk2XDDsqkJnvexxUIDHFdAXBQkWHm76ktDVbiJ9949BRIqp8IqsLrgHSlnInEKbSWJlmYNwU8eSts8gLzEIx5PJBj2geHd8RZer8BJZk4SFFwePl0MFA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 1A86C153B;
+	Mon, 10 Mar 2025 06:49:29 -0700 (PDT)
+Received: from [10.57.39.174] (unknown [10.57.39.174])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 749533F673;
+	Mon, 10 Mar 2025 06:49:15 -0700 (PDT)
+Message-ID: <ef8dcf7a-34ed-4b27-a154-e01bc167d4e6@arm.com>
+Date: Mon, 10 Mar 2025 13:49:13 +0000
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -66,124 +27,89 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH 09/24] dt-bindings: media: i2c: max96714: make
- i2c-gate conditional on compatible
-To: Rob Herring <robh@kernel.org>
-Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
- =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
- Cosmin Tanislav <cosmin.tanislav@analog.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Julien Massot <julien.massot@collabora.com>,
- Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Linus Walleij <linus.walleij@linaro.org>, Bartosz Golaszewski
- <brgl@bgdev.pl>, Bjorn Andersson <quic_bjorande@quicinc.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Heiko Stuebner <heiko@sntech.de>, Biju Das <biju.das.jz@bp.renesas.com>,
- Taniya Das <quic_tdas@quicinc.com>,
- =?UTF-8?Q?N=C3=ADcolas_F_=2E_R_=2E_A_=2E_Prado?= <nfraprado@collabora.com>,
- Eric Biggers <ebiggers@google.com>,
- Javier Carrasco <javier.carrasco@wolfvision.net>,
- Ross Burton <ross.burton@arm.com>,
- Sakari Ailus <sakari.ailus@linux.intel.com>,
- Hans Verkuil <hverkuil@xs4all.nl>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Umang Jain <umang.jain@ideasonboard.com>, Zhi Mao <zhi.mao@mediatek.com>,
- Kieran Bingham <kieran.bingham@ideasonboard.com>,
- Dongcheng Yan <dongcheng.yan@intel.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
- Tommaso Merciai <tomm.merciai@gmail.com>,
- Dan Carpenter <dan.carpenter@linaro.org>,
- Ricardo Ribalda <ribalda@chromium.org>,
- Ihor Matushchak <ihor.matushchak@foobox.net>,
- Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>, linux-media@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-staging@lists.linux.dev,
- linux-gpio@vger.kernel.org
-References: <20250308183410.3013996-1-demonsingur@gmail.com>
- <20250308183410.3013996-10-demonsingur@gmail.com>
- <20250310123207.GA3853920-robh@kernel.org>
-From: Cosmin Tanislav <demonsingur@gmail.com>
-Content-Language: en-US
-In-Reply-To: <20250310123207.GA3853920-robh@kernel.org>
+Subject: Re: [PATCH RFC] staging: Add driver to communicate with the T2
+ Security Chip
+To: Aditya Garg <gargaditya08@live.com>,
+ "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
+ "bhelgaas@google.com" <bhelgaas@google.com>,
+ "joro@8bytes.org" <joro@8bytes.org>, "will@kernel.org" <will@kernel.org>,
+ "andriy.shevchenko@linux.intel.com" <andriy.shevchenko@linux.intel.com>
+Cc: "linux-staging@lists.linux.dev" <linux-staging@lists.linux.dev>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
+ "iommu@lists.linux.dev" <iommu@lists.linux.dev>,
+ Aun-Ali Zaidi <admin@kodeit.net>, "paul@mrarm.io" <paul@mrarm.io>,
+ Orlando Chamberlain <orlandoch.dev@gmail.com>
+References: <1A12CB39-B4FD-4859-9CD7-115314D97C75@live.com>
+From: Robin Murphy <robin.murphy@arm.com>
+Content-Language: en-GB
+In-Reply-To: <1A12CB39-B4FD-4859-9CD7-115314D97C75@live.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-
-
-On 3/10/25 2:32 PM, Rob Herring wrote:
-> On Sat, Mar 08, 2025 at 08:33:38PM +0200, Cosmin Tanislav wrote:
->> Devices to be added in following patches don't use I2C gate.
->>
->> Make this property conditional on the compatible strings.
->>
->> Signed-off-by: Cosmin Tanislav <demonsingur@gmail.com>
->> ---
->>   .../bindings/media/i2c/maxim,max96714.yaml    | 21 ++++++++++++-------
->>   1 file changed, 13 insertions(+), 8 deletions(-)
->>
->> diff --git a/Documentation/devicetree/bindings/media/i2c/maxim,max96714.yaml b/Documentation/devicetree/bindings/media/i2c/maxim,max96714.yaml
->> index 2f453189338f..d0a2aaf7df9c 100644
->> --- a/Documentation/devicetree/bindings/media/i2c/maxim,max96714.yaml
->> +++ b/Documentation/devicetree/bindings/media/i2c/maxim,max96714.yaml
->> @@ -84,14 +84,6 @@ properties:
->>       required:
->>         - port@1
->>   
->> -  i2c-gate:
->> -    $ref: /schemas/i2c/i2c-gate.yaml
->> -    unevaluatedProperties: false
->> -    description:
->> -      The MAX96714 will pass through and forward the I2C requests from the
->> -      incoming I2C bus over the GMSL2 link. Therefore it supports an i2c-gate
->> -      subnode to configure a serializer.
->> -
->>     port0-poc-supply:
->>       description: Regulator providing Power over Coax for the GMSL port
->>   
->> @@ -101,6 +93,19 @@ required:
->>     - ports
->>   
->>   additionalProperties: false
->> +allOf:
->> +  - if:
->> +      properties:
->> +        compatible:
->> +          contains:
->> +            enum:
->> +              - maxim,max96714
->> +              - maxim,max96714f
->> +    then:
->> +      properties:
->> +        i2c-gate:
+On 2025-03-09 8:40 am, Aditya Garg wrote:
+> From: Paul Pawlowski <paul@mrarm.io>
 > 
-> Leave the original definition, invert the 'if', and here you just need:
+> This patch adds a driver named apple-bce, to add support for the T2
+> Security Chip found on certain Macs.
 > 
-> i2c-gate: false
+> The driver has 3 main components:
 > 
+> BCE (Buffer Copy Engine) - this is what the files in the root directory
+> are for. This estabilishes a basic communication channel with the T2.
+> VHCI and Audio both require this component.
+> 
+> VHCI - this is a virtual USB host controller; keyboard, mouse and
+> other system components are provided by this component (other
+> drivers use this host controller to provide more functionality).
+> 
+> Audio - a driver for the T2 audio interface, currently only audio
+> output is supported.
+> 
+> Currently, suspend and resume for VHCI is broken after a firmware
+> update in iBridge since macOS Sonoma.
+> 
+> Signed-off-by: Paul Pawlowski <paul@mrarm.io>
+> Signed-off-by: Aditya Garg <gargaditya08@live.com>
+> ---
+> drivers/staging/Kconfig                       |   2 +
+> drivers/staging/Makefile                      |   1 +
+> drivers/staging/apple-bce/Kconfig             |  18 +
+> drivers/staging/apple-bce/Makefile            |  28 +
+> drivers/staging/apple-bce/apple_bce.c         | 448 ++++++++++
+> drivers/staging/apple-bce/apple_bce.h         |  44 +
+> drivers/staging/apple-bce/audio/audio.c       | 714 ++++++++++++++++
+> drivers/staging/apple-bce/audio/audio.h       | 128 +++
+> drivers/staging/apple-bce/audio/description.h |  45 ++
+> drivers/staging/apple-bce/audio/pcm.c         | 311 +++++++
+> drivers/staging/apple-bce/audio/pcm.h         |  19 +
+> drivers/staging/apple-bce/audio/protocol.c    | 350 ++++++++
+> drivers/staging/apple-bce/audio/protocol.h    | 148 ++++
+> .../staging/apple-bce/audio/protocol_bce.c    | 229 ++++++
+> .../staging/apple-bce/audio/protocol_bce.h    |  75 ++
+> drivers/staging/apple-bce/mailbox.c           | 154 ++++
+> drivers/staging/apple-bce/mailbox.h           |  56 ++
+> drivers/staging/apple-bce/queue.c             | 393 +++++++++
+> drivers/staging/apple-bce/queue.h             | 180 +++++
+> drivers/staging/apple-bce/queue_dma.c         | 223 +++++
+> drivers/staging/apple-bce/queue_dma.h         |  53 ++
+> drivers/staging/apple-bce/vhci/command.h      | 207 +++++
+> drivers/staging/apple-bce/vhci/queue.c        | 271 +++++++
+> drivers/staging/apple-bce/vhci/queue.h        |  79 ++
+> drivers/staging/apple-bce/vhci/transfer.c     | 664 +++++++++++++++
+> drivers/staging/apple-bce/vhci/transfer.h     |  76 ++
+> drivers/staging/apple-bce/vhci/vhci.c         | 764 ++++++++++++++++++
+> drivers/staging/apple-bce/vhci/vhci.h         |  55 ++
+> 28 files changed, 5735 insertions(+)
 
-Hi Rob.
+I'm slightly puzzled why this was sent to the IOMMU maintainers when it 
+doesn't touch any IOMMU code, nor even contain any reference to the 
+IOMMU API at all...
 
-Thanks for your comments.
+Since I don't know enough about audio or USB code, all I can really say 
+here is to echo Greg's comment that, judging by that diffstat alone, 
+this probably wants to be at least 3-5 separate patches, adding each 
+functional piece in manageable chunks.
 
-After noticing that my dt-schema validation scripts are failing (because
-of the jsonschema version incompatibility), I fixed them and then fixed
-all the issues and sent a V2 where I introduce a separate file for these
-bindings since they all have a different number of ports compared to the
-max96714 one.
-
-So the V1 of these patches have been superseded.
-
->> +          $ref: /schemas/i2c/i2c-gate.yaml
->> +          unevaluatedProperties: false
->>   
->>   examples:
->>     - |
->> -- 
->> 2.48.1
->>
-
+Thanks,
+Robin.
