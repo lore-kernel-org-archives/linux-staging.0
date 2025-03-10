@@ -1,73 +1,280 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 089E31FB3;
-	Sun,  9 Mar 2025 16:27:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D8BA221F08
+	for <linux-staging@lists.linux.dev>; Mon, 10 Mar 2025 08:14:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741537642; cv=none; b=i1qk7LJXHTkXNHwXqyEvlHD7FPjTyFc9t/E3h5pVK2NzmOFRZBnwjibGiD7NbD34oKkMasrrrE12Nsirvz0lRNL4Kd67ZpbtITKj57nht5aHPDFXtjQbydW7pTr/65khWUg5eFc78d4/STmZ3tlad7Abg138o0Aul7oGdhIHxt4=
+	t=1741594497; cv=none; b=XPOHUUoRfyPG2uCdm9rl1nmhxmFLDRovu8OL9UqMdWE3L76qOQH9vZcSoCfzdH3PkIn7h3zZ8GWWuMquAT7sIF9nuLkbSYEf4jmVEdD1YHp1Vb/cpsvhC369s9z48/acz/nLveaf5tQLMvpd9QvfnCgqLBxeG78noA4S1tAmYC8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741537642; c=relaxed/simple;
-	bh=8e/5ur58bSJgjkeEWsX6y+bon511MWJmlit6ItFUr44=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=En0wJOyaz/Cfsv2VpIIllkso7pHcgdMLJ2xorFA+HrFkFFXljo3PCLh0rs8j7IkTXhX1A7bXMQjscyzmeeq+wgRDbLaBbkR6BfOSAu5KemWXgsgEkpnlVbxzsFuM54XVugDLFFwMJqti1Mc8IQZeeoXAQAbeSa2v2MrbqMJ4ki4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TLE73B1p; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1741594497; c=relaxed/simple;
+	bh=ieOnLpKZdMXwTRsppKzD3lKC3vFircXxUr3yv6CciMo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=awv9BcHg7s0/KK50061FQKCQ0oteZV9Wc0E5A7BjV6/Z7aG0sXNhdQebK3wg8QBEIbE2Rv66yZiZ2yp3W3gwo9dJsq/DmdAOb3QVBYZ976TNJODeIxOJ04mJcYoqpFhRpWsfmo/SUnL7Ju5rajBhtnSeemg7OfgOG8/JiAZFynU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Gp78hMvK; arc=none smtp.client-ip=209.85.128.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TLE73B1p"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CD451C4CEE3;
-	Sun,  9 Mar 2025 16:27:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1741537641;
-	bh=8e/5ur58bSJgjkeEWsX6y+bon511MWJmlit6ItFUr44=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=TLE73B1pWA7tLK0ZFvJAd6SZQ0+zb8v7ZZHS+pdowbvX5g8M7qwMBUvVPGlOMtSld
-	 CjAvEU7VkvuZMQ3ufQM9+PELBDa007eVxDCfgJNpQa1+dpIc5WwxjWowcbAiMjZaHH
-	 CK+GuQ5wvLrTl8CYS93+UZ9LJD6GkoCb6B9jYyv5wFhXNVnGUgall9PMnsJF/vgdOq
-	 S1uiGU6HxzseHnYtTAlpMVGaxIJnOlAN/91pldT4SbCQX4AQMVICnyfftg2QL6tUt7
-	 LxS1CIECknIaPNsDLm3lLCd6ZSB7Xcbk38x3K+AGF4R7qb9nBreCt6ppPYIYhSLQ+r
-	 2Mt246D1SOFgQ==
-Date: Sun, 9 Mar 2025 16:27:16 +0000
-From: Jonathan Cameron <jic23@kernel.org>
-To: Siddharth Menon <simeddon@gmail.com>
-Cc: linux-iio@vger.kernel.org, marcelo.schmitt1@gmail.com,
- gregkh@linuxfoundation.org, lars@metafoo.de, Michael.Hennerich@analog.com,
- linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
-Subject: Re: [PATCH 0/2] iio: accel: adis16203: cleanup and standardization
-Message-ID: <20250309162716.753286c2@jic23-huawei>
-In-Reply-To: <CAGd6pzO492FA4bijFgkGvusrbqo2mkT=kpkY150Xg-nMfHrpZw@mail.gmail.com>
-References: <20250305155712.49833-2-simeddon@gmail.com>
-	<20250308144357.20f24fa6@jic23-huawei>
-	<20250308144944.668d79b5@jic23-huawei>
-	<CAGd6pzO492FA4bijFgkGvusrbqo2mkT=kpkY150Xg-nMfHrpZw@mail.gmail.com>
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.48; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Gp78hMvK"
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-43bc4b16135so22269725e9.1
+        for <linux-staging@lists.linux.dev>; Mon, 10 Mar 2025 01:14:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1741594493; x=1742199293; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=8KkC1l654ivSQJHfpAMIQ+ZSAHbGtBz6q5j4dS4aJJk=;
+        b=Gp78hMvKKVOi7AuX33ZpNST/RRjJ+4AxjeZwgXR0SOHNf0HXzDBubz83u38OS1bAUR
+         kJNwrTWfuera28hxrHNxOfS1LutEpWILchA5yLhdBqszJUI8MY/Pf3uJoTFy9Y6U8EOx
+         RQBjzPCvon64iioekZWSYWXatBoBiNKMaJVO8KpeGsDKJ9B5MlkAITd1ngD7C7HRCA9d
+         x41EUHuxWg4/R/x2tE8K7PSW11E52t5jCO1iDzpIjgnqXIqEwarpVLuOrtrWwuRjsx9v
+         mLBZXr1MtxKq/ux6XWaopmM2KVVlmu8J2gEbI6S27r9xKiAgDnEOfnXSPtzW0Ztz1JPk
+         KR1g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1741594493; x=1742199293;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=8KkC1l654ivSQJHfpAMIQ+ZSAHbGtBz6q5j4dS4aJJk=;
+        b=AgLxT5uSLKmKVWw8Y/aN9OdM5fvXqA3e5pBVauGgxyxb4Jcelee84hURkmL0vPIDuA
+         q5ZPZcbCb/8kfAMJtP5O7VOj9LVsEns+S0tJuBT2cY/sgPG9D72rg/o1K8YSgfUkIxQw
+         id7LSc8ezg60D+w/1OGIKPm21ddDG3nyE3wT7INAEA2jcwcXguW309z+E6O8aenKBJQ7
+         bVyQmhRCtBqfaRQk2LvWRUdPqxHpP2YNis8NETNDYGg42Eug0jcLEYJqYcyCznom9eqc
+         oxqPcbdaa8SyM2HRwhRtaRHvRI/z01lh7ZA6vUOWzr7SM4OndsAqOETXrFCLcGN2UNpq
+         rGSw==
+X-Forwarded-Encrypted: i=1; AJvYcCW5Z8sV1ryejxbaHm0hQeNCn8TgT/dHcV16lWoGdmjLpBESb9ZQC8tGtGkO01eZF7H6IwI5GX82wJe/4gDz@lists.linux.dev
+X-Gm-Message-State: AOJu0YxhCTSS9XGFpP/O9QCtbHIheLlDXxJH5RFv+GCj69TjF4a1NQUV
+	qXks+hzno2Ij79IfFgDhNspxz+1odOVpe3jQdgtlR0JS62f0IU4LFK3EiQ+fYf0=
+X-Gm-Gg: ASbGncudwoiEyJcMK0fwVQ3H4KYRuWnAC9nK9hwK5OkTH1uktp/6LgKJvqTlwa1fulS
+	7HMJmAaxSYvwa5/wA1VWP+LQxWMSAu+SMe6fRbUzXf4HCc0MbHMggSIzDwQMDCOSX+SKSZEvAyo
+	hDfmVsBvzwHzTpkJjlrpQFsv1z+rF+Z1H4ovTrN1Fi66YwDX9C6O4Dk9OdcnZXlM+K6YZ/+jHiY
+	pKS77d/tGJw+rf/LncS6rv5UWF3x3rHgDduT+GW5faXEBlYHnhZ2XueW5/NTkoxjPs5Ly8rNgnk
+	Ov/Hq6FdisV5XL0DxBe1zhdP/Np1ixKjzWIpTO0SkhZGdvFx1Q==
+X-Google-Smtp-Source: AGHT+IGAuAAY07Q8AHFN3C6TD8HtaPVPa6Tfe7wsUJ+gFJZ+qrYDD1atk9hsCbpXzVbCKHdNzeFEDw==
+X-Received: by 2002:a05:600c:3b1f:b0:43c:f6c6:578c with SMTP id 5b1f17b1804b1-43cf6c6588bmr17772455e9.15.1741594492829;
+        Mon, 10 Mar 2025 01:14:52 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-43bd91338cesm156803745e9.7.2025.03.10.01.14.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 10 Mar 2025 01:14:52 -0700 (PDT)
+Date: Mon, 10 Mar 2025 11:14:48 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Aditya Garg <gargaditya08@live.com>
+Cc: "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
+	"bhelgaas@google.com" <bhelgaas@google.com>,
+	"joro@8bytes.org" <joro@8bytes.org>,
+	"will@kernel.org" <will@kernel.org>,
+	"robin.murphy@arm.com" <robin.murphy@arm.com>,
+	"andriy.shevchenko@linux.intel.com" <andriy.shevchenko@linux.intel.com>,
+	"linux-staging@lists.linux.dev" <linux-staging@lists.linux.dev>,
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	"linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
+	"iommu@lists.linux.dev" <iommu@lists.linux.dev>,
+	Aun-Ali Zaidi <admin@kodeit.net>, "paul@mrarm.io" <paul@mrarm.io>,
+	Orlando Chamberlain <orlandoch.dev@gmail.com>
+Subject: Re: [PATCH RFC] staging: Add driver to communicate with the T2
+ Security Chip
+Message-ID: <f483ac12-c731-4dc8-9de5-059e07ff2c85@stanley.mountain>
+References: <1A12CB39-B4FD-4859-9CD7-115314D97C75@live.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1A12CB39-B4FD-4859-9CD7-115314D97C75@live.com>
 
-On Sun, 9 Mar 2025 11:18:18 +0530
-Siddharth Menon <simeddon@gmail.com> wrote:
+On Sun, Mar 09, 2025 at 08:40:31AM +0000, Aditya Garg wrote:
+> diff --git a/drivers/staging/apple-bce/apple_bce.c b/drivers/staging/apple-bce/apple_bce.c
+> new file mode 100644
+> index 000000000..c66e0c8d5
+> --- /dev/null
+> +++ b/drivers/staging/apple-bce/apple_bce.c
+> @@ -0,0 +1,448 @@
+> +// SPDX-License-Identifier: GPL-2.0+
+> +
+> +#include "apple_bce.h"
+> +#include <linux/module.h>
+> +#include <linux/crc32.h>
+> +#include "audio/audio.h"
+> +#include <linux/version.h>
+> +
+> +static dev_t bce_chrdev;
+> +static struct class *bce_class;
+> +
+> +struct apple_bce_device *global_bce;
+> +
+> +static int bce_create_command_queues(struct apple_bce_device *bce);
+> +static void bce_free_command_queues(struct apple_bce_device *bce);
+> +static irqreturn_t bce_handle_mb_irq(int irq, void *dev);
+> +static irqreturn_t bce_handle_dma_irq(int irq, void *dev);
+> +static int bce_fw_version_handshake(struct apple_bce_device *bce);
+> +static int bce_register_command_queue(struct apple_bce_device *bce, struct bce_queue_memcfg *cfg, int is_sq);
+> +
+> +static int apple_bce_probe(struct pci_dev *dev, const struct pci_device_id *id)
+> +{
+> +	struct apple_bce_device *bce = NULL;
+> +	int status = 0;
+> +	int nvec;
+> +
+> +	pr_info("apple-bce: capturing our device\n");
+> +
+> +	if (pci_enable_device(dev))
+> +		return -ENODEV;
 
-> On Sat, 8 Mar 2025 at 20:19, Jonathan Cameron <jic23@kernel.org> wrote:
-> > =20
-> > > I'm not going to apply these because I think you correct
-> > > identified that the device support should just be added
-> > > to the adis16201 driver and this one dropped.
-> > > Good thing you were more awake on this than me ;)
-> > > =20
-> > Sorry - wrong person. =20
->=20
-> Well, I=E2=80=99ll assume these won't be getting applied.
+	ret = pci_enable_device(dev);
+	if (ret)
+		return ret;
 
-Yes, sorry you wasted your time on this!
+> +	if (pci_request_regions(dev, "apple-bce")) {
 
-Jonathan
+Same everywhere.  Propagate the error code.
 
->=20
-> Siddharth Menon
->=20
+> +		status = -ENODEV;
+> +		goto fail;
+
+Instead of "goto fail;" it's better to use a full unwind ladder
+with better label names.
+https://staticthinking.wordpress.com/2022/04/28/free-the-last-thing-style/
+
+> +	}
+> +	pci_set_master(dev);
+> +	nvec = pci_alloc_irq_vectors(dev, 1, 8, PCI_IRQ_MSI);
+> +	if (nvec < 5) {
+> +		status = -EINVAL;
+> +		goto fail;
+> +	}
+> +
+> +	bce = kzalloc(sizeof(struct apple_bce_device), GFP_KERNEL);
+
+	bce = kzalloc(sizeof(*bce), GFP_KERNEL);
+
+> +	if (!bce) {
+> +		status = -ENOMEM;
+> +		goto fail;
+> +	}
+> +
+> +	bce->pci = dev;
+> +	pci_set_drvdata(dev, bce);
+> +
+> +	bce->devt = bce_chrdev;
+> +	bce->dev = device_create(bce_class, &dev->dev, bce->devt, NULL, "apple-bce");
+> +	if (IS_ERR_OR_NULL(bce->dev)) {
+> +		status = PTR_ERR(bce_class);
+
+
+device_create() can't return NULL.
+https://staticthinking.wordpress.com/2022/08/01/mixing-error-pointers-and-null/
+
+> +		goto fail;
+> +	}
+> +
+> +	bce->reg_mem_mb = pci_iomap(dev, 4, 0);
+> +	bce->reg_mem_dma = pci_iomap(dev, 2, 0);
+> +
+> +	if (IS_ERR_OR_NULL(bce->reg_mem_mb) || IS_ERR_OR_NULL(bce->reg_mem_dma)) {
+> +		dev_warn(&dev->dev, "apple-bce: Failed to pci_iomap required regions\n");
+> +		goto fail;
+> +	}
+> +
+> +	bce_mailbox_init(&bce->mbox, bce->reg_mem_mb);
+> +	bce_timestamp_init(&bce->timestamp, bce->reg_mem_mb);
+> +
+> +	spin_lock_init(&bce->queues_lock);
+> +	ida_init(&bce->queue_ida);
+> +
+> +	if ((status = pci_request_irq(dev, 0, bce_handle_mb_irq, NULL, dev, "bce_mbox")))
+
+I think checkpatch will complain about this.  Do it as.
+
+	status = pci_request_irq(dev, 0, bce_handle_mb_irq, NULL, dev, "bce_mbox");
+	if (status)
+
+> +		goto fail;
+> +	if ((status = pci_request_irq(dev, 4, NULL, bce_handle_dma_irq, dev, "bce_dma")))
+> +		goto fail_interrupt_0;
+> +
+> +	if ((status = dma_set_mask_and_coherent(&dev->dev, DMA_BIT_MASK(37)))) {
+> +		dev_warn(&dev->dev, "dma: Setting mask failed\n");
+> +		goto fail_interrupt;
+> +	}
+> +
+> +	/* Gets the function 0's interface. This is needed because Apple only accepts DMA on our function if function 0
+> +	   is a bus master, so we need to work around this. */
+> +	bce->pci0 = pci_get_slot(dev->bus, PCI_DEVFN(PCI_SLOT(dev->devfn), 0));
+> +#ifndef WITHOUT_NVME_PATCH
+
+Delete dead code?
+
+> +	if ((status = pci_enable_device_mem(bce->pci0))) {
+> +		dev_warn(&dev->dev, "apple-bce: failed to enable function 0\n");
+> +		goto fail_dev0;
+> +	}
+> +#endif
+> +	pci_set_master(bce->pci0);
+> +
+> +	bce_timestamp_start(&bce->timestamp, true);
+> +
+> +	if ((status = bce_fw_version_handshake(bce)))
+> +		goto fail_ts;
+> +	pr_info("apple-bce: handshake done\n");
+> +
+> +	if ((status = bce_create_command_queues(bce))) {
+> +		pr_info("apple-bce: Creating command queues failed\n");
+> +		goto fail_ts;
+> +	}
+> +
+> +	global_bce = bce;
+
+Do this right before the "return 0;"?
+
+> +
+> +	bce_vhci_create(bce, &bce->vhci);
+
+Check for errors.
+
+> +
+> +	return 0;
+> +
+> +fail_ts:
+> +	bce_timestamp_stop(&bce->timestamp);
+> +#ifndef WITHOUT_NVME_PATCH
+> +	pci_disable_device(bce->pci0);
+> +fail_dev0:
+> +#endif
+> +	pci_dev_put(bce->pci0);
+> +fail_interrupt:
+> +	pci_free_irq(dev, 4, dev);
+> +fail_interrupt_0:
+> +	pci_free_irq(dev, 0, dev);
+> +fail:
+> +	if (bce && bce->dev) {
+> +		device_destroy(bce_class, bce->devt);
+> +
+> +		if (!IS_ERR_OR_NULL(bce->reg_mem_mb))
+> +			pci_iounmap(dev, bce->reg_mem_mb);
+> +		if (!IS_ERR_OR_NULL(bce->reg_mem_dma))
+> +			pci_iounmap(dev, bce->reg_mem_dma);
+> +
+> +		kfree(bce);
+> +	}
+> +
+> +	pci_free_irq_vectors(dev);
+> +	pci_release_regions(dev);
+> +	pci_disable_device(dev);
+> +
+> +	if (!status)
+> +		status = -EINVAL;
+
+This is like saying "if the code is buggy then fix it" but it's better to
+just not introduce bugs.  Which sounds difficult and unreliable, but it's
+even more difficult and unreliable to predict which bugs people will add
+and fix them correctly.
+
+> +	return status;
+> +}
+
+regards,
+dan carpenter
 
