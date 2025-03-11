@@ -1,111 +1,99 @@
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B5E4227B94
-	for <linux-staging@lists.linux.dev>; Tue, 11 Mar 2025 11:16:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CC29262D21;
+	Tue, 11 Mar 2025 18:06:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741691808; cv=none; b=CrFCuaeH9iJazUB1iJvD4m+l/O1lcCULhWnlooR8vhFkk2kM5oTp3hRxlwpO7rgftvoIbly1lj069I+MMDgXSQZzbnrRhn7OhDJ6jfNVIk8SEvbosiYrHq2HxAdc3SugGC6X4rCKzIFiddqYjSfqGNSWrkpd0iaNMxx7sqhJq2o=
+	t=1741716416; cv=none; b=PoySHhhlHALakB02R0gARVFX1Yyw76XtCG6ungMXYZ/hAzUp2XZicjw46MjoAVKpDIm9LxvldDeTADhhr/z3RUiltammZtAyXfLllAt5FM+99GKnqssQkm35U4e/7Pi8KlNWQvAPoBa4R+5pFned9qaarDdCRtSwWBho4jWuRrU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741691808; c=relaxed/simple;
-	bh=mpmz9+gNfBkSRlzf5ohqnrqIElII8nIlcNv4e65+ehc=;
+	s=arc-20240116; t=1741716416; c=relaxed/simple;
+	bh=XuObIYw3RDsk53zQsCVI6/Eb60dSnbERWjSJp+4yvEA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=u6nuvjaW/F4HCvQJsUCaJmem1+fU7B8iGc1x12oxorwggelDHBL63lSPZpxpVt/UCZIpoiGy344cBipt9gq6RUX+6D/7HwcXNH9EupfaPGfi5txfqATwNTfybPZkW1nSWWJkjRvllUoicXmazbO7zBfe+8NG9crPq5nyBO+P2hU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=lqz8dQYN; arc=none smtp.client-ip=209.85.128.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZYQBedToJY6JsDDaGwrnzkx+PIeXBWx83lJRc0Bsb9O98HgOHEmY/mt98Rak83eqit4c3F71G1lyScuLeuhloNAFUy8ROabUhRjUMvgilUk4n5+Xak/emrfNCSYytnWDdOL+q9pENstf/zfUesMKAqrYJWMrvDVGFzRxzQGF29M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IssCg3cS; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="lqz8dQYN"
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-43cfdc2c8c9so10350595e9.2
-        for <linux-staging@lists.linux.dev>; Tue, 11 Mar 2025 04:16:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1741691804; x=1742296604; darn=lists.linux.dev;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=9Ee2vMUDZRdjGNIbzmhry++VVeENs1uRLq+FlAoQjWA=;
-        b=lqz8dQYNzJiFnExf72++5Chk2mDYcaf/Zt/5+0zzTN2IO0qag+py3zJbm7a2UGs1ty
-         RBoL79n52s4zSL2NTzRqo0AjefKMo+cTavAoi2BRJH6wy2K5AoKwOEYGqpFbiAut99Az
-         w/kJeXWjB3Z5+02dfwE6p2i3vh1SjF+dpf/2cCQniYYurRgWIq1wAQ9kdn7a9O+zvdpM
-         q/8kNYAXTHNwhZcIZrMdOXV+qOlwm7wZrHVIzdWITiwtCJNWP7tvs9WGFXq071I63pg3
-         v0/v70PCN3OttsmG+fs3vhTFHdcB4GBW6OtpxZvg1jeIJ13eCAHU5ReEu6iu0Ri4pSAB
-         4Qmw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741691804; x=1742296604;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=9Ee2vMUDZRdjGNIbzmhry++VVeENs1uRLq+FlAoQjWA=;
-        b=fbMGoaoIMKNI/0xzVObLaDFGCgx9l8Zy0cbp7lMP+dwgQcZ6FE/QqnauBeco/yiP8G
-         pF0NV/uubDTuufcLjx6n/XoW+GPUuebNYA4H0YNGLJiDWmhz6jIXKnJn/3G50TH+YCBj
-         wS2+ABNInboV80ZjjOrZASfUmyEzZ+wmUfL24Plh6nbzXsnnS2dmL27cz/fT26mpH/HE
-         UT47JZeL1SjK/7LiDXWUcsMt8Fg4YfvBs2KNYSnJTfoMpTDNF4OIIF73P1p3DhcbqYFU
-         hoPSjmzdTOE54IzquouNbva9Kkx2+cM7GVlUW+Y9WQDPqPzUgT+GiYVXV9rjkUtsLaZe
-         RDQg==
-X-Forwarded-Encrypted: i=1; AJvYcCVl04GGq5D8RHua+U+Hk9k7gavBHaHZdggsyO7jaIyFRkOtYLAeS0p0UxDx5e3lQANKjq2Fo+8VJKSjqxJJ@lists.linux.dev
-X-Gm-Message-State: AOJu0Yz4TYKCyM4PQpaVBGne+8yfaUYsO6NX8L9nq4mHzk54mKjW1R1x
-	LdPMpas9FwdpygO6RiqAgDjIwSShtjJ7oPFA87vaJ24ag8HuYXZhnYS5cH2O5+c=
-X-Gm-Gg: ASbGncvpVxCsywOmNesJHH10Dn+iNSyRWCxj9oJervL4kNZ86rGjTVna/ldg7vMWQIr
-	jedDGdoyEYQnU+18aaEaqJ71Y5NZUiIGnA4xf9crFtNAKdn5ckzli21QyiXO42hLSpVDoPEH4Kz
-	DqeFGE2O88RsNrVeH+st2fndo4g+mFQvyM60tmeDsv57ppnzh6mP9+v+gO/wsfBU4u7nVca36zJ
-	cuNnt+FNtige+7LEnBxl1dpN/z26u5M5nOUyDiwZG7+suvj2vqBXWTU3x+AAOdsoIQ9VHLtdF6f
-	m8M3M2L+tZAMVoNt3/PAZinwLZBaF+B5YIFeM+y4cvlCPYL6tg==
-X-Google-Smtp-Source: AGHT+IH62B2vN00mbQ7cGtF3KOTyZWYGf3hAB5PaS1iAsRYUThgYmKN7VFoKRyfU1FM6J06fivQQQQ==
-X-Received: by 2002:a5d:64cb:0:b0:391:3fa7:bf66 with SMTP id ffacd0b85a97d-3913fa7c415mr10740994f8f.31.1741691804523;
-        Tue, 11 Mar 2025 04:16:44 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-43cf0c42eb6sm87876805e9.16.2025.03.11.04.16.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 11 Mar 2025 04:16:44 -0700 (PDT)
-Date: Tue, 11 Mar 2025 14:16:40 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Thomas =?iso-8859-1?Q?Wei=DFschuh?= <thomas.weissschuh@linutronix.de>
-Cc: Florian Fainelli <florian.fainelli@broadcom.com>,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IssCg3cS"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 85EE0C4CEEA;
+	Tue, 11 Mar 2025 18:06:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1741716414;
+	bh=XuObIYw3RDsk53zQsCVI6/Eb60dSnbERWjSJp+4yvEA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=IssCg3cSilF7/wjdOftUOaTpCwST0CEsEV8ami2djc4HT6zPBbMCiV/cHwuS2qMND
+	 BkfRj2zSV9ascPDRQScmPra88Z/6OcwtlZIL7RGSerTgdXK4JbyQXZXkwysZ84tUzd
+	 gZ4N7XKY03vtOf/cOvrtsofH3ARPwTzhgLplkpSlhm0dIPwjn5mAlA8Q/vUIIbFzwj
+	 m4/QuKDoZcuIu69BBnRgW0ygpuhOPul9039z1kpkUtdnd+ZONfpPLcMbjkREjK8hY+
+	 cYmP28DjU0MSVrPw+EdEscCB7XKfcgomXkUj5k7doC8sXSppC2e8aGi+cTIHea0aNn
+	 wfgk00fV7KDxw==
+Date: Tue, 11 Mar 2025 13:06:52 -0500
+From: "Rob Herring (Arm)" <robh@kernel.org>
+To: Cosmin Tanislav <demonsingur@gmail.com>
+Cc: Ross Burton <ross.burton@arm.com>,
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+	Kieran Bingham <kieran.bingham@ideasonboard.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+	Eric Biggers <ebiggers@google.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Javier Carrasco <javier.carrasco@wolfvision.net>,
+	linux-kernel@vger.kernel.org, Mark Brown <broonie@kernel.org>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	linux-arm-kernel@lists.infradead.org,
+	Zhi Mao <zhi.mao@mediatek.com>, Hans Verkuil <hverkuil@xs4all.nl>,
+	Conor Dooley <conor+dt@kernel.org>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-rpi-kernel@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] staging: vchiq_arm: Don't use %pK through printk
-Message-ID: <01a1fcd4-b626-44a2-b850-bf0d8b9efbfa@stanley.mountain>
-References: <20250311-restricted-pointers-vchiq_arm-v2-1-a14e1c0681fc@linutronix.de>
+	Dongcheng Yan <dongcheng.yan@intel.com>,
+	Will Deacon <will@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	linux-media@vger.kernel.org,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Niklas =?iso-8859-1?Q?S=F6derlund?= <niklas.soderlund@ragnatech.se>,
+	Bjorn Andersson <quic_bjorande@quicinc.com>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Dan Carpenter <dan.carpenter@linaro.org>,
+	Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>,
+	Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
+	Taniya Das <quic_tdas@quicinc.com>,
+	Ihor Matushchak <ihor.matushchak@foobox.net>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	linux-staging@lists.linux.dev, Bartosz Golaszewski <brgl@bgdev.pl>,
+	devicetree@vger.kernel.org,
+	=?iso-8859-1?Q?N=EDcolas_F_=2E_R_=2E_A_=2E?= Prado <nfraprado@collabora.com>,
+	Julien Massot <julien.massot@collabora.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Tommaso Merciai <tomm.merciai@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Biju Das <biju.das.jz@bp.renesas.com>, linux-gpio@vger.kernel.org,
+	Cosmin Tanislav <cosmin.tanislav@analog.com>
+Subject: Re: [RFC PATCH v2 01/16] dt-bindings: media: i2c: max96717: add
+ myself as maintainer
+Message-ID: <174171641225.3915054.13208024290734160025.robh@kernel.org>
+References: <20250309084814.3114794-1-demonsingur@gmail.com>
+ <20250309084814.3114794-2-demonsingur@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250311-restricted-pointers-vchiq_arm-v2-1-a14e1c0681fc@linutronix.de>
+In-Reply-To: <20250309084814.3114794-2-demonsingur@gmail.com>
 
-On Tue, Mar 11, 2025 at 10:40:49AM +0100, Thomas Weiﬂschuh wrote:
-> In the past %pK was preferable to %p as it would not leak raw pointer
-> values into the kernel log.
-> Since commit ad67b74d2469 ("printk: hash addresses printed with %p")
-> the regular %p has been improved to avoid this issue.
-> Furthermore, restricted pointers ("%pK") were never meant to be used
-> through printk(). They can still unintentionally leak raw pointers or
-> acquire sleeping looks in atomic contexts.
+
+On Sun, 09 Mar 2025 10:47:53 +0200, Cosmin Tanislav wrote:
+> Analog Devices is taking responsability for the maintenance of the Maxim
+> GMSL2/3 devices.
+> Add myself to the maintainers list and to the device tree bindings.
 > 
-> Switch to the regular pointer formatting which is safer and
-> easier to reason about.
-> There are still a few users of %pK left, but these use it through seq_file,
-> for which its usage is safe.
+> Signed-off-by: Cosmin Tanislav <demonsingur@gmail.com>
+> ---
+>  Documentation/devicetree/bindings/media/i2c/maxim,max96717.yaml | 1 +
+>  MAINTAINERS                                                     | 1 +
+>  2 files changed, 2 insertions(+)
 > 
-> Link: https://lore.kernel.org/lkml/20250113171731-dc10e3c1-da64-4af0-b767-7c7070468023@linutronix.de/
-> Signed-off-by: Thomas Weiﬂschuh <thomas.weissschuh@linutronix.de>
-> ---
-> Changes in v2:
-> - Fix wrong replacement with invalid %K (Dan Carpenter)
-> - Link to v1: https://lore.kernel.org/r/20250310-restricted-pointers-vchiq_arm-v1-1-dd04f208ee55@linutronix.de
-> ---
 
-Thanks!
-
-Reviewed-by: Dan Carpenter <dan.carpenter@linaro.org>
-
-regards,
-dan carpenter
+Acked-by: Rob Herring (Arm) <robh@kernel.org>
 
