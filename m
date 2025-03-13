@@ -1,183 +1,155 @@
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36325136E3F
-	for <linux-staging@lists.linux.dev>; Thu, 13 Mar 2025 16:32:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA5BB1F3D53
+	for <linux-staging@lists.linux.dev>; Thu, 13 Mar 2025 19:54:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741883572; cv=none; b=TczRy0SeDDBQ3Ov8fmsg/ER2hCuZOvDo7mgdXaQxqi66Y49ohcVFZJIVjYtFJHfNU8uc0+2UW1abx6B4CiAQNJQUi6W349Wsu5BTAwiqd0Uip9r02Vu/M3JomHo+GggTBPYt1cqiBSDeeHIckF0E/uuKCQJxMFCpF/aFgLP+a4Q=
+	t=1741895695; cv=none; b=n18Dtrc0L7FZX1w1dpQPvWa+GKTRuAs8ViJyQfbSrbvw5EDp9qDlabTK+I1Wi8x0WNNdk05sVyj+9LEDpUgqWHjwPgMtOS863mksiu2vNYLE5AJwrs+AQEf2q7VgSPWvfP6JNpdJq93KuloirRpsNPakJXx6l3wlLbh4p14Gc6c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741883572; c=relaxed/simple;
-	bh=3veIpjO8FY9cGq7h4dDd4e1jM0+O2U93qbLKOByNvLc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LJEk2te4EfKCM8cyjwG+0hHTpQxJwDQVEhts9+D9ApMfWpjnLymwBsieC6R3XLUrCgvoWiyBdpbJh+kebRgrc9KBgc1LML9oub9o19UKi0NCdr3vg/eMY9Ysv6Jg89C6hTJLB59WPEPwZtCeUCpiXfH3nymxkZlfeW7JJGgwhxU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lmkIO8Yn; arc=none smtp.client-ip=209.85.128.45
+	s=arc-20240116; t=1741895695; c=relaxed/simple;
+	bh=OD+/u621mwUN73ktY519JVVMPBtMQmjjQicMrkJACVk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=MrKvPjAcgYNFuv7CDXc4BVebJ/ozZqvt8vkVQ4VcwuUw3Oow14LuQmO6VsoOLB7EyC49gRb7GeJfdrcdmdgvL5VDi4TV9sJdLx3tEYx8Zt8M2sEFahBm2DhDtLMiTWfZkJxwM8+pwHoRmYbscAQJJ9N5JvmlQw6OgQxwHnHgSCc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VexpyCB3; arc=none smtp.client-ip=209.85.214.173
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lmkIO8Yn"
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-43d0618746bso8305595e9.2
-        for <linux-staging@lists.linux.dev>; Thu, 13 Mar 2025 09:32:48 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VexpyCB3"
+Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-2255003f4c6so26094355ad.0
+        for <linux-staging@lists.linux.dev>; Thu, 13 Mar 2025 12:54:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1741883567; x=1742488367; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=pk/Fm7AsuFr4JJo8BZ86u/lcrGPbAwJL5zM3d+jgaXU=;
-        b=lmkIO8Yn4FqZWOWhWvXdO/DfTSy98fZi91wAg82APLLI7SbibiGNOvbo+DfFADzspN
-         TCSKlFHU8TmxgMm7n7SkbayWixfvOzyaXZ2bh+7qxnTfWHxWcf8x5HppvCgU8pJQ91ra
-         N8pUWBtC8fTrlOgEQ2MFu0b3NDLtH3pqtu5owNjTckNsK5cOfbL+3MHmIXn3uBvkK4li
-         +sGxC44xeRu9s2XOcpFI3i601g3l1LNNXxnI0sXtbZmHAELsY0+kRuBpd5k05vCMu78w
-         44z1DDgCDya+PLDkuPsFoHO9TzIuJ+6JRzHib4Ow1xz7uUW145VFovvczVysYMAF5Hgn
-         3Hyw==
+        d=gmail.com; s=20230601; t=1741895693; x=1742500493; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=wHH4myFoiuxDS6apQJvZG9O0Yk3Qnm1cC4Wjl8gE+b0=;
+        b=VexpyCB3WMBtJ9Jrz8gCSUl5B20zh7C7PCDwk0ohlWTTyKffOV+M+aU/1wHE3Z9Hj8
+         8ZP54sGzSU2/IpFruB/2WxFblTwh0ZPe3x+bxjD7bRpWPXC1oHk3bftu+xk9bDNiBbkY
+         s/QT8XeErdjUEFR5YW/OKgOEddgTK7/DOfGl2ujFeo0LRV4LpPVEBYgSMhmBYl858TRq
+         a2x8QqyiMzh7HteRrIOJSUnNfEKvaPAvDAG4LkGgjg6PjhjvGZ4DhcNHrqXWkkQEYYPk
+         kCnJQoM0IGg9SVh/QK/c9LvU7AvrMxTBFwZArpwpdOQhVzIEfMlUGjrMiZ+cJe6xvOt5
+         VgCg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741883567; x=1742488367;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=pk/Fm7AsuFr4JJo8BZ86u/lcrGPbAwJL5zM3d+jgaXU=;
-        b=algQt+HPMJ+0vKtFB2DG5DC7Yb7yIweNaGSOWFl4+MDBrXVgLbVvovN3pKDAT+0KQT
-         eZ6rOkNYMJ8XMhqOWW969AQM2d1SUt6H6MO2uWjyIK5jw6TfhJaRAFLt8r4FTu9Qh1Ou
-         J2qovGb8SaJDaBickSHoED3zsNLs0zUWi/rsMD3dyGP3j8B3fNSaf2f6vCcLgGt3wpsS
-         WUH/Rq6hLUNPCkjSEqmPOiT1s07yclXxWSv+FiRGMeEoOcN5P0VksGmySRrBZSd5dWV3
-         HLubFNtJ9xNWQSzE/kyyy3JNrTGmrKi2F4gTwz1qNGnMGDluM5DBA8mXMFA6hvClugtZ
-         xfNw==
-X-Forwarded-Encrypted: i=1; AJvYcCXsgCPDcADt+3Du1z9eUV+2AnpwTOkICBc46vhCwSQYz25gWJxQFEyH0AJSXIC8JpMQiY8brymX/hScJEwx@lists.linux.dev
-X-Gm-Message-State: AOJu0YzWF5TnnrLLBibMFPGAn1eU7G7VEgsq+IQ4hMpNlHwZcYrBIKFE
-	6q1BfZGqyFO17GK8xrny45nV+/BeYr4NtLF1N6SppnI5+77dsKRo
-X-Gm-Gg: ASbGncsBTP5LbHieiXs9wVv/UQcGUjvXv+tR936caYlHMVuE1iPDbGJXZJOjUarv1Oc
-	disqeAp4POqntzcHNwCiE3Z5uoeoW4tvp7HWjiQIYYjTzwZGc8D4KNMY0sLNBa1iN/f8ugmaWz1
-	OGluRPD/za4LlTvWR9bh7cKfYVG0Rhwwl8gELbIgiGM4sYCDzfRTF/bHDkHSIIY1Fg0prl9N/4O
-	FdcK2hH77T6835za29mcZwvzQQ8g9JS1I7SnxHMrcidePIxCGwOEsU4eMYAEIMbKYbDLjSEGnpH
-	spanXu6ba4/PSf+iesjf1ElGoKRt+k2rs7Rbfc2UuGf/QudJxCSHi3Yi3U6I
-X-Google-Smtp-Source: AGHT+IG/hk48lJj+8hPeuQY7ZauK3kX+fOhVWAQsxMsK5NG87kEnNFiSO3KeVKBv0+Muv22DdhY3yg==
-X-Received: by 2002:a05:600c:1c83:b0:43c:fb36:d296 with SMTP id 5b1f17b1804b1-43d1d8e7dc9mr2479425e9.25.1741883567071;
-        Thu, 13 Mar 2025 09:32:47 -0700 (PDT)
-Received: from egonzo (82-64-73-52.subs.proxad.net. [82.64.73.52])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43d188b12f3sm26084425e9.4.2025.03.13.09.32.46
+        d=1e100.net; s=20230601; t=1741895693; x=1742500493;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=wHH4myFoiuxDS6apQJvZG9O0Yk3Qnm1cC4Wjl8gE+b0=;
+        b=EgMPz6z8a4RcM2wuxfPJvjD5uqRHPfsSIdi8KYPU3CgdxaS5u6xmO4vjP0jmaSfCZQ
+         K3tlCP4UAilhUyTE7IKA1PzwFpI/bU46TNDC3o3gmcRgg2YVEd33gu73albcw6USYWSD
+         AVVLrOVeSJpcYtnbiM3D12LxuOFmZxHqFwT3LPgiusnLKldz92CMaeWCqefiOjVfQczx
+         34rhhckplNvq/u2XM0Eg2Zu9Tc4QocGhOn5C3dODwkkwjxlIxqT1/MV2lwQaErkCtKsd
+         UhJpRBituczQamab0AM4yqV1sx5DTp7RJzfNZeMRiD1LFOw3KudbzjdD49hpKZf1u4As
+         xICA==
+X-Forwarded-Encrypted: i=1; AJvYcCV71XpV71K8Mcq+SnhqelO8HSkMpx1NNwxMCPZa7Bt9ii3lnj6mFqBC/B3lgSbMY3Gjc2RHUmNPiZr//wYx@lists.linux.dev
+X-Gm-Message-State: AOJu0YwF7ZPyv/2u0XZQJRoPeMbgmyJk8i0lF4zjqQx09ASjMMbUiAgb
+	F/Uz0h/ur0vjSLnSSBHUMafYOeAcZImrfPT+ZK9otWuHHYBwsdho
+X-Gm-Gg: ASbGncsTgLn+Va+1HcCkSzYmz3LiinfKQA3qyL/Ij6zc5euhTpaPz7VVK9AKUbea6g3
+	UfE4BAAumA5mS4mCt44cN7nOabKdlCiWyg9v7keeSX8LXOSI8v4UelaX6g/61asMP81RqcvVYDJ
+	ARffS6T3XmMYbLqXeXM/WJVnVZdjjlFbOtoyeqzmH82XQpZLKE/F496ogb4XSzyQ6ydawtduIus
+	R/pgHPLRCmihJHSkJ9RF4h3A9HyaY6Arb9xKEhDCrf1OP5penvFgG5tw+nvLuV0m7kTtx+F1Zqy
+	ZRi++z25h/64u8QJJSyFDH+2o7Bw2+pn+OstFi1FaQ==
+X-Google-Smtp-Source: AGHT+IGYW/k2YlFAjqkFNaFWxXE5BZL1uTyV8DQEqt8Utpg9j1U75c1XYijGakd2K6eWuDEhHRwpRg==
+X-Received: by 2002:a17:903:1b03:b0:215:4a4e:9262 with SMTP id d9443c01a7336-225df2d700emr3225495ad.8.1741895693013;
+        Thu, 13 Mar 2025 12:54:53 -0700 (PDT)
+Received: from fedora.. ([2409:40f2:357:8702:7d06:7e16:a88a:f1b5])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-225c6ba6c76sm17397275ad.148.2025.03.13.12.54.48
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 13 Mar 2025 09:32:46 -0700 (PDT)
-Date: Thu, 13 Mar 2025 17:32:44 +0100
-From: Dave Penkler <dpenkler@gmail.com>
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: gpib: Add return value to request_control
-Message-ID: <Z9MIrOJ-8NQjtwLA@egonzo>
-References: <20250222202301.3729-1-dpenkler@gmail.com>
- <f7521c95-e69c-4618-b078-283c156ca594@stanley.mountain>
+        Thu, 13 Mar 2025 12:54:52 -0700 (PDT)
+From: Siddharth Menon <simeddon@gmail.com>
+To: linux-iio@vger.kernel.org,
+	lars@metafoo.de,
+	Michael.Hennerich@analog.com,
+	jic23@kernel.org,
+	gregkh@linuxfoundation.org
+Cc: linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	Siddharth Menon <simeddon@gmail.com>,
+	Marcelo Schmitt <marcelo.schmitt1@gmail.com>
+Subject: [PATCH] iio: frequency: ad9832: Use FIELD_PREP macro to set bit fields
+Date: Fri, 14 Mar 2025 01:24:17 +0530
+Message-ID: <20250313195442.30264-1-simeddon@gmail.com>
+X-Mailer: git-send-email 2.48.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <f7521c95-e69c-4618-b078-283c156ca594@stanley.mountain>
+Content-Transfer-Encoding: 8bit
 
-On Tue, Feb 25, 2025 at 11:59:56AM +0300, Dan Carpenter wrote:
-> On Sat, Feb 22, 2025 at 09:23:01PM +0100, Dave Penkler wrote:
-> > A number of drivers are unable to release control due to
-> > hardware or software limitations. As request_control was defined
-> > as void - no error could be signalled. Some drivers also did
-> > not implement request_control correctly by setting
-> > controller_in_charge instead of system_controller.
-> > 
-> > This patch changes the prototype of request_control to int
-> > and adds the appropriate checking and returns. In the case
-> > that a board cannot release control EPERM is returned. The
-> > faulty implementations have been corrected.
-> > 
-> 
-> This patch is hard to read because it does several things:
-> 1) It changes the functions from returning void to int.
->    This is the overwhelming noisiest part of the patch so
->    it's hard to even see the other changes in amongst the
->    noise.
-> 2) Returns -EPERM if request_control is false.
-> 3) Changes some stuff like SET_DIR_WRITE(priv); and
->    ENABLE_IRQ(priv->irq_SRQ, IRQ_TYPE_EDGE_FALLING);  I can't tell if
->    that's related or not.
-> 
-> You'll need to do it in two or three patches.  The first thing is to
-> just change the void to int.  That's a simple mechanical change.  The
-> only worry is if some functions are returning an error code on failure
-> and I don't know the answer to that.  (That would break git bisect so it
-> would be against the rules, even if it's fixed in patch 2 and 3).
-> 
-> The actual logic changes will hopefully be easier to understand when the
-> diff is smaller.
-> 
-> > -static void agilent_82350b_request_system_control(gpib_board_t *board, int request_control)
-> > +static int agilent_82350b_request_system_control(gpib_board_t *board, int request_control)
-> >  
-> >  {
-> >  	struct agilent_82350b_priv *a_priv = board->private_data;
-> > +	int retval;
-> >  
-> >  	if (request_control) {
-> >  		a_priv->card_mode_bits |= CM_SYSTEM_CONTROLLER_BIT;
-> > @@ -354,7 +355,9 @@ static void agilent_82350b_request_system_control(gpib_board_t *board, int reque
-> >  			writeb(0, a_priv->gpib_base + INTERNAL_CONFIG_REG);
-> >  	}
-> >  	writeb(a_priv->card_mode_bits, a_priv->gpib_base + CARD_MODE_REG);
-> > -	tms9914_request_system_control(board, &a_priv->tms9914_priv, request_control);
-> > +	retval = tms9914_request_system_control(board, &a_priv->tms9914_priv, request_control);
-> > +
-> > +	return retval;
-> 
-> Get rid of the retval variable.  This should be:
-> 
-> 	return tms9914_request_system_control(board, &a_priv->tms9914_priv, request_control);
-> 
-> > diff --git a/drivers/staging/gpib/common/iblib.c b/drivers/staging/gpib/common/iblib.c
-> > index fd2874c2fff4..3d51a093fc8b 100644
-> > --- a/drivers/staging/gpib/common/iblib.c
-> > +++ b/drivers/staging/gpib/common/iblib.c
-> > @@ -418,12 +418,19 @@ int ibsic(gpib_board_t *board, unsigned int usec_duration)
-> >  	return 0;
-> >  }
-> >  
-> > -	/* FIXME make int */
-> > -void ibrsc(gpib_board_t *board, int request_control)
-> > +int ibrsc(gpib_board_t *board, int request_control)
-> >  {
-> > -	board->master = request_control != 0;
-> > +	int retval;
-> > +
-> >  	if (board->interface->request_system_control)
-> > -		board->interface->request_system_control(board, request_control);
-> > +		retval = board->interface->request_system_control(board, request_control);
-> > +	else
-> > +		retval = -EPERM;
-> > +
-> > +	if (!retval)
-> > +		board->master = request_control != 0;
-> > +
-> > +	return retval;
-> >  }
-> >  
-> 
-> It would be better to reverse some of these conditions are return earlier
-> where it's possible.  (Always do failure handling, not success handling).
-> 
-> int ibrsc(gpib_board_t *board, int request_control)
-> {
->         int ret;
-> 
->         if (!board->interface->request_system_control)
->                 return -EPERM;
->         ret = board->interface->request_system_control(board, request_control);
->         if (ret)
->                 return ret;
-> 
->         board->master = !request_control;
-> 
->         return 0;
-> }
-> 
-> regards,
-> dan carpenter
-Thanks Dan.
-I will submit separate patches once Greg has merged a new baseline.
--dave
+Refactor code to use the FIELD_PREP macro for setting bit fields
+instead of manual bit manipulation.
+
+Suggested-by: Marcelo Schmitt <marcelo.schmitt1@gmail.com>
+Signed-off-by: Siddharth Menon <simeddon@gmail.com>
+---
+ drivers/staging/iio/frequency/ad9832.c | 39 ++++++++++++++------------
+ 1 file changed, 21 insertions(+), 18 deletions(-)
+
+diff --git a/drivers/staging/iio/frequency/ad9832.c b/drivers/staging/iio/frequency/ad9832.c
+index 140ee4f9c137..bbde1f0e84ff 100644
+--- a/drivers/staging/iio/frequency/ad9832.c
++++ b/drivers/staging/iio/frequency/ad9832.c
+@@ -70,6 +70,9 @@
+ #define AD9832_FREQ_BITS	32
+ #define AD9832_PHASE_BITS	12
+ #define RES_MASK(bits)		((1 << (bits)) - 1)
++#define DATA_MASK       0xFF
++#define CMD_MASK        (0xF << CMD_SHIFT)
++#define ADD_MASK        (0xF << ADD_SHIFT)
+ 
+ /**
+  * struct ad9832_state - driver instance specific data
+@@ -139,18 +142,18 @@ static int ad9832_write_frequency(struct ad9832_state *st,
+ 
+ 	regval = ad9832_calc_freqreg(clk_freq, fout);
+ 
+-	st->freq_data[0] = cpu_to_be16((AD9832_CMD_FRE8BITSW << CMD_SHIFT) |
+-					(addr << ADD_SHIFT) |
+-					((regval >> 24) & 0xFF));
+-	st->freq_data[1] = cpu_to_be16((AD9832_CMD_FRE16BITSW << CMD_SHIFT) |
+-					((addr - 1) << ADD_SHIFT) |
+-					((regval >> 16) & 0xFF));
+-	st->freq_data[2] = cpu_to_be16((AD9832_CMD_FRE8BITSW << CMD_SHIFT) |
+-					((addr - 2) << ADD_SHIFT) |
+-					((regval >> 8) & 0xFF));
+-	st->freq_data[3] = cpu_to_be16((AD9832_CMD_FRE16BITSW << CMD_SHIFT) |
+-					((addr - 3) << ADD_SHIFT) |
+-					((regval >> 0) & 0xFF));
++	st->freq_data[0] = cpu_to_be16(FIELD_PREP(CMD_MASK, AD9832_CMD_FRE8BITSW) |
++					FIELD_PREP(ADD_MASK, addr) |
++					FIELD_PREP(DATA_MASK, (regval >> 24) & 0xFF));
++	st->freq_data[1] = cpu_to_be16(FIELD_PREP(CMD_MASK, AD9832_CMD_FRE16BITSW) |
++					FIELD_PREP(ADD_MASK, (addr - 1)) |
++					FIELD_PREP(DATA_MASK, (regval >> 16) & 0xFF));
++	st->freq_data[2] = cpu_to_be16(FIELD_PREP(CMD_MASK, AD9832_CMD_FRE8BITSW) |
++					FIELD_PREP(ADD_MASK, (addr - 2)) |
++					FIELD_PREP(DATA_MASK, (regval >> 8) & 0xFF));
++	st->freq_data[3] = cpu_to_be16(FIELD_PREP(CMD_MASK, AD9832_CMD_FRE16BITSW) |
++					FIELD_PREP(ADD_MASK, (addr - 3)) |
++					FIELD_PREP(DATA_MASK, (regval >> 0) & 0xFF));
+ 
+ 	return spi_sync(st->spi, &st->freq_msg);
+ }
+@@ -161,12 +164,12 @@ static int ad9832_write_phase(struct ad9832_state *st,
+ 	if (phase >= BIT(AD9832_PHASE_BITS))
+ 		return -EINVAL;
+ 
+-	st->phase_data[0] = cpu_to_be16((AD9832_CMD_PHA8BITSW << CMD_SHIFT) |
+-					(addr << ADD_SHIFT) |
+-					((phase >> 8) & 0xFF));
+-	st->phase_data[1] = cpu_to_be16((AD9832_CMD_PHA16BITSW << CMD_SHIFT) |
+-					((addr - 1) << ADD_SHIFT) |
+-					(phase & 0xFF));
++	st->phase_data[0] = cpu_to_be16(FIELD_PREP(CMD_MASK, AD9832_CMD_PHA8BITSW) |
++					FIELD_PREP(ADD_MASK, addr) |
++					FIELD_PREP(DATA_MASK, (phase >> 8) & 0xFF));
++	st->phase_data[1] = cpu_to_be16(FIELD_PREP(CMD_MASK, AD9832_CMD_PHA16BITSW) |
++					FIELD_PREP(ADD_MASK, (addr - 1)) |
++					FIELD_PREP(DATA_MASK, phase & 0xFF));
+ 
+ 	return spi_sync(st->spi, &st->phase_msg);
+ }
+-- 
+2.48.1
+
