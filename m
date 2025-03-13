@@ -1,88 +1,147 @@
-Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 850751F4CB2
-	for <linux-staging@lists.linux.dev>; Tue, 11 Mar 2025 23:26:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85F1B267392
+	for <linux-staging@lists.linux.dev>; Thu, 13 Mar 2025 12:25:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741735598; cv=none; b=VnARrwXKdxeBbLE8+yKEae1SIoOudw1xX5L2MN62scid1EmMtPk1FB9ou+teKP3FoZZDqj7ygRPClgYdp/6gVEm91jc12ZqtyjS70a5MFfP8OosIUXOqz6vCEEY4E7fwOZjhs1OspRFUGL3ggTSCwOtA533eclT/HhoI65MQkMA=
+	t=1741868725; cv=none; b=N9u/DYgFgb27hDHS9fQOU7OrUmhpYAh7I/KbtC6hTq073ztVw1MZMkXmXdhMk7eDGlP0KFnkr517r5foBuwa72glmuTJTW8LyxVL5bI8yN51PbjiepuBiEtJ8g3rA8tODKZbGXi2HdP9DpdnvUmvUT+PhOxNjtVa+6X+Xln0kk0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741735598; c=relaxed/simple;
-	bh=NB9hHXv5biXAPCwiGO2RzmRPnzHDPQYRuFhlhDx477U=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=aPEVij8zomsB+tzPOPPF624XNeuf515t/ijxtlFP8kg+vyTis+HndMuscfbCue/3lRSOlybowB5i4YFa4zfXZ1DbmcY9mIy4rFHZU7EBfDtnTz/MQg2OTphdoYJjfwqPI/jF+YDBMb23fPhq1HFZPYCZeMxRfsY6+8nFLAP/fQA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ASTPEK6F; arc=none smtp.client-ip=209.85.216.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1741868725; c=relaxed/simple;
+	bh=qtso+QylSCMYkJlmOyQHdWoGgp+Hq5bh4XDeml5Lx2c=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=hf5PkGnWq5cOiUmfwGHfS4W2PR7KJKKpFiYDlAfzQ7SXEd9r4sYzmdJMI2lj2V7qNazrnQFMQsQLEftlrEAwPWNk3XQYQaLXS+lDUAPiNDuJF6OtZEI7uTKlEtVIW80xpH9ysr9g7mzhYMcyw7gG9keNVReV8vIgE/7n3NtkmYI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=e3846Q+V; arc=none smtp.client-ip=192.198.163.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ASTPEK6F"
-Received: by mail-pj1-f50.google.com with SMTP id 98e67ed59e1d1-2ff615a114bso598940a91.0
-        for <linux-staging@lists.linux.dev>; Tue, 11 Mar 2025 16:26:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1741735597; x=1742340397; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=NB9hHXv5biXAPCwiGO2RzmRPnzHDPQYRuFhlhDx477U=;
-        b=ASTPEK6FfnOP8R2pHQXfpqW0LzZ471kVkMtVMzGaLrNbCqAtfsWPQs6iQqn8HPZfPn
-         tCMzW14ChsSvqQX3JzoC7Nrucy7KPIN9KO/cIZUJRjaCzokO7ZpjVoSWVe70+HSnbwcC
-         JHOKPb4BcmkZpyIe0inSgLL3ej54FSbAU4fH1pwNkcJoQJAAK5ltEGxv5H4QYDAQSE2w
-         yB6q6yKF7XIklrE7hcvLj0Y9mQfy3zHQuCI2gun1+NXjWwjgNYUVJ712iCeC2MfCiVHB
-         ufayix5o6CW3NifVY5ERcH9DJJ/oU72VzEiBfMw8MAh7VbdHWtOdpMA3lnT+JgCnqcU/
-         Suhg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741735597; x=1742340397;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=NB9hHXv5biXAPCwiGO2RzmRPnzHDPQYRuFhlhDx477U=;
-        b=NZnSksUK8MSfTjrG/+QP8ecLngQLSEDl15p7iwuyWUTNEVtUBMlg94XUdKYoU+Fnnf
-         6htDgzt7Q0fGTK74XJpf1pERxCuL2t+qsek0zyILRNuknyKh2Ruzfw0BkO/1Q2m8eNqN
-         bacwGTGvyW9ZLfwOKBn5wN1hyS9hMUOO1RpvtlnpCWvcVMDadnxDzB8beGzMpoQPiOyy
-         flq5kSdpkKSKvIFyNdDvnf9BSu+tET8NojzXEsvh0oD0crrFxoYMJL8fepUYVpgmpES6
-         BimhEZzQh41TDqQFVPtIjfy8978FxJThwokmj5KfeVhL1Lh17hCA7eViEqX9OAcfiDpx
-         fMTw==
-X-Forwarded-Encrypted: i=1; AJvYcCWkEv3QYKffVJfKmGE9Z6r48FVDZ8p0rRyGtH4qJasY+RtDTXtCCiFX15c/aGryy5Y/iQsLVjGTizkyVQFV@lists.linux.dev
-X-Gm-Message-State: AOJu0Yy2VQQ9X+c2/K/h7+TFvdKVIs+4NTQUBoVK/MYU1q03NmZoI572
-	NlIzEJQHPgQILuH+GbFX1jXluvxV8wrmZfGL6Due0gD+ibW6iWQl
-X-Gm-Gg: ASbGnctOcKaMqCsQvIwyTOzUDqOTitrd3QE/7UokcO+rMi7hiP27giVvfU5KKq584oz
-	aY5x3Ns9+0IXqrdGvkJefGxY2wuum7Ja1LFdUU74SJzZUo3L9krzNflkfx6/C7pGo3bjKhUkig1
-	AI81EWC+au+yqPnQPCoyga58qtwU5e+r4aUx4FI7gThjwDAkwvNvmRNz5tSuPNGOJM1EV19WHL7
-	tf60ws2uI631AQWyp9/naz2zM53uFiEAqoGsNzNRxfdLEJTZsXa6iVdvRW8+G+wmJImWvC99VVC
-	iZ63MKfHfeH8NaZoM1o0spRbH33yr/G5ETVAnsW8rb8d9u1v99BEyrDDuPJi+1vXRN8=
-X-Google-Smtp-Source: AGHT+IHiNhkuocGL2i51iwpj3PetKDkdPdrWYI8h4KDdGMoprBvmAaPCtkiCwsr2Pc2nOtnFOwQg/g==
-X-Received: by 2002:a17:90b:5403:b0:2fa:1e56:5d82 with SMTP id 98e67ed59e1d1-301005782bbmr6800630a91.17.1741735596542;
-        Tue, 11 Mar 2025 16:26:36 -0700 (PDT)
-Received: from localhost.localdomain ([2804:14d:4c64:81ec:4ff:1626:32b1:712a])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-224109ddc89sm104040225ad.36.2025.03.11.16.26.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 11 Mar 2025 16:26:36 -0700 (PDT)
-From: Rodrigo Gobbi <rodrigo.gobbi.7@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: dan.carpenter@linaro.org,
-	dpenkler@gmail.com,
-	linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	rodrigo.gobbi.7@gmail.com,
-	~lkcamp/patches@lists.sr.ht
-Subject: Re: [PATCH v2] staging: gpib: change return type of t1_delay function to report errors
-Date: Tue, 11 Mar 2025 20:25:56 -0300
-Message-ID: <20250311232625.4983-1-rodrigo.gobbi.7@gmail.com>
-X-Mailer: git-send-email 2.47.0
-In-Reply-To: <2025021915-scandal-hypnoses-cad7@gregkh>
-References: <2025021915-scandal-hypnoses-cad7@gregkh>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="e3846Q+V"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1741868723; x=1773404723;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=qtso+QylSCMYkJlmOyQHdWoGgp+Hq5bh4XDeml5Lx2c=;
+  b=e3846Q+V9eH+jFV1iYyf15u7w/aywF2EfzRmFBs914lP6NaWi/zKelcs
+   GRAK2C6tVJIcMHz+8jY4ozB87tiRPxL7hfMNsJudTjWAhEng7tS5ZKMKi
+   UAn13nZq6Tn9hIkxFW6RIAyAFLg6fZe4KrtnOkvVPxHNJfTEBlkE32/hx
+   /7HFs53Ub57dGeHO63nKiD/xP4su7j/AyVT/mRv3Ib4g6bMjFQYlsHwRe
+   GA2h3CCLN9H+xUmFkG2ADdWsq7/vFRjZRxg/jhLCTDx5PSHXxNCHcGPoa
+   DA3AsXyXV5sWT44k5NjI6oJo9rhGqxwIaA22D7oVmFWQlahzTUrgVASUL
+   w==;
+X-CSE-ConnectionGUID: oUOInLSjQr+Lm1xuUOJ6DA==
+X-CSE-MsgGUID: UXdnWcK0Scu3hVkRs+3yIA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11372"; a="43113252"
+X-IronPort-AV: E=Sophos;i="6.14,244,1736841600"; 
+   d="scan'208";a="43113252"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Mar 2025 05:25:22 -0700
+X-CSE-ConnectionGUID: KGpsUbEJQs2MVyUdlNP4KA==
+X-CSE-MsgGUID: BX9hJvZwTXqJh109+wTkSQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.14,244,1736841600"; 
+   d="scan'208";a="151782413"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Mar 2025 05:25:12 -0700
+Received: from kekkonen.localdomain (localhost [127.0.0.1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id 004C311F96E;
+	Thu, 13 Mar 2025 14:25:09 +0200 (EET)
+Date: Thu, 13 Mar 2025 12:25:09 +0000
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Cosmin Tanislav <demonsingur@gmail.com>
+Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+	Cosmin Tanislav <cosmin.tanislav@analog.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Niklas =?iso-8859-1?Q?S=F6derlund?= <niklas.soderlund@ragnatech.se>,
+	Julien Massot <julien.massot@collabora.com>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Bartosz Golaszewski <brgl@bgdev.pl>,
+	Bjorn Andersson <quic_bjorande@quicinc.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+	Arnd Bergmann <arnd@arndb.de>, Taniya Das <quic_tdas@quicinc.com>,
+	Biju Das <biju.das.jz@bp.renesas.com>,
+	=?iso-8859-1?Q?N=EDcolas_F_=2E_R_=2E_A_=2E?= Prado <nfraprado@collabora.com>,
+	Eric Biggers <ebiggers@google.com>,
+	Javier Carrasco <javier.carrasco@wolfvision.net>,
+	Ross Burton <ross.burton@arm.com>,
+	Hans Verkuil <hverkuil@xs4all.nl>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Zhi Mao <zhi.mao@mediatek.com>,
+	Kieran Bingham <kieran.bingham@ideasonboard.com>,
+	Dongcheng Yan <dongcheng.yan@intel.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
+	Tommaso Merciai <tomm.merciai@gmail.com>,
+	Dan Carpenter <dan.carpenter@linaro.org>,
+	Ihor Matushchak <ihor.matushchak@foobox.net>,
+	Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>,
+	linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-staging@lists.linux.dev, linux-gpio@vger.kernel.org
+Subject: Re: [RFC PATCH v2 06/16] dt-bindings: media: i2c: max96717: add
+ support for MAX96793
+Message-ID: <Z9LOpR5yiILj6KsT@kekkonen.localdomain>
+References: <20250309084814.3114794-1-demonsingur@gmail.com>
+ <20250309084814.3114794-7-demonsingur@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250309084814.3114794-7-demonsingur@gmail.com>
 
-> Can you rebase against my latest staging-testing branch, as this no
-> longer applies there due to other changes that were sent before yours.
+Hi Cosmin,
 
-Yes, I've submitted a v3 at [1].
-Tks for pointing that, now it should work, regards!
+On Sun, Mar 09, 2025 at 10:47:58AM +0200, Cosmin Tanislav wrote:
+> MAX96793 is a newer variant of the MAX96717 which also supports GMSL3
+> links.
+> 
+> Document this compatibility.
+> 
+> Signed-off-by: Cosmin Tanislav <demonsingur@gmail.com>
+> ---
+>  Documentation/devicetree/bindings/media/i2c/maxim,max96717.yaml | 2 ++
+>  1 file changed, 2 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/media/i2c/maxim,max96717.yaml b/Documentation/devicetree/bindings/media/i2c/maxim,max96717.yaml
+> index 31fb62debdc7..02857f0364c4 100644
+> --- a/Documentation/devicetree/bindings/media/i2c/maxim,max96717.yaml
+> +++ b/Documentation/devicetree/bindings/media/i2c/maxim,max96717.yaml
+> @@ -27,6 +27,7 @@ description:
+>  
+>    MAX96717F only supports a fixed rate of 3Gbps in the forward direction.
+>    MAX9295A only supports pixel mode.
+> +  MAX96793 also supports GMSL3 mode.
 
-[1] https://lore.kernel.org/linux-staging/20250225014811.77995-1-rodrigo.gobbi.7@gmail.com/T/#u
+Fits on the previous line. Same goes for some of the commit messages in the
+set: the limit is 75 characters per line.
+
+>  
+>  properties:
+>    compatible:
+> @@ -36,6 +37,7 @@ properties:
+>        - items:
+>            - enum:
+>                - maxim,max96717
+> +              - maxim,max96793
+>            - const: maxim,max96717f
+>  
+>    '#gpio-cells':
+
+-- 
+Regards,
+
+Sakari Ailus
