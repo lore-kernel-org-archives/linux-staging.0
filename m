@@ -1,136 +1,157 @@
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF4FB2629D
-	for <linux-staging@lists.linux.dev>; Fri, 14 Mar 2025 17:31:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D60418A6C5;
+	Fri, 14 Mar 2025 21:58:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.151
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741973484; cv=none; b=TWm9qLjdw0Y4+2vIHy/IbrjNbUHPuB6QwXh5dRr1ELNcgpTpnxrxpmX7FG7jcfvVyg/R6gtLNstbiOKr9QRQZchFTMq18XGK1vn+2R3k0XWM0sfpiEFQft3Y/MMv85DbHEY4RhqbOAJbTYsHC/XEcqrxP5Z2TWuJUBuG4Gszpjk=
+	t=1741989514; cv=none; b=SA5v7PKLOnOatIUukjfurE/NtQJ+9FsO6i+stBsDYwpO0u7qIgrEpDa9UuIHuWKnRZHO9d7QV/Cdn5iyG7zKpb+/NZ+rwFNJLfQ8OrPfTCaMgT4WMq17FOB1Q7vp4jRvYD9BRcYqFTYVXljVCQlUhZUlivtSASJEEpt3tQFvr3A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741973484; c=relaxed/simple;
-	bh=lQHiypFcLak6lsLXoWDwnUCHVk/PPGA0FiTJLIOtutE=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version; b=cYxAIxbeVswWtbU0xehY2UrmxfVIYl5S0hwCsCKiLnUsTN3Rp/2l4EdPD3DFmVuklBYjOetE4E7KneVNRnbeE7kC2L3bcu3LctJV6pzh7SE47vPETg3KS3+qls5ndwFZmvYW20kr+YJYZOUTxQbeZvNQNtvXw374VlW5dyVGxEM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=l7lvd6dW; arc=none smtp.client-ip=209.85.214.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1741989514; c=relaxed/simple;
+	bh=UNPNnzvCRlfNLT/98cuL4dZmsHS+ig3ASnt5aAEm1jI=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=mUt/p3gDsXL+LUGziblj+tqRpEGzd0jg39hsNmYp9SkwOjVqmiO2GgTsr0XW72yRiPXDP6X26rNTkhMo7dwMWAA0l5uWSNBttwhkZEFixfzmRLs+4h4SamUgVidIFhM6N3dP5d0lPgV9GOxXCO9+U9oHJkfh2rDOyZht6VzkQrw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ethancedwards.com; spf=pass smtp.mailfrom=ethancedwards.com; dkim=pass (2048-bit key) header.d=ethancedwards.com header.i=@ethancedwards.com header.b=tIRZiUN6; arc=none smtp.client-ip=80.241.56.151
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ethancedwards.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ethancedwards.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="l7lvd6dW"
-Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-22349bb8605so53151115ad.0
-        for <linux-staging@lists.linux.dev>; Fri, 14 Mar 2025 10:31:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1741973482; x=1742578282; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=o2H9f8fayNTLuc4RxM/hrBITullJSe5ENEpakpPOGu4=;
-        b=l7lvd6dWu3vuDHVfYsPvuWCTh6Kbr6WzgnZ52B/YfRTdCg6dakGdL6Hzi39uBa5uQ9
-         fJcRTKFe1jz4YUMHACwPsGum6l7OpY3sqokuTqW7axtT8IPShRWEj66U+Tn0aH4T48Ut
-         rQhmQWMEa6qTeSxEi3i/H5Hqw6A0LxOb383wlIsVqeomYRx+UBHDj/YbOoSZ8bzoEYCK
-         HUHQYyBBgKmjvVYotEvoAhFe35+DxEaN1d1/zDdkB5jhOfzo0WmSSwA2hX3bHIHy83YR
-         HE0R/SvMk3rDyLLUgZoj8Dmi2RhKRDTDVLRi/3yLOjkoSaJxwwLF10P7AbYbOe+iPklW
-         Z4fg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741973482; x=1742578282;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=o2H9f8fayNTLuc4RxM/hrBITullJSe5ENEpakpPOGu4=;
-        b=iWk5Hv8SCBOegnvO63SXJDsYLdrGSmqkUY9V3Ihsg/4tPYzlvLm4s1CZou+w4AXAAn
-         lndM8wk06Xby9Nek0IuquiCirRRWakEUqWsca6TEDUSmp/ESVe65bnfiKPQ6bjYSqPRU
-         hP6Q30PtHylFkwaiDQtJX4dPJCb6oEZipDSVQvNLJ1oE3Nfvz7QS4c1SYn4rr0uTc582
-         Y55d4vCIny4JlTurO/g2IMrCdZLyYwYRyi5MhjJ2LXs1JBq4c2QVZa3D07rKxiiIf5r/
-         KHOGje0mzx3PJEkYHbNf0xp936CZkevrR15zBvNsmhGtbePo3a/ggIdzXsxeNtmNI8wd
-         tUHw==
-X-Forwarded-Encrypted: i=1; AJvYcCVTAf7R9JThynMmwPuqg7HROhwaqha88INPiC6iFoyDPKRxoNZVrwrRYW0bpmC3OgF4ALFeiLpm8yKf2t3C@lists.linux.dev
-X-Gm-Message-State: AOJu0YzQZgvBHgXXsQy3XjJEKQzpw4Rw65oBbPG+OPCuSR/xgzv2oyNg
-	XUDt743zg+57IHu0q81fxM+vf8lrifDsRT0dr6qFo+FGQbAv0N54
-X-Gm-Gg: ASbGncs/zylxCQBIEK8+4NnLgdWJ7GfjCut8Bk+bXYbZHofZsnDtWHbMyWidnLJQ2X8
-	JyK/ry+crON2gRJn9/DsgvBrR3Tv5lwLP60khm1h0O6FRhouR6OwhXHjxmI3Ei9JFYD3DHKxqpR
-	ShiSYxR9e2/7zCCCoUHCyyMASvlFvro7lvKGes+J2Rz0rqJpuecmjxdBReR/f/Cy9TO4ogbkmQR
-	isH7FqPYEtnFPB2rzXmurruT9NEWOcwJufBhJaP+pVb6oIptghcGf05L9B9HpzdzPtX9/mBV9ti
-	FgqMQDBzmc7A8btoZkJgq/wbXi75ikP4dIsLvzxA7ZpfN3DFAo0=
-X-Google-Smtp-Source: AGHT+IGW1ErhGDYOgIoHp1zxSvP+OCdC+KrhrI01W0s2eDw5SYAFJ5Fu5ht9zU33PZPMd68g4r9Xfw==
-X-Received: by 2002:a17:902:ec83:b0:223:3624:87b7 with SMTP id d9443c01a7336-225e0a4857dmr30165535ad.13.1741973482001;
-        Fri, 14 Mar 2025 10:31:22 -0700 (PDT)
-Received: from Grommit.. ([2804:7f0:3f4:18cf:4497:3613:11f3:bcd3])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-225c6ba6f38sm31160435ad.129.2025.03.14.10.31.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 14 Mar 2025 10:31:21 -0700 (PDT)
-From: Gabriel Lima Luz <lima.gabriel.luz@gmail.com>
-To: linux-fbdev@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Sudip Mukherjee <sudipm.mukherjee@gmail.com>,
-	Teddy Wang <teddy.wang@siliconmotion.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	~lkcamp/patches@lists.sr.ht
-Subject: [PATCH v2] staging: sm750fb: Remove unused enum dpms
-Date: Fri, 14 Mar 2025 14:31:09 -0300
-Message-ID: <20250314173114.4476-1-lima.gabriel.luz@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=ethancedwards.com header.i=@ethancedwards.com header.b="tIRZiUN6"
+Received: from smtp1.mailbox.org (smtp1.mailbox.org [10.196.197.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4ZDyt62qYFz9shx;
+	Fri, 14 Mar 2025 22:58:22 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ethancedwards.com;
+	s=MBO0001; t=1741989502;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=eljWF6A2+LoZJ/GR+lrqWY3/PFt8v76bPw+JAiEtG54=;
+	b=tIRZiUN63e/0e2WHQl0W7qE6bXHTU+1EhlxvnaF1hITzyc7NaeVNpKLQ8AZdYE8wV+NKck
+	yIfugmpz+jCIDCdNbOoAgj65vL3nrkgVckTaZuBB/7mBf4wAdA0QnraOnbdGiPph1YZ1v3
+	P//V75+pXdVUgWfWkfH8I4vMx0UXBcAqpp8wc2HBHng//EkIbJ47MXFb7NukgrMbaWb4Xz
+	l2sxRoFOD/+iC7g56+V8qNzZKgLai1nS05vgfvWznhWCLgotQ/I1+WUIIVzie/p7XlgyG1
+	OaT74AkW4bpaAkGW3MnNUW8TmP170DAtZ+Yu/w1j09GGvmmb3LWu+HaeOc0y2A==
+From: Ethan Carter Edwards <ethan@ethancedwards.com>
+Subject: [RFC PATCH 0/8] staging: apfs: init APFS module
+Date: Fri, 14 Mar 2025 17:57:46 -0400
+Message-Id: <20250314-apfs-v1-0-ddfaa6836b5c@ethancedwards.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAFqm1GcC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDI1MDI0MD3cSCtGJdyxQTE3MLcwvTNAsDJaDSgqLUtMwKsDHRsbW1AHbVvw5
+ WAAAA
+X-Change-ID: 20250210-apfs-9d4478785f80
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, tytso@mit.edu
+Cc: ernesto.mnd.fernandez@gmail.com, dan.carpenter@linaro.org, 
+ sven@svenpeter.dev, ernesto@corellium.com, gargaditya08@live.com, 
+ willy@infradead.org, asahi@lists.linux.dev, linux-kernel@vger.kernel.org, 
+ linux-fsdevel@vger.kernel.org, linux-staging@lists.linux.dev, 
+ Ethan Carter Edwards <ethan@ethancedwards.com>
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4698;
+ i=ethan@ethancedwards.com; h=from:subject:message-id;
+ bh=UNPNnzvCRlfNLT/98cuL4dZmsHS+ig3ASnt5aAEm1jI=;
+ b=LS0tLS1CRUdJTiBQR1AgTUVTU0FHRS0tLS0tCgpvd0o0bkp2QXk4ekFKWGJEOXFoNThlVGp6e
+ GhQcXlVeHBGOVpWaDVoMWZCdTc3c3pYLzhlWDdYSGNxWkt3cTZYClJZSFN6WkZyTTRxbXEwcGQv
+ TS9kVWNyQ0lNYkZJQ3VteVBJL1J6bnRvZVlNaFoxL1hacGc1ckF5Z1F4aDRPSVUKZ0ltY25zREk
+ 4S1JrMVRKWjNmdE44K3ErK1Y4Nzh2WGFYUFdBQmIvRWN6UHVTS3hZSjdqZWhZSGhyeHk3VXJmRw
+ pvNGlHdmtUUjNZYWIzNzdpVWlqZndXSm0wWmQrL3RRcG9Rby9UZ0FCSEU3ego9R1pMNQotLS0tL
+ UVORCBQR1AgTUVTU0FHRS0tLS0tCg==
+X-Developer-Key: i=ethan@ethancedwards.com; a=openpgp;
+ fpr=2E51F61839D1FA947A7300C234C04305D581DBFE
 
-remove unused enum and replace its usage with
-a unsigned int.
-add comment to ddk750_set_dpms function for
-documenting state values
+Hello everyone,
 
-Signed-off-by: Gabriel Lima Luz <lima.gabriel.luz@gmail.com>
+This is a follow up patchset to the driver I sent an email about a few
+weeks ago [0]. I understand this patchset will probably get rejected, 
+but I wanted to report on what I have done thus far. I have got the 
+upstream module imported and building, and it passes some basic tests 
+so far (I have not tried getting XFS/FStests running yet). 
+
+Like mentioned earlier, some of the files have been moved to folios, but
+a large majority of them still use bufferheads. I would like to have
+them completely removed before moved from staging/ into fs/.
+
+I have split everything up into separate commits as best as I could.
+Most of the C files rely in functions from other C files, so I included
+them all in one patch/commit.
+
+I am curious to hear everyone's thoughts on this and to start getting
+the ball rolling for the code-review process. Please feel free to
+include/CC anyone who may be interested in this driver/the review
+process. I have included a few people, but have certainly missed others.
+
+[0]: https://lore.kernel.org/lkml/20250307165054.GA9774@eaf/
+
+Signed-off-by: Ethan Carter Edwards <ethan@ethancedwards.com>
 ---
- drivers/staging/sm750fb/ddk750_power.c | 10 ++++++++--
- drivers/staging/sm750fb/ddk750_power.h |  9 +--------
- 2 files changed, 9 insertions(+), 10 deletions(-)
+Ethan Carter Edwards (8):
+      staging: apfs: init lzfse compression library for APFS
+      staging: apfs: init unicode.{c,h}
+      staging: apfs: init apfs_raw.h to handle on-disk structures
+      staging: apfs: init libzbitmap.{c,h} for decompression
+      staging: apfs: init APFS
+      staging: apfs: init build support for APFS
+      staging: apfs: init TODO and README.rst
+      MAINTAINERS: apfs: add entry and relevant information
 
-diff --git a/drivers/staging/sm750fb/ddk750_power.c b/drivers/staging/sm750fb/ddk750_power.c
-index 12834f78eef7..547a96ccba9b 100644
---- a/drivers/staging/sm750fb/ddk750_power.c
-+++ b/drivers/staging/sm750fb/ddk750_power.c
-@@ -3,8 +3,14 @@
- #include "ddk750_reg.h"
- #include "ddk750_power.h"
- 
--void ddk750_set_dpms(enum dpms state)
--{
-+void ddk750_set_dpms(unsigned int state)
-+{	/*
-+	 *	state values documentation
-+	 *	crt_DPMS_ON = 0x0,
-+	 *	crt_DPMS_STANDBY = 0x1,
-+	 *	crt_DPMS_SUSPEND = 0x2,
-+	 *	crt_DPMS_OFF = 0x3,	unsigned int value;
-+	 */
- 	unsigned int value;
- 
- 	if (sm750_get_chip_type() == SM750LE) {
-diff --git a/drivers/staging/sm750fb/ddk750_power.h b/drivers/staging/sm750fb/ddk750_power.h
-index 63c9e8b6ffb3..93dafdde3699 100644
---- a/drivers/staging/sm750fb/ddk750_power.h
-+++ b/drivers/staging/sm750fb/ddk750_power.h
-@@ -2,19 +2,12 @@
- #ifndef DDK750_POWER_H__
- #define DDK750_POWER_H__
- 
--enum dpms {
--	crtDPMS_ON = 0x0,
--	crtDPMS_STANDBY = 0x1,
--	crtDPMS_SUSPEND = 0x2,
--	crtDPMS_OFF = 0x3,
--};
--
- #define set_DAC(off) {							\
- 	poke32(MISC_CTRL,						\
- 	       (peek32(MISC_CTRL) & ~MISC_CTRL_DAC_POWER_OFF) | (off)); \
- }
- 
--void ddk750_set_dpms(enum dpms state);
-+void ddk750_set_dpms(unsigned int state);
- void sm750_set_power_mode(unsigned int mode);
- void sm750_set_current_gate(unsigned int gate);
- 
+ MAINTAINERS                                      |    6 +
+ drivers/staging/Kconfig                          |    2 +
+ drivers/staging/apfs/Kconfig                     |   13 +
+ drivers/staging/apfs/Makefile                    |   10 +
+ drivers/staging/apfs/README.rst                  |   87 +
+ drivers/staging/apfs/TODO                        |    7 +
+ drivers/staging/apfs/apfs.h                      | 1193 ++++++++
+ drivers/staging/apfs/apfs_raw.h                  | 1567 +++++++++++
+ drivers/staging/apfs/btree.c                     | 1174 ++++++++
+ drivers/staging/apfs/compress.c                  |  442 +++
+ drivers/staging/apfs/dir.c                       | 1440 ++++++++++
+ drivers/staging/apfs/extents.c                   | 2371 ++++++++++++++++
+ drivers/staging/apfs/file.c                      |  164 ++
+ drivers/staging/apfs/inode.c                     | 2235 +++++++++++++++
+ drivers/staging/apfs/key.c                       |  337 +++
+ drivers/staging/apfs/libzbitmap.c                |  442 +++
+ drivers/staging/apfs/libzbitmap.h                |   31 +
+ drivers/staging/apfs/lzfse/lzfse.h               |  136 +
+ drivers/staging/apfs/lzfse/lzfse_decode.c        |   74 +
+ drivers/staging/apfs/lzfse/lzfse_decode_base.c   |  652 +++++
+ drivers/staging/apfs/lzfse/lzfse_encode.c        |  163 ++
+ drivers/staging/apfs/lzfse/lzfse_encode_base.c   |  826 ++++++
+ drivers/staging/apfs/lzfse/lzfse_encode_tables.h |  218 ++
+ drivers/staging/apfs/lzfse/lzfse_fse.c           |  217 ++
+ drivers/staging/apfs/lzfse/lzfse_fse.h           |  606 +++++
+ drivers/staging/apfs/lzfse/lzfse_internal.h      |  612 +++++
+ drivers/staging/apfs/lzfse/lzfse_main.c          |  336 +++
+ drivers/staging/apfs/lzfse/lzfse_tunables.h      |   60 +
+ drivers/staging/apfs/lzfse/lzvn_decode_base.c    |  721 +++++
+ drivers/staging/apfs/lzfse/lzvn_decode_base.h    |   68 +
+ drivers/staging/apfs/lzfse/lzvn_encode_base.c    |  593 ++++
+ drivers/staging/apfs/lzfse/lzvn_encode_base.h    |  116 +
+ drivers/staging/apfs/message.c                   |   29 +
+ drivers/staging/apfs/namei.c                     |  133 +
+ drivers/staging/apfs/node.c                      | 2069 ++++++++++++++
+ drivers/staging/apfs/object.c                    |  315 +++
+ drivers/staging/apfs/snapshot.c                  |  684 +++++
+ drivers/staging/apfs/spaceman.c                  | 1433 ++++++++++
+ drivers/staging/apfs/super.c                     | 2099 ++++++++++++++
+ drivers/staging/apfs/symlink.c                   |   78 +
+ drivers/staging/apfs/transaction.c               |  959 +++++++
+ drivers/staging/apfs/unicode.c                   | 3156 ++++++++++++++++++++++
+ drivers/staging/apfs/unicode.h                   |   27 +
+ drivers/staging/apfs/xattr.c                     |  912 +++++++
+ drivers/staging/apfs/xfield.c                    |  171 ++
+ 45 files changed, 28984 insertions(+)
+---
+base-commit: 695caca9345a160ecd9645abab8e70cfe849e9ff
+change-id: 20250210-apfs-9d4478785f80
+
+Best regards,
 -- 
-2.43.0
+Ethan Carter Edwards <ethan@ethancedwards.com>
 
