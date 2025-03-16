@@ -1,72 +1,72 @@
-Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A7F220297E
-	for <linux-staging@lists.linux.dev>; Sat, 15 Mar 2025 15:02:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96FDE3B7A4;
+	Sun, 16 Mar 2025 03:31:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742050966; cv=none; b=mxmDN05b6B0J7ebzXxkVP/TaNyCmJ8b7h/ow1M1gdhxEmjDQvKb8EDD5j8OuGHDhy7Jx4zetXr2JuIhVIV0OXnFWrAOXBtmAqs5cvZeIRQblmi8QQ2FdSpPqZ9rH28Ofe8p3jnJATQKX53z4ZCMf+0X37HdWy69jo0n3G+RB9Xo=
+	t=1742095905; cv=none; b=NDTuXj65V8+nT4R7I8rBEB0vE0ZavvxVonWraQq6cEPjSMOm6/G2vnFQp4fQ/tFnhv5Sodc979xUjiQzg3WsDae45cXtvTJSPxEBLW5cdsAYgjLpL7lW/f9acs+mMeXG7FnKOiNZ6clJmZYwLOxd9r5QEDP/Ry/kBLQn3isgUxc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742050966; c=relaxed/simple;
-	bh=XqF3IeZzTFF40J3s4HW9OVwOhxZElMbeqnL/RHeXcqw=;
+	s=arc-20240116; t=1742095905; c=relaxed/simple;
+	bh=pD1Yck7ydAIpMEylqYKXsYLm81BbZCKaQWMdqrtkrqU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=q4OLsWhcN/wW2DYGhMVnjTwdvPEoYh/kBSw2WfmIVXwn/dRxl3rR6Fn2za5Kwq+pFfwxEEE0Z1OpvNXPB/0lu35lF1/Yd/aEThouYu1MZYIdYR4Zb2WODR3PodrEL7cWj5TZGBcstxdN/SsvUpBmsHX149qv2324fFBd//XWkkE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=grqRvOKD; arc=none smtp.client-ip=209.85.216.45
+	 Content-Type:Content-Disposition:In-Reply-To; b=tJcdq8+7LAM7TvC78wjN3ZsgBFtfGf/R15LEF6U69v3VzJ259w+zsE093F+PeoBFGkwQeBke8ORph+rPYoMDIxejR3xWGXMI93woPVRLDmAmFN9HBSaG7miK9hLOM67RN5BMGwK/mWqvGffZVcVVmcNhBt6EvfIdIucES0aR6Ys=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kCB6fe9v; arc=none smtp.client-ip=209.85.214.170
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="grqRvOKD"
-Received: by mail-pj1-f45.google.com with SMTP id 98e67ed59e1d1-301493f461eso695286a91.3
-        for <linux-staging@lists.linux.dev>; Sat, 15 Mar 2025 08:02:44 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kCB6fe9v"
+Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-2260c91576aso330165ad.3;
+        Sat, 15 Mar 2025 20:31:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1742050964; x=1742655764; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1742095903; x=1742700703; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=d36rr9lbrju2jUirQ00gDiMRY8Q66JkPVxj4yJNU2u0=;
-        b=grqRvOKDc27t/WMlT0BXBG8O+d3O7luvvdBAZIqT3zt+dbjgnww2Bvh03HRwkFQ4gF
-         2YD7s0DKbzrJ6HGVuB90bu5A3TPecigzpdb0nKpniGyjeu17KRPXDBrv/glLwfFSGsvX
-         s14lUXn0mllC9koltNbal0iGhodQIHT1fileuD4e9ByxgMaV5MydttJQGOcudiRhYxap
-         oIlItGXe+0BPhP6IY4IzsqkEwFIr2FDhlWzLMvMnIP3JZEGQnsUrm83aHed7J+EoIMqz
-         h+iGAEgwi/uvANlY0dNq26iTHHOQYQ8eB6/kyGbmnYBpqhSCqfiP5BhNhhsSFXKxvAoB
-         VQ3A==
+        bh=pD1Yck7ydAIpMEylqYKXsYLm81BbZCKaQWMdqrtkrqU=;
+        b=kCB6fe9vo88IzbMTRrnkD4tH96TXAT3cCMpZP1RATpXIdcjuuOf3M8PynuA3GEmXqj
+         hbqZ1K2vocKVs17dGwSB+qHPX9chZ29X6UxNsfzCU+lZX/BxXURNG9areBNXnObyqcry
+         98wbXjupfDxyX3YT1iw+ag1tz8abgzNZEaW2QTMFZOuHhXVZZR7ThHkWj3L0IzA4N5Lu
+         iC25RalyNrCmoEMiLkpCtp1gS/DPFxJ7b6741fs+Eu97OvloHB02qY7DY6AkbPutDXCA
+         GAvR+wj5zOMQe0tELrISO94xUQ6dyNCIfZ5a8bGIxZU4OxTA8+O5c0X0cl1Ni+pN2hAI
+         SOGA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742050964; x=1742655764;
+        d=1e100.net; s=20230601; t=1742095903; x=1742700703;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=d36rr9lbrju2jUirQ00gDiMRY8Q66JkPVxj4yJNU2u0=;
-        b=baq0yLZBg9IwwjDTiDGTLXPtiGBdet+gdjpjEs1e2naCH5J0fVz0FBB6tLO3n5PxoU
-         0k07X7b920+FF3//9It2iSRhnrnbfqZDkdpbmYR9rACcU1szX5yjI5dKUl/y9HsK4T8Z
-         xBR+KUGJn1J2/IbJaGAl3pC7K6PDRE6VYeqRIYUaRsxnzmKw8cmlErX28RxCt7lApLTX
-         P5A7nUz9Te08z3JyI76GdFYqKN4DouIbmuCUhQv7/4q7ZKrc1zWrGuzNCk4gswZ8yTTI
-         +HEI+GqHoPwqZ8xKgmVtpKnGR1SS1StSGoh6HJ5NwIwduM+UOglrhw2c8w2+1oCfjYUn
-         rlOg==
-X-Forwarded-Encrypted: i=1; AJvYcCUxfUX85j7rmT4fCHoz2W1UavIyehQXOYZuWvEcUoV3yseJJ/cIfF3EjSVOKvXe7lsTwMINmBE0r1CzN+GJ@lists.linux.dev
-X-Gm-Message-State: AOJu0YxzRRnBLE4Ba2wQJOqxGfYjlrOUPQm1OZWfZRXbxe1fgHQWONxG
-	uUkL/kMdlhiugLZB0yydgv4IBCHYwdPz6KqmmDZoDE5NTElh5tOE
-X-Gm-Gg: ASbGncsXtUEgEISNwqodhgIqbgAiyACJdf9czoff91hjvwbrWDXwzXPORWE0WjpUq1a
-	hUQxjum4KOmD0TDczCb92Sdic/KNMFLg73SKepZSI1VAoBCWSRbghtHDEd2OSn6W5PX2hdJKk3L
-	98ah8OIIVmx3EXRk9hBFpMW6Jdcqk12JK9sWXOOom9Vx6xGdpeZaUOiqOUFc8uiTQz02H9Chfr5
-	k1HD5xGtlXTrxBt6z1J7guBZ1tpJKw2SOlGvW772urAtkechhzD0Zrpsz7HQT/3JyFNHEInoh2e
-	LuDLR1bp6UD5a5k3Y6NPDFGuQglYhZg+rygMeFPExKD8vwxR35CMsw==
-X-Google-Smtp-Source: AGHT+IHvcEmAdvz4RKtwFUcK1Fgq2J0xP+4bcNXQJl3RwHxm388HFDW0oxHY+0N5ExqvwKIHv7yTkg==
-X-Received: by 2002:a17:90b:2dcc:b0:2ef:31a9:95c6 with SMTP id 98e67ed59e1d1-30151c7a2f4mr9616945a91.14.1742050964191;
-        Sat, 15 Mar 2025 08:02:44 -0700 (PDT)
-Received: from localhost ([2804:30c:b31:2d00:277c:5cbe:7f44:752b])
-        by smtp.gmail.com with UTF8SMTPSA id 98e67ed59e1d1-301539d3f4bsm2834921a91.5.2025.03.15.08.02.42
+        bh=pD1Yck7ydAIpMEylqYKXsYLm81BbZCKaQWMdqrtkrqU=;
+        b=JLkW2ucUefJM/nOPAd7tIRYuy3UUj50emiC6zPsFrSnD6Qqaa6N0wxzA4QLBDFHyHQ
+         gyLoehGmQdyzQM+qiEBq+nTsFl/6HG/qn2E/+viO7jgnEn0iJ9FnqiJlSHu2CzEQLPBo
+         HEPWiGdmlmPwq+5d0uduLnGnv+folEfBUlCR3TXf7Qv9KP/AccEK47sBKllVrB72lIE9
+         hgKMcBOpwnJapMFZcNqK+Oc5QknGZohPw+iQXhdJhAyxhloSJrOcaUP2KNMoZ44wwWRB
+         huDAXbihJLk766czqgdpQaIInMLUvrFrpEJZv29jdNrRd9gsfp+P1GChO9Ita0e1kLXr
+         eXJg==
+X-Forwarded-Encrypted: i=1; AJvYcCUX/cV5vyZ2EM9ItyF4aae6tvqWCryYRpmZSshbHmCrlk9LWkd2IU+c0H7D7PvQAnVrpwZxGMMujOG9Yg4gjg==@lists.linux.dev, AJvYcCXmufoXGLnrFHeFKk58aTp5fCzlDmXjODckQSha0r4vpc7+HpTWCsrGhcqtWvMPh3ZK1VUkmg==@lists.linux.dev
+X-Gm-Message-State: AOJu0YxfWnfwsV0qJ8/GZXF5Pi818YhzdtNv3GITd/S3t6SVh7EDPrYs
+	z9QxSeNdrVD2p/pleMZ/WwtW2gebEAUlhreveFlUBHmg8JHUshA1
+X-Gm-Gg: ASbGncszy58wzP+6zc3r+L6v8J7BVCW/IOsvQ3OnfE+pTyO4mo08NljQWha6ES1VayS
+	lQh/DO9LpV5OUOxu9f7vZTD5UyLwYLXj46v6H8+W+vkaLXmRbUeHWysBQ/BmeVL+OI7iVFDdBBW
+	qCuS5j8Mm04jSrIuSiUv7/1h2v7DtLAoNJhnfskbulmq6TJWgHH9/V44PANWLhbdY/Vu3FGWFcB
+	aPfbksKlccTSpcvXB4+cI8wvuNM5Fc3Ixq4Cvszwfo6jHhr8HPl2HFJBaLRTnNLLNjEfhKga2V0
+	7wmKYa9spsDIZerwneGow+E9ZJWJQQ8/+XZ6P7RMzmoNKNIb9RZzyH+UkGOHLyY5
+X-Google-Smtp-Source: AGHT+IGpbDM3YcgmMRmMt+HOj3GJEp13IU+ynAj5/Sp7d74TkBgUMj23JdRZJfWsImx58hn63y8Ijg==
+X-Received: by 2002:a17:902:e884:b0:223:67ac:8929 with SMTP id d9443c01a7336-225e085b857mr107024325ad.0.1742095902790;
+        Sat, 15 Mar 2025 20:31:42 -0700 (PDT)
+Received: from eaf ([2802:8010:d581:4700:c99b:1600:cbda:3005])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-225c6bbfb5asm51134575ad.209.2025.03.15.20.31.37
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 15 Mar 2025 08:02:43 -0700 (PDT)
-Date: Sat, 15 Mar 2025 12:03:40 -0300
-From: Marcelo Schmitt <marcelo.schmitt1@gmail.com>
-To: Siddharth Menon <simeddon@gmail.com>
-Cc: linux-iio@vger.kernel.org, lars@metafoo.de,
-	Michael.Hennerich@analog.com, jic23@kernel.org,
-	gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org,
+        Sat, 15 Mar 2025 20:31:42 -0700 (PDT)
+Date: Sun, 16 Mar 2025 00:31:33 -0300
+From: Ernesto =?utf-8?Q?A=2E_Fern=C3=A1ndez?= <ernesto.mnd.fernandez@gmail.com>
+To: Ethan Carter Edwards <ethan@ethancedwards.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, tytso@mit.edu,
+	dan.carpenter@linaro.org, sven@svenpeter.dev, ernesto@corellium.com,
+	gargaditya08@live.com, willy@infradead.org, asahi@lists.linux.dev,
+	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
 	linux-staging@lists.linux.dev
-Subject: Re: [PATCH] iio: frequency: ad9832: Use FIELD_PREP macro to set bit
- fields
-Message-ID: <Z9WWzMGdBga76zm9@debian-BULLSEYE-live-builder-AMD64>
-References: <20250313195442.30264-1-simeddon@gmail.com>
+Subject: Re: [RFC PATCH 0/8] staging: apfs: init APFS module
+Message-ID: <20250316033133.GA4963@eaf>
+References: <20250314-apfs-v1-0-ddfaa6836b5c@ethancedwards.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -75,89 +75,25 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250313195442.30264-1-simeddon@gmail.com>
+In-Reply-To: <20250314-apfs-v1-0-ddfaa6836b5c@ethancedwards.com>
 
-Hi Siddharth,
+Hi Ethan,
 
-Adding some comments inline. If what Jonathan suggested + what I suggest bellow
-is still insufficient to avoid those lots of shifting to make up a write
-command, then probably not worth it to change those as Jonathan said.
+I'm happy to see your enthusiasm for my driver but, if you want to help, I
+think you should simply send the changes you have in mind to the out-of-tree
+repo. That way you'll start learning the codebase while I can review your
+work and run xfstests for you. Filesystems are very dangerous things; I've
+probably done a lot of damage myself back in the day trying to help out with
+the hfs drivers.
 
-On 03/14, Siddharth Menon wrote:
-> Refactor code to use the FIELD_PREP macro for setting bit fields
-> instead of manual bit manipulation.
-> 
-> Suggested-by: Marcelo Schmitt <marcelo.schmitt1@gmail.com>
-> Signed-off-by: Siddharth Menon <simeddon@gmail.com>
-> ---
->  drivers/staging/iio/frequency/ad9832.c | 39 ++++++++++++++------------
->  1 file changed, 21 insertions(+), 18 deletions(-)
-> 
-> diff --git a/drivers/staging/iio/frequency/ad9832.c b/drivers/staging/iio/frequency/ad9832.c
-> index 140ee4f9c137..bbde1f0e84ff 100644
-> --- a/drivers/staging/iio/frequency/ad9832.c
-> +++ b/drivers/staging/iio/frequency/ad9832.c
-> @@ -70,6 +70,9 @@
->  #define AD9832_FREQ_BITS	32
->  #define AD9832_PHASE_BITS	12
->  #define RES_MASK(bits)		((1 << (bits)) - 1)
-> +#define DATA_MASK       0xFF
-> +#define CMD_MASK        (0xF << CMD_SHIFT)
-> +#define ADD_MASK        (0xF << ADD_SHIFT)
+As for upstreaming, the driver still has a few rough edges, but I don't
+think that's the real reason I never tried to submit. I'm just no longer
+confident that filesystem compatibility is a reasonable goal, and I don't
+expect much interest from reviewers. There are too many risks, and too many
+hardware restrictions these days; regular users have much easier (even if
+slower) ways to move their files around. Other uses exist of course (like
+Aditya can explain), but they are a bit esoteric. Of course if upstream
+people disagree, and they do want the apfs support, I will be glad to
+prepare a patch series.
 
-We could have masks for each part of the write command. For example,
-
-#define CMD_MASK		GENMASK(15, 12)
-#define ADD_MASK		GENMASK(11, 8)
-#define DATA_MASK		GENMASK(7, 0)
-
->  
->  /**
->   * struct ad9832_state - driver instance specific data
-> @@ -139,18 +142,18 @@ static int ad9832_write_frequency(struct ad9832_state *st,
->  
->  	regval = ad9832_calc_freqreg(clk_freq, fout);
->  
-> -	st->freq_data[0] = cpu_to_be16((AD9832_CMD_FRE8BITSW << CMD_SHIFT) |
-> -					(addr << ADD_SHIFT) |
-> -					((regval >> 24) & 0xFF));
-> -	st->freq_data[1] = cpu_to_be16((AD9832_CMD_FRE16BITSW << CMD_SHIFT) |
-> -					((addr - 1) << ADD_SHIFT) |
-> -					((regval >> 16) & 0xFF));
-> -	st->freq_data[2] = cpu_to_be16((AD9832_CMD_FRE8BITSW << CMD_SHIFT) |
-> -					((addr - 2) << ADD_SHIFT) |
-> -					((regval >> 8) & 0xFF));
-> -	st->freq_data[3] = cpu_to_be16((AD9832_CMD_FRE16BITSW << CMD_SHIFT) |
-> -					((addr - 3) << ADD_SHIFT) |
-> -					((regval >> 0) & 0xFF));
-> +	st->freq_data[0] = cpu_to_be16(FIELD_PREP(CMD_MASK, AD9832_CMD_FRE8BITSW) |
-> +					FIELD_PREP(ADD_MASK, addr) |
-> +					FIELD_PREP(DATA_MASK, (regval >> 24) & 0xFF));
-
-Then we can use FIELD_PREP() in combination with the masks. Example,
-
-	st->freq_data[0] = cpu_to_be16(FIELD_PREP(CMD_MASK, AD9832_CMD_FRE8BITSW) |
-			   	       FIELD_PREP(ADD_MASK, addr) |
-			   	       FIELD_PREP(DATA_MASK, (regval >> 24));
-
-> +	st->freq_data[1] = cpu_to_be16(FIELD_PREP(CMD_MASK, AD9832_CMD_FRE16BITSW) |
-> +					FIELD_PREP(ADD_MASK, (addr - 1)) |
-> +					FIELD_PREP(DATA_MASK, (regval >> 16) & 0xFF));
-> +	st->freq_data[2] = cpu_to_be16(FIELD_PREP(CMD_MASK, AD9832_CMD_FRE8BITSW) |
-> +					FIELD_PREP(ADD_MASK, (addr - 2)) |
-> +					FIELD_PREP(DATA_MASK, (regval >> 8) & 0xFF));
-> +	st->freq_data[3] = cpu_to_be16(FIELD_PREP(CMD_MASK, AD9832_CMD_FRE16BITSW) |
-> +					FIELD_PREP(ADD_MASK, (addr - 3)) |
-> +					FIELD_PREP(DATA_MASK, (regval >> 0) & 0xFF));
-
-If able to make regval an array as Jonathan suggested, the above may become
-something like
-
-for (i = 0; i < ARRAY_SIZE(st->freq_data); i++)
-	st->freq_data[i] = cpu_to_be16(FIELD_PREP(CMD_MASK, AD9832_CMD_FRE8BITSW) |
-			   	       FIELD_PREP(ADD_MASK, addr) |
-			   	       FIELD_PREP(DATA_MASK, (regval[i])));
-
-Note the command alternates between AD9832_CMD_FRE8BITSW and
-AD9832_CMD_FRE16BITSW so maybe also put the command constants into an array or
-use some ternary operation like i % 2 == 0 ? AD9832_CMD_FRE8BITSW : AD9832_CMD_FRE16BITS.
+Ernesto
