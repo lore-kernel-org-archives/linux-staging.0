@@ -1,128 +1,232 @@
-Received: from mail-io1-f52.google.com (mail-io1-f52.google.com [209.85.166.52])
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2FF722FF39
-	for <linux-staging@lists.linux.dev>; Mon, 17 Mar 2025 12:35:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D18CA1A23B7
+	for <linux-staging@lists.linux.dev>; Mon, 17 Mar 2025 17:34:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742214912; cv=none; b=iv8vevmL9aiGB9IdmsGDMR8c1OxOkeedz8oo5nuF8oY/GVgycK7LPXyoM/VVN01nxauNTrf9x5WnuaIuFlQ95o4ONr9DL/uNv9ifsGBCmesAmy9T4j4HIDTX8ZLPIiiX4jyXVwGZogwBgXR7uxDy0jAMto43AXPLIjIZr42UG2Y=
+	t=1742232847; cv=none; b=LjVfpOerfgzenmwUPt/q5m084MVAkSD49ZBVHjVhgTJ4ew5/bot6QlZAq9b7jX95VorM5AT8c0CPsfBJUbnDZKTwQXzPMv/81tWtArrf+A74qrWVotFJdWDuyAVZkxcMcPEuoiG6w7TBPyiWhQN9qoGAS0DKSm7fm8tJiJvrL0Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742214912; c=relaxed/simple;
-	bh=2hhxamJKnEYjgJz9HCPDDBlgMOFyLWxFx7AWrATtYGo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=AfVc54hy54F893zwrS2OrerWAd2/q69s1je6FCOqIAP+zGo1jg/Wbvp8gLTtUc0maouf9pywPMYKNIk7J/1ygO7WEFPI9d0QXsq/k/ozRNrOcWei3SdLA4hpgvWFPaU5cpMDtMR4E0s9DG4XXkdCWu6KBGBNuASCXTISpNygXIA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=riscstar.com; spf=pass smtp.mailfrom=riscstar.com; dkim=pass (2048-bit key) header.d=riscstar-com.20230601.gappssmtp.com header.i=@riscstar-com.20230601.gappssmtp.com header.b=1OY6CZeW; arc=none smtp.client-ip=209.85.166.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=riscstar.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=riscstar.com
+	s=arc-20240116; t=1742232847; c=relaxed/simple;
+	bh=7HBmz3vDnrjI7srclW+onKhbskvr1Kc5hobO+QrYUUo=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=eWjrgSJEAI+FJpoqMIk2VEb90PFNMzao/zybwJSR07TwMgMcTbOw6s1fNjZrrWXAr2Dz/CuRQwmK9fwILGngFk6FPWrDRLeObp10b6lssHbZxOzWVYu3O4ueZeOCK779j4qmmL63jZsByKTTHc+BVePr1t+WaRqO5HOb70q+vDA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QLYU9r0P; arc=none smtp.client-ip=209.85.214.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=riscstar-com.20230601.gappssmtp.com header.i=@riscstar-com.20230601.gappssmtp.com header.b="1OY6CZeW"
-Received: by mail-io1-f52.google.com with SMTP id ca18e2360f4ac-85b4277d0fbso149660239f.0
-        for <linux-staging@lists.linux.dev>; Mon, 17 Mar 2025 05:35:10 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QLYU9r0P"
+Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-223f4c06e9fso79808645ad.1
+        for <linux-staging@lists.linux.dev>; Mon, 17 Mar 2025 10:34:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=riscstar-com.20230601.gappssmtp.com; s=20230601; t=1742214910; x=1742819710; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=00q0lF62iZBDilWeDRlriXLySeQsOfJjRaqFJoh5fG8=;
-        b=1OY6CZeWRWRH7TU3p6MBT20ailLFu7Z2VBRjeTzql7f8XS2sieN45fjoqlYBDLWuhV
-         4OKxk4nzxHdjkAsvr5RiCMao3uOLxJF65WL7Uc9/gGQx2HexGzSuTfecKyqlSboC6P0x
-         /3JHfThhNzGMIabCzOX/uaMI+I0/RqTlvtjsb6mt9YA1eJ61SXT8c6yrwxYErqg3mJvH
-         vnN/ZeuYpjR/rJ4Pd/FU9HMc4NEuO/ig6sMp0Mpon15GYlaAfR0C8iJISijYj6zsc9Yc
-         0tHPAwaWvVKGiiOjZpFqbT+cZGxuNdbMPbcW72JMgynTYBqKQ1GNWecC+0E6XGWeukc3
-         NuUg==
+        d=gmail.com; s=20230601; t=1742232845; x=1742837645; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=la1g9socyej0WuROWo23Gm/GJYnN4zFjSn8pewoHcqI=;
+        b=QLYU9r0PJyADOQehyfqhK9+S2Gk75jhKNpNtIBayXHtfJdkPF3LuD4z7gEJmJ+vAbV
+         3Kc5UFTUMn/XMuiOXtvW30IAhAdYi+YqE82ntKB3wpxahd1Pur2yyP1h/4Bcn20WbbAU
+         Gl4nMMkKsofU9RGX9ahAUGh5KOCwBaa2bo9z2Gg1njtkEZivAoHiT6Yf4ss7Q8u9MnJY
+         xsWyPz0Vf3wKSie/pN2yNr92pA+u1ykSgvuhk5CStmHUrv0o+XZbZSKhVCigK4Z9VXnA
+         0ycY039zmL/fTWLZNOTE1JxLHUit2SXBR4AHYAJhNj2h8oMINu20i7im4W9so5FPBK+i
+         ngIw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742214910; x=1742819710;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=00q0lF62iZBDilWeDRlriXLySeQsOfJjRaqFJoh5fG8=;
-        b=wnmx6e0Ue8JWiHeevqTOlHu0AIx6pLRzxj02bzMu+Q4v8syQjk8fmcmZ1OXR1ytQWm
-         u9Gm6iefgtpNx96Q4mW4HvDmxWRHvDr6PV9vn6kCjASkrf9THq0Wk5jn+WYRqMabZAgd
-         MYshGAGyCyUCD6MZ/Ed5hmOTm9SSYa5IyIo9vJMSL0eT7g/Z8btRMvg/C/y9nG+uDj2B
-         nU59QviGph3DbZnckuor6IFxOm5vttOwHVS7JlH6d1WrL6L+5cgt1OzncDzTX59DVRBk
-         j4hGO5AVQgv+/u0899DMFbGg1aJEuPZsgLOc8tqnmiFcYMHmvdlYzczi2+dN2VbAplQB
-         VPsA==
-X-Forwarded-Encrypted: i=1; AJvYcCU72yLTFazJyyCWI0P1SrBXiB7f13AddolNgBG85ZbnadtrQxJ3JL8jHg/iQLRLwsOwUBQA4r4Xz1V94wxD@lists.linux.dev
-X-Gm-Message-State: AOJu0YwuMN+gKKlN0xetnxmt5xZLS/XaMtX917SUtBmg9kZ3gPcqU0NF
-	D2/220DoRMS6VTqK/GAOlLAIVFSP5WWMg1uD5iNDpuUGXXMHTyJ9MsInayE7INU=
-X-Gm-Gg: ASbGncsqA/nrbzz8OMtKxEkQDAiDeez277pm+PyllohNN2O+UwdTBsqi6ttagjBwzsf
-	TqZdZ+FMumbEpIymjFOHeLMoiI5SCtl84ciFgkboimvQKZw8iZVbeldt3XGld1bCN6RDMG7SL0q
-	C5M6x3yt+yHlBVFOo9KE/21y8+sP5bu1CkvT/FBL5RQgrJ+QOBwAwJWCqSnIVhupqfNgTPjC2/Z
-	wu7PnCdg5Jdn4DtttR+G8HWv8T62pJH+OyVbBbTsBLUTsiX8q+umz5zVZdQKlqvHFbejUtTuBQO
-	FuM1wCrBXbP8KchrjDC3j08uvVRlFnmhSBbmqaqvHJ1oFl7jnHHSWwb4/9MACfeny8vnCyqJLKt
-	YoaDibkdA
-X-Google-Smtp-Source: AGHT+IHVpD7/mZoav16FzU6IphNyJrgQsnIiWZ2iM1qY0DQdugl/0lXuxuk7bx2DwfBAOuvC4HPD+Q==
-X-Received: by 2002:a05:6e02:1a26:b0:3d3:f64a:38b9 with SMTP id e9e14a558f8ab-3d483a63552mr114188275ab.15.1742214909989;
-        Mon, 17 Mar 2025 05:35:09 -0700 (PDT)
-Received: from [172.22.22.28] (c-73-228-159-35.hsd1.mn.comcast.net. [73.228.159.35])
-        by smtp.gmail.com with ESMTPSA id e9e14a558f8ab-3d47a83817dsm26967285ab.61.2025.03.17.05.35.09
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 17 Mar 2025 05:35:09 -0700 (PDT)
-Message-ID: <abdaa38e-77e4-435e-94c4-91bc24b49b02@riscstar.com>
-Date: Mon, 17 Mar 2025 07:35:08 -0500
+        d=1e100.net; s=20230601; t=1742232845; x=1742837645;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=la1g9socyej0WuROWo23Gm/GJYnN4zFjSn8pewoHcqI=;
+        b=wFM9ADKB7pMxFEQry/YlktG7U/PulYXyID29QMsdtDKL1Euqwv5DqdmINdxBxSNv+M
+         cuWDqkqCocIDNLr3K37MSMVswXMGrrSeVzUbesZll0ofHxShCPy0sCjWoCrKgYipPCev
+         Vg8xoPwQx42AZ4i615ax2pm3KhBY+VnPPj6dr5rnqkyzNQuWngBWP3m7KMxXKB3pCT0h
+         NYNJ8gTirgM4aPp42jLg119SS/RKkbomhH88evSv4QW8Bt52SxjOXqCP59AI77f4v8FC
+         +k/Ck7n8qBK52q5UZigHeNtIZeSBWuQRw+0+cZbNyUws+knw/cjG8splZqpW50pz6ynr
+         RhSw==
+X-Forwarded-Encrypted: i=1; AJvYcCW+ujCFo4f+sMkjAWRfJkTCu/hPQOySWdHl83j8Sm+ES784V6Qm5cSSQQ19LogmvNSVldcFaLiwbs4kbE4k@lists.linux.dev
+X-Gm-Message-State: AOJu0YykOSHTgoMTg99RySmQvXcsKS79jKQFrIIW9hGKpbhlRn4mDwxb
+	7ZWYtDiq6NsRRbCamKcHT404sr2znSPx/2sBBUOZPzFLbkKQccfRG/6bstHNhJewuA==
+X-Gm-Gg: ASbGncsaIjZcfMebKFmc8pbCWPxyr6fFfB15rwFz6HT0inZDVRUg8dWGKXe0hZBnvwU
+	TwWrVlEU4W21P1GWxVX7gDXd3rgy/6UVY+x8dtDDjbRMfny2ufVq3q9g2ncluPulwwsuDu/NDBV
+	jNhkHNCm9qtCMh6iaZZWQK2arcAEvhlwUCDqHzyU4V8tLA98cmQALhtVlgogaXp/uvuTPA8eTfR
+	XcBz3lwaHDclNrhLbeyWpNiZDEgzgoZW2HgjlvoNxB1JsWdXRaCuUF5FqhTry2mz3fQK07wHw6+
+	wfHb9/fbu6B4LjtSitZGSWTKwl7GCBZJA3MQzrPQGj2ybssljA+Qt1Alaq4upkD2qL0=
+X-Google-Smtp-Source: AGHT+IF+I1J9o55YQcVtZfcCu1qe5C4DQ7hZkBTYGyYw5upwuaItMUJu/cYT4LriDUzLLVZZKDBTIA==
+X-Received: by 2002:a17:902:da8d:b0:215:a303:24e9 with SMTP id d9443c01a7336-2262c992542mr3755595ad.3.1742232844875;
+        Mon, 17 Mar 2025 10:34:04 -0700 (PDT)
+Received: from fedora.am.students.amrita.edu ([175.184.253.10])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-225c6bd4c80sm78141425ad.239.2025.03.17.10.34.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 17 Mar 2025 10:34:04 -0700 (PDT)
+From: Siddharth Menon <simeddon@gmail.com>
+To: linux-iio@vger.kernel.org,
+	lars@metafoo.de,
+	Michael.Hennerich@analog.com,
+	jic23@kernel.org,
+	gregkh@linuxfoundation.org
+Cc: linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	Siddharth Menon <simeddon@gmail.com>,
+	Marcelo Schmitt <marcelo.schmitt1@gmail.com>
+Subject: [PATCH v2] iio: frequency: ad9832: Use FIELD_PREP macro to set bit fields
+Date: Mon, 17 Mar 2025 22:55:03 +0530
+Message-ID: <20250317173355.157536-1-simeddon@gmail.com>
+X-Mailer: git-send-email 2.48.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 22/31] tty: staging/greybus: pass tty_driver flags to
- tty_alloc_driver()
-To: "Jiri Slaby (SUSE)" <jirislaby@kernel.org>, gregkh@linuxfoundation.org
-Cc: linux-serial@vger.kernel.org, linux-kernel@vger.kernel.org,
- Johan Hovold <johan@kernel.org>, David Lin <dtwlin@gmail.com>,
- Alex Elder <elder@kernel.org>, greybus-dev@lists.linaro.org,
- linux-staging@lists.linux.dev
-References: <20250317070046.24386-1-jirislaby@kernel.org>
- <20250317070046.24386-23-jirislaby@kernel.org>
-Content-Language: en-US
-From: Alex Elder <elder@riscstar.com>
-In-Reply-To: <20250317070046.24386-23-jirislaby@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 3/17/25 2:00 AM, Jiri Slaby (SUSE) wrote:
-> tty_alloc_driver() is supposed to receive tty driver flags.
+Refactor code to use the FIELD_PREP macro for setting bit fields
+instead of manual bit manipulation.
 
-Looks like tty_alloc_driver() doesn't directly depend on the
-two flags passed in this case, but this corrects the code.
+Suggested-by: Marcelo Schmitt <marcelo.schmitt1@gmail.com>
+Signed-off-by: Siddharth Menon <simeddon@gmail.com>
+---
+ Based on feedback from Jonathan and Marcello, I have made the following
+ changes
+ 
+ v1->v2:
+ - removed CMD_SHIFT andADD_SHIFT completely
+ - use GENMASK
+ - store regval into an array and iterate through it
+ drivers/staging/iio/frequency/ad9832.c | 53 ++++++++++++++------------
+ 1 file changed, 28 insertions(+), 25 deletions(-)
 
-Looks good to me.
-
-Reviewed-by: Alex Elder <elder@riscstar.com>
-
-> 
-> Signed-off-by: Jiri Slaby (SUSE) <jirislaby@kernel.org>
-> Acked-by: Johan Hovold <johan@kernel.org>
-> Cc: David Lin <dtwlin@gmail.com>
-> Cc: Alex Elder <elder@kernel.org>
-> Cc: greybus-dev@lists.linaro.org
-> Cc: linux-staging@lists.linux.dev
-> ---
->   drivers/staging/greybus/uart.c | 4 ++--
->   1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/staging/greybus/uart.c b/drivers/staging/greybus/uart.c
-> index 8eab94cb06fa..308ed1ca9947 100644
-> --- a/drivers/staging/greybus/uart.c
-> +++ b/drivers/staging/greybus/uart.c
-> @@ -948,7 +948,8 @@ static int gb_tty_init(void)
->   {
->   	int retval = 0;
->   
-> -	gb_tty_driver = tty_alloc_driver(GB_NUM_MINORS, 0);
-> +	gb_tty_driver = tty_alloc_driver(GB_NUM_MINORS, TTY_DRIVER_REAL_RAW |
-> +					 TTY_DRIVER_DYNAMIC_DEV);
->   	if (IS_ERR(gb_tty_driver)) {
->   		pr_err("Can not allocate tty driver\n");
->   		retval = -ENOMEM;
-> @@ -961,7 +962,6 @@ static int gb_tty_init(void)
->   	gb_tty_driver->minor_start = 0;
->   	gb_tty_driver->type = TTY_DRIVER_TYPE_SERIAL;
->   	gb_tty_driver->subtype = SERIAL_TYPE_NORMAL;
-> -	gb_tty_driver->flags = TTY_DRIVER_REAL_RAW | TTY_DRIVER_DYNAMIC_DEV;
->   	gb_tty_driver->init_termios = tty_std_termios;
->   	gb_tty_driver->init_termios.c_cflag = B9600 | CS8 |
->   		CREAD | HUPCL | CLOCAL;
+diff --git a/drivers/staging/iio/frequency/ad9832.c b/drivers/staging/iio/frequency/ad9832.c
+index 140ee4f9c137..0c1816505495 100644
+--- a/drivers/staging/iio/frequency/ad9832.c
++++ b/drivers/staging/iio/frequency/ad9832.c
+@@ -16,6 +16,8 @@
+ #include <linux/slab.h>
+ #include <linux/spi/spi.h>
+ #include <linux/sysfs.h>
++#include <linux/bitfield.h>
++#include <linux/bits.h>
+ 
+ #include <linux/iio/iio.h>
+ #include <linux/iio/sysfs.h>
+@@ -65,11 +67,12 @@
+ #define AD9832_SLEEP		BIT(13)
+ #define AD9832_RESET		BIT(12)
+ #define AD9832_CLR		BIT(11)
+-#define CMD_SHIFT		12
+-#define ADD_SHIFT		8
+ #define AD9832_FREQ_BITS	32
+ #define AD9832_PHASE_BITS	12
+ #define RES_MASK(bits)		((1 << (bits)) - 1)
++#define CMD_MASK_2   GENMASK(15, 12)
++#define ADD_MASK_2   GENMASK(11, 8)
++#define DATA_MASK_2  GENMASK(7, 0)
+ 
+ /**
+  * struct ad9832_state - driver instance specific data
+@@ -131,6 +134,7 @@ static int ad9832_write_frequency(struct ad9832_state *st,
+ {
+ 	unsigned long clk_freq;
+ 	unsigned long regval;
++	u8 regval_bytes[4];
+ 
+ 	clk_freq = clk_get_rate(st->mclk);
+ 
+@@ -138,19 +142,14 @@ static int ad9832_write_frequency(struct ad9832_state *st,
+ 		return -EINVAL;
+ 
+ 	regval = ad9832_calc_freqreg(clk_freq, fout);
++	put_unaligned_be32(regval, regval_bytes);
+ 
+-	st->freq_data[0] = cpu_to_be16((AD9832_CMD_FRE8BITSW << CMD_SHIFT) |
+-					(addr << ADD_SHIFT) |
+-					((regval >> 24) & 0xFF));
+-	st->freq_data[1] = cpu_to_be16((AD9832_CMD_FRE16BITSW << CMD_SHIFT) |
+-					((addr - 1) << ADD_SHIFT) |
+-					((regval >> 16) & 0xFF));
+-	st->freq_data[2] = cpu_to_be16((AD9832_CMD_FRE8BITSW << CMD_SHIFT) |
+-					((addr - 2) << ADD_SHIFT) |
+-					((regval >> 8) & 0xFF));
+-	st->freq_data[3] = cpu_to_be16((AD9832_CMD_FRE16BITSW << CMD_SHIFT) |
+-					((addr - 3) << ADD_SHIFT) |
+-					((regval >> 0) & 0xFF));
++	for (int i = 0; i < 4; i++) {
++		st->freq_data[i] = cpu_to_be16(FIELD_PREP(AD9832_CMD_MSK,
++				(i % 2 == 0) ? AD9832_CMD_FRE8BITSW : AD9832_CMD_FRE16BITSW) |
++			FIELD_PREP(AD9832_ADD_MSK, addr - i) |
++			FIELD_PREP(AD9832_DAT_MSK, regval_bytes[i]));
++	}
+ 
+ 	return spi_sync(st->spi, &st->freq_msg);
+ }
+@@ -158,15 +157,19 @@ static int ad9832_write_frequency(struct ad9832_state *st,
+ static int ad9832_write_phase(struct ad9832_state *st,
+ 			      unsigned long addr, unsigned long phase)
+ {
++	u8 phase_bytes[2];
++
+ 	if (phase >= BIT(AD9832_PHASE_BITS))
+ 		return -EINVAL;
+ 
+-	st->phase_data[0] = cpu_to_be16((AD9832_CMD_PHA8BITSW << CMD_SHIFT) |
+-					(addr << ADD_SHIFT) |
+-					((phase >> 8) & 0xFF));
+-	st->phase_data[1] = cpu_to_be16((AD9832_CMD_PHA16BITSW << CMD_SHIFT) |
+-					((addr - 1) << ADD_SHIFT) |
+-					(phase & 0xFF));
++	put_unaligned_be16(phase, phase_bytes);
++
++	for (int i = 0; i < 2; i++) {
++		st->phase_data[i] = cpu_to_be16(FIELD_PREP(AD9832_CMD_MSK,
++				(i % 2 == 0) ? AD9832_CMD_PHA8BITSW : AD9832_CMD_PHA16BITSW) |
++			FIELD_PREP(AD9832_ADD_MSK, addr - i) |
++			FIELD_PREP(AD9832_DAT_MSK, phase_bytes[i]));
++	}
+ 
+ 	return spi_sync(st->spi, &st->phase_msg);
+ }
+@@ -201,7 +204,7 @@ static ssize_t ad9832_write(struct device *dev, struct device_attribute *attr,
+ 			st->ctrl_ss &= ~AD9832_SELSRC;
+ 		else
+ 			st->ctrl_ss |= AD9832_SELSRC;
+-		st->data = cpu_to_be16((AD9832_CMD_SYNCSELSRC << CMD_SHIFT) |
++		st->data = cpu_to_be16(FIELD_PREP(AD9832_CMD_MSK, AD9832_CMD_SYNCSELSRC) |
+ 					st->ctrl_ss);
+ 		ret = spi_sync(st->spi, &st->msg);
+ 		break;
+@@ -214,7 +217,7 @@ static ssize_t ad9832_write(struct device *dev, struct device_attribute *attr,
+ 			ret = -EINVAL;
+ 			break;
+ 		}
+-		st->data = cpu_to_be16((AD9832_CMD_FPSELECT << CMD_SHIFT) |
++		st->data = cpu_to_be16(FIELD_PREP(AD9832_CMD_MSK, AD9832_CMD_FPSELECT) |
+ 					st->ctrl_fp);
+ 		ret = spi_sync(st->spi, &st->msg);
+ 		break;
+@@ -227,7 +230,7 @@ static ssize_t ad9832_write(struct device *dev, struct device_attribute *attr,
+ 		st->ctrl_fp &= ~AD9832_PHASE(3);
+ 		st->ctrl_fp |= AD9832_PHASE(val);
+ 
+-		st->data = cpu_to_be16((AD9832_CMD_FPSELECT << CMD_SHIFT) |
++		st->data = cpu_to_be16(FIELD_PREP(AD9832_CMD_MSK, AD9832_CMD_FPSELECT) |
+ 					st->ctrl_fp);
+ 		ret = spi_sync(st->spi, &st->msg);
+ 		break;
+@@ -238,7 +241,7 @@ static ssize_t ad9832_write(struct device *dev, struct device_attribute *attr,
+ 		else
+ 			st->ctrl_src |= AD9832_RESET;
+ 
+-		st->data = cpu_to_be16((AD9832_CMD_SLEEPRESCLR << CMD_SHIFT) |
++		st->data = cpu_to_be16(FIELD_PREP(AD9832_CMD_MSK, AD9832_CMD_SLEEPRESCLR) |
+ 					st->ctrl_src);
+ 		ret = spi_sync(st->spi, &st->msg);
+ 		break;
+@@ -396,7 +399,7 @@ static int ad9832_probe(struct spi_device *spi)
+ 	spi_message_add_tail(&st->phase_xfer[1], &st->phase_msg);
+ 
+ 	st->ctrl_src = AD9832_SLEEP | AD9832_RESET | AD9832_CLR;
+-	st->data = cpu_to_be16((AD9832_CMD_SLEEPRESCLR << CMD_SHIFT) |
++	st->data = cpu_to_be16(FIELD_PREP(AD9832_CMD_MSK, AD9832_CMD_SLEEPRESCLR) |
+ 					st->ctrl_src);
+ 	ret = spi_sync(st->spi, &st->msg);
+ 	if (ret) {
+-- 
+2.48.1
 
