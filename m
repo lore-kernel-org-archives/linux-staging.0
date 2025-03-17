@@ -1,86 +1,89 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17A7A222589;
-	Mon, 17 Mar 2025 07:01:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5006F22A4D3;
+	Mon, 17 Mar 2025 07:01:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742194881; cv=none; b=N9PcXRzMcFUkjD0exx4QUxj+j1+SIBsE0qYbmhlt5ceQdOIG5Tzivlu0gEp26eNvkFKPKRlxy7zLlMGf9+Z2/vBg/9qbGQAjAHksyf/fU5PzzkMl2BFJr/b2YKn0moJZSzF0mgJcbV/ZdDprohFs1l4GtTqn9zQglELAQcWv7Qs=
+	t=1742194886; cv=none; b=jDDyBhMbFKk5crS/TKNdijWzQDdaUSZ6I10hGou+1YIXrkSX5HIn2RgkDzf6DvHXVd0wjeLSq6grRNGmIG5k+FkwkcFqgjVEjK8pewm6rP/M5AFTSO+L8LSNOMKOc8ZEe7uNT+OVpst4Xa9A+mqfD1m2fr7+nmjPifbbCiINlZ8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742194881; c=relaxed/simple;
-	bh=aBPpmUcGDUxtVqNYBJ0y1S8mhJ2vEs38pfC3bkBgSxs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MoqIyjcGrz9F5j1VhDDWJnlTMxMb4bcugRbEWhRNyYsQi35MZgMkU0syXmGyfOAs4IYxheAv5Ca/B6d9JtqQo302O0HIWWj5lAGu5mNe+mT69H4Eiqcc7PrK4gaGJ4aXnDpXi32CqVAu+Rm0ji352qq8wPI26Dt5oUI9aqmAlTE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=F5VBEoTF; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1742194886; c=relaxed/simple;
+	bh=S+XImMzdVUV9r9EFo8L+yAW5p+vSzmK/coEDq0u0j+I=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=iAKCv/rhIFbn7ezJyWKEJ638+TvLvczIlS34DHkr83ru/mtU+RwwaOtuUWsD1RQdIPFSoWjntU3AgiYirhXW1L5OleP6GyDQB2T1x0u+yJ/rYAfi+0YQvudfj4QaxEXBxYl1vLPPEfdD7A0E90a+7fH/1IDTpTcO6NVKxRBsueQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WsPPor6R; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="F5VBEoTF"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0E96FC4CEEC;
-	Mon, 17 Mar 2025 07:01:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1742194880;
-	bh=aBPpmUcGDUxtVqNYBJ0y1S8mhJ2vEs38pfC3bkBgSxs=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=F5VBEoTF11phoho4ypFGxNctozFRv+i9J46Vxp2mq479IyHBO7fyElGFis6V1TKlh
-	 5JWjBPsa8D3NCl3F5KnUxekvFFMtb2rKKywyaJAAPgjfrNAeCSeTawyk4V7Xo4vqmT
-	 EpbLzb1LWK1bJ6Hq1yoKYAGJNdO1bGYOPi0Q/fa8=
-Date: Mon, 17 Mar 2025 08:00:01 +0100
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Jiri Slaby <jirislaby@kernel.org>
-Cc: linux-serial@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Alex Elder <elder@kernel.org>, Andrew Lunn <andrew+netdev@lunn.ch>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WsPPor6R"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 359CFC4CEEE;
+	Mon, 17 Mar 2025 07:01:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1742194886;
+	bh=S+XImMzdVUV9r9EFo8L+yAW5p+vSzmK/coEDq0u0j+I=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=WsPPor6Rey9Jc3MQ+L5KkubgT27WjCCTSfPtPGQZ7mSAdQUew6s6pq3hgHi3/Xjqt
+	 Nx6ner8er3qNkgVduJu220dadEetCULjyXo4TDkxKcHCr0SCUBWq59rF98kri9vSYh
+	 C7EhvDmdIEQXVbye04sLXEtxQPOYhsNuQNebrBvSFO7PgzTk1tadOiJhMs5g3BnigM
+	 vu/91xVoWk+ZaJHgcUEqWFTKO8h5NnR2hDEgam2EI51FUZ2tdYypHi5QtePcH4xDc5
+	 LvUN7PZvTwmjStxTW+NPQ3ly0uZaqw/DUk6lRl4bmZ0OeJPrCRtffR5JoJfNnXqeuT
+	 0V7Po9cO7187A==
+From: "Jiri Slaby (SUSE)" <jirislaby@kernel.org>
+To: gregkh@linuxfoundation.org
+Cc: linux-serial@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	"Jiri Slaby (SUSE)" <jirislaby@kernel.org>,
+	Johan Hovold <johan@kernel.org>,
 	David Lin <dtwlin@gmail.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>, greybus-dev@lists.linaro.org,
-	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
-	Jakub Kicinski <kuba@kernel.org>, Johan Hovold <johan@kernel.org>,
-	linux-alpha@vger.kernel.org, linux-staging@lists.linux.dev,
-	Matt Turner <mattst88@gmail.com>, netdev@vger.kernel.org,
-	Paolo Abeni <pabeni@redhat.com>,
-	Richard Henderson <richard.henderson@linaro.org>,
-	Rob Herring <robh@kernel.org>, sparclinux@vger.kernel.org
-Subject: Re: [PATCH 00/29] tty: cleanup no. 99
-Message-ID: <2025031738-variable-desecrate-ec2f@gregkh>
-References: <20250220111606.138045-1-jirislaby@kernel.org>
- <2025031738-fabric-alright-6a32@gregkh>
- <e8fb71ea-84cb-427a-9dc9-9c44ec0db08f@kernel.org>
+	Alex Elder <elder@kernel.org>,
+	greybus-dev@lists.linaro.org,
+	linux-staging@lists.linux.dev
+Subject: [PATCH v2 22/31] tty: staging/greybus: pass tty_driver flags to tty_alloc_driver()
+Date: Mon, 17 Mar 2025 08:00:37 +0100
+Message-ID: <20250317070046.24386-23-jirislaby@kernel.org>
+X-Mailer: git-send-email 2.49.0
+In-Reply-To: <20250317070046.24386-1-jirislaby@kernel.org>
+References: <20250317070046.24386-1-jirislaby@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <e8fb71ea-84cb-427a-9dc9-9c44ec0db08f@kernel.org>
+Content-Transfer-Encoding: 8bit
 
-On Mon, Mar 17, 2025 at 05:59:01AM +0100, Jiri Slaby wrote:
-> On 17. 03. 25, 5:28, Greg KH wrote:
-> > On Thu, Feb 20, 2025 at 12:15:37PM +0100, Jiri Slaby (SUSE) wrote:
-> > > Hi,
-> > > 
-> > > this is (again) a series of cleanup in tty. I am trying to rework
-> > > tty+serial to avoid limitations of devices (so called NR_UART or
-> > > tty_alloc_driver()'s first parameter). And the below popped up while
-> > > crawling through the code. So this is only a prep cleanup.
-> > > 
-> > > * many tty flags are now enums
-> > > * many functions were improved for readability
-> > > * quite a few unused or old code dropped
-> > > 
-> > > In particular, the runtime behaviour of the kernel before and after the
-> > > changes is supposed to be bug to bug compatible (except moxa's ioctl
-> > > and ISA evils dropped). That is, noone should notice.
-> > 
-> > Were you going to do a new respin of this, or do you want me to take
-> > this as-is and you will send a follow-up ones for the commented-on
-> > changes?
-> 
-> I planned to send a v2 on Fri, but did not make it. I will today.
+tty_alloc_driver() is supposed to receive tty driver flags.
 
-Not a problem, just wanted to make sure I didn't drop these on my side
-accidentally.
+Signed-off-by: Jiri Slaby (SUSE) <jirislaby@kernel.org>
+Acked-by: Johan Hovold <johan@kernel.org>
+Cc: David Lin <dtwlin@gmail.com>
+Cc: Alex Elder <elder@kernel.org>
+Cc: greybus-dev@lists.linaro.org
+Cc: linux-staging@lists.linux.dev
+---
+ drivers/staging/greybus/uart.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-thanks,
+diff --git a/drivers/staging/greybus/uart.c b/drivers/staging/greybus/uart.c
+index 8eab94cb06fa..308ed1ca9947 100644
+--- a/drivers/staging/greybus/uart.c
++++ b/drivers/staging/greybus/uart.c
+@@ -948,7 +948,8 @@ static int gb_tty_init(void)
+ {
+ 	int retval = 0;
+ 
+-	gb_tty_driver = tty_alloc_driver(GB_NUM_MINORS, 0);
++	gb_tty_driver = tty_alloc_driver(GB_NUM_MINORS, TTY_DRIVER_REAL_RAW |
++					 TTY_DRIVER_DYNAMIC_DEV);
+ 	if (IS_ERR(gb_tty_driver)) {
+ 		pr_err("Can not allocate tty driver\n");
+ 		retval = -ENOMEM;
+@@ -961,7 +962,6 @@ static int gb_tty_init(void)
+ 	gb_tty_driver->minor_start = 0;
+ 	gb_tty_driver->type = TTY_DRIVER_TYPE_SERIAL;
+ 	gb_tty_driver->subtype = SERIAL_TYPE_NORMAL;
+-	gb_tty_driver->flags = TTY_DRIVER_REAL_RAW | TTY_DRIVER_DYNAMIC_DEV;
+ 	gb_tty_driver->init_termios = tty_std_termios;
+ 	gb_tty_driver->init_termios.c_cflag = B9600 | CS8 |
+ 		CREAD | HUPCL | CLOCAL;
+-- 
+2.49.0
 
-greg k-h
