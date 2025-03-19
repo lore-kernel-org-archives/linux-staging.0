@@ -1,71 +1,71 @@
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
+Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D4C521A459
-	for <linux-staging@lists.linux.dev>; Wed, 19 Mar 2025 21:59:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73F3021B9DE
+	for <linux-staging@lists.linux.dev>; Wed, 19 Mar 2025 21:59:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742421583; cv=none; b=KoOybyzi2a/6kixQSn6ivIWtyvoIlobvxTUsO4vYko++HA+PziCXMLZBlmqornYb8gWfV3lrlJGF79T+DGeGxYh/+OMWITa+v4neFM34w2BDfkTj8IJYD1UCW+qa1I+u4ykrDS3eP0NDbiD5WWBzwMCy2bVm6CKbCXtjR8X0Y8w=
+	t=1742421584; cv=none; b=LnO5JH1W81/76z5kE0xA3ZMeO6LaTWy2oCEPKTlKOdv/D2xyoXBOooK0V4Yf/eXNgc5v1wc6AD3xbgQEUbzQy4ts3YSgEV0CY5Y4dig4n6twzA6rSKrLJT3xjSR/g8E00gGqRi2cbnW03cslwXv+niG3nsTs3sX4TajWbOUsQNs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742421583; c=relaxed/simple;
-	bh=N1HKkuxG1bE2v1BdEkRER6ufX3Om7ctf6FOYachWE4Q=;
+	s=arc-20240116; t=1742421584; c=relaxed/simple;
+	bh=nMiOYWnyWIgJqVZZLK8NhGgU5fP9ICLyNqQ9BS/rbug=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=f5ntWayOJFgzCaEgk4srxrSC+yAwUqhRgxf0CrxkTlWd0QAk0Zjmi/4D5F+39atxGBVWnaGx/2MwbHQo++9KmjkJtRpS6Ybm9WD3gaHQIKuzyNIUUNcF0sPXzcZRtfwQq6vuwZcaGZbajYB9aFgO7Ril4/7rRUBu/DIKlh/7FIQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=neverthere.org; spf=pass smtp.mailfrom=neverthere.org; dkim=pass (2048-bit key) header.d=neverthere.org header.i=@neverthere.org header.b=KlNxPMO7; arc=none smtp.client-ip=209.85.214.179
+	 MIME-Version; b=q5lWZnxxlyyCShCa6yJdGc/eoVxxAmfslJOyrlhac3U1dpmVi0PpA4wz/xoP8IyUnjK5c1SsSCi8F6VWkDKheEzjvQ78HjrprB12vHsK1wZj559CjHqeHu2n0lSZcxcHFa0HgbN2VL7+DX2QPMmyY9fHpEGbd0T5MwrnJVZGFUQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=neverthere.org; spf=pass smtp.mailfrom=neverthere.org; dkim=pass (2048-bit key) header.d=neverthere.org header.i=@neverthere.org header.b=JX5VhVaU; arc=none smtp.client-ip=209.85.214.173
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=neverthere.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=neverthere.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=neverthere.org header.i=@neverthere.org header.b="KlNxPMO7"
-Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-22349bb8605so1141665ad.0
-        for <linux-staging@lists.linux.dev>; Wed, 19 Mar 2025 14:59:41 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=neverthere.org header.i=@neverthere.org header.b="JX5VhVaU"
+Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-2241053582dso1172235ad.1
+        for <linux-staging@lists.linux.dev>; Wed, 19 Mar 2025 14:59:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=neverthere.org; s=google; t=1742421580; x=1743026380; darn=lists.linux.dev;
+        d=neverthere.org; s=google; t=1742421582; x=1743026382; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Htv0WV+K2Gnen6DZUmspEXU595vjMhnsIFhE4ehhG2I=;
-        b=KlNxPMO7P3NwDPWCNZdizckF/s1VUcOHYlFdI6NhgmaAxvChfKsCxDxHTdtmRroXZ1
-         vbH/7bLaK1c4zK5R5FvsRWmOVHpmLjUARw7Nz7uaSrUxxPyJdzIcnUP6kFll1JaT6ydD
-         S6CVwKnLQiXwU1xDMapjeRNwsJrlI4/v/87CkNNjLnpCI37nMAzTYC3SO1tKG2wftb35
-         TMTLP6mJgA846yTNZa5bHEEy1CbPM81Hx8dPG4lJryVUbNC2x09Yxfk5x0oU0/fAJlaD
-         erzkFlNG7qOzgGGLFOJQyuJ+94EbwAwtzeNOLwj8PiChOeiuXn+YQIhUPCp28KbUri9Z
-         g93Q==
+        bh=R74GxULIgBcQ77BKtt+ZheFRKnjYiWu/3C/3toyQPuY=;
+        b=JX5VhVaUs6TehxCNdZSeyHuJgE1owmzDek1/uP3fHxfsrw/psPaQCDsMnXZB7QaUNx
+         pVOCoLdzAHjPFDm/IG2JZPF3S5PEc3K2yriAEVsH4XJgKcwr9oIqv4GrTIkucESLtD2R
+         fkLOVK5pCjE2nSDML139gPkhbSkciRajOHFwCRNgU6nPAyGklrsbABQ3P+Ax5D7/nDeP
+         m73k8Ol53bSaIcSiCHT7I/T88Hw136JM9RerufepEBY5OD27Ozd89uss2r58aP5VBGrA
+         8X+ZN+TlvygTDBPi8VBo+6FWLRBwrhl2ZhN+MLb47/4nPSkojLAcEWmTIvxZxxlNpft7
+         oFLA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742421580; x=1743026380;
+        d=1e100.net; s=20230601; t=1742421582; x=1743026382;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=Htv0WV+K2Gnen6DZUmspEXU595vjMhnsIFhE4ehhG2I=;
-        b=ep9kCW7kvXXgMfOUjiIpi8RRNeQ7Eb+SeVoh8c0PwJIE2q4Zf35iyNsMZk+UmwJeBW
-         tgVLYq8vAuwDC8rCYw3Ry1nPOVvsDhpj5ZsaYGonJ3UeMmRdR0Bv1GIRkE5z2pRiDg7h
-         AVOrEaVtPjPzjDA3AbQ1IKLExriLUwpKGRvb5VTmb7BMp24wsD7RljC7QY+Lr832tEgz
-         /IMco2f6xAy5g4iQlijPRqKeXp979T2kFZZeByVo/Lue0Y9ERQy4VNoRxxWcfGaKgJQI
-         qGnkNiwWw5KbJ5eQCowtbExnIhTI+0wP0TaM+4e1M5KcBe2op2DykmN5OrlOgbzizwI3
-         LN5A==
-X-Gm-Message-State: AOJu0YyYDB2g+o3/jEAdY11Sqhk8eXmTozhKZJm+i2NkMAmK+AONwG/6
-	D4zh3XHdJhykJ1pB6ZkX+6Hwb6aNKkPWdTbYcCVHqkItgz+VF0EYouPWadhNPg==
-X-Gm-Gg: ASbGnctUBwRP4f5yDA/VjU+GsJlmpy9LrqSzGVhR7wGJTLptnUI4twkuKDmnUZqU17S
-	9hcNS2ZLM8W6LvZnlqHSf71P4hVTH63Sj2KBaJ+/e25QEq+cVEaiMslR+wGQI9+TFdZQO4sDGNO
-	SpDi1u49g+RD2WSDL7AxvCdHkHLjzBmYP8TIDMpRuHUhNznNeLy26/z6PfChexUd7MvLCxL5mUC
-	wuERIsHGDlCzZ8ctoPas7qXrqVvfxh1wRXd4S6Zxg3T1YVXl6ZGuZlNoupB5eMgFBn5Nb4mBRVE
-	FyC1DQiStPiZkFP58aFAHDiCyLwbp6a+Ax5lg9uacI0ZW4QfqVMpKxibhhcJarbZDVyCtyKbG06
-	dSlbfwn38Pg==
-X-Google-Smtp-Source: AGHT+IFqgTSMZQqnbkKdylyk/FzKX7HUs7NWNYBKz0uuuCCNwYXKCOHO37RiTzZhZE5O1becrsYXCQ==
-X-Received: by 2002:a17:903:1c4:b0:21f:6546:9af0 with SMTP id d9443c01a7336-22649cb44fbmr67294105ad.44.1742421580561;
-        Wed, 19 Mar 2025 14:59:40 -0700 (PDT)
+        bh=R74GxULIgBcQ77BKtt+ZheFRKnjYiWu/3C/3toyQPuY=;
+        b=HEVOikPiqEbqavHZs2Hk1D5IYROnKgVc3lL56oHlL9/5qNFEc2BU8HARax2ZDXXF2H
+         pXmk84XsaMkxS4mwFAkPqgDsibxnWuETI7h33ZEgp55MYopXffpq+rol2abRBZRMqSLf
+         6LSMlWdRdjlj7B7crphpNEGTQfKA/HZhWU2w1E4VQ2w3Z5CvGqMtrUGbI2Gw+CbQ5hjg
+         sfzqzugRPVGsyUJHIa92XP2Rh0wyl2pJFc2KB4vsBL4n6Yr1i2VDeAcQFsX71Q7slK4I
+         gAsIvxenJoHkjtsZsbXyF8F5xuVrKEX1nekPAMfQJ/kbUS7FgxB8Yhcst5S57Iiw6gHJ
+         n0+w==
+X-Gm-Message-State: AOJu0YywFBmwhUO98zWGwEfCFuMMTtHgmkKL1cjUteX8BTLOT6zdqe5M
+	hu94QZJm42ncR7OgP/pvyCKoHm9/G+e2MF9OElhAnfAljWHXcghd/UGkxLf3KA==
+X-Gm-Gg: ASbGnct16qeVSmFmhR9LfSpjKlpa7Xgnb0mG5LjGX+lYP0oXgVrup7NTdOUlix5Midp
+	+HRqSGpu6Mqt9qBxWZtcD4SKhC9GLkSmA056yg/hkv4zSGpQYDSwsT2kM+NsvldqO7UsWe22jfA
+	NKwcixPPWNciVikTtxyAMdiidgJA7a0CqBGvIdITEaxJKjjPClvxAgzdyhuzL/KA6JoqGSchPkB
+	1upVg7cRPEclQIxwVHVcnYS89px1JGSFCuF8GmHcFV+xaAdkIzFjUHrMAk23lTts5a0xTBwdmsp
+	ZSoiw9UqXDtn65nNvG6hI0oMo5JWIDIoCeY/U4iFkYgMfufcdpP/dG6OYTzk/TVCfmvN8e+1ynY
+	O15TDgs8H1Q==
+X-Google-Smtp-Source: AGHT+IEHKB83JWORDLqVWnA69Hqlc5qiM+x12zTZemAeViUz709pMq725MoDRiZWObzTMPH0TeWFyA==
+X-Received: by 2002:a05:6a20:12d5:b0:1f5:8678:183d with SMTP id adf61e73a8af0-1fbeba8fdfcmr7554267637.14.1742421581747;
+        Wed, 19 Mar 2025 14:59:41 -0700 (PDT)
 Received: from tiamat (c-69-181-214-135.hsd1.ca.comcast.net. [69.181.214.135])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-225c68a8796sm120102805ad.99.2025.03.19.14.59.40
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7371167e02esm12576276b3a.95.2025.03.19.14.59.41
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 19 Mar 2025 14:59:40 -0700 (PDT)
+        Wed, 19 Mar 2025 14:59:41 -0700 (PDT)
 From: Michael Rubin <matchstick@neverthere.org>
 To: Dave Penkler <dpenkler@gmail.com>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Michael Rubin <matchstick@neverthere.org>
-Subject: [PATCH v1 03/20] staging: gpib: agilent_82357a: struct gpib_board
-Date: Wed, 19 Mar 2025 21:59:07 +0000
-Message-ID: <20250319215924.19387-4-matchstick@neverthere.org>
+Subject: [PATCH v1 04/20] staging: gpib: cb7210: struct gpib_board
+Date: Wed, 19 Mar 2025 21:59:08 +0000
+Message-ID: <20250319215924.19387-5-matchstick@neverthere.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20250319215924.19387-1-matchstick@neverthere.org>
 References: <20250319215924.19387-1-matchstick@neverthere.org>
@@ -86,328 +86,437 @@ directly accessed should never be a typedef.
 
 Signed-off-by: Michael Rubin <matchstick@neverthere.org>
 ---
- .../gpib/agilent_82357a/agilent_82357a.c      | 85 ++++++++++---------
- 1 file changed, 46 insertions(+), 39 deletions(-)
+ drivers/staging/gpib/cb7210/cb7210.c | 107 ++++++++++++++-------------
+ 1 file changed, 54 insertions(+), 53 deletions(-)
 
-diff --git a/drivers/staging/gpib/agilent_82357a/agilent_82357a.c b/drivers/staging/gpib/agilent_82357a/agilent_82357a.c
-index 5b5b55e90435..702a3071bd58 100644
---- a/drivers/staging/gpib/agilent_82357a/agilent_82357a.c
-+++ b/drivers/staging/gpib/agilent_82357a/agilent_82357a.c
-@@ -25,9 +25,10 @@ MODULE_DESCRIPTION("GPIB driver for Agilent 82357A/B usb adapters");
- static struct usb_interface *agilent_82357a_driver_interfaces[MAX_NUM_82357A_INTERFACES];
- static DEFINE_MUTEX(agilent_82357a_hotplug_lock); // protect board insertion and removal
+diff --git a/drivers/staging/gpib/cb7210/cb7210.c b/drivers/staging/gpib/cb7210/cb7210.c
+index 808e0a71dfd6..621aa8fda913 100644
+--- a/drivers/staging/gpib/cb7210/cb7210.c
++++ b/drivers/staging/gpib/cb7210/cb7210.c
+@@ -27,7 +27,7 @@
+ MODULE_LICENSE("GPL");
+ MODULE_DESCRIPTION("GPIB driver Measurement Computing boards using cb7210.2 and cbi488.2");
  
--static unsigned int agilent_82357a_update_status(gpib_board_t *board, unsigned int clear_mask);
-+static unsigned int agilent_82357a_update_status(struct gpib_board *board,
-+						unsigned int clear_mask);
+-static int cb7210_read(gpib_board_t *board, uint8_t *buffer, size_t length,
++static int cb7210_read(struct gpib_board *board, uint8_t *buffer, size_t length,
+ 		       int *end, size_t *bytes_read);
  
--static int agilent_82357a_take_control_internal(gpib_board_t *board, int synchronous);
-+static int agilent_82357a_take_control_internal(struct gpib_board *board, int synchronous);
- 
- static void agilent_82357a_bulk_complete(struct urb *urb)
- {
-@@ -419,10 +420,10 @@ static int agilent_82357a_abort(struct agilent_82357a_priv *a_priv, int flush)
+ 	static inline int have_fifo_word(const struct cb7210_priv *cb_priv)
+@@ -40,7 +40,7 @@ static int cb7210_read(gpib_board_t *board, uint8_t *buffer, size_t length,
+ 		return 0;
  }
  
- // interface functions
--int agilent_82357a_command(gpib_board_t *board, uint8_t *buffer, size_t length,
-+int agilent_82357a_command(struct gpib_board *board, uint8_t *buffer, size_t length,
- 			   size_t *bytes_written);
- 
--static int agilent_82357a_read(gpib_board_t *board, uint8_t *buffer, size_t length, int *end,
-+static int agilent_82357a_read(struct gpib_board *board, uint8_t *buffer, size_t length, int *end,
- 			       size_t *nbytes)
+-static inline void input_fifo_enable(gpib_board_t *board, int enable)
++static inline void input_fifo_enable(struct gpib_board *board, int enable)
  {
- 	int retval;
-@@ -529,8 +530,10 @@ static int agilent_82357a_read(gpib_board_t *board, uint8_t *buffer, size_t leng
+ 	struct cb7210_priv *cb_priv = board->private_data;
+ 	struct nec7210_priv *nec_priv = &cb_priv->nec7210_priv;
+@@ -76,7 +76,7 @@ static inline void input_fifo_enable(gpib_board_t *board, int enable)
+ 	spin_unlock_irqrestore(&board->spinlock, flags);
+ }
+ 
+-static int fifo_read(gpib_board_t *board, struct cb7210_priv *cb_priv, uint8_t *buffer,
++static int fifo_read(struct gpib_board *board, struct cb7210_priv *cb_priv, uint8_t *buffer,
+ 		     size_t length, int *end, size_t *bytes_read)
+ {
+ 	ssize_t retval = 0;
+@@ -170,7 +170,7 @@ static int fifo_read(gpib_board_t *board, struct cb7210_priv *cb_priv, uint8_t *
  	return retval;
  }
  
--static ssize_t agilent_82357a_generic_write(gpib_board_t *board, uint8_t *buffer, size_t length,
--					    int send_commands, int send_eoi, size_t *bytes_written)
-+static ssize_t agilent_82357a_generic_write(struct gpib_board *board,
-+					    uint8_t *buffer, size_t length,
-+					    int send_commands, int send_eoi,
-+					    size_t *bytes_written)
+-static int cb7210_accel_read(gpib_board_t *board, uint8_t *buffer,
++static int cb7210_accel_read(struct gpib_board *board, uint8_t *buffer,
+ 			     size_t length, int *end, size_t *bytes_read)
  {
- 	int retval;
- 	struct agilent_82357a_priv *a_priv = board->private_data;
-@@ -664,19 +667,19 @@ static ssize_t agilent_82357a_generic_write(gpib_board_t *board, uint8_t *buffer
- 	return 0;
+ 	ssize_t retval;
+@@ -229,7 +229,7 @@ static int output_fifo_empty(const struct cb7210_priv *cb_priv)
+ 		return 0;
  }
  
--static int agilent_82357a_write(gpib_board_t *board, uint8_t *buffer, size_t length,
--				int send_eoi, size_t *bytes_written)
-+static int agilent_82357a_write(struct gpib_board *board, uint8_t *buffer,
-+				size_t length, int send_eoi, size_t *bytes_written)
+-static inline void output_fifo_enable(gpib_board_t *board, int enable)
++static inline void output_fifo_enable(struct gpib_board *board, int enable)
  {
- 	return agilent_82357a_generic_write(board, buffer, length, 0, send_eoi, bytes_written);
+ 	struct cb7210_priv *cb_priv = board->private_data;
+ 	struct nec7210_priv *nec_priv = &cb_priv->nec7210_priv;
+@@ -264,7 +264,8 @@ static inline void output_fifo_enable(gpib_board_t *board, int enable)
+ 	spin_unlock_irqrestore(&board->spinlock, flags);
  }
  
--int agilent_82357a_command(gpib_board_t *board, uint8_t *buffer, size_t length,
-+int agilent_82357a_command(struct gpib_board *board, uint8_t *buffer, size_t length,
- 			   size_t *bytes_written)
+-static int fifo_write(gpib_board_t *board, uint8_t *buffer, size_t length, size_t *bytes_written)
++static int fifo_write(struct gpib_board *board, uint8_t *buffer, size_t length,
++		      size_t *bytes_written)
  {
- 	return agilent_82357a_generic_write(board, buffer, length, 1, 0, bytes_written);
- }
- 
--int agilent_82357a_take_control_internal(gpib_board_t *board, int synchronous)
-+int agilent_82357a_take_control_internal(struct gpib_board *board, int synchronous)
- {
- 	struct agilent_82357a_priv *a_priv = board->private_data;
- 	struct usb_device *usb_dev = interface_to_usbdev(a_priv->bus_interface);
-@@ -695,7 +698,7 @@ int agilent_82357a_take_control_internal(gpib_board_t *board, int synchronous)
+ 	size_t count = 0;
+ 	ssize_t retval = 0;
+@@ -349,8 +350,8 @@ static int fifo_write(gpib_board_t *board, uint8_t *buffer, size_t length, size_
  	return retval;
  }
  
--static int agilent_82357a_take_control(gpib_board_t *board, int synchronous)
-+static int agilent_82357a_take_control(struct gpib_board *board, int synchronous)
+-static int cb7210_accel_write(gpib_board_t *board, uint8_t *buffer, size_t length, int send_eoi,
+-			      size_t *bytes_written)
++static int cb7210_accel_write(struct gpib_board *board, uint8_t *buffer,
++			      size_t length, int send_eoi, size_t *bytes_written)
  {
- 	const int timeout = 10;
- 	int i;
-@@ -720,7 +723,7 @@ static int agilent_82357a_take_control(gpib_board_t *board, int synchronous)
- 	return 0;
- }
- 
--static int agilent_82357a_go_to_standby(gpib_board_t *board)
-+static int agilent_82357a_go_to_standby(struct gpib_board *board)
- {
- 	struct agilent_82357a_priv *a_priv = board->private_data;
- 	struct usb_device *usb_dev = interface_to_usbdev(a_priv->bus_interface);
-@@ -736,7 +739,8 @@ static int agilent_82357a_go_to_standby(gpib_board_t *board)
- }
- 
- //FIXME should change prototype to return int
--static void agilent_82357a_request_system_control(gpib_board_t *board, int request_control)
-+static void agilent_82357a_request_system_control(struct gpib_board *board,
-+						  int request_control)
- {
- 	struct agilent_82357a_priv *a_priv = board->private_data;
- 	struct usb_device *usb_dev = interface_to_usbdev(a_priv->bus_interface);
-@@ -764,7 +768,7 @@ static void agilent_82357a_request_system_control(gpib_board_t *board, int reque
- 	return;// retval;
- }
- 
--static void agilent_82357a_interface_clear(gpib_board_t *board, int assert)
-+static void agilent_82357a_interface_clear(struct gpib_board *board, int assert)
- {
- 	struct agilent_82357a_priv *a_priv = board->private_data;
- 	struct usb_device *usb_dev = interface_to_usbdev(a_priv->bus_interface);
-@@ -782,7 +786,7 @@ static void agilent_82357a_interface_clear(gpib_board_t *board, int assert)
- 		dev_err(&usb_dev->dev, "write_registers() returned error\n");
- }
- 
--static void agilent_82357a_remote_enable(gpib_board_t *board, int enable)
-+static void agilent_82357a_remote_enable(struct gpib_board *board, int enable)
- {
- 	struct agilent_82357a_priv *a_priv = board->private_data;
- 	struct usb_device *usb_dev = interface_to_usbdev(a_priv->bus_interface);
-@@ -800,7 +804,8 @@ static void agilent_82357a_remote_enable(gpib_board_t *board, int enable)
- 	return;// 0;
- }
- 
--static int agilent_82357a_enable_eos(gpib_board_t *board, uint8_t eos_byte, int compare_8_bits)
-+static int agilent_82357a_enable_eos(struct gpib_board *board, uint8_t eos_byte,
-+				     int compare_8_bits)
- {
- 	struct agilent_82357a_priv *a_priv = board->private_data;
- 
-@@ -812,14 +817,15 @@ static int agilent_82357a_enable_eos(gpib_board_t *board, uint8_t eos_byte, int
- 	return 0;
- }
- 
--static void agilent_82357a_disable_eos(gpib_board_t *board)
-+static void agilent_82357a_disable_eos(struct gpib_board *board)
- {
- 	struct agilent_82357a_priv *a_priv = board->private_data;
- 
- 	a_priv->eos_mode &= ~REOS;
- }
- 
--static unsigned int agilent_82357a_update_status(gpib_board_t *board, unsigned int clear_mask)
-+static unsigned int agilent_82357a_update_status(struct gpib_board *board,
-+						 unsigned int clear_mask)
- {
- 	struct agilent_82357a_priv *a_priv = board->private_data;
- 	struct usb_device *usb_dev = interface_to_usbdev(a_priv->bus_interface);
-@@ -878,7 +884,7 @@ static unsigned int agilent_82357a_update_status(gpib_board_t *board, unsigned i
- 	return board->status;
- }
- 
--static int agilent_82357a_primary_address(gpib_board_t *board, unsigned int address)
-+static int agilent_82357a_primary_address(struct gpib_board *board, unsigned int address)
- {
- 	struct agilent_82357a_priv *a_priv = board->private_data;
- 	struct usb_device *usb_dev = interface_to_usbdev(a_priv->bus_interface);
-@@ -896,14 +902,15 @@ static int agilent_82357a_primary_address(gpib_board_t *board, unsigned int addr
+ 	struct cb7210_priv *cb_priv = board->private_data;
+ 	struct nec7210_priv *nec_priv = &cb_priv->nec7210_priv;
+@@ -377,7 +378,7 @@ static int cb7210_accel_write(gpib_board_t *board, uint8_t *buffer, size_t lengt
  	return retval;
  }
  
--static int agilent_82357a_secondary_address(gpib_board_t *board, unsigned int address, int enable)
-+static int agilent_82357a_secondary_address(struct gpib_board *board,
-+					    unsigned int address, int enable)
+-static int cb7210_line_status(const gpib_board_t *board)
++static int cb7210_line_status(const struct gpib_board *board)
  {
- 	if (enable)
- 		return	-EOPNOTSUPP;
+ 	int status = VALID_ALL;
+ 	int bsr_bits;
+@@ -407,7 +408,7 @@ static int cb7210_line_status(const gpib_board_t *board)
+ 	return status;
+ }
+ 
+-static unsigned int cb7210_t1_delay(gpib_board_t *board, unsigned int nano_sec)
++static unsigned int cb7210_t1_delay(struct gpib_board *board, unsigned int nano_sec)
+ {
+ 	struct cb7210_priv *cb_priv = board->private_data;
+ 	struct nec7210_priv *nec_priv = &cb_priv->nec7210_priv;
+@@ -424,7 +425,7 @@ static unsigned int cb7210_t1_delay(gpib_board_t *board, unsigned int nano_sec)
+ 	return retval;
+ }
+ 
+-static irqreturn_t cb7210_locked_internal_interrupt(gpib_board_t *board);
++static irqreturn_t cb7210_locked_internal_interrupt(struct gpib_board *board);
+ 
+ /*
+  * GPIB interrupt service routines
+@@ -433,7 +434,7 @@ static irqreturn_t cb7210_locked_internal_interrupt(gpib_board_t *board);
+ static irqreturn_t cb_pci_interrupt(int irq, void *arg)
+ {
+ 	int bits;
+-	gpib_board_t *board = arg;
++	struct gpib_board *board = arg;
+ 	struct cb7210_priv *priv = board->private_data;
+ 
+ 	// first task check if this is really our interrupt in a shared irq environment
+@@ -462,7 +463,7 @@ static irqreturn_t cb_pci_interrupt(int irq, void *arg)
+ 	return cb7210_locked_internal_interrupt(arg);
+ }
+ 
+-static irqreturn_t cb7210_internal_interrupt(gpib_board_t *board)
++static irqreturn_t cb7210_internal_interrupt(struct gpib_board *board)
+ {
+ 	int hs_status, status1, status2;
+ 	struct cb7210_priv *priv = board->private_data;
+@@ -516,7 +517,7 @@ static irqreturn_t cb7210_internal_interrupt(gpib_board_t *board)
+ 	return IRQ_HANDLED;
+ }
+ 
+-static irqreturn_t cb7210_locked_internal_interrupt(gpib_board_t *board)
++static irqreturn_t cb7210_locked_internal_interrupt(struct gpib_board *board)
+ {
+ 	unsigned long flags;
+ 	irqreturn_t retval;
+@@ -532,14 +533,14 @@ static irqreturn_t cb7210_interrupt(int irq, void *arg)
+ 	return cb7210_internal_interrupt(arg);
+ }
+ 
+-static int cb_pci_attach(gpib_board_t *board, const gpib_board_config_t *config);
+-static int cb_isa_attach(gpib_board_t *board, const gpib_board_config_t *config);
++static int cb_pci_attach(struct gpib_board *board, const gpib_board_config_t *config);
++static int cb_isa_attach(struct gpib_board *board, const gpib_board_config_t *config);
+ 
+-static void cb_pci_detach(gpib_board_t *board);
+-static void cb_isa_detach(gpib_board_t *board);
++static void cb_pci_detach(struct gpib_board *board);
++static void cb_isa_detach(struct gpib_board *board);
+ 
+ // wrappers for interface functions
+-static int cb7210_read(gpib_board_t *board, uint8_t *buffer, size_t length,
++static int cb7210_read(struct gpib_board *board, uint8_t *buffer, size_t length,
+ 		       int *end, size_t *bytes_read)
+ {
+ 	struct cb7210_priv *priv = board->private_data;
+@@ -547,7 +548,7 @@ static int cb7210_read(gpib_board_t *board, uint8_t *buffer, size_t length,
+ 	return nec7210_read(board, &priv->nec7210_priv, buffer, length, end, bytes_read);
+ }
+ 
+-static int cb7210_write(gpib_board_t *board, uint8_t *buffer, size_t length,
++static int cb7210_write(struct gpib_board *board, uint8_t *buffer, size_t length,
+ 			int send_eoi, size_t *bytes_written)
+ {
+ 	struct cb7210_priv *priv = board->private_data;
+@@ -555,7 +556,7 @@ static int cb7210_write(gpib_board_t *board, uint8_t *buffer, size_t length,
+ 	return nec7210_write(board, &priv->nec7210_priv, buffer, length, send_eoi, bytes_written);
+ }
+ 
+-static int cb7210_command(gpib_board_t *board, uint8_t *buffer, size_t length,
++static int cb7210_command(struct gpib_board *board, uint8_t *buffer, size_t length,
+ 			  size_t *bytes_written)
+ {
+ 	struct cb7210_priv *priv = board->private_data;
+@@ -563,21 +564,21 @@ static int cb7210_command(gpib_board_t *board, uint8_t *buffer, size_t length,
+ 	return nec7210_command(board, &priv->nec7210_priv, buffer, length, bytes_written);
+ }
+ 
+-static int cb7210_take_control(gpib_board_t *board, int synchronous)
++static int cb7210_take_control(struct gpib_board *board, int synchronous)
+ {
+ 	struct cb7210_priv *priv = board->private_data;
+ 
+ 	return nec7210_take_control(board, &priv->nec7210_priv, synchronous);
+ }
+ 
+-static int cb7210_go_to_standby(gpib_board_t *board)
++static int cb7210_go_to_standby(struct gpib_board *board)
+ {
+ 	struct cb7210_priv *priv = board->private_data;
+ 
+ 	return nec7210_go_to_standby(board, &priv->nec7210_priv);
+ }
+ 
+-static void cb7210_request_system_control(gpib_board_t *board, int request_control)
++static void cb7210_request_system_control(struct gpib_board *board, int request_control)
+ {
+ 	struct cb7210_priv *priv = board->private_data;
+ 	struct nec7210_priv *nec_priv = &priv->nec7210_priv;
+@@ -591,91 +592,91 @@ static void cb7210_request_system_control(gpib_board_t *board, int request_contr
+ 	nec7210_request_system_control(board, nec_priv, request_control);
+ }
+ 
+-static void cb7210_interface_clear(gpib_board_t *board, int assert)
++static void cb7210_interface_clear(struct gpib_board *board, int assert)
+ {
+ 	struct cb7210_priv *priv = board->private_data;
+ 
+ 	nec7210_interface_clear(board, &priv->nec7210_priv, assert);
+ }
+ 
+-static void cb7210_remote_enable(gpib_board_t *board, int enable)
++static void cb7210_remote_enable(struct gpib_board *board, int enable)
+ {
+ 	struct cb7210_priv *priv = board->private_data;
+ 
+ 	nec7210_remote_enable(board, &priv->nec7210_priv, enable);
+ }
+ 
+-static int cb7210_enable_eos(gpib_board_t *board, uint8_t eos_byte, int compare_8_bits)
++static int cb7210_enable_eos(struct gpib_board *board, uint8_t eos_byte, int compare_8_bits)
+ {
+ 	struct cb7210_priv *priv = board->private_data;
+ 
+ 	return nec7210_enable_eos(board, &priv->nec7210_priv, eos_byte, compare_8_bits);
+ }
+ 
+-static void cb7210_disable_eos(gpib_board_t *board)
++static void cb7210_disable_eos(struct gpib_board *board)
+ {
+ 	struct cb7210_priv *priv = board->private_data;
+ 
+ 	nec7210_disable_eos(board, &priv->nec7210_priv);
+ }
+ 
+-static unsigned int cb7210_update_status(gpib_board_t *board, unsigned int clear_mask)
++static unsigned int cb7210_update_status(struct gpib_board *board, unsigned int clear_mask)
+ {
+ 	struct cb7210_priv *priv = board->private_data;
+ 
+ 	return nec7210_update_status(board, &priv->nec7210_priv, clear_mask);
+ }
+ 
+-static int cb7210_primary_address(gpib_board_t *board, unsigned int address)
++static int cb7210_primary_address(struct gpib_board *board, unsigned int address)
+ {
+ 	struct cb7210_priv *priv = board->private_data;
+ 
+ 	return nec7210_primary_address(board, &priv->nec7210_priv, address);
+ }
+ 
+-static int cb7210_secondary_address(gpib_board_t *board, unsigned int address, int enable)
++static int cb7210_secondary_address(struct gpib_board *board, unsigned int address, int enable)
+ {
+ 	struct cb7210_priv *priv = board->private_data;
+ 
+ 	return nec7210_secondary_address(board, &priv->nec7210_priv, address, enable);
+ }
+ 
+-static int cb7210_parallel_poll(gpib_board_t *board, uint8_t *result)
++static int cb7210_parallel_poll(struct gpib_board *board, uint8_t *result)
+ {
+ 	struct cb7210_priv *priv = board->private_data;
+ 
+ 	return nec7210_parallel_poll(board, &priv->nec7210_priv, result);
+ }
+ 
+-static void cb7210_parallel_poll_configure(gpib_board_t *board, uint8_t configuration)
++static void cb7210_parallel_poll_configure(struct gpib_board *board, uint8_t configuration)
+ {
+ 	struct cb7210_priv *priv = board->private_data;
+ 
+ 	nec7210_parallel_poll_configure(board, &priv->nec7210_priv, configuration);
+ }
+ 
+-static void cb7210_parallel_poll_response(gpib_board_t *board, int ist)
++static void cb7210_parallel_poll_response(struct gpib_board *board, int ist)
+ {
+ 	struct cb7210_priv *priv = board->private_data;
+ 
+ 	nec7210_parallel_poll_response(board, &priv->nec7210_priv, ist);
+ }
+ 
+-static void cb7210_serial_poll_response(gpib_board_t *board, uint8_t status)
++static void cb7210_serial_poll_response(struct gpib_board *board, uint8_t status)
+ {
+ 	struct cb7210_priv *priv = board->private_data;
+ 
+ 	nec7210_serial_poll_response(board, &priv->nec7210_priv, status);
+ }
+ 
+-static uint8_t cb7210_serial_poll_status(gpib_board_t *board)
++static uint8_t cb7210_serial_poll_status(struct gpib_board *board)
+ {
+ 	struct cb7210_priv *priv = board->private_data;
+ 
+ 	return nec7210_serial_poll_status(board, &priv->nec7210_priv);
+ }
+ 
+-static void cb7210_return_to_local(gpib_board_t *board)
++static void cb7210_return_to_local(struct gpib_board *board)
+ {
+ 	struct cb7210_priv *priv = board->private_data;
+ 	struct nec7210_priv *nec_priv = &priv->nec7210_priv;
+@@ -851,7 +852,7 @@ static gpib_interface_t cb_isa_accel_interface = {
+ 	.return_to_local = cb7210_return_to_local,
+ };
+ 
+-static int cb7210_allocate_private(gpib_board_t *board)
++static int cb7210_allocate_private(struct gpib_board *board)
+ {
+ 	struct cb7210_priv *priv;
+ 
+@@ -864,14 +865,14 @@ static int cb7210_allocate_private(gpib_board_t *board)
  	return 0;
  }
  
--static int agilent_82357a_parallel_poll(gpib_board_t *board, uint8_t *result)
-+static int agilent_82357a_parallel_poll(struct gpib_board *board, uint8_t *result)
- {
- 	struct agilent_82357a_priv *a_priv = board->private_data;
- 	struct usb_device *usb_dev = interface_to_usbdev(a_priv->bus_interface);
-@@ -942,37 +949,37 @@ static int agilent_82357a_parallel_poll(gpib_board_t *board, uint8_t *result)
- 	return 0;
- }
- 
--static void agilent_82357a_parallel_poll_configure(gpib_board_t *board, uint8_t config)
-+static void agilent_82357a_parallel_poll_configure(struct gpib_board *board, uint8_t config)
- {
- 	//board can only be system controller
- 	return;// 0;
- }
- 
--static void agilent_82357a_parallel_poll_response(gpib_board_t *board, int ist)
-+static void agilent_82357a_parallel_poll_response(struct gpib_board *board, int ist)
- {
- 	//board can only be system controller
- 	return;// 0;
- }
- 
--static void agilent_82357a_serial_poll_response(gpib_board_t *board, uint8_t status)
-+static void agilent_82357a_serial_poll_response(struct gpib_board *board, uint8_t status)
- {
- 	//board can only be system controller
- 	return;// 0;
- }
- 
--static uint8_t agilent_82357a_serial_poll_status(gpib_board_t *board)
-+static uint8_t agilent_82357a_serial_poll_status(struct gpib_board *board)
- {
- 	//board can only be system controller
- 	return 0;
- }
- 
--static void agilent_82357a_return_to_local(gpib_board_t *board)
-+static void agilent_82357a_return_to_local(struct gpib_board *board)
- {
- 	//board can only be system controller
- 	return;// 0;
- }
- 
--static int agilent_82357a_line_status(const gpib_board_t *board)
-+static int agilent_82357a_line_status(const struct gpib_board *board)
- {
- 	struct agilent_82357a_priv *a_priv = board->private_data;
- 	struct usb_device *usb_dev = interface_to_usbdev(a_priv->bus_interface);
-@@ -1022,7 +1029,7 @@ static unsigned short nanosec_to_fast_talker_bits(unsigned int *nanosec)
- 	return bits;
- }
- 
--static unsigned int agilent_82357a_t1_delay(gpib_board_t *board, unsigned int nanosec)
-+static unsigned int agilent_82357a_t1_delay(struct gpib_board *board, unsigned int nanosec)
- {
- 	struct agilent_82357a_priv *a_priv = board->private_data;
- 	struct usb_device *usb_dev = interface_to_usbdev(a_priv->bus_interface);
-@@ -1039,7 +1046,7 @@ static unsigned int agilent_82357a_t1_delay(gpib_board_t *board, unsigned int na
- 
- static void agilent_82357a_interrupt_complete(struct urb *urb)
- {
--	gpib_board_t *board = urb->context;
-+	struct gpib_board *board = urb->context;
- 	struct agilent_82357a_priv *a_priv = board->private_data;
- 	struct usb_device *usb_dev = interface_to_usbdev(a_priv->bus_interface);
- 	int retval;
-@@ -1077,7 +1084,7 @@ static void agilent_82357a_interrupt_complete(struct urb *urb)
- 		dev_err(&usb_dev->dev, "failed to resubmit interrupt urb\n");
- }
- 
--static int agilent_82357a_setup_urbs(gpib_board_t *board)
-+static int agilent_82357a_setup_urbs(struct gpib_board *board)
- {
- 	struct agilent_82357a_priv *a_priv = board->private_data;
- 	struct usb_device *usb_dev;
-@@ -1141,7 +1148,7 @@ static void agilent_82357a_release_urbs(struct agilent_82357a_priv *a_priv)
- 	}
- }
- 
--static int agilent_82357a_allocate_private(gpib_board_t *board)
-+static int agilent_82357a_allocate_private(struct gpib_board *board)
- {
- 	struct agilent_82357a_priv *a_priv;
- 
-@@ -1156,14 +1163,14 @@ static int agilent_82357a_allocate_private(gpib_board_t *board)
- 	return 0;
- }
- 
--static void agilent_82357a_free_private(gpib_board_t *board)
-+static void agilent_82357a_free_private(struct gpib_board *board)
+-static void cb7210_generic_detach(gpib_board_t *board)
++static void cb7210_generic_detach(struct gpib_board *board)
  {
  	kfree(board->private_data);
  	board->private_data = NULL;
  }
  
- #define INIT_NUM_REG_WRITES 18
--static int agilent_82357a_init(gpib_board_t *board)
-+static int agilent_82357a_init(struct gpib_board *board)
+ // generic part of attach functions shared by all cb7210 boards
+-static int cb7210_generic_attach(gpib_board_t *board)
++static int cb7210_generic_attach(struct gpib_board *board)
  {
- 	struct agilent_82357a_priv *a_priv = board->private_data;
- 	struct usb_device *usb_dev = interface_to_usbdev(a_priv->bus_interface);
-@@ -1253,7 +1260,7 @@ static inline int agilent_82357a_device_match(struct usb_interface *interface,
- 	return 1;
- }
- 
--static int agilent_82357a_attach(gpib_board_t *board, const gpib_board_config_t *config)
-+static int agilent_82357a_attach(struct gpib_board *board, const gpib_board_config_t *config)
- {
- 	int retval;
- 	int i;
-@@ -1329,7 +1336,7 @@ static int agilent_82357a_attach(gpib_board_t *board, const gpib_board_config_t
- 	return retval;
- }
- 
--static int agilent_82357a_go_idle(gpib_board_t *board)
-+static int agilent_82357a_go_idle(struct gpib_board *board)
- {
- 	struct agilent_82357a_priv *a_priv = board->private_data;
- 	struct usb_device *usb_dev = interface_to_usbdev(a_priv->bus_interface);
-@@ -1358,7 +1365,7 @@ static int agilent_82357a_go_idle(gpib_board_t *board)
+ 	struct cb7210_priv *cb_priv;
+ 	struct nec7210_priv *nec_priv;
+@@ -889,7 +890,7 @@ static int cb7210_generic_attach(gpib_board_t *board)
  	return 0;
  }
  
--static void agilent_82357a_detach(gpib_board_t *board)
-+static void agilent_82357a_detach(struct gpib_board *board)
+-static int cb7210_init(struct cb7210_priv *cb_priv, gpib_board_t *board)
++static int cb7210_init(struct cb7210_priv *cb_priv, struct gpib_board *board)
  {
- 	struct agilent_82357a_priv *a_priv;
+ 	struct nec7210_priv *nec_priv = &cb_priv->nec7210_priv;
  
-@@ -1466,7 +1473,7 @@ static void agilent_82357a_driver_disconnect(struct usb_interface *interface)
+@@ -925,7 +926,7 @@ static int cb7210_init(struct cb7210_priv *cb_priv, gpib_board_t *board)
+ 	return 0;
+ }
  
- 	for (i = 0; i < MAX_NUM_82357A_INTERFACES; ++i) {
- 		if (agilent_82357a_driver_interfaces[i] == interface) {
--			gpib_board_t *board = usb_get_intfdata(interface);
-+			struct gpib_board *board = usb_get_intfdata(interface);
- 
- 			if (board) {
- 				struct agilent_82357a_priv *a_priv = board->private_data;
-@@ -1502,7 +1509,7 @@ static int agilent_82357a_driver_suspend(struct usb_interface *interface, pm_mes
- 
- 	for (i = 0; i < MAX_NUM_82357A_INTERFACES; ++i) {
- 		if (agilent_82357a_driver_interfaces[i] == interface)	{
--			gpib_board_t *board = usb_get_intfdata(interface);
-+			struct gpib_board *board = usb_get_intfdata(interface);
- 
- 			if (board) {
- 				struct agilent_82357a_priv *a_priv = board->private_data;
-@@ -1538,7 +1545,7 @@ static int agilent_82357a_driver_suspend(struct usb_interface *interface, pm_mes
- static int agilent_82357a_driver_resume(struct usb_interface *interface)
+-static int cb_pci_attach(gpib_board_t *board, const gpib_board_config_t *config)
++static int cb_pci_attach(struct gpib_board *board, const gpib_board_config_t *config)
  {
- 	struct usb_device *usb_dev = interface_to_usbdev(interface);
--	gpib_board_t *board;
-+	struct gpib_board *board;
- 	int i, retval;
+ 	struct cb7210_priv *cb_priv;
+ 	struct nec7210_priv *nec_priv;
+@@ -1007,7 +1008,7 @@ static int cb_pci_attach(gpib_board_t *board, const gpib_board_config_t *config)
+ 	return cb7210_init(cb_priv, board);
+ }
  
- 	mutex_lock(&agilent_82357a_hotplug_lock);
+-static void cb_pci_detach(gpib_board_t *board)
++static void cb_pci_detach(struct gpib_board *board)
+ {
+ 	struct cb7210_priv *cb_priv = board->private_data;
+ 	struct nec7210_priv *nec_priv;
+@@ -1030,7 +1031,7 @@ static void cb_pci_detach(gpib_board_t *board)
+ 	cb7210_generic_detach(board);
+ }
+ 
+-static int cb_isa_attach(gpib_board_t *board, const gpib_board_config_t *config)
++static int cb_isa_attach(struct gpib_board *board, const gpib_board_config_t *config)
+ {
+ 	int isr_flags = 0;
+ 	struct cb7210_priv *cb_priv;
+@@ -1066,7 +1067,7 @@ static int cb_isa_attach(gpib_board_t *board, const gpib_board_config_t *config)
+ 	return cb7210_init(cb_priv, board);
+ }
+ 
+-static void cb_isa_detach(gpib_board_t *board)
++static void cb_isa_detach(struct gpib_board *board)
+ {
+ 	struct cb7210_priv *cb_priv = board->private_data;
+ 	struct nec7210_priv *nec_priv;
+@@ -1132,8 +1133,8 @@ static struct pci_driver cb7210_pci_driver = {
+ 
+ static int cb_gpib_config(struct pcmcia_device	*link);
+ static void cb_gpib_release(struct pcmcia_device  *link);
+-static int cb_pcmcia_attach(gpib_board_t *board, const gpib_board_config_t *config);
+-static void cb_pcmcia_detach(gpib_board_t *board);
++static int cb_pcmcia_attach(struct gpib_board *board, const gpib_board_config_t *config);
++static void cb_pcmcia_detach(struct gpib_board *board);
+ 
+ /*
+  *  A linked list of "instances" of the gpib device.  Each actual
+@@ -1166,7 +1167,7 @@ static	struct pcmcia_device  *curr_dev;
+ 
+ struct local_info {
+ 	struct pcmcia_device	*p_dev;
+-	gpib_board_t		*dev;
++	struct gpib_board		*dev;
+ };
+ 
+ /*
+@@ -1222,7 +1223,7 @@ static int cb_gpib_probe(struct pcmcia_device *link)
+ static void cb_gpib_remove(struct pcmcia_device *link)
+ {
+ 	struct local_info *info = link->priv;
+-	//struct gpib_board_t *dev = info->dev;
++	//struct struct gpib_board *dev = info->dev;
+ 
+ 	if (info->dev)
+ 		cb_pcmcia_detach(info->dev);
+@@ -1287,7 +1288,7 @@ static void cb_gpib_release(struct pcmcia_device *link)
+ static int cb_gpib_suspend(struct pcmcia_device *link)
+ {
+ 	//struct local_info *info = link->priv;
+-	//struct gpib_board_t *dev = info->dev;
++	//struct struct gpib_board *dev = info->dev;
+ 
+ 	if (link->open)
+ 		dev_warn(&link->dev, "Device still open\n");
+@@ -1299,7 +1300,7 @@ static int cb_gpib_suspend(struct pcmcia_device *link)
+ static int cb_gpib_resume(struct pcmcia_device *link)
+ {
+ 	//struct local_info *info = link->priv;
+-	//struct gpib_board_t *dev = info->dev;
++	//struct struct gpib_board *dev = info->dev;
+ 
+ 	/*if (link->open) {
+ 	 *	ni_gpib_probe(dev);	/ really?
+@@ -1416,7 +1417,7 @@ static gpib_interface_t cb_pcmcia_accel_interface = {
+ 	.return_to_local = cb7210_return_to_local,
+ };
+ 
+-static int cb_pcmcia_attach(gpib_board_t *board, const gpib_board_config_t *config)
++static int cb_pcmcia_attach(struct gpib_board *board, const gpib_board_config_t *config)
+ {
+ 	struct cb7210_priv *cb_priv;
+ 	struct nec7210_priv *nec_priv;
+@@ -1452,7 +1453,7 @@ static int cb_pcmcia_attach(gpib_board_t *board, const gpib_board_config_t *conf
+ 	return cb7210_init(cb_priv, board);
+ }
+ 
+-static void cb_pcmcia_detach(gpib_board_t *board)
++static void cb_pcmcia_detach(struct gpib_board *board)
+ {
+ 	struct cb7210_priv *cb_priv = board->private_data;
+ 	struct nec7210_priv *nec_priv;
 -- 
 2.43.0
 
