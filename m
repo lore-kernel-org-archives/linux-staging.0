@@ -1,71 +1,72 @@
-Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73F3021B9DE
-	for <linux-staging@lists.linux.dev>; Wed, 19 Mar 2025 21:59:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B638021C195
+	for <linux-staging@lists.linux.dev>; Wed, 19 Mar 2025 21:59:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742421584; cv=none; b=LnO5JH1W81/76z5kE0xA3ZMeO6LaTWy2oCEPKTlKOdv/D2xyoXBOooK0V4Yf/eXNgc5v1wc6AD3xbgQEUbzQy4ts3YSgEV0CY5Y4dig4n6twzA6rSKrLJT3xjSR/g8E00gGqRi2cbnW03cslwXv+niG3nsTs3sX4TajWbOUsQNs=
+	t=1742421585; cv=none; b=ILQR4CJA+IMYLvUN45qTkHJFIyHM2+HXZh70Wjg7dXfq0j1i++OgrbTjeVoaQy0ehlC/Z3CaJmb+hd0GwUm27rlfgcjkUDXENoUxFcS1sLLb4Sl3f3gaZaPQIByW3lwretFmR6r2kI5fqPa1gK3kMYY58xX6aiFPJRbchrOtw78=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742421584; c=relaxed/simple;
-	bh=nMiOYWnyWIgJqVZZLK8NhGgU5fP9ICLyNqQ9BS/rbug=;
+	s=arc-20240116; t=1742421585; c=relaxed/simple;
+	bh=vD6quqeCzKlpnY7dOUwCk16YlEJO6p4KoywYWJNFZPg=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=q5lWZnxxlyyCShCa6yJdGc/eoVxxAmfslJOyrlhac3U1dpmVi0PpA4wz/xoP8IyUnjK5c1SsSCi8F6VWkDKheEzjvQ78HjrprB12vHsK1wZj559CjHqeHu2n0lSZcxcHFa0HgbN2VL7+DX2QPMmyY9fHpEGbd0T5MwrnJVZGFUQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=neverthere.org; spf=pass smtp.mailfrom=neverthere.org; dkim=pass (2048-bit key) header.d=neverthere.org header.i=@neverthere.org header.b=JX5VhVaU; arc=none smtp.client-ip=209.85.214.173
+	 MIME-Version; b=tkCHgiyksygHyREt+i4cKoQnn+lRQl1k56qh1MR6Lybjk0st1bYCw1PlGkga55wdD/fJ/N6Jcye5agfedhTYM7XXdfwixOnLfQ7HnaBXPjzcXm1vT4f37G7C26ovDddUpL0n6vZCDAi/viP0DwkwnvTLfI6HwE8NoHqYNi8wcGU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=neverthere.org; spf=pass smtp.mailfrom=neverthere.org; dkim=pass (2048-bit key) header.d=neverthere.org header.i=@neverthere.org header.b=OF+XsZO6; arc=none smtp.client-ip=209.85.214.176
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=neverthere.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=neverthere.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=neverthere.org header.i=@neverthere.org header.b="JX5VhVaU"
-Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-2241053582dso1172235ad.1
-        for <linux-staging@lists.linux.dev>; Wed, 19 Mar 2025 14:59:42 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=neverthere.org header.i=@neverthere.org header.b="OF+XsZO6"
+Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-22438c356c8so823585ad.1
+        for <linux-staging@lists.linux.dev>; Wed, 19 Mar 2025 14:59:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=neverthere.org; s=google; t=1742421582; x=1743026382; darn=lists.linux.dev;
+        d=neverthere.org; s=google; t=1742421583; x=1743026383; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=R74GxULIgBcQ77BKtt+ZheFRKnjYiWu/3C/3toyQPuY=;
-        b=JX5VhVaUs6TehxCNdZSeyHuJgE1owmzDek1/uP3fHxfsrw/psPaQCDsMnXZB7QaUNx
-         pVOCoLdzAHjPFDm/IG2JZPF3S5PEc3K2yriAEVsH4XJgKcwr9oIqv4GrTIkucESLtD2R
-         fkLOVK5pCjE2nSDML139gPkhbSkciRajOHFwCRNgU6nPAyGklrsbABQ3P+Ax5D7/nDeP
-         m73k8Ol53bSaIcSiCHT7I/T88Hw136JM9RerufepEBY5OD27Ozd89uss2r58aP5VBGrA
-         8X+ZN+TlvygTDBPi8VBo+6FWLRBwrhl2ZhN+MLb47/4nPSkojLAcEWmTIvxZxxlNpft7
-         oFLA==
+        bh=HUNOx6AMS3SHRYHpYYpQh3DOz0o7uDzbGPhBpeav/x8=;
+        b=OF+XsZO6dGyV3gEctPikZLGiv42Xkl5sFmNPme3cEo8xfn51vu1dUDIB9+qaKyATLC
+         33V1pGBOe7QeANb93UVTP2j4DRz8hamuFHRLXaTUKMLzyFT9zC2v+m2QyvW9R6pMF5Fx
+         EwlYp3xlWlFquNanjTK/b1yQvi0pOS76c9XggiHeH/Ld4lLfZCgd3juM0izTNrpgjtrm
+         GZ7HTggMaOT1FR2khexKP7t5io5GUNisABKIKemVcP6170dxjd2CxD/9617V6BRS2UnH
+         TNh40ae4CMw80RrVfew01e7yMuusHg24aWFDqe7l6mTJHWJx4N077eg36NeXfj1AXhSA
+         UJKA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742421582; x=1743026382;
+        d=1e100.net; s=20230601; t=1742421583; x=1743026383;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=R74GxULIgBcQ77BKtt+ZheFRKnjYiWu/3C/3toyQPuY=;
-        b=HEVOikPiqEbqavHZs2Hk1D5IYROnKgVc3lL56oHlL9/5qNFEc2BU8HARax2ZDXXF2H
-         pXmk84XsaMkxS4mwFAkPqgDsibxnWuETI7h33ZEgp55MYopXffpq+rol2abRBZRMqSLf
-         6LSMlWdRdjlj7B7crphpNEGTQfKA/HZhWU2w1E4VQ2w3Z5CvGqMtrUGbI2Gw+CbQ5hjg
-         sfzqzugRPVGsyUJHIa92XP2Rh0wyl2pJFc2KB4vsBL4n6Yr1i2VDeAcQFsX71Q7slK4I
-         gAsIvxenJoHkjtsZsbXyF8F5xuVrKEX1nekPAMfQJ/kbUS7FgxB8Yhcst5S57Iiw6gHJ
-         n0+w==
-X-Gm-Message-State: AOJu0YywFBmwhUO98zWGwEfCFuMMTtHgmkKL1cjUteX8BTLOT6zdqe5M
-	hu94QZJm42ncR7OgP/pvyCKoHm9/G+e2MF9OElhAnfAljWHXcghd/UGkxLf3KA==
-X-Gm-Gg: ASbGnct16qeVSmFmhR9LfSpjKlpa7Xgnb0mG5LjGX+lYP0oXgVrup7NTdOUlix5Midp
-	+HRqSGpu6Mqt9qBxWZtcD4SKhC9GLkSmA056yg/hkv4zSGpQYDSwsT2kM+NsvldqO7UsWe22jfA
-	NKwcixPPWNciVikTtxyAMdiidgJA7a0CqBGvIdITEaxJKjjPClvxAgzdyhuzL/KA6JoqGSchPkB
-	1upVg7cRPEclQIxwVHVcnYS89px1JGSFCuF8GmHcFV+xaAdkIzFjUHrMAk23lTts5a0xTBwdmsp
-	ZSoiw9UqXDtn65nNvG6hI0oMo5JWIDIoCeY/U4iFkYgMfufcdpP/dG6OYTzk/TVCfmvN8e+1ynY
-	O15TDgs8H1Q==
-X-Google-Smtp-Source: AGHT+IEHKB83JWORDLqVWnA69Hqlc5qiM+x12zTZemAeViUz709pMq725MoDRiZWObzTMPH0TeWFyA==
-X-Received: by 2002:a05:6a20:12d5:b0:1f5:8678:183d with SMTP id adf61e73a8af0-1fbeba8fdfcmr7554267637.14.1742421581747;
-        Wed, 19 Mar 2025 14:59:41 -0700 (PDT)
+        bh=HUNOx6AMS3SHRYHpYYpQh3DOz0o7uDzbGPhBpeav/x8=;
+        b=RsFD7av2XI78XWKrylpdr6KvvINpMHVq5nTe0Uw6GcwS3VAp3lBVw/KGJWTAu6AQ9/
+         MeNxPz0Do8sz0TICOoAAZwFJn5ACdr8q8tFI65xuMfqjboMjE0IVfRIMcfvFlohsTF84
+         08+sxL14i0MqLXyyq7BeU4rYqyAyKCTpbvX6ahppBE1S/hLpdMeywQy1G6e+k/SAtgMr
+         P1J7SruGDh+yrbqHrXqDipaWdfyRPlUOel08WwQOyfsvxMoUySTALuxQTL6Eads6DD0r
+         X3gIQX26Jxk5zYyKUzxexePVoradgPGIg/JTaSLh489kjqK79bm0at9T6679TP563hVd
+         dFuQ==
+X-Gm-Message-State: AOJu0Yw9V7NeqFpfnlz52129PN7AamYfuOYm5unZX/p/jp2jpwzzhJ+C
+	JTXDOGmgIDOQd8sqbVshnyvcQZkQECD2EI4IQ+bl7nvJt4VoN/N5YCnc39/1bMSC5bEDs/TUHJI
+	=
+X-Gm-Gg: ASbGnctK0YFxJUz2XSxF+J+8GoJYy3upAI21eJt5yGurmTTCWjWDjL/IS8WW5qAB7Bj
+	M3+3rf6bwcrxDPWK2b4E3ysy9wLPReRYmgz0Q2Fj0ClEUYar0ielNi4mJfrbo5tdbq3rYUipZxQ
+	9wMQETwUP7bQ3SfC/SQwZE6NcCn4xc5e1UPeWaGXZkYhNLpQh11Lcn+sscXoyd5Qiv/KHxyA/yE
+	mvtldu47EP54Rl+vUFUyjv4ZH0I/bJkpDTje/tS+hkx7z6EwGe875p1cnZq4YJm9YvMBilrh5fg
+	p9EoxoW8CvTI+Wg8Psl0+QsHHV0dwKCAc7fi7CtUTkeWpe0i5HHTo6deojQTmzwLQXx4XgHnnDO
+	Sp5svwkqDYQ==
+X-Google-Smtp-Source: AGHT+IHLf1ezARTJkSh0ZQFiWLFXkKppFFH7GG+XwSuM6etYQCdBrwI9LnCcqVJt1FzhpXaNPQKvbQ==
+X-Received: by 2002:a17:902:e5ce:b0:224:23ab:b88b with SMTP id d9443c01a7336-2265ed81a4emr11237995ad.8.1742421583017;
+        Wed, 19 Mar 2025 14:59:43 -0700 (PDT)
 Received: from tiamat (c-69-181-214-135.hsd1.ca.comcast.net. [69.181.214.135])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7371167e02esm12576276b3a.95.2025.03.19.14.59.41
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-225c6bbe7ccsm120016755ad.174.2025.03.19.14.59.42
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 19 Mar 2025 14:59:41 -0700 (PDT)
+        Wed, 19 Mar 2025 14:59:42 -0700 (PDT)
 From: Michael Rubin <matchstick@neverthere.org>
 To: Dave Penkler <dpenkler@gmail.com>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Michael Rubin <matchstick@neverthere.org>
-Subject: [PATCH v1 04/20] staging: gpib: cb7210: struct gpib_board
-Date: Wed, 19 Mar 2025 21:59:08 +0000
-Message-ID: <20250319215924.19387-5-matchstick@neverthere.org>
+Subject: [PATCH v1 05/20] staging: gpib: cec_gpib: struct gpib_board
+Date: Wed, 19 Mar 2025 21:59:09 +0000
+Message-ID: <20250319215924.19387-6-matchstick@neverthere.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20250319215924.19387-1-matchstick@neverthere.org>
 References: <20250319215924.19387-1-matchstick@neverthere.org>
@@ -86,436 +87,244 @@ directly accessed should never be a typedef.
 
 Signed-off-by: Michael Rubin <matchstick@neverthere.org>
 ---
- drivers/staging/gpib/cb7210/cb7210.c | 107 ++++++++++++++-------------
- 1 file changed, 54 insertions(+), 53 deletions(-)
+ drivers/staging/gpib/cec/cec_gpib.c | 59 +++++++++++++++--------------
+ 1 file changed, 30 insertions(+), 29 deletions(-)
 
-diff --git a/drivers/staging/gpib/cb7210/cb7210.c b/drivers/staging/gpib/cb7210/cb7210.c
-index 808e0a71dfd6..621aa8fda913 100644
---- a/drivers/staging/gpib/cb7210/cb7210.c
-+++ b/drivers/staging/gpib/cb7210/cb7210.c
-@@ -27,7 +27,7 @@
- MODULE_LICENSE("GPL");
- MODULE_DESCRIPTION("GPIB driver Measurement Computing boards using cb7210.2 and cbi488.2");
+diff --git a/drivers/staging/gpib/cec/cec_gpib.c b/drivers/staging/gpib/cec/cec_gpib.c
+index 8f2b4b46a446..abe5b1b8bc5b 100644
+--- a/drivers/staging/gpib/cec/cec_gpib.c
++++ b/drivers/staging/gpib/cec/cec_gpib.c
+@@ -25,7 +25,7 @@ MODULE_DESCRIPTION("GPIB driver for CEC PCI and PCMCIA boards");
  
--static int cb7210_read(gpib_board_t *board, uint8_t *buffer, size_t length,
-+static int cb7210_read(struct gpib_board *board, uint8_t *buffer, size_t length,
- 		       int *end, size_t *bytes_read);
- 
- 	static inline int have_fifo_word(const struct cb7210_priv *cb_priv)
-@@ -40,7 +40,7 @@ static int cb7210_read(gpib_board_t *board, uint8_t *buffer, size_t length,
- 		return 0;
- }
- 
--static inline void input_fifo_enable(gpib_board_t *board, int enable)
-+static inline void input_fifo_enable(struct gpib_board *board, int enable)
+ static irqreturn_t cec_interrupt(int irq, void *arg)
  {
- 	struct cb7210_priv *cb_priv = board->private_data;
- 	struct nec7210_priv *nec_priv = &cb_priv->nec7210_priv;
-@@ -76,7 +76,7 @@ static inline void input_fifo_enable(gpib_board_t *board, int enable)
- 	spin_unlock_irqrestore(&board->spinlock, flags);
- }
- 
--static int fifo_read(gpib_board_t *board, struct cb7210_priv *cb_priv, uint8_t *buffer,
-+static int fifo_read(struct gpib_board *board, struct cb7210_priv *cb_priv, uint8_t *buffer,
- 		     size_t length, int *end, size_t *bytes_read)
- {
- 	ssize_t retval = 0;
-@@ -170,7 +170,7 @@ static int fifo_read(gpib_board_t *board, struct cb7210_priv *cb_priv, uint8_t *
- 	return retval;
- }
- 
--static int cb7210_accel_read(gpib_board_t *board, uint8_t *buffer,
-+static int cb7210_accel_read(struct gpib_board *board, uint8_t *buffer,
- 			     size_t length, int *end, size_t *bytes_read)
- {
- 	ssize_t retval;
-@@ -229,7 +229,7 @@ static int output_fifo_empty(const struct cb7210_priv *cb_priv)
- 		return 0;
- }
- 
--static inline void output_fifo_enable(gpib_board_t *board, int enable)
-+static inline void output_fifo_enable(struct gpib_board *board, int enable)
- {
- 	struct cb7210_priv *cb_priv = board->private_data;
- 	struct nec7210_priv *nec_priv = &cb_priv->nec7210_priv;
-@@ -264,7 +264,8 @@ static inline void output_fifo_enable(gpib_board_t *board, int enable)
- 	spin_unlock_irqrestore(&board->spinlock, flags);
- }
- 
--static int fifo_write(gpib_board_t *board, uint8_t *buffer, size_t length, size_t *bytes_written)
-+static int fifo_write(struct gpib_board *board, uint8_t *buffer, size_t length,
-+		      size_t *bytes_written)
- {
- 	size_t count = 0;
- 	ssize_t retval = 0;
-@@ -349,8 +350,8 @@ static int fifo_write(gpib_board_t *board, uint8_t *buffer, size_t length, size_
- 	return retval;
- }
- 
--static int cb7210_accel_write(gpib_board_t *board, uint8_t *buffer, size_t length, int send_eoi,
--			      size_t *bytes_written)
-+static int cb7210_accel_write(struct gpib_board *board, uint8_t *buffer,
-+			      size_t length, int send_eoi, size_t *bytes_written)
- {
- 	struct cb7210_priv *cb_priv = board->private_data;
- 	struct nec7210_priv *nec_priv = &cb_priv->nec7210_priv;
-@@ -377,7 +378,7 @@ static int cb7210_accel_write(gpib_board_t *board, uint8_t *buffer, size_t lengt
- 	return retval;
- }
- 
--static int cb7210_line_status(const gpib_board_t *board)
-+static int cb7210_line_status(const struct gpib_board *board)
- {
- 	int status = VALID_ALL;
- 	int bsr_bits;
-@@ -407,7 +408,7 @@ static int cb7210_line_status(const gpib_board_t *board)
- 	return status;
- }
- 
--static unsigned int cb7210_t1_delay(gpib_board_t *board, unsigned int nano_sec)
-+static unsigned int cb7210_t1_delay(struct gpib_board *board, unsigned int nano_sec)
- {
- 	struct cb7210_priv *cb_priv = board->private_data;
- 	struct nec7210_priv *nec_priv = &cb_priv->nec7210_priv;
-@@ -424,7 +425,7 @@ static unsigned int cb7210_t1_delay(gpib_board_t *board, unsigned int nano_sec)
- 	return retval;
- }
- 
--static irqreturn_t cb7210_locked_internal_interrupt(gpib_board_t *board);
-+static irqreturn_t cb7210_locked_internal_interrupt(struct gpib_board *board);
- 
- /*
-  * GPIB interrupt service routines
-@@ -433,7 +434,7 @@ static irqreturn_t cb7210_locked_internal_interrupt(gpib_board_t *board);
- static irqreturn_t cb_pci_interrupt(int irq, void *arg)
- {
- 	int bits;
 -	gpib_board_t *board = arg;
 +	struct gpib_board *board = arg;
- 	struct cb7210_priv *priv = board->private_data;
- 
- 	// first task check if this is really our interrupt in a shared irq environment
-@@ -462,7 +463,7 @@ static irqreturn_t cb_pci_interrupt(int irq, void *arg)
- 	return cb7210_locked_internal_interrupt(arg);
- }
- 
--static irqreturn_t cb7210_internal_interrupt(gpib_board_t *board)
-+static irqreturn_t cb7210_internal_interrupt(struct gpib_board *board)
- {
- 	int hs_status, status1, status2;
- 	struct cb7210_priv *priv = board->private_data;
-@@ -516,7 +517,7 @@ static irqreturn_t cb7210_internal_interrupt(gpib_board_t *board)
- 	return IRQ_HANDLED;
- }
- 
--static irqreturn_t cb7210_locked_internal_interrupt(gpib_board_t *board)
-+static irqreturn_t cb7210_locked_internal_interrupt(struct gpib_board *board)
- {
+ 	struct cec_priv *priv = board->private_data;
  	unsigned long flags;
  	irqreturn_t retval;
-@@ -532,14 +533,14 @@ static irqreturn_t cb7210_interrupt(int irq, void *arg)
- 	return cb7210_internal_interrupt(arg);
- }
+@@ -40,12 +40,12 @@ static irqreturn_t cec_interrupt(int irq, void *arg)
+ #define CEC_DEV_ID    0x5cec
+ #define CEC_SUBID 0x9050
  
--static int cb_pci_attach(gpib_board_t *board, const gpib_board_config_t *config);
--static int cb_isa_attach(gpib_board_t *board, const gpib_board_config_t *config);
-+static int cb_pci_attach(struct gpib_board *board, const gpib_board_config_t *config);
-+static int cb_isa_attach(struct gpib_board *board, const gpib_board_config_t *config);
+-static int cec_pci_attach(gpib_board_t *board, const gpib_board_config_t *config);
++static int cec_pci_attach(struct gpib_board *board, const gpib_board_config_t *config);
  
--static void cb_pci_detach(gpib_board_t *board);
--static void cb_isa_detach(gpib_board_t *board);
-+static void cb_pci_detach(struct gpib_board *board);
-+static void cb_isa_detach(struct gpib_board *board);
+-static void cec_pci_detach(gpib_board_t *board);
++static void cec_pci_detach(struct gpib_board *board);
  
  // wrappers for interface functions
--static int cb7210_read(gpib_board_t *board, uint8_t *buffer, size_t length,
-+static int cb7210_read(struct gpib_board *board, uint8_t *buffer, size_t length,
- 		       int *end, size_t *bytes_read)
+-static int cec_read(gpib_board_t *board, uint8_t *buffer, size_t length, int *end,
++static int cec_read(struct gpib_board *board, uint8_t *buffer, size_t length, int *end,
+ 		    size_t *bytes_read)
  {
- 	struct cb7210_priv *priv = board->private_data;
-@@ -547,7 +548,7 @@ static int cb7210_read(gpib_board_t *board, uint8_t *buffer, size_t length,
+ 	struct cec_priv *priv = board->private_data;
+@@ -53,7 +53,7 @@ static int cec_read(gpib_board_t *board, uint8_t *buffer, size_t length, int *en
  	return nec7210_read(board, &priv->nec7210_priv, buffer, length, end, bytes_read);
  }
  
--static int cb7210_write(gpib_board_t *board, uint8_t *buffer, size_t length,
-+static int cb7210_write(struct gpib_board *board, uint8_t *buffer, size_t length,
- 			int send_eoi, size_t *bytes_written)
+-static int cec_write(gpib_board_t *board, uint8_t *buffer, size_t length, int send_eoi,
++static int cec_write(struct gpib_board *board, uint8_t *buffer, size_t length, int send_eoi,
+ 		     size_t *bytes_written)
  {
- 	struct cb7210_priv *priv = board->private_data;
-@@ -555,7 +556,7 @@ static int cb7210_write(gpib_board_t *board, uint8_t *buffer, size_t length,
+ 	struct cec_priv *priv = board->private_data;
+@@ -61,126 +61,127 @@ static int cec_write(gpib_board_t *board, uint8_t *buffer, size_t length, int se
  	return nec7210_write(board, &priv->nec7210_priv, buffer, length, send_eoi, bytes_written);
  }
  
--static int cb7210_command(gpib_board_t *board, uint8_t *buffer, size_t length,
-+static int cb7210_command(struct gpib_board *board, uint8_t *buffer, size_t length,
- 			  size_t *bytes_written)
+-static int cec_command(gpib_board_t *board, uint8_t *buffer, size_t length, size_t *bytes_written)
++static int cec_command(struct gpib_board *board, uint8_t *buffer,
++		       size_t length, size_t *bytes_written)
  {
- 	struct cb7210_priv *priv = board->private_data;
-@@ -563,21 +564,21 @@ static int cb7210_command(gpib_board_t *board, uint8_t *buffer, size_t length,
+ 	struct cec_priv *priv = board->private_data;
+ 
  	return nec7210_command(board, &priv->nec7210_priv, buffer, length, bytes_written);
  }
  
--static int cb7210_take_control(gpib_board_t *board, int synchronous)
-+static int cb7210_take_control(struct gpib_board *board, int synchronous)
+-static int cec_take_control(gpib_board_t *board, int synchronous)
++static int cec_take_control(struct gpib_board *board, int synchronous)
  {
- 	struct cb7210_priv *priv = board->private_data;
+ 	struct cec_priv *priv = board->private_data;
  
  	return nec7210_take_control(board, &priv->nec7210_priv, synchronous);
  }
  
--static int cb7210_go_to_standby(gpib_board_t *board)
-+static int cb7210_go_to_standby(struct gpib_board *board)
+-static int cec_go_to_standby(gpib_board_t *board)
++static int cec_go_to_standby(struct gpib_board *board)
  {
- 	struct cb7210_priv *priv = board->private_data;
+ 	struct cec_priv *priv = board->private_data;
  
  	return nec7210_go_to_standby(board, &priv->nec7210_priv);
  }
  
--static void cb7210_request_system_control(gpib_board_t *board, int request_control)
-+static void cb7210_request_system_control(struct gpib_board *board, int request_control)
+-static void cec_request_system_control(gpib_board_t *board, int request_control)
++static void cec_request_system_control(struct gpib_board *board, int request_control)
  {
- 	struct cb7210_priv *priv = board->private_data;
- 	struct nec7210_priv *nec_priv = &priv->nec7210_priv;
-@@ -591,91 +592,91 @@ static void cb7210_request_system_control(gpib_board_t *board, int request_contr
- 	nec7210_request_system_control(board, nec_priv, request_control);
+ 	struct cec_priv *priv = board->private_data;
+ 
+ 	nec7210_request_system_control(board, &priv->nec7210_priv, request_control);
  }
  
--static void cb7210_interface_clear(gpib_board_t *board, int assert)
-+static void cb7210_interface_clear(struct gpib_board *board, int assert)
+-static void cec_interface_clear(gpib_board_t *board, int assert)
++static void cec_interface_clear(struct gpib_board *board, int assert)
  {
- 	struct cb7210_priv *priv = board->private_data;
+ 	struct cec_priv *priv = board->private_data;
  
  	nec7210_interface_clear(board, &priv->nec7210_priv, assert);
  }
  
--static void cb7210_remote_enable(gpib_board_t *board, int enable)
-+static void cb7210_remote_enable(struct gpib_board *board, int enable)
+-static void cec_remote_enable(gpib_board_t *board, int enable)
++static void cec_remote_enable(struct gpib_board *board, int enable)
  {
- 	struct cb7210_priv *priv = board->private_data;
+ 	struct cec_priv *priv = board->private_data;
  
  	nec7210_remote_enable(board, &priv->nec7210_priv, enable);
  }
  
--static int cb7210_enable_eos(gpib_board_t *board, uint8_t eos_byte, int compare_8_bits)
-+static int cb7210_enable_eos(struct gpib_board *board, uint8_t eos_byte, int compare_8_bits)
+-static int cec_enable_eos(gpib_board_t *board, uint8_t eos_byte, int compare_8_bits)
++static int cec_enable_eos(struct gpib_board *board, uint8_t eos_byte, int compare_8_bits)
  {
- 	struct cb7210_priv *priv = board->private_data;
+ 	struct cec_priv *priv = board->private_data;
  
  	return nec7210_enable_eos(board, &priv->nec7210_priv, eos_byte, compare_8_bits);
  }
  
--static void cb7210_disable_eos(gpib_board_t *board)
-+static void cb7210_disable_eos(struct gpib_board *board)
+-static void cec_disable_eos(gpib_board_t *board)
++static void cec_disable_eos(struct gpib_board *board)
  {
- 	struct cb7210_priv *priv = board->private_data;
+ 	struct cec_priv *priv = board->private_data;
  
  	nec7210_disable_eos(board, &priv->nec7210_priv);
  }
  
--static unsigned int cb7210_update_status(gpib_board_t *board, unsigned int clear_mask)
-+static unsigned int cb7210_update_status(struct gpib_board *board, unsigned int clear_mask)
+-static unsigned int cec_update_status(gpib_board_t *board, unsigned int clear_mask)
++static unsigned int cec_update_status(struct gpib_board *board, unsigned int clear_mask)
  {
- 	struct cb7210_priv *priv = board->private_data;
+ 	struct cec_priv *priv = board->private_data;
  
  	return nec7210_update_status(board, &priv->nec7210_priv, clear_mask);
  }
  
--static int cb7210_primary_address(gpib_board_t *board, unsigned int address)
-+static int cb7210_primary_address(struct gpib_board *board, unsigned int address)
+-static int cec_primary_address(gpib_board_t *board, unsigned int address)
++static int cec_primary_address(struct gpib_board *board, unsigned int address)
  {
- 	struct cb7210_priv *priv = board->private_data;
+ 	struct cec_priv *priv = board->private_data;
  
  	return nec7210_primary_address(board, &priv->nec7210_priv, address);
  }
  
--static int cb7210_secondary_address(gpib_board_t *board, unsigned int address, int enable)
-+static int cb7210_secondary_address(struct gpib_board *board, unsigned int address, int enable)
+-static int cec_secondary_address(gpib_board_t *board, unsigned int address, int enable)
++static int cec_secondary_address(struct gpib_board *board, unsigned int address, int enable)
  {
- 	struct cb7210_priv *priv = board->private_data;
+ 	struct cec_priv *priv = board->private_data;
  
  	return nec7210_secondary_address(board, &priv->nec7210_priv, address, enable);
  }
  
--static int cb7210_parallel_poll(gpib_board_t *board, uint8_t *result)
-+static int cb7210_parallel_poll(struct gpib_board *board, uint8_t *result)
+-static int cec_parallel_poll(gpib_board_t *board, uint8_t *result)
++static int cec_parallel_poll(struct gpib_board *board, uint8_t *result)
  {
- 	struct cb7210_priv *priv = board->private_data;
+ 	struct cec_priv *priv = board->private_data;
  
  	return nec7210_parallel_poll(board, &priv->nec7210_priv, result);
  }
  
--static void cb7210_parallel_poll_configure(gpib_board_t *board, uint8_t configuration)
-+static void cb7210_parallel_poll_configure(struct gpib_board *board, uint8_t configuration)
+-static void cec_parallel_poll_configure(gpib_board_t *board, uint8_t config)
++static void cec_parallel_poll_configure(struct gpib_board *board, uint8_t config)
  {
- 	struct cb7210_priv *priv = board->private_data;
+ 	struct cec_priv *priv = board->private_data;
  
- 	nec7210_parallel_poll_configure(board, &priv->nec7210_priv, configuration);
+ 	nec7210_parallel_poll_configure(board, &priv->nec7210_priv, config);
  }
  
--static void cb7210_parallel_poll_response(gpib_board_t *board, int ist)
-+static void cb7210_parallel_poll_response(struct gpib_board *board, int ist)
+-static void cec_parallel_poll_response(gpib_board_t *board, int ist)
++static void cec_parallel_poll_response(struct gpib_board *board, int ist)
  {
- 	struct cb7210_priv *priv = board->private_data;
+ 	struct cec_priv *priv = board->private_data;
  
  	nec7210_parallel_poll_response(board, &priv->nec7210_priv, ist);
  }
  
--static void cb7210_serial_poll_response(gpib_board_t *board, uint8_t status)
-+static void cb7210_serial_poll_response(struct gpib_board *board, uint8_t status)
+-static void cec_serial_poll_response(gpib_board_t *board, uint8_t status)
++static void cec_serial_poll_response(struct gpib_board *board, uint8_t status)
  {
- 	struct cb7210_priv *priv = board->private_data;
+ 	struct cec_priv *priv = board->private_data;
  
  	nec7210_serial_poll_response(board, &priv->nec7210_priv, status);
  }
  
--static uint8_t cb7210_serial_poll_status(gpib_board_t *board)
-+static uint8_t cb7210_serial_poll_status(struct gpib_board *board)
+-static uint8_t cec_serial_poll_status(gpib_board_t *board)
++static uint8_t cec_serial_poll_status(struct gpib_board *board)
  {
- 	struct cb7210_priv *priv = board->private_data;
+ 	struct cec_priv *priv = board->private_data;
  
  	return nec7210_serial_poll_status(board, &priv->nec7210_priv);
  }
  
--static void cb7210_return_to_local(gpib_board_t *board)
-+static void cb7210_return_to_local(struct gpib_board *board)
+-static unsigned int cec_t1_delay(gpib_board_t *board, unsigned int nano_sec)
++static unsigned int cec_t1_delay(struct gpib_board *board, unsigned int nano_sec)
  {
- 	struct cb7210_priv *priv = board->private_data;
- 	struct nec7210_priv *nec_priv = &priv->nec7210_priv;
-@@ -851,7 +852,7 @@ static gpib_interface_t cb_isa_accel_interface = {
- 	.return_to_local = cb7210_return_to_local,
+ 	struct cec_priv *priv = board->private_data;
+ 
+ 	return nec7210_t1_delay(board, &priv->nec7210_priv, nano_sec);
+ }
+ 
+-static void cec_return_to_local(gpib_board_t *board)
++static void cec_return_to_local(struct gpib_board *board)
+ {
+ 	struct cec_priv *priv = board->private_data;
+ 
+@@ -215,7 +216,7 @@ static gpib_interface_t cec_pci_interface = {
+ 	.return_to_local = cec_return_to_local,
  };
  
--static int cb7210_allocate_private(gpib_board_t *board)
-+static int cb7210_allocate_private(struct gpib_board *board)
+-static int cec_allocate_private(gpib_board_t *board)
++static int cec_allocate_private(struct gpib_board *board)
  {
- 	struct cb7210_priv *priv;
+ 	struct cec_priv *priv;
  
-@@ -864,14 +865,14 @@ static int cb7210_allocate_private(gpib_board_t *board)
+@@ -228,13 +229,13 @@ static int cec_allocate_private(gpib_board_t *board)
  	return 0;
  }
  
--static void cb7210_generic_detach(gpib_board_t *board)
-+static void cb7210_generic_detach(struct gpib_board *board)
+-static void cec_free_private(gpib_board_t *board)
++static void cec_free_private(struct gpib_board *board)
  {
  	kfree(board->private_data);
  	board->private_data = NULL;
  }
  
- // generic part of attach functions shared by all cb7210 boards
--static int cb7210_generic_attach(gpib_board_t *board)
-+static int cb7210_generic_attach(struct gpib_board *board)
+-static int cec_generic_attach(gpib_board_t *board)
++static int cec_generic_attach(struct gpib_board *board)
  {
- 	struct cb7210_priv *cb_priv;
+ 	struct cec_priv *cec_priv;
  	struct nec7210_priv *nec_priv;
-@@ -889,7 +890,7 @@ static int cb7210_generic_attach(gpib_board_t *board)
+@@ -252,7 +253,7 @@ static int cec_generic_attach(gpib_board_t *board)
  	return 0;
  }
  
--static int cb7210_init(struct cb7210_priv *cb_priv, gpib_board_t *board)
-+static int cb7210_init(struct cb7210_priv *cb_priv, struct gpib_board *board)
+-static void cec_init(struct cec_priv *cec_priv, const gpib_board_t *board)
++static void cec_init(struct cec_priv *cec_priv, const struct gpib_board *board)
  {
- 	struct nec7210_priv *nec_priv = &cb_priv->nec7210_priv;
+ 	struct nec7210_priv *nec_priv = &cec_priv->nec7210_priv;
  
-@@ -925,7 +926,7 @@ static int cb7210_init(struct cb7210_priv *cb_priv, gpib_board_t *board)
+@@ -264,7 +265,7 @@ static void cec_init(struct cec_priv *cec_priv, const gpib_board_t *board)
+ 	nec7210_board_online(nec_priv, board);
+ }
+ 
+-static int cec_pci_attach(gpib_board_t *board, const gpib_board_config_t *config)
++static int cec_pci_attach(struct gpib_board *board, const gpib_board_config_t *config)
+ {
+ 	struct cec_priv *cec_priv;
+ 	struct nec7210_priv *nec_priv;
+@@ -322,7 +323,7 @@ static int cec_pci_attach(gpib_board_t *board, const gpib_board_config_t *config
  	return 0;
  }
  
--static int cb_pci_attach(gpib_board_t *board, const gpib_board_config_t *config)
-+static int cb_pci_attach(struct gpib_board *board, const gpib_board_config_t *config)
+-static void cec_pci_detach(gpib_board_t *board)
++static void cec_pci_detach(struct gpib_board *board)
  {
- 	struct cb7210_priv *cb_priv;
- 	struct nec7210_priv *nec_priv;
-@@ -1007,7 +1008,7 @@ static int cb_pci_attach(gpib_board_t *board, const gpib_board_config_t *config)
- 	return cb7210_init(cb_priv, board);
- }
- 
--static void cb_pci_detach(gpib_board_t *board)
-+static void cb_pci_detach(struct gpib_board *board)
- {
- 	struct cb7210_priv *cb_priv = board->private_data;
- 	struct nec7210_priv *nec_priv;
-@@ -1030,7 +1031,7 @@ static void cb_pci_detach(gpib_board_t *board)
- 	cb7210_generic_detach(board);
- }
- 
--static int cb_isa_attach(gpib_board_t *board, const gpib_board_config_t *config)
-+static int cb_isa_attach(struct gpib_board *board, const gpib_board_config_t *config)
- {
- 	int isr_flags = 0;
- 	struct cb7210_priv *cb_priv;
-@@ -1066,7 +1067,7 @@ static int cb_isa_attach(gpib_board_t *board, const gpib_board_config_t *config)
- 	return cb7210_init(cb_priv, board);
- }
- 
--static void cb_isa_detach(gpib_board_t *board)
-+static void cb_isa_detach(struct gpib_board *board)
- {
- 	struct cb7210_priv *cb_priv = board->private_data;
- 	struct nec7210_priv *nec_priv;
-@@ -1132,8 +1133,8 @@ static struct pci_driver cb7210_pci_driver = {
- 
- static int cb_gpib_config(struct pcmcia_device	*link);
- static void cb_gpib_release(struct pcmcia_device  *link);
--static int cb_pcmcia_attach(gpib_board_t *board, const gpib_board_config_t *config);
--static void cb_pcmcia_detach(gpib_board_t *board);
-+static int cb_pcmcia_attach(struct gpib_board *board, const gpib_board_config_t *config);
-+static void cb_pcmcia_detach(struct gpib_board *board);
- 
- /*
-  *  A linked list of "instances" of the gpib device.  Each actual
-@@ -1166,7 +1167,7 @@ static	struct pcmcia_device  *curr_dev;
- 
- struct local_info {
- 	struct pcmcia_device	*p_dev;
--	gpib_board_t		*dev;
-+	struct gpib_board		*dev;
- };
- 
- /*
-@@ -1222,7 +1223,7 @@ static int cb_gpib_probe(struct pcmcia_device *link)
- static void cb_gpib_remove(struct pcmcia_device *link)
- {
- 	struct local_info *info = link->priv;
--	//struct gpib_board_t *dev = info->dev;
-+	//struct struct gpib_board *dev = info->dev;
- 
- 	if (info->dev)
- 		cb_pcmcia_detach(info->dev);
-@@ -1287,7 +1288,7 @@ static void cb_gpib_release(struct pcmcia_device *link)
- static int cb_gpib_suspend(struct pcmcia_device *link)
- {
- 	//struct local_info *info = link->priv;
--	//struct gpib_board_t *dev = info->dev;
-+	//struct struct gpib_board *dev = info->dev;
- 
- 	if (link->open)
- 		dev_warn(&link->dev, "Device still open\n");
-@@ -1299,7 +1300,7 @@ static int cb_gpib_suspend(struct pcmcia_device *link)
- static int cb_gpib_resume(struct pcmcia_device *link)
- {
- 	//struct local_info *info = link->priv;
--	//struct gpib_board_t *dev = info->dev;
-+	//struct struct gpib_board *dev = info->dev;
- 
- 	/*if (link->open) {
- 	 *	ni_gpib_probe(dev);	/ really?
-@@ -1416,7 +1417,7 @@ static gpib_interface_t cb_pcmcia_accel_interface = {
- 	.return_to_local = cb7210_return_to_local,
- };
- 
--static int cb_pcmcia_attach(gpib_board_t *board, const gpib_board_config_t *config)
-+static int cb_pcmcia_attach(struct gpib_board *board, const gpib_board_config_t *config)
- {
- 	struct cb7210_priv *cb_priv;
- 	struct nec7210_priv *nec_priv;
-@@ -1452,7 +1453,7 @@ static int cb_pcmcia_attach(gpib_board_t *board, const gpib_board_config_t *conf
- 	return cb7210_init(cb_priv, board);
- }
- 
--static void cb_pcmcia_detach(gpib_board_t *board)
-+static void cb_pcmcia_detach(struct gpib_board *board)
- {
- 	struct cb7210_priv *cb_priv = board->private_data;
+ 	struct cec_priv *cec_priv = board->private_data;
  	struct nec7210_priv *nec_priv;
 -- 
 2.43.0
