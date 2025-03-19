@@ -1,74 +1,73 @@
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30E1D18E25
-	for <linux-staging@lists.linux.dev>; Wed, 19 Mar 2025 04:52:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2D8B259C8B
+	for <linux-staging@lists.linux.dev>; Wed, 19 Mar 2025 11:10:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742359946; cv=none; b=f//fSBcFq27Tu6PjPQ/9cPCcIiN5oFrFC9PxiRnXwhx0V6EXhdTpoNbSfP30jQmy4tVWTBnKqXhQEu92O6jqoyDkCr0VgP410xTnPm0ss0cYnfSr5XmOAfUn5VqCQ68GPxWgxPPwq6Ftoum8k2swVC9P0Gyl4qpriQcuNwYydPs=
+	t=1742382655; cv=none; b=rPNhlRTYS+xNTVhdVW/kYQQWDkNfpcqub3geb2N95HNupYMMaYIhW67FCLxKaH0+hJNZh2fTdclFMWtfOk7z4vXrPnJcoA0/4h7SZeKvVQQ0TP0g3T1zfgd/wfOGY1fAh7rYd9xLtDc+SXRJ2vfAosULDdSyyTsvqLvH4Lgfg2o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742359946; c=relaxed/simple;
-	bh=Iy2Fi78748Gkenm398s+hnw7QUv7zgXAa5cKzu1Rzvg=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=dRrtaS8CUa6xrWWTPW0fAc2C7BHG172KFqHKJUqdBUZdP9uJbEJWkLDwIfWm4J28vFQW/c0OJDHQa/Tm3KDatSJ2lFKugdvKZQg4ZGdu+3HGkIFYtASdNZ1+4wAup9X2mcgpH7IDBd+iL6+hsxyqJDaM8XQxOTFHYHaST+1IB+4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Em3LSdDZ; arc=none smtp.client-ip=209.85.214.179
+	s=arc-20240116; t=1742382655; c=relaxed/simple;
+	bh=DuCRhfvY1YWAlcegeb2xSNc/frHOXvyRWj9TuE87/Fc=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=EyD/eO+IN3qRemJW++sGFRExl864VKVHrWRmi0C1+WvHpkdYf9ekemObLxkujyd4YJzPryDIcKCPHtx03YAIj8ensD8wxw42xqDiy2ADplYe4s8ID1U27zJ0xA19ymvZW+Ff9EWGOSC5bRr8rb/mkGR1TDvw0KLnbOpvw2H2DKM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=m0EaaidG; arc=none smtp.client-ip=209.85.128.48
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Em3LSdDZ"
-Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-223a7065ff8so33340565ad.0
-        for <linux-staging@lists.linux.dev>; Tue, 18 Mar 2025 21:52:24 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="m0EaaidG"
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-43cf0d787eeso45424745e9.3
+        for <linux-staging@lists.linux.dev>; Wed, 19 Mar 2025 04:10:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1742359944; x=1742964744; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1742382651; x=1742987451; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=ViI9oxgTgNJdDe24WqEO5GfQVLS8soxzJZzaX0YdAjE=;
-        b=Em3LSdDZHYIi7U7MS3lxXq/hKyJhi7prH8OQMVpy9mfaIUycnblRyqsPRvjq94Fmdk
-         v1mDfJ8UC6VCqT53sHw8EAViplmsH8+QRD4tMix/muR3hLF12iwlen+ZZ+QDPV+jBN1e
-         cht/VgzAmO/hgNjJ211JQLR3YYfyJyb8XYGQa/B0XPtqvTyx43v93dNMx9vRo+wvUTpq
-         HYbHQWpl7NAS92R/RnAYHqsMatQF26E8tIOKlzLOkHxKadLFbBttR4+OyuGVKIYYf1w9
-         BXV9rIl79NuVm9jBrdGRBqpVp5SV+LtsRpD2aunfPQxlYoey0WKGh544h2SeFImdFF5R
-         weCg==
+        bh=rEqsHasWuQ53hJKWtja1pTPO3NrgTSuGn7P0x/RZWWg=;
+        b=m0EaaidGwqTy05YWcAp8VaCQFhmGfT5FoJbD56YTE4I1KZ830NDdMNgfF69liPbl0u
+         AM+sBqmdEWD9cioLPqpQKnSNEVPe8AyvBgfNWSz726AR2oxV4ypyX87SgCjjIUtX1vit
+         jQ4ozKoZ9XK1KacoBq/iBaiN7UINycBzepOBsPfWg54PLdRpRO4kYcE1F3jCcu18hzjk
+         jZHnHEDVI2qpTvdpBcGo6+fiPF/e2vINBH/uJjRhVBt78snDdFN9CwRQLIzPzCUiIDSq
+         nmwNzpVg1edFqOmiNwY2v8sDpU+Flgg1sRSLroVx7lcLkhYXmFhpRtDp4iStzNVn7R0h
+         BZvA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742359944; x=1742964744;
+        d=1e100.net; s=20230601; t=1742382651; x=1742987451;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=ViI9oxgTgNJdDe24WqEO5GfQVLS8soxzJZzaX0YdAjE=;
-        b=mOZDKt8tsVz20+H5k+EOfQRbnU0/MIix35jgWxyMGhTu4dfbUtZqCj4CAe+R/U/c66
-         OJkw4Tck+rOctVEP++S0ZusPbAeRIR/qnIgTQAezI7aVbQeVs9M4MLN505fn8QTtbAdi
-         msopNj7X0W8xmDRStXBLwTxSRftYZiDnD6ZJWP/32d6XuAhPiOnhCFqyVfMmf9flFQGF
-         7SbZ/Rw3R6BnxLR5zBJ0mBwI8cHGo8bR1xhS7J51Y72AeKAnFL9YmJT4jY5RX+5GsyfL
-         KJZegtYI6Z+d505jV4uCnO9VdvdOhqUUsaCcXGR5S9g7vzNkky3brIwyl4BXdenJGodV
-         Us7w==
-X-Forwarded-Encrypted: i=1; AJvYcCWWfMUF17f4Heg74tCdZpS0CfQWCEkGWdNlo+8P1rt2YXZUWwphC9/gdIEEA9vmPt2QWJ2FioQTrPtBxqe7@lists.linux.dev
-X-Gm-Message-State: AOJu0YwJx1OiswZGh3JmpFjNSImTGnXaf73r/AjuQivjEU1jt8oPl2wM
-	xZlDQnA8jqyDd1m1mUderT9GBofETuMF2Ksx5BO4ah9fUEDXabUg
-X-Gm-Gg: ASbGnctrjGIGRrDWCQbfKT4SmG83jm5e1cNIY1CD2M6eXA62KSaULsv8AgH8j45lG3C
-	/HwjN7V0oK6VNDQ9OF4W9p9jOpjDMwTpsuqNinj/5RNIjngyyqt3tLYmZMFpOIKCYcCb2WM5pe3
-	CIV1j6l6AK4AsNc6cUBJ6bVWKH+wq6GX1N7GPrVSFUrW8wzz/tY1YVeJQIJ0WSrYx8f6tqMo8XD
-	tJYyiA2CGi/FrBtM0S8cgRRH2uz1QL4uQ0zm5tDQSGSTdplmcOMe7Rj3I2H/QtThuKhfr3FBti3
-	bckuiR4dcuSqb1D43ZGB4wf9Ln01FaVn7hN4xZ0=
-X-Google-Smtp-Source: AGHT+IHpoO9bEdJdyGhq/Gmyr1sG1NTY/9SZitQHUWXLdZKE44TeAwBmh6/LUru1W6WBPoqXD46eEA==
-X-Received: by 2002:a05:6a00:3d4a:b0:736:a77d:5412 with SMTP id d2e1a72fcca58-7376d633ae0mr1940229b3a.12.1742359944131;
-        Tue, 18 Mar 2025 21:52:24 -0700 (PDT)
-Received: from fedora.. ([2409:40f3:29:9d3:cbd3:8af4:f398:31a2])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-737116b103asm10595512b3a.162.2025.03.18.21.52.18
+        bh=rEqsHasWuQ53hJKWtja1pTPO3NrgTSuGn7P0x/RZWWg=;
+        b=s5xI/Y9sT91lIiteJSduZUNAk2itF4R6YDd/zIpd3gdEsFksGhqIM5W78n5LR6QeTF
+         nR4v953TGYmtG87ZBPS0jBhkNoMMHCMYsl1DPiT4rhUZPF4Lj8V6Qn8L+hVw1e1SlIN5
+         cJ08Wj/YwYErm+je9+Kc5nbq7KNqum0EihoIX1mv0V/T3pq28/ue4iQnO9uIeQWdjevo
+         yEAXRPxrmxa2xKvGnhubCGEt205KYgi1I4FQIxg/qjDklWKAora1dx5ufyNlFtPUP8PC
+         T3ytXpe3OulHG7MNqWR7WmE7UdL7L6YovCvon5qtDNc3oRj7SO+6pn8UkW4rAuMYp6LX
+         eHjQ==
+X-Forwarded-Encrypted: i=1; AJvYcCX3cFdsyM/S1pWT1Z6OwaR5KFSx1tT4Auhxsu4NSgHzqYirDI9QIYHw1Pr/0RIt8zJgS1snInEggbRnTGXE@lists.linux.dev
+X-Gm-Message-State: AOJu0YwRKWFSS7/nGZoxd7rv3KVbeUWBiBwaJ/sRajSQ/fGgMhW8wVqm
+	FdtufBMAwzoHkcPEQpi91nykV63FGENCqM3/xxScpWGqKuilS1qd
+X-Gm-Gg: ASbGncszk+clCXeifMluLO4DopTLqvuSqCrTxb00p5oOWnyCoh10oAkO1rVkNWdUpy7
+	3VqZfz8xZmEgrFKUmdYJe7EJqLBHiR4sYgo1fHkjBIjIB5hgcHCOrKxHXT1cYXiup1Bvt1/h1Z2
+	TrRZWRlX6lbJsTXDiIwfE6ZzKZ4P7A+1qXVvHcXMzf3tGd6ZXbY3DFHl/Wwr9/HNTn4R0/7F3LP
+	M+KPBCRhY4Hf5VJkXEF0vFEWIBgVWmSywX5IFjEM7vqtXKGWAOGwEa8qxctKDu6CwQaRhr70p3C
+	q5hNPA+11qAB/Z8xHzSqwCWiBmpyn3f2GCDIPJoeW31BxVA3t49efS+qAiTmYkxoihW3aDvbhw=
+	=
+X-Google-Smtp-Source: AGHT+IHDT/p/3j+bWc722lk+UMK/0hxzdn0fzyby6MFzE7vnohTsH7ooXbuzUm1mBdUhwujdIXj5oQ==
+X-Received: by 2002:a05:600c:c1b:b0:43c:fad6:fa5a with SMTP id 5b1f17b1804b1-43d4381617dmr18101475e9.24.1742382650623;
+        Wed, 19 Mar 2025 04:10:50 -0700 (PDT)
+Received: from localhost.localdomain ([5.29.19.3])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-395c8e43244sm21156411f8f.60.2025.03.19.04.10.49
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 18 Mar 2025 21:52:23 -0700 (PDT)
-From: Siddharth Menon <simeddon@gmail.com>
-To: linux-iio@vger.kernel.org,
-	lars@metafoo.de,
-	Michael.Hennerich@analog.com,
-	jic23@kernel.org,
-	gregkh@linuxfoundation.org
-Cc: linux-kernel@vger.kernel.org,
+        Wed, 19 Mar 2025 04:10:50 -0700 (PDT)
+From: David Zalman <davidzalman.101@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: vivek6429.ts@gmail.com,
+	philipp.g.hortmann@gmail.com,
+	viro@zeniv.linux.org.uk,
 	linux-staging@lists.linux.dev,
-	Siddharth Menon <simeddon@gmail.com>,
-	Marcelo Schmitt <marcelo.schmitt1@gmail.com>
-Subject: [PATCH v3] iio: frequency: ad9832: Use FIELD_PREP macro to set bit fields
-Date: Wed, 19 Mar 2025 10:04:29 +0530
-Message-ID: <20250319045212.72650-1-simeddon@gmail.com>
-X-Mailer: git-send-email 2.48.1
+	linux-kernel@vger.kernel.org,
+	David Zalman <davidzalman.101@gmail.com>
+Subject: [PATCH] staging: rtl8723bs: fixed a unnecessary parentheses coding style issue
+Date: Wed, 19 Mar 2025 07:10:12 -0400
+Message-Id: <20250319111012.1588-1-davidzalman.101@gmail.com>
+X-Mailer: git-send-email 2.39.5
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -77,164 +76,337 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Refactor code to use the FIELD_PREP macro for setting bit fields
-instead of manual bit manipulation.
+Remove unnecessary parentheses around derefrened pointers in
+core/rtw_ap.c to adapter to the Linux kernel coding style.
 
-Suggested-by: Marcelo Schmitt <marcelo.schmitt1@gmail.com>
-Signed-off-by: Siddharth Menon <simeddon@gmail.com>
+Reported by checkpatch:
+
+CHECK: Unnecessary parentheses around x->y
+
+Signed-off-by: David Zalman <davidzalman.101@gmail.com>
 ---
- This one compiles and loads without issue
- Should I eliminate the use of FIELD_PREP to avoid bit shifting
- alltogether?
- v1->v2:
- - removed CMD_SHIFT and ADD_SHIFT
- - use GENMASK
- - store regval in an array and iterate through it
- v2->v3:
- - add missing header
- - refactor code in the previously introduced loops
- drivers/staging/iio/frequency/ad9832.c | 58 +++++++++++++++-----------
- 1 file changed, 33 insertions(+), 25 deletions(-)
+ drivers/staging/rtl8723bs/core/rtw_ap.c | 96 ++++++++++++-------------
+ 1 file changed, 48 insertions(+), 48 deletions(-)
 
-diff --git a/drivers/staging/iio/frequency/ad9832.c b/drivers/staging/iio/frequency/ad9832.c
-index 140ee4f9c137..9a27acd88926 100644
---- a/drivers/staging/iio/frequency/ad9832.c
-+++ b/drivers/staging/iio/frequency/ad9832.c
-@@ -16,6 +16,9 @@
- #include <linux/slab.h>
- #include <linux/spi/spi.h>
- #include <linux/sysfs.h>
-+#include <linux/bitfield.h>
-+#include <linux/bits.h>
-+#include <linux/unaligned.h>
- 
- #include <linux/iio/iio.h>
- #include <linux/iio/sysfs.h>
-@@ -65,11 +68,12 @@
- #define AD9832_SLEEP		BIT(13)
- #define AD9832_RESET		BIT(12)
- #define AD9832_CLR		BIT(11)
--#define CMD_SHIFT		12
--#define ADD_SHIFT		8
- #define AD9832_FREQ_BITS	32
- #define AD9832_PHASE_BITS	12
- #define RES_MASK(bits)		((1 << (bits)) - 1)
-+#define AD9832_CMD_MSK   GENMASK(15, 12)
-+#define AD9832_ADD_MSK   GENMASK(11, 8)
-+#define AD9832_DAT_MSK  GENMASK(7, 0)
- 
- /**
-  * struct ad9832_state - driver instance specific data
-@@ -131,6 +135,8 @@ static int ad9832_write_frequency(struct ad9832_state *st,
+diff --git a/drivers/staging/rtl8723bs/core/rtw_ap.c b/drivers/staging/rtl8723bs/core/rtw_ap.c
+index a6dc88dd4ba1..50022bb5911e 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_ap.c
++++ b/drivers/staging/rtl8723bs/core/rtw_ap.c
+@@ -324,7 +324,7 @@ void add_RATid(struct adapter *padapter, struct sta_info *psta, u8 rssi_level)
  {
- 	unsigned long clk_freq;
- 	unsigned long regval;
-+	u16 freq_cmd;
-+	u8 regval_bytes[4];
+ 	unsigned char sta_band = 0, shortGIrate = false;
+ 	unsigned int tx_ra_bitmap = 0;
+-	struct mlme_priv *pmlmepriv = &(padapter->mlmepriv);
++	struct mlme_priv *pmlmepriv = &padapter->mlmepriv;
+ 	struct wlan_bssid_ex
+ 		*pcur_network = (struct wlan_bssid_ex *)&pmlmepriv->cur_network.network;
  
- 	clk_freq = clk_get_rate(st->mclk);
+@@ -372,9 +372,9 @@ void update_bmc_sta(struct adapter *padapter)
+ 	unsigned char network_type;
+ 	int supportRateNum = 0;
+ 	unsigned int tx_ra_bitmap = 0;
+-	struct mlme_priv *pmlmepriv = &(padapter->mlmepriv);
+-	struct mlme_ext_priv *pmlmeext = &(padapter->mlmeextpriv);
+-	struct mlme_ext_info *pmlmeinfo = &(pmlmeext->mlmext_info);
++	struct mlme_priv *pmlmepriv = &padapter->mlmepriv;
++	struct mlme_ext_priv *pmlmeext = &padapter->mlmeextpriv;
++	struct mlme_ext_info *pmlmeinfo = &pmlmeext->mlmext_info;
+ 	struct wlan_bssid_ex
+ 		*pcur_network = (struct wlan_bssid_ex *)&pmlmepriv->cur_network.network;
+ 	struct sta_info *psta = rtw_get_bcmc_stainfo(padapter);
+@@ -451,9 +451,9 @@ void update_bmc_sta(struct adapter *padapter)
  
-@@ -138,19 +144,15 @@ static int ad9832_write_frequency(struct ad9832_state *st,
- 		return -EINVAL;
- 
- 	regval = ad9832_calc_freqreg(clk_freq, fout);
-+	put_unaligned_be32(regval, regval_bytes);
- 
--	st->freq_data[0] = cpu_to_be16((AD9832_CMD_FRE8BITSW << CMD_SHIFT) |
--					(addr << ADD_SHIFT) |
--					((regval >> 24) & 0xFF));
--	st->freq_data[1] = cpu_to_be16((AD9832_CMD_FRE16BITSW << CMD_SHIFT) |
--					((addr - 1) << ADD_SHIFT) |
--					((regval >> 16) & 0xFF));
--	st->freq_data[2] = cpu_to_be16((AD9832_CMD_FRE8BITSW << CMD_SHIFT) |
--					((addr - 2) << ADD_SHIFT) |
--					((regval >> 8) & 0xFF));
--	st->freq_data[3] = cpu_to_be16((AD9832_CMD_FRE16BITSW << CMD_SHIFT) |
--					((addr - 3) << ADD_SHIFT) |
--					((regval >> 0) & 0xFF));
-+	for (int i = 0; i < 4; i++) {
-+		freq_cmd = (i % 2 == 0) ? AD9832_CMD_FRE8BITSW : AD9832_CMD_FRE16BITSW;
-+
-+		st->freq_data[i] = cpu_to_be16(FIELD_PREP(AD9832_CMD_MSK, freq_cmd) |
-+			FIELD_PREP(AD9832_ADD_MSK, addr - i) |
-+			FIELD_PREP(AD9832_DAT_MSK, regval_bytes[i]));
-+	}
- 
- 	return spi_sync(st->spi, &st->freq_msg);
- }
-@@ -158,15 +160,21 @@ static int ad9832_write_frequency(struct ad9832_state *st,
- static int ad9832_write_phase(struct ad9832_state *st,
- 			      unsigned long addr, unsigned long phase)
+ void update_sta_info_apmode(struct adapter *padapter, struct sta_info *psta)
  {
-+	u8 phase_bytes[2];
-+	u16 phase_cmd;
-+
- 	if (phase >= BIT(AD9832_PHASE_BITS))
- 		return -EINVAL;
+-	struct mlme_priv *pmlmepriv = &(padapter->mlmepriv);
++	struct mlme_priv *pmlmepriv = &padapter->mlmepriv;
+ 	struct security_priv *psecuritypriv = &padapter->securitypriv;
+-	struct mlme_ext_priv *pmlmeext = &(padapter->mlmeextpriv);
++	struct mlme_ext_priv *pmlmeext = &padapter->mlmeextpriv;
+ 	struct ht_priv *phtpriv_ap = &pmlmepriv->htpriv;
+ 	struct ht_priv *phtpriv_sta = &psta->htpriv;
+ 	u8 cur_ldpc_cap = 0, cur_stbc_cap = 0, cur_beamform_cap = 0;
+@@ -563,10 +563,10 @@ void update_sta_info_apmode(struct adapter *padapter, struct sta_info *psta)
  
--	st->phase_data[0] = cpu_to_be16((AD9832_CMD_PHA8BITSW << CMD_SHIFT) |
--					(addr << ADD_SHIFT) |
--					((phase >> 8) & 0xFF));
--	st->phase_data[1] = cpu_to_be16((AD9832_CMD_PHA16BITSW << CMD_SHIFT) |
--					((addr - 1) << ADD_SHIFT) |
--					(phase & 0xFF));
-+	put_unaligned_be16(phase, phase_bytes);
-+
-+	for (int i = 0; i < 2; i++) {
-+		phase_cmd = (i % 2 == 0) ? AD9832_CMD_PHA8BITSW : AD9832_CMD_PHA16BITSW;
-+
-+		st->phase_data[i] = cpu_to_be16(FIELD_PREP(AD9832_CMD_MSK, phase_cmd) |
-+			FIELD_PREP(AD9832_ADD_MSK, addr - i) |
-+			FIELD_PREP(AD9832_DAT_MSK, phase_bytes[i]));
-+	}
+ static void update_ap_info(struct adapter *padapter, struct sta_info *psta)
+ {
+-	struct mlme_priv *pmlmepriv = &(padapter->mlmepriv);
++	struct mlme_priv *pmlmepriv = &padapter->mlmepriv;
+ 	struct wlan_bssid_ex
+ 		*pnetwork = (struct wlan_bssid_ex *)&pmlmepriv->cur_network.network;
+-	struct mlme_ext_priv *pmlmeext = &(padapter->mlmeextpriv);
++	struct mlme_ext_priv *pmlmeext = &padapter->mlmeextpriv;
+ 	struct ht_priv *phtpriv_ap = &pmlmepriv->htpriv;
  
- 	return spi_sync(st->spi, &st->phase_msg);
- }
-@@ -201,7 +209,7 @@ static ssize_t ad9832_write(struct device *dev, struct device_attribute *attr,
- 			st->ctrl_ss &= ~AD9832_SELSRC;
- 		else
- 			st->ctrl_ss |= AD9832_SELSRC;
--		st->data = cpu_to_be16((AD9832_CMD_SYNCSELSRC << CMD_SHIFT) |
-+		st->data = cpu_to_be16(FIELD_PREP(AD9832_CMD_MSK, AD9832_CMD_SYNCSELSRC) |
- 					st->ctrl_ss);
- 		ret = spi_sync(st->spi, &st->msg);
- 		break;
-@@ -214,7 +222,7 @@ static ssize_t ad9832_write(struct device *dev, struct device_attribute *attr,
- 			ret = -EINVAL;
- 			break;
+ 	psta->wireless_mode = pmlmeext->cur_wireless_mode;
+@@ -609,7 +609,7 @@ static void update_hw_ht_param(struct adapter *padapter)
+ 	unsigned char max_AMPDU_len;
+ 	unsigned char min_MPDU_spacing;
+ 	struct mlme_ext_priv *pmlmeext = &padapter->mlmeextpriv;
+-	struct mlme_ext_info *pmlmeinfo = &(pmlmeext->mlmext_info);
++	struct mlme_ext_info *pmlmeinfo = &pmlmeext->mlmext_info;
+ 
+ 	/* handle A-MPDU parameter field
+ 	 *
+@@ -645,13 +645,13 @@ void start_bss_network(struct adapter *padapter)
+ 	u32 acparm;
+ 	int	ie_len;
+ 	struct registry_priv  *pregpriv = &padapter->registrypriv;
+-	struct mlme_priv *pmlmepriv = &(padapter->mlmepriv);
+-	struct security_priv *psecuritypriv = &(padapter->securitypriv);
++	struct mlme_priv *pmlmepriv = &padapter->mlmepriv;
++	struct security_priv *psecuritypriv = &padapter->securitypriv;
+ 	struct wlan_bssid_ex
+ 		*pnetwork = (struct wlan_bssid_ex *)&pmlmepriv->cur_network.network;
+-	struct mlme_ext_priv *pmlmeext = &(padapter->mlmeextpriv);
+-	struct mlme_ext_info *pmlmeinfo = &(pmlmeext->mlmext_info);
+-	struct wlan_bssid_ex *pnetwork_mlmeext = &(pmlmeinfo->network);
++	struct mlme_ext_priv *pmlmeext = &padapter->mlmeextpriv;
++	struct mlme_ext_info *pmlmeinfo = &pmlmeext->mlmext_info;
++	struct wlan_bssid_ex *pnetwork_mlmeext = &pmlmeinfo->network;
+ 	struct HT_info_element *pht_info = NULL;
+ 	u8 cbw40_enable = 0;
+ 
+@@ -823,7 +823,7 @@ int rtw_check_beacon_data(struct adapter *padapter, u8 *pbuf,  int len)
+ 	u8 WMM_PARA_IE[] = {0x00, 0x50, 0xf2, 0x02, 0x01, 0x01};
+ 	struct registry_priv *pregistrypriv = &padapter->registrypriv;
+ 	struct security_priv *psecuritypriv = &padapter->securitypriv;
+-	struct mlme_priv *pmlmepriv = &(padapter->mlmepriv);
++	struct mlme_priv *pmlmepriv = &padapter->mlmepriv;
+ 	struct wlan_bssid_ex
+ 		*pbss_network = (struct wlan_bssid_ex *)&pmlmepriv->cur_network.network;
+ 	u8 *ie = pbss_network->ies;
+@@ -845,7 +845,7 @@ int rtw_check_beacon_data(struct adapter *padapter, u8 *pbuf,  int len)
+ 
+ 	pbss_network->rssi = 0;
+ 
+-	memcpy(pbss_network->mac_address, myid(&(padapter->eeprompriv)), ETH_ALEN);
++	memcpy(pbss_network->mac_address, myid(&padapter->eeprompriv), ETH_ALEN);
+ 
+ 	/* beacon interval */
+ 	p = rtw_get_beacon_interval_from_ie(ie);/* ie + 8;	8: TimeStamp, 2: Beacon Interval 2:Capability */
+@@ -1186,7 +1186,7 @@ int rtw_acl_add_sta(struct adapter *padapter, u8 *addr)
+ 	if ((NUM_ACL - 1) < pacl_list->num)
+ 		return (-1);
+ 
+-	spin_lock_bh(&(pacl_node_q->lock));
++	spin_lock_bh(&pacl_node_q->lock);
+ 
+ 	phead = get_list_head(pacl_node_q);
+ 	list_for_each(plist, phead) {
+@@ -1200,12 +1200,12 @@ int rtw_acl_add_sta(struct adapter *padapter, u8 *addr)
  		}
--		st->data = cpu_to_be16((AD9832_CMD_FPSELECT << CMD_SHIFT) |
-+		st->data = cpu_to_be16(FIELD_PREP(AD9832_CMD_MSK, AD9832_CMD_FPSELECT) |
- 					st->ctrl_fp);
- 		ret = spi_sync(st->spi, &st->msg);
- 		break;
-@@ -227,7 +235,7 @@ static ssize_t ad9832_write(struct device *dev, struct device_attribute *attr,
- 		st->ctrl_fp &= ~AD9832_PHASE(3);
- 		st->ctrl_fp |= AD9832_PHASE(val);
+ 	}
  
--		st->data = cpu_to_be16((AD9832_CMD_FPSELECT << CMD_SHIFT) |
-+		st->data = cpu_to_be16(FIELD_PREP(AD9832_CMD_MSK, AD9832_CMD_FPSELECT) |
- 					st->ctrl_fp);
- 		ret = spi_sync(st->spi, &st->msg);
- 		break;
-@@ -238,7 +246,7 @@ static ssize_t ad9832_write(struct device *dev, struct device_attribute *attr,
- 		else
- 			st->ctrl_src |= AD9832_RESET;
+-	spin_unlock_bh(&(pacl_node_q->lock));
++	spin_unlock_bh(&pacl_node_q->lock);
  
--		st->data = cpu_to_be16((AD9832_CMD_SLEEPRESCLR << CMD_SHIFT) |
-+		st->data = cpu_to_be16(FIELD_PREP(AD9832_CMD_MSK, AD9832_CMD_SLEEPRESCLR) |
- 					st->ctrl_src);
- 		ret = spi_sync(st->spi, &st->msg);
- 		break;
-@@ -396,7 +404,7 @@ static int ad9832_probe(struct spi_device *spi)
- 	spi_message_add_tail(&st->phase_xfer[1], &st->phase_msg);
+ 	if (added)
+ 		return ret;
  
- 	st->ctrl_src = AD9832_SLEEP | AD9832_RESET | AD9832_CLR;
--	st->data = cpu_to_be16((AD9832_CMD_SLEEPRESCLR << CMD_SHIFT) |
-+	st->data = cpu_to_be16(FIELD_PREP(AD9832_CMD_MSK, AD9832_CMD_SLEEPRESCLR) |
- 					st->ctrl_src);
- 	ret = spi_sync(st->spi, &st->msg);
- 	if (ret) {
+-	spin_lock_bh(&(pacl_node_q->lock));
++	spin_lock_bh(&pacl_node_q->lock);
+ 
+ 	for (i = 0; i < NUM_ACL; i++) {
+ 		paclnode = &pacl_list->aclnode[i];
+@@ -1225,7 +1225,7 @@ int rtw_acl_add_sta(struct adapter *padapter, u8 *addr)
+ 		}
+ 	}
+ 
+-	spin_unlock_bh(&(pacl_node_q->lock));
++	spin_unlock_bh(&pacl_node_q->lock);
+ 
+ 	return ret;
+ }
+@@ -1238,7 +1238,7 @@ void rtw_acl_remove_sta(struct adapter *padapter, u8 *addr)
+ 	struct wlan_acl_pool *pacl_list = &pstapriv->acl_list;
+ 	struct __queue	*pacl_node_q = &pacl_list->acl_node_q;
+ 
+-	spin_lock_bh(&(pacl_node_q->lock));
++	spin_lock_bh(&pacl_node_q->lock);
+ 
+ 	phead = get_list_head(pacl_node_q);
+ 	list_for_each_safe(plist, tmp, phead) {
+@@ -1258,7 +1258,7 @@ void rtw_acl_remove_sta(struct adapter *padapter, u8 *addr)
+ 		}
+ 	}
+ 
+-	spin_unlock_bh(&(pacl_node_q->lock));
++	spin_unlock_bh(&pacl_node_q->lock);
+ 
+ }
+ 
+@@ -1308,7 +1308,7 @@ static int rtw_ap_set_key(
+ 	u8 keylen;
+ 	struct cmd_obj *pcmd;
+ 	struct setkey_parm *psetkeyparm;
+-	struct cmd_priv *pcmdpriv = &(padapter->cmdpriv);
++	struct cmd_priv *pcmdpriv = &padapter->cmdpriv;
+ 	int res = _SUCCESS;
+ 
+ 	pcmd = rtw_zmalloc(sizeof(struct cmd_obj));
+@@ -1345,7 +1345,7 @@ static int rtw_ap_set_key(
+ 		keylen = 16;
+ 	}
+ 
+-	memcpy(&(psetkeyparm->key[0]), key, keylen);
++	memcpy(&psetkeyparm->key[0], key, keylen);
+ 
+ 	pcmd->cmdcode = _SetKey_CMD_;
+ 	pcmd->parmbuf = (u8 *)psetkeyparm;
+@@ -1397,10 +1397,10 @@ static void update_bcn_fixed_ie(struct adapter *padapter)
+ 
+ static void update_bcn_erpinfo_ie(struct adapter *padapter)
+ {
+-	struct mlme_priv *pmlmepriv = &(padapter->mlmepriv);
+-	struct mlme_ext_priv *pmlmeext = &(padapter->mlmeextpriv);
+-	struct mlme_ext_info *pmlmeinfo = &(pmlmeext->mlmext_info);
+-	struct wlan_bssid_ex *pnetwork = &(pmlmeinfo->network);
++	struct mlme_priv *pmlmepriv = &padapter->mlmepriv;
++	struct mlme_ext_priv *pmlmeext = &padapter->mlmeextpriv;
++	struct mlme_ext_info *pmlmeinfo = &pmlmeext->mlmext_info;
++	struct wlan_bssid_ex *pnetwork = &pmlmeinfo->network;
+ 	unsigned char *p, *ie = pnetwork->ies;
+ 	u32 len = 0;
+ 
+@@ -1461,10 +1461,10 @@ static void update_bcn_wps_ie(struct adapter *padapter)
+ 	u8 *pbackup_remainder_ie = NULL;
+ 
+ 	uint wps_ielen = 0, wps_offset, remainder_ielen;
+-	struct mlme_priv *pmlmepriv = &(padapter->mlmepriv);
+-	struct mlme_ext_priv *pmlmeext = &(padapter->mlmeextpriv);
+-	struct mlme_ext_info *pmlmeinfo = &(pmlmeext->mlmext_info);
+-	struct wlan_bssid_ex *pnetwork = &(pmlmeinfo->network);
++	struct mlme_priv *pmlmepriv = &padapter->mlmepriv;
++	struct mlme_ext_priv *pmlmeext = &padapter->mlmeextpriv;
++	struct mlme_ext_info *pmlmeinfo = &pmlmeext->mlmext_info;
++	struct wlan_bssid_ex *pnetwork = &pmlmeinfo->network;
+ 	unsigned char *ie = pnetwork->ies;
+ 	u32 ielen = pnetwork->ie_length;
+ 
+@@ -1537,8 +1537,8 @@ void update_beacon(struct adapter *padapter, u8 ie_id, u8 *oui, u8 tx)
+ 	if (!padapter)
+ 		return;
+ 
+-	pmlmepriv = &(padapter->mlmepriv);
+-	pmlmeext = &(padapter->mlmeextpriv);
++	pmlmepriv = &padapter->mlmepriv;
++	pmlmeext = &padapter->mlmeextpriv;
+ 	/* pmlmeinfo = &(pmlmeext->mlmext_info); */
+ 
+ 	if (!pmlmeext->bstart_bss)
+@@ -1619,7 +1619,7 @@ static int rtw_ht_operation_update(struct adapter *padapter)
+ {
+ 	u16 cur_op_mode, new_op_mode;
+ 	int op_mode_changes = 0;
+-	struct mlme_priv *pmlmepriv = &(padapter->mlmepriv);
++	struct mlme_priv *pmlmepriv = &padapter->mlmepriv;
+ 	struct ht_priv *phtpriv_ap = &pmlmepriv->htpriv;
+ 
+ 	if (pmlmepriv->htpriv.ht_option)
+@@ -1703,8 +1703,8 @@ void associated_clients_update(struct adapter *padapter, u8 updated)
+ void bss_cap_update_on_sta_join(struct adapter *padapter, struct sta_info *psta)
+ {
+ 	u8 beacon_updated = false;
+-	struct mlme_priv *pmlmepriv = &(padapter->mlmepriv);
+-	struct mlme_ext_priv *pmlmeext = &(padapter->mlmeextpriv);
++	struct mlme_priv *pmlmepriv = &padapter->mlmepriv;
++	struct mlme_ext_priv *pmlmeext = &padapter->mlmeextpriv;
+ 
+ 	if (!(psta->flags & WLAN_STA_SHORT_PREAMBLE)) {
+ 		if (!psta->no_short_preamble_set) {
+@@ -1823,8 +1823,8 @@ void bss_cap_update_on_sta_join(struct adapter *padapter, struct sta_info *psta)
+ u8 bss_cap_update_on_sta_leave(struct adapter *padapter, struct sta_info *psta)
+ {
+ 	u8 beacon_updated = false;
+-	struct mlme_priv *pmlmepriv = &(padapter->mlmepriv);
+-	struct mlme_ext_priv *pmlmeext = &(padapter->mlmeextpriv);
++	struct mlme_priv *pmlmepriv = &padapter->mlmepriv;
++	struct mlme_ext_priv *pmlmeext = &padapter->mlmeextpriv;
+ 
+ 	if (!psta)
+ 		return beacon_updated;
+@@ -1932,7 +1932,7 @@ void rtw_sta_flush(struct adapter *padapter)
+ 	struct sta_info *psta = NULL;
+ 	struct sta_priv *pstapriv = &padapter->stapriv;
+ 	struct mlme_ext_priv *pmlmeext = &padapter->mlmeextpriv;
+-	struct mlme_ext_info *pmlmeinfo = &(pmlmeext->mlmext_info);
++	struct mlme_ext_info *pmlmeinfo = &pmlmeext->mlmext_info;
+ 	u8 bc_addr[ETH_ALEN] = {0xff, 0xff, 0xff, 0xff, 0xff, 0xff};
+ 
+ 	if ((pmlmeinfo->state & 0x03) != WIFI_FW_AP_STATE)
+@@ -1962,7 +1962,7 @@ void rtw_sta_flush(struct adapter *padapter)
+ void sta_info_update(struct adapter *padapter, struct sta_info *psta)
+ {
+ 	int flags = psta->flags;
+-	struct mlme_priv *pmlmepriv = &(padapter->mlmepriv);
++	struct mlme_priv *pmlmepriv = &padapter->mlmepriv;
+ 
+ 	/* update wmm cap. */
+ 	if (WLAN_STA_WME & flags)
+@@ -1991,7 +1991,7 @@ void sta_info_update(struct adapter *padapter, struct sta_info *psta)
+ void ap_sta_info_defer_update(struct adapter *padapter, struct sta_info *psta)
+ {
+ 	struct mlme_ext_priv *pmlmeext = &padapter->mlmeextpriv;
+-	struct mlme_ext_info *pmlmeinfo = &(pmlmeext->mlmext_info);
++	struct mlme_ext_info *pmlmeinfo = &pmlmeext->mlmext_info;
+ 
+ 	if (psta->state & _FW_LINKED) {
+ 		pmlmeinfo->FW_sta_info[psta->mac_id].psta = psta;
+@@ -2006,7 +2006,7 @@ void rtw_ap_restore_network(struct adapter *padapter)
+ 	struct mlme_ext_priv *pmlmeext = &padapter->mlmeextpriv;
+ 	struct sta_priv *pstapriv = &padapter->stapriv;
+ 	struct sta_info *psta;
+-	struct security_priv *psecuritypriv = &(padapter->securitypriv);
++	struct security_priv *psecuritypriv = &padapter->securitypriv;
+ 	struct list_head	*phead, *plist;
+ 	u8 chk_alive_num = 0;
+ 	char chk_alive_list[NUM_STA];
+@@ -2072,7 +2072,7 @@ void rtw_ap_restore_network(struct adapter *padapter)
+ void start_ap_mode(struct adapter *padapter)
+ {
+ 	int i;
+-	struct mlme_priv *pmlmepriv = &(padapter->mlmepriv);
++	struct mlme_priv *pmlmepriv = &padapter->mlmepriv;
+ 	struct sta_priv *pstapriv = &padapter->stapriv;
+ 	struct mlme_ext_priv *pmlmeext = &padapter->mlmeextpriv;
+ 	struct wlan_acl_pool *pacl_list = &pstapriv->acl_list;
+@@ -2109,7 +2109,7 @@ void start_ap_mode(struct adapter *padapter)
+ 	pmlmepriv->p2p_probe_resp_ie = NULL;
+ 
+ 	/* for ACL */
+-	INIT_LIST_HEAD(&(pacl_list->acl_node_q.queue));
++	INIT_LIST_HEAD(&pacl_list->acl_node_q.queue);
+ 	pacl_list->num = 0;
+ 	pacl_list->mode = 0;
+ 	for (i = 0; i < NUM_ACL; i++) {
+@@ -2124,7 +2124,7 @@ void stop_ap_mode(struct adapter *padapter)
+ 	struct rtw_wlan_acl_node *paclnode;
+ 	struct sta_info *psta = NULL;
+ 	struct sta_priv *pstapriv = &padapter->stapriv;
+-	struct mlme_priv *pmlmepriv = &(padapter->mlmepriv);
++	struct mlme_priv *pmlmepriv = &padapter->mlmepriv;
+ 	struct mlme_ext_priv *pmlmeext = &padapter->mlmeextpriv;
+ 	struct wlan_acl_pool *pacl_list = &pstapriv->acl_list;
+ 	struct __queue	*pacl_node_q = &pacl_list->acl_node_q;
+@@ -2142,7 +2142,7 @@ void stop_ap_mode(struct adapter *padapter)
+ 	padapter->securitypriv.ndisencryptstatus = Ndis802_11WEPDisabled;
+ 
+ 	/* for ACL */
+-	spin_lock_bh(&(pacl_node_q->lock));
++	spin_lock_bh(&pacl_node_q->lock);
+ 	phead = get_list_head(pacl_node_q);
+ 	list_for_each_safe(plist, tmp, phead) {
+ 		paclnode = list_entry(plist, struct rtw_wlan_acl_node, list);
+@@ -2155,7 +2155,7 @@ void stop_ap_mode(struct adapter *padapter)
+ 			pacl_list->num--;
+ 		}
+ 	}
+-	spin_unlock_bh(&(pacl_node_q->lock));
++	spin_unlock_bh(&pacl_node_q->lock);
+ 
+ 	rtw_sta_flush(padapter);
+ 
 -- 
-2.48.1
+2.39.5
 
