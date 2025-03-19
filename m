@@ -1,72 +1,71 @@
-Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
+Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4FBA21CC57
-	for <linux-staging@lists.linux.dev>; Wed, 19 Mar 2025 21:59:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D12EA21CFFA
+	for <linux-staging@lists.linux.dev>; Wed, 19 Mar 2025 21:59:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742421590; cv=none; b=YMS+o5nB1ckf5l3obbza2DEDfKXZHLk5wJi0NZtDzkvYzwtFQyHNtyAB7MyXDb78jMOedNJ6/AAqe6FSpeP4K0ftPABvCp83kgCzJU2+E/Hq8wShLRWNbKNbTDszwHgn0kdDjuRUKHc0hZWNXuxmUSd59kAr25oPrbmli9zPl9Q=
+	t=1742421591; cv=none; b=jGfil+5jHyQG73dSoi+qmtK2x9ga9xpllREby8RCYVz1bGujhrowegD4qArj4GH8M/4bPhbOh3Mm2/7xlXSRDMz3g0dPiQY1EUyMWHbMKfEUE+KfhXzjwKtYMjilE2MJVlVTtFxf+md4weV+trfTUzKit4jGrOu5TbSugbJnzOE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742421590; c=relaxed/simple;
-	bh=H4tAdHGKRxmeP2+t6k9qL6m43FWvtV7f/v514CY/+00=;
+	s=arc-20240116; t=1742421591; c=relaxed/simple;
+	bh=L1k/19t8nOGN9eeO0Lyxg8wQ4e+VVpMLI+yb4PhnN0w=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=bW1Mb0kZ7/fl5GjwPHz/3KKaeYrAYJC3kg4yQTnaqD5vZYvh6low65DdRE28mv6CbfPBV2dyPRKcV17TbBzz/8a9031/urJFzCJiusGafFjxoVMM+W4W62UDZ4Ms0DRf8kvyWq0b+ARuUgMvHnAA1NygL2IiVcA0kNjPLuSFADY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=neverthere.org; spf=pass smtp.mailfrom=neverthere.org; dkim=pass (2048-bit key) header.d=neverthere.org header.i=@neverthere.org header.b=g/AkuzGI; arc=none smtp.client-ip=209.85.214.172
+	 MIME-Version; b=ioDOSPFqS+ZOZU4+5iXTGFVCt8t+SJ2LmmcbAkm4gdIlI3w2ZI85DfmaPWNH+P6s1JGA9PhtfxDphlKN67WoM5Nae68fxKiyODZots5axr155EcSpe9hzaxFfpVQVlAevXUiOy28DvbUJWNT8xQetOR+D6DidrXAQBvnOtFDDdQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=neverthere.org; spf=pass smtp.mailfrom=neverthere.org; dkim=pass (2048-bit key) header.d=neverthere.org header.i=@neverthere.org header.b=VnFl8NvW; arc=none smtp.client-ip=209.85.216.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=neverthere.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=neverthere.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=neverthere.org header.i=@neverthere.org header.b="g/AkuzGI"
-Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-2240b4de12bso1060425ad.2
-        for <linux-staging@lists.linux.dev>; Wed, 19 Mar 2025 14:59:47 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=neverthere.org header.i=@neverthere.org header.b="VnFl8NvW"
+Received: by mail-pj1-f54.google.com with SMTP id 98e67ed59e1d1-3018e2d042bso164381a91.2
+        for <linux-staging@lists.linux.dev>; Wed, 19 Mar 2025 14:59:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=neverthere.org; s=google; t=1742421587; x=1743026387; darn=lists.linux.dev;
+        d=neverthere.org; s=google; t=1742421588; x=1743026388; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=6jvVAbWtCF4UFk7VFZydpOT77H5oUWGBA+2hIXnrdGo=;
-        b=g/AkuzGIrbBNtMLn2lzzXY1tvGlPH2izIKWrphzzYTF22yl80dEzpHoGQiL1QpiBsS
-         xc4Ld5WPTDNqU3Il/UoCKarnELEmnRnEiapc1grm8kegpvprkL3t58qMHxwwnVTYpMo6
-         U20j1s17FaVIQGloZm1CoVRtUO/qzMkQSOg9zG2GNeTy0slgvhIpsoCb7sI2XsiOuITV
-         kVg3Rw1/HNwgS/UxsGN70a7Yxa3ML6D/ZcG/JyVdzWU+G5sgo7sczxqAQbi+JePndfTd
-         7DuAsaVZ4R+JOOTunc67KnnPkvKuJiPf1KY+fStXE60zms+96y0HEpYA8B2Rg/4tZ26u
-         UDAg==
+        bh=04dsU5r0BWGVu2eJZSpZaOZV/2vvvf2HMuy5ZIcz5Xc=;
+        b=VnFl8NvWKklavX6n8dpGCDOOBqUh0rAFgHQh3lzt/WWRrmDRzS0FmPfiyNfaQo90ME
+         T7WuAP8c0IeaKeOTSPKLMLkZaKpkYRCbDpZmZXsQndTPXxPX2XQm7ZF0lkj2tywKsVW0
+         NSI/cPtpBdB5oXIQ31NmvkGLOomyW56nX5x57t7q0uEd+FZS40eDw8eilFiw6gbLP+du
+         p5XPl8n/w20/FoJma7RwVyeE8Lts87co9cbcqKnnrs+hA56h35IyZuZtpz6OinzMdHPK
+         aUSa5PYutjo4ZHP/ZihGBbQRWubzpLfvMDmYJSPLVvuliUVnnyU6fOd+mNBEFPvQdc6O
+         uLew==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742421587; x=1743026387;
+        d=1e100.net; s=20230601; t=1742421588; x=1743026388;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=6jvVAbWtCF4UFk7VFZydpOT77H5oUWGBA+2hIXnrdGo=;
-        b=hk0cR4cLn4JfXF13d4yNaOYeaNc8X4KhiRSq53q0dn0hxaWX2oMTAlRnUX6Eo5JMcT
-         q4S0RYiJ4O8g81Prk0i/DZJ1kTHLIr70Ov2aFWKK/Oy11pFtmcrDEWZv10BrD6vLCSh/
-         canUZ8xGj1WqLYvNP0XQ36Wnz6gjCa0Kl9KDvjRr+pfMI15guyDpo1wuYwk27qiS5VIU
-         T3CC45tJUgFhKhJwNY++1XGkVRv2vH45OzAbQcHjY5B/QxO/JjZ5FBGth/YZQYVy7oTb
-         iqb3snpOmgnxiXTpnqpRmfsfi/GKGD73qLYs1+i0EZV0hKCUqDLsF7nO2cUecmxnrmas
-         zvYg==
-X-Gm-Message-State: AOJu0YxlExFfbNytY9fBZntesjzpgb7w/xH+JSL3mFiSUYY7jX/DqM8Y
-	aYqI9xcNrwc7O0h4EdefiGmGj9Y2ekvqgyVG8ZDLFGtXj63Dnirh89yxiuqOEZttbs/lzOehrlo
-	=
-X-Gm-Gg: ASbGncslBAVaR/fQccxik0ie8fcQ1ar9Saj/pWyjd1Gwqy+AQlGK4XlO1jllxnLRJ9T
-	SAnSmAt2Qg4xT3frWnFmeAXIADAfKfTPbGTw/ieEOF4mSrfmKi6LYW4JJegyclrYAsO1yfYFIzy
-	OjdBHqT9fadkNlAZ+rPMpla2a3Q/BFlZCPSseBdyjSG5kxBBNXsTrvMrNbnRsA7bneyicHmgABY
-	PLp7sOlIsqKrJTw+8XRHLdvBl2d8XnUtrUxfsUb7PibgIvCMSe1UPGjo5svcaHODwfTHLcd5H/L
-	DN2hHum8I0SgXFs4pq6h9YtJtztoVzHBXAw1tlVxhrPpYnO/FtIJuFX37Bicb2fvgCUfUBWsDV5
-	UmE7WsZUJIw==
-X-Google-Smtp-Source: AGHT+IE/WxDPhpSJnUoHA5HSJMxQdaYFmPalzo1sj8bjoPh17FHSDlZv6vk5LD5jrwaB0CmQGdqyfA==
-X-Received: by 2002:a05:6a20:7347:b0:1f5:679a:226c with SMTP id adf61e73a8af0-1fbeb3a00f3mr6582212637.5.1742421586908;
-        Wed, 19 Mar 2025 14:59:46 -0700 (PDT)
+        bh=04dsU5r0BWGVu2eJZSpZaOZV/2vvvf2HMuy5ZIcz5Xc=;
+        b=hIKtPSANbUdwQwiOSdD90WCDekJTU3UsClckMBcxRVVfU+EDKiHe63lSJCfHEDxkKf
+         +x/92zoM6XHaR9tYOyzx2APz5cGdHBY7qQbMAx5F9kL9lFUadN6s/dPdS/D5Eg8Vyiom
+         PaSXiJQyV4M/KTestkMFPhXS1Gv/m5LhueIlxRBqyxRjhpHQ8YCnnrcQzTqYWNQYsIe4
+         0ggZzok4HK07WXGK4rIlGIcW1elssHcsgzl0hTnA31Z2d3ix2Iw1cO4FW0i+s7aD8AVv
+         Tt+CD8EmDq90/eKQHMcGaJS+1gV0UIRxLAgpc6/nt86lJIABMErdgXLuBwzUrYbWxZYb
+         kWgQ==
+X-Gm-Message-State: AOJu0Yy/okh/oy4QN08MKF9v6Nb7ZEvJ7/mfZI1E+0926iqp5c6KYubU
+	GLWsDRKdgKpRf/2vdxONBPhlckdv9b8V42AMb2ugLnQ4XjYXANgnFAiZbfb6Eg==
+X-Gm-Gg: ASbGnct26D7XFl2CR2obF076oqv5hPg4bUVtYv73AaLdOd1ooO+1zeysCUVF81Ff064
+	l9nvL6W6hQpuZ8Ke41fF8tz49/MVfPFdPrT647rJOmBMvo86GMT4X3NHVyYRIYdycnMnYYiGIvi
+	qXqLVY7NCtVNsj7zObMWelnkvQwmyYA5xh7lbyXAZxzbNEc4cJEIsqI0Ur+xt7YUSj2fosALDgh
+	i/FRAOIhl5txYKv1rb8beq/FUEe8q76pjvbgO3FqDyzj+mUZSAZjewi1w72kvWVbDeppSEyR6dE
+	F4Z9eoZAf1JYhrtxt+TVzR+Gojk6nwg5IqQemHjn+HTBirg1GaKIcA2U0HDNhGMHD0eLILVfoeB
+	FPBop0bi46Q==
+X-Google-Smtp-Source: AGHT+IHLofUZ1rdmRG30wTO7kU+S2DZQ8/Ihke9Nxn15kz1d/0kKljZkCgMGUa6bmwmbQ+PkGAdBQg==
+X-Received: by 2002:a17:90b:1650:b0:2f6:dcc9:38e0 with SMTP id 98e67ed59e1d1-301bdca2101mr7427254a91.0.1742421588171;
+        Wed, 19 Mar 2025 14:59:48 -0700 (PDT)
 Received: from tiamat (c-69-181-214-135.hsd1.ca.comcast.net. [69.181.214.135])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-737115781fesm12172738b3a.77.2025.03.19.14.59.46
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-301bf576884sm2247505a91.1.2025.03.19.14.59.47
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 19 Mar 2025 14:59:46 -0700 (PDT)
+        Wed, 19 Mar 2025 14:59:47 -0700 (PDT)
 From: Michael Rubin <matchstick@neverthere.org>
 To: Dave Penkler <dpenkler@gmail.com>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Michael Rubin <matchstick@neverthere.org>
-Subject: [PATCH v1 08/20] staging: gpib: fmh_gpib: struct gpib_board
-Date: Wed, 19 Mar 2025 21:59:12 +0000
-Message-ID: <20250319215924.19387-9-matchstick@neverthere.org>
+Subject: [PATCH v1 09/20] staging: gpib: gpio: struct gpib_board
+Date: Wed, 19 Mar 2025 21:59:13 +0000
+Message-ID: <20250319215924.19387-10-matchstick@neverthere.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20250319215924.19387-1-matchstick@neverthere.org>
 References: <20250319215924.19387-1-matchstick@neverthere.org>
@@ -87,481 +86,310 @@ directly accessed should never be a typedef.
 
 Signed-off-by: Michael Rubin <matchstick@neverthere.org>
 ---
- drivers/staging/gpib/fmh_gpib/fmh_gpib.c | 122 ++++++++++++-----------
- 1 file changed, 62 insertions(+), 60 deletions(-)
+ drivers/staging/gpib/gpio/gpib_bitbang.c | 72 ++++++++++++------------
+ 1 file changed, 36 insertions(+), 36 deletions(-)
 
-diff --git a/drivers/staging/gpib/fmh_gpib/fmh_gpib.c b/drivers/staging/gpib/fmh_gpib/fmh_gpib.c
-index 3e8ad8aa332f..f6bf127441f8 100644
---- a/drivers/staging/gpib/fmh_gpib/fmh_gpib.c
-+++ b/drivers/staging/gpib/fmh_gpib/fmh_gpib.c
-@@ -32,19 +32,21 @@ MODULE_DESCRIPTION("GPIB Driver for fmh_gpib_core");
- MODULE_AUTHOR("Frank Mori Hess <fmh6jj@gmail.com>");
+diff --git a/drivers/staging/gpib/gpio/gpib_bitbang.c b/drivers/staging/gpib/gpio/gpib_bitbang.c
+index 28c5fa9b81ab..611ff58b94ca 100644
+--- a/drivers/staging/gpib/gpio/gpib_bitbang.c
++++ b/drivers/staging/gpib/gpio/gpib_bitbang.c
+@@ -318,14 +318,14 @@ struct bb_priv {
+ };
  
- static irqreturn_t fmh_gpib_interrupt(int irq, void *arg);
--static int fmh_gpib_attach_holdoff_all(gpib_board_t *board, const gpib_board_config_t *config);
--static int fmh_gpib_attach_holdoff_end(gpib_board_t *board, const gpib_board_config_t *config);
--static void fmh_gpib_detach(gpib_board_t *board);
--static int fmh_gpib_pci_attach_holdoff_all(gpib_board_t *board, const gpib_board_config_t *config);
--static int fmh_gpib_pci_attach_holdoff_end(gpib_board_t *board, const gpib_board_config_t *config);
--static void fmh_gpib_pci_detach(gpib_board_t *board);
--static int fmh_gpib_config_dma(gpib_board_t *board, int output);
--static irqreturn_t fmh_gpib_internal_interrupt(gpib_board_t *board);
-+static int fmh_gpib_attach_holdoff_all(struct gpib_board *board, const gpib_board_config_t *config);
-+static int fmh_gpib_attach_holdoff_end(struct gpib_board *board, const gpib_board_config_t *config);
-+static void fmh_gpib_detach(struct gpib_board *board);
-+static int fmh_gpib_pci_attach_holdoff_all(struct gpib_board *board,
-+					   const gpib_board_config_t *config);
-+static int fmh_gpib_pci_attach_holdoff_end(struct gpib_board *board,
-+					   const gpib_board_config_t *config);
-+static void fmh_gpib_pci_detach(struct gpib_board *board);
-+static int fmh_gpib_config_dma(struct gpib_board *board, int output);
-+static irqreturn_t fmh_gpib_internal_interrupt(struct gpib_board *board);
- static struct platform_driver fmh_gpib_platform_driver;
- static struct pci_driver fmh_gpib_pci_driver;
+ static inline long usec_diff(struct timespec64 *a, struct timespec64 *b);
+-static void bb_buffer_print(gpib_board_t *board, unsigned char *buffer, size_t length,
++static void bb_buffer_print(struct gpib_board *board, unsigned char *buffer, size_t length,
+ 			    int cmd, int eoi);
+ static void set_data_lines(u8 byte);
+ static u8 get_data_lines(void);
+ static void set_data_lines_input(void);
+ static void set_data_lines_output(void);
+ static inline int check_for_eos(struct bb_priv *priv, uint8_t byte);
+-static void set_atn(gpib_board_t *board, int atn_asserted);
++static void set_atn(struct gpib_board *board, int atn_asserted);
  
- // wrappers for interface functions
--static int fmh_gpib_read(gpib_board_t *board, uint8_t *buffer, size_t length,
-+static int fmh_gpib_read(struct gpib_board *board, uint8_t *buffer, size_t length,
- 			 int *end, size_t *bytes_read)
+ static inline void SET_DIR_WRITE(struct bb_priv *priv);
+ static inline void SET_DIR_READ(struct bb_priv *priv);
+@@ -353,7 +353,7 @@ static char printable(char x)
+  *									   *
+  ***************************************************************************/
+ 
+-static int bb_read(gpib_board_t *board, uint8_t *buffer, size_t length,
++static int bb_read(struct gpib_board *board, uint8_t *buffer, size_t length,
+ 		   int *end, size_t *bytes_read)
  {
- 	struct fmh_priv *priv = board->private_data;
-@@ -52,7 +54,7 @@ static int fmh_gpib_read(gpib_board_t *board, uint8_t *buffer, size_t length,
- 	return nec7210_read(board, &priv->nec7210_priv, buffer, length, end, bytes_read);
+ 	struct bb_priv *priv = board->private_data;
+@@ -425,7 +425,7 @@ static int bb_read(gpib_board_t *board, uint8_t *buffer, size_t length,
+ 
+ static irqreturn_t bb_DAV_interrupt(int irq, void *arg)
+ {
+-	gpib_board_t *board = arg;
++	struct gpib_board *board = arg;
+ 	struct bb_priv *priv = board->private_data;
+ 	int val;
+ 	unsigned long flags;
+@@ -491,7 +491,7 @@ static irqreturn_t bb_DAV_interrupt(int irq, void *arg)
+  *									   *
+  ***************************************************************************/
+ 
+-static int bb_write(gpib_board_t *board, uint8_t *buffer, size_t length,
++static int bb_write(struct gpib_board *board, uint8_t *buffer, size_t length,
+ 		    int send_eoi, size_t *bytes_written)
+ {
+ 	unsigned long flags;
+@@ -580,7 +580,7 @@ static int bb_write(gpib_board_t *board, uint8_t *buffer, size_t length,
+ 
+ static irqreturn_t bb_NRFD_interrupt(int irq, void *arg)
+ {
+-	gpib_board_t *board = arg;
++	struct gpib_board *board = arg;
+ 	struct bb_priv *priv = board->private_data;
+ 	unsigned long flags;
+ 	int nrfd;
+@@ -653,7 +653,7 @@ static irqreturn_t bb_NRFD_interrupt(int irq, void *arg)
+ 
+ static irqreturn_t bb_NDAC_interrupt(int irq, void *arg)
+ {
+-	gpib_board_t *board = arg;
++	struct gpib_board *board = arg;
+ 	struct bb_priv *priv = board->private_data;
+ 	unsigned long flags;
+ 	int ndac;
+@@ -714,7 +714,7 @@ static irqreturn_t bb_NDAC_interrupt(int irq, void *arg)
+ 
+ static irqreturn_t bb_SRQ_interrupt(int irq, void *arg)
+ {
+-	gpib_board_t  *board = arg;
++	struct gpib_board  *board = arg;
+ 
+ 	int val = gpiod_get_value(SRQ);
+ 
+@@ -728,7 +728,7 @@ static irqreturn_t bb_SRQ_interrupt(int irq, void *arg)
+ 	return IRQ_HANDLED;
  }
  
--static int fmh_gpib_write(gpib_board_t *board, uint8_t *buffer, size_t length,
-+static int fmh_gpib_write(struct gpib_board *board, uint8_t *buffer, size_t length,
- 			  int send_eoi, size_t *bytes_written)
+-static int bb_command(gpib_board_t *board, uint8_t *buffer,
++static int bb_command(struct gpib_board *board, uint8_t *buffer,
+ 		      size_t length, size_t *bytes_written)
  {
- 	struct fmh_priv *priv = board->private_data;
-@@ -60,7 +62,7 @@ static int fmh_gpib_write(gpib_board_t *board, uint8_t *buffer, size_t length,
- 	return nec7210_write(board, &priv->nec7210_priv, buffer, length, send_eoi, bytes_written);
+ 	size_t ret;
+@@ -809,7 +809,7 @@ static char *cmd_string[32] = {
+ 	"CFE"  // 0x1f
+ };
+ 
+-static void bb_buffer_print(gpib_board_t *board, unsigned char *buffer, size_t length,
++static void bb_buffer_print(struct gpib_board *board, unsigned char *buffer, size_t length,
+ 			    int cmd, int eoi)
+ {
+ 	int i;
+@@ -842,7 +842,7 @@ static void bb_buffer_print(gpib_board_t *board, unsigned char *buffer, size_t l
+  * STATUS Management							   *
+  *									   *
+  ***************************************************************************/
+-static void set_atn(gpib_board_t *board, int atn_asserted)
++static void set_atn(struct gpib_board *board, int atn_asserted)
+ {
+ 	struct bb_priv *priv = board->private_data;
+ 
+@@ -867,7 +867,7 @@ static void set_atn(gpib_board_t *board, int atn_asserted)
+ 	priv->atn_asserted = atn_asserted;
  }
  
--static int fmh_gpib_command(gpib_board_t *board, uint8_t *buffer, size_t length,
-+static int fmh_gpib_command(struct gpib_board *board, uint8_t *buffer, size_t length,
- 			    size_t *bytes_written)
+-static int bb_take_control(gpib_board_t *board, int synchronous)
++static int bb_take_control(struct gpib_board *board, int synchronous)
  {
- 	struct fmh_priv *priv = board->private_data;
-@@ -68,21 +70,21 @@ static int fmh_gpib_command(gpib_board_t *board, uint8_t *buffer, size_t length,
- 	return nec7210_command(board, &priv->nec7210_priv, buffer, length, bytes_written);
+ 	dbg_printk(2, "%d\n", synchronous);
+ 	set_atn(board, 1);
+@@ -875,14 +875,14 @@ static int bb_take_control(gpib_board_t *board, int synchronous)
+ 	return 0;
  }
  
--static int fmh_gpib_take_control(gpib_board_t *board, int synchronous)
-+static int fmh_gpib_take_control(struct gpib_board *board, int synchronous)
+-static int bb_go_to_standby(gpib_board_t *board)
++static int bb_go_to_standby(struct gpib_board *board)
  {
- 	struct fmh_priv *priv = board->private_data;
- 
- 	return nec7210_take_control(board, &priv->nec7210_priv, synchronous);
+ 	dbg_printk(2, "\n");
+ 	set_atn(board, 0);
+ 	return 0;
  }
  
--static int fmh_gpib_go_to_standby(gpib_board_t *board)
-+static int fmh_gpib_go_to_standby(struct gpib_board *board)
+-static void bb_request_system_control(gpib_board_t *board, int request_control)
++static void bb_request_system_control(struct gpib_board *board, int request_control)
  {
- 	struct fmh_priv *priv = board->private_data;
- 
- 	return nec7210_go_to_standby(board, &priv->nec7210_priv);
- }
- 
--static void fmh_gpib_request_system_control(gpib_board_t *board, int request_control)
-+static void fmh_gpib_request_system_control(struct gpib_board *board, int request_control)
- {
- 	struct fmh_priv *priv = board->private_data;
- 	struct nec7210_priv *nec_priv = &priv->nec7210_priv;
-@@ -90,77 +92,77 @@ static void fmh_gpib_request_system_control(gpib_board_t *board, int request_con
- 	nec7210_request_system_control(board, nec_priv, request_control);
- }
- 
--static void fmh_gpib_interface_clear(gpib_board_t *board, int assert)
-+static void fmh_gpib_interface_clear(struct gpib_board *board, int assert)
- {
- 	struct fmh_priv *priv = board->private_data;
- 
- 	nec7210_interface_clear(board, &priv->nec7210_priv, assert);
- }
- 
--static void fmh_gpib_remote_enable(gpib_board_t *board, int enable)
-+static void fmh_gpib_remote_enable(struct gpib_board *board, int enable)
- {
- 	struct fmh_priv *priv = board->private_data;
- 
- 	nec7210_remote_enable(board, &priv->nec7210_priv, enable);
- }
- 
--static int fmh_gpib_enable_eos(gpib_board_t *board, uint8_t eos_byte, int compare_8_bits)
-+static int fmh_gpib_enable_eos(struct gpib_board *board, uint8_t eos_byte, int compare_8_bits)
- {
- 	struct fmh_priv *priv = board->private_data;
- 
- 	return nec7210_enable_eos(board, &priv->nec7210_priv, eos_byte, compare_8_bits);
- }
- 
--static void fmh_gpib_disable_eos(gpib_board_t *board)
-+static void fmh_gpib_disable_eos(struct gpib_board *board)
- {
- 	struct fmh_priv *priv = board->private_data;
- 
- 	nec7210_disable_eos(board, &priv->nec7210_priv);
- }
- 
--static unsigned int fmh_gpib_update_status(gpib_board_t *board, unsigned int clear_mask)
-+static unsigned int fmh_gpib_update_status(struct gpib_board *board, unsigned int clear_mask)
- {
- 	struct fmh_priv *priv = board->private_data;
- 
- 	return nec7210_update_status(board, &priv->nec7210_priv, clear_mask);
- }
- 
--static int fmh_gpib_primary_address(gpib_board_t *board, unsigned int address)
-+static int fmh_gpib_primary_address(struct gpib_board *board, unsigned int address)
- {
- 	struct fmh_priv *priv = board->private_data;
- 
- 	return nec7210_primary_address(board, &priv->nec7210_priv, address);
- }
- 
--static int fmh_gpib_secondary_address(gpib_board_t *board, unsigned int address, int enable)
-+static int fmh_gpib_secondary_address(struct gpib_board *board, unsigned int address, int enable)
- {
- 	struct fmh_priv *priv = board->private_data;
- 
- 	return nec7210_secondary_address(board, &priv->nec7210_priv, address, enable);
- }
- 
--static int fmh_gpib_parallel_poll(gpib_board_t *board, uint8_t *result)
-+static int fmh_gpib_parallel_poll(struct gpib_board *board, uint8_t *result)
- {
- 	struct fmh_priv *priv = board->private_data;
- 
- 	return nec7210_parallel_poll(board, &priv->nec7210_priv, result);
- }
- 
--static void fmh_gpib_parallel_poll_configure(gpib_board_t *board, uint8_t configuration)
-+static void fmh_gpib_parallel_poll_configure(struct gpib_board *board, uint8_t configuration)
- {
- 	struct fmh_priv *priv = board->private_data;
- 
- 	nec7210_parallel_poll_configure(board, &priv->nec7210_priv, configuration);
- }
- 
--static void fmh_gpib_parallel_poll_response(gpib_board_t *board, int ist)
-+static void fmh_gpib_parallel_poll_response(struct gpib_board *board, int ist)
- {
- 	struct fmh_priv *priv = board->private_data;
- 
- 	nec7210_parallel_poll_response(board, &priv->nec7210_priv, ist);
- }
- 
--static void fmh_gpib_local_parallel_poll_mode(gpib_board_t *board, int local)
-+static void fmh_gpib_local_parallel_poll_mode(struct gpib_board *board, int local)
- {
- 	struct fmh_priv *priv = board->private_data;
- 
-@@ -175,7 +177,7 @@ static void fmh_gpib_local_parallel_poll_mode(gpib_board_t *board, int local)
+ 	dbg_printk(2, "%d\n", request_control);
+ 	if (request_control) {
+@@ -894,7 +894,7 @@ static void bb_request_system_control(gpib_board_t *board, int request_control)
  	}
  }
  
--static void fmh_gpib_serial_poll_response2(gpib_board_t *board, uint8_t status,
-+static void fmh_gpib_serial_poll_response2(struct gpib_board *board, uint8_t status,
- 					   int new_reason_for_service)
+-static void bb_interface_clear(gpib_board_t *board, int assert)
++static void bb_interface_clear(struct gpib_board *board, int assert)
  {
- 	struct fmh_priv *priv = board->private_data;
-@@ -210,14 +212,14 @@ static void fmh_gpib_serial_poll_response2(gpib_board_t *board, uint8_t status,
- 	spin_unlock_irqrestore(&board->spinlock, flags);
+ 	struct bb_priv *priv = board->private_data;
+ 
+@@ -908,7 +908,7 @@ static void bb_interface_clear(gpib_board_t *board, int assert)
+ 	}
  }
  
--static uint8_t fmh_gpib_serial_poll_status(gpib_board_t *board)
-+static uint8_t fmh_gpib_serial_poll_status(struct gpib_board *board)
+-static void bb_remote_enable(gpib_board_t *board, int enable)
++static void bb_remote_enable(struct gpib_board *board, int enable)
  {
- 	struct fmh_priv *priv = board->private_data;
- 
- 	return nec7210_serial_poll_status(board, &priv->nec7210_priv);
+ 	dbg_printk(2, "%d\n", enable);
+ 	if (enable) {
+@@ -920,7 +920,7 @@ static void bb_remote_enable(gpib_board_t *board, int enable)
+ 	}
  }
  
--static void fmh_gpib_return_to_local(gpib_board_t *board)
-+static void fmh_gpib_return_to_local(struct gpib_board *board)
+-static int bb_enable_eos(gpib_board_t *board, uint8_t eos_byte, int compare_8_bits)
++static int bb_enable_eos(struct gpib_board *board, uint8_t eos_byte, int compare_8_bits)
  {
- 	struct fmh_priv *priv = board->private_data;
- 	struct nec7210_priv *nec_priv = &priv->nec7210_priv;
-@@ -227,7 +229,7 @@ static void fmh_gpib_return_to_local(gpib_board_t *board)
- 	write_byte(nec_priv, AUX_RTL, AUXMR);
- }
+ 	struct bb_priv *priv = board->private_data;
  
--static int fmh_gpib_line_status(const gpib_board_t *board)
-+static int fmh_gpib_line_status(const struct gpib_board *board)
- {
- 	int status = VALID_ALL;
- 	int bsr_bits;
-@@ -259,7 +261,7 @@ static int fmh_gpib_line_status(const gpib_board_t *board)
- 	return status;
- }
- 
--static unsigned int fmh_gpib_t1_delay(gpib_board_t *board, unsigned int nano_sec)
-+static unsigned int fmh_gpib_t1_delay(struct gpib_board *board, unsigned int nano_sec)
- {
- 	struct fmh_priv *e_priv = board->private_data;
- 	struct nec7210_priv *nec_priv = &e_priv->nec7210_priv;
-@@ -276,7 +278,7 @@ static unsigned int fmh_gpib_t1_delay(gpib_board_t *board, unsigned int nano_sec
- 	return retval;
- }
- 
--static int lacs_or_read_ready(gpib_board_t *board)
-+static int lacs_or_read_ready(struct gpib_board *board)
- {
- 	const struct fmh_priv *e_priv = board->private_data;
- 	const struct nec7210_priv *nec_priv = &e_priv->nec7210_priv;
-@@ -291,7 +293,7 @@ static int lacs_or_read_ready(gpib_board_t *board)
- 	return retval;
- }
- 
--static int wait_for_read(gpib_board_t *board)
-+static int wait_for_read(struct gpib_board *board)
- {
- 	struct fmh_priv *e_priv = board->private_data;
- 	struct nec7210_priv *nec_priv = &e_priv->nec7210_priv;
-@@ -310,7 +312,7 @@ static int wait_for_read(gpib_board_t *board)
- 	return retval;
- }
- 
--static int wait_for_rx_fifo_half_full_or_end(gpib_board_t *board)
-+static int wait_for_rx_fifo_half_full_or_end(struct gpib_board *board)
- {
- 	struct fmh_priv *e_priv = board->private_data;
- 	struct nec7210_priv *nec_priv = &e_priv->nec7210_priv;
-@@ -333,7 +335,7 @@ static int wait_for_rx_fifo_half_full_or_end(gpib_board_t *board)
- 
- /* Wait until the gpib chip is ready to accept a data out byte.
-  */
--static int wait_for_data_out_ready(gpib_board_t *board)
-+static int wait_for_data_out_ready(struct gpib_board *board)
- {
- 	struct fmh_priv *e_priv = board->private_data;
- 	struct nec7210_priv *nec_priv = &e_priv->nec7210_priv;
-@@ -357,7 +359,7 @@ static int wait_for_data_out_ready(gpib_board_t *board)
- 
- static void fmh_gpib_dma_callback(void *arg)
- {
--	gpib_board_t *board = arg;
-+	struct gpib_board *board = arg;
- 	struct fmh_priv *e_priv = board->private_data;
- 	struct nec7210_priv *nec_priv = &e_priv->nec7210_priv;
- 	unsigned long flags;
-@@ -389,7 +391,7 @@ static int fmh_gpib_all_bytes_are_sent(struct fmh_priv *e_priv)
- 	return 1;
- }
- 
--static int fmh_gpib_dma_write(gpib_board_t *board, uint8_t *buffer, size_t length,
-+static int fmh_gpib_dma_write(struct gpib_board *board, uint8_t *buffer, size_t length,
- 			      size_t *bytes_written)
- {
- 	struct fmh_priv *e_priv = board->private_data;
-@@ -467,7 +469,7 @@ static int fmh_gpib_dma_write(gpib_board_t *board, uint8_t *buffer, size_t lengt
- 	return retval;
- }
- 
--static int fmh_gpib_accel_write(gpib_board_t *board, uint8_t *buffer,
-+static int fmh_gpib_accel_write(struct gpib_board *board, uint8_t *buffer,
- 				size_t length, int send_eoi, size_t *bytes_written)
- {
- 	struct fmh_priv *e_priv = board->private_data;
-@@ -557,7 +559,7 @@ static int fmh_gpib_get_dma_residue(struct dma_chan *chan, dma_cookie_t cookie)
- 	return state.residue;
- }
- 
--static int wait_for_tx_fifo_half_empty(gpib_board_t *board)
-+static int wait_for_tx_fifo_half_empty(struct gpib_board *board)
- {
- 	struct fmh_priv *e_priv = board->private_data;
- 	struct nec7210_priv *nec_priv = &e_priv->nec7210_priv;
-@@ -582,7 +584,7 @@ static int wait_for_tx_fifo_half_empty(gpib_board_t *board)
- /* supports writing a chunk of data whose length must fit into the hardware'd xfer counter,
-  * called in a loop by fmh_gpib_fifo_write()
-  */
--static int fmh_gpib_fifo_write_countable(gpib_board_t *board, uint8_t *buffer,
-+static int fmh_gpib_fifo_write_countable(struct gpib_board *board, uint8_t *buffer,
- 					 size_t length, int send_eoi, size_t *bytes_written)
- {
- 	struct fmh_priv *e_priv = board->private_data;
-@@ -648,7 +650,7 @@ static int fmh_gpib_fifo_write_countable(gpib_board_t *board, uint8_t *buffer,
- 	return retval;
- }
- 
--static int fmh_gpib_fifo_write(gpib_board_t *board, uint8_t *buffer, size_t length,
-+static int fmh_gpib_fifo_write(struct gpib_board *board, uint8_t *buffer, size_t length,
- 			       int send_eoi, size_t *bytes_written)
- {
- 	struct fmh_priv *e_priv = board->private_data;
-@@ -695,7 +697,7 @@ static int fmh_gpib_fifo_write(gpib_board_t *board, uint8_t *buffer, size_t leng
- 	return retval;
- }
- 
--static int fmh_gpib_dma_read(gpib_board_t *board, uint8_t *buffer,
-+static int fmh_gpib_dma_read(struct gpib_board *board, uint8_t *buffer,
- 			     size_t length, int *end, size_t *bytes_read)
- {
- 	struct fmh_priv *e_priv = board->private_data;
-@@ -807,7 +809,7 @@ static int fmh_gpib_dma_read(gpib_board_t *board, uint8_t *buffer,
- 	return retval;
- }
- 
--static void fmh_gpib_release_rfd_holdoff(gpib_board_t *board, struct fmh_priv *e_priv)
-+static void fmh_gpib_release_rfd_holdoff(struct gpib_board *board, struct fmh_priv *e_priv)
- {
- 	struct nec7210_priv *nec_priv = &e_priv->nec7210_priv;
- 	unsigned int ext_status_1;
-@@ -844,7 +846,7 @@ static void fmh_gpib_release_rfd_holdoff(gpib_board_t *board, struct fmh_priv *e
- 	spin_unlock_irqrestore(&board->spinlock, flags);
- }
- 
--static int fmh_gpib_accel_read(gpib_board_t *board, uint8_t *buffer, size_t length,
-+static int fmh_gpib_accel_read(struct gpib_board *board, uint8_t *buffer, size_t length,
- 			       int *end, size_t *bytes_read)
- {
- 	struct fmh_priv *e_priv = board->private_data;
-@@ -894,7 +896,7 @@ static int fmh_gpib_accel_read(gpib_board_t *board, uint8_t *buffer, size_t leng
- /* Read a chunk of data whose length is within the limits of the hardware's
-  * xfer counter.  Called in a loop from fmh_gpib_fifo_read().
-  */
--static int fmh_gpib_fifo_read_countable(gpib_board_t *board, uint8_t *buffer,
-+static int fmh_gpib_fifo_read_countable(struct gpib_board *board, uint8_t *buffer,
- 					size_t length, int *end, size_t *bytes_read)
- {
- 	struct fmh_priv *e_priv = board->private_data;
-@@ -952,7 +954,7 @@ static int fmh_gpib_fifo_read_countable(gpib_board_t *board, uint8_t *buffer,
- 	return retval;
- }
- 
--static int fmh_gpib_fifo_read(gpib_board_t *board, uint8_t *buffer, size_t length,
-+static int fmh_gpib_fifo_read(struct gpib_board *board, uint8_t *buffer, size_t length,
- 			      int *end, size_t *bytes_read)
- {
- 	struct fmh_priv *e_priv = board->private_data;
-@@ -1121,7 +1123,7 @@ static gpib_interface_t fmh_gpib_pci_unaccel_interface = {
- 	.return_to_local = fmh_gpib_return_to_local,
- };
- 
--irqreturn_t fmh_gpib_internal_interrupt(gpib_board_t *board)
-+irqreturn_t fmh_gpib_internal_interrupt(struct gpib_board *board)
- {
- 	unsigned int status0, status1, status2, ext_status_1, fifo_status;
- 	struct fmh_priv *priv = board->private_data;
-@@ -1211,7 +1213,7 @@ irqreturn_t fmh_gpib_internal_interrupt(gpib_board_t *board)
- 
- irqreturn_t fmh_gpib_interrupt(int irq, void *arg)
- {
--	gpib_board_t *board = arg;
-+	struct gpib_board *board = arg;
- 	unsigned long flags;
- 	irqreturn_t retval;
- 
-@@ -1221,7 +1223,7 @@ irqreturn_t fmh_gpib_interrupt(int irq, void *arg)
- 	return retval;
- }
- 
--static int fmh_gpib_allocate_private(gpib_board_t *board)
-+static int fmh_gpib_allocate_private(struct gpib_board *board)
- {
- 	struct fmh_priv *priv;
- 
-@@ -1238,7 +1240,7 @@ static int fmh_gpib_allocate_private(gpib_board_t *board)
+@@ -933,7 +933,7 @@ static int bb_enable_eos(gpib_board_t *board, uint8_t eos_byte, int compare_8_bi
  	return 0;
  }
  
--static void fmh_gpib_generic_detach(gpib_board_t *board)
-+static void fmh_gpib_generic_detach(struct gpib_board *board)
+-static void bb_disable_eos(gpib_board_t *board)
++static void bb_disable_eos(struct gpib_board *board)
  {
- 	if (board->private_data) {
- 		struct fmh_priv *e_priv = board->private_data;
-@@ -1252,7 +1254,7 @@ static void fmh_gpib_generic_detach(gpib_board_t *board)
+ 	struct bb_priv *priv = board->private_data;
+ 
+@@ -941,7 +941,7 @@ static void bb_disable_eos(gpib_board_t *board)
+ 	priv->eos_flags &= ~REOS;
  }
  
- // generic part of attach functions
--static int fmh_gpib_generic_attach(gpib_board_t *board)
-+static int fmh_gpib_generic_attach(struct gpib_board *board)
+-static unsigned int bb_update_status(gpib_board_t *board, unsigned int clear_mask)
++static unsigned int bb_update_status(struct gpib_board *board, unsigned int clear_mask)
  {
- 	struct fmh_priv *e_priv;
- 	struct nec7210_priv *nec_priv;
-@@ -1272,7 +1274,7 @@ static int fmh_gpib_generic_attach(gpib_board_t *board)
+ 	struct bb_priv *priv = board->private_data;
+ 
+@@ -972,14 +972,14 @@ static unsigned int bb_update_status(gpib_board_t *board, unsigned int clear_mas
+ 	return board->status;
+ }
+ 
+-static int bb_primary_address(gpib_board_t *board, unsigned int address)
++static int bb_primary_address(struct gpib_board *board, unsigned int address)
+ {
+ 	dbg_printk(2, "%d\n", address);
+ 	board->pad = address;
  	return 0;
  }
  
--static int fmh_gpib_config_dma(gpib_board_t *board, int output)
-+static int fmh_gpib_config_dma(struct gpib_board *board, int output)
+-static int bb_secondary_address(gpib_board_t *board, unsigned int address, int enable)
++static int bb_secondary_address(struct gpib_board *board, unsigned int address, int enable)
  {
- 	struct fmh_priv *e_priv = board->private_data;
- 	struct dma_slave_config config;
-@@ -1302,7 +1304,7 @@ static int fmh_gpib_config_dma(gpib_board_t *board, int output)
- 	return dmaengine_slave_config(e_priv->dma_channel, &config);
+ 	dbg_printk(2, "%d %d\n", address, enable);
+ 	if (enable)
+@@ -987,29 +987,29 @@ static int bb_secondary_address(gpib_board_t *board, unsigned int address, int e
+ 	return 0;
  }
  
--static int fmh_gpib_init(struct fmh_priv *e_priv, gpib_board_t *board, int handshake_mode)
-+static int fmh_gpib_init(struct fmh_priv *e_priv, struct gpib_board *board, int handshake_mode)
+-static int bb_parallel_poll(gpib_board_t *board, uint8_t *result)
++static int bb_parallel_poll(struct gpib_board *board, uint8_t *result)
  {
- 	struct nec7210_priv *nec_priv = &e_priv->nec7210_priv;
- 	unsigned long flags;
-@@ -1349,7 +1351,7 @@ static int fmh_gpib_device_match(struct device *dev, const void *data)
- 	return 1;
+ 	return -ENOENT;
  }
  
--static int fmh_gpib_attach_impl(gpib_board_t *board, const gpib_board_config_t *config,
-+static int fmh_gpib_attach_impl(struct gpib_board *board, const gpib_board_config_t *config,
- 				unsigned int handshake_mode, int acquire_dma)
+-static void bb_parallel_poll_configure(gpib_board_t *board, uint8_t config)
++static void bb_parallel_poll_configure(struct gpib_board *board, uint8_t config)
  {
- 	struct fmh_priv *e_priv;
-@@ -1452,17 +1454,17 @@ static int fmh_gpib_attach_impl(gpib_board_t *board, const gpib_board_config_t *
- 	return fmh_gpib_init(e_priv, board, handshake_mode);
  }
  
--int fmh_gpib_attach_holdoff_all(gpib_board_t *board, const gpib_board_config_t *config)
-+int fmh_gpib_attach_holdoff_all(struct gpib_board *board, const gpib_board_config_t *config)
+-static void bb_parallel_poll_response(gpib_board_t *board, int ist)
++static void bb_parallel_poll_response(struct gpib_board *board, int ist)
  {
- 	return fmh_gpib_attach_impl(board, config, HR_HLDA, 0);
  }
  
--int fmh_gpib_attach_holdoff_end(gpib_board_t *board, const gpib_board_config_t *config)
-+int fmh_gpib_attach_holdoff_end(struct gpib_board *board, const gpib_board_config_t *config)
+-static void bb_serial_poll_response(gpib_board_t *board, uint8_t status)
++static void bb_serial_poll_response(struct gpib_board *board, uint8_t status)
  {
- 	return fmh_gpib_attach_impl(board, config, HR_HLDE, 1);
  }
  
--void fmh_gpib_detach(gpib_board_t *board)
-+void fmh_gpib_detach(struct gpib_board *board)
+-static uint8_t bb_serial_poll_status(gpib_board_t *board)
++static uint8_t bb_serial_poll_status(struct gpib_board *board)
  {
- 	struct fmh_priv *e_priv = board->private_data;
- 	struct nec7210_priv *nec_priv;
-@@ -1495,7 +1497,7 @@ void fmh_gpib_detach(gpib_board_t *board)
- 	fmh_gpib_generic_detach(board);
+ 	return 0; // -ENOENT;
  }
  
--static int fmh_gpib_pci_attach_impl(gpib_board_t *board, const gpib_board_config_t *config,
-+static int fmh_gpib_pci_attach_impl(struct gpib_board *board, const gpib_board_config_t *config,
- 				    unsigned int handshake_mode)
+-static unsigned int bb_t1_delay(gpib_board_t *board,  unsigned int nano_sec)
++static unsigned int bb_t1_delay(struct gpib_board *board,  unsigned int nano_sec)
  {
- 	struct fmh_priv *e_priv;
-@@ -1568,12 +1570,12 @@ static int fmh_gpib_pci_attach_impl(gpib_board_t *board, const gpib_board_config
- 	return fmh_gpib_init(e_priv, board, handshake_mode);
+ 	struct bb_priv *priv = board->private_data;
+ 
+@@ -1025,11 +1025,11 @@ static unsigned int bb_t1_delay(gpib_board_t *board,  unsigned int nano_sec)
+ 	return priv->t1_delay;
  }
  
--int fmh_gpib_pci_attach_holdoff_all(gpib_board_t *board, const gpib_board_config_t *config)
-+int fmh_gpib_pci_attach_holdoff_all(struct gpib_board *board, const gpib_board_config_t *config)
+-static void bb_return_to_local(gpib_board_t *board)
++static void bb_return_to_local(struct gpib_board *board)
  {
- 	return fmh_gpib_pci_attach_impl(board, config, HR_HLDA);
  }
  
--int fmh_gpib_pci_attach_holdoff_end(gpib_board_t *board, const gpib_board_config_t *config)
-+int fmh_gpib_pci_attach_holdoff_end(struct gpib_board *board, const gpib_board_config_t *config)
+-static int bb_line_status(const gpib_board_t *board)
++static int bb_line_status(const struct gpib_board *board)
  {
- 	int retval;
- 	struct fmh_priv *e_priv;
-@@ -1587,7 +1589,7 @@ int fmh_gpib_pci_attach_holdoff_end(gpib_board_t *board, const gpib_board_config
+ 	int line_status = VALID_ALL;
+ 
+@@ -1061,7 +1061,7 @@ static int bb_line_status(const gpib_board_t *board)
+  *									   *
+  ***************************************************************************/
+ 
+-static int allocate_private(gpib_board_t *board)
++static int allocate_private(struct gpib_board *board)
+ {
+ 	board->private_data = kzalloc(sizeof(struct bb_priv), GFP_KERNEL);
+ 	if (!board->private_data)
+@@ -1069,13 +1069,13 @@ static int allocate_private(gpib_board_t *board)
+ 	return 0;
+ }
+ 
+-static void free_private(gpib_board_t *board)
++static void free_private(struct gpib_board *board)
+ {
+ 	kfree(board->private_data);
+ 	board->private_data = NULL;
+ }
+ 
+-static int bb_get_irq(gpib_board_t *board, char *name,
++static int bb_get_irq(struct gpib_board *board, char *name,
+ 		      struct gpio_desc *gpio, int *irq,
+ 		      irq_handler_t handler, irq_handler_t thread_fn, unsigned long flags)
+ {
+@@ -1097,7 +1097,7 @@ static int bb_get_irq(gpib_board_t *board, char *name,
+ 	return 0;
+ }
+ 
+-static void bb_free_irq(gpib_board_t *board, int *irq, char *name)
++static void bb_free_irq(struct gpib_board *board, int *irq, char *name)
+ {
+ 	if (*irq) {
+ 		free_irq(*irq, board);
+@@ -1118,7 +1118,7 @@ static void release_gpios(void)
+ 	}
+ }
+ 
+-static int allocate_gpios(gpib_board_t *board)
++static int allocate_gpios(struct gpib_board *board)
+ {
+ 	int j, retval = 0;
+ 	bool error = false;
+@@ -1176,7 +1176,7 @@ static int allocate_gpios(gpib_board_t *board)
  	return retval;
  }
  
--void fmh_gpib_pci_detach(gpib_board_t *board)
-+void fmh_gpib_pci_detach(struct gpib_board *board)
+-static void bb_detach(gpib_board_t *board)
++static void bb_detach(struct gpib_board *board)
  {
- 	struct fmh_priv *e_priv = board->private_data;
- 	struct nec7210_priv *nec_priv;
+ 	struct bb_priv *priv = board->private_data;
+ 
+@@ -1206,7 +1206,7 @@ static void bb_detach(gpib_board_t *board)
+ 	free_private(board);
+ }
+ 
+-static int bb_attach(gpib_board_t *board, const gpib_board_config_t *config)
++static int bb_attach(struct gpib_board *board, const gpib_board_config_t *config)
+ {
+ 	struct bb_priv *priv;
+ 	int retval = 0;
 -- 
 2.43.0
 
