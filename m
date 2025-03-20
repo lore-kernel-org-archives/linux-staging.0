@@ -1,107 +1,187 @@
-Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout-p-103.mailbox.org (mout-p-103.mailbox.org [80.241.56.161])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68E9A2236EF
-	for <linux-staging@lists.linux.dev>; Wed, 19 Mar 2025 22:00:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D22603C0B;
+	Thu, 20 Mar 2025 00:14:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.161
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742421604; cv=none; b=VsUu7xHO86XjcGG6R/HHQDCzObHR4RH4Ru66KlrAPXdYQK2EXN0gOB4TRhAEody4VqHwzhf8tGqPGmbjrcktDWBQEUhRYoGbnKeZZ5sg++aGWN57FBusOwNS0+BqJAhpKCRjiE6B/WGZr9uTRjoySr41hBsGn3Te5c3+iHefSjg=
+	t=1742429650; cv=none; b=GI+PGfi+DMaCFTdrNjoi7cJ84puf3SD7R92ruWJrl7RPouufOZzfNdJQbtkAOD6dbB5lQzpR87a6xlZOBm2NPrZWw+McyLx7Bn8wW90VRv5MJTylGQgQMiG1OY5RQraiIhM/1QaffqXzByBDM4bV+87SZQDpzCbYrcESeJoEplY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742421604; c=relaxed/simple;
-	bh=VbdeLRZV9ED0o/Bxs5o9aDMhEvtIGXCWX0egsa7yiVg=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=ro+WC5WamfNiwOCGNbOh76No82K1qjzvaL+wofDKzl+ZG+nLIRc29jD17KnwzrQzknBMSQg/zl1yRKDROAQbFTaYCgVngzoZb1VkTx2sjsgKQegvZ+Me5pjQAE3506b2NxCIOp7kdK6YIVJyO7DnbLBRrbVHkzNksX2+hOz88CA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=neverthere.org; spf=pass smtp.mailfrom=neverthere.org; dkim=pass (2048-bit key) header.d=neverthere.org header.i=@neverthere.org header.b=hfS5lQh2; arc=none smtp.client-ip=209.85.214.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=neverthere.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=neverthere.org
+	s=arc-20240116; t=1742429650; c=relaxed/simple;
+	bh=llHSV+7G4W8fjSvREfF+ZiSJfXs53TD9xSG8C/Szsz4=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=K99NoNuHnnz5Gn6CMjQHhwYuP39C6NtHGL1yUYFqOrsbCOSM9JXaUXmqI0agjt1VzvmXzUT8zZsGYglQxiYnW6P3W2wREvEOCOVRv32HJ9tmpzNuAEE+P8jGVNPEqLjfX+LhCO+9SX7mN9nYxGreoRTIAKNWevKbAUbOfxzgyM8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ethancedwards.com; spf=pass smtp.mailfrom=ethancedwards.com; dkim=pass (2048-bit key) header.d=ethancedwards.com header.i=@ethancedwards.com header.b=pImCxAYP; arc=none smtp.client-ip=80.241.56.161
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ethancedwards.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ethancedwards.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=neverthere.org header.i=@neverthere.org header.b="hfS5lQh2"
-Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-225477548e1so970035ad.0
-        for <linux-staging@lists.linux.dev>; Wed, 19 Mar 2025 15:00:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=neverthere.org; s=google; t=1742421602; x=1743026402; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=prJ1TM7FQQCq2HQpbJ4AVBwG2iHEDTkPGfRD+WVuSQ0=;
-        b=hfS5lQh2HSvz+pASMrU8FnTCUGj2AgjHK8WKv0yBT8ZgPT4bApyRMu+khZLkDRf9tr
-         37dPtA3en5Z1m9mVX55qqnfjjbatrpD8DEoKBTw6jjaFm/1CAitmq9aPi035cDC5q+0Z
-         7M3C+xRCbf6EOUokPJoITnAMmpenCND/RzjRdPpgsamSf+1SWSXN2Vj795zy1nP168NJ
-         XjilCdAcVTBNa5fcROgo/E56+JVVVhh23VYhjiYPMqaOZDe00/l4E+Nokx01J7q2+bXN
-         L9s0CFUKACmTFeS9QBSUpQvjs0Lryx9Sa22B6r3/w49QqOwNvftDvEPESVDr1yfh7+tq
-         reGg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742421602; x=1743026402;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=prJ1TM7FQQCq2HQpbJ4AVBwG2iHEDTkPGfRD+WVuSQ0=;
-        b=uX7y8jHBFgwsRi0z75g621F/bXO5OCZPL6tE07sLWQtODHfpEQs4dLcRhJJMWZh5L7
-         A3C5I5lvRzHlmrp9r09lo4JFxsmZIBhqdB9/pWn+PX/4GBMBcFZO1w9oO70gp6JvOkia
-         C9KSRbEeOcstXPYFHOVl54oj/Xl/eoxJJY9PUAFeO9D7m4AuZmYhz5mz025StMRFztNU
-         MBTlXb/a/dTSS5da94R713AqZibiDASsbtafagJXlSI1usKtzhE/9c8nV+Pm+8ICQNvo
-         gTQcXPL4t2O4LOq07e+qvngRY27e6+X/Dg3sNEnVYaSqdl6DmAoq85tbVs4ZBMjIB6UY
-         dqNw==
-X-Gm-Message-State: AOJu0YxVgPYsAJBQYPhh8ee5jRoeiphc7n+S6jxGqa7zvGTDQhih7m5V
-	IRCgK4KC8hPwzuuM06IX7UPohZKVG/UVM4z5ikXqYqVu3xaKJb99ytXBNx8B8A==
-X-Gm-Gg: ASbGnctY6uiJokcGl5zPL2dPm6PQAnBllQjKwBt3hC/AbsY2cP8A1LqHFRUDYQcVrxG
-	YKDKOVXQrv21pwR1wIsoJ3aMhirvvW4W2PMd23MVS+K8T35scE4Jo3iSGa5MavxASeu6oVVyLD8
-	jU8u6gf1xA9M511z27pNfQAQNwyNTZoLF5YKg0wtxvS0YvsbYG3vZfwDFh69Q/+3OGfXcsz7Ui8
-	mM8B+m/OrJc5X2380ok1Wqit2jOmgT9NfNyFVTNKdtLWArqVxUCcdX4RQgZbNrafsZY8nYs1JZ/
-	hdpRG9iwysRPXzLe+uZhtryTECtfLrJ6HraP6mgmBWhf4uAZ+6GTLXUKdJYdigObH4ieGo8M/K9
-	dVgTL6tEyzQ==
-X-Google-Smtp-Source: AGHT+IFibFrspTU/Sa0g0di0JiPnyclzEvmMzIUQgoY1Fmh41qCzcBS8NG7aSZ/+vqVHMo9ZwlrHCQ==
-X-Received: by 2002:a17:903:1d0:b0:224:216e:3342 with SMTP id d9443c01a7336-2265ee8f6c6mr13197075ad.43.1742421601806;
-        Wed, 19 Mar 2025 15:00:01 -0700 (PDT)
-Received: from tiamat (c-69-181-214-135.hsd1.ca.comcast.net. [69.181.214.135])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-225c6bbe884sm120346345ad.185.2025.03.19.15.00.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 19 Mar 2025 15:00:01 -0700 (PDT)
-From: Michael Rubin <matchstick@neverthere.org>
-To: Dave Penkler <dpenkler@gmail.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Michael Rubin <matchstick@neverthere.org>
-Subject: [PATCH v1 20/20] staging: gpib: Removing typedef for gpib_board
-Date: Wed, 19 Mar 2025 21:59:24 +0000
-Message-ID: <20250319215924.19387-21-matchstick@neverthere.org>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20250319215924.19387-1-matchstick@neverthere.org>
-References: <20250319215924.19387-1-matchstick@neverthere.org>
+	dkim=pass (2048-bit key) header.d=ethancedwards.com header.i=@ethancedwards.com header.b="pImCxAYP"
+Received: from smtp1.mailbox.org (smtp1.mailbox.org [IPv6:2001:67c:2050:b231:465::1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-103.mailbox.org (Postfix) with ESMTPS id 4ZJ5fG2nsgz9skV;
+	Thu, 20 Mar 2025 01:13:58 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ethancedwards.com;
+	s=MBO0001; t=1742429638;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=xmF6T9wgWmDv9JlK9e1PAWOlAEmjIU7jY2iEqbhLZsg=;
+	b=pImCxAYP4uWrWjZedSGJs0CSHryiN9gJD029xCznk/r+X84g/EPFnz471bEiO51Gw6xInW
+	akOflDfmBkbF0zHpzRgHSs8oOv/ZmfpjZ3mrx4IcF1CXDyQQH3Ch8neWHO1a0Rsa9GMaJB
+	rAMrRKwjHzLaBUmVotYfTtMzVQZE9wAt51SXRrfA5QYs0C/MozV0UBxHtLD6M3h8ojcsF0
+	w2u/1T/8rTwFmcs+AUEP8wWLpI3awXm4AvXG5U76FqwfsepL7uDdN7Y7QxR7VYGJqrt6IH
+	HugIVlI+pDKM4wfZKAfFIAbEYv9VrCK/7bvvCS9G5J6PbecxoKgnqp0L27syug==
+From: Ethan Carter Edwards <ethan@ethancedwards.com>
+Subject: [RFC PATCH v2 0/8] staging: apfs: init APFS filesystem support
+Date: Wed, 19 Mar 2025 20:13:49 -0400
+Message-Id: <20250319-apfs-v2-0-475de2e25782@ethancedwards.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAL5d22cC/yXNQQ7CIBCF4as0sxYDFFp05T1MFwiDnYVtAw1qG
+ u4utsv/ZfLNBgkjYYJrs0HETInmqYY8NeBGOz2Rka8NkkvNpeDMLiGxi1eqN73RwXCop0vEQJ+
+ duQ+1R0rrHL+7msV/PYBWqAPIgnHmfbC2M2330O6Ga33n0L9t9Ons5hcMpZQf1qa7ZKAAAAA=
+X-Change-ID: 20250210-apfs-9d4478785f80
+To: brauner@kernel.org, tytso@mit.edu, jack@suse.cz, 
+ viro@zeniv.linux.org.uk
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ ernesto.mnd.fernandez@gmail.com, dan.carpenter@linaro.org, 
+ sven@svenpeter.dev, ernesto@corellium.com, gargaditya08@live.com, 
+ willy@infradead.org, asahi@lists.linux.dev, linux-kernel@vger.kernel.org, 
+ linux-fsdevel@vger.kernel.org, linux-staging@lists.linux.dev, 
+ Ethan Carter Edwards <ethan@ethancedwards.com>
+X-Developer-Signature: v=1; a=openpgp-sha256; l=5942;
+ i=ethan@ethancedwards.com; h=from:subject:message-id;
+ bh=llHSV+7G4W8fjSvREfF+ZiSJfXs53TD9xSG8C/Szsz4=;
+ b=LS0tLS1CRUdJTiBQR1AgTUVTU0FHRS0tLS0tCgpvd0o0bkp2QXk4ekFKWGJEOXFoNThlVGp6e
+ GhQcXlVeHBOK08zYS9jVy9mbDJOOERQRDg3d3kxcjc4L2NmRGZFCjZBTnY2Y3k3b3VWeUN6NDhh
+ OVhwS0dWaEVPTmlrQlZUWlBtZm81ejJVSE9Hd3M2L0xrMHdjMWlaUUlZd2NIRUsKd0VURWZ6QXl
+ uSkM5K2lwbHJybm1HNDl1ZDlrVzh6OHhIYnlCN092U2ZkcE1DbHVtVmJ2L1lmanZJYzU2bGozSA
+ p2VjFvNFFPMzlYTnVIc3pJMnBZZHVNRjNLMWZ2ODEybFUxVzVBR2V0VGFzPQo9UVVCWgotLS0tL
+ UVORCBQR1AgTUVTU0FHRS0tLS0tCg==
+X-Developer-Key: i=ethan@ethancedwards.com; a=openpgp;
+ fpr=2E51F61839D1FA947A7300C234C04305D581DBFE
+X-Rspamd-Queue-Id: 4ZJ5fG2nsgz9skV
 
-Removing typedef as per Linux code style.
+Hello everyone,
 
-Adhering to Linux code style.
+In series 2, I have fixed the formatting with clang-format of the lzfse
+library and fixed the comments to use linux kernel styles. I also
+removed my Copyright from files where it was not appropriate. 
+Additionally, I removed the encode.c files as they were unused and 
+not compiled into the final module They should be easy enough to add 
+back if needed. I also rebased on Linus's tree, just in case. 
+Nothing broke! ;)
 
-In general, a pointer, or a struct that has elements that can reasonably be
-directly accessed should never be a typedef.
+I am holding off on adding Ernesto's Co-developed-by and Signed-off-by
+tags until I get a better grasp of where this module is headed. I hope
+to here back from Christian and the LSFMMBPF folks sometime in the next
+few weeks.
 
-Signed-off-by: Michael Rubin <matchstick@neverthere.org>
+I understand the jury is still out on supporting both reading and
+writing. As it stands, I have configured the code to support
+reading/writing on mount, but upstream auto-rw is configurable via a
+CONFIG option. Some people have expressed that they want the module
+upstreamed even if only read is supported. I will stay tuned and make
+changes as needed.
+
+Additionally, I realize that staging/ may not be the correct location
+for the driver. However, I am basing my upstream process off of the
+erofs process. They started in staging. I understand that the correct
+tree and dir will be discussed as next weeks LSFMMBPF summit, 
+so I will wait on their feedback before making any moves.
+
+I am curious to hear everyone's thoughts on this and to start getting
+the ball rolling for the code-review process. Please feel free to
+include/CC anyone who may be interested in this driver/the review
+process. I have included a few people, but have certainly missed others.
+
+Ernesto, the original author, encouraged me to submit any code
+improvements upstream instead of submitting here. I am upstreaming my 
+code improvements to his tree, but I will continue the effort here in
+caes upstream fs folks are interested. In any case, my goal here is to
+create discussion around the project and make the code better while I am
+at it.
+
+Some people on Asahi channels have mentioned that this driver could be
+helpful for implementing certain features like the fingerprint reader and
+simplify the boot process some. This feedback encourages me to continue
+with this effort. Asahi folks, keep at it, y'all are awesome.
+
+[0]: https://lore.kernel.org/lkml/20250307165054.GA9774@eaf/
+
+Signed-off-by: Ethan Carter Edwards <ethan@ethancedwards.com>
 ---
- drivers/staging/gpib/include/gpib_types.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Changes in v2:
+- remove Ethan copyright in files
+- cleanup/format lzfse code and comments
+- fix a few checkpatch problems
+- Link to v1: https://lore.kernel.org/r/20250314-apfs-v1-0-ddfaa6836b5c@ethancedwards.com
 
-diff --git a/drivers/staging/gpib/include/gpib_types.h b/drivers/staging/gpib/include/gpib_types.h
-index 515fdb91d150..31b35f2cb2e1 100644
---- a/drivers/staging/gpib/include/gpib_types.h
-+++ b/drivers/staging/gpib/include/gpib_types.h
-@@ -23,7 +23,7 @@
- #include <linux/interrupt.h>
- 
- typedef struct gpib_interface_struct gpib_interface_t;
--typedef struct gpib_board gpib_board_t;
-+struct gpib_board;
- 
- /* config parameters that are only used by driver attach functions */
- typedef struct {
+---
+Ethan Carter Edwards (8):
+      staging: apfs: init lzfse compression library for APFS
+      staging: apfs: init unicode.{c,h}
+      staging: apfs: init apfs_raw.h to handle on-disk structures
+      staging: apfs: init libzbitmap.{c,h} for decompression
+      staging: apfs: init APFS
+      staging: apfs: init build support for APFS
+      staging: apfs: init TODO and README.rst
+      MAINTAINERS: apfs: add entry and relevant information
+
+ MAINTAINERS                                      |    6 +
+ drivers/staging/Kconfig                          |    2 +
+ drivers/staging/apfs/Kconfig                     |   13 +
+ drivers/staging/apfs/Makefile                    |   10 +
+ drivers/staging/apfs/README.rst                  |   87 +
+ drivers/staging/apfs/TODO                        |    7 +
+ drivers/staging/apfs/apfs.h                      | 1192 ++++++++
+ drivers/staging/apfs/apfs_raw.h                  | 1566 +++++++++++
+ drivers/staging/apfs/btree.c                     | 1174 ++++++++
+ drivers/staging/apfs/compress.c                  |  441 +++
+ drivers/staging/apfs/dir.c                       | 1439 ++++++++++
+ drivers/staging/apfs/extents.c                   | 2370 ++++++++++++++++
+ drivers/staging/apfs/file.c                      |  163 ++
+ drivers/staging/apfs/inode.c                     | 2234 +++++++++++++++
+ drivers/staging/apfs/key.c                       |  337 +++
+ drivers/staging/apfs/libzbitmap.c                |  448 +++
+ drivers/staging/apfs/libzbitmap.h                |   32 +
+ drivers/staging/apfs/lzfse/lzfse.h               |   86 +
+ drivers/staging/apfs/lzfse/lzfse_decode.c        |   66 +
+ drivers/staging/apfs/lzfse/lzfse_decode_base.c   |  725 +++++
+ drivers/staging/apfs/lzfse/lzfse_encode_tables.h |  224 ++
+ drivers/staging/apfs/lzfse/lzfse_fse.c           |  214 ++
+ drivers/staging/apfs/lzfse/lzfse_fse.h           |  632 +++++
+ drivers/staging/apfs/lzfse/lzfse_internal.h      |  599 ++++
+ drivers/staging/apfs/lzfse/lzfse_tunables.h      |   50 +
+ drivers/staging/apfs/lzfse/lzvn_decode_base.c    |  721 +++++
+ drivers/staging/apfs/lzfse/lzvn_decode_base.h    |   53 +
+ drivers/staging/apfs/lzfse/lzvn_encode_base.h    |  105 +
+ drivers/staging/apfs/message.c                   |   29 +
+ drivers/staging/apfs/namei.c                     |  132 +
+ drivers/staging/apfs/node.c                      | 2069 ++++++++++++++
+ drivers/staging/apfs/object.c                    |  315 +++
+ drivers/staging/apfs/snapshot.c                  |  683 +++++
+ drivers/staging/apfs/spaceman.c                  | 1433 ++++++++++
+ drivers/staging/apfs/super.c                     | 2098 ++++++++++++++
+ drivers/staging/apfs/symlink.c                   |   77 +
+ drivers/staging/apfs/transaction.c               |  959 +++++++
+ drivers/staging/apfs/unicode.c                   | 3156 ++++++++++++++++++++++
+ drivers/staging/apfs/unicode.h                   |   27 +
+ drivers/staging/apfs/xattr.c                     |  911 +++++++
+ drivers/staging/apfs/xfield.c                    |  171 ++
+ 41 files changed, 27056 insertions(+)
+---
+base-commit: a7f2e10ecd8f18b83951b0bab47ddaf48f93bf47
+change-id: 20250210-apfs-9d4478785f80
+
+Best regards,
 -- 
-2.43.0
+Ethan Carter Edwards <ethan@ethancedwards.com>
 
