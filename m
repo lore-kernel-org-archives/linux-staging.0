@@ -1,74 +1,80 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from out-171.mta0.migadu.com (out-171.mta0.migadu.com [91.218.175.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58F9AAD5A;
-	Thu, 20 Mar 2025 14:14:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49CC41EA65
+	for <linux-staging@lists.linux.dev>; Fri, 21 Mar 2025 01:07:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742480049; cv=none; b=aQ2xWer3Xw7pCy0KY/Bv793TipdnraDdXAjDuKW6pQsZ53qSf09wtIsZILDTlaqLP3QkoLPnR+IboLpw4TiI75n9CltIopwHKd/F76aAncG/FkB0BCfmXkdl+BjomMSiuOS2MWzDTpi8OVHDco8gmZHD+qriIkzFFvCOV7rdZvg=
+	t=1742519230; cv=none; b=sM3mTsRR5uQR95kcePo4BSUMRQrovJcbU4qF66JVz/RD3To3Uiyknvk9i2fEdqoXvWE+3icuYkQs0yd9u4zAX0eHTrv9QRU0wx7uoZqzLWfSryz6bin7wxdGUvPC77gWGUEZr0Gs10YU0za0BAP9KOLIdd1X6XDj4HDWP48KJBk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742480049; c=relaxed/simple;
-	bh=EGUjts6cOJFS9FblualjsATD3QmejyxxxC7dFaW5/DM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=B0XtaWZSxLvpGTwlw80jQiEOHrjP/yeFJ3fFMUNdx2EnECAmz7+/2GAN6OWW8/sL4+G2Jl6kwiahVcEt5YPM4VYwTjd7TfhJt71tcQzLnR/T7Z1KWHwQGx51YqKrs9V+FamgYLDGWqDETVarUiJWYZ1OM3EdYPdO31Ieo38Ly+E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=y9e124WU; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1742519230; c=relaxed/simple;
+	bh=LzjLWtNm8vIx5m/jeMY8e5F6Ay/oAnGOKZbPpKEEA3E=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=QrE4slp++pMoC/swnmTedQZur0JJtDfGf1zvyjOgtOrb6j5FsFc9DIrmOay/0Kdiym4GD1PyXRIxbZnCOp+WWhvzp0ZWiBnPaDT2wSPqkEOju7hTbg+2Rqc1m0BhF63L6GQ4eJ7tozhxSETXgQ8RCO/VCm/6QXnLlyJn05iJ30c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=iEZbggtj; arc=none smtp.client-ip=91.218.175.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="y9e124WU"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C35C2C4CEDD;
-	Thu, 20 Mar 2025 14:14:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1742480048;
-	bh=EGUjts6cOJFS9FblualjsATD3QmejyxxxC7dFaW5/DM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=y9e124WU5Fh/SrJ9jRKPyGicGkOuCrQjZTh+Lpbzf/FoXX02qzrsv3sYSeGUfPGie
-	 Ge/DqI9O0KBgRx2SPYF6NyMj2ZOHrFzQ1+TE0ZyYmcYpiKxOsGhDcMTEChsyEAjXcv
-	 DLiRw1gge+PCb89ckE2wp709AuIQtzIWkLApBDhM=
-Date: Thu, 20 Mar 2025 07:12:49 -0700
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Madhur Kumar <madhurkumar004@gmail.com>
-Cc: sudipm.mukherjee@gmail.com, teddy.wang@siliconmotion.com,
-	linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev,
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="iEZbggtj"
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1742519223;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=WVZwF7aFIAedNImI3f0zkPZlr8EcTIXGZ6tIWmPnltQ=;
+	b=iEZbggtjtl+3K2e42DqCYGW/GyIiFB1eviHiXmcOHdNnHVTGsDtK+ncpP/pFdql+jbPV8j
+	ZsulXdX62DHD/FDquYJyo9HMLNiyTvNmOREV+V9BjTAVFcabrKPveVmxgEo28V9zCZUn2f
+	UCoE9Gfir6xkq2NfyCMnhBJeN4WSEOQ=
+From: sunliming@linux.dev
+To: dpenkler@gmail.com,
+	gregkh@linuxfoundation.org,
+	arnd@arndb.de,
+	dan.carpenter@linaro.org,
+	everestkc@everestkc.com.np,
+	niharchaithanya@gmail.com,
+	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: sm750fb: Replace architecture-specific defines
- with CONFIG_X86
-Message-ID: <2025032040-yesterday-maturity-2f21@gregkh>
-References: <20250222193242.14302-1-madhurkumar004@gmail.com>
+Cc: sunliming <sunliming@kylinos.cn>,
+	kernel test robot <lkp@intel.com>
+Subject: [PATCH] staging: gpib: warning: variable 'nec_priv' set but not used warning
+Date: Fri, 21 Mar 2025 09:06:49 +0800
+Message-Id: <20250321010649.10918-1-sunliming@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250222193242.14302-1-madhurkumar004@gmail.com>
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 
-On Sun, Feb 23, 2025 at 01:02:42AM +0530, Madhur Kumar wrote:
-> Replace the use of __i386__ and __x86_64__ with CONFIG_X86 to adhere to
-> kernel coding guideline, make the code more portable and integrates
-> better with the Kconfig system.
-> 
-> Signed-off-by: Madhur Kumar <madhurkumar004@gmail.com>
-> ---
->  drivers/staging/sm750fb/ddk750_chip.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/staging/sm750fb/ddk750_chip.c b/drivers/staging/sm750fb/ddk750_chip.c
-> index 02860d3ec..67a2f6044 100644
-> --- a/drivers/staging/sm750fb/ddk750_chip.c
-> +++ b/drivers/staging/sm750fb/ddk750_chip.c
-> @@ -229,7 +229,7 @@ int ddk750_init_hw(struct initchip_param *p_init_param)
->  		reg |= (VGA_CONFIGURATION_PLL | VGA_CONFIGURATION_MODE);
->  		poke32(VGA_CONFIGURATION, reg);
->  	} else {
-> -#if defined(__i386__) || defined(__x86_64__)
-> +#ifdef CONFIG_X86
->  		/* set graphic mode via IO method */
->  		outb_p(0x88, 0x3d4);
->  		outb_p(0x06, 0x3d5);
-> -- 
-> 2.48.1
-> 
-> 
+From: sunliming <sunliming@kylinos.cn>
 
-Does not apply to my tree at all :(
+Fix below kernel warning:
+drivers/staging/gpib/eastwood/fluke_gpib.c:196:23: warning: variable 'nec_priv' set but not
+used [-Wunused-but-set-variable]
+
+Reported-by: kernel test robot <lkp@intel.com>
+Signed-off-by: sunliming <sunliming@kylinos.cn>
+---
+ drivers/staging/gpib/eastwood/fluke_gpib.c | 2 --
+ 1 file changed, 2 deletions(-)
+
+diff --git a/drivers/staging/gpib/eastwood/fluke_gpib.c b/drivers/staging/gpib/eastwood/fluke_gpib.c
+index 0304c5de4ccd..6854a745ccff 100644
+--- a/drivers/staging/gpib/eastwood/fluke_gpib.c
++++ b/drivers/staging/gpib/eastwood/fluke_gpib.c
+@@ -194,10 +194,8 @@ static int fluke_line_status(const gpib_board_t *board)
+ 	int status = ValidALL;
+ 	int bsr_bits;
+ 	struct fluke_priv *e_priv;
+-	struct nec7210_priv *nec_priv;
+ 
+ 	e_priv = board->private_data;
+-	nec_priv = &e_priv->nec7210_priv;
+ 
+ 	bsr_bits = fluke_paged_read_byte(e_priv, BUS_STATUS, BUS_STATUS_PAGE);
+ 
+-- 
+2.25.1
+
