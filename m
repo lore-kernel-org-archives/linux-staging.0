@@ -1,45 +1,36 @@
-Received: from mail2-relais-roc.national.inria.fr (mail2-relais-roc.national.inria.fr [192.134.164.83])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 536771EA7D3;
-	Fri, 21 Mar 2025 12:48:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.134.164.83
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B995216E01;
+	Fri, 21 Mar 2025 12:53:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742561326; cv=none; b=SJ4xTJidGCUEC322cfJ9NkoFX1AASwS6iirbq8DxBREdEQpOOsYo/r97ol8ZX1OaP3GJFGwyFWQ+ii6lpc9O2VS/fPleJIXMDCzhlFAwmGt7fR1NOGywT07RZoEFU3AbhE5GocincaYcW+N4XFOnh7Yvn17ZgsbVbrEWm8rir3Y=
+	t=1742561614; cv=none; b=rDFHC6b5VNb2Yz0lc/oDBcssuDU2651Z9Qe5jTe72zrhRp8JvHFu4IU+7Zs1FA5on/FOVC4KZh4Z8Ne8uWZLY551thOyKbQwpXZ8oGDL7bEfQIEy8fItUpX0Egpl+Zo1HMRv4WMbsT9H8lfijZnOxqsfV2B7cJH98ZLoJvVWiqs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742561326; c=relaxed/simple;
-	bh=NYcHJNxyZ9+rvmxXGqAb0ox3MsNaXlPwV/4WXFK3lY8=;
-	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=J/GC57ap9SNrLsrf2frCEGBBD7hA1TBTtTAFdrt72QJU9SjWZ7apNEJm1pjNh8GmGQbRtPpQv7zPb7fg5WA9C3uPuNset0KWfpnkFZI/uhTG0sBYiPcn1CHVmXmwTJg70xznlfKVDFUPPQQBgH2hSJx4oA5zMyIys9PwibEq9D0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr; spf=pass smtp.mailfrom=inria.fr; dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b=L+OZKske; arc=none smtp.client-ip=192.134.164.83
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=inria.fr
+	s=arc-20240116; t=1742561614; c=relaxed/simple;
+	bh=s/cUC2OPWQPcceRiqmx99A3AD3Pmhwe/P6u+rDHTNwI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=p+bx2Fq730dqgwn4zORBNa30gNbCTKBL6RS8PdCvyAsM2hL8/2Cw/wem+PwKdE9jjoyx4LHdih7nYIgxLbyGCZnP9Wl5zfX365enzu+TX8omCJPSqlf+A622bh7l3bvy7lYvEVh2uHetMcU1zm9suFh67exQOQxfrhhsW9zjxzY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=yS3K6222; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b="L+OZKske"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=inria.fr; s=dc;
-  h=date:from:to:cc:subject:in-reply-to:message-id:
-   references:mime-version;
-  bh=HN+q68AfhJlHYLdy8aJOhr17kmYyQWHhDqqu4ktSByQ=;
-  b=L+OZKskewizHh8c8ye2DG0WN1rJjlniH+DVXOOObfLltyPwtoyaeTbh9
-   axMankDwr5H0+JAa2bKnwsCxlJ1/x9uYLQ5yx6XqhAyw8qHRY5HmQORa0
-   Q98lQaA+5pzVYibzIcARmOOHHcITy/6qiJ0NCexKg0eQqFxk9cb7TaD8Y
-   E=;
-Authentication-Results: mail2-relais-roc.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=julia.lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
-X-IronPort-AV: E=Sophos;i="6.14,264,1736809200"; 
-   d="scan'208";a="214125366"
-Received: from dt-lawall.paris.inria.fr ([128.93.67.65])
-  by mail2-relais-roc.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Mar 2025 13:48:43 +0100
-Date: Fri, 21 Mar 2025 13:48:42 +0100 (CET)
-From: Julia Lawall <julia.lawall@inria.fr>
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="yS3K6222"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 801F2C4CEE3;
+	Fri, 21 Mar 2025 12:53:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1742561613;
+	bh=s/cUC2OPWQPcceRiqmx99A3AD3Pmhwe/P6u+rDHTNwI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=yS3K6222ngRFce9hgjH2AtwZ2HHZZb7jM/2B/lt7q42vRMupty7s+YkHXl4NNnMkP
+	 Lboqlxr9aEtmghcnWGyYtiQqi6cLSCTkCwR0zjLExuTP4b596G8xCmL9quB63YaPOu
+	 O8CEjZ6CGGcXUrYY/OY5j7I1eIs7mbQSCNI4Nmfc=
+Date: Fri, 21 Mar 2025 05:52:13 -0700
+From: Greg KH <gregkh@linuxfoundation.org>
 To: ErickKaranja <karanja99erick@gmail.com>
-cc: hvaibhav.linux@gmail.com, johan@kernel.org, elder@kernel.org, 
-    gregkh@linuxfoundation.org, outreachy@lists.linux.dev, 
-    greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev, 
-    linux-kernel@vger.kernel.org
+Cc: hvaibhav.linux@gmail.com, johan@kernel.org, elder@kernel.org,
+	outreachy@lists.linux.dev, greybus-dev@lists.linaro.org,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
 Subject: Re: [PATCH] staging: greybus: fix line length issue
-In-Reply-To: <20250321115545.24468-1-karanja99erick@gmail.com>
-Message-ID: <15e28afa-6faa-4e3e-d92a-b06a3e3b474@inria.fr>
+Message-ID: <2025032148-backfield-crux-184d@gregkh>
 References: <20250321115545.24468-1-karanja99erick@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -47,40 +38,24 @@ List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250321115545.24468-1-karanja99erick@gmail.com>
 
-
-
-On Fri, 21 Mar 2025, ErickKaranja wrote:
-
+On Fri, Mar 21, 2025 at 02:55:45PM +0300, ErickKaranja wrote:
 > Fix line length exceeding 100 columns in arche-platform.c. The code now
 > follows Linux kernel coding style guidelines by keeping lines under the
 > maximum allowed length of 100 characters.
-
-Thanks for the patch.
-
-In your log message you can try to avoid the word "Fix".  Probably most
-patches fix something, so it doesn't give much information.  And it
-doesn't say anything about how you fixed it.  Here it could be "Reduce a
-line that exceeds 100 columns".  You don't have to mention the file name,
-because one can easily see that from looking at the patch.
-
->
+> 
 > Reported by checkpatch:
->
+> 
 > CHECK: line length of 101 exceeds 100 columns
->
+> 
 > Signed-off-by: ErickKaranja <karanja99erick@gmail.com>
-
-Here you should have Erick Karanja, not ErickKaranja.
-
-thanks,
-julia
-
 > ---
 >  drivers/staging/greybus/arche-platform.c | 4 ++--
 >  1 file changed, 2 insertions(+), 2 deletions(-)
->
+> 
 > diff --git a/drivers/staging/greybus/arche-platform.c b/drivers/staging/greybus/arche-platform.c
 > index d48464390f58..1a82a7a3991c 100644
 > --- a/drivers/staging/greybus/arche-platform.c
@@ -93,11 +68,10 @@ julia
 > -									     WD_STATE_COLDBOOT_TRIG);
 > +					arche_platform_set_wake_detect_state
 > +						(arche_pdata, WD_STATE_COLDBOOT_TRIG);
->  					spin_unlock_irqrestore(&arche_pdata->wake_lock,
->  							       flags);
->  					return IRQ_WAKE_THREAD;
-> --
-> 2.43.0
->
->
->
+
+With this change, you will now have added a different checkpatch
+warning.  So the original should stay as-is, sorry.
+
+thanks,
+
+greg k-h
