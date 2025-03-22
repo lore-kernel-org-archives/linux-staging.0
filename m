@@ -1,71 +1,67 @@
-Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42])
+Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C5881AF0BB
-	for <linux-staging@lists.linux.dev>; Sat, 22 Mar 2025 13:39:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EBAE1FAC30;
+	Sat, 22 Mar 2025 13:56:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742650762; cv=none; b=q6t+EIcHU3CQ3VOZkvS/IkEKL2fpwPcV/Ix3AwR6LtL1q+aMQTtIZG1JWUWMO7OuiuvPUiJuA/CDezVGxYO9v+56EQDyx/vC53Z8GAxZ76/j4iKU332p5bYvovP8/i789iOZwMvFVyxWCO3nIMOypei+++FlYELPVA3ZFCO46EI=
+	t=1742651819; cv=none; b=iw98ZNa23nHq0/lpZH9fQMBhZR4Excp5WRpw827YobItg+VkN4juiOdEfYKJU+8X5kwwqCe0SuJLozp5ta9st1Hk7BtZlK5QDn0eijAefu5WIxHHssxUQqkbSnlVdnuP/iteui/C26HL9vAObF8zVPrfU/CUzLFP7Z8UUxhzHZs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742650762; c=relaxed/simple;
-	bh=XKIrgqCUqKzr2rLYyevfJSm1vWGqKfiisyvyw/yc950=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cHghjAI7QTeGg0RHhMTUHwqnoe5GayOrvQyBSiWXm0kub9kLgWZKnYW/UknlKpyKJ8z2Tk0h/QqB+0dwzMWD7b3V3qbWeyz1vqih3yv3Ellf0PmhXPhiSU/At85WeEaBqOL+anBJ5r2VtsSQ8abG4OnEW5RQV4OMASzRQAVxgmI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PavmyH0C; arc=none smtp.client-ip=209.85.216.42
+	s=arc-20240116; t=1742651819; c=relaxed/simple;
+	bh=HC5SXTLXqFRyIjOWdF51T9PS7pYFW9s1HxRd3bt8qOc=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=Qm+Thu9hRdZavr87JzyqdwU8Q0EioV2AGa2eETkr8GuOFL0+Rbe1FKw15PcQBckXmV/1U3b1T028gnqaGPpMup/1xQusMeFz7HlSHsD1JMw0CzH02VNeQPE9u71Wkx39YM9GxLrn178WUTOMFiMYZIhaHCdmppW9cci5oupimfM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nNFl3QYF; arc=none smtp.client-ip=209.85.208.52
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PavmyH0C"
-Received: by mail-pj1-f42.google.com with SMTP id 98e67ed59e1d1-3031354f134so2349456a91.3
-        for <linux-staging@lists.linux.dev>; Sat, 22 Mar 2025 06:39:21 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nNFl3QYF"
+Received: by mail-ed1-f52.google.com with SMTP id 4fb4d7f45d1cf-5e66407963fso5233140a12.2;
+        Sat, 22 Mar 2025 06:56:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1742650761; x=1743255561; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=P+EUS7u6sE/lUiUTaK0rB8xpgpACxlJdevNW8AvmFBk=;
-        b=PavmyH0CBRs52gVv4vL4OQW+JjCsAarV7eDCS+hVR+/Qxc4DihEU+z/q6P03jFz8SV
-         x3pr5PNQrvXMWi8nAu9hVSl7YD1WV4J/mmeN+Ay8qGvLBQZYnockzM9/2uaecuw8dze4
-         s+NonoZBbOmJFUQ+hYmz6cY7BoDhVcYXGuZk0P3DaT2IS5NS0UnHg3DhpnXH/VY7m0KE
-         kI1dpZ+6ylOJ2xia7KLhbIRkTCyiPH840ccO+LJWwZgPo7YFtST4fk2NRXW607KiShb+
-         hKzF4JxSbKrNt3Pv28WEFYxyQSEiN0Tfo6D9G6hQDI1FKslWLRMhKbdqo6AtuVp2XJBa
-         CHgQ==
+        d=gmail.com; s=20230601; t=1742651816; x=1743256616; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=nwJQ+DNaXcBNm+hFjnYMaifHycz52RS1oOBrKBk6QeQ=;
+        b=nNFl3QYFhB4P2bmrFzudscDzasR6unLoNtiwp6H6UaAGCgbF4F1bjtUZgtarcWHiPf
+         C7vz2GRjNwhNoc8dk0v6TmPeT9rXJIRYoYNWEierucNPVu4kLYdiFySby93ET2OvFsWw
+         aEQcfC0b1bw/h+zBOp2MCL9WQsa0/FcwDDiQv2zZoHyIDqkxWnKm5Z2jLw3KZMuOImFX
+         gru7+GoeL+qzem+QiqTy+Ggw+xaQwZp4tSuiWoIjRGj9VIV2QSWKFAcDy212ct51Gj8U
+         VRJpCpe13K9ItawrnNloSTJ6+o2ldxZ4+0fthuZpi8m6lERX1bXgY+RMn7iZXKGxNhUr
+         vDJQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742650761; x=1743255561;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=P+EUS7u6sE/lUiUTaK0rB8xpgpACxlJdevNW8AvmFBk=;
-        b=I/V/HeVFma0Uq8eKKyhpbai558gkAx0uYLZZ6+JXaLjnKc+RnC6pcvw0C8O336KhQ5
-         /cealdZqDvCH+Ghrye5ng9g4fValzNKJoplGVfBpIGMdN7VOR5k8u4Rm4Lei22pkRbDc
-         sUHmEx+8dcda8i3Nm8CFcQjxlR7dvskRkpzSXS0gje0Ma641d4BkvjA11JKQuhBfBRHk
-         B66n8v6P5ONhkXXTj6Coogu+Ya2yAQ1xlbCUxPtuxuqvV0bf0c3BnrekikhPsaSzyqAC
-         jVbt4QiNcmD4MWLtyhG2FpS+LEK8D1rj6I/V5i9KtqTpW53R0z7wSp3xPjTFZ6DcK4T+
-         vxBA==
-X-Forwarded-Encrypted: i=1; AJvYcCUZTWzDBzi8rw4xNxWAZorVNaokdptFMlWCcJGWi98mMciX0YIRTUnAoQU0tcPj61WTq7jrPHb97AbXyu6t@lists.linux.dev
-X-Gm-Message-State: AOJu0YyhS4L9Mg2Uj9+b53s1jjMQu2RrbXqicfrfmzG+1dCf1Aivo93M
-	0aNj8VRkLVG9saWBGpGROD66fhspC48R6jRwnz3P8Z9X8D1E9SDz
-X-Gm-Gg: ASbGncsPrDm5nzJvvIfG1yu8f00bHVyiNQXAy3JEjJEildBdCNfg1i3Hit8tIg4hwAF
-	oRmsFq0MuOfIUj1mNZUZzUiPjfglndwToCKmvOrArTriqbSSB5V1/vdNN1HNN/rMQYJqNyG2ytU
-	egVWDOmweEWhGPJGcAwQ8H8J/aDbyRjOR5nXUtkHqbUPTbG5liVUy+4DNOGg3WCfacM1dWXq77I
-	TRi+Cm0Tq1Q6A0K+JRdbIxQHhIhC+ktkDyDJxyogmLUygn/QFviv9aJHFtlBQni0oH6DflAesIy
-	niL8A9Fr2JpdDGprABa6zyDw2vSNezlndVZyfYrIKwSk68e5wXBAYw==
-X-Google-Smtp-Source: AGHT+IGAMRI8qghoQ88hiRYeDKHXI01kQCTBp3E3XmT2HIRI1dnp6VXTaODfyPRS6ZuF/s9XRLJFog==
-X-Received: by 2002:a05:6a20:d81b:b0:1f5:67c2:e3e9 with SMTP id adf61e73a8af0-1fe4342cc6emr12058393637.29.1742650760092;
-        Sat, 22 Mar 2025 06:39:20 -0700 (PDT)
-Received: from localhost ([2804:30c:b31:2d00:277c:5cbe:7f44:752b])
-        by smtp.gmail.com with UTF8SMTPSA id d2e1a72fcca58-7390615874csm4122480b3a.143.2025.03.22.06.39.18
+        d=1e100.net; s=20230601; t=1742651816; x=1743256616;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=nwJQ+DNaXcBNm+hFjnYMaifHycz52RS1oOBrKBk6QeQ=;
+        b=uadZfZyprGGy7NAEHkKAeFzy63gKLbA4fLlTg/cRO9a2YJHrNsLrXPx3HqZFw5DI7a
+         QidJUDIW7X4N+BW84BZvfVLjSHu0ck8pq9EnLLcBEiSCzJqij7Xuo5bZFKtSSnHcHaWD
+         4fg0x+LOwzWH54nLTCHm8iFiD3PppZP1cpZcHSKxphGObe8C0Q2SdgMeBhJ9WJM59drK
+         ClcOX9OyF0KxeD7Y8zNtxy6PpLXslH4cWBacGFnkxceBo90/Z226sEPfmU5R7fHKVurj
+         738eNkR/LAJCkHyj/flX/wC+91J5HcgRLtMkSI/ovIhtMRBte5SGttSWu6Z8uN4ftFjS
+         k26w==
+X-Forwarded-Encrypted: i=1; AJvYcCUTAVHVsx8WWqJDTTiJ9KcjvB+ZO5YkO4wW9ShHsPxSFfEN4cnhrUNNnXGZts0QKojkH7V0otMVLPtnjf+E@lists.linux.dev
+X-Gm-Message-State: AOJu0YzgR35JRdBiUYTm/yDbcFOMNGOz0yeIDiOF57tbxnHVvyTDIQfp
+	C3E8N46iDlcTYPKashrRCcomah8n7yiPLwYGCjO82F3uGgWDkfew7xLWwAT9
+X-Gm-Gg: ASbGnctksOYlwDKxkL1FIGgjRcnH2MRDWxCSAQrPyD0UkR6aKH7ruKEkp12Mcv8Fz8X
+	wlm3CmmLeLoeD4Ypy1K7y10XXyxRLV/DhJ6lueM6XurH5knWk01rD9y6+gCp0RJNfdMcMqQaJKx
+	uvEGUGUjWM2KSVSYzi0yrEFttzYXyE2P1tu3mp6vPHfKR7ArrX4yCil4DXHdOHkSDWnX+3SO/4+
+	fCfvMYx3a/7mx8BGtLSD8USyTVtX657ImQFpKA3JA4q4eSDog2gBbTkAW5vgS1y4x4PFaxnRI+W
+	4ZT2W7EVhIfidEkRiRw2cxbQKvWqTnFidDaGN0q+gwwiFzSyvg==
+X-Google-Smtp-Source: AGHT+IHeUSR4IRAOBL64PNtQnwHsKu+y5XZcQEY1c53MZvjTaUb6Z4dobWK5HSz6Vpm04MO7+l2K1g==
+X-Received: by 2002:a05:6402:1e94:b0:5dc:94ce:42a6 with SMTP id 4fb4d7f45d1cf-5ebcd4f3234mr5903696a12.22.1742651816068;
+        Sat, 22 Mar 2025 06:56:56 -0700 (PDT)
+Received: from HP-650 ([105.112.226.109])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5ebccf85890sm3207084a12.24.2025.03.22.06.56.52
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 22 Mar 2025 06:39:18 -0700 (PDT)
-Date: Sat, 22 Mar 2025 10:40:17 -0300
-From: Marcelo Schmitt <marcelo.schmitt1@gmail.com>
-To: Siddharth Menon <simeddon@gmail.com>
-Cc: linux-iio@vger.kernel.org, lars@metafoo.de,
-	Michael.Hennerich@analog.com, jic23@kernel.org,
-	gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev
-Subject: Re: [PATCH] iio: frequency: ad9832: devicetree probing support
-Message-ID: <Z969wZRJxMCyVuqy@debian-BULLSEYE-live-builder-AMD64>
-References: <20250322081108.202654-1-simeddon@gmail.com>
+        Sat, 22 Mar 2025 06:56:55 -0700 (PDT)
+Date: Sat, 22 Mar 2025 14:56:39 +0100
+From: Abraham Samuel Adekunle <abrahamadekunle50@gmail.com>
+To: outreachy@lists.linux.dev, julia.lawall@inria.fr
+Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] staging: bcm2835-camera: Modify function call formatting
+Message-ID: <Z97Bl9RyFRGZUXNM@HP-650>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -74,50 +70,51 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250322081108.202654-1-simeddon@gmail.com>
 
-LGTM, one minor suggestion inline.
-With that applied,
-Reviewed-by: Marcelo Schmitt <marcelo.schmitt1@gmail.com>
+The line is a function call which ends with an opening parenthesis
+thereby not adhering to the Linux kernel coding style.
 
-On 03/22, Siddharth Menon wrote:
-> Introduce struct for device match of_device_id
-> 
-> Suggested-by: Marcelo Schmitt <marcelo.schmitt1@gmail.com>
-> Signed-off-by: Siddharth Menon <simeddon@gmail.com>
-> ---
->  drivers/staging/iio/frequency/ad9832.c | 8 ++++++++
->  1 file changed, 8 insertions(+)
-> 
-> diff --git a/drivers/staging/iio/frequency/ad9832.c b/drivers/staging/iio/frequency/ad9832.c
-> index 9a27acd88926..506478ddede3 100644
-> --- a/drivers/staging/iio/frequency/ad9832.c
-> +++ b/drivers/staging/iio/frequency/ad9832.c
-> @@ -439,6 +439,13 @@ static int ad9832_probe(struct spi_device *spi)
->  	return devm_iio_device_register(&spi->dev, indio_dev);
->  }
->  
-> +static const struct of_device_id ad9832_of_match[] = {
-> +	{ .compatible = "adi,ad9832" },
-> +	{ .compatible = "adi,ad9835" },
-> +	{},
-I think Jonathan prefers to have a space separating the null terminator braces.
-	{ },
+Modify the function call to include parameters on the same line as
+the opening parenthesis to improve readability and consistency while
+adhering to Linux coding styles.
 
-> +};
-> +MODULE_DEVICE_TABLE(of, ad9832_of_match);
-> +
->  static const struct spi_device_id ad9832_id[] = {
->  	{"ad9832", 0},
->  	{"ad9835", 0},
-> @@ -449,6 +456,7 @@ MODULE_DEVICE_TABLE(spi, ad9832_id);
->  static struct spi_driver ad9832_driver = {
->  	.driver = {
->  		.name	= "ad9832",
-> +		.of_match_table = ad9832_of_match,
->  	},
->  	.probe		= ad9832_probe,
->  	.id_table	= ad9832_id,
-> -- 
-> 2.48.1
-> 
+Reported by checkpatch:
+
+CHECK: Lines should not end with '('
+
+Signed-off-by: Abraham Samuel Adekunle <abrahamadekunle50@gmail.com>
+---
+ .../vc04_services/bcm2835-camera/controls.c        | 14 ++++++--------
+ 1 file changed, 6 insertions(+), 8 deletions(-)
+
+diff --git a/drivers/staging/vc04_services/bcm2835-camera/controls.c b/drivers/staging/vc04_services/bcm2835-camera/controls.c
+index 6bce45925bf1..e670226f1edf 100644
+--- a/drivers/staging/vc04_services/bcm2835-camera/controls.c
++++ b/drivers/staging/vc04_services/bcm2835-camera/controls.c
+@@ -533,17 +533,15 @@ static int ctrl_set_image_effect(struct bcm2835_mmal_dev *dev,
+ 
+ 		control = &dev->component[COMP_CAMERA]->control;
+ 
+-		ret = vchiq_mmal_port_parameter_set(
+-				dev->instance, control,
+-				MMAL_PARAMETER_IMAGE_EFFECT_PARAMETERS,
+-				&imagefx, sizeof(imagefx));
++		ret = vchiq_mmal_port_parameter_set(dev->instance, control,
++						    MMAL_PARAMETER_IMAGE_EFFECT_PARAMETERS,
++						    &imagefx, sizeof(imagefx));
+ 		if (ret)
+ 			goto exit;
+ 
+-		ret = vchiq_mmal_port_parameter_set(
+-				dev->instance, control,
+-				MMAL_PARAMETER_COLOUR_EFFECT,
+-				&dev->colourfx, sizeof(dev->colourfx));
++		ret = vchiq_mmal_port_parameter_set(dev->instance, control,
++						    MMAL_PARAMETER_COLOUR_EFFECT,
++						    &dev->colourfx, sizeof(dev->colourfx));
+ 	}
+ 
+ exit:
+-- 
+2.34.1
+
