@@ -1,98 +1,127 @@
-Received: from mail3-relais-sop.national.inria.fr (mail3-relais-sop.national.inria.fr [192.134.164.104])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 304D01F1513;
-	Sat, 22 Mar 2025 14:58:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.134.164.104
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 007B77080D;
+	Sat, 22 Mar 2025 15:37:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742655528; cv=none; b=q9FUOIuKCO2H4fVUfFvzGxzv9BJpcZFmY4qJJcAv1SuS3pIEQm1dPi4B/0tVCV+1UIM6TKUkBzeSKUB1Gr6ApYQaqYfvU1tUUQHEC3xoing8jmN/S5VSuQNDC8kTPr1PwgLzDpaAA79NR73gEcJk4Tojwzlwa2hVrEmeOMngZTk=
+	t=1742657838; cv=none; b=MX0y/PqA6gWFAsTbzvwatSV02BjvPrC/HjhupjxAm8nPvFd2DelD4pROJAdECvj8w+T+ixO2MqAEh+34wQerq17kPuufllCy2l+HDb5wkRCFb/2Dz27DbgDFq0J6Ju/YMwe7QYZPo9AKO0+z2RRUZXQ3A6CV04oDaVSayv6y4Qw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742655528; c=relaxed/simple;
-	bh=wfdxvmJ7rInHtabvEY5/lJ0hKqPUV/TnWpsdUY/ZqjQ=;
-	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=uuMuQ0SFNJnHgRvGXgKPZQJTcralF1/JzZicH35YYLCaVoWAIU7lPfu0lfrLmkfmuXQK38WQ3Qg+Pl0sE2OX8QC/q56ZBSnik1Ri3yEzQBqWPzSVct2il8lHex7B5EACmRgIdFt77RZvf9jfk4HLYV9d3RKajIZqghCK5AUsEzM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr; spf=pass smtp.mailfrom=inria.fr; dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b=I9QpnGYR; arc=none smtp.client-ip=192.134.164.104
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=inria.fr
+	s=arc-20240116; t=1742657838; c=relaxed/simple;
+	bh=/T8vDis5wt1e8gSA9CFxhWdIs6vxuC+8XJ8OzBDc8JY=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=Dc4gR1IHKLR/lijw9q1NOx7lupeFVJCCpxRKMhBIPBhPoixjMDRLfLvu+I4Q+ei7eK6fE0Paj6my3mLD1NJyJkNZLqqfYO/7EcO0aisZrQyplnYLwLYAt5dTUYi9HTExNc10eOI4ZqNZ5fJBYlDD8dvLKQI/eT3PaQE81pi+b2k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hDarWXeA; arc=none smtp.client-ip=209.85.218.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b="I9QpnGYR"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hDarWXeA"
+Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-ac3b12e8518so651619066b.0;
+        Sat, 22 Mar 2025 08:37:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=inria.fr; s=dc;
-  h=date:from:to:cc:subject:in-reply-to:message-id:
-   references:mime-version;
-  bh=lVEH2hrBEQMIsAPkBs7umzjrjytfMK4To1+kh6aSsw0=;
-  b=I9QpnGYRVvnDYe6PskBTh2ADigiTWnTEYPDeacv88OfhTgjBTmbdOgCz
-   np29zMlg7jHx8+GAwN/s+bhkPU9qeuFL4EsEz384tIWvr1/8WzBGxS14T
-   05tf4djFJRTKX2IWi/BBaGbP5W3/M89rwr9Q52CN2PVXD7lrTexE7Y/T6
-   c=;
-Authentication-Results: mail3-relais-sop.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=julia.lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
-X-IronPort-AV: E=Sophos;i="6.14,267,1736809200"; 
-   d="scan'208";a="112318639"
-Received: from 231.85.89.92.rev.sfr.net (HELO hadrien) ([92.89.85.231])
-  by mail3-relais-sop.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Mar 2025 15:58:44 +0100
-Date: Sat, 22 Mar 2025 15:58:43 +0100 (CET)
-From: Julia Lawall <julia.lawall@inria.fr>
-X-X-Sender: jll@hadrien
-To: Samuel Abraham <abrahamadekunle50@gmail.com>
-cc: outreachy@lists.linux.dev, gregkh@linuxfoundation.org, 
-    linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: bcm2835-camera: Modify function call
- formatting
-In-Reply-To: <CADYq+fboc+_cncOdrBh-2sDNSz9YAFvTqREmV+mmKOHy5QV5gA@mail.gmail.com>
-Message-ID: <alpine.DEB.2.22.394.2503221557370.12345@hadrien>
-References: <Z97Bl9RyFRGZUXNM@HP-650> <alpine.DEB.2.22.394.2503221510230.12345@hadrien> <CADYq+fboc+_cncOdrBh-2sDNSz9YAFvTqREmV+mmKOHy5QV5gA@mail.gmail.com>
-User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
+        d=gmail.com; s=20230601; t=1742657835; x=1743262635; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=MDPcWgMNo2FqmuOqa9TlGd/nusehsLtSUTJAhoCLfx8=;
+        b=hDarWXeACxlIzKZTDm//Zpig3II8GZj6MP9v45m4lHat9jOb3e/trKzGa9cm/iH4Qu
+         an3+4OXKCyQmiqyEJTzhxcIlxSGjDnorO2NItM7aWS7KYEdysNUTT5V9lDmwGX1saBbU
+         Rnrtrtv8cWlePBL6SZR4KPY5I1SkqsuQsh3UYe446PrK4l73wGGYpUkzPGVOTkUF4mQq
+         UEd/njiTlP9YJ25HrBsBo+Ynw/WvPlg91gEr7zna1H/66SgbMIK9m+LFhju5Vho2p4qn
+         s6MYtpHWQKeFSLwfwclht56RxAP9VCTeCrIoalQqXxGG6bsYg4+/ZNSh67WVfrlrT6Ma
+         liOg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1742657835; x=1743262635;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=MDPcWgMNo2FqmuOqa9TlGd/nusehsLtSUTJAhoCLfx8=;
+        b=Z8wTxq1PsVlbU/uiaQwSHfiFlysEpG2ryXbHli0mDsd4YjQOYRdV997VW7Uf/UfvUO
+         RImoblV+pS2kmmRqiTrMxcAmnLzOjQeohR4MZ6IMURUEeKlkZSZpkTAjGdQeRLV6rzul
+         tWwd6fpDKPcMm9mcuDenfQ9Bws7N6RNueKMwQ/51enavklMVwSOPyC3d4ImrIAjB4gKM
+         TrGSvuBUXwFAuYqtrxb/+TAdVx+D2+fch8bngWCHGYeb6LkvIhvL+MdGhpID0ahDvk+P
+         RpdrdkgIQvKEiQ5luCkweaoXlpramJ/IwslRcRsEja1dmGIyR5j9IxfTr7EXbxy3e0LB
+         5GiQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVRa5FkYDFDCDGfTN+HX4VuA9tp9gq5IepA461lq6/rAXkN0LKK8el888WfI/Qga4imFw2NzBc2MatIoVAV@lists.linux.dev, AJvYcCXlPPxclKpCaR+Kbl7au8MkbLL0JgjE/BFyiEKIBeKzGUcBuiPOZfVjOGs3tIA2z+BLv1f0A405Qt/j@lists.linux.dev
+X-Gm-Message-State: AOJu0Yxle+XVGmLzXskwCHjON7RhLIrdnw6owiAK825XoL+Hy/DCtck/
+	NnWk3b04DK166/vtsM8BLVChiSqU/pvbbkWOrAOZt9/Oa/IzVGbT
+X-Gm-Gg: ASbGnctpU1E9yCyoTbjvxL8nfiXHgPLc2DKur0SjgWqMsLoF307rHN/ZkjeomhopqSt
+	JnXQJ9pT61daNxok6OPF4Ne5m9stNEmijA+waAwIvrkn91Lx7JwKfghAzYPwHdbVGcshCfOJcHW
+	TnZeJ9kysLy45GdQTKyLNJqPAydGkoNOyneBLtUpULaUwmAJblpYtJcFFfxFbxtQyi6CAEd3YIX
+	AlAQ6V10DsTozrp3vJWMfzOBe4HeWqYrEqcHNotULryMlJ6168OK/eD4I7EZVu0YBUcROQ8K4ui
+	wRTE/irGhK6ZrsITG48b7bENwSvBl3K+GvdDjztANsakv0Z+Bw==
+X-Google-Smtp-Source: AGHT+IFkSEzUgBZ0q29OnEgwaAmNJN8Y3mUH0OvKhoqlOBRCbzI4wzIkN6km6zh3cBkvJW4Gi+rwRw==
+X-Received: by 2002:a17:907:9403:b0:ac3:154e:1391 with SMTP id a640c23a62f3a-ac3f207f927mr779803966b.10.1742657834898;
+        Sat, 22 Mar 2025 08:37:14 -0700 (PDT)
+Received: from HP-650 ([105.112.226.109])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ac3ef8d3cd3sm363834466b.40.2025.03.22.08.37.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 22 Mar 2025 08:37:14 -0700 (PDT)
+Date: Sat, 22 Mar 2025 16:36:53 +0100
+From: Abraham Samuel Adekunle <abrahamadekunle50@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Julia Lawall <julia.lawall@inria.fr>, outreachy@lists.linux.dev
+Cc: Florian Fainelli <florian.fainelli@broadcom.com>,
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+	Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
+	linux-staging@lists.linux.dev, linux-rpi-kernel@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: [PATCH v2] staging: bcm2835-camera: Modify function call formatting
+Message-ID: <Z97ZFURPvDcTkjjf@HP-650>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="8323329-941195677-1742655524=:12345"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
+The line is a function call which ends with an opening parenthesis
+thereby not adhering to the Linux kernel coding style.
 
---8323329-941195677-1742655524=:12345
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8BIT
+Modify the function call to include parameters on the same line as
+the opening parenthesis to improve readability and consistency while
+adhering to Linux coding styles.
 
+Reported by checkpatch:
 
+CHECK: Lines should not end with '('
 
-On Sat, 22 Mar 2025, Samuel Abraham wrote:
+Signed-off-by: Abraham Samuel Adekunle <abrahamadekunle50@gmail.com>
+---
+Changes in v2:
+	- Add more patch recipients.
 
-> On Sat, Mar 22, 2025 at 3:11 PM Julia Lawall <julia.lawall@inria.fr> wrote:
-> >
-> >
-> >
-> > On Sat, 22 Mar 2025, Abraham Samuel Adekunle wrote:
-> >
-> > > The line is a function call which ends with an opening parenthesis
-> > > thereby not adhering to the Linux kernel coding style.
-> > >
-> > > Modify the function call to include parameters on the same line as
-> > > the opening parenthesis to improve readability and consistency while
-> > > adhering to Linux coding styles.
-> > >
-> > > Reported by checkpatch:
-> > >
-> > > CHECK: Lines should not end with '('
-> >
-> > Please check the get_maintainer script (see tutorial).  It looks like
-> > there are some other people who should receive patches on this driver.
-> >
-> > julia
-> >
-> Thank you very much for your review.
->
-> Please just to be sure, do I include the emails of the people I
-> initially sent the patch to or
-> I should only send the patch again to the other people I did not
-> include initially?
+ .../vc04_services/bcm2835-camera/controls.c        | 14 ++++++--------
+ 1 file changed, 6 insertions(+), 8 deletions(-)
 
-Send it toeveryone (ald recipients and new ones).  You should write [PATCH
-v2] instead of [PATCH].  Below the --- you can write v2: and an
-explanation of what has changed, ie adding more recipients.
+diff --git a/drivers/staging/vc04_services/bcm2835-camera/controls.c b/drivers/staging/vc04_services/bcm2835-camera/controls.c
+index 6bce45925bf1..e670226f1edf 100644
+--- a/drivers/staging/vc04_services/bcm2835-camera/controls.c
++++ b/drivers/staging/vc04_services/bcm2835-camera/controls.c
+@@ -533,17 +533,15 @@ static int ctrl_set_image_effect(struct bcm2835_mmal_dev *dev,
 
-julia
---8323329-941195677-1742655524=:12345--
+ 		control = &dev->component[COMP_CAMERA]->control;
+
+-		ret = vchiq_mmal_port_parameter_set(
+-				dev->instance, control,
+-				MMAL_PARAMETER_IMAGE_EFFECT_PARAMETERS,
+-				&imagefx, sizeof(imagefx));
++		ret = vchiq_mmal_port_parameter_set(dev->instance, control,
++						    MMAL_PARAMETER_IMAGE_EFFECT_PARAMETERS,
++						    &imagefx, sizeof(imagefx));
+ 		if (ret)
+ 			goto exit;
+
+-		ret = vchiq_mmal_port_parameter_set(
+-				dev->instance, control,
+-				MMAL_PARAMETER_COLOUR_EFFECT,
+-				&dev->colourfx, sizeof(dev->colourfx));
++		ret = vchiq_mmal_port_parameter_set(dev->instance, control,
++						    MMAL_PARAMETER_COLOUR_EFFECT,
++						    &dev->colourfx, sizeof(dev->colourfx));
+ 	}
+
+ exit:
+--
+2.34.1
+
