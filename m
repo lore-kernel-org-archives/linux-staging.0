@@ -1,48 +1,43 @@
-Received: from mail3-relais-sop.national.inria.fr (mail3-relais-sop.national.inria.fr [192.134.164.104])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A696820CCDA;
-	Sat, 22 Mar 2025 14:11:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.134.164.104
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06E187405A;
+	Sat, 22 Mar 2025 14:14:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742652668; cv=none; b=Px2/YFKxlhibXsLczwo+xLL7PQtixQJJNQbejG6fFgarzIJL3Bn4U1hZg6zZFx6L2nf71gW4nasKPbs1wf9mYjmR26TaaxlozZ1vDEtF18QZTk4LYyGQBWL1jbqQ4yQXDKsmRzFjH5MaaE6xhZMpx0sY9N24wnqNN6uVEKZoviY=
+	t=1742652842; cv=none; b=AJnKlhHl62zRaX8SZpbGwNXKcHpApm1Z66EbkoueNIC4U60djQEXyGw3MIYBCyXQSwUEQ1nt9sDwz+CGeG8sKYALxgRbh37Pd1BORmSaviAfKm3UWWb6mdhdfLFIVmFSK+6R58wmwsPpZNECM/y8eKGumpsKXUtRnNrVualxNvw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742652668; c=relaxed/simple;
-	bh=G1Z9UFHRMq3775bfxwMasta+Xz+dr7DnPOeYXAzGB4E=;
-	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=Obb/AtDN56aKLQPjHGJD2DNZHRXpv8rPUNccg8FeNTdrQaQINbgFQYXpCxAG7q8sOlwwULjwJv9Dh1oorZQbt5Y6QSEZ3ELGLfbbqLdvqkZWRVAenFq2pPztU4d/OxaCevaiGCo6ODDybJaAxasybu6RBwwCX3Zx4BtH6+muNq4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr; spf=pass smtp.mailfrom=inria.fr; dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b=QA9FhXh+; arc=none smtp.client-ip=192.134.164.104
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=inria.fr
+	s=arc-20240116; t=1742652842; c=relaxed/simple;
+	bh=yO/02y4E8Qq4+jqBAsG9Qhf+t4Y4BP+/g4WjBbxGnB8=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=MLxXf3Uu/jd2jeJ365QMjXHv5zLMnacBdfQNrXIkx4Rtu/W8b4YC5Aa5PJ5oJwHdHqgePwTQdodaY7TGURzXrOs+1iqBPq8EsAwHT8AJ0vol3Cmm1n+WZd8v52k2ApJqLdJAzlJ4IEmFxJSbLBuXyxE9oS5QUNrIm2sO2vg+ICU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bZhZxOe8; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b="QA9FhXh+"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=inria.fr; s=dc;
-  h=date:from:to:cc:subject:in-reply-to:message-id:
-   references:mime-version;
-  bh=dkqU/DbfmSzz4wjuxvy8BHU2ws4WmJo5/bVGqxFBkWc=;
-  b=QA9FhXh+69sshlWIlRHeUVbEk7T0c7a28McpAUlLRqquQGzo4SHVV3lg
-   JByHBJNngUfwkuroGY8OX1XqW+IdKGFGIGXErEAanSUXzGzrlA0h2hMrz
-   nSUZX9kR9rp3N454+400/wjH/04eHDObWSUMv9fmjz5gzm4NFpfDHeLWW
-   E=;
-Authentication-Results: mail3-relais-sop.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=julia.lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
-X-IronPort-AV: E=Sophos;i="6.14,267,1736809200"; 
-   d="scan'208";a="112317675"
-Received: from 231.85.89.92.rev.sfr.net (HELO hadrien) ([92.89.85.231])
-  by mail3-relais-sop.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Mar 2025 15:11:03 +0100
-Date: Sat, 22 Mar 2025 15:11:02 +0100 (CET)
-From: Julia Lawall <julia.lawall@inria.fr>
-X-X-Sender: jll@hadrien
-To: Abraham Samuel Adekunle <abrahamadekunle50@gmail.com>
-cc: outreachy@lists.linux.dev, julia.lawall@inria.fr, 
-    gregkh@linuxfoundation.org, linux-staging@lists.linux.dev, 
-    linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: bcm2835-camera: Modify function call
- formatting
-In-Reply-To: <Z97Bl9RyFRGZUXNM@HP-650>
-Message-ID: <alpine.DEB.2.22.394.2503221510230.12345@hadrien>
-References: <Z97Bl9RyFRGZUXNM@HP-650>
-User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bZhZxOe8"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D1070C4CEE4;
+	Sat, 22 Mar 2025 14:13:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1742652841;
+	bh=yO/02y4E8Qq4+jqBAsG9Qhf+t4Y4BP+/g4WjBbxGnB8=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=bZhZxOe8lRHchPrE1hwpX3uo3lWcZwv42ghGXKJhheWZuq0awyWnbgDVxQigjtwFM
+	 6TXzcCcM0bI6kwPG5YW8ld3+5G42Y1D6nFQE9Ku97Uhc/EMC7TAYKAI8pWxilnhMUs
+	 qV2L/FtuW/pG70Po4X9FllPo/guTLvxOVyTGhQp1vZbfpckyPkaKeoXuoz5T/anc0Q
+	 vYShqlBqoFZ+7i7NWPae3iwbFAwMq5wNF+B1MnTfS6zF8kHtTvv4Ad5qfpKq/try4b
+	 MYQZcCtkPBHRW3C6KgVikV/0sa2kPPtbvhFdjbO/FZLSFSIKj4Q6UAuecXJj/bivC7
+	 Sw4zI07VN+SGQ==
+Date: Sat, 22 Mar 2025 14:13:50 +0000
+From: Jonathan Cameron <jic23@kernel.org>
+To: Siddharth Menon <simeddon@gmail.com>
+Cc: linux-iio@vger.kernel.org, lars@metafoo.de,
+ Michael.Hennerich@analog.com, gregkh@linuxfoundation.org,
+ linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev,
+ marcelo.schmitt1@gmail.com
+Subject: Re: [PATCH] iio: frequency: ad9832: devicetree probing support
+Message-ID: <20250322141350.3fb7d560@jic23-huawei>
+In-Reply-To: <20250322081108.202654-1-simeddon@gmail.com>
+References: <20250322081108.202654-1-simeddon@gmail.com>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.48; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -50,63 +45,58 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+
+On Sat, 22 Mar 2025 13:37:45 +0530
+Siddharth Menon <simeddon@gmail.com> wrote:
+
+> Introduce struct for device match of_device_id
+
+Good to say why.   Key is that it will probe from a dts
+entry without this due to the various matching fallback paths,
+but it will be matching with the less informative bit after
+the manufacturer.  So we might get a false match in future
+against some other ad9832 part.
 
 
-
-On Sat, 22 Mar 2025, Abraham Samuel Adekunle wrote:
-
-> The line is a function call which ends with an opening parenthesis
-> thereby not adhering to the Linux kernel coding style.
->
-> Modify the function call to include parameters on the same line as
-> the opening parenthesis to improve readability and consistency while
-> adhering to Linux coding styles.
->
-> Reported by checkpatch:
->
-> CHECK: Lines should not end with '('
-
-Please check the get_maintainer script (see tutorial).  It looks like
-there are some other people who should receive patches on this driver.
-
-julia
-
-
->
-> Signed-off-by: Abraham Samuel Adekunle <abrahamadekunle50@gmail.com>
+> 
+> Suggested-by: Marcelo Schmitt <marcelo.schmitt1@gmail.com>
+> Signed-off-by: Siddharth Menon <simeddon@gmail.com>
 > ---
->  .../vc04_services/bcm2835-camera/controls.c        | 14 ++++++--------
->  1 file changed, 6 insertions(+), 8 deletions(-)
->
-> diff --git a/drivers/staging/vc04_services/bcm2835-camera/controls.c b/drivers/staging/vc04_services/bcm2835-camera/controls.c
-> index 6bce45925bf1..e670226f1edf 100644
-> --- a/drivers/staging/vc04_services/bcm2835-camera/controls.c
-> +++ b/drivers/staging/vc04_services/bcm2835-camera/controls.c
-> @@ -533,17 +533,15 @@ static int ctrl_set_image_effect(struct bcm2835_mmal_dev *dev,
->
->  		control = &dev->component[COMP_CAMERA]->control;
->
-> -		ret = vchiq_mmal_port_parameter_set(
-> -				dev->instance, control,
-> -				MMAL_PARAMETER_IMAGE_EFFECT_PARAMETERS,
-> -				&imagefx, sizeof(imagefx));
-> +		ret = vchiq_mmal_port_parameter_set(dev->instance, control,
-> +						    MMAL_PARAMETER_IMAGE_EFFECT_PARAMETERS,
-> +						    &imagefx, sizeof(imagefx));
->  		if (ret)
->  			goto exit;
->
-> -		ret = vchiq_mmal_port_parameter_set(
-> -				dev->instance, control,
-> -				MMAL_PARAMETER_COLOUR_EFFECT,
-> -				&dev->colourfx, sizeof(dev->colourfx));
-> +		ret = vchiq_mmal_port_parameter_set(dev->instance, control,
-> +						    MMAL_PARAMETER_COLOUR_EFFECT,
-> +						    &dev->colourfx, sizeof(dev->colourfx));
->  	}
->
->  exit:
-> --
-> 2.34.1
->
->
+>  drivers/staging/iio/frequency/ad9832.c | 8 ++++++++
+>  1 file changed, 8 insertions(+)
+> 
+> diff --git a/drivers/staging/iio/frequency/ad9832.c b/drivers/staging/iio/frequency/ad9832.c
+> index 9a27acd88926..506478ddede3 100644
+> --- a/drivers/staging/iio/frequency/ad9832.c
+> +++ b/drivers/staging/iio/frequency/ad9832.c
+> @@ -439,6 +439,13 @@ static int ad9832_probe(struct spi_device *spi)
+>  	return devm_iio_device_register(&spi->dev, indio_dev);
+>  }
+>  
+> +static const struct of_device_id ad9832_of_match[] = {
+> +	{ .compatible = "adi,ad9832" },
+> +	{ .compatible = "adi,ad9835" },
+> +	{},
+No comma on a terminating entry like this.  We don't want to make it easy
+to add stuff after it!
+Also, I'm trying to standardize the formatting of these tables
+across IIO.  So I made the random choice of having a space between
+the brackets and am slowly changing drivers to that standard.
+	{ }
+
+> +};
+> +MODULE_DEVICE_TABLE(of, ad9832_of_match);
+> +
+>  static const struct spi_device_id ad9832_id[] = {
+>  	{"ad9832", 0},
+>  	{"ad9835", 0},
+> @@ -449,6 +456,7 @@ MODULE_DEVICE_TABLE(spi, ad9832_id);
+>  static struct spi_driver ad9832_driver = {
+>  	.driver = {
+>  		.name	= "ad9832",
+> +		.of_match_table = ad9832_of_match,
+>  	},
+>  	.probe		= ad9832_probe,
+>  	.id_table	= ad9832_id,
+
