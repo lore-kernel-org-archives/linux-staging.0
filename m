@@ -1,121 +1,199 @@
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B30C62E338A
-	for <linux-staging@lists.linux.dev>; Sat, 22 Mar 2025 16:33:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 325471FA84F;
+	Sun, 23 Mar 2025 02:20:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742661229; cv=none; b=pX/OOGiKhUlWq7uFb44JqPjIl40sLcyeGox4mG3yaJeNwEe/jzq4yOykL9QtWl7FfYMP6A3PqzgD9GJAWIJefShFeiJZ/cXD6ryd9/ayGPP7t9YJFiVoS4DVa/cddQJNwmJcL2GwW3y6TWb15oUA00z6q9CBIuMTYdSBpkHlB/M=
+	t=1742696439; cv=none; b=M+X09j1QHEgPPYsd5SbIAFbShtqnBtpYUJ1bGupm2t0EU4ggvM1X2pWobvYS+QvX0KMRw9GPQc8D2GDL4YtFhwJcwpk8mSK+yGo4tw4f1n1d2MsN8nxEZcltqwQOMjPs5mxWBGW6Sf6zkWj0503kFDEY4Jm9szhENBKNoCGYJKY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742661229; c=relaxed/simple;
-	bh=epmdvcBgUanvI6wdPZu88ilV2evqCFFzXuIN1GcCsmY=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=QtlIHZOeqdab6NWVEBFhAHzuCLKJqCvJlF1CkKLIiIPNuslboL7RlSR82b/NLDuXdDFz89CR0T11SafqaDsPIwKt52w+hmt0IAfLgSZrwLwTdfCXEcojMyqKRp9rURKknhaFhPyJFd0BMdhmWV983q7qqJeZeojJOZW/lODQxnc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VFtJwVkv; arc=none smtp.client-ip=209.85.214.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1742696439; c=relaxed/simple;
+	bh=BZXTt2kjYTHNNCugqk0nXnwtXVvYJwjhPKJVvD79d5M=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=dXzhhXZkNekvWz5uVwL+MHAPVMxP16MvkMrSQZc0AkVNq+tn4CZ9c7HpTJbHlSITb/iVnzZtnnTGc3lySVq83B1ct7pIdadWke079MOtAF1xy093Uxn6nMDamzNcO8S0scRM6ktMSG8q2NgXjEz+An1xYnvfFBryRSz6WKBLdWA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Sp5wHeCk; arc=none smtp.client-ip=192.198.163.8
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VFtJwVkv"
-Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-225b5448519so59250445ad.0
-        for <linux-staging@lists.linux.dev>; Sat, 22 Mar 2025 09:33:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1742661227; x=1743266027; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=4lxd+tOwn8e/o7grBip1jXB4LMTIMBCnYXyU0gFmpfs=;
-        b=VFtJwVkvJskESgidqbfLFlS66Dgd+l7gCQl8bCjqSYKeNGef5mFngPOS3VjxLo6jMM
-         wTpGYNdoUcynxDLGDXQgZAWHWL7/4aX+wFyQo4n6PanHMnA/gRws6hSes1yMrZ27z73v
-         wDBYBrKbYvveVQ5HxvZzGR8U/K5kyvrdA2fuDs+MmUXwgX+7n9trVpfR3wpYd9H8aBF8
-         3IKEgRFn023iaMMUlgyXU9QGqeJF4yBqnph8plOxvibv2GB1EH+M9CQTGjAPr2EN/EfT
-         9/AfeyqbUk6xSO6tpWe0w5CRFL8nOMdlNuVpjazlOFJWFuMt6MLZq45mxSlzxnWmQTge
-         UaWQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742661227; x=1743266027;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=4lxd+tOwn8e/o7grBip1jXB4LMTIMBCnYXyU0gFmpfs=;
-        b=cTROL0EBI9sELlW0XaEnUEWVMGGPGOJVtWgkFPGh5mN2KuwIXLA9azVmJICtPV/PH9
-         0CtMrhLQ4TOG1zs7J94oWR9gfynALmPvpofWCBOxm3WpiTvohW2JZtCpXQRcf7whKnMt
-         WajxRtW4llZz2s2zdJjTu+aSFPdY9Yjya5hgaApdAo89hoP+sb1q0lKKES5ZOnu3LS+D
-         6vg26UPI3NQZbCQhtr0IsxdAiybz7XvMpNLXxKhE8Ol7e5m1/RYHCksyqI7LVZnFnBVU
-         ZoB/xaU3wxWWunmZQ6xy1JQgYVf+DaqXXvOBKyBcEQdXiinyeTWcZg8aK3EFKZhzaDNZ
-         U40g==
-X-Forwarded-Encrypted: i=1; AJvYcCWC7Y27kSCd6PcusbnY9lEGILT03+wzolN6mvWG729qw5qIbCeQDpWNJDrhqVpOktIgl2RoVFGruDe7e52R@lists.linux.dev
-X-Gm-Message-State: AOJu0YyeHhe75R9Cf3v9O0A4itsa6uKq4QRJnaORw8SE0OBtY/gKb8Vd
-	zCdMOXlEa3sS0JaueTBsoMstyx40G3W5DKH71qKdDeWAHHkXmw+D
-X-Gm-Gg: ASbGncvMLGvtNs14rWyOX9BCAnTMp2B6brx++7rzayfixjOb/zAh5g4JX149XCyAEkP
-	nEAOZC3+fhb31gyilIuFrpJfLJhIEHeTXIXznwxoQ6A4zPniZ5/FgH6oC3Q9kiFk3T2G+QUFiLP
-	Ed6J/QNkiewJoXZmka/YY5yOgzRiDQju43cOpiXU782baTe1riN1C0ppsAiRU17+/NljdOKkJdE
-	sQq2YjRsZ0ZsDUrfGLOnJMtRkNyTSUBu1WXaOgulTDIyc94mVWdbp/i0gC2wJF5SwBImsx1yD7r
-	l/6XxZaljPmKF/KZP1w4Gw+KRD+x/Uj//2pVB5V08kY=
-X-Google-Smtp-Source: AGHT+IH4CHkfGbiwWX4r0WBCSBmcdbIgUSaaT+sHhmfhWqHiDv/CxFN/ZQPy1h/6Ri/ibAktf50eig==
-X-Received: by 2002:a05:6a00:3927:b0:736:ab1e:7775 with SMTP id d2e1a72fcca58-7390562ad7fmr13594642b3a.0.1742661226828;
-        Sat, 22 Mar 2025 09:33:46 -0700 (PDT)
-Received: from fedora.. ([2409:40f3:20df:7495:662f:ad70:6f52:57ff])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-73906159fa1sm4213634b3a.151.2025.03.22.09.33.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 22 Mar 2025 09:33:46 -0700 (PDT)
-From: Siddharth Menon <simeddon@gmail.com>
-To: linux-iio@vger.kernel.org,
-	lars@metafoo.de,
-	Michael.Hennerich@analog.com,
-	jic23@kernel.org,
-	gregkh@linuxfoundation.org
-Cc: linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	marcelo.schmitt1@gmail.com,
-	Siddharth Menon <simeddon@gmail.com>
-Subject: [PATCH v2] iio: frequency: ad9832: devicetree probing support
-Date: Sat, 22 Mar 2025 21:58:11 +0530
-Message-ID: <20250322163211.253009-1-simeddon@gmail.com>
-X-Mailer: git-send-email 2.48.1
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Sp5wHeCk"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1742696438; x=1774232438;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=BZXTt2kjYTHNNCugqk0nXnwtXVvYJwjhPKJVvD79d5M=;
+  b=Sp5wHeCkqj+B/Bm4OpP97c5YyxuKmxQ58AGK/oVyPbQP/rTgBSF/wRci
+   8GnoB1TSM0lRtT8INSpn/bvDLKsvuaTkhM8SXTeYodtmaGw/kr0vrD5gJ
+   owu1Ntc8fzCGqBI/G0Bxk1A0181CfiG+6zGPNiJhO0g7WmBSFgal+t91i
+   V28L6kX6EwlNciTDsuEOJnu4I/SV5FIbw9IeOazb8GxZHgs+QbCvZrAja
+   sGnhw+stZ8Ux8ggnyupNj2IPz+19PBfiB9hWksuZkb8UKo03Z3BWzaFZs
+   kZZXes+D7ldpp1vdSVI4+NAoojawUYtkexNogRaHFuka0UHgwqk1by2P0
+   A==;
+X-CSE-ConnectionGUID: tQjkA2KnTQ+1JONxbKMJfw==
+X-CSE-MsgGUID: 4Z/Wl0jQQW2dDux2D4KmDA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11381"; a="61447172"
+X-IronPort-AV: E=Sophos;i="6.14,269,1736841600"; 
+   d="scan'208";a="61447172"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Mar 2025 19:20:36 -0700
+X-CSE-ConnectionGUID: tiJbONeHQ6KAK9e7l7nWRg==
+X-CSE-MsgGUID: YpF4vCJzR4e+lr9yZzykzQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.14,269,1736841600"; 
+   d="scan'208";a="128547063"
+Received: from lkp-server02.sh.intel.com (HELO e98e3655d6d2) ([10.239.97.151])
+  by orviesa003.jf.intel.com with ESMTP; 22 Mar 2025 19:20:35 -0700
+Received: from kbuild by e98e3655d6d2 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1twAwx-0002Wx-2w;
+	Sun, 23 Mar 2025 02:20:31 +0000
+Date: Sun, 23 Mar 2025 10:20:04 +0800
+From: kernel test robot <lkp@intel.com>
+To: nancyenos <nicymimz@gmail.com>,
+	"outreachy @ lists . linux . dev Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	nancyenos <nicymimz@gmail.com>
+Subject: Re: [PATCH] staging: octeon: Fix unused macro Argument 'x'
+Message-ID: <202503231053.WFt2cPIR-lkp@intel.com>
+References: <20250322003218.14134-1-nicymimz@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250322003218.14134-1-nicymimz@gmail.com>
 
-Introduce struct for device match of_device_id to avoid relying on fallback
-mechanisms, which could lead to false matches against other AD9832 variants
-in the future.
+Hi nancyenos,
 
-Suggested-by: Marcelo Schmitt <marcelo.schmitt1@gmail.com>
-Signed-off-by: Siddharth Menon <simeddon@gmail.com>
----
- v1->v2:
- - updated commit message to be more informative
- - minor changes to code formatting
- drivers/staging/iio/frequency/ad9832.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
+kernel test robot noticed the following build errors:
 
-diff --git a/drivers/staging/iio/frequency/ad9832.c b/drivers/staging/iio/frequency/ad9832.c
-index 140ee4f9c137..7d4f655f6df1 100644
---- a/drivers/staging/iio/frequency/ad9832.c
-+++ b/drivers/staging/iio/frequency/ad9832.c
-@@ -431,6 +431,13 @@ static int ad9832_probe(struct spi_device *spi)
- 	return devm_iio_device_register(&spi->dev, indio_dev);
- }
- 
-+static const struct of_device_id ad9832_of_match[] = {
-+	{ .compatible = "adi,ad9832" },
-+	{ .compatible = "adi,ad9835" },
-+	{ }
-+};
-+MODULE_DEVICE_TABLE(of, ad9832_of_match);
-+
- static const struct spi_device_id ad9832_id[] = {
- 	{"ad9832", 0},
- 	{"ad9835", 0},
-@@ -441,6 +448,7 @@ MODULE_DEVICE_TABLE(spi, ad9832_id);
- static struct spi_driver ad9832_driver = {
- 	.driver = {
- 		.name	= "ad9832",
-+		.of_match_table = ad9832_of_match,
- 	},
- 	.probe		= ad9832_probe,
- 	.id_table	= ad9832_id,
+[auto build test ERROR on staging/staging-testing]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/nancyenos/staging-octeon-Fix-unused-macro-Argument-x/20250322-084136
+base:   staging/staging-testing
+patch link:    https://lore.kernel.org/r/20250322003218.14134-1-nicymimz%40gmail.com
+patch subject: [PATCH] staging: octeon: Fix unused macro Argument 'x'
+config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20250323/202503231053.WFt2cPIR-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250323/202503231053.WFt2cPIR-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503231053.WFt2cPIR-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+>> drivers/staging/octeon/ethernet.c:258:23: error: use of undeclared identifier 'OCTEON_CN3XXX'
+     258 |                 if (OCTEON_IS_MODEL(OCTEON_CN3XXX) ||
+         |                                     ^
+>> drivers/staging/octeon/ethernet.c:259:23: error: use of undeclared identifier 'OCTEON_CN58XX'
+     259 |                     OCTEON_IS_MODEL(OCTEON_CN58XX)) {
+         |                                     ^
+>> drivers/staging/octeon/ethernet.c:469:25: error: use of undeclared identifier 'OCTEON_FEATURE_PKND'
+     469 |         if (octeon_has_feature(OCTEON_FEATURE_PKND))
+         |                                ^
+>> drivers/staging/octeon/ethernet.c:725:25: error: use of undeclared identifier 'OCTEON_CN68XX'
+     725 |                                 if (OCTEON_IS_MODEL(OCTEON_CN68XX))
+         |                                                     ^
+   4 errors generated.
+--
+>> drivers/staging/octeon/ethernet-rx.c:67:25: error: use of undeclared identifier 'OCTEON_FEATURE_PKND'
+      67 |         if (octeon_has_feature(OCTEON_FEATURE_PKND))
+         |                                ^
+>> drivers/staging/octeon/ethernet-rx.c:201:22: error: use of undeclared identifier 'OCTEON_CN68XX'
+     201 |         if (OCTEON_IS_MODEL(OCTEON_CN68XX)) {
+         |                             ^
+   drivers/staging/octeon/ethernet-rx.c:233:24: error: use of undeclared identifier 'OCTEON_CN68XX'
+     233 |                         if (OCTEON_IS_MODEL(OCTEON_CN68XX)) {
+         |                                             ^
+   drivers/staging/octeon/ethernet-rx.c:267:26: error: use of undeclared identifier 'OCTEON_FEATURE_PKND'
+     267 |                 if (octeon_has_feature(OCTEON_FEATURE_PKND))
+         |                                        ^
+   drivers/staging/octeon/ethernet-rx.c:389:22: error: use of undeclared identifier 'OCTEON_CN68XX'
+     389 |         if (OCTEON_IS_MODEL(OCTEON_CN68XX)) {
+         |                             ^
+   drivers/staging/octeon/ethernet-rx.c:489:23: error: use of undeclared identifier 'OCTEON_CN68XX'
+     489 |                 if (OCTEON_IS_MODEL(OCTEON_CN68XX)) {
+         |                                     ^
+   drivers/staging/octeon/ethernet-rx.c:532:23: error: use of undeclared identifier 'OCTEON_CN68XX'
+     532 |                 if (OCTEON_IS_MODEL(OCTEON_CN68XX))
+         |                                     ^
+   7 errors generated.
+--
+>> drivers/staging/octeon/ethernet-tx.c:227:41: error: use of undeclared identifier 'OCTEON_CN3XXX'
+     227 |         if ((skb->len < 64) && OCTEON_IS_MODEL(OCTEON_CN3XXX)) {
+         |                                                ^
+>> drivers/staging/octeon/ethernet-tx.c:558:23: error: use of undeclared identifier 'OCTEON_CN68XX'
+     558 |         if (!OCTEON_IS_MODEL(OCTEON_CN68XX))
+         |                              ^
+   2 errors generated.
+
+
+vim +/OCTEON_CN3XXX +258 drivers/staging/octeon/ethernet.c
+
+422d97b8b05ed3 Chris Packham 2020-02-05  230  
+422d97b8b05ed3 Chris Packham 2020-02-05  231  /**
+422d97b8b05ed3 Chris Packham 2020-02-05  232   * cvm_oct_common_change_mtu - change the link MTU
+422d97b8b05ed3 Chris Packham 2020-02-05  233   * @dev:     Device to change
+422d97b8b05ed3 Chris Packham 2020-02-05  234   * @new_mtu: The new MTU
+422d97b8b05ed3 Chris Packham 2020-02-05  235   *
+422d97b8b05ed3 Chris Packham 2020-02-05  236   * Returns Zero on success
+422d97b8b05ed3 Chris Packham 2020-02-05  237   */
+422d97b8b05ed3 Chris Packham 2020-02-05  238  static int cvm_oct_common_change_mtu(struct net_device *dev, int new_mtu)
+422d97b8b05ed3 Chris Packham 2020-02-05  239  {
+422d97b8b05ed3 Chris Packham 2020-02-05  240  	struct octeon_ethernet *priv = netdev_priv(dev);
+422d97b8b05ed3 Chris Packham 2020-02-05  241  	int interface = INTERFACE(priv->port);
+422d97b8b05ed3 Chris Packham 2020-02-05  242  #if IS_ENABLED(CONFIG_VLAN_8021Q)
+422d97b8b05ed3 Chris Packham 2020-02-05  243  	int vlan_bytes = VLAN_HLEN;
+422d97b8b05ed3 Chris Packham 2020-02-05  244  #else
+422d97b8b05ed3 Chris Packham 2020-02-05  245  	int vlan_bytes = 0;
+422d97b8b05ed3 Chris Packham 2020-02-05  246  #endif
+422d97b8b05ed3 Chris Packham 2020-02-05  247  	int mtu_overhead = ETH_HLEN + ETH_FCS_LEN + vlan_bytes;
+422d97b8b05ed3 Chris Packham 2020-02-05  248  
+422d97b8b05ed3 Chris Packham 2020-02-05  249  	dev->mtu = new_mtu;
+422d97b8b05ed3 Chris Packham 2020-02-05  250  
+422d97b8b05ed3 Chris Packham 2020-02-05  251  	if ((interface < 2) &&
+422d97b8b05ed3 Chris Packham 2020-02-05  252  	    (cvmx_helper_interface_get_mode(interface) !=
+422d97b8b05ed3 Chris Packham 2020-02-05  253  		CVMX_HELPER_INTERFACE_MODE_SPI)) {
+422d97b8b05ed3 Chris Packham 2020-02-05  254  		int index = INDEX(priv->port);
+422d97b8b05ed3 Chris Packham 2020-02-05  255  		/* Add ethernet header and FCS, and VLAN if configured. */
+422d97b8b05ed3 Chris Packham 2020-02-05  256  		int max_packet = new_mtu + mtu_overhead;
+422d97b8b05ed3 Chris Packham 2020-02-05  257  
+422d97b8b05ed3 Chris Packham 2020-02-05 @258  		if (OCTEON_IS_MODEL(OCTEON_CN3XXX) ||
+422d97b8b05ed3 Chris Packham 2020-02-05 @259  		    OCTEON_IS_MODEL(OCTEON_CN58XX)) {
+422d97b8b05ed3 Chris Packham 2020-02-05  260  			/* Signal errors on packets larger than the MTU */
+422d97b8b05ed3 Chris Packham 2020-02-05  261  			cvmx_write_csr(CVMX_GMXX_RXX_FRM_MAX(index, interface),
+422d97b8b05ed3 Chris Packham 2020-02-05  262  				       max_packet);
+422d97b8b05ed3 Chris Packham 2020-02-05  263  		} else {
+422d97b8b05ed3 Chris Packham 2020-02-05  264  			/*
+422d97b8b05ed3 Chris Packham 2020-02-05  265  			 * Set the hardware to truncate packets larger
+422d97b8b05ed3 Chris Packham 2020-02-05  266  			 * than the MTU and smaller the 64 bytes.
+422d97b8b05ed3 Chris Packham 2020-02-05  267  			 */
+422d97b8b05ed3 Chris Packham 2020-02-05  268  			union cvmx_pip_frm_len_chkx frm_len_chk;
+422d97b8b05ed3 Chris Packham 2020-02-05  269  
+422d97b8b05ed3 Chris Packham 2020-02-05  270  			frm_len_chk.u64 = 0;
+422d97b8b05ed3 Chris Packham 2020-02-05  271  			frm_len_chk.s.minlen = VLAN_ETH_ZLEN;
+422d97b8b05ed3 Chris Packham 2020-02-05  272  			frm_len_chk.s.maxlen = max_packet;
+422d97b8b05ed3 Chris Packham 2020-02-05  273  			cvmx_write_csr(CVMX_PIP_FRM_LEN_CHKX(interface),
+422d97b8b05ed3 Chris Packham 2020-02-05  274  				       frm_len_chk.u64);
+422d97b8b05ed3 Chris Packham 2020-02-05  275  		}
+422d97b8b05ed3 Chris Packham 2020-02-05  276  		/*
+422d97b8b05ed3 Chris Packham 2020-02-05  277  		 * Set the hardware to truncate packets larger than
+422d97b8b05ed3 Chris Packham 2020-02-05  278  		 * the MTU. The jabber register must be set to a
+422d97b8b05ed3 Chris Packham 2020-02-05  279  		 * multiple of 8 bytes, so round up.
+422d97b8b05ed3 Chris Packham 2020-02-05  280  		 */
+422d97b8b05ed3 Chris Packham 2020-02-05  281  		cvmx_write_csr(CVMX_GMXX_RXX_JABBER(index, interface),
+422d97b8b05ed3 Chris Packham 2020-02-05  282  			       (max_packet + 7) & ~7u);
+422d97b8b05ed3 Chris Packham 2020-02-05  283  	}
+422d97b8b05ed3 Chris Packham 2020-02-05  284  	return 0;
+422d97b8b05ed3 Chris Packham 2020-02-05  285  }
+422d97b8b05ed3 Chris Packham 2020-02-05  286  
+
 -- 
-2.48.1
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
