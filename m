@@ -1,45 +1,46 @@
 Received: from mail2-relais-roc.national.inria.fr (mail2-relais-roc.national.inria.fr [192.134.164.83])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C6F42561A2;
-	Tue, 25 Mar 2025 13:56:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDD3D2571A8;
+	Tue, 25 Mar 2025 13:57:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.134.164.83
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742910974; cv=none; b=IxEqgXij3tHbmK0F7BGbCbRlFFg28vG9kmYaA1cyYULPA04aLVAL3LN/58JS9tGsTG1CVEdHFyZbafJlDbewU3iOToRITlb6ocS4HXUQzBqQnbWMG5QR2OR/x+xuYQWBwKKvIuMrltcnuBVZLRChqHNrcjMWIiRHJsREhxG9iwA=
+	t=1742911050; cv=none; b=lPS1OXK0aqjRMFwsiUqQf6L3ot6NswOYE4orPv1InY/U8/FHxxihEpyV6RX1GK0fqSF8cWDnO/SBA8bnUQswWTSoy4IJ2DWICXf0i/C24IutiyVWG1xsk5PJ/VA9tY2bnSjlweAHObGDSae3xE3+GErZuZfpvDCkE7WZdsUieOE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742910974; c=relaxed/simple;
-	bh=qEMNyQ5ds/VmKFLRDJf2+qMtoc35WfaEw22SNJ59GUs=;
+	s=arc-20240116; t=1742911050; c=relaxed/simple;
+	bh=5vmsaVmY7RCeBltG3oaYsLyhH00UvyfSdKrADtgNQsQ=;
 	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=CexT1MkW+L6gQSyq8SMG8rAV0Hfaack3dnqw4P7huDBlacPnsnYyO2plYWk0+KWYgjj4iTaD3QoKLM9IlagScC/7rKWHz93WPaxPFfQ8V87JJmOLqhFE3e74QXk4E3xir6xE+Joh3Ck+4TyBAichyv0lKMhr1mOE5G2q6FVkRPI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr; spf=pass smtp.mailfrom=inria.fr; dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b=J2Y4LS4z; arc=none smtp.client-ip=192.134.164.83
+	 MIME-Version:Content-Type; b=kW7rBpJJLJUBQQ0ztAyhB+WP9f+4xjT7IBeIFvyQz+YsSHrGdbH/J//RLg0Zl4xtaM3dGwjHMfvJDMYOz+FqSA8Ay0o+Ooo1Cu8RhDkj+6px0V58rtoLnwURkwMvrlKcPBsVJzKwO/EZlCPiMx1QLZmbdPY3tdj97yuhmntU/38=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr; spf=pass smtp.mailfrom=inria.fr; dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b=A/HONrhz; arc=none smtp.client-ip=192.134.164.83
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=inria.fr
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b="J2Y4LS4z"
+	dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b="A/HONrhz"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
   d=inria.fr; s=dc;
   h=date:from:to:cc:subject:in-reply-to:message-id:
    references:mime-version;
-  bh=Q+5awqeE5/5JpbIYKZrW0uZUXFfOxvrShRVsEromEjQ=;
-  b=J2Y4LS4zbjbhorrwatNvMrgKR35paPRget3yRAD9D8IA1ew4HJ4tO/sl
-   xdvZUGWOsx7sxWeKq0gWWADschgh/Khmtli8f9wXxv61DnFqRwK5pXqlp
-   L0UCVbpm3AD7bDqJZpICuLkPRI2AFxMZeMv0BsQOwWKWNDOmpVaLAlgh0
-   k=;
+  bh=39LmuDI9bOxMy0VVpRTL66OIPOopihwRPhpHSWSa6GI=;
+  b=A/HONrhz8qXm5ONveFdISU4jX4UvXz/Gc1mUpyPQl+RjDg0O2v1DPKo4
+   K7nFJQyFxe4L0cO8YTlvjSWcqvEBVlL0q+bWsecPqJGbgboyH+rW6vxuy
+   7WsituMwgC2QJUys0Ro95r2IDbIbbBswpVUdj0wiI/xMIdyKtRye6zjmn
+   M=;
 Authentication-Results: mail2-relais-roc.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=julia.lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
 X-IronPort-AV: E=Sophos;i="6.14,275,1736809200"; 
-   d="scan'208";a="214672165"
+   d="scan'208";a="214672416"
 Received: from dt-lawall.paris.inria.fr ([128.93.67.65])
-  by mail2-relais-roc.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Mar 2025 14:56:10 +0100
-Date: Tue, 25 Mar 2025 14:56:09 +0100 (CET)
+  by mail2-relais-roc.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Mar 2025 14:57:26 +0100
+Date: Tue, 25 Mar 2025 14:57:26 +0100 (CET)
 From: Julia Lawall <julia.lawall@inria.fr>
-To: Abraham Samuel Adekunle <abrahamadekunle50@gmail.com>
-cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, outreachy@lists.linux.dev, 
+To: Erick Karanja <karanja99erick@gmail.com>
+cc: gregkh@linuxfoundation.org, outreachy@lists.linux.dev, 
+    philipp.g.hortmann@gmail.com, davidzalman.101@gmail.com, 
+    vivek6429.ts@gmail.com, viro@zeniv.linux.org.uk, 
     linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: rtl8723bs: simplify if-else block by removing
- unnecessary braces
-In-Reply-To: <Z+KraOo2DfmH5zMX@HP-650>
-Message-ID: <36d38aa1-39f7-ba14-633f-d3411a863a83@inria.fr>
-References: <Z+KraOo2DfmH5zMX@HP-650>
+Subject: Re: [PATCH] staging: rtl8723bs: Rename variables
+In-Reply-To: <20250325124712.47577-1-karanja99erick@gmail.com>
+Message-ID: <36f86d43-9c0-56fd-372a-87d8637e9377@inria.fr>
+References: <20250325124712.47577-1-karanja99erick@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -50,45 +51,77 @@ Content-Type: text/plain; charset=US-ASCII
 
 
 
-On Tue, 25 Mar 2025, Abraham Samuel Adekunle wrote:
+On Tue, 25 Mar 2025, Erick Karanja wrote:
 
-> The if-else block contained braces around single statements, which are
-> unnecessary according to the Linux kernel coding style.
+> Rename the variable `mediaStatus` to `media_status` and variable
+> `lpsVal` to `lps_val` to adhere to Linux kernel coding
+> standards by using snake_case instead of CamelCase.
 >
-> Remove the redundant braces to improve code readability and maintain
-> consistency with the rest of the codebase.
+> Fixes checkpatch.pl warning:
+> 	CHECK: Avoid CamelCase: <mediaStatus>
+> 	CHECK: Avoid CamelCase: <lpsVal>
 >
-> Reported by checkpatch:
->
-> WARNING: braces {} are not necessary for any arm of this statement
->
-> Signed-off-by: Abraham Samuel Adekunle <abrahamadekunle50@gmail.com>
-
-Reviewed-by: Julia Lawall <julia.lawall@inria.fr>
-
+> Signed-off-by: Erick Karanja <karanja99erick@gmail.com>
 > ---
->  drivers/staging/rtl8723bs/core/rtw_ieee80211.c | 5 ++---
->  1 file changed, 2 insertions(+), 3 deletions(-)
+>  drivers/staging/rtl8723bs/core/rtw_btcoex.c | 14 ++++++--------
+>  1 file changed, 6 insertions(+), 8 deletions(-)
 >
-> diff --git a/drivers/staging/rtl8723bs/core/rtw_ieee80211.c b/drivers/staging/rtl8723bs/core/rtw_ieee80211.c
-> index 0ed420f3d096..53d4c113b19c 100644
-> --- a/drivers/staging/rtl8723bs/core/rtw_ieee80211.c
-> +++ b/drivers/staging/rtl8723bs/core/rtw_ieee80211.c
-> @@ -988,11 +988,10 @@ void rtw_macaddr_cfg(struct device *dev, u8 *mac_addr)
->  	if (is_broadcast_ether_addr(mac) || is_zero_ether_addr(mac)) {
->  		addr = of_get_property(np, "local-mac-address", &len);
+> diff --git a/drivers/staging/rtl8723bs/core/rtw_btcoex.c b/drivers/staging/rtl8723bs/core/rtw_btcoex.c
+> index d54095f50113..27dfd00b4249 100644
+> --- a/drivers/staging/rtl8723bs/core/rtw_btcoex.c
+> +++ b/drivers/staging/rtl8723bs/core/rtw_btcoex.c
+> @@ -8,14 +8,14 @@
+>  #include <rtw_btcoex.h>
+>  #include <hal_btcoex.h>
 >
-> -		if (addr && len == ETH_ALEN) {
-> +		if (addr && len == ETH_ALEN)
->  			ether_addr_copy(mac_addr, addr);
-> -		} else {
-> +		else
->  			eth_random_addr(mac_addr);
-> -		}
+> -void rtw_btcoex_MediaStatusNotify(struct adapter *padapter, u8 mediaStatus)
+> +void rtw_btcoex_MediaStatusNotify(struct adapter *padapter, u8 media_status)
+>  {
+> -	if ((mediaStatus == RT_MEDIA_CONNECT)
+> +	if ((media_status == RT_MEDIA_CONNECT)
+>  		&& (check_fwstate(&padapter->mlmepriv, WIFI_AP_STATE) == true)) {
+>  		rtw_hal_set_hwreg(padapter, HW_VAR_DL_RSVD_PAGE, NULL);
 >  	}
+>
+> -	hal_btcoex_MediaStatusNotify(padapter, mediaStatus);
+> +	hal_btcoex_MediaStatusNotify(padapter, media_status);
 >  }
 >
+>  void rtw_btcoex_HaltNotify(struct adapter *padapter)
+> @@ -52,21 +52,19 @@ void rtw_btcoex_RejectApAggregatedPacket(struct adapter *padapter, u8 enable)
+>  void rtw_btcoex_LPS_Enter(struct adapter *padapter)
+>  {
+>  	struct pwrctrl_priv *pwrpriv;
+> -	u8 lpsVal;
+> -
+> +	u8 lps_val;
+>
+>  	pwrpriv = adapter_to_pwrctl(padapter);
+>
+>  	pwrpriv->bpower_saving = true;
+> -	lpsVal = hal_btcoex_LpsVal(padapter);
+> -	rtw_set_ps_mode(padapter, PS_MODE_MIN, 0, lpsVal, "BTCOEX");
+> +	lps_val = hal_btcoex_LpsVal(padapter);
+> +	rtw_set_ps_mode(padapter, PS_MODE_MIN, 0, lps_val, "BTCOEX");
+>  }
+>
+>  void rtw_btcoex_LPS_Leave(struct adapter *padapter)
+>  {
+>  	struct pwrctrl_priv *pwrpriv;
+>
+> -
+
+You seem to have done something else here.
+
+Were there two blank lines in the original code?
+
+julia
+
+>  	pwrpriv = adapter_to_pwrctl(padapter);
+>
+>  	if (pwrpriv->pwr_mode != PS_MODE_ACTIVE) {
 > --
-> 2.34.1
+> 2.43.0
+>
 >
 >
