@@ -1,170 +1,107 @@
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+Received: from mail-yb1-f180.google.com (mail-yb1-f180.google.com [209.85.219.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BBF21E522;
-	Tue, 25 Mar 2025 11:46:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43D122586C1
+	for <linux-staging@lists.linux.dev>; Tue, 25 Mar 2025 12:00:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742903168; cv=none; b=QUTtQoMdRlz8TCamVcY4gvn1F6YPU7i2jPHeCDxwisEkNT463KJ602WkbL82zw+xGweiKmt+0bskIpF6RtpkRgEumyiRGPbTkakKfcI8f8Zk+n76qmH2tHDa4k3fUKLcNU7qLgE3+b2zg10VzHdMiGiYLcMXEzGU5uOvap286pM=
+	t=1742904040; cv=none; b=tl1/+HccYUKccsES0Ovw9ka+gpOFYEZN8uIY/5RBYNgWnCMABbnv5GOGGENxefmCf0Izy9Bvq12TESNCpsd2cv/02BGGTPz6Slxj5UXOa8a8YhttPaUM7mD8Qb6SaZo3tzoYHkcwfn31AkEMRQmoMO5eyL4sVw+Og7PnsyS6i+g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742903168; c=relaxed/simple;
-	bh=3I6YOEEevm7Iddu9Wu3uhmlaf4D1s7KW/SvZf1lAK98=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=GNPEZOrdOHW6YTX3jQ6fX9BNYNnP/2Uue86Coz5DrhkkzR9DMUvRKNjavKUTXmEplLnVNsLo7ex5wkWlxLDVS6znU0auJZzWaY1eZYCOmP14QtyB/jX7OfpoKcMYEjK8BjHv0yfAVswW4xpiGtqGpkuEt0jOpm8yYtg4pfiNfSg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mBlfsZQB; arc=none smtp.client-ip=209.85.128.48
+	s=arc-20240116; t=1742904040; c=relaxed/simple;
+	bh=b2OhConKjzvSgsnTcl2fL5GUDaph0WJpGeSsM1KI984=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=UxW0HhlQpW24e2JxPZ442MnaBry9YK7agfmJgHvKwCVlE8HboThSx67B6e7GKZIwmiEiayCdi0gCWnw1B8acyM5AxsT1dR7oUnS6OoZ8ijkhBog1uqE+Zi+5LMeGhM3oEAHe7TFx8pTBnUgCaipBMVTT07vPjQRuBFhSpU+sD6w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ExlB3kkd; arc=none smtp.client-ip=209.85.219.180
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mBlfsZQB"
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-43cf034d4abso58912825e9.3;
-        Tue, 25 Mar 2025 04:46:06 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ExlB3kkd"
+Received: by mail-yb1-f180.google.com with SMTP id 3f1490d57ef6-e573136107bso5173634276.3
+        for <linux-staging@lists.linux.dev>; Tue, 25 Mar 2025 05:00:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1742903165; x=1743507965; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=QM6yckbMzLuQtYcD19Hf+kaqNYJs8oHRxuA6VUZJjFY=;
-        b=mBlfsZQBx4jVQSW/R4H/nK6Z3m0qIAN1n2kcx9ZIsLdi9gItjLC8dC+Kxgb9woHMQa
-         d+DDkhAcar/SXvqu3AtArz7/ndQEUEMvGa6D4TPNwN4Fy432yAFDGAaHikr5ogFdO27e
-         yovYVkkhtFeiBRG8FNiRovCpYhzlfZ5pfmmmrA1vkFmMAjwngPYKCv8Naozpmvfy0+fH
-         k67zB+J+DDbJVJ1e7k2+56XaRX7UKSrt8bS5bXxGFC+gMo5WjysbIJmY+i/qYwrKRaih
-         fYorcGkafHI1v9j0+BuOjMMID1FdAmY5axZ36JHFJjkBjWtf7y+rTuzGDOwT9l8clgUA
-         QBow==
+        d=gmail.com; s=20230601; t=1742904038; x=1743508838; darn=lists.linux.dev;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=CnevdrSoXCo6uIk6bcR0nLToODaub7C10ZjJRxxcJ+Y=;
+        b=ExlB3kkdnmslhRmzJV6puz7E7v84+W1SG31paMuyO/1KCD5b5NAUTSn3HCU8H9cWPp
+         stADOmPN3v4Isd30kXBaGBUTmHHb+8/MKIXgSuaNygS7Mwyophfyd75Wxxl9RW1g28dd
+         8noUfcdXDovIxw04eUBpaKf5n8McptVjMq2CTgm85muGJ+VPgwXdiT4/SSOdrq8M54xE
+         a1JE9ngBU3+5jWFpCmuYJ3gJAqKfmsrysbsZHBvpzxVLlrt7iP2sTukswogIjLE3y/s+
+         yWnIyV5cajSV3vA6tdoYoqOm4XbqsZSt3altfZEI3IETz7jt4VXs55/eVRCrH1f0L9Yg
+         CU3A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742903165; x=1743507965;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20230601; t=1742904038; x=1743508838;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=QM6yckbMzLuQtYcD19Hf+kaqNYJs8oHRxuA6VUZJjFY=;
-        b=hSN6Jcg2Pt+WxsFlO97bxc4MjK7QEd3tA6lqUAiYOAqbkwNlLzyklpajXJCDifHEEK
-         6wheJy1/+QuhSmb2XRKZ9nc1GlNXxyvEJQhWlTlfg3adovH7XzefMWmds++9iWZ/wPTb
-         bYElQM0NCFs0xcNJoySKfy0T+pGG7C6l7Mv1hxCmqMVPypnMQn1hdlleLuB/M2N5q4T4
-         rZ+i+Wxhb3KCYc0/3AIZdlXv4z8WdIu1e2ypGXC5Pk7hShlmrPrY0dlWIGPNfvjzRFlf
-         U/X6aDlHUxpTgU8H5iFldDRnxO9IlGx+wNVSUcNt7xPHj5j7ceeAg0pFzYQ6ipZPpKsQ
-         rLTQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUCvGRcmDtg+axUgcntWvvfeaWHDrTfuLzbQljvG14dUmZHKyYgBz83OXG5SA7bWCsqeFuX8HAqz6I7I7ds@lists.linux.dev, AJvYcCVYh1hbZPWP+UdLkwy1Qq5Hba2dfwQsVVfDMPEK6+MI0QmQLC94r6uFDXUV/BvC4efEXUma2CYWa2Oe@lists.linux.dev
-X-Gm-Message-State: AOJu0Yx7BP18CDb1fkvKvsWq5TbnHEA0eMloainD+TUYO9ILvV4ShqWe
-	XYeULVAK5bqaTp83Ib2rHR5LZhhEvvD1o8sfiyBcF2aNs+wkz9ff
-X-Gm-Gg: ASbGncuf/a66U2gq/3/rjcdgtSBjAKir5ASvwNe1WkTqMMzFviIgvBkUPz9lw3I97tK
-	H8ocZWadHbXxod9pfKX36FEhX6r/704koYJGVSu8FxN64TppFZ4tkb6L8Ctd8BJhhxayyUuP49A
-	MrZvBgRWrrntLtbV1Vftpx0DvzMA1l95ROPLWEDfutSQ/5STkMu6PXwUnsWPFVr+Uf45giyHRBi
-	7u0ReA7c/RhxHwL0nrQhkou74OBpQoait0JTDVdUBbeieKqZjcwfKk4NVfafq/I4IzDiWzeCxPq
-	AH53kaYQeI5Aj5fL4i+tT4fztA5J6a4mp5Xs0FdqkA==
-X-Google-Smtp-Source: AGHT+IG1gg+2VMW6S40TL5SGmizmMHwcdq3j/bUWa544XwDYu50O4TXneCJnlGDTs3FUGeIlvjDRfQ==
-X-Received: by 2002:a05:600c:4e41:b0:43d:1824:aadc with SMTP id 5b1f17b1804b1-43d50a3632emr167118635e9.29.1742903164542;
-        Tue, 25 Mar 2025 04:46:04 -0700 (PDT)
-Received: from pc.. ([197.155.71.138])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43d6ddf2974sm12782885e9.0.2025.03.25.04.46.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 25 Mar 2025 04:46:04 -0700 (PDT)
-From: Erick Karanja <karanja99erick@gmail.com>
-To: gregkh@linuxfoundation.org,
-	outreachy@lists.linux.dev
-Cc: philipp.g.hortmann@gmail.com,
-	davidzalman.101@gmail.com,
-	vivek6429.ts@gmail.com,
-	viro@zeniv.linux.org.uk,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Erick Karanja <karanja99erick@gmail.com>
-Subject: [PATCH v2] staging: rtl8723bs: Rename variables v2
-Date: Tue, 25 Mar 2025 14:45:52 +0300
-Message-ID: <20250325114552.45393-1-karanja99erick@gmail.com>
-X-Mailer: git-send-email 2.43.0
+        bh=CnevdrSoXCo6uIk6bcR0nLToODaub7C10ZjJRxxcJ+Y=;
+        b=Lx6K3NfSlFnmCk2enDzKvPJQEQbE74UbZ5XJgzV9dn/HxrHzAPQNkqXF/fzkL+H0Ct
+         BzcTT3ZxvxUjt7EkpQ1QWCFD6c+7QG+7Ku5smnky4hvgXSoZmz/M8DxKdP709T1+5/pf
+         qjHt1nO4xRM6CR3hZ55sVgARLOPULzBDQA4hF9Crkkj/yYvaGSgHiA0q6HJUVOTsajg1
+         9xaUcft7T7RdkQXp8E5JrOPTFegNXyVJh2M3R2QMpPQTceZwfa9/MZz9Mb7oQ72wBXrq
+         /e6bnu41WDd74/LY+1Ry9eYr6q2ZSnyKiViN++B1hCFMo12iRh8yFzgxSkB4M2kUzgw9
+         SgZQ==
+X-Forwarded-Encrypted: i=1; AJvYcCW1rKmmgfxCxvUvUn8W877rwZOuGhF5FyXXHKqev1FMQy6hq7gliKEfxe+YsHlKVKs+HdpYRhvs1+MO+wM3@lists.linux.dev
+X-Gm-Message-State: AOJu0YxD6oG7Q2CTeIguWmm6BOVtunaZsw3BWNBVzkDTL6lEzkVb3zJA
+	afZHZIxWKd9jsPywQLb5+48JKgP5Q6YbxQhkX10qF2vh6yMAG/oPQOAQFWuOAa852DMfHlL0tMj
+	1Rpy6iunUGFjxcUhfI/MazhmHThU=
+X-Gm-Gg: ASbGncvf7+f5ebYPHjgQMH4/XKRBjGZv2ulvC7kQYCvUki7z0XhClHm1e77RE1sBrTG
+	YnziO6DGoe9rG3EQj9LMUDjh1k2F0E6IgKymiKqQiWe/x8aYOunjmaQa+0E+qDggbuAjxLFvBLi
+	XrQ6x6zC7fJEzA3Eal6gobe9lBBYLvIblDH1WBVg==
+X-Google-Smtp-Source: AGHT+IGIu5/NuCLnAVC4CwB7tKr+pW1IvXMHLfQddMFlTu1BRQOatTVJFYfTSGg3D5iR4Ev+dEuYNeLjzXsJzAIIKj0=
+X-Received: by 2002:a05:6902:1ac7:b0:e63:f25e:68c1 with SMTP id
+ 3f1490d57ef6-e66a4fac372mr20419441276.34.1742904036331; Tue, 25 Mar 2025
+ 05:00:36 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20250319045212.72650-1-simeddon@gmail.com> <Z965Rz8NuXhbHrgy@debian-BULLSEYE-live-builder-AMD64>
+In-Reply-To: <Z965Rz8NuXhbHrgy@debian-BULLSEYE-live-builder-AMD64>
+From: Siddharth Menon <simeddon@gmail.com>
+Date: Tue, 25 Mar 2025 17:29:59 +0530
+X-Gm-Features: AQ5f1JoLIpcp9qEnovJpq03xpcbqdCTU9IxuEWqZb4IANYiAHmkxj7qd5cXRz1I
+Message-ID: <CAGd6pzNW2JKxTfQ8rLD8V7bdUgq8fc0R+ayChf3J0VdRm9Ptrg@mail.gmail.com>
+Subject: Re: [PATCH v3] iio: frequency: ad9832: Use FIELD_PREP macro to set
+ bit fields
+To: Marcelo Schmitt <marcelo.schmitt1@gmail.com>
+Cc: linux-iio@vger.kernel.org, lars@metafoo.de, Michael.Hennerich@analog.com, 
+	jic23@kernel.org, gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org, 
+	linux-staging@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
 
-Rename the variable `supportRateNum` to `support_rate_num` and variable
-`supportRate` to `support_rate` to adhere to Linux kernel coding
-standards by using snake_case instead of CamelCase.
+On Sat, 22 Mar 2025 at 18:50, Marcelo Schmitt
+<marcelo.schmitt1@gmail.com> wrote:
+>
+> On 03/19, Siddharth Menon wrote:
+> > Refactor code to use the FIELD_PREP macro for setting bit fields
+> > instead of manual bit manipulation.
+>
+> The word 'refactor' by itself isn't very appealing.
+> Instead, maybe promote how the patch improves code readability saying something
+> like 'Use bitfield macros to clearly specify AD9832 SPI command fields and to
+> make register write code more readable.' Use that exact text if you want.
+>
 
-Fixes checkpatch.pl warning:
-    CHECK: Avoid CamelCase: <supportRateNum>
+Thanks for the feedback, I will update the commit message.
 
-v2:
-Fixes checkpatch.pl warning:
-    CHECK: Avoid CamelCase: <supportRate>
+> I think AD9832_PHASE and RES_MASK could also be declared as a mask, but maybe
+> that change can be made on a separate patch.
 
-Signed-off-by: Erick Karanja <karanja99erick@gmail.com>
----
- drivers/staging/rtl8723bs/core/rtw_ap.c | 23 ++++++++++++-----------
- 1 file changed, 12 insertions(+), 11 deletions(-)
+I shall send in another patch addressing this.
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_ap.c b/drivers/staging/rtl8723bs/core/rtw_ap.c
-index 50022bb5911e..d46a04b9a05e 100644
---- a/drivers/staging/rtl8723bs/core/rtw_ap.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_ap.c
-@@ -370,7 +370,7 @@ void add_RATid(struct adapter *padapter, struct sta_info *psta, u8 rssi_level)
- void update_bmc_sta(struct adapter *padapter)
- {
- 	unsigned char network_type;
--	int supportRateNum = 0;
-+	int support_rate_num = 0;
- 	unsigned int tx_ra_bitmap = 0;
- 	struct mlme_priv *pmlmepriv = &padapter->mlmepriv;
- 	struct mlme_ext_priv *pmlmeext = &padapter->mlmeextpriv;
-@@ -396,9 +396,9 @@ void update_bmc_sta(struct adapter *padapter)
- 		/* psta->dot118021XPrivacy = _NO_PRIVACY_;//!!! remove it, because it has been set before this. */
- 
- 		/* prepare for add_RATid */
--		supportRateNum = rtw_get_rateset_len((u8 *)&pcur_network->supported_rates);
-+		support_rate_num = rtw_get_rateset_len((u8 *)&pcur_network->supported_rates);
- 		network_type = rtw_check_network_type((u8 *)&pcur_network->supported_rates,
--						      supportRateNum,
-+						      support_rate_num,
- 						      pcur_network->configuration.ds_config
- 		);
- 		if (is_supported_tx_cck(network_type)) {
-@@ -817,8 +817,8 @@ int rtw_check_beacon_data(struct adapter *padapter, u8 *pbuf,  int len)
- 	u16 cap, ht_cap = false;
- 	uint ie_len = 0;
- 	int group_cipher, pairwise_cipher;
--	u8 channel, network_type, supportRate[NDIS_802_11_LENGTH_RATES_EX];
--	int supportRateNum = 0;
-+	u8 channel, network_type, support_rate[NDIS_802_11_LENGTH_RATES_EX];
-+	int support_rate_num = 0;
- 	u8 OUI1[] = {0x00, 0x50, 0xf2, 0x01};
- 	u8 WMM_PARA_IE[] = {0x00, 0x50, 0xf2, 0x02, 0x01, 0x01};
- 	struct registry_priv *pregistrypriv = &padapter->registrypriv;
-@@ -883,7 +883,7 @@ int rtw_check_beacon_data(struct adapter *padapter, u8 *pbuf,  int len)
- 
- 	pbss_network->configuration.ds_config = channel;
- 
--	memset(supportRate, 0, NDIS_802_11_LENGTH_RATES_EX);
-+	memset(support_rate, 0, NDIS_802_11_LENGTH_RATES_EX);
- 	/*  get supported rates */
- 	p = rtw_get_ie(
- 		ie + _BEACON_IE_OFFSET_,
-@@ -892,8 +892,8 @@ int rtw_check_beacon_data(struct adapter *padapter, u8 *pbuf,  int len)
- 		(pbss_network->ie_length - _BEACON_IE_OFFSET_)
- 	);
- 	if (p) {
--		memcpy(supportRate, p + 2, ie_len);
--		supportRateNum = ie_len;
-+		memcpy(support_rate, p + 2, ie_len);
-+		support_rate_num = ie_len;
- 	}
- 
- 	/* get ext_supported rates */
-@@ -904,11 +904,12 @@ int rtw_check_beacon_data(struct adapter *padapter, u8 *pbuf,  int len)
- 		pbss_network->ie_length - _BEACON_IE_OFFSET_
- 	);
- 	if (p) {
--		memcpy(supportRate + supportRateNum, p + 2, ie_len);
--		supportRateNum += ie_len;
-+		memcpy(support_rate + support_rate_num, p + 2, ie_len);
-+		support_rate_num += ie_len;
- 	}
- 
--	network_type = rtw_check_network_type(supportRate, supportRateNum, channel);
-+	network_type = rtw_check_network_type(support_rate, support_rate_num,
-+					      channel);
- 
- 	rtw_set_supported_rate(pbss_network->supported_rates, network_type);
- 
--- 
-2.43.0
+> > -             st->data = cpu_to_be16((AD9832_CMD_SYNCSELSRC << CMD_SHIFT) |
+> > +             st->data = cpu_to_be16(FIELD_PREP(AD9832_CMD_MSK, AD9832_CMD_SYNCSELSRC) |
+> >                                       st->ctrl_ss);
+> Not sure about this assignment with mix of FIELD_PREP and non-FIELD_PREP value.
+> Maybe have
+>                                        FIELD_PREP(AD9832_DAT_MSK, st->ctrl_ss)); ?
 
+From what I understood, I don't think that would work out. AD9832_SELSRC
+= BIT(12) but AD9832_DAT_MSK only covers bits 7 through 0 GENMASK(7, 0).
+ It could exceed the maximum value allowed by the mask.
+
+Thanks,
+Siddharth Menon
