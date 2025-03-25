@@ -1,98 +1,117 @@
-Received: from mail3-relais-sop.national.inria.fr (mail3-relais-sop.national.inria.fr [192.134.164.104])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FEAE25A322;
-	Tue, 25 Mar 2025 14:48:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.134.164.104
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8592C25D8E1;
+	Tue, 25 Mar 2025 16:32:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742914119; cv=none; b=WCIZcf/J6xLyKMhw7RkZpROqvG7hNUm3/9Nc8Q8OyzgW9Z02jYJ6twAij3RNurB21fYAj11QiDfE1UPy4glx/Tx5Nw3POAvIa8aaDcn25qk5o1Nvpnp7R+1jQwt49gJRPD6IjIzLrw+5XEnHp1f6v7OoFIOLXCgozV8wvjBJvDk=
+	t=1742920372; cv=none; b=Du/eJdUPAKTXXw7wQtFswr87CA5IrO4t8CYjcSZkmfT9+AoYchEHmeLN0G8UEtVbZpVB9hfCDblEKFd0Le7SCuJosxTId/0RF0rRMdxr8R/m43JxZFWjpDKM/GgqDFvoaESNGbNHE13QHyf4lLQ6YjARJqywi1E66Hjse4KG0UY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742914119; c=relaxed/simple;
-	bh=UZFUKqD7TvXqs1PjEvK5UH6b4H3mZeamy4ovhKEe7Ok=;
-	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=arHWNKV/jyvwA4IvoZ9TNluMGB2Bl4GWtirqWMDIDEJ0NufhDVTxIRUD5RgpSlmCXYD6HvnpqNypUARUzuEE5VvX7CwASXOZS4gX6Rha6iLMdw2BmyEzGG1rXeih+SikFWgKyl9+z5gGqRMFatYoI2OanjS6RkP7LcoOTwtE1YE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr; spf=pass smtp.mailfrom=inria.fr; dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b=l39UYrJ9; arc=none smtp.client-ip=192.134.164.104
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=inria.fr
+	s=arc-20240116; t=1742920372; c=relaxed/simple;
+	bh=NSec+iBcn7Q/AJxbbFrWQy9WdryMOTeKoH6dL/cAgaQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=BvLyHCpasSz6OWQX19h/8hXLzt20ccpNQFGNl6gmdudF/BBCHOqv1POMgGMryWUFxOXajJO4DcDIqg0IaHhuj+jNsuZcT7Pgx8hFXvnFyDeUstSTegP3CkDkacd7QkyDiGnJEQ7oNFFA6lB5mnhylBWZkC+K7GLhSd86uS/N7IU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QK9w8PHe; arc=none smtp.client-ip=209.85.208.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b="l39UYrJ9"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QK9w8PHe"
+Received: by mail-ed1-f41.google.com with SMTP id 4fb4d7f45d1cf-5e60cfef9cfso8793083a12.2;
+        Tue, 25 Mar 2025 09:32:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=inria.fr; s=dc;
-  h=date:from:to:cc:subject:in-reply-to:message-id:
-   references:mime-version;
-  bh=41soCjDrG3FSVv9OmKfvp+WD+OsDqWFbQpmc7iB5Js4=;
-  b=l39UYrJ9JpZOLN7BxZgx96VdrOwT2Tt2AoTcgLcngIaKdJhmWWczSTbD
-   IDkY9JlMH2/YhakS//gO/uiLDFcZCmSIs/a8sAkuZ7MfKkE8KKppNREZT
-   kS7isg+riEWRZPdm8QAttuLXCeyiC1CiviexbQRpt5jNfIHd7yOIujV1n
-   8=;
-Authentication-Results: mail3-relais-sop.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=julia.lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
-X-IronPort-AV: E=Sophos;i="6.14,275,1736809200"; 
-   d="scan'208";a="112560809"
-Received: from dt-lawall.paris.inria.fr ([128.93.67.65])
-  by mail3-relais-sop.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Mar 2025 15:48:29 +0100
-Date: Tue, 25 Mar 2025 15:48:28 +0100 (CET)
-From: Julia Lawall <julia.lawall@inria.fr>
-To: Abraham Samuel Adekunle <abrahamadekunle50@gmail.com>
-cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, outreachy@lists.linux.dev, 
-    linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: rtl8723bs: remove unnecessary else block after
- return
-In-Reply-To: <Z+LA2eeFRL+K0KCy@HP-650>
-Message-ID: <4661d7d1-323b-c121-93cc-77f462a54bb5@inria.fr>
-References: <Z+LA2eeFRL+K0KCy@HP-650>
+        d=gmail.com; s=20230601; t=1742920369; x=1743525169; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=4odgKTupI6gjEJZNLy+RWifMVtAgdHPam3xHzX2/tcs=;
+        b=QK9w8PHeC4qQDMUQxwZCiFGOK34+c3XOL4JSFKC+VOioaOyXpL8U2x+QxorBtCjMMw
+         KfwcSJwQNLIqaOLAr8BV+1gl++5me6Qr6oP0YyscYfZSEgMO2JakHnSoYYLfXP+3GUu2
+         2d/DOH3jhUWejWVu98fpvfCf+OesV0FB/lmtzE5/OhhNN7agYqao7ZvPC0p1CscrxJss
+         De4tyYbZVZKsGOubrw/ywwaKWzjE7uzZStilIWdi9kT9Uk8v4SnL01ZTog9N8QFH1kWs
+         SRGBqpBQx6nT5tg662c0xiOg0a3d3gwE9Rd8GGAox+l9bFjhRRxB8Nf3bHVU9ls3Mt8Y
+         B/qA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1742920369; x=1743525169;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=4odgKTupI6gjEJZNLy+RWifMVtAgdHPam3xHzX2/tcs=;
+        b=rboESOSnBe+LpixeY8yU0mQou+gg/f7OYqO3fGlqXvhoXgYWgb7n+sb8hbfU6b0MHv
+         Ss4sNpWDYzWMBv+U8NQ2kJYcUhERMpmO9iZLTp77PNmN65f6pYQGZCCgAp5D5MKw3Vih
+         kCScFTJbY4NXNGctn9InVCThak9PqPOjVY2dKW7bfUe5mVk6zC1ITSLVfZv2ttMPXqjD
+         xJxhe8fuGFAfaz13gW3+LzyWObcFMaI3nH+DcyjSut8dTRSJgE/r7StuVhQb7yrCZTFD
+         FTtTwbd7iSEjtpXeuhpsfprxjQT2ZJgrRoUC0dd89+fTpIM9+5tk5lapHwox6UOjBF3i
+         Aa6w==
+X-Forwarded-Encrypted: i=1; AJvYcCVNUK60uY4tSeu75W+cQdMGsMiBdXR9y8lkszL4YC+qVSzR8feEoTOszkNc7cX1+DtmA6oIn81SSjE=@lists.linux.dev
+X-Gm-Message-State: AOJu0Yz0ckc86ZsC8qr5WX1mIliMhTGa2yE7HJr0oT+AuciVd2R6uNuG
+	JqML05m6FL4aL4ChW8/8JcD4ExlF8hIj7QQ8Lwb7scp/U6SK24NMdgSJX8yF
+X-Gm-Gg: ASbGncuB3DkI+VNY911Aidfcu7QiVBXvONfmGhPAF++HI21tXmTSJbxw/RPFb11XZDe
+	xQC85nAQtVO5VzoLkwfxiaNl7YQSiBgSWcd+IcRBIOrM7bGGvxaArJK4Z9Qkpt6jfEZl8ZQDlY8
+	wV8p5JsAgaaQY/yQyVQJL2eePDzRmoAX31Zv0azSi8jxxTxLKSpyT4z6C+9wrhIppRmnBBDL9kZ
+	kAVBe9viPOgJxHbJH2APQ5WF1BNWzXnMpNnH6jYuqffFQUNj3N7hA7efnxx7ADK6b2q+vf8CYeL
+	sa1aprbFX/mIlXarl5zEgPAePGUoL9eXtG/cYFUqSCC+LaziJQ==
+X-Google-Smtp-Source: AGHT+IHVgHE8zQfANSq9zhdazHfrmTIr8aqswsXlpCS61/JJ0ZXz7XZidItYALPPaLUJjU2St1EgHA==
+X-Received: by 2002:a05:6402:13d0:b0:5eb:9673:feb with SMTP id 4fb4d7f45d1cf-5ebcd4f8250mr15323553a12.25.1742920368472;
+        Tue, 25 Mar 2025 09:32:48 -0700 (PDT)
+Received: from HP-650 ([105.112.117.141])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5ebcd0c7157sm8011720a12.60.2025.03.25.09.32.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 25 Mar 2025 09:32:48 -0700 (PDT)
+Date: Tue, 25 Mar 2025 17:32:31 +0100
+From: Abraham Samuel Adekunle <abrahamadekunle50@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	outreachy@lists.linux.dev, Julia Lawall <julia.lawal@inria.fr>
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: [PATCH] staging: rtl8723bs: remove braces around single statements
+Message-ID: <Z+Lan0xeQd3m5ejY@HP-650>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
+The code contains braces around single statements in the if blocks
+which are unnecessary according to the Linux kernel coding style.
 
+Remove the braces to improve readability and maintain consistency.
 
-On Tue, 25 Mar 2025, Abraham Samuel Adekunle wrote:
+Reported by checkpatch:
 
-> The else block after the return statement is unnecessary since
-> execution does not continue past the return statement.
->
-> Remove the else block while preserving logic making the code cleaner
-> and more readable.
->
-> reported by checkpatch:
->
-> WARNING: else is not generally useful after a break or return
->
-> Signed-off-by: Abraham Samuel Adekunle <abrahamadekunle50@gmail.com>
+WARNING: braces {} are not necessary for single statement blocks
 
-Reviewed-by: Julia Lawall <julia.lawall@inria.fr>,
+Signed-off-by: Abraham Samuel Adekunle <abrahamadekunle50@gmail.com>
+---
+ drivers/staging/rtl8723bs/core/rtw_pwrctrl.c | 7 +++----
+ 1 file changed, 3 insertions(+), 4 deletions(-)
 
-> ---
->  drivers/staging/rtl8723bs/core/rtw_mlme.c | 10 +++++-----
->  1 file changed, 5 insertions(+), 5 deletions(-)
->
-> diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme.c b/drivers/staging/rtl8723bs/core/rtw_mlme.c
-> index 5ded183aa08c..91c6a962f7e8 100644
-> --- a/drivers/staging/rtl8723bs/core/rtw_mlme.c
-> +++ b/drivers/staging/rtl8723bs/core/rtw_mlme.c
-> @@ -2022,12 +2022,12 @@ signed int rtw_restruct_sec_ie(struct adapter *adapter, u8 *in_ie, u8 *out_ie, u
->  	}
->
->  	iEntry = SecIsInPMKIDList(adapter, pmlmepriv->assoc_bssid);
-> -	if (iEntry < 0) {
-> +	if (iEntry < 0)
->  		return ielength;
-> -	} else {
-> -		if (authmode == WLAN_EID_RSN)
-> -			ielength = rtw_append_pmkid(adapter, iEntry, out_ie, ielength);
-> -	}
-> +
-> +	if (authmode == WLAN_EID_RSN)
-> +		ielength = rtw_append_pmkid(adapter, iEntry, out_ie, ielength);
-> +
->  	return ielength;
->  }
->
-> --
-> 2.34.1
->
->
+diff --git a/drivers/staging/rtl8723bs/core/rtw_pwrctrl.c b/drivers/staging/rtl8723bs/core/rtw_pwrctrl.c
+index c60e179bb2e1..b17b295e8d3c 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_pwrctrl.c
++++ b/drivers/staging/rtl8723bs/core/rtw_pwrctrl.c
+@@ -56,9 +56,9 @@ int _ips_leave(struct adapter *padapter)
+ 		pwrpriv->ips_leave_cnts++;
+ 
+ 		result = rtw_ips_pwr_up(padapter);
+-		if (result == _SUCCESS) {
++		if (result == _SUCCESS)
+ 			pwrpriv->rf_pwrstate = rf_on;
+-		}
++
+ 		pwrpriv->bips_processing = false;
+ 
+ 		pwrpriv->bkeepfwalive = false;
+@@ -549,9 +549,8 @@ void LeaveAllPowerSaveMode(struct adapter *Adapter)
+ 
+ 		LPS_Leave_check(Adapter);
+ 	} else {
+-		if (adapter_to_pwrctl(Adapter)->rf_pwrstate == rf_off) {
++		if (adapter_to_pwrctl(Adapter)->rf_pwrstate == rf_off)
+ 			ips_leave(Adapter);
+-		}
+ 	}
+ }
+ 
+-- 
+2.34.1
+
