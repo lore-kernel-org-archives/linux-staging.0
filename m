@@ -1,117 +1,169 @@
-Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8592C25D8E1;
-	Tue, 25 Mar 2025 16:32:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C688193086
+	for <linux-staging@lists.linux.dev>; Tue, 25 Mar 2025 21:33:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742920372; cv=none; b=Du/eJdUPAKTXXw7wQtFswr87CA5IrO4t8CYjcSZkmfT9+AoYchEHmeLN0G8UEtVbZpVB9hfCDblEKFd0Le7SCuJosxTId/0RF0rRMdxr8R/m43JxZFWjpDKM/GgqDFvoaESNGbNHE13QHyf4lLQ6YjARJqywi1E66Hjse4KG0UY=
+	t=1742938397; cv=none; b=tKny5jJMW5eLyNEQHQcKxVk0k+cTCVIXaFVsjOIwZ1t/Kfhg+Cq8WGfMbW48q1+P7yET5i2Q53lYJK6TlB5WdqntrJoUY+39NFlpPeG3xXlBPwcXTW9heDx1k/oy79mv851EpEmoLgN0fUTsgF3CNsKiyziDbpgfdC9VSf1VuUU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742920372; c=relaxed/simple;
-	bh=NSec+iBcn7Q/AJxbbFrWQy9WdryMOTeKoH6dL/cAgaQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=BvLyHCpasSz6OWQX19h/8hXLzt20ccpNQFGNl6gmdudF/BBCHOqv1POMgGMryWUFxOXajJO4DcDIqg0IaHhuj+jNsuZcT7Pgx8hFXvnFyDeUstSTegP3CkDkacd7QkyDiGnJEQ7oNFFA6lB5mnhylBWZkC+K7GLhSd86uS/N7IU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QK9w8PHe; arc=none smtp.client-ip=209.85.208.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1742938397; c=relaxed/simple;
+	bh=8NRPCHR6JNw369gLermxb0yx+vv0DC6gM487kHYtqlk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=eOPadfJcVLdv61bQeCpqP7Pz9n2MfoZoiOauYOq/OFqZen8Dfmzd5XzrlyJwvRgDVzFPYBsT+Vp/Sw/sfBsJXLl5Y7hWGkyiw+UAPlUiKpsE6IMLlGl6DIVDJKqJqEbZHfrpsihmS+r5Dx0GwQq0QseHrhnA7wb+o8O8s1KApmA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=lRKqKZyB; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QK9w8PHe"
-Received: by mail-ed1-f41.google.com with SMTP id 4fb4d7f45d1cf-5e60cfef9cfso8793083a12.2;
-        Tue, 25 Mar 2025 09:32:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1742920369; x=1743525169; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=4odgKTupI6gjEJZNLy+RWifMVtAgdHPam3xHzX2/tcs=;
-        b=QK9w8PHeC4qQDMUQxwZCiFGOK34+c3XOL4JSFKC+VOioaOyXpL8U2x+QxorBtCjMMw
-         KfwcSJwQNLIqaOLAr8BV+1gl++5me6Qr6oP0YyscYfZSEgMO2JakHnSoYYLfXP+3GUu2
-         2d/DOH3jhUWejWVu98fpvfCf+OesV0FB/lmtzE5/OhhNN7agYqao7ZvPC0p1CscrxJss
-         De4tyYbZVZKsGOubrw/ywwaKWzjE7uzZStilIWdi9kT9Uk8v4SnL01ZTog9N8QFH1kWs
-         SRGBqpBQx6nT5tg662c0xiOg0a3d3gwE9Rd8GGAox+l9bFjhRRxB8Nf3bHVU9ls3Mt8Y
-         B/qA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742920369; x=1743525169;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=4odgKTupI6gjEJZNLy+RWifMVtAgdHPam3xHzX2/tcs=;
-        b=rboESOSnBe+LpixeY8yU0mQou+gg/f7OYqO3fGlqXvhoXgYWgb7n+sb8hbfU6b0MHv
-         Ss4sNpWDYzWMBv+U8NQ2kJYcUhERMpmO9iZLTp77PNmN65f6pYQGZCCgAp5D5MKw3Vih
-         kCScFTJbY4NXNGctn9InVCThak9PqPOjVY2dKW7bfUe5mVk6zC1ITSLVfZv2ttMPXqjD
-         xJxhe8fuGFAfaz13gW3+LzyWObcFMaI3nH+DcyjSut8dTRSJgE/r7StuVhQb7yrCZTFD
-         FTtTwbd7iSEjtpXeuhpsfprxjQT2ZJgrRoUC0dd89+fTpIM9+5tk5lapHwox6UOjBF3i
-         Aa6w==
-X-Forwarded-Encrypted: i=1; AJvYcCVNUK60uY4tSeu75W+cQdMGsMiBdXR9y8lkszL4YC+qVSzR8feEoTOszkNc7cX1+DtmA6oIn81SSjE=@lists.linux.dev
-X-Gm-Message-State: AOJu0Yz0ckc86ZsC8qr5WX1mIliMhTGa2yE7HJr0oT+AuciVd2R6uNuG
-	JqML05m6FL4aL4ChW8/8JcD4ExlF8hIj7QQ8Lwb7scp/U6SK24NMdgSJX8yF
-X-Gm-Gg: ASbGncuB3DkI+VNY911Aidfcu7QiVBXvONfmGhPAF++HI21tXmTSJbxw/RPFb11XZDe
-	xQC85nAQtVO5VzoLkwfxiaNl7YQSiBgSWcd+IcRBIOrM7bGGvxaArJK4Z9Qkpt6jfEZl8ZQDlY8
-	wV8p5JsAgaaQY/yQyVQJL2eePDzRmoAX31Zv0azSi8jxxTxLKSpyT4z6C+9wrhIppRmnBBDL9kZ
-	kAVBe9viPOgJxHbJH2APQ5WF1BNWzXnMpNnH6jYuqffFQUNj3N7hA7efnxx7ADK6b2q+vf8CYeL
-	sa1aprbFX/mIlXarl5zEgPAePGUoL9eXtG/cYFUqSCC+LaziJQ==
-X-Google-Smtp-Source: AGHT+IHVgHE8zQfANSq9zhdazHfrmTIr8aqswsXlpCS61/JJ0ZXz7XZidItYALPPaLUJjU2St1EgHA==
-X-Received: by 2002:a05:6402:13d0:b0:5eb:9673:feb with SMTP id 4fb4d7f45d1cf-5ebcd4f8250mr15323553a12.25.1742920368472;
-        Tue, 25 Mar 2025 09:32:48 -0700 (PDT)
-Received: from HP-650 ([105.112.117.141])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5ebcd0c7157sm8011720a12.60.2025.03.25.09.32.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 25 Mar 2025 09:32:48 -0700 (PDT)
-Date: Tue, 25 Mar 2025 17:32:31 +0100
-From: Abraham Samuel Adekunle <abrahamadekunle50@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	outreachy@lists.linux.dev, Julia Lawall <julia.lawal@inria.fr>
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH] staging: rtl8723bs: remove braces around single statements
-Message-ID: <Z+Lan0xeQd3m5ejY@HP-650>
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="lRKqKZyB"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1742938393;
+	bh=8NRPCHR6JNw369gLermxb0yx+vv0DC6gM487kHYtqlk=;
+	h=From:To:Cc:Subject:Date:From;
+	b=lRKqKZyBfdIpiAdYDEHHRp99ohsi2LRzkt86NuZc3zI6pKFL/7d5jJFyBeUQJGVvf
+	 vSIdiSoa7padRTxzqbWVAq40AH5CuytZiAFMSUlJhnxx0laua3hMDRVfCMkkDO7Jwl
+	 N7J+fIPW0owpoK2FZom6WjCOjNJql3KW/EmDPnEkwwrrXlcN5AEwPQp+dPS8i723Pf
+	 IiGp0zeU/C32jZip+0sBTF2q6BYgsbLke0SdmRsXKJ+VG+TZRRgv6TdPLlZWB1HG07
+	 wl+jS1xy6i5MFjdco64pOgUQOrghKtujFgnqRaqf+AdqrXq5OTDibvG0j+6WKuQ5Vt
+	 fUaYp8UYroQOg==
+Received: from trenzalore.hitronhub.home (unknown [23.233.251.139])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: detlev)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id 87C2D17E0865;
+	Tue, 25 Mar 2025 22:33:09 +0100 (CET)
+From: Detlev Casanova <detlev.casanova@collabora.com>
+To: linux-kernel@vger.kernel.org
+Cc: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Heiko Stuebner <heiko@sntech.de>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Hans Verkuil <hverkuil@xs4all.nl>,
+	Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+	Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
+	Jonas Karlman <jonas@kwiboo.se>,
+	Sebastian Reichel <sebastian.reichel@collabora.com>,
+	Niklas Cassel <cassel@kernel.org>,
+	Alexey Charkov <alchark@gmail.com>,
+	Dragan Simic <dsimic@manjaro.org>,
+	Jianfeng Liu <liujianfeng1994@gmail.com>,
+	Detlev Casanova <detlev.casanova@collabora.com>,
+	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Kieran Bingham <kieran.bingham@ideasonboard.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Umang Jain <umang.jain@ideasonboard.com>,
+	Naushir Patuck <naush@raspberrypi.com>,
+	Jean-Michel Hautbois <jeanmichel.hautbois@ideasonboard.com>,
+	Dmitry Perchanov <dmitry.perchanov@intel.com>,
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+	linux-media@vger.kernel.org,
+	linux-rockchip@lists.infradead.org,
+	devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-staging@lists.linux.dev,
+	kernel@collabora.com
+Subject: [PATCH v4 0/6] media: rockchip: Add rkvdec2 driver
+Date: Tue, 25 Mar 2025 17:22:16 -0400
+Message-ID: <20250325213303.826925-1-detlev.casanova@collabora.com>
+X-Mailer: git-send-email 2.49.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-The code contains braces around single statements in the if blocks
-which are unnecessary according to the Linux kernel coding style.
+Add a rkvdec2 driver for newer video decoder found on rk3588 based SoC.
 
-Remove the braces to improve readability and maintain consistency.
+It is also found on other hardware like the RK356x, but not tested yet,
+so it will be added later.
 
-Reported by checkpatch:
+It only supports h264 format only for now, hevc will come later.
+Yuv420 and yuv422 are both supported. 8 and 10 bits format are also
+supported.
+The NV15 and NV20 pixel formats are supported in v4l2 with the first
+patch of this series. It has been picked up from [1].
 
-WARNING: braces {} are not necessary for single statement blocks
+The driver supports using the IOMMU through the rockchip IOMMU driver.
+Because the IOMMU HW will be resetted in case of a decoding error, the
+IOMMU mappings are rewritten on the HW by switching to an empty IOMMU
+domain, then switching back to the default one.
+This is one of the ways that has been recommended in [2].
 
-Signed-off-by: Abraham Samuel Adekunle <abrahamadekunle50@gmail.com>
----
- drivers/staging/rtl8723bs/core/rtw_pwrctrl.c | 7 +++----
- 1 file changed, 3 insertions(+), 4 deletions(-)
+[1]: https://lore.kernel.org/linux-media/20250225-rkvdec_h264_high10_and_422_support-v7-2-7992a68a4910@collabora.com/
+[2]: https://lore.kernel.org/all/9bd56bd6-ce7d-495f-9bb3-ce7f07975f62@arm.com/
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_pwrctrl.c b/drivers/staging/rtl8723bs/core/rtw_pwrctrl.c
-index c60e179bb2e1..b17b295e8d3c 100644
---- a/drivers/staging/rtl8723bs/core/rtw_pwrctrl.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_pwrctrl.c
-@@ -56,9 +56,9 @@ int _ips_leave(struct adapter *padapter)
- 		pwrpriv->ips_leave_cnts++;
- 
- 		result = rtw_ips_pwr_up(padapter);
--		if (result == _SUCCESS) {
-+		if (result == _SUCCESS)
- 			pwrpriv->rf_pwrstate = rf_on;
--		}
-+
- 		pwrpriv->bips_processing = false;
- 
- 		pwrpriv->bkeepfwalive = false;
-@@ -549,9 +549,8 @@ void LeaveAllPowerSaveMode(struct adapter *Adapter)
- 
- 		LPS_Leave_check(Adapter);
- 	} else {
--		if (adapter_to_pwrctl(Adapter)->rf_pwrstate == rf_off) {
-+		if (adapter_to_pwrctl(Adapter)->rf_pwrstate == rf_off)
- 			ips_leave(Adapter);
--		}
- 	}
- }
- 
+Changes since v3:
+- Add IOMMU support
+- Add 4:2:2 and 10 bits support
+- Move cabac to v4l2 header
+- Imported improvements from [1]
+- Improve timeout value computation
+- Improve clocks handling
+- Always write scanlist buffer address in register
+- Rebased on latest master
+
+Changes since v2:
+- doc: Disable resets and sram for other platforms, add maxItems for
+  clocks
+- Fix h264 spec equation number in comment
+- Remove superfluous status field in dtsi
+- Add TODO item for IOMMU
+
+Changes since v1:
+- Add support for RCB in SRAM
+- Move bindings to rockchip,vdec.yaml
+- Add resets bindings
+- Add second core and enable them from dtsi file
+- Only expose one video device to userspace (but don't support multicore yet)
+- Share CABAC table with rkvdec
+- Fix iowrite32 call and add preliminary support for arm
+- Remove unused code
+- Improve registers naming and code style
+- Remove DMA_ATTR_ALLOC_SINGLE_PAGES flag
+
+
+Detlev Casanova (5):
+  media: v4l2-ctrls-core: Set frame_mbs_only_flag by default in h264 SPS
+  media: rockchip: Move H264 CABAC table to header file
+  media: rockchip: Introduce the rkvdec2 driver
+  media: dt-bindings: rockchip: Document RK3588 Video Decoder bindings
+  arm64: dts: rockchip: Add rkvdec2 Video Decoder on rk3588(s)
+
+Jonas Karlman (1):
+  media: v4l2: Add NV15 and NV20 pixel formats
+
+ .../bindings/media/rockchip,vdec.yaml         |   73 +-
+ .../media/v4l/pixfmt-yuv-planar.rst           |  128 ++
+ arch/arm64/boot/dts/rockchip/rk3588-base.dtsi |   74 +
+ drivers/media/platform/rockchip/Kconfig       |    1 +
+ drivers/media/platform/rockchip/Makefile      |    1 +
+ .../media/platform/rockchip/rkvdec2/Kconfig   |   15 +
+ .../media/platform/rockchip/rkvdec2/Makefile  |    3 +
+ .../platform/rockchip/rkvdec2/rkvdec2-h264.c  |  778 +++++++++
+ .../platform/rockchip/rkvdec2/rkvdec2-regs.h  |  347 ++++
+ .../media/platform/rockchip/rkvdec2/rkvdec2.c | 1424 +++++++++++++++++
+ .../media/platform/rockchip/rkvdec2/rkvdec2.h |  150 ++
+ drivers/media/v4l2-core/v4l2-common.c         |    2 +
+ drivers/media/v4l2-core/v4l2-ctrls-core.c     |   13 +
+ drivers/media/v4l2-core/v4l2-ioctl.c          |    2 +
+ drivers/staging/media/rkvdec/rkvdec-h264.c    |  500 +-----
+ include/media/v4l2-cabac/rkvdec-cabac.h       |  509 ++++++
+ include/uapi/linux/videodev2.h                |    2 +
+ 17 files changed, 3522 insertions(+), 500 deletions(-)
+ create mode 100644 drivers/media/platform/rockchip/rkvdec2/Kconfig
+ create mode 100644 drivers/media/platform/rockchip/rkvdec2/Makefile
+ create mode 100644 drivers/media/platform/rockchip/rkvdec2/rkvdec2-h264.c
+ create mode 100644 drivers/media/platform/rockchip/rkvdec2/rkvdec2-regs.h
+ create mode 100644 drivers/media/platform/rockchip/rkvdec2/rkvdec2.c
+ create mode 100644 drivers/media/platform/rockchip/rkvdec2/rkvdec2.h
+ create mode 100644 include/media/v4l2-cabac/rkvdec-cabac.h
+
 -- 
-2.34.1
+2.49.0
 
