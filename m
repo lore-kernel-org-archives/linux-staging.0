@@ -1,166 +1,143 @@
-Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C14E1B4248
-	for <linux-staging@lists.linux.dev>; Sun, 23 Mar 2025 22:46:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8695D253F11;
+	Tue, 25 Mar 2025 09:12:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742769995; cv=none; b=jBGy1n+BdCP+poh2J/V888dq6lVELpAOSB0sONArmA5giOEAjC23KEiqslFnBRfuhmbvmwyP/n/pOAVOD59/c8Rtp8Nj/sosh+UzyP6CKTEC6pOWedHtd/ysyhOVDGecjMmSBehT4MQnsGtAjbYc2IStQgmEN+aRadVx5q8tPTM=
+	t=1742893954; cv=none; b=M1Dy4VvKPZeg+ehLs7pYMi0pMYwEYWbJ89DjHMhu4q8z9Ilx02Zd8YOftI1wGcjECMVY1A1f7lbLq5wy/gRkYlgU5QQKUmJxDLukvMRgmGklv7eIsURLVmEhaojoHpOesvVYpMR1dOwbNg9wVBht6DiJbwd4Xaen9SEnVPj+dDc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742769995; c=relaxed/simple;
-	bh=ccm0vWMDBLowOtsgeC0Np4Dq+ieIsmlaDmtQ0vxCKuc=;
-	h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=BdAESbjPhxY82I+m4t+7dedxKtnTxx7L92fBPc3s2pFP+kadw7t2syjna3jItCVONE72jjYpd/+q9uQB4P8mFqAwqM1cXuSLOG46bDzgowQPmgSJQU+ehINdtyC8T3X3bjWepMQOS0WQ70Z51VsOqWDpk3m/XMQc2RYIWJJXD3M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Oe6TxWCJ; arc=none smtp.client-ip=209.85.216.46
+	s=arc-20240116; t=1742893954; c=relaxed/simple;
+	bh=Y+R2XUXKPUXHCHG5wKcBEc2R6T2CDrGeZxqUGTT8EXs=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=HVIMRXltEA5pg6ab34qF2P2XWwVXBkazryt3Ci+o4ZTH8YdRe2B4vnGxO8foewoWcadheGmnU3gVzFDaVSEVMVtC6Aj1Mhk8MDbQZq753mw7xvcRuIyb2c/7C3NLQf3vXJMGIAxLGTyiQ3jiB7H+aT2/xjVBWNElVx+QIXHdsek=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=m/FAVMzj; arc=none smtp.client-ip=209.85.128.46
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Oe6TxWCJ"
-Received: by mail-pj1-f46.google.com with SMTP id 98e67ed59e1d1-301d6cbbd5bso6448849a91.3
-        for <linux-staging@lists.linux.dev>; Sun, 23 Mar 2025 15:46:33 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="m/FAVMzj"
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-43cf06eabdaso48864655e9.2;
+        Tue, 25 Mar 2025 02:12:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1742769993; x=1743374793; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:to:from:date
-         :sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=YQbIxlTNY+cHu7R6IhUq3rHgE0kIfvcWVGQIcjca71s=;
-        b=Oe6TxWCJnhYQBa0eK5A7fwTtdEGcFa+9ni7HqVj79D+mCyRacoDFnUpNOcWGJc+iDz
-         UY+qAMJ+CKJEQtrrd7YqIia2XYR9fSjVf3ysZtSyJHEun4zJBJldH/CbrLSlTLMxYEob
-         ad9rnhAbDm6gI5Xe149wgfJuPx0XOQvAM/xjQj0pqRe1wW9us9kZHW3zBGcZrBSZg1eO
-         9PiwzJHIj4Rom0itbp95f2f9U8pfVvAtc7H827RDXHzHttGZSn8vcY9pjgqdqNzxhUg2
-         +cuk8D3iSOGBDqXhYcP8JzBSNGqEuK7ba47m47IFYP6wSJoJAts26X2DnizX7woHvAN/
-         1yjA==
+        d=gmail.com; s=20230601; t=1742893951; x=1743498751; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=igKVCuJLDlRqPK4T2ULZyQbzlrghPqNKipcFpBAoGp4=;
+        b=m/FAVMzj2+Q/eftE3Korhk3BBxNV/J/GdWYZnd4lOTDwYcDWReGXvNPIZAq0/s5p4M
+         Aiu1sEDxAZ2Z+pw6tobTQ8WYS+Z0WqocAHPWX5FmikMoNpVNDHncA9c+mUePoazMhft6
+         D/6rRr7lCn+VNIHzz+f9HfwKRF/xVd111EcpvfpLRt3wn+1YvDZB16QJIVcxNZxm7pH+
+         1QrmvD0OGwFLTYk0W8I2gTo4Zy87cd+SnOy2UeGdeot8y3j5H/9mYDpPhC/GILqKya/n
+         jEavDnQNmngIRGrzWITtQo/lQJacz7fVmXOkFeYqCj9jL2d2JompoFxvcXtym7XInGXe
+         diOg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742769993; x=1743374793;
-        h=content-disposition:mime-version:message-id:subject:to:from:date
-         :sender:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20230601; t=1742893951; x=1743498751;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=YQbIxlTNY+cHu7R6IhUq3rHgE0kIfvcWVGQIcjca71s=;
-        b=C4TMUu/ElKRdieEZ1i8E4l4YL/Ppp0PBWXkjP3VZ+btD8o1PLVydqN1EMemhN7vayq
-         QtJUsq+yRGi0ezU6DzsIbR9sJbjsl6TBLNQbZcI8wB2XjHVheHUB6F08RURpgsZz2Xr8
-         3I60aggVUeVigN8nBe2fYmIoeoifTcq9ycLrUaNGHagKIQw9QAjYZkZsgSaSk4/27rh7
-         sSgPhbRFfzFqRscnTavp0pjSNc/eMs+5ZzcTtxvbmYFLI/udno8da851K256hLMbrZR3
-         jTWYs2lG2h+Cs5/fgd7JBtPHxxn75Q6p+BlfoeWFiF6npdhK947/OyCOSna+7xMyraUc
-         csfw==
-X-Forwarded-Encrypted: i=1; AJvYcCX6WYUnHgNi1+KGpSi9CsWHLAesPKlOWST0rug1mEuP+ACwDJDUcEgHqGeoZMc8s4vnpJNcb+GW1tsCYdgL@lists.linux.dev
-X-Gm-Message-State: AOJu0YwcAbIiLcqtbRoAxrUO7reEW5MgF4gYJeam+C4o62jBN8MlxhPi
-	bt05Yql+ZbiHNhzCwnmfHIwnUL9bp1EYWzDD30cMO/LQKFxCxRp7
-X-Gm-Gg: ASbGncslo47V/lgMSlk6RxQ3egfMZr5dV//y3jJ044u5fadFHsr9LMdi8PIjFVwRu6w
-	UKAHVBbvEnvu4EmasjHenQN1vEhuOvdXa5C2pPcuk/MXLNHJGIoMithXY4+DXB5YVWTw7nX4fQJ
-	CJZjQHBg67A4koKRVP+maAkKX9M3d7D+946FKPD+7/Yje9kiaDRDo1KOC8Pv6xCWE4n7ARmUQ7A
-	gqbR0/+6WJMKRUAuQorU+5vyZnkILf2ZpKObUkYu/fCch5v+Wo/Fq3uu5i9kd6Mc2WUOBnN99nY
-	VgPE+FAvhT51hx5cfh+Qt/8TSjPTfCHddr8DuQui/iwAISIOJ5X0OONSb5M/0W4u8vVa97Ll7q7
-	Ya0H6GHKtZV5WoBfrppQ=
-X-Google-Smtp-Source: AGHT+IEzb/FSn36rD8g3bjC3CLhUP4bXdLZq4w66P1jvHqoP8f7Ex/B/4Qt/Da6+yywl+F0R0SDUjw==
-X-Received: by 2002:a17:90b:4c52:b0:2ff:6a5f:9b39 with SMTP id 98e67ed59e1d1-3030fea76f8mr16980734a91.18.1742769993320;
-        Sun, 23 Mar 2025 15:46:33 -0700 (PDT)
-Received: from fedora (c-66-235-14-182.sea.wa.customer.broadstripe.net. [66.235.14.182])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3030f5d4e46sm6589100a91.14.2025.03.23.15.46.32
+        bh=igKVCuJLDlRqPK4T2ULZyQbzlrghPqNKipcFpBAoGp4=;
+        b=oAhrmhmONb1o9PdJyk+zqMAN3z/4piv/op9KtHe4i7DWMzk0VxhW2ewehm4Xjmle/y
+         OcDvhyD7Gc8Opvcl2peoGsCeJTSGJCAftwaD0u6n1kqq+nQOznmVxG1ifEnqcMr6bteq
+         8vfCvKvle+mSw85sjQAxYy/2FbEdiRictNusP/bMt6OQysePx6iRz0gd7/8Gb/ddg4sB
+         C86uNL0+15g8s3qWCcumoE59v46PSXU7m/+97a7ZNU6LptXY9rCKz877AQaLiCO9EIWq
+         2Kqze0ONGT45Sfdf/vN9ooFhe2zgkSFJC0vYRCJj6QIMJqVD5q6MWGsIK/wdp1VViLY/
+         /s3Q==
+X-Forwarded-Encrypted: i=1; AJvYcCV/F2gwmqabuZtMcd3CNR31DdM/tlACzPF3UERAdv6XBH/Z2D97OGQxi7gr52A1WU3zD6Wl6lW5H+SH1k3T@lists.linux.dev, AJvYcCXV6OgV7v0HITkauEJFWsR30Y5WadXA9n1oOxbKiml8DWBB44xEiFXWFWcWB/C/Y7ka/Sh6cCaBmpYc@lists.linux.dev
+X-Gm-Message-State: AOJu0YzhrLmkLDMWny3xWlnVZtaAx0xp4Lj0eP7ZNxu7Pflft/Sih/Zg
+	KUJt4Bf8x84BwmdCMtqTmcjgy0Ml9+MwDyWJqnAdIXnJhaujx/D+GbK4sX8ap9U=
+X-Gm-Gg: ASbGncuTqvXp65Xb1LuvyKeKp2xgj6DukXln8ooaw29VwarQcU9qmJ9C+10RGFv0KcO
+	zZ+zY8cydirQZy4wdiHZDzNhExeFSxtxqmzj8rzZcXR0g2zKwr89U4q4e2xeW94D1BPF82OS04m
+	RWqSzb4Qpr29zEKQ+r8ocpVks6qjt+g2BAYFiRKzUdQEPA/HkfQHdLK1eZwLoCKv2rM9aaZ2ZzS
+	qwBoIxmTlgczdUGlXAt+6a1NnGitdDwoLq9UiCO3qQmACfJ3DsJrpBPadCShYFStm+CKTCs7Vh1
+	GEWT3zjtl13mqFyPOFBd0AMapinPanO3qloU2cl3Oq7J0wCiiGsw
+X-Google-Smtp-Source: AGHT+IGleKR5b6dcwSh19AN+MK7Lis1Bbe772oF9njIxdXkUMy0EbYz85aMlNWr739QKERhf8IKk9Q==
+X-Received: by 2002:a05:600c:1ca0:b0:43c:fd72:f039 with SMTP id 5b1f17b1804b1-43d58c9a7b1mr120065965e9.11.1742893950565;
+        Tue, 25 Mar 2025 02:12:30 -0700 (PDT)
+Received: from pc.. ([197.155.71.138])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43d4fd9decbsm144187305e9.27.2025.03.25.02.12.27
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 23 Mar 2025 15:46:32 -0700 (PDT)
-Sender: Justin Cromer <justin.cromer@gmail.com>
-Date: Sun, 23 Mar 2025 15:46:27 -0700
-From: Justin Cromer <justincromer@gmail.com>
-To: Sudip Mukherjee <sudipm.mukherjee@gmail.com>,
-	Teddy Wang <teddy.wang@siliconmotion.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] staging: sm750fb: fix casing style on getDeviceID
-Message-ID: <Z-CPQ7dGuTBZ3sWv@fedora>
+        Tue, 25 Mar 2025 02:12:29 -0700 (PDT)
+From: Erick Karanja <karanja99erick@gmail.com>
+To: gregkh@linuxfoundation.org,
+	outreachy@lists.linux.dev
+Cc: philipp.g.hortmann@gmail.com,
+	davidzalman.101@gmail.com,
+	vivek6429.ts@gmail.com,
+	viro@zeniv.linux.org.uk,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Erick Karanja <karanja99erick@gmail.com>
+Subject: [PATCH] staging: rtl8723bs: Rename variable supportRateNum
+Date: Tue, 25 Mar 2025 12:12:20 +0300
+Message-ID: <20250325091220.38601-1-karanja99erick@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-Fixes camel casing for getDeviceID function. This includes an update to
-the internal function variable 'deviceID' as it's relevant, needs updating,
-and is clearly scoped to the small function.
+Rename the variable `supportRateNum` to `support_rate_num` to adhere to
+Linux kernel coding standards by using snake_case instead of CamelCase.
 
-Signed-off-by: Justin Cromer <justincromer@gmail.com>
+Fixes checkpatch.pl warning:
+    CHECK: Avoid CamelCase: <supportRateNum>
+
+Signed-off-by: Erick Karanja <karanja99erick@gmail.com>
 ---
+ drivers/staging/rtl8723bs/core/rtw_ap.c | 15 ++++++++-------
+ 1 file changed, 8 insertions(+), 7 deletions(-)
 
-First patch for me, so I chose a checkpatch.pl issue to get comfortable
-with the workflow. Any and all nits welcome. 
-
-Verified my change by recompiling and loading the module in question.
-Additionaly, checkpatch.pl reports two fewer errors.
-
- drivers/staging/sm750fb/ddk750_dvi.c    |  2 +-
- drivers/staging/sm750fb/ddk750_sii164.c | 12 ++++++------
- drivers/staging/sm750fb/ddk750_sii164.h |  2 +-
- 3 files changed, 8 insertions(+), 8 deletions(-)
-
-diff --git a/drivers/staging/sm750fb/ddk750_dvi.c b/drivers/staging/sm750fb/ddk750_dvi.c
-index 8b81e8642f9e..3fb14eff2de1 100644
---- a/drivers/staging/sm750fb/ddk750_dvi.c
-+++ b/drivers/staging/sm750fb/ddk750_dvi.c
-@@ -16,7 +16,7 @@ static struct dvi_ctrl_device dcft_supported_dvi_controller[] = {
- 	{
- 		.init = sii164_init_chip,
- 		.get_vendor_id = sii164_get_vendor_id,
--		.get_device_id = sii164GetDeviceID,
-+		.get_device_id = sii164_get_device_id,
- #ifdef SII164_FULL_FUNCTIONS
- 		.reset_chip = sii164ResetChip,
- 		.get_chip_string = sii164GetChipString,
-diff --git a/drivers/staging/sm750fb/ddk750_sii164.c b/drivers/staging/sm750fb/ddk750_sii164.c
-index 2532b60245ac..d50c71824321 100644
---- a/drivers/staging/sm750fb/ddk750_sii164.c
-+++ b/drivers/staging/sm750fb/ddk750_sii164.c
-@@ -48,22 +48,22 @@ unsigned short sii164_get_vendor_id(void)
- }
- 
- /*
-- *  sii164GetDeviceID
-+ *  sii164_get_device_id
-  *      This function gets the device ID of the DVI controller chip.
-  *
-  *  Output:
-  *      Device ID
-  */
--unsigned short sii164GetDeviceID(void)
-+unsigned short sii164_get_device_id(void)
+diff --git a/drivers/staging/rtl8723bs/core/rtw_ap.c b/drivers/staging/rtl8723bs/core/rtw_ap.c
+index 50022bb5911e..5124260602c8 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_ap.c
++++ b/drivers/staging/rtl8723bs/core/rtw_ap.c
+@@ -370,7 +370,7 @@ void add_RATid(struct adapter *padapter, struct sta_info *psta, u8 rssi_level)
+ void update_bmc_sta(struct adapter *padapter)
  {
--	unsigned short deviceID;
-+	unsigned short device_id;
+ 	unsigned char network_type;
+-	int supportRateNum = 0;
++	int support_rate_num = 0;
+ 	unsigned int tx_ra_bitmap = 0;
+ 	struct mlme_priv *pmlmepriv = &padapter->mlmepriv;
+ 	struct mlme_ext_priv *pmlmeext = &padapter->mlmeextpriv;
+@@ -396,9 +396,9 @@ void update_bmc_sta(struct adapter *padapter)
+ 		/* psta->dot118021XPrivacy = _NO_PRIVACY_;//!!! remove it, because it has been set before this. */
  
--	deviceID = ((unsigned short)i2cReadReg(SII164_I2C_ADDRESS,
-+	device_id = ((unsigned short)i2cReadReg(SII164_I2C_ADDRESS,
- 					       SII164_DEVICE_ID_HIGH) << 8) |
- 		   (unsigned short)i2cReadReg(SII164_I2C_ADDRESS,
- 					      SII164_DEVICE_ID_LOW);
+ 		/* prepare for add_RATid */
+-		supportRateNum = rtw_get_rateset_len((u8 *)&pcur_network->supported_rates);
++		support_rate_num = rtw_get_rateset_len((u8 *)&pcur_network->supported_rates);
+ 		network_type = rtw_check_network_type((u8 *)&pcur_network->supported_rates,
+-						      supportRateNum,
++						      support_rate_num,
+ 						      pcur_network->configuration.ds_config
+ 		);
+ 		if (is_supported_tx_cck(network_type)) {
+@@ -893,7 +893,7 @@ int rtw_check_beacon_data(struct adapter *padapter, u8 *pbuf,  int len)
+ 	);
+ 	if (p) {
+ 		memcpy(supportRate, p + 2, ie_len);
+-		supportRateNum = ie_len;
++		support_rate_num = ie_len;
+ 	}
  
--	return deviceID;
-+	return device_id;
- }
+ 	/* get ext_supported rates */
+@@ -904,11 +904,12 @@ int rtw_check_beacon_data(struct adapter *padapter, u8 *pbuf,  int len)
+ 		pbss_network->ie_length - _BEACON_IE_OFFSET_
+ 	);
+ 	if (p) {
+-		memcpy(supportRate + supportRateNum, p + 2, ie_len);
+-		supportRateNum += ie_len;
++		memcpy(supportRate + support_rate_num, p + 2, ie_len);
++		support_rate_num += ie_len;
+ 	}
  
- /*
-@@ -141,7 +141,7 @@ long sii164_init_chip(unsigned char edge_select,
+-	network_type = rtw_check_network_type(supportRate, supportRateNum, channel);
++	network_type = rtw_check_network_type(supportRate, support_rate_num,
++					      channel);
  
- 	/* Check if SII164 Chip exists */
- 	if ((sii164_get_vendor_id() == SII164_VENDOR_ID) &&
--	    (sii164GetDeviceID() == SII164_DEVICE_ID)) {
-+	    (sii164_get_device_id() == SII164_DEVICE_ID)) {
- 		/*
- 		 *  Initialize SII164 controller chip.
- 		 */
-diff --git a/drivers/staging/sm750fb/ddk750_sii164.h b/drivers/staging/sm750fb/ddk750_sii164.h
-index 71a7c1cb42c4..a76091f6622b 100644
---- a/drivers/staging/sm750fb/ddk750_sii164.h
-+++ b/drivers/staging/sm750fb/ddk750_sii164.h
-@@ -28,7 +28,7 @@ long sii164_init_chip(unsigned char edgeSelect,
- 		      unsigned char pllFilterValue);
+ 	rtw_set_supported_rate(pbss_network->supported_rates, network_type);
  
- unsigned short sii164_get_vendor_id(void);
--unsigned short sii164GetDeviceID(void);
-+unsigned short sii164_get_device_id(void);
- 
- #ifdef SII164_FULL_FUNCTIONS
- void sii164ResetChip(void);
 -- 
-2.49.0
+2.43.0
 
