@@ -1,127 +1,100 @@
-Received: from mail2-relais-roc.national.inria.fr (mail2-relais-roc.national.inria.fr [192.134.164.83])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BF121F0E57;
-	Tue, 25 Mar 2025 09:43:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.134.164.83
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F6221A23AA;
+	Tue, 25 Mar 2025 10:12:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742895843; cv=none; b=Tz1UqrGrDLPEP9Xdi+6A+qtWwl8R0XnQPkXf/t9HSWtODqv/QmvaGt9pKY8PNFLz5gcvW94f/MrdZMr73YGYAMMS/fbjN8W07t7311/oOtdj6hnZllF+HoQXsSmyT5t4PDNDk8eEpySZuUlFVkSv0EBgi9NZj4jz53NYiHxBtPQ=
+	t=1742897525; cv=none; b=l3aogoGjEoTtq6vBN915AVsdwxHGi+JCLUe4t+12muyo7hiPfaAh9rms6pVHIL0a49N3gmCmM3A/YFqx5uvP6hgtBaAvBba7mR4F/vNoVcWhQ4mZeh6uxWPaxsb2pkTsUDX12aOoXrLM4rgQCapgBho6lCM7JebisSD+r8QDIx4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742895843; c=relaxed/simple;
-	bh=TYIKRFmySxjaYkrzWC6O+A1EEpgPYclffCAzpy/s7Go=;
-	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=t6em6me0nxQWyXfRJx6EOQzZmFOPk7OTi3Ist05u3EIbF+fjznUK9GN42ZBSX20vQTExNTTDjf/ew9h12cdQOoZGkiM323Lyr9t+ClAG1y70y0Cnrm7TdS01iY+GRZrk25B4qHoOpwjnqWyFUmQW8qgY6qzJzB6zFNEXFvJsjSw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr; spf=pass smtp.mailfrom=inria.fr; dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b=g4HCkfsF; arc=none smtp.client-ip=192.134.164.83
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=inria.fr
+	s=arc-20240116; t=1742897525; c=relaxed/simple;
+	bh=KpilHOOJo67Z4VWOQXgm4x9QaziC64Nge4Tp+ZLbApY=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=Y2bQx/36qumhULiLIVVZxdMT4ccVlk3P7NbZPJPOmLryyFnIubiDfLdKB7fH09Ej8Bb/D7NfPidiFzoqf4H0zAZCF1zYVgC6Jb8lAifWSxFNFPJF1r1fOMvHC4jp2Qvt54wyletFIjVPwKFzdcC+RV+5OHsEF6poM/VmnSjMw4w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=O6vQR2Fb; arc=none smtp.client-ip=209.85.218.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b="g4HCkfsF"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="O6vQR2Fb"
+Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-ac29fd22163so912108566b.3;
+        Tue, 25 Mar 2025 03:12:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=inria.fr; s=dc;
-  h=date:from:to:cc:subject:in-reply-to:message-id:
-   references:mime-version;
-  bh=v2KhdyEfE1+Z09fS//IwfD9BpZAAnrKgq8D0E/CrNbM=;
-  b=g4HCkfsFWzng8WSNB72ZEPZTfkhHndqwt1nUIFglGLCdIifX2WF4Znpy
-   zvOk6uyYMRkt0lHuxd6lKu0srq35qmKPkkWBhTzShY+ENb7UqqqJFIwe0
-   dMFTsRAU045kdK95kwoZTcrlNp/7yR0KzQdrBp3Aowjrwo4ISGdInkcTo
-   Y=;
-Authentication-Results: mail2-relais-roc.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=julia.lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
-X-IronPort-AV: E=Sophos;i="6.14,274,1736809200"; 
-   d="scan'208";a="214612573"
-Received: from dt-lawall.paris.inria.fr ([128.93.67.65])
-  by mail2-relais-roc.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Mar 2025 10:43:58 +0100
-Date: Tue, 25 Mar 2025 10:43:57 +0100 (CET)
-From: Julia Lawall <julia.lawall@inria.fr>
-To: Erick Karanja <karanja99erick@gmail.com>
-cc: gregkh@linuxfoundation.org, outreachy@lists.linux.dev, 
-    philipp.g.hortmann@gmail.com, davidzalman.101@gmail.com, 
-    vivek6429.ts@gmail.com, viro@zeniv.linux.org.uk, 
-    linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: rtl8723bs: Rename variable supportRateNum
-In-Reply-To: <20250325091220.38601-1-karanja99erick@gmail.com>
-Message-ID: <58c6f23e-1fb-fef6-8177-4f24ad559889@inria.fr>
-References: <20250325091220.38601-1-karanja99erick@gmail.com>
+        d=gmail.com; s=20230601; t=1742897522; x=1743502322; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=dUyR3Oe6iYVQ9/r3ijgRJfklg/wMi4nHhN2lq9dus2Q=;
+        b=O6vQR2Fb75nEl1TFJ6eHOOg/ypfOEW9qxNCRffsKq+Lm0vCyUKETdQThQaWEB1CMSc
+         TDhEKXzWhqXGRVldsFgq6ExrePvOdK4RJadOGRYFXjdFtnm1WznDsTV/lj9o19Mkm1Da
+         H4+90EgtHfDOFNl7q7Z937C4tFYGXAuxbWnRje5H8/8RfCCeznD66jgKFQ3K5/17OYnr
+         sohiV46VGuQMhEr23OCdUAqVq85cN2AiMgCPA2mlrT44ATH6We5VS+niTyCdpc1gCYUr
+         RP1+bRFoKEJvE6UfkB7viGfZa7qN117bKnByXbnA/PYCb5oKuJhZoGcWusLzO2im8OCU
+         boFw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1742897522; x=1743502322;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=dUyR3Oe6iYVQ9/r3ijgRJfklg/wMi4nHhN2lq9dus2Q=;
+        b=Cb7pbmVPSdRpresG3b9eHfaQpDmmBWmVuQJ+IXBYsL2LBtbKYIN7lUc+1YCfvKma2r
+         A9Sv8/qXfrT333jMqAUe0UzH/Y1wbVkrgD/G50wuqOhJmIcEUJR03rrbvGcIiDnuOIpV
+         PCDORN1puefiLqBdsglKhioNOhS4cxNsgdn5CaABSOqMGI9uXsJvALoe0U+QTfbYYkbA
+         pbpBxXuUjlnx5/+Cu1KRQCfN18nlBoIBu+1+ApXC3VTdMbF8uLclNZySVDTXT3O9iGB9
+         SHT8Xd+YT3rlwRH7Kp6gpeLsFXDBjq8jnQ6qQooCkfG1jLnwLIlvu8TiUYihJMAbR9/J
+         QGJQ==
+X-Forwarded-Encrypted: i=1; AJvYcCURoxsOM8G+vCHlC++QLvTBfGIFfJ99uJYhmQdTJoR8S9hsydzaCjIX8FYG8gSE8p8+j66rmzDAjt4=@lists.linux.dev
+X-Gm-Message-State: AOJu0Ywca3XPGDNUUEL42YIJIcpsCgJRl/BUYkn2N5B7DNdkVb2t9U4Q
+	0tge31q+3mPPGVWHwZKczHcV6o3SlP2UShkQKgJ16p87N8BgRUfYuZ9ZiFN9w0w=
+X-Gm-Gg: ASbGncvRDOgAP4U5MoexOBPcvASVG6+8OWuZARNFehBf5jXJLdzKPsuWNOE9FGk3Z91
+	lJdqUejewASWTi1UY2WUt1Z6CM5oHK21pXyDciiXIJKYeAGwV5SqqbfzkR94BhLD4QZKppkg0+B
+	bMFaRixc74wO3e7yPHIjk2gCNrW8krZFTGH6gYQz9fUAxTmDts591+sKJ885PuomPHvM4l8IdZx
+	jVGPTVHe+aXPRc7rWloTLSJxTzVAgWXzXDPZxFIDoqfxZj3u2RwFYadW6tMvPwyaUAwgo7zM5L1
+	chmXRQNcpaIfSNfryBuGMfHTBMJI43iaZZyF3kDSfRoPXZ9bym+YmQ==
+X-Google-Smtp-Source: AGHT+IGZ3tbJNEZfEAj8nuAD8spNiWrpR+xPBxDApkcc/3wYUXEYlvHNuM/ofGxTCSCpXV/bnwY4pg==
+X-Received: by 2002:a17:907:c1c:b0:ac3:422a:76dc with SMTP id a640c23a62f3a-ac3f22b52f7mr1747463166b.34.1742897521258;
+        Tue, 25 Mar 2025 03:12:01 -0700 (PDT)
+Received: from localhost.localdomain ([41.90.66.126])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5ebcd0c6f47sm7429284a12.52.2025.03.25.03.11.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 25 Mar 2025 03:12:00 -0700 (PDT)
+From: nancyenos <nicymimz@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	outreachy@lists.linux.dev,
+	nancyenos <nicymimz@gmail.com>
+Subject: [PATCH] staging: octeon: Fix unused macro Argument 'x'
+Date: Tue, 25 Mar 2025 03:09:52 -0700
+Message-Id: <20250325100952.2956-1-nicymimz@gmail.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 8bit
 
+warning found by checkpath.pl
 
+Signed-off-by: nancyenos <nicymimz@gmail.com>
+---
+ drivers/staging/octeon/octeon-stubs.h | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-On Tue, 25 Mar 2025, Erick Karanja wrote:
+diff --git a/drivers/staging/octeon/octeon-stubs.h b/drivers/staging/octeon/octeon-stubs.h
+index 44cced319c11..0155f3c41657 100644
+--- a/drivers/staging/octeon/octeon-stubs.h
++++ b/drivers/staging/octeon/octeon-stubs.h
+@@ -8,8 +8,8 @@
+ #define OCTEON_IRQ_WORKQ0 0
+ #define OCTEON_IRQ_RML 0
+ #define OCTEON_IRQ_TIMER1 0
+-#define OCTEON_IS_MODEL(x) 0
+-#define octeon_has_feature(x)	0
++#define OCTEON_IS_MODEL(x) ((void)(x), 0)
++#define octeon_has_feature(x) ((void)(x), 0)
+ #define octeon_get_clock_rate()	0
+ 
+ #define CVMX_SYNCIOBDMA		do { } while (0)
+-- 
+2.25.1
 
-> Rename the variable `supportRateNum` to `support_rate_num` to adhere to
-> Linux kernel coding standards by using snake_case instead of CamelCase.
-
-Maybe it would make sense to do supportRate at the same time, since they
-seem to be closely related?
-
-julia
-
->
-> Fixes checkpatch.pl warning:
->     CHECK: Avoid CamelCase: <supportRateNum>
->
-> Signed-off-by: Erick Karanja <karanja99erick@gmail.com>
-> ---
->  drivers/staging/rtl8723bs/core/rtw_ap.c | 15 ++++++++-------
->  1 file changed, 8 insertions(+), 7 deletions(-)
->
-> diff --git a/drivers/staging/rtl8723bs/core/rtw_ap.c b/drivers/staging/rtl8723bs/core/rtw_ap.c
-> index 50022bb5911e..5124260602c8 100644
-> --- a/drivers/staging/rtl8723bs/core/rtw_ap.c
-> +++ b/drivers/staging/rtl8723bs/core/rtw_ap.c
-> @@ -370,7 +370,7 @@ void add_RATid(struct adapter *padapter, struct sta_info *psta, u8 rssi_level)
->  void update_bmc_sta(struct adapter *padapter)
->  {
->  	unsigned char network_type;
-> -	int supportRateNum = 0;
-> +	int support_rate_num = 0;
->  	unsigned int tx_ra_bitmap = 0;
->  	struct mlme_priv *pmlmepriv = &padapter->mlmepriv;
->  	struct mlme_ext_priv *pmlmeext = &padapter->mlmeextpriv;
-> @@ -396,9 +396,9 @@ void update_bmc_sta(struct adapter *padapter)
->  		/* psta->dot118021XPrivacy = _NO_PRIVACY_;//!!! remove it, because it has been set before this. */
->
->  		/* prepare for add_RATid */
-> -		supportRateNum = rtw_get_rateset_len((u8 *)&pcur_network->supported_rates);
-> +		support_rate_num = rtw_get_rateset_len((u8 *)&pcur_network->supported_rates);
->  		network_type = rtw_check_network_type((u8 *)&pcur_network->supported_rates,
-> -						      supportRateNum,
-> +						      support_rate_num,
->  						      pcur_network->configuration.ds_config
->  		);
->  		if (is_supported_tx_cck(network_type)) {
-> @@ -893,7 +893,7 @@ int rtw_check_beacon_data(struct adapter *padapter, u8 *pbuf,  int len)
->  	);
->  	if (p) {
->  		memcpy(supportRate, p + 2, ie_len);
-> -		supportRateNum = ie_len;
-> +		support_rate_num = ie_len;
->  	}
->
->  	/* get ext_supported rates */
-> @@ -904,11 +904,12 @@ int rtw_check_beacon_data(struct adapter *padapter, u8 *pbuf,  int len)
->  		pbss_network->ie_length - _BEACON_IE_OFFSET_
->  	);
->  	if (p) {
-> -		memcpy(supportRate + supportRateNum, p + 2, ie_len);
-> -		supportRateNum += ie_len;
-> +		memcpy(supportRate + support_rate_num, p + 2, ie_len);
-> +		support_rate_num += ie_len;
->  	}
->
-> -	network_type = rtw_check_network_type(supportRate, supportRateNum, channel);
-> +	network_type = rtw_check_network_type(supportRate, support_rate_num,
-> +					      channel);
->
->  	rtw_set_supported_rate(pbss_network->supported_rates, network_type);
->
-> --
-> 2.43.0
->
->
->
