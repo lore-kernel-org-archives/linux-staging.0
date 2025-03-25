@@ -1,133 +1,142 @@
-Received: from mail-ot1-f43.google.com (mail-ot1-f43.google.com [209.85.210.43])
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E272E2571AF
-	for <linux-staging@lists.linux.dev>; Tue, 25 Mar 2025 12:15:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4592F26159A;
+	Tue, 25 Mar 2025 12:47:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742904906; cv=none; b=VXda0yALS0+iohcSDc3Xr030YyG8VHNR4Z8jGRutVU/xSpazFVPO0TwRCqaF85yrvkvRbDKTSiwyKD0/cWf34U33QHiQEbs7E7Ev5E+3locO8p8whO4a8YKnhg9tSFYxmtl0RMVECBoCS9HI07gJTx/ziz8aBTw4uBV8cqznnPw=
+	t=1742906845; cv=none; b=XbCVkuzeTwfCAvVgC4kynMzmKpQuw4LFpFCbak5+O+5Xesr+N/RWMnWtVbjwABtPdlzpVOUtc9IekIO6cBP6EZ+449eEA5oEsfLOjt/lK7AW2PmzzAihEVJ2qh/Il/oYsp5UBCPRgeI8FQN08CuiW9rrdYwwnxvP+KWaRrhIJss=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742904906; c=relaxed/simple;
-	bh=UKbfjZ5E4QscHPOYkQaEa00cn5sNfmffGihktUEZ+l4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=uGj8EmR8uHYwCJGFQsJ5BFUbz3QRdmsoklRnaMIa0IE5NP73v5N+obNeizrEj3W/VF5A3pdH3fwwhqQ0KTTJ3djelJY8Sz3EK87P8ocb8SSnwmwJpi/kOiIvTn3PGXR+HhZ3XG/d7a0zdPafpuc2B9h8yKtBmdMY4Y7/A0+bz2A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=riscstar.com; spf=pass smtp.mailfrom=riscstar.com; dkim=pass (2048-bit key) header.d=riscstar-com.20230601.gappssmtp.com header.i=@riscstar-com.20230601.gappssmtp.com header.b=rIfYFxPF; arc=none smtp.client-ip=209.85.210.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=riscstar.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=riscstar.com
+	s=arc-20240116; t=1742906845; c=relaxed/simple;
+	bh=W0UjzV++zRmDeWfAHDUKWe4w1h2+xe5Sqgek4dnSeRM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=frCfnjxr9XglayfhapAdyfgdlKoP21cYKlXG0RIv7nr7MYLLMd8s9BNfkyrJqBd1HaSpwwCIhtSSZfxv8Ga+xT94GldP1NuLT7Y2hAsFcbWzA4rypCmjKWkLfZ+LLeKnhJ2WbBm+FYUYFrnoTNNfvCngdsYqLejT/GM0yZLFgoA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=eQctHiyv; arc=none smtp.client-ip=209.85.128.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=riscstar-com.20230601.gappssmtp.com header.i=@riscstar-com.20230601.gappssmtp.com header.b="rIfYFxPF"
-Received: by mail-ot1-f43.google.com with SMTP id 46e09a7af769-72c27166ab3so1288435a34.1
-        for <linux-staging@lists.linux.dev>; Tue, 25 Mar 2025 05:15:04 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="eQctHiyv"
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-43690d4605dso39167815e9.0;
+        Tue, 25 Mar 2025 05:47:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=riscstar-com.20230601.gappssmtp.com; s=20230601; t=1742904904; x=1743509704; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=wC3ijQaBf4K8OWU+SDgw4P+7cyUwlTWZLf3LU7lx7Xw=;
-        b=rIfYFxPFfsBs903E3xU40mcG/bjdEFiA1iD3AZ362Lb3XpPNLjgJM9hSwee2NpGUbP
-         vBy9dGzCcEXYjDh3L0Ua2A9kwHgi0pXjiuaPpfBeF7zUsEBS0z/sHQfJksMvg7mRDqzD
-         FELwG0qBjmYxLaaMbE17DRvdMoszJSXZfQbibA6mVa9GHIe0GVkw3yMyFdrqrOZWSrLP
-         XzI1FJzduWBFjSyVeTRfHVto+yJZ7fBvGGKfG+GI9It5P39A/MkOdBQ54ss3zcKZvLcT
-         cONTvBgsH4RzDGB9/rVza5ln3+AdjY/IVYC9x0m2SNxF9DhTtvlvcxEg1XrwPDGAglMf
-         VKyw==
+        d=gmail.com; s=20230601; t=1742906841; x=1743511641; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=f8T5E+tN2GeC9Fls1L5neCulWG3IZUOA7/xIRYDwMGQ=;
+        b=eQctHiyve1aeCqQo7t1ZHL17i4v9wLX1/TCgJIQ7EE+iF7I2LeI5SbbVjkSGOlB+0E
+         IlZgkXYUIfET0umD/oTD2qneTQ3J29NZODCrYoN0kj1V98XHji5dpkqdctUtH1mLeZVA
+         0j81K3w/lAQoHMDUYFO4C6bmardGM5a9HXI2S3wYewS2CorRQO3I0OijO53cLSI34xpH
+         wagyUmbNKzKUO8peZwyR1Fa3zjeUfdEWt1wNj6fok5XQvKCkXq86fDNsCBr6fQ9GFpBr
+         cY6m/Uj55T/uQ3q/2PIl6ME4KWdLFqg2cisc6R+wNzKI8l356Ju5geQuw2TIYGtNe25w
+         seZw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742904904; x=1743509704;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=wC3ijQaBf4K8OWU+SDgw4P+7cyUwlTWZLf3LU7lx7Xw=;
-        b=PYwQ/C5C5IW/peqy8LfiMx7S84lGz2eczqnF+OSNitQ44+oJFuOiI+NxHaLYb2QNTg
-         2NdzO0pCnK6FV7TAITv1hyvtHCLOwAj3F5sE9ckzRaYdryloZpERdOhQnJYI2zXJxPC+
-         3FEi/LeqPzFFk0yQKn3p2SxgIlJUDE9cwZMes0nmm33APj5LwpiphUf6yMqdbY5JpKbX
-         Iz0PsRR73X1REy0wuOSfr4s6jF5AH2jg09L8t72cRVxtzD4VNf8MA9BtiGtpWyHuKKP1
-         oSpNZJEIxiMZ9y08RjQ0XI6JTmDu30gyG5DL5SrRljedIwQlrt4QJfr2qnw5SdjMpPO/
-         fTuQ==
-X-Forwarded-Encrypted: i=1; AJvYcCX69B/AHDdSOQI18wkTm7WQr2WFyqExz2uQzm6SBZAV0J/EvLnEU3Ua3RBP9WTrHwiu6bTf5q0808nXbfPO@lists.linux.dev
-X-Gm-Message-State: AOJu0YzA5SNlBP670VViS+RE9vZFINmpOEc8bOvhfZEVzz2ggXuvgQCl
-	zHt3MOK+cnlgNuSLxC/xiTPcljNuRLaNgBYwBcGCYP30ZsCSTsvAdp6U+sZDi0s=
-X-Gm-Gg: ASbGncvtKLy2OCAYcNPs5SKnprSwfeCgOlozPcDE2uApbWvTaUEcKi+786JT1L22MFS
-	vLRDtHo2xD65DQXYX2VSyM5q3tHnQVWlYroVcpiWh23Qd6YUMFRMtOZmJ25lve31+3RkZfvpXcI
-	QvXBA/0kwbmVsHTai9N0C4akhJDEXPcy4bXHK87V1W3ppIHa5zpcihIEQLIRM+2gKN8P6c6GakI
-	s7HiOHymTJkQL7SYR0Ov2/kus7tn01Vf3Upl0nSeqRVABvhVa00hnucBZI8E2lMlnWyw+LkPRkf
-	BGIzwclzXAGuRW32R6ECNSvi4tPStV88bX5AS8LLYxTVLcru3lNtMc0KbS1VWrlaMgNZuN5DETX
-	707+Eh4by
-X-Google-Smtp-Source: AGHT+IHZKE0q+q2yQSr22P7i6hKjZROug3Xpi7UzBNf6sOzdWBDPPxeLMvXTvddN7ZqquWTR4AKONQ==
-X-Received: by 2002:a05:6808:384e:b0:3f9:a187:1f2e with SMTP id 5614622812f47-3febf7382a8mr10579611b6e.18.1742904903718;
-        Tue, 25 Mar 2025 05:15:03 -0700 (PDT)
-Received: from [172.22.22.28] (c-73-228-159-35.hsd1.mn.comcast.net. [73.228.159.35])
-        by smtp.gmail.com with ESMTPSA id 5614622812f47-3febf7927d5sm1974378b6e.31.2025.03.25.05.15.02
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 25 Mar 2025 05:15:03 -0700 (PDT)
-Message-ID: <a5477192-ee6f-4273-b7b4-1d9dbd7e7b50@riscstar.com>
-Date: Tue, 25 Mar 2025 07:15:01 -0500
+        d=1e100.net; s=20230601; t=1742906841; x=1743511641;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=f8T5E+tN2GeC9Fls1L5neCulWG3IZUOA7/xIRYDwMGQ=;
+        b=o34vQF4/WpMAoOwv33Hf+kvqwiHnOx228lVwkXUI47f29ve9MD8j6SHpmZ4K7UPx8J
+         T7LkuzAdOiclsI6sUTBJ6JvjfYeVr81bwXqaD7Ge+lBlcHotWw+dcrqM30ufw3+KrPVX
+         4oTPlbwavwxpoE3EqjUiEbb+UsPn4cpsOITkH24dLXK1TdRxSE4t08mhYFUwL51FJvfw
+         UCe4qgDWwKFocnSY/xdxF4xQ2iCAzXZ3w9nAgmAn2WR+EjXU6TH6b80yTUsJrz8kjUMj
+         tW2tMoGKttm2Y7s9FTFi1HNKtYEe9klCdUBZfzXbKQ+b5wwZwyyJpXfO2O+k//5vsvR1
+         YmIw==
+X-Forwarded-Encrypted: i=1; AJvYcCVnMRI9AeKbQvmc4prmdt9SPrLsGPqyBuqd6Nf7Z62z+YQ61DXFuqrIqP5N6v/zV6xpMd/pXj0hHmPB@lists.linux.dev, AJvYcCXuPq6i4NSAICFY9gZ2/UqrAa9ilErDO6BFn3aOXeC7EkY4uHGnTACxpSlvYBhC6bfQ750h9eE+ExrKnbsK@lists.linux.dev
+X-Gm-Message-State: AOJu0YySdPjm4y+8LVfgPjZQBBEC0Ee+QV0HgmdalcEVZ7adncG+lZ1g
+	/aJugtKRGTMOwFLoFSkVBAvxCmgA9nBPXJT7xf4okM0XvNDDg47n
+X-Gm-Gg: ASbGnct/7UtwDx8VvKX5/KbDX6aEHbNrk33kivmjqZlUMgsfgAxjD6dfq5Jq/EDq5Bw
+	9hKNLG2hmmq33PgOplHxYxlttJwTbY15sWsujSD/KaSEvJ/N5i1zmr+wU47PRFF2uJlp5ljgEqu
+	ba3ZbNMMrcXqXPZp1Sh4CQJTsmaf6n9jqIMpRVTS+RPFRl0JM4dguvJIMFDhXrP9eMtLWFqvHDb
+	wJ4vjXjXKsWVa4aYBdbO9w+J9pQp2e6orPHy3R8g7DL/30n3IfqQQwxY51rKtj79bebKnmKfOoe
+	vJWUfsPnJADIBMYmkTETlPX/mV6vTyZl/y80eWOeRg==
+X-Google-Smtp-Source: AGHT+IGskFUgT193BbGSZ39xZtsi6sDeuCGufdjn36V4p3+9ta4/gGj0D++bLlwEKgTd14NEHqrScA==
+X-Received: by 2002:a05:6000:1aca:b0:391:47a7:299c with SMTP id ffacd0b85a97d-3997f94de39mr15914557f8f.40.1742906841341;
+        Tue, 25 Mar 2025 05:47:21 -0700 (PDT)
+Received: from pc.. ([197.155.71.138])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43d74b48b90sm1975715e9.14.2025.03.25.05.47.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 25 Mar 2025 05:47:20 -0700 (PDT)
+From: Erick Karanja <karanja99erick@gmail.com>
+To: gregkh@linuxfoundation.org,
+	outreachy@lists.linux.dev
+Cc: philipp.g.hortmann@gmail.com,
+	davidzalman.101@gmail.com,
+	vivek6429.ts@gmail.com,
+	viro@zeniv.linux.org.uk,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Erick Karanja <karanja99erick@gmail.com>
+Subject: [PATCH] staging: rtl8723bs: Rename variables
+Date: Tue, 25 Mar 2025 15:47:12 +0300
+Message-ID: <20250325124712.47577-1-karanja99erick@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] staging: greybus: Alignment warning
-To: Erick Karanja <karanja99erick@gmail.com>, outreachy@lists.linux.dev,
- johan@kernel.org, elder@kernel.org, gregkh@linuxfoundation.org
-Cc: greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org
-References: <20250322065800.21361-1-karanja99erick@gmail.com>
-Content-Language: en-US
-From: Alex Elder <elder@riscstar.com>
-In-Reply-To: <20250322065800.21361-1-karanja99erick@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 3/22/25 1:58 AM, Erick Karanja wrote:
-> Correct the alignment of the parameters to match the open parenthesis.
-> 
-> Reported by checkpatch:
-> 
->      CHECK: Alignment should match open parenthesis
+Rename the variable `mediaStatus` to `media_status` and variable
+`lpsVal` to `lps_val` to adhere to Linux kernel coding
+standards by using snake_case instead of CamelCase.
 
-I think this change is OK.  However you'll notice that checkpatch.pl
-has three categories of issues that get reported:  errors, warnings,
-and checks.  These are in decreasing order of severity.
+Fixes checkpatch.pl warning:
+	CHECK: Avoid CamelCase: <mediaStatus>
+	CHECK: Avoid CamelCase: <lpsVal>
 
-Alignment issues like this are just "checks", which means they are
-minor nits that are often not considered a "real" problem.  In many
-cases, white space variances like this are done intentionally, to
-make the code more readable, or sometimes simply because the code
-that surrounds it used a different convention for alignment (some
-people simply align to an even number of tabs, for example).
+Signed-off-by: Erick Karanja <karanja99erick@gmail.com>
+---
+ drivers/staging/rtl8723bs/core/rtw_btcoex.c | 14 ++++++--------
+ 1 file changed, 6 insertions(+), 8 deletions(-)
 
-In this case, the change doesn't make the "look" of the code any
-worse, and doesn't reduce readability.  It furthermore gets rid
-of spaces after a tab that do *not* lead to the suggested alignment.
-It probably isn't a necessary change, but I think it's reasonable.
-
-I write all this to explain that these sorts of changes are in many
-cases rejected.
-
-I'll leave it to Greg to accept this, or offer a second opinion.
-
-Reviewed-by: Alex Elder <elder@riscstar.com>
-
-> 
-> Signed-off-by: Erick Karanja <karanja99erick@gmail.com>
-> ---
->   drivers/staging/greybus/camera.c | 4 ++--
->   1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/staging/greybus/camera.c b/drivers/staging/greybus/camera.c
-> index 5d80ace41d8e..ec9fddfc0b14 100644
-> --- a/drivers/staging/greybus/camera.c
-> +++ b/drivers/staging/greybus/camera.c
-> @@ -1165,8 +1165,8 @@ static int gb_camera_debugfs_init(struct gb_camera *gcam)
->   		gcam->debugfs.buffers[i].length = 0;
->   
->   		debugfs_create_file_aux(entry->name, entry->mask,
-> -				    gcam->debugfs.root, gcam, entry,
-> -				    &gb_camera_debugfs_ops);
-> +					gcam->debugfs.root, gcam, entry,
-> +					&gb_camera_debugfs_ops);
->   	}
->   
->   	return 0;
+diff --git a/drivers/staging/rtl8723bs/core/rtw_btcoex.c b/drivers/staging/rtl8723bs/core/rtw_btcoex.c
+index d54095f50113..27dfd00b4249 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_btcoex.c
++++ b/drivers/staging/rtl8723bs/core/rtw_btcoex.c
+@@ -8,14 +8,14 @@
+ #include <rtw_btcoex.h>
+ #include <hal_btcoex.h>
+ 
+-void rtw_btcoex_MediaStatusNotify(struct adapter *padapter, u8 mediaStatus)
++void rtw_btcoex_MediaStatusNotify(struct adapter *padapter, u8 media_status)
+ {
+-	if ((mediaStatus == RT_MEDIA_CONNECT)
++	if ((media_status == RT_MEDIA_CONNECT)
+ 		&& (check_fwstate(&padapter->mlmepriv, WIFI_AP_STATE) == true)) {
+ 		rtw_hal_set_hwreg(padapter, HW_VAR_DL_RSVD_PAGE, NULL);
+ 	}
+ 
+-	hal_btcoex_MediaStatusNotify(padapter, mediaStatus);
++	hal_btcoex_MediaStatusNotify(padapter, media_status);
+ }
+ 
+ void rtw_btcoex_HaltNotify(struct adapter *padapter)
+@@ -52,21 +52,19 @@ void rtw_btcoex_RejectApAggregatedPacket(struct adapter *padapter, u8 enable)
+ void rtw_btcoex_LPS_Enter(struct adapter *padapter)
+ {
+ 	struct pwrctrl_priv *pwrpriv;
+-	u8 lpsVal;
+-
++	u8 lps_val;
+ 
+ 	pwrpriv = adapter_to_pwrctl(padapter);
+ 
+ 	pwrpriv->bpower_saving = true;
+-	lpsVal = hal_btcoex_LpsVal(padapter);
+-	rtw_set_ps_mode(padapter, PS_MODE_MIN, 0, lpsVal, "BTCOEX");
++	lps_val = hal_btcoex_LpsVal(padapter);
++	rtw_set_ps_mode(padapter, PS_MODE_MIN, 0, lps_val, "BTCOEX");
+ }
+ 
+ void rtw_btcoex_LPS_Leave(struct adapter *padapter)
+ {
+ 	struct pwrctrl_priv *pwrpriv;
+ 
+-
+ 	pwrpriv = adapter_to_pwrctl(padapter);
+ 
+ 	if (pwrpriv->pwr_mode != PS_MODE_ACTIVE) {
+-- 
+2.43.0
 
