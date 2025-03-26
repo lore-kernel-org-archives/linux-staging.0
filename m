@@ -1,136 +1,105 @@
 Received: from mail3-relais-sop.national.inria.fr (mail3-relais-sop.national.inria.fr [192.134.164.104])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 688B5171C9;
-	Wed, 26 Mar 2025 08:15:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38E884A29;
+	Wed, 26 Mar 2025 08:26:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.134.164.104
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742976929; cv=none; b=fjbEmvqcTV5LSutzWNy7J4YUC1DVk2WcDEsnJRxllvjSvzEZ1rQ8KaQNARkvtFgFZ34RfRizQLG1cGkZh3rqcrKNL6XcvNRnQN2sscJma+oLLGG5okUbrwjC/23FnBeUxGoaSuA8zg2CuQ/IQQa8GC048lQIDUfKnO3Yj/DOMl8=
+	t=1742977604; cv=none; b=VgIQPJbHprr4h91K6R0FHuH2fmBn1U93oRzxi45CXPCD2yHXIAT0JqKWsN0kfROCe8HFEl0nnYPBhcNryyvNbfL9pmWT11wcF790etN1fSGjtaPBzud/IilJXxbopbY6zVeK+30gjM6VhCNfwJjv3TRE2VpW7bBSKM123i3hSdw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742976929; c=relaxed/simple;
-	bh=59wg/mENGyNA1EgOTg7LDUTJPhVSFhKyoT9W6qQmLjQ=;
+	s=arc-20240116; t=1742977604; c=relaxed/simple;
+	bh=jSYdUxL251B4lgrd/EX2MMj+JgXoikIFSh9ZUwTxupQ=;
 	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=LAKzjhr+LfI1DbpvZ5uNOzYQNnNk+iF0Yh+e0ZtXRVEy5QRxI9bKV3N5bYgOzta6t2RQHOhx0JEvveL3GAPe1GhbxU4ZfxmVKvKl8bejmqwQ5q6VabEkyhsRvQKCTloFxEVd5m1YxWRm4kLaMHUyr9y+oez0lFuwAGiZErSFVLo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr; spf=pass smtp.mailfrom=inria.fr; dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b=YwJTa9wK; arc=none smtp.client-ip=192.134.164.104
+	 MIME-Version:Content-Type; b=QAeDJQWU9OT18OIxLiqEQa7ZpaFRC4VNpz0X+ftgabEpf3Z0nUdQlhuW+FUO2GrLiYznSg3rU/AEtSzYDhSpoX9XW90dZnnjTLgFe7d5g/LvSrDFR8s/JTF+HCdGtuaF3m28ttE4j/ISIzYZx4IatPPBFF6OrPuAfgH44JiQiZ8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr; spf=pass smtp.mailfrom=inria.fr; dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b=tuiXj/gH; arc=none smtp.client-ip=192.134.164.104
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=inria.fr
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b="YwJTa9wK"
+	dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b="tuiXj/gH"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
   d=inria.fr; s=dc;
   h=date:from:to:cc:subject:in-reply-to:message-id:
    references:mime-version;
-  bh=7xtjJXeFW/UxEZaJCI4G2LQ8dxt+s+2Os6jLAt+xnSY=;
-  b=YwJTa9wKCcQd/e42GrLYPBZVOJYX6XkoguE3yRkMp3EGAIqQJQD+J+DK
-   Z70fSjJgaftVoyCn0H+M2EHmx5+fVnjorGyK8LoryhPTjyo6os8uyXIa6
-   JDEo0lQweA0IlsZwptPisyKPUPaTYfrAv4xrdQW3nr7ajdPL4eClRBKzE
-   E=;
+  bh=BriUsCVdI6tKg9yDZ7xtoChU3hkuye0o+GkygCG2cZs=;
+  b=tuiXj/gHhiP+M9LgO+QCA/HB4K8LMbEMEz03y0Igx8en2s/rc1G9HnI7
+   FwrXJ68ANyWpWBvH44g68NsVkv5tlwzjcDp+0qkIBMe7efb/r/37BZBLu
+   4frUGqBb+Bzt64FBAG/MwVdRHTQlZTe/NfDjxl683pWP49mbaKV77Est/
+   s=;
 Authentication-Results: mail3-relais-sop.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=julia.lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
 X-IronPort-AV: E=Sophos;i="6.14,277,1736809200"; 
-   d="scan'208";a="112615683"
+   d="scan'208";a="112617095"
 Received: from dt-lawall.paris.inria.fr ([128.93.67.65])
-  by mail3-relais-sop.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Mar 2025 09:15:24 +0100
-Date: Wed, 26 Mar 2025 09:15:23 +0100 (CET)
+  by mail3-relais-sop.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Mar 2025 09:26:39 +0100
+Date: Wed, 26 Mar 2025 09:26:38 +0100 (CET)
 From: Julia Lawall <julia.lawall@inria.fr>
-To: Samuel Abraham <abrahamadekunle50@gmail.com>
-cc: Erick Karanja <karanja99erick@gmail.com>, gregkh@linuxfoundation.org, 
-    outreachy@lists.linux.dev, philipp.g.hortmann@gmail.com, 
+To: Abraham Samuel Adekunle <abrahamadekunle50@gmail.com>
+cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, outreachy@lists.linux.dev, 
     linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3] staging: rtl8723bs: Rename variables
-In-Reply-To: <CADYq+fa2T5k73ckaTgW36wM1BMNRQvYB+oO2fGYFOjvLH76WVw@mail.gmail.com>
-Message-ID: <1dbf61e5-653d-2f1-25b3-ec4acff86f21@inria.fr>
-References: <20250326072842.10344-1-karanja99erick@gmail.com> <CADYq+fa2T5k73ckaTgW36wM1BMNRQvYB+oO2fGYFOjvLH76WVw@mail.gmail.com>
+Subject: Re: [PATCH] staging: rtl8723bs: remove braces around single
+ statements
+In-Reply-To: <Z+Lan0xeQd3m5ejY@HP-650>
+Message-ID: <aa42727-6388-cc8-c6e-b9ebc2a63591@inria.fr>
+References: <Z+Lan0xeQd3m5ejY@HP-650>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="8323329-628471745-1742976924=:3432"
-
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
-
---8323329-628471745-1742976924=:3432
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8BIT
+Content-Type: text/plain; charset=US-ASCII
 
 
 
-On Wed, 26 Mar 2025, Samuel Abraham wrote:
+On Tue, 25 Mar 2025, Abraham Samuel Adekunle wrote:
 
-> On Wed, Mar 26, 2025 at 8:29 AM Erick Karanja <karanja99erick@gmail.com> wrote:
-> >
-> > Rename the variable `mediaStatus` to `media_status` and variable
-> > `lpsVal` to `lps_val` to adhere to Linux kernel coding
-> > standards by using snake_case instead of CamelCase.
-> >
-> > Fixes checkpatch.pl warning:
-> >         CHECK: Avoid CamelCase: <mediaStatus>
-> >         CHECK: Avoid CamelCase: <lpsVal>
-> >
-> > Signed-off-by: Erick Karanja <karanja99erick@gmail.com>
-> > ---
+> The code contains braces around single statements in the if blocks
+> which are unnecessary according to the Linux kernel coding style.
 >
-> Hello Erick, I think what Julia is explaining is that you should write
-> your changes in v2 here where I inserted
-> this message to you. Not to remove it entirely. Am I right Julia?
+> Remove the braces to improve readability and maintain consistency.
+>
+> Reported by checkpatch:
+>
+> WARNING: braces {} are not necessary for single statement blocks
+>
+> Signed-off-by: Abraham Samuel Adekunle <abrahamadekunle50@gmail.com>
+> ---
+>  drivers/staging/rtl8723bs/core/rtw_pwrctrl.c | 7 +++----
+>  1 file changed, 3 insertions(+), 4 deletions(-)
+>
+> diff --git a/drivers/staging/rtl8723bs/core/rtw_pwrctrl.c b/drivers/staging/rtl8723bs/core/rtw_pwrctrl.c
+> index c60e179bb2e1..b17b295e8d3c 100644
+> --- a/drivers/staging/rtl8723bs/core/rtw_pwrctrl.c
+> +++ b/drivers/staging/rtl8723bs/core/rtw_pwrctrl.c
+> @@ -56,9 +56,9 @@ int _ips_leave(struct adapter *padapter)
+>  		pwrpriv->ips_leave_cnts++;
+>
+>  		result = rtw_ips_pwr_up(padapter);
+> -		if (result == _SUCCESS) {
+> +		if (result == _SUCCESS)
+>  			pwrpriv->rf_pwrstate = rf_on;
+> -		}
+> +
 
-Yes, that is correct.  It should be here.
+I'm not sure you need to add a blank line here?
 
-thanks,
 julia
 
+>  		pwrpriv->bips_processing = false;
 >
-> Adekunle
+>  		pwrpriv->bkeepfwalive = false;
+> @@ -549,9 +549,8 @@ void LeaveAllPowerSaveMode(struct adapter *Adapter)
 >
-> >  drivers/staging/rtl8723bs/core/rtw_btcoex.c | 12 ++++++------
-> >  1 file changed, 6 insertions(+), 6 deletions(-)
-> >
-> > diff --git a/drivers/staging/rtl8723bs/core/rtw_btcoex.c b/drivers/staging/rtl8723bs/core/rtw_btcoex.c
-> > index d54095f50113..f4b19ef7b341 100644
-> > --- a/drivers/staging/rtl8723bs/core/rtw_btcoex.c
-> > +++ b/drivers/staging/rtl8723bs/core/rtw_btcoex.c
-> > @@ -8,14 +8,14 @@
-> >  #include <rtw_btcoex.h>
-> >  #include <hal_btcoex.h>
-> >
-> > -void rtw_btcoex_MediaStatusNotify(struct adapter *padapter, u8 mediaStatus)
-> > +void rtw_btcoex_MediaStatusNotify(struct adapter *padapter, u8 media_status)
-> >  {
-> > -       if ((mediaStatus == RT_MEDIA_CONNECT)
-> > +       if ((media_status == RT_MEDIA_CONNECT)
-> >                 && (check_fwstate(&padapter->mlmepriv, WIFI_AP_STATE) == true)) {
-> >                 rtw_hal_set_hwreg(padapter, HW_VAR_DL_RSVD_PAGE, NULL);
-> >         }
-> >
-> > -       hal_btcoex_MediaStatusNotify(padapter, mediaStatus);
-> > +       hal_btcoex_MediaStatusNotify(padapter, media_status);
-> >  }
-> >
-> >  void rtw_btcoex_HaltNotify(struct adapter *padapter)
-> > @@ -52,14 +52,14 @@ void rtw_btcoex_RejectApAggregatedPacket(struct adapter *padapter, u8 enable)
-> >  void rtw_btcoex_LPS_Enter(struct adapter *padapter)
-> >  {
-> >         struct pwrctrl_priv *pwrpriv;
-> > -       u8 lpsVal;
-> > +       u8 lps_val;
-> >
-> >
-> >         pwrpriv = adapter_to_pwrctl(padapter);
-> >
-> >         pwrpriv->bpower_saving = true;
-> > -       lpsVal = hal_btcoex_LpsVal(padapter);
-> > -       rtw_set_ps_mode(padapter, PS_MODE_MIN, 0, lpsVal, "BTCOEX");
-> > +       lps_val = hal_btcoex_LpsVal(padapter);
-> > +       rtw_set_ps_mode(padapter, PS_MODE_MIN, 0, lps_val, "BTCOEX");
-> >  }
-> >
-> >  void rtw_btcoex_LPS_Leave(struct adapter *padapter)
-> > --
-> > 2.43.0
-> >
-> >
+>  		LPS_Leave_check(Adapter);
+>  	} else {
+> -		if (adapter_to_pwrctl(Adapter)->rf_pwrstate == rf_off) {
+> +		if (adapter_to_pwrctl(Adapter)->rf_pwrstate == rf_off)
+>  			ips_leave(Adapter);
+> -		}
+>  	}
+>  }
+>
+> --
+> 2.34.1
 >
 >
---8323329-628471745-1742976924=:3432--
+>
