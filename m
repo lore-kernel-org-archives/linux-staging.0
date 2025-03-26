@@ -1,124 +1,116 @@
-Received: from mail3-relais-sop.national.inria.fr (mail3-relais-sop.national.inria.fr [192.134.164.104])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vk1-f181.google.com (mail-vk1-f181.google.com [209.85.221.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E20B219AA5D;
-	Wed, 26 Mar 2025 08:42:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.134.164.104
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E6ED15E5AE;
+	Wed, 26 Mar 2025 09:00:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742978569; cv=none; b=gRdeaLj9XtPsSs4Ha06mSMPJDlr18XlksJz7EwezjSFPxQm7kR/aO6Y9aIGai84CXKBP5XZsMs88hyktR4uQAFAcHyxzTL1jano+hyeupWrkENVMibBcnSWf+aIwhsCQP+ROWGPPvW00cd+0RD3RhJBWNgrtXBcf8K8uSc04hJM=
+	t=1742979631; cv=none; b=CX3rFrtYCM7ASyd1BTcl/u9pwc1dvN7gJA+0mv2VUQum0KBwf9NdgfhR1AfYv0TMwqCAWR8Sncb9EUB9+hFlg8WWXR5VzyN6TB/+IUIPrmAN/aacGwgEgYKYHBmaeSVETYehAthcpfKzy/wQof5WVuSemS0hzwDgfuHe7n/LRsA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742978569; c=relaxed/simple;
-	bh=Qc90giQ3e2ocUzKlkRBnMZaZvxNaHfr/yC1qO2XaQyo=;
-	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=ahL4zJcLTx/6oUzmnsD+tmNG5cTxewHw5ulUcMip3padSoKBjXfccv1adF1wUi4qqLF364BhGHJrsAN8ODQCjeNCdbQBIWa/wF6LSo0wL8Wb06uiDmkWy5gDbT4ElDscerU7xYpRK2o12t0zn5lUnazl/OEcrX8Fzblt/eYUTl4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr; spf=pass smtp.mailfrom=inria.fr; dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b=NQdFZFBB; arc=none smtp.client-ip=192.134.164.104
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=inria.fr
+	s=arc-20240116; t=1742979631; c=relaxed/simple;
+	bh=iu8rB5v/TCRB4v8pzcOZy2H1O8+0/VMHCUWpamqLeQw=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=KtBDJ0hVtBbd/K1XOYAvlwlNMRk3u1NLV6hNVyeBykRHCC2+xizyTVNnSxqERjxrQubFJ9Awd+YjNHX1Da1WTmp9dSCN4hndRVPsMiGgo1dEbxp/gqKY3nRxxe2DyMJDHt/qv2m/p6cvHheQXQWvzs7BPrQHiGQWTGyvQi4babg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=e0PJ4qIN; arc=none smtp.client-ip=209.85.221.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b="NQdFZFBB"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="e0PJ4qIN"
+Received: by mail-vk1-f181.google.com with SMTP id 71dfb90a1353d-5259331b31eso2997285e0c.0;
+        Wed, 26 Mar 2025 02:00:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=inria.fr; s=dc;
-  h=date:from:to:cc:subject:in-reply-to:message-id:
-   references:mime-version;
-  bh=Iou+YOMY3B0VmyRSo9N3Los9Mpl9TkUqQwOVItnL4PQ=;
-  b=NQdFZFBBbC9+LDGfXl441ogJ3P0OEFOgr8oEs6mlJWIKB50d7Afa+PuO
-   QXCaGR3xGaCj0ZXPx8R6W3VBhzS8ZCUs5NHqlL0EtIwUH82P0KpDv+591
-   oW72qOq9nMZuP4RgLgrrlaBLituEoNqbj6IIKnhAWQMjjUI23ZcgVeB4G
-   Q=;
-Authentication-Results: mail3-relais-sop.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=julia.lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
-X-IronPort-AV: E=Sophos;i="6.14,277,1736809200"; 
-   d="scan'208";a="112619704"
-Received: from dt-lawall.paris.inria.fr ([128.93.67.65])
-  by mail3-relais-sop.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Mar 2025 09:42:45 +0100
-Date: Wed, 26 Mar 2025 09:42:44 +0100 (CET)
-From: Julia Lawall <julia.lawall@inria.fr>
-To: Erick Karanja <karanja99erick@gmail.com>
-cc: gregkh@linuxfoundation.org, outreachy@lists.linux.dev, 
-    philipp.g.hortmann@gmail.com, linux-staging@lists.linux.dev, 
-    linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4] staging: rtl8723bs: Rename variables
-In-Reply-To: <20250326083334.13030-1-karanja99erick@gmail.com>
-Message-ID: <a43a6053-376b-f75e-925a-e79f23adaddc@inria.fr>
-References: <20250326083334.13030-1-karanja99erick@gmail.com>
+        d=gmail.com; s=20230601; t=1742979628; x=1743584428; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=tb8OnTjsyP5lh3M6/BjJHvWMp8bxQHXc7AdtZ7j6NMg=;
+        b=e0PJ4qIN/gWDo0ylQMid3NqL/sg7O5NH4IgG6J8F6t5e+DrpCOSuVsdbghWRnrOtiL
+         C8urABO1n1xaZOI1+Z6PBWAG1pBCmXBS04Oa7+1jrQtWyMekboAY0VdP/kyGVgjZdqUW
+         x/G0CRYs8k1/E1RRKbJPOSAzvmdgu8kkMeYJX8uhDAdrg9/sOqu7VTO+TAHLB5StpK1Y
+         f15wyLieYNLXHh5XngH/cv2od1aox/jG8C2jm9zQtiP9e22ypGX8We9kZYxaj2At4mZq
+         EAS/AS50LiuuWI3yyhlm0epHQQ7jorTRDr80uu+XCrleN5vExk4TlEVhetSolPiIIYWC
+         5/1g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1742979628; x=1743584428;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=tb8OnTjsyP5lh3M6/BjJHvWMp8bxQHXc7AdtZ7j6NMg=;
+        b=YBU3FMfWTRbCRQmXOgP+xFL3QQvm9kHjpdKMfy9sBRTAuupTGDhBYul9hReM8cZMyP
+         kkUe41zql0tpoIgahdlwjXBVLTu8pKb656pYow8Lnli4Vy4NZR7hFVQ0LRikvHou3g9S
+         l/qog0h3tJKUEFwY9QT9W+Pi/F0MDKLzaWR5iSL10Vkd1oJWBDJ145gS+7S/OrZBsCoO
+         Ap0Q58aRq0930vo0xjXsLh7phqZwJlZD4oRJOSVILoyLbS7E93e+w0kOz+kwrvt5I4v4
+         m6jsZzt2bNTf//BSBoC4wvPms1EDsJwMPiSt9kwyEjjvgjp2VG8igGYUzdtqWjQQXGan
+         i6iQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWvjtE6/WtpjoR2sYK9R0wLAQgd6ynrlhysSXHxT5NnGJWuY2fzLBYsRB+0Ci19UDUD/K59D1M+9vMldLIa@lists.linux.dev, AJvYcCX5H5XLShoRifWVMAZ5uzwOPL0WCmvSda9ql3lthbTREYCzX5QrKR8UOCvDDBi2fbHpSksWGG3zPcWD@lists.linux.dev
+X-Gm-Message-State: AOJu0YzTjVL9lT9acNoy/SHzFMc0w0knMAf6h8L3jsunkRZX0nPQPNbX
+	qhf9RZr3c4EupcbWkJ9cMLP0F50OdzjYjHH9kfkllpNIeKJCk224yfkrOS8JcZQX6yxcFKX4UMU
+	D13Iep2HbgSOAMcjtrDrZ3plzAefiZHhT
+X-Gm-Gg: ASbGncutVZmdbr9YHFzh5vojYwqfAGY1Y928OsFAAveVH01gzsBvQeZoiH65NclcbHz
+	pgH4mO7B6r65tvTEae34fuSzr9829ib2QBzlgj24W2S5DZkkA2tLyWdYU+m3yF3dfBvHYJfW/Xi
+	AssS+/LcM9YGSZi4QKyLa+elQzKXxruhctgHe1R/s=
+X-Google-Smtp-Source: AGHT+IFHSfRSsBj9i2zkCxfktnsQWFsQ03tWsCWMByvDO1w6GNceB8t5REdbBbHd3bhanrFpcKVmTxTs39qjKm4xfjg=
+X-Received: by 2002:a05:6122:3212:b0:523:9ee7:7f8e with SMTP id
+ 71dfb90a1353d-525a8342034mr16692642e0c.4.1742979628118; Wed, 26 Mar 2025
+ 02:00:28 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+References: <Z+Lan0xeQd3m5ejY@HP-650> <aa42727-6388-cc8-c6e-b9ebc2a63591@inria.fr>
+In-Reply-To: <aa42727-6388-cc8-c6e-b9ebc2a63591@inria.fr>
+From: Samuel Abraham <abrahamadekunle50@gmail.com>
+Date: Wed, 26 Mar 2025 10:00:19 +0100
+X-Gm-Features: AQ5f1Jp6t1I8p7pqAGoHINgVUZFmmVaQWKVJULMkrgI5KoJooT163QOlp85Xx_M
+Message-ID: <CADYq+fYD3LVvBJCYizjG2DR4SMMC+V0Pff0zXKb8rLw2ej0jdg@mail.gmail.com>
+Subject: Re: [PATCH] staging: rtl8723bs: remove braces around single statements
+To: Julia Lawall <julia.lawall@inria.fr>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, outreachy@lists.linux.dev, 
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+On Wed, Mar 26, 2025 at 9:26=E2=80=AFAM Julia Lawall <julia.lawall@inria.fr=
+> wrote:
+>
+>
+>
+> On Tue, 25 Mar 2025, Abraham Samuel Adekunle wrote:
+>
+> > The code contains braces around single statements in the if blocks
+> > which are unnecessary according to the Linux kernel coding style.
+> >
+> > Remove the braces to improve readability and maintain consistency.
+> >
+> > Reported by checkpatch:
+> >
+> > WARNING: braces {} are not necessary for single statement blocks
+> >
+> > Signed-off-by: Abraham Samuel Adekunle <abrahamadekunle50@gmail.com>
+> > ---
+> >  drivers/staging/rtl8723bs/core/rtw_pwrctrl.c | 7 +++----
+> >  1 file changed, 3 insertions(+), 4 deletions(-)
+> >
+> > diff --git a/drivers/staging/rtl8723bs/core/rtw_pwrctrl.c b/drivers/sta=
+ging/rtl8723bs/core/rtw_pwrctrl.c
+> > index c60e179bb2e1..b17b295e8d3c 100644
+> > --- a/drivers/staging/rtl8723bs/core/rtw_pwrctrl.c
+> > +++ b/drivers/staging/rtl8723bs/core/rtw_pwrctrl.c
+> > @@ -56,9 +56,9 @@ int _ips_leave(struct adapter *padapter)
+> >               pwrpriv->ips_leave_cnts++;
+> >
+> >               result =3D rtw_ips_pwr_up(padapter);
+> > -             if (result =3D=3D _SUCCESS) {
+> > +             if (result =3D=3D _SUCCESS)
+> >                       pwrpriv->rf_pwrstate =3D rf_on;
+> > -             }
+> > +
+>
+> I'm not sure you need to add a blank line here?
+>
+> julia
+>
 
-
-On Wed, 26 Mar 2025, Erick Karanja wrote:
-
-> Rename the variable `mediaStatus` to `media_status` and variable
-> `lpsVal` to `lps_val` to adhere to Linux kernel coding
-> standards by using snake_case instead of CamelCase.
->
-> Fixes checkpatch.pl warning:
-> 	CHECK: Avoid CamelCase: <mediaStatus>
-> 	CHECK: Avoid CamelCase: <lpsVal>
->
-> Signed-off-by: Erick Karanja <karanja99erick@gmail.com>
->
-> changes in v4:
->   reverted double blank line changes committed earier ensuring
->   my patch contains uniform changes.
-
-This is still the wrong place.  It should go under the --- not above it.
-It is the text that is under the --- and before the diff that is dropped.
-
-Also you should include the complete history.
-
-julia
-
-> ---
->  drivers/staging/rtl8723bs/core/rtw_btcoex.c | 12 ++++++------
->  1 file changed, 6 insertions(+), 6 deletions(-)
->
-> diff --git a/drivers/staging/rtl8723bs/core/rtw_btcoex.c b/drivers/staging/rtl8723bs/core/rtw_btcoex.c
-> index d54095f50113..f4b19ef7b341 100644
-> --- a/drivers/staging/rtl8723bs/core/rtw_btcoex.c
-> +++ b/drivers/staging/rtl8723bs/core/rtw_btcoex.c
-> @@ -8,14 +8,14 @@
->  #include <rtw_btcoex.h>
->  #include <hal_btcoex.h>
->
-> -void rtw_btcoex_MediaStatusNotify(struct adapter *padapter, u8 mediaStatus)
-> +void rtw_btcoex_MediaStatusNotify(struct adapter *padapter, u8 media_status)
->  {
-> -	if ((mediaStatus == RT_MEDIA_CONNECT)
-> +	if ((media_status == RT_MEDIA_CONNECT)
->  		&& (check_fwstate(&padapter->mlmepriv, WIFI_AP_STATE) == true)) {
->  		rtw_hal_set_hwreg(padapter, HW_VAR_DL_RSVD_PAGE, NULL);
->  	}
->
-> -	hal_btcoex_MediaStatusNotify(padapter, mediaStatus);
-> +	hal_btcoex_MediaStatusNotify(padapter, media_status);
->  }
->
->  void rtw_btcoex_HaltNotify(struct adapter *padapter)
-> @@ -52,14 +52,14 @@ void rtw_btcoex_RejectApAggregatedPacket(struct adapter *padapter, u8 enable)
->  void rtw_btcoex_LPS_Enter(struct adapter *padapter)
->  {
->  	struct pwrctrl_priv *pwrpriv;
-> -	u8 lpsVal;
-> +	u8 lps_val;
->
->
->  	pwrpriv = adapter_to_pwrctl(padapter);
->
->  	pwrpriv->bpower_saving = true;
-> -	lpsVal = hal_btcoex_LpsVal(padapter);
-> -	rtw_set_ps_mode(padapter, PS_MODE_MIN, 0, lpsVal, "BTCOEX");
-> +	lps_val = hal_btcoex_LpsVal(padapter);
-> +	rtw_set_ps_mode(padapter, PS_MODE_MIN, 0, lps_val, "BTCOEX");
->  }
->
->  void rtw_btcoex_LPS_Leave(struct adapter *padapter)
-> --
-> 2.43.0
->
->
->
+Thank you for your review. I will effect the change
