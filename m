@@ -1,122 +1,113 @@
-Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
+Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com [209.85.216.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 827911DFD9A;
-	Wed, 26 Mar 2025 12:40:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35D071E521B
+	for <linux-staging@lists.linux.dev>; Wed, 26 Mar 2025 13:13:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742992823; cv=none; b=pbPHU/6+n/sjasJ0qkMsGVpuorx9Rur/yiREQ7kZPvVMuyMyN6LzWC2yk9e5mfKCGAYqMPE36r0/xe6eJtAZxkfPJBpljIe5wceJdm+CQ/iaF6h2nYNRBM7xMCLC+GqlJRA2GwIuOSj3qu+tbSSeEE9CQjoiGEKLjMA4w0BryqI=
+	t=1742994828; cv=none; b=FWEBFehDIPaDWTAu8Hw97Irtx+TQPgBc1gXUi67T+j7vlbWfb0H6gD901KgAw6biJf7zoNKOdJnmcoBeHNoht+NsBjIVTRm1zyAo9YTP57N/u+8vQzSBqzeqdoSvy4m2su6gylp0NESCC/xfs5KZJMUM20rrzCKU6B2ZFtkHrzU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742992823; c=relaxed/simple;
-	bh=EidWf1smEcccrMWZMH5+INfITris3Gt4B5G1RWuRqyw=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=pK+TzNqGrayNBoVzqTW/NPkRe/UYWBZzJ/f0HFywnevt1+HpyH0wSerNmHyWybouopYMb5MSsAqNleX1kAUV1KN4Wo86zbCHPahRgTt4kKdg12l646wQh3/wWvksAqK6e0wl/4ULY6oZQ/wKjlJQGzvtYQyKqm3t3qblaT+aM7U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PMVYBP5r; arc=none smtp.client-ip=209.85.208.50
+	s=arc-20240116; t=1742994828; c=relaxed/simple;
+	bh=E+bCT//FoLXOZLmdv4Iouw925tTRa3ZfBhLAVQexUbo=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=lx410okxSG4xuJUc0gR0oAaYb+TpnRX2St6QvT9b5tOn9NmOyea6Ng5XOC057dyyJ065IJkmUZz0JHZEQCCRsvyrAYAyRoIbbhUJGgUdK9WcC7Dycnx7LADbV5w+Q5Uf5RMt8zvKGkyikbK7+T3M5qZJwqXk/YgaMuWtUIVmfw4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=a9lPW5cy; arc=none smtp.client-ip=209.85.216.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PMVYBP5r"
-Received: by mail-ed1-f50.google.com with SMTP id 4fb4d7f45d1cf-5dca468c5e4so11972223a12.1;
-        Wed, 26 Mar 2025 05:40:21 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="a9lPW5cy"
+Received: by mail-pj1-f49.google.com with SMTP id 98e67ed59e1d1-2ff784dc055so11357549a91.1
+        for <linux-staging@lists.linux.dev>; Wed, 26 Mar 2025 06:13:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1742992820; x=1743597620; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=57GGOAaZN1XoYLh8BKnwS9BMIWEfDl/68HkmO3s4Tj4=;
-        b=PMVYBP5rq+7dECfOtg0CjQSPi7gJDWO3uDqav7/3otXbMybTxcmf7AYThPKvnLHqy6
-         Y4PEfyvlaTQFximLomQXykyO/E1+w+0pqUYTsQTAhjCPKlCo5hZFcSpCxNoyWe7fl1Hk
-         JfS4XEaXuEEwqPt2ohyuXRnLHCnpdLFm6a62kstIq+PnntxZSfiaVz8x3Nf/Udxe0gh/
-         4h/Va5Bs7W3Gk43lGkqtqjBN7aZY+xpVe64ooOYWxnW9zcORruqux0bhvZr5AsS2CF6b
-         7OHryJ6tCr8mPAq5Gm8TfFEvuyxptozCTYgyLYM0vA5faYyiCHDQoicOpApabbKeKr9D
-         XPsA==
+        d=gmail.com; s=20230601; t=1742994826; x=1743599626; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=3yvLsBy83apkWOi47GV7xH4xs4WujWrUpgPa9E4Thfo=;
+        b=a9lPW5cyie8clvyCcd9xU53M+LDMlo2oSXwyCOU0A4SLPR1ci9+wshf2CJob3JKXGi
+         MSv4Ge4PWUxg4qUcT3MQ2pIC0EB7QOZNWXkD3nwobOZK/rS2OJjhMpVj7pDxF3yzsKLV
+         +b7AD/S/rva/tQuxRhIVpBXz0Ke9exLOkg6kf1AHc3lrLzwdFzg3LCfJVyqRd3zO3Tq5
+         67ccgLK+AuJRPIt8lHJvI6V+sxVMQeRZXDIF2yfhjwevnIY+DaveEDswaTlVgjVr1Szi
+         RYSg5Iw0LLqzGUshax781ZNkJs7zAdwhFgkfy+1MN24wei4Os6/ctMQvr3dl4hI1kTAt
+         IWiw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742992820; x=1743597620;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=57GGOAaZN1XoYLh8BKnwS9BMIWEfDl/68HkmO3s4Tj4=;
-        b=gAbopJuPFtosJtNPYIFtSslF9XE3Lj3e1XMWxs+BUYQp2Bzqqt5OQD15StwDhYYaB+
-         bDKaVtDRX2VFCBYrw2E0aSEqITg6f1VWR+8wh5J3is0QtNP8rLh/Nb+Yv/T5rBU1Oq5C
-         PMhiOVoPDNe/gwP8OhH95Vksym4pSfHXfcFqx4VPemxod6qrZ1Zo1/rcvfjooeQNG1j1
-         azNMcvsgwb1ri+2e2ewVtdwBfsgTy5aHFZbbBI2zSq1K0h2dateBYYDcOt8uliROk876
-         EYzc/5D73Os89WaFlERrM/SK5uPOzpDbbyFPPxGYdUBdgZaWBbiDb8UoU/FheDHLPu9k
-         qlyQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXWgWG8+pAkwVWlYvl03hvs2PkbV8+5NKAB0x9Oo7v5ylG6W33o5mE4xV8xErpMdBHyv06rU1xaCu4=@lists.linux.dev
-X-Gm-Message-State: AOJu0Yz9zuAWdsffUCVLDMsbV1IAwLrcI0YU3J73ga1kduXfl8kndyW2
-	81g6qlKtLIeFQarhkrzAT2Qb8RwMd5s7kDHNCVZKMjkMQIV0cElS
-X-Gm-Gg: ASbGncvgxeA9UTg6VWlqhN4Cm0+cLxXAdBS6Rgs7Nc9nRhPln35ebMVFYJjp4QSSuuc
-	hg5zoKV2/x4JVDADtXY3y5Z2sssaJmwlLSEJ/csBtIVYDoNFsrG/85dfNSoh0TcZV3xHyIfGZkF
-	ZGev+8WpxMFzggKxoohH6G4AKKnJ67jISg9IOuIZHa3wEJkPMOQOAm4PiF82EtnTZ7IcAA3UK4U
-	Q2cWQdNlP2CO8NkxavF5v32oQRmc5oIwfhPMc86JT8FGLLvMnPE2y3O0pwecnPFKbvwpSrIbU2D
-	5j4TwEbcKNzpOz7d56L0iUddwNGurjPbNI/Hlz/H23NnaUnhJg==
-X-Google-Smtp-Source: AGHT+IGYAScV+oczm6r/JGUZSx4iBrHklfsgOR7nh1Ox+2Mbys7FxPkGsbq+bEKXPKTG0i7XEVIsFQ==
-X-Received: by 2002:a17:907:7295:b0:ac6:dd5c:bdfc with SMTP id a640c23a62f3a-ac6dd5cec3cmr454680066b.50.1742992819282;
-        Wed, 26 Mar 2025 05:40:19 -0700 (PDT)
-Received: from HP-650 ([105.112.229.243])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ac6d28d26dcsm211942966b.60.2025.03.26.05.40.16
+        d=1e100.net; s=20230601; t=1742994826; x=1743599626;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=3yvLsBy83apkWOi47GV7xH4xs4WujWrUpgPa9E4Thfo=;
+        b=EsWqGSAwC38Gbz8iRYZQ3OCHcxEsQv8WCeAwIMAVriwoNt1kEufYtWclmqfApMjA8K
+         otgp1syoL8LCS9M7VeLdqyVsz0Lp8QJJovnztNHc06izjMKzXjY4EPZ4p6Yt6+WpWxfN
+         S0/0YAoDQciYGy3p0WGecpplvaAk7MLxBniUWo5fb33oQolQ0zlJ4dYe2M6J3JOh6+hO
+         vEp14hIPeSRZNZPhKTsCxDplWjG7Aro+Szc5pIHLAxrZio3NnIXeOAHg7liWeQBQh+2F
+         sY84ccEV7N8BMm5MaNLmAiW0kChFVrjFuum8GY2XD+7DZg+1VJerTmeSK90Fm5JbupCA
+         hmdA==
+X-Forwarded-Encrypted: i=1; AJvYcCVrfLmYck6UO2ujtrTnF8ASRBtzOvKW3QW/ABQXeXt0L0uS4q3XyAqPZlfjCSODo7ht9mDDtNGXCmLjFjvB@lists.linux.dev
+X-Gm-Message-State: AOJu0Yz1W7Wv+HGt2pbs+wbw7Mn9Fof+KQpYY4BmPx4dPSlasmbysX6K
+	/tiCPGtH6+vNOByO0biKhrBGsbQUCAwIHEqfrghfuoHOqJr+SpjN
+X-Gm-Gg: ASbGncsbf6Am0mrtNuH8LywKRSX7AGKYKAIDhsK3MFiSPobkdmAva4iqPAhQ6JfYnLZ
+	tkzFYqRlEONV12ZSuNJCLpDomN4/ECIrYmrmi4VRXn/DzKTOUAnOi4FUvxY9vjanfYw3hT4BzXk
+	CKZ0Vwi2vCFif22y8tCrGGh+jAKL88pItCzb5PEM/jcLfuo5w1bUxndhGpyyyNKqa/syBoFhufr
+	WiTvnR+MGYOgjWahapxrYNIvJtlS2aKliuMRskhApVtwFrs76AVStg1y2cNg7tkLvprerr2u8gf
+	j+CHiAehmF29xfWa90iAAk79QwZ4xLB6bYOqNusw48c19WKwzi7msxS/F+K0k0/DiVQ=
+X-Google-Smtp-Source: AGHT+IEWBkKSWzApdTr0MVmRaWZeVxk7RItkZYRuhvEBSOeMT/OMOk1H16+lPFpTvmfRXpkhR+VBpw==
+X-Received: by 2002:a17:90b:554f:b0:2ee:c6c8:d89f with SMTP id 98e67ed59e1d1-3030fe94313mr38929560a91.14.1742994826172;
+        Wed, 26 Mar 2025 06:13:46 -0700 (PDT)
+Received: from fedora.am.students.amrita.edu ([175.184.253.10])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3039e60f1f9sm108696a91.47.2025.03.26.06.13.43
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 26 Mar 2025 05:40:18 -0700 (PDT)
-Date: Wed, 26 Mar 2025 13:40:05 +0100
-From: Abraham Samuel Adekunle <abrahamadekunle50@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	outreachy@lists.linux.dev, Julia Lawall <julia.lawall@inria.fr>
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH v3] staging: rtl8723bs: remove braces around single statements
-Message-ID: <Z+P1pfLSKpiRtpaF@HP-650>
+        Wed, 26 Mar 2025 06:13:45 -0700 (PDT)
+From: Siddharth Menon <simeddon@gmail.com>
+To: linux-iio@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	gregkh@linuxfoundation.org,
+	jic23@kernel.org,
+	Michael.Hennerich@analog.com,
+	lars@metafoo.de,
+	marcelo.schmitt1@gmail.com,
+	Siddharth Menon <simeddon@gmail.com>
+Subject: [PATCH] iio: frequency: ad9832: Update bit manipulation macros to use FIELD_PREP and GENMASK
+Date: Wed, 26 Mar 2025 18:43:03 +0530
+Message-ID: <20250326131338.21309-1-simeddon@gmail.com>
+X-Mailer: git-send-email 2.49.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-The code contains braces around single statements in the if blocks
-which are unnecessary according to the Linux kernel coding style.
+Update AD9832_PHASE and RES_MASK to use FIELD_PREP and GENMASK for
+clean bitmask generation and improved maintainability.
 
-Remove the braces to improve readability and maintain consistency.
-
-Reported by checkpatch:
-
-WARNING: braces {} are not necessary for single statement blocks
-
-Signed-off-by: Abraham Samuel Adekunle <abrahamadekunle50@gmail.com>
+Suggested-by: Marcelo Schmitt <marcelo.schmitt1@gmail.com>
+Signed-off-by: Siddharth Menon <simeddon@gmail.com>
 ---
-Changes since v2:
-	- Add more patch recipent
+ drivers/staging/iio/frequency/ad9832.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Changes since v1:
-	- Remove extra blank line
----
- drivers/staging/rtl8723bs/core/rtw_pwrctrl.c | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
-
-diff --git a/drivers/staging/rtl8723bs/core/rtw_pwrctrl.c b/drivers/staging/rtl8723bs/core/rtw_pwrctrl.c
-index c60e179bb2e1..74a8fcf18e84 100644
---- a/drivers/staging/rtl8723bs/core/rtw_pwrctrl.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_pwrctrl.c
-@@ -56,9 +56,8 @@ int _ips_leave(struct adapter *padapter)
- 		pwrpriv->ips_leave_cnts++;
+diff --git a/drivers/staging/iio/frequency/ad9832.c b/drivers/staging/iio/frequency/ad9832.c
+index 07baa574aa46..1627b0d5de8a 100644
+--- a/drivers/staging/iio/frequency/ad9832.c
++++ b/drivers/staging/iio/frequency/ad9832.c
+@@ -62,7 +62,7 @@
+ #define AD9832_CMD_SLEEPRESCLR	0xC
  
- 		result = rtw_ips_pwr_up(padapter);
--		if (result == _SUCCESS) {
-+		if (result == _SUCCESS)
- 			pwrpriv->rf_pwrstate = rf_on;
--		}
- 		pwrpriv->bips_processing = false;
- 
- 		pwrpriv->bkeepfwalive = false;
-@@ -549,9 +548,8 @@ void LeaveAllPowerSaveMode(struct adapter *Adapter)
- 
- 		LPS_Leave_check(Adapter);
- 	} else {
--		if (adapter_to_pwrctl(Adapter)->rf_pwrstate == rf_off) {
-+		if (adapter_to_pwrctl(Adapter)->rf_pwrstate == rf_off)
- 			ips_leave(Adapter);
--		}
- 	}
- }
- 
+ #define AD9832_FREQ		BIT(11)
+-#define AD9832_PHASE(x)		(((x) & 3) << 9)
++#define AD9832_PHASE(x)	FIELD_PREP(GENMASK(10, 9), x)
+ #define AD9832_SYNC		BIT(13)
+ #define AD9832_SELSRC		BIT(12)
+ #define AD9832_SLEEP		BIT(13)
+@@ -70,7 +70,7 @@
+ #define AD9832_CLR		BIT(11)
+ #define AD9832_FREQ_BITS	32
+ #define AD9832_PHASE_BITS	12
+-#define RES_MASK(bits)		((1 << (bits)) - 1)
++#define RES_MASK(bits)	GENMASK((bits) - 1, 0)
+ #define AD9832_CMD_MSK	GENMASK(15, 12)
+ #define AD9832_ADD_MSK	GENMASK(11, 8)
+ #define AD9832_DAT_MSK	GENMASK(7, 0)
 -- 
-2.34.1
+2.49.0
 
