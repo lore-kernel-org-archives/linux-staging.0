@@ -1,94 +1,80 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B09483A1BA;
-	Thu, 27 Mar 2025 08:04:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77C4A17BBF;
+	Thu, 27 Mar 2025 15:14:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743062686; cv=none; b=HiTYEYVwALJKzPDNohaN+pulVygsRnN/yHqNTQutO4YRpTaQNGp8aFTO6ipLc8AI5QTACf3pL+7r35rctAh0DFyiks0WXJFmbLY/jk81YnlUs+Os+UP+pAaD8TWSyLD64g/XCYbGMMOQeqF7MvH2APoSejcfgNVUGyCj+VxM0l0=
+	t=1743088465; cv=none; b=IVBd6yizHmMW0zkbiPuOpLuCWiPoxV8JCFQ1MFrF4cp5TxMj0yQ7j2zo5+hGSvabzJkyXsuWtDCeNGqYMzXCHrtpcKmNSVCWofamoauBd2sN0bNr3ufIEGXfu3+t2Aw7HPE3jPs0vI5882rjGQO6/h2GB/KKaY416Hss40SavDY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743062686; c=relaxed/simple;
-	bh=Nd3JhLAW8m9vlheZ9He/JNyCremw9y50OzQYsF+gcEc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lM5B60uDsJV3eSkxDwT5AQ9IbZfmS9UZzlsG6/5wZ4AT+1pUmeI2UljyolfGkByST4V+Nywx/ISJ/yMYVwRlCmii+bkPBAnPuIxW/WGCRAM/NQZd+RZdEJR8M0w5IaTaTJj4x0nCyniDRhUi+X+VhE683b3U7TudLHPajaGnRoo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ShlgxuNB; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1743088465; c=relaxed/simple;
+	bh=3fahoLuvkxmGiHmjrhB6ZsVBFHd7nTZQfCs1BWWmwCU=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=IFnsILQDLjkZ3Q+60BVcfh6ciBbT8WU3GSkbFxbyt35L7i4/PLoQumwpduVHDZyi3ilaQg6PRQZy6PjWPfROhj/N81Z69spSHTDzb3FEh4KveF7BKq5G3U3W5CPDGhI7+vWj9LRKroefXE5JJ02iZs5pzxmQ2/uxIJXjIka8Wlk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RsF51urM; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ShlgxuNB"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 607A1C4CEDD;
-	Thu, 27 Mar 2025 08:04:45 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RsF51urM"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 63029C4CEDD;
+	Thu, 27 Mar 2025 15:14:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1743062686;
-	bh=Nd3JhLAW8m9vlheZ9He/JNyCremw9y50OzQYsF+gcEc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ShlgxuNB7w03gaJnOCSfGwVY/pbn3j9fi5fXZiHVV7GSeFMjDJw6jHqQQYtpOYSvl
-	 d/SuzLSuxXkobozm9isdTklVGNNVyXPETBy8eobow3gPGPtYkv17POKIEMmIEpoqGO
-	 lMJzOyWQTGcMeSo/cCT/cNeaBnmkGPhmFWBroEbXxJWPUDtYclQnciXbq0q8wFWd5u
-	 GYNotwh+a2cBtTo1LjxzgjEWMU/TOY8GSXg3H3uCXz78KfCjEnFRrGCRBWwAqc8OCy
-	 iKV5YlybLyxlUF2AnXQVj1AsXjXfWupy0LvbDmrA4MkQKHKcUmSPinj3O5aP9kfC1S
-	 wS/qbHQ5zLuqg==
-Date: Thu, 27 Mar 2025 09:04:42 +0100
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Detlev Casanova <detlev.casanova@collabora.com>
-Cc: linux-kernel@vger.kernel.org, 
-	Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Heiko Stuebner <heiko@sntech.de>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Hans Verkuil <hverkuil@xs4all.nl>, 
-	Nicolas Dufresne <nicolas.dufresne@collabora.com>, Andrzej Pietrasiewicz <andrzej.p@collabora.com>, 
-	Jonas Karlman <jonas@kwiboo.se>, Sebastian Reichel <sebastian.reichel@collabora.com>, 
-	Niklas Cassel <cassel@kernel.org>, Alexey Charkov <alchark@gmail.com>, 
-	Dragan Simic <dsimic@manjaro.org>, Jianfeng Liu <liujianfeng1994@gmail.com>, 
-	Jacopo Mondi <jacopo.mondi@ideasonboard.com>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
-	Kieran Bingham <kieran.bingham@ideasonboard.com>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
-	Umang Jain <umang.jain@ideasonboard.com>, Naushir Patuck <naush@raspberrypi.com>, 
-	Jean-Michel Hautbois <jeanmichel.hautbois@ideasonboard.com>, Dmitry Perchanov <dmitry.perchanov@intel.com>, 
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org, 
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-staging@lists.linux.dev, kernel@collabora.com
-Subject: Re: [PATCH v4 5/6] media: dt-bindings: rockchip: Document RK3588
- Video Decoder bindings
-Message-ID: <20250327-kickass-pumpkin-bear-1dacbd@krzk-bin>
-References: <20250325213303.826925-1-detlev.casanova@collabora.com>
- <20250325213303.826925-6-detlev.casanova@collabora.com>
+	s=k20201202; t=1743088464;
+	bh=3fahoLuvkxmGiHmjrhB6ZsVBFHd7nTZQfCs1BWWmwCU=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=RsF51urMi1dzrFT+XkhonJgpCEZW8fRZoudyK7BxpywICruSeO2oAZr2l5+ZnyypB
+	 vNNQQ6GS59xwOommf7E1U6LVg17UDJQZQ+M0wax9rYlbpLDMv96sPeyh9Pmj+E9xeL
+	 NhTteSM49hrJtK7Zwy4RKu52wZefWXQLO6BEU8m7+CcxHUh6bho+sHTsGvtJ+KoGgY
+	 tjoXDTezgFnCJw3uOEtduGIL4sz+sWazAhebBFVZxgKRNS8g9PzPVVh80dy96LVBii
+	 KGIUkBb6URH1HquIhQs02hc+bWcNXWs4E8ko/8GW1zFLzW8gP7KqfrFBVp/ED5W4n3
+	 Mdq/BgzShCGsQ==
+Date: Thu, 27 Mar 2025 15:14:15 +0000
+From: Jonathan Cameron <jic23@kernel.org>
+To: <shao.mingyin@zte.com.cn>
+Cc: <lars@metafoo.de>, <yang.yang29@zte.com.cn>, <xu.xin16@zte.com.cn>,
+ <ye.xingchen@zte.com.cn>, <feng.wei8@zte.com.cn>,
+ <michael.hennerich@analog.com>, <gregkh@linuxfoundation.org>,
+ <linux-iio@vger.kernel.org>, <linux-staging@lists.linux.dev>,
+ <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] staging: iio: adt7316: replace irqd_get_trigger_type
+ with irq_get_trigger_type
+Message-ID: <20250327151415.791f65e9@jic23-huawei>
+In-Reply-To: <202503270957044481PK0Xb23i08BgwkodLtEC@zte.com.cn>
+References: <202503270957044481PK0Xb23i08BgwkodLtEC@zte.com.cn>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.48; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20250325213303.826925-6-detlev.casanova@collabora.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Tue, Mar 25, 2025 at 05:22:21PM -0400, Detlev Casanova wrote:
-> Document the Rockchip RK3588 Video Decoder bindings.
+On Thu, 27 Mar 2025 09:57:04 +0800 (CST)
+<shao.mingyin@zte.com.cn> wrote:
+
+> From: Feng Wei <feng.wei8@zte.com.cn>
 > 
-> Signed-off-by: Detlev Casanova <detlev.casanova@collabora.com>
+> Convert irqd_get_trigger_type(irq_get_irq_data(irq)) cases to the more
+> simple irq_get_trigger_type(irq).
+> 
+> Signed-off-by: Feng Wei <feng.wei8@zte.com.cn>
+> Signed-off-by: Shao Mingyin <shao.mingyin@zte.com.cn>
+Applied.
 > ---
->  .../bindings/media/rockchip,vdec.yaml         | 73 ++++++++++++++++++-
->  1 file changed, 72 insertions(+), 1 deletion(-)
->
-
-<form letter>
-This is a friendly reminder during the review process.
-
-It looks like you received a tag and forgot to add it.
-
-If you do not know the process, here is a short explanation:
-Please add Acked-by/Reviewed-by/Tested-by tags when posting new
-versions of patchset, under or above your Signed-off-by tag, unless
-patch changed significantly (e.g. new properties added to the DT
-bindings). Tag is "received", when provided in a message replied to you
-on the mailing list. Tools like b4 can help here. However, there's no
-need to repost patches *only* to add the tags. The upstream maintainer
-will do that for tags received on the version they apply.
-
-Please read:
-https://elixir.bootlin.com/linux/v6.12-rc3/source/Documentation/process/submitting-patches.rst#L577
-
-If a tag was not added on purpose, please state why and what changed.
-</form letter>
-
-Best regards,
-Krzysztof
+>  drivers/staging/iio/addac/adt7316.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/staging/iio/addac/adt7316.c b/drivers/staging/iio/addac/adt7316.c
+> index f4260786d50a..16f30c4f1aa0 100644
+> --- a/drivers/staging/iio/addac/adt7316.c
+> +++ b/drivers/staging/iio/addac/adt7316.c
+> @@ -1794,7 +1794,7 @@ static int adt7316_setup_irq(struct iio_dev *indio_dev)
+>  	struct adt7316_chip_info *chip = iio_priv(indio_dev);
+>  	int irq_type, ret;
+> 
+> -	irq_type = irqd_get_trigger_type(irq_get_irq_data(chip->bus.irq));
+> +	irq_type = irq_get_trigger_type(chip->bus.irq);
+> 
+>  	switch (irq_type) {
+>  	case IRQF_TRIGGER_HIGH:
 
