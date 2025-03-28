@@ -1,121 +1,190 @@
-Received: from mail-vk1-f172.google.com (mail-vk1-f172.google.com [209.85.221.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out-183.mta1.migadu.com (out-183.mta1.migadu.com [95.215.58.183])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3EC773C0C;
-	Fri, 28 Mar 2025 15:17:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81D461EF391
+	for <linux-staging@lists.linux.dev>; Fri, 28 Mar 2025 23:10:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.183
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743175076; cv=none; b=DLJ1da1ZdZ++RHmmZBK6hZq35wATRxTi/mkqajbAeOn3dL5ssJfHPHy0JXRweyJbmezvCXgRHPtNtw4BvsPED/AicNe2+7z1ZunS3wtwSGUwpph+gyB/CcAn/fffPrb6H6C1eIo6gPR3PcRWXd3eE+qpIlWu3the23pxRlXZXas=
+	t=1743203428; cv=none; b=FDEwwoePyosis9OrfA9KlDhdgfUcl2hyjMuFQ9RjwAGuyySmEj2Y1lT4fZ5MOpyr8yvqvdJSn8p3u72YnVA9fEOUjwQ68s4HtM8C+8CNr3HR8DkdF7jr729iYZQ+Urw3smS/KrSkzDhPNEO/XN7xYluL9xBXPAGdNzY/6YRwPxE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743175076; c=relaxed/simple;
-	bh=jEhtVTn1QWFoySaUXbkHkCIjovKC7NhTpAQFfzMoxEA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=gc9C7Hq90apUSapcD+Edue/OXS0O6fKxdkHV7cunoLoRG8lRZEG30k9QuppsCweHf3I433z2Klpe6mjGUHyUjJuRGZdXyZmpLQ1nL7vWbl7iE3UhguDy241NaCVx1ZwNLwtYfQPV54/NEa1G7VDIdKZ2TlBHBkysTFuxzQ63rpc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fSf157Wq; arc=none smtp.client-ip=209.85.221.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1743203428; c=relaxed/simple;
+	bh=ZtFrf+mzUkTrV1Qx3IOHEMKDoqy5hET8ni7VLNqWj8Q=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
+	 References:In-Reply-To; b=tl7eqBsCKDXuJI+hYx6g4fTA9bHB+irlZMag7jFu6dGnxv4vzNJLoxH/3U2USpO4f719jpeXgQqwtBmiZbkRhrjr721zGqEHdRKIyMMsnwLZ874gRa7mwISn/KxP0CmRSC8805uUupsh7w6MJSunVm/SSl+P/5mTLG+TUExVHp8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cknow.org; spf=pass smtp.mailfrom=cknow.org; dkim=pass (2048-bit key) header.d=cknow.org header.i=@cknow.org header.b=peZbvp+u; arc=none smtp.client-ip=95.215.58.183
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cknow.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cknow.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fSf157Wq"
-Received: by mail-vk1-f172.google.com with SMTP id 71dfb90a1353d-524038ba657so2211428e0c.0;
-        Fri, 28 Mar 2025 08:17:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1743175074; x=1743779874; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=2Jn0e09I6pw9OL2TVwRIfefTbq7C/d6a62JusO5U0Kc=;
-        b=fSf157WqosNAFw/6KCK1UBzDGCLirfSQmDMImiNyi27ZpSj5ZEIlL9OSxFizMHHoJ/
-         /qFE84QsaEVJ8QBWyx+Mj+PX1yAZOJf1HbCbevBsxiPBv2MCoE/OXAga5cKU98JLfq10
-         IrKgsFe/gdNYvLlAAq0Hbu3kSoJY74FnM37GNM4x/yH3qJeS4gA9elae7BuKuB6DEdLq
-         eNSAT6bLU+3NXIGP6IQ7BTj+UGejcFWP8gmGnhdQE6Yjpz+qYzVvQ3KdK6h0Xo4fSf3I
-         VSiZudvMNyUOQW63jiEQcvi/SGU8IWVgo9ArR5yz9EEZbJgxXI3ysF+1ztgh55FZL8MB
-         leMg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1743175074; x=1743779874;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=2Jn0e09I6pw9OL2TVwRIfefTbq7C/d6a62JusO5U0Kc=;
-        b=VygaCEv6F6uotAx9YWXlE5pUd3vVmF1S/77LiMRW/u1KM4S958a86cEEGfpHqAL/Jv
-         HnzRuwEuS+3f7SzGNwcjTqYTXNSHHCEZ7l+L3UyauqdCNVmIxorfx9W2sEE57Ga37lfz
-         oUA8pMozAZ09shF8IP8Le6p9GQjXb+23t/eW6a0rYRpGW1KBD4YwlIwlVs4tgp3FzZwc
-         y2Q/cFICmD1Vgi0BYZS1k1lNVkoxU57ePQmlNMfetEDzPckaJu8nPVW1tMdgaPRyU4U/
-         u6XekXZekH0uTUsfsDvnaT8BEwnIXrhCGDFdCmI7k9SShZ9ou8FfMOGVaSWn44GKNbc4
-         KUQw==
-X-Forwarded-Encrypted: i=1; AJvYcCU70hpPTFwvelm4D2FipLzzaV0NCThfYOmE40DcreyjMr7t4mBRYoigqdIAJqwq6ETPVrgrcLaMIuOwcvcX@lists.linux.dev
-X-Gm-Message-State: AOJu0YwxctIwNRs0eW8GKtowy3XnrH7FW5kTrQZXv0svlwMJXUlj8zMn
-	lu47iBsuBnEn4IlM4e5M8QOUi07eIMZCN4eejjGBGiOVzw0J1e8YChwGjOIYTVBAreeJaN615se
-	Iv8cqv9rIBJ5hZ+zh+7pbihQ95Yg=
-X-Gm-Gg: ASbGncthGOfFJ7pgLZBDpFBXOfzElFZp/qsa6l5JJba+9eOcA5JOyjT3IwlAamvG2Jd
-	lsG2FqoUG06dn65rx/ZUL0rd6uf0+W9KhZzpim6IGJ38Wpjlcwqo6i8xLJEjtgptGHxfkfamL/b
-	jK6uO8FJJuMQRoZltRGHYNviw9kw8=
-X-Google-Smtp-Source: AGHT+IEqrBEH5TDL81Y5j3ZIzOBqupeT+igPlWE2szhh0MEQKTWwtxcEL2xqXu4qp0Tz0FWhtqAPB67lgvSSjeeodZY=
-X-Received: by 2002:a05:6122:889:b0:50d:39aa:7881 with SMTP id
- 71dfb90a1353d-52610fc715cmr2676350e0c.0.1743175073764; Fri, 28 Mar 2025
- 08:17:53 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=cknow.org header.i=@cknow.org header.b="peZbvp+u"
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-References: <cover.1743163800.git.abrahamadekunle50@gmail.com>
- <dd32dfe6c837d88dd13a546aadcb0bc207b997d6.1743163801.git.abrahamadekunle50@gmail.com>
- <21e624e7-c18f-6aa2-2a16-7cd46e706d47@inria.fr> <CADYq+fZd=C-EydjBmkP6Rh6XAJS6Kg1nM7zGhyLrGYiLGkZ8mw@mail.gmail.com>
- <acd2df4b-6865-d2c0-7bc2-babcc930d03d@inria.fr>
-In-Reply-To: <acd2df4b-6865-d2c0-7bc2-babcc930d03d@inria.fr>
-From: Samuel Abraham <abrahamadekunle50@gmail.com>
-Date: Fri, 28 Mar 2025 16:17:44 +0100
-X-Gm-Features: AQ5f1JoIf6U6Zu3AD1_fwccY3uYCCIVmv3RFHYcdBK_5pT0_ajsEDqFotfNCPoc
-Message-ID: <CADYq+fY-UNbpWeefGuo_Y5OG98AQRu1=uZYu2cqpONOTpar4YA@mail.gmail.com>
-Subject: Re: [PATCH 5/5] staging: rtl8723bs: modify variable names to comply
- with kernel naming convention
-To: Julia Lawall <julia.lawall@inria.fr>
-Cc: outreachy@lists.linux.dev, gregkh@linuxfoundation.org, 
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Mime-Version: 1.0
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cknow.org; s=key1;
+	t=1743203414;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=STZ5FqUicffkrJ/L4Iet8L5svtmsV0SOVrQ2kmJ0+Bs=;
+	b=peZbvp+uX7RO7KoL4c5LkiMV9GUERmSid94u0cMFjbQaGFwSN2DSW1OpH1skNxvhkURo1A
+	jkRtr5yBcOCnJmSgWrw9Co3B0VdJ6u8y2RHP1+vpYoxZFStx1ZFVVelXjAe3Ngy7GVdL8c
+	sU5xd+qeBvnfJUH68MmOS8Qlx/oHez74A2izAtEDSVJfTD4Jj3VsTM3KLmrdP59ofcc/ig
+	MvkIz9QP/dgniHvjNifvgwaikCR1ZLkpxMPaQxn/bFsSgSO1BW6cvNDU7bDm3zPyTS5rcq
+	2m7l6bOb01EHQ4Jr7Bk80AsAO/1IfMSt2m9MUCzpb1As6R477TQ1Rsiq21gCmA==
+Content-Type: multipart/signed;
+ boundary=7c928e379149c708ec657bfbf13635c86dc30623af4f2b5a98f0c352d1dd;
+ micalg=pgp-sha256; protocol="application/pgp-signature"
+Date: Sat, 29 Mar 2025 00:09:37 +0100
+Message-Id: <D8SA0W2ZEAQ3.3BO4NMONFJCRC@cknow.org>
+Cc: "Ezequiel Garcia" <ezequiel@vanguardiasur.com.ar>, "Mauro Carvalho
+ Chehab" <mchehab@kernel.org>, "Rob Herring" <robh@kernel.org>, "Krzysztof
+ Kozlowski" <krzk+dt@kernel.org>, "Conor Dooley" <conor+dt@kernel.org>,
+ "Heiko Stuebner" <heiko@sntech.de>, "Greg Kroah-Hartman"
+ <gregkh@linuxfoundation.org>, "Hans Verkuil" <hverkuil@xs4all.nl>, "Nicolas
+ Dufresne" <nicolas.dufresne@collabora.com>, "Andrzej Pietrasiewicz"
+ <andrzej.p@collabora.com>, "Jonas Karlman" <jonas@kwiboo.se>, "Sebastian
+ Reichel" <sebastian.reichel@collabora.com>, "Niklas Cassel"
+ <cassel@kernel.org>, "Alexey Charkov" <alchark@gmail.com>, "Dragan Simic"
+ <dsimic@manjaro.org>, "Jianfeng Liu" <liujianfeng1994@gmail.com>, "Jacopo
+ Mondi" <jacopo.mondi@ideasonboard.com>, "Sakari Ailus"
+ <sakari.ailus@linux.intel.com>, "Kieran Bingham"
+ <kieran.bingham@ideasonboard.com>, "Laurent Pinchart"
+ <laurent.pinchart@ideasonboard.com>, "Umang Jain"
+ <umang.jain@ideasonboard.com>, "Naushir Patuck" <naush@raspberrypi.com>,
+ "Jean-Michel Hautbois" <jeanmichel.hautbois@ideasonboard.com>, "Dmitry
+ Perchanov" <dmitry.perchanov@intel.com>, "Tomi Valkeinen"
+ <tomi.valkeinen@ideasonboard.com>, <devicetree@vger.kernel.org>,
+ <linux-arm-kernel@lists.infradead.org>, <linux-staging@lists.linux.dev>,
+ <kernel@collabora.com>, <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v4 1/6] media: v4l2: Add NV15 and NV20 pixel formats
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: "Diederik de Haas" <didi.debian@cknow.org>
+To: "Detlev Casanova" <detlev.casanova@collabora.com>,
+ <linux-media@vger.kernel.org>, <linux-rockchip@lists.infradead.org>
+References: <20250325213303.826925-1-detlev.casanova@collabora.com>
+ <20250325213303.826925-2-detlev.casanova@collabora.com>
+In-Reply-To: <20250325213303.826925-2-detlev.casanova@collabora.com>
+X-Migadu-Flow: FLOW_OUT
+
+--7c928e379149c708ec657bfbf13635c86dc30623af4f2b5a98f0c352d1dd
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
 
-On Fri, Mar 28, 2025 at 4:13=E2=80=AFPM Julia Lawall <julia.lawall@inria.fr=
-> wrote:
->
->
->
-> On Fri, 28 Mar 2025, Samuel Abraham wrote:
->
-> > On Fri, Mar 28, 2025 at 3:55=E2=80=AFPM Julia Lawall <julia.lawall@inri=
-a.fr> wrote:
-> > >
-> > >
-> > >
-> > > On Fri, 28 Mar 2025, Abraham Samuel Adekunle wrote:
-> > >
-> > > > The variable names use the camelCase naming convention which is not=
- consistent
-> > > > with Linux kernel naming convention.
-> > > >
-> > > > Modify the names to use snake_case in adherence to the Linux kernel=
- approved
-> > > > naming convention for consistency with the codebase.
-> > >
-> > > There is another naming issue that checkpatch perhaps doesn't warn ab=
-out
-> > > which is the encoding of types in variable names.  You can see some
-> > > variables with names that start with b for boolean and p for pointer.
-> > > Those letters shouldn't be used in kernel code.
-> > >
-> > > julia
-> >
-> > Hello, and thank you very much for your review
-> > Do I send that as a different standalone patch?
-> > Or should I send a v2 after attaching the patch to the patchset?
->
-> Perhaps find some different files than the ones affected by your patchset
-> and send a standalone patch.
->
-> julia
+Hi Detlev,
 
-Okay noted.
-Thanks
+On Tue Mar 25, 2025 at 10:22 PM CET, Detlev Casanova wrote:
+> From: Jonas Karlman <jonas@kwiboo.se>
+>
+> Add NV15 and NV20 pixel formats used by the Rockchip Video Decoder for
+> 10-bit buffers.
+>
+> NV15 and NV20 is 10-bit 4:2:0/4:2:2 semi-planar YUV formats similar to
+> NV12 and NV16, using 10-bit components with no padding between each
+> component. Instead, a group of 4 luminance/chrominance samples are
+> stored over 5 bytes in little endian order:
+>
+> YYYY =3D UVUV =3D 4 * 10 bits =3D 40 bits =3D 5 bytes
+>
+> The '15' and '20' suffix refers to the optimum effective bits per pixel
+> which is achieved when the total number of luminance samples is a
+> multiple of 8 for NV15 and 4 for NV20.
+>
+> Signed-off-by: Jonas Karlman <jonas@kwiboo.se>
+> Tested-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+> Tested-by: Christopher Obbard <chris.obbard@collabora.com>
+> ---
+>  .../media/v4l/pixfmt-yuv-planar.rst           | 128 ++++++++++++++++++
+>  drivers/media/v4l2-core/v4l2-common.c         |   2 +
+>  drivers/media/v4l2-core/v4l2-ioctl.c          |   2 +
+>  include/uapi/linux/videodev2.h                |   2 +
+>  4 files changed, 134 insertions(+)
+>
+> diff --git a/Documentation/userspace-api/media/v4l/pixfmt-yuv-planar.rst =
+b/Documentation/userspace-api/media/v4l/pixfmt-yuv-planar.rst
+> index b788f69338554..22cad8c9726bf 100644
+> --- a/Documentation/userspace-api/media/v4l/pixfmt-yuv-planar.rst
+> +++ b/Documentation/userspace-api/media/v4l/pixfmt-yuv-planar.rst
+> @@ -79,6 +79,13 @@ All components are stored with the same number of bits=
+ per component.
+>        - Cr, Cb
+>        - Yes
+>        - Linear
+> +    * - V4L2_PIX_FMT_NV15
+> +      - 'NV15'
+> +      - 10
+> +      - 4:2:0
+> +      - Cb, Cr
+> +      - Yes
+> +      - Linear
 
-Adekunle.
+In your cover letter you mentioned:
+Imported improvements from [1]
+[1]: https://lore.kernel.org/linux-media/20250225-rkvdec_h264_high10_and_42=
+2_support-v7-2-7992a68a4910@collabora.com/
+
+The changelog of "media: rkvdec: Add H.264 High 10 and 4:2:2 profile
+support" v7 had this:
+- Move V4L2_PIX_FMT_NV15/V4L2_PIX_FMT_NV20 documentation as suggested
+
+Following a comment on v6 of that series.
+
+But it seems these blocks are now placed at the location as it was in
+the v6 series, thus NOT importing its improvements?
+
+>      * - V4L2_PIX_FMT_NV12M
+>        - 'NM12'
+>        - 8
+> @@ -172,6 +179,13 @@ All components are stored with the same number of bi=
+ts per component.
+>        - Cr, Cb
+>        - Yes
+>        - Linear
+> +    * - V4L2_PIX_FMT_NV20
+> +      - 'NV20'
+> +      - 10
+> +      - 4:2:2
+> +      - Cb, Cr
+> +      - Yes
+> +      - Linear
+>      * - V4L2_PIX_FMT_NV16M
+>        - 'NM16'
+>        - 8
+
+The same thing seemed to have happened here?
+
+Cheers,
+  Diederik
+
+> @@ -302,6 +316,57 @@ of the luma plane.
+>        - Cr\ :sub:`11`
+> =20
+> =20
+> +.. _V4L2-PIX-FMT-NV15:
+> +
+> +NV15
+> +----
+> +
+> +Semi-planar 10-bit YUV 4:2:0 format similar to NV12, using 10-bit compon=
+ents
+> +with no padding between each component. A group of 4 components are stor=
+ed over
+> +5 bytes in little endian order.
+> +
+> +.. flat-table:: Sample 4x4 NV15 Image (1 byte per cell)
+> +    :header-rows:  0
+> +    :stub-columns: 0
+
+--7c928e379149c708ec657bfbf13635c86dc30623af4f2b5a98f0c352d1dd
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQT1sUPBYsyGmi4usy/XblvOeH7bbgUCZ+csSwAKCRDXblvOeH7b
+bnEaAQDRs0XJAsCh5SV9NORF9yiBN4xK9/ksqMZ7dptPRBqK+wEA6MAvdIFDX8KV
+IsH2OmXqqcmhBEjMEtZRNbYrv/vtFQM=
+=JnIi
+-----END PGP SIGNATURE-----
+
+--7c928e379149c708ec657bfbf13635c86dc30623af4f2b5a98f0c352d1dd--
