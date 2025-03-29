@@ -1,119 +1,159 @@
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
+Received: from mail-qk1-f169.google.com (mail-qk1-f169.google.com [209.85.222.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 093001D6194
-	for <linux-staging@lists.linux.dev>; Sat, 29 Mar 2025 13:40:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33AAC1BFE00;
+	Sat, 29 Mar 2025 14:09:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743255631; cv=none; b=HhgEHp4zgJZqzGGToyhbVrsXqY4zIlUfjQoeOd8J1Myna9lkMGV5YoEmD0FhTNysL4SxN2xcPcqPOWGyYqI39F8Kx4d8P+kTbjJi90QHETsSn4lnHEx9JpLBznn2PTHCU4nKdJi4oh5e5zliio5O1S06Fh9xOLzjgfjaAnWFZW0=
+	t=1743257401; cv=none; b=KLoUXfWO2YV4tqKfPvVFzyEeqyJ/lHn343zKk6gCJCKRA9f9Q/LpgY5O93ye23dFqF2ELdw9XyI7+iSxbO+CzVyx1pITTI69IGSi5rgY2D/Qt+6vw5sKiNr/Xy4ud7YSXhvJ3cyJINaC0k3Ay+Aj/ihv3PrgWZa4O8F0LbNlxuY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743255631; c=relaxed/simple;
-	bh=MoWzeZWOTaAKgwFTjQ36mqg0XzzUVcbJKEAWJVJs+KQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cyfOrDnuer8MJfi01W+lQmQ3xQ7sZAw2CW/ZXG6gYb5+AoW91Kvb5Pd72LCEt9DykieApAKWI+tKHlGB3JzULc6t3SGl45dxvTBdzX5PW7ceb/9BaxxngnclQRST5JghVolGRmdt89Lr7h4+NWDdczhpp4QHG5dUtD/X2Gb4Q18=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PZ0dBY9Q; arc=none smtp.client-ip=209.85.214.182
+	s=arc-20240116; t=1743257401; c=relaxed/simple;
+	bh=8DNXuriryviUYkCuwI114J6F32sIvMmR3rYQl7tnHHA=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=cyiMUsfAjYX6eAxiqWD1SOC9UnnmZ1H7KQQB72Ez8+yaTz/sEPqNPU+ingLEtzYmjMlvx0wmFrtgk3heoEKMfqSzkOFtipEgIgsxci9teqDz5GVoZjoKa8AV666gcXLHaYRRgZvlZiHFmcbypRsjqTHt9Y0wtM6deUeHKJKedz0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=m3rt6o7q; arc=none smtp.client-ip=209.85.222.169
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PZ0dBY9Q"
-Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-2260c915749so45459975ad.3
-        for <linux-staging@lists.linux.dev>; Sat, 29 Mar 2025 06:40:29 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="m3rt6o7q"
+Received: by mail-qk1-f169.google.com with SMTP id af79cd13be357-7c5e2fe5f17so303800485a.3;
+        Sat, 29 Mar 2025 07:09:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1743255629; x=1743860429; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=0dAst4F27VW8K5mYgO/xzjAOXmOxFERt6ayMD9R7JYo=;
-        b=PZ0dBY9QfMGvPic3hwQrvvHopmkQ2ZKFhHaI2uvPomV42+YGQlhzIgjPiSvX1k+9+3
-         QOBZfWjgLGDJpDiPPtb3w1beXkjNBGwP+JHi85jXU1kVMo6eyQWOIj/6TbCKS+tfjcZs
-         r3464rzJG00309RhDXIRD2BFg+d64xPx2WUcjuQeBCC7jiu1GZ6BOTTYdqgeNJ4HoQYz
-         QeBLC+8SJ1FrIRMDzUcg+x2ohfMeECC4cJbhRrmADaSw5ThQXzGOxPvAr2Bv9XjqSgVM
-         Dtbz8akj5iWvUy8BGI2IyG/umU/KtBQYvlIJf6amZAK3Ko0+FK0ZK9Z6NlWJ83n8C0K0
-         Z6vQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1743255629; x=1743860429;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1743257398; x=1743862198; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=0dAst4F27VW8K5mYgO/xzjAOXmOxFERt6ayMD9R7JYo=;
-        b=SUveepNkqwfnn82VE4gG42AnX8K+0ehYSve3ghiAj6FSZfNR3VjtcKRo0PV5nqKF0x
-         Bg3FE+ZKErMEKmXtD876jnsuaWgNAAsucbLSIE8aSQeAQVviPtJCy+600ijeQXQq2f/2
-         M2PWsiYSJMG5lmW9aGyV/qDaNMNZic1oPfHWHK3ciARK5R+yrnVpoEljhm/M/NGE+bs5
-         alOIHc3hnNPs3SYUHeJdZgqB2sLGL7r02xteMRbeh3vrJCYh90tndDM3394H0TqwBUwk
-         OJqBEKWxTGCGyTn0wDklET2IFpY+fVJkPkd1Fj+l0ol13CKDfuZVrdXQGJvV80c0CPJz
-         vOcQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVVQz6BzkygCzGPOPg2+tPiu2ugj9Pn1EqDAF4IlvxxL2wQEDglIZT4s131+C/vfhwVxl3F7bNHixHIPQ9M@lists.linux.dev
-X-Gm-Message-State: AOJu0YwVG9av2AbOyA9Dxor66+8JW1C4rWvWzDDgV8ao8RhTcQ43BMLO
-	4FaCn2qpFxYO6l3zGUNC1LBeWZerc5rh0kHDd6LvdsJgLmxlCs4i
-X-Gm-Gg: ASbGncsWTh30Kt9gxU+mLQ+BczfbGZmOEumbbDzkgs3guWP6M4BEyVjzjR6lXxqf1TN
-	rZbXrAEzj7+xywPCs0HNBeC9evQ2qGlv6v1CMwiabwlnf2uPIaSSTUF6/MOFO3va+h+ytg0zX4p
-	8MZV/hQqohW2TLVWL8gItmyBUcVZpnkr7trozit41ml9v3Mp11HnkkP1iEwEBnnBWXIUKkwyZwH
-	ztLsUSW4JEoeviqvLNjVsB0XjOLbmgAyrX9ByNbUVMuHO4j0PgZIlzRNS4nSgsZgcshjHpvxWUP
-	UJHU0BfKUMN6ziQ7/8hSTMnZIkOF+h8I2nw8Wk3a/gbWVqyOPx/hOg==
-X-Google-Smtp-Source: AGHT+IGJjEMZtKoHgbsGX+ALAGZjFxOcU2Vy33m106UeqkLR7cq0fKX2dLrtPTHUTlpHex4xYcNFtw==
-X-Received: by 2002:a17:902:cf0e:b0:220:d257:cdbd with SMTP id d9443c01a7336-2292fa01b74mr53629935ad.48.1743255629078;
-        Sat, 29 Mar 2025 06:40:29 -0700 (PDT)
-Received: from localhost ([2804:30c:b03:ee00:e0b8:a8b8:44aa:8d0b])
-        by smtp.gmail.com with UTF8SMTPSA id 98e67ed59e1d1-3051cd9f674sm2350193a91.2.2025.03.29.06.40.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 29 Mar 2025 06:40:27 -0700 (PDT)
-Date: Sat, 29 Mar 2025 10:41:30 -0300
-From: Marcelo Schmitt <marcelo.schmitt1@gmail.com>
-To: Siddharth Menon <simeddon@gmail.com>
-Cc: linux-iio@vger.kernel.org, lars@metafoo.de,
-	Michael.Hennerich@analog.com, jic23@kernel.org,
-	gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev
-Subject: Re: [PATCH v3] iio: frequency: ad9832: Use FIELD_PREP macro to set
- bit fields
-Message-ID: <Z-f4irfx5Jtz-rfk@debian-BULLSEYE-live-builder-AMD64>
-References: <20250319045212.72650-1-simeddon@gmail.com>
- <Z965Rz8NuXhbHrgy@debian-BULLSEYE-live-builder-AMD64>
- <CAGd6pzNW2JKxTfQ8rLD8V7bdUgq8fc0R+ayChf3J0VdRm9Ptrg@mail.gmail.com>
+        bh=cLupDByQlOIZkjLN6KvumJEoZRkf2lxrlQMOafN8FXA=;
+        b=m3rt6o7qSjzPNbql6tP5mgfbtYBGP5XrwpP7cz05HIScnSjcUyPOenrTKDe4tVzoPf
+         aU9RlwVEdbRn76kIREL4rH/+NS6ah4EYHGpEnvy5WcB4PhMVoKPSzFlCmZ4G18rcxCP2
+         5ajc03lGG8roMOLiWZoaEViOVCPr3UMbF2xIYxdt7l0/OkPMpM1/6PaMwJXBS47CMknS
+         3aL0fSiftuD5AzNNuhLPqlgNr39Akxu98UtB/3pqGmonKqz+kNH0nsZOYeOnpZ4Phe/g
+         XPXnLcH0pV2vVWisToTzwfkM4YWqHCxXeC2pnUkkM/Ko5Jhl38GTktub5Vb2TDf1P++B
+         O5HQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1743257398; x=1743862198;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=cLupDByQlOIZkjLN6KvumJEoZRkf2lxrlQMOafN8FXA=;
+        b=FCB8gyXLubOJb7AJWu++X8nbmOUj++q1HU1bCDgA/PoHA8f7SWd/KS8Iw7C9uMjufA
+         nA5j/Nu72fE45/drKpF7S7G3+byf4iAaeVO9rAnTQKjk1aZCPVyZygLZ8M1y3h0ZkLbZ
+         pb4VctFs8j2GF/zxp78EO6bQzucBM4q36PXU4PqHyArMgLwQtdjjKLI7d5kyOhLf3+sI
+         FgRHxdjktg0dUiuQikdCVflfPU8TwFuGiny0raBDGurw+pRy6n3wsog75tsyyRRE21Dd
+         AYM0r3A813siENvg3aEodQ1ajtDeqmayFCaqD46Pyru2zlY7sXGXfEcNBmmBiIW1fXx3
+         RIJA==
+X-Forwarded-Encrypted: i=1; AJvYcCXtMmW5OYy4IdecY6ryzdbruOzEXpvBCytckQzel5Igt0kjh+Q1JfZ6lhd07wgObM802qqExBWscF3iNvAo@lists.linux.dev
+X-Gm-Message-State: AOJu0YwiLXTPJLF+hy60u0FUEUgjd2ZbYdR9evQ1QlTrj0D1TtVljtsB
+	nm5/oGBQ/1xb4P4yI9U5gmN6PhlA0VTeTxQWnEVGZNzlQXs/DEmo4UAm0FVZlYNgVPN6TH8Dd0d
+	G7o6S8Z3NHa4xJMIc67jkyIm9MNA=
+X-Gm-Gg: ASbGncsYJjLUYMB826Ynqyde62CNC7RJTLZYNntg9k41vvb4wKOk3AhUIzrK3SAHR03
+	WQ/0RG3SeNEUkIYKTNCfvUTF3O1S9orszx/QL6+kMh3rmTa7taqsLgODmgmnRVAuDl8AhBDFUuu
+	LeMtfJkTbkDH1f3cD7Sxz3Qvct6ETmiOV/ta2QJGM=
+X-Google-Smtp-Source: AGHT+IHiBV1iV4PKMC1ZMhEAyiFTBS7TU37wn1t1Fvc53PoREVRcm+1339Zxp6rKgDE1U0dx2ZKUSAa/QKA8UXFNFWY=
+X-Received: by 2002:a05:620a:4384:b0:7c5:5d4b:e635 with SMTP id
+ af79cd13be357-7c69087dcfamr463442985a.40.1743257397863; Sat, 29 Mar 2025
+ 07:09:57 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAGd6pzNW2JKxTfQ8rLD8V7bdUgq8fc0R+ayChf3J0VdRm9Ptrg@mail.gmail.com>
+References: <Z+fTJRBOZ+66zmsh@HP-650> <alpine.DEB.2.22.394.2503291210090.58211@hadrien>
+In-Reply-To: <alpine.DEB.2.22.394.2503291210090.58211@hadrien>
+From: Samuel Abraham <abrahamadekunle50@gmail.com>
+Date: Sat, 29 Mar 2025 15:09:49 +0100
+X-Gm-Features: AQ5f1Jpm4caITwijzgimQ8EsoiZ5v867wameF7gf2V278j-wvdcs0k14LhfU3KU
+Message-ID: <CADYq+fYizY_eRozZkKYzsD00biQMTGfhOcuqiQ0RzXApXiAF6A@mail.gmail.com>
+Subject: Re: [PATCH] staging: rtl8723bs: remove unnecessary type encoding in
+ variable names
+To: Julia Lawall <julia.lawall@inria.fr>
+Cc: outreachy@lists.linux.dev, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Siddharth,
-
-On 03/25, Siddharth Menon wrote:
-> On Sat, 22 Mar 2025 at 18:50, Marcelo Schmitt
-> <marcelo.schmitt1@gmail.com> wrote:
+On Sat, Mar 29, 2025 at 12:13=E2=80=AFPM Julia Lawall <julia.lawall@inria.f=
+r> wrote:
+>
+>
+>
+> On Sat, 29 Mar 2025, Abraham Samuel Adekunle wrote:
+>
+> > type encoding in variable names are not a standard in Linux kernel codi=
+ng
+> > style.
 > >
-> > On 03/19, Siddharth Menon wrote:
-> > > Refactor code to use the FIELD_PREP macro for setting bit fields
-> > > instead of manual bit manipulation.
+> > Remove redundant type prefixes (e.g, `b`, `p`) in variable names,
+> > as explicit type encoding is not necessary in Linux kernel code which
+> > uses type definitions rather than variable name prefixes
+>
+> You seem to have also gotten rid of capitalization.
+
+Hello Julia, thank you for your review
+Yes, I should have added that to my commit message. Thank you.
+
+> It's also not clear how you have chosen which variables to update.  Mostl=
+y
+> it seems to be pDM_Odm, but there is also pRFCalibrateInfo in some
+> comments.  But you haven't updated eg bMaskDWord.
+
+I chose to update the boolean and pointer variables which have been
+declared in the source files
+I was working on. pDM_Odm, declared in the source file, is a pointer
+of type struct dm_odm_t,
+which has been declared in a header file, so altering the pointer name
+would have no compiler errors since
+it is declared in the source file I modified.
+Some function prototypes have been declared in header files, so
+altering their names in their definition in the files
+I was editing would result in compiler errors too if the headers were
+not modified.
+I could have modified the variables in those header files too in
+drivers/staging/rtl8723bs/include
+but I was not sure how many files would be affected by the change and
+how long my patch would be,
+considering the three files I modified already made my patch over 3000
+lines long.
+
+RFCalibrateInfo(without the p) is a pointer that is a member of the
+struct dm_odm_t, which has been
+declared in the header file, so altering that in the source file would
+result in compiler errors too, since the header file
+ was not modified in drivers/staging/rtl8723bs/include/
+>
+> I don't know what the r represents in rOFDM0_XATxIQImbalance.
+
+The bMaskWord is a macro defined in the
+drivers/staging/rtl8723bs/include/Hal8192CPhyReg.h
+as `#define bMaskDWord 0xffffffff and also rOFDM0_XATxIQImbalance is a
+macro defined as
+`#define rOFDM0_XATxIQImbalance 0xc80` in the header file; these two
+values are not boolean values and are
+also declared in the header, so altering them in the source files will
+result in compiler errors
+
+However, other Boolean variables declared in the source files were modified=
+.
+
+>
+> julia
+>
 > >
-... 
-> I shall send in another patch addressing this.
 
-My understanding of Jonathan's reply to this patch is that it would actually be
-ok to do all MASK/FIELD_PREP/FIELD_GET cleanup in a single patch.
+> >
+> > -     struct odm_rf_cal_t *pRFCalibrateInfo =3D &pDM_Odm->RFCalibrateIn=
+fo;
+> > +     struct odm_rf_cal_t *rf_calibrate_info =3D &dm_odm->RFCalibrateIn=
+fo;
 
-> 
-> > > -             st->data = cpu_to_be16((AD9832_CMD_SYNCSELSRC << CMD_SHIFT) |
-> > > +             st->data = cpu_to_be16(FIELD_PREP(AD9832_CMD_MSK, AD9832_CMD_SYNCSELSRC) |
-> > >                                       st->ctrl_ss);
-> > Not sure about this assignment with mix of FIELD_PREP and non-FIELD_PREP value.
-> > Maybe have
-> >                                        FIELD_PREP(AD9832_DAT_MSK, st->ctrl_ss)); ?
-> 
-> From what I understood, I don't think that would work out. AD9832_SELSRC
-> = BIT(12) but AD9832_DAT_MSK only covers bits 7 through 0 GENMASK(7, 0).
->  It could exceed the maximum value allowed by the mask.
+Example of RFCalibrateInfo (with the p ) being declared as a pointer
+of type struct odm_rf_cal_t
+and also a member of the struct dm_odm_t
 
-Ah yes, that's correct. I didn't look very carefully at the assignment
-surroundings when replying. Sure, it would use the BIT(12) mask. So, something like
-FIELD_PREP(AD9832_SELSRC, st->ctrl_ss)
+So the declared variable(with the p) was modified, but the
+member(without the p) was not modified.
+With these, please what suggestions do you have?
+Thanks
 
-> 
-> Thanks,
-> Siddharth Menon
-
-Regards,
-Marcelo
+Adekunle
