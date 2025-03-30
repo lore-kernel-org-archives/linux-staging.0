@@ -1,74 +1,73 @@
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
+Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CC8E42065
-	for <linux-staging@lists.linux.dev>; Sun, 30 Mar 2025 13:15:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEF8BA47
+	for <linux-staging@lists.linux.dev>; Sun, 30 Mar 2025 13:54:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743340545; cv=none; b=bhGmdBjLK2G7jrd8ZcDWoWm/47L8Q1H9v5ZdffTPgsta+QMLO7k6sZF8S6kHP6sfGgJihP/bvQseYFw+j2liM9ADlfAlfaRXoovQRo+xUJsshGBPUUdWUkeRYHHuckWX2pj7rqbC2wg4JyJPU4gmW87Ptbvk4pQE6vXmwzj+0hs=
+	t=1743342854; cv=none; b=btbZWYmpDQ3a7Rseh5QmzB4DVPzgbpGHiFmP4CGeao4YbG6iJlBeZxMxGEXXzsM3xETqA8938Cu2p/kH0vHPLg6ZtIsG/q1l3KREp68GYF/kJRY70eIBOPrnUUC1hi2HaOQvbbDWG83Rocvi6NB8ycFJ373d10xaePI8ASQnPhA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743340545; c=relaxed/simple;
-	bh=zEqvR4Yif+VPOEp8p55PUCR23H0BtfvOL/VKmaewHI0=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Otv2zNMEbcYekenFFsM8VSz0s5WvRh6SSvFurSzV6NYDN4nEJMxSd5MpjzpCBbU/uNuqWzrfW8IsJHEWMXKfXCTKIJoQfdmXafLxthIKNjMr0uLH3WeacGn0O64BE3zGDPWqrizZAH+8xLOTkV/anVh8SRu/Qy527Q8ABJ8PFOg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Crw/Frf4; arc=none smtp.client-ip=209.85.214.182
+	s=arc-20240116; t=1743342854; c=relaxed/simple;
+	bh=DXt+GXeV4mp0WRGLCUGBLPVEPVQcKyAxaH7Wq8tfIJU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=lnJSZbw5K8mUuuNbSvjchS2xUis3pazrr2x7KnbipzeiZMuxW3GKo8+yPPzc84COC8hY5yawKo543wLQUZCTyjs4ZhQlWq2MAHzHi3EjT+PVyL6742KSiPGhDfQVOAJ9G793zr8ZuuZcmENxCdwxlIBtpi7FGygKdD3Q8QhoRy0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nllD3XWK; arc=none smtp.client-ip=209.85.216.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Crw/Frf4"
-Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-2243803b776so46179315ad.0
-        for <linux-staging@lists.linux.dev>; Sun, 30 Mar 2025 06:15:43 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nllD3XWK"
+Received: by mail-pj1-f54.google.com with SMTP id 98e67ed59e1d1-301c4850194so4927224a91.2
+        for <linux-staging@lists.linux.dev>; Sun, 30 Mar 2025 06:54:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1743340543; x=1743945343; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1743342852; x=1743947652; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=5b77UBiiF3+CsUBsobO4g2pHQ2rJ9CzTVYiaCkdVgZA=;
-        b=Crw/Frf4jWk4zi5D3iPTXW6/MvnnB4CE381jzbWBTSQV77Sw14Rr7lPUnPoRHAQR91
-         65bjoQTvS80G1zLbdAWuxbMnFSe0yH16jx0qXhadbugyEKVPTdrRW7g87eYLqE0boe/b
-         SGvoNhJebmhOyFeQdqfP3KI9i4njU+Qt0s8uioGpTpReRD+mC5wcg1s0uqgDff4TZRsm
-         uDEmwPZSnCmRdfdLB5wGD1HnD5H3tOl2TXMIY+wVOHogPfTKADqKRg4Ye40NnswWaehQ
-         NTOgd9K4U8vpkphm1XhRyxLoP48QTAi4mdFfKZwp9pfSsg+aeYmxECrzrBrnkOOfRuc1
-         UE4g==
+        bh=cja7WXf88weQH2Ms3egRtRNJB0hV1hLf9dov+aKpUCA=;
+        b=nllD3XWKhTsD0//T3a+KmME8wpwzuxAK+dKehIAda2bNjaMkpGjXMYerHPQK6/OW5C
+         OeKL/C9Ke0qB/JUu3FCm2jTdYx6Gc22WGFrGHS/WTNjgBK9HJy04k/QNqWXx6Z9HmBqJ
+         lcd0XSwmNSJuHEu3ooy6JGNt2p6tuK7gVbGk7WrRXV4d0xHquAGtYKJm8qkD0MIAZjGI
+         1T+thT88ZqA0V/SA9kJatzphBBkynELnIELV2CgxckCiRs9knUKh22OK7Wjy79/pMMuK
+         2YDhG0o9DjXOgC2PrEWtg+lZkLTGWnB90gH9b7QXZrwXNuJnMOBg8pwzQh3kbBChom8X
+         axlg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1743340543; x=1743945343;
+        d=1e100.net; s=20230601; t=1743342852; x=1743947652;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=5b77UBiiF3+CsUBsobO4g2pHQ2rJ9CzTVYiaCkdVgZA=;
-        b=YJWXBG/DDZO8pZuDsYeTzT1aNvDEX4vfv1xg3O/CSf1cvVXrnLP0Jkme0VvhvyUrdU
-         KoaTVj1kBRgHNV2ysGU6XdjtrEMr+XwIq5MO+M8xkWGD67BNvmLeyn3nG3HvUY6B9l3K
-         xFyFS526oGP+CvPjs356FImFbQSDWvoQlpPqLjit9PieBSDtZqGEFhi0GtDKkPUJt6eP
-         t9O005K3d7+S2rfByQmgIgDl/Mk7UvhzrELjal8q6fCFHFs+hgdp6LukLPT5SabxqtGR
-         IQSZhmNzJanb1nNd4OjJoMKnwhu4ae/H+7J6Ck/PgcwUHNx26EciBB2fm1Qr1R5BKT3b
-         wP1g==
-X-Forwarded-Encrypted: i=1; AJvYcCULbUeZeB5uDDigBZKZSTSFCSgrBnXBeZ9FVZUJzSUL2iLPBPFkc4zmg3lyMq57Y/2Fc4qIv6sPgyLDHJzM@lists.linux.dev
-X-Gm-Message-State: AOJu0Yztw6xaeYWd1FHlW8HkMUJkZl3Pcnd2Qu3c6GdO2Ta4l2ur8LBO
-	I654cYST3cCKCZl0vSlWj+z1cVWM7f4ZX2ScYiGHqu9UviutN2oA
-X-Gm-Gg: ASbGncuSQGaVnV7zqXQzAPtnZ+/covNdaRYKs8TGBW3Qughl5bvY+2mmzJtyw5ZCcTN
-	o9ftORvRzFHGUh3hcHBzuVzFAmmspFsij2T9aX3PNU1BvzTMohoJB0bDQ/OZhls/GHAfm2300g4
-	K/h7xSAmsvbQw9eAz9sNto/4zrrNvcecpWypjHGOK/UTXNO//Go9F0L+q6wGx06sovISt155DCG
-	bblE6TAmrXNAl7GsTEXLhOZHg9uT35k0oDQSey1caVqVYRozga0FDw95M48qp7bUkdFfAKrdp/7
-	cik0CIstqcnG/9Mg+owq0StaDtczxuks/rCOjqEr090eFCxg1J248y3/aa61q2mUA+PuegICS7q
-	1hw==
-X-Google-Smtp-Source: AGHT+IFf4viNFZnZC6WyJNmg3HGPNKr7fIwzjG7td15GVJfDIQhrUJRfnfTDgukBKPs86RnGbek6Mw==
-X-Received: by 2002:a05:6a00:3a24:b0:730:99cb:7c2f with SMTP id d2e1a72fcca58-739803648bcmr6881268b3a.6.1743340543068;
-        Sun, 30 Mar 2025 06:15:43 -0700 (PDT)
+        bh=cja7WXf88weQH2Ms3egRtRNJB0hV1hLf9dov+aKpUCA=;
+        b=hJmFTft4Ypg17/Htf93/+a6e8XZttcNV6SOVNfpOt0M6Jbxqv1IVPp096FTQM+vPyO
+         h2bsd3aFYN2I0W2d8mXmQo3UqM0kGQPENlEJC5/CzQ112XFO80vorIg7kajj2LWYEFIL
+         l5E4vaekuTtBS6naj2Lsn/fVKCj9L1+htJucdtpjphMHOsXILQxRcLBjdGeHBuNe/552
+         Tdf9gOJGh0ntMaCzSF8OPXE95faays7FKvh9kMGzXFAoK4sq3eJXKavIPcbT89S5CJGD
+         rOiNRA2iSyACbj1cjVbAI9LqcUuqStwWxcLVsUvMSVP+9/1fnxkjTtN8dPi/e/CjKsnn
+         /uHg==
+X-Forwarded-Encrypted: i=1; AJvYcCUjwQITxsjCVtlgt9N8kGwII9Alq7xVFsIZQiKi8JFmRCKn1yhumB1y77acpCfQqcbiHbpMroHnY2XsRZh7@lists.linux.dev
+X-Gm-Message-State: AOJu0Ywouirqs61Q0ZvYAgl+Mz219/CFCqJlOO7m6xpYw68Gaag4NffU
+	7ilPadn9egq3vzFfY0NuAMxCQiRG2xNYe2fR3dJf+81glFg5on2FePjAGZ4lM1E=
+X-Gm-Gg: ASbGncsR5s8Wsj9ANjabAz0Yni+26mHG+kWHNIJBAP78X2RNJ25PMeUfOZpS6xHaI/N
+	P2dc55b8k5RXgF+E1SudzPoHpHTzOqYkGdVbXhZLBlJHgcDBuwcQvq5v4o50vwihkbMy+zdfxlg
+	bRqBKdZAkskwZJGUUGNr0llbOuPFaDcfpxJS7nvViJpUZSRBDmsfh2qFqRxQ7xOxu8ULKqTWE+h
+	tFcIvGn/evmaymYZj48655cly15IuduWxtV9cfyvGZjcPhzsmK2VofXcXyTVo9nkARMpbocQtIo
+	lO/+ojIsyvHkAxm1mo6yjPFziR83bXxvh/Kmq+1YKEUg1FzFGR88KprLhJYpgAC3eb8=
+X-Google-Smtp-Source: AGHT+IGJRRD5SUgH1BoqMZGKNSNNsdWWHJiTdd51Gyk8ADVMgC2QcXtjhGAmxE4p//k5Ni8tp81dJQ==
+X-Received: by 2002:a17:90a:fc46:b0:2ff:52e1:c4b4 with SMTP id 98e67ed59e1d1-3053216eb64mr8498809a91.32.1743342851805;
+        Sun, 30 Mar 2025 06:54:11 -0700 (PDT)
 Received: from fedora.am.students.amrita.edu ([175.184.253.10])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-73970e27183sm5318985b3a.63.2025.03.30.06.15.39
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2291f1cdfbbsm51889505ad.146.2025.03.30.06.54.08
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 30 Mar 2025 06:15:42 -0700 (PDT)
+        Sun, 30 Mar 2025 06:54:11 -0700 (PDT)
 From: Siddharth Menon <simeddon@gmail.com>
-To: linux-iio@vger.kernel.org,
-	lars@metafoo.de,
-	Michael.Hennerich@analog.com,
-	jic23@kernel.org,
-	gregkh@linuxfoundation.org
+To: linux-iio@vger.kernel.org
 Cc: linux-kernel@vger.kernel.org,
 	linux-staging@lists.linux.dev,
+	gregkh@linuxfoundation.org,
+	jic23@kernel.org,
+	Michael.Hennerich@analog.com,
+	lars@metafoo.de,
 	marcelo.schmitt1@gmail.com,
 	Siddharth Menon <simeddon@gmail.com>
-Subject: [PATCH v4] iio: frequency: ad9832: Use FIELD_PREP macro to set bit fields
-Date: Sun, 30 Mar 2025 18:35:47 +0530
-Message-ID: <20250330131531.92301-1-simeddon@gmail.com>
+Subject: [PATCH v5] iio: frequency: ad9832: Use FIELD_PREP macro to set bit fields
+Date: Sun, 30 Mar 2025 19:19:51 +0530
+Message-ID: <20250330135402.105418-1-simeddon@gmail.com>
 X-Mailer: git-send-email 2.49.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -95,11 +94,17 @@ Signed-off-by: Siddharth Menon <simeddon@gmail.com>
  - update commit message with a better one
  - convert AD9832_PHASE and RES_MASK to masks
  - cleanup a few if else blocks
+ v4->v5
+ - remove unnecessary inversion (val ? 0 : 1) used
+   with AD9832_PHASE_MASK introduced in v4
+ - use ARRAY_SIZE instead of fixed integers
+ - use reverse xmas tree order
+ - align mask macros
  drivers/staging/iio/frequency/ad9832.c | 85 +++++++++++++-------------
  1 file changed, 44 insertions(+), 41 deletions(-)
 
 diff --git a/drivers/staging/iio/frequency/ad9832.c b/drivers/staging/iio/frequency/ad9832.c
-index 140ee4f9c137..1017d2e305cf 100644
+index 140ee4f9c137..e74d085fb4f2 100644
 --- a/drivers/staging/iio/frequency/ad9832.c
 +++ b/drivers/staging/iio/frequency/ad9832.c
 @@ -16,6 +16,9 @@
@@ -128,10 +133,10 @@ index 140ee4f9c137..1017d2e305cf 100644
  #define AD9832_FREQ_BITS	32
  #define AD9832_PHASE_BITS	12
 -#define RES_MASK(bits)		((1 << (bits)) - 1)
-+#define RES_MASK(bits)	GENMASK((bits) - 1, 0)
-+#define AD9832_CMD_MSK   GENMASK(15, 12)
-+#define AD9832_ADD_MSK   GENMASK(11, 8)
-+#define AD9832_DAT_MSK  GENMASK(7, 0)
++#define RES_MASK(bits)		GENMASK((bits) - 1, 0)
++#define AD9832_CMD_MSK		GENMASK(15, 12)
++#define AD9832_ADD_MSK		GENMASK(11, 8)
++#define AD9832_DAT_MSK		GENMASK(7, 0)
  
  /**
   * struct ad9832_state - driver instance specific data
@@ -139,8 +144,8 @@ index 140ee4f9c137..1017d2e305cf 100644
  {
  	unsigned long clk_freq;
  	unsigned long regval;
-+	u16 freq_cmd;
 +	u8 regval_bytes[4];
++	u16 freq_cmd;
  
  	clk_freq = clk_get_rate(st->mclk);
  
@@ -162,7 +167,7 @@ index 140ee4f9c137..1017d2e305cf 100644
 -	st->freq_data[3] = cpu_to_be16((AD9832_CMD_FRE16BITSW << CMD_SHIFT) |
 -					((addr - 3) << ADD_SHIFT) |
 -					((regval >> 0) & 0xFF));
-+	for (int i = 0; i < 4; i++) {
++	for (int i = 0; i < ARRAY_SIZE(regval_bytes); i++) {
 +		freq_cmd = (i % 2 == 0) ? AD9832_CMD_FRE8BITSW : AD9832_CMD_FRE16BITSW;
 +
 +		st->freq_data[i] = cpu_to_be16(FIELD_PREP(AD9832_CMD_MSK, freq_cmd) |
@@ -190,7 +195,7 @@ index 140ee4f9c137..1017d2e305cf 100644
 -					(phase & 0xFF));
 +	put_unaligned_be16(phase, phase_bytes);
 +
-+	for (int i = 0; i < 2; i++) {
++	for (int i = 0; i < ARRAY_SIZE(phase_bytes); i++) {
 +		phase_cmd = (i % 2 == 0) ? AD9832_CMD_PHA8BITSW : AD9832_CMD_PHA16BITSW;
 +
 +		st->phase_data[i] = cpu_to_be16(FIELD_PREP(AD9832_CMD_MSK, phase_cmd) |
@@ -239,7 +244,7 @@ index 140ee4f9c137..1017d2e305cf 100644
 -		st->ctrl_fp &= ~AD9832_PHASE(3);
 -		st->ctrl_fp |= AD9832_PHASE(val);
 +		st->ctrl_fp &= ~FIELD_PREP(AD9832_PHASE_MASK, 3);
-+		st->ctrl_fp |= FIELD_PREP(AD9832_PHASE_MASK, val ? 0 : 1);
++		st->ctrl_fp |= FIELD_PREP(AD9832_PHASE_MASK, val);
  
 -		st->data = cpu_to_be16((AD9832_CMD_FPSELECT << CMD_SHIFT) |
 +		st->data = cpu_to_be16(FIELD_PREP(AD9832_CMD_MSK, AD9832_CMD_FPSELECT) |
