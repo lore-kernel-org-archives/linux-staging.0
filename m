@@ -1,68 +1,91 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7083D1CAA81;
-	Sun, 30 Mar 2025 14:20:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D95782B2DA
+	for <linux-staging@lists.linux.dev>; Sun, 30 Mar 2025 15:43:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743344454; cv=none; b=UP/Spy2K1GMyojHqmY6ornfgoYc/HvUft2wF04LyXwBBaEWuryOQG82x/6a20n0e6r0mRjQ8Auo1uvnCY7QS2NcEMF2q4JrwdRBaucI6Dar8cQYI3dLVSyX6q3Y0mI9kdl+pJFj0ncpLMWqnT8a80Qv+yzy4Chd3yN/L/iT1WO8=
+	t=1743349431; cv=none; b=QT9b6Jz6kVEiWgD3Fe3PrrkkEUAJBlmpLUsNtAJyS68HKJ8xnIyL7GsJde2NcY5jdExBzPLtPZFFVc0mfYFoXt9/32GwC759n8+1kp9tPfECmMfWaqa0trNtyuvPfQaxWfKrrfx8sNxY1w1YLdFGf7+/3qM0Pr7zJ3aPqnQvcvM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743344454; c=relaxed/simple;
-	bh=OaAwWjCkWSKp7nR9/7svYOXrIrlAlqchiKGMbDjjjx0=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=khDOwOVRCktMvZpKLlbMfx+kKCamwv+o2F4W2YIka9h3tYqKD7DxtUiZP7MYv5eGeAzlIv3C/qh+uv0i/3SgmdQ1Y2LkeInRJpEE7o336dWMg5adqW41D3M5j+hWryEsbiNJEGsjrvAfJbvTmzO88CpPN/cV6a+AOkEp/YDf/hg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MsC+wlN4; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1743349431; c=relaxed/simple;
+	bh=DY/QoIgUcxlYWKWErAMultP4tK424psP9SLBssFPk1I=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=n81+D6VN9MG02S2gtpsYYNLM6jG4xajvCHml0DTZbzrSovZibewiRzPZFTi1GmILI31+YiqbxPjnqE4RIn/ULYhafQKgJd4YoAg0kQYeePTNAI8jIrPxx3aa3W8E2+Ue4jbh8iaqfzRTdiZiI3KNiG+U4kNuxNuyR5dnjVLxj8Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UE4OxGDp; arc=none smtp.client-ip=209.85.216.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MsC+wlN4"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7AE77C4CEDD;
-	Sun, 30 Mar 2025 14:20:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1743344453;
-	bh=OaAwWjCkWSKp7nR9/7svYOXrIrlAlqchiKGMbDjjjx0=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=MsC+wlN4Ukm2C6OvMvaVIEnCFM/3TCLYCuJP4Lr9ANNWW3rocEEYVqpjAWQeTkT94
-	 0W+jzvVCwhW1kgnXi/GQbIl0ue/fgUrkMLpNNZbXdsQae7Q4SjOTNh7t9sKh6nzBAO
-	 vUJ6CspG67Fpr5Zlo4g5NeSEaG2oLEG/SkwJdBdXPSaGUIu7yZmenZDdABJKBLtlAP
-	 pbx1ZpYwxt9BTUhBtdYwrEt1PRLEbrXIDNeCbQ+Vrx+EZmX+F6xDycnWs3XbOmIjiy
-	 v9HHug8NgAjmzSkC19uF2lwBc/PKKUR306mqCF8jNDmaGgL38Qp7RjJLsc8sljyMZO
-	 WTSnaUgyh0x+Q==
-Date: Sun, 30 Mar 2025 15:20:44 +0100
-From: Jonathan Cameron <jic23@kernel.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UE4OxGDp"
+Received: by mail-pj1-f50.google.com with SMTP id 98e67ed59e1d1-3031354f134so4838828a91.3
+        for <linux-staging@lists.linux.dev>; Sun, 30 Mar 2025 08:43:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1743349429; x=1743954229; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=uYhteagEyzg+N5CaIO1iHsEXBTHsWVMkEKuAyOQorjA=;
+        b=UE4OxGDpOHRN+rMLBXJwUJPuZ1A0xAld2tWYZwc7G79nR9MjKig2YxOtRv0Qx/ylWM
+         xUhZdmdo52SHpyiM0XnJoVsx8Bj2u2nn+uFTGs2s9pYMgrAPkqi9LsMoA44R+ntXGOH0
+         1zW25gLJTNch7KZZ3QZJyK5Bdj6WZOn61AezhrkOH8UoJHAUY23CCSUMuHQNZy6O0j7b
+         STPxn1bL00LXMb1mC+ktCFlzVQqmypX3bAjPfRWfvGQHg9eD/xTdxnhHbk1vVNIa+kDP
+         Jy2W8VpTBNZG2wCTQZ/PFwVgYOfsduqZBwIsjgWo+hzrb8vCSpr9JGATpmFNtUJ7aczR
+         pQeg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1743349429; x=1743954229;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=uYhteagEyzg+N5CaIO1iHsEXBTHsWVMkEKuAyOQorjA=;
+        b=wGJwZ4dzr3vY4PCuLskl2J5PN2kC+eiwUS4t0MPD/44TZR4pEDPp1nUjr9dsEyMukh
+         YQUd2coQ1kUmjIoapUj/g5iHgmWSR014G0UUWFusmO0E7/iwyBvJRUpLuuFsatEpTQv5
+         SGVYgT6AlNpneHTkSMcPW/GKPrCrLOcxIEYVgZip8hTIlv0wJIHdnVUBLAJ28JJ107Zf
+         XgKokmZ6QplGWFBBhgCVASkIKkwvlBjq5gp9hwaQPCBbY7XGBscRfkaGHrifVCOjZOfl
+         wDKCpo373T9XGWKVVBJtNLHKtZWSvc+dTwc/K3hFkBi2Hm1iLZ8fMvPuPaCJWUme0Lr8
+         CouQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWRmUZKQ5N9mpsTH15DncniIp3xAn9Ut+tVhoRJnKtgNz+bp6A8FIuQfZ+o3gkqgwdFmPnwp34SPYC9TP2A@lists.linux.dev
+X-Gm-Message-State: AOJu0Yx+aU9Fytt+JGH1YUQMjhKWlgIb71JFZRvtkMzvo+bgrf7xRCqW
+	VA4agSgNrwco1owWhwy+cTxj4yAX4MnNOv1dUvNEc/qZJa7Tqjmf
+X-Gm-Gg: ASbGnctGtlFA/RtMmYr3amGMUPOY3Lkb3+OjosxVVzQCbxiWRUkOAVUKDQgaKY+ilXI
+	xX6OqXLyRtkNqTzFKeBNjQAQOUuBCnrYmGqJVZH5UU5Q85ieDZyiWO0JXpIdf1/jm81JwDpUGu2
+	rINHqJqKONydEQCg+/+hENdvyutImf8xDS85Nb8Hsu2fuxdKKDa7wKdyJ1rgdGlO/n0Yx7HZ4ol
+	oOWtJXtyBaqs9g2tA3hcxnCD7ZFOVlB+4YXEuWRUU8Mc0eI4MVyH0JlEyDG34FmyCvZkaT7wgc9
+	eRkMPrrEWQb+bvgKym+WmGP5jRt1dvDij6ASIljwqDFmMuW7FVsz6WWUxe2mwMwW
+X-Google-Smtp-Source: AGHT+IFQ1NR4OoxulZ7bvgn4OOzRV3N3uO6d2kuqzhU72/7pKS2qxDZ/gPmXAxdv5zgchB26Xkyk0A==
+X-Received: by 2002:a17:90b:2e88:b0:2fa:228d:5b03 with SMTP id 98e67ed59e1d1-305320afbbfmr9008735a91.19.1743349428908;
+        Sun, 30 Mar 2025 08:43:48 -0700 (PDT)
+Received: from localhost ([2804:30c:b03:ee00:e0b8:a8b8:44aa:8d0b])
+        by smtp.gmail.com with UTF8SMTPSA id 98e67ed59e1d1-30516d62964sm5567734a91.26.2025.03.30.08.43.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 30 Mar 2025 08:43:47 -0700 (PDT)
+Date: Sun, 30 Mar 2025 12:44:50 -0300
+From: Marcelo Schmitt <marcelo.schmitt1@gmail.com>
 To: Siddharth Menon <simeddon@gmail.com>
 Cc: linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-staging@lists.linux.dev, gregkh@linuxfoundation.org,
- Michael.Hennerich@analog.com, lars@metafoo.de, marcelo.schmitt1@gmail.com
+	linux-staging@lists.linux.dev, gregkh@linuxfoundation.org,
+	jic23@kernel.org, Michael.Hennerich@analog.com, lars@metafoo.de
 Subject: Re: [PATCH v5] iio: frequency: ad9832: Use FIELD_PREP macro to set
  bit fields
-Message-ID: <20250330152044.18cf81f6@jic23-huawei>
-In-Reply-To: <20250330135402.105418-1-simeddon@gmail.com>
+Message-ID: <Z-lm8l1ILFuJE5YS@debian-BULLSEYE-live-builder-AMD64>
 References: <20250330135402.105418-1-simeddon@gmail.com>
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.48; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250330135402.105418-1-simeddon@gmail.com>
 
-On Sun, 30 Mar 2025 19:19:51 +0530
-Siddharth Menon <simeddon@gmail.com> wrote:
+Hi Siddharth,
 
+Some suggestions in addition to what Jonathan has provided in his review.
+
+On 03/30, Siddharth Menon wrote:
 > Use bitfield and bitmask macros to clearly specify AD9832 SPI
 > command fields to make register write code more readable.
 > 
 > Suggested-by: Marcelo Schmitt <marcelo.schmitt1@gmail.com>
 > Signed-off-by: Siddharth Menon <simeddon@gmail.com>
-Hi Siddharth,
-
-I took a closer look at the original data layout handling
-in here.  It doesn't make much sense to me, so perhaps we should
-fix that up whilst making these other changes.
-
-Jonathan
-
 > ---
 >  v1->v2:
 >  - remove CMD_SHIFT and ADD_SHIFT
@@ -95,11 +118,6 @@ Jonathan
 > +#include <linux/bitfield.h>
 > +#include <linux/bits.h>
 > +#include <linux/unaligned.h>
-
-Before this patch the includes were in alphabetical order.
-That's preferred for IIO patches in general, but in this case
-following local style makes that more important still.
-
 >  
 >  #include <linux/iio/iio.h>
 >  #include <linux/iio/sysfs.h>
@@ -120,110 +138,13 @@ following local style makes that more important still.
 >  #define AD9832_PHASE_BITS	12
 > -#define RES_MASK(bits)		((1 << (bits)) - 1)
 > +#define RES_MASK(bits)		GENMASK((bits) - 1, 0)
-
-Silly question.  Is this used anywhere?  Given FIELD_PREP
-etc tend not to work with non constant values I went looking
-to check this was constant and couldn't find any where it is used.
-As such just drop it instead!
+I also don't see RES_MASK being used by ad9832 so just drop it.
 
 > +#define AD9832_CMD_MSK		GENMASK(15, 12)
 > +#define AD9832_ADD_MSK		GENMASK(11, 8)
 > +#define AD9832_DAT_MSK		GENMASK(7, 0)
 >  
->  /**
->   * struct ad9832_state - driver instance specific data
-> @@ -131,6 +135,8 @@ static int ad9832_write_frequency(struct ad9832_state *st,
->  {
->  	unsigned long clk_freq;
->  	unsigned long regval;
-> +	u8 regval_bytes[4];
-> +	u16 freq_cmd;
->  
->  	clk_freq = clk_get_rate(st->mclk);
->  
-> @@ -138,19 +144,15 @@ static int ad9832_write_frequency(struct ad9832_state *st,
->  		return -EINVAL;
->  
->  	regval = ad9832_calc_freqreg(clk_freq, fout);
-> +	put_unaligned_be32(regval, regval_bytes);
->  
-> -	st->freq_data[0] = cpu_to_be16((AD9832_CMD_FRE8BITSW << CMD_SHIFT) |
-> -					(addr << ADD_SHIFT) |
-> -					((regval >> 24) & 0xFF));
-> -	st->freq_data[1] = cpu_to_be16((AD9832_CMD_FRE16BITSW << CMD_SHIFT) |
-> -					((addr - 1) << ADD_SHIFT) |
-> -					((regval >> 16) & 0xFF));
-> -	st->freq_data[2] = cpu_to_be16((AD9832_CMD_FRE8BITSW << CMD_SHIFT) |
-> -					((addr - 2) << ADD_SHIFT) |
-> -					((regval >> 8) & 0xFF));
-> -	st->freq_data[3] = cpu_to_be16((AD9832_CMD_FRE16BITSW << CMD_SHIFT) |
-> -					((addr - 3) << ADD_SHIFT) |
-> -					((regval >> 0) & 0xFF));
-> +	for (int i = 0; i < ARRAY_SIZE(regval_bytes); i++) {
-> +		freq_cmd = (i % 2 == 0) ? AD9832_CMD_FRE8BITSW : AD9832_CMD_FRE16BITSW;
-> +
-> +		st->freq_data[i] = cpu_to_be16(FIELD_PREP(AD9832_CMD_MSK, freq_cmd) |
-> +			FIELD_PREP(AD9832_ADD_MSK, addr - i) |
-> +			FIELD_PREP(AD9832_DAT_MSK, regval_bytes[i]));
-Looking at the data layout here, this seems like an interesting dance to fill two unrelated
-u8 values - it's not a be16 at all.
-
-I'd be tempted to split the freq_data into u8s and then you will just have 
-		st->freq_data[i][0] = FIELD_PREP(AD9832_CMD_MSK, freq_cmd) |
-				      FIELD_PREP(AD9832_ADD_SMK, addr - i);
-//with masks adjusted appropriately.
-		st->freq_data[i][1] = regval_bytes[i];
-
-> +	}
->  
->  	return spi_sync(st->spi, &st->freq_msg);
->  }
-> @@ -158,15 +160,21 @@ static int ad9832_write_frequency(struct ad9832_state *st,
->  static int ad9832_write_phase(struct ad9832_state *st,
->  			      unsigned long addr, unsigned long phase)
->  {
-> +	u8 phase_bytes[2];
-> +	u16 phase_cmd;
-> +
->  	if (phase >= BIT(AD9832_PHASE_BITS))
->  		return -EINVAL;
->  
-> -	st->phase_data[0] = cpu_to_be16((AD9832_CMD_PHA8BITSW << CMD_SHIFT) |
-> -					(addr << ADD_SHIFT) |
-> -					((phase >> 8) & 0xFF));
-> -	st->phase_data[1] = cpu_to_be16((AD9832_CMD_PHA16BITSW << CMD_SHIFT) |
-> -					((addr - 1) << ADD_SHIFT) |
-> -					(phase & 0xFF));
-> +	put_unaligned_be16(phase, phase_bytes);
-> +
-> +	for (int i = 0; i < ARRAY_SIZE(phase_bytes); i++) {
-> +		phase_cmd = (i % 2 == 0) ? AD9832_CMD_PHA8BITSW : AD9832_CMD_PHA16BITSW;
-> +
-> +		st->phase_data[i] = cpu_to_be16(FIELD_PREP(AD9832_CMD_MSK, phase_cmd) |
-> +			FIELD_PREP(AD9832_ADD_MSK, addr - i) |
-> +			FIELD_PREP(AD9832_DAT_MSK, phase_bytes[i]));
-Similarly.
-
-> +	}
->  
->  	return spi_sync(st->spi, &st->phase_msg);
->  }
-> @@ -197,24 +205,22 @@ static ssize_t ad9832_write(struct device *dev, struct device_attribute *attr,
->  		ret = ad9832_write_phase(st, this_attr->address, val);
->  		break;
->  	case AD9832_PINCTRL_EN:
-> -		if (val)
-> -			st->ctrl_ss &= ~AD9832_SELSRC;
-> -		else
-> -			st->ctrl_ss |= AD9832_SELSRC;
-> -		st->data = cpu_to_be16((AD9832_CMD_SYNCSELSRC << CMD_SHIFT) |
-> +		st->ctrl_ss &= ~AD9832_SELSRC;
-> +		st->ctrl_ss |= FIELD_PREP(AD9832_SELSRC, val ? 0 : 1);
-> +
-> +		st->data = cpu_to_be16(FIELD_PREP(AD9832_CMD_MSK, AD9832_CMD_SYNCSELSRC) |
->  					st->ctrl_ss);
->  		ret = spi_sync(st->spi, &st->msg);
->  		break;
+...
 >  	case AD9832_FREQ_SYM:
 > -		if (val == 1) {
 > -			st->ctrl_fp |= AD9832_FREQ;
@@ -231,10 +152,20 @@ Similarly.
 > +		if (val == 1 || val == 0) {
 >  			st->ctrl_fp &= ~AD9832_FREQ;
 > +			st->ctrl_fp |= FIELD_PREP(AD9832_FREQ, val ? 0 : 1);
+The previous implementation would set ctrl_fp if val == 1 and unset it if val == 0.
+This patch seems to be doing the reverse (setting ctrl_fp if val == 0, and
+unsetting it if val != 0). Was the previous implementation potentially buggy?
+If not, I think we can just do
+
+		st->ctrl_fp &= ~AD9832_FREQ;
+		st->ctrl_fp |= FIELD_PREP(AD9832_FREQ, !!val);
+
 >  		} else {
 >  			ret = -EINVAL;
 >  			break;
 >  		}
+and drop the error path. Slight change in interface but guess no problem with that.
+
 > -		st->data = cpu_to_be16((AD9832_CMD_FPSELECT << CMD_SHIFT) |
 > +		st->data = cpu_to_be16(FIELD_PREP(AD9832_CMD_MSK, AD9832_CMD_FPSELECT) |
 >  					st->ctrl_fp);
@@ -248,6 +179,13 @@ Similarly.
 > -		st->ctrl_fp |= AD9832_PHASE(val);
 > +		st->ctrl_fp &= ~FIELD_PREP(AD9832_PHASE_MASK, 3);
 > +		st->ctrl_fp |= FIELD_PREP(AD9832_PHASE_MASK, val);
+
+This seems to be a typical modify use case as exemplified in
+include/linux/bitfield.h. So,
+
+		st->ctrl_fp &= ~AD9832_PHASE_MASK;
+		st->ctrl_fp |= FIELD_PREP(AD9832_PHASE_MASK, val);
+
 >  
 > -		st->data = cpu_to_be16((AD9832_CMD_FPSELECT << CMD_SHIFT) |
 > +		st->data = cpu_to_be16(FIELD_PREP(AD9832_CMD_MSK, AD9832_CMD_FPSELECT) |
@@ -262,19 +200,16 @@ Similarly.
 > -			st->ctrl_src |= AD9832_RESET;
 > +		st->ctrl_src &= ~(AD9832_RESET | AD9832_SLEEP | AD9832_CLR);
 > +		st->ctrl_src |= FIELD_PREP(AD9832_RESET, val ? 0 : 1);
+Hmm, this is modifying behavior. AD9832_SLEEP and AD9832_CLR were only being
+modified if something other than 0 was written to output enable sysfs file.
+Is the patch code mode appropriate than how the driver was before?
+
 >  
 > -		st->data = cpu_to_be16((AD9832_CMD_SLEEPRESCLR << CMD_SHIFT) |
 > +		st->data = cpu_to_be16(FIELD_PREP(AD9832_CMD_MSK, AD9832_CMD_SLEEPRESCLR) |
 >  					st->ctrl_src);
 >  		ret = spi_sync(st->spi, &st->msg);
 >  		break;
-> @@ -396,7 +399,7 @@ static int ad9832_probe(struct spi_device *spi)
->  	spi_message_add_tail(&st->phase_xfer[1], &st->phase_msg);
->  
->  	st->ctrl_src = AD9832_SLEEP | AD9832_RESET | AD9832_CLR;
-> -	st->data = cpu_to_be16((AD9832_CMD_SLEEPRESCLR << CMD_SHIFT) |
-> +	st->data = cpu_to_be16(FIELD_PREP(AD9832_CMD_MSK, AD9832_CMD_SLEEPRESCLR) |
->  					st->ctrl_src);
->  	ret = spi_sync(st->spi, &st->msg);
->  	if (ret) {
 
+Regards,
+Marcelo
