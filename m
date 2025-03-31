@@ -1,132 +1,102 @@
-Received: from fout-a3-smtp.messagingengine.com (fout-a3-smtp.messagingengine.com [103.168.172.146])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DB2D1E0B86
-	for <linux-staging@lists.linux.dev>; Mon, 31 Mar 2025 16:18:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.146
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBF8086347
+	for <linux-staging@lists.linux.dev>; Mon, 31 Mar 2025 16:38:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743437891; cv=none; b=swKVb/Tg4FagIUuOOlExg/ctKIfwmgbpjkd+FVuqFb8cMWS2ZEUTT0Fqkyro/P8eJB9mmojRY3rh0ni9dLrjdFWadIgrsPodlFvDYlNGTiExgyUHYK6zkYbegZL7HFqk4FBYtVEMZ3vRCQTsgni3F6dFx0s940vOOFcA4c4gpnI=
+	t=1743439127; cv=none; b=hUylWZEQaCU9npIg1cfN1yDm0IlbKEj4pFCvmoiOJmi/lbtH+bCqHqoBMSoLeVSXmePacRCEjHUiJlMIKWZRbxsmOnGFYpJFj/gRj3A5uWbZ5ieGYBkAZW/0WC6e6CT5ktW/twyMdsoqJU9Ibhjxcw5y03CVtZ48+9NWf9hgNaY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743437891; c=relaxed/simple;
-	bh=aTg6yYXpHoM2puFiQpgt/tSsBDbhEsa9a6e7au0koPE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qro/j1M6V2N3V3gPvbCdyPtZkMY5biiaTlmXhWeRu0YIgcLLnUC/gVA/wZFSHVFexAnIOlhkJ35CBU+rxw6Q9lhOoXvZqedG/VmbmaQ4+/HoRsLWQGuAPon6J4wzRubXoE2oDIdeVelo2e1D42JXAt6KxwdirG/cVx7I3ahxL/U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kroah.com; spf=pass smtp.mailfrom=kroah.com; dkim=pass (2048-bit key) header.d=kroah.com header.i=@kroah.com header.b=h9wtvXaO; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=IncMXsAx; arc=none smtp.client-ip=103.168.172.146
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kroah.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kroah.com
+	s=arc-20240116; t=1743439127; c=relaxed/simple;
+	bh=msHDyhQuwl0lyuk5ghM677h2CmEgt+ySvxiZKKREyPg=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=PlcUkbqvV8+idz4c4r4gQLOg7EMaGQ62itMWkYZVn56LGcvG1bedS1u2zJBzljs1FKI3hfgXV+G7sTN8St5315H0Q3oOnaG9zv+RFDsTGPxy7P/JxP+3jQrBdt16S+VS+LU25x2DHn0Jrux/GUHRxwATOswwlryqogmKulUI+64=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=CDLrP5Nv; arc=none smtp.client-ip=209.85.167.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kroah.com header.i=@kroah.com header.b="h9wtvXaO";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="IncMXsAx"
-Received: from phl-compute-05.internal (phl-compute-05.phl.internal [10.202.2.45])
-	by mailfout.phl.internal (Postfix) with ESMTP id 5F622138456A;
-	Mon, 31 Mar 2025 12:18:07 -0400 (EDT)
-Received: from phl-mailfrontend-02 ([10.202.2.163])
-  by phl-compute-05.internal (MEProxy); Mon, 31 Mar 2025 12:18:07 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kroah.com; h=cc
-	:cc:content-type:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:subject
-	:subject:to:to; s=fm2; t=1743437887; x=1743524287; bh=0PKpSpAP/D
-	7a8SfehCwf+MgvErJcuIyK4tm4G4WThW4=; b=h9wtvXaODk83Gta8YoZenzfwtQ
-	V6U7B6gOVQSS6iC+beGokGSAydYp5rOP782rw/vOwtMdk9ITbQtJHyA2yBOUFshg
-	MRxqa7DUDbLU1clvib7R8OTc80HEFnHIaFiW9IE05hx43U/C+ytt5CpnVW0AdWtA
-	xTfBivAROm5JmQGaaIC8RjX7dmE8x3hmp4DTPM/pZAxCr22s2h4idTt2CR9OaXLP
-	f7R0VYU6L2039E9CHrdtv6rx2PgVu5JirI3G6fbGgVeJWyVDMSlinBPAIyoIa6f/
-	q5KpnlGKJH/vfxHNCrBYA3PUzckuXCb26KGlnDwSSyMOuOYfvy9MaquMDmOQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=
-	1743437887; x=1743524287; bh=0PKpSpAP/D7a8SfehCwf+MgvErJcuIyK4tm
-	4G4WThW4=; b=IncMXsAxfrDJxq2YCcmDzFe1MpN2yllVRjRhm4EtyKoy9fWz3Nc
-	IIVeMs7vhFQZWIdgYitIwHGu/MkpxouKlKnW/ZVVbomYzGIsnxzMG0+qylBa6veF
-	250g/xqhkUc3Euw8s+RFEV36spxPo5Nu8RZNOzkHxxD25Ar9h4e6vi9z3JkfZtvm
-	z1grYVPzLLF0nq0HOki6l3OfF34i3G60EWn7PEPM45qAMbRBGKHzp0c+2gPw60zB
-	O5Ig7eq8X7rQyXfbiAdWHImLAItyaYe6O0Bz+oOQ7xcdOdKIt/N4BHfBS2Xuysu6
-	YGrVeGlM+vndbBpRSaQpnDJzVx+in+k1mkw==
-X-ME-Sender: <xms:P8DqZ7Rk9otQZRjcawkrYL-CFptxW2x8E06cUZdiZ0epwqi4tcq2QQ>
-    <xme:P8DqZ8y0SCyqFBkh8fRp0ZRVT2XMP0XOsHsc6jNG_26Cf6CLMemOU3r-WxZ-9jIDT
-    VtQuyjGAlDeqA>
-X-ME-Received: <xmr:P8DqZw2b1Lg83EMnjYAVxv2wtBkvBQFrNmsUQdXTNupE9XZQ9IVvip8ka0SW>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddukedtfeekucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggv
-    pdfurfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpih
-    gvnhhtshculddquddttddmnecujfgurhepfffhvfevuffkfhggtggujgesthdtredttddt
-    vdenucfhrhhomhepifhrvghgucfmjfcuoehgrhgvgheskhhrohgrhhdrtghomheqnecugg
-    ftrfgrthhtvghrnhepheegvdevvdeljeeugfdtudduhfekledtiefhveejkeejuefhtdeu
-    fefhgfehkeetnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrh
-    homhepghhrvghgsehkrhhorghhrdgtohhmpdhnsggprhgtphhtthhopeekpdhmohguvgep
-    shhmthhpohhuthdprhgtphhtthhopehjohhsvghphhgrnhhgvghlfhhrihgvnhguudesgh
-    hmrghilhdrtghomhdprhgtphhtthhopeguphgvnhhklhgvrhesghhmrghilhdrtghomhdp
-    rhgtphhtthhopehlihhnuhigqdhsthgrghhinhhgsehlihhsthhsrdhlihhnuhigrdguvg
-    hvpdhrtghpthhtoheplhhinhhugidqkhgvrhhnvghlsehvghgvrhdrkhgvrhhnvghlrdho
-    rhhg
-X-ME-Proxy: <xmx:P8DqZ7AeszAceFQg2zhRRqCUiUw0vWAybDikCML2dmwd5KtoGXOLwg>
-    <xmx:P8DqZ0j1WdBDK_kt-a6SyC6a8MXmofIxJmLrX8MATHXACxbf_llr-A>
-    <xmx:P8DqZ_q78pcAWtRPyKT6XHUjPdpf-7g0OyBziJtOY1lt-7Qor9lyeA>
-    <xmx:P8DqZ_g2UlBBN6uM-9j7svOKX4EVwvXL0IhvsG0XwmchW6Z9WxyHoA>
-    <xmx:P8DqZ9VgxPB0fi6Am3gScjdUlaulmetfjRIyLMdNoLbJXzV6Bnb-iSOg>
-Feedback-ID: i787e41f1:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 31 Mar 2025 12:18:06 -0400 (EDT)
-Date: Mon, 31 Mar 2025 18:16:36 +0200
-From: Greg KH <greg@kroah.com>
-To: Joseph Friend <josephangelfriend1@gmail.com>
-Cc: dpenkler@gmail.com, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: gpib: Fixed comments and misaligned code
-Message-ID: <2025033107-ice-docile-10cf@gregkh>
-References: <20250331143941.758600-1-josephangelfriend1@gmail.com>
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="CDLrP5Nv"
+Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-54954fa61c9so2840239e87.1
+        for <linux-staging@lists.linux.dev>; Mon, 31 Mar 2025 09:38:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1743439124; x=1744043924; darn=lists.linux.dev;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=zYZVbCynk+ZVoNdV3LVYecJQ72VIONJ5XFTXiXMNDn4=;
+        b=CDLrP5NvO2BFb496H0KG3hyl7c5FWFajuE4Damue6SB1+IkINySH/Yg4KPmRrgqm3c
+         w33gpy+IHx/xAjvwuFBmHgW5fGP8w3oNajkkfVnDDbnfkBXxkXrm4vafgg6QVDDOhI/h
+         V4zc3temfnzzkCdpoCt51q6gRVzGwsmvMV4Og=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1743439124; x=1744043924;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=zYZVbCynk+ZVoNdV3LVYecJQ72VIONJ5XFTXiXMNDn4=;
+        b=Kdkf2kL0RXkmcWHUYO29vxbTmh8f2lkYG6ll6TzGUUbQiQQ3focTbk/UFHpn2c5fVW
+         bHvl9YfOW6SvBsG7cg34NNI1Gdo+BfDebqOSuY6YRyVbEW9FBUCXRa98OiQlVXDI8KOy
+         r51JagoY7+zLVV0kRm3MlJY/INzZIED3W4D2pxXiPfzFr7k55Y01NLsGJHe0FprJgPtR
+         INccBjZFW6Z0nx7HT0S0yYhN8c1yYDLrNeVbO3AT5m/6Aj5f0omjixfxXBxVIQlnTdrX
+         mpAAmqbvo0c/aVnYSDsH5Qi/M0B1Y663V2MFmV0SI8PPcaURjTclZEQqEb73iKDOt1CN
+         PB4A==
+X-Forwarded-Encrypted: i=1; AJvYcCXRHPIuSp8LZgVioTN1Cs7s4lGKREodV1sdyMQAmvYt8wOqlOvxfv26kg7scjJobK8B7zFawrTeUN3BqDxX@lists.linux.dev
+X-Gm-Message-State: AOJu0YwuUsGim6lbNwmLVAd5BQ+eXpwEPPU2+ks/BUtN3GKP1ogs0Zie
+	zqlfthxYEl9ot0aUNr2QkjyeQr1WUlcPV0I1LcqyHArZbfDDXLMMnrBy+w29Pw==
+X-Gm-Gg: ASbGncsIZeWEf2ay9rfLWNzlySdSwvdGDecbYp+9z0ahVuotm/H4q8A0+5xPopHZGC+
+	sgKhTYB+xKUjN8yMi7LSgMw4F7P0Hn89DYuR45vYbZpwkmoBefEa0HFWPIYybtzsxOY+AH708op
+	3bz/t5S6D4oe4hjjTRplApAXGKZksND0GkEcGO8qwOtBTxrnx9ActjNO4waTlahyFWE3x3ImI2S
+	h7dYOMhXbREVEJMQW0hLpiAAsZ+Pm8b18RdTm4X/TllI/OVO6uxzinIunwime74UQ6xCDz0JEgT
+	bSaoavcIeBXNZ5jszfkZIvusn9SFvIjx9Rt6g9y+PwNuYRbHgHrsIRTNHyZFM+cNKhJOUSGIT53
+	/muYkVbbDSMI8sdRBo6yPavsz
+X-Google-Smtp-Source: AGHT+IG1r79q5xr7a/3BgTP+KtzgOsT7WxeTIDLFGXSCqIMLUKbuoKzIZY1SaNKhCamPJwufuwmDmQ==
+X-Received: by 2002:a05:6512:a95:b0:549:8cbb:5441 with SMTP id 2adb3069b0e04-54b10dc7c04mr2716480e87.15.1743439123919;
+        Mon, 31 Mar 2025 09:38:43 -0700 (PDT)
+Received: from ribalda.c.googlers.com (216.148.88.34.bc.googleusercontent.com. [34.88.148.216])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-54b09590fd3sm1151796e87.188.2025.03.31.09.38.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 31 Mar 2025 09:38:43 -0700 (PDT)
+From: Ricardo Ribalda <ribalda@chromium.org>
+Subject: [PATCH 0/2] media: Fix gcc8 warnings
+Date: Mon, 31 Mar 2025 16:38:41 +0000
+Message-Id: <20250331-v614-v1-0-9bc69a873720@chromium.org>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250331143941.758600-1-josephangelfriend1@gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIABHF6mcC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDI1MDY2ND3TIzQxNdCxML0xRjYwsjS2NTJaDSgqLUtMwKsDHRsbW1AL7UnAh
+ WAAAA
+X-Change-ID: 20250331-v614-8485d3382935
+To: Hans Verkuil <hverkuil@xs4all.nl>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>, 
+ Hans de Goede <hdegoede@redhat.com>, 
+ Sakari Ailus <sakari.ailus@linux.intel.com>, 
+ Andy Shevchenko <andy@kernel.org>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-staging@lists.linux.dev, Ricardo Ribalda <ribalda@chromium.org>
+X-Mailer: b4 0.14.2
 
-On Mon, Mar 31, 2025 at 07:39:41AM -0700, Joseph Friend wrote:
-> Fixed style issues for gpib_bitbang.c on comments.
->   for usage of "//" instead of "/* */"
->   and for multi-line comments
-> 
-> Fixed misaligned macro backslashes and comments.
-> 
-> Signed-off-by: Joseph Friend <josephangelfriend1@gmail.com>
-> ---
->  drivers/staging/gpib/gpio/gpib_bitbang.c | 142 ++++++++++++-----------
->  1 file changed, 72 insertions(+), 70 deletions(-)
-> 
-> diff --git a/drivers/staging/gpib/gpio/gpib_bitbang.c b/drivers/staging/gpib/gpio/gpib_bitbang.c
+Kernel 6.14 has increased its minimum gcc requirements. After bumping
+the "ancient" test in media-ci 2 new warnings have been found. Let's try
+to fix them.
 
-Hi,
+Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+---
+Ricardo Ribalda (2):
+      media: cec: extron-da-hd-4k-plus: Fix Wformat-truncation
+      media: atomisp: Fix Wformat-truncation warning
 
-This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
-a patch that has triggered this response.  He used to manually respond
-to these common problems, but in order to save his sanity (he kept
-writing the same thing over and over, yet to different people), I was
-created.  Hopefully you will not take offence and will fix the problem
-in your patch and resubmit it so that it can be accepted into the Linux
-kernel tree.
+ drivers/media/cec/usb/extron-da-hd-4k-plus/extron-da-hd-4k-plus.c  | 5 +++--
+ drivers/staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.c | 2 +-
+ 2 files changed, 4 insertions(+), 3 deletions(-)
+---
+base-commit: 4e82c87058f45e79eeaa4d5bcc3b38dd3dce7209
+change-id: 20250331-v614-8485d3382935
 
-You are receiving this message because of the following common error(s)
-as indicated below:
+Best regards,
+-- 
+Ricardo Ribalda <ribalda@chromium.org>
 
-- Your patch did many different things all at once, making it difficult
-  to review.  All Linux kernel patches need to only do one thing at a
-  time.  If you need to do multiple things (such as clean up all coding
-  style issues in a file/driver), do it in a sequence of patches, each
-  one doing only one thing.  This will make it easier to review the
-  patches to ensure that they are correct, and to help alleviate any
-  merge issues that larger patches can cause.
-
-If you wish to discuss this problem further, or you have questions about
-how to resolve this issue, please feel free to respond to this email and
-Greg will reply once he has dug out from the pending patches received
-from other developers.
-
-thanks,
-
-greg k-h's patch email bot
