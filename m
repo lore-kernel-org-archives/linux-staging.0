@@ -1,274 +1,132 @@
-Received: from mail2-relais-roc.national.inria.fr (mail2-relais-roc.national.inria.fr [192.134.164.83])
+Received: from fout-a3-smtp.messagingengine.com (fout-a3-smtp.messagingengine.com [103.168.172.146])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D96C2213E83;
-	Mon, 31 Mar 2025 16:01:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.134.164.83
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DB2D1E0B86
+	for <linux-staging@lists.linux.dev>; Mon, 31 Mar 2025 16:18:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.146
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743436896; cv=none; b=uO8AIrcH8jwyjKCl62JPvtMCvs0ybTLvvyxRio/f89LCuLtSocF0ay57nfBccZPzqjpcK0Q7XuEGVUg7W87diGt1L7mDbsKUPkrXqiQ0/yqhJDOraoxYuWVnWjkE37q3s8/ljSXJzxMUfWukak/AT5VGYKddNAZSL1YL/BfiQLc=
+	t=1743437891; cv=none; b=swKVb/Tg4FagIUuOOlExg/ctKIfwmgbpjkd+FVuqFb8cMWS2ZEUTT0Fqkyro/P8eJB9mmojRY3rh0ni9dLrjdFWadIgrsPodlFvDYlNGTiExgyUHYK6zkYbegZL7HFqk4FBYtVEMZ3vRCQTsgni3F6dFx0s940vOOFcA4c4gpnI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743436896; c=relaxed/simple;
-	bh=kSfxVxdF6fqvmlvDQrE77vwAPceFLZzgZh77oybhSNg=;
-	h=Content-Type:From:Mime-Version:Subject:Date:Message-Id:References:
-	 Cc:In-Reply-To:To; b=U8q555+oiJP/mXIgTgqOEGon78FkDie4mhp4ENQ3z64gai7hv0Cvn9b1hk9JYdHO/OXF73Qseu42Alll371DvC683wzrrqopAenjhzbc2638MDMzfTJkoAa8rZyauS/Afcjrz+PpheLcaxpCMYZccn2MUYVBommA9Ben3+gx090=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr; spf=pass smtp.mailfrom=inria.fr; dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b=iSjgoPLQ; arc=none smtp.client-ip=192.134.164.83
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=inria.fr
+	s=arc-20240116; t=1743437891; c=relaxed/simple;
+	bh=aTg6yYXpHoM2puFiQpgt/tSsBDbhEsa9a6e7au0koPE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=qro/j1M6V2N3V3gPvbCdyPtZkMY5biiaTlmXhWeRu0YIgcLLnUC/gVA/wZFSHVFexAnIOlhkJ35CBU+rxw6Q9lhOoXvZqedG/VmbmaQ4+/HoRsLWQGuAPon6J4wzRubXoE2oDIdeVelo2e1D42JXAt6KxwdirG/cVx7I3ahxL/U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kroah.com; spf=pass smtp.mailfrom=kroah.com; dkim=pass (2048-bit key) header.d=kroah.com header.i=@kroah.com header.b=h9wtvXaO; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=IncMXsAx; arc=none smtp.client-ip=103.168.172.146
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kroah.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kroah.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b="iSjgoPLQ"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=inria.fr; s=dc;
-  h=content-transfer-encoding:from:mime-version:subject:date:
-   message-id:references:cc:in-reply-to:to;
-  bh=vY8X0WYZci99O4C1r9fW4gTUb/On4EzlTK532BYsm0I=;
-  b=iSjgoPLQB01iPmqudzxQYTFV/K+8O9ny+K+qLqjd3gjR31rVsgoingwr
-   jCzODxIXZlrl6k5UJHjUmYyWmCzOlMHis42TO0wDrhean4xfrlLLzPpT1
-   RHtqfrkK42od/rFHcLWFlmUAS3XQYsOxC73wSdUMehSFZxc69UPcblGAY
-   8=;
-Authentication-Results: mail2-relais-roc.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=Julia.Lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
-X-IronPort-AV: E=Sophos;i="6.14,291,1736809200"; 
-   d="scan'208";a="215648079"
-Received: from 3.153.128.77.rev.sfr.net (HELO smtpclient.apple) ([77.128.153.3])
-  by mail2-relais-roc.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Mar 2025 18:01:30 +0200
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-From: Julia Lawall <Julia.Lawall@inria.fr>
+	dkim=pass (2048-bit key) header.d=kroah.com header.i=@kroah.com header.b="h9wtvXaO";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="IncMXsAx"
+Received: from phl-compute-05.internal (phl-compute-05.phl.internal [10.202.2.45])
+	by mailfout.phl.internal (Postfix) with ESMTP id 5F622138456A;
+	Mon, 31 Mar 2025 12:18:07 -0400 (EDT)
+Received: from phl-mailfrontend-02 ([10.202.2.163])
+  by phl-compute-05.internal (MEProxy); Mon, 31 Mar 2025 12:18:07 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kroah.com; h=cc
+	:cc:content-type:content-type:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:subject
+	:subject:to:to; s=fm2; t=1743437887; x=1743524287; bh=0PKpSpAP/D
+	7a8SfehCwf+MgvErJcuIyK4tm4G4WThW4=; b=h9wtvXaODk83Gta8YoZenzfwtQ
+	V6U7B6gOVQSS6iC+beGokGSAydYp5rOP782rw/vOwtMdk9ITbQtJHyA2yBOUFshg
+	MRxqa7DUDbLU1clvib7R8OTc80HEFnHIaFiW9IE05hx43U/C+ytt5CpnVW0AdWtA
+	xTfBivAROm5JmQGaaIC8RjX7dmE8x3hmp4DTPM/pZAxCr22s2h4idTt2CR9OaXLP
+	f7R0VYU6L2039E9CHrdtv6rx2PgVu5JirI3G6fbGgVeJWyVDMSlinBPAIyoIa6f/
+	q5KpnlGKJH/vfxHNCrBYA3PUzckuXCb26KGlnDwSSyMOuOYfvy9MaquMDmOQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=
+	1743437887; x=1743524287; bh=0PKpSpAP/D7a8SfehCwf+MgvErJcuIyK4tm
+	4G4WThW4=; b=IncMXsAxfrDJxq2YCcmDzFe1MpN2yllVRjRhm4EtyKoy9fWz3Nc
+	IIVeMs7vhFQZWIdgYitIwHGu/MkpxouKlKnW/ZVVbomYzGIsnxzMG0+qylBa6veF
+	250g/xqhkUc3Euw8s+RFEV36spxPo5Nu8RZNOzkHxxD25Ar9h4e6vi9z3JkfZtvm
+	z1grYVPzLLF0nq0HOki6l3OfF34i3G60EWn7PEPM45qAMbRBGKHzp0c+2gPw60zB
+	O5Ig7eq8X7rQyXfbiAdWHImLAItyaYe6O0Bz+oOQ7xcdOdKIt/N4BHfBS2Xuysu6
+	YGrVeGlM+vndbBpRSaQpnDJzVx+in+k1mkw==
+X-ME-Sender: <xms:P8DqZ7Rk9otQZRjcawkrYL-CFptxW2x8E06cUZdiZ0epwqi4tcq2QQ>
+    <xme:P8DqZ8y0SCyqFBkh8fRp0ZRVT2XMP0XOsHsc6jNG_26Cf6CLMemOU3r-WxZ-9jIDT
+    VtQuyjGAlDeqA>
+X-ME-Received: <xmr:P8DqZw2b1Lg83EMnjYAVxv2wtBkvBQFrNmsUQdXTNupE9XZQ9IVvip8ka0SW>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddukedtfeekucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggv
+    pdfurfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpih
+    gvnhhtshculddquddttddmnecujfgurhepfffhvfevuffkfhggtggujgesthdtredttddt
+    vdenucfhrhhomhepifhrvghgucfmjfcuoehgrhgvgheskhhrohgrhhdrtghomheqnecugg
+    ftrfgrthhtvghrnhepheegvdevvdeljeeugfdtudduhfekledtiefhveejkeejuefhtdeu
+    fefhgfehkeetnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrh
+    homhepghhrvghgsehkrhhorghhrdgtohhmpdhnsggprhgtphhtthhopeekpdhmohguvgep
+    shhmthhpohhuthdprhgtphhtthhopehjohhsvghphhgrnhhgvghlfhhrihgvnhguudesgh
+    hmrghilhdrtghomhdprhgtphhtthhopeguphgvnhhklhgvrhesghhmrghilhdrtghomhdp
+    rhgtphhtthhopehlihhnuhigqdhsthgrghhinhhgsehlihhsthhsrdhlihhnuhigrdguvg
+    hvpdhrtghpthhtoheplhhinhhugidqkhgvrhhnvghlsehvghgvrhdrkhgvrhhnvghlrdho
+    rhhg
+X-ME-Proxy: <xmx:P8DqZ7AeszAceFQg2zhRRqCUiUw0vWAybDikCML2dmwd5KtoGXOLwg>
+    <xmx:P8DqZ0j1WdBDK_kt-a6SyC6a8MXmofIxJmLrX8MATHXACxbf_llr-A>
+    <xmx:P8DqZ_q78pcAWtRPyKT6XHUjPdpf-7g0OyBziJtOY1lt-7Qor9lyeA>
+    <xmx:P8DqZ_g2UlBBN6uM-9j7svOKX4EVwvXL0IhvsG0XwmchW6Z9WxyHoA>
+    <xmx:P8DqZ9VgxPB0fi6Am3gScjdUlaulmetfjRIyLMdNoLbJXzV6Bnb-iSOg>
+Feedback-ID: i787e41f1:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 31 Mar 2025 12:18:06 -0400 (EDT)
+Date: Mon, 31 Mar 2025 18:16:36 +0200
+From: Greg KH <greg@kroah.com>
+To: Joseph Friend <josephangelfriend1@gmail.com>
+Cc: dpenkler@gmail.com, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: gpib: Fixed comments and misaligned code
+Message-ID: <2025033107-ice-docile-10cf@gregkh>
+References: <20250331143941.758600-1-josephangelfriend1@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0 (1.0)
-Subject: Re: [PATCH 4/5] staging: rtl8723bs: no space before tabs
-Date: Mon, 31 Mar 2025 18:01:19 +0200
-Message-Id: <1EC996B6-31CE-4548-8822-4E6B6FCE3C6B@inria.fr>
-References: <f4e52e87e0dbaf4c728bd0d2a2c641e8d465edd2.1743434232.git.karanja99erick@gmail.com>
-Cc: gregkh@linuxfoundation.org, outreachy@lists.linux.dev,
- philipp.g.hortmann@gmail.com, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org, Erick Karanja <karanja99erick@gmail.com>
-In-Reply-To: <f4e52e87e0dbaf4c728bd0d2a2c641e8d465edd2.1743434232.git.karanja99erick@gmail.com>
-To: Erick Karanja <karanja99erick@gmail.com>
-X-Mailer: iPhone Mail (22C152)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250331143941.758600-1-josephangelfriend1@gmail.com>
 
-
-> On 31 Mar 2025, at 17:47, Erick Karanja <karanja99erick@gmail.com> wrote:
->=20
-> =EF=BB=BFRemove spaces before tabs to comply with the Linux kernel coding s=
-tyle
-> guidelines. Proper indentation using tabs improves code consistency
-> and readability.
-
-In a lot of cases you are removing comments that contain code. You can also j=
-ust remove these comments.
-
-Julia=20
-
-
->=20
-> Reported by checkpatch:
->=20
->    WARNING: please, no space before tabs
->=20
-> Signed-off-by: Erick Karanja <karanja99erick@gmail.com>
+On Mon, Mar 31, 2025 at 07:39:41AM -0700, Joseph Friend wrote:
+> Fixed style issues for gpib_bitbang.c on comments.
+>   for usage of "//" instead of "/* */"
+>   and for multi-line comments
+> 
+> Fixed misaligned macro backslashes and comments.
+> 
+> Signed-off-by: Joseph Friend <josephangelfriend1@gmail.com>
 > ---
-> drivers/staging/rtl8723bs/hal/hal_btcoex.c | 42 +++++++++++-----------
-> 1 file changed, 21 insertions(+), 21 deletions(-)
->=20
-> diff --git a/drivers/staging/rtl8723bs/hal/hal_btcoex.c b/drivers/staging/=
-rtl8723bs/hal/hal_btcoex.c
-> index 9105594d2dde..b0e023d0435c 100644
-> --- a/drivers/staging/rtl8723bs/hal/hal_btcoex.c
-> +++ b/drivers/staging/rtl8723bs/hal/hal_btcoex.c
-> @@ -9,14 +9,14 @@
-> #include <hal_btcoex.h>
-> #include <Mp_Precomp.h>
->=20
-> -/*        Global variables */
-> +/*Global variables */
->=20
-> struct btc_coexist GLBtCoexist;
-> static u8 GLBtcWiFiInScanState;
-> static u8 GLBtcWiFiInIQKState;
->=20
-> /*  */
-> -/*        Debug related function */
-> +/*Debug related function */
-> /*  */
-> static u8 halbtcoutsrc_IsBtCoexistAvailable(struct btc_coexist *pBtCoexist=
-)
-> {
-> @@ -401,9 +401,9 @@ static u8 halbtcoutsrc_Get(void *pBtcContext, u8 getTy=
-pe, void *pOutBuf)
->=20
->    case BTC_GET_U1_MAC_PHY_MODE:
->        *pu8 =3D BTC_SMSP;
-> -/*            *pU1Tmp =3D BTC_DMSP; */
-> -/*            *pU1Tmp =3D BTC_DMDP; */
-> -/*            *pU1Tmp =3D BTC_MP_UNKNOWN; */
-> +/* *pU1Tmp =3D BTC_DMSP; */
-> +/* *pU1Tmp =3D BTC_DMDP; */
-> +/* *pU1Tmp =3D BTC_MP_UNKNOWN; */
->        break;
->=20
->    case BTC_GET_U1_AP_NUM:
-> @@ -561,7 +561,7 @@ static u8 halbtcoutsrc_Set(void *pBtcContext, u8 setTy=
-pe, void *pInBuf)
-> }
->=20
-> /*  */
-> -/*        IO related function */
-> +/* IO related function */
-> /*  */
-> static u8 halbtcoutsrc_Read1Byte(void *pBtcContext, u32 RegAddr)
-> {
-> @@ -772,7 +772,7 @@ static void halbtcoutsrc_FillH2cCmd(void *pBtcContext,=
- u8 elementId, u32 cmdLen,
-> }
->=20
-> /*  */
-> -/*        Extern functions called by other module */
-> +/* Extern functions called by other module */
-> /*  */
-> static u8 EXhalbtcoutsrc_BindBtCoexWithAdapter(void *padapter)
-> {
-> @@ -900,14 +900,14 @@ void EXhalbtcoutsrc_IpsNotify(struct btc_coexist *pB=
-tCoexist, u8 type)
->        ipsType =3D BTC_IPS_ENTER;
->=20
->    /*  All notify is called in cmd thread, don't need to leave low power a=
-gain */
-> -/*    halbtcoutsrc_LeaveLowPower(pBtCoexist); */
-> +    /* halbtcoutsrc_LeaveLowPower(pBtCoexist); */
->=20
->    if (pBtCoexist->boardInfo.btdmAntNum =3D=3D 2)
->        EXhalbtc8723b2ant_IpsNotify(pBtCoexist, ipsType);
->    else if (pBtCoexist->boardInfo.btdmAntNum =3D=3D 1)
->        EXhalbtc8723b1ant_IpsNotify(pBtCoexist, ipsType);
->=20
-> -/*    halbtcoutsrc_NormalLowPower(pBtCoexist); */
-> +    /* halbtcoutsrc_NormalLowPower(pBtCoexist); */
-> }
->=20
-> void EXhalbtcoutsrc_LpsNotify(struct btc_coexist *pBtCoexist, u8 type)
-> @@ -952,14 +952,14 @@ void EXhalbtcoutsrc_ScanNotify(struct btc_coexist *p=
-BtCoexist, u8 type)
->    }
->=20
->    /*  All notify is called in cmd thread, don't need to leave low power a=
-gain */
-> -/*    halbtcoutsrc_LeaveLowPower(pBtCoexist); */
-> +    /* halbtcoutsrc_LeaveLowPower(pBtCoexist); */
->=20
->    if (pBtCoexist->boardInfo.btdmAntNum =3D=3D 2)
->        EXhalbtc8723b2ant_ScanNotify(pBtCoexist, scanType);
->    else if (pBtCoexist->boardInfo.btdmAntNum =3D=3D 1)
->        EXhalbtc8723b1ant_ScanNotify(pBtCoexist, scanType);
->=20
-> -/*    halbtcoutsrc_NormalLowPower(pBtCoexist); */
-> +    /* halbtcoutsrc_NormalLowPower(pBtCoexist); */
-> }
->=20
-> void EXhalbtcoutsrc_ConnectNotify(struct btc_coexist *pBtCoexist, u8 actio=
-n)
-> @@ -978,14 +978,14 @@ void EXhalbtcoutsrc_ConnectNotify(struct btc_coexist=
- *pBtCoexist, u8 action)
->        assoType =3D BTC_ASSOCIATE_FINISH;
->=20
->    /*  All notify is called in cmd thread, don't need to leave low power a=
-gain */
-> -/*    halbtcoutsrc_LeaveLowPower(pBtCoexist); */
-> +    /* halbtcoutsrc_LeaveLowPower(pBtCoexist); */
->=20
->    if (pBtCoexist->boardInfo.btdmAntNum =3D=3D 2)
->        EXhalbtc8723b2ant_ConnectNotify(pBtCoexist, assoType);
->    else if (pBtCoexist->boardInfo.btdmAntNum =3D=3D 1)
->        EXhalbtc8723b1ant_ConnectNotify(pBtCoexist, assoType);
->=20
-> -/*    halbtcoutsrc_NormalLowPower(pBtCoexist); */
-> +    /* halbtcoutsrc_NormalLowPower(pBtCoexist); */
-> }
->=20
-> void EXhalbtcoutsrc_MediaStatusNotify(struct btc_coexist *pBtCoexist, enum=
+>  drivers/staging/gpib/gpio/gpib_bitbang.c | 142 ++++++++++++-----------
+>  1 file changed, 72 insertions(+), 70 deletions(-)
+> 
+> diff --git a/drivers/staging/gpib/gpio/gpib_bitbang.c b/drivers/staging/gpib/gpio/gpib_bitbang.c
 
-> @@ -1006,14 +1006,14 @@ void EXhalbtcoutsrc_MediaStatusNotify(struct btc_c=
-oexist *pBtCoexist, enum
->        mStatus =3D BTC_MEDIA_DISCONNECT;
->=20
->    /*  All notify is called in cmd thread, don't need to leave low power a=
-gain */
-> -/*    halbtcoutsrc_LeaveLowPower(pBtCoexist); */
-> +    /* halbtcoutsrc_LeaveLowPower(pBtCoexist); */
->=20
->    if (pBtCoexist->boardInfo.btdmAntNum =3D=3D 2)
->        EXhalbtc8723b2ant_MediaStatusNotify(pBtCoexist, mStatus);
->    else if (pBtCoexist->boardInfo.btdmAntNum =3D=3D 1)
->        EXhalbtc8723b1ant_MediaStatusNotify(pBtCoexist, mStatus);
->=20
-> -/*    halbtcoutsrc_NormalLowPower(pBtCoexist); */
-> +    /* halbtcoutsrc_NormalLowPower(pBtCoexist); */
-> }
->=20
-> void EXhalbtcoutsrc_SpecialPacketNotify(struct btc_coexist *pBtCoexist, u8=
- pktType)
-> @@ -1037,14 +1037,14 @@ void EXhalbtcoutsrc_SpecialPacketNotify(struct btc=
-_coexist *pBtCoexist, u8 pktTy
->    }
->=20
->    /*  All notify is called in cmd thread, don't need to leave low power a=
-gain */
-> -/*    halbtcoutsrc_LeaveLowPower(pBtCoexist); */
-> +    /* halbtcoutsrc_LeaveLowPower(pBtCoexist); */
->=20
->    if (pBtCoexist->boardInfo.btdmAntNum =3D=3D 2)
->        EXhalbtc8723b2ant_SpecialPacketNotify(pBtCoexist, packetType);
->    else if (pBtCoexist->boardInfo.btdmAntNum =3D=3D 1)
->        EXhalbtc8723b1ant_SpecialPacketNotify(pBtCoexist, packetType);
->=20
-> -/*    halbtcoutsrc_NormalLowPower(pBtCoexist); */
-> +    /* halbtcoutsrc_NormalLowPower(pBtCoexist); */
-> }
->=20
-> void EXhalbtcoutsrc_BtInfoNotify(struct btc_coexist *pBtCoexist, u8 *tmpBu=
-f, u8 length)
-> @@ -1055,14 +1055,14 @@ void EXhalbtcoutsrc_BtInfoNotify(struct btc_coexis=
-t *pBtCoexist, u8 *tmpBuf, u8
->    pBtCoexist->statistics.cntBtInfoNotify++;
->=20
->    /*  All notify is called in cmd thread, don't need to leave low power a=
-gain */
-> -/*    halbtcoutsrc_LeaveLowPower(pBtCoexist); */
-> +    /* halbtcoutsrc_LeaveLowPower(pBtCoexist); */
->=20
->    if (pBtCoexist->boardInfo.btdmAntNum =3D=3D 2)
->        EXhalbtc8723b2ant_BtInfoNotify(pBtCoexist, tmpBuf, length);
->    else if (pBtCoexist->boardInfo.btdmAntNum =3D=3D 1)
->        EXhalbtc8723b1ant_BtInfoNotify(pBtCoexist, tmpBuf, length);
->=20
-> -/*    halbtcoutsrc_NormalLowPower(pBtCoexist); */
-> +    /* halbtcoutsrc_NormalLowPower(pBtCoexist); */
-> }
->=20
-> void EXhalbtcoutsrc_HaltNotify(struct btc_coexist *pBtCoexist)
-> @@ -1102,14 +1102,14 @@ void EXhalbtcoutsrc_Periodical(struct btc_coexist *=
-pBtCoexist)
->=20
->    /*  Periodical should be called in cmd thread, */
->    /*  don't need to leave low power again */
-> -/*    halbtcoutsrc_LeaveLowPower(pBtCoexist); */
-> +    /*  halbtcoutsrc_LeaveLowPower(pBtCoexist); */
->=20
->    if (pBtCoexist->boardInfo.btdmAntNum =3D=3D 2)
->        EXhalbtc8723b2ant_Periodical(pBtCoexist);
->    else if (pBtCoexist->boardInfo.btdmAntNum =3D=3D 1)
->        EXhalbtc8723b1ant_Periodical(pBtCoexist);
->=20
-> -/*    halbtcoutsrc_NormalLowPower(pBtCoexist); */
-> +    /*  halbtcoutsrc_NormalLowPower(pBtCoexist); */
-> }
->=20
-> void EXhalbtcoutsrc_SetAntNum(u8 type, u8 antNum)
-> --
-> 2.43.0
->=20
->=20
+Hi,
 
+This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
+a patch that has triggered this response.  He used to manually respond
+to these common problems, but in order to save his sanity (he kept
+writing the same thing over and over, yet to different people), I was
+created.  Hopefully you will not take offence and will fix the problem
+in your patch and resubmit it so that it can be accepted into the Linux
+kernel tree.
+
+You are receiving this message because of the following common error(s)
+as indicated below:
+
+- Your patch did many different things all at once, making it difficult
+  to review.  All Linux kernel patches need to only do one thing at a
+  time.  If you need to do multiple things (such as clean up all coding
+  style issues in a file/driver), do it in a sequence of patches, each
+  one doing only one thing.  This will make it easier to review the
+  patches to ensure that they are correct, and to help alleviate any
+  merge issues that larger patches can cause.
+
+If you wish to discuss this problem further, or you have questions about
+how to resolve this issue, please feel free to respond to this email and
+Greg will reply once he has dug out from the pending patches received
+from other developers.
+
+thanks,
+
+greg k-h's patch email bot
