@@ -1,77 +1,83 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from out-173.mta0.migadu.com (out-173.mta0.migadu.com [91.218.175.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D27D1DE2B4;
-	Tue,  1 Apr 2025 18:19:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 024842E339C
+	for <linux-staging@lists.linux.dev>; Tue,  1 Apr 2025 19:51:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743531588; cv=none; b=SjgJH3O8kP3lXkX0AtVqbCjp7eRdPb9K/naXAaw7tllC2DDk7sbUyhHq7UGmM0+XhsDlEEHSZhM5c534pJG77AscGAOzqaz4i7BuVaDC2QemIfpBPtVnQkAXl7eXRPPZkpBmL79qn2A9xtoMlSmlV1MZ1A1HYUjq7KBGFNZJlFA=
+	t=1743537106; cv=none; b=M+QwuiJzRjxBlErNFB94xfLpob5Z2tYd0BU9XZsg/MbqOT171mCULxaQVofNGWtV53p10wAjsKhBzZlHMKzHZszrqVeegA+e/UaIun/pGJnELe2Fuk2Xa2/w4b3ajUhZZb8wY8MjiQktBTeLPkc4GJ+n1JU/rw6U7UjXOMSHk0I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743531588; c=relaxed/simple;
-	bh=ClhLBqaaVAVwuLwx4kJiSRWeU6HgIOPkC9lnkchsc9Y=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ulwkldzzfG8G8pEyUqdcT5Yq2a/QMbsJv3bzdfWr3PWLSG+cjMLEnoulokqet5jTc+kWXBm5QojjO142uWqhxYQ8eVEt0fsxge9+ksn5y5i38ml3HYAP4c+BjIKDCv4RGGM8NxpFvOAFg5hC8Qwa/UvbkwO46EnBiHerdy5ui+w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=HFik6kdn; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1743537106; c=relaxed/simple;
+	bh=7oeTHiTKmmTEMpzlxruE31hYes2XGUrolscSsAD6HUg=;
+	h=Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
+	 Message-Id:References:To; b=mZZ1aLllfQsO4YzSKq3QuXB4XiQd2TZ9O7nBn8qCUtRY8/3EEfO9A0uQcgnnjg6JtPVyIPnQB72+K+7dd33d9+sjUFoIuUin26Wvc1uJegOJczUvUJqS8GbaHjM6XalUUTU57/gAOhJcKJxSeuH6KmQJ+ILaJQOGqtpAlW4jS8U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=kFyU7slN; arc=none smtp.client-ip=91.218.175.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="HFik6kdn"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F205FC4CEE5;
-	Tue,  1 Apr 2025 18:19:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1743531587;
-	bh=ClhLBqaaVAVwuLwx4kJiSRWeU6HgIOPkC9lnkchsc9Y=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=HFik6kdn543No8iUJKzXH8F7Q76TXOTw2X/EJM8kK1QhGCrVke6A3tvO17lQ/O1tC
-	 DEw8zhMkk+YTfnIHemBnIhyAhl2OA+ooQaGkwKX95/wsNMfV9X2Ojg6ZGnGR5spYcz
-	 8QQRzSO6Q26WW/ZC/GH0kK3raTZVc/KztZwi2AI8=
-Date: Tue, 1 Apr 2025 19:18:21 +0100
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Erick Karanja <karanja99erick@gmail.com>
-Cc: outreachy@lists.linux.dev, philipp.g.hortmann@gmail.com,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 5/5] staging: rtl8723bs: no space before tabs
-Message-ID: <2025040127-unretired-veto-b056@gregkh>
-References: <cover.1743524096.git.karanja99erick@gmail.com>
- <4e39b1295d68aea947aa5757e3148a2e401b72bc.1743524096.git.karanja99erick@gmail.com>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="kFyU7slN"
+Content-Type: text/plain;
+	charset=us-ascii
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1743537100;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ZzfmpSBUWlgmMuvl2RFbweDlXEH/+tHHYq+lHJwlh4o=;
+	b=kFyU7slNlcxXI11fLgeRb/XJvMpDwnLjU7OAZGh5LbYWJCmBtrCGW6ZOpqzrs2zPp6qJva
+	g37Kd7YyrSOmH0O1AfcmGjiJyLx9B9Q2yiaRbovAqwCYZ2nIEOMREovcPKEUGaIleX5t6t
+	+Sy7PGN71vEgaucKO38qdxuorIXuZvU=
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <4e39b1295d68aea947aa5757e3148a2e401b72bc.1743524096.git.karanja99erick@gmail.com>
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3776.700.51.11.1\))
+Subject: Re: [PATCH] staging: greybus: Remove unnecessary NUL-termination
+ checks
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Thorsten Blum <thorsten.blum@linux.dev>
+In-Reply-To: <8a68ab78-cf18-4937-a8b7-fb0fa41c9d53@ieee.org>
+Date: Tue, 1 Apr 2025 21:51:27 +0200
+Cc: Viresh Kumar <vireshk@kernel.org>,
+ Johan Hovold <johan@kernel.org>,
+ Alex Elder <elder@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ greybus-dev@lists.linaro.org,
+ linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <9288204E-F6B7-4C9D-AADB-511A845A2624@linux.dev>
+References: <20250331183935.1880097-2-thorsten.blum@linux.dev>
+ <8a68ab78-cf18-4937-a8b7-fb0fa41c9d53@ieee.org>
+To: Alex Elder <elder@ieee.org>
+X-Migadu-Flow: FLOW_OUT
 
-On Tue, Apr 01, 2025 at 07:59:37PM +0300, Erick Karanja wrote:
-> Remove spaces before tabs to comply with the Linux kernel coding style
-> guidelines. Proper indentation using tabs improves code consistency
-> and readability.
-> 
-> Reported by checkpatch:
-> 
->     WARNING: please, no space before tabs
-> 
-> Signed-off-by: Erick Karanja <karanja99erick@gmail.com>
-> ---
->  drivers/staging/rtl8723bs/hal/hal_btcoex.c | 33 ++++------------------
->  1 file changed, 6 insertions(+), 27 deletions(-)
-> 
-> diff --git a/drivers/staging/rtl8723bs/hal/hal_btcoex.c b/drivers/staging/rtl8723bs/hal/hal_btcoex.c
-> index 9105594d2dde..44f73baf1cb4 100644
-> --- a/drivers/staging/rtl8723bs/hal/hal_btcoex.c
-> +++ b/drivers/staging/rtl8723bs/hal/hal_btcoex.c
-> @@ -9,14 +9,14 @@
->  #include <hal_btcoex.h>
->  #include <Mp_Precomp.h>
->  
-> -/* 		Global variables */
-> +/*Global variables */
+On 1. Apr 2025, at 01:31, Alex Elder wrote:
+> On 3/31/25 1:39 PM, Thorsten Blum wrote:
+>> @@ -125,16 +125,6 @@ static int =
+fw_mgmt_interface_fw_version_operation(struct fw_mgmt *fw_mgmt,
+>>    	strscpy_pad(fw_info->firmware_tag, response.firmware_tag);
+>>  -	/*
+>> -	 * The firmware-tag should be NULL terminated, otherwise throw =
+error but
+>> -	 * don't fail.
+>> -	 */
+>> -	if (fw_info->firmware_tag[GB_FIRMWARE_TAG_MAX_SIZE - 1] !=3D =
+'\0') {
+>> -		dev_err(fw_mgmt->parent,
+>> -			"fw-version: firmware-tag is not NULL =
+terminated\n");
+>> -		fw_info->firmware_tag[GB_FIRMWARE_TAG_MAX_SIZE - 1] =3D =
+'\0';
+>> -	}
+>=20
+> Interesting this didn't return an error, while others below did.
 
-Does that look right?  (hint, it isn't...)
+Should I keep it that way when checking for a truncated firmware tag or
+should this also fail like the others?
 
-Always put a space after the /* and before text.  You removed the one
-that was there already :(
+Thanks,
+Thorsten
 
-thanks,
-
-greg k-h
