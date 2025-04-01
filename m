@@ -1,99 +1,112 @@
-Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
+Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com [209.85.167.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2655EACE
-	for <linux-staging@lists.linux.dev>; Tue,  1 Apr 2025 13:04:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55B201ACED1
+	for <linux-staging@lists.linux.dev>; Tue,  1 Apr 2025 14:17:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743512679; cv=none; b=Wu2XpWflKSqv99KPvcBTLt/3UIUu+22PYUpK85NOTZz2L+1czZU6mxFDaG4O9N2jACx3CrCD4Ua9AhV/Kd4f77mkJjhB4+QqtEvkBuhLuKG7RM5AFaN30AmE+MS+Qsb85DFzv+V6o5CTLnHqZYT6BJVa9lT0btDFyWj0vGdbLTs=
+	t=1743517081; cv=none; b=SHQWiYm3v49YwgGSuWxMs4NlvbLmZ5Yk88a3We/ER0XyTOgvvUAD4vv/VhfbQqB8HHDMIyIUJdXhdAbKVmfe8A4zryZ8buOjUAYt3rOs5MHm+UKfbnOsghdtGw7k0Kdq8Rps2KTKlykoG3+bNwSz6LwH4g2rKcJUqAxM2au7HT0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743512679; c=relaxed/simple;
-	bh=vtatpFmzhU7xgjZhwA5PCJeITl2kEtzzcHrkI3h7zeI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=R1tykF/USPKU8XizjpfC/E8JtFAaf27/rLw4k1KUANprxpTJAQUszWTF4/d/mE29yq7FiVpUxz4xEffMdd5C0/32z4XSR77gIebKM+wecG4N5k7MufGj4Q6w4scaLXfyDnEM2biqzLQkrcDlvxMvK+8IhoRpAc4duA5ASgvcBI8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=h/+CoDE9; arc=none smtp.client-ip=209.85.218.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1743517081; c=relaxed/simple;
+	bh=FJlsgq2QzOzhVpe+zVW0YCghAx8UZtTofJGeg+Vorl4=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=mkPU7Y3hOQeRgMDlS5b3jKEwLBrklTRhGqlVvqb5LP+tCusbTazTeStxwz9dW1mSbzzjwetVUhU+vqvIL4dRk4DoIHtFdHoKATXWGDNKx1K3fu25XQCHLZ5nBPPXHe5fgnshf+nGenD+QwlHbUBGl+a+54XTQ4FvBrHigoLCvCc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=ixQRzwxx; arc=none smtp.client-ip=209.85.167.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="h/+CoDE9"
-Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-abbb12bea54so1162494466b.0
-        for <linux-staging@lists.linux.dev>; Tue, 01 Apr 2025 06:04:37 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="ixQRzwxx"
+Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-54addb5a139so6250311e87.0
+        for <linux-staging@lists.linux.dev>; Tue, 01 Apr 2025 07:17:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1743512676; x=1744117476; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=vtatpFmzhU7xgjZhwA5PCJeITl2kEtzzcHrkI3h7zeI=;
-        b=h/+CoDE9cfZ38DVjXAZQ7tICfzDrGiWMBQGi654gtOVS3TuStlEHZB2oxYtICi+4dh
-         J4QrTcIAgOkxvAakKYlABBL67SMCS4lXTzwbQ8CVBDwzp7TeYWh0+Z3Xf9xxx0VxbE5P
-         gSmxWNM9UYM38K+4tfZZZMfVNfcYs/fWhY2pvwWxhvb1iny7CthzXOC2UOFXB/H+pc1E
-         2wEwX3hXufTOl+har+ZeIONXieAlws1AnXXmZtOwE9A8FIua/Joqt/4RZPQF4SkUsajA
-         2DbLTp7pPwMdwaBH2Azv+0+lTbKczODf0XY9PyzqZIRNn0lUBlFv3rXF8OPdMdn7pdBb
-         HaAQ==
+        d=chromium.org; s=google; t=1743517077; x=1744121877; darn=lists.linux.dev;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=fMBJRbWhFak+sAV1ZffRRNyDINUZZx4eH4dy87DFJ8c=;
+        b=ixQRzwxx49F4NPsY0QmDrr7ZixwUrNfTxGX4Ex+BmjIbFSiJnKWB59xiY7Y3XBQWwF
+         jCvd4morJTCpCpsOjJu4jI7yr2dnVcGGVV0rRycwC1ARRk7x7GC8bh+Rf/Eck0G9ULL2
+         8jjPf6EL3CBWtu79VfWUt3Kh16SnDetr3AIiI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1743512676; x=1744117476;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=vtatpFmzhU7xgjZhwA5PCJeITl2kEtzzcHrkI3h7zeI=;
-        b=pCUNRW2OxIPrnqLDfmvQuxPwFA6J9fvOvaggNb8QRkaz6wloQ3uAMzH1DpRy6yZWp+
-         1uV9nkniDw9QL8kDr2hicIPx/OPmScJ5HOj9/vEFWRD+n+i46LUK3oOZpqq19RLkcY91
-         pE1OiNofyLicr0gweI8GgMgZ7Xq9TNfH05gmhGkDa8m3ud9u1BsyvsUanXLTt/ttn6Jp
-         Gg+tPyhMOV8bTsgwoLy8ag8qCyqo3hJU2ToNyuyDP+yXYPlv1pqJGLXVN0iF70CJxrsA
-         19giYSfvPkK089k1GzJndjvWbtr17WswTzegLzSmkb+6aGcdB1QIyS+Iwjp7SCEESBtc
-         hG6Q==
-X-Forwarded-Encrypted: i=1; AJvYcCUf/M6+y7EqW49szwU+MvXS6XYxPpDQ3QvbEljc+z2jKLZgymNzNG6apag5oIdG13I8MGFsOx0oHWe+OeAF@lists.linux.dev
-X-Gm-Message-State: AOJu0YxyHLP0qvJfVdhlawyofNrT0kwTBS3Kj/qOz4bBYegURZt6Aw43
-	mRCu965L7VGVdXJmS96bOA7ZBfP6kEGxvkYsOeTifZATd13fZ9uIhxw20Q1k3VG4UbBrGlpTJ0o
-	eUMziR/lce07/BGGnVRULIvqGAJmICI/+kfc=
-X-Gm-Gg: ASbGncsTQl13P0RCfjduNATwcfm+0qDxVGDi9msbRmMMSLALYJWhfD8cEbkkiym9/jy
-	75Y+3A8V73kBE24bmtEuY6dhcxCG9IRRbkJtGbUPnAbjmrI5oNeXV6nkVM7+34rlaRbPVgfO8rn
-	wGIXiJ3qy1T2zn6AOtdKB4WSO9Lg==
-X-Google-Smtp-Source: AGHT+IHZsgzE/OgxX7vZ7ZnSjzcsPxeS13ob9nT5SmHeUEZ3jjaSl08nur2NnbGtlffi9m8wEAGUtFTlGED263jrJZs=
-X-Received: by 2002:a17:906:c148:b0:ac3:c7bd:e436 with SMTP id
- a640c23a62f3a-ac738c6f2a9mr1016730066b.51.1743512675974; Tue, 01 Apr 2025
- 06:04:35 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1743517077; x=1744121877;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=fMBJRbWhFak+sAV1ZffRRNyDINUZZx4eH4dy87DFJ8c=;
+        b=khCczLZ0qSt73/hVg/7BqvpmcYjWbeH0LeBeWfmfw8h7w0+fz3BNPiE6rf89n2ELWv
+         i0DWA5WQ/YgkBbdnVj2DfFQEa06PaS2wy8ncjtbS72G7T2q8qO6jWCw63CdkG7aZq32U
+         8F+5wuQ6babwrTTvy7RhElk641cEFNImeKPbLtgyh7TSIfzWL/G6zjaH9NC+qMs8kuN4
+         nX9lkXOxqy7JDTXjGXOjKKZSHO2OUqHJOanTN2iyV3J6S4D4BvwyBzpBDwJtd/1egofC
+         1gfUJkJcyzk/Ziw096JVw8TrjtNRXxY10FuCAz1O5o2ii3+EVqhz60/3It4dzMaqwLcr
+         5SZw==
+X-Forwarded-Encrypted: i=1; AJvYcCX0udeZWosuKS8vLvKZd1f5expDrLk3y08fImvUP5Uofmml+sVo2askzN2rZGE7kghlaGqrzrsJYeKSFHbF@lists.linux.dev
+X-Gm-Message-State: AOJu0YyzSfGdVOgVu6dRh7oKTeYBT9BhA6RA9g5iSKYVn9Zjkw1N0A/k
+	j8nAzo8dbwOB5sHiz8OQ0n8KUP0N2G3q/3S3EPKVs8mjgS4Lg76s9sU8NN4SXA==
+X-Gm-Gg: ASbGnctFnH67BQdzvgzyHzQvOLY0E4HSGHoFVtQ5mshIQfzj+ccjQ4beNcumYbeFh3q
+	qs7j1WE8BMu9KS8w00cen5QvQr6t4D8aWl1gD0UO2QYMakrhr4V9rYWB3wkFXsTtFbGWq54YeOC
+	jCvuK5DMswWt3g48kCR6ygbakV1QSUivaWRU6TYhOKTfwisscS/d7NSw8fekPCAhR08YcEquLPv
+	nPcyLSTXD5lWTEKbhOaDfT2Sg/iFaDan5jwDNmk4T+8n/BE9hcMjoYlwPDL5J+Dfx9VSp8aWRJE
+	jARi86NAAWIGoy7ub0veNZopT2+7kEEnZFPQSUkokjpKF8mznf+GHOm1i0/gEGyvG+8TA6m1GIC
+	KJws/ObKyqkFVIrAwwATUMKeJ
+X-Google-Smtp-Source: AGHT+IFJq5w2B0dugOC2Oo+nxGo04pCzcOgC1humRSBZ8othsPmNpBduKudyA9YdVBqoa7doalBKFA==
+X-Received: by 2002:a05:6512:3d16:b0:544:ca1:da41 with SMTP id 2adb3069b0e04-54b11128170mr4067328e87.44.1743517077405;
+        Tue, 01 Apr 2025 07:17:57 -0700 (PDT)
+Received: from ribalda.c.googlers.com (216.148.88.34.bc.googleusercontent.com. [34.88.148.216])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-54b094c19a3sm1377789e87.80.2025.04.01.07.17.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 01 Apr 2025 07:17:56 -0700 (PDT)
+From: Ricardo Ribalda <ribalda@chromium.org>
+Subject: [PATCH v2 0/2] media: Fix gcc8 warnings
+Date: Tue, 01 Apr 2025 14:17:53 +0000
+Message-Id: <20250401-v614-v2-0-53024c4fcdc7@chromium.org>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250331-v614-v1-0-9bc69a873720@chromium.org> <20250331-v614-v1-2-9bc69a873720@chromium.org>
-In-Reply-To: <20250331-v614-v1-2-9bc69a873720@chromium.org>
-From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Tue, 1 Apr 2025 16:03:58 +0300
-X-Gm-Features: AQ5f1JoQAeiz8KzO0Ix3DeA2FFUbKTV02faYpr6Tug3l0lCiOJFfHWd5fqOwTTY
-Message-ID: <CAHp75VfVa5QYW9Srx1aDBFuvBp5OcWr1bnNUdhf6rJx_NemEqw@mail.gmail.com>
-Subject: Re: [PATCH 2/2] media: atomisp: Fix Wformat-truncation warning
-To: Ricardo Ribalda <ribalda@chromium.org>
-Cc: Hans Verkuil <hverkuil@xs4all.nl>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	Hans de Goede <hdegoede@redhat.com>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
-	Andy Shevchenko <andy@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-staging@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAJH162cC/13MSw6CMBSF4a2QO7amDwqtI/dhGGCp9A6g5FYbD
+ enerQwd/icn3w7JE/oEl2YH8hkTxrWGPDXgwrjOnuFUGySXmislWO5Ey0xr9KSUkVZpqNeN/AP
+ fB3MbagdMz0ifQ83it/4BWTDO7N11djS96iW/ukBxwddyjjTDUEr5ApzoCtybAAAA
+X-Change-ID: 20250331-v614-8485d3382935
+To: Hans Verkuil <hverkuil@xs4all.nl>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>, 
+ Hans de Goede <hdegoede@redhat.com>, 
+ Sakari Ailus <sakari.ailus@linux.intel.com>, 
+ Andy Shevchenko <andy@kernel.org>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-staging@lists.linux.dev, Ricardo Ribalda <ribalda@chromium.org>
+X-Mailer: b4 0.14.2
 
-On Mon, Mar 31, 2025 at 7:38=E2=80=AFPM Ricardo Ribalda <ribalda@chromium.o=
-rg> wrote:
->
-> Gcc8 is convinced that we do not have enough space in dot_id_input_bin.
-> Extend the variable 17 bytes. It is just used for debugging.
->
-> drivers/staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.c:1336:9=
-: warning: '(pipe' directive output may be truncated writing 5 bytes into a=
- region of size between 1 and 74 [-Wformat-truncation=3D]
+Kernel 6.14 has increased its minimum gcc requirements. After bumping
+the "ancient" test in media-ci 2 new warnings have been found. Let's try
+to fix them.
 
-...
+Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+---
+Changes in v2:
+- Incorporate Hans changes.
+- Add comment (Thanks Andy).
+- EDITME: describe what is new in this series revision.
+- EDITME: use bulletpoints and terse descriptions.
+- Link to v1: https://lore.kernel.org/r/20250331-v614-v1-0-9bc69a873720@chromium.org
 
-> -static char dot_id_input_bin[SH_CSS_MAX_BINARY_NAME + 10];
-> +static char dot_id_input_bin[SH_CSS_MAX_BINARY_NAME + 27];
+---
+Hans Verkuil (1):
+      media: cec: extron-da-hd-4k-plus: Fix Wformat-truncation
 
-I'm okay with the approach, but can you also add a comment to explain
-27, please?
-(I mean something like "27 is the combined length of 'pipe' plus ...")
+Ricardo Ribalda (1):
+      media: atomisp: Fix Wformat-truncation warning
 
---=20
-With Best Regards,
-Andy Shevchenko
+ drivers/media/cec/usb/extron-da-hd-4k-plus/extron-da-hd-4k-plus.c  | 4 ++--
+ drivers/staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.c | 3 ++-
+ 2 files changed, 4 insertions(+), 3 deletions(-)
+---
+base-commit: 4e82c87058f45e79eeaa4d5bcc3b38dd3dce7209
+change-id: 20250331-v614-8485d3382935
+
+Best regards,
+-- 
+Ricardo Ribalda <ribalda@chromium.org>
+
