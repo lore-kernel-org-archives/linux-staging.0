@@ -1,125 +1,99 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 667853BBC9;
-	Tue,  1 Apr 2025 07:46:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2655EACE
+	for <linux-staging@lists.linux.dev>; Tue,  1 Apr 2025 13:04:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743493582; cv=none; b=qQ3vRDHhK/mIHL+hmPmoivL9ZIMJXaClZPlr7Q+1FSAqSml556dpoOulUpw4J2iPZL/tZBcCjVolm6h8bccMTgWT2xrqM+b2A4MebujX/jZJ3XuRb9fz8gfP1TfOxUAgoyFf1F63xiV5UNdxJinuW9trD8wYvcMoohE5LcTg+rM=
+	t=1743512679; cv=none; b=Wu2XpWflKSqv99KPvcBTLt/3UIUu+22PYUpK85NOTZz2L+1czZU6mxFDaG4O9N2jACx3CrCD4Ua9AhV/Kd4f77mkJjhB4+QqtEvkBuhLuKG7RM5AFaN30AmE+MS+Qsb85DFzv+V6o5CTLnHqZYT6BJVa9lT0btDFyWj0vGdbLTs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743493582; c=relaxed/simple;
-	bh=wGhR/ueehFFaaFJztWCiZyH0YoQdMwksOLr5XIVJq8Y=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=HgYAGGO0FjGe0EAfnvlPOd/NWdfdal3CEN0ySvzN3HiGIilMODodSjTTNtMZ4buVb0uTnasQVFpsHn3Lf3XDmmncpjbENS0ZoPYIB9CtkihOEqLLAuz5GN+wU68Vm9iwcaJ/eJIoBvLOeNnwTMimwxmd1sJHszkUofBPq46vKmA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 022C2C4CEE8;
-	Tue,  1 Apr 2025 07:46:19 +0000 (UTC)
-Message-ID: <0017bba6-0c46-4c74-9bd1-3b0e3ea9877a@xs4all.nl>
-Date: Tue, 1 Apr 2025 09:46:18 +0200
+	s=arc-20240116; t=1743512679; c=relaxed/simple;
+	bh=vtatpFmzhU7xgjZhwA5PCJeITl2kEtzzcHrkI3h7zeI=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=R1tykF/USPKU8XizjpfC/E8JtFAaf27/rLw4k1KUANprxpTJAQUszWTF4/d/mE29yq7FiVpUxz4xEffMdd5C0/32z4XSR77gIebKM+wecG4N5k7MufGj4Q6w4scaLXfyDnEM2biqzLQkrcDlvxMvK+8IhoRpAc4duA5ASgvcBI8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=h/+CoDE9; arc=none smtp.client-ip=209.85.218.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="h/+CoDE9"
+Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-abbb12bea54so1162494466b.0
+        for <linux-staging@lists.linux.dev>; Tue, 01 Apr 2025 06:04:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1743512676; x=1744117476; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=vtatpFmzhU7xgjZhwA5PCJeITl2kEtzzcHrkI3h7zeI=;
+        b=h/+CoDE9cfZ38DVjXAZQ7tICfzDrGiWMBQGi654gtOVS3TuStlEHZB2oxYtICi+4dh
+         J4QrTcIAgOkxvAakKYlABBL67SMCS4lXTzwbQ8CVBDwzp7TeYWh0+Z3Xf9xxx0VxbE5P
+         gSmxWNM9UYM38K+4tfZZZMfVNfcYs/fWhY2pvwWxhvb1iny7CthzXOC2UOFXB/H+pc1E
+         2wEwX3hXufTOl+har+ZeIONXieAlws1AnXXmZtOwE9A8FIua/Joqt/4RZPQF4SkUsajA
+         2DbLTp7pPwMdwaBH2Azv+0+lTbKczODf0XY9PyzqZIRNn0lUBlFv3rXF8OPdMdn7pdBb
+         HaAQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1743512676; x=1744117476;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=vtatpFmzhU7xgjZhwA5PCJeITl2kEtzzcHrkI3h7zeI=;
+        b=pCUNRW2OxIPrnqLDfmvQuxPwFA6J9fvOvaggNb8QRkaz6wloQ3uAMzH1DpRy6yZWp+
+         1uV9nkniDw9QL8kDr2hicIPx/OPmScJ5HOj9/vEFWRD+n+i46LUK3oOZpqq19RLkcY91
+         pE1OiNofyLicr0gweI8GgMgZ7Xq9TNfH05gmhGkDa8m3ud9u1BsyvsUanXLTt/ttn6Jp
+         Gg+tPyhMOV8bTsgwoLy8ag8qCyqo3hJU2ToNyuyDP+yXYPlv1pqJGLXVN0iF70CJxrsA
+         19giYSfvPkK089k1GzJndjvWbtr17WswTzegLzSmkb+6aGcdB1QIyS+Iwjp7SCEESBtc
+         hG6Q==
+X-Forwarded-Encrypted: i=1; AJvYcCUf/M6+y7EqW49szwU+MvXS6XYxPpDQ3QvbEljc+z2jKLZgymNzNG6apag5oIdG13I8MGFsOx0oHWe+OeAF@lists.linux.dev
+X-Gm-Message-State: AOJu0YxyHLP0qvJfVdhlawyofNrT0kwTBS3Kj/qOz4bBYegURZt6Aw43
+	mRCu965L7VGVdXJmS96bOA7ZBfP6kEGxvkYsOeTifZATd13fZ9uIhxw20Q1k3VG4UbBrGlpTJ0o
+	eUMziR/lce07/BGGnVRULIvqGAJmICI/+kfc=
+X-Gm-Gg: ASbGncsTQl13P0RCfjduNATwcfm+0qDxVGDi9msbRmMMSLALYJWhfD8cEbkkiym9/jy
+	75Y+3A8V73kBE24bmtEuY6dhcxCG9IRRbkJtGbUPnAbjmrI5oNeXV6nkVM7+34rlaRbPVgfO8rn
+	wGIXiJ3qy1T2zn6AOtdKB4WSO9Lg==
+X-Google-Smtp-Source: AGHT+IHZsgzE/OgxX7vZ7ZnSjzcsPxeS13ob9nT5SmHeUEZ3jjaSl08nur2NnbGtlffi9m8wEAGUtFTlGED263jrJZs=
+X-Received: by 2002:a17:906:c148:b0:ac3:c7bd:e436 with SMTP id
+ a640c23a62f3a-ac738c6f2a9mr1016730066b.51.1743512675974; Tue, 01 Apr 2025
+ 06:04:35 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] media: cec: extron-da-hd-4k-plus: Fix
- Wformat-truncation
-To: Ricardo Ribalda <ribalda@chromium.org>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Hans de Goede <hdegoede@redhat.com>,
- Sakari Ailus <sakari.ailus@linux.intel.com>,
- Andy Shevchenko <andy@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-staging@lists.linux.dev
-References: <20250331-v614-v1-0-9bc69a873720@chromium.org>
- <20250331-v614-v1-1-9bc69a873720@chromium.org>
-Content-Language: en-US, nl
-From: Hans Verkuil <hverkuil@xs4all.nl>
-Autocrypt: addr=hverkuil@xs4all.nl; keydata=
- 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
-In-Reply-To: <20250331-v614-v1-1-9bc69a873720@chromium.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20250331-v614-v1-0-9bc69a873720@chromium.org> <20250331-v614-v1-2-9bc69a873720@chromium.org>
+In-Reply-To: <20250331-v614-v1-2-9bc69a873720@chromium.org>
+From: Andy Shevchenko <andy.shevchenko@gmail.com>
+Date: Tue, 1 Apr 2025 16:03:58 +0300
+X-Gm-Features: AQ5f1JoQAeiz8KzO0Ix3DeA2FFUbKTV02faYpr6Tug3l0lCiOJFfHWd5fqOwTTY
+Message-ID: <CAHp75VfVa5QYW9Srx1aDBFuvBp5OcWr1bnNUdhf6rJx_NemEqw@mail.gmail.com>
+Subject: Re: [PATCH 2/2] media: atomisp: Fix Wformat-truncation warning
+To: Ricardo Ribalda <ribalda@chromium.org>
+Cc: Hans Verkuil <hverkuil@xs4all.nl>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	Hans de Goede <hdegoede@redhat.com>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
+	Andy Shevchenko <andy@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-staging@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 31/03/2025 18:38, Ricardo Ribalda wrote:
-> Convince gcc8 that the port, initiator and destination fits in a single
-> char, despite the fact that they are 4 bits wide.
-> 
-> drivers/media/cec/usb/extron-da-hd-4k-plus/extron-da-hd-4k-plus.c:1014:44: warning: 'DCEC' directive output may be truncated writing 4 bytes into a region of size between 0 and 53 [-Wformat-truncation=]
-> 
-> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
-> ---
->  drivers/media/cec/usb/extron-da-hd-4k-plus/extron-da-hd-4k-plus.c | 5 +++--
->  1 file changed, 3 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/media/cec/usb/extron-da-hd-4k-plus/extron-da-hd-4k-plus.c b/drivers/media/cec/usb/extron-da-hd-4k-plus/extron-da-hd-4k-plus.c
-> index cfbfc4c1b2e67fec9434aa6852ab465ad8c11225..e1a2a676bcaf9c313041ce8074c85636cfe4b2da 100644
-> --- a/drivers/media/cec/usb/extron-da-hd-4k-plus/extron-da-hd-4k-plus.c
-> +++ b/drivers/media/cec/usb/extron-da-hd-4k-plus/extron-da-hd-4k-plus.c
-> @@ -1012,8 +1012,9 @@ static int extron_cec_adap_transmit(struct cec_adapter *adap, u8 attempts,
->  	for (i = 0; i < msg->len - 1; i++)
->  		sprintf(buf + i * 3, "%%%02X", msg->msg[i + 1]);
->  	snprintf(cmd, sizeof(cmd), "W%c%u*%u*%u*%sDCEC",
-> -		 port->direction, port->port.port,
-> -		 cec_msg_initiator(msg), cec_msg_destination(msg), buf);
-> +		 port->direction, port->port.port % 10,
-> +		 cec_msg_initiator(msg) % 10, cec_msg_destination(msg) % 10,
+On Mon, Mar 31, 2025 at 7:38=E2=80=AFPM Ricardo Ribalda <ribalda@chromium.o=
+rg> wrote:
+>
+> Gcc8 is convinced that we do not have enough space in dot_id_input_bin.
+> Extend the variable 17 bytes. It is just used for debugging.
+>
+> drivers/staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.c:1336:9=
+: warning: '(pipe' directive output may be truncated writing 5 bytes into a=
+ region of size between 1 and 74 [-Wformat-truncation=3D]
 
-This is definitely wrong, since initiator/destination is a value from 0-15.
-So % 10 will mess that up.
+...
 
-I'm preparing a patch of my own for this.
+> -static char dot_id_input_bin[SH_CSS_MAX_BINARY_NAME + 10];
+> +static char dot_id_input_bin[SH_CSS_MAX_BINARY_NAME + 27];
 
-Regards,
+I'm okay with the approach, but can you also add a comment to explain
+27, please?
+(I mean something like "27 is the combined length of 'pipe' plus ...")
 
-	Hans
-
-> +		 buf);
->  	return extron_send_and_wait(port->extron, port, cmd, NULL);
->  }
->  
-> 
-
+--=20
+With Best Regards,
+Andy Shevchenko
