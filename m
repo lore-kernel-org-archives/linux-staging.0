@@ -1,110 +1,223 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A82D2E3384
-	for <linux-staging@lists.linux.dev>; Tue,  1 Apr 2025 00:17:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5DD32E3360;
+	Tue,  1 Apr 2025 00:52:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743466648; cv=none; b=aK6avJcCOtN6HoBB9w07Ve00DJkPXkvTIvxlv8ajxjrrg1p2aQxQpGAu9mTp1s6077kHABop/Gvf706c8rYAzRb9qAD8KEjgurvXm32iCgOGll7NwujwfbCkKZCcOp5bITG1JqID4uZMpc5k0THCxG4BzJC0JjLeLmIrqlAItyM=
+	t=1743468775; cv=none; b=ZuOrIsPkCU8d3C1P7705uf6frRC6l7TNn9uNea3boPmSdKVRqFUQSpkATqjlU3pDaY8uohX4tiekbXgn9X6cVjlz1uCnNnVqn7J2gxIOGWn/8HFdwndJrAoUv5R3kHV+zSr0q8czIpElK4ZCuJ7/9bBkUCyoSqWQKsgd/m4Rlqc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743466648; c=relaxed/simple;
-	bh=llBTAisqyOidyTYvFevjD97G6Jq350PBDVWT1qtGfe8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=Q3c8tLoloolhHY7WA2FcvLGbkQDmE1fnNQR7YATOHh0xcodGnc1aINICMTDGAqAKSvs36fo4YjMhrYfJMLs7kepid5OK1EgL78lvN32CBRZQjS55y5KSNflfcmOM8NzITcp/4HvvbhqTncrTsYKqu5o6PEAgC2aIb+jE+H8v22g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=peSfyLyV; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+	s=arc-20240116; t=1743468775; c=relaxed/simple;
+	bh=CMpSQHq3iF7V7TCw9C/Cs1GU8XUOe2N2XNb6odHDafY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZNsh7AH5TFuS0SUTZ7eBhLMjkPOYJ0IhiVH8gjVsxT6PVQJ9zOf6dlfx0Xy94ix/iSWyPUKL6gu59DkPQ6q5rF3p1GNf5keBBrqt5srjL7r8baYZ2vCYZ3oFFCr0m5LpynXtMPz5irHkbvZd8btdH9zVfy8ClgO0yyLXTIH09nU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=T3UewMlG; arc=none smtp.client-ip=192.198.163.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="peSfyLyV"
-Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 52VFCx7d007639;
-	Tue, 1 Apr 2025 00:17:22 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	pWf+aubKFbVlYI+VsLmquwJeB6ZKPlgud/1Pn+keFGM=; b=peSfyLyVdwqRqmov
-	KGQOieE3z41dL+fBcGU37rjGC3q3t25BTyxD/2sF3ikRseeSxFu4kcQAvUwPGtNF
-	xfN9sD8v+gc1HHlTBuPK1ww8GSRIj7y+5JbovAAL+KnPFyd1BGuA67sRKPiVIafD
-	XH3bsL6kYHNMiABTmXFGr5zhEC6kzrMe+7Hm5Gd5MLplLOaDFRCm9mUyWNwCobii
-	DNjX4NjcwT4guaWJp8hRO1OUGFrpOkM7yNl2pj+bK4W3cZzlD7/kbT7tOrUMUC66
-	2ZselXOZN1fxcMlePEO4VH1qIkCUlObvST1cP/6sQtu69WaDh/oQ2u2DvblIeEKF
-	AD9/og==
-Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 45pa1nwumu-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 01 Apr 2025 00:17:22 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-	by NALASPPMTA03.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 5310HMoj011319
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 1 Apr 2025 00:17:22 GMT
-Received: from [10.111.180.55] (10.49.16.6) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Mon, 31 Mar
- 2025 17:17:21 -0700
-Message-ID: <4f47df18-e98c-4f23-afde-3fa8e9fd0f86@quicinc.com>
-Date: Mon, 31 Mar 2025 17:17:20 -0700
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="T3UewMlG"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1743468774; x=1775004774;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=CMpSQHq3iF7V7TCw9C/Cs1GU8XUOe2N2XNb6odHDafY=;
+  b=T3UewMlG0D/qiaNV86Iy3iygPVo8JXY5+s4dAQgtu8OZbKzVsEJvluOZ
+   undFSTAetGiumn0bhT/lHpsV0rCRRkADRXRpdsBPaOX+N7L5feiVBOuv4
+   gLFlUKDeP9TzCDHcKg9xE3PtvApJxlpRiNGW7n3NRt5YUYTwkoIBkFmwJ
+   Phmv+TWCCme1DewKRfZhnSuo6GYSAdtJFhJWic5g2fag7grtfVMwmx36N
+   8gMDWe0ZyGosB3JtoNNZCkbj2ETT6tI8xxxhSo+GQ7ia4irg6Lou08KBe
+   TZtCMBFg/Xq/j2A/y4Km1eoqS48VHyndakl8wbfBlfJO7n2OYvRp/uSVy
+   w==;
+X-CSE-ConnectionGUID: SZEY3xp/QiCLPom3UQZS4Q==
+X-CSE-MsgGUID: qy0trGZfQRipmdSw1TU0Ow==
+X-IronPort-AV: E=McAfee;i="6700,10204,11390"; a="32375148"
+X-IronPort-AV: E=Sophos;i="6.14,291,1736841600"; 
+   d="scan'208";a="32375148"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Mar 2025 17:52:53 -0700
+X-CSE-ConnectionGUID: abTSWexGQ++Mu1J4er3vWg==
+X-CSE-MsgGUID: uL8l00A8Q4yl6FeaFQH8UA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.14,291,1736841600"; 
+   d="scan'208";a="126701732"
+Received: from lkp-server02.sh.intel.com (HELO e98e3655d6d2) ([10.239.97.151])
+  by fmviesa010.fm.intel.com with ESMTP; 31 Mar 2025 17:52:50 -0700
+Received: from kbuild by e98e3655d6d2 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tzPrz-0009Wi-2U;
+	Tue, 01 Apr 2025 00:52:47 +0000
+Date: Tue, 1 Apr 2025 08:52:00 +0800
+From: kernel test robot <lkp@intel.com>
+To: gpittala <ganeshkpittala@gmail.com>, johan@kernel.org, elder@kernel.org,
+	gregkh@linuxfoundation.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	hvaibhav.linux@gmail.com, vaibhav.sr@gmail.com,
+	mgreer@animalcreek.com, rmfrfs@gmail.com,
+	pure.logic@nexus-software.ie, greybus-dev@lists.linaro.org,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	ganeshkpittala@gmail.com
+Subject: Re: [PATCH] staging: greybus: Multiple cleanups and refactors
+Message-ID: <202504010829.vIzweYue-lkp@intel.com>
+References: <20250331213337.6171-1-ganeshkpittala@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [greybus-dev] Re: [PATCH] staging: greybus: Multiple cleanups and
- refactors
-To: Ganesh Kumar Pittala <ganeshkpittala@gmail.com>,
-        Alex Elder
-	<elder@riscstar.com>
-CC: <johan@kernel.org>, <elder@kernel.org>, <hvaibhav.linux@gmail.com>,
-        <pure.logic@nexus-software.ie>, <greybus-dev@lists.linaro.org>,
-        <linux-staging@lists.linux.dev>, <linux-kernel@vger.kernel.org>
-References: <20250331213337.6171-1-ganeshkpittala@gmail.com>
- <d683962c-e8b7-4adc-9902-483976197637@riscstar.com>
- <CALVXb-qDioGFAfmtJPu_jVR_5G7VfC2bDD_bvjicbrVZKkc=hA@mail.gmail.com>
-From: Jeff Johnson <quic_jjohnson@quicinc.com>
-Content-Language: en-US
-In-Reply-To: <CALVXb-qDioGFAfmtJPu_jVR_5G7VfC2bDD_bvjicbrVZKkc=hA@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: nalasex01b.na.qualcomm.com (10.47.209.197) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: WAs377hhi2Z2IkrrkwWxXmTjQS2ZrgW3
-X-Proofpoint-GUID: WAs377hhi2Z2IkrrkwWxXmTjQS2ZrgW3
-X-Authority-Analysis: v=2.4 cv=MPlgmNZl c=1 sm=1 tr=0 ts=67eb3092 cx=c_pps a=ouPCqIW2jiPt+lZRy3xVPw==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17 a=3H110R4YSZwA:10 a=IkcTkHD0fZMA:10 a=XR8D0OoHHMoA:10 a=VwQbUJbxAAAA:8 a=1O7B8se6RwbiryXEGoAA:9 a=3ZKOabzyN94A:10
- a=QEXdDO2ut3YA:10 a=D0TqAXdIGyEA:10 a=xa8LZTUigIcA:10
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1095,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-03-31_11,2025-03-27_02,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
- malwarescore=0 suspectscore=0 phishscore=0 spamscore=0 clxscore=1011
- bulkscore=0 mlxlogscore=999 impostorscore=0 mlxscore=0 adultscore=0
- priorityscore=1501 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2502280000
- definitions=main-2504010000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250331213337.6171-1-ganeshkpittala@gmail.com>
 
-On 3/31/2025 5:03 PM, Ganesh Kumar Pittala wrote:
-> Hi Alex,
-> 
-> Thank you for the detailed feedback and guidance. I appreciate your time
-> reviewing the patch.
-> 
-> I’ll split the changes into separate patches as suggested and send a v2 shortly.
-> 
-> Best regards,
-> Ganesh Pittala
+Hi gpittala,
 
-Some more feedback:
+kernel test robot noticed the following build warnings:
 
-Don't "top post"
-https://www.kernel.org/doc/html/latest/process/submitting-patches.html#use-trimmed-interleaved-replies-in-email-discussions
+[auto build test WARNING on staging/staging-testing]
 
-Also don't use HTML e-mail 
-https://www.kernel.org/doc/html/latest/process/submitting-patches.html#no-mime-no-links-no-compression-no-attachments-just-plain-text
+url:    https://github.com/intel-lab-lkp/linux/commits/gpittala/staging-greybus-Multiple-cleanups-and-refactors/20250401-053719
+base:   staging/staging-testing
+patch link:    https://lore.kernel.org/r/20250331213337.6171-1-ganeshkpittala%40gmail.com
+patch subject: [PATCH] staging: greybus: Multiple cleanups and refactors
+config: i386-buildonly-randconfig-004-20250401 (https://download.01.org/0day-ci/archive/20250401/202504010829.vIzweYue-lkp@intel.com/config)
+compiler: clang version 20.1.1 (https://github.com/llvm/llvm-project 424c2d9b7e4de40d0804dd374721e6411c27d1d1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250401/202504010829.vIzweYue-lkp@intel.com/reproduce)
 
-Yes, there are a lot of hoops you have to jump through to get your code in the
-kernel. It becomes easier over time.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202504010829.vIzweYue-lkp@intel.com/
 
-/jeff
+All warnings (new ones prefixed by >>):
 
+>> drivers/staging/greybus/loopback.c:272:1: warning: invalid conversion specifier '\x0a' [-Wformat-invalid-specifier]
+     272 | gb_loopback_stats_attrs(latency);
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/staging/greybus/loopback.c:167:2: note: expanded from macro 'gb_loopback_stats_attrs'
+     167 |         gb_loopback_ro_stats_attr(field, min, u);               \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/staging/greybus/loopback.c:142:27: note: expanded from macro 'gb_loopback_ro_stats_attr'
+     142 |         return sysfs_emit(buf, "%\n" #type "\n", gb->name.field);               \
+         |                                 ~^
+>> drivers/staging/greybus/loopback.c:272:1: warning: invalid conversion specifier '\x0a' [-Wformat-invalid-specifier]
+     272 | gb_loopback_stats_attrs(latency);
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/staging/greybus/loopback.c:168:2: note: expanded from macro 'gb_loopback_stats_attrs'
+     168 |         gb_loopback_ro_stats_attr(field, max, u);               \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/staging/greybus/loopback.c:142:27: note: expanded from macro 'gb_loopback_ro_stats_attr'
+     142 |         return sysfs_emit(buf, "%\n" #type "\n", gb->name.field);               \
+         |                                 ~^
+   drivers/staging/greybus/loopback.c:274:1: warning: invalid conversion specifier '\x0a' [-Wformat-invalid-specifier]
+     274 | gb_loopback_stats_attrs(requests_per_second);
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/staging/greybus/loopback.c:167:2: note: expanded from macro 'gb_loopback_stats_attrs'
+     167 |         gb_loopback_ro_stats_attr(field, min, u);               \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/staging/greybus/loopback.c:142:27: note: expanded from macro 'gb_loopback_ro_stats_attr'
+     142 |         return sysfs_emit(buf, "%\n" #type "\n", gb->name.field);               \
+         |                                 ~^
+   drivers/staging/greybus/loopback.c:274:1: warning: invalid conversion specifier '\x0a' [-Wformat-invalid-specifier]
+     274 | gb_loopback_stats_attrs(requests_per_second);
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/staging/greybus/loopback.c:168:2: note: expanded from macro 'gb_loopback_stats_attrs'
+     168 |         gb_loopback_ro_stats_attr(field, max, u);               \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/staging/greybus/loopback.c:142:27: note: expanded from macro 'gb_loopback_ro_stats_attr'
+     142 |         return sysfs_emit(buf, "%\n" #type "\n", gb->name.field);               \
+         |                                 ~^
+   drivers/staging/greybus/loopback.c:276:1: warning: invalid conversion specifier '\x0a' [-Wformat-invalid-specifier]
+     276 | gb_loopback_stats_attrs(throughput);
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/staging/greybus/loopback.c:167:2: note: expanded from macro 'gb_loopback_stats_attrs'
+     167 |         gb_loopback_ro_stats_attr(field, min, u);               \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/staging/greybus/loopback.c:142:27: note: expanded from macro 'gb_loopback_ro_stats_attr'
+     142 |         return sysfs_emit(buf, "%\n" #type "\n", gb->name.field);               \
+         |                                 ~^
+   drivers/staging/greybus/loopback.c:276:1: warning: invalid conversion specifier '\x0a' [-Wformat-invalid-specifier]
+     276 | gb_loopback_stats_attrs(throughput);
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/staging/greybus/loopback.c:168:2: note: expanded from macro 'gb_loopback_stats_attrs'
+     168 |         gb_loopback_ro_stats_attr(field, max, u);               \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/staging/greybus/loopback.c:142:27: note: expanded from macro 'gb_loopback_ro_stats_attr'
+     142 |         return sysfs_emit(buf, "%\n" #type "\n", gb->name.field);               \
+         |                                 ~^
+   drivers/staging/greybus/loopback.c:278:1: warning: invalid conversion specifier '\x0a' [-Wformat-invalid-specifier]
+     278 | gb_loopback_stats_attrs(apbridge_unipro_latency);
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/staging/greybus/loopback.c:167:2: note: expanded from macro 'gb_loopback_stats_attrs'
+     167 |         gb_loopback_ro_stats_attr(field, min, u);               \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/staging/greybus/loopback.c:142:27: note: expanded from macro 'gb_loopback_ro_stats_attr'
+     142 |         return sysfs_emit(buf, "%\n" #type "\n", gb->name.field);               \
+         |                                 ~^
+   drivers/staging/greybus/loopback.c:278:1: warning: invalid conversion specifier '\x0a' [-Wformat-invalid-specifier]
+     278 | gb_loopback_stats_attrs(apbridge_unipro_latency);
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/staging/greybus/loopback.c:168:2: note: expanded from macro 'gb_loopback_stats_attrs'
+     168 |         gb_loopback_ro_stats_attr(field, max, u);               \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/staging/greybus/loopback.c:142:27: note: expanded from macro 'gb_loopback_ro_stats_attr'
+     142 |         return sysfs_emit(buf, "%\n" #type "\n", gb->name.field);               \
+         |                                 ~^
+   drivers/staging/greybus/loopback.c:280:1: warning: invalid conversion specifier '\x0a' [-Wformat-invalid-specifier]
+     280 | gb_loopback_stats_attrs(gbphy_firmware_latency);
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/staging/greybus/loopback.c:167:2: note: expanded from macro 'gb_loopback_stats_attrs'
+     167 |         gb_loopback_ro_stats_attr(field, min, u);               \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/staging/greybus/loopback.c:142:27: note: expanded from macro 'gb_loopback_ro_stats_attr'
+     142 |         return sysfs_emit(buf, "%\n" #type "\n", gb->name.field);               \
+         |                                 ~^
+   drivers/staging/greybus/loopback.c:280:1: warning: invalid conversion specifier '\x0a' [-Wformat-invalid-specifier]
+     280 | gb_loopback_stats_attrs(gbphy_firmware_latency);
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/staging/greybus/loopback.c:168:2: note: expanded from macro 'gb_loopback_stats_attrs'
+     168 |         gb_loopback_ro_stats_attr(field, max, u);               \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/staging/greybus/loopback.c:142:27: note: expanded from macro 'gb_loopback_ro_stats_attr'
+     142 |         return sysfs_emit(buf, "%\n" #type "\n", gb->name.field);               \
+         |                                 ~^
+   drivers/staging/greybus/loopback.c:301:1: warning: invalid conversion specifier '\x0a' [-Wformat-invalid-specifier]
+     301 | gb_dev_loopback_rw_attr(type, d);
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/staging/greybus/loopback.c:213:27: note: expanded from macro 'gb_dev_loopback_rw_attr'
+     213 |         return sysfs_emit(buf, "%\n" #type "\n", gb->field);                    \
+         |                                 ~^
+   drivers/staging/greybus/loopback.c:303:1: warning: invalid conversion specifier '\x0a' [-Wformat-invalid-specifier]
+     303 | gb_dev_loopback_rw_attr(size, u);
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/staging/greybus/loopback.c:213:27: note: expanded from macro 'gb_dev_loopback_rw_attr'
+     213 |         return sysfs_emit(buf, "%\n" #type "\n", gb->field);                    \
+         |                                 ~^
+   drivers/staging/greybus/loopback.c:305:1: warning: invalid conversion specifier '\x0a' [-Wformat-invalid-specifier]
+     305 | gb_dev_loopback_rw_attr(us_wait, d);
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/staging/greybus/loopback.c:213:27: note: expanded from macro 'gb_dev_loopback_rw_attr'
+     213 |         return sysfs_emit(buf, "%\n" #type "\n", gb->field);                    \
+         |                                 ~^
+   drivers/staging/greybus/loopback.c:307:1: warning: invalid conversion specifier '\x0a' [-Wformat-invalid-specifier]
+     307 | gb_dev_loopback_rw_attr(iteration_max, u);
+
+
+vim +/x0a +272 drivers/staging/greybus/loopback.c
+
+355a7058153e04b Alexandre Bailon 2015-03-31  270  
+355a7058153e04b Alexandre Bailon 2015-03-31  271  /* Time to send and receive one message */
+8e1d6c336d74977 Bryan O'Donoghue 2015-12-03 @272  gb_loopback_stats_attrs(latency);
+583cbf50e0a4c89 Bryan O'Donoghue 2015-07-21  273  /* Number of requests sent per second on this cport */
+8e1d6c336d74977 Bryan O'Donoghue 2015-12-03  274  gb_loopback_stats_attrs(requests_per_second);
+355a7058153e04b Alexandre Bailon 2015-03-31  275  /* Quantity of data sent and received on this cport */
+8e1d6c336d74977 Bryan O'Donoghue 2015-12-03  276  gb_loopback_stats_attrs(throughput);
+1ec5843ee988991 Bryan O'Donoghue 2015-10-15  277  /* Latency across the UniPro link from APBridge's perspective */
+8e1d6c336d74977 Bryan O'Donoghue 2015-12-03  278  gb_loopback_stats_attrs(apbridge_unipro_latency);
+1ec5843ee988991 Bryan O'Donoghue 2015-10-15  279  /* Firmware induced overhead in the GPBridge */
+e54b106dd1be503 Sandeep Patil    2016-05-19  280  gb_loopback_stats_attrs(gbphy_firmware_latency);
+8e1d6c336d74977 Bryan O'Donoghue 2015-12-03  281  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
