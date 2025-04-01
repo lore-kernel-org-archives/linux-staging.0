@@ -1,115 +1,104 @@
-Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E48E12040A4
-	for <linux-staging@lists.linux.dev>; Tue,  1 Apr 2025 14:18:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47ADA79FE;
+	Tue,  1 Apr 2025 16:59:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743517082; cv=none; b=BW+I2hT0qq4JWxrhrRbuRaxJlgo6LMvj3kguqMdydJlsMaBFWndYh8n2a06M+PBx/3KTotCXhKOkBpAsNyprAPyd7zcvOVNO23bD5MhX4iGnAKaG2VE/SmpcmdfwZ9yufIyXQZ+5Kv6ALMXaQyzXxWPts5tVy10IjcQzXQ5Wvzo=
+	t=1743526792; cv=none; b=c4KT53Rs4yVFJOoDfqlZu7R9w7TM8lYF+LW6Y4Y3O59Yd7uYzQdRm8oB21t1MdEzCWB80KcVpuRt3chOhf4GG0UOmGjlmfDt26fBk6n/8tdRFgd1Qh5gdqP31Bp8tDhf7dBkDXwhsknaG9iv8Muqx5JaSkeACiR+jWfgZOiiP4w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743517082; c=relaxed/simple;
-	bh=qBYjcouQW6HReKbjdwqHeD5kVbmPx9ci9r+cFmpKKBM=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=R273GZYlJRFlo/xEio6qiKBMWTuLQ5g7SKLs46Aas0Z3cYPG6hRIkdDCt0EE3Ztd4eqr72vJe/yTlqwRaV7PsK31zp+HryvRRP+3NrfQGt5KHHlbBJcn2JaCB+29fC91c0W/peFFXIbImvcThRaChFpK4pHjflYv68gsng7FJaU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=ew2vkEWu; arc=none smtp.client-ip=209.85.167.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	s=arc-20240116; t=1743526792; c=relaxed/simple;
+	bh=2a7Yq/IafeBn556VJLu7R9aQB6OEhtnDGpHvtGWGV34=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=b7+jZryOdZsCo7a7fxLEyFVn9Pcafu97ZFlh9WtAaoUEu2ERdjVw78EouNkTqnF5onQaMc9NDZL9+QWCsT3vh8zApNB+hMKn4MBT3rh4+JYcOC69UHaB0DOfIOBRwDBzGgTv5Uwagdw8O4cCsOzi/cC81Td/I0N/4jWT8Vd2PZg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=So6fwKbA; arc=none smtp.client-ip=209.85.128.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="ew2vkEWu"
-Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-549b159c84cso3979715e87.3
-        for <linux-staging@lists.linux.dev>; Tue, 01 Apr 2025 07:18:00 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="So6fwKbA"
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-43d0359b1fcso195355e9.0;
+        Tue, 01 Apr 2025 09:59:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1743517079; x=1744121879; darn=lists.linux.dev;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=11E24h0kkMUDJZI1H/PMbxoLXdKMo2wCD3aU6/q3qUU=;
-        b=ew2vkEWupmiYRktU51dNzLaXjoLA86j0sEhocTa2n8fKJfB/oq9lwRNVD9Dc/ym3CH
-         jiEa0qVGwKTQMEruE3DOlBUo9Juxun6uz+tEM25u/UwIUfMchP+uBDGD61MbVKU/UKK4
-         O5vT4voG1TYuRHz1ZMGrCo0/ofavHuvhughNQ=
+        d=gmail.com; s=20230601; t=1743526789; x=1744131589; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=TGAzQ9IQ4Ej9MxMTWMc7YU+f5UPPEhRpwIFJo9nKtig=;
+        b=So6fwKbAe9C7x4cxyP7Baec+phRtIKphiPV0Y2Q2EgqqkOn3MdEGfBPyDE9Tdh1KPl
+         yPvI7aEeMfY6D8ICa7AvymLANj04Vp19u/kNcet1tYjkyPP2Zwfne9l6g/Kf2Mg/5X5F
+         hRcHNJ0BtOFE0pChqjKbqBVduNuXAfbHydh/G9w9uKSSpizydYs0YPWxtc7elqzPaeRQ
+         qZyHXDZpmClMK5s5EdVddSpY5XcbxyaSrWxWPqGvDZFOAFnrEbYIvY4ebCkpy4os+DDN
+         OjUhKjPAcnJScOSJfnF6QhLujHog3oDCuiZ/wG4Mq84ncQdMCfsno0FA1uYYWrFfqHGx
+         KSuw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1743517079; x=1744121879;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=11E24h0kkMUDJZI1H/PMbxoLXdKMo2wCD3aU6/q3qUU=;
-        b=t5+551VChgrpDicvRzK0jz/iYX99q99dSFgNKU33JzuVsDw1PZ3qU8qMLp5kS0zVuW
-         N9tLtU62NoOt6ocpDmNMIrZKiTP+RV8k2gk8w9bV5CoAn7wdPRKde6kXRDlq0hJoeDkI
-         CKy5qyPf9368Scy9WtGn3om+1Ebdr6ONduyhgF0z6q+y3ag1zA6/H912WSD6QzHPJRjd
-         2NtVIKKrDVtUcH7azrFKg7ub+UqgjRIGGeGjdbzAte/WuwPLfqGPVS3iy0fRSTR4bVy4
-         44ZFtl8BXg/toF0jrfAwDuJQNYazWnugWUaSL7ClSHcj/y9+3gmEjgAnoESUoW9UqXCG
-         /kUg==
-X-Forwarded-Encrypted: i=1; AJvYcCWAKKTOJrMZ5w3Eq9KecMU76np0elTLc0YRxtW+LwrYLbQ0RFcSMhgZTKed1P1XO4SUNB3n2ERNyvw4nAme@lists.linux.dev
-X-Gm-Message-State: AOJu0Yx0jAihtNdHpHkqvX7nskuzhD1fBZISsBjY0kvN0W6mCtYyAUTa
-	yUwjRlyYxC6G4SCqp/k/TkNsY5I8Rgz+Y9tvND5FvKN/2f9SnCGthyroJKGW5w==
-X-Gm-Gg: ASbGnctW+O3QHWRzRhOnyugpe4ZD12sNH9QwZQzgOePcKWzn5kFQgpJ6slDk+KO0X6d
-	Qd7IIOP+yPUfujyE1gATUtv9i6pAfISNogaqfEZhLY2965dRcs07jMiLOVVOuGelqcZjkBuQxI4
-	vMHgSSlScOm0wuSLd9qVXgkzD1wEpYinaX7ruVYAR7GJGbbflEQKnxT2vxXGgWYVus4d+Hi57R0
-	IMJwZBDUdMGQtLw7UXeWQTQ0fi9VXD+5MalidcDC7E6kpA9M5MHxg/86lU9LoHrkNt9rhNpvMPe
-	WaUGZcFML6dC9SvfBo2lYN5UNEc+qy4KerR9RoociSZENaUzBQkKUqBjrVRJnMKFioH1egy6XVq
-	teT+SjrK7WsvIaEkcAjc/SVvf
-X-Google-Smtp-Source: AGHT+IHN6U3rH8+fca2aINvuxvaQMLkM1cf4WYnPgGffYBfOrlVLilx3ccY/7R2tGC7KC/dIyogKJA==
-X-Received: by 2002:a05:6512:108d:b0:545:2b68:936e with SMTP id 2adb3069b0e04-54b10eca297mr3363397e87.25.1743517078964;
-        Tue, 01 Apr 2025 07:17:58 -0700 (PDT)
-Received: from ribalda.c.googlers.com (216.148.88.34.bc.googleusercontent.com. [34.88.148.216])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-54b094c19a3sm1377789e87.80.2025.04.01.07.17.58
+        d=1e100.net; s=20230601; t=1743526789; x=1744131589;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=TGAzQ9IQ4Ej9MxMTWMc7YU+f5UPPEhRpwIFJo9nKtig=;
+        b=Cx8EVYyUgh4wwfFAkWEGKZig2B8XfU+F6LyiCqvhHWlQ3OMq6GomgTlg+zFBUu7F5q
+         cg/mfeYr0BuJVedll2CodCDPvyDZSlhS2h54C8deFYFXuC8G3qf0R3UygydTanwhvVNT
+         rIhTNA2Ava3GkHTF/mhT4KCGwWWspcXQj0wfZdwWZJuecFtERv7CKkzkcq6JBAOPJg0b
+         ua3R52bYZ6HyMt2zixrUWXhQAI8OnQsUBf+J+Mqb4jo5Vlspn6tACpsjkGIF6fdaf1rL
+         o0yv8ZbHIDZToQtPSccawdKDguNN+z7J6R2ouslqrWrh2uI6uCaWlhVS2BzW4nWWYLuj
+         uktw==
+X-Forwarded-Encrypted: i=1; AJvYcCVj+kXt4r+Lf1l+Xpl4ZYyY9jZG4DuPgjBslUkwGXwsC6gSfSHdMfA7L3TS1HACO+f/0JfSSVBftWOT@lists.linux.dev, AJvYcCWyN1VLGazSjrlwM98RXu4AyUQ4QA6P6Kah15491BH0F7QY+fpDMFAY/EOEJTIJTlugWFczHOBO2FhhUIjI@lists.linux.dev
+X-Gm-Message-State: AOJu0YxXN3lIj7CoPbFbWLAVnwhVFM7nuMd6uV8RnyChAdsd4Xx51i+5
+	pD6QTzRVg+3GY3GFsF8jY8l13ONRdSvKaFSKdF5j5ApkLaEYzjVn
+X-Gm-Gg: ASbGnctBGVmqCx+z3JqEfLYEmjJ0g1oT1hsmajNZ7bRF13gcQv1eHRUM7NOkGT+X3+V
+	zTzmf81KfiMs5ejzy3MCFx+eKPTj6iIcyxqQmoSj1MjQ18c5mECEij2Fb4g7UZITBHyetIBDFAn
+	sw6D3AREn92lUJ0cBC1QLf2Xdu/tCu7cfDxzbOwpTpCtxidE7aD/znz6Lcyo6k5keoZ+9nS2X6z
+	0/Mgx063umq7wn2FJQBwM8d3GmsmDj955OlEOAO56GPbhdwDjMxU7yUCqwGmuzcLbUCKLmhwm9h
+	jAR+m0ngc8gpF5Ey/timlhr0Meaa8KaEJwtJ6ww=
+X-Google-Smtp-Source: AGHT+IGzf3Z1L7pCxeVxuHn5zFAkKaMAMWjFBEvMnHZWUpVMiIx2hwoHxnj5cfKm0Lqk03HzQUpiWQ==
+X-Received: by 2002:a05:600c:1c88:b0:43c:ec72:3daf with SMTP id 5b1f17b1804b1-43eb05d13c0mr7427455e9.14.1743526789356;
+        Tue, 01 Apr 2025 09:59:49 -0700 (PDT)
+Received: from pc.. ([41.206.42.66])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43d8fccfe2fsm161520215e9.22.2025.04.01.09.59.46
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 01 Apr 2025 07:17:58 -0700 (PDT)
-From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Tue, 01 Apr 2025 14:17:55 +0000
-Subject: [PATCH v2 2/2] media: cec: extron-da-hd-4k-plus: Fix
- Wformat-truncation
+        Tue, 01 Apr 2025 09:59:48 -0700 (PDT)
+From: Erick Karanja <karanja99erick@gmail.com>
+To: gregkh@linuxfoundation.org,
+	outreachy@lists.linux.dev
+Cc: karanja99erick@gmail.com,
+	philipp.g.hortmann@gmail.com,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v2 0/5] Clean up patches for rtl8723bs driver
+Date: Tue,  1 Apr 2025 19:59:32 +0300
+Message-ID: <cover.1743524096.git.karanja99erick@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250401-v614-v2-2-53024c4fcdc7@chromium.org>
-References: <20250401-v614-v2-0-53024c4fcdc7@chromium.org>
-In-Reply-To: <20250401-v614-v2-0-53024c4fcdc7@chromium.org>
-To: Hans Verkuil <hverkuil@xs4all.nl>, 
- Mauro Carvalho Chehab <mchehab@kernel.org>, 
- Hans de Goede <hdegoede@redhat.com>, 
- Sakari Ailus <sakari.ailus@linux.intel.com>, 
- Andy Shevchenko <andy@kernel.org>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-staging@lists.linux.dev, Ricardo Ribalda <ribalda@chromium.org>
-X-Mailer: b4 0.14.2
+Content-Transfer-Encoding: 8bit
 
-From: Hans Verkuil <hverkuil@xs4all.nl>
+This is version 2 of the patch series that cleaned up the rtl8723bs
+module.
 
-Fix gcc8 warning:
+Changes in v2:
+	- Dropped [PATCH 2/5]: Dropped the patch as requested and resubmit the patch
+	individually.
+	- Record more changes related to [PATCH 5/5]: add a new patch to
+	cover for changes related to this patch
+	- Redo [PATCH 4/5]: Remove all comments containing code so as to
+	adhere to the Linux kernel coding style
+Patch 1, 3 and 5 remain unchanged from v1.
+	
 
-drivers/media/cec/usb/extron-da-hd-4k-plus/extron-da-hd-4k-plus.c:1014:44: warning: 'DCEC' directive output may be truncated writing 4 bytes into a region of size between 0 and 53 [-Wformat-truncation=]
+Erick Karanja (5):
+  staging: rtl8723bs: use preferred comparison order
+  staging: rtl8723bs: add spaces between ternary and binary operators
+  staging: rtl8723bs: Rename variables
+  staging: rtl8723bs: fix check lines should not end with a '('
+  staging: rtl8723bs: no space before tabs
 
-Resizing the 'buf' and 'cmd' arrays fixed the warning.
-
-Signed-off-by: Hans Verkuil <hverkuil@xs4all.nl>
-Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
----
- drivers/media/cec/usb/extron-da-hd-4k-plus/extron-da-hd-4k-plus.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/media/cec/usb/extron-da-hd-4k-plus/extron-da-hd-4k-plus.c b/drivers/media/cec/usb/extron-da-hd-4k-plus/extron-da-hd-4k-plus.c
-index cfbfc4c1b2e67fec9434aa6852ab465ad8c11225..41d019b01ec09d1d3e72c89155042888b7948463 100644
---- a/drivers/media/cec/usb/extron-da-hd-4k-plus/extron-da-hd-4k-plus.c
-+++ b/drivers/media/cec/usb/extron-da-hd-4k-plus/extron-da-hd-4k-plus.c
-@@ -1002,8 +1002,8 @@ static int extron_cec_adap_transmit(struct cec_adapter *adap, u8 attempts,
- 				    u32 signal_free_time, struct cec_msg *msg)
- {
- 	struct extron_port *port = cec_get_drvdata(adap);
--	char buf[CEC_MAX_MSG_SIZE * 3 + 1];
--	char cmd[CEC_MAX_MSG_SIZE * 3 + 13];
-+	char buf[(CEC_MAX_MSG_SIZE - 1) * 3 + 1];
-+	char cmd[sizeof(buf) + 14];
- 	unsigned int i;
- 
- 	if (port->disconnected)
+ .../staging/rtl8723bs/hal/HalBtc8723b1Ant.c   | 1868 ++++++++---------
+ drivers/staging/rtl8723bs/hal/hal_btcoex.c    |   55 +-
+ .../staging/rtl8723bs/hal/odm_CfoTracking.c   |    4 +-
+ 3 files changed, 902 insertions(+), 1025 deletions(-)
 
 -- 
-2.49.0.472.ge94155a9ec-goog
+2.43.0
 
