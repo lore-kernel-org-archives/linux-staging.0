@@ -1,111 +1,93 @@
-Received: from mail-il1-f169.google.com (mail-il1-f169.google.com [209.85.166.169])
+Received: from mail-yb1-f174.google.com (mail-yb1-f174.google.com [209.85.219.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A2D51DBB2E
-	for <linux-staging@lists.linux.dev>; Tue,  1 Apr 2025 19:55:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC2DF22154B
+	for <linux-staging@lists.linux.dev>; Tue,  1 Apr 2025 22:16:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743537321; cv=none; b=SGF9E/ZJQ18uqRWjXBjAa7eM1V4bjG9x29ZIuVb/x12RAPy42s1Qcpm18J54CRPXx8DG0k5LwwPn/kpKFqdsEiwcNB1qOHRt6uSxxQqpEEsRmaXrI4tGNfNKvvlCXnbgshd5yLNL/yG6i1YA7EyDcARKqpYn5jkjI8CVfkmuwA8=
+	t=1743545790; cv=none; b=m671rZ3NU+w2+dW22FNRUkSmrW3eF0gy+2rBffYABMBcQnSyy95BPXVrS6C1cz2yNFUYWvJMU9lbNNXCdlJSP9C2sfkYXW9HGJhYkw0/ZNO2rKTmCiuFtcNMOlP7QSBSRTC+YsoWOc4hCkdQLl/r3dYc7Tz6binyKK/fsV6eGZg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743537321; c=relaxed/simple;
-	bh=ytEdkfb9Cq6tZc0KOluGufNsxHHwxjPykXj8tPxkUhQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=O2NwcaX7SwOCb4cjPcXF/LK+7AGzMzc5N3Ky4XyMxZqIIO+tbD4Xx63Q+1iXbDa4HUoAANZ3S6mZ8Y+uCtQS1ARiDh2IrJRpwabLRH9T52I7hpfrqAloSaKKAU+4uOzXGitQkK+pSNptOxzVGWYCZaaDtLlcCHTaEKhAcU9ksAQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ieee.org; spf=pass smtp.mailfrom=ieee.org; dkim=pass (1024-bit key) header.d=ieee.org header.i=@ieee.org header.b=UTW7OF6H; arc=none smtp.client-ip=209.85.166.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ieee.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ieee.org
+	s=arc-20240116; t=1743545790; c=relaxed/simple;
+	bh=4ZZoMk7Bzxg7EPnIPY4kMYP5TXrvahs3Zqj6VZqMzGM=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=pt5JBherCbAaGZqf2Zkx7j8pjjo4XKlcVN/fCYP8TgZGNUxNoW1Ak7x46uEp7Zmgp+k6ffiqsR/S5kKyYg3jZH+MFfYRhY/uOioKU7t8BdqD9Bz0NoMxuqR/GWSnqZIVa48kRH8WRv6a8jrzHsaT+gQHfxdBRoJRC+mJ3T1GMVE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IqW9cyjH; arc=none smtp.client-ip=209.85.219.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ieee.org header.i=@ieee.org header.b="UTW7OF6H"
-Received: by mail-il1-f169.google.com with SMTP id e9e14a558f8ab-3d46ef71b6cso47231095ab.3
-        for <linux-staging@lists.linux.dev>; Tue, 01 Apr 2025 12:55:17 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IqW9cyjH"
+Received: by mail-yb1-f174.google.com with SMTP id 3f1490d57ef6-e5372a2fbddso5604418276.3
+        for <linux-staging@lists.linux.dev>; Tue, 01 Apr 2025 15:16:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ieee.org; s=google; t=1743537317; x=1744142117; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=p5BGxV995iPbNsm0G9OmkNVQGbzPtq/umLW+mNxhnvk=;
-        b=UTW7OF6H2megRwNXxS7VyFZz7EhUpVgp47KCv4lzdfPlXrA12lpr1nlFrhj9R3DwXf
-         JeCr+vWB9nouo1QKDd02TMcopRBdzzsGXFHfOMj8S/aXXK324W8WMYyZNj44tG8WyRlA
-         GfTQmcGdkeU0SuKMUu1wfS4x19eLxpG+sUYTQ=
+        d=gmail.com; s=20230601; t=1743545787; x=1744150587; darn=lists.linux.dev;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=4ZZoMk7Bzxg7EPnIPY4kMYP5TXrvahs3Zqj6VZqMzGM=;
+        b=IqW9cyjH44ZAjjz6VySo9XTv+4QeoZwheAaNgVQywsvudrzHuXgDmyIL1ei9BI6gYs
+         5M2ZK/9sQEM/uwJO8PvyaJdXvhgtmkWPFYR3OL7O3QPaowXmtvFOxgqlcTc80r7Ctgcn
+         OlbYMnZEoH2hfrRSAyVr092kzWtuF7CUncDqSoHWFtRPzO04QA4P19sDSHM8sr5hLECH
+         a93PHKvgUB5QcYzihPSvaGsfMAc+1MLM1up6JoW3ppPjsex8dd1F6x+G4GlJfSAxO5q1
+         xrzREbgIf5QuzIui8r8nFZt/iB9xzPImNSFCZYk5rdRCwZJhqhPEXk01H7ux7T+zLpvr
+         wC0w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1743537317; x=1744142117;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=p5BGxV995iPbNsm0G9OmkNVQGbzPtq/umLW+mNxhnvk=;
-        b=JBICVeXPQG+D5mxMhgi4HUc4LXPcs/na7u3wjicb5IY3MkC3sbE8cTok5h93S4qzj9
-         WbV+1xyByfb1Y7BM52qaKshu8S3nJO2j2clStID9sTSFW6wjlCcZsrBYfOXXlcd2+UFl
-         hbDhuIBz+bRJ9zSosabllfhe08UadD6RZk7OjciTRzxsHOWVZc7scSt0LdQUZnefaw36
-         NOtJnq+Afwo0AtE+1r8jEV771QkPy52mHELoDwuJxSkEkpsS0zugRGbF4QemndDZE6zZ
-         zMU1odODdbtEW6C8nSJGkZlmwcq51bwCBlD3Qpp68sfrf+k+fYZaeWP8m0JPq6xGyAsu
-         yvwA==
-X-Forwarded-Encrypted: i=1; AJvYcCX6p6/LT4Ehx0qTsQL4BEmqA79QD6m+flLQwyXKdR0szj4nEajl5K7Puex0C6gXs7IECCfWS7hjC9EO2yzX@lists.linux.dev
-X-Gm-Message-State: AOJu0YzRbNwNUinSGt3xqRjJ5GQQgX7bjMEQEi4LeLvlNnPxwkxc8iHO
-	foTRVGI06IjMewETaLFcujWW0aUcJs+AJCI7xJAE0TlL4u6KSa4rkvQkOmEPtg==
-X-Gm-Gg: ASbGncvOWxjHwptPYNUpbXRq/lDBMfWMBEoBxHQBx7XigmNC25Ie0QjR29Tnsb9Lzyt
-	0Z+NFlJFSZG2G0mfDBN4nqa7geKkh8Z5UN5Mom+gHwECvrvKXor1B5GdhEF8j2/SS/NtiXBJVxy
-	q2Ay5+R8Yb6CpqrI+Bq1ZPvWK2MQRRv06KZCCMN1aFk1e16CjDr/0ZTGRub+YjIxlkidQqWtgjz
-	yIfvcCO4jmLYVhzyFecUjGF0NWHx/93Zco1KVfQV5+RTB2sEzd7jkjIi9LVEOU2nLeDt103hzTX
-	iUYgb0gG//qrUm8MajF285xgCa948B796j/ezB3TAuVFrziEvpZdNZWyhMr8DPKVbBPdS6d78EN
-	4cGA=
-X-Google-Smtp-Source: AGHT+IE8Yzt70TZYcNhHaKZmfudRm9bqr4DZF9FrsdiV0SgnjyY2AA4L/NqUonhTzt1HtCqJmAo8IA==
-X-Received: by 2002:a05:6e02:378f:b0:3d5:eb10:1c3b with SMTP id e9e14a558f8ab-3d6ca5b4575mr55992685ab.5.1743537317009;
-        Tue, 01 Apr 2025 12:55:17 -0700 (PDT)
-Received: from [172.22.22.28] (c-73-228-159-35.hsd1.mn.comcast.net. [73.228.159.35])
-        by smtp.googlemail.com with ESMTPSA id 8926c6da1cb9f-4f46487159dsm2569433173.97.2025.04.01.12.55.15
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 01 Apr 2025 12:55:15 -0700 (PDT)
-Message-ID: <bd773190-1cdd-4faf-be39-ea042d6e8124@ieee.org>
-Date: Tue, 1 Apr 2025 14:55:14 -0500
+        d=1e100.net; s=20230601; t=1743545787; x=1744150587;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=4ZZoMk7Bzxg7EPnIPY4kMYP5TXrvahs3Zqj6VZqMzGM=;
+        b=XX1AzN8csZ/J39hJLPlwGJhnhFw/G1VfsaB//ZfA9EySJwMkDJ5WTzroMVLdI0XPLN
+         xhWVixS70diZUSxGDMrGhSpZzq3OsRBZ8Qn+KyBZexKBFY9Z5jRC7EOkyTwQbC1FtzPZ
+         aNxeyNLpsgoJ2OiKORpQnOjWfwA/6CiV3onbSGkAHM/swa1sphFQbFeFY9+DtPsOpSbY
+         FFXnhCF2BgDsxBUuThYuojResKig8FeFoZreoQZhH1lPNMtKsSeuB8GtYJlMnkT1+U3+
+         9LpQX+TOsK6JYqUB6UMUtZI0Ty/94RCmDpynpI75D1H/k0oPJnEx7mm2CKuEQF2ct4df
+         j/Ww==
+X-Forwarded-Encrypted: i=1; AJvYcCUDJEK2IbiaqCzWDU6Vn/lDcvBLlmxCFNw0ROvug6ci6qXWhlzXbU23ys/esN2mCyucZ1xZQU/G424sNjNp@lists.linux.dev
+X-Gm-Message-State: AOJu0YysYhdprpljguqJtJVnS4oc11cYh/kZlCInbWdYQHbdes5uGla/
+	VWk8q3Ufo3eHauGM751lvpPNqFMGEVp/KYn5FIe4V2hzftfTxNnEUwdOt3SPO4E/2W0KstVQnTQ
+	VkqzdlZRnWQry9p6WiRnteoeVM/4=
+X-Gm-Gg: ASbGncuuBYnDpRm5CNtxD9Ci/aqP7gYTyJwSGa5umz667R2vbMjpn604frbgQThfzJZ
+	p/dsgmhLe7rvjdFG/8JrTuHvYTudwFGrubX36FghoczjK1enav137t4NokKJlpe8BB5TBHGb/L+
+	SeT9GbnF/fBxCRJQVDEGqgb3kAJps=
+X-Google-Smtp-Source: AGHT+IFyrBa8Q+V3emMv0/lFeitl4RCHClPtJE1kMBHwIgnDpEGVlYmEqnl5qU4nw4mkToEp+7y4aeRAOhEpWv50Gqs=
+X-Received: by 2002:a05:6902:2747:b0:e6d:f287:bf3 with SMTP id
+ 3f1490d57ef6-e6df2870d3cmr1158460276.28.1743545787458; Tue, 01 Apr 2025
+ 15:16:27 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] staging: greybus: Remove unnecessary NUL-termination
- checks
-To: Thorsten Blum <thorsten.blum@linux.dev>
-Cc: Viresh Kumar <vireshk@kernel.org>, Johan Hovold <johan@kernel.org>,
- Alex Elder <elder@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org
-References: <20250331183935.1880097-2-thorsten.blum@linux.dev>
- <8a68ab78-cf18-4937-a8b7-fb0fa41c9d53@ieee.org>
- <9288204E-F6B7-4C9D-AADB-511A845A2624@linux.dev>
-Content-Language: en-US
-From: Alex Elder <elder@ieee.org>
-In-Reply-To: <9288204E-F6B7-4C9D-AADB-511A845A2624@linux.dev>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20250330135402.105418-1-simeddon@gmail.com> <Z-lm8l1ILFuJE5YS@debian-BULLSEYE-live-builder-AMD64>
+In-Reply-To: <Z-lm8l1ILFuJE5YS@debian-BULLSEYE-live-builder-AMD64>
+From: Siddharth Menon <simeddon@gmail.com>
+Date: Wed, 2 Apr 2025 03:45:51 +0530
+X-Gm-Features: AQ5f1JqRj0rIFNX3PN0empxqba0H3yBaX-Fa98HS939Csdmd4a9CT6Ad5e9h1pQ
+Message-ID: <CAGd6pzPe71oY=+cy3WqKPyZ150q3pOM3LrPE0_ENeKgd+OvnfQ@mail.gmail.com>
+Subject: Re: [PATCH v5] iio: frequency: ad9832: Use FIELD_PREP macro to set
+ bit fields
+To: Marcelo Schmitt <marcelo.schmitt1@gmail.com>
+Cc: linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-staging@lists.linux.dev, gregkh@linuxfoundation.org, jic23@kernel.org, 
+	Michael.Hennerich@analog.com, lars@metafoo.de
+Content-Type: text/plain; charset="UTF-8"
 
-On 4/1/25 2:51 PM, Thorsten Blum wrote:
-> On 1. Apr 2025, at 01:31, Alex Elder wrote:
->> On 3/31/25 1:39 PM, Thorsten Blum wrote:
->>> @@ -125,16 +125,6 @@ static int fw_mgmt_interface_fw_version_operation(struct fw_mgmt *fw_mgmt,
->>>     	strscpy_pad(fw_info->firmware_tag, response.firmware_tag);
->>>   -	/*
->>> -	 * The firmware-tag should be NULL terminated, otherwise throw error but
->>> -	 * don't fail.
->>> -	 */
->>> -	if (fw_info->firmware_tag[GB_FIRMWARE_TAG_MAX_SIZE - 1] != '\0') {
->>> -		dev_err(fw_mgmt->parent,
->>> -			"fw-version: firmware-tag is not NULL terminated\n");
->>> -		fw_info->firmware_tag[GB_FIRMWARE_TAG_MAX_SIZE - 1] = '\0';
->>> -	}
->>
->> Interesting this didn't return an error, while others below did.
-> 
-> Should I keep it that way when checking for a truncated firmware tag or
-> should this also fail like the others?
-> 
-> Thanks,
-> Thorsten
-> 
-I don't know the answer right now, and I don't have time at
-the moment to investigate.  Just keep that logic the way it
-is, and make your other fix.
+On Sun, 30 Mar 2025 at 21:13, Marcelo Schmitt
+<marcelo.schmitt1@gmail.com> wrote:
+> The previous implementation would set ctrl_fp if val == 1 and unset it if val == 0.
+> This patch seems to be doing the reverse (setting ctrl_fp if val == 0, and
+> unsetting it if val != 0). Was the previous implementation potentially buggy?
 
-					-Alex
+My apologies, I seem to have made a mistake here.
+
+> Hmm, this is modifying behavior. AD9832_SLEEP and AD9832_CLR were only being
+> modified if something other than 0 was written to output enable sysfs file.
+> Is the patch code mode appropriate than how the driver was before?
+
+I shall address the aforementioned issues along with the ones pointed out by
+Jonathan in my next patch.
+
+Thank you for taking the time to review my patches.
+
+Regards,
+Siddharth Menon
