@@ -1,65 +1,48 @@
-Received: from mail-il1-f181.google.com (mail-il1-f181.google.com [209.85.166.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 751AE21CC5F
-	for <linux-staging@lists.linux.dev>; Mon, 31 Mar 2025 23:49:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44BDF522A
+	for <linux-staging@lists.linux.dev>; Tue,  1 Apr 2025 00:13:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743464996; cv=none; b=FJm1SwKmkW5GJLeYvlmV0zD8PjLnADRhDzbcPQxS44UbStURaZaNMLKlOyGSdhS+0g3D9ONL366a3lD/+FES4EB6ZYdSUzFh1dIwyBtwZDsMjvH8Y0b88fDbu+LjfRU/oleWcqzc45KnQ88frLbw7WABNGDrt08JAq1GpMjUeiA=
+	t=1743466386; cv=none; b=B41czC5NKCrPbQbrDwCkmuTztPHo+padxibLDSfhlQTwRAuuzebCGOQUrs0WvBAT69j6fETvjXNgpDQErg5T2r1dJfZHk76Y4LVCZXjX9Tvkc2k9U3dwwowhHHfBqk2cC81t795PAcF2GyfbU+gSEdXZBlSoQLR+TTFVVXg1TBE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743464996; c=relaxed/simple;
-	bh=7rGt8Eh//HNg+rLIWTgIIJ61fMIPanZaEXUjLulXGOU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=VQv5b51pEbDuyAS6TUdaYfwvP6a5NUNaHswj6NIwJaOcR0cNtlycHrLpUBAsCSXYRgDr6pSsBDEoxqExtnRhlsWiYMaktwb8UHauj/pbx5WU0MJVfhMBMneOmdG4PRtx6a3PdxWV/O+dNfJfayNci3Q7W2TUaY9le06t9DfPnH8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=riscstar.com; spf=pass smtp.mailfrom=riscstar.com; dkim=pass (2048-bit key) header.d=riscstar-com.20230601.gappssmtp.com header.i=@riscstar-com.20230601.gappssmtp.com header.b=XVKdX2iu; arc=none smtp.client-ip=209.85.166.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=riscstar.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=riscstar.com
+	s=arc-20240116; t=1743466386; c=relaxed/simple;
+	bh=SsvoqDxf62eflQ7TZqg67WOK2f9rwJxjOAQSOXBPOPs=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=LFWKKY/rwLwKb67pOtEKGDhF/bxXdkp4fr2rkYSVM2t3PnnVw5J+18o9hK8FgFDBD1VviYRLybA0bwZyJCcVu9pQ2Mga3Wr7wfNAbSbb6q9pII8+PjYPlI7aXJaQ/fMeqwGr68F9AWLP3LPbBH9CBLQvrVm5crG8Xia9Y99qj5U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=LISj3Dtc; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=riscstar-com.20230601.gappssmtp.com header.i=@riscstar-com.20230601.gappssmtp.com header.b="XVKdX2iu"
-Received: by mail-il1-f181.google.com with SMTP id e9e14a558f8ab-3cfeff44d94so17714845ab.0
-        for <linux-staging@lists.linux.dev>; Mon, 31 Mar 2025 16:49:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=riscstar-com.20230601.gappssmtp.com; s=20230601; t=1743464992; x=1744069792; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=rDbOavufpFo26W+Zku5x0VpH9Cvbcrt9SziwHnr6lV4=;
-        b=XVKdX2iuLDwPcoY/VHZ9wEtKVmpfDYO4ETDRrszFYTY8ep3DHnuFCayUQin9uHEgyd
-         BVA2aqTuhjXSQVk4Du5BSTdwniBCABdR1zydAW/MvPHUXWntIW4vVndVKF4NtZd+fBKU
-         UsGI7AV+XUNQ0qV9mj9rQWQRRuRKliqwTyedLBLN/i1UFJW4m1HEx8Box/oUvnYsHbc+
-         IewKD30gVX8UIdPxpH5wTyujSx5GUWH/qsH21RyeyuaZcwv40X+8I7NqfSGXEElxUU8d
-         6qgoQzvPRkYjx5bFfyoxBcvVlimRg/SkARwJctsnm7MaR3XAzqfkvpmW0UK/1ikDSKgk
-         niZg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1743464992; x=1744069792;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=rDbOavufpFo26W+Zku5x0VpH9Cvbcrt9SziwHnr6lV4=;
-        b=l/hWaftibQKG0bvNE9uCO0ZVqRCJpz1e6VAniYCkHGOgakDUhhh7Cpi4ak16MsIT5T
-         i8Lg4FukFb6wkOfmotwvbTLm0VVntkGR6QFNmqVO0PX003kphLZ4TCYkvItZFl5jnJMR
-         /2byCGLzK12i5Ww1QfnjlyXpW3vxmudXrgY5WY+R2rA6J4nS1AwcZCY8BHzNtf/zANXc
-         pM6DlFfHHCJ6NLSh5/UEL6tqMJZzZFNhD/wqdNl6GYLl6Ue3z0xdk/JfQFdjjctxEXnd
-         NfWXsJjLAPhVwhDC8Ze46qvdkhyr3h4U+JvdPMm1uPAL/zDYXtufCh/iK2O3hBAkT+qf
-         6ZUg==
-X-Forwarded-Encrypted: i=1; AJvYcCV4ierTuMXbU4m8Tyae2zvcfqE0d+W8s6BKdFYZIcH/a6FdYQYPHzaPcykdVczT/o3EZIj3wEvI3nm9O/qH@lists.linux.dev
-X-Gm-Message-State: AOJu0YyWBZOpE6vSVpLsB6unBAvP7D6e3AXUxBoc+eDJBjbsqAAb2owK
-	lyuYvKeN2sMoqs+C9s2MRm3YvuwQpOo/z5/S11yBMLfRWLjcatSL7bccUr1Ns2Q=
-X-Gm-Gg: ASbGncvZC1WTVEuZuuCIaBLi/QWDm5ATppJAH2v5fNuZLsgqTr8WNNTDHR9/aW7Lys/
-	TV1dhwIN9JN8jxQl0VXoi6DWDqxoUrlt+5SoRDgT5G1xfnHd9ZNWCpcNvavqCJZn7Fi70qjyBFZ
-	CmZQnUC1S+slOBvEipbh30Sk0mKo7ycHUQE5SWpfhchs0Ab28WGl/5jDa/q3vHhdNGB9lvleb/B
-	8+WJsGEAblOaHYc8NS+tBWxWKlKJNz6vWo5qm1jNKUqxKBdiDHr4ECDSSgX6jJtDI2hx9uW4xCA
-	1KKxDe586AlvzPokkrqHn9DFkd5XfNpoeK5oTLMJ4AIX4izKHWV8GTzq6V1ePxoXlV43GIcIicM
-	RCcnpKot5
-X-Google-Smtp-Source: AGHT+IGS7o7rVQuhHRDL3VF0MNhBcsgv7O47l22zBrXWo8Fko9huCk4BOt5GOeICjubR5V7NnIFH4A==
-X-Received: by 2002:a05:6e02:3387:b0:3d0:443d:a5c3 with SMTP id e9e14a558f8ab-3d5e08f0fd1mr125285725ab.3.1743464992484;
-        Mon, 31 Mar 2025 16:49:52 -0700 (PDT)
-Received: from [172.22.22.28] (c-73-228-159-35.hsd1.mn.comcast.net. [73.228.159.35])
-        by smtp.gmail.com with ESMTPSA id 8926c6da1cb9f-4f464871f77sm2140194173.77.2025.03.31.16.49.51
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 31 Mar 2025 16:49:52 -0700 (PDT)
-Message-ID: <d683962c-e8b7-4adc-9902-483976197637@riscstar.com>
-Date: Mon, 31 Mar 2025 18:49:50 -0500
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="LISj3Dtc"
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 52VFCsUr025871;
+	Tue, 1 Apr 2025 00:12:54 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	I9CsQXCljYAEI4ooaI8R2MI2V5Ea03tYX+haiN1yBCk=; b=LISj3Dtc4ums0pyw
+	3DXyxp2BqreXO7+UVrtZ7QDIebaYhk4xf8vzA+4HbvLUqi01Nn4K4XNlq6CHZfEp
+	se3VXjeIOkLokIPwxo+vCNqoZj0GY34rd0WJnNZndCy74B+VIjrhhDUYfD0XD6Bd
+	9CykS7kwfCcD7dV/iOov1NJgKRqc++aTbCHV+OK9GztAZF7BhnbKvq9QoTmVuOZJ
+	DEoyvFwm95tHp8jbyCnHH0Xdn43JDTAhDh7NNN+e8k9nbh5Ob9zJJQPDh9qvGQ8F
+	BhqT855nNIF0tWGf+FML0fmxV6xvfGuZIqcM9iZxv5y93zH5ed9GzjMEYWPbfDro
+	p/FV+Q==
+Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 45p6jhp51h-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 01 Apr 2025 00:12:54 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
+	by NALASPPMTA02.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 5310CrHC018670
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 1 Apr 2025 00:12:53 GMT
+Received: from [10.111.180.55] (10.49.16.6) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Mon, 31 Mar
+ 2025 17:12:53 -0700
+Message-ID: <5773d200-1d9d-4d6e-b01e-10d962ee9e8e@quicinc.com>
+Date: Mon, 31 Mar 2025 17:12:52 -0700
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -67,95 +50,51 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] staging: greybus: Multiple cleanups and refactors
-To: gpittala <ganeshkpittala@gmail.com>, johan@kernel.org, elder@kernel.org,
- gregkh@linuxfoundation.org
-Cc: hvaibhav.linux@gmail.com, vaibhav.sr@gmail.com, mgreer@animalcreek.com,
- rmfrfs@gmail.com, pure.logic@nexus-software.ie,
- greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org
+Subject: Re: [greybus-dev] [PATCH] staging: greybus: Multiple cleanups and
+ refactors
+To: gpittala <ganeshkpittala@gmail.com>, <johan@kernel.org>,
+        <elder@kernel.org>, <gregkh@linuxfoundation.org>
+CC: <hvaibhav.linux@gmail.com>, <pure.logic@nexus-software.ie>,
+        <greybus-dev@lists.linaro.org>, <linux-staging@lists.linux.dev>,
+        <linux-kernel@vger.kernel.org>
 References: <20250331213337.6171-1-ganeshkpittala@gmail.com>
+From: Jeff Johnson <quic_jjohnson@quicinc.com>
 Content-Language: en-US
-From: Alex Elder <elder@riscstar.com>
 In-Reply-To: <20250331213337.6171-1-ganeshkpittala@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: nalasex01b.na.qualcomm.com (10.47.209.197) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: NXDJnbNn600e-UQ6vM-iqUuIN2VIfpIo
+X-Proofpoint-ORIG-GUID: NXDJnbNn600e-UQ6vM-iqUuIN2VIfpIo
+X-Authority-Analysis: v=2.4 cv=bZZrUPPB c=1 sm=1 tr=0 ts=67eb2f86 cx=c_pps a=ouPCqIW2jiPt+lZRy3xVPw==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17 a=3H110R4YSZwA:10 a=IkcTkHD0fZMA:10 a=XR8D0OoHHMoA:10 a=VwQbUJbxAAAA:8 a=pGLkceISAAAA:8 a=Jb6bjuR1jG5_EaSFLQYA:9
+ a=QEXdDO2ut3YA:10 a=D0TqAXdIGyEA:10 a=xa8LZTUigIcA:10
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1095,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-03-31_11,2025-03-27_02,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 bulkscore=0
+ priorityscore=1501 clxscore=1011 phishscore=0 adultscore=0
+ lowpriorityscore=0 suspectscore=0 spamscore=0 malwarescore=0 mlxscore=0
+ impostorscore=0 mlxlogscore=999 classifier=spam authscore=0 authtc=n/a
+ authcc= route=outbound adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2502280000 definitions=main-2503310165
 
-On 3/31/25 4:33 PM, gpittala wrote:
+On 3/31/2025 2:33 PM, gpittala wrote:
 > This patch includes multiple meaningful cleanups for the Greybus staging driver:
 > 
 > 1. firmware.c: Replaced deprecated 'strncpy()' with 'strscpy()'
-
-This is a good type of change to make.
-
 > 2. sysfs show functions: Replaced 'sprintf()' with 'sysfs_emit()'
-
-This is also an improvement.
-
 > 3. loopback.c: Refactored a large function (gp_loopback_fn) to improve readability
-
-I have only glanced at this, but refactoring something can
-sometimes be clearer if you do it in several small patches.
-
 > 4. audio_gb.c: Split logic in get_topology() into separate calls as per TODO
-
-I'll comment more below, but you should almost always have
-only one change per patch.  So each of the four items listed
-above deserves its own patch.  You could send them separately
-(because they're unrelated), or as a series of cleanups.
-
-Note that "one change per patch" is a logical (not literal)
-statement.  For example, you could do a single patch that
-replaces *all* calls to strncpy() with strcspy().
-
+> 
 > All changes are tested and pass checkpatch.pl
 > 
 > Signed-off-by: gpittala <ganeshkpittala@gmail.com>
-> ---
->   .../greybus/Documentation/firmware/firmware.c |  32 ++--
->   drivers/staging/greybus/arche-apb-ctrl.c      |  11 +-
->   drivers/staging/greybus/arche-platform.c      |  11 +-
->   drivers/staging/greybus/audio_gb.c            |  37 +++-
->   .../staging/greybus/audio_manager_module.c    |  13 +-
->   drivers/staging/greybus/gbphy.c               |   3 +-
->   drivers/staging/greybus/light.c               |   5 +-
->   drivers/staging/greybus/loopback.c            | 170 ++++++++++--------
->   8 files changed, 159 insertions(+), 123 deletions(-)
-> 
-> diff --git a/drivers/staging/greybus/Documentation/firmware/firmware.c b/drivers/staging/greybus/Documentation/firmware/firmware.c
-> index 765d69faa9cc..8e375c88c881 100644
-> --- a/drivers/staging/greybus/Documentation/firmware/firmware.c
-> +++ b/drivers/staging/greybus/Documentation/firmware/firmware.c
-> @@ -47,12 +47,12 @@ static int update_intf_firmware(int fd)
->   	ret = ioctl(fd, FW_MGMT_IOC_GET_INTF_FW, &intf_fw_info);
->   	if (ret < 0) {
->   		printf("Failed to get interface firmware version: %s (%d)\n",
-> -			fwdev, ret);
-> +		       fwdev, ret);
 
-The two changes in this hunk are not mentioned in the
-description above.  Please remove these changes.  If
-you want to do reformatting like this, do it in a
-separate patch.
+Please refer to:
+https://www.kernel.org/doc/html/latest/process/submitting-patches.html#sign-your-work-the-developer-s-certificate-of-origin
 
-While it might be reasonable to include a little white
-space change like this occasionally, you should avoid
-doing it.  It is unrelated, and complicates your patch
-unnecessarily.
-
-This comment applies to several other changes you've
-made below.  It also applies to removal (or addition) of
-blank lines, or really, any other white space changes.
-
-					-Alex
-
->   		return -1;
->   	}
->   
->   	printf("Interface Firmware tag (%s), major (%d), minor (%d)\n",
-> -		intf_fw_info.firmware_tag, intf_fw_info.major,
-> +	       intf_fw_info.firmware_tag, intf_fw_info.major,
->   		intf_fw_info.minor);
->   
->   	/* Try Interface Firmware load over Unipro */
-. . .
+So it is generally expected that "gpittala" be replaced with "a known
+identity" which is normally your actual name.
