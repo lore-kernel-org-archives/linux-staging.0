@@ -1,60 +1,62 @@
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D85B823E358;
-	Wed,  2 Apr 2025 12:47:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B676823F429;
+	Wed,  2 Apr 2025 12:47:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743598075; cv=none; b=OTImkHvdrBcashgMgERTECvmJS37rytK1SPienL4+azyqVoWGtLxE0OXd1+uUAtFq1armVCMx5dYeFUHa+5m+/Bs6TdFP7n2Aqrpm4sGm3eFN5iNqO5AqR9Sr/G2INxBho5dwd83TBAKx6PO42TfqawJj/b8gsfdtWWHspYAd8Q=
+	t=1743598081; cv=none; b=ALVIgrXRf7Ll8+tBzl3jpljpQoTJGzXc+SBOLEj3aQicxGsiwUaVHRYFHQFw0B4yd4hBHOODo+KepcDPVsRDaiCrZBF7nqve/Gaq9LUKJMo4O2tF1tqKdGilxYhqZv3F2B8wtv4fXqgiSI+DzzhJpkiC3Jqqaqa4a0vhInf3ttw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743598075; c=relaxed/simple;
-	bh=zSoehIniU8jm04IOOedJamJbm8GIIQPM5e7PJNzDOKc=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=hLipKCgYRF1V3XyAy+TEJBYjAvbrJFZU+D+lP0oiEIGYMBAjiYwRAsRS3U5oBmSQKR9wBGUatiUxUR2l3OtW3p9CyUsNymO10HQ4knGZyZClQv1lpSZa89xQ4lnvGeunItSw/5OoSBmQSlveWeSFAxl3Rm8+KgMPTMObzJgAh5g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=k/B7G3vD; arc=none smtp.client-ip=209.85.221.42
+	s=arc-20240116; t=1743598081; c=relaxed/simple;
+	bh=TKE8yYqSvh5CTfDsthEGrDa+fvp8GLdxByJGAAoWQ5Q=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=EzXZ6ds31bZRQ5qtpJApsgY4JHNMdW69TN92yxtmilepgiAf74tM6wgRZ9HV6sq3vB0f7hf+iHBR0AiBAXX8vxr8VWKNG8yUAQTedV6rQfoF3eCod9+o407BDM3lYS9X7vimYpMcVQY+dnQzSy4VOY0FR3FvADGHllS77bEcvdE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nngKZJGe; arc=none smtp.client-ip=209.85.128.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="k/B7G3vD"
-Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-39141ffa9fcso6566042f8f.0;
-        Wed, 02 Apr 2025 05:47:53 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nngKZJGe"
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-43cf58eea0fso32781335e9.0;
+        Wed, 02 Apr 2025 05:47:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1743598072; x=1744202872; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=LEWeMCeaswgmteuyJgZbeIbf8aY5zFHTFf+liUe5LTg=;
-        b=k/B7G3vDrVLHtw5Uv4iIMLNmfAQrfKiPjmkDu+zwglWKwcuiAW1iS+MNopKYCVf5T/
-         sx7V9Hvin91IiIZBJRyvixEj0VIuds5fAHIolJMMkvP0WKTZz4oHxUO33ZEZsz7FIhM6
-         eVWW3QGuDQt3z1XkEcjv49+hhB5A/PT0i8lmwrvFX+0dSgpEZv3SvuAx+IQFlV6zYB23
-         qIcHJvaDRCdJCTv1kjLSWpsmmqV4YlOor2QbGB5obnoxugz/DGDjhgTjgxsNj6pRo+Pj
-         B9KLdiwPPBVWS5/Z0blj3CScIk3vQG9HpZbRHPNGNGUPpRahprQhsHrO9nAk7XLs2vv0
-         zCPw==
+        d=gmail.com; s=20230601; t=1743598078; x=1744202878; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=8rEM6GDoOc8qSQG8ptxriqMDYs/u8ieO+7RntT8HZ8Q=;
+        b=nngKZJGe1sbRqazsUUXqgt/bE4DYntHnvZfO+NhASectubM6Q9VHzNtuhwO8LROfFZ
+         yXcRLIUCxWeDTI+Us12jipaW0bXuo0PvTMKGe3wqZQpSfllVlnIpmeBsl0XGB32dz08u
+         smxC0fq3pjktWP1ICt2gHsT+lgVnzuTzNpgNm7QVwgkc1JmK0ZNnEuldyPl6ko+/hydd
+         gKeTBlhR1D/NAz3uDOD4+gj0dxrM/kon2rvokaRa92x6lStcVTLW6Rig6e2o/RHgjtG1
+         c191iqTuVvm7qE9e64ZE5W9+vxUfx8hUNMJCqfueXy+dFEGr8YwulP3oXfc4CyJGEQU9
+         +icA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1743598072; x=1744202872;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=LEWeMCeaswgmteuyJgZbeIbf8aY5zFHTFf+liUe5LTg=;
-        b=EDcIc4QS05+aeiy+MqjgXmE7fyg6Vq6XxtWfT2A1OcyCxZh+YGij3d3an0zKkblVRK
-         2pebdCANuTRR9ykysVzOlzg9ogP4hHF/yFVArXyh1XBUOEaLT0GTW1o66BXmlioxvBG6
-         EiKau1zB+3G9WpUQTmkhDIlESJJ6siR90eaDTKimyo+RZ0mFl6kTOoegHQeSvUWjpabv
-         b2ybF47lF/wjr5auf+OBgVP6XMvufksIZ04M5Uu/kNz/Pw+w/TDTg3Ryik0IKii3Pxwb
-         2bWOPZdlZBEyurBimcMI3CsqBeTFypw3v1tg8K5XObiBMfIH4JQEZ26nuzvXRKx3wl+k
-         0OoA==
-X-Forwarded-Encrypted: i=1; AJvYcCUCU8IJry5mmtN6yReYDPcvn8QzPMyUFpCaTCv6+6WWsz0IuogJgPjjNHKQ8Eq4BC5VjvpEutppeUnb@lists.linux.dev, AJvYcCVQXcg+6pl6LKAxl+/sQmUl6jKuiaNyineBXg5jrFUfY3LS9ZVeXFIf1J6B34Qr4MaDGd5wQBYB+wpYwr8u@lists.linux.dev
-X-Gm-Message-State: AOJu0YzcxPrUhSLbFP24NDhJjBIL5N2kj5L6iP+nZpDh25V+O1I/9+rP
-	n1j1yBNF8uE74nEWN8RCOk1odoDg5X+bByqZcRxc+gcdj0gLEOOglF3COS9Hthc=
-X-Gm-Gg: ASbGnctjx0b+uTK2/WUxLvtcSA4FOM2gAWsijjW3Gfs1XjcRSl+12str1eaBrAhd3mg
-	WhbqWuNik33oieuxlVcavTPpCy5dcuOgSiePOeuzNy58mzMM4eTjLUVJnegsr9HRNYfYn20rR1a
-	LOIwK/GPcOWRdzgYPt89GJx4eDZKm45UFxSNaGkgiCfAP27Jaj2VBTIeibpB79kElsx69xl7jhJ
-	ZBqCyWFCw1F1qx6xSa8pvjnfn3VN1OjByGib5Ec/56HHgSx6zSUJMZKldVCUw+FgBeu0P8vjL2p
-	ZXz0Db0JQP7riWYmjUp6p4HeK3xpcyrPuiRRntIlvw==
-X-Google-Smtp-Source: AGHT+IEOTmnpf9qGDadsLtbYyixVKFrhrd0ujtS0ksf/cMhCW8I+X2FWzaYLi0rLTArKqpzOW2dvHA==
-X-Received: by 2002:a5d:598b:0:b0:39a:c80b:8288 with SMTP id ffacd0b85a97d-39c297698fcmr2134047f8f.33.1743598071795;
-        Wed, 02 Apr 2025 05:47:51 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1743598078; x=1744202878;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=8rEM6GDoOc8qSQG8ptxriqMDYs/u8ieO+7RntT8HZ8Q=;
+        b=wfKCB8wTISNjQem3U2rZbnF62AjcuIGVxvV1TsUyIGWXLSLe9NeBqDZgVfLOIgwRih
+         c4wTD3Y/Y+SOw+O0y+ELXOxLOTJOawFevrWNRBzaUOIZeebBItl/aYPcxEzsaBT7Ra9e
+         HMlrklqNzir5JENkRe9dL08+TBIYFqjfPMMytCpmRg+W7dhPjqXiMJdeXPCk8Cl2noEW
+         UlIxfDcedXk0mjAJcnBGXwrmebJ6GLoSiizauXXJpXmZsorjezn2MW+Xfw3Cz83RbmIT
+         IClHeI499U9RqHeUs8j1NTjcn6rKeTjwVxb00AIu+Tz6QA4tn1GeyFSpZJXRkzMWCr/B
+         zoKQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUJwh6XpD33v0aGy9rWA0JStI8G7o2SZUnnyW71uD9BVA8JwUp8RxAbazbn/pq86nZbw12hiicxErht@lists.linux.dev, AJvYcCW8zh9cAJDE6aVNhEBqM/ytaVvwl9GADKOfFU/3aqNcju87Nsk1Jf6ure377V3PLRsLdpsQQSdkk63ZSdCp@lists.linux.dev
+X-Gm-Message-State: AOJu0YzaoKbH1tY6q73Z9TwRWFWOx0lJAcvR/fwp6GzwejwKXFmedF1q
+	MFjEh1X5e/2KdfUm0bWSurdLXnJo7y7dHsh4oTHx9iFoIDWD87mq
+X-Gm-Gg: ASbGnct4zizbzj1YP0j6ai9x09aPWVkB6Bk4lzvQ2H3wCTCzVX+eatByaxcjR4jF17M
+	eBjCcruclqunY0ZUh4qscWKWOQ+9XSxcUZ4wMtNUkk8kB8KMXyFnm2XaDRBHs1L0l73F9X0bnLo
+	LTKhCLusJRD/fkc6FslFAsDKeULTFZ8ZIFmE5QgYUml1I2PJp4H5L1aUWVb60meryJMhJCzgsr9
+	3pYrEBH9fJarLZNi9+HrGZqbCbxKo5+lTc8wo7YK02tDgCuO0qMiGuI/NaWaQSmK0bB66TaUNX/
+	w8CD1yUzRrU9AYN4oWPEXFsZX24zU4rdWFFSOAzJSA==
+X-Google-Smtp-Source: AGHT+IF/ugBq75bTqrl45fMDCIyEjBFz/p2e/sr3I7XVZNQJ+ZGWvLt+LzQN5HokwK4sHTYXfc3xAw==
+X-Received: by 2002:a05:600c:34c2:b0:43c:f8fc:f687 with SMTP id 5b1f17b1804b1-43ea7cdf399mr62342575e9.27.1743598077828;
+        Wed, 02 Apr 2025 05:47:57 -0700 (PDT)
 Received: from pc.. ([197.155.71.138])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43eb61b6cd2sm19675985e9.39.2025.04.02.05.47.49
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43eb61b6cd2sm19675985e9.39.2025.04.02.05.47.55
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 02 Apr 2025 05:47:51 -0700 (PDT)
+        Wed, 02 Apr 2025 05:47:57 -0700 (PDT)
 From: Erick Karanja <karanja99erick@gmail.com>
 To: gregkh@linuxfoundation.org,
 	outreachy@lists.linux.dev
@@ -62,10 +64,12 @@ Cc: karanja99erick@gmail.com,
 	philipp.g.hortmann@gmail.com,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH 0/3] staging: rtl8723bs: Code cleanup patches
-Date: Wed,  2 Apr 2025 15:47:40 +0300
-Message-ID: <cover.1743596287.git.karanja99erick@gmail.com>
+Subject: [PATCH 1/3] staging: rtl8723bs: Use true/false instead of 1/0
+Date: Wed,  2 Apr 2025 15:47:41 +0300
+Message-ID: <49c14bf7475d121e7b3f600e46b93c003851abd1.1743596287.git.karanja99erick@gmail.com>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <cover.1743596287.git.karanja99erick@gmail.com>
+References: <cover.1743596287.git.karanja99erick@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -75,76 +79,54 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
+Standardize boolean representation by replacing 1/0
+with true/false in cases where boolean logic is implied.
+This improves code clarity and aligns with the kernel’s bool type usage.
 
+Signed-off-by: Erick Karanja <karanja99erick@gmail.com>
+---
+ drivers/staging/rtl8723bs/core/rtw_ap.c | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
-This patchset refactors the rtl8723bs driver by replacing
-integer literals (1 and 0) with true and false,
-improving code readability and consistency with standard kernel practices.
-The transformation was performed using Coccinelle.
-
-below is the coccinelle script used:
-@initialize:ocaml@
-@@
-
-let same_function p q =
-  (List.hd p).Coccilib.current_element = (List.hd q).Coccilib.current_element
-
-@r@
-expression e;
-position p;
-symbol true,false;
-@@
-
-e =@p \(true\|false\)
-
-@@
-expression r.e;
-position q : script:ocaml(r.p) { same_function p q };
-@@
-
-e =@q
-(
-- 1
-+ true
-|
-- 0
-+ false
-)
-
-@s@
-type T;
-T e;
-identifier fld;
-symbol true,false;
-@@
-
-e.fld = \(true\|false\)
-
-@@
-type s.T;
-T e;
-identifier s.fld;
-@@
-
-e.fld =
-(
-- 1
-+ true
-|
-- 0
-+ false
-)
-
-Erick Karanja (3):
-  staging: rtl8723bs: Use true/false instead of 1/0
-  staging: rtl8723bs: Use true/false instead of 1/0
-  staging: rtl8723bs: Use true/false instead of 1/0
-
- drivers/staging/rtl8723bs/core/rtw_ap.c       | 12 ++++++------
- drivers/staging/rtl8723bs/core/rtw_mlme_ext.c |  4 ++--
- drivers/staging/rtl8723bs/core/rtw_recv.c     |  2 +-
- 3 files changed, 9 insertions(+), 9 deletions(-)
-
+diff --git a/drivers/staging/rtl8723bs/core/rtw_ap.c b/drivers/staging/rtl8723bs/core/rtw_ap.c
+index d46a04b9a05e..199727f04516 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_ap.c
++++ b/drivers/staging/rtl8723bs/core/rtw_ap.c
+@@ -386,10 +386,10 @@ void update_bmc_sta(struct adapter *padapter)
+ 
+ 		pmlmeinfo->FW_sta_info[psta->mac_id].psta = psta;
+ 
+-		psta->qos_option = 0;
++		psta->qos_option = false;
+ 		psta->htpriv.ht_option = false;
+ 
+-		psta->ieee8021x_blocked = 0;
++		psta->ieee8021x_blocked = false;
+ 
+ 		memset((void *)&psta->sta_stats, 0, sizeof(struct stainfo_stats));
+ 
+@@ -1967,17 +1967,17 @@ void sta_info_update(struct adapter *padapter, struct sta_info *psta)
+ 
+ 	/* update wmm cap. */
+ 	if (WLAN_STA_WME & flags)
+-		psta->qos_option = 1;
++		psta->qos_option = true;
+ 	else
+-		psta->qos_option = 0;
++		psta->qos_option = false;
+ 
+ 	if (pmlmepriv->qospriv.qos_option == 0)
+-		psta->qos_option = 0;
++		psta->qos_option = false;
+ 
+ 	/* update 802.11n ht cap. */
+ 	if (WLAN_STA_HT & flags) {
+ 		psta->htpriv.ht_option = true;
+-		psta->qos_option = 1;
++		psta->qos_option = true;
+ 	} else {
+ 		psta->htpriv.ht_option = false;
+ 	}
 -- 
 2.43.0
 
