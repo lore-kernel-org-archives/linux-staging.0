@@ -1,133 +1,82 @@
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A53B41A254E;
-	Wed,  2 Apr 2025 17:17:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 024D5175D48;
+	Wed,  2 Apr 2025 19:23:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743614236; cv=none; b=UuLUS/U1Nn0mS//AZic7JP4UE+HJFbjczLF/LyXkSV8kbpPWJ0b3s/tVv1LIS1POsPPyjy+0YvdJfibpKvbEJV8+eQVcKgh/x/bdLzj9nmYsjLBPkP6e+HRj06mcU7fLM3G7N+UuCf7I3Nzz5xeXGiWLy+gJw4Po7M6j6t+UVRs=
+	t=1743621790; cv=none; b=FG/KUUInwjyaVjHU4SH7+6F3bi4UakGAeVfhUHvoDqiMPDGdYMHtSKClC/yRIZAtcPK4B/KDRX466SZT67zsLs9FBhLTD4+FBdZofi1N62/ambdMbRsl09PKVTTpzd5Y5SGReJx4EcJi0s71/zDqBQ8ZFvZCo92pqFjSLzvPFO8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743614236; c=relaxed/simple;
-	bh=VaMFdFfclsC+WFCyzHYDRn44c9vE4yPnhIs+rwALdxM=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=QeW8O9zyf7Q6khDll8khiDZB5pAtvpS+Sz1CyL5WZoWDusJyPt1funo6y5P/bNFfuNyI4Ucb5cNiJ0wkkNC9u/ID4Fj3iFBtGkA1bPxSKOgOZFHzYSBjhF6bRxQA5KOasgYMh/dJUC0NCHRhoBRtVyHqxnCJpDvylsLnIv4DEBk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=h8TR9ekk; arc=none smtp.client-ip=209.85.128.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1743621790; c=relaxed/simple;
+	bh=wr2HT3UODu1UCtP8eVxFHdE3J1WTxGPPJq6w4reJpSM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=u16y72cFDEzxJoNC6tH7iB0k/lsrOm7YKk/VY7pK9RwLwoavGyFH6lxD8wZfhWMju7B0Yb9QLikJg9XErJExawm+SABhiKgauXSW5IbiKaUzA8y/cjrhg7lou2KBdCVdhEReF27CG3HGn858nDNvDcdflb5lhmn57dOq3tIKx0g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=LoKQbzam; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="h8TR9ekk"
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-43cf06eabdaso66718495e9.2;
-        Wed, 02 Apr 2025 10:17:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1743614233; x=1744219033; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=8+C4G4SbGxknyB0zTfgPx+p1t+bnYiQcQISoKxR/Vkc=;
-        b=h8TR9ekkEFetfg6wqyjV0xHGtYg9Z9lnvA4lYGzO3B2Ux0Eu5vxwGIuiXjWry4B93K
-         AzUhLTLvCSVC9gvv2G+/rIOKuf2PxrfE+pcm+65q832fNtn9KG87XAeju7VCD6ulEsy1
-         HH0v6FIERifNv3KrKfifhDGlYU2dHTeO/5fEMQzHPaog0Y8VA/Dw4EtOlq0L5sphH5Fb
-         WQED+1CW4pt/u+zpgvYftfUX8OaqF/oPNrSvannivPsno91eDVRmTapEFOAfb5x1Gwn5
-         3AV8s4sAYYhLmOrAkFJ73ru8sGHUlvMR8XXmjPpwahP0D2fTNlEzaJsojDt5K283x1rC
-         uXlQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1743614233; x=1744219033;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=8+C4G4SbGxknyB0zTfgPx+p1t+bnYiQcQISoKxR/Vkc=;
-        b=aSH2LfUexQeIBpbGEdvDZuDC3wUwt9YwEyS85b+u/vCXuwtFxSfyO+7pamgrbPE/xf
-         772m69rZY0wZGKsfpr7yiBavIZYkqUNBEDpC80Cv7w1ev0wmxg7Ix/1i9zUpjMD5USXs
-         oB2JFws9OBWgcJqD3GUOIj+Dxmf2Zqbw/Kkjoc6IFWVZ2fDIKLLPYzU0DCUnHzmQ+inX
-         FY4Iju4F3P5ne4VngDz3d+7/2Y7dQ/ZhVjL7V44u/AqERt/+QRthdkHqLOzjYW/FQ623
-         LqFvbd4zlsYx931uTWrkGVN+x8ungLEOtmAcwMBON8qerAvx8MDemYekDDx0TmqnWzm/
-         wX6g==
-X-Forwarded-Encrypted: i=1; AJvYcCV/GFVwV0iOAZM5A867+/Th8vlb6CctwG/8SzsM28ckSJ4LL1dUj/rJHcEQ+Znp6e8s/rqqtSiXMLDEGX/1@lists.linux.dev, AJvYcCXlPjtOIkPYjImIFipGxv4mYhS2C3taUjrM+EZs/fvSFkuZRXGdgcv8dDBWVqfGL+5MdKF0nN8/Ve+U@lists.linux.dev
-X-Gm-Message-State: AOJu0YyZjBqyprjbBsfJOHV/nGtBfOCHEp7J3uDNKX/Bzb427+D+rK7H
-	nW1DPAzrX3MtMiKS1MFx7FPdXNWea6xhpCqFLatnd+zcIiHqvUfu
-X-Gm-Gg: ASbGncv0CfIC9ATndZnAY3LQ6X/j6wmV6aaUnOJjSYLQ5o0B74fZsj+EROo30WUa55I
-	MnWCvNpINSZqsUk/EIVOqdzb6RJK9IPPixqtaWgJrKSDcwqHq3YZF8rY/nPTIWOYMp2W+AvKWM5
-	SU2Ni8eVuHVB0nou+MOUGxlJv+KzHbjCyLYehkh/y0k6r2VbucyzRfZf4Q1KvL5UdmL2blxI81+
-	NXo34kyWaYWbdVdtD+AiB1PlnN9RcY5YGeYKAxdL7dAuSmd6t7ZGHG/jR3eur2GpK8yCP5eH31i
-	OF/uLzHXqKJsJkd94w0SX8utIiEMGSW/xV10TPAneQ==
-X-Google-Smtp-Source: AGHT+IGXAJCPar3HVUFKQjK06ujZSRm1R6M97IdO3GlXbC5NKiu0ELwX7yqGkBPK9kj/Fy5xyyxC6g==
-X-Received: by 2002:a05:6000:18a5:b0:38f:3e1c:211d with SMTP id ffacd0b85a97d-39c120deb39mr13203589f8f.14.1743614232894;
-        Wed, 02 Apr 2025 10:17:12 -0700 (PDT)
-Received: from pc.. ([197.232.62.205])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43eb5fcd489sm26713525e9.11.2025.04.02.10.17.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 02 Apr 2025 10:17:12 -0700 (PDT)
-From: Erick Karanja <karanja99erick@gmail.com>
-To: gregkh@linuxfoundation.org,
-	outreachy@lists.linux.dev
-Cc: karanja99erick@gmail.com,
-	philipp.g.hortmann@gmail.com,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v2 3/3] staging: rtl8723bs: Modify struct sta_info attribute qos_option and ieee8021x_blocked
-Date: Wed,  2 Apr 2025 20:16:44 +0300
-Message-ID: <cea7ede3db3709a13f1dcd25976779cd46da713c.1743613025.git.karanja99erick@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <cover.1743613025.git.karanja99erick@gmail.com>
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="LoKQbzam"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1F66BC4CEDD;
+	Wed,  2 Apr 2025 19:23:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1743621789;
+	bh=wr2HT3UODu1UCtP8eVxFHdE3J1WTxGPPJq6w4reJpSM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=LoKQbzamhuAfBqujF6GrA+tZiYNzT6/X4YmV1kcBBTdqD9yRS9U1OzrP2uF6DR7tm
+	 f+61xzDLOnalEVrq5wtsVNmBpf5t24EVPbyefn/nbqc8W5Tz+VUSgBGqA6V2KwSpa+
+	 SPTUs5e4/+NF1CR4Fkvi01sEr4J1kIlFJBmm/4Ng=
+Date: Wed, 2 Apr 2025 20:21:41 +0100
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Erick Karanja <karanja99erick@gmail.com>
+Cc: outreachy@lists.linux.dev, philipp.g.hortmann@gmail.com,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 1/3] staging: rtl8723bs: Modify struct rx_pkt_attrib
+ attribute bdecrypted
+Message-ID: <2025040215-confusing-sibling-f99f@gregkh>
 References: <cover.1743613025.git.karanja99erick@gmail.com>
+ <00287fa9f40c643b8451a0d2df8e2fb97235ee46.1743613025.git.karanja99erick@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <00287fa9f40c643b8451a0d2df8e2fb97235ee46.1743613025.git.karanja99erick@gmail.com>
 
-Standardize boolean representation by ensuring consistency,
-replacing instances of 1/0 with true/false where boolean
-logic is implied, as some definitions already use true/false.
-This improves code clarity and aligns with the kernel’s bool type usage.
+On Wed, Apr 02, 2025 at 08:16:42PM +0300, Erick Karanja wrote:
+> Standardize boolean representation by ensuring consistency,
+> replace instances of 1/0 with true/false where boolean logic is implied,
+> as some definitions already use true/false.
+> This improves code clarity and aligns with the kernel’s bool type usage.
+> 
+> Signed-off-by: Erick Karanja <karanja99erick@gmail.com>
+> ---
+>  drivers/staging/rtl8723bs/core/rtw_recv.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/staging/rtl8723bs/core/rtw_recv.c b/drivers/staging/rtl8723bs/core/rtw_recv.c
+> index a389ba5ecc6f..fd04dbacb50f 100644
+> --- a/drivers/staging/rtl8723bs/core/rtw_recv.c
+> +++ b/drivers/staging/rtl8723bs/core/rtw_recv.c
+> @@ -1358,7 +1358,7 @@ static signed int validate_80211w_mgmt(struct adapter *adapter, union recv_frame
+>  			u8 *mgmt_DATA;
+>  			u32 data_len = 0;
+>  
+> -			pattrib->bdecrypted = 0;
+> +			pattrib->bdecrypted = false;
 
-Signed-off-by: Erick Karanja <karanja99erick@gmail.com>
----
- drivers/staging/rtl8723bs/core/rtw_ap.c | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+but bdecrypted is a u8, not a boolean type.  So setting it to "false"
+does not seem correct here, right?
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_ap.c b/drivers/staging/rtl8723bs/core/rtw_ap.c
-index d46a04b9a05e..199727f04516 100644
---- a/drivers/staging/rtl8723bs/core/rtw_ap.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_ap.c
-@@ -386,10 +386,10 @@ void update_bmc_sta(struct adapter *padapter)
- 
- 		pmlmeinfo->FW_sta_info[psta->mac_id].psta = psta;
- 
--		psta->qos_option = 0;
-+		psta->qos_option = false;
- 		psta->htpriv.ht_option = false;
- 
--		psta->ieee8021x_blocked = 0;
-+		psta->ieee8021x_blocked = false;
- 
- 		memset((void *)&psta->sta_stats, 0, sizeof(struct stainfo_stats));
- 
-@@ -1967,17 +1967,17 @@ void sta_info_update(struct adapter *padapter, struct sta_info *psta)
- 
- 	/* update wmm cap. */
- 	if (WLAN_STA_WME & flags)
--		psta->qos_option = 1;
-+		psta->qos_option = true;
- 	else
--		psta->qos_option = 0;
-+		psta->qos_option = false;
- 
- 	if (pmlmepriv->qospriv.qos_option == 0)
--		psta->qos_option = 0;
-+		psta->qos_option = false;
- 
- 	/* update 802.11n ht cap. */
- 	if (WLAN_STA_HT & flags) {
- 		psta->htpriv.ht_option = true;
--		psta->qos_option = 1;
-+		psta->qos_option = true;
- 	} else {
- 		psta->htpriv.ht_option = false;
- 	}
--- 
-2.43.0
+Also, the name of the variable should really be changed.
 
+But, step back, are you _SURE_ you can change this structure at all?
+At a quick glance it kind of looks like it comes directly from the
+hardware, or am I mis-reading the driver code?
+
+Have you tested this series on an actual device?
+
+thanks,
+
+greg k-h
