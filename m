@@ -1,74 +1,73 @@
-Received: from mail-qv1-f54.google.com (mail-qv1-f54.google.com [209.85.219.54])
+Received: from mail-qk1-f175.google.com (mail-qk1-f175.google.com [209.85.222.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA12B1EB39
-	for <linux-staging@lists.linux.dev>; Wed,  2 Apr 2025 13:50:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A80E236420
+	for <linux-staging@lists.linux.dev>; Wed,  2 Apr 2025 13:58:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743601810; cv=none; b=NzUhXfxATkd8Z1sr0UlK/bpddJU4s5o4JmZzcb+2jxbzbOKKVlRW8Lly730oCboi7JCvpMd8blElHBpw69RJkMOtMzRPpdT0RBOpKnSnhtIMsSnJPv9HlLwXdP+GwWaJcU4gbn61Ph16SzLZ/ULwWuTCYMostAix/OfMPWU1jQA=
+	t=1743602338; cv=none; b=hRENROAxdKqWYePrxRuDUqQkD12L7ZPXjIVJ7EF/x6rtjJdl7b0exUBJ4JYuCtdCpNnG/qE+6KVao6eIdV3yvYyYLZApC5iCiOgcYB/gLKYIaS3CQVdcgJeEq3tPzLMaXRpkhHRmBtpDmrn4eoxDD9MKRgNODvX6eSgvBukjMzU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743601810; c=relaxed/simple;
-	bh=khdQRjKa1cJsLk+at6y8zDWPs5nydHHfCistC3DVK/M=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=D4JG1B+h9e8VqS0MryLjXmeT/C6ibCvwvlfgFVhH4FTrU8u4LicRgKtc9A7SRuOVqC246plCzGGGW9KAMcRyp+y/Hna/HfBGylKxJqw3QnyaBTIO1yfgsFPVbN7jeUvG7cuGqEM7O1N66sccPWO96YBJ+g0beK/hWzp6EDq3LAQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=O5ZoMLfX; arc=none smtp.client-ip=209.85.219.54
+	s=arc-20240116; t=1743602338; c=relaxed/simple;
+	bh=E1RquFpLyZTYcfSNn+gPl7tMCMbmQmZDBrNyAAGg7mI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=tGaz8YEMlrMmCRqs24eXQCVanF+JSsmUS76ek1RY+WTBozYR+rk8IqFVT0XcgJv1utNIhozJDW5eTQrmJbe0mhMGGXNZe8wXsWIld2QfeKWiurMAERPDWIzc4s51T9I/ydPsVRs5SpdHp6FF4psF/7qJWcPEaOgCqJrMfej/npo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EZCLFGJH; arc=none smtp.client-ip=209.85.222.175
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="O5ZoMLfX"
-Received: by mail-qv1-f54.google.com with SMTP id 6a1803df08f44-6e8f94c2698so36680556d6.0
-        for <linux-staging@lists.linux.dev>; Wed, 02 Apr 2025 06:50:08 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EZCLFGJH"
+Received: by mail-qk1-f175.google.com with SMTP id af79cd13be357-7c08f9d0ef3so392448785a.2
+        for <linux-staging@lists.linux.dev>; Wed, 02 Apr 2025 06:58:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1743601808; x=1744206608; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1743602336; x=1744207136; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=UpIRlo9dkfMDRtvBdGX/Xo5MPiwW/uzBzcuJlURA8sM=;
-        b=O5ZoMLfX/Tp+dEzwt8hboZ9/R5Y+GCQOicMWaBPEWOiRG7PxtfdaRaatAvYXQRN7YP
-         hrSwsaAZ4UQijiyB/TmeqY12uU7aZPbD0GRAMzA1JYzF2u86vYKu9rI2Kv4sDDDGXTvZ
-         lTBz6LoW3gwAh/B1GWQvAX+PS01oHg2Xt10E3DRSAPUjEzUDoaAkDebMFHskcKvn6F60
-         rVcv5+JNXDIGYunukdWiXTmXpjzqoYZ+cNnuORlKfGiLOJLQdAMoHJrEHzMBtl3IdErn
-         3oaxtY4zVY35I8XoLxXJsYDbcafGb+b1nqZXypLusX0wLv51uAWyopdytsJkJTZ2lo5p
-         jT/A==
+        bh=7RKlreFQivVxqrvuN1/QXrm7XVZTtvYdxyFro8fbbwo=;
+        b=EZCLFGJHa2nFx1/aOMmds7CIll5lH/evzjjzJJiJBRqyvFcnsPqh78lr3kavhDpwDS
+         l+KWHmzT4m0wvXvllpNmbQiSmT6Xbw8dGFIvz6sJuVEVDUmBWUF6a/xWTM16zpkCq+26
+         hGmHy4Bg+JO83FxhtC/aMoYS6ajju49Ey8VR6ex0VaPcG3XRxs8rNvjUVxpn8Nlu609A
+         Mw8hYZzTCmTAXaz54bwaErKxut6oKDb92t3gAVxfXXheZ6tl1Jrd0SEOMAfbDvk1jSpX
+         yoqTnv+jGTOwEZnllULRXi6q2JE6y2mbPL9d/LBqSocAJeA1MqFJxuIGgZdPrYAbZP22
+         p9/A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1743601808; x=1744206608;
+        d=1e100.net; s=20230601; t=1743602336; x=1744207136;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=UpIRlo9dkfMDRtvBdGX/Xo5MPiwW/uzBzcuJlURA8sM=;
-        b=fusNaY7wbwCQqukCGEmwXOMQk9sbsEKISsNhfoUupFqFwp3HkFSvqeDv8Me1ehcCmi
-         GHtjxJVGYUKcCZAhraHNmKRS0Qg0dFQQNU3g4XuaU1iKM1XUS1RHyeJXQUaabgWui84m
-         6whkxo3bTTuBRCuwvU10O5f5DC7NiOUiQ4mLR68OBJ/+CPf0K4tiGJ6epkua9v9ZztsU
-         b6Tdm2hao9x/ckMiAJB+kU7sXdLS5MlP87JYwf8ZwPDsMPOKW27oVjkHbnet3jRuzd+q
-         hrGG5F/TSmayfsDgqNAeNx5nR6JMAwsxIEN+gyqpe5L4kBfZ2C+5esNL81sPlMXRL58b
-         NdhQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVcs41Tf2waWAm+XEuELhc+bAoBiPvD1i2ClO2bpSTJlm/xMfu+5YY0tozGB5/FE7xp6+PwuwyMRIxjd3Pr@lists.linux.dev
-X-Gm-Message-State: AOJu0Yxt+8NyJFLECSoHdvIYOoPn2xvFXhXW7BgSz5VOMiB6oG+hnnE1
-	QCTgVkcdqYumbKb1Yu/li39am4JZ9l7ADBOZDrs82JLGRVOKHsbg
-X-Gm-Gg: ASbGncsbF8179SJtOBA8lOJSqkWM2Dx+cFjeeFfby9DHY09pZThfILY3Qfa2ELSDxbV
-	Ni9elWSfQSk2oSh4NSdHBmZeULQiSvSnXB5l3spdmyWG8glASweRyFioovjU3fw7T59l58+vixm
-	doxWlKx80F+8uRVeSxweiV/lOV9CWjUpJzZzH5uOb8uC9DOLq4Fe0F5QqBs3ocLDglKCynRwiu4
-	fbXMKa8Fm/J4oFZBZXeD1gT3XSxGKi1ypBqwO5JXb5G5/40qAucPmRFdbEA0RCNByabzrXhXgNr
-	3WX9NBrWKeeOO+PH/fH9Xe8kH7qXNyw/Bitg+Ewvr41NWBxqRXU8cwUEU9wCO/67BWlRTpaq/z9
-	pLia/ATR19AwdHzskFitsY1Q=
-X-Google-Smtp-Source: AGHT+IGO8ahOi/G3jO/2cQgbGPiOCEtcsk4bHdTRa6rUhoN3n0aVnWghLd31gahPKyxhXN71T2kuCw==
-X-Received: by 2002:a05:6214:dab:b0:6e8:f88f:b96b with SMTP id 6a1803df08f44-6eed5f616e6mr292528906d6.9.1743601807617;
-        Wed, 02 Apr 2025 06:50:07 -0700 (PDT)
+        bh=7RKlreFQivVxqrvuN1/QXrm7XVZTtvYdxyFro8fbbwo=;
+        b=M7zVKA+AkEIZGvrg9jROFvPIyoc6qsPNmQ36jNx7EY9MNjXO0kLj0pH1X3Ci/10ybh
+         9FuuprZZaDgatbmgVFddGFXddk2fUnjSTJHqvumFa4VIZj7KqTeZNIEp1m7tfxKaQLWB
+         0RGdMcc2viPTa2dskf9M6nQ92I1UTpR8pDbiVMu0NS30g4fYgYT/KgcNPh9krt9Lc8I0
+         sRYSePrq3kOWBNS+bDpz9EWOrRiMGUW+dpMJV7+T4HFEU7FyvoQRutM7dsfyfN5z+iKa
+         B7hdR5m7Teny4gCNglvEgQavG0UbEtDMm6VjekqxmR5NDcVwrBwKtYUmMdkcu+2a9ErQ
+         AxwQ==
+X-Gm-Message-State: AOJu0Ywu4rVlfo5ajOO7Ny8KvhHNa6qzXNuCyBFeSAGhmNvvdT+dJpjb
+	1PY9f7Mmy0l4Uy4UuI2D9ZzL2GtOBJkcLyZNHdaf4z+pCPLPDo7J
+X-Gm-Gg: ASbGncu0UVb1So6kvd0ONCbspx2MUrZM6CsiUpYWG2/7iyFIGO5uJVsInkbcPjcBAMl
+	NJRIHNwSGKuA0wdGGV5rLBf/LL97gzY0D8pSUw56wAI/vQBBOsMqJNCTn/DM02eHBYgy6bPcpG2
+	fnVXi0RFkQ6OUjUDCkdDwonkdKpOy3xkGpCNdXqunGmB3sUA/hNGdhJ8HPt3C8k+4gmVIqh0iaz
+	4clanHJGYIJbXZCNT5lKUT3mDp453V5kpFwKg8puoDaoQRcbYtLvW/et3zlU1JxXLNyy+nCoKif
+	o5oyWaEBtqIqoTXqPMZqnnjEvIUUnmWgoqM8C3EzXc0E0i8DcZGsNWdiyHVgCPSPPM7Hc0ByYXe
+	yOIeyQIw6pQckWonGiAkITaY=
+X-Google-Smtp-Source: AGHT+IGhyWbX15a0Lzy3/ieWFeMzPPya3LsFi78CVOBfuojRqD/8rX3uad3QIOQrL2LX6wekR6vyvA==
+X-Received: by 2002:ae9:e71a:0:b0:7c5:9c38:ef6b with SMTP id af79cd13be357-7c69087de5dmr2107423985a.45.1743602335819;
+        Wed, 02 Apr 2025 06:58:55 -0700 (PDT)
 Received: from theriatric.mshome.net (c-73-123-232-110.hsd1.ma.comcast.net. [73.123.232.110])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6eec97bc7besm74799826d6.122.2025.04.02.06.50.06
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-7c5f777e02bsm789748685a.110.2025.04.02.06.58.55
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 02 Apr 2025 06:50:07 -0700 (PDT)
+        Wed, 02 Apr 2025 06:58:55 -0700 (PDT)
 From: Gabriel Shahrouzi <gshahrouzi@gmail.com>
 To: linux-media@vger.kernel.org
-Cc: andy@kernel.org,
-	hdegoede@redhat.com,
+Cc: linux-staging@lists.linux.dev,
+	slongerbeam@gmail.com,
+	p.zabel@pengutronix.de,
 	mchehab@kernel.org,
-	sakari.ailus@linux.intel.com,
 	gregkh@linuxfoundation.org,
-	linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev,
+	skhan@linuxfoundation.org,
+	kernelmentees@lists.linuxfoundation.org,
 	gshahrouzi@gmail.com
-Subject: [PATCH v2] staging: media: Fix indentation to use tabs instead of spaces
-Date: Wed,  2 Apr 2025 09:50:01 -0400
-Message-ID: <20250402135001.12475-1-gshahrouzi@gmail.com>
+Subject: [PATCH v4] staging: media: Remove unnecessary braces for single statement block
+Date: Wed,  2 Apr 2025 09:58:51 -0400
+Message-ID: <20250402135851.13627-1-gshahrouzi@gmail.com>
 X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -78,29 +77,38 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Replace spaces with tab to comply with kernel coding style.
+Remove unnecessary braces in single statement block to comply with kernel
+coding style.
 
 Signed-off-by: Gabriel Shahrouzi <gshahrouzi@gmail.com>
 ---
-Changes in v2:
-	- Resend using git send-email to fix formatting issues in email body.
----
- .../media/atomisp/pci/isp/kernels/vf/vf_1.0/ia_css_vf.host.c    | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/staging/media/atomisp/pci/isp/kernels/vf/vf_1.0/ia_css_vf.host.c b/drivers/staging/media/atomisp/pci/isp/kernels/vf/vf_1.0/ia_css_vf.host.c
-index ece5e3da34ee..127f12ba2214 100644
---- a/drivers/staging/media/atomisp/pci/isp/kernels/vf/vf_1.0/ia_css_vf.host.c
-+++ b/drivers/staging/media/atomisp/pci/isp/kernels/vf/vf_1.0/ia_css_vf.host.c
-@@ -114,7 +114,7 @@ configure_dma(
- }
+Changes in v2:
+	- Add missing author.
+	- Fix title of email.
+Changes in v3:
+        - Resend using git send-email to fix formatting issues in email body.
+Changes in v4:
+	- Use correct patch version.
+---
+ drivers/staging/media/imx/imx-media-of.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
+
+diff --git a/drivers/staging/media/imx/imx-media-of.c b/drivers/staging/media/imx/imx-media-of.c
+index bb28daa4d713..7413551052ae 100644
+--- a/drivers/staging/media/imx/imx-media-of.c
++++ b/drivers/staging/media/imx/imx-media-of.c
+@@ -57,9 +57,8 @@ int imx_media_add_of_subdevs(struct imx_media_dev *imxmd,
+ 		of_node_put(csi_np);
+ 		if (ret) {
+ 			/* unavailable or already added is not an error */
+-			if (ret == -ENODEV || ret == -EEXIST) {
++			if (ret == -ENODEV || ret == -EEXIST)
+ 				continue;
+-			}
  
- int ia_css_vf_configure(const struct ia_css_binary *binary,
--		        const struct ia_css_frame_info *out_info,
-+			const struct ia_css_frame_info *out_info,
- 			struct ia_css_frame_info *vf_info,
- 			unsigned int *downscale_log2)
- {
+ 			/* other error, can't continue */
+ 			return ret;
 -- 
 2.43.0
 
