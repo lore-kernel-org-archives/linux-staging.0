@@ -1,121 +1,97 @@
-Received: from mail2-relais-roc.national.inria.fr (mail2-relais-roc.national.inria.fr [192.134.164.83])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA31F288DA;
-	Wed,  2 Apr 2025 21:02:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.134.164.83
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D20E151985;
+	Wed,  2 Apr 2025 23:29:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743627775; cv=none; b=uSWofpExZd1ezXCohP+3sW4CKmGQs3OFmYpKTHS154ALZ27XgxfmjNNQTNR0KlYstSFMoikG3ltw7SdbA99AaY1/D71ICRMEypRwlIN0EV9TfUN5kyINMkEJ6TpEqo989Z6F/V+c062P8gLlcaJlNJZ+fT57yqhJO1MeqOLR2Yc=
+	t=1743636593; cv=none; b=pdR3MNJYf/mxbxKZpwLFdwJc8DAQNMenDsRYEa+fjT3PC1nhQhgQqw1aojuuhgJQXb8w2nrN76Ub2siotLZsm5O/8dsqgwxtLTC3pFNL8udrK5tN2nNrtGK1PJjNh3JzCyr3L4LD8MC7yXI+h8bq0RVEnIqtibuvDG2KWrSxu+4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743627775; c=relaxed/simple;
-	bh=xTIyxS9AQsED4zOvaAeCk6g+wX8dHY/2+iJVfBnAPOY=;
-	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=cZzcimJZpSmOhR+QA675XT56n8sVAnP1AvaRqMIAik3YGIm527u+vNZ5Quulh+vqOu38n+dwWNob6bAIivs3WVXha71EHgI93JfpeQCjGrGSjhCI48m9b+/7MFW5avk2MMvPubaNPNP9nyWO2Ops1RaHITlc7HSLHJ5pDat67g8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr; spf=pass smtp.mailfrom=inria.fr; dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b=aBpXsnA+; arc=none smtp.client-ip=192.134.164.83
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=inria.fr
+	s=arc-20240116; t=1743636593; c=relaxed/simple;
+	bh=N+690Dl8x2S4PXkBw33aF7TsFud2SHoTXZUfjjRjn5w=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=q0sxqPnf/tPf2ZXdWVjpMrDsDnocEpB8KefISBlTVSz6zY2hPxYkT9s7Il3P7BAEr5tcEpzy1ovKIABx2j/73wwmw8eiQAVfHuM5s/nqe6LdHI1NjBSmLKbRstN+7EpmhC8w0ukVvrYBHuE6WA8dwKeedslExCy5uNO56OEGh6E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RFqIQir0; arc=none smtp.client-ip=209.85.218.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b="aBpXsnA+"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RFqIQir0"
+Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-ac2aeada833so66417466b.0;
+        Wed, 02 Apr 2025 16:29:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=inria.fr; s=dc;
-  h=date:from:to:cc:subject:in-reply-to:message-id:
-   references:mime-version;
-  bh=8k4fpSuLY7YZgX4IRqPtLSuKZAl28If6nJmBbP/UrL8=;
-  b=aBpXsnA+EsfhqvkYWak5pCo+1agam0dTtQVfFCiLCWo4Ccd78ZyAqsWv
-   fuv/NlhxG2EoJQJFEekpIIeIqHnGq7YlS9Ue7v42eOKXoO2mDT3ORQwKX
-   9IVe+SpFda/IUTdNMGxQfWTA7cer4FhXW4yoSYR7HyAfjmTkxzypHLX/R
-   4=;
-Authentication-Results: mail2-relais-roc.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=julia.lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
-X-IronPort-AV: E=Sophos;i="6.15,183,1739833200"; 
-   d="scan'208";a="216087345"
-Received: from powered-by.xenosite.net (HELO hadrien) ([89.255.17.162])
-  by mail2-relais-roc.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Apr 2025 23:02:50 +0200
-Date: Wed, 2 Apr 2025 23:02:50 +0200 (CEST)
-From: Julia Lawall <julia.lawall@inria.fr>
-To: Greg KH <gregkh@linuxfoundation.org>
-cc: Julia Lawall <julia.lawall@inria.fr>, 
-    Erick Karanja <karanja99erick@gmail.com>, outreachy@lists.linux.dev, 
-    philipp.g.hortmann@gmail.com, linux-staging@lists.linux.dev, 
-    linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 1/3] staging: rtl8723bs: Modify struct rx_pkt_attrib
- attribute bdecrypted
-In-Reply-To: <2025040246-series-tusk-bec1@gregkh>
-Message-ID: <bf8994cc-b812-f628-ff43-5dae8426e266@inria.fr>
-References: <cover.1743613025.git.karanja99erick@gmail.com> <00287fa9f40c643b8451a0d2df8e2fb97235ee46.1743613025.git.karanja99erick@gmail.com> <2025040215-confusing-sibling-f99f@gregkh> <3c235d91-efd6-ddf8-7c9-d8d35c7585@inria.fr>
- <2025040246-series-tusk-bec1@gregkh>
+        d=gmail.com; s=20230601; t=1743636588; x=1744241388; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Dofhp4vd16EdUWCHkTI0LpG1Ae8tGGiEAhl+4/0E1XE=;
+        b=RFqIQir0PalMZFGlbaXGHd+SEvpBAZ9tK4NoTHN2ZUbK2EHP6an0Y12IXCEMUCdZsn
+         dVteChx7x93h3ApEugmJMHq2YaVkxeeqtcd8fl+Qu5aMAwKtJz5A6CsmOqKppyTkk6hM
+         4Pzjbg2qVAL65uxyea1u0icyu/3ygocm2q/tjtcublZdtaArzIO2wbdVMkrW2fSfq6gU
+         mvKGpOuEruEweFRko+Oz5hUX0aLmNtQFHE62nB0YmkcA76gaQaVPrCYdo2JxkhHKuf1f
+         hYHH6KgY3jUajqky54jWC3rrLNdXMPpxJ9z7vLsMVeGtdpayAnToro5lk2ncTB0R2N/E
+         toAg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1743636588; x=1744241388;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Dofhp4vd16EdUWCHkTI0LpG1Ae8tGGiEAhl+4/0E1XE=;
+        b=J1cMlHy66ri25WUyNdsWMpUkY+QA9eRrHR0ZdtOjvIWQJ4WoGkSPSTeydAQYKIbo3D
+         TU9P+AM935546iA1n20cMtYwIR9n8XBnaRMln3djyT0xK40pL8eBFnttE8nNBwue0BqS
+         O/yLZiTzJN1KH+IeY1nTaUJheMOms4o8Yw2Lc+172cmk+mMCTLk7v6eosPZImiza09EJ
+         UWs/+HEc5yEUXN3F+sFjf5o4EnhAlmCRL39nkaFmeGUKQL/xgA4wqsezTf1D/DHQjzAr
+         mPfPFZ9r+7ybYAeMCXeIdbV+uifiFjHU9DM2jQ3fJkHq5ZCKpj342plGo0OGXll2/lyQ
+         x7Ng==
+X-Forwarded-Encrypted: i=1; AJvYcCVSOQD1Ti+E8FUIZSgDYyEvk1ACABK11SWO6fpSAwWGdyTqnxC0H6cmtf/QsdhSUnIkyJQHa5p2bSfqtfzD@lists.linux.dev
+X-Gm-Message-State: AOJu0Ywx0e4xU6jiHecBYD+6vgFcLczPbim30XXPXUnIa9Xc/ScY0eYp
+	Gk94/XVEU8l/8H4j0CxmyNkPAnOnv/P+ykOX+ruk0wfaioA6R0fV
+X-Gm-Gg: ASbGncsXAImhgCR3DydJ58O2xdb4iNcPR/iFTnsYYR2gwTf9nVAfXl4h36VauMbevXN
+	9LBcHrVij5Suki9fpWQAHCA8ppG3HSnJ+RyBsg+L63q+0NkXlsuzQ9GIYlrlpfUj6QaiU9LReFT
+	ZFmtZ76Xtip2PlmuT8WiXnUqhw0hoWV2ZunUxFMN9kxUcniW12wbAdrtpkEQqVYE9bSto9f+q1V
+	0bfURkCQfbYiH37XcY4ooBUhC2aENMwIgA+4xkTxUgHjwiH2RDRcLMb1zXQAVv818KOf6z1yccj
+	JYUW2TLYf/Z3SwU6QSm3Qm31nV0u7gpNAzxZB7TC4t6iKfaizA==
+X-Google-Smtp-Source: AGHT+IFYFgbrqDbUHntBMUKQVCmrIm0uA2yEG5AMH8rCPKf5xiNlmRPEsS+wGXetxPIV/AYGXPKIWg==
+X-Received: by 2002:a17:907:7206:b0:ac7:b231:9554 with SMTP id a640c23a62f3a-ac7b6c46485mr144505166b.11.1743636588239;
+        Wed, 02 Apr 2025 16:29:48 -0700 (PDT)
+Received: from HP-650 ([105.112.231.107])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ac7bfe9868asm2439466b.41.2025.04.02.16.29.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 02 Apr 2025 16:29:47 -0700 (PDT)
+From: Abraham Samuel Adekunle <abrahamadekunle50@gmail.com>
+To: outreachy@lists.linux.dev,
+	julia.lawall@inria.fr
+Cc: hdegoede@redhat.com,
+	mchehab@kernel.org,
+	sakari.ailus@linux.intel.com,
+	andy@kernel.org,
+	gregkh@linuxfoundation.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Abraham Samuel Adekunle <abrahamadekunle50@gmail.com>
+Subject: [PATCH 0/2] Unnecessary code cleanup patches
+Date: Thu,  3 Apr 2025 00:28:59 +0100
+Message-Id: <cover.1743635480.git.abrahamadekunle50@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="8323329-6877068-1743627771=:3363"
+Content-Transfer-Encoding: 8bit
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
+The patchset modifies unnecessary duplicate NULL test
+on a value in an expression, when the value has been NULL
+tested in a previous expression.
 
---8323329-6877068-1743627771=:3363
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8BIT
+Abraham Samuel Adekunle (2):
+  staging: media: Remove NULL test on an already tested value
+  staging: rtl8723bs: Prevent duplicate NULL tests on a value
 
+ drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c | 2 +-
+ drivers/staging/media/av7110/sp8870.c                     | 2 +-
+ drivers/staging/rtl8723bs/core/rtw_mlme_ext.c             | 2 +-
+ drivers/staging/rtl8723bs/core/rtw_xmit.c                 | 2 +-
+ 4 files changed, 4 insertions(+), 4 deletions(-)
 
+-- 
+2.34.1
 
-On Wed, 2 Apr 2025, Greg KH wrote:
-
-> On Wed, Apr 02, 2025 at 10:34:22PM +0200, Julia Lawall wrote:
-> >
-> >
-> > On Wed, 2 Apr 2025, Greg KH wrote:
-> >
-> > > On Wed, Apr 02, 2025 at 08:16:42PM +0300, Erick Karanja wrote:
-> > > > Standardize boolean representation by ensuring consistency,
-> > > > replace instances of 1/0 with true/false where boolean logic is implied,
-> > > > as some definitions already use true/false.
-> > > > This improves code clarity and aligns with the kernel’s bool type usage.
-> > > >
-> > > > Signed-off-by: Erick Karanja <karanja99erick@gmail.com>
-> > > > ---
-> > > >  drivers/staging/rtl8723bs/core/rtw_recv.c | 2 +-
-> > > >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > > >
-> > > > diff --git a/drivers/staging/rtl8723bs/core/rtw_recv.c b/drivers/staging/rtl8723bs/core/rtw_recv.c
-> > > > index a389ba5ecc6f..fd04dbacb50f 100644
-> > > > --- a/drivers/staging/rtl8723bs/core/rtw_recv.c
-> > > > +++ b/drivers/staging/rtl8723bs/core/rtw_recv.c
-> > > > @@ -1358,7 +1358,7 @@ static signed int validate_80211w_mgmt(struct adapter *adapter, union recv_frame
-> > > >  			u8 *mgmt_DATA;
-> > > >  			u32 data_len = 0;
-> > > >
-> > > > -			pattrib->bdecrypted = 0;
-> > > > +			pattrib->bdecrypted = false;
-> > >
-> > > but bdecrypted is a u8, not a boolean type.  So setting it to "false"
-> > > does not seem correct here, right?
-> >
-> > Is false different than 0?
->
-> Does C guarantee that?  I can never remember.  I don't think it
-> guarantees that a 'bool' will only be 8 bits, or am I mistaken there
-> too?
->
-> > Elsewhere there is an assignment to true.
->
-> Was that in the original driver?
-
-Yes:
-
-git blame -L 436,436 drivers/staging/rtl8723bs/core/rtw_recv.c
-
-554c0a3abf216 (Hans de Goede 2017-03-29 19:47:51 +0200 436)
-prxattrib->bdecrypted = true;
-
-> If this doesn't come from the hardware, then it's fine to make the
-> change.  If it does, it needs to be verified that the layout and bit
-> values are identical.
-
-Erick, you can see if the generated assembly code is the same before and
-after the same.  You can see that with
-make drivers/staging/rtl8723bs/core/rtw_recv.s
-
-julia
---8323329-6877068-1743627771=:3363--
