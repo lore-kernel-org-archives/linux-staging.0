@@ -1,95 +1,99 @@
-Received: from mail-qt1-f175.google.com (mail-qt1-f175.google.com [209.85.160.175])
+Received: from mail-qk1-f176.google.com (mail-qk1-f176.google.com [209.85.222.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A18E52343C7
-	for <linux-staging@lists.linux.dev>; Wed,  2 Apr 2025 11:20:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1ABB523718F
+	for <linux-staging@lists.linux.dev>; Wed,  2 Apr 2025 11:32:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743592853; cv=none; b=ZxI+AXv52WXyDo14OjLi3FOE09tkaigIOXFn5xQfc4ro+ogn08Vfi7VucV8aBXS8v8RzgHYB5NLdwW/5yjsyTQ8PzQZdAUVgVPvk2V+vt0pbFM8m2Ir0BfhlAxKmWOLZPGTl91lANnDjvHzSQT1z4Ou1B0QuBuNpxKYhoEt3ZXM=
+	t=1743593547; cv=none; b=t5b/WI39M14kkO55oOlgcfQ350K79ecxqLTOlOVNTV3EkXaynwf4QMls2upfQXr8yT/hjWATa06g2Mf00QZe8ShIM4l54wC4TOImldoL/zwq74m3EwhPfUSnKJ1W69HIYD7bjyt1blz6rWhuQnOfN9zetFA1uzNfhlm01RZTGhg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743592853; c=relaxed/simple;
-	bh=XqrqN8nPpf+6rXqYVdfm+eKeYixj/LZaQPS9VpMMYhI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=HFGQianAaRHM21AG474G2JvnrbS3Pc4t7Pt0QN93O6saTEQIhs1PhjEGZCeeQKJrqpd8jqTyVNeAIizbO+oMUFg3XXWRu3/6GeYHGXIqA8tC16iFVNUpmz9rAfPxnwQ2ARuEqn1r3hlOnRvPAGC+tv8cSRPqpyNTi52ngHqhIfA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JyPj/Jpm; arc=none smtp.client-ip=209.85.160.175
+	s=arc-20240116; t=1743593547; c=relaxed/simple;
+	bh=BQLUAOp8hcz96+CVPWzJUqpppAiY0RYSuWrm0lq7OXU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=tQkfHGtNJos+moWSX45JGwrF/vKXTuo4QkNZvuMNzzvDBxrCz3iIufEqaNEgOdOZgiRv+bTSdejAbp1VyYjtnpVdqomb9oAFET4nRyEujHSCLASwGfegZhCycP5bZo8iPttZaukAO938oRQRm7nHv6+EgU1bgsryRLqdGD8pvXw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EqCveQcG; arc=none smtp.client-ip=209.85.222.176
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JyPj/Jpm"
-Received: by mail-qt1-f175.google.com with SMTP id d75a77b69052e-4774d68c670so85717791cf.0;
-        Wed, 02 Apr 2025 04:20:51 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EqCveQcG"
+Received: by mail-qk1-f176.google.com with SMTP id af79cd13be357-7c08fc20194so1252626785a.2
+        for <linux-staging@lists.linux.dev>; Wed, 02 Apr 2025 04:32:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1743592850; x=1744197650; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=xJfI3KQNmYoBOgkvBWNQRM8I+8oVOhYb3y1OZGqHTSU=;
-        b=JyPj/Jpm1szEN6dqyob400fBjOzF1I6nvfusWoh13DmzMD6g220pyOwj/RNo+J1uqn
-         9BxbjYQuepYr4Np93cp1opcbI5fT8TPkLtBdWCpY415hCbjGPkLxsGKuQwiWIKeckrN9
-         e1z1QgLl4HZHAuMdzqhlUMg66E3subtApFW7Ji7M6+gVrRGJs2TrbnoDiUN7Js1myxaH
-         iCqrKErZp4nkEfwbaaHBTaWpF7DZllRY0HAx6SVOqBnFclTA1PdK8ceKHkt3bM8Lfgtt
-         vRC00eZdbxaJR1gMM5FT1ivEw8F7pdO4ss64plzb/22WwHD3G+Ek/BXv08E+BLOzrP4S
-         ltbg==
+        d=gmail.com; s=20230601; t=1743593544; x=1744198344; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=DCEThd8C9jqT4F27805omvPg19dzW3dBb7AMvXXeLjo=;
+        b=EqCveQcG0Y4WLW+EY7DQiQISrLZEG4wn4kZurhBO7XnJg3jxvPVV77+xSPi7Ope7z0
+         ESEQVgfbugCwwbYhAjqjE70+/DUQrcn/c43V6q8/LgIYEOkPg9qU6FhVhX4nlh0LlI5u
+         faSxG8iUuuXfFIVzYZNZiwnk0WP95WYoQVf88xukVNVyXhf/hLS96piIE5Z6WWW8KEDS
+         YGa7gE4/D+STdRBIhF/U3RSGEEpjj3+zBp0yIYM+Uwo8UuNjf0OFQU4YHRWqQhbJ8Ooz
+         tWTLbyd8U59asMu4PIN1YHgBFRtm9kNFVoHoIN5NnHQEhsN5tj72B+tWDz6TqhYKsZY5
+         FEOA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1743592850; x=1744197650;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=xJfI3KQNmYoBOgkvBWNQRM8I+8oVOhYb3y1OZGqHTSU=;
-        b=XL8ypX9D9AhnLSl9h9rhewv9d2PV4uJF0UIrZfDEXAts7Oc2dAJ5ak9qgu+ooUyxkS
-         +rIL+0ZZG4dKcHoWGgYC+ZBkZSRep2NCf4K8tNPMmvcp2sAVWNiBBHjSJbGFF6DtXs2l
-         teQOFsyJJ8OsmTOPZfRMgW4eaAeqprYA6K7eHsydmQvq+sBievR49iRZbFzJtXAWIPH1
-         QRB5kRa7p0/V2zww/6C7rPIHhSwbgXnETPROwrC6yaFAgsy+fgtNUwj7+/Qwc65Lqn7v
-         WZHtjLrz7Ynn6cJYqqkvY+Um030Wx2T3lqh9WEqOUGvLJE3qtMPiP74J8FDJOh/jJbXH
-         MjFg==
-X-Forwarded-Encrypted: i=1; AJvYcCW7HT6HdqUnq8MDh0jTnrQTz6uDW2eYtJSZ6nzoIKsRnOOSI5R5+deQrhfV+6tIFuof92D+KWnYf5y1Cv7mmg==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yye+W4jyKIK4+Wt2WbgNVP3P8mhzyjAsxf2kFAt4wNtojoBHSrj
-	r/+COhSRcV6/XBPgvDMz4LFPot+mufkFA1UKlXRHOskHwa6ux4f0V6mAm6MlzxxSMpCzhDJbr5B
-	9JizPEyjCDge///wYpdq5GpASisk=
-X-Gm-Gg: ASbGncvAZ2gKu5N800rpOilbtJbqZjlloG4vEl+LeF3sgv6sqB/WayKAANMEXsEJCOJ
-	UquiFhmJVDxiWKf2EKPernIgBw6mZmNP7QLaB1/vecodjE2brX8udYCG9CEl2B3A8CLIldgVMoQ
-	+qh7v2anmUel1fxH3d2oK85L3GpTsuoyYo63Gr+SfwXBUJy9JdbULYOlSG
-X-Google-Smtp-Source: AGHT+IEzgm5Sgg9rIS64YHPqyl2jwV0x2z9yc9P3o00P3nftXrs78z0AVxZhQ/agGkbhCI//FQWotOu233LqJ5pTtlU=
-X-Received: by 2002:a05:622a:1882:b0:476:a03b:96e7 with SMTP id
- d75a77b69052e-477ed75eaebmr176911361cf.51.1743592850414; Wed, 02 Apr 2025
- 04:20:50 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1743593544; x=1744198344;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=DCEThd8C9jqT4F27805omvPg19dzW3dBb7AMvXXeLjo=;
+        b=HEBdYT2pp/IAV9914v2Nyml2n1EC+VQuxpJjsp1i1wZrbb8YaeZxuJ3CfCz9uxUl85
+         yjgug/qTz0CHFfrOWoy95Dbjl2zN8bd1XJz0qoEqRvFXIVk0BMYZFFrs8+acbJRpeJCm
+         MrkdzdPB7rJX4eRSQdu2be8CW5DflAXXmthBZ3dW9dAqy7RIOMaUBA+k3IzxYC4Tf3U0
+         6zaEXHEK/rk41IJzwLIevOE1dy3Jl0XC6IB5c+TbwM3E6wWVUZCX9PHqgsWxfVAEI8kL
+         y74XeHpVMQmaeFZcvUr368rSFXjG9sckxkPH1Dzox+sGmXtzZfQ+MPxHAwNjy0Cb8h+Q
+         jHlg==
+X-Gm-Message-State: AOJu0YzZ1HGAiLHBHeTYeHxnvi5bbvJKTxKaG4vPhEzWwfg6Esc5FUHa
+	U5QfzertXTW1usD6W4dOnuF2E4PEAKlt/4s3Lw7CFB0r3rJ+L+CD3pIeZ4HXw9o=
+X-Gm-Gg: ASbGncu8wDs2XbXpAN6KaoqZvSJ8OcRm6WWsWlghKX6v2o1HQm3wuXbDXz/4XudLxk9
+	e0WRZGMKo3nH3LzPaKzOqMlOi4+22edFPD+iV6tdDUYEJG6Z7Vk6deFWHgxiROcKV00FC3Y/+at
+	huZbJnJLDcCSb1XQnFW7hXYNq2RmFIzyhvL4nQpBe7Igucg6CzlyCyb5S0JSBrxpgMXA/VOW1s0
+	k0jfruaKUE9UFLElv3glpIymyEtry5C5cj6AsiWGN71Z1IIJslex7s4id8WEdjDNZp42a2t79AQ
+	UWG/PiEu20luXRsZ2hF+HIzVDnJAMBL5pu4jLqyu7vBjzAxnTOq+ItUzI78=
+X-Google-Smtp-Source: AGHT+IHXQUOQ4MUkeVIP8CSDJIrsR3b+i6sounU51uvTk7vk1bAa+2aCEmd5MUwLwXE94lWa1jKKDg==
+X-Received: by 2002:a05:620a:2a0b:b0:7c5:43c2:a907 with SMTP id af79cd13be357-7c69072edbcmr2178988285a.26.1743593543771;
+        Wed, 02 Apr 2025 04:32:23 -0700 (PDT)
+Received: from theriatric.mshome.net ([73.123.232.110])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-7c5f777dea3sm779839985a.102.2025.04.02.04.32.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 02 Apr 2025 04:32:23 -0700 (PDT)
+From: Gabriel Shahrouzi <gshahrouzi@gmail.com>
+To: linux-staging@lists.linux.dev
+Cc: philipp.g.hortmann@gmail.com,
+	eamanu@riseup.net,
+	linux-kernel@vger.kernel.org,
+	kernelmentees@lists.linuxfoundation.org,
+	skhan@linuxfoundation.org,
+	Gabriel Shahrouzi <gshahrouzi@gmail.com>
+Subject: [PATCH] staging: rtl8723bs: Remove trailing whitespace
+Date: Wed,  2 Apr 2025 07:31:58 -0400
+Message-ID: <20250402113158.45760-1-gshahrouzi@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <67eccb67.050a0220.dd435.b100@mx.google.com> <2025040207-unrelated-aflame-bf70@gregkh>
-In-Reply-To: <2025040207-unrelated-aflame-bf70@gregkh>
-From: Gabriel <gshahrouzi@gmail.com>
-Date: Wed, 2 Apr 2025 07:20:39 -0400
-X-Gm-Features: AQ5f1Jol1T8yZOWCn4FoGfuVLOh9GAvg71gMDfnVIX1f95n1Rnier_SWBdArHw0
-Message-ID: <CAKUZ0zJ5pMYNxsM+h8MY9gxsnW=rFjBCBjEoK8k+cUdV+5rs_g@mail.gmail.com>
-Subject: Re: [PATCH] staging: rtl8723bs: Remove trailing whitespace
-To: Greg KH <gregkh@linuxfoundation.org>
-Cc: linux-staging@lists.linux.dev, philipp.g.hortmann@gmail.com, 
-	eamanu@riseup.net, linux-kernel@vger.kernel.org, 
-	kernel-mentees@lists.linux.dev, skhan@linuxfoundation.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Wed, Apr 2, 2025 at 2:15=E2=80=AFAM Greg KH <gregkh@linuxfoundation.org>=
- wrote:
->
-> On Tue, Apr 01, 2025 at 10:30:15PM -0700, gshahrouzi@gmail.com wrote:
-> > >>From 3ffe31ac00fdfb94ffc521d8ab0fa60196e69c7a Mon Sep 17 00:00:00 200=
-1
-> > From: Gabriel Shahrouzi <gshahrouzi@gmail.com>
-> > Date: Wed, 2 Apr 2025 01:22:59 -0400
-> > Subject: [PATCH] staging: rtl8723bs: Remove trailing whitespace
->
-> Why is this here in the body of the email?  Please just use 'git
-> send-email' to send the patch out.
-I used git-format to generate the patch but then used a wacky method
-(a python script that tried to do what git send does but worse) to
-send the email instead of git send which attached the email header to
-the email body. I'll switch to using git send-email.
->
-> thanks,
->
-> greg k-h
+Remove trailing whitespace to comply with kernel coding style.
+
+Signed-off-by: Gabriel Shahrouzi <gshahrouzi@gmail.com>
+---
+ drivers/staging/rtl8723bs/include/hal_pwr_seq.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/staging/rtl8723bs/include/hal_pwr_seq.h b/drivers/staging/rtl8723bs/include/hal_pwr_seq.h
+index b93d74a5b9a5..48bf7f66a06e 100644
+--- a/drivers/staging/rtl8723bs/include/hal_pwr_seq.h
++++ b/drivers/staging/rtl8723bs/include/hal_pwr_seq.h
+@@ -209,7 +209,7 @@
+ #define RTL8723B_TRANS_END															\
+ 	/* format */																\
+ 	/* { offset, cut_msk, fab_msk|interface_msk, base|cmd, msk, value }, comments here*/								\
+-	{0xFFFF, PWR_CUT_ALL_MSK, PWR_FAB_ALL_MSK, PWR_INTF_ALL_MSK, 0, PWR_CMD_END, 0, 0}, 
++	{0xFFFF, PWR_CUT_ALL_MSK, PWR_FAB_ALL_MSK, PWR_INTF_ALL_MSK, 0, PWR_CMD_END, 0, 0},
+ 
+ 
+ extern struct wlan_pwr_cfg rtl8723B_power_on_flow[RTL8723B_TRANS_CARDEMU_TO_ACT_STEPS+RTL8723B_TRANS_END_STEPS];
+-- 
+2.43.0
+
