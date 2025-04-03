@@ -1,130 +1,111 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mail3-relais-sop.national.inria.fr (mail3-relais-sop.national.inria.fr [192.134.164.104])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 567416BB5B;
-	Thu,  3 Apr 2025 02:36:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6BB916C854;
+	Thu,  3 Apr 2025 05:07:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.134.164.104
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743647779; cv=none; b=JVgxNbtLFM1WlGeVPYm+ssiE7QKeAgp+IEnbiVDO0cK+kuB/tnhW4k/Y+ZkOsfqvQKe0wSSbiVYOC2gBpJgeiYtD0ZxdMy2vPjbQ6pwAEXqOH3nJIoVDJs+JbA08yQzXdoHRhQNjA9bFFwtkzXMQ/QidrKS94U9xOTHGYwyO8EE=
+	t=1743656824; cv=none; b=LOPtorhuLUtcEVKdoxqJMWeWX5aefyO+FSfnJzagP51MA1mWHnQHRPMoXftIVqlemcpMMD+8P8arp2UuVfNbgu9QLuzD2W5xl/lZUujq4zGA7OdBZBCLzCgWm3sA2xheil7DphWXAw2REPK+OXJvL3RE7Gx3grO6HvwkW1cXpYg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743647779; c=relaxed/simple;
-	bh=NZBuTBYfIwLshdQDTbcROAiQdSt6dnB12ilYyCOQhL8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JhGpVlbvja+JoMrEvOi/jltqpcDLDt4e8+BGM3wYx6V21FC5SIG/m8wyuBCMBfo5pLAkrR3RSYWTafiJiILlLfK8sT6OvI0j+GkkWebBo5u2b1xpY3CjqgQePLyQS4bLrcVq8R4/hJcMBY9wlJGTreiGdgwixnJF0VEhi6ir2BQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FhrN2AtP; arc=none smtp.client-ip=198.175.65.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1743656824; c=relaxed/simple;
+	bh=8VKgCgBHxrdknUaI1Mw9feNtY3afR2pJyF2xF2EdXt0=;
+	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
+	 MIME-Version:Content-Type; b=BT0vmiB9tzv3mW+I209ffoRxn7aukXL7sOkdkl5WBdT1rQO4B2qksthGitwlDJYXnzB0n4bCrXsEQSDW9kSjFumPaZIH5cGupbLJAICakpSdr+vmyAENxhvaVFwgvOYJLXKyU8FgplMMZR0M4GaA3PgKp7xK4FGFpub7lf175jw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr; spf=pass smtp.mailfrom=inria.fr; dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b=AqFJERTd; arc=none smtp.client-ip=192.134.164.104
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=inria.fr
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FhrN2AtP"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1743647777; x=1775183777;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=NZBuTBYfIwLshdQDTbcROAiQdSt6dnB12ilYyCOQhL8=;
-  b=FhrN2AtPZLoUszvH9HCk1yGflb37pYgjvuWVyjo8Sz6nE0Eu73TtgJAw
-   xw7qtwXvyiowM0fc+754bZ+kPrWuLIMfZPWK6mnk3xt/6M52piV/gBInx
-   SH8yTIUcD+YExkrOmxXB/H1UkvSjyNEeLBeXW3Qnwa9bBW01oiEFtsn1z
-   FU7cUnaTwPIyoqPovnf8GCXmX8RPhf6cx01JK+BjE7ii+yLIvA3PI+bkh
-   zO9S5l1vzxnQrX7q9vCaqtBCmSpMNlGn5s9JnLfmuYOTTxlCYYrFJ41IQ
-   SQCy448xnphgCBdHynaDcr3p8M2mHoIYh7VPHoW5PxTKhGu8j06N7/BgI
-   g==;
-X-CSE-ConnectionGUID: 4ikuFx4WQICg95g/lM3t5g==
-X-CSE-MsgGUID: MZ6RL4vET1mvI3NlSZK3YA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11392"; a="45137215"
-X-IronPort-AV: E=Sophos;i="6.15,184,1739865600"; 
-   d="scan'208";a="45137215"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Apr 2025 19:36:17 -0700
-X-CSE-ConnectionGUID: V8R3s9rmT/iw0v9OBTeU7w==
-X-CSE-MsgGUID: RO4mmT0+Tv6uFP43y6mfrw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,184,1739865600"; 
-   d="scan'208";a="126634125"
-Received: from lkp-server02.sh.intel.com (HELO e98e3655d6d2) ([10.239.97.151])
-  by orviesa009.jf.intel.com with ESMTP; 02 Apr 2025 19:36:14 -0700
-Received: from kbuild by e98e3655d6d2 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1u0ARA-000BAu-1E;
-	Thu, 03 Apr 2025 02:36:12 +0000
-Date: Thu, 3 Apr 2025 10:35:47 +0800
-From: kernel test robot <lkp@intel.com>
-To: Abraham Samuel Adekunle <abrahamadekunle50@gmail.com>,
-	outreachy@lists.linux.dev
-Cc: oe-kbuild-all@lists.linux.dev, gregkh@linuxfoundation.org,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	julia.lawall@inria.fr,
-	Abraham Samuel Adekunle <abrahamadekunle50@gmail.com>
-Subject: Re: [PATCH 5/5] staging: rtl8723bs: modify variable names to comply
- with kernel naming convention
-Message-ID: <202504031009.mcD22ETY-lkp@intel.com>
-References: <dd32dfe6c837d88dd13a546aadcb0bc207b997d6.1743163801.git.abrahamadekunle50@gmail.com>
+	dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b="AqFJERTd"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=inria.fr; s=dc;
+  h=date:from:to:cc:subject:in-reply-to:message-id:
+   references:mime-version;
+  bh=6V8kIiJooYD9onhg8eupmQyigeizgedRchvQTk4+eOA=;
+  b=AqFJERTdzp3Z7S/TbpncZRMnKlNca427TKeeZQaXOUNHVNxK3j4swm18
+   mothcXV9rzR5jtBc59foAsB0dryO8+2MFQdcSQOd0bVLKk8H4v/Z8wuE4
+   KvwvcutJx5XezNHfbM3O+CowSfDA3JwPps6eSWKW8H7+O6WCAvw/zZdNH
+   Y=;
+Authentication-Results: mail3-relais-sop.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=julia.lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
+X-IronPort-AV: E=Sophos;i="6.15,184,1739833200"; 
+   d="scan'208";a="113317727"
+Received: from powered-by.xenosite.net (HELO hadrien) ([89.255.17.162])
+  by mail3-relais-sop.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Apr 2025 07:06:53 +0200
+Date: Thu, 3 Apr 2025 07:06:52 +0200 (CEST)
+From: Julia Lawall <julia.lawall@inria.fr>
+To: Abraham Samuel Adekunle <abrahamadekunle50@gmail.com>
+cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, outreachy@lists.linux.dev, 
+    linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: rtl8723bs: modify struct field to use standard
+ bool type
+In-Reply-To: <Z+05IEjV3pczMLNQ@HP-650>
+Message-ID: <4c35ae41-c834-e25a-ccab-5cdd34aa4680@inria.fr>
+References: <Z+05IEjV3pczMLNQ@HP-650>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <dd32dfe6c837d88dd13a546aadcb0bc207b997d6.1743163801.git.abrahamadekunle50@gmail.com>
+Content-Type: text/plain; charset=US-ASCII
 
-Hi Abraham,
 
-kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on staging/staging-testing]
+On Wed, 2 Apr 2025, Abraham Samuel Adekunle wrote:
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Abraham-Samuel-Adekunle/staging-rtl8723bs-correct-coding-style-by-preventing-lines-from-ending-with/20250328-204628
-base:   staging/staging-testing
-patch link:    https://lore.kernel.org/r/dd32dfe6c837d88dd13a546aadcb0bc207b997d6.1743163801.git.abrahamadekunle50%40gmail.com
-patch subject: [PATCH 5/5] staging: rtl8723bs: modify variable names to comply with kernel naming convention
-config: i386-randconfig-063-20250403 (https://download.01.org/0day-ci/archive/20250403/202504031009.mcD22ETY-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250403/202504031009.mcD22ETY-lkp@intel.com/reproduce)
+> The struct field uses the uint values 0 and 1 to represent false and
+> true values respectively.
+>
+> Convert cases to use the bool type instead to conform to Linux
+> coding styles and ensure consistency.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202504031009.mcD22ETY-lkp@intel.com/
+This is vague.  Ensure consistency with what?  You can point out that true
+or false was already being used elsewhere in the code.
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/staging/rtl8723bs/core/rtw_efuse.c:13:4: sparse: sparse: symbol 'fake_efuse_bank' was not declared. Should it be static?
->> drivers/staging/rtl8723bs/core/rtw_efuse.c:14:5: sparse: sparse: symbol 'fake_efuse_used_bytes' was not declared. Should it be static?
->> drivers/staging/rtl8723bs/core/rtw_efuse.c:15:4: sparse: sparse: symbol 'fake_efuse_content' was not declared. Should it be static?
->> drivers/staging/rtl8723bs/core/rtw_efuse.c:16:4: sparse: sparse: symbol 'fake_efuse_init_map' was not declared. Should it be static?
->> drivers/staging/rtl8723bs/core/rtw_efuse.c:17:4: sparse: sparse: symbol 'fake_efuse_modified_map' was not declared. Should it be static?
->> drivers/staging/rtl8723bs/core/rtw_efuse.c:19:5: sparse: sparse: symbol 'bte_fuse_used_bytes' was not declared. Should it be static?
->> drivers/staging/rtl8723bs/core/rtw_efuse.c:20:4: sparse: sparse: symbol 'bte_fuse_content' was not declared. Should it be static?
->> drivers/staging/rtl8723bs/core/rtw_efuse.c:21:4: sparse: sparse: symbol 'bte_use_init_map' was not declared. Should it be static?
->> drivers/staging/rtl8723bs/core/rtw_efuse.c:22:4: sparse: sparse: symbol 'bte_use_modified_map' was not declared. Should it be static?
->> drivers/staging/rtl8723bs/core/rtw_efuse.c:24:5: sparse: sparse: symbol 'fakebte_fuse_used_bytes' was not declared. Should it be static?
->> drivers/staging/rtl8723bs/core/rtw_efuse.c:25:4: sparse: sparse: symbol 'fakebte_fuse_content' was not declared. Should it be static?
->> drivers/staging/rtl8723bs/core/rtw_efuse.c:26:4: sparse: sparse: symbol 'fakebte_use_init_map' was not declared. Should it be static?
->> drivers/staging/rtl8723bs/core/rtw_efuse.c:27:4: sparse: sparse: symbol 'fakebte_use_modified_map' was not declared. Should it be static?
+>
+> reported by Coccinelle:
+>
+> Signed-off-by: Abraham Samuel Adekunle <abrahamadekunle50@gmail.com>
+> ---
+>  drivers/staging/rtl8723bs/core/rtw_ap.c      | 2 +-
+>  drivers/staging/rtl8723bs/include/sta_info.h | 2 +-
+>  2 files changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/drivers/staging/rtl8723bs/core/rtw_ap.c b/drivers/staging/rtl8723bs/core/rtw_ap.c
+> index ed6942e289a5..82f54f769ed1 100644
+> --- a/drivers/staging/rtl8723bs/core/rtw_ap.c
+> +++ b/drivers/staging/rtl8723bs/core/rtw_ap.c
+> @@ -389,7 +389,7 @@ void update_bmc_sta(struct adapter *padapter)
+>  		psta->qos_option = 0;
+>  		psta->htpriv.ht_option = false;
+>
+> -		psta->ieee8021x_blocked = 0;
+> +		psta->ieee8021x_blocked = false;
+>
+>  		memset((void *)&psta->sta_stats, 0, sizeof(struct stainfo_stats));
+>
+> diff --git a/drivers/staging/rtl8723bs/include/sta_info.h b/drivers/staging/rtl8723bs/include/sta_info.h
+> index b3535fed3de7..63343998266a 100644
+> --- a/drivers/staging/rtl8723bs/include/sta_info.h
+> +++ b/drivers/staging/rtl8723bs/include/sta_info.h
+> @@ -86,7 +86,7 @@ struct sta_info {
+>  	uint qos_option;
+>  	u8 hwaddr[ETH_ALEN];
+>
+> -	uint	ieee8021x_blocked;	/* 0: allowed, 1:blocked */
+> +	bool ieee8021x_blocked;
 
-vim +/fake_efuse_bank +13 drivers/staging/rtl8723bs/core/rtw_efuse.c
+This declaration doesn't have the same alignment as the others.
 
-    10	
-    11	
-    12	/* Define global variables */
-  > 13	u8 fake_efuse_bank;
-  > 14	u32 fake_efuse_used_bytes;
-  > 15	u8 fake_efuse_content[EFUSE_MAX_HW_SIZE] = {0};
-  > 16	u8 fake_efuse_init_map[EFUSE_MAX_MAP_LEN] = {0};
-  > 17	u8 fake_efuse_modified_map[EFUSE_MAX_MAP_LEN] = {0};
-    18	
-  > 19	u32 bte_fuse_used_bytes;
-  > 20	u8 bte_fuse_content[EFUSE_MAX_BT_BANK][EFUSE_MAX_HW_SIZE];
-  > 21	u8 bte_use_init_map[EFUSE_BT_MAX_MAP_LEN] = {0};
-  > 22	u8 bte_use_modified_map[EFUSE_BT_MAX_MAP_LEN] = {0};
-    23	
-  > 24	u32 fakebte_fuse_used_bytes;
-  > 25	u8 fakebte_fuse_content[EFUSE_MAX_BT_BANK][EFUSE_MAX_HW_SIZE];
-  > 26	u8 fakebte_use_init_map[EFUSE_BT_MAX_MAP_LEN] = {0};
-  > 27	u8 fakebte_use_modified_map[EFUSE_BT_MAX_MAP_LEN] = {0};
-    28	
+You should also check whether this is a structure that is read from the
+hardware.  In that case, it would be a concern if the bool field does not
+have the same size as the uint one.
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+julia
+
+>  	uint	dot118021XPrivacy; /* aes, tkip... */
+>  	union Keytype	dot11tkiptxmickey;
+>  	union Keytype	dot11tkiprxmickey;
+> --
+> 2.34.1
+>
+>
