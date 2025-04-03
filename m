@@ -1,94 +1,63 @@
-Received: from mail-qt1-f171.google.com (mail-qt1-f171.google.com [209.85.160.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34FFEBA36
-	for <linux-staging@lists.linux.dev>; Thu,  3 Apr 2025 00:20:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6FAA188A3A;
+	Thu,  3 Apr 2025 01:28:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743639652; cv=none; b=uKwmjkgt/Z9jbI+wmKGkrYjjK3kRJvm3i86rf99rnfF9jM2IhVwKUGGFhtv3ipLI2LzcVD3ONPYop+Ngq9XUHiR0W9GAOXeUNqMi5mvyExeOZoEV8SV3C8PMO4AUjeNArSQGEVh7NyrrMLNvf73M+Gh3KkForcRwEkz54TAooJs=
+	t=1743643732; cv=none; b=fsGNYKlpk8T8HPRN+B3RvZLhi5yZOmmQikTa2z17/vIki8zIRpWyysV2yGnDK9/jYvV17Qu3dQhBSfDlaCzLgqIsuaU/yEE7KYhqcOJYGSZ5r/BUg3KQkKpjTksuyFei7PgkMBLM+mpaxS4+HxehMKjzGn/UP7H2dkpr/zOEKkg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743639652; c=relaxed/simple;
-	bh=YTcWcC3eS5xycxGOwbIpWeqr+3UyjvW4rwYWi/skT/0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=DLvbBeWt4pichV8jbiuzijLXhgJfQcctUA1CUaUjW6fvRFsACRDOu14FOkzbg0rfzAtPbj6y1EGa7XAx5a299EOK2I2cnocuPPMA6ev0i5b39KCDGjDC9Ir+mnRdBtFzmTCn25Yn1j95ZAhFfzfqUcSHrjpYF5VBe/y5f5QKVXk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=l2oH29bi; arc=none smtp.client-ip=209.85.160.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1743643732; c=relaxed/simple;
+	bh=ccnB74Fd9KhiFI9JtoH4zZbb8n9uGUZ8PukgLa9Frdo=;
+	h=Subject:From:In-Reply-To:References:Message-Id:Date:To:Cc; b=WR7qyCDNdk6pUw2aKogGYv5FD6qOtBx+7kWijZBbu7jS3w3KPuCtI5x5g6ZKmymgkIdenkyhIr1sYrp3PjDqmm45hmF8j1Kx4C+t3DEfL1bdJfV3mhnhR7A6pXfJUBRh12DwyBoP4GYPuGiG1BjeWEbx4WD8nEGXU6H+RVks0fg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OTprFSCJ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="l2oH29bi"
-Received: by mail-qt1-f171.google.com with SMTP id d75a77b69052e-476a1acf61eso2911871cf.1
-        for <linux-staging@lists.linux.dev>; Wed, 02 Apr 2025 17:20:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1743639650; x=1744244450; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=YTcWcC3eS5xycxGOwbIpWeqr+3UyjvW4rwYWi/skT/0=;
-        b=l2oH29biNaU2HAqtGVnt4zfzcV/gGLnjqlqy29tKV4s3e47l6ZFzlUpVpwruwvm3Tn
-         EZ2XFMp1cr1z4X5rJB8vQLRohfUmxsyEQs8/e0VbALWB6Lqjax6LfN+eqbGbDOwUDaLJ
-         +fop/Ie+q6+C5Tr42fad23Bk6ZkcEbW8rkdaZReAGc7Ug0IExfCwsu92zq2fUdoVWR4U
-         TWqNMZewMMvsOJEdUlrEBrNXaWmlD/yWttP1kYjhllHg7cu4KA8hpXCjhyl3Knr/7EkY
-         z2Uni6eUJ92HpV6jXW9OeUPucegW/YQ61csnh3zuHVflGsOdxyzGSBummVjzUfnEcCky
-         HhmA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1743639650; x=1744244450;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=YTcWcC3eS5xycxGOwbIpWeqr+3UyjvW4rwYWi/skT/0=;
-        b=a9Ml6acT9il0oJY/UyRSIJS1+AfJ8d1MWaGLzYqXYjlcNMCWTkn9VEEezP+Scq76fn
-         0HzHEzya+VU6UVT8R+a3fj6bEmAEpCLEFZ4ZkXbR+S3gue3w6NpcB0xNFcoKIkAZUPK6
-         lEb7CS+BiM5P6te/UMQ/2ghhZtC2BtrsyK55jbYZmnuOuQI4Z5+Vys0SOrqei1GjWjEB
-         D2T0K6ksN6OW4NcGxDiYQajMAvEuCGwl2xGDB56aw8LackCp7XA1q1F1Em0bAWwwF1uI
-         mXhq7GxrjAUpLz0a0JC4NhvSkAnaIODwXCZ5koXDsvbGppHcIXFPA7MRM5ra4nfkKFHg
-         BTYA==
-X-Forwarded-Encrypted: i=1; AJvYcCXaeEKPxx5lnStdguYkj+pau292h1B95ZWQ+W5Bpo1HKFyIZQvrqFHaehbLb0xrBaYRlkinvgDno5CYre4U@lists.linux.dev
-X-Gm-Message-State: AOJu0Yx1efHqIgYhd80mngPJdDPc/TBxaY+LmmIMi3K/nWKm1b5LRduV
-	I3U9CFnfUIUUtff00CZjjr6Y0vqJHO6cSWRaZaDjpS6fnD+zVApT7KtHIFz3psDd45HCRbE2VrA
-	vUOrp5URoWZ8fNBP2V/x7fGmUTxY=
-X-Gm-Gg: ASbGncuHSX/k/OCmv1QWvM7s9G7GWz4WSbvzAjHLSUVZ52fLuHkuRSxjKAGIbu3dMK2
-	E9cSE6LhFzdUa+y5zDClZTRH+z72T7NuYrGjFqnJ+EYHFi30Q1QqrzAkBS8WEorJMGzAqxquMin
-	9qRFieWDW4tiAMPYeSXvYglpJ2sCdxRl62Em9ca0BeqqTGfp8rjfVnQd11sw==
-X-Google-Smtp-Source: AGHT+IGzwHjTIZKTNeQqWvRvh98uML2RqTMbLoco8WCy7SIhCZDAQ33OpZ5L8LF732RiieS2+vgu9G6uDHb146LBflo=
-X-Received: by 2002:a05:622a:1446:b0:476:7b0b:3110 with SMTP id
- d75a77b69052e-47909f79ec7mr78348071cf.20.1743639649908; Wed, 02 Apr 2025
- 17:20:49 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OTprFSCJ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8A669C4CEEA;
+	Thu,  3 Apr 2025 01:28:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1743643732;
+	bh=ccnB74Fd9KhiFI9JtoH4zZbb8n9uGUZ8PukgLa9Frdo=;
+	h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
+	b=OTprFSCJXOKz2uNcbqxIAfZ1nbS/hz+o5cPSoawAY8Yi+W+XksYBOEFi1hQCNCgOv
+	 +5okWnCrDrxYpjkRCmvYb/4SSVoEYuC6AwKs/BKEAgbEpV4PGTaWBnao16W+Vsmz8m
+	 j2yRRhaAGengkrpPLmsWJ37ldbfzqxOO4SynelG3p8iClu/c6abAVn07DcLhYrtsN/
+	 uKt4Jyt/IrLbjLxk1Z0NL94WPQYv1IfziPcgRhJnECWWbXEf2tpJUin1o2c+S3YUW3
+	 gAqvewMD5o90BJLJkUDk43v46jYNQHqmkVAl+5RQvLXnaMLOwb6WU9x1U1DZ2BxxmI
+	 FHw+sRFDXUT6g==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id ADF57380CEF1;
+	Thu,  3 Apr 2025 01:29:30 +0000 (UTC)
+Subject: Re: [GIT PULL] Staging driver updates for 6.15-rc1
+From: pr-tracker-bot@kernel.org
+In-Reply-To: <Z-2XfqNIBsMRR1Jp@kroah.com>
+References: <Z-2XfqNIBsMRR1Jp@kroah.com>
+X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
+X-PR-Tracked-Message-Id: <Z-2XfqNIBsMRR1Jp@kroah.com>
+X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git tags/staging-6.15-rc1
+X-PR-Tracked-Commit-Id: 3b23d31e569ca19b7bf1059760b879f61cd71ded
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: 25757984d77da731922bed5001431673b6daf5ac
+Message-Id: <174364376934.1744561.18386999029027216847.pr-tracker-bot@kernel.org>
+Date: Thu, 03 Apr 2025 01:29:29 +0000
+To: Greg KH <gregkh@linuxfoundation.org>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>, Andrew Morton <akpm@linux-foundation.org>, Stephen Rothwell <sfr@canb.auug.org.au>, linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-References: <20250402135001.12475-1-gshahrouzi@gmail.com> <CAHp75Vc1nB8cDN=OcCJgeti3YNr0Dd4yeKgeSBvR95piLao1rg@mail.gmail.com>
-In-Reply-To: <CAHp75Vc1nB8cDN=OcCJgeti3YNr0Dd4yeKgeSBvR95piLao1rg@mail.gmail.com>
-From: Gabriel <gshahrouzi@gmail.com>
-Date: Wed, 2 Apr 2025 20:20:00 -0400
-X-Gm-Features: AQ5f1JqsvGSzKWOas4Sgn9LEyx6jBvrZcC2qazVUaWvDVj5nrhnApX3foc-ewxI
-Message-ID: <CAKUZ0zJ+N9BoxZVnkGnFhH00yZJKP9b+Dnp5oTwv0N5gZKSW1w@mail.gmail.com>
-Subject: Re: [PATCH v2] staging: media: Fix indentation to use tabs instead of spaces
-To: Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc: linux-media@vger.kernel.org, andy@kernel.org, hdegoede@redhat.com, 
-	mchehab@kernel.org, sakari.ailus@linux.intel.com, gregkh@linuxfoundation.org, 
-	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Wed, Apr 2, 2025 at 10:37=E2=80=AFAM Andy Shevchenko
-<andy.shevchenko@gmail.com> wrote:
->
-> On Wed, Apr 2, 2025 at 4:50=E2=80=AFPM Gabriel Shahrouzi <gshahrouzi@gmai=
-l.com> wrote:
-> >
-> > Replace spaces with tab to comply with kernel coding style.
->
-> Still 'tab'. please, capitalize it to be 'TAB'.
-Whoops.Completely forgot about this one. I'll have to reread the
-thread or write it down so I don't forgot in the future.
->
-> But wait a bit, the driver maintainer might do that for you whilst applyi=
-ng.
-Sounds good.
->
-> --
-> With Best Regards,
-> Andy Shevchenko
+The pull request you sent on Wed, 2 Apr 2025 21:01:02 +0100:
+
+> git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git tags/staging-6.15-rc1
+
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/25757984d77da731922bed5001431673b6daf5ac
+
+Thank you!
+
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/prtracker.html
