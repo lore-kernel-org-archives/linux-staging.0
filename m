@@ -1,62 +1,62 @@
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A98F524E00C;
-	Thu,  3 Apr 2025 13:27:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9370224CEFD;
+	Thu,  3 Apr 2025 13:27:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743686842; cv=none; b=BZfOwIbY/n5Z4bPynBwVodsZ/DZ+AQjllnAq/g48N985xYvpVIA3+lZuW+WEzRSU7fynm9IAtYl+BCetbNFYXpyGX+USU70kcUc7yQPU3iZZOSF6e8jK2tbN3R/Q+o6PgjonzUQqnxqApHQFHGgsRYyYpXjFYSd2yGFYd+aqQQU=
+	t=1743686865; cv=none; b=gf0yZAJZi4J37KuiZwOPGn4Eyu1zxxX8a4kDLigZ5xXsK0+j6plrJhhv0mbeOR4/UQGjT9tGDAwGvJ9rZMCtzan+Dhe/kcTOGduWX9OEAx2zFeA55riXXCU06bWm5/qMaw2BzMd6IQr91eaENMWx3Mk4n5VRmrOSIT7dOHlTDGk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743686842; c=relaxed/simple;
-	bh=bVf8sNtlOPiNtnb/QuJiBwy6O37jwESn47YYpAmQjV0=;
+	s=arc-20240116; t=1743686865; c=relaxed/simple;
+	bh=3lqEc9rPy9OYJRQBlojfZPpuIi3iFAtcMjxPrU7z7DA=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=SG6OoXR32v27nwuDD8ZGbLM7ei/zTpe9HIaorQsH831DuYwE+I1JLl4YsNURoIr8U2Fx9Mw99e+Y2z+fNKXcA3YbtkxKXtNSjtP5VN+TZZVnb7bSw96cTLBaXUKBsQIeEcVKieKUphaXPk7E0u0hG6fLKyead9G8BHsdpRFT+dM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HN77mq+C; arc=none smtp.client-ip=209.85.128.45
+	 MIME-Version; b=qves2atO4ggH40g3YouKyCbx+TJILTfflDHQ8l+aeDBPS4vbVA9Ye5IAFtqxk3YQKZEe/+s0z31vuHmSsKcs63dk6GNSpBMVGiLljHeRLrw1hxj4gkprmkUNAydRCS1pRIcQQjNJI7Pwz392YX2JHr6cA55z+ek2LvuBOqqNHa4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XOxbrQRQ; arc=none smtp.client-ip=209.85.221.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HN77mq+C"
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-43cfba466b2so9089115e9.3;
-        Thu, 03 Apr 2025 06:27:19 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XOxbrQRQ"
+Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-39149bccb69so776835f8f.2;
+        Thu, 03 Apr 2025 06:27:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1743686838; x=1744291638; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1743686862; x=1744291662; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=wtb38M7XPfK2ABPkqM2/N+HipjT3AJdIZ5Gc3Kb76jY=;
-        b=HN77mq+C/8sO6iLtGNjpZ5G7D8nTm25rB+gkqzvQ/uQ/k8V3xuYBIOVTBes7Zbznnq
-         NqZyWwmC0M3F2Ixe0721ns6iyQ99A/KvvKs/5aNkPGc9zeV+qO3+Fnm6ubfS3Os9W4A7
-         v7XMgOWoM+pJBdt2g9VS40IgRnd1kqjDb62eZLBfnidj6lCgdyLt057Qt45AOBZtjGQT
-         G09UHH5kGyXoS3QoXL3kHzGEUzx2w4EPt19zfwP9aFBTpAlhlFfhwbD42n1Yxx7XMEzY
-         rpPRjj62jLrhun6wj+mGZvh/4og3kW3p/xkEwaIHVoj9PXBS9WlscfO2frFoSCtOwvgX
-         UOGQ==
+        bh=Dp5nBsd/DFr5VpeaYg8UHTlBPWUcWv/79+vKJ0EyykY=;
+        b=XOxbrQRQavl+T55nnWdCUQfxbwqAEA8OemUFztFebDVKLShmmRKV4HpBBmUyHaaIpe
+         QxPPZZBxiKbqKqMZUuP/Dgp5FV+MdUGx5RT32aRja5Uo4PrXdvptyJRTbm57zZaKmXuU
+         Ta7oWFSsPV39eZB/GEUWH8yCD+0M4ZO7UWo16Mye1YOp7pYXAXv07n43++3jxa1gIpWL
+         Q1uI6U737BS4TZNPSoFiZ3XTFL3ie09FdnGTGY9bMFG4p9olgqgJ6qFh1wSj8My4G8PK
+         RypGDMSB6Z/DMdCoxn+kTAVHSJ1FUqmq1SolPVsl0MsoNXRElkcMgOHK/+hKFwdsmnyv
+         qojw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1743686838; x=1744291638;
+        d=1e100.net; s=20230601; t=1743686862; x=1744291662;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=wtb38M7XPfK2ABPkqM2/N+HipjT3AJdIZ5Gc3Kb76jY=;
-        b=HyKHc3hBfI6le/RZptrFdJcRlnT3wDuwEIVTlfXQF+9bhvaEuACf9GETRvvXm47H1U
-         keOFLkTjZOBjATNJPo8EEAyyhmh1wq6C874jaz6q1X5aX5HI219KdIdHdD3eSNsQltrD
-         o3w7rmnNlqiqvFicxNQCIAMmgnfldnudiikz1HKdUQRVXer7DQ8sseA6IOG6mgDze+jp
-         DTFmRoKsRW8w3TNJnbsyOz6p9Xtw0B++OMe6SFZdwDnjIPO1cusI5R5nPM+0M45EHkn9
-         PliKq2OQMW69mlQI5SYXdRFOJHiHNZqVlK4YMnoQ+bsC5I+g+OoFnOdUsqJ8RIfLPNdV
-         iBQA==
-X-Forwarded-Encrypted: i=1; AJvYcCWxA1CrSo3hZQOu4eM9SNI9LTcvDIQ0zLcuUmS99zUcmKWK9eUJu3jFlPUPSQNDttgCm9SreRaqH/rY4bVb@lists.linux.dev
-X-Gm-Message-State: AOJu0YwQ9C3pYTpKZy/0Zzbbxhfri6QaumH900ht+4kXL4aruZPHb5iD
-	TsnA02bU8zsKLy8JUKLN8C8HiNIX54FY6qBiLKVaJ8eEvx45+jWd
-X-Gm-Gg: ASbGncutaBeMykdWfMyw8BGfpLwCZC2sWZUpMzWL5/kmDGaFcf3O3jxiuA+7bvqcMJi
-	nRH2gH2WrnTq2IWepnfke2SP7j2cRpd72ha3K86x68OP9JTXV4uffUhs1/7y80DP0C/cyiAUxuI
-	0+1uuS+4OiObr04nDQGJyoursHMwq1LX5DoyfE/ycyvlv9dSXFqBkQtL+LloAlmGWL13IYeaK55
-	ubqGw0OiCEkMeI+2z9HlpNgUBoxTY+wlOq9qLiU1fQldDQro0Bco1TN83TiT9qV0SGZUWCfhRkq
-	McW8ip0/L6dJ88gibB5mEQqLhTZo8j+IOnlBCKwmZqA=
-X-Google-Smtp-Source: AGHT+IEWrpNwkQmaE+F7DT2RwdWz5IQFeLuSWWcZCSMqyoShcSaTPUbro2aUdBJ7nPmipn5q9X16tg==
-X-Received: by 2002:a05:600c:35c5:b0:43c:f575:e305 with SMTP id 5b1f17b1804b1-43ec1397af4mr26286315e9.8.1743686837648;
-        Thu, 03 Apr 2025 06:27:17 -0700 (PDT)
+        bh=Dp5nBsd/DFr5VpeaYg8UHTlBPWUcWv/79+vKJ0EyykY=;
+        b=Y1ln8DZdyTqa+dj91JX0UW6qoym0GBD86XI+3QbGRvXDMf9sEe2KiStmoA1bnaVzZQ
+         YY+mEk8Tr4wTX9afUHrDbveOUWN+w7uuUgIVIudx6kO7PUlNnasbETt6MoqymrcQfbHB
+         W+uF/Tnodu+5bIspQijCpeJXVXrbud56FNDLBBMWRfPkcOt5sDuhKwjXDi0XkVZIXhhw
+         4BwIFaY0CSokwQRHTHEMxLamvLFFOhYRTz6tqIZIu28Yuxbbibh2kCM++pVMoYVRgFK0
+         WPmSdQqXPAyJ2ab5moWivnINncRpe+54HFfsd3IhfBrBY+7wQVsLFo2h+3pRBkyVs0PN
+         I5Ag==
+X-Forwarded-Encrypted: i=1; AJvYcCVUGXk8sJtiZRsYLRuGHPjLBU65HLFq9bSMcdfFunpXeL2EjVGRqiVceJEJXV0ao7aKxnkdpdPC2WbtYrmk@lists.linux.dev
+X-Gm-Message-State: AOJu0Yxq5sbA3CK8iyS5fRlbBZM5xa561wAytiydL8fHjiQjymH/vj7v
+	BVh47n+zuvXiCEwg//Wpg04PZTt2BrmkncdeWhR9Xrhl1EhTNinb
+X-Gm-Gg: ASbGncu6wxp6vUvKXQaXctzopuM+layO/Futm0vfmM6HCP7vUWE7HRA/tTI+U9b9Wsz
+	+rSQSuwoxyd6ZYa6G1c7CyBngZY0ayPllyK/BEYOJZoLICt6/4PknEn0JWAmdAgHM5+ojOBRGAl
+	DZYQIcTHYSJ/oJaDo29AJl8tccP65HMZ6/t/KlY4QRhG72JiNh3odchMxxDmFwOfFq/NQVYlkyZ
+	B9NBuqNM5kZaobYY5Yt20NhMO2yyrxtVibLyWX2rGxhgqlhab5OUKbYJGnlk1upbyI1cVy/l3aG
+	QZ65E4Z9uwRGDyoIco8oBEKB8VjrEWKZy+YEal0FBThIFVh79q58Kg==
+X-Google-Smtp-Source: AGHT+IF8hv/rELd9ZpO2/F3vybwO6WLkSrCgrysuGBoCihWf+/H7dhnQV7G5SP6T1xyX8KA9DX7Wcg==
+X-Received: by 2002:a05:6000:1acc:b0:39a:ca59:a626 with SMTP id ffacd0b85a97d-39c297687e3mr5947919f8f.28.1743686861580;
+        Thu, 03 Apr 2025 06:27:41 -0700 (PDT)
 Received: from HP-650 ([197.210.35.76])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43ec1f27a55sm20532075e9.2.2025.04.03.06.27.16
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43ec36691b3sm18621535e9.34.2025.04.03.06.27.32
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 03 Apr 2025 06:27:16 -0700 (PDT)
+        Thu, 03 Apr 2025 06:27:41 -0700 (PDT)
 From: Abraham Samuel Adekunle <abrahamadekunle50@gmail.com>
 To: outreachy@lists.linux.dev,
 	julia.lawall@inria.fr
@@ -68,9 +68,9 @@ Cc: gregkh@linuxfoundation.org,
 	mchehab@kernel.org,
 	sakari.ailus@linux.intel.com,
 	Abraham Samuel Adekunle <abrahamadekunle50@gmail.com>
-Subject: [PATCH v2 1/3] staging: media: Remove duplicate NULL tests on a value in pci
-Date: Thu,  3 Apr 2025 14:26:41 +0100
-Message-Id: <26990d4a9d4419f9d4155a40595bc213acb671a0.1743685415.git.abrahamadekunle50@gmail.com>
+Subject: [PATCH v2 2/3] staging: media: Remove duplicated NULL tests on a value in av7110
+Date: Thu,  3 Apr 2025 14:26:42 +0100
+Message-Id: <76351e135cf7ec4d609e60461bae4ba6d3c3a445.1743685415.git.abrahamadekunle50@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1743685415.git.abrahamadekunle50@gmail.com>
 References: <cover.1743685415.git.abrahamadekunle50@gmail.com>
@@ -93,22 +93,30 @@ Found by Coccinelle
 
 Signed-off-by: Abraham Samuel Adekunle <abrahamadekunle50@gmail.com>
 ---
- drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/staging/media/av7110/sp8870.c | 10 ++++------
+ 1 file changed, 4 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c b/drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c
-index e176483df301..0abac820299a 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c
-+++ b/drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c
-@@ -1292,7 +1292,7 @@ static int gmin_get_config_dsm_var(struct device *dev,
- 	 * if it founds something different than string, letting it
- 	 * to fall back to the old code.
- 	 */
--	if (cur && cur->type != ACPI_TYPE_STRING) {
-+	if (cur->type != ACPI_TYPE_STRING) {
- 		dev_info(dev, "found non-string _DSM entry for '%s'\n", var);
- 		ACPI_FREE(obj);
- 		return -EINVAL;
+diff --git a/drivers/staging/media/av7110/sp8870.c b/drivers/staging/media/av7110/sp8870.c
+index 0c813860f5b2..65842dd559e3 100644
+--- a/drivers/staging/media/av7110/sp8870.c
++++ b/drivers/staging/media/av7110/sp8870.c
+@@ -508,12 +508,10 @@ static int sp8870_set_frontend(struct dvb_frontend *fe)
+ 	}
+ 
+ 	if (debug) {
+-		if (valid) {
+-			if (trials > 1) {
+-				pr_info("%s(): firmware lockup!!!\n", __func__);
+-				pr_info("%s(): recovered after %i trial(s))\n",  __func__, trials - 1);
+-				lockups++;
+-			}
++		if (trials > 1) {
++			pr_info("%s(): firmware lockup!!!\n", __func__);
++			pr_info("%s(): recovered after %i trial(s))\n",  __func__, trials - 1);
++			lockups++;
+ 		}
+ 		switches++;
+ 		pr_info("%s(): switches = %i lockups = %i\n", __func__, switches, lockups);
 -- 
 2.34.1
 
