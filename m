@@ -1,96 +1,133 @@
-Received: from mail-qk1-f169.google.com (mail-qk1-f169.google.com [209.85.222.169])
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F04F5611E;
-	Fri,  4 Apr 2025 09:05:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4038B1A23BC
+	for <linux-staging@lists.linux.dev>; Fri,  4 Apr 2025 09:06:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743757554; cv=none; b=ESJCybXM9GRohH2VL4+yVmXmZigQ9LCro/hjnl70q+ug5J4lFSh8/CpgQaTsig2V/7vvYTRXh3zMH2WLiaGf8NBoagGO/O9Vih8RcoxRLdd1eofE4my2XlriJL4IiaV+c+lyA6Jz4MLJqk6riZT2oxEJow7r3f5aFdN6uET+bak=
+	t=1743757612; cv=none; b=aOgxZqXusPegKr8m+ijRCp0fAuyngMxV8psGdTX5rPgo67dB8m+u2M+mLA41i5ZCLACZ7SrGVu66+p62FuL64zc5LXLE7O7wS18bwdXL8VvUaCsFvoUkKA8DS6AjtsvJ9m8XnAHinrcnRkRupiEBTUYe4/yqun0F0CMA8oFOa38=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743757554; c=relaxed/simple;
-	bh=uhKMFNAVbmR4Kr/0n24Wq5pDZu2LhHwS5o/4unQpAXU=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=EF6i6z8zGfDZR0QD3Cdw/f3Rr025ExOQpm13SK1/Pe0o26NBQMRWzHIaWtp+aNToK2VveVuCR9wvzllvjz5IDz1WYzg980svpb1DjQQhMEy4xoYE0IQAgEIWpIBPTQUCEHmknmbouONXAEMEed/mxYkffrL7W+jYHlnU0oHPilI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Zo2ehvDb; arc=none smtp.client-ip=209.85.222.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1743757612; c=relaxed/simple;
+	bh=LiQ46ouCDxXoz7PhA3FK5YU4CmrYA+nC5a7ln5wLKao=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=bh2dI41BpjMi6gXW6g2KjzM4ufoz1OWsBYskxHP5hU/bAR3E6/T1ZTOstUocton03ywgJkK5fnMpD++zftQdGpHHhNVJas7yoFF2PSBe0i8XwZcagWwfmIXH06m6UFzOEAlV0U559sSy65wAfXrbT1B5BGczKUsFr0HCY8+3SXE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=xKDpV7Q1; arc=none smtp.client-ip=209.85.128.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Zo2ehvDb"
-Received: by mail-qk1-f169.google.com with SMTP id af79cd13be357-7c5aecec8f3so261996585a.1;
-        Fri, 04 Apr 2025 02:05:52 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="xKDpV7Q1"
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-43cebe06e9eso11422725e9.3
+        for <linux-staging@lists.linux.dev>; Fri, 04 Apr 2025 02:06:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1743757552; x=1744362352; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=uhKMFNAVbmR4Kr/0n24Wq5pDZu2LhHwS5o/4unQpAXU=;
-        b=Zo2ehvDbceNParQ1XolxZKAu+bsCP7NwrUM6vULyCj+y5keF5yOd9Gfx0OaLlMrp8d
-         RkQTUgtL7g/GeXRBsFMVxCpKOc9j49UtsHBaOynGBZeNZMoG48LkZUnJF4cLQR44AqT3
-         UxnN/jX1EHLHwDULS/dUyNygX9BqwmOB40WGf58kqX/K82cH/I3EinPduzdZsovk8qtk
-         2nwFS1RAw2S1Blj5GZywD7Ba4n9lqz51sF0U24jD8Wx442qx0Gi1BW2kiIaBT+zx0ilc
-         aphQAOfK5K2mcFh+R/+7rV4+qpvuXrcsfq+vNxx3fMm6ot1Cdn8tuNAdJgcC94LW4oc9
-         K2xQ==
+        d=linaro.org; s=google; t=1743757608; x=1744362408; darn=lists.linux.dev;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=SNN0dd0sba8DZbYpxdoTa0gXIaWxVL18lbiCGdG4AkU=;
+        b=xKDpV7Q10dPk1Q7y1De2hurTabKi6vjW7PdSCo/SsdVCeaJiXmCKUFP0mNebo+fLMK
+         yqDySVUXMQt4BaTg6c7ltufJR6LdU1ktrTmT09BepiN7umwXbo0LRe4tIjb9n2BFjFTt
+         7GmdujSg9ho2rzm3lBBV9t7p8ezMBUzGGWVhZh+SCIkVKNzNrcq45eWQFNQm4YfiGHul
+         arOh8RadO+rtLYDKhpeoc14GdDxaGRAOahve8JJb9rFVPHpFcR45iXgLJLwz27mF/cmu
+         NqDmeq8aHKA0sl799qKqbd7Rqg6Mg6fS7WJA/x5U8UNEoPw1YGuuy/LdFxfgrjzBgDuP
+         1oFA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1743757552; x=1744362352;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=uhKMFNAVbmR4Kr/0n24Wq5pDZu2LhHwS5o/4unQpAXU=;
-        b=ZrtIwZM5V1Fveij3C5EmedwxUSQh83l4bMwLCu8+ZncX0BUxTu2inVc1LeTgDXIst1
-         CuvSlByC22Nym6TS7BXUPKncUVcJk2nio9eUH7M/Ywd1b8+KPXQ4BODYIlaJq7kUGL4a
-         JmWhwJyBztB4sphu+8kdo2EndM8WOGtdA2GjdcxeR5XAvUBVy1uE5/TEIxkDvZjR8d0Z
-         CJ7BvbAvbmOxvRckwN++NI3y43HzqXtX/+jrlJmsGuUyiGGnGk6RgUx67eFTK5i1I4Ze
-         kk0EaO4JaUNnBGryoXIlrUeKQa3cpi1fK/iTEdoeiG6T6WlvlxbwLLbWf5XcGVjyL7sr
-         hnLQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVuIxW3pon/xCc4qrgtI3/db8ZxA7FeUbtGMc9RmYkuUUEgImhWGqyEb0YlWeWUzdqS2NWMxh49WazdMJ9vuF+qmxeiiA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YxkPGYrMxSJFTLJQulvM+ogbREPzyt2XzQVrKJQwzFLlp1sfK1e
-	CLAyZEynNSkhaRQ2NlKe8/U7i+3pW8jA504/5/gKCB2NI0Euium50orGw2nF0241ccAqgYlHwu9
-	KKYA5xSow5KTAWXBONbED8QfHWtk=
-X-Gm-Gg: ASbGnctKY7YOyM63IBLIG/agoZkE3VKG6pdsZ61phH/TQN8+JetzWZ9F9F3F0Gj6iUr
-	F+kNJwy0Mr3loaY8RTKsN3uj6m0GATLZldyojM3luyuHwOMBD5MkscsnuxKJR4ju4V+MZ8DlVij
-	XPb4smZ8QgBF6GUEslvvfyeV6LpCCFrl36L2+CHljvmE4o7gQ8AJRhlhLS
-X-Google-Smtp-Source: AGHT+IGeB5gy3Bxye7z2MQOfNjxPTBd6g4r626j11K+xJvAUfHLE5a3OVvVAhRJh35DKi5LecvLM+IdQonxpnOsRMcA=
-X-Received: by 2002:a05:620a:1a10:b0:7c5:57cd:f1cb with SMTP id
- af79cd13be357-7c774dd6ed6mr310719385a.37.1743757551749; Fri, 04 Apr 2025
- 02:05:51 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1743757608; x=1744362408;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=SNN0dd0sba8DZbYpxdoTa0gXIaWxVL18lbiCGdG4AkU=;
+        b=jEjk5NP2e9/QWAlWaqs+10EgJl2BL8p8jx88X1cuVNE8S3MjGaLrUKFZNBG9IUWVR1
+         ddQVZiWBT/uLZW3n0lW02tS34dlr2iKPnnewfplImUP3c7b3ey7XQF6cKJG0shTCs+F5
+         69kg4SHEY5eqxnePrkbMlhqkzFcbc8nrTS0fCljzJ0v2+PxgrQBzzvy2vBpZwSOflphq
+         ChcgVdrJuJUi7cyNuGWWMfsLLIN2j+EyKOmVF8t8qt/cymNJ9k+IfzHJGS8T89++uGmY
+         TaWcsb9R87e4geAP60WRU0ZQ66vY8nu8P65pc1WK/hd199VBmEzrKdJMtMf3xlq8SqxA
+         QazA==
+X-Forwarded-Encrypted: i=1; AJvYcCWfY6fEMjdqr1Ve2uH6ZoUEAzC5LSfm8Nkm8WqFCZQW5xUS82H4VOXYuWgJ10KkHyJJzKZPj7x6gDOm1nVE@lists.linux.dev
+X-Gm-Message-State: AOJu0YyaJMuJhs+JeyHSHvGx/HwUoM0FhwGjS1x6+pM0HjMEfP7C46iJ
+	vcUJqy6g4sV4uJoMEPRQYWylXMS2fM9Hk087qFuLNh6QhqS7/8vvcTgPd7ttJpM=
+X-Gm-Gg: ASbGncuhb8xI0bgjgQFGxzHZJ+BCnwdP6/75SozVJL/jz/nf0n1tIxGhbOYdLcN1Cjt
+	dOQMWO0O+M26DYIIrV6O1FZ6nSIi+rxmP2Nbtv9gtvhkUlmbe03bLvi4vS1bojqYpIReFRDBnQA
+	0B2/6vo0fewlCPUfJGFvMSP2YEisxyCCS62oxVCfzQ+CuwuF2GcIWv17ueE951o06qEUyFZgg0m
+	HvAjG0QnLWKdyJwTWa7i10CNyLWhnCGzUTod8QzY4+xOsRs9Q/WSccwVD8Fc5xb/cEUQj5bkrh2
+	Gahgi87eLHwf12ritApB1rHbMe8wLGB+VQHFtxc11dlGGmTgTA==
+X-Google-Smtp-Source: AGHT+IEs4WAr/WvRqznAIBqenfGhWasugs8mzBZR/+3rbAiz8TrwlXeYTlnArjanLukZutn4NE/qlg==
+X-Received: by 2002:a05:600c:4fc6:b0:43b:cd0d:9466 with SMTP id 5b1f17b1804b1-43ecf86ab8cmr16814825e9.9.1743757608406;
+        Fri, 04 Apr 2025 02:06:48 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-43ec342babfsm40758585e9.1.2025.04.04.02.06.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 04 Apr 2025 02:06:47 -0700 (PDT)
+Date: Fri, 4 Apr 2025 12:06:44 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Andy Shevchenko <andy.shevchenko@gmail.com>
+Cc: Abraham Samuel Adekunle <abrahamadekunle50@gmail.com>,
+	outreachy@lists.linux.dev, julia.lawall@inria.fr,
+	gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org, andy@kernel.org
+Subject: Re: [v3 1/1] staging: rtl8723bs: Prevent duplicate NULL tests on a
+ value
+Message-ID: <33a8d769-33b9-43df-9914-99175605b026@stanley.mountain>
+References: <cover.1743723590.git.abrahamadekunle50@gmail.com>
+ <6fe7cb92811d07865830974cb366d99981ab1755.1743723591.git.abrahamadekunle50@gmail.com>
+ <CAHp75Vem1E9wmmfXWsbawj2f+F=UkfzML7HyAnhTdsUqvjW91g@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250403160807.100057-1-gshahrouzi@gmail.com> <2025040429-avenge-camera-8d88@gregkh>
-In-Reply-To: <2025040429-avenge-camera-8d88@gregkh>
-From: Gabriel <gshahrouzi@gmail.com>
-Date: Fri, 4 Apr 2025 05:05:00 -0400
-X-Gm-Features: AQ5f1Jo01_JEw9ySJEDjCel8vQNe5KvQVh0WsMLpEgdBI48FpmeYR0ubmuhUQR0
-Message-ID: <CAKUZ0zJzNinEqQLVH8o-QKYoZ99VWum-Qtfr+rGNytK44Zzdyw@mail.gmail.com>
-Subject: Re: [PATCH v3] staging: rtl8723bs: Remove trailing whitespace
-To: Greg KH <gregkh@linuxfoundation.org>
-Cc: linux-staging@lists.linux.dev, philipp.g.hortmann@gmail.com, 
-	eamanu@riseup.net, linux-kernel@vger.kernel.org, 
-	linux-kernel-mentees@lists.linux.dev, skhan@linuxfoundation.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAHp75Vem1E9wmmfXWsbawj2f+F=UkfzML7HyAnhTdsUqvjW91g@mail.gmail.com>
 
-On Fri, Apr 4, 2025 at 2:28=E2=80=AFAM Greg KH <gregkh@linuxfoundation.org>=
- wrote:
->
-> On Thu, Apr 03, 2025 at 12:08:07PM -0400, Gabriel Shahrouzi wrote:
-> > Remove trailing whitespace to comply with kernel coding style.
+On Fri, Apr 04, 2025 at 10:53:22AM +0300, Andy Shevchenko wrote:
+> On Fri, Apr 4, 2025 at 3:03 AM Abraham Samuel Adekunle
+> <abrahamadekunle50@gmail.com> wrote:
 > >
-> > Suggested-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
->
-> As far as I can recall, I did not suggest this patch :(
-Whoops. I misunderstood. I initially thought "it" meant the suggestion
-for the new patch revision. But thinking more about it, that would be
-redundant, since that information already exists in the previous
-version's thread and could be spammy with many reviewers.
+> > When a value has been tested for NULL in an expression, a
+> > second NULL test on the same value in another expression
+> > is unnecessary when the value has not been assigned NULL.
+> >
+> > Remove unnecessary duplicate NULL tests on the same value that
+> > has previously been NULL tested.
+> >
+> > Found by Coccinelle.
+> 
+> ...
+> 
+> > +                       psta->sta_xmitpriv.txseq_tid[pattrib->priority] &= 0xFFF;
+> 
+> > +                                       psta->BA_starting_seqctrl[pattrib->priority & 0x0f] =
+> > +                                               (tx_seq + 1) & 0xfff;
+> 
+> > +                                       psta->BA_starting_seqctrl[pattrib->priority & 0x0f] =
+> > +                                               (pattrib->seqnum + 1) % 4096;
+> 
+> Logically it's obvious that you need to align all cases to have
+> consistent approach.
+> Besides that the commit message should mention this change. Something like this
+> "While at it, convert '& 0xfff' cases to use modulo operator and
+> decimal number to make the upper limit visible and clear what the
+> semantic of it is."
 
-However, providing information on how that idea first came up is
-useful, since that origin story doesn't already exist on the thread
-(countering the base assumption that you alone came up with it).
+No, I'm sorry but that's really against the rules in drivers/staging.
+Don't mix unrelated changes into a patch.  It needs to be done as a
+separate patch if we're going to do that.
 
-Separately, I need to make sure to use the official documentation for
-tags instead of relying on Google searches and third-party
-documentation.
+To be honest, I don't even want people fixing line length issues or
+adding spaces.  I would have accepted small white space changes but I
+prefered the v2 version of this patch.  Once you start changing
+"& 0xfff" to "% 4096" that's not white space and it must be done
+in a separate patch. I use a script to review white space patches
+because I'm always nervous someone will slip something malicious
+into 100+ lines of reformated code.  It's really fast to review
+patches with my script but once people start mixing things in then
+it's a headache for me.
+
+Also if the change accidentally introduces a bug, I want it to be a
+one liner change and not something hidden inside a giant reformat.
+
+regards,
+dan carpenter
+
