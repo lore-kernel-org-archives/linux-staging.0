@@ -1,62 +1,68 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30C311F709E;
-	Fri,  4 Apr 2025 15:52:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4328313B2BB;
+	Fri,  4 Apr 2025 23:33:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743781962; cv=none; b=gwYqE+RH3psIdUSqpysIGHLhZIARYfAFMrIawsx02m665w25qTWGj05d9daOYzaj8b6SNVLt7X5mlhp8YykWnphMy+jAsEiPSTDCMkUKHqTfYSLaaj4ApY0z9967WDXXroS9czwP2g3x7sksoKnPrxA+zsOV+KHKXPfbFMZLC6k=
+	t=1743809603; cv=none; b=r1xMMYEMSbNVbE2kk3FnQHI5iwcAYhZN/76v1+ZVM5EOW1cL1UbEhXnVs8dHx1MSce/RrZtZDNW6vOPXJnvUoK1ur14Zvlvg0eyKObVLZACoX0QsV2lSX8N8wl1rV2Uyfxq0LqCRq63LGfjeY1qy4Km2a+Iu+zwdE9IcZfzf62c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743781962; c=relaxed/simple;
-	bh=tLRjeNm3Sp+VIbaFEFA1cn56qdH8vBzWktqZzoueS18=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=piPFi2/ULrqxo9PFshyTeDKeN+ujrUL4oV4HYuASN6qp6ZI96jYRwhKhzid1v9FxiX/U0C53TMAXPritWazZcVNa1SynIIip055YvEQ/v5tYoGfsEx2SFJBw2tnipHfOtoKbVfhzfLzR2TyQj7SFjmfHs2h9ZaKsX0++UN0/9W4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QE46X89S; arc=none smtp.client-ip=198.175.65.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1743809603; c=relaxed/simple;
+	bh=F01ob2aLQ3liUe4JNIsCv844jx2uuMudGq8B5gfh9E8=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=q2KHGZPItgMc+EBr15tMrb5KzBq1b7DkomAIGG1LI/tJS1pmTeshVxxBpcDLolDQ9YvI4zlr/Q4qyH5TCORF06bTx3GmI9fN6HGcod3soB2zGCrsZ7jlX2VCVl07xoUr+7CGlTzOKGw4+3rMnPgIKCEAOlAbWOLA8mBNwpjZS2s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DYwdmuL9; arc=none smtp.client-ip=209.85.208.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QE46X89S"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1743781960; x=1775317960;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=tLRjeNm3Sp+VIbaFEFA1cn56qdH8vBzWktqZzoueS18=;
-  b=QE46X89Sf8KGR+OluQyng+CN/fUgO/ZZZjurkoJ8jOWxzf4HFxUJ+DC8
-   jntYXgVnGBfAnKGIGNPgVrEWKGOFN9oppcILCaf7jRRvONJEKwhhH4gIw
-   qA+EoC2f9vz0cNDfaFytLLjygdQfqEkcKTXR/qKTxuZPqjvQGBte/FgYf
-   x+fimd0twuvL/AYgKR6d4KBrH+5A24PnBMcfKo/2G8emaPPjwPgDXqtGj
-   4ZoCy4iP4mZaHgQ2uM1y16KnQGGr/r9F8iRB26kn+k534c1xrD9pAOfQP
-   PPNEW9II8nouaDRlxH99vuCVFhurNG4Ckd9QkH3kgVf/yNlQw0He70zNZ
-   g==;
-X-CSE-ConnectionGUID: BE6NE+UIRyqZnQNU8Rruag==
-X-CSE-MsgGUID: tRhslTjXS52nFEu4w04/Pg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11394"; a="67698345"
-X-IronPort-AV: E=Sophos;i="6.15,188,1739865600"; 
-   d="scan'208";a="67698345"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Apr 2025 08:52:39 -0700
-X-CSE-ConnectionGUID: PyTGTkVYRLWjV/GY60lRDw==
-X-CSE-MsgGUID: tRT3smCcTLGfe0LW12bUYg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,188,1739865600"; 
-   d="scan'208";a="127860931"
-Received: from lkp-server01.sh.intel.com (HELO b207828170a5) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 04 Apr 2025 08:52:37 -0700
-Received: from kbuild by b207828170a5 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1u0jLO-0001Lv-0v;
-	Fri, 04 Apr 2025 15:52:34 +0000
-Date: Fri, 4 Apr 2025 23:52:04 +0800
-From: kernel test robot <lkp@intel.com>
-To: Wentao Liang <vulab@iscas.ac.cn>, gregkh@linuxfoundation.org,
-	philipp.g.hortmann@gmail.com
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Wentao Liang <vulab@iscas.ac.cn>
-Subject: Re: [PATCH] staging: rtl8723bs: Add error handling for sd_read().
-Message-ID: <202504042334.1pXFeKzN-lkp@intel.com>
-References: <20250403093741.2372-1-vulab@iscas.ac.cn>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DYwdmuL9"
+Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-5e5c7d6b96fso4652158a12.3;
+        Fri, 04 Apr 2025 16:33:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1743809600; x=1744414400; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=4EP4z1mChh3kJ48ZHpuKiS3iu2fY6RHMQL3FYeKcgZU=;
+        b=DYwdmuL9/OT215Po+C/FvDxYAf2bNU+wxwwJTMiC+EnyVZmeacdJFFkj0u0lTe6YpL
+         vnYBHU+VYdhAPEbkaE1C7CBKsZHgXloTQQ98wolcVA19aJ5a9umtOgEJE6IJoL6TuPir
+         7kxjYXLGkO+oRWFLd3MIUCKLIp1j6lMTMTljQUf4yv/5SdGGr+6MUV3An2bDjh94mhIO
+         FAT61MDSpPXoYgKG87uJxYatxdLjED9lzbqqrajofALL0E754VbMWjk8rdQ/Uu16HTc7
+         ZsWnHT8WXSidg/9ze6X/9inXavSfhx+VwvW0NSCLTtUOic8iCs+htG/TO8L6zOhA48QM
+         Le1A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1743809600; x=1744414400;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=4EP4z1mChh3kJ48ZHpuKiS3iu2fY6RHMQL3FYeKcgZU=;
+        b=ewnVv7OAb/FTfAMwyc0eTW1+ZrTx4VMdvYjoc4uW6m3xd0nSZmlP8bi3piDX/r9CKI
+         Gzg4Khu+yZL60BzqY3h3qgvDyEDEy3x0hQVH1+6vZGgkLlSk3bvB806d0j9ZV5xwcxRC
+         S/4fTMNQ36Nz4ijVAnIsT/Q6Z/Mjb668VMCmKT1SNODMcuXt6wQVWU0Wigvp/rZX8so4
+         tq3d058etDuLHKCbXTytIdCXfqdgFuwWtYYYxOUkEyk6/MsffY54dg8OmQtqguHMmlVp
+         5J5EYg82GAIQAK/AVHDAgmO4i0mOX5SHSTXGY4Cio1D+gwLEG3tyw37bBwwVwvm/RNRJ
+         g4Xw==
+X-Forwarded-Encrypted: i=1; AJvYcCUPJBMWaHvykLYUj6Mb+OQx9d6LNq4MWbdwNlJ8PRQt1lpPyUp7Dvy1sNm6H3WQAYArda0UCq+nujI=@lists.linux.dev
+X-Gm-Message-State: AOJu0YylbRpjfmVVx7nRffzuYlRS3e+SQtXXgOzICqVNDfPeBJ1cSw0t
+	Gpv2PrEM8UWW5AqFijIwSjNj6zWSMnwq4jB5J+EVgs34qxDUPNgf
+X-Gm-Gg: ASbGncs7NS5Pp5LvKStwiHNMzIQ/6KoC1y1oIKdNIGg+Dgi5Ync0ttp4/qkW9zzMYQq
+	AlNQPx+wK/F+YUpkWbgpMEmshdfGm8wJzHd4+4TxizEHY/dXe+zzMm7EuUzxpQZwczayO7k0yPa
+	izh/AJuZubi2nkdn4KB8gtZ7SRKt0686PpyMdgaBCVg2gjtfiST1HHfgtECYo6VFEeAS28+Znwh
+	8P7x4ReGe7SDqEWpr1TlO8VmDP28G9PB/kEgnfvMV5A3d7wKvWdDdLlLv2QCpXO6cyvOdbdEOlH
+	xsi5KANxUtGJiFjgMZBAIowRma4Gz07ZPKn5c37/4jHTSjGIMg==
+X-Google-Smtp-Source: AGHT+IGJ0ANfNXgmMJj0Q1O1O/JVYiWXMA2oa4wpweViwDI5wrLYiU1Dge5Z4oCqR6T4shEd3Ne/9g==
+X-Received: by 2002:a05:6402:2712:b0:5de:39fd:b2f5 with SMTP id 4fb4d7f45d1cf-5f0b5d8b51bmr3718138a12.1.1743809600312;
+        Fri, 04 Apr 2025 16:33:20 -0700 (PDT)
+Received: from ubuntu ([105.112.234.193])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5f087ed1c68sm2881390a12.17.2025.04.04.16.33.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 04 Apr 2025 16:33:19 -0700 (PDT)
+Date: Fri, 4 Apr 2025 23:33:16 +0000
+From: Abraham Samuel Adekunle <abrahamadekunle50@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Julia Lawall <julia.lawall@inria.fr>, outreachy@lists.linux.dev
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Dan Carpenter <dan.carpenter@linaro.org>, andy.@kernel.org
+Subject: [PATCH] staging: rtl8723bs: Use % 4096 instead of & 0xfff
+Message-ID: <Z/Bro47isE8zhcu7@ubuntu>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -65,97 +71,48 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250403093741.2372-1-vulab@iscas.ac.cn>
 
-Hi Wentao,
+Replace the bitwise AND operator `&` with a modulo
+operator `%` and decimal number to make the upper limit visible
+and clear what the semantic of it is.
 
-kernel test robot noticed the following build warnings:
+Also add white spaces around binary operators for improved
+readabiity and adherence to Linux kernel coding style.
 
-[auto build test WARNING on staging/staging-testing]
+Suggested-by Andy Shevchenko <andy.shevchenko@gmail.com>
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Wentao-Liang/staging-rtl8723bs-Add-error-handling-for-sd_read/20250403-174101
-base:   staging/staging-testing
-patch link:    https://lore.kernel.org/r/20250403093741.2372-1-vulab%40iscas.ac.cn
-patch subject: [PATCH] staging: rtl8723bs: Add error handling for sd_read().
-config: hexagon-allyesconfig (https://download.01.org/0day-ci/archive/20250404/202504042334.1pXFeKzN-lkp@intel.com/config)
-compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project 92c93f5286b9ff33f27ff694d2dc33da1c07afdd)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250404/202504042334.1pXFeKzN-lkp@intel.com/reproduce)
+Signed-off-by: Abraham Samuel Adekunle <abrahamadekunle50@gmail.com>
+---
+ drivers/staging/rtl8723bs/core/rtw_xmit.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202504042334.1pXFeKzN-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> drivers/staging/rtl8723bs/hal/sdio_ops.c:189:7: warning: variable 'val' is used uninitialized whenever 'if' condition is false [-Wsometimes-uninitialized]
-     189 |                 if (!err) {
-         |                     ^~~~
-   drivers/staging/rtl8723bs/hal/sdio_ops.c:196:9: note: uninitialized use occurs here
-     196 |         return val;
-         |                ^~~
-   drivers/staging/rtl8723bs/hal/sdio_ops.c:189:3: note: remove the 'if' if its condition is always true
-     189 |                 if (!err) {
-         |                 ^~~~~~~~~
-   drivers/staging/rtl8723bs/hal/sdio_ops.c:159:9: note: initialize the variable 'val' to silence this warning
-     159 |         u32 val;
-         |                ^
-         |                 = 0
-   1 warning generated.
-
-
-vim +189 drivers/staging/rtl8723bs/hal/sdio_ops.c
-
-   150	
-   151	static u32 sdio_read32(struct intf_hdl *intfhdl, u32 addr)
-   152	{
-   153		struct adapter *adapter;
-   154		u8 mac_pwr_ctrl_on;
-   155		u8 device_id;
-   156		u16 offset;
-   157		u32 ftaddr;
-   158		u8 shift;
-   159		u32 val;
-   160		s32 __maybe_unused err;
-   161		__le32 le_tmp;
-   162	
-   163		adapter = intfhdl->padapter;
-   164		ftaddr = _cvrt2ftaddr(addr, &device_id, &offset);
-   165	
-   166		rtw_hal_get_hwreg(adapter, HW_VAR_APFM_ON_MAC, &mac_pwr_ctrl_on);
-   167		if (
-   168			((device_id == WLAN_IOREG_DEVICE_ID) && (offset < 0x100)) ||
-   169			(!mac_pwr_ctrl_on) ||
-   170			(adapter_to_pwrctl(adapter)->fw_current_in_ps_mode)
-   171		) {
-   172			err = sd_cmd52_read(intfhdl, ftaddr, 4, (u8 *)&le_tmp);
-   173			return le32_to_cpu(le_tmp);
-   174		}
-   175	
-   176		/*  4 bytes alignment */
-   177		shift = ftaddr & 0x3;
-   178		if (shift == 0) {
-   179			val = sd_read32(intfhdl, ftaddr, NULL);
-   180		} else {
-   181			u8 *tmpbuf;
-   182	
-   183			tmpbuf = rtw_malloc(8);
-   184			if (!tmpbuf)
-   185				return SDIO_ERR_VAL32;
-   186	
-   187			ftaddr &= ~(u16)0x3;
-   188			err = sd_read(intfhdl, ftaddr, 8, tmpbuf);
- > 189			if (!err) {
-   190				memcpy(&le_tmp, tmpbuf + shift, 4);
-   191				val = le32_to_cpu(le_tmp);
-   192			}
-   193	
-   194			kfree(tmpbuf);
-   195		}
-   196		return val;
-   197	}
-   198	
-
+diff --git a/drivers/staging/rtl8723bs/core/rtw_xmit.c b/drivers/staging/rtl8723bs/core/rtw_xmit.c
+index 297c93d65315..630669193be4 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_xmit.c
++++ b/drivers/staging/rtl8723bs/core/rtw_xmit.c
+@@ -943,7 +943,7 @@ s32 rtw_make_wlanhdr(struct adapter *padapter, u8 *hdr, struct pkt_attrib *pattr
+ 
+ 			if (psta) {
+ 				psta->sta_xmitpriv.txseq_tid[pattrib->priority]++;
+-				psta->sta_xmitpriv.txseq_tid[pattrib->priority] &= 0xFFF;
++				psta->sta_xmitpriv.txseq_tid[pattrib->priority] %= 4096;
+ 				pattrib->seqnum = psta->sta_xmitpriv.txseq_tid[pattrib->priority];
+ 
+ 				SetSeqNum(hdr, pattrib->seqnum);
+@@ -963,11 +963,11 @@ s32 rtw_make_wlanhdr(struct adapter *padapter, u8 *hdr, struct pkt_attrib *pattr
+ 					if (SN_LESS(pattrib->seqnum, tx_seq)) {
+ 						pattrib->ampdu_en = false;/* AGG BK */
+ 					} else if (SN_EQUAL(pattrib->seqnum, tx_seq)) {
+-						psta->BA_starting_seqctrl[pattrib->priority & 0x0f] = (tx_seq+1)&0xfff;
++						psta->BA_starting_seqctrl[pattrib->priority & 0x0f] = (tx_seq + 1) % 4096;
+ 
+ 						pattrib->ampdu_en = true;/* AGG EN */
+ 					} else {
+-						psta->BA_starting_seqctrl[pattrib->priority & 0x0f] = (pattrib->seqnum+1)&0xfff;
++						psta->BA_starting_seqctrl[pattrib->priority & 0x0f] = (pattrib->seqnum + 1) % 4096;
+ 						pattrib->ampdu_en = true;/* AGG EN */
+ 					}
+ 				}
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.34.1
+
