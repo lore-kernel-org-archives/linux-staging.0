@@ -1,129 +1,97 @@
-Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
+Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFC271AF0BF;
-	Fri,  4 Apr 2025 10:53:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D156D33997;
+	Fri,  4 Apr 2025 10:55:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743764036; cv=none; b=GRU5Klg7KrwgRjR/DWnA6X5lNNYPAcw28i0zLRXqKteXtRm63N4L/3tvlvhCTKPj5t4g514oM6YUBI5hvIexg38hjwBuCeOvMMVcGP7MUk/YvnLPHibgzIdkRjHeMo3JwvZQzUWsD64+fA6MzPM9SUpM8Y0vKOU+eZLqXtyd1sk=
+	t=1743764135; cv=none; b=n9tGAcw7tvgIzbmjP9lrLMmOi55CHL138PgjFJUDVC7pHqc/w5YJxCC39W1XlPzXi4B1bvw4SShAfLnm3mXs1xMpDyLmIrnnmG0enGgF0Sx37AP4nPUlT9eKnHQza4GKAT8ppyGupMcQDzq3RlWZtZeLU+0fLUEQT7IrbDKsg1k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743764036; c=relaxed/simple;
-	bh=BZCPedUVcTzEEIOESnFwk8dQ2HdKzUmeXl81sv2UEek=;
+	s=arc-20240116; t=1743764135; c=relaxed/simple;
+	bh=xqpAS31ZBEZf1xiiFrun1Td08VTphpaBJc/wf+7M9LU=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=aVgQYq2GLuVzvspNZvj3xg/XqODWNrU0HTcttMfF4via4+qstU0myLEIZEt09+gdIYBfJZUzOlKYhEkpFbsjmEB5bYSokjjGCiu7UiydTlUi71LNreljfkgMvSpPwciq2m93gDDf8SVcciib8gnKKKvSHJ9TIUirlM/srWgHz2E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BUBVevtB; arc=none smtp.client-ip=209.85.208.42
+	 To:Cc:Content-Type; b=cVuUZ+pd/CxCBQodCDE2HkaEj9+RRZep9nlnj5XwbniG5V1BBEgp6WjjQLcd651gTgsRc7k1aS98rwnkozcGSWpwvU3D0xEiVcsLZ5NbASAUI3nKAPunly+i7RY1eWLJebGlyiVNcbjBk0AysZamliEzMKBH+LA4Xq7Q3+cq2l8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DqYgeF5B; arc=none smtp.client-ip=209.85.208.52
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BUBVevtB"
-Received: by mail-ed1-f42.google.com with SMTP id 4fb4d7f45d1cf-5efe8d9ebdfso3911011a12.3;
-        Fri, 04 Apr 2025 03:53:54 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DqYgeF5B"
+Received: by mail-ed1-f52.google.com with SMTP id 4fb4d7f45d1cf-5e6167d0536so3412479a12.1;
+        Fri, 04 Apr 2025 03:55:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1743764033; x=1744368833; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1743764132; x=1744368932; darn=lists.linux.dev;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=SzoKOi3kQybFr6KxUAkiwvnDG/qKD+NYmi5Me4dtT8g=;
-        b=BUBVevtBgFK/q+foQJe1HLkwgGGd2pOJW3cPOCKLyFhZ15gkt4+gQOdOXQN+miFUAM
-         ErttPphpy6SkXUgC4PWncCRy7sGco78/+JyM0Zoim/qNjJvuU63uCI9LB8+B6ENRAv2h
-         TBffwGnJX1SEEqHobtjIScKwONtsCalMjTWSMpf7yc1L7OGBUNofE0Ee6OkjxwNckVXj
-         KRiCpNYC0dIBlL5hSCLCu9fRs9Tz/RsZCWwwIuhna8r5ZRf2gL4P5e/dtg/BtG8CVDLw
-         Q871TjIg7xK1Tcl9LDGWIopUxkhF4fOJ+6M+ZQujzGbF+L1dIT+mgq+97EWoGY79284x
-         fpwQ==
+        bh=zqE+w6GsaVP58HzUCQPmIwumDxQp6utIDBfgrrVwKrQ=;
+        b=DqYgeF5BxWU3GLGdpR0jvGFwc48U88QrrVU3XQN64keTS6p2mZuPDWsEDMoV792mHT
+         eypAysRY173ikz3M2T5HKOoQCwKZCbY6RcBHOqTVfrGkC1ZXEBViPs3xQ+X7oC9tsALp
+         RNnrq5JJX1QI4SlJhF0mg5+WdtIJdtCeY9jQShJo1woDj+p30btvnUjwMTH3PmHDRzp1
+         blfawIdp5QGlqlvY7XosX1Ecz63lA/Xo9EmNi3H4UXSav7HloGM0V6KTN1ejVnmpjxWd
+         Ej7Dk4XeyWe0TW2Gj6crpWMqmoqFwV3Okw4BaGpeeAcEXhx80ZhKQj6X1JQtZWim4OUV
+         ny/A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1743764033; x=1744368833;
+        d=1e100.net; s=20230601; t=1743764132; x=1744368932;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=SzoKOi3kQybFr6KxUAkiwvnDG/qKD+NYmi5Me4dtT8g=;
-        b=AIroM5vNTb5aP6JuDfAsKJaQvyAJHTMgT91mHZ2AIqdZ3YTNqIQEP7FqZQBeibfKuC
-         YN94tqimMSWo/N5OFCxAVtqDiscRtHyYO2sItZgX91R7/12+018IISc22hJK21LuAKLC
-         jxbtvDA2TxosX+aGM1Hc3VqM4PTTa4oZ2QM9JPY+wNq2o2x8I/2JvssT7nqPnJhhjk5T
-         91DmszhAtrSxdNPdpjBXx2gdp8tDngpDPw2vvL4l53W0DStQgZDko9rK66n7lPH/RCbG
-         mJcYrs52wWS2HKF429GJooDlMSS3R3A66h7IDQ+8rpJWM/FwWsJLDKzsQE1uKHEQPX8Q
-         N5WA==
-X-Forwarded-Encrypted: i=1; AJvYcCUV50LVaaU3zvZhI+aJ//eoi78qkelKBtpgXxcNKd2L0+jO3HTu7eVPKBZSCrJHq0oOnxzba7XKHAsQ@lists.linux.dev, AJvYcCXSUXm6FQgPsQLyY31gfv0CTWJwmTZcIfkD2Yyag4HgNfcQ27uxjG/tWQXeP9r0MKKKhmQw2fMZ3L6/evJS@lists.linux.dev
-X-Gm-Message-State: AOJu0YyB+ZhnzHrMPFk30r6CwsH0VoKBVus0dfQBdCMlh44f5q4a5xZV
-	NQF0wTwNAPBydKSjHyTJvKGdXVFfplHe5MVMLrGUGyai29cf/ovZnPR3aTz8JRjrB56rDou16a9
-	yXs2wfg1ZaLRlyQqzUM0Gg335zbk=
-X-Gm-Gg: ASbGncswDmaL9pxA3MFovdWGhIwetaV2u1VLwNrs3HJw/7KUn8cVFmEh3bqCI6UAAvZ
-	2bDBwCjpkNlzxFUbyZl/RONtHjqeKHcfTbfiBIy3ClTvy+I/WMGlmrhowAlcYtriqCwB63ck2NY
-	LC0CrgmrbS1cVDa/MD1Or8s+eA/CUk
-X-Google-Smtp-Source: AGHT+IEPV8PAptMWDzfSdlSImvE7AO2/uprJzp9c+dI/pYZBjRLhfIX603krWrIhQBVUgvcHx5yh2sq0T5QpfCoLFG4=
-X-Received: by 2002:a17:906:c156:b0:ac7:1ec1:d8bd with SMTP id
- a640c23a62f3a-ac7d190dcd8mr276168666b.29.1743764032815; Fri, 04 Apr 2025
- 03:53:52 -0700 (PDT)
+        bh=zqE+w6GsaVP58HzUCQPmIwumDxQp6utIDBfgrrVwKrQ=;
+        b=ZUJfcPIWeKpKgVOCJG8tPp9OckNUOMvKVLene1y6ZC+QutcGGXamkr29dM6Y5z3SKj
+         dFucZR+vftf10git3jJNkft7nIuShg11AusmxDIK7DMSg0eQsjkSXv7LdT/pOa2Feml/
+         hnSy143s/dKwjZr00DNNy9Oy2BCWlDX/G5o4XIYl3ctr/GYUs4SRtbOVQeOnJ3HOlJ1x
+         44a6RBu1LySXrZG/t4cDryTkXK0h+5zFz2n7MtUDZZmuNa/v9hkm7N92qNYwv20KOXQl
+         bo53MpIUuwFpfTcO9E9fGIP591+8wS+8Lue3SddtqEMsmQBqW/1TTr1Um4UVrG/+yh+E
+         9jmg==
+X-Forwarded-Encrypted: i=1; AJvYcCXy0+/yWg4bCml7lGssoaFKDQdBVFTyE+RneB0ys6NLwinagvlbpzhkVfHXiJeYSAS4ekXN/ZpOS+rJCqdy@lists.linux.dev
+X-Gm-Message-State: AOJu0YymHBOhf0m/DnW1K5Sz8eejGrQnoGpeKzFia4257Rm+pgYgtckt
+	CiJE4h8tJWWT2X4mYWhisUUOIy0gYUlBLv+htdGvQ2Cp2RxvJRxMOy6bMhbFuoRrJChahj+G/2d
+	zZQGwYwzH1m6AYYXxKJ9cg+fez+U=
+X-Gm-Gg: ASbGncuTfA9NVgmkR3+9eBHPjIDUAa7R8gxejx3QSiZ36474gUTy9tzEDLCmGJz+gIh
+	K7sp2cv9dUTO2pe8Sox/NOwPvww3MOffL+nU+Wd2EoQkc8EUgDo2yQ2mVkhWa6uMxfwgySjqMOA
+	q7WpsV5PtLJ5li5hbM0j0LrG93lm3B
+X-Google-Smtp-Source: AGHT+IGNinU4zi/m+31hZicDCxBzNvfcIDFQS56Y1d4Nr7DOmJNAN9EwAxywt5r/kNUc3HaR+BFRb6Jc5r9alOYlVhU=
+X-Received: by 2002:a17:906:7955:b0:ac7:9835:995 with SMTP id
+ a640c23a62f3a-ac7d181d57cmr304131366b.5.1743764132001; Fri, 04 Apr 2025
+ 03:55:32 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <cover.1743723590.git.abrahamadekunle50@gmail.com>
- <6fe7cb92811d07865830974cb366d99981ab1755.1743723591.git.abrahamadekunle50@gmail.com>
- <CAHp75Vem1E9wmmfXWsbawj2f+F=UkfzML7HyAnhTdsUqvjW91g@mail.gmail.com> <33a8d769-33b9-43df-9914-99175605b026@stanley.mountain>
-In-Reply-To: <33a8d769-33b9-43df-9914-99175605b026@stanley.mountain>
+References: <cover.1743755621.git.abrahamadekunle50@gmail.com> <6852a0c603010345d646a9d1bba06631ee5c5cbd.1743755621.git.abrahamadekunle50@gmail.com>
+In-Reply-To: <6852a0c603010345d646a9d1bba06631ee5c5cbd.1743755621.git.abrahamadekunle50@gmail.com>
 From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Fri, 4 Apr 2025 13:53:16 +0300
-X-Gm-Features: AQ5f1JrMhUrmnx9y1Elr0jkkAtENgAZyuItBSPMV9LiPOkfcs7Op25giXezOGJk
-Message-ID: <CAHp75VfDOaK0EXNc79cM1mNWapm7fhshU550q1mAKQdtRbUNwg@mail.gmail.com>
-Subject: Re: [v3 1/1] staging: rtl8723bs: Prevent duplicate NULL tests on a value
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: Abraham Samuel Adekunle <abrahamadekunle50@gmail.com>, outreachy@lists.linux.dev, 
-	julia.lawall@inria.fr, gregkh@linuxfoundation.org, 
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, andy@kernel.org
+Date: Fri, 4 Apr 2025 13:54:55 +0300
+X-Gm-Features: AQ5f1JqUozPnFgJdIT4pOelHcSqCJ5l6BNg2OqqLHneV3VukMeWc8lpWOwr7854
+Message-ID: <CAHp75VfqbO43KgMOuvuF4oGVp9m6UqbYJOtxTZoiiHwnXd13-g@mail.gmail.com>
+Subject: Re: [PATCH v4 1/1] staging: rtl8723bs: Prevent duplicate NULL tests
+ on a value
+To: Abraham Samuel Adekunle <abrahamadekunle50@gmail.com>
+Cc: outreachy@lists.linux.dev, julia.lawall@inria.fr, 
+	gregkh@linuxfoundation.org, linux-staging@lists.linux.dev, 
+	linux-kernel@vger.kernel.org, andy@kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Apr 4, 2025 at 12:06=E2=80=AFPM Dan Carpenter <dan.carpenter@linaro=
-.org> wrote:
-> On Fri, Apr 04, 2025 at 10:53:22AM +0300, Andy Shevchenko wrote:
-> > On Fri, Apr 4, 2025 at 3:03=E2=80=AFAM Abraham Samuel Adekunle
-> > <abrahamadekunle50@gmail.com> wrote:
+On Fri, Apr 4, 2025 at 11:51=E2=80=AFAM Abraham Samuel Adekunle
+<abrahamadekunle50@gmail.com> wrote:
 
 ...
 
-> > > +                       psta->sta_xmitpriv.txseq_tid[pattrib->priorit=
-y] &=3D 0xFFF;
-> >
-> > > +                                       psta->BA_starting_seqctrl[pat=
-trib->priority & 0x0f] =3D
-> > > +                                               (tx_seq + 1) & 0xfff;
-> >
-> > > +                                       psta->BA_starting_seqctrl[pat=
-trib->priority & 0x0f] =3D
-> > > +                                               (pattrib->seqnum + 1)=
- % 4096;
-> >
-> > Logically it's obvious that you need to align all cases to have
-> > consistent approach.
-> > Besides that the commit message should mention this change. Something l=
-ike this
-> > "While at it, convert '& 0xfff' cases to use modulo operator and
-> > decimal number to make the upper limit visible and clear what the
-> > semantic of it is."
->
-> No, I'm sorry but that's really against the rules in drivers/staging.
-> Don't mix unrelated changes into a patch.  It needs to be done as a
-> separate patch if we're going to do that.
->
-> To be honest, I don't even want people fixing line length issues or
-> adding spaces.  I would have accepted small white space changes but I
-> prefered the v2 version of this patch.  Once you start changing
-> "& 0xfff" to "% 4096" that's not white space and it must be done
-> in a separate patch. I use a script to review white space patches
-> because I'm always nervous someone will slip something malicious
-> into 100+ lines of reformated code.  It's really fast to review
-> patches with my script but once people start mixing things in then
-> it's a headache for me.
+> While at it, convert '& 0xfff' cases to use modulo operator and
+> decimal number to make the upper limit visible and clear what the
+> semantic of it is.
 
-Separate patch is even better, indeed.
+I think there is a consensus now that this should be a separate followup ch=
+ange.
 
-> Also if the change accidentally introduces a bug, I want it to be a
-> one liner change and not something hidden inside a giant reformat.
+...
 
-The noisy {] have no point to be left. Now I'm curious, what do you
-propose here?
+> +                       psta->sta_xmitpriv.txseq_tid[pattrib->priority] &=
+=3D 0xFFF;
+
+This also has the same semantic and may be changed in that patch.
 
 --=20
 With Best Regards,
