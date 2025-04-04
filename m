@@ -1,81 +1,81 @@
-Received: from out-182.mta1.migadu.com (out-182.mta1.migadu.com [95.215.58.182])
+Received: from out-183.mta1.migadu.com (out-183.mta1.migadu.com [95.215.58.183])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B94F101F2
-	for <linux-staging@lists.linux.dev>; Fri,  4 Apr 2025 06:09:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 094BC101F2
+	for <linux-staging@lists.linux.dev>; Fri,  4 Apr 2025 06:12:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.183
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743746975; cv=none; b=LAnLtKjvM5e8jVE38UJlS72W7XTkA+JYJ6MjghKdY4Jv17Z/WPWb8+pHlQ08pAIIBOjntLIa5pO7xO0h39c+vVCS2X9hHyD8XgQCODgpTmzdL+H+6lPcaowvkFm/mAVUYda0SNbClUy1BQYjwyywTwfCFDzHQaseQkevYTMwHHw=
+	t=1743747146; cv=none; b=Z3ghob9Lhz9JSDqFpWEeqQDhqiwH9EprLdQWbH5PSlUMwXyOophMvxC3att8piVB1c7udLS+aZCS7hg802NS2w/izYZoPmuUaq04ohpEahiTQbNFH9T08gl9OgK8i5nKzYUZUW+KRjJwCgkcGqq3bJEoTRiJ2fxZVcN5XK73DTw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743746975; c=relaxed/simple;
-	bh=Xse6i86w7uL+uBHsTtLcrH4fIkWE8uTV4DY/AU1u7xI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=prXbdlIP/bZ/7640GwZ9P8RiaVbtWURyoubZmz2t5Z+D61/qE/BaZmRx+pP01Tr7kJqHQSeJhraard3YOEL0d6DHmm3oF9tQF0RRUCKMjol4jCffMnaug/AYuPjZVTVUgz7zan7RDC6XswSrQdfvX69kY4yk1D4b6drVyXjHkzY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=POXFsGbS; arc=none smtp.client-ip=95.215.58.182
+	s=arc-20240116; t=1743747146; c=relaxed/simple;
+	bh=dclHe5vZPsL8BoV3MS9TfbIbF/cEN2mVaPUDTSA5uV4=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=A8u2lc1FXwwg6+gqOI7TR0p1WoXcCkqPQPB2Hpmdq6ajwTb9kPcqaZ2wrIx58i3Xt0I79T33h+bDfs4eOvXEBwqHAHea3NstA3Bcjycw/7CHHCPZh3ivYss0B4cczQ58p9B+lILj+ga6PB+FKKOwMoExo1zLZpFHgi3W1fhknHw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=uEAe+jev; arc=none smtp.client-ip=95.215.58.183
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="POXFsGbS"
-Message-ID: <8e92451a-4d43-1836-ce5f-afb6a523115b@linux.dev>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="uEAe+jev"
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1743746969;
+	t=1743747142;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=s3ZEIq+4SibMBcoXaxA8ucdTFz2oIn6GEaZjqQ0jTDM=;
-	b=POXFsGbSvl2/qikVkQBoJpCGgep+OdzeFK2YhSkyhU2aC+dcabuIgMVeClzdT+MFY5ceZF
-	RTovSsssX0s/jnReLrIxXQQAse4qYdwXSxZOj0nV14qHE7oExeoqg8hIkNF4ByvrZUH2zv
-	UmpTz+1vLV+XUechTGZu4XHc1Lnsw4A=
-Date: Fri, 4 Apr 2025 14:08:38 +0800
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=n7GmzXDZjZ3V972/EgZThJHCVso08B6oY073TstCpKs=;
+	b=uEAe+jevEOCoAsKVsQ6zBEvkKchj0nR5q4tLV9AKUFWabZ9EHfq+GQAsWDzobZptsG2Ype
+	C6Ma/ZYLpMODDQAYGjJNWFW2sRmvyX8z80ZtA8ScJBrxgHzQZEheOfkmB9G8qZGgw1u5t0
+	FqX6XvaSQsy/WcaTl9vCgpkOmcxslSA=
+From: sunliming@linux.dev
+To: dpenkler@gmail.com,
+	gregkh@linuxfoundation.org,
+	dan.carpenter@linaro.org,
+	arnd@arndb.de,
+	niharchaithanya@gmail.com,
+	everestkc@everestkc.com.np
+Cc: linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	sunliming <sunliming@kylinos.cn>,
+	kernel test robot <lkp@intel.com>
+Subject: [PATCH RESEND] staging: gpib: warning: variable 'nec_priv' set but not used warning
+Date: Fri,  4 Apr 2025 14:11:35 +0800
+Message-Id: <20250404061135.330056-1-sunliming@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Subject: Re: [PATCH] staging: gpib: warning: variable 'nec_priv' set but not
- used warning
-Content-Language: en-US
-To: Greg KH <gregkh@linuxfoundation.org>
-Cc: dpenkler@gmail.com, arnd@arndb.de, dan.carpenter@linaro.org,
- everestkc@everestkc.com.np, niharchaithanya@gmail.com,
- linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
- sunliming <sunliming@kylinos.cn>, kernel test robot <lkp@intel.com>
-References: <20250321010649.10918-1-sunliming@linux.dev>
- <2025040310-poncho-armband-782a@gregkh>
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Sunliming <sunliming@linux.dev>
-In-Reply-To: <2025040310-poncho-armband-782a@gregkh>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-Migadu-Flow: FLOW_OUT
 
+From: sunliming <sunliming@kylinos.cn>
 
-On 2025/4/3 22:08, Greg KH wrote:
-> On Fri, Mar 21, 2025 at 09:06:49AM +0800, sunliming@linux.dev wrote:
->> From: sunliming <sunliming@kylinos.cn>
->>
->> Fix below kernel warning:
->> drivers/staging/gpib/eastwood/fluke_gpib.c:196:23: warning: variable 'nec_priv' set but not
->> used [-Wunused-but-set-variable]
->>
->> Reported-by: kernel test robot <lkp@intel.com>
-> Please link to where this was reported.  The report from the robot will
-> have the needed information in it on how to do this.
+Fix below kernel warning:
+drivers/staging/gpib/eastwood/fluke_gpib.c:196:23: warning: variable 'nec_priv' set but not
+used [-Wunused-but-set-variable]
 
-Get it, I will resend the patch to fix this.
+Reported-by: kernel test robot <lkp@intel.com>
+Closes: https://lore.kernel.org/oe-kbuild-all/202503200532.B4rXNs0N-lkp@intel.com/
+Signed-off-by: sunliming <sunliming@kylinos.cn>
+---
+ drivers/staging/gpib/eastwood/fluke_gpib.c | 2 --
+ 1 file changed, 2 deletions(-)
 
-Thanks.
+diff --git a/drivers/staging/gpib/eastwood/fluke_gpib.c b/drivers/staging/gpib/eastwood/fluke_gpib.c
+index 0304c5de4ccd..6854a745ccff 100644
+--- a/drivers/staging/gpib/eastwood/fluke_gpib.c
++++ b/drivers/staging/gpib/eastwood/fluke_gpib.c
+@@ -194,10 +194,8 @@ static int fluke_line_status(const gpib_board_t *board)
+ 	int status = ValidALL;
+ 	int bsr_bits;
+ 	struct fluke_priv *e_priv;
+-	struct nec7210_priv *nec_priv;
+ 
+ 	e_priv = board->private_data;
+-	nec_priv = &e_priv->nec7210_priv;
+ 
+ 	bsr_bits = fluke_paged_read_byte(e_priv, BUS_STATUS, BUS_STATUS_PAGE);
+ 
+-- 
+2.25.1
 
->> Signed-off-by: sunliming <sunliming@kylinos.cn>
-> As per our documentation, please use your name, not your email alias, on
-> the signed-off-by line.
-
-It's not my email alias,my name is sunliming too.
-
-Thanks.
-
-> thanks,
->
-> gregk -h
