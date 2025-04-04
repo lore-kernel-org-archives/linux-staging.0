@@ -1,69 +1,74 @@
-Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 315DD25776;
-	Fri,  4 Apr 2025 07:52:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD833847B
+	for <linux-staging@lists.linux.dev>; Fri,  4 Apr 2025 07:53:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743753143; cv=none; b=iX4KSaY/X1jY1Fy3Q/CKIINYSmCA5SsTy2lTlJmBk7+k6SLAAZhfLJ42sMeX9zLru6I9NHUO4S9uNTAj3axMMN8gycufwqcDVJbbQvruaSFOY9LWUslNtJ4YEGKTKzFrZIG1h1XOHC2I3C9cY8haadsdPPn+fTOuZvrOf02Gb1I=
+	t=1743753228; cv=none; b=AdsS/t0r88msEk4xpwe52IdBcMObZ4crJPtWYHip9IhVUsAKBZcmRNO3Mx6FsdGC3JSmf5JjIInmPVdkHToIJuEexAbyySglsOevS6KWCeTMlfSforWY93rwrRS6GPUvgcBBVK+7NxJEBU95lx1t3czHLZl1uawZPoBY5MAkQNg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743753143; c=relaxed/simple;
-	bh=PUvqvlPxRPSyXrxu0K2XV4no9uI8EXIW+zUgHjQNf14=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=RwZS912MQuE5o2Gfexv+VW5peAJjvYjvTrDq7KNq3QRWpeN+MlU/x9C/52KNOZrGY8q+4uqrQSTBB5GQhfUYiPKH/uBhsqrxJfn1krLw3P5LpU62rOs4HrKksjdUbVfcJjv+lea4/1OPUaXarXDNu2FVemK16ORRSFb7mnGHevA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=T38qro+o; arc=none smtp.client-ip=209.85.218.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1743753228; c=relaxed/simple;
+	bh=r9khSvMMV0yozH0rzjo8JBgc41XEfqOhVFzyTEndWgw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=d5L++IBnY3NujZ20heXdLoTE1h72EJBFO009pjcC99c2/nyLE6TP2fTwOC1ZBbBy5F1NZf4GqOQMhVmeKE2pJ7PrMYkhvud6gbVqVdrKiCOmf7LRDma6krnQfmAJwRktdzTdksrQ5UbiLNXY67NrAmCsvgjGbtbvCjB1kfKVRWI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=gJSXMIlb; arc=none smtp.client-ip=209.85.128.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="T38qro+o"
-Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-ac7bd86f637so276710466b.1;
-        Fri, 04 Apr 2025 00:52:21 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="gJSXMIlb"
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-43cfa7e7f54so10533025e9.1
+        for <linux-staging@lists.linux.dev>; Fri, 04 Apr 2025 00:53:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1743753140; x=1744357940; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=uYCEbsmpkeS3Q60maCjHVoB56blZ91ijmtQzE0zRKHI=;
-        b=T38qro+oGRN+9QNHYDJ/+/fN4FnPCFxR0q3CKafqyKme2EPESM5ruANKy7XvyNFS8L
-         zIKg39JtvfBS5I5hmFBw+G/wG0yr/sbr9os+OZUcoYLo4L5tYwUqOZ9eEq4YVHzFPVBF
-         +Ppg2GhVd28lv3DBxlvj4ez/pM1Jo7TN6RBH8Y9ufIxl4JEKGvi9tm5K7UNgsyq2Hq01
-         BWTiLGTZKtzbfAYRrVLeLZ0TWO9TyMajKAxP5g+CFZJoYNwEG3MtDnpAmf3oCShtwRv5
-         qtJkLJ0dXyMeaFMnnZlyLjXsiEsVyCvtAQPIE3aPdbLkfURKaBXrTzuwqc4EpBDK+Ese
-         CLSw==
+        d=linaro.org; s=google; t=1743753224; x=1744358024; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=3GvNudHj43sLnU2IimkQsPqmval+E8iAU6S3i4j/9Ag=;
+        b=gJSXMIlb9tFy4uOTXvd0hFMroJFUXoLbqEXgp1UQbBWouwLXdo+w/bvTcErbInDv74
+         OzcmNmaxwWBKNpFh0mw33BbA8vhUPdXhHajGzbvRxxLwcnjaNTrhIqLO3G7lAaZIOFEK
+         7BvDydm9lTO/iw5u75Z6wS2y9Neiy8fp+NXgqMgxcUZjr5Wev0diVnGG3+Ofz91FJpox
+         F89vjDBgg6l14vE6gxwh9foGRIIOtPycF2WhTrfCMm2gflmyc34j2zbs90cmBvRVUHZz
+         kSKwC6omNHDSIfyCgx4NMkjx3jxze2yR/afHoQU2SAQL62x+3HO7zxoGr+kQAAn38gOW
+         fiSg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1743753140; x=1744357940;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=uYCEbsmpkeS3Q60maCjHVoB56blZ91ijmtQzE0zRKHI=;
-        b=aYAUae5ktzCAoFhJ/3C9E65xPf/ruBuH/LI87EKttqh+XqyRHGF5S5KLp/v+s1HbYI
-         cRm9viV5BeP+rGC0z2d9RStheYQz9+SrD4G7liqDvhnJrkmc9zb9mkppdzQ8og1vT4lW
-         sJwiEzoOXXyUkPQZr8HJlcaSmAq9qDcovKpZhKPqJmJQafMrFalpSR85i2+eVmkcCkoM
-         S7+qnFyyyCoPXEj1SQdG+4mkui7cWzSniuCZ+ZBHIWrqWB9fJPyg8cR1CkgjKzP3BhmH
-         7D2zPV7AJjBnu+s4IWxeWmh4ZGnnrNIsoBDaUyIxsp8i7InYvLHDZEHWmxp4MHf5T86P
-         VWTg==
-X-Forwarded-Encrypted: i=1; AJvYcCUwCOu9nzvDDec4HjAEQH/gVtqZT/HvZM9SwUc+nP6J6QbE+66HoVL6CYqtBE+Rb1wFx0pDf4RNPtb/OeoB@lists.linux.dev
-X-Gm-Message-State: AOJu0YyBDwapA78KntAk5JoS8mVJBRcNr9K6vQlfzQN3oeLPwdOM93VC
-	69jqy3xyLP3yh0u7rGipCB06P1RI3zKgisycaAvqJtmFeCp85kPR
-X-Gm-Gg: ASbGncusb8C02UyG07uvGT/Eok3cGe890eP8XWZJ6Xf2zJdHKPjxDcJ+zIaow79zIF5
-	OpmLOcIhHYO/rsZtpu9fJ/kq6TPwx4R8qklpcl0CEMjB5yWOHFYL4fY4ei4KOXnet4Wa/bi6F9g
-	AGctOoHxu/npYX7s1DdE41oAVj4nvG9NgBUFvDtiYRKtX4LptxhgMyOdHyJ5yccwg3e7X0XcFUJ
-	ajkb8ESNHSI4L2Y4Ija1dZLjoelav6pedRDzks+aWfYRAHMuSy3xPG8c1+ynyAmbk+W/3qMtayh
-	uCCJ190+Mo3iFxKOmJ7C8WRaD1L+rpjHvL85+RHHT+ZwvzFX
-X-Google-Smtp-Source: AGHT+IF7X9qGSvYgcfZKBIkNjGsZ8LP0gsSa+mmiw4Sgg2By0sPj+T5TnGntgva+aPuD0xBUHc57Zg==
-X-Received: by 2002:a17:907:96a7:b0:ac6:f5b5:36e0 with SMTP id a640c23a62f3a-ac7b7128261mr570432966b.19.1743753140054;
-        Fri, 04 Apr 2025 00:52:20 -0700 (PDT)
-Received: from HP-650 ([105.112.123.50])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ac7c0186250sm205997666b.155.2025.04.04.00.52.15
+        d=1e100.net; s=20230601; t=1743753224; x=1744358024;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=3GvNudHj43sLnU2IimkQsPqmval+E8iAU6S3i4j/9Ag=;
+        b=X4pK1SCxFbJS6kEVQs/tdaSbqzrSKFHOKKFCRWtFMD75H99E3UlVT9AAC3rHx/OJrL
+         24sOqr4bQXEJulxOyJaCO/te08mhvMy7kSQW1UkQA02I4RgbNTL8SmwULKd0B2aPG9nI
+         5P7CXrplMvKmzxfS48urDBi4juV3+B0yHt5HH/osvE4UjlrKn12rlKTRcHPGF6ADn61R
+         OXwkuuSTntnGgbqALP9O/Gu6dZ7HJYFHBc4dOCPCRNeQ2Ai14fxcYLMbqFhPyMHmiKzH
+         hrt/J5tReQdnkhIA9jVPvf19yZv0UOpWkcRWO363eLGCv8cWCEDQoptZJSJ11Cc+TjB1
+         GIUQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWDiMh/h/Pno6TmxXQQrpRXYk5vBV7zhvvrSIMbb0e8DOmcjP5191oYFLqfhaRd8HrUUBOU7ZDVvAtOzhth@lists.linux.dev
+X-Gm-Message-State: AOJu0YxS5DAH3D6qkI8hRZ6YckpzyXz4RpV5Xz2H8gBZzlVU3CHbn2tt
+	wMfrQ6V9UtKxpSQ9adxxL1HF1UY3D51+Z6rU61baBO+eMFhOdj4QJVVf5+QUwMY=
+X-Gm-Gg: ASbGncvYL5wK4KFpL4usci6IF0MNKtF6cC1SiBaWKskW7HCXoXrOuLBFFf4Yj3Mj5GB
+	gxx//ONTuMMy4AbOYSbibjg0jse4ZMggZ73jGuX3i4CbGBQdaa4Z7Zo71CUsu7iWZy3nAy1/mfO
+	rQnm3sLUidT6rl8AGH8QPhF+XjxEhVEkPKgyQvmxhnKMEp/OX7u2Q7TZtf5OI2ULEBdMae61ng5
+	3inPsj/UWBh0XbX8l7hizC9tqxpsZjCzAwn6k8yZbciLSU1JEaI+Iavvt+SIcuJfvvnvfJZKiO+
+	s9jhltgJiGoaQmMxBXDCwLDYNTdP8ym73UDDYp/KOdDjEvWEEA==
+X-Google-Smtp-Source: AGHT+IEdqvONhq2YUwRwTjwRLNZUpJ81Q60Z9i3sMQ6SbaJbaM3ciB6FWcqPTl4o5r9FVChY4xceDg==
+X-Received: by 2002:a05:600c:1d8e:b0:43d:fa5f:7d30 with SMTP id 5b1f17b1804b1-43ecef0230cmr19010215e9.16.1743753223927;
+        Fri, 04 Apr 2025 00:53:43 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-43ec364d036sm38271635e9.26.2025.04.04.00.53.39
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 04 Apr 2025 00:52:19 -0700 (PDT)
-Date: Fri, 4 Apr 2025 08:51:59 +0100
-From: Abraham Samuel Adekunle <abrahamadekunle50@gmail.com>
-To: outreachy@lists.linux.dev, julia.lawall@inria.fr,
-	gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Cc: dan.carpenter@linaro.org
-Subject: [v4] staging: rtl8723bs: modify struct field to use standard bool
- type
-Message-ID: <Z++PnxFQFe+IexUi@HP-650>
+        Fri, 04 Apr 2025 00:53:43 -0700 (PDT)
+Date: Fri, 4 Apr 2025 10:53:36 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Sunliming <sunliming@linux.dev>
+Cc: Greg KH <gregkh@linuxfoundation.org>, dpenkler@gmail.com, arnd@arndb.de,
+	everestkc@everestkc.com.np, niharchaithanya@gmail.com,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	sunliming <sunliming@kylinos.cn>, kernel test robot <lkp@intel.com>
+Subject: Re: [PATCH] staging: gpib: warning: variable 'nec_priv' set but not
+ used warning
+Message-ID: <f6e2c865-7c9f-4301-a1a8-8a5b1dbbb5f4@stanley.mountain>
+References: <20250321010649.10918-1-sunliming@linux.dev>
+ <2025040310-poncho-armband-782a@gregkh>
+ <8e92451a-4d43-1836-ce5f-afb6a523115b@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -72,62 +77,35 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <8e92451a-4d43-1836-ce5f-afb6a523115b@linux.dev>
 
-The struct sta_info field ieee8021x_blocked uses the uint values
-0 and 1 to represent false and true values respectively.
+On Fri, Apr 04, 2025 at 02:08:38PM +0800, Sunliming wrote:
+> 
+> On 2025/4/3 22:08, Greg KH wrote:
+> > On Fri, Mar 21, 2025 at 09:06:49AM +0800, sunliming@linux.dev wrote:
+> > > From: sunliming <sunliming@kylinos.cn>
+> > > 
+> > > Fix below kernel warning:
+> > > drivers/staging/gpib/eastwood/fluke_gpib.c:196:23: warning: variable 'nec_priv' set but not
+> > > used [-Wunused-but-set-variable]
+> > > 
+> > > Reported-by: kernel test robot <lkp@intel.com>
+> > Please link to where this was reported.  The report from the robot will
+> > have the needed information in it on how to do this.
+> 
+> Get it, I will resend the patch to fix this.
+> 
+> Thanks.
+> 
+> > > Signed-off-by: sunliming <sunliming@kylinos.cn>
+> > As per our documentation, please use your name, not your email alias, on
+> > the signed-off-by line.
+> 
+> It's not my email alias,my name is sunliming too.
 
-Convert cases to use the bool type instead to ensure consistency
-with other parts of the containing code where true or false have
-been used.
+Why is it capitalized on your From header on your email but not in your
+Signed-off-by?
 
-This change causes the struct field to change size from a 32bit to
-an 8bit. However, the change is safe to make because the sta_info
-struct is not read from the hardware.
-
-reported by Coccinelle:
-
-Signed-off-by: Abraham Samuel Adekunle <abrahamadekunle50@gmail.com>
----
-Changes in v4:
-	- Added information about changing size of struct field in commit
-	message and why it is safe to do so as suggested by Julia Lawall
-Changes in v3:
-	- Added more patch recipients
-Changes in v2:
-	- Improved commit message based on suggestion from Julia Lawall
-	- Clarity was provided to Greg kroah-Hartman by Dan Carpenter on why
-	it is safe to make the change to the struct field.
-
- drivers/staging/rtl8723bs/core/rtw_ap.c      | 2 +-
- drivers/staging/rtl8723bs/include/sta_info.h | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/staging/rtl8723bs/core/rtw_ap.c b/drivers/staging/rtl8723bs/core/rtw_ap.c
-index ed6942e289a5..82f54f769ed1 100644
---- a/drivers/staging/rtl8723bs/core/rtw_ap.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_ap.c
-@@ -389,7 +389,7 @@ void update_bmc_sta(struct adapter *padapter)
- 		psta->qos_option = 0;
- 		psta->htpriv.ht_option = false;
- 
--		psta->ieee8021x_blocked = 0;
-+		psta->ieee8021x_blocked = false;
- 
- 		memset((void *)&psta->sta_stats, 0, sizeof(struct stainfo_stats));
- 
-diff --git a/drivers/staging/rtl8723bs/include/sta_info.h b/drivers/staging/rtl8723bs/include/sta_info.h
-index b3535fed3de7..63343998266a 100644
---- a/drivers/staging/rtl8723bs/include/sta_info.h
-+++ b/drivers/staging/rtl8723bs/include/sta_info.h
-@@ -86,7 +86,7 @@ struct sta_info {
- 	uint qos_option;
- 	u8 hwaddr[ETH_ALEN];
- 
--	uint	ieee8021x_blocked;	/* 0: allowed, 1:blocked */
-+	bool ieee8021x_blocked;
- 	uint	dot118021XPrivacy; /* aes, tkip... */
- 	union Keytype	dot11tkiptxmickey;
- 	union Keytype	dot11tkiprxmickey;
--- 
-2.34.1
+regards,
+dan carpenter
 
