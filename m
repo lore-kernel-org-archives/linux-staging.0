@@ -1,96 +1,80 @@
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail-4322.protonmail.ch (mail-4322.protonmail.ch [185.70.43.22])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17850191F98
-	for <linux-staging@lists.linux.dev>; Fri,  4 Apr 2025 11:47:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 522C31F0E52
+	for <linux-staging@lists.linux.dev>; Fri,  4 Apr 2025 13:35:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.70.43.22
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743767242; cv=none; b=QrNg6QVTcV/BTkhX5zb+gblHLT4qLxKTb/ezaJtSXCQj42/vadmCeh5Vtx3xONgJXsnQu0idd00FlQZwJixC9Zj3EcnkeyeUTS9AdbOwbpc3w5ohLJ6IoW0RgAHSaMhpprWOw63Kgdr8aEZojGMQwelgg1y3MSvimhYkpjztB9g=
+	t=1743773725; cv=none; b=LPR10P4CIiyDdc6Ca3iAJOE6R2/rkPzX9zEkhzirBVMLbSnBC5pzGLPcdyV+BN9aHWwC1Y0Hs9giIaCQMLSYYe3S++0zmh8WjYw7DvMXC+z91A9cuhIIcVqFTQGt0Qx60O4ONN4OVHCwVIXIiBJyxjZbTk0L5On6g58gjILXmpA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743767242; c=relaxed/simple;
-	bh=wPPcnnB5KcUF6Z/rHkaL7q8cRxlq5b4nBxTxZ96MBdk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lcSSfwkw5d2f5C/f6PEfpVd+j2c/0MyQ8yM/xcnH0fA2z02p6Y9A4NB2IvfdfZX6X0QdIyFv+Cg8nkzcruNjxSlhOiRgqiiMKZUAvzIGV88j//eWS1qz0A4HvVBrBx0B4a1dJS/RSqgBSBYYPcAsvBKyEFh39b6HI5PynB6qusE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=rm5neUva; arc=none smtp.client-ip=209.85.128.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1743773725; c=relaxed/simple;
+	bh=iSPqErZxC4LadBJfw/bHoBjcJYWzig0oMNRs5w/4daA=;
+	h=Date:To:From:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=KNi/JIDavetBOJrrVM9sZ+n8FBtyh/pZB2HfghG7nl1LYNvyMOWxHyvabf0/oBopYXZLmUUTQc8S33+RGliRyvzU5KGBAbhilCrQ8YsuDgBDicZKRnlcKRRwROe64hRMkwofEh9P3ESCSSIsrvefy+EN41h7RDZ9wE2wIeUq6mI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me; spf=pass smtp.mailfrom=proton.me; dkim=pass (2048-bit key) header.d=proton.me header.i=@proton.me header.b=Sa45lJWz; arc=none smtp.client-ip=185.70.43.22
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=proton.me
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="rm5neUva"
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-43948f77f1aso14037385e9.0
-        for <linux-staging@lists.linux.dev>; Fri, 04 Apr 2025 04:47:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1743767238; x=1744372038; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=foHY1R4cfF4wZYmB2kM8uswb/b+LSqz8E6rYMWvAhS4=;
-        b=rm5neUvaGQimqCdYZcFytymQjidec3EowVPc/xosBczAiXZNZ8+iOkohKf8brmlZFi
-         9+TeU0JxolvQLNfPLfl0J1itZztWOoDMdPIaOI43J5bAq8cq/gi+d5YXbHzyQK73FKxL
-         pnPLAEyJ+/9hAVQ6J2u53DuFrqdviOd4eEtg3V+4jZSS9ByUgmNnuoQ60EFf6RmO0M1A
-         nS0jOe+TFSzARrqspPXU5/xasgBAY/mOBxh3M/uTXWZZff8132LgCp6fyjukrVkfpiLB
-         CzLL1qtmLHX0MXoyJjjYDfNE/dLMAZC8k+1gX5KEplazXfK9ubv8CoDc/i7Sfmup/0Tb
-         wQWg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1743767238; x=1744372038;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=foHY1R4cfF4wZYmB2kM8uswb/b+LSqz8E6rYMWvAhS4=;
-        b=OAtsS+yHAzygsGeBtky/h7nlklWGy0WVUV/mdhKQum+hJyCTaQ526HmiVENxxWkhLg
-         g/VqMrysrG/ofgJps8nzOWiXAaEbziiIOQiQ9wrDGiOckh3J/bzEZLeRiqFQKb7+uzNe
-         S6DPOWbDMIHIyNbfB8hICfgwWIM5gN/bKsJiUXDFZdHSoILWD/NnhCttMmGnHBe/SgKD
-         AvXkEeykjJI1Id6rlIh+Kd9mH4j/LIgmLue6rq0IlbD4FfSisp8VyZQEi6Ss2YaRDf/w
-         DAKZqUH2iLNMYXulr3oXV83hXXXWJJOh05M4mRuuFvdsffdsDfvNdLvnafp9R4y6idJC
-         gEmg==
-X-Forwarded-Encrypted: i=1; AJvYcCUJwV6FIuycKj4OcVmDbs20h3sGA7dGWsf8twP60aMuNuVOECwBvFgttjve9zL6JMRQbMZ60/ZB12u34SMo@lists.linux.dev
-X-Gm-Message-State: AOJu0YyOV3ptSaRsBi4eliSIXazuOWN3iEycfUAK8RCWKVCsdOVPMwb1
-	AqSoEd13Le5VE2ejCwkq20DU6/CChrx+OTs/T7Cfrz+woCR2RTWqFHwPO7jbNRQ=
-X-Gm-Gg: ASbGnctjOh+gO9dKuWD0ix01z8QuRpKqUNYpZrn3+i7xxZse06XJpqN2+epHvK0j8ci
-	EuswygjgJM/0UAeR3bB+2GHBbtDZJ971rp/8WTFjwgBFutBb+JLCqCKA+BJjo1BL0R4s/VtxvUd
-	GKKRhgZNkkcxw8r7/2RNLb7mjlOkCVPjpMy4E7rscbxYflhqTQ0D7vq9UVDIaCYPkaeQgOuaDZy
-	tRwDQnWNQtSOVk1URX4Fjh4YQViV40ZlwtQ3Y0qB6xc+Ql9zY0g/LuoKnA9+0ktuDVi7jyCmldH
-	0995sLRzIoSIrg3TzURdWBNq8mC4gayete7otx1zxMg2I/LpQQ==
-X-Google-Smtp-Source: AGHT+IEn+z7u+lSPJLWOtn7Q6pSS9JHe2rPVPZmR3y2zmH/SRyuuPhwWUCfFa1TU/icWhcfsVbxRLA==
-X-Received: by 2002:a05:600c:3109:b0:43c:f629:66f4 with SMTP id 5b1f17b1804b1-43ecf57edb7mr31256785e9.0.1743767238380;
-        Fri, 04 Apr 2025 04:47:18 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-43ec1660bcesm46939825e9.10.2025.04.04.04.47.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 04 Apr 2025 04:47:17 -0700 (PDT)
-Date: Fri, 4 Apr 2025 14:47:14 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc: Abraham Samuel Adekunle <abrahamadekunle50@gmail.com>,
-	outreachy@lists.linux.dev, julia.lawall@inria.fr,
-	gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org, andy@kernel.org
-Subject: Re: [v3 1/1] staging: rtl8723bs: Prevent duplicate NULL tests on a
- value
-Message-ID: <2aa7d5da-c53c-4bab-8fbf-2caebddc9b7a@stanley.mountain>
-References: <cover.1743723590.git.abrahamadekunle50@gmail.com>
- <6fe7cb92811d07865830974cb366d99981ab1755.1743723591.git.abrahamadekunle50@gmail.com>
- <CAHp75Vem1E9wmmfXWsbawj2f+F=UkfzML7HyAnhTdsUqvjW91g@mail.gmail.com>
- <33a8d769-33b9-43df-9914-99175605b026@stanley.mountain>
- <CAHp75VfDOaK0EXNc79cM1mNWapm7fhshU550q1mAKQdtRbUNwg@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=proton.me header.i=@proton.me header.b="Sa45lJWz"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=proton.me;
+	s=protonmail; t=1743773716; x=1744032916;
+	bh=iSPqErZxC4LadBJfw/bHoBjcJYWzig0oMNRs5w/4daA=;
+	h=Date:To:From:Cc:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
+	 Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector:
+	 List-Unsubscribe:List-Unsubscribe-Post;
+	b=Sa45lJWz/EQuYqoeQSPIKNAq2n/Bx3vI4xmmSObtiUb5OZgezFvnmJJyaVNEjBDxY
+	 GVCaWaypX0eSfqs3eLX/Q2dQhDdoZLBsNxeCZDDyJ+rHFkAVbek+nnL46rYLotomHN
+	 QrQn5wXpHikX0qp4fOIx+yPdbEYsLeKF7kvarABgVsNFvCe20VLnlqvpH8Sw5XFGoH
+	 PiRfS4ClrukL8Bd8+3hhoFXYzn8L0beZPDEbR0if2q/f694ePobWYuLRwN6agcCqyS
+	 C92T3vKGY0h6Nr8BktmNl/s0Z7ue+EFy91wILjvbc8nB9ke/nBq6AntloZEJ6c6WHs
+	 Xtifi/Zef4c6Q==
+Date: Fri, 04 Apr 2025 13:35:11 +0000
+To: gregkh@linuxfoundation.org
+From: Bryant Boatright <bryant.boatright@proton.me>
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: [PATCH] Staging: rtl8723bs: Fix unbalanced braces in conditional
+Message-ID: <Z-_gC8XOVoiXsC8i@ubuntu-desk>
+Feedback-ID: 74848953:user:proton
+X-Pm-Message-ID: 12c1f626f44bc9f7b326b4fee82961bcbc9f9555
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAHp75VfDOaK0EXNc79cM1mNWapm7fhshU550q1mAKQdtRbUNwg@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, Apr 04, 2025 at 01:53:16PM +0300, Andy Shevchenko wrote:
-> > Also if the change accidentally introduces a bug, I want it to be a
-> > one liner change and not something hidden inside a giant reformat.
-> 
-> The noisy {] have no point to be left. Now I'm curious, what do you
-> propose here?
+Only one branch of conditional statement is a single statement thus both
+branches should use braces to adhere to the Linux coding style.
 
-The patch *must* remove the { and }.  We wouldn't have accepted the v1
-patch.
+Reported by checkpatch:
 
-regards,
-dan carpenter
+CHECK: Unbalanced braces around else statement
+
+Signed-off-by: Bryant Boatright <bryant.boatright@proton.me>
+---
+ drivers/staging/rtl8723bs/core/rtw_cmd.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/staging/rtl8723bs/core/rtw_cmd.c b/drivers/staging/rtl=
+8723bs/core/rtw_cmd.c
+index 64ce33c6fba1..5fd635a4c632 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_cmd.c
++++ b/drivers/staging/rtl8723bs/core/rtw_cmd.c
+@@ -273,9 +273,9 @@ struct=09cmd_obj=09*_rtw_dequeue_cmd(struct __queue *qu=
+eue)
+=20
+ =09/* spin_lock_bh(&(queue->lock)); */
+ =09spin_lock_irqsave(&queue->lock, irqL);
+-=09if (list_empty(&queue->queue))
++=09if (list_empty(&queue->queue)) {
+ =09=09obj =3D NULL;
+-=09else {
++=09} else {
+ =09=09obj =3D container_of(get_next(&queue->queue), struct cmd_obj, list);
+ =09=09list_del_init(&obj->list);
+ =09}
+--=20
+2.43.0
+
 
