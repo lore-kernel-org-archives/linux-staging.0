@@ -1,183 +1,97 @@
-Received: from mail3-relais-sop.national.inria.fr (mail3-relais-sop.national.inria.fr [192.134.164.104])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9682E15AF6;
-	Sat,  5 Apr 2025 13:30:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.134.164.104
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B4701953BB;
+	Sat,  5 Apr 2025 13:37:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743859837; cv=none; b=LF9HnRX+pptntoDvdrdN+Oriyy7rY74yi/Yek45ML0+xIQf0tJlaQ9vqA+dKm6XNQ/WrIoQj7IUVIlPja2mhgEstWWflpQWyYkKRmaiOgVsMXilTleKQcUxFO9gS2Cz+VA3Iyy/SUHoh5C+DL4DYtdJRIC705kFxQetHEASiLnw=
+	t=1743860238; cv=none; b=ThOOPW93Qek8DoHxYu7XOJxhJCKJNh4YHQIKsxHcoTcKAxBalmmewi7WClPodM6xU/xOooo4GoSDjq8+n/OvSfG7fLTDdPl50r/269WpqgwEFKi7pk9XyoE1wyRRYQC5JNDc+yPB+wr0Ig6H/mBGn2AJNnKRLjqYTkNEP7aFM0I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743859837; c=relaxed/simple;
-	bh=JOrHW40c/wdD71gv/ine87UQBGNMiHaE+KSyW2J7UXA=;
-	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=izgUZr7hMco48mSZSCEKF7es1D6W1LYnu0A5Ow/+zX4vaLvj4zNrVlKUWF4th4EIIdBIJoxWnn2OeFAV5oOM0Fogi8BPePr6hhInZmTFlrj5pUk03xw+25YbeNkkFENx2z6i8CQ7AtVCRa2gFE0pDCvTdW0tC3T2GALNmUWbJ5w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr; spf=pass smtp.mailfrom=inria.fr; dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b=hlZAU06k; arc=none smtp.client-ip=192.134.164.104
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=inria.fr
+	s=arc-20240116; t=1743860238; c=relaxed/simple;
+	bh=nswXIf2fYzDy8jVaYi9j4BNtU418xGPfp26gCcX51Hc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=pnDEXloDARM0H0BU3xNvcR3VahcduYroTEXVFEURiVZkJu580018ab+1DyQS07Le0DVz3hPXlrrIWWqdHafH/gs3mDJVDdQJr270TcygoHYgnqS7KH68so+kjrl5F3t1NpW1phukqOQxG/QP8l/7/l+YDABA8WWNNv89U/Dx+n8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=mKRcpgvf; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b="hlZAU06k"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=inria.fr; s=dc;
-  h=date:from:to:cc:subject:in-reply-to:message-id:
-   references:mime-version;
-  bh=je9cwcx6iqQa2t88dHW5/qrKP7V/BgyuZ0xSoOY+EFQ=;
-  b=hlZAU06kFnHL3j4PzmF/BgSB/RVfq4tRvI5iQrvkMtorpCSZXw7ndR3g
-   jU3xOM3kPsYkUwtPCEfflumgOzsv4phFz8iIdPQ6utv02ruc1MxJ6w2RH
-   9VoudccMJnmfGPUhKvD3rfr2IMSufDEe85Pd+2RARK4lCzcOP6+E6ZS5Q
-   s=;
-Authentication-Results: mail3-relais-sop.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=julia.lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
-X-IronPort-AV: E=Sophos;i="6.15,191,1739833200"; 
-   d="scan'208";a="113531443"
-Received: from unknown (HELO hadrien) ([50.225.219.62])
-  by mail3-relais-sop.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Apr 2025 15:30:31 +0200
-Date: Sat, 5 Apr 2025 09:30:29 -0400 (EDT)
-From: Julia Lawall <julia.lawall@inria.fr>
-To: Abraham Samuel Adekunle <abrahamadekunle50@gmail.com>
-cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, outreachy@lists.linux.dev, 
-    linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v5] staging: rtl8723bs: Prevent duplicate NULL tests on
- a value
-In-Reply-To: <Z/EuZuvGyQ9QBl6z@HP-650>
-Message-ID: <7e94b75e-6959-75c-ab4f-58147fc37dc@inria.fr>
-References: <Z/EuZuvGyQ9QBl6z@HP-650>
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="mKRcpgvf"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 262D9C4CEE4;
+	Sat,  5 Apr 2025 13:37:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1743860237;
+	bh=nswXIf2fYzDy8jVaYi9j4BNtU418xGPfp26gCcX51Hc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=mKRcpgvfll7v6Q17xRHg5zrMSP5v/lXpF7tKsi6qhAJwhWi5MPrXwqlHOi8b8xpO3
+	 fDEuPHKlCn1SLDOnrGV9WcawnKUwDE+E7vYgbd0VhfsNGJIjqGMmp8w/a43u7pRr6L
+	 yjM9Mhacjt7oGAU3aRbM8E/4Xrmo8ZRtB7dLkhwY=
+Date: Sat, 5 Apr 2025 14:35:49 +0100
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Richard Akintola <princerichard17a@gmail.com>
+Cc: outreachy@lists.linux.dev, sudipm.mukherjee@gmail.com,
+	teddy.wang@siliconmotion.com, linux-fbdev@vger.kernel.org,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 0/8] staging: sm750fb: change function naming style
+Message-ID: <2025040538-breeze-espionage-dc6e@gregkh>
+References: <cover.1743857160.git.princerichard17a@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <cover.1743857160.git.princerichard17a@gmail.com>
 
+On Sat, Apr 05, 2025 at 02:00:51PM +0100, Richard Akintola wrote:
+> Address checkpatch's "Avoid camelCase" for sm750fb module by changing
+> function name to conform to kernel code style.
+> 
+> The patches are required to be applied in sequence.
+> 
+> Richard Akintola (8):
+>   staging: sm750fb: change sii164GetDeviceID to snake_case
+>   staging: sm750fb: change sii164ResetChip to snake_case
+>   staging: sm750fb: change sii164SetPower to snake_case
+>   staging: sm750fb: change sii164GetChipString to snake_case
+>   staging: sm750fb: change sii164EnableHotPlugDetection to snake_case
+>   staging: sm750fb: change sii164IsConnected to snake_case
+>   staging: sm750fb: change sii164CheckInterrupt to snake_case
+>   staging: sm750fb: change sii164ClearInterrupt to snake_case
+> 
+>  drivers/staging/sm750fb/ddk750_dvi.c    | 16 +++++-----
+>  drivers/staging/sm750fb/ddk750_sii164.c | 42 ++++++++++++-------------
+>  drivers/staging/sm750fb/ddk750_sii164.h | 16 +++++-----
+>  3 files changed, 37 insertions(+), 37 deletions(-)
+> 
+> -- 
+> 2.39.5
+> 
+> 
 
+Hi,
 
-On Sat, 5 Apr 2025, Abraham Samuel Adekunle wrote:
+This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
+a patch that has triggered this response.  He used to manually respond
+to these common problems, but in order to save his sanity (he kept
+writing the same thing over and over, yet to different people), I was
+created.  Hopefully you will not take offence and will fix the problem
+in your patch and resubmit it so that it can be accepted into the Linux
+kernel tree.
 
-> When a value has been tested for NULL in an expression, a
-> second NULL test on the same value in another expression
-> is unnecessary when the value has not been assigned to NULL.
->
-> Remove unnecessary duplicate NULL tests on the same value
-> that has previously been tested.
->
-> Found by Coccinelle.
+You are receiving this message because of the following common error(s)
+as indicated below:
 
-The changes are found in the same way, but the code patterns are overall
-quite different.  It could make sense to make separate patches for them.
-Then you could make a log message that is really specialized to the code
-in each patch and it would be easier for the reviewer to be convinced that
-you have done the right thing.
+- This looks like a new version of a previously submitted patch, but you
+  did not list below the --- line any changes from the previous version.
+  Please read the section entitled "The canonical patch format" in the
+  kernel file, Documentation/process/submitting-patches.rst for what
+  needs to be done here to properly describe this.
 
-julia
+If you wish to discuss this problem further, or you have questions about
+how to resolve this issue, please feel free to respond to this email and
+Greg will reply once he has dug out from the pending patches received
+from other developers.
 
->
-> Signed-off-by: Abraham Samuel Adekunle <abrahamadekunle50@gmail.com>
-> ---
-> Changed in v4:
-> 	- Separated initially integrated suggested change
-> 	 "use modulo % 4096 over & 0xfff" to a different patch.
-> Changes in v3:
-> 	- Changed other cases to use modulo (% 4096) over (& 0xofff).
-> 	- Modified commit message to reflect these changes.
-> Changes in v2:
-> 	- Dropped patch files for media drivers from patchset as it is
-> 	  not meant for outreachy applicants.
-> 	- Added full-stop aign to text in commit message.
-> 	- Made code more readable by adding a line break.
-> 	- Changed cases to use modulo (% 4096) over (& 0xfff).
-> Changes in v1
-> 	- Patch for drivers/staging/media/av7110/sp8870.c and
-> 	- drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c
-> 	  is split into two different patches in the patchset for use by the different
-> 	  driver maintainers.
-> 	- Added subject title for each of the separated patches.
-> 	- Patch 1: Removed unnecessary curly braces {} initially inserted.
-> 	- Patch 2: Unnecessary {} was also removed for v1.
->
->  drivers/staging/rtl8723bs/core/rtw_mlme_ext.c |  2 +-
->  drivers/staging/rtl8723bs/core/rtw_xmit.c     | 56 +++++++++----------
->  2 files changed, 28 insertions(+), 30 deletions(-)
->
-> diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-> index 90966b7034ab..675226535cd1 100644
-> --- a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-> +++ b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-> @@ -1323,7 +1323,7 @@ unsigned int OnAssocReq(struct adapter *padapter, union recv_frame *precv_frame)
->  	spin_unlock_bh(&pstapriv->asoc_list_lock);
->
->  	/*  now the station is qualified to join our BSS... */
-> -	if (pstat && (pstat->state & WIFI_FW_ASSOC_SUCCESS) && (status == WLAN_STATUS_SUCCESS)) {
-> +	if ((pstat->state & WIFI_FW_ASSOC_SUCCESS) && (status == WLAN_STATUS_SUCCESS)) {
->  		/* 1 bss_cap_update & sta_info_update */
->  		bss_cap_update_on_sta_join(padapter, pstat);
->  		sta_info_update(padapter, pstat);
-> diff --git a/drivers/staging/rtl8723bs/core/rtw_xmit.c b/drivers/staging/rtl8723bs/core/rtw_xmit.c
-> index 026061b464f7..f817cab2f831 100644
-> --- a/drivers/staging/rtl8723bs/core/rtw_xmit.c
-> +++ b/drivers/staging/rtl8723bs/core/rtw_xmit.c
-> @@ -941,35 +941,33 @@ s32 rtw_make_wlanhdr(struct adapter *padapter, u8 *hdr, struct pkt_attrib *pattr
->  			if (!(psta->state & _FW_LINKED))
->  				return _FAIL;
->
-> -			if (psta) {
-> -				psta->sta_xmitpriv.txseq_tid[pattrib->priority]++;
-> -				psta->sta_xmitpriv.txseq_tid[pattrib->priority] &= 0xFFF;
-> -				pattrib->seqnum = psta->sta_xmitpriv.txseq_tid[pattrib->priority];
-> -
-> -				SetSeqNum(hdr, pattrib->seqnum);
-> -
-> -				/* check if enable ampdu */
-> -				if (pattrib->ht_en && psta->htpriv.ampdu_enable)
-> -					if (psta->htpriv.agg_enable_bitmap & BIT(pattrib->priority))
-> -						pattrib->ampdu_en = true;
-> -
-> -				/* re-check if enable ampdu by BA_starting_seqctrl */
-> -				if (pattrib->ampdu_en == true) {
-> -					u16 tx_seq;
-> -
-> -					tx_seq = psta->BA_starting_seqctrl[pattrib->priority & 0x0f];
-> -
-> -					/* check BA_starting_seqctrl */
-> -					if (SN_LESS(pattrib->seqnum, tx_seq)) {
-> -						pattrib->ampdu_en = false;/* AGG BK */
-> -					} else if (SN_EQUAL(pattrib->seqnum, tx_seq)) {
-> -						psta->BA_starting_seqctrl[pattrib->priority & 0x0f] = (tx_seq+1)&0xfff;
-> -
-> -						pattrib->ampdu_en = true;/* AGG EN */
-> -					} else {
-> -						psta->BA_starting_seqctrl[pattrib->priority & 0x0f] = (pattrib->seqnum+1)&0xfff;
-> -						pattrib->ampdu_en = true;/* AGG EN */
-> -					}
-> +			psta->sta_xmitpriv.txseq_tid[pattrib->priority]++;
-> +			psta->sta_xmitpriv.txseq_tid[pattrib->priority] &= 0xFFF;
-> +			pattrib->seqnum = psta->sta_xmitpriv.txseq_tid[pattrib->priority];
-> +
-> +			SetSeqNum(hdr, pattrib->seqnum);
-> +
-> +			/* check if enable ampdu */
-> +			if (pattrib->ht_en && psta->htpriv.ampdu_enable)
-> +				if (psta->htpriv.agg_enable_bitmap & BIT(pattrib->priority))
-> +					pattrib->ampdu_en = true;
-> +
-> +			/* re-check if enable ampdu by BA_starting_seqctrl */
-> +			if (pattrib->ampdu_en == true) {
-> +				u16 tx_seq;
-> +
-> +				tx_seq = psta->BA_starting_seqctrl[pattrib->priority & 0x0f];
-> +
-> +				/* check BA_starting_seqctrl */
-> +				if (SN_LESS(pattrib->seqnum, tx_seq)) {
-> +					pattrib->ampdu_en = false;/* AGG BK */
-> +				} else if (SN_EQUAL(pattrib->seqnum, tx_seq)) {
-> +					psta->BA_starting_seqctrl[pattrib->priority & 0x0f] = (tx_seq+1)&0xfff;
-> +
-> +					pattrib->ampdu_en = true;/* AGG EN */
-> +				} else {
-> +					psta->BA_starting_seqctrl[pattrib->priority & 0x0f] = (pattrib->seqnum+1)&0xfff;
-> +					pattrib->ampdu_en = true;/* AGG EN */
->  				}
->  			}
->  		}
-> --
-> 2.34.1
->
->
+thanks,
+
+greg k-h's patch email bot
