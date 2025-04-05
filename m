@@ -1,72 +1,75 @@
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE7111990A7
-	for <linux-staging@lists.linux.dev>; Sat,  5 Apr 2025 14:19:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33D4C3A1BA
+	for <linux-staging@lists.linux.dev>; Sat,  5 Apr 2025 14:21:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743862761; cv=none; b=ZXdVkjPldN+MZ2oQ4l3OaQbXpWVv6zbrsxvEew2Iym8z2sbcCp4Wvx/s0O94o2XeLDjMSdOKZ3yNzNBKl6hvBRmFMhXXBwKmYtXMwJ4V5edR3Wt1yzXOlLF2HueXoMnVpFeQjHw4SnfDVd3YxQWwLrxngbw4qHsRaAaSwguRZvs=
+	t=1743862920; cv=none; b=boCYOxHPc7thDm9pCw/GH+QBaGw45SQ2awcNY4qogDlT+/S47Rtr7r2HQ6dAYoipydF6ldplQX3lzhql4mFOm6UN4AZ4QbrMUXo4R4ZRUAdnSS91QmMjtQK5WBoCOG4dc4lYC5KSLQgKh0elnIcagGNUjeRA0vdZQCe72h9Cf5k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743862761; c=relaxed/simple;
-	bh=l74iBGb8CYoPepq0f+0E27YnDUTS+yR30dVNzQkwb8s=;
+	s=arc-20240116; t=1743862920; c=relaxed/simple;
+	bh=Kqp+8zjqVnatfeD8Z6voyxBr0VEzpV2CX4mgWJKUYd8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=EMCoryT6dMnCWdzxxGn5H0U+tco6KvKTmCmgzzdbbBLpU3nsPus1FPOiFfvrrqmp0oGt6/kR7xuxrvnktW7tKq3dGvPmtOZ9znfZvb46FvCpzb+qwDP7XZ2sjiq3Bv3qwt8AkYktduIfbDko20o5IYn5Ty62nNRPC+7nLhRFl4s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=NKiATMyu; arc=none smtp.client-ip=209.85.128.44
+	 Content-Type:Content-Disposition:In-Reply-To; b=NrDhZ+Hy5euo0xuQCzGPi4zW3wdRd0a3ec42ZJTKmzQklav70eHJJAFUYZbLGt9dP7yUQn0uO7uvEOxZwU78z+tGttyaWmAU6XiQpXx4OTpJWVXU6AChmE3qydtc+AiDRJcf825bk0TCm7RcLexNsN5ww6ezjZhgu1FKe9PoPl8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=X2ymRDn1; arc=none smtp.client-ip=209.85.221.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="NKiATMyu"
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-43d04dc73b7so31491855e9.3
-        for <linux-staging@lists.linux.dev>; Sat, 05 Apr 2025 07:19:19 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="X2ymRDn1"
+Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-39c266c2dd5so2490495f8f.3
+        for <linux-staging@lists.linux.dev>; Sat, 05 Apr 2025 07:21:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1743862758; x=1744467558; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1743862917; x=1744467717; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=QREsqMnXp3ed/MAkal6kS2dgg2uSOYjf8lEHpd+2mJA=;
-        b=NKiATMyuk3Iwg/XRYZDGulq298divBMTN5bKVOL2TByh7JRiE9CCTiqHevBFLAKDaY
-         BQHv0+S/2FE0M0fdu8P9FW/W3sfo7sgREmN4AUCYqDj9g2BxNxAqjL/d3RYQP8zVINNy
-         1qfoAqVzPmJOy566ANJ8+A8yCfF6i/5mzJQIXFum+D/33o4vG2qchDa75vBfWwItWCGh
-         xl9wvErIa18/AeJ5kwc60MO4o4Fh+xV7nN3UX+pS/rQ3I+jP5rdaZ8L/7UexStOeYFe+
-         2Kb8a08Q/eiRXHIjISEX5nPLd6KKdzcE1zSYZLvlvAad/0xX1VC1ng3TWvfYP9aN8TO8
-         4vog==
+        bh=93RytDVxxoOt/6piPIaVVVkdD4eQVw9IESIfWY1biAI=;
+        b=X2ymRDn1fP6q7izZvucCgxBIw9NQZD8gSkMsULmIZIYcX5TvBGDbeLCMpQBmL/quKP
+         he1z5tbssggGOHbqJwdWB7ludBIpJsc4GwA3NOGlevq6b6QF+PUvAWH1ZdYrRB+zLqkf
+         dCFZ/n31T4UAuhkPk1/g1M98CaAWza/V+Gaz3Gb1E3YMon3sv5Chsp3rAyp97WUvjEH+
+         WqYEmKJBPfKkXr2wfvEFG+g8tJR8aa7Zy88G0u+cH5QShbu+CI4++pzdqa6hXg05/aGF
+         HaO5LN5efS8DpbvfLrCl68r8zkuUtdsJiwbcro0V46EVibWp/hmQwRHhYLS+zo9jyD6M
+         jq2A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1743862758; x=1744467558;
+        d=1e100.net; s=20230601; t=1743862917; x=1744467717;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=QREsqMnXp3ed/MAkal6kS2dgg2uSOYjf8lEHpd+2mJA=;
-        b=nKjc42EdqOp7RKSO7mifXjXvbwjuWUcz7n6cByI6gY2gavWrnRq3WtEEXU7DqJggfD
-         9FlpedOitNqX+P33uFlaG3xnx95oqKRscK96oFNmH+//EsZo/Enmow0CSfgkHXnDBnd9
-         Ur+BetJWDyr4gzw2XQARXlr4XMoFQ9MbormUiAVOe8y9ppwMS1nlqys4mlUbze9KaCrY
-         pOlTLjKxDHkuZxkw2dKZ4wKi0KQr2QaN9vPq1fqae2qXsvttLPYDaO0yVMTr0q8nUdhp
-         ex3dmk3z/taOA1XpbvKjKyr8AXTErzEJSPLiyDFKTq1cuhy5X2ClEBzEVDhZaFid+luo
-         N7UQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXTK6lfPPNzhw+MyxXrzs7ayp9p8vjoFSzn16Jo09RIs076WuAo+UNiDHaF51l8+vuvbfKwDCfFLBU37ZVV@lists.linux.dev
-X-Gm-Message-State: AOJu0Yw/n6EerfYAk/vetfaCdJC1KRR+1yU7tt2zpLZCU0+0uv5WySyS
-	QwysA13BAmmedxTI8vQ59LAiGhj9vf6Us6CfyIgJgWn5FScV/yX5avdYwBZNC3I=
-X-Gm-Gg: ASbGnctvqf/xHIjqct3ZSeXyeunNXuiGSCxueH21d6IP99iy/9+lYuT4QaDJRuUbutt
-	lOa71gPjoHbw6k7gAOhZgXR40ccjY59V7oPDaX4eZS6/FVINurYcRv0wn5SrkuEpLl4xvQQKi+F
-	Lsdq/4AtIoThl4bMa5B8In5GKNnyjF4KrZM9XP2olLzK0H9yIhKHN+wp/7UJg7oqXuJJ5XVbqzR
-	zfxXz0EYy05c+D8RAHgWvn6edeBMue+0Z2Pv1QrvMJjzZwaY9BGJWmgj6E7uw4bqc2mi222GiXJ
-	f0nIySshgn4nDVtTBQXZc/6YwauGi8JyR8D2jdg2d6TgUv1gRg==
-X-Google-Smtp-Source: AGHT+IFW8L+8WZ3ckDNSGjgYJDZALIThBZS5wEzhYuabxviGgmk9WPLFChRNbWZnh+bHR59rItd3kA==
-X-Received: by 2002:a05:600c:1387:b0:43c:f513:9585 with SMTP id 5b1f17b1804b1-43ed0bde88amr69216715e9.13.1743862758182;
-        Sat, 05 Apr 2025 07:19:18 -0700 (PDT)
+        bh=93RytDVxxoOt/6piPIaVVVkdD4eQVw9IESIfWY1biAI=;
+        b=fGiJTDSuc9pmclnOl1Gr+CjbePfh6czX2wScmahQmv7k2oyjc8TUOjGSpDHupNFAL5
+         Psd5DS5fy4qXLYNf29pqYM6FdH9QNcWp46qG/l0RrIYcZUNLiO9DRJ2sI1HdABWai/vS
+         +e/FFc8UZUrls0Y2QxMYQjT9lXoD3ttefglVwp/sxFcEMBkemOh7cqhfsy22x3df7mB4
+         JHtPWtuHYzKg1OQQiJnJz2u8GMp/SeVxFqfEJPm5QpMI3+Ss0QP75ClO6YFQNnQ16DJY
+         8CNHEdPsdlpGXU11sUqUB1ZFDmtr4tAeivyYvOIP2jge1q6CtB8OBQAUgXWwASlYHA2f
+         jXdg==
+X-Forwarded-Encrypted: i=1; AJvYcCU5V4d2pLm5ZCfbhu3czh8hbabiq/LUGgshijUr4TJ4reO+m+5uODeSrrAUOoYjBBHfDX09kjzGdXVT/AOp@lists.linux.dev
+X-Gm-Message-State: AOJu0YwTz173EO9Ng8wjg0NV2iN4mqtM5U7jfQgblkebaTErlCsLagVK
+	aV8hXUtsCbC4aNYj817Mh0YxDSwrsOeKm7WSShIv2crp6hR1/s7iOY2/AnGQgjc=
+X-Gm-Gg: ASbGncvREu+xBzbSE+j19yUylGqr/nwABZYfT1PTz33IdMIt+mWNYEHbxAb+i3fz7jK
+	iRbUng7bkdZ7crVC32ZtFLacMxg9B9usELLdQH9nCzdzAp1oeAjThsT+72b9jmz06+UHNdV3kaY
+	If9e/X4lEQIO63uLU/01zSuNGRxnDMnkrYWgR6XHBQ2rjYYZKeBuOOEvuuAglxfUVWm4MBlktBa
+	EbGrDLWR2sC+A6OaqTYRhM8FMdsZVvPiALRhd5YE7As/7xXtyz7pauTg0EgMKYKxGouhsJ/9IIk
+	uAa67jWS6tojQE3jC/UFV84QgDK9sBPMV8tTfs7qn5l+qNyZ+g==
+X-Google-Smtp-Source: AGHT+IFocO7znkSY17jMn4AasMtMECTj12lcuX1S1TbaDW9YfQuYql/afhbu7TkfR9L/L2OMBpFrjg==
+X-Received: by 2002:a05:6000:1844:b0:39b:f12c:385e with SMTP id ffacd0b85a97d-39d0de17bcfmr5308898f8f.20.1743862917467;
+        Sat, 05 Apr 2025 07:21:57 -0700 (PDT)
 Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-39c301a9da1sm6900116f8f.22.2025.04.05.07.19.17
+        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-43ea8d16049sm89484755e9.0.2025.04.05.07.21.56
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 05 Apr 2025 07:19:17 -0700 (PDT)
-Date: Sat, 5 Apr 2025 17:19:13 +0300
+        Sat, 05 Apr 2025 07:21:56 -0700 (PDT)
+Date: Sat, 5 Apr 2025 17:21:53 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Erick Karanja <karanja99erick@gmail.com>
-Cc: gregkh@linuxfoundation.org, outreachy@lists.linux.dev,
+To: Julia Lawall <julia.lawall@inria.fr>
+Cc: Greg KH <gregkh@linuxfoundation.org>,
+	Erick Karanja <karanja99erick@gmail.com>, outreachy@lists.linux.dev,
 	philipp.g.hortmann@gmail.com, linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/2] staging: rtl8723bs: Optimize variable initialization
- in rtl8723b_hal_init.c
-Message-ID: <8ce041b2-087c-4d47-891f-28ecc0c91c76@stanley.mountain>
+Subject: Re: [PATCH 2/2] staging: rtl8723bs: Initialize local variables at
+ declaration
+Message-ID: <aec43d5d-8f9f-4951-9ddb-03b66b1ce859@stanley.mountain>
 References: <cover.1743820815.git.karanja99erick@gmail.com>
- <f7b63d834b98aedfe2ce277d8008d7e398ea29ba.1743820815.git.karanja99erick@gmail.com>
+ <ef29adfe7c8a189009b07c2873aa48782cd594ca.1743820815.git.karanja99erick@gmail.com>
+ <2025040507-attest-hyphen-5dae@gregkh>
+ <ef088d6-cec1-9758-cc0-55fb66ca952@inria.fr>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -75,50 +78,24 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <f7b63d834b98aedfe2ce277d8008d7e398ea29ba.1743820815.git.karanja99erick@gmail.com>
+In-Reply-To: <ef088d6-cec1-9758-cc0-55fb66ca952@inria.fr>
 
-On Sat, Apr 05, 2025 at 06:14:48AM +0300, Erick Karanja wrote:
-> Optimize variable initialization by integrating the initialization
-> directly into the variable declaration in cases where the initialization
-> is simple and doesn't depend on other variables or complex expressions.
-> This makes the code more concise and readable.
+On Sat, Apr 05, 2025 at 04:41:37AM -0400, Julia Lawall wrote:
 > 
-> Signed-off-by: Erick Karanja <karanja99erick@gmail.com>
-> ---
->  .../staging/rtl8723bs/hal/rtl8723b_hal_init.c | 155 +++++-------------
->  1 file changed, 41 insertions(+), 114 deletions(-)
-> 
-> diff --git a/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c b/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
-> index e15ec6452fd0..1e980b291e90 100644
-> --- a/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
-> +++ b/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
-> @@ -152,13 +152,12 @@ static int _WriteFW(struct adapter *padapter, void *buffer, u32 size)
->  void _8051Reset8723(struct adapter *padapter)
->  {
->  	u8 cpu_rst;
-> -	u8 io_rst;
-> +	u8 io_rst = rtw_read8(padapter, REG_RSV_CTRL + 1);
->  
->  
->  	/*  Reset 8051(WLMCU) IO wrapper */
->  	/*  0x1c[8] = 0 */
->  	/*  Suggested by Isaac@SD1 and Gimmy@SD1, coding by Lucas@20130624 */
-> -	io_rst = rtw_read8(padapter, REG_RSV_CTRL+1);
->  	io_rst &= ~BIT(0);
->  	rtw_write8(padapter, REG_RSV_CTRL+1, io_rst);
+> I guess the first change above would be ok though.
 
-I hate this.  It's a bad idea to put "code" in the declaration block.
+Here is the first change:
 
-> @@ -501,8 +499,7 @@ void Hal_GetEfuseDefinition(
->  	switch (type) {
->  	case TYPE_EFUSE_MAX_SECTION:
->  		{
-> -			u8 *pMax_section;
-> -			pMax_section = pOut;
-> +			u8 *pMax_section = pOut;
+-	struct xmit_priv *pxmitpriv;
++	struct xmit_priv *pxmitpriv = &padapter->xmitpriv;
+  	u8 queue_empty, queue_pending;
+  	s32 ret;
 
-This is fine because "pOut" is a variable.  It doesn't have side effects
-and it's not "code" in that sense.
+-
+-	pxmitpriv = &padapter->xmitpriv;
+-
+
+Yes.  This is a nice change.
 
 regards,
 dan carpenter
