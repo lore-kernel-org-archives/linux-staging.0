@@ -1,111 +1,95 @@
-Received: from mail3-relais-sop.national.inria.fr (mail3-relais-sop.national.inria.fr [192.134.164.104])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD3667483;
-	Sat,  5 Apr 2025 00:33:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.134.164.104
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D453D1B0411;
+	Sat,  5 Apr 2025 03:15:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743813229; cv=none; b=UwqWh12dSoADI4NZDX1bIu3V8tIOme3Gj1Tda2plNIAMqwnqhBq3691MrbF0bKY8HWJKIfJOgvdgeSBNbT9U1MfTO4fcbq8+xky/aBv3yaurSS0SZxU715jVyQwe+iJtVXPyiGmrga36s9b6enz0ijW9XSMpayQqD8pT3HaRiKo=
+	t=1743822905; cv=none; b=VyziKNkL9SBmVfLzkbSoBdJtfzI0lBv9Z1LxXAgQvFdy2i3igM3rdak+7Byt/SR37fjsgd1UGE4zDmXpQOCjwsBtX5kUxpbrzT7AcHeRuZFMpD3rVRxzVmoWCxMvvLKvtbIm80HJhSe6diiioyvEndXC4YsL4NebXGIzF5OPk4Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743813229; c=relaxed/simple;
-	bh=CQJRQ11RqfvELfWpJQkseDZvm3TQu1lz6j3vtH3TxYU=;
-	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=CkZLvbYwKrq5QJ9Dwr2bI6tTA9+0R28GGtKPMFVwDwDclJZ4yU7f1IAVQow79unQRf5OTLe6p1iQrJmbpqbhNbTOEhqGsArMYEUNC9NwkcGhK8d0eDsFp7zvJ2I+O0VWKNK8r7E1dRMtBCBYGBsK1Sg+oL6rj7DQPAxXMHRCjNI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr; spf=pass smtp.mailfrom=inria.fr; dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b=asNUaDHJ; arc=none smtp.client-ip=192.134.164.104
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=inria.fr
+	s=arc-20240116; t=1743822905; c=relaxed/simple;
+	bh=FaDCV0vblsYuERDwYstIhbGlbsR6rec8Z2iCzRgwIyo=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=uPm23E+v92JbOZw4TF8lfDUhSUpqaarZRSfGSulwB0laneiHp9X3SihclIFmWBswkN9udn/H9bCvOHSZy7EOft8n+RpBMMX42l/0X0/KZUVzN6Nz8yDBZ5KIs5VfCboJhspOcXqD3T8rKQFYI5MQyTAlAeuMj/8LQ+OXT4ULjyI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=F4y9Egk7; arc=none smtp.client-ip=209.85.221.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b="asNUaDHJ"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="F4y9Egk7"
+Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-3913d129c1aso1841101f8f.0;
+        Fri, 04 Apr 2025 20:15:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=inria.fr; s=dc;
-  h=date:from:to:cc:subject:in-reply-to:message-id:
-   references:mime-version;
-  bh=CIP45yUlml7IuIoe9Z3XWr8F+65YLSo36Wrup9WoaCo=;
-  b=asNUaDHJj7ezB4IPOB2dlEYeiPHLQnV7KhgKf8Y+2RIOTidlWfK2W/Y6
-   dr8VvRdqdvpl0E2irATXVbcrk85ukUWc6vGEu3yitgQm0dSB66d1QSdnP
-   o36m/8zAyNHj3o7CQpUCx+xcnNlRDcrX92uw+DPEy5fjLzGs8uAkwPbiU
-   8=;
-Authentication-Results: mail3-relais-sop.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=julia.lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
-X-IronPort-AV: E=Sophos;i="6.15,189,1739833200"; 
-   d="scan'208";a="113511471"
-Received: from unknown (HELO hadrien) ([50.225.219.62])
-  by mail3-relais-sop.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Apr 2025 02:33:37 +0200
-Date: Fri, 4 Apr 2025 20:33:33 -0400 (EDT)
-From: Julia Lawall <julia.lawall@inria.fr>
-To: Abraham Samuel Adekunle <abrahamadekunle50@gmail.com>
-cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, julia.lawall@inria.fr, 
-    andy@kernel.org, dan.carpenter@linaro.org, linux-staging@lists.linux.dev, 
-    linux-kernel@vger.kernel.org, outreachy@lists.linux.dev
-Subject: Re: [PATCH v2] staging: rtl8723bs: Use % 4096 instead of & 0xfff
-In-Reply-To: <Z/B019elTtKG/PvD@ubuntu>
-Message-ID: <2d2dbebf-b4bb-74c0-14cd-b7ffbe3894e4@inria.fr>
-References: <Z/B019elTtKG/PvD@ubuntu>
+        d=gmail.com; s=20230601; t=1743822902; x=1744427702; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=j5PzPw4Buo1LkvHHDyhNOl6/oB8IwjF4H1+iNNPSCcI=;
+        b=F4y9Egk7h+v6m3FQDiLxk6oLSGH7wgifkxwGTTTsujOFmwAic7wFmyu+Xsvx5kLwAA
+         sphMusmHawbFXIJKXwRr5ux7sbLTZxx15zx9k2vHmILW49svYrdBdU+PlrnK8OVZT5GH
+         0v6XtT07RcY9PJHqNT2EWVkLI+8ddvDrlaklrqGqjFw1GHBTISnAT6tL5VUeUCPq6T+C
+         UurUi8JGpMDMFjo/gxGkb1FRFdcHP5Mmpx51Jgo2bwkKgoUkfVOyIcN9rvBRnAZd2iJi
+         2oXrdLqhTGX0XZrc7Ss0TxowDtJgy+0/KYHUt8ujx/8/3fjk2Wrmu7zI6VD5pZTd9tfK
+         vbxg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1743822902; x=1744427702;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=j5PzPw4Buo1LkvHHDyhNOl6/oB8IwjF4H1+iNNPSCcI=;
+        b=hzCSsAKSWUg21cPtFGKtt6XZ+GUFWF5KJ5nlp4u6zudOC00KEyJcLv7Ah4USexZ3zz
+         jwNLkVwJPpxrFgZZ7FgngNrFD+NmftOb3FkImtmuWqgPU555q/d77RajkQPMFNI/KILL
+         r9dsS76eeyrLjqEvkBC0Ndh4QgNqtu7fCGQkDp52x38KuLJFee195WaXrK79bZJqBykP
+         el19Kz5zKG1xdsYl8vz/BrgsdPRLX/qtDCwEGkrbW+OuDH5FBFPTX97cCTlG49iGebJ8
+         SHrRJgPiK3nIwDH5afw7a/DXLMp/oL6m/U7saLtbno5tysLzxB37g2CimTpK+FDq5R+V
+         2+KQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVT+KA8a4QPocuesm/cQetFxMHdvcz6xUStKiBRG9I4+dk/HYoy4VJtJIiktpMEhz4hONOGlPZ7pQKq3HIV@lists.linux.dev, AJvYcCW3UGdiqdzAPx3htHlxHksXXafK0u3XbI/hgPPrpkc6eI33LESNZM/LuPxqtlm9l+RNKRuSoam/I00Q@lists.linux.dev
+X-Gm-Message-State: AOJu0YwWSMYv5aNBcQxRzYPP50g9MD1lnOl1ZyI7m/MIUlRBLU85xoSS
+	jKOSmZK+rUpdv+JQpCl0/gxFnpiSePNRksTWY0puOrj0xXL6OKzH
+X-Gm-Gg: ASbGncsJ7vEC9tYAKQZJTHYeYYuQVuozRR/xvPwKBoAsyrofQ0k5tnOqAP9BkI8gE+I
+	YMiBmHHUqjNqpb2KNy7gq8h9CYaPHiwXHY7myF8N14dokM8endByQu0tTqUs1LCqBzbVyFRO/aN
+	IdGQ+a1XfT2CfHSm5HM+nP5V0R3aSbbSwTU9y33sxsqSuD5pszx/8RVG5SX1agdsHMTnQI8JJAc
+	HdSdR1RoaZTsFDwgOfLT6W4uRM1qse3/GgjLBPKYPFDPtAkDNpA2cqn0pTobGDNF2wFmNusAKyJ
+	UQXLe0BoKTxTk6SQX2NxaP6/v0xnQxTeOKFIU7e+MQ==
+X-Google-Smtp-Source: AGHT+IE0vSAAtWKqhoLkdngcKVrEQ4uN3i8XPo8ttA3scwcSuIvdkedudjulMU7aJZGNd/kAbHh5+w==
+X-Received: by 2002:a05:6000:4310:b0:38d:ae1e:2f3c with SMTP id ffacd0b85a97d-39cba94dabdmr4379280f8f.25.1743822902014;
+        Fri, 04 Apr 2025 20:15:02 -0700 (PDT)
+Received: from pc.. ([197.232.62.187])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-39c3020d6b1sm5832250f8f.62.2025.04.04.20.14.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 04 Apr 2025 20:15:01 -0700 (PDT)
+From: Erick Karanja <karanja99erick@gmail.com>
+To: gregkh@linuxfoundation.org,
+	outreachy@lists.linux.dev
+Cc: karanja99erick@gmail.com,
+	philipp.g.hortmann@gmail.com,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH 0/2] Simplify local variable initialization
+Date: Sat,  5 Apr 2025 06:14:47 +0300
+Message-ID: <cover.1743820815.git.karanja99erick@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 8bit
 
+This patchset address variable initialization at declaration.
+Key consideration that code executed between declaration and
+initialization is not necessary for initialization and changes
+do not affect the readability of the code.
 
+The patches can be applied in any order.
 
-On Sat, 5 Apr 2025, Abraham Samuel Adekunle wrote:
+Erick Karanja (2):
+  staging: rtl8723bs: Optimize variable initialization in
+    rtl8723b_hal_init.c
+  staging: rtl8723bs: Initialize local variables at declaration
 
-> Replace the bitwise AND operator `&` with a modulo
-> operator `%` and decimal number to make the upper limit visible
-> and clear what the semantic of it is.
+ .../staging/rtl8723bs/hal/rtl8723b_hal_init.c | 155 +++++-------------
+ .../staging/rtl8723bs/hal/rtl8723bs_xmit.c    |  56 ++-----
+ 2 files changed, 57 insertions(+), 154 deletions(-)
 
-I think that the & and the Fs are more understandable than using the % and
-4096.  I would say no for this idea.
+-- 
+2.43.0
 
-> Also add white spaces around binary operators for improved
-> readabiity and adherence to Linux kernel coding style.
-
-The "Also" is a hint that you are doing two things.  So they can be in two
-different patches.
-
-julia
-
->
-> Suggested-by Andy Shevchenko <andy.shevchenko@gmail.com>
->
-> Signed-off-by: Abraham Samuel Adekunle <abrahamadekunle50@gmail.com>
-> ---
-> Changes in v1:
-> 	- Added more patch recipients.
->
->  drivers/staging/rtl8723bs/core/rtw_xmit.c | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
->
-> diff --git a/drivers/staging/rtl8723bs/core/rtw_xmit.c b/drivers/staging/rtl8723bs/core/rtw_xmit.c
-> index 297c93d65315..630669193be4 100644
-> --- a/drivers/staging/rtl8723bs/core/rtw_xmit.c
-> +++ b/drivers/staging/rtl8723bs/core/rtw_xmit.c
-> @@ -943,7 +943,7 @@ s32 rtw_make_wlanhdr(struct adapter *padapter, u8 *hdr, struct pkt_attrib *pattr
->
->  			if (psta) {
->  				psta->sta_xmitpriv.txseq_tid[pattrib->priority]++;
-> -				psta->sta_xmitpriv.txseq_tid[pattrib->priority] &= 0xFFF;
-> +				psta->sta_xmitpriv.txseq_tid[pattrib->priority] %= 4096;
->  				pattrib->seqnum = psta->sta_xmitpriv.txseq_tid[pattrib->priority];
->
->  				SetSeqNum(hdr, pattrib->seqnum);
-> @@ -963,11 +963,11 @@ s32 rtw_make_wlanhdr(struct adapter *padapter, u8 *hdr, struct pkt_attrib *pattr
->  					if (SN_LESS(pattrib->seqnum, tx_seq)) {
->  						pattrib->ampdu_en = false;/* AGG BK */
->  					} else if (SN_EQUAL(pattrib->seqnum, tx_seq)) {
-> -						psta->BA_starting_seqctrl[pattrib->priority & 0x0f] = (tx_seq+1)&0xfff;
-> +						psta->BA_starting_seqctrl[pattrib->priority & 0x0f] = (tx_seq + 1) % 4096;
->
->  						pattrib->ampdu_en = true;/* AGG EN */
->  					} else {
-> -						psta->BA_starting_seqctrl[pattrib->priority & 0x0f] = (pattrib->seqnum+1)&0xfff;
-> +						psta->BA_starting_seqctrl[pattrib->priority & 0x0f] = (pattrib->seqnum + 1) % 4096;
->  						pattrib->ampdu_en = true;/* AGG EN */
->  					}
->  				}
-> --
-> 2.34.1
->
->
