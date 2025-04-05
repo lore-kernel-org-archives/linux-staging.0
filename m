@@ -1,37 +1,36 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B4701953BB;
-	Sat,  5 Apr 2025 13:37:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 293701EA7FD;
+	Sat,  5 Apr 2025 13:41:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743860238; cv=none; b=ThOOPW93Qek8DoHxYu7XOJxhJCKJNh4YHQIKsxHcoTcKAxBalmmewi7WClPodM6xU/xOooo4GoSDjq8+n/OvSfG7fLTDdPl50r/269WpqgwEFKi7pk9XyoE1wyRRYQC5JNDc+yPB+wr0Ig6H/mBGn2AJNnKRLjqYTkNEP7aFM0I=
+	t=1743860469; cv=none; b=MrTuzYXZETWZ1soEf4jRLgPsNh2+ac9uN30xg6bQKnzKcSfB0TTi/h8aJD76xiTr3615h11m+SniLaSRjr5s2KAs23EuCcJQTSMTAb2w6/BQcdxUvk5QUt1Onu4jkUWcmWj2H3BKrXuoZcHEUuhwKoJk9kb0TO0y+Lnmfh/Qs/E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743860238; c=relaxed/simple;
-	bh=nswXIf2fYzDy8jVaYi9j4BNtU418xGPfp26gCcX51Hc=;
+	s=arc-20240116; t=1743860469; c=relaxed/simple;
+	bh=Ut2N5p6wy4nRVl7/hlQk94z0ObaJeSBksKHiL6EUyDY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pnDEXloDARM0H0BU3xNvcR3VahcduYroTEXVFEURiVZkJu580018ab+1DyQS07Le0DVz3hPXlrrIWWqdHafH/gs3mDJVDdQJr270TcygoHYgnqS7KH68so+kjrl5F3t1NpW1phukqOQxG/QP8l/7/l+YDABA8WWNNv89U/Dx+n8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=mKRcpgvf; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=EJ0WiNGI2Vi1t4hZDXRygDKuf3dGvd6FhRPWhQf+AWwnaiC8g3INqA6vPXh6TjHVhghRfWlAFF/jL8IT5w+oDoIQiK4bnDhN2j/SbAz/FChk4T9QQMtLB69edvcULiUfnJFkphhgBxDZvyGzGuAw9/9nNqHdb373j4/4OB/AeqU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=dfIqjbM3; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="mKRcpgvf"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 262D9C4CEE4;
-	Sat,  5 Apr 2025 13:37:16 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="dfIqjbM3"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 41C08C4CEE7;
+	Sat,  5 Apr 2025 13:41:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1743860237;
-	bh=nswXIf2fYzDy8jVaYi9j4BNtU418xGPfp26gCcX51Hc=;
+	s=korg; t=1743860468;
+	bh=Ut2N5p6wy4nRVl7/hlQk94z0ObaJeSBksKHiL6EUyDY=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=mKRcpgvfll7v6Q17xRHg5zrMSP5v/lXpF7tKsi6qhAJwhWi5MPrXwqlHOi8b8xpO3
-	 fDEuPHKlCn1SLDOnrGV9WcawnKUwDE+E7vYgbd0VhfsNGJIjqGMmp8w/a43u7pRr6L
-	 yjM9Mhacjt7oGAU3aRbM8E/4Xrmo8ZRtB7dLkhwY=
-Date: Sat, 5 Apr 2025 14:35:49 +0100
+	b=dfIqjbM3G2Ca57NQCP2/e1luq9dKMYYmsgJhhqc1ltzmVJgrdKWNex4BUaN6C/Jxk
+	 2Dp5hn9bfJY11M+VURR+Hf1aUm5jvJEaQurKCbnSem5vdWWzvN2mbHrucUtwWWrwZW
+	 mlcj7aMvAjh0dIm2ec74q/sRA/cNs+6Wevof3WAg=
+Date: Sat, 5 Apr 2025 14:39:40 +0100
 From: Greg KH <gregkh@linuxfoundation.org>
-To: Richard Akintola <princerichard17a@gmail.com>
-Cc: outreachy@lists.linux.dev, sudipm.mukherjee@gmail.com,
-	teddy.wang@siliconmotion.com, linux-fbdev@vger.kernel.org,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 0/8] staging: sm750fb: change function naming style
-Message-ID: <2025040538-breeze-espionage-dc6e@gregkh>
-References: <cover.1743857160.git.princerichard17a@gmail.com>
+To: Wentao Liang <vulab@iscas.ac.cn>
+Cc: philipp.g.hortmann@gmail.com, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] staging: rtl8723bs: Add error handling for sd_read().
+Message-ID: <2025040523-absolute-defendant-131f@gregkh>
+References: <20250405130642.2255-1-vulab@iscas.ac.cn>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -40,32 +39,21 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <cover.1743857160.git.princerichard17a@gmail.com>
+In-Reply-To: <20250405130642.2255-1-vulab@iscas.ac.cn>
 
-On Sat, Apr 05, 2025 at 02:00:51PM +0100, Richard Akintola wrote:
-> Address checkpatch's "Avoid camelCase" for sm750fb module by changing
-> function name to conform to kernel code style.
+On Sat, Apr 05, 2025 at 09:06:42PM +0800, Wentao Liang wrote:
+> The sdio_read32() calls sd_read(), but does not handle the error if
+> sd_read() fails. This could lead to subsequent operations processing
+> invalid data. A proper implementation can be found in sdio_readN().
 > 
-> The patches are required to be applied in sequence.
+> Add error handling to the sd_read(), ensuring that the memcpy() is
+> only performed when the read operation is successful.
 > 
-> Richard Akintola (8):
->   staging: sm750fb: change sii164GetDeviceID to snake_case
->   staging: sm750fb: change sii164ResetChip to snake_case
->   staging: sm750fb: change sii164SetPower to snake_case
->   staging: sm750fb: change sii164GetChipString to snake_case
->   staging: sm750fb: change sii164EnableHotPlugDetection to snake_case
->   staging: sm750fb: change sii164IsConnected to snake_case
->   staging: sm750fb: change sii164CheckInterrupt to snake_case
->   staging: sm750fb: change sii164ClearInterrupt to snake_case
-> 
->  drivers/staging/sm750fb/ddk750_dvi.c    | 16 +++++-----
->  drivers/staging/sm750fb/ddk750_sii164.c | 42 ++++++++++++-------------
->  drivers/staging/sm750fb/ddk750_sii164.h | 16 +++++-----
->  3 files changed, 37 insertions(+), 37 deletions(-)
-> 
-> -- 
-> 2.39.5
-> 
+> Fixes: 554c0a3abf21 ("staging: Add rtl8723bs sdio wifi driver")
+> Signed-off-by: Wentao Liang <vulab@iscas.ac.cn>
+> ---
+>  drivers/staging/rtl8723bs/hal/sdio_ops.c | 8 +++++---
+>  1 file changed, 5 insertions(+), 3 deletions(-)
 > 
 
 Hi,
@@ -86,6 +74,14 @@ as indicated below:
   Please read the section entitled "The canonical patch format" in the
   kernel file, Documentation/process/submitting-patches.rst for what
   needs to be done here to properly describe this.
+
+- You have marked a patch with a "Fixes:" tag for a commit that is in an
+  older released kernel, yet you do not have a cc: stable line in the
+  signed-off-by area at all, which means that the patch will not be
+  applied to any older kernel releases.  To properly fix this, please
+  follow the documented rules in the
+  Documentation/process/stable-kernel-rules.rst file for how to resolve
+  this.
 
 If you wish to discuss this problem further, or you have questions about
 how to resolve this issue, please feel free to respond to this email and
