@@ -1,86 +1,100 @@
-Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
+Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 747EE1C701A
-	for <linux-staging@lists.linux.dev>; Sat,  5 Apr 2025 11:43:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D27B19D8BC;
+	Sat,  5 Apr 2025 12:25:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743853387; cv=none; b=RS1x6UjM7fPMYu3z2k3PBpayNCQMTH9F6CDzQhg9gZIByi1okHJfM+ArmCrJW6gHlnAHxaAA9UJ4lp/Qsn3oCWth9bJ63XLdhd8/ohEssRqSXATC9OFJcQJFf2QOhGzq1+nw7Sydu4gPW5v5LaB3M4aWCYme+gXh7VcEr28nE6Y=
+	t=1743855928; cv=none; b=aHx8/kSTY98ZUq0LyPe6YlAs9cCw1XwY/GRuYPTw2t7b8IxNcyzV8Rpmbs5jitmYoqRpPFGS6HT/OtKzlA2fIwyW3mZsifmYvX/FQM/T7vZqzghPB9CYRfFwSzf5dZg602WFmdRBKN49eli6HreEn5isu48Q4/eG1KtXtsdei88=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743853387; c=relaxed/simple;
-	bh=IeHWiIJlta9V/CcKkQRliZD2ZLDbrn5xIAUOm4xlQVI=;
+	s=arc-20240116; t=1743855928; c=relaxed/simple;
+	bh=CYduOFeB5IT3Kco1O/4Tx9MEW9QbS2Wtx+nqAPLrNlA=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ZCqRLM15DqDMw+22gxWZcADKMmIurwEiqgegMNyyh7HrLTJLIhmMyhtHDxaU9pCnku6gTv833taWvJRYuudRF1rNM+hTA7S3/U3yAfRIZzBwub4Li4Mp7AqQ4wV5GfgpUaC0FxkTO/o0eHPCRBghapNQQjG6kezey0GMjrRXkKI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VQ7JmzOE; arc=none smtp.client-ip=209.85.208.48
+	 To:Cc:Content-Type; b=UbRs6byxkLdyuBG/k1M5PjImq4KxS0KoAIve6kcaZLNOSeG5/ugPA55GmtkybdHLa9N53PJfnFyjuIna8Z0qCi1noif6EJH+fA3qgAFKlMfasCw6DOqJ95ty4MSqdPvhkdczx2DX2XgUdq+f0+iFPXa1TePm0mrF6vAGh3C6rC4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AjjWxP2x; arc=none smtp.client-ip=209.85.208.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VQ7JmzOE"
-Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-5e5e22e6ed2so4180310a12.3
-        for <linux-staging@lists.linux.dev>; Sat, 05 Apr 2025 04:43:05 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AjjWxP2x"
+Received: by mail-ed1-f53.google.com with SMTP id 4fb4d7f45d1cf-5efe8d9ebdfso5947797a12.3;
+        Sat, 05 Apr 2025 05:25:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1743853384; x=1744458184; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1743855925; x=1744460725; darn=lists.linux.dev;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=AAQCxkgn54QHpXGK+XuJQEXzbLMiEpvUoIf5Iinc0gE=;
-        b=VQ7JmzOEOHljgctLfuS8qTmveXaEvH0enciDApjPd3n6i4U8EyKP62wbspBn4HZqxf
-         v1WxFE8O7TO9E6VnYGOq4PufzIrwjZhyVghn2ypxR/XxCmACGfpQQCPOPzLtiiQpkrk3
-         mToobkR1T/NpNq2oYLo4GCqbT59FuF0LpZyWX8uGHhcclBJnzOHXhh+oNr7rHaFr8oP7
-         kVhQjyWKnDvw79vxMZXbPcdUaCcpnURoCk/Wf+zugQrsklQGbgS+SSnjA7ku6cxa3uEB
-         maGZZmoZLCQ64cUWj7tx0FrANmrrl/FINPCOysoreinTofJVn4M8yc6iDdWNTChtP0aw
-         +Uww==
+        bh=lyilPmtJoJj5gHj0tU+EtQiAso8knuigx97pyKiZk8w=;
+        b=AjjWxP2xFgCAOU2q7OqSPLarSS+Dcd9D0Yzlbr7jzwrcB6u7jXbB38o9fW2YgljclU
+         rrvwcuwnpbh9z/ZToWHqaxH03lr3RXu8PgxOrbNRUlzVxfDHt4t6UrvPLXOhKDq0cZmI
+         2uCjtonty4gTk1lPH99+oZ0LHfvQzjdNCCzEaFzioDqzlgZm2cusI6umVNH/v6hPbSTk
+         BROe4EFiwKSv77KkMEjcwqbiaDMiAkVpqs6R8ewDO3IXM/GzXnQz3kZviInzIz2G/kBl
+         zBdQAXvU7KPFhJuW2sJ+X1mxEkSA3jyVFV+cfgMzoyuAMbK8NUrxRwQZGhgyOVG7wmJL
+         d1qw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1743853384; x=1744458184;
+        d=1e100.net; s=20230601; t=1743855925; x=1744460725;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=AAQCxkgn54QHpXGK+XuJQEXzbLMiEpvUoIf5Iinc0gE=;
-        b=CuBhVc1wJtLFjE/aL1z/i1F7DOfzfOCwWegZYOnS3sbOJ2+r6IJt5fP+fWa55I19KG
-         ZAw8iYPYdwR/KD68osfbi44wn8Ih5//uMypzaxsXQaydDuk6LljOKEflGjyP7BpSx5I5
-         F8tlhMakjXV4yndzCh/7NWct6MR2jHDe8v64noroYORsVTvoE6OE2ly+InyQlIikWTWW
-         mYz7ROqYieP/LuralzlMRX+ZHW8LhcuEcMesayCcU/DTFl0rWNbvRS6+1aMri3hymDKY
-         nPdXSNKIZSFs0ovBu36SPYxNHp5cmJTzbnd4hlfBmDQiKrrfbek2m9W3RuuPz1AfyQff
-         jEjA==
-X-Forwarded-Encrypted: i=1; AJvYcCUlpG6f0uEv2eb4YchQNfWFdsMakwAPN/Lu8T1csK8yRnx2Lvz6UYfkzwrcEi+j9fyhVfcqyiZ0kw0Dk8B6@lists.linux.dev
-X-Gm-Message-State: AOJu0Yxm24YYrgPEDMci7PgZbo+yuqIEB5K8fL+lSzdtwaaMq5gsOhOr
-	HLeUKHlGxkKNwx+JJUcdtjtn8AyEv9/RUxdETd7LpRtrGfxcECTMUlPQJHphbOsHtKSAPO0u4WS
-	LQdhxvnm64g0zYQ6WfB8wapWPV/0=
-X-Gm-Gg: ASbGncsMEMipkI+sfgHdeEJG4pU/v8lAEtpLvr/LqrBYnA1J9T0+GoZFMJItzVFtOWg
-	8Kgv/+S6PRLQYnlMcyFM+BgFU+iNBcz63Hj3s1WFIWIdE6/1CNf/xHE9rigHtA5hkcGk0JNw4pe
-	YBbbMjAx+p5lSa/xpSqoCqT9Qx6w==
-X-Google-Smtp-Source: AGHT+IGR49Meudv61iYvBzrEPGWBseWjPkmDlmkAguahpWMV8F7NVB92wvM8pzyr8lhEzQ+Zp2Axv76kLM28VS0iFds=
-X-Received: by 2002:a05:6402:350e:b0:5ec:9e9e:3c3 with SMTP id
- 4fb4d7f45d1cf-5f0b5da703fmr3990871a12.6.1743853383704; Sat, 05 Apr 2025
- 04:43:03 -0700 (PDT)
+        bh=lyilPmtJoJj5gHj0tU+EtQiAso8knuigx97pyKiZk8w=;
+        b=KZmXT4GU/Te1pi0uMFvx+V8yon90I/STg/QKRDe5uaQUDF/lEANuVJOdV+cN5G1qHz
+         HaNTjaMVbGXFN/rxKsNlIBE2mlAox6fvfdIunxGNeCpPkbw/C75oQD82m49mRTZqlMo6
+         7X3NE3Xmu/+W0dHcH7zIhZ92h6SthBUTaikeASUbnyGh4im3e7ymQk48KXBaJZJ3yUId
+         i51d5bbo4W09sluVkPnlil/6g0ks3gDMljFjEL0avK4sZeETBAh0jawgzgquX+Cvsgm3
+         k72/FJhZMNXhCPDo9/vlZWof06M/hDBMzhlEruAKIjLQRJrZ1aAaMdbGXhp1ZZGTJiQQ
+         4RWQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVrwv8+w+b2PZxiduCLAWU6Jn0+m0Qj89J8bY4lYuc0iwsLyttN5VpF/YF8lx0K7U7T6WEedshAGMMZ@lists.linux.dev, AJvYcCX27gO228Ho8eDiqNYJFfTq+pUoKmzQsYZCnDwkGsF5cp5+qtxjBV6ljaWvNf6cQBjS8Dqf1lPfuVUBU2tA@lists.linux.dev
+X-Gm-Message-State: AOJu0YzfWmdnsN4scLWIvnbMpSSlCrZT89FXOPioM9Dy43IkVSDO/qMk
+	Gvw7yTUttqH9OUYVUj+xkmFA7EaPZDt1LeruvzOdQugcIqTKfqBnLBsq1iuTZutnSjd8QR79iOW
+	Rn2z77RV+yFemPpzcg4dYNwNRT58=
+X-Gm-Gg: ASbGncsDkH9TnXCPcy0bufuOko1xTdnmq9vPdPzSlbwQ/MNt0rU2MDH+NkfnrEjZ5t4
+	s8n0VPOkoW+Cv+7N2JuXvzt8lk+WQgAQLtsqBQqdHmDSz2biTizA6fy7BHJaS1zd1d5SsGvVJ9J
+	85PMLxSiqIyTkgJubUQOJotiRRaQ==
+X-Google-Smtp-Source: AGHT+IFMeUZD+hS5ek/jSytgiuRMwCslST268AHJcAuN6buBogopfowCPWraMeSbqEcUGXq/8/oNF3gCMyBy3mKLoxw=
+X-Received: by 2002:a17:907:3e21:b0:ac7:c688:9fd7 with SMTP id
+ a640c23a62f3a-ac7d18942b8mr554424366b.18.1743855924499; Sat, 05 Apr 2025
+ 05:25:24 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <67f0f9ff.df0a0220.33076c.f0e5@mx.google.com> <CAMyr_bJpE=NHi4bS=_eAWcm1gxKiKDA3YQ_mYRCDi3tjuBjknQ@mail.gmail.com>
- <2025040505-colonial-pencil-69b4@gregkh>
-In-Reply-To: <2025040505-colonial-pencil-69b4@gregkh>
-From: Richard Akintola <princerichard17a@gmail.com>
-Date: Sat, 5 Apr 2025 12:42:35 +0100
-X-Gm-Features: ATxdqUFvWlhgf0Awd-vyZfu_-zhGNfH85tFXXZeE6evOOSEAfi9M90Pk7W_DZtQ
-Message-ID: <CAMyr_bKq9dnc2bzu=qq1pCsqkHwMxK+xLApbOy45MYtXLXnTBg@mail.gmail.com>
-Subject: Re: [PATCH 1/8] staging: sm750fb: change sii164GetDeviceID to snake_case
-To: Greg KH <gregkh@linuxfoundation.org>
-Cc: sudipm.mukherjee@gmail.com, linux-fbdev@vger.kernel.org, 
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+References: <Z/B019elTtKG/PvD@ubuntu> <2025040547-vagrancy-imagines-384b@gregkh>
+In-Reply-To: <2025040547-vagrancy-imagines-384b@gregkh>
+From: Andy Shevchenko <andy.shevchenko@gmail.com>
+Date: Sat, 5 Apr 2025 15:24:48 +0300
+X-Gm-Features: ATxdqUE5jVhnJsdiUE1drw_4pt6qvWaSrkgfi25HGTYyoscM5lE6n-dkdOMmrKk
+Message-ID: <CAHp75Vc0vOB1nDLrV+wmYeshxTsDwYq0xBkmJiOH=d5HONRpNQ@mail.gmail.com>
+Subject: Re: [PATCH v2] staging: rtl8723bs: Use % 4096 instead of & 0xfff
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Abraham Samuel Adekunle <abrahamadekunle50@gmail.com>, julia.lawall@inria.fr, andy@kernel.org, 
+	dan.carpenter@linaro.org, linux-staging@lists.linux.dev, 
+	linux-kernel@vger.kernel.org, outreachy@lists.linux.dev
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Sat, Apr 5, 2025 at 12:06=E2=80=AFPM Greg KH <gregkh@linuxfoundation.org=
-> wrote:
+On Sat, Apr 5, 2025 at 11:23=E2=80=AFAM Greg Kroah-Hartman
+<gregkh@linuxfoundation.org> wrote:
+> On Sat, Apr 05, 2025 at 12:09:59AM +0000, Abraham Samuel Adekunle wrote:
+> > Replace the bitwise AND operator `&` with a modulo
+> > operator `%` and decimal number to make the upper limit visible
+> > and clear what the semantic of it is.
+>
+> Eeek, no.  We all "know" what & means (it's a bit mask to handle the
+> issues involved), and we all do NOT know that % will do the same thing
+> at all.
 
-> All of these need to be linked together, you are sending them
-> individually.  Please use a tool like 'git send-email' that does this
-> automatically for you, because as-is, I can't take these, sorry.
+And that is exactly the purpose of the change. The % 4096 makes it
+clearer on what's going on, i.e. we are doing indexes that are wrapped
+around the given number.
 
-Noted, would do just that.
-Thanks.
+> So this just made things more difficult to maintain over time.
+>
+> What tool suggested this type of change to be made to this driver and
+> these lines?
 
-Richard Akintola
+It's not a tool, it was me. I read the code and suggested that change.
+
+--=20
+With Best Regards,
+Andy Shevchenko
