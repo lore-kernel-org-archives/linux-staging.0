@@ -1,37 +1,37 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A13602E62C8;
-	Sat,  5 Apr 2025 08:23:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0F8C2FB2;
+	Sat,  5 Apr 2025 08:37:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743841423; cv=none; b=E/MVEDaNAFv2RAb+isz4wG1uOHvgqtnIbTTrJVpDaHMmOTWK1GqLWkae1uGOI26beqQxZ6YdbaUJv5OjDfA2Kp+BioRNKm+9s2S+ufq37nLOK9y5hgvk7IKK8uMyIsUi7kYLHq+ErT9qsk9MKhQmUiObxAZI+QM8j7gFl6CyGkY=
+	t=1743842270; cv=none; b=UcAxT/BZRBqHsHWABa1959PP8H37K8i4HiPh+jc6kj0GNZ2pkaO6AZuCvwS2LAHDzORsU9GR9OC+zDFBp/QEb03gTg0LvCmgLoEYhszqCEViioRAv+ENVkpuJXRdmZe8EiM+zMmAI+LIThyWgdC581wSpFUWxJLeHnhl+vAOsc8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743841423; c=relaxed/simple;
-	bh=AXNyiUG4wn9leZjyRDglAGyC+fD8gfG4cDMPjR4ZATA=;
+	s=arc-20240116; t=1743842270; c=relaxed/simple;
+	bh=rZbBTFqh22zPlKex34rUu1jikwIP6p+olhCh1EPorsY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qvOcOaxUHmjdjCQLyWcnDZ68M9fmgM4tr1/Wob0rFTvygiv1pLZGKkx3Znk5Q43s29VCxlz6lgjY3I4HlNkG+3r1XHhpRR9S835XHNdfbIpB3+wf+9IqK5OrT3ONEYB7shg8TrRVXvUQ0CxiEPf2lr+LaBpvcIO01jHAoZF4Oe0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=P3ftj74g; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=dFpe0Z/75Sn8JEsBI/9MYLuDPMN0G1Ts4cP6OWHg+6QQPlB398fGPwE8dhpWdeSeiRIOAyQi9TEf93zK6IYT2qBNNhHub0b31WOpiIabGV7sWhnk2WWKEJ0qmVmpxL5FivhtQIZHtCq3wkvbaTEed6kK6nk0lZ/M95fdMt8jS+w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=ybUFy/kA; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="P3ftj74g"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9527CC4CEE4;
-	Sat,  5 Apr 2025 08:23:39 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="ybUFy/kA"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9F077C4CEE8;
+	Sat,  5 Apr 2025 08:37:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1743841420;
-	bh=AXNyiUG4wn9leZjyRDglAGyC+fD8gfG4cDMPjR4ZATA=;
+	s=korg; t=1743842270;
+	bh=rZbBTFqh22zPlKex34rUu1jikwIP6p+olhCh1EPorsY=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=P3ftj74gFELv8K5pmOOb86fUq1JrQj6Bg+gU1fBe3OZTq0coFgE7gcgtjVt0GTC5C
-	 mBpfXFcNiZllXvnTNikfAIDq4NJna+/9CqLuNJyj67kW3PHpy0MzvjHvsmvOjSWaiS
-	 hjTK0BCEhmc7/CX3Hq/NgLgFyr6f9fqiuyYu1AhY=
-Date: Sat, 5 Apr 2025 09:22:11 +0100
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+	b=ybUFy/kAxGxfx5aaYnHscn8Cejpu0sD8HjmO0J9bGPZBJl1Oq4nNnozBAAiF/u5D+
+	 hAxAd9wF3eA1AlPp7ahIzMX7q4i/tjnxm3vogYsEguzzbrVb8kevtHQSjN9vnpc0Gq
+	 daI5WGBeeuAM4Xd3OKflS3B9qUjJZcARIxLfhY1w=
+Date: Sat, 5 Apr 2025 09:36:21 +0100
+From: Greg KH <gregkh@linuxfoundation.org>
 To: Abraham Samuel Adekunle <abrahamadekunle50@gmail.com>
-Cc: julia.lawall@inria.fr, andy@kernel.org, dan.carpenter@linaro.org,
+Cc: outreachy@lists.linux.dev, julia.lawall@inria.fr,
 	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	outreachy@lists.linux.dev
-Subject: Re: [PATCH v2] staging: rtl8723bs: Use % 4096 instead of & 0xfff
-Message-ID: <2025040547-vagrancy-imagines-384b@gregkh>
-References: <Z/B019elTtKG/PvD@ubuntu>
+	andy@kernel.org
+Subject: Re: [v3 0/1] Unnecessary code cleanup patches
+Message-ID: <2025040505-blip-mower-bab6@gregkh>
+References: <cover.1743723590.git.abrahamadekunle50@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -40,21 +40,21 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <Z/B019elTtKG/PvD@ubuntu>
+In-Reply-To: <cover.1743723590.git.abrahamadekunle50@gmail.com>
 
-On Sat, Apr 05, 2025 at 12:09:59AM +0000, Abraham Samuel Adekunle wrote:
-> Replace the bitwise AND operator `&` with a modulo
-> operator `%` and decimal number to make the upper limit visible
-> and clear what the semantic of it is.
+On Fri, Apr 04, 2025 at 01:02:19AM +0100, Abraham Samuel Adekunle wrote:
+> The patchset modifies unnecessary duplicate NULL test on a
+> value in an expression, when the value has been NULL tested in a
+> previous expression.
 
-Eeek, no.  We all "know" what & means (it's a bit mask to handle the
-issues involved), and we all do NOT know that % will do the same thing
-at all.
+Nit, the subject line does nto have "staging:" in it, so I don't know
+where this goes.
 
-So this just made things more difficult to maintain over time.
+Also, it really reads as "this is an unnecessary patch" :)
 
-What tool suggested this type of change to be made to this driver and
-these lines?
+And finally, for a single patch, there's usually not a need for a 0/X
+email to describe it, everything should be in just the single patch
+itself.
 
 thanks,
 
