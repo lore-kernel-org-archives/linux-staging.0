@@ -1,178 +1,140 @@
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B9121DEFD7;
-	Sat,  5 Apr 2025 11:26:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B577018027;
+	Sat,  5 Apr 2025 11:34:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743852410; cv=none; b=i9GmxvErhpK4jRuopMBso4Lm0g4FZHoz6kilHLAYRwxk7aiskwFidnn9BJfl6Ol05cH+7rj4cZMZRkyYvW/Ks5STcRCWKMwvKPg4pTN5lVaFbMF2zX8vcyn3p1t0E7vywOyV8RJgjSQaJWIGt0JQgUknJm2qVKHMRtLw32gyZgY=
+	t=1743852862; cv=none; b=gcw8GhFwRS9waVRLlLfKIqJKFRfLAg8MzcQNPLp8WK1DlDsDTHUbya1QlthYagvMTM/6/hguwWi0iZ3YoTH4NpZtQzIAsJg7T5qY+l0amHMsG3wsaO4QmFydm9WssYQ3YBHNi1yZm6XndS0cfNzBYjTeap+fM3bQ+n5LijS0Nto=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743852410; c=relaxed/simple;
-	bh=aOOWiCI3ZK6+dzDuMUQZ7ZuRMibgi+DohpZfmHWxiow=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=gJZL0jfkeb538htYbAMuzO16tA98+i3D7etCwMytOqlvJtVqfiTWKLkRbPOQjZelQmtF+nCC57+b7tTvlEiHBcy6utknTk1DEefXqZ+iYfgFdEIQnOiODBQPQNiOPUJGEdY5EyLXoUjwmGhz9e/DrOumHPcPa6O8rOthQeYURIM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WtITcdDg; arc=none smtp.client-ip=209.85.128.54
+	s=arc-20240116; t=1743852862; c=relaxed/simple;
+	bh=JHgSmpHywThLvhaNGwqkN6rlBmIZHywWloaU6MKIwBE=;
+	h=Message-ID:Date:From:To:Cc:Subject:MIME-Version:Content-Type:
+	 Content-Disposition; b=QSuBjA5oLzVm1lztxwH87JxmXOxarUVhsQVbvZFCBllVoBwzMnniFrZCSWhkjUfDZ7OVL8iaR9LQhUEJehlD0C+zHJ/S03eEeQtNvG7hzTDE9B1ld8CvSbxH96en+9B9iyf+kVDokznSx0mlwviSPANBBnc50v/TlH2kjgvhRf0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XeneBFrj; arc=none smtp.client-ip=209.85.128.46
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WtITcdDg"
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-43cfb6e9031so26202195e9.0;
-        Sat, 05 Apr 2025 04:26:48 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XeneBFrj"
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-43cfdc2c8c9so16667695e9.2;
+        Sat, 05 Apr 2025 04:34:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1743852406; x=1744457206; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=pK/O4pDg7hGitdXCJDavzci3Ws7cE2OFjqh+I33m5qk=;
-        b=WtITcdDgIjeHBsQ139V22ZKTbQrlnnms30w7xP1rNQ2hCjcdvwBIYV70M24FozW2Kb
-         IpPP5+CwJ5/tgbTP13vRg57PRUQkeHAchLcqrzOusO9Pn5dN5whnwMTtHPEO8HSWMnMh
-         lzjNinf1Qx/QePvzCTsvC0+EQ9yMTLoy3sWfslx0FuX0bxj5hCd3NlQiSt0lZZs/rWWv
-         lzOWjYylm3q5smx6DktA8M1sVLFrl/78fMOvpqSGLyLEbFiVIIDo2OPVXBh9RH9RLfWh
-         /r46Bu1Zu6LY1zCEjtm++SH0+KD+rRADTL853UXnm8otOFPvOa6puAcPfWcQs6/Wh0En
-         Ganw==
+        d=gmail.com; s=20230601; t=1743852859; x=1744457659; darn=lists.linux.dev;
+        h=content-disposition:mime-version:subject:cc:to:from:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=qAIrh/4WE88oUvyzDDtUAXVVh7UEV5wee/SgtjWD0Rc=;
+        b=XeneBFrj6UZPOvBYfluEH8luFmn2L1QRv6Tzn8GbWkKm2oU9aNv0bxDAzPtvbePdXW
+         LCs/3VoOxA+5rr1kiXcjvIIgHVxMjLe5160EM2I87cO6LWETsugC5Mvuj1C+LoEDm1vL
+         PQFGCB2Bdth4JZeNiwvf8Os1gXPcEkZ69nW6mvNVRqhyJ7jEnA2LoXGPd5ajnD+CyRHS
+         arP5LnylYpVyqnd63Ev4S6hVTNn6zpwWVtNHnmzypBpEXBGnPAoG5uxTkJPLHO8htC5l
+         hGDGwC3B0YnN9gIMVcc+vWmcAfd4DhNrntahC29uBZZm+FK3QeIf5voOBGJl/t4bYza9
+         pBZA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1743852406; x=1744457206;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=pK/O4pDg7hGitdXCJDavzci3Ws7cE2OFjqh+I33m5qk=;
-        b=K+R6QpEc+Ojeln1gQgpPhfvOW59Fbs0/cTvh2skpX7wHsGLj8deSRPAs4FEqgG5WTg
-         tps+JgS/e+YRLt945d9Lbr3ODwgiUvF7zi8sphpdXG1O/+i9BLxW0Ojii73SnfBbEadj
-         9Qivcxr43fy2jM7zgDN8m6wmxszucjWWBI0YzDnp4agagm/KWN6d4hh3n6Cu6QwW9eI2
-         Qh1zWn1xkMFNK/Wiqf5kXTGEMJQYRKJChitlT8E9DMt98wXVUkmQ74yiQl4G0yOZmPzB
-         hJfrRd4RNbvQbVnwE7S/9tyMlahDL71Y254Fez3brasCiNMceyYhdWYsa8ASz8KeZpOY
-         2Ztg==
-X-Forwarded-Encrypted: i=1; AJvYcCUzKjX5hTHYc32XVivaxp+5vv9SF8VIaaL8oI6rhG8gOQlydQfDLavkvEj1j2kn0UhGUK8kgWOLMdLE5j6F@lists.linux.dev, AJvYcCW31VrJ3Kzbjy02RCzcdkYusBPnizJ3tQI8YkQWl7ozbMXdJEQmbSpJ4afmt/vNHz05yZl7jfv1SCHd@lists.linux.dev
-X-Gm-Message-State: AOJu0YwXkO4z0OxoCJrHjZNrmaYzkrSqY/z2Ip+DAyGQZJHZ1rIyhZ/O
-	eZxHRUUNO/dJyLkIGBITg4T4TsZDAMFofGXjzM+mGDj6PBGn5YU3
-X-Gm-Gg: ASbGncu1eqKc1GUOn2crsfKXE8D+HVBIJbuEdejnjIPZ48pbQxTiRkrMgnTF/mv6qJ+
-	Hzuj+R2jUCzqQX4POLwe786uT1UxXjUwH1AQ1snzbpupR188bwCl3w4nZGDBrYvcY3Amc0ifEg9
-	yHcb043SZdVztN717YMLt5NjsWpcMNVqcVrDLPv9X4MKNwPtlTHkyMBVz3vp9zip9MKn4jBLAyc
-	CmZHS8eKgmocIYDaW1o7AkuIgB7Rk5L88l+6JT1T7D3LSuMFVUuUZllV9LAfCvwTOuimfL5QaX2
-	7r/4Pi0lr2hsxGYAWVK/uNS0V0TknPBr3Sjtwwj17w==
-X-Google-Smtp-Source: AGHT+IHLA/32ujDJpWp156gtDsNMkozYCoV5fYDtmUGAjRgxJe6FJCwxQGZ2W2BX9K+wIzPE7dOyXA==
-X-Received: by 2002:a05:600c:3ba4:b0:43d:1b74:e89a with SMTP id 5b1f17b1804b1-43ecf89d5b9mr46271625e9.9.1743852406289;
-        Sat, 05 Apr 2025 04:26:46 -0700 (PDT)
-Received: from pc.. ([197.232.62.173])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43ec17b0d06sm74361705e9.35.2025.04.05.04.26.34
+        d=1e100.net; s=20230601; t=1743852859; x=1744457659;
+        h=content-disposition:mime-version:subject:cc:to:from:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=qAIrh/4WE88oUvyzDDtUAXVVh7UEV5wee/SgtjWD0Rc=;
+        b=MS2HF12Y+cRTCP1X6g/DG4yLm9RPvv6zbZAAGjCA9rmQM5qQ5UyZeJ39UHkK8BmS+a
+         m2PReq00rfg2t3+sGZZk98oudH0adfhQW2aFYWQRTJh7zgK251qeuaIhFlcZmPOcrjeM
+         FLmCmTLP2w7mRYxEJAE0Ulk06wuTs+uDHQWiGBzZ0uH7MrfZ6xOTNfwbidHysBphioVX
+         u7vn9sI7x9ZL6WXdRFSJ5D18dQqJtgOKFswhjMR/5T01MLvRUZfmZrY1IZv8tGpnpeHI
+         HTDSpFURG/sbC44Jhah0Jhdidl6vL4I1VIIaeBRRkXx+nyOYwi282NQb2nGZq4qM8wG4
+         6rvw==
+X-Forwarded-Encrypted: i=1; AJvYcCV8YXKw2E/GFNTSpRSt2XGUyiBNvww5PttOD88NgHCF0CTpdfL1yjCAUSzmYLxf7XRy9WVzMKfHepyL@lists.linux.dev, AJvYcCVfgAWx+c2tL0IAcnQB5OxGbdELDQ7FH4cSTNUI6bB0LTwc9vSzAQOu/T4qIUAebuvEkNPXwfE1lravCMS5@lists.linux.dev
+X-Gm-Message-State: AOJu0YzKjwMbSR0CFfYStdKrAT9YyuWG6gI9WlGjCExEy8FwZCN8069b
+	6CK1UHIHqt5IAY4X98yy7ehz5CtZ3Iv4xHfaEfv9EGmmNL6dw4YF
+X-Gm-Gg: ASbGncvCpwM2w+4aDaQoJHtwfPKVV+Qr9zoYVF0BmaEzjma237sBhMOHHYhc/BNufED
+	SYrGyPV7LXOSv8c/owNQzzFWDhLhZQOe3i/joei6GgoB3+/4+0KfeZQDW6JGabGcdeCP3JYFnCu
+	NXSL6jxpAsC8wcD2ZDfgO2vzzjYZ3VYkpi3vu2wXWa+QHBWJa2YiFgwYeHxP6XbMq3YsmVUkhDO
+	Z6ziRDBblLo73HfRGdH0WrJMwZrcUkefWnTV4olfc7exAYnENyU5BZy+jegSDk3bhSIvw29enss
+	833w4F1MKaGRt+Sh5oeD19EZVQ==
+X-Google-Smtp-Source: AGHT+IFemI35QNKyVOaqohFG+CqnKVeTP+GFL3QtSqb2csXBz3rnonb0On1EkabRo5049E0IfrLQDQ==
+X-Received: by 2002:a05:600c:a4c:b0:43d:1840:a13f with SMTP id 5b1f17b1804b1-43ee076ca6bmr13194675e9.25.1743852858882;
+        Sat, 05 Apr 2025 04:34:18 -0700 (PDT)
+Received: from parrot ([105.112.71.96])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-39c30096923sm6749640f8f.17.2025.04.05.04.34.17
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 05 Apr 2025 04:26:45 -0700 (PDT)
-From: Erick Karanja <karanja99erick@gmail.com>
-To: gregkh@linuxfoundation.org,
+        Sat, 05 Apr 2025 04:34:18 -0700 (PDT)
+Message-ID: <67f1153a.5d0a0220.4e813.17ad@mx.google.com>
+X-Google-Original-Message-ID: <Z_EVOA9BY2i9bZiY@princerichard17a@gmail.com>
+Date: Sat, 5 Apr 2025 12:34:16 +0100
+From: Richard Akintola <princerichard17a@gmail.com>
+To: sudipm.mukherjee@gmail.com, teddy.wang@siliconmotion.com,
+	gregkh@linuxfoundation.org, linux-fbdev@vger.kernel.org,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
 	outreachy@lists.linux.dev
-Cc: karanja99erick@gmail.com,
-	philipp.g.hortmann@gmail.com,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH 2/2] staging: rtl8723bs: use preferred comparison order
-Date: Sat,  5 Apr 2025 14:26:05 +0300
-Message-ID: <3534b660142c78e800e369c31df091625e61f844.1743851473.git.karanja99erick@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <cover.1743851473.git.karanja99erick@gmail.com>
-References: <cover.1743851473.git.karanja99erick@gmail.com>
+Cc: julia.lawall@inria.fr, princerichard17a@gmail.com
+Subject: [PATCH 7/8] staging: sm750fb: change sii164CheckInterrupt to
+ snake_case
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Refactor  conditions check to follow the Linux kernel
-coding style, which prefers placing the variable on the left side
-of the comparison.
+Change camelCase function name sii164CheckInterrupt to
+sii164_check_interrupt in order to conform to kernel code styles
+as reported by checkpatch.pl
 
-Reported by checkpatch:
+CHECK: Avoid camelCase: <sii164CheckInterrupt>
 
-	WARNING: Comparisons should place the constant on the right side
-    of the test
-
-Signed-off-by: Erick Karanja <karanja99erick@gmail.com>
+Signed-off-by: Richard Akintola <princerichard17a@gmail.com>
 ---
- drivers/staging/rtl8723bs/hal/hal_btcoex.c | 22 +++++++++++-----------
- 1 file changed, 11 insertions(+), 11 deletions(-)
+ drivers/staging/sm750fb/ddk750_dvi.c    | 2 +-
+ drivers/staging/sm750fb/ddk750_sii164.c | 4 ++--
+ drivers/staging/sm750fb/ddk750_sii164.h | 2 +-
+ 3 files changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/staging/rtl8723bs/hal/hal_btcoex.c b/drivers/staging/rtl8723bs/hal/hal_btcoex.c
-index b72cf520d576..9105594d2dde 100644
---- a/drivers/staging/rtl8723bs/hal/hal_btcoex.c
-+++ b/drivers/staging/rtl8723bs/hal/hal_btcoex.c
-@@ -91,7 +91,7 @@ static void halbtcoutsrc_LeaveLowPower(struct btc_coexist *pBtCoexist)
- 	stime = jiffies;
- 	do {
- 		ready = rtw_register_task_alive(padapter, BTCOEX_ALIVE);
--		if (_SUCCESS == ready)
-+		if (ready == _SUCCESS)
- 			break;
+diff --git a/drivers/staging/sm750fb/ddk750_dvi.c b/drivers/staging/sm750fb/ddk750_dvi.c
+index ac1aab77da28..1def02be4cce 100644
+--- a/drivers/staging/sm750fb/ddk750_dvi.c
++++ b/drivers/staging/sm750fb/ddk750_dvi.c
+@@ -23,7 +23,7 @@ static struct dvi_ctrl_device dcft_supported_dvi_controller[] = {
+ 		.set_power = sii164_set_power,
+ 		.enable_hot_plug_detection = sii164_enable_hot_plug_detection,
+ 		.is_connected = sii164_is_connected,
+-		.check_interrupt = sii164CheckInterrupt,
++		.check_interrupt = sii164_check_interrupt,
+ 		.clear_interrupt = sii164ClearInterrupt,
+ #endif
+ 	},
+diff --git a/drivers/staging/sm750fb/ddk750_sii164.c b/drivers/staging/sm750fb/ddk750_sii164.c
+index 6ce15b7816d9..aebde3d8b903 100644
+--- a/drivers/staging/sm750fb/ddk750_sii164.c
++++ b/drivers/staging/sm750fb/ddk750_sii164.c
+@@ -370,14 +370,14 @@ unsigned char sii164_is_connected(void)
+ }
  
- 		utime = jiffies_to_msecs(jiffies - stime);
-@@ -668,7 +668,7 @@ static void halbtcoutsrc_WriteLocalReg1Byte(void *pBtcContext, u32 RegAddr, u8 D
- 	struct btc_coexist *pBtCoexist = (struct btc_coexist *)pBtcContext;
- 	struct adapter *Adapter = pBtCoexist->Adapter;
- 
--	if (BTC_INTF_SDIO == pBtCoexist->chipInterface)
-+	if (pBtCoexist->chipInterface == BTC_INTF_SDIO)
- 		rtw_write8(Adapter, SDIO_LOCAL_BASE | RegAddr, Data);
- 	else
- 		rtw_write8(Adapter, RegAddr, Data);
-@@ -894,7 +894,7 @@ void EXhalbtcoutsrc_IpsNotify(struct btc_coexist *pBtCoexist, u8 type)
- 	if (pBtCoexist->bManualControl)
- 		return;
- 
--	if (IPS_NONE == type)
-+	if (type == IPS_NONE)
- 		ipsType = BTC_IPS_LEAVE;
- 	else
- 		ipsType = BTC_IPS_ENTER;
-@@ -922,7 +922,7 @@ void EXhalbtcoutsrc_LpsNotify(struct btc_coexist *pBtCoexist, u8 type)
- 	if (pBtCoexist->bManualControl)
- 		return;
- 
--	if (PS_MODE_ACTIVE == type)
-+	if (type == PS_MODE_ACTIVE)
- 		lpsType = BTC_LPS_DISABLE;
- 	else
- 		lpsType = BTC_LPS_ENABLE;
-@@ -1000,7 +1000,7 @@ void EXhalbtcoutsrc_MediaStatusNotify(struct btc_coexist *pBtCoexist, enum
- 	if (pBtCoexist->bManualControl)
- 		return;
- 
--	if (RT_MEDIA_CONNECT == mediaStatus)
-+	if (mediaStatus == RT_MEDIA_CONNECT)
- 		mStatus = BTC_MEDIA_CONNECT;
- 	else
- 		mStatus = BTC_MEDIA_DISCONNECT;
-@@ -1026,11 +1026,11 @@ void EXhalbtcoutsrc_SpecialPacketNotify(struct btc_coexist *pBtCoexist, u8 pktTy
- 	if (pBtCoexist->bManualControl)
- 		return;
- 
--	if (PACKET_DHCP == pktType) {
-+	if (pktType == PACKET_DHCP) {
- 		packetType = BTC_PACKET_DHCP;
--	} else if (PACKET_EAPOL == pktType) {
-+	} else if (pktType == PACKET_EAPOL) {
- 		packetType = BTC_PACKET_EAPOL;
--	} else if (PACKET_ARP == pktType) {
-+	} else if (pktType == PACKET_ARP) {
- 		packetType = BTC_PACKET_ARP;
- 	} else {
- 		return;
-@@ -1114,13 +1114,13 @@ void EXhalbtcoutsrc_Periodical(struct btc_coexist *pBtCoexist)
- 
- void EXhalbtcoutsrc_SetAntNum(u8 type, u8 antNum)
+ /*
+- *  sii164CheckInterrupt
++ *  sii164_check_interrupt
+  *      Checks if interrupt has occurred.
+  *
+  *  Output:
+  *      0   - No interrupt
+  *      1   - Interrupt occurs
+  */
+-unsigned char sii164CheckInterrupt(void)
++unsigned char sii164_check_interrupt(void)
  {
--	if (BT_COEX_ANT_TYPE_PG == type) {
-+	if (type == BT_COEX_ANT_TYPE_PG) {
- 		GLBtCoexist.boardInfo.pgAntNum = antNum;
- 		GLBtCoexist.boardInfo.btdmAntNum = antNum;
--	} else if (BT_COEX_ANT_TYPE_ANTDIV == type) {
-+	} else if (type == BT_COEX_ANT_TYPE_ANTDIV) {
- 		GLBtCoexist.boardInfo.btdmAntNum = antNum;
- 		/* GLBtCoexist.boardInfo.btdmAntPos = BTC_ANTENNA_AT_MAIN_PORT; */
--	} else if (BT_COEX_ANT_TYPE_DETECTED == type) {
-+	} else if (type == BT_COEX_ANT_TYPE_DETECTED) {
- 		GLBtCoexist.boardInfo.btdmAntNum = antNum;
- 		/* GLBtCoexist.boardInfo.btdmAntPos = BTC_ANTENNA_AT_MAIN_PORT; */
- 	}
+ 	unsigned char detectReg;
+ 
+diff --git a/drivers/staging/sm750fb/ddk750_sii164.h b/drivers/staging/sm750fb/ddk750_sii164.h
+index 90b7ae823a10..aa3f34c13979 100644
+--- a/drivers/staging/sm750fb/ddk750_sii164.h
++++ b/drivers/staging/sm750fb/ddk750_sii164.h
+@@ -36,7 +36,7 @@ char *sii164_get_chip_string(void);
+ void sii164_set_power(unsigned char powerUp);
+ void sii164_enable_hot_plug_detection(unsigned char enable_hot_plug);
+ unsigned char sii164_is_connected(void);
+-unsigned char sii164CheckInterrupt(void);
++unsigned char sii164_check_interrupt(void);
+ void sii164ClearInterrupt(void);
+ #endif
+ /*
 -- 
-2.43.0
+2.39.5
 
