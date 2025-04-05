@@ -1,62 +1,62 @@
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 903198F66;
-	Sat,  5 Apr 2025 03:15:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EDD48F66;
+	Sat,  5 Apr 2025 03:15:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743822934; cv=none; b=CoGH/HMoq7XAN1zDSkrsrS4ocxTH6tj+KumATeHNiNGExuh8se3QgCp5JwZ5XJKn3pUMu6KKjVjttNcHyW3tJFoI9GE4jNbPrDtT2Z4299JGYLFL0DQTKkfKfjQJvSbSZZwBmm8AhBFI3nq5Yd22M+FwzYJ4XPUlFOvA803bL0A=
+	t=1743822950; cv=none; b=StJuXGhqVdBnF53o3mSUb09JMAHSLSIKPTyRa2WIqY2VIUhDjnEzwRDs7DWtrw44fpIo4ljmGbgFWxBa+HftazDl0QxxU+eTQCLCQxUBEIvRwTMwNXbnxH5A50cxby0pZzCKZc+O0swCSyBTJkyLrVMs42/FKK7Revmo6MXh46I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743822934; c=relaxed/simple;
-	bh=DqkfnTvGY3dikIK5RXyBzB0lRrPjLMI23G+Tn5C5GA0=;
+	s=arc-20240116; t=1743822950; c=relaxed/simple;
+	bh=6wmuQ4xBJ/p57V3uZMiwB+aak9YwDuZCThNZhURf6Lw=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=VPae27Mq5Pv+sJCtiaoU8052Fw5hz7wpAs/UOaSQ9hRVSMpn8LR0m5kC5JtAXXNoBKqeRpbuyozfeIEaZ8PuEydW6Fj7v7drxRvngYwCTsiF7gbK5nA+Nnt5tfns0QR55fLOInq3y/vwlTPL0k0khNyTKvpvf6MRpE1rKzP4yZ4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TFEFQVGT; arc=none smtp.client-ip=209.85.221.43
+	 MIME-Version; b=GTOFuoNWfEqBFWCPrAMBHwKcVHihX0sCRCvBYYAGM2Bg54JZl95r2KuYjzzqFqeH3nIIDfZwspDmXV5VmAA/NQQD0TJaqEVz5fbN/CKEhgkD9r7jMDaGMRonKz2Lei8dpYKCELd29Fnc6cVFscAJf9MyALUNCvbzmLmrfevjX+s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MzXnlT89; arc=none smtp.client-ip=209.85.128.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TFEFQVGT"
-Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-39c0e0bc733so2322337f8f.1;
-        Fri, 04 Apr 2025 20:15:31 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MzXnlT89"
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-43d0359b1fcso17582245e9.0;
+        Fri, 04 Apr 2025 20:15:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1743822930; x=1744427730; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1743822946; x=1744427746; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=FkfZ0gGwuC9nrH0UyIrZgSM/LrDfC8j2fxcG7p/eqyM=;
-        b=TFEFQVGTBwKNcomrwH1Cl7/c1m5zsrKXNyCZAJo3MBG7nvLecaC8wXVK2uSBJS5+/O
-         LAUFjUoAFV751rZ2MFMwoO67jsOAIgNY4NwsHHNskAcETxj2pLoS9e5XvEX+QpHFKg50
-         bRnrv7GUFHDnlhZ95kYKRv5UFNw3ILEhzD/3aIuY9G/UG4Cs5E1QwITbrJsGlEbdk2xX
-         QVqkuINhymvJJSmU1FPmkGKj5R9uhM+0nFxoa9V02PRkhg8QCjMqRO7K49dUOJFj+lOb
-         zHHhGXUIPsxJ6EfJFqK919CWRFiVxGHFTUn/oxsyoxagGbZe/JNzoaEDbTVWwDy7iRnt
-         96Yg==
+        bh=7kj8e5KMlBOp/DQsu01vidRr3nQ+UO1HZ+C4LyVGDRs=;
+        b=MzXnlT89GAMiKxfZt1X9pR+kq6GAXtpho3yQV3yOeOywWP26RGgzqmu8016h8JbHTs
+         B1MN9Yl1tdQfZziV6YqyWv8fm3MgMzzt4OoTYDAsg6Ob+sUjQGED89nP1Egx9rN/iLvB
+         q7sd8l/yoXfXuh0fUNHCM3GD4XEkgRybOBSRg8xq/JQWsFG5/yIThM0cibnjCCw2fWGc
+         uhs1SRS5ynbHhpgIBbs+btWY9OPbTPFvq5sPjGNU4nDkKRnIqBwss0ijKgRCH2UiAL5V
+         XC01IATgBFhkkCgPhq8idi2g4QUZWj4797a/hncXA+Yw5hFDYpix2eNLsO2+56HDyxUh
+         nAMg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1743822930; x=1744427730;
+        d=1e100.net; s=20230601; t=1743822946; x=1744427746;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=FkfZ0gGwuC9nrH0UyIrZgSM/LrDfC8j2fxcG7p/eqyM=;
-        b=E1NGA08RhATPuXFYrVIvfHPM0VQYkziXk4zUNCG8Al6du2fO1cEkBDYwcitreRq1bF
-         gC5iz43JeOD3QuLYfu30kt2r/JAt9zlFAV0sRmrTaOZiuZqreXCyM04mlF8IIyhdSlLo
-         dw+r4KWwh+0T4WOB4ppyifxh6JrN923TJ71XDMo+DhfEldcyAYltgcDt7rZhtzbbOkGf
-         dHvVgJQk5uRSsx4beoKPwW4hXmyA8tfvtU+8T2r+hQi33A+Y4SE0pZZwq8+R+5/J8eAR
-         uXpkohFmC1ILdSsNT0obUv+Mmd3vlGjewRNTL22SSf3tHHOFpQLP4FrDh91irDES4U7W
-         yKQw==
-X-Forwarded-Encrypted: i=1; AJvYcCW2UDVnX7ruamiYKYQAcbQxeZpdd45NjkCool7CGVD7V5Qfrh7XN61/DmQhcUM1/86zWJcutYpltqs9@lists.linux.dev, AJvYcCWyG4sM7dCaGbJA55QOBekmPmdJ4sT9ubxFNBFxBQjipbhovTBbPm6y5G1cn3T/WZOswGNkp58nuBOYaeU+@lists.linux.dev
-X-Gm-Message-State: AOJu0Yx6PFe4n6byToboT3e9XPqX0KPomJ6hnsSXpeBgIU5bFb7iem7H
-	cwdcSxzEQlAZgCwNmbK7rXHhD0J3FoaVqyLYX0BVzXv5PRbTPFn6
-X-Gm-Gg: ASbGnctxGd28p2Z1luIFv9f9AMsXWIupJMvIxcwGJc+XfOlfRnZBBfhIf73RV+6XWL6
-	OHqdEuTNgf6r3id6p8YFhyMPDlthvnW+fRuoBYHccHFLYWxwoaMR7bzN7T/DnLThXkjxk6xPKEL
-	C3ucQaBKRWsWr0EvGSszRQNiMi6N7t1BzsK2iBBxHnauGd7yoTBteBtbbDdUf73zHZVusJ4J4Ru
-	w4Ex4Zmd2s+Gttoswf5kRH17GOy6aQM/kHhFw3h66s18ax4rZhnrqGhezIQzRvmX/ytgUPa6S7Z
-	oEOqQdq14pNncEjgCSQv+y8zxg1+px8uj0z7LMP2LB3wDgg+fEUb
-X-Google-Smtp-Source: AGHT+IGYaJeqkHE71ISzt7wJyM7edL7dK9X0c2f4W4Zz+pR/RA7K/xFBMwyGm+IBnQlGXrpqSpFQgg==
-X-Received: by 2002:a5d:584a:0:b0:39c:dcc:fa29 with SMTP id ffacd0b85a97d-39cba932a65mr4847133f8f.17.1743822929566;
-        Fri, 04 Apr 2025 20:15:29 -0700 (PDT)
+        bh=7kj8e5KMlBOp/DQsu01vidRr3nQ+UO1HZ+C4LyVGDRs=;
+        b=WQmfjhdWhjl79mHFl0bNPhYqgdlSdHTo+qdNDypKtK7vYGa8kqCQpxvWNIfa9zoHcS
+         Y9z8u9HOegmeKyJBSWkuc43AKYa2tI2Y2xOUOKDp/wAzBtveis62YeO4UNu17uwQ1hn7
+         pHbJTz8tEWqYVB1s8jv4S9tTAdVegszWNYrt8IUFB7a9R5Jrd6levgBz+8+NjNbdT+hH
+         zwUvT7ufcE2DOyq9Fc2Kyptipd5zU7XqhN6JgOO5ZJSb061lkFKhHQtltApGWC6v4Net
+         Oion1gg1RVP1TkrA1SYm02ol5hrkL+lzTPwfLPDuLTQJvuzmSqPO8lrDBVB6/5jtRNFy
+         h5vw==
+X-Forwarded-Encrypted: i=1; AJvYcCVTHf/fgxph+QIObQP0y9MV5Tk+Mz6j2UNpNgVMCc2rjp8IF6FRWWKaXCkrMlXsqDuOJUtyL4PQYyiw@lists.linux.dev, AJvYcCXjJ0SbOiqBIqZbx+GjO6Yp7bcGt5gZxMH89VoFPQw0cQvo2hjJ0f/+5JOG6RJe9lCQGbtiLvHzfOzRfGlG@lists.linux.dev
+X-Gm-Message-State: AOJu0Yxaijv4x/AbrC8t2LO3hsF1m4x10/L+uLeQ5V7jgtnc9Inyh338
+	9rvluCfGQu4qMj6i1uSGbjWbdw9aU6wjVeYg/bKAfptmhSZRnOH2
+X-Gm-Gg: ASbGnctYL7ocMZr1qkTutMvTvJfNMSQ/e2aaGCISkPEyrsEYf/CBwgUVYcBpN4buR8E
+	pPW1fWFMJDG2vzFNeKDUPDwqtJMAhrpTzqPiRAZHUQUO4nxGbmkl0/5St2BTv0qez3jhaMMk0+u
+	oynRs5Lmfzeb4QrPdABEGti4wQoIxRX1dkIg8QPCRTfEuZ9X6MGZCmyCcOBl3suRvzP9CeYb0+W
+	dRQdrwbSilQ9qMmRPkFxKHkW1FNsWGzSYSLJQktyS/GRNtoprDTb5UPRluCt9PNU3mY5IVVOg/1
+	PDxIyg4lIK5SwGEafGA+tKk3KL3AK7M79jjY4lH9Cg==
+X-Google-Smtp-Source: AGHT+IHJCATuG4/WZlGUnW1DnDSoYaiXP9qbuSMdrAgwY3BMnLvXxrbFycKulef+WVuzh5gLgvnffQ==
+X-Received: by 2002:a05:600c:1991:b0:43c:f509:2bbf with SMTP id 5b1f17b1804b1-43ebefb7f50mr98457175e9.15.1743822946094;
+        Fri, 04 Apr 2025 20:15:46 -0700 (PDT)
 Received: from pc.. ([197.232.62.187])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-39c3020d6b1sm5832250f8f.62.2025.04.04.20.15.06
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-39c3020d6b1sm5832250f8f.62.2025.04.04.20.15.33
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 04 Apr 2025 20:15:28 -0700 (PDT)
+        Fri, 04 Apr 2025 20:15:44 -0700 (PDT)
 From: Erick Karanja <karanja99erick@gmail.com>
 To: gregkh@linuxfoundation.org,
 	outreachy@lists.linux.dev
@@ -64,9 +64,9 @@ Cc: karanja99erick@gmail.com,
 	philipp.g.hortmann@gmail.com,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH 1/2] staging: rtl8723bs: Optimize variable initialization in rtl8723b_hal_init.c
-Date: Sat,  5 Apr 2025 06:14:48 +0300
-Message-ID: <f7b63d834b98aedfe2ce277d8008d7e398ea29ba.1743820815.git.karanja99erick@gmail.com>
+Subject: [PATCH 2/2] staging: rtl8723bs: Initialize local variables at declaration
+Date: Sat,  5 Apr 2025 06:14:49 +0300
+Message-ID: <ef29adfe7c8a189009b07c2873aa48782cd594ca.1743820815.git.karanja99erick@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1743820815.git.karanja99erick@gmail.com>
 References: <cover.1743820815.git.karanja99erick@gmail.com>
@@ -85,428 +85,155 @@ This makes the code more concise and readable.
 
 Signed-off-by: Erick Karanja <karanja99erick@gmail.com>
 ---
- .../staging/rtl8723bs/hal/rtl8723b_hal_init.c | 155 +++++-------------
- 1 file changed, 41 insertions(+), 114 deletions(-)
+ .../staging/rtl8723bs/hal/rtl8723bs_xmit.c    | 56 ++++++-------------
+ 1 file changed, 16 insertions(+), 40 deletions(-)
 
-diff --git a/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c b/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
-index e15ec6452fd0..1e980b291e90 100644
---- a/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
-+++ b/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
-@@ -152,13 +152,12 @@ static int _WriteFW(struct adapter *padapter, void *buffer, u32 size)
- void _8051Reset8723(struct adapter *padapter)
+diff --git a/drivers/staging/rtl8723bs/hal/rtl8723bs_xmit.c b/drivers/staging/rtl8723bs/hal/rtl8723bs_xmit.c
+index 5dc1c12fe03e..ebe9562a9606 100644
+--- a/drivers/staging/rtl8723bs/hal/rtl8723bs_xmit.c
++++ b/drivers/staging/rtl8723bs/hal/rtl8723bs_xmit.c
+@@ -120,13 +120,10 @@ static s32 rtl8723_dequeue_writeport(struct adapter *padapter)
+  */
+ s32 rtl8723bs_xmit_buf_handler(struct adapter *padapter)
  {
- 	u8 cpu_rst;
--	u8 io_rst;
-+	u8 io_rst = rtw_read8(padapter, REG_RSV_CTRL + 1);
+-	struct xmit_priv *pxmitpriv;
++	struct xmit_priv *pxmitpriv = &padapter->xmitpriv;
+ 	u8 queue_empty, queue_pending;
+ 	s32 ret;
  
- 
- 	/*  Reset 8051(WLMCU) IO wrapper */
- 	/*  0x1c[8] = 0 */
- 	/*  Suggested by Isaac@SD1 and Gimmy@SD1, coding by Lucas@20130624 */
--	io_rst = rtw_read8(padapter, REG_RSV_CTRL+1);
- 	io_rst &= ~BIT(0);
- 	rtw_write8(padapter, REG_RSV_CTRL+1, io_rst);
- 
-@@ -218,11 +217,10 @@ u8 g_fwdl_wintint_rdy_fail;
- static s32 _FWFreeToGo(struct adapter *adapter, u32 min_cnt, u32 timeout_ms)
+-
+-	pxmitpriv = &padapter->xmitpriv;
+-
+ 	if (wait_for_completion_interruptible(&pxmitpriv->xmit_comp)) {
+ 		netdev_emerg(padapter->pnetdev,
+ 			     "%s: down SdioXmitBufSema fail!\n", __func__);
+@@ -168,10 +165,10 @@ s32 rtl8723bs_xmit_buf_handler(struct adapter *padapter)
+  */
+ static s32 xmit_xmitframes(struct adapter *padapter, struct xmit_priv *pxmitpriv)
  {
- 	s32 ret = _FAIL;
--	u32 value32;
-+	u32 value32 = rtw_read32(adapter, REG_MCUFWDL);
- 	unsigned long start = jiffies;
- 	u32 cnt = 0;
+-	s32 err, ret;
++	s32 err = 0, ret;
+ 	u32 k = 0;
+-	struct hw_xmit *hwxmits, *phwxmit;
+-	u8 idx, hwentry;
++	struct hw_xmit *hwxmits = pxmitpriv->hwxmits, *phwxmit;
++	u8 idx, hwentry = pxmitpriv->hwxmit_entry;
+ 	struct tx_servq *ptxservq;
+ 	struct list_head *sta_plist, *sta_phead, *frame_plist, *frame_phead, *tmp;
+ 	struct xmit_frame *pxmitframe;
+@@ -181,9 +178,6 @@ static s32 xmit_xmitframes(struct adapter *padapter, struct xmit_priv *pxmitpriv
+ 	u8 txdesc_size = TXDESC_SIZE;
+ 	int inx[4];
  
--	value32 = rtw_read32(adapter, REG_MCUFWDL);
- 	value32 |= MCUFWDL_RDY;
- 	value32 &= ~WINTINI_RDY;
- 	rtw_write32(adapter, REG_MCUFWDL, value32);
-@@ -501,8 +499,7 @@ void Hal_GetEfuseDefinition(
- 	switch (type) {
- 	case TYPE_EFUSE_MAX_SECTION:
- 		{
--			u8 *pMax_section;
--			pMax_section = pOut;
-+			u8 *pMax_section = pOut;
- 
- 			if (efuseType == EFUSE_WIFI)
- 				*pMax_section = EFUSE_MAX_SECTION_8723B;
-@@ -513,8 +510,7 @@ void Hal_GetEfuseDefinition(
- 
- 	case TYPE_EFUSE_REAL_CONTENT_LEN:
- 		{
--			u16 *pu2Tmp;
--			pu2Tmp = pOut;
-+			u16 *pu2Tmp = pOut;
- 
- 			if (efuseType == EFUSE_WIFI)
- 				*pu2Tmp = EFUSE_REAL_CONTENT_LEN_8723B;
-@@ -525,8 +521,7 @@ void Hal_GetEfuseDefinition(
- 
- 	case TYPE_AVAILABLE_EFUSE_BYTES_BANK:
- 		{
--			u16 *pu2Tmp;
--			pu2Tmp = pOut;
-+			u16 *pu2Tmp = pOut;
- 
- 			if (efuseType == EFUSE_WIFI)
- 				*pu2Tmp = (EFUSE_REAL_CONTENT_LEN_8723B-EFUSE_OOB_PROTECT_BYTES);
-@@ -537,8 +532,7 @@ void Hal_GetEfuseDefinition(
- 
- 	case TYPE_AVAILABLE_EFUSE_BYTES_TOTAL:
- 		{
--			u16 *pu2Tmp;
--			pu2Tmp = pOut;
-+			u16 *pu2Tmp = pOut;
- 
- 			if (efuseType == EFUSE_WIFI)
- 				*pu2Tmp = (EFUSE_REAL_CONTENT_LEN_8723B-EFUSE_OOB_PROTECT_BYTES);
-@@ -549,8 +543,7 @@ void Hal_GetEfuseDefinition(
- 
- 	case TYPE_EFUSE_MAP_LEN:
- 		{
--			u16 *pu2Tmp;
--			pu2Tmp = pOut;
-+			u16 *pu2Tmp = pOut;
- 
- 			if (efuseType == EFUSE_WIFI)
- 				*pu2Tmp = EFUSE_MAX_MAP_LEN;
-@@ -561,8 +554,7 @@ void Hal_GetEfuseDefinition(
- 
- 	case TYPE_EFUSE_PROTECT_BYTES_BANK:
- 		{
--			u8 *pu1Tmp;
--			pu1Tmp = pOut;
-+			u8 *pu1Tmp = pOut;
- 
- 			if (efuseType == EFUSE_WIFI)
- 				*pu1Tmp = EFUSE_OOB_PROTECT_BYTES;
-@@ -573,8 +565,7 @@ void Hal_GetEfuseDefinition(
- 
- 	case TYPE_EFUSE_CONTENT_LEN_BANK:
- 		{
--			u16 *pu2Tmp;
--			pu2Tmp = pOut;
-+			u16 *pu2Tmp = pOut;
- 
- 			if (efuseType == EFUSE_WIFI)
- 				*pu2Tmp = EFUSE_REAL_CONTENT_LEN_8723B;
-@@ -585,8 +576,7 @@ void Hal_GetEfuseDefinition(
- 
- 	default:
- 		{
--			u8 *pu1Tmp;
--			pu1Tmp = pOut;
-+			u8 *pu1Tmp = pOut;
- 			*pu1Tmp = 0;
- 		}
- 		break;
-@@ -729,10 +719,9 @@ static void hal_ReadEFuse_WiFi(
- 		}
- 
- 		if (offset < EFUSE_MAX_SECTION_8723B) {
--			u16 addr;
-+			u16 addr = offset * PGPKT_DATA_SIZE;
- 			/*  Get word enable value from PG header */
- 
--			addr = offset * PGPKT_DATA_SIZE;
- 			for (i = 0; i < EFUSE_MAX_WORD_UNIT; i++) {
- 				/*  Check word enable condition in the section */
- 				if (!(wden & (0x01<<i))) {
-@@ -835,9 +824,8 @@ static void hal_ReadEFuse_BT(
- 			}
- 
- 			if (offset < EFUSE_BT_MAX_SECTION) {
--				u16 addr;
-+				u16 addr = offset * PGPKT_DATA_SIZE;
- 
--				addr = offset * PGPKT_DATA_SIZE;
- 				for (i = 0; i < EFUSE_MAX_WORD_UNIT; i++) {
- 					/*  Check word enable condition in the section */
- 					if (!(wden & (0x01<<i))) {
-@@ -1153,14 +1141,10 @@ static u8 Hal_EfuseWordEnableDataWrite(
- 
- static struct hal_version ReadChipVersion8723B(struct adapter *padapter)
+-	err = 0;
+-	hwxmits = pxmitpriv->hwxmits;
+-	hwentry = pxmitpriv->hwxmit_entry;
+ 	ptxservq = NULL;
+ 	pxmitframe = NULL;
+ 	pframe_queue = NULL;
+@@ -326,8 +320,7 @@ static s32 xmit_xmitframes(struct adapter *padapter, struct xmit_priv *pxmitpriv
+ 		/*  dump xmit_buf to hw tx fifo */
+ 		if (pxmitbuf) {
+ 			if (pxmitbuf->len > 0) {
+-				struct xmit_frame *pframe;
+-				pframe = (struct xmit_frame *)pxmitbuf->priv_data;
++				struct xmit_frame *pframe = (struct xmit_frame *)pxmitbuf->priv_data;
+ 				pframe->agg_num = k;
+ 				pxmitbuf->agg_num = k;
+ 				rtl8723b_update_txdesc(pframe, pframe->buf_addr);
+@@ -357,12 +350,9 @@ static s32 xmit_xmitframes(struct adapter *padapter, struct xmit_priv *pxmitpriv
+  */
+ static s32 rtl8723bs_xmit_handler(struct adapter *padapter)
  {
--	u32 value32;
-+	u32 value32 = rtw_read32(padapter, REG_SYS_CFG);
- 	struct hal_version ChipVersion;
--	struct hal_com_data *pHalData;
--
--/* YJ, TODO, move read chip type here */
--	pHalData = GET_HAL_DATA(padapter);
-+	struct hal_com_data *pHalData = GET_HAL_DATA(padapter);
+-	struct xmit_priv *pxmitpriv;
++	struct xmit_priv *pxmitpriv = &padapter->xmitpriv;
+ 	s32 ret;
  
--	value32 = rtw_read32(padapter, REG_SYS_CFG);
- 	ChipVersion.ICType = CHIP_8723B;
- 	ChipVersion.ChipType = ((value32 & RTL_ID) ? TEST_CHIP : NORMAL_CHIP);
- 	ChipVersion.VendorType = ((value32 & VENDOR_ID) ? CHIP_VENDOR_UMC : CHIP_VENDOR_TSMC);
-@@ -1196,10 +1180,9 @@ void rtl8723b_InitBeaconParameters(struct adapter *padapter)
+-
+-	pxmitpriv = &padapter->xmitpriv;
+-
+ 	if (wait_for_completion_interruptible(&pxmitpriv->SdioXmitStart)) {
+ 		netdev_emerg(padapter->pnetdev, "%s: SdioXmitStart fail!\n",
+ 			     __func__);
+@@ -408,13 +398,9 @@ static s32 rtl8723bs_xmit_handler(struct adapter *padapter)
+ 
+ int rtl8723bs_xmit_thread(void *context)
  {
- 	struct hal_com_data *pHalData = GET_HAL_DATA(padapter);
- 	u16 val16;
--	u8 val8;
-+	u8 val8 = DIS_TSF_UDT;
- 
- 
--	val8 = DIS_TSF_UDT;
- 	val16 = val8 | (val8 << 8); /*  port0 and port1 */
- 
- 	/*  Enable prot0 beacon function for PSTDMA */
-@@ -1287,22 +1270,7 @@ void rtl8723b_SetBeaconRelatedRegisters(struct adapter *padapter)
- 	u32 value32;
- 	struct mlme_ext_priv *pmlmeext = &padapter->mlmeextpriv;
- 	struct mlme_ext_info *pmlmeinfo = &pmlmeext->mlmext_info;
--	u32 bcn_ctrl_reg;
--
--	/* reset TSF, enable update TSF, correcting TSF On Beacon */
--
--	/* REG_BCN_INTERVAL */
--	/* REG_BCNDMATIM */
--	/* REG_ATIMWND */
--	/* REG_TBTT_PROHIBIT */
--	/* REG_DRVERLYINT */
--	/* REG_BCN_MAX_ERR */
--	/* REG_BCNTCFG (0x510) */
--	/* REG_DUAL_TSF_RST */
--	/* REG_BCN_CTRL (0x550) */
--
--
--	bcn_ctrl_reg = REG_BCN_CTRL;
-+	u32 bcn_ctrl_reg = REG_BCN_CTRL;
- 
- 	/*  */
- 	/*  ATIM window */
-@@ -1416,9 +1384,7 @@ void rtl8723b_set_hal_ops(struct hal_ops *pHalFunc)
- 
- void rtl8723b_InitAntenna_Selection(struct adapter *padapter)
- {
--	u8 val;
--
--	val = rtw_read8(padapter, REG_LEDCFG2);
-+	u8 val = rtw_read8(padapter, REG_LEDCFG2);
- 	/*  Let 8051 take control antenna setting */
- 	val |= BIT(7); /*  DPDT_SEL_EN, 0x4C[23] */
- 	rtw_write8(padapter, REG_LEDCFG2, val);
-@@ -1426,14 +1392,10 @@ void rtl8723b_InitAntenna_Selection(struct adapter *padapter)
- 
- void rtl8723b_init_default_value(struct adapter *padapter)
- {
--	struct hal_com_data *pHalData;
--	struct dm_priv *pdmpriv;
-+	struct hal_com_data *pHalData = GET_HAL_DATA(padapter);
-+	struct dm_priv *pdmpriv = &pHalData->dmpriv;
- 	u8 i;
- 
--
--	pHalData = GET_HAL_DATA(padapter);
--	pdmpriv = &pHalData->dmpriv;
--
- 	padapter->registrypriv.wireless_mode = WIRELESS_11BG_24N;
- 
- 	/*  init default value */
-@@ -1478,9 +1440,7 @@ void rtl8723b_init_default_value(struct adapter *padapter)
- u8 GetEEPROMSize8723B(struct adapter *padapter)
- {
- 	u8 size = 0;
--	u32 cr;
--
--	cr = rtw_read16(padapter, REG_9346CR);
-+	u32 cr = rtw_read16(padapter, REG_9346CR);
- 	/*  6: EEPROM used is 93C46, 4: boot from E-Fuse. */
- 	size = (cr & BOOT_FROM_EEPROM) ? 6 : 4;
- 
-@@ -1495,13 +1455,9 @@ u8 GetEEPROMSize8723B(struct adapter *padapter)
- s32 rtl8723b_InitLLTTable(struct adapter *padapter)
- {
- 	unsigned long start, passing_time;
--	u32 val32;
 -	s32 ret;
+-	struct adapter *padapter;
+-	struct xmit_priv *pxmitpriv;
 -
--
--	ret = _FAIL;
-+	u32 val32 = rtw_read32(padapter, REG_AUTO_LLT);
-+	s32 ret = _FAIL;
+-	ret = _SUCCESS;
+-	padapter = context;
+-	pxmitpriv = &padapter->xmitpriv;
++	s32 ret = _SUCCESS;
++	struct adapter *padapter = context;
++	struct xmit_priv *pxmitpriv = &padapter->xmitpriv;
  
--	val32 = rtw_read32(padapter, REG_AUTO_LLT);
- 	val32 |= BIT_AUTO_INIT_LLT;
- 	rtw_write32(padapter, REG_AUTO_LLT, val32);
+ 	allow_signal(SIGTERM);
  
-@@ -1559,11 +1515,10 @@ void Hal_EfuseParseIDCode(struct adapter *padapter, u8 *hwinfo)
+@@ -435,16 +421,13 @@ s32 rtl8723bs_mgnt_xmit(
+ )
  {
- 	struct eeprom_priv *pEEPROM = GET_EEPROM_EFUSE_PRIV(padapter);
- /* 	struct hal_com_data	*pHalData = GET_HAL_DATA(padapter); */
--	u16 EEPROMId;
-+	u16 EEPROMId = le16_to_cpu(*((__le16 *)hwinfo));
+ 	s32 ret = _SUCCESS;
+-	struct pkt_attrib *pattrib;
+-	struct xmit_buf *pxmitbuf;
++	struct pkt_attrib *pattrib = &pmgntframe->attrib;
++	struct xmit_buf *pxmitbuf = pmgntframe->pxmitbuf;
+ 	struct xmit_priv *pxmitpriv = &padapter->xmitpriv;
+ 	struct dvobj_priv *pdvobjpriv = adapter_to_dvobj(padapter);
+ 	u8 *pframe = (u8 *)(pmgntframe->buf_addr) + TXDESC_OFFSET;
+ 	u8 txdesc_size = TXDESC_SIZE;
  
+-	pattrib = &pmgntframe->attrib;
+-	pxmitbuf = pmgntframe->pxmitbuf;
+-
+ 	rtl8723b_update_txdesc(pmgntframe, pmgntframe->buf_addr);
  
- 	/*  Check 0x8129 again for making sure autoload status!! */
--	EEPROMId = le16_to_cpu(*((__le16 *)hwinfo));
- 	if (EEPROMId != RTL_EEPROM_ID) {
- 		pEEPROM->bautoload_fail_flag = true;
- 	} else
-@@ -2273,9 +2228,8 @@ void rtl8723b_fill_fake_txdesc(
- 	/*  Encrypt the data frame if under security mode excepct null data. Suggested by CCW. */
- 	/*  */
- 	if (bDataFrame) {
--		u32 EncAlg;
-+		u32 EncAlg = padapter->securitypriv.dot11PrivacyAlgrthm;
- 
--		EncAlg = padapter->securitypriv.dot11PrivacyAlgrthm;
- 		switch (EncAlg) {
- 		case _NO_PRIVACY_:
- 			SET_TX_DESC_SEC_TYPE_8723B(pDesc, 0x0);
-@@ -2378,9 +2332,7 @@ static void hw_var_set_opmode(struct adapter *padapter, u8 variable, u8 *val)
- static void hw_var_set_macaddr(struct adapter *padapter, u8 variable, u8 *val)
+ 	pxmitbuf->len = txdesc_size + pattrib->last_txcmdsz;
+@@ -519,9 +502,8 @@ s32	rtl8723bs_hal_xmitframe_enqueue(
+ )
  {
- 	u8 idx = 0;
--	u32 reg_macid;
--
--	reg_macid = REG_MACID;
-+	u32 reg_macid = REG_MACID;
+ 	struct xmit_priv *pxmitpriv = &padapter->xmitpriv;
+-	s32 err;
++	s32 err = rtw_xmitframe_enqueue(padapter, pxmitframe);
  
- 	for (idx = 0 ; idx < 6; idx++)
- 		rtw_write8(GET_PRIMARY_ADAPTER(padapter), (reg_macid+idx), val[idx]);
-@@ -2389,9 +2341,7 @@ static void hw_var_set_macaddr(struct adapter *padapter, u8 variable, u8 *val)
- static void hw_var_set_bssid(struct adapter *padapter, u8 variable, u8 *val)
+-	err = rtw_xmitframe_enqueue(padapter, pxmitframe);
+ 	if (err != _SUCCESS) {
+ 		rtw_free_xmitframe(pxmitpriv, pxmitframe);
+ 
+@@ -543,10 +525,7 @@ s32	rtl8723bs_hal_xmitframe_enqueue(
+ s32 rtl8723bs_init_xmit_priv(struct adapter *padapter)
  {
- 	u8 idx = 0;
--	u32 reg_bssid;
+ 	struct xmit_priv *xmitpriv = &padapter->xmitpriv;
+-	struct hal_com_data *phal;
 -
--	reg_bssid = REG_BSSID;
-+	u32 reg_bssid = REG_BSSID;
+-
+-	phal = GET_HAL_DATA(padapter);
++	struct hal_com_data *phal = GET_HAL_DATA(padapter);
  
- 	for (idx = 0 ; idx < 6; idx++)
- 		rtw_write8(padapter, (reg_bssid+idx), val[idx]);
-@@ -2399,15 +2349,12 @@ static void hw_var_set_bssid(struct adapter *padapter, u8 variable, u8 *val)
+ 	spin_lock_init(&phal->SdioTxFIFOFreePageLock);
+ 	init_completion(&xmitpriv->SdioXmitStart);
+@@ -557,16 +536,13 @@ s32 rtl8723bs_init_xmit_priv(struct adapter *padapter)
  
- static void hw_var_set_bcn_func(struct adapter *padapter, u8 variable, u8 *val)
+ void rtl8723bs_free_xmit_priv(struct adapter *padapter)
  {
--	u32 bcn_ctrl_reg;
--
--	bcn_ctrl_reg = REG_BCN_CTRL;
-+	u32 bcn_ctrl_reg = REG_BCN_CTRL;
- 
- 	if (*(u8 *)val)
- 		rtw_write8(padapter, bcn_ctrl_reg, (EN_BCN_FUNCTION | EN_TXBCN_RPT));
- 	else {
--		u8 val8;
--		val8 = rtw_read8(padapter, bcn_ctrl_reg);
-+		u8 val8 = rtw_read8(padapter, bcn_ctrl_reg);
- 		val8 &= ~(EN_BCN_FUNCTION | EN_TXBCN_RPT);
- 
- 		/*  Always enable port0 beacon function for PSTDMA */
-@@ -2422,12 +2369,8 @@ static void hw_var_set_correct_tsf(struct adapter *padapter, u8 variable, u8 *va
- {
- 	u8 val8;
- 	u64 tsf;
--	struct mlme_ext_priv *pmlmeext;
--	struct mlme_ext_info *pmlmeinfo;
--
--
--	pmlmeext = &padapter->mlmeextpriv;
--	pmlmeinfo = &pmlmeext->mlmext_info;
-+	struct mlme_ext_priv *pmlmeext = &padapter->mlmeextpriv;
-+	struct mlme_ext_info *pmlmeinfo = &pmlmeext->mlmext_info;
- 
- 	tsf = pmlmeext->TSFValue-do_div(pmlmeext->TSFValue, (pmlmeinfo->bcn_interval*1024))-1024; /* us */
- 
-@@ -2479,17 +2422,11 @@ static void hw_var_set_mlme_disconnect(struct adapter *padapter, u8 variable, u8
- 
- static void hw_var_set_mlme_sitesurvey(struct adapter *padapter, u8 variable, u8 *val)
- {
--	u32 value_rcr, rcr_clear_bit, reg_bcn_ctl;
-+	u32 value_rcr, rcr_clear_bit, reg_bcn_ctl = REG_BCN_CTRL;
- 	u16 value_rxfltmap2;
- 	u8 val8;
--	struct hal_com_data *pHalData;
--	struct mlme_priv *pmlmepriv;
--
--
--	pHalData = GET_HAL_DATA(padapter);
--	pmlmepriv = &padapter->mlmepriv;
--
--	reg_bcn_ctl = REG_BCN_CTRL;
-+	struct hal_com_data *pHalData = GET_HAL_DATA(padapter);
-+	struct mlme_priv *pmlmepriv = &padapter->mlmepriv;
- 
- 	rcr_clear_bit = RCR_CBSSID_BCN;
- 
-@@ -2543,15 +2480,12 @@ static void hw_var_set_mlme_join(struct adapter *padapter, u8 variable, u8 *val)
- 	u8 val8;
- 	u16 val16;
- 	u32 val32;
--	u8 RetryLimit;
--	u8 type;
--	struct mlme_priv *pmlmepriv;
-+	u8 RetryLimit = 0x30;
-+	u8 type = *(u8 *)val;
-+	struct mlme_priv *pmlmepriv = &padapter->mlmepriv;
- 	struct eeprom_priv *pEEPROM;
+-	struct xmit_priv *pxmitpriv;
++	struct xmit_priv *pxmitpriv = &padapter->xmitpriv;
+ 	struct xmit_buf *pxmitbuf;
+-	struct __queue *pqueue;
+-	struct list_head *plist, *phead;
++	struct __queue *pqueue = &pxmitpriv->pending_xmitbuf_queue;
++	struct list_head *plist, *phead = get_list_head(pqueue);
+ 	struct list_head tmplist;
  
  
--	RetryLimit = 0x30;
--	type = *(u8 *)val;
--	pmlmepriv = &padapter->mlmepriv;
- 	pEEPROM = GET_EEPROM_EFUSE_PRIV(padapter);
+-	pxmitpriv = &padapter->xmitpriv;
+-	pqueue = &pxmitpriv->pending_xmitbuf_queue;
+-	phead = get_list_head(pqueue);
+ 	INIT_LIST_HEAD(&tmplist);
  
- 	if (type == 0) { /*  prepare to join */
-@@ -2779,8 +2713,7 @@ void SetHwReg8723B(struct adapter *padapter, u8 variable, u8 *val)
- 
- 	case HW_VAR_CHECK_BSSID:
- 		{
--			u32 val32;
--			val32 = rtw_read32(padapter, REG_RCR);
-+			u32 val32 = rtw_read32(padapter, REG_RCR);
- 			if (*val)
- 				val32 |= RCR_CBSSID_DATA|RCR_CBSSID_BCN;
- 			else
-@@ -2850,12 +2783,11 @@ void SetHwReg8723B(struct adapter *padapter, u8 variable, u8 *val)
- 
- 	case HW_VAR_ACK_PREAMBLE:
- 		{
--			u8 regTmp;
-+			u8 regTmp = 0;
- 			u8 bShortPreamble = *val;
- 
- 			/*  Joseph marked out for Netgear 3500 TKIP channel 7 issue.(Temporarily) */
- 			/* regTmp = (pHalData->nCur40MhzPrimeSC)<<5; */
--			regTmp = 0;
- 			if (bShortPreamble)
- 				regTmp |= 0x80;
- 			rtw_write8(padapter, REG_RRSR+2, regTmp);
-@@ -3226,9 +3158,7 @@ void GetHwReg8723B(struct adapter *padapter, u8 variable, u8 *val)
-  */
- u8 SetHalDefVar8723B(struct adapter *padapter, enum hal_def_variable variable, void *pval)
- {
--	u8 bResult;
--
--	bResult = _SUCCESS;
-+	u8 bResult = _SUCCESS;
- 
- 	switch (variable) {
- 	default:
-@@ -3244,9 +3174,7 @@ u8 SetHalDefVar8723B(struct adapter *padapter, enum hal_def_variable variable, v
-  */
- u8 GetHalDefVar8723B(struct adapter *padapter, enum hal_def_variable variable, void *pval)
- {
--	u8 bResult;
--
--	bResult = _SUCCESS;
-+	u8 bResult = _SUCCESS;
- 
- 	switch (variable) {
- 	case HAL_DEF_MAX_RECVBUF_SZ:
-@@ -3281,9 +3209,8 @@ u8 GetHalDefVar8723B(struct adapter *padapter, enum hal_def_variable variable, v
- 	case HW_DEF_RA_INFO_DUMP:
- 		{
- 			u8 mac_id = *(u8 *)pval;
--			u32 cmd;
-+			u32 cmd = 0x40000100 | mac_id;
- 
--			cmd = 0x40000100 | mac_id;
- 			rtw_write32(padapter, REG_HMEBOX_DBG_2_8723B, cmd);
- 			msleep(10);
- 			rtw_read32(padapter, 0x2F0);	// info 1
+ 	spin_lock_bh(&pqueue->lock);
 -- 
 2.43.0
 
