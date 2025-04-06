@@ -1,109 +1,155 @@
-Received: from mail-qk1-f170.google.com (mail-qk1-f170.google.com [209.85.222.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 103AB14830A;
-	Sat,  5 Apr 2025 22:22:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3512017BD9;
+	Sun,  6 Apr 2025 02:10:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743891731; cv=none; b=S7NKBhVPisaRm/5QLHmBPK9D0+RZGBh8/mYi0z/sK4tZu69hRJtiXa1U7/+oXaVX14bVQQnnwVcqMHPAgrqqve4g0dZh9X7vMhuVOTMNO1ykcIvR4/Y0UeA0gtukLFhnai8w1KmBVrIG+3GB2Aj5LkjjZAYoMuj0n3sCDqc+EvI=
+	t=1743905426; cv=none; b=atiAeHf1O1/2946SpuZXk4NH1sNLyxrgA9WBC9jOcZzncTSt2K35Rny2NE8IgNm3iOOCS7xEYTuiGCEuapQQBz08Oi4boEAgFL47+AnxTyVopqIm/vAHzEoMNmPFCUWEE7+Q6Jc30trh/fnP/VftSvySYs9ZWS7i8iS+4qmGBqI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743891731; c=relaxed/simple;
-	bh=1J79/UzQQQqgglAwHQAJTS9DXGRi63VF4VRPFCp7sHk=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=cpANXkbZAlemghHMd9Qch1utYk55mBWxGzhsMqm3+L1NqGKKxqH0UMvybf7OJFk554e2keYCuVVnPawkatfakapdnFICuURIFxYo7zbydt8CfgSFHqByUlGrEn4sgirHi7yS5uer8+Gk7CHsobxnRnlpp/0Fl1LjCqIW978msWU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Rz3C2RZu; arc=none smtp.client-ip=209.85.222.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1743905426; c=relaxed/simple;
+	bh=rq+UJuHUiO3etF702qVSpgpAY5zF9H86GYrlKDApfSc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=P7NQMd7SUgpzzMZKklOicNmJurHmxbYSNT+adsygF7DBsXjVrPePjv0GSgjWPJ6zCh9fMvDR30YOsQOPhmxUFNU6c6EhljQtFlhfFTTWFmpNsyARh4sJXlgL9q0iUl04hCEZnBEC9PQG7AudmnGSec5vScO8zn/uljkD/GeZ0/4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NmuVZBQe; arc=none smtp.client-ip=192.198.163.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Rz3C2RZu"
-Received: by mail-qk1-f170.google.com with SMTP id af79cd13be357-7c07cd527e4so299562285a.3;
-        Sat, 05 Apr 2025 15:22:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1743891728; x=1744496528; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=DJhX/oN89+OT5FiiKG9iuTErcMM31EEtHlt0ti5ugWE=;
-        b=Rz3C2RZu0WInE/hHUHCf3wCL12wAUc04uv6DhF+R4Dl/tr6jP12624UDmtwTZBwpHg
-         e9YG/dj6HucZ848gsBs4UvrY+DqzRjx6ZdK1jPmUVs8cTuv29fXpquwAR2Gudmw/pv73
-         6plY7SdBaPiuxEQFfycpK8a/DSG+QjzrLWgF80J5Ydo59FJG2BW6BafhwpNA6LLSxq8W
-         polfyJiEyVO5XO+FXrmClqmANZc1K7q00xLURp3Cf1fDvZst8O3O9aE+O6p8Ya903Jc8
-         jl7e3f0OfAJ58HxOqGT9tp1c4uaM9exy6PPtVZTTuHV1hgaFUhuXVpLCo0x2gXSlooFI
-         QB5w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1743891728; x=1744496528;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=DJhX/oN89+OT5FiiKG9iuTErcMM31EEtHlt0ti5ugWE=;
-        b=JApzCJsYbb1DwFNQ0cOEK7T/HZZX16jTe6nhxmLo0Vv3ODFdbqg6InlwuSJu0u4ybY
-         R+SAzGZjXi5we0sTsenc98Lp+R3zq0+2kUOoW3kmaroqEokiqvgPq3la+vIcXrSgq+wN
-         h/DCGaf3ILj7+6C8oBl7Qppy/J5KqDo77dABt2p9cps6YLcNrNdIGGDm6KXxXHik7TxC
-         Wmf8hh2s9wItcYwWDHmcaUElyPqNDDhMBGrnyR4Jx2+3uiraxHFfxZWt/W6PtMCKa+NI
-         W8N1gjhhfx1ZbW89KRzJzujnszGuZ3Oj1RYIKyvEBJFuDurLBDs7airea2R38mgVePMW
-         uZcQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVeFHx51W6qkW3LS/ACaHNF62UpoPlUO0Cw0QL8e47B1a9GARxeLsApw+dhAjvYYUzlqaL87KIYEyc9Zu9ZcUxjZhSY5Q==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yw2fk+2gKmEHw+J09UOyiBiRFoLQbVzV+IqhEzJ0y7QcTIngxnI
-	Rn+amRtyX45fHrWJcIqe4zHB5OJfaOu80D6Ikv9+4IXNTKJEhIXGcTA3og8V3ak=
-X-Gm-Gg: ASbGncs0PwFCXYigawE1OiYC7i/Ilp0Y7w7aph4MxmTW/5EWD8M3hGpMzAwkPL17VfM
-	VjWRMnSyroWa6HWK4aLWZPu4wW9EN4urvujpa2k4gIiie4WDNsEZ1Lr+2w+MgwRR+k/xVDbTqQD
-	zajKaaMxkV0Mq8VWicaWErcbRxUrcx4aBbfFuVki0Lh4ktqZO9lE0IQPnKmd9Bs8ZfKtu1cNo6j
-	0FnWEucGFqgNZnhTOtyC6Mz67F1z7q5UMyekg1IkwE6OscFcLDfh1CIbOMyRZ/AK6tna5wAlKHH
-	BBBunX3WQ4kf5yomuRIINiR6QDu6oFPdzGbyRyWPKW8usla9ZnlBIas93JL6h/M+opLTnanCXBl
-	3RB7oLZ7843sIRZxpW6EvEF4=
-X-Google-Smtp-Source: AGHT+IEAkm2CGrA07UUYNs+3Oj8DORY9RfX77/eDcgtvcFKRCKL7rHAHXMHx1ciFwFeqAJQjKxleng==
-X-Received: by 2002:ac8:5993:0:b0:477:6ec9:169a with SMTP id d75a77b69052e-4792490f798mr107257191cf.1.1743891728613;
-        Sat, 05 Apr 2025 15:22:08 -0700 (PDT)
-Received: from theriatric.mshome.net (c-73-123-232-110.hsd1.ma.comcast.net. [73.123.232.110])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-4791b0713f6sm40603311cf.21.2025.04.05.15.22.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 05 Apr 2025 15:22:08 -0700 (PDT)
-From: Gabriel Shahrouzi <gshahrouzi@gmail.com>
-To: linux-staging@lists.linux.dev
-Cc: philipp.g.hortmann@gmail.com,
-	eamanu@riseup.net,
-	linux-kernel@vger.kernel.org,
-	linux-kernel-mentees@lists.linux.dev,
-	skhan@linuxfoundation.org,
-	gregkh@linuxfoundation.org,
-	Gabriel Shahrouzi <gshahrouzi@gmail.com>
-Subject: [PATCH v4] staging: rtl8723bs: Remove trailing whitespace
-Date: Sat,  5 Apr 2025 17:02:40 -0400
-Message-ID: <20250405210240.584821-1-gshahrouzi@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NmuVZBQe"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1743905424; x=1775441424;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=rq+UJuHUiO3etF702qVSpgpAY5zF9H86GYrlKDApfSc=;
+  b=NmuVZBQe6U7+VIHQGgNkZsC7FgncDZR5oxDBqeOT7G3/pEYuHD+uifH5
+   u6hBgu9d2fxpDsft8Kn4C37xTk3hWcHh406zPkweDuq+fuk7HdnPlqKnO
+   ck/XH67s4zdFz6d0kwZT/ktG25Oz83scavk0g5Z5L9nGndDdyVhPRLawv
+   pmQ1qJCdoV/OXABgsjiAFXyp9Fl+94fSYh0zHG/veO/LCabREDsN4tFUf
+   s+8iLqVOjrnykXLbZxI+srN3RW9sf17i/snwssz3SkTI6uPfowSpKkjjK
+   wm5g1ECqlKJNIsb5/WSdlwss5ddoYZ8++r6ErfiBZnol99+kR1JabK6t8
+   A==;
+X-CSE-ConnectionGUID: 1qW3yVDCQFmeX3cI2KFjvQ==
+X-CSE-MsgGUID: cE66MQcFQLWPiIqurStxaA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11395"; a="45433992"
+X-IronPort-AV: E=Sophos;i="6.15,192,1739865600"; 
+   d="scan'208";a="45433992"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Apr 2025 19:10:23 -0700
+X-CSE-ConnectionGUID: X//MYxyTR5SfRgEcP7kAVA==
+X-CSE-MsgGUID: BU1KU/RWShiZAEYwyV93TA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,192,1739865600"; 
+   d="scan'208";a="132763052"
+Received: from lkp-server01.sh.intel.com (HELO b207828170a5) ([10.239.97.150])
+  by fmviesa004.fm.intel.com with ESMTP; 05 Apr 2025 19:10:21 -0700
+Received: from kbuild by b207828170a5 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1u1FSk-0002OX-37;
+	Sun, 06 Apr 2025 02:10:18 +0000
+Date: Sun, 6 Apr 2025 10:10:05 +0800
+From: kernel test robot <lkp@intel.com>
+To: Wentao Liang <vulab@iscas.ac.cn>, gregkh@linuxfoundation.org,
+	philipp.g.hortmann@gmail.com
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Wentao Liang <vulab@iscas.ac.cn>, stable@vger.kernel.org
+Subject: Re: [PATCH v4] staging: rtl8723bs: Add error handling for sd_read()
+Message-ID: <202504060905.XvK4ueHM-lkp@intel.com>
+References: <20250405160546.2639-1-vulab@iscas.ac.cn>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250405160546.2639-1-vulab@iscas.ac.cn>
 
-Remove trailing whitespace to comply with kernel coding style.
+Hi Wentao,
 
-Signed-off-by: Gabriel Shahrouzi <gshahrouzi@gmail.com>
----
-Changes in v2:
-	- Resend using git send-email to fix formatting issues in email body.
-Changes in v3:
-	- Fix indent level of diff.
-Changes in v4:
-	- Remove suggested tag because it was incorrectly used.
----
- drivers/staging/rtl8723bs/include/hal_pwr_seq.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+kernel test robot noticed the following build errors:
 
-diff --git a/drivers/staging/rtl8723bs/include/hal_pwr_seq.h b/drivers/staging/rtl8723bs/include/hal_pwr_seq.h
-index b93d74a5b9a5..48bf7f66a06e 100644
---- a/drivers/staging/rtl8723bs/include/hal_pwr_seq.h
-+++ b/drivers/staging/rtl8723bs/include/hal_pwr_seq.h
-@@ -209,7 +209,7 @@
- #define RTL8723B_TRANS_END															\
- 	/* format */																\
- 	/* { offset, cut_msk, fab_msk|interface_msk, base|cmd, msk, value }, comments here*/								\
--	{0xFFFF, PWR_CUT_ALL_MSK, PWR_FAB_ALL_MSK, PWR_INTF_ALL_MSK, 0, PWR_CMD_END, 0, 0}, 
-+	{0xFFFF, PWR_CUT_ALL_MSK, PWR_FAB_ALL_MSK, PWR_INTF_ALL_MSK, 0, PWR_CMD_END, 0, 0},
- 
- 
- extern struct wlan_pwr_cfg rtl8723B_power_on_flow[RTL8723B_TRANS_CARDEMU_TO_ACT_STEPS+RTL8723B_TRANS_END_STEPS];
+[auto build test ERROR on staging/staging-testing]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Wentao-Liang/staging-rtl8723bs-Add-error-handling-for-sd_read/20250406-001458
+base:   staging/staging-testing
+patch link:    https://lore.kernel.org/r/20250405160546.2639-1-vulab%40iscas.ac.cn
+patch subject: [PATCH v4] staging: rtl8723bs: Add error handling for sd_read()
+config: arm64-randconfig-001-20250406 (https://download.01.org/0day-ci/archive/20250406/202504060905.XvK4ueHM-lkp@intel.com/config)
+compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project 92c93f5286b9ff33f27ff694d2dc33da1c07afdd)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250406/202504060905.XvK4ueHM-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202504060905.XvK4ueHM-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+>> drivers/staging/rtl8723bs/hal/sdio_ops.c:190:17: error: expected ';' after expression
+     190 |                         kfree(tmpbuf)
+         |                                      ^
+         |                                      ;
+   1 error generated.
+
+
+vim +190 drivers/staging/rtl8723bs/hal/sdio_ops.c
+
+   150	
+   151	static u32 sdio_read32(struct intf_hdl *intfhdl, u32 addr)
+   152	{
+   153		struct adapter *adapter;
+   154		u8 mac_pwr_ctrl_on;
+   155		u8 device_id;
+   156		u16 offset;
+   157		u32 ftaddr;
+   158		u8 shift;
+   159		u32 val;
+   160		s32 __maybe_unused err;
+   161		__le32 le_tmp;
+   162	
+   163		adapter = intfhdl->padapter;
+   164		ftaddr = _cvrt2ftaddr(addr, &device_id, &offset);
+   165	
+   166		rtw_hal_get_hwreg(adapter, HW_VAR_APFM_ON_MAC, &mac_pwr_ctrl_on);
+   167		if (
+   168			((device_id == WLAN_IOREG_DEVICE_ID) && (offset < 0x100)) ||
+   169			(!mac_pwr_ctrl_on) ||
+   170			(adapter_to_pwrctl(adapter)->fw_current_in_ps_mode)
+   171		) {
+   172			err = sd_cmd52_read(intfhdl, ftaddr, 4, (u8 *)&le_tmp);
+   173			return le32_to_cpu(le_tmp);
+   174		}
+   175	
+   176		/*  4 bytes alignment */
+   177		shift = ftaddr & 0x3;
+   178		if (shift == 0) {
+   179			val = sd_read32(intfhdl, ftaddr, NULL);
+   180		} else {
+   181			u8 *tmpbuf;
+   182	
+   183			tmpbuf = rtw_malloc(8);
+   184			if (!tmpbuf)
+   185				return SDIO_ERR_VAL32;
+   186	
+   187			ftaddr &= ~(u16)0x3;
+   188			err = sd_read(intfhdl, ftaddr, 8, tmpbuf);
+   189			if (err) {
+ > 190				kfree(tmpbuf)
+   191				return SDIO_ERR_VAL32;
+   192			}
+   193	
+   194			memcpy(&le_tmp, tmpbuf + shift, 4);
+   195			val = le32_to_cpu(le_tmp);
+   196	
+   197			kfree(tmpbuf);
+   198		}
+   199		return val;
+   200	}
+   201	
+
 -- 
-2.43.0
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
