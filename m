@@ -1,141 +1,114 @@
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail3-relais-sop.national.inria.fr (mail3-relais-sop.national.inria.fr [192.134.164.104])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F35B7256D;
-	Sun,  6 Apr 2025 04:12:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2CF1218821;
+	Sun,  6 Apr 2025 13:00:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.134.164.104
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743912729; cv=none; b=oip6Bzp7H11uBQkGxi4lFUUQy97xuUBt2XtXGnSB8fryLTqdpP6BoNky3r73ehR2pS/sEPli5ueT2Sx7s497D/JYUdkTKuS8Y2ERjuul9enqNPcIMNTYgYuYRIuZaKsXnbhW3L87zsx41pks0Yb7p37FCJxe8ONrEuXdjMX8ueY=
+	t=1743944407; cv=none; b=gOfo7UOXXdekBlRU0QxxYnGSElWLD/ORkadB2juzZ/iFWnLOg530lXSMxoMuxLUTsx67Dwn4RK9ZP4qwBmTzT6s103+LYz8n3PD9aCXhuN+yYqodqRS4xEDd2w9L28I4/86OaSZ/E5C7GCSW56vqolos/oxj5lw7KJZ6ZEnKIc0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743912729; c=relaxed/simple;
-	bh=hGIVXXAhHctDsjy1naMvfXrRCQwyDdpNe4VQbCn8dv0=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=OYo/ZndiidBB5ROsyV//nUgqkN4VvmT3sZvZdt6WYGGXV1IJpRoV2CrwDXYhJkM6tQhfSKoQ/B/iAdnUK24tHK8DYbeFSsyQ4StBHQnvgnVmP0Rp9rVuWzVJMtaVyWklXIRXAb8riOdeS3zuEwZjyrf3Lzxs1TlwV+Y+Bxj8ZsM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EkFKPK2F; arc=none smtp.client-ip=209.85.221.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1743944407; c=relaxed/simple;
+	bh=I275HjFLFd3xtDc4X9CdvdH6RS36LejZaw+xpOqo0w4=;
+	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
+	 MIME-Version:Content-Type; b=aiTyrLHOCmRT+En7Q/ZS2q4ThL3VptIe9LtQFx8dOQzmI8LjFAIMeqRnMLNSN4tMLucmuDnn3zBT5RD28uoT2hNCHSOPq3TAWkXE1R68qGllXCs9mFG4ebxcTelKtUmj+FAbcegViFz/XHtkReZ9jj4YBHfpxm/SaHGiuD7gT18=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr; spf=pass smtp.mailfrom=inria.fr; dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b=N7ekiixN; arc=none smtp.client-ip=192.134.164.104
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=inria.fr
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EkFKPK2F"
-Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-39c0dfba946so2036689f8f.3;
-        Sat, 05 Apr 2025 21:12:07 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b="N7ekiixN"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1743912726; x=1744517526; darn=lists.linux.dev;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=CkhZzdyHthH3zlmYOF4rhVybnNJuyP+fVbqgr5eqZcQ=;
-        b=EkFKPK2F2g+8oFMNLRbJ2FdwrbjWsDkn9d3FhKV0xSFWqrcoS0ZYNXPW8Bkqc2nGyu
-         HEaEBuX1Y/mXqtt5MRB8t0vx9jRbI84ppkjhSe6359Tdx1RBZHKNlBKNlxX+f5hjOhfB
-         TgzjtJn48+TGyS8aOMVEUk6Hq/GyEnwPR9GGdUS21AEG+L69Re9+HUpM90btiamPwnLQ
-         /VjOJNSwVZI+eg41Wl//RPcvTYfjKsUT7fL6pYoRvq6Vl7efnc1ai1GEKdI11SpnFL14
-         lbyox4PSm+PqvV5g4V0Qr/Ap6q+iSmYbWJPewUosPFOJByCtDX5GXPVucOvywLM7bfQF
-         5tCg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1743912726; x=1744517526;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=CkhZzdyHthH3zlmYOF4rhVybnNJuyP+fVbqgr5eqZcQ=;
-        b=IFo+kSAm6bHXM1dfEUSYVdCzZnnb+IDyO84Mujdaf52wMB+3DJqpUmlUrZ9Q4TVgs4
-         WzOnpRABmYsnOaZ1N44QM497qMq08CvsrnGOhIQZDWqkaycst8FxrG7Aw1NytYMJ5jcb
-         sI5DbMlR65x3VGD/bhVk3n9EMLfrWjOxNBjfIUGR/Sp/5d+FRypuu12LFKb2m5fIrUoI
-         9herTd8NQw4KE8h8M1/c37QUtFk4Ij/CsDjBjf5fu6esWAxBHHN/9sNv555Y1iwpQqU0
-         KBgjENIoc1iBEFmpVD0Md/oCDAQVZhjI8UCSMOT4cko62vFPp9VO+YSAEJzRdhOugM/E
-         BETg==
-X-Forwarded-Encrypted: i=1; AJvYcCVrUbpGW/oD8N6qNnnag/ew8d51Ib3Msx2dPGrN/ChVLYOgz3sXpnPpkzBJ2MatxE9ZZ/kfHbBtXW9j@lists.linux.dev, AJvYcCWs0vmp6gR7GNpF/8tETSh2s7SiCy+0IBzu4D61aC+rEPnmgwvHttpUxjhG5oVLKWCvmm/RM+43zej5n4DG@lists.linux.dev
-X-Gm-Message-State: AOJu0Yw8FeewjS1AueM4m0edDtoMLw08WKg1fJX8ldqZ8XBwmVOdpQ2X
-	2AeAZEWY4qBwtGo2saEQNDLOoPdK3bbfVNs35CrkXmeqk6sdpvOr
-X-Gm-Gg: ASbGncs2YF8pO9UsOcJVY83CrwOZeTvXILfsypnVK7fMKOVyoZDZTts+wkQlEdOvFcx
-	n/4GzRDIopkCWeMAoSOIbjXBtC15CE2veS2o7X4DZu0dsg9nZXeagDCPP9tWVZq3T0aF3RI21Kq
-	eAFnKsaEnpCwh89aBsdcElVW4pNRO7IaCbdBDyx4AWvhdASCv2VnoYkisQuJ7doCEog6QUqtBGl
-	ZbDb6THZx/t0MPn5MPJdH8Sr+cUbO2QcNWc4zzYwagtnpUrAypIgltdKqhLDhVm8VXD4FbVHj0M
-	9k6caCqR4nQBFplWRZRsyROYr+SP31EoN1AgjYS6PGNYVM0852Rjl2h8KOw=
-X-Google-Smtp-Source: AGHT+IGC1ME0LK4Hbev186Hx/YDZFRCSQdBf01P3L8jVlOccePJ7qVSVmJivVIhwZkJfuIasb9ou4w==
-X-Received: by 2002:a05:6000:400f:b0:391:4674:b10f with SMTP id ffacd0b85a97d-39cba9332fdmr7099197f8f.36.1743912725851;
-        Sat, 05 Apr 2025 21:12:05 -0700 (PDT)
-Received: from [192.168.210.251] ([197.232.62.223])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-39c30096964sm8471638f8f.15.2025.04.05.21.12.00
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 05 Apr 2025 21:12:05 -0700 (PDT)
-Message-ID: <b5cc9143f1ff84ac13aff6e5f56e1c14b4a181f7.camel@gmail.com>
-Subject: Re: [PATCH 1/2] staging: rtl8723bs: Optimize variable
- initialization in rtl8723b_hal_init.c
-From: Erick Karanja <karanja99erick@gmail.com>
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: gregkh@linuxfoundation.org, outreachy@lists.linux.dev, 
-	philipp.g.hortmann@gmail.com, linux-staging@lists.linux.dev, 
-	linux-kernel@vger.kernel.org
-Date: Sun, 06 Apr 2025 07:11:56 +0300
-In-Reply-To: <8ce041b2-087c-4d47-891f-28ecc0c91c76@stanley.mountain>
-References: <cover.1743820815.git.karanja99erick@gmail.com>
-	 <f7b63d834b98aedfe2ce277d8008d7e398ea29ba.1743820815.git.karanja99erick@gmail.com>
-	 <8ce041b2-087c-4d47-891f-28ecc0c91c76@stanley.mountain>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.52.3-0ubuntu1 
+  d=inria.fr; s=dc;
+  h=date:from:to:cc:subject:in-reply-to:message-id:
+   references:mime-version;
+  bh=M/JM7I3zXyWVovfjIytpqHO1g6cAFai96OoX/P6cQqU=;
+  b=N7ekiixNa9kraHD97U29R4h1gGGgyiXDaPfrVQxryYe9/KRsY/zv1QY6
+   du/gAwi/HkwlzF9QFwejr60njqMgdPDdgjVWAMiyOZ22GPdprWmWzbiZs
+   IG/uC8FXXEiLBk51ff4DPBnieryTm0tFETUc17ElwNlKgiBGUxffF87q4
+   o=;
+Authentication-Results: mail3-relais-sop.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=julia.lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
+X-IronPort-AV: E=Sophos;i="6.15,193,1739833200"; 
+   d="scan'208";a="113562744"
+Received: from unknown (HELO hadrien) ([4.26.64.170])
+  by mail3-relais-sop.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Apr 2025 14:59:54 +0200
+Date: Sun, 6 Apr 2025 08:59:52 -0400 (EDT)
+From: Julia Lawall <julia.lawall@inria.fr>
+To: Samuel Abraham <abrahamadekunle50@gmail.com>
+cc: Julia Lawall <julia.lawall@inria.fr>, 
+    Andy Shevchenko <andy.shevchenko@gmail.com>, 
+    Greg Kroah-Hartman <gregkh@linuxfoundation.org>, andy@kernel.org, 
+    dan.carpenter@linaro.org, linux-staging@lists.linux.dev, 
+    linux-kernel@vger.kernel.org, outreachy@lists.linux.dev
+Subject: Re: [PATCH v2] staging: rtl8723bs: Use % 4096 instead of & 0xfff
+In-Reply-To: <CADYq+fYMPGFdFvNPyo_XoNdMhh6qu=h10Gb2EDc2Jw=JK9iXig@mail.gmail.com>
+Message-ID: <7f48a42-1921-77d7-1cf4-fb6ea8f6fb7e@inria.fr>
+References: <Z/B019elTtKG/PvD@ubuntu> <2025040547-vagrancy-imagines-384b@gregkh> <CAHp75Vc0vOB1nDLrV+wmYeshxTsDwYq0xBkmJiOH=d5HONRpNQ@mail.gmail.com> <d3b4e3b4-b5cc-5b5f-26b6-1d726f5e57c@inria.fr>
+ <CADYq+fYMPGFdFvNPyo_XoNdMhh6qu=h10Gb2EDc2Jw=JK9iXig@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: multipart/mixed; boundary="8323329-1226635281-1743944395=:3229"
 
-On Sat, 2025-04-05 at 17:19 +0300, Dan Carpenter wrote:
-> On Sat, Apr 05, 2025 at 06:14:48AM +0300, Erick Karanja wrote:
-> > Optimize variable initialization by integrating the initialization
-> > directly into the variable declaration in cases where the
-> > initialization
-> > is simple and doesn't depend on other variables or complex
-> > expressions.
-> > This makes the code more concise and readable.
-> >=20
-> > Signed-off-by: Erick Karanja <karanja99erick@gmail.com>
-> > ---
-> > =C2=A0.../staging/rtl8723bs/hal/rtl8723b_hal_init.c | 155 +++++--------=
--
-> > ----
-> > =C2=A01 file changed, 41 insertions(+), 114 deletions(-)
-> >=20
-> > diff --git a/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
-> > b/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
-> > index e15ec6452fd0..1e980b291e90 100644
-> > --- a/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
-> > +++ b/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
-> > @@ -152,13 +152,12 @@ static int _WriteFW(struct adapter *padapter,
-> > void *buffer, u32 size)
-> > =C2=A0void _8051Reset8723(struct adapter *padapter)
-> > =C2=A0{
-> > =C2=A0	u8 cpu_rst;
-> > -	u8 io_rst;
-> > +	u8 io_rst =3D rtw_read8(padapter, REG_RSV_CTRL + 1);
-> > =C2=A0
-> > =C2=A0
-> > =C2=A0	/*=C2=A0 Reset 8051(WLMCU) IO wrapper */
-> > =C2=A0	/*=C2=A0 0x1c[8] =3D 0 */
-> > =C2=A0	/*=C2=A0 Suggested by Isaac@SD1 and Gimmy@SD1, coding by
-> > Lucas@20130624 */
-> > -	io_rst =3D rtw_read8(padapter, REG_RSV_CTRL+1);
-> > =C2=A0	io_rst &=3D ~BIT(0);
-> > =C2=A0	rtw_write8(padapter, REG_RSV_CTRL+1, io_rst);
->=20
-> I hate this.=C2=A0 It's a bad idea to put "code" in the declaration block=
-.
-Thank you on the review I believe updating the semantic patch to check
-for this could be great.
->=20
-> > @@ -501,8 +499,7 @@ void Hal_GetEfuseDefinition(
-> > =C2=A0	switch (type) {
-> > =C2=A0	case TYPE_EFUSE_MAX_SECTION:
-> > =C2=A0		{
-> > -			u8 *pMax_section;
-> > -			pMax_section =3D pOut;
-> > +			u8 *pMax_section =3D pOut;
->=20
-> This is fine because "pOut" is a variable.=C2=A0 It doesn't have side
-> effects
-> and it's not "code" in that sense.
->=20
-> regards,
-> dan carpenter
->=20
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
 
+--8323329-1226635281-1743944395=:3229
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8BIT
+
+
+
+On Sat, 5 Apr 2025, Samuel Abraham wrote:
+
+> On Sat, Apr 5, 2025 at 1:30 PM Julia Lawall <julia.lawall@inria.fr> wrote:
+> >
+> >
+> >
+> > On Sat, 5 Apr 2025, Andy Shevchenko wrote:
+> >
+> > > On Sat, Apr 5, 2025 at 11:23 AM Greg Kroah-Hartman
+> > > <gregkh@linuxfoundation.org> wrote:
+> > > > On Sat, Apr 05, 2025 at 12:09:59AM +0000, Abraham Samuel Adekunle wrote:
+> > > > > Replace the bitwise AND operator `&` with a modulo
+> > > > > operator `%` and decimal number to make the upper limit visible
+> > > > > and clear what the semantic of it is.
+> > > >
+> > > > Eeek, no.  We all "know" what & means (it's a bit mask to handle the
+> > > > issues involved), and we all do NOT know that % will do the same thing
+> > > > at all.
+> > >
+> > > And that is exactly the purpose of the change. The % 4096 makes it
+> > > clearer on what's going on, i.e. we are doing indexes that are wrapped
+> > > around the given number.
+> >
+> > Ah, OK.  Samuel, indeed, the log message was going in that direction.  But
+> > probably it should be more clear.  Why is 4096 the upper limit in this
+> > case, for example.
+>
+> Okay thank you Julia.
+> So I can add something like this to the commit message?
+>
+> "Replace the bitwise AND operator `&` with a modulo
+> operator `%` and decimal number to make the upper limit visible
+> and clear that we are doing indexes that are wrapped around the given number"?
+
+No.  First say what the upper limit is.  Then explain that a module
+operation is thus more appropriate than a bit mask.  People need to
+understand the reasoning behind the change.  By saying "make the upper
+limit visible" you are asking them to trust your reasoning, or more likely
+requiring them to reconstruct it.  You need to make explicit all the
+information that is needed to understand the change, so people will know
+what to look for to verify it.
+
+> You also said I should add a patch for the white space around binary operators.
+> I did it together because the changes were on the same line.
+> Should I still add a second patch for that change?
+
+It's quite a different issue.  So a second patch seems reasonable.  YOu
+can do it before yours.  Then if someone still doesn't unlike the modulo
+patch, the spacing patch can still be accepted.
+
+julia
+--8323329-1226635281-1743944395=:3229--
