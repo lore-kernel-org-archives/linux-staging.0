@@ -1,132 +1,108 @@
-Received: from mail-qk1-f175.google.com (mail-qk1-f175.google.com [209.85.222.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34776146588
-	for <linux-staging@lists.linux.dev>; Mon,  7 Apr 2025 12:26:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33C892459F5;
+	Mon,  7 Apr 2025 12:28:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744028807; cv=none; b=miCAPLdPc2TVFs52RdpDiknQFnc0g3RAwoAGxoncMgE/6czPvZ7pb861gIF9tzJjd9Hfe3Gb+4MuSw1MTPIuORfK0OkKHDDbaC2baYsG4Dd5C8MTxggbOMii1lrFN8Pke3icYMH6HysfIXz+SyQ1zymcR2AWqx2JRbC3vtXKNFw=
+	t=1744028921; cv=none; b=k4QjDoxOiUfdPEgQST8VhamG70sCVxWfL+/qkClqkXPldd+cgXNacmqUdJYaXYI5xMvEvwouFM0hopJDeEDZIBQYWVePtArLDkadqmfMZQD0iEsg9wIb1Oj4qA5PBi6TH01aW3xYznXewfOrboxsQarXSvTwlX8D6qiTQyvHw8A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744028807; c=relaxed/simple;
-	bh=suWDlZjE6ctcOExI78i3ePT+xHDpOdW3uvb+MflX828=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=NG28Q2+At/SYeRtONXIb7dyaNM6rJGci9+lQusGkA5KZ2UjNTwqv9JysYPLxLaajKnbZd0R1tmkVLyUL6MFDDD5LETDVgMevI9i6yKWDhve/B+Ntf8C31F3FhRvcZiTg4/9V8y7tsFnXwh+bFyzgijlshIo7MClnwc2O77rKUEU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NavMjvck; arc=none smtp.client-ip=209.85.222.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NavMjvck"
-Received: by mail-qk1-f175.google.com with SMTP id af79cd13be357-7c08f9d0ef3so244683085a.2
-        for <linux-staging@lists.linux.dev>; Mon, 07 Apr 2025 05:26:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1744028805; x=1744633605; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=/4u5RYrNZsh+9smymDd4urY0c2xmRwtoKbTHADTmKzY=;
-        b=NavMjvckwW8ob157/EweS5FJmBXQI4KiCvwS28+Zqr3681JELANd95SWYILqGQdaPZ
-         JOED2wA2E4dI/O2CQFt1J4dMuW6ylF3rMUwBEajK3C5wKhM1vbAxfDr8KyJxhtqEh9/P
-         mLy/G9xjZupZ6ldZU7jWs8K5H5f2ZSJ+wiO4UVUHyYlhj66M/0ifqhTs0cVFklYp13RD
-         rc6wZs8qj0g9xJMCib3UomvXI/foxu2Bar9UCRbXrs3DNN4hKdX6HzPIXaKmA7BDf9GK
-         Moh7F9virwVe2c8ID6fhq9DO4vruHt+5IsVFa/q8LJ4sIrWGyP58ryUPjGYRueL/jvrq
-         vMpg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744028805; x=1744633605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=/4u5RYrNZsh+9smymDd4urY0c2xmRwtoKbTHADTmKzY=;
-        b=BwAaglepJyT232pHJ7ff6e556WhiwQUJDkViUwzhvW3ZcqOPYUz5yUKonW2s5ItZDT
-         IFJR0F1CdyOidF2nrFF9im9pdocDP5QLoFD4FLR/jQjPy0quhp3ZPrEAPWiWbDSkeVFA
-         j9cJUd+ElQQSauWdMXUo/SDcEO0G7AobTKtePTK5vWIYzXKBKsXm3EL2+IyQ3d2++4FU
-         1V20ywLjR5YuRl2vo2GP2V4/F3jzk78zHNcwKWLTC7PHTBzq+WV7A0kP4g9mrggWUOTa
-         cHawmsBgzYcfjbVRV71a0qovGOOagmxkWKgM7iKd0AmPWRS0hO8XI4p2maqqSk0D0I+S
-         JCxw==
-X-Forwarded-Encrypted: i=1; AJvYcCV9GcYAFMU9wAxj1Yut7LoIY6fGeaXu8UQ64G9A6prbdFmoATm/3VvUYRqqMl+esNyq/ja53xtQom2fMfRE@lists.linux.dev
-X-Gm-Message-State: AOJu0YwvzdqElMpl8BEzr6jgASrTFXuBCgzUEETIZcS3OsBpDCYQLGM7
-	8OU+Wrbdp51EbkEKACByz83NlOkpbmdtVsaiY7hfJqXDRlupzPLOol6v+mQIKsowHvcqWmK96p9
-	AsI1cebWP1kMyKs3qSY5o1fGUGxw=
-X-Gm-Gg: ASbGncvocCwUMr1tamMLqCctTDo2Ru1wkM3zgmb99R0EwwcQ5oSVCZVyP8BqCPpxlH1
-	uPgkjmklaChMGFLmMCa77/iHkhBW9yoMR2AZHuvQPtwvBFKRRB4OrW6CPndNKd3GVNBBqg/KO2P
-	iSElTcjtABxsrN2A0NzK/Oq0HEUQ93Zs/+ktJyj28nQOi8PwnHe3LzOxeemOpYieeHxvGm
-X-Google-Smtp-Source: AGHT+IEGrSORxMMHd21/PqXfGT0C/JWcELX6SedAIkTUNLGAxpmWvnIlmh2k5wd7lyxAyTp7UKt/Cpe5OgEoByWcw44=
-X-Received: by 2002:ac8:5743:0:b0:476:8d3d:adb6 with SMTP id
- d75a77b69052e-4792598c12emr164828761cf.23.1744028804904; Mon, 07 Apr 2025
- 05:26:44 -0700 (PDT)
+	s=arc-20240116; t=1744028921; c=relaxed/simple;
+	bh=dDCLsoBqPfjWbCG4p1BxBYTwjiD+HPi7id2DzJFDYuY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=XkRoALacc34d2ZZSuZfeEFNQtz+pvHGV6NcKaB2vzAbmUIVDvaC8tRxDIahBreeMGlRibRI1eL1fiBW3FR3Q9K848j43fCoJaV+CVCtA1q5rKWxHE4DVi9mX8CpWhnWM27NvOyREfK4YkmUircND1fOazLnwY1ATlijwz2D8cP8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=kernel.org; spf=fail smtp.mailfrom=kernel.org; arc=none smtp.client-ip=198.175.65.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=kernel.org
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=kernel.org
+X-CSE-ConnectionGUID: y727OskHTSmLEC/Jii+pzg==
+X-CSE-MsgGUID: OLKqhjJOQo6jOFd96nSvUw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11397"; a="45503788"
+X-IronPort-AV: E=Sophos;i="6.15,194,1739865600"; 
+   d="scan'208";a="45503788"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Apr 2025 05:28:39 -0700
+X-CSE-ConnectionGUID: V7WAbuhdRRaCz1Fu5rD9lg==
+X-CSE-MsgGUID: cnCsxASrQrSUBASJDuV33w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,194,1739865600"; 
+   d="scan'208";a="127924698"
+Received: from smile.fi.intel.com ([10.237.72.58])
+  by orviesa006.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Apr 2025 05:28:38 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.98.2)
+	(envelope-from <andy@kernel.org>)
+	id 1u1lac-0000000A44A-2D5l;
+	Mon, 07 Apr 2025 15:28:34 +0300
+Date: Mon, 7 Apr 2025 15:28:34 +0300
+From: Andy Shevchenko <andy@kernel.org>
+To: David Laight <david.laight.linux@gmail.com>
+Cc: Greg KH <gregkh@linuxfoundation.org>,
+	Abraham Samuel Adekunle <abrahamadekunle50@gmail.com>,
+	julia.lawall@inria.fr, outreachy@lists.linux.dev,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	dan.carpenter@linaro.org
+Subject: Re: [PATCH v4] staging: rtl8723bs: Use % 4096u instead of & 0xfff
+Message-ID: <Z_PE8usXhpLJ4sTd@smile.fi.intel.com>
+References: <Z/NxGilPLPy7KSQ3@ubuntu>
+ <2025040757-clergyman-finalist-0c63@gregkh>
+ <2025040752-unrefined-labored-8c8c@gregkh>
+ <20250407132115.11ded3d9@pumpkin>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250402135851.13627-1-gshahrouzi@gmail.com> <1a973afd-0ac7-4ba6-8b00-818d1405ebac@xs4all.nl>
-In-Reply-To: <1a973afd-0ac7-4ba6-8b00-818d1405ebac@xs4all.nl>
-From: Gabriel Shahrouzi <gshahrouzi@gmail.com>
-Date: Mon, 7 Apr 2025 08:26:00 -0400
-X-Gm-Features: ATxdqUG8RliFIZGd21dQ15vb3wgr08edfBbspy_ARY5Wf9Xx4cPBZE_HIvj4CFY
-Message-ID: <CAKUZ0zLoLbM3aN6VC+2kot9YxgHTMf4YuFjNSfL08ydL_+Bz0w@mail.gmail.com>
-Subject: Re: [PATCH v4] staging: media: Remove unnecessary braces for single
- statement block
-To: Hans Verkuil <hverkuil@xs4all.nl>
-Cc: linux-media@vger.kernel.org, linux-staging@lists.linux.dev, 
-	slongerbeam@gmail.com, p.zabel@pengutronix.de, mchehab@kernel.org, 
-	gregkh@linuxfoundation.org, skhan@linuxfoundation.org, 
-	kernelmentees@lists.linuxfoundation.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250407132115.11ded3d9@pumpkin>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-On Mon, Apr 7, 2025 at 7:23=E2=80=AFAM Hans Verkuil <hverkuil@xs4all.nl> wr=
-ote:
->
-> On 02/04/2025 15:58, Gabriel Shahrouzi wrote:
-> > Remove unnecessary braces in single statement block to comply with kern=
-el
-> > coding style.
->
-> Please add the driver in the subject line. So:
->
-> [PATCH v4] staging: media: imx: Remove unnecessary braces for single stat=
-ement block
->
-> That way it is clear that this is a patch for a specific driver.
-Got it. Will send revision.
->
-> Regards,
->
->         Hans
->
-> >
-> > Signed-off-by: Gabriel Shahrouzi <gshahrouzi@gmail.com>
-> > ---
-> >
-> > Changes in v2:
-> >       - Add missing author.
-> >       - Fix title of email.
-> > Changes in v3:
-> >         - Resend using git send-email to fix formatting issues in email=
- body.
-> > Changes in v4:
-> >       - Use correct patch version.
-> > ---
-> >  drivers/staging/media/imx/imx-media-of.c | 3 +--
-> >  1 file changed, 1 insertion(+), 2 deletions(-)
-> >
-> > diff --git a/drivers/staging/media/imx/imx-media-of.c b/drivers/staging=
-/media/imx/imx-media-of.c
-> > index bb28daa4d713..7413551052ae 100644
-> > --- a/drivers/staging/media/imx/imx-media-of.c
-> > +++ b/drivers/staging/media/imx/imx-media-of.c
-> > @@ -57,9 +57,8 @@ int imx_media_add_of_subdevs(struct imx_media_dev *im=
-xmd,
-> >               of_node_put(csi_np);
-> >               if (ret) {
-> >                       /* unavailable or already added is not an error *=
-/
-> > -                     if (ret =3D=3D -ENODEV || ret =3D=3D -EEXIST) {
-> > +                     if (ret =3D=3D -ENODEV || ret =3D=3D -EEXIST)
-> >                               continue;
-> > -                     }
-> >
-> >                       /* other error, can't continue */
-> >                       return ret;
->
+On Mon, Apr 07, 2025 at 01:21:15PM +0100, David Laight wrote:
+> On Mon, 7 Apr 2025 08:53:30 +0200
+> Greg KH <gregkh@linuxfoundation.org> wrote:
+> > On Mon, Apr 07, 2025 at 08:36:35AM +0200, Greg KH wrote:
+> > > On Mon, Apr 07, 2025 at 06:30:50AM +0000, Abraham Samuel Adekunle wrote:  
+
+<snip>
+
+> > > > -				psta->sta_xmitpriv.txseq_tid[pattrib->priority] &= 0xFFF;
+> > > > +				psta->sta_xmitpriv.txseq_tid[pattrib->priority] &= 4096u;  
+> > > 
+> > > I do not see a modulo operation here, only another & operation.
+> > >   
+> > > >  				pattrib->seqnum = psta->sta_xmitpriv.txseq_tid[pattrib->priority];
+> > > >  
+> > > >  				SetSeqNum(hdr, pattrib->seqnum);
+> > > > @@ -963,11 +963,11 @@ s32 rtw_make_wlanhdr(struct adapter *padapter, u8 *hdr, struct pkt_attrib *pattr
+> > > >  					if (SN_LESS(pattrib->seqnum, tx_seq)) {
+> > > >  						pattrib->ampdu_en = false;/* AGG BK */
+> > > >  					} else if (SN_EQUAL(pattrib->seqnum, tx_seq)) {
+> > > > -						psta->BA_starting_seqctrl[pattrib->priority & 0x0f] = (tx_seq+1)&0xfff;
+> > > > +						psta->BA_starting_seqctrl[pattrib->priority & 0x0f] = (tx_seq+1)&4096u;  
+> > > 
+> > > This also looks odd, nothing is being "AND" here, it's an address value
+> > > being set (and an odd one at that, but that's another issue...)  
+> > 
+> > Sorry, no, I was wrong, it is being & here, but not %.  My fault,
+> > the lack of spaces here threw me.
+> 
+> It is still wrong '& 0xfff' => '% 4096u'.
+
+Why?
+
+> But it is all rather pointless especially if you can't test it.
+
+> Plausibly more useful would be to find ALL of the uses of 0xfff/4096 (I suspect
+> there is an array lurking somewhere) and change them to use the same constant.
+> But you need to be able to test the changes - or at least discover that
+> they make absolutely no difference to the generated object code.
+
+The problem with &, it's not non-power-of-2 tolerable solution. Also using
+hexadecimal there is not so helpful as when we are talking about sequences
+(or indices in the circular buffer), the decimal makes more sense.
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
