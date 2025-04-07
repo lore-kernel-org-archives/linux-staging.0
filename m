@@ -1,105 +1,148 @@
-Received: from cstnet.cn (smtp81.cstnet.cn [159.226.251.81])
-	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+Received: from mail-vk1-f176.google.com (mail-vk1-f176.google.com [209.85.221.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDE172512FD
-	for <linux-staging@lists.linux.dev>; Mon,  7 Apr 2025 13:11:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.81
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 194D813CFB6;
+	Mon,  7 Apr 2025 13:35:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744031500; cv=none; b=BeaO2ngilSodngGi/6biZlOmgrvZJoS9NjKh09UQKOE47jfRg7ujzfYgfEDny5r4XAe0sQwsk04BrAgjCqng5ectvKRNr4eI9Dyyi1l3ENeDHnUMpcpFNPWunSbxrFFUA9prZYmQE/MzbaBsCWTuA7FRFqVAOQKvVT1mdKhX11Q=
+	t=1744032937; cv=none; b=nk2lVm4IYvkR/Bj753iseUFTjRad23J3mMKP9H2TkM1EgVDD3deoSGy5+pAqS0bELqvzO+kAqw0MLPDwRFyGyoEFEbLFQmdLy7GStYcosO+ZhFwYTIqRE/RW9vKNDWlzwygRicEBy86SkpY6sRGRL/sm+clBUfzqSZXd9RbaVYs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744031500; c=relaxed/simple;
-	bh=2Kyzltuee9lw0VbxAQZivPwT/I9GE7kNboJtO2TQKb0=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=BGWUt/xgz398qcFyCbZBZZl6ChLRNeaqeM3n4aSsx0wkfoVZBn0HT/KP9+0aMhrVum/Ja6y6YSeR58GJ9mLAUQJC4cUm5tMBAjkeynuhb5VaSIyZxRoxNbsSpKNC0+Z2Cl5QyuT/KwDT4ADEUGoSFICYRDt5iHhhV2WPKZfATIc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass smtp.mailfrom=iscas.ac.cn; arc=none smtp.client-ip=159.226.251.81
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
-Received: from localhost.localdomain (unknown [124.16.141.245])
-	by APP-03 (Coremail) with SMTP id rQCowABHtkL+zvNn2JviBg--.35685S2;
-	Mon, 07 Apr 2025 21:11:28 +0800 (CST)
-From: Wentao Liang <vulab@iscas.ac.cn>
-To: ecree.xilinx@gmail.com,
-	habetsm.xilinx@gmail.com,
-	andrew+netdev@lunn.ch,
-	davem@davemloft.net,
-	edumazet@google.com,
-	kuba@kernel.org,
-	pabeni@redhat.com
-Cc: netdev@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-net-drivers@amd.com,
-	linux-kernel@vger.kernel.org,
-	Wentao Liang <vulab@iscas.ac.cn>,
-	stable@vger.kernel.org
-Subject: [PATCH v2] sfc: Propagate the return value of devlink_info_serial_number_put()
-Date: Mon,  7 Apr 2025 21:11:10 +0800
-Message-ID: <20250407131110.2394-1-vulab@iscas.ac.cn>
-X-Mailer: git-send-email 2.42.0.windows.2
+	s=arc-20240116; t=1744032937; c=relaxed/simple;
+	bh=hhyi8dWBqv6pPdIGCmIyoJaKk9HO9jZt55vwjcMp1Js=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=uUAE2MtSFlmmUE36n4/HpRD03ePloExFMiampm6a1eDo2Sw8uEbYoAaG2ucwk2/3+wGdGaNzTV8No3trTTyjA1+brzH6Af0zdQ7uGl9dwnwJvpqkXnYYfYjdablp9Gif3lE3+t+EomH5WXKjgnFiqZKa1E/37gKdN0OJ9SoVkHw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EeDyXnlc; arc=none smtp.client-ip=209.85.221.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EeDyXnlc"
+Received: by mail-vk1-f176.google.com with SMTP id 71dfb90a1353d-51eb1823a8eso2368326e0c.3;
+        Mon, 07 Apr 2025 06:35:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1744032935; x=1744637735; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=9pcbyU8j4eRGFNcrO4PgjvviVz4tVY0EP239CQPVrZ4=;
+        b=EeDyXnlc4KbtjGdjHF6HLeOJ6LyOPSvYubLAJXjTJa2EiToqWpg9qX7YQSgoaMsVmJ
+         SdjAdTSh5gkzK+5o8B9fG58c1Af4KKlhHR1B/mE/Er1It+IsjY7k1gT3uqRSV2iWHpNm
+         yD4ntyaGMJsy7UbcRtCat0Fy9bAf1RneRK0ksRi5LvauGDmAiQvcDuZVM5/0KIhi8uaQ
+         QkXZQuzirbEJtOoiMrJWTSzd+Jp8Q6djioRf/KkDMvEV97JJBYwcy9GxEDowHqc+ukRN
+         fO5jyzXytMjh7llFBS/1J6pdm4vev6oNmzYEkzb8SCAdPsfGGbb3fbdczAjP3aRvKG2f
+         plkQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1744032935; x=1744637735;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=9pcbyU8j4eRGFNcrO4PgjvviVz4tVY0EP239CQPVrZ4=;
+        b=Vcos/Sdr3Hto0I/QycdJQCEHg1m1q948tbDv+NbSgePStZnkkONri1PvaKqvP3Z8Er
+         Tg1xl3vCX3HVW3t/8kB1c7yIrDG6kJ42zDk+lZuIwlWiH+byl2odOalJn7ey0OGdzgvs
+         uQeJAKXQj/XME+T3Ly+q39kd5ftJXiNb/cf+weWyIrY4SetkqeC1sMzg1Dq2R2WThaih
+         ZiHx6I2tAvbW2waj5BgxD+pRGpYjErATaMgBmnmq6AiAmYc5FsWqhjT8VaS0EpGVmoQY
+         XN6XbUJUkkQ7AwQ9kkNd3L0gzuFS6WcjIiXoYS9yT5jc4mZCr0q+WWqomIR6K+LpCk/h
+         2++w==
+X-Forwarded-Encrypted: i=1; AJvYcCXGReWs6VfZNbfuy5vGYW15pwnmw1QuFV/9BmgORyQeWvd7rsy+BD4d4xckCQnw8R1wV/USTbFQsxwg@lists.linux.dev, AJvYcCXLMaDET3rfZ7TsJpQE4DBYoOBtW3CjIvtSmjSwgKGtMq4bWzpcDVJALufrSkOeEfDUtVwGGUlrO+XcWqwc@lists.linux.dev
+X-Gm-Message-State: AOJu0Yy1iaYqS02zNRzsYV8iirntGSMez+BKltYBkbVVtMD3v9cCRx4n
+	Mnk4jHSNkOvLmQP398XFeEVyWaEsMcGbWwtNHr+oUGlWPyZ7lRsThV6YwqQ6yQn+7TxxyGvv0J5
+	dazTclEKqqMwO+JYgixkPI3XQYzw=
+X-Gm-Gg: ASbGncu5ctcGJfslAfNJiLb2cloCoywHkVLmPMmrkaXC7x4ezK7VOnqvBx8JsiXD+46
+	eozWT2RpXuLFgNiHyC2k/5tgNA+akH62shIBvPHuFVJ51MExwuBIh1Z7cMDax3eKIRgS5JKxeab
+	6zfn5UdHCbgKreip2kBRyJBD/6
+X-Google-Smtp-Source: AGHT+IH29f0G0JTTVZoLIcsz6rr3ElxV6ka40+6l1QyO+o3krK8zjFdkVXYvh730yTzUS+KkV1pK/ADCRg8rtzPcpNM=
+X-Received: by 2002:a05:6122:16a6:b0:526:1ddd:8953 with SMTP id
+ 71dfb90a1353d-527642e498emr7332801e0c.0.1744032934864; Mon, 07 Apr 2025
+ 06:35:34 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:rQCowABHtkL+zvNn2JviBg--.35685S2
-X-Coremail-Antispam: 1UD129KBjvJXoW7Kr1fuFyfAry7tw48WryxAFb_yoW8Xr4rpa
-	y3AFyagFyfCFy0ga18uF48uFy3Za1UKFyqgFZ3Kw4ruanxJr4avFsY9a43Kr15ArWkG3Wx
-	tr1UCrWfCFn8ArUanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUU9Y14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
-	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
-	1l84ACjcxK6xIIjxv20xvE14v26r1j6r1xM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
-	6F4UM28EF7xvwVC2z280aVAFwI0_Cr1j6rxdM28EF7xvwVC2z280aVCY1x0267AKxVW0oV
-	Cq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0
-	I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Gr0_Cr1lOx8S6xCaFVCjc4AY6r1j6r
-	4UM4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwACI402YVCY1x02628v
-	n2kIc2xKxwCY1x0262kKe7AKxVWUtVW8ZwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7x
-	kEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E
-	67AF67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCw
-	CI42IY6xIIjxv20xvEc7CjxVAFwI0_Gr0_Cr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1x
-	MIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr1j6F4UJbIYCT
-	nIWIevJa73UjIFyTuYvjfU52NtDUUUU
-X-CM-SenderInfo: pyxotu46lvutnvoduhdfq/1tbiBwoFA2fzvEUKpgABsL
+References: <Z/NxGilPLPy7KSQ3@ubuntu> <2025040757-clergyman-finalist-0c63@gregkh>
+ <2025040752-unrefined-labored-8c8c@gregkh> <20250407132115.11ded3d9@pumpkin>
+In-Reply-To: <20250407132115.11ded3d9@pumpkin>
+From: Samuel Abraham <abrahamadekunle50@gmail.com>
+Date: Mon, 7 Apr 2025 14:35:26 +0100
+X-Gm-Features: ATxdqUHmcn-kk6OfgOoc7oRirxn5Jk9YZwKHHuVpQ2R0TwNOWKOe35UbDJ3aEF8
+Message-ID: <CADYq+faDs-A6MB=JvfVi8jWznr3bLbT9n5HajKLZbd34+Z7Dog@mail.gmail.com>
+Subject: Re: [PATCH v4] staging: rtl8723bs: Use % 4096u instead of & 0xfff
+To: David Laight <david.laight.linux@gmail.com>
+Cc: Greg KH <gregkh@linuxfoundation.org>, julia.lawall@inria.fr, 
+	outreachy@lists.linux.dev, linux-staging@lists.linux.dev, 
+	linux-kernel@vger.kernel.org, dan.carpenter@linaro.org, andy@kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-The function efx_devlink_info_board_cfg() calls the function
-devlink_info_serial_number_put(), but does not check its return
-value.
+On Mon, Apr 7, 2025 at 1:21=E2=80=AFPM David Laight
+<david.laight.linux@gmail.com> wrote:
+>
+> On Mon, 7 Apr 2025 08:53:30 +0200
+> Greg KH <gregkh@linuxfoundation.org> wrote:
+>
+> > On Mon, Apr 07, 2025 at 08:36:35AM +0200, Greg KH wrote:
+> > > On Mon, Apr 07, 2025 at 06:30:50AM +0000, Abraham Samuel Adekunle wro=
+te:
+> > > > The sequence number is constrained to a range of [0, 4095], which
+> > > > is a total of 4096 values. The bitmask operation using `0xfff` is
+> > > > used to perform this wrap-around. While this is functionally correc=
+t,
+> > > > it obscures the intended semantic of a 4096-based wrap.
+> > > >
+> > > > Using a modulo operation with `4096u` makes the wrap-around logic
+> > >
+> > > <snip>
+> > >
+> > > > -                         psta->sta_xmitpriv.txseq_tid[pattrib->pri=
+ority] &=3D 0xFFF;
+> > > > +                         psta->sta_xmitpriv.txseq_tid[pattrib->pri=
+ority] &=3D 4096u;
+> > >
+> > > I do not see a modulo operation here, only another & operation.
+> > >
+> > > >                           pattrib->seqnum =3D psta->sta_xmitpriv.tx=
+seq_tid[pattrib->priority];
+> > > >
+> > > >                           SetSeqNum(hdr, pattrib->seqnum);
+> > > > @@ -963,11 +963,11 @@ s32 rtw_make_wlanhdr(struct adapter *padapter=
+, u8 *hdr, struct pkt_attrib *pattr
+> > > >                                   if (SN_LESS(pattrib->seqnum, tx_s=
+eq)) {
+> > > >                                           pattrib->ampdu_en =3D fal=
+se;/* AGG BK */
+> > > >                                   } else if (SN_EQUAL(pattrib->seqn=
+um, tx_seq)) {
+> > > > -                                         psta->BA_starting_seqctrl=
+[pattrib->priority & 0x0f] =3D (tx_seq+1)&0xfff;
+> > > > +                                         psta->BA_starting_seqctrl=
+[pattrib->priority & 0x0f] =3D (tx_seq+1)&4096u;
+> > >
+> > > This also looks odd, nothing is being "AND" here, it's an address val=
+ue
+> > > being set (and an odd one at that, but that's another issue...)
+> >
+> > Sorry, no, I was wrong, it is being & here, but not %.  My fault,
+> > the lack of spaces here threw me.
+>
+> It is still wrong '& 0xfff' =3D> '% 4096u'.
+> But it is all rather pointless especially if you can't test it.
+>
+> Plausibly more useful would be to find ALL of the uses of 0xfff/4096 (I s=
+uspect
+> there is an array lurking somewhere) and change them to use the same cons=
+tant.
+> But you need to be able to test the changes - or at least discover that
+> they make absolutely no difference to the generated object code.
 
-Return the error code if either the devlink_info_serial_number_put()
-or the efx_mcdi_get_board_cfg() fails.The control flow of the code is
-changed a little bit to simplify the code. The functionality of the
-code remain the same.
+Yes, thank you for this, David.
 
-Fixes: 14743ddd2495 ("sfc: add devlink info support for ef100")
-Cc: stable@vger.kernel.org # v6.3+
-Signed-off-by: Wentao Liang <vulab@iscas.ac.cn>
----
-v2: Simplify code logic.
+I will compare the generated object files for both cases and compare
+them to make sure there is no difference.
 
- drivers/net/ethernet/sfc/efx_devlink.c | 11 ++++++-----
- 1 file changed, 6 insertions(+), 5 deletions(-)
+Then, to check for other cases in the codebase, a semantic patch will
+be useful, so I will write one to search for
+such cases and change them to use the constant.
 
-diff --git a/drivers/net/ethernet/sfc/efx_devlink.c b/drivers/net/ethernet/sfc/efx_devlink.c
-index 3cd750820fdd..53b17cd252c8 100644
---- a/drivers/net/ethernet/sfc/efx_devlink.c
-+++ b/drivers/net/ethernet/sfc/efx_devlink.c
-@@ -584,11 +584,12 @@ static int efx_devlink_info_board_cfg(struct efx_nic *efx,
- 	int rc;
- 
- 	rc = efx_mcdi_get_board_cfg(efx, (u8 *)mac_address, NULL, NULL);
--	if (!rc) {
--		snprintf(sn, EFX_MAX_SERIALNUM_LEN, "%pm", mac_address);
--		devlink_info_serial_number_put(req, sn);
--	}
--	return rc;
-+	if (rc)
-+		return rc;
-+
-+	snprintf(sn, EFX_MAX_SERIALNUM_LEN, "%pm", mac_address);
-+
-+	return devlink_info_serial_number_put(req, sn);
- }
- 
- static int efx_devlink_info_get(struct devlink *devlink,
--- 
-2.42.0.windows.2
+Thank you very much
 
+Adekunle
