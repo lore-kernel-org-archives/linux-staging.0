@@ -1,30 +1,30 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D52D2192EC;
-	Mon,  7 Apr 2025 18:11:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53D20224882;
+	Mon,  7 Apr 2025 18:12:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744049460; cv=none; b=hEKql3bEs8jl9Mp2uRL1ZNCnvNRQTtAljHX+Ta7VbH5yhWcxs7lW6UUqGfA62c22Bu0qaxE6F/B6Fnhu/2hZvG2nN8rgxtrg/rKPMm5FbmOleab34UzmNR9wov8xRhFbmR6d9hGlMC9lr79xOKTDpqoWQiKyGUS+5VcRGyN/pNc=
+	t=1744049550; cv=none; b=s0g6h+TqZezaSfdNDMs0aIALoAN9vJ30YQPenryeXoDIR4cNvohxbtRMjNbudFSS/zYYgBB0AWZ7hOqLnZQyh0VpnUYw8uOEFj5T44NbbmMluizcn+nUfiay/bSGaooX//UgrywEd0Hox003U17To82rdxVU3GdEdBw4SgLsNGw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744049460; c=relaxed/simple;
-	bh=1n8w72QUH2UGgtG9x7UIbDqk/81YUoHFqZ/HuioKmpw=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=hrGcqYjq4NUGgfbAaswXFTJD6id6slNTxc41TmnsgBzSwaqJMPY3PgJ47mRJmW/3NKJiu8NVNymwMpbLCOO/MGBkL8ijOxQre4us/iBnuk9Bwrkifo8UTN8nKuPn31DaK4xPmH0m9HOw2gnzBQCIAaFvcUXnp0SfwCR/0GR1930=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IazVlB9o; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1744049550; c=relaxed/simple;
+	bh=rKcpv0qsj46QwOYj+wHLn0yZ6qGctnM79WMtb6l3hzc=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=sPdzNW4RPKfNAyZ7AoNYnYPW1N+JVVE++SMvJizL4G+GQrrqHND7dHVyahezkmqmGcNSdYXa9KZqFHDT1FEuKv5/LnjNwZkTowFZM63eaVvnhkXL+vK3LdtnvBdxLne+QA8vN9z9fvQj4k3Yb3fx6XPxy7E9XkNtSZ6lj9fpUGk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=I2mA9OGt; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IazVlB9o"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 79174C4CEE9;
-	Mon,  7 Apr 2025 18:10:58 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="I2mA9OGt"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 482F8C4CEDD;
+	Mon,  7 Apr 2025 18:12:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1744049459;
-	bh=1n8w72QUH2UGgtG9x7UIbDqk/81YUoHFqZ/HuioKmpw=;
+	s=k20201202; t=1744049549;
+	bh=rKcpv0qsj46QwOYj+wHLn0yZ6qGctnM79WMtb6l3hzc=;
 	h=From:To:Cc:Subject:Date:From;
-	b=IazVlB9ooZbzKQmBkVvfMj6eRbS3l6G7+I1qu+SV4NIjHzNyYa0IeUu7NTrxms4me
-	 jrIoM03huOfwwqidkrxoyApQ4pvhTw6mMKu8FuNsP+BYJkSeU/j+aE2fEOsx2j9B5T
-	 4CNbQoZAqmJo7ekqZ2ginu4YC0duY/9Sff2/rvqTNcuIxeJlgIW6dQAon9bh5F3iRo
-	 fuqE+fwF/pktDXc4kyUAh+95k7F9ZWgGrd2R2b+bFSe/aaeZuD5nEjgjGg++98Kd6m
-	 z5yKncHarxdjj/cgOAy5DBVRx3ry04Cvyrsu3Qkr87KhXxuiztS96ZtFrfbSb6SXHN
-	 SHqRjTLXD/AYw==
+	b=I2mA9OGtICek7GdjVKIu1m1zXcQoP9x2u1/zCwnIWWTM1wEQqmGRtnDPmcSCkHPq1
+	 4GySW5C2Bv2NixXJZYccRGFq1znPMIHg1BmdHmaP4etzdQQWB/DVSyDG5zu8xI7IO8
+	 uWRleQ57aw/gCykptsfKg3Bx+OV8ha858x7chgyuR2NaNUUQtC5kUwerh1H1LmdAwV
+	 qVmzrq2RtyNPjjueFQfGwHNxC6/covlSO8VxZEhZuXWYUdaIu+Q+ZWnFISMsAZcVrb
+	 YTuewbdKG37GNN2M0CRZIkiE2kF7UONaIvu7jP7cFFcyZJTuNbCZEK/uSYMq+unESc
+	 8imY50vmDrcdA==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
@@ -35,13 +35,15 @@ Cc: Dave Penkler <dpenkler@gmail.com>,
 	Sasha Levin <sashal@kernel.org>,
 	dan.carpenter@linaro.org,
 	arnd@arndb.de,
-	salwansandeep5@gmail.com,
+	rodrigo.gobbi.7@gmail.com,
 	roheetchavan@gmail.com,
+	niharchaithanya@gmail.com,
+	salwansandeep5@gmail.com,
 	matchstick@neverthere.org,
 	linux-staging@lists.linux.dev
-Subject: [PATCH AUTOSEL 6.14 01/31] staging: gpib: Use min for calculating transfer length
-Date: Mon,  7 Apr 2025 14:10:17 -0400
-Message-Id: <20250407181054.3177479-1-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.13 01/28] staging: gpib: Use min for calculating transfer length
+Date: Mon,  7 Apr 2025 14:11:51 -0400
+Message-Id: <20250407181224.3180941-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -51,7 +53,7 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.14.1
+X-stable-base: Linux 6.13.10
 Content-Transfer-Encoding: 8bit
 
 From: Dave Penkler <dpenkler@gmail.com>
@@ -78,10 +80,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 2 insertions(+), 8 deletions(-)
 
 diff --git a/drivers/staging/gpib/agilent_82350b/agilent_82350b.c b/drivers/staging/gpib/agilent_82350b/agilent_82350b.c
-index 3f4f95b7fe34a..0ba592dc98490 100644
+index 8e2334fe5c9b8..533cc956b3f6c 100644
 --- a/drivers/staging/gpib/agilent_82350b/agilent_82350b.c
 +++ b/drivers/staging/gpib/agilent_82350b/agilent_82350b.c
-@@ -66,10 +66,7 @@ int agilent_82350b_accel_read(gpib_board_t *board, uint8_t *buffer, size_t lengt
+@@ -69,10 +69,7 @@ int agilent_82350b_accel_read(gpib_board_t *board, uint8_t *buffer, size_t lengt
  		int j;
  		int count;
  
@@ -93,7 +95,7 @@ index 3f4f95b7fe34a..0ba592dc98490 100644
  		set_transfer_counter(a_priv, block_size);
  		writeb(ENABLE_TI_TO_SRAM | DIRECTION_GPIB_TO_HOST,
  		       a_priv->gpib_base + SRAM_ACCESS_CONTROL_REG);
-@@ -200,10 +197,7 @@ int agilent_82350b_accel_write(gpib_board_t *board, uint8_t *buffer, size_t leng
+@@ -203,10 +200,7 @@ int agilent_82350b_accel_write(gpib_board_t *board, uint8_t *buffer, size_t leng
  	for (i = 1; i < fifotransferlength;) {
  		clear_bit(WRITE_READY_BN, &tms_priv->state);
  
