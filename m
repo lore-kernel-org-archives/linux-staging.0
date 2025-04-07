@@ -1,36 +1,32 @@
-Received: from cstnet.cn (smtp84.cstnet.cn [159.226.251.84])
+Received: from cstnet.cn (smtp21.cstnet.cn [159.226.251.21])
 	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9138C225A20
-	for <linux-staging@lists.linux.dev>; Mon,  7 Apr 2025 09:29:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.84
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 222F7218ABA
+	for <linux-staging@lists.linux.dev>; Mon,  7 Apr 2025 10:03:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744018163; cv=none; b=j/nICR8hDJn3d9mZIcGwBSCxGxMBrBMbCnMRb9X2XEaVK+aeJk19YSDyCukjz43w9GKcoMKRIDtDITPYC6r4MqdNEYjand4D6jOYAFB1zzqI5/HQBC6Z3TeIOv7sS61fiOWfrmRI2beZrAXSNsLMBBJIaR+36fqFdCjE3Rn7WpM=
+	t=1744020221; cv=none; b=j0vHXXI+8Utgpd7dccrtvhn2xG6BvSgEUVZnNk+HrXOkj77crOyA/YGfoWH2nSsBkIHp8tyzjIpSSbIyvN5UeIVOw+yG/cKjZ1h+NsiJWi+QLOS9JK4YywkjpujKh+16ZxSLRSIvYUdHAW0XXhiInTBQVAdbBkAUepqJlFzsFc8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744018163; c=relaxed/simple;
-	bh=z7t6QH+N2XUYtmtRBR++y9Nz0dDyYYhT9cPaHlAhx5w=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=AvfcAG+bqeZwn87vIDHS8X2sBlMXlhaQC1MzzW4sftowxt6oIpBhc2267y4TlJL1D75Qk8PEfeLrZkapk8rxpFbyFdPxEPU/yxfonY+f5+WsjTClS03TvhiROZsTDO+yl0jzcn3jTbnOUeohs7a8WtC9ySViyy2HevdA5LLmaAQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass smtp.mailfrom=iscas.ac.cn; arc=none smtp.client-ip=159.226.251.84
+	s=arc-20240116; t=1744020221; c=relaxed/simple;
+	bh=bzl/B2SLdxtB7CMtvv1kT+HsF6ZxpqpxRESNrilTWBU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=pgSMwz+5z03xKO4Ejt2aardZXJIMsO3Xb2gGA4Y8CU23Vxa4jcQWMcHJ+CFc7v42r7ZP0562bW0NKYD4wjILg8p+wABN999dg5YcdpqE67RmjA4sXrd+cLnZkUxTF1Vp4kWoNZKeyDMjd/NYe4UvdLGSgVYX5pnZNDiJc4KWE8I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass smtp.mailfrom=iscas.ac.cn; arc=none smtp.client-ip=159.226.251.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
-Received: from localhost (unknown [124.16.138.129])
-	by APP-05 (Coremail) with SMTP id zQCowAC39g7kmvNng3XXBg--.11322S2;
-	Mon, 07 Apr 2025 17:29:10 +0800 (CST)
-From: Chen Ni <nichen@iscas.ac.cn>
-To: dpenkler@gmail.com,
-	gregkh@linuxfoundation.org,
-	matchstick@neverthere.org,
-	arnd@arndb.de,
-	dominik.karol.piatkowski@protonmail.com,
-	nathan@kernel.org,
-	niharchaithanya@gmail.com
-Cc: linux-staging@lists.linux.dev,
+Received: from localhost.localdomain (unknown [124.16.141.245])
+	by APP-01 (Coremail) with SMTP id qwCowADXfwD1ovNnMYPYBg--.43428S2;
+	Mon, 07 Apr 2025 18:03:35 +0800 (CST)
+From: Wentao Liang <vulab@iscas.ac.cn>
+To: gregkh@linuxfoundation.org
+Cc: philipp.g.hortmann@gmail.com,
+	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
-	Chen Ni <nichen@iscas.ac.cn>
-Subject: [PATCH] staging: gpib: fmh_gpib: Remove unnecessary .owner assignment
-Date: Mon,  7 Apr 2025 17:26:32 +0800
-Message-Id: <20250407092632.2952200-1-nichen@iscas.ac.cn>
-X-Mailer: git-send-email 2.25.1
+	Wentao Liang <vulab@iscas.ac.cn>,
+	stable@vger.kernel.org
+Subject: [PATCH v6] staging: rtl8723bs: Add error handling for sd_read()
+Date: Mon,  7 Apr 2025 18:03:18 +0800
+Message-ID: <20250407100318.2193-1-vulab@iscas.ac.cn>
+X-Mailer: git-send-email 2.42.0.windows.2
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -38,45 +34,64 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:zQCowAC39g7kmvNng3XXBg--.11322S2
-X-Coremail-Antispam: 1UD129KBjvdXoW7Xr1UXw13tw4fCw4Duw43trb_yoW3trc_C3
-	40gF1xJF1xGay2v3WYq3W5ur92kFn8Xr4ftr1jqFZxAw43Xr4UArn5uFyYq3sxJFWUKFyU
-	Cr40qwsxuw13tjkaLaAFLSUrUUUUbb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
-	9fnUUIcSsGvfJTRUUUbTAFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k26cxKx2IYs7xG
-	6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
-	A2z4x0Y4vE2Ix0cI8IcVAFwI0_Gr0_Xr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr0_
-	Cr1l84ACjcxK6I8E87Iv67AKxVWxJr0_GcWl84ACjcxK6I8E87Iv6xkF7I0E14v26rxl6s
-	0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xII
-	jxv20xvE14v26r106r15McIj6I8E87Iv67AKxVW8JVWxJwAm72CE4IkC6x0Yz7v_Jr0_Gr
-	1lF7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7M4IIrI8v6xkF7I0E8cxa
-	n2IY04v7MxkF7I0En4kS14v26r1q6r43MxkIecxEwVAFwVW8uwCF04k20xvY0x0EwIxGrw
-	CFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE
-	14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2
-	IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Gr0_Cr1lIxAIcVCF04k26cxK
-	x2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r4j6F4UMIIF0xvEx4A2jsIEc7CjxVAFwI
-	0_Gr1j6F4UJbIYCTnIWIevJa73UjIFyTuYvjfUe2-eDUUUU
-X-CM-SenderInfo: xqlfxv3q6l2u1dvotugofq/
+X-CM-TRANSID:qwCowADXfwD1ovNnMYPYBg--.43428S2
+X-Coremail-Antispam: 1UD129KBjvJXoW7CryUuFW8JF1kKw4fuF1fXrb_yoW8Gw1kpF
+	4kKa4DArW5Gay8uF1vgr93Aas5CayxGFy5WrWjkw4Svrn5ZwsavrWrKa4UXr4UWr17Aw4Y
+	qF1kCw45Ww1UCFJanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUvv14x267AKxVWUJVW8JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+	1l84ACjcxK6xIIjxv20xvE14v26r4j6ryUM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
+	6F4UM28EF7xvwVC2z280aVAFwI0_Cr1j6rxdM28EF7xvwVC2z280aVCY1x0267AKxVW0oV
+	Cq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0
+	I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Gr0_Cr1lOx8S6xCaFVCjc4AY6r1j6r
+	4UM4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwCY1x0262kKe7AKxVWU
+	AVWUtwCY02Avz4vE14v_Gw1l42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr
+	1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE
+	14v26r126r1DMIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7
+	IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E
+	87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73Uj
+	IFyTuYvjfU8vtCUUUUU
+X-CM-SenderInfo: pyxotu46lvutnvoduhdfq/1tbiBgoFA2fzf7Wp+gAAsH
 
-Remove .owner field if calls are used which set it automatically.
-Generated by: scripts/coccinelle/api/platform_no_drv_owner.cocci.
+The sdio_read32() calls sd_read(), but does not handle the error if
+sd_read() fails. This could lead to subsequent operations processing
+invalid data. A proper implementation can be found in sdio_readN().
 
-Signed-off-by: Chen Ni <nichen@iscas.ac.cn>
+Add error handling for the sd_read() to free tmpbuf and return error
+code if sd_read() fails. This ensure that the memcpy() is only performed
+when the read operation is successful.
+
+Fixes: 554c0a3abf21 ("staging: Add rtl8723bs sdio wifi driver")
+Cc: stable@vger.kernel.org # v4.12+
+Signed-off-by: Wentao Liang <vulab@iscas.ac.cn>
 ---
- drivers/staging/gpib/fmh_gpib/fmh_gpib.c | 1 -
- 1 file changed, 1 deletion(-)
+v6: Fix improper code to propagate error code
+v5: Fix error code
+v4: Add change log and fix error code
+v3: Add Cc flag
+v2: Change code to initialize val
 
-diff --git a/drivers/staging/gpib/fmh_gpib/fmh_gpib.c b/drivers/staging/gpib/fmh_gpib/fmh_gpib.c
-index 53f4b3fccc3c..12d9e83e3156 100644
---- a/drivers/staging/gpib/fmh_gpib/fmh_gpib.c
-+++ b/drivers/staging/gpib/fmh_gpib/fmh_gpib.c
-@@ -1631,7 +1631,6 @@ MODULE_DEVICE_TABLE(of, fmh_gpib_of_match);
- static struct platform_driver fmh_gpib_platform_driver = {
- 	.driver = {
- 		.name = DRV_NAME,
--		.owner = THIS_MODULE,
- 		.of_match_table = fmh_gpib_of_match,
- 	},
- 	.probe = &fmh_gpib_platform_probe
+ drivers/staging/rtl8723bs/hal/sdio_ops.c | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/staging/rtl8723bs/hal/sdio_ops.c b/drivers/staging/rtl8723bs/hal/sdio_ops.c
+index 21e9f1858745..eb21c7e55949 100644
+--- a/drivers/staging/rtl8723bs/hal/sdio_ops.c
++++ b/drivers/staging/rtl8723bs/hal/sdio_ops.c
+@@ -185,7 +185,12 @@ static u32 sdio_read32(struct intf_hdl *intfhdl, u32 addr)
+ 			return SDIO_ERR_VAL32;
+ 
+ 		ftaddr &= ~(u16)0x3;
+-		sd_read(intfhdl, ftaddr, 8, tmpbuf);
++		err = sd_read(intfhdl, ftaddr, 8, tmpbuf);
++		if (err) {
++			kfree(tmpbuf);
++			return (u32)err;
++		}
++
+ 		memcpy(&le_tmp, tmpbuf + shift, 4);
+ 		val = le32_to_cpu(le_tmp);
+ 
 -- 
-2.25.1
+2.42.0.windows.2
 
