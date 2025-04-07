@@ -1,180 +1,128 @@
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0FFB22578F
-	for <linux-staging@lists.linux.dev>; Mon,  7 Apr 2025 07:14:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7433122A4C9
+	for <linux-staging@lists.linux.dev>; Mon,  7 Apr 2025 07:20:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744010102; cv=none; b=q/Stz9JinO+4vyhAQPiv8i9uzJOYbSpq88ErhfCtIKS1j9v1mR/GgJR+NDcVJF2MtEcBVa0nYmDJRtuPXsmapKxc6ImafMMDw69Fq8L6xbffaNqVIXhG1C900IXcKIizURYgKnIJkRFYS+/unpQmjqoT1qn3jJLUGQwLAWfwK0I=
+	t=1744010444; cv=none; b=gGhQ4wY0OUH+jCB8UrLrWW9b+bzFn/2+Zn4GKhtpGszcU9uHUeZ8hYsz14A0cJHpxlr/fOTJ3jYxoar3ozZfIWfK3knG2H7J+tHpLEszObMEvTuWNF7KL9JerONIaB0llI8LbtwbNlxFbgYf0Fb49LolsrZuxoxN6eJymojCNcE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744010102; c=relaxed/simple;
-	bh=MbweKfDFcHiSBs1x7OoNhsHi066QD9imvaYUduhtZOk=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=AouND3clr6yJ7wwhxsCK/0ApkfcB/5/pw4y1lc+LfrIPDUYMee0s8SZz7KSZJL8cNSxrnPJosBd3Lx5zCZmMCXRMZOWVf5cK0BxLmF/PVdiWR5cicZw5BwJt/gIP3ex09TjdHVkYxc7uvydHZ3udddCpUJiCIHdDG8Bfl/fGP2M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl; spf=none smtp.mailfrom=bgdev.pl; dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b=EgUyzFiG; arc=none smtp.client-ip=209.85.221.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bgdev.pl
+	s=arc-20240116; t=1744010444; c=relaxed/simple;
+	bh=cHMIUDK3l74NZLLEqV2LIUIplXGhecJNcFy3KgsXMhI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=hZcV3YMslntjO5GyUnzwFQaaKEI7BdS1p3HauevCOyVfpuex47l+gbtYqCJ2gsUcGzejMDWVqusRqILChhsiJ7Cf66KmyIw0VFX/k0HNlmA8aunV+jbPuN9n8ZV9ClErvjLkO4tr/G+IkixnI1+Pm6T2Udip2oTSd1tHxwztv2o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=c6zpRicI; arc=none smtp.client-ip=209.85.128.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b="EgUyzFiG"
-Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-391342fc1f6so3574091f8f.1
-        for <linux-staging@lists.linux.dev>; Mon, 07 Apr 2025 00:14:59 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="c6zpRicI"
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-43cf680d351so28885295e9.0
+        for <linux-staging@lists.linux.dev>; Mon, 07 Apr 2025 00:20:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1744010098; x=1744614898; darn=lists.linux.dev;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=qQJq7bLNv9KR26qv53DN+VLCkGsehwu1X3TDIPfPRkk=;
-        b=EgUyzFiGxhBVA33RNyJtuNHZgyKJposH48UkYIU24zwRhjTuuRLvwGFh+HHL1aQjex
-         irD40ZGn8xutLNRdg3h9F5UCc2OrIpT4cLs8EBKxpBsqzxiaOCiHDRsCmW+mVLdJDX3J
-         UXshCBOcbYZkeYtQrP30aC8rMLywPDHV4TaLoP5VIPNsoE072mjqlKTEEXO7wihAxq8g
-         j3kNrbyiQhznu/oBP1EWTxcedsaiLBdcEfq+CEE7KvLrEFX/qEMniy2zeXawE/UMBd7l
-         1pZeHhxK6+si+NxULjZDe7mU7egN2lcWkmQkT9RDrUzIwinn1l0S7hNM5j0CL80iV7/J
-         CJMQ==
+        d=linaro.org; s=google; t=1744010441; x=1744615241; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=8AQPY5eAZttYfbBPqcFbME0mxQEUbb1b9Jm7VX+7QX4=;
+        b=c6zpRicIrb5fcgKagP0CFMvTfFawu48qoClYL9Q0e2BjzkRjwrs0i4CZ1OOS5g9aRH
+         EPkckV+XoUGXGDen12JyGDnI13575SVynmqaC7oQSLLGRKqJeZAFoGPYpURn4EQ2Hd4I
+         MAwZc8wCmyBLmjg+KLY17dKIODctt1tTNotI+93pEwY1AYrSyVQ4Axqgh1gX7/FmeAdi
+         tMo3uAuqBN7204xLHdAR2xWr5gsM+E/OGTie3G3/Ul0yVoBkPsI49zGoB5STB5og98U7
+         pcEMjeTMtiGe9xQJkaCU7fRVOzhljKynDk+p5gmBQC2Sq/wUzSyHhN/CrnEmBERCDvYe
+         w5EQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744010098; x=1744614898;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=qQJq7bLNv9KR26qv53DN+VLCkGsehwu1X3TDIPfPRkk=;
-        b=FWocSURWgMKkFgBZjYjhoT95I8frNYNLoyyWN3BPPc42bHpB/vdf163C7TX5J6MD+u
-         QmvvJZS1Bub6ujTEEjnZforLoJwRXM3LemPzF/nrmDAKLowLZRNx8mtwxp4JrdK1TKDy
-         X5LRLt+HofBSxYTfjWJ1WYxwhltLUdbtcUVT+s/eClP6sf5mlxoX0lsu+4ms2kNlWnfd
-         QS5kdZrg0Z2hiJQJYDv6xFkAIFWK7vYfey9rZ8VRLi370fiLsASRGIUwHsvPTn+QI/u7
-         8F9SNut2Q7v7NyogZAGkeYgArY7/Iqb7CAx8TPgGWwjH7erNJAljRenUkK5GzZ27ZwZ/
-         u0jg==
-X-Forwarded-Encrypted: i=1; AJvYcCUWtsuIEKvFkLKue8gtempWiFxI3OJk7XlTMGKm0Q/Gls6FibhsMyghWoAmGorDAeVNv49Oz3+RYZm6OO7y@lists.linux.dev
-X-Gm-Message-State: AOJu0YymQWOL2XpWjaYSw5BCmrGvlCP6gByAkqPRrjTyPVMqTciJGSci
-	knMr1hTRPWv7ykhi34VVV2sAsdu0OlmpgK7QDDlu2+H6GCFJiBWpSCFp/Jf1Wog=
-X-Gm-Gg: ASbGncsVm6nnGR1BqdaZC2zrxIPaCd4WhOIfq9aObOr5P3y4vyRI4B9hl7dNn7I30Ts
-	XsBVxpKKck2Ye5xjcmdZIpxzyhyKZBkiMWeCG++HCmEEy5MIA6HWnUaP6DLRJXUGH8cp2Fy4Tdf
-	+y74Lj97eCnua9iXi9C9+8wxC2559B7XUjFXxZ5xJYFLIs87LI2SWNTCG4kQrwXylB7uxVnfFZc
-	5kujtDLO1ahMc8vhz0hRvA7qCqayaLa+iMuN64A+vEJJOsqj6b3rnMPH9X+i7a/3VCi+Qh2eY2p
-	a5xvK2DuBMeg4YqVY45BbqM44TgwVAWghi1KrZgPNLHfv8I7
-X-Google-Smtp-Source: AGHT+IGP9iEwmcI9KW5YLuJo4zjunZA/QstskF0EVDjIclE0IgMIg3XGRl/bwqpue/ansqOprhfVRQ==
-X-Received: by 2002:adf:9dc7:0:b0:39d:724f:a8a0 with SMTP id ffacd0b85a97d-39d724faacamr4274025f8f.58.1744010098097;
-        Mon, 07 Apr 2025 00:14:58 -0700 (PDT)
-Received: from [127.0.1.1] ([2a01:cb1d:dc:7e00:8c64:734d:705a:39a7])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-39c3020d9cfsm11171239f8f.78.2025.04.07.00.14.57
+        d=1e100.net; s=20230601; t=1744010441; x=1744615241;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=8AQPY5eAZttYfbBPqcFbME0mxQEUbb1b9Jm7VX+7QX4=;
+        b=nsTQISdo66DPJWlyLEgSwAX5BM5FcjgNlnIyq/wu5WCm/c423GZR+MHs1q3pkEwnbw
+         ArhYtn9GSLa0RpHLeksG1lH1q1wzXCMOL1CrqMPKokSrf9UsVX6FIkhAzXKFyj0CUrup
+         U3kHkUqvXTiun92paVCiPRKSsxGbnwRRl2KIwY/wDdsPUnB6UzQG1VNyrNqCX6FMlqre
+         TG5ycJrh8MBnmfH+FPWUALMcfe8cHxGVoGKBa3U9mq+20TGnDxfyTSo4eFxBAnv4zda5
+         yxmWE/QN5LKFY8JffhOvbTFELmveXKQ9F6/vKICPZqMjda1Ix+QD4HCI3BoZS1KodfCG
+         BTGg==
+X-Forwarded-Encrypted: i=1; AJvYcCWk0MGmvD1L321H4u1l9noe725chb/hEgbnBtkhXpGPXQbmPa2f+tm8SoBeCbc4rBF632ApG8Ww0hP2UxrV@lists.linux.dev
+X-Gm-Message-State: AOJu0YxNCjYXQpqIbgvPTiJtKT/fWCwdFdZv5JwUepmQHCFMPB0HlrFK
+	qnb+wEp1DfaEoFxL/0mnHLvXDLhQupYiQKlnOzTjJXIO+TW0QDDt4yWnUzn8yII=
+X-Gm-Gg: ASbGncu3jhxA8+zeVQMblyQYowlSG4LEbVllYPwCRRbmMtCGC6mR9xGqNjp19rNezse
+	i+M8/u2epjcKCs3u5sDgXD9SySY7CRj5fl71C3AQTRod3EumypeN7AltMSiHZ3lcMjWbOPnSUNW
+	4IqYMJe+Su2yiWDY0EbeJoMw+C4CtVTGkpwTvrZR8MIgYfZhHgjvbqQ9ddoLvOfI6PIXVIAZE7M
+	07lpl+LFbmYY6kRUJShcQK0l7EkaVE6/61P73Au+FFxVBKaHZcyJTrVfSkBfy64yq+F2seRTXdn
+	mRlX5PJUT5WrxR8J0gDB8n2v6mxRF15sNO4kBXq0GgSXV59Xog==
+X-Google-Smtp-Source: AGHT+IFlFea8q60vJbXkh0XwiaPvmeolbvPuYxUASQOR+ImsTm/0fCsRTxAtHed3qXOlMSPOZqPAwg==
+X-Received: by 2002:a05:6000:4310:b0:38d:ae1e:2f3c with SMTP id ffacd0b85a97d-39cba94dabdmr9345131f8f.25.1744010440777;
+        Mon, 07 Apr 2025 00:20:40 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-39c301b8161sm11374805f8f.50.2025.04.07.00.20.39
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 07 Apr 2025 00:14:57 -0700 (PDT)
-From: Bartosz Golaszewski <brgl@bgdev.pl>
-Date: Mon, 07 Apr 2025 09:14:52 +0200
-Subject: [PATCH] staging: greybus: use new GPIO line value setter callbacks
+        Mon, 07 Apr 2025 00:20:40 -0700 (PDT)
+Date: Mon, 7 Apr 2025 10:20:36 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Abraham Samuel Adekunle <abrahamadekunle50@gmail.com>
+Cc: gregkh@linuxfoundation.org, julia.lawall@inria.fr,
+	outreachy@lists.linux.dev, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org, andy@kernel.org,
+	david.laight.linux@gmail.com
+Subject: Re: [PATCH v4] staging: rtl8723bs: Use % 4096u instead of & 0xfff
+Message-ID: <0d62aab3-bd51-4739-88a4-9419cca7159a@stanley.mountain>
+References: <Z/NxGilPLPy7KSQ3@ubuntu>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250407-gpiochip-set-rv-greybus-v1-1-9d4f721db7ca@linaro.org>
-X-B4-Tracking: v=1; b=H4sIAGt782cC/x3MwQ5FMBBA0V+RWZtE2xR5v/JiQY2aDc0MQsS/a
- yzP4t4blIRJ4VfcIHSw8rpkmLKAMPdLJOQxG2xlfeWcwZh4DTMnVNpQDoxC17ArhtG62jfem7a
- GXCehic/v/O+e5wUCf6oOaQAAAA==
-To: Rui Miguel Silva <rmfrfs@gmail.com>, Johan Hovold <johan@kernel.org>, 
- Alex Elder <elder@kernel.org>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Linus Walleij <linus.walleij@linaro.org>, 
- Bartosz Golaszewski <brgl@bgdev.pl>
-Cc: greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev, 
- linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org, 
- Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
-X-Mailer: b4 0.14.1
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2795;
- i=bartosz.golaszewski@linaro.org; h=from:subject:message-id;
- bh=lyZeQa2YMvW1R6DaShLQf+xZvZ4ShyP+YJTcj58/Ae4=;
- b=owEBbQKS/ZANAwAKARGnLqAUcddyAcsmYgBn83txCrzzqktCdet4fuf9XzYf1ZwcHfntFZErp
- 4ADsauyzUWJAjMEAAEKAB0WIQQWnetsC8PEYBPSx58Rpy6gFHHXcgUCZ/N7cQAKCRARpy6gFHHX
- crAVD/9D1veSf7MDcWSr/6lqGTLb4aG6bDhwc7mW048pgU9xifNfOp8SgOzPHGGHRX6urg7Z/gk
- yd4lESSeEbkVRk+LdBIBFG6CZO2lcui2De1CMRvfwVi9KfazF8rHM1kqjSGD2XlVi5xxSDCi1FT
- usxfWpsVl2DOYO/Hh7UZ4YXfp1az0nPbSBSagjvtvxNVilWo0FXWS0Nh0E/lfoE7tGZJupTzkX3
- SLaVQcLtSYqtMOWM7U3uLFBm9NRRto74njjuWdjTVzHzlWHp9BxC4abWwUstkHRrc92CsE/Z+A7
- Ika8DzpqQKLXo0+Q4CpHmWDH/NKAjQsXSPnn6KtETA01GEs2f/JDxoTzo+v9oNXXagI+M7GWHKD
- k9z0fCb0lx/Yz1vQ34RDduoj0bJinM5068EedFCEIpRjXCaEcJcmobGrTXuxWHDA1S0RvgUO28E
- Uv6/v9qf0AmYdKBx7qwNpQ9U4kPFcmUH7xvG/RlLfMHSlcbSNMcRnulKXZqIXTKw+oTqkYriapo
- BCcefKnwzNERsenbpiVUVs1gBt0yVDMCPLDXbZUeTdM2ZEKL4k7qcNxuNE7g6UCF+bVD8/Wa7rl
- ntFFQYrgQSOSU211+Su3ufTL1N0h0yjF+6TnWaU85AJKfK/GxikZEjc4C4D6ySOJH10vZqqY3Gc
- 4TYOf8py0zESLYg==
-X-Developer-Key: i=bartosz.golaszewski@linaro.org; a=openpgp;
- fpr=169DEB6C0BC3C46013D2C79F11A72EA01471D772
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Z/NxGilPLPy7KSQ3@ubuntu>
 
-From: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+On Mon, Apr 07, 2025 at 06:30:50AM +0000, Abraham Samuel Adekunle wrote:
+> The sequence number is constrained to a range of [0, 4095], which
+> is a total of 4096 values. The bitmask operation using `0xfff` is
+> used to perform this wrap-around. While this is functionally correct,
+> it obscures the intended semantic of a 4096-based wrap.
+> 
+> Using a modulo operation with `4096u` makes the wrap-around logic
+> explicit and easier to understand. It clearly signals that the sequence
+> number cycles though a range of 4096 values.
+> It also makes the code robust against potential changes of the 4096
+> upper limit, especially when it becomes a non power of 2 value while
+> the AND(&) works solely for power of 2 values.
+> 
+> The use of `4096u` also guarantees that the modulo operation is performed
+> with unsigned arithmetic, preventing potential issues with signed types.
+> 
+> Suggested-by: Andy Shevchenko <andy@kernel.org>
+> Signed-off-by: Abraham Samuel Adekunle <abrahamadekunle50@gmail.com>
+> ---
+> Changes in v3:
+> 	- Added more description to the commit message
+> 	- Removed blank line in tag block.
+> 	-  Added more patch recipients.
+> Changes in v2:
+> 	- Changed the commit message to a more descriptive message which
+> 	makes it clear why the patch does the change.
+> 	- Changed the subject title to include `4096u` to show that an unsigned
+> 	module is used.
+> Changes in v1:
+> 	- Added more patch recipients.
+> 
+>  drivers/staging/rtl8723bs/core/rtw_xmit.c | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/staging/rtl8723bs/core/rtw_xmit.c b/drivers/staging/rtl8723bs/core/rtw_xmit.c
+> index 297c93d65315..f534bf2448c3 100644
+> --- a/drivers/staging/rtl8723bs/core/rtw_xmit.c
+> +++ b/drivers/staging/rtl8723bs/core/rtw_xmit.c
+> @@ -943,7 +943,7 @@ s32 rtw_make_wlanhdr(struct adapter *padapter, u8 *hdr, struct pkt_attrib *pattr
+>  
+>  			if (psta) {
+>  				psta->sta_xmitpriv.txseq_tid[pattrib->priority]++;
+> -				psta->sta_xmitpriv.txseq_tid[pattrib->priority] &= 0xFFF;
+> +				psta->sta_xmitpriv.txseq_tid[pattrib->priority] &= 4096u;
 
-struct gpio_chip now has callbacks for setting line values that return
-an integer, allowing to indicate failures. Convert the driver to using
-them.
+You forgot to change the & to %.
 
-Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
----
- drivers/staging/greybus/gpio.c | 16 +++++++++-------
- 1 file changed, 9 insertions(+), 7 deletions(-)
-
-diff --git a/drivers/staging/greybus/gpio.c b/drivers/staging/greybus/gpio.c
-index 16bcf7fc8158..f81c34160f72 100644
---- a/drivers/staging/greybus/gpio.c
-+++ b/drivers/staging/greybus/gpio.c
-@@ -185,8 +185,8 @@ static int gb_gpio_get_value_operation(struct gb_gpio_controller *ggc,
- 	return 0;
- }
- 
--static void gb_gpio_set_value_operation(struct gb_gpio_controller *ggc,
--					u8 which, bool value_high)
-+static int gb_gpio_set_value_operation(struct gb_gpio_controller *ggc,
-+				       u8 which, bool value_high)
- {
- 	struct device *dev = &ggc->gbphy_dev->dev;
- 	struct gb_gpio_set_value_request request;
-@@ -195,7 +195,7 @@ static void gb_gpio_set_value_operation(struct gb_gpio_controller *ggc,
- 	if (ggc->lines[which].direction == 1) {
- 		dev_warn(dev, "refusing to set value of input gpio %u\n",
- 			 which);
--		return;
-+		return -EPERM;
- 	}
- 
- 	request.which = which;
-@@ -204,10 +204,12 @@ static void gb_gpio_set_value_operation(struct gb_gpio_controller *ggc,
- 				&request, sizeof(request), NULL, 0);
- 	if (ret) {
- 		dev_err(dev, "failed to set value of gpio %u\n", which);
--		return;
-+		return ret;
- 	}
- 
- 	ggc->lines[which].value = request.value;
-+
-+	return 0;
- }
- 
- static int gb_gpio_set_debounce_operation(struct gb_gpio_controller *ggc,
-@@ -457,11 +459,11 @@ static int gb_gpio_get(struct gpio_chip *chip, unsigned int offset)
- 	return ggc->lines[which].value;
- }
- 
--static void gb_gpio_set(struct gpio_chip *chip, unsigned int offset, int value)
-+static int gb_gpio_set(struct gpio_chip *chip, unsigned int offset, int value)
- {
- 	struct gb_gpio_controller *ggc = gpiochip_get_data(chip);
- 
--	gb_gpio_set_value_operation(ggc, (u8)offset, !!value);
-+	return gb_gpio_set_value_operation(ggc, (u8)offset, !!value);
- }
- 
- static int gb_gpio_set_config(struct gpio_chip *chip, unsigned int offset,
-@@ -555,7 +557,7 @@ static int gb_gpio_probe(struct gbphy_device *gbphy_dev,
- 	gpio->direction_input = gb_gpio_direction_input;
- 	gpio->direction_output = gb_gpio_direction_output;
- 	gpio->get = gb_gpio_get;
--	gpio->set = gb_gpio_set;
-+	gpio->set_rv = gb_gpio_set;
- 	gpio->set_config = gb_gpio_set_config;
- 	gpio->base = -1;		/* Allocate base dynamically */
- 	gpio->ngpio = ggc->line_max + 1;
-
----
-base-commit: 0af2f6be1b4281385b618cb86ad946eded089ac8
-change-id: 20250331-gpiochip-set-rv-greybus-cd2365755186
-
-Best regards,
--- 
-Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+regards,
+dan carpenter
 
