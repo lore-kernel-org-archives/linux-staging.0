@@ -1,312 +1,152 @@
-Received: from smtp.forwardemail.net (smtp.forwardemail.net [149.28.215.223])
+Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD5022036F6
-	for <linux-staging@lists.linux.dev>; Mon,  7 Apr 2025 15:44:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=149.28.215.223
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 562A5204F84;
+	Mon,  7 Apr 2025 15:54:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744040661; cv=none; b=rgsavJ9RAwj/8G6nPM5sO7XrkCcIbYxlV5jf4kUS97gSBJfKtXUP+uYMMyZQS1c/JJYqTZDD9yMgGgGwQEiV9TPV9UfFEZF8pax7pcmo8ZerZrRXA6UI50ZT+7ld1iyzp4R3TdlT4ic3ct9Rsj/S9qfy88c4725cskgBW4VwOf4=
+	t=1744041249; cv=none; b=pPdopG5hD7PJrbOF/BR3rPnmDsUGJY7M1c6MPzMvSb1YkD8tqHJRrWHRSsXGINpXI5enwvMIJJq4X4Gag6mG5ytPRxxhM6fADn/3KD8kA4IfrCJO9omVNJOBdrY3YKjow9DyxpdinuM1MnjvfZaw+hUaogueubKxQxBQ7etu2zY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744040661; c=relaxed/simple;
-	bh=FtmmBaO4+onx8CeAjNITXa9Vkcpzdb+RzGWilaecrQk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Pu8f4JAZE1t90IPkya4NuSU3hnIPRUTBCbvZwLWHw3LhpNVAeXoX6bqg3MZtlqk/2TTd1GhF0AdaW66VNme/O2px29ev0ULfiB20xCP5LvmvLY85v/IumPUxyUJBTpQ6chEjRkJDyXBWzHQrp/nAI6NU+XXaK72IkeZuiXTQgQ8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kwiboo.se; spf=pass smtp.mailfrom=fe-bounces.kwiboo.se; dkim=pass (2048-bit key) header.d=kwiboo.se header.i=@kwiboo.se header.b=fC1QLjBa; arc=none smtp.client-ip=149.28.215.223
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kwiboo.se
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fe-bounces.kwiboo.se
+	s=arc-20240116; t=1744041249; c=relaxed/simple;
+	bh=WDaDUGwmEwERewTKyabJp/z9rCF2mx3zI4Bzn0WShS8=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=f8mm6uRUFDjJu4BMHqUbrJf9M2Q9LmyWDg0pjvZ9Ol01Kr0pANkyvdl0+4NEuRBkHr3FjyA9PJghtJ61IAgPAHyNyDqji/0ECByAfIULy7TCxWskxAlm2PkaC2BAPx6bIWh8wnefklLnXFozaaHiA70U7uB6G3eq4HcRKbcc058=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FjYr+WtE; arc=none smtp.client-ip=209.85.208.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kwiboo.se header.i=@kwiboo.se header.b="fC1QLjBa"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kwiboo.se;
- h=Content-Transfer-Encoding: Content-Type: In-Reply-To: From: References:
- Cc: To: Subject: MIME-Version: Date: Message-ID; q=dns/txt;
- s=fe-e1b5cab7be; t=1744040659;
- bh=gCalekwlSurJhV5Kj0pqnoJtmNpCZuFpEjMF/Gd/SFA=;
- b=fC1QLjBaL08ruqGQKh40g6NRxnQEELV/WIWBe62nq+VBJGw7ELRZBsYqJVEW5mg6OywY3vU7o
- VEauPLavGMuBexgJdXInQdyJbXq/XIZbwINJ+O/xBEjV6QFTeHNlWUV7ee1rnrjbwSJWxFKKtZc
- Ez9sijKdiSUZvUU38tzXMM8iO7607RrW4LPjb0LbZkGk5d8LqSS5Zkp5Hi+AAwBbf5+ePw73X5M
- avMEg5kesIATVApk7AiWlh8YuOu7vABQVoQoRKelpqwiupyD6f44uQSZDmd0RbryY+SlU6y9615
- ZZLBR6rNa1tNh3uMX6uVCsmQCt7z/al/gBCfAVSiI93w==
-X-Forward-Email-ID: 67f3f2c9fa8ccfb37ffb1972
-X-Forward-Email-Sender: rfc822; jonas@kwiboo.se, smtp.forwardemail.net,
- 149.28.215.223
-X-Forward-Email-Version: 1.0.0
-X-Forward-Email-Website: https://forwardemail.net
-X-Complaints-To: abuse@forwardemail.net
-X-Report-Abuse: abuse@forwardemail.net
-X-Report-Abuse-To: abuse@forwardemail.net
-Message-ID: <9ce1c2bd-39aa-428b-af32-6c686b897cdf@kwiboo.se>
-Date: Mon, 7 Apr 2025 17:44:04 +0200
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FjYr+WtE"
+Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-5e677f59438so6983297a12.2;
+        Mon, 07 Apr 2025 08:54:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1744041245; x=1744646045; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=l7zpBmQSttWP+7fm7BnZXVdnmr4f6nnR4NTtCIBva+0=;
+        b=FjYr+WtEqZECVpiZBnZaS5yGermg56nWUHcP5SzeuJ3Q3yENPeZyZJaere5Xf8yglV
+         5mgzNQkPHmn2mc6vdVRjpW1PGWt+IffIsnuv5ah2Vu8Syad2X3OrjwqtL6aLBF0N4EFV
+         P3VwR4eBvwoplHAsJj+ggFk7CKG8m/ZGRqkZzhmNY3zq5R5HKsP0wjMXR1+uD8MXrHam
+         tjE40lBOMdFOxm/DZc5GCj0UmSJTGQsCux3sszxLTLn+wJW21/sngoEUjn626iyj+e81
+         RfTsXwBnHHLcjwurR5QL0NDvrJ3iyL8Lsq4Zoa2SJwPNQ4lsY5/FFOdDc6j0F2xgWocm
+         qnxw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1744041245; x=1744646045;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=l7zpBmQSttWP+7fm7BnZXVdnmr4f6nnR4NTtCIBva+0=;
+        b=wIaEjbgiJOWr9dAHefWS2fGb0F2OZfuE7vmz8O/G7SrWROgZJf+cwGg3Daa/ZRYY88
+         IFOK+kEUPohKD4JxfLsvbZm9d58ROuCrRuuAJY9ohihKUGb6a0pNcW180BH2QzE0FEaj
+         UOHrijTBrOOSYGp1xMajjcx3P6Sze8jxBZWBRJWLWGHJ/lXLhgb31N38VW1f4Fr1Mfi6
+         O6+KEmTV8t2sY6MTWvyAduw/gS6rNu7aFJizRMmfljEEoKu4FRsG7aXPnidifHCIsDLH
+         DFCQEMhSXfUSFLPVaY1O9fOcsNnbw1tZ5zfI5LxNOISolExlAJJfPB5uuyiSU928HTUg
+         DGrw==
+X-Forwarded-Encrypted: i=1; AJvYcCUllTxlL2FBgIBk9eG9dR5c5CV722AeX5mySNCFMVmH9b0Gm6rgnkzF2rJwyzAmgswDAn3tSZ1fAhI=@lists.linux.dev
+X-Gm-Message-State: AOJu0YzIZfTp+VVp9rrDK7/KSMk0mlnZB+uWUwegITPevDpoEkE6JqOe
+	Ls4JMUXHGXx8bWpY6QGp/QQGo4+Jqdzy+3lTR/YT3MR0BXDH4O/f
+X-Gm-Gg: ASbGnctYaQ2KgNZg4Rw8kXO9NTBgmcANF3DR3JOFjnvahYdvHiXFeFQCDrh2MyaxG4q
+	+QRvBxA35w38T0BPPzALrjSSLnvho7BzgKFjj0kCk7jv/Z1dprZ9bNAi0FZU31O23uO0U6nto3+
+	TFDjhgwzFsfGH4z6WQVWDTSJG8RL6hcKqVx8nW3y9+95WDOW6wO7Nl5iJ/rHfsXohifxLM1J8i1
+	5yWbY1s4OQSkhigtTMNKskkmF39SEO6h7JIr+27UoWikBZRygUt82cCE7z3ctprZauNBrYb3aHT
+	Fz/C86VGpamLVYnXmAAPKf/ec9uCAkxJRWDRG8LcH2pdtxLcZa/a1lQaaFc=
+X-Google-Smtp-Source: AGHT+IGcEDBQMZ6NJ63PN9jaNGPysR18XtEQVLoJ9mJjYIPbmqYOBpKf30iNgs0lzXrb0qCoFmr1nw==
+X-Received: by 2002:a05:6402:3584:b0:5e0:9252:3550 with SMTP id 4fb4d7f45d1cf-5f0b5da540bmr11079775a12.2.1744041245290;
+        Mon, 07 Apr 2025 08:54:05 -0700 (PDT)
+Received: from ubuntu ([105.112.123.61])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5f0d87e272csm4551681a12.47.2025.04.07.08.54.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 07 Apr 2025 08:54:04 -0700 (PDT)
+Date: Mon, 7 Apr 2025 15:54:02 +0000
+From: Abraham Samuel Adekunle <abrahamadekunle50@gmail.com>
+To: gregkh@linuxfoundation.org, julia.lawall@inria.fr,
+	outreachy@lists.linux.dev
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	david.laight.linux@gmail.com, andy@kernel.org,
+	dan.carpenter@linaro.org
+Subject: [PATCH v5] staging: rtl8723bs: Use % 4096u instead of & 0xfff
+Message-ID: <Z/PyMXTjCHduOhKX@HP-650>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 09/12] media: rkvdec: Add get_image_fmt ops
-To: Nicolas Dufresne <nicolas.dufresne@collabora.com>,
- Hans Verkuil <hverkuil@xs4all.nl>
-Cc: Sebastian Fricke <sebastian.fricke@collabora.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Boris Brezillon <boris.brezillon@collabora.com>,
- linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
- Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
- Alex Bee <knaerzche@gmail.com>,
- Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- Detlev Casanova <detlev.casanova@collabora.com>,
- Dan Carpenter <dan.carpenter@linaro.org>,
- Christopher Obbard <christopher.obbard@linaro.org>
-References: <20250225-rkvdec_h264_high10_and_422_support-v7-0-7992a68a4910@collabora.com>
- <20250225-rkvdec_h264_high10_and_422_support-v7-9-7992a68a4910@collabora.com>
- <e6b99109-bd35-46ff-a4e2-eb69b549dcbc@xs4all.nl>
- <77bdada5dce991842e377759c8e173ada115694f.camel@collabora.com>
- <47c0011f-693d-4c94-8a1b-f0174f3d5b89@xs4all.nl>
- <19a11d429d9078b82f27e108aa5ac80cc4041bef.camel@collabora.com>
- <cc53dbbf-405b-452b-b007-00588d6c8839@kwiboo.se>
- <c020b5d7dffba6238763a3b82e941a8c218e4dad.camel@collabora.com>
-Content-Language: en-US
-From: Jonas Karlman <jonas@kwiboo.se>
-In-Reply-To: <c020b5d7dffba6238763a3b82e941a8c218e4dad.camel@collabora.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On 2025-04-07 17:35, Nicolas Dufresne wrote:
-> Le lundi 07 avril 2025 à 17:07 +0200, Jonas Karlman a écrit :
->> On 2025-04-07 16:59, Nicolas Dufresne wrote:
->>> Le lundi 07 avril 2025 à 16:17 +0200, Hans Verkuil a écrit :
->>>> On 07/04/2025 15:52, Nicolas Dufresne wrote:
->>>>> Le lundi 07 avril 2025 à 13:09 +0200, Hans Verkuil a écrit :
->>>>>> On 25/02/2025 10:40, Sebastian Fricke wrote:
->>>>>>> From: Jonas Karlman <jonas@kwiboo.se>
->>>>>>>
->>>>>>> Add support for a get_image_fmt() ops that returns the required image
->>>>>>> format.
->>>>>>>
->>>>>>> The CAPTURE format is reset when the required image format changes and
->>>>>>> the buffer queue is not busy.
->>>>>>>
->>>>>>> Signed-off-by: Jonas Karlman <jonas@kwiboo.se>
->>>>>>> Reviewed-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
->>>>>>> Tested-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
->>>>>>> Tested-by: Christopher Obbard <chris.obbard@collabora.com>
->>>>>>> ---
->>>>>>>  drivers/staging/media/rkvdec/rkvdec.c | 49 +++++++++++++++++++++++++++++++++--
->>>>>>>  drivers/staging/media/rkvdec/rkvdec.h |  2 ++
->>>>>>>  2 files changed, 49 insertions(+), 2 deletions(-)
->>>>>>>
->>>>>>> diff --git a/drivers/staging/media/rkvdec/rkvdec.c b/drivers/staging/media/rkvdec/rkvdec.c
->>>>>>> index 70154948b4e32e2c439f259b0f1e1bbc8b52b063..5394079509305c619f1d0c1f542bfc409317c3b7 100644
->>>>>>> --- a/drivers/staging/media/rkvdec/rkvdec.c
->>>>>>> +++ b/drivers/staging/media/rkvdec/rkvdec.c
->>>>>>> @@ -111,15 +111,60 @@ static int rkvdec_try_ctrl(struct v4l2_ctrl *ctrl)
->>>>>>>  {
->>>>>>>  	struct rkvdec_ctx *ctx = container_of(ctrl->handler, struct rkvdec_ctx, ctrl_hdl);
->>>>>>>  	const struct rkvdec_coded_fmt_desc *desc = ctx->coded_fmt_desc;
->>>>>>> +	struct v4l2_pix_format_mplane *pix_mp = &ctx->decoded_fmt.fmt.pix_mp;
->>>>>>> +	enum rkvdec_image_fmt image_fmt;
->>>>>>> +	struct vb2_queue *vq;
->>>>>>> +	int ret;
->>>>>>> +
->>>>>>> +	if (desc->ops->try_ctrl) {
->>>>>>> +		ret = desc->ops->try_ctrl(ctx, ctrl);
->>>>>>> +		if (ret)
->>>>>>> +			return ret;
->>>>>>> +	}
->>>>>>> +
->>>>>>> +	if (!desc->ops->get_image_fmt)
->>>>>>> +		return 0;
->>>>>>>  
->>>>>>> -	if (desc->ops->try_ctrl)
->>>>>>> -		return desc->ops->try_ctrl(ctx, ctrl);
->>>>>>> +	image_fmt = desc->ops->get_image_fmt(ctx, ctrl);
->>>>>>> +	if (ctx->image_fmt == image_fmt)
->>>>>>> +		return 0;
->>>>>>> +
->>>>>>> +	if (rkvdec_is_valid_fmt(ctx, pix_mp->pixelformat, image_fmt))
->>>>>>> +		return 0;
->>>>>>> +
->>>>>>> +	/* format change not allowed when queue is busy */
->>>>>>> +	vq = v4l2_m2m_get_vq(ctx->fh.m2m_ctx,
->>>>>>> +			     V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE);
->>>>>>> +	if (vb2_is_busy(vq))
->>>>>>> +		return -EINVAL;
->>>>
->>>> Looking closer, this code is just wrong. It does these format change
->>>> tests for any control, so if more controls are added in the future, then
->>>> those will be checked the same way, which makes no sense.
->>>
->>> "Just wrong" should be kept for code that is semantically incorrect,
->>> just a suggestion for choice of wording.
->>>
->>>>
->>>> These tests belong to the actual control that you 'try'. In this case
->>>> rkvdec_h264_validate_sps(). This function already checks the width and
->>>> height, but it should also check the image format. It is all in the
->>>> wrong place.
->>
->> Keep in mind that rkvdec_try_ctrl and rkvdec_s_ctrl are only used for
->> CID_STATELESS_H264_SPS (and in future also CID_STATELESS_HEVC_SPS) not
->> any other control, so this is already in the correct place?
->>
->> Maybe the naming of the functions are too generic, they could be named
->> rkvdec_sps_try_ctrl and rkvdec_sps_s_ctrl or similar if that makes more
->> sense?
-> 
-> So we are missing that check for VP9? It will be needed for AV1 when
-> rkvdec2 support gets added.
+The sequence number is constrained to a range of [0, 4095], which
+is a total of 4096 values. The bitmask operation using `& 0xfff` is
+used to perform this wrap-around. While this is functionally correct,
+it obscures the intended semantic of a 4096-based wrap.
 
-Correct, it was not needed for VP9 on rkvdec1 as it only support a
-single image fmt (NV12 / YUV420_8BIT).
+Using a modulo operation `% 4096u` makes the wrap-around logic
+explicit and easier to understand. It clearly signals that the
+sequence number cycles through a range of 4096 values.
+It also makes the code robust against potential changes of the 4096
+upper limit, especially when it becomes a non power of 2 value while
+the AND(&) works solely for power of 2 values.
 
-In the code you only see rkvdec_ctrl_ops referenced once (or possible a
-second time with HEVC work-in-progress patches).
+The use of `% 4096u` also guarantees that the modulo operation is
+performed with unsigned arithmetic, preventing potential issues with
+the signed types.
 
-	.cfg.id = V4L2_CID_STATELESS_H264_SPS,
-	.cfg.ops = &rkvdec_ctrl_ops,
+Suggested-by: Andy Shevchenko <andy@kernel.org>
+Suggested-by: David Laight <david.laight.linux@gmail.com>
+Signed-off-by: Abraham Samuel Adekunle <abrahamadekunle50@gmail.com>
+---
+Changes in v4:
+	- Corrected patch to use '%' instead of '&'
+	- To ensure this change does not affect the functional
+	behaviour, I compared the generated object files before and
+	after the change using the `cmp` which compares the two
+	object files byte by byte as shown below:
 
-Regards,
-Jonas
+	$ make drivers/staging/rtl8723bs/core/rtw_xmit.o
+	$ cmp rtw_xmit_before.o rtw_xmit_after.o
 
-> 
-> Nicolas
-> 
->>
->> Regards,
->> Jonas
->>
->>>
->>> We can do that too. Though, this was generalized since once you enable
->>> the other codecs, you endup with code duplication. I know this series
->>> is an extract from a larger one.
->>>
->>> So let's suggest to make a helper that combines rkvdec_is_valid_fmt()
->>> and the busy check. Though on that, please reply to my comment below
->>> (which you skipped).
->>>
->>>>
->>>>>>
->>>>>> This makes no sense to me. This just tries a control, and that should just
->>>>>> work, regardless of vb2_is_busy(). It's a 'try', so you are not actually
->>>>>> changing anything.
->>>>>
->>>>> See comment below, notice that this code is only reached if the control
->>>>> introduce parameters that are not compatible with the current capture
->>>>> queue fmt. The entire function uses "success" early exit, so the
->>>>> further down you get in the function, the less likely your control is
->>>>> valid.
->>>>>
->>>>>>
->>>>>>> +
->>>>>>> +	return 0;
->>>>>>> +}
->>>>>>> +
->>>>>>> +static int rkvdec_s_ctrl(struct v4l2_ctrl *ctrl)
->>>>>>> +{
->>>>
->>>> If there is a try_ctrl op specified, then the control framework
->>>> will call that first before calling s_ctrl. So any validation that
->>>> try_ctrl did does not need to be done again in s_ctrl.
->>>>
->>>> The same comment with try_ctrl is valid here as well: if there are
->>>> image format checks that need to be done, then those need to be done
->>>> per control and not as a generic check. If new controls are added in
->>>> the future, then you don't want the same checks to apply to the new
->>>> controls as well.
->>>
->>> I don't think the behaviour of try_ctrl and that being embedded in set
->>> calls was being questioned by anyone. Can you reply to the last
->>> paragraph below ?
->>>
->>>>
->>>> Regards,
->>>>
->>>> 	Hans
->>>>
->>>>>>> +	struct rkvdec_ctx *ctx = container_of(ctrl->handler, struct rkvdec_ctx, ctrl_hdl);
->>>>>>> +	const struct rkvdec_coded_fmt_desc *desc = ctx->coded_fmt_desc;
->>>>>>> +	struct v4l2_pix_format_mplane *pix_mp = &ctx->decoded_fmt.fmt.pix_mp;
->>>>>>> +	enum rkvdec_image_fmt image_fmt;
->>>>>>> +
->>>>>>> +	if (!desc->ops->get_image_fmt)
->>>>>>> +		return 0;
->>>>>>> +
->>>>>>> +	image_fmt = desc->ops->get_image_fmt(ctx, ctrl);
->>>>>>> +	if (ctx->image_fmt == image_fmt)
->>>>>>> +		return 0;
->>>>>>
->>>>>> If you really can't set a control when the queue is busy, then that should
->>>>>> be tested here, not in try_ctrl. And then you return -EBUSY.
->>>>>>
->>>>>> Am I missing something here?
->>>>>
->>>>> When I reviewed, I had imagine that s_ctrl on a request would just run
->>>>> a try. Now that I read that more careful, I see that it does a true set
->>>>> on separate copy. So yes, this can safely be moved here.
->>>>>
->>>>> Since you seem wondering "If you really can't set a control", let me
->>>>> explain what Jonas wants to protect against. RKVdec does not have any
->>>>> color conversion code, the header compound control (which header
->>>>> depends on the codec), contains details such as sub-sampling and color
->>>>> depth. Without color conversion, when the image format is locked (the
->>>>> busy queue), you can't request the HW to decode a frame witch does not
->>>>> fit. This could otherwise lead to buffer overflow in the HW,
->>>>> fortunately protected by the iommu, but you don't really want to depend
->>>>> on the mmu.
->>>>>
->>>>> I've never used try_ctrl in my decade of v4l2, so obviously, now that I
->>>>> know that s_ctrl on request is not a try, I'm fine with rejecting this
->>>>> PR, sending a new version and making a PR again. But if I was to use
->>>>> this API in userspace, my intuitive expectation would be that this
->>>>> should fail try(), even if its very rarely valid to check the queue
->>>>> state in try control.
->>>
->>> Here, since we seem to disagree on the behaviour try should have for
->>> this specific validation. What you asked on first pass is to make it so
->>> that TRY will succeed, and SET will fail. I don't really like that
->>> suggestion.
->>>
->>> Nicolas
->>>
->>>>>
->>>>> Nicolas
->>>>>
->>>>>>
->>>>>> Regards,
->>>>>>
->>>>>> 	Hans
->>>>>>
->>>>>>> +
->>>>>>> +	ctx->image_fmt = image_fmt;
->>>>>>> +	if (!rkvdec_is_valid_fmt(ctx, pix_mp->pixelformat, ctx->image_fmt))
->>>>>>> +		rkvdec_reset_decoded_fmt(ctx);
->>>>>>>  
->>>>>>>  	return 0;
->>>>>>>  }
->>>>>>>  
->>>>>>>  static const struct v4l2_ctrl_ops rkvdec_ctrl_ops = {
->>>>>>>  	.try_ctrl = rkvdec_try_ctrl,
->>>>>>> +	.s_ctrl = rkvdec_s_ctrl,
->>>>>>>  };
->>>>>>>  
->>>>>>>  static const struct rkvdec_ctrl_desc rkvdec_h264_ctrl_descs[] = {
->>>>>>> diff --git a/drivers/staging/media/rkvdec/rkvdec.h b/drivers/staging/media/rkvdec/rkvdec.h
->>>>>>> index 6f8cf50c5d99aad2f52e321f54f3ca17166ddf98..e466a2753ccfc13738e0a672bc578e521af2c3f2 100644
->>>>>>> --- a/drivers/staging/media/rkvdec/rkvdec.h
->>>>>>> +++ b/drivers/staging/media/rkvdec/rkvdec.h
->>>>>>> @@ -73,6 +73,8 @@ struct rkvdec_coded_fmt_ops {
->>>>>>>  		     struct vb2_v4l2_buffer *dst_buf,
->>>>>>>  		     enum vb2_buffer_state result);
->>>>>>>  	int (*try_ctrl)(struct rkvdec_ctx *ctx, struct v4l2_ctrl *ctrl);
->>>>>>> +	enum rkvdec_image_fmt (*get_image_fmt)(struct rkvdec_ctx *ctx,
->>>>>>> +					       struct v4l2_ctrl *ctrl);
->>>>>>>  };
->>>>>>>  
->>>>>>>  enum rkvdec_image_fmt {
->>>>>>>
->>>>>
->>>
-> 
+	No differences were found in the output, confirming that the
+	change does not alter the compiled output.
+Changes in v3:
+	- Added more description to the commit message.
+	- Removed blank line in the tag block.
+	- Added more patch recipients.
+Changes in v2:
+	- Changed the commit message t a more descriptive message which
+	makes it clear why the patch does the change.
+	- changed the subject title to include `4096u` to show that an
+	unsigned module is used.
+Changes in v1:
+	- Added more patch recipients.
+
+ drivers/staging/rtl8723bs/core/rtw_xmit.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/staging/rtl8723bs/core/rtw_xmit.c b/drivers/staging/rtl8723bs/core/rtw_xmit.c
+index 026061b464f7..548fcf9968bd 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_xmit.c
++++ b/drivers/staging/rtl8723bs/core/rtw_xmit.c
+@@ -943,7 +943,7 @@ s32 rtw_make_wlanhdr(struct adapter *padapter, u8 *hdr, struct pkt_attrib *pattr
+ 
+ 			if (psta) {
+ 				psta->sta_xmitpriv.txseq_tid[pattrib->priority]++;
+-				psta->sta_xmitpriv.txseq_tid[pattrib->priority] &= 0xFFF;
++				psta->sta_xmitpriv.txseq_tid[pattrib->priority] %= 4096u;
+ 				pattrib->seqnum = psta->sta_xmitpriv.txseq_tid[pattrib->priority];
+ 
+ 				SetSeqNum(hdr, pattrib->seqnum);
+@@ -963,11 +963,11 @@ s32 rtw_make_wlanhdr(struct adapter *padapter, u8 *hdr, struct pkt_attrib *pattr
+ 					if (SN_LESS(pattrib->seqnum, tx_seq)) {
+ 						pattrib->ampdu_en = false;/* AGG BK */
+ 					} else if (SN_EQUAL(pattrib->seqnum, tx_seq)) {
+-						psta->BA_starting_seqctrl[pattrib->priority & 0x0f] = (tx_seq+1)&0xfff;
++						psta->BA_starting_seqctrl[pattrib->priority & 0x0f] = (tx_seq+1)%4096u;
+ 
+ 						pattrib->ampdu_en = true;/* AGG EN */
+ 					} else {
+-						psta->BA_starting_seqctrl[pattrib->priority & 0x0f] = (pattrib->seqnum+1)&0xfff;
++						psta->BA_starting_seqctrl[pattrib->priority & 0x0f] = (pattrib->seqnum+1)%4096u;
+ 						pattrib->ampdu_en = true;/* AGG EN */
+ 					}
+ 				}
+-- 
+2.34.1
 
