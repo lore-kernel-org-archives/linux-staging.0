@@ -1,91 +1,85 @@
-Received: from mail-vk1-f171.google.com (mail-vk1-f171.google.com [209.85.221.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from cstnet.cn (smtp21.cstnet.cn [159.226.251.21])
+	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99F7F19644B;
-	Sun,  6 Apr 2025 21:55:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3640192D8E
+	for <linux-staging@lists.linux.dev>; Mon,  7 Apr 2025 03:08:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743976537; cv=none; b=t2IbqD0jLYmBW/orrU5pY0HYmJVY5Ocdshu3QH7OH9HdiJ29YoinPY+3a0V9rEOWLo3ChU+suiFUSqgolrgdjX4ldsxRBlAD4MQXKLrOfOVdczWzxYWsJEXQ9DdCfvHPIpZyqvwOxYCl9o0UZGY5MWec9HtktCoA+yLQ9Ling3M=
+	t=1743995315; cv=none; b=AmWT9RqOQ3Q5c9+a1WdCUiIyDDry03Pfwt5W420yUdPtrsZwLcuO99DpCuAmcoF7AC0APWLb3CmmFKpnPeIL9+24u9NrV6k2bXlBlaE6Xs+jFYD++eHo3RawtYdRYXFfqpmyRCNhTaNdtOW/GYWx5qieiUQzPrms1bVGnH1wr8Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743976537; c=relaxed/simple;
-	bh=g6pYceACoECe+Rhww/YIKfEe2jPzOt3S5mrtvjs+GLw=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=DcQ7BbdT+9pMa3kFgEOOP0a6AWa45lz82qUyKf7+u61AvNQD9WM92hVjvyxruUnFm49lVK0pv0foi7H5RctOgckMd8RJBsAx2OoYmK8qUMwcEaz77UIN0wA+7e/AU6ieuEprzJJqElNntGkA3rJsiOZSoVKIBRYxfy7D8+WKzT8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RGydYG5N; arc=none smtp.client-ip=209.85.221.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RGydYG5N"
-Received: by mail-vk1-f171.google.com with SMTP id 71dfb90a1353d-523edc385caso1427786e0c.3;
-        Sun, 06 Apr 2025 14:55:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1743976534; x=1744581334; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=g6pYceACoECe+Rhww/YIKfEe2jPzOt3S5mrtvjs+GLw=;
-        b=RGydYG5NpvvutozgPrCqyVvRt5Zi/A7EnReMBNXInY/nfnuBA1oZWzhIvq8ryufIwK
-         ni0H9H7ZR4hpWTAlDLKKrPaE8Xkx2kQQxlM+See3xHFIuyrCujoZIBcRksXQlIA4KK84
-         1sjWusP9+eKMlWU7MvyinKPzEfR4zOVoG4BZFFp3JaDnfz5dPcUf9z4Vj15tuXsKuQ30
-         6EaVbXwv7wq+nQDDDcdheO5VJn1feAKmF13j9TFDenMKLg0pfr+sgILXRGvHOHQrKy3i
-         WP3I6/51U6d1MfDwVxgOO+WxUDMf6gKRNyVS85roMjGfgoPOaLPMnAyPrlNBiT8mndUH
-         B9Nw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1743976534; x=1744581334;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=g6pYceACoECe+Rhww/YIKfEe2jPzOt3S5mrtvjs+GLw=;
-        b=St3xhRxc5GqDdDv8WpXGbe0In3XfasjxA/KBp+alj6zTs9ZE4FtAMKkRLffPyvunYS
-         az4XqjIZYyrVW9mrG/dyHvh8PCAMWDjriID0pAqo5LjAW9ZqK72Zi8fqsEsKFfOiCuUJ
-         zdLT1WvYaMqWWarIdOZFl0HGnyKaoSmcUbLG4zD99oLGFhEqyhLzhXZwqCglRgLgg2Q2
-         ywK3B9BRUibn+uDcYuXk/vaeKjmWasFCCZzv41sCTbOMgO4PZa9dGYxN9VFY9W4889Nw
-         yoYOQXlOiiqSJaWDad5Mb8vQjbFvwabhyjoy/y+xOvRFGBEPhNUYAwdnbeNVf+V5u4Jj
-         XXLg==
-X-Forwarded-Encrypted: i=1; AJvYcCWPRbTjEYAGyaCTrEdJe9Ddlt1yvTiqTkV5HvYqSgbpZbqc30QjL+IE51m3RP5L2xSe32JhFeRIzmU0G/Lw@lists.linux.dev, AJvYcCXx+43zaEbSMW77ZVIPod3llGutvVh4kCoaM56tBVtN6AYL0JG8Ly6Qn2CuVehpDaYWMjbUiF6xggxx@lists.linux.dev
-X-Gm-Message-State: AOJu0YyzwYOpHSy0XuA5deZF9NhHZJMzn0ufi8TWdZE+YWKPUSfzQ/7W
-	VU+TpZDub3/6nvhpk0VuNgOOTA//g2YuWc9yRDQ8VPAY/UZ9KTYVAz8KjXAq858i4J2ft9DJVeP
-	BwouQi/6c3UyrGNAMQ11UYaUZMNo=
-X-Gm-Gg: ASbGncvfPZtlO8GIGkZYg8A+sHnLCzL8gcb2LvjtBgi6K8OSz6Es8W9Z0IqpCV6BzIu
-	HXSIippiCpJ9i2S1JdIcEmdsyJIiUUzwkK8AVeE1AFDqPY0MxpjBzVZeVDPPThOcOCNylNAWMLx
-	23SXfJ+3KZxM8uX6lNLA0lmFjTt+A=
-X-Google-Smtp-Source: AGHT+IEt6764hA/Jd5CwgHqItb0CGB/8b/dQXtSSNDXlu2Lw2GtsrjMFepc4xWyzsjCSncnPV6m74bNb8JI24lFwZ1c=
-X-Received: by 2002:a05:6122:8c01:b0:523:7316:7f31 with SMTP id
- 71dfb90a1353d-52764494388mr8013512e0c.5.1743976534439; Sun, 06 Apr 2025
- 14:55:34 -0700 (PDT)
+	s=arc-20240116; t=1743995315; c=relaxed/simple;
+	bh=F2RVHRfKGzec4XIsvpV64YdBdo5xRHMDVu4WqHIDXbM=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=hLxWMzzrhy1CYIx3HdzieOf8nWHzVlXQztWzlM63a9VGLLTnAtaQHeuKY8aAZdPxdfadS3GBSwBKIyMLEfZgLAXrL0TVit+FEUc9CSOzB55Sbpu+KmiUeE0/kZe+XBzB29IGbVkX5fpQKv1i9hVnVKK2+e6FxYaYahNJNufEQL0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass smtp.mailfrom=iscas.ac.cn; arc=none smtp.client-ip=159.226.251.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
+Received: from localhost (unknown [124.16.138.129])
+	by APP-01 (Coremail) with SMTP id qwCowABH7v6gQfNnQc7JBg--.11684S2;
+	Mon, 07 Apr 2025 11:08:17 +0800 (CST)
+From: Chen Ni <nichen@iscas.ac.cn>
+To: dpenkler@gmail.com,
+	gregkh@linuxfoundation.org,
+	matchstick@neverthere.org,
+	dan.carpenter@linaro.org,
+	arnd@arndb.de,
+	everestkc@everestkc.com.np
+Cc: linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Chen Ni <nichen@iscas.ac.cn>
+Subject: [PATCH] staging: gpib: eastwood: Remove unnecessary print function dev_err()
+Date: Mon,  7 Apr 2025 11:07:43 +0800
+Message-Id: <20250407030743.2382246-1-nichen@iscas.ac.cn>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <Z/Bro47isE8zhcu7@ubuntu> <20250405101318.3fce2dd5@pumpkin>
-In-Reply-To: <20250405101318.3fce2dd5@pumpkin>
-From: Samuel Abraham <abrahamadekunle50@gmail.com>
-Date: Sun, 6 Apr 2025 22:55:25 +0100
-X-Gm-Features: ATxdqUHmBJavuVTAsCOOoR4pbO5-Fac5DY2pAqOykH_Cgbax6-OmWNhMoXL3Aps
-Message-ID: <CADYq+faLiL5f+HBxuZoKJLLc90wM0YRRbuhYwo+Or2w6O6SMEQ@mail.gmail.com>
-Subject: Re: [PATCH] staging: rtl8723bs: Use % 4096 instead of & 0xfff
-To: David Laight <david.laight.linux@gmail.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Julia Lawall <julia.lawall@inria.fr>, 
-	outreachy@lists.linux.dev, linux-staging@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, Dan Carpenter <dan.carpenter@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:qwCowABH7v6gQfNnQc7JBg--.11684S2
+X-Coremail-Antispam: 1UD129KBjvdXoWrZrWrWF43Wr4rtryrAr4ruFg_yoWftwc_CF
+	18ZrWxAr1SvFya9w10qF15urWSy3WkXr4Fga9FgFW7Gw4YvF1UZr98ZF9xJr47X3yxKFy8
+	AryrGr4Ykr4fAjkaLaAFLSUrUUUUbb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+	9fnUUIcSsGvfJTRUUUbsAFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k26cxKx2IYs7xG
+	6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
+	A2z4x0Y4vE2Ix0cI8IcVAFwI0_Xr0_Ar1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr0_
+	Cr1l84ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVCY1x0267AKxVWxJr
+	0_GcWle2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E
+	2Ix0cI8IcVAFwI0_Jrv_JF1lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJV
+	W8JwACjcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lc7CjxVAaw2AFwI0_
+	Jw0_GFylc2xSY4AK67AK6r48MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r
+	4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF
+	67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2I
+	x0cI8IcVCY1x0267AKxVW8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2
+	z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnU
+	UI43ZEXa7VUjAu4UUUUUU==
+X-CM-SenderInfo: xqlfxv3q6l2u1dvotugofq/
 
-On Sat, Apr 5, 2025 at 10:13=E2=80=AFAM David Laight
-<david.laight.linux@gmail.com> wrote:
->
-> On Fri, 4 Apr 2025 23:33:16 +0000
-> Abraham Samuel Adekunle <abrahamadekunle50@gmail.com> wrote:
->
-> > Replace the bitwise AND operator `&` with a modulo
-> > operator `%` and decimal number to make the upper limit visible
-> > and clear what the semantic of it is.
->
-> Use 4096u to make absolutely certain an unsigned module is used.
+Function dev_err() is redundant because platform_get_irq()
+already prints an error.
 
-Hello David,
-Thank you very much for this suggestion.
+Signed-off-by: Chen Ni <nichen@iscas.ac.cn>
+---
+ drivers/staging/gpib/eastwood/fluke_gpib.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
-Adekunle.
+diff --git a/drivers/staging/gpib/eastwood/fluke_gpib.c b/drivers/staging/gpib/eastwood/fluke_gpib.c
+index a6b1ac169f94..65078b4aeea3 100644
+--- a/drivers/staging/gpib/eastwood/fluke_gpib.c
++++ b/drivers/staging/gpib/eastwood/fluke_gpib.c
+@@ -1024,10 +1024,8 @@ static int fluke_attach_impl(struct gpib_board *board, const gpib_board_config_t
+ 	}
+ 
+ 	irq = platform_get_irq(fluke_gpib_pdev, 0);
+-	if (irq < 0) {
+-		dev_err(&fluke_gpib_pdev->dev, "failed to obtain IRQ\n");
++	if (irq < 0)
+ 		return -EBUSY;
+-	}
+ 	retval = request_irq(irq, fluke_gpib_interrupt, isr_flags, fluke_gpib_pdev->name, board);
+ 	if (retval) {
+ 		dev_err(&fluke_gpib_pdev->dev,
+-- 
+2.25.1
+
