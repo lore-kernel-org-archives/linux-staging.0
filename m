@@ -1,34 +1,34 @@
 Received: from cstnet.cn (smtp21.cstnet.cn [159.226.251.21])
 	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3640192D8E
-	for <linux-staging@lists.linux.dev>; Mon,  7 Apr 2025 03:08:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2047F211A1D
+	for <linux-staging@lists.linux.dev>; Mon,  7 Apr 2025 03:11:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743995315; cv=none; b=AmWT9RqOQ3Q5c9+a1WdCUiIyDDry03Pfwt5W420yUdPtrsZwLcuO99DpCuAmcoF7AC0APWLb3CmmFKpnPeIL9+24u9NrV6k2bXlBlaE6Xs+jFYD++eHo3RawtYdRYXFfqpmyRCNhTaNdtOW/GYWx5qieiUQzPrms1bVGnH1wr8Y=
+	t=1743995504; cv=none; b=IKPmdXLkTyT0rDWZVFQeTDk3YSaI7j/pIQxP8YfL57GOHmoijgweENq8smtUIvLJkxcSiYibfPsW53MOjaO4ZcQ2+FNLm8u20DvSC7e9nt69GCcJtEy+DTu6FC0NxuA53Cno2SPfxQEM/Is9319DISpVgrcQiBp45H4XBZ1XwyU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743995315; c=relaxed/simple;
-	bh=F2RVHRfKGzec4XIsvpV64YdBdo5xRHMDVu4WqHIDXbM=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=hLxWMzzrhy1CYIx3HdzieOf8nWHzVlXQztWzlM63a9VGLLTnAtaQHeuKY8aAZdPxdfadS3GBSwBKIyMLEfZgLAXrL0TVit+FEUc9CSOzB55Sbpu+KmiUeE0/kZe+XBzB29IGbVkX5fpQKv1i9hVnVKK2+e6FxYaYahNJNufEQL0=
+	s=arc-20240116; t=1743995504; c=relaxed/simple;
+	bh=XRJqv+ACq6BmsqXRvcUXVA+EstFBBMEORTugFGWrkiI=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=AtEbFDoxBwvWLYSqdXMxEV1++0ZUlOuk08xg5sqdEl768iqjG8YAvEHTm0CKXo4MqaDZwS8inn88NTf3EmS7qa5+tYk48HUzNpKof9tIN++tmi+dNCphHCQGBJ7PLNoBXBAx4PLB+nOMgBgNUgcg8tisfofiLed1JMbty/Lfzzs=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass smtp.mailfrom=iscas.ac.cn; arc=none smtp.client-ip=159.226.251.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
 Received: from localhost (unknown [124.16.138.129])
-	by APP-01 (Coremail) with SMTP id qwCowABH7v6gQfNnQc7JBg--.11684S2;
-	Mon, 07 Apr 2025 11:08:17 +0800 (CST)
+	by APP-01 (Coremail) with SMTP id qwCowABnDv9lQvNnC+jJBg--.63721S2;
+	Mon, 07 Apr 2025 11:11:34 +0800 (CST)
 From: Chen Ni <nichen@iscas.ac.cn>
 To: dpenkler@gmail.com,
 	gregkh@linuxfoundation.org,
 	matchstick@neverthere.org,
-	dan.carpenter@linaro.org,
 	arnd@arndb.de,
-	everestkc@everestkc.com.np
+	dominik.karol.piatkowski@protonmail.com,
+	nathan@kernel.org
 Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Chen Ni <nichen@iscas.ac.cn>
-Subject: [PATCH] staging: gpib: eastwood: Remove unnecessary print function dev_err()
-Date: Mon,  7 Apr 2025 11:07:43 +0800
-Message-Id: <20250407030743.2382246-1-nichen@iscas.ac.cn>
+Subject: [PATCH] staging: gpib: fmh_gpib: Remove unnecessary print function dev_err()
+Date: Mon,  7 Apr 2025 11:11:10 +0800
+Message-Id: <20250407031110.2382308-1-nichen@iscas.ac.cn>
 X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -37,23 +37,23 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:qwCowABH7v6gQfNnQc7JBg--.11684S2
-X-Coremail-Antispam: 1UD129KBjvdXoWrZrWrWF43Wr4rtryrAr4ruFg_yoWftwc_CF
-	18ZrWxAr1SvFya9w10qF15urWSy3WkXr4Fga9FgFW7Gw4YvF1UZr98ZF9xJr47X3yxKFy8
-	AryrGr4Ykr4fAjkaLaAFLSUrUUUUbb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
-	9fnUUIcSsGvfJTRUUUbsAFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k26cxKx2IYs7xG
+X-CM-TRANSID:qwCowABnDv9lQvNnC+jJBg--.63721S2
+X-Coremail-Antispam: 1UD129KBjvdXoWrZrWrWF43Wr43ur1xCFWkCrg_yoWftFX_CF
+	y0kFn7J3WfCa90yw1Yq3W5Cr9FkFn8XF4ftr1vqFW3Cr4aqF4DCryFgF1jqr9rXF47KFy7
+	urWrKwsa9w1akjkaLaAFLSUrUUUUbb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+	9fnUUIcSsGvfJTRUUUbV8FF20E14v26r4j6ryUM7CY07I20VC2zVCF04k26cxKx2IYs7xG
 	6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
-	A2z4x0Y4vE2Ix0cI8IcVAFwI0_Xr0_Ar1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr0_
-	Cr1l84ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVCY1x0267AKxVWxJr
-	0_GcWle2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E
-	2Ix0cI8IcVAFwI0_Jrv_JF1lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJV
-	W8JwACjcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lc7CjxVAaw2AFwI0_
-	Jw0_GFylc2xSY4AK67AK6r48MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r
-	4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF
-	67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2I
-	x0cI8IcVCY1x0267AKxVW8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2
-	z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnU
-	UI43ZEXa7VUjAu4UUUUUU==
+	A2z4x0Y4vE2Ix0cI8IcVAFwI0_Xr0_Ar1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Cr0_
+	Gr1UM28EF7xvwVC2z280aVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Cr
+	1j6rxdM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj
+	6xIIjxv20xvE14v26r1Y6r17McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr
+	0_Gr1lF7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7MxkF7I0En4kS14v2
+	6r1q6r43MxkIecxEwVAFwVW8GwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJV
+	W8JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF
+	1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6x
+	IIjxv20xvEc7CjxVAFwI0_Gr0_Cr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvE
+	x4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvj
+	DU0xZFpf9x0JUSFAJUUUUU=
 X-CM-SenderInfo: xqlfxv3q6l2u1dvotugofq/
 
 Function dev_err() is redundant because platform_get_irq()
@@ -61,25 +61,25 @@ already prints an error.
 
 Signed-off-by: Chen Ni <nichen@iscas.ac.cn>
 ---
- drivers/staging/gpib/eastwood/fluke_gpib.c | 4 +---
+ drivers/staging/gpib/fmh_gpib/fmh_gpib.c | 4 +---
  1 file changed, 1 insertion(+), 3 deletions(-)
 
-diff --git a/drivers/staging/gpib/eastwood/fluke_gpib.c b/drivers/staging/gpib/eastwood/fluke_gpib.c
-index a6b1ac169f94..65078b4aeea3 100644
---- a/drivers/staging/gpib/eastwood/fluke_gpib.c
-+++ b/drivers/staging/gpib/eastwood/fluke_gpib.c
-@@ -1024,10 +1024,8 @@ static int fluke_attach_impl(struct gpib_board *board, const gpib_board_config_t
- 	}
+diff --git a/drivers/staging/gpib/fmh_gpib/fmh_gpib.c b/drivers/staging/gpib/fmh_gpib/fmh_gpib.c
+index 53f4b3fccc3c..5f64f3d989ef 100644
+--- a/drivers/staging/gpib/fmh_gpib/fmh_gpib.c
++++ b/drivers/staging/gpib/fmh_gpib/fmh_gpib.c
+@@ -1424,10 +1424,8 @@ static int fmh_gpib_attach_impl(struct gpib_board *board, const gpib_board_confi
+ 		(unsigned long)resource_size(e_priv->dma_port_res));
  
- 	irq = platform_get_irq(fluke_gpib_pdev, 0);
+ 	irq = platform_get_irq(pdev, 0);
 -	if (irq < 0) {
--		dev_err(&fluke_gpib_pdev->dev, "failed to obtain IRQ\n");
+-		dev_err(board->dev, "request for IRQ failed\n");
 +	if (irq < 0)
  		return -EBUSY;
 -	}
- 	retval = request_irq(irq, fluke_gpib_interrupt, isr_flags, fluke_gpib_pdev->name, board);
+ 	retval = request_irq(irq, fmh_gpib_interrupt, IRQF_SHARED, pdev->name, board);
  	if (retval) {
- 		dev_err(&fluke_gpib_pdev->dev,
+ 		dev_err(board->dev,
 -- 
 2.25.1
 
