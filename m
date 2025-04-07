@@ -1,78 +1,39 @@
-Received: from mail-qk1-f173.google.com (mail-qk1-f173.google.com [209.85.222.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from cstnet.cn (smtp81.cstnet.cn [159.226.251.81])
+	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FD661B4223
-	for <linux-staging@lists.linux.dev>; Mon,  7 Apr 2025 12:36:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDE172512FD
+	for <linux-staging@lists.linux.dev>; Mon,  7 Apr 2025 13:11:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.81
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744029373; cv=none; b=DdefH9gAO/CIf6qSusoK/taAgy2Mez16iB+0M2rCzUjPZDs+Es9B3jrNgBqmTqQ8JwKkCsD1wRlGQaSab+GlEMUlxXLgmw6BYbSNKjVbmicu0+fzyrHcQl7TdcY+Pg0qJ66HBX7Y9Mq34xgr4Bwq3wWdK1Ib/MrdWmkbF1A4vXA=
+	t=1744031500; cv=none; b=BeaO2ngilSodngGi/6biZlOmgrvZJoS9NjKh09UQKOE47jfRg7ujzfYgfEDny5r4XAe0sQwsk04BrAgjCqng5ectvKRNr4eI9Dyyi1l3ENeDHnUMpcpFNPWunSbxrFFUA9prZYmQE/MzbaBsCWTuA7FRFqVAOQKvVT1mdKhX11Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744029373; c=relaxed/simple;
-	bh=dcJyfRfsMmgxmRuoZ6uKnKv89TRcKrAVyw0Xtxreftk=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=k4T71wJZ4kQ/usrWV8I0dxRffSLCpH6w57R2JDlozaGmLR8Qhn1nGdQrq3wEVilwJIWEZmr/EsJBvlLLzvnjnvmm1S8rvzzuHK1BZakUpTkZCQtxpp4jpik9fr1bEF156zKspPaHE6MM6EyeFCb1koo4jzriRsyMncjauXWcIR8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=J/JIClaI; arc=none smtp.client-ip=209.85.222.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="J/JIClaI"
-Received: by mail-qk1-f173.google.com with SMTP id af79cd13be357-7c592764e24so469008585a.0
-        for <linux-staging@lists.linux.dev>; Mon, 07 Apr 2025 05:36:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1744029370; x=1744634170; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=3TcKaW1iKbZzoagO8ECUBHNyiWF3ioNPUUj4VMULq6c=;
-        b=J/JIClaI+7nUwuPWpc19CgSuBPxFBtOzh2ay3BIj+qzRj76ByG6F4iozVBfB74b7C6
-         VCVACJ1AFnIugFyvGaHk4UX7/ey2obpFPBW1YrTzP9Y9uNhpLG8G7LQeNNNsM9hD80g+
-         JUdBCi/3E4Is+N5yszCcKgeEwvUInpT9kI+d91AuOlB+VILxUEE5lAKCaBktReUthLRl
-         jyGshVNtGJ7HOUPw9bRt5KrefvghDLsUkc7Wf+3hM2oFrQACm6jTiDHPjjsXIMPe+cJO
-         /dQOLgfkaEzz+9ay74ol/RnO/eiIMUE6h1LgPNvxmcrBPzN3uJcNHMoF+7bCxt60xTG+
-         iQpw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744029370; x=1744634170;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=3TcKaW1iKbZzoagO8ECUBHNyiWF3ioNPUUj4VMULq6c=;
-        b=UeOVGbCUAtmcTMq9uVg3QK36bymo1p1IYJawiLtWIcCEN9XW82mvbt4aDgvTWivb3B
-         6RXz+pfZgpNKGEeV5uVo96PoLtcvw4uI59Ob60x9BQRTCVlzY+02/Hf+AdvIws/8/8ab
-         kA3oECfFr2e0NqoxbBlht0IVKEEwbauCwCKCk9w4W+G1HluNj0OGlxJwccFvYLRZETUK
-         zsaW35ulz4+H5ZTXe4uO98WFR2Q5h9ptZK55PV8/NszZCL5cS8uE3+co3ALOetSsAoGo
-         k1LAMGR9prKN3YkAV7q51R3VApvidbFeeGNwszTt7MEdv35SSWoM4NzcnZPXrBPi23XM
-         iWIw==
-X-Forwarded-Encrypted: i=1; AJvYcCXib8PCAXHcAGIWhXaTNkgiaP3sv6fPkxwiWhfOTleKzn+qmMIQg/HCKhhWsv5K1qNprzW3XmCJFkybCGoC@lists.linux.dev
-X-Gm-Message-State: AOJu0Yy+qShy3NtKGGZf9nWJLI/wqz23Fjr9wbRvya7Kku2tsvW/6xLw
-	9b/9uxR/w/5GIelSv5MF3VDwY+hTfqt9uzL/wRICbjfaaDyr9v8t
-X-Gm-Gg: ASbGncsWuEDabkgoKzkym5IA7TIrvFsx1nwccdfcCgs78JM8zZWV2r5uGM5TLDa205l
-	B8Vhy4U9FegTruEQi9bM0gPDWyww3PxeWqvA6NCzX3P90Ot3nzOBI+p3ZydxLAYbrTBJcWvA1ub
-	R8UcPG2NbBZREoC0TvdhPzO7cXGQae8gnvqgk38FS0jIvOvgB7/sL9kcS1xGQLJ9l5zyHMmvtTV
-	URDt4215hyzizh1BzQH3malwc1BQ6wFjIJl1+S62lCBN5LW+TMv/WGT/wNPe5zUbh5BUVcw+XYr
-	cqLupCpBF1XpIsLSZV15wOogVEOJwjgTxudh/tyLpUe/ytFpycNlxrtuv2U=
-X-Google-Smtp-Source: AGHT+IFYSVKw5VCmG3zldSTuQDk/3t0DK/gVNVF8RsJQdy0hmP+obfuJJuPgy2KdD4uTEL82O7eV4A==
-X-Received: by 2002:a05:620a:40cc:b0:7c5:9566:83dc with SMTP id af79cd13be357-7c774a57ad1mr1674861285a.25.1744029370535;
-        Mon, 07 Apr 2025 05:36:10 -0700 (PDT)
-Received: from theriatric.mshome.net ([73.123.232.110])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-7c76ea59e42sm590373885a.77.2025.04.07.05.36.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 07 Apr 2025 05:36:10 -0700 (PDT)
-From: Gabriel Shahrouzi <gshahrouzi@gmail.com>
-To: linux-media@vger.kernel.org
-Cc: andy@kernel.org,
-	hdegoede@redhat.com,
-	mchehab@kernel.org,
-	sakari.ailus@linux.intel.com,
-	gregkh@linuxfoundation.org,
-	linux-kernel@vger.kernel.org,
+	s=arc-20240116; t=1744031500; c=relaxed/simple;
+	bh=2Kyzltuee9lw0VbxAQZivPwT/I9GE7kNboJtO2TQKb0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=BGWUt/xgz398qcFyCbZBZZl6ChLRNeaqeM3n4aSsx0wkfoVZBn0HT/KP9+0aMhrVum/Ja6y6YSeR58GJ9mLAUQJC4cUm5tMBAjkeynuhb5VaSIyZxRoxNbsSpKNC0+Z2Cl5QyuT/KwDT4ADEUGoSFICYRDt5iHhhV2WPKZfATIc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass smtp.mailfrom=iscas.ac.cn; arc=none smtp.client-ip=159.226.251.81
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
+Received: from localhost.localdomain (unknown [124.16.141.245])
+	by APP-03 (Coremail) with SMTP id rQCowABHtkL+zvNn2JviBg--.35685S2;
+	Mon, 07 Apr 2025 21:11:28 +0800 (CST)
+From: Wentao Liang <vulab@iscas.ac.cn>
+To: ecree.xilinx@gmail.com,
+	habetsm.xilinx@gmail.com,
+	andrew+netdev@lunn.ch,
+	davem@davemloft.net,
+	edumazet@google.com,
+	kuba@kernel.org,
+	pabeni@redhat.com
+Cc: netdev@vger.kernel.org,
 	linux-staging@lists.linux.dev,
-	gshahrouzi@gmail.com
-Subject: [PATCH v3] media: Fix indentation to use TAB instead of spaces
-Date: Mon,  7 Apr 2025 08:36:08 -0400
-Message-ID: <20250407123608.366190-1-gshahrouzi@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <MESSAGE_ID_OF_V2_EMAIL_OR_REVIEW>
-References: <MESSAGE_ID_OF_V2_EMAIL_OR_REVIEW>
+	linux-net-drivers@amd.com,
+	linux-kernel@vger.kernel.org,
+	Wentao Liang <vulab@iscas.ac.cn>,
+	stable@vger.kernel.org
+Subject: [PATCH v2] sfc: Propagate the return value of devlink_info_serial_number_put()
+Date: Mon,  7 Apr 2025 21:11:10 +0800
+Message-ID: <20250407131110.2394-1-vulab@iscas.ac.cn>
+X-Mailer: git-send-email 2.42.0.windows.2
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -80,33 +41,65 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:rQCowABHtkL+zvNn2JviBg--.35685S2
+X-Coremail-Antispam: 1UD129KBjvJXoW7Kr1fuFyfAry7tw48WryxAFb_yoW8Xr4rpa
+	y3AFyagFyfCFy0ga18uF48uFy3Za1UKFyqgFZ3Kw4ruanxJr4avFsY9a43Kr15ArWkG3Wx
+	tr1UCrWfCFn8ArUanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUU9Y14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+	1l84ACjcxK6xIIjxv20xvE14v26r1j6r1xM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
+	6F4UM28EF7xvwVC2z280aVAFwI0_Cr1j6rxdM28EF7xvwVC2z280aVCY1x0267AKxVW0oV
+	Cq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0
+	I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Gr0_Cr1lOx8S6xCaFVCjc4AY6r1j6r
+	4UM4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwACI402YVCY1x02628v
+	n2kIc2xKxwCY1x0262kKe7AKxVWUtVW8ZwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7x
+	kEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E
+	67AF67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCw
+	CI42IY6xIIjxv20xvEc7CjxVAFwI0_Gr0_Cr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1x
+	MIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr1j6F4UJbIYCT
+	nIWIevJa73UjIFyTuYvjfU52NtDUUUU
+X-CM-SenderInfo: pyxotu46lvutnvoduhdfq/1tbiBwoFA2fzvEUKpgABsL
 
-Replace spaces with TAB to comply with kernel coding style.
+The function efx_devlink_info_board_cfg() calls the function
+devlink_info_serial_number_put(), but does not check its return
+value.
 
-Signed-off-by: Gabriel Shahrouzi <gshahrouzi@gmail.com>
+Return the error code if either the devlink_info_serial_number_put()
+or the efx_mcdi_get_board_cfg() fails.The control flow of the code is
+changed a little bit to simplify the code. The functionality of the
+code remain the same.
+
+Fixes: 14743ddd2495 ("sfc: add devlink info support for ef100")
+Cc: stable@vger.kernel.org # v6.3+
+Signed-off-by: Wentao Liang <vulab@iscas.ac.cn>
 ---
-Changes in v2:
-	- Resend using git send-email to fix formatting issues in email body.
-Changes in v3:
-	- Use media prefix.
-	- Capitalize tab to TAB.
----
- .../media/atomisp/pci/isp/kernels/vf/vf_1.0/ia_css_vf.host.c    | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+v2: Simplify code logic.
 
-diff --git a/drivers/staging/media/atomisp/pci/isp/kernels/vf/vf_1.0/ia_css_vf.host.c b/drivers/staging/media/atomisp/pci/isp/kernels/vf/vf_1.0/ia_css_vf.host.c
-index ece5e3da34ee..127f12ba2214 100644
---- a/drivers/staging/media/atomisp/pci/isp/kernels/vf/vf_1.0/ia_css_vf.host.c
-+++ b/drivers/staging/media/atomisp/pci/isp/kernels/vf/vf_1.0/ia_css_vf.host.c
-@@ -114,7 +114,7 @@ configure_dma(
+ drivers/net/ethernet/sfc/efx_devlink.c | 11 ++++++-----
+ 1 file changed, 6 insertions(+), 5 deletions(-)
+
+diff --git a/drivers/net/ethernet/sfc/efx_devlink.c b/drivers/net/ethernet/sfc/efx_devlink.c
+index 3cd750820fdd..53b17cd252c8 100644
+--- a/drivers/net/ethernet/sfc/efx_devlink.c
++++ b/drivers/net/ethernet/sfc/efx_devlink.c
+@@ -584,11 +584,12 @@ static int efx_devlink_info_board_cfg(struct efx_nic *efx,
+ 	int rc;
+ 
+ 	rc = efx_mcdi_get_board_cfg(efx, (u8 *)mac_address, NULL, NULL);
+-	if (!rc) {
+-		snprintf(sn, EFX_MAX_SERIALNUM_LEN, "%pm", mac_address);
+-		devlink_info_serial_number_put(req, sn);
+-	}
+-	return rc;
++	if (rc)
++		return rc;
++
++	snprintf(sn, EFX_MAX_SERIALNUM_LEN, "%pm", mac_address);
++
++	return devlink_info_serial_number_put(req, sn);
  }
  
- int ia_css_vf_configure(const struct ia_css_binary *binary,
--		        const struct ia_css_frame_info *out_info,
-+			const struct ia_css_frame_info *out_info,
- 			struct ia_css_frame_info *vf_info,
- 			unsigned int *downscale_log2)
- {
+ static int efx_devlink_info_get(struct devlink *devlink,
 -- 
-2.43.0
+2.42.0.windows.2
 
