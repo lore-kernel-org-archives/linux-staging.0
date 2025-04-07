@@ -1,126 +1,111 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5138320E6FB;
-	Mon,  7 Apr 2025 11:23:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F269D22B59F;
+	Mon,  7 Apr 2025 12:01:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744025016; cv=none; b=Q0AStD5lLmffXyVbL5eEJdInGZKpgR21WsDS4NGSzl7+DrP8H9BFRNrnUE+42wVgGWmPMBW6pCDb7qhmtHzQBxq8/5G2lWHexV7TEN/y4CO3Y7AFNJ/VTfkw0I87HWLSXCNtdAkpNLAqsEjyYb0jMxD8OYg2hnpbphggma+ElJw=
+	t=1744027274; cv=none; b=UsjE7V8FyI39NSVIDeQoFfd+dqTjuEq/6gDwgtRm7KGaFGUjE1t2isxLAziPGkBpO57ARuuf9BwurGpB6J1Pb+Q6l6oh9qUMWC1gCfiKQ3CvuLcM3+ake/TTp0gS/E7HszQw+x36E9cl4bSEVNzGmQVl9McDjS4P+CpNfGMfkac=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744025016; c=relaxed/simple;
-	bh=fIZHsJ51DWzGtk520igDciQplBUlURiv01XJ1XOLsHY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=iglArFugw5FXvzILEamt7AcCnLb6Q1aMME1G20W5YWD3yngy6GGnm3IFTJfRz9D/+lAnPtsjDcPUENqvVd89X0gxaR3VDpWy1lkrCkWqBedLOmrrsxlqkMUAa1ehKlLmNZQti4aFK/gi32sY4YlDB4GYzY+q+0lIMjLFN5hSSlQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D1648C4CEDD;
-	Mon,  7 Apr 2025 11:23:33 +0000 (UTC)
-Message-ID: <1a973afd-0ac7-4ba6-8b00-818d1405ebac@xs4all.nl>
-Date: Mon, 7 Apr 2025 13:23:32 +0200
+	s=arc-20240116; t=1744027274; c=relaxed/simple;
+	bh=d7cf6Mb+IqgLAVjuqdewKCGvmzkyLhIH7KKnBt6TuJ8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=IGplrTIRRYBUtBhHD/w5p1SJ7g/YBxqk8q6Wpix6OyFRRs7UlYpaQBfYdsP63Ld0o3PaLl7/b0jMuNFypMJNSNWax3Q+4MEevKon0b0E4BT5qFIoC25zuLOzhivH547UoYXPH92DapQXitYFBSvrwRgZrJHRqU5/W2venXI+xoQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=U/Fzo7D5; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="U/Fzo7D5"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 15EFAC4CEDD;
+	Mon,  7 Apr 2025 12:01:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1744027273;
+	bh=d7cf6Mb+IqgLAVjuqdewKCGvmzkyLhIH7KKnBt6TuJ8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=U/Fzo7D5GhUAzo2FzkNWIwLYec0iV+SPYWTyFuLCIZ4HGvbGCSBdbtzCuadz+TlIH
+	 PnjGgjbYqh4CWwd/EI0ncxUHyPDnkAaYRGh66fwsUhbo+sLPbORdOF4MLzFgt9Gcrb
+	 guEAYhNESdchcqneaUWG9Fe9BLd37y52R8JfqL7E=
+Date: Mon, 7 Apr 2025 13:59:43 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: Wentao Liang <vulab@iscas.ac.cn>, philipp.g.hortmann@gmail.com,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: Re: [PATCH v6] staging: rtl8723bs: Add error handling for sd_read()
+Message-ID: <2025040707-squash-lumpish-6d63@gregkh>
+References: <20250407100318.2193-1-vulab@iscas.ac.cn>
+ <aa78d490-f0c7-4977-ae25-fe15d78b8d13@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4] staging: media: Remove unnecessary braces for single
- statement block
-To: Gabriel Shahrouzi <gshahrouzi@gmail.com>, linux-media@vger.kernel.org
-Cc: linux-staging@lists.linux.dev, slongerbeam@gmail.com,
- p.zabel@pengutronix.de, mchehab@kernel.org, gregkh@linuxfoundation.org,
- skhan@linuxfoundation.org, kernelmentees@lists.linuxfoundation.org
-References: <20250402135851.13627-1-gshahrouzi@gmail.com>
-Content-Language: en-US, nl
-From: Hans Verkuil <hverkuil@xs4all.nl>
-Autocrypt: addr=hverkuil@xs4all.nl; keydata=
- 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
-In-Reply-To: <20250402135851.13627-1-gshahrouzi@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <aa78d490-f0c7-4977-ae25-fe15d78b8d13@stanley.mountain>
 
-On 02/04/2025 15:58, Gabriel Shahrouzi wrote:
-> Remove unnecessary braces in single statement block to comply with kernel
-> coding style.
-
-Please add the driver in the subject line. So:
-
-[PATCH v4] staging: media: imx: Remove unnecessary braces for single statement block
-
-That way it is clear that this is a patch for a specific driver.
-
-Regards,
-
-	Hans
-
+On Mon, Apr 07, 2025 at 01:36:44PM +0300, Dan Carpenter wrote:
+> On Mon, Apr 07, 2025 at 06:03:18PM +0800, Wentao Liang wrote:
+> > The sdio_read32() calls sd_read(), but does not handle the error if
+> > sd_read() fails. This could lead to subsequent operations processing
+> > invalid data. A proper implementation can be found in sdio_readN().
+> > 
+> > Add error handling for the sd_read() to free tmpbuf and return error
+> > code if sd_read() fails. This ensure that the memcpy() is only performed
+> > when the read operation is successful.
+> > 
+> > Fixes: 554c0a3abf21 ("staging: Add rtl8723bs sdio wifi driver")
+> > Cc: stable@vger.kernel.org # v4.12+
+> > Signed-off-by: Wentao Liang <vulab@iscas.ac.cn>
+> > ---
+> > v6: Fix improper code to propagate error code
+> > v5: Fix error code
+> > v4: Add change log and fix error code
+> > v3: Add Cc flag
+> > v2: Change code to initialize val
+> > 
+> >  drivers/staging/rtl8723bs/hal/sdio_ops.c | 7 ++++++-
+> >  1 file changed, 6 insertions(+), 1 deletion(-)
+> > 
+> > diff --git a/drivers/staging/rtl8723bs/hal/sdio_ops.c b/drivers/staging/rtl8723bs/hal/sdio_ops.c
+> > index 21e9f1858745..eb21c7e55949 100644
+> > --- a/drivers/staging/rtl8723bs/hal/sdio_ops.c
+> > +++ b/drivers/staging/rtl8723bs/hal/sdio_ops.c
+> > @@ -185,7 +185,12 @@ static u32 sdio_read32(struct intf_hdl *intfhdl, u32 addr)
+> >  			return SDIO_ERR_VAL32;
+> >  
+> >  		ftaddr &= ~(u16)0x3;
+> > -		sd_read(intfhdl, ftaddr, 8, tmpbuf);
+> > +		err = sd_read(intfhdl, ftaddr, 8, tmpbuf);
+> > +		if (err) {
+> > +			kfree(tmpbuf);
+> > +			return (u32)err;
 > 
-> Signed-off-by: Gabriel Shahrouzi <gshahrouzi@gmail.com>
-> ---
+> Heh.
 > 
-> Changes in v2:
-> 	- Add missing author.
-> 	- Fix title of email.
-> Changes in v3:
->         - Resend using git send-email to fix formatting issues in email body.
-> Changes in v4:
-> 	- Use correct patch version.
-> ---
->  drivers/staging/media/imx/imx-media-of.c | 3 +--
->  1 file changed, 1 insertion(+), 2 deletions(-)
+> So the fundamental problem is that non of the callers check for errors.
 > 
-> diff --git a/drivers/staging/media/imx/imx-media-of.c b/drivers/staging/media/imx/imx-media-of.c
-> index bb28daa4d713..7413551052ae 100644
-> --- a/drivers/staging/media/imx/imx-media-of.c
-> +++ b/drivers/staging/media/imx/imx-media-of.c
-> @@ -57,9 +57,8 @@ int imx_media_add_of_subdevs(struct imx_media_dev *imxmd,
->  		of_node_put(csi_np);
->  		if (ret) {
->  			/* unavailable or already added is not an error */
-> -			if (ret == -ENODEV || ret == -EEXIST) {
-> +			if (ret == -ENODEV || ret == -EEXIST)
->  				continue;
-> -			}
->  
->  			/* other error, can't continue */
->  			return ret;
+> To be honest, I had expected you to just return zero, but I don't like to
+> give out the answers to students.  I hadn't even known that SDIO_ERR_VAL32
+> was an option.  It's still a garbage value but it's kind of a predictable
+> garbage value and, whatever, it seemed fine to me.  It wasn't fine to Greg
+> so, yeah, you have to re-write it.  But now this is again not fine to me
+> (or Greg when he gets around to checking his email).
+> 
+> The bug here is that if you pull out the hardware while doing a read
+> then it returns whatever was in the kmalloc().  In other words it's an
+> information leak.
+> 
+> I think you could make an argument that returnnig zero is a good solution.
+> It fixes the information leak.  It's not a a horrible random value like
+> "(u32)-EINVAL".
+> 
+> The other option would be to go through all the callers and add error
+> handling.  So for this this function you would have to pass a pointer to
+> u32 *val and return zero on success or negative on failure.
 
+The other option is to unwind the "HAL" layer here and just call the
+correct sd card read function like all other drivers of this type do :)
+
+thanks,
+
+greg k-h
