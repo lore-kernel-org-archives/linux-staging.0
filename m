@@ -1,218 +1,197 @@
-Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F03FA18D649
-	for <linux-staging@lists.linux.dev>; Mon,  7 Apr 2025 13:52:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E8C01B87E2
+	for <linux-staging@lists.linux.dev>; Mon,  7 Apr 2025 14:03:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744033957; cv=none; b=hxI3WDEI/mOZVBrD82cy9hLcRDmgvgJDJxFK7n6zhbynk5aJ+xZVgPGeE91MCjXOE2zZztUi+ia6Mu57Zp/xuzs/4xsCYvfsf1h26iYPNFPEOAY+njspcaKC3xGCxjcQsBdcW10meSM3hxFneUCleNJu76LQo5Wh2PSuVbGxWOI=
+	t=1744034620; cv=none; b=pHbOE+c1sWpYTuJPk1laaZ/UAOgFW6UGtRfHOJ0ibTaQRwIx9CpeSvLJ47B1nQ6tUJwEZj+UuRpTgLKdC0dUfB97FYDKzLJHPqPevBuI2O8TLtgxLiL0J1Dg6JpJW8wtXxYFOdrYur1mwmTbfYr1vA45qOdU6glQKmmG+9tuD28=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744033957; c=relaxed/simple;
-	bh=AvmCGkM8u6k1w56iBZRvCudCuwVtYQRZVcLroU7KZWw=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=Br3MaNcjGZjmbHSjton9ewLI9tJYM+CLbSH3A+3cBb5O7afw90zKVITrmSV5wAQ0uoSSFLgOk0DNsL0dUhUiVpCZ+Fol/jYCRdG3Nd2oyBaQ1bHjphCXiGXLk8Of7T6ozEmpR+2v9A6ZSy+xvKPSNipBs5+vlVXSBlbST1MKnhw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=iTvIuzxU; arc=none smtp.client-ip=148.251.105.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	s=arc-20240116; t=1744034620; c=relaxed/simple;
+	bh=AVcNJrpPYIGA36U5G5+x66QY97yrjXIuXHF9RC3zkQU=;
+	h=From:Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:To:
+	 References:In-Reply-To; b=W95cHX7xU2QhE89OqD9icYvDjp4fgmsZO3qVlBpMGP6gD1ObDlXXInyOPcado35vcZ6Skgr44XPZvrQ2gG3oGlV6r1Uu/CXMxfoemmzWGrI2WVI2r7TK7FJPp3VU4E0qCAqKxpWC44B56Bmuc0nod5JkH9ws5KRSuxQ/xh6NTF4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Y++vk0A4; arc=none smtp.client-ip=209.85.221.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="iTvIuzxU"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1744033951;
-	bh=AvmCGkM8u6k1w56iBZRvCudCuwVtYQRZVcLroU7KZWw=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-	b=iTvIuzxUPKAPP0exP2+Vin+Q8GrD/goiJouenHZx4PQ72VOhHaAYcp+7mXoFiVKTE
-	 I40vD9/8CmdI9cRH9IDHjbla0Ru1Yzx/16jWdK47/i+kM1E28cfnllsFAbMKFuOQJU
-	 sJguV5U9zeZ0ptHTJ6Hos9UZOVKZ+6Ag8qYy0a+nPup5O28kd/hMDDUREReFcMVodW
-	 NFXtx90Ma8TR7jqIYvZt0Hx5PwB69YyyZnjSamJ8qB4jfTnZ8UCrNAORIYKYxYsi2S
-	 AJzmeciI0F6RjIdb4z/Rhkwcz0pANIpkM3+vGQmGnpEnfgD7YW7Wl2qTt6+BfaRG5q
-	 h4dwKfhJY9ByA==
-Received: from [IPv6:2606:6d00:11:e976::c41] (unknown [IPv6:2606:6d00:11:e976::c41])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: nicolas)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id 1B2AC17E02BE;
-	Mon,  7 Apr 2025 15:52:28 +0200 (CEST)
-Message-ID: <77bdada5dce991842e377759c8e173ada115694f.camel@collabora.com>
-Subject: Re: [PATCH v7 09/12] media: rkvdec: Add get_image_fmt ops
-From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-To: Hans Verkuil <hverkuil@xs4all.nl>, Sebastian Fricke	
- <sebastian.fricke@collabora.com>, Mauro Carvalho Chehab
- <mchehab@kernel.org>,  Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Boris Brezillon	
- <boris.brezillon@collabora.com>
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev, Mauro
- Carvalho Chehab <mchehab+huawei@kernel.org>, Alex Bee
- <knaerzche@gmail.com>, Benjamin Gaignard	
- <benjamin.gaignard@collabora.com>, Detlev Casanova	
- <detlev.casanova@collabora.com>, Dan Carpenter <dan.carpenter@linaro.org>, 
- Jonas Karlman <jonas@kwiboo.se>, Christopher Obbard
- <christopher.obbard@linaro.org>
-Date: Mon, 07 Apr 2025 09:52:27 -0400
-In-Reply-To: <e6b99109-bd35-46ff-a4e2-eb69b549dcbc@xs4all.nl>
-References: 
-	<20250225-rkvdec_h264_high10_and_422_support-v7-0-7992a68a4910@collabora.com>
-	 <20250225-rkvdec_h264_high10_and_422_support-v7-9-7992a68a4910@collabora.com>
-	 <e6b99109-bd35-46ff-a4e2-eb69b549dcbc@xs4all.nl>
-Organization: Collabora Canada
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.56.0 (3.56.0-1.fc42) 
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Y++vk0A4"
+Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-39c13fa05ebso2524386f8f.0
+        for <linux-staging@lists.linux.dev>; Mon, 07 Apr 2025 07:03:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1744034617; x=1744639417; darn=lists.linux.dev;
+        h=in-reply-to:references:to:subject:cc:message-id:date
+         :content-transfer-encoding:mime-version:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=IIlvgpw9XtwUaSV8K9n4TGTxcXwBT3cWEpS99F1AqXk=;
+        b=Y++vk0A4a3RUEaRZ1EUU+IqLQJdYHOkjhpgqbVyaICRPWH/LfKt8EGkHtzaZoT4sJz
+         9SjKKC5GDeQ5HZ42OX34jTWrls5W3U09EFE1dK0y++p1w03SxC5y3ur40HKTMxjjkmOw
+         uHHukeeqUMDBSoH9XepgEqwsVIKoR5nNIDbu5wb6Vvrkzrd1pFEF7YELb8W+4NiKcYxP
+         lwYjPw0Jsuo8elyFGjms+DST/ShDAMHPQehdhihZNQQ1c9sQbMugKzURBTCZGdOKgG2a
+         6Cw8X0Ry6EZhuMVK1Nb9F39q/mPjItjgAgIqy0SdgYRl5+P9DpukRWfmwzLfJ0MYwKiP
+         lZ4g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1744034617; x=1744639417;
+        h=in-reply-to:references:to:subject:cc:message-id:date
+         :content-transfer-encoding:mime-version:from:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=IIlvgpw9XtwUaSV8K9n4TGTxcXwBT3cWEpS99F1AqXk=;
+        b=mjSCZfGywaVYnyR5gwk/srxu4Qd4iUv5Kq7oonZHy6mMPdEAp7e1bb23oSWX+M7Q/S
+         SzW7Z+3JdZvCHxKyPx/qrgPOBj6a2iFoigjPWomjYMsIG0Vhrb8YylJe7vzIoFTvhzyP
+         x7N4sT5hlpEahqkAI8dW9veCZ92sIl0w5NiYOpeB0jSI//2V53DNE+omaVt29ICsd/V3
+         J5zhtMkFrQ5BRFu616TASjKs6GFapasONs4XLDX6RqaeyAwjxfatXk5DZB6M5HI9jvkU
+         8pQFbMtfE1razuvSsUPW9CDhl1iaAlVgCCbH7lYRaCRVv6I6YspBjP8i+fA1K4uSjd/s
+         u5wg==
+X-Forwarded-Encrypted: i=1; AJvYcCWMAaT3k6TROWpZGWlkwGoAIoqZ5KyLSrGJaSv+46wsIwZJvFqanLMCr8WG2YX6euWDnBtfRAJtUkVBml79@lists.linux.dev
+X-Gm-Message-State: AOJu0YyVDPxnHsKwaHQ66Il0657gsrNjM1Kqgaud0VF/PehfeMxyRVqm
+	kMs2PwPatEIK6ebGNEXlZtkxJnDbdE60klKpz3qhc1dh7L2s1CTm
+X-Gm-Gg: ASbGnctQDXAtmEmlMPfRoKlAwT3XVglG9maQQ80cHjeHu167gXGRXcOJrlBylwX3cZB
+	9CflrUAt/K/mV65TRsXwqZUjQAfDkbeHTCdFbOGA5SrO2CBXguxL9EdTt1QzoffcNRcoT5XsL7G
+	4lubXqbRlX+n+j4FfPEaMsWawmcdXeGMpnAUNcIno8y9xzLanJSf6Di6edIISq1uJnB60UDTcv4
+	p8Pn8OlpGKDjy9z9IputCLQu+cUFKs5jOImRPZKuzD+qa6z9XdhYdbQ0+14DDY/d4RE/zqTcdAA
+	5Q9oErl1X9d2IRviieKV5jjOpoD/Mv40lZyQ7HYh4Of2YOsi/4VLakJTNzhrkM6LmqEZJg==
+X-Google-Smtp-Source: AGHT+IEn+6ojavR6tMMafF+SmH0WwvgludvtbX1hi0lpL0Cl0TXhJ1J3Nf3kTI2WVfqKrE0IPj037Q==
+X-Received: by 2002:a5d:648b:0:b0:39a:d336:16 with SMTP id ffacd0b85a97d-39cb35aa6ffmr10795285f8f.34.1744034615187;
+        Mon, 07 Apr 2025 07:03:35 -0700 (PDT)
+Received: from localhost (a109-49-32-45.cpe.netcabo.pt. [109.49.32.45])
+        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-39c30226b23sm12049412f8f.86.2025.04.07.07.03.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 07 Apr 2025 07:03:34 -0700 (PDT)
+From: Rui Miguel Silva <rmfrfs@gmail.com>
+X-Google-Original-From: "Rui Miguel Silva" <rui.silva@linaro.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Mon, 07 Apr 2025 15:03:33 +0100
+Message-Id: <D90GO8QLAESS.PN6CB62OS6OY@linaro.com>
+Cc: <greybus-dev@lists.linaro.org>, <linux-staging@lists.linux.dev>,
+ <linux-kernel@vger.kernel.org>, <linux-gpio@vger.kernel.org>, "Bartosz
+ Golaszewski" <bartosz.golaszewski@linaro.org>
+Subject: Re: [PATCH] staging: greybus: use new GPIO line value setter
+ callbacks
+To: "Alex Elder" <elder@riscstar.com>, "Bartosz Golaszewski"
+ <brgl@bgdev.pl>, "Rui Miguel Silva" <rmfrfs@gmail.com>, "Johan Hovold"
+ <johan@kernel.org>, "Alex Elder" <elder@kernel.org>, "Greg Kroah-Hartman"
+ <gregkh@linuxfoundation.org>, "Linus Walleij" <linus.walleij@linaro.org>
+References: <20250407-gpiochip-set-rv-greybus-v1-1-9d4f721db7ca@linaro.org>
+ <184ecf87-823a-42ef-9903-a21c787e0c5d@riscstar.com>
+In-Reply-To: <184ecf87-823a-42ef-9903-a21c787e0c5d@riscstar.com>
 
-Le lundi 07 avril 2025 à 13:09 +0200, Hans Verkuil a écrit :
-> On 25/02/2025 10:40, Sebastian Fricke wrote:
-> > From: Jonas Karlman <jonas@kwiboo.se>
-> > 
-> > Add support for a get_image_fmt() ops that returns the required image
-> > format.
-> > 
-> > The CAPTURE format is reset when the required image format changes and
-> > the buffer queue is not busy.
-> > 
-> > Signed-off-by: Jonas Karlman <jonas@kwiboo.se>
-> > Reviewed-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-> > Tested-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-> > Tested-by: Christopher Obbard <chris.obbard@collabora.com>
-> > ---
-> >  drivers/staging/media/rkvdec/rkvdec.c | 49 +++++++++++++++++++++++++++++++++--
-> >  drivers/staging/media/rkvdec/rkvdec.h |  2 ++
-> >  2 files changed, 49 insertions(+), 2 deletions(-)
-> > 
-> > diff --git a/drivers/staging/media/rkvdec/rkvdec.c b/drivers/staging/media/rkvdec/rkvdec.c
-> > index 70154948b4e32e2c439f259b0f1e1bbc8b52b063..5394079509305c619f1d0c1f542bfc409317c3b7 100644
-> > --- a/drivers/staging/media/rkvdec/rkvdec.c
-> > +++ b/drivers/staging/media/rkvdec/rkvdec.c
-> > @@ -111,15 +111,60 @@ static int rkvdec_try_ctrl(struct v4l2_ctrl *ctrl)
-> >  {
-> >  	struct rkvdec_ctx *ctx = container_of(ctrl->handler, struct rkvdec_ctx, ctrl_hdl);
-> >  	const struct rkvdec_coded_fmt_desc *desc = ctx->coded_fmt_desc;
-> > +	struct v4l2_pix_format_mplane *pix_mp = &ctx->decoded_fmt.fmt.pix_mp;
-> > +	enum rkvdec_image_fmt image_fmt;
-> > +	struct vb2_queue *vq;
-> > +	int ret;
-> > +
-> > +	if (desc->ops->try_ctrl) {
-> > +		ret = desc->ops->try_ctrl(ctx, ctrl);
-> > +		if (ret)
-> > +			return ret;
-> > +	}
-> > +
-> > +	if (!desc->ops->get_image_fmt)
-> > +		return 0;
-> >  
-> > -	if (desc->ops->try_ctrl)
-> > -		return desc->ops->try_ctrl(ctx, ctrl);
-> > +	image_fmt = desc->ops->get_image_fmt(ctx, ctrl);
-> > +	if (ctx->image_fmt == image_fmt)
-> > +		return 0;
-> > +
-> > +	if (rkvdec_is_valid_fmt(ctx, pix_mp->pixelformat, image_fmt))
-> > +		return 0;
-> > +
-> > +	/* format change not allowed when queue is busy */
-> > +	vq = v4l2_m2m_get_vq(ctx->fh.m2m_ctx,
-> > +			     V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE);
-> > +	if (vb2_is_busy(vq))
-> > +		return -EINVAL;
-> 
-> This makes no sense to me. This just tries a control, and that should just
-> work, regardless of vb2_is_busy(). It's a 'try', so you are not actually
-> changing anything.
+Hi Bartosz,
+Thanks for the patch.
 
-See comment below, notice that this code is only reached if the control
-introduce parameters that are not compatible with the current capture
-queue fmt. The entire function uses "success" early exit, so the
-further down you get in the function, the less likely your control is
-valid.
+On Mon Apr 7, 2025 at 2:49 PM WEST, Alex Elder wrote:
 
-> 
-> > +
-> > +	return 0;
-> > +}
-> > +
-> > +static int rkvdec_s_ctrl(struct v4l2_ctrl *ctrl)
-> > +{
-> > +	struct rkvdec_ctx *ctx = container_of(ctrl->handler, struct rkvdec_ctx, ctrl_hdl);
-> > +	const struct rkvdec_coded_fmt_desc *desc = ctx->coded_fmt_desc;
-> > +	struct v4l2_pix_format_mplane *pix_mp = &ctx->decoded_fmt.fmt.pix_mp;
-> > +	enum rkvdec_image_fmt image_fmt;
-> > +
-> > +	if (!desc->ops->get_image_fmt)
-> > +		return 0;
-> > +
-> > +	image_fmt = desc->ops->get_image_fmt(ctx, ctrl);
-> > +	if (ctx->image_fmt == image_fmt)
-> > +		return 0;
-> 
-> If you really can't set a control when the queue is busy, then that should
-> be tested here, not in try_ctrl. And then you return -EBUSY.
-> 
-> Am I missing something here?
+> On 4/7/25 2:14 AM, Bartosz Golaszewski wrote:
+>> From: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+>>=20
+>> struct gpio_chip now has callbacks for setting line values that return
+>> an integer, allowing to indicate failures. Convert the driver to using
+>> them.
+>>=20
+>> Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+>
+> Here is the commit that enabled these:
+>    98ce1eb1fd87e gpiolib: introduce gpio_chip setters that return values
+>
+> This looks good.  Thank you.
+>
+> Reviewed-by: Alex Elder <elder@riscstar.com>
 
-When I reviewed, I had imagine that s_ctrl on a request would just run
-a try. Now that I read that more careful, I see that it does a true set
-on separate copy. So yes, this can safely be moved here.
+Agree with Alex.
+LGTM.
 
-Since you seem wondering "If you really can't set a control", let me
-explain what Jonas wants to protect against. RKVdec does not have any
-color conversion code, the header compound control (which header
-depends on the codec), contains details such as sub-sampling and color
-depth. Without color conversion, when the image format is locked (the
-busy queue), you can't request the HW to decode a frame witch does not
-fit. This could otherwise lead to buffer overflow in the HW,
-fortunately protected by the iommu, but you don't really want to depend
-on the mmu.
+Reviewed-by: Rui Miguel Silva <rui.silva@linaro.org>
 
-I've never used try_ctrl in my decade of v4l2, so obviously, now that I
-know that s_ctrl on request is not a try, I'm fine with rejecting this
-PR, sending a new version and making a PR again. But if I was to use
-this API in userspace, my intuitive expectation would be that this
-should fail try(), even if its very rarely valid to check the queue
-state in try control.
+Cheers,
+   Rui
+>
+>> ---
+>>   drivers/staging/greybus/gpio.c | 16 +++++++++-------
+>>   1 file changed, 9 insertions(+), 7 deletions(-)
+>>=20
+>> diff --git a/drivers/staging/greybus/gpio.c b/drivers/staging/greybus/gp=
+io.c
+>> index 16bcf7fc8158..f81c34160f72 100644
+>> --- a/drivers/staging/greybus/gpio.c
+>> +++ b/drivers/staging/greybus/gpio.c
+>> @@ -185,8 +185,8 @@ static int gb_gpio_get_value_operation(struct gb_gpi=
+o_controller *ggc,
+>>   	return 0;
+>>   }
+>>  =20
+>> -static void gb_gpio_set_value_operation(struct gb_gpio_controller *ggc,
+>> -					u8 which, bool value_high)
+>> +static int gb_gpio_set_value_operation(struct gb_gpio_controller *ggc,
+>> +				       u8 which, bool value_high)
+>>   {
+>>   	struct device *dev =3D &ggc->gbphy_dev->dev;
+>>   	struct gb_gpio_set_value_request request;
+>> @@ -195,7 +195,7 @@ static void gb_gpio_set_value_operation(struct gb_gp=
+io_controller *ggc,
+>>   	if (ggc->lines[which].direction =3D=3D 1) {
+>>   		dev_warn(dev, "refusing to set value of input gpio %u\n",
+>>   			 which);
+>> -		return;
+>> +		return -EPERM;
+>>   	}
+>>  =20
+>>   	request.which =3D which;
+>> @@ -204,10 +204,12 @@ static void gb_gpio_set_value_operation(struct gb_=
+gpio_controller *ggc,
+>>   				&request, sizeof(request), NULL, 0);
+>>   	if (ret) {
+>>   		dev_err(dev, "failed to set value of gpio %u\n", which);
+>> -		return;
+>> +		return ret;
+>>   	}
+>>  =20
+>>   	ggc->lines[which].value =3D request.value;
+>> +
+>> +	return 0;
+>>   }
+>>  =20
+>>   static int gb_gpio_set_debounce_operation(struct gb_gpio_controller *g=
+gc,
+>> @@ -457,11 +459,11 @@ static int gb_gpio_get(struct gpio_chip *chip, uns=
+igned int offset)
+>>   	return ggc->lines[which].value;
+>>   }
+>>  =20
+>> -static void gb_gpio_set(struct gpio_chip *chip, unsigned int offset, in=
+t value)
+>> +static int gb_gpio_set(struct gpio_chip *chip, unsigned int offset, int=
+ value)
+>>   {
+>>   	struct gb_gpio_controller *ggc =3D gpiochip_get_data(chip);
+>>  =20
+>> -	gb_gpio_set_value_operation(ggc, (u8)offset, !!value);
+>> +	return gb_gpio_set_value_operation(ggc, (u8)offset, !!value);
+>>   }
+>>  =20
+>>   static int gb_gpio_set_config(struct gpio_chip *chip, unsigned int off=
+set,
+>> @@ -555,7 +557,7 @@ static int gb_gpio_probe(struct gbphy_device *gbphy_=
+dev,
+>>   	gpio->direction_input =3D gb_gpio_direction_input;
+>>   	gpio->direction_output =3D gb_gpio_direction_output;
+>>   	gpio->get =3D gb_gpio_get;
+>> -	gpio->set =3D gb_gpio_set;
+>> +	gpio->set_rv =3D gb_gpio_set;
+>>   	gpio->set_config =3D gb_gpio_set_config;
+>>   	gpio->base =3D -1;		/* Allocate base dynamically */
+>>   	gpio->ngpio =3D ggc->line_max + 1;
+>>=20
+>> ---
+>> base-commit: 0af2f6be1b4281385b618cb86ad946eded089ac8
+>> change-id: 20250331-gpiochip-set-rv-greybus-cd2365755186
+>>=20
+>> Best regards,
 
-Nicolas
 
-> 
-> Regards,
-> 
-> 	Hans
-> 
-> > +
-> > +	ctx->image_fmt = image_fmt;
-> > +	if (!rkvdec_is_valid_fmt(ctx, pix_mp->pixelformat, ctx->image_fmt))
-> > +		rkvdec_reset_decoded_fmt(ctx);
-> >  
-> >  	return 0;
-> >  }
-> >  
-> >  static const struct v4l2_ctrl_ops rkvdec_ctrl_ops = {
-> >  	.try_ctrl = rkvdec_try_ctrl,
-> > +	.s_ctrl = rkvdec_s_ctrl,
-> >  };
-> >  
-> >  static const struct rkvdec_ctrl_desc rkvdec_h264_ctrl_descs[] = {
-> > diff --git a/drivers/staging/media/rkvdec/rkvdec.h b/drivers/staging/media/rkvdec/rkvdec.h
-> > index 6f8cf50c5d99aad2f52e321f54f3ca17166ddf98..e466a2753ccfc13738e0a672bc578e521af2c3f2 100644
-> > --- a/drivers/staging/media/rkvdec/rkvdec.h
-> > +++ b/drivers/staging/media/rkvdec/rkvdec.h
-> > @@ -73,6 +73,8 @@ struct rkvdec_coded_fmt_ops {
-> >  		     struct vb2_v4l2_buffer *dst_buf,
-> >  		     enum vb2_buffer_state result);
-> >  	int (*try_ctrl)(struct rkvdec_ctx *ctx, struct v4l2_ctrl *ctrl);
-> > +	enum rkvdec_image_fmt (*get_image_fmt)(struct rkvdec_ctx *ctx,
-> > +					       struct v4l2_ctrl *ctrl);
-> >  };
-> >  
-> >  enum rkvdec_image_fmt {
-> > 
 
--- 
-Nicolas Dufresne
-Principal Engineer at Collabora
