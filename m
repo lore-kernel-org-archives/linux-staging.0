@@ -1,35 +1,69 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD0E7218EB8;
-	Mon,  7 Apr 2025 10:11:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA46C22DF8F
+	for <linux-staging@lists.linux.dev>; Mon,  7 Apr 2025 10:36:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744020702; cv=none; b=dixMttWhiYR3FonD83lgFzHX2+EmzikPltb0bE053EZF8wznT95XnyuFSIGpbk/UL7J6De9QPLUVIk6+w51yquZKugYaVp4oGtbkVCGdqeACK0YMZZJsLkoAXkn2Hxz/fumhOCuoa0Mi1+o57wu47DouZhM4k0j9COQdfdDwwDI=
+	t=1744022211; cv=none; b=qRMopV9a+4PMD3xx5DmWxglgIKkXKrkyFk3X/voYp01UzD6j2BnhTt8J+2GzfQABSBssr3QZkOvppgbLUHekEu2rN3NLtqQXRnC88L+/aB3gVmBTdkJDFv6C9UKCPLQyY4s6qSEFxLujF7NBCDxYxNk3R+gCuCvPlrmLJNDFOl4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744020702; c=relaxed/simple;
-	bh=8DRO14GMx6fMiKN8siwjcG5962IsUDzR4/99pLBUHJo=;
+	s=arc-20240116; t=1744022211; c=relaxed/simple;
+	bh=ni6IR3VVH+J5lTXTfn9v5vOAIqgN8I9n39A//E0LZlI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=P6WRPdzTsOJYM2tafDuelSZuFU88NoL2sxka1RlrAFaQo5VwBXTSAZWViRUL9su63w550j3I368ZpTGOla6oyz3hz65/TdJCez1UwtCq4rSP+FYLn5tRLu8kDUp/8dFHIr48Vr5F3aUMMi86pt0/zftVNFw2L+MfKR3+IG9Zzrw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=J8JxFRDU; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=qp2IifiiuL3giTxy/HCyNuHRG5vPWBbm3qNFnd4VywQczQ01VPyimJm6aVjXPqp4mrbM/u8g8wl95tlvh04wqfcAhH2IHTWn9b5HXvLZeY8A7x2zJp2yo86tB6/gyQQgDb6NlzyzSD3MjrHMhldR8y73WpW3Qz9kS1xMft3gDB0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=OFpzyNiy; arc=none smtp.client-ip=209.85.128.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="J8JxFRDU"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B0459C4CEDD;
-	Mon,  7 Apr 2025 10:11:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1744020701;
-	bh=8DRO14GMx6fMiKN8siwjcG5962IsUDzR4/99pLBUHJo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=J8JxFRDU3b/nEMNMA0Kfv4wih0wm99QvixiL+PgpbLwcfCeDBBQkc30dtPwDq7Lj/
-	 UkVErkk+RjS2rHiO2yeqUZcQjn4nzbUPqzfZ88jUFeVXh348SEJTiwFaC3r20MyeaW
-	 /7A4lBuRZk5Lw5kgY1BAe9Fh0wYjdyaM/9+oTM8U=
-Date: Mon, 7 Apr 2025 12:10:11 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="OFpzyNiy"
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-43cf58eea0fso21314535e9.0
+        for <linux-staging@lists.linux.dev>; Mon, 07 Apr 2025 03:36:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1744022208; x=1744627008; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=lkz8o4FnYCwXIT3qeUpQo7ZAELQRWkaKo9c52y7S9Ec=;
+        b=OFpzyNiyrlKwq87DdTBZYXlTQKgmTt1p4f7+x54ENZ+RdHUs0WiECY2X/A1UUIQnqU
+         1EIH+Szq3w4BDWifH9HwzXfc9VrM0WNHahk+MjVTS+WwjWvlI125T++lwOLpeWEu9wjo
+         dW2mwqgSzEjZGSLOTxVPWTroEAZhjeQ9sRE4qdmz4kAQ2sWBb9+utyrflEIhqmJS043q
+         OXnYo0guUmAROltL+E8pwrsGrR6QMQEK4YfutkFq88WN0VRzTsNSYvL50V93zl6NRClU
+         UK9ulNnZ1vrUtZIruWcjpTqCaI4G6+EpOiLacdZcp7mSIAYZTPEjyObr3cmpvia9gZ0y
+         Kluw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1744022208; x=1744627008;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=lkz8o4FnYCwXIT3qeUpQo7ZAELQRWkaKo9c52y7S9Ec=;
+        b=IE+UO0tswbzBuzLwmuTI6/Xswf1vJY5tcY42ypFgZqG0Cwt73Jq5EBXUQW+SfVPQiM
+         BlIweeOJcu6m8+gtiFaF9kLYEDFswrgeBxxSkLQ4iN5NFNB7o+pvfoAVZU6fwjTUCzA+
+         290zKWsKbs/cFZZoE1/feWhW96fyIAVA/S39+uGHwNNVpeEJHb/80ZcOHfJYTDkVkW/5
+         xfYw7JVJ4RmEnVsd/cdPEQHFx+pY75sHTVv5hrYmUJkycJoeIRlXHdJDSEBbuFl2tJwp
+         oNW+mwIXJmH8guLYdPp7cTaCOVgXV4d2P3MqoHGptJveo/UpAleTRbalNJipXmnFj54g
+         SYOg==
+X-Forwarded-Encrypted: i=1; AJvYcCXRxHUc39zF5X9yyBh1zAexGvbmgfgbjyoIQOz9DJvX2Sjf7783UWs6RN8k7CL3pD7owpd4vbVNQUY7eHhQ@lists.linux.dev
+X-Gm-Message-State: AOJu0YxZqHNnXqN1oyhJmnbca74tWHIZNWxiLRv8zp1akQICFUxOmn4p
+	aW6c4fggaxd9NSwLJsSJ8WI+88zKqrSFKP3rBK3y9oz/dNmf7ZHeIpAevRoNOeM=
+X-Gm-Gg: ASbGncuu52VcTfmk0jPZ77FyVPNMdcST8jXfEnRFSIDFMfjltn8fb431+xYWayhjQ7R
+	1865SoAHspyTnTZiehmJL+bImmNYRND9RY6dEDRxImP3JQoly2aKctx6t5CSWrEbwWUNg80A+hK
+	9vRbe1FLxMN0t+9B0frTYNOESLBl5el8mYKLmU9f/w1kV8IoHJ3HPDGwGgQID7VkAnyCgDq1RKX
+	Sk5Ox9I1PtLtsnTNNPu+X8X7Q9IKthqJFer/fRQRQIkVh3pAzUCa4VKPzJw433G9eJrbr37RwaY
+	lyuwo2kxQcYS0Jhc8pl0IQsYD9OSiJ3UmkA+S2KWsmUCUXg2tg==
+X-Google-Smtp-Source: AGHT+IEv8vqFS+kX0wYl+5l7B87oaGb6hLyIPnEnPHyMqegjosqervYGAJsmFyxB7uC4vui/H11Bhw==
+X-Received: by 2002:a05:600c:1c02:b0:43c:e6d1:efe7 with SMTP id 5b1f17b1804b1-43ecf9c3318mr94184225e9.26.1744022208214;
+        Mon, 07 Apr 2025 03:36:48 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-39c30226a07sm11432592f8f.84.2025.04.07.03.36.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 07 Apr 2025 03:36:47 -0700 (PDT)
+Date: Mon, 7 Apr 2025 13:36:44 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
 To: Wentao Liang <vulab@iscas.ac.cn>
-Cc: philipp.g.hortmann@gmail.com, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Cc: gregkh@linuxfoundation.org, philipp.g.hortmann@gmail.com,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
 Subject: Re: [PATCH v6] staging: rtl8723bs: Add error handling for sd_read()
-Message-ID: <2025040718-twine-unmindful-a1ea@gregkh>
+Message-ID: <aa78d490-f0c7-4977-ae25-fe15d78b8d13@stanley.mountain>
 References: <20250407100318.2193-1-vulab@iscas.ac.cn>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -77,15 +111,30 @@ On Mon, Apr 07, 2025 at 06:03:18PM +0800, Wentao Liang wrote:
 > +			kfree(tmpbuf);
 > +			return (u32)err;
 
-You just casted a negative number to a positive type?
+Heh.
 
-Step back and think exactly of what you should be doing here.  Walk the
-callchain properly and think about how this all needed to be fixed up
-properly, and then take some time to do that work and test it and submit
-it properly.
+So the fundamental problem is that non of the callers check for errors.
 
-Take your time, there's no rush here.
+To be honest, I had expected you to just return zero, but I don't like to
+give out the answers to students.  I hadn't even known that SDIO_ERR_VAL32
+was an option.  It's still a garbage value but it's kind of a predictable
+garbage value and, whatever, it seemed fine to me.  It wasn't fine to Greg
+so, yeah, you have to re-write it.  But now this is again not fine to me
+(or Greg when he gets around to checking his email).
 
-thanks,
+The bug here is that if you pull out the hardware while doing a read
+then it returns whatever was in the kmalloc().  In other words it's an
+information leak.
 
-greg k-h
+I think you could make an argument that returnnig zero is a good solution.
+It fixes the information leak.  It's not a a horrible random value like
+"(u32)-EINVAL".
+
+The other option would be to go through all the callers and add error
+handling.  So for this this function you would have to pass a pointer to
+u32 *val and return zero on success or negative on failure.
+
+regards,
+dan carpenter
+
+
