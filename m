@@ -1,111 +1,133 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F269D22B59F;
-	Mon,  7 Apr 2025 12:01:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FEE814A4C6;
+	Mon,  7 Apr 2025 12:21:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744027274; cv=none; b=UsjE7V8FyI39NSVIDeQoFfd+dqTjuEq/6gDwgtRm7KGaFGUjE1t2isxLAziPGkBpO57ARuuf9BwurGpB6J1Pb+Q6l6oh9qUMWC1gCfiKQ3CvuLcM3+ake/TTp0gS/E7HszQw+x36E9cl4bSEVNzGmQVl9McDjS4P+CpNfGMfkac=
+	t=1744028484; cv=none; b=hU+cIxQAKMyPHSVxTySbSaHqLwSc818EIVJ4pyYGvixPYr5E0w7DSNcmLWWtRMHfLs3TfEAH0Ci55y1jlFBYmdyjzkgjCWwL/kGoiTha5ffWLFc1YYSQxBgyFD4UIwHDwOMZt6f7foZ1sGx10u4z685Pr+4SdwoDUm5rPWZBBI4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744027274; c=relaxed/simple;
-	bh=d7cf6Mb+IqgLAVjuqdewKCGvmzkyLhIH7KKnBt6TuJ8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=IGplrTIRRYBUtBhHD/w5p1SJ7g/YBxqk8q6Wpix6OyFRRs7UlYpaQBfYdsP63Ld0o3PaLl7/b0jMuNFypMJNSNWax3Q+4MEevKon0b0E4BT5qFIoC25zuLOzhivH547UoYXPH92DapQXitYFBSvrwRgZrJHRqU5/W2venXI+xoQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=U/Fzo7D5; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1744028484; c=relaxed/simple;
+	bh=dXDqJcnrYdDQC2YiFBN/WStaW5lex6NUThZVJBzqIns=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=CiKim9o3rTZZyLHDhHGfXkiAzKwPgwlSrcmo9wZPDdlSuxa6rHffAFmoGyQeIHLcou7C1D1Xd5PMhrmyDYLloQWoK/gkrU1e6CqNqhhl6b1YCLyx/5as0vYyoh4cqA4Kkwb02Vs5l551ytvOwaTLq7zYLQX7AHerXXFHg4EI3ko=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QUS3sgv+; arc=none smtp.client-ip=209.85.128.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="U/Fzo7D5"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 15EFAC4CEDD;
-	Mon,  7 Apr 2025 12:01:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1744027273;
-	bh=d7cf6Mb+IqgLAVjuqdewKCGvmzkyLhIH7KKnBt6TuJ8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=U/Fzo7D5GhUAzo2FzkNWIwLYec0iV+SPYWTyFuLCIZ4HGvbGCSBdbtzCuadz+TlIH
-	 PnjGgjbYqh4CWwd/EI0ncxUHyPDnkAaYRGh66fwsUhbo+sLPbORdOF4MLzFgt9Gcrb
-	 guEAYhNESdchcqneaUWG9Fe9BLd37y52R8JfqL7E=
-Date: Mon, 7 Apr 2025 13:59:43 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: Wentao Liang <vulab@iscas.ac.cn>, philipp.g.hortmann@gmail.com,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: Re: [PATCH v6] staging: rtl8723bs: Add error handling for sd_read()
-Message-ID: <2025040707-squash-lumpish-6d63@gregkh>
-References: <20250407100318.2193-1-vulab@iscas.ac.cn>
- <aa78d490-f0c7-4977-ae25-fe15d78b8d13@stanley.mountain>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QUS3sgv+"
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-43ce71582e9so28350635e9.1;
+        Mon, 07 Apr 2025 05:21:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1744028481; x=1744633281; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=mk7RPcv+2R4YAv/tAF8Qdd1Qu0WpDKQeLpxo+ejMbqY=;
+        b=QUS3sgv+s12XjoNOgLzC/HTDO2rNHQQYnQKlPVqmllPq5pmw556q4G8CcKaetXDR50
+         3tBFdY0xfx4ASPEYmVGkVUHlsocUl4wpHKTITpG781g4czVZbRZOuWXypWoAVcWLDzs/
+         wa4AJ38NuA58ZMPKWxk+FrnvsEJq10mgwv68xDbHgdWeMK9oLqK+SbXeP9eByEqxM6kj
+         Kcqv86eLP+5nAzGhFDXoBiTgCpdknROMOOQE1maVNiCfAXNPgWSiWXzOSmtlfVwTKmiL
+         C1sizu/JqtRmppY6FnIll42jXCJCn/qQ2PHpFEpj8AKWphOFUbehzVHvZfrPTKkFjnC8
+         ZU7g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1744028481; x=1744633281;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=mk7RPcv+2R4YAv/tAF8Qdd1Qu0WpDKQeLpxo+ejMbqY=;
+        b=jMRLRUg+LQyFkU71VR2al90FSag0o7+28NaJT1zIUt32ROOjMjCJuzv3ww9mFppJSz
+         wPLb8Nhj2mSo/N0XlejKNFkI5LZz0QKel3aDVg0KVhI4MwQLPM+D5ZoUWHthA8hs2QI1
+         DRxWKxg/Z9S4t0hpbAtPkDz5rYsqhDBAyczaKILuaQIAJdpbrbQQLtFiyk9IaA6WbkaQ
+         28p0bQqjDqfTr98O+UnxGR122rUIjQo5lRLhKON0KuDdeKlxKUcrrQK8po1ZCN5n3wjH
+         bpM9H23G0QijsE6ZQ+ssKY73XQNZD5NuYZVouFdS3Y7Vyj8DCDydqJ317xrEqvyi0kQA
+         0Aww==
+X-Forwarded-Encrypted: i=1; AJvYcCVvOjz/rZzqdJZOkGWWcXw0+WmLEt0pKjIWBMseScMadboxTe8g+yJJ/g17Uh91KZ89Zy3EvvHpMnmr@lists.linux.dev, AJvYcCWUUY1AC2CpGFlKyFFX1M38wvaXakardyLQbHGpYwnHPBpcgJPQ+o4GD8BpqeFrLsgTlwgYM4epEi69q4/l@lists.linux.dev
+X-Gm-Message-State: AOJu0Yx5xPV6uD8FkdmpQCjZzswGWwI4yGCUcph8cvOEaSnEVlPq0/oQ
+	WH8b02uaBM/adUVhEBW8+NC/KHYMjuGGhhQjilKnyORP7FIYN4eJ
+X-Gm-Gg: ASbGnctVoo8fNdXWRBr1A69pvZe52+xn4c/vPYY/UA1KxpQPWZPs9qGVvBjeeidbV2U
+	uHYooCPIWD/wtedecf9ePS9qn/UqhfGeoPkJs44j7IBc0MjPkBOyu5qz6zB+CWpM5wJmPja5yEt
+	kRziCeNFQEXUSaokMwNXGhU766BXgbJotMaSJZyt4b0EFejAGIvlN5uuqoyKqDFKGDET98I6aCy
+	Yd+FZtlNKWQ5S1OBw9IsAn/abPWX24x1Zp/Bct4j54RBlm3UVCjUQsQnJAb4AQP/dYHWdSnqx1e
+	rwI7DM/3huE8x9F56eNq7JeZ9rPR5MbA2IaUmiBMeC9ICUZtq+aodcEozTiyn2uIakDnO7j3rIN
+	Hioanyrs=
+X-Google-Smtp-Source: AGHT+IHYLR1EDZrWvod38pShwJcb9XIwrEvM/Ff6ZkWw6dYwPM+i0rz878gr+CGs8FOEgXf2AGrR7Q==
+X-Received: by 2002:a05:6000:420f:b0:39c:30fb:fd97 with SMTP id ffacd0b85a97d-39d07ad8accmr9499023f8f.1.1744028480684;
+        Mon, 07 Apr 2025 05:21:20 -0700 (PDT)
+Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-39c3020d943sm12034152f8f.74.2025.04.07.05.21.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 07 Apr 2025 05:21:20 -0700 (PDT)
+Date: Mon, 7 Apr 2025 13:21:15 +0100
+From: David Laight <david.laight.linux@gmail.com>
+To: Greg KH <gregkh@linuxfoundation.org>
+Cc: Abraham Samuel Adekunle <abrahamadekunle50@gmail.com>,
+ julia.lawall@inria.fr, outreachy@lists.linux.dev,
+ linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+ dan.carpenter@linaro.org, andy@kernel.org
+Subject: Re: [PATCH v4] staging: rtl8723bs: Use % 4096u instead of & 0xfff
+Message-ID: <20250407132115.11ded3d9@pumpkin>
+In-Reply-To: <2025040752-unrefined-labored-8c8c@gregkh>
+References: <Z/NxGilPLPy7KSQ3@ubuntu>
+	<2025040757-clergyman-finalist-0c63@gregkh>
+	<2025040752-unrefined-labored-8c8c@gregkh>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <aa78d490-f0c7-4977-ae25-fe15d78b8d13@stanley.mountain>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Mon, Apr 07, 2025 at 01:36:44PM +0300, Dan Carpenter wrote:
-> On Mon, Apr 07, 2025 at 06:03:18PM +0800, Wentao Liang wrote:
-> > The sdio_read32() calls sd_read(), but does not handle the error if
-> > sd_read() fails. This could lead to subsequent operations processing
-> > invalid data. A proper implementation can be found in sdio_readN().
-> > 
-> > Add error handling for the sd_read() to free tmpbuf and return error
-> > code if sd_read() fails. This ensure that the memcpy() is only performed
-> > when the read operation is successful.
-> > 
-> > Fixes: 554c0a3abf21 ("staging: Add rtl8723bs sdio wifi driver")
-> > Cc: stable@vger.kernel.org # v4.12+
-> > Signed-off-by: Wentao Liang <vulab@iscas.ac.cn>
-> > ---
-> > v6: Fix improper code to propagate error code
-> > v5: Fix error code
-> > v4: Add change log and fix error code
-> > v3: Add Cc flag
-> > v2: Change code to initialize val
-> > 
-> >  drivers/staging/rtl8723bs/hal/sdio_ops.c | 7 ++++++-
-> >  1 file changed, 6 insertions(+), 1 deletion(-)
-> > 
-> > diff --git a/drivers/staging/rtl8723bs/hal/sdio_ops.c b/drivers/staging/rtl8723bs/hal/sdio_ops.c
-> > index 21e9f1858745..eb21c7e55949 100644
-> > --- a/drivers/staging/rtl8723bs/hal/sdio_ops.c
-> > +++ b/drivers/staging/rtl8723bs/hal/sdio_ops.c
-> > @@ -185,7 +185,12 @@ static u32 sdio_read32(struct intf_hdl *intfhdl, u32 addr)
-> >  			return SDIO_ERR_VAL32;
-> >  
-> >  		ftaddr &= ~(u16)0x3;
-> > -		sd_read(intfhdl, ftaddr, 8, tmpbuf);
-> > +		err = sd_read(intfhdl, ftaddr, 8, tmpbuf);
-> > +		if (err) {
-> > +			kfree(tmpbuf);
-> > +			return (u32)err;
-> 
-> Heh.
-> 
-> So the fundamental problem is that non of the callers check for errors.
-> 
-> To be honest, I had expected you to just return zero, but I don't like to
-> give out the answers to students.  I hadn't even known that SDIO_ERR_VAL32
-> was an option.  It's still a garbage value but it's kind of a predictable
-> garbage value and, whatever, it seemed fine to me.  It wasn't fine to Greg
-> so, yeah, you have to re-write it.  But now this is again not fine to me
-> (or Greg when he gets around to checking his email).
-> 
-> The bug here is that if you pull out the hardware while doing a read
-> then it returns whatever was in the kmalloc().  In other words it's an
-> information leak.
-> 
-> I think you could make an argument that returnnig zero is a good solution.
-> It fixes the information leak.  It's not a a horrible random value like
-> "(u32)-EINVAL".
-> 
-> The other option would be to go through all the callers and add error
-> handling.  So for this this function you would have to pass a pointer to
-> u32 *val and return zero on success or negative on failure.
+On Mon, 7 Apr 2025 08:53:30 +0200
+Greg KH <gregkh@linuxfoundation.org> wrote:
 
-The other option is to unwind the "HAL" layer here and just call the
-correct sd card read function like all other drivers of this type do :)
+> On Mon, Apr 07, 2025 at 08:36:35AM +0200, Greg KH wrote:
+> > On Mon, Apr 07, 2025 at 06:30:50AM +0000, Abraham Samuel Adekunle wrote:  
+> > > The sequence number is constrained to a range of [0, 4095], which
+> > > is a total of 4096 values. The bitmask operation using `0xfff` is
+> > > used to perform this wrap-around. While this is functionally correct,
+> > > it obscures the intended semantic of a 4096-based wrap.
+> > > 
+> > > Using a modulo operation with `4096u` makes the wrap-around logic  
+> > 
+> > <snip>
+> >   
+> > > -				psta->sta_xmitpriv.txseq_tid[pattrib->priority] &= 0xFFF;
+> > > +				psta->sta_xmitpriv.txseq_tid[pattrib->priority] &= 4096u;  
+> > 
+> > I do not see a modulo operation here, only another & operation.
+> >   
+> > >  				pattrib->seqnum = psta->sta_xmitpriv.txseq_tid[pattrib->priority];
+> > >  
+> > >  				SetSeqNum(hdr, pattrib->seqnum);
+> > > @@ -963,11 +963,11 @@ s32 rtw_make_wlanhdr(struct adapter *padapter, u8 *hdr, struct pkt_attrib *pattr
+> > >  					if (SN_LESS(pattrib->seqnum, tx_seq)) {
+> > >  						pattrib->ampdu_en = false;/* AGG BK */
+> > >  					} else if (SN_EQUAL(pattrib->seqnum, tx_seq)) {
+> > > -						psta->BA_starting_seqctrl[pattrib->priority & 0x0f] = (tx_seq+1)&0xfff;
+> > > +						psta->BA_starting_seqctrl[pattrib->priority & 0x0f] = (tx_seq+1)&4096u;  
+> > 
+> > This also looks odd, nothing is being "AND" here, it's an address value
+> > being set (and an odd one at that, but that's another issue...)  
+> 
+> Sorry, no, I was wrong, it is being & here, but not %.  My fault,
+> the lack of spaces here threw me.
 
-thanks,
+It is still wrong '& 0xfff' => '% 4096u'.
+But it is all rather pointless especially if you can't test it.
 
-greg k-h
+Plausibly more useful would be to find ALL of the uses of 0xfff/4096 (I suspect
+there is an array lurking somewhere) and change them to use the same constant.
+But you need to be able to test the changes - or at least discover that
+they make absolutely no difference to the generated object code.
+
+	David
+
+> 
+> thanks,
+> 
+> greg k-h
+
