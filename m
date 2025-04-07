@@ -1,21 +1,21 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E054517A2F2;
-	Mon,  7 Apr 2025 11:09:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5138320E6FB;
+	Mon,  7 Apr 2025 11:23:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744024153; cv=none; b=FrvdD+2ozBxP3dqgCN2bgzjSUukH8JoYiNcVVbbTyx3Oxv6JzXcbZHsIMxa7kiAcrm9+I+nGC9ydsz04005STWw1zy+1So/RU5E2faHScY6OSamFSN1NqOL2XJo6BpJO9PvivJzU7s8IzIP55jo/r/3xpoV6izVfmE3+pjAgzjI=
+	t=1744025016; cv=none; b=Q0AStD5lLmffXyVbL5eEJdInGZKpgR21WsDS4NGSzl7+DrP8H9BFRNrnUE+42wVgGWmPMBW6pCDb7qhmtHzQBxq8/5G2lWHexV7TEN/y4CO3Y7AFNJ/VTfkw0I87HWLSXCNtdAkpNLAqsEjyYb0jMxD8OYg2hnpbphggma+ElJw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744024153; c=relaxed/simple;
-	bh=U4RlLwhEhicMrCVjeU/+RZJ4p7sSxEhU0FP9lBlGubI=;
+	s=arc-20240116; t=1744025016; c=relaxed/simple;
+	bh=fIZHsJ51DWzGtk520igDciQplBUlURiv01XJ1XOLsHY=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=P96QtHysqd3tiFU1pnML+/mpiSKed9dDZazc35gN0FRZaz9LxmupJR5abEXB4eJO7DvvAF2Grm7Eq9uRBhLYYKrav+rf013TK0xE5JWK6gDkNuHWE0jaIdP6g5I3kdgYuQdmUoodufBiHmVrRBEqZEkSe8/7wyou2+PCpUGEpX8=
+	 In-Reply-To:Content-Type; b=iglArFugw5FXvzILEamt7AcCnLb6Q1aMME1G20W5YWD3yngy6GGnm3IFTJfRz9D/+lAnPtsjDcPUENqvVd89X0gxaR3VDpWy1lkrCkWqBedLOmrrsxlqkMUAa1ehKlLmNZQti4aFK/gi32sY4YlDB4GYzY+q+0lIMjLFN5hSSlQ=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EFEA1C4CEDD;
-	Mon,  7 Apr 2025 11:09:08 +0000 (UTC)
-Message-ID: <e6b99109-bd35-46ff-a4e2-eb69b549dcbc@xs4all.nl>
-Date: Mon, 7 Apr 2025 13:09:07 +0200
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D1648C4CEDD;
+	Mon,  7 Apr 2025 11:23:33 +0000 (UTC)
+Message-ID: <1a973afd-0ac7-4ba6-8b00-818d1405ebac@xs4all.nl>
+Date: Mon, 7 Apr 2025 13:23:32 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -23,23 +23,13 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 09/12] media: rkvdec: Add get_image_fmt ops
-To: Sebastian Fricke <sebastian.fricke@collabora.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Boris Brezillon <boris.brezillon@collabora.com>
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
- Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
- Alex Bee <knaerzche@gmail.com>,
- Nicolas Dufresne <nicolas.dufresne@collabora.com>,
- Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- Detlev Casanova <detlev.casanova@collabora.com>,
- Dan Carpenter <dan.carpenter@linaro.org>, Jonas Karlman <jonas@kwiboo.se>,
- Christopher Obbard <christopher.obbard@linaro.org>
-References: <20250225-rkvdec_h264_high10_and_422_support-v7-0-7992a68a4910@collabora.com>
- <20250225-rkvdec_h264_high10_and_422_support-v7-9-7992a68a4910@collabora.com>
+Subject: Re: [PATCH v4] staging: media: Remove unnecessary braces for single
+ statement block
+To: Gabriel Shahrouzi <gshahrouzi@gmail.com>, linux-media@vger.kernel.org
+Cc: linux-staging@lists.linux.dev, slongerbeam@gmail.com,
+ p.zabel@pengutronix.de, mchehab@kernel.org, gregkh@linuxfoundation.org,
+ skhan@linuxfoundation.org, kernelmentees@lists.linuxfoundation.org
+References: <20250402135851.13627-1-gshahrouzi@gmail.com>
 Content-Language: en-US, nl
 From: Hans Verkuil <hverkuil@xs4all.nl>
 Autocrypt: addr=hverkuil@xs4all.nl; keydata=
@@ -85,122 +75,52 @@ Autocrypt: addr=hverkuil@xs4all.nl; keydata=
  e8tSeEXX8BZIen6y/y+U2CedzEsMKGjy5WNmufiPOzB3q2JwFQCw8AoNic7soPN9CVCEgd2r
  XS+OUZb8VvEDVRSK5Yf79RveqHvmhAdNOVh70f5CvwR/bfX/Ei2Szxz47KhZXpn1lxmcds6b
  LYjTAZF0anym44vsvOEuQg3rqxj/7Hiz4A3HIkrpTWclV6ru1tuGp/ZJ7aY8bdvztP2KTw==
-In-Reply-To: <20250225-rkvdec_h264_high10_and_422_support-v7-9-7992a68a4910@collabora.com>
+In-Reply-To: <20250402135851.13627-1-gshahrouzi@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 25/02/2025 10:40, Sebastian Fricke wrote:
-> From: Jonas Karlman <jonas@kwiboo.se>
-> 
-> Add support for a get_image_fmt() ops that returns the required image
-> format.
-> 
-> The CAPTURE format is reset when the required image format changes and
-> the buffer queue is not busy.
-> 
-> Signed-off-by: Jonas Karlman <jonas@kwiboo.se>
-> Reviewed-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-> Tested-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-> Tested-by: Christopher Obbard <chris.obbard@collabora.com>
-> ---
->  drivers/staging/media/rkvdec/rkvdec.c | 49 +++++++++++++++++++++++++++++++++--
->  drivers/staging/media/rkvdec/rkvdec.h |  2 ++
->  2 files changed, 49 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/staging/media/rkvdec/rkvdec.c b/drivers/staging/media/rkvdec/rkvdec.c
-> index 70154948b4e32e2c439f259b0f1e1bbc8b52b063..5394079509305c619f1d0c1f542bfc409317c3b7 100644
-> --- a/drivers/staging/media/rkvdec/rkvdec.c
-> +++ b/drivers/staging/media/rkvdec/rkvdec.c
-> @@ -111,15 +111,60 @@ static int rkvdec_try_ctrl(struct v4l2_ctrl *ctrl)
->  {
->  	struct rkvdec_ctx *ctx = container_of(ctrl->handler, struct rkvdec_ctx, ctrl_hdl);
->  	const struct rkvdec_coded_fmt_desc *desc = ctx->coded_fmt_desc;
-> +	struct v4l2_pix_format_mplane *pix_mp = &ctx->decoded_fmt.fmt.pix_mp;
-> +	enum rkvdec_image_fmt image_fmt;
-> +	struct vb2_queue *vq;
-> +	int ret;
-> +
-> +	if (desc->ops->try_ctrl) {
-> +		ret = desc->ops->try_ctrl(ctx, ctrl);
-> +		if (ret)
-> +			return ret;
-> +	}
-> +
-> +	if (!desc->ops->get_image_fmt)
-> +		return 0;
->  
-> -	if (desc->ops->try_ctrl)
-> -		return desc->ops->try_ctrl(ctx, ctrl);
-> +	image_fmt = desc->ops->get_image_fmt(ctx, ctrl);
-> +	if (ctx->image_fmt == image_fmt)
-> +		return 0;
-> +
-> +	if (rkvdec_is_valid_fmt(ctx, pix_mp->pixelformat, image_fmt))
-> +		return 0;
-> +
-> +	/* format change not allowed when queue is busy */
-> +	vq = v4l2_m2m_get_vq(ctx->fh.m2m_ctx,
-> +			     V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE);
-> +	if (vb2_is_busy(vq))
-> +		return -EINVAL;
+On 02/04/2025 15:58, Gabriel Shahrouzi wrote:
+> Remove unnecessary braces in single statement block to comply with kernel
+> coding style.
 
-This makes no sense to me. This just tries a control, and that should just
-work, regardless of vb2_is_busy(). It's a 'try', so you are not actually
-changing anything.
+Please add the driver in the subject line. So:
 
-> +
-> +	return 0;
-> +}
-> +
-> +static int rkvdec_s_ctrl(struct v4l2_ctrl *ctrl)
-> +{
-> +	struct rkvdec_ctx *ctx = container_of(ctrl->handler, struct rkvdec_ctx, ctrl_hdl);
-> +	const struct rkvdec_coded_fmt_desc *desc = ctx->coded_fmt_desc;
-> +	struct v4l2_pix_format_mplane *pix_mp = &ctx->decoded_fmt.fmt.pix_mp;
-> +	enum rkvdec_image_fmt image_fmt;
-> +
-> +	if (!desc->ops->get_image_fmt)
-> +		return 0;
-> +
-> +	image_fmt = desc->ops->get_image_fmt(ctx, ctrl);
-> +	if (ctx->image_fmt == image_fmt)
-> +		return 0;
+[PATCH v4] staging: media: imx: Remove unnecessary braces for single statement block
 
-If you really can't set a control when the queue is busy, then that should
-be tested here, not in try_ctrl. And then you return -EBUSY.
-
-Am I missing something here?
+That way it is clear that this is a patch for a specific driver.
 
 Regards,
 
 	Hans
 
-> +
-> +	ctx->image_fmt = image_fmt;
-> +	if (!rkvdec_is_valid_fmt(ctx, pix_mp->pixelformat, ctx->image_fmt))
-> +		rkvdec_reset_decoded_fmt(ctx);
->  
->  	return 0;
->  }
->  
->  static const struct v4l2_ctrl_ops rkvdec_ctrl_ops = {
->  	.try_ctrl = rkvdec_try_ctrl,
-> +	.s_ctrl = rkvdec_s_ctrl,
->  };
->  
->  static const struct rkvdec_ctrl_desc rkvdec_h264_ctrl_descs[] = {
-> diff --git a/drivers/staging/media/rkvdec/rkvdec.h b/drivers/staging/media/rkvdec/rkvdec.h
-> index 6f8cf50c5d99aad2f52e321f54f3ca17166ddf98..e466a2753ccfc13738e0a672bc578e521af2c3f2 100644
-> --- a/drivers/staging/media/rkvdec/rkvdec.h
-> +++ b/drivers/staging/media/rkvdec/rkvdec.h
-> @@ -73,6 +73,8 @@ struct rkvdec_coded_fmt_ops {
->  		     struct vb2_v4l2_buffer *dst_buf,
->  		     enum vb2_buffer_state result);
->  	int (*try_ctrl)(struct rkvdec_ctx *ctx, struct v4l2_ctrl *ctrl);
-> +	enum rkvdec_image_fmt (*get_image_fmt)(struct rkvdec_ctx *ctx,
-> +					       struct v4l2_ctrl *ctrl);
->  };
->  
->  enum rkvdec_image_fmt {
 > 
+> Signed-off-by: Gabriel Shahrouzi <gshahrouzi@gmail.com>
+> ---
+> 
+> Changes in v2:
+> 	- Add missing author.
+> 	- Fix title of email.
+> Changes in v3:
+>         - Resend using git send-email to fix formatting issues in email body.
+> Changes in v4:
+> 	- Use correct patch version.
+> ---
+>  drivers/staging/media/imx/imx-media-of.c | 3 +--
+>  1 file changed, 1 insertion(+), 2 deletions(-)
+> 
+> diff --git a/drivers/staging/media/imx/imx-media-of.c b/drivers/staging/media/imx/imx-media-of.c
+> index bb28daa4d713..7413551052ae 100644
+> --- a/drivers/staging/media/imx/imx-media-of.c
+> +++ b/drivers/staging/media/imx/imx-media-of.c
+> @@ -57,9 +57,8 @@ int imx_media_add_of_subdevs(struct imx_media_dev *imxmd,
+>  		of_node_put(csi_np);
+>  		if (ret) {
+>  			/* unavailable or already added is not an error */
+> -			if (ret == -ENODEV || ret == -EEXIST) {
+> +			if (ret == -ENODEV || ret == -EEXIST)
+>  				continue;
+> -			}
+>  
+>  			/* other error, can't continue */
+>  			return ret;
 
