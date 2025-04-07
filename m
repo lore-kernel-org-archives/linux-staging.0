@@ -1,135 +1,136 @@
-Received: from mail-vk1-f177.google.com (mail-vk1-f177.google.com [209.85.221.177])
+Received: from mail-vk1-f170.google.com (mail-vk1-f170.google.com [209.85.221.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3EFD1A315F;
-	Mon,  7 Apr 2025 07:51:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2801E220686;
+	Mon,  7 Apr 2025 08:07:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744012290; cv=none; b=nDvmCPr6grm4k1hgWThueje1ZLXMo/yP+iVtWq6z54QPYhIuwys0dyWNqJZ0owF73rdCGOQ8gdk5Vkzj8FMxzOvwOens6u3aAm9xGVXLrwgKuwGrdlq55KO1Y9ABRKV52MgBNRJCOphvwv4FkN8B2Qdu2yokwkMZ8oU7expPmEo=
+	t=1744013280; cv=none; b=GdTuE7AjOha56mGegJrw7uzjAn4oqguPTYNsZE+auZHQkmxllF6gMnduULcVj+XU/7Cr3GaQ3bHxBbhAO0XPkdMMSqhuN7iQQ+KhaUywuStC9g7cvlo07opdIr7dXMDhgqXsioDuDGQITcVIfR3pPXUyxsC1UP1AAZGmC+01LnQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744012290; c=relaxed/simple;
-	bh=o79E6iz8ZvmNeQP4Cpdd8X6btgIvg0exYvYyzn95SYk=;
+	s=arc-20240116; t=1744013280; c=relaxed/simple;
+	bh=gogz4PVRzPA20Uqf+sKIQQE8c5zFtGKlv/D2k+58jaQ=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=g38ZvEGwY7OABfXsiVhL3by0LhCI7PK28oyIMNpYsPNFph0gIjyEOaGyuOUafYCu4xZsk0Dm6b/jiYs+qbk21vQMgBfRZgYvAHdgIoQGDs8UGcq4eEQM0o7zvvCSThUkksKV6eGofjbsxJmYeAHJ2/L56+bENQY7up3d9gFKS0Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Nq6pu6Js; arc=none smtp.client-ip=209.85.221.177
+	 To:Cc:Content-Type; b=jTIIWmq/I2usamHiMs/GTVBgkD8xFsoqz9LudppALG2M0aymhEulppnl84kjeHVMCKG2q0pViToB/u8l1OkRCfjlrrh51806FmmPab6x5QZFjaLrubPmdP7w/jHf9t3palbFMFHYh+YTzbbR2JpWkB7SAjWtJ2bZx9HwwKbm4U0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=djHYr3Xe; arc=none smtp.client-ip=209.85.221.170
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Nq6pu6Js"
-Received: by mail-vk1-f177.google.com with SMTP id 71dfb90a1353d-525b44ec88aso2004932e0c.3;
-        Mon, 07 Apr 2025 00:51:28 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="djHYr3Xe"
+Received: by mail-vk1-f170.google.com with SMTP id 71dfb90a1353d-52410fb2afeso3557376e0c.3;
+        Mon, 07 Apr 2025 01:07:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1744012288; x=1744617088; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1744013278; x=1744618078; darn=lists.linux.dev;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=GtZuEG+pnGVzzK4h3p2dQVU+EpheroOcxlaBk0xAm9k=;
-        b=Nq6pu6Jsvh6QQ+WeU8CMynsgMOll8WQoBNLdcULV/egsuWI9XBI79iMafpOOFdbIGD
-         jMA7C3tSLE86CJMAnbovqwUsHuFzD3z1eTmgouid6T7qHnTnbH1zlrCuz6Gt+imp+YyW
-         Iw8zb/6+7nYqAOVpKO/H9S6su6QuKiBqdOCC0xbDyak6TvarRA/9+PLiyk1OcDHG4N8d
-         FQN8WnB5ly1oVoNEqzBpyknbuYg0TrKZ7eNKHBFcjXkQblSK+nonwoUDZU4gfMYvo5t/
-         lRDzXdeMD7fH1x8heeo0nwQIkrvzf5CDQksmxuujfWHYeCIyVnwXUuldxBKRS46QLepS
-         OYrA==
+        bh=cZtx3ksAyUS8ikBqruwfd9ba9TI50uTqddTgH9ayLyM=;
+        b=djHYr3XeOySwsSYHnaMhk2b8RBTACpm4Vb3qBEjq8esbWQAK5yVIGUeTgifqmrF6Z8
+         2qli8eW3PYaPfyAsxRGGm0vhwaioi9bGBxWjvM3JrshO/DnFbX5K60adlSSYECODiqLw
+         cg/fyV9AJJm30KJJV7ww7OTdPnpefObaVOtg9pUteciQ0Nihcb5TeIugjHTJlFBee1qC
+         QplPe7yhk/ainMl0D4wDXa8plLB/tck0WPvrmVP0kyY/yRPms0latJr8Wo6Xq7yVx7YY
+         a+Oxd8Fq7aeZ9Uphq/F7vPM761uQBFf5zvLR/yV30152MOpWpo03lqD7HyN5o2MqRV1z
+         sahg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744012288; x=1744617088;
+        d=1e100.net; s=20230601; t=1744013278; x=1744618078;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=GtZuEG+pnGVzzK4h3p2dQVU+EpheroOcxlaBk0xAm9k=;
-        b=CQcCHKd0NdtrlttjZUzvySUnwnWpL998gzZ/zGw5Kk+OROvHdZUqTycriD9JHVlT50
-         fIhy+jf/xx+2NY6lOXuBUYrKcLmhFoJDxFB7x1ms7Rqhilq4kYKuDKe4MYuNqtMF0+0t
-         ubxl2UyBWMRKb1g+jfBzD1Lknwbv4jtgh8NlFx95ZKbFDN+omVFlI/Fx3fmqjAf30Jke
-         6eoMNnSN1VCgncAppqlSnRKLaP/Bg5dahkhZYJ0eiDFKTtOaRz5T/aZj5xF5Ri9Yowss
-         aWuir6Ubxx1JDrVvu9jUof/x0/mxW49Au3ji3k8lQXoQCNtF/CEc1IoARVH3CgHQxhEy
-         EhVQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUXoqlF6XgmCF/dhWvtL96RBj9WXcaisqNnuEo7idhonlb4ReZEC+8sHVZN0P7L8SfdM98Iv8Em5ndwxqW6@lists.linux.dev, AJvYcCWgH9D6WnS/afZQCLvckHnDxExup71qpZjNn/qlAMR5NgkFJShS5axHuOwqOR+9qrRpu/1HinKi0w/l@lists.linux.dev
-X-Gm-Message-State: AOJu0YyvfmAyrORLLYWz4+EXtZb/iqhkFOSlbuRhJxnm1FuXRpRMVHf0
-	a+i14+geUGpB4y8EGmEt1XHVvvIhMqGx/blFsh8NcyLJb+bdFXBCSeDAvoHYxmdRDL0obg7Okyx
-	PhJ/FAA+d1n4H2vUW1LLMnIwySbY=
-X-Gm-Gg: ASbGncu9F8CVh+ExmBv6Bk4tXEJUOukQV1AurkjWN+1mKTd3TFZUEiRr//rugpKVH9v
-	H5I21Rw+SEhxOLhUv1yUFMaUDTB8zZe5lYOc4mlMUV4rspRRyD4N/P6IRnNL5iVe81mYK0KpTpE
-	bLe/vh15DRSmD+zmB3LXFreTsOS5JTp30grALWkQ==
-X-Google-Smtp-Source: AGHT+IEAhKw6pvZfmPU11eW7Mu3LcNdcjaDj2yQ40iqTe/wDunpLy0Cg0y3QthniLyQYYJJKkqC8V1utCVDnjNxAHfw=
-X-Received: by 2002:a05:6122:1816:b0:523:9ee7:7f8e with SMTP id
- 71dfb90a1353d-52765c5444cmr6470357e0c.4.1744012287790; Mon, 07 Apr 2025
- 00:51:27 -0700 (PDT)
+        bh=cZtx3ksAyUS8ikBqruwfd9ba9TI50uTqddTgH9ayLyM=;
+        b=fg3OIGOBm1w+W8XsEr9SNYeECtmtkq6Zuhi4O+Q7K/+QcnEDjt/d58WVlBV7l+BZTT
+         0EuJv6WIael0mbTD5iLv/SJpBOFPOlcHB3nqaus94xEf4Cbf59qJO+7wNm5a3yzRcFsq
+         W3ez47sc/zb/Cl+Iu3zSESFVzyoENiCWusKh/Jr54Yk81bg8ON/3ZySdbfpVSz/hmp3V
+         WITMUjPxmJUrAFbCM/4TgelXGcRsAaE8CFOn0Ds1uD2PnfTuUeqy/GObuK0ek4mjroha
+         bS7MDOcpSQNvXglxquDGsrh+fUZwgPdFFSIl7HO1Cr8DYmS6ZKOtjn91duQy5ZNwbB6j
+         AgWA==
+X-Forwarded-Encrypted: i=1; AJvYcCU61XlavKtCETBVilEFrtTae9Q0VO3TXKT44B7rHMfYWzO9dC9IlE5zH5uRwFCmrnvc2+s9fVvouu+aAn0S@lists.linux.dev, AJvYcCUOjjbiz3Y1whZdS5Y6rslTDsjP5sMvvUdSKQOO8iEbcEtFrb2oV2+lcEL3fyM3rMhUDc55RSYiyGDO@lists.linux.dev
+X-Gm-Message-State: AOJu0YzuyZNtgjAcojTUtXhSiP5KLtS9TlcXklRD0q5WT9u12l3guRIc
+	Jkp79i3j4G1XodjguXjqRlSkILIbiveSREFwQfX7o2R+SU2YexcC40biJiTKStrKlVevoz8robF
+	+ih8Uplhts3V9gOFpRmMIEkeHa7A=
+X-Gm-Gg: ASbGncu5phGA6MEOhxLCDeZFYrBQPYX7bOBFKf5uAlRJaVe+zUAItmlR/HJ/EAVkT0Q
+	uVZ4b4Y8QuPOah88mz3yZXtThqtvZQkXw0n7muSDkYUvBWK/CiZIgwnOSNevKdDlQri7iIIzGCU
+	Ve3yD8SISmN/j/Tk7RNOaDPZ3QQzE=
+X-Google-Smtp-Source: AGHT+IFjWZtJ1uBJ14jW6/1HkSWpM3zygwta8fDHCLQZuIpcJxqqJLqW1sc6Q5WxBvke0mvi1Gfk7C43RJNGvDU7ffU=
+X-Received: by 2002:a05:6122:2516:b0:520:6773:e5ba with SMTP id
+ 71dfb90a1353d-52765c03cd1mr8651372e0c.2.1744013277984; Mon, 07 Apr 2025
+ 01:07:57 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <Z/NxGilPLPy7KSQ3@ubuntu> <2025040757-clergyman-finalist-0c63@gregkh>
- <2025040752-unrefined-labored-8c8c@gregkh>
-In-Reply-To: <2025040752-unrefined-labored-8c8c@gregkh>
+References: <Z/NxGilPLPy7KSQ3@ubuntu> <0d62aab3-bd51-4739-88a4-9419cca7159a@stanley.mountain>
+In-Reply-To: <0d62aab3-bd51-4739-88a4-9419cca7159a@stanley.mountain>
 From: Samuel Abraham <abrahamadekunle50@gmail.com>
-Date: Mon, 7 Apr 2025 08:51:18 +0100
-X-Gm-Features: ATxdqUHhyM420ZVP3BEml1GrGZKTTewJQJc6Tjl2jKwdFNU2DbODlPxG2XuGm5I
-Message-ID: <CADYq+fa0nJdq2+kMkwwb-s0ePH_8qN_R5Lu6SfNpH1pUsdRksg@mail.gmail.com>
+Date: Mon, 7 Apr 2025 09:07:49 +0100
+X-Gm-Features: ATxdqUGWQwlFY26Wg3APhFZxKAYxTulMaapf6T8cGRl19pfw5zez2KaKE7FTPOo
+Message-ID: <CADYq+fZ0uDxZg2SjqLJfjSY1EG9E16gHRouknqt8k-1HZqfh=A@mail.gmail.com>
 Subject: Re: [PATCH v4] staging: rtl8723bs: Use % 4096u instead of & 0xfff
-To: Greg KH <gregkh@linuxfoundation.org>
-Cc: julia.lawall@inria.fr, outreachy@lists.linux.dev, 
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	dan.carpenter@linaro.org, andy@kernel.org, david.laight.linux@gmail.com
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: gregkh@linuxfoundation.org, julia.lawall@inria.fr, 
+	outreachy@lists.linux.dev, linux-staging@lists.linux.dev, 
+	linux-kernel@vger.kernel.org, andy@kernel.org, david.laight.linux@gmail.com
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Apr 7, 2025 at 7:55=E2=80=AFAM Greg KH <gregkh@linuxfoundation.org>=
- wrote:
+On Mon, Apr 7, 2025 at 8:20=E2=80=AFAM Dan Carpenter <dan.carpenter@linaro.=
+org> wrote:
 >
-> On Mon, Apr 07, 2025 at 08:36:35AM +0200, Greg KH wrote:
-> > On Mon, Apr 07, 2025 at 06:30:50AM +0000, Abraham Samuel Adekunle wrote=
-:
-> > > The sequence number is constrained to a range of [0, 4095], which
-> > > is a total of 4096 values. The bitmask operation using `0xfff` is
-> > > used to perform this wrap-around. While this is functionally correct,
-> > > it obscures the intended semantic of a 4096-based wrap.
-> > >
-> > > Using a modulo operation with `4096u` makes the wrap-around logic
+> On Mon, Apr 07, 2025 at 06:30:50AM +0000, Abraham Samuel Adekunle wrote:
+> > The sequence number is constrained to a range of [0, 4095], which
+> > is a total of 4096 values. The bitmask operation using `0xfff` is
+> > used to perform this wrap-around. While this is functionally correct,
+> > it obscures the intended semantic of a 4096-based wrap.
 > >
-> > <snip>
+> > Using a modulo operation with `4096u` makes the wrap-around logic
+> > explicit and easier to understand. It clearly signals that the sequence
+> > number cycles though a range of 4096 values.
+> > It also makes the code robust against potential changes of the 4096
+> > upper limit, especially when it becomes a non power of 2 value while
+> > the AND(&) works solely for power of 2 values.
 > >
-> > > -                           psta->sta_xmitpriv.txseq_tid[pattrib->pri=
+> > The use of `4096u` also guarantees that the modulo operation is perform=
+ed
+> > with unsigned arithmetic, preventing potential issues with signed types=
+.
+> >
+> > Suggested-by: Andy Shevchenko <andy@kernel.org>
+> > Signed-off-by: Abraham Samuel Adekunle <abrahamadekunle50@gmail.com>
+> > ---
+> > Changes in v3:
+> >       - Added more description to the commit message
+> >       - Removed blank line in tag block.
+> >       -  Added more patch recipients.
+> > Changes in v2:
+> >       - Changed the commit message to a more descriptive message which
+> >       makes it clear why the patch does the change.
+> >       - Changed the subject title to include `4096u` to show that an un=
+signed
+> >       module is used.
+> > Changes in v1:
+> >       - Added more patch recipients.
+> >
+> >  drivers/staging/rtl8723bs/core/rtw_xmit.c | 6 +++---
+> >  1 file changed, 3 insertions(+), 3 deletions(-)
+> >
+> > diff --git a/drivers/staging/rtl8723bs/core/rtw_xmit.c b/drivers/stagin=
+g/rtl8723bs/core/rtw_xmit.c
+> > index 297c93d65315..f534bf2448c3 100644
+> > --- a/drivers/staging/rtl8723bs/core/rtw_xmit.c
+> > +++ b/drivers/staging/rtl8723bs/core/rtw_xmit.c
+> > @@ -943,7 +943,7 @@ s32 rtw_make_wlanhdr(struct adapter *padapter, u8 *=
+hdr, struct pkt_attrib *pattr
+> >
+> >                       if (psta) {
+> >                               psta->sta_xmitpriv.txseq_tid[pattrib->pri=
+ority]++;
+> > -                             psta->sta_xmitpriv.txseq_tid[pattrib->pri=
 ority] &=3D 0xFFF;
-> > > +                           psta->sta_xmitpriv.txseq_tid[pattrib->pri=
+> > +                             psta->sta_xmitpriv.txseq_tid[pattrib->pri=
 ority] &=3D 4096u;
-> >
-> > I do not see a modulo operation here, only another & operation.
-
-I'm sorry ...
-> >
-> > >                             pattrib->seqnum =3D psta->sta_xmitpriv.tx=
-seq_tid[pattrib->priority];
-> > >
-> > >                             SetSeqNum(hdr, pattrib->seqnum);
-> > > @@ -963,11 +963,11 @@ s32 rtw_make_wlanhdr(struct adapter *padapter, =
-u8 *hdr, struct pkt_attrib *pattr
-> > >                                     if (SN_LESS(pattrib->seqnum, tx_s=
-eq)) {
-> > >                                             pattrib->ampdu_en =3D fal=
-se;/* AGG BK */
-> > >                                     } else if (SN_EQUAL(pattrib->seqn=
-um, tx_seq)) {
-> > > -                                           psta->BA_starting_seqctrl=
-[pattrib->priority & 0x0f] =3D (tx_seq+1)&0xfff;
-> > > +                                           psta->BA_starting_seqctrl=
-[pattrib->priority & 0x0f] =3D (tx_seq+1)&4096u;
-> >
-> > This also looks odd, nothing is being "AND" here, it's an address value
-> > being set (and an odd one at that, but that's another issue...)
 >
-> Sorry, no, I was wrong, it is being & here, but not %.  My fault,
-> the lack of spaces here threw me.
+> You forgot to change the & to %.
 
-I want to add spaces for readability. But since the changes occurs on
-the same line,
-I am a bit confused about the best approach to take
-Do I create a patchset, a patch for adding spaces, and a second for
-changing from & to %?
+Thank you very much, Dan. I will correct and resend the patch.
 
-Also, should be second patch be based on the file after the first
-change I made, or it should be based on the original staging
-tree file.
-
-Thanks
-Adekunle.
+Adekunle
