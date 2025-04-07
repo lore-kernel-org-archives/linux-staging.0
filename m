@@ -1,85 +1,98 @@
-Received: from cstnet.cn (smtp21.cstnet.cn [159.226.251.21])
-	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2047F211A1D
-	for <linux-staging@lists.linux.dev>; Mon,  7 Apr 2025 03:11:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7D5C224AE0;
+	Mon,  7 Apr 2025 05:57:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743995504; cv=none; b=IKPmdXLkTyT0rDWZVFQeTDk3YSaI7j/pIQxP8YfL57GOHmoijgweENq8smtUIvLJkxcSiYibfPsW53MOjaO4ZcQ2+FNLm8u20DvSC7e9nt69GCcJtEy+DTu6FC0NxuA53Cno2SPfxQEM/Is9319DISpVgrcQiBp45H4XBZ1XwyU=
+	t=1744005473; cv=none; b=VRATehxnafs/+SXuWIYSe0s58W4SV7cmArGImMbGMPtKzyZjfPGg1ZjtH29QtpUtnA0uA8Z9RhAaD/zZQ80Qo3F7sJ4KUswGJtC9Zvn6eSaT/SfJQCw0EIFYg1XqbVS4ZhhgS9WiCNd0Z/fuWAtJPuss76HLZ2uVyHmCrCbKHns=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743995504; c=relaxed/simple;
-	bh=XRJqv+ACq6BmsqXRvcUXVA+EstFBBMEORTugFGWrkiI=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=AtEbFDoxBwvWLYSqdXMxEV1++0ZUlOuk08xg5sqdEl768iqjG8YAvEHTm0CKXo4MqaDZwS8inn88NTf3EmS7qa5+tYk48HUzNpKof9tIN++tmi+dNCphHCQGBJ7PLNoBXBAx4PLB+nOMgBgNUgcg8tisfofiLed1JMbty/Lfzzs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass smtp.mailfrom=iscas.ac.cn; arc=none smtp.client-ip=159.226.251.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
-Received: from localhost (unknown [124.16.138.129])
-	by APP-01 (Coremail) with SMTP id qwCowABnDv9lQvNnC+jJBg--.63721S2;
-	Mon, 07 Apr 2025 11:11:34 +0800 (CST)
-From: Chen Ni <nichen@iscas.ac.cn>
-To: dpenkler@gmail.com,
-	gregkh@linuxfoundation.org,
-	matchstick@neverthere.org,
-	arnd@arndb.de,
-	dominik.karol.piatkowski@protonmail.com,
-	nathan@kernel.org
-Cc: linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Chen Ni <nichen@iscas.ac.cn>
-Subject: [PATCH] staging: gpib: fmh_gpib: Remove unnecessary print function dev_err()
-Date: Mon,  7 Apr 2025 11:11:10 +0800
-Message-Id: <20250407031110.2382308-1-nichen@iscas.ac.cn>
-X-Mailer: git-send-email 2.25.1
+	s=arc-20240116; t=1744005473; c=relaxed/simple;
+	bh=Ie29+/UawBgvaIHMCeBJQcdJFBfOAaXTEIGtJaSIBvc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Y4V2nPiajpr2W5n8qxQamwxiDuTHthUac7V0QQUjwQfZnSRRxiJghUomMEojHy96CS/5WfdFMltRnYLkuiF2WY3shRenjfQYPrRul2rGT3gN8Sr7TZiReNydmTuLnHNKhUzAsSLifyywnmhCc98TnER4SpqR+g5rNalVKvwqlTQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=aWcTBY2c; arc=none smtp.client-ip=209.85.208.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aWcTBY2c"
+Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-5e6ff035e9aso7741095a12.0;
+        Sun, 06 Apr 2025 22:57:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1744005470; x=1744610270; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=MU/QERwA590a39V1uHdiHYOh0ZGLgU5IxEfn8b8/6iQ=;
+        b=aWcTBY2cWfFvnhivP40yGG6sY0sGGMnCgHCgjDvtO4UKXcPva+/EO1F18meJNj7qNO
+         R0e+CH30cQY3vt3GU/SOinFjaBY0erpe0//RG5ccRBQXazLsRv0sML5MRY1asOwGWaqM
+         h9zeEd5pp3lM5tXJw/9EsmGVPBARoHCnIVYvWcJTkcHXg/FOSDFdHzVRal9KSnO0dUQe
+         jKBQ5D43EbllhRqtG5s9fm6pX2EScMprjB8FVGXrF+d3voGdW2mihh+293OCyObpK3hy
+         VJZsbNjxXVvge68/+5H2kN2dici3p9uQNAeip7bZtPyqMU40MXhzqdr7Awx66pJCl9Hu
+         mqFQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1744005470; x=1744610270;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=MU/QERwA590a39V1uHdiHYOh0ZGLgU5IxEfn8b8/6iQ=;
+        b=DdYmf1WGGxqIrjbD9TmMnDV88mLUbgCAokZFROTFHwty2XjPxdgd88+5szaOhBtVBz
+         yR/L1qXqJocxozQV28exPtexEMO+oL9O2/9yBe69A+koPgdYdfQ3K9avPJiHR/tJ0vsQ
+         NnHIDJ8YCXrRzIMUfBhpWv9KPGNAPOZKuyVUhAvk07amLrNfkfvf1kqdlJK076lNFDdB
+         1XwtA4Z228M0gMXk+T3Yu67abnF33fmKHpl6mbbgTQYD6spMJTUMRxdLxRrdaR2WG4qe
+         llp45C8LKiGUcQxeILkkySNZz1/e8HQMBF4QVoWc9uBFaf+Iqa1mZpQNiB8QyLGgbrj5
+         9PoA==
+X-Forwarded-Encrypted: i=1; AJvYcCUGn4jpiiCcHSZuY+M+uHtfBawzC4HEL3i544gKCrGq/vpPL9eArykMzzeODVCjzKh4l2HDMdt/f1Jp@lists.linux.dev, AJvYcCWisr6Ch5fsg8HLwhxO7d2IuKtRIZ+ebBCBVaZUJSFhkesoFWISSmHWFWOocM/lAPOGa2dkRotF9/DYfaLY@lists.linux.dev
+X-Gm-Message-State: AOJu0YxI6LM7m5buZ4oCZBhVLmmvfrEL9bRHBNGKLtNmP34WlveVttnK
+	RT+yzNPIjIVzOpeszWvPAJERNe4UCjaJkMh4WLqxRh5ZpOJnECJSN2Uq7qiaqTM88BEJN+Cickz
+	xewJIJD/KEERbNGRoYYTcZfgUkaI=
+X-Gm-Gg: ASbGnctQaKohboon/UOLIDAYsUhj7K9eVbHJ6JERqOn4NsQc1QiVcBDc/JLtwrG/9/a
+	8f4igtGa99cOjeLOdSgdgpR/4mUd93FWQpz/iUPNneM4skvqL7Sl1N/4pFSA7sAJmGx/0vM1J5Y
+	lRgVSn4qXKhcHDuA9JgKC6yPct
+X-Google-Smtp-Source: AGHT+IELgjumJ/OH5wAvOqKNaKOIG+lfT/mrVgVJopPjWdFEehfMhOmWOSaLwOOa6/yim7LXwbc+NuGDmPdQpe8Z8O0=
+X-Received: by 2002:a05:6402:34cd:b0:5e7:c773:ae35 with SMTP id
+ 4fb4d7f45d1cf-5f0b3b6089dmr9515458a12.5.1744005469968; Sun, 06 Apr 2025
+ 22:57:49 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:qwCowABnDv9lQvNnC+jJBg--.63721S2
-X-Coremail-Antispam: 1UD129KBjvdXoWrZrWrWF43Wr43ur1xCFWkCrg_yoWftFX_CF
-	y0kFn7J3WfCa90yw1Yq3W5Cr9FkFn8XF4ftr1vqFW3Cr4aqF4DCryFgF1jqr9rXF47KFy7
-	urWrKwsa9w1akjkaLaAFLSUrUUUUbb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
-	9fnUUIcSsGvfJTRUUUbV8FF20E14v26r4j6ryUM7CY07I20VC2zVCF04k26cxKx2IYs7xG
-	6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
-	A2z4x0Y4vE2Ix0cI8IcVAFwI0_Xr0_Ar1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Cr0_
-	Gr1UM28EF7xvwVC2z280aVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Cr
-	1j6rxdM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj
-	6xIIjxv20xvE14v26r1Y6r17McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr
-	0_Gr1lF7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7MxkF7I0En4kS14v2
-	6r1q6r43MxkIecxEwVAFwVW8GwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJV
-	W8JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF
-	1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6x
-	IIjxv20xvEc7CjxVAFwI0_Gr0_Cr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvE
-	x4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvj
-	DU0xZFpf9x0JUSFAJUUUUU=
-X-CM-SenderInfo: xqlfxv3q6l2u1dvotugofq/
+References: <cover.1743857160.git.princerichard17a@gmail.com>
+ <2025040538-breeze-espionage-dc6e@gregkh> <CAMyr_bL4Qo_eeVSHhy-_z9_PwcQAvD6N4jfqBb+rtN-Lj+YdmA@mail.gmail.com>
+ <CADYq+fY-twT=NruAmfb6EpmYJLM971aTu-CUi-We_Fd6JSP47Q@mail.gmail.com>
+In-Reply-To: <CADYq+fY-twT=NruAmfb6EpmYJLM971aTu-CUi-We_Fd6JSP47Q@mail.gmail.com>
+From: Richard Akintola <princerichard17a@gmail.com>
+Date: Mon, 7 Apr 2025 06:57:38 +0100
+X-Gm-Features: ATxdqUEK1yuNgL11LsgZ-ALo34s7H0IFI4v_BYAnXp1SFIlzhqYSGlc_Kvkyfjs
+Message-ID: <CAMyr_bLkvFBTpYehG4fs-tqVE18YBf53okddU2=i7+Rr-zbCsw@mail.gmail.com>
+Subject: Re: [PATCH 0/8] staging: sm750fb: change function naming style
+To: Samuel Abraham <abrahamadekunle50@gmail.com>
+Cc: Greg KH <gregkh@linuxfoundation.org>, outreachy@lists.linux.dev, 
+	sudipm.mukherjee@gmail.com, teddy.wang@siliconmotion.com, 
+	linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Function dev_err() is redundant because platform_get_irq()
-already prints an error.
+On Sat, Apr 5, 2025 at 3:16=E2=80=AFPM Samuel Abraham
+<abrahamadekunle50@gmail.com> wrote:
 
-Signed-off-by: Chen Ni <nichen@iscas.ac.cn>
----
- drivers/staging/gpib/fmh_gpib/fmh_gpib.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+> This looks like a new version of a previously submitted patch, but you
+>   did not list below the --- line any changes from the previous version.
+>   Please read the section entitled "The canonical patch format" in the
+>   kernel file, Documentation/process/submitting-patches.rst for what
+>   needs to be done here to properly describe this.
 
-diff --git a/drivers/staging/gpib/fmh_gpib/fmh_gpib.c b/drivers/staging/gpib/fmh_gpib/fmh_gpib.c
-index 53f4b3fccc3c..5f64f3d989ef 100644
---- a/drivers/staging/gpib/fmh_gpib/fmh_gpib.c
-+++ b/drivers/staging/gpib/fmh_gpib/fmh_gpib.c
-@@ -1424,10 +1424,8 @@ static int fmh_gpib_attach_impl(struct gpib_board *board, const gpib_board_confi
- 		(unsigned long)resource_size(e_priv->dma_port_res));
- 
- 	irq = platform_get_irq(pdev, 0);
--	if (irq < 0) {
--		dev_err(board->dev, "request for IRQ failed\n");
-+	if (irq < 0)
- 		return -EBUSY;
--	}
- 	retval = request_irq(irq, fmh_gpib_interrupt, IRQF_SHARED, pdev->name, board);
- 	if (retval) {
- 		dev_err(board->dev,
--- 
-2.25.1
 
+Hi Samuel,
+
+I sent the patches individually before, but I was instructed to send a
+patch series.
+
+Given that I didn't change any code, should I still add version number
+and sending
+patch series as the difference?
+
+Richard Akintola
