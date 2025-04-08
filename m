@@ -1,118 +1,132 @@
-Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f180.google.com (mail-qt1-f180.google.com [209.85.160.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CBDD199EAD;
-	Tue,  8 Apr 2025 13:16:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.11.138.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC39E142E7C;
+	Tue,  8 Apr 2025 13:32:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744118192; cv=none; b=n+PcUzr5sa0wg4ZrPzMTXLQLYofochdeWpkVYfBJHsWYgvT562CzHOORQNMsamhJxXgpRmjbcmg2kXLqlp3JppR51G8V7DYj83FtN/IaQIuPjGFVfuV3ACUmvRFBx9rBPssWrDC9ztqHQnZ5TEnW2QAV3JUFbAqlSH6MCQ7n8wc=
+	t=1744119143; cv=none; b=L7fUcL62UInh2uNzss3m0k7zKtqkQVVvwAT5rwEPpm3h32Bx10NMFO0vHmny6U4e4iRVbqKZQLCTMT6jNbKB3XO+qmFCLLYsvp1wOzGZ8i2uyCp2ok7CnGIeUEJQsIoK4U6kQfeByO+wqMKwO/ikzgG96d4rUlM0JhGVXeVxBVo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744118192; c=relaxed/simple;
-	bh=t1Ny1pKzE+5lOoO+nkt2ZogZrx3/XWmU9zhammAWubU=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=GHtiiPq4yKd+XDsN5/BUytax65cDVNAv2MTMt0fPIQDW0w5IUBT+7S4nnxdyhUtNkc8KEBIHjusYph0CSt9kK3dRGU51tr3ey6AlnU1BRNg2TK+teSzfTLoJOjhu/3XHGJAgUE1sB/5JIC2lD0fgmc33zdfvspD3tA0uvR0E+f8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sntech.de; spf=pass smtp.mailfrom=sntech.de; dkim=pass (2048-bit key) header.d=sntech.de header.i=@sntech.de header.b=Pj/kCOmS; arc=none smtp.client-ip=185.11.138.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sntech.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sntech.de
+	s=arc-20240116; t=1744119143; c=relaxed/simple;
+	bh=hmK7xZSP/TrL/aGU4yYwggY4mAze38UQN+xeOLax+fk=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=spcGrsGDdR8IqzuEqFNwunbGh+PuA3eL90v7U6yVFZBGSyKEG8s50kvvwjAWwOzYYw0xryTWcG1XfI8juF8rdTGKUe6jZf9nIRWiv5b6Y6L5jBMFf83EtXIUZQzqC0cxBoa0NPSunJrQXfjkwrcLemGeZEv5VNYWsf11k5uhQ7Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iIg5Bd25; arc=none smtp.client-ip=209.85.160.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sntech.de header.i=@sntech.de header.b="Pj/kCOmS"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=sntech.de;
-	s=gloria202408; h=Content-Type:Content-Transfer-Encoding:MIME-Version:
-	References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID;
-	bh=/DaIn1hXvAed6evdNr/FMZd3K+jUtBILZseoN0UJCnA=; b=Pj/kCOmSCTuBYrYVphjmizbPXT
-	PoWmvrUNX5cTy4GMWhifyZCeMyTjgleXjvMmM/k6tI+4/jznlaOBbR4gOJgNNsm446wUAwyuhTzuY
-	L5fc6bIowzbzaXxf2HohBWN1cs/RUjGMtxIIsl479bZ0fd6YtfxwT5C46MfbnI133zjrGCORTe2sY
-	2V+EEQeFTzOdwuL6G8YjXDdfDSqW2Vb8pK+Yu1GGKjer0U8xZOCCk2yIBMNY9v9SUPufm6fkIohgI
-	WCxaJDn9tZNePV7sXXs0Jxa9sAa/kRKzFHNNxEbAQG8Xz56Mt/C5Uz1mlyvTZAtWuofnGfhwQDn7L
-	hNOs0iLw==;
-Received: from i53875b95.versanet.de ([83.135.91.149] helo=diego.localnet)
-	by gloria.sntech.de with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <heiko@sntech.de>)
-	id 1u28oD-00035s-9O; Tue, 08 Apr 2025 15:16:09 +0200
-From: Heiko =?UTF-8?B?U3TDvGJuZXI=?= <heiko@sntech.de>
-To: linux-kernel@vger.kernel.org,
- Detlev Casanova <detlev.casanova@collabora.com>
-Cc: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Hans Verkuil <hverkuil@xs4all.nl>,
- Nicolas Dufresne <nicolas.dufresne@collabora.com>,
- Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
- Jonas Karlman <jonas@kwiboo.se>,
- Sebastian Reichel <sebastian.reichel@collabora.com>,
- Niklas Cassel <cassel@kernel.org>, Alexey Charkov <alchark@gmail.com>,
- Dragan Simic <dsimic@manjaro.org>, Jianfeng Liu <liujianfeng1994@gmail.com>,
- Detlev Casanova <detlev.casanova@collabora.com>,
- Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
- Sakari Ailus <sakari.ailus@linux.intel.com>,
- Kieran Bingham <kieran.bingham@ideasonboard.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Umang Jain <umang.jain@ideasonboard.com>,
- Naushir Patuck <naush@raspberrypi.com>,
- Jean-Michel Hautbois <jeanmichel.hautbois@ideasonboard.com>,
- Dmitry Perchanov <dmitry.perchanov@intel.com>,
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
- linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-staging@lists.linux.dev, kernel@collabora.com
-Subject:
- Re: [PATCH v4 6/6] arm64: dts: rockchip: Add rkvdec2 Video Decoder on
- rk3588(s)
-Date: Tue, 08 Apr 2025 15:16:05 +0200
-Message-ID: <9432379.CDJkKcVGEf@diego>
-In-Reply-To: <20250325213303.826925-7-detlev.casanova@collabora.com>
-References:
- <20250325213303.826925-1-detlev.casanova@collabora.com>
- <20250325213303.826925-7-detlev.casanova@collabora.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iIg5Bd25"
+Received: by mail-qt1-f180.google.com with SMTP id d75a77b69052e-4769b16d4fbso28052201cf.2;
+        Tue, 08 Apr 2025 06:32:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1744119141; x=1744723941; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=cVc2yBWBNeVkQp8L5/khTVMylls0C7oPE8ISuX2JCkk=;
+        b=iIg5Bd25+P9aGj7LB2LpEqT5eOnyBSW/uZ1P4flOG+RPXJls6KCN3wgBB9iPyaDvt0
+         AClCBQ4LRyikRHdlnlaWP4q597koK2e/8+QgQy6/aUWq8JnRBPd21MIOYRgrE+mpzY5C
+         DTu+KFjk12J2Rq2B3DQrNc4NEhvwNA2gVZPL3j+QeICrEan9nOy8s5vEnV3UetpYJyfD
+         /LurPUZXSO/iApyrcQvoQ89jVEx5mPLgbZPR34ajBN8xA8BNcN/yGDV5rKIYqHzvUQG5
+         +sgtNr4Yuoig/Cg3dz1n0/kgxu56l629viMznfPpldPM7kX3AAXsHPSuoQxJa3THCrBL
+         MpAg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1744119141; x=1744723941;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=cVc2yBWBNeVkQp8L5/khTVMylls0C7oPE8ISuX2JCkk=;
+        b=ZuBTJF3xz5NDyn0/rL9CAJJKaEbQXnQEP4dQEbZsGph6YYFwNEcSUnU+n6UwPBbIQF
+         A584EoTQpKHmv/bgj2rGSMVPjoUwjEzd58auV7iDc8WUDT0o7Cnkl6eRF6/Z5aB2wx5l
+         jORXBTHusDcW+MOAer6/r1/5hXYQPO1dW+Ra1r3/nabzl6RX1RwEV7MX6n0iM2XkXcdo
+         1n/cEw5YQ0lD/oSug/89acCJQNkrQbSyaAk1ZRHLITicPMbIecxd2Os2VMkuDJl87GAf
+         RAFkWm/L73VWEwT1BoOoGlhvmZgndd0NNL52qWWrX+5HHNL+CW168G6iQWfjl1BmBYfx
+         Xp5g==
+X-Forwarded-Encrypted: i=1; AJvYcCUVq0GePI18yCh/gHwRSMzAwMnkzHCI3rpTgdwuisT/NAkcSm3MEp8crjskSAw7xgNT0r0gfb5FScO9apkC@lists.linux.dev
+X-Gm-Message-State: AOJu0YxkUgpKys6O7EP5ZBInvWzrE9QVFSvzSMpYQJRW1qnikDqkPVGU
+	/9A8dPnxwZsBTMHykaIP7xi1LOUWVR/cR0iz487ybUrC/lcijhUf
+X-Gm-Gg: ASbGncvX27Wgs8yInA8xYqL7UJ+MtF6ImO50EjZCXWoz4bQb+79gAxIloBTwQcTkjAL
+	I7zDvMSPS1vfYdmmh67r68D0qMe8f52QgrI25t62fspoU62hMdKC5Ssk2k/zCkLOznleYcu/dN8
+	CiXKWPXXc9KHz2SLZEa5DOqcb4zsS1bJZsMP5HT0XuYwLU5Wt0+uYv11inpEKQluia0jGL/7117
+	SeUa2qTkSaTwzj9d4vAQKQdIRpiydV4Mb2Ptoyw3WlNmoY1TJ1DdEbRGPUElNKF9wSnTtjN8b8Z
+	fv/1Vp2qWP9th371SyJHkllKVIjsX4N72hS6mIrjXFGoJvY=
+X-Google-Smtp-Source: AGHT+IHaAKkw7ePak1dBQHCJ57Uk2UodgseNi6b5nngGTa7XmLNaGUTdqsDKsZTYdaSV580TSeEK1A==
+X-Received: by 2002:ac8:57c5:0:b0:476:89d2:8234 with SMTP id d75a77b69052e-47925a26e09mr191577441cf.36.1744119140612;
+        Tue, 08 Apr 2025 06:32:20 -0700 (PDT)
+Received: from ubuntu ([105.117.1.177])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-4791b1444bbsm76281671cf.74.2025.04.08.06.32.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 08 Apr 2025 06:32:20 -0700 (PDT)
+From: Abraham Samuel Adekunle <abrahamadekunle50@gmail.com>
+To: outreachy@lists.linux.dev,
+	julia.lawall@inria.fr
+Cc: gregkh@linuxfoundation.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	david.laight.linux@gmail.com,
+	dan.carpenter@linaro.org,
+	andy@kernel.org,
+	Abraham Samuel Adekunle <abrahamadekunle50@gmail.com>
+Subject: [PATCH v7 0/2] staging: rtl8723bs: Improve readability and clarity of sequence number wrapping
+Date: Tue,  8 Apr 2025 13:31:40 +0000
+Message-Id: <cover.1744117091.git.abrahamadekunle50@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 
-Hi Detlev,
+The patchset adds spaces around binary operators, breaks long lines to enhance readability
+and provides clarity on sequence number wrapping by using a modulo operation % 4096u, in
+place of the bitwise AND(&) operation & 0xfff.
+The patches are required to be applied in sequence.
 
-Am Dienstag, 25. M=C3=A4rz 2025, 22:22:22 Mitteleurop=C3=A4ische Sommerzeit=
- schrieb Detlev Casanova:
-> Add the rkvdec2 Video Decoder to the RK3588s devicetree.
->=20
-> Signed-off-by: Detlev Casanova <detlev.casanova@collabora.com>
-> ---
+Changes in v6:
+	- Modified cover letter BLURB to reference newly added line breaks.
+* PATCH 1:
+	- Added line breaks to long lines to improve readability.
+	- Changed commit message to include the information about the broken
+	  lines added to the patch.
+	- Changed subject line title to also include the newly added line breaks.
+* PATCH 2:
+	- Changed instances of `& 0xfff` to `% 4096u` which were now in the broken lines
+	  after the broken lines have been done in PATCH 1.
+Changes in v5:
+	- Converted the patch with the subject "Use % 4096 instead of & 0xfff"
+	  patch to a patchset.
+	- Added a patch to add spaces around binary operator.
+Changes in v4:
+	- Corrected patch to use '%' instead of '&'.
+	- To ensure this change does not affect the functional
+	behaviour, I compared the generated object files before and
+	after the change using the `cmp` which compares the two
+	object files byte by byte as shown below:
 
-> +	vdec1_mmu: iommu@fdc40700 {
-> +		compatible =3D "rockchip,rk3588-iommu", "rockchip,rk3568-iommu";
-> +		reg =3D <0x0 0xfdc40700 0x0 0x40>, <0x0 0xfdc40740 0x0 0x40>;
-> +		interrupts =3D <GIC_SPI 96 IRQ_TYPE_LEVEL_HIGH 0>;
-> +		clocks =3D <&cru ACLK_RKVDEC0>, <&cru HCLK_RKVDEC0>;
-> +		clock-names =3D "aclk", "iface";
-> +		power-domains =3D <&power RK3588_PD_RKVDEC0>;
-> +		#iommu-cells =3D <0>;
-> +	};
+	$ make drivers/staging/rtl8723bs/core/rtw_xmit.o
+	$ cmp rtw_xmit_before.o rtw_xmit_after.o
 
-diff --git a/arch/arm64/boot/dts/rockchip/rk3588-base.dtsi b/arch/arm64/boo=
-t/dts/rockchip/rk3588-base.dtsi
-index 24ecbff06cd27..8bde8e257eac9 100644
-=2D-- a/arch/arm64/boot/dts/rockchip/rk3588-base.dtsi
-+++ b/arch/arm64/boot/dts/rockchip/rk3588-base.dtsi
-@@ -1395,7 +1395,7 @@ vdec1_mmu: iommu@fdc40700 {
-                interrupts =3D <GIC_SPI 96 IRQ_TYPE_LEVEL_HIGH 0>;
-                clocks =3D <&cru ACLK_RKVDEC0>, <&cru HCLK_RKVDEC0>;
-                clock-names =3D "aclk", "iface";
-=2D               power-domains =3D <&power RK3588_PD_RKVDEC0>;
-+               power-domains =3D <&power RK3588_PD_RKVDEC1>;
-                #iommu-cells =3D <0>;
-        };
+	No differences were found in the output, confirming that the
+	change does not alter the compiled output.
+Changes in v3:
+	- Added more description to the commit message.
+	- Removed blank line in the tag block.
+	- Added more patch recipients.
+Changes in v2:
+	- Changed the commit message t a more descriptive message which
+	makes it clear why the patch does the change.
+	- changed the subject title to include `4096u` to show that an
+	unsigned module is used.
+Changes in v1:
+	- Added more patch recipients.
 
-Needs to use the correct power-domain, otherwise ends in SErrors on 6.15-rc1
+Abraham Samuel Adekunle (2):
+  staging: rtl8723bs: Add spaces and line breaks to improve readability
+  staging: rtl8723bs: Use % 4096 instead of & 0xfff
 
+ drivers/staging/rtl8723bs/core/rtw_xmit.c | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
 
-Heiko
-
+-- 
+2.34.1
 
