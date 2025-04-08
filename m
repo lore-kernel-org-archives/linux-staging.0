@@ -1,141 +1,125 @@
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2E9226B2DF;
-	Tue,  8 Apr 2025 10:21:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A95326981F
+	for <linux-staging@lists.linux.dev>; Tue,  8 Apr 2025 10:36:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744107681; cv=none; b=WAflqGIWIUUXY8BUen0CrMf9QC37y6/t1LGu/LAikdP0HjZNe9G3HswmYcgtbas+a5mCnOPcbtAgfaF+/5/6xHl2quvsyRkDQxXwEbRivEXEC7MFOVXCuV2Hr3dhQltZYAaq1VGt4WLJKB4QxSE3UHg9SRY09m6AZxY6DF4E6v0=
+	t=1744108620; cv=none; b=VJLTFbXluI9tCTtT6fLV536Q6aJVMd1tBc67b4/QLts8aWx0gw92iNNLaWex4Vr2IQBzpFyWSGAyeCVFqaRUgPHr/o5JHuG5JL8q+Z8Qx4mLTi/+8oD7xNI+zzeHyxq/SB+m2gV0L88uBBS5NHl+VDVuYrnx4zbRsr1DdixOYOY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744107681; c=relaxed/simple;
-	bh=u6zEX+t1aVIDzy0JiAoJ7d4d/Fs9Xyppen8tPxxJuLg=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=cxbfIizl+Pvx7HeZJQbn8ysXreKvpuUB7EwFyLiwrcfENladQJekqDFI16H/XO037/3I2NPuDxe3xBnMev99flF+hjbo+5bbzIP8Sy3TfjLQknL1bM01Dg/YAqoWxhOFBp7Qc0YYiCMQ3hWYj/n3Da/cQLwXGSxSSmZ1P7NRDh0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=G4F0rdRW; arc=none smtp.client-ip=209.85.128.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1744108620; c=relaxed/simple;
+	bh=z6yPF9uOlyPYwnYcyCbUHbrjMWRaBMiD7QCPSnGxte4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=BzX9uOXj6K3GNvvsxGJbMj5wrnXxOYlDNi0DrNtKK3Cf2Kx+4fDbeJqx1an4x4KJ67Od+21OzoN9ugjpqHhO+lZo8x6rPNWYrJHiohAbNUnZnV27yjgH0rosUgtfzDcbB20HM77hReu2/MzcpSWkZgeBVwmJxrxH4a/Og3kbBrI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=rBGKhrvq; arc=none smtp.client-ip=209.85.221.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="G4F0rdRW"
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-43cfebc343dso35464945e9.2;
-        Tue, 08 Apr 2025 03:21:17 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="rBGKhrvq"
+Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-3913958ebf2so4762888f8f.3
+        for <linux-staging@lists.linux.dev>; Tue, 08 Apr 2025 03:36:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1744107676; x=1744712476; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=nvS5tdlccUpYMdewqVDUL2P1AZVRPsP3RNJi07oU4SQ=;
-        b=G4F0rdRW+WNnvzWMpnkI+UYw/1YRMGMzaQK6ZIS20KArIiB9Mt/sufeIV5AG+S2v2q
-         blQV4ujwKhkWIbeY9nnUfs/kfP2kaXWHCUFJjNtESx5Vsp9SVWiJ8L64xSTjkjGO+vxI
-         60NrE8M2BOEqopMZehT4ingfyqW5H8PFCsjQDx8PFk1mnR9+y5Ky8SzuySmmDJlYccnO
-         LWK8NS/k70OntfOBAkmmQEEW/xOS1iTdNJbo3UikWksOScsKnvby8l3luCa2VhtyvLnJ
-         9JVHoT5ydIDvCkGWzVIp+KP1bjDxim1eX0T/+aWhBQwTGc5GQFc3kG647kZLUxNCp4Cf
-         EZZg==
+        d=linaro.org; s=google; t=1744108617; x=1744713417; darn=lists.linux.dev;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=sG5zgBeaBnx+L7h2Ew9MdPNsbBnWrTWwGOQbfcDyH0Y=;
+        b=rBGKhrvqVBwRFaLq4uPadeayCIEXTRhmfrSqN5n2Jv5KM4bjsC5+wYfeKIHEd2SFi3
+         WhIAx+xjaD66z95tRnn72pcySxxnlAOnNXSVAf1v9sI5PEpmIw/7oCwhOqFXPlnoTgxy
+         DjkZsDi+6/piUrrLrk7urVPynRHCCBuHbTiANjwv4M3+kJ9a+vlwW6jlvilkpSWGk7gh
+         cVasXZQUCfQ0QFHy+T2FR+V1C+L5lPNbIgyrsokg8CJfMR4dJmFnvXt/SIP3n/erw5O9
+         9ZOPHMLduDOeyvhWwo2sc5wlYNdAolyd1b6+1MT35NH7e/83iy+cageXlALHDx1g7wnb
+         XhIw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744107676; x=1744712476;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=nvS5tdlccUpYMdewqVDUL2P1AZVRPsP3RNJi07oU4SQ=;
-        b=koaSOFvzTlwKZa4OHlzja0jcbzhtM+lUl7TUh6TNRS6OPJMt4X8YNXBiRM4j23oQp+
-         VvG54xPHcU8ehqvd3iT81tjqHctDNq4l5EMTfcaaF419ID5aPOF7IJ61yL6i9guEGlFR
-         xT7KSRW9KWhn+SkcD80d1DO3n32hOSXHGVHrcr4/hx2Fr26alrwTiUVxPu58czjWLhGO
-         Pgd1WBpW/sNRZgAev1JA7vXYp1LDdF8Gdzpm3SuTkLHPfv/wGPPL4UUQHDRyjX0DGOL2
-         Vak4Selyd63SYpwVesYTPhuxmRvK1U/DxRoPkVaVHnGoURkr2xhfyphreBgwyAVp7MoK
-         JJfw==
-X-Forwarded-Encrypted: i=1; AJvYcCUQfPzVsaJHmHYiswk8CKlA0PQm9UQjrAjf71ImIgNeZJhaxUchVdwEsn4g0ZzRs+vPEPKQK/dhRPh17Bm4@lists.linux.dev
-X-Gm-Message-State: AOJu0YzKh5Ig4HY1COtBMqMv475wkDkrwXhoWu5oPtFbLPy+zYulVtoz
-	k7rPnufe2+HOBVeCUYXT3ZwjNmUnuCyVABl/IBC91CcfVdMb1AvL
-X-Gm-Gg: ASbGncs3jdN9QfstsbltwfNGHxc/D5dIiKPAGKL3OV/Uo3B61Q4ya0rVXcF7i5MbDww
-	KwlC6I40IzqipfekjCPKV/0y2b3Hf4eYoKrwN6OUil6M78+2XkKrGH88nBtMfVUmdNjSytkyWSD
-	nc85fImUIS9zsENiBd3CEZE3hrqu6Tkpz3dT+xIKM4tPaCfwn9OprMkPlsyoUlXWEAt3yZ1n/vY
-	K+/N+vxkCaEsqqvzIHhAWKqy7VOmnzIW7X6XkTu8zUjOXRGXorCGwwu7p6GjBZTJBH/Vv/s6eDf
-	IFffNsV2F30FuvsEf67cpMfwpOI=
-X-Google-Smtp-Source: AGHT+IHTQ7zdy21IjggxB65+WUeE2WffLJ03VXeHe93ycTaduBaTH+0V/SULfFmqu1/Ro1Mn7ZBtWA==
-X-Received: by 2002:a05:600c:4ca7:b0:43c:e8ba:e166 with SMTP id 5b1f17b1804b1-43edd3bd698mr70802975e9.22.1744107676131;
-        Tue, 08 Apr 2025 03:21:16 -0700 (PDT)
-Received: from parrot ([105.113.112.27])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43ec364c959sm155838995e9.25.2025.04.08.03.21.15
+        d=1e100.net; s=20230601; t=1744108617; x=1744713417;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=sG5zgBeaBnx+L7h2Ew9MdPNsbBnWrTWwGOQbfcDyH0Y=;
+        b=JkG1+6lbI6hKQ9R34xn6QwqKwfKx/3R4DNKhTDICcDunEmEh4NVXXczDmoBPzuIhAs
+         xtYaxl75ZJXi7pM8oM63/Igqsu0XClzIRWSS3Rk2vgaI6lf5O+slcP2gOBRaociPhEG+
+         cUyJ9TSHmxbsfJ5eJkDcqQVBWxqjwm6CbOenJsOnJiz4TE1D4tHxUkXuTf9S9QyV7Idr
+         fTS1csJtgQnpCJysEHSAR7+QdyTV4gVyI0cgYzWN10ZhKiBZBSVfshsijCgH7qW6+kpG
+         i5H+ATimDk0ldfFl9KZDp6/ZCpU6Ej8bYk+Wwzptq/3OVmqekSv51JaM5tSvjD5ORyqq
+         RjOA==
+X-Forwarded-Encrypted: i=1; AJvYcCUMpASRjHfbPFcXC8baOcPt5jVwG+cr+Xl1V75JJq5oFjlgj8KJ1NyaiVIFq4Q55h8eYlcS25GssiKvfj7h@lists.linux.dev
+X-Gm-Message-State: AOJu0Yx4Uu72ZMtV1M34FpJl8IRnwTeVkOzXtGlFjbnjK7tWM4df2/BK
+	tbdcfK5ZCkC+qxKEbFxnOevCPFR5L6qPjagXog5FMPWbyVzi5bBUAQYCWEKMbvk=
+X-Gm-Gg: ASbGncseXbRPT2nHpr7/cNSdK26fs+9ZIWe+9dxgol6Cv0z4T65Y5+XMG43lYUqtf4u
+	y214CUu+jTeZXbxDS4MLfa3fBtVOb7KZR4FKGs7KFPiSq+5rIu0ruDddNTs/R4cTIcy418sLGx2
+	ZbjiizrBwjV9jmqdXW5RmRRbq75nNeVxFf8D6WQ8a9GU1IimmuWMAS/soYKdyIr1OYJ2iEZrgNw
+	OKngZukDSIsBdUMjbaByQ26RAIjZQilSzvrFDTxhARNk2efBUlsJIy4K4WonD/UGyXuta5Ttemw
+	y3h/0ACUETih0mskmDsX3iYkhZGYekyk+Bdo/DxEXoX61HuCOO2+eAJSrfGR
+X-Google-Smtp-Source: AGHT+IGtPTU+zuWSgGfB7w18BXvfTFGqbzfm5r9SrIrzLuQfA8Y5CPDOZv1Q0DcjrDiDvt4vtBbAOw==
+X-Received: by 2002:a05:6000:2509:b0:391:2fe4:de0a with SMTP id ffacd0b85a97d-39d6fc0c1d6mr8986003f8f.2.1744108616902;
+        Tue, 08 Apr 2025 03:36:56 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-39c301a727bsm14422827f8f.27.2025.04.08.03.36.56
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 08 Apr 2025 03:21:15 -0700 (PDT)
-From: Richard Akintola <princerichard17a@gmail.com>
-To: outreachy@lists.linux.dev
-Cc: sudipm.mukherjee@gmail.com,
-	teddy.wang@siliconmotion.com,
-	gregkh@linuxfoundation.org,
-	linux-fbdev@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Richard Akintola <princerichard17a@gmail.com>
-Subject: [PATCH v2 8/8] staging: sm750fb: change sii164ClearInterrupt to snake_case
-Date: Tue,  8 Apr 2025 11:20:40 +0100
-Message-Id: <549b645b265edcb793458a534427f75f0ea343c4.1744105389.git.princerichard17a@gmail.com>
-X-Mailer: git-send-email 2.39.5
-In-Reply-To: <cover.1744105388.git.princerichard17a@gmail.com>
-References: <cover.1744105388.git.princerichard17a@gmail.com>
+        Tue, 08 Apr 2025 03:36:56 -0700 (PDT)
+Date: Tue, 8 Apr 2025 13:15:08 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Andy Shevchenko <andy.shevchenko@gmail.com>
+Cc: Samuel Abraham <abrahamadekunle50@gmail.com>, outreachy@lists.linux.dev,
+	gregkh@linuxfoundation.org, julia.lawall@inria.fr,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	david.laight.linux@gmail.com
+Subject: Re: [PATCH v6 1/2] staging: rtl8723bs: Add white spaces around
+ binary operators
+Message-ID: <b89c8837-4aa1-4073-bb09-f71f37b5dcc6@stanley.mountain>
+References: <cover.1744061673.git.abrahamadekunle50@gmail.com>
+ <4ccdbfd3e8d74d99679927f294f71cfb694fcc6c.1744061673.git.abrahamadekunle50@gmail.com>
+ <CAHp75Vfp8Je1fUavSwTDAM_5_rDaDfXETa2oM5f0CjL1mxWX_Q@mail.gmail.com>
+ <CADYq+fbh=kG2JABmdF8FjjPiyigMpnJ7WhQh+faqRk6FJe4MBQ@mail.gmail.com>
+ <Z_TtyXwkOBK1MXGy@smile.fi.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <Z_TtyXwkOBK1MXGy@smile.fi.intel.com>
 
-Change camelCase function name sii164ClearInterrupt to
-sii164_clear_interrupt in order to conform to kernel code styles
-as reported by checkpatch.pl
+On Tue, Apr 08, 2025 at 12:35:05PM +0300, Andy Shevchenko wrote:
+> On Tue, Apr 08, 2025 at 10:22:44AM +0100, Samuel Abraham wrote:
+> > On Tue, Apr 8, 2025 at 8:20 AM Andy Shevchenko
+> > <andy.shevchenko@gmail.com> wrote:
+> > > On Tue, Apr 8, 2025 at 12:54 AM Abraham Samuel Adekunle
+> > > <abrahamadekunle50@gmail.com> wrote:
+> 
+> ...
+> 
+> > > > -                                               psta->BA_starting_seqctrl[pattrib->priority & 0x0f] = (tx_seq+1)&0xfff;
+> > > > +                                               psta->BA_starting_seqctrl[pattrib->priority & 0x0f] = (tx_seq + 1) & 0xfff;
+> > >
+> > > > -                                               psta->BA_starting_seqctrl[pattrib->priority & 0x0f] = (pattrib->seqnum+1)&0xfff;
+> > > > +                                               psta->BA_starting_seqctrl[pattrib->priority & 0x0f] = (pattrib->seqnum + 1) & 0xfff;
+> > >
+> > > You mentioned Linux coding style, which also requires lines not to be
+> > > so long. These lines are. That's why a few versions ago I suggested
+> > > you to change these to be two lines each. I don't know how many times
+> > > to repeat this (it's third one).
+> > 
+> > Okay, sorry
+> > I will add a third patch for a line break before the patch for %
+> > operations since each patch should handle a single thing.
+> 
+> I am not sure you need a third patch for that. It lies into category of space
+> and indentation fix.
+> 
 
-CHECK: Avoid camelCase: <sii164ClearInterrupt>
+Yeah.  Let's not go crazy.  Do the white space change as one patch.  The
+rules are there to make reviewing easier.  Splitting it up into three
+patches doesn't help anyone.
 
-Signed-off-by: Richard Akintola <princerichard17a@gmail.com>
----
- drivers/staging/sm750fb/ddk750_dvi.c    | 2 +-
- drivers/staging/sm750fb/ddk750_sii164.c | 4 ++--
- drivers/staging/sm750fb/ddk750_sii164.h | 2 +-
- 3 files changed, 4 insertions(+), 4 deletions(-)
+In staging we say, "Fix one type of checkpatch warning at a time."
+That's because it's a simple rule to explain and it stops people from
+sending us huge patches that fix every checkpatch warning.  But this
+patch is small and everything is related and it's easy to review.
 
-diff --git a/drivers/staging/sm750fb/ddk750_dvi.c b/drivers/staging/sm750fb/ddk750_dvi.c
-index 1def02be4cce..6fef1ab484c1 100644
---- a/drivers/staging/sm750fb/ddk750_dvi.c
-+++ b/drivers/staging/sm750fb/ddk750_dvi.c
-@@ -24,7 +24,7 @@ static struct dvi_ctrl_device dcft_supported_dvi_controller[] = {
- 		.enable_hot_plug_detection = sii164_enable_hot_plug_detection,
- 		.is_connected = sii164_is_connected,
- 		.check_interrupt = sii164_check_interrupt,
--		.clear_interrupt = sii164ClearInterrupt,
-+		.clear_interrupt = sii164_clear_interrupt,
- #endif
- 	},
- #endif
-diff --git a/drivers/staging/sm750fb/ddk750_sii164.c b/drivers/staging/sm750fb/ddk750_sii164.c
-index aebde3d8b903..fc725a9952d4 100644
---- a/drivers/staging/sm750fb/ddk750_sii164.c
-+++ b/drivers/staging/sm750fb/ddk750_sii164.c
-@@ -390,10 +390,10 @@ unsigned char sii164_check_interrupt(void)
- }
- 
- /*
-- *  sii164ClearInterrupt
-+ *  sii164_clear_interrupt
-  *      Clear the hot plug interrupt.
-  */
--void sii164ClearInterrupt(void)
-+void sii164_clear_interrupt(void)
- {
- 	unsigned char detectReg;
- 
-diff --git a/drivers/staging/sm750fb/ddk750_sii164.h b/drivers/staging/sm750fb/ddk750_sii164.h
-index aa3f34c13979..ebc173658f0e 100644
---- a/drivers/staging/sm750fb/ddk750_sii164.h
-+++ b/drivers/staging/sm750fb/ddk750_sii164.h
-@@ -37,7 +37,7 @@ void sii164_set_power(unsigned char powerUp);
- void sii164_enable_hot_plug_detection(unsigned char enable_hot_plug);
- unsigned char sii164_is_connected(void);
- unsigned char sii164_check_interrupt(void);
--void sii164ClearInterrupt(void);
-+void sii164_clear_interrupt(void);
- #endif
- /*
-  * below register definition is used for
--- 
-2.39.5
+regards,
+dan carpenter
 
