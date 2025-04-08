@@ -1,72 +1,72 @@
-Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
+Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 979A22580F4
-	for <linux-staging@lists.linux.dev>; Tue,  8 Apr 2025 22:21:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D77DA2580C6
+	for <linux-staging@lists.linux.dev>; Tue,  8 Apr 2025 22:21:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744150862; cv=none; b=Rj6jtC5X51Vt+Er+/Hrt4JTs77KVyHWIV399huszMX7glaOHYLcWrTjVvcGqmCJR9gTS6VEGYe4MJfAMoIa57BTGe7Dn4W7rHbhseovA1LNI50YF/a+30bb4PLBweURyyQ8rAzoaHp4eMIhVVVIg+ZJm0TgVIxcvvBZ80+glWhU=
+	t=1744150863; cv=none; b=pDJJhP8DVrPp/LiZuShLeo3vMsDSbNspcH35YucA9iMYads7i7jBxESJetSkf/qb5gB8dp7vJMnXFc97r5XfFp6rqod+D7wgDFPKrDPXx5fwmxeUd5ncxhILPjU3eF9XF/8fCAHawnEjQmBhiiEvqc61vlkFbxMuokp99k36P3A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744150862; c=relaxed/simple;
-	bh=XyPbod8/7vQVXtK70+jplftstJkcfOxYtIGTLd7Yc4Y=;
+	s=arc-20240116; t=1744150863; c=relaxed/simple;
+	bh=0GHjXg9oA+3dug+C11O84G6bQD9WN8uapAig/tew87A=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=dsblkZKw9Fc9AKJMGvDZ9zkICBpe3Wbn0LGkdlW4LZiKwGgIOLks98pKxVHxD1Sy97KrIgH9u2jNqL5bYrjZiIgPhQD4cN9EgbM17RzEESV4illpCW/8y2S9TzzwqT/x7pv5UATyJy79+4L0BUwC6J9Z4LbIVTesU5EZ3Vq/VUI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=neverthere.org; spf=pass smtp.mailfrom=neverthere.org; dkim=pass (2048-bit key) header.d=neverthere.org header.i=@neverthere.org header.b=Bh2a+ium; arc=none smtp.client-ip=209.85.210.171
+	 MIME-Version; b=CIQ9JqunI/ppLJilZjQMQrb8wW8JrcZRT6VGB2KX9S4AQtU2mZgjnIWGiFeh4qud6NRNbELt7WpluzABsA1tUDrPOP+5PeBWIdeuJ8djCTuW9/bkmAlDfreBdlE44LT/Qik/ZHaIaUVKYqjiTX5yTbE95qaLBf6HAt2zQmZrT8k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=neverthere.org; spf=pass smtp.mailfrom=neverthere.org; dkim=pass (2048-bit key) header.d=neverthere.org header.i=@neverthere.org header.b=bjnh99wS; arc=none smtp.client-ip=209.85.210.169
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=neverthere.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=neverthere.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=neverthere.org header.i=@neverthere.org header.b="Bh2a+ium"
-Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-736ab1c43c4so5935502b3a.1
-        for <linux-staging@lists.linux.dev>; Tue, 08 Apr 2025 15:21:00 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=neverthere.org header.i=@neverthere.org header.b="bjnh99wS"
+Received: by mail-pf1-f169.google.com with SMTP id d2e1a72fcca58-736c277331eso106020b3a.1
+        for <linux-staging@lists.linux.dev>; Tue, 08 Apr 2025 15:21:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=neverthere.org; s=google; t=1744150860; x=1744755660; darn=lists.linux.dev;
+        d=neverthere.org; s=google; t=1744150861; x=1744755661; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=jSATZl8+I0KjdHP6z4Ok+44QEtTVto5FwknMhI/D384=;
-        b=Bh2a+iumRu/GuqiWlIzU3R0BWbEW74sw1pMs9dlQwnJiKp6ix1DAjIBSYpVYDaqq3s
-         BYrQ59OpUWEZvNSTK7rw7Tcu/jMm7MgqqFo6+0xjNbTHyVZGuHYwNazK5dsHLMEqmUEP
-         ZcceLKQTq8avKWfdyDKNTKG2+Og6RlYQZytrEjKzq2PYfVtVHKuDEAo5VeMuCsiQ073+
-         CNfnsZ3Q1JsXxmr7kQRwDF57USPMnbOfPwHWpMMI2v9UzKcSUL14Bq2eJiyd7ShbH2F1
-         GA9LIDcXgnFaMF59+IIC4v3WvsC4+hoGuYTFd996Cz2qitt2ALUlC93mw9jdI2BktZOZ
-         0EyA==
+        bh=uUHiuFyPdBXiOlFTx9RUxiDTC3xrN1hTq7r3n53RdSE=;
+        b=bjnh99wSANNoQHPq6rehvCLLl/XIl+ND7XtAsGMnMeDgmC9AfD19POh9x8e9QuqyVm
+         DuN91CZw70H+m5edEb6VwJN/2KKqx49d5QrtRWOb959QdsgoYi7uy5wMn12w/tjBsA/H
+         l6NzylzZv9BrD6kNTsdxkkHwjcMrV59q3lS60R+bjlgJ/63Wr8G7REsCmjJQ2ziEtM0/
+         htejRQnxcGtUPETcD/E3vKAPOf78uaduaoeQNO8abZQfvCqTtQeqmXS7cUQCcIPFWTvj
+         VkDCWRd0H/QSIw1IQIZ88NSW9XyjfW5yW+o5n1hTTTluQ/0M1HzepJBobgYIAXkar6IE
+         05eA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744150860; x=1744755660;
+        d=1e100.net; s=20230601; t=1744150861; x=1744755661;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=jSATZl8+I0KjdHP6z4Ok+44QEtTVto5FwknMhI/D384=;
-        b=XQCwqovNDvdzXSSLWaPwcpTrZBJ2Z/YKPtd0GT1pagB3ARFREYxWGeDPDXTHexBEDy
-         +8gLuS/UsP9TY1+ihlzRneVwHfMa2ZCHWGg2zPmkuYdg564iJ5JmsaxOt7d0NaowlR7X
-         MWXSA7WoSI0rEZXBRKyOvUsLh6OeVdp0/OhPZC0o4zA+We/gLBm/FoUjR9eTfpzeGJSz
-         YTa0TncNDP/WUDaoYl17+BGHsXscr03+Gusy6JY677lfBmnHNP9qZV0/JSQV8YWd5izS
-         4a+eEfb/vscinsEzqV4WKklw3w/ftmDQg05TUc7GoD+emRl23BRxAMtjIx3m2L4Qjsia
-         qKGA==
-X-Forwarded-Encrypted: i=1; AJvYcCXPV7PmaY1j1fI9FnsfJhvO+URsiVDZKCZel++q78yKllYDeE9a7XurmF7X3WDXJtB4ozo+XQWg7IrCzqED@lists.linux.dev
-X-Gm-Message-State: AOJu0YzByrMAKP3FgKn8Bpv4XKsmKg+xV28hFdMw5cq94Kl15RHD7xdN
-	popWr1y2Jx+2JoQn0ogyTHFy+YHdhw9kUr3JFi2qpJRz6Sl1cNbter0ZJDs6Kg==
-X-Gm-Gg: ASbGncuF4vrNwKb4SppV5WbgyJkg4cW2TkSUfRNw5sCM2489YPErxsoHD/tlEWFA9om
-	mXh2r85SAwydVdPg3YwjtgHpr55ieuvWNo45EUnuOX2PQvjreCh4u/S856b8amOTMnHR50JwUTx
-	tyKMcr3fbWFCGZcLRFvm6J5e7XNSUbpQo3ZEdpVqpuyFuY7lzLO+1Ec8VvquWM7TYy381A+UpQc
-	B3L5LKb9pG3DweZAu0yVYGl4FG6FjbVNinEUVSsLy1B0k/qRwmJhHzJ0F2bw8eDzzZW2o2tI/El
-	+uSbbXMA+inNVybyDJI56V0MwTQxwH9lVHZ2bpXVwvM+TFab7PZp4GtJK/HZcdW2ofTqCwGeq5J
-	dqVnAZhVC6urET71PtvCZ
-X-Google-Smtp-Source: AGHT+IFmwXnZEkFNi+5qKrJ4pV+MlosS7Qw8EgUIA4Mc5+r6uHgJAKqAHOt/HfZICbbPLTKWVuxgDA==
-X-Received: by 2002:a05:6a20:438f:b0:1f5:9024:3254 with SMTP id adf61e73a8af0-2015ae9945bmr181239637.6.1744150859971;
-        Tue, 08 Apr 2025 15:20:59 -0700 (PDT)
+        bh=uUHiuFyPdBXiOlFTx9RUxiDTC3xrN1hTq7r3n53RdSE=;
+        b=iCjD7RFJ4wQf4oHAQ2TKy2Rxx3yyyX6ijEq3YZ//tKiCdcJq1vQeAjLiNA2V3hIjYH
+         kCXzqPP1nJvxY3kfmWzHm8bFWTa3KeQ/mv0GsxxctrO4gfw2UnMXwQbvbrQ/LFR4gClP
+         YXGJ4HkwhVUhx1U+SOvVXClC1o5Y4w3qZ3Sx/zgRGP0j56W/nwODK7iOdRkpAmMjoTRn
+         zMyasr6vIsfYrDLSbHCw6sgiLm+8M55J2zM0ZUdOt3OwifxoQGK6qgTrZeZR9uUTafMq
+         Z/NRE3iSfHrzrZ7RJEAog+O86Col7kERElX6a641ZoNgQ0MfcJWVXwH/dnM11kz+iV17
+         bkVw==
+X-Forwarded-Encrypted: i=1; AJvYcCUp7Ul+x66kQHKS0u+FJ3kT+ZgVGO3n3DoNSAf9kSsohkELnAGodpGwFAyw19jnu0CM49pPjxiNwAEp++hW@lists.linux.dev
+X-Gm-Message-State: AOJu0Yzg9yq354g7n09feAU5AYoXN5Uoz9uC5Ten9EJPDs/rmkYK3Yp/
+	oCKHoKMLml4kIiCC3vln+k/OjQ+JAhKvRJ5MLOZ+Z2/yavIoz9S9bwDkDt/www==
+X-Gm-Gg: ASbGnctnmUiIKQkUPoJoJ8ZsiVjKEtOOEwX4s38o528C9nlVwtbWuSItmVu1V9XQrfo
+	FXTltGu7HiD8iZJ7q8J/uYicdWPTOauttxAHzmfgwPVF1FWNHjJrfOnLumrAocH+I3b5WREFMvc
+	FWyZg6b1EeHjgi5QrrlMUOlfZ89t+wUbJA7ww5v965KS42w+8epZoANrPDNSP8V0DPfwgp+ckCX
+	3CZHxBwnzVTMRotGFayDhJPwoWtbigLbRmycPP47IN/hEiVJO3Lh56seu96qlz2ZwaSv89QVmhO
+	NSqo3G+O279o5nWs3T6VYuWzBKjRhvmm9rSMTAty8vA1tQLmi9szmy2EiLoEYS/5Y3cQm+vZC9F
+	cGZWDIWXUBQ==
+X-Google-Smtp-Source: AGHT+IGwkZAbeNFJSC3+qEazzhQmoUaLB+22REfYnqNDjZaYsDfkqsut5Iv+kYGcEmAtzr1UbG5x1w==
+X-Received: by 2002:a05:6a00:7418:b0:725:4a1b:38ec with SMTP id d2e1a72fcca58-73b9d2e3a0dmr6065958b3a.3.1744150861176;
+        Tue, 08 Apr 2025 15:21:01 -0700 (PDT)
 Received: from tiamat (c-69-181-214-135.hsd1.ca.comcast.net. [69.181.214.135])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-739d9ea09c8sm11459503b3a.101.2025.04.08.15.20.59
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-739d9ea079esm11492531b3a.95.2025.04.08.15.21.00
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 08 Apr 2025 15:20:59 -0700 (PDT)
+        Tue, 08 Apr 2025 15:21:00 -0700 (PDT)
 From: Michael Rubin <matchstick@neverthere.org>
 To: gregkh@linuxfoundation.org,
 	dpenkler@gmail.com,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
 Cc: Michael Rubin <matchstick@neverthere.org>
-Subject: [PATCH v1 13/14] staging: gpib: nec: Fix Improper SPDX comment.
-Date: Tue,  8 Apr 2025 22:20:39 +0000
-Message-ID: <20250408222040.186881-14-matchstick@neverthere.org>
+Subject: [PATCH v1 14/14] staging: gpib: tms9914: Fix Improper SPDX comment.
+Date: Tue,  8 Apr 2025 22:20:40 +0000
+Message-ID: <20250408222040.186881-15-matchstick@neverthere.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20250408222040.186881-1-matchstick@neverthere.org>
 References: <20250408222040.186881-1-matchstick@neverthere.org>
@@ -84,17 +84,17 @@ Adhere to Linux kernel coding style.
 
 Reported by checkpatch
 
-WARNING: Improper SPDX comment style .../nec7210.h', please use '/*' instead
+WARNING: Improper SPDX comment style .../tms9914.h', please use '/*' instead
 
 Signed-off-by: Michael Rubin <matchstick@neverthere.org>
 ---
- drivers/staging/gpib/include/nec7210.h | 2 +-
+ drivers/staging/gpib/include/tms9914.h | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/staging/gpib/include/nec7210.h b/drivers/staging/gpib/include/nec7210.h
-index 4b06ac0408df..5c57fbffb9d0 100644
---- a/drivers/staging/gpib/include/nec7210.h
-+++ b/drivers/staging/gpib/include/nec7210.h
+diff --git a/drivers/staging/gpib/include/tms9914.h b/drivers/staging/gpib/include/tms9914.h
+index 6cbaf5a041e0..08a40d84825f 100644
+--- a/drivers/staging/gpib/include/tms9914.h
++++ b/drivers/staging/gpib/include/tms9914.h
 @@ -1,4 +1,4 @@
 -//* SPDX-License-Identifier: GPL-2.0 */
 +/* SPDX-License-Identifier: GPL-2.0 */
