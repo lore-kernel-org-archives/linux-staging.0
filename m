@@ -1,73 +1,72 @@
-Received: from mail-ot1-f49.google.com (mail-ot1-f49.google.com [209.85.210.49])
+Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C70B9259C92
-	for <linux-staging@lists.linux.dev>; Tue,  8 Apr 2025 22:37:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39C34259CA4
+	for <linux-staging@lists.linux.dev>; Tue,  8 Apr 2025 22:37:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744151845; cv=none; b=fnwJc6FWS+r6y0S3QM+8IQjnVD1ULaGurCXBkFiGCJ7P1obsv5gSHNXar4CCl+jOoE9YvN3kYDXhJXrj42JpzqpgBO7Q21GPzvtkKeAfTea/TIr8IW3+PSNxUZOQ/QE9vgHQSL7W8U6UmVa65dK8dEADyD8iq4fm698CuzeiJXg=
+	t=1744151845; cv=none; b=NLDK8wZM+SSp6aRYrV7TmzGAK0JYBEKWfDFNqCwtOq15M11I3E2mHKFE0GJjszz1E7/vwo+wta3mNMvMeUysCAyU8NN8h3yYrxAXObrhwvP5Q69wbXokorZms64MRCwYMgr1+2/MvlH6vE/cscCuEwDIMDJeKRAU6ZEjucyV8vI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1744151845; c=relaxed/simple;
-	bh=oA4pyrX24y1bCy2gqUioXPrzN6EHIu1R3/OUBiH3obw=;
+	bh=EDe/v+ceS3a7mNmvmw5sWy6oiSYKVkUiKcSfABJrvLI=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=PQ8s+t8nogG3xtVfnNl4h8O/a8KqOm0zj41uAvDOnqZ7lsNZpwJOxl9NJp0hCeP8LAqZ4kp+AK+TsHixZsjxyWrGr3PgxHezra+hElSMGva8UL9ZOLa2+TmdJHVz+LL01LPvVe2fCg57to6DmYr1+TJQFYH3Je9LDyhHqPbRGUQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=neverthere.org; spf=pass smtp.mailfrom=neverthere.org; dkim=pass (2048-bit key) header.d=neverthere.org header.i=@neverthere.org header.b=hZGgMP3O; arc=none smtp.client-ip=209.85.210.49
+	 MIME-Version; b=HSoSjJcSxFyQOHDl989SXtQVBgNwIkcdwb0gLmVJfQ7CSZOTpDDjGSJy4nGfEUlKA8lpmfmEk0IXVOTGIiJdZ73/9uQZnW4GWjzizHrVK/QLgvXTHgg9MbRBHAQxIFbbi318AzSu25lJlACzndNgSUwuyQKeikBg41rbdPevdOk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=neverthere.org; spf=pass smtp.mailfrom=neverthere.org; dkim=pass (2048-bit key) header.d=neverthere.org header.i=@neverthere.org header.b=BLIRoGwn; arc=none smtp.client-ip=209.85.216.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=neverthere.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=neverthere.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=neverthere.org header.i=@neverthere.org header.b="hZGgMP3O"
-Received: by mail-ot1-f49.google.com with SMTP id 46e09a7af769-72bccda48cbso3515770a34.1
-        for <linux-staging@lists.linux.dev>; Tue, 08 Apr 2025 15:37:23 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=neverthere.org header.i=@neverthere.org header.b="BLIRoGwn"
+Received: by mail-pj1-f41.google.com with SMTP id 98e67ed59e1d1-3031354f134so4666547a91.3
+        for <linux-staging@lists.linux.dev>; Tue, 08 Apr 2025 15:37:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=neverthere.org; s=google; t=1744151843; x=1744756643; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=48CnxiwOG1VbFBlXoNHKj2YQK9a79sPTwkYUOXtTir0=;
-        b=hZGgMP3O65sKiXcTh7Jg7XCEHsf2h15SvR80CMLZC0ocVEIVnRqpA83DwnrogtNtzf
-         upS33+ZYvmb4UVP9T4aLOOjzAlOkxQkDYyO7nPRhgRZuBxTBCEIB65eefsiNc3c7pnNk
-         vd4biNkMquHeFGmTyOOBppOw5ps9xR444gAsh1wXz5GEyhdaJOYJVNUuPcMkVwVURonf
-         RQTFIONZsE4VHjtDD+cmdy5Dve15d1LFjPWG5zAIeQ3TQTlC03KoLfVLiz0zyXOAR+vB
-         FIDWbH6i7pcDFwAfhSC7yiwfu3x3kefPRm60leB4FzXE5uJbbGpk6LJTl/RiAPWcHbjD
-         q1dA==
+        bh=HafV7m212oxhd9ZR4mr+TfwYqRBb6sb8NYg6QNI6i1I=;
+        b=BLIRoGwnYCj3h6pFKu41oRsxQS+UpFf0HFhtE4vk9V7T4TB2ksadOeAxW5Us/vqI9a
+         jciom+V/bUKeP/trZdoldQmkRGVmG2BKE3mBfx3lqy7nhJPHcqMPlwkosaKvIpfPSLGo
+         1/OKoxIGcoO83HMCeXoL1wTeDq2gBweQ5M4iWElpq/e1YUrV83ibUyA0aUdWvHyzIBlF
+         5sbSREMyUc0315c1lmtxsRuLm/OQSFWWZSOJK2i+YfNl5AXv+uXdTzr7bN3ZTONo683C
+         sc+q7NBwoWY8HH/a0mQiMCVg52kPsudYDxYW7zlqb/dY0nQ0sbxTKP16WZ/1oC9s077v
+         W46A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20230601; t=1744151843; x=1744756643;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=48CnxiwOG1VbFBlXoNHKj2YQK9a79sPTwkYUOXtTir0=;
-        b=fotv3YDy+8Y3zidyXFHctxhZt/lVnvN9wzxyXgLC8Fcd1FDRrHx48zzBhPaLMTGn6X
-         u9YUcJMh9CA8XSOk3Y4K3xOHubkUQzR5XCoCzHoOudKLukXGXKFoXffHYtbwbw2mv7LU
-         DCJByxCd4y0HlTPiAV8+oFu7b+T6thmd5qZcJR/AddPZ5Oej4V1mHQnjSfeCEKltlnwy
-         6i+Mq3d7d6t0IgXcghL4AwIJ1IJcLeXO4Ra2maiEcU0FhvSopOLnGCOAZGY/En2WqNcX
-         /jzrUWWYJ6Ew4HvLlnu+0Ms7o/SrrER7j6ebpaHw7FdibK3i7lVj3KHpdK4KMuom8TXW
-         H6fg==
-X-Forwarded-Encrypted: i=1; AJvYcCXSU24DgygDCBKy3G3KwjS8Sp03MZxPlLhcm0Z9Cha1ghlcdA3RIFYcMQ63qU6QwhgVVTwxWpXxMF3wygMa@lists.linux.dev
-X-Gm-Message-State: AOJu0YxwV9WyR0JaIhpIi07/Lp9eaMx6iIsVLAMDTYKMZV62AYv8Jy1Y
-	zDtimvT4cYOFQ3aMyLJIX7JOq4BGYeu2owSBikuiyfQPHJM2H6klLtTB3t0wOfbF51EyY5Bkjuw
-	=
-X-Gm-Gg: ASbGnctks4n36HZHBhe1K4phDQhtYW7/0ghuf7e/M3OUi8oIdUuIJZPECLaEfIJjDCi
-	hWYLGYEOFPMr718MxUmObsfI39fJLI8fpHOsAFtgeI3GAs4URenFf4PZANuQ6S7dIfhThbUgufq
-	ifpIStdtBCDH2AL72xYts3FL+sZ+eXwVEayQqYPnDLMLbNVsk9xceRvbi3N5ysJnBcD8HCKF6qk
-	tPjECYKEwA3unNKxOsY0pmzMgo7TOSm2ebSeIpWHENhv/Jd42I7ssL2s0ahuImFJklokK+Yg4Sx
-	qSQkMWHtm7qhTm1Y9LF6OBMnAdJ1O/H1vL27cqvkVJUfOhNLEf5jtgydsmWo/D5HLIYtsnlgJ6b
-	EtltiF89FrA==
-X-Google-Smtp-Source: AGHT+IE7laCrDlkJfZ2SLpK5B8rdk0gdRJBXS0kMSGA9v+TVbdwQ5sHhRHKe4IAEWaIN+FjdabLoGw==
-X-Received: by 2002:a17:902:f686:b0:224:256e:5e3f with SMTP id d9443c01a7336-22ac29bc2b8mr9927275ad.25.1744151832207;
-        Tue, 08 Apr 2025 15:37:12 -0700 (PDT)
+        bh=HafV7m212oxhd9ZR4mr+TfwYqRBb6sb8NYg6QNI6i1I=;
+        b=Mi508T9c09zpay4b/G1cb1XNp986EP7NU1CgSSY1QfVcI6fq9qQy9Pp0r1Kaj/13mX
+         RO825P5gM502IIq44wg+ZOwu71krP+xtrmexL8nMxakU54pGlxSZwu3F9OmMO0DGF5GN
+         tZaSto7vhk1P+tGpPkdS7R5xzxnBw4rZE5+ZF1DT5hxbKW6LlTsIRpIUKQbDuoaCuNM1
+         zbkjayhZWlb6Y95aiqigjcj9C0dfqD2oaqz6Lpolrq1O+gireAuTnm1eJ8XaCYbt4iSO
+         wfmtsjzF7fcX4RRPcSBigXQYEODa0vK90rR76BjiOczGIO8mVcPze4GtuhyXIEKtayOd
+         BCYQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXoLK0/nUpfcEwdCZanpQhlLqQSHKXJdui0qcw7qCWZs+jW0bTwC8Vdf6gQm5xdjXSvFMpe7t4kiEMWyein@lists.linux.dev
+X-Gm-Message-State: AOJu0Yy9y9IEBkxP5zlGKtHxv2L1WCXdKrJ8RxZ63+pHpq7R8wx8COZ8
+	oeVDBdUM8qXJPqPRZ81RnarSMyhcxTg/IIPIZEs/hBsWRN9kbQboxjV9LWccIw==
+X-Gm-Gg: ASbGnctfr0g5uroo7JvLxMsacHQ9wBS3qMu3pByJcQSPmtQdmoyWvuYOhRPn5wjfP0R
+	RBDXW5HCXPhqk9nklXdJZEcrsTfO6EPsm+OHFPjGXpuMx+99EwDOYh3+W+yPgDLSgMyeaTaUMQn
+	qpVK6CUmXn/nFoNwSYGXwJge+7uBTVeUSp2tYp/KUmCI+IsMTzweXg+JnT2Eu4NNOxx+CUrOdY9
+	CgXMGsPTPt/OolrGaT+IkpCUZSgRy07+wVBgWuyz4SLVmgOcA3Tj/BAhmbM3NKhW2UCv/+TGYvk
+	Qm1eRHZChG7gvWxdIup9A70dzbUkJvlfhhihAaw1RHzL/2uXAbMPV4KYKzGLzS5ZIvsTn+tMlbX
+	wh/7RgNXJI0ux5OFHVV14
+X-Google-Smtp-Source: AGHT+IG8o+6R23mHGAHJzEyRzY5w9h+Av8Ahw5BDr+ZVDin1/+zjf4sgEVTD8dOoEDFUTBUNzC5pkw==
+X-Received: by 2002:a17:90b:2d0d:b0:2f9:c144:9d13 with SMTP id 98e67ed59e1d1-306dbc29f06mr1214429a91.24.1744151843610;
+        Tue, 08 Apr 2025 15:37:23 -0700 (PDT)
 Received: from tiamat (c-69-181-214-135.hsd1.ca.comcast.net. [69.181.214.135])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2297866e132sm106704155ad.177.2025.04.08.15.37.11
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2297865e5d7sm105919855ad.124.2025.04.08.15.37.23
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 08 Apr 2025 15:37:12 -0700 (PDT)
+        Tue, 08 Apr 2025 15:37:23 -0700 (PDT)
 From: Michael Rubin <matchstick@neverthere.org>
 To: gregkh@linuxfoundation.org,
 	dpenkler@gmail.com,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
 Cc: Michael Rubin <matchstick@neverthere.org>
-Subject: [PATCH v1 08/18] staging: gpib: fmh: struct gpib_board_config
-Date: Tue,  8 Apr 2025 22:36:48 +0000
-Message-ID: <20250408223659.187109-9-matchstick@neverthere.org>
+Subject: [PATCH v1 18/18] staging: gpib: Removing typedef gpib_board_config
+Date: Tue,  8 Apr 2025 22:36:58 +0000
+Message-ID: <20250408223659.187109-19-matchstick@neverthere.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20250408223659.187109-1-matchstick@neverthere.org>
 References: <20250408223659.187109-1-matchstick@neverthere.org>
@@ -79,9 +78,7 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Using Linux code style for struct gpib_board_config
-
-Adhering to Linux code style.
+Removing gpib_interface_t to adhere to Linux code style.
 
 Reported by checkpatch.pl
 
@@ -90,93 +87,39 @@ directly accessed should never be a typedef.
 
 Signed-off-by: Michael Rubin <matchstick@neverthere.org>
 ---
- drivers/staging/gpib/fmh_gpib/fmh_gpib.c | 27 ++++++++++++++----------
- 1 file changed, 16 insertions(+), 11 deletions(-)
+ drivers/staging/gpib/include/gpib_types.h | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/staging/gpib/fmh_gpib/fmh_gpib.c b/drivers/staging/gpib/fmh_gpib/fmh_gpib.c
-index b2c379ce4c88..30fbf1065de2 100644
---- a/drivers/staging/gpib/fmh_gpib/fmh_gpib.c
-+++ b/drivers/staging/gpib/fmh_gpib/fmh_gpib.c
-@@ -32,13 +32,15 @@ MODULE_DESCRIPTION("GPIB Driver for fmh_gpib_core");
- MODULE_AUTHOR("Frank Mori Hess <fmh6jj@gmail.com>");
+diff --git a/drivers/staging/gpib/include/gpib_types.h b/drivers/staging/gpib/include/gpib_types.h
+index 1c641f17bdeb..0253ef2c94a3 100644
+--- a/drivers/staging/gpib/include/gpib_types.h
++++ b/drivers/staging/gpib/include/gpib_types.h
+@@ -23,7 +23,6 @@
+ #include <linux/interrupt.h>
  
- static irqreturn_t fmh_gpib_interrupt(int irq, void *arg);
--static int fmh_gpib_attach_holdoff_all(struct gpib_board *board, const gpib_board_config_t *config);
--static int fmh_gpib_attach_holdoff_end(struct gpib_board *board, const gpib_board_config_t *config);
-+static int fmh_gpib_attach_holdoff_all(struct gpib_board *board,
-+				       const struct gpib_board_config *config);
-+static int fmh_gpib_attach_holdoff_end(struct gpib_board *board,
-+				       const struct gpib_board_config *config);
- static void fmh_gpib_detach(struct gpib_board *board);
- static int fmh_gpib_pci_attach_holdoff_all(struct gpib_board *board,
--					   const gpib_board_config_t *config);
-+					   const struct gpib_board_config *config);
- static int fmh_gpib_pci_attach_holdoff_end(struct gpib_board *board,
--					   const gpib_board_config_t *config);
-+					   const struct gpib_board_config *config);
- static void fmh_gpib_pci_detach(struct gpib_board *board);
- static int fmh_gpib_config_dma(struct gpib_board *board, int output);
- static irqreturn_t fmh_gpib_internal_interrupt(struct gpib_board *board);
-@@ -1335,7 +1337,7 @@ static int fmh_gpib_init(struct fmh_priv *e_priv, struct gpib_board *board, int
- /* Match callback for driver_find_device */
- static int fmh_gpib_device_match(struct device *dev, const void *data)
- {
--	const gpib_board_config_t *config = data;
-+	const struct gpib_board_config *config = data;
+ struct gpib_board;
+-typedef struct gpib_board_config gpib_board_config_t;
  
- 	if (dev_get_drvdata(dev))
- 		return 0;
-@@ -1351,7 +1353,7 @@ static int fmh_gpib_device_match(struct device *dev, const void *data)
- 	return 1;
- }
- 
--static int fmh_gpib_attach_impl(struct gpib_board *board, const gpib_board_config_t *config,
-+static int fmh_gpib_attach_impl(struct gpib_board *board, const struct gpib_board_config *config,
- 				unsigned int handshake_mode, int acquire_dma)
- {
- 	struct fmh_priv *e_priv;
-@@ -1454,12 +1456,12 @@ static int fmh_gpib_attach_impl(struct gpib_board *board, const gpib_board_confi
- 	return fmh_gpib_init(e_priv, board, handshake_mode);
- }
- 
--int fmh_gpib_attach_holdoff_all(struct gpib_board *board, const gpib_board_config_t *config)
-+int fmh_gpib_attach_holdoff_all(struct gpib_board *board, const struct gpib_board_config *config)
- {
- 	return fmh_gpib_attach_impl(board, config, HR_HLDA, 0);
- }
- 
--int fmh_gpib_attach_holdoff_end(struct gpib_board *board, const gpib_board_config_t *config)
-+int fmh_gpib_attach_holdoff_end(struct gpib_board *board, const struct gpib_board_config *config)
- {
- 	return fmh_gpib_attach_impl(board, config, HR_HLDE, 1);
- }
-@@ -1497,7 +1499,8 @@ void fmh_gpib_detach(struct gpib_board *board)
- 	fmh_gpib_generic_detach(board);
- }
- 
--static int fmh_gpib_pci_attach_impl(struct gpib_board *board, const gpib_board_config_t *config,
-+static int fmh_gpib_pci_attach_impl(struct gpib_board *board,
-+				    const struct gpib_board_config *config,
- 				    unsigned int handshake_mode)
- {
- 	struct fmh_priv *e_priv;
-@@ -1570,12 +1573,14 @@ static int fmh_gpib_pci_attach_impl(struct gpib_board *board, const gpib_board_c
- 	return fmh_gpib_init(e_priv, board, handshake_mode);
- }
- 
--int fmh_gpib_pci_attach_holdoff_all(struct gpib_board *board, const gpib_board_config_t *config)
-+int fmh_gpib_pci_attach_holdoff_all(struct gpib_board *board,
-+				    const struct gpib_board_config *config)
- {
- 	return fmh_gpib_pci_attach_impl(board, config, HR_HLDA);
- }
- 
--int fmh_gpib_pci_attach_holdoff_end(struct gpib_board *board, const gpib_board_config_t *config)
-+int fmh_gpib_pci_attach_holdoff_end(struct gpib_board *board,
-+				    const struct gpib_board_config *config)
- {
- 	int retval;
- 	struct fmh_priv *e_priv;
+ /* config parameters that are only used by driver attach functions */
+ struct gpib_board_config {
+@@ -55,7 +54,7 @@ struct gpib_interface {
+ 	/* name of board */
+ 	char *name;
+ 	/* attach() initializes board and allocates resources */
+-	int (*attach)(struct gpib_board *board, const gpib_board_config_t *config);
++	int (*attach)(struct gpib_board *board, const struct gpib_board_config *config);
+ 	/* detach() shuts down board and frees resources */
+ 	void (*detach)(struct gpib_board *board);
+ 	/* read() should read at most 'length' bytes from the bus into
+@@ -291,7 +290,7 @@ struct gpib_board {
+ 	struct gpib_pseudo_irq pseudo_irq;
+ 	/* error dong autopoll */
+ 	atomic_t stuck_srq;
+-	gpib_board_config_t config;
++	struct gpib_board_config config;
+ 	/* Flag that indicates whether board is system controller of the bus */
+ 	unsigned master : 1;
+ 	/* individual status bit */
 -- 
 2.43.0
 
