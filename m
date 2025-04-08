@@ -1,206 +1,69 @@
-Received: from smtp.forwardemail.net (smtp.forwardemail.net [149.28.215.223])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5401F23DE8F
-	for <linux-staging@lists.linux.dev>; Tue,  8 Apr 2025 18:35:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=149.28.215.223
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32394245015;
+	Tue,  8 Apr 2025 19:41:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744137306; cv=none; b=RSwF6oYWamkvG0MXdLeGPlsl72pRRpYKIRqgtYftX/9NmSYz7Kc1mKaFAcAZMmisJV6Vpqj2mFYVyubpAp2D8kxFbY/3kZee1Kecw4tSY5bG0XBMvmRmPOp+1b/NDmnJThCyl9B3MaONeMQnMGBSa2mFkU5eCNzLUAZpix3eMNI=
+	t=1744141274; cv=none; b=aeRCiwfAW/3/n4SWCAQUfDD1RyQKphupse2rcAxM8p3l74GrgC1fqStj+dXiWoM6TFqVh7ziY42Zu8AOydeDjB9vMX5fYHTrNvXIdGau8wCYPZ5gGbqY9DI6yIGxPBXB/tcwJsYsOSAC8VGM6mpJkYm5NV2ZmlCe/ho6afTUorw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744137306; c=relaxed/simple;
-	bh=xITh2gFEFUTwWXLn9kVObVg1+6mqJchucQoh/pEO96g=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=WGB+XbNUw7dddDiPiDE21tatEgLBRy2A7vFEQLhBL/TkWOVmWkvm+FtUAqRK02SMpLgCmXPgCIR+JklEDQTHOaTRtgTRTnAJ1LNcsl5rtIDsSZ4FcvEENhCQbw/73H6pZav5P72U1H+shpIhmdbg+PFof8Y+KxcU//pYyLcsVS8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kwiboo.se; spf=pass smtp.mailfrom=fe-bounces.kwiboo.se; dkim=pass (2048-bit key) header.d=kwiboo.se header.i=@kwiboo.se header.b=Mn4+pIse; arc=none smtp.client-ip=149.28.215.223
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kwiboo.se
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fe-bounces.kwiboo.se
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kwiboo.se header.i=@kwiboo.se header.b="Mn4+pIse"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kwiboo.se;
- h=Content-Transfer-Encoding: Content-Type: In-Reply-To: From: References:
- Cc: To: Subject: MIME-Version: Date: Message-ID; q=dns/txt;
- s=fe-e1b5cab7be; t=1744137303;
- bh=jH8n5W9FtQCucqwn7kk9UM2XjlBjxjzZZRg7DH4uLLE=;
- b=Mn4+pIse9sOcVw0QIq5O+/CvtXepDnguQAw6Q5S/LEvKFURy4DX4G3nQy5n2lLRSDr5naHbDK
- QbPTTU0gb3mAEle3UWqhAsrRZSIGOM8ma44RdQA2cUtrsN4uvoYCFlhPgr2MFgYmfhVMiwzp3Lo
- TXVQE4XBYiuqggEd4IXXjOFnXYvv3nbviKWp2r3IW/JYFQAkJi5uSa2lSGOGu53bxIluEqVnchm
- f+uEmtnfvBDKePLK53IbWIXGwryzJZ2F0KJYScLXqQo1TnMgFO/6cbgXUEw+GGSvURsnbiZe1Nd
- g/FJG1u4fhmsjJyIp3OGjX4fm6Ka6YD8b5L9RwV3bkXg==
-X-Forward-Email-ID: 67f56c38b078e0f2662e7659
-X-Forward-Email-Sender: rfc822; jonas@kwiboo.se, smtp.forwardemail.net,
- 149.28.215.223
-X-Forward-Email-Version: 1.0.1
-X-Forward-Email-Website: https://forwardemail.net
-X-Complaints-To: abuse@forwardemail.net
-X-Report-Abuse: abuse@forwardemail.net
-X-Report-Abuse-To: abuse@forwardemail.net
-Message-ID: <c73a32b0-cc58-4d07-a0e5-719e5434adc3@kwiboo.se>
-Date: Tue, 8 Apr 2025 20:34:23 +0200
+	s=arc-20240116; t=1744141274; c=relaxed/simple;
+	bh=WvyOxFcjnEQDjoY5VZPTMKfsaOU7pDlNTjjExeRbJ74=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=X+BAGPGFjy/A5bYJVQTLYU+b0AEQcN9xLloclbqV2HmwVzR7kMX7+Q+47iqqzZmWsj8YX8fg0PohdMRinkZJ5MW49olzg84AIBRG2BqxvpmEHDlwUhd25ngv2emN5IWW7qBXfNkplx4vO9gcRVl36yjpxTWGXavDGMg6F1LHn78=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=kernel.org; spf=fail smtp.mailfrom=kernel.org; arc=none smtp.client-ip=198.175.65.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=kernel.org
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=kernel.org
+X-CSE-ConnectionGUID: 6bCfUf6fQhClL4zoy7EVlQ==
+X-CSE-MsgGUID: VfG3CByCSzayo7ZyuSIXug==
+X-IronPort-AV: E=McAfee;i="6700,10204,11397"; a="68071124"
+X-IronPort-AV: E=Sophos;i="6.15,198,1739865600"; 
+   d="scan'208";a="68071124"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Apr 2025 12:41:13 -0700
+X-CSE-ConnectionGUID: sX2Fs3fhT6eBZGugaCpGcg==
+X-CSE-MsgGUID: 6EeWdHeHSJWq7OkGLUhRgg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,198,1739865600"; 
+   d="scan'208";a="128701364"
+Received: from smile.fi.intel.com ([10.237.72.58])
+  by fmviesa008.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Apr 2025 12:41:10 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.98.2)
+	(envelope-from <andy@kernel.org>)
+	id 1u2Eol-0000000AVBT-34ii;
+	Tue, 08 Apr 2025 22:41:07 +0300
+Date: Tue, 8 Apr 2025 22:41:07 +0300
+From: Andy Shevchenko <andy@kernel.org>
+To: Abraham Samuel Adekunle <abrahamadekunle50@gmail.com>
+Cc: outreachy@lists.linux.dev, julia.lawall@inria.fr,
+	gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org, david.laight.linux@gmail.com,
+	dan.carpenter@linaro.org
+Subject: Re: [PATCH v8 0/2] staging: rtl8723bs: Improve readability and
+ clarity of sequence number wrapping
+Message-ID: <Z_V70-9Bk-aZ914y@smile.fi.intel.com>
+References: <cover.1744126058.git.abrahamadekunle50@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 6/6] arm64: dts: rockchip: Add rkvdec2 Video Decoder on
- rk3588(s)
-To: Detlev Casanova <detlev.casanova@collabora.com>
-Cc: linux-kernel@vger.kernel.org,
- Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Heiko Stuebner <heiko@sntech.de>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Hans Verkuil <hverkuil@xs4all.nl>,
- Nicolas Dufresne <nicolas.dufresne@collabora.com>,
- Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
- Sebastian Reichel <sebastian.reichel@collabora.com>,
- Niklas Cassel <cassel@kernel.org>, Alexey Charkov <alchark@gmail.com>,
- Dragan Simic <dsimic@manjaro.org>, Jianfeng Liu <liujianfeng1994@gmail.com>,
- Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
- Sakari Ailus <sakari.ailus@linux.intel.com>,
- Kieran Bingham <kieran.bingham@ideasonboard.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Umang Jain <umang.jain@ideasonboard.com>,
- Naushir Patuck <naush@raspberrypi.com>,
- Jean-Michel Hautbois <jeanmichel.hautbois@ideasonboard.com>,
- Dmitry Perchanov <dmitry.perchanov@intel.com>,
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
- linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-staging@lists.linux.dev, kernel@collabora.com
-References: <20250325213303.826925-1-detlev.casanova@collabora.com>
- <20250325213303.826925-7-detlev.casanova@collabora.com>
-Content-Language: en-US
-From: Jonas Karlman <jonas@kwiboo.se>
-In-Reply-To: <20250325213303.826925-7-detlev.casanova@collabora.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <cover.1744126058.git.abrahamadekunle50@gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-Hi Detlev,
+On Tue, Apr 08, 2025 at 03:41:55PM +0000, Abraham Samuel Adekunle wrote:
+> The patchset adds spaces around binary operators, breaks long lines to enhance readability
+> and provides clarity on sequence number wrapping by using a modulo operation % 4096u, in
+> place of the bitwise AND(&) operation & 0xfff.
+> The patches are required to be applied in sequence.
 
-On 2025-03-25 22:22, Detlev Casanova wrote:
-> Add the rkvdec2 Video Decoder to the RK3588s devicetree.
-> 
-> Signed-off-by: Detlev Casanova <detlev.casanova@collabora.com>
-> ---
->  arch/arm64/boot/dts/rockchip/rk3588-base.dtsi | 74 +++++++++++++++++++
->  1 file changed, 74 insertions(+)
-> 
-> diff --git a/arch/arm64/boot/dts/rockchip/rk3588-base.dtsi b/arch/arm64/boot/dts/rockchip/rk3588-base.dtsi
-> index c3abdfb04f8f4..636c287b94e0a 100644
-> --- a/arch/arm64/boot/dts/rockchip/rk3588-base.dtsi
-> +++ b/arch/arm64/boot/dts/rockchip/rk3588-base.dtsi
-> @@ -1237,6 +1237,70 @@ vepu121_3_mmu: iommu@fdbac800 {
->  		#iommu-cells = <0>;
->  	};
->  
-> +	vdec0: video-decoder@fdc38000 {
+You missed my tags I gave in a previous review round.
 
-All other Rockchip decoder/encoder nodes use the video-codec nodename,
-e.g. see the av1d related node below. Is there any special reason why
-this cannot follow that pattern for nodename consistency?
+-- 
+With Best Regards,
+Andy Shevchenko
 
-This was something I tried to bring up in v3 [1], however only the reg
-range part was addressed in v4.
-
-My main concern is that I want to send an updated U-Boot RK3582 support
-series [2][3] that will need to mark one or both of the two rkvdec cores
-as status=fail depending on a value in OTP. This is done in a DT fixup
-and uses the nodename for simplicity.
-
-[1] https://lore.kernel.org/r/311770c3-d3ea-4650-ae11-7c278e043d0a@kwiboo.se/
-[2] https://patchwork.ozlabs.org/patch/2020972/
-[3] https://github.com/Kwiboo/u-boot-rockchip/commit/0d748524aa67ce0debdb87c6e4a0df0f041b1618
-
-> +		compatible = "rockchip,rk3588-vdec";
-> +		reg = <0x0 0xfdc38000 0x0 0x100>,
-> +		      <0x0 0xfdc38100 0x0 0x500>,
-> +		      <0x0 0xfdc38600 0x0 0x100>;
-> +		reg-names = "link", "function", "cache";
-> +		interrupts = <GIC_SPI 95 IRQ_TYPE_LEVEL_HIGH 0>;
-> +		clocks = <&cru ACLK_RKVDEC0>, <&cru HCLK_RKVDEC0>, <&cru CLK_RKVDEC0_CA>,
-> +			 <&cru CLK_RKVDEC0_CORE>, <&cru CLK_RKVDEC0_HEVC_CA>;
-> +		clock-names = "axi", "ahb", "cabac", "core", "hevc_cabac";
-> +		assigned-clocks = <&cru ACLK_RKVDEC0>, <&cru CLK_RKVDEC0_CORE>,
-> +				  <&cru CLK_RKVDEC0_CA>, <&cru CLK_RKVDEC0_HEVC_CA>;
-> +		assigned-clock-rates = <800000000>, <600000000>,
-> +				       <600000000>, <1000000000>;
-> +		iommus = <&vdec0_mmu>;
-> +		power-domains = <&power RK3588_PD_RKVDEC0>;
-> +		resets = <&cru SRST_A_RKVDEC0>, <&cru SRST_H_RKVDEC0>, <&cru SRST_RKVDEC0_CA>,
-> +			 <&cru SRST_RKVDEC0_CORE>, <&cru SRST_RKVDEC0_HEVC_CA>;
-> +		reset-names = "axi", "ahb", "cabac", "core", "hevc_cabac";
-> +		sram = <&vdec0_sram>;
-> +	};
-> +
-> +	vdec0_mmu: iommu@fdc38700 {
-> +		compatible = "rockchip,rk3588-iommu", "rockchip,rk3568-iommu";
-> +		reg = <0x0 0xfdc38700 0x0 0x40>, <0x0 0xfdc38740 0x0 0x40>;
-> +		interrupts = <GIC_SPI 96 IRQ_TYPE_LEVEL_HIGH 0>;
-> +		clocks = <&cru ACLK_RKVDEC0>, <&cru HCLK_RKVDEC0>;
-> +		clock-names = "aclk", "iface";
-> +		power-domains = <&power RK3588_PD_RKVDEC0>;
-> +		#iommu-cells = <0>;
-> +	};
-> +
-> +	vdec1: video-decoder@fdc40000 {
-
-Same here :)
-
-Regards,
-Jonas
-
-> +		compatible = "rockchip,rk3588-vdec";
-> +		reg = <0x0 0xfdc40000 0x0 0x100>,
-> +		      <0x0 0xfdc40100 0x0 0x500>,
-> +		      <0x0 0xfdc40600 0x0 0x100>;
-> +		reg-names = "link", "function", "cache";
-> +		interrupts = <GIC_SPI 97 IRQ_TYPE_LEVEL_HIGH 0>;
-> +		clocks = <&cru ACLK_RKVDEC1>, <&cru HCLK_RKVDEC1>, <&cru CLK_RKVDEC1_CA>,
-> +			 <&cru CLK_RKVDEC1_CORE>, <&cru CLK_RKVDEC1_HEVC_CA>;
-> +		clock-names = "axi", "ahb", "cabac", "core", "hevc_cabac";
-> +		assigned-clocks = <&cru ACLK_RKVDEC1>, <&cru CLK_RKVDEC1_CORE>,
-> +				  <&cru CLK_RKVDEC1_CA>, <&cru CLK_RKVDEC1_HEVC_CA>;
-> +		assigned-clock-rates = <800000000>, <600000000>,
-> +				       <600000000>, <1000000000>;
-> +		iommus = <&vdec1_mmu>;
-> +		power-domains = <&power RK3588_PD_RKVDEC1>;
-> +		resets = <&cru SRST_A_RKVDEC1>, <&cru SRST_H_RKVDEC1>, <&cru SRST_RKVDEC1_CA>,
-> +			 <&cru SRST_RKVDEC1_CORE>, <&cru SRST_RKVDEC1_HEVC_CA>;
-> +		reset-names = "axi", "ahb", "cabac", "core", "hevc_cabac";
-> +		sram = <&vdec1_sram>;
-> +	};
-> +
-> +	vdec1_mmu: iommu@fdc40700 {
-> +		compatible = "rockchip,rk3588-iommu", "rockchip,rk3568-iommu";
-> +		reg = <0x0 0xfdc40700 0x0 0x40>, <0x0 0xfdc40740 0x0 0x40>;
-> +		interrupts = <GIC_SPI 96 IRQ_TYPE_LEVEL_HIGH 0>;
-> +		clocks = <&cru ACLK_RKVDEC0>, <&cru HCLK_RKVDEC0>;
-> +		clock-names = "aclk", "iface";
-> +		power-domains = <&power RK3588_PD_RKVDEC0>;
-> +		#iommu-cells = <0>;
-> +	};
-> +
->  	av1d: video-codec@fdc70000 {
->  		compatible = "rockchip,rk3588-av1-vpu";
->  		reg = <0x0 0xfdc70000 0x0 0x800>;
-> @@ -2883,6 +2947,16 @@ system_sram2: sram@ff001000 {
->  		ranges = <0x0 0x0 0xff001000 0xef000>;
->  		#address-cells = <1>;
->  		#size-cells = <1>;
-> +
-> +		vdec0_sram: codec-sram@0 {
-> +			reg = <0x0 0x78000>;
-> +			pool;
-> +		};
-> +
-> +		vdec1_sram: codec-sram@78000 {
-> +			reg = <0x78000 0x77000>;
-> +			pool;
-> +		};
->  	};
->  
->  	pinctrl: pinctrl {
 
