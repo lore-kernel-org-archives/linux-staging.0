@@ -1,72 +1,73 @@
-Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
+Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC89E2566FF
-	for <linux-staging@lists.linux.dev>; Tue,  8 Apr 2025 22:25:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E36832550BC
+	for <linux-staging@lists.linux.dev>; Tue,  8 Apr 2025 22:25:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744151117; cv=none; b=XEzmdRQCBwTe3gSsL+/nyPN/skJvCAMzPv6ge8sSP3063yJInJV1pwd+9oIBe7HuRJhen7h0S+B0ir6+KXOlwAO71ciFRDZHrosTAK+nO9n09B1b1YBT+d24XWCdqPIHeE32hnxbPV/XSdicmE3VgbxSWAnL9godlyh8e1gpjgI=
+	t=1744151118; cv=none; b=HB4HzTRokoESBGlGh17+ZXS6+r4ogxzrlG98LQkhsqvQia7AsgkqLLjuXAfrrS3mcWprznLG/47mkY4/V44g0e4WDBBbtzPMof8tcRPSRTfbgNKA2sXOgdjlwOBHlJwFoVOr5W8R8o3F7fFshefptJivyOvMFdAjLXUwrtbNrzI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744151117; c=relaxed/simple;
-	bh=fjSwQt/2PS0/uHpddp/9VfHp8MHyRBleAOyBrzxHfS4=;
+	s=arc-20240116; t=1744151118; c=relaxed/simple;
+	bh=9JfNG0tTkd+044z4jFaJqkunmng+TdBPIb7IlEomLco=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=a/uT3iNbxOTYfvNPd14nhMSPfDCbCrm1HX5w3R2n64tX/nSAByWYYr9SnqUYWJg4ohh8dUbGN3/2EBXFB2ggfdPviJZivVDLj7HRp6qDs/VM6OXnFX0VO7xiNOpSRauqOzKCs/i897oxteE/fgwt3S4C0ptyIIBcsd1oSxHNplg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=neverthere.org; spf=pass smtp.mailfrom=neverthere.org; dkim=pass (2048-bit key) header.d=neverthere.org header.i=@neverthere.org header.b=EkjaPXfH; arc=none smtp.client-ip=209.85.210.170
+	 MIME-Version; b=jdzmJe8ECJ1xmO777MFaYiHTVXyBnCOJhM5xFFM4DiXEU8217u17UKQiU3Un9yw3YDltP858YFwhWzT9IuUQuUObHZS6L+uTOEDWTsEvKYkIuPc/ebZPl5QVH/4v7qqdV+yz/7ZfrE1w4u+/miEf6Lemk2M6MwuYDio85tiPf6w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=neverthere.org; spf=pass smtp.mailfrom=neverthere.org; dkim=pass (2048-bit key) header.d=neverthere.org header.i=@neverthere.org header.b=EjbolNxs; arc=none smtp.client-ip=209.85.210.175
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=neverthere.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=neverthere.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=neverthere.org header.i=@neverthere.org header.b="EkjaPXfH"
-Received: by mail-pf1-f170.google.com with SMTP id d2e1a72fcca58-739be717eddso4812133b3a.2
-        for <linux-staging@lists.linux.dev>; Tue, 08 Apr 2025 15:25:15 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=neverthere.org header.i=@neverthere.org header.b="EjbolNxs"
+Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-730517040a9so7471334b3a.0
+        for <linux-staging@lists.linux.dev>; Tue, 08 Apr 2025 15:25:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=neverthere.org; s=google; t=1744151115; x=1744755915; darn=lists.linux.dev;
+        d=neverthere.org; s=google; t=1744151116; x=1744755916; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=89A+ZPD0F+3yWuCAaFy/tofDasEkWjCiUmF02vN16R4=;
-        b=EkjaPXfH9QPKh7GhsRAbsRpeOaqdasZdLe9S+w9VdWBcaEVCM4MGA/baR39TQ8x072
-         nMriOEHECOh69LJHw3lMS00XzC5QfMfjTfkOX0xLSqoHnclO+uGv54WY/M2p+nt/Cded
-         P7WgA9pXRlm2uPUF7tQ6DUVKpCouZpigcHcVrgDUN9OknDtNquqj5ZoqPi5AbQt7Hyub
-         cgOfkV3zLEKdQm+yqFx7SkzFRLQSAAeGVltJ2d9AEecg3QiVQnygu/FiQwwr0f1jGqMQ
-         uI8ObqGXsBUiyzGcEzVHo0oZCoNZHvLfAZpuiBKwFfXFCCqf0qBl2eMXLJw3yDZwYgec
-         9LyQ==
+        bh=8IorxkgKO3HdtKHUOTo23PvfS93pIvPvComCrtQir2w=;
+        b=EjbolNxs+Zy1EhdZ3cMzm34ZazUeL4llZqf1iEOOqRNKb2j2E+DnN6GpFA8FT/COdh
+         JvGnZraWJdGC/rGtqwtUdWVK+dBB6g0e1o2zyoAMeqkTogQhVHSEdGvIv6eA3ZT1yLp8
+         RVz4XuVrppLO312jNyer+mlE6EaY8oRDGIxhpwjJHGeyJnAMQYZ+rRGbyzeNNO65BfeS
+         fWFueigKaCeAxXu96/8jnYMPxQH3qIn1TreXR9GQUaCEFh49qYpE8NkD8Vlh5iJBGE3z
+         52mUZPzca3N3Av8nIOYs8DOn1KiXzu68OIqoAwrSxsbFHpmFn0yBd4O8TRiloA8S/caq
+         ADCA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744151115; x=1744755915;
+        d=1e100.net; s=20230601; t=1744151116; x=1744755916;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=89A+ZPD0F+3yWuCAaFy/tofDasEkWjCiUmF02vN16R4=;
-        b=mz3RHF+yGbJAPX1LyYTWerppM2O/UfcPjyYuyDmsAwfqU7PoMkHaQCkmansRUYUSKe
-         W0f+P3JBHaGQXLM+JRjFfzM3qAWWSr9J7sJ/Be+ppx8V0UeKlIsCuFh144rRHq+VQ5od
-         3gvg9awQR54nBhzoRB6lWSBFbpfHIZWkkGu6cVi2W1lOYessVLLzopAeQfTO7h5a7MUX
-         Pbm4ZUhFe4xgpTEaxby4yr7vq+gDZ0ErOTC4o/RJzsiv9T5wPmfQxug/fXdUG9C+pAYI
-         sULBK6P6orsH0Mr7Oe7EKNRa0Fc4/kNHZeNVc3pBlgbSG2R8zZqV+4+95dKdxznjuI7U
-         WExg==
-X-Forwarded-Encrypted: i=1; AJvYcCUJeTwd90oIHHYS36rHB3pfeKfeUeD1EgQp6eBnlecnVcsLTr49N+9mS8Z10hyWKD+w+SJY/lMyAC3sue2u@lists.linux.dev
-X-Gm-Message-State: AOJu0YzqX39dTJCA32uoy5U/8ImaZ7g6zhYXNuyJXdptAQYLtLSCJV5W
-	HP5QTr/jkkz+p7xPvCjj+k9CmFuDbVvJDB3Kjma9kxuTidYfJefTKWakNJaU0Q==
-X-Gm-Gg: ASbGncuyD/ONaiadwwzG7fms2KnrDMJzvJgH66sAE71iEZ1bgAOTtADN67YE+LUWEV5
-	9waVIWCWlE9rwys8eHZPvDjWAtOEgCx/dD8adzJodm8kfAurqWMQRod1pTIeyn+lbGOd5HEixg7
-	/rOmxbcapMpeLs2urcqUp/r7tPHWU7bc57C9b4UqlAjPWjTmv+PHO7ZITfMj+tW4ZqPsqWneRKV
-	BC9Psn7WI7NO1cBsyncxhs+dYIxDZZsjTvc4PnS5BF9LdQwiLO44HFZIhakuk6hAaiZlxzU2V6a
-	WvDlkpO4hlcLXsGvXNri1r6xintYBmmHx2mcuY8Av7pL1vULcspzCxP2TYuhav7ymU4KilT3weT
-	jBpGwBwH0iA==
-X-Google-Smtp-Source: AGHT+IG5juhMHsu1LskHss9Nad7vpK7FAPNQDk6C1pXafcAf9b9xsbrt4eBAxXA/2nIyF2WtAbUalA==
-X-Received: by 2002:a05:6a20:e306:b0:1f5:8678:1832 with SMTP id adf61e73a8af0-20159195629mr923643637.11.1744151115097;
-        Tue, 08 Apr 2025 15:25:15 -0700 (PDT)
+        bh=8IorxkgKO3HdtKHUOTo23PvfS93pIvPvComCrtQir2w=;
+        b=VwfIMh3GTWIho0XRIFOeikK4Q4NBKocOG6fgaaeVvO3BC1P+6JXizzkFXiONGbVG01
+         vMjn32FK4TIrDiJ9mCRU98L77ypx4NKSieeS6GGKSCozmQdPbFI6V3kVWaPjcuxEIx7F
+         zPgcJtZkdyhxqNe3E/lNTe/zgXkXxKqVYEi/8lIFwJtJo0gV6BUZLjZSg8ZSbd8CQESn
+         TdpjhhYzXBKhAHssYFv0LmSY9su8MXj3DQnnoclhRWKfGJs9hmNk5uZOmhqdWpBTzdHG
+         Qf4JCIhlTCMT4KujRH7ZT/PW16bcNarFz7DuUz7GiPc96rdPnP77IKQ03gePvd0vHxGQ
+         OEYw==
+X-Forwarded-Encrypted: i=1; AJvYcCW9qI0BdVHgL4KMz1PFSxSOgeuQVUFq+9Rm/bR0GssD6TKnoB+vJqaAuUPOHUOY1DKt14vr6m0NcvJfjIni@lists.linux.dev
+X-Gm-Message-State: AOJu0Yy92AhDKC6yKVQDT2qkUJXGZc/geroE2U5o8KNyCCibvO1J75ky
+	JdcpJtm4QL1Vf/pvDFyRA4RDBmMJCurVBMM80WJ4X1d/2cg1idsM64faIdbLyFTyqLILB4LG42o
+	=
+X-Gm-Gg: ASbGncssSDby52EsGlkVLYlSnS58w7mSqc4T6W2AKjBzJzvlrb37tcB2/wB13y+j3kI
+	B4IPvnq95u3bk5KNzoYxDrUn1o5Z/YSVIJP0Mz4gRRkqtpFLYouqgS5pqNZnfSjaY3k/DkDfFbb
+	MgokIKIDZr82DrZNs7EdAaRFsdpxNVC6QnEcnn1OE0cfZAeoYdhcwbpi/FOsKObuMlAzrBphfrj
+	f/Hf8Y2NtFN0bBP02NNgZCPDf+5gZ33tMLDqFtGlYji+EiltARfc0srHR9xCv5GRZYcCdl8VTG6
+	h2C2PTrGmLqbi76NQsMVBwwsSW+6RS4Lu/MT8bNG9y8O/I4U9IHqHhLArUK57umImtvrPlKBc1S
+	FMY93WFQd1A==
+X-Google-Smtp-Source: AGHT+IGnaxbU3fKPUw5RdhpztQ0HR7stoYxmD/se0+wQgNf+H1qiPEO5WKH1/T+a2ZSl51CROOyq0g==
+X-Received: by 2002:a05:6a20:c992:b0:1fe:90c5:7ceb with SMTP id adf61e73a8af0-2015b00eff7mr182726637.40.1744151116304;
+        Tue, 08 Apr 2025 15:25:16 -0700 (PDT)
 Received: from tiamat (c-69-181-214-135.hsd1.ca.comcast.net. [69.181.214.135])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-739da0b9608sm11165505b3a.154.2025.04.08.15.25.14
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-739da0b3f5asm11475713b3a.131.2025.04.08.15.25.15
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 08 Apr 2025 15:25:14 -0700 (PDT)
+        Tue, 08 Apr 2025 15:25:16 -0700 (PDT)
 From: Michael Rubin <matchstick@neverthere.org>
 To: gregkh@linuxfoundation.org,
 	dpenkler@gmail.com,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
 Cc: Michael Rubin <matchstick@neverthere.org>
-Subject: [PATCH v1 05/18] staging: gpib: cec: struct gpib_interface
-Date: Tue,  8 Apr 2025 22:24:51 +0000
-Message-ID: <20250408222504.186992-6-matchstick@neverthere.org>
+Subject: [PATCH v1 06/18] staging: gpib: common: struct gpib_interface
+Date: Tue,  8 Apr 2025 22:24:52 +0000
+Message-ID: <20250408222504.186992-7-matchstick@neverthere.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20250408222504.186992-1-matchstick@neverthere.org>
 References: <20250408222504.186992-1-matchstick@neverthere.org>
@@ -89,22 +90,31 @@ directly accessed should never be a typedef.
 
 Signed-off-by: Michael Rubin <matchstick@neverthere.org>
 ---
- drivers/staging/gpib/cec/cec_gpib.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/staging/gpib/common/gpib_os.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/staging/gpib/cec/cec_gpib.c b/drivers/staging/gpib/cec/cec_gpib.c
-index a822fa428cd0..dfc718de1532 100644
---- a/drivers/staging/gpib/cec/cec_gpib.c
-+++ b/drivers/staging/gpib/cec/cec_gpib.c
-@@ -188,7 +188,7 @@ static void cec_return_to_local(struct gpib_board *board)
- 	nec7210_return_to_local(board, &priv->nec7210_priv);
+diff --git a/drivers/staging/gpib/common/gpib_os.c b/drivers/staging/gpib/common/gpib_os.c
+index 711e99b1581a..940ea05ba478 100644
+--- a/drivers/staging/gpib/common/gpib_os.c
++++ b/drivers/staging/gpib/common/gpib_os.c
+@@ -2024,7 +2024,7 @@ void init_gpib_descriptor(gpib_descriptor_t *desc)
+ 	atomic_set(&desc->io_in_progress, 0);
  }
  
--static gpib_interface_t cec_pci_interface = {
-+static struct gpib_interface cec_pci_interface = {
- 	.name = "cec_pci",
- 	.attach = cec_pci_attach,
- 	.detach = cec_pci_detach,
+-int gpib_register_driver(gpib_interface_t *interface, struct module *provider_module)
++int gpib_register_driver(struct gpib_interface *interface, struct module *provider_module)
+ {
+ 	struct gpib_interface_list_struct *entry;
+ 
+@@ -2040,7 +2040,7 @@ int gpib_register_driver(gpib_interface_t *interface, struct module *provider_mo
+ }
+ EXPORT_SYMBOL(gpib_register_driver);
+ 
+-void gpib_unregister_driver(gpib_interface_t *interface)
++void gpib_unregister_driver(struct gpib_interface *interface)
+ {
+ 	int i;
+ 	struct list_head *list_ptr;
 -- 
 2.43.0
 
