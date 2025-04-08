@@ -1,77 +1,32 @@
-Received: from mail-qt1-f172.google.com (mail-qt1-f172.google.com [209.85.160.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from cstnet.cn (smtp21.cstnet.cn [159.226.251.21])
+	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5391224895;
-	Mon,  7 Apr 2025 21:54:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA8E835973
+	for <linux-staging@lists.linux.dev>; Tue,  8 Apr 2025 04:42:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744062849; cv=none; b=ca3r3H7Umqzfi9Ai8z5n3R+n18iot/kmBV/peOcWSvwMEdVt1HvR5s4vCsdWQcSqujZoA5SsDazOXi9b87Ii5puMHnNyvmh+5s0rjI84/4bwdqD/HOldxSSMGCukrGd18El1FBYLEOOLbzid8X7O0mNsEYxj/uHx35CRI11S7jE=
+	t=1744087348; cv=none; b=MAoX6rSJA5gGSayTtmF5VNA2J+qZzODWM4peK3gC19LHLnazfBz1b4bpZkjjL6LY7jmC8rudS+PjSue0Fb9ZZDWaeo0pYAsYrsOmFMakj7J0H5ypHScrvSosziPyKXxF+gsbjFUFL229TDlCFCdNeLfUot3+CEJZ68R3QnL8nsk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744062849; c=relaxed/simple;
-	bh=CuJKw85sIB3jPSdbWSjXk7Qh+Qwq6YcyZNhPTQyMLLM=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=FLF3mKVk6DuQiw9eNCfrsM8bPKOpsXhuoZynGgf9mjB3VRqOCPlp7UhEKIudcahBbthswVLPipsxwnjcI1kkUnfzwenJuz07Vv0MHwM9TSA0SZaFHbv1a2GrXwvn5uv8zE9fJm3kDhBknKyuvBD8ENLbI8ZVZOgflF9iojgvm8g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=S7XU6Sdv; arc=none smtp.client-ip=209.85.160.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="S7XU6Sdv"
-Received: by mail-qt1-f172.google.com with SMTP id d75a77b69052e-4767e969b94so84138741cf.2;
-        Mon, 07 Apr 2025 14:54:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1744062847; x=1744667647; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Y6ANoDKw55NxNKPjSEdHj3uuN+vlytdVKuNoT+dKd5I=;
-        b=S7XU6SdvKYuztF+ohApZAFihucRr9wARbQ1htJLwCZtQumQcy0rTuTe0j6c6ALKGwM
-         2Pc9Dwy2QPmLqPXiq5hX7BP9IejJdsyqDbqRNASSUL9W9rkYFO8Yfzxc7CXmHNWGAE5t
-         GzX8ZnfZpF4fdAdR+S/mdYbNyCGnZEUh6GPDISpQrzdL78QNcpmGCk/VG4YRzerhSk3M
-         Vxmdcu4nNAJeVGnd2SMoyvNcBCTKPyVP13ZbY1TBeP0qWVU+hY2iMURXqZVN3SeWR6gG
-         h29Xk5OdMwkBJ2wd4yUdMBZfz0qi1uv2U2yIpnl28lIe623vhvCjoIgVM48wcr2hsAlw
-         13lA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744062847; x=1744667647;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Y6ANoDKw55NxNKPjSEdHj3uuN+vlytdVKuNoT+dKd5I=;
-        b=JePKnN8ssIwsi4lD7jGNKcZbYQeRh9/mbJPJEhGtsXH3G+Hvwn7NCkZUcjHNi3dw80
-         cjTZii7hjt2UJITxGifehdtugWsYMhiU9x4rGuP0ZtdjAvpaCtbM+Q+0HodDfu3GQjo3
-         sseqxGJhYTREvdjeOUPv17rsvlQsIMHFH7ECssxng0VX9oXZ5vsVjU0FCzAe34BZjzoM
-         /LJtu2S4ht6ZuVw5GYhmtqw64JmzZiibWRUHViG6z9j7jEOJiy5MzbuqHysBG+wq6soQ
-         y6yiZ3VxQm0zMfKXWe2TKkn/Ul82uO6OVuO2AqUosl3dDIArIQM2FUtNUAw4AcyhmTqR
-         8LDQ==
-X-Gm-Message-State: AOJu0YzfvIbScmm4atyzChZd4sykgxfSdHa9tgrXwOESy4O9+P7X1lmV
-	1+s7JcMT2+QkI9LRLz93XoVgMfexi2E+B8KZ1E7IRukvytOmdaSw
-X-Gm-Gg: ASbGncsfrKsVrs3CSvc5drXWZKNBVn/l6hZlVkLi/xRQL9JLZK1vn/0U74m5ubPS6XN
-	2e/vdRnYKb1r73CrTx7uvAXGl8PpBRCkfpRY/HKqUqMw9m0HKB1x6+2GHAi9e2rqftUJtvt1/ua
-	L0q2FQCt7ax9dgu7Hki06tjG5A1d56JidcVE/3f/VLw3bOk6X1IXYlTJAZpFNwSHCd3O+f5aUQJ
-	Ifo4uwuU8A3ozD8+JzI/fNkYmh0hJWY7UNP/v6jYDnz1RLC7+2T9ZiaJ2AOu20JYIVEjl+sHbKF
-	Mn6QGmeLKKOhvvboULOHs7ssJA2GvH65cWTfVcv/aGgnDjSWxw==
-X-Google-Smtp-Source: AGHT+IE7nyMXX+Xy8qvkiPVmR1l3wABcE2UMSA+MmU+jMLfuz9D+8aIpGyTv5KwqVT0MdKmwqr6lDQ==
-X-Received: by 2002:a05:622a:120d:b0:477:5c21:2e1e with SMTP id d75a77b69052e-479249040b7mr237768121cf.5.1744062847071;
-        Mon, 07 Apr 2025 14:54:07 -0700 (PDT)
-Received: from ubuntu ([105.112.230.142])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-4791b088346sm67375671cf.41.2025.04.07.14.54.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 07 Apr 2025 14:54:06 -0700 (PDT)
-From: Abraham Samuel Adekunle <abrahamadekunle50@gmail.com>
-To: outreachy@lists.linux.dev,
-	gregkh@linuxfoundation.org,
-	julia.lawall@inria.fr
-Cc: linux-staging@lists.linux.dev,
+	s=arc-20240116; t=1744087348; c=relaxed/simple;
+	bh=D31vUVu32ORyo4H6+P+jGQhtvqYv+1sDFDa93HUVz9M=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=P+UmVk2ETyO3ZBsA0zpYIUO2hBObnynQoNPCj1bslqrht4jU9oXmH3HFU52tsW6D0TyQyR++LVGd8ORvP2AfM5vCgd0de6pRmvTSNUJPMqfDoBe8pOlLRmh7sGs0V9p50fTAkBFYLxvfNZnsdqvpDL1XAWhkSmYHHQeAH5QpQ14=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass smtp.mailfrom=iscas.ac.cn; arc=none smtp.client-ip=159.226.251.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
+Received: from localhost.localdomain (unknown [124.16.141.245])
+	by APP-01 (Coremail) with SMTP id qwCowADHbf4sqfRnikMWBw--.31690S2;
+	Tue, 08 Apr 2025 12:42:21 +0800 (CST)
+From: Wentao Liang <vulab@iscas.ac.cn>
+To: gregkh@linuxfoundation.org
+Cc: philipp.g.hortmann@gmail.com,
+	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
-	david.laight.linux@gmail.com,
-	andy@kernel.org,
-	dan.carpenter@linaro.org,
-	Abraham Samuel Adekunle <abrahamadekunle50@gmail.com>
-Subject: [PATCH v6 2/2] staging: rtl8723bs: Use % 4096u instead of & 0xfff
-Date: Mon,  7 Apr 2025 21:53:52 +0000
-Message-Id: <27ff98a2d721a19cb09ea5c0d39c7d1616f8a629.1744061673.git.abrahamadekunle50@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <cover.1744061673.git.abrahamadekunle50@gmail.com>
-References: <cover.1744061673.git.abrahamadekunle50@gmail.com>
+	Wentao Liang <vulab@iscas.ac.cn>,
+	stable@vger.kernel.org
+Subject: [PATCH v7] staging: rtl8723bs: Add error handling for sd_read()
+Date: Tue,  8 Apr 2025 12:41:52 +0800
+Message-ID: <20250408044152.3009-1-vulab@iscas.ac.cn>
+X-Mailer: git-send-email 2.42.0.windows.2
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -79,57 +34,84 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:qwCowADHbf4sqfRnikMWBw--.31690S2
+X-Coremail-Antispam: 1UD129KBjvJXoW7CryUuFW8JF4xur15Jr1UZFb_yoW8Kw18pF
+	4kKa4DArZ8Wa95ZFn2qas3Ca4rAryrGFW5WrW0kw4Svw15uwsavrWrKa42gr18Gr4qkw4Y
+	qF1v93Z8uw1DAFJanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUvl14x267AKxVWUJVW8JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+	1l84ACjcxK6xIIjxv20xvE14v26r1j6r1xM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
+	6F4UM28EF7xvwVC2z280aVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Cr
+	1j6rxdM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj
+	6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVW8JVWxJwAm72CE4IkC6x0Yz7v_Jr
+	0_Gr1lF7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7MxkF7I0En4kS14v2
+	6r126r1DMxkIecxEwVAFwVW8XwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJV
+	W8JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF
+	1VAFwI0_JF0_Jw1lIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6x
+	IIjxv20xvEc7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvE
+	x4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvj
+	DU0xZFpf9x0JUbzVUUUUUU=
+X-CM-SenderInfo: pyxotu46lvutnvoduhdfq/1tbiBgsGA2f0dv3HmQAAsO
 
-The sequence number is constrained to a range of [0, 4095], which
-is a total of 4096 values. The bitmask operation using `& 0xfff` is
-used to perform this wrap-around. While this is functionally correct,
-it obscures the intended semantic of a 4096-based wrap.
+The sdio_read32() calls sd_read(), but does not handle the error if
+sd_read() fails. This could lead to subsequent operations processing
+invalid data. A proper implementation can be found in sdio_readN(),
+which has an error handling for the sd_read().
 
-Using a modulo operation `% 4096u` makes the wrap-around logic
-explicit and easier to understand. It clearly signals that the
-sequence number cycles through a range of 4096 values.
-It also makes the code robust against potential changes of the 4096
-upper limit, especially when it becomes a non power of 2 value while
-the AND(&) works solely for power of 2 values.
+Add error handling for the sd_read() to free tmpbuf and return error
+code if sd_read() fails. This ensure that the memcpy() is only performed
+when the read operation is successful.
 
-The use of `% 4096u` also guarantees that the modulo operation is
-performed with unsigned arithmetic, preventing potential issues with
-the signed types.
+Since none of the callers check for the errors, there is no need to
+return the error code propagated from sd_read(). Returning SDIO_ERR_VAL32
+might be a better choice, which is a specialized error code for SDIO.
 
-Suggested-by: Andy Shevchenko <andy@kernel.org>
-Suggested-by: David Laight <david.laight.linux@gmail.com>
-Signed-off-by: Abraham Samuel Adekunle <abrahamadekunle50@gmail.com>
+Another problem of returning propagated error code is that the error
+code is a s32 type value, which is not fit with the u32 type return value
+of the sdio_read32().
+
+An practical option would be to go through all the callers and add error
+handling, which need to pass a pointer to u32 *val and return zero on
+success or negative on failure. It is not a better choice since will cost
+unnecessary effort on the error code.
+
+The other opion is to replace sd_read() by sd_read32(), which return an
+u32 type error code that can be directly used as the return value of
+sdio_read32(). But, it is also a bad choice to use sd_read32() in a
+alignment failed branch.
+
+Fixes: 554c0a3abf21 ("staging: Add rtl8723bs sdio wifi driver")
+Cc: stable@vger.kernel.org # v4.12+
+Signed-off-by: Wentao Liang <vulab@iscas.ac.cn>
 ---
- drivers/staging/rtl8723bs/core/rtw_xmit.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+v7: Fix error code and add patch explanation
+v6: Fix improper code to propagate error code
+v5: Fix error code
+v4: Add change log and fix error code
+v3: Add Cc flag
+v2: Change code to initialize val
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_xmit.c b/drivers/staging/rtl8723bs/core/rtw_xmit.c
-index c41de6fd897b..5cfb6d1e9dae 100644
---- a/drivers/staging/rtl8723bs/core/rtw_xmit.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_xmit.c
-@@ -943,7 +943,7 @@ s32 rtw_make_wlanhdr(struct adapter *padapter, u8 *hdr, struct pkt_attrib *pattr
+ drivers/staging/rtl8723bs/hal/sdio_ops.c | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/staging/rtl8723bs/hal/sdio_ops.c b/drivers/staging/rtl8723bs/hal/sdio_ops.c
+index 21e9f1858745..d79d41727042 100644
+--- a/drivers/staging/rtl8723bs/hal/sdio_ops.c
++++ b/drivers/staging/rtl8723bs/hal/sdio_ops.c
+@@ -185,7 +185,12 @@ static u32 sdio_read32(struct intf_hdl *intfhdl, u32 addr)
+ 			return SDIO_ERR_VAL32;
  
- 			if (psta) {
- 				psta->sta_xmitpriv.txseq_tid[pattrib->priority]++;
--				psta->sta_xmitpriv.txseq_tid[pattrib->priority] &= 0xFFF;
-+				psta->sta_xmitpriv.txseq_tid[pattrib->priority] %= 4096u;
- 				pattrib->seqnum = psta->sta_xmitpriv.txseq_tid[pattrib->priority];
+ 		ftaddr &= ~(u16)0x3;
+-		sd_read(intfhdl, ftaddr, 8, tmpbuf);
++		err = sd_read(intfhdl, ftaddr, 8, tmpbuf);
++		if (err) {
++			kfree(tmpbuf);
++			return SDIO_ERR_VAL32;
++		}
++
+ 		memcpy(&le_tmp, tmpbuf + shift, 4);
+ 		val = le32_to_cpu(le_tmp);
  
- 				SetSeqNum(hdr, pattrib->seqnum);
-@@ -963,11 +963,11 @@ s32 rtw_make_wlanhdr(struct adapter *padapter, u8 *hdr, struct pkt_attrib *pattr
- 					if (SN_LESS(pattrib->seqnum, tx_seq)) {
- 						pattrib->ampdu_en = false;/* AGG BK */
- 					} else if (SN_EQUAL(pattrib->seqnum, tx_seq)) {
--						psta->BA_starting_seqctrl[pattrib->priority & 0x0f] = (tx_seq + 1) & 0xfff;
-+						psta->BA_starting_seqctrl[pattrib->priority & 0x0f] = (tx_seq + 1) % 4096u;
- 
- 						pattrib->ampdu_en = true;/* AGG EN */
- 					} else {
--						psta->BA_starting_seqctrl[pattrib->priority & 0x0f] = (pattrib->seqnum + 1) & 0xfff;
-+						psta->BA_starting_seqctrl[pattrib->priority & 0x0f] = (pattrib->seqnum + 1) % 4096u;
- 						pattrib->ampdu_en = true;/* AGG EN */
- 					}
- 				}
 -- 
-2.34.1
+2.42.0.windows.2
 
