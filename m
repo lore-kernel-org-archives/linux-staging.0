@@ -1,106 +1,91 @@
-Received: from mail-vk1-f174.google.com (mail-vk1-f174.google.com [209.85.221.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14473264F88;
-	Tue,  8 Apr 2025 09:28:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 662BC263C8E;
+	Tue,  8 Apr 2025 09:35:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744104528; cv=none; b=P7NL2XQ10AB4hBoY375xYcOxuMAy5BarcRKXsKagESVZcMDJDNr+GFGoS8qtKVb7c7QgN3nB7Pms7Ux5ZgALY+DdsHI89+AKr6EunYovkHsFh4KlSIwI9usap4uQ/mTGDjakohEUqj3AptMkQt6SW9RAok2SzUocNfO9sdGyoDI=
+	t=1744104913; cv=none; b=jdovOtFyR859AhzhnahL/4hMvvkV9p+oY3R2GyINpcEoW7X2SZvjXDAS6HtusUDDyd+j1FO6gqrJSC1/8puRImctT4R8XwbB+5514ClMwsO2Xmh58GIotizlWwBiK4m6BqdQoyIPjQ6Bmpfx1MqQxfbBtGZH/4idfgak3ulJkTQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744104528; c=relaxed/simple;
-	bh=7QREvVegGtLVwMmCogS+RQMa5V8VJDGpsljqMOl9/II=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Tlpch3DTIJ9d2Dd04geenhZphI9+JIROHo8DNgRfIh7V8mRQ8zaGLfcAfaBEfGHmbLTc+MbUhmxCcV07+LmzyOTNWxOWoEgq14IrjeMVLdzydL7EtSlMGP6mtztgHnEFuHFinrtPwVDAOTICfmRZbktgpBooMEyfawTlOczW70k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FU+gybiA; arc=none smtp.client-ip=209.85.221.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FU+gybiA"
-Received: by mail-vk1-f174.google.com with SMTP id 71dfb90a1353d-523f670ca99so2404061e0c.1;
-        Tue, 08 Apr 2025 02:28:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1744104526; x=1744709326; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=7QREvVegGtLVwMmCogS+RQMa5V8VJDGpsljqMOl9/II=;
-        b=FU+gybiAMQKYF1ULiPGnU2znLWAKU9S3N8th9/ipi5rzD8PbiCGO3TJOd4Qp9H+WoQ
-         cO4aWMq80wswmV/dxkrm58QyZJ2tqsY52FQewSkJwrJr8lGhGo7ZhLu2q8tmrK7N+CWO
-         ums3ZRNGqDY22gFfTZi139vbFE63rvrxBrFlWRAFcjeEcNGAFoOgSTbExaoe/qXJMJtf
-         kL3JKrUxBsCG2hPdfVYgk2ohxzagCngL3aw8JrAeFmnOLoBTQ6ZOyLW2DNqLYG6Zb/tZ
-         TqdyYdvlPbAwjqci/r8fJJdP137Bqrjy4hJP10/h7TrUSY5trsVATHyLF8ooIITScEuD
-         r4Uw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744104526; x=1744709326;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=7QREvVegGtLVwMmCogS+RQMa5V8VJDGpsljqMOl9/II=;
-        b=HsOyozL6klIHQrFIOy9xpeHXimWo5VK3EnU3IO4UbsLD12YWgiksAWhWFNT4zv2gm9
-         VCDwcgG2jJznhx+vPywD2zk6KpMjLldO35wkCDXPTWsueWpucS2IhmzAw6vPcg0TDTEy
-         MUBh0ICyTwMx694FG8jjPHIkkVnkfh181NWDcriZEjvPE2nNHKwM+NxSYKLbr7qUQL+l
-         IeVJE9GKkEGkM+hCoa9URPnwSdBwiS1QslRpy5N/3vuicOSr1cNq4er9XC1ryKvahOAQ
-         omZKOocF6dcqiSwPbUMIAJ19KuUd4qdOraombUlk9ZajvTtWAodSvvMs2tlZUFlN1EhW
-         Huww==
-X-Forwarded-Encrypted: i=1; AJvYcCV6ENtmmlVowKe6LMuguwQdSTAtH2c2IWiaiG8NBTucr7X9zyP48S9ctYuGyGNtI2zn/W5uduMyfqwZyILs@lists.linux.dev
-X-Gm-Message-State: AOJu0Yzo/a7RHh+gO4okpo/gZyaX5W0462febE/GSDOxwqhAYIsdhm8j
-	cmmL2CC0ncySLtWxqrP8vpFUZqHNA9xPAQ1AccBw6gnCTVY61hN8CV5tLhMK5A1KK/c4I/FgnRZ
-	5DsTvgp10JM8ehZKGnMkXURQUuM4=
-X-Gm-Gg: ASbGncvZS9nAwXtt3sXcAF94EeWBGK1LX37qIfiWUgY1/D/0tof87Hl1Qse2Xzcs+TF
-	aNX9o0y95FtZOMKrBHTlBxyE8i8THu4Bg6lK/tVw2gw5A9Hz01603dX/8AsIYep6ifgH4XaQMWe
-	cCj2yQnBUg6IZDpHB6PE3zfymZJPJ6n1CfE8PIrQ==
-X-Google-Smtp-Source: AGHT+IE1pMeyij0XousxaMOs5MKTqgFNxflsqi+ScekU2Op5JGsVojJssflaxc9WwJgVeZJ3ws+MQNc/NpODWZidWlI=
-X-Received: by 2002:a05:6122:130b:b0:520:af9c:c058 with SMTP id
- 71dfb90a1353d-5276447946cmr12219148e0c.5.1744104525916; Tue, 08 Apr 2025
- 02:28:45 -0700 (PDT)
+	s=arc-20240116; t=1744104913; c=relaxed/simple;
+	bh=meg8T1f2j9qmjDA75iYwFYqIY6mdsFqngS70291dSDY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=orbDLVUrWjoV+179QsNGhwmGf7Pgqp8nJ4/R37n0IiEyPr6zFdDVfQoQZm1aTF8t8MwFVo+KG0kdAvJEUu2FxAgC5P6BEL7p2SAbO5piAmlUTByX88g6jm3V6Hmdm2Zq92OQzgB6YfGLUM2nyrHVh5yke65kajVdmv1oEtmJ5ZU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com; spf=fail smtp.mailfrom=gmail.com; arc=none smtp.client-ip=198.175.65.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=gmail.com
+X-CSE-ConnectionGUID: IbBG3gD+S3q4xZwx5631Yw==
+X-CSE-MsgGUID: n67mh4BfSwGIvBrySD6vug==
+X-IronPort-AV: E=McAfee;i="6700,10204,11397"; a="56506728"
+X-IronPort-AV: E=Sophos;i="6.15,197,1739865600"; 
+   d="scan'208";a="56506728"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Apr 2025 02:35:11 -0700
+X-CSE-ConnectionGUID: Nt5rjS7JQEW77MsFy3Mg5Q==
+X-CSE-MsgGUID: bs+LmZQgSpyq701fU7/ZrQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,197,1739865600"; 
+   d="scan'208";a="159206889"
+Received: from smile.fi.intel.com ([10.237.72.58])
+  by fmviesa001.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Apr 2025 02:35:08 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.98.2)
+	(envelope-from <andy.shevchenko@gmail.com>)
+	id 1u25MH-0000000AM3W-47Xy;
+	Tue, 08 Apr 2025 12:35:05 +0300
+Date: Tue, 8 Apr 2025 12:35:05 +0300
+From: Andy Shevchenko <andy.shevchenko@gmail.com>
+To: Samuel Abraham <abrahamadekunle50@gmail.com>
+Cc: outreachy@lists.linux.dev, gregkh@linuxfoundation.org,
+	julia.lawall@inria.fr, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org, david.laight.linux@gmail.com,
+	dan.carpenter@linaro.org
+Subject: Re: [PATCH v6 1/2] staging: rtl8723bs: Add white spaces around
+ binary operators
+Message-ID: <Z_TtyXwkOBK1MXGy@smile.fi.intel.com>
+References: <cover.1744061673.git.abrahamadekunle50@gmail.com>
+ <4ccdbfd3e8d74d99679927f294f71cfb694fcc6c.1744061673.git.abrahamadekunle50@gmail.com>
+ <CAHp75Vfp8Je1fUavSwTDAM_5_rDaDfXETa2oM5f0CjL1mxWX_Q@mail.gmail.com>
+ <CADYq+fbh=kG2JABmdF8FjjPiyigMpnJ7WhQh+faqRk6FJe4MBQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <cover.1744061673.git.abrahamadekunle50@gmail.com> <CAHp75VcCdS30LHPMwk3HO1o6db_0p+LDQoASx-7oCVw__MpMdw@mail.gmail.com>
-In-Reply-To: <CAHp75VcCdS30LHPMwk3HO1o6db_0p+LDQoASx-7oCVw__MpMdw@mail.gmail.com>
-From: Samuel Abraham <abrahamadekunle50@gmail.com>
-Date: Tue, 8 Apr 2025 10:28:36 +0100
-X-Gm-Features: ATxdqUFtuUdz2ArHfLMq3iu-Ctptj3cfrYHWhp-iqzKVcn30xuO40CFlbchF8zM
-Message-ID: <CADYq+fYeXCUgXqWu_97gvUBOvTG+H4Q76TSX2M1s5jV7EWcuyA@mail.gmail.com>
-Subject: Re: [PATCH v6 0/2] staging: rtl8723bs: Improve readability and
- clarity of sequence number wrapping
-To: Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc: outreachy@lists.linux.dev, gregkh@linuxfoundation.org, 
-	julia.lawall@inria.fr, linux-staging@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, david.laight.linux@gmail.com, andy@kernel.org, 
-	dan.carpenter@linaro.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CADYq+fbh=kG2JABmdF8FjjPiyigMpnJ7WhQh+faqRk6FJe4MBQ@mail.gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-On Tue, Apr 8, 2025 at 8:21=E2=80=AFAM Andy Shevchenko
-<andy.shevchenko@gmail.com> wrote:
->
-> On Tue, Apr 8, 2025 at 12:54=E2=80=AFAM Abraham Samuel Adekunle
-> <abrahamadekunle50@gmail.com> wrote:
+On Tue, Apr 08, 2025 at 10:22:44AM +0100, Samuel Abraham wrote:
+> On Tue, Apr 8, 2025 at 8:20 AM Andy Shevchenko
+> <andy.shevchenko@gmail.com> wrote:
+> > On Tue, Apr 8, 2025 at 12:54 AM Abraham Samuel Adekunle
+> > <abrahamadekunle50@gmail.com> wrote:
+
+...
+
+> > > -                                               psta->BA_starting_seqctrl[pattrib->priority & 0x0f] = (tx_seq+1)&0xfff;
+> > > +                                               psta->BA_starting_seqctrl[pattrib->priority & 0x0f] = (tx_seq + 1) & 0xfff;
 > >
-> > Tha patchset adds spaces around binary operators and also
-> > provides clarity on sequence number wrapping by using a modulo operatio=
-n
-> > % 4096u, in place of the bitwise AND(&) operation & 0xfff.
-> > The patches are required to be applied in sequence.
->
-> ...
->
-> > Changes in v5:
->
-> This is v6. Are there any changes in comparison to v5?
+> > > -                                               psta->BA_starting_seqctrl[pattrib->priority & 0x0f] = (pattrib->seqnum+1)&0xfff;
+> > > +                                               psta->BA_starting_seqctrl[pattrib->priority & 0x0f] = (pattrib->seqnum + 1) & 0xfff;
+> >
+> > You mentioned Linux coding style, which also requires lines not to be
+> > so long. These lines are. That's why a few versions ago I suggested
+> > you to change these to be two lines each. I don't know how many times
+> > to repeat this (it's third one).
+> 
+> Okay, sorry
+> I will add a third patch for a line break before the patch for %
+> operations since each patch should handle a single thing.
 
-I added a cover letter and named it v6 to show it's a continuation
-from v5 and to show I added a
-new patch for spaces.
-I was not sure where would be best to add the change log so I put it
-in the cover letter.
-But as it concerns the patch for the % operation, there is no change
-between v5 and v6
+I am not sure you need a third patch for that. It lies into category of space
+and indentation fix.
 
-Thanks
+-- 
+With Best Regards,
+Andy Shevchenko
 
-Adekunle.
+
