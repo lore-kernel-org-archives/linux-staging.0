@@ -1,73 +1,72 @@
-Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com [209.85.215.182])
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39FFE257AC9
-	for <linux-staging@lists.linux.dev>; Tue,  8 Apr 2025 22:20:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BBA02580C8
+	for <linux-staging@lists.linux.dev>; Tue,  8 Apr 2025 22:20:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744150859; cv=none; b=uqIclJ2bq5rNAgPX8KqMxLIAoUDvMAF5ufaXzGh/SKz1IyS/Nb8SNOeM8rrdXzJeD1e2oI9L1nNPBGZHpKnSa1cH8uZvn7B9+pntDpjQ0EQduK/GItea/ZR2BN61y/SOScTpYRaXdcrRWk/Ezo41UMquPIj5+sBv/ttiVGsHoVc=
+	t=1744150861; cv=none; b=S7WI7wTx2/w3G+HewwVJ7AAO12XKDwc0IOJsalowGncqbdAfh5SbyuqevmFQaDAnecXYyQbolW0JLJXEvbaDx9ay4eoWK8IT1SBH9/Bz2TGzAUnvykQ4dvOw8Aup15SMuTJtGOrswcOeLks3RufzYrhdt2utd/FXdDCBDKf/vm4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744150859; c=relaxed/simple;
-	bh=XVlXgBarOpByMZ40cyRxIGU3F0ct0U+lW2mc3HyTQ/c=;
+	s=arc-20240116; t=1744150861; c=relaxed/simple;
+	bh=2wf7c7LIBzRB8hZAmqsGJOJRMaXIRHLWvAJXOmvSAzU=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=NFU1xhlNnDDdqroXhcp/Myz9psLGma6YhhkmMtsGVVMuMStDiQahtIQBDWHH37ysUTOFENqImIJzxcg4wY9kJMiM0gsTDKHns9YWa+vIstrxP7J9pGa0mNXegXdERsVzGITfaS+QnO0ZhqR1wcsFw9Ay5eDVlmwWPifkfUaGSZc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=neverthere.org; spf=pass smtp.mailfrom=neverthere.org; dkim=pass (2048-bit key) header.d=neverthere.org header.i=@neverthere.org header.b=b6JWfV8o; arc=none smtp.client-ip=209.85.215.182
+	 MIME-Version; b=Y0mmXeqljjlHgeVyzu5v/L9yH0bKW9TnmX4XUNA8qsbMHJwvBPup99mw88NPQbXEGLBguXV3XItteJTGn/w5Nfbq4ZT94cxTqrsbueFLaD0BnE12MyqBPAS4Yakz7C7tBqrS7ZkdMV/C9DNWSqv8/00HwVkb336lUJ0YDZhBtss=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=neverthere.org; spf=pass smtp.mailfrom=neverthere.org; dkim=pass (2048-bit key) header.d=neverthere.org header.i=@neverthere.org header.b=ItTTpEsD; arc=none smtp.client-ip=209.85.214.178
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=neverthere.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=neverthere.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=neverthere.org header.i=@neverthere.org header.b="b6JWfV8o"
-Received: by mail-pg1-f182.google.com with SMTP id 41be03b00d2f7-ae727e87c26so4061571a12.0
-        for <linux-staging@lists.linux.dev>; Tue, 08 Apr 2025 15:20:58 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=neverthere.org header.i=@neverthere.org header.b="ItTTpEsD"
+Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-224341bbc1dso54263225ad.3
+        for <linux-staging@lists.linux.dev>; Tue, 08 Apr 2025 15:20:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=neverthere.org; s=google; t=1744150857; x=1744755657; darn=lists.linux.dev;
+        d=neverthere.org; s=google; t=1744150859; x=1744755659; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=tOCJOouKRzWm4DusysfXTOFj97bZFWvP4soqnOkGANM=;
-        b=b6JWfV8oj0WKkJBX0BUX/xJyspsnKEOmgCP/Gs4Ot+KuI9ykuzZcM3rmRNe+VfN4vF
-         0Cx+q2yKmrZq7WF+m08Iy6Kh5E3BbX35M4w1G4Zb16JtZNu0LCQDhrEICdMz6vsc7V1n
-         rbBLwq0JeDEY+CcXQX+m2EI+VeKxEWTcuFo9yqtVnx71Ehz2HYkTXB36S1kgmC9L3x4/
-         m6FUc6yZCryWJX4fzTEoWj4YtxAYrQP1D+qUjpjmYpsm4WD1nGf0yCJNqtxWmazMsdCW
-         znctSBmJe679MrXwcB6iW0RS3mgUmyTVDL/aVRcw3GgAHNuEw/7l5kB48oyFmWZiPMH2
-         9flg==
+        bh=vtdVHJyH0NltQn/jp3Ss8N//KtRoFStN3nMWlkLRCK4=;
+        b=ItTTpEsDvy37CDL6iB8Xm/DUW3YpjW/OphnFZbDTKm8zq8MB/NlC3C2CNYpPBeRbNx
+         Tlk6IfYlxVgGkhv2mQxO9OgBc47p6Q4rp82Mau25vK091sYxDRKCy+gBceSGOrE/8IZL
+         RgjxOpzbAHKzJr5URwXUyDnBgOs8JTdH+JD8EyYb6uJSHu+ZZ8w4tymMvTUMwIPqzfOP
+         QACYKX4I92lnPyeZ+bgCRb01nx29hB0owP9kjPm/XrS6qLODTlu33MdCpB7FxLimmgEA
+         EwgjDl6nQYjDUGL96DD0N36ISt3FZiHB4Pg0kICeCsir9jIf41akF2gl6/T7A/JX38NA
+         Lfzg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744150857; x=1744755657;
+        d=1e100.net; s=20230601; t=1744150859; x=1744755659;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=tOCJOouKRzWm4DusysfXTOFj97bZFWvP4soqnOkGANM=;
-        b=Ukrjs2F1DboM+FsKiizmjSIR109yJyHweOUgqYlz8G6VZ8sb7loVA5+hWvirxOVe7s
-         AxnSuIDMqd/5iTFrxnjxQwsKVIHHMUbVg0k/RW8BJ6Dzh+Z4Hbh3jKTwNLKpEtHScb2k
-         Z5OU/ux10SyMjZBiw9p5Mp4SE7B/DbX+LP5U4bzi/M7oZjjMafco4lMncCo0i0UiYkA9
-         c4LtdmsL7v/BV2msPJPWdONy/xQ+7LyMoOnrru7gdXbHumM7DgbCIQgxeM9ESpj+yV0L
-         f6V6INwdLm1vIIAL1dJAcpIQXsXx1mIJp7z2NBWx4D3OzmbwDrFKcNVXNRDJs9w9r85I
-         qmNw==
-X-Forwarded-Encrypted: i=1; AJvYcCW+eFH9My8vm2DtRUMwg/qwG72OQSVYURS7aAcFivoeJMSsd1Hd74nB7v4BvjLPaVKvm/66yJN8g6eZYuuB@lists.linux.dev
-X-Gm-Message-State: AOJu0Yxe16LroUDiGQ5AuyxqWHWgXOlPDG9+8acnKhPo3mG6cqBhUm3S
-	oxh/otOnLtgh453yRTsv62ORwUBj2tybJYPQNnlvuAYTGPFM/V+hm2DPdRhFXclG+SC2LSEugnw
-	=
-X-Gm-Gg: ASbGncs/9SG9hn4/SNcRU1NkGfyMXKxt+i1e7ojOVAgd6eGhSYF7HMiOdU6hep4JenM
-	vpQkDqfer4zMhT/7CNmvrve0DH0vh1uoEyEJgNskfGbmBYuFeRXkHq0VdfDQbRNTXH8XTcoPeBr
-	2rqwGXqZMOs6eV2fAb0rbJItYotNkHg3gvWOORT4tC2cdKWXDeO0RJh9JODomB8BsXX9CRXS2oV
-	/65EEZtYg/RB7Fwl//hC29ttPso5V8J9S6azpFJnN4W2A2QQVkdX0B9dYiNr5i6Cfmw5z4LuUAT
-	7hlVXPyGcw+TNRm1yNSPJbn5RrrcCm5Cz5ZkrTbb6cjs6mptzzddVRAnoLSw8yQTFbXzxCyEAXd
-	7XmKqW4Ping==
-X-Google-Smtp-Source: AGHT+IGRcG/0A9R895NyLY04xo7ZTyvvpe7D0pWZVZ+pOHxJpZpWUst5VA6hx9p/XlK8Wh57gi11HA==
-X-Received: by 2002:a17:903:1a6b:b0:229:1717:8826 with SMTP id d9443c01a7336-22ac29b0e16mr14759815ad.28.1744150857638;
-        Tue, 08 Apr 2025 15:20:57 -0700 (PDT)
+        bh=vtdVHJyH0NltQn/jp3Ss8N//KtRoFStN3nMWlkLRCK4=;
+        b=XO1ZsTYKjD+6P3VwrgNqEgBMVWWGqM+gEajML+n8xEvzN/rD/v8ymPsqE+picLYmnA
+         /FGn6CG66S7e367TLF8xsPdjAEGmp3q4RAlYVTUQWckODwGnB5CQMq0UfMxXUQQZWESM
+         vc8MbESYkSxnNOdNNjmToNLzao4KeGVId7wx85KI7Zj7Fu3nl4VuB1iTt6TXVhvr/S9K
+         KWwB9/P3ZDQU2f/5Nsg82NpkHAo5zHi72D246wfd0l37zwW6gbCEXCabnNC2FRQaT0zg
+         A7rzzR47CnOFDGMCfpAgj2iDratQ4OWFfR58wnUfLH/0kQPYLflrnZBwpw/cIxj09FQB
+         rcCQ==
+X-Forwarded-Encrypted: i=1; AJvYcCU+belLqxXZQxABwm87qza9KuuziyQtccog1B6wtMmvJEXTsB7Bj/0+iNMHGr1muHdqtXZ+/NwEMaMHEeyC@lists.linux.dev
+X-Gm-Message-State: AOJu0YwaVRi3QH+jn0ZGicmgdig+x6cxL41SJgOjOlH+vsGlCs6G84+F
+	BsoJ2/o/Ag5tAH7tMYvfs/430KT4tzGC5tRky7SCA+/stiUuXKRN/5mTAPg0+w==
+X-Gm-Gg: ASbGncuJm6MOHYA1+m8z0sZ96fo9sbUK3Jf6p+CFCI9e+LBwfd5hYmuSf4eXZT28QsG
+	0wk+OGVw7UU7fFpfzukU2dypTMeH01g1CkyRNda5FI6d3SiUZ3i6vO95PdPKLsqlmd/QKMkIE9m
+	34i7KicaSTunWqQ1YZ+MoQ3Cw6dWWcaEHo7ivf0OmtNscDrM34aNNCapUR5TsVg3sPxpkVjzZK5
+	UqFKbyxQzWSyvyXnZgq8tvpNX1PvLJmTdRpv7JXnvZ+x7L4AgnK8Kp5mR2FYECFYZEiK/2omV5O
+	AMIpwWQPdHNL73j0Yztbos9Tx/M2oSAQHxjuOooptoZYwK5egOG+DEuJl5jh0E8YyqMBJ/W5Hzf
+	UPesQ8p4H/g==
+X-Google-Smtp-Source: AGHT+IHYkZurTfVVRX44HRgPhAugK6vNpTPduXaQU/6BuW0VyqSvT9F4d4SJ8m5K6rM6TCF+LQPqZQ==
+X-Received: by 2002:a17:902:ea04:b0:227:e82b:b585 with SMTP id d9443c01a7336-22ac29a7834mr8637105ad.20.1744150858811;
+        Tue, 08 Apr 2025 15:20:58 -0700 (PDT)
 Received: from tiamat (c-69-181-214-135.hsd1.ca.comcast.net. [69.181.214.135])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-739d97ee2d9sm11141575b3a.39.2025.04.08.15.20.57
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-229785adc3fsm106036675ad.51.2025.04.08.15.20.58
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 08 Apr 2025 15:20:57 -0700 (PDT)
+        Tue, 08 Apr 2025 15:20:58 -0700 (PDT)
 From: Michael Rubin <matchstick@neverthere.org>
 To: gregkh@linuxfoundation.org,
 	dpenkler@gmail.com,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
 Cc: Michael Rubin <matchstick@neverthere.org>
-Subject: [PATCH v1 11/14] staging: gpib: uapi: Fix CamelCase and IBC Dup
-Date: Tue,  8 Apr 2025 22:20:37 +0000
-Message-ID: <20250408222040.186881-12-matchstick@neverthere.org>
+Subject: [PATCH v1 12/14] staging: gpib: uapi: Fix CamelCase and IB_STB
+Date: Tue,  8 Apr 2025 22:20:38 +0000
+Message-ID: <20250408222040.186881-13-matchstick@neverthere.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20250408222040.186881-1-matchstick@neverthere.org>
 References: <20250408222040.186881-1-matchstick@neverthere.org>
@@ -79,8 +78,7 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Resolved duplicate entry for IbcSPollBit vs IbcSpollBit.
-Correct CamelCase for IBC enums
+Correct CamelCase for IB_STB enums
 
 Adhere to Linux kernel coding style.
 
@@ -88,83 +86,26 @@ Reported by checkpatch
 
 Signed-off-by: Michael Rubin <matchstick@neverthere.org>
 ---
- drivers/staging/gpib/uapi/gpib_user.h | 63 +++++++++++++--------------
- 1 file changed, 31 insertions(+), 32 deletions(-)
+ drivers/staging/gpib/uapi/gpib_user.h | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/staging/gpib/uapi/gpib_user.h b/drivers/staging/gpib/uapi/gpib_user.h
-index e02323508245..7f343256c110 100644
+index 7f343256c110..301083f287ad 100644
 --- a/drivers/staging/gpib/uapi/gpib_user.h
 +++ b/drivers/staging/gpib/uapi/gpib_user.h
-@@ -289,38 +289,37 @@ enum ibask_option {
+@@ -340,9 +340,9 @@ enum gpib_events {
  };
  
- enum ibconfig_option {
--	IbcPAD = 0x1,
--	IbcSAD = 0x2,
--	IbcTMO = 0x3,
--	IbcEOT = 0x4,
--	IbcPPC = 0x5,	/* board only */
--	IbcREADDR = 0x6,	/* device only */
--	IbcAUTOPOLL = 0x7,	/* board only */
--	IbcCICPROT = 0x8,	/* board only */
--	IbcIRQ = 0x9,	/* board only */
--	IbcSC = 0xa,	/* board only */
--	IbcSRE = 0xb,	/* board only */
--	IbcEOSrd = 0xc,
--	IbcEOSwrt = 0xd,
--	IbcEOScmp = 0xe,
--	IbcEOSchar = 0xf,
--	IbcPP2 = 0x10,	/* board only */
--	IbcTIMING = 0x11,	/* board only */
--	IbcDMA = 0x12,	/* board only */
--	IbcReadAdjust = 0x13,
--	IbcWriteAdjust = 0x14,
--	IbcEventQueue = 0x15,	/* board only */
--	IbcSPollBit = 0x16,	/* board only */
--	IbcSpollBit = 0x16,	/* board only */
--	IbcSendLLO = 0x17,	/* board only */
--	IbcSPollTime = 0x18,	/* device only */
--	IbcPPollTime = 0x19,	/* board only */
--	IbcEndBitIsNormal = 0x1a,
--	IbcUnAddr = 0x1b,	/* device only */
--	IbcHSCableLength = 0x1f,	/* board only */
--	IbcIst = 0x20,	/* board only */
--	IbcRsv = 0x21,	/* board only */
--	IbcBNA = 0x200	/* device only */
-+	IBC_PAD = 0x1,
-+	IBC_SAD = 0x2,
-+	IBC_TMO = 0x3,
-+	IBC_EOT = 0x4,
-+	IBC_PPC = 0x5,	/* board only */
-+	IBC_READDR = 0x6,	/* device only */
-+	IBC_AUTOPOLL = 0x7,	/* board only */
-+	IBC_CICPROT = 0x8,	/* board only */
-+	IBC_IRQ = 0x9,	/* board only */
-+	IBC_SC = 0xa,	/* board only */
-+	IBC_SRE = 0xb,	/* board only */
-+	IBC_EOS_RD = 0xc,
-+	IBC_EOS_WRT = 0xd,
-+	IBC_EOS_CMP = 0xe,
-+	IBC_EOS_CHAR = 0xf,
-+	IBC_PP2 = 0x10,	/* board only */
-+	IBC_TIMING = 0x11,	/* board only */
-+	IBC_DMA = 0x12,	/* board only */
-+	IBC_READ_ADJUST = 0x13,
-+	IBC_WRITE_ADJUST = 0x14,
-+	IBC_EVENT_QUEUE = 0x15,	/* board only */
-+	IBC_SPOLL_BIT = 0x16,	/* board only */
-+	IBC_SEND_LLO = 0x17,	/* board only */
-+	IBC_SPOLL_TIME = 0x18,	/* device only */
-+	IBC_PPOLL_TIME = 0x19,	/* board only */
-+	IBC_END_BIT_IS_NORMAL = 0x1a,
-+	IBC_UN_ADDR = 0x1b,	/* device only */
-+	IBC_HS_CABLE_LENGTH = 0x1f,	/* board only */
-+	IBC_IST = 0x20,	/* board only */
-+	IBC_RSV = 0x21,	/* board only */
-+	IBC_BNA = 0x200	/* device only */
+ enum gpib_stb {
+-	IbStbRQS = 0x40, /* IEEE 488.1 & 2  */
+-	IbStbESB = 0x20, /* IEEE 488.2 only */
+-	IbStbMAV = 0x10	 /* IEEE 488.2 only */
++	IB_STB_RQS = 0x40, /* IEEE 488.1 & 2  */
++	IB_STB_ESB = 0x20, /* IEEE 488.2 only */
++	IB_STB_MAV = 0x10	 /* IEEE 488.2 only */
  };
  
- enum t1_delays {
+ #endif	/* _GPIB_USER_H */
 -- 
 2.43.0
 
