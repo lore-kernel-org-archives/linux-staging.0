@@ -1,75 +1,70 @@
-Received: from mail-pg1-f175.google.com (mail-pg1-f175.google.com [209.85.215.175])
+Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED03E2505AF
-	for <linux-staging@lists.linux.dev>; Tue,  8 Apr 2025 22:56:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82F4425291E
+	for <linux-staging@lists.linux.dev>; Tue,  8 Apr 2025 23:25:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744152996; cv=none; b=ZZUsK5b4o+VRKhiwlQ5dqcApq8aa4WHPSoB7fChoiX4q13fMnJW4iFqS8cUUGxigSO6f3l4W49pI9TiVgrzJVdqX74o0IYKFJwCeK9Q5mBTjQjqXu6TzLAg6MnIYbgSkKFgc4UuZsTPj7w1ybsmKFENxFcnVXj62b1KPgjn/8xA=
+	t=1744154741; cv=none; b=dO/9YM3wslPkoFXZhOI5i66GvFvxiWa9ble+p/U3NdldypGouoVPMH47jpCIddnIE/nKD63QueKNN3UDdhoAcFfpC54cFt30D28fV45dx6z3za9NOkyTuyTxeXwjD9CGSr6zHIZUssnYajy4MQMkUmitZuUJuAjwdzBWGo3/CLc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744152996; c=relaxed/simple;
-	bh=64A1fL3icCqLfyIFzefIzkWUMnxUtIKnTUU/t0fgAxE=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=clAhoE/Lulhl242aMx304FLaYEfjGDfqS580XDSlgZLihZ6ewgE+VYNkAybwxoMbcYZWhAm3tqIZ3uQBHoTqpWeUMDCUb0/fOBuBJgRGAhRyD8A+JNWREjc81A8t+TQT7QTqQpKoj0ff1bSH6K7rzm1TLiq/zefgCSXNg51sgdA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=neverthere.org; spf=pass smtp.mailfrom=neverthere.org; dkim=pass (2048-bit key) header.d=neverthere.org header.i=@neverthere.org header.b=SrysshBE; arc=none smtp.client-ip=209.85.215.175
+	s=arc-20240116; t=1744154741; c=relaxed/simple;
+	bh=yaG+cNw3thGzK/uMl7ZE2Fba3N0gTNuNWI1pEKzcOXQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=EZN+HdIT/ITeeShK3CBPWdiuC2gV8yNfC7+a3oSLz4FlBsytBdweXHvrhJZLltz5dV5uhKoNamg7K7VEiLm6rCt6PiZI2EnhChF1oXZTkw3J/FNgJzcpZPLQ9Q14tJalROSbO5iiNrmLioD350/VZWKzducRrNxhoSC+lq3DkgI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=neverthere.org; spf=pass smtp.mailfrom=neverthere.org; dkim=pass (2048-bit key) header.d=neverthere.org header.i=@neverthere.org header.b=JQSjRv2X; arc=none smtp.client-ip=209.85.216.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=neverthere.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=neverthere.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=neverthere.org header.i=@neverthere.org header.b="SrysshBE"
-Received: by mail-pg1-f175.google.com with SMTP id 41be03b00d2f7-af519c159a8so5538002a12.3
-        for <linux-staging@lists.linux.dev>; Tue, 08 Apr 2025 15:56:34 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=neverthere.org header.i=@neverthere.org header.b="JQSjRv2X"
+Received: by mail-pj1-f42.google.com with SMTP id 98e67ed59e1d1-306b6ae4fb3so3460532a91.1
+        for <linux-staging@lists.linux.dev>; Tue, 08 Apr 2025 16:25:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=neverthere.org; s=google; t=1744152994; x=1744757794; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Fm5AXhXZ7EO6Xz/bF1BEFBHOOg08llbrt+bodgHagxI=;
-        b=SrysshBEjE7N78o1KgtS7IVatKWlOKwB71D++hMVpWtg6Qvc5JX08VwDr0sVdwbU0z
-         t3MQxJFwWKhdP78sCK3J9COYJSB+vsoTTDS00e0HdRU1RuW2PhZ4PkCJHWmk8aDOoSlB
-         KmTOP52QqPrgsoWCRyuXOch6/ey55+39BUxeIUsPLFRlnyuZ0IRpPjH6ZUqnoflLZGbt
-         GwawiMq+6iZvbGDPFv06BnAsVP2uqjSpV3/glP2ZFewrKrizpOOJ8x7WaHITYwKLjmHc
-         L8W3CfmMVFobu/q0gNHSqMGiFKY3cmiZhpoptaVdgzD1GIVB01utGcjWt7LlHfjEz0Rq
-         N/+g==
+        d=neverthere.org; s=google; t=1744154739; x=1744759539; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=QdaIenzsmWJTTujQ9Rnj1L0tl/QFO/K85i0DJLh7p2M=;
+        b=JQSjRv2XSt/qXifXrdKq8g3Apafav4Pb+7jqsVv+lKKlkLT9h8lzRzvUN75QAc7Fd7
+         J7PWa9qdFAQD4N6yiQkTiXS4isYzr/kllgV7fGVolfsxKn2UKVSt1knBDZVqJ4VZ5WGp
+         iHLMHcX3HK00N0uOROcqV3kbjppOdJI7Vfu36V4Gmfxj4gWRHU+8k1AYRFjc2LBR0bQZ
+         7UJzI9KJ03AZCivaNup+3PO/VJV9a7fDu8k67lvadraS3mL2ZMJNWCoROYxhBgvh4J2F
+         Zvy5RDY3vUMa4x2m1G6MvGzBUIEq9E5Ko0UhGM02Q2f4T20olefu6+q7teNuj3n6iwlv
+         SWqw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744152994; x=1744757794;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Fm5AXhXZ7EO6Xz/bF1BEFBHOOg08llbrt+bodgHagxI=;
-        b=ZmW0NAVIvNRGaZMHqssETPFIQ27bNniIboCSE0xj8S+53/3TEG2lmLaXxpkJP3XMA4
-         X6XY4+jq1Xs/uMQk99rCDalHMZvMAJc5e8Wk32TTGEV48OCyjE1KjV/CxQzY2LHpZbPU
-         3pNMwo1YqdTtV+3ZbjBUZzWPwJ1xIMz0bZQ5d5vSg6MWPRLPfX1AH4CWgdEXtdFAWBYB
-         coFaIb+Vn4ERmDRx3pbIssylKJ7+6vLBT5LHp+Vek3lreraZjm4n2op9A3a1aV/AVkym
-         l/7RnO2FL+vbj18JJ0E1M0Ekvgwoyz7d3LF19NpHub3f1ZzKdkz6OgKg9Rcrnb/zlD8D
-         RjXw==
-X-Gm-Message-State: AOJu0YwaTcdQDu0Y+Y7YSgJW+E//7F3gISEfsDq3V+5bHK+0CmuelliY
-	PqQG+Y5JIdPr5ZVcBVC/4QnzLcEING2jWQ3t0W/wYrSt7T806bgRvgJVLVU6cPrUHErQ2+21uV0
-	=
-X-Gm-Gg: ASbGncub/JDiLaEY29Kb8QxYQSrSJVwcsivfqaKhHJeAEqPW8G6eWodFTntXsZuDM7j
-	XeRcAWdddOfXnNiojnD0Uf9c1kqRSlboSZw9tpjcUqKC+ZqA3Gv05OMAYooHA8domHH4pdEke9E
-	Gebfh5gPKo1vOSpwvpGuUok5dR6Y40/raxYKd2IViIFV/aEsUoBckYR0EJuLTa4sIjSn6OxClkJ
-	xCn7bKw6XZo09Z17shvYOyt12lA6xOj58LHz2OcvZsGrvx6CjbCnbJd2GLIBAclr2c0DFjsYziL
-	ctExNLgCLRof+2x10uHeMSqpAg/qeJPModt0sj6MXhsMUrOh9x8eFrKQPZeCdIK6OL1fTIcaZB5
-	onTv56crguA==
-X-Google-Smtp-Source: AGHT+IHMrbGlBdlcelE02MMVEgm0kvLnYsiD8ZRzKlv7S7zsxd3sFgnnnfkO0DUDWMP68U3E3qjqzg==
-X-Received: by 2002:a05:6a21:a34b:b0:1f6:2d39:8713 with SMTP id adf61e73a8af0-201591c9103mr1018919637.19.1744152994244;
-        Tue, 08 Apr 2025 15:56:34 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1744154739; x=1744759539;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=QdaIenzsmWJTTujQ9Rnj1L0tl/QFO/K85i0DJLh7p2M=;
+        b=nOiawyKFEKqL5jI20w4MftC5KB8V+Q+/v+QuPFrmPO+YaxmXMPvQ8NwjS28L0s25a2
+         eTnaMNn+hHkwWd0JBToWeKFRdFI/5gniSCIWPWJVeCJUTxQhB5UBsor03qLn8e0Zomlp
+         HUzXdAXsVWN1yFQDao9JLgGQeqboHb8iNU7Oxwxjr/GroE0hs6QX1Om/k7EfBSjxCeyO
+         Owwmzs6g0m3+S2F3u9TBo9kd8wwVdTs6Hpgm+QbrMG3w0h5WHD3hmJgk/gmm50r07Yrc
+         McTG4Vox6kwj5MbNVYJfpVRIvMqGJXLKwpWnxJy+vKJxoMm0GUOlTGYcW/Q7lULacLYj
+         lAfA==
+X-Gm-Message-State: AOJu0YxCi5k7wIMYtwHrGuhjLy8XdfFRCwt3MPiAm1+wTrX5CkHC52MV
+	trF3pPZ1FU8+DBIQgCFf3+vKD348J0vjKmBRO03dxfA1mork55eeDPLiXBSP5A==
+X-Gm-Gg: ASbGncvIKzFYrGrRVBE8mGpwlLd48QdlXJ3XOz75u5YhBAEdeKLZBwHHbGyFfpvYxIB
+	1tsN3wnrbOv2mrLPMXZn+xk3c5PDlD+XrEFGWFsA3zhnlndN3PMq5pzrZHsaPwZlTkaEC2dh/+J
+	2KNOycxySjmRTDWRU2tSTzsE9976f48a+0bYChyboGp3/kajtQjxY3PuIFnWfqRBqig7MW7sk2N
+	eEbK3wd38wXsJlBjjXgz6EwmgzgEZVblLACYQDEX8Ic0Crx9nnLKqNUTpezYhu4OMy9njU9iOfw
+	9zQ4DeHTldAm/Le7kf9uiQ3hstqzOpfwm4ob6dLnCF/F2mxJ/BnbPT8n0oC5rl2Xf6BpL8o0jjr
+	3vaKLgbJ+1SQvoh/DKv+J
+X-Google-Smtp-Source: AGHT+IHdNvvZeYZEkWu5hl2Ax+3ZQOzgnn/I6tXchKkRcxPGcuGKRXDFSRdslYshlPTmMcdFAUw0pg==
+X-Received: by 2002:a17:90b:2f0b:b0:2ee:db1a:2e3c with SMTP id 98e67ed59e1d1-306dd31f6bamr403489a91.1.1744154738672;
+        Tue, 08 Apr 2025 16:25:38 -0700 (PDT)
 Received: from tiamat (c-69-181-214-135.hsd1.ca.comcast.net. [69.181.214.135])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-739da0b4869sm11504349b3a.138.2025.04.08.15.56.33
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-306dd187263sm142158a91.42.2025.04.08.16.25.38
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 08 Apr 2025 15:56:33 -0700 (PDT)
+        Tue, 08 Apr 2025 16:25:38 -0700 (PDT)
 From: Michael Rubin <matchstick@neverthere.org>
 To: gregkh@linuxfoundation.org,
 	dpenkler@gmail.com
 Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Michael Rubin <matchstick@neverthere.org>
-Subject: [Patch v1 1/1] staging: gpib: agilent_82357a uses completion
-Date: Tue,  8 Apr 2025 22:56:28 +0000
-Message-ID: <20250408225628.187316-2-matchstick@neverthere.org>
+Subject: [PATCH v1 0/7] staging: gpib: Removing typedefs
+Date: Tue,  8 Apr 2025 23:25:28 +0000
+Message-ID: <20250408232535.187528-1-matchstick@neverthere.org>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20250408225628.187316-1-matchstick@neverthere.org>
-References: <20250408225628.187316-1-matchstick@neverthere.org>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -78,101 +73,44 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-agilent_82357a_send_bulk_msg is a oneshot event where a semphore is meant for
-synchronizing over counting events.
+Removing various typedefs to adhere to Linux code style.
 
-Recommendation is to use a completion instead.
+Reported by checkpatch.pl
 
-Reported by checkpatch.
+In general, a pointer, or a struct that has elements that can reasonably be
+directly accessed should never be a typedef.
 
-WARNING: consider using a completion
+* Patch 1: Removing gpib_event_queue_t for struct gpib_event_queue
 
-Signed-off-by: Michael Rubin <matchstick@neverthere.org>
----
- drivers/staging/gpib/agilent_82357a/agilent_82357a.c | 12 ++++++------
- drivers/staging/gpib/agilent_82357a/agilent_82357a.h |  4 ++--
- 2 files changed, 8 insertions(+), 8 deletions(-)
+* Patch 2: Removing gpib_interface_list_t for struct gpib_interface_list
 
-diff --git a/drivers/staging/gpib/agilent_82357a/agilent_82357a.c b/drivers/staging/gpib/agilent_82357a/agilent_82357a.c
-index baa8f149024c..97e7caefe35b 100644
---- a/drivers/staging/gpib/agilent_82357a/agilent_82357a.c
-+++ b/drivers/staging/gpib/agilent_82357a/agilent_82357a.c
-@@ -34,7 +34,7 @@ static void agilent_82357a_bulk_complete(struct urb *urb)
- {
- 	struct agilent_82357a_urb_ctx *context = urb->context;
- 
--	up(&context->complete);
-+	complete(&context->complete);
- }
- 
- static void agilent_82357a_timeout_handler(struct timer_list *t)
-@@ -43,7 +43,7 @@ static void agilent_82357a_timeout_handler(struct timer_list *t)
- 	struct agilent_82357a_urb_ctx *context = &a_priv->context;
- 
- 	context->timed_out = 1;
--	up(&context->complete);
-+	complete(&context->complete);
- }
- 
- static int agilent_82357a_send_bulk_msg(struct agilent_82357a_priv *a_priv, void *data,
-@@ -74,7 +74,7 @@ static int agilent_82357a_send_bulk_msg(struct agilent_82357a_priv *a_priv, void
- 	}
- 	usb_dev = interface_to_usbdev(a_priv->bus_interface);
- 	out_pipe = usb_sndbulkpipe(usb_dev, a_priv->bulk_out_endpoint);
--	sema_init(&context->complete, 0);
-+	init_completion(&context->complete);
- 	context->timed_out = 0;
- 	usb_fill_bulk_urb(a_priv->bulk_urb, usb_dev, out_pipe, data, data_length,
- 			  &agilent_82357a_bulk_complete, context);
-@@ -89,7 +89,7 @@ static int agilent_82357a_send_bulk_msg(struct agilent_82357a_priv *a_priv, void
- 		goto cleanup;
- 	}
- 	mutex_unlock(&a_priv->bulk_alloc_lock);
--	if (down_interruptible(&context->complete)) {
-+	if (wait_for_completion_interruptible(&context->complete)) {
- 		retval = -ERESTARTSYS;
- 		goto cleanup;
- 	}
-@@ -142,7 +142,7 @@ static int agilent_82357a_receive_bulk_msg(struct agilent_82357a_priv *a_priv, v
- 	}
- 	usb_dev = interface_to_usbdev(a_priv->bus_interface);
- 	in_pipe = usb_rcvbulkpipe(usb_dev, AGILENT_82357_BULK_IN_ENDPOINT);
--	sema_init(&context->complete, 0);
-+	init_completion(&context->complete);
- 	context->timed_out = 0;
- 	usb_fill_bulk_urb(a_priv->bulk_urb, usb_dev, in_pipe, data, data_length,
- 			  &agilent_82357a_bulk_complete, context);
-@@ -157,7 +157,7 @@ static int agilent_82357a_receive_bulk_msg(struct agilent_82357a_priv *a_priv, v
- 		goto cleanup;
- 	}
- 	mutex_unlock(&a_priv->bulk_alloc_lock);
--	if (down_interruptible(&context->complete)) {
-+	if (wait_for_completion_interruptible(&context->complete)) {
- 		retval = -ERESTARTSYS;
- 		goto cleanup;
- 	}
-diff --git a/drivers/staging/gpib/agilent_82357a/agilent_82357a.h b/drivers/staging/gpib/agilent_82357a/agilent_82357a.h
-index cdbc3ec5d8bd..23aa4799eb86 100644
---- a/drivers/staging/gpib/agilent_82357a/agilent_82357a.h
-+++ b/drivers/staging/gpib/agilent_82357a/agilent_82357a.h
-@@ -6,7 +6,7 @@
- 
- #include <linux/kernel.h>
- #include <linux/mutex.h>
--#include <linux/semaphore.h>
-+#include <linux/completion.h>
- #include <linux/usb.h>
- #include <linux/timer.h>
- #include <linux/compiler_attributes.h>
-@@ -115,7 +115,7 @@ enum xfer_abort_type {
- #define INTERRUPT_BUF_LEN 8
- 
- struct agilent_82357a_urb_ctx {
--	struct semaphore complete;
-+	struct completion complete;
- 	unsigned timed_out : 1;
- };
- 
+* Patch 3: Removing gpib_event_t for struct gpib_event
+
+* Patch 4: Removing gpib_status_queue_t for struct gpib_status_queue
+
+* Patch 5: Removing status_byte_t for struct gpib_status_bye
+
+* Patch 6: Removing gpib_descriptor_t for struct gpib_descriptor
+
+* Patch 7: Removing gpib_file_private_t for struct gpib_file_private
+
+Michael Rubin (7):
+  staging: gpib: Removing typedef gpib_event_queue
+  staging: gpib: Removing gpib_interface_list_t
+  staging: gpib: Removing gpib_event_t typedef
+  staging: gpib: Removing typedef gpib_status_queue
+  staging: gpib: Removing typedef of status_byte
+  staging: gpib: Removing typedef gpib_descriptor_t
+  staging: gpib: Remove typedef gpib_file_private_t
+
+ drivers/staging/gpib/common/gpib_os.c     | 155 +++++++++++-----------
+ drivers/staging/gpib/common/iblib.c       |  12 +-
+ drivers/staging/gpib/common/ibsys.h       |  11 +-
+ drivers/staging/gpib/include/gpibP.h      |   4 +-
+ drivers/staging/gpib/include/gpib_proto.h |   8 +-
+ drivers/staging/gpib/include/gpib_types.h |  38 +++---
+ 6 files changed, 116 insertions(+), 112 deletions(-)
+
 -- 
 2.43.0
 
