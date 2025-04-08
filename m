@@ -1,49 +1,48 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD3E92153D1;
-	Tue,  8 Apr 2025 14:44:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49D0F21B9C2;
+	Tue,  8 Apr 2025 14:46:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744123496; cv=none; b=UcCxUyjAvrFuPHJ7rsbdpacxEHGDj2fa/NfVmO0wEMmave2AGaR2XlmAdBnXx1VRr3+vEEmpUEaMYFXD91lJBZ2e0w9NckvrAZaqxTjqOQCaJiqxBTUyMqk2PcoA/yDpKdO9Yl49d5IG/EEtGoJ3vjFxpa2qNtN/lP+0i529gq4=
+	t=1744123561; cv=none; b=Dqoc8w9NUvoWLzwUyUI87uaEQCyHDD03/eBoDKM2A0meNxiivaxwKaLb92yWsX7v1x8n15Q9bblCRTxKXOvttBAo9mCosSdIS8mljvYpqBwfOOW+AkmSwzxrHU2XHETLGNTQnAz3zuiGxyDHaUOYu72KBCg44NhhUKOiV9Wu9us=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744123496; c=relaxed/simple;
-	bh=qKfLUJOVmjIhLZ5rBf6uzzEt80+a0moD3VpVZ5BMQNE=;
+	s=arc-20240116; t=1744123561; c=relaxed/simple;
+	bh=17fijlTA6G2rC54COCxtVkROxnoz5A81tNXJFlfQFXY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WBjyab319SwvsR7eYqkkp7h++YDiP5lFEi+fB6aDSFwFxA13hLsPkvtyVkROvLdq2hoMdAfUpCzkPMZrDOjhLn75OCzvvcd8at64ES74KUP75jHhkMhatXDBBVUHjg0kC0PsSSE2aYH9OeHF7NNLZBYSNuHkIPRMG10Owm1cH8M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=kernel.org; spf=fail smtp.mailfrom=kernel.org; arc=none smtp.client-ip=198.175.65.9
+	 Content-Type:Content-Disposition:In-Reply-To; b=unqX/dVRr5k6KrKWNxlo1PVXB0vmJb52qnWoFnPX8jWrHzdQBqEHAVWTmJN1zB59Qv5NawjeddqeW+w1EouEzKW73Oxvxl+MFwvt5DW7ZiMabFUwq3J/09fGI89QPTryo8Jm/9T4gUM/yObs+Z3kYEGEXgHodQQsJT5SZsHaD/8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=kernel.org; spf=fail smtp.mailfrom=kernel.org; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=kernel.org
 Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=kernel.org
-X-CSE-ConnectionGUID: Ab1wzoNxSIWE+NTVZNFlMQ==
-X-CSE-MsgGUID: j6m4AFFDSBWl8FJtXv2RCQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11397"; a="68035628"
+X-CSE-ConnectionGUID: Gzm7T5eGThOv1KLo3zJokw==
+X-CSE-MsgGUID: yX6EF4Z4Sc+OItJ0iw+Isw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11397"; a="44810779"
 X-IronPort-AV: E=Sophos;i="6.15,198,1739865600"; 
-   d="scan'208";a="68035628"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Apr 2025 07:44:54 -0700
-X-CSE-ConnectionGUID: GWlHOfUWTo6sn7jOkSFpgw==
-X-CSE-MsgGUID: MZP0rQ4JTeON+y0zx0hDVg==
+   d="scan'208";a="44810779"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Apr 2025 07:45:59 -0700
+X-CSE-ConnectionGUID: Hz2DcwVpQC6GxDPorRrIyg==
+X-CSE-MsgGUID: 3lz9O+qMTKyhgddI2NLRjg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,198,1739865600"; 
-   d="scan'208";a="129139183"
+   d="scan'208";a="132425284"
 Received: from smile.fi.intel.com ([10.237.72.58])
-  by fmviesa009.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Apr 2025 07:44:52 -0700
+  by fmviesa003.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Apr 2025 07:45:56 -0700
 Received: from andy by smile.fi.intel.com with local (Exim 4.98.2)
 	(envelope-from <andy@kernel.org>)
-	id 1u2AC1-0000000AQry-2MQZ;
-	Tue, 08 Apr 2025 17:44:49 +0300
-Date: Tue, 8 Apr 2025 17:44:49 +0300
+	id 1u2AD4-0000000AQtH-1qKX;
+	Tue, 08 Apr 2025 17:45:54 +0300
+Date: Tue, 8 Apr 2025 17:45:54 +0300
 From: Andy Shevchenko <andy@kernel.org>
 To: Abraham Samuel Adekunle <abrahamadekunle50@gmail.com>
 Cc: outreachy@lists.linux.dev, julia.lawall@inria.fr,
 	gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org, david.laight.linux@gmail.com,
 	dan.carpenter@linaro.org
-Subject: Re: [PATCH v7 1/2] staging: rtl8723bs: Add spaces and line breaks to
- improve readability
-Message-ID: <Z_U2YXpteKmxXriG@smile.fi.intel.com>
+Subject: Re: [PATCH v7 2/2] staging: rtl8723bs: Use % 4096 instead of & 0xfff
+Message-ID: <Z_U2ohN4wbbOtepn@smile.fi.intel.com>
 References: <cover.1744117091.git.abrahamadekunle50@gmail.com>
- <8e582c7166200e618ff56ec10ed16b4a4e73eece.1744117091.git.abrahamadekunle50@gmail.com>
+ <c71ec1f13a2a5cc38a745314f134f6e7eb935227.1744117091.git.abrahamadekunle50@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -52,40 +51,32 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <8e582c7166200e618ff56ec10ed16b4a4e73eece.1744117091.git.abrahamadekunle50@gmail.com>
+In-Reply-To: <c71ec1f13a2a5cc38a745314f134f6e7eb935227.1744117091.git.abrahamadekunle50@gmail.com>
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-On Tue, Apr 08, 2025 at 01:31:41PM +0000, Abraham Samuel Adekunle wrote:
-> The code contains no spaces around binary operators with long lines
-> which reduces readability thereby not adhering to Linux kernel coding
-> style.
+On Tue, Apr 08, 2025 at 01:31:42PM +0000, Abraham Samuel Adekunle wrote:
+> The sequence number is constrained to a range of [0, 4095], which
+> is a total of 4096 values. The bitmask operation using `& 0xfff` is
+> used to perform this wrap-around. While this is functionally correct,
+> it obscures the intended semantic of a 4096-based wrap.
 > 
-> Add white spaces around the binary operators and use line breaks to
-> increase readability and ensure adherence to Linux kernel coding
-> styles.
+> Using a modulo operation `% 4096u` makes the wrap-around logic
+> explicit and easier to understand. It clearly signals that the
+> sequence number cycles through a range of 4096 values.
+> It also makes the code robust against potential changes of the 4096
+> upper limit, especially when it becomes a non power of 2 value while
+
+power-of-2
+
+> the AND(&) works solely for power of 2 values.
+
+power-of-2
+
+> The use of `% 4096u` also guarantees that the modulo operation is
+> performed with unsigned arithmetic, preventing potential issues with
+> the signed types.
 
 Reviewed-by: Andy Shevchenko <andy@kernel.org>
-See one nit-pick below.
-
-...
-
->  					} else if (SN_EQUAL(pattrib->seqnum, tx_seq)) {
-> -						psta->BA_starting_seqctrl[pattrib->priority & 0x0f] = (tx_seq+1)&0xfff;
-> +						psta->BA_starting_seqctrl[pattrib->priority & 0x0f] =
-> +							(tx_seq + 1) & 0xfff;
->  
->  						pattrib->ampdu_en = true;/* AGG EN */
->  					} else {
-> -						psta->BA_starting_seqctrl[pattrib->priority & 0x0f] = (pattrib->seqnum+1)&0xfff;
-> +						psta->BA_starting_seqctrl[pattrib->priority & 0x0f] =
-> +							(pattrib->seqnum + 1) & 0xfff;
-
-Probably it deserves a blank line here as in the above case.
-But it was in the original like this, so at least it not worse
-than that.
-
->  						pattrib->ampdu_en = true;/* AGG EN */
->  					}
 
 -- 
 With Best Regards,
