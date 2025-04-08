@@ -1,62 +1,62 @@
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D8DF26B0B2;
-	Tue,  8 Apr 2025 10:21:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BA7D26B2BA;
+	Tue,  8 Apr 2025 10:21:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744107673; cv=none; b=GQD1zM2+WYc1fU6Z7yeXTnVG+PzULDYgfzlv2t8eN/MSsAFWWWvjDzU22gwjLHfCZvWP1J8p8V/5ppjmcdif1vu/LyYqZeFg4A6uvgvLWTKLsERCOYb9fTEUiuQmKUBEvQ3oXbnobYOXmEGs0EDcxTatYvfhIioh/L54XCB9xUM=
+	t=1744107676; cv=none; b=N0xEEYqwHwZ+icDjEerfYGZvhNXFApp4zbxxVs7KzaJb+btgqxLtfRJDU0GPv9jxXsbEmQPB7nvEsr5woZrooWlTfz6BfZWgd69oNLRsb/jHZpqwfghwFDFYxge6jak2PcxG222yJ21s3ZzF5uOY7Y51zDpxBec5s/cbo5EEHb8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744107673; c=relaxed/simple;
-	bh=z46nsSq1v/0fvClzA4Zas3TDcqFixPfx6NddUMaqlWc=;
+	s=arc-20240116; t=1744107676; c=relaxed/simple;
+	bh=JHgSmpHywThLvhaNGwqkN6rlBmIZHywWloaU6MKIwBE=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=Py8nE1rzpLzra7U0AbAVgT83TAaRWWrh6o0zZmqDlAh2HKsGjkv9F3RJL8ulQZCd+JfYnN2j2c3/0aw1TINGbtRBk8yU8D6dGz0osaUYn9gBVSi5bMSkhiVBcGbh0i5uUw2oDZmbzDHUJMZGRyFazcZgPm/5w1LlG50u7mbGs/o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bhwewRXG; arc=none smtp.client-ip=209.85.221.42
+	 MIME-Version; b=EiOMqUljKncH0Uwyrv1Xib6yoc4u6IfE4FZHAd5KuDSW1vDrD1HjdTWv2ztSm7tY2YIlsQuwyU0NDdpN4F5SglNbCnOeDmte7BvhogVlkLcxYUujLb1k8teg1LKYqJwKSmWhKvGL2ZMVhr67/jcj2Fnlpr6zX/mPQKaQ9HpeaAo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TCdo00N/; arc=none smtp.client-ip=209.85.128.44
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bhwewRXG"
-Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-39c31e4c3e5so3297524f8f.0;
-        Tue, 08 Apr 2025 03:21:10 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TCdo00N/"
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-43ce70f9afbso58324545e9.0;
+        Tue, 08 Apr 2025 03:21:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1744107669; x=1744712469; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1744107673; x=1744712473; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Pxfh28JgrgsZ43718+Rog7hGuSrWMc3dc3Cy5VLEAE8=;
-        b=bhwewRXGDb9D2IY+nyDrX1Tn2WOM9FhK49thJOU13SWu4/IK1m1d7f37Sdbv7uYK5S
-         p30o3u2SbRHXvBsDAob5h9Y+ASZHfcsueWymlnG3hKRTPtvp8nbqMzNiuuwKrAT7C4Np
-         a/u7AGHNEcXUcxiYayOQSNScCVD5YcXvx3X/ZpjbBs+EfCQAoFBXvR/z/BMGdYi55jSc
-         UeS6TgglsO24lKiw4tIJqKgKc0LpL/Abzd5cvDEgfhFNk1zpJemvlL5V2D1cZmmxDcFs
-         KZU9ZLkSZVYgeund0TH1Lm3bFTnOJMUiRGNnEmY4s2D+Eh/C3hP7ugO+LctDSpnaEXbt
-         YCgQ==
+        bh=qAIrh/4WE88oUvyzDDtUAXVVh7UEV5wee/SgtjWD0Rc=;
+        b=TCdo00N/u4BsIn5eHqF0xEB0i5WJEc/BLFc8glG4bzHNW7GemixAZTEhgKX9viAuPs
+         OfF1jLFMlAFMTwFJrvA65kEZA2gKWRBNmvdOssnBYZnhBYjeiMB0XPuDiPxaBtPKPr7Q
+         y/AJr0g3qaasRbniWhiLP4FVIL+wq7lbc2h4jjT1NcbFTOHGo5l2g/5W9Wd1CZKyTVs6
+         Vkuvs7+SlxliN8rcMdMS2ircHlWNg3HWDtKTm2Ly8pfrCsYFy0r0Rw1WBmWUz/AR749l
+         TV/zWvtfcGcI9sV5R8vyofkkXmH24uDIllB5VldoYgGjBaaxCHI3slqdX5hNNJ82qkTW
+         eQ/g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744107669; x=1744712469;
+        d=1e100.net; s=20230601; t=1744107673; x=1744712473;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=Pxfh28JgrgsZ43718+Rog7hGuSrWMc3dc3Cy5VLEAE8=;
-        b=qTbOPIdvnzP33YwmyHx6H0dqYmFEcMGmI8TKcAsuxzlYTEWEAEYkqgHLcglaamPLV7
-         rkFiFhwXZ/G6Pgk4T+m5JrwlUVz6JGJ4vyFnglQDoznG63VLAEMqzBgJPBS3DySXQOU/
-         XxGBgomhjYgpYCS0dc3HdJsCPnK50etN/d6Kw6GzldibW5ZjEtzjnGcsNbjxxs/HlwVs
-         qA67xnUkbUnlUmAsw9zNBDGiykdlrSdvbHczZx16mUhqy5VMlynaujhji6VDQ5fE/fLK
-         IDLXNsxtya6D22cfkt6LzDRffD0S0vteTc6Vw1juLHxyuIM7kNY/QgB/wrTFjOaCt/h/
-         yrwA==
-X-Forwarded-Encrypted: i=1; AJvYcCU5FAWCT+JMLHDzXfLJxkiw1zKHgfrqC/leWruzUMcz3ThrkaUMjhkciIFUIfc6b1wyyWbXeZDNVvo98UFZ@lists.linux.dev
-X-Gm-Message-State: AOJu0YxglffpKWOoGDM5YG+K5olBL3xJ3TlzcGNoBLqABPVS/8dGwovS
-	JQJfv91r2/5uKraqJJb8aAz/ZKlHtyb4FLegTfukvXm/kgrY5yYG
-X-Gm-Gg: ASbGncsNWp37/4dr/LxH6ps7OSPfMV8dYj11ELAWTAs/N1RirMCEt8Ro+seipLBBJYn
-	wVqaweAQSwhOkbC62e7EuKUdqhvs9x+dmYAYD7gGmkiXPtKyX16aKxVNZSENc9xKXNBGuYFuADb
-	CLWbsApa8kqxn++TTte2VqZP9mfV3hF2lzlftc26s/eZEFahFvLZoGf/WUsjaR/J/L43M39E6CR
-	Y3+I9WgAjQJlye2zASXrhsRPmV7Yrv93hpZBEHJ5FWEMjrVU4koE1b81lGU9U5t0gGEDE/vdMWF
-	I1FfukoehrmsBNl/6AUnunxmxowSGxKHZCyPOg==
-X-Google-Smtp-Source: AGHT+IFf6CCKvSyFrEYGPGQBPp88hffbcUboIMSgf4Sk5w8+BNkWkOTjOCzvdY6zQ2+FNkJ2K5ILeg==
-X-Received: by 2002:a05:6000:1867:b0:39c:2688:6edd with SMTP id ffacd0b85a97d-39cb3595c48mr13429981f8f.15.1744107669289;
-        Tue, 08 Apr 2025 03:21:09 -0700 (PDT)
+        bh=qAIrh/4WE88oUvyzDDtUAXVVh7UEV5wee/SgtjWD0Rc=;
+        b=jUhUBu0sZbKOSJcMmZ4tWJem858I+D1xNvKlmvADQqoptEJFpk02FOoFayo0wquFpJ
+         D9jPrUrFIT/Macs/Cu/xtqziVjdpmnkLROsL2YCQytCZapCsWvGYGO01VlvVm6nvySVl
+         BH8Uayxha6rIIL+XKSbAT6v8GdtCTklbQ84TE9UrZfTx5qls+zcatMbTg4j5A1kzVsqI
+         RoO34FCdfNramuTmNmVwQaEK470lKRqWENDCu6nEC57WIy+t0ps6Kqi4EB6ANv7+vYbi
+         nceCTnHVZfzRidQqAxbERhVA4g0U1GP0Lu3dwcNUFvTjqK9iQSlRLGxtI7jTkoJgWtzY
+         DAKQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVKBlEeLe7h7zpO5/HVy49HBRQ7+c5sWZWSJnENxQ4VIuPLjEm23Nw/Mc3V+0pFUooK4B3g2/IDWuWtprlx@lists.linux.dev
+X-Gm-Message-State: AOJu0YznN8Om0iJC0+vv5zyprSm+ApQL/e20k+VWqBGU9cj7MgwqGWih
+	iY2b+ArszDZbGon0UH26EFLw53WKzZNu8rAjpPmmOfrFtdQNwbJr
+X-Gm-Gg: ASbGncuFGr4y6a0Dz+2+xSknd4a0JJg2EIp9LOV6aTRCbueQyvmu01O/YT51wERvD83
+	PsX5q0WWwo2aLG+APyaDvjhFoBD3V8PSybxPPBXcMTMwrOPYAJ7CI5MTl4Vtn0a3Z9AmvznPASl
+	HHj8GiOk10irpPrzLVXFG/W+T4UM6q/Bf90a3A1Gdkd2QYPZE85gkrr5U8IUeHV1PuqdAuZZEB6
+	YWbqprPwaSyC1UWLmv0z6R8Xy0O/vawTCl4VrTk/6OP5krtRTBd7VSKeQ/PUYsE4fuMfWkTzdIy
+	TbNp5EOtiY0XO8nW+aIQjArcvdQ=
+X-Google-Smtp-Source: AGHT+IEVvLWR5puwGmIhIK0h2QSC6EpbRXEsJwHX8+Yi8eRbzozYZ7hLPVlfE/o/gbWcfoFK+dtQrA==
+X-Received: by 2002:a7b:cb42:0:b0:43d:fa59:bcee with SMTP id 5b1f17b1804b1-43edf4581d1mr71419705e9.33.1744107672582;
+        Tue, 08 Apr 2025 03:21:12 -0700 (PDT)
 Received: from parrot ([105.113.112.27])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-39c30096889sm14331737f8f.2.2025.04.08.03.21.08
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43ec34a8952sm156083585e9.10.2025.04.08.03.21.11
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 08 Apr 2025 03:21:09 -0700 (PDT)
+        Tue, 08 Apr 2025 03:21:12 -0700 (PDT)
 From: Richard Akintola <princerichard17a@gmail.com>
 To: outreachy@lists.linux.dev
 Cc: sudipm.mukherjee@gmail.com,
@@ -66,9 +66,9 @@ Cc: sudipm.mukherjee@gmail.com,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Richard Akintola <princerichard17a@gmail.com>
-Subject: [PATCH v2 6/8] staging: sm750fb: change sii164IsConnected to snake_case
-Date: Tue,  8 Apr 2025 11:20:38 +0100
-Message-Id: <05de0fb87ed53015cd01ef9460996597ef1e09c8.1744105389.git.princerichard17a@gmail.com>
+Subject: [PATCH v2 7/8] staging: sm750fb: change sii164CheckInterrupt to snake_case
+Date: Tue,  8 Apr 2025 11:20:39 +0100
+Message-Id: <c5c01f1840ca37c24fcca7bff4b09adba37c3a7f.1744105389.git.princerichard17a@gmail.com>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <cover.1744105388.git.princerichard17a@gmail.com>
 References: <cover.1744105388.git.princerichard17a@gmail.com>
@@ -80,10 +80,11 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Change camelCase function name sii164IsConnected to sii164_is_connected
-to conform to kernel code styles as reported by checkpatch.pl
+Change camelCase function name sii164CheckInterrupt to
+sii164_check_interrupt in order to conform to kernel code styles
+as reported by checkpatch.pl
 
-CHECK: Avoid camelCase: <sii164IsConnected>
+CHECK: Avoid camelCase: <sii164CheckInterrupt>
 
 Signed-off-by: Richard Akintola <princerichard17a@gmail.com>
 ---
@@ -93,52 +94,52 @@ Signed-off-by: Richard Akintola <princerichard17a@gmail.com>
  3 files changed, 4 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/staging/sm750fb/ddk750_dvi.c b/drivers/staging/sm750fb/ddk750_dvi.c
-index 1ce44c50617a..ac1aab77da28 100644
+index ac1aab77da28..1def02be4cce 100644
 --- a/drivers/staging/sm750fb/ddk750_dvi.c
 +++ b/drivers/staging/sm750fb/ddk750_dvi.c
-@@ -22,7 +22,7 @@ static struct dvi_ctrl_device dcft_supported_dvi_controller[] = {
- 		.get_chip_string = sii164_get_chip_string,
+@@ -23,7 +23,7 @@ static struct dvi_ctrl_device dcft_supported_dvi_controller[] = {
  		.set_power = sii164_set_power,
  		.enable_hot_plug_detection = sii164_enable_hot_plug_detection,
--		.is_connected = sii164IsConnected,
-+		.is_connected = sii164_is_connected,
- 		.check_interrupt = sii164CheckInterrupt,
+ 		.is_connected = sii164_is_connected,
+-		.check_interrupt = sii164CheckInterrupt,
++		.check_interrupt = sii164_check_interrupt,
  		.clear_interrupt = sii164ClearInterrupt,
  #endif
+ 	},
 diff --git a/drivers/staging/sm750fb/ddk750_sii164.c b/drivers/staging/sm750fb/ddk750_sii164.c
-index c8db6ceee9af..6ce15b7816d9 100644
+index 6ce15b7816d9..aebde3d8b903 100644
 --- a/drivers/staging/sm750fb/ddk750_sii164.c
 +++ b/drivers/staging/sm750fb/ddk750_sii164.c
-@@ -350,14 +350,14 @@ void sii164_enable_hot_plug_detection(unsigned char enable_hot_plug)
+@@ -370,14 +370,14 @@ unsigned char sii164_is_connected(void)
  }
  
  /*
-- *  sii164IsConnected
-+ *  sii164_is_connected
-  *      Check if the DVI Monitor is connected.
+- *  sii164CheckInterrupt
++ *  sii164_check_interrupt
+  *      Checks if interrupt has occurred.
   *
   *  Output:
-  *      0   - Not Connected
-  *      1   - Connected
+  *      0   - No interrupt
+  *      1   - Interrupt occurs
   */
--unsigned char sii164IsConnected(void)
-+unsigned char sii164_is_connected(void)
+-unsigned char sii164CheckInterrupt(void)
++unsigned char sii164_check_interrupt(void)
  {
- 	unsigned char hotPlugValue;
+ 	unsigned char detectReg;
  
 diff --git a/drivers/staging/sm750fb/ddk750_sii164.h b/drivers/staging/sm750fb/ddk750_sii164.h
-index 9e289bf4a78e..90b7ae823a10 100644
+index 90b7ae823a10..aa3f34c13979 100644
 --- a/drivers/staging/sm750fb/ddk750_sii164.h
 +++ b/drivers/staging/sm750fb/ddk750_sii164.h
-@@ -35,7 +35,7 @@ void sii164_reset_chip(void);
- char *sii164_get_chip_string(void);
+@@ -36,7 +36,7 @@ char *sii164_get_chip_string(void);
  void sii164_set_power(unsigned char powerUp);
  void sii164_enable_hot_plug_detection(unsigned char enable_hot_plug);
--unsigned char sii164IsConnected(void);
-+unsigned char sii164_is_connected(void);
- unsigned char sii164CheckInterrupt(void);
+ unsigned char sii164_is_connected(void);
+-unsigned char sii164CheckInterrupt(void);
++unsigned char sii164_check_interrupt(void);
  void sii164ClearInterrupt(void);
  #endif
+ /*
 -- 
 2.39.5
 
