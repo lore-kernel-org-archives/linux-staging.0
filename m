@@ -1,72 +1,71 @@
-Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com [209.85.215.173])
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4ACEC2566D7
-	for <linux-staging@lists.linux.dev>; Tue,  8 Apr 2025 23:25:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E842256C91
+	for <linux-staging@lists.linux.dev>; Tue,  8 Apr 2025 23:25:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744154747; cv=none; b=Sfg2Tx30IvJtiIJSkHuJ4M8Q0ETpcBIZZGdLj/2uzj+sfLWbvX+tAb28QW18OYp7Hwk7JOeYrxdu9TKOZz+9J5bf37r2XvU+AbcENj9B9BoPOP5FiipD0XX/VUz/ZYfvKjdO3jmFLyjdXeA4eA1z2YrxsG3cfSKE4OmPLekmf04=
+	t=1744154748; cv=none; b=ezVJNgUX7Hl3PnUsRq2gEwp4vpRH0ZWLoAx+s4+Oozv4+wGUWgvmK9Pp7t6eclb7VAqutqsqiBV1SKBxfHkqCmJ1eZjFPw9bH1wLBxC7sNLpt7Hwdt7KHTUPSitTdzrLRxK+ABzu1zFSkKmDSXWPTBu2W5XtY+MGLFtg1/+nJac=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744154747; c=relaxed/simple;
-	bh=f47LmV+7WjkLMPIKBfkl9xJdb7ie0wGOQSjehuWY3ZQ=;
+	s=arc-20240116; t=1744154748; c=relaxed/simple;
+	bh=7NsYaOHtP6scSVgtfwrSOvUeDsS990s0l6D3dRmxvtA=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Jj/GCVB5JYWNAJTVq0ulf5Hf0U4SI4fEMFLLEV3NbxN2qto+L7T3mYrBXLQ/tqk0fI6ahIcv7EkaJMuBIYAohqrHICsS/s2WvU+nHKpzO32jlJrnAqq+sn1CQii2/2vW5HjWUIQIYV7e0HoL4Nw4TzdNNr2POG7gMvilSr944YE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=neverthere.org; spf=pass smtp.mailfrom=neverthere.org; dkim=pass (2048-bit key) header.d=neverthere.org header.i=@neverthere.org header.b=NamwovbA; arc=none smtp.client-ip=209.85.215.173
+	 MIME-Version; b=D4lFzg9ELn7rQYQbmILmjwm34JcMr/KTE9C884+KSmQ7HcdwOiV/Pwi1Hg6O7f6gzW4cfreZ0Bimj3LDDix42Hdw1mIR3DBmpAW5U/Wi4VEEBLvOfKkvEh4NFiYzWMljsuKZOfN1dNMNUwUTIjRv5yv2yYG7cVAxodGaDdtwvPY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=neverthere.org; spf=pass smtp.mailfrom=neverthere.org; dkim=pass (2048-bit key) header.d=neverthere.org header.i=@neverthere.org header.b=NrsPL2y8; arc=none smtp.client-ip=209.85.214.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=neverthere.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=neverthere.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=neverthere.org header.i=@neverthere.org header.b="NamwovbA"
-Received: by mail-pg1-f173.google.com with SMTP id 41be03b00d2f7-af51e820336so5785547a12.1
-        for <linux-staging@lists.linux.dev>; Tue, 08 Apr 2025 16:25:45 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=neverthere.org header.i=@neverthere.org header.b="NrsPL2y8"
+Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-22a976f3131so35081475ad.3
+        for <linux-staging@lists.linux.dev>; Tue, 08 Apr 2025 16:25:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=neverthere.org; s=google; t=1744154744; x=1744759544; darn=lists.linux.dev;
+        d=neverthere.org; s=google; t=1744154746; x=1744759546; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=f2xjIWuXyaxMet536XfRVVtc+yMtIlss6dqtracfTNw=;
-        b=NamwovbAGbqSPtRMlRPfdjR72gDnlAur7IL8AIQQ/krLc1xPlpI9TD1o2t28zvG+cV
-         dOGq+ScqonPGGEGaobWbO9uXQxXg4DbGjYgJy4fRw15ouO7QXTUI8GRScH9oGsjWhjI1
-         FXPnbmQTbHRmKD1+qgTYT2Ou5DnfoQ/iZPo4pKUEiO2lI6x9kJhlBcPtqVZHWfi1mXSp
-         W3ueUTR+FVHuRqJcFMBu5Xy/kElva9Ck1gyX+ih2S7itHdFRZE4iwgbm/ICEv7BNNAGS
-         9SFe4if9FToYntSwKoieIdJZguOfanjgYAKWjv0qtDJjt8HLJYyui+OoAp4padpTh3DO
-         HOEg==
+        bh=J9ON5Qv7DJQ0DX/fAqZuOiE2IxL/TP/o5xQInqAXYAQ=;
+        b=NrsPL2y896yOJPgQnGrvFhIRNOy9m6jP44RoIJcdDWSAsL1DzmtujOUZ4FOJ81sPhR
+         J2IVxsvd5Dj2MkLFQGnEmIZ2Q6HmyxVCpjEP5vjv3NDPi2YUeGl1M2FWKzDueo+TFDRt
+         8zfVuENRIuJBR4ROGPXGOeG4T8bRS39WM5fpepNmhgZncJpACpdvAwMSri7/4LW0PfKH
+         c7xosodFHQgKAn0HmfimIygnjWEu/0/qPpG8vcThI4XkDRa0u1QmxxHc7qh7warBFRTs
+         WVCGiI97yfKJu3F+ASN7Lpxayp1RBZcOvV1X7CM9cM+GIioMoSLq5UWWgqI+MmResQEc
+         JaVQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744154744; x=1744759544;
+        d=1e100.net; s=20230601; t=1744154746; x=1744759546;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=f2xjIWuXyaxMet536XfRVVtc+yMtIlss6dqtracfTNw=;
-        b=qFvjy3CtVieFwJgGP0EVhucTtL87C3zlYfPt/dyYzndiw+0KHXUTiNyK5tsU0GdDPF
-         1RDUlHiNRK5ktsNoy7OO1lDCvcqPSJw/ZiiMisvpZ6N2Gn/aGZibSpQOkdgU3e5XSK7h
-         hVU8Qy3iTPMW1wjDo3nHb9HnlyTHIkwj3PQ1Zb/3/a+O+wvGYEQ9h/17NTKHBDf4NQCX
-         HP+r57CvmE23tbf5iJvc0npkHukCm3g0xbkgQcv4BYeq6dN2m7NLJGK/XDGiDAkbeu0r
-         JtpMwM9nt+ORzN4nFNhWBmrxGAvNPMmoDg2usAIv18B/WQyxYa0GVlEKE24WloBwyi2r
-         umrQ==
-X-Gm-Message-State: AOJu0Yw1vp0TEuVnANResFGRxX/0fzMw7K3hcTWkGLYscpsO4DrsY72h
-	42uYLPvQba1dGaVljPyQpeBz6MLRWU2YpTB1soWKc4lLq+wykEIy60Uq11z1jWFiC4cmsr0AynQ
-	=
-X-Gm-Gg: ASbGncsWnd2lggGEIp6CNlmQpkVFKX0q7SIx8GRbJnnxtgWp1x4Cn6yERrFjrAY/MIc
-	DJqwjmxAQ2SBjMKp5I23P+QFg6OhtgZAwKKLrvNY0lpQ0T9hFHM9g/yxLKmIEuWytyBl+iySCto
-	Mc3wZVEtqqZYz5SBPRjVUS04/S7oqXRaK+sQPM8sbSrEk+pyFKyL5u2a4ix5rx+dSlFY+Kp9d9d
-	O9DJx5DeyqiJGwdkx1eqYnVcZnRSfZ2C1a2rPgtopmvTzSQZ+QP0h4wyUvWyRBGteLj+1MvnUUF
-	a7EOvOC403rTPOLplqDkasYZf0aar+Zqwnydm8w10FrvfS/YvOU2ULbzppHri9eP4mjUz6SVuO3
-	pf9PIt9TtZ+9JcuM4GAWy
-X-Google-Smtp-Source: AGHT+IG/xSy34k0CFTgjANoPWktPJ3qK1n+UL3TMBJIpsVBenJhFTfbQo1dWwYbicmN6hxa3SriRzA==
-X-Received: by 2002:a17:90b:4ece:b0:2ee:5bc9:75c3 with SMTP id 98e67ed59e1d1-306dbb8db11mr1260947a91.5.1744154744609;
-        Tue, 08 Apr 2025 16:25:44 -0700 (PDT)
+        bh=J9ON5Qv7DJQ0DX/fAqZuOiE2IxL/TP/o5xQInqAXYAQ=;
+        b=YVQ9FYBOf+pB7Vsj9nf2vFnRf9z8UAL6EdFbOlVuPm8H7lJwz1+iHiWu6ZDmwauh+J
+         YftX/4OO1l684ZpNd79xdiMizVZ0J2K8xMGhk1l7GBpm8ahhkDI5dfhUOTbXelsNMytv
+         RNeqRh8grIn6QA8oyqd5r6BTvc9XWdOyHr2lxW0MsHmgdPXHRnRHZ7hYAvl9wc0cVj5t
+         SxwbvfCgz5UOHAEtJnWrqgkSHzRQHZmxsg7irCz/tfOPVQB/g748qPHNmJ6qDlGiAZP8
+         jMJMrcA/tp8OL3Cc9kHIhW+hpUwJ0xoZ/D4ZNLVqHfUBbSW8qx0Ix/+n559BvXTaEG9F
+         17fw==
+X-Gm-Message-State: AOJu0YyjwPwe3GnyUF2ru8G9AvrH90swdVzblqeALMW7KTdMT8Atq2Vb
+	Cx4uHNn7GGKuaNtjNrV1eSpvc15YkuNxo1jkmzMLootKwVEgTITFU+uuQgBBgA==
+X-Gm-Gg: ASbGncuDbZA8cxzaTbsJgHvaz+pqqObg5ie4BoObcenPbVzcokGMEPkOcV86z7g6FcT
+	Np7un2t0hg+ELt6wxxrTS1HAc00FM+hH6H/IS/Cn0Xc/necmnFLDIsOk+hQN/rqog8x9/KGlAuX
+	pM5e56AaGTj8QdHnz74oFwG5q1mmbGqbf66z85xv52QLtRYojwo0d2JnPM6Kfv0YXevl2pct/gK
+	q3H/dmbuX3H7Fgk/sH6Kim5UMPFfYnOMn1b9KN6e+u7B7dfxzpveibll+RdMcLYofa+k01MO+Mv
+	v8/IXHQwoT+UUgwHjSxAcLuQoPwG9xt4/WafGxAKkPeKXUTwd78vjCTKgNduAKVU6sJYoVX92Yb
+	MGfMBsuCeduOFqowWn+c3
+X-Google-Smtp-Source: AGHT+IG52w3InnLTyWxAM0DeNTrDyCR5cFdsTkwznxzpjIVJTgm6/qAi3+aBwVwOF8Z/NEPbzlb5FA==
+X-Received: by 2002:a17:903:94e:b0:223:fbc7:25f4 with SMTP id d9443c01a7336-22ac29a9929mr13305635ad.14.1744154745866;
+        Tue, 08 Apr 2025 16:25:45 -0700 (PDT)
 Received: from tiamat (c-69-181-214-135.hsd1.ca.comcast.net. [69.181.214.135])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-739d97f36besm11186913b3a.72.2025.04.08.16.25.44
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-229785c0127sm106693085ad.91.2025.04.08.16.25.45
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 08 Apr 2025 16:25:44 -0700 (PDT)
+        Tue, 08 Apr 2025 16:25:45 -0700 (PDT)
 From: Michael Rubin <matchstick@neverthere.org>
 To: gregkh@linuxfoundation.org,
 	dpenkler@gmail.com
 Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Michael Rubin <matchstick@neverthere.org>
-Subject: [PATCH v1 5/7] staging: gpib: Removing typedef of status_byte
-Date: Tue,  8 Apr 2025 23:25:33 +0000
-Message-ID: <20250408232535.187528-6-matchstick@neverthere.org>
+Subject: [PATCH v1 6/7] staging: gpib: Removing typedef gpib_descriptor_t
+Date: Tue,  8 Apr 2025 23:25:34 +0000
+Message-ID: <20250408232535.187528-7-matchstick@neverthere.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20250408232535.187528-1-matchstick@neverthere.org>
 References: <20250408232535.187528-1-matchstick@neverthere.org>
@@ -78,8 +77,7 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Replacing typedef of status_byte_t with struct gpib_status_byte to adhere to
-Linux coding style.
+Removing gpib_descriptor_t to adhere to Linux code style.
 
 Reported by checkpatch.pl
 
@@ -88,67 +86,216 @@ directly accessed should never be a typedef.
 
 Signed-off-by: Michael Rubin <matchstick@neverthere.org>
 ---
- drivers/staging/gpib/common/gpib_os.c     | 8 ++++----
- drivers/staging/gpib/include/gpib_types.h | 4 ++--
- 2 files changed, 6 insertions(+), 6 deletions(-)
+ drivers/staging/gpib/common/gpib_os.c     | 26 +++++++++++------------
+ drivers/staging/gpib/common/iblib.c       |  6 +++---
+ drivers/staging/gpib/include/gpib_proto.h |  6 +++---
+ drivers/staging/gpib/include/gpib_types.h |  6 +++---
+ 4 files changed, 22 insertions(+), 22 deletions(-)
 
 diff --git a/drivers/staging/gpib/common/gpib_os.c b/drivers/staging/gpib/common/gpib_os.c
-index a2138c7f641c..b06cbd53c36f 100644
+index b06cbd53c36f..6aaf15ffb02b 100644
 --- a/drivers/staging/gpib/common/gpib_os.c
 +++ b/drivers/staging/gpib/common/gpib_os.c
-@@ -183,7 +183,7 @@ unsigned int num_status_bytes(const struct gpib_status_queue *dev)
- int push_status_byte(struct gpib_board *board, struct gpib_status_queue *device, u8 poll_byte)
+@@ -494,7 +494,7 @@ int dvrsp(struct gpib_board *board, unsigned int pad, int sad,
+ 	return retval;
+ }
+ 
+-static gpib_descriptor_t *handle_to_descriptor(const gpib_file_private_t *file_priv,
++static struct gpib_descriptor *handle_to_descriptor(const gpib_file_private_t *file_priv,
+ 					       int handle)
  {
- 	struct list_head *head = &device->status_bytes;
--	status_byte_t *status;
-+	struct gpib_status_byte *status;
- 	static const unsigned int max_num_status_bytes = 1024;
- 	int retval;
- 
-@@ -196,7 +196,7 @@ int push_status_byte(struct gpib_board *board, struct gpib_status_queue *device,
- 			return retval;
- 	}
- 
--	status = kmalloc(sizeof(status_byte_t), GFP_KERNEL);
-+	status = kmalloc(sizeof(struct gpib_status_byte), GFP_KERNEL);
- 	if (!status)
+ 	if (handle < 0 || handle >= GPIB_MAX_NUM_DESCRIPTORS) {
+@@ -509,7 +509,7 @@ static int init_gpib_file_private(gpib_file_private_t *priv)
+ {
+ 	memset(priv, 0, sizeof(*priv));
+ 	atomic_set(&priv->holding_mutex, 0);
+-	priv->descriptors[0] = kmalloc(sizeof(gpib_descriptor_t), GFP_KERNEL);
++	priv->descriptors[0] = kmalloc(sizeof(struct gpib_descriptor), GFP_KERNEL);
+ 	if (!priv->descriptors[0]) {
+ 		pr_err("gpib: failed to allocate default board descriptor\n");
  		return -ENOMEM;
+@@ -563,7 +563,7 @@ int ibclose(struct inode *inode, struct file *filep)
+ 	unsigned int minor = iminor(inode);
+ 	struct gpib_board *board;
+ 	gpib_file_private_t *priv = filep->private_data;
+-	gpib_descriptor_t *desc;
++	struct gpib_descriptor *desc;
  
-@@ -218,7 +218,7 @@ int pop_status_byte(struct gpib_board *board, struct gpib_status_queue *device,
- {
- 	struct list_head *head = &device->status_bytes;
- 	struct list_head *front = head->next;
--	status_byte_t *status;
-+	struct gpib_status_byte *status;
+ 	if (minor >= GPIB_MAX_NUM_BOARDS) {
+ 		pr_err("gpib: invalid minor number of device file\n");
+@@ -869,7 +869,7 @@ static int read_ioctl(gpib_file_private_t *file_priv, struct gpib_board *board,
+ 	int end_flag = 0;
+ 	int retval;
+ 	ssize_t read_ret = 0;
+-	gpib_descriptor_t *desc;
++	struct gpib_descriptor *desc;
+ 	size_t nbytes;
  
- 	if (num_status_bytes(device) == 0)
- 		return -EIO;
-@@ -231,7 +231,7 @@ int pop_status_byte(struct gpib_board *board, struct gpib_status_queue *device,
- 		return -EPIPE;
+ 	retval = copy_from_user(&read_cmd, (void __user *)arg, sizeof(read_cmd));
+@@ -943,7 +943,7 @@ static int command_ioctl(gpib_file_private_t *file_priv,
+ 	unsigned long remain;
+ 	int retval;
+ 	int fault = 0;
+-	gpib_descriptor_t *desc;
++	struct gpib_descriptor *desc;
+ 	size_t bytes_written;
+ 	int no_clear_io_in_prog;
+ 
+@@ -1027,7 +1027,7 @@ static int write_ioctl(gpib_file_private_t *file_priv, struct gpib_board *board,
+ 	unsigned long remain;
+ 	int retval = 0;
+ 	int fault;
+-	gpib_descriptor_t *desc;
++	struct gpib_descriptor *desc;
+ 
+ 	fault = copy_from_user(&write_cmd, (void __user *)arg, sizeof(write_cmd));
+ 	if (fault)
+@@ -1189,7 +1189,7 @@ static int cleanup_open_devices(gpib_file_private_t *file_priv, struct gpib_boar
+ 	int i;
+ 
+ 	for (i = 0; i < GPIB_MAX_NUM_DESCRIPTORS; i++) {
+-		gpib_descriptor_t *desc;
++		struct gpib_descriptor *desc;
+ 
+ 		desc = file_priv->descriptors[i];
+ 		if (!desc)
+@@ -1228,7 +1228,7 @@ static int open_dev_ioctl(struct file *filep, struct gpib_board *board, unsigned
+ 		mutex_unlock(&file_priv->descriptors_mutex);
+ 		return -ERANGE;
  	}
+-	file_priv->descriptors[i] = kmalloc(sizeof(gpib_descriptor_t), GFP_KERNEL);
++	file_priv->descriptors[i] = kmalloc(sizeof(struct gpib_descriptor), GFP_KERNEL);
+ 	if (!file_priv->descriptors[i]) {
+ 		mutex_unlock(&file_priv->descriptors_mutex);
+ 		return -ENOMEM;
+@@ -1311,7 +1311,7 @@ static int wait_ioctl(gpib_file_private_t *file_priv, struct gpib_board *board,
+ {
+ 	wait_ioctl_t wait_cmd;
+ 	int retval;
+-	gpib_descriptor_t *desc;
++	struct gpib_descriptor *desc;
  
--	status = list_entry(front, status_byte_t, list);
-+	status = list_entry(front, struct gpib_status_byte, list);
- 	*poll_byte = status->poll_byte;
+ 	retval = copy_from_user(&wait_cmd, (void __user *)arg, sizeof(wait_cmd));
+ 	if (retval)
+@@ -1438,7 +1438,7 @@ static int pad_ioctl(struct gpib_board *board, gpib_file_private_t *file_priv,
+ {
+ 	pad_ioctl_t cmd;
+ 	int retval;
+-	gpib_descriptor_t *desc;
++	struct gpib_descriptor *desc;
  
- 	list_del(front);
-diff --git a/drivers/staging/gpib/include/gpib_types.h b/drivers/staging/gpib/include/gpib_types.h
-index f85091b1bdf0..6a34500af65c 100644
---- a/drivers/staging/gpib/include/gpib_types.h
-+++ b/drivers/staging/gpib/include/gpib_types.h
-@@ -324,10 +324,10 @@ struct gpib_status_queue {
- 	unsigned dropped_byte : 1;
+ 	retval = copy_from_user(&cmd, (void __user *)arg, sizeof(cmd));
+ 	if (retval)
+@@ -1474,7 +1474,7 @@ static int sad_ioctl(struct gpib_board *board, gpib_file_private_t *file_priv,
+ {
+ 	sad_ioctl_t cmd;
+ 	int retval;
+-	gpib_descriptor_t *desc;
++	struct gpib_descriptor *desc;
+ 
+ 	retval = copy_from_user(&cmd, (void __user *)arg, sizeof(cmd));
+ 	if (retval)
+@@ -1600,7 +1600,7 @@ static int autospoll_ioctl(struct gpib_board *board, gpib_file_private_t *file_p
+ {
+ 	autospoll_ioctl_t enable;
+ 	int retval;
+-	gpib_descriptor_t *desc;
++	struct gpib_descriptor *desc;
+ 
+ 	retval = copy_from_user(&enable, (void __user *)arg, sizeof(enable));
+ 	if (retval)
+@@ -2015,7 +2015,7 @@ struct gpib_board board_array[GPIB_MAX_NUM_BOARDS];
+ 
+ LIST_HEAD(registered_drivers);
+ 
+-void init_gpib_descriptor(gpib_descriptor_t *desc)
++void init_gpib_descriptor(struct gpib_descriptor *desc)
+ {
+ 	desc->pad = 0;
+ 	desc->sad = -1;
+diff --git a/drivers/staging/gpib/common/iblib.c b/drivers/staging/gpib/common/iblib.c
+index 136be22f7eb2..902807066d60 100644
+--- a/drivers/staging/gpib/common/iblib.c
++++ b/drivers/staging/gpib/common/iblib.c
+@@ -507,7 +507,7 @@ int ibstatus(struct gpib_board *board)
+ }
+ 
+ int general_ibstatus(struct gpib_board *board, const struct gpib_status_queue *device,
+-		     int clear_mask, int set_mask, gpib_descriptor_t *desc)
++		     int clear_mask, int set_mask, struct gpib_descriptor *desc)
+ {
+ 	int status = 0;
+ 	short line_status;
+@@ -574,7 +574,7 @@ static void init_wait_info(struct wait_info *winfo)
+ }
+ 
+ static int wait_satisfied(struct wait_info *winfo, struct gpib_status_queue *status_queue,
+-			  int wait_mask, int *status, gpib_descriptor_t *desc)
++			  int wait_mask, int *status, struct gpib_descriptor *desc)
+ {
+ 	struct gpib_board *board = winfo->board;
+ 	int temp_status;
+@@ -623,7 +623,7 @@ static void remove_wait_timer(struct wait_info *winfo)
+  * no condition is waited for.
+  */
+ int ibwait(struct gpib_board *board, int wait_mask, int clear_mask, int set_mask,
+-	   int *status, unsigned long usec_timeout, gpib_descriptor_t *desc)
++	   int *status, unsigned long usec_timeout, struct gpib_descriptor *desc)
+ {
+ 	int retval = 0;
+ 	struct gpib_status_queue *status_queue;
+diff --git a/drivers/staging/gpib/include/gpib_proto.h b/drivers/staging/gpib/include/gpib_proto.h
+index 80046218c834..333f5c62da9e 100644
+--- a/drivers/staging/gpib/include/gpib_proto.h
++++ b/drivers/staging/gpib/include/gpib_proto.h
+@@ -23,7 +23,7 @@ static inline unsigned long usec_to_jiffies(unsigned int usec)
  };
  
--typedef struct {
-+struct gpib_status_byte {
- 	struct list_head list;
- 	u8 poll_byte;
--} status_byte_t;
-+};
+ int serial_poll_all(struct gpib_board *board, unsigned int usec_timeout);
+-void init_gpib_descriptor(gpib_descriptor_t *desc);
++void init_gpib_descriptor(struct gpib_descriptor *desc);
+ int dvrsp(struct gpib_board *board, unsigned int pad, int sad,
+ 	  unsigned int usec_timeout, uint8_t *result);
+ int ibAPWait(struct gpib_board *board, int pad);
+@@ -45,11 +45,11 @@ int ibpad(struct gpib_board *board, unsigned int addr);
+ int ibsad(struct gpib_board *board, int addr);
+ int ibeos(struct gpib_board *board, int eos, int eosflags);
+ int ibwait(struct gpib_board *board, int wait_mask, int clear_mask, int set_mask,
+-	   int *status, unsigned long usec_timeout, gpib_descriptor_t *desc);
++	   int *status, unsigned long usec_timeout, struct gpib_descriptor *desc);
+ int ibwrt(struct gpib_board *board, uint8_t *buf, size_t cnt, int send_eoi, size_t *bytes_written);
+ int ibstatus(struct gpib_board *board);
+ int general_ibstatus(struct gpib_board *board, const struct gpib_status_queue *device,
+-		     int clear_mask, int set_mask, gpib_descriptor_t *desc);
++		     int clear_mask, int set_mask, struct gpib_descriptor *desc);
+ int io_timed_out(struct gpib_board *board);
+ int ibppc(struct gpib_board *board, uint8_t configuration);
  
+diff --git a/drivers/staging/gpib/include/gpib_types.h b/drivers/staging/gpib/include/gpib_types.h
+index 6a34500af65c..2b4e98d1aa76 100644
+--- a/drivers/staging/gpib/include/gpib_types.h
++++ b/drivers/staging/gpib/include/gpib_types.h
+@@ -332,17 +332,17 @@ struct gpib_status_byte {
  void init_gpib_status_queue(struct gpib_status_queue *device);
  
+ /* Used to store device-descriptor-specific information */
+-typedef struct {
++struct gpib_descriptor {
+ 	unsigned int pad;	/* primary gpib address */
+ 	int sad;	/* secondary gpib address (negative means disabled) */
+ 	atomic_t io_in_progress;
+ 	unsigned is_board : 1;
+ 	unsigned autopoll_enabled : 1;
+-} gpib_descriptor_t;
++};
+ 
+ typedef struct {
+ 	atomic_t holding_mutex;
+-	gpib_descriptor_t *descriptors[GPIB_MAX_NUM_DESCRIPTORS];
++	struct gpib_descriptor *descriptors[GPIB_MAX_NUM_DESCRIPTORS];
+ 	/* locked while descriptors are being allocated/deallocated */
+ 	struct mutex descriptors_mutex;
+ 	unsigned got_module : 1;
 -- 
 2.43.0
 
