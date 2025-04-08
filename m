@@ -1,91 +1,85 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 781D42673A3;
-	Tue,  8 Apr 2025 09:36:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF0E7264A7F;
+	Tue,  8 Apr 2025 10:16:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744105002; cv=none; b=c/O5UEn+nvrzfTrLBrWr7Wpi1IV98dnSDwvPrKgaLxWgTklkKCOYqRLD9DuLY/lrqY7OXgxEcb7AgifHMQwfZ5azM34Q5NmM2zPWvt2A8zpR7/Ynk4rpFTIfC/9AGU3tGrg4GGIrS3d8T5Moz5ZoulTr0IooNBkWxq2kgKDzK2U=
+	t=1744107406; cv=none; b=VS6cNcy8daL3mFRyO/YatyqgLOHsLBZgUhGTTAbflwO++oNMqE1CUi667Wl7mQzBNYsNL0g3LaKoFxtdduiq5gyYkBIw6Q/Q9+xTGULmkI40FJYXKJ5wtHPEqAbXhHtfzNRTuNmdmMPfgVpVSNQILYSeheYgmbm5V/20p9RYcLA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744105002; c=relaxed/simple;
-	bh=/wAMfOnvbOyuKLm6VluHvI2FFGfc5RccaFxv0fPTMdg=;
+	s=arc-20240116; t=1744107406; c=relaxed/simple;
+	bh=GM94/DwbdeD/EixIRO4/7Qdl2Fn77Hgpz80fPy0XYZE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mGYDk7wuND2f+oCu/oo/y/WqvwPUymVZLn4Ibu2t23OYkDWP5VWrppKHfc0P/fU/dsEQd7EwSQxHqJoIdYYflXAk0P0Ry5YfobgKmQd5nklfFDzAt6grPTgmGIW+8e0nNaa4YhugGL2MB/vmWk9qbg2nQOr0NIsGeEjptB7SWTc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com; spf=fail smtp.mailfrom=gmail.com; arc=none smtp.client-ip=198.175.65.20
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=gmail.com
-X-CSE-ConnectionGUID: GMwNy+uLSvOkJDn18RYwfA==
-X-CSE-MsgGUID: DHvbD4OWSUmw7BWL7EOJkg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11397"; a="45242220"
-X-IronPort-AV: E=Sophos;i="6.15,197,1739865600"; 
-   d="scan'208";a="45242220"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Apr 2025 02:36:39 -0700
-X-CSE-ConnectionGUID: aDwbZGqRSGSggUrZ9cScyA==
-X-CSE-MsgGUID: Vb/4ZLnuS9KyIyn17FIcPw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,197,1739865600"; 
-   d="scan'208";a="159205187"
-Received: from smile.fi.intel.com ([10.237.72.58])
-  by orviesa002.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Apr 2025 02:36:37 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.98.2)
-	(envelope-from <andy.shevchenko@gmail.com>)
-	id 1u25Ni-0000000AM4Z-1xmE;
-	Tue, 08 Apr 2025 12:36:34 +0300
-Date: Tue, 8 Apr 2025 12:36:34 +0300
-From: Andy Shevchenko <andy.shevchenko@gmail.com>
-To: Samuel Abraham <abrahamadekunle50@gmail.com>
-Cc: outreachy@lists.linux.dev, gregkh@linuxfoundation.org,
-	julia.lawall@inria.fr, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org, david.laight.linux@gmail.com,
-	dan.carpenter@linaro.org
-Subject: Re: [PATCH v6 0/2] staging: rtl8723bs: Improve readability and
- clarity of sequence number wrapping
-Message-ID: <Z_TuIjwuihXF3mbM@smile.fi.intel.com>
-References: <cover.1744061673.git.abrahamadekunle50@gmail.com>
- <CAHp75VcCdS30LHPMwk3HO1o6db_0p+LDQoASx-7oCVw__MpMdw@mail.gmail.com>
- <CADYq+fYeXCUgXqWu_97gvUBOvTG+H4Q76TSX2M1s5jV7EWcuyA@mail.gmail.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=gpBebmYPnitthvaGoW6HTQOSz1rORLEd5EV88qF643x1CLnu+dZWcCDFuSmJyFF14lAIu8mLpiOqLcmjIJo1OIgYDeMMv9KdMA8JSzrK62zUMJAkbeilgmY/hXktTqeq6fcYij7X4UbP+2VwVuJWLHrTel3vl5aYi5rHIUy9PKo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=E0WB7Vnn; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="E0WB7Vnn"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B21B4C4CEE5;
+	Tue,  8 Apr 2025 10:16:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1744107405;
+	bh=GM94/DwbdeD/EixIRO4/7Qdl2Fn77Hgpz80fPy0XYZE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=E0WB7Vnnprhfns88GDgxgpthJobuwLuqlaEkuGIFU4sbnXzucIzlv00Zh22CPiNnX
+	 izPgm+NK894+RgTEMf3jVH3dTZEsG9Ro5IX/yyFwm1LD3UBkuSkKTP3kOMspIywCzN
+	 /zTaBaeJzzp1waztcCE/LELFYzjYvmV8ckFH+lCv3sTjMbaXaqjcHptINT1QC/Ux/F
+	 uD1W3j7/PijrcpnziAwaiAoCJEUbiXvcsQrbdZ2poyJnQ52vOBZocVIFupxH8IR9C1
+	 e8X+H97OV9m1lPDNchMHJI994xq07R5/jCkAqKNN1aVzexr7J9wdGc+QyhkY89MeVA
+	 vU5fCuD9sC+1w==
+Date: Tue, 8 Apr 2025 11:16:40 +0100
+From: Simon Horman <horms@kernel.org>
+To: Wentao Liang <vulab@iscas.ac.cn>
+Cc: ecree.xilinx@gmail.com, habetsm.xilinx@gmail.com, andrew+netdev@lunn.ch,
+	davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
+	pabeni@redhat.com, netdev@vger.kernel.org,
+	linux-staging@lists.linux.dev, linux-net-drivers@amd.com,
+	linux-kernel@vger.kernel.org, stable@vger.kernel.org,
+	"Lucero Palau, Alejandro" <alejandro.lucero-palau@amd.com>
+Subject: Re: [PATCH v2] sfc: Propagate the return value of
+ devlink_info_serial_number_put()
+Message-ID: <20250408101640.GV395307@horms.kernel.org>
+References: <20250407131110.2394-1-vulab@iscas.ac.cn>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CADYq+fYeXCUgXqWu_97gvUBOvTG+H4Q76TSX2M1s5jV7EWcuyA@mail.gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+In-Reply-To: <20250407131110.2394-1-vulab@iscas.ac.cn>
 
-On Tue, Apr 08, 2025 at 10:28:36AM +0100, Samuel Abraham wrote:
-> On Tue, Apr 8, 2025 at 8:21 AM Andy Shevchenko
-> <andy.shevchenko@gmail.com> wrote:
-> > On Tue, Apr 8, 2025 at 12:54 AM Abraham Samuel Adekunle
-> > <abrahamadekunle50@gmail.com> wrote:
++ Alejandro
 
-...
-
-> > > Changes in v5:
-> >
-> > This is v6. Are there any changes in comparison to v5?
+On Mon, Apr 07, 2025 at 09:11:10PM +0800, Wentao Liang wrote:
+> The function efx_devlink_info_board_cfg() calls the function
+> devlink_info_serial_number_put(), but does not check its return
+> value.
 > 
-> I added a cover letter and named it v6 to show it's a continuation
-> from v5 and to show I added a
-> new patch for spaces.
-> I was not sure where would be best to add the change log so I put it
-> in the cover letter.
-> But as it concerns the patch for the % operation, there is no change
-> between v5 and v6
+> Return the error code if either the devlink_info_serial_number_put()
+> or the efx_mcdi_get_board_cfg() fails.The control flow of the code is
+> changed a little bit to simplify the code. The functionality of the
+> code remain the same.
+> 
+> Fixes: 14743ddd2495 ("sfc: add devlink info support for ef100")
+> Cc: stable@vger.kernel.org # v6.3+
+> Signed-off-by: Wentao Liang <vulab@iscas.ac.cn>
 
-Then it should have
+Hi Wentao,
 
-Changes in v6:
-- none
+In his review of v1 Edward Cree said:
 
-which then questions the purpose of v6 :-)
+  "Looking at the rest of the file, all the calls to
+    devlink_info_*_put() in this driver ignore the return value, not
+    just this one.  I think this may have been an intentional decision
+    to only report errors in getting the info from FW, which seems
+    reasonable to me.
+  "If not, then all the calls need fixing, not just this one.
+    CCing Alejandro, original author of this code, for his opinion.
+
+I have CCed Aljandro on this email to see if he can help.
+And in any case, I think we need to come to a consensus on
+Ed's point before moving forwards with this patch.
 
 -- 
-With Best Regards,
-Andy Shevchenko
-
-
+pw-bot: changes-requested
