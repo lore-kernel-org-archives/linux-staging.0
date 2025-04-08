@@ -1,125 +1,120 @@
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
+Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A95326981F
-	for <linux-staging@lists.linux.dev>; Tue,  8 Apr 2025 10:36:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68896264A88;
+	Tue,  8 Apr 2025 10:38:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744108620; cv=none; b=VJLTFbXluI9tCTtT6fLV536Q6aJVMd1tBc67b4/QLts8aWx0gw92iNNLaWex4Vr2IQBzpFyWSGAyeCVFqaRUgPHr/o5JHuG5JL8q+Z8Qx4mLTi/+8oD7xNI+zzeHyxq/SB+m2gV0L88uBBS5NHl+VDVuYrnx4zbRsr1DdixOYOY=
+	t=1744108724; cv=none; b=jJWUdQGOVXIAXcZ2Ch3FL+W0+eg1ODLhROPc0/6XGZW4CLGJC5orVkqHIhZ2lwZZHcgOUNvBXCoLZQEcRYtGMWzfazFfv4hl1IZbsKAWTlAnaouCxyUnJauY3CvuIOW+ax2eT8tZb1UK64FekppLwiaQ3H3TvsbpBJBxQLMZfzk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744108620; c=relaxed/simple;
-	bh=z6yPF9uOlyPYwnYcyCbUHbrjMWRaBMiD7QCPSnGxte4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=BzX9uOXj6K3GNvvsxGJbMj5wrnXxOYlDNi0DrNtKK3Cf2Kx+4fDbeJqx1an4x4KJ67Od+21OzoN9ugjpqHhO+lZo8x6rPNWYrJHiohAbNUnZnV27yjgH0rosUgtfzDcbB20HM77hReu2/MzcpSWkZgeBVwmJxrxH4a/Og3kbBrI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=rBGKhrvq; arc=none smtp.client-ip=209.85.221.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1744108724; c=relaxed/simple;
+	bh=ClASX4VBDVwAzQdSceNylf/BZKDO4TwJQdbNrAChR4o=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=aLOZ+4ppPIlNdzUPtZOQN7vEN84x39P9y7oordKkpl1IR4WOZ07e0NiF9UvOW9jKuRPU+4jBJ6/4HajVE7cd9SZ9SzRYgHY9Muneh2E8WDmhhsKZ/ZUFzwF1Sv7RGSrLs+FQs8fE0REwXR6jnWujwltL433U+JOybdKECXXOK3E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iTem7HKX; arc=none smtp.client-ip=209.85.208.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="rBGKhrvq"
-Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-3913958ebf2so4762888f8f.3
-        for <linux-staging@lists.linux.dev>; Tue, 08 Apr 2025 03:36:58 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iTem7HKX"
+Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-5e6f4b3ebe5so9293176a12.0;
+        Tue, 08 Apr 2025 03:38:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1744108617; x=1744713417; darn=lists.linux.dev;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=sG5zgBeaBnx+L7h2Ew9MdPNsbBnWrTWwGOQbfcDyH0Y=;
-        b=rBGKhrvqVBwRFaLq4uPadeayCIEXTRhmfrSqN5n2Jv5KM4bjsC5+wYfeKIHEd2SFi3
-         WhIAx+xjaD66z95tRnn72pcySxxnlAOnNXSVAf1v9sI5PEpmIw/7oCwhOqFXPlnoTgxy
-         DjkZsDi+6/piUrrLrk7urVPynRHCCBuHbTiANjwv4M3+kJ9a+vlwW6jlvilkpSWGk7gh
-         cVasXZQUCfQ0QFHy+T2FR+V1C+L5lPNbIgyrsokg8CJfMR4dJmFnvXt/SIP3n/erw5O9
-         9ZOPHMLduDOeyvhWwo2sc5wlYNdAolyd1b6+1MT35NH7e/83iy+cageXlALHDx1g7wnb
-         XhIw==
+        d=gmail.com; s=20230601; t=1744108719; x=1744713519; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=aLaSOgwbcr+Il2t2O6boJjLPotCqperIiZ1qWfjVdnY=;
+        b=iTem7HKXAagBTtXEK/GBh6QKDJWGRADXPmlDjo8+R0odCoNDpmz05Iv6GcYrn9VbUd
+         8FHMpRFAOuFng9X/yvvyunnfkfiJ0VQXdGP60FVrxgRVnyseutEudmZ5cnTW6Ie9mpLL
+         pubhE+ICSD+2wk0hj/HiJTB7TmJckS0c3zgIuy6ftLupOMo+QZG6teVZIthzgeeMR0/D
+         RThsy2pkL4wVwaMLS9290ohUdv3Ot9WTlJUGfWfgx22lVfpGS3vI3BSRrchwwfAwtNFw
+         bY9+w5Xoj4b264AkEQq9GmxknSdAnhnIrMoUvgDq0k+XBEVFGuEJKjg1d7UkcyEXVaEL
+         KbiQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744108617; x=1744713417;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=sG5zgBeaBnx+L7h2Ew9MdPNsbBnWrTWwGOQbfcDyH0Y=;
-        b=JkG1+6lbI6hKQ9R34xn6QwqKwfKx/3R4DNKhTDICcDunEmEh4NVXXczDmoBPzuIhAs
-         xtYaxl75ZJXi7pM8oM63/Igqsu0XClzIRWSS3Rk2vgaI6lf5O+slcP2gOBRaociPhEG+
-         cUyJ9TSHmxbsfJ5eJkDcqQVBWxqjwm6CbOenJsOnJiz4TE1D4tHxUkXuTf9S9QyV7Idr
-         fTS1csJtgQnpCJysEHSAR7+QdyTV4gVyI0cgYzWN10ZhKiBZBSVfshsijCgH7qW6+kpG
-         i5H+ATimDk0ldfFl9KZDp6/ZCpU6Ej8bYk+Wwzptq/3OVmqekSv51JaM5tSvjD5ORyqq
-         RjOA==
-X-Forwarded-Encrypted: i=1; AJvYcCUMpASRjHfbPFcXC8baOcPt5jVwG+cr+Xl1V75JJq5oFjlgj8KJ1NyaiVIFq4Q55h8eYlcS25GssiKvfj7h@lists.linux.dev
-X-Gm-Message-State: AOJu0Yx4Uu72ZMtV1M34FpJl8IRnwTeVkOzXtGlFjbnjK7tWM4df2/BK
-	tbdcfK5ZCkC+qxKEbFxnOevCPFR5L6qPjagXog5FMPWbyVzi5bBUAQYCWEKMbvk=
-X-Gm-Gg: ASbGncseXbRPT2nHpr7/cNSdK26fs+9ZIWe+9dxgol6Cv0z4T65Y5+XMG43lYUqtf4u
-	y214CUu+jTeZXbxDS4MLfa3fBtVOb7KZR4FKGs7KFPiSq+5rIu0ruDddNTs/R4cTIcy418sLGx2
-	ZbjiizrBwjV9jmqdXW5RmRRbq75nNeVxFf8D6WQ8a9GU1IimmuWMAS/soYKdyIr1OYJ2iEZrgNw
-	OKngZukDSIsBdUMjbaByQ26RAIjZQilSzvrFDTxhARNk2efBUlsJIy4K4WonD/UGyXuta5Ttemw
-	y3h/0ACUETih0mskmDsX3iYkhZGYekyk+Bdo/DxEXoX61HuCOO2+eAJSrfGR
-X-Google-Smtp-Source: AGHT+IGtPTU+zuWSgGfB7w18BXvfTFGqbzfm5r9SrIrzLuQfA8Y5CPDOZv1Q0DcjrDiDvt4vtBbAOw==
-X-Received: by 2002:a05:6000:2509:b0:391:2fe4:de0a with SMTP id ffacd0b85a97d-39d6fc0c1d6mr8986003f8f.2.1744108616902;
-        Tue, 08 Apr 2025 03:36:56 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-39c301a727bsm14422827f8f.27.2025.04.08.03.36.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 08 Apr 2025 03:36:56 -0700 (PDT)
-Date: Tue, 8 Apr 2025 13:15:08 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc: Samuel Abraham <abrahamadekunle50@gmail.com>, outreachy@lists.linux.dev,
-	gregkh@linuxfoundation.org, julia.lawall@inria.fr,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	david.laight.linux@gmail.com
-Subject: Re: [PATCH v6 1/2] staging: rtl8723bs: Add white spaces around
- binary operators
-Message-ID: <b89c8837-4aa1-4073-bb09-f71f37b5dcc6@stanley.mountain>
-References: <cover.1744061673.git.abrahamadekunle50@gmail.com>
- <4ccdbfd3e8d74d99679927f294f71cfb694fcc6c.1744061673.git.abrahamadekunle50@gmail.com>
- <CAHp75Vfp8Je1fUavSwTDAM_5_rDaDfXETa2oM5f0CjL1mxWX_Q@mail.gmail.com>
- <CADYq+fbh=kG2JABmdF8FjjPiyigMpnJ7WhQh+faqRk6FJe4MBQ@mail.gmail.com>
- <Z_TtyXwkOBK1MXGy@smile.fi.intel.com>
+        d=1e100.net; s=20230601; t=1744108719; x=1744713519;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=aLaSOgwbcr+Il2t2O6boJjLPotCqperIiZ1qWfjVdnY=;
+        b=AHCef/2cdsYKrys5qMaV7MJdt8mcL9pqlARV0e2GW6hFPOkGkmIM+MbagsS6WguBLm
+         wUiZqJzSC0YBkAOE0IYAKqnk8TwxfjKbqVOCgFk+AY7/MaNCgFyLi6GN7otlg3ANEfzn
+         72iGc5hs7O8Us5oPovehEB5Wv4wO1BMNipyXvkzkkUtWeNHdYDAH5wzcGqI/RObBFz/S
+         fTVnD66uvoUiZq7SRWlXjpbr0e6i6MYqrYajnx3u3EHw1XCawPAvXMf3Xg8z1Sl0e8b5
+         DAI9659jRFkoZZffB0GskrrnFWRZrQnXevKFB9MJ/8qxHwo9F6kQ9f1rU1J3ijOZHnsE
+         gAeQ==
+X-Forwarded-Encrypted: i=1; AJvYcCV3X/e/UVBB3dSNqY2n6NRSpXqw4GQ9MVCY+jTbyte3xZeLRnIbjQoxsen0QKSTjICyiujv/2HQpcgf7gu+@lists.linux.dev, AJvYcCWoSK6NSa+eakbv28jckIodJnM7HUgK5Ejo+TMOK0IR0h/uftXViYkz231B9UwCuBHBZkaX5QKGRPVD@lists.linux.dev
+X-Gm-Message-State: AOJu0Yx5u6znPrPszv9LhH2rPj1ZqM4jAS2h7xX39lzZcbdjlswOtMz+
+	HQ8aeQxVIqR1IGUPNSnZtKV014ty18nEQrNlsrbg+pAqdg4f6WqRWARKvTt/MnWruDpAlT8D7C3
+	Cb89N/8gUVSssqpDNK2TSMCBF5Lr6KQcTKVI=
+X-Gm-Gg: ASbGncsZLpeeR4Xj2LnX4QRqaJSXPg2jutqmtM1tjL0GHXlWnt2M15i39LK49w3xhou
+	2163wRSjM4q2OLLgVDNs4LcI5nTzU7YdnmYBdBENJ2nFjIVIkK++LnWOVEQxThmD/MJKvWn5Ld5
+	q+f+9YiXo/BOdV9yDguswtMOKh0Mg=
+X-Google-Smtp-Source: AGHT+IG1OkLi2dBwtZHj8xh6E4uTxeL61LbO5cEWBcFX3jqGDmARdYvh3vX315w/re8lZ0aqREIlR0wet3AJ2lKZaAc=
+X-Received: by 2002:a05:6402:5194:b0:5e7:b02b:6430 with SMTP id
+ 4fb4d7f45d1cf-5f0b45001b9mr13069758a12.23.1744108719601; Tue, 08 Apr 2025
+ 03:38:39 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <Z_TtyXwkOBK1MXGy@smile.fi.intel.com>
+References: <cover.1743857160.git.princerichard17a@gmail.com>
+ <2025040538-breeze-espionage-dc6e@gregkh> <CAMyr_bL4Qo_eeVSHhy-_z9_PwcQAvD6N4jfqBb+rtN-Lj+YdmA@mail.gmail.com>
+ <CADYq+fY-twT=NruAmfb6EpmYJLM971aTu-CUi-We_Fd6JSP47Q@mail.gmail.com>
+ <CAMyr_bLkvFBTpYehG4fs-tqVE18YBf53okddU2=i7+Rr-zbCsw@mail.gmail.com> <2025040711-refutable-monetary-f0c4@gregkh>
+In-Reply-To: <2025040711-refutable-monetary-f0c4@gregkh>
+From: Richard Akintola <princerichard17a@gmail.com>
+Date: Tue, 8 Apr 2025 11:38:28 +0100
+X-Gm-Features: ATxdqUED4mJO0oYd1IguyXKnR51UPXRuHJL-QRIDRwetTTWsHh880oNHQC9O1UU
+Message-ID: <CAMyr_bKgveKkpRdOWw+VfZDWridLirHp4VoeG_F-wwgSY5jpgQ@mail.gmail.com>
+Subject: Re: [PATCH 0/8] staging: sm750fb: change function naming style
+To: Greg KH <gregkh@linuxfoundation.org>
+Cc: Samuel Abraham <abrahamadekunle50@gmail.com>, outreachy@lists.linux.dev, 
+	sudipm.mukherjee@gmail.com, teddy.wang@siliconmotion.com, 
+	linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, Apr 08, 2025 at 12:35:05PM +0300, Andy Shevchenko wrote:
-> On Tue, Apr 08, 2025 at 10:22:44AM +0100, Samuel Abraham wrote:
-> > On Tue, Apr 8, 2025 at 8:20 AM Andy Shevchenko
-> > <andy.shevchenko@gmail.com> wrote:
-> > > On Tue, Apr 8, 2025 at 12:54 AM Abraham Samuel Adekunle
-> > > <abrahamadekunle50@gmail.com> wrote:
-> 
-> ...
-> 
-> > > > -                                               psta->BA_starting_seqctrl[pattrib->priority & 0x0f] = (tx_seq+1)&0xfff;
-> > > > +                                               psta->BA_starting_seqctrl[pattrib->priority & 0x0f] = (tx_seq + 1) & 0xfff;
-> > >
-> > > > -                                               psta->BA_starting_seqctrl[pattrib->priority & 0x0f] = (pattrib->seqnum+1)&0xfff;
-> > > > +                                               psta->BA_starting_seqctrl[pattrib->priority & 0x0f] = (pattrib->seqnum + 1) & 0xfff;
-> > >
-> > > You mentioned Linux coding style, which also requires lines not to be
-> > > so long. These lines are. That's why a few versions ago I suggested
-> > > you to change these to be two lines each. I don't know how many times
-> > > to repeat this (it's third one).
-> > 
-> > Okay, sorry
-> > I will add a third patch for a line break before the patch for %
-> > operations since each patch should handle a single thing.
-> 
-> I am not sure you need a third patch for that. It lies into category of space
-> and indentation fix.
-> 
+On Mon, Apr 7, 2025 at 7:01=E2=80=AFAM Greg KH <gregkh@linuxfoundation.org>=
+ wrote:
+>
+> On Mon, Apr 07, 2025 at 06:57:38AM +0100, Richard Akintola wrote:
+> > On Sat, Apr 5, 2025 at 3:16=E2=80=AFPM Samuel Abraham
+> > <abrahamadekunle50@gmail.com> wrote:
+> >
+> > > This looks like a new version of a previously submitted patch, but yo=
+u
+> > >   did not list below the --- line any changes from the previous versi=
+on.
+> > >   Please read the section entitled "The canonical patch format" in th=
+e
+> > >   kernel file, Documentation/process/submitting-patches.rst for what
+> > >   needs to be done here to properly describe this.
+> >
+> >
+> > Hi Samuel,
+> >
+> > I sent the patches individually before, but I was instructed to send a
+> > patch series.
+> >
+> > Given that I didn't change any code, should I still add version number
+> > and sending
+> > patch series as the difference?
+>
+> Yes.
+>
+> Think about it from our side, what would you want to see if you had to
+> review hundreds of different patches a day?
+>
+> thanks,
+>
+> greg k-h
 
-Yeah.  Let's not go crazy.  Do the white space change as one patch.  The
-rules are there to make reviewing easier.  Splitting it up into three
-patches doesn't help anyone.
+Hi Greg,
 
-In staging we say, "Fix one type of checkpatch warning at a time."
-That's because it's a simple rule to explain and it stops people from
-sending us huge patches that fix every checkpatch warning.  But this
-patch is small and everything is related and it's easy to review.
+I have sent the new version, please do have a look at it.
+Thank you.
 
-regards,
-dan carpenter
-
+Richard Akintola
