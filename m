@@ -1,119 +1,99 @@
-Received: from mail-yw1-f179.google.com (mail-yw1-f179.google.com [209.85.128.179])
+Received: from mail-vk1-f173.google.com (mail-vk1-f173.google.com [209.85.221.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3F6822A814
-	for <linux-staging@lists.linux.dev>; Tue,  8 Apr 2025 19:56:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4275521A931;
+	Tue,  8 Apr 2025 21:04:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744142191; cv=none; b=uD9HoxhuTMlFr4b/hTxQFq5lauRYRpEd3ppdNKax4mlRVNcAkzfZDyeYPoysERql1Cq7WgeoASaK7/8mm0VubHu4DskqXpcPmYc7Xm3JTmE29e5EKSdUqU4dGDV3l0mapaXvCWTbBoqDHJZyasp6J/ImcEZwGjGw+uyMgvAXvoA=
+	t=1744146252; cv=none; b=B8oy9F8bLAIDvZByceutipK4boEVUZ9QqizJfIN9E9CRwnr0fE5ywrmvCLWziZ/BrywrMwSTXkRJ6IaazXQQTYUtcSurf70gKHBxcX29Gdn4bTW0GDGaOudCGOehbTK7MqCsBJh4vujIZGlRmv+qRvPM/Fv+LGL/DN5Q4Ux1lMc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744142191; c=relaxed/simple;
-	bh=qjwrFyqSZiIBplQuQi4BEbeIde22oGa7JC/EofrU9aM=;
+	s=arc-20240116; t=1744146252; c=relaxed/simple;
+	bh=nOhZRNfUVpq/cNGVu6ihTvvzz0Z/Et5J7mOf/q5xEtE=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=g4cd+U9sWBBQgtkMa8xsfGLNup105OensLJ71LFTlZTP9uEmytMmq7zzrXdT5d37aLwc853ABUNqEhvVheyovEc44MUqNcDvsJTqWBy2DdU9ehx/l5IBUv22ezXkFv1CZ3hZ7uXM7giXmWUCZkeNH4DfycwiDBL6sgvGhyCltjk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=c2bb8chM; arc=none smtp.client-ip=209.85.128.179
+	 To:Cc:Content-Type; b=oet69Y4kHPUdonKWq3H+Yv6LRssretysNcChSIgYS851xwAa7fjWWJjKP0fMB4OgC84LGXqLBmqyR2KuMGHHWb3EaH1PUCbmXbYvdsbnA/ORUTgYDfywwg4xx/ce+axtcTZA73pB1eAjcsJtMOGQ3Byu1TySu4o544MS0IC5XYM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gv2lILCL; arc=none smtp.client-ip=209.85.221.173
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="c2bb8chM"
-Received: by mail-yw1-f179.google.com with SMTP id 00721157ae682-6fee50bfea5so49808477b3.1
-        for <linux-staging@lists.linux.dev>; Tue, 08 Apr 2025 12:56:29 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gv2lILCL"
+Received: by mail-vk1-f173.google.com with SMTP id 71dfb90a1353d-525b44ec88aso3026541e0c.3;
+        Tue, 08 Apr 2025 14:04:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1744142188; x=1744746988; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1744146250; x=1744751050; darn=lists.linux.dev;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=D6cDbUybM1KG7HZRBqaHKVMVEzJc7+qySRY9tjTb2U4=;
-        b=c2bb8chMmk2dj8n4QJ4XWugiogn5Jc7OAwn5q3QnVdvCpRHmAwOGGwFsqC5NctkFd/
-         PfbvqLFQKGfR7bGdRrz7VSIbWtLrUc/ncX42q5RK5iCMdm/wzHJp8Lla4Jv1s0Wkr6iv
-         N2mYY/V7md5Vm6GqzbgeFbulZjNIPXTGigcE8fU8abivScQaMsq54HfB+uL5167vGid7
-         ta2COfSzNZ27t5ml1qAuva2bY+wXBZ1Z+fyDVf7ZURt5QkrZ7xqtT99yO2wABsoHs7ci
-         vGcHZzE5LiUvZN4mynOuXEx8eNNkFO13TYX1Xv7EPAJkd+R/eDB/u+1GpHbUZtxRcvec
-         ASQQ==
+        bh=nOhZRNfUVpq/cNGVu6ihTvvzz0Z/Et5J7mOf/q5xEtE=;
+        b=gv2lILCLzJzlTkHbt0qck8kMVovBdyjlRsF83PhnlRPXnypuEIy+xRmmCZGKqxfcl3
+         H4D1AvMcKCD57+xVSo/dj1UjDyS7GxEK3feZfA8fSQhnf62iZLqn+Q5Pf0+iRaU0zoWX
+         N7cLT/IIpSKJLr8ppKcIRjX76lZRd5urlUe3jsdrCEqkEPuYNuuA8Q6eM+UcVjZsAkmC
+         AJ5JNY0VxYuT7CnZ6lHecQAbrZQ07DIKOsD4O9njTgBQl9MiZ4SRZsQ2AaJT5KBrkYyl
+         fksGh5yCttlmpYlmhkMCG0Nkr1g5I6AUlUv0jaZ8kdw3WP33qs9QjV/Q9JPcFselXSGj
+         j6jw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744142188; x=1744746988;
+        d=1e100.net; s=20230601; t=1744146250; x=1744751050;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=D6cDbUybM1KG7HZRBqaHKVMVEzJc7+qySRY9tjTb2U4=;
-        b=cZWjRuoYUxZcFSyEbYHzpR8V3cn3Fe3W+2/HSSBTgKET2gH2Q27/7muFc18j+Nsd1d
-         5uj4IMkQgO1nBkFwZSycL4vpbmwgI2Xw1v3jxkiVyom8zQ5iKxfkUuQ2SzSceVFkhUW/
-         BjF+DgmUXE/BW7lEJVE4Hq/AaYS/0opFNxtOQtJRBD1E6zQ2DMZN5xoCor6nFi1HvDJz
-         qC2MycCv9sZOo3h0Db0kwE8fWS7/meMPmAnEVV1nbK62COqxxhg4VctBlwZh9GBfwjQ5
-         D1TvHMZN+MnjBPfqNl6SXEcRWf38GVnJXI7DbOO+sWYUb27Rautb0afJaBenwkmyjeR4
-         zCpw==
-X-Forwarded-Encrypted: i=1; AJvYcCVUXXekMI1T/0pRrcUlqcUrbarNVH5l6nyGxFuVTaSd1qjOCUZXZMlknIuv/5Abp5E7ZG5nolo7nW6qfHEr@lists.linux.dev
-X-Gm-Message-State: AOJu0Yx+ofCUb8ZmPly+MjIZVd4JStJds+0UdH41z5+CGe0WjhAyCE4w
-	34Egt5ZTEuexbs57az4+E9R9nt0d3iLuNlEkGdypUN0A+x8Ac2ml1P3qpWHwzl2ueSdk5FiRrQL
-	4cnL8/zqRis/rDXBZ8scHX3sfqxE=
-X-Gm-Gg: ASbGncu4lg4XR+N8Tw3auL1deveKRyqsUDqtWcEP0nYhjppJ3CsBdQVtFyz+K79yRlh
-	tveUdF7s6HpBCwZyQtSV48GE8WkI+ONmMfJ8Nye5gS3c2n4c2tfZHZLcTGmo2l7Ph/rI7jgGSEp
-	Z/G1x8hUyMZ/anT/CTuaqgnbwVXXWzFKXi3WNIda1qjU5DKKoChwIxpsGZs/M=
-X-Google-Smtp-Source: AGHT+IH0R09ialjzR7tBCVZSJpPb1eM5DyxBf37vmd2V9TKgBmQHBgF2t7u9Ira6Et6V2dHcNRqnHToxvM78YRXL21w=
-X-Received: by 2002:a05:6902:2381:b0:e6d:e429:1d70 with SMTP id
- 3f1490d57ef6-e702f5c7df7mr29068276.12.1744142188598; Tue, 08 Apr 2025
- 12:56:28 -0700 (PDT)
+        bh=nOhZRNfUVpq/cNGVu6ihTvvzz0Z/Et5J7mOf/q5xEtE=;
+        b=hFZFYVsqANKddBlY7pzmr5FH3Sju+61gsIzd0pdwa2FN203KXaOM/eyUuVzKQ5103I
+         qpPLqvBpmHLHXsTYsJQZyMK3S9KV9x9VnAa3wNUiKQ9mjNondn4tRq5U/ehepeUjaXrF
+         NoY24N0qEgKc7+It/1QEO07GqTm7v9V2oGSSeYVtAKZ6GNw9E77cN5VfN0iFmVMnpfab
+         EYax/MfLFtKb9/cVnZ8OINpUMg4vWz/hnOpGcmPEhRRTZ527Fli2JZ4mYig3rxKNVXtH
+         bxKTm87OSmPuGIsnEmSG1HD3BOURB5QwXe8/42XTGUbyBoH49x7uA/9i8Nz8QpWDhg/M
+         Axvw==
+X-Forwarded-Encrypted: i=1; AJvYcCW4AVNCyVi7vJMIf2/+U3WpNkCz8zc8zwD2fmEaBGB3MFP/7I9BrNNSbfL81RuNR9/vyn4JxTElPhk03Bxu@lists.linux.dev
+X-Gm-Message-State: AOJu0Yy6HGC3atBjL7ZzQEqXIN/3xCZ/gca//qKZ64vwz99pOL7jCstC
+	9E8XyqzR5m5jZETNBK1A0c9WJvevsQQtmolMu4QohnSGQvc27DC9xzz+iTLeFGhj1b0VD1SkKQN
+	tdTrB08bC7mpKMpbjLuoOzLHXoLU=
+X-Gm-Gg: ASbGnctnlkH04wlieLGxIs8G67DexvV/mmx3sT/WzeauL+WklCI3USalmLffn6lz3fm
+	JOM6+pUoG7tU9IkoxZmtMtRP/NEwNsULQyT6nFd+vcSxaC3CFLEJTNQE7OwX/LKN9rBrSq+V6MQ
+	6x4duwQPqY+cjrgRWCyiMsLHkEXvbi
+X-Google-Smtp-Source: AGHT+IHSwCXizLtZV7QBBRd6X77VS19hoGOvi5qIAzv/QDy/1emcTcxElomM2yXG9r1ooAIJaTHNcizEJMwtjdGLeXg=
+X-Received: by 2002:a05:6122:2205:b0:525:bf40:e628 with SMTP id
+ 71dfb90a1353d-527a9232b93mr428632e0c.6.1744146250128; Tue, 08 Apr 2025
+ 14:04:10 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250330135402.105418-1-simeddon@gmail.com> <20250330152044.18cf81f6@jic23-huawei>
-In-Reply-To: <20250330152044.18cf81f6@jic23-huawei>
-From: Siddharth Menon <simeddon@gmail.com>
-Date: Wed, 9 Apr 2025 01:25:52 +0530
-X-Gm-Features: ATxdqUH9sgSrCRUYQW9CwHIhT1t8pCayapMz7lxbogfE6j6N7Se-rKUcJD9Z6HA
-Message-ID: <CAGd6pzP470VDxGoP4e_2hVXsKrJhnhbv-WgFzCq7tMX9RjOLwg@mail.gmail.com>
-Subject: Re: [PATCH v5] iio: frequency: ad9832: Use FIELD_PREP macro to set
- bit fields
-To: Jonathan Cameron <jic23@kernel.org>
-Cc: linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-staging@lists.linux.dev, gregkh@linuxfoundation.org, 
-	Michael.Hennerich@analog.com, lars@metafoo.de, marcelo.schmitt1@gmail.com
+References: <cover.1744126058.git.abrahamadekunle50@gmail.com> <Z_V70-9Bk-aZ914y@smile.fi.intel.com>
+In-Reply-To: <Z_V70-9Bk-aZ914y@smile.fi.intel.com>
+From: Samuel Abraham <abrahamadekunle50@gmail.com>
+Date: Tue, 8 Apr 2025 22:04:01 +0100
+X-Gm-Features: ATxdqUFTqyzlTPM_qJevaC8MWGaUfHE0Wx7A07-A09KjJRRiYbrTf-cHJieKNAI
+Message-ID: <CADYq+fanYZR1UNJVR0iapynQeXTVEe1xPMMJHXHHCGc-Sc3B_Q@mail.gmail.com>
+Subject: Re: [PATCH v8 0/2] staging: rtl8723bs: Improve readability and
+ clarity of sequence number wrapping
+To: Andy Shevchenko <andy@kernel.org>
+Cc: outreachy@lists.linux.dev, julia.lawall@inria.fr, 
+	gregkh@linuxfoundation.org, linux-staging@lists.linux.dev, 
+	linux-kernel@vger.kernel.org, david.laight.linux@gmail.com, 
+	dan.carpenter@linaro.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Sun, 30 Mar 2025 at 19:50, Jonathan Cameron <jic23@kernel.org> wrote:
-> > +     for (int i =3D 0; i < ARRAY_SIZE(regval_bytes); i++) {
-> > +             freq_cmd =3D (i % 2 =3D=3D 0) ? AD9832_CMD_FRE8BITSW : AD=
-9832_CMD_FRE16BITSW;
-> > +
-> > +             st->freq_data[i] =3D cpu_to_be16(FIELD_PREP(AD9832_CMD_MS=
-K, freq_cmd) |
-> > +                     FIELD_PREP(AD9832_ADD_MSK, addr - i) |
-> > +                     FIELD_PREP(AD9832_DAT_MSK, regval_bytes[i]));
-> Looking at the data layout here, this seems like an interesting dance to =
-fill two unrelated
-> u8 values - it's not a be16 at all.
+On Tue, Apr 8, 2025 at 8:41=E2=80=AFPM Andy Shevchenko <andy@kernel.org> wr=
+ote:
 >
-> I'd be tempted to split the freq_data into u8s and then you will just hav=
-e
->                 st->freq_data[i][0] =3D FIELD_PREP(AD9832_CMD_MSK, freq_c=
-md) |
->                                       FIELD_PREP(AD9832_ADD_SMK, addr - i=
-);
-> //with masks adjusted appropriately.
->                 st->freq_data[i][1] =3D regval_bytes[i];
+> On Tue, Apr 08, 2025 at 03:41:55PM +0000, Abraham Samuel Adekunle wrote:
+> > The patchset adds spaces around binary operators, breaks long lines to =
+enhance readability
+> > and provides clarity on sequence number wrapping by using a modulo oper=
+ation % 4096u, in
+> > place of the bitwise AND(&) operation & 0xfff.
+> > The patches are required to be applied in sequence.
 >
+> You missed my tags I gave in a previous review round.
 
-Hello Jonathan,
-
-I briefly went through the datasheet for the device.
-From what I understand, the device is expecting 16 bit write operations whe=
-re:
-- First 4 bits: Operation type (frequency/phase)
-- Next 4 bits: Destination register address
-- Last 8 bits: Data
-so these fields would need to be combined into a single 16-bit value regard=
-less.
-
-As I am unable to procure a testing unit at this time, I=E2=80=99m hesitant=
- to make
-changes that could unintentionally break the existing driver.
-
-Would it be acceptable to limit the scope of this patch to introducing
-bitfield macros and addressing the remaining feedback?
-
-Regards,
-Siddharth Menon
+Oh, I'm sorry I do not know how that works, please.
+Am I supposed to add them to the commit message?
+>
+> --
+> With Best Regards,
+> Andy Shevchenko
+>
+>
+>
