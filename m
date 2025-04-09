@@ -1,89 +1,119 @@
-Received: from mail2-relais-roc.national.inria.fr (mail2-relais-roc.national.inria.fr [192.134.164.83])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f176.google.com (mail-pg1-f176.google.com [209.85.215.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18DB178F3E;
-	Wed,  9 Apr 2025 02:12:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.134.164.83
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E03F61624CC
+	for <linux-staging@lists.linux.dev>; Wed,  9 Apr 2025 05:59:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744164730; cv=none; b=o/IsvmC8I12p4fC+RYKtCJLmTlgUlhVkJOWvMbbBmytpOLL7L0pZCOPB4Rm+H/SkDKYAuIFjSeyWJZW3uPZOPqGhDqfULlCX/8sa6HeKMQeS+TlwC1Le7whg5tv1ZYUo3Mfk+gxWbMSsDeLG1nSRFRCWCqCL/S/+9Ws37lKBAlY=
+	t=1744178348; cv=none; b=YNu3XFPNn2udkHZ1aQF0mS3h996DiBQxOoHhieJC1fYfCQiqdaAbGspZssLQD2cCs1yPaLryiX4aMcDwNB0f0/XxjqpDDWscHaO39w9sz9mp31CfJcw2dmxph+hhg/j6FohNwY99il+pDw0zUXqBqtZzaJ4ijynskxApYn6z0+U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744164730; c=relaxed/simple;
-	bh=qZk7AqXGuHfGw6+dwU4obXEpeZbsTQIME6ce5dZuP88=;
-	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=VOg/bbyd5C9mpGjUUkTp++UmGvcMCdrTL1079Mbu2WAfrlLyjgABxcsS9VBXrAP3W0etr9AwgfAl5d1N4YmHPsk2v0dseR1UMORIgxIXQc4Pf/CfEp1++6VTwuo0S2+SD+S0HsMbzo8YTwVFzDJk8OQsymkhYiqiURPMYvKC8Zo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr; spf=pass smtp.mailfrom=inria.fr; dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b=OdzEgYCl; arc=none smtp.client-ip=192.134.164.83
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=inria.fr
+	s=arc-20240116; t=1744178348; c=relaxed/simple;
+	bh=+cRpAGM3fBSnidM+4UWtJo8NX/FmO/Jetdwd/Ccs45w=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=pq2MBMzYe49GTUKYJqGxMoOD0rPaS/dSZaWl2rRBeekNMAl1RLOUMzJpX1tU54zkEmInusLwFTORN3v5GXDHnVR24HurC/lT/Tqqgfv3v069tyQ8p64g5z4WoZB4YHN48zisI5bk1ywQ5QggJLAvP8tdImJrYITOyJ1BPMN6qs8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=neverthere.org; spf=pass smtp.mailfrom=neverthere.org; dkim=pass (2048-bit key) header.d=neverthere.org header.i=@neverthere.org header.b=P/4EhU7s; arc=none smtp.client-ip=209.85.215.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=neverthere.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=neverthere.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b="OdzEgYCl"
+	dkim=pass (2048-bit key) header.d=neverthere.org header.i=@neverthere.org header.b="P/4EhU7s"
+Received: by mail-pg1-f176.google.com with SMTP id 41be03b00d2f7-aee773df955so293254a12.1
+        for <linux-staging@lists.linux.dev>; Tue, 08 Apr 2025 22:59:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=inria.fr; s=dc;
-  h=date:from:to:cc:subject:in-reply-to:message-id:
-   references:mime-version;
-  bh=Fxf6dJYmNUkkFhIDC7PPKMmZCrTCwnAhzcAyZi0D0MA=;
-  b=OdzEgYClgrcAosGBU9/R/3OYguMAQBwsEQKArdZAdTB9/7/v5Wb3Hqr6
-   lWlBhej6Dnqfqya9k0DbQRs9c5jFyW+xMn3BCoRaiz5cKFuKOwEVLKCPc
-   pLJ6qwUoe0zP4TDh/zmXV6DkgOdxzjcCZYxQSdwjlRCWqSSpVzQqnN1xY
-   s=;
-Authentication-Results: mail2-relais-roc.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=julia.lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
-X-IronPort-AV: E=Sophos;i="6.15,199,1739833200"; 
-   d="scan'208";a="217009814"
-Received: from 74-95-99-105-richmond.hfc.comcastbusiness.net (HELO hadrien) ([74.95.99.105])
-  by mail2-relais-roc.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Apr 2025 04:11:58 +0200
-Date: Tue, 8 Apr 2025 22:11:56 -0400 (EDT)
-From: Julia Lawall <julia.lawall@inria.fr>
-To: Samuel Abraham <abrahamadekunle50@gmail.com>
-cc: Andy Shevchenko <andy@kernel.org>, outreachy@lists.linux.dev, 
-    gregkh@linuxfoundation.org, linux-staging@lists.linux.dev, 
-    linux-kernel@vger.kernel.org, david.laight.linux@gmail.com, 
-    dan.carpenter@linaro.org
-Subject: Re: [PATCH v8 0/2] staging: rtl8723bs: Improve readability and
- clarity of sequence number wrapping
-In-Reply-To: <CADYq+fanYZR1UNJVR0iapynQeXTVEe1xPMMJHXHHCGc-Sc3B_Q@mail.gmail.com>
-Message-ID: <3878cce7-1a85-7f87-70ac-722cfa9d3e19@inria.fr>
-References: <cover.1744126058.git.abrahamadekunle50@gmail.com> <Z_V70-9Bk-aZ914y@smile.fi.intel.com> <CADYq+fanYZR1UNJVR0iapynQeXTVEe1xPMMJHXHHCGc-Sc3B_Q@mail.gmail.com>
+        d=neverthere.org; s=google; t=1744178346; x=1744783146; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=rmpbl1qlaeHgafl2pHHR6F4mf7sKmkMLj4mHyYrbXzc=;
+        b=P/4EhU7sD1T57hjLncywpOtbS24iN6YMLlbWnBimSThQWjrWHVOQWUd/77WYuy20so
+         QIgctiLTR8PEMzYPIOPvmRvOMy/D4vTbBE5261WCyOaPyO8ZGN+FvrVCCcmklFzRYptJ
+         RKIsHNA651YBxiNuvKlzESZFE+dSs3oBaYOaME29zf2SpCOgvnt4nYOn8v5ST3n6KKeg
+         l2XQr40QDzg/X75Ze282GLAIvDgGxYrk0/0scJjpvzjffe0rcfjFO/k2jZx7vuufR8Y0
+         iSN7bPpc2UCTX4MuI3hx3cWQXME9fTorUkX0uU7Gzg40ZZgHsRKauyrFb/LwAIyXSy2c
+         9XrA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1744178346; x=1744783146;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=rmpbl1qlaeHgafl2pHHR6F4mf7sKmkMLj4mHyYrbXzc=;
+        b=ZcMrtmPfPVpprYXujxU68Po1TDmQW8Ln6t7rGJpZUUrtpNnyd+oQJQkKyWikO+JfD9
+         3rRV3ssLhBDVnIjw5NY5g3cPCa8ww2cnLDh1CA9+5l0g9utg+0mR6ndmhBz0m2fdhnh4
+         cHoktoEOFy48ybNyaTOQIfdiwSE85lvjJqdptu1rJXzLCkH/UB/noMo/haEuqcWQ2CYv
+         oehJPhcNYGuLSxE/EKV3VhQwTDxZg84Nd8yE7W1pcbFt9fnBvHW3PmSpkAQ/1ysCEE41
+         greIvEpd6lYbvLF8N5sDZLaMTVY+ky8JC3xWVC98c6D782ZBg9MeMoc5KeUm1lAPaxdj
+         HPxA==
+X-Gm-Message-State: AOJu0YxrHYu/Wz/h6105q0i9bK5Xz9i49Z4BgCZiJmRLFldi055v/ZZ7
+	OABPpK9TUfDU721HFmC9JtxktEcuuC0onpuKiCixb1l28RQA3puibeLMWGa27w==
+X-Gm-Gg: ASbGncuKHVNrCQw8sqiEXEcm0WYNRb2RaL2/4VLfU94LMjpMFzJJsWlOpxOZ3CBLvOg
+	UgUwgut9Nc3Fg2OfF2a7b/TyBnd5oYASBmVCxxrv2dBYy3u1WKkGNP41J8pQb1HgS9Bg8C9QIKM
+	OUkgiOYmGS5Lbv/hdI+k8QnAFwmkVmVQ8RPa9IQtfnQxstpV1Ym9Do/idxUtTiWYXkeejCDFUT7
+	n+M35GRuWQyo5ZHwt/cQo4OitH0pXbqaP+FrhSI0xaixc0CqmwukLruv/enHL5CSy+0e0Tpxmx4
+	h7Da6cXjJZKoqmB1fJZjJ7zpsBL9/RzcdhAzo2jka5xaeeASJV1BfB/bzFIN1PoRWVUPXEJBmDd
+	GA2jzYg==
+X-Google-Smtp-Source: AGHT+IFMwN3VRVu6sqrMT03lTtDFVvGqXCWf8R+uS7U2w+zhQwb7/rYF7s9d85IQM1pcKBVZHUeNxQ==
+X-Received: by 2002:a17:903:2a8f:b0:225:abd2:5e5a with SMTP id d9443c01a7336-22ab5df1b0dmr85399485ad.4.1744178346023;
+        Tue, 08 Apr 2025 22:59:06 -0700 (PDT)
+Received: from tiamat (c-69-181-214-135.hsd1.ca.comcast.net. [69.181.214.135])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-22ac7cb5458sm3343055ad.200.2025.04.08.22.59.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 08 Apr 2025 22:59:05 -0700 (PDT)
+From: Michael Rubin <matchstick@neverthere.org>
+To: gregkh@linuxfoundation.org,
+	dpenkler@gmail.com
+Cc: linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Michael Rubin <matchstick@neverthere.org>
+Subject: [Patch v1 00/21] staging: gpib: Removing typedefs for ioctl API
+Date: Wed,  9 Apr 2025 05:58:42 +0000
+Message-ID: <20250409055903.321438-1-matchstick@neverthere.org>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="8323329-1061154757-1744164718=:4262"
+Content-Transfer-Encoding: 8bit
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
+Moving typedefs to explicit structs as dictated by the Linux code style.
+Also removing typedefs for fundamental types as per Linux code style.
 
---8323329-1061154757-1744164718=:4262
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8BIT
+Reported by checkpatch.pl
 
+* Patch 1 - Patch 16: Removes typedef for explicit structs.
 
+	In general, a pointer, or a struct that has elements that can
+	reasonably be directly accessed should never be a typedef.
 
-On Tue, 8 Apr 2025, Samuel Abraham wrote:
+* Patch 17 - Patch 21
 
-> On Tue, Apr 8, 2025 at 8:41 PM Andy Shevchenko <andy@kernel.org> wrote:
-> >
-> > On Tue, Apr 08, 2025 at 03:41:55PM +0000, Abraham Samuel Adekunle wrote:
-> > > The patchset adds spaces around binary operators, breaks long lines to enhance readability
-> > > and provides clarity on sequence number wrapping by using a modulo operation % 4096u, in
-> > > place of the bitwise AND(&) operation & 0xfff.
-> > > The patches are required to be applied in sequence.
-> >
-> > You missed my tags I gave in a previous review round.
->
-> Oh, I'm sorry I do not know how that works, please.
-> Am I supposed to add them to the commit message?
+	Removing typedefs of fundamental types
 
-Yes.
+Michael Rubin (21):
+  staging: gpib: Using struct gpib_board_type_ioctl
+  staging: gpib: Using struct gpib_read_write_ioctl
+  staging: gpib: Using struct gpib_open_dev_ioctl
+  staging: gpib: Using struct gpib_close_dev_ioctl
+  staging: gpib: Using struct gpib_serial_poll_ioctl
+  staging: gpib: Using struct gpib_eos_ioctl
+  staging: gpib: Using struct gpib_wait_ioctl
+  staging: gpib: Using struct gpib_online_ioctl
+  staging: gpib: Using struct gpib_spoll_bytes_ioctl
+  staging: gpib: Using struct gpib_board_info_ioctl
+  staging: gpib: Using struct gpib_select_pci_ioctl
+  staging: gpib: Using struct gpib_ppoll_config_ioctl`
+  staging: gpib: Using struct gpib_pad_ioctl
+  staging: gpib: Using struct gpib_sad_ioctl
+  staging: gpib: Using gpib_select_device_path_ioctl
+  staging: gpib: Using struct gpib_request_service2
+  staging: gpib: event_ioctl_t now short
+  staging: gpib: rsc_ioctl_t now int
+  staging: gpib: t1_delay_ioctl_t now unsigned int
+  staging: gpib: autospoll_ioctl_t now short
+  staging: gpib: local_ppoll_mode_ioctl_t now short
 
-julia
+ drivers/staging/gpib/common/gpib_os.c  |  58 ++++++------
+ drivers/staging/gpib/uapi/gpib_ioctl.h | 118 ++++++++++++-------------
+ 2 files changed, 86 insertions(+), 90 deletions(-)
 
-> >
-> > --
-> > With Best Regards,
-> > Andy Shevchenko
-> >
-> >
-> >
->
---8323329-1061154757-1744164718=:4262--
+-- 
+2.43.0
+
