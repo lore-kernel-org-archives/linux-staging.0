@@ -1,131 +1,108 @@
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
+Received: from mail-vk1-f170.google.com (mail-vk1-f170.google.com [209.85.221.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A09BF25B683
-	for <linux-staging@lists.linux.dev>; Wed,  9 Apr 2025 08:26:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2335025D1F3;
+	Wed,  9 Apr 2025 08:53:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744187208; cv=none; b=BmSel2Np3SQd5hsl708EqXJFnTg5j+6lAGabTB66ivZFs35aPLxITNoLOJFZwmCRYQQ7e6FjUhFOxVO4k2p4IBSlkkOkWChDuNCdo+WbQorCxeFKaQeIJTHXgXYEfKxURrvrPXXLzl3gLw3zTnXMPoG24V1G3CrILCSHbeR3+WY=
+	t=1744188802; cv=none; b=vCexXiTJWGZZBcIfS2PsROE8j3bBYwNWQIDWNuDSNDiKEcEF+LOyTy7xr4A2r3yisHKbop7yh99G3PBhSGJWLLmUYDRNZkERqhvg4ayRVoCD49TPCTh/Zs8WfSOJsOibNEWPoFiUeX5lspdo/Oht/aYnaiLV7ookg6n3WlnlYHs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744187208; c=relaxed/simple;
-	bh=9mciwu4mtquGdEdTTCaWflAnOKZqghnNk3FnTpVRf1Y=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Ia98AyhYmx8AHKSqX70KztoEzNZtteMe3A4waCTxkCCxev49nlbKT6xBupNhI5xW7dTIZFuSNF8hrlKNeYl3PYAokpusca8a3jl5A2P4+jMPaW65vL0Ty2Lkqnb96QgvuCAfGkoG9JAKKy3PaYDkabJqFbQ7+6AxM1FNSbLP2Nc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=pLsA48yP; arc=none smtp.client-ip=209.85.221.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1744188802; c=relaxed/simple;
+	bh=5LtHgusi0DYB4k8LoSlQMj6591nPND2Az8+N2UCeyUY=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=X59+3QyNDwoM++mwM03Cba2BYwfQ3B4ZL9NDgIL10MzofPEX740smRlGUwSYxjNAbM2USVPNWa20tDSbVuuVcWDisDO5NCfd0q1oeWz9op8kPRy34lrjGvrfYwXtwJ3R6Q/imp4NplN/V7dJxFzVklsrW8KSLu9jrPmUW7r5qDM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WnvfJjTn; arc=none smtp.client-ip=209.85.221.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="pLsA48yP"
-Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-38f2f391864so3559844f8f.3
-        for <linux-staging@lists.linux.dev>; Wed, 09 Apr 2025 01:26:46 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WnvfJjTn"
+Received: by mail-vk1-f170.google.com with SMTP id 71dfb90a1353d-523de538206so2876178e0c.2;
+        Wed, 09 Apr 2025 01:53:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1744187205; x=1744792005; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=gxnhdbErfpSDUzVm/MJ1FKUcQwzNrE/EQxe6ade7B/M=;
-        b=pLsA48yPpgKzDXUVyAIphLHrLTCPpU0XcsteLs+mvxUQDWoulY3Sue5Al+E0LKZmjp
-         4zRAyX7C/cIePw6kA8PC3gvMbXrmUGGCetCa07vZFZeno3Rm1srndrLKM8WDeqlRc7p/
-         oGaCXs2BBGdwcYHtlffLvllp+CHYaoczGZYC7dp8OvFjNym8B8gHNu5QHkK6igs+JVqS
-         93JLSIvWBaJeHobNADUYjiB7ayD35ymfBpvY+5r59xAWrM1cGoVkLhPQQmbIHJCkPPAo
-         SjBY1sO65y4rInl+CdBa/UxOzZHg8xjn2fs/nk//TZ3+VYSZ4EV747+BM4uzOIF1wEKK
-         kpNw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744187205; x=1744792005;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1744188800; x=1744793600; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=gxnhdbErfpSDUzVm/MJ1FKUcQwzNrE/EQxe6ade7B/M=;
-        b=C6GwgyxNaGIYBnqf8wATOYKQqy8amkbz2eAuGP9fHXCzxhIRUmbJ8gzRosCheNxQs6
-         zpg9xEL13US7JwkNb1ILVQxezvXUkhGCACGPeMpQQMRJUIT2o+K98p+ifbLJBK0GFKH/
-         jVujHAUJmWSggIbGOYePdtcA7ItXv2FEF6npr0aj497RyrjMGLuY3n2Aem5AXeBNMBVb
-         Gkvkk2XHenzjZ/oRBSvWzDnTJVZPw9uXJKNLSN56KantJIMDAaGomcsH/Qnc/1PTBjF8
-         w53VUuheTwSnSjIFtTDCuAbxpAprzgFux72JZa9WojgjIFzTg2vwlf2rfb6oI6btgbbV
-         oXKA==
-X-Forwarded-Encrypted: i=1; AJvYcCVvfXd+PQpQc2ep5wbzFYLxTtnnsjglSm5k+3DidOfvt4g/SfLMFOJZszYVnmjr/ooHyLs3bKJuSM5TwV1q@lists.linux.dev
-X-Gm-Message-State: AOJu0YxtNSAQ51GDD1fpjCzlbm1wF9ZUOAncJgZXQ/Dr4TnWLtvvihcU
-	KcxPfvENwvTDkrgfnpvOZXZuL2Xj/8PaI3870YVjfKoWxqguV+kJewnadKNLXDM=
-X-Gm-Gg: ASbGncuVj57ND5xfOhpc9sAy1Ns4ra7CMqdz4Izj5RXdFidt94bU4N0Moh9bsfcCTyc
-	vWJoAMf2MSLnzGOlDgrouM/Ux9Fawui+4QkVjOPDVqM3crB2rIr1DqKHFhEgqc8sD2bakxMj469
-	F3ubhLZ1kmrZXZkx9421dvBjh4bGcrxMqFDbqsOCURkMmyKdV24Aly6PSPO7rcvVKPizko6RKmN
-	JO2jCwuXjyEhzYTq62RiysetT+TcFSHz/9FN3d8560BenfI8kWZuDS0CapEQPG7UpYEkMkm3SqG
-	5qlE3ZbSSwnZviC1RQQzoqid2H8kkFoXI4tgHW0ixUAaFg==
-X-Google-Smtp-Source: AGHT+IGFeSP7AaSQ03G7V1vbHKDCayG1EjsRKjk3tAbnZ4QszeoIUy29MFqZGhs6fu552vwU9PZ2+w==
-X-Received: by 2002:a5d:6d86:0:b0:39c:310a:f87e with SMTP id ffacd0b85a97d-39d87aa837dmr1851776f8f.16.1744187204896;
-        Wed, 09 Apr 2025 01:26:44 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-43f2075fca5sm12240525e9.32.2025.04.09.01.26.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 09 Apr 2025 01:26:44 -0700 (PDT)
-Date: Wed, 9 Apr 2025 11:26:41 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Michael Rubin <matchstick@neverthere.org>
-Cc: gregkh@linuxfoundation.org, dpenkler@gmail.com,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v1 01/18] staging: gpib: struct typing for gpib_interface
-Message-ID: <804eaa0e-e1ce-4ee2-8ad4-f56bedd6d14f@stanley.mountain>
-References: <20250408222504.186992-1-matchstick@neverthere.org>
- <20250408222504.186992-2-matchstick@neverthere.org>
+        bh=5LtHgusi0DYB4k8LoSlQMj6591nPND2Az8+N2UCeyUY=;
+        b=WnvfJjTnu+Kvxi8lNM74BcgdGTSpO243Q88C+tLj2RhTY2596gXHTlsinPqXZEB0uA
+         9pNC7JcCd/FOMwao1Vky86mwsbm3Oo9Yk/67y6Bpg+t8JjYhA4CFUrdCOAbUUNOArxRA
+         +gpGZc3wH1UKppTSA3u3/ryHCPi75/7MDZZe8ZfRhiDollnrTPPszqT2mXEwbJyIxh9W
+         zSZw4ENEMGWbC2Vv+c6O+fQtMa5tN2w1dZ6ZPbYBUkJMPwqbH3z9lfzKsrermS7rf9hH
+         qhu2kBqKti25PI4a25BpVbuCJT2oCDVD+WFnuzpyyTUkt0yhWMGVZGM1uwfORTt1xBcN
+         OV0Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1744188800; x=1744793600;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=5LtHgusi0DYB4k8LoSlQMj6591nPND2Az8+N2UCeyUY=;
+        b=gUdnSGogF4RQU0lXDMYkAyt4jZJrAhi91htiQ3xFMVd2NqvcuGEvwfOrEBZ09kypY2
+         QK1JsXu588qCaFH4+ImRyZSLefRRyvQKZORnCr7tQjdf3p8SGynELt3WqqkXEsxxcEjC
+         qrG+Vx0xN7rKrBYEKgdbuZvdEq4WhtqWXcMF3sOrPOnAegWH509zSdbgBhb/UFIr86Km
+         Gn2aqIKJftP7SMbf0b8JwG4sYt5Tc1NHmR6t4VIOtkGJwAdqAxE6ajSB1fynABq7a5bo
+         CLawhn4J3xPYhqJRgnEmXdnOBB6ZfVEndQV0Vx3I3UGodFsW8QdJtgJat/kEYlDN7aq+
+         Eu1A==
+X-Forwarded-Encrypted: i=1; AJvYcCU4qVnouTwiQTFUvcId4FfQlwe5fMlOhD7QzC01VnriQPknmb6ec/FyYHO87As9LuA4znOJgM9faF3LTux9@lists.linux.dev, AJvYcCUse0c26E9TZeCCNTRHOW6iFi+QzqowDc8XtYhi1aJBxLNTrlo19aqqTTER+y7eYtYXVHcpa5fq36pY@lists.linux.dev
+X-Gm-Message-State: AOJu0YxUvmMpdZ+IbpJg8tRCl0Dt/BqPqDmqpgdRlIQNf8khgdcwsxUi
+	qptcoYMhKitjg+oO8F5CuMcPHQ+c7/Ocv5ZII0Tgc64l+V1nOO5Fc+2gz8OIIRPTgADpk6N4ogs
+	Y7Pm6wmva+D5+HpYYXNksp58ohGo=
+X-Gm-Gg: ASbGnct3ZNsEb5JcgIvJOhQldYwNFS8QCfp+JKM7p2jeF/sdbSYaKcarphTvT5s24/m
+	dJEC+z2aNyc4a1SInwKiT5c62RrxmyokomoWde/CsFvev4lLHW8a+xWyFYpEE/0aGkmHhXgkEVK
+	LU7VD5GZG3KTidMJVT4GmM/DYS
+X-Google-Smtp-Source: AGHT+IEN5uVmKF5wn9rZf6ilGSYyjwAo1pIYlP38TLCCIxdf4qZXt+sHLcFubwYXct1iytoDjzKBUGC6aEskhftJhJo=
+X-Received: by 2002:a05:6122:da7:b0:526:483:95fd with SMTP id
+ 71dfb90a1353d-527a9e12274mr693131e0c.10.1744188799915; Wed, 09 Apr 2025
+ 01:53:19 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250408222504.186992-2-matchstick@neverthere.org>
+References: <cover.1744126058.git.abrahamadekunle50@gmail.com>
+ <Z_V70-9Bk-aZ914y@smile.fi.intel.com> <CADYq+fanYZR1UNJVR0iapynQeXTVEe1xPMMJHXHHCGc-Sc3B_Q@mail.gmail.com>
+ <3878cce7-1a85-7f87-70ac-722cfa9d3e19@inria.fr>
+In-Reply-To: <3878cce7-1a85-7f87-70ac-722cfa9d3e19@inria.fr>
+From: Samuel Abraham <abrahamadekunle50@gmail.com>
+Date: Wed, 9 Apr 2025 09:53:11 +0100
+X-Gm-Features: ATxdqUHbg2WozVzGaSYlAbtv3kgxsOyEjlEPeU5hvICINksNLg2KiyM6lqEiz0A
+Message-ID: <CADYq+fYQHtiQU71w4-4V2Rts7mEHVxLEYbxJp7LnCQQAoxycqw@mail.gmail.com>
+Subject: Re: [PATCH v8 0/2] staging: rtl8723bs: Improve readability and
+ clarity of sequence number wrapping
+To: Julia Lawall <julia.lawall@inria.fr>
+Cc: Andy Shevchenko <andy@kernel.org>, outreachy@lists.linux.dev, gregkh@linuxfoundation.org, 
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	david.laight.linux@gmail.com, dan.carpenter@linaro.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, Apr 08, 2025 at 10:24:47PM +0000, Michael Rubin wrote:
-> Using Linux code style for gpib_interface struct in .h to allow drivers to
-> migrate.
-> 
-> Adhering to Linux code style.
-> 
-> In general, a pointer, or a struct that has elements that can reasonably be
-> directly accessed should never be a typedef.
-> 
-> Reported by CheckPatch
-> 
-> WARNING: do not add new typedefs
-> 
+On Wed, Apr 9, 2025 at 3:11=E2=80=AFAM Julia Lawall <julia.lawall@inria.fr>=
+ wrote:
+>
+>
+>
+> On Tue, 8 Apr 2025, Samuel Abraham wrote:
+>
+> > On Tue, Apr 8, 2025 at 8:41=E2=80=AFPM Andy Shevchenko <andy@kernel.org=
+> wrote:
+> > >
+> > > On Tue, Apr 08, 2025 at 03:41:55PM +0000, Abraham Samuel Adekunle wro=
+te:
+> > > > The patchset adds spaces around binary operators, breaks long lines=
+ to enhance readability
+> > > > and provides clarity on sequence number wrapping by using a modulo =
+operation % 4096u, in
+> > > > place of the bitwise AND(&) operation & 0xfff.
+> > > > The patches are required to be applied in sequence.
+> > >
+> > > You missed my tags I gave in a previous review round.
+> >
+> > Oh, I'm sorry I do not know how that works, please.
+> > Am I supposed to add them to the commit message?
+>
+> Yes.
 
-This commit message is quite long but it's totally unrelated to what the
-patch does.
+Hello Julia.
+Thanks for the clarity
 
-This commit message should just say "Having the word "_struct" in the
-name of the struct doesn't add any information so rename struct
-gpib_interface_struct to struct gpib_interface."
-
-regards,
-dan carpenter
-
-> Signed-off-by: Michael Rubin <matchstick@neverthere.org>
-> ---
->  drivers/staging/gpib/include/gpib_types.h | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/staging/gpib/include/gpib_types.h b/drivers/staging/gpib/include/gpib_types.h
-> index 2d9b9be683f8..10d8776ef425 100644
-> --- a/drivers/staging/gpib/include/gpib_types.h
-> +++ b/drivers/staging/gpib/include/gpib_types.h
-> @@ -22,7 +22,7 @@
->  #include <linux/timer.h>
->  #include <linux/interrupt.h>
->  
-> -typedef struct gpib_interface_struct gpib_interface_t;
-> +typedef struct gpib_interface gpib_interface_t;
->  struct gpib_board;
->  
->  /* config parameters that are only used by driver attach functions */
-> @@ -51,7 +51,7 @@ typedef struct {
->  	char *serial_number;
->  } gpib_board_config_t;
->  
-> -struct gpib_interface_struct {
-> +struct gpib_interface {
->  	/* name of board */
->  	char *name;
->  	/* attach() initializes board and allocates resources */
-> -- 
-> 2.43.0
-> 
+Adekunle
