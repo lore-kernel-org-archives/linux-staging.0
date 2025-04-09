@@ -1,90 +1,183 @@
 Received: from mail2-relais-roc.national.inria.fr (mail2-relais-roc.national.inria.fr [192.134.164.83])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 763B7267728;
-	Wed,  9 Apr 2025 15:39:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E0062676D9;
+	Wed,  9 Apr 2025 15:41:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.134.164.83
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744213160; cv=none; b=BzbQYnuwnPyXnmpZkoRUfUAAr+LoDOWIsRYCUaXCwmJxaIrpWMXQEa9E3hXiKhJJnIwZJTQyAHRq+GDWHRwmMqHpMeo2gQg+uvs4tLyxE32DzVhhQD6VkGUaF0KS1iym8oVWe47Q70bd/vzaP7Bkn+SnyyB4r13PGSOOVt1JyhE=
+	t=1744213321; cv=none; b=o58KOK4eJ1MzRTGqPvzAT9hLKS8QKGBpmIk2QbrXRa0ybxzKb6usmKoVX+zNjMPyGoMbkNbE7ocvz2COtNvBV/vzIbBL+rZGLmACOZR3wGwwqg6P6n+FS6Z5ewyPvhz7H9kFgh+U8O1PqtWDS+uHW59UFZCK+bojHf2j9tbQIi0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744213160; c=relaxed/simple;
-	bh=lxBQ9cwd5DCQ5HQfHv+bRT4vwSSfuOjJAZtJVntcOLU=;
+	s=arc-20240116; t=1744213321; c=relaxed/simple;
+	bh=Q6OGpSVxIa1TzU8YTuINcPALNgKDev2a8ASm19SQxQ0=;
 	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=VrmLzS0S1yi+NqIZS874otLr8NPpzyCZ7MXZZUbC6qa/XKFLSV/wYfc0mO0O+Vb6/3X7BsXgwQliGY2KPuZUb0LKFOLHqQrJ3j7D/kfGEqaei7KEjaOCXA4WF+YdffJzEK8QpHryLMdoEV4bCt+5OVD1pAofe2IhKXsLINqQ2Yg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr; spf=pass smtp.mailfrom=inria.fr; dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b=s+sgG9JZ; arc=none smtp.client-ip=192.134.164.83
+	 MIME-Version:Content-Type; b=jra3xHuZU9sS/jwb9W3XRIGNoTt+KKohkjVnT5CVhNO7SPArSu/g3tXfSCLYgn+LB4zKEXMd/nEwcDBqBRUkAFpgif4ajTeERVu2hMAigU+hx5coSAWpU7v0c+5X206QKWDMnAreRxcU18vosdl2ZdZRJDR1vykwPyvWUhzuJyo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr; spf=pass smtp.mailfrom=inria.fr; dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b=RPyiv0vG; arc=none smtp.client-ip=192.134.164.83
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=inria.fr
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b="s+sgG9JZ"
+	dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b="RPyiv0vG"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
   d=inria.fr; s=dc;
   h=date:from:to:cc:subject:in-reply-to:message-id:
    references:mime-version;
-  bh=9OZUpIaocGRTLad1iJGiWrNp/X3/o2DOCVb6eOe0H4A=;
-  b=s+sgG9JZVLdf2dbtl9ofnAFyiNPz9MozpUX3ORWGDoiDOgJBfKmBiYsO
-   wOKADbNnp34qMbfgJQxchmbCuKuSUkHQiZVY7lVe4HtoVNh31RtbxqrOt
-   29PdoWiGJenH3w0YmnGWzALGrPOyxjltOdUU1T6vJed7lMVG+ZHoHQMit
-   k=;
+  bh=S+qn1CnEm9/PZdH4urciI0YYFqE/hTqAghA1/E92Jp0=;
+  b=RPyiv0vGv/s3jdJSIhzSTGQiMhP5yA96I0DQMXd0vCFqZjPAu+rGKnIp
+   2pOo14+CdPYOo2nSBeofqi5E+lCN0m0HYDoYBO4W2XfQH1EAXSe+k6bDG
+   4Iu5t4thKUe7d97T2xAPgcz7RVzftLBA5u8OyW/xWt5OIQJlC8dh6nhu2
+   o=;
 Authentication-Results: mail2-relais-roc.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=julia.lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
 X-IronPort-AV: E=Sophos;i="6.15,200,1739833200"; 
-   d="scan'208";a="217159805"
+   d="scan'208";a="217160243"
 Received: from 74-95-99-105-richmond.hfc.comcastbusiness.net (HELO hadrien) ([74.95.99.105])
-  by mail2-relais-roc.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Apr 2025 17:39:15 +0200
-Date: Wed, 9 Apr 2025 11:39:13 -0400 (EDT)
+  by mail2-relais-roc.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Apr 2025 17:41:56 +0200
+Date: Wed, 9 Apr 2025 11:41:54 -0400 (EDT)
 From: Julia Lawall <julia.lawall@inria.fr>
 To: Erick Karanja <karanja99erick@gmail.com>
 cc: gregkh@linuxfoundation.org, outreachy@lists.linux.dev, 
     philipp.g.hortmann@gmail.com, linux-staging@lists.linux.dev, 
     linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 1/2] staging: rtl8723bs: Improve code readability
-In-Reply-To: <4cf642ebb8d0859676230bae06a4914a57428ec3.camel@gmail.com>
-Message-ID: <a97e7851-31f7-e493-fe1a-749f27c879f0@inria.fr>
-References: <cover.1744192642.git.karanja99erick@gmail.com>  <97a2637f3ccefb3de0e15fd04f29f5f209f2a506.1744192642.git.karanja99erick@gmail.com>  <3dda7f97-4ed8-cf6d-9310-60ed6259a386@inria.fr> <4cf642ebb8d0859676230bae06a4914a57428ec3.camel@gmail.com>
+Subject: Re: [PATCH v2 2/2] staging: rtl8723bs: Initializing variables at
+ declaration
+In-Reply-To: <0fb58ca930030af2a4c730b0f5328e64210b795b.1744192642.git.karanja99erick@gmail.com>
+Message-ID: <9dce3c-6ac-8b7e-fdbc-75e14f73fcc4@inria.fr>
+References: <cover.1744192642.git.karanja99erick@gmail.com> <0fb58ca930030af2a4c730b0f5328e64210b795b.1744192642.git.karanja99erick@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="8323329-420250004-1744213155=:3226"
+Content-Type: text/plain; charset=US-ASCII
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
 
---8323329-420250004-1744213155=:3226
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8BIT
 
-> > > @@ -729,10 +721,9 @@ static void hal_ReadEFuse_WiFi(
-> > >  		}
-> > >
-> > >  		if (offset < EFUSE_MAX_SECTION_8723B) {
-> > > -			u16 addr;
-> > > +			u16 addr = offset * PGPKT_DATA_SIZE;
-> > >  			/*  Get word enable value from PG header
-> > > */
-> > >
-> > > -			addr = offset * PGPKT_DATA_SIZE;
-> >
-> > I'm not sure about this one, due to the comment.
-> Hello Julia, I have observed in some scenarios where the semantic patch
-> deletes the comments that exist between the declaration and
-> initialization which I think it's not okay and in this scenario where
-> the comments are left dangling such as this. How do I go about this
-> instances.
-> Thank you.
+On Wed, 9 Apr 2025, Erick Karanja wrote:
 
-Making the right choice depends on the semantics of the comment, which is
-out of the scope of Coccinelle.  Generally, if a complete block of code is
-dropped, any comments within it are dropped as well.  Here the comment is
-kept, which seems reasonable.  The issue is that you may have moved code
-that is relevant to the comment up above the comment.  Ultimately, you have
-to decide what to do and what not to do.  If you let Coccinelle make a
-patch, and then apply the patch, in the meantime you can just remove the
-parts of the patch you don't like.  If you make the changes in place, you
-can use git add -p to add the changes you like, and not add the others, and
-then use git checkout to remove the changes you don't want to do.  I would
-take the former approach, but some people may take the latter.
+> Make the code more readable by moving trivial
+> initializations up with the declarations instead
+> of wasting a line on that.
+>
+> Signed-off-by: Erick Karanja <karanja99erick@gmail.com>
+> ---
+>  .../staging/rtl8723bs/hal/rtl8723bs_xmit.c    | 39 ++++++-------------
+>  1 file changed, 11 insertions(+), 28 deletions(-)
+>
+> diff --git a/drivers/staging/rtl8723bs/hal/rtl8723bs_xmit.c b/drivers/staging/rtl8723bs/hal/rtl8723bs_xmit.c
+> index 5dc1c12fe03e..d134d185bfae 100644
+> --- a/drivers/staging/rtl8723bs/hal/rtl8723bs_xmit.c
+> +++ b/drivers/staging/rtl8723bs/hal/rtl8723bs_xmit.c
+> @@ -120,13 +120,10 @@ static s32 rtl8723_dequeue_writeport(struct adapter *padapter)
+>   */
+>  s32 rtl8723bs_xmit_buf_handler(struct adapter *padapter)
+>  {
+> -	struct xmit_priv *pxmitpriv;
+> +	struct xmit_priv *pxmitpriv = &padapter->xmitpriv;
+>  	u8 queue_empty, queue_pending;
+>  	s32 ret;
+>
+> -
+> -	pxmitpriv = &padapter->xmitpriv;
+> -
+>  	if (wait_for_completion_interruptible(&pxmitpriv->xmit_comp)) {
+>  		netdev_emerg(padapter->pnetdev,
+>  			     "%s: down SdioXmitBufSema fail!\n", __func__);
+> @@ -242,8 +239,7 @@ static s32 xmit_xmitframes(struct adapter *padapter, struct xmit_priv *pxmitpriv
+>  						/* pxmitbuf->priv_data will be NULL, and will crash here */
+>  						if (pxmitbuf->len > 0 &&
+>  						    pxmitbuf->priv_data) {
+> -							struct xmit_frame *pframe;
+> -							pframe = (struct xmit_frame *)pxmitbuf->priv_data;
+> +							struct xmit_frame *pframe = (struct xmit_frame *)pxmitbuf->priv_data;
 
-julia
---8323329-420250004-1744213155=:3226--
+I'm not sure that it's worth making this change here given that it makes
+the line even longer.
+
+>  							pframe->agg_num = k;
+>  							pxmitbuf->agg_num = k;
+>  							rtl8723b_update_txdesc(pframe, pframe->buf_addr);
+> @@ -326,8 +322,7 @@ static s32 xmit_xmitframes(struct adapter *padapter, struct xmit_priv *pxmitpriv
+>  		/*  dump xmit_buf to hw tx fifo */
+>  		if (pxmitbuf) {
+>  			if (pxmitbuf->len > 0) {
+> -				struct xmit_frame *pframe;
+> -				pframe = (struct xmit_frame *)pxmitbuf->priv_data;
+> +				struct xmit_frame *pframe = (struct xmit_frame *)pxmitbuf->priv_data;
+
+This also makes a long line.
+
+>  				pframe->agg_num = k;
+>  				pxmitbuf->agg_num = k;
+>  				rtl8723b_update_txdesc(pframe, pframe->buf_addr);
+> @@ -357,12 +352,9 @@ static s32 xmit_xmitframes(struct adapter *padapter, struct xmit_priv *pxmitpriv
+>   */
+>  static s32 rtl8723bs_xmit_handler(struct adapter *padapter)
+>  {
+> -	struct xmit_priv *pxmitpriv;
+> +	struct xmit_priv *pxmitpriv = &padapter->xmitpriv;
+>  	s32 ret;
+>
+> -
+> -	pxmitpriv = &padapter->xmitpriv;
+> -
+>  	if (wait_for_completion_interruptible(&pxmitpriv->SdioXmitStart)) {
+>  		netdev_emerg(padapter->pnetdev, "%s: SdioXmitStart fail!\n",
+>  			     __func__);
+> @@ -408,13 +400,9 @@ static s32 rtl8723bs_xmit_handler(struct adapter *padapter)
+>
+>  int rtl8723bs_xmit_thread(void *context)
+>  {
+> -	s32 ret;
+> -	struct adapter *padapter;
+> -	struct xmit_priv *pxmitpriv;
+> -
+> -	ret = _SUCCESS;
+> -	padapter = context;
+> -	pxmitpriv = &padapter->xmitpriv;
+> +	s32 ret = _SUCCESS;
+> +	struct adapter *padapter = context;
+> +	struct xmit_priv *pxmitpriv = &padapter->xmitpriv;
+>
+>  	allow_signal(SIGTERM);
+>
+> @@ -435,16 +423,13 @@ s32 rtl8723bs_mgnt_xmit(
+>  )
+>  {
+>  	s32 ret = _SUCCESS;
+> -	struct pkt_attrib *pattrib;
+> -	struct xmit_buf *pxmitbuf;
+> +	struct pkt_attrib *pattrib = &pmgntframe->attrib;
+> +	struct xmit_buf *pxmitbuf = pmgntframe->pxmitbuf;
+>  	struct xmit_priv *pxmitpriv = &padapter->xmitpriv;
+>  	struct dvobj_priv *pdvobjpriv = adapter_to_dvobj(padapter);
+>  	u8 *pframe = (u8 *)(pmgntframe->buf_addr) + TXDESC_OFFSET;
+>  	u8 txdesc_size = TXDESC_SIZE;
+>
+> -	pattrib = &pmgntframe->attrib;
+> -	pxmitbuf = pmgntframe->pxmitbuf;
+> -
+>  	rtl8723b_update_txdesc(pmgntframe, pmgntframe->buf_addr);
+>
+>  	pxmitbuf->len = txdesc_size + pattrib->last_txcmdsz;
+> @@ -557,15 +542,13 @@ s32 rtl8723bs_init_xmit_priv(struct adapter *padapter)
+>
+>  void rtl8723bs_free_xmit_priv(struct adapter *padapter)
+>  {
+> -	struct xmit_priv *pxmitpriv;
+> +	struct xmit_priv *pxmitpriv = &padapter->xmitpriv;
+>  	struct xmit_buf *pxmitbuf;
+> -	struct __queue *pqueue;
+> +	struct __queue *pqueue = &pxmitpriv->pending_xmitbuf_queue;
+>  	struct list_head *plist, *phead;
+>  	struct list_head tmplist;
+>
+>
+> -	pxmitpriv = &padapter->xmitpriv;
+> -	pqueue = &pxmitpriv->pending_xmitbuf_queue;
+>  	phead = get_list_head(pqueue);
+>  	INIT_LIST_HEAD(&tmplist);
+>
+> --
+> 2.43.0
+>
+>
+>
