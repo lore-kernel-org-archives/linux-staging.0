@@ -1,106 +1,115 @@
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 451862459FB
-	for <linux-staging@lists.linux.dev>; Wed,  9 Apr 2025 11:11:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC50D255255;
+	Wed,  9 Apr 2025 11:22:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744197089; cv=none; b=R+j63S5nHoDpR++f+gGYs0nUB1w89TJkDRTdvWatq5OoLiRw1+fJOYS1PrYizZfLDlTPQ8zPS8gc7yvg036YHMpdl2eRlLd65z3G79hwShG4FahjYS20Lb8MT77ipVBxqk54z7wshRMN58Z2WC7jRQDDRU1ydyIQ+XIo1JoqthM=
+	t=1744197742; cv=none; b=iOBflwaH7x4DogtIpAxzTTRP0IiudR0lo32THN9tSSbq9BEbxCD3zQ995GMUYrG8ncf7yPrVelgO7fh02McLHmlJgOQG7J6Eg9nqMlxgAIi2n7AziYi3lA9gPEMD/wkvTto8l44OViMelxm+khw9RhgzyOX5q9RDwhOsyAC66CE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744197089; c=relaxed/simple;
-	bh=ik9ItygRr9yIPW2Mc/PZYhjH6z8YDKHWGfbwtOGw0G4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=BXyWp8NjzQyuJDIGTjzmDtaCTmw24dHMqcLbtYgxqGkXb/fYY/n4pyyBjEjMifZJshLkjOddPmGkhZ+726feXpEpVtNKfO/T6T3RDcakM4f9kkrD4bB5dYSKgB5GNcLHae/lQzZ3Zhl80nsegVRE4ORiPkBzWivKV0n9a7p5lTU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=ahs8ym+T; arc=none smtp.client-ip=209.85.221.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1744197742; c=relaxed/simple;
+	bh=B+7bvO3lKFW0aylYPgYmk7X3zfx0r63tAkXBwA//5UE=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=kvuKDMz47nullfibuJWX1mn/TAWAzlIXnw+pRHArg9vlD91IIBWHTQopPj5UEZtLVct7btrTlH6UQ74FJ3LKRTgzpGUbMHtgxPwOkbu+eMKMw6ZUe0xt1tOQvIIMnxeAyEZhPU0ayc+qsGhjtIhntjoBZj/5XrAZh7MRmto16vQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=elRZHOxn; arc=none smtp.client-ip=209.85.221.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ahs8ym+T"
-Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-39bf44be22fso4414970f8f.0
-        for <linux-staging@lists.linux.dev>; Wed, 09 Apr 2025 04:11:26 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="elRZHOxn"
+Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-39149bccb69so6232486f8f.2;
+        Wed, 09 Apr 2025 04:22:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1744197085; x=1744801885; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=8hUKCIZwdAKFsLiLYa1VO4wMgsObAoyYESjSHJd2mFE=;
-        b=ahs8ym+Tjg4eNDH/hc4Wa5LbUNuvO9Ag13MbyHHH/4ZL5H2n+vkQVkxJ7DZXuy+oRh
-         IsZt7H2jv8spx54boLbnYgCf3qSulMOmCLvFJjV2Ojs1Az/q0Zz6F+KvxUCYQqaRgxnN
-         BAijdUmeywkH5yaQvPc26+vbeoV3hTOewxFfoUwasp8v/zZW43MCAK/cc/1n8TREF3Gs
-         yvZaqFSGLC+Wps2fgsB1g3sm5Q1Dd+LX/jyG2qELnkFX3UoHPp3gFa21BpNmTwtE0HuY
-         2khnzsy5Mc0Zw6c3Dy+WMmDqONpC/bW+WWT5knoyn7nM8N12fvulqjGykFJTSwLTlQCY
-         CAkA==
+        d=gmail.com; s=20230601; t=1744197739; x=1744802539; darn=lists.linux.dev;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=XNIF4tYvlT4HtlqHyWvypv696ndc9VfNTquhjpGjigo=;
+        b=elRZHOxnnlentJ37lke1/ypM7miHROiXqIvwM/z581MTjQUqA9GnqHXL3ye/wzIhA7
+         fStz3KcRljnIZHheR7CCqKmiUJcdTzHq1PBpkbihbJs0oXlipfVIjskq6yiqmziP/qXj
+         7GSVVNSaXYzk8klnFySrA+9MrnBiAZNigV9Ni0Usik3lNnZeS76a7GT+mlS5bfuuOeBD
+         sIu1U4mbHnXkgjCXIZA6oP4iXwxYByfW/tqx+i13tbg0Qn3Wr3brtNh75lJti2QxnZTr
+         lwKOsm8M2cDoq3OsHd/FVGjuRnwChA6A99+43pRvq1nXYN+4GE7ilN65VrVxDrvwPDjB
+         S6XA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744197085; x=1744801885;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=8hUKCIZwdAKFsLiLYa1VO4wMgsObAoyYESjSHJd2mFE=;
-        b=eJ66DicU9vVUUTvl9yHHh92bMFVFUvddQCahczW1/ZMaJdtwgUxDAywMa2lyRo5R5o
-         q/Essw08R9jEunIYed1lUmhsVxefLrg6V9mg8bVbJnHO67qR9sLVnVL1H7BRYvsJodUk
-         midn3s9OkbhXsebPvtMvs2CHh4GP1g0uzWzcUJZycF8wWmtfzYUpsSvZz5k05O7tjV7i
-         d9nfxRo/pvf/fb3dgqm8w37Nzi5HAQ5uzsOUEyTjp1S5ZLmSf/SzAmWRukdfm1KMUsRh
-         C+DgK7CtcUWxRRPyTp8JLOIgmCn7bTaAEtZhJyPO7qVD9O+Ld/ae+4qvhaknq0ec5dQW
-         woqA==
-X-Forwarded-Encrypted: i=1; AJvYcCX7hp+9tHAw/tNCesiiXmAQ1YtdalxjXswm9+bcuIM3dtGxvel0MXFjtizdd+b3gKIizoAxmb+kR9H2X1v6@lists.linux.dev
-X-Gm-Message-State: AOJu0Yw5pmuXJa+puPNLFzNAp4NcXkyIPXGua+KRaqK0UnI7M2IcRBCh
-	iLNQiredoqSP8vu50KHryCcp+lnBPFffla1wIjUSWYy99RVCJ45VFNz+13Es+2A=
-X-Gm-Gg: ASbGnct6s3QPt6ORXJuLTqsWLxepAsu9XWwNrgQOcmvwJUfUeCRwv3FOXkLixC9txyq
-	qw0p5BNcQVGfgSmFPlDNOgsf4aczvYC8ebPHXRwKAanuEjCCzs/UQtcpEQbedk8Wrf//XezTyvm
-	NwvIVnq/8ta7txcDb+/qMYPGXZ1ErOAIrHsK0wjBuPz6sDa+m6WlkcMHbUVEQkdQr5NZjcPdIkp
-	FYHVqVaP+OKVmf3ISxlxZPvcs69fjq80HiQlweCgIcHl7kZwDl6+QZMMAg8D8iIVCX3kfEfkPvS
-	LX6K8ftjdD+mgQUwUBV5ymsEXXoFpcnCgSuU6Jc3M5wkDA==
-X-Google-Smtp-Source: AGHT+IGXax2LtMxOpUGA9r+oCr9bPGcaXFt/3GzRkKF3FDOJvk1Gx+REYad/Sskufy4uK+n2UYFvKA==
-X-Received: by 2002:a05:6000:4009:b0:391:4684:dbef with SMTP id ffacd0b85a97d-39d87ab6243mr2104415f8f.17.1744197085566;
-        Wed, 09 Apr 2025 04:11:25 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-43f23158849sm13409175e9.0.2025.04.09.04.11.24
+        d=1e100.net; s=20230601; t=1744197739; x=1744802539;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=XNIF4tYvlT4HtlqHyWvypv696ndc9VfNTquhjpGjigo=;
+        b=rTGz0qm51NzMrlQRcUkE3B2bOYegFq0AG9iUW0S9IHPHEkCpBATcdQlJegnv5l4rKi
+         H9PZJOLJ7LOUIUdRbUIjUAF+FFQ78A0Y3kUJL+KHwRv/zLEIWwTb2+io3WyXxktuBTLF
+         WfakEU7uV/DfCQx+8TcwWPxdxlLqHVP8+12h9zPMbE+8jQkIumhvk2EevXPq/UCHXWxN
+         piQacaUh3RGd8EyEup/h5G61SQnemsq74PvuN1LYrnohpVN8Y6mvVIp9jTNC5AFnHqvc
+         Bgj8FVgViTAEb1lC/RpwLjGdNSf9d87oGUmhSLfTIQ01VXBhMkJMtcbs06EycBj8/Iax
+         ndRw==
+X-Forwarded-Encrypted: i=1; AJvYcCV1qE7SJh1wZpjeQwwpYgqgCeFWrOpOgLxRZGypZgP4nzGlWk0Da5kt/dIJ8BmUqhwpwVMTRrnMgtGa@lists.linux.dev, AJvYcCWMl0kRiZ8aMGBhGfC3BypLceiHFHF4BKByRy0C9zgWb1/FZ1RTpVO/LQCstihRKF5E17swkSkNRmskLtxV@lists.linux.dev
+X-Gm-Message-State: AOJu0YyeBuISse4S67zSCHXqizDUpXemDpYK9PDLXGXupU7kyA6GI8rx
+	/8zN6AgJ3xS9SdDAQWQ0T8vwWYQzsFEHAmzv1e1uJ4B2JuDVth5Z
+X-Gm-Gg: ASbGncuLnoFsAXx+fgT1J1dDBK4y+3YRchsNZjzQGBKJ15o2ept5/yA0urmMRmLT61J
+	gGxTXDISzj6+oJ3t/KRd0DLJwlZKLYr0CrV259pf7pto0zX+K34tX3GEVt8jn3f88xqvti79N+g
+	93pDnyJ8y5MBORQp5nSJIPQUSeTS0ijYQdzZlsDkkRzyx9/lyzrJygPD640ZjNio3wb9guBEf3O
+	gO5zcx2uJICOFrrrvF1hyYn0q3FhZ9OhEpmOTf+H5m6KZwiMrSA/L+0GhdMMQ/jLrBqORAMsk1C
+	syfWPCvfcYocJvNDKJ8eRVltbaeRQ7PMRSKTCATUPMe71kvHTk4=
+X-Google-Smtp-Source: AGHT+IGZsN4H73Ax2Gfnh0e8fMsPZGwpetqpePrvoTb4VCAuqX0OWTeXNXYhkOf299IK2Z5tkz2b4Q==
+X-Received: by 2002:a05:6000:40c9:b0:390:de58:d7fe with SMTP id ffacd0b85a97d-39d87cdc2c1mr2226345f8f.51.1744197738762;
+        Wed, 09 Apr 2025 04:22:18 -0700 (PDT)
+Received: from [172.16.8.120] ([197.155.71.138])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-39d89361290sm1367992f8f.17.2025.04.09.04.22.16
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 09 Apr 2025 04:11:25 -0700 (PDT)
-Date: Wed, 9 Apr 2025 14:11:21 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Julia Lawall <julia.lawall@inria.fr>
-Cc: Erick Karanja <karanja99erick@gmail.com>, gregkh@linuxfoundation.org,
-	outreachy@lists.linux.dev, philipp.g.hortmann@gmail.com,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+        Wed, 09 Apr 2025 04:22:18 -0700 (PDT)
+Message-ID: <9dd38b27ac15fe9d76e326e4f4c05d71a18b2154.camel@gmail.com>
 Subject: Re: [PATCH v2 1/2] staging: rtl8723bs: Improve code readability
-Message-ID: <22a2c8a7-9669-40bd-b886-713833de5cc4@stanley.mountain>
+From: Erick Karanja <karanja99erick@gmail.com>
+To: Dan Carpenter <dan.carpenter@linaro.org>, Julia Lawall
+	 <julia.lawall@inria.fr>
+Cc: gregkh@linuxfoundation.org, outreachy@lists.linux.dev, 
+	philipp.g.hortmann@gmail.com, linux-staging@lists.linux.dev, 
+	linux-kernel@vger.kernel.org
+Date: Wed, 09 Apr 2025 14:22:14 +0300
+In-Reply-To: <22a2c8a7-9669-40bd-b886-713833de5cc4@stanley.mountain>
 References: <cover.1744192642.git.karanja99erick@gmail.com>
- <97a2637f3ccefb3de0e15fd04f29f5f209f2a506.1744192642.git.karanja99erick@gmail.com>
- <3dda7f97-4ed8-cf6d-9310-60ed6259a386@inria.fr>
+	 <97a2637f3ccefb3de0e15fd04f29f5f209f2a506.1744192642.git.karanja99erick@gmail.com>
+	 <3dda7f97-4ed8-cf6d-9310-60ed6259a386@inria.fr>
+	 <22a2c8a7-9669-40bd-b886-713833de5cc4@stanley.mountain>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.52.3-0ubuntu1 
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <3dda7f97-4ed8-cf6d-9310-60ed6259a386@inria.fr>
 
-On Wed, Apr 09, 2025 at 07:04:18AM -0400, Julia Lawall wrote:
-> > @@ -729,10 +721,9 @@ static void hal_ReadEFuse_WiFi(
-> >  		}
-> >
-> >  		if (offset < EFUSE_MAX_SECTION_8723B) {
-> > -			u16 addr;
-> > +			u16 addr = offset * PGPKT_DATA_SIZE;
-> >  			/*  Get word enable value from PG header */
-> >
-> > -			addr = offset * PGPKT_DATA_SIZE;
-> 
-> I'm not sure about this one, due to the comment.
-> 
-> julia
-> 
-
-I feel like it works.  I wish there were a blank line after the
-declaration but that's something for a different patch.  Both of
-these are okay with me.  Try to be more creative with the subjects
-next time.  (Just put the file name in the subject because that's
-the only difference).
-
-Reviewed-by: Dan Carpenter <dan.carpenter@linaro.org>
-
-regards,
-dan carpenter
+On Wed, 2025-04-09 at 14:11 +0300, Dan Carpenter wrote:
+> On Wed, Apr 09, 2025 at 07:04:18AM -0400, Julia Lawall wrote:
+> > > @@ -729,10 +721,9 @@ static void hal_ReadEFuse_WiFi(
+> > > =C2=A0		}
+> > >=20
+> > > =C2=A0		if (offset < EFUSE_MAX_SECTION_8723B) {
+> > > -			u16 addr;
+> > > +			u16 addr =3D offset * PGPKT_DATA_SIZE;
+> > > =C2=A0			/*=C2=A0 Get word enable value from PG header
+> > > */
+> > >=20
+> > > -			addr =3D offset * PGPKT_DATA_SIZE;
+> >=20
+> > I'm not sure about this one, due to the comment.
+> >=20
+> > julia
+> >=20
+>=20
+> I feel like it works.=C2=A0 I wish there were a blank line after the
+> declaration but that's something for a different patch.=C2=A0 Both of
+> these are okay with me.=C2=A0 Try to be more creative with the subjects
+> next time.=C2=A0 (Just put the file name in the subject because that's
+> the only difference).
+Thank you for the review.
+Erick
+>=20
+> Reviewed-by: Dan Carpenter <dan.carpenter@linaro.org>
+>=20
+> regards,
+> dan carpenter
+>=20
 
