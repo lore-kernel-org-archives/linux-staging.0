@@ -1,71 +1,70 @@
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8446A25A34C
-	for <linux-staging@lists.linux.dev>; Wed,  9 Apr 2025 08:10:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A09BF25B683
+	for <linux-staging@lists.linux.dev>; Wed,  9 Apr 2025 08:26:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744186249; cv=none; b=j/wGKcmQqBtQlo+0qexobp9yFsVRPVrIZmKqdTdUkQtAESjLOejRwgnCoYhVk58Jgdkk0ZDMl+4bPFVPPP0/JTsoc/vop3vgcPWoH7aLLL+uVzGn2nawvEn20x1B7Je5SXJIEnok5E5xO8QVU15Pc36b0wEMVhyfUZYlKg7Md8U=
+	t=1744187208; cv=none; b=BmSel2Np3SQd5hsl708EqXJFnTg5j+6lAGabTB66ivZFs35aPLxITNoLOJFZwmCRYQQ7e6FjUhFOxVO4k2p4IBSlkkOkWChDuNCdo+WbQorCxeFKaQeIJTHXgXYEfKxURrvrPXXLzl3gLw3zTnXMPoG24V1G3CrILCSHbeR3+WY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744186249; c=relaxed/simple;
-	bh=m7HqZf0V8MNy+9l62oV2QlWxfw/dk4iRS0qblNkVAtE=;
+	s=arc-20240116; t=1744187208; c=relaxed/simple;
+	bh=9mciwu4mtquGdEdTTCaWflAnOKZqghnNk3FnTpVRf1Y=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=S9xSc2a/kKSQdLqcDKd9BOdcKW+sF+TYjK3xt+g6ufqylwCOP775FEHcwgd66KAC7m4jkFUVaJ842S93aYfgzudbwnMVAiBpy+2iLz5jqKsVgoNUdsOGHL6VMTov71RluDGgof2upd3gtrHDCnDsURdMzQpFyqmsMkKxWFdt3i8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=jkQl//zJ; arc=none smtp.client-ip=209.85.128.48
+	 Content-Type:Content-Disposition:In-Reply-To; b=Ia98AyhYmx8AHKSqX70KztoEzNZtteMe3A4waCTxkCCxev49nlbKT6xBupNhI5xW7dTIZFuSNF8hrlKNeYl3PYAokpusca8a3jl5A2P4+jMPaW65vL0Ty2Lkqnb96QgvuCAfGkoG9JAKKy3PaYDkabJqFbQ7+6AxM1FNSbLP2Nc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=pLsA48yP; arc=none smtp.client-ip=209.85.221.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="jkQl//zJ"
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-43cf05f0c3eso41707365e9.0
-        for <linux-staging@lists.linux.dev>; Wed, 09 Apr 2025 01:10:47 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="pLsA48yP"
+Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-38f2f391864so3559844f8f.3
+        for <linux-staging@lists.linux.dev>; Wed, 09 Apr 2025 01:26:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1744186246; x=1744791046; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1744187205; x=1744792005; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=ntWVECAKTru8M/Jr/pSj4ciuYNFjvbasICcKkEjQxNc=;
-        b=jkQl//zJc9VGDvFQFAJImP2+556+EOBMV8qmtZeCJjidQME1HIxZztFZtYO4VDNzYH
-         DhuzK10T3QI48kVBwADYsXJ/CRr0o7PQI11zjxrtHl2CUfM7HVWGXhyH74/vGkIB01sz
-         7pbdm0Imcfps0zWrk+6Zit5cHQCQ+Zu1sxjIZbHoEV3d1F6XN6ewjpMLsWVAO60TsLXB
-         UMPAVHjtKdKP5GAPzArx9VI8dQiYXGcjgFIwq2G6q+rF5yzgbAVbn0AEw1IqxjKX0fcT
-         Z1KT8R1iJMvC7qv/b5qjb6rCRSKPoR+oBnMSCSta93vg3LmMWL9rcV8SNbTunxgBlssi
-         gcbQ==
+        bh=gxnhdbErfpSDUzVm/MJ1FKUcQwzNrE/EQxe6ade7B/M=;
+        b=pLsA48yPpgKzDXUVyAIphLHrLTCPpU0XcsteLs+mvxUQDWoulY3Sue5Al+E0LKZmjp
+         4zRAyX7C/cIePw6kA8PC3gvMbXrmUGGCetCa07vZFZeno3Rm1srndrLKM8WDeqlRc7p/
+         oGaCXs2BBGdwcYHtlffLvllp+CHYaoczGZYC7dp8OvFjNym8B8gHNu5QHkK6igs+JVqS
+         93JLSIvWBaJeHobNADUYjiB7ayD35ymfBpvY+5r59xAWrM1cGoVkLhPQQmbIHJCkPPAo
+         SjBY1sO65y4rInl+CdBa/UxOzZHg8xjn2fs/nk//TZ3+VYSZ4EV747+BM4uzOIF1wEKK
+         kpNw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744186246; x=1744791046;
+        d=1e100.net; s=20230601; t=1744187205; x=1744792005;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=ntWVECAKTru8M/Jr/pSj4ciuYNFjvbasICcKkEjQxNc=;
-        b=J6EX8JdbZ6H70IaCSXenp6nJzDVRoFRkRaUeb+YxGdAd/X1Rg7C0qKXq8DoNj0QIXt
-         z+gVOFcnqo4k6P/Az0cryabaffoCL+AKw06chWEhBRC/dm792JsPhFwfwdxi4DnZqZTD
-         nqT9AXh4r/ZGuXE5nETcA+BHZku4orpCA+UyofQrX5ItWFnSaTRKy4tZe21Mp60Ge06R
-         8JpJh+eeC8pYwqnRfl3kTjCup8jxNxxg0MJ7ggOSOaZvGKDiO7HR7obY63isuySUv8+s
-         Du9drMG+/LdnPJiqQcUsAWmquKo02r4CMlcaFC0VDC2HztS9p+4c3GcDknM5TOCR6by/
-         5tmA==
-X-Forwarded-Encrypted: i=1; AJvYcCXLZ0LgUqXLSCaAhwgq93jv8NhaDHN9hlbxwc8LcsPGT3juKHuKhhamhBPa8f5/RBx/80Yo5okbKAtAwUSo@lists.linux.dev
-X-Gm-Message-State: AOJu0Yw8Cw8c+EsWjZWW8YjyC0b1SFpRiCY5wnHYYWVwGorTLw5bopF5
-	4AIDP21irLJ1Nr6eguV77zlpDSU/fOXVr7jXsT6rKZexghht2TLaH5itwfzdkEU=
-X-Gm-Gg: ASbGncu7YLkmcP3MEsIMnumogs+b0x+0LUgCtPhBF3IiR8Arg26rl4cbl5H4STHlgqq
-	wILhv4uZNRKJNLGd8EWt6L6UH++IPAWNI7wKV7j792sI+/AWmLqVY2bR2JsV0S4lLm/bR/c7qEv
-	oPlXYE2SwnNlUq9mnXxKJrA/E5Zh5j0BuRuOz2RvgNJvROsB1Vq+6qjhUAy+P3c2T3XJzVUjiSe
-	MVSvmnnedv1SERr/zlpz6eOL5bVpm1lYXtQkKf0HwjdaDlofSmPAoku5PZGBQ5xUwf8pxax8zj1
-	LCiwPyZpdfm2/yJFP3KuLtSZsHc21gwSmUkL0rpLYHWT0oqHVFF5YSmX
-X-Google-Smtp-Source: AGHT+IGPIwyTg+gXnp6KZZLF9hZJx4uS6CBETehRq3QtuRedcuQkDkBgw1m6+Axba0F6/vbCO/UrRA==
-X-Received: by 2002:a05:600c:5024:b0:43d:1c3:cb2e with SMTP id 5b1f17b1804b1-43f1ecdacd3mr23817135e9.17.1744186245834;
-        Wed, 09 Apr 2025 01:10:45 -0700 (PDT)
+        bh=gxnhdbErfpSDUzVm/MJ1FKUcQwzNrE/EQxe6ade7B/M=;
+        b=C6GwgyxNaGIYBnqf8wATOYKQqy8amkbz2eAuGP9fHXCzxhIRUmbJ8gzRosCheNxQs6
+         zpg9xEL13US7JwkNb1ILVQxezvXUkhGCACGPeMpQQMRJUIT2o+K98p+ifbLJBK0GFKH/
+         jVujHAUJmWSggIbGOYePdtcA7ItXv2FEF6npr0aj497RyrjMGLuY3n2Aem5AXeBNMBVb
+         Gkvkk2XHenzjZ/oRBSvWzDnTJVZPw9uXJKNLSN56KantJIMDAaGomcsH/Qnc/1PTBjF8
+         w53VUuheTwSnSjIFtTDCuAbxpAprzgFux72JZa9WojgjIFzTg2vwlf2rfb6oI6btgbbV
+         oXKA==
+X-Forwarded-Encrypted: i=1; AJvYcCVvfXd+PQpQc2ep5wbzFYLxTtnnsjglSm5k+3DidOfvt4g/SfLMFOJZszYVnmjr/ooHyLs3bKJuSM5TwV1q@lists.linux.dev
+X-Gm-Message-State: AOJu0YxtNSAQ51GDD1fpjCzlbm1wF9ZUOAncJgZXQ/Dr4TnWLtvvihcU
+	KcxPfvENwvTDkrgfnpvOZXZuL2Xj/8PaI3870YVjfKoWxqguV+kJewnadKNLXDM=
+X-Gm-Gg: ASbGncuVj57ND5xfOhpc9sAy1Ns4ra7CMqdz4Izj5RXdFidt94bU4N0Moh9bsfcCTyc
+	vWJoAMf2MSLnzGOlDgrouM/Ux9Fawui+4QkVjOPDVqM3crB2rIr1DqKHFhEgqc8sD2bakxMj469
+	F3ubhLZ1kmrZXZkx9421dvBjh4bGcrxMqFDbqsOCURkMmyKdV24Aly6PSPO7rcvVKPizko6RKmN
+	JO2jCwuXjyEhzYTq62RiysetT+TcFSHz/9FN3d8560BenfI8kWZuDS0CapEQPG7UpYEkMkm3SqG
+	5qlE3ZbSSwnZviC1RQQzoqid2H8kkFoXI4tgHW0ixUAaFg==
+X-Google-Smtp-Source: AGHT+IGFeSP7AaSQ03G7V1vbHKDCayG1EjsRKjk3tAbnZ4QszeoIUy29MFqZGhs6fu552vwU9PZ2+w==
+X-Received: by 2002:a5d:6d86:0:b0:39c:310a:f87e with SMTP id ffacd0b85a97d-39d87aa837dmr1851776f8f.16.1744187204896;
+        Wed, 09 Apr 2025 01:26:44 -0700 (PDT)
 Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-43f205ecb20sm11901015e9.3.2025.04.09.01.10.44
+        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-43f2075fca5sm12240525e9.32.2025.04.09.01.26.43
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 09 Apr 2025 01:10:45 -0700 (PDT)
-Date: Wed, 9 Apr 2025 11:10:41 +0300
+        Wed, 09 Apr 2025 01:26:44 -0700 (PDT)
+Date: Wed, 9 Apr 2025 11:26:41 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
 To: Michael Rubin <matchstick@neverthere.org>
 Cc: gregkh@linuxfoundation.org, dpenkler@gmail.com,
 	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [Patch v1 01/21] staging: gpib: Using struct
- gpib_board_type_ioctl
-Message-ID: <23dec5fd-5abc-40f9-9b13-0f873ffc4242@stanley.mountain>
-References: <20250409055903.321438-1-matchstick@neverthere.org>
- <20250409055903.321438-2-matchstick@neverthere.org>
+Subject: Re: [PATCH v1 01/18] staging: gpib: struct typing for gpib_interface
+Message-ID: <804eaa0e-e1ce-4ee2-8ad4-f56bedd6d14f@stanley.mountain>
+References: <20250408222504.186992-1-matchstick@neverthere.org>
+ <20250408222504.186992-2-matchstick@neverthere.org>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -74,26 +73,59 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250409055903.321438-2-matchstick@neverthere.org>
+In-Reply-To: <20250408222504.186992-2-matchstick@neverthere.org>
 
-On Wed, Apr 09, 2025 at 05:58:43AM +0000, Michael Rubin wrote:
-> diff --git a/drivers/staging/gpib/uapi/gpib_ioctl.h b/drivers/staging/gpib/uapi/gpib_ioctl.h
-> index 6202865278ea..4ddcbc2a81b0 100644
-> --- a/drivers/staging/gpib/uapi/gpib_ioctl.h
-> +++ b/drivers/staging/gpib/uapi/gpib_ioctl.h
-> @@ -12,9 +12,9 @@
->  
->  #define GPIB_CODE 160
->  
-> -typedef struct {
-> +struct gpib_board_type_ioctl {
->  	char name[100];
-> -} board_type_ioctl_t;
-> +};
+On Tue, Apr 08, 2025 at 10:24:47PM +0000, Michael Rubin wrote:
+> Using Linux code style for gpib_interface struct in .h to allow drivers to
+> migrate.
+> 
+> Adhering to Linux code style.
+> 
+> In general, a pointer, or a struct that has elements that can reasonably be
+> directly accessed should never be a typedef.
+> 
+> Reported by CheckPatch
+> 
+> WARNING: do not add new typedefs
+> 
 
-This breaks user API so now user space can't compile.  I don't think
-any of these 21 patches can be applied.
+This commit message is quite long but it's totally unrelated to what the
+patch does.
+
+This commit message should just say "Having the word "_struct" in the
+name of the struct doesn't add any information so rename struct
+gpib_interface_struct to struct gpib_interface."
 
 regards,
 dan carpenter
 
+> Signed-off-by: Michael Rubin <matchstick@neverthere.org>
+> ---
+>  drivers/staging/gpib/include/gpib_types.h | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/staging/gpib/include/gpib_types.h b/drivers/staging/gpib/include/gpib_types.h
+> index 2d9b9be683f8..10d8776ef425 100644
+> --- a/drivers/staging/gpib/include/gpib_types.h
+> +++ b/drivers/staging/gpib/include/gpib_types.h
+> @@ -22,7 +22,7 @@
+>  #include <linux/timer.h>
+>  #include <linux/interrupt.h>
+>  
+> -typedef struct gpib_interface_struct gpib_interface_t;
+> +typedef struct gpib_interface gpib_interface_t;
+>  struct gpib_board;
+>  
+>  /* config parameters that are only used by driver attach functions */
+> @@ -51,7 +51,7 @@ typedef struct {
+>  	char *serial_number;
+>  } gpib_board_config_t;
+>  
+> -struct gpib_interface_struct {
+> +struct gpib_interface {
+>  	/* name of board */
+>  	char *name;
+>  	/* attach() initializes board and allocates resources */
+> -- 
+> 2.43.0
+> 
