@@ -1,60 +1,62 @@
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C4C51B040D;
-	Wed,  9 Apr 2025 10:04:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CDCD25D906;
+	Wed,  9 Apr 2025 10:04:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744193057; cv=none; b=A6/wjd4nYqB2m7bRtMfJz9s20PTjepBEMQOPswXiYCJfyIufLjQcNiDhIHpk9HXWTEu8FByvQGSBVBLTmPeYtXCxTibnPkC5rC2XVTcoGwRA1gmHm6+3Kvb5JJsSy5++b+xXAPi7+rxJjrIakIzYKOG1Iw6SzLL70q2cQ4h1a/E=
+	t=1744193062; cv=none; b=dmpC4oSrHMnZ9vhv8/VDmACUfemc+VvjtnwQRZqRd9/495laDdjw5HvfNWgaYusj13hocFNwTdm+LprJXj//L2JC/1wNCsLYkGfqpWR7gV4RNxXWA/uO3wk1fh5NKB2aN/Qee2FGwoezMoq3CH5yW/0FR1Fxd/7UtXGUKsbokvM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744193057; c=relaxed/simple;
-	bh=YLY85+aEoNfSVC2HitFUj4mOJGwNfEmC8mgtNUqmfbI=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Zh4HopsDiYu8e9MSPVP/irls2wfsXI4tKYgMYCDlAnPUhxcBj+bVSY84JfrTYUbPC3gvzK1B/EwAWxsSGaBFIx7JuFpTEzTkoTQO0vsU1Aj914N7ZFYM2FHVeOPWU670SoVeRDwUee/sxYOqClmJXYVDzoUK2B8PIc+/JtK/sUg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NrH0r8aw; arc=none smtp.client-ip=209.85.221.47
+	s=arc-20240116; t=1744193062; c=relaxed/simple;
+	bh=WnoJ0PIhBCizQsaB0J6OXZzdneIQzB5SWyb2HjwPjmE=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=gMyFMD6LunJNLpmtgxfriegvh7oIDN8ymBkzO6Vrc4QYQpWY9PKJimLHOyYDW98VK47IvwY5hG3ynCrAKL84kF57mVls7pvMFICu1w4JFDYatTJKRWCvXTRVWuO+mTrWki336kA6N0p497Ot8Qh/C2m8yFCA1ziv6UBirbqea2M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DLkUe49k; arc=none smtp.client-ip=209.85.128.48
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NrH0r8aw"
-Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-39c30d9085aso3958406f8f.1;
-        Wed, 09 Apr 2025 03:04:15 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DLkUe49k"
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-43edecbfb46so32385495e9.0;
+        Wed, 09 Apr 2025 03:04:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1744193054; x=1744797854; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=m0f4x3Zup260IsKBz1eH9LKPwcNpgqo4pZi6j8gWVw4=;
-        b=NrH0r8aw84Ef0/rqtyOdvdS6D+Bj1I0neKHUenI1RfZFW0m/odIqvNYdzDLlvcFJfQ
-         AraI9Tx4HlmdKCq1UlH4c/sXdGdFoFRKhyS3q5gQYPQXw4Ax3hJYHdk05VGchhPvTPAv
-         c9sbjy1i/38QsbCgtErV1PPcVzMKjS6TBdR3NHAoy6OVXcg6Su/JuQ/yU1XKp8B7RMTM
-         LYGs7xmOn8mfHZ/E4Lpn6f79si9C1myM7gRH7bpxkvHK0bRMu9oaSXguNEfT0PIWNOrq
-         w82DuNT82mLrMKu+QN/u3yz2ifRs0bHqqCueeNEf01Nzfk1hKmijZSo3JbJly9ooO30u
-         7jTA==
+        d=gmail.com; s=20230601; t=1744193059; x=1744797859; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=VC5fxHs8CeiwKADjawPGTUOJECA0Psky3GgKPj4Ekoc=;
+        b=DLkUe49k6xjovFiwOAw/MM7gB1aVuhiRM9duxgIeuM1dUSw9JAxChVjI9580g60Gxz
+         Y+BoWQBlcV2DUVC2DSx0X7mhsGzKHkK1XuKnsMB8ylbJ15BY1Zk0nHNjyUYHrOvjm2wK
+         p0+cPUO1SnQpLebMFoBJhAJM6gV7f5n1QteU6mnE7MM7v5QJLkCGN/VMQ+TPFr3Frwpi
+         FWff6WZUlarBsSFsDvUcAukZ4iw+MndgllxA3SgYMxHnq1kR689LYN7dZGU9lo+3yBWR
+         IP8xSs+eUj0tLl6X/FBZyqMmCIEbIWs2o/xjVpQhnhPZjmtKwH+bH3XPo8ajlj1ETOJz
+         bSuA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744193054; x=1744797854;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=m0f4x3Zup260IsKBz1eH9LKPwcNpgqo4pZi6j8gWVw4=;
-        b=uRAT189ez/VblWV/bBa7RcHYBTgenC09AJbeKgklTJ3U/gQodaRUZS75K8/9rFBEsH
-         cNYSJ4Kw9yXNuYJ2NCw3yB9AWqDN/Pn6EXkBLCAeZd7K/aSj4lJZUvastX3YigKykkHh
-         VIC7CttigDh9prBhe60DV+gvEremlfcKodgdEAXVXYEPtTWFf31l9rO5qCevKZYDAD6Y
-         4y68P9Fq6glC9gt4ijlHrKhaKfOMbLzik5cC8CYOq3Zob8EpXhJLB/mIlphP704fQteO
-         UHKeqK0txd/0LUu7Zzt2jy6XbhBabPhVfXbxpH1WdmKyVUHMEuDhWjRZXlICG1AOiG7H
-         O85g==
-X-Forwarded-Encrypted: i=1; AJvYcCVo0d48gZB4jzhLfW08r2NskpZmOS5TzOepu1zQ1Ro+TxqnmSIt237zxRfSNn/fdmGkpv5fXS7TBud3@lists.linux.dev, AJvYcCWIDZB413gM9/vUUu6Jxi51NFyFmhywUvXT12GOss4GJNZG5r751JmnWIMPk8P1AerRw1N5kQsi2oSxgwSX@lists.linux.dev
-X-Gm-Message-State: AOJu0YyjV3oMcvN19le06JR0M0gh6hSmaksMusE603qhHyTx0mVtjMam
-	xVq3iP5XOMj1g3fCj9Qb0w/77oDdFfLjo8xD2wHRGSH6g2sRAwcc
-X-Gm-Gg: ASbGnctFFMrzj3Wmt3/VdX4FT2KNB3G+paZZQfA1iMFOlAYkRKJ7emMmfb905qGbc0a
-	bPgoqR27sKfPn/VK3wMwCLIFjjuX0ZNKubiAXtarx7dBN4eX1Xh8xayzTyMOINmoJ6rNSIL/fcj
-	0+u9YLPWE0osTSgyjdgEbh9Nv3GeRjhBrPBNJOn3ksFJ6vxcvvFaaJ5MMJvhJGqh7124GFIrGC9
-	S/kvBwKQ+2W4iefUxW+JHPqsMPJ3BGBts5qypKeoWslYOaME5dzRA1xQuKRhjhWiUY4lZVeLG5q
-	ryIC8LXj8N0PXJYXP1D5buY2/NBAG4kDJmKuqA==
-X-Google-Smtp-Source: AGHT+IHOXkKXB241y9+td5oFHAZFEO0MlOveykXTd9mVNFPAUBq8YU3o8C+oP3KOpYY1Dmo/NsgZRw==
-X-Received: by 2002:a05:6000:2913:b0:39c:1f0a:ee0 with SMTP id ffacd0b85a97d-39d88525bdamr1694768f8f.2.1744193053570;
-        Wed, 09 Apr 2025 03:04:13 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1744193059; x=1744797859;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=VC5fxHs8CeiwKADjawPGTUOJECA0Psky3GgKPj4Ekoc=;
+        b=hJypUIk4MvHeh82HPnOQLA7d3Jpat5a4CWnQE0/dzfE2Af8+Unq2UWzjp4G6lVnQsE
+         nBamVYsbv5Y2P3Zc1kJ3Q/vvbskfbMx8XjTblYaApQhRQkPBIhr9XUxBCdze1ruqovfp
+         jI8GTFtFl0eWNSL7wlgFUaYHNtCHGLjO5rsRucqaDU5scyRoUmK3vSJ39UgB+B771gex
+         BE0e8eHxkvzQfO2me/XRtOPVOU7ijo+Io6hMol2zKmUHOVK/txFsRCnxwKHkHZmz+BDE
+         ghVZGdHzzKvyD8IP7oeNpswsemhKhpH34wP+x2LVV8aqKwvuVAYqi4WsnG403TKbLgX5
+         yzOw==
+X-Forwarded-Encrypted: i=1; AJvYcCVf/aWJENcYmrZtqtczMg2jtYTQgagksuzADZMLwFB6TELfq0U+OmeXZUE+T2qKkd6Y3NnaRrv+YwPOhxNM@lists.linux.dev, AJvYcCXZSqpsS7buAFq+nOT6kw8QqgYGDvY89abtNGOKjzqSbeIm6+e9muxGSTb1ZYU3xjUjDnfGj2Ko3fA1@lists.linux.dev
+X-Gm-Message-State: AOJu0YzyYshaT6lmAI/GaMM+GDE+2ywlIPnjda8sSNN6RuZuzBd8ZkWD
+	v/BKjVeZ4zdnbWh17hUtWrXW5fSrYMN6MK8Ro0MZ7VdPSqBmT+tv
+X-Gm-Gg: ASbGncv4Q4kv8TxVWKCVaCXwnXeAeC0yYeI9nLEGwXE3ySXL1P7Ym8FZsgdYeid64Y7
+	v1VpPUfoMeAbqJHUnk7c9ga1OibpU9dPZFlBSJAfrvoFyhzw60+XXo5HNGdJySn11nQSPQQjeTH
+	12QdCB+6IvLgVcUH6hHWRevPNqQEcfJmLmAyHnWKIN9jtxW0irpF2zWpsnD//ZL8jH8vKA93tSl
+	E6I+1pxTzMyS7qbhRvtKNKFkMND/CJeq021f9URzJKS80TiVT9hsjCzK7xB1SIxOBTDGHR2gA3f
+	sBfAstlAY9wobyKaYBE4tMnTLHgV+/zIiRnOwQ==
+X-Google-Smtp-Source: AGHT+IH0nKJUVbc50t7mTes5ovg4GgAkVaz1UTKljMjTHPB4yYKVLS/PxCuutuNL9VHzd7Cnpi+unQ==
+X-Received: by 2002:a05:600c:1f16:b0:43d:649:4e50 with SMTP id 5b1f17b1804b1-43f1fe01880mr18160855e9.13.1744193058483;
+        Wed, 09 Apr 2025 03:04:18 -0700 (PDT)
 Received: from pc.. ([197.155.71.138])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43f205ecac8sm14930295e9.4.2025.04.09.03.04.11
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43f205ecac8sm14930295e9.4.2025.04.09.03.04.16
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 09 Apr 2025 03:04:12 -0700 (PDT)
+        Wed, 09 Apr 2025 03:04:18 -0700 (PDT)
 From: Erick Karanja <karanja99erick@gmail.com>
 To: gregkh@linuxfoundation.org,
 	outreachy@lists.linux.dev
@@ -62,10 +64,12 @@ Cc: karanja99erick@gmail.com,
 	philipp.g.hortmann@gmail.com,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v2 0/2] Improve code readability in rtl8723bs module
-Date: Wed,  9 Apr 2025 13:04:03 +0300
-Message-ID: <cover.1744192642.git.karanja99erick@gmail.com>
+Subject: [PATCH v2 1/2] staging: rtl8723bs: Improve code readability
+Date: Wed,  9 Apr 2025 13:04:04 +0300
+Message-ID: <97a2637f3ccefb3de0e15fd04f29f5f209f2a506.1744192642.git.karanja99erick@gmail.com>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <cover.1744192642.git.karanja99erick@gmail.com>
+References: <cover.1744192642.git.karanja99erick@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -74,22 +78,271 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The patchset aims at improving code readability by initializing
-variables at declaration.Key consideration is made to ensure that the
-code is clean, maintainable and easy to debug.
+Make the code more readable by moving trivial
+initializations up with the declarations instead
+of wasting a line on that.
 
-changes since v1:
-Avoid mixing pre-initialized variables with not-initialized variables
-and handle an edge case where initialization is made to function call.
-
-Erick Karanja (2):
-  staging: rtl8723bs: Improve code readability
-  staging: rtl8723bs: Initializing variables at declaration
-
+Signed-off-by: Erick Karanja <karanja99erick@gmail.com>
+---
  .../staging/rtl8723bs/hal/rtl8723b_hal_init.c | 84 ++++++-------------
- .../staging/rtl8723bs/hal/rtl8723bs_xmit.c    | 39 +++------
- 2 files changed, 36 insertions(+), 87 deletions(-)
+ 1 file changed, 25 insertions(+), 59 deletions(-)
 
+diff --git a/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c b/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
+index e15ec6452fd0..2cf2c66140f1 100644
+--- a/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
++++ b/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
+@@ -501,8 +501,7 @@ void Hal_GetEfuseDefinition(
+ 	switch (type) {
+ 	case TYPE_EFUSE_MAX_SECTION:
+ 		{
+-			u8 *pMax_section;
+-			pMax_section = pOut;
++			u8 *pMax_section = pOut;
+ 
+ 			if (efuseType == EFUSE_WIFI)
+ 				*pMax_section = EFUSE_MAX_SECTION_8723B;
+@@ -513,8 +512,7 @@ void Hal_GetEfuseDefinition(
+ 
+ 	case TYPE_EFUSE_REAL_CONTENT_LEN:
+ 		{
+-			u16 *pu2Tmp;
+-			pu2Tmp = pOut;
++			u16 *pu2Tmp = pOut;
+ 
+ 			if (efuseType == EFUSE_WIFI)
+ 				*pu2Tmp = EFUSE_REAL_CONTENT_LEN_8723B;
+@@ -525,8 +523,7 @@ void Hal_GetEfuseDefinition(
+ 
+ 	case TYPE_AVAILABLE_EFUSE_BYTES_BANK:
+ 		{
+-			u16 *pu2Tmp;
+-			pu2Tmp = pOut;
++			u16 *pu2Tmp = pOut;
+ 
+ 			if (efuseType == EFUSE_WIFI)
+ 				*pu2Tmp = (EFUSE_REAL_CONTENT_LEN_8723B-EFUSE_OOB_PROTECT_BYTES);
+@@ -537,8 +534,7 @@ void Hal_GetEfuseDefinition(
+ 
+ 	case TYPE_AVAILABLE_EFUSE_BYTES_TOTAL:
+ 		{
+-			u16 *pu2Tmp;
+-			pu2Tmp = pOut;
++			u16 *pu2Tmp = pOut;
+ 
+ 			if (efuseType == EFUSE_WIFI)
+ 				*pu2Tmp = (EFUSE_REAL_CONTENT_LEN_8723B-EFUSE_OOB_PROTECT_BYTES);
+@@ -549,8 +545,7 @@ void Hal_GetEfuseDefinition(
+ 
+ 	case TYPE_EFUSE_MAP_LEN:
+ 		{
+-			u16 *pu2Tmp;
+-			pu2Tmp = pOut;
++			u16 *pu2Tmp = pOut;
+ 
+ 			if (efuseType == EFUSE_WIFI)
+ 				*pu2Tmp = EFUSE_MAX_MAP_LEN;
+@@ -561,8 +556,7 @@ void Hal_GetEfuseDefinition(
+ 
+ 	case TYPE_EFUSE_PROTECT_BYTES_BANK:
+ 		{
+-			u8 *pu1Tmp;
+-			pu1Tmp = pOut;
++			u8 *pu1Tmp = pOut;
+ 
+ 			if (efuseType == EFUSE_WIFI)
+ 				*pu1Tmp = EFUSE_OOB_PROTECT_BYTES;
+@@ -573,8 +567,7 @@ void Hal_GetEfuseDefinition(
+ 
+ 	case TYPE_EFUSE_CONTENT_LEN_BANK:
+ 		{
+-			u16 *pu2Tmp;
+-			pu2Tmp = pOut;
++			u16 *pu2Tmp = pOut;
+ 
+ 			if (efuseType == EFUSE_WIFI)
+ 				*pu2Tmp = EFUSE_REAL_CONTENT_LEN_8723B;
+@@ -585,8 +578,7 @@ void Hal_GetEfuseDefinition(
+ 
+ 	default:
+ 		{
+-			u8 *pu1Tmp;
+-			pu1Tmp = pOut;
++			u8 *pu1Tmp = pOut;
+ 			*pu1Tmp = 0;
+ 		}
+ 		break;
+@@ -729,10 +721,9 @@ static void hal_ReadEFuse_WiFi(
+ 		}
+ 
+ 		if (offset < EFUSE_MAX_SECTION_8723B) {
+-			u16 addr;
++			u16 addr = offset * PGPKT_DATA_SIZE;
+ 			/*  Get word enable value from PG header */
+ 
+-			addr = offset * PGPKT_DATA_SIZE;
+ 			for (i = 0; i < EFUSE_MAX_WORD_UNIT; i++) {
+ 				/*  Check word enable condition in the section */
+ 				if (!(wden & (0x01<<i))) {
+@@ -835,9 +826,8 @@ static void hal_ReadEFuse_BT(
+ 			}
+ 
+ 			if (offset < EFUSE_BT_MAX_SECTION) {
+-				u16 addr;
++				u16 addr = offset * PGPKT_DATA_SIZE;
+ 
+-				addr = offset * PGPKT_DATA_SIZE;
+ 				for (i = 0; i < EFUSE_MAX_WORD_UNIT; i++) {
+ 					/*  Check word enable condition in the section */
+ 					if (!(wden & (0x01<<i))) {
+@@ -1196,10 +1186,9 @@ void rtl8723b_InitBeaconParameters(struct adapter *padapter)
+ {
+ 	struct hal_com_data *pHalData = GET_HAL_DATA(padapter);
+ 	u16 val16;
+-	u8 val8;
++	u8 val8 = DIS_TSF_UDT;
+ 
+ 
+-	val8 = DIS_TSF_UDT;
+ 	val16 = val8 | (val8 << 8); /*  port0 and port1 */
+ 
+ 	/*  Enable prot0 beacon function for PSTDMA */
+@@ -1496,10 +1485,7 @@ s32 rtl8723b_InitLLTTable(struct adapter *padapter)
+ {
+ 	unsigned long start, passing_time;
+ 	u32 val32;
+-	s32 ret;
+-
+-
+-	ret = _FAIL;
++	s32 ret = _FAIL;
+ 
+ 	val32 = rtw_read32(padapter, REG_AUTO_LLT);
+ 	val32 |= BIT_AUTO_INIT_LLT;
+@@ -2273,9 +2259,8 @@ void rtl8723b_fill_fake_txdesc(
+ 	/*  Encrypt the data frame if under security mode excepct null data. Suggested by CCW. */
+ 	/*  */
+ 	if (bDataFrame) {
+-		u32 EncAlg;
++		u32 EncAlg = padapter->securitypriv.dot11PrivacyAlgrthm;
+ 
+-		EncAlg = padapter->securitypriv.dot11PrivacyAlgrthm;
+ 		switch (EncAlg) {
+ 		case _NO_PRIVACY_:
+ 			SET_TX_DESC_SEC_TYPE_8723B(pDesc, 0x0);
+@@ -2378,9 +2363,7 @@ static void hw_var_set_opmode(struct adapter *padapter, u8 variable, u8 *val)
+ static void hw_var_set_macaddr(struct adapter *padapter, u8 variable, u8 *val)
+ {
+ 	u8 idx = 0;
+-	u32 reg_macid;
+-
+-	reg_macid = REG_MACID;
++	u32 reg_macid = REG_MACID;
+ 
+ 	for (idx = 0 ; idx < 6; idx++)
+ 		rtw_write8(GET_PRIMARY_ADAPTER(padapter), (reg_macid+idx), val[idx]);
+@@ -2389,9 +2372,7 @@ static void hw_var_set_macaddr(struct adapter *padapter, u8 variable, u8 *val)
+ static void hw_var_set_bssid(struct adapter *padapter, u8 variable, u8 *val)
+ {
+ 	u8 idx = 0;
+-	u32 reg_bssid;
+-
+-	reg_bssid = REG_BSSID;
++	u32 reg_bssid = REG_BSSID;
+ 
+ 	for (idx = 0 ; idx < 6; idx++)
+ 		rtw_write8(padapter, (reg_bssid+idx), val[idx]);
+@@ -2399,9 +2380,7 @@ static void hw_var_set_bssid(struct adapter *padapter, u8 variable, u8 *val)
+ 
+ static void hw_var_set_bcn_func(struct adapter *padapter, u8 variable, u8 *val)
+ {
+-	u32 bcn_ctrl_reg;
+-
+-	bcn_ctrl_reg = REG_BCN_CTRL;
++	u32 bcn_ctrl_reg = REG_BCN_CTRL;
+ 
+ 	if (*(u8 *)val)
+ 		rtw_write8(padapter, bcn_ctrl_reg, (EN_BCN_FUNCTION | EN_TXBCN_RPT));
+@@ -2422,12 +2401,8 @@ static void hw_var_set_correct_tsf(struct adapter *padapter, u8 variable, u8 *va
+ {
+ 	u8 val8;
+ 	u64 tsf;
+-	struct mlme_ext_priv *pmlmeext;
+-	struct mlme_ext_info *pmlmeinfo;
+-
+-
+-	pmlmeext = &padapter->mlmeextpriv;
+-	pmlmeinfo = &pmlmeext->mlmext_info;
++	struct mlme_ext_priv *pmlmeext = &padapter->mlmeextpriv;
++	struct mlme_ext_info *pmlmeinfo = &pmlmeext->mlmext_info;
+ 
+ 	tsf = pmlmeext->TSFValue-do_div(pmlmeext->TSFValue, (pmlmeinfo->bcn_interval*1024))-1024; /* us */
+ 
+@@ -2543,15 +2518,12 @@ static void hw_var_set_mlme_join(struct adapter *padapter, u8 variable, u8 *val)
+ 	u8 val8;
+ 	u16 val16;
+ 	u32 val32;
+-	u8 RetryLimit;
+-	u8 type;
+-	struct mlme_priv *pmlmepriv;
++	u8 RetryLimit = 0x30;
++	u8 type = *(u8 *)val;
++	struct mlme_priv *pmlmepriv = &padapter->mlmepriv;
+ 	struct eeprom_priv *pEEPROM;
+ 
+ 
+-	RetryLimit = 0x30;
+-	type = *(u8 *)val;
+-	pmlmepriv = &padapter->mlmepriv;
+ 	pEEPROM = GET_EEPROM_EFUSE_PRIV(padapter);
+ 
+ 	if (type == 0) { /*  prepare to join */
+@@ -2850,12 +2822,11 @@ void SetHwReg8723B(struct adapter *padapter, u8 variable, u8 *val)
+ 
+ 	case HW_VAR_ACK_PREAMBLE:
+ 		{
+-			u8 regTmp;
++			u8 regTmp = 0;
+ 			u8 bShortPreamble = *val;
+ 
+ 			/*  Joseph marked out for Netgear 3500 TKIP channel 7 issue.(Temporarily) */
+ 			/* regTmp = (pHalData->nCur40MhzPrimeSC)<<5; */
+-			regTmp = 0;
+ 			if (bShortPreamble)
+ 				regTmp |= 0x80;
+ 			rtw_write8(padapter, REG_RRSR+2, regTmp);
+@@ -3226,9 +3197,7 @@ void GetHwReg8723B(struct adapter *padapter, u8 variable, u8 *val)
+  */
+ u8 SetHalDefVar8723B(struct adapter *padapter, enum hal_def_variable variable, void *pval)
+ {
+-	u8 bResult;
+-
+-	bResult = _SUCCESS;
++	u8 bResult = _SUCCESS;
+ 
+ 	switch (variable) {
+ 	default:
+@@ -3244,9 +3213,7 @@ u8 SetHalDefVar8723B(struct adapter *padapter, enum hal_def_variable variable, v
+  */
+ u8 GetHalDefVar8723B(struct adapter *padapter, enum hal_def_variable variable, void *pval)
+ {
+-	u8 bResult;
+-
+-	bResult = _SUCCESS;
++	u8 bResult = _SUCCESS;
+ 
+ 	switch (variable) {
+ 	case HAL_DEF_MAX_RECVBUF_SZ:
+@@ -3281,9 +3248,8 @@ u8 GetHalDefVar8723B(struct adapter *padapter, enum hal_def_variable variable, v
+ 	case HW_DEF_RA_INFO_DUMP:
+ 		{
+ 			u8 mac_id = *(u8 *)pval;
+-			u32 cmd;
++			u32 cmd = 0x40000100 | mac_id;
+ 
+-			cmd = 0x40000100 | mac_id;
+ 			rtw_write32(padapter, REG_HMEBOX_DBG_2_8723B, cmd);
+ 			msleep(10);
+ 			rtw_read32(padapter, 0x2F0);	// info 1
 -- 
 2.43.0
 
