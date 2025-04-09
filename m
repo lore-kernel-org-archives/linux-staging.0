@@ -1,329 +1,106 @@
-Received: from mail2-relais-roc.national.inria.fr (mail2-relais-roc.national.inria.fr [192.134.164.83])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BFC717F4EC;
-	Wed,  9 Apr 2025 11:04:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.134.164.83
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 451862459FB
+	for <linux-staging@lists.linux.dev>; Wed,  9 Apr 2025 11:11:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744196667; cv=none; b=ZRTSOQMltwwGA4XSR8oh2EXBlV9huuLN6OogX14ubteJZL9Lq4R5hOlzeGQlR6V5GRXhQVFSKuSst1WlgsmMwsBZSogL1Va9XN7W2gVUQKkg5CxOBZCvFG5NVZeb/FVBdbBrQtzWiZ6Tl4fpxZZeRkFVheC8QJpZm2euVFjBhDk=
+	t=1744197089; cv=none; b=R+j63S5nHoDpR++f+gGYs0nUB1w89TJkDRTdvWatq5OoLiRw1+fJOYS1PrYizZfLDlTPQ8zPS8gc7yvg036YHMpdl2eRlLd65z3G79hwShG4FahjYS20Lb8MT77ipVBxqk54z7wshRMN58Z2WC7jRQDDRU1ydyIQ+XIo1JoqthM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744196667; c=relaxed/simple;
-	bh=f3z6gH3tbcuPStpaLhptxMCRwmFN1Il+33iJGK77vGw=;
-	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=geEEO+jzOs4cfaJwbLBuNdhXGPpalkArlIv5bd15x3rZ7mEmWrQeEcNPR/PdsaZ48QhoUdmTiZ9Y80MTl+PApgpecy240jTI3aTaiECUa4V3WRDU2UlSS66O2qmFvkV9THqqS8Mh+1x8xBTF0a9AY3troMZn6MktX6Ax8mSV4VQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr; spf=pass smtp.mailfrom=inria.fr; dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b=U2nc0069; arc=none smtp.client-ip=192.134.164.83
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=inria.fr
+	s=arc-20240116; t=1744197089; c=relaxed/simple;
+	bh=ik9ItygRr9yIPW2Mc/PZYhjH6z8YDKHWGfbwtOGw0G4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=BXyWp8NjzQyuJDIGTjzmDtaCTmw24dHMqcLbtYgxqGkXb/fYY/n4pyyBjEjMifZJshLkjOddPmGkhZ+726feXpEpVtNKfO/T6T3RDcakM4f9kkrD4bB5dYSKgB5GNcLHae/lQzZ3Zhl80nsegVRE4ORiPkBzWivKV0n9a7p5lTU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=ahs8ym+T; arc=none smtp.client-ip=209.85.221.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b="U2nc0069"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ahs8ym+T"
+Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-39bf44be22fso4414970f8f.0
+        for <linux-staging@lists.linux.dev>; Wed, 09 Apr 2025 04:11:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=inria.fr; s=dc;
-  h=date:from:to:cc:subject:in-reply-to:message-id:
-   references:mime-version;
-  bh=pfVTnKU6Y1/1EviXHs3xslSSXW+ff5mypdkKHopY+88=;
-  b=U2nc0069fgFNsqudNnaWYeWXUu9bYR+WUJahRnpZO9erXgGdSVEbKfyU
-   nPHZV0Dm7BrD5bB/E/xg49uRzX7jccGYShAws/q5qA9Tfgn0THpNvIksr
-   IdU8cbPG78h31Dw0ZZ6YqzP3qOib/dQOMJU4RKP4dsZNoJuSsqpBiiNhr
-   Q=;
-Authentication-Results: mail2-relais-roc.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=julia.lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
-X-IronPort-AV: E=Sophos;i="6.15,200,1739833200"; 
-   d="scan'208";a="217096650"
-Received: from unknown (HELO hadrien.lan) ([172.59.115.113])
-  by mail2-relais-roc.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Apr 2025 13:04:20 +0200
-Date: Wed, 9 Apr 2025 07:04:18 -0400 (EDT)
-From: Julia Lawall <julia.lawall@inria.fr>
-To: Erick Karanja <karanja99erick@gmail.com>
-cc: gregkh@linuxfoundation.org, outreachy@lists.linux.dev, 
-    philipp.g.hortmann@gmail.com, linux-staging@lists.linux.dev, 
-    linux-kernel@vger.kernel.org
+        d=linaro.org; s=google; t=1744197085; x=1744801885; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=8hUKCIZwdAKFsLiLYa1VO4wMgsObAoyYESjSHJd2mFE=;
+        b=ahs8ym+Tjg4eNDH/hc4Wa5LbUNuvO9Ag13MbyHHH/4ZL5H2n+vkQVkxJ7DZXuy+oRh
+         IsZt7H2jv8spx54boLbnYgCf3qSulMOmCLvFJjV2Ojs1Az/q0Zz6F+KvxUCYQqaRgxnN
+         BAijdUmeywkH5yaQvPc26+vbeoV3hTOewxFfoUwasp8v/zZW43MCAK/cc/1n8TREF3Gs
+         yvZaqFSGLC+Wps2fgsB1g3sm5Q1Dd+LX/jyG2qELnkFX3UoHPp3gFa21BpNmTwtE0HuY
+         2khnzsy5Mc0Zw6c3Dy+WMmDqONpC/bW+WWT5knoyn7nM8N12fvulqjGykFJTSwLTlQCY
+         CAkA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1744197085; x=1744801885;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=8hUKCIZwdAKFsLiLYa1VO4wMgsObAoyYESjSHJd2mFE=;
+        b=eJ66DicU9vVUUTvl9yHHh92bMFVFUvddQCahczW1/ZMaJdtwgUxDAywMa2lyRo5R5o
+         q/Essw08R9jEunIYed1lUmhsVxefLrg6V9mg8bVbJnHO67qR9sLVnVL1H7BRYvsJodUk
+         midn3s9OkbhXsebPvtMvs2CHh4GP1g0uzWzcUJZycF8wWmtfzYUpsSvZz5k05O7tjV7i
+         d9nfxRo/pvf/fb3dgqm8w37Nzi5HAQ5uzsOUEyTjp1S5ZLmSf/SzAmWRukdfm1KMUsRh
+         C+DgK7CtcUWxRRPyTp8JLOIgmCn7bTaAEtZhJyPO7qVD9O+Ld/ae+4qvhaknq0ec5dQW
+         woqA==
+X-Forwarded-Encrypted: i=1; AJvYcCX7hp+9tHAw/tNCesiiXmAQ1YtdalxjXswm9+bcuIM3dtGxvel0MXFjtizdd+b3gKIizoAxmb+kR9H2X1v6@lists.linux.dev
+X-Gm-Message-State: AOJu0Yw5pmuXJa+puPNLFzNAp4NcXkyIPXGua+KRaqK0UnI7M2IcRBCh
+	iLNQiredoqSP8vu50KHryCcp+lnBPFffla1wIjUSWYy99RVCJ45VFNz+13Es+2A=
+X-Gm-Gg: ASbGnct6s3QPt6ORXJuLTqsWLxepAsu9XWwNrgQOcmvwJUfUeCRwv3FOXkLixC9txyq
+	qw0p5BNcQVGfgSmFPlDNOgsf4aczvYC8ebPHXRwKAanuEjCCzs/UQtcpEQbedk8Wrf//XezTyvm
+	NwvIVnq/8ta7txcDb+/qMYPGXZ1ErOAIrHsK0wjBuPz6sDa+m6WlkcMHbUVEQkdQr5NZjcPdIkp
+	FYHVqVaP+OKVmf3ISxlxZPvcs69fjq80HiQlweCgIcHl7kZwDl6+QZMMAg8D8iIVCX3kfEfkPvS
+	LX6K8ftjdD+mgQUwUBV5ymsEXXoFpcnCgSuU6Jc3M5wkDA==
+X-Google-Smtp-Source: AGHT+IGXax2LtMxOpUGA9r+oCr9bPGcaXFt/3GzRkKF3FDOJvk1Gx+REYad/Sskufy4uK+n2UYFvKA==
+X-Received: by 2002:a05:6000:4009:b0:391:4684:dbef with SMTP id ffacd0b85a97d-39d87ab6243mr2104415f8f.17.1744197085566;
+        Wed, 09 Apr 2025 04:11:25 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-43f23158849sm13409175e9.0.2025.04.09.04.11.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 09 Apr 2025 04:11:25 -0700 (PDT)
+Date: Wed, 9 Apr 2025 14:11:21 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Julia Lawall <julia.lawall@inria.fr>
+Cc: Erick Karanja <karanja99erick@gmail.com>, gregkh@linuxfoundation.org,
+	outreachy@lists.linux.dev, philipp.g.hortmann@gmail.com,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
 Subject: Re: [PATCH v2 1/2] staging: rtl8723bs: Improve code readability
-In-Reply-To: <97a2637f3ccefb3de0e15fd04f29f5f209f2a506.1744192642.git.karanja99erick@gmail.com>
-Message-ID: <3dda7f97-4ed8-cf6d-9310-60ed6259a386@inria.fr>
-References: <cover.1744192642.git.karanja99erick@gmail.com> <97a2637f3ccefb3de0e15fd04f29f5f209f2a506.1744192642.git.karanja99erick@gmail.com>
+Message-ID: <22a2c8a7-9669-40bd-b886-713833de5cc4@stanley.mountain>
+References: <cover.1744192642.git.karanja99erick@gmail.com>
+ <97a2637f3ccefb3de0e15fd04f29f5f209f2a506.1744192642.git.karanja99erick@gmail.com>
+ <3dda7f97-4ed8-cf6d-9310-60ed6259a386@inria.fr>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <3dda7f97-4ed8-cf6d-9310-60ed6259a386@inria.fr>
 
+On Wed, Apr 09, 2025 at 07:04:18AM -0400, Julia Lawall wrote:
+> > @@ -729,10 +721,9 @@ static void hal_ReadEFuse_WiFi(
+> >  		}
+> >
+> >  		if (offset < EFUSE_MAX_SECTION_8723B) {
+> > -			u16 addr;
+> > +			u16 addr = offset * PGPKT_DATA_SIZE;
+> >  			/*  Get word enable value from PG header */
+> >
+> > -			addr = offset * PGPKT_DATA_SIZE;
+> 
+> I'm not sure about this one, due to the comment.
+> 
+> julia
+> 
 
+I feel like it works.  I wish there were a blank line after the
+declaration but that's something for a different patch.  Both of
+these are okay with me.  Try to be more creative with the subjects
+next time.  (Just put the file name in the subject because that's
+the only difference).
 
-On Wed, 9 Apr 2025, Erick Karanja wrote:
+Reviewed-by: Dan Carpenter <dan.carpenter@linaro.org>
 
-> Make the code more readable by moving trivial
-> initializations up with the declarations instead
-> of wasting a line on that.
->
-> Signed-off-by: Erick Karanja <karanja99erick@gmail.com>
-> ---
->  .../staging/rtl8723bs/hal/rtl8723b_hal_init.c | 84 ++++++-------------
->  1 file changed, 25 insertions(+), 59 deletions(-)
->
-> diff --git a/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c b/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
-> index e15ec6452fd0..2cf2c66140f1 100644
-> --- a/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
-> +++ b/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
-> @@ -501,8 +501,7 @@ void Hal_GetEfuseDefinition(
->  	switch (type) {
->  	case TYPE_EFUSE_MAX_SECTION:
->  		{
-> -			u8 *pMax_section;
-> -			pMax_section = pOut;
-> +			u8 *pMax_section = pOut;
->
->  			if (efuseType == EFUSE_WIFI)
->  				*pMax_section = EFUSE_MAX_SECTION_8723B;
-> @@ -513,8 +512,7 @@ void Hal_GetEfuseDefinition(
->
->  	case TYPE_EFUSE_REAL_CONTENT_LEN:
->  		{
-> -			u16 *pu2Tmp;
-> -			pu2Tmp = pOut;
-> +			u16 *pu2Tmp = pOut;
->
->  			if (efuseType == EFUSE_WIFI)
->  				*pu2Tmp = EFUSE_REAL_CONTENT_LEN_8723B;
-> @@ -525,8 +523,7 @@ void Hal_GetEfuseDefinition(
->
->  	case TYPE_AVAILABLE_EFUSE_BYTES_BANK:
->  		{
-> -			u16 *pu2Tmp;
-> -			pu2Tmp = pOut;
-> +			u16 *pu2Tmp = pOut;
->
->  			if (efuseType == EFUSE_WIFI)
->  				*pu2Tmp = (EFUSE_REAL_CONTENT_LEN_8723B-EFUSE_OOB_PROTECT_BYTES);
-> @@ -537,8 +534,7 @@ void Hal_GetEfuseDefinition(
->
->  	case TYPE_AVAILABLE_EFUSE_BYTES_TOTAL:
->  		{
-> -			u16 *pu2Tmp;
-> -			pu2Tmp = pOut;
-> +			u16 *pu2Tmp = pOut;
->
->  			if (efuseType == EFUSE_WIFI)
->  				*pu2Tmp = (EFUSE_REAL_CONTENT_LEN_8723B-EFUSE_OOB_PROTECT_BYTES);
-> @@ -549,8 +545,7 @@ void Hal_GetEfuseDefinition(
->
->  	case TYPE_EFUSE_MAP_LEN:
->  		{
-> -			u16 *pu2Tmp;
-> -			pu2Tmp = pOut;
-> +			u16 *pu2Tmp = pOut;
->
->  			if (efuseType == EFUSE_WIFI)
->  				*pu2Tmp = EFUSE_MAX_MAP_LEN;
-> @@ -561,8 +556,7 @@ void Hal_GetEfuseDefinition(
->
->  	case TYPE_EFUSE_PROTECT_BYTES_BANK:
->  		{
-> -			u8 *pu1Tmp;
-> -			pu1Tmp = pOut;
-> +			u8 *pu1Tmp = pOut;
->
->  			if (efuseType == EFUSE_WIFI)
->  				*pu1Tmp = EFUSE_OOB_PROTECT_BYTES;
-> @@ -573,8 +567,7 @@ void Hal_GetEfuseDefinition(
->
->  	case TYPE_EFUSE_CONTENT_LEN_BANK:
->  		{
-> -			u16 *pu2Tmp;
-> -			pu2Tmp = pOut;
-> +			u16 *pu2Tmp = pOut;
->
->  			if (efuseType == EFUSE_WIFI)
->  				*pu2Tmp = EFUSE_REAL_CONTENT_LEN_8723B;
-> @@ -585,8 +578,7 @@ void Hal_GetEfuseDefinition(
->
->  	default:
->  		{
-> -			u8 *pu1Tmp;
-> -			pu1Tmp = pOut;
-> +			u8 *pu1Tmp = pOut;
->  			*pu1Tmp = 0;
->  		}
->  		break;
-> @@ -729,10 +721,9 @@ static void hal_ReadEFuse_WiFi(
->  		}
->
->  		if (offset < EFUSE_MAX_SECTION_8723B) {
-> -			u16 addr;
-> +			u16 addr = offset * PGPKT_DATA_SIZE;
->  			/*  Get word enable value from PG header */
->
-> -			addr = offset * PGPKT_DATA_SIZE;
+regards,
+dan carpenter
 
-I'm not sure about this one, due to the comment.
-
-julia
-
->  			for (i = 0; i < EFUSE_MAX_WORD_UNIT; i++) {
->  				/*  Check word enable condition in the section */
->  				if (!(wden & (0x01<<i))) {
-> @@ -835,9 +826,8 @@ static void hal_ReadEFuse_BT(
->  			}
->
->  			if (offset < EFUSE_BT_MAX_SECTION) {
-> -				u16 addr;
-> +				u16 addr = offset * PGPKT_DATA_SIZE;
->
-> -				addr = offset * PGPKT_DATA_SIZE;
->  				for (i = 0; i < EFUSE_MAX_WORD_UNIT; i++) {
->  					/*  Check word enable condition in the section */
->  					if (!(wden & (0x01<<i))) {
-> @@ -1196,10 +1186,9 @@ void rtl8723b_InitBeaconParameters(struct adapter *padapter)
->  {
->  	struct hal_com_data *pHalData = GET_HAL_DATA(padapter);
->  	u16 val16;
-> -	u8 val8;
-> +	u8 val8 = DIS_TSF_UDT;
->
->
-> -	val8 = DIS_TSF_UDT;
->  	val16 = val8 | (val8 << 8); /*  port0 and port1 */
->
->  	/*  Enable prot0 beacon function for PSTDMA */
-> @@ -1496,10 +1485,7 @@ s32 rtl8723b_InitLLTTable(struct adapter *padapter)
->  {
->  	unsigned long start, passing_time;
->  	u32 val32;
-> -	s32 ret;
-> -
-> -
-> -	ret = _FAIL;
-> +	s32 ret = _FAIL;
->
->  	val32 = rtw_read32(padapter, REG_AUTO_LLT);
->  	val32 |= BIT_AUTO_INIT_LLT;
-> @@ -2273,9 +2259,8 @@ void rtl8723b_fill_fake_txdesc(
->  	/*  Encrypt the data frame if under security mode excepct null data. Suggested by CCW. */
->  	/*  */
->  	if (bDataFrame) {
-> -		u32 EncAlg;
-> +		u32 EncAlg = padapter->securitypriv.dot11PrivacyAlgrthm;
->
-> -		EncAlg = padapter->securitypriv.dot11PrivacyAlgrthm;
->  		switch (EncAlg) {
->  		case _NO_PRIVACY_:
->  			SET_TX_DESC_SEC_TYPE_8723B(pDesc, 0x0);
-> @@ -2378,9 +2363,7 @@ static void hw_var_set_opmode(struct adapter *padapter, u8 variable, u8 *val)
->  static void hw_var_set_macaddr(struct adapter *padapter, u8 variable, u8 *val)
->  {
->  	u8 idx = 0;
-> -	u32 reg_macid;
-> -
-> -	reg_macid = REG_MACID;
-> +	u32 reg_macid = REG_MACID;
->
->  	for (idx = 0 ; idx < 6; idx++)
->  		rtw_write8(GET_PRIMARY_ADAPTER(padapter), (reg_macid+idx), val[idx]);
-> @@ -2389,9 +2372,7 @@ static void hw_var_set_macaddr(struct adapter *padapter, u8 variable, u8 *val)
->  static void hw_var_set_bssid(struct adapter *padapter, u8 variable, u8 *val)
->  {
->  	u8 idx = 0;
-> -	u32 reg_bssid;
-> -
-> -	reg_bssid = REG_BSSID;
-> +	u32 reg_bssid = REG_BSSID;
->
->  	for (idx = 0 ; idx < 6; idx++)
->  		rtw_write8(padapter, (reg_bssid+idx), val[idx]);
-> @@ -2399,9 +2380,7 @@ static void hw_var_set_bssid(struct adapter *padapter, u8 variable, u8 *val)
->
->  static void hw_var_set_bcn_func(struct adapter *padapter, u8 variable, u8 *val)
->  {
-> -	u32 bcn_ctrl_reg;
-> -
-> -	bcn_ctrl_reg = REG_BCN_CTRL;
-> +	u32 bcn_ctrl_reg = REG_BCN_CTRL;
->
->  	if (*(u8 *)val)
->  		rtw_write8(padapter, bcn_ctrl_reg, (EN_BCN_FUNCTION | EN_TXBCN_RPT));
-> @@ -2422,12 +2401,8 @@ static void hw_var_set_correct_tsf(struct adapter *padapter, u8 variable, u8 *va
->  {
->  	u8 val8;
->  	u64 tsf;
-> -	struct mlme_ext_priv *pmlmeext;
-> -	struct mlme_ext_info *pmlmeinfo;
-> -
-> -
-> -	pmlmeext = &padapter->mlmeextpriv;
-> -	pmlmeinfo = &pmlmeext->mlmext_info;
-> +	struct mlme_ext_priv *pmlmeext = &padapter->mlmeextpriv;
-> +	struct mlme_ext_info *pmlmeinfo = &pmlmeext->mlmext_info;
->
->  	tsf = pmlmeext->TSFValue-do_div(pmlmeext->TSFValue, (pmlmeinfo->bcn_interval*1024))-1024; /* us */
->
-> @@ -2543,15 +2518,12 @@ static void hw_var_set_mlme_join(struct adapter *padapter, u8 variable, u8 *val)
->  	u8 val8;
->  	u16 val16;
->  	u32 val32;
-> -	u8 RetryLimit;
-> -	u8 type;
-> -	struct mlme_priv *pmlmepriv;
-> +	u8 RetryLimit = 0x30;
-> +	u8 type = *(u8 *)val;
-> +	struct mlme_priv *pmlmepriv = &padapter->mlmepriv;
->  	struct eeprom_priv *pEEPROM;
->
->
-> -	RetryLimit = 0x30;
-> -	type = *(u8 *)val;
-> -	pmlmepriv = &padapter->mlmepriv;
->  	pEEPROM = GET_EEPROM_EFUSE_PRIV(padapter);
->
->  	if (type == 0) { /*  prepare to join */
-> @@ -2850,12 +2822,11 @@ void SetHwReg8723B(struct adapter *padapter, u8 variable, u8 *val)
->
->  	case HW_VAR_ACK_PREAMBLE:
->  		{
-> -			u8 regTmp;
-> +			u8 regTmp = 0;
->  			u8 bShortPreamble = *val;
->
->  			/*  Joseph marked out for Netgear 3500 TKIP channel 7 issue.(Temporarily) */
->  			/* regTmp = (pHalData->nCur40MhzPrimeSC)<<5; */
-> -			regTmp = 0;
->  			if (bShortPreamble)
->  				regTmp |= 0x80;
->  			rtw_write8(padapter, REG_RRSR+2, regTmp);
-> @@ -3226,9 +3197,7 @@ void GetHwReg8723B(struct adapter *padapter, u8 variable, u8 *val)
->   */
->  u8 SetHalDefVar8723B(struct adapter *padapter, enum hal_def_variable variable, void *pval)
->  {
-> -	u8 bResult;
-> -
-> -	bResult = _SUCCESS;
-> +	u8 bResult = _SUCCESS;
->
->  	switch (variable) {
->  	default:
-> @@ -3244,9 +3213,7 @@ u8 SetHalDefVar8723B(struct adapter *padapter, enum hal_def_variable variable, v
->   */
->  u8 GetHalDefVar8723B(struct adapter *padapter, enum hal_def_variable variable, void *pval)
->  {
-> -	u8 bResult;
-> -
-> -	bResult = _SUCCESS;
-> +	u8 bResult = _SUCCESS;
->
->  	switch (variable) {
->  	case HAL_DEF_MAX_RECVBUF_SZ:
-> @@ -3281,9 +3248,8 @@ u8 GetHalDefVar8723B(struct adapter *padapter, enum hal_def_variable variable, v
->  	case HW_DEF_RA_INFO_DUMP:
->  		{
->  			u8 mac_id = *(u8 *)pval;
-> -			u32 cmd;
-> +			u32 cmd = 0x40000100 | mac_id;
->
-> -			cmd = 0x40000100 | mac_id;
->  			rtw_write32(padapter, REG_HMEBOX_DBG_2_8723B, cmd);
->  			msleep(10);
->  			rtw_read32(padapter, 0x2F0);	// info 1
-> --
-> 2.43.0
->
->
->
