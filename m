@@ -1,104 +1,146 @@
-Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com [209.85.215.182])
+Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16C4A1925A2
-	for <linux-staging@lists.linux.dev>; Wed,  9 Apr 2025 17:52:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43EF01D6DBF
+	for <linux-staging@lists.linux.dev>; Wed,  9 Apr 2025 18:09:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744221175; cv=none; b=u7ry0W6sG/8P9ACS1v8Vs8IqiM9QcCMkBE/3Prz7A8h0w5ubcrg0M9ABFyae+TuBeBVciECMu0Jn2IkV9GW5kuAyJl0lim7Vp3oq2B0xcUjuU1NOrwy7YzrQZAxM/vpFJzHZh4B+I11JSokjPPbOB1x41JmEKU1ltVdobQ3DAkE=
+	t=1744222198; cv=none; b=S4aer0sp+mOxUBr+uePIfsXePTYi5lIdBFhC3C6Z13V191gwKpYJ3F+X5xOr77ppLcyiGc8dtjE5Xj2EMTBRb/WdX6/mbKvN04NCVGlJ3JhaIz7Yob7+bBEyF7Joc2BmIdv3ztjEEEUNmfAzDB2/obUcpHvs5E1H9HSK8skvWMg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744221175; c=relaxed/simple;
-	bh=xxz5KqATeXvK0rPshTPqd/LzAl4MBvLp2I5+wyXay+Q=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Xm5Kp30oiKc/mo43SwTHNLYxA3E5A+OLRbSlfALKou7opbb02d4vFiFzu3Ks1t96XJFatj+jN/EV9yYlSQwpEmjuDkGecvCfATJC8aM9qmgPCzIGa/i5xwXTE49Mj9jlRoTNRXF8sVBdTKrxh+1YxREcPmdb4HG/G8jrQoXvzes=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=neverthere.org; spf=pass smtp.mailfrom=neverthere.org; dkim=pass (2048-bit key) header.d=neverthere.org header.i=@neverthere.org header.b=D/fIv0+K; arc=none smtp.client-ip=209.85.215.182
+	s=arc-20240116; t=1744222198; c=relaxed/simple;
+	bh=csD3xSMbgrDPv5RDbSufZkLmV7nSPfQVdf+sgWjlRKw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Yu4iAiH1QiXRLmzYOKMxUvXpPnFJsD92QGUtuv+cXPAMXLy0mPmgSNcfXhOxZFgqK0KEshwXuN3OB3EKz5rRoEbcaNfuuczXA8ZCSqe111S/QuBUHCkU18t7HSQgb/Kz0bs7UKo+wa6RA/A3+TLBtpULjWr+t5V0peEG4KhuBfE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=neverthere.org; spf=pass smtp.mailfrom=neverthere.org; dkim=pass (2048-bit key) header.d=neverthere.org header.i=@neverthere.org header.b=haO2aBA2; arc=none smtp.client-ip=209.85.214.173
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=neverthere.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=neverthere.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=neverthere.org header.i=@neverthere.org header.b="D/fIv0+K"
-Received: by mail-pg1-f182.google.com with SMTP id 41be03b00d2f7-af51596da56so14489a12.0
-        for <linux-staging@lists.linux.dev>; Wed, 09 Apr 2025 10:52:53 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=neverthere.org header.i=@neverthere.org header.b="haO2aBA2"
+Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-2240b4de12bso96056255ad.2
+        for <linux-staging@lists.linux.dev>; Wed, 09 Apr 2025 11:09:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=neverthere.org; s=google; t=1744221173; x=1744825973; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=AOSlYEtzUARQCpLt8Pf7yETuTbwsnbf1Vd4MCQ3wcqE=;
-        b=D/fIv0+KSgsD4et7dGOFgN672r9x3VKyNtJCxBu1OLy1Lnls7U07YbVMXB6nqrkUyO
-         cI7gMjbIo9FCE/xDqJ9oD8fPsQH6+oP5Z7y+ioWZoAB52zVxiTU/ODceSFWSBGJVcD3F
-         5RuA6VKtTsWOeKzcZQIhVw5Cf6lmCniIFYTpGbOhqLWhK4WXjUc2XkNKE74llC/iQ6W7
-         FsxLilSt7uGFd8p1bShaIRYQ1KODwDakNTxZczQJanuK8kVfgR2bDnxSTZK26B4jG/G/
-         8xvT9KzjwtKthSga1YGFuaC5SBmEAbcN+ZXtSa3Odhy7fWUZqL5MYf9O833fvMChDWME
-         4SKQ==
+        d=neverthere.org; s=google; t=1744222195; x=1744826995; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=pYrGToWVdj+sV2ioOcCHVAVkWswfBeGzYQuytZUWl2c=;
+        b=haO2aBA2QNFNY2HbGI2dFYZjxKFmLPP6RxgD9lIFjFmoT2oqW3k3dXCqECl3ecusiP
+         jlQhFsRGSMnW9QRcJSi5EOiZnqXS8B98tJiREEwfiXCq8MjvjJtqnDIwR0UEiBfvpQeq
+         SAc/O7MEkb/2B5n0S6421QpoDOVJfaVCMlo2FHfH4b0toFHnG14Pzo3yIzT/+V3OX6yu
+         dtpayIlmtP0b1mNs/Odkw+j+wZQWY5PCqy0wKRVC4X3bTLPGMNRKBC3LhqSG+tmVW7UM
+         yNUHBtJ8z+5sA2LBJjPJdgNU10Cwmb9T3maaWdzicEQzTT2q66TPDTDvTBTpbZMjO8OU
+         cItQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744221173; x=1744825973;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=AOSlYEtzUARQCpLt8Pf7yETuTbwsnbf1Vd4MCQ3wcqE=;
-        b=E/RPdyqgTJp3m5TsigNYAALciur3/CBt33xIiKBzdwBUwga0UtSRw1RVeea1efgl5h
-         PkezoHY9LzVsqWDCNQ0Ms2DCHS5uodEO/waR9RE4wG+ST6rXzFiGq7iKIaEe610hpK8o
-         dVQ0MR95SjPp0XfzMwq63T3VEeCfMSXu7tyjumnLD3v3Tjvbr8KZtGo+vBW6fsl9XMZS
-         m77SbVH4Aio3qn+j3Qw+zOs9A3ccGd43j23p0sOoD/JMVymOtfeoguPrK93wtJD0vlo4
-         m145WoDq+zxwdc837dxuPIDysI8JWHcABwwoe3sMRyHhA35wyrmJOPG+qItEOragreB5
-         mokA==
-X-Forwarded-Encrypted: i=1; AJvYcCX+iKxXV+9FTrC8GlCZhWao88j1HqWtUNmB1P4rjoy64tn3Bi2giPDAkOFxsGZW11C82pvPP8xr2zCK9Ark@lists.linux.dev
-X-Gm-Message-State: AOJu0Yw78my0I+nzLW9Z+koWvMYgepb3Ej9Yi6ypY9bPEfRGkOD+CYKq
-	p4KzTobE7Mwq0x9tT5rKznujLba0syXH1BNhMt3ge3hsDPZPSPa18HaTPgSW+g==
-X-Gm-Gg: ASbGnctpIA3I+xTlnxe76iqXHeox7BU52y8MCfEBgj6Hs/njdPGgGz4SAcrvM/pwi4d
-	j534CcbdamWoje/Dx1ks63OEkvVY3f/ekipaIFjG3lROHZc1y6/pi1ok/0O0trYQUKn0PqLsjKp
-	rb3PsTOJvWdLyDIpzVRuQBM/QW5y+cou8HyMN1/0bWiQ9AYIxuoDSosruFLGUdQgJmRny5YVfWL
-	vX1ebV1cS4IUwGiWhTyum8yMU4M7m7a9R+fz0qOgwesJuvGiXPoCNjOvZb+vu/XGB6RS9EjCk4A
-	kLyVa0rUEemROfJi+opLFf+gdcXxVcQYc5hHobXHEPai4owqBhQ36Jf953pBQsy5SCVARWoP6L7
-	6bl2ASQ==
-X-Google-Smtp-Source: AGHT+IGdLmkkp9tpjERm9n8TBOHAnBJqup1C5boiLMSKzNsOMaTJmy7hjzGOka/L9KC5316Ew1+GRQ==
-X-Received: by 2002:a17:90b:2d0d:b0:2ef:67c2:4030 with SMTP id 98e67ed59e1d1-306dbc29805mr5321752a91.27.1744221173370;
-        Wed, 09 Apr 2025 10:52:53 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1744222195; x=1744826995;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=pYrGToWVdj+sV2ioOcCHVAVkWswfBeGzYQuytZUWl2c=;
+        b=X1fxK2bLysSo0ZlYlyzI14p9RNpWx+sDGKkJQhqGcN76FDY6QelMila7JjuC7reSAw
+         ixcNsMJXDioivwq7pWP43TvEFKN5f6L00crVWL/FZko42zePV9/QBG7kPWfnJvz0Q0ql
+         svlGmScmt7OX2GUWDznH+/jt6mtDrx73pud64q0EIz/mFAwcRFni8XEzqp+4WJMHMmDS
+         kF6LgYS278tbZmGvfQMFEMsUW2ka73+p1zveSvnTu5euipVSIhnJOQlM89703oFshMAR
+         Z+o8KBbMMRymaXMKglCJ6Lztofl+nazUKDDJlwjzWyU1DxIEAD57b1mVjmsyjA0omAnA
+         Pt+Q==
+X-Gm-Message-State: AOJu0Yx7adLu0kCtHOLwrfPXfELV5D8Bd7LS1MEpDwesSQRITyvpe92J
+	BcFLzhJKBj+TyNkl0KowsYqx4QjpA63UqQ7Ai6DFKTZWvutSGKjz2jVyZyv4dQ==
+X-Gm-Gg: ASbGnctZR1sIE4LiRk3vzGb8D9BiXLbM4Mp+HXl4NvY2SkZhHIX4BQZ4qvv8j+qha2E
+	6DBkgTsTSaLd9LaxWB/Q61uSWpNUfJ1uHBLLRN29i3NxOEaUAgVhw7T/oeHKgWGWhWhbtzJ+J+N
+	SZsVBISEYwi1IW1xE+yKVYNegrqM6JhLjOPqqPhbo9cQOPeAeKTSkwZi+g6JgAmdz/lSGO27SE4
+	I9On3VM6o9mm4edDYUVC37M5lBNzTply7vBKwaeWOa6tSTe5IYaXCK1sb99lr1H7iVvQ2lwAWUf
+	ZMH7GXsv4BUBCbQFMz2MY7/1z2MObn3ICrT0rqRhSS6PTYBWaLDfY+ryt5Zn9dYXRbbm+Gh99/v
+	lZyzhEg==
+X-Google-Smtp-Source: AGHT+IGT5+uwOr+yxY/pgNk55XEAsRW4cr1nQCtxEkyrOG2eZh5gneJ9m1CIWXdz0YIBy7sb9vS8iQ==
+X-Received: by 2002:a17:902:db08:b0:220:be86:a421 with SMTP id d9443c01a7336-22ac3fe6feemr61587985ad.38.1744222195517;
+        Wed, 09 Apr 2025 11:09:55 -0700 (PDT)
 Received: from tiamat (c-69-181-214-135.hsd1.ca.comcast.net. [69.181.214.135])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-306df4011dbsm1938065a91.46.2025.04.09.10.52.52
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-73bb1d4659csm1717653b3a.65.2025.04.09.11.09.55
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 09 Apr 2025 10:52:53 -0700 (PDT)
-Date: Wed, 9 Apr 2025 17:52:51 +0000
+        Wed, 09 Apr 2025 11:09:55 -0700 (PDT)
 From: Michael Rubin <matchstick@neverthere.org>
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: gregkh@linuxfoundation.org, dpenkler@gmail.com,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v1 01/18] staging: gpib: struct typing for gpib_interface
-Message-ID: <Z_az87Yx-NJvGASJ@tiamat>
-References: <20250408222504.186992-1-matchstick@neverthere.org>
- <20250408222504.186992-2-matchstick@neverthere.org>
- <804eaa0e-e1ce-4ee2-8ad4-f56bedd6d14f@stanley.mountain>
+To: gregkh@linuxfoundation.org,
+	dpenkler@gmail.com,
+	dan.carpenter@linaro.org
+Cc: linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Michael Rubin <matchstick@neverthere.org>
+Subject: [PATCH v1 00/23] staging: gpib: u8 over uint8_t and u64 over uint64_t
+Date: Wed,  9 Apr 2025 18:09:30 +0000
+Message-ID: <20250409180953.398686-1-matchstick@neverthere.org>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <804eaa0e-e1ce-4ee2-8ad4-f56bedd6d14f@stanley.mountain>
+Content-Transfer-Encoding: 8bit
 
-On Wed, Apr 09, 2025 at 11:26:41AM +0300, Dan Carpenter wrote:
-> On Tue, Apr 08, 2025 at 10:24:47PM +0000, Michael Rubin wrote:
-> > Using Linux code style for gpib_interface struct in .h to allow drivers to
-> > migrate.
-> > 
-> > Adhering to Linux code style.
-> > 
-> > In general, a pointer, or a struct that has elements that can reasonably be
-> > directly accessed should never be a typedef.
-> > 
-> > Reported by CheckPatch
-> > 
-> > WARNING: do not add new typedefs
-> > 
-> 
-> This commit message is quite long but it's totally unrelated to what the
-> patch does.
-> 
-> This commit message should just say "Having the word "_struct" in the
-> name of the struct doesn't add any information so rename struct
-> gpib_interface_struct to struct gpib_interface."
+Preferring u8 over uint8_t and preferring u64 over uint64_t to adhere to
+Linux code style.
 
-Thank you for the input. New commit marked v2 sent to the list.
+* Patch 1 - Patch 22:
+	Reported by checkpatch.pl.
+	CHECK: Prefer kernel type 'u8' over 'uint8_t'
 
-Michael Rubin
+* Patch 23:
+	Reported by checkpatch.pl.
+	CHECK: Prefer kernel type 'u64' over 'uint64_t'
+
+Michael Rubin (23):
+  staging: gpib: cb7210: u8 over uint8_t
+  staging: gpib: ibsys: u8 over uint8_t
+  staging: gpib: fluke_gpib: u8 over uint8_t
+  staging: gpib: fmh_gpib: u8 over uint8_t
+  staging: gpib: gpib_proto: u8 over uint8_t
+  staging: gpib: gpib_types: u8 over uint8_t
+  staging: gpib: nec7210: u8 over uint8_t
+  staging: gpib: tms9914: u8 over uint8_t
+  staging: gpib: ines: u8 over uint8_t
+  staging: gpib: gpib_ioctl: u8 over uint8_t
+  staging: gpib: gpib_user: u8 over uint8_t
+  staging: gpib: agilent_82350b: u8 over uint8_t
+  staging: gpib: agilent_82357a: u8 over uint8_t
+  staging: gpib: cec: u8 over uint8_t
+  staging: gpib: gpib_os: u8 over uint8_t
+  staging: gpib: gpib_bitbang: u8 over uint8_t
+  staging: gpib: hp_82335: u8 over uint8_t
+  staging: gpib: hp_82341: u8 over uint8_t
+  staging: gpib: lpvo_usb_gpib: u8 over uint8_t
+  staging: gpib: ni_usb: u8 over uint8_t
+  staging: gpib: pc2: u8 over uint8_t
+  staging: gpib: tnt4882: u8 over uint8_t
+  staging: gpib: gpib_ioctl: u64 over uint64_t
+
+ .../gpib/agilent_82350b/agilent_82350b.c      | 22 +++++-----
+ .../gpib/agilent_82357a/agilent_82357a.c      | 20 +++++-----
+ drivers/staging/gpib/cb7210/cb7210.c          | 26 ++++++------
+ drivers/staging/gpib/cb7210/cb7210.h          | 12 +++---
+ drivers/staging/gpib/cec/cec_gpib.c           | 16 ++++----
+ drivers/staging/gpib/common/gpib_os.c         |  8 ++--
+ drivers/staging/gpib/common/iblib.c           | 12 +++---
+ drivers/staging/gpib/common/ibsys.h           |  6 +--
+ drivers/staging/gpib/eastwood/fluke_gpib.c    | 28 ++++++-------
+ drivers/staging/gpib/eastwood/fluke_gpib.h    | 12 +++---
+ drivers/staging/gpib/fmh_gpib/fmh_gpib.c      | 32 +++++++--------
+ drivers/staging/gpib/fmh_gpib/fmh_gpib.h      |  6 +--
+ drivers/staging/gpib/gpio/gpib_bitbang.c      | 20 +++++-----
+ drivers/staging/gpib/hp_82335/hp82335.c       | 20 +++++-----
+ drivers/staging/gpib/hp_82341/hp_82341.c      | 26 ++++++------
+ drivers/staging/gpib/include/gpib_proto.h     | 14 +++----
+ drivers/staging/gpib/include/gpib_types.h     | 18 ++++-----
+ drivers/staging/gpib/include/nec7210.h        | 33 ++++++++-------
+ drivers/staging/gpib/include/tms9914.h        | 24 +++++------
+ drivers/staging/gpib/ines/ines.h              | 20 +++++-----
+ drivers/staging/gpib/ines/ines_gpib.c         | 22 +++++-----
+ .../gpib/lpvo_usb_gpib/lpvo_usb_gpib.c        |  8 ++--
+ drivers/staging/gpib/nec7210/nec7210.c        | 40 +++++++++----------
+ drivers/staging/gpib/ni_usb/ni_usb_gpib.c     | 16 ++++----
+ drivers/staging/gpib/pc2/pc2_gpib.c           | 16 ++++----
+ drivers/staging/gpib/tms9914/tms9914.c        | 34 ++++++++--------
+ drivers/staging/gpib/tnt4882/tnt4882_gpib.c   | 28 ++++++-------
+ drivers/staging/gpib/uapi/gpib_ioctl.h        | 16 ++++----
+ drivers/staging/gpib/uapi/gpib_user.h         | 26 ++++++------
+ 29 files changed, 290 insertions(+), 291 deletions(-)
+
+-- 
+2.43.0
+
