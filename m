@@ -1,183 +1,110 @@
-Received: from mail2-relais-roc.national.inria.fr (mail2-relais-roc.national.inria.fr [192.134.164.83])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E0062676D9;
-	Wed,  9 Apr 2025 15:41:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.134.164.83
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C41AC26FDB5
+	for <linux-staging@lists.linux.dev>; Wed,  9 Apr 2025 17:35:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744213321; cv=none; b=o58KOK4eJ1MzRTGqPvzAT9hLKS8QKGBpmIk2QbrXRa0ybxzKb6usmKoVX+zNjMPyGoMbkNbE7ocvz2COtNvBV/vzIbBL+rZGLmACOZR3wGwwqg6P6n+FS6Z5ewyPvhz7H9kFgh+U8O1PqtWDS+uHW59UFZCK+bojHf2j9tbQIi0=
+	t=1744220121; cv=none; b=NQqwrANpfxj7aFlnieyz0kQtqR4wx2kSK0J14MlmyBxYOlnw5EJ9xUqzYm5SCD9upTkRw5dd0FPDPQj8Fh+adcYTA7yOOBf/4+cidOp+Fb7HsPZ/ydsHkaR8gFZ6sJqteMynhx3j9plY5jnMJwcitSkiDX3jE/LEFuhq3c9nYhc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744213321; c=relaxed/simple;
-	bh=Q6OGpSVxIa1TzU8YTuINcPALNgKDev2a8ASm19SQxQ0=;
-	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=jra3xHuZU9sS/jwb9W3XRIGNoTt+KKohkjVnT5CVhNO7SPArSu/g3tXfSCLYgn+LB4zKEXMd/nEwcDBqBRUkAFpgif4ajTeERVu2hMAigU+hx5coSAWpU7v0c+5X206QKWDMnAreRxcU18vosdl2ZdZRJDR1vykwPyvWUhzuJyo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr; spf=pass smtp.mailfrom=inria.fr; dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b=RPyiv0vG; arc=none smtp.client-ip=192.134.164.83
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=inria.fr
+	s=arc-20240116; t=1744220121; c=relaxed/simple;
+	bh=U+ehWLSaRSK6X6F/UDLucuBn9urzPkl9KrBmPNVyMwY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=huqSXId82IVzFJ9v7kYO5mqscmKjnsviVeBCpGDKYUwUILtq/K1RDMWHSNFn0kyy5GYa41F3/eoidUtRqyd/+Ag9WyONcVc0OS2QcETUk1ZHoDudvFaeuhALqhTe3g4V2cSTw87VIPSXkgOhdMVLNmLoKm5HqyEyDmdH2TV+8Fs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=neverthere.org; spf=pass smtp.mailfrom=neverthere.org; dkim=pass (2048-bit key) header.d=neverthere.org header.i=@neverthere.org header.b=UFxuksPc; arc=none smtp.client-ip=209.85.214.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=neverthere.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=neverthere.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b="RPyiv0vG"
+	dkim=pass (2048-bit key) header.d=neverthere.org header.i=@neverthere.org header.b="UFxuksPc"
+Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-227b828de00so71760955ad.1
+        for <linux-staging@lists.linux.dev>; Wed, 09 Apr 2025 10:35:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=inria.fr; s=dc;
-  h=date:from:to:cc:subject:in-reply-to:message-id:
-   references:mime-version;
-  bh=S+qn1CnEm9/PZdH4urciI0YYFqE/hTqAghA1/E92Jp0=;
-  b=RPyiv0vGv/s3jdJSIhzSTGQiMhP5yA96I0DQMXd0vCFqZjPAu+rGKnIp
-   2pOo14+CdPYOo2nSBeofqi5E+lCN0m0HYDoYBO4W2XfQH1EAXSe+k6bDG
-   4Iu5t4thKUe7d97T2xAPgcz7RVzftLBA5u8OyW/xWt5OIQJlC8dh6nhu2
-   o=;
-Authentication-Results: mail2-relais-roc.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=julia.lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
-X-IronPort-AV: E=Sophos;i="6.15,200,1739833200"; 
-   d="scan'208";a="217160243"
-Received: from 74-95-99-105-richmond.hfc.comcastbusiness.net (HELO hadrien) ([74.95.99.105])
-  by mail2-relais-roc.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Apr 2025 17:41:56 +0200
-Date: Wed, 9 Apr 2025 11:41:54 -0400 (EDT)
-From: Julia Lawall <julia.lawall@inria.fr>
-To: Erick Karanja <karanja99erick@gmail.com>
-cc: gregkh@linuxfoundation.org, outreachy@lists.linux.dev, 
-    philipp.g.hortmann@gmail.com, linux-staging@lists.linux.dev, 
-    linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 2/2] staging: rtl8723bs: Initializing variables at
- declaration
-In-Reply-To: <0fb58ca930030af2a4c730b0f5328e64210b795b.1744192642.git.karanja99erick@gmail.com>
-Message-ID: <9dce3c-6ac-8b7e-fdbc-75e14f73fcc4@inria.fr>
-References: <cover.1744192642.git.karanja99erick@gmail.com> <0fb58ca930030af2a4c730b0f5328e64210b795b.1744192642.git.karanja99erick@gmail.com>
+        d=neverthere.org; s=google; t=1744220119; x=1744824919; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=zLfeIRA8tBnw8zdIQ4nzT54/RyV8f9HMbjY3r3rNPLQ=;
+        b=UFxuksPcuVpamKZP4UvXNK+9LoYxh9OOLEJ6GjUmnj/5kw3ZcKoeNZjZhAybHwdmpd
+         xd5uyMuBy0gLEoTWvh5rAJtZ9pXulHgtHooCr65BSjOx9OXcEWmcKLDux1qEx2tymo5/
+         5dTbcHv6eV31Nnz8xJoYD9ShS7vB07tcsnJtxSXy9eMp0W8TAlfzmsW/xYKVvkgUMu83
+         /W9r2Gt/GouZsSOkO71hoOHps8fAnuIxuGDtzzdjlwCfPv0xtu6UA0eabf8ayLWItE5M
+         7IhlpsxEFXqOIRuLPRKmzhFRIIEZtcP3BHxyc0rLVrAWCoe49rI72puUmb2gBTK7DTHO
+         RjfQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1744220119; x=1744824919;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=zLfeIRA8tBnw8zdIQ4nzT54/RyV8f9HMbjY3r3rNPLQ=;
+        b=o/8L3+HWaxU8V+XxicsSnmTadGIsYvKuZC/pi+ZE1Uve9ItFOdjggnpn1S/7dqWiJP
+         R6+L6EGvNgPQK5J36mFJN6vjbgn7zYfBCrbHUBCjTSmPxW2OzgQIuywianYqeTRJM9Rt
+         TimxUSbEOVKavkbznjgidON8k0JCBn6dUE9UP/Vb4ayWJHdRkYfCuFHIoR6pOvSsEXig
+         POT1zX3Z1BcUhZuivJnjhhwjPLbtbFl3BsQaAB0qfvb00e+v6bJfpE1rxJeI5ch7s4j3
+         7uP77lgKdRtM7shlw5NmC+a0se3ObRgPUM5vYgd834pKCdU+o92TQOJPSv0YhutnBMm+
+         8P5Q==
+X-Gm-Message-State: AOJu0YyU+zynWzsMf7596as5FyI/xP0fvcD1pvsRYjyoO8xALbgEr03r
+	/SPW19DPBFPUJ5eUflMt8rn6bF0gHRnjS9GXwgQfYZvkw7tx1KQCcL6AGrXMsA==
+X-Gm-Gg: ASbGncsCmR/u3O9R7/ozefTdtPRF5I2BF3EWvIqMi+wr0BrDDqdgbvcjFeEcOItM2br
+	3EvHz0tEfOxGSW5nfI+FxStSsLlx/DPHHZTtEXZUkrn1Fe63x+drOM9BmMLgQhaYS/Z3tH91Li9
+	ghIfM6CJ078woeAMCw8288W8qnx8+m71hmOwOCMVRtIUZ0zw3YPlihuiRpMIAtqx+AYWdx9O+oo
+	UfA+6tqajYqFuWH/osCIut/ttQxYlNv/fjLq+Fudh6lzf5RbjuAI/0PS008caZB5nILfAO5JHGg
+	uZENYmekCMEWGSyHswrst1ATCaOTnx+tE6MhCj+KEzAAMn19nRFzxLErpRfKqyFT7MuWZH+6+vV
+	AxEsWkA==
+X-Google-Smtp-Source: AGHT+IFcgdkrxNVEeEhkEg7JnH0hPXgiQiSK7a4tnmQYQuz7yC29z/6DzMpXot7Z959OjLMQDlC+LQ==
+X-Received: by 2002:a17:903:1c7:b0:223:5ada:88ff with SMTP id d9443c01a7336-22ac29be057mr66409385ad.24.1744220118923;
+        Wed, 09 Apr 2025 10:35:18 -0700 (PDT)
+Received: from tiamat (c-69-181-214-135.hsd1.ca.comcast.net. [69.181.214.135])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-22ac7b62895sm14927945ad.5.2025.04.09.10.35.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 09 Apr 2025 10:35:18 -0700 (PDT)
+From: Michael Rubin <matchstick@neverthere.org>
+To: gregkh@linuxfoundation.org,
+	dpenkler@gmail.com,
+	dan.carpenter@linaro.org
+Cc: linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Michael Rubin <matchstick@neverthere.org>
+Subject: [PATCH v2 01/18] staging: gpib: struct typing for gpib_interface
+Date: Wed,  9 Apr 2025 17:35:15 +0000
+Message-ID: <20250409173515.386725-1-matchstick@neverthere.org>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 8bit
 
+"Having the word "_struct" in the name of the struct doesn't add any
+information so rename "struct gpib_interface_struct" to
+"struct gpib_interface".
 
+Signed-off-by: Michael Rubin <matchstick@neverthere.org>
+---
+ drivers/staging/gpib/include/gpib_types.h | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-On Wed, 9 Apr 2025, Erick Karanja wrote:
+diff --git a/drivers/staging/gpib/include/gpib_types.h b/drivers/staging/gpib/include/gpib_types.h
+index 2d9b9be683f8..10d8776ef425 100644
+--- a/drivers/staging/gpib/include/gpib_types.h
++++ b/drivers/staging/gpib/include/gpib_types.h
+@@ -22,7 +22,7 @@
+ #include <linux/timer.h>
+ #include <linux/interrupt.h>
+ 
+-typedef struct gpib_interface_struct gpib_interface_t;
++typedef struct gpib_interface gpib_interface_t;
+ struct gpib_board;
+ 
+ /* config parameters that are only used by driver attach functions */
+@@ -51,7 +51,7 @@ typedef struct {
+ 	char *serial_number;
+ } gpib_board_config_t;
+ 
+-struct gpib_interface_struct {
++struct gpib_interface {
+ 	/* name of board */
+ 	char *name;
+ 	/* attach() initializes board and allocates resources */
+-- 
+2.43.0
 
-> Make the code more readable by moving trivial
-> initializations up with the declarations instead
-> of wasting a line on that.
->
-> Signed-off-by: Erick Karanja <karanja99erick@gmail.com>
-> ---
->  .../staging/rtl8723bs/hal/rtl8723bs_xmit.c    | 39 ++++++-------------
->  1 file changed, 11 insertions(+), 28 deletions(-)
->
-> diff --git a/drivers/staging/rtl8723bs/hal/rtl8723bs_xmit.c b/drivers/staging/rtl8723bs/hal/rtl8723bs_xmit.c
-> index 5dc1c12fe03e..d134d185bfae 100644
-> --- a/drivers/staging/rtl8723bs/hal/rtl8723bs_xmit.c
-> +++ b/drivers/staging/rtl8723bs/hal/rtl8723bs_xmit.c
-> @@ -120,13 +120,10 @@ static s32 rtl8723_dequeue_writeport(struct adapter *padapter)
->   */
->  s32 rtl8723bs_xmit_buf_handler(struct adapter *padapter)
->  {
-> -	struct xmit_priv *pxmitpriv;
-> +	struct xmit_priv *pxmitpriv = &padapter->xmitpriv;
->  	u8 queue_empty, queue_pending;
->  	s32 ret;
->
-> -
-> -	pxmitpriv = &padapter->xmitpriv;
-> -
->  	if (wait_for_completion_interruptible(&pxmitpriv->xmit_comp)) {
->  		netdev_emerg(padapter->pnetdev,
->  			     "%s: down SdioXmitBufSema fail!\n", __func__);
-> @@ -242,8 +239,7 @@ static s32 xmit_xmitframes(struct adapter *padapter, struct xmit_priv *pxmitpriv
->  						/* pxmitbuf->priv_data will be NULL, and will crash here */
->  						if (pxmitbuf->len > 0 &&
->  						    pxmitbuf->priv_data) {
-> -							struct xmit_frame *pframe;
-> -							pframe = (struct xmit_frame *)pxmitbuf->priv_data;
-> +							struct xmit_frame *pframe = (struct xmit_frame *)pxmitbuf->priv_data;
-
-I'm not sure that it's worth making this change here given that it makes
-the line even longer.
-
->  							pframe->agg_num = k;
->  							pxmitbuf->agg_num = k;
->  							rtl8723b_update_txdesc(pframe, pframe->buf_addr);
-> @@ -326,8 +322,7 @@ static s32 xmit_xmitframes(struct adapter *padapter, struct xmit_priv *pxmitpriv
->  		/*  dump xmit_buf to hw tx fifo */
->  		if (pxmitbuf) {
->  			if (pxmitbuf->len > 0) {
-> -				struct xmit_frame *pframe;
-> -				pframe = (struct xmit_frame *)pxmitbuf->priv_data;
-> +				struct xmit_frame *pframe = (struct xmit_frame *)pxmitbuf->priv_data;
-
-This also makes a long line.
-
->  				pframe->agg_num = k;
->  				pxmitbuf->agg_num = k;
->  				rtl8723b_update_txdesc(pframe, pframe->buf_addr);
-> @@ -357,12 +352,9 @@ static s32 xmit_xmitframes(struct adapter *padapter, struct xmit_priv *pxmitpriv
->   */
->  static s32 rtl8723bs_xmit_handler(struct adapter *padapter)
->  {
-> -	struct xmit_priv *pxmitpriv;
-> +	struct xmit_priv *pxmitpriv = &padapter->xmitpriv;
->  	s32 ret;
->
-> -
-> -	pxmitpriv = &padapter->xmitpriv;
-> -
->  	if (wait_for_completion_interruptible(&pxmitpriv->SdioXmitStart)) {
->  		netdev_emerg(padapter->pnetdev, "%s: SdioXmitStart fail!\n",
->  			     __func__);
-> @@ -408,13 +400,9 @@ static s32 rtl8723bs_xmit_handler(struct adapter *padapter)
->
->  int rtl8723bs_xmit_thread(void *context)
->  {
-> -	s32 ret;
-> -	struct adapter *padapter;
-> -	struct xmit_priv *pxmitpriv;
-> -
-> -	ret = _SUCCESS;
-> -	padapter = context;
-> -	pxmitpriv = &padapter->xmitpriv;
-> +	s32 ret = _SUCCESS;
-> +	struct adapter *padapter = context;
-> +	struct xmit_priv *pxmitpriv = &padapter->xmitpriv;
->
->  	allow_signal(SIGTERM);
->
-> @@ -435,16 +423,13 @@ s32 rtl8723bs_mgnt_xmit(
->  )
->  {
->  	s32 ret = _SUCCESS;
-> -	struct pkt_attrib *pattrib;
-> -	struct xmit_buf *pxmitbuf;
-> +	struct pkt_attrib *pattrib = &pmgntframe->attrib;
-> +	struct xmit_buf *pxmitbuf = pmgntframe->pxmitbuf;
->  	struct xmit_priv *pxmitpriv = &padapter->xmitpriv;
->  	struct dvobj_priv *pdvobjpriv = adapter_to_dvobj(padapter);
->  	u8 *pframe = (u8 *)(pmgntframe->buf_addr) + TXDESC_OFFSET;
->  	u8 txdesc_size = TXDESC_SIZE;
->
-> -	pattrib = &pmgntframe->attrib;
-> -	pxmitbuf = pmgntframe->pxmitbuf;
-> -
->  	rtl8723b_update_txdesc(pmgntframe, pmgntframe->buf_addr);
->
->  	pxmitbuf->len = txdesc_size + pattrib->last_txcmdsz;
-> @@ -557,15 +542,13 @@ s32 rtl8723bs_init_xmit_priv(struct adapter *padapter)
->
->  void rtl8723bs_free_xmit_priv(struct adapter *padapter)
->  {
-> -	struct xmit_priv *pxmitpriv;
-> +	struct xmit_priv *pxmitpriv = &padapter->xmitpriv;
->  	struct xmit_buf *pxmitbuf;
-> -	struct __queue *pqueue;
-> +	struct __queue *pqueue = &pxmitpriv->pending_xmitbuf_queue;
->  	struct list_head *plist, *phead;
->  	struct list_head tmplist;
->
->
-> -	pxmitpriv = &padapter->xmitpriv;
-> -	pqueue = &pxmitpriv->pending_xmitbuf_queue;
->  	phead = get_list_head(pqueue);
->  	INIT_LIST_HEAD(&tmplist);
->
-> --
-> 2.43.0
->
->
->
