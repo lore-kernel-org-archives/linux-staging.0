@@ -1,116 +1,105 @@
-Received: from mail-vk1-f174.google.com (mail-vk1-f174.google.com [209.85.221.174])
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6358189B84;
-	Fri, 11 Apr 2025 07:43:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02AE92980A8;
+	Fri, 11 Apr 2025 08:54:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744357419; cv=none; b=QPbJADeZiwcKyAk4kJyvlkNtNRM4Spw6kzMMcXZCTJNs60jdaPIsH6CLqXWlH9tr1VVyjrvcJwer5701p43pDeI7Kj9059mawzjf8WPfa3TX7AQQbiAQOYAes1Z1wx+cT6cgaZz1q3zd/bjhRm0ItB+KOZMbE/rpTtXNnE/o29s=
+	t=1744361692; cv=none; b=GyqVsEPxh1Nq7ArlcptIYC//qDeqjaaZOJ+Q893GogxuAYj7uN58iaPDJ/FZc+sYVPnfI+lU4hJJw+w+1/fzqcziJWv9YnFPdES2HT/De+//QXe24TLqAf/moPEMni6uDjZew4lNKyEmh46CpJYPEJ4wIvxcI32ViEpUwv+KR9A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744357419; c=relaxed/simple;
-	bh=H1iNItrNAcVVubh6PQ1XE3t0Tvyjo+jQ6fDUAqtrHTs=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=MWByURRpEeGrs/ZoeUDOJyfROPY7qopzQwrl2hYNHI1qxjMFsoNVSn9dwdg7+rBEaJ6gxQIIl6z9RcdcljjcLMuuFWXO9+Lw8heoqZZcCcUQ1EsxFqRYwFiq4c9JZM4e5vc0mYMDMP7nTUT8+sO9DsjKyazc7+DXSpO/2VvpWMs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iDRVV8aS; arc=none smtp.client-ip=209.85.221.174
+	s=arc-20240116; t=1744361692; c=relaxed/simple;
+	bh=KyprIQ1opyL0FHE3sPCvabhtO9sp9Wx9Bf3O/mgmCHw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=UnNsl+JmygiId3+2zTOMScd6138jaZ3QJExeYare6aMjEoWWjUaK0oYqpUYoN3YjF/GYDQEgfe+SIq/MFBm/GloQUG61uylST+aeCsdAvButpEK/Igy4DLxDBybKu2oQNr0KajQJEhTa9ISVsSPUzTRndOq0CXZviOXig+AvtXk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=h8YcFC5n; arc=none smtp.client-ip=209.85.221.46
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iDRVV8aS"
-Received: by mail-vk1-f174.google.com with SMTP id 71dfb90a1353d-520847ad493so1546570e0c.1;
-        Fri, 11 Apr 2025 00:43:37 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="h8YcFC5n"
+Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-39ac8e7688aso1022301f8f.2;
+        Fri, 11 Apr 2025 01:54:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1744357416; x=1744962216; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=H1iNItrNAcVVubh6PQ1XE3t0Tvyjo+jQ6fDUAqtrHTs=;
-        b=iDRVV8aSb5pA/p48tx1WMEXd5Zd+mlkZXBwZyqZ+aoVIOHAC3CSs+kqTwXQQ3l4Umz
-         A6oVoriavvL5Y7b24ws9BTpcvNnMfC7ZkxSSXx/24WC8y/ZGQKqJMkAZYhhr/bqcEaNh
-         a6VebYfNuqPmfdeXDzRAd29Pl4dsdR6gsdUojbvolkh39j+PYbkori+BXBBJAKfRFCeP
-         CLvFXJQRyI52hOUcTGn39TLMiblZv3u82St2NvcbKD/SLdQmwGmgsbBRONjZm6uSdRLE
-         UoXYQvgrHAY+gd2RZyz8tsLZOmZvJxu34+EUJ4SKEwASbvxomlKBquNsEZnPgZ15dADM
-         8ZdA==
+        d=gmail.com; s=20230601; t=1744361689; x=1744966489; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Vz/eRrE6itGPGVxaacR7mXYGhUWJFoHHWj/Si1MrSR8=;
+        b=h8YcFC5nvaMvrrtGPeNLoAm5qLwPqsb7S+NnZPlVQaJ7luvuh+Wbej9kXajNYA+U6Q
+         b69hqIcOmsN4wss9edV18k2lSh8P1BhXSyIifDzXZbBFeSnb41j8p+ANR8YaR0nlhK3f
+         VQvd7rT0qCuzxtiLAcIkYwSoP3h8cGB0xRp0EZ9NqDQ7f25NUVSlmCfr8vlz5ml2rHir
+         4LEr6AC0ntLORbP2aeIqY08VSJzSiAmqUW3yVUW3mFJL+6/oe0gJJ8Chot8l9qcM05TY
+         lmIzlNObQ/7WCI64XZSTlaVTHAunnzLXW0jwAduAdUZZ/f6CLChZLzlr8ca7Tl3fyIhZ
+         OVsg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744357416; x=1744962216;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=H1iNItrNAcVVubh6PQ1XE3t0Tvyjo+jQ6fDUAqtrHTs=;
-        b=lNi3Plc9uEivqK9lIa/jjM/YzeohfS0uIFHknwzAR8eZD8alHQziNQCP17yfllT4K8
-         33KsNA2MAtz8WWEGWbd7v8K3r359NUm+bwuEwtJPPp4g383dtmvHNNoqdClMin4dw639
-         0bYJ0Got4S4UorvJdWx7mbAlO9ED6Zkauk5y6RKA6zUbNAyAZ4EF8/aYsBDqbfO9MKei
-         boTwUNVCL0ib2gcaVEY8owhytASHN15kH6vWoyjrDSjDE8aQRYf84ysTYO6MwnmH3XWV
-         xrWn2OmBMV8hWzNUW1zcrg9ziHrCdAf2id1Uzv7qWiPNgzUBuZRAedMtmbqG8ir6WgCN
-         so/A==
-X-Forwarded-Encrypted: i=1; AJvYcCWLUrxeBYyn0/yWuadIpJPH+ZCM0QJxsAFlvkJGZNiBw6BVrvi4WfJtr9pljNPrpAz7p86wKGJAxuo/VHc5@lists.linux.dev
-X-Gm-Message-State: AOJu0YywZHUMqpIFX/qZ9C4k2VjBwarRxlXAC2lUT6GUjn7WWCX9OjJX
-	Dxfo0rCZCH6VUIRxqrZzeOMRhGdUfIEz/XCpFxHwNwKZ3w7QASqyz+CI55tMKB4Z6akqKybe0qi
-	xmVn5bs6IoLmKt2c1tVPqyxn6n70=
-X-Gm-Gg: ASbGncuMWwaCoELzhcbC2BPz5mWZESi6onTMQV9t0SbwJHtVov5DVOOTzMjjumvh4yc
-	z1titztlHy3mHneMPVjlmohvlG58hMwq9aCJR/v+NtVthZZ530ZM8GvKl5luEDO73nulvE25RDe
-	7EnjDRI/u0FLM8Jx/+uvOjwjQ=
-X-Google-Smtp-Source: AGHT+IH/nsZ73n13m8DI++AjCwNN9ubVsT2FQykIFqDBIKtWwVSP5oMfTX1HJz9BRPnYe+C2so6tCNeTfV+2Pz4BZeI=
-X-Received: by 2002:a05:6122:1682:b0:523:7c70:bc9c with SMTP id
- 71dfb90a1353d-527c3516e4cmr1056591e0c.5.1744357416465; Fri, 11 Apr 2025
- 00:43:36 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1744361689; x=1744966489;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Vz/eRrE6itGPGVxaacR7mXYGhUWJFoHHWj/Si1MrSR8=;
+        b=kRpUaYlepHuJ+VCNsMhJNNEGaFEY3dVJpUM5xPJSMb8yb5VtFRIbNSQpHiEaAWq1fm
+         Nu/lK2ihKWr2oKFB4CPl6AGnIk+at5zrL4Tg4gNb/B20WaMOtO7zznl729DdlZCePvr8
+         /+bM1q0UhCE6HfDtfWNRS4KNYfEled1LVAI/T5z8IkikZV6be0G88peifQfvgir3iu40
+         hiOmwc05PPMJXXBUtbNRoWb5LNXlyyRUNEDY7d/xugM1QvyHgR2PB9tLFc4pOP/U+w09
+         6vBUTlfB35w3UyO18RjBye9y32Rq/FJlqhS8W0rrXGIMdFA0CEkhZ2LKQSXQF0nzXN36
+         H1vQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUNuzJ/KjNAFT4IxGVHuoU6Q2szcZzvLp/dCiRN9O1Nu8p/dDx8frhlsbmJfWz/Ta9NUCbXWAhmMKq7@lists.linux.dev, AJvYcCVROTKKags0Zef2hmeEZyTqdCVTWc1FvucxafLOzyptJ0eUPgPSLkvjaeoK6KltQsX2b6nSUCO3GFepjFO4@lists.linux.dev
+X-Gm-Message-State: AOJu0Yy8/vghPugkK9+ZH4OhD8RUb1fJUTtu8ULnjdbUmy09JfD+6lEO
+	8wq0u6VaPZvo7KcLr101oj7Y0bSIS9swxZJ+3q/S35k8Uezn7en3
+X-Gm-Gg: ASbGncvkC6f/fX0L8yOGe4NjAeAcv7I86FcY7PiIj2OPe98C3pHzh2I9l8953eZClq5
+	znkER0TL1oKjL7EQjBADwszHTIZ5wkCcyZdYoK6YzrTFUdIGEmmDtY6oqj75/EdxQITecHAf1dC
+	eXY6hHqoxszjnbaT7meutLpXFqKU9MaG1F5ke4N1+AerGXlKGriZf8C4TtCV9JhNYO+dU2Jslet
+	SFwBF+iR0K5hliUi3CjSFUGZPHEoJQI5gFoVn0iGEI9WOfHIcPmeQ89ZM3QOObj3Skf4cpvtju9
+	K1UGxkyDPLA8CVdVHiHkZSR5sQyZVUiE2buY5g==
+X-Google-Smtp-Source: AGHT+IGQ1mfH6C1lv6nPAfeEQxxFNgqLIGSJ8pGCODJSkV+yOQ2XrVh0Z4UA497MoeC2lYlZFxEDvA==
+X-Received: by 2002:a05:6000:4024:b0:399:71d4:b8 with SMTP id ffacd0b85a97d-39ea51f56a4mr1364349f8f.23.1744361688920;
+        Fri, 11 Apr 2025 01:54:48 -0700 (PDT)
+Received: from pc.. ([197.155.71.138])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43f205ecb8dsm80867345e9.7.2025.04.11.01.54.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 11 Apr 2025 01:54:47 -0700 (PDT)
+From: Erick Karanja <karanja99erick@gmail.com>
+To: gregkh@linuxfoundation.org,
+	outreachy@lists.linux.dev
+Cc: karanja99erick@gmail.com,
+	philipp.g.hortmann@gmail.com,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] staging: rtl8723bs: Use boolean false instead of integer 0
+Date: Fri, 11 Apr 2025 11:54:25 +0300
+Message-ID: <20250411085425.44177-1-karanja99erick@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <Z/bA4tMF5uKLe55p@ubuntu> <CAHp75Vd0PUFv_tigmKp7MEiOOuHpFhB_i8u42jZdQ1jajjq0rw@mail.gmail.com>
-In-Reply-To: <CAHp75Vd0PUFv_tigmKp7MEiOOuHpFhB_i8u42jZdQ1jajjq0rw@mail.gmail.com>
-From: Samuel Abraham <abrahamadekunle50@gmail.com>
-Date: Fri, 11 Apr 2025 08:43:26 +0100
-X-Gm-Features: ATxdqUFBakkl6mnloP_SLGH7-FzGtLRxl3pEfw3W4Ceoh7Jl3zD2F5lST2gYKcA
-Message-ID: <CADYq+fbHCUigvrTuCLiF1TXN=VEBO42PvHQqvgfmTgJejLqS4Q@mail.gmail.com>
-Subject: Re: [PATCH] staging: rtl8723bs: Replace `& 0xfff` with `% 4096u`
-To: Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc: outreachy@lists.linux.dev, julia.lawall@inria.fr, 
-	gregkh@linuxfoundation.org, linux-staging@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, david.laight.linux@gmail.com, 
-	dan.carpenter@linaro.org, andy@kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Thu, Apr 10, 2025 at 6:44=E2=80=AFPM Andy Shevchenko
-<andy.shevchenko@gmail.com> wrote:
->
-> On Wed, Apr 9, 2025 at 9:48=E2=80=AFPM Abraham Samuel Adekunle
-> <abrahamadekunle50@gmail.com> wrote:
-> >
-> > The sequence number is constrained to a range of [0, 4095], which
-> > is a total of 4096 values. The bitmask operation using `& 0xfff` is
-> > used to perform this wrap-around. While this is functionally correct,
-> > it obscures the intended semantic of a 4096-based wrap.
-> >
-> > Using a modulo operation `% 4096u` makes the wrap-around logic
-> > explicit and easier to understand. It clearly signals that the
-> > sequence number cycles through a range of 4096 values.
-> > It also makes the code robust against potential changes of the 4096
-> > upper limit, especially when it becomes a non power-of-2 value while
-> > the AND(&) works solely for power-of-2 values.
-> >
-> > The use of `% 4096u` also guarantees that the modulo operation is
-> > performed with unsigned arithmetic, preventing potential issues with
-> > the signed types.
-> >
-> > Found by Coccinelle.
->
-> This should be folded to the initial change since it's the same driver
-> and values most likely are related to each other.
+In the struct definition, adaptivity_flag is defined as type 'bool'.
+This change replaces the integer literal 0 with the boolean
+constant false to match the declared type. It ensures semantic
+correctness, and aligns with kernel coding conventions
+that prefer true/false over 1/0 for bool types.
 
-Okay noted.
->
->
-> > $ make drivers/staging/rtl8723bs/core/rtw_xmit.o
-> > $ cmp rtw_xmit_before.o rtw_xmit_after.o
->
-> cmp is good but not good enough in general. Here it shows the 1:1
-> binary, but in some cases code can be the same, while binaries are
-> different. To make sure the code is the same use the bloat-o-meter
-> tool instead.
+found by coccinelle
 
-Okay, thanks for the suggestion. I will check out the bloat-o-meter tool.
-Adekunle.
+Signed-off-by: Erick Karanja <karanja99erick@gmail.com>
+---
+ drivers/staging/rtl8723bs/hal/odm_DIG.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/staging/rtl8723bs/hal/odm_DIG.c b/drivers/staging/rtl8723bs/hal/odm_DIG.c
+index 97a51546463a..1e2946a23beb 100644
+--- a/drivers/staging/rtl8723bs/hal/odm_DIG.c
++++ b/drivers/staging/rtl8723bs/hal/odm_DIG.c
+@@ -56,7 +56,7 @@ void odm_NHMBBInit(void *pDM_VOID)
+ {
+ 	struct dm_odm_t *pDM_Odm = (struct dm_odm_t *)pDM_VOID;
+ 
+-	pDM_Odm->adaptivity_flag = 0;
++	pDM_Odm->adaptivity_flag = false;
+ 	pDM_Odm->tolerance_cnt = 3;
+ 	pDM_Odm->NHMLastTxOkcnt = 0;
+ 	pDM_Odm->NHMLastRxOkcnt = 0;
+-- 
+2.43.0
+
