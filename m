@@ -1,116 +1,160 @@
-Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out.smtpout.orange.fr (out-69.smtpout.orange.fr [193.252.22.69])
+	(using TLSv1.2 with cipher AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF6281F9F61;
-	Sat, 12 Apr 2025 17:53:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C9131C84A4
+	for <linux-staging@lists.linux.dev>; Sat, 12 Apr 2025 18:10:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.252.22.69
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744480392; cv=none; b=G/vMbwzoX8DU6sq6pCrYhLR/S/Bi7dDbfn4ktDcwMofgBIXbQ/0fTxFbfgc0bWNF7sYYH35ykAPAro9cNHe9PSjK1rIQwyXhqW3OdMii07+YmtKwLMkiLDqzkrB3XxNkmoT9wFgDdRqAClw7XlaE+Q4kM8rgpzx4vm3OD4DQ2v8=
+	t=1744481419; cv=none; b=cuytsWxS1QJRKaxXTnuwzE7StEf8hhql0BNyq+j0kk3GmLc8w9LZDC6071peFOMi/l3IzykhvWV1RnmPSLd2V0sAXML8Nl33VGzigv7xp7hA/uw9UF/8n3LxT7T5fyo+smwBoKJiQ5M138Hrp7yNNhDDuje8cej+U1Hc4+83XHI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744480392; c=relaxed/simple;
-	bh=4/22I0xmiWJyIUEMNmDdSmsIbv7PSPfxkSn00iJPodU=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=hIjv1tTCfTVKlU1ugeqx9sQ9VQnZJhllLstloQkgkbVu6hk6BM+GsHzDyaHXOHIGBdnleT4qrt9oy54EBKyLdmyFVWPfDfpm5sKVpqJZ5ScYlAvejKgOw6T8IyTIfplgRRfa0AEWLAK+Q+/PZ75wutexOkxiyYT9lmJWtTfJxnQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EgbJ28j0; arc=none smtp.client-ip=209.85.218.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1744481419; c=relaxed/simple;
+	bh=gaudnVqMUoy2Fr1V0TmMlGZFF+5NS84yjRnDGzpWB6o=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=sEkhve5eWjy5erMOaQXUIfZ+mHEYMbJVkHSx/zTwvp6t1vKuoWxL7ywGczkSWt0ZKrInQZfZFRTmgrIdntsF+HfRoKN1wFsdwQI0fdiEDSWUIjdvjD+ZW+Mb/PbR33K/IfduMNYVhwxSgZ0fe2Y2PZY0p2f9l+9yrGYb7Psrzwk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=orange.fr; spf=pass smtp.mailfrom=orange.fr; dkim=pass (2048-bit key) header.d=orange.fr header.i=@orange.fr header.b=kvmJKXx9; arc=none smtp.client-ip=193.252.22.69
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=orange.fr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=orange.fr
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EgbJ28j0"
-Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-ac2aeada833so587241266b.0;
-        Sat, 12 Apr 2025 10:53:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1744480389; x=1745085189; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=vTIDIk2RD4/cJXZhbbMkMN1ozONXGjfoBcOhKEuE5xo=;
-        b=EgbJ28j05i9MzNE4RnxZv3heLWW0G3EjBZowQAZqpkiLInw/AyInJK8ieI1SCini7T
-         3ZFegI6AdXsvx9qdJACTnoettsA+M41l3bFCGEQEBHOt4j4IAbUapBFSFXPztib8VBnX
-         Bf7h54NWey17cfDEiVEu2tmAmji5OI4SRP29Ltk+iCNU3B5MwMLrrhPbLfnGZYJn3jAF
-         U424CSrUodabi6zecYkauLU/iLKccXkbWF39jmj9pSiFKjrFyFA8QCE7RvDOrDTHTbk/
-         O1uuwwE8OkXz+QARJJsWsafP+NA5HBsaS60WqBDN6ODdIWDoJr8l+EMT+UB8CSHBNJNJ
-         dCow==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744480389; x=1745085189;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=vTIDIk2RD4/cJXZhbbMkMN1ozONXGjfoBcOhKEuE5xo=;
-        b=TMkpxqid0+rtKMyHmj+1ethCTbAM57/1WGI1OdQXcG4OflJmtPku7h8YXtCKcM+wIP
-         ABwzABwV2SHEbT27UadkqrtK03DZgbXkToFkT22e51t8SRaNLhBWx57kcKrS+7s4Na57
-         Bk22wlsR0uvLl84eaJ0ePin/fv1zOh7BbUUo1a0aa2/4phXDvqn5BXYy9pHECMYiBSMW
-         Mf7E5VK4S2O0NHeww2dYz6FJV/k7I6BYNaPVj/VRfA8I7nmekxoI/xjib0eXuIIAbgE3
-         CT5U/UJA1LS2M71FH/3RhDWdIzU6ISWc718mi0kXIDb4/0+bFCr/Ouya5jNlwOuxwUPA
-         7tbw==
-X-Forwarded-Encrypted: i=1; AJvYcCWrLxEfrSKuZKUFwgvR8/FLLODTnVOSzbS5AKPT9YHq8AYF/tn1do0u1BlNPSSyFfjZ4/vrW4bp0KrIDC3D@lists.linux.dev, AJvYcCXSzuecqVisbyCgQcF12M04nNcf8bef2SNkPNd87qQkU/knr0HgeZBH/fPqwm+lSNBQEMcaZ7cFFhsP@lists.linux.dev
-X-Gm-Message-State: AOJu0YzeVUrmMammnYahTTtqFzT5soDWYT9FChWKQ1COokvMRT/d7dq+
-	rEriGGOLSpcyEad5GVqvTovgGJGbaK0VkN3g9/8fk6/FoPSv1RrJBcDkPCsjULhSbBtWOiI7vYQ
-	8nqqB8fnhwXuyPQeDPkZiPYqUOfs=
-X-Gm-Gg: ASbGncsq8ZzGD1A7lBEBBmCQtT7UyyVPi5O97u1GSqd10mv1likQq8guTIkNdwYLza6
-	ci7YDUjnJeUjn+9xO9uEvXU5VIxFUWR63NgKZDC1eyQnm28NnXoGiIUCcIZdhwEZ9R/ITwooa9e
-	Z1Q27HcPGRgAFTpZYceCzg5rvYbZCknYSk
-X-Google-Smtp-Source: AGHT+IGXxYy5GLEYPwhASMJUu7WvBGCB7hCpf2shHnOJpdkQ69BTD1P8Oi264iRYwSIR+Z+qGF/uXPzF4wK1YaliPgM=
-X-Received: by 2002:a17:906:f597:b0:ac8:1bbe:1a5b with SMTP id
- a640c23a62f3a-acabbee7e6cmr876592166b.9.1744480388897; Sat, 12 Apr 2025
- 10:53:08 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=orange.fr header.i=@orange.fr header.b="kvmJKXx9"
+Received: from cyber-villager.csun.edu ([130.166.192.226])
+	by smtp.orange.fr with ESMTPA
+	id 3fIuuykkq5k813fIyuvf6X; Sat, 12 Apr 2025 20:10:15 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=orange.fr;
+	s=t20230301; t=1744481415;
+	bh=GUegS7DJ1heWnU9cJ9eegjqKTPOLv20pbEP3tyGJKzA=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version;
+	b=kvmJKXx9qbM5D5vGzgyuDLqe+GcT8lcR71Yuhox5O8f2v92bRo0xrkz0wwEy/wSbG
+	 OegatmqpSg2iRCzRog4XHNiD+0s2tMG4S8otOWAUOSWv1H8FYzkopVKjkwicF6A1IH
+	 Y8+kzIVAz0sTE+6JK17smXOUpX4vDsu3MJ6bAKrrSmzn5EWyDD6goosb+zdcDAa4iP
+	 CnZsb1V/Us+OSxHU4UnbheRXy8cdpFGIQjr/f9AyOCI3nl/wdrkeNYaTrM73CHA7O8
+	 xviyUrHhjqW24VWyzU3Xl+G4K01ZMCJw3Gp9OjfTlDhlSrR/bliOJngfpwNC1u87VK
+	 BnY9/bMTYMOMQ==
+X-ME-Helo: cyber-villager.csun.edu
+X-ME-Auth: cGF1bC5yZXRvdXJuZUBvcmFuZ2UuZnI=
+X-ME-Date: Sat, 12 Apr 2025 20:10:15 +0200
+X-ME-IP: 130.166.192.226
+From: =?UTF-8?q?Paul=20Retourn=C3=A9?= <paul.retourne@orange.fr>
+To: gregkh@linuxfoundation.org,
+	dpenkler@gmail.com,
+	dan.carpenter@linaro.org
+Cc: =?UTF-8?q?Paul=20Retourn=C3=A9?= <paul.retourne@orange.fr>,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH 16/16] staging: gpib: tnt4882: fixes multiline comments style
+Date: Sat, 12 Apr 2025 11:10:05 -0700
+Message-ID: <2b72df3bfc4a3f57679d2af52112e58acb5c259f.1744438358.git.paul.retourne@orange.fr>
+X-Mailer: git-send-email 2.49.0
+In-Reply-To: <cover.1744438358.git.paul.retourne@orange.fr>
+References: <cover.1744438358.git.paul.retourne@orange.fr>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <Z/bA4tMF5uKLe55p@ubuntu> <CAHp75Vd0PUFv_tigmKp7MEiOOuHpFhB_i8u42jZdQ1jajjq0rw@mail.gmail.com>
- <b4904b21-0a41-43f6-b386-dea4e27c7a27@stanley.mountain> <CAHp75VehJd4FUXBJSJh35a6KF3Qr2eBG6PiNogZ1m9SzBph0Ow@mail.gmail.com>
- <209e5330-a4d4-4ecc-8d56-199f4a190c3c@stanley.mountain>
-In-Reply-To: <209e5330-a4d4-4ecc-8d56-199f4a190c3c@stanley.mountain>
-From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Sat, 12 Apr 2025 20:52:32 +0300
-X-Gm-Features: ATxdqUFSwpWNfzAo0ElmV_5q1MvPxqlaMq7WQ98tAioZ7pVSAamB26tknu9iyQk
-Message-ID: <CAHp75Vdqnk_qNs8Rc4M-Rh5-AXCi4uV+iw6sbHXEZiaBaFoRyA@mail.gmail.com>
-Subject: Re: [PATCH] staging: rtl8723bs: Replace `& 0xfff` with `% 4096u`
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: Abraham Samuel Adekunle <abrahamadekunle50@gmail.com>, outreachy@lists.linux.dev, 
-	julia.lawall@inria.fr, gregkh@linuxfoundation.org, 
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	david.laight.linux@gmail.com, andy@kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Sat, Apr 12, 2025 at 5:19=E2=80=AFPM Dan Carpenter <dan.carpenter@linaro=
-.org> wrote:
-> On Fri, Apr 11, 2025 at 03:47:40PM +0300, Andy Shevchenko wrote:
-> > On Fri, Apr 11, 2025 at 1:37=E2=80=AFPM Dan Carpenter <dan.carpenter@li=
-naro.org> wrote:
-> > > On Thu, Apr 10, 2025 at 08:43:53PM +0300, Andy Shevchenko wrote:
-> > > >
-> > > > > $ make drivers/staging/rtl8723bs/core/rtw_xmit.o
-> > > > > $ cmp rtw_xmit_before.o rtw_xmit_after.o
-> > > >
-> > > > cmp is good but not good enough in general. Here it shows the 1:1
-> > > > binary, but in some cases code can be the same, while binaries are
-> > > > different. To make sure the code is the same use the bloat-o-meter
-> > > > tool instead.
-> > >
-> > > I don't understand what you're saying at all.  cmp shows that the com=
-piler
-> > > was automaticall tanslating the "& 0xfff" into "% 04096u" so the resu=
-lting
-> > > object files are exactly the same.
-> >
-> > There is a possibility that the compiler changes the code to the
-> > equivalent and cmp will break, bloat-o-meter will check at least what
-> > happened to the size of the *code*. object file is not only a code. It
-> > may also contain debug symbols and other stuff which may break cmp,
-> > while the code can be *the same*.
->
-> So far as I can see bloat-o-meter is only looking at the size.  I
-> deliberately introduced a bug to see if bloat-o-meter said anything but
-> it said the size was the same.
+Fixes the style of multiline comments to comply with the linux kernel
+coding style.
 
-Not "size", "size of the code" is more specific. That makes the
-difference to cmp which may lag even on the same code, but slightly
-different debuginfo, for example.
+Signed-off-by: Paul Retourné <paul.retourne@orange.fr>
+---
+ drivers/staging/gpib/tnt4882/tnt4882_gpib.c | 32 ++++++++++++---------
+ 1 file changed, 19 insertions(+), 13 deletions(-)
 
---=20
-With Best Regards,
-Andy Shevchenko
+diff --git a/drivers/staging/gpib/tnt4882/tnt4882_gpib.c b/drivers/staging/gpib/tnt4882/tnt4882_gpib.c
+index c35b084b6fd0..51ddade6819a 100644
+--- a/drivers/staging/gpib/tnt4882/tnt4882_gpib.c
++++ b/drivers/staging/gpib/tnt4882/tnt4882_gpib.c
+@@ -258,7 +258,8 @@ static void tnt4882_release_holdoff(struct gpib_board *board, struct tnt4882_pri
+ 
+ 	sasr_bits = tnt_readb(tnt_priv, SASR);
+ 
+-	/*tnt4882 not in one-chip mode won't always release holdoff unless we
++	/*
++	 * tnt4882 not in one-chip mode won't always release holdoff unless we
+ 	 * are in the right mode when release handshake command is given
+ 	 */
+ 	if (sasr_bits & AEHS_BIT) /* holding off due to holdoff on end mode*/	{
+@@ -384,7 +385,8 @@ static int tnt4882_accel_read(struct gpib_board *board, uint8_t *buffer, size_t
+ 
+ 	nec7210_set_reg_bits(nec_priv, IMR1, HR_ENDIE, 0);
+ 	nec7210_set_reg_bits(nec_priv, IMR2, HR_DMAI, 0);
+-	/* force handling of any pending interrupts (seems to be needed
++	/*
++	 * force handling of any pending interrupts (seems to be needed
+ 	 * to keep interrupts from getting hosed, plus for syncing
+ 	 * with RECEIVED_END below)
+ 	 */
+@@ -531,7 +533,8 @@ static int generic_write(struct gpib_board *board, uint8_t *buffer, size_t lengt
+ 
+ 	nec7210_set_reg_bits(nec_priv, IMR1, HR_ERR, 0x0);
+ 	nec7210_set_reg_bits(nec_priv, IMR2, HR_DMAO, 0x0);
+-	/* force handling of any interrupts that happened
++	/*
++	 * force handling of any interrupts that happened
+ 	 * while they were masked (this appears to be needed)
+ 	 */
+ 	tnt4882_internal_interrupt(board);
+@@ -760,7 +763,8 @@ static void tnt4882_parallel_poll_response(struct gpib_board *board, int ist)
+ 	nec7210_parallel_poll_response(board, &priv->nec7210_priv, ist);
+ }
+ 
+-/* this is just used by the old nec7210 isa interfaces, the newer
++/*
++ * this is just used by the old nec7210 isa interfaces, the newer
+  * boards use tnt4882_serial_poll_response2
+  */
+ static void tnt4882_serial_poll_response(struct gpib_board *board, uint8_t status)
+@@ -788,7 +792,8 @@ static void tnt4882_serial_poll_response2(struct gpib_board *board, uint8_t stat
+ 			priv->nec7210_priv.srq_pending = 0;
+ 	}
+ 	if (reqt)
+-		/* It may seem like a race to issue reqt before updating
++		/*
++		 * It may seem like a race to issue reqt before updating
+ 		 * the status byte, but it is not.  The chip does not
+ 		 * issue the reqt until the SPMR is written to at
+ 		 * a later time.
+@@ -796,7 +801,8 @@ static void tnt4882_serial_poll_response2(struct gpib_board *board, uint8_t stat
+ 		write_byte(&priv->nec7210_priv, AUX_REQT, AUXMR);
+ 	else if (reqf)
+ 		write_byte(&priv->nec7210_priv, AUX_REQF, AUXMR);
+-	/* We need to always zero bit 6 of the status byte before writing it to
++	/*
++	 * We need to always zero bit 6 of the status byte before writing it to
+ 	 * the SPMR to insure we are using
+ 	 * serial poll mode SP1, and not accidentally triggering mode SP3.
+ 	 */
+@@ -1581,10 +1587,10 @@ static int ni_gpib_probe(struct pcmcia_device *link)
+ }
+ 
+ /*
+- *	This deletes a driver "instance".  The device is de-registered
+- *	with Card Services.  If it has been released, all local data
+- *	structures are freed.  Otherwise, the structures will be freed
+- *	when the device is released.
++ * This deletes a driver "instance".  The device is de-registered
++ * with Card Services.  If it has been released, all local data
++ * structures are freed.  Otherwise, the structures will be freed
++ * when the device is released.
+  */
+ static void ni_gpib_remove(struct pcmcia_device *link)
+ {
+@@ -1611,9 +1617,9 @@ static int ni_gpib_config_iteration(struct pcmcia_device *link,	void *priv_data)
+ }
+ 
+ /*
+- *	ni_gpib_config() is scheduled to run after a CARD_INSERTION event
+- *	is received, to configure the PCMCIA socket, and to make the
+- *	device available to the system.
++ * ni_gpib_config() is scheduled to run after a CARD_INSERTION event
++ * is received, to configure the PCMCIA socket, and to make the
++ * device available to the system.
+  */
+ static int ni_gpib_config(struct pcmcia_device *link)
+ {
+-- 
+2.49.0
+
