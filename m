@@ -1,51 +1,45 @@
-Received: from out.smtpout.orange.fr (out-69.smtpout.orange.fr [193.252.22.69])
-	(using TLSv1.2 with cipher AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 546631922C6
-	for <linux-staging@lists.linux.dev>; Sat, 12 Apr 2025 07:48:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.252.22.69
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03FD028FF;
+	Sat, 12 Apr 2025 10:33:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744444129; cv=none; b=mAnK9r43mlPFAwD9tFMds+9n1mL4NvOeFPEoc89zjW0TaoPudv9zSmgVUYAB0OgakqIyjcj7d7okHMCAzA0EDmIg4A8xaelHi2P/myHGJNKKaYFaIsmcE2563ly42E5IO9vflImun+N5BvdUkZkWxw28KxCV4f7p+jU2PFByRSU=
+	t=1744454030; cv=none; b=mjWtnICr60MxjWPg450OTySDJ7/TOe1lU3Oqfhc5weBcbAAmxlKFGOv5ei7WzTHgxVGHqFa33wktOC8JjRZ52vH0uEfFJJnrB50P6wqqf57LuX/G7aZh5GnRBjKrmy8gPxQwKvbyV/doRnE/O8Vfhn5emG53unKoMb9s9j31Pbw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744444129; c=relaxed/simple;
-	bh=2TDNINhhP+tqL6gRsN/zaGla/IazuRP/HIv0iKIdYdg=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Tp0+QXmTAf0rxHFc2ZL6gOhN9KigbMOLzPyiuNJUsXAGIgHo1bS9Fk3xOAgUH2a0yZ+H5Mj+2bNDU+/xQYDHm2v3M/Xh+eGpsrvzlXLlFtQ79YVfcoLDjnZMyEnznkSKnZTE4oXuXBZe5OQNnypg7qJNOk4OHXtSOM5gL5bBIL0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=orange.fr; spf=pass smtp.mailfrom=orange.fr; dkim=pass (2048-bit key) header.d=orange.fr header.i=@orange.fr header.b=pqtZyHa7; arc=none smtp.client-ip=193.252.22.69
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=orange.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=orange.fr
+	s=arc-20240116; t=1744454030; c=relaxed/simple;
+	bh=+PhhzIK1QIE56uYa9MoSKWYNCOfwLRwgWFjqY9gwMn8=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=biKoalNiVUhUD5xPiHdBVZCfX7pe/dUJe86qm/36qMhIYG3/wOMEh7E+9wfuVEOT9fvgkYwd7kGhwZJa6la6iEIRVWKowaRL/3cMqvuMEQoK9qVTeo8iWcJl/iOaaaCYiuhCudniAqIqSljcRuzUECvnNhv6b+CmrRvjfbqKZuI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lt3/M182; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=orange.fr header.i=@orange.fr header.b="pqtZyHa7"
-Received: from cyber-villager.csun.edu ([130.166.192.226])
-	by smtp.orange.fr with ESMTPA
-	id 3VbRuJv5sCZIm3VbVuYMRQ; Sat, 12 Apr 2025 09:48:44 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=orange.fr;
-	s=t20230301; t=1744444124;
-	bh=TyBefwaCj12qoZCRmqa2pA2xtccxwzTRF92uBTc5N+k=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version;
-	b=pqtZyHa7FFYe+AplfhLYIUWw2niLc6gTv5te8yyIDzQQ0IX40p50ASDzMTt9/fR0z
-	 edZhstppiuZaJQQbpDWCbLY04wjCez/+chWlAXqzXU77eNnIMgGW7PE1/GmJ7sOwc8
-	 3EL7NWBfltZazWV1ywEwcLYLM07R2krNBFECuu5hiNEgBS8Ci+eCuDfXzjYjUwcQc1
-	 j6P1PGgza4RudwrYmMNYigF0b/2amK8MeUPcy+8B+zhCMcOrIevhTrs1h1S+8RH2sL
-	 sZBWJrOYHZ0FBJUNtqMHksrRPrrrObNXWOiqz+RZvhPPDsl78l5tyYm//VXq7GMrLy
-	 UvoTSVzFx/T0g==
-X-ME-Helo: cyber-villager.csun.edu
-X-ME-Auth: cGF1bC5yZXRvdXJuZUBvcmFuZ2UuZnI=
-X-ME-Date: Sat, 12 Apr 2025 09:48:44 +0200
-X-ME-IP: 130.166.192.226
-From: =?UTF-8?q?Paul=20Retourn=C3=A9?= <paul.retourne@orange.fr>
-To: gregkh@linuxfoundation.org,
-	dpenkler@gmail.com,
-	dan.carpenter@linaro.org
-Cc: =?UTF-8?q?Paul=20Retourn=C3=A9?= <paul.retourne@orange.fr>,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH 14/16] staging: gpib: pc2: fixes multiline comments style
-Date: Sat, 12 Apr 2025 00:48:34 -0700
-Message-ID: <77eb5fc5050298503009fa212600f00514eeb713.1744438358.git.paul.retourne@orange.fr>
-X-Mailer: git-send-email 2.49.0
-In-Reply-To: <cover.1744438358.git.paul.retourne@orange.fr>
-References: <cover.1744438358.git.paul.retourne@orange.fr>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lt3/M182"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 29DDBC4CEE3;
+	Sat, 12 Apr 2025 10:33:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1744454029;
+	bh=+PhhzIK1QIE56uYa9MoSKWYNCOfwLRwgWFjqY9gwMn8=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=lt3/M182/kPikzhJcBSQvkO9CbtuYFLw0jTODGMciwawPRMS+eVgGyamEK8EMeaGl
+	 abeaulEqpLNpKLsw8CvwwBYVM2VPbGkCPVVBN7ZvBHl0bCOoFXcDEIdI9LXNvr8bJF
+	 4JfNnTdDmnMk6vT8Y4ekjUBJDxfrFNw0oXtH4LunRwuKdee1D4+h3JRWcga/pz7fFs
+	 2uAvU1CtmXDyxD3JOPfN1jMrzB2Efb++OyOgwWCVSQRw8KqVf6eVYpJ4LlgL76Di+S
+	 XIVLqcu/fwthCYUqkelYqe7Umo6zM+Iwsqhi1bODyuOqoIwpxj0D0mah6FD+Do8EFY
+	 DZm49XVDpdZng==
+Date: Sat, 12 Apr 2025 11:33:40 +0100
+From: Jonathan Cameron <jic23@kernel.org>
+To: Siddharth Menon <simeddon@gmail.com>
+Cc: linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-staging@lists.linux.dev, gregkh@linuxfoundation.org,
+ Michael.Hennerich@analog.com, lars@metafoo.de, marcelo.schmitt1@gmail.com
+Subject: Re: [PATCH v5] iio: frequency: ad9832: Use FIELD_PREP macro to set
+ bit fields
+Message-ID: <20250412113340.6934a8e0@jic23-huawei>
+In-Reply-To: <CAGd6pzP470VDxGoP4e_2hVXsKrJhnhbv-WgFzCq7tMX9RjOLwg@mail.gmail.com>
+References: <20250330135402.105418-1-simeddon@gmail.com>
+	<20250330152044.18cf81f6@jic23-huawei>
+	<CAGd6pzP470VDxGoP4e_2hVXsKrJhnhbv-WgFzCq7tMX9RjOLwg@mail.gmail.com>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.48; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -53,32 +47,70 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
 
-Fixes the style of multiline comments to comply with the linux kernel
-coding style.
+On Wed, 9 Apr 2025 01:25:52 +0530
+Siddharth Menon <simeddon@gmail.com> wrote:
 
-Signed-off-by: Paul Retourné <paul.retourne@orange.fr>
----
- drivers/staging/gpib/pc2/pc2_gpib.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+> On Sun, 30 Mar 2025 at 19:50, Jonathan Cameron <jic23@kernel.org> wrote:
+> > > +     for (int i =3D 0; i < ARRAY_SIZE(regval_bytes); i++) {
+> > > +             freq_cmd =3D (i % 2 =3D=3D 0) ? AD9832_CMD_FRE8BITSW : =
+AD9832_CMD_FRE16BITSW;
+> > > +
+> > > +             st->freq_data[i] =3D cpu_to_be16(FIELD_PREP(AD9832_CMD_=
+MSK, freq_cmd) |
+> > > +                     FIELD_PREP(AD9832_ADD_MSK, addr - i) |
+> > > +                     FIELD_PREP(AD9832_DAT_MSK, regval_bytes[i])); =
+=20
+> > Looking at the data layout here, this seems like an interesting dance t=
+o fill two unrelated
+> > u8 values - it's not a be16 at all.
+> >
+> > I'd be tempted to split the freq_data into u8s and then you will just h=
+ave
+> >                 st->freq_data[i][0] =3D FIELD_PREP(AD9832_CMD_MSK, freq=
+_cmd) |
+> >                                       FIELD_PREP(AD9832_ADD_SMK, addr -=
+ i);
+> > //with masks adjusted appropriately.
+> >                 st->freq_data[i][1] =3D regval_bytes[i];
+> > =20
+>=20
+> Hello Jonathan,
+>=20
+> I briefly went through the datasheet for the device.
+> From what I understand, the device is expecting 16 bit write operations w=
+here:
+> - First 4 bits: Operation type (frequency/phase)
+> - Next 4 bits: Destination register address
+> - Last 8 bits: Data
+> so these fields would need to be combined into a single 16-bit value rega=
+rdless.
 
-diff --git a/drivers/staging/gpib/pc2/pc2_gpib.c b/drivers/staging/gpib/pc2/pc2_gpib.c
-index 96d3c09f2273..d93502a833bf 100644
---- a/drivers/staging/gpib/pc2/pc2_gpib.c
-+++ b/drivers/staging/gpib/pc2/pc2_gpib.c
-@@ -267,8 +267,9 @@ static int pc2_generic_attach(struct gpib_board *board, const gpib_board_config_
- 	nec_priv->type = chipset;
- 
- #ifndef PC2_DMA
--	/* board->dev hasn't been initialized, so forget about DMA until this driver
--	 *  is adapted to use isa_register_driver.
-+	/*
-+	 * board->dev hasn't been initialized, so forget about DMA until this driver
-+	 * is adapted to use isa_register_driver.
- 	 */
- 	if (config->ibdma)
- 	// driver needs to be adapted to use isa_register_driver to get a struct device*
--- 
-2.49.0
+Hmm. That is really a documentation thing rather than anything real.
+If they had been documented it as a control value of 8 bits and a data valu=
+e of 8
+bits then it would naturally map to an array.
+
+>=20
+> As I am unable to procure a testing unit at this time, I=E2=80=99m hesita=
+nt to make
+> changes that could unintentionally break the existing driver.
+Sure.  It is always a bit of a risk assessment for changes like this.
+I'm less nervous about breaking staging drivers than others, but we should
+still do our best to not do so.  Probably not worth spinning up some emulat=
+ion
+for this change!
+
+>=20
+> Would it be acceptable to limit the scope of this patch to introducing
+> bitfield macros and addressing the remaining feedback?
+Sure.  We can perhaps revisit this suggestion in a future series.
+
+Jonathan
+
+>=20
+> Regards,
+> Siddharth Menon
+>=20
 
