@@ -1,37 +1,37 @@
-Received: from out.smtpout.orange.fr (out-70.smtpout.orange.fr [193.252.22.70])
-	(using TLSv1.2 with cipher AES128-GCM-SHA256 (128/128 bits))
+Received: from out.smtpout.orange.fr (outm-51.smtpout.orange.fr [193.252.22.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 215AA19AD86
-	for <linux-staging@lists.linux.dev>; Sat, 12 Apr 2025 06:25:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.252.22.70
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 171CC78F52
+	for <linux-staging@lists.linux.dev>; Sat, 12 Apr 2025 06:33:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.252.22.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744439159; cv=none; b=o7dfP6ShBolGYAzZrDIIf6O+UHUkzYoGaGI2b/DhZxKSbYlHMws7rduseyv5SUERMWH+4Tjo6mEcFR4PzqSuQsk92t9Got0lxWuZYeWNkyKGTVe684jH2IkHqF3A3Ff/O3CsDvvoiVYZVhFy7YGiXsjAPy/st7f9BLwEbXpDxe0=
+	t=1744439583; cv=none; b=EmgVkAoPw5S0OucAp+xA/aczmZx7llpJLJZ+KGDZrM2/V5Se+vJ66K9EeiEiqSHXnTf+CaSwhddKUu4ArvA8fJ3VGko6Cn8x8c8BQLRnvwD/kVQEsIVaQq1bjO5Vm7JbJre2L7xjeiZa6ZV3dFtBpJ+10XynzpQWyD98j5saKVw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744439159; c=relaxed/simple;
-	bh=325t6xAI6HmPt2h7UuYsI0IH+8YEuV8oarfXrv538hU=;
+	s=arc-20240116; t=1744439583; c=relaxed/simple;
+	bh=hVrTVhkxm+kDr6N2u4Zlx+XVHZLk8fgc8MojQnk3Or0=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=TZViGqPB/KqRVrwd8av+su1IKWrCdtT7rvd5KqJI2PvJL9nNJNeiUXJ1shawMZYOfSmuOD1+NP2WLnuzI8cnbwxHt4HYOpA1OEUVvxu16+F/urJb8ot9yESAkSP6t1Nne41y6oPH6l9KbXAJbvT1+MluwRSloNfzZs3XEcQ5EVk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=orange.fr; spf=pass smtp.mailfrom=orange.fr; dkim=pass (2048-bit key) header.d=orange.fr header.i=@orange.fr header.b=nC9QTDHV; arc=none smtp.client-ip=193.252.22.70
+	 MIME-Version:Content-Type; b=n53NhUZGSUFs8zX7CPg+528BqrW2HQvkC22eMhbdohVciXbD2x2MyLO6t89xJVBMABHR+wFNc1IHAR/Te+zqptHFtJ7M18YmynCL+NJwL481Mz+1sqUKbbVUVEsSvPv/Tq8dvuhuWCiFkHxu2KTLp+sZu0TCHaJxsX6iVAisP3c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=orange.fr; spf=pass smtp.mailfrom=orange.fr; dkim=pass (2048-bit key) header.d=orange.fr header.i=@orange.fr header.b=AOUjC0dU; arc=none smtp.client-ip=193.252.22.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=orange.fr
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=orange.fr
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=orange.fr header.i=@orange.fr header.b="nC9QTDHV"
+	dkim=pass (2048-bit key) header.d=orange.fr header.i=@orange.fr header.b="AOUjC0dU"
 Received: from cyber-villager.csun.edu ([130.166.192.226])
 	by smtp.orange.fr with ESMTPA
-	id 3UI4u7H5JdZ1m3UIFuovBG; Sat, 12 Apr 2025 08:24:44 +0200
+	id 3UP1uRIIxiefY3UP5upciJ; Sat, 12 Apr 2025 08:31:49 +0200
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=orange.fr;
-	s=t20230301; t=1744439084;
-	bh=BTYeDY62fAwGNjpwRghfOx+adz/TljBBiQP6TNR/L8s=;
+	s=t20230301; t=1744439509;
+	bh=jr8S9LErN5v/hyKCUiP39DDZItTOS468y0EMeWscIAY=;
 	h=From:To:Subject:Date:Message-ID:MIME-Version;
-	b=nC9QTDHVMh3HL0J3MbHTniIiBDQTSsxSVo0cYOdzPhG7ABgGg3kBi5+/Q3f/9OMwZ
-	 E4m3Xq501lgApdhdbyewjgBfIIKfuABSTyA3PfU7MN5aV2d6Pr1jZ+ZiI2hnZa7Pm2
-	 Q4wUba9+x3CaB55rM3cptNep11f1EkANOQ7Bj0tTlr5H8wLHl8LBiYraW5JRzRpt7A
-	 tXAoKVsrk0S6f5vk3eflFyHRV+Kwzs5sk7IjWICoNv4S/iTVwqrtfai4uMIUj9CFXW
-	 W/bBo3O3o/3BCXtCYEL/70nLDmbpj8q04l70OecyRM9NK0RqZeJTPn756+52HHlx4m
-	 0Bjr+BqLXQn6A==
+	b=AOUjC0dUb17orMdpzspkHd1u7i3jcOtgRDhRFddWXu4jDEc6J9RWAa00Xvw0ujVf6
+	 agRjhDEx/ot9IU9uKGD4pu7Et9twusq92FlXUl9Xn+TWaDPYrvncloiIWq95/XwYdO
+	 bHsD1WoUdsyASgDFCpCZP9tSGAe82nSrnfH8cNHXa5F+Vxd2HO0bKL7lZLWMhYo/Cz
+	 uil/wnnYuTzvz5R3rTlYPJJzQ+wgyBeOKsBYJLuZnMIkIkSJOs4/eeywEnS2ShaHeF
+	 ruT9OGMGhmINLxzw+cpspy0yyBAHdjKQCP/YQszlOF8ljPJwo9BOHkwoNZsAYNmuc6
+	 uMXj2qdMvFekg==
 X-ME-Helo: cyber-villager.csun.edu
 X-ME-Auth: cGF1bC5yZXRvdXJuZUBvcmFuZ2UuZnI=
-X-ME-Date: Sat, 12 Apr 2025 08:24:44 +0200
+X-ME-Date: Sat, 12 Apr 2025 08:31:49 +0200
 X-ME-IP: 130.166.192.226
 From: =?UTF-8?q?Paul=20Retourn=C3=A9?= <paul.retourne@orange.fr>
 To: gregkh@linuxfoundation.org,
@@ -40,9 +40,9 @@ To: gregkh@linuxfoundation.org,
 Cc: =?UTF-8?q?Paul=20Retourn=C3=A9?= <paul.retourne@orange.fr>,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH 03/16] staging: gpib: common: fixes multiline comments style
-Date: Fri, 11 Apr 2025 23:21:55 -0700
-Message-ID: <2ffeae1761ba77526e6aa7188f07d25a2f9a1950.1744438358.git.paul.retourne@orange.fr>
+Subject: [PATCH 05/16] staging: gpib: fmh_gpib: fixes multiline comments style
+Date: Fri, 11 Apr 2025 23:31:37 -0700
+Message-ID: <ecf59455b825f97e7866044bee1b1c149cd8e086.1744438358.git.paul.retourne@orange.fr>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <cover.1744438358.git.paul.retourne@orange.fr>
 References: <cover.1744438358.git.paul.retourne@orange.fr>
@@ -60,196 +60,210 @@ coding style.
 
 Signed-off-by: Paul Retourné <paul.retourne@orange.fr>
 ---
- drivers/staging/gpib/common/gpib_os.c | 47 +++++++++++++++++----------
- drivers/staging/gpib/common/iblib.c   | 19 +++++++----
- 2 files changed, 41 insertions(+), 25 deletions(-)
+ drivers/staging/gpib/fmh_gpib/fmh_gpib.c | 66 ++++++++++++++++--------
+ 1 file changed, 44 insertions(+), 22 deletions(-)
 
-diff --git a/drivers/staging/gpib/common/gpib_os.c b/drivers/staging/gpib/common/gpib_os.c
-index 8456b97290b8..12cd91a4c677 100644
---- a/drivers/staging/gpib/common/gpib_os.c
-+++ b/drivers/staging/gpib/common/gpib_os.c
-@@ -119,7 +119,8 @@ int io_timed_out(struct gpib_board *board)
- 	return 0;
- }
- 
--/* this is a function instead of a constant because of Suse
-+/*
-+ * this is a function instead of a constant because of Suse
-  * defining HZ to be a function call to get_hz()
-  */
- static inline int pseudo_irq_period(void)
-@@ -291,7 +292,8 @@ int autopoll_all_devices(struct gpib_board *board)
+diff --git a/drivers/staging/gpib/fmh_gpib/fmh_gpib.c b/drivers/staging/gpib/fmh_gpib/fmh_gpib.c
+index 53f4b3fccc3c..8a2f758c828b 100644
+--- a/drivers/staging/gpib/fmh_gpib/fmh_gpib.c
++++ b/drivers/staging/gpib/fmh_gpib/fmh_gpib.c
+@@ -169,7 +169,8 @@ static void fmh_gpib_local_parallel_poll_mode(struct gpib_board *board, int loca
+ 	if (local) {
+ 		write_byte(&priv->nec7210_priv, AUX_I_REG | LOCAL_PPOLL_MODE_BIT, AUXMR);
+ 	} else	{
+-		/* For fmh_gpib_core, remote parallel poll config mode is unaffected by the
++		/*
++		 * For fmh_gpib_core, remote parallel poll config mode is unaffected by the
+ 		 * state of the disable bit of the parallel poll register (unlike the tnt4882).
+ 		 * So, we don't need to worry about that.
+ 		 */
+@@ -195,7 +196,8 @@ static void fmh_gpib_serial_poll_response2(struct gpib_board *board, uint8_t sta
  	}
  
- 	dev_dbg(board->gpib_dev, "complete\n");
--	/* need to wake wait queue in case someone is
-+	/*
-+	 * need to wake wait queue in case someone is
- 	 * waiting on RQS
- 	 */
- 	wake_up_interruptible(&board->wait);
-@@ -665,8 +667,9 @@ long ibioctl(struct file *filep, unsigned int cmd, unsigned long arg)
- 		retval = board_info_ioctl(board, arg);
- 		goto done;
- 	case IBMUTEX:
--		/* Need to unlock board->big_gpib_mutex before potentially locking board->user_mutex
--		 *  to maintain consistent locking order
+ 	if (reqt) {
+-		/* It may seem like a race to issue reqt before updating
 +		/*
-+		 * Need to unlock board->big_gpib_mutex before potentially locking board->user_mutex
-+		 * to maintain consistent locking order
- 		 */
- 		mutex_unlock(&board->big_gpib_mutex);
- 		return mutex_ioctl(board, file_priv, arg);
-@@ -736,8 +739,9 @@ long ibioctl(struct file *filep, unsigned int cmd, unsigned long arg)
- 		retval = take_control_ioctl(board, arg);
- 		goto done;
- 	case IBCMD:
--		/* IO ioctls can take a long time, we need to unlock board->big_gpib_mutex
--		 *  before we call them.
-+		/*
-+		 * IO ioctls can take a long time, we need to unlock board->big_gpib_mutex
-+		 * before we call them.
- 		 */
- 		mutex_unlock(&board->big_gpib_mutex);
- 		return command_ioctl(file_priv, board, arg);
-@@ -760,8 +764,9 @@ long ibioctl(struct file *filep, unsigned int cmd, unsigned long arg)
- 		retval = query_board_rsv_ioctl(board, arg);
- 		goto done;
- 	case IBRD:
--		/* IO ioctls can take a long time, we need to unlock board->big_gpib_mutex
--		 *  before we call them.
-+		/*
-+		 * IO ioctls can take a long time, we need to unlock board->big_gpib_mutex
-+		 * before we call them.
- 		 */
- 		mutex_unlock(&board->big_gpib_mutex);
- 		return read_ioctl(file_priv, board, arg);
-@@ -790,8 +795,9 @@ long ibioctl(struct file *filep, unsigned int cmd, unsigned long arg)
- 		retval = timeout_ioctl(board, arg);
- 		goto done;
- 	case IBWRT:
--		/* IO ioctls can take a long time, we need to unlock board->big_gpib_mutex
--		 *  before we call them.
-+		/*
-+		 * IO ioctls can take a long time, we need to unlock board->big_gpib_mutex
-+		 * before we call them.
- 		 */
- 		mutex_unlock(&board->big_gpib_mutex);
- 		return write_ioctl(file_priv, board, arg);
-@@ -913,7 +919,8 @@ static int read_ioctl(gpib_file_private_t *file_priv, struct gpib_board *board,
++		 * It may seem like a race to issue reqt before updating
+ 		 * the status byte, but it is not.  The chip does not
+ 		 * issue the reqt until the SPMR is written to at
+ 		 * a later time.
+@@ -204,7 +206,8 @@ static void fmh_gpib_serial_poll_response2(struct gpib_board *board, uint8_t sta
+ 	} else if (reqf) {
+ 		write_byte(&priv->nec7210_priv, AUX_REQF, AUXMR);
  	}
- 	read_cmd.completed_transfer_count = read_cmd.requested_transfer_count - remain;
- 	read_cmd.end = end_flag;
--	/* suppress errors (for example due to timeout or interruption by device clear)
+-	/* We need to always zero bit 6 of the status byte before writing it to
 +	/*
-+	 * suppress errors (for example due to timeout or interruption by device clear)
- 	 * if all bytes got sent.  This prevents races that can occur in the various drivers
- 	 * if a device receives a device clear immediately after a transfer completes and
- 	 * the driver code wasn't careful enough to handle that case.
-@@ -967,10 +974,11 @@ static int command_ioctl(gpib_file_private_t *file_priv,
- 	if (!access_ok(userbuf, remain))
- 		return -EFAULT;
- 
--	/* Write buffer loads till we empty the user supplied buffer.
--	 *	Call drivers at least once, even if remain is zero, in
--	 *	order to allow them to insure previous commands were
--	 *	completely finished, in the case of a restarted ioctl.
-+	/*
-+	 * Write buffer loads till we empty the user supplied buffer.
-+	 * Call drivers at least once, even if remain is zero, in
-+	 * order to allow them to insure previous commands were
-+	 * completely finished, in the case of a restarted ioctl.
++	 * We need to always zero bit 6 of the status byte before writing it to
+ 	 * the SPMR to insure we are using
+ 	 * serial poll mode SP1, and not accidentally triggering mode SP3.
  	 */
- 
- 	atomic_set(&desc->io_in_progress, 1);
-@@ -1068,7 +1076,8 @@ static int write_ioctl(gpib_file_private_t *file_priv, struct gpib_board *board,
- 			break;
- 	}
- 	write_cmd.completed_transfer_count = write_cmd.requested_transfer_count - remain;
--	/* suppress errors (for example due to timeout or interruption by device clear)
-+	/*
-+	 * suppress errors (for example due to timeout or interruption by device clear)
- 	 * if all bytes got sent.  This prevents races that can occur in the various drivers
- 	 * if a device receives a device clear immediately after a transfer completes and
- 	 * the driver code wasn't careful enough to handle that case.
-@@ -1116,7 +1125,8 @@ static int increment_open_device_count(struct gpib_board *board, struct list_hea
- 	struct list_head *list_ptr;
- 	gpib_status_queue_t *device;
- 
--	/* first see if address has already been opened, then increment
-+	/*
-+	 * first see if address has already been opened, then increment
- 	 * open count
- 	 */
- 	for (list_ptr = head->next; list_ptr != head; list_ptr = list_ptr->next) {
-@@ -1242,7 +1252,8 @@ static int open_dev_ioctl(struct file *filep, struct gpib_board *board, unsigned
- 	if (retval < 0)
- 		return retval;
- 
--	/* clear stuck srq state, since we may be able to find service request on
-+	/*
-+	 * clear stuck srq state, since we may be able to find service request on
- 	 * the new device
- 	 */
- 	atomic_set(&board->stuck_srq, 0);
-diff --git a/drivers/staging/gpib/common/iblib.c b/drivers/staging/gpib/common/iblib.c
-index b297261818f2..b05c26d47aa0 100644
---- a/drivers/staging/gpib/common/iblib.c
-+++ b/drivers/staging/gpib/common/iblib.c
-@@ -33,9 +33,10 @@ int ibcac(struct gpib_board *board, int sync, int fallback_to_async)
- 		return 0;
- 
- 	if (sync && (status & LACS) == 0)
--		/* tcs (take control synchronously) can only possibly work when
--		 *  controller is listener.  Error code also needs to be -ETIMEDOUT
--		 *  or it will giveout without doing fallback.
-+		/*
-+		 * tcs (take control synchronously) can only possibly work when
-+		 * controller is listener.  Error code also needs to be -ETIMEDOUT
-+		 * or it will giveout without doing fallback.
- 		 */
- 		retval = -ETIMEDOUT;
- 	else
-@@ -50,7 +51,8 @@ int ibcac(struct gpib_board *board, int sync, int fallback_to_async)
+@@ -333,7 +336,8 @@ static int wait_for_rx_fifo_half_full_or_end(struct gpib_board *board)
  	return retval;
  }
  
--/* After ATN is asserted, it should cause any connected devices
+-/* Wait until the gpib chip is ready to accept a data out byte.
 +/*
-+ * After ATN is asserted, it should cause any connected devices
-  * to start listening for command bytes and leave acceptor idle state.
-  * So if ATN is asserted and neither NDAC or NRFD are asserted,
-  * then there are no devices and ibcmd should error out immediately.
-@@ -218,7 +220,8 @@ int ibonline(struct gpib_board *board)
- 		board->interface->detach(board);
- 		return retval;
- 	}
--	/* nios2nommu on 2.6.11 uclinux kernel has weird problems
-+	/*
-+	 * nios2nommu on 2.6.11 uclinux kernel has weird problems
- 	 * with autospoll thread causing huge slowdowns
- 	 */
- #ifndef CONFIG_NIOS2
-@@ -313,7 +316,8 @@ int ibrd(struct gpib_board *board, uint8_t *buf, size_t length, int *end_flag, s
- 		if (retval < 0)
- 			return retval;
- 	}
--	/* XXX resetting timer here could cause timeouts take longer than they should,
-+	/*
-+	 * XXX resetting timer here could cause timeouts take longer than they should,
- 	 * since read_ioctl calls this
- 	 * function in a loop, there is probably a similar problem with writes/commands
- 	 */
-@@ -514,7 +518,8 @@ int general_ibstatus(struct gpib_board *board, const gpib_status_queue_t *device
++ * Wait until the gpib chip is ready to accept a data out byte.
+  */
+ static int wait_for_data_out_ready(struct gpib_board *board)
+ {
+@@ -377,7 +381,8 @@ static void fmh_gpib_dma_callback(void *arg)
+ 	spin_unlock_irqrestore(&board->spinlock, flags);
+ }
  
- 	if (board->private_data) {
- 		status = board->interface->update_status(board, clear_mask);
--		/* XXX should probably stop having drivers use TIMO bit in
+-/* returns true when all the bytes of a write have been transferred to
++/*
++ * returns true when all the bytes of a write have been transferred to
+  * the chip and successfully transferred out over the gpib bus.
+  */
+ static int fmh_gpib_all_bytes_are_sent(struct fmh_priv *e_priv)
+@@ -523,7 +528,8 @@ static int fmh_gpib_accel_write(struct gpib_board *board, uint8_t *buffer,
+ 		if (WARN_ON_ONCE(remainder != 1))
+ 			return -EFAULT;
+ 
+-		/* wait until we are sure we will be able to write the data byte
 +		/*
-+		 * XXX should probably stop having drivers use TIMO bit in
- 		 * board->status to avoid confusion
- 		 */
- 		status &= ~TIMO;
++		 * wait until we are sure we will be able to write the data byte
+ 		 * into the chip before we send AUX_SEOI.  This prevents a timeout
+ 		 * scenario where we send AUX_SEOI but then timeout without getting
+ 		 * any bytes into the gpib chip.  This will result in the first byte
+@@ -554,8 +560,10 @@ static int fmh_gpib_get_dma_residue(struct dma_chan *chan, dma_cookie_t cookie)
+ 		return result;
+ 	}
+ 	dmaengine_tx_status(chan, cookie, &state);
+-	// dma330 hardware doesn't support resume, so dont call this
+-	// method unless the dma transfer is done.
++	/*
++	 * dma330 hardware doesn't support resume, so dont call this
++	 * method unless the dma transfer is done.
++	 */
+ 	return state.residue;
+ }
+ 
+@@ -581,7 +589,8 @@ static int wait_for_tx_fifo_half_empty(struct gpib_board *board)
+ 	return retval;
+ }
+ 
+-/* supports writing a chunk of data whose length must fit into the hardware'd xfer counter,
++/*
++ * supports writing a chunk of data whose length must fit into the hardware'd xfer counter,
+  * called in a loop by fmh_gpib_fifo_write()
+  */
+ static int fmh_gpib_fifo_write_countable(struct gpib_board *board, uint8_t *buffer,
+@@ -768,8 +777,10 @@ static int fmh_gpib_dma_read(struct gpib_board *board, uint8_t *buffer,
+ 	// stop the dma transfer
+ 	nec7210_set_reg_bits(nec_priv, IMR2, HR_DMAI, 0);
+ 	fifos_write(e_priv, 0, FIFO_CONTROL_STATUS_REG);
+-	// give time for pl330 to transfer any in-flight data, since
+-	// pl330 will throw it away when dmaengine_pause is called.
++	/*
++	 * give time for pl330 to transfer any in-flight data, since
++	 * pl330 will throw it away when dmaengine_pause is called.
++	 */
+ 	usleep_range(10, 15);
+ 	residue = fmh_gpib_get_dma_residue(e_priv->dma_channel, dma_cookie);
+ 	if (WARN_ON_ONCE(residue > length || residue < 0))
+@@ -793,14 +804,17 @@ static int fmh_gpib_dma_read(struct gpib_board *board, uint8_t *buffer,
+ 		buffer[(*bytes_read)++] = fifos_read(e_priv, FIFO_DATA_REG) & fifo_data_mask;
+ 	}
+ 
+-	/* If we got an end interrupt, figure out if it was
++	/*
++	 * If we got an end interrupt, figure out if it was
+ 	 * associated with the last byte we dma'd or with a
+ 	 * byte still sitting on the cb7210.
+ 	 */
+ 	spin_lock_irqsave(&board->spinlock, flags);
+ 	if (*bytes_read > 0 && test_bit(READ_READY_BN, &nec_priv->state) == 0) {
+-		// If there is no byte sitting on the cb7210 and we
+-		// saw an end, we need to deal with it now
++		/*
++		 * If there is no byte sitting on the cb7210 and we
++		 * saw an end, we need to deal with it now
++		 */
+ 		if (test_and_clear_bit(RECEIVED_END_BN, &nec_priv->state))
+ 			*end = 1;
+ 	}
+@@ -819,7 +833,8 @@ static void fmh_gpib_release_rfd_holdoff(struct gpib_board *board, struct fmh_pr
+ 
+ 	ext_status_1 = read_byte(nec_priv, EXT_STATUS_1_REG);
+ 
+-	/* if there is an end byte sitting on the chip, don't release
++	/*
++	 * if there is an end byte sitting on the chip, don't release
+ 	 * holdoff.  We want it left set after we read out the end
+ 	 * byte.
+ 	 */
+@@ -828,7 +843,8 @@ static void fmh_gpib_release_rfd_holdoff(struct gpib_board *board, struct fmh_pr
+ 		if (ext_status_1 & RFD_HOLDOFF_STATUS_BIT)
+ 			write_byte(nec_priv, AUX_FH, AUXMR);
+ 
+-		/* Check if an end byte raced in before we executed the AUX_FH command.
++		/*
++		 * Check if an end byte raced in before we executed the AUX_FH command.
+ 		 * If it did, we want to make sure the rfd holdoff is in effect.  The end
+ 		 * byte can arrive since
+ 		 * AUX_RFD_HOLDOFF_ASAP doesn't immediately force the acceptor handshake
+@@ -893,7 +909,8 @@ static int fmh_gpib_accel_read(struct gpib_board *board, uint8_t *buffer, size_t
+ 	return retval;
+ }
+ 
+-/* Read a chunk of data whose length is within the limits of the hardware's
++/*
++ * Read a chunk of data whose length is within the limits of the hardware's
+  * xfer counter.  Called in a loop from fmh_gpib_fifo_read().
+  */
+ static int fmh_gpib_fifo_read_countable(struct gpib_board *board, uint8_t *buffer,
+@@ -969,7 +986,8 @@ static int fmh_gpib_fifo_read(struct gpib_board *board, uint8_t *buffer, size_t
+ 	*end = 0;
+ 	*bytes_read = 0;
+ 
+-	/* Do a little prep with data in interrupt so that following wait_for_read()
++	/*
++	 * Do a little prep with data in interrupt so that following wait_for_read()
+ 	 * will wake up if a data byte is received.
+ 	 */
+ 	nec7210_set_reg_bits(nec_priv, IMR1, HR_DIIE, HR_DIIE);
+@@ -1166,7 +1184,8 @@ irqreturn_t fmh_gpib_internal_interrupt(struct gpib_board *board)
+ 		clear_bit(RFD_HOLDOFF_BN, &nec_priv->state);
+ 
+ 	if (ext_status_1 & END_STATUS_BIT) {
+-		/* only set RECEIVED_END while there is still a data
++		/*
++		 * only set RECEIVED_END while there is still a data
+ 		 * byte sitting in the chip, to avoid spuriously
+ 		 * setting it multiple times after it has been cleared
+ 		 * during a read.
+@@ -1179,7 +1198,8 @@ irqreturn_t fmh_gpib_internal_interrupt(struct gpib_board *board)
+ 
+ 	if ((fifo_status & TX_FIFO_HALF_EMPTY_INTERRUPT_IS_ENABLED) &&
+ 	    (fifo_status & TX_FIFO_HALF_EMPTY)) {
+-		/* We really only want to clear the
++		/*
++		 * We really only want to clear the
+ 		 * TX_FIFO_HALF_EMPTY_INTERRUPT_ENABLE bit in the
+ 		 * FIFO_CONTROL_STATUS_REG.  Since we are not being
+ 		 * careful, this also has a side effect of disabling
+@@ -1193,7 +1213,8 @@ irqreturn_t fmh_gpib_internal_interrupt(struct gpib_board *board)
+ 
+ 	if ((fifo_status & RX_FIFO_HALF_FULL_INTERRUPT_IS_ENABLED) &&
+ 	    (fifo_status & RX_FIFO_HALF_FULL)) {
+-		/* We really only want to clear the
++		/*
++		 * We really only want to clear the
+ 		 * RX_FIFO_HALF_FULL_INTERRUPT_ENABLE bit in the
+ 		 * FIFO_CONTROL_STATUS_REG.  Since we are not being
+ 		 * careful, this also has a side effect of disabling
+@@ -1444,7 +1465,8 @@ static int fmh_gpib_attach_impl(struct gpib_board *board, const gpib_board_confi
+ 			return -EIO;
+ 		}
+ 	}
+-	/* in the future we might want to know the half-fifo size
++	/*
++	 * in the future we might want to know the half-fifo size
+ 	 * (dma_burst_length) even when not using dma, so go ahead an
+ 	 * initialize it unconditionally.
+ 	 */
 -- 
 2.49.0
 
