@@ -1,37 +1,36 @@
-Received: from out.smtpout.orange.fr (out-70.smtpout.orange.fr [193.252.22.70])
+Received: from out.smtpout.orange.fr (out-69.smtpout.orange.fr [193.252.22.69])
 	(using TLSv1.2 with cipher AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA98B13AD1C
-	for <linux-staging@lists.linux.dev>; Sat, 12 Apr 2025 06:25:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.252.22.70
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA29B189BB1
+	for <linux-staging@lists.linux.dev>; Sat, 12 Apr 2025 06:25:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.252.22.69
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744439151; cv=none; b=ExH3ux05Y35ksLt1pK0QZqI+/uMIvPVtxR7qEyIaO4Tu/E8NS5e2Qf9UYqPQ8AugrFPwaxIuo32NcsmxwHafEJMjmu4jlVSHSx9JF7QbVcpJ9e2kvswPZpxgEs5E+tJVrt+y3lRA4F/BmJytWWB2GltgHhglWZ71CLkCiU1Yabc=
+	t=1744439152; cv=none; b=XjpRXgzRGw5C/ouk4qaK88pc3GyhWXqodM6JE0VxwYtNktF8/Sb8q8Ke/sWOF8OSSNQ3cVX/A460MkQCvflCuj7fkQZKm8GPXn+YgG76+5rg39Tymh3JxYmdaSWETqZ6cPsdgzM9C0iJBqxguiu0A6TqZE/+/tPdl6pOfH4DDl0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744439151; c=relaxed/simple;
-	bh=lSN97m/THny4yQwhMPj6R5BDbaRm2P89lemSwdrQVfc=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=pf6B2O01ZA9rE3kD/Pda977gB9JljoJCGQR868B/kGa/WeVmnF3/CvQiisnZAsNKzrjVzvc2FKztCtNTPrdT8yW8zHk42oWC7xVNwRsR2p5zERdYT3jP339JwTjyydKKEhf5dgMs6R+Epk8SOpv22RKF0/E315PS3g+cRDS4elk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=orange.fr; spf=pass smtp.mailfrom=orange.fr; dkim=pass (2048-bit key) header.d=orange.fr header.i=@orange.fr header.b=nlynygVl; arc=none smtp.client-ip=193.252.22.70
+	s=arc-20240116; t=1744439152; c=relaxed/simple;
+	bh=Xv+mdSuxde95QgyLMGtMjVr4KIkdT8E7hXUTabzHBSM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=iLQusyhHKGVCtMV+LdxlKiu934eeg6nSY3TMDiHytltFQ0LP10MXg3YDDuAu5uL9IMmU5SablVDGFvr/7tyoxyan/sKVrlc2k/BpNUiDJXsB/mVG829A40bnSLLTmSNHw1p2/epkhOHyzW59UvVv7sSpPqNXVoQeXdEF/0lvIpI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=orange.fr; spf=pass smtp.mailfrom=orange.fr; dkim=pass (2048-bit key) header.d=orange.fr header.i=@orange.fr header.b=cfsr93SM; arc=none smtp.client-ip=193.252.22.69
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=orange.fr
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=orange.fr
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=orange.fr header.i=@orange.fr header.b="nlynygVl"
+	dkim=pass (2048-bit key) header.d=orange.fr header.i=@orange.fr header.b="cfsr93SM"
 Received: from cyber-villager.csun.edu ([130.166.192.226])
 	by smtp.orange.fr with ESMTPA
-	id 3UI4u7H5JdZ1m3UIHuovDz; Sat, 12 Apr 2025 08:24:46 +0200
+	id 3UI4u7H5JdZ1m3UI8uouzA; Sat, 12 Apr 2025 08:24:38 +0200
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=orange.fr;
-	s=t20230301; t=1744439087;
-	bh=c9ReeE86kF/374t3a4BHV3Ao7MfSs6fX9dP4Nmlbeak=;
+	s=t20230301; t=1744439078;
+	bh=jaDC2gQqqeZhqpywnDYK4njZ3ZRUz94TlsCDdPOKsVE=;
 	h=From:To:Subject:Date:Message-ID:MIME-Version;
-	b=nlynygVlKs6+fLo6h1S6ATsjCu7tNZCcZFL2zKxvqoXHfnocO65oRXSMfAkiP0lJL
-	 5CekNIBHE0HQ6pd3N32iDnsmz7m6sZgBlOD4VJBTEm4C7XEsMbJ3lAakd0fX2Owzp7
-	 pTEQ+m3NrDPv+braAW0FdWDRtJ0yNCA/xMkJTz2JuAFoF4AUwO1Nz9vrHoK/Z9YZMw
-	 +pUj+g4ay+hcMhpEyX0AY5cY7cfvzXelzcg22gowNkAu+UaNtkcB+wv4RBv+jGP6e+
-	 9joZTYHTszhduqrnbCIYlUIlMxAwyRzkQ6usCCtQOryb5YkhTl+laG7D5PFY10w8O4
-	 d8AoGYbqeWfWA==
+	b=cfsr93SMulOME7S3cnJ/xmA/ZseVvIMrwvX/a/jo2yP5CstSmzon31Mc/coYLbLGI
+	 q7LcJFDVcBy9DrrvC3BhCodzlwu9vi1HgSK650Tb5glgvHb6iHLrLWPLLzI0bqljuw
+	 vaC0DMgwxZUVV6FOvPrWB4OwjyG4hkzrYPRD3hIacy0/XSJ+0JStogTKvaUXcsidCD
+	 Twg45T/8UnEEIov1LSryMGfiJ1Z3NFSQ9jexp0ynzjLzRLdcwttt5sdWqpaunBxouh
+	 sLvm+EpO25qU2STA4Lip+m8HRRSL2owkLGcybfcaIRrinRrGOyY4E1CDhFUDI2KPY4
+	 0SLd6XBVYx75w==
 X-ME-Helo: cyber-villager.csun.edu
 X-ME-Auth: cGF1bC5yZXRvdXJuZUBvcmFuZ2UuZnI=
-X-ME-Date: Sat, 12 Apr 2025 08:24:47 +0200
+X-ME-Date: Sat, 12 Apr 2025 08:24:38 +0200
 X-ME-IP: 130.166.192.226
 From: =?UTF-8?q?Paul=20Retourn=C3=A9?= <paul.retourne@orange.fr>
 To: gregkh@linuxfoundation.org,
@@ -40,12 +39,10 @@ To: gregkh@linuxfoundation.org,
 Cc: =?UTF-8?q?Paul=20Retourn=C3=A9?= <paul.retourne@orange.fr>,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH 04/16] staging: gpib: eastwood: fixes multiline comments style
-Date: Fri, 11 Apr 2025 23:21:56 -0700
-Message-ID: <ce51b42401d7bdbcc08c8c000b69c23905856cbe.1744438358.git.paul.retourne@orange.fr>
+Subject: [PATCH 00/16] staging: gpib: fixes multiline comments style
+Date: Fri, 11 Apr 2025 23:21:52 -0700
+Message-ID: <cover.1744438358.git.paul.retourne@orange.fr>
 X-Mailer: git-send-email 2.49.0
-In-Reply-To: <cover.1744438358.git.paul.retourne@orange.fr>
-References: <cover.1744438358.git.paul.retourne@orange.fr>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -56,200 +53,50 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
 Fixes the style of multiline comments to comply with the linux kernel
-coding style.
+coding style as requested in the gpib TODO file.
 
-Signed-off-by: Paul Retourné <paul.retourne@orange.fr>
----
- drivers/staging/gpib/eastwood/fluke_gpib.c | 51 ++++++++++++++--------
- drivers/staging/gpib/eastwood/fluke_gpib.h | 17 +++++---
- 2 files changed, 44 insertions(+), 24 deletions(-)
+Paul Retourné (16):
+  staging: gpib: agilent_82357a: fixes multiline comments style
+  staging: gpib: cb7210: fixes multiline comments style
+  staging: gpib: common: fixes multiline comments style
+  staging: gpib: eastwood: fixes multiline comments style
+  staging: gpib: fmh_gpib: fixes multiline comments style
+  staging: gpib: gpio: fixes multiline comments style
+  staging: gpib: hp_82335: fixes multiline comments style
+  staging: gpib: hp_82341: fixes multiline comments style
+  staging: gpib: include: fixes multiline comments style
+  staging: gpib: ines: fixes multiline comments style
+  staging: gpib: lpvo_usb_gpib: fixes multiline comments style
+  staging: gpib: nec7210: fixes multiline comments style
+  staging: gpib: ni_usb: fixes multiline comments style
+  staging: gpib: pc2: fixes multiline comments style
+  staging: gpib: tms9914: fixes multiline comments style
+  staging: gpib: tnt4882: fixes multiline comments style
 
-diff --git a/drivers/staging/gpib/eastwood/fluke_gpib.c b/drivers/staging/gpib/eastwood/fluke_gpib.c
-index a6b1ac169f94..a782b2297b0c 100644
---- a/drivers/staging/gpib/eastwood/fluke_gpib.c
-+++ b/drivers/staging/gpib/eastwood/fluke_gpib.c
-@@ -254,7 +254,8 @@ static int lacs_or_read_ready(struct gpib_board *board)
- 	return retval;
- }
- 
--/* Wait until it is possible for a read to do something useful.  This
-+/*
-+ * Wait until it is possible for a read to do something useful.  This
-  * is not essential, it only exists to prevent RFD holdoff from being released pointlessly.
-  */
- static int wait_for_read(struct gpib_board *board)
-@@ -276,7 +277,8 @@ static int wait_for_read(struct gpib_board *board)
- 	return retval;
- }
- 
--/* Check if the SH state machine is in SGNS.  We check twice since there is a very small chance
-+/*
-+ * Check if the SH state machine is in SGNS.  We check twice since there is a very small chance
-  * we could be blowing through SGNS from SIDS to SDYS if there is already a
-  * byte available in the handshake state machine.  We are interested
-  * in the case where the handshake is stuck in SGNS due to no byte being
-@@ -310,7 +312,8 @@ static int source_handshake_is_sids_or_sgns(struct fluke_priv *e_priv)
- 		(source_handshake_bits == SOURCE_HANDSHAKE_SIDS_BITS);
- }
- 
--/* Wait until the gpib chip is ready to accept a data out byte.
-+/*
-+ * Wait until the gpib chip is ready to accept a data out byte.
-  * If the chip is SGNS it is probably waiting for a a byte to
-  * be written to it.
-  */
-@@ -441,7 +444,8 @@ static int fluke_dma_write(struct gpib_board *board, uint8_t *buffer, size_t len
- 	if (test_bit(DMA_WRITE_IN_PROGRESS_BN, &nec_priv->state))
- 		fluke_dma_callback(board);
- 
--	/* if everything went fine, try to wait until last byte is actually
-+	/*
-+	 * if everything went fine, try to wait until last byte is actually
- 	 * transmitted across gpib (but don't try _too_ hard)
- 	 */
- 	if (retval == 0)
-@@ -508,7 +512,8 @@ static int fluke_accel_write(struct gpib_board *board, uint8_t *buffer, size_t l
- 		if (WARN_ON_ONCE(remainder != 1))
- 			return -EFAULT;
- 
--		/* wait until we are sure we will be able to write the data byte
-+		/*
-+		 * wait until we are sure we will be able to write the data byte
- 		 * into the chip before we send AUX_SEOI.  This prevents a timeout
- 		 * scenerio where we send AUX_SEOI but then timeout without getting
- 		 * any bytes into the gpib chip.  This will result in the first byte
-@@ -539,8 +544,10 @@ static int fluke_get_dma_residue(struct dma_chan *chan, dma_cookie_t cookie)
- 		return result;
- 	}
- 	dmaengine_tx_status(chan, cookie, &state);
--	// hardware doesn't support resume, so dont call this
--	// method unless the dma transfer is done.
-+	/*
-+	 * hardware doesn't support resume, so dont call this
-+	 * method unless the dma transfer is done.
-+	 */
- 	return state.residue;
- }
- 
-@@ -608,7 +615,8 @@ static int fluke_dma_read(struct gpib_board *board, uint8_t *buffer,
- 	if (test_bit(DEV_CLEAR_BN, &nec_priv->state))
- 		retval = -EINTR;
- 
--	/* If we woke up because of end, wait until the dma transfer has pulled
-+	/*
-+	 * If we woke up because of end, wait until the dma transfer has pulled
- 	 * the data byte associated with the end before we cancel the dma transfer.
- 	 */
- 	if (test_bit(RECEIVED_END_BN, &nec_priv->state)) {
-@@ -625,7 +633,8 @@ static int fluke_dma_read(struct gpib_board *board, uint8_t *buffer,
- 
- 	// stop the dma transfer
- 	nec7210_set_reg_bits(nec_priv, IMR2, HR_DMAI, 0);
--	/* delay a little just to make sure any bytes in dma controller's fifo get
-+	/*
-+	 * delay a little just to make sure any bytes in dma controller's fifo get
- 	 * written to memory before we disable it
- 	 */
- 	usleep_range(10, 15);
-@@ -641,14 +650,17 @@ static int fluke_dma_read(struct gpib_board *board, uint8_t *buffer,
- 	dma_unmap_single(board->dev, bus_address, length, DMA_FROM_DEVICE);
- 	memcpy(buffer, e_priv->dma_buffer, *bytes_read);
- 
--	/* If we got an end interrupt, figure out if it was
-+	/*
-+	 * If we got an end interrupt, figure out if it was
- 	 * associated with the last byte we dma'd or with a
- 	 * byte still sitting on the cb7210.
- 	 */
- 	spin_lock_irqsave(&board->spinlock, flags);
- 	if (test_bit(READ_READY_BN, &nec_priv->state) == 0) {
--		// There is no byte sitting on the cb7210.  If we
--		// saw an end interrupt, we need to deal with it now
-+		/*
-+		 * There is no byte sitting on the cb7210.  If we
-+		 * saw an end interrupt, we need to deal with it now
-+		 */
- 		if (test_and_clear_bit(RECEIVED_END_BN, &nec_priv->state))
- 			*end = 1;
- 	}
-@@ -725,7 +737,8 @@ static gpib_interface_t fluke_unaccel_interface = {
- 	.return_to_local = fluke_return_to_local,
- };
- 
--/* fluke_hybrid uses dma for writes but not for reads.  Added
-+/*
-+ * fluke_hybrid uses dma for writes but not for reads.  Added
-  * to deal with occasional corruption of bytes seen when doing dma
-  * reads.  From looking at the cb7210 vhdl, I believe the corruption
-  * is due to a hardware bug triggered by the cpu reading a cb7210
-@@ -914,7 +927,8 @@ static int fluke_init(struct fluke_priv *e_priv, struct gpib_board *board, int h
- 
- 	nec7210_board_reset(nec_priv, board);
- 	write_byte(nec_priv, AUX_LO_SPEED, AUXMR);
--	/* set clock register for driving frequency
-+	/*
-+	 * set clock register for driving frequency
- 	 * ICR should be set to clock in megahertz (1-15) and to zero
- 	 * for clocks faster than 15 MHz (max 20MHz)
- 	 */
-@@ -933,7 +947,8 @@ static int fluke_init(struct fluke_priv *e_priv, struct gpib_board *board, int h
- 	return 0;
- }
- 
--/* This function is passed to dma_request_channel() in order to
-+/*
-+ * This function is passed to dma_request_channel() in order to
-  * select the pl330 dma channel which has been hardwired to
-  * the gpib controller.
-  */
-@@ -1042,8 +1057,10 @@ static int fluke_attach_impl(struct gpib_board *board, const gpib_board_config_t
- 	e_priv->dma_channel = dma_request_channel(dma_cap, gpib_dma_channel_filter, NULL);
- 	if (!e_priv->dma_channel) {
- 		dev_err(board->gpib_dev, "failed to allocate a dma channel.\n");
--		// we don't error out here because unaccel interface will still
--		// work without dma
-+		/*
-+		 * we don't error out here because unaccel interface will still
-+		 * work without dma
-+		 */
- 	}
- 
- 	return fluke_init(e_priv, board, handshake_mode);
-diff --git a/drivers/staging/gpib/eastwood/fluke_gpib.h b/drivers/staging/gpib/eastwood/fluke_gpib.h
-index 3e4348196b42..dfe2d3c60deb 100644
---- a/drivers/staging/gpib/eastwood/fluke_gpib.h
-+++ b/drivers/staging/gpib/eastwood/fluke_gpib.h
-@@ -55,8 +55,10 @@ enum state1_bits {
- 	SOURCE_HANDSHAKE_MASK = 0x7
- };
- 
--// we customized the cb7210 vhdl to give the "data in" status
--// on the unused bit 7 of the address0 register.
-+/*
-+ * we customized the cb7210 vhdl to give the "data in" status
-+ * on the unused bit 7 of the address0 register.
-+ */
- enum cb7210_address0 {
- 	DATA_IN_STATUS = 0x80
- };
-@@ -124,11 +126,12 @@ enum bus_status_bits {
- };
- 
- enum cb7210_aux_cmds {
--/* AUX_RTL2 is an undocumented aux command which causes cb7210 to assert
-- *	(and keep asserted) local rtl message.  This is used in conjunction
-- *	with the (stupid) cb7210 implementation
-- *	of the normal nec7210 AUX_RTL aux command, which
-- *	causes the rtl message to toggle between on and off.
-+/*
-+ * AUX_RTL2 is an undocumented aux command which causes cb7210 to assert
-+ * (and keep asserted) local rtl message.  This is used in conjunction
-+ * with the (stupid) cb7210 implementation
-+ * of the normal nec7210 AUX_RTL aux command, which
-+ * causes the rtl message to toggle between on and off.
-  */
- 	AUX_RTL2 = 0xd,
- 	AUX_NBAF = 0xe,	// new byte available false (also clears seoi)
+ .../gpib/agilent_82357a/agilent_82357a.c      |  14 +-
+ drivers/staging/gpib/cb7210/cb7210.c          |   9 +-
+ drivers/staging/gpib/cb7210/cb7210.h          |  14 +-
+ drivers/staging/gpib/common/gpib_os.c         |  47 ++++---
+ drivers/staging/gpib/common/iblib.c           |  19 ++-
+ drivers/staging/gpib/eastwood/fluke_gpib.c    |  51 +++++---
+ drivers/staging/gpib/eastwood/fluke_gpib.h    |  17 ++-
+ drivers/staging/gpib/fmh_gpib/fmh_gpib.c      |  66 ++++++----
+ drivers/staging/gpib/gpio/gpib_bitbang.c      |   6 +-
+ drivers/staging/gpib/hp_82335/hp82335.c       |   5 +-
+ drivers/staging/gpib/hp_82341/hp_82341.c      |  11 +-
+ drivers/staging/gpib/include/gpib_types.h     |  81 ++++++++----
+ .../staging/gpib/include/nec7210_registers.h  |   3 +-
+ drivers/staging/gpib/include/tms9914.h        |   6 +-
+ drivers/staging/gpib/ines/ines_gpib.c         |  86 ++++++------
+ .../gpib/lpvo_usb_gpib/lpvo_usb_gpib.c        | 123 +++++++++---------
+ drivers/staging/gpib/nec7210/nec7210.c        |  23 ++--
+ drivers/staging/gpib/ni_usb/ni_usb_gpib.c     |  40 ++++--
+ drivers/staging/gpib/ni_usb/ni_usb_gpib.h     |  32 +++--
+ drivers/staging/gpib/pc2/pc2_gpib.c           |   5 +-
+ drivers/staging/gpib/tms9914/tms9914.c        |   9 +-
+ drivers/staging/gpib/tnt4882/tnt4882_gpib.c   |  32 +++--
+ 22 files changed, 421 insertions(+), 278 deletions(-)
+
 -- 
 2.49.0
 
