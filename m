@@ -1,37 +1,37 @@
-Received: from out.smtpout.orange.fr (outm-50.smtpout.orange.fr [193.252.22.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out.smtpout.orange.fr (out-67.smtpout.orange.fr [193.252.22.67])
+	(using TLSv1.2 with cipher AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 197F32AEE9
-	for <linux-staging@lists.linux.dev>; Sat, 12 Apr 2025 06:49:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.252.22.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7B4A7FD
+	for <linux-staging@lists.linux.dev>; Sat, 12 Apr 2025 07:09:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.252.22.67
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744440582; cv=none; b=ZzpAmnsbninDNSKmAD/rMKry0rYOx0poqFz3ddLbD1qZJRFfTE9BqR7nXmdFClbPWWlMAHv36LbdeQbJXMaZJ8QCsGZXJ6AqbMlovF+RzEo1zNNwDI5PZP3vursL4czVnRBpc2NZ8bWW5Sq4bCdVELAGkuxr6N2JLvmZH0RYoWQ=
+	t=1744441759; cv=none; b=LZj46oKR8Hz1wXfrbdUcVQvj/PGXpTWBFOaooTJiYxBS51kwaW7RAZmkIxVyghHFqIdpWaDsV39PNdEfh2s6HHWUdh3+MCcvd8/8Di4wteJfIvKwJM0BzPSWImPKZypp0gJlNnHYEYJjgiOlfhTEqV5wvtnHCLigIsplkT5e7yg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744440582; c=relaxed/simple;
-	bh=mH7zDevPNYTr+1kdTDaCGMSroPfVGxNIdvITme9rG+k=;
+	s=arc-20240116; t=1744441759; c=relaxed/simple;
+	bh=ObI/eBXSwueiLbh/W262pQOsW5q9GzUhDYiqINvHFH0=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=qXg2rrVSV50XV2SfvVRiIUPu1WDDePJMpsd5Z0E1QgLgXN3erXqR1rcXNadl6Yok0SbPWjib8JGaotj0mzokq7q5vX6PkzLNvlKP5qIpspbnMe0UzbcIIdQFXdpu0+ljwpzf2q8D87qsijagV5IibG1cIOg0PVb7r8T1J9Izgfo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=orange.fr; spf=pass smtp.mailfrom=orange.fr; dkim=pass (2048-bit key) header.d=orange.fr header.i=@orange.fr header.b=LZHV+Smt; arc=none smtp.client-ip=193.252.22.50
+	 MIME-Version:Content-Type; b=f5TpebRoahGza6EDR5cUeT12xtJ2L8CrDdLlZe10Q3d5pdu5EJ4EKc1r0t5MfADKZC2PgzXVjbqB0Jm+PtRNgTMRVbOoOFfONOb5hn+emOz11QluAblDScYJJBl4PdcuHYs82tYXSCJDqoKXPpgLRyCyZ0taMqvwl5fvtJap7jY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=orange.fr; spf=pass smtp.mailfrom=orange.fr; dkim=pass (2048-bit key) header.d=orange.fr header.i=@orange.fr header.b=pTCrFZNz; arc=none smtp.client-ip=193.252.22.67
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=orange.fr
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=orange.fr
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=orange.fr header.i=@orange.fr header.b="LZHV+Smt"
+	dkim=pass (2048-bit key) header.d=orange.fr header.i=@orange.fr header.b="pTCrFZNz"
 Received: from cyber-villager.csun.edu ([130.166.192.226])
 	by smtp.orange.fr with ESMTPA
-	id 3UgGulZ4tBkGO3UgKu651W; Sat, 12 Apr 2025 08:49:38 +0200
+	id 3Uy7uq3PTX7PJ3UyBuK7yP; Sat, 12 Apr 2025 09:08:06 +0200
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=orange.fr;
-	s=t20230301; t=1744440578;
-	bh=C8nI+H4mpuKXD1G5NCEn9hFgwdTXnNiDXVTLCrvw1Vo=;
+	s=t20230301; t=1744441686;
+	bh=RdrGqUxYKIUxWcSWCmpIVhg02jT+Jr6I9gU2Sw+YTQQ=;
 	h=From:To:Subject:Date:Message-ID:MIME-Version;
-	b=LZHV+Smt2NCFE5l6eSAbb7fTI+VUK7HWDKzyzi42IomwFbEQWq93V1xWTcIoI/YQn
-	 vk3jUMyWVzutKVel8Qrq3zU+WOMPUmsIqBQIpw5FDTQ4TFJD3Pj7lBSU8389qJUF/u
-	 n5uyjLithwgdA9GsxkZlcQWwQDubk9E/kKnN1CiCWBcHHXCBac6rs7lwZ1BnkMuQ2u
-	 q0WRIAUILW+uHjN9zf/OdzhfryWnjAzplcV4R07od/6BoYDe2EN2fprBZyABk6jN8S
-	 MEgMDjUiy1CegUXLQ5v0sDaSp4kXfmg3MHMiEkw3VVKUAYowWU3jhBcRSqtLV9qXdj
-	 QMC309/znEtjQ==
+	b=pTCrFZNzdtVCa+fssemeB7n3RXcpYzabWHbCCZ6JiKkSnfpZERmK+i+ewxRc6l1Li
+	 E1LmB7ER1BCuaOG2XS4RniSK5GiW6TLyJNq1WK22sSOD6UanmwjqGtCL7NBvJHV781
+	 +HqN8x1P5+loRH+QMLNzKtJsiaJTnUH3Lig4McPKjAh74Hh705Faty7QZdh1kpX2Mo
+	 fMVytaAfzpLqqjPe6xOrqpbMcSONAfLOu/tI8KZ5rwZlbcRUNFawaOBmyHlVXjmOda
+	 FVYvwPJQU3DMkqo2mZzx/uEi9oJ88W8LIz1qWYjFJgvJrBt1CH0+mUcbeGXtE2/5L4
+	 69Ahz092Y/lsg==
 X-ME-Helo: cyber-villager.csun.edu
 X-ME-Auth: cGF1bC5yZXRvdXJuZUBvcmFuZ2UuZnI=
-X-ME-Date: Sat, 12 Apr 2025 08:49:38 +0200
+X-ME-Date: Sat, 12 Apr 2025 09:08:06 +0200
 X-ME-IP: 130.166.192.226
 From: =?UTF-8?q?Paul=20Retourn=C3=A9?= <paul.retourne@orange.fr>
 To: gregkh@linuxfoundation.org,
@@ -40,9 +40,9 @@ To: gregkh@linuxfoundation.org,
 Cc: =?UTF-8?q?Paul=20Retourn=C3=A9?= <paul.retourne@orange.fr>,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH 12/16] staging: gpib: nec7210: fixes multiline comments style
-Date: Fri, 11 Apr 2025 23:49:26 -0700
-Message-ID: <2bdfadb59d11441d10c8e3994de49b876f8e7efe.1744438358.git.paul.retourne@orange.fr>
+Subject: [PATCH 13/16] staging: gpib: ni_usb: fixes multiline comments style
+Date: Sat, 12 Apr 2025 00:07:54 -0700
+Message-ID: <4b2762d349e06db8f541a86ca0ec429bc1351097.1744438358.git.paul.retourne@orange.fr>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <cover.1744438358.git.paul.retourne@orange.fr>
 References: <cover.1744438358.git.paul.retourne@orange.fr>
@@ -60,92 +60,177 @@ coding style.
 
 Signed-off-by: Paul Retourné <paul.retourne@orange.fr>
 ---
- drivers/staging/gpib/nec7210/nec7210.c | 23 +++++++++++++++--------
- 1 file changed, 15 insertions(+), 8 deletions(-)
+ drivers/staging/gpib/ni_usb/ni_usb_gpib.c | 40 +++++++++++++++--------
+ drivers/staging/gpib/ni_usb/ni_usb_gpib.h | 32 +++++++++++-------
+ 2 files changed, 47 insertions(+), 25 deletions(-)
 
-diff --git a/drivers/staging/gpib/nec7210/nec7210.c b/drivers/staging/gpib/nec7210/nec7210.c
-index 846c0a3fa1dc..eaa37f916b0b 100644
---- a/drivers/staging/gpib/nec7210/nec7210.c
-+++ b/drivers/staging/gpib/nec7210/nec7210.c
-@@ -79,7 +79,8 @@ void nec7210_parallel_poll_response(struct gpib_board *board, struct nec7210_pri
- 		write_byte(priv, AUX_CPPF, AUXMR);
- }
- EXPORT_SYMBOL(nec7210_parallel_poll_response);
--/* This is really only adequate for chips that do a 488.2 style reqt/reqf
-+/*
-+ * This is really only adequate for chips that do a 488.2 style reqt/reqf
-  * based on bit 6 of the SPMR (see chapter 11.3.3 of 488.2). For simpler chips that simply
-  * set rsv directly based on bit 6, we either need to do more hardware setup to expose
-  * the 488.2 capability (for example with NI chips), or we need to implement the
-@@ -202,7 +203,8 @@ unsigned int nec7210_update_status_nolock(struct gpib_board *board, struct nec72
- 		set_bit(SPOLL_NUM, &board->status);
- 	}
- 
--	/* we rely on the interrupt handler to set the
+diff --git a/drivers/staging/gpib/ni_usb/ni_usb_gpib.c b/drivers/staging/gpib/ni_usb/ni_usb_gpib.c
+index 9f1b9927f025..62735a0cb4ec 100644
+--- a/drivers/staging/gpib/ni_usb/ni_usb_gpib.c
++++ b/drivers/staging/gpib/ni_usb/ni_usb_gpib.c
+@@ -74,7 +74,8 @@ static unsigned short ni_usb_timeout_code(unsigned int usec)
+ 		return 0xff;
+ 	else if	 (usec <= 300000000)
+ 		return 0x01;
+-	/* NI driver actually uses 0xff for timeout T1000s, which is a bug in their code.
 +	/*
-+	 * we rely on the interrupt handler to set the
- 	 * rest of the status bits
++	 * NI driver actually uses 0xff for timeout T1000s, which is a bug in their code.
+ 	 * I've verified on a usb-b that a code of 0x2 is correct for a 1000 sec timeout
  	 */
- 
-@@ -482,7 +484,8 @@ static int pio_read(struct gpib_board *board, struct nec7210_priv *priv, uint8_t
- 		}
- 		if (test_bit(READ_READY_BN, &priv->state)) {
- 			if (*bytes_read == 0)	{
--				/* We set the handshake mode here because we know
-+				/*
-+				 * We set the handshake mode here because we know
- 				 * no new bytes will arrive (it has already arrived
- 				 * and is awaiting being read out of the chip) while we are changing
- 				 * modes.  This ensures we can reliably keep track
-@@ -662,7 +665,8 @@ static int pio_write(struct gpib_board *board, struct nec7210_priv *priv, uint8_
- 		if (retval == -EIO) {
- 			/* resend last byte on bus error */
- 			*bytes_written = last_count;
--			/* we can get unrecoverable bus errors,
+ 	else if (usec <= 1000000000)
+@@ -232,7 +233,8 @@ static int ni_usb_nonblocking_receive_bulk_msg(struct ni_usb_priv *ni_priv,
+ 	mutex_unlock(&ni_priv->bulk_transfer_lock);
+ 	if (interruptible) {
+ 		if (wait_for_completion_interruptible(&context->complete)) {
+-			/* If we got interrupted by a signal while
 +			/*
-+			 * we can get unrecoverable bus errors,
- 			 * so give up after a while
++			 * If we got interrupted by a signal while
+ 			 * waiting for the usb gpib to respond, we
+ 			 * should send a stop command so it will
+ 			 * finish up with whatever it was doing and
+@@ -240,8 +242,9 @@ static int ni_usb_nonblocking_receive_bulk_msg(struct ni_usb_priv *ni_priv,
  			 */
- 			bus_error_count++;
-@@ -805,7 +809,8 @@ int nec7210_write(struct gpib_board *board, struct nec7210_priv *priv,
- 	if (send_eoi) {
- 		size_t num_bytes;
- 
--		/* We need to wait to make sure we will immediately be able to write the data byte
+ 			ni_usb_stop(ni_priv);
+ 			retval = -ERESTARTSYS;
+-			/* now do an uninterruptible wait, it shouldn't take long
+-			 *	for the board to respond now.
++			/*
++			 * now do an uninterruptible wait, it shouldn't take long
++			 * for the board to respond now.
+ 			 */
+ 			wait_for_completion(&context->complete);
+ 		}
+@@ -684,7 +687,8 @@ static int ni_usb_read(struct gpib_board *board, uint8_t *buffer, size_t length,
+ 		retval = 0;
+ 		break;
+ 	case NIUSB_ABORTED_ERROR:
+-		/* this is expected if ni_usb_receive_bulk_msg got
 +		/*
-+		 * We need to wait to make sure we will immediately be able to write the data byte
- 		 * into the chip before sending the associated AUX_SEOI command.  This is really
- 		 * only needed for length==1 since otherwise the earlier calls to pio_write
- 		 * will have dont the wait already.
-@@ -827,7 +832,7 @@ int nec7210_write(struct gpib_board *board, struct nec7210_priv *priv,
- EXPORT_SYMBOL(nec7210_write);
- 
- /*
-- *  interrupt service routine
-+ * interrupt service routine
-  */
- irqreturn_t nec7210_interrupt(struct gpib_board *board, struct nec7210_priv *priv)
- {
-@@ -1021,7 +1026,8 @@ EXPORT_SYMBOL(nec7210_ioport_read_byte);
- void nec7210_ioport_write_byte(struct nec7210_priv *priv, uint8_t data, unsigned int register_num)
- {
- 	if (register_num == AUXMR)
--		/* locking makes absolutely sure noone accesses the
-+		/*
-+		 * locking makes absolutely sure noone accesses the
- 		 * AUXMR register faster than once per microsecond
++		 * this is expected if ni_usb_receive_bulk_msg got
+ 		 * interrupted by a signal and returned -ERESTARTSYS
  		 */
- 		nec7210_locking_ioport_write_byte(priv, data, register_num);
-@@ -1066,7 +1072,8 @@ EXPORT_SYMBOL(nec7210_iomem_read_byte);
- void nec7210_iomem_write_byte(struct nec7210_priv *priv, uint8_t data, unsigned int register_num)
- {
- 	if (register_num == AUXMR)
--		/* locking makes absolutely sure noone accesses the
+ 		break;
+@@ -794,7 +798,8 @@ static int ni_usb_write(struct gpib_board *board, uint8_t *buffer, size_t length
+ 		retval = 0;
+ 		break;
+ 	case NIUSB_ABORTED_ERROR:
+-		/* this is expected if ni_usb_receive_bulk_msg got
 +		/*
-+		 * locking makes absolutely sure noone accesses the
- 		 * AUXMR register faster than once per microsecond
++		 * this is expected if ni_usb_receive_bulk_msg got
+ 		 * interrupted by a signal and returned -ERESTARTSYS
  		 */
- 		nec7210_locking_iomem_write_byte(priv, data, register_num);
+ 		break;
+@@ -893,7 +898,8 @@ static int ni_usb_command_chunk(struct gpib_board *board, uint8_t *buffer, size_
+ 	case NIUSB_NO_ERROR:
+ 		break;
+ 	case NIUSB_ABORTED_ERROR:
+-		/* this is expected if ni_usb_receive_bulk_msg got
++		/*
++		 * this is expected if ni_usb_receive_bulk_msg got
+ 		 * interrupted by a signal and returned -ERESTARTSYS
+ 		 */
+ 		break;
+@@ -1192,8 +1198,9 @@ static int ni_usb_enable_eos(struct gpib_board *board, uint8_t eos_byte, int com
+ static void ni_usb_disable_eos(struct gpib_board *board)
+ {
+ 	struct ni_usb_priv *ni_priv = board->private_data;
+-	/* adapter gets unhappy if you don't zero all the bits
+-	 *	for the eos mode and eos char (returns error 4 on reads).
++	/*
++	 * adapter gets unhappy if you don't zero all the bits
++	 * for the eos mode and eos char (returns error 4 on reads).
+ 	 */
+ 	ni_priv->eos_mode = 0;
+ 	ni_priv->eos_char = 0;
+@@ -2045,8 +2052,10 @@ static int ni_usb_hs_wait_for_ready(struct ni_usb_priv *ni_priv)
+ 			unexpected = 1;
+ 		}
+ 		++j;
+-		// MC usb-488 (and sometimes NI-USB-HS?) sends 0x8 here; MC usb-488A sends 0x7 here
+-		// NI-USB-HS+ sends 0x0
++		/*
++		 * MC usb-488 (and sometimes NI-USB-HS?) sends 0x8 here; MC usb-488A sends 0x7 here
++		 * NI-USB-HS+ sends 0x0
++		 */
+ 		if (buffer[j] != 0x1 && buffer[j] != 0x8 && buffer[j] != 0x7 && buffer[j] != 0x0) {
+ 			// [3]
+ 			dev_err(&usb_dev->dev, "unexpected data: buffer[%i]=0x%x, expected 0x0, 0x1, 0x7 or 0x8\n",
+@@ -2127,7 +2136,8 @@ static int ni_usb_hs_wait_for_ready(struct ni_usb_priv *ni_priv)
+ 	return retval;
+ }
+ 
+-/* This does some extra init for HS+ models, as observed on Windows.  One of the
++/*
++ * This does some extra init for HS+ models, as observed on Windows.  One of the
+  * control requests causes the LED to stop blinking.
+  * I'm not sure what the other 2 requests do.  None of these requests are actually required
+  * for the adapter to work, maybe they do some init for the analyzer interface
+@@ -2343,8 +2353,10 @@ static void ni_usb_detach(struct gpib_board *board)
+ 	struct ni_usb_priv *ni_priv;
+ 
+ 	mutex_lock(&ni_usb_hotplug_lock);
+-// under windows, software unplug does chip_reset nec7210 aux command,
+-// then writes 0x0 to address 0x10 of device 3
++	/*
++	 * under windows, software unplug does chip_reset nec7210 aux command,
++	 * then writes 0x0 to address 0x10 of device 3
++	 */
+ 	ni_priv = board->private_data;
+ 	if (ni_priv) {
+ 		if (ni_priv->bus_interface) {
+diff --git a/drivers/staging/gpib/ni_usb/ni_usb_gpib.h b/drivers/staging/gpib/ni_usb/ni_usb_gpib.h
+index 4b297db09a9b..b011e131201c 100644
+--- a/drivers/staging/gpib/ni_usb/ni_usb_gpib.h
++++ b/drivers/staging/gpib/ni_usb/ni_usb_gpib.h
+@@ -113,27 +113,37 @@ enum ni_usb_bulk_ids {
+ 
+ enum ni_usb_error_codes {
+ 	NIUSB_NO_ERROR = 0,
+-	/* NIUSB_ABORTED_ERROR occurs when I/O is interrupted early by
+-	 *	doing a NI_USB_STOP_REQUEST on the control endpoint.
++	/*
++	 * NIUSB_ABORTED_ERROR occurs when I/O is interrupted early by
++	 * doing a NI_USB_STOP_REQUEST on the control endpoint.
+ 	 */
+ 	NIUSB_ABORTED_ERROR = 1,
+-	// NIUSB_READ_ATN_ERROR occurs when you do a board read while
+-	// ATN is set
++	/*
++	 * NIUSB_READ_ATN_ERROR occurs when you do a board read while
++	 * ATN is set
++	 */
+ 	NIUSB_ATN_STATE_ERROR = 2,
+-	// NIUSB_ADDRESSING_ERROR occurs when you do a board
+-	// read/write as CIC but are not in LACS/TACS
++	/*
++	 * NIUSB_ADDRESSING_ERROR occurs when you do a board
++	 * read/write as CIC but are not in LACS/TACS
++	 */
+ 	NIUSB_ADDRESSING_ERROR = 3,
+-	/* NIUSB_EOSMODE_ERROR occurs on reads if any eos mode or char
++	/*
++	 * NIUSB_EOSMODE_ERROR occurs on reads if any eos mode or char
+ 	 * bits are set when REOS is not set.
+ 	 * Have also seen error 4 if you try to send more than 16
+ 	 * command bytes at once on a usb-b.
+ 	 */
+ 	NIUSB_EOSMODE_ERROR = 4,
+-	// NIUSB_NO_BUS_ERROR occurs when you try to write a command
+-	// byte but there are no devices connected to the gpib bus
++	/*
++	 * NIUSB_NO_BUS_ERROR occurs when you try to write a command
++	 * byte but there are no devices connected to the gpib bus
++	 */
+ 	NIUSB_NO_BUS_ERROR = 5,
+-	// NIUSB_NO_LISTENER_ERROR occurs when you do a board write as
+-	// CIC with no listener
++	/*
++	 * NIUSB_NO_LISTENER_ERROR occurs when you do a board write as
++	 * CIC with no listener
++	 */
+ 	NIUSB_NO_LISTENER_ERROR = 8,
+ 	// get NIUSB_TIMEOUT_ERROR on board read/write timeout
+ 	NIUSB_TIMEOUT_ERROR = 10,
 -- 
 2.49.0
 
