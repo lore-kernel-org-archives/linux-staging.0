@@ -1,114 +1,103 @@
-Received: from mail-qv1-f47.google.com (mail-qv1-f47.google.com [209.85.219.47])
+Received: from mail-ot1-f44.google.com (mail-ot1-f44.google.com [209.85.210.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA827288C84
-	for <linux-staging@lists.linux.dev>; Mon, 14 Apr 2025 14:09:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90D682749CC
+	for <linux-staging@lists.linux.dev>; Mon, 14 Apr 2025 14:59:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744639748; cv=none; b=rPxZZSS0G6ozOBaMmecztfvdB3cwAQdDGXj5mXyUGIADIaPMCsv+SygsokhJfQEre/Ulz/Vy4GYZNauLUBXnmnZv8jfKh2mDsr0bTBNiAKW86Zrh62aQmyUJvqOmJWrX1diOEsokj0bEEDoBFB/zdlyBRfOkPqKEd38NA4V9EJE=
+	t=1744642749; cv=none; b=jD+iJUwV8+u0+q+jG2zYtdjq18PpKkzhcf9iqZtLfC4D22BYYEZs+EKAU9GFxr3NFVn76FjkI9VAOSx4OmTNsGzkun/P1iRrJdVVu6xr9M1h0ycjx23QqbXXwEX2ROKhxpLM2QGQ5yafT6XXR/sUtErVKvYIMBLuuo0NTJNPn1U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744639748; c=relaxed/simple;
-	bh=B12gaYxryrr/rPJ3pcLrF0Rl7Kt4JWDFN75r8W5U58A=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=NKMTM4kYavFgopqmQB+qdS8PAHKn1PO/gigGAwfjrP2qzsGi1TYCa0nUV/jpX1AB4CujdY/NXO41vSkAvmjsD+sfEIY4X7dlc4aGRcyjI7b1xTNQz+Vf2odsCUKnbIF/zQ4BFcYWGoDjih5cYiKbJKmTNvuZBGNtJJnKa/s/kGY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NJzpWgyv; arc=none smtp.client-ip=209.85.219.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1744642749; c=relaxed/simple;
+	bh=x8T8uwj/TLGIU0lF+Fq0pjFkLdrbonvSm35PpZ00zz0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=bV8UEeYek+je6fzj3dBS1+OIT/bOnW3K/mcE3nRMzVbNWi8Y3mSf0IW0YHDyyFjjTCHjQvfNDhLfdVCKxgVQFXtXieSYwE93GPdpYGgYjAkhvJnEuJKlgEj7t4JF51S28T4z0LhokJMGYUi8ADbLGhVEHbxNmNMjUF9/aDtdxoA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=hhDT77ot; arc=none smtp.client-ip=209.85.210.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NJzpWgyv"
-Received: by mail-qv1-f47.google.com with SMTP id 6a1803df08f44-6eaf1b6ce9aso49019066d6.2
-        for <linux-staging@lists.linux.dev>; Mon, 14 Apr 2025 07:09:06 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="hhDT77ot"
+Received: by mail-ot1-f44.google.com with SMTP id 46e09a7af769-72bceb93f2fso2930328a34.0
+        for <linux-staging@lists.linux.dev>; Mon, 14 Apr 2025 07:59:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1744639745; x=1745244545; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=CnhmU/ZILoUaMWGd+8bGeiu5Y0rkdVWKSR+fUdJPinE=;
-        b=NJzpWgyvsMUu5nOyBBaPERCS/I2fDBALRadul6GZsaT0RLeEeyVTvK/PAeCd0Jan5V
-         Acze50lBSx2RqefkyeE9M8GYJwhB0+t0M8y2D9q0OoKwdHiF2zv6x0oYQMNGkH5toGw5
-         cMOI1FzFEvT6mmo51/PO10/2TySpmSC5RfDoLiBYl3wL4vd/n5ct53/ohWi1zl5X8Jwj
-         m9DfWVCkNyVaj+7hRSKkp4OLsKdEp1tDgMu0a+FzVfC7aJ41B4D5GNCHQK2zjMriAHpU
-         BykfKYcKxGFHUJQnB90xRMwgNL8ocQzW4LwDqgIQ3l0o8QTZq9eSItSBMb5u4iPJSnEd
-         m2+w==
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1744642746; x=1745247546; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=PTu/tTBiLDnLTo19OmaQLQq2DdZvvnanifk4lVRIq1Y=;
+        b=hhDT77otzRP5XOEBI40046I4X6oOR6RfqisNu5j0rrlDCTqKk6aKq6XeUIBYeETgh2
+         QiJDyzVq8FCJN4aVSRm2n+mPxNXWV3z7EVyjtno7NSg7ep6RmEz4sjh9x//g2W8gNzKC
+         P7CLxFJM0kdBW1tJSrkGgyonMtirc0OlmsuPvFsZQbdYIKML1sqni3oBr3VN5/ItF8qV
+         +j5ORfksiGKDty9qBNEjMY1qU5CUOW8JOffsPwnganLziGDZ2HT2HguTxpKK2NLI4XDC
+         eKMLt94g5kgKxhSqkUmxVE4zH6RD2NMqRH30jbxC1kljKoMNg9Cxs5MuOF77YqOMupC4
+         pQiw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744639745; x=1745244545;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=CnhmU/ZILoUaMWGd+8bGeiu5Y0rkdVWKSR+fUdJPinE=;
-        b=dMUJK1z4ZEo3vdaL1sPAy48BS4ZrzuEXT63fT1WUqlSe1oA0HxqzSf/EEw644SPmt8
-         lglYRNzRIwoh0aGFi/1cF3cyNa4UBjWQZ2tPlUuHAwxAj16IupjbrsTu/xXcsw1YEuxg
-         UUfMStbW5hvvrYPL4i5gLh2paIYFZy7fgBV+81OiHUBEFlZzwPdvfOiNsIS8qHDOCwEY
-         TsZ5nIVtgRcAYXyFvqwwC3agex2Uy/RIOtpxiu2qA2RG8hpdElVdC/P/vQ7mNFzY72bb
-         Tprl50zyKiR1blkAm/e+DXpvoRJGMWikNeEzWSoQ8MfZuqWT74QU7fSZm4dgF1v8Uxs6
-         7j8Q==
-X-Forwarded-Encrypted: i=1; AJvYcCWslHyd9BRNnlFOrH/wAvOcgBDeY+0kKRjYciPwUD1nXDuZoN6+toZC8Q9gR5Z6hHPaPrZXZVRqonWxRKJC@lists.linux.dev
-X-Gm-Message-State: AOJu0YyW3kFbGtit2DfKj06MQEMWP2NAMCgx+ggqR0T26fxelrXPVNMN
-	fHCArDBws6KMT90lKb7iOdgBIHQvi/OKJnv8mb75MOeAtkmylCQK
-X-Gm-Gg: ASbGncs5zp2L++VguVitM9Rsdb3Wfk4zloz00UW9oFwRYEEFgRBuGvw/Y4kAk5Qg+Q6
-	YNEBVpcwbr11s9BgjpJvg9UMaS70HxABp5OgOE4saOuLaqxZhW4zYywSfTxW8PpJRZ61G7Ovlx6
-	cOlaks03NoBAXeU83oxWVdbBZZJw5AnRl3q4SSARd9pioFjn1iq3s1NhUYbaMK6g2qUnFJLzAM2
-	oeTc0QDSRiCiTcmfWzoUjRzCN2eVD/n2+Eaakxnp47nQqxFelNagJaZcV3jo/4TrTGalDZXUzbf
-	+vgrAFXcEW7gLmDvDI2uFqqYKwDFdukvhjCp8RzMf9Re6vIqJ0uOpruaNA1BvRukCQ67KfwJnEY
-	u/wOtG+X2acr5B5eczJw=
-X-Google-Smtp-Source: AGHT+IFGRinbFYIbEanUCrc0USF9meGu9XI5hh+1+7w8QKX2Q86t6AvSznRkMwFHVH86Mq5ooeGfGQ==
-X-Received: by 2002:a05:6214:d44:b0:6e8:e828:820d with SMTP id 6a1803df08f44-6f23f14bc14mr238912856d6.36.1744639745184;
-        Mon, 14 Apr 2025 07:09:05 -0700 (PDT)
-Received: from theriatric.mshome.net (c-73-123-232-110.hsd1.ma.comcast.net. [73.123.232.110])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6f0de973552sm84019906d6.50.2025.04.14.07.09.04
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 14 Apr 2025 07:09:04 -0700 (PDT)
-From: Gabriel Shahrouzi <gshahrouzi@gmail.com>
-To: Lars-Peter Clausen <lars@metafoo.de>,
-	Michael Hennerich <Michael.Hennerich@analog.com>,
-	Jonathan Cameron <jic23@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-iio@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Cc: gshahrozui@gmail.com,
-	skhan@linuxfoundation.org,
-	kernelmentees@lists.linuxfoundation.org,
-	Gabriel Shahrouzi <gshahrouzi@gmail.com>
-Subject: [PATCH] iio: adc: Correct conditional logic for store mode
-Date: Mon, 14 Apr 2025 10:09:01 -0400
-Message-ID: <20250414140901.460719-1-gshahrouzi@gmail.com>
-X-Mailer: git-send-email 2.43.0
+        d=1e100.net; s=20230601; t=1744642746; x=1745247546;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=PTu/tTBiLDnLTo19OmaQLQq2DdZvvnanifk4lVRIq1Y=;
+        b=lQK7QynynQBD9cDO/FmknNSe+wMVEUxRvxh57S7St5GlalCoc+X2g3hsYSCD7z3Wmk
+         oau9FCkevfMMzy3nNz3uTYF8JXwlP+4WjfzmaMkbhm3GiaZCUkPeczvlr2g7ijerLy43
+         VN0O5ygm0fKeXT4Ad80p82JPP0F/NPWivUngo0D8bZEyA4QgyopvY3bsLkq/0ydqjqLE
+         6tL63U4Vv8HO2Fdn05TSNNRPWvtiCM2uGH8dnxoJqSP1JwsKpsm3uSeEN96F+qN0L4t2
+         +47DXXHEZ0q1id9qBEtQx9NEbBGG4DxA6RvDTnbyYAEqpG5P4CnK7JFVXw3DqlxevoQx
+         NCJQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVJvuxbzeAbBScur08VJThUAkuf+W9OuGj3nBFqL06FvpPWLu/AfDS7veJMcU+S5IMK6tufIp9XvWrhd1a7@lists.linux.dev
+X-Gm-Message-State: AOJu0YytRG8GWYkgGo01RD7P3eSUIdjycKcEr1t6WS1xJUZYlc/YSr99
+	Drm8pMaY6Ep99g/P9seIj34fnPTHoKz+EIGjht4vdA17YdnsEwGOIFqsrzgvlDE=
+X-Gm-Gg: ASbGncv36fZSdwi7/54cXn8hgYw0zFyPXrYoaI4oOCSnUFr50weUN1vE6WzEfjnOHCv
+	zxbd9xozGXUKO1qvlXThi1bZjSlXE+1OUSwRLlzrTr66hivKq5281m8miVcv0WYyxzZ29ixKbl/
+	rwkULTpACk4ZDC3tE7nRpZDOwSauD0n4GtL1M6up9Yj+CI/hn4EPlUWmwYW3yuZUwHaf8Or12S1
+	3soOOr6qNWjXXyXlNCA7sC5Ulh2hfVxpdmHugmYpVycJ7sirweFUA2xCP5k9i9SWSYsHEpkQ5yI
+	9p7ncXtnzlLPsH64vEsBDwPCYwmOehN7p0q+oSZkPftd+zyvbAX8cYEcBrGvkeMVtr/Uoo+pIlA
+	uj3Uhbhqrd+FxTT3MD31xAlI4INu/
+X-Google-Smtp-Source: AGHT+IF1glTK7Rxcw8wLI6vS9cuIAF6Jejh7PaHmK35pumQJ1AqOK5QhIhTv8QqFc965AKmemYt/Rg==
+X-Received: by 2002:a05:6830:6209:b0:72a:1222:9e8a with SMTP id 46e09a7af769-72e863c607fmr7034537a34.14.1744642746453;
+        Mon, 14 Apr 2025 07:59:06 -0700 (PDT)
+Received: from ?IPV6:2600:8803:e7e4:1d00:442c:b496:9db4:da43? ([2600:8803:e7e4:1d00:442c:b496:9db4:da43])
+        by smtp.gmail.com with ESMTPSA id 46e09a7af769-72e73d8ee4esm2029688a34.39.2025.04.14.07.59.05
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 14 Apr 2025 07:59:06 -0700 (PDT)
+Message-ID: <0b1b428d-9ad0-4581-a13a-88f4ffd6c4e3@baylibre.com>
+Date: Mon, 14 Apr 2025 09:59:05 -0500
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] iio: adc: Correct conditional logic for store mode
+To: Gabriel Shahrouzi <gshahrouzi@gmail.com>,
+ Lars-Peter Clausen <lars@metafoo.de>,
+ Michael Hennerich <Michael.Hennerich@analog.com>,
+ Jonathan Cameron <jic23@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-iio@vger.kernel.org,
+ linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Cc: gshahrozui@gmail.com, skhan@linuxfoundation.org,
+ kernelmentees@lists.linuxfoundation.org
+References: <20250414140901.460719-1-gshahrouzi@gmail.com>
+Content-Language: en-US
+From: David Lechner <dlechner@baylibre.com>
+In-Reply-To: <20250414140901.460719-1-gshahrouzi@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-The mode setting logic in ad7816_store_mode was reversed due to
-incorrect handling of the strcmp return value. strcmp returns 0 on
-match, so the `if (strcmp(buf, "full"))` block executed when the
-input was not "full".
+On 4/14/25 9:09 AM, Gabriel Shahrouzi wrote:
+> The mode setting logic in ad7816_store_mode was reversed due to
+> incorrect handling of the strcmp return value. strcmp returns 0 on
+> match, so the `if (strcmp(buf, "full"))` block executed when the
+> input was not "full".
+> 
+> This resulted in "full" setting the mode to AD7816_PD (power-down) and
+> other inputs setting it to AD7816_FULL.
+> 
+> Fix this by checking it against 0 to correctly check for "full" and
+> "power-down", mapping them to AD7816_FULL and AD7816_PD respectively.
+> 
 
-This resulted in "full" setting the mode to AD7816_PD (power-down) and
-other inputs setting it to AD7816_FULL.
+Sounds like we need a Fixes: tag here that reference the commit
+that introduced the bug.
 
-Fix this by checking it against 0 to correctly check for "full" and
-"power-down", mapping them to AD7816_FULL and AD7816_PD respectively.
-
-Signed-off-by: Gabriel Shahrouzi <gshahrouzi@gmail.com>
----
- drivers/staging/iio/adc/ad7816.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/staging/iio/adc/ad7816.c b/drivers/staging/iio/adc/ad7816.c
-index 6c14d7bcdd675..6b545547660dd 100644
---- a/drivers/staging/iio/adc/ad7816.c
-+++ b/drivers/staging/iio/adc/ad7816.c
-@@ -136,7 +136,7 @@ static ssize_t ad7816_store_mode(struct device *dev,
- 	struct iio_dev *indio_dev = dev_to_iio_dev(dev);
- 	struct ad7816_chip_info *chip = iio_priv(indio_dev);
- 
--	if (strcmp(buf, "full")) {
-+	if (sysfs_streq(buf, "full")) {
- 		gpiod_set_value(chip->rdwr_pin, 1);
- 		chip->mode = AD7816_FULL;
- 	} else {
--- 
-2.43.0
-
+> Signed-off-by: Gabriel Shahrouzi <gshahrouzi@gmail.com>
+> ---
