@@ -1,121 +1,123 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 867651A3BC0;
-	Mon, 14 Apr 2025 17:50:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9517828B518;
+	Mon, 14 Apr 2025 18:53:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744653034; cv=none; b=T90PVJG8zjxZN45r0xSarItxizfe/LKUrcoDE9Aq+TYSYr4tNYj/Pt7vq753EkMRBo1OEZPyhJiuXsibJtlU1heOwZ3+6mI/S4rWJ2nHuK5lMq9HzBSpcotIGrvO/c5hEZ2Jmomcgyyio0z+ep8A8klciEU3wdkO6/Ehl8aIUoE=
+	t=1744656800; cv=none; b=TW1wmq0mBE9NsxTXVKf+PV/BFfXyrFsMYAZIwwbt2CljsN+m1PCM/azGqS85V5CYQn6zPOdbpt7DiCGMPasyPTKXMPne1rmKRsdJLe7ACbvw+Zzm6s0IUVgAiY5Zcj7lInHrwyfEKivOolgMOb0f0KG1KjM/Fpuo/TevupTI+Ig=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744653034; c=relaxed/simple;
-	bh=u0lppupJ28hlw5WA6282KGjOBJl0lejCj3CJJJ9QQ5c=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mJbYGoA5pqwO5+Kq5y0ZSizDHt3viMXf/Nzi5XJlB0z9AOhLN0/JPf7Qjnw4DPRD4JrVYRhyt9jnP0OlyV/nSbx/K7nF3o9SkT4sArRiuiWViSepjEfizlJaEyP3iBo6P9qjy08TH+Nyu/XchsYDcdCBmCB5Pz7DYd2BhAtNm+4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=Peo7dLMN; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1744656800; c=relaxed/simple;
+	bh=fOXHTuFEy8BcwPnOUIuFPVYxOii1nkPm25ZbbL/uZAQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=tH8pGba+bD4iLZrs8gTkoWES1COGq7nzRd7aUlnQwbpODg5zTfT1ngUPyaABsTYNO387pdua90tLq3454jiL2CwkNLcToZUoB9JfvqVphXL4SgrCrCyDBlsULvVHrzpRYTesterEXL0w8VqeE5SUWOhSIGpEnzijdlIA8Jus7ss=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hj3jeW8k; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="Peo7dLMN"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 96B68C4CEE2;
-	Mon, 14 Apr 2025 17:50:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1744653033;
-	bh=u0lppupJ28hlw5WA6282KGjOBJl0lejCj3CJJJ9QQ5c=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Peo7dLMNP7L+GnBEqhqRYXDCeB4nrkjvXC0pwxhnC03PwR9MwW0L0YhmXOwUnrEz6
-	 wF8qQp+GCxtQhVgmiWhU8XgQLjnpeQdhNLZdAH5g/+4F2KsWE+DJWIH0tY3Y7OLvx1
-	 nCuZdaqahi5+h9p8+iBz0rZlRv3EtZtv+pPGiVAA=
-Date: Mon, 14 Apr 2025 19:50:31 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Cc: Florian Fainelli <florian.fainelli@broadcom.com>,
-	Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-	Umang Jain <umang.jain@ideasonboard.com>,
-	Stefan Wahren <wahrenst@gmx.net>, linux-staging@lists.linux.dev,
-	linux-rpi-kernel@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: bcm2835-camera: Initialise dev in v4l2_dev
-Message-ID: <2025041421-fancied-thursday-97d8@gregkh>
-References: <20250414-staging-bcm2835-v4l2-fix-v1-1-2b2db9a8f293@raspberrypi.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hj3jeW8k"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A2AE1C4CEEF;
+	Mon, 14 Apr 2025 18:53:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1744656800;
+	bh=fOXHTuFEy8BcwPnOUIuFPVYxOii1nkPm25ZbbL/uZAQ=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=hj3jeW8ket3ot1aAXNwtOuqNU8GADgcExTtC0bOnEZUtzKlOqTCxXPASPNzFhXjwA
+	 svzWoOYmt0gkhD71BfR9xyr5Qc7A3eQMhyqZ5FOt/i1Py/Ms/AcdC/t/tjcz8bgnZ4
+	 xfjC+/W7I/VjRpD+WDSiuizU/OErb/YLvToMYi8xrT/lXuMRwBEuGd+bF2yGQ3TcpF
+	 RTdgcWr7ZLp1Zl7328HShPtojRPRNXpUAxFRI/g2Ij3hAlYaLeS4DG18M4zPgr/NiS
+	 Ivvg6oi62y8Turqm/N+4yUGW1oMkbwoZxFZ63V1Rb4SXJ6h+bwlWHHyZeAZKPZS1FV
+	 YA6ljFO+4b0mw==
+Date: Mon, 14 Apr 2025 19:53:11 +0100
+From: Jonathan Cameron <jic23@kernel.org>
+To: Marcelo Schmitt <marcelo.schmitt1@gmail.com>
+Cc: Siddharth Menon <simeddon@gmail.com>, linux-iio@vger.kernel.org,
+ lars@metafoo.de, Michael.Hennerich@analog.com, gregkh@linuxfoundation.org,
+ linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
+Subject: Re: [PATCH v6] iio: frequency: ad9832: Use FIELD_PREP macro to set
+ bit fields
+Message-ID: <20250414195311.6a406c35@jic23-huawei>
+In-Reply-To: <Z_v93dtgks2CquIn@debian-BULLSEYE-live-builder-AMD64>
+References: <20250413120354.19163-1-simeddon@gmail.com>
+	<Z_v93dtgks2CquIn@debian-BULLSEYE-live-builder-AMD64>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.48; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250414-staging-bcm2835-v4l2-fix-v1-1-2b2db9a8f293@raspberrypi.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Mon, Apr 14, 2025 at 06:41:47PM +0100, Dave Stevenson wrote:
-> Commit 42a2f6664e18 ("staging: vc04_services: Move global g_state to
-> vchiq_state") changed mmal_init to pass dev->v4l2_dev.dev to
-> vchiq_mmal_init, however nothing iniitialised dev->v4l2_dev, so we got
-> a NULL pointer dereference.
+On Sun, 13 Apr 2025 15:09:33 -0300
+Marcelo Schmitt <marcelo.schmitt1@gmail.com> wrote:
+
+> Hi Siddharth,
 > 
-> Set dev->v4l2_dev.dev during bcm2835_mmal_probe. The device pointer
-> could be passed into v4l2_device_register to set it, however that also
-> has other effects that would need additional changes.
+> Your patch looks good to me and I keep the review tag offered on the other email.
+> One small thing I noticed right before closing the driver. See comments below.
 > 
-> Fixes: 42a2f6664e18 ("staging: vc04_services: Move global g_state to vchiq_state")
-> Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
-> ---
-> Noted as we switched to 6.12 that the driver would fail during probe
-> with an invalid dereference if a camera module was actually configured
-> for the legacy camera stack.
-> https://github.com/raspberrypi/linux/issues/6753
-> ---
->  drivers/staging/vc04_services/bcm2835-camera/bcm2835-camera.c | 1 +
->  1 file changed, 1 insertion(+)
+> On 04/13, Siddharth Menon wrote:
+> > Use bitfield and bitmask macros to clearly specify AD9832 SPI
+> > command fields to make register write code more readable.
+> > 
+> > Suggested-by: Marcelo Schmitt <marcelo.schmitt1@gmail.com>
+> > Signed-off-by: Siddharth Menon <simeddon@gmail.com>
+> > ---  
+> ...
+> > +
+> > +		st->data = cpu_to_be16(FIELD_PREP(AD9832_CMD_MSK, AD9832_CMD_SYNCSELSRC) |
+> >  					st->ctrl_ss);  
+> I think st->ctrl_ss alignment with the preceding parenthesis could also have
+> been adjusted since the patch is updating the very same assignment.
+> 		st->data = cpu_to_be16(FIELD_PREP(AD9832_CMD_MSK, AD9832_CMD_SYNCSELSRC) |
+> 						  st->ctrl_ss);
+> There are some other places where similar change could be done but these are
+> probably not a reason for a v7.
+Good spot.
+
+I'd like these cleaned up. I could do it whilst applying but as there are quite a few of
+them it is probably quicker to send me a v7 ;)
+
+Jonathan
+
 > 
-> diff --git a/drivers/staging/vc04_services/bcm2835-camera/bcm2835-camera.c b/drivers/staging/vc04_services/bcm2835-camera/bcm2835-camera.c
-> index b839b50ac26a..fa7ea4ca4c36 100644
-> --- a/drivers/staging/vc04_services/bcm2835-camera/bcm2835-camera.c
-> +++ b/drivers/staging/vc04_services/bcm2835-camera/bcm2835-camera.c
-> @@ -1900,6 +1900,7 @@ static int bcm2835_mmal_probe(struct vchiq_device *device)
->  				__func__, ret);
->  			goto free_dev;
->  		}
-> +		dev->v4l2_dev.dev = &device->dev;
->  
->  		/* setup v4l controls */
->  		ret = bcm2835_mmal_init_controls(dev, &dev->ctrl_handler);
+> >  		ret = spi_sync(st->spi, &st->msg);
+> >  		break;  
+> ...
+> > -		st->data = cpu_to_be16((AD9832_CMD_FPSELECT << CMD_SHIFT) |
+> > +		st->data = cpu_to_be16(FIELD_PREP(AD9832_CMD_MSK, AD9832_CMD_FPSELECT) |
+> >  					st->ctrl_fp);  
+> This one would have become 
+> 		st->data = cpu_to_be16(FIELD_PREP(AD9832_CMD_MSK, AD9832_CMD_FPSELECT) |
+> 						  st->ctrl_fp);
 > 
-> ---
-> base-commit: 0af2f6be1b4281385b618cb86ad946eded089ac8
-> change-id: 20250410-staging-bcm2835-v4l2-fix-b8dbd933c23b
+> >  		ret = spi_sync(st->spi, &st->msg);
+> >  		break;  
+> ...
+> > -		st->data = cpu_to_be16((AD9832_CMD_FPSELECT << CMD_SHIFT) |
+> > +		st->data = cpu_to_be16(FIELD_PREP(AD9832_CMD_MSK, AD9832_CMD_FPSELECT) |
+> >  					st->ctrl_fp);  
+> Same here
+> >  		ret = spi_sync(st->spi, &st->msg);
+> >  		break;  
+> ...
+> >  
+> > -		st->data = cpu_to_be16((AD9832_CMD_SLEEPRESCLR << CMD_SHIFT) |
+> > +		st->data = cpu_to_be16(FIELD_PREP(AD9832_CMD_MSK, AD9832_CMD_SLEEPRESCLR) |
+> >  					st->ctrl_src);  
+> ditto
 > 
-> Best regards,
-> -- 
-> Dave Stevenson <dave.stevenson@raspberrypi.com>
+> >  		ret = spi_sync(st->spi, &st->msg);
+> >  		break;
+> > @@ -396,7 +400,7 @@ static int ad9832_probe(struct spi_device *spi)
+> >  	spi_message_add_tail(&st->phase_xfer[1], &st->phase_msg);
+> >  
+> >  	st->ctrl_src = AD9832_SLEEP | AD9832_RESET | AD9832_CLR;
+> > -	st->data = cpu_to_be16((AD9832_CMD_SLEEPRESCLR << CMD_SHIFT) |
+> > +	st->data = cpu_to_be16(FIELD_PREP(AD9832_CMD_MSK, AD9832_CMD_SLEEPRESCLR) |
+> >  					st->ctrl_src);  
+> ditto
 > 
-> 
+> Regards,
+> Marcelo
 
-Hi,
-
-This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
-a patch that has triggered this response.  He used to manually respond
-to these common problems, but in order to save his sanity (he kept
-writing the same thing over and over, yet to different people), I was
-created.  Hopefully you will not take offence and will fix the problem
-in your patch and resubmit it so that it can be accepted into the Linux
-kernel tree.
-
-You are receiving this message because of the following common error(s)
-as indicated below:
-
-- You have marked a patch with a "Fixes:" tag for a commit that is in an
-  older released kernel, yet you do not have a cc: stable line in the
-  signed-off-by area at all, which means that the patch will not be
-  applied to any older kernel releases.  To properly fix this, please
-  follow the documented rules in the
-  Documentation/process/stable-kernel-rules.rst file for how to resolve
-  this.
-
-If you wish to discuss this problem further, or you have questions about
-how to resolve this issue, please feel free to respond to this email and
-Greg will reply once he has dug out from the pending patches received
-from other developers.
-
-thanks,
-
-greg k-h's patch email bot
