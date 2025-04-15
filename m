@@ -1,74 +1,113 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14EAB76026;
-	Tue, 15 Apr 2025 13:01:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E66025776;
+	Tue, 15 Apr 2025 13:35:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744722109; cv=none; b=lX8qj99Jq+3ptaogPLPZNP0nEJXeYU1KcfR6Oov6BU0K5FGtNrxLkLKBWYJDgvxWD4iOJlNHQzct8ssp9TZbEVQXVVqT0wNoVZwX5PRgZt2TSrxGms8txZA6cYyZ2kPcws9A8L2lQAijXx+i9UOr1fLlkakl0h0FsXw8k9WAkwg=
+	t=1744724107; cv=none; b=uC09ivnc9MOyCvM8dOQE+XNtrJwHo0jotqxTPyAE5T6AfdEQI3Tm2LwmS+/wLn+VOzR7s1ePNxYqvhaOZATmZFCOYieFzueAJJwHdCVXTXqomRgnCbhEFt9Msbi8EFTpjXRDC5wYZ3vmHnjMnD1PwQz2YOJe7jqIC9gXxBPDza4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744722109; c=relaxed/simple;
-	bh=/ZyBKPl+icr/iZKTjKYPQMSt0pK3OLsfxPbLuRV69C0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CBTSn3qXnihKPF7Lq4MBIisFJHCHZLQ5Et/GLol0iXk0LtRMjYfESzCGzIgf5dTvxQ3GZs5J0yCXTHQVhl1KFhJXm8QGlm2TroXPqD55bqH9NU6oDn5feMcYC/BQ8eB4P+f8SmDeQQ8MHpa3qYT5XkfFUqtrJHpA+ohDCnNXi08=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=0l9gbBRf; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1744724107; c=relaxed/simple;
+	bh=pprMqPez/8Jyc3i4Z+10XDj1QJQemlqTj9hsKCg5+Rg=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=HXG/22P0HIF1EYcQWSaPrKH8XGmHUzf5yKaQL+2pe2A7FNHH5oPhkEbyf4fwXt82RehYkxXt0X5is8Q6k7gn4Tmi89l6PeSAVlQsg6LwImqVcE9vcT2I7KhJ0raqzwT+RberExb/w1gZrV7DtzWjbBCgWRHKBHBgiyueIKSRyiA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YVc68VCC; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="0l9gbBRf"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 34B09C4CEEB;
-	Tue, 15 Apr 2025 13:01:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1744722108;
-	bh=/ZyBKPl+icr/iZKTjKYPQMSt0pK3OLsfxPbLuRV69C0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=0l9gbBRfHQmR20aOfLQek8OGsdLTxshocNS09YwsRMYoZohhkpxFLhX+DPE79qJHw
-	 vkzFLmOi9P2nM/MEdhjyYpFBrwTrj3zn3h632fAWfFxoJuRmmAhvDEQljIoYEOYl7c
-	 ZiISFCKL73Wc+8uuDkUS4k0jMvUo5Wy5dqyubuDU=
-Date: Tue, 15 Apr 2025 15:01:45 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Wentao Liang <vulab@iscas.ac.cn>
-Cc: "philipp.g.hortmann@gmail.com" <philipp.g.hortmann@gmail.com>,
-	"linux-staging@lists.linux.dev" <linux-staging@lists.linux.dev>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"stable@vger.kernel.org" <stable@vger.kernel.org>
-Subject: Re: [PATCH v7] staging: rtl8723bs: Add error handling for sd_read()
-Message-ID: <2025041557-recollect-livable-a959@gregkh>
-References: <20250408044152.3009-1-vulab@iscas.ac.cn>
- <2025040814-curtsy-overrule-1caf@gregkh>
- <67FE50E2.043FCA.23966@cstnet.cn>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YVc68VCC"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AE84BC4CEDD;
+	Tue, 15 Apr 2025 13:35:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1744724106;
+	bh=pprMqPez/8Jyc3i4Z+10XDj1QJQemlqTj9hsKCg5+Rg=;
+	h=From:Date:Subject:To:Cc:From;
+	b=YVc68VCCp+TyKnlauoCVe1PpRTMQESUBG8TZpx7VSv8mXVUmBEcO0qYZ0m8oheo8S
+	 Jn3tkwEKRFhh8VYk1HM/h99RFLQW35qD4tsC88h4fl49QNhevp+ymRb4Jgc+81DTv4
+	 8H45pjfHG5Is55MHAhXFsj00GZCJqGflvzo2LUtaPaLK4jbl9nDAlGsh8LPKiZBu3g
+	 E8hus4bBa7w73VjslqgGZ9dywsU0GFU7yrOCxIEURw3+Nej91tKOOr1S0mSeekB2ie
+	 6ON6vxH5MjdFQbzCOhbZZDeGOeZ3D6PqiuLGhRw2J2rVjz+xxxFY9hQTUp27XW4xv3
+	 P/IL88RWQGmYw==
+From: Mark Brown <broonie@kernel.org>
+Date: Tue, 15 Apr 2025 14:31:51 +0100
+Subject: [PATCH] staging: bcm2835-audio: Validate values written to
+ controls
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <67FE50E2.043FCA.23966@cstnet.cn>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20250415-staging-bcm2835-alsa-limit-v1-1-4ed816e9c0fc@kernel.org>
+X-B4-Tracking: v=1; b=H4sIAMZf/mcC/x3MQQqEMAwAwK9Izgba2oK7XxEPUWM3oF1pRATx7
+ xaPc5kLlLOwwre6IPMhKv9UYOsKxh+lyChTMTjjgvHWo+4UJUUcxtW1TUBalHCRVXYM3k2W27k
+ x9IESbJlnOd+86+/7AVfk2x9sAAAA
+X-Change-ID: 20250414-staging-bcm2835-alsa-limit-542d1e8f30a9
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Florian Fainelli <florian.fainelli@broadcom.com>, 
+ Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>, 
+ Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>
+Cc: linux-staging@lists.linux.dev, linux-rpi-kernel@lists.infradead.org, 
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
+ Mark Brown <broonie@kernel.org>
+X-Mailer: b4 0.15-dev-c25d1
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1678; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=pprMqPez/8Jyc3i4Z+10XDj1QJQemlqTj9hsKCg5+Rg=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBn/mCHheEaIqvepD8vxtfR73p/5HvsDsou0ZDAJWO6
+ 8aqBGvGJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCZ/5ghwAKCRAk1otyXVSH0CzsB/
+ 4ntr+ThqGT8N9GDKVtVmPH1MwfPfQMDniJEv+cyVMx1SuRo5mG2CIF0LL8Pq+y6QmIi5W7RU5XZfDQ
+ Td/0SXcm5P4krn6P4PP8LgfgAb2qU4VrVHO2gSR+BuUAiqieuddKnPtom9DbKxdk+ZCFU1csZl29br
+ MeCCcGv6beW2YD34b9pWHZoiKsTHi46GgWqu+CjPg5D6YkrsfWoZvBij5tiCFn1VRIBhu3SqlkFmiL
+ LfZ8uFcU0kSzV/SD5IZ6JfL6PXp1HeMP41S3V0ogDR7RpY8RSJNtmLoRS+eba4AIZ5tLzDoo+QvPl6
+ dFdMd3BepbcO/xDPIApMQIzAbZKCqQ
+X-Developer-Key: i=broonie@kernel.org; a=openpgp;
+ fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On Tue, Apr 15, 2025 at 08:28:18PM +0800, Wentao Liang wrote:
-> >Again, I think this whole "hal wrapper" should be removed instead, and
-> >not papered over like this.  If you dig deep enough, it all boils down
-> >to a call to sdio_readb(), which is an 8 bit read, so the alignment
-> >issues are not a problem, and if an error happens the proper error value>
-> >is returned from that saying what happened.  Why not work on that like I
-> >recommended?  That would allow for at least 3, if not more, layers of
-> >indirection to be removed from this driver, making it more easy to
-> >understand and maintain over time.
-> 
-> Thanks for the guidance and detailed suggestion. But remove the whole 
-> "hal wrapper" layer is beyond my capability. Perhaps this refactoring 
-> work would be better handled by someone with deeper knowledge of the 
-> driver codebase. The changes would ripple through several layers, and 
-> I'm not entirely confident about implementing them correctly. The 
-> current patch might serve as a reasonable stopgap solution. 
+The bcm2835-audio driver makes no effort to validate the values it accepts
+from userspace, causing it to accept invalid values:
 
-Try it, it should be a "one step at a time" of unwinding the mess that
-the codebase is in.  Shouldn't be that hard, and will give you lots of
-good things to work on.
+# # PCM Playback Switch.0 Invalid boolean value 2
+# not ok 5 write_invalid.Headphones.1
+# # PCM Playback Volume.0 value -10240 less than minimum -10239
+# # PCM Playback Volume.0 value 401 more than maximum 400
+# not ok 12 write_invalid.Headphones.0
 
-I don't want to take a "stopgap solution", sorry, I would rather take
-the real solution, for obvious reasons.
+Add validation.
 
-thanks,
+Signed-off-by: Mark Brown <broonie@kernel.org>
+---
+ drivers/staging/vc04_services/bcm2835-audio/bcm2835-ctl.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-greg k-h
+diff --git a/drivers/staging/vc04_services/bcm2835-audio/bcm2835-ctl.c b/drivers/staging/vc04_services/bcm2835-audio/bcm2835-ctl.c
+index 1c1f040122d7..7d0ddd5c8cce 100644
+--- a/drivers/staging/vc04_services/bcm2835-audio/bcm2835-ctl.c
++++ b/drivers/staging/vc04_services/bcm2835-audio/bcm2835-ctl.c
+@@ -71,6 +71,7 @@ static int snd_bcm2835_ctl_put(struct snd_kcontrol *kcontrol,
+ 			       struct snd_ctl_elem_value *ucontrol)
+ {
+ 	struct bcm2835_chip *chip = snd_kcontrol_chip(kcontrol);
++	struct snd_ctl_elem_info info;
+ 	int val, *valp;
+ 	int changed = 0;
+ 
+@@ -84,6 +85,11 @@ static int snd_bcm2835_ctl_put(struct snd_kcontrol *kcontrol,
+ 		return -EINVAL;
+ 
+ 	val = ucontrol->value.integer.value[0];
++
++	snd_bcm2835_ctl_info(kcontrol, &info);
++	if (val < info.value.integer.min || val > info.value.integer.max)
++		return -EINVAL;
++
+ 	mutex_lock(&chip->audio_mutex);
+ 	if (val != *valp) {
+ 		*valp = val;
+
+---
+base-commit: 8ffd015db85fea3e15a77027fda6c02ced4d2444
+change-id: 20250414-staging-bcm2835-alsa-limit-542d1e8f30a9
+
+Best regards,
+-- 
+Mark Brown <broonie@kernel.org>
+
