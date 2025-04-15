@@ -1,77 +1,71 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 056E019EED2;
-	Tue, 15 Apr 2025 14:48:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10AD4EEA9;
+	Tue, 15 Apr 2025 14:50:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744728517; cv=none; b=KdJevZgrBWDeNdXwNR7cFqB9K2SXRjSeY52Seuysgi5ysImGZZ/vmBF29XisoahQkvOVFoYyTOpflb7RrrZdQTUgY4CVp+9jQlQ2HEa1QdCHBfyzeUS8mGnNbOK362E1L6rvWXoekiYAwQVZpayATXxn7ySETfI9qCHgICHHKHM=
+	t=1744728605; cv=none; b=hUS6XvBAk/b8C6aWSuvukPYxpnTnx+z/CwFRTCmG9+SefUU5FNUO6mb6P/Bc2JDYWoIv03OgDiLSEHOPtcPHxg1ExwBvhDF0jPQ5EQ6qTEpXRyX4tLJI/P+9CTFjPxeSREsLls1V7qx5Rop9lerUebkEEEKz0M/aDgN8wcBGAkc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744728517; c=relaxed/simple;
-	bh=N9/h2rVCoNkIlR0EJw2CKybKs5wiPtYvhZoaCGUTILs=;
+	s=arc-20240116; t=1744728605; c=relaxed/simple;
+	bh=ovKn+cTo3LrtnpAZGIxLEMpzi81s6sGlKDB0b80UVKE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=swjfX4DCMfFs45rpOho9ri6NdVREZGoEJxKjvYbj84xEtPAVZ/iY1rO7hbN0H8jrnzzSdl8V4rezpSDgQQe3xtfPrhpzGpVV7ji2rA81vHS7JoaTEJyUlJv7eG//3MR2WJj6xCg8VV0+TABR5lW+2Pg4F8T/752FaktjnhSvcQ4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=DpeKNhYP; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=q9zh6sY/hZ8aoO41LLBg2cUa57o4Z0fIL5cTPrkLqzcgjwhMk4MapbLrcHIZBoJDP/6l0CSjUYMuU9d52k+G/WkhfEI5DMZhARLkL4/4YiLRVROIc9FsFi0WOQ2yk1JEUbNwVhJOySPDUOmA/ZBH9gJGURFieK01jTXzg/1OpMo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=pDGVKtIc; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="DpeKNhYP"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 42D2CC4CEED;
-	Tue, 15 Apr 2025 14:48:36 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="pDGVKtIc"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2BC5EC4CEEB;
+	Tue, 15 Apr 2025 14:50:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1744728516;
-	bh=N9/h2rVCoNkIlR0EJw2CKybKs5wiPtYvhZoaCGUTILs=;
+	s=korg; t=1744728604;
+	bh=ovKn+cTo3LrtnpAZGIxLEMpzi81s6sGlKDB0b80UVKE=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=DpeKNhYPaIt0k6g0WKgc5Q3EDU6UYTHU/CG90RkcjZQVNctXGjmLn2tmK4ZpMj71v
-	 5v1CBa3PVG4NvgUUylieQH3Z7Jy+EeuVvga/YXiVRWlZPm0yCFaPeGRK9+hinkDjq9
-	 hqXKBVaRwyIKMKOUzoLf7odxmhMRHBJIgxJBrXC0=
-Date: Tue, 15 Apr 2025 16:47:34 +0200
+	b=pDGVKtIcAyQbPZccggJAVpkr5vhIbVBW3k/PImpU1p0QX954zq2qn1mOgnVYIRXIw
+	 NHRMxgr/wBVnerDUgZSHuxIIITGQdMfsv8G0bovzETDriszS62XEef3KH1oQXBBGV6
+	 VRXiyv0VB46eG8qtdtTMjcy4D+m1g3S/w23kctUw=
+Date: Tue, 15 Apr 2025 16:50:01 +0200
 From: Greg KH <gregkh@linuxfoundation.org>
-To: Michael Rubin <matchstick@neverthere.org>
-Cc: dpenkler@gmail.com, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v1] staging: gpib: Removing unused function CFGn
-Message-ID: <2025041522-startling-parlor-aa65@gregkh>
-References: <20250409181809.401724-1-matchstick@neverthere.org>
+To: Paul =?iso-8859-1?Q?Retourn=E9?= <paul.retourne@orange.fr>
+Cc: dpenkler@gmail.com, dan.carpenter@linaro.org,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 00/16] staging: gpib: fixes multiline comments style
+Message-ID: <2025041546-outlet-timid-bca6@gregkh>
+References: <cover.1744438358.git.paul.retourne@orange.fr>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20250409181809.401724-1-matchstick@neverthere.org>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <cover.1744438358.git.paul.retourne@orange.fr>
 
-On Wed, Apr 09, 2025 at 06:18:09PM +0000, Michael Rubin wrote:
-> Removing CFGn since it is not called by kernel code nor any of the gpib
-> drivers.
+On Fri, Apr 11, 2025 at 11:21:52PM -0700, Paul Retourné wrote:
+> Fixes the style of multiline comments to comply with the linux kernel
+> coding style as requested in the gpib TODO file.
 > 
-> Signed-off-by: Michael Rubin <matchstick@neverthere.org>
-> ---
->  drivers/staging/gpib/uapi/gpib_user.h | 5 -----
->  1 file changed, 5 deletions(-)
-> 
-> diff --git a/drivers/staging/gpib/uapi/gpib_user.h b/drivers/staging/gpib/uapi/gpib_user.h
-> index eaf7399a164a..1cb6b6219e67 100644
-> --- a/drivers/staging/gpib/uapi/gpib_user.h
-> +++ b/drivers/staging/gpib/uapi/gpib_user.h
-> @@ -192,11 +192,6 @@ static inline __u8 PPE_byte(unsigned int dio_line, int sense)
->  	return cmd;
->  }
->  
-> -static inline __u8 CFGn(unsigned int meters)
-> -{
-> -	return 0x6 | (meters & 0xf);
-> -}
-> -
->  /* mask of bits that actually matter in a command byte */
->  enum {
->  	gpib_command_mask = 0x7f,
-> -- 
-> 2.43.0
-> 
-> 
+> Paul Retourné (16):
+>   staging: gpib: agilent_82357a: fixes multiline comments style
+>   staging: gpib: cb7210: fixes multiline comments style
+>   staging: gpib: common: fixes multiline comments style
+>   staging: gpib: eastwood: fixes multiline comments style
+>   staging: gpib: fmh_gpib: fixes multiline comments style
+>   staging: gpib: gpio: fixes multiline comments style
+>   staging: gpib: hp_82335: fixes multiline comments style
+>   staging: gpib: hp_82341: fixes multiline comments style
+>   staging: gpib: include: fixes multiline comments style
+>   staging: gpib: ines: fixes multiline comments style
+>   staging: gpib: lpvo_usb_gpib: fixes multiline comments style
+>   staging: gpib: nec7210: fixes multiline comments style
+>   staging: gpib: ni_usb: fixes multiline comments style
+>   staging: gpib: pc2: fixes multiline comments style
+>   staging: gpib: tms9914: fixes multiline comments style
+>   staging: gpib: tnt4882: fixes multiline comments style
 
-Already in my tree?  I'm confused, this didn't apply at all.
+One of these did not apply to my tree, can you rebase and resend the
+remaining one?
 
 thanks,
 
