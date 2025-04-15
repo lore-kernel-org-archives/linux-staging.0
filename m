@@ -1,93 +1,149 @@
-Received: from mail-yb1-f171.google.com (mail-yb1-f171.google.com [209.85.219.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3D06156236
-	for <linux-staging@lists.linux.dev>; Mon, 14 Apr 2025 19:21:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE6A627F4F8;
+	Tue, 15 Apr 2025 09:11:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744658464; cv=none; b=BgV1Yr3iDCThNe2+XAbUA5msmxXfOQU3uoHqCe++kUy6v81uS7hi6cf9N8M9MDFVrNUeU1bhJTIOTeyI5sJvcZw1czSgf8cvDusWWQOuODnmh8f6r7qapiV2uYEqun8ZIF1G9CZ+FDElBrGs/ViQ52pceoUb5JkblWujCzShhZM=
+	t=1744708293; cv=none; b=Lwb3DmvUKD3bOI2YMDQ8D62i4A8cb+XlPCwMowC5ffjUaHYT/QGpHttUB4aaPtzY/icH4iUZk3yRBtrinUbhLFACC/5LXO0zfhHQZaFYErSiF12AphnRO7ETZ0u01dmFLdZHersSxSUWoeVMQUPbQiljf8rwrko2WVI3YSvcPTA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744658464; c=relaxed/simple;
-	bh=ZWvlEKrL3keG/czpO6zUsgNhEXBnOerwPZIVy4wx/cU=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=OEYoO7PFYTSZZAUelKTQC1u7xMwbfBRhL/MyshBY/CWO5i8NgJFwzq6W2SLrEHoW04etVYe1m+6q+H9dOg8Ief42T4sG6iuHLG0KvCTcVvgNu0e8bbW4grnwJVI2Nr91UEieZZHKt8ZV0YWgCuzg7YtcfQYnzxLRKRFa/iFWJWI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OdBfcfL0; arc=none smtp.client-ip=209.85.219.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1744708293; c=relaxed/simple;
+	bh=MrvbtWyVcwF9RnVgOYkeHUHTLHblRw+PRJpoBp4DgXc=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Ujlkj4o6CzUHHxtXDUtx12/6J84nKKKpGZIvCaTGX9ZHdxShEE8hgruwvQK2g942W/ErS3/LIbtqc7etCDC1Z/kJyB9mvk9r64sy99do07aGsv82CUPV35/asj6wdpaadOTAL0gFyDbeDzkWwxt1DDHjHqygH239MUAF6th0rhs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MrfYnlO7; arc=none smtp.client-ip=198.175.65.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OdBfcfL0"
-Received: by mail-yb1-f171.google.com with SMTP id 3f1490d57ef6-e6dea30465aso3999322276.1
-        for <linux-staging@lists.linux.dev>; Mon, 14 Apr 2025 12:21:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1744658461; x=1745263261; darn=lists.linux.dev;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=obROj9OHt/C3Qb4hnrNCME/v4kiPzy4k+fmQTcyUCNU=;
-        b=OdBfcfL08S8oWAJLF8OY8XwGEI6bPcxUogLCBqrRe/DFEz30csKWoeDEg6Swe6SwT/
-         e7/gBZ3d7wY589BITdlZHx0Iqnok12ncKk/kiUGY8+b5eQcAGSg6G/hSHvF8ZmEahgBm
-         tdPo0qZUFABb3qPL45TX4pa94wQkPxMJL9/nstBn+WGg6zbBdCt6s5kqJlfl4+oPEDm+
-         b4GLKhNMMsQ6ZxgDKD5/dMOB9OWlu1MNXfJS3j7x0gQYwcy6MbJYVo5f+RTMlgK5fnaY
-         sVwV4ZYtUgi9K4Bl1pPuxSs+9WTmuE9j6qQrlLr2puH3Fv7lPn9wRnKI+m8EJUhzGFNa
-         Wr5Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744658461; x=1745263261;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=obROj9OHt/C3Qb4hnrNCME/v4kiPzy4k+fmQTcyUCNU=;
-        b=ixFvnhxiBdDdYXo57yogJyngfG8ayvZlH2d5kGkOqYM7liOJeslyEYbATWfyzgsnld
-         nalzcDR6NBTBBH09eKOkNXt952Y3pjaa3osIXN2k+R4qEMpFvaq46S+VhZk7TFBQU+Cn
-         5J4wikXq7HSShgPnuNP7CxLqFKNwZlnSF/kzrUKgZfhV9njBmkDyVKDAL7MCnZxC+tmy
-         fKUfKS83AFAfczrZq2bbntf07azV6gk/HxSGAbLvD/fs4tkZ37uskWbRBYk1ezgmaBpn
-         VKRw3CkhU8KKOOzIQHGfyOMIB0XqeZcJevJ8cwRXOber/wQxWZ8+7BGRe/+cC3ja9La9
-         192w==
-X-Forwarded-Encrypted: i=1; AJvYcCVdGoEKmBjV2g3jam583mYoe0bwdYdIvdjx1c3gvTtUr7TZYKFpAKzZXCS2xeYQgvMT32CS2c3jS0/Cwodx@lists.linux.dev
-X-Gm-Message-State: AOJu0Yw3f7aUWCDSsvHhBhg1oCu4D/NCo7AhduSD1SREAo2aENBO0CAf
-	+3UG/bueMQYDDKCn0cPEVES4ga+6zHKUmqsZ+esnUPIyXdJoIittN61ZTY/T3dKNAjglRzKWiap
-	4VAO9KmKueRcgy6q/A3ILcYsbfq0=
-X-Gm-Gg: ASbGncvtLohCWeMAz0S+kLrC9t2aWtaP2ozfNh3D/4rRAnR7MqAQGL2K+HENsXwfc2c
-	NEUU7BGD1/aGhnAs4JI5CE3HLRvRmYr7XVMb9YSVxDYTaemx3FEWEnAXG7e8uO4MGrX+nqq53J1
-	JpUK4EbtIhA5OrskaE87nXE1mIbrY10gR7ylYPo3Ge23BTc2fn/x+j/Q8=
-X-Google-Smtp-Source: AGHT+IEnbonKkHcOHThRgC95LZa7xC/Euul+fsvazRpNbLbkH50sySzeaHKVSyOmpmCfjkNpaGXp0GdDATuH5Y7sCpU=
-X-Received: by 2002:a05:6902:228d:b0:e60:87a0:61fd with SMTP id
- 3f1490d57ef6-e704df189e3mr22532632276.6.1744658461378; Mon, 14 Apr 2025
- 12:21:01 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MrfYnlO7"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1744708292; x=1776244292;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=MrvbtWyVcwF9RnVgOYkeHUHTLHblRw+PRJpoBp4DgXc=;
+  b=MrfYnlO7H//eBnOI1mC5Oar3frpBwM44QGqo1MSCnkUwuHNSBRaWq9QA
+   t2g+nc6hxhCXk2saWHUJyvrz7V6Jn/rc+aVzrwqsdqGIsKR+H2+gLhQf/
+   EiT0/zYkKqWksSXG57sPnv4pxXD04FZtZkC4tVdtRDD473/H8TfJkHEX3
+   ypkAMvevUf63CzbovD2nuixAa/HdeLCL1SyTN5x1O0DGUoliQ6BfvXn23
+   lLMBHVi/BeKqNnscojDfMY1o1vbqbPC7tYii08XFHzMxDt69bfyq6/onb
+   EseIUStk1bm0n7Ag9wZeAu5LtdFCNVGv1LXEPri13lh/mah8y8CHdoYjZ
+   w==;
+X-CSE-ConnectionGUID: 690nCZzkSHGO5g0PjmxlVg==
+X-CSE-MsgGUID: dK/P1kxgS4ODdXL5HEpcsw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11403"; a="57571003"
+X-IronPort-AV: E=Sophos;i="6.15,213,1739865600"; 
+   d="scan'208";a="57571003"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Apr 2025 02:10:24 -0700
+X-CSE-ConnectionGUID: xKnt04DHRiKMV23XT0IbeQ==
+X-CSE-MsgGUID: 2e0VVgcHTFykIH7kY3WIGg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,213,1739865600"; 
+   d="scan'208";a="129917956"
+Received: from black.fi.intel.com ([10.237.72.28])
+  by fmviesa006.fm.intel.com with ESMTP; 15 Apr 2025 02:10:22 -0700
+Received: by black.fi.intel.com (Postfix, from userid 1003)
+	id E758917B; Tue, 15 Apr 2025 12:10:20 +0300 (EEST)
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	llvm@lists.linux.dev
+Cc: Nathan Chancellor <nathan@kernel.org>,
+	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+	Bill Wendling <morbo@google.com>,
+	Justin Stitt <justinstitt@google.com>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Subject: [PATCH v1 1/1] staging: rtl8723bs: Fix compilation errors for W=1 build
+Date: Tue, 15 Apr 2025 12:10:19 +0300
+Message-ID: <20250415091019.545905-1-andriy.shevchenko@linux.intel.com>
+X-Mailer: git-send-email 2.47.2
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250414164811.36879-1-simeddon@gmail.com> <20250414200312.0b9eeb10@jic23-huawei>
-In-Reply-To: <20250414200312.0b9eeb10@jic23-huawei>
-From: Siddharth Menon <simeddon@gmail.com>
-Date: Tue, 15 Apr 2025 00:50:25 +0530
-X-Gm-Features: ATxdqUGTyxPuItWpG94bKrM6IKeqvpWTAaXqlM58GxhgXVO_PIp7E8GKaG5kvrQ
-Message-ID: <CAGd6pzOF1LqN0w2WEhaGx41mxPNkkD7E9DQNQWSZEzjyuyuYpQ@mail.gmail.com>
-Subject: Re: [PATCH] Documentation: iio: Document ad9832 driver
-To: Jonathan Cameron <jic23@kernel.org>
-Cc: linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-staging@lists.linux.dev, gregkh@linuxfoundation.org, 
-	Michael.Hennerich@analog.com, lars@metafoo.de, marcelo.schmitt1@gmail.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On Tue, 15 Apr 2025 at 00:33, Jonathan Cameron <jic23@kernel.org> wrote:
-> Hi Siddharth,
->
-> Whilst I'm fine with better documentation, I'm not keen to merge if for
-> a staging driver until we have that cleaned up and moved out of staging.
->
-> Anyhow, that doesn't stop us reviewing what you have here!
->
-> My main comment is that we should be focusing on what is useful to someone
-> reading the kernel docs rather than providing detailed description of the
-> device.  If anyone has one of these and wants to know more they can
-> get the data sheet.  As such most of what you have here is a case
-> of too much information.
->
-> Jonathan
+When building a kernel with Clang 19 the couple of warnings
+become the errors (due to CONFIG_WERROR=y by default).
 
-Thank you for the feedback. I'll keep in mind for future reference.
+.../rtl8723bs/core/rtw_xmit.c:1939:13: error: variable 'drop_cnt' set but not used [-Werror,-Wunused-but-set-variable]
+.../rtl8723bs/hal/hal_com.c:893:6: error: variable 'res' set but not used [-Werror,-Wunused-but-set-variable]
 
-Regards,
-Siddharth Menon
+Fix them accordingly.
+
+Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+---
+ drivers/staging/rtl8723bs/core/rtw_xmit.c |  9 ++-------
+ drivers/staging/rtl8723bs/hal/hal_com.c   | 11 ++++-------
+ 2 files changed, 6 insertions(+), 14 deletions(-)
+
+diff --git a/drivers/staging/rtl8723bs/core/rtw_xmit.c b/drivers/staging/rtl8723bs/core/rtw_xmit.c
+index 297c93d65315..e2f7b2415524 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_xmit.c
++++ b/drivers/staging/rtl8723bs/core/rtw_xmit.c
+@@ -1936,7 +1936,6 @@ static void do_queue_select(struct adapter	*padapter, struct pkt_attrib *pattrib
+ s32 rtw_xmit(struct adapter *padapter, struct sk_buff **ppkt)
+ {
+ 	static unsigned long start;
+-	static u32 drop_cnt;
+ 
+ 	struct xmit_priv *pxmitpriv = &padapter->xmitpriv;
+ 	struct xmit_frame *pxmitframe = NULL;
+@@ -1948,15 +1947,11 @@ s32 rtw_xmit(struct adapter *padapter, struct sk_buff **ppkt)
+ 
+ 	pxmitframe = rtw_alloc_xmitframe(pxmitpriv);
+ 
+-	if (jiffies_to_msecs(jiffies - start) > 2000) {
++	if (jiffies_to_msecs(jiffies - start) > 2000)
+ 		start = jiffies;
+-		drop_cnt = 0;
+-	}
+ 
+-	if (!pxmitframe) {
+-		drop_cnt++;
++	if (!pxmitframe)
+ 		return -1;
+-	}
+ 
+ 	res = update_attrib(padapter, *ppkt, &pxmitframe->attrib);
+ 
+diff --git a/drivers/staging/rtl8723bs/hal/hal_com.c b/drivers/staging/rtl8723bs/hal/hal_com.c
+index 1213a91cffff..d91e2461fd7e 100644
+--- a/drivers/staging/rtl8723bs/hal/hal_com.c
++++ b/drivers/staging/rtl8723bs/hal/hal_com.c
+@@ -890,15 +890,14 @@ static u32 Array_kfreemap[] = {
+ void rtw_bb_rf_gain_offset(struct adapter *padapter)
+ {
+ 	u8 value = padapter->eeprompriv.EEPROMRFGainOffset;
+-	u32 res, i = 0;
+ 	u32 *Array = Array_kfreemap;
+ 	u32 v1 = 0, v2 = 0, target = 0;
++	u32 i = 0;
+ 
+ 	if (value & BIT4) {
+ 		if (padapter->eeprompriv.EEPROMRFGainVal != 0xff) {
+-			res = rtw_hal_read_rfreg(padapter, RF_PATH_A, 0x7f, 0xffffffff);
+-			res &= 0xfff87fff;
+-			/* res &= 0xfff87fff; */
++			rtw_hal_read_rfreg(padapter, RF_PATH_A, 0x7f, 0xffffffff);
++
+ 			for (i = 0; i < ARRAY_SIZE(Array_kfreemap); i += 2) {
+ 				v1 = Array[i];
+ 				v2 = Array[i+1];
+@@ -909,9 +908,7 @@ void rtw_bb_rf_gain_offset(struct adapter *padapter)
+ 			}
+ 			PHY_SetRFReg(padapter, RF_PATH_A, REG_RF_BB_GAIN_OFFSET, BIT18|BIT17|BIT16|BIT15, target);
+ 
+-			/* res |= (padapter->eeprompriv.EEPROMRFGainVal & 0x0f)<< 15; */
+-			/* rtw_hal_write_rfreg(padapter, RF_PATH_A, REG_RF_BB_GAIN_OFFSET, RF_GAIN_OFFSET_MASK, res); */
+-			res = rtw_hal_read_rfreg(padapter, RF_PATH_A, 0x7f, 0xffffffff);
++			rtw_hal_read_rfreg(padapter, RF_PATH_A, 0x7f, 0xffffffff);
+ 		}
+ 	}
+ }
+-- 
+2.47.2
+
