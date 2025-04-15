@@ -1,132 +1,74 @@
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D31D1DACA1
-	for <linux-staging@lists.linux.dev>; Tue, 15 Apr 2025 09:13:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14EAB76026;
+	Tue, 15 Apr 2025 13:01:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744708437; cv=none; b=ATcrqewC0b3VjrAO4Tr9jso20IsiyQyA/710SwAvhVs07Dyh7lywLpUrxj2RUZedHC/KwsKfeGtT2o/1dteW9p1+mo5Qoh9O/4dGn23xg3XmSU4qNAGN6+EzE6okjmPVTszghi6l142SGf75uJVHLr8ehloSz0HEIqxqrjgai6s=
+	t=1744722109; cv=none; b=lX8qj99Jq+3ptaogPLPZNP0nEJXeYU1KcfR6Oov6BU0K5FGtNrxLkLKBWYJDgvxWD4iOJlNHQzct8ssp9TZbEVQXVVqT0wNoVZwX5PRgZt2TSrxGms8txZA6cYyZ2kPcws9A8L2lQAijXx+i9UOr1fLlkakl0h0FsXw8k9WAkwg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744708437; c=relaxed/simple;
-	bh=WNM/4OfpkmjCV4Wo87i68L4Ct0zOB1z3vFnyrdWUfFw=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=nAnNZZZAxS6aa09MXX9UqKoTp4tIonOlmn9g3ikFjkwloJJRI3sengCsPKPcVfoL4IRk73KknKfylsrAfBMYaQOu0uhXAL3KrQFPW6lYaidrfv40qu2kEZSlaFkntzqnJojPYsX33WmippH4GqBJuq9hIitGJVsuYNUssm2RtTI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=D/QARG4i; arc=none smtp.client-ip=209.85.221.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1744722109; c=relaxed/simple;
+	bh=/ZyBKPl+icr/iZKTjKYPQMSt0pK3OLsfxPbLuRV69C0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=CBTSn3qXnihKPF7Lq4MBIisFJHCHZLQ5Et/GLol0iXk0LtRMjYfESzCGzIgf5dTvxQ3GZs5J0yCXTHQVhl1KFhJXm8QGlm2TroXPqD55bqH9NU6oDn5feMcYC/BQ8eB4P+f8SmDeQQ8MHpa3qYT5XkfFUqtrJHpA+ohDCnNXi08=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=0l9gbBRf; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="D/QARG4i"
-Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-39c1efbefc6so3143204f8f.1
-        for <linux-staging@lists.linux.dev>; Tue, 15 Apr 2025 02:13:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1744708434; x=1745313234; darn=lists.linux.dev;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=E2jVRA/+pZYsZV/NIcT4L7XLSuBTKMKtalPI1ILjZdM=;
-        b=D/QARG4iXhBlCrlQrATkRmpKJqdO3EOOyVV1WwGpeUSDAgTn1rm7uaqzJEN1+Q+spE
-         2MfFx+UwU9Xemx2DJDZBsFTaTsJQY6x+N4Tv+XHZP4ABT+ew4oSA485dSRDdzW+GXFWW
-         +eszKH0UzkkJ8NkkeMYfH5RV6JkRpavPefJAGR9A3El0FOCF8W4vyVeGFFE+7Y9kaTSz
-         rEFvrq+ZWplNMHdwd3Q2INC1tDQcZuSKeAaJ7oO+Ga3Pw9c7gj1mYDK9h4UqhoeHaq+8
-         dwSy8lm4uaBQf0QHWNTdD93XFjN/USGVpm+91ZADkGPRSpmq/YsDU2cOTAhciQaj5z69
-         EfQw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744708434; x=1745313234;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=E2jVRA/+pZYsZV/NIcT4L7XLSuBTKMKtalPI1ILjZdM=;
-        b=Wl2l1HpRdx9Rgk/kioPKP5EBDNbBRcZKB4KDkcjUbjFTae1pLHp7kWPWD1QmdwGPqZ
-         diuo4gcdC1Yf46lVYDeaOpj2GE9h4T6uJoz910YWFIOb575QJbp2uvyBOXmt6BW832Gm
-         Zghuoc4FXVK01qWECpwspHxyi+8ts5tZn5D6XEJ03ehB2qXTOS0VKd+/eaidi+m0gA1i
-         /MBB++IuwlrlNv0PbvoZ4ZkZv7Vaxu9SklKWlWiZPkh84riyVMwIbom3wWjQg3aLB8tE
-         F/O6rzeEafYIdvd9XcICguDnUFkDXoLqYNr/8C/aV6UXV0vUfnkaZHRQPaDWSjV4R/+d
-         a9hA==
-X-Forwarded-Encrypted: i=1; AJvYcCXvutoBkgWMDGh9qEOCgrtfW7C8dbmDyCR/5Z9awH6zl9rqANqtuswU7uPNkP4zMkpbSC6Zez+NNH4VLEsm@lists.linux.dev
-X-Gm-Message-State: AOJu0YzXSZAkstpg5EEEfrVtoAKMe9ZV1LVwDmlI2YW7mJmVGelslYQ7
-	qkgXrNZKKlNEy8zaYFGpLucC1lL1hb6JpO6nm00Gsa8USfcG0e7Y
-X-Gm-Gg: ASbGncv0Bq5YBLonKK0TdO+BaqFr5UZsM1Q9rqO4gPm9O4sGFXdE+l/3e/mLNvnfu+9
-	ODnzuFgda5b937XW0Ddt1KivVLsfWL4c7TfJCuYqz+nXVsruoyUx7xGNaL0Nsqbr9FXjQ0hL7Y+
-	udPGMVhDlDzTsZbvoZqmr1m9FWCaakWB5DnhypDWbo4QhW8CHnRDNc2hBiWeQEpdGtgx7qhke9v
-	HNQluygyRfTJtW6OTh618Y65m9B8MVhbBuP4RwdpFaWHFX/jnXPIJiyemaLQpew+alaxcRxFr0H
-	eNGVGrm2WC1l0ajWaIPkaRPH8nfrFi5JZsXI54wY1IhBvYCEXQ0k/d2qF1kJYxdPg63VkEv0s4U
-	0EfpORRyoiv3FuuWKr7zVWhU=
-X-Google-Smtp-Source: AGHT+IETzmpzV8MS7XyeqUk1lViNUBhbS8KmDB5sfjr8p/5OPY1gqFLmopkaJDenJ5glgZx/7VcLdg==
-X-Received: by 2002:a5d:648a:0:b0:39a:c9ac:cd58 with SMTP id ffacd0b85a97d-39ea52124fcmr11718050f8f.29.1744708433744;
-        Tue, 15 Apr 2025 02:13:53 -0700 (PDT)
-Received: from ?IPv6:2001:818:ea8e:7f00:2575:914:eedd:620e? ([2001:818:ea8e:7f00:2575:914:eedd:620e])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-39eae979615sm13923443f8f.54.2025.04.15.02.13.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 15 Apr 2025 02:13:53 -0700 (PDT)
-Message-ID: <1fb5f1c5e61ce386cb431d48296e952bdd560a6c.camel@gmail.com>
-Subject: Re: [PATCH v3] iio: adc: Correct conditional logic for store mode
-From: Nuno =?ISO-8859-1?Q?S=E1?= <noname.nuno@gmail.com>
-To: Gabriel Shahrouzi <gshahrouzi@gmail.com>, Lars-Peter Clausen
-	 <lars@metafoo.de>, Michael Hennerich <Michael.Hennerich@analog.com>, 
- Jonathan Cameron
-	 <jic23@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	linux-iio@vger.kernel.org, linux-staging@lists.linux.dev, 
-	linux-kernel@vger.kernel.org
-Cc: skhan@linuxfoundation.org, kernelmentees@lists.linuxfoundation.org, 
-	stable@vger.kernel.org
-Date: Tue, 15 Apr 2025 10:13:55 +0100
-In-Reply-To: <20250414154050.469482-1-gshahrouzi@gmail.com>
-References: <20250414154050.469482-1-gshahrouzi@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.0 
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="0l9gbBRf"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 34B09C4CEEB;
+	Tue, 15 Apr 2025 13:01:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1744722108;
+	bh=/ZyBKPl+icr/iZKTjKYPQMSt0pK3OLsfxPbLuRV69C0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=0l9gbBRfHQmR20aOfLQek8OGsdLTxshocNS09YwsRMYoZohhkpxFLhX+DPE79qJHw
+	 vkzFLmOi9P2nM/MEdhjyYpFBrwTrj3zn3h632fAWfFxoJuRmmAhvDEQljIoYEOYl7c
+	 ZiISFCKL73Wc+8uuDkUS4k0jMvUo5Wy5dqyubuDU=
+Date: Tue, 15 Apr 2025 15:01:45 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Wentao Liang <vulab@iscas.ac.cn>
+Cc: "philipp.g.hortmann@gmail.com" <philipp.g.hortmann@gmail.com>,
+	"linux-staging@lists.linux.dev" <linux-staging@lists.linux.dev>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"stable@vger.kernel.org" <stable@vger.kernel.org>
+Subject: Re: [PATCH v7] staging: rtl8723bs: Add error handling for sd_read()
+Message-ID: <2025041557-recollect-livable-a959@gregkh>
+References: <20250408044152.3009-1-vulab@iscas.ac.cn>
+ <2025040814-curtsy-overrule-1caf@gregkh>
+ <67FE50E2.043FCA.23966@cstnet.cn>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <67FE50E2.043FCA.23966@cstnet.cn>
 
-On Mon, 2025-04-14 at 11:40 -0400, Gabriel Shahrouzi wrote:
-> The mode setting logic in ad7816_store_mode was reversed due to
-> incorrect handling of the strcmp return value. strcmp returns 0 on
-> match, so the `if (strcmp(buf, "full"))` block executed when the
-> input was not "full".
->=20
-> This resulted in "full" setting the mode to AD7816_PD (power-down) and
-> other inputs setting it to AD7816_FULL.
->=20
-> Fix this by checking it against 0 to correctly check for "full" and
-> "power-down", mapping them to AD7816_FULL and AD7816_PD respectively.
->=20
-> Fixes: 7924425db04a ("staging: iio: adc: new driver for AD7816 devices")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Gabriel Shahrouzi <gshahrouzi@gmail.com>
-> ---
+On Tue, Apr 15, 2025 at 08:28:18PM +0800, Wentao Liang wrote:
+> >Again, I think this whole "hal wrapper" should be removed instead, and
+> >not papered over like this.  If you dig deep enough, it all boils down
+> >to a call to sdio_readb(), which is an 8 bit read, so the alignment
+> >issues are not a problem, and if an error happens the proper error value>
+> >is returned from that saying what happened.  Why not work on that like I
+> >recommended?  That would allow for at least 3, if not more, layers of
+> >indirection to be removed from this driver, making it more easy to
+> >understand and maintain over time.
+> 
+> Thanks for the guidance and detailed suggestion. But remove the whole 
+> "hal wrapper" layer is beyond my capability. Perhaps this refactoring 
+> work would be better handled by someone with deeper knowledge of the 
+> driver codebase. The changes would ripple through several layers, and 
+> I'm not entirely confident about implementing them correctly. The 
+> current patch might serve as a reasonable stopgap solution. 
 
-LGTM, do you happen to have this device? It would more interesting to move =
-this
-driver out of staging :)
+Try it, it should be a "one step at a time" of unwinding the mess that
+the codebase is in.  Shouldn't be that hard, and will give you lots of
+good things to work on.
 
-Acked-by: Nuno S=C3=A1 <nuno.sa@analog.com>
+I don't want to take a "stopgap solution", sorry, I would rather take
+the real solution, for obvious reasons.
 
-> Changes since v3:
-> 	- Tag stable@vger.kernel.org=C2=A0instead of an email CC
-> 	- Use the correct version for patch
-> Changes since v2:
-> 	- Add fixes tag that references commit that introduced the bug.
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - Replace sysfs_streq with str=
-cmp.
-> ---
-> =C2=A0drivers/staging/iio/adc/ad7816.c | 2 +-
-> =C2=A01 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/drivers/staging/iio/adc/ad7816.c
-> b/drivers/staging/iio/adc/ad7816.c
-> index 6c14d7bcdd675..081b17f498638 100644
-> --- a/drivers/staging/iio/adc/ad7816.c
-> +++ b/drivers/staging/iio/adc/ad7816.c
-> @@ -136,7 +136,7 @@ static ssize_t ad7816_store_mode(struct device *dev,
-> =C2=A0	struct iio_dev *indio_dev =3D dev_to_iio_dev(dev);
-> =C2=A0	struct ad7816_chip_info *chip =3D iio_priv(indio_dev);
-> =C2=A0
-> -	if (strcmp(buf, "full")) {
-> +	if (strcmp(buf, "full") =3D=3D 0) {
-> =C2=A0		gpiod_set_value(chip->rdwr_pin, 1);
-> =C2=A0		chip->mode =3D AD7816_FULL;
-> =C2=A0	} else {
+thanks,
+
+greg k-h
