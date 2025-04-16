@@ -1,78 +1,96 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D2ED224227;
-	Wed, 16 Apr 2025 18:58:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52E1A2253A8
+	for <linux-staging@lists.linux.dev>; Wed, 16 Apr 2025 19:54:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744829928; cv=none; b=RW/YbrzgSVpMlRmubRT57igTWfwXDIbShAEkHQMapnil06F9UnoGPAisHHhGabvyDEsPRQAya7hU0JTZ9D33RHBa6YOjwbhp8PJf/4GivObpTt72pYgU7va11s4eSGXEAIR3vINwLO43nsxYHsV5JuSzYGMom040zmBt/vW7OG0=
+	t=1744833289; cv=none; b=fsb0fVrg3u7wCo0ncCd3L7rIoLNKiskpL4/seZkDvGxt4NIixdoBV3nxLDtNaxvejJJ5qaC5DXNADZl2L0YqbyM59MB3fBojBRMellj2UhOY0uxxs4JemQi+51S1W0v5j1tDgaQ8RH6hnHsCXpGY0CxJRQsqfi0waivMWpN3JLM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744829928; c=relaxed/simple;
-	bh=/hNhJZcR4CUwBEo2blgUcniwjsPrSIgbIv64kUB5918=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SWLP0Q6vlaRsY+Vx553y3HIiTo9wtKvFZ97whJ9qT849Gfv4EaD56yZq45TZRUlwMKHq0non5XulZ2kkARzRuPyIg7Wf+T8YyVFXqfs9JTKA0Wn+TJxIKj3AG4F3MeQYN4+oVvU8VtLG8FgCJQf0s0EX5TJLUblZcNGZWG4KFqY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TEebix6O; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1744833289; c=relaxed/simple;
+	bh=UnjEKaAwKTEtDaCYnG44TvlHj2XPzZ1wrYhnoD26JF8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=hD1GkaZu84Gy4B2ami9c3iM657qxsTWg08jGiKCleD87KHc2WjRnrsielgFrbbDv05PIG2ajQWoEk3lM/xL7oi5ybeuFuqqhsUnsyAiXVYQAWVmQ0BSVS1ar6R7Vl5ukkj/TGI8CqsjhvCqnCB/7wORHsUvh+plHU1IfmsvCSqI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=n06wiRZH; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TEebix6O"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DC2EBC4CEE2;
-	Wed, 16 Apr 2025 18:58:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1744829928;
-	bh=/hNhJZcR4CUwBEo2blgUcniwjsPrSIgbIv64kUB5918=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=TEebix6ON9AXItAp4J7RHk3Df2FVKYqV50SRmeR3uNoJuvSGuzKS9PTtY3HPC0Je2
-	 5NvQWbmsn+lmaEEmLmR5ROuQ1Sti6E7Z1j6USfRxd1UX45GemQtVcbmoS2BV73dIRC
-	 cqukW7FwZgjsQUSdIJFbtXg0nSZglEFPIh+W26OI3Nt9J/GOLgAP+qSBrNF8tND6S1
-	 +bKlAnQtUk88kjXghAzLdlt9vlMpujUFVBbcrmjBa2th0Km98PYsb7bMHENTMjhmVr
-	 VuqRoB6eeMsi9jnJ0Po2kyfWBR94AwUUcs/8f6ERjXUx7o2YH/dJbz+F+O1WoafKy/
-	 Ao5mqGtkcq3ZQ==
-Date: Wed, 16 Apr 2025 13:58:46 -0500
-From: Rob Herring <robh@kernel.org>
-To: Siddharth Menon <simeddon@gmail.com>
-Cc: linux-iio@vger.kernel.org, lars@metafoo.de,
-	Michael.Hennerich@analog.com, jic23@kernel.org,
-	gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev, marcelo.schmitt1@gmail.com
-Subject: Re: [PATCH v2] iio: frequency: ad9832: devicetree probing support
-Message-ID: <20250416185846.GA3735440-robh@kernel.org>
-References: <20250322163211.253009-1-simeddon@gmail.com>
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="n06wiRZH"
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 53G9mjGs007820;
+	Wed, 16 Apr 2025 19:54:42 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	UnjEKaAwKTEtDaCYnG44TvlHj2XPzZ1wrYhnoD26JF8=; b=n06wiRZHqtIm1oZd
+	kjAc78dHq11YF7W6bgB6MJNabCAP7d3lj7owOAaq3ciiAH8V2mj9Hp3sX3aX8KoD
+	vEHgWp5Qo4W0cmVJL6HPIaAJx9aly4VAggWFRt4/i8bS3i4357ogWqjTw9IOELwO
+	txn2kSyzlNavmEbxeoTmQel/FIHtOltP+S+vUn/51YOYkVWm5biYQQyo7V8K2ldr
+	cOAxvVZL9GVKx+LwQud5HCPIEzmBZX0O65ony7TqC99rO+dD7LnZVyte88e88XjU
+	AZQgV8tWmoBPb1FWAvTW8wx8vtFkJYpHza2Hh12mxCqcdiji7XEqELflx51J+zJH
+	jJPWLg==
+Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 45ygd6mrr3-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 16 Apr 2025 19:54:41 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
+	by NALASPPMTA04.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 53GJsfdj027392
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 16 Apr 2025 19:54:41 GMT
+Received: from [10.111.181.123] (10.49.16.6) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Wed, 16 Apr
+ 2025 12:54:40 -0700
+Message-ID: <b25547ce-f16b-4594-baf3-afb0346c90f2@quicinc.com>
+Date: Wed, 16 Apr 2025 12:54:39 -0700
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250322163211.253009-1-simeddon@gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [greybus-dev] [PATCH v2 1/4] staging: greybus: replace deprecated
+ strncpy with strscpy in firmware.c
+To: Ganesh Kumar Pittala <ganeshkpittala@gmail.com>, <johan@kernel.org>,
+        <elder@kernel.org>, <gregkh@linuxfoundation.org>
+CC: <greybus-dev@lists.linaro.org>, <linux-staging@lists.linux.dev>,
+        <linux-kernel@vger.kernel.org>, <hvaibhav.linux@gmail.com>,
+        <pure.logic@nexus-software.ie>
+References: <20250413073220.15931-1-ganeshkpittala@gmail.com>
+ <20250413073220.15931-2-ganeshkpittala@gmail.com>
+From: Jeff Johnson <quic_jjohnson@quicinc.com>
+Content-Language: en-US
+In-Reply-To: <20250413073220.15931-2-ganeshkpittala@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: nalasex01c.na.qualcomm.com (10.47.97.35) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: nR_WgbeSUnXWSUjpVrwTEIaNtdBRLRRC
+X-Proofpoint-GUID: nR_WgbeSUnXWSUjpVrwTEIaNtdBRLRRC
+X-Authority-Analysis: v=2.4 cv=ANaQCy7k c=1 sm=1 tr=0 ts=68000b01 cx=c_pps a=ouPCqIW2jiPt+lZRy3xVPw==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17 a=3H110R4YSZwA:10 a=IkcTkHD0fZMA:10 a=XR8D0OoHHMoA:10 a=VwQbUJbxAAAA:8 a=o4_jF1gwsiqNhuO3VYgA:9 a=3ZKOabzyN94A:10
+ a=QEXdDO2ut3YA:10 a=D0TqAXdIGyEA:10 a=xa8LZTUigIcA:10
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1095,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-04-16_07,2025-04-15_01,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 adultscore=0
+ mlxlogscore=582 suspectscore=0 clxscore=1015 lowpriorityscore=0
+ phishscore=0 impostorscore=0 spamscore=0 priorityscore=1501 malwarescore=0
+ bulkscore=0 classifier=spam authscore=0 authtc=n/a authcc= route=outbound
+ adjust=0 reason=mlx scancount=1 engine=8.19.0-2502280000
+ definitions=main-2504160162
 
-On Sat, Mar 22, 2025 at 09:58:11PM +0530, Siddharth Menon wrote:
-> Introduce struct for device match of_device_id to avoid relying on fallback
-> mechanisms, which could lead to false matches against other AD9832 variants
-> in the future.
-> 
-> Suggested-by: Marcelo Schmitt <marcelo.schmitt1@gmail.com>
-> Signed-off-by: Siddharth Menon <simeddon@gmail.com>
-> ---
->  v1->v2:
->  - updated commit message to be more informative
->  - minor changes to code formatting
->  drivers/staging/iio/frequency/ad9832.c | 8 ++++++++
->  1 file changed, 8 insertions(+)
-> 
-> diff --git a/drivers/staging/iio/frequency/ad9832.c b/drivers/staging/iio/frequency/ad9832.c
-> index 140ee4f9c137..7d4f655f6df1 100644
-> --- a/drivers/staging/iio/frequency/ad9832.c
-> +++ b/drivers/staging/iio/frequency/ad9832.c
-> @@ -431,6 +431,13 @@ static int ad9832_probe(struct spi_device *spi)
->  	return devm_iio_device_register(&spi->dev, indio_dev);
->  }
->  
-> +static const struct of_device_id ad9832_of_match[] = {
-> +	{ .compatible = "adi,ad9832" },
-> +	{ .compatible = "adi,ad9835" },
+On 4/13/2025 12:32 AM, Ganesh Kumar Pittala wrote:
+> This patch replaces the use of the deprecated strncpy() function with
+> strscpy() in drivers/staging/greybus/Documentation/firmware/firmware.c.
 
-Is there some reason we can't add a binding for this?
+Review:
+https://www.kernel.org/doc/html/latest/process/submitting-patches.html#describe-your-changes
 
-Rob
+Especially:
+Describe your changes in imperative mood, e.g. “make xyzzy do frotz” instead
+of “[This patch] makes xyzzy do frotz” or “[I] changed xyzzy to do frotz”, as
+if you are giving orders to the codebase to change its behaviour.
 
