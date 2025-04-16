@@ -1,115 +1,338 @@
-Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out.smtpout.orange.fr (out-13.smtpout.orange.fr [193.252.22.13])
+	(using TLSv1.2 with cipher AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9FD2217736
-	for <linux-staging@lists.linux.dev>; Wed, 16 Apr 2025 20:46:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F75A22655E
+	for <linux-staging@lists.linux.dev>; Wed, 16 Apr 2025 21:05:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.252.22.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744836363; cv=none; b=KNWDR+yHeoNn3kWK8rkcxnn0H6Lj8D51hFRwmZdT2SgVGULbTVlPgejWQcxSEWTnGiK2U5Mc0ScqUmXOmC2X53lMdvLAb9qOwJeXcRUIJnhkCborn5BlXqK1BKTQKILiQPK/0tL7TA8zA0SzXpjfd9t+P7tT+azR6RGRSD9S6F0=
+	t=1744837517; cv=none; b=PJpu0a0bDTEKeJl+AkaliWibfOzTpnBb1tTIB0Nz91YYlmcPElM6Qx8SXjaBeeGuple5RNJPG7EbSvF+Eh8jGV340Sd4cvYnXVRX84hvU5iJr2juJeHav1vn/6u4ZawayVgKPpf4KPr57l0lq7uiPFIhBxu2r+LA4zs5edXtWT8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744836363; c=relaxed/simple;
-	bh=Uri4+7GDEUPxQ/zMJozScs6gf7ZK85JBRYKKbs/kB7s=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mwsFbe7QmrmssuSF1sOFj79KqZGAfagD09T5DE3tXRy45nIVOPfARW2nNvo+2er5Md/pVY6TqS/1sVUrO+6NVFyanB9Fw8dh8oX++MBnt+tcxCpq44rdtPDztOO92VfZMqk2iLWpywAIGj5unodvc0aRv4b8YBInlekB7I8xP6o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=neverthere.org; spf=pass smtp.mailfrom=neverthere.org; dkim=pass (2048-bit key) header.d=neverthere.org header.i=@neverthere.org header.b=dDi6x5hV; arc=none smtp.client-ip=209.85.216.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=neverthere.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=neverthere.org
+	s=arc-20240116; t=1744837517; c=relaxed/simple;
+	bh=GoA5BixXL8Gx0eX5JAkMe3ImxlGY9OYVv+5YelDFK88=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=s8wbbr/FkSiBnRzQ/CFyh40AjzYWMFeA9Rv4VD4iubAg7oGF5fxlY1z6zAUBvytiJl2oeEz4Sv/8GWSCRewaN7GI6cCTn9QB+TxVeMMhR9u9Hab9GbgROkw72Z+rR2q5O0hiD4GVUYvutXGv6JF4PSwi4+zh8HAZibH7tlbRkTE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=orange.fr; spf=pass smtp.mailfrom=orange.fr; dkim=pass (2048-bit key) header.d=orange.fr header.i=@orange.fr header.b=diSjGVvr; arc=none smtp.client-ip=193.252.22.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=orange.fr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=orange.fr
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=neverthere.org header.i=@neverthere.org header.b="dDi6x5hV"
-Received: by mail-pj1-f43.google.com with SMTP id 98e67ed59e1d1-301918a4e1bso16742a91.1
-        for <linux-staging@lists.linux.dev>; Wed, 16 Apr 2025 13:46:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=neverthere.org; s=google; t=1744836361; x=1745441161; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=ZswUWYqEVBTmYMarhm0YEpxYFGoYJ3ON3AdhVWeS0Rg=;
-        b=dDi6x5hVxeYmrL3gb5p2CXPdq1bzQvMiE5g1UUFEqjzPkv3xKGjncBZjVQRbFrrqzD
-         /XMR9GRLJTriPBZSlL5p8AYAOZCOtTnxM6opZPcrMtdV3T4IDFB4/Rw/cN6SKo58gL/n
-         ubVgVP4//SRZ58J06MqIFbMGnQ9p0NIumLabWpFOQ8RSdc6VQp6Sh+dnrz9oQIMuw2/h
-         L9aWXhGIUJST8in/Xhk17mw/LcfjXhERptzbGQaeIzVwc9WabGnhuws3fpLcfIs31sCd
-         uCZIxj1/yPsdDBe3QIHHHukX16vpkc8o6XpRg1HlUxwdHhMc4YnBOLdTMsC7LVv1GsCT
-         tFmw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744836361; x=1745441161;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ZswUWYqEVBTmYMarhm0YEpxYFGoYJ3ON3AdhVWeS0Rg=;
-        b=qTvibBb/lVz/yEVCaoCBfaJY20UG/KrKxNkL131sgig3f/D4/vNuR6wN4z5aK3nsRx
-         UPRxQDsO81l0wYTkFRXaK0tnEG2MZwmCDSFtX7bUWXl4QcnDyGgmYugR56id4/s/APbD
-         WpukHQOWmoak7UMdgPSRXLQyoeZMIIQckXqLu7MCQgaeoVh0eo4pbbo3wCXgo8osT5S1
-         dxXYxJKAcMBCEgZtx+1txA2aB/XT7ItsAxcMV2DrCUWQj9llLrXggiDPP7qXkROM4tA5
-         eY2g2GN+zg6AcWgIjQjzzROLUoONlO0ALgGq5A1l7POnpWLfNnZDuA4OmdJDkguSS4Nl
-         KiVw==
-X-Forwarded-Encrypted: i=1; AJvYcCVzzvl3Xkqm2XZMmwlLJjUvCL9vLYOvqzw4lAIo5gsCcppETM0jY540ElDwzX/ZIaFifyhDCLltDc3WzxsZ@lists.linux.dev
-X-Gm-Message-State: AOJu0Yz+W55elEyk/kBlgNCx92Ps24xOrvfDVdGMVaEouCZChSXcnXH6
-	4rVYwbGOsbrMX04HDAQEydvXVv0HmYLAQt4SAHOnA4XoEd1IAINXHfQdrrjHSYlUSbnK9x3LNio
-	=
-X-Gm-Gg: ASbGncu+wwS2aSUSXwBgwatF53s0yu0heaujhBD4zqJd7SrTae4QMVFHphg8QIDq1fV
-	2gRByi1NNimHVI6yZTgJ+HnCybTjL+YKcfMAuAbWVj42CFKsoFlEH3M2mpK4TcSnkM+Ke10oJrb
-	ALmx3FGdPlGemC/ODNe9U2mW54bqKqYud8oLBXsNSwZkPJyGay1JwnWVrx2U/cNv74p6J91G4WT
-	PQhSVAEhuZZldJ+YwUOWZ7wuzVMeXj4ZfUnGKj9wZcPuhCgwPQlCbJztOgKgxRRHfc5juxUmjkp
-	FiqyJKW9fIT0KELUt8WnEN/K6oK2JBkl++mweoVUpY+PE3+ruJyJBtZ+VOhIt6jzTf5cBj1sGlC
-	4VJyqJQ==
-X-Google-Smtp-Source: AGHT+IEoQ75P7zQq8T5JMPgGw1/cthcGWEStg5iGqMCnn2UbY6rivsWXiXhNhO25Mo4/qNBOSkcfyQ==
-X-Received: by 2002:a17:90b:5247:b0:2f2:ab09:c256 with SMTP id 98e67ed59e1d1-30864172d65mr5494078a91.33.1744836361175;
-        Wed, 16 Apr 2025 13:46:01 -0700 (PDT)
-Received: from tiamat (c-69-181-214-135.hsd1.ca.comcast.net. [69.181.214.135])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-308611d6166sm2115338a91.7.2025.04.16.13.46.00
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 16 Apr 2025 13:46:00 -0700 (PDT)
-Date: Wed, 16 Apr 2025 20:45:59 +0000
-From: Michael Rubin <matchstick@neverthere.org>
-To: Greg KH <gregkh@linuxfoundation.org>
-Cc: Dan Carpenter <dan.carpenter@linaro.org>, dpenkler@gmail.com,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v1 01/18] staging: gpib: struct typing for gpib_interface
-Message-ID: <aAAXB60zJWB1qRHJ@tiamat>
-References: <20250408222504.186992-1-matchstick@neverthere.org>
- <20250408222504.186992-2-matchstick@neverthere.org>
- <804eaa0e-e1ce-4ee2-8ad4-f56bedd6d14f@stanley.mountain>
- <Z_az87Yx-NJvGASJ@tiamat>
- <2025041512-coveting-scrimmage-9312@gregkh>
+	dkim=pass (2048-bit key) header.d=orange.fr header.i=@orange.fr header.b="diSjGVvr"
+Received: from cyber-villager.csun.edu ([130.166.192.226])
+	by smtp.orange.fr with ESMTPA
+	id 59wNu2F8mETiN59wRuzzN7; Wed, 16 Apr 2025 23:05:09 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=orange.fr;
+	s=t20230301; t=1744837509;
+	bh=ApWjiV63hZbpyWpH5ZHXZD1LSL4Rv/fHHit61ZUXWtY=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version;
+	b=diSjGVvrP5AN1/+5uoqnI62k7AVrJQqatITyjH8I960AzyzffghHjrtwBwS2Urd3u
+	 zsjWUyZN42TzOX2FMmJlwDwrDXECnD+3tmFiCVQOyaemK1kb3D/NhOQFt08iURtgIg
+	 5ugCfJo9IqQHwqBZap5Tb2NcbC2yrvmfL5D34WfrRI6Zf0HpSIRGzkgnWK6UFUwyi0
+	 ihNbjW7YDd1oOmLGjfcdegTS0WbmuRT0owLblZditFt0fj+Wdm2oZQaQI5q6a3S/iO
+	 gaMkvzd6XDqoGrFAMzt+VfnkEmyL9HYfMAmy/lAHf6W6WokXxF0qeemYJXaO2bODop
+	 /AB3Bf00HpO+w==
+X-ME-Helo: cyber-villager.csun.edu
+X-ME-Auth: cGF1bC5yZXRvdXJuZUBvcmFuZ2UuZnI=
+X-ME-Date: Wed, 16 Apr 2025 23:05:09 +0200
+X-ME-IP: 130.166.192.226
+From: =?UTF-8?q?Paul=20Retourn=C3=A9?= <paul.retourne@orange.fr>
+To: gregkh@linuxfoundation.org
+Cc: =?UTF-8?q?Paul=20Retourn=C3=A9?= <paul.retourne@orange.fr>,
+	dpenkler@gmail.com,
+	dan.carpenter@linaro.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v2] staging: gpib: include: fixes multiline comments style
+Date: Wed, 16 Apr 2025 14:04:09 -0700
+Message-ID: <20250416210411.9300-2-paul.retourne@orange.fr>
+X-Mailer: git-send-email 2.49.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <2025041512-coveting-scrimmage-9312@gregkh>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Tue, Apr 15, 2025 at 04:41:47PM +0200, Greg KH wrote:
-> On Wed, Apr 09, 2025 at 05:52:51PM +0000, Michael Rubin wrote:
-> > On Wed, Apr 09, 2025 at 11:26:41AM +0300, Dan Carpenter wrote:
-> > > On Tue, Apr 08, 2025 at 10:24:47PM +0000, Michael Rubin wrote:
-> > > > Using Linux code style for gpib_interface struct in .h to allow drivers to
-> > > > migrate.
-> > > > 
-> > > > Adhering to Linux code style.
-> > > > 
-> > > > In general, a pointer, or a struct that has elements that can reasonably be
-> > > > directly accessed should never be a typedef.
-> > > > 
-> > > > Reported by CheckPatch
-> > > > 
-> > > > WARNING: do not add new typedefs
-> > > > 
-> > > 
-> > > This commit message is quite long but it's totally unrelated to what the
-> > > patch does.
-> > > 
-> > > This commit message should just say "Having the word "_struct" in the
-> > > name of the struct doesn't add any information so rename struct
-> > > gpib_interface_struct to struct gpib_interface."
-> > 
-> > Thank you for the input. New commit marked v2 sent to the list.
-> 
-> I think we need a whole new v2 series, I can't just pick up 1 of the 18
-> patches as a v2 as our tools will get very confused.  Can you just
-> rebase and resend a v3 for the whole thing?
+Fixes the style of multiline comments to comply with the linux kernel
+coding style.
 
-I sent a new series. Hope that it looks ok.
+Signed-off-by: Paul Retourné <paul.retourne@orange.fr>
+---
+In v2:
+- Keep only the non applied patch
+- Rebase on top of staging-testing
 
-Michael
+ drivers/staging/gpib/include/gpib_types.h     | 81 ++++++++++++-------
+ .../staging/gpib/include/nec7210_registers.h  |  3 +-
+ drivers/staging/gpib/include/tms9914.h        |  6 +-
+ 3 files changed, 60 insertions(+), 30 deletions(-)
+
+diff --git a/drivers/staging/gpib/include/gpib_types.h b/drivers/staging/gpib/include/gpib_types.h
+index 71af9e808a76..73a8958e4d9b 100644
+--- a/drivers/staging/gpib/include/gpib_types.h
++++ b/drivers/staging/gpib/include/gpib_types.h
+@@ -8,7 +8,8 @@
+ #define _GPIB_TYPES_H
+ 
+ #ifdef __KERNEL__
+-/* gpib_interface_t defines the interface
++/*
++ * gpib_interface_t defines the interface
+  * between the board-specific details dealt with in the drivers
+  * and generic interface provided by gpib-common.
+  * This really should be in a different header file.
+@@ -37,11 +38,13 @@ struct gpib_board_config {
+ 	unsigned int ibirq;
+ 	/* dma channel to use for non-pnp cards (set by core, driver should make local copy) */
+ 	unsigned int ibdma;
+-	/* pci bus of card, useful for distinguishing multiple identical pci cards
++	/*
++	 * pci bus of card, useful for distinguishing multiple identical pci cards
+ 	 * (negative means don't care)
+ 	 */
+ 	int pci_bus;
+-	/* pci slot of card, useful for distinguishing multiple identical pci cards
++	/*
++	 * pci slot of card, useful for distinguishing multiple identical pci cards
+ 	 * (negative means don't care)
+ 	 */
+ 	int pci_slot;
+@@ -58,7 +61,8 @@ struct gpib_interface_struct {
+ 	int (*attach)(struct gpib_board *board, const struct gpib_board_config *config);
+ 	/* detach() shuts down board and frees resources */
+ 	void (*detach)(struct gpib_board *board);
+-	/* read() should read at most 'length' bytes from the bus into
++	/*
++	 * read() should read at most 'length' bytes from the bus into
+ 	 * 'buffer'.  It should return when it fills the buffer or
+ 	 * encounters an END (EOI and or EOS if appropriate).  It should set 'end'
+ 	 * to be nonzero if the read was terminated by an END, otherwise 'end'
+@@ -70,39 +74,46 @@ struct gpib_interface_struct {
+ 	 */
+ 	int (*read)(struct gpib_board *board, u8 *buffer, size_t length, int *end,
+ 		    size_t *bytes_read);
+-	/* write() should write 'length' bytes from buffer to the bus.
++	/*
++	 * write() should write 'length' bytes from buffer to the bus.
+ 	 * If the boolean value send_eoi is nonzero, then EOI should
+ 	 * be sent along with the last byte.  Returns number of bytes
+ 	 * written or negative value on error.
+ 	 */
+ 	int (*write)(struct gpib_board *board, u8 *buffer, size_t length, int send_eoi,
+ 		     size_t *bytes_written);
+-	/* command() writes the command bytes in 'buffer' to the bus
++	/*
++	 * command() writes the command bytes in 'buffer' to the bus
+ 	 * Returns zero on success or negative value on error.
+ 	 */
+ 	int (*command)(struct gpib_board *board, u8 *buffer, size_t length,
+ 		       size_t *bytes_written);
+-	/* Take control (assert ATN).  If 'asyncronous' is nonzero, take
++	/*
++	 * Take control (assert ATN).  If 'asyncronous' is nonzero, take
+ 	 * control asyncronously (assert ATN immediately without waiting
+ 	 * for other processes to complete first).  Should not return
+ 	 * until board becomes controller in charge.  Returns zero no success,
+ 	 * nonzero on error.
+ 	 */
+ 	int (*take_control)(struct gpib_board *board, int asyncronous);
+-	/* De-assert ATN.  Returns zero on success, nonzer on error.
++	/*
++	 * De-assert ATN.  Returns zero on success, nonzer on error.
+ 	 */
+ 	int (*go_to_standby)(struct gpib_board *board);
+ 	/* request/release control of the IFC and REN lines (system controller) */
+ 	void (*request_system_control)(struct gpib_board *board, int request_control);
+-	/* Asserts or de-asserts 'interface clear' (IFC) depending on
++	/*
++	 * Asserts or de-asserts 'interface clear' (IFC) depending on
+ 	 * boolean value of 'assert'
+ 	 */
+ 	void (*interface_clear)(struct gpib_board *board, int assert);
+-	/* Sends remote enable command if 'enable' is nonzero, disables remote mode
++	/*
++	 * Sends remote enable command if 'enable' is nonzero, disables remote mode
+ 	 * if 'enable' is zero
+ 	 */
+ 	void (*remote_enable)(struct gpib_board *board, int enable);
+-	/* enable END for reads, when byte 'eos' is received.  If
++	/*
++	 * enable END for reads, when byte 'eos' is received.  If
+ 	 * 'compare_8_bits' is nonzero, then all 8 bits are compared
+ 	 * with the eos bytes.	Otherwise only the 7 least significant
+ 	 * bits are compared.
+@@ -118,26 +129,31 @@ struct gpib_interface_struct {
+ 	void (*parallel_poll_response)(struct gpib_board *board, int ist);
+ 	/* select local parallel poll configuration mode PP2 versus remote PP1 */
+ 	void (*local_parallel_poll_mode)(struct gpib_board *board, int local);
+-	/* Returns current status of the bus lines.  Should be set to
++	/*
++	 * Returns current status of the bus lines.  Should be set to
+ 	 * NULL if your board does not have the ability to query the
+ 	 * state of the bus lines.
+ 	 */
+ 	int (*line_status)(const struct gpib_board *board);
+-	/* updates and returns the board's current status.
++	/*
++	 * updates and returns the board's current status.
+ 	 * The meaning of the bits are specified in gpib_user.h
+ 	 * in the IBSTA section.  The driver does not need to
+ 	 * worry about setting the CMPL, END, TIMO, or ERR bits.
+ 	 */
+ 	unsigned int (*update_status)(struct gpib_board *board, unsigned int clear_mask);
+-	/* Sets primary address 0-30 for gpib interface card.
++	/*
++	 * Sets primary address 0-30 for gpib interface card.
+ 	 */
+ 	int (*primary_address)(struct gpib_board *board, unsigned int address);
+-	/* Sets and enables, or disables secondary address 0-30
++	/*
++	 * Sets and enables, or disables secondary address 0-30
+ 	 * for gpib interface card.
+ 	 */
+ 	int (*secondary_address)(struct gpib_board *board, unsigned int address,
+ 				 int enable);
+-	/* Sets the byte the board should send in response to a serial poll.
++	/*
++	 * Sets the byte the board should send in response to a serial poll.
+ 	 * This function should also start or stop requests for service via
+ 	 * IEEE 488.2 reqt/reqf, based on MSS (bit 6 of the status_byte).
+ 	 * If the more flexible serial_poll_response2 is implemented by the
+@@ -150,7 +166,8 @@ struct gpib_interface_struct {
+ 	 * STB, reqt, and reqf".
+ 	 */
+ 	void (*serial_poll_response)(struct gpib_board *board, u8 status_byte);
+-	/* Sets the byte the board should send in response to a serial poll.
++	/*
++	 * Sets the byte the board should send in response to a serial poll.
+ 	 * This function should also request service via IEEE 488.2 reqt/reqf
+ 	 * based on MSS (bit 6 of the status_byte) and new_reason_for_service.
+ 	 * reqt should be set true if new_reason_for_service is true,
+@@ -166,7 +183,8 @@ struct gpib_interface_struct {
+ 	 */
+ 	void (*serial_poll_response2)(struct gpib_board *board, u8 status_byte,
+ 				      int new_reason_for_service);
+-	/* returns the byte the board will send in response to a serial poll.
++	/*
++	 * returns the byte the board will send in response to a serial poll.
+ 	 */
+ 	u8 (*serial_poll_status)(struct gpib_board *board);
+ 	/* adjust T1 delay */
+@@ -216,14 +234,16 @@ struct gpib_interface_list {
+ 	struct module *module;
+ };
+ 
+-/* One struct gpib_board is allocated for each physical board in the computer.
++/*
++ * One struct gpib_board is allocated for each physical board in the computer.
+  * It provides storage for variables local to each board, and interface
+  * functions for performing operations on the board
+  */
+ struct gpib_board {
+ 	/* functions used by this board */
+ 	gpib_interface_t *interface;
+-	/* Pointer to module whose use count we should increment when
++	/*
++	 * Pointer to module whose use count we should increment when
+ 	 * interface is in use
+ 	 */
+ 	struct module *provider_module;
+@@ -231,20 +251,24 @@ struct gpib_board {
+ 	u8 *buffer;
+ 	/* length of buffer */
+ 	unsigned int buffer_length;
+-	/* Used to hold the board's current status (see update_status() above)
++	/*
++	 * Used to hold the board's current status (see update_status() above)
+ 	 */
+ 	unsigned long status;
+-	/* Driver should only sleep on this wait queue.	 It is special in that the
++	/*
++	 * Driver should only sleep on this wait queue.	 It is special in that the
+ 	 * core will wake this queue and set the TIMO bit in 'status' when the
+ 	 * watchdog timer times out.
+ 	 */
+ 	wait_queue_head_t wait;
+-	/* Lock that only allows one process to access this board at a time.
++	/*
++	 * Lock that only allows one process to access this board at a time.
+ 	 * Has to be first in any locking order, since it can be locked over
+ 	 * multiple ioctls.
+ 	 */
+ 	struct mutex user_mutex;
+-	/* Mutex which compensates for removal of "big kernel lock" from kernel.
++	/*
++	 * Mutex which compensates for removal of "big kernel lock" from kernel.
+ 	 * Should not be held for extended waits.
+ 	 */
+ 	struct mutex big_gpib_mutex;
+@@ -259,7 +283,8 @@ struct gpib_board {
+ 	struct device *dev;
+ 	/* gpib_common device gpibN */
+ 	struct device *gpib_dev;
+-	/* 'private_data' can be used as seen fit by the driver to
++	/*
++	 * 'private_data' can be used as seen fit by the driver to
+ 	 * store additional variables for this board
+ 	 */
+ 	void *private_data;
+@@ -296,7 +321,8 @@ struct gpib_board {
+ 	unsigned master : 1;
+ 	/* individual status bit */
+ 	unsigned ist : 1;
+-	/* one means local parallel poll mode ieee 488.1 PP2 (or no parallel poll PP0),
++	/*
++	 * one means local parallel poll mode ieee 488.1 PP2 (or no parallel poll PP0),
+ 	 * zero means remote parallel poll configuration mode ieee 488.1 PP1
+ 	 */
+ 	unsigned local_ppoll_mode : 1;
+@@ -308,7 +334,8 @@ struct gpib_event {
+ 	short event_type;
+ };
+ 
+-/* Each board has a list of gpib_status_queue to keep track of all open devices
++/*
++ * Each board has a list of gpib_status_queue to keep track of all open devices
+  * on the bus, so we know what address to poll when we get a service request
+  */
+ struct gpib_status_queue {
+diff --git a/drivers/staging/gpib/include/nec7210_registers.h b/drivers/staging/gpib/include/nec7210_registers.h
+index 888803dd97f9..97c53ac8e805 100644
+--- a/drivers/staging/gpib/include/nec7210_registers.h
++++ b/drivers/staging/gpib/include/nec7210_registers.h
+@@ -17,7 +17,8 @@ enum nec7210_chipset {
+ 	TNT5004,	// NI (minor differences to TNT4882)
+ };
+ 
+-/* nec7210 register numbers (might need to be multiplied by
++/*
++ * nec7210 register numbers (might need to be multiplied by
+  * a board-dependent offset to get actually io address offset)
+  */
+ // write registers
+diff --git a/drivers/staging/gpib/include/tms9914.h b/drivers/staging/gpib/include/tms9914.h
+index d9ba11426ab1..352fc516fd40 100644
+--- a/drivers/staging/gpib/include/tms9914.h
++++ b/drivers/staging/gpib/include/tms9914.h
+@@ -86,7 +86,8 @@ int tms9914_write(struct gpib_board *board, struct tms9914_priv *priv, u8 *buffe
+ int tms9914_command(struct gpib_board *board, struct tms9914_priv *priv, u8 *buffer,
+ 		    size_t length, size_t *bytes_written);
+ int tms9914_take_control(struct gpib_board *board, struct tms9914_priv *priv, int syncronous);
+-/* alternate version of tms9914_take_control which works around buggy tcs
++/*
++ * alternate version of tms9914_take_control which works around buggy tcs
+  * implementation.
+  */
+ int tms9914_take_control_workaround(struct gpib_board *board, struct tms9914_priv *priv,
+@@ -140,7 +141,8 @@ enum {
+ 	ms9914_num_registers = 8,
+ };
+ 
+-/* tms9914 register numbers (might need to be multiplied by
++/*
++ * tms9914 register numbers (might need to be multiplied by
+  * a board-dependent offset to get actually io address offset)
+  */
+ // write registers
+-- 
+2.49.0
+
