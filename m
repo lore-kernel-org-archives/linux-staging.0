@@ -1,69 +1,67 @@
-Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF46C3594E;
-	Wed, 16 Apr 2025 12:49:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 084B3176AA1
+	for <linux-staging@lists.linux.dev>; Wed, 16 Apr 2025 13:07:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744807756; cv=none; b=e8kb03aPmCPpgdLoBldOFNvqRRqaNd2PbD+TZOAs7AnhJXzAd/eZLnxECrnVmIS9/i37CTszt3EYn5P1TVFr7i3m45UtsborcQdW21FVhz82z6ASec7WHz/PzAWluUk/A5ZXlVkXyJIQo1rOpjwQZpwj8UN/WXLlDgefKBv42kU=
+	t=1744808874; cv=none; b=URtmpvlhDOxNtfWdMfDZIJEOY1Uus1tOUcW651Xk3BaYblPlunFigk56IBCFrdFHjVUfoRfOY8iIPR+iNxnhgIQgTB0vYLJ0incG2Cd9XhczDDysP5ZouVE+4gUN4B4hmR5Gw+T9WAnthBVMY+5Q4osAc4FYSR8HemsEkKoE+V8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744807756; c=relaxed/simple;
-	bh=Oie0CA567N2TU0fwBupMchn1K0iHfp5AaY2vGOjyCIg=;
+	s=arc-20240116; t=1744808874; c=relaxed/simple;
+	bh=T4h0Qre/mIOSlMXo3Yr8NeEL2pNQs3X77eQfmfVCN30=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=jMgOaPRlMoGsDzcGtZ52EUml0pDtNeZhBSTLjD4JBzq1lhfhFFbJLbkwGUhjGF/AFdGzD4me4IxL5zFOphswvwW9DPWEzeAvyRcr3OEAdQ5AFw9kxl9AxUWwbNV455YUVkAi5wUql1EcainfQOGO74gDCngVuzLkk5ZwLzHlDhg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=J+5vKUzI; arc=none smtp.client-ip=209.85.210.175
+	 Content-Disposition; b=QC2t/s4ruU4aCfvH+gDVDBs+q0hdFOdm0080WjOadgRzisXanp4XtmlBAGizdw420tzFT7RcDE+TKw+1tf3O0zRZ5CPWdyLgvs1djZ/+u26Ew84FhUPz+D2ETCfOIl4Hyz9sOjbmr86AZUSDECSKGhs4zAV/2UU/SGoeumFpuWk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fw7qJwDI; arc=none smtp.client-ip=209.85.128.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="J+5vKUzI"
-Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-736c1138ae5so6579522b3a.3;
-        Wed, 16 Apr 2025 05:49:14 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fw7qJwDI"
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-43ede096d73so47225585e9.2
+        for <linux-staging@lists.linux.dev>; Wed, 16 Apr 2025 06:07:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1744807754; x=1745412554; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1744808871; x=1745413671; darn=lists.linux.dev;
         h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=ldt9IrsiOSqhio1MCd7bKSNWymFtZHgXwO+I+eYx310=;
-        b=J+5vKUzIta8aIe36cbr8+tU9rMdvvwFm4n5gHMhPC88vRzyEv2RcgkXYl5vy+joBW9
-         OeMqYgPf5/EKCbOvMqK/C5/VJUalbQ28abBN24k56e7dv18N3msLK2AXCoEn7qfFZyFL
-         JIA0hg3n/8b6VCh2PVVLHznS3itM1PKq9qcqMOr4T0LJZ9qMLuJfZOv18Q8OC8mnOXft
-         kNTJ7Eqxp7HLV8nqAWhzqP1YgRR07o+2XYmLBmFRgvHCAiPc/loxVEKofwv7VuLsA2Os
-         mMXFJoKYq3FZE5rubXfSTKB7Q4quuFe3VejOc+ewKJccWXwSzgMvAZFALRXBpK6g5UgZ
-         KeSA==
+        bh=nVi2C6WXa2d1wRatlCAKYxbFJ2sUwQ9evBa+lyOMzw0=;
+        b=fw7qJwDIxQGmQwt+Vg38s7cDvbtdEwEsricgTeMV9w5/J0ap6y5YUuu578PArE4opr
+         3OmmCq26XrmbJMklB4MnRtPKcyE65Fg3xAEaXujhz3BzALP/fWX196w2/1OAydlM4SBA
+         JkjIIAxDa9GNhDbNCea7MPdK0CRX/pcyPhFsmU3G6v1T5yyPPMqdyxwmq0oFl2IhwQj7
+         DVpc3+sqwFUWgD9uYYGME+0zMEX3Wb/f1y6S45D5fSIH68QkdenDRsu2M+jXT6CKXD/Q
+         qZxGjRjtI6mvazeM4fYIOJuXMddw5/Em3WPUjfeHjPHWeOcQk+tHGJ9MD4ixfwMVTdDX
+         fX5Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744807754; x=1745412554;
+        d=1e100.net; s=20230601; t=1744808871; x=1745413671;
         h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ldt9IrsiOSqhio1MCd7bKSNWymFtZHgXwO+I+eYx310=;
-        b=U82MLXReoZk2hTqkWcXHFHMPNPs/zUl/LhHEMBus+2vSCZ+TCdivi1IL+uZrbbCEuo
-         5+TjcBW2dSc/xVtQiUdaYhL8RZh6yLVbG6nMXfzjZ6Ygf8729BDw2PPMCESBCb3uTs+m
-         gGSB2bVko2rT+vpxcfpGIqnxx7Jf3qGhyZ+rN7SKyb180vfCQKe+ooIAOkmwGDr6LKGN
-         rrT/2aiJpf2d/EhpuwVfvQwL/WSZRoMChDxL5mI1nV0x6drAsCpRtsDA66hiKhL6Qzqj
-         HabbhXQvARFIAtB7wwuTGRZt2nyMwJa89u1Ptc2KVp8k8BxiqmnFm04wuvCv+dKW4Hp4
-         Ht6w==
-X-Forwarded-Encrypted: i=1; AJvYcCWcBlj3ZHTZQ+ZV7APb3/4dwu86A7bZtQe41n4oXJ4WW/7azs1sa7TL+NpUBaskp+dGTURkYox1SUbki2Po@lists.linux.dev, AJvYcCXCsDfJZrN6FzAEoHXLhM2hWzf/Z2OGmKMYagcB7Xi0lbIagTYvUYzOzl29P7feOHqmdMCzL66l9yU1@lists.linux.dev
-X-Gm-Message-State: AOJu0Yx4rUbWz/HhfaVtx9F42Dk6xy9bKZiOhEjehsWwYhja/o6CdYLB
-	HqA8+MnE+Bqn3YJrzfQ/+pq90XdRu8cAH9XqumzLdz+ZodZsLw1i
-X-Gm-Gg: ASbGncsg2g58AxoV3nbqPaSDsgLeQUVBmmXV5t/D+pO/UuZnj231WOK2K+tdJVv2YV5
-	wP/rYknZeVTOuW/eFDGEsL1+CVh+IPXeSdFoJbsDyDgXVwj2ZTyHw6FC6QY02JZnK1riDexBcIe
-	XV4HZvGAk7eWSczB+8BYzhR7o8BY0+tPzJP0QL3aBml+saxpwsppuHBgoLuleO4beMSyHPSztAH
-	ypSWwyZOI99Wgwoh+ZmTzVMOF3BG9KsuhONsIRB/XD+3Bfw0hPm9pN1HckaEhAqhrqQP2GLtQur
-	uFUqxulA8lJxSFJVHxm0Yum7Hp/K6uEpJUKtwRQMONg7poqPUw==
-X-Google-Smtp-Source: AGHT+IG/CPfVYEph2M7p99ubwZU+kSDnukahDwg624Hd0IVR4aChNY4Tva8+Qvi4aQGmrLXTd0OYrg==
-X-Received: by 2002:a05:6a00:2384:b0:736:2a73:6756 with SMTP id d2e1a72fcca58-73c267f55e2mr2454611b3a.21.1744807754007;
-        Wed, 16 Apr 2025 05:49:14 -0700 (PDT)
-Received: from brak3rDesk ([115.96.217.61])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b0b220aa4b2sm1161674a12.5.2025.04.16.05.49.13
+        bh=nVi2C6WXa2d1wRatlCAKYxbFJ2sUwQ9evBa+lyOMzw0=;
+        b=O9P0VSO+0OqzHjYILxYNgJ5NIArFqK4V/VlxXpKe2qv+cYoCrVe7pbY6p2/sP2jI0d
+         MelAJ276h78hEzEl+ULM0vVvjY9BeoEm3j7+HEe5kbBhMYbBSIbzYai30b2B100Zb/YQ
+         T8mKDwaPxflK6XgWgo56OdvL/P6uryvP4VSlnumbuJG9WExCqsMpIsUghTLOnHzncnZ8
+         y2bNK7GU/sqFRYVi7o0Ee/dJMv2M18mrB2Fn45X753Ezq80G7UexS7845ePePmfscwaB
+         /n2zLWavH52+mF2R49k3bu+jG5t29vkeZPdm6XMyFKrqWRLKoRnZIi+9zj7tVbhePpCb
+         UwOA==
+X-Forwarded-Encrypted: i=1; AJvYcCWIxqGe7uT7CwESx8oJe30gfeJrSBnLodp6/agu6DTyTzJQuLzkOelZjlihVg/AXXInPtDt/oB8MlVfvkp+@lists.linux.dev
+X-Gm-Message-State: AOJu0Yzkj62HkkuDqH1l1etfO86sMbLFJmODWaTQpppOQ33VqrrwggiP
+	5Ol/gjnwfhhNXFPjoWmoGUSnzAXOZVyx164BxqL3vodPS9QYD0Q=
+X-Gm-Gg: ASbGncuhjFTVm+ilEaXr2FQ8jI6p5SRd99QRJb7inUEWAEA7MJWRjPfVScLMuHRrKEQ
+	KmwXx58w9ufr+HK2cO5iZ6khc0zGo2j+WRBckpg1DNu62SU+27eIQEnLo6hB1lvFrN/7tQwtzza
+	DOYFbnWN1e91StapJDoxxtKv2ln9FB7xHy32ZaXo/NmuunCsmPtoRcXeqjr9nCvCMl3Fd66h5lY
+	ka389cJIddTn9c6LlmT5hGIf/7PjS86rmupQkjxEOEloc8THG9LfqvQySJ2xfAeTnx99XpXA0w5
+	+/nJf37bHPm+AAHdTzBjAYPdpxGO/5dm5vVh4zREtKs/NsYxIJRTAA==
+X-Google-Smtp-Source: AGHT+IFb8J+NNbk+VOYcmnH5z8UaoC9eNwMxuBvzfTteJDrUd57AhkcZ95OMgGfajO2gFLJb7lIQhw==
+X-Received: by 2002:a05:600c:4e8e:b0:43d:ed:acd5 with SMTP id 5b1f17b1804b1-4405d616aa7mr21535135e9.10.1744808870684;
+        Wed, 16 Apr 2025 06:07:50 -0700 (PDT)
+Received: from octinomon (ericanang.plus.com. [81.174.158.113])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4405b58ca92sm20678415e9.30.2025.04.16.06.07.50
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 16 Apr 2025 05:49:13 -0700 (PDT)
-Date: Wed, 16 Apr 2025 18:19:11 +0530
-From: Rujra Bhatt <braker.noob.kernel@gmail.com>
-To: dpenkler@gmail.com, gregkh@linuxfoundation.org,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	outreachy@lists.linux.dev
-Cc: braker.noob.kernel@gmail.com
-Subject: [FIRST-PATCH] staging : gpib : agilent_82350b : agilent_82350b.c :
- fixes checks on the file
-Message-ID: <Z_-nR5Vt2A5kvbro@brak3rDesk>
+        Wed, 16 Apr 2025 06:07:50 -0700 (PDT)
+Date: Wed, 16 Apr 2025 14:07:44 +0100
+From: Jules Irenge <jbi.octave@gmail.com>
+To: dpenkler@gmail.com
+Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] staging: gpib: Fix Kconfig
+Message-ID: <Z_-rcegWISUc6zhk@octinomon>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -73,28 +71,37 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-It has recommended to
-Prefer kzalloc(sizeof(*board->private_data)...)
-over kzalloc(sizeof(struct agilent_82350b_priv)...)
+Chekpatch reports a warning in Kconfig
 
-Signed-off-by: Rujra Bhatt <braker.noob.kernel@gmail.com>
+WARNING: please write a help paragraph that fully describes the config symbol
+         with at least 4 lines
+
+To fix this , more accurate description is added.
+
+Signed-off-by: Jules Irenge <jbi.octave@gmail.com>
 ---
- drivers/staging/gpib/agilent_82350b/agilent_82350b.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/staging/gpib/Kconfig | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/staging/gpib/agilent_82350b/agilent_82350b.c b/drivers/staging/gpib/agilent_82350b/agilent_82350b.c
-index 445b9380ff98..956e21886eb6 100644
---- a/drivers/staging/gpib/agilent_82350b/agilent_82350b.c
-+++ b/drivers/staging/gpib/agilent_82350b/agilent_82350b.c
-@@ -479,7 +479,7 @@ static void agilent_82350b_return_to_local(struct gpib_board *board)
+diff --git a/drivers/staging/gpib/Kconfig b/drivers/staging/gpib/Kconfig
+index aa01538d5beb..1255035a995a 100644
+--- a/drivers/staging/gpib/Kconfig
++++ b/drivers/staging/gpib/Kconfig
+@@ -41,10 +41,11 @@ config GPIB_AGILENT_82357A
+ 	select GPIB_COMMON
+ 	depends on USB
+ 	help
+-	  Enable support for Agilent/Keysight 82357x USB dongles.
++	  Enable support for the Agilent/Keysight 82357A and 82357B USB-to-GPIB adapters.
++	  This device allows GPIB instruments to be controlled over a USB connection.
  
- static int agilent_82350b_allocate_private(struct gpib_board *board)
- {
--	board->private_data = kzalloc(sizeof(struct agilent_82350b_priv), GFP_KERNEL);
-+	board->private_data = kzalloc(sizeof(struct * board->private_data), GFP_KERNEL);
- 	if (!board->private_data)
- 		return -ENOMEM;
- 	return 0;
+-	  To compile this driver as a module, choose M here: the module will be
+-	  called agilent_82357a.
++	  To compile this driver as a module, choose M here. The resulting module will be
++	  named agilent_82357a.
+ 
+ config GPIB_CEC_PCI
+ 	tristate "CEC PCI board"
 -- 
-2.43.0
+2.49.0
 
