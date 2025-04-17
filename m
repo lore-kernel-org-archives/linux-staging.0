@@ -1,203 +1,186 @@
 Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58F9713A244
-	for <linux-staging@lists.linux.dev>; Thu, 17 Apr 2025 20:03:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FF3F20A5C8
+	for <linux-staging@lists.linux.dev>; Thu, 17 Apr 2025 21:58:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744920211; cv=none; b=n7l8XGoxuzkWbCvBu8byjpgNYgISjiQ9r1uqi18ZhCv84K99xSuntUNYH3G2tnkOzqebRs4ySwLViqN1zar9jg6lq9ZubEjuqQ5y2O8Q+txem+evCaPOnW/FQvDNyXSlHtAZQx3dyn8Mfo3sFy+WrHzY/Pu/xYrBMcpCOROxzvI=
+	t=1744927100; cv=none; b=BXn1GfUaZn/t/ZC/UT5BQZo4UQfgoGSaBCYI3wTqy6dmaLA5SDrbPZ1UuhRqwIz9ktdRaz/X+AIzY5/96DXnlSsczXRa+oZqvIOHN0AYH5iXKijd7WKimw0qIypZDnaemH/yvSuPf+ftogMDjIs6+tioDI9kLezmZ+cl/4wbQnU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744920211; c=relaxed/simple;
-	bh=3kGzz5RbO01lQZiY9SyztMocLOyi16RrJFbXQtreFCY=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=ep4pPnMQMW+G8/+py3oh+Q1hL6MAKJQZi8y4Yp9ZzpCnBLgjPIv1VUVDESv/mvxSLo2o6ogYB68KFCeUGZ1V9vCncGWjDXvgTN2ANfp4OkbDgP/fIkH8RpVlKDdYs29o5YPuM8T7rMQJ1EvsCcHMs7xMVhjRgKzWkHQ6IzUML9A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=Y+9sIy38; arc=none smtp.client-ip=148.251.105.195
+	s=arc-20240116; t=1744927100; c=relaxed/simple;
+	bh=zh8TkzCK9EqLdvUCPON67laOmeDwj6HXLIzNqsIYSgU=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=MdwdNoXwDFfW5LPKKQT7FYEWqDRuxOTP64Mb4dv3gjHRi9+ONzKK1GgM78bW9bzc91r/hM0UzZtIzu1FwMajvgxyKo5a3okNzzTL3Wko4Nb+9TOP0iGxLQmWda/x/Nvc3zRMY4nYD91r7EoZdg2OTFXroKfZ2zXLfTgVDHYDXNI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=j2+/y0QZ; arc=none smtp.client-ip=148.251.105.195
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="Y+9sIy38"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="j2+/y0QZ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1744920207;
-	bh=3kGzz5RbO01lQZiY9SyztMocLOyi16RrJFbXQtreFCY=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-	b=Y+9sIy38KYZRD7PKBv0ajM9D7KuIN3qfrFhyFzsJ76HPNWW04DFo8gxQuMF45fA+W
-	 GG5IFhUFBbYnBYreHdWyAuLFCx/tighfCSO2G5Ss1uj1b39oLSgec/Tp/Pjl4XS1E+
-	 lAQUNLoE6O/dcVZ5YQf8OL0KUx66BKhMlVlYFq8oih+D3NtBbWsCWLxCKWOk0B/A+0
-	 l55meOi8wI9mUXOzmjqe3qgj0kpEh+FeRFqt+wPRXDvdauhVIFB8vgjlfu4U7p9rgq
-	 nCELDRdt0KSKS+e/vHCZPS7sOz/DB/0BXOzUM9y7yWZYB+5MtbEgVBY+6BZQmqVqT4
-	 Xamz5GwK6aZBA==
-Received: from [IPv6:2606:6d00:15:9913::c41] (unknown [IPv6:2606:6d00:15:9913::c41])
+	s=mail; t=1744927096;
+	bh=zh8TkzCK9EqLdvUCPON67laOmeDwj6HXLIzNqsIYSgU=;
+	h=From:Subject:Date:To:Cc:From;
+	b=j2+/y0QZ7HjiP/rEdf1NlrDhBGgSwG/Ey/EwJWy0PDb09gxXSwGachDL+ficYHGrk
+	 EpsVko1BzpC/asv0jxXA1+StDMDl17SQcT3hWw4/QfpO91p0FLKT5RbDyj2RDsVmUh
+	 bsMtwzXggDKSqDdK5OSR00YabnWgGurZe/xIGYVEGwMplVJGLkawQvyqtzDyUJQxhf
+	 D9XZm8C3su2To56xtUFIVqSLvbt7KvwBKM/HAW2iXmV7VEnThbp5ib1SUIlocZViy6
+	 vQVnevyQ7g4EsMZua16JdM/xYlLJ/dERTs0/1pqT+SyzkSjBNrfo3tB/SVcQKtjwYs
+	 EN5PWgiJdPkWA==
+Received: from [192.168.13.3] (unknown [IPv6:2606:6d00:15:9913::c73])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: nicolas)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id 23F2B17E0F85;
-	Thu, 17 Apr 2025 22:03:26 +0200 (CEST)
-Message-ID: <dd9ec68a0a36366b85c65060da050e794ed6948c.camel@collabora.com>
-Subject: Re: [PATCH v8 2/3] media: rkvdec: Add get_image_fmt ops
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id 68C5F17E0F85;
+	Thu, 17 Apr 2025 23:58:15 +0200 (CEST)
 From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-To: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>, Mauro Carvalho Chehab
-	 <mchehab@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org, 
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	kernel@collabora.com, Jonas Karlman <jonas@kwiboo.se>, Christopher Obbard
-	 <christopher.obbard@linaro.org>
-Date: Thu, 17 Apr 2025 16:03:24 -0400
-In-Reply-To: <20250417-b4-rkvdec_h264_high10_and_422_support-v8-2-423fe0a2ee7e@collabora.com>
-References: 
-	<20250417-b4-rkvdec_h264_high10_and_422_support-v8-0-423fe0a2ee7e@collabora.com>
-	 <20250417-b4-rkvdec_h264_high10_and_422_support-v8-2-423fe0a2ee7e@collabora.com>
-Autocrypt: addr=nicolas.dufresne@collabora.com; prefer-encrypt=mutual;
- keydata=mQGiBEUQN0MRBACQYceNSezSdMjx7sx6gwKkMghrrODgl3B0eXBTgNp6c431IfOOEsdvk
- oOh1kwoYcQgbg4MXw6beOltysX4e8fFWsiRkc2nvvRW9ir9kHDm49MkBLqaDjTqOkYKNMiurFW+go
- zpr/lUW15QqT6v68RYe0zRdtwGZqeLzX2LVuukGwCg4AISzswrrYHNV7vQLcbaUhPgIl0D+gILYT9
- TJgAEK4YHW+bFRcY+cgUFoLQqQayECMlctKoLOE69nIYOc/hDr9uih1wxrQ/yL0NJvQCohSPyoyLF
- 9b2EuIGhQVp05XP7FzlTxhYvGO/DtO08ec85+bTfVBMV6eeY4MS3ZU+1z7ObD7Pf29YjyTehN2Dan
- 6w1g2rBk5MoA/9nDocSlk4pbFpsYSFmVHsDiAOFje3+iY4ftVDKunKYWMhwRVBjAREOByBagmRau0
- cLEcElpf4hX5f978GoxSGIsiKoDAlXX+ICDOWC1/EXhEEmBR1gL0QJgiVviNyLfGJlZWnPjw6xhhm
- tHYWTDxBOP5peztyc2PqeKsLsLWzAr7QnTmljb2xhcyBEdWZyZXNuZSA8bmljb2xhc0BuZHVmcmVz
- bmUuY2E+iGIEExECACIFAlXA3CACGwMGCwkIBwMCBhUIAgkKCwQWAgMBAh4BAheAAAoJEHFTAi2sB
- qgcJngAnRDBTr8bhzuH0KQwFP1nEYtfgpKdAKCrQ/sJfuG/8zsd7J8wVl7y3e8ARbRDTmljb2xhcy
- BEdWZyZXNuZSAoQi4gU2MuIEluZm9ybWF0aXF1ZSkgPG5pY29sYXMuZHVmcmVzbmVAZ21haWwuY29
- tPohgBBMRAgAgBQJFlCyOAhsDBgsJCAcDAgQVAggDBBYCAwECHgECF4AACgkQcVMCLawGqBwhLQCg
- zYlrLBj6KIAZ4gmsfjXD6ZtddT8AoIeGDicVq5WvMHNWign6ApQcZUihtElOaWNvbGFzIER1ZnJlc
- 25lIChCLiBTYy4gSW5mb3JtYXRpcXVlKSA8bmljb2xhcy5kdWZyZXNuZUBjb2xsYWJvcmEuY28udW
- s+iGIEExECACIFAkuzca8CGwMGCwkIBwMCBhUIAgkKCwQWAgMBAh4BAheAAAoJEHFTAi2sBqgcQX8
- An2By6LDEeMxi4B9hUbpvRnzaaeNqAJ9Rox8rfqHZnSErw9bCHiBwvwJZ77QxTmljb2xhcyBEdWZy
- ZXNuZSA8bmljb2xhcy5kdWZyZXNuZUBjb2xsYWJvcmEuY29tPohiBBMRAgAiBQJNzZzPAhsDBgsJC
- AcDAgYVCAIJCgsEFgIDAQIeAQIXgAAKCRBxUwItrAaoHLlxAKCYAGf4JL7DYDLs/188CPMGuwLypw
- CfWKc9DorA9f5pyYlD5pQo6SgSoiC0R05pY29sYXMgRHVmcmVzbmUgKEIgU2MuIEluZm9ybWF0aXF
- 1ZSkgPG5pY29sYXMuZHVmcmVzbmVAdXNoZXJicm9va2UuY2E+iGAEExECACAFAkUQN0MCGwMGCwkI
- BwMCBBUCCAMEFgIDAQIeAQIXgAAKCRBxUwItrAaoHPTnAJ0WGgJJVspoctAvEcI00mtp5WAFGgCgr
- +E7ItOqZEHAs+xabBgknYZIFPU=
-Organization: Collabora Canada
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.56.0 (3.56.0-1.fc42) 
+Subject: [PATCH v9 0/4] media: rkvdec: Add H.264 High 10 and 4:2:2 profile
+ support
+Date: Thu, 17 Apr 2025 17:57:57 -0400
+Message-Id: <20250417-b4-rkvdec_h264_high10_and_422_support-v9-0-0e8738ccb46b@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAGV5AWgC/43NSw6DIBSF4a0YxqWBKz7aUffRGIJ4FVIVA5a0M
+ e691KTzDv8zON9GAnqLgVyzjXiMNlg3p7icMqKNmgektktNgEHBBC9pK6h/xA61NFAKaexgOJN
+ q7qQAkOG5LM6vNK+5qgQvOC+BpK/FY29fh3NvUhsbVuffBxvr7/oTqj+FWFNGBeQ9MgWIFd60G
+ 0fVOq/O2k2k2ff9A6hsQEPeAAAA
+X-Change-ID: 20250416-b4-rkvdec_h264_high10_and_422_support-381a74151162
+To: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org, 
+ linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, 
+ Nicolas Dufresne <nicolas.dufresne@collabora.com>, 
+ Sebastian Fricke <sebastian.fricke@collabora.com>, 
+ Jonas Karlman <jonas@kwiboo.se>, 
+ Christopher Obbard <christopher.obbard@linaro.org>
+X-Mailer: b4 0.14.2
 
-Hi,
+This series add H.264 High 10 and 4:2:2 profile support to the Rockchip
+Video Decoder driver.
 
-Le jeudi 17 avril 2025 à 13:14 -0400, Nicolas Dufresne a écrit :
-> From: Jonas Karlman <jonas@kwiboo.se>
-> 
-> Add support for a get_image_fmt() ops that returns the required image
-> format.
-> 
-> The CAPTURE format is reset when the required image format changes and
-> the buffer queue is not busy.
-> 
-> Signed-off-by: Jonas Karlman <jonas@kwiboo.se>
-> Reviewed-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-> Tested-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-> Tested-by: Christopher Obbard <chris.obbard@collabora.com>
-> Co-developed-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-> Signed-off-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-> ---
->  drivers/staging/media/rkvdec/rkvdec.c | 44 +++++++++++++++++++++++++++++++++--
->  drivers/staging/media/rkvdec/rkvdec.h |  2 ++
->  2 files changed, 44 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/staging/media/rkvdec/rkvdec.c b/drivers/staging/media/rkvdec/rkvdec.c
-> index 65c6f1d07a493e017ae941780b823d41314a49b8..db01cc64f1ba2dcd5914537db41e2f51f454b186 100644
-> --- a/drivers/staging/media/rkvdec/rkvdec.c
-> +++ b/drivers/staging/media/rkvdec/rkvdec.c
-> @@ -72,6 +72,15 @@ static bool rkvdec_is_valid_fmt(struct rkvdec_ctx *ctx, u32 fourcc,
->  	return false;
->  }
->  
-> +static bool rkvdec_fmt_changed(struct rkvdec_ctx *ctx,
-> +			       enum rkvdec_image_fmt image_fmt)
-> +{
-> +	if (image_fmt == RKVDEC_IMG_FMT_ANY)
-> +		return false;
-> +
-> +	return ctx->image_fmt != image_fmt;
-> +}
-> +
->  static void rkvdec_fill_decoded_pixfmt(struct rkvdec_ctx *ctx,
->  				       struct v4l2_pix_format_mplane *pix_mp)
->  {
-> @@ -111,15 +120,46 @@ static int rkvdec_try_ctrl(struct v4l2_ctrl *ctrl)
->  {
->  	struct rkvdec_ctx *ctx = container_of(ctrl->handler, struct rkvdec_ctx, ctrl_hdl);
->  	const struct rkvdec_coded_fmt_desc *desc = ctx->coded_fmt_desc;
-> +	int ret;
-> +
-> +	if (desc->ops->try_ctrl) {
-> +		ret = desc->ops->try_ctrl(ctx, ctrl);
-> +		if (ret)
-> +			return ret;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static int rkvdec_s_ctrl(struct v4l2_ctrl *ctrl)
-> +{
-> +	struct rkvdec_ctx *ctx = container_of(ctrl->handler, struct rkvdec_ctx, ctrl_hdl);
-> +	const struct rkvdec_coded_fmt_desc *desc = ctx->coded_fmt_desc;
-> +	enum rkvdec_image_fmt image_fmt;
-> +	struct vb2_queue *vq;
->  
-> -	if (desc->ops->try_ctrl)
-> -		return desc->ops->try_ctrl(ctx, ctrl);
-> +	/* Check if this change requires a capture format reset */
-> +	if (!desc->ops->get_image_fmt)
-> +		return 0;
-> +
-> +	image_fmt = desc->ops->get_image_fmt(ctx, ctrl);
-> +	if (rkvdec_fmt_changed(ctx, image_fmt)) {
-> +		/* Format changes are not allowed when capture queue is busy */
-> +		vq = v4l2_m2m_get_vq(ctx->fh.m2m_ctx,
-> +				     V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE);
-> +		if (vb2_is_busy(vq))
-> +			return -EINVAL;
+Patch 1 limits the minimum profile to constrained baseline due to
+unsupported features in the full baseline profile.
 
-Sad to say, but this patch is bad, I've been testing the wrong kernel
-all along. This condition is reached before the queue is set (while the
-default control value is set). At the point, vq is null. I also came to
-realize the rkvdec_fmt_changed() is quite similar to the format match.
-I also assumed that if ctx->image_fmt is ANY, we should always reset,
-that's why the old code didn't not stumble on this issue.
+Patch 2 refactors code to support filtering of CAPTURE formats based
+on the image format returned from a new get_image_fmt() ops.
 
-Please disregard this series, I'll make a v9.
+Patch 3 adds final bits to support H.264 High 10 and 4:2:2 profiles.
 
-Nicolas
+Tested with Fluster on a Libre Computer Renegade Elite (RK3399).
 
-> +
-> +		ctx->image_fmt = image_fmt;
-> +		rkvdec_reset_decoded_fmt(ctx);
-> +	}
->  
->  	return 0;
->  }
->  
->  static const struct v4l2_ctrl_ops rkvdec_ctrl_ops = {
->  	.try_ctrl = rkvdec_try_ctrl,
-> +	.s_ctrl = rkvdec_s_ctrl,
->  };
->  
->  static const struct rkvdec_ctrl_desc rkvdec_h264_ctrl_descs[] = {
-> diff --git a/drivers/staging/media/rkvdec/rkvdec.h b/drivers/staging/media/rkvdec/rkvdec.h
-> index 6f8cf50c5d99aad2f52e321f54f3ca17166ddf98..e466a2753ccfc13738e0a672bc578e521af2c3f2 100644
-> --- a/drivers/staging/media/rkvdec/rkvdec.h
-> +++ b/drivers/staging/media/rkvdec/rkvdec.h
-> @@ -73,6 +73,8 @@ struct rkvdec_coded_fmt_ops {
->  		     struct vb2_v4l2_buffer *dst_buf,
->  		     enum vb2_buffer_state result);
->  	int (*try_ctrl)(struct rkvdec_ctx *ctx, struct v4l2_ctrl *ctrl);
-> +	enum rkvdec_image_fmt (*get_image_fmt)(struct rkvdec_ctx *ctx,
-> +					       struct v4l2_ctrl *ctrl);
->  };
->  
->  enum rkvdec_image_fmt {
+Decoder:                        GStreamer
+Commit:                         8c7ad20e4e82296ed9916f53c201e110c629f0f5
+JVT-AVC_V1:                     129/135
+JVT-FR-EXT:                     65/69
+JVT-Professional_profiles:      12/38
+JVT-MVC:                        0/20 (not supported)
+JVT-SVC:                        38/185 (temporal only)
 
+In summary, all tests that are 4:2:2 sub-sampled are now passing with
+the exception of the following that display some unexplained artifacts.
+
+ - Hi422FREXT17_SONY_A
+ - Hi422FREXT19_SONY_A
+
+This score also includes 4:2:0 10bit tests, that may have been reported
+as failing due to lack of userspace support for NV15 format. It also
+includes results from test suite that did not exists before (Pro, MVC
+and SVC).
+
+Changes in v9:
+- Moved v4l2_m2m_ctx init before the controls
+- Removed unneeded changes in try_ctrl ops
+- Link to v8: https://lore.kernel.org/r/20250417-b4-rkvdec_h264_high10_and_422_support-v8-0-423fe0a2ee7e@collabora.com
+
+Changes in v8:
+- Removed patches that got applied from v7
+- Move the constrained-baseline fix first
+- Move the format checks into s_ctrl only
+- Simplify the checks
+- Retest against a newer GStreamer version with NV16 and NV20 support.
+- Test against the new fluster suite Professions, SVC and MVC.
+Link to v7: https://lore.kernel.org/linux-media/20250225-rkvdec_h264_high10_and_422_support-v7-0-7992a68a4910@collabora.com/
+
+Changes in v7:
+- Split out the change with the minimum profile
+- s/v4l2_format_plane_width/v4l2_format_plane_stride/
+- Move V4L2_PIX_FMT_NV15/V4L2_PIX_FMT_NV20 documentation as suggested
+- Change return value from int to bool on rkvdec_image_fmt_match
+- Add reviewed-by tags
+Link to v6: https://lore.kernel.org/linux-media/20240909192522.1076704-1-jonas@kwiboo.se/
+
+Changes in v6:
+- Change to use fmt_idx instead of j++ tucked inside a condition (Dan)
+- Add patch to fix enumerated frame sizes returned to userspace (Alex)
+- Fluster test score is same as v4 and v5, see [4] and [5]
+Link to v5: https://lore.kernel.org/linux-media/20240618194647.742037-1-jonas@kwiboo.se/
+
+Changes in v5:
+- Drop Remove SPS validation at streaming start patch
+- Move buffer align from rkvdec_fill_decoded_pixfmt to min/step_width
+- Use correct profiles for V4L2_CID_MPEG_VIDEO_H264_PROFILE
+- Collect r-b and t-b tags
+- Fluster test score is same as v4, see [4] and [5]
+Link to v4: https://lore.kernel.org/linux-media/20231105165521.3592037-1-jonas@kwiboo.se/
+
+Changes in v4:
+- Fix failed v4l2-compliance tests related to CAPTURE queue
+- Rework CAPTURE format filter anv validate to use an image format
+- Run fluster test suite JVT-FR-EXT [4] and JVT-AVC_V1 [5]
+Link to v3: https://lore.kernel.org/linux-media/20231029183427.1781554-1-jonas@kwiboo.se/
+
+Changes in v3:
+- Drop merged patches
+- Use bpp and bpp_div instead of prior misuse of block_w/block_h
+- New patch to use values from SPS/PPS control to configure the HW
+- New patch to remove an unnecessary call to validate sps at streaming start
+- Reworked pixel format validation
+Link to v2: https://lore.kernel.org/linux-media/20200706215430.22859-1-jonas@kwiboo.se/
+
+Changes in v2:
+- Collect r-b tags
+- SPS pic width and height in mbs validation moved to rkvdec_try_ctrl
+- New patch to not override output buffer sizeimage
+- Reworked pixel format validation
+- Only align decoded buffer instead of changing frmsize step_width
+Link to v1: https://lore.kernel.org/linux-media/20200701215616.30874-1-jonas@kwiboo.se/
+
+To fully runtime test this series you may need FFmpeg patches from [1]
+and fluster patches from [2], this series is also available at [3].
+
+[1] https://github.com/Kwiboo/FFmpeg/commits/v4l2request-2024-v2-rkvdec/
+[2] https://github.com/Kwiboo/fluster/commits/ffmpeg-v4l2request-rkvdec/
+[3] https://github.com/Kwiboo/linux-rockchip/commits/linuxtv-rkvdec-high-10-v6/
+[4] https://gist.github.com/Kwiboo/f4ac15576b2c72887ae2bc5d58b5c865
+[5] https://gist.github.com/Kwiboo/459a1c8f1dcb56e45dc7a7a29cc28adf
+
+Signed-off-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+---
+Jonas Karlman (2):
+      media: rkvdec: Add get_image_fmt ops
+      media: rkvdec: h264: Support High 10 and 4:2:2 profiles
+
+Nicolas Dufresne (1):
+      media: rkvdec: Initialize the m2m context before the controls
+
+Sebastian Fricke (1):
+      media: rkvdec: h264: Limit minimum profile to constrained baseline
+
+ drivers/staging/media/rkvdec/rkvdec-h264.c | 37 ++++++++++---
+ drivers/staging/media/rkvdec/rkvdec.c      | 89 ++++++++++++++++++++++++------
+ drivers/staging/media/rkvdec/rkvdec.h      |  5 ++
+ 3 files changed, 105 insertions(+), 26 deletions(-)
+---
+base-commit: 3105a6d6088a79d091990f2107f67ad7fa04ee8d
+change-id: 20250416-b4-rkvdec_h264_high10_and_422_support-381a74151162
+
+Best regards,
 -- 
-Nicolas Dufresne
-Principal Engineer at Collabora
+Nicolas Dufresne <nicolas.dufresne@collabora.com>
+
