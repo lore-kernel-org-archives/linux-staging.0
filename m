@@ -1,113 +1,133 @@
-Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E450254AF6;
-	Thu, 17 Apr 2025 16:47:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AB7122371B;
+	Thu, 17 Apr 2025 16:56:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744908471; cv=none; b=u/fuAHdNRIpYzZmK2t3go7Cdu3JXhl1YDoBtXUx8iNiq+ODERPLZlBhKHollx9/bGInJLnvR3nr0OJ3LT4KNEXrjukCCXsZjvx0n6pVhBG1HR/moh8/uCQdqrhZ+j5yxFDPRaiYRiGgiHkxSj9D4Fbdbfx8eYmPV8naVUNYRFq4=
+	t=1744908991; cv=none; b=jV/Wb9YZRt6vspXZJe/oSEr/pOHn/vMFW3kyYgfZCjZSkRCYayN3lId6R/HeVfVybThfHOwHkLcSOlyTEWaOdy3zf4Eud5t9rNR6TLR1aMhFSIcm3Iih2AzUyYw04HQPr7uXeHb7vhpyIHD8LH5Ld3hBVHSI61uDVEACoJR/WEI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744908471; c=relaxed/simple;
-	bh=nWrQDIlA8rQPuxUJkMr95BwMdVJ0m+hXPuyEJovSlKg=;
-	h=Date:From:To:CC:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=ZGlGsMbRBSfsr8IRwbznEUCccIl5hbbC59dpbm3AjIch/CXbcyqR03XXywfVU/yJVIMrL+ixxcYycgRA1LBnZQ6AmSpKwLPWP3/jwV5GiYBiynRMSXgIV/q41YArCqa3Aj26mtWRjf+QL2XzjGfWUCoEeYTys0mWurCeMBZxSVA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.18.186.31])
-	by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4ZdkH468gxz6K9Nk;
-	Fri, 18 Apr 2025 00:43:28 +0800 (CST)
-Received: from frapeml500008.china.huawei.com (unknown [7.182.85.71])
-	by mail.maildlp.com (Postfix) with ESMTPS id 58361140146;
-	Fri, 18 Apr 2025 00:47:46 +0800 (CST)
-Received: from localhost (10.203.177.66) by frapeml500008.china.huawei.com
- (7.182.85.71) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.39; Thu, 17 Apr
- 2025 18:47:45 +0200
-Date: Thu, 17 Apr 2025 17:47:44 +0100
-From: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-To: Charalampos Mitrodimas <charmitro@posteo.net>
-CC: Gabriel Shahrouzi <gshahrouzi@gmail.com>, <skhan@linuxfoundation.org>,
-	<linux-kernel-mentees@lists.linux.dev>, <gregkh@linuxfoundation.org>,
-	<jic23@kernel.org>, <lars@metafoo.de>, <linux-iio@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <linux-staging@lists.linux.dev>,
-	<Michael.Hennerich@analog.com>
-Subject: Re: [PATCH] iio: frequency:: Remove unused parameter from data
- documentation
-Message-ID: <20250417174744.00007ea6@huawei.com>
-In-Reply-To: <2cc70f19c1b001ea7f2cf0632618d060f69faef0.camel@posteo.net>
-References: <20250417143220.572261-1-gshahrouzi@gmail.com>
-	<56edfb88d3f31939fb343149bfad436f24671f9d.camel@posteo.net>
-	<2cc70f19c1b001ea7f2cf0632618d060f69faef0.camel@posteo.net>
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.42; x86_64-w64-mingw32)
+	s=arc-20240116; t=1744908991; c=relaxed/simple;
+	bh=QigbjyF+t0Z6PQcSIRp3970jNHZy/ytiz8YNIxK//H8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=flnSOPja8JQHldBJfUV9LqH2UIPT6rgULdY/C8B/34oRLgGjmqh+Y6JgOOpBv3Nk1UTA4EuiYJDnPXox9YuOT8b/MblwM3sHLjbNUJq0w3dkwd9DWRso6Vy7UJnv1Y5tFOeTNnmFVnXaeHQlspUKS6xXE3QFQruu65JlttCgMCA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=M+FltTPv; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="M+FltTPv"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A023BC4CEE4;
+	Thu, 17 Apr 2025 16:56:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1744908991;
+	bh=QigbjyF+t0Z6PQcSIRp3970jNHZy/ytiz8YNIxK//H8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=M+FltTPvn7KizO4GfcXDl5jJHv18I+ozrx3j8pwLBolOwLqlL4dE8vEM9RMCq6jiT
+	 4GCiYo+3xOq+JahgHM6I6RpcX3kHzGZBYdJGaixOdy/GEAmh0wgCFYK5c68VRDb4lf
+	 9NHlz+ric7y1j4YeXNM9dVdXCIZMuDbOc3Yzwaxw=
+Date: Thu, 17 Apr 2025 18:56:28 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Samuel Abraham <abrahamadekunle50@gmail.com>
+Cc: julia.lawall@inria.fr, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org, david.laight.linux@gmail.com,
+	dan.carpenter@linaro.org, andy@kernel.org
+Subject: Re: [PATCH] staging: rtl8723bs: Replace `& 0xfff` with `% 4096u`
+Message-ID: <2025041709-brick-unplug-c155@gregkh>
+References: <Z/bA4tMF5uKLe55p@ubuntu>
+ <2025041402-colonize-rocker-1db1@gregkh>
+ <CADYq+fa18G25hfTeWTxwyxc+A=xHmk_je_9kjWbDdwbo0seaZQ@mail.gmail.com>
+ <2025041448-destiny-hate-1b70@gregkh>
+ <CADYq+fYWFqPQTJABt4sKo3NsENLrDbVh7Sn+uu9sLNumc0wt9w@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="ISO-8859-1"
-Content-Transfer-Encoding: quoted-printable
-X-ClientProxiedBy: lhrpeml100009.china.huawei.com (7.191.174.83) To
- frapeml500008.china.huawei.com (7.182.85.71)
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CADYq+fYWFqPQTJABt4sKo3NsENLrDbVh7Sn+uu9sLNumc0wt9w@mail.gmail.com>
 
-On Thu, 17 Apr 2025 15:57:48 +0000
-Charalampos Mitrodimas <charmitro@posteo.net> wrote:
+On Thu, Apr 17, 2025 at 05:33:30PM +0100, Samuel Abraham wrote:
+> On Mon, Apr 14, 2025 at 10:00 AM Greg KH <gregkh@linuxfoundation.org> wrote:
+> >
+> > On Mon, Apr 14, 2025 at 08:38:53AM +0100, Samuel Abraham wrote:
+> > > On Mon, Apr 14, 2025 at 8:23 AM Greg KH <gregkh@linuxfoundation.org> wrote:
+> > > >
+> > > > On Wed, Apr 09, 2025 at 06:48:02PM +0000, Abraham Samuel Adekunle wrote:
+> > > > > The sequence number is constrained to a range of [0, 4095], which
+> > > > > is a total of 4096 values. The bitmask operation using `& 0xfff` is
+> > > > > used to perform this wrap-around. While this is functionally correct,
+> > > > > it obscures the intended semantic of a 4096-based wrap.
+> > > > >
+> > > > > Using a modulo operation `% 4096u` makes the wrap-around logic
+> > > > > explicit and easier to understand. It clearly signals that the
+> > > > > sequence number cycles through a range of 4096 values.
+> > > > > It also makes the code robust against potential changes of the 4096
+> > > > > upper limit, especially when it becomes a non power-of-2 value while
+> > > > > the AND(&) works solely for power-of-2 values.
+> > > > >
+> > > > > The use of `% 4096u` also guarantees that the modulo operation is
+> > > > > performed with unsigned arithmetic, preventing potential issues with
+> > > > > the signed types.
+> > > > >
+> > > > > Found by Coccinelle.
+> > > > >
+> > > > > Suggested by Andy Shevchenko <andy@kernel.org>
+> > > > > Signed-off-by: Abraham Samuel Adekunle <abrahamadekunle50@gmail.com>
+> > > > > ---
+> > > > > Coccinelle semantic patch used to find cases:
+> > > > > @@
+> > > > > expression e;
+> > > > >
+> > > > > @@
+> > > > > * e & 0xfff
+> > > > >
+> > > > > To ensure this change does not affect the functional
+> > > > > behaviour, I compared the generated object files before and
+> > > > > after the change using the `cmp` which compares the two
+> > > > > object files byte by byte as shown below:
+> > > > >
+> > > > > $ make drivers/staging/rtl8723bs/core/rtw_xmit.o
+> > > > > $ cmp rtw_xmit_before.o rtw_xmit_after.o
+> > > > >
+> > > > > No differences were found in the output, confirming that the
+> > > > > change does not alter the compiled output.
+> > > >
+> > > > This is version 11, right?  What happened to the list of previous
+> > > > versions and what changed down here?
+> > > >
+> > > > confused,
+> > >
+> > > Hello Greg,
+> > >
+> > > I collapsed this patch to the previous patchset I had worked on that
+> > > made the same changes to the same driver.
+> > > So this patch was collapsed into PATCH v10, which is the last version
+> > > for this change.
+> > >
+> > > The change log in "[PATCH v10 0/2] staging: rtl8723bs: Improve
+> > > readability and clarity of sequence number wrapping" explains this.
+> > > This patch was collapsed into patch 2 of this patchset.
+> >
+> > Think about it from my side.  I get hundreds of patches each day to
+> > review.  If I see a v10 and then a patch with no version at all, what am
+> > I supposed to do?  I would assume something went really wrong and just
+> > delete this "obviously old" version as it would have been the first
+> > version of the patch, especially as there was no version information
+> > below the --- line.
+> >
+> > So, what would you do in my situation?  What would you want to see if
+> > you were in my situation?
+> 
+> Hello Greg, I'm sorry once again,
+> Please, do I send a PATCH v11 for this change?
 
-> On Thu, 2025-04-17 at 15:53 +0000, Charalampos Mitrodimas wrote:
-> > On Thu, 2025-04-17 at 10:32 -0400, Gabriel Shahrouzi wrote: =20
-> > > The AD9832 driver uses the Common Clock Framework (CCF) to obtain
-> > > the
-> > > master clock (MCLK) frequency rather than relying on a frequency
-> > > value
-> > > passed from platform data.
-> > >=20
-> > > Signed-off-by: Gabriel Shahrouzi <gshahrouzi@gmail.com>
-> > > ---
-> > > =A0drivers/staging/iio/frequency/ad9832.h | 1 -
-> > > =A01 file changed, 1 deletion(-)
-> > >=20
-> > > diff --git a/drivers/staging/iio/frequency/ad9832.h
-> > > b/drivers/staging/iio/frequency/ad9832.h
-> > > index 98dfbd9289ab8..d0d840edb8d27 100644
-> > > --- a/drivers/staging/iio/frequency/ad9832.h
-> > > +++ b/drivers/staging/iio/frequency/ad9832.h
-> > > @@ -13,7 +13,6 @@
-> > > =A0
-> > > =A0/**
-> > > =A0 * struct ad9832_platform_data - platform specific information
-> > > - * @mclk:=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0master clock in H=
-z =20
-> >=20
-> > Hi Gabriel,
-> >=20
-> > This seems to be a leftover from
-> > 566564e80b0ed23ffa4c40f7ad4224bf3327053a ("staging: iio: ad9832: use
-> > clock framework for clock reference") =20
->=20
-> That said, a Fixes: tag might be helpful?
+Yes please.
 
-Not for a documentation fix in a staging driver.  A reference
-in the commit message is fine though.
+> It seems my mistake had made you delete the PATCH v10.
 
-Fixes tags tend to make people look at is as a possible thing to backport
-and this is not something where that makes sense.
+Yes I did.
 
-Jonathan
+thanks,
 
->=20
-> >=20
-> >=20
-> >  =20
-> > > =A0 * @freq0:=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0power up freq0 tu=
-ning word in Hz
-> > > =A0 * @freq1:=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0power up freq1 tu=
-ning word in Hz
-> > > =A0 * @phase0:=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0power up phase0 val=
-ue [0..4095] correlates
-> > > with 0..2PI =20
-> >=20
-> >  =20
->=20
->=20
-
+greg k-h
