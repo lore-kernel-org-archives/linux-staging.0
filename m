@@ -1,71 +1,37 @@
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCFFD256D
-	for <linux-staging@lists.linux.dev>; Thu, 17 Apr 2025 00:57:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7C28320F;
+	Thu, 17 Apr 2025 09:01:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744851434; cv=none; b=GIshtcUFLopJF1ozmNv0EdAom6+njenuKYsFzlmXiu+E7rmfF4GzEXPsBVvdw9CXSBc4FPCrezH0ITCHuRKTe6PabtS2NcbEbozS5yrEAraKQZUKC3eZo/57yk0cX7mL/1AnGb5/y0DJMCYBeee6auWXeagku1XEN3VkFovwpzM=
+	t=1744880512; cv=none; b=FDDgyqViUT1gIuGRKVKOjknmMwNqT7zjV8+vPk8933i01RcNvwFt6a2rUCqshcTCjxQ++JMpASMDsoH6mPqQ4U/9vcQE2Fr5lC7HTZ3zhdAa/zB9VQiaFJaZIxWD26wfO+p9RX+SVl9KUZzG2Sy44AC7XHEXqUewT/TvHM2UUks=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744851434; c=relaxed/simple;
-	bh=bvnrkExgcIJ3mH71DX3lJFkQNmbMFSdk6PKkTeJMU/E=;
+	s=arc-20240116; t=1744880512; c=relaxed/simple;
+	bh=YMVK6QkfMVYKQXP67FL+bltlB8S19TdobV1TiSfzy90=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=d+MMBk2CS7izjLsqn4noL20LxcP7naCeGBBBDdX16YKIw8be6Bd1DnaiV/D43JXJZUmUnwHG9L0gzo4JLzootnzihfQy14CJ9En0kud2i2l65iLIWTrjlFjiBcJ37F1WAV/M2Stq4XVuLO/r73VPa+VebgRJvJbCLZIxdbhY9Uk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=neverthere.org; spf=pass smtp.mailfrom=neverthere.org; dkim=pass (2048-bit key) header.d=neverthere.org header.i=@neverthere.org header.b=TqQFL/lg; arc=none smtp.client-ip=209.85.214.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=neverthere.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=neverthere.org
+	 Content-Type:Content-Disposition:In-Reply-To; b=TPWLPyDGMG851LFwX21UxZY8V9UT1CUnl3ToAgE3A/sO3ysiUxAQPP4jgbv+5NnvlRD52DGEFgOwTQBW0kSQ6AJyKPz9WWmyJMygYzieDIrBXJKk0nMcVI3EHl+L26avkHPhVxRoLb3i4PgxsFwfpSal14LG1151ykXXr6j+isg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=hhE91sOU; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=neverthere.org header.i=@neverthere.org header.b="TqQFL/lg"
-Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-223fb0f619dso3082175ad.1
-        for <linux-staging@lists.linux.dev>; Wed, 16 Apr 2025 17:57:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=neverthere.org; s=google; t=1744851432; x=1745456232; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=OqMi74owdbjJ4GxEtEoAoxlT+JzRCaJ0xkE6rbcBBmo=;
-        b=TqQFL/lgNxjKxnH4FCYHsb9ALPg9dwUaWSKA6TR/bbQQr1zSqKM+S5S48eHkk2n/Dm
-         33GQfgY87oZiwPffNvOzfM2wLhMPsHDgVeuEGMSdh0NH2jjuBnby9Ii6hzL/tcGSciBF
-         THR3pdBRW1jAx6pWMXKEFhSg6aZ0KpY5kq5F8cCSIm7bOlgDt6id1qbMozRfi31xi8fn
-         IWzYxUY37TBGoZyY5zVVDBXzJQ72cQSW+akdxF/Ha/BVR2muMa6LhltAzpcJrfstJd8o
-         TyxB9w+AcDPbtfl9EUooE0LLmXpqZKn0XGUfBGL5YH5I/uCrm+MZ7uABgSku+pQxhBar
-         VyKA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744851432; x=1745456232;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=OqMi74owdbjJ4GxEtEoAoxlT+JzRCaJ0xkE6rbcBBmo=;
-        b=TTAwPzNsT1sRVCQoAwsu5ORXNc46dk30OZXslV4R1MY0V+zs0kdZ4AeFYC7RCytI2K
-         OfLoOKiXnnTjrcIovJhGfbKID7Stx+ZwXXSMdOI+7Eep0mEiCJhKfu/Y7M5Ji7/AOp1p
-         eU8F6BVKag2SgkP5qW3fKddRbr4tpQUN/zrjsy3hWiaiJNArniB1tH6evsZMlao7nwih
-         XuIa+FYLW06eG0x4c4c+DIxDvqZJdQGFev7+KiCCnPUeNU9GSilPCUubl9dF1zfv1tE1
-         GJINVknZ2TRoODEsh6BnWDctG+wxJUuKCKl0pcN8da9n3N2Zt7ZSOZ1msN8HmFDTVcu0
-         Rlbg==
-X-Forwarded-Encrypted: i=1; AJvYcCXrl7BS9TawJB3WR6P35oc+f2wxkKmpL2AwWTKju5rGL+DDRW4pVhsuxbP0V1CuyKewm8c4FyK1bLhOxZUQ@lists.linux.dev
-X-Gm-Message-State: AOJu0Yz3EdicqajRjtjaOhomQfFRDshdxGAsn1nonpik0bkVZ5M5s0Ua
-	XtBW08lUYxSKhIP39R8WfwNX+Elvi8kT0g9zEF8vh9iZaCSRZZ7T7wAYf5jsYQ==
-X-Gm-Gg: ASbGncumi1FzryybfMKlH9UJQsHIbiZcAbs7wGbWLnQ9ymiwDOsR+E9/X7UZIfd+Idf
-	ScT+1UpTJUp5quUefbUTbKufy+a4y9yl9yPRefWjkpcMsvzBudgAau7dD5fxrVfFFO4LoJenqvb
-	8zkyLbalclOCSpqXU7eoMe2As8Xjrm3Jq+FVubrxoubeFFrEy0suAYbYqESACvEzCPUT/T1froh
-	mR36JpGLzRT3/GJTSbOEHqxICa6VTHKLJ19YlpqBghenVbIK8TerFoc3CnZasDNCKTJwJjKy8ax
-	VcA2M8+RRZZog08GQmDpOR02mpWJ5Yu4rtln19rpTPxgAVSvuPrd1s1cTPeICnSMAIbu6ysuIWB
-	eCpvjDA==
-X-Google-Smtp-Source: AGHT+IHAineX5/E3p8aip+x16qwlR/Pv+CEyZMgvoH/E9C7b0jUlNJ17aQboLMM60Vu5iSE2N3U/DA==
-X-Received: by 2002:a17:902:f642:b0:224:26fd:82e5 with SMTP id d9443c01a7336-22c359a248emr63796785ad.48.1744851431911;
-        Wed, 16 Apr 2025 17:57:11 -0700 (PDT)
-Received: from tiamat (c-69-181-214-135.hsd1.ca.comcast.net. [69.181.214.135])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-22c3e0e19d2sm9328595ad.91.2025.04.16.17.57.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 16 Apr 2025 17:57:11 -0700 (PDT)
-Date: Thu, 17 Apr 2025 00:57:09 +0000
-From: Michael Rubin <matchstick@neverthere.org>
-To: Greg KH <gregkh@linuxfoundation.org>
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="hhE91sOU"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D71D7C4CEE4;
+	Thu, 17 Apr 2025 09:01:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1744880511;
+	bh=YMVK6QkfMVYKQXP67FL+bltlB8S19TdobV1TiSfzy90=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=hhE91sOU/oOvXJ6ZNHdZtYOO/j1tLh6YvOd17v5rUaisdo5hTpAKCge9JnIi/8jM5
+	 2IYXR3UzXaQ5LLBp/I6fhQSITFvf1X7C5zeo9Xtpr0HNVP3KvPtXIoU7YmFNgvR1r0
+	 6lZqVcZxk3b/gFpD3P6ZVZZ289Rda8pY9VSefpZk=
+Date: Thu, 17 Apr 2025 11:01:48 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Rujra Bhatt <braker.noob.kernel@gmail.com>
 Cc: dpenkler@gmail.com, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v1] staging: gpib: Removing unused function CFGn
-Message-ID: <aABR5Ykv5lawt_BE@tiamat>
-References: <20250409181809.401724-1-matchstick@neverthere.org>
- <2025041522-startling-parlor-aa65@gregkh>
+	linux-kernel@vger.kernel.org, outreachy@lists.linux.dev
+Subject: Re: [FIRST-PATCH] staging : gpib : agilent_82350b : agilent_82350b.c
+ : fixes checks on the file
+Message-ID: <2025041717-hastily-pyramid-fa10@gregkh>
+References: <Z_-nR5Vt2A5kvbro@brak3rDesk>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -74,67 +40,42 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <2025041522-startling-parlor-aa65@gregkh>
+In-Reply-To: <Z_-nR5Vt2A5kvbro@brak3rDesk>
 
-On Tue, Apr 15, 2025 at 04:47:34PM +0200, Greg KH wrote:
-> On Wed, Apr 09, 2025 at 06:18:09PM +0000, Michael Rubin wrote:
-> Already in my tree?  I'm confused, this didn't apply at all.
+On Wed, Apr 16, 2025 at 06:19:11PM +0530, Rujra Bhatt wrote:
+> It has recommended to
+> Prefer kzalloc(sizeof(*board->private_data)...)
+> over kzalloc(sizeof(struct agilent_82350b_priv)...)
+> 
+> Signed-off-by: Rujra Bhatt <braker.noob.kernel@gmail.com>
+> ---
+>  drivers/staging/gpib/agilent_82350b/agilent_82350b.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/staging/gpib/agilent_82350b/agilent_82350b.c b/drivers/staging/gpib/agilent_82350b/agilent_82350b.c
+> index 445b9380ff98..956e21886eb6 100644
+> --- a/drivers/staging/gpib/agilent_82350b/agilent_82350b.c
+> +++ b/drivers/staging/gpib/agilent_82350b/agilent_82350b.c
+> @@ -479,7 +479,7 @@ static void agilent_82350b_return_to_local(struct gpib_board *board)
+>  
+>  static int agilent_82350b_allocate_private(struct gpib_board *board)
+>  {
+> -	board->private_data = kzalloc(sizeof(struct agilent_82350b_priv), GFP_KERNEL);
+> +	board->private_data = kzalloc(sizeof(struct * board->private_data), GFP_KERNEL);
+>  	if (!board->private_data)
+>  		return -ENOMEM;
+>  	return 0;
+> -- 
+> 2.43.0
+> 
+> 
 
-Sorry for the hassle here. I will be keeping my tree much closer to yours
-going forward.
+Is there a reason you did not even build your patch before submitting
+it?
 
-I just did a comparison of your tree and mine with the following commands:
+Please take some time to learn the C language first before working on
+the kernel.
 
-$ git fetch origin
-$ git rebase origin/staging-testing
-Current branch work-next is up to date.
-$ git log --oneline origin/staging-testing..HEAD
-01bb7ebee650 (HEAD -> work-next) staging: gpib: tnt4882: u8 over uint8_t
-b362526c049a staging: gpib: lpvo_usb_gpib: u8 over uint8_t
-c0086ac9f8c6 staging: gpib: gpib_ioctl: u64 over uint64_t
-dfde322a6458 staging: gpib: pc2: u8 over uint8_t
-0d68978f157c staging: gpib: ni_usb: u8 over uint8_t
-6c1d83dae00e staging: gpib: hp_82341: u8 over uint8_t
-6e47dd2b355e staging: gpib: hp_82335: u8 over uint8_t
-066df8151ebc staging: gpib: gpib_bitbang: u8 over uint8_t
-e2f98401b6cc staging: gpib: gpib_os: u8 over uint8_t
-d39283e31564 staging: gpib: cec: u8 over uint8_t
-76ca6178f5ac staging: gpib: agilent_82357a: u8 over uint8_t
-83a4047b9a77 staging: gpib: agilent_82350b: u8 over uint8_t
-e3e09b3c0b18 staging: gpib: gpib_user: u8 over uint8_t
-7de94cbc8071 staging: gpib: gpib_ioctl: u8 over uint8_t
-98b2ae8ac973 staging: gpib: Removing typedef gpib_interface_t
-9d1d6dfa3871 staging: gpib: tnt4882: struct gpib_interface
-914975f8fc96 staging: gpib: pc2: struct gpib_interface
-64c745a7adb7 staging: gpib: ni_usb: struct gpib_interface
-c303323266fe staging: gpib: lpvo_usb: struct gpib_interface
-576eb9e6c1fa staging: gpib: ines: struct gpib_interface
-5f2fb6ca422e staging: gpib: gpibP: struct gpib_interface
-0033454014c8 staging: gpib: hp2341: struct gpib_interface
-b1ab383f5d09 staging: gpib: hp_82335: struct gpib_interface
-41ebb7c070bf staging: gpib: gpio: struct gpib_interface
-ef391db774c0 staging: gpib: fmh: struct gpib_interface
-701c5a45b91a staging: gpib: fluke: struct gpib_interface
-88d5e0847f06 staging: gpib: common: struct gpib_interface
-77b611bf3468 staging: gpib: cec: struct gpib_interface
-803d5bfacf86 staging: gpib: cb7210: struct gpib_interface
-294e66a9b7bc staging: gpib: agilent_82357a: gpib_interface
-6eafa79e636a staging: gpib: agilent_82350b: gpib_interface
-7a309862d53f staging: gpib: struct typing for gpib_interface
-b248b9d75062 staging: gpib: uapi: Fix CamelCase and IBA Dup
-$
+good luck!
 
-I sent over the following series:
-
-1) v2: u8 and u64 remaining patches
-
-2) v3: the gpib_interface_t series (I broke the tree with v2).
-
-3) The IBA Camel Case patch.
-
-See if you can apply the CFGn patch after all the clean up. Not sure why that
-does not apply cleanly. It does in my tree right now after the sync and rebase.
-
-Michael Rubin
-
-When th
+greg k-hh
