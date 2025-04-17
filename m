@@ -1,111 +1,175 @@
-Received: from mail-qv1-f48.google.com (mail-qv1-f48.google.com [209.85.219.48])
+Received: from sonic309-21.consmr.mail.gq1.yahoo.com (sonic309-21.consmr.mail.gq1.yahoo.com [98.137.65.147])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CEC8255E58;
-	Thu, 17 Apr 2025 17:33:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD1A025486A
+	for <linux-staging@lists.linux.dev>; Thu, 17 Apr 2025 17:39:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=98.137.65.147
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744911229; cv=none; b=rryhZvk8y1QL9PW7E/KecQ0XtpKIiGT/S57w+N9zBPMGpk21RXVgnaVslGtai9tJfBkHIq44yIVhlAl9oTnUUqtKRNoT/VehsNjPQ4OxUopFwF+2fPwnyE9SOcFJfJBa5JUTMXAaZZrpUriZ9yXD/9OTosTzZF6KkWe61+I5nyU=
+	t=1744911555; cv=none; b=Udt5mVUZBX51+1PJUcwisko8DCtT5fjwKzsHUMf8x4/6vuiUzeuMtpU6pYcQl2fV3KXbslI12dGuJg3J1TDkYFYscZISJUYznMbt9Js8sQcGiFgpxe/AE4IkFAAS1Q7/oX3r+doSTvFExMGprVxLFRKiaihDhbj0Gn7apJpfsHI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744911229; c=relaxed/simple;
-	bh=B3oiwQ06L6toD7AGLQE3aUk9GxID3uGGOBMZ1m/kEz0=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=INeq+dc8klOOyOJjVr0mHITwDuB1Z2sg4uBUb90aZfj+9KSh21LSWj8UKzc0fvkzBe3vcdf0lluoI6mpznUME4nVwHy3c95YfXPxlAWz75SsBJxKxjZWaQn8p1ebBktbcN+D744mmJh/REWwebfZX/BqPKhr6ZQRVW16+3jqpoc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=niaevJ7v; arc=none smtp.client-ip=209.85.219.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1744911555; c=relaxed/simple;
+	bh=87u6W1TihUzP8Z4D1g73cGTWePCPzbowKmmvBeLq2Bg=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=EcT2xWyFBSsssVKVqnGPOqAheIChtoR9IDrkFrYl9V1LhgsyhJRN/WfsQ366dq0Okw19cL4DVxPyKGwIbMReiH1mGqA2PdtIVYMl9rGbPkFuI6acO2rch1HdT2TWtYBITSfmKg0nBiHNcfB3uIUNDRqVsJM0yk/KSDg5nwUs/Jo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=aol.com; spf=pass smtp.mailfrom=aol.com; dkim=pass (2048-bit key) header.d=aol.com header.i=@aol.com header.b=Qjda+O8l; arc=none smtp.client-ip=98.137.65.147
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=aol.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=aol.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="niaevJ7v"
-Received: by mail-qv1-f48.google.com with SMTP id 6a1803df08f44-6ed16ce246bso6157026d6.3;
-        Thu, 17 Apr 2025 10:33:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1744911226; x=1745516026; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=G1UCgSsSJ9uUnGpJjZsHgiNtHFzddYOd1P3ndYRWxOk=;
-        b=niaevJ7vSjvr7/Oqy2mi/NOHa2IYcf56ug84hnAXtvYOyzPjMtj765WDTjz73QU/Iq
-         l+760SgdFeRO9B8srFbN3TImhifmtqanJy+iHc8SbL9e9+/qXxMqslEsYkOBQkvuIATm
-         GMSBrNkHxQizal9ZofE0gwdcPeojBfMZ4s6nv2DgJ7XiYKKJSlCiW4h1FwdR5EWZSDa2
-         dBN8F+WBA7Rg5hI+HXmyrH2AeSS0GgUwswEz3ImRgD/RkhxGJYjv6FGJ9Rln8Q5Ff994
-         6ceCXv0E3jeTBSpvYrc2JIKbtMoWHQ44rnqxNHYCA8ucWM5IkHDNFaEi76rwU6DQI9mh
-         Azcw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744911226; x=1745516026;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=G1UCgSsSJ9uUnGpJjZsHgiNtHFzddYOd1P3ndYRWxOk=;
-        b=tANr0DdAFIVfRqZC/GMJTpdars9M6oTufA24ZWis8hvNrOBRlrKkX7CrXHaSFy5NAy
-         Bp2+KHwMgH9/jVroVze5+5cKNvxrBmiZZwwBwFEVPydLKLfe8+rhi4HlXp3FokUlxV3O
-         +yWxQXm2In89E+AmtXb/itBkO2BuV9ladLNiddxs3kU/mX7oAuyhNfCSWZIZz882rWcw
-         xJm1t1gkI4LvxUmFr51TmB2Zb8IHPquKt7VZyd30q7o46lxmcMgmwnrQt3FzlQ51HT4X
-         RfrTkpjDoHUQj9wGstVLt7CWUibeL3uIKOqBPrIl8fGYINpsQ2ShLoTWXNk61WGPquiy
-         6Qqw==
-X-Forwarded-Encrypted: i=1; AJvYcCWzOq6ohWkszfrade/abjuxT/XmF/ER772mxHtEcup+Xgow3IEXOQvU4hyZzH46QU9h2yahpT8Omkx832efzb08MjNeSg==@lists.linux.dev, AJvYcCXr62Z2BxGzsDMhFs+HWfvhbxzg1Y8nXTTsLe/1lrNHa7vT5L/x0jTwPOsDeRjTCGkcawE29vlJAa16mibmxA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzWrlg+NG7ym/roBYOn0rud0QXHKyaECuAPMGbnwOweuXqLr7Q8
-	WWs3IIALAEPQ++C/UDl6iADYeiAPWezpMJNCtwsTThpq5hUk9g/e
-X-Gm-Gg: ASbGnctI2C66LQ8+AtCYwRNOvD9SfvHKQfw761CxqezHfaAfUTe6+DJaQ0+sAAY8yY7
-	d6EJIuuH8UCqKhC1ca2We21RbhOm2TBmKZrEd/ft3MXcnMTyc1gHRDdtjLhYNj4OC1Tx6Im6LEl
-	AJv4U5WQN5zJL4KwkC12W4bO1nTRMKevHYCH+2BBa+pf20G3TGc+lAgV6dZYpjkO4Vi8vQL2YNx
-	t+V8WC6suYZLjOBfoY8YmM7dG8JtIpql+gpV/crDMUcWecFFEVvgL6yZz6EHnYzYQUxZtuNF9GM
-	U4kbRRl0AvrCaDgZx9ZxanqHFQW8ZuF4ITJXcZN7vE99TYuyG1VTZ1ON/lmEC3LKvw==
-X-Google-Smtp-Source: AGHT+IGRC5CoH8reAVUroHZt/4NSL+Ssvd0PhZUbQ6lj1DRgpN5BrYRY0BCSdA4WUtaH5kleDzjDWQ==
-X-Received: by 2002:a05:6214:e89:b0:6ea:d033:2853 with SMTP id 6a1803df08f44-6f2b2f306a3mr112410116d6.16.1744911226285;
-        Thu, 17 Apr 2025 10:33:46 -0700 (PDT)
-Received: from theriatric.mshome.net ([73.123.232.110])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6f2c2c217casm1375946d6.99.2025.04.17.10.33.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 17 Apr 2025 10:33:46 -0700 (PDT)
-From: Gabriel Shahrouzi <gshahrouzi@gmail.com>
-To: gregkh@linuxfoundation.org,
-	jic23@kernel.org,
-	lars@metafoo.de,
-	linux-iio@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	Michael.Hennerich@analog.com
-Cc: gshahrouzi@gmail.com,
-	skhan@linuxfoundation.org,
-	linux-kernel-mentees@lists.linux.dev
-Subject: [PATCH v2] iio: frequency: ad9832: Remove unused parameter from data documentation
-Date: Thu, 17 Apr 2025 13:33:33 -0400
-Message-ID: <20250417173333.607844-1-gshahrouzi@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=aol.com header.i=@aol.com header.b="Qjda+O8l"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aol.com; s=a2048; t=1744911552; bh=B5EIQ+T8gzw3O3ySM34rCVBGg45rFyrTsDX/Alk2S/s=; h=Subject:From:To:Cc:Date:In-Reply-To:References:From:Subject:Reply-To; b=Qjda+O8lrR8EX0/IVevUX/lXWrc0mmEaVV/VgW5wymZJykuhbcquwu7Lhs3G2DqjxnIEEAIOpKeEr4yHjR6A3JJnHklXB9fLRBdY4bC6m7ytc70NNdqKb9VGOL6BVNEyVnb1xhNK3ug+j9nu42ohiRHG+5uWTL3NAKs4MrWUO6oeXJKHU9mjNwDxfkD7pwU2gbxuh21TnoWBFM+u8ChTmEmURLkRXhGrx34GF8lFjSxmEgOVEAmVQ8rxZ90tnRlfVfgbij62H7dF0mmw5ycfe/doJaZ1Zql8HnZzBvDnOiAD337OUIcH4Z/rH/2Msvqu2hd9PrKEqRaTkZKmkgu+ow==
+X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1744911552; bh=oaVWvNomeDeNdJScMnZJAqb5xLQibHmI1tTjKPR5B7a=; h=X-Sonic-MF:Subject:From:To:Date:From:Subject; b=ljP3E3RIGMvHN+PArTFEXhoohqDU8cTXxcNXPKHMsgLsuzcopWnznE71OmWZ1XLPIci3Q1wvptCGCCAEUBXIKbgcFMPMi6054YhI//t1I45ycHTh+hzp7pw2BzZ1KbgYqnuvEghWcu7EqNvwSpTXgZ4us/n0JbFBu2OA8lrXIo7cK0oScxdK8EjjtkLqv5HUsgZfq+UUGO38zjOzG5NTKO3l/pAmGpx+N9fGDWJRlgReGW7otLHBUVt4MXuqr6O6bu7Zl6wF5GkZoqLvGcs7SGsvn1R3Tc+U5QVrg5wlvq+Vi1fJFsh+OrDtrq0/Zf4p/uuMxOy8cwGYFyo87EBXJg==
+X-YMail-OSG: ZRGNm8wVM1nSCMBiOomP0Kf7VL1XYubqDjRsawjuIqNj_0vYGbqGIf247rDcTou
+ y0IBQxgbjx_5WLjNVwP.hm33RsTgZSuPQWrzt7C.QS9PnlqvUNWAIo4g3wGP4hDWaDDcGrUyEo9j
+ LbdSBxnZiS_vY7EQs0oL64VVWDi65djzPnUCiwrnIc0GBZR8VftG_lYjadUpvmSfnnokXU8x6.Wg
+ sTvzHpPlBA57hUuE5AoDP.VkKvWW2rViKLxMiiUfed3q423lLJUGXT3_p.62x5qNxeRC9SmtKbU2
+ evnGPOvORBqlNlsK6lCTaL2qU9TBtUbhAssLh_ieHaFuuqlNPrDopgqE6hZw6lLaq4WKQf_e32LU
+ eLKnYfnkehhp3KmWLTIDZZtXbkgDcCgxZJRr_g_Cxrb3Q_2IN71XprlvtKYy2WdkeOzuu7a52d_m
+ W.kvHDbIXDdBLCn6YniSHZIW7pIMhXjv1EH.XvvxOk5ZPIfFv9EpakDXZsLg7REtSfziLH3_DQ1W
+ VxnIHqs2f5gy_mEkeZ3JxvnvIqNMgLexkvgq.Yb56WDVHjMNy0JLnRg0h79s_uhyfCC5oSfiJ6M2
+ LAeAzoW_8uLCFJEf_lATEihIrunINqvWJr8GXvOeWCGo3JPRxx_DyU.nbRfb5SdQay0b30LwV4GZ
+ 3M26XvIIoyRC70zy0.sUhLMV8M6hMiFDuRc2KXwwqM4FUOP3RG04i8QKOq.eZugF14rWjBTpPY44
+ ea7HppiSbp_hv6R9ozyFEqzV5hYc3n.CHxsX1JGPv6WP1qSMYpbgOVS3GJBd0K4FVCqMcGKbCb8O
+ 2qDFItxMhUhmxWJ2RdZL13cRCqqvVbfTT21joCsa9Mdl9x5AAQmAiyv8QIS_BTuVhMOa3oJwY7ql
+ pRIdvyStF996t50JlcQrnj0CInYioWV8ce9lfO9x7cig0IcTqHedbtyqcPl3QrMP7u2CN7xa6Zki
+ GU0OzViYqAhyl7_UyJv5fx.mIJBuhlyWjGXpuYEsbGIIQZRvDMaQWdNN97_A8D5sQGXUFqFA_t9N
+ PahFpkPbL9nTwASnZCIg.PiKSEBXq1hSJjDhmwisLbwk6N5oyVIq5JfYa_nEDCUGC4kqcBlMa4WX
+ gRWxRo7kyfZqW3zcYzREDGVABWU_EPYDuQf1jaG1lnbAkeMzc0Fb.wgy75CAv.TeF5smO8Y9Frcx
+ j7jDXa9HTzw4nhhAVStyOMIblZkm5FdxHs31JKQ7qRQnRfGyAUIh.W.Qcmj4kVUyJKhy4w6czzb5
+ DVaqTWGA.UK7aL5PNxGl5xzOoV3yBUxhDHLgH2uMLMQ.IrHdd0p5pckr0CbVoUUebTenqNfRru6t
+ kqqcPv1DBG8.bsl6zfzR6cAIv9tV_E61ztq3yx._.g84CTmrtN3e2siKvDRkYirvmvbT7i13JgIh
+ ln.cLziX9Tmy28NTAhMtyn1S16I36kxhMVBei1nsboqze3myIGfVbQ.rNWZG3ZUO92ZLwCsfaZ8B
+ 1XUr5xnIbFNJyA_cS44do9_M1yTnsHkVtxWZ83Z60qogYmn2kVbL3RGWnywR_t5HlzPTjBw.AMnR
+ C.De_zWcEs.uE2bWfuYKm3zs3nHeNF4kXiR6A3AsGQnkFfm2ymw7HLkUjrU_J3R2owUTOW8Vgalz
+ paS.1GLsGrdnGCc_Vfiyjcd6rhyWnHeW1BUAOtvo3qofQUtnSFAwy2U7v9bUmRgwlqznFD.vCnr9
+ GZnPwELe2xY0q0ZqKHtZNYkIIQtqA8emWZoQ07W5x3QNIovMWCh.EmAijmHaieqiOIdWN6eFCfxe
+ bkpGlRhl9SCIUmKv_5TbDw5WqOl.GwEA.oXs8Q2m9o48MuLMrYukRE1WYoU8doqPLxbyvkGRfgnl
+ ldKGO2W7QhhnTxipccCnjUeQniPnC704zibYtIzzAkWncdDFNz0.GTRh7GpDfh_Fca9o8nJkIOsd
+ MculkKYU_kbhIlGhA809PoMcyU412p8AyknQRMdaeZwkwY_TopwzDC.p2Zkvg8GOY1pgwE9H7EJi
+ RrF3hn2STcyeavp.8KztzgDVckJaLKMNfrxdva34qm866fe66eIX770BWaMaV91zGWRXHdIa47Lw
+ oYN3Qa.TH030zhjzromLhjOn0Rdbe0QCbEbHWZDDRSkdkMb79xXFAprAUEt0hccik0buf4m__AaX
+ bRITRdVzb8B7BJzjmgEH.SbL276IcwdP8cOMGk1IKtXUW.zhppz4YD6xs7usSDiaaULXUo_F_13U
+ ome4kZNZoXpc7Pf_4DivfKG6nTbhjju57zF8yfQ1gSnupFL.wiKVahv.LsQ--
+X-Sonic-MF: <rubenru09@aol.com>
+X-Sonic-ID: acb42ab2-e095-4176-a93b-893fd3fd75f2
+Received: from sonic.gate.mail.ne1.yahoo.com by sonic309.consmr.mail.gq1.yahoo.com with HTTP; Thu, 17 Apr 2025 17:39:12 +0000
+Received: by hermes--production-ir2-858bd4ff7b-rtzhj (Yahoo Inc. Hermes SMTP Server) with ESMTPA ID a26aee031807310d262ca66c92894fe7;
+          Thu, 17 Apr 2025 17:28:58 +0000 (UTC)
+Message-ID: <6ec1fa494ee823549fb97a48121cb28e37f1cc4d.camel@aol.com>
+Subject: Re: [PATCH] staging: sm750fb: fix instances of camel case
+From: Ruben Wauters <rubenru09@aol.com>
+To: Greg Korah-Hartman <gregkh@linuxfoundation.org>
+Cc: Sudip Mukherjee <sudipm.mukherjee@gmail.com>, Teddy Wang
+	 <teddy.wang@siliconmotion.com>, Sudip Mukherjee
+	 <sudip.mukherjee@codethink.co.uk>, linux-fbdev@vger.kernel.org, 
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Date: Thu, 17 Apr 2025 18:28:07 +0100
+In-Reply-To: <2025041758-mounting-populace-458f@gregkh>
+References: <20250417153101.353645-1-rubenru09.ref@aol.com>
+	 <20250417153101.353645-1-rubenru09@aol.com>
+	 <2025041758-mounting-populace-458f@gregkh>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.54.2-0ubuntu1 
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-Mailer: WebService/1.1.23665 mail.backend.jedi.jws.acl:role.jedi.acl.token.atz.jws.hermes.aol
 
-This is a leftover from the patch: commit 566564e80b0e ("staging: iio:
-ad9832: use clock framework for clock reference").
+On Thu, 2025-04-17 at 18:58 +0200, Greg Korah-Hartman wrote:
+> On Thu, Apr 17, 2025 at 04:27:47PM +0100, Ruben Wauters wrote:
+> > As per the kernel style guidelines, and as reported by
+> > checkpatch.pl,
+> > replaced instances of camel case with snake_case where appropriate
+> > and
+> > aligned names in the header with those in the c file.
+> >=20
+> > Signed-off-by: Ruben Wauters <rubenru09@aol.com>
+> > ---
+> > =C2=A0drivers/staging/sm750fb/ddk750_sii164.c | 113 ++++++++++++-------=
+-
+> > ----
+> > =C2=A0drivers/staging/sm750fb/ddk750_sii164.h |=C2=A0 26 +++---
+> > =C2=A02 files changed, 69 insertions(+), 70 deletions(-)
+> >=20
+> > diff --git a/drivers/staging/sm750fb/ddk750_sii164.c
+> > b/drivers/staging/sm750fb/ddk750_sii164.c
+> > index 89700fc5dd2e..20c2f386220c 100644
+> > --- a/drivers/staging/sm750fb/ddk750_sii164.c
+> > +++ b/drivers/staging/sm750fb/ddk750_sii164.c
+> > @@ -12,11 +12,11 @@
+> > =C2=A0#define USE_HW_I2C
+> > =C2=A0
+> > =C2=A0#ifdef USE_HW_I2C
+> > -=C2=A0=C2=A0=C2=A0 #define i2cWriteReg sm750_hw_i2c_write_reg
+> > -=C2=A0=C2=A0=C2=A0 #define i2cReadReg=C2=A0 sm750_hw_i2c_read_reg
+> > +=C2=A0=C2=A0=C2=A0 #define I2C_WRITE_REG sm750_hw_i2c_write_reg
+> > +=C2=A0=C2=A0=C2=A0 #define I2C_READ_REG=C2=A0 sm750_hw_i2c_read_reg
+>=20
+> Close, but these are really a function name, not a macro, right?
+>=20
+> And what sets this #define?=C2=A0 If it's always enabled, then unwrap thi=
+s
+> indirection instead of keeping it around
 
-The AD9832 driver uses the Common Clock Framework (CCF) to obtain the
-master clock (MCLK) frequency rather than relying on a frequency value
-passed from platform data.
+Will take a look into it, if it turns out that this is in fact actually
+used/different, what would be the best way to name this? checkpatch.pl
+doesn't like the camelCase that's currently there.
 
-Signed-off-by: Gabriel Shahrouzi <gshahrouzi@gmail.com>
----
-Changes since v2:
-	- Specify driver in the title.
-	- Include referenced patch.
----
- drivers/staging/iio/frequency/ad9832.h | 1 -
- 1 file changed, 1 deletion(-)
+> > =C2=A0#else
+> > -=C2=A0=C2=A0=C2=A0 #define i2cWriteReg sm750_sw_i2c_write_reg
+> > -=C2=A0=C2=A0=C2=A0 #define i2cReadReg=C2=A0 sm750_sw_i2c_read_reg
+> > +=C2=A0=C2=A0=C2=A0 #define I2C_WRITE_REG sm750_sw_i2c_write_reg
+> > +=C2=A0=C2=A0=C2=A0 #define I2C_READ_REG=C2=A0 sm750_sw_i2c_read_reg
+> > =C2=A0#endif
+> > =C2=A0
+> > =C2=A0/* SII164 Vendor and Device ID */
+> > @@ -25,7 +25,7 @@
+> > =C2=A0
+> > =C2=A0#ifdef SII164_FULL_FUNCTIONS
+> > =C2=A0/* Name of the DVI Controller chip */
+> > -static char *gDviCtrlChipName =3D "Silicon Image SiI 164";
+> > +static char *dvi_controller_chip_name =3D "Silicon Image SiI 164";
+>=20
+> This is a totally different thing.
 
-diff --git a/drivers/staging/iio/frequency/ad9832.h b/drivers/staging/iio/frequency/ad9832.h
-index 98dfbd9289ab8..d0d840edb8d27 100644
---- a/drivers/staging/iio/frequency/ad9832.h
-+++ b/drivers/staging/iio/frequency/ad9832.h
-@@ -13,7 +13,6 @@
- 
- /**
-  * struct ad9832_platform_data - platform specific information
-- * @mclk:		master clock in Hz
-  * @freq0:		power up freq0 tuning word in Hz
-  * @freq1:		power up freq1 tuning word in Hz
-  * @phase0:		power up phase0 value [0..4095] correlates with 0..2PI
--- 
-2.43.0
+It is, however I believe it is somewhat more descriptive, I suppose it
+doesn't really matter though and if it should be the same, just made
+snake_case, I can do that.
+>=20
+> > =C2=A0#endif
+> > =C2=A0
+> > =C2=A0/*
+> > @@ -37,14 +37,14 @@ static char *gDviCtrlChipName =3D "Silicon Image
+> > SiI 164";
+> > =C2=A0 */
+> > =C2=A0unsigned short sii164_get_vendor_id(void)
+> > =C2=A0{
+> > -	unsigned short vendorID;
+> > +	unsigned short vendor;
+>=20
+> Why change this?
+
+Again removing camelCase, kernel style guide says that shorter names
+are preferred (unless I misinterpreted that), I could make it vendor_id
+if that is preferred, I believe the same would be with device_id below
+it.
+
+> This is a mix of lots of different changes, please break things up
+> into
+> "one logical change per patch"
+
+Would it be best to split each rename (function or variable) into a
+separate patch? I do agree it is quite a lot and I was a little unsure
+when sending this one, but I also don't want to make a lot of different
+patches and spam your email with 100 patches at once.
+
+I suppose I could make one rename per patch and do them a few at a
+time, that may take longer though.
+>=20
+> thanks,
+>=20
+> greg k-h
 
