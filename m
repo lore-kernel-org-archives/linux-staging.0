@@ -1,99 +1,160 @@
-Received: from mail-oo1-f52.google.com (mail-oo1-f52.google.com [209.85.161.52])
+Received: from mail-qt1-f174.google.com (mail-qt1-f174.google.com [209.85.160.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E206253F17
-	for <linux-staging@lists.linux.dev>; Thu, 17 Apr 2025 16:17:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 529012376E6
+	for <linux-staging@lists.linux.dev>; Thu, 17 Apr 2025 16:33:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744906664; cv=none; b=mUlMcGIw2ZM7uW0Mt2sAIvDy7Dmc1qLAprdnla9bYJDlnw566ndSPxYKU3F7bZb0Qx6nPFY5wcgH9JrgAzmbAfTk70RxcVdD/RBJusUVu3wT513xOgj2U/rNsyCMRb4AK+AFa1E3fO2nKkQwpI6MQNnOoB5BM1Mka8GDY3xb2Kc=
+	t=1744907623; cv=none; b=sarkX5GA1A5yLbEDvq8vq/ZjeSFVVsMVfWVt8r/m9C/n/YoToz1g+mp2xkQ2zIUWjE60qfoHcCBQkjC0FC846Yej4gddKtbD17YKvSlBcG0WU4zDrl790V5yF0cbvUpWOXr5/AXtExe6X0z5VeWwc8L9IfWCxfunsRvF9bj4KuI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744906664; c=relaxed/simple;
-	bh=YdyGYQvJPxptB7Ud1K9823h/vEclrujKLrEKCBQa44w=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=TtowMbzO8F4oUnfe4PfD0uJvey8S7bjSAzcMX7nqEvRTrn1en8ISptJ0j7mKwCoygYjuE9U4zFC57vwBO/ygVuqkWlaYXWhkeTX0UvB2kWWyyn4MkRZ/vXtfcpHK482zNxuHQWPPzHL9GufT4xTnduus0YRxAWzCWG9GwMl3KU4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=Gq89bzuS; arc=none smtp.client-ip=209.85.161.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	s=arc-20240116; t=1744907623; c=relaxed/simple;
+	bh=jT21jRK0J8SRlzjyqosDW759opx+ZsN7MPAvUOaGObs=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=ml6Pa1MEr8XNDZLzRccPo/xMn33oMISwZuVMJWJSfgONkfIpL3VOcqA5UhuovAgvAWMRCBinZ3hRWAKDIMpmyx5yoIlBlZclqPsvleC6afrQGJeyDj8RPtjLVgUIycB1i4cj6QeUM7ekAEdB9BeCDmUA5XtrnpfuARI5bmWZlB0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mxbrZh4m; arc=none smtp.client-ip=209.85.160.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="Gq89bzuS"
-Received: by mail-oo1-f52.google.com with SMTP id 006d021491bc7-6042c04fd18so448740eaf.2
-        for <linux-staging@lists.linux.dev>; Thu, 17 Apr 2025 09:17:40 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mxbrZh4m"
+Received: by mail-qt1-f174.google.com with SMTP id d75a77b69052e-4768f90bf36so8743891cf.0
+        for <linux-staging@lists.linux.dev>; Thu, 17 Apr 2025 09:33:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1744906659; x=1745511459; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=uJ86ga6RjrBQ4jtVg7iGsvEs2Pk/5xuTneiTlVnUO0k=;
-        b=Gq89bzuSUdDW3k/DfAxpFiGuGN+EzjFWl8LsNxVOOW8Lp/e+s+e8rEJmQBKZOfkB0G
-         w5XosN2JPNdVTbuOfb/E3CeMjUW/JpSEiaUR1hpixg8phsQgqCpgczjaT9wJ79E5Z4LX
-         9drp0Rtm3lQYrLdNLDaowh47dj382f75jYtEgyrvlC5ZfmGKuVHMirpBLC6Kf7TWyNGz
-         R2kc8EfQEdb1dRAbgKsQWtvRml5rM12OgImbyA0Tkq2wER5rw7IdauaPxGAkLGz6iZJq
-         ECbiNCTaTgNphmo9KEPQNeGmBRFEr/E2zSjJGJwGb6CPFeab4QRpoisFd03GS5FCveYu
-         8bIg==
+        d=gmail.com; s=20230601; t=1744907620; x=1745512420; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=qO5+04CaWSRFQ4SaFhOjMQvO97IJAoXY2FwR++5c1UQ=;
+        b=mxbrZh4mrSqL0+5RJgBhOHUbyHj6Ze7FEffX58ZKV99wTbMz3ntEB+XGnHycBQVdcr
+         zvX4A3exPLuuG0oP+jvBwLm5P15haWQOXIFZp+9I3Pwu4+jFn1EN84nY7Yl6RYEhEElg
+         UCgZ5OklJgtrnfrqYfX6bGH1CJCHMZvx+2TFPh2IlKcqH8yMbF3X4hsD1IcS47qDdzj/
+         cXlOAeSQzpcVB2IGT4s20iP7pf2+dz+pxcoLrGXCx7Gaon3suh+BWGKXnTRXqkJYdik4
+         /nzU7f04rBj4xKSwaSLPtnT/7d6ggWQiU+kjeo7A5d30Sr8vA5BydnQIPHVm2JT/IGSA
+         Mmzw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744906659; x=1745511459;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=uJ86ga6RjrBQ4jtVg7iGsvEs2Pk/5xuTneiTlVnUO0k=;
-        b=OFggUMQnvgKNblK8XECxOwrUS6+JlZViWmBHod8kaFduGmSRCMHFYY+Inb7ZZr3kNP
-         B3yPFoOFEZQaKJlnGPo1ehD30R25rg4kT5cebEvYairMM5qjPwkJ10ZxfGlKuDut+Nj6
-         KyhXcPsRJCuCmtJH7uyVEmV1LfPYv8TTVAFtO27NOKdipYZO7NsxgfaIapTToV2Kr9ku
-         NoDWy+DZSNvWJak5L/kYDGC89/VwIGUG49POu/J5BrX2IQ9zcW8ol6K1f17tleHhJSb7
-         vKEF8fMauaWuSi6qvGKMrirTPYjOn/obTvWR8KckwhgD07OaVtByluqgT8D5ZwGDNJMc
-         tuCA==
-X-Forwarded-Encrypted: i=1; AJvYcCWnh7kz5rU/xQX7s4d2Njpdr5F97PV57JovTZ/8UzJogaxDw9aDw6TQHY8oSvWKazqO2ak1XOBsGZDxeWSS@lists.linux.dev
-X-Gm-Message-State: AOJu0Yyyl0Xjlgpcxe37GZikTwC3YdTufpLbMXSHjOCHwARYXRp5nQdu
-	tUJf9tzx+VoGCjwSUI9EgUVytlhKUSR2zCAQxSgYLavzZcoJ7eJvqoM+O8TC5mM=
-X-Gm-Gg: ASbGncv7cqU7aE30I7oT+VeEuOrMX+DczPliclZltIjsaVd4eRg6JiHpdtbj3MMAsB0
-	iMog/8Jgkgr1h7vCFdcB+pU4ayqEMmVxe2UJzsZFqoKxD6oH5uwGVYb9nzQxC05N8P8nN0cDq9j
-	qXPHGWyrPvIILm/OEMwAo/ARu4ALhAyDPru+tWtMab8t63LDo5MJ8zOYvKK8tKeCiwU7uf+F67f
-	Zr326sF4i2YD0MMwrKbRWWykFUAQZwUgFUjm2BbBItYYUyeJpDgY++Gk4yceELVT47TWpsvwxai
-	twnpWJzCLyJbLJZwcxXef0i3cXZ6PtVgWUTBBajql+A5Udf7f6WK4JFsgsIa9CNE4U1ANQGs/Jy
-	kb1bXZ/SZPf7VizTWcQ==
-X-Google-Smtp-Source: AGHT+IGBBgE75fsVkLXxYoZqV19j+mS6o4e4vTLZSbr9DKTQoVtLZ0+RYC5g8QIKrdP0fbpy7FLYJQ==
-X-Received: by 2002:a05:6820:1e13:b0:604:6b0:c259 with SMTP id 006d021491bc7-604a931e696mr3952610eaf.4.1744906659563;
-        Thu, 17 Apr 2025 09:17:39 -0700 (PDT)
-Received: from ?IPV6:2600:8803:e7e4:1d00:c91b:eea3:7afd:2dee? ([2600:8803:e7e4:1d00:c91b:eea3:7afd:2dee])
-        by smtp.gmail.com with ESMTPSA id 006d021491bc7-605ff6aacf5sm12896eaf.39.2025.04.17.09.17.37
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 17 Apr 2025 09:17:39 -0700 (PDT)
-Message-ID: <cd50b4eb-ef6c-4842-88cd-932042ca2629@baylibre.com>
-Date: Thu, 17 Apr 2025 11:17:37 -0500
+        d=1e100.net; s=20230601; t=1744907620; x=1745512420;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=qO5+04CaWSRFQ4SaFhOjMQvO97IJAoXY2FwR++5c1UQ=;
+        b=jtXzJyIVLA2HDYt3pqhg/sP2crnKvS1VCmke1RohC64ymdWR+yFBdxthyD3SKOrQRi
+         YjPwiIP7X2igNkPvQjNS0UL1ts18DRXYr7R5Em+holRVq2uD1HTAQiJT/NF7X7/xX/ah
+         92Ka/gY+ASaLdG/9zbe8M5YUvb3kH4Bam/Ky7GC+Gp05BtJb3ubvA8ilo4ekLLawoHZJ
+         UMFT4OOzkZrtZNCZlr+0y3mNzeRWVFG7nuJ5/DtHIplfC73BcrGw3vQtrIraVxpGjJfl
+         hOfGlHJvXEpZTGetHcEnCG5F4ZBom9XwOjc7QxjDcRVmFPTDtt6WRwIjhThV0MrtmRfQ
+         xiNA==
+X-Forwarded-Encrypted: i=1; AJvYcCX2AGBznFKx7aDY4NOYKYW5otYLg4/A5eto/Els4RIKLCFEymMCJb/QSSKHPnVHPu4udWRnWbw+nkuIhWSF@lists.linux.dev
+X-Gm-Message-State: AOJu0YxMJvSQvn3Hx2gWW4USqH7dif38B9pO5i3anHaGQ4L2sFFtzFmj
+	3AK77ytfBHij1n/vsfN4iYAX/cInCYHt7xpRahHjz32jGSt9MHCnTquLrknUfWpjMgBNXL/yS7g
+	MAbV4/h9mAfwJ4HufuU37BKCztTA=
+X-Gm-Gg: ASbGncu/fri63B8qzQg+KqV0GcV0y7XWThz46tRy0UULKGdMEoU+GZLR3HUM5MBWJfk
+	o0atbAHisIaZ8OaM8zxOxmXJnwz2WL6LgxzHvZGBOboFlVL9lt6ZQM5hihXT6+qwSttXL3Ph+b2
+	bgyNe/QvXzdZJVr5MLx386
+X-Google-Smtp-Source: AGHT+IF+1GF9Iqdb9twp+aheYHmHxlG6UmiaDmWmwJgTii/i+RPjNbiZu6npNwyTdDwS042MrCkog9QKWRra+9xpJuw=
+X-Received: by 2002:a05:622a:178b:b0:476:b783:c946 with SMTP id
+ d75a77b69052e-47ad810e2a9mr124221401cf.33.1744907620151; Thu, 17 Apr 2025
+ 09:33:40 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] iio: frequency:: Remove unused parameter from data
- documentation
-To: Gabriel Shahrouzi <gshahrouzi@gmail.com>, gregkh@linuxfoundation.org,
- jic23@kernel.org, lars@metafoo.de, linux-iio@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev,
- Michael.Hennerich@analog.com
-Cc: skhan@linuxfoundation.org, linux-kernel-mentees@lists.linux.dev
-References: <20250417143220.572261-1-gshahrouzi@gmail.com>
-From: David Lechner <dlechner@baylibre.com>
-Content-Language: en-US
-In-Reply-To: <20250417143220.572261-1-gshahrouzi@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <Z/bA4tMF5uKLe55p@ubuntu> <2025041402-colonize-rocker-1db1@gregkh>
+ <CADYq+fa18G25hfTeWTxwyxc+A=xHmk_je_9kjWbDdwbo0seaZQ@mail.gmail.com> <2025041448-destiny-hate-1b70@gregkh>
+In-Reply-To: <2025041448-destiny-hate-1b70@gregkh>
+From: Samuel Abraham <abrahamadekunle50@gmail.com>
+Date: Thu, 17 Apr 2025 17:33:30 +0100
+X-Gm-Features: ATxdqUEL1gesoQZzTPywh9XHBFhXyu8wX2c91GK7fMi0Vlnqf3F6jGWNea334bw
+Message-ID: <CADYq+fYWFqPQTJABt4sKo3NsENLrDbVh7Sn+uu9sLNumc0wt9w@mail.gmail.com>
+Subject: Re: [PATCH] staging: rtl8723bs: Replace `& 0xfff` with `% 4096u`
+To: Greg KH <gregkh@linuxfoundation.org>
+Cc: julia.lawall@inria.fr, linux-staging@lists.linux.dev, 
+	linux-kernel@vger.kernel.org, david.laight.linux@gmail.com, 
+	dan.carpenter@linaro.org, andy@kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 4/17/25 9:32 AM, Gabriel Shahrouzi wrote:
-> The AD9832 driver uses the Common Clock Framework (CCF) to obtain the
-> master clock (MCLK) frequency rather than relying on a frequency value
-> passed from platform data.
-> 
-> Signed-off-by: Gabriel Shahrouzi <gshahrouzi@gmail.com>
-> ---
->  drivers/staging/iio/frequency/ad9832.h | 1 -
->  1 file changed, 1 deletion(-)
-> 
-Please include the driver name in your patch subjects. Otherwise readers will
-assume that this is something that affects all IIO frequency drivers. I noticed
-you are doing this on all of the patches you are sending, not just this one.
+On Mon, Apr 14, 2025 at 10:00=E2=80=AFAM Greg KH <gregkh@linuxfoundation.or=
+g> wrote:
+>
+> On Mon, Apr 14, 2025 at 08:38:53AM +0100, Samuel Abraham wrote:
+> > On Mon, Apr 14, 2025 at 8:23=E2=80=AFAM Greg KH <gregkh@linuxfoundation=
+.org> wrote:
+> > >
+> > > On Wed, Apr 09, 2025 at 06:48:02PM +0000, Abraham Samuel Adekunle wro=
+te:
+> > > > The sequence number is constrained to a range of [0, 4095], which
+> > > > is a total of 4096 values. The bitmask operation using `& 0xfff` is
+> > > > used to perform this wrap-around. While this is functionally correc=
+t,
+> > > > it obscures the intended semantic of a 4096-based wrap.
+> > > >
+> > > > Using a modulo operation `% 4096u` makes the wrap-around logic
+> > > > explicit and easier to understand. It clearly signals that the
+> > > > sequence number cycles through a range of 4096 values.
+> > > > It also makes the code robust against potential changes of the 4096
+> > > > upper limit, especially when it becomes a non power-of-2 value whil=
+e
+> > > > the AND(&) works solely for power-of-2 values.
+> > > >
+> > > > The use of `% 4096u` also guarantees that the modulo operation is
+> > > > performed with unsigned arithmetic, preventing potential issues wit=
+h
+> > > > the signed types.
+> > > >
+> > > > Found by Coccinelle.
+> > > >
+> > > > Suggested by Andy Shevchenko <andy@kernel.org>
+> > > > Signed-off-by: Abraham Samuel Adekunle <abrahamadekunle50@gmail.com=
+>
+> > > > ---
+> > > > Coccinelle semantic patch used to find cases:
+> > > > @@
+> > > > expression e;
+> > > >
+> > > > @@
+> > > > * e & 0xfff
+> > > >
+> > > > To ensure this change does not affect the functional
+> > > > behaviour, I compared the generated object files before and
+> > > > after the change using the `cmp` which compares the two
+> > > > object files byte by byte as shown below:
+> > > >
+> > > > $ make drivers/staging/rtl8723bs/core/rtw_xmit.o
+> > > > $ cmp rtw_xmit_before.o rtw_xmit_after.o
+> > > >
+> > > > No differences were found in the output, confirming that the
+> > > > change does not alter the compiled output.
+> > >
+> > > This is version 11, right?  What happened to the list of previous
+> > > versions and what changed down here?
+> > >
+> > > confused,
+> >
+> > Hello Greg,
+> >
+> > I collapsed this patch to the previous patchset I had worked on that
+> > made the same changes to the same driver.
+> > So this patch was collapsed into PATCH v10, which is the last version
+> > for this change.
+> >
+> > The change log in "[PATCH v10 0/2] staging: rtl8723bs: Improve
+> > readability and clarity of sequence number wrapping" explains this.
+> > This patch was collapsed into patch 2 of this patchset.
+>
+> Think about it from my side.  I get hundreds of patches each day to
+> review.  If I see a v10 and then a patch with no version at all, what am
+> I supposed to do?  I would assume something went really wrong and just
+> delete this "obviously old" version as it would have been the first
+> version of the patch, especially as there was no version information
+> below the --- line.
+>
+> So, what would you do in my situation?  What would you want to see if
+> you were in my situation?
 
+Hello Greg, I'm sorry once again,
+Please, do I send a PATCH v11 for this change?
+It seems my mistake had made you delete the PATCH v10.
 
-[PATCH] iio: frequency: ad9832: Remove unused parameter from data documentation
+Thanks.
+Adekunle
