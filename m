@@ -1,62 +1,62 @@
-Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
+Received: from mail-pg1-f175.google.com (mail-pg1-f175.google.com [209.85.215.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 119311922FB
-	for <linux-staging@lists.linux.dev>; Thu, 17 Apr 2025 00:45:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C59419DF6A
+	for <linux-staging@lists.linux.dev>; Thu, 17 Apr 2025 00:45:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744850743; cv=none; b=bTy+T8DBbMYI1UI9Ii/pnYWdWjz6YB+nesb2SYvmZgV0m0SbNOhGgoDT29hmhHtUb7OXpD17JH1Ao4UVDtWG/FqwbfnOlPeEyEZdQn8EoATHqF9jfp6KVfUx4K8RjyNvoGBeeHtCYxycABWUQy+CHGUnNIhpPv14ZygpLk+M1qA=
+	t=1744850744; cv=none; b=Cnjpd/IlWmdw14w792HJc/+grEfSYMTg0V0PXJn/8SqT5iYCukx8pjBgTnKMFijY6YijBmP9aTpGfWD3U3tC0ckEfp8IouEbOZsE+zOSYwMcpk/lOF/tWJ7L/tVm2rkfLlgi9h1t/i/fLq93lxgCnSGxYWA9Ne3ZPIs0URXik4I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744850743; c=relaxed/simple;
-	bh=Z/9PFyrUgpPd5rVWjXXudWLnGwRK1lzpWznXRZ2vt5Q=;
+	s=arc-20240116; t=1744850744; c=relaxed/simple;
+	bh=QqdmVMBjXXestRT/55c3oFFTQMW4oNH6hU5VCPGmLuk=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=XbhuNvbYhzKv0yiNKNe7COICFmNUncmOtr7kxXonSM2LFPdih6KSy0+mZz0/2qtguxDRaq0ixqhrsIckp4n1/b51rfE0drtUL728ohB0SnG3FIwq1fumU1ydj+Ns7p7sPJope9Wv9f/TmbT+MDmX+Sks+0HSt0inKLTJTg1u6X0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=neverthere.org; spf=pass smtp.mailfrom=neverthere.org; dkim=pass (2048-bit key) header.d=neverthere.org header.i=@neverthere.org header.b=d1sSBsJR; arc=none smtp.client-ip=209.85.210.179
+	 MIME-Version; b=GxMGm12hRsdInMApgmv0fV8zNdid9ZKbHLvh33dbh4smM2n1bXIh6dIlGVVuUKgduvTZdCasw3kjn/6OUemcNuOsHS/gwztXOmvkC9fe3VCDffCIgXKPyLU008Xar5WAaMTCrpPSOGjOByeKqFyStgBK5cVFYOoNwvwxof9KWBs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=neverthere.org; spf=pass smtp.mailfrom=neverthere.org; dkim=pass (2048-bit key) header.d=neverthere.org header.i=@neverthere.org header.b=N5L+LChy; arc=none smtp.client-ip=209.85.215.175
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=neverthere.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=neverthere.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=neverthere.org header.i=@neverthere.org header.b="d1sSBsJR"
-Received: by mail-pf1-f179.google.com with SMTP id d2e1a72fcca58-7399838db7fso246444b3a.0
-        for <linux-staging@lists.linux.dev>; Wed, 16 Apr 2025 17:45:41 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=neverthere.org header.i=@neverthere.org header.b="N5L+LChy"
+Received: by mail-pg1-f175.google.com with SMTP id 41be03b00d2f7-7fd581c2bf4so170596a12.3
+        for <linux-staging@lists.linux.dev>; Wed, 16 Apr 2025 17:45:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=neverthere.org; s=google; t=1744850741; x=1745455541; darn=lists.linux.dev;
+        d=neverthere.org; s=google; t=1744850742; x=1745455542; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=sqFta0OAs/A1Mf1ccmkajj8vrVujNWivC2RzSA3YSm8=;
-        b=d1sSBsJRvBbNVTaNFo6ZG2BQQSW6hOHtma5CpWaA6MKubO7lGxIpS1QBISvjW42tOn
-         rc1HzviXbcqZ0wTQyXwE+MZwt9H4bzQd8vRCE6hlCX8q1h6xFwIkmMaOOqtDLNtUKd8W
-         efkTf6Jn0fRF/jtevjKT+QcmdcLSmuPtEKreBWR3aEDjS1lD71sx0cG1JX2McFqOQbZZ
-         KJGtH1hremWxpOkgglcvZU+Y2/wvJ2dCajvnizwtUFhO/h9kwrgalDV7cLtEPn1xwBW4
-         RktQ7V8vTFSTo7RACQtR/k/60DTP/UWIvABNM+CwJDbU6PZBPPw08PyOf9leVrs4f1Dv
-         rJMA==
+        bh=egaRPgkryN6OirBXQ08+dhGZADpQp/3XvoNDYXE4JHk=;
+        b=N5L+LChypBjv2QIYZHOx6g50QrywQcu7Haj+d9aRvTL99rJpxy5ZezAAK6zkhVSoPJ
+         lNmEFkG2NDpaskusYsDwGoW5THk4p0/ESKadFQuzr7+Ft56rhsZUlhfjOMVWZsp1VPQV
+         7tsf1JECca1W4FLRtcPBluscF/fydHLn9iwXFt6zYep7IQYuYzZctjYQiqJDTUekfudx
+         ItOT5lGxvCdwU95OPXWZqvVXKXzFP8mw0aXq+x0hRMZAxRdOHQF3SeJHu7hBCRNTPC/z
+         YSdGwuJHCw90u1AKHfGJBiLraNZCEI+u+oJr4jSxhFbGwGw8uEIf83l6Voy6Ry9NZuYT
+         vJOw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744850741; x=1745455541;
+        d=1e100.net; s=20230601; t=1744850742; x=1745455542;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=sqFta0OAs/A1Mf1ccmkajj8vrVujNWivC2RzSA3YSm8=;
-        b=g6des41h/zLxD+9J1kBSkfC/y4BOYxEaE0NTWQ9EZzEUxJMYLdywieoakrS5nW5fDB
-         bTCoyQMbVcPQw23AsVsDjYSDW/LV0cdFh61OrnebXsEp99jQh3vn5D1uAoLkQMemsKR+
-         O0mLZ4hDlQ4r+FVurKdwsWKv4/naKA1pLrLzCwoAAlgiEM+kpBwbqqeOhYOy9bPOTkNp
-         BgWVpLVxxBgzHO0jps8oFmV+V4QtxHZeCNLHorqv0e1gI0N9Lr6hheelK60zX9B/xOrh
-         gt+GeZwbaD2f4zAXQnIefj8rOFLPSwxzyH9F5wT6QmtIGqgPeUqtz9gCx0uXd8iR4HAc
-         R/Kg==
-X-Gm-Message-State: AOJu0YxJaPmZ2IKib5qyAdzu+NKrL8yXXgCo0eGwsWxATSjWFDevrhWg
-	3/IasnZBEAfeZr010tWavbKj8RmIxsioB8Er5bhgBo+kioDRs4fOIJn1OCuPng==
-X-Gm-Gg: ASbGncvL19wpGu7tD0DwJtRkYhyqQnATaWh8dmXZJHsz1LvFBzwrKNYaIrZhBAzABPi
-	qfwM+HVK5LBgSF6ydB3FWGF2jwPgmhN4SbxOIhBwOL6Z4XMLzNdAkA5tZ/QrkdQoC99fQurHcrN
-	O91cLoKClB4y5yizHpCKCyjlq/1B4rbyhB9gDbYj31bUMX/BA3E+DqVOF3FPF6GfljFyMzjjJYH
-	vbXQV4jOLGVnu2ukQr243K27WMme2tX7isUjoPNaW3eVXb2I4o6k2dMrf1Q8aKpzAio2cgcWSl7
-	jx4a17llcCUOkN4SNp2uUeC8gb42Idu1cC2BXmr0rdSmtv6HWB3sA0NorUgdTumBOQUMq5XSp6H
-	Twic5XK5EfvUBGZf7
-X-Google-Smtp-Source: AGHT+IFm2kd2Ns0/xVrxZ+SqxY9+nr2Ab80jlqyfZwd1KviJlz3p5qt0eS4Y/Do95MMFvROpfOcjcg==
-X-Received: by 2002:a05:6a00:ac9:b0:736:491b:5370 with SMTP id d2e1a72fcca58-73cf2ab2469mr1184689b3a.10.1744850741229;
-        Wed, 16 Apr 2025 17:45:41 -0700 (PDT)
+        bh=egaRPgkryN6OirBXQ08+dhGZADpQp/3XvoNDYXE4JHk=;
+        b=oiJhqcVJH5vpS46A2sNvNPve+qBo7EW9dF6lsumEJz0zsfpqO1LU+HmkQ1umlrJweF
+         dS8k+spv7+7eA3cr0ro12MP90nZaxhP96y13QnP69Ou3OpB2dIiUmToDIhT6aBB/so3i
+         KSSNTEQFAdexMHoiwIsmQAbcBwgngb+QgFvcwQZ/j51BsaPhRCuH/tsSPcumZm+9oaub
+         URl+vMMYYwxDjMvRGRlrsGEftuhEjOrT/hLu8iOST9fxIXbjvkfNY8S4L+KuncQrGGDu
+         KAYsOETp7l3zGLlEVmsU7etiXBvTJSQFICfRK8aVm30pU7ZADWcsXxs0VenhkcL4UM+0
+         eVzQ==
+X-Gm-Message-State: AOJu0Yx8MZOP+DBxWktzbufOILLc+pC9+73KKT7/dYQPF/8MGYS9rso/
+	HZthbFZrhnFIGUKZM9PIlcmpVod9ko6xxCWx2ina1DVBggSg6j8i/bQ4cbtUkQ==
+X-Gm-Gg: ASbGnctPgXuvkq3z4QxhZUjxoS5BbSR0Op/Uiiw950qs0dqimzN0/5ScGX2OMvX4Ews
+	YeCRws816DCpdhCTd9kFY1NNQYTaB8HMLff6jIhKWbCT93FfovGcZaMtVODFYBWGLhpNTFVYrK1
+	SHzKqNO7uaBl4mwFTBfSsQC04uPm1UeRcXIjT/w3QLGb/SqDp0n9S1eCAiuDkGPjDIPAas6ifNs
+	DCNQgf1uvXfUXM1eeJ09bxJg75a8Dr20Yl1Eg8HoSTzXLm15byYVgRF/7zBPcJMxmd8PWqZjulv
+	//IUmWao7sn15H+VPR1gwDWcmE7wxavux80cctpmkcXIn5vDnk0TPzi0YzWG0PUfh8gYUseQYSC
+	xVKOWow==
+X-Google-Smtp-Source: AGHT+IGuVcnz7+jXBqgLq07oqsDUI4UA6qz+jFAUX9R+nmD0RiWXV8pcR7xhwsWukjR3XaIYG8fMJA==
+X-Received: by 2002:a17:90b:3c0c:b0:2fe:7fea:ca34 with SMTP id 98e67ed59e1d1-308641725d2mr4923711a91.32.1744850742509;
+        Wed, 16 Apr 2025 17:45:42 -0700 (PDT)
 Received: from tiamat (c-69-181-214-135.hsd1.ca.comcast.net. [69.181.214.135])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-73bd21c388fsm11493824b3a.54.2025.04.16.17.45.40
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-308611ef37asm2310367a91.11.2025.04.16.17.45.42
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 16 Apr 2025 17:45:41 -0700 (PDT)
+        Wed, 16 Apr 2025 17:45:42 -0700 (PDT)
 From: Michael Rubin <matchstick@neverthere.org>
 To: gregkh@linuxfoundation.org,
 	dpenkler@gmail.com,
@@ -64,9 +64,9 @@ To: gregkh@linuxfoundation.org,
 Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Michael Rubin <matchstick@neverthere.org>
-Subject: [PATCH v2 03/14] staging: gpib: agilent_82350b: u8 over uint8_t
-Date: Thu, 17 Apr 2025 00:45:22 +0000
-Message-ID: <20250417004533.86765-4-matchstick@neverthere.org>
+Subject: [PATCH v2 04/14] staging: gpib: agilent_82357a: u8 over uint8_t
+Date: Thu, 17 Apr 2025 00:45:23 +0000
+Message-ID: <20250417004533.86765-5-matchstick@neverthere.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20250417004533.86765-1-matchstick@neverthere.org>
 References: <20250417004533.86765-1-matchstick@neverthere.org>
@@ -84,106 +84,94 @@ CHECK: Prefer kernel type 'u8' over 'uint8_t'
 
 Signed-off-by: Michael Rubin <matchstick@neverthere.org>
 ---
- .../gpib/agilent_82350b/agilent_82350b.c      | 22 +++++++++----------
- 1 file changed, 11 insertions(+), 11 deletions(-)
+ .../gpib/agilent_82357a/agilent_82357a.c      | 20 +++++++++----------
+ 1 file changed, 10 insertions(+), 10 deletions(-)
 
-diff --git a/drivers/staging/gpib/agilent_82350b/agilent_82350b.c b/drivers/staging/gpib/agilent_82350b/agilent_82350b.c
-index 901f7182502b..ce9c88a2b9f5 100644
---- a/drivers/staging/gpib/agilent_82350b/agilent_82350b.c
-+++ b/drivers/staging/gpib/agilent_82350b/agilent_82350b.c
-@@ -27,10 +27,10 @@ MODULE_DESCRIPTION("GPIB driver for Agilent 82350b");
- static int read_transfer_counter(struct agilent_82350b_priv *a_priv);
- static unsigned short read_and_clear_event_status(struct gpib_board *board);
- static void set_transfer_counter(struct agilent_82350b_priv *a_priv, int count);
--static int agilent_82350b_write(struct gpib_board *board, uint8_t *buffer,
-+static int agilent_82350b_write(struct gpib_board *board, u8 *buffer,
- 				size_t length, int send_eoi, size_t *bytes_written);
+diff --git a/drivers/staging/gpib/agilent_82357a/agilent_82357a.c b/drivers/staging/gpib/agilent_82357a/agilent_82357a.c
+index 9e41fe611264..4728ec85caa8 100644
+--- a/drivers/staging/gpib/agilent_82357a/agilent_82357a.c
++++ b/drivers/staging/gpib/agilent_82357a/agilent_82357a.c
+@@ -420,10 +420,10 @@ static int agilent_82357a_abort(struct agilent_82357a_priv *a_priv, int flush)
+ }
  
--static int agilent_82350b_accel_read(struct gpib_board *board, uint8_t *buffer,
-+static int agilent_82350b_accel_read(struct gpib_board *board, u8 *buffer,
- 				     size_t length, int *end, size_t *bytes_read)
+ // interface functions
+-int agilent_82357a_command(struct gpib_board *board, uint8_t *buffer, size_t length,
++int agilent_82357a_command(struct gpib_board *board, u8 *buffer, size_t length,
+ 			   size_t *bytes_written);
  
+-static int agilent_82357a_read(struct gpib_board *board, uint8_t *buffer, size_t length, int *end,
++static int agilent_82357a_read(struct gpib_board *board, u8 *buffer, size_t length, int *end,
+ 			       size_t *nbytes)
  {
-@@ -145,7 +145,7 @@ static int translate_wait_return_value(struct gpib_board *board, int retval)
+ 	int retval;
+@@ -536,7 +536,7 @@ static int agilent_82357a_read(struct gpib_board *board, uint8_t *buffer, size_t
+ }
+ 
+ static ssize_t agilent_82357a_generic_write(struct gpib_board *board,
+-					    uint8_t *buffer, size_t length,
++					    u8 *buffer, size_t length,
+ 					    int send_commands, int send_eoi,
+ 					    size_t *bytes_written)
+ {
+@@ -676,13 +676,13 @@ static ssize_t agilent_82357a_generic_write(struct gpib_board *board,
  	return 0;
  }
  
--static int agilent_82350b_accel_write(struct gpib_board *board, uint8_t *buffer,
-+static int agilent_82350b_accel_write(struct gpib_board *board, u8 *buffer,
- 				      size_t length, int send_eoi,
- 				      size_t *bytes_written)
- {
-@@ -297,7 +297,7 @@ static void set_transfer_counter(struct agilent_82350b_priv *a_priv, int count)
- }
- 
- // wrappers for interface functions
--static int agilent_82350b_read(struct gpib_board *board, uint8_t *buffer,
-+static int agilent_82350b_read(struct gpib_board *board, u8 *buffer,
- 			       size_t length, int *end, size_t *bytes_read)
- {
- 	struct agilent_82350b_priv *priv = board->private_data;
-@@ -305,7 +305,7 @@ static int agilent_82350b_read(struct gpib_board *board, uint8_t *buffer,
- 	return tms9914_read(board, &priv->tms9914_priv, buffer, length, end, bytes_read);
- }
- 
--static int agilent_82350b_write(struct gpib_board *board, uint8_t *buffer,
-+static int agilent_82350b_write(struct gpib_board *board, u8 *buffer,
+-static int agilent_82357a_write(struct gpib_board *board, uint8_t *buffer,
++static int agilent_82357a_write(struct gpib_board *board, u8 *buffer,
  				size_t length, int send_eoi, size_t *bytes_written)
- 
  {
-@@ -314,7 +314,7 @@ static int agilent_82350b_write(struct gpib_board *board, uint8_t *buffer,
- 	return tms9914_write(board, &priv->tms9914_priv, buffer, length, send_eoi, bytes_written);
+ 	return agilent_82357a_generic_write(board, buffer, length, 0, send_eoi, bytes_written);
  }
  
--static int agilent_82350b_command(struct gpib_board *board, uint8_t *buffer,
-+static int agilent_82350b_command(struct gpib_board *board, u8 *buffer,
- 				  size_t length, size_t *bytes_written)
- 
+-int agilent_82357a_command(struct gpib_board *board, uint8_t *buffer, size_t length,
++int agilent_82357a_command(struct gpib_board *board, u8 *buffer, size_t length,
+ 			   size_t *bytes_written)
  {
-@@ -373,7 +373,7 @@ static void agilent_82350b_remote_enable(struct gpib_board *board, int enable)
- 	tms9914_remote_enable(board, &priv->tms9914_priv, enable);
+ 	return agilent_82357a_generic_write(board, buffer, length, 1, 0, bytes_written);
+@@ -834,7 +834,7 @@ static void agilent_82357a_remote_enable(struct gpib_board *board, int enable)
+ 	return;// 0;
  }
  
--static int agilent_82350b_enable_eos(struct gpib_board *board, uint8_t eos_byte,
-+static int agilent_82350b_enable_eos(struct gpib_board *board, u8 eos_byte,
+-static int agilent_82357a_enable_eos(struct gpib_board *board, uint8_t eos_byte,
++static int agilent_82357a_enable_eos(struct gpib_board *board, u8 eos_byte,
  				     int compare_8_bits)
  {
- 	struct agilent_82350b_priv *priv = board->private_data;
-@@ -412,7 +412,7 @@ static int agilent_82350b_secondary_address(struct gpib_board *board,
- 	return tms9914_secondary_address(board, &priv->tms9914_priv, address, enable);
+ 	struct agilent_82357a_priv *a_priv = board->private_data;
+@@ -948,7 +948,7 @@ static int agilent_82357a_secondary_address(struct gpib_board *board,
+ 	return 0;
  }
  
--static int agilent_82350b_parallel_poll(struct gpib_board *board, uint8_t *result)
-+static int agilent_82350b_parallel_poll(struct gpib_board *board, u8 *result)
+-static int agilent_82357a_parallel_poll(struct gpib_board *board, uint8_t *result)
++static int agilent_82357a_parallel_poll(struct gpib_board *board, u8 *result)
  {
- 	struct agilent_82350b_priv *priv = board->private_data;
- 
-@@ -420,7 +420,7 @@ static int agilent_82350b_parallel_poll(struct gpib_board *board, uint8_t *resul
+ 	struct agilent_82357a_priv *a_priv = board->private_data;
+ 	struct usb_device *usb_dev;
+@@ -990,7 +990,7 @@ static int agilent_82357a_parallel_poll(struct gpib_board *board, uint8_t *resul
+ 	return 0;
  }
  
- static void agilent_82350b_parallel_poll_configure(struct gpib_board *board,
--						   uint8_t config)
-+						   u8 config)
+-static void agilent_82357a_parallel_poll_configure(struct gpib_board *board, uint8_t config)
++static void agilent_82357a_parallel_poll_configure(struct gpib_board *board, u8 config)
  {
- 	struct agilent_82350b_priv *priv = board->private_data;
- 
-@@ -434,14 +434,14 @@ static void agilent_82350b_parallel_poll_response(struct gpib_board *board, int
- 	tms9914_parallel_poll_response(board, &priv->tms9914_priv, ist);
+ 	//board can only be system controller
+ 	return;// 0;
+@@ -1002,13 +1002,13 @@ static void agilent_82357a_parallel_poll_response(struct gpib_board *board, int
+ 	return;// 0;
  }
  
--static void agilent_82350b_serial_poll_response(struct gpib_board *board, uint8_t status)
-+static void agilent_82350b_serial_poll_response(struct gpib_board *board, u8 status)
+-static void agilent_82357a_serial_poll_response(struct gpib_board *board, uint8_t status)
++static void agilent_82357a_serial_poll_response(struct gpib_board *board, u8 status)
  {
- 	struct agilent_82350b_priv *priv = board->private_data;
- 
- 	tms9914_serial_poll_response(board, &priv->tms9914_priv, status);
+ 	//board can only be system controller
+ 	return;// 0;
  }
  
--static uint8_t agilent_82350b_serial_poll_status(struct gpib_board *board)
-+static u8 agilent_82350b_serial_poll_status(struct gpib_board *board)
+-static uint8_t agilent_82357a_serial_poll_status(struct gpib_board *board)
++static u8 agilent_82357a_serial_poll_status(struct gpib_board *board)
  {
- 	struct agilent_82350b_priv *priv = board->private_data;
- 
+ 	//board can only be system controller
+ 	return 0;
 -- 
 2.43.0
 
