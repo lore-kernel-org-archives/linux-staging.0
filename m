@@ -1,192 +1,177 @@
-Received: from mail-qv1-f50.google.com (mail-qv1-f50.google.com [209.85.219.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB66C17A30E
-	for <linux-staging@lists.linux.dev>; Thu, 17 Apr 2025 17:09:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EB582550BE
+	for <linux-staging@lists.linux.dev>; Thu, 17 Apr 2025 17:14:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744909755; cv=none; b=j5lpt9SskANu9wdfUZyXDg2sjcvbA8BVGcCG+U9+m/VBxyzoLGqLJyeXHJrTEewJuN7mbhI3G8kjr2QXt7VsZXLfKgSdvhhn6ZA19PpP+aNebMFJzE5caSDOqLdmoBTEqcN0BxyzTXuItuud9iBynDMomZyrgCoJ8Vj0f0OEe0M=
+	t=1744910076; cv=none; b=TsgPGLRz1xtMiSCLnKDqOccxP0kRc7QhtWm4rlROCs7OEDCNkUWC4GggD8ODVBu9oxa066rdV6axsgoGg4r8t9HGZZL3tHk4ivs7MkRvUDEr0qUDSIXgBW+fWV8sPmFgQWnILG3siuarq9JKw3PBtUGUqnvFwV4vbOxjGsVpFkM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744909755; c=relaxed/simple;
-	bh=cL8O9si/E+RgkCImblOqbPznISwWiwgiE1yb1CY5L44=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=pCFtBwU5YIdUywv62PP/dY8Eow3qhGRiskrYDImYilo2WQx27M03918hTTUnJNQM2n4DWIiKeMiiyuTotkmJBOkg3eFq+G+Z/KmJnrcxaq9Vuagfy797teeW6N10MNets0Iig6o8J6DQ1TORRQ8zq5Qk/FQzKZaFDSDfFyEuuz4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=aKPw6J72; arc=none smtp.client-ip=209.85.219.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1744910076; c=relaxed/simple;
+	bh=8stjwvG17SDE3Vcc/yWwu9Y1l5pRenfQYcjhF4Bsf4Q=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=ciadID0XXAFsU6ixNaTU00svejFOlkBj+HFXwAmm+XcOCNJ/pLpHRIKMyR5sJPeTkhYy3J0rQfie6YeY5zHP+bE9cJ9MjCBDMKVTQlqYBbIb5HiI8kGTi8oX4fyAWjrWdMP1Sy/x9vVtby5bPpLDMHeyPdNZOtSDWnlBHI3iBzQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=nXSVEy3/; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aKPw6J72"
-Received: by mail-qv1-f50.google.com with SMTP id 6a1803df08f44-6e8fc176825so8502376d6.0
-        for <linux-staging@lists.linux.dev>; Thu, 17 Apr 2025 10:09:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1744909753; x=1745514553; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=YVRsxMaaoRzI3A0BHWMdKaDAL/C7tvFz+AMzRlmVe60=;
-        b=aKPw6J72eGfGM3QdeZ2My6E5b7iVLYwBcF/RGnidpmKG3d7XW63PyzGodcH7MqCfkk
-         vJBX/rsShitZRm9MkhUet8ieNbm8Sl3qqjSf/FR9zUsrNqgEkLWlXrc3m1V66VWOZ3zs
-         sFG4+LNT9lCE2lqLEMW5hGkk1wzk33llLs561RV1FsMVYDHEJfG8mDOm8/WNmkugtqL8
-         0gv+XdTB6J8w8w4jCnNo1tybslZ05Vf6tl1Zwv50MmFtQq5JWIIB/ecPGmwrLEsc8MlL
-         6g1VlbhBn2b3bFyKU12Ii4bp4KW4YF20DaQ+suXmHggk8kFoz3yvpuQqIpdRCzA5ErIB
-         fl1Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744909753; x=1745514553;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=YVRsxMaaoRzI3A0BHWMdKaDAL/C7tvFz+AMzRlmVe60=;
-        b=t4b+sjkd4BOpanwavyv8sODERmGzlNpGWJpC/C93B8pbczcexCfDVmeLA4wWoBzKJe
-         vND+FQUd443vyEKDIML8wA0e0m6oMRCk8fAYpvCV9HYuNLwL7IJaMhu/+GIHN3r+zeew
-         +4GlREVVINdPcSh1XWOEaMKJbUh993HWwZNNG7b6vi2VxvjF3l0ZbjXKMdBrlypvd/Fr
-         HYeQy+gJYla4l9No6iJz1Dmw0OFYPqabJfgZWy+3SkAUvNLriAVBpxH8b5XGxki7+h6w
-         EkJN6yNCJ9XwZVixEua1p6WA5H6gopN7debzP9IzRLZ2MHt5OkUgeDqkTaWNKbSjCgGi
-         H4Ow==
-X-Forwarded-Encrypted: i=1; AJvYcCUiBmBA1MudX8Cf13UGyr+0dpi7PYVWt5gSi0O2k922uiRQUF4p7AEhpGdnzvGaoqvkhxo5Dm+XiBljG97j@lists.linux.dev
-X-Gm-Message-State: AOJu0YxetxiemuKNKkHbbKmzY5CdYMQca/N6q28XvBlWSj4BKAOAuDv9
-	Nt/BrwPFt0DzxePYyGDXEsG2giDaWQKA5P5Mxd++loQmEPUMQXXwOPPzQmpQ01uJywkSAKjbC7E
-	UYZnS+1wq12SDsP6mfQDWW8h/QI8=
-X-Gm-Gg: ASbGncsAui0lpYf1YZgVJEkMXBcYhvamJFJSNo+ZcersjYSU6bM7cwsvVwttOVgMlo8
-	r3VL3hVOX5DK11wXZleAedvIdEMPXKkDhW2zN6IuJNHI+21qfYAKdArbNVcq7ydZhxTkAoHPoot
-	HqfcNuuDBlUnJ3fX7HZwMgCHT059c0GvAhPY39ajrCreH+NEPkw+cKrg==
-X-Google-Smtp-Source: AGHT+IH3sgWNRxjJ7ML6vojQwEfQKL7ty9akA1LDmRGoufnBtH8OXUnb5G1KQUGP7NM/X1dbIaA6SvGTj/qLhpHImwk=
-X-Received: by 2002:a05:622a:15d4:b0:476:8825:99bf with SMTP id
- d75a77b69052e-47ae9e5fcb5mr6420891cf.27.1744909752744; Thu, 17 Apr 2025
- 10:09:12 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="nXSVEy3/"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1744910072;
+	bh=8stjwvG17SDE3Vcc/yWwu9Y1l5pRenfQYcjhF4Bsf4Q=;
+	h=From:Subject:Date:To:Cc:From;
+	b=nXSVEy3/X+80ng3jwKsy9BzBRd1c4HbZvf+s5wJFyoeBaXbiBgEaxaMFctR+etF1r
+	 HZmJ+CKPRV+HnXiiU43ic0b043awQEKGD56zu9vrVelBeKG9RYwokcnSs9Ga0vjcLB
+	 gDKpD9RMM10hi/IQhkNa+Yx8+TwKLR+HxWkmJxunKVE5kRgy2ynnVHarEVytURLoEI
+	 bCk+VCI2yCDkqGFIbnrncj3qqvren77W5ecwg1aSZPDaPzMl/BTncbNHb+4qTmnMaO
+	 KGCaVac2QjPY8fM2QYNrcOlilvTzIQc2UZKYdzaDC3vN6Qc9MAocHKOzyzUAley+cr
+	 XaMkciMLxv93g==
+Received: from [192.168.13.3] (unknown [IPv6:2606:6d00:15:9913::c73])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: nicolas)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id C4E3C17E00F0;
+	Thu, 17 Apr 2025 19:14:30 +0200 (CEST)
+From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+Subject: [PATCH v8 0/3] media: rkvdec: Add H.264 High 10 and 4:2:2 profile
+ support
+Date: Thu, 17 Apr 2025 13:14:22 -0400
+Message-Id: <20250417-b4-rkvdec_h264_high10_and_422_support-v8-0-423fe0a2ee7e@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250415182038.523186-1-gshahrouzi@gmail.com> <fb712c034eda0d5d711a90a00b6382315fb5f929.camel@gmail.com>
- <CAKUZ0zL88AyuRxzhoAv2iZO7N7qOMy1G3yKscqG3rQiiOS0gog@mail.gmail.com> <e8b24cf22c87e5b5ce0cc8919eca79f6e60ab6e3.camel@gmail.com>
-In-Reply-To: <e8b24cf22c87e5b5ce0cc8919eca79f6e60ab6e3.camel@gmail.com>
-From: Gabriel Shahrouzi <gshahrouzi@gmail.com>
-Date: Thu, 17 Apr 2025 13:08:00 -0400
-X-Gm-Features: ATxdqUG5PIHgIXbjSs34LLkZR6qQAIThR_w05scHyE-4Vxq0gd7frAOFZ8J-594
-Message-ID: <CAKUZ0z+FKxHcYTYiGvrZ3RLiMKT1P4gtTdq8d7=+ZFC0RMQzqA@mail.gmail.com>
-Subject: Re: [PATCH] iio: adc: Revoke valid channel for error path
-To: =?UTF-8?B?TnVubyBTw6E=?= <noname.nuno@gmail.com>
-Cc: gregkh@linuxfoundation.org, jic23@kernel.org, lars@metafoo.de, 
-	linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-staging@lists.linux.dev, Michael.Hennerich@analog.com, 
-	sonic.zhang@analog.com, vapier@gentoo.org, skhan@linuxfoundation.org, 
-	kernelmentees@lists.linuxfoundation.org, stable@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAO42AWgC/x3NQQrCMBBA0auUWRvIjGksXkUkxGZsBiENEy1C6
+ d0NLt/m/x0aq3CD67CD8iZN1tIxnQaYcywLG0ndQJZG69CbhzP62hLPIZN3IcuS0YZYUnBEoX1
+ qXfVtzhPGi8MR0RP0VlV+yvf/ud2P4wcciHEAdwAAAA==
+X-Change-ID: 20250416-b4-rkvdec_h264_high10_and_422_support-381a74151162
+To: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org, 
+ linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, 
+ Nicolas Dufresne <nicolas.dufresne@collabora.com>, kernel@collabora.com, 
+ Sebastian Fricke <sebastian.fricke@collabora.com>, 
+ Jonas Karlman <jonas@kwiboo.se>, 
+ Christopher Obbard <christopher.obbard@linaro.org>
+X-Mailer: b4 0.14.2
 
-On Thu, Apr 17, 2025 at 10:02=E2=80=AFAM Nuno S=C3=A1 <noname.nuno@gmail.co=
-m> wrote:
->
-> On Thu, 2025-04-17 at 08:53 -0400, Gabriel Shahrouzi wrote:
-> > On Thu, Apr 17, 2025 at 6:06=E2=80=AFAM Nuno S=C3=A1 <noname.nuno@gmail=
-.com> wrote:
-> > >
-> > > On Tue, 2025-04-15 at 14:20 -0400, Gabriel Shahrouzi wrote:
-> > > > According to the datasheet on page 9 under the channel selection ta=
-ble,
-> > > > all devices (AD7816/7/8) are able to use the channel marked as 7. T=
-his
-> > > > channel is used for diagnostic purposes by routing the internal 1.2=
-3V
-> > > > bandgap source through the MUX to the input of the ADC.
-> > > >
-> > > > Replace checking for string equality with checking for the same chi=
-p ID
-> > > > to reduce time complexity.
-> > > >
-> > > > Group invalid channels for all devices together because they are
-> > > > processed the same way.
-> > > >
-> > > > Fixes: 7924425db04a ("staging: iio: adc: new driver for AD7816 devi=
-ces")
-> > > > Cc: stable@vger.kernel.org
-> > > > Signed-off-by: Gabriel Shahrouzi <gshahrouzi@gmail.com>
-> > > > ---
-> > > >  drivers/staging/iio/adc/ad7816.c | 15 +++++----------
-> > > >  1 file changed, 5 insertions(+), 10 deletions(-)
-> > > >
-> > > > diff --git a/drivers/staging/iio/adc/ad7816.c
-> > > > b/drivers/staging/iio/adc/ad7816.c
-> > > > index 6c14d7bcdd675..d880fe0257697 100644
-> > > > --- a/drivers/staging/iio/adc/ad7816.c
-> > > > +++ b/drivers/staging/iio/adc/ad7816.c
-> > > > @@ -186,17 +186,12 @@ static ssize_t ad7816_store_channel(struct de=
-vice
-> > > > *dev,
-> > > >       if (ret)
-> > > >               return ret;
-> > > >
-> > > > -     if (data > AD7816_CS_MAX && data !=3D AD7816_CS_MASK) {
-> > > > -             dev_err(&chip->spi_dev->dev, "Invalid channel id %lu =
-for
-> > > > %s.\n",
-> > > > -                     data, indio_dev->name);
-> > > > -             return -EINVAL;
-> > > > -     } else if (strcmp(indio_dev->name, "ad7818") =3D=3D 0 && data=
- > 1) {
-> > > > -             dev_err(&chip->spi_dev->dev,
-> > > > -                     "Invalid channel id %lu for ad7818.\n", data)=
-;
-> > > > -             return -EINVAL;
-> > > > -     } else if (strcmp(indio_dev->name, "ad7816") =3D=3D 0 && data=
- > 0) {
-> > > > +     if (data !=3D AD7816_CS_MASK &&
-> > > > +         (data > AD7816_CS_MAX ||
-> > > > +         (chip->id =3D=3D ID_AD7818 && data > 1) ||
-> > > > +         (chip->id =3D=3D ID_AD7816 && data > 0))) {
-> > > >               dev_err(&chip->spi_dev->dev,
-> > > > -                     "Invalid channel id %lu for ad7816.\n", data)=
-;
-> > > > +                     "Invalid channel id %lu for %s.\n", data, ind=
-io_dev-
-> > > > > name);
-> > > >               return -EINVAL;
-> > > >       }
-> > >
-> > > Hmm, maybe I'm missing something but the code just looks the same as =
-before
-> > > (from a functionality point of view)? I'm really not seeing any fix..=
-.
-> > I might have to change it for readability. From my understanding, if
-> > channel 7 is selected (AD7816_CS_MASK), it never enters the error path
-> > whereas in the old code, if the chip were either ad7816 or ad7818, it w=
-ould
-> > end up returning an error because it skips all channels above either 0
-> > or 1.
->
-> Ahh, right!
->
-> One good refactor is to add a chip_info struct (renaming the existing one=
-) with
-> let's say a name and max_channels. Then, the condition could be reduced t=
-o:
->
-> if (data > st->chip->max_channel && data !=3D AD7816_CS_MASK {
->         dev_err(...);
->         return -EINVAL;
-> }
-Makes sense. I sent a V2 with the updates. Also included enum
-ad7816_type as a member for chip_info but not sure if it is necessary.
-Renamed the existing one to ad7816_state.
->
-> Being this in staging, I guess we don't care much about having the fix as=
- the
-> first patch to make it easier to backport.
-In other words, combining the refactoring and fix into one patch is
-fine but normally they would be split?
+This series add H.264 High 10 and 4:2:2 profile support to the Rockchip
+Video Decoder driver.
 
->
-> - Nuno S=C3=A1
->
-> >
-> > >
-> > > Having said the above, not sure if grouping helps with readability. B=
-ut I do
-> > > agree with moving from string comparison to use chip->id. And we also=
- have
-> > > redundants 'else'
-> > >
-> > > - Nuno S=C3=A1
-> > >
+Patch 1 limits the minimum profile to constrained baseline due to
+unsupported features in the full baseline profile.
+
+Patch 2 refactors code to support filtering of CAPTURE formats based
+on the image format returned from a new get_image_fmt() ops.
+
+Patch 3 adds final bits to support H.264 High 10 and 4:2:2 profiles.
+
+Tested with Fluster on a Libre Computer Renegade Elite (RK3399).
+
+Decoder:                        GStreamer
+Commit:                         8c7ad20e4e82296ed9916f53c201e110c629f0f5
+JVT-AVC_V1:                     129/135
+JVT-FR-EXT:                     65/69
+JVT-Professional_profiles:      12/38
+JVT-MVC:                        0/20 (not supported)
+JVT-SCV:                        38/185 (temporal only)
+
+In summary, all tests that are 4:2:2 sub-sampled are now passing with
+the exception of the following that display some unexplained artifacts.
+
+ - Hi422FREXT17_SONY_A
+ - Hi422FREXT19_SONY_A
+
+This score also includes 4:2:0 10bit tests, that may have been reported
+as failing due to lack of userspace support for NV15 format. It also
+includes results from test suite that did not exists before (Pro, MVC
+and SVC).
+
+Changes in v8:
+- Removed patches that got applied from v7
+- Move the constrained-baseline fix first
+- Move the format checks into s_ctrl only
+- Simplify the checks
+- Retest against a newer GStreamer version with NV16 and NV20 support.
+- Test against the new fluster suite Professions, SVC and MVC.
+Link to v7: https://lore.kernel.org/linux-media/20250225-rkvdec_h264_high10_and_422_support-v7-0-7992a68a4910@collabora.com/
+
+Changes in v7:
+- Split out the change with the minimum profile
+- s/v4l2_format_plane_width/v4l2_format_plane_stride/
+- Move V4L2_PIX_FMT_NV15/V4L2_PIX_FMT_NV20 documentation as suggested
+- Change return value from int to bool on rkvdec_image_fmt_match
+- Add reviewed-by tags
+Link to v6: https://lore.kernel.org/linux-media/20240909192522.1076704-1-jonas@kwiboo.se/
+
+Changes in v6:
+- Change to use fmt_idx instead of j++ tucked inside a condition (Dan)
+- Add patch to fix enumerated frame sizes returned to userspace (Alex)
+- Fluster test score is same as v4 and v5, see [4] and [5]
+Link to v5: https://lore.kernel.org/linux-media/20240618194647.742037-1-jonas@kwiboo.se/
+
+Changes in v5:
+- Drop Remove SPS validation at streaming start patch
+- Move buffer align from rkvdec_fill_decoded_pixfmt to min/step_width
+- Use correct profiles for V4L2_CID_MPEG_VIDEO_H264_PROFILE
+- Collect r-b and t-b tags
+- Fluster test score is same as v4, see [4] and [5]
+Link to v4: https://lore.kernel.org/linux-media/20231105165521.3592037-1-jonas@kwiboo.se/
+
+Changes in v4:
+- Fix failed v4l2-compliance tests related to CAPTURE queue
+- Rework CAPTURE format filter anv validate to use an image format
+- Run fluster test suite JVT-FR-EXT [4] and JVT-AVC_V1 [5]
+Link to v3: https://lore.kernel.org/linux-media/20231029183427.1781554-1-jonas@kwiboo.se/
+
+Changes in v3:
+- Drop merged patches
+- Use bpp and bpp_div instead of prior misuse of block_w/block_h
+- New patch to use values from SPS/PPS control to configure the HW
+- New patch to remove an unnecessary call to validate sps at streaming start
+- Reworked pixel format validation
+Link to v2: https://lore.kernel.org/linux-media/20200706215430.22859-1-jonas@kwiboo.se/
+
+Changes in v2:
+- Collect r-b tags
+- SPS pic width and height in mbs validation moved to rkvdec_try_ctrl
+- New patch to not override output buffer sizeimage
+- Reworked pixel format validation
+- Only align decoded buffer instead of changing frmsize step_width
+Link to v1: https://lore.kernel.org/linux-media/20200701215616.30874-1-jonas@kwiboo.se/
+
+To fully runtime test this series you may need FFmpeg patches from [1]
+and fluster patches from [2], this series is also available at [3].
+
+[1] https://github.com/Kwiboo/FFmpeg/commits/v4l2request-2024-v2-rkvdec/
+[2] https://github.com/Kwiboo/fluster/commits/ffmpeg-v4l2request-rkvdec/
+[3] https://github.com/Kwiboo/linux-rockchip/commits/linuxtv-rkvdec-high-10-v6/
+[4] https://gist.github.com/Kwiboo/f4ac15576b2c72887ae2bc5d58b5c865
+[5] https://gist.github.com/Kwiboo/459a1c8f1dcb56e45dc7a7a29cc28adf
+
+Signed-off-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+---
+Jonas Karlman (2):
+      media: rkvdec: Add get_image_fmt ops
+      media: rkvdec: h264: Support High 10 and 4:2:2 profiles
+
+Sebastian Fricke (1):
+      media: rkvdec: h264: Limit minimum profile to constrained baseline
+
+ drivers/staging/media/rkvdec/rkvdec-h264.c | 37 +++++++++----
+ drivers/staging/media/rkvdec/rkvdec.c      | 84 +++++++++++++++++++++++++-----
+ drivers/staging/media/rkvdec/rkvdec.h      |  5 ++
+ 3 files changed, 105 insertions(+), 21 deletions(-)
+---
+base-commit: 14423fc3a4a21fb436dda85450339ec2bf191b36
+change-id: 20250416-b4-rkvdec_h264_high10_and_422_support-381a74151162
+
+Best regards,
+-- 
+Nicolas Dufresne <nicolas.dufresne@collabora.com>
+
