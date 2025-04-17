@@ -1,75 +1,78 @@
-Received: from sonic309-21.consmr.mail.gq1.yahoo.com (sonic309-21.consmr.mail.gq1.yahoo.com [98.137.65.147])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 566C3204C2F
-	for <linux-staging@lists.linux.dev>; Thu, 17 Apr 2025 19:13:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=98.137.65.147
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58F9713A244
+	for <linux-staging@lists.linux.dev>; Thu, 17 Apr 2025 20:03:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744917239; cv=none; b=Y3iJ3bpkTjk7n8cEUiU0YOvtSo7C2JiR12KED2iC1IC9PZ2CgU/yq7eDs14pHkZDRagtmwNUOInV8EhGjPa8Zyr0pe/3ERElIlJ1xA0XiEx1VoQT0Y08M5cnQ1l0tiLWUf1RqGuH0SxnJtB1d5eFAoeSvQjobDBjYkXs2QCFIKY=
+	t=1744920211; cv=none; b=n7l8XGoxuzkWbCvBu8byjpgNYgISjiQ9r1uqi18ZhCv84K99xSuntUNYH3G2tnkOzqebRs4ySwLViqN1zar9jg6lq9ZubEjuqQ5y2O8Q+txem+evCaPOnW/FQvDNyXSlHtAZQx3dyn8Mfo3sFy+WrHzY/Pu/xYrBMcpCOROxzvI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744917239; c=relaxed/simple;
-	bh=+ec0rFb1W7AeTJVoTuMhsZFoFYiZixA+qBTOKYTMP54=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=bKyPCkQ+oLUgV30iRHVlUClu7nC0swEJy9Y2xDsbwvq+SgwAjQfMm/NwxoqhZsAvdrm4b9gYsJTQ5rz4C0Eztcwqf1DPI6aJ3vb9JB6VulKCvNKZAUPV0/9WDRfNeqBd3GBBFnSb4i/5tTLFCGW3iPsUy88DfP/azg4sbepRT5k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=aol.com; spf=pass smtp.mailfrom=aol.com; dkim=pass (2048-bit key) header.d=aol.com header.i=@aol.com header.b=iX7wL4GC; arc=none smtp.client-ip=98.137.65.147
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=aol.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=aol.com
+	s=arc-20240116; t=1744920211; c=relaxed/simple;
+	bh=3kGzz5RbO01lQZiY9SyztMocLOyi16RrJFbXQtreFCY=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=ep4pPnMQMW+G8/+py3oh+Q1hL6MAKJQZi8y4Yp9ZzpCnBLgjPIv1VUVDESv/mvxSLo2o6ogYB68KFCeUGZ1V9vCncGWjDXvgTN2ANfp4OkbDgP/fIkH8RpVlKDdYs29o5YPuM8T7rMQJ1EvsCcHMs7xMVhjRgKzWkHQ6IzUML9A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=Y+9sIy38; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=aol.com header.i=@aol.com header.b="iX7wL4GC"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aol.com; s=a2048; t=1744917236; bh=cjitrlGIeWvZm78t1AeQAS6TcUQQ68Ruh4bXLe3iACY=; h=From:To:Cc:Subject:Date:In-Reply-To:References:From:Subject:Reply-To; b=iX7wL4GC8yrPzXJW2XmONvqfexsk5RORrEfDyox6z0+grLx/XgTJAASjJCFM3y0Rt9kWyB5VPsvJBocLpTafjNU+/U2Voh9XdPcOQFxYHkJtpRmTNXX0PaBA+yoYlTdr33MUNZvcF2gaOw1zKWHtLBecBTiP/0/dov3ixK8QnNExto0bqRalruS8+byguE0FWRc4F329FxXrN12aLOdLBa3YDmDkrXaliHOLpUvAPmeHQ6a5ux3d7punWt43iJUpURolWSyqbMEOjJ5Z05mFdSVjvdDkbf35xMLTqydqx8wTqQqeVY88HPY+qmmwHBXzaVBPgg7FuESXSOJ2CBiw+Q==
-X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1744917236; bh=hy3q/DS5EZVo4IZ7slads/8vAuxzkokppQTKmvzdhA+=; h=X-Sonic-MF:From:To:Subject:Date:From:Subject; b=N2nOyNqfFSzLmcaxWGkHv4QE1J6Ka/c7VvZvrhaKEypifUGqjN3Jrt4Rstbsy1oycYdETf3maCuoFjacWKafFwhYJ6HEKy2RkGku6c6dydGlH60LbTe1NM5XapKF/5ahjuti842pWp2L/xdECQHDX3lZySWCwmevgT9UgZsQGq7MC/ghTXVxDWzmtC5huZkwK1AexNrnOq9hwNme3VEXekvE2hBvxmKd7NtfOCJau1OfVmgPiBkdrAZmZEDixRVJufc08sWxoT2gPQvm8i+LIw138IxF+Ov+qQy2RJsrYCjlP/4Cr7acn/Iba3lH+9q3fyKQmrTpQ2quFNp9eqjPiw==
-X-YMail-OSG: kIdUpAEVM1lBKTALP3RK39U5hL_VKxWNvJgxXF7vk9LBIaI.AjgsB3GQ.JEDbKO
- 9YpmwAGkPuvc_oL2ArM.p4GURLlkyDZB6mYfKicjkqcht1gIne6rJGnk7DmrR9ognFSljILPoQEj
- 92TXUojusPixOu0Qif5U88hgPHCNgsxcdEHSCsdbLHQOBF_._KSVrzrbvFWluDtITwGaGWRJ_KLW
- hUHOyQXYoJPkF9qGrQQNFPpx_j4lwGXN4vC5tny4nzVzUyUpW72j5XdzxvJ3x_HHsWKpgfP_wwRe
- CRcSFoFTxYYK4y1W1tp4gO0WZ1t.QIGhyo2erI05njszeUX49_2GT9hPrhUgA.6PMUH1zCIqGqBG
- hrVbhPt9YkFRFimX9VnwqHJ2kJgPkCJ8YXFyTQBbE7SJp2HiUqFe2ZfU3Ta6Mc5EOj1T5RvDX070
- 3S0U_au1MmqCEV5MP.DUViaCkhwVEZ8Hfi6NDKT366motBvB75Q6lWbtHqcYzsIZ_tjZRZ5n54Hd
- Zqr7.OOGeBBtn3wiAH58DJVvxL.JLFHq0ls9g9Ogvybul2o_BPS_q_swaGieYR2m7RttctrUvlgi
- wd9ur92VZt0_wlAn5aRtoTvFi4qgkRUQ2WGAdDTE0qMp2L6Yllzz_Mznki3iG1CBqrcKofdA032e
- v4POYEFhXv3tHjrjN2RHubGENC.bVpKbeprE1ivF3rNmqJLAEc4Q0zr8ML2nfktrgaxlvNmxPjmg
- Kk0pvv5sw9MdjP0Le4cUUWFGuNHlB5jLltx1.jD2svId0h5mCMMLnzG6XZjefyB0KdUt.KN7u6yh
- nzCm..yoRk3Xr5e5_DHmaywwDn6B2hyBwhIGM968pqvZXUtlvhTv.l_DA60Ti0QC1_HK6EGhXD.C
- Nf65nFXJ99qjps3f6pZUznHuboXkFMTr1ZdT3n.gMCNNzfi5rlzQSa1gSBVjHR1HY5f3xHSwdGbT
- uthZDfEhJ_qAaOMq.zzAv2IDOr8vp3h2piYYZ5nrfx21oc5XLEVy6d66Qf3PkKiJ2dIOwABIW6k8
- GxkW03s9wY.gm1DfurPICVgIKsNhZJZ4zOZwZxeG5dpvAv0nK6yqZFW3fkke_tZ2zKENwmngEgbr
- UuzjwW4Cbo.wUfI4ImiEmPMT9mOAGuXYr2Qm53k4vzX9fXQP90s72CkGp.cYbkjGz8AoKHtZmTEv
- jVP1rxg067eTO4_6OlwAJIZo4pyTek9EumXT3DPXC7SeKuLRQ4y24jSLOo0NHRNdz8YCx0m82JjO
- 6KxJHoLIpFYr14z27DXSiuln2hMm7Y2Los8.bqlVvERyHZvjYjtXSADDZqCIEAnP6qwY1OHhEgE2
- sXCAMGAa7Qq1REth5DvQ1luIyTf7fTwKF47N87TUbBvzPMBN7WdOgOm6loqaIT5PwakEC71U1N08
- SUS2bUisr1Mldg0F6YSZsPXNyRR08IwdxZZBhcuIWTLrveEoYyE0AZM5J.IPed2Gjuk5tQX7nL2X
- hi.gdwrMgMU7EedGUnq5Lv9wOmFqMqY9ust2QU2EURsqb6I_TliTbPgHiY8epBGqr6ZluIFrS2bs
- ElC8Dp7imr0E9qWSt0RpCgQPmIGNCp29cDmqMDk056Ty7dW3MYy.B2kHTI0xhDIRRaKMWWvQ2.St
- dz67uo3ByyR1RCQZ2bVtNsS9Q3hiePdVjbITmar8VFY.J2DxYEC0iYevSriK10YUigRz1d84Cq..
- hjrSDSJzLevefMNjDDkZf3zqFpyUe6HadhFagk6nBggYtI.EZ4XlgJ.2X2WUThzdMMnzexglnGNz
- uOs3SMXdIG0qTAjMfqAkr3aQSz8I.wVhhcjRAw9rNYMxJfbmgVHtSLRG7SgGnTn_qtHS7_KJ2SUO
- duuX4zZqo0et0y54fIBA.yWROyrDNcFz7GpnOggkIJe08cjtdPlqYP_I_92jBqgDop3t6JYhX8KV
- DmVVf5jBRMRtAQEgI9E4PhY0Io2LGbWCeJtOeLwvVonl8qqtJRHijFp4d2oX_aT9JKd3tjBYNBXB
- YI0hk9iOfeAUMYLgeT1ziyVdRxRJkdX1chvz25ff5t61eGJsMK2FIbSHh2GQzzbCohgLTY2pfPFe
- _zHiqZ5uv8PZhfA.IWoDlTyW_Lwf0h1bv2JTguiDA4EPnIXd1kRyPre3VI3M8yHQa7H8j6u4LMpD
- _CQU78QnY5Ttz9sOra0T1D_dOo.o._ZHmaITqNsYRHhLdRfbhG07XTYHa317CjDhPNrj3Uy85dQ1
- 2aSeirX9yPiZQuqour91XE0LnKT3uTaKDrl5rLG3JZsHiXK0pkcn89RUeps42efLSv8Pf4fuagQ-
- -
-X-Sonic-MF: <rubenru09@aol.com>
-X-Sonic-ID: 6fd2d702-25f3-4ce1-8338-2957403ed49a
-Received: from sonic.gate.mail.ne1.yahoo.com by sonic309.consmr.mail.gq1.yahoo.com with HTTP; Thu, 17 Apr 2025 19:13:56 +0000
-Received: by hermes--production-ir2-858bd4ff7b-9r9sx (Yahoo Inc. Hermes SMTP Server) with ESMTPA ID 6040ee699aaf3d3f072b53831b62751d;
-          Thu, 17 Apr 2025 19:03:43 +0000 (UTC)
-From: Ruben Wauters <rubenru09@aol.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Sudip Mukherjee <sudipm.mukherjee@gmail.com>,
-	Teddy Wang <teddy.wang@siliconmotion.com>,
-	Sudip Mukherjee <sudip.mukherjee@codethink.co.uk>
-Cc: Ruben Wauters <rubenru09@aol.com>,
-	linux-fbdev@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH 8/8] staging: sm750fb: rename hotPlugValue to hot_plug_value
-Date: Thu, 17 Apr 2025 20:02:56 +0100
-Message-ID: <20250417190302.13811-9-rubenru09@aol.com>
-X-Mailer: git-send-email 2.45.2
-In-Reply-To: <20250417190302.13811-1-rubenru09@aol.com>
-References: <20250417190302.13811-1-rubenru09@aol.com>
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="Y+9sIy38"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1744920207;
+	bh=3kGzz5RbO01lQZiY9SyztMocLOyi16RrJFbXQtreFCY=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+	b=Y+9sIy38KYZRD7PKBv0ajM9D7KuIN3qfrFhyFzsJ76HPNWW04DFo8gxQuMF45fA+W
+	 GG5IFhUFBbYnBYreHdWyAuLFCx/tighfCSO2G5Ss1uj1b39oLSgec/Tp/Pjl4XS1E+
+	 lAQUNLoE6O/dcVZ5YQf8OL0KUx66BKhMlVlYFq8oih+D3NtBbWsCWLxCKWOk0B/A+0
+	 l55meOi8wI9mUXOzmjqe3qgj0kpEh+FeRFqt+wPRXDvdauhVIFB8vgjlfu4U7p9rgq
+	 nCELDRdt0KSKS+e/vHCZPS7sOz/DB/0BXOzUM9y7yWZYB+5MtbEgVBY+6BZQmqVqT4
+	 Xamz5GwK6aZBA==
+Received: from [IPv6:2606:6d00:15:9913::c41] (unknown [IPv6:2606:6d00:15:9913::c41])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: nicolas)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id 23F2B17E0F85;
+	Thu, 17 Apr 2025 22:03:26 +0200 (CEST)
+Message-ID: <dd9ec68a0a36366b85c65060da050e794ed6948c.camel@collabora.com>
+Subject: Re: [PATCH v8 2/3] media: rkvdec: Add get_image_fmt ops
+From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+To: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>, Mauro Carvalho Chehab
+	 <mchehab@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org, 
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	kernel@collabora.com, Jonas Karlman <jonas@kwiboo.se>, Christopher Obbard
+	 <christopher.obbard@linaro.org>
+Date: Thu, 17 Apr 2025 16:03:24 -0400
+In-Reply-To: <20250417-b4-rkvdec_h264_high10_and_422_support-v8-2-423fe0a2ee7e@collabora.com>
+References: 
+	<20250417-b4-rkvdec_h264_high10_and_422_support-v8-0-423fe0a2ee7e@collabora.com>
+	 <20250417-b4-rkvdec_h264_high10_and_422_support-v8-2-423fe0a2ee7e@collabora.com>
+Autocrypt: addr=nicolas.dufresne@collabora.com; prefer-encrypt=mutual;
+ keydata=mQGiBEUQN0MRBACQYceNSezSdMjx7sx6gwKkMghrrODgl3B0eXBTgNp6c431IfOOEsdvk
+ oOh1kwoYcQgbg4MXw6beOltysX4e8fFWsiRkc2nvvRW9ir9kHDm49MkBLqaDjTqOkYKNMiurFW+go
+ zpr/lUW15QqT6v68RYe0zRdtwGZqeLzX2LVuukGwCg4AISzswrrYHNV7vQLcbaUhPgIl0D+gILYT9
+ TJgAEK4YHW+bFRcY+cgUFoLQqQayECMlctKoLOE69nIYOc/hDr9uih1wxrQ/yL0NJvQCohSPyoyLF
+ 9b2EuIGhQVp05XP7FzlTxhYvGO/DtO08ec85+bTfVBMV6eeY4MS3ZU+1z7ObD7Pf29YjyTehN2Dan
+ 6w1g2rBk5MoA/9nDocSlk4pbFpsYSFmVHsDiAOFje3+iY4ftVDKunKYWMhwRVBjAREOByBagmRau0
+ cLEcElpf4hX5f978GoxSGIsiKoDAlXX+ICDOWC1/EXhEEmBR1gL0QJgiVviNyLfGJlZWnPjw6xhhm
+ tHYWTDxBOP5peztyc2PqeKsLsLWzAr7QnTmljb2xhcyBEdWZyZXNuZSA8bmljb2xhc0BuZHVmcmVz
+ bmUuY2E+iGIEExECACIFAlXA3CACGwMGCwkIBwMCBhUIAgkKCwQWAgMBAh4BAheAAAoJEHFTAi2sB
+ qgcJngAnRDBTr8bhzuH0KQwFP1nEYtfgpKdAKCrQ/sJfuG/8zsd7J8wVl7y3e8ARbRDTmljb2xhcy
+ BEdWZyZXNuZSAoQi4gU2MuIEluZm9ybWF0aXF1ZSkgPG5pY29sYXMuZHVmcmVzbmVAZ21haWwuY29
+ tPohgBBMRAgAgBQJFlCyOAhsDBgsJCAcDAgQVAggDBBYCAwECHgECF4AACgkQcVMCLawGqBwhLQCg
+ zYlrLBj6KIAZ4gmsfjXD6ZtddT8AoIeGDicVq5WvMHNWign6ApQcZUihtElOaWNvbGFzIER1ZnJlc
+ 25lIChCLiBTYy4gSW5mb3JtYXRpcXVlKSA8bmljb2xhcy5kdWZyZXNuZUBjb2xsYWJvcmEuY28udW
+ s+iGIEExECACIFAkuzca8CGwMGCwkIBwMCBhUIAgkKCwQWAgMBAh4BAheAAAoJEHFTAi2sBqgcQX8
+ An2By6LDEeMxi4B9hUbpvRnzaaeNqAJ9Rox8rfqHZnSErw9bCHiBwvwJZ77QxTmljb2xhcyBEdWZy
+ ZXNuZSA8bmljb2xhcy5kdWZyZXNuZUBjb2xsYWJvcmEuY29tPohiBBMRAgAiBQJNzZzPAhsDBgsJC
+ AcDAgYVCAIJCgsEFgIDAQIeAQIXgAAKCRBxUwItrAaoHLlxAKCYAGf4JL7DYDLs/188CPMGuwLypw
+ CfWKc9DorA9f5pyYlD5pQo6SgSoiC0R05pY29sYXMgRHVmcmVzbmUgKEIgU2MuIEluZm9ybWF0aXF
+ 1ZSkgPG5pY29sYXMuZHVmcmVzbmVAdXNoZXJicm9va2UuY2E+iGAEExECACAFAkUQN0MCGwMGCwkI
+ BwMCBBUCCAMEFgIDAQIeAQIXgAAKCRBxUwItrAaoHPTnAJ0WGgJJVspoctAvEcI00mtp5WAFGgCgr
+ +E7ItOqZEHAs+xabBgknYZIFPU=
+Organization: Collabora Canada
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.56.0 (3.56.0-1.fc42) 
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -78,35 +81,123 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Renames hotPlugValue to hot_plug_value
+Hi,
 
-fixes checkpatch.pl's camel case check.
+Le jeudi 17 avril 2025 à 13:14 -0400, Nicolas Dufresne a écrit :
+> From: Jonas Karlman <jonas@kwiboo.se>
+> 
+> Add support for a get_image_fmt() ops that returns the required image
+> format.
+> 
+> The CAPTURE format is reset when the required image format changes and
+> the buffer queue is not busy.
+> 
+> Signed-off-by: Jonas Karlman <jonas@kwiboo.se>
+> Reviewed-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+> Tested-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+> Tested-by: Christopher Obbard <chris.obbard@collabora.com>
+> Co-developed-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+> Signed-off-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+> ---
+>  drivers/staging/media/rkvdec/rkvdec.c | 44 +++++++++++++++++++++++++++++++++--
+>  drivers/staging/media/rkvdec/rkvdec.h |  2 ++
+>  2 files changed, 44 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/staging/media/rkvdec/rkvdec.c b/drivers/staging/media/rkvdec/rkvdec.c
+> index 65c6f1d07a493e017ae941780b823d41314a49b8..db01cc64f1ba2dcd5914537db41e2f51f454b186 100644
+> --- a/drivers/staging/media/rkvdec/rkvdec.c
+> +++ b/drivers/staging/media/rkvdec/rkvdec.c
+> @@ -72,6 +72,15 @@ static bool rkvdec_is_valid_fmt(struct rkvdec_ctx *ctx, u32 fourcc,
+>  	return false;
+>  }
+>  
+> +static bool rkvdec_fmt_changed(struct rkvdec_ctx *ctx,
+> +			       enum rkvdec_image_fmt image_fmt)
+> +{
+> +	if (image_fmt == RKVDEC_IMG_FMT_ANY)
+> +		return false;
+> +
+> +	return ctx->image_fmt != image_fmt;
+> +}
+> +
+>  static void rkvdec_fill_decoded_pixfmt(struct rkvdec_ctx *ctx,
+>  				       struct v4l2_pix_format_mplane *pix_mp)
+>  {
+> @@ -111,15 +120,46 @@ static int rkvdec_try_ctrl(struct v4l2_ctrl *ctrl)
+>  {
+>  	struct rkvdec_ctx *ctx = container_of(ctrl->handler, struct rkvdec_ctx, ctrl_hdl);
+>  	const struct rkvdec_coded_fmt_desc *desc = ctx->coded_fmt_desc;
+> +	int ret;
+> +
+> +	if (desc->ops->try_ctrl) {
+> +		ret = desc->ops->try_ctrl(ctx, ctrl);
+> +		if (ret)
+> +			return ret;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static int rkvdec_s_ctrl(struct v4l2_ctrl *ctrl)
+> +{
+> +	struct rkvdec_ctx *ctx = container_of(ctrl->handler, struct rkvdec_ctx, ctrl_hdl);
+> +	const struct rkvdec_coded_fmt_desc *desc = ctx->coded_fmt_desc;
+> +	enum rkvdec_image_fmt image_fmt;
+> +	struct vb2_queue *vq;
+>  
+> -	if (desc->ops->try_ctrl)
+> -		return desc->ops->try_ctrl(ctx, ctrl);
+> +	/* Check if this change requires a capture format reset */
+> +	if (!desc->ops->get_image_fmt)
+> +		return 0;
+> +
+> +	image_fmt = desc->ops->get_image_fmt(ctx, ctrl);
+> +	if (rkvdec_fmt_changed(ctx, image_fmt)) {
+> +		/* Format changes are not allowed when capture queue is busy */
+> +		vq = v4l2_m2m_get_vq(ctx->fh.m2m_ctx,
+> +				     V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE);
+> +		if (vb2_is_busy(vq))
+> +			return -EINVAL;
 
-Signed-off-by: Ruben Wauters <rubenru09@aol.com>
----
- drivers/staging/sm750fb/ddk750_sii164.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+Sad to say, but this patch is bad, I've been testing the wrong kernel
+all along. This condition is reached before the queue is set (while the
+default control value is set). At the point, vq is null. I also came to
+realize the rkvdec_fmt_changed() is quite similar to the format match.
+I also assumed that if ctx->image_fmt is ANY, we should always reset,
+that's why the old code didn't not stumble on this issue.
 
-diff --git a/drivers/staging/sm750fb/ddk750_sii164.c b/drivers/staging/sm750fb/ddk750_sii164.c
-index 769cbe768c49..86490c87156a 100644
---- a/drivers/staging/sm750fb/ddk750_sii164.c
-+++ b/drivers/staging/sm750fb/ddk750_sii164.c
-@@ -344,11 +344,11 @@ void sii164_enable_hot_plug_detection(unsigned char enable_hot_plug)
-  */
- unsigned char sii164_is_connected(void)
- {
--	unsigned char hotPlugValue;
-+	unsigned char hot_plug_value;
- 
--	hotPlugValue = sm750_hw_i2c_read_reg(SII164_I2C_ADDRESS, SII164_DETECT) &
--		       SII164_DETECT_HOT_PLUG_STATUS_MASK;
--	if (hotPlugValue == SII164_DETECT_HOT_PLUG_STATUS_ON)
-+	hot_plug_value = sm750_hw_i2c_read_reg(SII164_I2C_ADDRESS, SII164_DETECT) &
-+			 SII164_DETECT_HOT_PLUG_STATUS_MASK;
-+	if (hot_plug_value == SII164_DETECT_HOT_PLUG_STATUS_ON)
- 		return 1;
- 	else
- 		return 0;
+Please disregard this series, I'll make a v9.
+
+Nicolas
+
+> +
+> +		ctx->image_fmt = image_fmt;
+> +		rkvdec_reset_decoded_fmt(ctx);
+> +	}
+>  
+>  	return 0;
+>  }
+>  
+>  static const struct v4l2_ctrl_ops rkvdec_ctrl_ops = {
+>  	.try_ctrl = rkvdec_try_ctrl,
+> +	.s_ctrl = rkvdec_s_ctrl,
+>  };
+>  
+>  static const struct rkvdec_ctrl_desc rkvdec_h264_ctrl_descs[] = {
+> diff --git a/drivers/staging/media/rkvdec/rkvdec.h b/drivers/staging/media/rkvdec/rkvdec.h
+> index 6f8cf50c5d99aad2f52e321f54f3ca17166ddf98..e466a2753ccfc13738e0a672bc578e521af2c3f2 100644
+> --- a/drivers/staging/media/rkvdec/rkvdec.h
+> +++ b/drivers/staging/media/rkvdec/rkvdec.h
+> @@ -73,6 +73,8 @@ struct rkvdec_coded_fmt_ops {
+>  		     struct vb2_v4l2_buffer *dst_buf,
+>  		     enum vb2_buffer_state result);
+>  	int (*try_ctrl)(struct rkvdec_ctx *ctx, struct v4l2_ctrl *ctrl);
+> +	enum rkvdec_image_fmt (*get_image_fmt)(struct rkvdec_ctx *ctx,
+> +					       struct v4l2_ctrl *ctrl);
+>  };
+>  
+>  enum rkvdec_image_fmt {
+
 -- 
-2.45.2
-
+Nicolas Dufresne
+Principal Engineer at Collabora
