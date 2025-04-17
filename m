@@ -1,102 +1,94 @@
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout01.posteo.de (mout01.posteo.de [185.67.36.65])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C08F253B78
-	for <linux-staging@lists.linux.dev>; Thu, 17 Apr 2025 15:38:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E119E253F20
+	for <linux-staging@lists.linux.dev>; Thu, 17 Apr 2025 15:53:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.67.36.65
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744904323; cv=none; b=D5qKZe7Ed4588VU4hHtj3LZpqhjDFA/rU5Za5+gRQt/EWxvtIiLNFxGXCKQEY6236LCjyN6vybB9i56SqEc5OgeyGrCLpa2/Bu+mKpKlXNaWcfUkFezmJb7FnTyUbLIcdl8iZjGAmBIXAmxWQRj23s+C6jh5hwk0NOwI5aN+yZs=
+	t=1744905242; cv=none; b=V7k/p4h/3vM2yihdHiu/GZPOmmeYJoUYPJGQ6928jthi7iV9Fg717gUtaXzp3nuqJkptRHQXKLtEdkwRKqLfJZOopYuTW0LRmQU0oFx2p28k1n7T3+a1WVAjcIoLNeoo7seBaW/QhqMm/+a04TKzHUIFXxV5FTQH4ub2bnRjOxE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744904323; c=relaxed/simple;
-	bh=4CmxrQz1pG2CKAvpdKstkQyARIpmzfZ1LOKGQOkWcYM=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ePwVY4EgZw5hdFXubi2zFBoZubkMGhOzDSrnWHFAAOTYlwAcmYV3QuF6B39+qV3xmF7PIAdvE+V8ongd8PhQHeP+OREEHFzIy6kDs8Qp+uY1JkYM1I4uHQCu1ybubCUCrDcygs+hNEYaG+fLFXSq5jjwFPVZfZnZG0h3AgvcjXU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=neverthere.org; spf=pass smtp.mailfrom=neverthere.org; dkim=pass (2048-bit key) header.d=neverthere.org header.i=@neverthere.org header.b=h873AYaW; arc=none smtp.client-ip=209.85.214.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=neverthere.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=neverthere.org
+	s=arc-20240116; t=1744905242; c=relaxed/simple;
+	bh=ZIBfrh/c201PDhvEu0wpq1QFp8dzTYEC0yDBA/8kVyE=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=UeRn2QPuK/nFAHyunWQ7ooq9RfDg3VZBWP+BKISP2G1l9eTnFiUdxQpdWotJtkwJGvfqOqRvXiONRg9LB13apCnEpZFbTIMhhYqsbVYLV87cmK7l29YIEPhrmIt8C9ilEYXU6ZCdteC9W3p0bBGtDb9bGFFHEgVUTrQ0MgpKXLA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=posteo.net; spf=pass smtp.mailfrom=posteo.net; dkim=pass (2048-bit key) header.d=posteo.net header.i=@posteo.net header.b=CiN6Hkn2; arc=none smtp.client-ip=185.67.36.65
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=posteo.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=posteo.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=neverthere.org header.i=@neverthere.org header.b="h873AYaW"
-Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-2254e0b4b79so14553345ad.2
-        for <linux-staging@lists.linux.dev>; Thu, 17 Apr 2025 08:38:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=neverthere.org; s=google; t=1744904320; x=1745509120; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=fCFGfuy6JO8coiSlMwlp4uAr22QSVYGIY2uQAoexHHg=;
-        b=h873AYaWMoEPoV0jerXg1Z2BxTqIysoTmSoUzX/dXgBKwcr1JByGciST0EslBTvQJ2
-         Jy4shgx5nbEE3JqNCCe6J9qmzb8CnobGsdcheTuMt9KCupC16vonuocGTstwrlggZh3d
-         Hgyfru9s1/DJXuDw0+PQDfDPTNFCIU2T0rFDFdeTGCVaXhhfBKV8oqGz3R8t1Hc3i6Hx
-         PN923/BTL+fipWDTdrCDYGFNKCLGKvtZiSB7KD0ybGa1izv+QHMP4xr7RvaYFiIXOU4G
-         eQZWBjhy5wR+ll49Y0O1lxYY33Dlp/Nb/a29k8c5dnLgqdIX2veE97KPavWmLV0r6cGy
-         +m+A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744904320; x=1745509120;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=fCFGfuy6JO8coiSlMwlp4uAr22QSVYGIY2uQAoexHHg=;
-        b=dEf8KVndpy+IFBpQscqNWBcVB0bZ9rpC+xdtVwm6dYy30UqTZKWAkls/Htm5VSHErr
-         tVpFsUM66ks+PeDn57BKvB2AK5PPtyt257j+HJF/XHbvecA95l5Ei5WThDYS6rl8yBBl
-         kKQiE4fZx0s6PfnTx03pWunr1Nso0av0Eltq22+Eo9+4bLMYuX02gOKrTH6eWJ1fFUxX
-         pOtSGfwVaJwQQPR3tnK2KSWyBiKmzcTwuNlUVxQavdxbBZ5OH945BZVLkyaCn6tlf0oZ
-         AEMilOYY6ufyb/hTq41WTBG3uxWnvyM7xd9SzexRWfaBNa9M1eIiBJWRodRVSYkM3nuP
-         aU1g==
-X-Gm-Message-State: AOJu0YwfLF05VOFi82jXrjWbpTsdrJkaxR3dT/lp1Crsn9RDQcvAtTzI
-	mc6rR45cVMqCWeYZa2FbzwDajNIMT988J/UFioBPUGFR8BYqm6Q/Cz04Y9Nh8A==
-X-Gm-Gg: ASbGnctpbXkLtfe5y5NceeniXBdyapfU9ma5lgZ5J5j6nGUPciX4G1zEkAhWyqYDJT3
-	iGrZV8SGhL/Jk4MTMRiYDxmnR7fle+rh8CW+4hb28tkkSrfRsjxeTIP15mGrm++wdbDg/iCJVSK
-	Hvzg3P60M3qEzCUU5AqMV+/lK1nTVMMEe8hurSXKpd7+p5NREnBlDCg3qk3Em4jIUavDDfbc2rE
-	5wiN1Jp2j4UdHjQLWyEOrC/RXsjBwsIN+HTN7Ts5ikQmwHb2N9IAR+PCtBfYtUZQCjTvUJlmVuy
-	FfxfaCgJzyVZxmyM0r9pTYCjb52NOvnsZFNcgsq9GbpkiUfVyySmtDgnbBQlHN2Es83LUzX3twY
-	NGl5Vjg==
-X-Google-Smtp-Source: AGHT+IGPzUqcsg1OrfnfmQdTkvSJAN4C6ee3MKAjTkoPY/+xGNmmw/TfpRhBh3QH4n6tKKGOXDQcIQ==
-X-Received: by 2002:a17:902:db03:b0:224:1c41:a4bc with SMTP id d9443c01a7336-22c358e2060mr94206135ad.12.1744904320238;
-        Thu, 17 Apr 2025 08:38:40 -0700 (PDT)
-Received: from tiamat (c-69-181-214-135.hsd1.ca.comcast.net. [69.181.214.135])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-73bd233787asm12880375b3a.173.2025.04.17.08.38.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 17 Apr 2025 08:38:39 -0700 (PDT)
-From: Michael Rubin <matchstick@neverthere.org>
-To: gregkh@linuxfoundation.org,
-	dpenkler@gmail.com
-Cc: linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Michael Rubin <matchstick@neverthere.org>
-Subject: [PATCH v2] staging: gpib: Removing unused function CFGn
-Date: Thu, 17 Apr 2025 15:38:37 +0000
-Message-ID: <20250417153837.92690-1-matchstick@neverthere.org>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=posteo.net header.i=@posteo.net header.b="CiN6Hkn2"
+Received: from submission (posteo.de [185.67.36.169]) 
+	by mout01.posteo.de (Postfix) with ESMTPS id 49F6C240027
+	for <linux-staging@lists.linux.dev>; Thu, 17 Apr 2025 17:53:57 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=posteo.net; s=2017;
+	t=1744905237; bh=ZIBfrh/c201PDhvEu0wpq1QFp8dzTYEC0yDBA/8kVyE=;
+	h=Message-ID:Subject:From:To:Cc:Date:Content-Type:
+	 Content-Transfer-Encoding:MIME-Version:From;
+	b=CiN6Hkn2jpDgTZz2Wie9Y97B6G/CKVswp0PfEZocu+aAYVRAp9atFDkI9qlP6Hjkg
+	 eSzNUhBCmYpzvukvtPFCovY/rxlbRUZSIbIhw8rKhL8k+OIgq2t1YUtkqiuX5mzvrL
+	 gtDjOwwuIhfFfdof91DPXrsB4iHRnNPNmLlvDixF5geAkfGt12nm1DeQQXF4IR+4BG
+	 W42AHTb4iRsbv1mZvYD5IiiyDvonCa0znnmbB+PNCF0sOAoVgcLKmYWWad+Oho0hq+
+	 plwvb+M8GOIPxo3rSnbB7qqKAHNtaDfPvNXOhm9J0+bkNGMjsur8k+KU5nYARZz/RM
+	 HI5XFH4ixUiMQ==
+Received: from customer (localhost [127.0.0.1])
+	by submission (posteo.de) with ESMTPSA id 4Zdj9t5XRkz6txd;
+	Thu, 17 Apr 2025 17:53:54 +0200 (CEST)
+Message-ID: <56edfb88d3f31939fb343149bfad436f24671f9d.camel@posteo.net>
+Subject: Re: [PATCH] iio: frequency:: Remove unused parameter from data
+ documentation
+From: Charalampos Mitrodimas <charmitro@posteo.net>
+To: Gabriel Shahrouzi <gshahrouzi@gmail.com>
+Cc: skhan@linuxfoundation.org, linux-kernel-mentees@lists.linux.dev, 
+	gregkh@linuxfoundation.org, jic23@kernel.org, lars@metafoo.de, 
+	linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-staging@lists.linux.dev, Michael.Hennerich@analog.com
+Date: Thu, 17 Apr 2025 15:53:51 +0000
+In-Reply-To: <20250417143220.572261-1-gshahrouzi@gmail.com>
+References: <20250417143220.572261-1-gshahrouzi@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-Removing CFGn since it is not called by kernel code nor any of the gpib
-drivers.
+On Thu, 2025-04-17 at 10:32 -0400, Gabriel Shahrouzi wrote:
+> The AD9832 driver uses the Common Clock Framework (CCF) to obtain the
+> master clock (MCLK) frequency rather than relying on a frequency
+> value
+> passed from platform data.
+>=20
+> Signed-off-by: Gabriel Shahrouzi <gshahrouzi@gmail.com>
+> ---
+> =C2=A0drivers/staging/iio/frequency/ad9832.h | 1 -
+> =C2=A01 file changed, 1 deletion(-)
+>=20
+> diff --git a/drivers/staging/iio/frequency/ad9832.h
+> b/drivers/staging/iio/frequency/ad9832.h
+> index 98dfbd9289ab8..d0d840edb8d27 100644
+> --- a/drivers/staging/iio/frequency/ad9832.h
+> +++ b/drivers/staging/iio/frequency/ad9832.h
+> @@ -13,7 +13,6 @@
+> =C2=A0
+> =C2=A0/**
+> =C2=A0 * struct ad9832_platform_data - platform specific information
+> - * @mclk:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0master clock in Hz
 
-Signed-off-by: Michael Rubin <matchstick@neverthere.org>
----
- drivers/staging/gpib/uapi/gpib_user.h | 5 -----
- 1 file changed, 5 deletions(-)
+Hi Gabriel,
 
-diff --git a/drivers/staging/gpib/uapi/gpib_user.h b/drivers/staging/gpib/uapi/gpib_user.h
-index eaf7399a164a..1cb6b6219e67 100644
---- a/drivers/staging/gpib/uapi/gpib_user.h
-+++ b/drivers/staging/gpib/uapi/gpib_user.h
-@@ -192,11 +192,6 @@ static inline __u8 PPE_byte(unsigned int dio_line, int sense)
- 	return cmd;
- }
- 
--static inline __u8 CFGn(unsigned int meters)
--{
--	return 0x6 | (meters & 0xf);
--}
--
- /* mask of bits that actually matter in a command byte */
- enum {
- 	gpib_command_mask = 0x7f,
--- 
-2.43.0
+This seems to be a leftover from
+566564e80b0ed23ffa4c40f7ad4224bf3327053a ("staging: iio: ad9832: use
+clock framework for clock reference")
+
+
+
+> =C2=A0 * @freq0:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0power up freq0 tuning word in Hz
+> =C2=A0 * @freq1:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0power up freq1 tuning word in Hz
+> =C2=A0 * @phase0:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0power up phase0 value [0..4095] correlates
+> with 0..2PI
 
