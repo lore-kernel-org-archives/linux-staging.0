@@ -1,62 +1,62 @@
-Received: from mail-pg1-f175.google.com (mail-pg1-f175.google.com [209.85.215.175])
+Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C59419DF6A
-	for <linux-staging@lists.linux.dev>; Thu, 17 Apr 2025 00:45:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62E144206B
+	for <linux-staging@lists.linux.dev>; Thu, 17 Apr 2025 00:45:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744850744; cv=none; b=Cnjpd/IlWmdw14w792HJc/+grEfSYMTg0V0PXJn/8SqT5iYCukx8pjBgTnKMFijY6YijBmP9aTpGfWD3U3tC0ckEfp8IouEbOZsE+zOSYwMcpk/lOF/tWJ7L/tVm2rkfLlgi9h1t/i/fLq93lxgCnSGxYWA9Ne3ZPIs0URXik4I=
+	t=1744850745; cv=none; b=Fhb/qhkmPElbmqpUGJoMGxkYITV7tYzrcOO0PE008+2N2K6JOMdrtx4jMM7VMbMUw2Gid7WPNBeY6r9LMiLgkT76DWLoBT5LNKXp0Xur1TJcyK5PrTeiUxLBuJ2VrkVydelztV/+A26sEtO/HMJO0aAszoDx/DVcUvjCfdcLGPY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744850744; c=relaxed/simple;
-	bh=QqdmVMBjXXestRT/55c3oFFTQMW4oNH6hU5VCPGmLuk=;
+	s=arc-20240116; t=1744850745; c=relaxed/simple;
+	bh=iWVSSf+TpSw8Rneoj2znRVsY2B7CQDvvXidmWGGapFU=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=GxMGm12hRsdInMApgmv0fV8zNdid9ZKbHLvh33dbh4smM2n1bXIh6dIlGVVuUKgduvTZdCasw3kjn/6OUemcNuOsHS/gwztXOmvkC9fe3VCDffCIgXKPyLU008Xar5WAaMTCrpPSOGjOByeKqFyStgBK5cVFYOoNwvwxof9KWBs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=neverthere.org; spf=pass smtp.mailfrom=neverthere.org; dkim=pass (2048-bit key) header.d=neverthere.org header.i=@neverthere.org header.b=N5L+LChy; arc=none smtp.client-ip=209.85.215.175
+	 MIME-Version; b=BXEzZUm6Fb8hhsXlssDuiAyR8/tyoQDkANAdpcluzlwOe9sn5ErjTQIlxzYM3TlnzZt5vdWuu4u362MRhYR1DM04iZMGcJazivH/KAl4vZ/zKO1L1hbxXAaHg4o8sl6qRWFZ5Gn4sCLt6T4JH8y5Z5F4jmNKM5YyFN+QqdjdkHY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=neverthere.org; spf=pass smtp.mailfrom=neverthere.org; dkim=pass (2048-bit key) header.d=neverthere.org header.i=@neverthere.org header.b=lxxJNWgU; arc=none smtp.client-ip=209.85.214.177
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=neverthere.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=neverthere.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=neverthere.org header.i=@neverthere.org header.b="N5L+LChy"
-Received: by mail-pg1-f175.google.com with SMTP id 41be03b00d2f7-7fd581c2bf4so170596a12.3
-        for <linux-staging@lists.linux.dev>; Wed, 16 Apr 2025 17:45:43 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=neverthere.org header.i=@neverthere.org header.b="lxxJNWgU"
+Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-22409077c06so3561765ad.1
+        for <linux-staging@lists.linux.dev>; Wed, 16 Apr 2025 17:45:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=neverthere.org; s=google; t=1744850742; x=1745455542; darn=lists.linux.dev;
+        d=neverthere.org; s=google; t=1744850744; x=1745455544; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=egaRPgkryN6OirBXQ08+dhGZADpQp/3XvoNDYXE4JHk=;
-        b=N5L+LChypBjv2QIYZHOx6g50QrywQcu7Haj+d9aRvTL99rJpxy5ZezAAK6zkhVSoPJ
-         lNmEFkG2NDpaskusYsDwGoW5THk4p0/ESKadFQuzr7+Ft56rhsZUlhfjOMVWZsp1VPQV
-         7tsf1JECca1W4FLRtcPBluscF/fydHLn9iwXFt6zYep7IQYuYzZctjYQiqJDTUekfudx
-         ItOT5lGxvCdwU95OPXWZqvVXKXzFP8mw0aXq+x0hRMZAxRdOHQF3SeJHu7hBCRNTPC/z
-         YSdGwuJHCw90u1AKHfGJBiLraNZCEI+u+oJr4jSxhFbGwGw8uEIf83l6Voy6Ry9NZuYT
-         vJOw==
+        bh=Zs3nmp6bNInwEcGoHF3GJbe7f1ZKHiGtLyO1UFwX8eI=;
+        b=lxxJNWgUJsFbatSH+yrenK7C5GIFot/QhiupAVfCb+8AsMNWLhTCiNZPqcq7KG1ErV
+         ZkO2Da/wOFDf8BMtDcBuffm2R3UcxepGLFiHWEW9UF3jCl62/HE7CBpaf2R9vkFFSpLb
+         Q+c3BTJiejlsBvu+UkKXuGoCAfbGZnZRzFRdB6WgBA3IASVAFXvjCFHOWsIHlSkjeHrp
+         9JkX3VXYLEFCrR3j7l0aunR9bJsnD9l8rnKl0jXK/O2gydVb0m/Tl8ljAKg5+nyjvJ8H
+         5TKPt7caNASoGkh4RmIE3sTyvOXOOAVNbNpU4Rl3KaKYjF5TLKRooLVA9b2U/oTJMLs/
+         Sa0A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744850742; x=1745455542;
+        d=1e100.net; s=20230601; t=1744850744; x=1745455544;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=egaRPgkryN6OirBXQ08+dhGZADpQp/3XvoNDYXE4JHk=;
-        b=oiJhqcVJH5vpS46A2sNvNPve+qBo7EW9dF6lsumEJz0zsfpqO1LU+HmkQ1umlrJweF
-         dS8k+spv7+7eA3cr0ro12MP90nZaxhP96y13QnP69Ou3OpB2dIiUmToDIhT6aBB/so3i
-         KSSNTEQFAdexMHoiwIsmQAbcBwgngb+QgFvcwQZ/j51BsaPhRCuH/tsSPcumZm+9oaub
-         URl+vMMYYwxDjMvRGRlrsGEftuhEjOrT/hLu8iOST9fxIXbjvkfNY8S4L+KuncQrGGDu
-         KAYsOETp7l3zGLlEVmsU7etiXBvTJSQFICfRK8aVm30pU7ZADWcsXxs0VenhkcL4UM+0
-         eVzQ==
-X-Gm-Message-State: AOJu0Yx8MZOP+DBxWktzbufOILLc+pC9+73KKT7/dYQPF/8MGYS9rso/
-	HZthbFZrhnFIGUKZM9PIlcmpVod9ko6xxCWx2ina1DVBggSg6j8i/bQ4cbtUkQ==
-X-Gm-Gg: ASbGnctPgXuvkq3z4QxhZUjxoS5BbSR0Op/Uiiw950qs0dqimzN0/5ScGX2OMvX4Ews
-	YeCRws816DCpdhCTd9kFY1NNQYTaB8HMLff6jIhKWbCT93FfovGcZaMtVODFYBWGLhpNTFVYrK1
-	SHzKqNO7uaBl4mwFTBfSsQC04uPm1UeRcXIjT/w3QLGb/SqDp0n9S1eCAiuDkGPjDIPAas6ifNs
-	DCNQgf1uvXfUXM1eeJ09bxJg75a8Dr20Yl1Eg8HoSTzXLm15byYVgRF/7zBPcJMxmd8PWqZjulv
-	//IUmWao7sn15H+VPR1gwDWcmE7wxavux80cctpmkcXIn5vDnk0TPzi0YzWG0PUfh8gYUseQYSC
-	xVKOWow==
-X-Google-Smtp-Source: AGHT+IGuVcnz7+jXBqgLq07oqsDUI4UA6qz+jFAUX9R+nmD0RiWXV8pcR7xhwsWukjR3XaIYG8fMJA==
-X-Received: by 2002:a17:90b:3c0c:b0:2fe:7fea:ca34 with SMTP id 98e67ed59e1d1-308641725d2mr4923711a91.32.1744850742509;
-        Wed, 16 Apr 2025 17:45:42 -0700 (PDT)
+        bh=Zs3nmp6bNInwEcGoHF3GJbe7f1ZKHiGtLyO1UFwX8eI=;
+        b=Szb3KRsFJ7BjA6ypcdnPwr6SR51n//RQAZNO6ysTKHgQQxUocT4ieyScsHX+mYIjaU
+         etfc5Ed/qWE/lmQnWoOvjphwUYeRq9V+MxrJR16aAqgOKBubDL44ch1s8PNqonlmHphJ
+         8MBTUKXjEEMfJ+p8ls2js8AC7gT+4EiUsvJPpDZyvuX9Nw4xWYs9JIAV2bjQSMz7N6z1
+         yNMos2/7+HZNFyRQ7oE6Y+Ek80M4VmMir4Fi0o2QuLMUr/jepM2jUodZLf9QGgQJGeby
+         fnwyuFCJV1ynRrTjhtNXfWMJ1wjHY6eQzy9t2MBuhljOcZV8Tp5yFL1EybEqOYBcIhmo
+         S+DA==
+X-Gm-Message-State: AOJu0YzKWuw4qXNyzTNjEMlo/XMypA4+XtFRvm6Gf1GSRQg/bC5ApUNT
+	7Y1LXs5X4jLHSCdWRluRM8K5yK1ZcRIgk/l/VDoHaEpMjtcNHp5We8xkAh3KFg==
+X-Gm-Gg: ASbGnctecQWlZ9TFgvCF+lS+N38H0KhiS11lEoq5oisAXfpXo11MGel7g4JI/HD0urz
+	XOLzf/D3vEIJPJxkDvGcdESsbRiLLe0m1ZGcsIi2XnpJUpE1p2VF3h86j2JzGWRiF1D4rAvQ1zJ
+	RZhQFG0uNR7x5KZSyvy15bGfN9vkUwVX2G4skr/wO24eJg2FH0E+izcDaMbKgTE388MOozg1ucz
+	ykM5cpUS/UMb0ocujzsH/mMXtG03wdxGNWJFRCa/zRWQQxBPcaFANA9yqHO/f8K7X6aqFTv55c5
+	+jMS6F1L+T8QyaiI02PZ5+bxKpBZ1M+WLph1hZoFtEYxPvDnaVMSF+g5zjoXBCPwxLiBKhBlfU6
+	05xIaoA==
+X-Google-Smtp-Source: AGHT+IEYNueiE3luc8qMrFrdGYAYawhzOBpu4NBs+ZVADOQuSYHRpkJHJm1C/3UpgRm3wnl83uuhZw==
+X-Received: by 2002:a17:903:98f:b0:21f:164d:93fe with SMTP id d9443c01a7336-22c35990b8amr69624635ad.53.1744850743664;
+        Wed, 16 Apr 2025 17:45:43 -0700 (PDT)
 Received: from tiamat (c-69-181-214-135.hsd1.ca.comcast.net. [69.181.214.135])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-308611ef37asm2310367a91.11.2025.04.16.17.45.42
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-308611d8c64sm2319526a91.9.2025.04.16.17.45.43
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 16 Apr 2025 17:45:42 -0700 (PDT)
+        Wed, 16 Apr 2025 17:45:43 -0700 (PDT)
 From: Michael Rubin <matchstick@neverthere.org>
 To: gregkh@linuxfoundation.org,
 	dpenkler@gmail.com,
@@ -64,9 +64,9 @@ To: gregkh@linuxfoundation.org,
 Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Michael Rubin <matchstick@neverthere.org>
-Subject: [PATCH v2 04/14] staging: gpib: agilent_82357a: u8 over uint8_t
-Date: Thu, 17 Apr 2025 00:45:23 +0000
-Message-ID: <20250417004533.86765-5-matchstick@neverthere.org>
+Subject: [PATCH v2 05/14] staging: gpib: cec: u8 over uint8_t
+Date: Thu, 17 Apr 2025 00:45:24 +0000
+Message-ID: <20250417004533.86765-6-matchstick@neverthere.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20250417004533.86765-1-matchstick@neverthere.org>
 References: <20250417004533.86765-1-matchstick@neverthere.org>
@@ -81,97 +81,85 @@ Content-Transfer-Encoding: 8bit
 Reported by checkpatch.pl.
 
 CHECK: Prefer kernel type 'u8' over 'uint8_t'
-
 Signed-off-by: Michael Rubin <matchstick@neverthere.org>
 ---
- .../gpib/agilent_82357a/agilent_82357a.c      | 20 +++++++++----------
- 1 file changed, 10 insertions(+), 10 deletions(-)
+ drivers/staging/gpib/cec/cec_gpib.c | 16 ++++++++--------
+ 1 file changed, 8 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/staging/gpib/agilent_82357a/agilent_82357a.c b/drivers/staging/gpib/agilent_82357a/agilent_82357a.c
-index 9e41fe611264..4728ec85caa8 100644
---- a/drivers/staging/gpib/agilent_82357a/agilent_82357a.c
-+++ b/drivers/staging/gpib/agilent_82357a/agilent_82357a.c
-@@ -420,10 +420,10 @@ static int agilent_82357a_abort(struct agilent_82357a_priv *a_priv, int flush)
+diff --git a/drivers/staging/gpib/cec/cec_gpib.c b/drivers/staging/gpib/cec/cec_gpib.c
+index 1b02222881b9..737d78736ea5 100644
+--- a/drivers/staging/gpib/cec/cec_gpib.c
++++ b/drivers/staging/gpib/cec/cec_gpib.c
+@@ -45,7 +45,7 @@ static int cec_pci_attach(struct gpib_board *board, const struct gpib_board_conf
+ static void cec_pci_detach(struct gpib_board *board);
+ 
+ // wrappers for interface functions
+-static int cec_read(struct gpib_board *board, uint8_t *buffer, size_t length, int *end,
++static int cec_read(struct gpib_board *board, u8 *buffer, size_t length, int *end,
+ 		    size_t *bytes_read)
+ {
+ 	struct cec_priv *priv = board->private_data;
+@@ -53,7 +53,7 @@ static int cec_read(struct gpib_board *board, uint8_t *buffer, size_t length, in
+ 	return nec7210_read(board, &priv->nec7210_priv, buffer, length, end, bytes_read);
  }
  
- // interface functions
--int agilent_82357a_command(struct gpib_board *board, uint8_t *buffer, size_t length,
-+int agilent_82357a_command(struct gpib_board *board, u8 *buffer, size_t length,
- 			   size_t *bytes_written);
- 
--static int agilent_82357a_read(struct gpib_board *board, uint8_t *buffer, size_t length, int *end,
-+static int agilent_82357a_read(struct gpib_board *board, u8 *buffer, size_t length, int *end,
- 			       size_t *nbytes)
+-static int cec_write(struct gpib_board *board, uint8_t *buffer, size_t length, int send_eoi,
++static int cec_write(struct gpib_board *board, u8 *buffer, size_t length, int send_eoi,
+ 		     size_t *bytes_written)
  {
- 	int retval;
-@@ -536,7 +536,7 @@ static int agilent_82357a_read(struct gpib_board *board, uint8_t *buffer, size_t
+ 	struct cec_priv *priv = board->private_data;
+@@ -61,7 +61,7 @@ static int cec_write(struct gpib_board *board, uint8_t *buffer, size_t length, i
+ 	return nec7210_write(board, &priv->nec7210_priv, buffer, length, send_eoi, bytes_written);
  }
  
- static ssize_t agilent_82357a_generic_write(struct gpib_board *board,
--					    uint8_t *buffer, size_t length,
-+					    u8 *buffer, size_t length,
- 					    int send_commands, int send_eoi,
- 					    size_t *bytes_written)
+-static int cec_command(struct gpib_board *board, uint8_t *buffer,
++static int cec_command(struct gpib_board *board, u8 *buffer,
+ 		       size_t length, size_t *bytes_written)
  {
-@@ -676,13 +676,13 @@ static ssize_t agilent_82357a_generic_write(struct gpib_board *board,
- 	return 0;
+ 	struct cec_priv *priv = board->private_data;
+@@ -104,7 +104,7 @@ static void cec_remote_enable(struct gpib_board *board, int enable)
+ 	nec7210_remote_enable(board, &priv->nec7210_priv, enable);
  }
  
--static int agilent_82357a_write(struct gpib_board *board, uint8_t *buffer,
-+static int agilent_82357a_write(struct gpib_board *board, u8 *buffer,
- 				size_t length, int send_eoi, size_t *bytes_written)
+-static int cec_enable_eos(struct gpib_board *board, uint8_t eos_byte, int compare_8_bits)
++static int cec_enable_eos(struct gpib_board *board, u8 eos_byte, int compare_8_bits)
  {
- 	return agilent_82357a_generic_write(board, buffer, length, 0, send_eoi, bytes_written);
+ 	struct cec_priv *priv = board->private_data;
+ 
+@@ -139,14 +139,14 @@ static int cec_secondary_address(struct gpib_board *board, unsigned int address,
+ 	return nec7210_secondary_address(board, &priv->nec7210_priv, address, enable);
  }
  
--int agilent_82357a_command(struct gpib_board *board, uint8_t *buffer, size_t length,
-+int agilent_82357a_command(struct gpib_board *board, u8 *buffer, size_t length,
- 			   size_t *bytes_written)
+-static int cec_parallel_poll(struct gpib_board *board, uint8_t *result)
++static int cec_parallel_poll(struct gpib_board *board, u8 *result)
  {
- 	return agilent_82357a_generic_write(board, buffer, length, 1, 0, bytes_written);
-@@ -834,7 +834,7 @@ static void agilent_82357a_remote_enable(struct gpib_board *board, int enable)
- 	return;// 0;
+ 	struct cec_priv *priv = board->private_data;
+ 
+ 	return nec7210_parallel_poll(board, &priv->nec7210_priv, result);
  }
  
--static int agilent_82357a_enable_eos(struct gpib_board *board, uint8_t eos_byte,
-+static int agilent_82357a_enable_eos(struct gpib_board *board, u8 eos_byte,
- 				     int compare_8_bits)
+-static void cec_parallel_poll_configure(struct gpib_board *board, uint8_t config)
++static void cec_parallel_poll_configure(struct gpib_board *board, u8 config)
  {
- 	struct agilent_82357a_priv *a_priv = board->private_data;
-@@ -948,7 +948,7 @@ static int agilent_82357a_secondary_address(struct gpib_board *board,
- 	return 0;
+ 	struct cec_priv *priv = board->private_data;
+ 
+@@ -160,14 +160,14 @@ static void cec_parallel_poll_response(struct gpib_board *board, int ist)
+ 	nec7210_parallel_poll_response(board, &priv->nec7210_priv, ist);
  }
  
--static int agilent_82357a_parallel_poll(struct gpib_board *board, uint8_t *result)
-+static int agilent_82357a_parallel_poll(struct gpib_board *board, u8 *result)
+-static void cec_serial_poll_response(struct gpib_board *board, uint8_t status)
++static void cec_serial_poll_response(struct gpib_board *board, u8 status)
  {
- 	struct agilent_82357a_priv *a_priv = board->private_data;
- 	struct usb_device *usb_dev;
-@@ -990,7 +990,7 @@ static int agilent_82357a_parallel_poll(struct gpib_board *board, uint8_t *resul
- 	return 0;
+ 	struct cec_priv *priv = board->private_data;
+ 
+ 	nec7210_serial_poll_response(board, &priv->nec7210_priv, status);
  }
  
--static void agilent_82357a_parallel_poll_configure(struct gpib_board *board, uint8_t config)
-+static void agilent_82357a_parallel_poll_configure(struct gpib_board *board, u8 config)
+-static uint8_t cec_serial_poll_status(struct gpib_board *board)
++static u8 cec_serial_poll_status(struct gpib_board *board)
  {
- 	//board can only be system controller
- 	return;// 0;
-@@ -1002,13 +1002,13 @@ static void agilent_82357a_parallel_poll_response(struct gpib_board *board, int
- 	return;// 0;
- }
+ 	struct cec_priv *priv = board->private_data;
  
--static void agilent_82357a_serial_poll_response(struct gpib_board *board, uint8_t status)
-+static void agilent_82357a_serial_poll_response(struct gpib_board *board, u8 status)
- {
- 	//board can only be system controller
- 	return;// 0;
- }
- 
--static uint8_t agilent_82357a_serial_poll_status(struct gpib_board *board)
-+static u8 agilent_82357a_serial_poll_status(struct gpib_board *board)
- {
- 	//board can only be system controller
- 	return 0;
 -- 
 2.43.0
 
