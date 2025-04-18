@@ -1,176 +1,200 @@
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 820C22144C9
-	for <linux-staging@lists.linux.dev>; Fri, 18 Apr 2025 15:42:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DC62433C4;
+	Fri, 18 Apr 2025 15:50:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744990955; cv=none; b=VbV2Ur4FqVsymvwmYiwwp/RO6SUDLG2HyH9yvo5Kw2qPStvOiGlArZSaNOFKDt1T90tpeqddBXmJRb83cA/TAVsH2MmLUXEBiU/XEgZPQtqlqyCrOVAQGKgYMj8FTNcHtSTly8cDanFWzppDyCMTxPbXtlu/AdVIwuTSCe6nBF4=
+	t=1744991420; cv=none; b=kzh7Cmt+pkoxuVwHwCqAz2mBs4/fbTlE4U+sMWNPCcBFis2/dHPw1dMqxxKp1qVCZHILyMW7RYSgCpK6bievNp5YeT8/RSpOE77FqKEdBzMLnNQLB8jUzUzr4DBKvC8cY2vg7oRvTzunmHbJlGFcq08QDaw01AIItPNKNSbNhZE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744990955; c=relaxed/simple;
-	bh=XN+T+IkvJggXj9Swo5iUj1qdDIdgJXo1aU/u1V5AHVM=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=G+VAx20EJ5XvyNkS/9+AQ+s8RSVoYe0Z5qnfKm81arq/tgyW2310mXCu0s7wfj0uxPGRgxIAdQM3cAizaGI+CefCyNIVRX7F0zjVWv0yLz7vv42Ufr1u/gFmBd4rkrA+2YAyw0ssGxWIAPNdaivuCtuXIVntPvGX1UkVyIJ0TL0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CfePZ3fV; arc=none smtp.client-ip=209.85.221.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1744991420; c=relaxed/simple;
+	bh=lj4gGmxWHJ2C0K+iLE+xhlpcwP1XXgB3fNy5ud5B7Uk=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=ubhEIFkTTcVKYrMmDBJkDLlYyAymXdtSeQoXBvLKkCNRrc9SlGo4yBViKNg8QhtG1fgbsraz1f2uNxCxkpO0LVfn71lQAc3uR9AAiXXwvshSGgA5fN8ZoZznaIvIog4xHBNUbxB7iMF7nhqSBD8zhjCSdUz30ljomPUCqlZzlnM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ujkTY7sM; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CfePZ3fV"
-Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-39d83782ef6so2130621f8f.0
-        for <linux-staging@lists.linux.dev>; Fri, 18 Apr 2025 08:42:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1744990952; x=1745595752; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=htSaQaI4/FFCqvjkgCzgCrUNDaBh6027eu+lTuEGohA=;
-        b=CfePZ3fVhoABoZxOJqccfrPzvDd/gjJVFZlx2PiA/cSl/p84gLel90x2O17qIi3Cb+
-         zhgElMrXYs9GJhJThbsp8PW0bJaMfwjphNW8uQWOFKDYyk8bijAldX+QtOWCrhz0lPLP
-         4ezZ1TGFUIBQWmrAfKF+++sFk6shAqs3dlx7OrFryiJgokBz5WZ6gVy6+Tx4+cz8+00T
-         aq1FExDTGgl+L5K/ErmdOGYbmQZSvxqxUB69skHAsf4zgEownzNYejqjqaGxbFdi5vN6
-         1mDJ+A5x33QTqksGMVJTcs6dhkpqjy+JPUIiM2agKhD8lXFraHsYq+tFOaBypH0ahEW7
-         lOWw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744990952; x=1745595752;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=htSaQaI4/FFCqvjkgCzgCrUNDaBh6027eu+lTuEGohA=;
-        b=RWvgDwUFLYr1LpmuhGWKke2//Y+XcQHBw+gUQyBQSHYlu6Fyu9opdh5Jcigt7WyEys
-         1WIeoEbcs8LgjW8f5FYhAAKFluz8/efgITwaRORGAjBrOxt0NbMDEM4FEM5PKSbGAW9o
-         DMHdqENw3Epa2MWO0euHNWApoc0jZcsguPLclJJFOwq8edV6haRmq6VILLGSUVCa2JPi
-         vdgB69dWoOlcAj5eXRltBcAlJoGwJLFtBAFNfkL/+4yqSWSDpgtgjxKJhXMmtESKUPvI
-         9Zkji4ALyydLEpnurKU3YlVIrdLqzXkI+E8BWFxce/75aIg+b3Ga7lNOBSZzDTInYcSy
-         DAow==
-X-Forwarded-Encrypted: i=1; AJvYcCXkDr5NYDzBu/m3nWUlnAZRiIbiBG6BmenG0s4bnqaIKN7ZnkyIKa0jkGEDVvW6FBvPACiViWHT7mm5gpfS@lists.linux.dev
-X-Gm-Message-State: AOJu0Yza9Pik2+bn9/rPn5d4ZTmjw4xLuKNLsY6wiSpldDmS9DdL5t5g
-	rUrwSxkohnTUG94iO8arj6MLMfpDW0VpDJLFMEsp1xITeniHzfby
-X-Gm-Gg: ASbGncusp1+nJC0IRWGZ8U0d4d/kGmaz4dRz6QY653wS6jvuqFlHSL+EqeBOonXL+s3
-	H4pP4jhoIFdUYWpG3RePKg+aF3gkzDzEAO4O/wtSPR/FnGcDgJ3dW+JTVIKbIZ4m2e/M9D/Oja8
-	zkE3qrQfCOfUxVFXDyyo59HEmKbm20CQ4VGk/ljcbyHdhUb5ntPmwjsaPccwtXVWefEJt7+x4ne
-	/5+nMNNPuoP0yhij6g4gBSw4b6f6ofX5MxqIh1gm5rwo/NChiBLlD3hnptG5RXfAnxl8j+WQiLr
-	+Z51UfY6EGAdzrZhTh+bUQwOO3YL4SuE66CdSw==
-X-Google-Smtp-Source: AGHT+IETyRTaWZw7ZEo4TVrhWkWANh2w+Mm+nar+iKlLayes4bAJB8t7DodCE4kIrI3378ClobRYKQ==
-X-Received: by 2002:a05:6000:2582:b0:39d:8e61:b6eb with SMTP id ffacd0b85a97d-39ef89b5f2bmr3570563f8f.1.1744990951674;
-        Fri, 18 Apr 2025 08:42:31 -0700 (PDT)
-Received: from ubuntu ([102.88.77.14])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4406d5bbd5fsm26850155e9.22.2025.04.18.08.42.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 18 Apr 2025 08:42:31 -0700 (PDT)
-From: Abraham Samuel Adekunle <abrahamadekunle50@gmail.com>
-To: julia.lawall@inria.fr,
-	gregkh@linuxfoundation.org
-Cc: linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	dan.carpenter@linaro.org,
-	andy@kernel.org,
-	Abraham Samuel Adekunle <abrahamadekunle50@gmail.com>
-Subject: [PATCH v6 2/2] staging: rtl8723bs: Prevent duplicate NULL tests on psta pointer
-Date: Fri, 18 Apr 2025 15:41:57 +0000
-Message-Id: <4fb8314f1ca4c273a1f2c2f648c7993d7708224c.1744990405.git.abrahamadekunle50@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <cover.1744990405.git.abrahamadekunle50@gmail.com>
-References: <cover.1744990405.git.abrahamadekunle50@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ujkTY7sM"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DB6D2C4CEE2;
+	Fri, 18 Apr 2025 15:50:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1744991419;
+	bh=lj4gGmxWHJ2C0K+iLE+xhlpcwP1XXgB3fNy5ud5B7Uk=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=ujkTY7sMbk7kGWCzRtCYZGOh96kao3RWiGAeVDhXwWp0DAQsi2iyZ8NvEVp/Pl3qd
+	 f4ynJWRXs8BbPqwVUkmmYopktuC40XlXsKXrMfRgoKJg8vHV1ir75uZ0fmPf0Am0Ag
+	 Pa6DpB/luZCNNoU9MO2yPdjM2QG9QajUCjLn0sKz+dBGUh7A/+kxQqEpZzYz8vjjp4
+	 iYeFkjROP1kjm9VWnPlI02A6zODd4MVIvQNdHMfYsAaK9zx+clHReOtaf1qyFGlOfI
+	 g564Fl2G1+qPpvU4lFYRIaUUBBO4UrV0eGVCDEurGY78dD1zTxHF0biaAGwxWGgLqM
+	 J41/L5aMWy5WA==
+Date: Fri, 18 Apr 2025 16:50:12 +0100
+From: Jonathan Cameron <jic23@kernel.org>
+To: Gabriel Shahrouzi <gshahrouzi@gmail.com>
+Cc: gregkh@linuxfoundation.org, lars@metafoo.de, linux-iio@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev,
+ Michael.Hennerich@analog.com, skhan@linuxfoundation.org,
+ kernelmentees@lists.linuxfoundation.org
+Subject: Re: [PATCH] iio: accel: adis16203: Fix single-axis representation
+ and CALIBBIAS handling
+Message-ID: <20250418165012.53c9bb85@jic23-huawei>
+In-Reply-To: <20250415222652.545026-1-gshahrouzi@gmail.com>
+References: <20250415222652.545026-1-gshahrouzi@gmail.com>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.48; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-The psta pointer had previously been tested for NULL after initialization,
-as seen in the code below:
+On Tue, 15 Apr 2025 18:26:52 -0400
+Gabriel Shahrouzi <gshahrouzi@gmail.com> wrote:
 
-		psta = rtw_get_stainfo(&padapter->stapriv, pattrib->ra);
-		...
-                if (!psta)
-			return _FAIL;
-This makes a second NULL test on psta unnecessary.
+> The ADIS16203 is a single-axis 360 degree inclinometer. The previous
+> driver code incorrectly represented this by defining separate X and Y
+> inclination channels based on the two different output format registers
+> (0x0C for 0-360 deg, 0x0E for +/-180 deg). This violated IIO conventions
+> and misrepresented the hardware's single angle output. The 'Fixme'
+> comment on the original Y channel definition indicated this known issue.
+> 
+> Signed-off-by: Gabriel Shahrouzi <gshahrouzi@gmail.com>
+> ---
+> Not sure to put a fixes tag here or not because the driver used to be
+> spread out across multiple files until it was whittled down to one file
+> using a common interface for similar devices.
 
-Remove the second NULL test on psta to avoid redundancy in code.
+No fixes tag for this one is the right choice. It is a complex bit of
+ABI abuse.
 
-Found by Cocinelle
+> ---
+>  drivers/staging/iio/accel/adis16203.c | 52 ++++++++++++++++-----------
+>  1 file changed, 31 insertions(+), 21 deletions(-)
+> 
+> diff --git a/drivers/staging/iio/accel/adis16203.c b/drivers/staging/iio/accel/adis16203.c
+> index c1c73308800c5..73288121bf0bd 100644
+> --- a/drivers/staging/iio/accel/adis16203.c
+> +++ b/drivers/staging/iio/accel/adis16203.c
+> @@ -28,11 +28,11 @@
+>  /* Output, temperature */
+>  #define ADIS16203_TEMP_OUT       0x0A
+>  
+> -/* Output, x-axis inclination */
+> -#define ADIS16203_XINCL_OUT      0x0C
+> +/* Output, 360 deg format */
+> +#define ADIS16203_INCL_OUT       0x0C
+>  
+> -/* Output, y-axis inclination */
+> -#define ADIS16203_YINCL_OUT      0x0E
+> +/* Output, +/-180 deg format */
+> +#define ADIS16203_INCL_180_OUT   0x0E
+>  
+>  /* Incline null calibration */
+>  #define ADIS16203_INCL_NULL      0x18
+> @@ -128,8 +128,7 @@
+>  #define ADIS16203_ERROR_ACTIVE          BIT(14)
+>  
+>  enum adis16203_scan {
+> -	 ADIS16203_SCAN_INCLI_X,
+> -	 ADIS16203_SCAN_INCLI_Y,
+> +	 ADIS16203_SCAN_INCLI,
+>  	 ADIS16203_SCAN_SUPPLY,
+>  	 ADIS16203_SCAN_AUX_ADC,
+>  	 ADIS16203_SCAN_TEMP,
+> @@ -137,10 +136,6 @@ enum adis16203_scan {
+>  
+>  #define DRIVER_NAME		"adis16203"
+>  
+> -static const u8 adis16203_addresses[] = {
+> -	[ADIS16203_SCAN_INCLI_X] = ADIS16203_INCL_NULL,
+> -};
+> -
+>  static int adis16203_write_raw(struct iio_dev *indio_dev,
+>  			       struct iio_chan_spec const *chan,
+>  			       int val,
+> @@ -148,10 +143,15 @@ static int adis16203_write_raw(struct iio_dev *indio_dev,
+>  			       long mask)
+>  {
+>  	struct adis *st = iio_priv(indio_dev);
+> -	/* currently only one writable parameter which keeps this simple */
+> -	u8 addr = adis16203_addresses[chan->scan_index];
+>  
+> -	return adis_write_reg_16(st, addr, val & 0x3FFF);
+> +	switch (mask) {
+> +	case IIO_CHAN_INFO_CALIBBIAS:
+> +		if (chan->scan_index != ADIS16203_SCAN_INCLI)
+> +			return -EINVAL;
+> +		return adis_write_reg_16(st, ADIS16203_INCL_NULL, val & 0x3FFF);
 
-Signed-off-by: Abraham Samuel Adekunle <abrahamadekunle50@gmail.com>
-Reviewed-by: Dan Carpenter <dan.carpenter@linaro.org>
----
- drivers/staging/rtl8723bs/core/rtw_xmit.c | 62 +++++++++++------------
- 1 file changed, 30 insertions(+), 32 deletions(-)
+I would check for out of range before you get here rather than masking.
+Clearly the old code just masked, but we can do better given you are refactoring
+it.  If an invalid setting is requested best thing is normally to just return
+an error so userspace can see it was ignored.
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_xmit.c b/drivers/staging/rtl8723bs/core/rtw_xmit.c
-index 026d58b4bd7f..e933ccda1b39 100644
---- a/drivers/staging/rtl8723bs/core/rtw_xmit.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_xmit.c
-@@ -941,38 +941,36 @@ s32 rtw_make_wlanhdr(struct adapter *padapter, u8 *hdr, struct pkt_attrib *pattr
- 			if (!(psta->state & _FW_LINKED))
- 				return _FAIL;
- 
--			if (psta) {
--				psta->sta_xmitpriv.txseq_tid[pattrib->priority]++;
--				psta->sta_xmitpriv.txseq_tid[pattrib->priority] %= 4096u;
--				pattrib->seqnum = psta->sta_xmitpriv.txseq_tid[pattrib->priority];
--
--				SetSeqNum(hdr, pattrib->seqnum);
--
--				/* check if enable ampdu */
--				if (pattrib->ht_en && psta->htpriv.ampdu_enable)
--					if (psta->htpriv.agg_enable_bitmap & BIT(pattrib->priority))
--						pattrib->ampdu_en = true;
--
--				/* re-check if enable ampdu by BA_starting_seqctrl */
--				if (pattrib->ampdu_en == true) {
--					u16 tx_seq;
--
--					tx_seq = psta->BA_starting_seqctrl[pattrib->priority & 0x0f];
--
--					/* check BA_starting_seqctrl */
--					if (SN_LESS(pattrib->seqnum, tx_seq)) {
--						pattrib->ampdu_en = false;/* AGG BK */
--					} else if (SN_EQUAL(pattrib->seqnum, tx_seq)) {
--						psta->BA_starting_seqctrl[pattrib->priority & 0x0f] =
--							(tx_seq + 1) % 4096u;
--
--						pattrib->ampdu_en = true;/* AGG EN */
--					} else {
--						psta->BA_starting_seqctrl[pattrib->priority & 0x0f] =
--							(pattrib->seqnum + 1) % 4096u;
--
--						pattrib->ampdu_en = true;/* AGG EN */
--					}
-+			psta->sta_xmitpriv.txseq_tid[pattrib->priority]++;
-+			psta->sta_xmitpriv.txseq_tid[pattrib->priority] %= 4096u;
-+			pattrib->seqnum = psta->sta_xmitpriv.txseq_tid[pattrib->priority];
-+
-+			SetSeqNum(hdr, pattrib->seqnum);
-+
-+			/* check if enable ampdu */
-+			if (pattrib->ht_en && psta->htpriv.ampdu_enable)
-+				if (psta->htpriv.agg_enable_bitmap & BIT(pattrib->priority))
-+					pattrib->ampdu_en = true;
-+
-+			/* re-check if enable ampdu by BA_starting_seqctrl */
-+			if (pattrib->ampdu_en == true) {
-+				u16 tx_seq;
-+
-+				tx_seq = psta->BA_starting_seqctrl[pattrib->priority & 0x0f];
-+
-+				/* check BA_starting_seqctrl */
-+				if (SN_LESS(pattrib->seqnum, tx_seq)) {
-+					pattrib->ampdu_en = false;/* AGG BK */
-+				} else if (SN_EQUAL(pattrib->seqnum, tx_seq)) {
-+					psta->BA_starting_seqctrl[pattrib->priority & 0x0f] =
-+						(tx_seq + 1) % 4096u;
-+
-+					pattrib->ampdu_en = true;/* AGG EN */
-+				} else {
-+					psta->BA_starting_seqctrl[pattrib->priority & 0x0f] =
-+						(pattrib->seqnum + 1) % 4096u;
-+
-+					pattrib->ampdu_en = true;/* AGG EN */
- 				}
- 			}
- 		}
--- 
-2.34.1
+
+> +	default:
+> +		return -EINVAL;
+> +	}
+>  }
+>  
+>  static int adis16203_read_raw(struct iio_dev *indio_dev,
+> @@ -161,7 +161,6 @@ static int adis16203_read_raw(struct iio_dev *indio_dev,
+>  {
+>  	struct adis *st = iio_priv(indio_dev);
+>  	int ret;
+> -	u8 addr;
+>  	s16 val16;
+>  
+>  	switch (mask) {
+> @@ -194,8 +193,9 @@ static int adis16203_read_raw(struct iio_dev *indio_dev,
+>  		*val = 25000 / -470 - 1278; /* 25 C = 1278 */
+>  		return IIO_VAL_INT;
+>  	case IIO_CHAN_INFO_CALIBBIAS:
+> -		addr = adis16203_addresses[chan->scan_index];
+> -		ret = adis_read_reg_16(st, addr, &val16);
+> +		if (chan->scan_index != ADIS16203_SCAN_INCLI)
+> +			return -EINVAL;
+> +		ret = adis_read_reg_16(st, ADIS16203_INCL_NULL, &val16);
+>  		if (ret)
+>  			return ret;
+>  		*val = sign_extend32(val16, 13);
+> @@ -206,13 +206,23 @@ static int adis16203_read_raw(struct iio_dev *indio_dev,
+>  }
+>  
+>  static const struct iio_chan_spec adis16203_channels[] = {
+> +	{
+> +		.type = IIO_INCLI,
+> +		.info_mask_separate = BIT(IIO_CHAN_INFO_RAW) |
+> +					BIT(IIO_CHAN_INFO_SCALE) |
+> +					BIT(IIO_CHAN_INFO_CALIBBIAS),
+> +		.address = ADIS16203_INCL_180_OUT,
+> +		.scan_index = ADIS16203_SCAN_INCLI,
+> +		.scan_type = {
+> +			.sign = 's',
+> +			.realbits = 14,
+> +			.storagebits = 16,
+> +			.shift = 0,
+
+No need for setting shift to 0 explicitly.  It will happen anyway and
+a shift of 0 is a fairly natural default.
+
+> +			.endianness = IIO_CPU,
+> +		},
+> +	},
+>  	ADIS_SUPPLY_CHAN(ADIS16203_SUPPLY_OUT, ADIS16203_SCAN_SUPPLY, 0, 12),
+>  	ADIS_AUX_ADC_CHAN(ADIS16203_AUX_ADC, ADIS16203_SCAN_AUX_ADC, 0, 12),
+> -	ADIS_INCLI_CHAN(X, ADIS16203_XINCL_OUT, ADIS16203_SCAN_INCLI_X,
+> -			BIT(IIO_CHAN_INFO_CALIBBIAS), 0, 14),
+> -	/* Fixme: Not what it appears to be - see data sheet */
+> -	ADIS_INCLI_CHAN(Y, ADIS16203_YINCL_OUT, ADIS16203_SCAN_INCLI_Y,
+> -			0, 0, 14),
+Why the ordering change?  I don't think it matters in practice, but easier to
+review of we keep that ordering the same as then no need to think about it at
+all!
+
+Jonathan
+
+>  	ADIS_TEMP_CHAN(ADIS16203_TEMP_OUT, ADIS16203_SCAN_TEMP, 0, 12),
+>  	IIO_CHAN_SOFT_TIMESTAMP(5),
+>  };
 
