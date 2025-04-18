@@ -1,181 +1,131 @@
-Received: from mail-qt1-f182.google.com (mail-qt1-f182.google.com [209.85.160.182])
+Received: from mail-qv1-f44.google.com (mail-qv1-f44.google.com [209.85.219.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11C4A21517E
-	for <linux-staging@lists.linux.dev>; Fri, 18 Apr 2025 18:12:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25549211460;
+	Fri, 18 Apr 2025 20:50:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744999932; cv=none; b=O5Ng3/81RLZqBQp6UnEfjYwerf1xRuj34EK06RfDX0qgyxGPvwGnecXFK778uuue5PZP0SP/1JuHxFcfgL6prSPcZ/YPt5ffDRuUm3K/IY3TPyhknR6lOLAB7jgLS6nKPxz5YU2r8cgRPfAVgByNbJNZt272XeGNxUTQzNeMZW8=
+	t=1745009425; cv=none; b=M8L3u+Ty7uxr1hLrft1Mc00PByNdCfzz9vAyXNAknyoS0j2THikEQksclznrU0VkY2c2hUqj6t7O8Cm3obwVsv53FPwamTaieUWXEr4wlU90uVS4mfuGeukcXC0PhiLE53+eA6qP4hCtLEEKugYfEOkxR5vJ69XrtXYp6JAX88M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744999932; c=relaxed/simple;
-	bh=tIYOX30m77XMmecvZ5oAv9VPJ8j37JJQn3MOhafQaZQ=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=qeRgqhv1W66HR2bihT0KEXvd5afCFpLk+Bu8oToNwplR6BQOun9Y8v4s1/+Em/eNTg5vYvxwfhqNt2K7x6a+C9AhzDdz2APSRoL3dJ47Lwv4kI+rmvW6PH216jnHB4MeSn3qzJABZDtpyA00tgnSPtsaHGi1FAoDhVpc1U4RF3o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=F/21ZbJB; arc=none smtp.client-ip=209.85.160.182
+	s=arc-20240116; t=1745009425; c=relaxed/simple;
+	bh=W9segW3cJMe7VP3WKWL2Rpm9z+MOBA5Bz2bhSFPcUHc=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=b7Ir3e05BTN5mw6/k0qaXg7O5Q4EbNNWhHdAt1QuwWTiEmGQrbhR3vUlsNR87t1Xcvv/JIXSRrGGffkl/Scmd9tcN7agYEUC5qu7Vnq2l+soa/CphfRlvfEBlVNG3QdT0Wxzmwu+dsoolVQLfRvSwGeBPSXAh1EPSK0ALtaUhJ0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fqPmU3hy; arc=none smtp.client-ip=209.85.219.44
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="F/21ZbJB"
-Received: by mail-qt1-f182.google.com with SMTP id d75a77b69052e-476af5479feso22300781cf.2
-        for <linux-staging@lists.linux.dev>; Fri, 18 Apr 2025 11:12:10 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fqPmU3hy"
+Received: by mail-qv1-f44.google.com with SMTP id 6a1803df08f44-6e8f6970326so19788376d6.0;
+        Fri, 18 Apr 2025 13:50:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1744999930; x=1745604730; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=SJco10XPuPQKf/Tc++SD2/J8aFDKSxmBKlJ6mW6zQio=;
-        b=F/21ZbJBLWqbUL5KdMAwW4fvVEYoEu2OKs4t/0L6SlcDTXAfbGnb6mGkngU7OUhfnp
-         DX/MKrCRzOlxyTueP2ycEhPK64mHraK0f6x+kwySlp7fy5cTXFEnkA87wnVPqAqsdZYZ
-         Q6++Lg/QP89iDKikNggAKpur9jbJJXNEhIZcbw+mqdErw+LECZGUlKI4UMt0QCGVTdeM
-         ph3lUCqVorStwn9LV46iNujzD1sEfCOBX07CeReB6Tf96iZNp4NwcmD9P4MK1zWxJZ3V
-         m5A+kJZEfT9t5YJO3Z30HivuKfttT/ir/1vMGdDRVcbPu03AVCNlGbccdzNvxYaAuSM/
-         t26g==
+        d=gmail.com; s=20230601; t=1745009423; x=1745614223; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=zBS+gMuCbxo0lQQXgb/9PCP46mLZ8s4XB03eoOWWGew=;
+        b=fqPmU3hyet3m5pawEfAaciN/M7qugCClikSeC6xymczJC60nHeATSYlmbzgiKAT4zn
+         iiraG0/1mj0o0VVMPYJcV1Lo7UWygSyZH/sLLSJAfLfzBzpZ6TKRZWxbBpQOVc5+hcvv
+         V65QG5KnggJPhnzZss11VnfKV1RRIBhf1XQ7yV3E2Y+ly+ttHa0JLKyLvVR96b5E6+wp
+         uAlitkPAZlXH1R/pj6xFpE5V6w3DV4Lm69OELpr/1dCdRUe0b9rlXHo7xts/3+oOwF46
+         GaYXdPm8bz7/o2HMA4gjelQI75kwhRwfVSIGb2PCDh5PKmuo5H36PcD9X8CaDdnSseBg
+         8Ezg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744999930; x=1745604730;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=SJco10XPuPQKf/Tc++SD2/J8aFDKSxmBKlJ6mW6zQio=;
-        b=Cxr5Q3wH1upf1F7kS97oLBQo/9VLUioGJYUrSKUqT0EW3fYbeRm89bxkvo/wr8GzqA
-         Z+Jy1ns0pzsPOa7UOiXtkVlScPDrTfq7a5W63y7hzvY2ZOY+2bKnvjMj9C7USs8pN4uB
-         bn8v71loxNjSaTMOcGGuM2mXbe4kv7H5gwtDZNLifWa6i3oqsbI5NU8ucBO/omul4QFv
-         W7GEu8kvzaJNpOcmvUbD2baFj7xrRLXf6hLrqvPTJv/jAzc5v2mCKIQL6b2FroXs7ooc
-         /5NTiRXl7VLnSUMnv02k25GtMolPk6G2LlIeLttwyXpQVu+K3NgG3LbK7nKUXU0GujLW
-         f3QA==
-X-Forwarded-Encrypted: i=1; AJvYcCXXWi+Lgz1bKZhh3/OPN6+CyB5G0ywo7xSvl6W3ZXSamMtDLSfiPLLZQb0epdrV0fQPFdpQh8BYIonSP9xK@lists.linux.dev
-X-Gm-Message-State: AOJu0Yy2BvIeqKTdQuY+M9gsUCHfuRfxTJ0Tm7CyBrpTxaL2RnLqWvzG
-	MPEZLhebpGETJVzwzW//KKoy2JbunzAaoaz54HUs29ME2BeWrVvhw1udfZ2jBaQVseIqKha/9n/
-	ozqJ1zB7Tmjuf/hw6X/x17MarTcs=
-X-Gm-Gg: ASbGncuoZA69nrLtFRnGaYqmsNAxPiIaVlT8NeMfHllErB6Coi8yoOXn7d9wG8OQ+My
-	QHKMnUuN+ibQO/H8WyvtpjSHXYBlpkB9yXY73i+urNhsRUgQJM7Ax7d3BKRX7wYhF0l3Z00BcEf
-	LrhwuE+TIp/FYzqpBiBenjxgygHCeuoy6KD5+X1YBrmo7hjSoshEne
-X-Google-Smtp-Source: AGHT+IFqk9cOhSM8u+bAweWSLbOzuzyfLuP+5P6usMk2RodloGJ4pT00BcXmM1/5KNnD6AVF4cshEKYdnn2jsyiN7FQ=
-X-Received: by 2002:ac8:5fd6:0:b0:476:a823:50d5 with SMTP id
- d75a77b69052e-47aec4c44c8mr55686311cf.39.1744999929874; Fri, 18 Apr 2025
- 11:12:09 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1745009423; x=1745614223;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=zBS+gMuCbxo0lQQXgb/9PCP46mLZ8s4XB03eoOWWGew=;
+        b=gL5Cj4DfH+W3b23Zr+/WKaaNl29Sf2lS+VDJHtsnxmmoe5y4WqTEmOUk4D+GFllNIw
+         mr8sqpr7MTf6zu8TS8EcxycQUtgG/+ewjxtIIlYvgK2c6LPCYNN18edJTFSZa7Cg9GRw
+         z8TZxSonxXW5FcWsL80dMmnB1cdvHJQJttYL9VxJiHsPhyvqiWSIqCXUFGtrX/Ww41jI
+         h3jR5SQL6lArCdd4Ex/tJnYRbYuXvpSFZxa+nen5kgYJBwI4zJXT9DxdNufz8drnNhzt
+         rk5+3EkP5vrb08ckfDdDVE42P1c1ZpqRtvJPBBz9OsbPhbo3iqsEtYNwtW+VlcAStVNM
+         x5nw==
+X-Forwarded-Encrypted: i=1; AJvYcCWGpqvV3XCkbkqG+d5jX1l9hbMB/hLzz2jJEua9YUe9HeiydQ1wHvo2gJ9XVOums2yAkXddbC5t6nbd4TEL3NyyRv6vcQ==@lists.linux.dev, AJvYcCWsCKSFqlXx+z8cKwt63TwjWayke6zsIIh4v4W2kqux3g9Lcbok4bNBtMwnGDBbPjn40/diwhWImEIPGVbDaQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzUnFLhnzALseiQLTxQE59k/aG0M1WGwya034GXqjhKzQ9OVcS5
+	RIHmd8PHxPBWSBU1fYrh6rny3OwkM6tEbCDGA7uyaEcWoDy4/IaM
+X-Gm-Gg: ASbGncuvOR4zGt1ityOvTfbdSRDy9x+7+qXVRwkNSn6JumMGfSWix5bKSF4sfcoONmx
+	Xkr7/Sh615LhvGF4cUEfmowAh6ha76iCealpewNvB6ayUgcKxQCkboOgH2U7pwayQ1+723SPiWS
+	Ux7fg7ml8bRj8EFFxpqjMosLmJQJQnlmuEiqnWpNStLPm+9yZZ9GNZAFnKBeTwLal8sR4E/EvPH
+	3MJCAxsMPt6Z5FKk+7UJScw0V4qzirJZoOaEVxNfdq7bR1bVqQcf1oAwATlp0beoyBK3xYmbm0r
+	mv0WLhGwy7+L7ppp6TXLPDRdQHfOH29ndiyYyIbYcuMHmA4uG21vqxmsWqAhDHrMkmKKAGB3UGc
+	DCix/TaWr4QtNpM5OQO2JYaGFOvXwrA==
+X-Google-Smtp-Source: AGHT+IGfxKsSAmrL28HNu5yl4e6s2vMKqHnmp5LNwavPA9VlB2hFWprDYSQDcjsuRTkffTYQCc6V5w==
+X-Received: by 2002:a05:6214:20a7:b0:6d8:99cf:d2db with SMTP id 6a1803df08f44-6f2c4687fc9mr82895486d6.38.1745009422700;
+        Fri, 18 Apr 2025 13:50:22 -0700 (PDT)
+Received: from theriatric.mshome.net (c-73-123-232-110.hsd1.ma.comcast.net. [73.123.232.110])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6f2c2af11d7sm14355906d6.6.2025.04.18.13.50.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 18 Apr 2025 13:50:22 -0700 (PDT)
+From: Gabriel Shahrouzi <gshahrouzi@gmail.com>
+To: gregkh@linuxfoundation.org,
+	jic23@kernel.org,
+	lars@metafoo.de,
+	linux-iio@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	Michael.Hennerich@analog.com,
+	sonic.zhang@analog.com,
+	vapier@gentoo.org
+Cc: gshahrouzi@gmail.com,
+	skhan@linuxfoundation.org,
+	linux-kernel-mentees@lists.linux.dev
+Subject: [PATCH v3 0/5] staging: iio: adc: ad7816: Fix channel handling
+Date: Fri, 18 Apr 2025 16:47:34 -0400
+Message-ID: <cover.1745007964.git.gshahrouzi@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250416142219.554938-1-gshahrouzi@gmail.com> <20250418163743.4f9379a1@jic23-huawei>
-In-Reply-To: <20250418163743.4f9379a1@jic23-huawei>
-From: Gabriel Shahrouzi <gshahrouzi@gmail.com>
-Date: Fri, 18 Apr 2025 14:11:59 -0400
-X-Gm-Features: ATxdqUGhX7PuegZ_GRikwyDvIOOHnLsdXAD3xeBIdSe-0ypsW9tHivdhqRyaLVc
-Message-ID: <CAKUZ0z+AsM_UUtSDAZyBRMOt2CiqghBfoV1-s4N-Q9zQHC1++w@mail.gmail.com>
-Subject: Re: [PATCH] iio: ad5933: Correct settling cycles encoding per datasheet
-To: Jonathan Cameron <jic23@kernel.org>
-Cc: gregkh@linuxfoundation.org, lars@metafoo.de, linux-iio@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev, 
-	Michael.Hennerich@analog.com, skhan@linuxfoundation.org, 
-	kernelmentees@lists.linuxfoundation.org, stable@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Fri, Apr 18, 2025 at 11:37=E2=80=AFAM Jonathan Cameron <jic23@kernel.org=
-> wrote:
->
-> On Wed, 16 Apr 2025 10:22:19 -0400
-> Gabriel Shahrouzi <gshahrouzi@gmail.com> wrote:
->
-> > Implement the settling cycles encoding as specified in the AD5933
-> > datasheet, Table 13 ("Number of Settling Times Cycles Register"). The
-> > previous logic did not correctly translate the user-requested effective
-> > cycle count into the required 9-bit base + 2-bit multiplier format
-> > (D10..D0) for values exceeding 511.
-> >
-> > Clamp the user input for out_altvoltage0_settling_cycles to the
-> > maximum effective value of 2044 cycles (511 * 4x multiplier).
-> >
-> > Fixes: f94aa354d676 ("iio: impedance-analyzer: New driver for AD5933/4 =
-Impedance Converter, Network Analyzer")
-> > Cc: stable@vger.kernel.org
-> > Signed-off-by: Gabriel Shahrouzi <gshahrouzi@gmail.com>
-> > ---
-> >  .../staging/iio/impedance-analyzer/ad5933.c   | 21 ++++++++++++-------
-> >  1 file changed, 14 insertions(+), 7 deletions(-)
-> >
-> > diff --git a/drivers/staging/iio/impedance-analyzer/ad5933.c b/drivers/=
-staging/iio/impedance-analyzer/ad5933.c
-> > index d5544fc2fe989..5a8c5039bb159 100644
-> > --- a/drivers/staging/iio/impedance-analyzer/ad5933.c
-> > +++ b/drivers/staging/iio/impedance-analyzer/ad5933.c
-> > @@ -28,7 +28,7 @@
-> >  #define AD5933_REG_FREQ_START                0x82    /* R/W, 3 bytes *=
-/
-> >  #define AD5933_REG_FREQ_INC          0x85    /* R/W, 3 bytes */
-> >  #define AD5933_REG_INC_NUM           0x88    /* R/W, 2 bytes, 9 bit */
-> > -#define AD5933_REG_SETTLING_CYCLES   0x8A    /* R/W, 2 bytes */
-> > +#define AD5933_REG_SETTLING_CYCLES   0x8A    /* R/W, 2 bytes, 11+2 bit=
- */
->
-> Probably spaces around the +  It's not code, but lets keep to consistent =
-code style.
-Got it.
->
-> >  #define AD5933_REG_STATUS            0x8F    /* R, 1 byte */
-> >  #define AD5933_REG_TEMP_DATA         0x92    /* R, 2 bytes*/
-> >  #define AD5933_REG_REAL_DATA         0x94    /* R, 2 bytes*/
-> > @@ -71,6 +71,8 @@
-> >  #define AD5933_INT_OSC_FREQ_Hz               16776000
-> >  #define AD5933_MAX_OUTPUT_FREQ_Hz    100000
-> >  #define AD5933_MAX_RETRIES           100
-> > +#define AD5933_MAX_FREQ_POINTS               511
-> > +#define AD5933_MAX_SETTLING_CYCLES   2044 /* 511 * 4 */
->
-> >
-> >  #define AD5933_OUT_RANGE             1
-> >  #define AD5933_OUT_RANGE_AVAIL               2
-> > @@ -82,6 +84,10 @@
-> >  #define AD5933_POLL_TIME_ms          10
-> >  #define AD5933_INIT_EXCITATION_TIME_ms       100
-> >
-> > +/* Settling cycles multiplier bits D10, D9 */
-> > +#define AD5933_SETTLE_MUL_2X         BIT(9)
-> > +#define AD5933_SETTLE_MUL_4X         (BIT(9) | BIT(10))
->
-> That looks like  a number, not a pair of separate bits.
-> I would expect a mask for this field then some defines for teh
-> values it can take.
-Got it. Defined the mask and then the values. Change added to v2.
->
-> > +
-> >  struct ad5933_state {
-> >       struct i2c_client               *client;
-> >       struct clk                      *mclk;
-> > @@ -411,14 +417,15 @@ static ssize_t ad5933_store(struct device *dev,
-> >               ret =3D ad5933_cmd(st, 0);
-> >               break;
-> >       case AD5933_OUT_SETTLING_CYCLES:
-> > -             val =3D clamp(val, (u16)0, (u16)0x7FF);
-> > +             val =3D clamp(val, (u16)0, (u16)AD5933_MAX_SETTLING_CYCLE=
-S);
-> >               st->settling_cycles =3D val;
-> >
-> > -             /* 2x, 4x handling, see datasheet */
-> > +             /* Encode value for register: D10..D0 */
-> > +             /* Datasheet Table 13: If cycles > 1022 -> val/4, set bit=
-s D10=3D1, D9=3D1 */
-> >               if (val > 1022)
-> > -                     val =3D (val >> 2) | (3 << 9);
-> > -             else if (val > 511)
-> > -                     val =3D (val >> 1) | BIT(9);
-> > +                     val =3D (val >> 2) | AD5933_SETTLE_MUL_4X;
-> > +             else if (val > 511) /* Datasheet: If cycles > 511 -> val/=
-2, set bit D9=3D1 */
-> > +                     val =3D (val >> 1) | AD5933_SETTLE_MUL_2X;
-> >
-> >               dat =3D cpu_to_be16(val);
-> >               ret =3D ad5933_i2c_write(st->client,
-> > @@ -426,7 +433,7 @@ static ssize_t ad5933_store(struct device *dev,
-> >                                      2, (u8 *)&dat);
-> >               break;
-> >       case AD5933_FREQ_POINTS:
-> > -             val =3D clamp(val, (u16)0, (u16)511);
-> > +             val =3D clamp(val, (u16)0, (u16)AD5933_MAX_FREQ_POINTS);
-> >               st->freq_points =3D val;
-> >
-> >               dat =3D cpu_to_be16(val);
->
+The original patch combined a functional fix (allowing channel 7) with
+several refactoring steps (introducing chip_info, renaming structs,
+improving validation). As requested, these have now been separated.
+
+The series proceeds as follows:
+1. Fix: Allow diagnostic channel 7 for all device variants.
+2. Refactor: Rename the main state structure for clarity before introducing
+   the new chip_info struct.
+3. Refactor: Introduce struct ad7816_chip_info to hold static per-variant
+   data, update ID tables to store pointers, and switch to using
+   device_get_match_data() for firmware-independent identification.
+   This removes the old enum/id mechanism.
+4. Refactor: Add has_busy_pin to chip_info and use this flag to
+   determine BUSY pin handling, replacing pointer comparisons.
+5. Refactor: Simplify channel validation logic using 
+   chip_info->max_channels, removing strcmp() checks.
+
+Regarding the 'fixes' tag: I've applied it only to the first commit
+containing the core fix, primarily to make backporting easier. Is this
+the standard practice, or should the tag typically be applied to
+subsequent commits that build upon or are related to the fix as well?
+
+Chainges in v3:
+	- Split the patch into smaller patches. Make the fix first
+	  followed by clean up.
+	- Include missing channel for channel selection.
+	- Address specific feedback regarding enums vs. chip_info data.
+	- Use device_get_match_data() for device identification.
+	- Move BUSY pin capability check into chip_info data.
+	- Simplify channel validation using chip_info data.
+Changes in v2:
+        - Refactor by adding chip_info struct which simplifies
+          conditional logic.
+
+Gabriel Shahrouzi (5):
+  staging: iio: adc: ad7816: Allow channel 7 for all devices
+  staging: iio: adc: ad7816: Rename state structure
+  staging: iio: adc: ad7816: Introduce chip_info and use pointer
+    matching
+  staging: iio: adc: ad7816: Use chip_info for device capabilities
+  staging: iio: adc: ad7816: Simplify channel validation using chip_info
+
+ drivers/staging/iio/adc/ad7816.c | 94 ++++++++++++++++++--------------
+ 1 file changed, 54 insertions(+), 40 deletions(-)
+
+-- 
+2.43.0
+
