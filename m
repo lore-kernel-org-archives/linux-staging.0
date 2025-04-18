@@ -1,72 +1,72 @@
 Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C316021CC6D
-	for <linux-staging@lists.linux.dev>; Fri, 18 Apr 2025 17:35:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44D442206A2
+	for <linux-staging@lists.linux.dev>; Fri, 18 Apr 2025 17:35:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744997704; cv=none; b=h+rw1mrJa+KWzlB0/AfULZUCgCYwTdEJsiZYGB4Nffcxq7nemTN9mtm3nF/q3T3GtQQbmnOx0k26k7pQyFuAJL2V0oruoMHDgNukTwQLVdOVaGZ7geXCPG9HCqE2FA3Bfl6yYZuhgxwhIJjOsVrmSXOIqgcVxTIkh2y2nwVVJbA=
+	t=1744997705; cv=none; b=ZWu/a/VEYMUa7TNWPPiautTLHyPVSQJOoAb/4smvwqYHhyIKZSokasnCiELJ5RPPnPfy2fpGLp9NhpCewpFPntiDhM8DqCjusW3yKYpkaBYEwveeN927UXWI2PzZ+sxQdI5MIIQiMajuDh9x4L76rxXv6F9BYb5eKKErir3xG+s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744997704; c=relaxed/simple;
-	bh=zbdvaSiXX2oUTDa7WIbY958t9msSvAmj2Lshi5nbldg=;
+	s=arc-20240116; t=1744997705; c=relaxed/simple;
+	bh=4iQseaUFTpcev9Eu6hppJkJqT6uexmzYNKQtB62Erp4=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=P07KGOFieJ8g2s3H00nBBMfgnzQv1NAruGANAlvErc8HPKx9mxU5oDzxwhPUe+CY+AAge0FJdUbD9g0/7i4W7CVFdlF2Uu+YDblP+RYNJnQV3OIEJlIEKKNVLUvOsLmylHm317NvJdYRwbk2NSv3vU6qAI89KASAoZ01MOcycds=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YnMAiAnv; arc=none smtp.client-ip=209.85.221.54
+	 MIME-Version; b=fU8G3skcn+J/TOLE6pbHlgRoxO/Ggt0dnFmfAFpRGow24WU0PknUD+43CMhDhXm8JqI5vRyQqJQcu26wlCyPyhaeHnvOvQXdIaIoZ3mBgk+5gJJKJLa3B58XThQIY8zGLKNY8Ic9247cLFfTtSiwylhX5s1H7+5O4tyKzGkwfOk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=I4hfW6oG; arc=none smtp.client-ip=209.85.221.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YnMAiAnv"
-Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-39149bccb69so2095768f8f.2
-        for <linux-staging@lists.linux.dev>; Fri, 18 Apr 2025 10:35:02 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="I4hfW6oG"
+Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-39c1efbefc6so1303962f8f.1
+        for <linux-staging@lists.linux.dev>; Fri, 18 Apr 2025 10:35:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1744997701; x=1745602501; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1744997702; x=1745602502; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=2lo8NK9cb9305tOCf3KZaXzeHg3jD7BCaFh2Dh35qq4=;
-        b=YnMAiAnvjMq8xnfwuHvqzDIRF7hYDToSsu/5G4TbFcyVisAo+ua808ls0b2pS5LNJJ
-         nG+p/tIixo1O7EZpSQ60gOYI4+0TA+DyxXyWS89DyC2NiB99K2BzvPAXwV19DgwTitXz
-         fWT1ZcHLNlscg9adIXrheMl/UoR08WnuP/q0sH/g5pDtQTFdEEbS8pYXXw1WBLU7N4ik
-         OEy7GWx2tK43Emp0BgeHor9GYX4LdT7IOo1MeIUI0CJdgLKaQcdE3RVt4CKEReSjWAME
-         Ft5Q1D4GfKTruMsoGaSVpFCsnqGBGCoeX/ip5wcTFjJM8ZmBWmPQR1HEddV8n4wEyrpY
-         gKDg==
+        bh=OnBmFXSxRbz0DmRCSR8jCc12+Aku4V6y/rAuR5Mgcos=;
+        b=I4hfW6oGcTBVUmVRv1y4nuR3sOGIobLzAB+25VhneWj7WoaA3V7I51qVwEo/YIpvhu
+         IBWglPAro4hhRAtkL1EB+dWz3BEMBWHyUfdTfXgfnQRqJEnxQGsmuho0EW6cioX82pn4
+         5BxKSjiRut8z/Rh5lKnye8o+IkHymbtRn9z2j2Eg3zHGnrtaUTouTrql+wknRG/mzWxl
+         JZGzlK6zsbqEV3d1dMgUumv0DgsHX3DykhxrrlEtrgdxGailLXdzzFzu5QoKT28cegDt
+         rhBEsunHE+uiVe/m9yDXkUjNF8F4BH8l1IjD8muTal/pUtoGiccAQcAjw+zvwxVC6bXG
+         l9Jw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744997701; x=1745602501;
+        d=1e100.net; s=20230601; t=1744997702; x=1745602502;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=2lo8NK9cb9305tOCf3KZaXzeHg3jD7BCaFh2Dh35qq4=;
-        b=M7acwTCWm4Jrb6qyIjA8Uk13Ijdo6XdR8qkREQ8tgv11/P1Daweq8c/h9Uq3C0eFl3
-         KVs1QtvljPzMUrCpogcm3w5nSj1M0keVdaT8Qk8W+hjmLG6fk0e6xc0hl6KRmzE3f5q1
-         DlPdQGS8tVGeLH6qFqZ+heegJO/h6/gcU5mBpJDPKvd12mJq+tpDF8r36+unwkpoAQvD
-         4AiPvYBZYqN5kG32m6qsB44qYvZJWzgMwgZZrcheTrzrDccAYf9R8za0lLnEvgG0GWVl
-         YtbHfoWMyfGdrZFdzDVZz7qSevV6MeH3KcE1pim3I/+4ystN2hJ1XEoJ/WkT6qI3VBy2
-         YiUw==
-X-Forwarded-Encrypted: i=1; AJvYcCWeu03UR9wtvOUfaSpqybAsJQD1NBeEmF5uXiaoF2YXAJXHVac+L2tlomIUN8A04Ba2wVgzjqo3SqxOTyp/@lists.linux.dev
-X-Gm-Message-State: AOJu0YyWI5i7u5E4/jbQ2id52qE/K+u9YWX0cen260Nv2084iFwzmFsF
-	vnyyWlaFmXHxd/O3iU3XAaL1s8GxhVAB0D7gBtyl57WjyVPv58Gf
-X-Gm-Gg: ASbGncs1fwytoqEUy5L2HiCxuzToE1EgCrZEITRPhpfYx6IbE30TD+iHMPfWquUbgJM
-	nz8lXM+Ajv6tVr5kBpubI9WhrwjefIxIKehffEZen6Lvh/LHt4ye+sj/ggA1gXd+IZnFRxv7Nyv
-	pp/Wj1cyCOYCihz/Yr0mWZQUDINi67hXz94jcfXMGMUcBmAQFHIUMUSNKZyjopGJaK67WZQwmon
-	AeoCC/bd/CLW/yStVBfSkM52Qw5JxgEWz5R5+kDpoJTEYRy4I4apID4rbUBAvz4Yh8edlR2hZaF
-	g+AaUIFDiNYjrqIqM/0jiU9c5Gxev2jsIW0JU/PmY0CkXaXRDohr9o+1zxwXpFWtvnatIDDiAKn
-	N
-X-Google-Smtp-Source: AGHT+IGycw6PG3LhA4R9z4UXQhejlyXvLsQYTBzDufjRPf307pnkU7s+bMube8/17mGSZ9ymhrWU5A==
-X-Received: by 2002:a5d:64e4:0:b0:390:f9d0:5df with SMTP id ffacd0b85a97d-39efbaf141amr2577524f8f.52.1744997701027;
-        Fri, 18 Apr 2025 10:35:01 -0700 (PDT)
+        bh=OnBmFXSxRbz0DmRCSR8jCc12+Aku4V6y/rAuR5Mgcos=;
+        b=R3bpoyvYR7ufdr+bG24t/UBx8ALHntIqz1lMs7a63wLrdRCn8elx67ehLioObaFGAg
+         srwdEqtLwXcEGERbLFgmuNnQLggR7qx8QX/2FOjHQfBmRdXnLPBWFzwU6VK2Vt0uuvY0
+         GydxgswLJli5zK1HzHblwYkKBx4hE8SNjNckPznFoc21ZrYueqslEA/mPKq0o6km85Ex
+         RTApjd83urqcPXapfhM86TYoMNiXtyot1A25nRIHF2LW69hDVb/RKJTutefPYTLJguga
+         QLYVv6oz3RUZiJO97ZRX4haqOXNN583Lte8MzUN7dgF/h8B3XyimPbZj8OcZwuBHz/+s
+         2kYw==
+X-Forwarded-Encrypted: i=1; AJvYcCVGESOAeFtU+ABHOZNG6AMYCw04xSR7EK8F7nZVCbA8cYFsqHF8UikWIUBzjPeP1UmUveFstDpCPWJ+IoIJ@lists.linux.dev
+X-Gm-Message-State: AOJu0YxzKYsSGAE9UQ/foHmNB9UwjSGsiXirzsiY8IEaNBuRIhFROxjr
+	6iEHLekMb3rAc+SgM79ilOtoHFZaRtyPqlEYK/BU0ESE3IAJP1KX
+X-Gm-Gg: ASbGncva342hsE8fCw2wksNB9WOZwfIu0iEtJ2NxJx9c+n1o7aq32YY5szFLsb5aGgv
+	4CXIu3SwPKVbWGSbZ7y5qeLYr832usocRa/ntnc0YyJ1LpxyVAwFcF3+Izc3CiV59iHjWJkFPDD
+	pl2I7h7N2t9QiimBEXlOF/jiCENagk2a51W67/ngjb6qu1tI77W3DFnkchwM0HVkWoZfTigm7/k
+	JlLlN5c073Bdm5xMRCXRvApSClKwTkV4dSWnxGv72NixQppA2FvfqZma6xYb/Fi0XqNcNkXHwMh
+	iinMPK5HP3sr9q6q8bKOGQjfVJiflbXxATP9P37XEtMmMol6dv/gwoMhJ+6znINzqofPC/jwA9B
+	n
+X-Google-Smtp-Source: AGHT+IGARWePzoNyOWwMYXMMy4aIxfc8BB0KzJuF4hy3VaEJfNzI0IEJ/V9IylH7RJ+z9tUcrQEI8g==
+X-Received: by 2002:a05:6000:2503:b0:39c:30d8:a80 with SMTP id ffacd0b85a97d-39efba3c88dmr2523714f8f.19.1744997702450;
+        Fri, 18 Apr 2025 10:35:02 -0700 (PDT)
 Received: from localhost.localdomain (82-64-73-52.subs.proxad.net. [82.64.73.52])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-39efa4332f8sm3287320f8f.40.2025.04.18.10.35.00
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-39efa4332f8sm3287320f8f.40.2025.04.18.10.35.01
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 18 Apr 2025 10:35:00 -0700 (PDT)
+        Fri, 18 Apr 2025 10:35:01 -0700 (PDT)
 From: Dave Penkler <dpenkler@gmail.com>
 To: gregkh@linuxfoundation.org,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
 Cc: marcello.carla@gmx.com,
 	Dave Penkler <dpenkler@gmail.com>
-Subject: [PATCH 5/8] staging: gpib: Remove atn_asserted global variable
-Date: Fri, 18 Apr 2025 19:34:31 +0200
-Message-ID: <20250418173434.2892-6-dpenkler@gmail.com>
+Subject: [PATCH 6/8] staging: gpib: Change error code for no listener
+Date: Fri, 18 Apr 2025 19:34:32 +0200
+Message-ID: <20250418173434.2892-7-dpenkler@gmail.com>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <20250418173434.2892-1-dpenkler@gmail.com>
 References: <20250418173434.2892-1-dpenkler@gmail.com>
@@ -78,77 +78,33 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-atn_asserted was introduced to deal with an issue where certain models
-of the Raspberry Pi would lose interrupts under heavy load. Using
-a combination of edge and level interrupts the problem was resolved
-so the work-around is no longer needed.
+When doing a write a test is made to see whether there are any
+listeners. The code was returning ENODEV which is incorrect.
+The user library translates ENOTCONN to a user level no listener
+error code.
 
-This patch removes the work-around.
+Change the error code to ENOTCONN.
 
+Fixes: 4cd654f84769 ("staging: gpib: Add gpio bitbang GPIB driver")
 Tested-by: Dave Penkler <dpenkler@gmail.com>
 Signed-off-by: Dave Penkler <dpenkler@gmail.com>
 ---
- drivers/staging/gpib/gpio/gpib_bitbang.c | 16 ++++++++--------
- 1 file changed, 8 insertions(+), 8 deletions(-)
+ drivers/staging/gpib/gpio/gpib_bitbang.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/drivers/staging/gpib/gpio/gpib_bitbang.c b/drivers/staging/gpib/gpio/gpib_bitbang.c
-index caa8361da696..1d650cb57cd2 100644
+index 1d650cb57cd2..86b98eb1ce69 100644
 --- a/drivers/staging/gpib/gpio/gpib_bitbang.c
 +++ b/drivers/staging/gpib/gpio/gpib_bitbang.c
-@@ -306,7 +306,6 @@ struct bb_priv {
- 	int dav_seq;
- 	long all_irqs;
- 	int dav_idle;
--	int atn_asserted;
+@@ -516,7 +516,7 @@ static int bb_write(struct gpib_board *board, u8 *buffer, size_t length,
+ 		   gpiod_get_value(NRFD), gpiod_get_value(NDAC));
  
- 	enum talker_function_state talker_state;
- 	enum listener_function_state listener_state;
-@@ -614,7 +613,8 @@ static irqreturn_t bb_NRFD_interrupt(int irq, void *arg)
- 		goto nrfd_exit;
+ 	if (gpiod_get_value(NRFD) && gpiod_get_value(NDAC)) { /* check for listener */
+-		retval = -ENODEV;
++		retval = -ENOTCONN;
+ 		goto write_end;
  	}
  
--	if (priv->atn_asserted && priv->w_cnt >= priv->length) { // test for end of transfer
-+	if (priv->w_cnt >= priv->length) { // test for missed NDAC end of transfer
-+		dev_err(board->gpib_dev, "Unexpected NRFD exit\n");
- 		priv->write_done = 1;
- 		priv->w_busy = 0;
- 		wake_up_interruptible(&board->wait);
-@@ -686,14 +686,14 @@ static irqreturn_t bb_NDAC_interrupt(int irq, void *arg)
- 
- 	dbg_printk(3, "accepted %zu\n", priv->w_cnt - 1);
- 
--	if (!priv->atn_asserted && priv->w_cnt >= priv->length) { // test for end of transfer
-+	gpiod_set_value(DAV, 1); // Data not available
-+	priv->dav_tx = 1;
-+	priv->phase = 510;
-+
-+	if (priv->w_cnt >= priv->length) { // test for end of transfer
- 		priv->write_done = 1;
- 		priv->w_busy = 0;
- 		wake_up_interruptible(&board->wait);
--	} else {
--		gpiod_set_value(DAV, 1); // Data not available
--		priv->dav_tx = 1;
--		priv->phase = 510;
- 	}
- 
- ndac_exit:
-@@ -850,6 +850,7 @@ static void set_atn(struct gpib_board *board, int atn_asserted)
- 			priv->listener_state = listener_addressed;
- 		if (priv->talker_state == talker_active)
- 			priv->talker_state = talker_addressed;
-+		SET_DIR_WRITE(priv);  // need to be able to read bus NRFD/NDAC
- 	} else {
- 		if (priv->listener_state == listener_addressed) {
- 			priv->listener_state = listener_active;
-@@ -859,7 +860,6 @@ static void set_atn(struct gpib_board *board, int atn_asserted)
- 			priv->talker_state = talker_active;
- 	}
- 	gpiod_direction_output(_ATN, !atn_asserted);
--	priv->atn_asserted = atn_asserted;
- }
- 
- static int bb_take_control(struct gpib_board *board, int synchronous)
 -- 
 2.49.0
 
