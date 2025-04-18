@@ -1,115 +1,160 @@
-Received: from mail-pl1-f196.google.com (mail-pl1-f196.google.com [209.85.214.196])
+Received: from smtp.forwardemail.net (smtp.forwardemail.net [121.127.44.73])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B1E42E401
-	for <linux-staging@lists.linux.dev>; Fri, 18 Apr 2025 03:52:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.196
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9DAE26A084
+	for <linux-staging@lists.linux.dev>; Fri, 18 Apr 2025 06:33:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=121.127.44.73
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744948368; cv=none; b=titPrNOuPSF56e4lh76D+9HWzYdUUoWbuKKvi0iQmHCSPMxslHiYdIzA8YzsZ2zcuwqcGKWbWcnSIe8JBFXHirFmaAnV605AdVf/E5th5EM+aIISMKC5Fi1gY1Se20TG9wIkdRqVBbx28BH3Sz36mwDzu31x8IQN/tv5+PZF1c4=
+	t=1744958001; cv=none; b=uXbeb9Ik8N7qDHxthIyPg+hnvnoUW5wcH0AUSyYlhUkG8YX1v/zlPbbLOz8xzJzX+UfH4UZcTGaXS8VJx9VsonUGcE1J67TNa9eYpyqtAVJyRIhi/u0NZfPR1v+w7poXDRyRWdgTwe45LuGxb9gN0arTJqlKg42M2QJJ9YD/vds=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744948368; c=relaxed/simple;
-	bh=1HKTn2EglAYTCuaBXWT35oX2outJLa/J/ifrSlkV4kA=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=HFaNscULyB3ZAXGLLKjmzcOkclsAQkJwgWG2khKpUOKwdxED8NBtIXjnPvJZl6I6T8K5DcL/kJZ3qZf8/w4HYv0wicsONV4Dm/bz2FoQvNJoJihwZ75rGQ7LbXiz9rgVDluq2j22XcRGuFwfS+JNrkbx/Swk9i+SK+8p9Gs0g8s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TLNEv0B5; arc=none smtp.client-ip=209.85.214.196
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1744958001; c=relaxed/simple;
+	bh=ZlP6EPK4+fZnrQcl5kjy+YB9vBk4s18QuHHhKRtoZmg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=g0KbYO0cqUDyEu8NIXy7LP5oK6LnJeoo+ktbctxU3KtowXqAYb8k4cBm60W27jc4YuAPSB40kW1n/TT5uL3P4yf+9jIbBzU1bpf8gc0o8DbuvBLxTS2fbSq6pXn/yKCRcTAoVTsqzo9RtAaEhu5BXd2/MgxD8e0yjw8dbHip+g4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kwiboo.se; spf=pass smtp.mailfrom=fe-bounces.kwiboo.se; dkim=pass (2048-bit key) header.d=kwiboo.se header.i=@kwiboo.se header.b=rhvzCAfX; arc=none smtp.client-ip=121.127.44.73
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kwiboo.se
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fe-bounces.kwiboo.se
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TLNEv0B5"
-Received: by mail-pl1-f196.google.com with SMTP id d9443c01a7336-2240d930f13so2424955ad.3
-        for <linux-staging@lists.linux.dev>; Thu, 17 Apr 2025 20:52:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1744948365; x=1745553165; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=2J5dQ2/PrvjaVhqlG1x9qQJqPr5ZU/HRgzC2aAsxKHs=;
-        b=TLNEv0B5rWRq/xEgnQDyd3fGsL6DkyM5XWrcOgmOxWJEoofAk1jRNb0pBz/HfVVZip
-         hG5mUuc2ege5vb8J/oxs9R7bsy3Cx5cIlAY8V1fbfWyaaO20uVQ9cEyvAPEAkKzHLOHD
-         chF7JHOvR4AHLRKkUpxmDq+hFuY3OXKqPT5A21f6JgC14+rR2g32Lxv9J+0UMk2e5ikM
-         8Xgkz4yF2INeRWT5iEbH/lMeALgcOsJdOMfPnfDSC9iFjGALs01zwdvUwWjeGdfT5Wn8
-         IaOJdvJ68/19cizvcHsuO0debkpUJm3BS0r8q+HZIyyFyd20riOoNQnSg/dgKyaGNxPK
-         ACow==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744948365; x=1745553165;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=2J5dQ2/PrvjaVhqlG1x9qQJqPr5ZU/HRgzC2aAsxKHs=;
-        b=rA+p41jemGySin7wYdKq/heWh83hjjKUPX4RzozQvliJmzaNVLUoosvkLuDuMbdbeQ
-         nnjiHs8JmVhQOLtbiHseKUZFbCp57G1oiCpvLE3hbnJQi7kDuiPVOPJnCZtUGxmBKtVL
-         0gxsJFtfq+zXa2Ka9kxvZRP5NNUulK241/hXNb7PeuMLvDSV6H8eFh5hBSlok7n1lqIJ
-         8bdgYUJqYEOrL9WpQCqs/ucGC2EVyLC/VyzRt96uNMRCxQ0BSQbGfyBnxyvqTJjqhCgu
-         a97JG0RUKo36rR/6hQ2zT0tKEknxfeszgMEK5sVc6hlcDGFQ/U77liWJMgqgSbUHXdGw
-         kDaQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXh7kgYVL/dYVo+5SjlYGE1NKjFIdqtbHRcBZn8Nr0h10d38Z2exJz+5jI+4/YH8fA4cZLuhalMlhYNunbb@lists.linux.dev
-X-Gm-Message-State: AOJu0YyrYM3bM5aUHlrpxp/g+oaKX91tbokma3mYHowqeWqTa+zS6d1g
-	r8LWe9jAzmkt51cnt6M/6ZoA//AUD/5xut/dfIGNSPS+perGHdz3
-X-Gm-Gg: ASbGnctdmf3caIX/PwWHUJrDrUOp+SQouW7VL12wqn3qSsjPdEGyWY/Do19kpE3dUKA
-	2ICxci73uew1q1yaOgz2AQV1oNVynmaOFlKcWlxO2lI3/XkdhA43ylHKUWFi3moeM2EqY40zcSk
-	/QG9rD6+02kuNvI2Uno4urDTAwH5S7fB2Q/8XTrJYhJR/9hzlELJ8bWlLnmWnMvv2sI7vymBXFk
-	dMXFuStB55QGW7Mai09STEuErFoiRVCo6wxAbAYxjXIqBIugMw2pkwK//YWD8AakGraDcX4OzBi
-	HNA95FvN2djyz+rra1h+zUl5RkTfnl57U8wc/pyGv8Qv8uRasERA5NpNkHidr+3VFYCH48M1xKY
-	UkgK0K5k6lXSoPfbggvQ2lplpd5MXbSWhtU+BlsYZwDrYNFzyHnZ/23U=
-X-Google-Smtp-Source: AGHT+IEf8BcieBW0lj/bJ4dLQDQM3ev773NtVTtH+NHVZsyy1jn4grCRfDQO9hb2GITMPvEINmdVpg==
-X-Received: by 2002:a17:90b:4a02:b0:305:5f20:b28c with SMTP id 98e67ed59e1d1-3087bcd3fedmr717176a91.5.1744948365397;
-        Thu, 17 Apr 2025 20:52:45 -0700 (PDT)
-Received: from kerneldev.localdomain (162-225-124-171.lightspeed.sntcca.sbcglobal.net. [162.225.124.171])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3087dee889csm273853a91.2.2025.04.17.20.52.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 17 Apr 2025 20:52:45 -0700 (PDT)
-From: Eric Florin <ericflorin.kernel@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: sudipm.mukherjee@gmail.com,
-	teddy.wang@siliconmotion.com,
-	linux-fbdev@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Eric Florin <ericflorin.kernel@gmail.com>
-Subject: [PATCH] staging: sm750fb: clean-up `else`-blocks
-Date: Thu, 17 Apr 2025 20:50:23 -0700
-Message-Id: <20250418035023.27067-1-ericflorin.kernel@gmail.com>
-X-Mailer: git-send-email 2.39.5
+	dkim=pass (2048-bit key) header.d=kwiboo.se header.i=@kwiboo.se header.b="rhvzCAfX"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kwiboo.se;
+ h=Content-Transfer-Encoding: Content-Type: In-Reply-To: From: References:
+ Cc: To: Subject: MIME-Version: Date: Message-ID; q=dns/txt;
+ s=fe-e1b5cab7be; t=1744957991;
+ bh=LWB/lzW41QdtP1PkM2f6gfH2fV5BGNGd/A9YQFiDNfw=;
+ b=rhvzCAfXV839+8f9YwCX+XOQEkNgiszueHyowH/X0ELG+3AEodFwtgXGfh7Pm5vylfS7Z+MkF
+ kKID1V/rIlnLgNg1/DnI8wVJB9igXpsk2Vp6j209dLOW7GwivVxGxvT7+HTjIGwpNQTSyycfqHI
+ f9VODWhbcjvedZWBatzW8gzMSc1gVyEJSMlm4wdTia9GZKjeyfNyFzq8uGRYwwEssmPO312qGn/
+ tiTgR579zzRFtJuVka6MpWqQrmOcrsxHlQrkkPryuONG/aHWBQKj8uvhFpKWhAsSevE+SAOyXV7
+ rtX+67JM70SYM0/CC3SC3GvJjT6nuJrNYPIJeCIHmnJg==
+X-Forward-Email-ID: 6801efb8c6b251c2d5bebe82
+X-Forward-Email-Sender: rfc822; jonas@kwiboo.se, smtp.forwardemail.net,
+ 121.127.44.73
+X-Forward-Email-Version: 1.0.2
+X-Forward-Email-Website: https://forwardemail.net
+X-Complaints-To: abuse@forwardemail.net
+X-Report-Abuse: abuse@forwardemail.net
+X-Report-Abuse-To: abuse@forwardemail.net
+Message-ID: <8d1c3c82-dbdc-4064-8188-bab586996302@kwiboo.se>
+Date: Fri, 18 Apr 2025 08:22:42 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v9 3/4] media: rkvdec: Add get_image_fmt ops
+To: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+Cc: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
+ linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+References: <20250417-b4-rkvdec_h264_high10_and_422_support-v9-0-0e8738ccb46b@collabora.com>
+ <20250417-b4-rkvdec_h264_high10_and_422_support-v9-3-0e8738ccb46b@collabora.com>
+Content-Language: en-US
+From: Jonas Karlman <jonas@kwiboo.se>
+In-Reply-To: <20250417-b4-rkvdec_h264_high10_and_422_support-v9-3-0e8738ccb46b@collabora.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Clean-up `else`-blocks in `hw_sm750_map` that occur after `if`-blocks that
-terminate function execution.
+Hi Nicolas,
 
-Signed-off-by: Eric Florin <ericflorin.kernel@gmail.com>
----
- drivers/staging/sm750fb/sm750_hw.c | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
+On 2025-04-17 23:58, Nicolas Dufresne wrote:
+> From: Jonas Karlman <jonas@kwiboo.se>
+> 
+> Add support for a get_image_fmt() ops that returns the required image
+> format.
+> 
+> The CAPTURE format is reset when the required image format changes and
+> the buffer queue is not busy.
+> 
+> Signed-off-by: Jonas Karlman <jonas@kwiboo.se>
+> Tested-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+> Co-developed-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+> Signed-off-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+> ---
+>  drivers/staging/media/rkvdec/rkvdec.c | 35 +++++++++++++++++++++++++++++++++++
+>  drivers/staging/media/rkvdec/rkvdec.h |  2 ++
+>  2 files changed, 37 insertions(+)
+> 
+> diff --git a/drivers/staging/media/rkvdec/rkvdec.c b/drivers/staging/media/rkvdec/rkvdec.c
+> index 7b780392bb6a63cc954655ef940e87146d2b852f..6c6fe411f48772419e1810d869ab40d168848e65 100644
+> --- a/drivers/staging/media/rkvdec/rkvdec.c
+> +++ b/drivers/staging/media/rkvdec/rkvdec.c
+> @@ -72,6 +72,15 @@ static bool rkvdec_is_valid_fmt(struct rkvdec_ctx *ctx, u32 fourcc,
+>  	return false;
+>  }
+>  
+> +static bool rkvdec_fmt_changed(struct rkvdec_ctx *ctx,
+> +			       enum rkvdec_image_fmt image_fmt)
 
-diff --git a/drivers/staging/sm750fb/sm750_hw.c b/drivers/staging/sm750fb/sm750_hw.c
-index 4bc89218c11c..64b199061d14 100644
---- a/drivers/staging/sm750fb/sm750_hw.c
-+++ b/drivers/staging/sm750fb/sm750_hw.c
-@@ -55,9 +55,8 @@ int hw_sm750_map(struct sm750_dev *sm750_dev, struct pci_dev *pdev)
- 		pr_err("mmio failed\n");
- 		ret = -EFAULT;
- 		goto exit;
--	} else {
--		pr_info("mmio virtual addr = %p\n", sm750_dev->pvReg);
- 	}
-+	pr_info("mmio virtual addr = %p\n", sm750_dev->pvReg);
- 
- 	sm750_dev->accel.dprBase = sm750_dev->pvReg + DE_BASE_ADDR_TYPE1;
- 	sm750_dev->accel.dpPortBase = sm750_dev->pvReg + DE_PORT_ADDR_TYPE1;
-@@ -84,9 +83,8 @@ int hw_sm750_map(struct sm750_dev *sm750_dev, struct pci_dev *pdev)
- 		pr_err("Map video memory failed\n");
- 		ret = -EFAULT;
- 		goto exit;
--	} else {
--		pr_info("video memory vaddr = %p\n", sm750_dev->pvMem);
- 	}
-+	pr_info("video memory vaddr = %p\n", sm750_dev->pvMem);
- exit:
- 	return ret;
- }
--- 
-2.39.5
+Just a small nitpick:
+
+Maybe this function should be called rkvdec_image_fmt_changed() and
+could be moved closer to rkvdec_image_fmt_match() as those two are
+related to image_fmt and not the pixfmt/fourcc.
+
+Regards,
+Jonas
+
+> +{
+> +	if (image_fmt == RKVDEC_IMG_FMT_ANY)
+> +		return false;
+> +
+> +	return ctx->image_fmt != image_fmt;
+> +}
+> +
+>  static void rkvdec_fill_decoded_pixfmt(struct rkvdec_ctx *ctx,
+>  				       struct v4l2_pix_format_mplane *pix_mp)
+>  {
+> @@ -118,8 +127,34 @@ static int rkvdec_try_ctrl(struct v4l2_ctrl *ctrl)
+>  	return 0;
+>  }
+>  
+> +static int rkvdec_s_ctrl(struct v4l2_ctrl *ctrl)
+> +{
+> +	struct rkvdec_ctx *ctx = container_of(ctrl->handler, struct rkvdec_ctx, ctrl_hdl);
+> +	const struct rkvdec_coded_fmt_desc *desc = ctx->coded_fmt_desc;
+> +	enum rkvdec_image_fmt image_fmt;
+> +	struct vb2_queue *vq;
+> +
+> +	/* Check if this change requires a capture format reset */
+> +	if (!desc->ops->get_image_fmt)
+> +		return 0;
+> +
+> +	image_fmt = desc->ops->get_image_fmt(ctx, ctrl);
+> +	if (rkvdec_fmt_changed(ctx, image_fmt)) {
+> +		vq = v4l2_m2m_get_vq(ctx->fh.m2m_ctx,
+> +				     V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE);
+> +		if (vb2_is_busy(vq))
+> +			return -EBUSY;
+> +
+> +		ctx->image_fmt = image_fmt;
+> +		rkvdec_reset_decoded_fmt(ctx);
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+>  static const struct v4l2_ctrl_ops rkvdec_ctrl_ops = {
+>  	.try_ctrl = rkvdec_try_ctrl,
+> +	.s_ctrl = rkvdec_s_ctrl,
+>  };
+>  
+>  static const struct rkvdec_ctrl_desc rkvdec_h264_ctrl_descs[] = {
+> diff --git a/drivers/staging/media/rkvdec/rkvdec.h b/drivers/staging/media/rkvdec/rkvdec.h
+> index 6f8cf50c5d99aad2f52e321f54f3ca17166ddf98..e466a2753ccfc13738e0a672bc578e521af2c3f2 100644
+> --- a/drivers/staging/media/rkvdec/rkvdec.h
+> +++ b/drivers/staging/media/rkvdec/rkvdec.h
+> @@ -73,6 +73,8 @@ struct rkvdec_coded_fmt_ops {
+>  		     struct vb2_v4l2_buffer *dst_buf,
+>  		     enum vb2_buffer_state result);
+>  	int (*try_ctrl)(struct rkvdec_ctx *ctx, struct v4l2_ctrl *ctrl);
+> +	enum rkvdec_image_fmt (*get_image_fmt)(struct rkvdec_ctx *ctx,
+> +					       struct v4l2_ctrl *ctrl);
+>  };
+>  
+>  enum rkvdec_image_fmt {
+> 
 
