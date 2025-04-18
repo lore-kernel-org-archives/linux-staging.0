@@ -1,228 +1,163 @@
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+Received: from mail-qv1-f47.google.com (mail-qv1-f47.google.com [209.85.219.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA70E20897F
-	for <linux-staging@lists.linux.dev>; Fri, 18 Apr 2025 09:46:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC503209696
+	for <linux-staging@lists.linux.dev>; Fri, 18 Apr 2025 09:48:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744969568; cv=none; b=VtKO2rCmq+8AmW3F0Qnct0923/naUM/b7UIzGWxTkP668WU7qiMEU6t+QK6KBGDVoDNM4LVGCyBnSPvD2PBpRGIi23vBSjJrUm27Pj8ashkIitSt5uSzN+pCzav804+9B9yhVo87YuIelxUXgF3dgtURLvr89iq5iOlrm7XukyM=
+	t=1744969684; cv=none; b=VIToHfH2J+8QGtm2hb8nCLdNnlf9Kmb7Zju1ErUDbZJgxGnFGCkvq9V4WLOQc7ZGeZTH9xNxD/+DcqtyF239j3fE4ugJBfDV/8JGqIQF0LTF2+oxRs3l/6aZmxI3NbJepn7n4nGqBN0Dq+d345K9nO8of5iHrYWoVLcf37qKtkY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744969568; c=relaxed/simple;
-	bh=kZYbgKw3ukUo4QCzVMR5VmYsOncMtGLSf1fdEUi9EUE=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=GpFW94Jz2ez5woEhaBz526M6k4D/8JMJrIvIT3mRUqwH5s11O+lOF8oGXnOIbZ/XAwC4pW6h5CRqBcG2dCp8FrHiRnHwTgE5EGUbqixZYAxe44+ABD7OHzv53KqCZoEswuYSXg+5updIuq15hmG83IKvHKxPBn8lbQShJ+tDbwM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XkMIBxiu; arc=none smtp.client-ip=209.85.128.43
+	s=arc-20240116; t=1744969684; c=relaxed/simple;
+	bh=5C6U+RztPDFt82u2B4zH+4eGwNPp3uGP6xG8Y9gZWv0=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=QHBZbOOHXuDlzNdINmD7wishRV8j7eYocb63tdJ+UgJEt+lQyYojfDNdfb/p8mVy55rphNuEp9Nm7ndZTcwwroIBXT3TY7YgYx2/5ecJLXSXqfhqMhTm1iF6SwngD2UsW7O9Udt7JBCWw0jX28tADy9dA0czZCVlI8oWI9wtr8s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QpjjLsEf; arc=none smtp.client-ip=209.85.219.47
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XkMIBxiu"
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-43ea40a6e98so14346415e9.1
-        for <linux-staging@lists.linux.dev>; Fri, 18 Apr 2025 02:46:04 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QpjjLsEf"
+Received: by mail-qv1-f47.google.com with SMTP id 6a1803df08f44-6e8f43c1fa0so20749106d6.3
+        for <linux-staging@lists.linux.dev>; Fri, 18 Apr 2025 02:48:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1744969563; x=1745574363; darn=lists.linux.dev;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=kZYbgKw3ukUo4QCzVMR5VmYsOncMtGLSf1fdEUi9EUE=;
-        b=XkMIBxiukmkrL9gKNDWuB05tJrW2D2N2VQJBM70IArSv8EE4WcWLVpjixCX4bnny9l
-         3hdr9QzXZmpm8HpkrPup68jZX/QDs6FGTkIPrq+Se/tOwlmyS/dXRsilB/0ySxsCKfrW
-         3ydqow+fB87SUIAIyYoCuHKv+++pr66fWihz91OTjRHYmDgErvSZjcwrEMflyI/W2Q5W
-         i/HncD+2HRzT2qU6CNnQeNPozRkMfjOuURqSfEn7p7ykxoBSqxFKupOASd/H4ncH6hpW
-         KGZUclugmcRDIYUpNgIFjz/Zxu4paLiIG6888RewvGvSFjTcfdb202T4fkDePjETNYii
-         Ps5w==
+        d=gmail.com; s=20230601; t=1744969682; x=1745574482; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=swkuPDeDTp/AUquO1zBRQo9AsK4c6bS1Ez65fGcDod0=;
+        b=QpjjLsEfII+44zVWmjMqN/Wr8P/xVzETkrmi0ruonpj2XP2Nl1dF+wZMtVy0PbCukF
+         /Zij9CMg3icmkdpFXLKNpU5t+dXmf4XcCEMGariJ0D/gwAhIhg1DkTjqRHgR6hi6yB9O
+         LgjyQGMy7hXmRu0WU8bX86CmgcMUkzbSYEiqhfp5xe9q+rUImTDFLoHcr9Wm71biC9oX
+         PdkcjuCUZqop13kFPIdPCd+hr7wdoRydr5gEvKH8ZeZvGoiFvSNGa14HfJ681iXgJ/T2
+         flG+hOJQh2ZfbhLlqie/U2T3keOX237Gf5JrW8W/+cl2YjgDffwGhPrnf13IUWGzPOgP
+         EEoA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744969563; x=1745574363;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=kZYbgKw3ukUo4QCzVMR5VmYsOncMtGLSf1fdEUi9EUE=;
-        b=YzLVyTzto7nCi4+dstPlz27OKTpkm5F+Q5wSg0K+10rmdtJtFhuH60+FTlNbgt8SDE
-         esWqnw1itGS3dUXwWoB8ZipUbCwcnBhULjJUPxJkO5EMhD+24y9+ph2+hb8rOuJResh8
-         s+gcSwvCxOnGeF5S8t+uUjw0Q0H4k3cmpHv/JJSXT9WK7HBSf3WDFQru1q1ZMl8gbGSQ
-         fHyLXetPVj95jxYHrkzxqZEcOKfb2kHVstx3CvL51ardtTNx112YGq7Bo4xoJXMiRkJm
-         IOqGhxJlfS8PNqNYLuOJZqe9CZNMm+BHP/A+DH3RjbivDYtsaiD9DbrtDXh42poMtymN
-         xaTQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVxdmbcglrWPZMwUaetqteaFfi4RXswStuuK13/VAP98aBBm7B2INF8tPgR0WejgFudfFyWVGVQhc9b5t0a@lists.linux.dev
-X-Gm-Message-State: AOJu0YzWgQYSrrIQMfV/EsdbJQSeUsK87Ru+xHid3AwmZhGNQSz43zn7
-	D4fzBUjTvn1EaBzngD9bgcBSHVZdtPiT7PgyrUkQXxOazOMjuEmg
-X-Gm-Gg: ASbGncuVED47c/TEEqSk93NsvJaiWBdEPObnj1CidtG0nfG2FLAALHqCLwYlYt09iYm
-	2ZFDuZtKadA/sJ12il4eNlv7eCvMiekJ4hfLjkGo+DUtWVMYnhiFcnNKpUdObeqroI+ac+YY0pN
-	mdBMnefM2KGjvKodYgJvRSCqz5zHe6TNxzlyuadix+0vwnDpljQtwxGLiVfQCPkmCqmUFzi+neP
-	z9w48Q+2SkLDA1PLORG6ZMIYOQ88qRwIOnzwelh0+zI8Tzmz94efPouNn9hChlbKBc+lOIIHSE2
-	vfFU3HfR+jBthiXu4/mYBPZaKVsnu+GgL41ued1XZ0DIY/zYMzlAWGzShboyS33dG0bSduKoxo6
-	MxPvjLI6YVCM5XznRumdjGbiPKA==
-X-Google-Smtp-Source: AGHT+IGdwQHN41vKDt7TdqZdCPUhvA/CvukjpsYuLQYJQHGAPy/n5hOLeTb7Ch9Qr25KePDhjhw/MQ==
-X-Received: by 2002:a05:600c:4e4c:b0:43c:f470:7605 with SMTP id 5b1f17b1804b1-4406ab99615mr20004245e9.12.1744969562833;
-        Fri, 18 Apr 2025 02:46:02 -0700 (PDT)
-Received: from ?IPv6:2001:818:ea56:d000:56e0:ceba:7da4:6673? ([2001:818:ea56:d000:56e0:ceba:7da4:6673])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-39efa3a1685sm2285627f8f.0.2025.04.18.02.46.01
+        d=1e100.net; s=20230601; t=1744969682; x=1745574482;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=swkuPDeDTp/AUquO1zBRQo9AsK4c6bS1Ez65fGcDod0=;
+        b=pHFCEFon/LK8Ua5FoBCKnAIvWXDc0uOL7nSVTPkF+QAGTxJFE0XHG2Bf9o7MnillxO
+         g+a4nEcw7UZntHdQisZzZvm1eDcBmjcTdvqJMgAIVg2h/cO1SaoyoyRPQpzCekAi8NTE
+         DMW691LaP8PajYxfqk+xpd07o1EMxWWLG+zR80SGF5phPlsV/NhmyxD+dfbIvA4WolUX
+         JbAT6esNdH9GGiyjuCkGpHLPq5+f6I+GpM9b1AiUnXff/93hJXRUhJjkdpS0LNZ8oR5Q
+         VlMZRIRnYUj8uT79ua1taXSie3Mp/8j8rQFN4SdhKHLpoFEeuuscrsmTUPuXLsl1mnV2
+         TpOw==
+X-Gm-Message-State: AOJu0YyLvxNDYWIvFhn5A5cGwr45WwyOI0o1db8AMT+SOF2bTSpDd2Y3
+	FcYG0NGgmSLIxrwxRvOx2najKOpxPdb1QF7XjNPlOtuVWnd4himo
+X-Gm-Gg: ASbGncsuJ4cJLVo03RwcdyBSvwdXyrlwaMS36XDXPPgf2gPh1OmSMsjImhQ+G0FieAi
+	4ayHhIJh+jZKh0AIDdvT7KmRQqmDWERRJ5IKDIO+14GqO3oSTK9Gmt7aVKy5fBm37GYfWSLyTWI
+	OqxUEMv8v4XoxLxF+zOAAJhFBzOX/DKj09o93KUeavAY4QvrBDnA3LG4jd6gme+De8rSiPsqxu+
+	p5ScbRRoU74uMdPUwyRQ01jrDgJckcfBloVRv75o9GIicp44Hlz//WptnfuAUkyVE0yZyJkxP0H
+	ApHqi4iEE2skortT2UevyGzaCUjsr9Du
+X-Google-Smtp-Source: AGHT+IHh4v9vR4HTkV+erKOLAWBX2lYlyK5ifIWO6l/UrrkhGpbwgh7Z0sYqkw+HngcmJDSS1B7b0Q==
+X-Received: by 2002:ad4:5f8e:0:b0:6e8:fa38:46aa with SMTP id 6a1803df08f44-6f2c46527b9mr36143106d6.33.1744969681622;
+        Fri, 18 Apr 2025 02:48:01 -0700 (PDT)
+Received: from ubuntu ([105.112.229.239])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6f2c2c21cccsm8808806d6.106.2025.04.18.02.48.00
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 18 Apr 2025 02:46:02 -0700 (PDT)
-Message-ID: <a32503d98ffe162f48de019fab1a37f86af1666e.camel@gmail.com>
-Subject: Re: [PATCH] iio: adc: Revoke valid channel for error path
-From: Nuno =?ISO-8859-1?Q?S=E1?= <noname.nuno@gmail.com>
-To: Gabriel Shahrouzi <gshahrouzi@gmail.com>
-Cc: gregkh@linuxfoundation.org, jic23@kernel.org, lars@metafoo.de, 
-	linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-staging@lists.linux.dev, Michael.Hennerich@analog.com, 
-	sonic.zhang@analog.com, vapier@gentoo.org, skhan@linuxfoundation.org, 
-	kernelmentees@lists.linuxfoundation.org, stable@vger.kernel.org
-Date: Fri, 18 Apr 2025 09:46:23 +0100
-In-Reply-To: <CAKUZ0z+FKxHcYTYiGvrZ3RLiMKT1P4gtTdq8d7=+ZFC0RMQzqA@mail.gmail.com>
-References: <20250415182038.523186-1-gshahrouzi@gmail.com>
-	 <fb712c034eda0d5d711a90a00b6382315fb5f929.camel@gmail.com>
-	 <CAKUZ0zL88AyuRxzhoAv2iZO7N7qOMy1G3yKscqG3rQiiOS0gog@mail.gmail.com>
-	 <e8b24cf22c87e5b5ce0cc8919eca79f6e60ab6e3.camel@gmail.com>
-	 <CAKUZ0z+FKxHcYTYiGvrZ3RLiMKT1P4gtTdq8d7=+ZFC0RMQzqA@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.52.4 (3.52.4-2.fc40) 
+        Fri, 18 Apr 2025 02:48:01 -0700 (PDT)
+From: Abraham Samuel Adekunle <abrahamadekunle50@gmail.com>
+To: julia.lawall@inria.fr,
+	gregkh@linuxfoundation.org
+Cc: linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	david.laight.linux@gmail.com,
+	dan.carpenter@linaro.org,
+	andy@kernel.org,
+	Abraham Samuel Adekunle <abrahamadekunle50@gmail.com>
+Subject: [PATCH v11 0/2] staging: rtl8723bs: Improve readability and clarity of sequence number wrapping
+Date: Fri, 18 Apr 2025 09:47:53 +0000
+Message-Id: <cover.1744966511.git.abrahamadekunle50@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-On Thu, 2025-04-17 at 13:08 -0400, Gabriel Shahrouzi wrote:
-> On Thu, Apr 17, 2025 at 10:02=E2=80=AFAM Nuno S=C3=A1 <noname.nuno@gmail.=
-com> wrote:
-> >=20
-> > On Thu, 2025-04-17 at 08:53 -0400, Gabriel Shahrouzi wrote:
-> > > On Thu, Apr 17, 2025 at 6:06=E2=80=AFAM Nuno S=C3=A1 <noname.nuno@gma=
-il.com> wrote:
-> > > >=20
-> > > > On Tue, 2025-04-15 at 14:20 -0400, Gabriel Shahrouzi wrote:
-> > > > > According to the datasheet on page 9 under the channel selection =
-table,
-> > > > > all devices (AD7816/7/8) are able to use the channel marked as 7.=
- This
-> > > > > channel is used for diagnostic purposes by routing the internal 1=
-.23V
-> > > > > bandgap source through the MUX to the input of the ADC.
-> > > > >=20
-> > > > > Replace checking for string equality with checking for the same c=
-hip ID
-> > > > > to reduce time complexity.
-> > > > >=20
-> > > > > Group invalid channels for all devices together because they are
-> > > > > processed the same way.
-> > > > >=20
-> > > > > Fixes: 7924425db04a ("staging: iio: adc: new driver for AD7816 de=
-vices")
-> > > > > Cc: stable@vger.kernel.org
-> > > > > Signed-off-by: Gabriel Shahrouzi <gshahrouzi@gmail.com>
-> > > > > ---
-> > > > > =C2=A0drivers/staging/iio/adc/ad7816.c | 15 +++++----------
-> > > > > =C2=A01 file changed, 5 insertions(+), 10 deletions(-)
-> > > > >=20
-> > > > > diff --git a/drivers/staging/iio/adc/ad7816.c
-> > > > > b/drivers/staging/iio/adc/ad7816.c
-> > > > > index 6c14d7bcdd675..d880fe0257697 100644
-> > > > > --- a/drivers/staging/iio/adc/ad7816.c
-> > > > > +++ b/drivers/staging/iio/adc/ad7816.c
-> > > > > @@ -186,17 +186,12 @@ static ssize_t ad7816_store_channel(struct =
-device
-> > > > > *dev,
-> > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (ret)
-> > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0 return ret;
-> > > > >=20
-> > > > > -=C2=A0=C2=A0=C2=A0=C2=A0 if (data > AD7816_CS_MAX && data !=3D A=
-D7816_CS_MASK) {
-> > > > > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0 dev_err(&chip->spi_dev->dev, "Invalid channel id %lu for
-> > > > > %s.\n",
-> > > > > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 data, indio_dev->=
-name);
-> > > > > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0 return -EINVAL;
-> > > > > -=C2=A0=C2=A0=C2=A0=C2=A0 } else if (strcmp(indio_dev->name, "ad7=
-818") =3D=3D 0 && data > 1) {
-> > > > > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0 dev_err(&chip->spi_dev->dev,
-> > > > > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 "Invalid channel =
-id %lu for ad7818.\n", data);
-> > > > > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0 return -EINVAL;
-> > > > > -=C2=A0=C2=A0=C2=A0=C2=A0 } else if (strcmp(indio_dev->name, "ad7=
-816") =3D=3D 0 && data > 0) {
-> > > > > +=C2=A0=C2=A0=C2=A0=C2=A0 if (data !=3D AD7816_CS_MASK &&
-> > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 (data > AD7816_=
-CS_MAX ||
-> > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 (chip->id =3D=
-=3D ID_AD7818 && data > 1) ||
-> > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 (chip->id =3D=
-=3D ID_AD7816 && data > 0))) {
-> > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0 dev_err(&chip->spi_dev->dev,
-> > > > > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 "Invalid channel =
-id %lu for ad7816.\n", data);
-> > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 "Invalid channel =
-id %lu for %s.\n", data, indio_dev-
-> > > > > > name);
-> > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0 return -EINVAL;
-> > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
-> > > >=20
-> > > > Hmm, maybe I'm missing something but the code just looks the same a=
-s before
-> > > > (from a functionality point of view)? I'm really not seeing any fix=
-...
-> > > I might have to change it for readability. From my understanding, if
-> > > channel 7 is selected (AD7816_CS_MASK), it never enters the error pat=
-h
-> > > whereas in the old code, if the chip were either ad7816 or ad7818, it=
- would
-> > > end up returning an error because it skips all channels above either =
-0
-> > > or 1.
-> >=20
-> > Ahh, right!
-> >=20
-> > One good refactor is to add a chip_info struct (renaming the existing o=
-ne) with
-> > let's say a name and max_channels. Then, the condition could be reduced=
- to:
-> >=20
-> > if (data > st->chip->max_channel && data !=3D AD7816_CS_MASK {
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 dev_err(...);
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return -EINVAL;
-> > }
-> Makes sense. I sent a V2 with the updates. Also included enum
-> ad7816_type as a member for chip_info but not sure if it is necessary.
-> Renamed the existing one to ad7816_state.
-> >=20
-> > Being this in staging, I guess we don't care much about having the fix =
-as the
-> > first patch to make it easier to backport.
-> In other words, combining the refactoring and fix into one patch is
-> fine but normally they would be split?
+The patchset adds spaces around binary operators, breaks long lines to enhance readability
+and provides clarity on sequence number wrapping by using a modulo operation % 4096u, in
+place of the bitwise AND(&) operation & 0xfff.
+The patches are required to be applied in sequence.
 
-Yes, in theory we want to have the fixes first before any refactor because =
-we might
-want to backport the fix and we do not want to backport more code than need=
-ed. Not
-totally sure but being this on staging we might not care that much about th=
-is.
+Changes in v10:
+- Sent v11 to mailing list after v10 was deleted due to versioning mistake.
 
-- Nuno S=C3=A1
->=20
-> >=20
-> > - Nuno S=C3=A1
-> >=20
-> > >=20
-> > > >=20
-> > > > Having said the above, not sure if grouping helps with readability.=
- But I do
-> > > > agree with moving from string comparison to use chip->id. And we al=
-so have
-> > > > redundants 'else'
-> > > >=20
-> > > > - Nuno S=C3=A1
-> > > >=20
+Changes in v9:
+* PATCH 1:
+	- Added more converted cases found in the driver to the patch.
+- The Coccinelle semantic patch used to find additional cases in the driver is:
+
+@@
+expression e;
+
+@@
+* e & 0xfff
+
+- The bloat-o-meter tool was used to ensure the sizes of the binary
+files before and after the change were the same.
+
+- $ make drivers/staging/rtl8723bs/core/rtw_xmit.o
+  $ ./scripts/bloat-o-meter rtw_xmit_before.o rtw_xmit_after.o
+
+This showed identical 'Before' and 'After' size values with a 'chg' of +0.00%.
+Changes in v8:
+* PATCH 1:
+	- Added Reviewed-by tag to commit message.
+* PATCH 2:
+	- Added Reviewed-by tag to commit message.
+Changes in v7:
+* PATCH 1:
+	- Added blank line to enhance readability
+* PATCH 2:
+	- Changed `power of 2` to `power-of-2` in commit message.
+Changes in v6:
+	- Modified cover letter BLURB to reference newly added line breaks.
+* PATCH 1:
+	- Added line breaks to long lines to improve readability.
+	- Changed commit message to include the information about the broken
+	  lines added to the patch.
+	- Changed subject line title to also include the newly added line breaks.
+* PATCH 2:
+	- Changed instances of `& 0xfff` to `% 4096u` which were now in the broken lines
+	  after the broken lines have been done in PATCH 1.
+Changes in v5:
+	- Converted the patch with the subject "Use % 4096 instead of & 0xfff"
+	  patch to a patchset.
+	- Added a patch to add spaces around binary operator.
+Changes in v4:
+	- Corrected patch to use '%' instead of '&'.
+	- To ensure this change does not affect the functional
+	behaviour, I compared the generated object files before and
+	after the change using the `cmp` which compares the two
+	object files byte by byte as shown below:
+
+	$ make drivers/staging/rtl8723bs/core/rtw_xmit.o
+	$ cmp rtw_xmit_before.o rtw_xmit_after.o
+
+	No differences were found in the output, confirming that the
+	change does not alter the compiled output.
+Changes in v3:
+	- Added more description to the commit message.
+	- Removed blank line in the tag block.
+	- Added more patch recipients.
+Changes in v2:
+	- Changed the commit message t a more descriptive message which
+	makes it clear why the patch does the change.
+	- changed the subject title to include `4096u` to show that an
+	unsigned module is used.
+Changes in v1:
+	- Added more patch recipients.
+
+Abraham Samuel Adekunle (2):
+  staging: rtl8723bs: Add spaces and line breaks to improve readability
+  staging: rtl8723bs: Use % 4096 instead of & 0xfff
+
+ drivers/staging/rtl8723bs/core/rtw_mlme_ext.c | 2 +-
+ drivers/staging/rtl8723bs/core/rtw_recv.c     | 6 +++---
+ drivers/staging/rtl8723bs/core/rtw_xmit.c     | 9 ++++++---
+ 3 files changed, 10 insertions(+), 7 deletions(-)
+
+-- 
+2.34.1
 
