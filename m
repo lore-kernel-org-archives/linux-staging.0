@@ -1,234 +1,237 @@
-Received: from sonic309-20.consmr.mail.gq1.yahoo.com (sonic309-20.consmr.mail.gq1.yahoo.com [98.137.65.146])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC91321129A
-	for <linux-staging@lists.linux.dev>; Fri, 18 Apr 2025 15:28:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=98.137.65.146
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D99EF9EC;
+	Fri, 18 Apr 2025 15:35:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744990110; cv=none; b=aW/e9nC0iIL37OUQb6cr/tTW4DZns9NLTvk3kD1XE5FVUAfNusajNOCNDewoQbiYz+9DNhpbaZiw3M3s44eIi4b97q8QvwqjrjxV65EW6RXL2ahwKCuVxIBLT33J/nyt4e6i0AnFazSvJxA5OnxI4tjOjV9ZYbBmlsUEF4B4xSE=
+	t=1744990518; cv=none; b=ex2+PErpj7mTG7r7tF2c6FZuM8KMJINyIWyqAk/fRQxyv6AnfcVdUoVALBDDsGabftCPvpJ9mvvIX5zOAWvOaKddgUy8vlv0ve/gDQctEAeK9g92W5bcCViJ5PRrsEaAhYP9q4eYLyt/81EIm8GSEW2BZ6oXlvgCWKygmOY8d48=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744990110; c=relaxed/simple;
-	bh=xOdu2gi8L6DYGYuLQPtrq+ir8L1ZoeFhePuMunbTn+o=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Abebnte9giFYdCbrc5XQXkNfK/3XUOcXAGi9Itju5bzOj/gbFh9UVpalsXyv6S0A/YJHxrxuW7WbAI2GfIyny9dw/7x3N1xjRBrHvRlnBis3VPC2uRXlnMKBB3PKWIfo1Rwt7EkxBw6Enb6bhUcIHQTbfp3Sd3tZ8HDfgPwMEW4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=aol.com; spf=pass smtp.mailfrom=aol.com; dkim=pass (2048-bit key) header.d=aol.com header.i=@aol.com header.b=Mn95QbTC; arc=none smtp.client-ip=98.137.65.146
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=aol.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=aol.com
+	s=arc-20240116; t=1744990518; c=relaxed/simple;
+	bh=P4t0RS1mi3GBrCyrkQOyER8mTaJlcoQB6fJm195efpQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=dm5G9AJzkQjm2do+N4YmPdmzXefvFXb+qhXfmYNy45vhuSJsrB3Nsl1iB/37wHnujHxoUsLqA0a3ZlHem/78tGg80F2eVeNdGjbABXLNHDXVTCwFAhl+UqBpkHm/65lV3jhql4MnWv5t261hy1S0LtByMK7JXottHXbNkfdW/24=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OjanPdXR; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=aol.com header.i=@aol.com header.b="Mn95QbTC"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aol.com; s=a2048; t=1744990108; bh=kB+h5yP3IPBkJvaAFUAFuyiqySzIbHuteHH3qZOlXl8=; h=From:To:Cc:Subject:Date:In-Reply-To:References:From:Subject:Reply-To; b=Mn95QbTClCGoR2z/jlR/VEKcoRGJErkXcZoqqEoDxzzkX5pef8iobWysDhza8cZGzM+vlVLF7+4MLumtEdabu+II0cylKPqudq2P8xTsvMm0u8mljHxRJsurAbDbJYQer3ZWnElkpealcBWU63IN/NYOsbIMs14/IkLw5RGvli/RzzObW16glewiykoM8Sy7dnuaGW1N2zTwmVMIDNY1f2+9+ZQO4qa24iXPvHqWnRatEOCJVEw3zlPh721lpR6Nt5259XyMCUhvJ3tX261r2WlXU4/D3CYx5Ui5HKWpWqxD7GbqPFeGC9z/UR1FS26RNHkAH9RsHLEnES8W/VDwkQ==
-X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1744990108; bh=ktbryZ2sbt4Cjsa1LpAQtv38t1dkrqO0TPD490eE0XG=; h=X-Sonic-MF:From:To:Subject:Date:From:Subject; b=Iu6Da4xuUC3FxcjvDL9F5I5zNtJc7I322R7rGisTaaI9gJOteuc147OJd8/HUsassCJbEYUn6+owDUhVmTyCucLcdCHGqgiq4a6nOgIzl4zPAyRJDd6sRodrtLyqf7cLZysvS5/6sY+QZ6t3Te85wPMnsHuw1RwnAJhtpsXCm9g6TB06bvZmMF9ugC4e2DW7omtYZMqXrMGIlYTGNxlsMA6orlSC6jODJ+vve8Ktf0jra6bX92RKBw4Khu0sqao0DThItgmAtDjQssT6eGkDc5VMtf18Ulc/MoFRoAPJrXGN4IrFIyiyPHEnA4Nkga+s3zfc6uYHrj2dhaEBE3DnPQ==
-X-YMail-OSG: iFmeQr8VM1mK_jNd.0.YHVw17zxxRzQSTY7SP1AgC95pD2cm4xCrWmnp5SEeUvU
- 3cMYSZZ_hz1dUPEiP3o7UifiYq.lVv6rHJsScsTR2ubLm8uT5FKpPDW8tW9PD45APwRRLMOQNFac
- KsXnGz49X12lwJL4_lGGDQLbCMasL36JcqWo37W9O1UUsRZlN2pcuvMiPiVhJm4p.0a8C0BjezKg
- wLpGH3zm.ntvSrpFXf5jW0MWQAoZtKcUx2HdoFoxGKzAyJv5NGNCwOlVlx6uVN6x6Z7UTU0AkRwj
- tbkH0QzPyrGFPO2uCz9OuWTZKoW1Uio6nLU_tISN2ct_p93EYalMt3EztL0jWx3O0YWQ2bUXT7Fg
- nDiUYJ7HxBI8x3hOX6wDdoIzVQmRizXZh6LcpTORteK9Wxv1aAMfpKhL_uhDLSdPiuDUomv7vIYV
- 3npGshp_jWNCil_HM1PIdZ2WoLrJ.SkqZ6ufoHPOmiISuLwQbW36Qmo3DkRNJhfosOhNSUUb7KNK
- tN_wAcM54RRkICYyXjOB2rilJgCBjPCLyRlOltWDBHmdMW7Clm.Z_WbxgwlEWapicLi_NzK7pRos
- Vijp5ndAhi6XtHCBL7IZPxPsipRv.GHmNUF9emJCaq97E_dJvw_UfaRTyDdP7PmpSzZsHUi_UKt9
- dBHfivjz.1nfT3zcDIXnkRsfVNvJRSNiK7c7AEFp536mKAmlcGDAgh_aJwHKrtsejZ0_jfVN4PiN
- BkZm2brGZ82B6EJf2hlugkBz.ypPSoNpy8baOjL0oNGqJWw9VdbuaGpan_RvVPbsaBnY.mMD8siq
- YRZIPqxKV2uMmlK1PsWumNUZHakSX48PNKjFs794Qo5196KSep0dWU6dPA5zlxKK3bXHWsysOycT
- nwvsgQjDwrZkxA3Tc6LQ_mda9P6xsRGFf_tPBZCWXUMEF9gTbFkNhCNnXFHxB8TLR.zMYDg7zo_.
- k549VfLHGVSR3FXhLnDBfNgHq.hNCzgyzsi6cqjH38a_Lwqf0xd_zpwCplCuM9L.sVUPV811jJNk
- M5eKwjbseFmnwsQ53TIPBqUUIhj9yCwoZMsbj6wpCmhKJbIZanaDyjHNZNTkBGelVtHN9Qj7rMx_
- iV2L2QsThAEupDxhCc5tBV6_ZGThTDFE4PBsHRw.XmgIqvZGnd3XBSVJIgMkjHzNF1sdMftRAkEW
- jLCtz2phbZTmr2GujdYIDghKFuNFfKrZfZ9btHG.2Nr0kD2ZCjjSIzmDCdaZg6YxyeOv7F3domNF
- bBOLuUxVehnS67I5uCqnDUzU9K8uxWaqrr5gqH6Ww8BUFmg1BtdIrCJkB3IIRqwYdHkq_7Ks9OEA
- fMIoTk5GIL7H84bRZJbEaffBHvyoItYnrTaxRxt7o8OWNjKLWWvxZb2kFiR.dpSuQJ6ujpB8ZeU4
- QHkO5Lr2UlkyZdbBvaRVA4T.sdtkm3TlbId8VXcJePMXu6zOiovfmrrQqfPdjHE.8wVO3DgxhO.r
- 6Nyb6LmmzhEO9h7aOvLKV0UMZ_uUutgLjjNFl91H2Sc7X5mVdHPdpYdX2KPScPiwbCSqjwbsNXAd
- gUWwTrVVHQ0JISWMDu0HzGAj2HAivGfL4VBNIXFj1F_.rj7y86m8BdeeT7lHE5T0O7SbabIZrXWl
- RuBuBXF01RM92mwlL7XV7iASsb.VN6tJUcErfMc5Tq2YVN8xzQ6eiekthBQHJkV8CKC88IaKKg2c
- x2mFxgy2EfYIDdKXaaHdY5waRX.Ip_FLU7HhjbJQLUSNeQQktgwjTDFxFoU0VB_4U3IC74UXvsOW
- H3jfWJjAQrWrIwd2JKmeJDVB7pfEzhkUQT2GnpxSr_1pRtErQRmPzLiAYzIvSKPkqsmHvDXhbsZU
- dHHlk1H0kcoqolEcj_sp811A8Fb2TPHqMb7YlPM_S3g1OwLzdHkOEA..LIYa4LuZGGsJREC_Qu94
- LxkgZRKgtp97XlaiIiXPqMYnddR686q2ZRnTz1GGdKX3vDr7XZ0q9M1fouTJCfN1NXjNuSoB_11A
- HGkO6zex8A9NQUxazvlL._Eoa2X8V096cJbZfBZeENFQzSWkQ4z_cNp3pRnlKD7mcWPIff1rEhmR
- kksRD7.gFGIGHdk.M0EGkAQfHhBXPrXvQL3fULmNphnN4hT4pe4BY_.nBaR9jJZLfloq8LvbONCG
- 8WHUaMCJNEajvirlqN_tXe3o6iyBOTVSDbUnoXuHWyZ1nLbUUF.hNQ4DbgMnfkvS1M3dZ8SaGXmD
- 8v.xKVoknx5LGB5UOQfzqqD80.7fdlHmpcdRfQg_ML3F4sPT3Jn2LXM.7vWQ4Bxz_Sa41kuT3fto
- 2g4VxQg--
-X-Sonic-MF: <rubenru09@aol.com>
-X-Sonic-ID: 9b098b5c-327d-4449-9d38-6829aed84013
-Received: from sonic.gate.mail.ne1.yahoo.com by sonic309.consmr.mail.gq1.yahoo.com with HTTP; Fri, 18 Apr 2025 15:28:28 +0000
-Received: by hermes--production-ir2-858bd4ff7b-rjtcv (Yahoo Inc. Hermes SMTP Server) with ESMTPA ID 8d9c4354726140fe64c22851ae4eda49;
-          Fri, 18 Apr 2025 15:18:15 +0000 (UTC)
-From: Ruben Wauters <rubenru09@aol.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Sudip Mukherjee <sudipm.mukherjee@gmail.com>,
-	Teddy Wang <teddy.wang@siliconmotion.com>,
-	Sudip Mukherjee <sudip.mukherjee@codethink.co.uk>
-Cc: Ruben Wauters <rubenru09@aol.com>,
-	linux-fbdev@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH 2/4] staging: sm750fb: remove ddk750_dvi
-Date: Fri, 18 Apr 2025 16:17:48 +0100
-Message-ID: <20250418151755.42624-3-rubenru09@aol.com>
-X-Mailer: git-send-email 2.48.1
-In-Reply-To: <20250418151755.42624-1-rubenru09@aol.com>
-References: <20250418151755.42624-1-rubenru09@aol.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OjanPdXR"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DF802C4CEE2;
+	Fri, 18 Apr 2025 15:35:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1744990516;
+	bh=P4t0RS1mi3GBrCyrkQOyER8mTaJlcoQB6fJm195efpQ=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=OjanPdXRCCAM8w+d65aZF7IrMXpBdECIo7HnQXWK4zqvCQ0udXvwCGq6UOctPeX5D
+	 5MFs+3ecskaa9VMkvHgDn7X/fzOryH3fIiafVGaMVrjHAAjNYT0f/xsG3EXEMUdfki
+	 1qyGywlZDWDB4msCKvkbminkXxijgfYQaHj4Ao1TrmJuBLvo9zC1UB4mQu9RXipkEI
+	 T8vvFnZoJ4nqmLN56LWjkVGMr9F1qyGPLnkwULRS4GmqQkVgd2yF2oiHWbDsordm+g
+	 +oDj8wfZWYP8cy0H7FK+ERqndrBBw5St/PxsVvfrG5ypclrE15biQ/p8+dg5w1ovo1
+	 xtT3EWAQhGTuA==
+Date: Fri, 18 Apr 2025 16:35:10 +0100
+From: Jonathan Cameron <jic23@kernel.org>
+To: Gabriel Shahrouzi <gshahrouzi@gmail.com>
+Cc: gregkh@linuxfoundation.org, lars@metafoo.de, linux-iio@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev,
+ Michael.Hennerich@analog.com, sonic.zhang@analog.com, vapier@gentoo.org,
+ skhan@linuxfoundation.org, linux-kernel-mentees@lists.linux.dev,
+ stable@vger.kernel.org
+Subject: Re: [PATCH v2] iio: adc: Include valid channel for channel
+ selection
+Message-ID: <20250418163510.5dac416e@jic23-huawei>
+In-Reply-To: <20250417170109.602659-1-gshahrouzi@gmail.com>
+References: <20250417170109.602659-1-gshahrouzi@gmail.com>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.48; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-This file and the code present was unused in the whole
-driver, therefore this patch removes the file and unused
-reference to the header.
+On Thu, 17 Apr 2025 13:01:09 -0400
+Gabriel Shahrouzi <gshahrouzi@gmail.com> wrote:
 
-Signed-off-by: Ruben Wauters <rubenru09@aol.com>
----
- drivers/staging/sm750fb/Makefile         |  3 +-
- drivers/staging/sm750fb/ddk750_display.c |  1 -
- drivers/staging/sm750fb/ddk750_dvi.c     | 45 -------------------
- drivers/staging/sm750fb/ddk750_dvi.h     | 57 ------------------------
- 4 files changed, 1 insertion(+), 105 deletions(-)
- delete mode 100644 drivers/staging/sm750fb/ddk750_dvi.c
- delete mode 100644 drivers/staging/sm750fb/ddk750_dvi.h
+> According to the datasheet on page 9 under the channel selection table,
+> all devices (AD7816/7/8) are able to use the channel marked as 7. This
+> channel is used for diagnostic purposes by routing the internal 1.23V
+> bandgap source through the MUX to the input of the ADC.
+> 
+> Replace checking for string equality with checking for the same chip ID
+> to reduce time complexity.
+> 
+> Group invalid channels for all devices together because they are
+> processed the same way.
+> 
+> Fixes: 7924425db04a ("staging: iio: adc: new driver for AD7816 devices")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Gabriel Shahrouzi <gshahrouzi@gmail.com>
 
-diff --git a/drivers/staging/sm750fb/Makefile b/drivers/staging/sm750fb/Makefile
-index 1926376664ca..b3cb973e2672 100644
---- a/drivers/staging/sm750fb/Makefile
-+++ b/drivers/staging/sm750fb/Makefile
-@@ -3,5 +3,4 @@ obj-$(CONFIG_FB_SM750)	+= sm750fb.o
- 
- sm750fb-objs		:= sm750.o sm750_hw.o sm750_accel.o sm750_cursor.o \
- 			   ddk750_chip.o ddk750_power.o ddk750_mode.o \
--			   ddk750_display.o ddk750_swi2c.o ddk750_dvi.o  \
--			   ddk750_hwi2c.o
-+			   ddk750_display.o ddk750_swi2c.o ddk750_hwi2c.o 
-diff --git a/drivers/staging/sm750fb/ddk750_display.c b/drivers/staging/sm750fb/ddk750_display.c
-index 172624ff98b0..4e390541a507 100644
---- a/drivers/staging/sm750fb/ddk750_display.c
-+++ b/drivers/staging/sm750fb/ddk750_display.c
-@@ -3,7 +3,6 @@
- #include "ddk750_chip.h"
- #include "ddk750_display.h"
- #include "ddk750_power.h"
--#include "ddk750_dvi.h"
- 
- static void set_display_control(int ctrl, int disp_state)
- {
-diff --git a/drivers/staging/sm750fb/ddk750_dvi.c b/drivers/staging/sm750fb/ddk750_dvi.c
-deleted file mode 100644
-index 9842c4e4cdf8..000000000000
---- a/drivers/staging/sm750fb/ddk750_dvi.c
-+++ /dev/null
-@@ -1,45 +0,0 @@
--// SPDX-License-Identifier: GPL-2.0
--#define USE_DVICHIP
--#ifdef USE_DVICHIP
--#include "ddk750_chip.h"
--#include "ddk750_reg.h"
--#include "ddk750_dvi.h"
--
--/*
-- * This global variable contains all the supported driver and its corresponding
-- * function API. Please set the function pointer to NULL whenever the function
-- * is not supported.
-- */
--
--static struct dvi_ctrl_device dcft_supported_dvi_controller[] = { };
--
--int dvi_init(unsigned char edge_select,
--	     unsigned char bus_select,
--	     unsigned char dual_edge_clk_select,
--	     unsigned char hsync_enable,
--	     unsigned char vsync_enable,
--	     unsigned char deskew_enable,
--	     unsigned char deskew_setting,
--	     unsigned char continuous_sync_enable,
--	     unsigned char pll_filter_enable,
--	     unsigned char pll_filter_value)
--{
--	struct dvi_ctrl_device *current_dvi_ctrl;
--
--	current_dvi_ctrl = dcft_supported_dvi_controller;
--	if (current_dvi_ctrl->init) {
--		return current_dvi_ctrl->init(edge_select,
--					      bus_select,
--					      dual_edge_clk_select,
--					      hsync_enable,
--					      vsync_enable,
--					      deskew_enable,
--					      deskew_setting,
--					      continuous_sync_enable,
--					      pll_filter_enable,
--					      pll_filter_value);
--	}
--	return -1; /* error */
--}
--
--#endif
-diff --git a/drivers/staging/sm750fb/ddk750_dvi.h b/drivers/staging/sm750fb/ddk750_dvi.h
-deleted file mode 100644
-index c2518b73bdbd..000000000000
---- a/drivers/staging/sm750fb/ddk750_dvi.h
-+++ /dev/null
-@@ -1,57 +0,0 @@
--/* SPDX-License-Identifier: GPL-2.0 */
--#ifndef DDK750_DVI_H__
--#define DDK750_DVI_H__
--
--/* dvi chip stuffs structros */
--
--typedef long (*PFN_DVICTRL_INIT)(unsigned char edge_select,
--				 unsigned char bus_select,
--				 unsigned char dual_edge_clk_select,
--				 unsigned char hsync_enable,
--				 unsigned char vsync_enable,
--				 unsigned char deskew_enable,
--				 unsigned char deskew_setting,
--				 unsigned char continuous_sync_enable,
--				 unsigned char pll_filter_enable,
--				 unsigned char pll_filter_value);
--
--typedef void (*PFN_DVICTRL_RESETCHIP)(void);
--typedef char* (*PFN_DVICTRL_GETCHIPSTRING)(void);
--typedef unsigned short (*PFN_DVICTRL_GETVENDORID)(void);
--typedef unsigned short (*PFN_DVICTRL_GETDEVICEID)(void);
--typedef void (*PFN_DVICTRL_SETPOWER)(unsigned char power_up);
--typedef void (*PFN_DVICTRL_HOTPLUGDETECTION)(unsigned char enable_hot_plug);
--typedef unsigned char (*PFN_DVICTRL_ISCONNECTED)(void);
--typedef unsigned char (*PFN_DVICTRL_CHECKINTERRUPT)(void);
--typedef void (*PFN_DVICTRL_CLEARINTERRUPT)(void);
--
--/* Structure to hold all the function pointer to the DVI Controller. */
--struct dvi_ctrl_device {
--	PFN_DVICTRL_INIT		init;
--	PFN_DVICTRL_RESETCHIP		reset_chip;
--	PFN_DVICTRL_GETCHIPSTRING	get_chip_string;
--	PFN_DVICTRL_GETVENDORID		get_vendor_id;
--	PFN_DVICTRL_GETDEVICEID		get_device_id;
--	PFN_DVICTRL_SETPOWER		set_power;
--	PFN_DVICTRL_HOTPLUGDETECTION	enable_hot_plug_detection;
--	PFN_DVICTRL_ISCONNECTED		is_connected;
--	PFN_DVICTRL_CHECKINTERRUPT	check_interrupt;
--	PFN_DVICTRL_CLEARINTERRUPT	clear_interrupt;
--};
--
--#define DVI_CTRL_SII164
--
--/* dvi functions prototype */
--int dvi_init(unsigned char edge_select,
--	     unsigned char bus_select,
--	     unsigned char dual_edge_clk_select,
--	     unsigned char hsync_enable,
--	     unsigned char vsync_enable,
--	     unsigned char deskew_enable,
--	     unsigned char deskew_setting,
--	     unsigned char continuous_sync_enable,
--	     unsigned char pll_filter_enable,
--	     unsigned char pll_filter_value);
--
--#endif
--
--- 
-2.48.1
+This is doing too many things for one patch.  The fix wants be
+on it's own. Ideally before everything else but if that is tricky to do
+then I don't mind that much.
+
+> ---
+> Changes since v2:
+> 	- Refactor by adding chip_info struct which simplifies
+> 	  condtional logic.
+> ---
+>  drivers/staging/iio/adc/ad7816.c | 68 ++++++++++++++++++--------------
+>  1 file changed, 38 insertions(+), 30 deletions(-)
+> 
+> diff --git a/drivers/staging/iio/adc/ad7816.c b/drivers/staging/iio/adc/ad7816.c
+> index 6c14d7bcdd675..ec955cbf06c17 100644
+> --- a/drivers/staging/iio/adc/ad7816.c
+> +++ b/drivers/staging/iio/adc/ad7816.c
+> @@ -41,8 +41,20 @@
+>   * struct ad7816_chip_info - chip specific information
+>   */
+>  
+> +enum ad7816_type {
+> +	ID_AD7816,
+> +	ID_AD7817,
+> +	ID_AD7818,
+> +};
+The aim of moving to a chip_info structure is typically
+to get rid of this sort of enum in favour of specific data
+in the chip_info structures.  Anyhow see below for more on that.
+
+> +
+>  struct ad7816_chip_info {
+> -	kernel_ulong_t id;
+> +	const char *name;
+> +	enum ad7816_type type;
+> +	u8 max_channels;
+> +};
+> +
+> +struct ad7816_state {
+
+This effective rename needs to be a patch on it's own before
+you introduce the new struct ad7816_chip_info.  That lets
+us clearly see that all instances are renamed and is
+an easy patch to review as it's just a rename.
+
+> +	const struct ad7816_chip_info *chip_info;
+>  	struct spi_device *spi_dev;
+>  	struct gpio_desc *rdwr_pin;
+>  	struct gpio_desc *convert_pin;
+> @@ -52,16 +64,11 @@ struct ad7816_chip_info {
+>  	u8  mode;
+>  };
+>  
+> -enum ad7816_type {
+> -	ID_AD7816,
+> -	ID_AD7817,
+> -	ID_AD7818,
+> -};
+>
+> @@ -215,7 +215,7 @@ static ssize_t ad7816_show_value(struct device *dev,
+>  				 char *buf)
+>  {
+>  	struct iio_dev *indio_dev = dev_to_iio_dev(dev);
+> -	struct ad7816_chip_info *chip = iio_priv(indio_dev);
+> +	struct ad7816_state *chip = iio_priv(indio_dev);
+>  	u16 data;
+>  	s8 value;
+>  	int ret;
+> @@ -271,7 +271,7 @@ static ssize_t ad7816_show_oti(struct device *dev,
+>  			       char *buf)
+>  {
+>  	struct iio_dev *indio_dev = dev_to_iio_dev(dev);
+> -	struct ad7816_chip_info *chip = iio_priv(indio_dev);
+> +	struct ad7816_state *chip = iio_priv(indio_dev);
+>  	int value;
+>  
+>  	if (chip->channel_id > AD7816_CS_MAX) {
+> @@ -292,7 +292,7 @@ static inline ssize_t ad7816_set_oti(struct device *dev,
+>  				     size_t len)
+>  {
+>  	struct iio_dev *indio_dev = dev_to_iio_dev(dev);
+> -	struct ad7816_chip_info *chip = iio_priv(indio_dev);
+> +	struct ad7816_state *chip = iio_priv(indio_dev);
+>  	long value;
+>  	u8 data;
+>  	int ret;
+> @@ -345,14 +345,22 @@ static const struct iio_info ad7816_info = {
+>  	.event_attrs = &ad7816_event_attribute_group,
+>  };
+>  
+> +static const struct ad7816_chip_info ad7816_chip_infos[] = {
+> +	[ID_AD7816] = { .name = "ad7816", .max_channels = 0, .type = ID_AD7816 },
+Use separate named structures.
+
+This approach with an enum and an array is something we used to do but it
+actually obscures what is going on when compared with separate names structure
+instances.
+
+static const struct ad7816_chip_info ad7816_chip_info = {..};
+
+static const struct ad7816_chip_info ad7817_chip_info = {..};
+
+etc.
+> +	[ID_AD7817] = { .name = "ad7817", .max_channels = 3, .type = ID_AD7817 },
+> +	[ID_AD7818] = { .name = "ad7818", .max_channels = 1, .type = ID_AD7818 },
+> +};
+> +
+>  /*
+>   * device probe and remove
+>   */
+>  
+>  static int ad7816_probe(struct spi_device *spi_dev)
+>  {
+> -	struct ad7816_chip_info *chip;
+> +	struct ad7816_state *chip;
+>  	struct iio_dev *indio_dev;
+> +	const struct spi_device_id *id = spi_get_device_id(spi_dev);
+> +	enum ad7816_type chip_type = (enum ad7816_type)id->driver_data;
+
+Don't go via an enum.  Put pointers directly in the driver_data field.
++ if the driver has on in the of_match_id table as well.
+
+Then use spi_get_device_match_data() to retrieve it in a firmware type
+independent way.
+
+Ideally by the end of the series you should no such enum
+
+>  	int i, ret;
+>  
+>  	indio_dev = devm_iio_device_alloc(&spi_dev->dev, sizeof(*chip));
+> @@ -361,12 +369,12 @@ static int ad7816_probe(struct spi_device *spi_dev)
+>  	chip = iio_priv(indio_dev);
+>  	/* this is only used for device removal purposes */
+>  	dev_set_drvdata(&spi_dev->dev, indio_dev);
+> +	chip->chip_info = &ad7816_chip_infos[chip_type];
+>  
+>  	chip->spi_dev = spi_dev;
+>  	for (i = 0; i <= AD7816_CS_MAX; i++)
+>  		chip->oti_data[i] = 203;
+>  
+> -	chip->id = spi_get_device_id(spi_dev)->driver_data;
+>  	chip->rdwr_pin = devm_gpiod_get(&spi_dev->dev, "rdwr", GPIOD_OUT_HIGH);
+>  	if (IS_ERR(chip->rdwr_pin)) {
+>  		ret = PTR_ERR(chip->rdwr_pin);
+> @@ -382,7 +390,7 @@ static int ad7816_probe(struct spi_device *spi_dev)
+>  			ret);
+>  		return ret;
+>  	}
+> -	if (chip->id == ID_AD7816 || chip->id == ID_AD7817) {
+> +	if (chip->chip_info->type == ID_AD7816 || chip->chip_info->type == ID_AD7817) {
+
+Given you now have a chip_info structure make this data rather than code.  That is
+it should be something ilke
+
+	if (chip->chip_info->has_busy_pin)
+
+>  		chip->busy_pin = devm_gpiod_get(&spi_dev->dev, "busy",
+>  						GPIOD_IN);
+>  		if (IS_ERR(chip->busy_pin)) {
+> @@ -393,7 +401,7 @@ static int ad7816_probe(struct spi_device *spi_dev)
+>  		}
+>  	}
+>  
+> -	indio_dev->name = spi_get_device_id(spi_dev)->name;
+> +	indio_dev->name = chip->chip_info->name;
+>  	indio_dev->info = &ad7816_info;
+>  	indio_dev->modes = INDIO_DIRECT_MODE;
+>  
 
