@@ -1,213 +1,661 @@
-Received: from mail-qt1-f170.google.com (mail-qt1-f170.google.com [209.85.160.170])
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4AFA277003
-	for <linux-staging@lists.linux.dev>; Fri, 18 Apr 2025 13:28:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3294E555
+	for <linux-staging@lists.linux.dev>; Fri, 18 Apr 2025 13:35:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744982909; cv=none; b=Fo3hviWVYTVpDTtw+Vx9oeHnceEcnB7bufI4ey0pZolAtOuqtKa6flYZIhFZMXNTiXSR+AV38lQdRhuGrq+LpKGKDonOBwYrybSvJd+ou+0nqNSGn0UMLHMTWywsA/Nlxgv96WH0OE9fkbSsNJQf/CbZtIQ5VwkN7osSZ5pX16c=
+	t=1744983346; cv=none; b=d7oWe1sRBrxqNU7DmZZ5bA1doq+A4c1gJo9blpzaiIxopuwwcKzN1aXl3+8r3h1U7hLaQ5GmU4QugnG6ROsb+j2oiCXAM/QgO2vaTktt7R88fJ2fSS7PB/xqbJCWygRnFd1h2C5bytx/WzlwWtMn32i98Eu9XRz1zc6C6v31bQk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744982909; c=relaxed/simple;
-	bh=py3qpxPQ4hvohMsFadRBuBilUYS8IpwzxRxK3/vIQIk=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Ew1R+xJBXBcgLwiXHErBXf4jI5BphvgwQAo4FciKXaLDIdLUTFvooiVFtyR0PX/G0g+ouaH5tE1OUHzf8TPrXJZQLpTH5lN5MDa0N4LbPvuR/LnwizZqz/pz0kif5tAF34X3hFnjHms3mjYdliiMy685EYdI00nTqZBp8FY6nv4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Dpb/md8i; arc=none smtp.client-ip=209.85.160.170
+	s=arc-20240116; t=1744983346; c=relaxed/simple;
+	bh=9Z9ofTBrJGalY51Q4gAy5WjR6yYQ+GQUnqWpo58FVdg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=GKp+IYk3UZETl++pi5nehIOCnjqnLvNuybC+wVbq737UMLN2zR4VqUla7In9eQImfS0SKkZwAnxb/lyR9ZMxr8n1HltIFcyhaiiLvE+vmH2tj+ngE8SptjcYpemteuJa3QCh+nclTW06ofRPu4JINOl1IWbzmEq/cwpUhC1Ejh4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LU3EKiJB; arc=none smtp.client-ip=209.85.128.50
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Dpb/md8i"
-Received: by mail-qt1-f170.google.com with SMTP id d75a77b69052e-47692b9d059so25506241cf.3
-        for <linux-staging@lists.linux.dev>; Fri, 18 Apr 2025 06:28:27 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LU3EKiJB"
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-43edb40f357so13707985e9.0
+        for <linux-staging@lists.linux.dev>; Fri, 18 Apr 2025 06:35:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1744982907; x=1745587707; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=H2uvF1gnZo1hDkMDMb6IsHjvK5NSRplkTI6q5lCw7lg=;
-        b=Dpb/md8iOzXRgrP2xi8T1zOREDVQWPQ3HcNv8Pldil2pygZm9CYUnkz/8A8QSyQYqc
-         5qd06PKM5yLPN8Y3cofhGrI79VyxbiRky7lzYzn1oAZf4qZnM9iPdUWmjCIq0cO3yS9J
-         TA29gCp1fsLoX9TS1kvZ0IUypAwqKvi30RK3UO9Zd2uGD6UYEu7uxjQgxpqOXigi4/IW
-         tuj6dtrM8Gh7uKZasLUMhgkgwV2caikln4zysHIkV907akybg0+JMcuXH0SCtP9MG38G
-         qn1lboqqqJMk/Vr+MxgDjAIPPVVhNOJJN6ebm/IJ/mxl9dbMbigM5vigr6SRn4fPhk3V
-         mO8Q==
+        d=gmail.com; s=20230601; t=1744983342; x=1745588142; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=MV8job60Y82iwEFYBAVEfpxYvg7U1JMjX/bkSgrnh50=;
+        b=LU3EKiJB7QyEhINElXXmpxgcVaybHdDIiyoQqGn6Esf6HUDGyM2ybiT2WJNEm58CLt
+         oJ9Fm2UxsalWLFbiqcxpCS2txG73GJ9LWSLYAPV8Nztg5DKGt8zS87fhhlG5L8QuVp6Y
+         3OEoxw/zVP6Mf8ApKwtwoeXzZXkz5wOzFWoC1VGfX9LJWDZbd3F0NSoIknfVXVUFlseS
+         L+YercBCOASbRaNotAn5RamQmY1+S0SmU0CKaptKsXKdi0SNaTDd0dc7NHnlWyZ4zm7c
+         jYfioylMEbHDEK7QYb9rmT1wKOU+bzWL61E5uLIAUtALy3vRhiK03CuInvF7hhKAsWuq
+         tVTw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744982907; x=1745587707;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=H2uvF1gnZo1hDkMDMb6IsHjvK5NSRplkTI6q5lCw7lg=;
-        b=jJdKTBIzptPQ+QV49CE7fLhGzXHZUdlDntHVTV51cy2vsWfIw0pc3S1TLn5MRtAIQI
-         dtUjIQtF3CpO49TDla0TGc3jC5TU0bKwKwRspakDyVGkisIuCQ7TIaerKgfLmQ6fGLwX
-         aNFVmblg8mNKmrIILNP7oEz78EHDOl8+O+2Ig81OqThVlVtSHyDH249AIG5u2a9tE6KQ
-         wR+G/mEZhpg8ooMcQXQDl7kv/Z6MpHTn2ceAyzglhzZmfyE0AyF8Tn/8eMwXrcbACxsJ
-         ORz3Suiuq6C02dX5KtUcnsgrZzm2laEtOgJEiHzQHW9pPrtbl/34s6/yrdzX1yvA+5dN
-         3vVQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWwc8P1el7CE0n2Pd2/H2IBQYeaohHWO7FVy8kgZcmDQE6H+ItgKoLXVPCyKcno+xlgSuQzogywcD+EKJ3g@lists.linux.dev
-X-Gm-Message-State: AOJu0YyjDCKqpKKya2rPhbXCbODJ3qDUxsECrw14pv4LcVrBG2fGVz5h
-	5iiMeb76xsdKWXAy4nCIBJIif6eSn06sDf16PqorXO/BIs9fgn+CqR2wzZdy7QTU/wT18wOY01K
-	HR7FWhd1aY7kgIsTl6ajAUkBVZ3Y=
-X-Gm-Gg: ASbGncucMwjHQcEAsEKpUykxpjNTQC8nP/5blt9pjW6N3L1WGRcnnCi0KVJdzzMhCEJ
-	hMOGh6J1FrRgd80QlLJdvn2cE/TqS18IArv850ZxMN0m6jGyyZ79Iv/Qha6DF5kr4GWGOCjwWwf
-	Y8Bq5lnt1gXPKDz73C/p+NKtwBpfp4h8tX/Uwaj4u4lZmvDn3tLvkE8Hu0gckw7uM=
-X-Google-Smtp-Source: AGHT+IEmOwXK2LuFYh7mE9FoPBp/KZqYGGb32Mvs7/fzuBy/q27GbvhH+PteT6hbPJHJRDNP83snG0RBgbKpuhxHmk4=
-X-Received: by 2002:ac8:5916:0:b0:477:1ee1:23d9 with SMTP id
- d75a77b69052e-47aec3a7331mr45873521cf.20.1744982906523; Fri, 18 Apr 2025
- 06:28:26 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1744983342; x=1745588142;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=MV8job60Y82iwEFYBAVEfpxYvg7U1JMjX/bkSgrnh50=;
+        b=bwyu//t7j5tSfrNua8lVKLb/9IUNNl8oefsIJhZTWAqh55RRcC1ySa6y9cXAqB5Dt0
+         eStQwZr4cBCbUmVCFFjYqjWzHKmXGrWhlm25w2eL0y+vvvEsWJEpBKmW/0myJiVO4zXM
+         bZN/a9Aj0gTLzO5QbdTAnBNvRYRYMfbTW/zCaOrgFVgExiY4RyxltIuay6ZU7bEubNO9
+         QbL7Q/EL+Dm2bhHlMg3J98h6c98nXWaoGyRyQHqJ38jU8VU6tKW/wp1PKysfvpusjZGi
+         qBkacjyOS12LDU0boAaHhGzJuZTV6yoTIkTJLxY2eH7KhYNZKjTIGE4cz7nRACAcLS/e
+         ljRg==
+X-Forwarded-Encrypted: i=1; AJvYcCXrX6jpUUFDWaGp7sY+3EcF+3Djl1yVWGIlRqzEQ9hsuuZHBz80WmxuiZutB1uUbCWWeWtGuJ7rM+b/CtWh@lists.linux.dev
+X-Gm-Message-State: AOJu0YxNLdFIwSh2lZNYNFtbH4rmKvjoh+LasNMyhI3ZVG/9+/HL1zFn
+	B8RrEKlFzoJZdfoqUW7tB4q9f9QHRJIDjpVzAo+8t9z3F5MP71rH
+X-Gm-Gg: ASbGncsU58FLFdX0NaWD7PPaA4m2wjtknivqYoC+H7K2gMMIEZ4lWzGyxHuqzzk6Wqq
+	Ns9E3vc6EmNk+J+DXBNh/e516yHHr3Y18u1E8ul0WOlHMHR49tGxwaPzA03SmWF83aaLd9FQukg
+	ezi8mRJ9QHyXzkSpF0fi12snc759RC71BrPcl19wJcoOI3IWZ8gcW53dPvD8v9cuSjWMziL2kM3
+	V2R3Z33GmyemQqyx4fL6Nz/xLSICf9zc2ITGdpaprz4t/ZwJhFw4JJfBYyrnLRpW7zLIMmtMYzW
+	5Rxwceh78WCNwlNiEFn+POUk5PwemIfbL78w+Z0e1cIQDFpcNXNKe/eUgW/Wb7sJwOtseBsQm5U
+	Y
+X-Google-Smtp-Source: AGHT+IHTqIe/uudBsLAGQYiM0KtQ/f0GY6fw4NZs9PovHw3QmwJerOZyvbOeuy3t3nN2+w7ynbUzhg==
+X-Received: by 2002:a05:6000:1869:b0:391:952:c728 with SMTP id ffacd0b85a97d-39efba26158mr1840555f8f.4.1744983341915;
+        Fri, 18 Apr 2025 06:35:41 -0700 (PDT)
+Received: from localhost.localdomain (82-64-73-52.subs.proxad.net. [82.64.73.52])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-39efa4330bfsm2791417f8f.23.2025.04.18.06.35.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 18 Apr 2025 06:35:41 -0700 (PDT)
+From: Dave Penkler <dpenkler@gmail.com>
+To: gregkh@linuxfoundation.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Cc: dan.carpenter@linaro.org,
+	Dave Penkler <dpenkler@gmail.com>
+Subject: [PATCH V2] staging: gpib: Add return value to request_control
+Date: Fri, 18 Apr 2025 15:35:37 +0200
+Message-ID: <20250418133537.22491-1-dpenkler@gmail.com>
+X-Mailer: git-send-email 2.49.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250415182038.523186-1-gshahrouzi@gmail.com> <fb712c034eda0d5d711a90a00b6382315fb5f929.camel@gmail.com>
- <CAKUZ0zL88AyuRxzhoAv2iZO7N7qOMy1G3yKscqG3rQiiOS0gog@mail.gmail.com>
- <e8b24cf22c87e5b5ce0cc8919eca79f6e60ab6e3.camel@gmail.com>
- <CAKUZ0z+FKxHcYTYiGvrZ3RLiMKT1P4gtTdq8d7=+ZFC0RMQzqA@mail.gmail.com> <a32503d98ffe162f48de019fab1a37f86af1666e.camel@gmail.com>
-In-Reply-To: <a32503d98ffe162f48de019fab1a37f86af1666e.camel@gmail.com>
-From: Gabriel Shahrouzi <gshahrouzi@gmail.com>
-Date: Fri, 18 Apr 2025 09:28:15 -0400
-X-Gm-Features: ATxdqUFv8S2auULHx0FcuBh0UZ0zXdklaGc3PXDOV667MRhIxOk_A11J2oTI0ic
-Message-ID: <CAKUZ0zJK0MtMBMWaUCsF62vxc87XoN0xhJLfCcUZ84XNX-kKVg@mail.gmail.com>
-Subject: Re: [PATCH] iio: adc: Revoke valid channel for error path
-To: =?UTF-8?B?TnVubyBTw6E=?= <noname.nuno@gmail.com>
-Cc: gregkh@linuxfoundation.org, jic23@kernel.org, lars@metafoo.de, 
-	linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-staging@lists.linux.dev, Michael.Hennerich@analog.com, 
-	sonic.zhang@analog.com, vapier@gentoo.org, skhan@linuxfoundation.org, 
-	kernelmentees@lists.linuxfoundation.org, stable@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Fri, Apr 18, 2025 at 5:46=E2=80=AFAM Nuno S=C3=A1 <noname.nuno@gmail.com=
-> wrote:
->
-> On Thu, 2025-04-17 at 13:08 -0400, Gabriel Shahrouzi wrote:
-> > On Thu, Apr 17, 2025 at 10:02=E2=80=AFAM Nuno S=C3=A1 <noname.nuno@gmai=
-l.com> wrote:
-> > >
-> > > On Thu, 2025-04-17 at 08:53 -0400, Gabriel Shahrouzi wrote:
-> > > > On Thu, Apr 17, 2025 at 6:06=E2=80=AFAM Nuno S=C3=A1 <noname.nuno@g=
-mail.com> wrote:
-> > > > >
-> > > > > On Tue, 2025-04-15 at 14:20 -0400, Gabriel Shahrouzi wrote:
-> > > > > > According to the datasheet on page 9 under the channel selectio=
-n table,
-> > > > > > all devices (AD7816/7/8) are able to use the channel marked as =
-7. This
-> > > > > > channel is used for diagnostic purposes by routing the internal=
- 1.23V
-> > > > > > bandgap source through the MUX to the input of the ADC.
-> > > > > >
-> > > > > > Replace checking for string equality with checking for the same=
- chip ID
-> > > > > > to reduce time complexity.
-> > > > > >
-> > > > > > Group invalid channels for all devices together because they ar=
-e
-> > > > > > processed the same way.
-> > > > > >
-> > > > > > Fixes: 7924425db04a ("staging: iio: adc: new driver for AD7816 =
-devices")
-> > > > > > Cc: stable@vger.kernel.org
-> > > > > > Signed-off-by: Gabriel Shahrouzi <gshahrouzi@gmail.com>
-> > > > > > ---
-> > > > > >  drivers/staging/iio/adc/ad7816.c | 15 +++++----------
-> > > > > >  1 file changed, 5 insertions(+), 10 deletions(-)
-> > > > > >
-> > > > > > diff --git a/drivers/staging/iio/adc/ad7816.c
-> > > > > > b/drivers/staging/iio/adc/ad7816.c
-> > > > > > index 6c14d7bcdd675..d880fe0257697 100644
-> > > > > > --- a/drivers/staging/iio/adc/ad7816.c
-> > > > > > +++ b/drivers/staging/iio/adc/ad7816.c
-> > > > > > @@ -186,17 +186,12 @@ static ssize_t ad7816_store_channel(struc=
-t device
-> > > > > > *dev,
-> > > > > >       if (ret)
-> > > > > >               return ret;
-> > > > > >
-> > > > > > -     if (data > AD7816_CS_MAX && data !=3D AD7816_CS_MASK) {
-> > > > > > -             dev_err(&chip->spi_dev->dev, "Invalid channel id =
-%lu for
-> > > > > > %s.\n",
-> > > > > > -                     data, indio_dev->name);
-> > > > > > -             return -EINVAL;
-> > > > > > -     } else if (strcmp(indio_dev->name, "ad7818") =3D=3D 0 && =
-data > 1) {
-> > > > > > -             dev_err(&chip->spi_dev->dev,
-> > > > > > -                     "Invalid channel id %lu for ad7818.\n", d=
-ata);
-> > > > > > -             return -EINVAL;
-> > > > > > -     } else if (strcmp(indio_dev->name, "ad7816") =3D=3D 0 && =
-data > 0) {
-> > > > > > +     if (data !=3D AD7816_CS_MASK &&
-> > > > > > +         (data > AD7816_CS_MAX ||
-> > > > > > +         (chip->id =3D=3D ID_AD7818 && data > 1) ||
-> > > > > > +         (chip->id =3D=3D ID_AD7816 && data > 0))) {
-> > > > > >               dev_err(&chip->spi_dev->dev,
-> > > > > > -                     "Invalid channel id %lu for ad7816.\n", d=
-ata);
-> > > > > > +                     "Invalid channel id %lu for %s.\n", data,=
- indio_dev-
-> > > > > > > name);
-> > > > > >               return -EINVAL;
-> > > > > >       }
-> > > > >
-> > > > > Hmm, maybe I'm missing something but the code just looks the same=
- as before
-> > > > > (from a functionality point of view)? I'm really not seeing any f=
-ix...
-> > > > I might have to change it for readability. From my understanding, i=
-f
-> > > > channel 7 is selected (AD7816_CS_MASK), it never enters the error p=
-ath
-> > > > whereas in the old code, if the chip were either ad7816 or ad7818, =
-it would
-> > > > end up returning an error because it skips all channels above eithe=
-r 0
-> > > > or 1.
-> > >
-> > > Ahh, right!
-> > >
-> > > One good refactor is to add a chip_info struct (renaming the existing=
- one) with
-> > > let's say a name and max_channels. Then, the condition could be reduc=
-ed to:
-> > >
-> > > if (data > st->chip->max_channel && data !=3D AD7816_CS_MASK {
-> > >         dev_err(...);
-> > >         return -EINVAL;
-> > > }
-> > Makes sense. I sent a V2 with the updates. Also included enum
-> > ad7816_type as a member for chip_info but not sure if it is necessary.
-> > Renamed the existing one to ad7816_state.
-> > >
-> > > Being this in staging, I guess we don't care much about having the fi=
-x as the
-> > > first patch to make it easier to backport.
-> > In other words, combining the refactoring and fix into one patch is
-> > fine but normally they would be split?
->
-> Yes, in theory we want to have the fixes first before any refactor becaus=
-e we might
-> want to backport the fix and we do not want to backport more code than ne=
-eded. Not
-> totally sure but being this on staging we might not care that much about =
-this.
-Got it.
->
-> - Nuno S=C3=A1
-> >
-> > >
-> > > - Nuno S=C3=A1
-> > >
-> > > >
-> > > > >
-> > > > > Having said the above, not sure if grouping helps with readabilit=
-y. But I do
-> > > > > agree with moving from string comparison to use chip->id. And we =
-also have
-> > > > > redundants 'else'
-> > > > >
-> > > > > - Nuno S=C3=A1
-> > > > >
->
+A number of drivers are unable to release control due to hardware or
+software limitations. As request_system_control was defined as void,
+no error could be signalled.
+
+This patch changes the prototype of request_system_control to int and
+adds the appropriate checking and returns. In the case that a board
+cannot release control EINVAL is returned.  If a driver does not
+implement request_system_control EPERM is returned.
+
+Signed-off-by: Dave Penkler <dpenkler@gmail.com>
+---
+Changes v1->v2
+   Simplify the patch by
+   - testing for failure conditions first
+   - keeping the diffs small
+   - deferring corrections to the logic to other patches
+   Adapt and reformat the commit message
+   
+ .../gpib/agilent_82350b/agilent_82350b.c      |  6 ++---
+ .../gpib/agilent_82357a/agilent_82357a.c      | 22 +++++++++----------
+ drivers/staging/gpib/cb7210/cb7210.c          |  4 ++--
+ drivers/staging/gpib/cec/cec_gpib.c           |  4 ++--
+ drivers/staging/gpib/common/gpib_os.c         |  4 +---
+ drivers/staging/gpib/common/iblib.c           | 17 ++++++++++----
+ drivers/staging/gpib/eastwood/fluke_gpib.c    |  4 ++--
+ drivers/staging/gpib/fmh_gpib/fmh_gpib.c      |  4 ++--
+ drivers/staging/gpib/gpio/gpib_bitbang.c      | 16 +++++++-------
+ drivers/staging/gpib/hp_82335/hp82335.c       |  4 ++--
+ drivers/staging/gpib/hp_82341/hp_82341.c      |  4 ++--
+ drivers/staging/gpib/include/gpib_proto.h     |  2 +-
+ drivers/staging/gpib/include/gpib_types.h     |  2 +-
+ drivers/staging/gpib/include/nec7210.h        |  4 ++--
+ drivers/staging/gpib/include/tms9914.h        |  4 ++--
+ drivers/staging/gpib/ines/ines.h              |  2 +-
+ drivers/staging/gpib/ines/ines_gpib.c         |  4 ++--
+ .../gpib/lpvo_usb_gpib/lpvo_usb_gpib.c        | 11 +++++-----
+ drivers/staging/gpib/nec7210/nec7210.c        |  5 +++--
+ drivers/staging/gpib/ni_usb/ni_usb_gpib.c     |  8 +++----
+ drivers/staging/gpib/pc2/pc2_gpib.c           |  4 ++--
+ drivers/staging/gpib/tms9914/tms9914.c        |  5 +++--
+ drivers/staging/gpib/tnt4882/tnt4882_gpib.c   |  6 +++--
+ 23 files changed, 76 insertions(+), 70 deletions(-)
+
+diff --git a/drivers/staging/gpib/agilent_82350b/agilent_82350b.c b/drivers/staging/gpib/agilent_82350b/agilent_82350b.c
+index 14ff7f19c8f7..94bbb3b6576d 100644
+--- a/drivers/staging/gpib/agilent_82350b/agilent_82350b.c
++++ b/drivers/staging/gpib/agilent_82350b/agilent_82350b.c
+@@ -341,9 +341,7 @@ static int agilent_82350b_go_to_standby(struct gpib_board *board)
+ 	return tms9914_go_to_standby(board, &priv->tms9914_priv);
+ }
+ 
+-static void agilent_82350b_request_system_control(struct gpib_board *board,
+-						  int request_control)
+-
++static int agilent_82350b_request_system_control(struct gpib_board *board, int request_control)
+ {
+ 	struct agilent_82350b_priv *a_priv = board->private_data;
+ 
+@@ -357,7 +355,7 @@ static void agilent_82350b_request_system_control(struct gpib_board *board,
+ 			writeb(0, a_priv->gpib_base + INTERNAL_CONFIG_REG);
+ 	}
+ 	writeb(a_priv->card_mode_bits, a_priv->gpib_base + CARD_MODE_REG);
+-	tms9914_request_system_control(board, &a_priv->tms9914_priv, request_control);
++	return tms9914_request_system_control(board, &a_priv->tms9914_priv, request_control);
+ }
+ 
+ static void agilent_82350b_interface_clear(struct gpib_board *board, int assert)
+diff --git a/drivers/staging/gpib/agilent_82357a/agilent_82357a.c b/drivers/staging/gpib/agilent_82357a/agilent_82357a.c
+index 4728ec85caa8..454d46b8b677 100644
+--- a/drivers/staging/gpib/agilent_82357a/agilent_82357a.c
++++ b/drivers/staging/gpib/agilent_82357a/agilent_82357a.c
+@@ -756,9 +756,7 @@ static int agilent_82357a_go_to_standby(struct gpib_board *board)
+ 	return 0;
+ }
+ 
+-//FIXME should change prototype to return int
+-static void agilent_82357a_request_system_control(struct gpib_board *board,
+-						  int request_control)
++static int agilent_82357a_request_system_control(struct gpib_board *board, int request_control)
+ {
+ 	struct agilent_82357a_priv *a_priv = board->private_data;
+ 	struct usb_device *usb_dev;
+@@ -767,7 +765,7 @@ static void agilent_82357a_request_system_control(struct gpib_board *board,
+ 	int i = 0;
+ 
+ 	if (!a_priv->bus_interface)
+-		return; // -ENODEV;
++		return -ENODEV;
+ 
+ 	usb_dev = interface_to_usbdev(a_priv->bus_interface);
+ 	/* 82357B needs bit to be set in 9914 AUXCR register */
+@@ -776,9 +774,7 @@ static void agilent_82357a_request_system_control(struct gpib_board *board,
+ 		writes[i].value = AUX_RQC;
+ 		a_priv->hw_control_bits |= SYSTEM_CONTROLLER;
+ 	} else {
+-		writes[i].value = AUX_RLC;
+-		a_priv->is_cic = 0;
+-		a_priv->hw_control_bits &= ~SYSTEM_CONTROLLER;
++		return -EINVAL;
+ 	}
+ 	++i;
+ 	writes[i].address = HW_CONTROL;
+@@ -787,7 +783,7 @@ static void agilent_82357a_request_system_control(struct gpib_board *board,
+ 	retval = agilent_82357a_write_registers(a_priv, writes, i);
+ 	if (retval)
+ 		dev_err(&usb_dev->dev, "write_registers() returned error\n");
+-	return;// retval;
++	return retval;
+ }
+ 
+ static void agilent_82357a_interface_clear(struct gpib_board *board, int assert)
+@@ -1593,7 +1589,7 @@ static int agilent_82357a_driver_resume(struct usb_interface *interface)
+ {
+ 	struct usb_device *usb_dev = interface_to_usbdev(interface);
+ 	struct gpib_board *board;
+-	int i, retval;
++	int i, retval = 0;
+ 
+ 	mutex_lock(&agilent_82357a_hotplug_lock);
+ 
+@@ -1604,8 +1600,10 @@ static int agilent_82357a_driver_resume(struct usb_interface *interface)
+ 				break;
+ 		}
+ 	}
+-	if (i == MAX_NUM_82357A_INTERFACES)
++	if (i == MAX_NUM_82357A_INTERFACES) {
++		retval = -ENOENT;
+ 		goto resume_exit;
++	}
+ 
+ 	struct agilent_82357a_priv *a_priv = board->private_data;
+ 
+@@ -1628,7 +1626,7 @@ static int agilent_82357a_driver_resume(struct usb_interface *interface)
+ 			return retval;
+ 		}
+ 		// set/unset system controller
+-		agilent_82357a_request_system_control(board, board->master);
++		retval = agilent_82357a_request_system_control(board, board->master);
+ 		// toggle ifc if master
+ 		if (board->master) {
+ 			agilent_82357a_interface_clear(board, 1);
+@@ -1646,7 +1644,7 @@ static int agilent_82357a_driver_resume(struct usb_interface *interface)
+ resume_exit:
+ 	mutex_unlock(&agilent_82357a_hotplug_lock);
+ 
+-	return 0;
++	return retval;
+ }
+ 
+ static struct usb_driver agilent_82357a_bus_driver = {
+diff --git a/drivers/staging/gpib/cb7210/cb7210.c b/drivers/staging/gpib/cb7210/cb7210.c
+index 54c037aabc26..c686896bb088 100644
+--- a/drivers/staging/gpib/cb7210/cb7210.c
++++ b/drivers/staging/gpib/cb7210/cb7210.c
+@@ -578,7 +578,7 @@ static int cb7210_go_to_standby(struct gpib_board *board)
+ 	return nec7210_go_to_standby(board, &priv->nec7210_priv);
+ }
+ 
+-static void cb7210_request_system_control(struct gpib_board *board, int request_control)
++static int cb7210_request_system_control(struct gpib_board *board, int request_control)
+ {
+ 	struct cb7210_priv *priv = board->private_data;
+ 	struct nec7210_priv *nec_priv = &priv->nec7210_priv;
+@@ -589,7 +589,7 @@ static void cb7210_request_system_control(struct gpib_board *board, int request_
+ 		priv->hs_mode_bits &= ~HS_SYS_CONTROL;
+ 
+ 	cb7210_write_byte(priv, priv->hs_mode_bits, HS_MODE);
+-	nec7210_request_system_control(board, nec_priv, request_control);
++	return nec7210_request_system_control(board, nec_priv, request_control);
+ }
+ 
+ static void cb7210_interface_clear(struct gpib_board *board, int assert)
+diff --git a/drivers/staging/gpib/cec/cec_gpib.c b/drivers/staging/gpib/cec/cec_gpib.c
+index 737d78736ea5..e8736cbf50e3 100644
+--- a/drivers/staging/gpib/cec/cec_gpib.c
++++ b/drivers/staging/gpib/cec/cec_gpib.c
+@@ -83,11 +83,11 @@ static int cec_go_to_standby(struct gpib_board *board)
+ 	return nec7210_go_to_standby(board, &priv->nec7210_priv);
+ }
+ 
+-static void cec_request_system_control(struct gpib_board *board, int request_control)
++static int cec_request_system_control(struct gpib_board *board, int request_control)
+ {
+ 	struct cec_priv *priv = board->private_data;
+ 
+-	nec7210_request_system_control(board, &priv->nec7210_priv, request_control);
++	return nec7210_request_system_control(board, &priv->nec7210_priv, request_control);
+ }
+ 
+ static void cec_interface_clear(struct gpib_board *board, int assert)
+diff --git a/drivers/staging/gpib/common/gpib_os.c b/drivers/staging/gpib/common/gpib_os.c
+index 163d9a64e7df..d87025aadccc 100644
+--- a/drivers/staging/gpib/common/gpib_os.c
++++ b/drivers/staging/gpib/common/gpib_os.c
+@@ -1988,9 +1988,7 @@ static int request_system_control_ioctl(struct gpib_board *board, unsigned long
+ 	if (retval)
+ 		return -EFAULT;
+ 
+-	ibrsc(board, request_control);
+-
+-	return 0;
++	return ibrsc(board, request_control);
+ }
+ 
+ static int t1_delay_ioctl(struct gpib_board *board, unsigned long arg)
+diff --git a/drivers/staging/gpib/common/iblib.c b/drivers/staging/gpib/common/iblib.c
+index a8a215d4ffe4..7a44517464ab 100644
+--- a/drivers/staging/gpib/common/iblib.c
++++ b/drivers/staging/gpib/common/iblib.c
+@@ -422,12 +422,21 @@ int ibsic(struct gpib_board *board, unsigned int usec_duration)
+ 	return 0;
+ }
+ 
+-	/* FIXME make int */
+-void ibrsc(struct gpib_board *board, int request_control)
++int ibrsc(struct gpib_board *board, int request_control)
+ {
++	int retval;
++
++	if (!board->interface->request_system_control)
++		return -EPERM;
++
++	retval = board->interface->request_system_control(board, request_control);
++
++	if (retval)
++		return retval;
++
+ 	board->master = request_control != 0;
+-	if (board->interface->request_system_control)
+-		board->interface->request_system_control(board, request_control);
++
++	return  0;
+ }
+ 
+ /*
+diff --git a/drivers/staging/gpib/eastwood/fluke_gpib.c b/drivers/staging/gpib/eastwood/fluke_gpib.c
+index f6a84200e3a1..491356433249 100644
+--- a/drivers/staging/gpib/eastwood/fluke_gpib.c
++++ b/drivers/staging/gpib/eastwood/fluke_gpib.c
+@@ -94,12 +94,12 @@ static int fluke_go_to_standby(struct gpib_board *board)
+ 	return nec7210_go_to_standby(board, &priv->nec7210_priv);
+ }
+ 
+-static void fluke_request_system_control(struct gpib_board *board, int request_control)
++static int fluke_request_system_control(struct gpib_board *board, int request_control)
+ {
+ 	struct fluke_priv *priv = board->private_data;
+ 	struct nec7210_priv *nec_priv = &priv->nec7210_priv;
+ 
+-	nec7210_request_system_control(board, nec_priv, request_control);
++	return nec7210_request_system_control(board, nec_priv, request_control);
+ }
+ 
+ static void fluke_interface_clear(struct gpib_board *board, int assert)
+diff --git a/drivers/staging/gpib/fmh_gpib/fmh_gpib.c b/drivers/staging/gpib/fmh_gpib/fmh_gpib.c
+index ca07e6ecb0a8..4138f3d2bae7 100644
+--- a/drivers/staging/gpib/fmh_gpib/fmh_gpib.c
++++ b/drivers/staging/gpib/fmh_gpib/fmh_gpib.c
+@@ -86,12 +86,12 @@ static int fmh_gpib_go_to_standby(struct gpib_board *board)
+ 	return nec7210_go_to_standby(board, &priv->nec7210_priv);
+ }
+ 
+-static void fmh_gpib_request_system_control(struct gpib_board *board, int request_control)
++static int fmh_gpib_request_system_control(struct gpib_board *board, int request_control)
+ {
+ 	struct fmh_priv *priv = board->private_data;
+ 	struct nec7210_priv *nec_priv = &priv->nec7210_priv;
+ 
+-	nec7210_request_system_control(board, nec_priv, request_control);
++	return nec7210_request_system_control(board, nec_priv, request_control);
+ }
+ 
+ static void fmh_gpib_interface_clear(struct gpib_board *board, int assert)
+diff --git a/drivers/staging/gpib/gpio/gpib_bitbang.c b/drivers/staging/gpib/gpio/gpib_bitbang.c
+index 0da718389182..9670522fe36e 100644
+--- a/drivers/staging/gpib/gpio/gpib_bitbang.c
++++ b/drivers/staging/gpib/gpio/gpib_bitbang.c
+@@ -883,16 +883,16 @@ static int bb_go_to_standby(struct gpib_board *board)
+ 	return 0;
+ }
+ 
+-static void bb_request_system_control(struct gpib_board *board, int request_control)
++static int bb_request_system_control(struct gpib_board *board, int request_control)
+ {
+ 	dbg_printk(2, "%d\n", request_control);
+-	if (request_control) {
+-		set_bit(CIC_NUM, &board->status);
+-		// drive DAV & EOI false, enable NRFD & NDAC irqs
+-		SET_DIR_WRITE(board->private_data);
+-	} else {
+-		clear_bit(CIC_NUM, &board->status);
+-	}
++	if (!request_control)
++		return -EINVAL;
++
++	set_bit(CIC_NUM, &board->status);
++	// drive DAV & EOI false, enable NRFD & NDAC irqs
++	SET_DIR_WRITE(board->private_data);
++	return 0;
+ }
+ 
+ static void bb_interface_clear(struct gpib_board *board, int assert)
+diff --git a/drivers/staging/gpib/hp_82335/hp82335.c b/drivers/staging/gpib/hp_82335/hp82335.c
+index 3d08d2f726e1..d0e47ef77c87 100644
+--- a/drivers/staging/gpib/hp_82335/hp82335.c
++++ b/drivers/staging/gpib/hp_82335/hp82335.c
+@@ -68,11 +68,11 @@ static int hp82335_go_to_standby(struct gpib_board *board)
+ 	return tms9914_go_to_standby(board, &priv->tms9914_priv);
+ }
+ 
+-static void hp82335_request_system_control(struct gpib_board *board, int request_control)
++static int hp82335_request_system_control(struct gpib_board *board, int request_control)
+ {
+ 	struct hp82335_priv *priv = board->private_data;
+ 
+-	tms9914_request_system_control(board, &priv->tms9914_priv, request_control);
++	return tms9914_request_system_control(board, &priv->tms9914_priv, request_control);
+ }
+ 
+ static void hp82335_interface_clear(struct gpib_board *board, int assert)
+diff --git a/drivers/staging/gpib/hp_82341/hp_82341.c b/drivers/staging/gpib/hp_82341/hp_82341.c
+index 41accfdbc49a..1b0822b2a3b8 100644
+--- a/drivers/staging/gpib/hp_82341/hp_82341.c
++++ b/drivers/staging/gpib/hp_82341/hp_82341.c
+@@ -294,7 +294,7 @@ static int hp_82341_go_to_standby(struct gpib_board *board)
+ 	return tms9914_go_to_standby(board, &priv->tms9914_priv);
+ }
+ 
+-static void hp_82341_request_system_control(struct gpib_board *board, int request_control)
++static int hp_82341_request_system_control(struct gpib_board *board, int request_control)
+ {
+ 	struct hp_82341_priv *priv = board->private_data;
+ 
+@@ -303,7 +303,7 @@ static void hp_82341_request_system_control(struct gpib_board *board, int reques
+ 	else
+ 		priv->mode_control_bits &= ~SYSTEM_CONTROLLER_BIT;
+ 	outb(priv->mode_control_bits, priv->iobase[0] + MODE_CONTROL_STATUS_REG);
+-	tms9914_request_system_control(board, &priv->tms9914_priv, request_control);
++	return tms9914_request_system_control(board, &priv->tms9914_priv, request_control);
+ }
+ 
+ static void hp_82341_interface_clear(struct gpib_board *board, int assert)
+diff --git a/drivers/staging/gpib/include/gpib_proto.h b/drivers/staging/gpib/include/gpib_proto.h
+index 1c8e5955b9ce..42e736e3b7cd 100644
+--- a/drivers/staging/gpib/include/gpib_proto.h
++++ b/drivers/staging/gpib/include/gpib_proto.h
+@@ -31,7 +31,7 @@ int iblines(const struct gpib_board *board, short *lines);
+ int ibrd(struct gpib_board *board, u8 *buf, size_t length, int *end_flag, size_t *bytes_read);
+ int ibrpp(struct gpib_board *board, u8 *buf);
+ int ibrsv2(struct gpib_board *board, u8 status_byte, int new_reason_for_service);
+-void ibrsc(struct gpib_board *board, int request_control);
++int ibrsc(struct gpib_board *board, int request_control);
+ int ibsic(struct gpib_board *board, unsigned int usec_duration);
+ int ibsre(struct gpib_board *board, int enable);
+ int ibpad(struct gpib_board *board, unsigned int addr);
+diff --git a/drivers/staging/gpib/include/gpib_types.h b/drivers/staging/gpib/include/gpib_types.h
+index 2af4574d400c..db040c80d778 100644
+--- a/drivers/staging/gpib/include/gpib_types.h
++++ b/drivers/staging/gpib/include/gpib_types.h
+@@ -100,7 +100,7 @@ struct gpib_interface {
+ 	 */
+ 	int (*go_to_standby)(struct gpib_board *board);
+ 	/* request/release control of the IFC and REN lines (system controller) */
+-	void (*request_system_control)(struct gpib_board *board, int request_control);
++	int (*request_system_control)(struct gpib_board *board, int request_control);
+ 	/*
+ 	 * Asserts or de-asserts 'interface clear' (IFC) depending on
+ 	 * boolean value of 'assert'
+diff --git a/drivers/staging/gpib/include/nec7210.h b/drivers/staging/gpib/include/nec7210.h
+index 97a56f74258b..312217b4580e 100644
+--- a/drivers/staging/gpib/include/nec7210.h
++++ b/drivers/staging/gpib/include/nec7210.h
+@@ -86,8 +86,8 @@ int nec7210_command(struct gpib_board *board, struct nec7210_priv *priv, u8 *buf
+ 		    size_t length, size_t *bytes_written);
+ int nec7210_take_control(struct gpib_board *board, struct nec7210_priv *priv, int syncronous);
+ int nec7210_go_to_standby(struct gpib_board *board, struct nec7210_priv *priv);
+-void nec7210_request_system_control(struct gpib_board *board,
+-				    struct nec7210_priv *priv, int request_control);
++int nec7210_request_system_control(struct gpib_board *board,
++				   struct nec7210_priv *priv, int request_control);
+ void nec7210_interface_clear(struct gpib_board *board, struct nec7210_priv *priv, int assert);
+ void nec7210_remote_enable(struct gpib_board *board, struct nec7210_priv *priv, int enable);
+ int nec7210_enable_eos(struct gpib_board *board, struct nec7210_priv *priv, u8 eos_bytes,
+diff --git a/drivers/staging/gpib/include/tms9914.h b/drivers/staging/gpib/include/tms9914.h
+index 352fc516fd40..50a9d3b22619 100644
+--- a/drivers/staging/gpib/include/tms9914.h
++++ b/drivers/staging/gpib/include/tms9914.h
+@@ -93,8 +93,8 @@ int tms9914_take_control(struct gpib_board *board, struct tms9914_priv *priv, in
+ int tms9914_take_control_workaround(struct gpib_board *board, struct tms9914_priv *priv,
+ 				    int syncronous);
+ int tms9914_go_to_standby(struct gpib_board *board, struct tms9914_priv *priv);
+-void tms9914_request_system_control(struct gpib_board *board, struct tms9914_priv *priv,
+-				    int request_control);
++int tms9914_request_system_control(struct gpib_board *board, struct tms9914_priv *priv,
++				   int request_control);
+ void tms9914_interface_clear(struct gpib_board *board, struct tms9914_priv *priv, int assert);
+ void tms9914_remote_enable(struct gpib_board *board, struct tms9914_priv *priv, int enable);
+ int tms9914_enable_eos(struct gpib_board *board, struct tms9914_priv *priv, u8 eos_bytes,
+diff --git a/drivers/staging/gpib/ines/ines.h b/drivers/staging/gpib/ines/ines.h
+index 396cf0bd9ad1..07b82f790c4b 100644
+--- a/drivers/staging/gpib/ines/ines.h
++++ b/drivers/staging/gpib/ines/ines.h
+@@ -47,7 +47,7 @@ int ines_accel_write(struct gpib_board *board, u8 *buffer, size_t length,
+ int ines_command(struct gpib_board *board, u8 *buffer, size_t length, size_t *bytes_written);
+ int ines_take_control(struct gpib_board *board, int synchronous);
+ int ines_go_to_standby(struct gpib_board *board);
+-void ines_request_system_control(struct gpib_board *board, int request_control);
++int ines_request_system_control(struct gpib_board *board, int request_control);
+ void ines_interface_clear(struct gpib_board *board, int assert);
+ void ines_remote_enable(struct gpib_board *board, int enable);
+ int ines_enable_eos(struct gpib_board *board, u8 eos_byte, int compare_8_bits);
+diff --git a/drivers/staging/gpib/ines/ines_gpib.c b/drivers/staging/gpib/ines/ines_gpib.c
+index bf830defcad3..49947ac30feb 100644
+--- a/drivers/staging/gpib/ines/ines_gpib.c
++++ b/drivers/staging/gpib/ines/ines_gpib.c
+@@ -441,11 +441,11 @@ int ines_go_to_standby(struct gpib_board *board)
+ 	return nec7210_go_to_standby(board, &priv->nec7210_priv);
+ }
+ 
+-void ines_request_system_control(struct gpib_board *board, int request_control)
++int ines_request_system_control(struct gpib_board *board, int request_control)
+ {
+ 	struct ines_priv *priv = board->private_data;
+ 
+-	nec7210_request_system_control(board, &priv->nec7210_priv, request_control);
++	return nec7210_request_system_control(board, &priv->nec7210_priv, request_control);
+ }
+ 
+ void ines_interface_clear(struct gpib_board *board, int assert)
+diff --git a/drivers/staging/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c b/drivers/staging/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c
+index 19127ee906c2..2e315c7756c4 100644
+--- a/drivers/staging/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c
++++ b/drivers/staging/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c
+@@ -911,15 +911,14 @@ static void usb_gpib_remote_enable(struct gpib_board *board, int enable)
+ 
+ /* request_system_control */
+ 
+-static void usb_gpib_request_system_control(struct gpib_board *board,
+-					    int request_control)
++static int usb_gpib_request_system_control(struct gpib_board *board, int request_control)
+ {
+-	if (request_control)
+-		set_bit(CIC_NUM, &board->status);
+-	else
+-		clear_bit(CIC_NUM, &board->status);
++	if (!request_control)
++		return -EINVAL;
+ 
++	set_bit(CIC_NUM, &board->status);
+ 	DIA_LOG(1, "done with %d -> %lx\n", request_control, board->status);
++	return 0;
+ }
+ 
+ /* take_control */
+diff --git a/drivers/staging/gpib/nec7210/nec7210.c b/drivers/staging/gpib/nec7210/nec7210.c
+index e68361d213ee..34a1cae4f486 100644
+--- a/drivers/staging/gpib/nec7210/nec7210.c
++++ b/drivers/staging/gpib/nec7210/nec7210.c
+@@ -332,14 +332,15 @@ int nec7210_go_to_standby(struct gpib_board *board, struct nec7210_priv *priv)
+ }
+ EXPORT_SYMBOL(nec7210_go_to_standby);
+ 
+-void nec7210_request_system_control(struct gpib_board *board, struct nec7210_priv *priv,
+-				    int request_control)
++int nec7210_request_system_control(struct gpib_board *board, struct nec7210_priv *priv,
++				   int request_control)
+ {
+ 	if (request_control == 0) {
+ 		write_byte(priv, AUX_CREN, AUXMR);
+ 		write_byte(priv, AUX_CIFC, AUXMR);
+ 		write_byte(priv, AUX_DSC, AUXMR);
+ 	}
++	return 0;
+ }
+ EXPORT_SYMBOL(nec7210_request_system_control);
+ 
+diff --git a/drivers/staging/gpib/ni_usb/ni_usb_gpib.c b/drivers/staging/gpib/ni_usb/ni_usb_gpib.c
+index d5b281fa8b37..9ec850c4749f 100644
+--- a/drivers/staging/gpib/ni_usb/ni_usb_gpib.c
++++ b/drivers/staging/gpib/ni_usb/ni_usb_gpib.c
+@@ -1055,7 +1055,7 @@ static int ni_usb_go_to_standby(struct gpib_board *board)
+ 	return 0;
+ }
+ 
+-static void ni_usb_request_system_control(struct gpib_board *board, int request_control)
++static int ni_usb_request_system_control(struct gpib_board *board, int request_control)
+ {
+ 	int retval;
+ 	struct ni_usb_priv *ni_priv = board->private_data;
+@@ -1065,7 +1065,7 @@ static void ni_usb_request_system_control(struct gpib_board *board, int request_
+ 	unsigned int ibsta;
+ 
+ 	if (!ni_priv->bus_interface)
+-		return; // -ENODEV;
++		return -ENODEV;
+ 	usb_dev = interface_to_usbdev(ni_priv->bus_interface);
+ 	if (request_control) {
+ 		writes[i].device = NIUSB_SUBDEV_TNT4882;
+@@ -1097,12 +1097,12 @@ static void ni_usb_request_system_control(struct gpib_board *board, int request_
+ 	retval = ni_usb_write_registers(ni_priv, writes, i, &ibsta);
+ 	if (retval < 0) {
+ 		dev_err(&usb_dev->dev, "register write failed, retval=%i\n", retval);
+-		return; // retval;
++		return retval;
+ 	}
+ 	if (!request_control)
+ 		ni_priv->ren_state = 0;
+ 	ni_usb_soft_update_status(board, ibsta, 0);
+-	return; // 0;
++	return 0;
+ }
+ 
+ //FIXME maybe the interface should have a "pulse interface clear" function that can return an error?
+diff --git a/drivers/staging/gpib/pc2/pc2_gpib.c b/drivers/staging/gpib/pc2/pc2_gpib.c
+index fd191d24d7a6..2282492025b7 100644
+--- a/drivers/staging/gpib/pc2/pc2_gpib.c
++++ b/drivers/staging/gpib/pc2/pc2_gpib.c
+@@ -128,11 +128,11 @@ static int pc2_go_to_standby(struct gpib_board *board)
+ 	return nec7210_go_to_standby(board, &priv->nec7210_priv);
+ }
+ 
+-static void pc2_request_system_control(struct gpib_board *board, int request_control)
++static int pc2_request_system_control(struct gpib_board *board, int request_control)
+ {
+ 	struct pc2_priv *priv = board->private_data;
+ 
+-	nec7210_request_system_control(board, &priv->nec7210_priv, request_control);
++	return nec7210_request_system_control(board, &priv->nec7210_priv, request_control);
+ }
+ 
+ static void pc2_interface_clear(struct gpib_board *board, int assert)
+diff --git a/drivers/staging/gpib/tms9914/tms9914.c b/drivers/staging/gpib/tms9914/tms9914.c
+index 9208c50d9c75..04d57108efc7 100644
+--- a/drivers/staging/gpib/tms9914/tms9914.c
++++ b/drivers/staging/gpib/tms9914/tms9914.c
+@@ -118,8 +118,8 @@ void tms9914_remote_enable(struct gpib_board *board, struct tms9914_priv *priv,
+ }
+ EXPORT_SYMBOL_GPL(tms9914_remote_enable);
+ 
+-void tms9914_request_system_control(struct gpib_board *board, struct tms9914_priv *priv,
+-				    int request_control)
++int tms9914_request_system_control(struct gpib_board *board, struct tms9914_priv *priv,
++				   int request_control)
+ {
+ 	if (request_control) {
+ 		write_byte(priv, AUX_RQC, AUXCR);
+@@ -127,6 +127,7 @@ void tms9914_request_system_control(struct gpib_board *board, struct tms9914_pri
+ 		clear_bit(CIC_NUM, &board->status);
+ 		write_byte(priv, AUX_RLC, AUXCR);
+ 	}
++	return 0;
+ }
+ EXPORT_SYMBOL_GPL(tms9914_request_system_control);
+ 
+diff --git a/drivers/staging/gpib/tnt4882/tnt4882_gpib.c b/drivers/staging/gpib/tnt4882/tnt4882_gpib.c
+index 9f7f8b311da3..a17b69e34986 100644
+--- a/drivers/staging/gpib/tnt4882/tnt4882_gpib.c
++++ b/drivers/staging/gpib/tnt4882/tnt4882_gpib.c
+@@ -645,19 +645,21 @@ static int tnt4882_go_to_standby(struct gpib_board *board)
+ 	return nec7210_go_to_standby(board, &priv->nec7210_priv);
+ }
+ 
+-static void tnt4882_request_system_control(struct gpib_board *board, int request_control)
++static int tnt4882_request_system_control(struct gpib_board *board, int request_control)
+ {
+ 	struct tnt4882_priv *priv = board->private_data;
++	int retval;
+ 
+ 	if (request_control) {
+ 		tnt_writeb(priv, SETSC, CMDR);
+ 		udelay(1);
+ 	}
+-	nec7210_request_system_control(board, &priv->nec7210_priv, request_control);
++	retval = nec7210_request_system_control(board, &priv->nec7210_priv, request_control);
+ 	if (!request_control) {
+ 		tnt_writeb(priv, CLRSC, CMDR);
+ 		udelay(1);
+ 	}
++	return retval;
+ }
+ 
+ static void tnt4882_interface_clear(struct gpib_board *board, int assert)
+-- 
+2.49.0
+
