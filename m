@@ -1,72 +1,72 @@
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 099CB218AD4
-	for <linux-staging@lists.linux.dev>; Fri, 18 Apr 2025 17:34:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D957921ABB8
+	for <linux-staging@lists.linux.dev>; Fri, 18 Apr 2025 17:34:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744997700; cv=none; b=mY/2GEtncuocPNJXcgSKh6N9XzEoBIBiGYNhQiWBJW8JVq6BPyNkiODZb6rZFm+RlTYRwr66wGCEoYGmFfDSYcX1Nf9IMnVkqZAstc30yPYfplHtTknJUBZe8YNzLg6xV/BjztB6z9eXYE3XTCEdhwkfxQMEBoJBiVwuXjaT98g=
+	t=1744997701; cv=none; b=nszHFAAm8ynxmvov1NdiWZm3SohGy6lbf8ujcsEBR9Qdu7d/tQajYZQQ/mrlC5LvM8D/roV1bR4ZppJFRGBeLkO405lgLQ9hDGtyKPKRMoFNkGzlAKv0xaosR3scsNuUKyGo6NWLLVTJWljuAFBX2Yu6b5JIUpMgeNbIKk1IN4I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744997700; c=relaxed/simple;
-	bh=ne10/qVG/Z9dVxxIfZAEEkiO2+1PiOiZ0CHlV/sFviQ=;
+	s=arc-20240116; t=1744997701; c=relaxed/simple;
+	bh=Y6+jh/N20q5vgDZ+rUTiFEYPLOfUfkLSliU92OGQsrk=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=iZP6O6HrIq2joW/zttIeSggYwzJchDVPbhnmLD1GRlpleavIpwytcb/BSCO03cFKTtztS4WA6HMe3TyPLxH5Dj/MudVYaEwZWyq6x6BGrLlut2uDW9PaSomHtXyfhLW7kQLFnqrYEarp0hYLk4+0aCdFmmyIcJYLgY9+PQejJH4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=c+vE2gGn; arc=none smtp.client-ip=209.85.221.44
+	 MIME-Version; b=GjAVKPYnyFOlVtxnPzdqDVhFiJAjkAgN2F5PE1MFdeG1piunxMn7BFp/yh52nTSkbA8+eNT8hpCmG7BnTV3Tb36HJgFzRpTW9MITuuzhGFdAEAu/cCObyFSdbA5/wYPMb/L4KFYfA4ULQRr/vGh4OJXSDVC25jhKxQiTxuH2Otk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CxgpHUzD; arc=none smtp.client-ip=209.85.221.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="c+vE2gGn"
-Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-38f2f391864so1172684f8f.3
-        for <linux-staging@lists.linux.dev>; Fri, 18 Apr 2025 10:34:56 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CxgpHUzD"
+Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-3995ff6b066so1156782f8f.3
+        for <linux-staging@lists.linux.dev>; Fri, 18 Apr 2025 10:34:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1744997695; x=1745602495; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1744997698; x=1745602498; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=jH4AbpkU43gIjXkLIyvvHStxjo8ZlrUkUdGQZryYFo4=;
-        b=c+vE2gGnBf8aEFl50uQ4dvFWwldkZtP5yWx/rMAsjxdra74q35dRMCjeC2cj17cu+V
-         nBenlTBYaFLf/63jWfA0sWlW0gg4WA2RoCqOi4ERaM5uqGrNKWxfKdYp94LL+Amb/nR5
-         eRov/50RiMvhhiAUxWpm0TNdZhdgEkaSzTAi6pLAJeEOFE4Ct9UiqyvriohprVwDKiMD
-         Wnoq5ukgNn7GGeinh5qce2TX6dkiiJnZZvSBtKRtujfN8W9x8qj2Y2WAdURm1S+77oFN
-         2+d7q7t7T1UyOtRO68JH6d3WdIKC1EfsL63Ro5LUsCtF+0+iVlKy19lH+FajIRIdQRi3
-         qucQ==
+        bh=IzATcEFy4yD0nb8pE+dCXra4c1CFrIcpPdFq8ieoLC4=;
+        b=CxgpHUzDthdIZSbY1QlyzdkRMA7E5e9qFTT3NlajOhj3Dsow36I4bh9Slg22Vftxa6
+         +jl8H3cXSQuJeIRmimdfe3iXMKxNw1t1wh+VnYwSCVQtrRaJMCZTE6o+p5hWsqAMrmW1
+         kvo3hxXSmZqcNls+/wxD7qQGC7u2hh2I/yIvaeZPQ2Qm5jhs+Z9qMju24O9av2dQb9Dg
+         /g88Rk6f4J5gUEqGqqdfa/MA9dNkfahfcURFVBHgV+Q/ooMphMTLKCzofPK5I/n2v3Is
+         GvoPV0aFds19l1wIzvNLdw7Wb1nlXDrLvoC6uGVVsl1UN/4sqYXrb5ouCH6ZETB6B1IT
+         ptmQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744997695; x=1745602495;
+        d=1e100.net; s=20230601; t=1744997698; x=1745602498;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=jH4AbpkU43gIjXkLIyvvHStxjo8ZlrUkUdGQZryYFo4=;
-        b=ihIT5TKhuYs1f0iDkEgUNAHVzD++HGmP/ZT4i2uzma9ZblhPxpUszxDhRWNkIRwJgH
-         On6o0wUsSnkVK4n2npioGxKaS3dfIoFsyHRGVHCKZ3iYQFKsiD4xgyHOAct7m22hgqBR
-         oYdAIjPftO+a2GdntKFj3uVYfPfTe/aoe0rqkRYKBjj7bYvVFahA3eVqBiNVJfFLH9NP
-         Rfxf3nH8VndudBI+3lSLjHiPCi1XqNkyS3usaptjLciiAZS0Yjjo+NVGdBnAgeuGY6oY
-         1vRI0l3JH+9tw9P2+uHQ2pRsYbdKaOh3gghdAMCu+cIy1LMMAmEUDD5KjElZk952ym3k
-         SBjg==
-X-Forwarded-Encrypted: i=1; AJvYcCX7YOMhwKr5rYVi94WopsxC5u/gcAcZ5PLRV8P1dS4fABT/0qWhU/920AOhVVjV1Ar9Bal1FzahqiP4xAMU@lists.linux.dev
-X-Gm-Message-State: AOJu0YxeBPEtt6XDNuql/slCbDDmKdxfTEKOe/H5u/e1IXnQ4XiiAk8P
-	6t0XoJTuSn8I3vTh/gIcK2ilzV2rrmNwridedItNY6CqES0MkLLomMcd+Cc4
-X-Gm-Gg: ASbGnctEcsersqc4RlMPSj/BIlmX1CTselyreSp9k8Rdyet7wHczurf9dNeTxs1qvAO
-	1iXxNH8TvEYnp1mminRPHOU9XY5dGGm9cq1j5TjeMSgmC24dQNXo2Ljt3UCYn+C+oXr2wL/wuL5
-	H12lUuBJbY9XWWD6bFnRdEejSzVPf6cKipYT1aWIor5zuMvoNkYVRG0c6xInhGqzd4WwaHFE1hK
-	tp+bbT3Xc6hsJ9h/OGQhltW46BBYwKrdVAW2jRYhZ5smyKT+Mk3IUPz3eib9a8AnFBPF7aYw0WU
-	NMqVrlrpWHhnsxF3cz0hjfI3jPfGDWxwejJz5ebWPzZuMeQav+N1VDbEOkrNGzbLZ95UEXZkI0W
-	u
-X-Google-Smtp-Source: AGHT+IFWsUvUtyMLZ3LB2ut72tqx28ZgElhVa3rTsibeeD19gUL6aJHQ82dILW9NhfhpOYx7hKvcPw==
-X-Received: by 2002:a5d:648c:0:b0:39e:cbca:7156 with SMTP id ffacd0b85a97d-39efba2ab70mr3007336f8f.1.1744997695212;
-        Fri, 18 Apr 2025 10:34:55 -0700 (PDT)
+        bh=IzATcEFy4yD0nb8pE+dCXra4c1CFrIcpPdFq8ieoLC4=;
+        b=B3BjLMdJD5KH6uXMhtFijcHIFhHizbfDEqdOlnjoy+G+8WDJsLao5c7mkwtz9C3NpT
+         ZeE+R9iUC7ynurleftI57S1FbYROOIZm9sD9z6pbZCf6KAxe6LTJmKyLtCkrss9TgnwA
+         drAjsUq6cZjyL8G0OvxhyM0/8kLIqsmOr7ymckHTjq5Q8o1FYhcnCZzXXF4t9W8TAnM4
+         PlfpHuarrti7kKtY6J4+KzXADSbQmhf8Z+290K33Eqrwh2zNgrPTKwinvt+8KTwWmMeq
+         O8PwUU3y8/Gvdwzve5HuQ+NE0xaWjcOqKSuJ8w5T3J6DzyWE4HVzNCl8oSIoAGSIE9nF
+         lMXQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWRyjSRir15HZtFe41oOEAAq1qLujmtNrbC9Ux6RD47zcm2Ww/X27XmXBkDYSMq+EPEn/mU+DYMUiCM+y2f@lists.linux.dev
+X-Gm-Message-State: AOJu0Yz71wQL/dMiXWt2WtCoZgeXixyY149Uxvk9G9/O17x4ePQLXn8X
+	CS5Jnmjp8+5XpEXr655j0Cw+UmOS6alGmNxi7bG950MMdOK/ix3u
+X-Gm-Gg: ASbGnct/bqN2xUFlPAoc02KecO3Kud/iH9Cql4NVwC+aBkbLlVpRBydghonKZgSRvdk
+	rVyBs2flwdiZ1381tP0HUnEdrTgytnojfLTjFaD839Bk2SdZxjYboUY6aR4w+UYD73fRUYUTyg/
+	nzWGTP8+jqGShzvRxRQl+icHQIzfYyMD9iplEZADotXhzjy2nrz5wE9iQKiXyBnn/fDVuDfzT04
+	+fBkUVAenrFYTe4g7kImFdOf/A2d3A+PgC2c9gmDzzx8BAuMOGKbv9QvAuWvH8Nc7aY5rtq1YT1
+	IHd+FArTdaK6iJwL5EHLU2PSUQtfzsMjA6FiSzg3h4df1q+ZxdC16WZNRla+c4TvNYpJfyVm1DS
+	X
+X-Google-Smtp-Source: AGHT+IEZf1ha1txArdhgWM8acBtGgyt+WHvJBGwchmFEH5kJ9VtYLcai8G/K+Zp0NjdzZjrfpODs4g==
+X-Received: by 2002:a5d:6d87:0:b0:390:fb37:1ca with SMTP id ffacd0b85a97d-39efbb095eamr3057655f8f.53.1744997697904;
+        Fri, 18 Apr 2025 10:34:57 -0700 (PDT)
 Received: from localhost.localdomain (82-64-73-52.subs.proxad.net. [82.64.73.52])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-39efa4332f8sm3287320f8f.40.2025.04.18.10.34.54
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-39efa4332f8sm3287320f8f.40.2025.04.18.10.34.57
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 18 Apr 2025 10:34:54 -0700 (PDT)
+        Fri, 18 Apr 2025 10:34:57 -0700 (PDT)
 From: Dave Penkler <dpenkler@gmail.com>
 To: gregkh@linuxfoundation.org,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
 Cc: marcello.carla@gmx.com,
 	Dave Penkler <dpenkler@gmail.com>
-Subject: [PATCH 1/8] staging: gpib: Fix request_system_control in gpio
-Date: Fri, 18 Apr 2025 19:34:27 +0200
-Message-ID: <20250418173434.2892-2-dpenkler@gmail.com>
+Subject: [PATCH 3/8] staging: gpib: Enable SRQ irq on request_system_control
+Date: Fri, 18 Apr 2025 19:34:29 +0200
+Message-ID: <20250418173434.2892-4-dpenkler@gmail.com>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <20250418173434.2892-1-dpenkler@gmail.com>
 References: <20250418173434.2892-1-dpenkler@gmail.com>
@@ -78,39 +78,48 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The implementation of the bb_request_system_control function
-confused setting controller-in-charge with becoming system-controller.
+The SRQ irq was being enabled on attach but the board is not
+set up to handle it until it becomes system controller.
 
-Remove setting controller-in-charge and add initialization of the
-control lines for the system-controller role.
+Move the enabling of the SRQ irq to bb_request_system_control.
 
 Fixes: 4cd654f84769 ("staging: gpib: Add gpio bitbang GPIB driver")
 Tested-by: Dave Penkler <dpenkler@gmail.com>
 Signed-off-by: Dave Penkler <dpenkler@gmail.com>
 ---
- drivers/staging/gpib/gpio/gpib_bitbang.c | 10 +++++++---
- 1 file changed, 7 insertions(+), 3 deletions(-)
+ drivers/staging/gpib/gpio/gpib_bitbang.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/staging/gpib/gpio/gpib_bitbang.c b/drivers/staging/gpib/gpio/gpib_bitbang.c
-index 9670522fe36e..29aab72c1f0f 100644
+index a92c4eda99a0..ac9ecb6e0aad 100644
 --- a/drivers/staging/gpib/gpio/gpib_bitbang.c
 +++ b/drivers/staging/gpib/gpio/gpib_bitbang.c
-@@ -889,9 +889,13 @@ static int bb_request_system_control(struct gpib_board *board, int request_contr
+@@ -884,6 +884,8 @@ static int bb_go_to_standby(struct gpib_board *board)
+ 
+ static int bb_request_system_control(struct gpib_board *board, int request_control)
+ {
++	struct bb_priv *priv = board->private_data;
++
+ 	dbg_printk(2, "%d\n", request_control);
  	if (!request_control)
  		return -EINVAL;
+@@ -895,6 +897,8 @@ static int bb_request_system_control(struct gpib_board *board, int request_contr
  
--	set_bit(CIC_NUM, &board->status);
--	// drive DAV & EOI false, enable NRFD & NDAC irqs
--	SET_DIR_WRITE(board->private_data);
-+	gpiod_direction_output(REN, 1); /* user space must enable REN if needed */
-+	gpiod_direction_output(IFC, 1); /* user space must toggle IFC if needed */
-+	if (sn7516x)
-+		gpiod_direction_output(DC, 0); /* enable ATN as output on SN75161/2 */
-+
-+	gpiod_direction_input(SRQ);
+ 	gpiod_direction_input(SRQ);
+ 
++	ENABLE_IRQ(priv->irq_SRQ, IRQ_TYPE_EDGE_FALLING);
 +
  	return 0;
  }
+ 
+@@ -1299,8 +1303,6 @@ static int bb_attach(struct gpib_board *board, const struct gpib_board_config *c
+ 		       IRQF_TRIGGER_NONE))
+ 		goto bb_attach_fail_r;
+ 
+-	ENABLE_IRQ(priv->irq_SRQ, IRQ_TYPE_EDGE_FALLING);
+-
+ 	dbg_printk(0, "attached board %d\n", board->minor);
+ 	goto bb_attach_out;
  
 -- 
 2.49.0
