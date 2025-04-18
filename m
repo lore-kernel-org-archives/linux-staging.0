@@ -1,71 +1,71 @@
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABAC0207DE5
-	for <linux-staging@lists.linux.dev>; Fri, 18 Apr 2025 09:31:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E0F7270EB0
+	for <linux-staging@lists.linux.dev>; Fri, 18 Apr 2025 09:31:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744968684; cv=none; b=YHUFjfvKBc5DTWKdasdwdevzoyPiGXN8GbA4MfxwNFZ510yUMOw1klqMHX5VWQOES7JMCcb6t6kxHb2VVMi5Yi+0Hl9wUXx+vV3V7BMf1/i9mgm+tT8Jv4N2hq7AwPgk23klJ69PFDaqXV1rytXzcm1oC0OaX+bzPcSgB9xbrkM=
+	t=1744968687; cv=none; b=bepWaoR59LA+dkC9krYG/QJ5hKEnnJKHUwQ0LhSfq0qGk4MKRd7f+sG85XGGhBOuMDzXp9AqYrO2JiRYozSds7+UzBEMWSAFs0kRdZPMx8LrxxacYjHpdCwjivcSce0II0/0wVuqOR2fpGcYZm/t7f9tG9PPN5nbcyczKrSv1mM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744968684; c=relaxed/simple;
-	bh=l+WljZ0LGkGY9pZ4SVmav7N6ZTsbRQhbYlws62pX6Jk=;
+	s=arc-20240116; t=1744968687; c=relaxed/simple;
+	bh=bf1QPLQ982jUYGjff53G/vojBk6fxXpw9Om2goquwfI=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=tLXmsSLcMLlcXBplvGw4gpjVd9jRI7TyeWisagstctKjx5lyCKQIl0w25BqiUTyjSZmimGbhiYZ4hE6kRK6iXUUus09p1EzwjCmYDYsIS4Z8npgS8uT+Q9pDW+/RorczZMzfFrJVBfcSq7MPIO9XJN4CjCcrbCEhhFSiEM/YW6g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IElBJlkY; arc=none smtp.client-ip=209.85.128.44
+	 MIME-Version; b=B49PbNpyQpgGgQser+tJv7MJfsgnhP9C+1waUsSoQsgC51iXMFlVgLKS+UMfBRf7wG4tPyIjsJLRaFVOoDA7ejqGbNln49P3RZ/+eNKhHp38KsAzCxDEfL6W5Bo9X+9v1nhN89PqPp35Fzz8hRMJeDHpoNX+A2Nh1rwbf61FUPM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MZkAAkM0; arc=none smtp.client-ip=209.85.221.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IElBJlkY"
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-43cf628cb14so20673575e9.1
-        for <linux-staging@lists.linux.dev>; Fri, 18 Apr 2025 02:31:22 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MZkAAkM0"
+Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-39ee5ac4321so1522426f8f.1
+        for <linux-staging@lists.linux.dev>; Fri, 18 Apr 2025 02:31:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1744968681; x=1745573481; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1744968684; x=1745573484; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Px4/dWG/1BChOQoCLuKfo67Qup2FH4WwdOjfR/Zid4k=;
-        b=IElBJlkYcX/S6q6vN9AcJ0gmmvVpyT/bOeSKNsHFqsG+0WqULkYkZBYxhDtcpaGxJS
-         dK34Y1T68Hztzv55oX5mcj+idGKY3MKyPW5yCYivCOwrr165aIkBWJWLdyYwquemGKqa
-         SRDgWt5V8bLsBYvIME+BnPd8dSs2srV5AF1GTR0xjPe+5GS8cr2euPwH6yhTp6JN7FC/
-         jH8y+8bT5Y/P3waq2CFnJymjwrgz02L2jFo/HCSJWsHBE6wDH4G7J0y1sT8RrCLqlCtd
-         X7s3Ta2x7Do1P2yUIkyqu3/cwRbEah1QZaQmIFTuMdWTtfzVDHBm7tMgdeHbTG8rzOnK
-         nCFA==
+        bh=ziEWnqr68bl6EYzUSY5rbxDyqDTwrndaf3K3nBdL2T8=;
+        b=MZkAAkM07+FRmPUk2/rFelDpf6S3OxuKYD4GZY381yuQW7brnKGlqv7Z0vpGqiA2Kk
+         BlQjS5AqFDhZIdMzRgWrMW8MyieI+6YXbZE7A1mjfBFjGGPDoizRD8AwzDyeBDh7plpF
+         V9PgL6r0G1oUqi9yWuGaUHkICVrO88Xa9iHoYXYFOVb9aYo2ujtlbuo3GHAeVAMulmu6
+         9xyIdha/jUUQfIAdPMiI+1vfdoD74w6q7jQ85x7nEHVy8Pz8GKMxeYKauii+7oEDQf8k
+         EP6AsL7xIvl3Fpdey4I1hdJnBwLtSZq5aAnpbOSWV+Ko04o14bvXok85d0gxu6zzq+ok
+         il0w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744968681; x=1745573481;
+        d=1e100.net; s=20230601; t=1744968684; x=1745573484;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=Px4/dWG/1BChOQoCLuKfo67Qup2FH4WwdOjfR/Zid4k=;
-        b=XAem8uXgq8m4+ZuxoL5QSllgqH8YMVa+qB4KKRo4zZp9JAthcsLNVDmpMMxrmQgzjy
-         6Fv6AWEoqrzECwl4ypgakZk1KljUVE8T88yLTJS8fRzzstlhfTOr62lIzWIWIekBNe2r
-         n7WEJdwcEOVkfEFB1MZ9WphwoLu08FPWDWUIjZ4BhBFGZ/3v/bs1VFpG2JlW837Ym/NT
-         zIYOair3NSdeh7ci2KlWpVjzDj9ruOrSV1FBJEoyjIs5ZSEb+AijhWqQeA348wh3eham
-         /2sMJY5xUXwZWoGS8H1lqp++SWY3Y739NnyYKxQmoTh0MXfMUoklQTF4W1lnb4e1zHCA
-         gEBg==
-X-Forwarded-Encrypted: i=1; AJvYcCVcEoJqs2OOXqYoPftEBq304eCXgZBd1QGqNOJrYGnBc8/lFNCIm8cB3F9zxBZO+n47cEXj+cKaiVzj8PhP@lists.linux.dev
-X-Gm-Message-State: AOJu0YwCND35GG/ZE1FjIxhwqCpBM/xbYLNou9is7YnrxwZtqpGBEvDB
-	EtzYlVAfPqLJzABR52Ln92RLsoSsdUxR1gYQc4VDIBMpC7r6MMGb
-X-Gm-Gg: ASbGncsK800eKWOV9KLmDegktO1TjKpX1bRDFNvBSJHtL0WCNItsVR61J90nehv8QRp
-	mp6dRZjcCtPxksojjeee3yrIIn8MuNZ7KFWo13eDB7dA9wQQK8LHFn39hpafTcA/Wz7KlYgG3Ye
-	2kfSZIB/u/+RUTUJq1Hlbpc2/MzusepQVFqXv9RoG96ms63IwGytIFNHy7qkd/tvQHj5Xr3SydQ
-	yKdS/g26wOY2b6z0dxoIM/Rv7Gol7Xf5V/QbESe+/Zq4ykw+hdlQWxek1ySs08Kn6IF2QFjvBeg
-	xNu6oq3e7qamnS1M1AkcRGh41iLv4ZhxOTECx6Y5u6q6mXOXwiUQpPpfOBqughrp/3LgLCdVsnO
-	wyKTJ/6GeXAo=
-X-Google-Smtp-Source: AGHT+IGvT2L6R4gKC8SQZl2Q7Ui3G/sarkbp8axY6Tt74sRDgzk+GXwJP4+oDoqieWz49mouZJzTkQ==
-X-Received: by 2002:a05:6000:1448:b0:391:952:c74a with SMTP id ffacd0b85a97d-39ef8ba59b9mr2610225f8f.8.1744968680694;
-        Fri, 18 Apr 2025 02:31:20 -0700 (PDT)
+        bh=ziEWnqr68bl6EYzUSY5rbxDyqDTwrndaf3K3nBdL2T8=;
+        b=PpEcX++H3RtQCymI8TANHNz5wn4oGsgR2Ve7rf/2Lt3ykqetwJOSg227eH2nIdgJaZ
+         xo0YF2bvI/q11LG7Pz+57fGcs+YGUfh19gyjsGKG/i56i6l1TClzpfDuAoXorciK2hn/
+         FaReT14Z3sTJ43fMyPEU35/uWlcds+oxytvGaGDNSVwgAmfuJwVEhMFIssamhYjI74Rx
+         y6hB/d8692zP9fDO2esYLeluQBJf3GrhnEhm155Y+OaPcUJI23mZTQCXuaR6Hnr1qUEZ
+         24k+W7odIhiIUhdmoNowtRtU9iHz75QKVRbFa2QwTNOn0l+p3DXoJRonCfKrTG0c0Y0y
+         cD9Q==
+X-Forwarded-Encrypted: i=1; AJvYcCUEX5bDmrkdo+voWVJvRRKVXEKL3dVuhCOeKHGgEg/M/Gjojz0inhsD/djukqfbTqOOK8HH52Y6ggALfpoC@lists.linux.dev
+X-Gm-Message-State: AOJu0Yxa+VaPz0XvLCvAHmHf0qRq+etDFlXJH2k3dqHvKen9EQQraQg1
+	7A1Fvdw7W7tI5nLcHs3a6IAS+8qWG/9LDARITsppJqFr7pixMO6T
+X-Gm-Gg: ASbGncu5eUtfAlPB5cr2H0Vx/kSP/ryb9LnowUkuEH1VpKtNF62feH5CGWtXSONS/Tj
+	XgH2I5s6D8wgygCE92de9DHKUckSC+2Y20mfnO/oNxcdjLR0fVBPti+BmUp0/i1Jjc9XUtX+L0c
+	btY4b2/UPl5ZpYyQTjVYc9qY59CM2mMZ1dboDTAuCfpsQbZzsinI4ddPtVKmV37PdPnJBqWo/tB
+	2CuVLAsetsF++/W0qlKQhE5QwUIAaHRNtJlp/ihXTmjDouTBPDHwwCZGGVwiphrHkixqX6Ui3rm
+	BcEu/JY6X93dHvTKtM8Q0snqQu6cwmkyn6uFLVFnuIFFK4gwyNtGtZ71bQisLFOnVSg1OL6huX+
+	m
+X-Google-Smtp-Source: AGHT+IEkgWk/w496CaaXwuS7ubgZL54PSfX59h5yXTZtwL7fxskSCMm62/oqb2JCKljM/a15kDDOmQ==
+X-Received: by 2002:a5d:588b:0:b0:398:fd9b:b935 with SMTP id ffacd0b85a97d-39efbaf6f36mr1633392f8f.53.1744968684326;
+        Fri, 18 Apr 2025 02:31:24 -0700 (PDT)
 Received: from localhost.localdomain (82-64-73-52.subs.proxad.net. [82.64.73.52])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4406d5a9df6sm15599595e9.1.2025.04.18.02.31.19
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4406d5a9df6sm15599595e9.1.2025.04.18.02.31.23
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 18 Apr 2025 02:31:20 -0700 (PDT)
+        Fri, 18 Apr 2025 02:31:23 -0700 (PDT)
 From: Dave Penkler <dpenkler@gmail.com>
 To: gregkh@linuxfoundation.org,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
 Cc: Dave Penkler <dpenkler@gmail.com>
-Subject: [PATCH 1/2] staging: gpib: Remove unused enums from common include file
-Date: Fri, 18 Apr 2025 11:31:10 +0200
-Message-ID: <20250418093111.8820-2-dpenkler@gmail.com>
+Subject: [PATCH 2/2] staging: gpib: Rename common include file
+Date: Fri, 18 Apr 2025 11:31:11 +0200
+Message-ID: <20250418093111.8820-3-dpenkler@gmail.com>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <20250418093111.8820-1-dpenkler@gmail.com>
 References: <20250418093111.8820-1-dpenkler@gmail.com>
@@ -77,67 +77,55 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The error code and timeout code enums are not used by any
-of the gpib kernel code.  This patch removes them.
+User code includes gpib_user.h. Since this include has diverged
+from the original by
+  - removing unused functions and defines
+  - changing camel-case identifiers
+  - removing typedefs
+we need to change the name of the kernel include. This include
+will be included in the userland gpib_user.h ensuring backward
+compatibility for application programmes.
+
+Rename the file and change the references to it.
 
 Signed-off-by: Dave Penkler <dpenkler@gmail.com>
 ---
- drivers/staging/gpib/uapi/gpib_user.h | 42 ---------------------------
- 1 file changed, 42 deletions(-)
+ drivers/staging/gpib/include/gpibP.h              | 2 +-
+ drivers/staging/gpib/include/gpib_types.h         | 2 +-
+ drivers/staging/gpib/uapi/{gpib_user.h => gpib.h} | 0
+ 3 files changed, 2 insertions(+), 2 deletions(-)
+ rename drivers/staging/gpib/uapi/{gpib_user.h => gpib.h} (100%)
 
-diff --git a/drivers/staging/gpib/uapi/gpib_user.h b/drivers/staging/gpib/uapi/gpib_user.h
-index 1cb6b6219e67..4ca3cc9e0cd7 100644
---- a/drivers/staging/gpib/uapi/gpib_user.h
-+++ b/drivers/staging/gpib/uapi/gpib_user.h
-@@ -53,48 +53,6 @@ enum ibsta_bits {
- 		EVENT | LOK | REM | CIC | ATN | TACS | LACS | DTAS | DCAS | SRQI,
- };
+diff --git a/drivers/staging/gpib/include/gpibP.h b/drivers/staging/gpib/include/gpibP.h
+index 6461b330a3c3..0af72934ce24 100644
+--- a/drivers/staging/gpib/include/gpibP.h
++++ b/drivers/staging/gpib/include/gpibP.h
+@@ -11,7 +11,7 @@
  
--/* IBERR error codes */
--enum iberr_code {
--	EDVR = 0,		/* system error */
--	ECIC = 1,		/* not CIC */
--	ENOL = 2,		/* no listeners */
--	EADR = 3,		/* CIC and not addressed before I/O */
--	EARG = 4,		/* bad argument to function call */
--	ESAC = 5,		/* not SAC */
--	EABO = 6,		/* I/O operation was aborted */
--	ENEB = 7,		/* non-existent board (GPIB interface offline) */
--	EDMA = 8,		/* DMA hardware error detected */
--	EOIP = 10,		/* new I/O attempted with old I/O in progress  */
--	ECAP = 11,		/* no capability for intended opeation */
--	EFSO = 12,		/* file system operation error */
--	EBUS = 14,		/* bus error */
--	ESTB = 15,		/* lost serial poll bytes */
--	ESRQ = 16,		/* SRQ stuck on */
--	ETAB = 20	       /* Table Overflow */
--};
--
--/* Timeout values and meanings */
--enum gpib_timeout {
--	TNONE = 0,		/* Infinite timeout (disabled)	   */
--	T10us = 1,		/* Timeout of 10 usec (ideal)	   */
--	T30us = 2,		/* Timeout of 30 usec (ideal)	   */
--	T100us = 3,		/* Timeout of 100 usec (ideal)	   */
--	T300us = 4,		/* Timeout of 300 usec (ideal)	   */
--	T1ms = 5,		/* Timeout of 1 msec (ideal)	   */
--	T3ms = 6,		/* Timeout of 3 msec (ideal)	   */
--	T10ms = 7,		/* Timeout of 10 msec (ideal)	   */
--	T30ms = 8,		/* Timeout of 30 msec (ideal)	   */
--	T100ms = 9,		/* Timeout of 100 msec (ideal)	   */
--	T300ms = 10,	/* Timeout of 300 msec (ideal)	   */
--	T1s = 11,		/* Timeout of 1 sec (ideal)	   */
--	T3s = 12,		/* Timeout of 3 sec (ideal)	   */
--	T10s = 13,		/* Timeout of 10 sec (ideal)	   */
--	T30s = 14,		/* Timeout of 30 sec (ideal)	   */
--	T100s = 15,		/* Timeout of 100 sec (ideal)	   */
--	T300s = 16,		/* Timeout of 300 sec (ideal)	   */
--	T1000s = 17		/* Timeout of 1000 sec (maximum)   */
--};
--
- /* End-of-string (EOS) modes for use with ibeos */
+ #include "gpib_types.h"
+ #include "gpib_proto.h"
+-#include "gpib_user.h"
++#include "gpib.h"
+ #include "gpib_ioctl.h"
  
- enum eos_flags {
+ #include <linux/fs.h>
+diff --git a/drivers/staging/gpib/include/gpib_types.h b/drivers/staging/gpib/include/gpib_types.h
+index 9e0dfdb9904d..2af4574d400c 100644
+--- a/drivers/staging/gpib/include/gpib_types.h
++++ b/drivers/staging/gpib/include/gpib_types.h
+@@ -8,7 +8,7 @@
+ #define _GPIB_TYPES_H
+ 
+ #ifdef __KERNEL__
+-#include "gpib_user.h"
++#include "gpib.h"
+ #include <linux/atomic.h>
+ #include <linux/device.h>
+ #include <linux/mutex.h>
+diff --git a/drivers/staging/gpib/uapi/gpib_user.h b/drivers/staging/gpib/uapi/gpib.h
+similarity index 100%
+rename from drivers/staging/gpib/uapi/gpib_user.h
+rename to drivers/staging/gpib/uapi/gpib.h
 -- 
 2.49.0
 
