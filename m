@@ -1,181 +1,113 @@
-Received: from smtp.forwardemail.net (smtp.forwardemail.net [121.127.44.73])
+Received: from sonic312-23.consmr.mail.gq1.yahoo.com (sonic312-23.consmr.mail.gq1.yahoo.com [98.137.69.204])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E3E5205AAB
-	for <linux-staging@lists.linux.dev>; Fri, 18 Apr 2025 15:12:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=121.127.44.73
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79B562116F5
+	for <linux-staging@lists.linux.dev>; Fri, 18 Apr 2025 15:18:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=98.137.69.204
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744989129; cv=none; b=CzWOZPCLHfRs8fF8FfO4h8qOahHDiNxv9+nW6x0I6f6/N4CEqjCibWb4TuAXdGSD6h7jdqNxnlrZbOfqto0Lyz4TgjkpF0gxBQzRxd8qQlvkzwY+FSD1EXAJG9GHgiqHc+660ofei44oKPg21GIauNcidipsnS6pIR0NFimhWEY=
+	t=1744989499; cv=none; b=cPP8RBR10B6S8QLmfijxnEaiaZL+l5gkaRKFXVynUje7sfsgmFM7BqPWkIV+S1fc/42Ed41jhlASYRm4FyB5oo4BG9EoIgyWSr09SwlgI04V1fjgnzEbuH5ZuuJSDY925xE7gEmbWEVqBOHVIwz7N4Mm1d/St/5/71HyWYGLMBo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744989129; c=relaxed/simple;
-	bh=mcPguKrpO7L/ms24ZzULya2onsD58fOJK8+l1yAIrRg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=VjTjtflus5fPPNed9zxj46M0wfcXiBdATkCh1oghZ2QjW78TIPEvfSSpp9CMJNzDXEdtwoLadEPw48JSDUHYoURTFAUXf+w52Dk0OaFjoik+sFMKJkdvv3l5GhWZ+3ZX/ZxeRB9tuZnLgxOH4WUPS2amn5SKpNRxnNWktck4ePc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kwiboo.se; spf=pass smtp.mailfrom=fe-bounces.kwiboo.se; dkim=pass (2048-bit key) header.d=kwiboo.se header.i=@kwiboo.se header.b=cKZSTjcg; arc=none smtp.client-ip=121.127.44.73
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kwiboo.se
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fe-bounces.kwiboo.se
+	s=arc-20240116; t=1744989499; c=relaxed/simple;
+	bh=KGdCXFt+x2n6fsL0TovYryn10LuTDD0aICC+QlM3f0E=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:References; b=K7U4PUMy/H5ivNYFBz10V2V6A0QImiOV9g5uzbBSqpaU87y/tRxzaXgmIBYLEvEQmAp63Gt1Wouw9Kbz5nvStK8vh6fsvyrKBYZNvyx0IEvbJj20g7RLCCFBbrk9uFdM9KUsqhXDe1AnpPv7pfFEiz143jLKSWqLklfQ+pGLCRg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=aol.com; spf=pass smtp.mailfrom=aol.com; dkim=pass (2048-bit key) header.d=aol.com header.i=@aol.com header.b=pcBwGho1; arc=none smtp.client-ip=98.137.69.204
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=aol.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=aol.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kwiboo.se header.i=@kwiboo.se header.b="cKZSTjcg"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kwiboo.se;
- h=Content-Transfer-Encoding: Content-Type: In-Reply-To: From: References:
- Cc: To: Subject: MIME-Version: Date: Message-ID; q=dns/txt;
- s=fe-e1b5cab7be; t=1744989125;
- bh=gZ99nEDhjJPtKYQc2hoc52nGqWB8ytY2CleaomSYJWE=;
- b=cKZSTjcgJ4OrQac1gkQPq8uQXmYH0FQHGy4mFPUqt28HsZNtZIoLIfHbQD7OpnTMlEeHHmFFo
- 8ZLbhqaCwXOauXiy3x63OBllwCxHFa10eP4guNa4ktGB5Lof3NoMgYRJDsOFFdUzsorSWVJlNnB
- kyJEsMRQtlJO+mWgvm7HDyjV3Nsnx40RGMcQXJ3PlteXezDwtyhvsIxTeyzKAY8tSL5Gv4ikygc
- SGSvRTL3j5h9BJv8z7MHLSA6NhoZTCznXIfJiH35AB/zyWSA9BN5ubod+K9OtPdpKSoAQjbgRP4
- MKzxpTPMX/TcKA40XaW5GuXFBdGIMxQS3hTlYzYMFnDQ==
-X-Forward-Email-ID: 68026bbf750a8e94b92eccb3
-X-Forward-Email-Sender: rfc822; jonas@kwiboo.se, smtp.forwardemail.net,
- 121.127.44.73
-X-Forward-Email-Version: 1.0.2
-X-Forward-Email-Website: https://forwardemail.net
-X-Complaints-To: abuse@forwardemail.net
-X-Report-Abuse: abuse@forwardemail.net
-X-Report-Abuse-To: abuse@forwardemail.net
-Message-ID: <4161ab9e-3be5-4738-9bbe-0dba636b838a@kwiboo.se>
-Date: Fri, 18 Apr 2025 17:11:55 +0200
+	dkim=pass (2048-bit key) header.d=aol.com header.i=@aol.com header.b="pcBwGho1"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aol.com; s=a2048; t=1744989496; bh=YOwYVS88MYAo67yBk8FKZOYEK4G5ffDyYrmi+VNm9T4=; h=From:To:Cc:Subject:Date:References:From:Subject:Reply-To; b=pcBwGho1KrPf+8SZnZv3EGdFIInQLrYT9CbHTBJcjlStTCnwB7Rm0agVOSkmBXJTQ9B/yoQjxiIcRTuTe3bQV4qUv/QQJJ07VL/tLOPyAwqPNbIWN73W9EIFMYstw8HoyyHgIx2eEg2GfaD1WUuSk0kpF8pCe8JwRcnmYqcZyXBehHUGFB9LKP2flqy6WS3WeZbD2f110EVrT+B0oJA9HhpQgqRl/rv8XXltSpF1/esUN9Itzz8SVlrhcZh14TXiNapWZpJT1KpFibRhQogLx8uyV74IUE0uwk6qbhUE1UEvB419Lr0SZYkI4YobWwFweA/T92DAfCvWutQDhswYyg==
+X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1744989496; bh=zJ3/FTRP2qP44OO1CSeP46q820reB7DNH2s5NzWuWhU=; h=X-Sonic-MF:From:To:Subject:Date:From:Subject; b=UanUR6ea81LovmOsFEdHz1vtr4ql1Qj9ueHzBY9HQZnH0R3QcIwRscsuoPR67FxUpRwxs7JPWp8Uxk1Jl6PLwV4I1sjyseM/o/5kBKWIWRZUDudGklC1ihy6pg6nvGZ8yyecgOxAeqPXEpH/4a9t1oOODsvBaD1yRGOfuBgqV/pDv+sqb3EfgYDJGOLridTY5ayTBavNcgFm3NdVdyCQAkPEFv3TJmXYuB6bXuOpnG++ywCojtNiDS8K433ptFkixGbWUAnsZNZWLxvoCay0aW24TCahkriRSypCuNniB2or9wJ4hSXTlIla6aEY4n9HRY3o8H1TGmENDA+M9XmDMA==
+X-YMail-OSG: iHH0dwwVM1nt69Zn6Jdicsz0N0Gni1kNY29AuggnVNYVfkx2qF.2n_BKrKOquFc
+ qcDq7KCuvqQT9fn_Vw.Yknqew.rTNOo1sE7orarwLdRsSRgoVUopnIMkDmkP146jjrwDnnOXanym
+ aWlT.Hg6I98vuX_AGJ89WZAhzbmz1ke1_UcpUlMA10QjbxeE8VgkTPBf3WNHtOFfShON.lYdIybe
+ gl5Zl28oczstcMSNeEs82sg0d2K3Sc7d9cHbjuxmc_NQAsYHm5bHDD6lKwVAml0nYUqFPahhZTJK
+ qP4klKz7q6XGLvOZMsfYcO4hP5TCR1Z8BacVkyK9uj69WjaHGzM43oKQa090X0RyIjcKI6jEMn4d
+ 84JvKqOJ1D1uA8I6e1TvxPvurK8bdU2awWdbR7_TJL.We5ZVJLHJKQTCNNGtioWxriDz2JO15qkl
+ kXng66DyqaQNYD7B4m189IiFNKE7_cN.SDkFGKnvSxMB8pfXfk19bObzCFIgvv9lGjhRxW68d6bk
+ 0lg5Z617ouWZXpxeLMSJ1aWjo9i2DLPLVg8Jvj3XsmBiumb3mGfsP5cdFoeE1HTdrVBDw5P21Fsz
+ nLcuOGSqb6ydHgidSS1ErdfA4255ZwiEkuagpW1a1Gj.wxsiyYJwA8Qubv7Sv_pHX8ubue5K6Vez
+ G_uLINbulkIS9ZfnwG9SCRDTrYVjbotK7q_hHwz4gzdQcu7JDir95ZR9rJM8.xFR8HOEHEV7zVUe
+ 2KiZaREhY2ZTQ2DwKSv3KSvTWCdj9TX75fsySCZDsP7TBiQ3hjpJobsufacihelZ6tXbdv_Iyb4v
+ vDswOr549lrYJrw.gP4W3l2itqjSwwFnBAi0o2W8EL5XKROXJlMiL_fiox7SXedozGwMjOkTH1fX
+ JHbrccvZMdtbx_Ai8KF3aFfWF.JM51Ew2YJ2PCfRxTopII2_zpljFXD.zKiFVMxGZx8vzAcoR7CK
+ _.GyGJdVhen_KgxtWiCljZfLSqTzklsHf5CsdolafJ0RVTBvj6dNOwMXQ6P_Cyt_wimO0WNu2O46
+ O42COvH8ksF5n2UcHbVXrAVQubDItLAPDWexRyv8emfJG6YnBlbDYgSuUrP0D4NDV8Wp0J1kacwo
+ lwoIyuHs5GAhufuDZvn9_IyC1knfa2ua_2y6xEzr5ICCXEDyG7aowggZMeleIli7EQoaderf9yCY
+ su2VJyR6KVvJaZmK28O1mu6CfuTQhBJgZV68IsBLDFAU95wy7nSsn.KPbuLfR1RbL8BvEL8riZ.s
+ KoZXFIEyo2uJ.t9hAHQMocZi45OlazELB1Z5reB79g2HyUMwlsxZt0sLvjdn6iiSBhDc5aTTetew
+ UiAlsURDZXr4OA5iP0Ri9yz8ZI6FBqTsJyXzQWdveLu.LigY1gbOlfmM.MLrjmltZZI2OlnFV3a3
+ rY.10PicIC9R4kO9Q_6CHqhMe_HFHIxUxULlecSzovT5hoa0ClIrq7ROQAY3vcqMY969y9uPXT8H
+ dy.foAYEM6ae4hfXKzup8714PbfMRqIYzE3N5XpGLG.8oQWC5856m9yuZcLVKgBgMDCKrXPWYiiu
+ Vgr5Qup2JXYpyZQhMPTFn26VvRhxktmMNEzR5PMtkZpYeTdYvtQedcFd2QR7Zv1BlyrnOEn0BSq6
+ MRX6PEN5R1azo3FpZ.VOQr03ywb9K83v9be9cCz6lQxOfPXqLvsmGr3TlRgU5D3jVp0Df9g0Uly0
+ zm7HbO2olG5YNctSUOJijlVYBkhnZ3W708asmzjY6DoF1Njj5p8M63OowT774eI4Uy.lwCW6b8kP
+ ilePjMtqdRD.eH1egPpRbs2Vmz3tlsMIw3mNInvlnXB2VxDm3K63ButfwqApkxaq9Ycz.bIV67bK
+ psWjIr3ED_K.Iq_cL7qg8X0Dioj2iF7qZApF3pyFDY2sygVd7S6tGQgPbzB7.k8DIcYpq0ce4T8k
+ B23AcmF_ih91Wf6f1hiij0LRm.154ulHSC6_Hw9.Rv07dIiNxgPYPDkP21rkRi6qI7ssVZKNjbPE
+ V9awaBjQV7Nv8dHZOuQZhCISS43NX7iOOsY1VXGGteS.4j9zxy8HSBRuf3jJ2MQwpcin7_zh7oTv
+ pbClQBW3fSL5aPyJjy.dpdvsLQAnP6kuUDHZjsdbjOj0C2RoecP7oVHY03VuadMQQYJzrmQk0pqK
+ .Ag6prwDaJSvK.rElz4wGAUjz440o16r75vZ7rCpNLB4zlXzsOzk6RPAOKKBnJP9tlHdObGeX5bp
+ 2F9V6AGMP0SEKNxl9T6T7czbZwUCos1vxRIjw_z6fJgt8QHmkj_CczsaDqyJ6CVz9oUeQFvwSdrd
+ RVt7m4A--
+X-Sonic-MF: <rubenru09@aol.com>
+X-Sonic-ID: a03b6caa-6be5-409d-b0fd-45343ee32d95
+Received: from sonic.gate.mail.ne1.yahoo.com by sonic312.consmr.mail.gq1.yahoo.com with HTTP; Fri, 18 Apr 2025 15:18:16 +0000
+Received: by hermes--production-ir2-858bd4ff7b-rjtcv (Yahoo Inc. Hermes SMTP Server) with ESMTPA ID 8d9c4354726140fe64c22851ae4eda49;
+          Fri, 18 Apr 2025 15:18:10 +0000 (UTC)
+From: Ruben Wauters <rubenru09@aol.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Sudip Mukherjee <sudipm.mukherjee@gmail.com>,
+	Teddy Wang <teddy.wang@siliconmotion.com>,
+	Sudip Mukherjee <sudip.mukherjee@codethink.co.uk>
+Cc: Ruben Wauters <rubenru09@aol.com>,
+	linux-fbdev@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH 0/4] staging: sm750fb: remove unused code/files
+Date: Fri, 18 Apr 2025 16:17:46 +0100
+Message-ID: <20250418151755.42624-1-rubenru09@aol.com>
+X-Mailer: git-send-email 2.48.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v9 3/4] media: rkvdec: Add get_image_fmt ops
-To: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-Cc: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
- linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-References: <20250417-b4-rkvdec_h264_high10_and_422_support-v9-0-0e8738ccb46b@collabora.com>
- <20250417-b4-rkvdec_h264_high10_and_422_support-v9-3-0e8738ccb46b@collabora.com>
- <8d1c3c82-dbdc-4064-8188-bab586996302@kwiboo.se>
- <4be400281b3fe53b724025ffa837ceed777d7699.camel@collabora.com>
-Content-Language: en-US
-From: Jonas Karlman <jonas@kwiboo.se>
-In-Reply-To: <4be400281b3fe53b724025ffa837ceed777d7699.camel@collabora.com>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+References: <20250418151755.42624-1-rubenru09.ref@aol.com>
 
-Hi Nicolas,
+This patch series removes three unused files and their
+associated headers. The code was not used in any other
+files (other than themselves).
 
-On 2025-04-18 14:28, Nicolas Dufresne wrote:
-> Le vendredi 18 avril 2025 à 08:22 +0200, Jonas Karlman a écrit :
->> Hi Nicolas,
->>
->> On 2025-04-17 23:58, Nicolas Dufresne wrote:
->>> From: Jonas Karlman <jonas@kwiboo.se>
->>>
->>> Add support for a get_image_fmt() ops that returns the required image
->>> format.
->>>
->>> The CAPTURE format is reset when the required image format changes and
->>> the buffer queue is not busy.
->>>
->>> Signed-off-by: Jonas Karlman <jonas@kwiboo.se>
->>> Tested-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
->>> Co-developed-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
->>> Signed-off-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
->>> ---
->>>  drivers/staging/media/rkvdec/rkvdec.c | 35 +++++++++++++++++++++++++++++++++++
->>>  drivers/staging/media/rkvdec/rkvdec.h |  2 ++
->>>  2 files changed, 37 insertions(+)
->>>
->>> diff --git a/drivers/staging/media/rkvdec/rkvdec.c b/drivers/staging/media/rkvdec/rkvdec.c
->>> index 7b780392bb6a63cc954655ef940e87146d2b852f..6c6fe411f48772419e1810d869ab40d168848e65 100644
->>> --- a/drivers/staging/media/rkvdec/rkvdec.c
->>> +++ b/drivers/staging/media/rkvdec/rkvdec.c
->>> @@ -72,6 +72,15 @@ static bool rkvdec_is_valid_fmt(struct rkvdec_ctx *ctx, u32 fourcc,
->>>  	return false;
->>>  }
->>>  
->>> +static bool rkvdec_fmt_changed(struct rkvdec_ctx *ctx,
->>> +			       enum rkvdec_image_fmt image_fmt)
->>
->> Just a small nitpick:
->>
->> Maybe this function should be called rkvdec_image_fmt_changed() and
->> could be moved closer to rkvdec_image_fmt_match() as those two are
->> related to image_fmt and not the pixfmt/fourcc.
-> 
-> Applied locally. With this change, may I have your Rb ?
+The TODO mentions that this was sample code, however given
+it was never implemented into the driver, I have elected to
+remove it entirely.
 
-Sure, and thanks for helping getting this old series to land :-)
+Ruben Wauters (4):
+  staging: sm750fb: Remove ddk750_sii164
+  staging: sm750fb: remove ddk750_dvi
+  staging: sm750fb: remove ddk750_hwi2c
+  staging: sm750fb: remove irrelevant TODO line
 
-Reviewed-by: Jonas Karlman <jonas@kwiboo.se>
+ drivers/staging/sm750fb/Makefile         |   3 +-
+ drivers/staging/sm750fb/TODO             |   3 -
+ drivers/staging/sm750fb/ddk750.h         |   3 -
+ drivers/staging/sm750fb/ddk750_display.c |   1 -
+ drivers/staging/sm750fb/ddk750_dvi.c     |  62 ----
+ drivers/staging/sm750fb/ddk750_dvi.h     |  57 ----
+ drivers/staging/sm750fb/ddk750_hwi2c.c   | 247 --------------
+ drivers/staging/sm750fb/ddk750_hwi2c.h   |  12 -
+ drivers/staging/sm750fb/ddk750_sii164.c  | 408 -----------------------
+ drivers/staging/sm750fb/ddk750_sii164.h  | 174 ----------
+ 10 files changed, 1 insertion(+), 969 deletions(-)
+ delete mode 100644 drivers/staging/sm750fb/ddk750_dvi.c
+ delete mode 100644 drivers/staging/sm750fb/ddk750_dvi.h
+ delete mode 100644 drivers/staging/sm750fb/ddk750_hwi2c.c
+ delete mode 100644 drivers/staging/sm750fb/ddk750_hwi2c.h
+ delete mode 100644 drivers/staging/sm750fb/ddk750_sii164.c
+ delete mode 100644 drivers/staging/sm750fb/ddk750_sii164.h
 
-Regards,
-Jonas
-
-> 
-> thanks,
-> Nicolas
-> 
->>
->> Regards,
->> Jonas
->>
->>> +{
->>> +	if (image_fmt == RKVDEC_IMG_FMT_ANY)
->>> +		return false;
->>> +
->>> +	return ctx->image_fmt != image_fmt;
->>> +}
->>> +
->>>  static void rkvdec_fill_decoded_pixfmt(struct rkvdec_ctx *ctx,
->>>  				       struct v4l2_pix_format_mplane *pix_mp)
->>>  {
->>> @@ -118,8 +127,34 @@ static int rkvdec_try_ctrl(struct v4l2_ctrl *ctrl)
->>>  	return 0;
->>>  }
->>>  
->>> +static int rkvdec_s_ctrl(struct v4l2_ctrl *ctrl)
->>> +{
->>> +	struct rkvdec_ctx *ctx = container_of(ctrl->handler, struct rkvdec_ctx, ctrl_hdl);
->>> +	const struct rkvdec_coded_fmt_desc *desc = ctx->coded_fmt_desc;
->>> +	enum rkvdec_image_fmt image_fmt;
->>> +	struct vb2_queue *vq;
->>> +
->>> +	/* Check if this change requires a capture format reset */
->>> +	if (!desc->ops->get_image_fmt)
->>> +		return 0;
->>> +
->>> +	image_fmt = desc->ops->get_image_fmt(ctx, ctrl);
->>> +	if (rkvdec_fmt_changed(ctx, image_fmt)) {
->>> +		vq = v4l2_m2m_get_vq(ctx->fh.m2m_ctx,
->>> +				     V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE);
->>> +		if (vb2_is_busy(vq))
->>> +			return -EBUSY;
->>> +
->>> +		ctx->image_fmt = image_fmt;
->>> +		rkvdec_reset_decoded_fmt(ctx);
->>> +	}
->>> +
->>> +	return 0;
->>> +}
->>> +
->>>  static const struct v4l2_ctrl_ops rkvdec_ctrl_ops = {
->>>  	.try_ctrl = rkvdec_try_ctrl,
->>> +	.s_ctrl = rkvdec_s_ctrl,
->>>  };
->>>  
->>>  static const struct rkvdec_ctrl_desc rkvdec_h264_ctrl_descs[] = {
->>> diff --git a/drivers/staging/media/rkvdec/rkvdec.h b/drivers/staging/media/rkvdec/rkvdec.h
->>> index 6f8cf50c5d99aad2f52e321f54f3ca17166ddf98..e466a2753ccfc13738e0a672bc578e521af2c3f2 100644
->>> --- a/drivers/staging/media/rkvdec/rkvdec.h
->>> +++ b/drivers/staging/media/rkvdec/rkvdec.h
->>> @@ -73,6 +73,8 @@ struct rkvdec_coded_fmt_ops {
->>>  		     struct vb2_v4l2_buffer *dst_buf,
->>>  		     enum vb2_buffer_state result);
->>>  	int (*try_ctrl)(struct rkvdec_ctx *ctx, struct v4l2_ctrl *ctrl);
->>> +	enum rkvdec_image_fmt (*get_image_fmt)(struct rkvdec_ctx *ctx,
->>> +					       struct v4l2_ctrl *ctrl);
->>>  };
->>>  
->>>  enum rkvdec_image_fmt {
->>>
->>
+-- 
+2.48.1
 
