@@ -1,61 +1,63 @@
-Received: from mail-qv1-f44.google.com (mail-qv1-f44.google.com [209.85.219.44])
+Received: from mail-qv1-f46.google.com (mail-qv1-f46.google.com [209.85.219.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25549211460;
-	Fri, 18 Apr 2025 20:50:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C223241103;
+	Fri, 18 Apr 2025 20:50:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745009425; cv=none; b=M8L3u+Ty7uxr1hLrft1Mc00PByNdCfzz9vAyXNAknyoS0j2THikEQksclznrU0VkY2c2hUqj6t7O8Cm3obwVsv53FPwamTaieUWXEr4wlU90uVS4mfuGeukcXC0PhiLE53+eA6qP4hCtLEEKugYfEOkxR5vJ69XrtXYp6JAX88M=
+	t=1745009429; cv=none; b=VRkgqNpjwr5qFxV4KEChpV3G0mpIGYk852A+ukbyJpuKxsaGyT+3EWGk6VERPiKGSz4P4caqEHKaAdcRWKqCfQZdCW+Py3sizc2ElXAX72xXeNHG2hb/juVNh3t5IQJR1SFI3uSq6dgTNkkBSP7BPm/+y+GxNV+MsogYqtkkqKA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745009425; c=relaxed/simple;
-	bh=W9segW3cJMe7VP3WKWL2Rpm9z+MOBA5Bz2bhSFPcUHc=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=b7Ir3e05BTN5mw6/k0qaXg7O5Q4EbNNWhHdAt1QuwWTiEmGQrbhR3vUlsNR87t1Xcvv/JIXSRrGGffkl/Scmd9tcN7agYEUC5qu7Vnq2l+soa/CphfRlvfEBlVNG3QdT0Wxzmwu+dsoolVQLfRvSwGeBPSXAh1EPSK0ALtaUhJ0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fqPmU3hy; arc=none smtp.client-ip=209.85.219.44
+	s=arc-20240116; t=1745009429; c=relaxed/simple;
+	bh=nhjNiEws7JDfpSABnQRCrgaV/jVLhmHTd1ukZHOLh3Y=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=ouw+PqwIjk7NSCbYIg2eQr3TtlXzH+bWPo1ymNBZ89ei5r/Z1k6EWgWthxnWYAUJSBNOTsljkufM+LlpjdgoBieBa/Qg3AFhdiAhmcJ7/DdE6FRQWRcnpkQatsjkcg3zKSAQUNUMzASQJ3+NREJt/Aj/BxpjB44s0eZ400Y9MrQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SFwjvr+j; arc=none smtp.client-ip=209.85.219.46
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fqPmU3hy"
-Received: by mail-qv1-f44.google.com with SMTP id 6a1803df08f44-6e8f6970326so19788376d6.0;
-        Fri, 18 Apr 2025 13:50:23 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SFwjvr+j"
+Received: by mail-qv1-f46.google.com with SMTP id 6a1803df08f44-6eeb7589db4so23675676d6.1;
+        Fri, 18 Apr 2025 13:50:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1745009423; x=1745614223; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=zBS+gMuCbxo0lQQXgb/9PCP46mLZ8s4XB03eoOWWGew=;
-        b=fqPmU3hyet3m5pawEfAaciN/M7qugCClikSeC6xymczJC60nHeATSYlmbzgiKAT4zn
-         iiraG0/1mj0o0VVMPYJcV1Lo7UWygSyZH/sLLSJAfLfzBzpZ6TKRZWxbBpQOVc5+hcvv
-         V65QG5KnggJPhnzZss11VnfKV1RRIBhf1XQ7yV3E2Y+ly+ttHa0JLKyLvVR96b5E6+wp
-         uAlitkPAZlXH1R/pj6xFpE5V6w3DV4Lm69OELpr/1dCdRUe0b9rlXHo7xts/3+oOwF46
-         GaYXdPm8bz7/o2HMA4gjelQI75kwhRwfVSIGb2PCDh5PKmuo5H36PcD9X8CaDdnSseBg
-         8Ezg==
+        d=gmail.com; s=20230601; t=1745009427; x=1745614227; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Gk0TUJMIcvb2/Yt9CvbEI4RZU5fYHN3893YNwk+aijI=;
+        b=SFwjvr+jpU/2EbuvG/gYKYaMM2gW1FpziRLb/WXGWcvywIwrXKhA/6vVMog8v37a/z
+         JNeFTZgNsg7SuEcU6n7TlpXYbowR3KV32zImN8lgKcT8WnAPbaxt7yAYbaiWTczJF3OM
+         Wvb8kuc74qB+KdQYOXOu/svVCNNVaDzP3jERfE69K9fe4BsLbhUU2vdgmsxafnDcTWPO
+         IxSMMTGC2qmdTeCiJ9kPuxXxRmqAv0SVsaFxsgpA+wicP6tebPqC5ypwVPBxOHdaEwSJ
+         M94824BRpR8iYLqkem2X8yrgCXJgDXAsVeXm03+Z/On06hlv2bNJCP2GGFsQW0pioequ
+         We5g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745009423; x=1745614223;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=zBS+gMuCbxo0lQQXgb/9PCP46mLZ8s4XB03eoOWWGew=;
-        b=gL5Cj4DfH+W3b23Zr+/WKaaNl29Sf2lS+VDJHtsnxmmoe5y4WqTEmOUk4D+GFllNIw
-         mr8sqpr7MTf6zu8TS8EcxycQUtgG/+ewjxtIIlYvgK2c6LPCYNN18edJTFSZa7Cg9GRw
-         z8TZxSonxXW5FcWsL80dMmnB1cdvHJQJttYL9VxJiHsPhyvqiWSIqCXUFGtrX/Ww41jI
-         h3jR5SQL6lArCdd4Ex/tJnYRbYuXvpSFZxa+nen5kgYJBwI4zJXT9DxdNufz8drnNhzt
-         rk5+3EkP5vrb08ckfDdDVE42P1c1ZpqRtvJPBBz9OsbPhbo3iqsEtYNwtW+VlcAStVNM
-         x5nw==
-X-Forwarded-Encrypted: i=1; AJvYcCWGpqvV3XCkbkqG+d5jX1l9hbMB/hLzz2jJEua9YUe9HeiydQ1wHvo2gJ9XVOums2yAkXddbC5t6nbd4TEL3NyyRv6vcQ==@lists.linux.dev, AJvYcCWsCKSFqlXx+z8cKwt63TwjWayke6zsIIh4v4W2kqux3g9Lcbok4bNBtMwnGDBbPjn40/diwhWImEIPGVbDaQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzUnFLhnzALseiQLTxQE59k/aG0M1WGwya034GXqjhKzQ9OVcS5
-	RIHmd8PHxPBWSBU1fYrh6rny3OwkM6tEbCDGA7uyaEcWoDy4/IaM
-X-Gm-Gg: ASbGncuvOR4zGt1ityOvTfbdSRDy9x+7+qXVRwkNSn6JumMGfSWix5bKSF4sfcoONmx
-	Xkr7/Sh615LhvGF4cUEfmowAh6ha76iCealpewNvB6ayUgcKxQCkboOgH2U7pwayQ1+723SPiWS
-	Ux7fg7ml8bRj8EFFxpqjMosLmJQJQnlmuEiqnWpNStLPm+9yZZ9GNZAFnKBeTwLal8sR4E/EvPH
-	3MJCAxsMPt6Z5FKk+7UJScw0V4qzirJZoOaEVxNfdq7bR1bVqQcf1oAwATlp0beoyBK3xYmbm0r
-	mv0WLhGwy7+L7ppp6TXLPDRdQHfOH29ndiyYyIbYcuMHmA4uG21vqxmsWqAhDHrMkmKKAGB3UGc
-	DCix/TaWr4QtNpM5OQO2JYaGFOvXwrA==
-X-Google-Smtp-Source: AGHT+IGfxKsSAmrL28HNu5yl4e6s2vMKqHnmp5LNwavPA9VlB2hFWprDYSQDcjsuRTkffTYQCc6V5w==
-X-Received: by 2002:a05:6214:20a7:b0:6d8:99cf:d2db with SMTP id 6a1803df08f44-6f2c4687fc9mr82895486d6.38.1745009422700;
-        Fri, 18 Apr 2025 13:50:22 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1745009427; x=1745614227;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Gk0TUJMIcvb2/Yt9CvbEI4RZU5fYHN3893YNwk+aijI=;
+        b=HNtQkLA9TYyDCUzhcMpcjQXRoKI5eY+JL59qPDLZ3beZP0db6Roe0HpBFQEqVya0Sd
+         kTn2dOEDYHmX2mCqzEqJZnOllL2yAn8UX34ps4r0uEZtaTHms0EWR9/2PaN6lEPAzrLl
+         XmE3uUyiH9Jg8peBEe4rk5d1btLwjweQoVkfSZ8Xy7l4y8y6DhOGsiIwLVfGllUYfGt+
+         fThYiBX2j6VexJQOVfRY9MdYWiIdXW2KlQBGyEQvtO57XmKopMDNCnBJ20hdlrKdbP7H
+         C/9lSOrSGhBVIXjZgPNc7PB35QIuENpZuzaIGNnO/t+0LK/5pAnNDZ0xauwlHn8PCA94
+         FOQw==
+X-Forwarded-Encrypted: i=1; AJvYcCWr4MLw36ftSv1GuFy0yGoyrt+qz2vY8Ih0RhVx44sJneOXmNjQXKF1PPC1w2qNNYCTxhF5wy2YSLayylesZTpAooIrng==@lists.linux.dev, AJvYcCXjHyPRbE0Wk77PZ9QGpgOhi8ps4kVUfc6PSJp6LEseiME8Q4rk/ApH/GGmXKr96Ic9roQecBNIy7cYsMl8Hg==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwlOBJBhWg/zeJ1HM7E2HoRk03/GPU7K6iI6A47opKMlHubKsMm
+	6+A6N12prJnD/tcOUYLrKMOJdrFiKLZIFrJwDRlu25FUykQTZAomPLxpPnmQ//4=
+X-Gm-Gg: ASbGncslbpUNVhmP7b+K7ZEpOqDS4eQF+nlMeIBG1jRS9hDFrayWOnEkUtnYfuas1Nh
+	g5bWh2MWPKwAm+3+rM40zKNTkdhMJE8mcwiBNdSa97+TvO7JW4PlPhzgdSuL4Oo/0Qf6zImIA+P
+	CCShQFMQSPgg+6sWSiCT+QMVMxjsZBtTxpOzX0k+YsTm8viUIfuUwummMND74bGHf1+9IUnEuOj
+	hFr3NFhXZcuqXKqmDIeyhiCruRsAxY0oLucjPUs52Vj6mA72iA/SMZrphe/MbnOwRo3VGJnPfSW
+	DMVMNK3ST2rtm00tXpV+2OltG0ergdlGi4MW+v4T7CiKY00iuIR691Z7/HnvEVo3Ti52Q28bJto
+	u/Dr5OehkiFB8EyQN6jc=
+X-Google-Smtp-Source: AGHT+IG9VgYTosOoLsZ74LQUJV3FY30wheql8pLd081+4mwYIwUcq/Vd77e5NAMewbOoGJBQ0G9b9g==
+X-Received: by 2002:a05:6214:2b08:b0:6e6:6a6e:7596 with SMTP id 6a1803df08f44-6f2c466f4d7mr61499376d6.39.1745009426846;
+        Fri, 18 Apr 2025 13:50:26 -0700 (PDT)
 Received: from theriatric.mshome.net (c-73-123-232-110.hsd1.ma.comcast.net. [73.123.232.110])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6f2c2af11d7sm14355906d6.6.2025.04.18.13.50.21
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6f2c2af11d7sm14355906d6.6.2025.04.18.13.50.26
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 18 Apr 2025 13:50:22 -0700 (PDT)
+        Fri, 18 Apr 2025 13:50:26 -0700 (PDT)
 From: Gabriel Shahrouzi <gshahrouzi@gmail.com>
 To: gregkh@linuxfoundation.org,
 	jic23@kernel.org,
@@ -68,11 +70,14 @@ To: gregkh@linuxfoundation.org,
 	vapier@gentoo.org
 Cc: gshahrouzi@gmail.com,
 	skhan@linuxfoundation.org,
-	linux-kernel-mentees@lists.linux.dev
-Subject: [PATCH v3 0/5] staging: iio: adc: ad7816: Fix channel handling
-Date: Fri, 18 Apr 2025 16:47:34 -0400
-Message-ID: <cover.1745007964.git.gshahrouzi@gmail.com>
+	linux-kernel-mentees@lists.linux.dev,
+	stable@vger.kernel.org
+Subject: [PATCH v3 1/5] staging: iio: adc: ad7816: Allow channel 7 for all devices
+Date: Fri, 18 Apr 2025 16:47:35 -0400
+Message-ID: <a9ff726ecf80ad7df494e6b0244ada95d6d07a73.1745007964.git.gshahrouzi@gmail.com>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <cover.1745007964.git.gshahrouzi@gmail.com>
+References: <cover.1745007964.git.gshahrouzi@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -81,51 +86,39 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The original patch combined a functional fix (allowing channel 7) with
-several refactoring steps (introducing chip_info, renaming structs,
-improving validation). As requested, these have now been separated.
+According to the datasheet on page 9 under the channel selection table,
+all devices (AD7816/7/8) are able to use the channel marked as 7. This
+channel is used for diagnostic purposes by routing the internal 1.23V
+bandgap source through the MUX to the input of the ADC.
 
-The series proceeds as follows:
-1. Fix: Allow diagnostic channel 7 for all device variants.
-2. Refactor: Rename the main state structure for clarity before introducing
-   the new chip_info struct.
-3. Refactor: Introduce struct ad7816_chip_info to hold static per-variant
-   data, update ID tables to store pointers, and switch to using
-   device_get_match_data() for firmware-independent identification.
-   This removes the old enum/id mechanism.
-4. Refactor: Add has_busy_pin to chip_info and use this flag to
-   determine BUSY pin handling, replacing pointer comparisons.
-5. Refactor: Simplify channel validation logic using 
-   chip_info->max_channels, removing strcmp() checks.
+Modify the channel validation logic to permit channel 7 for all
+supported device types.
 
-Regarding the 'fixes' tag: I've applied it only to the first commit
-containing the core fix, primarily to make backporting easier. Is this
-the standard practice, or should the tag typically be applied to
-subsequent commits that build upon or are related to the fix as well?
+Fixes: 7924425db04a ("staging: iio: adc: new driver for AD7816 devices")
+Cc: stable@vger.kernel.org
+Signed-off-by: Gabriel Shahrouzi <gshahrouzi@gmail.com>
+---
+ drivers/staging/iio/adc/ad7816.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Chainges in v3:
-	- Split the patch into smaller patches. Make the fix first
-	  followed by clean up.
-	- Include missing channel for channel selection.
-	- Address specific feedback regarding enums vs. chip_info data.
-	- Use device_get_match_data() for device identification.
-	- Move BUSY pin capability check into chip_info data.
-	- Simplify channel validation using chip_info data.
-Changes in v2:
-        - Refactor by adding chip_info struct which simplifies
-          conditional logic.
-
-Gabriel Shahrouzi (5):
-  staging: iio: adc: ad7816: Allow channel 7 for all devices
-  staging: iio: adc: ad7816: Rename state structure
-  staging: iio: adc: ad7816: Introduce chip_info and use pointer
-    matching
-  staging: iio: adc: ad7816: Use chip_info for device capabilities
-  staging: iio: adc: ad7816: Simplify channel validation using chip_info
-
- drivers/staging/iio/adc/ad7816.c | 94 ++++++++++++++++++--------------
- 1 file changed, 54 insertions(+), 40 deletions(-)
-
+diff --git a/drivers/staging/iio/adc/ad7816.c b/drivers/staging/iio/adc/ad7816.c
+index 6c14d7bcdd675..a44b0c8c82b12 100644
+--- a/drivers/staging/iio/adc/ad7816.c
++++ b/drivers/staging/iio/adc/ad7816.c
+@@ -190,11 +190,11 @@ static ssize_t ad7816_store_channel(struct device *dev,
+ 		dev_err(&chip->spi_dev->dev, "Invalid channel id %lu for %s.\n",
+ 			data, indio_dev->name);
+ 		return -EINVAL;
+-	} else if (strcmp(indio_dev->name, "ad7818") == 0 && data > 1) {
++	} else if (strcmp(indio_dev->name, "ad7818") == 0 && data > 1 && data != AD7816_CS_MASK) {
+ 		dev_err(&chip->spi_dev->dev,
+ 			"Invalid channel id %lu for ad7818.\n", data);
+ 		return -EINVAL;
+-	} else if (strcmp(indio_dev->name, "ad7816") == 0 && data > 0) {
++	} else if (strcmp(indio_dev->name, "ad7816") == 0 && data > 0 && data != AD7816_CS_MASK) {
+ 		dev_err(&chip->spi_dev->dev,
+ 			"Invalid channel id %lu for ad7816.\n", data);
+ 		return -EINVAL;
 -- 
 2.43.0
 
