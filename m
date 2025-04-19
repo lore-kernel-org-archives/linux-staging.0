@@ -1,283 +1,147 @@
-Received: from mail-qt1-f174.google.com (mail-qt1-f174.google.com [209.85.160.174])
+Received: from mail-qk1-f176.google.com (mail-qk1-f176.google.com [209.85.222.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E82F2868B;
-	Fri, 18 Apr 2025 20:55:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7243413AC1;
+	Sat, 19 Apr 2025 00:43:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745009740; cv=none; b=gGDeheUV1v6emY2lsYcRlnFaPFWbyvHuYminF+eO6gIG3X1W23xBYGJ4oqZvZzgLLi4ulTEs6lCgK7pjgDtKbKSBDaDo4u8Zq0v6WkKL7a2cEuvlcJ2vcbrH8WY5vAoRBB+5HupFxCjrzqgdcqpw/eiqpAS7KmeHlHYIjeE0yrg=
+	t=1745023394; cv=none; b=BJ2Kh/5Fu8zpUSn64aUOj5M28pv1KGbUJ0UtPk4HKPYWA1setPEBWt5ZdMmRWqJiMcrcMNAcW1GFoaaIuSIG9xSnRCO2xCVRQM9oAp1PsRDQJv4fG1pWiq6UQzR887ctioiHT3XZum4dQCyz/GC9hR+Nw4fHm+ABrl2Ed3V0vZo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745009740; c=relaxed/simple;
-	bh=u1c4oly1d3giAEd0nRsMu1dRpXLWf4GBOZL/G2Ux31s=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=XCjerR3RWhElo5Ip9JZTjbq0IPIPXt4zxxACPU0smloWPZLA12em4XRPHc2vh1hfDDW1sturRLnXo50GRGOeBMD5Cqug8Hbpp+h0sUpEtIaXUIkONeKskaEbPTmNM0y/T9c3ecL9kPg6biNszwBzhlgi7EPNuhtUE1P1o+/TGDQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nm7JayKQ; arc=none smtp.client-ip=209.85.160.174
+	s=arc-20240116; t=1745023394; c=relaxed/simple;
+	bh=6lP0By7w/Dlk8nj5HMF+C4qxFyOplJyRe2gXUWgOqR4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ebY82AUlL+wh6fRKSS6JBtzOr98QTm3eVMZbgLo1aZ80QQTiPJXun9iZqUod1PTURv5nEvATDjR3+denFRu0hjlF8EpVUPrIMTgStVf/4UCHDoCi8NGNa7i5UhlCmcCxg+EypnFCx5aH9XKXzl79by09we2Rou1Pejm6a2T/15o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jE10YH+U; arc=none smtp.client-ip=209.85.222.176
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nm7JayKQ"
-Received: by mail-qt1-f174.google.com with SMTP id d75a77b69052e-477296dce76so17966781cf.3;
-        Fri, 18 Apr 2025 13:55:37 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jE10YH+U"
+Received: by mail-qk1-f176.google.com with SMTP id af79cd13be357-7c55500cf80so179168885a.1;
+        Fri, 18 Apr 2025 17:43:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1745009737; x=1745614537; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=FEEgsRqHe/u+tK75rWHl+wuw12N/z37aZu/9b7/5Djo=;
-        b=nm7JayKQpS76+4FlWB9A2EzRv6aOcC6lhNcrHsSayuGHd0g5/n1fQydH61Takph+F7
-         hIo6mSesyElbgj+cznsjzaUUnQst/4bek5neOkqg3cMdv+fm4rYIFIkalbVJm1DjONu5
-         HHS7J/Ks8Pg16aPfMMG0PRfM2bkfQDYD3Yob1wvoUZMPrhb/lX3+lN0JfoqKTZ5Vh/ap
-         I1+0KGk+EUKm64ufxi+4j7CAUzBHd9uJ7z8dRhAZFukbB/tkusxyVNucTs03b3hiCDOo
-         crVXYPWmYRfEidgJxPuxSXj4k3hIUf4zBaLo+exUrZZkQExDRK0bFOH9L2JSxSOcNn3E
-         2glw==
+        d=gmail.com; s=20230601; t=1745023391; x=1745628191; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=L1r3+y8b+nuSF4vGtYpP5A0uMCQW+2A3VFWO1Lw+t7M=;
+        b=jE10YH+UBF0vOC3yxsIsCY5SRf4PhoCnb/DngrSjTBl6ZVRLtedqSv+tr9o1FdHNVB
+         QV3OdG9kLDEmDveDio/ZZ5W/o016n20v5GTwX9y26fhIfRureucSPXMm8P2OF0nHa+Cg
+         kAcoRz4bOrTJvcn2m4Ph0kTI924XdL7vO9fSHqgRIxqEPyjKxjGOjFrH75qcol7RxaHU
+         LYAMWtXOjInW372YqN6UE9NkyqIDj8fnjxWEEYT8kwHLZ8HVYUcerxdGcma6VRdV2lqG
+         BnOaqEKPxPhmDEN0k7MORKvngqc2kVlms15bWOYpRvftqE8DrmwD3TSdh+IiOM6PawRE
+         PNZg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745009737; x=1745614537;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=FEEgsRqHe/u+tK75rWHl+wuw12N/z37aZu/9b7/5Djo=;
-        b=S4OocixeJvXf2H3wnwdgBqtbCR62KBpS+MqOoroQa1DIx7erVpfUOHrKxo5y4WUN2v
-         rHeA7wtS6yP3FtQc+ZFbKmUk7jcwfbp/TzbLkctVs2MXe7/uMlaBX2zfu0XIb7v5dZry
-         9xTGW6XXhPjtLHPss8Aoaos6BFq1buUSdAk5VGXBPCgMjrkbDwyys9PccglGp/CPJ0Iz
-         V9YveSNthX/tFXTbJBi1jOzJzdREjULqrOMbJJcI7NAhJvoed1ZFwUuGtPPm+f4uBFL1
-         QvAz7xgkrJCBFw0BNy85Zy90Mlp8GSTUEra1SWg56bbYWSnHMISgdFJWpOjlVG9j4K9F
-         sUFA==
-X-Forwarded-Encrypted: i=1; AJvYcCUX4ms1PMWa5bMT4xi+k1usXFV0dyueZJFFmXIfpYJ3rxeiP7a0jDXQu1m//zTfj+kuJSRrnAa8+7tQKMkqGQ==@lists.linux.dev, AJvYcCVNhCKMXHzkqR4hGGZyFPulgra0Cpv6hB7FHs+VjGaigY8ehqKQyKz8pP8ewuF4lXMEZ9/Ie03VHMGl6aW5k/WyZnSvyg==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzjePkfwLdOz0TUOe8GD5Bqem5Xvm/v88kV1ZA8hJnFESWBgqe1
-	6bVFZNMTvX7hhnL57phr1Le4rIwaR4Ij+2uCMCLObfnX3kcpbrhTigtYFGJWBgLRtT58wUODgmM
-	EmQt0+cPkG0c30lFlhxQ1bQxVXQeNSoRk6kE=
-X-Gm-Gg: ASbGncs/9XhoIwEfpZGlufpvUllxygXSAjD0BfLfeGfe5sXDYFg1jNA6LcEnqROy2kU
-	PsS1SNi+nIBMMdB2vUfFnGJZ4gCFYA2U5CjCytaVlrw+SUwZzAt7YTcUvXLeanFcQUDmRvUatj7
-	dbQi76pp1A8gOgaPLKuCu6mn8ShkliwtRQ4oSK+mqWA6qgLoWA3cOe
-X-Google-Smtp-Source: AGHT+IHK4EAX7kdbM8TwCw5yxGjPXtJ08ON48RHwi7jtNEDKZsZNKnjMRziIy1RGcYu7fYTp4vkbaCRzs7FpjS/ib4M=
-X-Received: by 2002:a05:622a:155:b0:476:8595:fa09 with SMTP id
- d75a77b69052e-47aec4a52c2mr56884551cf.40.1745009736980; Fri, 18 Apr 2025
- 13:55:36 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1745023391; x=1745628191;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=L1r3+y8b+nuSF4vGtYpP5A0uMCQW+2A3VFWO1Lw+t7M=;
+        b=b3xWekReH4RLmk0btI8Io44pYHa8WZMiN3mg2SPY1NN9YPq9HzSA5lyuaMb9Rdkj0G
+         nn/4GP6SmxYzU125nPMNGCjaihs/Aj2xvSgGyrb+06in7lbCMa1PIYssDSWIjkx8jg1t
+         tNQMmq80MvGV9bMZxb2zwaM0hNRPupgh0Dl4yl9lN28mHojFjVhvQAH53CGxFPdwyAtS
+         qckNu8xUu8y8cUrp1FJvBvFDV/QtnmON7f04sHXp8WHQ2iQNXxHoRdcOi+Nu4Vv7/sWb
+         h23dvhpEM/DgCWKfszOMQfCXWiC+71W95J3yHE+IU09xQT8OMJDtnJEcEW6+POTEHJQh
+         nk7w==
+X-Forwarded-Encrypted: i=1; AJvYcCVZmA24ocucJ7lXhQOTs32gjUrj5WEI6HqPYNBb8s2IjA6ovPSTreVM54N7WlH7HHCxZ2sBKX8YEjyTLpQkYA==@lists.linux.dev, AJvYcCVbw10nWQXqiNhCELBkCfVt37HYPn5LFalkMjT9lsx69KYduHP4VxvtdpL16rwU9cHS/VU+6ZEOmJlaHveN3RbSrOFhmw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzAp8oyE7EblfwDEBg7HzLmpr8yoNcfO4UhDBpmzo5cxBAJ5/oA
+	ZrD1QGGcH/rYjiWYzDrrR/pNIhD9KCzrLtj45LGOF1h+D4pWJoIR
+X-Gm-Gg: ASbGncu9YngvdFDQj0V9SRc/xtujG6Lgp5IItnfiThSJ7wDppA7rG+U4bvz0O/nJN9M
+	OQ3twjRqmVZDjHyuP++SgoTtBgMBchcscmr3eBWj7t+71DoJ6g9GaNuQSDJzcUPOm3HrLJgYvfK
+	sDrJa7Lto8T+fqWJ+iGDHhHPkCJCZG0XBxcH4K1D0qqMN8qOVzFwT8UA0L5QI71vD0Hky7idB+4
+	0pHklPqSMJCjf60vph7Rtx7R5udoEGCywOMKZZz62pVV8jluKEpfxwXgmoCbsTsCmLEe/FZoFqH
+	4LTsLu6eGheEjWa8rqfdSVVBj5ok3P1jz+gWYESY/t7aJt7luX6DFPf1RJrYB0iiZoQLEZCFsUt
+	VOr49C5WCZFEzSXel+tc=
+X-Google-Smtp-Source: AGHT+IGlBaemLK0d9uZwZRCVUJpbqZBnnm+N+gmJMRn4W1fr/ExrH60LjkWVgPqgTD+FVqHKyXvqyw==
+X-Received: by 2002:a05:620a:240c:b0:7c5:a513:1fd2 with SMTP id af79cd13be357-7c927f59459mr683764685a.6.1745023391213;
+        Fri, 18 Apr 2025 17:43:11 -0700 (PDT)
+Received: from theriatric.mshome.net (c-73-123-232-110.hsd1.ma.comcast.net. [73.123.232.110])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-7c925b69d0asm160284085a.99.2025.04.18.17.43.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 18 Apr 2025 17:43:10 -0700 (PDT)
+From: Gabriel Shahrouzi <gshahrouzi@gmail.com>
+To: gregkh@linuxfoundation.org,
+	gshahrouzi@gmail.com,
+	jacobsfeder@gmail.com,
+	linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	sergio.paracuellos@gmail.com
+Cc: skhan@linuxfoundation.org,
+	linux-kernel-mentees@lists.linux.dev,
+	stable@vger.kernel.org
+Subject: [PATCH] axis-fifo:  Remove hardware resets for user errors
+Date: Fri, 18 Apr 2025 20:43:06 -0400
+Message-ID: <20250419004306.669605-1-gshahrouzi@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250417170109.602659-1-gshahrouzi@gmail.com> <20250418163510.5dac416e@jic23-huawei>
-In-Reply-To: <20250418163510.5dac416e@jic23-huawei>
-From: Gabriel Shahrouzi <gshahrouzi@gmail.com>
-Date: Fri, 18 Apr 2025 16:55:26 -0400
-X-Gm-Features: ATxdqUHI1tlmOMKRWreLdx4IBcPrgnWpNl_LHcBR7ElvQeXr3g63qJk7CYRq9kY
-Message-ID: <CAKUZ0zKVrm8egyZ+3G7=JgcKwbgPe30UVT18j35RvR0OCr3V+g@mail.gmail.com>
-Subject: Re: [PATCH v2] iio: adc: Include valid channel for channel selection
-To: Jonathan Cameron <jic23@kernel.org>
-Cc: gregkh@linuxfoundation.org, lars@metafoo.de, linux-iio@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev, 
-	Michael.Hennerich@analog.com, sonic.zhang@analog.com, vapier@gentoo.org, 
-	skhan@linuxfoundation.org, linux-kernel-mentees@lists.linux.dev, 
-	stable@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Fri, Apr 18, 2025 at 11:35=E2=80=AFAM Jonathan Cameron <jic23@kernel.org=
-> wrote:
->
-> On Thu, 17 Apr 2025 13:01:09 -0400
-> Gabriel Shahrouzi <gshahrouzi@gmail.com> wrote:
->
-> > According to the datasheet on page 9 under the channel selection table,
-> > all devices (AD7816/7/8) are able to use the channel marked as 7. This
-> > channel is used for diagnostic purposes by routing the internal 1.23V
-> > bandgap source through the MUX to the input of the ADC.
-> >
-> > Replace checking for string equality with checking for the same chip ID
-> > to reduce time complexity.
-> >
-> > Group invalid channels for all devices together because they are
-> > processed the same way.
-> >
-> > Fixes: 7924425db04a ("staging: iio: adc: new driver for AD7816 devices"=
-)
-> > Cc: stable@vger.kernel.org
-> > Signed-off-by: Gabriel Shahrouzi <gshahrouzi@gmail.com>
->
-> This is doing too many things for one patch.  The fix wants be
-> on it's own. Ideally before everything else but if that is tricky to do
-> then I don't mind that much.
-Got it - will split them up into modular changes.
->
-> > ---
-> > Changes since v2:
-> >       - Refactor by adding chip_info struct which simplifies
-> >         condtional logic.
-> > ---
-> >  drivers/staging/iio/adc/ad7816.c | 68 ++++++++++++++++++--------------
-> >  1 file changed, 38 insertions(+), 30 deletions(-)
-> >
-> > diff --git a/drivers/staging/iio/adc/ad7816.c b/drivers/staging/iio/adc=
-/ad7816.c
-> > index 6c14d7bcdd675..ec955cbf06c17 100644
-> > --- a/drivers/staging/iio/adc/ad7816.c
-> > +++ b/drivers/staging/iio/adc/ad7816.c
-> > @@ -41,8 +41,20 @@
-> >   * struct ad7816_chip_info - chip specific information
-> >   */
-> >
-> > +enum ad7816_type {
-> > +     ID_AD7816,
-> > +     ID_AD7817,
-> > +     ID_AD7818,
-> > +};
-> The aim of moving to a chip_info structure is typically
-> to get rid of this sort of enum in favour of specific data
-> in the chip_info structures.  Anyhow see below for more on that.
->
-> > +
-> >  struct ad7816_chip_info {
-> > -     kernel_ulong_t id;
-> > +     const char *name;
-> > +     enum ad7816_type type;
-> > +     u8 max_channels;
-> > +};
-> > +
-> > +struct ad7816_state {
->
-> This effective rename needs to be a patch on it's own before
-> you introduce the new struct ad7816_chip_info.  That lets
-> us clearly see that all instances are renamed and is
-> an easy patch to review as it's just a rename.
-Got it.
->
-> > +     const struct ad7816_chip_info *chip_info;
-> >       struct spi_device *spi_dev;
-> >       struct gpio_desc *rdwr_pin;
-> >       struct gpio_desc *convert_pin;
-> > @@ -52,16 +64,11 @@ struct ad7816_chip_info {
-> >       u8  mode;
-> >  };
-> >
-> > -enum ad7816_type {
-> > -     ID_AD7816,
-> > -     ID_AD7817,
-> > -     ID_AD7818,
-> > -};
-> >
-> > @@ -215,7 +215,7 @@ static ssize_t ad7816_show_value(struct device *dev=
-,
-> >                                char *buf)
-> >  {
-> >       struct iio_dev *indio_dev =3D dev_to_iio_dev(dev);
-> > -     struct ad7816_chip_info *chip =3D iio_priv(indio_dev);
-> > +     struct ad7816_state *chip =3D iio_priv(indio_dev);
-> >       u16 data;
-> >       s8 value;
-> >       int ret;
-> > @@ -271,7 +271,7 @@ static ssize_t ad7816_show_oti(struct device *dev,
-> >                              char *buf)
-> >  {
-> >       struct iio_dev *indio_dev =3D dev_to_iio_dev(dev);
-> > -     struct ad7816_chip_info *chip =3D iio_priv(indio_dev);
-> > +     struct ad7816_state *chip =3D iio_priv(indio_dev);
-> >       int value;
-> >
-> >       if (chip->channel_id > AD7816_CS_MAX) {
-> > @@ -292,7 +292,7 @@ static inline ssize_t ad7816_set_oti(struct device =
-*dev,
-> >                                    size_t len)
-> >  {
-> >       struct iio_dev *indio_dev =3D dev_to_iio_dev(dev);
-> > -     struct ad7816_chip_info *chip =3D iio_priv(indio_dev);
-> > +     struct ad7816_state *chip =3D iio_priv(indio_dev);
-> >       long value;
-> >       u8 data;
-> >       int ret;
-> > @@ -345,14 +345,22 @@ static const struct iio_info ad7816_info =3D {
-> >       .event_attrs =3D &ad7816_event_attribute_group,
-> >  };
-> >
-> > +static const struct ad7816_chip_info ad7816_chip_infos[] =3D {
-> > +     [ID_AD7816] =3D { .name =3D "ad7816", .max_channels =3D 0, .type =
-=3D ID_AD7816 },
-> Use separate named structures.
->
-> This approach with an enum and an array is something we used to do but it
-> actually obscures what is going on when compared with separate names stru=
-cture
-> instances.
->
-> static const struct ad7816_chip_info ad7816_chip_info =3D {..};
->
-> static const struct ad7816_chip_info ad7817_chip_info =3D {..};
->
-> etc.
-Got it.
-> > +     [ID_AD7817] =3D { .name =3D "ad7817", .max_channels =3D 3, .type =
-=3D ID_AD7817 },
-> > +     [ID_AD7818] =3D { .name =3D "ad7818", .max_channels =3D 1, .type =
-=3D ID_AD7818 },
-> > +};
-> > +
-> >  /*
-> >   * device probe and remove
-> >   */
-> >
-> >  static int ad7816_probe(struct spi_device *spi_dev)
-> >  {
-> > -     struct ad7816_chip_info *chip;
-> > +     struct ad7816_state *chip;
-> >       struct iio_dev *indio_dev;
-> > +     const struct spi_device_id *id =3D spi_get_device_id(spi_dev);
-> > +     enum ad7816_type chip_type =3D (enum ad7816_type)id->driver_data;
->
-> Don't go via an enum.  Put pointers directly in the driver_data field.
-> + if the driver has on in the of_match_id table as well.
->
-> Then use spi_get_device_match_data() to retrieve it in a firmware type
-> independent way.
->
-> Ideally by the end of the series you should no such enum
-Sent the changes in v2 where no enum was used.
->
-> >       int i, ret;
-> >
-> >       indio_dev =3D devm_iio_device_alloc(&spi_dev->dev, sizeof(*chip))=
-;
-> > @@ -361,12 +369,12 @@ static int ad7816_probe(struct spi_device *spi_de=
-v)
-> >       chip =3D iio_priv(indio_dev);
-> >       /* this is only used for device removal purposes */
-> >       dev_set_drvdata(&spi_dev->dev, indio_dev);
-> > +     chip->chip_info =3D &ad7816_chip_infos[chip_type];
-> >
-> >       chip->spi_dev =3D spi_dev;
-> >       for (i =3D 0; i <=3D AD7816_CS_MAX; i++)
-> >               chip->oti_data[i] =3D 203;
-> >
-> > -     chip->id =3D spi_get_device_id(spi_dev)->driver_data;
-> >       chip->rdwr_pin =3D devm_gpiod_get(&spi_dev->dev, "rdwr", GPIOD_OU=
-T_HIGH);
-> >       if (IS_ERR(chip->rdwr_pin)) {
-> >               ret =3D PTR_ERR(chip->rdwr_pin);
-> > @@ -382,7 +390,7 @@ static int ad7816_probe(struct spi_device *spi_dev)
-> >                       ret);
-> >               return ret;
-> >       }
-> > -     if (chip->id =3D=3D ID_AD7816 || chip->id =3D=3D ID_AD7817) {
-> > +     if (chip->chip_info->type =3D=3D ID_AD7816 || chip->chip_info->ty=
-pe =3D=3D ID_AD7817) {
->
-> Given you now have a chip_info structure make this data rather than code.=
-  That is
-> it should be something ilke
->
->         if (chip->chip_info->has_busy_pin)
->
-> >               chip->busy_pin =3D devm_gpiod_get(&spi_dev->dev, "busy",
-> >                                               GPIOD_IN);
-> >               if (IS_ERR(chip->busy_pin)) {
-> > @@ -393,7 +401,7 @@ static int ad7816_probe(struct spi_device *spi_dev)
-> >               }
-> >       }
-> >
-> > -     indio_dev->name =3D spi_get_device_id(spi_dev)->name;
-> > +     indio_dev->name =3D chip->chip_info->name;
-> >       indio_dev->info =3D &ad7816_info;
-> >       indio_dev->modes =3D INDIO_DIRECT_MODE;
-> >
->
+The axis-fifo driver performs a full hardware reset (via
+reset_ip_core()) in several error paths within the read and write
+functions. This reset flushes both TX and RX FIFOs and resets the
+AXI-Stream links.
+
+Allow the user to handle the error without causing hardware disruption
+or data loss in other FIFO paths.
+
+Fixes: 4a965c5f89de ("staging: add driver for Xilinx AXI-Stream FIFO v4.1 IP core")
+Cc: stable@vger.kernel.org
+Signed-off-by: Gabriel Shahrouzi <gshahrouzi@gmail.com>
+---
+ drivers/staging/axis-fifo/axis-fifo.c | 11 +++--------
+ 1 file changed, 3 insertions(+), 8 deletions(-)
+
+diff --git a/drivers/staging/axis-fifo/axis-fifo.c b/drivers/staging/axis-fifo/axis-fifo.c
+index 7540c20090c78..76db29e4d2828 100644
+--- a/drivers/staging/axis-fifo/axis-fifo.c
++++ b/drivers/staging/axis-fifo/axis-fifo.c
+@@ -393,16 +393,14 @@ static ssize_t axis_fifo_read(struct file *f, char __user *buf,
+ 
+ 	bytes_available = ioread32(fifo->base_addr + XLLF_RLR_OFFSET);
+ 	if (!bytes_available) {
+-		dev_err(fifo->dt_device, "received a packet of length 0 - fifo core will be reset\n");
+-		reset_ip_core(fifo);
++		dev_err(fifo->dt_device, "received a packet of length 0\n");
+ 		ret = -EIO;
+ 		goto end_unlock;
+ 	}
+ 
+ 	if (bytes_available > len) {
+-		dev_err(fifo->dt_device, "user read buffer too small (available bytes=%zu user buffer bytes=%zu) - fifo core will be reset\n",
++		dev_err(fifo->dt_device, "user read buffer too small (available bytes=%zu user buffer bytes=%zu)\n",
+ 			bytes_available, len);
+-		reset_ip_core(fifo);
+ 		ret = -EINVAL;
+ 		goto end_unlock;
+ 	}
+@@ -411,8 +409,7 @@ static ssize_t axis_fifo_read(struct file *f, char __user *buf,
+ 		/* this probably can't happen unless IP
+ 		 * registers were previously mishandled
+ 		 */
+-		dev_err(fifo->dt_device, "received a packet that isn't word-aligned - fifo core will be reset\n");
+-		reset_ip_core(fifo);
++		dev_err(fifo->dt_device, "received a packet that isn't word-aligned\n");
+ 		ret = -EIO;
+ 		goto end_unlock;
+ 	}
+@@ -433,7 +430,6 @@ static ssize_t axis_fifo_read(struct file *f, char __user *buf,
+ 
+ 		if (copy_to_user(buf + copied * sizeof(u32), tmp_buf,
+ 				 copy * sizeof(u32))) {
+-			reset_ip_core(fifo);
+ 			ret = -EFAULT;
+ 			goto end_unlock;
+ 		}
+@@ -542,7 +538,6 @@ static ssize_t axis_fifo_write(struct file *f, const char __user *buf,
+ 
+ 		if (copy_from_user(tmp_buf, buf + copied * sizeof(u32),
+ 				   copy * sizeof(u32))) {
+-			reset_ip_core(fifo);
+ 			ret = -EFAULT;
+ 			goto end_unlock;
+ 		}
+-- 
+2.43.0
+
