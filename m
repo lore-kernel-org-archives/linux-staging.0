@@ -1,111 +1,104 @@
-Received: from mail-qk1-f178.google.com (mail-qk1-f178.google.com [209.85.222.178])
+Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3EB083A1CD;
-	Sat, 19 Apr 2025 01:31:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89C541714B7
+	for <linux-staging@lists.linux.dev>; Sat, 19 Apr 2025 04:50:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745026262; cv=none; b=Sy5zs+7HIc1hqMcwvGm4WOD0H8wEc7XrfTYfk225O60fyUDsgG3sGkym5oIgeJlTKsMrm/S/QLpbYmHYQZNqxQQDFNDBDq6XViTPJthXr+dLjTCNNHsOoAonSvPVzuxSLM/xFHGsFpKeLoodypiTSphslt9Q9f06fGLpqaljvvg=
+	t=1745038258; cv=none; b=JuTcdExX7x+wwYhZVrYylHYc8oVhvQPkmONyt00pyRGmZbggnRqfzwBjEPkQ3IbVGlQAJ2+f8yAZq9Li8vyw8F8yvoJJkLOo5ozrkJy8ZuxspIN0oR84HF2UIGze5/3w/f+9EqSmR8ZTO1tapXHYpvD+jQgnl4DXesktgBw/hPQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745026262; c=relaxed/simple;
-	bh=h1I7azrs9dgpknSH+P+IhNbPLmtlQBazARRV3ngykeI=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=JaQhHuVQUi7dOpg7GFFhCQsjMOxdKPUa5kt9GyYeNS1dIy8vvdkwBlRrIP7iUBAr5gloRBKi0ZdZpZ4lq9Tf6qLXHQIupOGZb2xlMqqMi8FML/8fgSBRvWPYR1pipR7GCSVBCrwLzTbYEBKrktPuhvNg36GV/DVzS5Jb188H5pw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hx0iRKv7; arc=none smtp.client-ip=209.85.222.178
+	s=arc-20240116; t=1745038258; c=relaxed/simple;
+	bh=xllVgqoRLGvzGswF8Ov1YPU1Ma/P4Q74aaN5uZdOglQ=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=bEVZiDEK9NfdT0zcWF3Y/zeRGFTbN1kry3Omq3lhfm4jkdHDVK1S5fPO+GJtj91bHcISunYrKjKj6geMcm43vXJ9G5y4cLTNbWWOYeX2hXdb/5M6+aijA52eHgIOtQzJflZecPHTvo4woP+5dX7QhAi+NYGNVwLXlLl9NlL0aEo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=h2GyHjKr; arc=none smtp.client-ip=209.85.218.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hx0iRKv7"
-Received: by mail-qk1-f178.google.com with SMTP id af79cd13be357-7c08fc20194so477826685a.2;
-        Fri, 18 Apr 2025 18:31:00 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="h2GyHjKr"
+Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-acacb8743a7so400500366b.1
+        for <linux-staging@lists.linux.dev>; Fri, 18 Apr 2025 21:50:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1745026260; x=1745631060; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=yWCtJ50FKxjfzSVOv6So7GDOtXW1AyTUmdzzwtUL1F4=;
-        b=hx0iRKv7hEEU3g6YTahnDP3/5dXvEtVLYqN9dDxXaoVCBMHReamfYYGSc69YHbgMjB
-         NfAr0IVbeOdzbUOm/Znga0MlqIoQavaZUM+9+qvXCh+Vx5BrvVW6c87nOExF/Y6lKK4K
-         kVPRqru5q6qEH65gzkHRmZcAdUuvsjo5+Zg7SXfY46k+zy/QV0H8qZh9e44N7Ypc/K63
-         AI/mkDNr622BpnHzxDkzQOoR7K/bbLKDPEv04aBTENR8ieEnsZ4xIzR8EeIIhnPqc56q
-         PDAsGIfa6MpTwwEIzHRCdzrVr0f6UfA9bXQYusvjC/6GXCq068xSwzkZJNZYbgFtwOBR
-         U2PQ==
+        d=gmail.com; s=20230601; t=1745038255; x=1745643055; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=xllVgqoRLGvzGswF8Ov1YPU1Ma/P4Q74aaN5uZdOglQ=;
+        b=h2GyHjKri/JwN6rezpualxML1IgzWkr+QfGTGiJ7PR5kSnnvO/AMfBU+ZnfBuhU98h
+         2MoM8L6cNqK8T4KTz3t6Ur7bI9MiLlxbFQh9h5H30w3eUPP2JLzYk5qsxQuyvHxMtQo8
+         pSNmk4mksQCHsEmy3D2eZ8jYZil/gi6WZNQk5XmsJEq6I6u4m2UURDYzMOf6QMFSjcck
+         idYtjySH71n4BIjtaydn3YhvmnN7FkeZULjDGwJ/04ccBgb/N6gjinMUX07tR9prk4KI
+         SMMwExAV2+AFkjPiRjmZP/4MfvYsH4fGM/oStb2rpWPhfupIk/9DchnVtS7lrpDC2S/y
+         zs5Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745026260; x=1745631060;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=yWCtJ50FKxjfzSVOv6So7GDOtXW1AyTUmdzzwtUL1F4=;
-        b=KIEk5vdrABAttso2Hn7I1hMMGZBSerMNy8qpLOWOpkwWDnDBa78xIVgWCSCFz8mNze
-         PpiNf7kmMg8vH8DVCtGUaY5szrcBHy8TS2uJHPuoUtxrMfWf9MpQEcphAcug4BmbrXHP
-         IytVQwRSEHLo+uSa1maopavYxvMOmwKRrejKAl3ioSOrTTP/9VQEv31Dce6FCvEfcxvw
-         v7TwM/nfiVlPu0AxispaTVdp9ctQAH2m+zAuPOccmE5pUvoBOJA2rPM5MxiVp9svhAR0
-         B+EvnjXrqrNO6PO8dcK8n5jJk0X7eh5u+LxQvSSmZdFQAYB2n7OjZahDH6ohhKJuffSa
-         8LKg==
-X-Forwarded-Encrypted: i=1; AJvYcCUyU7qqaOK2QhlXuoldPGg5RQoDOwXyc96ZXfWYN5tA8g7Fib8dQDXGTA3Ot+ZKuu1GdR+7Aec8FiZtSv+t0Q==@lists.linux.dev, AJvYcCWeEQdIv4mvKOK75oTt94yg1AWfPxRPF1kek1KCYE+IETLOKgVqbzhhDh5ElsSXsMZGM5cnuKT400XG5aDcj1k2sZnjXQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyLObQoq8foZABN5yYDoQdTtzs/y18gxMFTNP5g1L6ObwK1jpAb
-	ZPxsznttcuzrqzJm5f17NrHpfdD+31qWfEwT0B0YVqDD/U+N2+cV
-X-Gm-Gg: ASbGncvdwf40WzmUdddT5npGCHIOems0KdnMV/ActnOWoed0m4djNc9GkLLvP5k+GSp
-	P/B0fVMA5Vhdfi75gk1FKkpW8UdeW3UMI2i9/jnwGJJPBxE+rP8Rjc8/Qw+icFF0dyAl+HnGnPd
-	JY248/FaYUes1sc1AL2afm+b/RwT4nPD8IVu2UT0WmE3Bm1PBDhiP3YCsxSPJdVnJehbWcLkN4t
-	pnzN9EBrViKS+WbKY721znh6u/efV0tBtwXT88cxbIV9BDmGFqTTopvlGMsiwzfIJb8q3r8oddr
-	iYsm83hIPXSS/uwYoynHG4T7Gk6D/YHmbeCWFf6p9i0tXaUMtu27Chc=
-X-Google-Smtp-Source: AGHT+IH2dNoQ71LMwjqMyD04yE+yHrJLLk5w9rj2a4E+sh5ENZAdgWvNcZAqjqEj/zzrNb4XcWw+Iw==
-X-Received: by 2002:a05:6214:c88:b0:6ed:1659:76b0 with SMTP id 6a1803df08f44-6f2c456cd92mr69394846d6.20.1745026259950;
-        Fri, 18 Apr 2025 18:30:59 -0700 (PDT)
-Received: from theriatric.mshome.net ([73.123.232.110])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6f2c2af14b9sm16649266d6.21.2025.04.18.18.30.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 18 Apr 2025 18:30:59 -0700 (PDT)
-From: Gabriel Shahrouzi <gshahrouzi@gmail.com>
-To: gregkh@linuxfoundation.org,
-	gshahrouzi@gmail.com,
-	jacobsfeder@gmail.com,
-	linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	sergio.paracuellos@gmail.com
-Cc: skhan@linuxfoundation.org,
-	linux-kernel-mentees@lists.linux.dev,
-	stable@vger.kernel.org
-Subject: [PATCH] staging: axis-fifo: Correct handling of tx_fifo_depth for size validation
-Date: Fri, 18 Apr 2025 21:29:37 -0400
-Message-ID: <20250419012937.674924-1-gshahrouzi@gmail.com>
-X-Mailer: git-send-email 2.43.0
+        d=1e100.net; s=20230601; t=1745038255; x=1745643055;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=xllVgqoRLGvzGswF8Ov1YPU1Ma/P4Q74aaN5uZdOglQ=;
+        b=dg4exBqx8iPZDV4EekhGge/UEhARxcmA+ZpUWWXT/dEQ3ozMJ4RCPuYnLEa15OENsV
+         ABdF/+oWepToNTurBpUTiAr9B7QJmMBPA0+YDayM0AeIZf8mrPWB7iv3zwyyY5f+Tk9V
+         S6reQEI5nsvrovK6YfOqzYxxAEv+BVCReMO3CQbDyozoT1UFaayAG21iVR7V0UmoCdJ+
+         plAVZZqnDSge/lfIXnOex4cm2YG9y/H/DgUeZKAiVt26P1sEO6AL923ZjgXbfx7UUZBm
+         ua5U1L6Eb4QdeXmlzjU8ZbqVR/musJB5yKfCLvU/MU2sbffmP9exEAqB8mHHaU9Ai1L3
+         4+fg==
+X-Forwarded-Encrypted: i=1; AJvYcCXjvuWYDPXMFQIzhul+QQysT32Oz2nayvBF9wlI1JgBLYIY5kAmTMTd4OpYpHIxBu7uD+UdWEetJ8O3Q2IR@lists.linux.dev
+X-Gm-Message-State: AOJu0YwyLHF6Aozx270O0qCT+naTP+ja2kZFnhVG6QBqSvJVOWQHH2Rs
+	O6lyYZ3n0+E8XUd7Aii54QmjmVnfY1eEIow4uxHYISxX24XqsR0QUGKxH+Y5Ir/UTV0MenNB9QP
+	gIdmpL1MGBZuRMDD73PZlgniZdAA=
+X-Gm-Gg: ASbGncv1RDUZNljqfINST/9a8uDNLonKy5t++MO3VoQB1LBVCBI9iVaW1QSHZgAUL5n
+	msnuFmR6BMVEzcXumC/GiF9pVHI+QFFwNIXVpmWUSTlKKqorR4B/v/p/7GWG2ZPOfyzX2CfRhFH
+	EWZMdj/0tRzAQ6f/CRfVckGA==
+X-Google-Smtp-Source: AGHT+IGAg+Qag6lXJNxjRNIcXfUNnuL5uHrlN9ER48s4oo4qFiaVa7C2rV69ToGe51SHan6QunD9ObLsjZTCBc93loo=
+X-Received: by 2002:a17:907:728e:b0:aca:a128:f4e2 with SMTP id
+ a640c23a62f3a-acb751203damr353102366b.10.1745038254568; Fri, 18 Apr 2025
+ 21:50:54 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20250418071823.8756-1-hardevsinh.palaniya@siliconsignals.io>
+In-Reply-To: <20250418071823.8756-1-hardevsinh.palaniya@siliconsignals.io>
+From: Andy Shevchenko <andy.shevchenko@gmail.com>
+Date: Sat, 19 Apr 2025 07:50:18 +0300
+X-Gm-Features: ATxdqUGrYiK4kSjGmHt566SEB6DssLKQwuFsw4imxlIBfayp0v4dv5L9yVKr_bQ
+Message-ID: <CAHp75VexZWxOx+QZtYneAg+z3GJ9vqneVw0XVW8rxQX7vLfzwQ@mail.gmail.com>
+Subject: Re: [PATCH 1/2] media: atomisp: Remove compat ioctl32 header file
+To: Hardevsinh Palaniya <hardevsinh.palaniya@siliconsignals.io>
+Cc: andy@kernel.org, sakari.ailus@linux.intel.com, 
+	Hans de Goede <hdegoede@redhat.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-kernel@vger.kernel.org, 
+	linux-media@vger.kernel.org, linux-staging@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Remove erroneous subtraction of 4 from the total FIFO depth read from
-device tree. The stored depth is for checking against total capacity,
-not initial vacancy. This prevented writes near the FIFO's full size.
+On Fri, Apr 18, 2025 at 10:19=E2=80=AFAM Hardevsinh Palaniya
+<hardevsinh.palaniya@siliconsignals.io> wrote:
+>
+> Arnd's patch [1] removed the compat ioctl32 code,
+> so this header file is no longer needed.
+>
+> Also, there are no references to this header file
+> in the atomisp codebase.
+>
+> Link[1]: https://lore.kernel.org/linux-media/20210614103409.3154127-7-arn=
+d@kernel.org/
 
-The check performed just before data transfer, which uses live reads of
-the TDFV register to determine current vacancy, correctly handles the
-initial Depth - 4 hardware state and subsequent FIFO fullness.
+Should be rather
+Link: URL [1]
 
-Fixes: 4a965c5f89de ("staging: add driver for Xilinx AXI-Stream FIFO v4.1 IP core")
-Cc: stable@vger.kernel.org
-Signed-off-by: Gabriel Shahrouzi <gshahrouzi@gmail.com>
----
- drivers/staging/axis-fifo/axis-fifo.c | 3 ---
- 1 file changed, 3 deletions(-)
+>
 
-diff --git a/drivers/staging/axis-fifo/axis-fifo.c b/drivers/staging/axis-fifo/axis-fifo.c
-index 76db29e4d2828..351f983ef9149 100644
---- a/drivers/staging/axis-fifo/axis-fifo.c
-+++ b/drivers/staging/axis-fifo/axis-fifo.c
-@@ -770,9 +770,6 @@ static int axis_fifo_parse_dt(struct axis_fifo *fifo)
- 		goto end;
- 	}
- 
--	/* IP sets TDFV to fifo depth - 4 so we will do the same */
--	fifo->tx_fifo_depth -= 4;
--
- 	ret = get_dts_property(fifo, "xlnx,use-rx-data", &fifo->has_rx_fifo);
- 	if (ret) {
- 		dev_err(fifo->dt_device, "missing xlnx,use-rx-data property\n");
--- 
-2.43.0
+...and no newline between it and SoB.
 
+> Signed-off-by: Hardevsinh Palaniya <hardevsinh.palaniya@siliconsignals.io=
+>
+> ---
+
+Otherwise LGTM.
+
+--=20
+With Best Regards,
+Andy Shevchenko
