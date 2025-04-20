@@ -1,109 +1,135 @@
-Received: from mail-qk1-f172.google.com (mail-qk1-f172.google.com [209.85.222.172])
+Received: from mail-qt1-f171.google.com (mail-qt1-f171.google.com [209.85.160.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2CB7374D1;
-	Sun, 20 Apr 2025 01:42:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A13415D1;
+	Sun, 20 Apr 2025 01:49:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745113324; cv=none; b=eXbTfJmRBbNjfOtaFwKcPVgNkBbj2RP9UPyENvnJ749lYmu4eEiWi8XjodpdYGbf8L+N8j7SdVN8evtK5UCPkjsqDukfz1j4n4B/vwFhlGUskA3Bx1DXN2w18c3NHG/m2/ZoIMc/mLGcrricqbcXc89QtHMLJz+Ae1r9s4G7+PY=
+	t=1745113754; cv=none; b=tVlyx4O7eUG/zUGDNewCE0/ZHv9nzx8zNimW1OyOYja/l74QlhFi5AMir91fRU7LAYDA4YX/Gsq/a++jRCcZhzyRF1YUud240EXobdNRR9IWDEDAevlg3Re552HbhZfr0UG0TZP+ybmBt5wkDf+Q7hynorfzmwY+Ajz/LZ+tyzc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745113324; c=relaxed/simple;
-	bh=tsaCaU9Ezr0cIMp5ShIilmqtgbAZpojFeGzVG8Gx8K0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ckfkZOSSe7avzSobVI7lDxX9IEd+XOuwE/pNFAVYjVSYy9FEQpeXX+2+Mt/yZH9gnzr/xWqXwAdcT2KQEZrVODKPbT9xsQn5EL5h8xR0J+7uFR1IstUG0QaIIFJwZ2/h+fiWSTKzHGImgNo1YCcILuqKEPKNfOhyV/dieRLxJ5w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=L9nQE1X4; arc=none smtp.client-ip=209.85.222.172
+	s=arc-20240116; t=1745113754; c=relaxed/simple;
+	bh=XR8VshVCBjCpDK/6MAQll9UllzfBm361bXzpA28liZA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=DacNtzrpKV+uNxZSY7g3EbfoU3iie9oDgnxI4GIGrJO6w33a89rBJ4/oKdGyqdVMUltlAJIk1YekPqGbj4neTXBRF8UPB9eNgjMntgsIoHjIy0cKVPpYCPB88Ebop6rD/owcNA8IlIC2STn1CoG6uJiSM0gQZ9wXSGeXvouCB/8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=araUWuEz; arc=none smtp.client-ip=209.85.160.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="L9nQE1X4"
-Received: by mail-qk1-f172.google.com with SMTP id af79cd13be357-7c5e1b40f68so307551385a.1;
-        Sat, 19 Apr 2025 18:42:02 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="araUWuEz"
+Received: by mail-qt1-f171.google.com with SMTP id d75a77b69052e-476b89782c3so34755631cf.1;
+        Sat, 19 Apr 2025 18:49:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1745113321; x=1745718121; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=tsaCaU9Ezr0cIMp5ShIilmqtgbAZpojFeGzVG8Gx8K0=;
-        b=L9nQE1X4sacZRGXJ3uHHEX0BD9xaBzQpTaD1mCbjCD705xEtIJ2saasmrh5KAUYUMX
-         nJBnpypDinPYU/OGIluBVhDtYLoBJqjTBqjYBy7aU3bR/8UHcQYJLUYHhk7DcQFI7RP8
-         vgjXaHOiyZaviesYHFVGQ5A7Oc6q7k7KLphM0Cc7vi/px+LcoSV/pUyWvBBPUvUOb2tF
-         oAnlGcNPEJRcCKBbORBJLZ1kengybIUHZ3jStz0sYuPDm6Z1vae6BNTl6bFrC9ZAksTq
-         5sCNpwb/RwxQbOUAk1pfTHkZCUkvKQdtgjZy4ndjySHwZuWnpdOJsfjqhVd242ANw06b
-         9JzA==
+        d=gmail.com; s=20230601; t=1745113751; x=1745718551; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=BkK7sCqoYgkV7vHHu2iYpaek+AUiihEoUOu+lvG/1bs=;
+        b=araUWuEzv1r8nRRpS31+b12jqEy0EfOsrqMBZi06Nu3D9Shj+DvRWWaBB8LHwKcCL6
+         1tEx865loNaDr6fItO6VjKY7lVtquw22bD0Nj3m3SqCUD9uazXAA9kJaFaRuJEOEzvh1
+         U0BoxNZmxIAaKBjibHV3xo2PhzKNyMStrOLZhOUvlU1Ce+bvY0Xd5o/thyN5sWw69VrG
+         R37FDqmSOt+PCJ+4ustGvBGjCO+fEbHGvwUcFrJJ1Oo6KwOUKYmGL6xUPHMV5JdFT5nT
+         Wftw9TT0YVXCbMQfLSphtaD4Po8G4UhLDgVJQltZ4jo2GVtHgGKPSn2XPLZF9Bv5QRd+
+         UnJA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745113321; x=1745718121;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=tsaCaU9Ezr0cIMp5ShIilmqtgbAZpojFeGzVG8Gx8K0=;
-        b=WuJKpFDGWnv4aQIJxhoMlwAgao7SBydqnb8SQpjAq1NRg6T4nqT3jtlgZxapI1T91P
-         v2vvpTJtgchaiIcIMhHfWoZqAlilAPY58//vKkbXVfHKwrHkgZ4XHBbJ8DJ/z5DVZhDL
-         EHcg4dzMV0I1VLiFoIGh9a34hpNCpWz9yN9CSo1+NKgPbtM995qkn6tywc5yLXkDfxoL
-         x/Z6yDGsNlXXQDnA2rN8ljRThylscSv3KMWrXJ8YZE0mGsJkaMMN98wAuXcsCnwjfn4i
-         evYIaQO4eNB+w6+clCtEv+AlMhYDoPWbEw2fCwTQnJ5/4HXJT0MbOAKuUzT7QGlJjxli
-         YxAQ==
-X-Forwarded-Encrypted: i=1; AJvYcCV6yaJn7b0j7ozhObuTU93wnhHfYEl2eEZ+4eSauH1csnL97YI0XX7jEyzMWVwE/9xiDHHA4El93d/HJ/Pxe8TmXlA+Cw==@lists.linux.dev, AJvYcCXgTeHZbCTOkZh/IYCvqbqfuXWO5kFPeLuMgoNnOFiB6sEJlJy13vG6jWlQAgEdO8Pqa/NxQfRWxBCLf9Ymtw==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yzyrb2dyWixbaNeU9rgesUWdDudxryg05ms7bqA4j7Z8uAYH7Bx
-	JBFAh3mtvpsc1fWwyVOIo+7SBWsxhA54pKHHuvh+5NRynfNqwkg5pTu2lhwGZg+AQo7ovwuRX3r
-	2g/WF3iiJsuzAkYmOxyjQfEMaoyqJfQSzvblGgw==
-X-Gm-Gg: ASbGncvEIcJL9OpcvIZVj+KfiU/j+OvUyJp/r8IUg34gCXsKmdhMvqfKKjbfwHKm2qI
-	b0XB6F/b2PlGbSMV5EOndFh4Mn2dY0CDL7EmMnvcIWqEx1wOH5ag+pQcJz9+D8mUSijccI5BGAI
-	N+ntQ7zG7JfXcBfp/e4kUIIq1jw1xeDnJcnf5F4cbcRuXlipe0MG6i9h6halgtm6QN
-X-Google-Smtp-Source: AGHT+IGtT7QLX+7ds1/I9qdUhstYhhVMMLe8WqSFbnO8/AS9IoKoujUwgBw1UMPZ2iNyTCzr+bpvr7+jXJuA4u176YE=
-X-Received: by 2002:a05:620a:3953:b0:7c5:468b:5658 with SMTP id
- af79cd13be357-7c927fb904cmr1058657785a.28.1745113321715; Sat, 19 Apr 2025
- 18:42:01 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1745113751; x=1745718551;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=BkK7sCqoYgkV7vHHu2iYpaek+AUiihEoUOu+lvG/1bs=;
+        b=bTTEhaDViWrlKXUNGHIUvom/pOGVHWj/utvM0JEvHjwQylGoFzWLeMa+jR0542Wavz
+         j2+nezzBhkiUzoZe7XsMkfD6BY+7eQy420TWINFY+f+caXSMyC5Tbykmho2zRFBJS4WI
+         YTuR1pazTMCFboRB2FF8/R2yCdKRjARwN4enK80RgYjwT06PhGL3fZrnSPKzRVb5UBrk
+         AZuGM79q4O87JwcMTW8ei16ciB+YW0MKonAQH9AwV1jN+6oeciOn5MCxYny+TUoNIzJ1
+         kWM5l4DGIxnGKQUf2RvJLlH/NSxcF6ty7s9znp7h+Zl+h91szKhKUvdQgqiBcnkQLv03
+         RcHw==
+X-Forwarded-Encrypted: i=1; AJvYcCUEtn5eVpqqlQju6EYemcd65Z5C5iT167jTX/+v+pVu4QuahrH1ktMCJH2ZvKsPJs1+oNkgNbKAkKlaFn4diqB2T6id+w==@lists.linux.dev, AJvYcCXY7CrwJuqpq4qRb6urd63WbUx3OP65RqH29/AcDZ0vYChI5cHdB/hOAPmgOkOQT+eVAy2pTr9+rbaILqY/WQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzPNUbQf/6sGvgwvOKFxtVRPnOO6gBr5egylasRCurEGSD9leIH
+	kUEMrQ+i4LKeDhC+HizIQzh3zUJNZ/Ss2A33ZXl1VTmykek/YCgh
+X-Gm-Gg: ASbGncs3JiKwe3NJjBTminZOoug355JvIn+XJMGmUj3NbaTTGyVucm0G8LW0L/+2Z9H
+	3O1quVQ7Ry6XJ/n8oTB9Mm//cL1++klMXDfE/5On5nRxkjjpCgRwsBsujD5tKQVGIFIP6MczQv5
+	h59ed+UBtZhILzLfRLJjKeXnQ+FyS1Yd5q4AZz/oU6jB81uPIBN4EcFXSYasUtGkmoTemOSKDPw
+	obNyjhYhBStFkApKeMmVnrNER7r8fHTUEdqksuJ8+3yz3dvoRQv8U3Rlh8lNGVC4hjm2FYODUO4
+	Mn9Qq7ILF1btVsZZ+W8jmb6d82lTfssra6F+mdCbYJL7p+FI9fnsbNX+j5Pc24JkniiIhVn1twf
+	DqyFuu+AzzYNOvecAX14=
+X-Google-Smtp-Source: AGHT+IGk3d9R1YYZht1x3p/xAxJxMVx6pGTt6Bq2tXXeEnpnQ2jZXnBusb/NjFh7MeNLG0ibHtjl3w==
+X-Received: by 2002:ad4:5bac:0:b0:6e8:feae:929c with SMTP id 6a1803df08f44-6f2c4570259mr129930536d6.21.1745113751486;
+        Sat, 19 Apr 2025 18:49:11 -0700 (PDT)
+Received: from theriatric.mshome.net (c-73-123-232-110.hsd1.ma.comcast.net. [73.123.232.110])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6f2c2af1283sm27583846d6.23.2025.04.19.18.49.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 19 Apr 2025 18:49:11 -0700 (PDT)
+From: Gabriel Shahrouzi <gshahrouzi@gmail.com>
+To: gregkh@linuxfoundation.org,
+	jic23@kernel.org,
+	lars@metafoo.de,
+	linux-iio@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	Michael.Hennerich@analog.com,
+	sonic.zhang@analog.com,
+	vapier@gentoo.org
+Cc: gshahrouzi@gmail.com,
+	skhan@linuxfoundation.org,
+	linux-kernel-mentees@lists.linux.dev
+Subject: [PATCH v5 0/5] staging: iio: adc: ad7816: Fix channel handling and refactor
+Date: Sat, 19 Apr 2025 21:49:05 -0400
+Message-ID: <20250420014910.849934-1-gshahrouzi@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250417135434.568007-1-gshahrouzi@gmail.com> <aAQZrhBLQCa0TjOJ@debian-BULLSEYE-live-builder-AMD64>
-In-Reply-To: <aAQZrhBLQCa0TjOJ@debian-BULLSEYE-live-builder-AMD64>
-From: Gabriel Shahrouzi <gshahrouzi@gmail.com>
-Date: Sat, 19 Apr 2025 21:41:50 -0400
-X-Gm-Features: ATxdqUGWomIPkEKnO1A5RVPhgghPnE3H_nH650MuXGIRClqT04P8Aoc0_et-9W0
-Message-ID: <CAKUZ0zLMAZFHwvuqfoL6JZfphYRhtjkqOyi50_ZffbA7-4MCew@mail.gmail.com>
-Subject: Re: [PATCH] iio: frequency: Use SLEEP bit instead of RESET to disable output
-To: Marcelo Schmitt <marcelo.schmitt1@gmail.com>
-Cc: gregkh@linuxfoundation.org, jic23@kernel.org, lars@metafoo.de, 
-	linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-staging@lists.linux.dev, Michael.Hennerich@analog.com, 
-	skhan@linuxfoundation.org, linux-kernel-mentees@lists.linux.dev, 
-	stable@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Sat, Apr 19, 2025 at 5:45=E2=80=AFPM Marcelo Schmitt
-<marcelo.schmitt1@gmail.com> wrote:
->
-> On 04/17, Gabriel Shahrouzi wrote:
-> > According to the AD9832 datasheet (Table 10, D12 description), setting
-> > the RESET bit forces the phase accumulator to zero, which corresponds t=
-o
-> > a full-scale DC output, rather than disabling the output signal.
-> >
-> > The correct way to disable the output and enter a low-power state is to
-> > set the AD9832_SLEEP bit (Table 10, D13 description), which powers down
-> > the internal DAC current sources and disables internal clocks.
-> >
-> > Fixes: ea707584bac1 ("Staging: IIO: DDS: AD9832 / AD9835 driver")
-> > Cc: stable@vger.kernel.org
-> > Signed-off-by: Gabriel Shahrouzi <gshahrouzi@gmail.com>
-> > ---
-> Looks okay.
->
-> Reviewed-by: Marcelo Schmitt <marcelo.schmitt1@gmail.com>
->
-> Unrelated to this patch but, if anybody be looking to work on getting thi=
-s out
-> of staging, I think maybe this driver could use out_altvoltage_powerdown =
-ABI
-> instead of this custom out_altvoltageX_out_enable.
-> Crazy thing this driver doesn't declare a single IIO channel.
-> Seems to be somewhat ancient IIO driver.
-I can start tackling this.
->
-> Regards,
-> Marcelo
+The original patch combined a functional fix (allowing channel 7) with
+several refactoring steps (introducing chip_info, renaming structs,
+improving validation). As requested, these have now been separated.
+
+The series proceeds as follows:
+1. Fix: Allow diagnostic channel 7 for all device variants.
+2. Refactor: Rename the main state structure for clarity before introducing
+   the new chip_info struct.
+3. Refactor: Introduce struct ad7816_chip_info to hold static per-variant
+   data, update ID tables to store pointers, and switch to using
+   device_get_match_data() for firmware-independent identification.
+   This removes the old enum/id mechanism.
+4. Refactor: Add has_busy_pin to chip_info and use this flag to
+   determine BUSY pin handling, replacing pointer comparisons.
+5. Refactor: Simplify channel validation logic using 
+   chip_info->max_channels, removing strcmp() checks.
+
+Regarding the 'fixes' tag: I've applied it only to the first commit
+containing the core fix, primarily to make backporting easier. Is this
+the standard practice, or should the tag typically be applied to
+subsequent commits that build upon or are related to the fix as well?
+
+Changes in v5:
+	- Use correct patch version.
+Changes in v4:
+	- Include missing bracket for condtional statement.
+Chainges in v3:
+	- Split the patch into smaller patches. Make the fix first
+	  followed by clean up.
+	- Include missing channel for channel selection.
+	- Address specific feedback regarding enums vs. chip_info data.
+	- Use device_get_match_data() for device identification.
+	- Move BUSY pin capability check into chip_info data.
+	- Simplify channel validation using chip_info data.
+Changes in v2:
+        - Refactor by adding chip_info struct which simplifies
+          conditional logic.
+
+Gabriel Shahrouzi (5):
+  staging: iio: adc: ad7816: Allow channel 7 for all devices
+  staging: iio: adc: ad7816: Rename state structure
+  staging: iio: adc: ad7816: Introduce chip_info and use pointer
+    matching
+  staging: iio: adc: ad7816: Use chip_info for device capabilities
+  staging: iio: adc: ad7816: Simplify channel validation using chip_info
+
+ drivers/staging/iio/adc/ad7816.c | 94 ++++++++++++++++++--------------
+ 1 file changed, 54 insertions(+), 40 deletions(-)
+
+-- 
+2.43.0
+
