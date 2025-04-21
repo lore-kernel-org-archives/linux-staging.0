@@ -1,71 +1,72 @@
-Received: from mail-qt1-f176.google.com (mail-qt1-f176.google.com [209.85.160.176])
+Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com [209.85.160.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5032E1A83F9;
-	Mon, 21 Apr 2025 13:44:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B433826560F;
+	Mon, 21 Apr 2025 13:49:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745243095; cv=none; b=ISIG6ctUdA3ka9b3ptnZhzlNRK1tP3srFr7JqbmriYmC4zt+uk12QubgtZEH+Fud7ycdjlnbgggDaA74ClDAokgaeYCSYq6IA1XjW02qNrVe0cubE4G663LIOzq9F7xGfdZH3IePiLhK5GPAtjfIADjtpQUEbwJWkkeQdzfzHb0=
+	t=1745243385; cv=none; b=pxxR9d9GxNlMsqzxa6wBHaXXFG8vqM7moyrXl5oZ3tnzAK9TFu4KdB1wX4w+aL3b+GeJLnPvViNlapmTdHkWs2pJAalNwSDIMCHIl0jjE51coHNu9U2ArQk5MscVk7HHQ3H0FJHbBnoEJNuzbXtL1GU/d0J8l8omYwwbPuckyMM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745243095; c=relaxed/simple;
-	bh=E2F1I2DRDs4lcPmP+73ms3CRLlBK5QiJqEpvigoUffg=;
+	s=arc-20240116; t=1745243385; c=relaxed/simple;
+	bh=l977plpmk0kxbBwv0656HR/4LTk1DAyZQR5KKCWAEqk=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=XGoksbfbbisTU5aQWLCL34S9+rVzxPl0e+ZXrC4N4GE4Yv9J8Mq1TNqSEA705vEvf6uwDWTqvSTNTPS2guyGe1v8VNkiG7eFismuUDejJ+8qlv473hLa34ce1fEfmzZrMrJH21jZ0Zaivh+WWRHsbfXgRFTSh+/L7CkRQzozymE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=i9kuZwz9; arc=none smtp.client-ip=209.85.160.176
+	 To:Cc:Content-Type; b=SmU7rFGQEe0Uw/fbURxmgJroia+Yej9ezSHzT9+adglUw6gTst86ovDDgSN+uH0z5scqIy2No1sdF7ii93/m8VHeMcqf5t5CibV4mG0Fbw+CSUyszF8MUV94Uu1UUskiheysl3tMEhBDzFuv+VFcJrnXNd4fRCMoKkNWSo2sgMk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SgpAysJl; arc=none smtp.client-ip=209.85.160.181
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="i9kuZwz9"
-Received: by mail-qt1-f176.google.com with SMTP id d75a77b69052e-476805acddaso46376481cf.1;
-        Mon, 21 Apr 2025 06:44:53 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SgpAysJl"
+Received: by mail-qt1-f181.google.com with SMTP id d75a77b69052e-47690a4ec97so42789671cf.2;
+        Mon, 21 Apr 2025 06:49:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1745243093; x=1745847893; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1745243382; x=1745848182; darn=lists.linux.dev;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=I+rz5Axxady4tMqOuG//Mk9tsSexspjxF9mxBCn+v+E=;
-        b=i9kuZwz9K80NvvW6qJk5FiHeROwEBVzO4BFUq+3YpMl8iZJtQMiBzfk78BNWNrhZVH
-         QEoUw9+JmTb7BovHwMTRm+S9ThPqEQQ1++AkI+pzvwaG//sP6or1WSAs6kLB8m6M/Tq8
-         +dqKmYu3+r93UNkWweYy9W9n9kjjW7DCe68kckQ16UDAEpqqT+g6dWUOHmSSE58RWG3u
-         WSp1kQm524KVp2mZvEjQIyB5U8Xs1g/TYE4pgFh61dl4/u7mmCGZp8XDtD1NGy1E2nK+
-         dTQ01yvYO4ZY7/z5vae6wIYwi2A4a3/KPctag3S9mBDs64gcqSWN1hnkn5IJo2x5bsv3
-         Ebtg==
+        bh=RGx2p1+NRS+hgnX+A6l8EzX7jNG+2zBOfPRO5rKiie4=;
+        b=SgpAysJls87BKit17tPTqSOJNUzHrT10Qn1kOGIuvPQWLKxQcf+zww63cBKXcb1dcL
+         zodiwqtrarevIk36w6bo62vQPO7jUk2bXpqwkHUzE8mMeyzlY4Qi5BGwlKRgMkaGlMA8
+         QdU5xHOXK4SXXLS1rvXu2l7jpcUa8fljAZSdWlW4SHCU+/qwU2sQFuHAHlTj47K9b1fv
+         zJzxi4KsFipNsy6uJxkiC4qgwBKqMEZw/ay6nwLXYx6nFQoEagnQotq2C8+70xPLyn3v
+         dpD30tWgvlu7gorHbgBDkeHFFPwweaatlV08jjWT09tSx8YaLkqnBwhQuMXdyTSAiwEv
+         vrkA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745243093; x=1745847893;
+        d=1e100.net; s=20230601; t=1745243382; x=1745848182;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=I+rz5Axxady4tMqOuG//Mk9tsSexspjxF9mxBCn+v+E=;
-        b=tU2NhXcf+SbZ+SuUlT6VurF4THeK63uvS88V9LL2ivXVzRXMzj17nJld2ism1t2lzr
-         +5ObJhcvNV564V5jtFEEb3R82P/AZjBfYB5vl/1JedKKfE/kk9mYHQC7HTUqlrsXFw1t
-         JZvCD+SjqWBUMdBdIr64jPBDtLpgKuA6bVWT/SYv88noJggvIrGuujXqgkfATjyDI755
-         OVq3Z8gPXLtdhXbi79CL/2eXSAWw3laya68w81rBLGTt13bTKLWUUfv8wqdYNhXUaEGi
-         6ogzZZjyIUcU98hzMiezmZq7qYxxN3SeAHG4JGZHRZvcgDnZkKD8uxEryNIXX4XhyVyl
-         ZVoQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUKcIg6f8Zte+KgPxHSWzPYtpgVUnLswJyWY7FPh7l/gM9WSbLGDgy8MAWZ6YPUkWYHoCIxTTLrovPG2TJ2YuJ89y2JsA==@lists.linux.dev, AJvYcCXv/k2ty3yEc5VCic3v7ZqSvOIc1mPsl92YnGdtu7lcfceblsTA06Z5xjZNlvC2kzAN2e7eCbcaja1ScbyWPw==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwtM0HO9FhIv7/ppl2ded1XInuM68EEKuRVQl6aHvxB8zyb/pnJ
-	gfjXnEf6Q+GnHmWL2mE4r5ADCNsNG3C6UHQlw9dBiB03OW42Av0fKKBMLzck9+eSE4DHRKR0DaU
-	nUdh0WwQTVW8D+cCTaUR385dAulk=
-X-Gm-Gg: ASbGncvvBEi59Dj2i/poUFBn2MOW2Ca0m+X0F32SvfJ0U2VLUClEnNDUGruRppQK5sl
-	rdVWm5gMJjso0aBeak36N8URO57rCPXGdeRWFlln1hjZ6b9luwUqGlmAGfZFuTA9nAlMIWOs+Cg
-	c2DM2OruBSerM4z9NQ9+8vSLuZUSsCa8bUACh8PBfzzELpl0HqvG0b+A==
-X-Google-Smtp-Source: AGHT+IGIcQ/qkOH4f0efAIsakCdLqhNqY4LYe4mmqUwLFuwUa0Qipj0FoFEBLw2HZkwHnNe2Z94rqKHLyweAtiy2SkA=
-X-Received: by 2002:a05:6214:c47:b0:6ea:d6be:215b with SMTP id
- 6a1803df08f44-6f2c463fe82mr253512396d6.36.1745243093007; Mon, 21 Apr 2025
- 06:44:53 -0700 (PDT)
+        bh=RGx2p1+NRS+hgnX+A6l8EzX7jNG+2zBOfPRO5rKiie4=;
+        b=ItUlQ743g20QlMMzGiSuegv372Gm6vunEjqeBy5lW444Cm8mHNUPGdUq/1fLqzq+Li
+         FIeQwbwb5mjvsm4ivVbiljQqEqZwEzOn0pTKOdIRSdPqkaVchoFeieX7k4JsnHsA69IK
+         O5OckcQcdN3tqe8m5/VDEoTmrSw01oWkubLGCX30cRrKN49BLH3veXx7pqLBCquqwitr
+         P+uF+uTr628JSYU2mNU8C/EamV83y+T6Q5r+2HPCG+H5heG+12FTERsfiyI1dPj+EROT
+         3eGwWKarS8zagW5eis8bqhnzUsvIU4/+KJcUKoAH5nsVsMVjeNnMtzlTUCrQUvf8gaam
+         Bn9A==
+X-Forwarded-Encrypted: i=1; AJvYcCUvQqSkpZa9zXr9GQkK0pIMmKG/ntb7kmi49snXgOoMp8eNQ8/nhgAZxXlf8Qo/9gahIQMC0gVLMEGvIsuY6Q==@lists.linux.dev, AJvYcCWWWh4ys2R0/L9mJAjRXMyrlX7hyzcxiNq8i2F2mcGIzs2UEJu7/HU+wzMtgUEJBx81+1mOs75y+3rMuWGI3r59YhyVVg==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yz3VAy3/CuPVvojbwBrC5f8H8mi7GO7z7DtoLH+/z5LUWiY5xyG
+	udguVMRudtImNfD5J/L4oauxsfjDytRuuPLGCi1TKN+7R86fOOflmLiBdvQwKuMIIpTedIb+OtD
+	bATcsAjfqnnaHfbBY7VnIzTluounJXhS+RIU=
+X-Gm-Gg: ASbGncs5WU9PY/r5l2kTQ2hORXvqLTkYGIA16PTz+DoMbfUiPC1p+x0Lx7+uUgBpNL2
+	Mhb0kSrkTdDbzkPk1ApI0DgVTi+NVmSHaiHOjMLRzTTYbfxjw+MLyvoFxSU28fC5TUr5o6wU5gb
+	/fxey1eZRUCAuEBmmRmjq1cfU4EFJb1YwXikregKHdUa+Gigjq54zq0g==
+X-Google-Smtp-Source: AGHT+IFCRDEQECEJYjxyKWUBfHcU70YDu9Hdfq/MMsvE0/1Ruba11CTbntRDCvns5SkXCogDR5hE0ZbhsSjPtbHP/F8=
+X-Received: by 2002:a05:622a:255:b0:471:cdae:ac44 with SMTP id
+ d75a77b69052e-47aec4cf303mr202416191cf.47.1745243382551; Mon, 21 Apr 2025
+ 06:49:42 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <cover.1745007964.git.gshahrouzi@gmail.com> <20250421122931.13202ca9@jic23-huawei>
-In-Reply-To: <20250421122931.13202ca9@jic23-huawei>
+References: <20250420014910.849934-1-gshahrouzi@gmail.com> <20250421123127.3a5a7d65@jic23-huawei>
+In-Reply-To: <20250421123127.3a5a7d65@jic23-huawei>
 From: Gabriel Shahrouzi <gshahrouzi@gmail.com>
-Date: Mon, 21 Apr 2025 09:44:41 -0400
-X-Gm-Features: ATxdqUFAbjpx3MFjc3K3f1DwNxW16cyZ7M2yUtmCrTFRFvvxdKKOIoewOoIYhyc
-Message-ID: <CAKUZ0zLpRRPDBF5qaUXCukSn=uZFbDUG8UhXrQbpkrZyePe1Ww@mail.gmail.com>
-Subject: Re: [PATCH v3 0/5] staging: iio: adc: ad7816: Fix channel handling
+Date: Mon, 21 Apr 2025 09:49:31 -0400
+X-Gm-Features: ATxdqUHi6_oLdhhSvnK3V3HpaBLwSd6oHgBL4E1raTEh9xxnYSdB_6-I_5_l3Ro
+Message-ID: <CAKUZ0zKZ8QfbkPAWaJ59LVR4KfPa0mjv=vx3_NnH-yvx1kHavQ@mail.gmail.com>
+Subject: Re: [PATCH v5 0/5] staging: iio: adc: ad7816: Fix channel handling
+ and refactor
 To: Jonathan Cameron <jic23@kernel.org>
 Cc: gregkh@linuxfoundation.org, lars@metafoo.de, linux-iio@vger.kernel.org, 
 	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev, 
@@ -74,10 +75,10 @@ Cc: gregkh@linuxfoundation.org, lars@metafoo.de, linux-iio@vger.kernel.org,
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Apr 21, 2025 at 7:29=E2=80=AFAM Jonathan Cameron <jic23@kernel.org>=
+On Mon, Apr 21, 2025 at 7:31=E2=80=AFAM Jonathan Cameron <jic23@kernel.org>=
  wrote:
 >
-> On Fri, 18 Apr 2025 16:47:34 -0400
+> On Sat, 19 Apr 2025 21:49:05 -0400
 > Gabriel Shahrouzi <gshahrouzi@gmail.com> wrote:
 >
 > > The original patch combined a functional fix (allowing channel 7) with
@@ -104,6 +105,23 @@ nt
 > > the standard practice, or should the tag typically be applied to
 > > subsequent commits that build upon or are related to the fix as well?
 > >
+> > Changes in v5:
+> >       - Use correct patch version.
+> Generally I wouldn't resend for this. Instead a single email in
+> reply to the messed up version saying it is infact v4 would have
+> done the job.
+Got it.
+>
+> Alternatively a quick reply to that thread to say it was messed
+> up and please look for v5 would have worked to make a reader
+> move on directly to the newer version
+Got it.
+>
+>
+> Jonathan
+>
+> > Changes in v4:
+> >       - Include missing bracket for condtional statement.
 > > Chainges in v3:
 > >       - Split the patch into smaller patches. Make the fix first
 > >         followed by clean up.
@@ -115,26 +133,6 @@ nt
 > > Changes in v2:
 > >         - Refactor by adding chip_info struct which simplifies
 > >           conditional logic.
->
-> Hi Gabriel,
->
-> Whilst I appreciate the enthusiasm. Generally slow down a little!
-> If there is a fundamental issue like an accidental sending of the wrong
-> version then please reply to the thread cover letter to say that.
-> Otherwise, even in the presence of build bot reports, it is good
-> for any non trivial series to wait a little for reviews to come in.
-> Ideally a week, but a few days can be fine if you already have a lot
-> of feedback from reviewers.
-Got it, makes more sense to respond to a fundamental error like that
-in the cover letter than send an entire new patch series out which
-bloats the mailing list.
->
-> IIO is moderately high traffic and whilst we are good at hitting
-> the button to mark a thread read, it still takes some time!
-Got it.
->
-> Jonathan
->
 > >
 > > Gabriel Shahrouzi (5):
 > >   staging: iio: adc: ad7816: Allow channel 7 for all devices
