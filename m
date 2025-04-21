@@ -1,110 +1,108 @@
-Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDF29101E6
-	for <linux-staging@lists.linux.dev>; Mon, 21 Apr 2025 09:03:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44001208AD;
+	Mon, 21 Apr 2025 11:07:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745226203; cv=none; b=ahYtaXGVZGoD7/3+6KHy6Z4ImAIzF2HLYe0aLq3TAXNVTbSBkwmSN1n3uc1+XUb2K1pYrLIHshixrnFmQ1XTY3GcOPYJN73GB/dAV359chAqKUoi/7KPK7v3a3PcxgYCFNjjSGbtJdUY/4AsCeB35FfQ4uwI6rwvbuPfCPgapEg=
+	t=1745233677; cv=none; b=mk2bdvp8o45Mhar5DU05ib2XxLMJyr6SwGqKAJOEqSEZ7OXfkW3WXz7iaC4lWE+SIK1DRfrN6w/jWxd4gekEeWf39RrezZJSHhfi7pU8tNS1m8oxz/IfbbaJDZBBItV8vJIIgwphJFY6CU0HqB56535XU5rca5OJB6Nkrc75OPE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745226203; c=relaxed/simple;
-	bh=NaNLxjVYAiHVKkQcBc30sZU1PvjgM6D5TdHmW1yTgO0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Q0kByAjWTciCrSweoktq984qN0pGIv92Wd4Nvq9PNHNhT+uZ1Xwb867f7b8nhRU83wSj33UyOeSXWRkxgoaCioijxYmdHVynjwkAxIZOHEcnbhVi7e+COYnffJuu7702sKZBhABU9ZE+zxL6DHS49fsLAeAnSLq1ZWrBuUX5D10=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GVAYaja0; arc=none smtp.client-ip=209.85.218.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1745233677; c=relaxed/simple;
+	bh=lLnJWLHIzUQMPtcbn35c+xkIi0n5+jhxfuoOixu+odQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=ffbmpI9OrW533xA9s2aZU2dHGvjzhVDq+WF4VE2i9AAnlwE7p+PZMOZBV+AbEfzqLNZfQS8wEMS++8creQxq71+9GNcKXvfd8XLpcEOQAkG1Q3u3C1gyFTFKOBPgEVnd17+7hhweCuSl3OTVInloUH/4HYUn4EhZnwx+vSrLw/Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Rr2SJFrz; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GVAYaja0"
-Received: by mail-ej1-f46.google.com with SMTP id a640c23a62f3a-ac25d2b2354so553042766b.1
-        for <linux-staging@lists.linux.dev>; Mon, 21 Apr 2025 02:03:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1745226200; x=1745831000; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=NaNLxjVYAiHVKkQcBc30sZU1PvjgM6D5TdHmW1yTgO0=;
-        b=GVAYaja0+z4C1XWAixHA5DyNx7zT5jSYlncOdO3DZ85RSx93Gtdvy33hZPx9ZoYQvw
-         4XdYvqBSveJ+840DlCNKe9Wi0Km1peHFnPlu8ciWRxycKd3tQ1GO7pV0ELHYpQxdmrgt
-         MQ+CHUngWFujtuV2VtAgbQfJcvdNak93vKZxb4my8nMPZKaUJQ5AjjPJ8MWVqFjDKvlN
-         K1SrT874W6c+9Pg6xz2DWBTBRimxOdI5IiwHeUk/UwJ8ZhPppDmDqvfRJDlFlcwTOqW0
-         4bYrXbiNbGd6W5m9pHQqgx8g96pLH1ZwW9CknFDoEX7v3b77LWrRv74Zti+qZoQnEQsx
-         dc8g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745226200; x=1745831000;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=NaNLxjVYAiHVKkQcBc30sZU1PvjgM6D5TdHmW1yTgO0=;
-        b=ZIeS6x5d/d/LzbsLSfc5FsluEr2fufEz6DeZjwTeGSIu4G1wU3iFKw/61fl0BO+ZPG
-         gFtEXWgMe4VRAvmQtFZrjE1J3juVGq7ioMoOH13R1Z/Qrap727HZrz/5xYrDjQr2RWwz
-         Domi83Gq52RwfD+UM+3OQ0u3IG6stYpm9/RIXQPc2lfbDDucTGBjNhGLykhEnjbKVkMK
-         ICalvGhNtrY1k+gkc7Zxe7rYLqJmYZ0jPyv4wzUcC2d+CQF+JjbHWmN5zfrnel54M13t
-         LzQWER3lFhVt9vYmJps3ChKEslB0mIyucnA8wpiwZ2FHa8hFISReceMdoLEJlC6QCiFp
-         NgKw==
-X-Forwarded-Encrypted: i=1; AJvYcCXRTo4CCENeLt2uVKw02PhH4bIKlzXfVOLPrQKisPoahJQpGtJrOoKh8jSIRjnr7RgsWEHUzEbLnghcTaUD@lists.linux.dev
-X-Gm-Message-State: AOJu0YyXgtb2eRjAikWfHFonM3iVzam9jMl3HlDbljLQ0RtdbkGyTazn
-	eHPtXnX2ictfLbFw1pLE3xbCLhi1c1IKlqlTK7YjQMS8maAvMyNcNN7S3JnmyjvIW1h0wf0JKTE
-	3dZ0QRjwPkZMMNZybezhnWdnfOaA=
-X-Gm-Gg: ASbGnctgPaSUOGlZVMwsKB7D3lB2/JKttB1rNIWzr2+CyTniOkXIMfBr5K2VQk1ZPZe
-	PXbvXk7jKBE227pf5X+aFgIW0d22426RSKYIKVkTi5vFbgDbYmNRD/KKOnO6Rc/M26PxILfCiRj
-	rkTUM9SdhASDEvp5FYhmTW7Q==
-X-Google-Smtp-Source: AGHT+IGrgBeOr4Q/absMM+Za+LCqe/Lll5BRdgNYHJVgjNFROenyLOx65DMpqcEBtUSR/JNtqFQe9uIFaPpojiNX1i4=
-X-Received: by 2002:a17:906:dc8b:b0:aca:aeb3:c220 with SMTP id
- a640c23a62f3a-acb74720810mr1148270466b.0.1745226199906; Mon, 21 Apr 2025
- 02:03:19 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Rr2SJFrz"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5FC12C4CEE4;
+	Mon, 21 Apr 2025 11:07:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1745233676;
+	bh=lLnJWLHIzUQMPtcbn35c+xkIi0n5+jhxfuoOixu+odQ=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=Rr2SJFrzuo/TGHuP24xGYf+xqIY7EZ/mdAdkN4zKmF6VECmnISqBcPZZwALfO3fqe
+	 qyRqgrxkyMtg5X2z07sAo8P+X8qQvv3IxHrtZ7Okmw6oq4a+UFYc+/G9RioaeuaNuG
+	 qhlLs9YD75msQjrsWu4uPZ9uN4G/WNAx8Q+aAczC/D1/EvpmsFB7eE1ZFTGa+B1+rT
+	 YAkJwVVE8VLSZNz9dOEsDYbRs5ozRhxlf3apNL98rsPFPYj30hoEj/qqf4EEGxjPnS
+	 2KQWCKxahoKKYPf0aC85Q6MbH6asJg4a313cuROOfVXeTF5Cp5B2BAbYBlWYnAlc01
+	 s9HR4xdBtJQXQ==
+Date: Mon, 21 Apr 2025 12:07:49 +0100
+From: Jonathan Cameron <jic23@kernel.org>
+To: Gabriel Shahrouzi <gshahrouzi@gmail.com>
+Cc: Marcelo Schmitt <marcelo.schmitt1@gmail.com>,
+ gregkh@linuxfoundation.org, lars@metafoo.de, linux-iio@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev,
+ Michael.Hennerich@analog.com, skhan@linuxfoundation.org,
+ linux-kernel-mentees@lists.linux.dev, stable@vger.kernel.org
+Subject: Re: [PATCH] iio: frequency: Use SLEEP bit instead of RESET to
+ disable output
+Message-ID: <20250421120749.66b04533@jic23-huawei>
+In-Reply-To: <CAKUZ0zLMAZFHwvuqfoL6JZfphYRhtjkqOyi50_ZffbA7-4MCew@mail.gmail.com>
+References: <20250417135434.568007-1-gshahrouzi@gmail.com>
+	<aAQZrhBLQCa0TjOJ@debian-BULLSEYE-live-builder-AMD64>
+	<CAKUZ0zLMAZFHwvuqfoL6JZfphYRhtjkqOyi50_ZffbA7-4MCew@mail.gmail.com>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.48; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250421052804.11721-1-hardevsinh.palaniya@siliconsignals.io>
-In-Reply-To: <20250421052804.11721-1-hardevsinh.palaniya@siliconsignals.io>
-From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Mon, 21 Apr 2025 12:02:43 +0300
-X-Gm-Features: ATxdqUEQ8x2EIouk8KiFcVlxbg2SzLuyxAZXaUX5Lyn4hOI7kkBZXG-d9UCmXRI
-Message-ID: <CAHp75VeZy3+0bGCNKjzPaK1Y234ZnZtG7v5iygtF1+Uhm9bTEA@mail.gmail.com>
-Subject: Re: [PATCH v2] media: atomisp: Remove compat ioctl32 header file
-To: Hardevsinh Palaniya <hardevsinh.palaniya@siliconsignals.io>
-Cc: andy@kernel.org, sakari.ailus@linux.intel.com, 
-	Hans de Goede <hdegoede@redhat.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-kernel@vger.kernel.org, 
-	linux-media@vger.kernel.org, linux-staging@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Apr 21, 2025 at 8:28=E2=80=AFAM Hardevsinh Palaniya
-<hardevsinh.palaniya@siliconsignals.io> wrote:
->
-> Arnd's patch [1] removed the compat ioctl32 code, so this
-> header file is no longer needed.
->
-> Additionally, the definition of atomisp_compat_ioctl32()
-> was deleted in Arnd's patch [1], making its declaration
-> unused as well.
->
-> Moreover, there are no references to this header file or
-> the function(atomisp_compat_ioctl32) in the atomisp codebase.
+On Sat, 19 Apr 2025 21:41:50 -0400
+Gabriel Shahrouzi <gshahrouzi@gmail.com> wrote:
 
-> Link URL[1]: https://lore.kernel.org/linux-media/20210614103409.3154127-7=
--arnd@kernel.org/
+> On Sat, Apr 19, 2025 at 5:45=E2=80=AFPM Marcelo Schmitt
+> <marcelo.schmitt1@gmail.com> wrote:
+> >
+> > On 04/17, Gabriel Shahrouzi wrote: =20
+> > > According to the AD9832 datasheet (Table 10, D12 description), setting
+> > > the RESET bit forces the phase accumulator to zero, which corresponds=
+ to
+> > > a full-scale DC output, rather than disabling the output signal.
+> > >
+> > > The correct way to disable the output and enter a low-power state is =
+to
+> > > set the AD9832_SLEEP bit (Table 10, D13 description), which powers do=
+wn
+> > > the internal DAC current sources and disables internal clocks.
+> > >
+> > > Fixes: ea707584bac1 ("Staging: IIO: DDS: AD9832 / AD9835 driver")
+> > > Cc: stable@vger.kernel.org
+> > > Signed-off-by: Gabriel Shahrouzi <gshahrouzi@gmail.com>
+> > > --- =20
+> > Looks okay.
+> >
+> > Reviewed-by: Marcelo Schmitt <marcelo.schmitt1@gmail.com>
+> >
+> > Unrelated to this patch but, if anybody be looking to work on getting t=
+his out
+> > of staging, I think maybe this driver could use out_altvoltage_powerdow=
+n ABI
+> > instead of this custom out_altvoltageX_out_enable.
+> > Crazy thing this driver doesn't declare a single IIO channel.
+> > Seems to be somewhat ancient IIO driver. =20
+> I can start tackling this.
+This has crossed with a series from Siddarth.
 
-Not so literally :-)
-Should be just
+Take a look at what is in:
+https://web.git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git/commit/?h=
+=3Dtesting&id=3Daa703203cbbca22ac46d42d4cd41232491827152
 
-Link: https://lore.kernel.org/linux-media/20210614103409.3154127-7-arnd@ker=
-nel.org/
-[1]
+Please rebase this one on top of that as I think the bug is still there?
 
-> Signed-off-by: Hardevsinh Palaniya <hardevsinh.palaniya@siliconsignals.io=
->
+Given there is work going on for this driver and the bugs are ancient, I'll
+not take any patches through the fixes tree for now. Instead I'll just queue
+them up for the next merge window.
 
-Otherwise LGTM,
-Reviewed-by: Andy Shevchenko <andy@kernel.org>
+Thanks,
 
-P.S. No need to resend, I hope Hans can tweak this whilst applying.
+Jonathan
 
---=20
-With Best Regards,
-Andy Shevchenko
+> >
+> > Regards,
+> > Marcelo =20
+>=20
+
