@@ -1,43 +1,43 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEAFE262D29;
-	Mon, 21 Apr 2025 11:44:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43EA62580C4;
+	Mon, 21 Apr 2025 11:54:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745235850; cv=none; b=V/JlvTB5DXEe3RWY16/M9f98fEut9+fIq09CM5xezh0PVbaYi+txdrhiSDv2gfJ3vyu+pyxI4GwdbcQdLlzn6AAkxfj6jHsWYNOi/85ILInkzyj+3uWcF2GiotqDXXG1vpESLX5oDSdKaiecAty1nxfQZpQ5TfpYGP7LDNcdxKE=
+	t=1745236445; cv=none; b=GNwB/Bjwrq5staj8iPkC3uCGJeZHUjqkOwYUHcfbDOwlBYMhn6su27ywGWuH2qysiBKk3H8mfRMc+XLcEIzVu/o4s9cT2V3HqF+5C6by5RwU9RpyS+o7WahccJV1BXOnQHwPQsjoJrHYrcRUrPkdjz1rwil2a3MgV3USRaKAlho=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745235850; c=relaxed/simple;
-	bh=KFt7KVz7z+ivKXjqeTBsn4Dyd+33+BcExIfbhTDS1iM=;
+	s=arc-20240116; t=1745236445; c=relaxed/simple;
+	bh=i0vpEwAFyN6bqWLL2Ie++Df4in13XY7IEiHkXqSQIr4=;
 	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=fX8/5QLaroeS5oMLsMekoDI6uxuio3O84aWMvYIXhK+qkvhY3jWp8g5bmTEAe/1eS5JFvY6r4nPFp5qU9N8YJG5/Fu/SAlVbefKrvuKlMA6vmm1CapH3AOBUWlwaYRb3qF0tdo8+vVkoe+3X/dIXEOY4+r8ZMfrppkY2VJKs8go=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Bsc3jUwP; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=OK8Q0RchaBsg+SDIT9+ZtQne14sC9V7ECx9rC1aTHOhr5ARskxZm+u9aKMcN4bKDtX5c4sHL+NWpwRzJx139i1+Sfz539/WxE2BXw/Jb5YKzFiADBaNjw8eQDmtx/g9L6eB2sNU7yUM82viaiOfOTwri+XsrjHPkuJx/nsGAR08=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TuY4cpPl; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Bsc3jUwP"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 358B9C4CEE4;
-	Mon, 21 Apr 2025 11:44:04 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TuY4cpPl"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C46A9C4CEE4;
+	Mon, 21 Apr 2025 11:54:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1745235849;
-	bh=KFt7KVz7z+ivKXjqeTBsn4Dyd+33+BcExIfbhTDS1iM=;
+	s=k20201202; t=1745236444;
+	bh=i0vpEwAFyN6bqWLL2Ie++Df4in13XY7IEiHkXqSQIr4=;
 	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=Bsc3jUwPwu0cl688/IsxDAm3p5IvXzLuH34bn5XkG3BqIVWMHJ8Orv0GhYh7UYRRp
-	 Fm1tuVJKv71Q2cOCrqERDUptmbc6eSTLlrbBrf8H4Br7ldYCivPhj3v2Ivyr3xpbRJ
-	 9uAVJkgUQPp29ftVxqVbgKwhrOHAyCn0RQU3yph8/qZNs0gvP9UX40Qek11VuWp3lt
-	 utoIZykp8yz36KaTmXPm9HJsIM4WsIE/qlqmpKtD9lEoY0AFp+hNZPEhbXhH2eytct
-	 yi8DP6MBGl83NWLD0IREMdVRoKfypDu56MdJT3pu/JA9Y//zsBqU6D/FSXk8euc82P
-	 IkP08kQExrTCA==
-Date: Mon, 21 Apr 2025 12:44:01 +0100
+	b=TuY4cpPl4vhyDTXO47vxoNTH1zI7YuAdlFUfxkNZAQsZ2712nzB5h58/WGq0NDvxV
+	 rVF6RQ/ULgQfgzHZKI/+/LaE7R1NkMjsOgdMjBk5P8c3WIvXyg94WNB8+3+Scuw+xj
+	 p6WWRMIJ0tN4tfnq6o1EDL42aIPclvy9xoMiWaZsMaOK5iyYo5W/5UP0TeZ0hmafi5
+	 JXF+r4pZZhKpc5WSX1JoRZDjSrfXYybYT7dI8GROQKoVHe70g6kwBQc6z1qNZKW347
+	 mc80LRMzo8+Mhjt9QjzEJG8lgv5WjIJNpudLyEQMsZOt+wq0djWGOSM5YhCA8cwCSY
+	 tZDzP+HTw3OjA==
+Date: Mon, 21 Apr 2025 12:53:57 +0100
 From: Jonathan Cameron <jic23@kernel.org>
 To: Gabriel Shahrouzi <gshahrouzi@gmail.com>
 Cc: gregkh@linuxfoundation.org, lars@metafoo.de, linux-iio@vger.kernel.org,
  linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev,
  Michael.Hennerich@analog.com, skhan@linuxfoundation.org,
- linux-kernel-mentees@lists.linux.dev, stable@vger.kernel.org
-Subject: Re: [PATCH v4] staging: iio: ad5933: Correct settling cycles
- encoding per datasheet
-Message-ID: <20250421124401.0daa6a2e@jic23-huawei>
-In-Reply-To: <20250420013009.847851-1-gshahrouzi@gmail.com>
-References: <20250420013009.847851-1-gshahrouzi@gmail.com>
+ linux-kernel-mentees@lists.linux.dev
+Subject: Re: [PATCH v2] staging: iio: accel: adis16203: Fix single-axis
+ representation
+Message-ID: <20250421125357.571c429e@jic23-huawei>
+In-Reply-To: <20250418173313.629606-1-gshahrouzi@gmail.com>
+References: <20250418173313.629606-1-gshahrouzi@gmail.com>
 X-Mailer: Claws Mail 4.3.0 (GTK 3.24.48; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -48,49 +48,156 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-On Sat, 19 Apr 2025 21:30:09 -0400
+On Fri, 18 Apr 2025 13:33:12 -0400
 Gabriel Shahrouzi <gshahrouzi@gmail.com> wrote:
 
-> The AD5933 datasheet (Table 13) lists the maximum cycles to be 0x7FC
-> (2044).
+> The ADIS16203 is a single-axis 360 degree inclinometer. The previous
+> driver code incorrectly represented this by defining separate X and Y
+> inclination channels based on the two different output format registers
+> (0x0C for 0-360 deg, 0x0E for +/-180 deg). This violated IIO conventions
+> and misrepresented the hardware's single angle output. The 'Fixme'
+> comment on the original Y channel definition indicated this known issue.
 > 
-> Clamp the user input to the maximum effective value of 0x7FC cycles.
-> 
-> Fixes: f94aa354d676 ("iio: impedance-analyzer: New driver for AD5933/4 Impedance Converter, Network Analyzer")
-> Cc: stable@vger.kernel.org
 > Signed-off-by: Gabriel Shahrouzi <gshahrouzi@gmail.com>
-I'm taking this the slow path as it has been wrong a very long time
-and there is a lot of churn on IIO staging drivers right now so we may
-have other stuff that I don't want to delay building on top of this.
 
-Applied to the togreg branch of iio.git and pushed out as testing.
+Hi. A few comments inline.
+Mostly that this is doing several unrelated things now.
+I missed that in v1 I guess. Sorry about that!
 
 Jonathan
 
+
 > ---
-> Changes in v4:
-> 	- Provide clear git body description.
-> Changes in v3:
-> 	- Only include fix (remove refactoring which will be its own
-> 	  separate patch).
 > Changes in v2:
->         - Fix spacing in comment around '+'.
->         - Define mask and values for settling cycle multipliers.
+> 	- Check write value range in adis16203_write_raw.
+> 	- Remove 0x3FFF mask in adis16203_write_raw.
+> 	- Remove explicit shift = 0 in channel definition.
+> 	- Keep original channel ordering.
+> 	- Add staging prefix to subject line.
 > ---
->  drivers/staging/iio/impedance-analyzer/ad5933.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  drivers/staging/iio/accel/adis16203.c | 53 ++++++++++++++++-----------
+>  1 file changed, 32 insertions(+), 21 deletions(-)
 > 
-> diff --git a/drivers/staging/iio/impedance-analyzer/ad5933.c b/drivers/staging/iio/impedance-analyzer/ad5933.c
-> index d5544fc2fe989..f8fcc10ea8150 100644
-> --- a/drivers/staging/iio/impedance-analyzer/ad5933.c
-> +++ b/drivers/staging/iio/impedance-analyzer/ad5933.c
-> @@ -411,7 +411,7 @@ static ssize_t ad5933_store(struct device *dev,
->  		ret = ad5933_cmd(st, 0);
->  		break;
->  	case AD5933_OUT_SETTLING_CYCLES:
-> -		val = clamp(val, (u16)0, (u16)0x7FF);
-> +		val = clamp(val, (u16)0, (u16)0x7FC);
->  		st->settling_cycles = val;
+> diff --git a/drivers/staging/iio/accel/adis16203.c b/drivers/staging/iio/accel/adis16203.c
+> index c1c73308800c5..620e0b96d3b22 100644
+> --- a/drivers/staging/iio/accel/adis16203.c
+> +++ b/drivers/staging/iio/accel/adis16203.c
+> @@ -28,11 +28,11 @@
+>  /* Output, temperature */
+>  #define ADIS16203_TEMP_OUT       0x0A
 >  
->  		/* 2x, 4x handling, see datasheet */
+> -/* Output, x-axis inclination */
+> -#define ADIS16203_XINCL_OUT      0x0C
+> +/* Output, 360 deg format */
+> +#define ADIS16203_INCL_OUT       0x0C
+>  
+> -/* Output, y-axis inclination */
+> -#define ADIS16203_YINCL_OUT      0x0E
+> +/* Output, +/-180 deg format */
+> +#define ADIS16203_INCL_180_OUT   0x0E
+>  
+>  /* Incline null calibration */
+>  #define ADIS16203_INCL_NULL      0x18
+> @@ -128,8 +128,7 @@
+>  #define ADIS16203_ERROR_ACTIVE          BIT(14)
+>  
+>  enum adis16203_scan {
+> -	 ADIS16203_SCAN_INCLI_X,
+> -	 ADIS16203_SCAN_INCLI_Y,
+> +	 ADIS16203_SCAN_INCLI,
+>  	 ADIS16203_SCAN_SUPPLY,
+>  	 ADIS16203_SCAN_AUX_ADC,
+>  	 ADIS16203_SCAN_TEMP,
+> @@ -137,10 +136,6 @@ enum adis16203_scan {
+>  
+>  #define DRIVER_NAME		"adis16203"
+>  
+> -static const u8 adis16203_addresses[] = {
+> -	[ADIS16203_SCAN_INCLI_X] = ADIS16203_INCL_NULL,
+> -};
+> -
+>  static int adis16203_write_raw(struct iio_dev *indio_dev,
+>  			       struct iio_chan_spec const *chan,
+>  			       int val,
+> @@ -148,10 +143,17 @@ static int adis16203_write_raw(struct iio_dev *indio_dev,
+>  			       long mask)
+>  {
+>  	struct adis *st = iio_priv(indio_dev);
+> -	/* currently only one writable parameter which keeps this simple */
+> -	u8 addr = adis16203_addresses[chan->scan_index];
+>  
+> -	return adis_write_reg_16(st, addr, val & 0x3FFF);
+> +	switch (mask) {
+> +	case IIO_CHAN_INFO_CALIBBIAS:
+> +		if (chan->scan_index != ADIS16203_SCAN_INCLI)
+
+Why is this change related to dropping of channels?
+
+> +			return -EINVAL;
+> +		if (val < -BIT(13) || val >= BIT(13))
+Or this one?
+
+Seems to me these should be in a separate patch.
+
+> +			return -EINVAL;
+> +		return adis_write_reg_16(st, ADIS16203_INCL_NULL, val);
+> +	default:
+> +		return -EINVAL;
+> +	}
+>  }
+>  
+>  static int adis16203_read_raw(struct iio_dev *indio_dev,
+> @@ -161,7 +163,6 @@ static int adis16203_read_raw(struct iio_dev *indio_dev,
+>  {
+>  	struct adis *st = iio_priv(indio_dev);
+>  	int ret;
+> -	u8 addr;
+>  	s16 val16;
+>  
+>  	switch (mask) {
+> @@ -194,8 +195,9 @@ static int adis16203_read_raw(struct iio_dev *indio_dev,
+>  		*val = 25000 / -470 - 1278; /* 25 C = 1278 */
+>  		return IIO_VAL_INT;
+>  	case IIO_CHAN_INFO_CALIBBIAS:
+> -		addr = adis16203_addresses[chan->scan_index];
+> -		ret = adis_read_reg_16(st, addr, &val16);
+> +		if (chan->scan_index != ADIS16203_SCAN_INCLI)
+> +			return -EINVAL;
+This looks to be defensive coding.  Is calibbias registered for any other
+channels?  If not this can't get called anyway.
+
+I don't mind this sort of defensive check if it adds some level
+of readability to the code by making it clear what it is for, but the
+fact it uses the INCL_NULL kind of makes that obvious anyway.
+
+> +		ret = adis_read_reg_16(st, ADIS16203_INCL_NULL, &val16);
+>  		if (ret)
+>  			return ret;
+>  		*val = sign_extend32(val16, 13);
+> @@ -208,11 +210,20 @@ static int adis16203_read_raw(struct iio_dev *indio_dev,
+>  static const struct iio_chan_spec adis16203_channels[] = {
+>  	ADIS_SUPPLY_CHAN(ADIS16203_SUPPLY_OUT, ADIS16203_SCAN_SUPPLY, 0, 12),
+>  	ADIS_AUX_ADC_CHAN(ADIS16203_AUX_ADC, ADIS16203_SCAN_AUX_ADC, 0, 12),
+> -	ADIS_INCLI_CHAN(X, ADIS16203_XINCL_OUT, ADIS16203_SCAN_INCLI_X,
+> -			BIT(IIO_CHAN_INFO_CALIBBIAS), 0, 14),
+> -	/* Fixme: Not what it appears to be - see data sheet */
+> -	ADIS_INCLI_CHAN(Y, ADIS16203_YINCL_OUT, ADIS16203_SCAN_INCLI_Y,
+> -			0, 0, 14),
+> +	{
+> +		.type = IIO_INCLI,
+> +		.info_mask_separate = BIT(IIO_CHAN_INFO_RAW) |
+> +					BIT(IIO_CHAN_INFO_SCALE) |
+> +					BIT(IIO_CHAN_INFO_CALIBBIAS),
+> +		.address = ADIS16203_INCL_180_OUT,
+> +		.scan_index = ADIS16203_SCAN_INCLI,
+> +		.scan_type = {
+> +			.sign = 's',
+> +			.realbits = 14,
+> +			.storagebits = 16,
+> +			.endianness = IIO_CPU,
+> +		},
+> +	},
+>  	ADIS_TEMP_CHAN(ADIS16203_TEMP_OUT, ADIS16203_SCAN_TEMP, 0, 12),
+>  	IIO_CHAN_SOFT_TIMESTAMP(5),
+>  };
 
