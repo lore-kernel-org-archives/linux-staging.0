@@ -1,118 +1,273 @@
-Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 873D3C2ED
-	for <linux-staging@lists.linux.dev>; Mon, 21 Apr 2025 18:43:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81AE8184540;
+	Tue, 22 Apr 2025 02:09:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745261013; cv=none; b=CpAP7h42ZkxkXAtraPJvHNhhJcITzhmPiszojaYYN3OfTRHDSpVQNBKLiefAEmlxSi0S++d2XgMolBr3pTKp5G5wFS8QlePMLbnCApvl0WSoxz/4Ai5bAB9bsG2xq60mFjrkKj3y/SbYtG1PoKUyZyv5eyHCmtlUKtuWIipQ6Yc=
+	t=1745287782; cv=none; b=laftuR4LG2mD5HOPoo+BZpYjdA6Aq49kNQdZLsgZn9BX35nSeb7WjaTU8E3/WQUq9KaekomlWbpQX0AMxj0wlvsJkiH9jmQL4l3VGOA73yekLEntLFER4BE6o/efB+n1dtJhjVJNFZDQ8+Z9jP7MNAdN90RmNmM1qaCfUST97GI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745261013; c=relaxed/simple;
-	bh=rxhlXqyx5x/2Y6lC6VYb0xiaMox+hPMwmGgaxzDTUmU=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=Z1Ob1tfPIRshJyMAiw4cU75SNYKQ3ctywZM8MidhXfA5cC3ROHtGaWDWtP8wMrRLDazQVxvebezlaUmUkE4xOYaMDrWUXSYiB6jlU2THqlApqFPDv9rRmxYwnMh43+GD7Um+mE1dxuhPVunf/QXNNAsVbWRNzfYV/q4/HHzdIy8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cixRmEyC; arc=none smtp.client-ip=209.85.167.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1745287782; c=relaxed/simple;
+	bh=3IPdSJ3I70j4LJHQ7iHlhoXeqRYAYXW3zl/zrWVJSrE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=DhX3Ty1gh5xGcNyenkJulaBs1xxh9Fziu7eLVyAqCqHBHFbDOTkJXPUtkNgGOT6569ey3aXZ4cVMvlo+6ID/jZvuuqJ3vewFG4sTkUsQJA83kUKctDUumy2PneI/XotyDSzBy49APWeY0Swx67CjE/1qLQwXUSP3yDTk/HGV2jo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mBUH7gWs; arc=none smtp.client-ip=192.198.163.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cixRmEyC"
-Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-54993c68ba0so4993505e87.2
-        for <linux-staging@lists.linux.dev>; Mon, 21 Apr 2025 11:43:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1745261010; x=1745865810; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=HZtocP+NkKmjE5uyIOjC9xo3yUt3gITSkl8Dclb55ow=;
-        b=cixRmEyCuA5y9O8CADoVM+1e0aqB0UFJ1ILzhNCQ+ZgaJ+L/8gd6szH9RA7fxTFScZ
-         64zvGeMfvkCMaEbf8iOgcIgPaf69Oz2T8kAEsYJ2rjpAw9J7Me3zBaov6pWV56jJRLzJ
-         Pc4FEm6W+UIA85A7mWjFeQrvSHOMslS2cx9EvPfobQ1V9Z7IGAdskD32pG66GLmhsXd1
-         XhRbhuGxSUoi7uSH50BgZYoQNvG2z1orWh2CEaQdVEiPhhSfDT4qJioPFSOY/Q2bweaQ
-         c8iFpTymKQQO7IatSgQztERcdWj2udE1v17nWhB5jOR+oM/lVTZEeBA1bYu82qo8xuts
-         vr9g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745261010; x=1745865810;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=HZtocP+NkKmjE5uyIOjC9xo3yUt3gITSkl8Dclb55ow=;
-        b=DBJXoEKHQanGIqbn3wvPbwQARaRV1Lb/zUks9hJDiQ+8oVjYz32we34l2rS9LaSPdp
-         0B/2q/N05gBsYTiVP9qXy9MooB3B2fMSeh2mmY0qGbi4McdxarZgb/pmhsfST3q9ILpY
-         889fFRX+IeJMsotG6dyEqYqacZFeyuNMT8qG4HI9zm65t7RR01214xyZU+TthaE5pTuc
-         8mS2QKnXeDpCwDe1Wt2ILmNI4A/M15XyLem6dbEXy/Mxk/TUZpge32hj2wz1DkhgEZL0
-         tmCZ2RfuG0a+IdcIjc+MuCACNK9OXtEnvj1EeakWLb1Gcn1abanU1GrNfcb605pQFGN4
-         JZVg==
-X-Forwarded-Encrypted: i=1; AJvYcCXE0GXwPqpa2VKsC96sw2+eeS/nP0Rr6G3LETYKH27kU9kSOz3AE2BdYuvD3BmGDiURYCy+Idn95Lz2hUrX@lists.linux.dev
-X-Gm-Message-State: AOJu0YzbccQfxINmyBSDBhLVRuHTmVYhRaV24tga6RFQYyeY9tMbhQSB
-	BUb7V5sVKhRKPBO3o4UKKG8v9WGyomd6KQ1IfYbz32JQDWZSjjcS
-X-Gm-Gg: ASbGncvVvZsho98LEe1DQSiqy/iDCV3A5sOr3ID7ze1HSRkuI1tavbIh6uuHEEkZG3Z
-	KPtaICw6vaVbASY345ciH6qDuIQTpgNFDax/S+qG0YReBBYKksmnp/gDMWni47xtS17fc5u8+P0
-	DaHBrsYv5gf5f2U68jBjgsBFyBiRiPOypu8igPz/nvzgPDP9444wy0PYr1ZJqjZzkKAkfFDtohP
-	cgF08l0Gs4Z+Qv83Lc5IXW9sbGTx2EksJ0/uW+l1FRDd/ClF0D7Qu2Wd4mg8UzvxD3yCqPAImib
-	B2l8wSTFyAZRm2j8ismkHGN2CDV5RSzOlScWFcGjwB+tPhlZObjCLI+gOTvsb3rOjvf1Hhb2w2p
-	FJWHhu4n26dnU4OA=
-X-Google-Smtp-Source: AGHT+IEe0pJkek8HMn88o4XZ+AcdWsXyGbn3kvFRTYs1fpCHR6vgtkAsVOOEKwAJQwbVkczNQL8opQ==
-X-Received: by 2002:a05:6512:3f28:b0:549:38eb:d694 with SMTP id 2adb3069b0e04-54d6e635b0emr3279125e87.26.1745261009310;
-        Mon, 21 Apr 2025 11:43:29 -0700 (PDT)
-Received: from localhost.localdomain (c151-177-8-194.bredband.tele2.se. [151.177.8.194])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-54d6e5cfda6sm1001764e87.126.2025.04.21.11.43.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 21 Apr 2025 11:43:28 -0700 (PDT)
-From: Marwin Hormiz <marwinhormiz@gmail.com>
-To: dpenkler@gmail.com,
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mBUH7gWs"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1745287777; x=1776823777;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=3IPdSJ3I70j4LJHQ7iHlhoXeqRYAYXW3zl/zrWVJSrE=;
+  b=mBUH7gWsKKANm31ienlQtKyeIHsb2dg0Dwb12JOSwY7MqQVSHQfZgR9Y
+   aUhJM/rgrPugFtb6oBeEJClNPUxm3eMCK5+I2fRmMtAHPTWsCvX7D1vFc
+   OW9TFtRX/UUutdQ9qwhAeO+ALIlSYt8iYgp8nnPtGyy7VtuGv8wl3SNDp
+   qLxSJBuvJzI5LmOhpel6LnrTz5z+h0rMaVfOhhfdEY+H5UxXZW/nFUCT2
+   rJTwxuDgZGzcQOawKjI4EoMqS/sOfou690FYbJTO4kvkMagOGJ/LDBoDk
+   kn+v1wgnckCh9tEZkioBM+wJlpOnf+cjBdnUaeQnnbYU2MZ6OghoOw1v6
+   A==;
+X-CSE-ConnectionGUID: 2t0tN0WKRtOXiCpYI9QoKQ==
+X-CSE-MsgGUID: wJhFG4caRjukoawAkZJZ+Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11410"; a="72226426"
+X-IronPort-AV: E=Sophos;i="6.15,229,1739865600"; 
+   d="scan'208";a="72226426"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Apr 2025 19:09:37 -0700
+X-CSE-ConnectionGUID: xul+jjYbR/SaEE/EiQltpQ==
+X-CSE-MsgGUID: kTkGfurvTZ6A9/0cvpkiSw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,229,1739865600"; 
+   d="scan'208";a="132835551"
+Received: from lkp-server01.sh.intel.com (HELO 050dd05385d1) ([10.239.97.150])
+  by orviesa008.jf.intel.com with ESMTP; 21 Apr 2025 19:09:34 -0700
+Received: from kbuild by 050dd05385d1 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1u734l-0000WZ-29;
+	Tue, 22 Apr 2025 02:09:31 +0000
+Date: Tue, 22 Apr 2025 10:09:03 +0800
+From: kernel test robot <lkp@intel.com>
+To: Marwin Hormiz <marwinhormiz@gmail.com>, dpenkler@gmail.com,
 	gregkh@linuxfoundation.org
-Cc: dan.carpenter@linaro.org,
-	matchstick@neverthere.org,
-	arnd@arndb.de,
-	niharchaithanya@gmail.com,
-	linux-staging@lists.linux.dev,
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	dan.carpenter@linaro.org, matchstick@neverthere.org, arnd@arndb.de,
+	niharchaithanya@gmail.com, linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Marwin Hormiz <marwinhormiz@gmail.com>
-Subject: [PATCH 1/1] staging: gpib: gpio: Fix memory allocation style in gpib_bitbang.c
-Date: Mon, 21 Apr 2025 20:41:44 +0200
-Message-Id: <20250421184144.220972-1-marwinhormiz@gmail.com>
-X-Mailer: git-send-email 2.34.1
+Subject: Re: [PATCH 1/1] staging: gpib: gpio: Fix memory allocation style in
+ gpib_bitbang.c
+Message-ID: <202504220954.L1QvhSdD-lkp@intel.com>
+References: <20250421184144.220972-1-marwinhormiz@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250421184144.220972-1-marwinhormiz@gmail.com>
 
-Change kzalloc() to use sizeof(*variable) instead of sizeof(struct type)
-to improve code maintainability. This follows the kernel coding style
-recommendation for memory allocations.
+Hi Marwin,
 
-Signed-off-by: Marwin Hormiz <marwinhormiz@gmail.com>
----
- drivers/staging/gpib/gpio/gpib_bitbang.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+kernel test robot noticed the following build warnings:
 
-diff --git a/drivers/staging/gpib/gpio/gpib_bitbang.c b/drivers/staging/gpib/gpio/gpib_bitbang.c
-index 86bdd381472a..28f2f44deb39 100644
---- a/drivers/staging/gpib/gpio/gpib_bitbang.c
-+++ b/drivers/staging/gpib/gpio/gpib_bitbang.c
-@@ -46,10 +46,10 @@
- 			dev_dbg(board->gpib_dev, frm, ## __VA_ARGS__); } \
- 	while (0)
- 
--#define LINVAL gpiod_get_value(DAV),		\
-+#define LINVAL (gpiod_get_value(DAV),		\
- 		gpiod_get_value(NRFD),		\
- 		gpiod_get_value(NDAC),		\
--		gpiod_get_value(SRQ)
-+		gpiod_get_value(SRQ))
- #define LINFMT "DAV: %d	 NRFD:%d  NDAC: %d SRQ: %d"
- 
- #include "gpibP.h"
-@@ -1063,7 +1063,7 @@ static int bb_line_status(const struct gpib_board *board)
- 
- static int allocate_private(struct gpib_board *board)
- {
--	board->private_data = kzalloc(sizeof(struct bb_priv), GFP_KERNEL);
-+	board->private_data = kzalloc(sizeof(*board->private_data), GFP_KERNEL);
- 	if (!board->private_data)
- 		return -1;
- 	return 0;
+[auto build test WARNING on staging/staging-testing]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Marwin-Hormiz/staging-gpib-gpio-Fix-memory-allocation-style-in-gpib_bitbang-c/20250422-024547
+base:   staging/staging-testing
+patch link:    https://lore.kernel.org/r/20250421184144.220972-1-marwinhormiz%40gmail.com
+patch subject: [PATCH 1/1] staging: gpib: gpio: Fix memory allocation style in gpib_bitbang.c
+config: i386-buildonly-randconfig-001-20250422 (https://download.01.org/0day-ci/archive/20250422/202504220954.L1QvhSdD-lkp@intel.com/config)
+compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250422/202504220954.L1QvhSdD-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202504220954.L1QvhSdD-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> drivers/staging/gpib/gpio/gpib_bitbang.c:380:29: warning: more '%' conversions than data arguments [-Wformat-insufficient-args]
+     380 |         dbg_printk(3, ".........." LINFMT "\n", LINVAL);
+         |                                    ^~~~~~
+   drivers/staging/gpib/gpio/gpib_bitbang.c:54:32: note: expanded from macro 'LINFMT'
+      54 | #define LINFMT "DAV: %d  NRFD:%d  NDAC: %d SRQ: %d"
+         |                               ~^
+   drivers/staging/gpib/gpio/gpib_bitbang.c:47:29: note: expanded from macro 'dbg_printk'
+      47 |                         dev_dbg(board->gpib_dev, frm, ## __VA_ARGS__); } \
+         |                                                  ^~~
+   include/linux/dev_printk.h:171:41: note: expanded from macro 'dev_dbg'
+     171 |         dev_no_printk(KERN_DEBUG, dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |                                                ^~~
+   drivers/staging/gpib/gpio/gpib_bitbang.c:28:41: note: expanded from macro 'pr_fmt'
+      28 | #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
+         |                                         ^~~
+   include/linux/dev_printk.h:139:28: note: expanded from macro 'dev_no_printk'
+     139 |                         _dev_printk(level, dev, fmt, ##__VA_ARGS__);    \
+         |                                                 ^~~
+   drivers/staging/gpib/gpio/gpib_bitbang.c:454:7: warning: more '%' conversions than data arguments [-Wformat-insufficient-args]
+     454 |                            LINFMT ".\n", val, priv->dav_rx, priv->w_cnt, priv->length,
+         |                            ^~~~~~
+   drivers/staging/gpib/gpio/gpib_bitbang.c:54:32: note: expanded from macro 'LINFMT'
+      54 | #define LINFMT "DAV: %d  NRFD:%d  NDAC: %d SRQ: %d"
+         |                               ~^
+   drivers/staging/gpib/gpio/gpib_bitbang.c:47:29: note: expanded from macro 'dbg_printk'
+      47 |                         dev_dbg(board->gpib_dev, frm, ## __VA_ARGS__); } \
+         |                                                  ^~~
+   include/linux/dev_printk.h:171:41: note: expanded from macro 'dev_dbg'
+     171 |         dev_no_printk(KERN_DEBUG, dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |                                                ^~~
+   drivers/staging/gpib/gpio/gpib_bitbang.c:28:41: note: expanded from macro 'pr_fmt'
+      28 | #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
+         |                                         ^~~
+   include/linux/dev_printk.h:139:28: note: expanded from macro 'dev_no_printk'
+     139 |                         _dev_printk(level, dev, fmt, ##__VA_ARGS__);    \
+         |                                                 ^~~
+   drivers/staging/gpib/gpio/gpib_bitbang.c:550:49: warning: more '%' conversions than data arguments [-Wformat-insufficient-args]
+     550 |                         dbg_printk(1, "timeout after %zu/%zu at %d " LINFMT " eoi: %d\n",
+         |                                                                      ^~~~~~
+   drivers/staging/gpib/gpio/gpib_bitbang.c:54:42: note: expanded from macro 'LINFMT'
+      54 | #define LINFMT "DAV: %d  NRFD:%d  NDAC: %d SRQ: %d"
+         |                                         ~^
+   drivers/staging/gpib/gpio/gpib_bitbang.c:47:29: note: expanded from macro 'dbg_printk'
+      47 |                         dev_dbg(board->gpib_dev, frm, ## __VA_ARGS__); } \
+         |                                                  ^~~
+   include/linux/dev_printk.h:171:41: note: expanded from macro 'dev_dbg'
+     171 |         dev_no_printk(KERN_DEBUG, dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |                                                ^~~
+   drivers/staging/gpib/gpio/gpib_bitbang.c:28:41: note: expanded from macro 'pr_fmt'
+      28 | #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
+         |                                         ^~~
+   include/linux/dev_printk.h:139:28: note: expanded from macro 'dev_no_printk'
+     139 |                         _dev_printk(level, dev, fmt, ##__VA_ARGS__);    \
+         |                                                 ^~~
+   drivers/staging/gpib/gpio/gpib_bitbang.c:610:70: warning: more '%' conversions than data arguments [-Wformat-insufficient-args]
+     610 |                 dbg_printk(1, "out of order interrupt after %zu/%zu at %d cmd %d " LINFMT ".\n",
+         |                                                                                    ^~~~~~
+   drivers/staging/gpib/gpio/gpib_bitbang.c:54:32: note: expanded from macro 'LINFMT'
+      54 | #define LINFMT "DAV: %d  NRFD:%d  NDAC: %d SRQ: %d"
+         |                               ~^
+   drivers/staging/gpib/gpio/gpib_bitbang.c:47:29: note: expanded from macro 'dbg_printk'
+      47 |                         dev_dbg(board->gpib_dev, frm, ## __VA_ARGS__); } \
+         |                                                  ^~~
+   include/linux/dev_printk.h:171:41: note: expanded from macro 'dev_dbg'
+     171 |         dev_no_printk(KERN_DEBUG, dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |                                                ^~~
+   drivers/staging/gpib/gpio/gpib_bitbang.c:28:41: note: expanded from macro 'pr_fmt'
+      28 | #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
+         |                                         ^~~
+   include/linux/dev_printk.h:139:28: note: expanded from macro 'dev_no_printk'
+     139 |                         _dev_printk(level, dev, fmt, ##__VA_ARGS__);    \
+         |                                                 ^~~
+   drivers/staging/gpib/gpio/gpib_bitbang.c:617:49: warning: more '%' conversions than data arguments [-Wformat-insufficient-args]
+     617 |                 dbg_printk(1, "DAV low after %zu/%zu cmd %d " LINFMT ". No action.\n",
+         |                                                               ^~~~~~
+   drivers/staging/gpib/gpio/gpib_bitbang.c:54:32: note: expanded from macro 'LINFMT'
+      54 | #define LINFMT "DAV: %d  NRFD:%d  NDAC: %d SRQ: %d"
+         |                               ~^
+   drivers/staging/gpib/gpio/gpib_bitbang.c:47:29: note: expanded from macro 'dbg_printk'
+      47 |                         dev_dbg(board->gpib_dev, frm, ## __VA_ARGS__); } \
+         |                                                  ^~~
+   include/linux/dev_printk.h:171:41: note: expanded from macro 'dev_dbg'
+     171 |         dev_no_printk(KERN_DEBUG, dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |                                                ^~~
+   drivers/staging/gpib/gpio/gpib_bitbang.c:28:41: note: expanded from macro 'pr_fmt'
+      28 | #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
+         |                                         ^~~
+   include/linux/dev_printk.h:139:28: note: expanded from macro 'dev_no_printk'
+     139 |                         _dev_printk(level, dev, fmt, ##__VA_ARGS__);    \
+         |                                                 ^~~
+   drivers/staging/gpib/gpio/gpib_bitbang.c:687:50: warning: more '%' conversions than data arguments [-Wformat-insufficient-args]
+     687 |                 dbg_printk(1, "DAV high after %zu/%zu cmd %d " LINFMT ". No action.\n",
+         |                                                                ^~~~~~
+   drivers/staging/gpib/gpio/gpib_bitbang.c:54:32: note: expanded from macro 'LINFMT'
+      54 | #define LINFMT "DAV: %d  NRFD:%d  NDAC: %d SRQ: %d"
+         |                               ~^
+   drivers/staging/gpib/gpio/gpib_bitbang.c:47:29: note: expanded from macro 'dbg_printk'
+      47 |                         dev_dbg(board->gpib_dev, frm, ## __VA_ARGS__); } \
+         |                                                  ^~~
+   include/linux/dev_printk.h:171:41: note: expanded from macro 'dev_dbg'
+     171 |         dev_no_printk(KERN_DEBUG, dev, dev_fmt(fmt), ##__VA_ARGS__)
+
+
+vim +380 drivers/staging/gpib/gpio/gpib_bitbang.c
+
+4cd654f847693c2 Dave Penkler  2024-09-18  350  
+4cd654f847693c2 Dave Penkler  2024-09-18  351  /***************************************************************************
+4cd654f847693c2 Dave Penkler  2024-09-18  352   *									   *
+4cd654f847693c2 Dave Penkler  2024-09-18  353   * READ									   *
+4cd654f847693c2 Dave Penkler  2024-09-18  354   *									   *
+4cd654f847693c2 Dave Penkler  2024-09-18  355   ***************************************************************************/
+4cd654f847693c2 Dave Penkler  2024-09-18  356  
+aa7f3b35ac16fd4 Michael Rubin 2025-04-17  357  static int bb_read(struct gpib_board *board, u8 *buffer, size_t length,
+4cd654f847693c2 Dave Penkler  2024-09-18  358  		   int *end, size_t *bytes_read)
+4cd654f847693c2 Dave Penkler  2024-09-18  359  {
+4cd654f847693c2 Dave Penkler  2024-09-18  360  	struct bb_priv *priv = board->private_data;
+4cd654f847693c2 Dave Penkler  2024-09-18  361  	unsigned long flags;
+4cd654f847693c2 Dave Penkler  2024-09-18  362  	int retval = 0;
+4cd654f847693c2 Dave Penkler  2024-09-18  363  
+4cd654f847693c2 Dave Penkler  2024-09-18  364  	ACT_LED_ON;
+4cd654f847693c2 Dave Penkler  2024-09-18  365  	SET_DIR_READ(priv);
+4cd654f847693c2 Dave Penkler  2024-09-18  366  
+4cd654f847693c2 Dave Penkler  2024-09-18  367  	dbg_printk(2, "board: %p  lock %d  length: %zu\n",
+4cd654f847693c2 Dave Penkler  2024-09-18  368  		   board, mutex_is_locked(&board->user_mutex), length);
+4cd654f847693c2 Dave Penkler  2024-09-18  369  
+4cd654f847693c2 Dave Penkler  2024-09-18  370  	priv->end = 0;
+4cd654f847693c2 Dave Penkler  2024-09-18  371  	priv->count = 0;
+4cd654f847693c2 Dave Penkler  2024-09-18  372  	priv->rbuf = buffer;
+4cd654f847693c2 Dave Penkler  2024-09-18  373  	if (length == 0)
+4cd654f847693c2 Dave Penkler  2024-09-18  374  		goto read_end;
+4cd654f847693c2 Dave Penkler  2024-09-18  375  	priv->request = length;
+4cd654f847693c2 Dave Penkler  2024-09-18  376  	priv->eos_check = (priv->eos_flags & REOS) == 0; /* do eos check */
+4cd654f847693c2 Dave Penkler  2024-09-18  377  	priv->eos_check_8 = priv->eos_flags & BIN;	 /* over 8 bits */
+4cd654f847693c2 Dave Penkler  2024-09-18  378  	priv->eos_mask_7 = priv->eos & 0x7f;		 /* with this 7 bit eos */
+4cd654f847693c2 Dave Penkler  2024-09-18  379  
+4cd654f847693c2 Dave Penkler  2024-09-18 @380  	dbg_printk(3, ".........." LINFMT "\n", LINVAL);
+4cd654f847693c2 Dave Penkler  2024-09-18  381  
+4cd654f847693c2 Dave Penkler  2024-09-18  382  	spin_lock_irqsave(&priv->rw_lock, flags);
+4cd654f847693c2 Dave Penkler  2024-09-18  383  	priv->dav_mode = 1;
+4cd654f847693c2 Dave Penkler  2024-09-18  384  	priv->dav_rx = 1;
+4cd654f847693c2 Dave Penkler  2024-09-18  385  	ENABLE_IRQ(priv->irq_DAV, IRQ_TYPE_LEVEL_LOW);
+4cd654f847693c2 Dave Penkler  2024-09-18  386  	priv->end_flag = 0;
+4cd654f847693c2 Dave Penkler  2024-09-18  387  	gpiod_set_value(NRFD, 1); // ready for data
+4cd654f847693c2 Dave Penkler  2024-09-18  388  	priv->r_busy = 1;
+4cd654f847693c2 Dave Penkler  2024-09-18  389  	priv->phase = 100;
+4cd654f847693c2 Dave Penkler  2024-09-18  390  	spin_unlock_irqrestore(&priv->rw_lock, flags);
+4cd654f847693c2 Dave Penkler  2024-09-18  391  
+4cd654f847693c2 Dave Penkler  2024-09-18  392  	/* wait for the interrupt routines finish their work */
+4cd654f847693c2 Dave Penkler  2024-09-18  393  
+4cd654f847693c2 Dave Penkler  2024-09-18  394  	retval = wait_event_interruptible(board->wait,
+4cd654f847693c2 Dave Penkler  2024-09-18  395  					  (priv->end_flag || board->status & TIMO));
+4cd654f847693c2 Dave Penkler  2024-09-18  396  
+4cd654f847693c2 Dave Penkler  2024-09-18  397  	dbg_printk(3, "awake from wait queue: %d\n", retval);
+4cd654f847693c2 Dave Penkler  2024-09-18  398  
+4cd654f847693c2 Dave Penkler  2024-09-18  399  	if (retval == 0 && board->status & TIMO) {
+4cd654f847693c2 Dave Penkler  2024-09-18  400  		retval = -ETIMEDOUT;
+4cd654f847693c2 Dave Penkler  2024-09-18  401  		dbg_printk(1, "timeout\n");
+4cd654f847693c2 Dave Penkler  2024-09-18  402  	} else if (retval) {
+4cd654f847693c2 Dave Penkler  2024-09-18  403  		retval = -ERESTARTSYS;
+4cd654f847693c2 Dave Penkler  2024-09-18  404  	}
+4cd654f847693c2 Dave Penkler  2024-09-18  405  
+4cd654f847693c2 Dave Penkler  2024-09-18  406  	DISABLE_IRQ(priv->irq_DAV);
+4cd654f847693c2 Dave Penkler  2024-09-18  407  	spin_lock_irqsave(&priv->rw_lock, flags);
+4cd654f847693c2 Dave Penkler  2024-09-18  408  	gpiod_set_value(NRFD, 0); // DIR_READ line state
+4cd654f847693c2 Dave Penkler  2024-09-18  409  	priv->r_busy = 0;
+4cd654f847693c2 Dave Penkler  2024-09-18  410  	spin_unlock_irqrestore(&priv->rw_lock, flags);
+4cd654f847693c2 Dave Penkler  2024-09-18  411  
+4cd654f847693c2 Dave Penkler  2024-09-18  412  read_end:
+4cd654f847693c2 Dave Penkler  2024-09-18  413  	ACT_LED_OFF;
+4cd654f847693c2 Dave Penkler  2024-09-18  414  	*bytes_read = priv->count;
+4cd654f847693c2 Dave Penkler  2024-09-18  415  	*end = priv->end;
+4cd654f847693c2 Dave Penkler  2024-09-18  416  	priv->r_busy = 0;
+4cd654f847693c2 Dave Penkler  2024-09-18  417  	dbg_printk(2, "return: %d  eoi|eos: %d count: %d\n\n", retval, priv->end, priv->count);
+4cd654f847693c2 Dave Penkler  2024-09-18  418  	return retval;
+4cd654f847693c2 Dave Penkler  2024-09-18  419  }
+4cd654f847693c2 Dave Penkler  2024-09-18  420  
+
 -- 
-2.34.1
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
