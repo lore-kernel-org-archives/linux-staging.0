@@ -1,72 +1,71 @@
-Received: from mail-qt1-f177.google.com (mail-qt1-f177.google.com [209.85.160.177])
+Received: from mail-qt1-f174.google.com (mail-qt1-f174.google.com [209.85.160.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA4BE293B57;
-	Tue, 22 Apr 2025 16:14:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2117D179BD;
+	Tue, 22 Apr 2025 16:16:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745338493; cv=none; b=lRQu+LY8l99+iOJkhiF46jIOxWJ0i0po9HZOHwdqZem4YRrSKXduYCEdabI4cbtpQ5x1mFI9340ofkqVXbW+re2X2tmYepwZ/YgBk6CbPRF1EfH6j9y16LIGZC6MODGEdXeMqGdhSe2zKulCRMzfDDoI77eDcJAPKBAqtkGDOV0=
+	t=1745338572; cv=none; b=bdVTU27Vl9PSwilgByIqZTDjrqlN3cjiEEuM9DZexzTsY9AXv9P9k5Grk5Cn+YcZhFyhfFM3v0mgLYit1TSKq4L1+B72v2TH7Uk1dxY0Af8xsnkhe9pCeOneVUisRDKYORgql39wIhF1StfBiyTw20YHlZjWMllAH2EcEouHsq8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745338493; c=relaxed/simple;
-	bh=7laejMG3Z8D6gx1OrpZO40uSH8I9rUZIXpN2yMxaO4k=;
+	s=arc-20240116; t=1745338572; c=relaxed/simple;
+	bh=AopIbP35eGEgwicypHA8bN0HUp8CeM1DV5674wfHfxc=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=stK8/RHAr5GRMHvTEnPBzjuo9iOagm9O1CkiCeL8P+XqoK6jKeBCm6gNFGPCzV+AkBGFN7qD9I/odvfd9MDCzYk0F+bHt0Pse3l8SUGZRk6atZJzSBS4OmYFnBNuohlwuq6i5fU2brjIRMFj2Dhf0D9Z2vaBQLebewJSQWVUUOs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HdsQmYnk; arc=none smtp.client-ip=209.85.160.177
+	 To:Cc:Content-Type; b=MRfZSLMtHmP6s3+ODAjnpCS2MMGUx7NYt2SXPHm1VpCQXbG7wJJOLMjDq1pDrOzL58PXiCtJLZ79OKcgcB5xVYRMSrv20yiEnmcfEyT1yMnC5Aac+nmLZe56CI1E6XH0cAnoyDonjExm3n7kJ6sz5TtT3ccgkxq28Lhe3M/gWYs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JvmziNAx; arc=none smtp.client-ip=209.85.160.174
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HdsQmYnk"
-Received: by mail-qt1-f177.google.com with SMTP id d75a77b69052e-4769f3e19a9so36437471cf.0;
-        Tue, 22 Apr 2025 09:14:51 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JvmziNAx"
+Received: by mail-qt1-f174.google.com with SMTP id d75a77b69052e-4766631a6a4so58537881cf.2;
+        Tue, 22 Apr 2025 09:16:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1745338490; x=1745943290; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1745338570; x=1745943370; darn=lists.linux.dev;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=5v+4lTQ3xb7CRwbB20c/aB6VOxfSp733arfrC9AeWZM=;
-        b=HdsQmYnk5C1JtUmgV1GrQXTPGmwA4wO8ZURVIEsBuF1xQXlZ5l8afbrG1VrUx6S3Eh
-         67jCachIr6MlhDqmRZ7VSERBqQYDwfYOwnpll3hriKRrumDr7O8eT7FjwGjZD9W7cNPE
-         VMHwKcSAX9/4avcfSLo1c2+S926aGOute8A799SB8oR2cuBJZsJNMswoqUtIj5zc8Xr9
-         1aXLRVYTvuCJY3N7Lp4Jk8ScoxJPeZgmEEZ7Xne9sFFfzNsugjzF+DMfCz+LGOV2igHB
-         UQrsGdBFb/2SktSuEk+6OOdcPv+kPDJRxwr1CtPHCIdYNVejz4GzsD2+PlZg0wsBaORl
-         02jQ==
+        bh=CFrBh3nLbpLrS3oZ1YSe8c9ey0iYWQVPOn6Mdnaex9Q=;
+        b=JvmziNAx1pHXNoI3KpwBR2z9SfiGg8MMMd/ohB/npCDKmYt8nCpDfEUZHPd4RUbIVQ
+         wMgcwgA3Oki1zaKBBKe81PxDGUcsKutkJzGLwKUKXTHmn7kwFdJNKcas+4wdqzN1EFPV
+         dcsTletjnOuwPyQnfxS9MZWqtOowU+AYTe2MjBVU/MNN9UBa14zo7hxQn5nAQND2BTfk
+         eUfUXq6vom15WSoeTHKPiFm3nTTxlwtWp0SxHZ0RDy7QIub4RTAeldVjm2p6YdoJJBXK
+         NcokyYuQaifOVkO8rbwCpRj7IqN4Fg0/SV4748edC9PHRPMd1A4pLbekoqRkdgUsB5AI
+         Ghbw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745338490; x=1745943290;
+        d=1e100.net; s=20230601; t=1745338570; x=1745943370;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=5v+4lTQ3xb7CRwbB20c/aB6VOxfSp733arfrC9AeWZM=;
-        b=Qto9GtweEscrRtquDW4XLTJITSehdEbp2AR7B4j16ehd8l4g/YTJFxQs8oxvjnba1Q
-         TXGnliuxDlNSky4eeoFP9OrOVkGqp3gaWua1f27brVn6LS9GFlUUxe/p1Ddu5zZAPZwj
-         YahPhIZOejNQaHMZuhiwyJFouH/oWqQJdW3a7XwMOumQHTBds1EDCxoHva7qDGyD8Kwr
-         UxKp7OxT7kBgDF1IzPfsCrfaqTMhWepRnO3j5QshtX55wyzmdgFqDuPKLnveZ6yr2zru
-         A9rIz+IW64iQM4LMFEQBrvXTPBFLSlDCn9S+YhjzX8/c1c5gfvaoj3+RBsrKNjnw1NUl
-         A4Ig==
-X-Forwarded-Encrypted: i=1; AJvYcCVsrO0Ut54UX/6GtYbx4Z623znjVmsy5rfOVHgjoHybA1WqQzB23LzhVm6IFF7CCGxJtmbM7ldHbj0LxsSq44rmgjqdXw==@lists.linux.dev, AJvYcCWTI7FRIt3llY5QW7wOrEREKvmxn0JklfvhKO8U0I5mv6MPtNnNCiBDyxZnKF9tKtLnXVx6uVDw8tXoP1jKdQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwHTfXX9qJLRWXdxrEBP14n1BvI5o6pdea6pjy2paj2zGwJTgd5
-	VpkeaiUvQPyHnfaSoDy4nH1sU20EnU4WG5BR4dQGrM/wnJiUydBcKrxD+O4ePWT3LS+8QZI6/nX
-	HjofYd2cWQqFFXomWthqTjEObJf8=
-X-Gm-Gg: ASbGncvNWNcmafa0wdrmrhGTr4YEgIfbsr+XYzR79egCCwWqqT2w++QG1B1M+LtEH9O
-	3Yy8ewzinWOxGgL9O8lTAd9WlS+0MgbvOL6o7sYeW9q+9/jeieifYgu3Si09kGRsJ7hGPBRaxM7
-	/hgjWwhLK3zDpoC6Fur8QJWBdMwFfrsxNOfcS9jCYH/l+wavcRgKWulQ==
-X-Google-Smtp-Source: AGHT+IFSXJh2tdSxxK3VzXuealELuBy1Wg2zNkg+nGmd99bFkaPZuTvsadoWKMJ/nwV8ag8f+tXhA8TE7xfY82MkTU0=
-X-Received: by 2002:ac8:5711:0:b0:476:9b40:c2cd with SMTP id
- d75a77b69052e-47aec4dbc82mr280279011cf.47.1745338490265; Tue, 22 Apr 2025
- 09:14:50 -0700 (PDT)
+        bh=CFrBh3nLbpLrS3oZ1YSe8c9ey0iYWQVPOn6Mdnaex9Q=;
+        b=HyCuoX3ZPvHEi9mfr1G2+qu9kpM6259Z+4l1t8WAWSl20kxpP0B31azcWkx6pH19qU
+         bEkNGzbnSxE8kuqMwL6CMXYRJ2cuNPhTkNL/q2NnThFVQiEPHpVNqKPk/GkxeaORlnA7
+         3lBX7qanwZhFUpxfzPeowRHSjE/YWQVIGe7ByK8bWwSALLu/qJ8tpUaKy2pYcxUSLyc6
+         048+nrSHSR0jofGLw/WGBTc8Qryo2FEXd+7hGo+JmfrjXDSYqU974r3sVWeADEe9rFTn
+         x2sjv+CPub6gUDkEQVwqWk4PstCid/zsaCSd+WQ8fTZcsTJX7SoCjYMCo5g5NjVbllRW
+         XiHQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUh5aNndxESPPizF1/TITrEAlTNTmYnzWX5tyyhHmdQdamOYooQxGow2j2PxlXq/vdWKy0EffkBK0mkXg7Hfw==@lists.linux.dev, AJvYcCUpwQDvyT93tAYn5lF9tx6KK7l0BRd/zhV6DnNdgFLTuqZRodQ5e+5NY9TeSmeHo5ubN5zXv61FREGWUWx81gCCPXZbig==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzZmWBzH81OEtB/VBLgbriaHrE6nl6Tsh/KodEbLRo+YeV3l7tu
+	19ZUwYI+fzI24grXyGoYoC2lN4526rgAcBEsHCWNK84CWldx/VXPZsAa9glBcC5edp3+2h4ue8n
+	c4YhM2Mi0LXU/QL5NTEwaS5kqiZNvxt5C4yI=
+X-Gm-Gg: ASbGnctYTf6lfE+B1XMtZyihxT+nGu9fPUV90DbooelBF5tJMW49u3e5A/hKkpMRamE
+	vpky2M2NU0vULytxQXwsw9YculkAdUDe7hgkCueiRpoCKlcGw8OkU2wLwVqwKYQEVP2h1c2auxJ
+	RBGIRtygVTSTOS8VtMDbNEVDkqGk59mdExQ0k2uGiaVd3eN/98PlwJWg==
+X-Google-Smtp-Source: AGHT+IEIZQux+2VZKZBiPdCzgiFdjJWt6dz9/yhL5Bl8TAYiGGo+j4WrDdwYDO8XMzu/v1izVhNnYybHv2SPXUyoYH8=
+X-Received: by 2002:a05:622a:40f:b0:47a:e6fa:9127 with SMTP id
+ d75a77b69052e-47aec3e2a70mr226351681cf.23.1745338569997; Tue, 22 Apr 2025
+ 09:16:09 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250420174725.887242-1-gshahrouzi@gmail.com> <20250420174725.887242-4-gshahrouzi@gmail.com>
- <e712ec88-d925-4a73-8df4-ca3387a903fd@stanley.mountain>
-In-Reply-To: <e712ec88-d925-4a73-8df4-ca3387a903fd@stanley.mountain>
+References: <20250420175419.889544-1-gshahrouzi@gmail.com> <72fd8919-8413-45f4-94fe-277719192536@stanley.mountain>
+In-Reply-To: <72fd8919-8413-45f4-94fe-277719192536@stanley.mountain>
 From: Gabriel Shahrouzi <gshahrouzi@gmail.com>
-Date: Tue, 22 Apr 2025 12:14:39 -0400
-X-Gm-Features: ATxdqUEXOYk7EcH1kwDC_9Cf9kzdnkH9WSeioP2PttTUhJwEoQfKE1Vatacff8g
-Message-ID: <CAKUZ0zKJftqyiMDS1kPrqQYPMserCH7+UWt=v85UD4Jq7GdNKg@mail.gmail.com>
-Subject: Re: [PATCH v2 3/3] staging: iio: ad9832: Add minor improvements to ad9832_write_powerdown
+Date: Tue, 22 Apr 2025 12:15:58 -0400
+X-Gm-Features: ATxdqUGx_cgIWLZbKoGp4ssu-0SjrT6ROY7nG2s39_luaQeuquqvHOmIbiJ4zas
+Message-ID: <CAKUZ0zJLAvi_zerjB_xmtjJs1TzLxY9-grLRGxZHN8n5qtDR3A@mail.gmail.com>
+Subject: Re: [PATCH v3 0/3] Fix and refactor output disable logic
 To: Dan Carpenter <dan.carpenter@linaro.org>
 Cc: gregkh@linuxfoundation.org, jic23@kernel.org, lars@metafoo.de, 
 	linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org, 
@@ -75,69 +74,27 @@ Cc: gregkh@linuxfoundation.org, jic23@kernel.org, lars@metafoo.de,
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Apr 22, 2025 at 6:08=E2=80=AFAM Dan Carpenter <dan.carpenter@linaro=
+On Tue, Apr 22, 2025 at 6:09=E2=80=AFAM Dan Carpenter <dan.carpenter@linaro=
 .org> wrote:
 >
-> On Sun, Apr 20, 2025 at 01:47:25PM -0400, Gabriel Shahrouzi wrote:
-> > Minimize size of type that needs to be used by replacing unsigned long
-> > with bool. Avoid redundancy by checking if cached power state is the
-> > same as the one requested.
+> On Sun, Apr 20, 2025 at 01:54:16PM -0400, Gabriel Shahrouzi wrote:
+> > Patch 1 includes the initial fix.
 > >
-> > Signed-off-by: Gabriel Shahrouzi <gshahrouzi@gmail.com>
-> > ---
-> >  drivers/staging/iio/frequency/ad9832.c | 18 ++++++++++++------
-> >  1 file changed, 12 insertions(+), 6 deletions(-)
+> > Patch 2 refactors the code to use the out_altvoltage_powerdown ABI.
 > >
-> > diff --git a/drivers/staging/iio/frequency/ad9832.c b/drivers/staging/i=
-io/frequency/ad9832.c
-> > index a8fc20379efed..2ab6026d56b5c 100644
-> > --- a/drivers/staging/iio/frequency/ad9832.c
-> > +++ b/drivers/staging/iio/frequency/ad9832.c
-> > @@ -173,13 +173,19 @@ static ssize_t ad9832_write_powerdown(struct devi=
-ce *dev, struct device_attribut
-> >       struct iio_dev *indio_dev =3D dev_to_iio_dev(dev);
-> >       struct ad9832_state *st =3D iio_priv(indio_dev);
-> >       int ret;
-> > -     unsigned long val;
-> > +     bool val;
-> > +     bool cur;
+> > Patch 3 adds small improvements by minimizing the size of types and
+> > doing a redundancy check.
 > >
-> > -     ret =3D kstrtoul(buf, 10, &val);
-> > +     ret =3D kstrtobool(buf, &val);
-> >       if (ret)
-> > -             goto error_ret;
-> > +             return ret;
+> > Not sure whether to include a read function for powerdown as well since
+> > all the other attributes only had write permissions. I can also do this
+> > for the other attributes to help modernize the driver.
+> >
+> > Changes in v3:
+> >       - Include version log in cover letter.
 >
-> Fold this whole thing into patch 2.  Don't write something and then fix
-> it in the next patch.
->
-> >
-> >       mutex_lock(&st->lock);
-> > +
-> > +     cur =3D !!(st->ctrl_src & AD9832_SLEEP);
-> > +     if (val =3D=3D cur)
-> > +             goto unlock;
-> > +
-> >       if (val)
-> >               st->ctrl_src |=3D AD9832_SLEEP;
-> >       else
-> > @@ -189,10 +195,10 @@ static ssize_t ad9832_write_powerdown(struct devi=
-ce *dev, struct device_attribut
-> >       st->data =3D cpu_to_be16((AD9832_CMD_SLEEPRESCLR << CMD_SHIFT) |
-> >                               st->ctrl_src);
-> >       ret =3D spi_sync(st->spi, &st->msg);
-> > -     mutex_unlock(&st->lock);
-> >
-> > -error_ret:
-> > -     return ret ? ret : len;
-> > +unlock:
-> > +     mutex_unlock(&st->lock);
-> > +     return len;
->
-> This should still be:
->
->         return ret ? ret : len;
-Ah right, the return from the spi_sync. Thanks.
+> Please don't resend patches the same day.  Give us a chance to review
+> it otherwise it gets split across multiple threads.
+Noted, thanks.
 >
 > regards,
 > dan carpenter
