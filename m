@@ -1,72 +1,72 @@
-Received: from mail-qt1-f178.google.com (mail-qt1-f178.google.com [209.85.160.178])
+Received: from mail-qt1-f173.google.com (mail-qt1-f173.google.com [209.85.160.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E20152206A9;
-	Thu, 24 Apr 2025 22:26:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70A2D288C93;
+	Thu, 24 Apr 2025 22:30:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745533565; cv=none; b=UoA+jNjJVtrkPSc01oW3og6jJArZqavJ4HfT1zBg0wCRQYD+sE23n3ckFnm0iPM81jUgq4l+1kvv05sZKVDK2yiLImH7GodtRpCgDtwjfsdMdVwb8fYUutJNx+Kzh3/e5ZC8nkomn1kiBU0Qac/d7tk4rAvMdHrpeGo8ORFv9tI=
+	t=1745533811; cv=none; b=iCgc6E0TaaHiRnAP0efA20rKPrfXfuf0LWAxKWcYVLL93v8Df0X7hevsgggCcTrDC/uH2YmYvMb6eOtYnL3eudenwHFAsuJzgTJe51i2ZaVA6lvofaAusFDh2IjDZISSMtsS2oa2ZCSXd9NRfV1Rq2w6owkPf89kyoBNtbgUKzI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745533565; c=relaxed/simple;
-	bh=x1JeXYDycyPhhRDzf9nOC3JYpKenBeAbMMf4ArIJVw8=;
+	s=arc-20240116; t=1745533811; c=relaxed/simple;
+	bh=cuQzUUvxeCs9j1sBqZ74MivCxv9pA0bPEH+NQyPqPnw=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ssPKGEdFT4wdwWF+T6I4gfnZBGODv54wMc0bDGqv3Y96IB9lPONkSIRvi3wZY2w5yUuJQIJZOJwiXMny/gQM1ZIjs5u8xVgJ8TZMBQUSS11lBsqZ5kN+0MY1iWfwFswbSrRJ25OEZqGwtB4shLFQpmQYrNYAhgt4wx0DNkke/bw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=eP9h7fso; arc=none smtp.client-ip=209.85.160.178
+	 To:Cc:Content-Type; b=Zty7BPlaKQkefd5bHV1V/Ym3MUhU36pv+/ytgcldV6NolVoMrkLMHX8apINtu3OYmX7Bn6QeO31wU8B+pSeEozdKemqdevKHIx4xfk8rhap09dbV8z2c1fnxEfkp1d/6bwNR8QLuP9bGFtEKI37J7GE/2Q775pk7Ta+X+IxNREM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=A9GWVu/x; arc=none smtp.client-ip=209.85.160.173
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="eP9h7fso"
-Received: by mail-qt1-f178.google.com with SMTP id d75a77b69052e-47663aeff1bso15547991cf.0;
-        Thu, 24 Apr 2025 15:26:03 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="A9GWVu/x"
+Received: by mail-qt1-f173.google.com with SMTP id d75a77b69052e-4769f3e19a9so11003721cf.0;
+        Thu, 24 Apr 2025 15:30:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1745533563; x=1746138363; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1745533808; x=1746138608; darn=lists.linux.dev;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=hskQ1ynJFkhkNXvLvezLv/sYveihSvby6bDVtKjx3Vg=;
-        b=eP9h7fsoTTOfstDx/zJY4tzBcmB1eWioMLBlKdE2hgTsS1JbLS9M1YY5rLMjOoaue3
-         DdfJwGibRmuuAnEMnQmBTk6qwMiACAzciKJaz9k0QtobxxoQGXWKuxt3/EK/+gOJl8bH
-         QMB2jYIPj02GzIb1HNhVMmvaDFZY7k/dwkQ+2I41XXomcYgCtt8IwDD6jf5njVUf9Rqp
-         /6b+PaDZGKCyJ/jX7pL89YW8IEKWW0Jd+efUfAm0FkUqGpGQkpFHcHMkULyUYATFgWvb
-         GmGviKdJ0mGFUGStOuKhg0brq536ovQH5qu1Cw8q91Vsy9v8iELJVfbD+KF/uGRAkcm8
-         qh3w==
+        bh=8cE8lrzeJfm1QbIEx8aHZTIYIj8T/E/38PHm5I1LoFg=;
+        b=A9GWVu/xyZKV/abQTAGXlOBwuQPOnpmcjT2LHb+ZDoKt0rydgYSeut3V+i3kkT1X4l
+         1DlNqAQoiTNWMdo3KphaQTc2ImRVlPDir3fo/PstD3SSDRD6N2TYK8GW8pKU1zPBbGTd
+         Oq3IfT+lypFCfIU0izwCOhvCnI8paieY/IM06NyKnkXovuzFrfMX4uFn22ghaL+hqnE4
+         kHkhl6mtGCElIiHFfd2fcEbiLCxgiZQBJzidU1KV0Pv5D0qRNZWyWRFxM39Z9QdRC9bI
+         myr/X1MTY0vJDtlg6g6Zbo2zOBzxNC6qKFWkF7FlBJ1+8Kx0lm1a4q16Yj19vAeZSaG5
+         tURQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745533563; x=1746138363;
+        d=1e100.net; s=20230601; t=1745533808; x=1746138608;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=hskQ1ynJFkhkNXvLvezLv/sYveihSvby6bDVtKjx3Vg=;
-        b=lTa7s+C2hdMnYJHqOsxq06KWkLjjrjUpCvhFf6VMpCHzJyzESpcmsrI3TxiW/XqEBO
-         D8EjBIKlqIg8/xCYJL8aX3aoXSAIVHdLwiao76gI/cIYykArvN8dRYDFru45OedrmQjU
-         3q3f++jm+AG/z49busoxTwbS4F5YjXaQrxR676T8iZS1yFh4efjG8O17cM7lP6wJSfRG
-         hWjKEZ5odGcFrSIYGu2iBFWZIEhE6AnFuCcpvCElZYKZJdzsWqQepaQMZ+H6IeKJ329V
-         YefhjFlBf8RtbWOvzi11Ui+KK1sVu4jEFirAnwpyJnY7Fej1vK8hfEDCli4NeEb/j67w
-         zeow==
-X-Forwarded-Encrypted: i=1; AJvYcCU6Um/y0ihUbTPUyQx215ol2Kkb47pUMWX1kLHWMqCQEEUYTW2HuvUiWgPBI1q3sWp/uF1YipG1j5E6qdGx7RDxH+CjRA==@lists.linux.dev, AJvYcCXRaaMxcLs373lT9It1SEsY776kORlsPCgeJmEDgkkQIiA69CgGLbS6+F/SCBPQ6m1RiiHPI4Dx6iYxWPp1TQ==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyiqG5Owlo8AZ+rq4ORhddnE/MJ3rSHcXh5hOA4RPfW6LGQobZ6
-	8lgIgX3lblRq4sAA15kfsW7mTFW1LhLUIcB3FhdDHQLvo11qiRqubqifYtbIR8D+rMyMJUqU4RJ
-	kPtwBOs9bL3LytVfkJdGITaovyGU=
-X-Gm-Gg: ASbGncsqLxw72J3vqpujffPHkgak/haKwpa9yNRpzz4jxOfYl0qKIrVYDN+INb30YHn
-	oLCzTNKfvLHHCgA3xUC4vDOKBCuypVQNMr0oiA8bn7T7i7g0vhckZUggyEXBY+eg3dw1Yz5IW8+
-	oBMmjmCMxD5pNzAwvtDXgbz0pYB+wYbUQ0t5vaSZXTmOsgWmpfHHYIAg==
-X-Google-Smtp-Source: AGHT+IFjSFl/xi4ItiZrw0T45ArRRtekfyoiPWNkdF1dxtevOLykqT+7muP77ZbSHM73ktdY/vnuknex42pfIFNB9Lg=
-X-Received: by 2002:a05:622a:203:b0:477:64dd:575b with SMTP id
- d75a77b69052e-4801eada7b1mr1841381cf.45.1745533562732; Thu, 24 Apr 2025
- 15:26:02 -0700 (PDT)
+        bh=8cE8lrzeJfm1QbIEx8aHZTIYIj8T/E/38PHm5I1LoFg=;
+        b=HQBW7wPTOpbeO3SBnbbXdYQ8H33c1ghvPEVvKr1iRUGcpnGkAGXF85qeYgQiPAn0xK
+         uWl0uhVFdR1CajISNeD4bkkZdyVUTwZrpBtliU6Bm9QE07JtiHtdvbYtDo5sXLnDyoBW
+         JvmcbyhzDLdM49AvZWNBmrMesQ1/TOkfDav2bXDFLU902x6V68bM58JduOIcGyrOiJuI
+         o574eH6WH1JK6hBNVSIQnhhwpyU3mz6pHJEh0oNJ5XtpOMJcDK/4m66Cp5NW6qQH4fiw
+         iASiLyyP6iW/JjtJXNcDVHEP8Dfn9aqY3jIW8kerLuV4v15Op34ItXfCRoFsYBjGkhvu
+         Tu+w==
+X-Forwarded-Encrypted: i=1; AJvYcCVgYqulAZ2uv1vJADQho7fZ7mR06vPuS9ih//2IQy3UaEGlXU4cvZZj/+51EZUHiFxjHftVDKxSDYyR0RmB7Q==@lists.linux.dev, AJvYcCX+Arcy43owzdSUUHj2ipLoZcqjHESywcfpXA6A4dBC0ZkdmwWEcPDsHfJO2+m7S3z/4p9AWoaWwAbN462v8jEC5TqA8A==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzbYNj32cw+i8nKeNub4aeoRVk+HUFaj/EpnU+zO/DVMiRN5VGe
+	Tq/mmZBWSdC7Ah6GcQj4ZCJPVA4L6OIZSJhWq4h0NK22F+G9j1mR2DhR0lMAGR2Tpft4kTaUds2
+	mrjCa6lDwt7zeBoW/Cv7m32dOyswMc4mh
+X-Gm-Gg: ASbGncvYS4C62TJVCGJjARuOmJt/s/krdtd7wwq8SAZjQ+yxgKKW6D8cHZa2WGrmq06
+	Yjeo1ywXwqgfTcao7m9/fbeOGNIFz+liU9vuPgSoVZtE0nXF3VcewVihGE/Rk9O7y4wSSmIE1ic
+	kE9t99Y3yEGmX0zSccnGjaDoCIzsfScFVl58yEXaEX7zLBcIOSTusldQ==
+X-Google-Smtp-Source: AGHT+IE9PGpkxIATayNkKOYIn25iNoH+/2U6QJMbL/8pzJyCLEDJFpGaeSZGrpE0q68KrNypmjVw05RtF1U73UB5whw=
+X-Received: by 2002:a05:622a:1a9f:b0:476:b783:c94b with SMTP id
+ d75a77b69052e-4801e3f7427mr2303301cf.40.1745533807902; Thu, 24 Apr 2025
+ 15:30:07 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250420175419.889544-1-gshahrouzi@gmail.com> <20250420175419.889544-3-gshahrouzi@gmail.com>
- <20250421123728.1564039d@jic23-huawei>
-In-Reply-To: <20250421123728.1564039d@jic23-huawei>
+References: <20250420175419.889544-1-gshahrouzi@gmail.com> <20250420175419.889544-4-gshahrouzi@gmail.com>
+ <20250421124044.400628f1@jic23-huawei>
+In-Reply-To: <20250421124044.400628f1@jic23-huawei>
 From: Gabriel Shahrouzi <gshahrouzi@gmail.com>
-Date: Thu, 24 Apr 2025 18:25:51 -0400
-X-Gm-Features: ATxdqUFwcTzPdHn9XuiewQEmXMXyqrRqiIsLo1lnCsCOfLX_uZgjCo5No3ZV5uc
-Message-ID: <CAKUZ0zKXg4KLpHPLtpkywPLp8+xxwAMSpNAgUmP34pfVZDv7Aw@mail.gmail.com>
-Subject: Re: [PATCH v3 2/3] staging: iio: ad9832: Refactor powerdown control
+Date: Thu, 24 Apr 2025 18:29:57 -0400
+X-Gm-Features: ATxdqUE5QDMBo5xoa61NQ3oiJvjCAcOwRQYcvy6rLZHVXpxmXg9tF43a7qIROJs
+Message-ID: <CAKUZ0zLgH9Ec5FMEjXa59-bBEVooEQUOeGuZ9OJw=A3P3OWp5A@mail.gmail.com>
+Subject: Re: [PATCH v3 3/3] staging: iio: ad9832: Add minor improvements to ad9832_write_powerdown
 To: Jonathan Cameron <jic23@kernel.org>
 Cc: gregkh@linuxfoundation.org, lars@metafoo.de, linux-iio@vger.kernel.org, 
 	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev, 
@@ -75,117 +75,89 @@ Cc: gregkh@linuxfoundation.org, lars@metafoo.de, linux-iio@vger.kernel.org,
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Apr 21, 2025 at 7:37=E2=80=AFAM Jonathan Cameron <jic23@kernel.org>=
+On Mon, Apr 21, 2025 at 7:40=E2=80=AFAM Jonathan Cameron <jic23@kernel.org>=
  wrote:
 >
-> On Sun, 20 Apr 2025 13:54:18 -0400
+> On Sun, 20 Apr 2025 13:54:19 -0400
 > Gabriel Shahrouzi <gshahrouzi@gmail.com> wrote:
 >
-> > Replace custom implementation with out_altvoltage_powerdown ABI. The
-> > attribute's logic is inverted (1 now enables powerdown) to match the
-> > standard. Modernize driver by using the standard IIO interface.
+> > Minimize size of type that needs to be used by replacing unsigned long
+> > with bool. Avoid redundancy by checking if cached power state is the
+> > same as the one requested.
 > >
 > > Signed-off-by: Gabriel Shahrouzi <gshahrouzi@gmail.com>
 > > ---
-> >  drivers/staging/iio/frequency/ad9832.c | 44 ++++++++++++++++++--------
-> >  1 file changed, 30 insertions(+), 14 deletions(-)
+> >  drivers/staging/iio/frequency/ad9832.c | 18 ++++++++++++------
+> >  1 file changed, 12 insertions(+), 6 deletions(-)
 > >
 > > diff --git a/drivers/staging/iio/frequency/ad9832.c b/drivers/staging/i=
 io/frequency/ad9832.c
-> > index 0872ff4ec4896..a8fc20379efed 100644
+> > index a8fc20379efed..2ab6026d56b5c 100644
 > > --- a/drivers/staging/iio/frequency/ad9832.c
 > > +++ b/drivers/staging/iio/frequency/ad9832.c
-> > @@ -167,6 +167,34 @@ static int ad9832_write_phase(struct ad9832_state =
-*st,
-> >       return spi_sync(st->spi, &st->phase_msg);
-> >  }
+> > @@ -173,13 +173,19 @@ static ssize_t ad9832_write_powerdown(struct devi=
+ce *dev, struct device_attribut
+> >       struct iio_dev *indio_dev =3D dev_to_iio_dev(dev);
+> >       struct ad9832_state *st =3D iio_priv(indio_dev);
+> >       int ret;
+> > -     unsigned long val;
+> > +     bool val;
+> > +     bool cur;
 > >
-> > +static ssize_t ad9832_write_powerdown(struct device *dev, struct devic=
-e_attribute *attr,
-> > +                                   const char *buf, size_t len)
-> > +{
-> > +     struct iio_dev *indio_dev =3D dev_to_iio_dev(dev);
-> > +     struct ad9832_state *st =3D iio_priv(indio_dev);
-> > +     int ret;
-> > +     unsigned long val;
-> > +
-> > +     ret =3D kstrtoul(buf, 10, &val);
-> > +     if (ret)
-> > +             goto error_ret;
-> > +
-> > +     mutex_lock(&st->lock);
->
-> Look at how guard(mutex)(&st->lock);
-> can be used in this driver to simplify things considerably.
-Noted, added into new version.
-> May make sense to do that before introducing this new code.
-Not sure whether to have made it its own patch or not. I grouped it
-together with the new code since it also uses locking.
->
-> > +     if (val)
-> > +             st->ctrl_src |=3D AD9832_SLEEP;
-> > +     else
-> > +             st->ctrl_src &=3D ~(AD9832_RESET | AD9832_SLEEP |
-> > +                              AD9832_CLR);
-> > +
-> > +     st->data =3D cpu_to_be16((AD9832_CMD_SLEEPRESCLR << CMD_SHIFT) |
-> > +                             st->ctrl_src);
-> > +     ret =3D spi_sync(st->spi, &st->msg);
-> > +     mutex_unlock(&st->lock);
-> > +
-> > +error_ret:
-> > +     return ret ? ret : len;
-> > +}
-> > +
-> >  static ssize_t ad9832_write(struct device *dev, struct device_attribut=
-e *attr,
-> >                           const char *buf, size_t len)
-> >  {
-> > @@ -227,17 +255,6 @@ static ssize_t ad9832_write(struct device *dev, st=
-ruct device_attribute *attr,
-> >                                       st->ctrl_fp);
-> >               ret =3D spi_sync(st->spi, &st->msg);
-> >               break;
-> > -     case AD9832_OUTPUT_EN:
-> > -             if (val)
-> > -                     st->ctrl_src &=3D ~(AD9832_RESET | AD9832_SLEEP |
-> > -                                     AD9832_CLR);
-> > -             else
-> > -                     st->ctrl_src |=3D AD9832_SLEEP;
-> > -
-> > -             st->data =3D cpu_to_be16((AD9832_CMD_SLEEPRESCLR << CMD_S=
-HIFT) |
-> > -                                     st->ctrl_src);
-> > -             ret =3D spi_sync(st->spi, &st->msg);
-> > -             break;
-> >       default:
-> >               ret =3D -ENODEV;
-> >       }
-> > @@ -266,8 +283,7 @@ static IIO_CONST_ATTR_PHASE_SCALE(0, "0.0015339808"=
-); /* 2PI/2^12 rad*/
+> > -     ret =3D kstrtoul(buf, 10, &val);
+> > +     ret =3D kstrtobool(buf, &val);
+> That could have been done in the previous patch as you are changing the A=
+BI anyway.
+Got it.
+> >       if (ret)
+> > -             goto error_ret;
+> > +             return ret;
 > >
-> >  static IIO_DEV_ATTR_PINCONTROL_EN(0, 0200, NULL,
-> >                               ad9832_write, AD9832_PINCTRL_EN);
-> > -static IIO_DEV_ATTR_OUT_ENABLE(0, 0200, NULL,
-> > -                             ad9832_write, AD9832_OUTPUT_EN);
-> > +static IIO_DEVICE_ATTR(out_altvoltage_powerdown, 0200, NULL, ad9832_wr=
-ite_powerdown, 0);
+> >       mutex_lock(&st->lock);
+> > +
+> > +     cur =3D !!(st->ctrl_src & AD9832_SLEEP);
 >
-> Take a look at the use of extended attributes used for this like we see
-> in ad5064.c
-> That will need an actual channel though so is a more significant rework.
+> Worth thinking about whether this driver will ever be converted to regmap=
+ with regcache.
+> If that's a reasonable thing to do long term this sort of optimization ad=
+ds nothing
+> useful as we'll skip the right anwyay if the driver is already in the app=
+ropriate state.
 Got it.
 >
+> This isn't a high performance path, so I'd not bother with the check for =
+now.
+Got it.
+>
+> > +     if (val =3D=3D cur)
+> > +             goto unlock;
+> > +
+> >       if (val)
+> >               st->ctrl_src |=3D AD9832_SLEEP;
+> >       else
+> > @@ -189,10 +195,10 @@ static ssize_t ad9832_write_powerdown(struct devi=
+ce *dev, struct device_attribut
+> >       st->data =3D cpu_to_be16((AD9832_CMD_SLEEPRESCLR << CMD_SHIFT) |
+> >                               st->ctrl_src);
+> >       ret =3D spi_sync(st->spi, &st->msg);
+> If this fails, where doe ret end up? Looks to me like we now don't report=
+ the error
+> Anyhow, see guard() comment in previous patch.  These days we can avoid a=
+ lot of
+> this complexity by using that to allow direct returns where we first see =
+the error.
+Ah right, fixed that for the new version and removed the complexity by
+directly returning.
+>
+> > -     mutex_unlock(&st->lock);
 > >
-> >  static struct attribute *ad9832_attributes[] =3D {
-> >       &iio_dev_attr_out_altvoltage0_frequency0.dev_attr.attr,
-> > @@ -281,7 +297,7 @@ static struct attribute *ad9832_attributes[] =3D {
-> >       &iio_dev_attr_out_altvoltage0_pincontrol_en.dev_attr.attr,
-> >       &iio_dev_attr_out_altvoltage0_frequencysymbol.dev_attr.attr,
-> >       &iio_dev_attr_out_altvoltage0_phasesymbol.dev_attr.attr,
-> > -     &iio_dev_attr_out_altvoltage0_out_enable.dev_attr.attr,
-> > +     &iio_dev_attr_out_altvoltage_powerdown.dev_attr.attr,
-> >       NULL,
-> >  };
+> > -error_ret:
+> > -     return ret ? ret : len;
+> > +unlock:
+> > +     mutex_unlock(&st->lock);
+> > +     return len;
+> >  }
 > >
+> >  static ssize_t ad9832_write(struct device *dev, struct device_attribut=
+e *attr,
 >
