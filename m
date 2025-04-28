@@ -1,103 +1,113 @@
-Received: from sonic311-21.consmr.mail.sg3.yahoo.com (sonic311-21.consmr.mail.sg3.yahoo.com [106.10.244.38])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94FE127A130
-	for <linux-staging@lists.linux.dev>; Mon, 28 Apr 2025 16:08:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=106.10.244.38
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 273A825D54A;
+	Mon, 28 Apr 2025 16:59:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745856535; cv=none; b=KBCtCKM2mMXN2Ka7M5CbN+0b67BQdB9g5OndecobAvpt9lteYjWMO7JQZSIHHeRrXzybFD6GL+uiNLAl7LJ0gzHC1vJgy+wX09pe1xvDTHtxUleYmP8NxEKgGYRssQPZCJWmEPwB1uAEXaFfOmu8wZnn9pP5fnOi3tWhBrLCBMg=
+	t=1745859574; cv=none; b=OeSA1644IqzQ+oT226K5lQTXPAayCbDooHJ172lnff4N2wYId6mG5FVruEneFc5EOxukTnAiLJ34gtSAFeHFYB62jeytGvtCKurmRT36nCDL2q7RWDN4PM0NtDmUxEJ870INRN62Yxf7EVuJgS9Drfc9Lhftqug9aOI0ULRVjcc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745856535; c=relaxed/simple;
-	bh=B6uyN/GXc2eQI6i3BD6f5Z2pfT4bTJrXRzoEund/6uE=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=iLu2HzwfmPD7dQkoRErEUdcDxdNqR40R10TZkmn0MnP2VyWVjV0LNTh4s0hjp4LjW3VsAG/FQjh5BwqsjEyQ7uycBgGZfiFJZDsyEWe3mEbEZ9Dbh9K8LqnZXfobW7qufHZv5kq2YMNZR2MlSCciqBDIHC8HEF4BveteAJnvOcE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=yahoo.com; spf=pass smtp.mailfrom=yahoo.com; dkim=pass (2048-bit key) header.d=yahoo.com header.i=@yahoo.com header.b=prEXNT1y; arc=none smtp.client-ip=106.10.244.38
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=yahoo.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=yahoo.com
+	s=arc-20240116; t=1745859574; c=relaxed/simple;
+	bh=d8cyzXNFYXAQzduZRMl4KjypHV68mdn7yBogCCTQEZo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=MDZZ0p4ftu0+Ea1OEFYT/4s2swHCZU68N9JYScTGtHi+YH5TAes/yOjv0PbMSJ7K7PEXxgBD6WmoemzW8EJgph0hiD/IQR2L6IMMW8FIBrMroKqnHCEiAclLT02Sj2MBXSOSoNxIzSzgHt5ekSoSS9GU6J/sInKqiZTjBnMWSI0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=PJMaom9K; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=yahoo.com header.i=@yahoo.com header.b="prEXNT1y"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1745856531; bh=VLcOt41PrL1t3Y+w2c4iRwS3H4eA69ks/2yDegArszY=; h=From:To:Cc:Subject:Date:In-Reply-To:References:From:Subject:Reply-To; b=prEXNT1ykNXrHzuQVGkcjaGsQv1+qTEphx53/ibjQ9XmlCE9ijblq1jXnhyPCeBjplKjN+utjyDL4+b5FEwawDoWzSoFVpj372zyIceAgFS/nTDdCFzRE/3tmPUCpwUMFCE5MG/KkW4eGhAYCbVS78DLrS46YMlquPW8wvYbTLrFdGmh7TAL/netxQ2XrdmMrWpG1hKh9pUWumPxjGajDxddOLUj1bhLeaeJbKRpClyQjAfSrSF48jeyErcTp3T5JpHlEJSx64/5cybZyJ4p7CY2GZEzomtR7Yxw3L8+RCRL7Vb1Ns2mBw8GLmls+QR6QAM01ufxUxHoSycSmbZraw==
-X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1745856531; bh=JSASTLT6G2Ln4xa2I4GI30CjpTfFSqfT0SjATlRRvWO=; h=X-Sonic-MF:From:To:Subject:Date:From:Subject; b=csimAA/uZRUFzltMmiHWVjZOYieVEqEpSLZkpX2VIBNYp/HY6KGuVLOt01+hQoGJyL11Gn9M8K7UnLOXaGL2J8LmdDFYHlBEeI3frLILf3pk976gdSF7sCdqMadfsoK18PcvqrtcYpmrFJLIwyX0hT6lRDnjbf6BSv+zlbAsosBU0NmBP+NcK5yBx2c9+IwP6j0LLeMf+lOjlHLG44K/pP2XqpOjYFcw3uXHKNXe1i1DhGtA8bPUw4FPBCbiiFGKKdeh9wI4BWHw2RlI7A3mSiKe8hukDK0IHr0/FJoo4wMLJbDKaWCEwSaEascUr0w02sHA4aWzkfjAy3ugHz68nQ==
-X-YMail-OSG: rPr3dOgVM1lzZp_coWwp3tcrJGdx4SUaaB618vcSGgFN6tg_Vv4bf1_uXEkVSXQ
- DNX2TUzHUIYlVYOa.m9YqDCHVPh6P81c.uIdtoPl2sVt_1FYQSVk2EaVoxC.wlzOlgF_3Y8qRb.R
- dnZuPAZJjWeofE0orP3RFV_vfydYhb3q8PbOJx5lMsInOWjnmlx1kT8oe3I9pUPnVOJo7e0BfTfS
- 7SPzfL9flurJ1Jg4EY4I9GZ0.FrIXgezSIxWpmb_PWbXxNhh9yGGfyRMaU8rdRGlrkJJ1RYYUL3Y
- dQMU2WQdxdr.y9Z_0NG.yUrcithXFzfawoYFm_lE9RDqJrhjOjQEKVDqcirrnTss_9W5UZy0c19u
- 7C_hl5zz6UwsRehIKMxxmzbtgMxkHlFN86yB21QjMl9PG4qdA5325tVO.glOISYuPgDl4e.s87tl
- 2R_HDiLycF2PaiOFzswbY88q2iHgSkQTJGqbqEK_Ivk_owUxgrK.cdd3MMS6d62nHRwVBi8PCS73
- xlha0LipEOcnHRNf7uOrVKluWKfT3PmfWRc1FmVXVof8BMH4M_G8HeU3t4Nq1SkyfVq8KDE85n2a
- KHi_PyHIOB_Xw.f739CFj5r65M1WvZc98qjGL985FnqkRvC71gx0y1cuo2_0UwBihxPRSgS1HuaA
- yQqLlKowQ_8Sxwb5qiiXOoSVQ6jP41FScTW9IQ5Dn_A05mPCyyTILHRc9wx57priVPRT5xmeVEL5
- lyVoSBULG9bwfLi91.UlTUoZ9YeZXO8t5C9uxR1XMT0KMifnVLO9LrU6wpGycvJGcTs1a1TGywug
- u.zUKN3gsZ2SAZc4gdWfhEojLC_7avlVMYuwXefkG1PBlUqZTxnFk6IgDr1_Au90Z9YobFS43CXI
- m7peKM8BhIAkXCoMHHk_F2aJVbVFrpv4wo8BGdraCCuiQPL1dbruSIN01Cg7EmqVy43glFPd0z0S
- NKEOsAfwAWm0m4OUmdjVFnJI.CsyEdSyTMEarsKcysDdr1rqyxnn7K2gl3R4SGU3MDr6hpBTnAXq
- ZbjFzr1izBJyHZUaj3fEokeepSLDan_IBfJQP1lG7ZKXapzNRQkt2ULync5pO_HP5E6nTPXwiLkL
- efCVzBYDKT7krl7yo4JJoS858eMPFZnOBlHc7oHMnLUIvKB9vKSUaE2z3IlNI06lOj50wXBtuEJH
- KIYZRfVybzqfc1VS3f7AmEX0G.lY_Y7D4nYCCnvamdcasikrAiguE0M6HJldysFokmcBGLaHKm.w
- sc52SwA8nt_aTqy2sJo1jHwoVQHzHayCgX2.glB2elT31xvrrm4p3FBHNBsHeSPt5IYzJw6_cOr1
- k7GzaWhpebE2h9sxrdrYvOIPCcnIG1ZnCoD0n0eGBgS5LiV2eoLXvmAukXVi3n0dHhX4CW6yxjaL
- ivdnJReJwdnu4Dx88GUtwKeyoIxWbHlnGmo0DAedsDmPEvs2Cf1XIy4YPPHJ_KSHnKPmMi7ZB1rb
- fWMQ79Pxl2mF65lc7ay5rlf5zD1QAqj2Pq3DttEqk.m_xm15BxqI5fTUeFkKkKn0cKiYX4newHHD
- L1_C_wikGt3kXoKfFQVJUv_7CWGWrCl4XFJSpZ9Ghcv37IXwNGrc25nOO94bVY1no.LWFzzDNGPG
- TvKWbQESFBZpEMpZJWL9O3IXPQISvWYU3rYGPvVUTqkq1e7T55JRvowwx4m0SflELJXQcARUhyua
- IWSmSToGEb2qREoWWlDoTDD5MyaJTC5om4U7sLBhUUn_PwIwPHEy.60RUzpyPOsuTMezUeAN4aBp
- xewXZpMKwRL2h1tWF8Ki3gQ_MfUZ2jdCDCWGIxh4mVfxw6jVIyy0AmFD00zotPGjnxIiRermV4pH
- WMRy3VmqA2oMmXOz9TsBQN4KxjeYh_qMKpQIsxIph7sTNPKxuKzAFTj2gAQcFJFfCicO1LwALa2p
- YSg.J0YtJxjhyfS1W64gBTIGUjQ1j4j73w4tlWs7gePIIcyaKbgR1umvVPv4gcMyTubl5Sn6B5rL
- Dl2g8oHzTFdYQM2hSBfNN_LyFcevxekl8iCzscbp9E.MkZ51v9L6yOK6yzuJTN3Ggre7tNRHTYsO
- bLcZjRYlTWdcZueK3GF2FAuS2F3UFsuRY89iwk8YRPcJ8I4DxEvkzo3ZpAteE11u.csO.2x4HEUO
- PeAD_5sll6hDUpv3yHh8G8zUknqgGWmGnjc.0Dp1yxQl686MCB7TAdM0iiO.xT05qdKVV34fL2pD
- jhr1fEFdD43YtWF5vs37nbUOP2fWdomD4XMVWqXA3YafAhXIfDFyxTueHXrg-
-X-Sonic-MF: <sridhar.arra@yahoo.com>
-X-Sonic-ID: 3e50eaa4-aed4-4bc8-8fee-61ed46524e8f
-Received: from sonic.gate.mail.ne1.yahoo.com by sonic311.consmr.mail.sg3.yahoo.com with HTTP; Mon, 28 Apr 2025 16:08:51 +0000
-Received: by hermes--production-sg3-cdfd77c9c-5kclf (Yahoo Inc. Hermes SMTP Server) with ESMTPA ID 69441e8edc2b0b466e94cefa32871180;
-          Mon, 28 Apr 2025 16:08:47 +0000 (UTC)
-From: Sridhar Arra <sridhar.arra@yahoo.com>
-To: vireshk@kernel.org
-Cc: johan@kernel.org,
-	elder@kernel.org,
-	gregkh@linuxfoundation.org,
-	greybus-dev@lists.linaro.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Sridhar Arra <sridhar.arra@yahoo.com>
-Subject: [PATCH v2 2/2] [PATCH V2 2/2] staging: greybus: fix indentation in fw_mgmt_ioctl()
-Date: Mon, 28 Apr 2025 21:38:37 +0530
-Message-ID: <20250428160837.664000-2-sridhar.arra@yahoo.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20250428160837.664000-1-sridhar.arra@yahoo.com>
-References: <20250428160837.664000-1-sridhar.arra@yahoo.com>
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="PJMaom9K"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 21811C4CEE4;
+	Mon, 28 Apr 2025 16:59:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1745859573;
+	bh=d8cyzXNFYXAQzduZRMl4KjypHV68mdn7yBogCCTQEZo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=PJMaom9KFE2bw6RAamcAtXzeN+5GCNzgm6P+P7phVvQdCLdRptO5AONrhUcSU44FD
+	 tLShdqKa/wkfq/WceCCW5Q9nNZYd06wHiKilhMBE0fTPY+LsiMHNvBTv+lfrXn/Hox
+	 Ir2/xQQn/gNYPshwV6lFTM1+DH0Ujzi8vVLPVv9o=
+Date: Mon, 28 Apr 2025 18:59:30 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Sridhar Arra <sridhar.arra@yahoo.com>
+Cc: vireshk@kernel.org, johan@kernel.org, elder@kernel.org,
+	greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 1/2] [PATCH v2 1/2] staging: greybus: fw-management:
+ Add detailed mutex comment
+Message-ID: <2025042819-manlike-stratus-4c78@gregkh>
+References: <20250428160837.664000-1-sridhar.arra.ref@yahoo.com>
+ <20250428160837.664000-1-sridhar.arra@yahoo.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250428160837.664000-1-sridhar.arra@yahoo.com>
 
-Corrects indentation to comply with checkpatch guidelines.
+On Mon, Apr 28, 2025 at 09:38:36PM +0530, Sridhar Arra wrote:
+> Added a detailed comment explaining the role of the mutex
+> in serializing firmware management ioctl() operations.
+> The mutex prevents concurrent access to firmware operations
+> and protects the 'disabled' state flag during disconnection.
+> 
+> Signed-off-by: Sridhar Arra <sridhar.arra@yahoo.com>
+> ---
+>  drivers/staging/greybus/fw-management.c | 13 +++++++++++++
+>  1 file changed, 13 insertions(+)
+> 
+> diff --git a/drivers/staging/greybus/fw-management.c b/drivers/staging/greybus/fw-management.c
+> index a47385175582..56725b711a17 100644
+> --- a/drivers/staging/greybus/fw-management.c
+> +++ b/drivers/staging/greybus/fw-management.c
+> @@ -28,6 +28,19 @@ struct fw_mgmt {
+>  
+>  	/* Common id-map for interface and backend firmware requests */
+>  	struct ida		id_map;
+> +	/*
+> +	 * Mutex to serialize firmware management ioctl() operations and
+> +	 * protect against concurrent access.
+> +	 *
+> +	 * Ensures that user-space cannot perform multiple firmware
+> +	 * operations in parallel (e.g., updating interface firmware)
+> +	 * for the same Interface, avoiding race conditions and reducing
+> +	 * code complexity.
+> +	 *
+> +	 * Also protects the 'disabled' state flag, preventing new
+> +	 * operations from starting when the firmware management
+> +	 * connection is being disconnected.
+> +	 */
+>  	struct mutex		mutex;
+>  	struct completion	completion;
+>  	struct cdev		cdev;
+> -- 
+> 2.43.0
+> 
+> 
 
-Signed-off-by: Sridhar Arra <sridhar.arra@yahoo.com>
----
- drivers/staging/greybus/fw-management.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+Hi,
 
-diff --git a/drivers/staging/greybus/fw-management.c b/drivers/staging/greybus/fw-management.c
-index 56725b711a17..413a4d4f4e40 100644
---- a/drivers/staging/greybus/fw-management.c
-+++ b/drivers/staging/greybus/fw-management.c
-@@ -461,7 +461,8 @@ static int fw_mgmt_ioctl(struct fw_mgmt *fw_mgmt, unsigned int cmd,
- 			return -EFAULT;
- 
- 		ret = fw_mgmt_load_and_validate_operation(fw_mgmt,
--				intf_load.load_method, intf_load.firmware_tag);
-+							  intf_load.load_method,
-+							  intf_load.firmware_tag);
- 		if (ret)
- 			return ret;
- 
--- 
-2.43.0
+This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
+a patch that has triggered this response.  He used to manually respond
+to these common problems, but in order to save his sanity (he kept
+writing the same thing over and over, yet to different people), I was
+created.  Hopefully you will not take offence and will fix the problem
+in your patch and resubmit it so that it can be accepted into the Linux
+kernel tree.
 
+You are receiving this message because of the following common error(s)
+as indicated below:
+
+- This looks like a new version of a previously submitted patch, but you
+  did not list below the --- line any changes from the previous version.
+  Please read the section entitled "The canonical patch format" in the
+  kernel file, Documentation/process/submitting-patches.rst for what
+  needs to be done here to properly describe this.
+
+If you wish to discuss this problem further, or you have questions about
+how to resolve this issue, please feel free to respond to this email and
+Greg will reply once he has dug out from the pending patches received
+from other developers.
+
+thanks,
+
+greg k-h's patch email bot
