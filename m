@@ -1,69 +1,70 @@
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5011478F3A
-	for <linux-staging@lists.linux.dev>; Mon, 28 Apr 2025 05:35:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B15C15383A
+	for <linux-staging@lists.linux.dev>; Mon, 28 Apr 2025 05:43:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745818562; cv=none; b=l7DKDcVKrMZZl7ldRzyU2iKXjJLrtcqW27Ygm+ZVYk0AQPUUv4ZylPRLRm3C406pRUQmmhNF4ll+STu4ZBn0rFiXarF1DHzj0MH7xl2QuTx8SIa6TcVJzMcOqgDqCajp3sNCw1kPuTjmImnm9qNJAPkva1A/Ktle22rF1N+eOLg=
+	t=1745819003; cv=none; b=fDHX/VDtD3cF8GbwFsMHd0ysLHlopOAOd6antc/TGZAHhy9/vmKLCHU7xSztGX5xLW+dHFuOHj0yRuZlQAir6e8Ml7ZCLH9T2UYR5UJBI88zwkNbaouIiTUSdJL6fsLVKRTiR273v89Fj6SiUSvwn1GfkIbNNh/e2zMioKW7qqs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745818562; c=relaxed/simple;
-	bh=r5SnptIAVywpfucvTbP/7W4oUyHQ5FhX7Q7NJyeaIek=;
+	s=arc-20240116; t=1745819003; c=relaxed/simple;
+	bh=El5m9bn6jLg7dx1/0uc6SOz5xQODHTSC++POmhTAQ0M=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=j8B/GPMadFAMoJzStm72+wvCdENu5DZP54wiHr/Fd6+CbWZBoDQ+PrkgSP+jALrUaITx0PMXjHx8MMwqaKjMgjrM81plrNW7dCc0wWv3PiH52ASgaSZ+O+Lp14wKmJb6IWurxGt/ckCIZ7a0hL5hzL+R2i/0ggwq3tGMlyAE1T0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=rTGomWek; arc=none smtp.client-ip=209.85.128.49
+	 Content-Type:Content-Disposition:In-Reply-To; b=MJyidKAwiVnuCqs2oncq1gWVn0dOh3ugTsjYJXcLfP1joZFGHiCDfcSJfFBCX2IszcGCcNpMXS9iQq0WgUZHjC+Eca8FJZJ1TIzdnlcgoAZ/5gOdKWd7nj1HgzHo19vsdmhzW3RriNImi2Bu5YK5spYB4f2D9b4WwnJZ8oliDts=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=JxhLaMqV; arc=none smtp.client-ip=209.85.128.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="rTGomWek"
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-43cf848528aso30759675e9.2
-        for <linux-staging@lists.linux.dev>; Sun, 27 Apr 2025 22:35:59 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="JxhLaMqV"
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-43d0618746bso31028475e9.2
+        for <linux-staging@lists.linux.dev>; Sun, 27 Apr 2025 22:43:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1745818558; x=1746423358; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1745819000; x=1746423800; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=jRhSTAhIhJUxG2IYSr9xqa5KsMX7Idz8w3xmMGK2klo=;
-        b=rTGomWekVTBdS0yOUDJ1JnNUhKsUPwINQbBUNeNDIIyqkgr+lIbDfAVvS3YWHZ9JLC
-         oZro5ugwpz6hhoxdRJ0zoDx82hE3MeLEGbMo7mf4nzcdLMw++vVcKBhuriHWeyFP3jNE
-         1iME2ZXd+kdiw0rmcWeKMg/K1Wo5KVpzQJfq/5w0kQd9tjs6xYjai5gxc4gWe1XxBh5a
-         R8chhNVXB7l+rpRRv87tXYPOkyxtzhQYu2N93qsnhdg2J43oOWpW/sikHKw/38PjhAI2
-         w4z9wHpZmP4UdYu5drs3VZ3W6Fjc4EqbMVYx71NQO96Cd36UM9GGdCQqqsCPGBEWdtAP
-         YLoQ==
+        bh=hZJn25BoekZI/eA3vGGcSBEp+xipteVFmvyRDRMifpw=;
+        b=JxhLaMqVTGimyxQjyGZV5PC9/0DVEwOEUNk5foEuI5XG17ke4fqgg/MRm1skr58Y2H
+         iiBtpWm0tf8e8NQ1B/dEzd/cvoqUZHofWDeMYaMxC9gECWp3uKWY+0VRUKDwsYA7WzBr
+         qotAO1kW0vMLd5bxTY1gBxtogng3bPewEfKl+ybGQN3sSqT0w0NLB6cWZhosLXECPraK
+         79X3bC+m5k1/DICjY0tXSQ/GtrMH9Q0O2lDK4O1qeDwuYQKGBGzLm0oPnO9psbIVvo2s
+         eC+DoWor8Hb87WzkoRJDjGsNkUv6bmQk+Lbj52OfcIqZKW4NLdWEbOJNPxs3124s+Nv3
+         uKYw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745818558; x=1746423358;
+        d=1e100.net; s=20230601; t=1745819000; x=1746423800;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=jRhSTAhIhJUxG2IYSr9xqa5KsMX7Idz8w3xmMGK2klo=;
-        b=kpzIyPb2zU6/DxRMlgPlVBUDtFatQ0K5OiMzAhDsQ5C/NHebD7ttiibtElykfxHV5z
-         mHXrecxbSCbG1qXHL5FwKcq5ayrkekl6EQLiToyi6gctcepdnWAxFh+9RP1+bfoIqJIR
-         vICT3RNCNpkjgE8U0ZDDCNV7G8jQv8hNLbeFd5AnpzjhYoELhwZtX2f1pSvwpW4EgK/I
-         N4siw3efr5PhYhCuXKdXEIWVtsmsgXGZkLDYPAoe/ALbAzKuRtUKa/yn8yIz5m7QX2Qq
-         oXmlBJxG7dkE7jmf0SXOOF3aYQCUTdGpf9Y4olJkZO97c0V3GHrlgJUPyCVsvZgLxtYz
-         ffBg==
-X-Forwarded-Encrypted: i=1; AJvYcCUEc4ge+FQm0vzZwfb3wRhK2Da1hYA/pTByAPuUESwfXrCey2akMFvBvOFkr22CRAtFF3DsC1Tw3pKmRLei@lists.linux.dev
-X-Gm-Message-State: AOJu0Yzsn0oTpQHUt1QPnbADtjNA3wKGpUkMpftEfQazmVufuUya25XG
-	P9S8dejwBoH7HaBxopIlV5cqHJB+SCzU6gO2qriTUAknS/mKPOI/Y8Zq5jOfHio=
-X-Gm-Gg: ASbGncvpnEGUL54Gj4jnBRNUD3vt7STsZg0tf7ySW4TdDzJD4RnwPQNKdXewTBikPbY
-	s4nP4Y0C1yXzKxMiCA0UP1yG4gch1s7Efp4QLskr3L9Sh4ausziv2qSIrrGMkeEzCyEwTo0Ag2W
-	ZhHXaNFc3CWdUt9D2SiTHSokbfJ6vDiRarL2FMZdLHttL683yTDySGLf1aZdBnPPyHuB1MDuFH9
-	H+CyljxDoAjFNKwPV6h9jDf7Hn0tbcM94tFZqZIPB175KL+nxyuoV97z5a1Ip0f0lLFjJUvU+Cb
-	maCtL3oLqgMQcr3U5Om6CdmraVb77rZaynpz4Lq0S8fwJlp5CIG3Bbic
-X-Google-Smtp-Source: AGHT+IF1k216EZNsBGTmdju6CAJoZ+K+NFTttBSZJ8/wDMK8c9nqKANzs8CN4pL4YN+3Yqzmvv+weg==
-X-Received: by 2002:a05:600c:3d87:b0:43d:745a:5a50 with SMTP id 5b1f17b1804b1-440aa428c9cmr59743105e9.19.1745818557711;
-        Sun, 27 Apr 2025 22:35:57 -0700 (PDT)
+        bh=hZJn25BoekZI/eA3vGGcSBEp+xipteVFmvyRDRMifpw=;
+        b=o5+UwAX++0Ylkaz0yDbCJ1GPxCjeWOgdCgfq2QGIqSMw0r3zHaI+CjYDoqALaiduZO
+         en1Mxa6xYfzJwnOEsoUYjSk7WzId6m3M38CAXhJXg1OTSHIqT04wQr6ObB8QuiRBy/mY
+         DiPUu6liUBijX/Zqj63nfoEaEJ/eSqiqXC4v7zmYsZWk958b131hNtF4XqhBIKODU68x
+         Kntb30N33tfTkMoyMKbtaiAhj2R8Vk3GruUrAc/tNtNmxqCMbSbdG25eLn2Jn1eLV6xC
+         F5GZkk+v07iKyjiU58zeSAMEhAgggxJ9843sGaSMTxPH1/bFaDs3CqqfLLRd+ii9z0CZ
+         vZHA==
+X-Gm-Message-State: AOJu0YzFLGKUmwhRDrQchK/iAz5rblUBaXHMUUJ5ZGoVYd9RbMk6K8/n
+	VZ0cgA1y7rR5lS1tL3f1ujyGne+CnYJc8qClGJ4FrponVn1PndYI/Shj3d2nkUu1Dl5xHJ7btQS
+	N
+X-Gm-Gg: ASbGncs4Oh88WBZWsDBQD72U1tP8qxQXFxOOzuiNvzpWv7SgsDCJGGTXaqb4S4lus1g
+	qjzESLjopWuEpiKwK5OpkFOdKrk21Zpghkg0yR5VZstUWAqwT1sAQFdwtXER/3nS+ZuMPWJV+nQ
+	4L6ljsSCioP+da2fp6c8wr3AdvIPt0U1ceLjUEXIWp44RoHp6FT/rY4gF3LjXUI++HcU9uBmO1o
+	t0V1s/t75QHWa8Gn5wjJ8ZilDmm7IUiVsWpuukKoZwyB2KM33JxdVvmfdB/gZCgU76K4YXCN+Yc
+	7ua6LZH5MDgRYXFxrXIhNtLxHqN2w+eGiqeYSYSiF6uP9dRfk2NsnhjY
+X-Google-Smtp-Source: AGHT+IGbf7WsEizZCaNaFPAic9BYrXVx2UhCehpiTFncD9l8/Lcnwd9nsP9IfeSa+To1zsLoW7jj3g==
+X-Received: by 2002:a05:600c:1e04:b0:43c:eeee:b70a with SMTP id 5b1f17b1804b1-440ab846cecmr56444255e9.22.1745819000206;
+        Sun, 27 Apr 2025 22:43:20 -0700 (PDT)
 Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-440a5310ad2sm111378905e9.21.2025.04.27.22.35.56
+        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-440a52f8861sm116239235e9.6.2025.04.27.22.43.19
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 27 Apr 2025 22:35:57 -0700 (PDT)
-Date: Mon, 28 Apr 2025 08:35:54 +0300
+        Sun, 27 Apr 2025 22:43:19 -0700 (PDT)
+Date: Mon, 28 Apr 2025 08:43:16 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Dave Penkler <dpenkler@gmail.com>
-Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 3/3 V2] staging: gpib: Avoid unused variable warning
-Message-ID: <74272412-93e3-41df-be70-93df01c5c653@stanley.mountain>
-References: <20250427091902.16301-1-dpenkler@gmail.com>
+To: Sridhar Arra <sridhar.arra@yahoo.com>
+Cc: linux-staging@lists.linux.dev
+Subject: Re: [PATCH] drivers/staging: Fix indentation and add mutex comment
+ in fw-management.c
+Message-ID: <ae7930bd-d4f3-42b3-bc1a-d25f29419046@stanley.mountain>
+References: <20250428032621.656795-1-sridhar.arra.ref@yahoo.com>
+ <20250428032621.656795-1-sridhar.arra@yahoo.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -72,23 +73,29 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250427091902.16301-1-dpenkler@gmail.com>
+In-Reply-To: <20250428032621.656795-1-sridhar.arra@yahoo.com>
 
-On Sun, Apr 27, 2025 at 11:19:02AM +0200, Dave Penkler wrote:
-> This addresses a warning produced by make W=1 with the configuration
-> parameter CONFIG_GPIB_PCMCIA=y
-> 
-> ines/ines_gpib.c:1115:28: warning: variable 'dev' set but not used [-Wunused-but-set-variable]
-> 
-> Remove the declaration and assignment of the unused variable.
-> 
-> Signed-off-by: Dave Penkler <dpenkler@gmail.com>
+Patch prefix is wrong in the subject.  There is no commit message.
+You're doing two things so it should be two patches.
+
+On Mon, Apr 28, 2025 at 08:56:21AM +0530, Sridhar Arra wrote:
+> Signed-off-by: Sridhar Arra <sridhar.arra@yahoo.com>
 > ---
-> V1 -> V2
->   Remove the setting of the unused variable and say so in
->   the commit message
+>  drivers/staging/greybus/fw-management.c | 4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/staging/greybus/fw-management.c b/drivers/staging/greybus/fw-management.c
+> index a47385175582..f59c5c7fd590 100644
+> --- a/drivers/staging/greybus/fw-management.c
+> +++ b/drivers/staging/greybus/fw-management.c
+> @@ -28,6 +28,7 @@ struct fw_mgmt {
+>  
+>  	/* Common id-map for interface and backend firmware requests */
+>  	struct ida		id_map;
+> +	/* Mutex to protect access to firmware management operations */
 
-You'll need to resend the whole patchset.
+Do you really feel like people will understand the locking from just
+reading this comment?  It's too vague.
 
 regards,
 dan carpenter
