@@ -1,138 +1,170 @@
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06DA025C83E
-	for <linux-staging@lists.linux.dev>; Mon, 28 Apr 2025 17:06:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A63E27A90A
+	for <linux-staging@lists.linux.dev>; Tue, 29 Apr 2025 12:05:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745860013; cv=none; b=oZJ8d19Rtpep2VHTk78gNYEsRrfUtrs1gS2Mb6AAm3lSfRVYjFPxJ0pc1YyKaK0PiBbU47CZ6lUYbROzYxiuRHsbAvLn2n0o84vnuqbWNhTYVtfsh2rbvUEB8P0n4m3EFeiTrK1nSPRBvf26eqYsckDzQhSmuYGUghtBAJgwh/s=
+	t=1745928335; cv=none; b=ZK5IvV3B68x2jD+QFOfk3z2Ob8SMP/AIOAJz0oZeJQMJvd2yGPjO0czmjYLJwPQ1AvRXPqH9NbrUNM780YDSQeD2ux1r2Q1/2Gk8VzDdB93p403dAofS3EAMktnkd/NkeUVaxAuXLujkaEPnWABvw3cXvoQRiPZZVFCrF+NHLBw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745860013; c=relaxed/simple;
-	bh=jfzsM62LzU24IAdPi6RiSZnE7tBTNT1DWjrm016n3/s=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KYjecQkfaP9yO4s2pMher9WV8mFMJUY0BpixSRVXC0PTFBkvEcpLDEFuS8mWLyGdNCRN7A06iipJGVI+jpelxRRHJE/PbX14069w7PYBGYanAJaoXzO618VD0xunTOy/Pradt9L0GYdsLnwp8JUt8qdAnU0r9/+fmxSPiUeJBdQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=BJrwZIx8; arc=none smtp.client-ip=209.85.128.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1745928335; c=relaxed/simple;
+	bh=xbWVDzZ5g6HJz80cAUiarlvB7BVUjAPPal8xwQHunyU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=MQyA+2GVehgnaZlyt3PUWaQvHT/XrzX7EuVI26Fcp/4ME1jCZYgHXjmmsP5pAIsyLUpVOUgKiwQPCs5k23hq0X7x6zw0EJEbB/tiWt6veP6sagvAu4q6LafSPykcn4tRz3B25KczZ/p0aCgRMxbcZyMA0y83E37Sn9yZ7EDxPZE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZRgiYVQx; arc=none smtp.client-ip=209.85.218.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="BJrwZIx8"
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-43cfdc2c8c9so26315065e9.2
-        for <linux-staging@lists.linux.dev>; Mon, 28 Apr 2025 10:06:50 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZRgiYVQx"
+Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-ac289147833so1057232966b.2
+        for <linux-staging@lists.linux.dev>; Tue, 29 Apr 2025 05:05:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1745860009; x=1746464809; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=ttAPR2nnzr3O+nZdkkXAqM5OCqtTBjn7C3XdJ2LYctM=;
-        b=BJrwZIx8ihVc5h7nRyCDioSvEtnlud9QuMk03PDFn29NOIuZWUoRk/DpLfemOBhmeQ
-         UmzS6ldH1vX9MET5+tAqeamI+FGaFuOVBKVm6sbWHlM7mdwqDHaQX2rthZ0WVd8KwG2Y
-         fTzinqkgYQ6c9f5Y8IwRNen509xPf1zR9ngVMZt18ZRjhFLrDliWW40K0FRMKo011zYc
-         3pDbig86AnXA75VUdMluWNirL/oAKdWzsXtQNbefo0zo+Ei9nY6eel4j+tAAkBJreSNe
-         HUGyN3MRYTAuTzIwkVymM91roVekT0wHiyyUnUtMTLpR7phqubyFz06RLvXVIybSstPe
-         biKA==
+        d=gmail.com; s=20230601; t=1745928330; x=1746533130; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=dqA12izQ8aE3OjQDIJUv3v7OdfJvtiazusPsgaxGXXc=;
+        b=ZRgiYVQxTzUC1NSxmElpcmh6NYO/E+pil4/2YEID/OOMtl7Hp8+dwzI1RGfKGPwdFx
+         /V5IjL4M/82rBs4JLnzikpnJ6FMabDkhOpp9U4kUqt2wwDwWSCzyw+Uflfkmc5uqxG+/
+         GQQXPr7CdB9jBauHH8JToWklbXDKAzgdQMwZVae6jFv4SZngwwsTPqnTbrnsV6cVyEuR
+         oMOqwzsxGwvKn6zoK/N1CNLl1jvUp7P5Vr3JvE7GhcSGSgd23GZtwQjSw1jEON+28JuV
+         sBEoVnPLKjcijWJ4vge8/MdLhC3lc3yjjUEAwob+DFyMRHIBiqB5BUE6e1f7LM7hdbFd
+         wq0w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745860009; x=1746464809;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ttAPR2nnzr3O+nZdkkXAqM5OCqtTBjn7C3XdJ2LYctM=;
-        b=U7gKsCvvBcWcN9veDgGDzZkkKUo5kPdcltOUE80788mkwASaxFKUuXoHA7H4rRRabR
-         VA7cfOTKKXhhezVX/KWbTmcZG8Jcg0C/BEemsGyZirEYW3yCuPe6eyPadt7bkI7y6m9H
-         AzADdJGtZXwlp1xebizfvzKIMxJdkyzY4HSA+dR/LWTWj8HoaouMLDfRHAL5T9cMJMyX
-         zw8eI4kbQc2EoBRmrsBAtGWfU9hGRAy3PeoIxaowdmMRdz9RacVofBZceGoMUNOtltHu
-         lnVQF9OYdM7WYfHFuePr1uhw3RoZtrVcjEGbaNwYKVlpPRnZ9tMDoO3+aEODsJizPEFC
-         kddQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVWagJg1WChaQNm1iKADIb2fVPyLgLEmIWp3BLMFPBXP0KTzAMmxHvtR7p8lW1ZPAUXWzX4UWVB8kzLC7XS@lists.linux.dev
-X-Gm-Message-State: AOJu0Ywx6/IkPe2RIFxO5Toi0bauL/SE+mu/6v2pxymi4sfDORnjvgUB
-	jjmHKZtPGSWKG0d9HSh5Qb47qyZw90iS0NmzMgA2s+N6KgN/ZfSkPS7egE7F/Vo=
-X-Gm-Gg: ASbGncsuq+YzTl1dRMl0txgKKnFTqav5uMRbGWjvZ1T2Wl55ssCSQNIW5Vv2XxVIPtu
-	UEuKLJvWX8dnOjgcVQB+llIg/PklLUmqVTusAnS92fDmQwl+itPTurJCjHW6/LQt/af3tPIqltu
-	RKA1XBEISf3WFPVUfrAz8LFGO+PUv8iMBANjtka3KhxyNebMAYTndqqQq97A1qFABdZEb3MBI5o
-	zr3jmRfmtVl7jSn6ETdbGmOby38aw63hIp0qbjW1U4TupBYJLvnBW/oejjodR7mtx2FweMpSOsI
-	NeqCZ6grOsj1Gpc09e7/Fwn0zy6hGeqkc1y5GGIAYXhuXA==
-X-Google-Smtp-Source: AGHT+IFFtsUvOru4VFXTbio9Ytb7+BeHGQ/bBHpgQLhDKt8Mul1sfm/jNtuzIXtCpsCi5L7CbjPfDA==
-X-Received: by 2002:a05:600c:1d97:b0:440:67f8:7589 with SMTP id 5b1f17b1804b1-440a66143f0mr133682935e9.16.1745860009202;
-        Mon, 28 Apr 2025 10:06:49 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-4409d2dfc2fsm160453095e9.33.2025.04.28.10.06.48
+        d=1e100.net; s=20230601; t=1745928330; x=1746533130;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=dqA12izQ8aE3OjQDIJUv3v7OdfJvtiazusPsgaxGXXc=;
+        b=sge3/YNsfpfqrDDtOGkWxp/c8n68PAHp3OM7CJ/+oFJwNXaIAAxtCt0mGRf7VnphOK
+         uKMW12og6BJigHuUph5ONF8FyHnrd87RcRxh4PFKrgKNLWsH2/NEvXuF5p5HYYFWMdap
+         IJyaML58WQe7JLIHa8R82Xyr5asXoEHlZdGGN+3vzbAzhAewye2c/PVBzKJNH0ZoYD+1
+         u+YpErO2bRALr2oi9lcQ5Mjk+P8nIIydgZn9/Tz0F6yTQVpU338N6lCM+IBiDcGSvehm
+         TRn+CNA0gomwPQ0PXHaZyJ2as4BNUEiELMxPA23Quawt9NiPVGzNyMlAwV9LrMzbW4ZK
+         DthQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVOJmFfnDj2co7oSPv84Olx9CGY2kuLJuZLvFuqbGuSpnKspuzXiAidDi2ZtKE3ANOQ5+mFbVbEJ/kbQnYn@lists.linux.dev
+X-Gm-Message-State: AOJu0YxBFpkdk6yF4EnsoUlIRCSrGcGm72FMgxiZKTVjHRqjBGzroYf3
+	LDiNYKsHiFd3oKeWr3jUa43baeWmFK8G/UeDKxn/vKLFgr6cv/ZX
+X-Gm-Gg: ASbGncsTHP6h8gqSG5XJNTfFHZnkwYHTVYs3Ui1q8eIp6lYEkXMSQEYPwiuXxlTjtO4
+	zXlMoRcgnVWeY1BFd1VKnN+hccdZx0HXqABJGjU6JcVZgmPw81fWk33rxS7i7FyuNGEFSa3vMfY
+	1rmIRMJJZp6QfR9xaNPAmuN5iJ9PYQG1a1CbCGFDIvui6+2RrFXngsKhYr0FoNYzt52D4+Vf2vF
+	QIcaTzrsEceAGgoIwY30DMNt7Y4OgNQkMwOuB0Y+oboOJS2oMxxU75RZ2Mxn4W6SF+xKmJKf1RR
+	RxbnpSrXGNaN1EbLk2Cjc+GAKJp/W7ZfiIZ/kQ==
+X-Google-Smtp-Source: AGHT+IG+lJCeSHiaebW3KLC7J6BWu/mwu+oXqsKLKScZjzlaQtIaqlzH+NBX52bgpHd8qHbLKbRD9w==
+X-Received: by 2002:a17:907:97c7:b0:ace:4ed4:d428 with SMTP id a640c23a62f3a-ace84b3b270mr1297967766b.57.1745928329721;
+        Tue, 29 Apr 2025 05:05:29 -0700 (PDT)
+Received: from pc.. ([197.155.71.138])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ace6edafb3fsm782072866b.172.2025.04.29.05.05.23
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 28 Apr 2025 10:06:48 -0700 (PDT)
-Date: Mon, 28 Apr 2025 20:06:45 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Sridhar Arra <sridhar.arra@yahoo.com>
-Cc: vireshk@kernel.org, johan@kernel.org, elder@kernel.org,
-	gregkh@linuxfoundation.org, greybus-dev@lists.linaro.org,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 1/2] [PATCH v2 1/2] staging: greybus: fw-management:
- Add detailed mutex comment
-Message-ID: <01975294-1073-4263-a201-0f68781fbb6a@stanley.mountain>
-References: <20250428160837.664000-1-sridhar.arra.ref@yahoo.com>
- <20250428160837.664000-1-sridhar.arra@yahoo.com>
+        Tue, 29 Apr 2025 05:05:29 -0700 (PDT)
+From: Erick Karanja <karanja99erick@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: julia.lawall@inria.fr,
+	karanja99erick@gmail.com,
+	philipp.g.hortmann@gmail.com,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] staging: rtl8723bs: Replace manual mutex handling with scoped_guard()
+Date: Tue, 29 Apr 2025 15:05:13 +0300
+Message-ID: <20250429120513.168674-1-karanja99erick@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250428160837.664000-1-sridhar.arra@yahoo.com>
+Content-Transfer-Encoding: 8bit
 
-On Mon, Apr 28, 2025 at 09:38:36PM +0530, Sridhar Arra wrote:
-> Added a detailed comment explaining the role of the mutex
-> in serializing firmware management ioctl() operations.
-> The mutex prevents concurrent access to firmware operations
-> and protects the 'disabled' state flag during disconnection.
-> 
-> Signed-off-by: Sridhar Arra <sridhar.arra@yahoo.com>
-> ---
->  drivers/staging/greybus/fw-management.c | 13 +++++++++++++
->  1 file changed, 13 insertions(+)
-> 
-> diff --git a/drivers/staging/greybus/fw-management.c b/drivers/staging/greybus/fw-management.c
-> index a47385175582..56725b711a17 100644
-> --- a/drivers/staging/greybus/fw-management.c
-> +++ b/drivers/staging/greybus/fw-management.c
-> @@ -28,6 +28,19 @@ struct fw_mgmt {
->  
->  	/* Common id-map for interface and backend firmware requests */
->  	struct ida		id_map;
-> +	/*
-> +	 * Mutex to serialize firmware management ioctl() operations and
-> +	 * protect against concurrent access.
+This refactor replaces manual mutex lock/unlock with scoped_guard()
+in places where early exits use goto. Using scoped_guard()
+avoids error-prone unlock paths and simplifies control flow.
 
-"serialize" and "protect against concurrent access" are the same thing.
+Signed-off-by: Erick Karanja <karanja99erick@gmail.com>
+---
+ drivers/staging/rtl8723bs/core/rtw_pwrctrl.c | 52 +++++++++-----------
+ 1 file changed, 22 insertions(+), 30 deletions(-)
 
-> +	 *
-> +	 * Ensures that user-space cannot perform multiple firmware
-> +	 * operations in parallel (e.g., updating interface firmware)
-
-"Ensures that user-space cannot perform multiple firmware operations in
-parallel" also is the same as serializing.
-
-What does "updating interface firmware" mean in this context?  It's
-not really even true...  There are other places poking at the firmware
-that don't take the lock (so this lock on it's own doesn't ensure that).
-
-> +	 * for the same Interface, avoiding race conditions and reducing
-> +	 * code complexity.
-
-"avoiding race conditions" also means serialize.  It doesn't "reduce
-code complexity".
-
-> +	 *
-> +	 * Also protects the 'disabled' state flag, preventing new
-> +	 * operations from starting when the firmware management
-> +	 * connection is being disconnected.
-
-Yep.  That's true.
-
-I guess (from reading the code without much background) that we can
-use the fw_mgmt_ioctl() to set some configuration options until
-the FW_MGMT_IOC_MODE_SWITCH ioctl is called.  So this lock enforces
-those rules.  You can only call fw_mgmt_ioctl() one at time until
-either FW_MGMT_IOC_MODE_SWITCH is done or we disconnect, which
-ever is first.
-
-regards,
-dan carpenter
+diff --git a/drivers/staging/rtl8723bs/core/rtw_pwrctrl.c b/drivers/staging/rtl8723bs/core/rtw_pwrctrl.c
+index 74a8fcf18e84..f3bfd175cf8b 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_pwrctrl.c
++++ b/drivers/staging/rtl8723bs/core/rtw_pwrctrl.c
+@@ -599,25 +599,21 @@ void cpwm_int_hdl(struct adapter *padapter, struct reportpwrstate_parm *preportp
+ 
+ 	pwrpriv = adapter_to_pwrctl(padapter);
+ 
+-	mutex_lock(&pwrpriv->lock);
+-
+-	if (pwrpriv->rpwm < PS_STATE_S2)
+-		goto exit;
++	scoped_guard(mutex, &pwrpriv->lock) {
++		if (pwrpriv->rpwm < PS_STATE_S2)
++			return;
+ 
+-	pwrpriv->cpwm = PS_STATE(preportpwrstate->state);
+-	pwrpriv->cpwm_tog = preportpwrstate->state & PS_TOGGLE;
++		pwrpriv->cpwm = PS_STATE(preportpwrstate->state);
++		pwrpriv->cpwm_tog = preportpwrstate->state & PS_TOGGLE;
+ 
+-	if (pwrpriv->cpwm >= PS_STATE_S2) {
+-		if (pwrpriv->alives & CMD_ALIVE)
+-			complete(&padapter->cmdpriv.cmd_queue_comp);
++		if (pwrpriv->cpwm >= PS_STATE_S2) {
++			if (pwrpriv->alives & CMD_ALIVE)
++				complete(&padapter->cmdpriv.cmd_queue_comp);
+ 
+-		if (pwrpriv->alives & XMIT_ALIVE)
+-			complete(&padapter->xmitpriv.xmit_comp);
++			if (pwrpriv->alives & XMIT_ALIVE)
++				complete(&padapter->xmitpriv.xmit_comp);
++		}
+ 	}
+-
+-exit:
+-	mutex_unlock(&pwrpriv->lock);
+-
+ }
+ 
+ static void cpwm_event_callback(struct work_struct *work)
+@@ -642,11 +638,10 @@ static void rpwmtimeout_workitem_callback(struct work_struct *work)
+ 	dvobj = pwrctl_to_dvobj(pwrpriv);
+ 	padapter = dvobj->if1;
+ 
+-	mutex_lock(&pwrpriv->lock);
+-	if ((pwrpriv->rpwm == pwrpriv->cpwm) || (pwrpriv->cpwm >= PS_STATE_S2))
+-		goto exit;
+-
+-	mutex_unlock(&pwrpriv->lock);
++	scoped_guard(mutex, &pwrpriv->lock) {
++		if ((pwrpriv->rpwm == pwrpriv->cpwm) || (pwrpriv->cpwm >= PS_STATE_S2))
++			return;
++	}
+ 
+ 	if (rtw_read8(padapter, 0x100) != 0xEA) {
+ 		struct reportpwrstate_parm report;
+@@ -657,17 +652,14 @@ static void rpwmtimeout_workitem_callback(struct work_struct *work)
+ 		return;
+ 	}
+ 
+-	mutex_lock(&pwrpriv->lock);
+-
+-	if ((pwrpriv->rpwm == pwrpriv->cpwm) || (pwrpriv->cpwm >= PS_STATE_S2))
+-		goto exit;
+-
+-	pwrpriv->brpwmtimeout = true;
+-	rtw_set_rpwm(padapter, pwrpriv->rpwm);
+-	pwrpriv->brpwmtimeout = false;
++	scoped_guard(mutex, &pwrpriv->lock) {
++		if ((pwrpriv->rpwm == pwrpriv->cpwm) || (pwrpriv->cpwm >= PS_STATE_S2))
++			return;
+ 
+-exit:
+-	mutex_unlock(&pwrpriv->lock);
++		pwrpriv->brpwmtimeout = true;
++		rtw_set_rpwm(padapter, pwrpriv->rpwm);
++		pwrpriv->brpwmtimeout = false;
++	}
+ }
+ 
+ /*
+-- 
+2.43.0
 
