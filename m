@@ -1,58 +1,102 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f193.google.com (mail-pl1-f193.google.com [209.85.214.193])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D8C9270EB8;
-	Tue, 29 Apr 2025 12:25:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C5F97FBA2
+	for <linux-staging@lists.linux.dev>; Wed, 30 Apr 2025 05:56:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.193
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745929528; cv=none; b=dwN5+uRtVFuvekuUieJjp1PEjGUWy4kZAfGdEh3k2bRbjpNgJ/3oVBuJvbm08gH/uz83peFEvRVezGFru90ZtYCCQLv1sqOK+k/6Y67Lf1oBpy8Za+0mOM0O3ls5ZB9UGkedz8n9Jfdpj3SmZBEXVfKux0kHkEm4lgxJHLT+s00=
+	t=1745992612; cv=none; b=hDd0x4MPhOVQOeGfsEDg1OnP/gvMQBEV7YShVDBxIs3xky8IsVkYoIYyUGgZZcvo7eicg086hNHCqQaEMVgE7f0Ct+1BMC3ImLrY3XcwoEYxLITa2zStWcg8TGJ/Huii2NvTACiTejs4mtzKTUCJYvywts+iyCgrZUSAnmAKskk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745929528; c=relaxed/simple;
-	bh=YZUhHEfjoZhIah5DME9KXqceefsXX+y0KXU3wNjY1ak=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=p87Fqlk4wqCjAaxuwUU4xp7792pHlTJYjEjVKXRXiseA4R/naTEmBT0HjMasS7KKyHiI0ZmR+i5Lum21Ja8fU29pv9T7gvLv2nuxztZJIXbpfrnPzOJd6Xl2w0nEnIcznToLsnUlQdF8Jesv+mO2NloTP5W/r/csJ2mlpr9zAI4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=tklvIq23; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1745992612; c=relaxed/simple;
+	bh=13Qo05XeSWOf88djYrgymw4RZtXdKHMD66EO9HyNJig=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=T/BFzF5pGj8sp1Rqt+a2XSsWJFh9PkFxo+Q+Qzzf+TO3a0vRN74fq4hQNZW4hVNhFO9IUY7RzHgTDOgJ6rJWnZrZLjYKJ22N4henI5wVoRQOZoChbZWdbZNThAjECvu8XBlsf7C0RtKOp99dTsU/oD1rK6ozpeSKlJfV9Ir5rSA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=B5425wrg; arc=none smtp.client-ip=209.85.214.193
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="tklvIq23"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9A62EC4CEE3;
-	Tue, 29 Apr 2025 12:25:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1745929528;
-	bh=YZUhHEfjoZhIah5DME9KXqceefsXX+y0KXU3wNjY1ak=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=tklvIq23gzAWCyn3jQmkzKvwp4hxM+vvJV0M6C2zEYHzxUQeTTXNOZatzYc6ZFq2W
-	 3drpb9MG0h9vKtw+8rvOaVlKDuprwZi+I4cdfF5y8mSXnqTrjrqTWwPdOxfl2vzVOj
-	 txGzBFPiLzoYLnLsx/lYUZVnNcOiADM0o/A2dn0g=
-Date: Tue, 29 Apr 2025 14:25:25 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Erick Karanja <karanja99erick@gmail.com>
-Cc: julia.lawall@inria.fr, philipp.g.hortmann@gmail.com,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: rtl8723bs: Replace manual mutex handling with
- scoped_guard()
-Message-ID: <2025042905-enunciate-sixfold-bd3f@gregkh>
-References: <20250429120513.168674-1-karanja99erick@gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="B5425wrg"
+Received: by mail-pl1-f193.google.com with SMTP id d9443c01a7336-2240ff0bd6eso13936125ad.0
+        for <linux-staging@lists.linux.dev>; Tue, 29 Apr 2025 22:56:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1745992611; x=1746597411; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=PhUqqxVP/BLi7jqvWQjnBB9ROUrGfrNMOfm/brn9Rmo=;
+        b=B5425wrgiIsWRaBJwCMEpukq1S1pyl5YHWwt4SKcn/080x2jKzF18h1Vnx2Eqj8O8v
+         RfRSxRzQRlc1S/2Ro3BWgJUrs0PivGSuj93Lts4MIT21a8koloF3oOydsOwqyUUW680P
+         Waz6+Tq6lwY7tdFQNTWVcaLMyhixtwa9ycnCLWqx1DXN28Im4tBgwETXvDpMjtDXiCd7
+         OryJyTvb0w3PTcEwB+D3fXLsu4ug7ehimlj+O0QIipzs9pA0dPqMYK5N6eEVo4JmFBZO
+         vK+Pval8jSSmlyutrIIgOxvCFnquIxFQ1ibuh0agigE2geqHBtf2VB+4JHw1Z5wFUUfh
+         Ej8Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1745992611; x=1746597411;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=PhUqqxVP/BLi7jqvWQjnBB9ROUrGfrNMOfm/brn9Rmo=;
+        b=Wk7IM5BqLgezBGq1I3kkjl6rC3AAmfouC13VsMATEXygf+0dNkLyner0ThEuyIIYFv
+         CaRZRZ5EktWAloV1u9FazeBBtKIW4l466fqdmvakDAEKzRcxD8F/0ZMhe6K+iliAyw/v
+         7FTVk4Z8fY0/pRarC2XO3bWwnaCAZcWgpOR3/vJbTybfQY92MVB3iv+9Q52wvw5e+zUw
+         9eiVGwrjMmDaQVmHEhqiISKwi6PkinAKvAEwSXuOSWUOPI3Pscrb878d4MIWd77Xg6TP
+         +3ATMaP5z2ilhvVsSsXd4nYnJMkcLhHoA7035DbFcGgL2q7dUB37DIPTO8MBuTzlKDZo
+         qgYA==
+X-Forwarded-Encrypted: i=1; AJvYcCVrSdjvP2gau+jZn/lg3NMY5nHm5BJ58jw2jl27bXFmGotEiHGlOR0lPy6wHxJZJEN8Wj5XCdcZQFs7DVJa@lists.linux.dev
+X-Gm-Message-State: AOJu0Yx1mbAOLJP+dKrGt6AbAFoQ35v7nCS4aMabi3g1AU6aEI4wZauz
+	mv1FCM5igrUOfWZbqfJp800OOCnvVoQWlLA17JwDChJwIkdEWv/o
+X-Gm-Gg: ASbGnctSpl6xsHXmLnGVNBrDT2pSrqqYbEHdJ3oMRM9PrufSYkPto5gXe7FJ1wjfY6R
+	HQZBTPjA3yGQNB62+ayqC7zXy2UwLBRnrDSs6lESJHWNxY98P8B/DB2dON9++EGuTXqeEKH3kcB
+	exxSwLlxyYY+9F06Zu8E50zPBsAWm3WCHb63bOd7roQ62zF45LNEmyUcGHHGvslhn7IDr/T0e37
+	oA1dKGK0dwYupDNQsVbph9qrOWBijrSUQCygnQ4R667vMGkHuF6n77UmMCiFDWyzQg5e6O9Kvgg
+	X3mjsPGqsbP8KJRpZmYU9PHtv3zTA8KnWQwiyH3CBwm5sY9HqdR+yr8DQViAlqTzD27LAYS9nkd
+	b+tUOSKIA4Kv9xg+4OnEEaWOFXr47r6BdnOg9BkKrdvExrRn+SGOfM8c=
+X-Google-Smtp-Source: AGHT+IFQlsChKdvo8yeBzYHD3oG+sKW4TgLubiXBAn+sb5J1uDe59Z7thhcPMrDzNK+/LL2lhWM0iA==
+X-Received: by 2002:a17:903:2cf:b0:224:8bf:6d83 with SMTP id d9443c01a7336-22df57b3ae9mr7881815ad.8.1745992610609;
+        Tue, 29 Apr 2025 22:56:50 -0700 (PDT)
+Received: from kerneldev.localdomain (162-225-124-171.lightspeed.sntcca.sbcglobal.net. [162.225.124.171])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-22db5221a82sm113383895ad.257.2025.04.29.22.56.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 29 Apr 2025 22:56:50 -0700 (PDT)
+From: Eric Florin <ericflorin.kernel@gmail.com>
+To: teddy.wang@siliconmotion.com
+Cc: sudipm.mukherjee@gmail.com,
+	gregkh@linuxfoundation.org,
+	linux-fbdev@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Eric Florin <ericflorin.kernel@gmail.com>
+Subject: [PATCH 0/5] staging: sm750fb: Style cleanup for sm750fb 
+Date: Tue, 29 Apr 2025 22:55:34 -0700
+Message-Id: <cover.1745982772.git.ericflorin.kernel@gmail.com>
+X-Mailer: git-send-email 2.39.5
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250429120513.168674-1-karanja99erick@gmail.com>
+Content-Transfer-Encoding: 8bit
 
-On Tue, Apr 29, 2025 at 03:05:13PM +0300, Erick Karanja wrote:
-> This refactor replaces manual mutex lock/unlock with scoped_guard()
-> in places where early exits use goto. Using scoped_guard()
-> avoids error-prone unlock paths and simplifies control flow.
+This set of patches addresses a number of cleanups attributed to
+`drivers/staging/sm750fb/sm750_cursor.h`.
 
-Again, for new code, this is fine.  But don't add it to old stuff unless
-you really have a good reason to do so.
+Patch 1: Rename sm750_hw_cursor_setSize to sm750_hw_cursor_set_size
+Patch 2: Rename sm750_hw_cursor_setPos to sm750_hw_cursor_set_pos
+Patch 3: Rename sm750_hw_cursor_setColor to sm750_hw_cursor_set_color
+Patch 4: Rename sm750_hw_cursor_setData to sm750_hw_cursor_set_data
+Patch 5: Rename sm750_hw_cursor_setData2 to sm750_hw_cursor_set_data2
 
-Unless you have the hardware and can test that your change was correct.
-Do you have such hardware and was it tested?
+Eric Florin (5):
+  staging: sm750fb: rename sm750_hw_cursor_setSize
+  staging: sm750fb: rename sm750_hw_cursor_setPos
+  staging: sm750fb: rename sm750_hw_cursor_setColor
+  staging: sm750fb: rename sm750_hw_cursor_setData
+  staging: sm750fb: rename sm750_hw_cursor_setData2
 
-thanks,
+ drivers/staging/sm750fb/sm750.c        | 12 +++++-------
+ drivers/staging/sm750fb/sm750_cursor.c | 14 +++++++-------
+ drivers/staging/sm750fb/sm750_cursor.h | 12 ++++++------
+ 3 files changed, 18 insertions(+), 20 deletions(-)
 
-greg k-h
+-- 
+2.39.5
+
