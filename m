@@ -1,62 +1,62 @@
 Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 493F8257449
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F3AD2609EE
 	for <linux-staging@lists.linux.dev>; Thu,  1 May 2025 21:30:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746135046; cv=none; b=et3LCMkrGkHQo5SX/gXdCshoL6g4gow511oGwBuHw7smrAHRJ0yYsnVtAFya/dKKu0fKeMwin8X/IVIkM7B+NsDrlbVkDdDa/wfLfVzIlkhw8wBlahrvuyAypBuEaXIDl+pUQFl2u1qI7oPHkjLJfpP4tcVIHiJHbZp+CeqEGq8=
+	t=1746135046; cv=none; b=DaBXuS9UHPvuCQqID3TgRk0xka787KBZrU9ierAQ/aaQqHQLjK/S3TdMIZVOFPlUkMps7bQcm8C3/Mkp0Wb6ZUfKRkK5Ml19sZ5B4j7dfgJjdLCAYBdrckses0fj/gU4Om25f1OjuqT9+AXBCE2rMpYAWviYFvLKy5+dDLpwj9M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1746135046; c=relaxed/simple;
-	bh=PIRMpgNUFY1ik0z+6dnUMY6vtFlnqbFG//tKiGZLUfY=;
+	bh=fVYrTnV4596MY4xP2V30U8n3S+cujdL2K1rYUrXul6I=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=g49PKObEjTWX+KKgHHs1ZRiWZjS2lUh16BuOCbWEhNir+dzj9x50KDZFLfcBQukmBYZ6f1GHzxmPyDmNReygO8busoa/ZjnMxwS2c2fmsIbfLzWeA2tcCnbKEplIwIwPFOjubdr9momOid9+dnFlO+NsLlAqs347ySYQXhE35Qk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Q1zQ48xh; arc=none smtp.client-ip=209.85.218.46
+	 MIME-Version; b=vFJxj24SlqExP4r2U6iWnk7JLd6VT1CwA5tiz4diX+7iV8ah7raOIsDPnwZ+Fy2k/9FdZtvzzcWBJZOnBPW2qPJIGlE3dpBQPalwZ2TFcuont0sTyPWo2DSERuc0k4Ku8q07YFIEn6wVMD7jQKN3LaJmVBuffvs0OcSwyYFUkgI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ibyeaaba; arc=none smtp.client-ip=209.85.218.46
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Q1zQ48xh"
-Received: by mail-ej1-f46.google.com with SMTP id a640c23a62f3a-acb615228a4so462437466b.0
-        for <linux-staging@lists.linux.dev>; Thu, 01 May 2025 14:30:43 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ibyeaaba"
+Received: by mail-ej1-f46.google.com with SMTP id a640c23a62f3a-ac28e66c0e1so147921666b.0
+        for <linux-staging@lists.linux.dev>; Thu, 01 May 2025 14:30:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1746135042; x=1746739842; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1746135043; x=1746739843; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=vx2BnNbw+H6yRd92Qc87LVyrq8/WbAmAtW8W0e6klY4=;
-        b=Q1zQ48xhVQ4LSMh1dyrBBE0sOSLBHK6oZbTrS6wDk+1dZRveRbtQWD6uI1rhV36CuG
-         uzFl5L035npLxicyRsR6e0WRunywNkzgYmYfbBWHr2AUAHXOFwXfNKXK9Ogg9/tHg/KD
-         t+VhjsTBJCtd8IZnozZ+ZcQP4jSuxekrVsMhyxvhSKzaKuipNHWs1vaLixmN320i0mYl
-         I4B4WVRQWDDIjrUyy599o91svJX5mp8F3qH0Fxvz2z3JGtsavJRxetmVtymK0/WfX5gd
-         /9uXlpGosCr+tfycrDU93kza2djqOxZEBAzp5LXJki+ybl8xQbPL3OKjRO52b3itx6md
-         lCMQ==
+        bh=++LiMK+jPbWovw+5sDKphiLRP3X5ThooPqXEgIEf/wU=;
+        b=Ibyeaaba0S9hRUqE7hqwY7iI1L6xmj8iFeoHWDkEPAuEGdWC0waBL3MW9ZMpGhEcHB
+         dX5P3g+mzdp2dx4W7gj1o+yybniHHNIBrX195SQTu6K45HyeqEdsPEYEEgsPBuRaC3F0
+         KjxkgcXZVJGJ3A7YIB/19zqXlLCYn7rP965/+VPIszzXa6bngZg8vuEMr+RH2O1vj7ZW
+         mFxff8CZ+fIkcuKYelYe0N+Cl3ZmEJSmgA9dCxYQMQ6LC6htypaURjrE7XEpureHbuTW
+         HraG6IHaKbPyObcYPRjz5bspRXNg6HIxlTnlT4Pyshsuhm8aJWQXca8PN44rIz3V9INh
+         ir0g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1746135042; x=1746739842;
+        d=1e100.net; s=20230601; t=1746135043; x=1746739843;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=vx2BnNbw+H6yRd92Qc87LVyrq8/WbAmAtW8W0e6klY4=;
-        b=quF/vlNcpcBVkfAVxL0gtWyv7Kk+cqh8OoXSJ8t29QbiMP1g7lcI7c6xwruOmLFhvP
-         9qvcD0dBZXGs6+PZP70HIT5aZ2pdFSNZBfE2oC7G7SfI7+8ixcVEmmw7jV9iELuaRdyl
-         g/WkwJG0S7bejWoGULpWZVrTQjkw/kLAYVG6o6WQyV9GOMGgALQ7DDtulkYR0hUk+nCb
-         IKf3kLPGlaaGTPne9YlWtVzMZaZRllGidMdKdImsR9JkTAPOuqWcrB8uZrS//VM2UPTu
-         kXQFdXyEFQSYba4JVCNwYdN1P0Z3d+MpwMopNfwG4dnDZ/bRcjATS19jD5ZIIadFzvaa
-         N+ag==
-X-Forwarded-Encrypted: i=1; AJvYcCUcLa3vXn0OZyoIFJ3A5cqNrNvJeaPwrqEQUzFHJfEdR8kcxlTGqfKOgxfHmhCAIMdqt2l87Lkoh/X+uIw/@lists.linux.dev
-X-Gm-Message-State: AOJu0YwMTNgIUg4Q1/jG4sotrBr+E4ZYnJEp08Fdw0Vbnf3gejnvo5yC
-	q3rLmsTgxq4sh4ej34HKPtX8WGEO9ydtDW4CQl+wIboNPuLsTDxQNusq34+JvV1XAeVj
-X-Gm-Gg: ASbGncuXTtBCA58HaNY4hvyTB0+f0sgrBAfiPfQRYSC0woM1KjkVTI3b4BqBOZf5n27
-	A4gkdkFS4d9NsVJoroOnRFmel1RFLe/rSf9kmJWgK/IAqxjUoKnBdXz62wyjbKODmsdGLggWbtL
-	dF08njEtep2Kzu89ncXpgWqy0vjZhpjmpUdJ/3Et/V9uI9eaty7u2rKsyPwXYPC/ft80HLF670s
-	q1bgVzBdMIsUvTmm2/ogCddcxAZDqcO4mGcay6Y//CC4CRb77L+oHS5l+IeDKZ4Mg8RZVz/Mf8J
-	HNly8kGMH8qZPIQZZpaqvDtQXHPPQSZs3AbtHrppLH23+MmC9qqcwpPtBOVre2+PhDUGkpJYFuV
-	ZR1SLom7Io0fqThXXSBe7LvnEkMSCwJR3j6QCz6nsZlcArSBQpmBD8sPMP6mAKjO9tQ78pjOeXP
-	uy0g==
-X-Google-Smtp-Source: AGHT+IFUJ5z+Wf6tRCevsNbth9+n/iTFmf2xbNXBAm07ufdrNRRQKVTPwyzOkjqVkNpgNVJZHDRMRQ==
-X-Received: by 2002:a17:907:1c0d:b0:abf:174b:8ca6 with SMTP id a640c23a62f3a-aceff056cd2mr321833866b.27.1746135042337;
+        bh=++LiMK+jPbWovw+5sDKphiLRP3X5ThooPqXEgIEf/wU=;
+        b=JgPGCp6e7/Yu2w3vT7PmIVG07A+UBO/TqygDE6tuDBJCnsQb5nKDAB19AKfFvwXjwJ
+         epJmr/IL1TtMUcxouqdUegTCoxkNooilql8aTrYnVyGql3X9KAVFrYu6dHK8bXfyCObb
+         N7hqUCIXDrz8oAU77vfohhnaD+qpCCIhEEpXI/y8IfcnNXA4lMZhjPnoirRXa/jrxtO/
+         sYoN3X6ev2wmQp/2BVqz0d4Sml93HvqT1IJDQyYEjRGTP/hETiyVQjdxYxg420gIJDl8
+         oqZ+Pb3YHGXeDeFyhaBtdhxuS6kg9U+HNFAkoRQEzbaaDKMG/k42cKGdsGrGRsVdgEyR
+         LGrw==
+X-Forwarded-Encrypted: i=1; AJvYcCXMVM8GJ3KqIwo7lF02HZOqUgFyvVeQDkxIesS8t0b0hyxK3zknlUdZFbjvNs6CwR4CFoJbbpnw01+wU8ZV@lists.linux.dev
+X-Gm-Message-State: AOJu0YwaIXr4jFu+za2I2d8iTOu+F/2Ll9nmzLku/8Snx01uERZHN9wL
+	e2WjJJFOJWz8eeW97rSAGhmds10JQlwzNUIU/QpZr4X7Y6ht4ldR
+X-Gm-Gg: ASbGncsDCCxSOVh/hiKFfujnDzNtE4C24Ynv5q96DDMFco+Bj0NpJUANuwF1NDYplaz
+	O34m7JKq9+Iz0ug1qnelPTWcqySCpuGUecjiY3aUzqn69CjDmOpJDb86Ld0qh0fokIvd9jtmQbg
+	YwFBQwy6wRyz6LCexmWIhJqdBwB1m7uavTtyDOsU4bnxDtWQjZ9otB9De46C/06hXjxYjSmrn2r
+	7ZflSdHVOjCegUMFAodNfurmDqtw1yInG2MHOCjtBx3eB6TsnkW8tv5CdV9ZwOrY5boL6x8lBjy
+	ghNI9DYF25RzTftrMP2GWlp4ZjYyLpWfP5T5AldKhZjmAh0v3CrHCnjujpKCR1fYbeFCHSmE7Yd
+	0kfe3Iinb+GnFvjtd3qhqLckseZdALQq79BxPWZqEzQRbbh0wU8W0RiTnoD2rX7oHoLZNSq8ijd
+	odkg==
+X-Google-Smtp-Source: AGHT+IHGzNWQi9IaRBS+T9Q4dLFoyLyqFwYD3k3LrzonB4SsYe0hPBZHiar4FKK9vFlty1E8tA4Wvw==
+X-Received: by 2002:a17:906:478a:b0:ac3:8537:904e with SMTP id a640c23a62f3a-ad17af78ffbmr62529666b.49.1746135042771;
         Thu, 01 May 2025 14:30:42 -0700 (PDT)
 Received: from chimera.arnhem.chello.nl (2001-1c08-0706-8b00-41fd-2957-14cb-eff7.cable.dynamic.v6.ziggo.nl. [2001:1c08:706:8b00:41fd:2957:14cb:eff7])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ad0da560a63sm96466866b.139.2025.05.01.14.30.41
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ad0da560a63sm96466866b.139.2025.05.01.14.30.42
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Thu, 01 May 2025 14:30:42 -0700 (PDT)
 From: Thomas Andreatta <thomasandreatta2000@gmail.com>
@@ -66,9 +66,9 @@ Cc: gregkh@linuxfoundation.org,
 	linux-kernel@vger.kernel.org,
 	linux-staging@lists.linux.dev,
 	Thomas Andreatta <thomas.andreatta2000@gmail.com>
-Subject: [PATCH 5/8] Staging: gpib: Updated return type for `ines_request_system_control`
-Date: Thu,  1 May 2025 23:30:34 +0200
-Message-Id: <226a7f00f7a5a332808aa4d058b000deb5b20c92.1746133676.git.thomas.andreatta2000@gmail.com>
+Subject: [PATCH 6/8] Staging: gpib: Updated return type for `request_system_control`
+Date: Thu,  1 May 2025 23:30:35 +0200
+Message-Id: <066ffcdbdefc54557c690c0c5a663695c198897b.1746133676.git.thomas.andreatta2000@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1746133676.git.thomas.andreatta2000@gmail.com>
 References: <cover.1746133676.git.thomas.andreatta2000@gmail.com>
@@ -80,33 +80,53 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Updated the functions used by ines_request_system_control to return int.
-Currently there's no possible return errors in the functions due to them
-being former void function, for this reason they all return success (0).
+Function `ni_usb_request_system_control` used by
+`request_system_control` now returns int.
+Reinstated return values by removing comments from previously
+commented-out return statements.
 
 Signed-off-by: Thomas Andreatta <thomas.andreatta2000@gmail.com>
 ---
- drivers/staging/gpib/ines/ines_gpib.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ drivers/staging/gpib/ni_usb/ni_usb_gpib.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/staging/gpib/ines/ines_gpib.c b/drivers/staging/gpib/ines/ines_gpib.c
-index d93eb05dab90..2ca1b8659ab4 100644
---- a/drivers/staging/gpib/ines/ines_gpib.c
-+++ b/drivers/staging/gpib/ines/ines_gpib.c
-@@ -441,11 +441,12 @@ int ines_go_to_standby(struct gpib_board *board)
- 	return nec7210_go_to_standby(board, &priv->nec7210_priv);
+diff --git a/drivers/staging/gpib/ni_usb/ni_usb_gpib.c b/drivers/staging/gpib/ni_usb/ni_usb_gpib.c
+index 9f1b9927f025..a41e4f472d89 100644
+--- a/drivers/staging/gpib/ni_usb/ni_usb_gpib.c
++++ b/drivers/staging/gpib/ni_usb/ni_usb_gpib.c
+@@ -1049,7 +1049,7 @@ static int ni_usb_go_to_standby(struct gpib_board *board)
+ 	return 0;
  }
  
--void ines_request_system_control(struct gpib_board *board, int request_control)
-+int ines_request_system_control(struct gpib_board *board, int request_control)
+-static void ni_usb_request_system_control(struct gpib_board *board, int request_control)
++static int ni_usb_request_system_control(struct gpib_board *board, int request_control)
  {
- 	struct ines_priv *priv = board->private_data;
+ 	int retval;
+ 	struct ni_usb_priv *ni_priv = board->private_data;
+@@ -1059,7 +1059,7 @@ static void ni_usb_request_system_control(struct gpib_board *board, int request_
+ 	unsigned int ibsta;
  
- 	nec7210_request_system_control(board, &priv->nec7210_priv, request_control);
+ 	if (!ni_priv->bus_interface)
+-		return; // -ENODEV;
++		return -ENODEV;
+ 	usb_dev = interface_to_usbdev(ni_priv->bus_interface);
+ 	if (request_control) {
+ 		writes[i].device = NIUSB_SUBDEV_TNT4882;
+@@ -1091,12 +1091,12 @@ static void ni_usb_request_system_control(struct gpib_board *board, int request_
+ 	retval = ni_usb_write_registers(ni_priv, writes, i, &ibsta);
+ 	if (retval < 0) {
+ 		dev_err(&usb_dev->dev, "register write failed, retval=%i\n", retval);
+-		return; // retval;
++		return retval;
+ 	}
+ 	if (!request_control)
+ 		ni_priv->ren_state = 0;
+ 	ni_usb_soft_update_status(board, ibsta, 0);
+-	return; // 0;
 +	return 0;
  }
  
- void ines_interface_clear(struct gpib_board *board, int assert)
+ //FIXME maybe the interface should have a "pulse interface clear" function that can return an error?
 -- 
 2.34.1
 
