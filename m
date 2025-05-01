@@ -1,45 +1,47 @@
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76AED19CD0E
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE2E11B0424
 	for <linux-staging@lists.linux.dev>; Thu,  1 May 2025 13:43:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746107017; cv=none; b=c/bU9wAsmbAu9YjfJSMsnW3M6fRWh100wLps6ill3K96dmlBFj+Znvh3x6oQ5LYa+oVipuTNd6k00tSfNKVIHykM+waPbU3pHUsImMwqilH8pY38qZQPc1oMKQbYR3eGwxTojlWQj1UHWB386dbDcH7OPYSTJecCRsuB1IntNaQ=
+	t=1746107018; cv=none; b=MpRVCzMMPwj6SXcKmVGA2dhE4RSh53VS+gmuQV/r2+HhKEYPfm2Rp+cKT6PuVZ+4moy+cqPdM8Zql244vP3+4kS9i+/bZJmn8YjVV5ETIDOxkGKN6IJlfA3/Z7ZJKYm7xunKx9tCk0/9Tcj6BUqu7VDy9dzZKi/AVJv4msdE+68=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746107017; c=relaxed/simple;
-	bh=Fa2PhoeYrbUvAOt+pPzg2JTaXnbGV2tj86aOLwH/zkk=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=QenifgloyyXMJuRJpNAx7GI8c63Sej1292PWHl7cXzev64vaUzk+gpLc8wYzYBOZdaCZUP49LqJxPLL0CyyMiAqd3cmlUg3NGlhzpAvQdjN8fsgErnIHbkNtYYk/VjSa5p2ZMu2TcREUXQ1Bx9hRLuJP0Vz0Po33YP71HDlOb5w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=KV9+BSSM; arc=none smtp.client-ip=170.10.133.124
+	s=arc-20240116; t=1746107018; c=relaxed/simple;
+	bh=1mEUJd/V5F3huV6bNQWff3ZDLINtWkcTqw0I87PDj2s=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=ndK1soGQIrQELdNXDrDuKyTiFGcXmrVIvk6NvseeVuAGcn1de0BwHC0CHnNou1pkyRiSGdFnjGNzBTn/yXD5pOh05lxskXm64ihF07rzyJmpolKcdXKquvT1Vh7+mt0rXY5twf4VB0teaC+F5OuzC+N40TIELEn+EiAFhajEAFw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=cJBTAM7O; arc=none smtp.client-ip=170.10.133.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="KV9+BSSM"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="cJBTAM7O"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1746107013;
+	s=mimecast20190719; t=1746107014;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=y2+kgPk/x9p8cKJuaNW3c2CfFJxJ6WS+0MPbmsMLbT0=;
-	b=KV9+BSSMhjXMx+fqX/TBDYRTr9iVCJFVR4Aj8FLAuqh0KmwcagLkyPN99CTAQ7a26p4qgj
-	caPkd03/OpzNmhn9b+Q5yNTaPG4reS0CxFjKszII1DYC8r2WaA8iYnekNj7iaGodW8JnWx
-	CUpCPtOMCup0sIDmlbMk0mlU4eC7AqQ=
-Received: from mx-prod-mc-02.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=pzT5DPx6Bq1PuXCGYbF3aB0bvJdoUf2KjpFQvUF06Vk=;
+	b=cJBTAM7Ogb1wpl9mkJyRmNG3JECY9DO9zt/K9HXFuEigD3qx5Dvsac5rRmsOD2XqKFLJIc
+	1IsqOe0UHD+/yIxLc57QF1SyceWi7Qp4cnKb/twJuhp/mfDaoFqPHfDSBbQs/d3P3quCU4
+	w6AAV+rfiPD3OYvSxuiSqAvj/d1W0Zg=
+Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-192-HAjggSzIOiuOtwZp-Tnbgw-1; Thu,
- 01 May 2025 09:43:27 -0400
-X-MC-Unique: HAjggSzIOiuOtwZp-Tnbgw-1
-X-Mimecast-MFC-AGG-ID: HAjggSzIOiuOtwZp-Tnbgw_1746107004
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-10-wAJC-smAMKqbOValkF3HCg-1; Thu,
+ 01 May 2025 09:43:31 -0400
+X-MC-Unique: wAJC-smAMKqbOValkF3HCg-1
+X-Mimecast-MFC-AGG-ID: wAJC-smAMKqbOValkF3HCg_1746107010
 Received: from mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.15])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mx-prod-mc-02.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 677391956087;
-	Thu,  1 May 2025 13:43:24 +0000 (UTC)
+	by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 29D551800261;
+	Thu,  1 May 2025 13:43:30 +0000 (UTC)
 Received: from localhost.localdomain (unknown [10.44.32.142])
-	by mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 232C21955F24;
-	Thu,  1 May 2025 13:43:21 +0000 (UTC)
+	by mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id E76A61956094;
+	Thu,  1 May 2025 13:43:27 +0000 (UTC)
 From: Hans de Goede <hdegoede@redhat.com>
 To: Sakari Ailus <sakari.ailus@linux.intel.com>,
 	Andy Shevchenko <andy@kernel.org>
@@ -47,9 +49,11 @@ Cc: Hans de Goede <hdegoede@redhat.com>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
 	linux-media@vger.kernel.org,
 	linux-staging@lists.linux.dev
-Subject: [PATCH 0/4] media: atomisp: Add support for using mainline mt9m114 driver
-Date: Thu,  1 May 2025 15:43:08 +0200
-Message-ID: <20250501134312.104711-1-hdegoede@redhat.com>
+Subject: [PATCH 2/4] media: atomisp: Avoid deadlock with sensor subdevs with state_lock set
+Date: Thu,  1 May 2025 15:43:10 +0200
+Message-ID: <20250501134312.104711-3-hdegoede@redhat.com>
+In-Reply-To: <20250501134312.104711-1-hdegoede@redhat.com>
+References: <20250501134312.104711-1-hdegoede@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -59,48 +63,48 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.0 on 10.30.177.15
 
-Hi All,
+When a (sensor) v4l2_subdev has its state_lock member set to non NULL,
+then all v4l2_subdev_state-s for the sensor share the same lock.
 
-This patch series adds support to use the "mainline"
-drivers/media/i2c/mt9m114.c driver, allowing us to drop the atomisp
-specific atomisp-mt9m114 driver.
+atomisp_init_sensor() calls v4l2_subdev_lock_and_get_active_state() and
+then later on also tries to lock a separate v4l2_subdev_state used for try
+calls (rather then changing the active state), while still holding
+the active state lock.
 
-I've things working nicely on a Asus T100TA and I'll also post a series
-with some small, necessary, mainline mt9m114 driver changes soon.
+Since this try v4l2_subdev_state shares a lock with the active state this
+results in a deadlock.
 
-Despite the mainline mt9m114 driver changes not having landed yet this
-series does already drop the atomisp-mt9m114 driver, in its current state
-it is not really useful anyway and spending time on fixing it up is not
-productive since we want to switch to the mainline driver ASAP.
+Skip locking try_sd_state when sensor->state_lock is set to avoid this.
 
-Regards,
+Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+---
+ drivers/staging/media/atomisp/pci/atomisp_v4l2.c | 11 +++++++++--
+ 1 file changed, 9 insertions(+), 2 deletions(-)
 
-Hans
-
-
-Hans de Goede (4):
-  media: atomisp: Rename camera to sensor
-  media: atomisp: Avoid deadlock with sensor subdevs with state_lock set
-  media: atomisp: Add support for sensors with a separate ISP
-    v4l2_subdev
-  media: atomisp: Remove atomisp-mt9m114 driver
-
- drivers/staging/media/atomisp/i2c/Kconfig     |   12 -
- drivers/staging/media/atomisp/i2c/Makefile    |    1 -
- .../media/atomisp/i2c/atomisp-mt9m114.c       | 1612 ---------------
- drivers/staging/media/atomisp/i2c/mt9m114.h   | 1768 -----------------
- .../staging/media/atomisp/pci/atomisp_cmd.c   |   58 +-
- .../media/atomisp/pci/atomisp_compat_css20.c  |    2 +-
- .../staging/media/atomisp/pci/atomisp_csi2.c  |    2 +-
- .../media/atomisp/pci/atomisp_internal.h      |   10 +-
- .../staging/media/atomisp/pci/atomisp_ioctl.c |   30 +-
- .../staging/media/atomisp/pci/atomisp_v4l2.c  |   60 +-
- 10 files changed, 112 insertions(+), 3443 deletions(-)
- delete mode 100644 drivers/staging/media/atomisp/i2c/atomisp-mt9m114.c
- delete mode 100644 drivers/staging/media/atomisp/i2c/mt9m114.h
-
-
-base-commit: 543f81b86cf4046c7454a05c741c491a4fac44dd
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_v4l2.c b/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
+index 03c535bcb229..ac8fefca7922 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
++++ b/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
+@@ -963,10 +963,17 @@ static void atomisp_init_sensor(struct atomisp_input_subdev *input)
+ 	sel.which = V4L2_SUBDEV_FORMAT_TRY;
+ 	sel.target = V4L2_SEL_TGT_CROP;
+ 	sel.r = input->native_rect;
+-	v4l2_subdev_lock_state(input->try_sd_state);
++
++	/* Don't lock try_sd_state if the lock is shared with the active state */
++	if (!input->sensor->state_lock)
++		v4l2_subdev_lock_state(input->try_sd_state);
++
+ 	err = v4l2_subdev_call(input->sensor, pad, set_selection,
+ 			       input->try_sd_state, &sel);
+-	v4l2_subdev_unlock_state(input->try_sd_state);
++
++	if (!input->sensor->state_lock)
++		v4l2_subdev_unlock_state(input->try_sd_state);
++
+ 	if (err)
+ 		goto unlock_act_sd_state;
+ 
 -- 
 2.49.0
 
