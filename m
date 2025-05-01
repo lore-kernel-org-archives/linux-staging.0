@@ -1,103 +1,124 @@
-Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
+Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 164FC1F3FE2
-	for <linux-staging@lists.linux.dev>; Thu,  1 May 2025 20:37:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C47528382
+	for <linux-staging@lists.linux.dev>; Thu,  1 May 2025 21:30:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746131826; cv=none; b=poZsCA6NcNSXr7UDAguaOpUPc8Bujmr+DdaBwyQjHdVrXwWomPBMsufmKnJIswprI0J9rZvIYhqPInY8iSoJAlP9Cgyw1y2g35u2QTfwcXitVY2Zhdo1Bx9e4HazIsERf6ZKIJNDrGmxovGg0pHumra5lRrOYxQPVzqRiX1ra70=
+	t=1746135044; cv=none; b=g+RjzOmhbBhoC/wqHkXFC2JW03oW9Du0qJbWkakYp9ZzOd0NvdPWRkJNVZvPaFGMSlweT7pfJxxFyBb5vI6wn+Xtva13hkO0EvFM0LDvcgWuOSChx0zm0adnfVZAz616SzEIBr3M3xVSNYG7MgEAlAz6P3hxPsi6oyC1TClwNFY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746131826; c=relaxed/simple;
-	bh=fTWEiaNOb/F4D5Hd/s2szCTKproSRxpCJIn8b1+jUJw=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=n2SbZJaA76xhREWqb4ddpVYJVUCqWlB5SuhxlR3gdq5+Pigd8kRW97PBCzi2UcPZWyUkD07oR4ZW6wxFlzruBYVCj8doYtdJ+s+GteyOpfEJ9BihGeW0w5XZCJVjK/so89W59X30D1IyicT9HrVVDsKFW3IKFZ8CUf5rRgyxnds=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bQdZuJwa; arc=none smtp.client-ip=209.85.218.54
+	s=arc-20240116; t=1746135044; c=relaxed/simple;
+	bh=YyW/COy8u0xSHkNYfU0H94CrJ1LP/F4ydjWB0Z03IIw=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=t2eG2X7dVhX8TJt6p6rli7xgobcNt5TFgD7oijz2ACCs33hi3Q0BQ9HrfNj+Y+XT0O0r0ho/8+P+wRCWZjK7vFNK49Mk57EO8dZ8DlVPg1xUWapwYb5oRXmjsAzgAmhhl338kEgzhfJ7HeXpcqIG8ajl3B+JupVdR7MCGthFXTg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=khiy+a9s; arc=none smtp.client-ip=209.85.218.52
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bQdZuJwa"
-Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-acbb48bad09so229843466b.0
-        for <linux-staging@lists.linux.dev>; Thu, 01 May 2025 13:37:04 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="khiy+a9s"
+Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-acbb48bad09so237543466b.0
+        for <linux-staging@lists.linux.dev>; Thu, 01 May 2025 14:30:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1746131823; x=1746736623; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=fTWEiaNOb/F4D5Hd/s2szCTKproSRxpCJIn8b1+jUJw=;
-        b=bQdZuJwagqg+qdZ7awvn+kKtpiy4djpgh+2gKVwASqcFiwx6wfRnW3r3yVpnT1rvmg
-         6xjEveb84FqY/frrbWxQNE8TTsU0AiSgEinUxIlhFGH/qwnE0lDBl++AyF34TD0Ev0SW
-         7cnrn5kr8MAcoy1KA/SVTAWT2oxVxRLirP+Yjy2NKLO6+vAd9j2lE4uOmUlFd+TEHW28
-         cMcTdHt207Ab0FSlB0DGtE39mGTeVB8alYCcpAMKJnc5epkTChoBKy5/uF2KNV4sMVqs
-         7oeC3uOrzerALDimMZSmivgmz7/oBkMUWbFwdfVOCfJ8GcDoVw9xWu2sNg2w+BKfSlDv
-         kyYA==
+        d=gmail.com; s=20230601; t=1746135040; x=1746739840; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=iU/SN4E12P0EznwvjosLSqRTc+oShnSCyWHNdSLiMcA=;
+        b=khiy+a9slcYp/yTmwlVabCYHLEwNdcv79b54LkCnULkGus9irZZ3/qgJTdL2TWKxSe
+         PAiOwyaiNxMLS/EwQy41J4Jrvj+7WTIxkcxxZ8IrernzbQlDPWP/Cgr66z3nBTFI9CXP
+         3upNctDhjThLF3M/EwKJmGUUUiJNQiQHmjU7o7hBexbKWBOs/nTmhWHb4/ZafEBYgDjl
+         lJrYuo5TtBgeQ9Sn3/b2Bedm8iCiwG1Iem1FI/hARqXDbzVgdJYQRDUQY9VtLt5TspsV
+         CikaVm2M69Na13y4v9Mo8fFz4TeqDC1c/rO885iUkimJW22ArZ4/ENjcgnS5z6SYWCml
+         xYnQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1746131823; x=1746736623;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=fTWEiaNOb/F4D5Hd/s2szCTKproSRxpCJIn8b1+jUJw=;
-        b=vUQb55XPPDK8tuLSnYYqi4KdQ3RnNDvXah4uWvlIsRF0XtaKtzSO6blGP4k2+WeFil
-         wpveqUWi+wf1tglX2OFLa977KRJaq8QKFT6qBI26RfCOGcLv1Hxo1IMi2Aa/+azKNGe3
-         UnyZPdgtx1rxOkib/V1qZbGQreUqKXYiG+ff7N+eTiz6BtmrsFLXVJPAARQQzC3hqtiY
-         s6EuFYrw76eUBHdI2DCNFUUJAJANoxyeW5N8oZjCj9pGyGmP6ZcVBA+zmeuZP4xRxrPC
-         IVA44I8O0CiyaagBQq8Umpwwv2aJMhUjeWVaQr5bn17xAOxbyGE5D9eDqnhBqdFZCLW4
-         qLvA==
-X-Forwarded-Encrypted: i=1; AJvYcCW1QpK3WADk6Ed0ry1gaLbNIuLp7xI6AdVXQPAbAMWhLQPcr7D9A1NfRryX6oZUKq2OBb8VJk5PtITY4JlA@lists.linux.dev
-X-Gm-Message-State: AOJu0YxmczjqXd1/Y8Es8cl5m2wOFQRzrKU5edNRvRUspgHMxrRUtA/y
-	aXdVFmvEAQZ0K690DRF4sjm4FGSlEPHbY176o8zlcZxT5P71Zm6vV/r4f5SWq74wJTooCdICdOk
-	Lrcx4ibDkyQE6S3kT4Nts6ApezNTLSW5T
-X-Gm-Gg: ASbGncuw87v7w3LC2LyAnBFynmIFFsq1XV9Jz3xQjAtN6RAiPEuwbt20udPOb3pCIWt
-	UYbVlV5bF/bZ3xW1+THQ/sy6wgpDPqcF+n1PE1cKi/7IkcgNaFLgRWE+YlNUm3V9qEo9rMQACEx
-	6V4uwKP+4gBf6Gi8Wie2UwPA==
-X-Google-Smtp-Source: AGHT+IFi3ZJ0cyCsUPOSVg7wV4cmaQoS+bQLM1NAGl/uGTL0DGCU5tAfhJcmc83IwzNNLpXdWE3Eog56b0AqRyd3zyo=
-X-Received: by 2002:a17:907:96a5:b0:ac7:81b0:62c8 with SMTP id
- a640c23a62f3a-ad17ad8e23bmr55505866b.31.1746131823099; Thu, 01 May 2025
- 13:37:03 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1746135040; x=1746739840;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=iU/SN4E12P0EznwvjosLSqRTc+oShnSCyWHNdSLiMcA=;
+        b=g0s1VJEhQPhlioxZpOgIV/LqoVdyToiLWwvpD0Oa5wXQQtw0MR6WvgM+02k/rkM/Mx
+         SSEub41ar3O44eqLs70qkRnYVjcBwI3AKkNEHyM+n8JB380uwz7zlQqhGrXpnzlJ8QN2
+         YmdpFBHtuum3p7Y6iu2iDnYqiULr9tMHOuDiZkS+v4ay1kpg+g+U4wUSYYJPJPBjpwMh
+         juk20xQVs2uqCcCEUi98pzxJBOYLUpJJ2QJn2KxSyGtq1He/CU+91M6LH4EpvexigyqS
+         G1nBCxRHWTEnH2L5lLz4bYFhZ42ohR/T1gvGhtjJaJ8D9+FuMqoVBGvqmtsdLbkJdRlO
+         mlMQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWzUkMxW8IGf9J+4N42WzdpFvS2YP9HuBh34RbwbIwMwpvh40c8ZA/KAVHB1HvcIRc1ON3ukMcPk8WWBuRu@lists.linux.dev
+X-Gm-Message-State: AOJu0YypoLI221ureIJQGKFiPqByDIjbW74OB9wRj1aOt4inhGbBBscz
+	TfhWt4OLNWmX5hVujdhAsAg9nAGX/W+qYp58nvDdjIgXBhIBGelz
+X-Gm-Gg: ASbGnctYN0tW/qo+YONt9KU3rvkvNWcYeCAMTtEauzW2FwVCzLrzHGHyEyT/hk1Afbq
+	PQzt3UzDpHXgyw4ttlOpya1rUl7amZe5mpgSshM1OiGmpDuPZi2ulvHnKqqM8DVaQYIRndauBAW
+	oST2rjL3szS332EAvIO9Gs9m7JPELGBDB02fbRg7+sthEG4yL0eniXTjHs9fTDnEKEdefoN3AOd
+	4NGRbITeWR4+6GERzb0z9LdCbkvpS3fxYvhpAJg6pGMwTC9Y8fbQNDQZDxmSGiFnmLtrZWBSv+2
+	FQ2BgYgohaZhzm0szvg7//niU/7fw5hVV9R0BsZOfW1nRIT10F6w0KX2xw/AMTP3WM66ZxubwKc
+	x3lTx9nw64e+aexmd8DwTQ/daNXsw69daaUeglJ84UWO5OAjV1qMEOKEcReV8/ddIOfeGG8uJlR
+	zV5g==
+X-Google-Smtp-Source: AGHT+IFBTxdVdQrLfnEhXg0W6c/Yj8/PyvkL5d89UZu3/fKawbDUQB7kLSAVoeyo37fJrpZwjPTuBw==
+X-Received: by 2002:a17:907:728a:b0:ace:5461:81dd with SMTP id a640c23a62f3a-ad17acfda03mr73271966b.3.1746135039633;
+        Thu, 01 May 2025 14:30:39 -0700 (PDT)
+Received: from chimera.arnhem.chello.nl (2001-1c08-0706-8b00-41fd-2957-14cb-eff7.cable.dynamic.v6.ziggo.nl. [2001:1c08:706:8b00:41fd:2957:14cb:eff7])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ad0da560a63sm96466866b.139.2025.05.01.14.30.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 01 May 2025 14:30:39 -0700 (PDT)
+From: Thomas Andreatta <thomasandreatta2000@gmail.com>
+X-Google-Original-From: Thomas Andreatta <thomas.andreatta2000@gmail.com>
+To: dpenkler@gmail.com
+Cc: gregkh@linuxfoundation.org,
+	linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	Thomas Andreatta <thomas.andreatta2000@gmail.com>
+Subject: [PATCH 0/8] Staging: gpib: Update return types and error handling for request_system_control
+Date: Thu,  1 May 2025 23:30:29 +0200
+Message-Id: <cover.1746133676.git.thomas.andreatta2000@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250501134312.104711-1-hdegoede@redhat.com>
-In-Reply-To: <20250501134312.104711-1-hdegoede@redhat.com>
-From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Thu, 1 May 2025 23:36:27 +0300
-X-Gm-Features: ATxdqUGR0Jxud3XSkMswymw59Gt16oxoBwd141Cyu6-0Bw2-gjYv2Ga-_rujrkw
-Message-ID: <CAHp75VfnD7Y9Vexyex2iVnHYPzrSfLE_W-hB_-G9A+YCgZ2nvA@mail.gmail.com>
-Subject: Re: [PATCH 0/4] media: atomisp: Add support for using mainline
- mt9m114 driver
-To: Hans de Goede <hdegoede@redhat.com>
-Cc: Sakari Ailus <sakari.ailus@linux.intel.com>, Andy Shevchenko <andy@kernel.org>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org, 
-	linux-staging@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Thu, May 1, 2025 at 4:43=E2=80=AFPM Hans de Goede <hdegoede@redhat.com> =
-wrote:
->
-> Hi All,
->
-> This patch series adds support to use the "mainline"
-> drivers/media/i2c/mt9m114.c driver, allowing us to drop the atomisp
-> specific atomisp-mt9m114 driver.
->
-> I've things working nicely on a Asus T100TA and I'll also post a series
-> with some small, necessary, mainline mt9m114 driver changes soon.
->
-> Despite the mainline mt9m114 driver changes not having landed yet this
-> series does already drop the atomisp-mt9m114 driver, in its current state
-> it is not really useful anyway and spending time on fixing it up is not
-> productive since we want to switch to the mainline driver ASAP.
+This patch series improves error propagation in the gpib driver by changing
+the return type of `request_system_control` and related functions from void to
+int, allowing proper error handling.
 
-The last patch I like the most :-)
-The patch 3 seems to be done better (by doing some preliminary
-refactoring), but looking at the bigger picture I would postpone doing
-that as there are more important things to do with the driver.
+The changes follow these steps:
+* Fix the FIXME comment in agilent_82357a.c by changing the return type
+   from void to int
+* Update the function prototype in gpib_types.h
+* Update all implementations of the function across drivers to return int
+* Implement proper error checking for the new signatures in the resume function
+* Improves the mutex unlocking path process in the resume function
 
-Reviewed-by: Andy Shevchenko <andy@kernel.org>
+All functions that used to be void and didn't had any intended return code are
+now returning success (0), and the resume code is refactored to ensure mutex
+unlocking in all execution paths.
 
---=20
-With Best Regards,
-Andy Shevchenko
+Thomas Andreatta (8):
+  Staging: gpib: agilent_82357a: changing return type void in int
+  Staging: gpib: Updated return type `request_system_control`
+  Staging: gpib: Updated return type for `request_system_control`
+  Staging: gpib: Updated return type `ines_request_system_control`
+  Staging: gpib: Updated return type for `ines_request_system_control`
+  Staging: gpib: Updated return type for `request_system_control`
+  Staging: gpib: `request_system_control` error handling in resume
+  Staging: gpib: Optimize error handling in agilent_82357a_driver_resume
+
+ .../gpib/agilent_82350b/agilent_82350b.c      |  3 ++-
+ .../gpib/agilent_82357a/agilent_82357a.c      | 27 ++++++++++---------
+ drivers/staging/gpib/cb7210/cb7210.c          |  3 ++-
+ drivers/staging/gpib/cec/cec_gpib.c           |  3 ++-
+ drivers/staging/gpib/hp_82335/hp82335.c       |  3 ++-
+ drivers/staging/gpib/hp_82341/hp_82341.c      |  3 ++-
+ drivers/staging/gpib/include/gpib_types.h     |  2 +-
+ drivers/staging/gpib/ines/ines.h              |  2 +-
+ drivers/staging/gpib/ines/ines_gpib.c         |  3 ++-
+ .../gpib/lpvo_usb_gpib/lpvo_usb_gpib.c        |  3 ++-
+ drivers/staging/gpib/ni_usb/ni_usb_gpib.c     |  8 +++---
+ drivers/staging/gpib/pc2/pc2_gpib.c           |  3 ++-
+ drivers/staging/gpib/tnt4882/tnt4882_gpib.c   |  3 ++-
+ 13 files changed, 38 insertions(+), 28 deletions(-)
+
+-- 
+
+Best regards,
+Thomas
+
