@@ -1,61 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6609E22ACF7;
-	Fri,  2 May 2025 08:35:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E25822CBD9;
+	Fri,  2 May 2025 09:26:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746174914; cv=none; b=q8D7SMVEw11eLNWGr7XQzJ1miUQEOxhySw2IgA+7HmWrRv65hR/dSGk+ac1tApNzf42SuMKyRCi3Q5s4t2W0i6Yuls+5wylzA3PzvsUqftuKBr9wDJVfKIp44SeORk77uWo2crhUSRT619oUlSYUi7A+IULUD9XUterflvI2Mdg=
+	t=1746178008; cv=none; b=mAOlYq/6cNo7Cx7ZmMPo+HdtbT/ytHbpLqcEF2KPbBSu02xrw7ETmPy6T5v0f1CxG3wgPep7OirrOV54ih5vFb+hTcNlDVhhdUC4+a724DM9bovBNow1tc3EpJtWheK98MQzKpGf8OkyFoivcNpcSSOlaf2UuNV9kws6yP5XagA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746174914; c=relaxed/simple;
-	bh=WgaG5HEwDg1hR1FxgLdW1ysgzjnL/9WPjU9+4FX24jU=;
+	s=arc-20240116; t=1746178008; c=relaxed/simple;
+	bh=6FdHTRx1UiloRdlH6bvvRzKQC8CVFYEozsMwMjInFUk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=T08dPTCgjqktgvxYUJAYsPUAx65cOnHMmpKy+jRoeN95eNbjj1bRIKlZnRuTKlVd0Dp70KW2AIERLwdwykVo1nBIXEg2uSVT5luIOFUNNVI1MwE4spfZA0XafTT0M3poDrR7ahGskVJ9L7s0zTJe2LTFl4eavlNxwYf4et5s31o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Dym8GotL; arc=none smtp.client-ip=192.198.163.11
+	 Content-Type:Content-Disposition:In-Reply-To; b=Zc9m1zkP8HnJayWKgOGfTcD6Xmu+djTAwZec5Cx2j2qfnK/ItOD+Zv+q/DIG8OtlD0LEMSJcrVQsHoCG7i7lnmoMYTZtLdmF99RJ3y+zkItZIeh458OxY3Ttj9v80HDGjLxYnAaTgzstZFxGfxMgVrT53rVKC6yLj44c1ghU5UM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mQMMkEqv; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Dym8GotL"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mQMMkEqv"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1746174912; x=1777710912;
+  t=1746178007; x=1777714007;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=WgaG5HEwDg1hR1FxgLdW1ysgzjnL/9WPjU9+4FX24jU=;
-  b=Dym8GotLJReE5B+t1Pzr0efLn83oY81aN29WmT9CdOLbd/YLlmmMzPtS
-   /UiSpgIOp71IgGNk64n7O2O/uq5sf7GiMS9o5zJ2dA42DzkEOSyjWgqmT
-   amTsJW83NRgHWPU+hx/csinAVaxVlyjw8lQrc7Ptfls7zhRZxBx2VFfJq
-   7h9dmQBA+MaZ4hxqdAhNhucHN3o/ZVezBdFlHAe/A8w6e3iRHtKdcxk+E
-   zBqiJQdJfE6RiKsuDsBEcgSd4s+0Zz93DDNB54nMl7r6FPHPhVfXTkJTP
-   FbVOgff28bF625Nt8Zzst7eTvpZx36DYjkRy4XL/9USctyBSat4ooAAri
-   A==;
-X-CSE-ConnectionGUID: CFe9EUihRSiwMxbhh1T4PQ==
-X-CSE-MsgGUID: /yaa/or7S16974VrJC7+2A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11420"; a="58480225"
+  bh=6FdHTRx1UiloRdlH6bvvRzKQC8CVFYEozsMwMjInFUk=;
+  b=mQMMkEqvyADCr09NN7jGgUKS6ArXxj+RWQz1yxrtgtxlf96OipZXhjYc
+   cFy9kqxqBR4azyHs4lUgN14o53nHhbkhffJWEROBZF44tfrRa/yMxnQym
+   YyjsxyenurSEBHWAdJJXeLT4HQpUgw1mHh6dKqNfIaZ6eXbUopBW+87+b
+   sRT2Hj5S8V2eM2jalabZU6IB93fRLirFjqP60CNUAaMPLkblZXxf0TGVB
+   06RN+y9IFweFfYnntmwC29XlXw8l6k5eN4HrBfb13cNtjxUlbmIXOpYmM
+   GRDyTko7xl1OGUr/eQ6h/cuesGyKYBEsv8pKXMoeecYkbZfUA4C/rOwPs
+   w==;
+X-CSE-ConnectionGUID: 7/Sxi0QqRxWhCH+2FasUmA==
+X-CSE-MsgGUID: y4pjmr58Sj27D8FTY1AjhQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11420"; a="58849705"
 X-IronPort-AV: E=Sophos;i="6.15,256,1739865600"; 
-   d="scan'208";a="58480225"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 May 2025 01:35:08 -0700
-X-CSE-ConnectionGUID: 4WcVytTxSVKEgFb+l1ugkw==
-X-CSE-MsgGUID: uCwUYYhITauOkBxWL2hN1Q==
+   d="scan'208";a="58849705"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 May 2025 02:26:46 -0700
+X-CSE-ConnectionGUID: hQ8g4joASo6VeFIcx1oIaQ==
+X-CSE-MsgGUID: r77zWQUXS6yP+/2d9K9t3A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,256,1739865600"; 
-   d="scan'208";a="165511540"
+   d="scan'208";a="139407646"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 02 May 2025 01:34:51 -0700
+  by fmviesa005.fm.intel.com with ESMTP; 02 May 2025 02:26:43 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uAlr7-0004cj-0U;
-	Fri, 02 May 2025 08:34:49 +0000
-Date: Fri, 2 May 2025 16:33:58 +0800
+	id 1uAmfJ-0004dd-0l;
+	Fri, 02 May 2025 09:26:41 +0000
+Date: Fri, 2 May 2025 17:25:55 +0800
 From: kernel test robot <lkp@intel.com>
 To: Thomas Andreatta <thomasandreatta2000@gmail.com>, dpenkler@gmail.com
-Cc: oe-kbuild-all@lists.linux.dev, gregkh@linuxfoundation.org,
-	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev,
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev,
 	Thomas Andreatta <thomas.andreatta2000@gmail.com>
 Subject: Re: [PATCH 2/8] Staging: gpib: Updated return type
  `request_system_control`
-Message-ID: <202505021518.8HGGOavD-lkp@intel.com>
+Message-ID: <202505021632.3PmPalr1-lkp@intel.com>
 References: <28632a0bf5275553e929e8699830377069e921fa.1746133676.git.thomas.andreatta2000@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -82,48 +83,27 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Thomas-Andreatta/Staging-
 base:   staging/staging-linus
 patch link:    https://lore.kernel.org/r/28632a0bf5275553e929e8699830377069e921fa.1746133676.git.thomas.andreatta2000%40gmail.com
 patch subject: [PATCH 2/8] Staging: gpib: Updated return type `request_system_control`
-config: arm64-randconfig-003-20250502 (https://download.01.org/0day-ci/archive/20250502/202505021518.8HGGOavD-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250502/202505021518.8HGGOavD-lkp@intel.com/reproduce)
+config: arm-randconfig-004-20250502 (https://download.01.org/0day-ci/archive/20250502/202505021632.3PmPalr1-lkp@intel.com/config)
+compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250502/202505021632.3PmPalr1-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505021518.8HGGOavD-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505021632.3PmPalr1-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> drivers/staging/gpib/eastwood/fluke_gpib.c:710:28: error: initialization of 'int (*)(struct gpib_board *, int)' from incompatible pointer type 'void (*)(struct gpib_board *, int)' [-Werror=incompatible-pointer-types]
-     .request_system_control = fluke_request_system_control,
-                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/staging/gpib/eastwood/fluke_gpib.c:710:28: note: (near initialization for 'fluke_unaccel_interface.request_system_control')
-   drivers/staging/gpib/eastwood/fluke_gpib.c:745:28: error: initialization of 'int (*)(struct gpib_board *, int)' from incompatible pointer type 'void (*)(struct gpib_board *, int)' [-Werror=incompatible-pointer-types]
-     .request_system_control = fluke_request_system_control,
-                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/staging/gpib/eastwood/fluke_gpib.c:745:28: note: (near initialization for 'fluke_hybrid_interface.request_system_control')
-   drivers/staging/gpib/eastwood/fluke_gpib.c:772:28: error: initialization of 'int (*)(struct gpib_board *, int)' from incompatible pointer type 'void (*)(struct gpib_board *, int)' [-Werror=incompatible-pointer-types]
-     .request_system_control = fluke_request_system_control,
-                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/staging/gpib/eastwood/fluke_gpib.c:772:28: note: (near initialization for 'fluke_interface.request_system_control')
-   cc1: some warnings being treated as errors
---
->> drivers/staging/gpib/fmh_gpib/fmh_gpib.c:1023:28: error: initialization of 'int (*)(struct gpib_board *, int)' from incompatible pointer type 'void (*)(struct gpib_board *, int)' [-Werror=incompatible-pointer-types]
-     .request_system_control = fmh_gpib_request_system_control,
-                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/staging/gpib/fmh_gpib/fmh_gpib.c:1023:28: note: (near initialization for 'fmh_gpib_unaccel_interface.request_system_control')
-   drivers/staging/gpib/fmh_gpib/fmh_gpib.c:1051:28: error: initialization of 'int (*)(struct gpib_board *, int)' from incompatible pointer type 'void (*)(struct gpib_board *, int)' [-Werror=incompatible-pointer-types]
-     .request_system_control = fmh_gpib_request_system_control,
-                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/staging/gpib/fmh_gpib/fmh_gpib.c:1051:28: note: (near initialization for 'fmh_gpib_interface.request_system_control')
-   drivers/staging/gpib/fmh_gpib/fmh_gpib.c:1079:28: error: initialization of 'int (*)(struct gpib_board *, int)' from incompatible pointer type 'void (*)(struct gpib_board *, int)' [-Werror=incompatible-pointer-types]
-     .request_system_control = fmh_gpib_request_system_control,
-                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/staging/gpib/fmh_gpib/fmh_gpib.c:1079:28: note: (near initialization for 'fmh_gpib_pci_interface.request_system_control')
-   drivers/staging/gpib/fmh_gpib/fmh_gpib.c:1107:28: error: initialization of 'int (*)(struct gpib_board *, int)' from incompatible pointer type 'void (*)(struct gpib_board *, int)' [-Werror=incompatible-pointer-types]
-     .request_system_control = fmh_gpib_request_system_control,
-                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/staging/gpib/fmh_gpib/fmh_gpib.c:1107:28: note: (near initialization for 'fmh_gpib_pci_unaccel_interface.request_system_control')
-   cc1: some warnings being treated as errors
+>> drivers/staging/gpib/eastwood/fluke_gpib.c:710:28: error: incompatible function pointer types initializing 'int (*)(struct gpib_board *, int)' with an expression of type 'void (struct gpib_board *, int)' [-Wincompatible-function-pointer-types]
+     710 |         .request_system_control = fluke_request_system_control,
+         |                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/staging/gpib/eastwood/fluke_gpib.c:745:28: error: incompatible function pointer types initializing 'int (*)(struct gpib_board *, int)' with an expression of type 'void (struct gpib_board *, int)' [-Wincompatible-function-pointer-types]
+     745 |         .request_system_control = fluke_request_system_control,
+         |                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/staging/gpib/eastwood/fluke_gpib.c:772:28: error: incompatible function pointer types initializing 'int (*)(struct gpib_board *, int)' with an expression of type 'void (struct gpib_board *, int)' [-Wincompatible-function-pointer-types]
+     772 |         .request_system_control = fluke_request_system_control,
+         |                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   3 errors generated.
 
 
 vim +710 drivers/staging/gpib/eastwood/fluke_gpib.c
