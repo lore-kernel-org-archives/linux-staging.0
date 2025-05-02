@@ -1,87 +1,162 @@
-Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA3E318E050
-	for <linux-staging@lists.linux.dev>; Fri,  2 May 2025 07:35:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6609E22ACF7;
+	Fri,  2 May 2025 08:35:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746171352; cv=none; b=Q1GQZz5Bq6oZBxUebQxBEjuga/h0+vIsIc8MJFxpzz/5S8QSNwOHyZmH1ei1WqKCHdS/Bev5I+2RSXwyaqCjMc1B2W+PU8WbraCAh860Rvxj3FNFlJnWOSru0c5/aUgwRm+FTquvrGZklP5wCmqh81AyDTOiIJxqywvKOSHRX0I=
+	t=1746174914; cv=none; b=q8D7SMVEw11eLNWGr7XQzJ1miUQEOxhySw2IgA+7HmWrRv65hR/dSGk+ac1tApNzf42SuMKyRCi3Q5s4t2W0i6Yuls+5wylzA3PzvsUqftuKBr9wDJVfKIp44SeORk77uWo2crhUSRT619oUlSYUi7A+IULUD9XUterflvI2Mdg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746171352; c=relaxed/simple;
-	bh=hOhh3gEilCO3bcXc9+T6C/ljAGT1BE1jLApD9olwcxE=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=kxmbVF/CDRu28pMahTuJsXuvDI1OwDOScJB4nLnxoGKD+hKwBpJdNc+9J7lHOYBgrvTUcSGk+zc+cx+8UBSQXCFMSzWJsRgc5/k9VtGNvq8ocZeDuN7WhqJwqaQCuYTwKHkUUXxwTVbYGcBlN+znXSs9glVoYO1GVkpekICPEDU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lIE0o5Ag; arc=none smtp.client-ip=209.85.218.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1746174914; c=relaxed/simple;
+	bh=WgaG5HEwDg1hR1FxgLdW1ysgzjnL/9WPjU9+4FX24jU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=T08dPTCgjqktgvxYUJAYsPUAx65cOnHMmpKy+jRoeN95eNbjj1bRIKlZnRuTKlVd0Dp70KW2AIERLwdwykVo1nBIXEg2uSVT5luIOFUNNVI1MwE4spfZA0XafTT0M3poDrR7ahGskVJ9L7s0zTJe2LTFl4eavlNxwYf4et5s31o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Dym8GotL; arc=none smtp.client-ip=192.198.163.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lIE0o5Ag"
-Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-ac2bdea5a38so247323966b.0
-        for <linux-staging@lists.linux.dev>; Fri, 02 May 2025 00:35:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1746171349; x=1746776149; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=hOhh3gEilCO3bcXc9+T6C/ljAGT1BE1jLApD9olwcxE=;
-        b=lIE0o5AgtVxKG//pwg/lOJ3f+Wu7HB2cVo5d7XUaR5EOy3wGMGllgPKdN6pguE1+3t
-         FlqwgWZc2FVIGSw1tq4tOiJkGplQ/KP+6VfkhabYoh5n328npw9dK78hEkwClDNmi1Jq
-         hshd30DS4k0yvOfl/+o8YFDhcB15w0j/3jt2d6SQQci1JjgmET74WFZbLGmzdsRBPOz1
-         95OaOSzzL7KbWO1DYhvIeWvlVi2AkMY8Z7lgmROKMHxgX8bILionU+d4lh2hZCDP3zhZ
-         ZRpgytFk80sfpAjWQM3QssmjqsG5FqmBTAKtV5oA5gnH09Qf8HRkCncaLpmMeNXg/5uG
-         vhgA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1746171349; x=1746776149;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=hOhh3gEilCO3bcXc9+T6C/ljAGT1BE1jLApD9olwcxE=;
-        b=aErgT9mt76QtSDG2hvLzDxX/o4zAQqeIew02n1ISNKmJKpAB3FNtC+Gg9oMMvpGqZB
-         KpDQS8hbAb8OOYOvHp+zmt2+v4BVqg/TnEvBAbpHbe5mnVICpIAHGNmJcwo201IGhTQY
-         f9gVX62QxWgpCc/96BS7eCMjqvJebY+r0wK13tLH7/+dDjbgOGDY8XwyulbBmyo5MUEY
-         quHbf+8gXm6IizNV/vpXDHBa0Mn2i+57IZ8OPsErFUbTLLfahUKNE06qTh3bXTaPRDfW
-         7hT0fD84E4x0N4cLCgihN0a0qtOqWcQZQHBK99oPYNXtXk+5Z2HfErkjBJg2lDhKBi51
-         J2CA==
-X-Forwarded-Encrypted: i=1; AJvYcCXUI2yilUfPxzjhUt0pGN3cZ/0LKx59fDlJC5KlxyYcODjgQML9s44OdiDdUSrKdxV+tY20MTykQWOSJJ+k@lists.linux.dev
-X-Gm-Message-State: AOJu0YzyxnoyRBgM7CEZN64QW/yB+iI0WmRArZ7YyPtiIEc59Blu3pQE
-	EBe48ZyAanO+FDL6GWm5KZ4ZNkKk3x8BvtitCpnewnKYzVCptQbc
-X-Gm-Gg: ASbGncs03befSdwJHo1Sg5dn+7d+PJRI8eSYhGUDLXcYI7HEBLqlw0E/W60zE++9Yjw
-	6cvlbrdt6hH8CMDpigBv6R1XOrg+kb2WzX+HUPDrs022NRz5US/Cme7I420dTJHDxQ+zVyuIR3a
-	BY6yNLDfIP7YRderugGrU+oIMo9LzUc+RXKJBuYBMgYZfhJ/rBRApkxJcgKNohgR9Nsx89qEAjl
-	LsjSqQRkkxnBA9SjL1AhvXlPAcTUnLBG3joFmvSnAIzTWrM0SbGH/UBdIdEbNSveL7+v2VPbfKU
-	WOIcx9+eCqM5zMDCUPX/I5Qdg1KqVyiisUZcxL15hA2Z6rXGp/7PZqHg4soHRLhdqLZXlatL
-X-Google-Smtp-Source: AGHT+IFmMkOv/J65q6St3Eqyd/NtN3HZGXk6Qgc025AViPhYRjkJUNoBSU15Qo5gJTx9+pgeUU3iwQ==
-X-Received: by 2002:a17:907:7d93:b0:ac2:a5c7:7fc9 with SMTP id a640c23a62f3a-ad17af4e24bmr180816966b.51.1746171348852;
-        Fri, 02 May 2025 00:35:48 -0700 (PDT)
-Received: from chimera.vu.local ([145.108.89.167])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ad1891a3c1esm7807066b.52.2025.05.02.00.35.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 02 May 2025 00:35:48 -0700 (PDT)
-From: Thomas Andreatta <thomasandreatta2000@gmail.com>
-X-Google-Original-From: Thomas Andreatta <thomas.andreatta2000@gmail.com>
-To: dan.carpenter@linaro.org
-Cc: dpenkler@gmail.com,
-	gregkh@linuxfoundation.org,
-	linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	thomas.andreatta2000@gmail.com,
-	thomasandreatta2000@gmail.com
-Subject: Re: [PATCH 1/8] Staging: gpib: agilent_82357a: changing return type void in int
-Date: Fri,  2 May 2025 09:35:48 +0200
-Message-Id: <20250502073548.32948-1-thomas.andreatta2000@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <aBRxQhLxs13zuFZy@stanley.mountain>
-References: <aBRxQhLxs13zuFZy@stanley.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Dym8GotL"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1746174912; x=1777710912;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=WgaG5HEwDg1hR1FxgLdW1ysgzjnL/9WPjU9+4FX24jU=;
+  b=Dym8GotLJReE5B+t1Pzr0efLn83oY81aN29WmT9CdOLbd/YLlmmMzPtS
+   /UiSpgIOp71IgGNk64n7O2O/uq5sf7GiMS9o5zJ2dA42DzkEOSyjWgqmT
+   amTsJW83NRgHWPU+hx/csinAVaxVlyjw8lQrc7Ptfls7zhRZxBx2VFfJq
+   7h9dmQBA+MaZ4hxqdAhNhucHN3o/ZVezBdFlHAe/A8w6e3iRHtKdcxk+E
+   zBqiJQdJfE6RiKsuDsBEcgSd4s+0Zz93DDNB54nMl7r6FPHPhVfXTkJTP
+   FbVOgff28bF625Nt8Zzst7eTvpZx36DYjkRy4XL/9USctyBSat4ooAAri
+   A==;
+X-CSE-ConnectionGUID: CFe9EUihRSiwMxbhh1T4PQ==
+X-CSE-MsgGUID: /yaa/or7S16974VrJC7+2A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11420"; a="58480225"
+X-IronPort-AV: E=Sophos;i="6.15,256,1739865600"; 
+   d="scan'208";a="58480225"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 May 2025 01:35:08 -0700
+X-CSE-ConnectionGUID: 4WcVytTxSVKEgFb+l1ugkw==
+X-CSE-MsgGUID: uCwUYYhITauOkBxWL2hN1Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,256,1739865600"; 
+   d="scan'208";a="165511540"
+Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
+  by orviesa002.jf.intel.com with ESMTP; 02 May 2025 01:34:51 -0700
+Received: from kbuild by 1992f890471c with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1uAlr7-0004cj-0U;
+	Fri, 02 May 2025 08:34:49 +0000
+Date: Fri, 2 May 2025 16:33:58 +0800
+From: kernel test robot <lkp@intel.com>
+To: Thomas Andreatta <thomasandreatta2000@gmail.com>, dpenkler@gmail.com
+Cc: oe-kbuild-all@lists.linux.dev, gregkh@linuxfoundation.org,
+	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev,
+	Thomas Andreatta <thomas.andreatta2000@gmail.com>
+Subject: Re: [PATCH 2/8] Staging: gpib: Updated return type
+ `request_system_control`
+Message-ID: <202505021518.8HGGOavD-lkp@intel.com>
+References: <28632a0bf5275553e929e8699830377069e921fa.1746133676.git.thomas.andreatta2000@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <28632a0bf5275553e929e8699830377069e921fa.1746133676.git.thomas.andreatta2000@gmail.com>
 
-My bad.
-Thanks for the nudge!
+Hi Thomas,
 
-Best,
-Thomas
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on staging/staging-linus]
+[also build test ERROR on linus/master v6.15-rc4]
+[cannot apply to staging/staging-testing staging/staging-next next-20250501]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Thomas-Andreatta/Staging-gpib-agilent_82357a-changing-return-type-void-in-int/20250502-053306
+base:   staging/staging-linus
+patch link:    https://lore.kernel.org/r/28632a0bf5275553e929e8699830377069e921fa.1746133676.git.thomas.andreatta2000%40gmail.com
+patch subject: [PATCH 2/8] Staging: gpib: Updated return type `request_system_control`
+config: arm64-randconfig-003-20250502 (https://download.01.org/0day-ci/archive/20250502/202505021518.8HGGOavD-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250502/202505021518.8HGGOavD-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505021518.8HGGOavD-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+>> drivers/staging/gpib/eastwood/fluke_gpib.c:710:28: error: initialization of 'int (*)(struct gpib_board *, int)' from incompatible pointer type 'void (*)(struct gpib_board *, int)' [-Werror=incompatible-pointer-types]
+     .request_system_control = fluke_request_system_control,
+                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/staging/gpib/eastwood/fluke_gpib.c:710:28: note: (near initialization for 'fluke_unaccel_interface.request_system_control')
+   drivers/staging/gpib/eastwood/fluke_gpib.c:745:28: error: initialization of 'int (*)(struct gpib_board *, int)' from incompatible pointer type 'void (*)(struct gpib_board *, int)' [-Werror=incompatible-pointer-types]
+     .request_system_control = fluke_request_system_control,
+                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/staging/gpib/eastwood/fluke_gpib.c:745:28: note: (near initialization for 'fluke_hybrid_interface.request_system_control')
+   drivers/staging/gpib/eastwood/fluke_gpib.c:772:28: error: initialization of 'int (*)(struct gpib_board *, int)' from incompatible pointer type 'void (*)(struct gpib_board *, int)' [-Werror=incompatible-pointer-types]
+     .request_system_control = fluke_request_system_control,
+                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/staging/gpib/eastwood/fluke_gpib.c:772:28: note: (near initialization for 'fluke_interface.request_system_control')
+   cc1: some warnings being treated as errors
+--
+>> drivers/staging/gpib/fmh_gpib/fmh_gpib.c:1023:28: error: initialization of 'int (*)(struct gpib_board *, int)' from incompatible pointer type 'void (*)(struct gpib_board *, int)' [-Werror=incompatible-pointer-types]
+     .request_system_control = fmh_gpib_request_system_control,
+                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/staging/gpib/fmh_gpib/fmh_gpib.c:1023:28: note: (near initialization for 'fmh_gpib_unaccel_interface.request_system_control')
+   drivers/staging/gpib/fmh_gpib/fmh_gpib.c:1051:28: error: initialization of 'int (*)(struct gpib_board *, int)' from incompatible pointer type 'void (*)(struct gpib_board *, int)' [-Werror=incompatible-pointer-types]
+     .request_system_control = fmh_gpib_request_system_control,
+                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/staging/gpib/fmh_gpib/fmh_gpib.c:1051:28: note: (near initialization for 'fmh_gpib_interface.request_system_control')
+   drivers/staging/gpib/fmh_gpib/fmh_gpib.c:1079:28: error: initialization of 'int (*)(struct gpib_board *, int)' from incompatible pointer type 'void (*)(struct gpib_board *, int)' [-Werror=incompatible-pointer-types]
+     .request_system_control = fmh_gpib_request_system_control,
+                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/staging/gpib/fmh_gpib/fmh_gpib.c:1079:28: note: (near initialization for 'fmh_gpib_pci_interface.request_system_control')
+   drivers/staging/gpib/fmh_gpib/fmh_gpib.c:1107:28: error: initialization of 'int (*)(struct gpib_board *, int)' from incompatible pointer type 'void (*)(struct gpib_board *, int)' [-Werror=incompatible-pointer-types]
+     .request_system_control = fmh_gpib_request_system_control,
+                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/staging/gpib/fmh_gpib/fmh_gpib.c:1107:28: note: (near initialization for 'fmh_gpib_pci_unaccel_interface.request_system_control')
+   cc1: some warnings being treated as errors
+
+
+vim +710 drivers/staging/gpib/eastwood/fluke_gpib.c
+
+55936779f49612 Dave Penkler 2024-09-18  700  
+95cfc75234534b Dave Penkler 2025-01-11  701  static gpib_interface_t fluke_unaccel_interface = {
+95cfc75234534b Dave Penkler 2025-01-11  702  	.name = "fluke_unaccel",
+95cfc75234534b Dave Penkler 2025-01-11  703  	.attach = fluke_attach_holdoff_all,
+95cfc75234534b Dave Penkler 2025-01-11  704  	.detach = fluke_detach,
+95cfc75234534b Dave Penkler 2025-01-11  705  	.read = fluke_read,
+95cfc75234534b Dave Penkler 2025-01-11  706  	.write = fluke_write,
+95cfc75234534b Dave Penkler 2025-01-11  707  	.command = fluke_command,
+95cfc75234534b Dave Penkler 2025-01-11  708  	.take_control = fluke_take_control,
+95cfc75234534b Dave Penkler 2025-01-11  709  	.go_to_standby = fluke_go_to_standby,
+95cfc75234534b Dave Penkler 2025-01-11 @710  	.request_system_control = fluke_request_system_control,
+95cfc75234534b Dave Penkler 2025-01-11  711  	.interface_clear = fluke_interface_clear,
+95cfc75234534b Dave Penkler 2025-01-11  712  	.remote_enable = fluke_remote_enable,
+95cfc75234534b Dave Penkler 2025-01-11  713  	.enable_eos = fluke_enable_eos,
+95cfc75234534b Dave Penkler 2025-01-11  714  	.disable_eos = fluke_disable_eos,
+95cfc75234534b Dave Penkler 2025-01-11  715  	.parallel_poll = fluke_parallel_poll,
+95cfc75234534b Dave Penkler 2025-01-11  716  	.parallel_poll_configure = fluke_parallel_poll_configure,
+95cfc75234534b Dave Penkler 2025-01-11  717  	.parallel_poll_response = fluke_parallel_poll_response,
+95cfc75234534b Dave Penkler 2025-01-11  718  	.line_status = fluke_line_status,
+95cfc75234534b Dave Penkler 2025-01-11  719  	.update_status = fluke_update_status,
+95cfc75234534b Dave Penkler 2025-01-11  720  	.primary_address = fluke_primary_address,
+95cfc75234534b Dave Penkler 2025-01-11  721  	.secondary_address = fluke_secondary_address,
+95cfc75234534b Dave Penkler 2025-01-11  722  	.serial_poll_response = fluke_serial_poll_response,
+95cfc75234534b Dave Penkler 2025-01-11  723  	.serial_poll_status = fluke_serial_poll_status,
+95cfc75234534b Dave Penkler 2025-01-11  724  	.t1_delay = fluke_t1_delay,
+95cfc75234534b Dave Penkler 2025-01-11  725  	.return_to_local = fluke_return_to_local,
+55936779f49612 Dave Penkler 2024-09-18  726  };
+55936779f49612 Dave Penkler 2024-09-18  727  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
