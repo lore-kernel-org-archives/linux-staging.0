@@ -1,112 +1,99 @@
-Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E95FF27E7E8
-	for <linux-staging@lists.linux.dev>; Sat,  3 May 2025 20:24:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D18B1F4717
+	for <linux-staging@lists.linux.dev>; Mon,  5 May 2025 21:00:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746303885; cv=none; b=rZJa+qs3bxdZY0uFyOQhfDKcmzhEpCk+jFIUmW8cn/MrhZYGQPK7hh3pImworLd4mqqdvGtfwaIqQYVOO5Pnl7R/N1zNkDMwtRq34xF7vTtsgkFZnS2aMCUEfnFKmw6DC30QHk7VN50G2r/ZIiHAW+//GoR+g42vNzS7Pa2qOMI=
+	t=1746478827; cv=none; b=WqKhLqgP/to8GECUeh7riybpcIiN7UZNrLPNfxyi39uNC3wtLVFi7k3oFKyi3v7DtZC0xcroMpyxKd2HSkl99EdfVubdgH/OeSwZ3BXynkBPN1Ce6MmTjxisJtrK++2LA19KWmkG/TTmnm5v84uBfqVDeEsFcCEkOYCpd8FrVpc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746303885; c=relaxed/simple;
-	bh=TAHJwBNAeKqo1+l0Pi3fM8ptzRKXTosNkFT1juzLK6s=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=p82i0qwuBArj+PUXr1PE835zB/BGVyX42Wm6/5D/96s7ET0JNjMVXmfp46hZeVRmyj/TBLmagbAJzHrAGFH5hPwXFfF2kC+CVUcjFy2u9uhLXFszxn81vpR+gI1tZrZGY1E0qR/8B1aVgNaZJY7hEK6MlrTeDzlJDNQVJGTc8zU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=I++ASuWx; arc=none smtp.client-ip=209.85.216.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1746478827; c=relaxed/simple;
+	bh=heYGpo0l+cVcEtuZ17qfUwen5eh63XX5fvoKewwSW5w=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=V5knDTbvychEcXZgyQ9yzztWn5RHLMu3KbRL+pH5Y5cHo81eelL9rwPrLPlyGP2qjZMLfUACdATjEnZp0FuO+u9F6eDJzqMJX9HMKjpJseb9ySytWY69f4ufcm+dQcHSpUxED8NcdEh4upIA7+FqcIyk3DPKAL2gdlBShmzCVXA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=aNuLM8F7; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="I++ASuWx"
-Received: by mail-pj1-f47.google.com with SMTP id 98e67ed59e1d1-30828fc17adso3170240a91.1
-        for <linux-staging@lists.linux.dev>; Sat, 03 May 2025 13:24:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1746303883; x=1746908683; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=2q5uKd3+lJbLrPjBN/39c8sZuHCSfc1w3O06tTdCSIw=;
-        b=I++ASuWxVX48y4NJ3QwSdhBennKskvhF1JbgpenY5h9GNaa/HuNMdY3DNvJkhBra6a
-         +w3r2JwH8ix1C2Je1NoyXiPsEpg+XWisPIsIXds3dMHeFJa/LNuXHyTa1wedbeB/FaPy
-         4JnjoOBwZq3eb0rqkVRcN6PzQMp61YhUOOArI7NUOEu7ExS+TWQ4sFVHtgx9U1ZWy5O6
-         fg7H/i3FybLs5wWrpwrEVjO0ANbYCHa54zRgpL4cW8V6UfyD8+U/ueMrjoV3NuDr1WLU
-         4qrO58ALmgt2F7Z3KnyPD9kzo106akbYFPGcmCx5+VeLMB+k5vZo8ZsvBuOEHVQaL1rA
-         1nPw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1746303883; x=1746908683;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=2q5uKd3+lJbLrPjBN/39c8sZuHCSfc1w3O06tTdCSIw=;
-        b=Wds1QU7cXO0yU08BLg9M7WpAuiFd+wR6oxgJ3ogRH6kt5Dnklh9KDcgPLM+pkQJS02
-         RUyWlChdhxnWNxp1pAS4g/mloxC9UvMiEmI9JiKB1ul1BzdEA0qu/V+UvIDg9JsNZTSv
-         1QqgqIrbls3VVIe4NSrjFZ+ADmDUJrCdXYzgLDKJXIg4kyLS/Fqji7q+HKwxsaVvZTr/
-         yWUZGVr37HB8agXGQXKErUn6GbQFToxahZ92sVQP9E+9AVRTu7iP6sbzZMSBfV55iIQ0
-         9MHQvyTAcSZ46EI+MKN1mrFi6yyV3LIkjf/9DULG7wlZBfUSHJm3aC+omWxHr8nF6Dov
-         Q+3w==
-X-Forwarded-Encrypted: i=1; AJvYcCVKfHkTB9JJ6lAQly5g1/fbRKwuYSkYenGrww3L7qiBzYNTqvJcFBIfX8vtkriwhVbx0D5It78cbVjxIugn@lists.linux.dev
-X-Gm-Message-State: AOJu0YxV/YWGBMMk57PPjZtkGbBA7wMm03vCL4Hlj07mHvku3PNyptGt
-	LsKi44SXqQUAXGyYFTJkBA/JmJH29z9dA6HMzZ9Ix0ty1B6D2kOB
-X-Gm-Gg: ASbGncvTzz315W4iqkGYQNV/6aZw+Za0O9VVV5yuNmkssJM+zaoO/kp24XTZKkcilN1
-	0ov/vDJ8DFtqWSriMcLV3FqCeVUwgPXMCnAwn9Aa3NqhHx45Fv8cmLfOWGRrR8vku7Vh6upLm3e
-	d//lzMrWI9n4Cmel4nRB1pwmVCP1Y+dlD3ayhms3p3YL2MzoHjG+Pe18oXqCQLLJohZwpMsgj2Y
-	tHACAARm2mlb+bAR5KZD78DiobmPPWmiMTYGvgOcJArcGmqhhNHRAhvMxgrVxx/7WADd0MmEVRc
-	i/GCql6MkV1dolk6M2+oRroBAmoLyv3OX6xQT73jv0ynBqyoGqE=
-X-Google-Smtp-Source: AGHT+IFf34YJVXfP7Pz8cQvJg1IrQekx2IBw6l6EtPWiJtlZ1gOYmI6zevWfKc3dEP8I+9bndMCmNg==
-X-Received: by 2002:a17:90b:264d:b0:2ff:7ad4:77b1 with SMTP id 98e67ed59e1d1-30a61960f02mr3397166a91.2.1746303883063;
-        Sat, 03 May 2025 13:24:43 -0700 (PDT)
-Received: from localhost.localdomain ([200.133.129.60])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-30a34826684sm8253198a91.41.2025.05.03.13.24.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 03 May 2025 13:24:42 -0700 (PDT)
-From: =?UTF-8?q?Rog=C3=A9rio=20Fernandes=20Pereira?= <rfp2005@gmail.com>
-To: gregkh@linuxfoundation.org,
-	dpenkler@gmail.com,
-	linux-staging@lists.linux.dev,
-	koike@igalia.com,
-	linux-kernel@vger.kernel.org,
-	~lkcamp/patches@lists.sr.ht
-Cc: =?UTF-8?q?Rog=C3=A9rio=20Fernandes=20Pereira?= <rfp2005@gmail.com>
-Subject: [PATCH] staging: rtl8723bs: Removed multiple blank lines of rtw_pwrctrl.c
-Date: Sat,  3 May 2025 17:24:30 -0300
-Message-Id: <20250503202430.6053-1-rfp2005@gmail.com>
-X-Mailer: git-send-email 2.39.5
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="aNuLM8F7"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1746478824;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=OUWn1B7q5KlU5PNzEKLQMCbAK8xZun5A/8Zh2b4wD8s=;
+	b=aNuLM8F74qtbyfJlNKpkBWHIRDJJ51mms7BgH17iRpcWeQLzGayQrP2RkrD0rTYSdhrd+s
+	cMv+DDk9mC1SyMKDWrl5FqRiaPblFXy6V5b6ArWsbIU1FEokhmdBcsYhZMtOaiupa2fevi
+	S0gMFzqyRdBgxgGNuaTZApK+wOYeaCM=
+Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-642-TDpVrtdrNUqc__qrZgVxkg-1; Mon,
+ 05 May 2025 17:00:18 -0400
+X-MC-Unique: TDpVrtdrNUqc__qrZgVxkg-1
+X-Mimecast-MFC-AGG-ID: TDpVrtdrNUqc__qrZgVxkg_1746478817
+Received: from mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.17])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 2CF8D180087A;
+	Mon,  5 May 2025 21:00:17 +0000 (UTC)
+Received: from localhost.localdomain (unknown [10.45.224.24])
+	by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id AA660195608D;
+	Mon,  5 May 2025 21:00:14 +0000 (UTC)
+From: Hans de Goede <hdegoede@redhat.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Andy Shevchenko <andy@kernel.org>
+Cc: Hans de Goede <hdegoede@redhat.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev
+Subject: [PATCH 0/5] media: atomisp: stream start/stop error handling improvements
+Date: Mon,  5 May 2025 23:00:03 +0200
+Message-ID: <20250505210008.152659-1-hdegoede@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.17
 
-Removed multiple blank lines in file rtw_pwrctrl.c
-Found by checkpatch.pl
+Hi All,
 
-Signed-off-by: Rogério Fernandes Pereira <rfp2005@gmail.com>
----
- Hello, I'm Rogério "Fox" and newbie on kernel contribution and it's my
-happiest commit. Any feedback is welcome.
+While working on the mt9m114 driver I introduced a problem where
+the sensor's s_stream callback would fail, which turned out to be a good
+test-case for the stream start/stop error handling in the atomisp driver.
 
- drivers/staging/rtl8723bs/core/rtw_pwrctrl.c | 2 --
- 1 file changed, 2 deletions(-)
+This series is the result of fixing various error-handling issues which
+popped up using this (and other) test-cases.
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_pwrctrl.c b/drivers/staging/rtl8723bs/core/rtw_pwrctrl.c
-index 74a8fcf18..44f7c1930 100644
---- a/drivers/staging/rtl8723bs/core/rtw_pwrctrl.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_pwrctrl.c
-@@ -8,7 +8,6 @@
- #include <hal_data.h>
- #include <linux/jiffies.h>
- 
--
- void _ips_enter(struct adapter *padapter)
- {
- 	struct pwrctrl_priv *pwrpriv = adapter_to_pwrctl(padapter);
-@@ -994,7 +993,6 @@ void rtw_init_pwrctrl_priv(struct adapter *padapter)
- 	pwrctrlpriv->wowlan_ap_mode = false;
- }
- 
--
- void rtw_free_pwrctrl_priv(struct adapter *adapter)
- {
- }
+Regards,
+
+Hans
+
+
+Hans de Goede (5):
+  media: atomisp: Move atomisp_stop_streaming() above
+    atomisp_start_streaming()
+  media: atomisp: Properly stop the ISP stream on sensor streamon errors
+  media: atomisp: Stop pipeline on atomisp_css_start() failure
+  media: atomisp: Always free MIPI / CSI-receiver buffers from
+    ia_css_uninit()
+  media: atomisp: Fix "stop stream timeout." error
+
+ .../media/atomisp/pci/atomisp_compat_css20.c  |   2 +-
+ .../staging/media/atomisp/pci/atomisp_fops.c  |   5 +-
+ .../staging/media/atomisp/pci/atomisp_ioctl.c | 129 ++++++++----------
+ .../media/atomisp/pci/atomisp_subdev.h        |   3 -
+ .../staging/media/atomisp/pci/ia_css_pipe.h   |   2 -
+ .../pipeline/interface/ia_css_pipeline.h      |   1 -
+ .../pci/runtime/pipeline/src/pipeline.c       |   2 -
+ drivers/staging/media/atomisp/pci/sh_css.c    |  27 ----
+ .../staging/media/atomisp/pci/sh_css_mipi.c   |  11 --
+ .../staging/media/atomisp/pci/sh_css_mipi.h   |   2 -
+ 10 files changed, 62 insertions(+), 122 deletions(-)
+
 -- 
-2.39.5
+2.49.0
 
