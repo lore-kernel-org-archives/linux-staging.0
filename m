@@ -1,31 +1,31 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6685827A93D;
-	Mon,  5 May 2025 22:16:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E64E9353F09;
+	Mon,  5 May 2025 22:41:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746483404; cv=none; b=bW8XgkqwknidkmUGB047bquvW/a0gxv0Q+Me71DgsGEokHbRC3kLwxEGrU+CU2EjdRd1uOZrkux1z17ViiXT0S2RuNjO6etqRFufLdkm9CgrJVHQ/E4p08TM/UFxMQtQzWifjC7Onn9/x3ws7u7b1rtXvQ8olwVx0wzPjiPy7VU=
+	t=1746484870; cv=none; b=RxOc3vPFvS+t5jKwHIn9oUrm7qTDXTKsJA1UitphwQb3TlDcx9KA7xfcvWtYnTsIwz6SD4v1+mFoFG/xHfNQ+SUtR3SivLyg2TwoIlL1bNIA5P6BWJi+7eJepQ/gthFb/wXvcqvq8XZ7OkQAIZxUhACJSRDI1oYvVjU8MwCFI84=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746483404; c=relaxed/simple;
-	bh=7mkq1wehpyT8zEaNclLrNl2PA/Y6QJyMqTDjuO215UE=;
+	s=arc-20240116; t=1746484870; c=relaxed/simple;
+	bh=2Zi20p9BKcAoxVHIkMDsZvUJxtbfbNX0S8FyP1Jk2r0=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=WawdZ9h/HCKu2VI/sMlSTsGWfZXOndm+qm4UHaC7Y4QwHzckSr8ApmpiZ2KI1vd4aqpEIyOYKvKd5kmLzXPYldKwCKituYd/57+673uVZdIxltiv7L5mm77OWqyBdQ3+NqoNR3FbIiPB6Kjjzn/kDcVkloYS5AxXqJBJRzCEdpg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Qg23aQr4; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=gEXe4anCE1+I695PlfZpVOUKwlme0kSnrVHQTLV7TjKPBZai94O7tvyTkpnnFuMWzh+bWEur2f7F5NFKNk3Xv4cBaqvTa+FaJ0Qw8zVG33nkRncAJ4FujsWMQsTKoWFx+DvuDGmtr7ExM/Gvab3nQkaSBuY2PLEZyN6g9DZRpS8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QVxdU9/8; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Qg23aQr4"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 74826C4CEEE;
-	Mon,  5 May 2025 22:16:42 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QVxdU9/8"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5DB6AC4CEED;
+	Mon,  5 May 2025 22:41:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1746483403;
-	bh=7mkq1wehpyT8zEaNclLrNl2PA/Y6QJyMqTDjuO215UE=;
+	s=k20201202; t=1746484869;
+	bh=2Zi20p9BKcAoxVHIkMDsZvUJxtbfbNX0S8FyP1Jk2r0=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=Qg23aQr4UqlMt9KKxM8zCmAjf2uLJX1A+AapTi0JMlXvL2p8qDRcxdTvsUvBYMkrB
-	 SziLTVCI65kFmsnoTQ4z32DouPAFyNCs2px5m31Rp+UR2q7R0Nthi7JUOd0ApbaqPd
-	 7RxCrAMksLcaTYliXsrRHpbBVEGmvvcwNaYS7s73UlLePvoMpaRpo0v02MU3My1+B6
-	 bR2NZ8rAIHJRFmlJjxbdbQnSH7HS67+SSYQg8y6tMAcStnbSyRRbPalKdlQS+oLABT
-	 YXZEn+6THRRU8Ntpe1Cl5Q4sO6kLSn1uUca+pifS089MOp5oTzPkvY4Frn8ub7g99O
-	 JflrVejDrwgiQ==
+	b=QVxdU9/8s+fF708hQP5A4oznnFP7VFs36ghQBqw2nlUkfY3j/k9iEEEHCgLzQsvEy
+	 f7zcdTGIVI9BaR8m/ct3WszFmsXdqsaQcpFGYxnE7vDna8C77hQZf9fkGlwXz3p9Vn
+	 Tag4La0u4bXkZoq1hxrAx9J3+2SJkg/exmU1VVEboyaWQgdzjPOMA+zb3pNOHmxSmz
+	 CpgyIxZ/HkYufs0pDQl/7AYH9OZjTJHakli2tPsmeBJ4K4Y4XG48AfKGXBrvcVuNt7
+	 f4pgYobSt8bXO3BJBJWc5SAXXGhPxDWgs/dcI0o+ySoLHqFoOr2Ul8OdVK0ywrn+M4
+	 RsncnUvX63D/Q==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
@@ -40,12 +40,12 @@ Cc: Stefan Wahren <wahrenst@gmx.net>,
 	linux-rpi-kernel@lists.infradead.org,
 	linux-arm-kernel@lists.infradead.org,
 	linux-staging@lists.linux.dev
-Subject: [PATCH AUTOSEL 6.14 068/642] staging: vchiq_arm: Create keep-alive thread during probe
-Date: Mon,  5 May 2025 18:04:44 -0400
-Message-Id: <20250505221419.2672473-68-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.12 056/486] staging: vchiq_arm: Create keep-alive thread during probe
+Date: Mon,  5 May 2025 18:32:12 -0400
+Message-Id: <20250505223922.2682012-56-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20250505221419.2672473-1-sashal@kernel.org>
-References: <20250505221419.2672473-1-sashal@kernel.org>
+In-Reply-To: <20250505223922.2682012-1-sashal@kernel.org>
+References: <20250505223922.2682012-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -54,7 +54,7 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.14.5
+X-stable-base: Linux 6.12.26
 Content-Transfer-Encoding: 8bit
 
 From: Stefan Wahren <wahrenst@gmx.net>
@@ -78,10 +78,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 34 insertions(+), 35 deletions(-)
 
 diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-index 0c7ea2d0ee85e..64f9536f12329 100644
+index 97787002080a1..1a9432646b70a 100644
 --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
 +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-@@ -280,29 +280,6 @@ static int vchiq_platform_init(struct platform_device *pdev, struct vchiq_state
+@@ -588,29 +588,6 @@ static int vchiq_platform_init(struct platform_device *pdev, struct vchiq_state
  	return 0;
  }
  
@@ -111,7 +111,7 @@ index 0c7ea2d0ee85e..64f9536f12329 100644
  static struct vchiq_arm_state *vchiq_platform_get_arm_state(struct vchiq_state *state)
  {
  	return (struct vchiq_arm_state *)state->platform_state;
-@@ -1011,6 +988,39 @@ vchiq_keepalive_thread_func(void *v)
+@@ -1358,6 +1335,39 @@ vchiq_keepalive_thread_func(void *v)
  	return 0;
  }
  
@@ -151,7 +151,7 @@ index 0c7ea2d0ee85e..64f9536f12329 100644
  int
  vchiq_use_internal(struct vchiq_state *state, struct vchiq_service *service,
  		   enum USE_TYPE_E use_type)
-@@ -1331,7 +1341,6 @@ void vchiq_platform_conn_state_changed(struct vchiq_state *state,
+@@ -1678,7 +1688,6 @@ void vchiq_platform_conn_state_changed(struct vchiq_state *state,
  				       enum vchiq_connstate newstate)
  {
  	struct vchiq_arm_state *arm_state = vchiq_platform_get_arm_state(state);
@@ -159,7 +159,7 @@ index 0c7ea2d0ee85e..64f9536f12329 100644
  
  	dev_dbg(state->dev, "suspend: %d: %s->%s\n",
  		state->id, get_conn_state_name(oldstate), get_conn_state_name(newstate));
-@@ -1346,17 +1355,7 @@ void vchiq_platform_conn_state_changed(struct vchiq_state *state,
+@@ -1693,17 +1702,7 @@ void vchiq_platform_conn_state_changed(struct vchiq_state *state,
  
  	arm_state->first_connect = 1;
  	write_unlock_bh(&arm_state->susp_res_lock);
