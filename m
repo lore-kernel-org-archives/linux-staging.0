@@ -1,95 +1,106 @@
-Received: from mail-yb1-f179.google.com (mail-yb1-f179.google.com [209.85.219.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F375128C01A
-	for <linux-staging@lists.linux.dev>; Wed,  7 May 2025 17:18:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C49AC1E9B04
+	for <linux-staging@lists.linux.dev>; Wed,  7 May 2025 18:47:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746638339; cv=none; b=tdctb+THYbidLH5g4H8Q/21qtE7CCHUMm2AL893zzLciJ99ec5ZlrgjDgj9zY7fboQxkidrHdb8Ay3TDBYTcmsZn6Q8waVpnUQNgidizinafMNXPo6i5fN6MTxXZb7le4FavzzeCUrODAQR9BCgMyqeffWWFzFTJdfRVa4OvPQY=
+	t=1746643677; cv=none; b=fUGOarGsHpBpVwG1wgNiCStQ8gWsiSCPc2xHeveJ3HittB1+ifiImmnTv4RDPAI5x2IHi8MOpa2hUv0l3VW5IA+9Xjj62CV7sTukgJ/KvXhkj6vjLT/Lj57NOJKNNmJHdN3XQGFabN76Nmc1/kLrOEGQEFPLIr3iGg1rX7PwKxE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746638339; c=relaxed/simple;
-	bh=zF3faO3IU2jde88KWMuQmf5+Q/l8n/LuG6lA+m+zJG0=;
-	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=nV+QE+w5SHeN0y8iBTouNI8lWw892CYF3RYNOBFTdt7DiadZGGUGssFQsN6SANhe4plvRxeQy/7zDSUv5KHg3wgK6col0P4WHmBNML2rfVjLivOzzfrp5B7Q+PDhN7/tjDQ5VubO7wb8fZrD7CBRdc/aTNqxvKUdtAMNb6E0EsE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gf4KPuFU; arc=none smtp.client-ip=209.85.219.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1746643677; c=relaxed/simple;
+	bh=Ix+ixCRYX7nhf54621iyda7H0xVjnd+96PAL2peFtNs=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=pPBKXNUIoDBungnVnmii2/Qm936/QDxPh7acJiRMKcVUCEGfhxYHqoUUWfTYTNiAmPfNzpY2Dx/CttYeKRUSA+jn2OkWRgw3LV2hcKLjO9vJG/gN7QGRfo9yWwruDgwIDOUnuNr5Ieo4cFh94JYWxTRMbkxHR/ZEFPeigiI2mvE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=eGui7Hxv; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gf4KPuFU"
-Received: by mail-yb1-f179.google.com with SMTP id 3f1490d57ef6-e78e53cc349so178351276.0
-        for <linux-staging@lists.linux.dev>; Wed, 07 May 2025 10:18:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1746638337; x=1747243137; darn=lists.linux.dev;
-        h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=b9n5cPfDVXl8uppj2xa5Gl/xVZFBnu8YM//f96k1dBI=;
-        b=gf4KPuFUibyCQsewioePpL403WmrZRFXOkDkXRW/w7NRJwqCwYiRs4mk7M6Ilklh1Z
-         GW2ojPqlOUaxHN8Xnb3R/lvHjLkjOJlx2mV1bkLAWBK80vPw7Um1uoYT08NmGie71pie
-         3SaO8QFCxu6acCnckV5vy9bg1jzd0SHsF5EIa/BVoCDQm3PsaDzuAZwfyfba5MDr41bE
-         ykvVCd0f2oYthq13hnKPbvb96LoZfqwwgNaf9nfzDwO9xWjBO0y4mq+MK6tGrDIAMtDM
-         ARWG1P9OG78kwtbnDLFGQiVLEjRh2gmpX+oISonilxPrWCGwtd4lNKENnIq5uDC2ambT
-         qEkQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1746638337; x=1747243137;
-        h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=b9n5cPfDVXl8uppj2xa5Gl/xVZFBnu8YM//f96k1dBI=;
-        b=qTOivYvbmtR6ghNG7SDbTpb1nAIgKfpgl4aiq2OAJfx/y5wmtota0maYXE301uHiRt
-         AKPnIcWCdL04u60k/NHUCB0pzKoWDy0E5aB+6KcCpj4eU7qG1OyESFznoJQmqAeASvVj
-         hytvq2ji/fWn0Qqt8gvpjqq4hZtE/H5TJ0+/3YcS1CG79yJDEZBN5jafQEZyM7aMeMFF
-         NzyeyTIW1Y0+OQ50KbH8PLPgXLpa1q6kvpWgr6n4ie0Y1PFNSoZpdtOntzIENguY6czz
-         u3di0Ra46W4G4HfjGh9ojQCuF5SY6gL/0T3YOHYvLWCYKDDUg6wiC6at5gEMc8Jb31tb
-         bo2A==
-X-Gm-Message-State: AOJu0Ywjibu/j0vb1RvBhF2MwjxNiS0fisXn6BmXlZuTSzkTe1ziOPq6
-	fg0yyG5akPRX9QDFzToRS8flmH3flpeVMN9sIky4LYjzXQvugFB6DoZFcZv3xK4eSGK6kXc03r8
-	45OXv1H+Nf1VOa5+zOUr2Nxm6lFs=
-X-Gm-Gg: ASbGncsUaGhH2a2b0cUXyRFBb8E7ex7eUQkMoETnhabdUudKRdBo6qcrfW9V0ci6o8C
-	1B1df+NyEFKhUcap7FtdB+ZJCQ5aX/BEYb6UUEe4GnnqHTRF+TwB220kipNbQ4XqtieGVd4HwPY
-	Lp2MKNN7H2XmbsbIpncK+l
-X-Google-Smtp-Source: AGHT+IEi8UCQyXy6izOt+S9txk4foE6SJeIXLqYU7Jpt6MhUGFskBtJYKyYfBg021oobJBG026n4Opi8qk5w/Shq1Gg=
-X-Received: by 2002:a05:6902:4909:b0:e75:6432:4b26 with SMTP id
- 3f1490d57ef6-e7880f8bffcmr6037346276.13.1746638336849; Wed, 07 May 2025
- 10:18:56 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="eGui7Hxv"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1746643673;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=DQ1MeujzY80NlUXgSlBSkAf4IDE/Iof+2Qm5wM8j44g=;
+	b=eGui7HxvicBdor2jMkGOyicKdh6puKBXg7s542aOZ3nj+KA/eD7gykv2syKXA2NOmkrGQf
+	TGuLvfOpM/yw6z+V662JRbPetTRnAE20uAI/3vrUANnjblaa/5b8ND/8xpKO7EVuhhv2+K
+	XJwz5XcXZdu1ThyOMsog2z4u3aAVPbo=
+Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-671-EFz21W8-NUie05BQa1T5vA-1; Wed,
+ 07 May 2025 14:47:51 -0400
+X-MC-Unique: EFz21W8-NUie05BQa1T5vA-1
+X-Mimecast-MFC-AGG-ID: EFz21W8-NUie05BQa1T5vA_1746643670
+Received: from mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.4])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id E4F8D1800374;
+	Wed,  7 May 2025 18:47:49 +0000 (UTC)
+Received: from localhost.localdomain (unknown [10.44.33.122])
+	by mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 2B45E30001A1;
+	Wed,  7 May 2025 18:47:46 +0000 (UTC)
+From: Hans de Goede <hdegoede@redhat.com>
+To: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+	Andy Shevchenko <andy@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: Hans de Goede <hdegoede@redhat.com>,
+	platform-driver-x86@vger.kernel.org,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev
+Subject: [PATCH 0/6] platform/x86: int3472: Allow re-using sensor GPIO mapping in atomisp
+Date: Wed,  7 May 2025 20:47:31 +0200
+Message-ID: <20250507184737.154747-1-hdegoede@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-From: rujra <braker.noob.kernel@gmail.com>
-Date: Wed, 7 May 2025 22:48:45 +0530
-X-Gm-Features: ATxdqUFrIxLe3S0Qz6iJ5R7Hiy0EoaZxRQ1wavXrU1wOMLUufsELAUMCly03aQQ
-Message-ID: <CAG+54Da+jDEXRQMgmXGyCD2EHjNFjA9nS9=ShdJPrC3EKjUgBg@mail.gmail.com>
-Subject: [FIRST-PATCH] staging: gpib : gpio : gpib_bitbang.c : fixed
- parentheses error.
-To: Dave Penkler <dpenkler@gmail.com>, Greg KH <gregkh@linuxfoundation.org>
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.4
 
-To pass it as one parameter, wrapped the entire macro expansion in parentheses.
-and build it successfully.
+Hi All,
 
-Signed-off-by: Rujra Bhatt <braker.noob.kernel@gmail.com>
----
- drivers/staging/gpib/gpio/gpib_bitbang.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+This patch series does some small refactoring of the int3472 code to allow
+re-using the sensor GPIO mapping code in the atomisp driver and then the
+final patch in the series moves the atomisp driver over.
 
-diff --git a/drivers/staging/gpib/gpio/gpib_bitbang.c
-b/drivers/staging/gpib/gpio/gpib_bitbang.c
-index 9670522fe36e..a1f9c99c5ad2 100644
---- a/drivers/staging/gpib/gpio/gpib_bitbang.c
-+++ b/drivers/staging/gpib/gpio/gpib_bitbang.c
-@@ -47,10 +47,10 @@
-                        dev_dbg(board->gpib_dev, frm, ## __VA_ARGS__); } \
-        while (0)
+About merging this, maybe the int3472 patches can be merged in time for
+the 6.16 merge window and then the atomisp patch can be merged after
+6.16-rc1 is released, otherwise an immutable pdx86 branch with the first
+5 patches will be necessary.
 
--#define LINVAL gpiod_get_value(DAV),           \
-+#define LINVAL (gpiod_get_value(DAV),          \
-                gpiod_get_value(NRFD),          \
-                gpiod_get_value(NDAC),          \
--               gpiod_get_value(SRQ)
-+               gpiod_get_value(SRQ))
- #define LINFMT "DAV: %d         NRFD:%d  NDAC: %d SRQ: %d"
+Regards,
 
- #include "gpibP.h"
---
-2.43.0
+Hans
+
+
+Hans de Goede (6):
+  platform/x86: int3472: Move common.h to public includes, symbols to
+    INTEL_INT3472
+  platform/x86: int3472: Stop using devm_gpiod_get()
+  platform/x86: int3472: Export int3472_discrete_parse_crs()
+  platform/x86: int3472: Remove unused sensor_config struct member
+  platform/x86: int3472: For mt9m114 sensors map powerdown to
+    powerenable
+  media: atomisp: Switch to int3472 driver sensor GPIO mapping code
+
+ MAINTAINERS                                   |   1 +
+ .../x86/intel/int3472/clk_and_regulator.c     |   9 +-
+ drivers/platform/x86/intel/int3472/common.c   |   9 +-
+ drivers/platform/x86/intel/int3472/discrete.c |  28 +-
+ .../x86/intel/int3472/discrete_quirks.c       |   3 +-
+ drivers/platform/x86/intel/int3472/led.c      |   3 +-
+ drivers/platform/x86/intel/int3472/tps68470.c |   3 +-
+ .../staging/media/atomisp/pci/atomisp_csi2.h  |  17 --
+ .../media/atomisp/pci/atomisp_csi2_bridge.c   | 239 ++----------------
+ .../staging/media/atomisp/pci/atomisp_v4l2.c  |   1 +
+ .../linux/platform_data/x86/int3472.h         |  16 +-
+ 11 files changed, 76 insertions(+), 253 deletions(-)
+ rename drivers/platform/x86/intel/int3472/common.h => include/linux/platform_data/x86/int3472.h (92%)
+
+-- 
+2.49.0
+
