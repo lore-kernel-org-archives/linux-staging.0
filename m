@@ -1,71 +1,70 @@
-Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
+Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75D4B278169
-	for <linux-staging@lists.linux.dev>; Thu,  8 May 2025 14:52:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4639027A100
+	for <linux-staging@lists.linux.dev>; Thu,  8 May 2025 14:55:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746715941; cv=none; b=RAH0H7q72+RJFslqNYOJJnxQH5qEI3uoMxX/aWyk8y7SNPo7TjL5HFTdFsMTOu8+1jrgnIZwlMu5lPk9bQ9k87BH6OsFQLbEs98oX1Rnm21Q1g8Hz+larW8JVqKCRum0bB/tJACxo1ixi7yu6V85zZvBLBdYoGRCII/K45oa/3A=
+	t=1746716151; cv=none; b=VjQheLUbUHUzTaBBm3kpwj5g3AtL2zT5InbsXjgxmfaw1y61gZnJ+3DSK8ZU1RIAqs3/k09d2om+IwFVIMscbGBEdTngfUSFzJW6NKp5VVlf8Xk9vLm8F5trEIvOuA2dtfpXTpp2BWy7A3kaM7p1GpbApx0e6qlAGq99pdv6RU0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746715941; c=relaxed/simple;
-	bh=zEFQKGgwI3EuuNl71JKybObkFkPSlGU5AwxHNXv2Yqo=;
+	s=arc-20240116; t=1746716151; c=relaxed/simple;
+	bh=Wi41NfxUGhbTbv1pQ0AGhckkbn6srjFISoz8v8J+p+Y=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=R2MMwV2CroNoVd9emp/U3MiftBGoMNtl91EtyL4hc15VrFeczM/MfNbKpPCO85USjXS6jy2jQvMl6qHZMFYl6HB+cz6SwjC4jdcrVuQh2NyJnyKcDW0iX7+/MlxaSzsBAl6jzxa6Gjp8F64AYoI8J4AMc9MZoSCPmTzTGu9RZQY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CUOlPSXg; arc=none smtp.client-ip=209.85.218.50
+	 To:Cc:Content-Type; b=AE+OSYmSJmE/MqyA7q++xRi5u18jbUjwiiGbclXPTtfsjThph2SWL36zGruWjAzjn3xSCeIkMhF9gcs2PO1MJifTpGAgFei4LUIuFHcLOuBHW2ms2I7RD6/QCJFHpDGz3oLPStHzD1cZbP56iXSDtx93jdfH4gBjYrWcpjUi8fk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OASI1Rrs; arc=none smtp.client-ip=209.85.208.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CUOlPSXg"
-Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-ac2bdea5a38so154860166b.0
-        for <linux-staging@lists.linux.dev>; Thu, 08 May 2025 07:52:17 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OASI1Rrs"
+Received: by mail-ed1-f41.google.com with SMTP id 4fb4d7f45d1cf-5fc5bc05f99so1773924a12.3
+        for <linux-staging@lists.linux.dev>; Thu, 08 May 2025 07:55:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1746715936; x=1747320736; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1746716148; x=1747320948; darn=lists.linux.dev;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=zEFQKGgwI3EuuNl71JKybObkFkPSlGU5AwxHNXv2Yqo=;
-        b=CUOlPSXggHPYieGarZaU/tcbqxco7JgNTghy7XqGcH7/5WKJVnuCXgrlGukbaTD4oL
-         pebWqXuq0xFZqyBJhibseVfFDz+rB25kmMvH3+nGI/cDjwHcNSktf6yRzuEMonwcC9Sq
-         vaw34dmwgHmT+kmjih96EYhCyYOxHJiJSQsdftwj/Rx33MAFE05HaypTCrVh+Q200Rib
-         Wctouf9gZS4xFgnD5ccXDq3t0hg4VzJlBTbgWT+/EFjyARaqtPUI4BuA7yHNxycGiF/C
-         w5E70z+MUSDqUvIJ3h3dmYATci8vOevfbV3yKG+1gP+xRtwv/FizTfLBmADigMAOr5RN
-         p/mQ==
+        bh=Wi41NfxUGhbTbv1pQ0AGhckkbn6srjFISoz8v8J+p+Y=;
+        b=OASI1RrswDwifZJGICWLrlPhmVdvqgvhH87F96lQs4ENLG80pwkmEoGEyYA1EAaOKM
+         IzyMhLqE9+TKr/0FzztSz3v1dygGhAoH3KWke5b2zl97spg7IW71cfGvuFicQ5Qe0cjO
+         SMScAmFx3kie334jc3Z0xVd46Nf1t5/xjP+mpdQipuQjBejx8CSoDUWzcDAtih14zQLr
+         4ELjdUjqiPl14AnWtqyYNRfD4AR0DDWxhH8p3pjG7MBexIGrCUF9ofuR4Ak7+GZIdsM4
+         LAB40a7q0CBpW1nVqGh71R3NYWKyHm/savgZ+bWpPKE7rna0peIxWdgNs1g01kiNB7TP
+         HMqg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1746715936; x=1747320736;
+        d=1e100.net; s=20230601; t=1746716148; x=1747320948;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=zEFQKGgwI3EuuNl71JKybObkFkPSlGU5AwxHNXv2Yqo=;
-        b=rj7YhM1aFngC6YwtdEZht9ZpIIAevmh+4Um2PLBn/UPTVr86OQw+vaxk6reizGwloT
-         MQx42DlpJKIVOeqEC+Ovid0AzkMtdb4iTtipoWKGwaLWaffmsBO+jy20kwBtje6VmgJd
-         k/3HoKezhKFQpF4tT1XCfJCq30ViY9QY/lSXVbXk0NiFWdu9V80KXe1smVVMNZHMu3Zu
-         MIQuwC2FJN7vVOPCIItmvmgVybJ6a66369EVtQ4YAT/mDxcKWSYj/tPX2Ez3Mx4X453R
-         WUZ7OmMTSaxtbxmzPTVEN6JkSafR6rFDjD2Da8cxYZ7yWa3UwrfbffLDvABdZckRE8zn
-         jvuA==
-X-Forwarded-Encrypted: i=1; AJvYcCUEQKGCmwCUjf6oNV8SKAugDPGI/uUSgEp5e/DzlgSwzOf3+KBBpLXsGNAWkbJq3vBWrQT5mYcAwqkEGnTx@lists.linux.dev
-X-Gm-Message-State: AOJu0Yxf4Xyw7LaebT0kLNXA+rQruZEeEyM9Sg+3RtVudI5CbjzDd/oP
-	C/cALxjaxaIIsQaSJfp5rCWSxpXInKy22B+6vH6z6quKPpe0ZrJDnjiqDIGwgCm6ZHs5WVhS3PA
-	nhXJMa+7ofP3RFP2iCRa37uieDEI=
-X-Gm-Gg: ASbGncuNQUwt9/vtV+SS0R4gVBsb29iygwwdajMKqBk8Wza7JGk/4AQDeZoFL8Znsb2
-	sVvkmZVrFkDxI1wBKnlWQ3btgwCdqZqaM89H5OkWu57Xc74wE92V6G9D8Ds5HRfKYlDA2NhPFPQ
-	dRO6FsNo4+OQJAJ+ALYvJJLlynCunfB4tgDxI=
-X-Google-Smtp-Source: AGHT+IEsBSgz01pN0cO0LMyNdDhLRDOkfYDqhopudgY64WYs/wE/MG9dZJytCNFvXTnZfnCJSptlrpMURSb7NIV+ZPA=
-X-Received: by 2002:a17:907:7ea3:b0:aca:cb18:9ad0 with SMTP id
- a640c23a62f3a-ad1fe9a0a38mr368434666b.45.1746715935518; Thu, 08 May 2025
- 07:52:15 -0700 (PDT)
+        bh=Wi41NfxUGhbTbv1pQ0AGhckkbn6srjFISoz8v8J+p+Y=;
+        b=KdXJGnV7ykUTDAxPiCgqig7sHmntgK7Yynr9xXbxTUyGpndO9m5jbc8cj+3X/UOSO9
+         8uYanQB0JFOKK6pFCFy6/3DtHaQ6iJnEDrK3dt6s/YPdHKBfs0o0xv9+3jSctlKj5bAL
+         mMW7oMrhscwUA3mLpZ+R872wMAQ8eYKUauG9eJOWmTgwIZn8Bg6CE5Xgp2q15Q4H0hP4
+         P1JoUQVCwikfiNsW0b51SaLCTcESAtrkzh8TEW1Sevvi745qdDgnNEBTq5tCD5fiX87r
+         T6JTaxFcTTrLENfa0JzJHtzt+/AHCZKw/AjSCN8fNQx6qpHeXgYGNS+Jio9Z2LHR39Jb
+         wAXA==
+X-Forwarded-Encrypted: i=1; AJvYcCVZgjh8zeckzGiCKFCdsGBaigYcqYy7yRd4nHPSdqNTYrq/n7FiyvRQgugjvwp6gdr2gJbzbARhcflA623F@lists.linux.dev
+X-Gm-Message-State: AOJu0Yz4hkufy8JyEGNAdg+SN1REQpITOY7HR9S6U9ieUbj2O6NXYZwM
+	AEzLOTQTJKxVEsUFHMfElbcsjNqc8I911c23i2ldwMrYeOpOxNSzeLpxcoHYeWQIO0esBTiQSj/
+	JVSIYl2tgKnAJEYlLdbwLGsGzwz8SMl9i
+X-Gm-Gg: ASbGncvgf3fY/byZsooNU5TE1UCR537Z+d8X4XFy8lywFwN1UH4LYczpR4BHJ8Qc3vS
+	GTTV/cN6CzEu4sG16NNAKNMxqUQ2rlhNTCZSIiXxdjvHWv6DJ87Z1y5RIM+3VDcE5ccAvpnhDqV
+	TjdIdWacc8oWciK9hPlxsfGIDu
+X-Google-Smtp-Source: AGHT+IGiKRW4TiDoK9/lBhRrzeQKcy9vPDCmLn29aM+2GMRxVJdJ+CW9Z051dhndWfzh2L6JSFGlIL4gDWZ3hZmGZI4=
+X-Received: by 2002:a17:907:8d87:b0:ad1:e7f2:b94e with SMTP id
+ a640c23a62f3a-ad1e8bcc880mr783564066b.18.1746716138298; Thu, 08 May 2025
+ 07:55:38 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250507184737.154747-1-hdegoede@redhat.com> <CAHp75Vcb-fcQHWqVDh=KUwhwvSP6KqUN8FsAMvDuwF2iD7=J1A@mail.gmail.com>
- <dc3b07a9-cb0f-4f84-9e4b-c6e62ffc73df@redhat.com>
-In-Reply-To: <dc3b07a9-cb0f-4f84-9e4b-c6e62ffc73df@redhat.com>
+References: <20250507184737.154747-1-hdegoede@redhat.com>
+In-Reply-To: <20250507184737.154747-1-hdegoede@redhat.com>
 From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Thu, 8 May 2025 17:51:38 +0300
-X-Gm-Features: ATxdqUFyJujkSMlNxfUR3sdhq60BrkQnbnimnNRw0lOBs81u2F_A0KBZ58L_uxM
-Message-ID: <CAHp75VfDoR6wP00e=3YiYSLwXV0f6jygJaxQY2gyUE2aPKNxvg@mail.gmail.com>
+Date: Thu, 8 May 2025 17:55:01 +0300
+X-Gm-Features: ATxdqUFbSQF6mj9SBgrSeC8p9uP8gtobKBLj7O4lMyjvY1f-aFMKCyAoOnzP-K8
+Message-ID: <CAHp75Vf3jUuALHGk3fXEDRnWKh-z0prSgQ6sYhK_dcrxAiyEYw@mail.gmail.com>
 Subject: Re: [PATCH 0/6] platform/x86: int3472: Allow re-using sensor GPIO
  mapping in atomisp
 To: Hans de Goede <hdegoede@redhat.com>
@@ -77,39 +76,18 @@ Cc: =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, May 8, 2025 at 5:00=E2=80=AFPM Hans de Goede <hdegoede@redhat.com> =
+On Wed, May 7, 2025 at 9:52=E2=80=AFPM Hans de Goede <hdegoede@redhat.com> =
 wrote:
-> On 8-May-25 10:36 AM, Andy Shevchenko wrote:
-> > On Wed, May 7, 2025 at 9:52=E2=80=AFPM Hans de Goede <hdegoede@redhat.c=
-om> wrote:
 
-...
+> This patch series does some small refactoring of the int3472 code to allo=
+w
+> re-using the sensor GPIO mapping code in the atomisp driver and then the
+> final patch in the series moves the atomisp driver over.
 
-> > Can you isolate GPIO
-> > mapping code in a separate file, please? This will help to generalise
-> > this code outside of two mentioned drivers (I might need it in the
-> > future for something else, not related to cameras at all).
->
-> If you want to re-use this elsewhere then splitting it out
-> further sounds like a good plan.
->
-> But which bits do you need? Do you actually need the full code calling
-> the special DSM and then adding either GPIO-lookups, or gpio controlled
-> regulators / clks / LEDs ?
->
-> Because atm the int3472/discrete.c + other c files linked into the .ko
-> does all of that and for the atomisp2 case we actually want all of
-> that (although for now GPIO -> clk and LED is unused there).
-
-I basically want to have remap\ing quirk part to be isolated.
-
-> Anyway I think it would be best for you (Andy) to come up with
-> a proposal / RFC patch series to split out what you need. I'm certainly
-> open to that and happy to review such a series.
-
-Fine, but can you do this in the discrete.c internally, like an
-embedded C file so it doesn't require headers to be used, but being an
-interface-ready solution?
+I just realised that the AtomISP variant is very likely a predecessor
+of INT3472, and hence a lot of code has to be shared between two. Or
+even having INT3472 being enumerated as a pure platform driver for the
+case of AtomISP.
 
 --=20
 With Best Regards,
