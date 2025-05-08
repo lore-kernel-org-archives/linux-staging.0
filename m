@@ -1,87 +1,117 @@
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
+Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 729E41FF5EC
-	for <linux-staging@lists.linux.dev>; Wed,  7 May 2025 18:53:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8920C2620CA
+	for <linux-staging@lists.linux.dev>; Thu,  8 May 2025 08:35:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746644021; cv=none; b=dGNkzI0U1LX1tP8gvlvyVOT7skMqsqL1hvdcKTGAMi1JFRYxMmomkkni2/e6F8Sut430DGhfGlIISEpa5PP1ucL/P5fb7wfvkC2E/hrjytXNxNzScfwqK7tZVvizIxX4+5s1YqUDVbC3eMlGuKaP1E7f/E8IbuvgHm0iIGXXkzM=
+	t=1746693324; cv=none; b=F+ouvGkPLvQMAnH6USDXWEwUFn5exu4ein4jrki5/It8hkv8BQZ0FL6uHvGG9ZVUuDFdL2KIZ+oGQt+DtRbOqYMg+z6Q8mMeBMP9iqxYyG87kuiLcX9ddjGxLcUa27oVP9/Hf7o9gT2z7nBMa/AeJxK89Z1jJz6jxacCKjE4NLU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746644021; c=relaxed/simple;
-	bh=4vKFr7qe4vZRrtcDl0MgUKtLS085rq+jZEdMX5rs7hs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=K+JkEIy/x1Ww3yjhsMnUsUkQAH8AwPEALtYkmu5DThmwe0quCScr2goU6f275BdhUPS3I+u6+36ZUu73UDVpUsLpnug5gzPWVCwGP/r1UzttV4ZFZCvCPDIpqdqMaFOoItmyu0HIjqypxnB2Mqr4xUvwsBHZ8OkgA8F0uPO2jXE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=fgDdHK2z; arc=none smtp.client-ip=209.85.221.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1746693324; c=relaxed/simple;
+	bh=e3t7QJAuaFJtViosS65Bennck9HPjSpPtTFfrFBECa8=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=KY/Lul1bz+Nr6AuxzJKukHVq3RpFQrUxqFOEwpcSQkjYoJXfiireDrMrcSF8ZaqVnUQJedK+x8jJaNnRZWVjvNclilLUD+d+9pUkD0p3mue3EnZk6kKkGGG3SW+1ISvX8zOGEq2GKIOAtHqHNV6RCH2HDZ7/hTvcMW1gu2iMCX4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YZJaSciQ; arc=none smtp.client-ip=209.85.208.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="fgDdHK2z"
-Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-3a0b637db6eso120822f8f.0
-        for <linux-staging@lists.linux.dev>; Wed, 07 May 2025 11:53:39 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YZJaSciQ"
+Received: by mail-ed1-f52.google.com with SMTP id 4fb4d7f45d1cf-5fbdf6973e7so894358a12.2
+        for <linux-staging@lists.linux.dev>; Thu, 08 May 2025 01:35:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1746644018; x=1747248818; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=1fN0IMnzWBFaY2VN7IEwty5K6yq3NVqO0kz2Muvh8c0=;
-        b=fgDdHK2z7uq7W42WuFCAdTCsWE+7UZ5t5tWkHcHa8a3KxrDN77Oq2rQk5LuGvCyVSX
-         z31OXLvkf8/C7k4ICanf9nOewc1R409Mtj1F80C6vbZawl8WVQVjZ9ohsn1ivxamHsGd
-         4tH3Gr0BOVVBwsPToG3shLv4h0+MeXDOTtx+WBWUwijEMbqo7vnJYR57jtODKkX2ZLke
-         3onaXrbilHpCQELThbVVIf4aqNtQrIyvLqdXxCqr/Xj1nG0gR2o6OM4QgBAW+Ygiid8i
-         RfKvUjO1ow2ivKh9VQPnvDRH5JvD7UlltlSxhNxMC9k/PbiQBC8COz39CbM1Ryn9lZU7
-         CG/A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1746644018; x=1747248818;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1746693321; x=1747298121; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=1fN0IMnzWBFaY2VN7IEwty5K6yq3NVqO0kz2Muvh8c0=;
-        b=GMgQkpXkvyqJsfnHZjijyBe+n8tnhKIaK+QT2X17b5bEwTZiLnQGoue0Ol/fCqdSSv
-         NvjV9HDEu5Y/tc7eecdnPUDTiYxyqYFVaLJg33nkuzSl6wwGFDu0V8q3sQzOzLKuX0/f
-         YNyLPPaxFNSXX/P29xJAyBeHOYcNY1CE2hsRKJXHQoHHre640v1K6mwMJQ3JTbOWyIIM
-         8HfI+ypIIM5/X6MoNG1FK8i2qrzWhjEfa0Fvse+RTgh0T9F6Zl8blCsIfup+Auoqx6l2
-         4rViBp6ODEs5Sekd/eQa+Oso8F8AfCSiGMfWrxAYyfCSR2KgI/oMsNug/RYHtxPjJVfF
-         SFyg==
-X-Forwarded-Encrypted: i=1; AJvYcCWPWn6C4tHepWPE5LuNAcQ4sE4PI1yT+oxONjN638HNRw/s2uyY6Grfd9uAvmGbp22uLAe4qe+d9Ewyzqjs@lists.linux.dev
-X-Gm-Message-State: AOJu0YzmnLXxZfep3SVG/1fHoKyQRZq0MVuVEukS6w7Wj22mVcUgkqeK
-	E+WN2XhQkeF8doX5xZnyfzAx7SQhZ6yeJ6I9I4zeAfvToQmmAK/sV1NOuBrJxa9qL+7HraiQjSK
-	R
-X-Gm-Gg: ASbGncsmV2W27zkHLZBuMWNFQrm2lGIYc8yrzuhPporl3bBC0AYBI6ccHlUwQobhSUZ
-	A7D2cdWMTY28CXEt8q0sKXVaN2x2whQB15vazchyjetsj7V9MZ6PHrxDRKXnk3gErLTS3QIjmqJ
-	XE6TSYF55E6wjAPp2oJh7dn4gTqh2AE5sSXxDw9cDyMlWfd6Kxi5lKT43S7FKcEiZg/WuKPUkbO
-	nE8X8ZP1jzErXhaHgAa42xa4QA2GKH2+L+UhO+ijMIqCqYNQPNw1kfObHWTifHqap2u0/2/MWQw
-	Ahz4z+18aKSgEPvLcznOoPlzBPsZD4saNjebGIIUo5vSJA==
-X-Google-Smtp-Source: AGHT+IGbXFXl7/yZ2iz0z8i5yTYKtsZVTWA2mRb1dQUNrexl1xahP0QPQA2Qyb99RIZzlQKi8epSew==
-X-Received: by 2002:a05:6000:1a87:b0:3a0:9dfb:b001 with SMTP id ffacd0b85a97d-3a0b4a41ad9mr3680514f8f.58.1746644017747;
-        Wed, 07 May 2025 11:53:37 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-3a0ba23e334sm103209f8f.85.2025.05.07.11.53.36
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 07 May 2025 11:53:37 -0700 (PDT)
-Date: Wed, 7 May 2025 21:53:33 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: rujra <braker.noob.kernel@gmail.com>
-Cc: Dave Penkler <dpenkler@gmail.com>, Greg KH <gregkh@linuxfoundation.org>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [FIRST-PATCH] staging: gpib : gpio : gpib_bitbang.c : fixed
- parentheses error.
-Message-ID: <aBusLVDVchI-mHrN@stanley.mountain>
-References: <CAG+54Da+jDEXRQMgmXGyCD2EHjNFjA9nS9=ShdJPrC3EKjUgBg@mail.gmail.com>
+        bh=UC9aDZS0LKYqmqpbLRQ0il6x7yHH8lhw0zmN0sVe3Os=;
+        b=YZJaSciQ8GDzKZrUS7Q3Z7TmzmAKzK3aQTqck4yKRZBxaZs6GvjckJiVIoqI/VzJS+
+         86STiHf6S2cKuAfI27mkzrhjhWDyvBV/1ZJmIcBIqtd1VnJY4WrI8FfEC3KwG/d0Yst+
+         3cQsl6wtmbAaHw2S/G2oCcZSnTaH7KZZidkcBsI87HQzShQsn9YeR0vkiU0W0NJBQ6fV
+         BQQhKzsuz0heZIX3+tK3dAOMFhfDBdXLHiQyCGeHLadOoYoj9pRTwOu7xy/kMvV+RNGu
+         OyUaU3p2Ds5FUxrdcJUmX75ePYLzgM7E/lupA/Mw29F8SqUvqspeFm6/ijgWxN97wo//
+         uhZQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1746693321; x=1747298121;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=UC9aDZS0LKYqmqpbLRQ0il6x7yHH8lhw0zmN0sVe3Os=;
+        b=oNqH64hSAH/7wznygClLXP+B4SG/jl+Wpsx9JN+XGPLMm7l68vDenE+z/4J05Lo/C+
+         QuLAZndoVpuQMgDcTBNQ6CH0J0cKXuHZ1Tm8I17DeVx23lGzWzcXGbj38u9d+ZuZ7DOD
+         TZ1WGYnom+8indxOH/hEon9UrmnmaxYLHu039QFljGimKprMmfnXGBCy6PT9SM2a87qE
+         LGqrd9UUvz9dgP7EQSGB1UUWECO4ngkHj2cjqgSfmjgDVEAfdwSuIo2qrhSea0PmDTsA
+         awfaI4oqcAUNhqNJOU+7EdZjS56oAiyN5f5Q4wQkVxd9zhR9cb1Rnusm9BuOSElU91K7
+         HVow==
+X-Forwarded-Encrypted: i=1; AJvYcCXpusqVkuxZ9urHizGLHjAEuymx2n/BHgkM1leThB2vMFMUozya7uNz6ShP+KFDd4zGTzZkXzJIUrmhnQaM@lists.linux.dev
+X-Gm-Message-State: AOJu0YwIY129SmK9LQwpVE3bBOTF5lSY777b8GFXQ4q+I5pMJIcIId4i
+	qXulozZhuKnA8N1DKUZ553CdCjHUO1QpE7Y5X1EJcTmGUh1QuqUYMi47/NBZ1M4tvP/ak7MxSnk
+	s3EJmXOO1x1gdGqDShGjsKh1x8UA=
+X-Gm-Gg: ASbGncttvJmuA5DN+SkUlNp+jAcs9SQmt6LN1buWYmnmGLX0xIhkl1/mNB8JJ5CLsoW
+	H8cwaMoMa8P+hQ8GHsVmubVNP/4SYfvcFl3krxnb6bOiF9oMDJ1/jO6fDyewqRsF6vthPS/K9dZ
+	zK3/jr0DDFNyBaz+odAB5Zhg==
+X-Google-Smtp-Source: AGHT+IFpTRqB004nqyjzDqZJ/RdnM5xzbDAlNgJkwigYL1F9Hqa2p1wCGUuWD8zw4M5LDHI+4YuxtzAWl8MSMgluW7c=
+X-Received: by 2002:a17:907:3d8b:b0:ace:c2ab:a720 with SMTP id
+ a640c23a62f3a-ad1fe67bec2mr215231166b.6.1746693320490; Thu, 08 May 2025
+ 01:35:20 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAG+54Da+jDEXRQMgmXGyCD2EHjNFjA9nS9=ShdJPrC3EKjUgBg@mail.gmail.com>
+References: <20250507184737.154747-1-hdegoede@redhat.com> <20250507184737.154747-7-hdegoede@redhat.com>
+In-Reply-To: <20250507184737.154747-7-hdegoede@redhat.com>
+From: Andy Shevchenko <andy.shevchenko@gmail.com>
+Date: Thu, 8 May 2025 11:34:43 +0300
+X-Gm-Features: ATxdqUEYVL7wDPaJGrVwNdydfTxWU0TSHRUnwOLZJPK0ubdIgZb-muGbEwg1zkw
+Message-ID: <CAHp75Vc0UZOXbfhjeq1XCAwt-2SX-SGOYomHhEfvx5HuXaxf1g@mail.gmail.com>
+Subject: Re: [PATCH 6/6] media: atomisp: Switch to int3472 driver sensor GPIO
+ mapping code
+To: Hans de Goede <hdegoede@redhat.com>
+Cc: =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>, 
+	Andy Shevchenko <andy@kernel.org>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
+	platform-driver-x86@vger.kernel.org, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org, 
+	linux-staging@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, May 07, 2025 at 10:48:45PM +0530, rujra wrote:
-> To pass it as one parameter, wrapped the entire macro expansion in parentheses.
-> and build it successfully.
-     ^^^^^^^^^^^^^^^^^^^^^^
-No, it doesn't build.
+On Wed, May 7, 2025 at 9:48=E2=80=AFPM Hans de Goede <hdegoede@redhat.com> =
+wrote:
+>
+> Replace the duplicate code for calling the special Intel camera sensor GP=
+IO
+> type _DSM (79234640-9e10-4fea-a5c1-b5aa8b19756f) and mapping GPIOs to
+> the sensor with a call to int3472_discrete_parse_crs() from the int3472
+> driver.
+>
+> Besides avoiding code duplication the int3472 version of the code also
+> supports more features, like mapping the powerdown GPIO to a regulator on
+> the mt9m114 which is necessary to make the camera on the Asus T100TA work=
+.
 
-regards,
-dan carpenter
+...
 
+Don't you need the Kconfig(s) update to have proper dependencies all
+over these cases?
+
+Otherwise I am fully in favour of this change and the series as a whole, th=
+anks!
+
+...
+
+> +       /*
+> +        * On atomisp the _DSM to get the GPIO type must be made on the s=
+ensor
+> +        * adev, rather then on a separate INT3472 adev.
+
+rather than
+
+(FWIW, it's your typical mistake, it's something like the 10th time I
+noticed it :-)
+
+> +        */
+
+--=20
+With Best Regards,
+Andy Shevchenko
