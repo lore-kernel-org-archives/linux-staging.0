@@ -1,150 +1,116 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA8F5252911
-	for <linux-staging@lists.linux.dev>; Thu,  8 May 2025 14:09:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75D4B278169
+	for <linux-staging@lists.linux.dev>; Thu,  8 May 2025 14:52:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746713374; cv=none; b=hm4sODJ9K3KCctuc1lMbR52gt/kCNP2AOY0v0vEYoTu+8WkTfKnevlN6yVXXhknDz42JzKw1spDYs40K8k66+8aCfvGCKscsxQokEu02QlJHbZPEHSfXoz/AnvPSJ8dhHpi8Omb8KxqssU/0PiCsMh2Cz1AH0R6q+2ZZPz3sSu0=
+	t=1746715941; cv=none; b=RAH0H7q72+RJFslqNYOJJnxQH5qEI3uoMxX/aWyk8y7SNPo7TjL5HFTdFsMTOu8+1jrgnIZwlMu5lPk9bQ9k87BH6OsFQLbEs98oX1Rnm21Q1g8Hz+larW8JVqKCRum0bB/tJACxo1ixi7yu6V85zZvBLBdYoGRCII/K45oa/3A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746713374; c=relaxed/simple;
-	bh=3xZml5JCPA+yw9UzDMrBJSBvuGfLK+53itMT3L0Fjnk=;
-	h=From:Date:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=ky4IoFe73e2b4ZP9gMwK7ZajcDffhAvKWJdIFqJoBhhHDm3hkB1aY14ZDax8zjAr2+3SgtO1Mn/4NCCUyaRnaNYqd+RWCcMDb9oYRlDL5wasr5r7niOD3uDbL6JY5iHVaM0jD03RrBXkk/66/B8v/ZyHkXEzwNdSyZIntAweZKw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=V0xYoc8x; arc=none smtp.client-ip=198.175.65.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1746715941; c=relaxed/simple;
+	bh=zEFQKGgwI3EuuNl71JKybObkFkPSlGU5AwxHNXv2Yqo=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=R2MMwV2CroNoVd9emp/U3MiftBGoMNtl91EtyL4hc15VrFeczM/MfNbKpPCO85USjXS6jy2jQvMl6qHZMFYl6HB+cz6SwjC4jdcrVuQh2NyJnyKcDW0iX7+/MlxaSzsBAl6jzxa6Gjp8F64AYoI8J4AMc9MZoSCPmTzTGu9RZQY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CUOlPSXg; arc=none smtp.client-ip=209.85.218.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="V0xYoc8x"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1746713374; x=1778249374;
-  h=from:date:to:cc:subject:in-reply-to:message-id:
-   references:mime-version;
-  bh=3xZml5JCPA+yw9UzDMrBJSBvuGfLK+53itMT3L0Fjnk=;
-  b=V0xYoc8xGC12uNFyou5sTMUpW4hYDAJZZiH2x2f4VIlgVXC8EHIfyiFy
-   elB1bZpPjviCVEpIJ78ONMQuQnh4F2XakZfOhNkGKHqg1/5JvXMrV7p1e
-   UG1u2Dg0aMjZXOpx1yNd0Za7UY8zidPQO4JeBoUEMlhRFyjV3wT/nBUXt
-   DC50yxKwe/NX/ckkaaYageJahm1fjB32Xb8LqlVM8KkGa7NpMZSut7UgL
-   1ubAgpMHkadP44utKHSCzScsJH4uscE/NJtm4gqn96XU2uaSOtlXjvO7U
-   F5ClgPuo1F8qGpBmr6A+L0IpD3tvmXVVSHWWoKt63Z6Sr7Y/42XcdWsN4
-   w==;
-X-CSE-ConnectionGUID: Avp3dva8SeKmzF9nfAyu9w==
-X-CSE-MsgGUID: Sey7Y0xPQ8Ku1V5ocTgviw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11426"; a="48584757"
-X-IronPort-AV: E=Sophos;i="6.15,272,1739865600"; 
-   d="scan'208";a="48584757"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 May 2025 07:09:33 -0700
-X-CSE-ConnectionGUID: cHpQa95mTYOU3L15wx5o1g==
-X-CSE-MsgGUID: TDc2L68qRZylY2IIuLYR2A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,272,1739865600"; 
-   d="scan'208";a="173493564"
-Received: from ijarvine-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.245.196])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 May 2025 07:09:28 -0700
-From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Date: Thu, 8 May 2025 17:09:26 +0300 (EEST)
-To: Hans de Goede <hdegoede@redhat.com>
-cc: Andy Shevchenko <andy.shevchenko@gmail.com>, 
-    Andy Shevchenko <andy@kernel.org>, 
-    Sakari Ailus <sakari.ailus@linux.intel.com>, 
-    platform-driver-x86@vger.kernel.org, 
-    Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org, 
-    linux-staging@lists.linux.dev
-Subject: Re: [PATCH 6/6] media: atomisp: Switch to int3472 driver sensor GPIO
- mapping code
-In-Reply-To: <1a5cca5a-4bb1-4ac5-aefc-b1ef0e693914@redhat.com>
-Message-ID: <d0ed8b99-1663-5fef-baf4-d094b618a919@linux.intel.com>
-References: <20250507184737.154747-1-hdegoede@redhat.com> <20250507184737.154747-7-hdegoede@redhat.com> <CAHp75Vc0UZOXbfhjeq1XCAwt-2SX-SGOYomHhEfvx5HuXaxf1g@mail.gmail.com> <6d5a5cc2-a7b1-4032-82cd-0250f345dca9@redhat.com> <a8a6257d-854f-62c2-dd63-c3d2cbab31a5@linux.intel.com>
- <f8a321cc-2545-4048-a257-56c3c5dd03b3@redhat.com> <1a5cca5a-4bb1-4ac5-aefc-b1ef0e693914@redhat.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CUOlPSXg"
+Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-ac2bdea5a38so154860166b.0
+        for <linux-staging@lists.linux.dev>; Thu, 08 May 2025 07:52:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1746715936; x=1747320736; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=zEFQKGgwI3EuuNl71JKybObkFkPSlGU5AwxHNXv2Yqo=;
+        b=CUOlPSXggHPYieGarZaU/tcbqxco7JgNTghy7XqGcH7/5WKJVnuCXgrlGukbaTD4oL
+         pebWqXuq0xFZqyBJhibseVfFDz+rB25kmMvH3+nGI/cDjwHcNSktf6yRzuEMonwcC9Sq
+         vaw34dmwgHmT+kmjih96EYhCyYOxHJiJSQsdftwj/Rx33MAFE05HaypTCrVh+Q200Rib
+         Wctouf9gZS4xFgnD5ccXDq3t0hg4VzJlBTbgWT+/EFjyARaqtPUI4BuA7yHNxycGiF/C
+         w5E70z+MUSDqUvIJ3h3dmYATci8vOevfbV3yKG+1gP+xRtwv/FizTfLBmADigMAOr5RN
+         p/mQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1746715936; x=1747320736;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=zEFQKGgwI3EuuNl71JKybObkFkPSlGU5AwxHNXv2Yqo=;
+        b=rj7YhM1aFngC6YwtdEZht9ZpIIAevmh+4Um2PLBn/UPTVr86OQw+vaxk6reizGwloT
+         MQx42DlpJKIVOeqEC+Ovid0AzkMtdb4iTtipoWKGwaLWaffmsBO+jy20kwBtje6VmgJd
+         k/3HoKezhKFQpF4tT1XCfJCq30ViY9QY/lSXVbXk0NiFWdu9V80KXe1smVVMNZHMu3Zu
+         MIQuwC2FJN7vVOPCIItmvmgVybJ6a66369EVtQ4YAT/mDxcKWSYj/tPX2Ez3Mx4X453R
+         WUZ7OmMTSaxtbxmzPTVEN6JkSafR6rFDjD2Da8cxYZ7yWa3UwrfbffLDvABdZckRE8zn
+         jvuA==
+X-Forwarded-Encrypted: i=1; AJvYcCUEQKGCmwCUjf6oNV8SKAugDPGI/uUSgEp5e/DzlgSwzOf3+KBBpLXsGNAWkbJq3vBWrQT5mYcAwqkEGnTx@lists.linux.dev
+X-Gm-Message-State: AOJu0Yxf4Xyw7LaebT0kLNXA+rQruZEeEyM9Sg+3RtVudI5CbjzDd/oP
+	C/cALxjaxaIIsQaSJfp5rCWSxpXInKy22B+6vH6z6quKPpe0ZrJDnjiqDIGwgCm6ZHs5WVhS3PA
+	nhXJMa+7ofP3RFP2iCRa37uieDEI=
+X-Gm-Gg: ASbGncuNQUwt9/vtV+SS0R4gVBsb29iygwwdajMKqBk8Wza7JGk/4AQDeZoFL8Znsb2
+	sVvkmZVrFkDxI1wBKnlWQ3btgwCdqZqaM89H5OkWu57Xc74wE92V6G9D8Ds5HRfKYlDA2NhPFPQ
+	dRO6FsNo4+OQJAJ+ALYvJJLlynCunfB4tgDxI=
+X-Google-Smtp-Source: AGHT+IEsBSgz01pN0cO0LMyNdDhLRDOkfYDqhopudgY64WYs/wE/MG9dZJytCNFvXTnZfnCJSptlrpMURSb7NIV+ZPA=
+X-Received: by 2002:a17:907:7ea3:b0:aca:cb18:9ad0 with SMTP id
+ a640c23a62f3a-ad1fe9a0a38mr368434666b.45.1746715935518; Thu, 08 May 2025
+ 07:52:15 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="8323328-1511333336-1746713366=:922"
+References: <20250507184737.154747-1-hdegoede@redhat.com> <CAHp75Vcb-fcQHWqVDh=KUwhwvSP6KqUN8FsAMvDuwF2iD7=J1A@mail.gmail.com>
+ <dc3b07a9-cb0f-4f84-9e4b-c6e62ffc73df@redhat.com>
+In-Reply-To: <dc3b07a9-cb0f-4f84-9e4b-c6e62ffc73df@redhat.com>
+From: Andy Shevchenko <andy.shevchenko@gmail.com>
+Date: Thu, 8 May 2025 17:51:38 +0300
+X-Gm-Features: ATxdqUFyJujkSMlNxfUR3sdhq60BrkQnbnimnNRw0lOBs81u2F_A0KBZ58L_uxM
+Message-ID: <CAHp75VfDoR6wP00e=3YiYSLwXV0f6jygJaxQY2gyUE2aPKNxvg@mail.gmail.com>
+Subject: Re: [PATCH 0/6] platform/x86: int3472: Allow re-using sensor GPIO
+ mapping in atomisp
+To: Hans de Goede <hdegoede@redhat.com>
+Cc: =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>, 
+	Andy Shevchenko <andy@kernel.org>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
+	platform-driver-x86@vger.kernel.org, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org, 
+	linux-staging@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
+On Thu, May 8, 2025 at 5:00=E2=80=AFPM Hans de Goede <hdegoede@redhat.com> =
+wrote:
+> On 8-May-25 10:36 AM, Andy Shevchenko wrote:
+> > On Wed, May 7, 2025 at 9:52=E2=80=AFPM Hans de Goede <hdegoede@redhat.c=
+om> wrote:
 
---8323328-1511333336-1746713366=:922
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+...
 
-On Thu, 8 May 2025, Hans de Goede wrote:
+> > Can you isolate GPIO
+> > mapping code in a separate file, please? This will help to generalise
+> > this code outside of two mentioned drivers (I might need it in the
+> > future for something else, not related to cameras at all).
+>
+> If you want to re-use this elsewhere then splitting it out
+> further sounds like a good plan.
+>
+> But which bits do you need? Do you actually need the full code calling
+> the special DSM and then adding either GPIO-lookups, or gpio controlled
+> regulators / clks / LEDs ?
+>
+> Because atm the int3472/discrete.c + other c files linked into the .ko
+> does all of that and for the atomisp2 case we actually want all of
+> that (although for now GPIO -> clk and LED is unused there).
 
-> Hi,
->=20
-> On 8-May-25 3:56 PM, Hans de Goede wrote:
-> > Hi,
-> >=20
-> > On 8-May-25 3:48 PM, Ilpo J=C3=A4rvinen wrote:
-> >> On Thu, 8 May 2025, Hans de Goede wrote:
-> >>> On 8-May-25 10:34 AM, Andy Shevchenko wrote:
-> >>>> On Wed, May 7, 2025 at 9:48=E2=80=AFPM Hans de Goede <hdegoede@redha=
-t.com> wrote:
-> >>>>>
-> >>>>> Replace the duplicate code for calling the special Intel camera sen=
-sor GPIO
-> >>>>> type _DSM (79234640-9e10-4fea-a5c1-b5aa8b19756f) and mapping GPIOs =
-to
-> >>>>> the sensor with a call to int3472_discrete_parse_crs() from the int=
-3472
-> >>>>> driver.
-> >>>>>
-> >>>>> Besides avoiding code duplication the int3472 version of the code a=
-lso
-> >>>>> supports more features, like mapping the powerdown GPIO to a regula=
-tor on
-> >>>>> the mt9m114 which is necessary to make the camera on the Asus T100T=
-A work.
-> >>>>
-> >>>> ...
-> >>>>
-> >>>> Don't you need the Kconfig(s) update to have proper dependencies all
-> >>>> over these cases?
-> >>>
-> >>> Yes I do, I thought about doing this already but forgot to actually
-> >>> do it, thank you for catching this.
-> >>>
-> >>> When I've some time for it I'll prepare a v2 of just this patch
-> >>> addressing this and your s/then/than/ remark.
-> >>>
-> >>> Since you and Sakari are happy with them patches 1-5 can be picked up
-> >>> and merged by Ilpo as is, so I do not plan to send a v2 of those.
-> >>
-> >> Thanks for the quick reviews.
-> >>
-> >> I took patch 1-5 into the review-ilpo-next branch with one typo in=20
-> >> change log fixed (reser -> reset).
-> >=20
-> > Great, thank you!
->=20
-> Ilpo, I just noticed that Sakari typod his Reviewed-by, it reads:
->=20
-> Reviwed-by: Sakari Ailus <sakari.ailus@linux.intel.com>
->=20
-> and this is also how the tag looks in review-ilpo-next now.
-> so missing an 'e' you probably will want to fix this.
->=20
-> Also Sakari gave an Acked-by for patch 6/6, but since he did so
-> in a reply to the cover letter all 5 (1-5) patches now have:
->=20
-> Reviwed-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> Acked-by: Sakari Ailus <sakari.ailus@linux.intel.com>
->=20
-> so besides adding the missing 'e' you probably will also want
-> to drop the entire Acked-by.
+I basically want to have remap\ing quirk part to be isolated.
 
-Yeah, a perfect example of tunnel vision. I was looking specifically=20
-whether those reviewed-bys got added by b4 into all patches but failed to=
-=20
-notice any of those errors despite staring at the very lines. Thanks for=20
-letting me know, I'll fix them.
+> Anyway I think it would be best for you (Andy) to come up with
+> a proposal / RFC patch series to split out what you need. I'm certainly
+> open to that and happy to review such a series.
+
+Fine, but can you do this in the discrete.c internally, like an
+embedded C file so it doesn't require headers to be used, but being an
+interface-ready solution?
 
 --=20
- i.
-
---8323328-1511333336-1746713366=:922--
+With Best Regards,
+Andy Shevchenko
