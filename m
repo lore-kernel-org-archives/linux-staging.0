@@ -1,108 +1,96 @@
-Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5723262D29
-	for <linux-staging@lists.linux.dev>; Thu,  8 May 2025 08:38:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 484BE4B1E5C
+	for <linux-staging@lists.linux.dev>; Thu,  8 May 2025 10:22:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746693493; cv=none; b=h274KBAbVOz7MhF2Q4gfoQi/mHkmMLdzIhG5qIC2LBV6BOqXjAoMVYwoIw9gkLBCtvrGhcq5lk6oEwVGPiJZei4kwsaYtxXs59cKuYDDYyCRdcYrti81u8eMYgSlU9NS2q1dylaQ8CVD17Mb9U2iTEzp/2mInVLu8zA9Dz1CYmg=
+	t=1746699742; cv=none; b=FGkxfU9q8YzIs3LTz8bSCb3RBUoW4jChCEX1kNKrOB2n3qveNXCQEd8avnGSxRzvsFArmi9/sZD4o3tLcx7WrXlYC0deKwIvIAwWkRh0srYhxQVNhX2WjrKTVH4r+raITXWkDsar6xMzCIgh6Ri6Uoa0mncsZ7Zs0VaMTvDap/0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746693493; c=relaxed/simple;
-	bh=iiQFIztHrq36O9I/yuxgb2y2SBf7ToGaPplZyPSc/Qw=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=QypMG/pxPHz50qvLg7Qq851Mg1H62CItAOzqLd/CeNR0iJibRJCi5FNwowKaEtZK3L+sAYZQCBsswbKR/IBCPzqXnrmDC5IWcSq+KEVSywWzas+1j0OCQ7IbEqiR5iUvlXplJat0SB/FFdXBJljoaBhbrt1Exa6ZYqLsHOxo/4E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=buZyne0O; arc=none smtp.client-ip=209.85.218.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1746699742; c=relaxed/simple;
+	bh=tLVZ7l0uzlnYz3RGAPEntPGU7KyqpAXPp/cok9Dqxok=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=NfFKvbb41+DJGMRU22yma0r7fyIJXII7++g/x2cbiwSkKjzdyh/sHwYX9DXBx/K+NRgtz/K7DuT/7Pz/snx5H7RpuLxji7eYyIczeRO4Cd3FYvsRtBtCBxE8+Z4g4Pm+FyfZo+G5x0xp5uNSk8dsjqj1mxl5VKyjWQUNUzIPOn8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kku5pFtZ; arc=none smtp.client-ip=192.198.163.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="buZyne0O"
-Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-acb415dd8faso113129666b.2
-        for <linux-staging@lists.linux.dev>; Thu, 08 May 2025 01:38:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1746693489; x=1747298289; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=iiQFIztHrq36O9I/yuxgb2y2SBf7ToGaPplZyPSc/Qw=;
-        b=buZyne0O8X2ApQz5U313yDKx/y0nsWL3jI4X3fsb9TqhEIVMDYxMS5ucdfwVefJs4T
-         BsyZmBwXis47YI4dl9dc2F6ierDHJBHPklm98bMyOw8tK3Bae2LIgd7fiNqmKWmuBEcK
-         BqAoVbV8OSg32on1rbbr75+jfQ1tdSCSD/A/SmQ9GN/XFORB46s3bLUtLwGzGokLiFnq
-         77nXbp5315IeFg20qY8SCOVgCYojvea/DCNcKIK6BguKzE3GywTIPOCSh4Os8bh7rQMk
-         /7SH5j9LZwVAOdnSD7kzQeOd3V/hbV3I0bMjHyb089Hy5DUUMp3SAGfIOKaqNA2Gl4/H
-         ttag==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1746693489; x=1747298289;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=iiQFIztHrq36O9I/yuxgb2y2SBf7ToGaPplZyPSc/Qw=;
-        b=KN7rBFjRei65tCB87FyRgbBC/3RklgQqTGC22hd+KZPsWfhQZsHvCKpe1/K6xrCP7x
-         27ZlItZerMws2h9ol59MJflIPn888cF88ncUwFM0E7+I4rEJIxv/xs3PGE7AM5m+dBkP
-         Rd8GRc7IvVQKzayaBKu2028Fu4DpbGy/KUPj9kMXghF/8C1SwQP1SBvAxI7pS2FBj/Zg
-         uXm5zOr5M7J5geQbY7FnBsKz4ZcZP5RoYwbndHAzclo70CrMs52Zm3ZWKXZwi13+Hwnf
-         z/40fFIyaqxBV4KADY2qTWt4yM6iyYlYPHdoddPB042PFIlXPeyj1Y7qlyqxFr6XwcfL
-         YWAA==
-X-Forwarded-Encrypted: i=1; AJvYcCXrlI4cPDgMi0QbC2JmqhYYYEFBaRoIjs38eVL4cp2YKg0xpauF204bN2vjCUIzz7NUtFtbWK39QIXU0yMT@lists.linux.dev
-X-Gm-Message-State: AOJu0Ywro5HUDAh/Yj72Hm7rr3UGXkEgEDr9dio1qX0YrVOccBXZDK22
-	gRHaTwH8AyDXuSSdaECIplD0jmHiPtR+jQvkRA4LvaYYiMryaYb2M6FocBD6pngq/H+rYo47Lmj
-	fF4+syAAaAIUttW/VVgt4jDu6ZMk=
-X-Gm-Gg: ASbGncuOpOv8jrgZafIE8y3mzjlV9AeDEGrPCT8Gfl+JcMP3VCTk3nw2dJbcfqNGoWm
-	hl88trCqS6rl1GQWd6Oa0tP/PP0gIlk91RnvX6Fp/TOWrpHoMmvEBbx7IHQ35vQFnKx2gI8FHV9
-	dcELUnGJYE+6YTzT+BnM324Q==
-X-Google-Smtp-Source: AGHT+IFaXR7Gdcs01yDtClXE6wM3ZHYQPlAsb5UTjdx02NdsUMJRHxWGNlIRHUsz8Uwnw7qt9DGSCV4NeCHMcn7nLLs=
-X-Received: by 2002:a17:907:c019:b0:ace:ed3b:285e with SMTP id
- a640c23a62f3a-ad1fe99df6emr189727666b.56.1746693488785; Thu, 08 May 2025
- 01:38:08 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kku5pFtZ"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1746699739; x=1778235739;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=tLVZ7l0uzlnYz3RGAPEntPGU7KyqpAXPp/cok9Dqxok=;
+  b=kku5pFtZ7/UIiHUHm9BEMtQL7InJjkB5cqTcrbPrXPlQSCDXFWs3wFld
+   PpfTJASp95m0CP0PU1hOyqftHy03qFMnaStp1HPoyeZ8R9fMeANGcop85
+   OPfSBq7RoqiOuViyjNgzkE2AhIDeKv9CkEcw9omaG3kxlXt6Zswqx8NtG
+   iuWphFvDGjZN6tMNZC9BnL1gUAbRpHtETym4KOoavHq6p8h5c4vT/B3nB
+   C+hnndiKW7fpVOgq7ePE9M/jo2FpsAIObZAhQ9djqXexqLgYb1p+bIeJE
+   5RqF2mW57wY0dU0QW7JWbhUAPQxvD7jK/Q27ypapnkJDn6SFFpoD+/O+f
+   w==;
+X-CSE-ConnectionGUID: HaKUZOjfT7qzvUiYvK0GPA==
+X-CSE-MsgGUID: 5CsKfNltR/GFcM4WqLbDyA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11426"; a="47576643"
+X-IronPort-AV: E=Sophos;i="6.15,271,1739865600"; 
+   d="scan'208";a="47576643"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 May 2025 03:22:18 -0700
+X-CSE-ConnectionGUID: tT1P/t+xR+GrU1Vj4sRAmA==
+X-CSE-MsgGUID: AnhrPIMAQPiNBYVfY/5qZA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,271,1739865600"; 
+   d="scan'208";a="137238321"
+Received: from dalessan-mobl3.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.245.168])
+  by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 May 2025 03:22:16 -0700
+Received: from kekkonen.localdomain (localhost [127.0.0.1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id 21B7011F90E;
+	Thu,  8 May 2025 13:22:14 +0300 (EEST)
+Date: Thu, 8 May 2025 10:22:14 +0000
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Hans de Goede <hdegoede@redhat.com>
+Cc: Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+	Andy Shevchenko <andy@kernel.org>,
+	platform-driver-x86@vger.kernel.org,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	linux-media@vger.kernel.org, linux-staging@lists.linux.dev
+Subject: Re: [PATCH 0/6] platform/x86: int3472: Allow re-using sensor GPIO
+ mapping in atomisp
+Message-ID: <aByF1gMxTi6FAAQO@kekkonen.localdomain>
+References: <20250507184737.154747-1-hdegoede@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250507184737.154747-1-hdegoede@redhat.com> <CAHp75Vcb-fcQHWqVDh=KUwhwvSP6KqUN8FsAMvDuwF2iD7=J1A@mail.gmail.com>
-In-Reply-To: <CAHp75Vcb-fcQHWqVDh=KUwhwvSP6KqUN8FsAMvDuwF2iD7=J1A@mail.gmail.com>
-From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Thu, 8 May 2025 11:37:32 +0300
-X-Gm-Features: ATxdqUFnrXw8IlYAU1jp6FWFk9eL2pdP6A2jXxJxraQiS4xe2ktwNA17VklxgKI
-Message-ID: <CAHp75VeRTO2vPqb44qNp+MZP3R9y5qv3X+EjOJCaeCR3thsr5w@mail.gmail.com>
-Subject: Re: [PATCH 0/6] platform/x86: int3472: Allow re-using sensor GPIO
- mapping in atomisp
-To: Hans de Goede <hdegoede@redhat.com>
-Cc: =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>, 
-	Andy Shevchenko <andy@kernel.org>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
-	platform-driver-x86@vger.kernel.org, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org, 
-	linux-staging@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250507184737.154747-1-hdegoede@redhat.com>
 
-On Thu, May 8, 2025 at 11:36=E2=80=AFAM Andy Shevchenko
-<andy.shevchenko@gmail.com> wrote:
-> On Wed, May 7, 2025 at 9:52=E2=80=AFPM Hans de Goede <hdegoede@redhat.com=
-> wrote:
->
-> > This patch series does some small refactoring of the int3472 code to al=
-low
-> > re-using the sensor GPIO mapping code in the atomisp driver and then th=
-e
-> > final patch in the series moves the atomisp driver over.
-> >
-> > About merging this, maybe the int3472 patches can be merged in time for
-> > the 6.16 merge window and then the atomisp patch can be merged after
-> > 6.16-rc1 is released, otherwise an immutable pdx86 branch with the firs=
-t
-> > 5 patches will be necessary.
->
-> Overall I'm pretty much liking this series, but one comment against
-> the last patch (see there) and one question here. Can you isolate GPIO
-> mapping code in a separate file, please? This will help to generalise
-> this code outside of two mentioned drivers (I might need it in the
-> future for something else, not related to cameras at all).
+On Wed, May 07, 2025 at 08:47:31PM +0200, Hans de Goede wrote:
+> Hi All,
+> 
+> This patch series does some small refactoring of the int3472 code to allow
+> re-using the sensor GPIO mapping code in the atomisp driver and then the
+> final patch in the series moves the atomisp driver over.
+> 
+> About merging this, maybe the int3472 patches can be merged in time for
+> the 6.16 merge window and then the atomisp patch can be merged after
+> 6.16-rc1 is released, otherwise an immutable pdx86 branch with the first
+> 5 patches will be necessary.
 
-Ah, and formal
-Reviewed-by: Andy Shevchenko <andy@kernel.org>
-for patches 1-5.
+Thanks, Hans!
 
---=20
-With Best Regards,
-Andy Shevchenko
+For the first five:
+
+Reviwed-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+
+Feel free to add to the last patch (i haven't looked at the details, but
+the approach seems good):
+
+Acked-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+
+-- 
+Sakari Ailus
