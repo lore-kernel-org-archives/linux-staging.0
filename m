@@ -1,182 +1,112 @@
-Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A56D21CC51
-	for <linux-staging@lists.linux.dev>; Thu,  8 May 2025 21:00:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DB6C221D94
+	for <linux-staging@lists.linux.dev>; Fri,  9 May 2025 11:30:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746738037; cv=none; b=R5/WtKWTyAFYBrwbpU7DtxNGgbDCr5NNxgIboePsXt4JhgQBE13/UVp30D8LXPNCivjliMxZoVk74qwFl1Ok45qdcZqp8KBQulUg6cNGpoEUUImfq3qUie7uvsxiXaAfVm4FmIRZ/DHi4zH8K/rIM21NkkO4ToV8Ejb7MQH88H0=
+	t=1746790223; cv=none; b=p8qloh/3V64mhqmijrhf76E/8DuNRyi126JkxMeJLQCMCMNej1aScEPu3NZWrxDJiX+sEaj1Q5vunrK5zLUUzZR2QYC4eLXnXDOuZb7vAHQ7BLCFMhaVcIfBHUjHQb/PH7VsO6l17cV15ETDjFK+SLx4ZBO8zplVUF4t4NcP6Jg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746738037; c=relaxed/simple;
-	bh=fRvyqkKKyg7hRmshz5UB6TzRvXuXYDOyDjxC4PJ64uI=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=PHC5ieHwJRJogMj1OII0N96ZuNhmdx4iCxsMKSZKvarH1/kkyPzGVmNpR6Nq0of7L+ozn1VBMxxJ5JAxEqEuw11mvEsZkNlXBDkYc1y72IxUDugm9OseuxKNwl1qWdPBF+CohxpB32fPfuPdrMwg0NHxkTihp83G05m5F4P9Wcw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=L0UFw/an; arc=none smtp.client-ip=148.251.105.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	s=arc-20240116; t=1746790223; c=relaxed/simple;
+	bh=VdV008tfzG6KNU0S5Gsb+VG889BxfzCXyOCm56rnkUQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=CrPd8CcqHQqo8JPJosArrGlvxtW+vMS7X6OW8k+fLuIgiqIz95DuspMwEQk3gpo6Pz7TtCH2+4Nmex1lSNaboM8Ej7udiUST+zXg50SiYhirCv+rasZoMqd6EkctZWvhD3+Tg4s5Lb7K6jVO0eUi5Nwu4HBWWAfFkvN75COz+xc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hlYXGuxh; arc=none smtp.client-ip=209.85.128.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="L0UFw/an"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1746738033;
-	bh=fRvyqkKKyg7hRmshz5UB6TzRvXuXYDOyDjxC4PJ64uI=;
-	h=From:Date:Subject:To:Cc:From;
-	b=L0UFw/an9E94NuPivotcoiUTQlTk6wFHqpOEp/9p9buT9MPxM0ytB9sLGUR9uLGdK
-	 BsFOfKnFPzYx8J6ZE4abM9nlENISb70VeAmJCk1QseFkyUGlJ28LM3ItYloDplZZOR
-	 QkLjjPwOZIvL3hTwRHD54WE7Q+/IHUWthCEFvBtdw3yJeb3cTlRyf54iB9TtX6TTIR
-	 lfdXlyNt2q0ewXYjiarsIecUfu584cgahtqf+SKBfVTAAljj+iaZF4NISm254pykW7
-	 FVFroxFMJAtU5P1hKoPxPA0IpmI+d7q7ZPoW3cDQwYqIyCbt3FR0BIkrbq1Gbo3tJL
-	 serpr6HJ/9JRw==
-Received: from [192.168.13.3] (unknown [IPv6:2606:6d00:15:ec4::c73])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: nicolas)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id 207F417E078A;
-	Thu,  8 May 2025 23:00:32 +0200 (CEST)
-From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-Date: Thu, 08 May 2025 17:00:15 -0400
-Subject: [PATCH] media: rkvdec: Restore iommu addresses on errors
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hlYXGuxh"
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-442ccf0e1b3so21186025e9.3
+        for <linux-staging@lists.linux.dev>; Fri, 09 May 2025 04:30:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1746790220; x=1747395020; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=LmILc32KRA1sm99pcoMQ3XSkwuHQfRNl6IZq9ElsNb8=;
+        b=hlYXGuxhzK+nb4Bkbb73QOpRe+GNiHmtsZC/+YrH8QTrDzwI7B5uE0FbDQRFv/SbNw
+         XRaQRD2DrIWRpBI+OqkTs1TblxLokKR4gohaxgQ8hQkk9rCJj02w+/zVe7mtT2gLUk9n
+         VhsiDn+Tysbho+8VASp+QYmpxG3rEr1VY0/fzZ+TDdM7vW31dnW9zt+j5C5kyfnCXPca
+         OmQRz/9orRu+flOICLBeOcqiyrNqUhKXYrVDas94yL+82+A0i8Vh188rXMNoTJiAYn2J
+         3jX/LGMqUU4u0g3lb1pSFJByapJDT9TV25vFjIz9Cir2KTNO3Ac7e9mlQKu11sBkOY19
+         lH3A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1746790220; x=1747395020;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=LmILc32KRA1sm99pcoMQ3XSkwuHQfRNl6IZq9ElsNb8=;
+        b=uEBzHJBk8nropU7Wn5uMUcupjz7MZGgJ+VrjP5vKLTL324d2ix8Uthp7pq33TsbLI1
+         +4cfQQkUyygWwIfDmQ3/+scA35FFGVbyMUiHIylkMTvNNPLXzUBQZxFJSxzpny27yusd
+         uYvNAxIampb25kHeEXZcDVHiisXGD0bh9q5qOB0cOQZ0RCCRY0LsQtVvNXkBDZ6mmzFl
+         MtrbUjBwp6+jAFORs6e0H9AnUXGSBC6kgMMN2/sGNsQLLcSNQ1WcK6QZvVDijCdLeqNM
+         27JQYk56kMoYUAc0cLeLjLF4EZRn0f16fByhbvHv6ffMbysYGpE5zNlYlAMLS9cBMFUl
+         wJFw==
+X-Forwarded-Encrypted: i=1; AJvYcCV2uwhEzVf1tSlWDivKRz3OOhUBdm3wU16SmnkSie/I5kisNsmFM2f0gk/DwuIofcYxAAmPfNQ07BFKPFOr@lists.linux.dev
+X-Gm-Message-State: AOJu0Yy50ERTL/6KSAjVehS3Qiz254lsta2ywxnQmEmxsUhlsyUuR85m
+	uvuumDda79r4sEqRNJf2KqS5SJl1nDkvH/Z5IbHa/+S2zNEAnAWY
+X-Gm-Gg: ASbGncsQgG+FSj7pEF+Teqvol0gUlbderk0IFxfKZdyKENMA6382IAy/YSDy/4n4/TL
+	9S1cNtR55rId7d06iYdGlf/3ZZBqHaxczi3ckkvWesx5webx3BHDZORklxFVYmeO//3TBhBfV4c
+	fl8th0+AuIZFo+2N42QRe8EqcFDwvSDu4w99iv0YqzmhKKyOb5LTr6UwOc1K6hEdsxjHzeCH4ty
+	5ftixCYGCtjIQrfwqcizRSKfgbihxQp4KnF6NIL/+pTjWogGCw1QfTYc6InQb0BFzP7Ahl4ausI
+	ab9NXUNnUko0DFrE3yjEzKIbHkMdLQG5GaS6Q2v34HR0hziUaA8CSA==
+X-Google-Smtp-Source: AGHT+IEX3C473GG3Hwd+yaU0Wn+5NbsMlHdYzeasNLDJog+d2QxZs0QLEGr1LwYpGrbvvMKhFO5ZZg==
+X-Received: by 2002:a05:600c:1c8f:b0:440:6a1a:d89f with SMTP id 5b1f17b1804b1-442d6d1844amr24734045e9.4.1746790219313;
+        Fri, 09 May 2025 04:30:19 -0700 (PDT)
+Received: from localhost.localdomain ([2a01:e0a:9ad:d3b0:ec4c:9f30:1dfe:440a])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-442d596a5e4sm35805465e9.31.2025.05.09.04.30.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 09 May 2025 04:30:18 -0700 (PDT)
+From: Dave Penkler <dpenkler@gmail.com>
+To: gregkh@linuxfoundation.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Cc: Dave Penkler <dpenkler@gmail.com>
+Subject: [PATCH] staging: gpib: Fix uapi include header guard name
+Date: Fri,  9 May 2025 13:30:14 +0200
+Message-ID: <20250509113014.9105-1-dpenkler@gmail.com>
+X-Mailer: git-send-email 2.49.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250508-rkvdec-iommu-reset-v1-1-c46b6efa6e9b@collabora.com>
-X-B4-Tracking: v=1; b=H4sIAF8bHWgC/x3MSQqAMAxA0atI1gbqVKpXERfaRg3iQKoiFO9uc
- fkW/wfwJEwemiSA0M2e9y0iSxOwc79NhOyiIVd5pSplUJbbkUXe1/VCIU8nOtPXejBloa2CGB5
- CIz//tO3e9wOpzlkwZAAAAA==
-X-Change-ID: 20250508-rkvdec-iommu-reset-d8a96b8436c0
-To: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>, 
- Mauro Carvalho Chehab <mchehab@kernel.org>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org, 
- linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, 
- kernel@collabora.com, Detlev Casanova <detlev.casanova@collabora.com>, 
- Nicolas Dufresne <nicolas.dufresne@collabora.com>
-X-Mailer: b4 0.14.2
+Content-Transfer-Encoding: 8bit
 
-On errors, the rkvdec chip self resets. This can clear the addresses
-programmed in the iommu. This case is signaled by the
-RKVDEC_SOFTRESET_RDY status bit.
+When gpib_user.h was renamed to gpio.h the include guard name was
+not changed accordingly.
 
-Since the iommu framework does not have a restore functionality, and
-as recommended by the iommu subsystem maintainers, this patch
-restores the iommu programming by attaching and detaching an empty
-domain, which will clear and restore the default domain.
+Change the include guard name to correspond with the file name
+and cleanup the comments after the #endif.
 
-Suggested-by: Detlev Casanova <detlev.casanova@collabora.com>
-Signed-off-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+Fixes: c7184cbf5530 ("staging: gpib: Rename common include file")
+Signed-off-by: Dave Penkler <dpenkler@gmail.com>
 ---
- drivers/staging/media/rkvdec/rkvdec.c | 43 +++++++++++++++++++++++++++++------
- drivers/staging/media/rkvdec/rkvdec.h |  1 +
- 2 files changed, 37 insertions(+), 7 deletions(-)
+ drivers/staging/gpib/uapi/gpib.h | 7 +++----
+ 1 file changed, 3 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/staging/media/rkvdec/rkvdec.c b/drivers/staging/media/rkvdec/rkvdec.c
-index dd7e57a902640d363d26be887cb535c2668d5b15..38043b1877e221db58f5834ba51e085cf9127e73 100644
---- a/drivers/staging/media/rkvdec/rkvdec.c
-+++ b/drivers/staging/media/rkvdec/rkvdec.c
-@@ -11,6 +11,7 @@
+diff --git a/drivers/staging/gpib/uapi/gpib.h b/drivers/staging/gpib/uapi/gpib.h
+index 4ca3cc9e0cd7..667e2fcc9130 100644
+--- a/drivers/staging/gpib/uapi/gpib.h
++++ b/drivers/staging/gpib/uapi/gpib.h
+@@ -4,8 +4,8 @@
+  *    copyright		   : (C) 2002 by Frank Mori Hess
+  ***************************************************************************/
  
- #include <linux/clk.h>
- #include <linux/interrupt.h>
-+#include <linux/iommu.h>
- #include <linux/module.h>
- #include <linux/of.h>
- #include <linux/platform_device.h>
-@@ -1000,24 +1001,42 @@ static void rkvdec_v4l2_cleanup(struct rkvdec_dev *rkvdec)
- 	v4l2_device_unregister(&rkvdec->v4l2_dev);
- }
+-#ifndef _GPIB_USER_H
+-#define _GPIB_USER_H
++#ifndef _GPIB_H
++#define _GPIB_H
  
-+static void rkvdec_iommu_restore(struct rkvdec_dev *rkvdec)
-+{
-+	if (rkvdec->empty_domain) {
-+		/*
-+		 * To rewrite mapping into the attached IOMMU core, attach a new empty domain that
-+		 * will program an empty table, then detach it to restore the default domain and
-+		 * all cached mappings.
-+		 * This is safely done in this interrupt handler to make sure no memory get mapped
-+		 * through the IOMMU while the empty domain is attached.
-+		 */
-+		iommu_attach_device(rkvdec->empty_domain, rkvdec->dev);
-+		iommu_detach_device(rkvdec->empty_domain, rkvdec->dev);
-+	}
-+}
-+
- static irqreturn_t rkvdec_irq_handler(int irq, void *priv)
- {
- 	struct rkvdec_dev *rkvdec = priv;
-+	struct rkvdec_ctx *ctx = v4l2_m2m_get_curr_priv(rkvdec->m2m_dev);
- 	enum vb2_buffer_state state;
- 	u32 status;
- 
- 	status = readl(rkvdec->regs + RKVDEC_REG_INTERRUPT);
--	state = (status & RKVDEC_RDY_STA) ?
--		VB2_BUF_STATE_DONE : VB2_BUF_STATE_ERROR;
--
- 	writel(0, rkvdec->regs + RKVDEC_REG_INTERRUPT);
--	if (cancel_delayed_work(&rkvdec->watchdog_work)) {
--		struct rkvdec_ctx *ctx;
- 
--		ctx = v4l2_m2m_get_curr_priv(rkvdec->m2m_dev);
--		rkvdec_job_finish(ctx, state);
-+	if (status & RKVDEC_RDY_STA) {
-+		state = VB2_BUF_STATE_DONE;
-+	} else {
-+		state = VB2_BUF_STATE_ERROR;
-+		if (status & RKVDEC_SOFTRESET_RDY)
-+			rkvdec_iommu_restore(rkvdec);
- 	}
- 
-+	if (cancel_delayed_work(&rkvdec->watchdog_work))
-+		rkvdec_job_finish(ctx, state);
-+
- 	return IRQ_HANDLED;
- }
- 
-@@ -1085,6 +1104,13 @@ static int rkvdec_probe(struct platform_device *pdev)
- 		return ret;
- 	}
- 
-+	if (iommu_get_domain_for_dev(&pdev->dev)) {
-+		rkvdec->empty_domain = iommu_paging_domain_alloc(rkvdec->dev);
-+
-+		if (!rkvdec->empty_domain)
-+			dev_warn(rkvdec->dev, "cannot alloc new empty domain\n");
-+	}
-+
- 	vb2_dma_contig_set_max_seg_size(&pdev->dev, DMA_BIT_MASK(32));
- 
- 	irq = platform_get_irq(pdev, 0);
-@@ -1124,6 +1150,9 @@ static void rkvdec_remove(struct platform_device *pdev)
- 	rkvdec_v4l2_cleanup(rkvdec);
- 	pm_runtime_disable(&pdev->dev);
- 	pm_runtime_dont_use_autosuspend(&pdev->dev);
-+
-+	if (rkvdec->empty_domain)
-+		iommu_domain_free(rkvdec->empty_domain);
- }
- 
- #ifdef CONFIG_PM
-diff --git a/drivers/staging/media/rkvdec/rkvdec.h b/drivers/staging/media/rkvdec/rkvdec.h
-index 6f8cf50c5d99aad2f52e321f54f3ca17166ddf98..0eb3fd598664bc5af19de120ff6efac13417541f 100644
---- a/drivers/staging/media/rkvdec/rkvdec.h
-+++ b/drivers/staging/media/rkvdec/rkvdec.h
-@@ -105,6 +105,7 @@ struct rkvdec_dev {
- 	void __iomem *regs;
- 	struct mutex vdev_lock; /* serializes ioctls */
- 	struct delayed_work watchdog_work;
-+	struct iommu_domain *empty_domain;
+ #define GPIB_MAX_NUM_BOARDS 16
+ #define GPIB_MAX_NUM_DESCRIPTORS 0x1000
+@@ -298,6 +298,5 @@ enum gpib_stb {
+ 	IB_STB_MAV = 0x10	 /* IEEE 488.2 only */
  };
  
- struct rkvdec_ctx {
-
----
-base-commit: 48dbb76cef65fabaa3ac97461eda90495e954ecd
-change-id: 20250508-rkvdec-iommu-reset-d8a96b8436c0
-
-Best regards,
+-#endif	/* _GPIB_USER_H */
++#endif	/* _GPIB_H */
+ 
+-/* Check for errors */
 -- 
-Nicolas Dufresne <nicolas.dufresne@collabora.com>
+2.49.0
 
