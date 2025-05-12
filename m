@@ -1,92 +1,128 @@
-Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A883F1E7C02
-	for <linux-staging@lists.linux.dev>; Sat, 10 May 2025 17:43:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3511725B1D6
+	for <linux-staging@lists.linux.dev>; Mon, 12 May 2025 09:17:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746899015; cv=none; b=m6zy1yJ6GSzihfNIXJ8WCdB4Atzuf11VJIJjVPPUU9dAliPnvf4KMG1ZC8WPZla7TP6c61p0LoQKV8QhrkADgEZM3l7zTeYVKmkzabzQZo4husxCWkk4OTGaqNVlG1zjpPkVGnfQzBF9DjPc+DzLT/nTgZzAdQy7vkhB7WQk4Do=
+	t=1747041426; cv=none; b=AJQqBBiud7e5yQx78R1LxZydVu8yHdaE1ZWitBEldVeYWaErU0ZS1mzXUHbnY/apo4Z94Jn7G+aY82CKMxgBQVHH8tTwNmhWlQzQ84+03eGDehpWjabPWIjyAgAktcyeeiCaxHsIts2hI36hmPJmFHCKeFfODgzjvCk2+1NJAvQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746899015; c=relaxed/simple;
-	bh=jMyHj2bRFRLFLwnL0P0MWOlET2HCHY3sbBxhS0iCR5Y=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=m2AF+ZkHG8LV8ScFixLXjRYoH28tLej0PeaIAmjPVzUi9TOP62z07Dlq1AaWFKiZyLL1Kea4AStnsQM2iJDGd/3gvjGumlZ+2mFboZvMEpNE2T12PuCbaA0nIipgQQWxCEekKZBGZAHjGraaPhjndOlEB8UbXgjp/yTI3JQ11c4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TBa3jyea; arc=none smtp.client-ip=209.85.218.47
+	s=arc-20240116; t=1747041426; c=relaxed/simple;
+	bh=4JHWQtD5VUidfJI5qSDVeFsSE96Iacz0eGd/SM8Rb7w=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=YyEULQO/3mntI2LlQnfqWpqKybnjFf+CN4CW2MX+DTO1vlxz7bBADkIx6eYLl3NVTmIoYehOR59ATPOkdZnq8mqkLM6CJvftsk6lCHDfuCNmAlAOYx4G6ZJGB7tosibLsRoUKwjqh/4kiCGAJdt3s5B8c5Pee+/vSmdVbe9B6WI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ftZs+VBA; arc=none smtp.client-ip=209.85.128.52
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TBa3jyea"
-Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-ad241baf856so65052066b.0
-        for <linux-staging@lists.linux.dev>; Sat, 10 May 2025 10:43:33 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ftZs+VBA"
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-442e9c00bf4so545155e9.3
+        for <linux-staging@lists.linux.dev>; Mon, 12 May 2025 02:17:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1746899012; x=1747503812; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=XudQIlWXwf0Ka7UaZjcMta2G0Y3PX5txiCv6+/rb6yY=;
-        b=TBa3jyeaPptwKlVut6FRxoYEpoQAKpGZjccxCp57d61DQUvu1na5gFdQ8QdlxuUGJG
-         fa0x5FZIKEwl9/4respn2KhmTOvqYW7i4H/ZmSJwmpyezDiFfbVZCFxwrJEVaozYt/ys
-         TuzW9EVZ5tsWIX5FqfaRep5AmYEt8fYn+9EK0fQDJd9k389fuVVVcBimRbhPS1Is8N6q
-         yEb8CFtiWbqq2maqgaW4YyafofwsLtHWMLP7L8tMIL4fsrfo5gsaQaYB+9ZXc+6VLQdZ
-         SbzUrV+RUqyogFECx5KNFwKnycwLG+pugNUcwkkEgs5OjKIXiH8Zv6ycILbCvpArDdW0
-         HkXQ==
+        d=gmail.com; s=20230601; t=1747041423; x=1747646223; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=nRFLE3s9Bruf1VCyUAW6Rf8xhCic7rN3m+YlZIBz8vQ=;
+        b=ftZs+VBAy9jtUNujtGjsTwo4W98rXcEZzLcfGulc/k2VsV5leAoUmVKIBZVvLS07Mz
+         9g5+M5GJkHHt+GLID4AjTYbMJQaoEhlNOKejHI4NWHusQ/UU995xor/m5zkEMSjTGJUD
+         /Y2I0Qj2z2f9qGFxzYZwADoNXG5IPklSZbhzJY0XphX7yK/1d8oH//3N+9tSRE/Sgp9v
+         Gax5UBfvFaQLFuVBX2B1UZqjqvCPn1fNkbUcJLmTgzT5u2USPgRd5jta/PO5ciK2K5U0
+         L8TBWT2VeiRfyD5v7NGaZ0W4ycfnUxW+D6lDb+LK1xSCv4XZmZEWCaD+l0RL6ZDIMvcI
+         AE0w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1746899012; x=1747503812;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=XudQIlWXwf0Ka7UaZjcMta2G0Y3PX5txiCv6+/rb6yY=;
-        b=GRvyY7tAoKpOI+oTgouEaol1H3sxAPQVL6iu3zbMkSVrbJIrhOd9QyGA+NZFXnBMLg
-         No6Weq0M/TORjZzisz2gYxLt7Ht02TXixi0Vy0Qvat21xUXjIqGGkpcRFyAsKenJTQdh
-         SULWo5d02cSsKUuJLqWdMw98WdOF+4zxS25b0lCGcySOciUgwMt0jEzSOF3w80DuW7sg
-         zOpDZvd7rpvwR2res/LKDwTBx8bOofX4eJyA0YPAW3uo2IcdtftBprwu9vH6AVHTt8O/
-         SurARmzwnqABKqP3dSzFz6Z/I0vT0j89d9HnCgj4UxFniS+ssIwZFA4vtAPGN40HAFLj
-         vOyA==
-X-Forwarded-Encrypted: i=1; AJvYcCW6yu7gje4hzZ1GFibDWPz9IbmhS7HcCFJG4wfypkCO75tX08kIdunabxPYP5APx613bAG21xsvDu3FuOfV@lists.linux.dev
-X-Gm-Message-State: AOJu0YyZqaB3JvbRyiKyZ+NgOa+Df8LUXD7GhJz4CTTba282feccdMyc
-	E2uH5u9JukKCqIC1t587PcuX/TnLIVkFQWzPOBITQdCmCdKyxJAl4FVnMX5P3HTg8Q==
-X-Gm-Gg: ASbGncsfw+2xiSd5SL3JCn0F0QbBtlVvxMs5itoAFHvIndJngywdLkof++NyPzRhVYv
-	Sy+qXxGSfneXjeWUF8Ofe0ApM8NFbMYsUrnYeyyrgxvPcbFT3Adt3g7wA+AVMi+4JWjg3TSdM+k
-	o4Ki5EK12BS7/Cf8HoDZR+jfvgOc4Dlu7rOQuLUeECrdfR/MFh4nkOH91sE3SlpUDibrquxdhLf
-	Oceftf6YcfQwVaMUqmXOUN/1h7WvHpuaj6rEr7jJdIWpeHLypSwtTPEp2aIjAjvV8ifB9FMyp3k
-	LUEW6/02cJtWb4ti64HX7sLw/5JGirQ8yl2+cdyCKYE8ogEiXwldAbksoOfMCpsGNZ7QjlHFtZg
-	43vpp+uMDVt3nCd4fQBZhBiXIg4ejfiyJWB8xMbzECgTdWt36hEqxsYrMc+ZNHdOjLfZXsWxmqP
-	asXe2bTcsQf69QCX8usBLqAQ==
-X-Google-Smtp-Source: AGHT+IFxcxlx2x8TBUFtxBWf7qjrNckgV709Zpt3md2UpCKd4rKDt0E0SjpeXSciSxXU3cEGDq4j6Q==
-X-Received: by 2002:a17:907:1c84:b0:acb:b9ab:6d75 with SMTP id a640c23a62f3a-ad21b4272fdmr702172166b.23.1746899011668;
-        Sat, 10 May 2025 10:43:31 -0700 (PDT)
-Received: from chimera.arnhem.chello.nl (2001-1c08-0706-8b00-79cf-0e0d-6e5d-219d.cable.dynamic.v6.ziggo.nl. [2001:1c08:706:8b00:79cf:e0d:6e5d:219d])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ad2192c8608sm343613666b.26.2025.05.10.10.43.31
+        d=1e100.net; s=20230601; t=1747041423; x=1747646223;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=nRFLE3s9Bruf1VCyUAW6Rf8xhCic7rN3m+YlZIBz8vQ=;
+        b=V6UAk9ap52Npjt825g2su2ulRu+kuy50RwfEpmRW3UKYyh2aXbgggYwGym1MGDjPrT
+         Lvk6/j1IGRPv4G4yzV+chUCAFBKZQVUqQWJ4FxQnrikhW4HhvZg907zAbT1hxDm5sys5
+         qsH7GcN5faxOR21SebRXaEg21rSjTmcYranFH3NWwREG9NUiSRK+hBOP8Ow3fUIG0iON
+         LyLo2qjPle9Ew+V56diFC+V04MldVztceDxJOkOKc6OTZZnDJK5WHkxAeVVwmYtkLJZQ
+         61lw4tdWDVQlFua5EA0UFw2X69ZUA/0A/wan9ChM+vG5Xp9ClYyTrfhWMXN7SDIkB7C5
+         OX1A==
+X-Forwarded-Encrypted: i=1; AJvYcCUVVM+wcNlaD10459yZlTXvgpyflgNcFAJ51pKScyJAugjgXsfS9n9CH3jUY7Eitph5z93VD3TDGPl+GnZJ@lists.linux.dev
+X-Gm-Message-State: AOJu0Yzn5fPQia5inhSdNcnzN3sqjc30DqR87QNxNZtQpwLTXISXvYii
+	V7OVOgpcJe0QqBCLSxmMmcZNWlnex+PlRtYkAMxSxN4zIJttDMWn
+X-Gm-Gg: ASbGncuSABPqnE2amuZsUEOMe24Iv08BUWlstRAh7KMxW6H9O8EHwVh8WcoVm6GabTv
+	yllRDky/0ShdLKABwVmoYXOzOLOeJqGRMcvV5WT63hUcZGORVGjF02NFvcGUm8iUD5o36zF0tOH
+	y5Chtxs7sG3o8s2Z/GqYxUcJ7LliVR6DAev0Aaudqd9dgRMH+kwWPR3jocmNpqEHyX0PLcIszFk
+	5xhy9P7iBziofELTPrjMjGmP7XuRapEX2YWj11TmLDqK+Fvgppbg28yuvHcU0ZrYZYzCwHdaRIX
+	eNkY0+rQEyhJ4dHRZX0zMtSAszOoRP/7l4KuaSK7cjR3
+X-Google-Smtp-Source: AGHT+IEkFmH1KxHL9I9yJXaVSzYPTzM7e7It56PAmN5cCAz7vgAoMC4bm8LOyC0GJ+1F/pUgvWXhMw==
+X-Received: by 2002:a05:600c:8212:b0:43d:b3:fb1 with SMTP id 5b1f17b1804b1-442d6ddd806mr99404725e9.27.1747041423109;
+        Mon, 12 May 2025 02:17:03 -0700 (PDT)
+Received: from egonzo ([2a01:e0a:9ad:d3b0:ec4c:9f30:1dfe:440a])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a1f57ddfd6sm11596764f8f.4.2025.05.12.02.17.01
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 10 May 2025 10:43:31 -0700 (PDT)
-From: Thomas Andreatta <thomasandreatta2000@gmail.com>
-X-Google-Original-From: Thomas Andreatta <thomas.andreatta2000@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: dpenkler@gmail.com,
-	linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev
-Subject: Re: [PATCH 2/2] Staging: common: gpib_os: simplify return value handling
-Date: Sat, 10 May 2025 19:43:30 +0200
-Message-Id: <20250510174330.297207-1-thomas.andreatta2000@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <2025051046-ipad-overdrawn-8890@gregkh>
-References: <2025051046-ipad-overdrawn-8890@gregkh>
+        Mon, 12 May 2025 02:17:02 -0700 (PDT)
+Date: Mon, 12 May 2025 11:16:58 +0200
+From: Dave Penkler <dpenkler@gmail.com>
+To: Thomas Andreatta <thomasandreatta2000@gmail.com>
+Cc: gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	Thomas Andreatta <thomas.andreatta2000@gmail.com>
+Subject: Re: [PATCH] Staging: gpib: iblib: iboffline check if board is in use
+Message-ID: <aCG8ivhN64EYsuki@egonzo>
+References: <20250510172419.274616-1-thomas.andreatta2000@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250510172419.274616-1-thomas.andreatta2000@gmail.com>
 
-> But again, as this can not fail, why is this needed?
+On Sat, May 10, 2025 at 07:24:20PM +0200, Thomas Andreatta wrote:
+> Ensures that a board cannot be taken offline while it's still in use.
+> 
+> Signed-off-by: Thomas Andreatta <thomas.andreatta2000@gmail.com>
+> ---
+>  drivers/staging/gpib/common/iblib.c | 11 ++++++++++-
+>  1 file changed, 10 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/staging/gpib/common/iblib.c b/drivers/staging/gpib/common/iblib.c
+> index 7a44517464ab..0ab5680457ac 100644
+> --- a/drivers/staging/gpib/common/iblib.c
+> +++ b/drivers/staging/gpib/common/iblib.c
+> @@ -240,7 +240,6 @@ int ibonline(struct gpib_board *board)
+>  	return 0;
+>  }
+>  
+> -/* XXX need to make sure board is generally not in use (grab board lock?) */
+>  int iboffline(struct gpib_board *board)
+>  {
+>  	int retval;
+> @@ -250,6 +249,15 @@ int iboffline(struct gpib_board *board)
+>  	if (!board->interface)
+>  		return -ENODEV;
+>  
+> +	/* Ensure board is not in use */
+> +	if (mutex_lock_interruptible(&board->user_mutex))
+> +		return -ERESTARTSYS;
+> +
+> +	if (board->use_count > 0) {
 
-Agree, should've checked it before trying to solve the "FIXME".
+use_count is never zero for an initialised board so this would always
+return -EBUSY not allowing a board to be placed offline
 
-> Start way back at the "ends" of the call chain.  If they can fail, then
-start propagating the error up all the way to here.
-
-Sounds logic, will add it to my check-list from now on, thanks!
-
-Best,
-Thomas
+> +		mutex_unlock(&board->user_mutex);
+> +		return -EBUSY;
+> +	}
+> +
+>  	if (board->autospoll_task && !IS_ERR(board->autospoll_task)) {
+>  		retval = kthread_stop(board->autospoll_task);
+>  		if (retval)
+> @@ -262,6 +270,7 @@ int iboffline(struct gpib_board *board)
+>  	board->online = 0;
+>  	dev_dbg(board->gpib_dev, "board offline\n");
+>  
+> +	mutex_unlock(&board->user_mutex);
+>  	return 0;
+>  }
+>  
+> -- 
+> 2.34.1
+> 
