@@ -1,161 +1,90 @@
-Received: from OS8PR02CU002.outbound.protection.outlook.com (mail-japanwestazon11012031.outbound.protection.outlook.com [40.107.75.31])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2994325F7BD;
-	Mon, 12 May 2025 09:51:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.75.31
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747043490; cv=fail; b=M8dplFFwD8uIlW1jzmY/xU+cJUzs1pjMVECCujLbMqiBY77dmDCky0Emdw2mrnP8JM6JewDggKlVgajjwuxWRgB6OSgdri30lUPjoGtbIpdPiolvuILTWX98o/t4RPVJncAgm6BH538m9/kyxcRt2UBaBqC6UvheWKSqWmsMgi8=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747043490; c=relaxed/simple;
-	bh=lI89NeZ2t6ka0HmhJIlFeSQS0H+0iujoi8G68I1KZxc=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=rZERWwXSLG6IHhV+0gH0LhAtu7/lsDYFRSZCJQz5XAORHvjxDuNGzjp94XaDi+GvRmnOaNGypY4ip/hGEd9Q4pfHutRDwttHAouP1jtFZYpbiwiG30dtktmlXEbdtbrKaX2fOoOABhQOpCJR9yIa910aixNkgiYm9q+8ynPr+gc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=vivo.com; spf=pass smtp.mailfrom=vivo.com; dkim=pass (2048-bit key) header.d=vivo.com header.i=@vivo.com header.b=Wf8xqb+j; arc=fail smtp.client-ip=40.107.75.31
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=vivo.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=vivo.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D22A522A7E7
+	for <linux-staging@lists.linux.dev>; Mon, 12 May 2025 14:48:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1747061335; cv=none; b=WZv5FSl2CGHQJFIgCvTjHCGewTf35u2jfnE3M9rW3L/X/4NZr54171OrOz3/AfYEW1UpdKBaFjT5n382e7g7rOJNRoXj4Dw/UnIB3LFBs9DQlJ4KJv2HAulzT83hNBytr6WpVTGj61saeFfEw2BqJH/ydrW1CAKA85TF+cHQXYI=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1747061335; c=relaxed/simple;
+	bh=0+DA0HchI6skejeO2v9vUR0tvdYQj/hSzdF5ikllf5g=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=qY/5up+gDB3/fRiNuFMUg124SkhfwiMqZ6bJAKnVPgS9hFyPHpjv19Ocj7utRyaDFb17U8SiXEH7F1tXylPFX91N7C//d+UvuQld7RrYDo8XvAf/DOtMtDT+sx7pHuwk9tntu1R8oxFQne+fQHTKwOUAqKaS7MiRL8eo1GGjLNU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=A8+fVUAV; arc=none smtp.client-ip=209.85.128.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=vivo.com header.i=@vivo.com header.b="Wf8xqb+j"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=bT34ZZSXnqw79YJgYUg0bRt2yAvfPXmxs4iBntUINfACm+IQxYYGh+myB7bjSFEZttObKzXpH/p5JHN7nWwaycD25FIL+8BXeUHswsbP1qQwE6ox+D3+Jk2nOpscK70/xeOBaxxK5riS3HU9aLSL+aO3mg0AIA3B3CWUlTB0D1fg/4MYvcgoBkQSZxNT0lMZg3XUPxE5aI2JmI+h0KSK6YqslHVoDUCWGRP6BwSEvGeQXWhNzvRVSXGRe2le02uPLf2+xfunKrKtVllucBhyjXL7nONLb7Bf42s22wHanVRKPtiL15H14i6WXvVFWHl+GmxKcHQbtTAP05faaHdC9A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=lI89NeZ2t6ka0HmhJIlFeSQS0H+0iujoi8G68I1KZxc=;
- b=wJxWHGDt5o+NFD1/mg0wyAb7F0+OoZT6U5P7jBqNgBPkdaxVk69wbnCigW+5564Urrq/ZXSSPoge2is22qPydA631YF0vPZPvsl78DsACJL4d7AUgK1J5AWekItOuxcEemTTR3qiB401sVKR9tXbSqdCz+GcUkzh+1Yp1NHEWB+eD7uyEYsD7pS58wDbNUnbFKBkOvLhflhzC3+TNATlTfgdqjIWWFEvzx7GG4VM/zvJazNarWsLfmYMtjKOHR3EPY4m6rn7sn5lMH1SoSfRfdVztwW/6Piq4Dwr88AC8D7dVWWzRs0fv8R/qYsXaXPtIcaRz29/hrdqIOYCbdiCIA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=vivo.com; dmarc=pass action=none header.from=vivo.com;
- dkim=pass header.d=vivo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vivo.com; s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=lI89NeZ2t6ka0HmhJIlFeSQS0H+0iujoi8G68I1KZxc=;
- b=Wf8xqb+jBEKtwKefloqcr4Myw5kD/yjhfmA3siACEA7sorXFiHs2y6MNVwsmiXY7lN5jT8TFa32ZfzPlrrxAG60+96JCuUPAzso1y4KSF2EAnbfz98zxpl2QhVMTYKl2zB0ZrANRocHyTR9UNZ3NncOG3vVOw/qzdWZVGxeQYu6g7iWdXIUhF7OReqebG2lmWPE9RIjeDBMsmYeowzKPxqeKkeGCybKtAbFWWCTqitUz1fMez97ALaPxmzGsxv2umh9CNrFxd74ZrwAZrz6GxgZSlGd8t/dqWall/k5r/H2Shftrv1kzgaimxiAwPpQ0LzrjNd6iitPO6Z9wBP4Wbw==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=vivo.com;
-Received: from SEZPR06MB5269.apcprd06.prod.outlook.com (2603:1096:101:78::6)
- by SG2PR06MB5310.apcprd06.prod.outlook.com (2603:1096:4:1b8::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8722.29; Mon, 12 May
- 2025 09:51:20 +0000
-Received: from SEZPR06MB5269.apcprd06.prod.outlook.com
- ([fe80::8c74:6703:81f7:9535]) by SEZPR06MB5269.apcprd06.prod.outlook.com
- ([fe80::8c74:6703:81f7:9535%5]) with mapi id 15.20.8722.021; Mon, 12 May 2025
- 09:51:19 +0000
-From: Yangtao Li <frank.li@vivo.com>
-To: ethan@ethancedwards.com
-Cc: asahi@lists.linux.dev,
-	brauner@kernel.org,
-	dan.carpenter@linaro.org,
-	ernesto.mnd.fernandez@gmail.com,
-	ernesto@corellium.com,
-	gargaditya08@live.com,
-	gregkh@linuxfoundation.org,
-	jack@suse.cz,
-	linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	sven@svenpeter.dev,
-	tytso@mit.edu,
-	viro@zeniv.linux.org.uk,
-	willy@infradead.org,
-	slava@dubeyko.com,
-	glaubitz@physik.fu-berlin.de
-Subject: Re: Subject: [RFC PATCH v2 0/8] staging: apfs: init APFS filesystem support
-Date: Mon, 12 May 2025 04:11:22 -0600
-Message-Id: <20250512101122.569476-1-frank.li@vivo.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20250319-apfs-v2-0-475de2e25782@ethancedwards.com>
-References: <20250319-apfs-v2-0-475de2e25782@ethancedwards.com>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: SG2PR01CA0185.apcprd01.prod.exchangelabs.com
- (2603:1096:4:189::19) To SEZPR06MB5269.apcprd06.prod.outlook.com
- (2603:1096:101:78::6)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="A8+fVUAV"
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-43cfba466b2so52235625e9.3
+        for <linux-staging@lists.linux.dev>; Mon, 12 May 2025 07:48:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1747061330; x=1747666130; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=oOY69GPeY7sxhniN+8OI5OyPI2xNU8bnc7SUmdP2Sh4=;
+        b=A8+fVUAVZy9L3jjPjwkmsIJos0gM06jBG8+j2EyxYUDxYq5ICHBiSWwkuBldbmxcJv
+         FkPTipJK91lk6k7rl2DUS+mvDmswRQo18INsw/q89mKEjBtkf973iasLfQpQO35yC5do
+         gcZTHMxW6xa+BNaHualh4LuvfbL9O4rivikp0X5RNDrRPhgytEFn2Qjah63U5RhRyUij
+         oZd3BPRVjXtqa3tT5CKuvaTG4E3ipuObv6fqp8BTJEyUAbUAGVV9nkpQRGXlU3BADDJx
+         Dt7qEAakdtYnbfmrDlcb4my+D3BAvC5zLn5dsJCNZ10PpSD8FojyE6HARSupD2TkyGGW
+         QOYA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1747061330; x=1747666130;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=oOY69GPeY7sxhniN+8OI5OyPI2xNU8bnc7SUmdP2Sh4=;
+        b=SE0eHwnONvIfHeFAJ/6UbNGfJy6LHWaV82Aok2OB3ROQO8UQC6FmrR7MZ3upE1YnGL
+         Xd/YpLYF50Q5nwhuREvh4arRN2Rdir9QsYtTAIC6rgL5qtMkSMYB/BSFIllEsbXQxDq8
+         Ij5MU+GHFTtbRwQ5AyBn7EC+hguw+1jjvKgUANwkBsFsVWhOANoXwFC26XLDoCbjsl/I
+         apjCm8dEbgLaAVjWxkEEh6WMEu4N+EVKnqd2JQA9UEgVPJ1ZZVyrFRtQNPY5dK+seHbX
+         wmszqUUln9/Cor3NdyfbKssuAxdW17ZYdNJzH9f8GZnBOx87/d670RLRcJuenuN/Ys4f
+         wmYw==
+X-Forwarded-Encrypted: i=1; AJvYcCUKzPgEH2SV4nykp4DB62V2iXuc9pQiMdUxaYbI37laifdwhXoKAVMAGnb8Bw2JCMSvPllcRX8jDWyuQvJU@lists.linux.dev
+X-Gm-Message-State: AOJu0YyRbwYqfoHfpnl84/9eG7T3Tb20BJqcDEpjYdlJFt2feMJtwzWZ
+	naEPtLr1us7ZaST+fGaJbTURPvhD4jb9PybTBWhr+kG58WT0upohOxP3HiuL/mo=
+X-Gm-Gg: ASbGncvDR+QRX7EHlzj6KvM0OCSShO1Y7GpI+tticE/AsCF0sLWIPVpV53JfNUbA0PY
+	ETvSP84swVNxr/8Xl+Z4NHV7GiOCox89R3tCgy3hKXmahItw/1jsUsk9i6vQhjSwrCLMVVEg8di
+	pSU7bMyrabCBx8Bw3Q37Y3bfZbzCeiTR3fa+nL3LaOk3/AfXaOigLzqaAi8nb7/JkN3BBfKoY8K
+	G84re3HL21X+fYQG0dhEYavn0QFV3R+iI/gXgPfvb+sJ6O3MdV7jSMgtf8WqtQRNNnnKCXwJCeI
+	tI/OegjzEAj/dyD0SZWmpNNcLwLFxhktwisKufKcma1o5DQY11ImAq9uwBRvBo0XhYHvbS9mnde
+	t71xgWg==
+X-Google-Smtp-Source: AGHT+IGdXGPgemNAdaGqFqrAkOPo5m7AI6yWS8X7lQEbLj2J8ijTntHjWwgRce+XmeUIX60FdDfVBQ==
+X-Received: by 2002:a05:600c:348a:b0:43d:fa59:be39 with SMTP id 5b1f17b1804b1-442d6ddf515mr114798195e9.33.1747061329948;
+        Mon, 12 May 2025 07:48:49 -0700 (PDT)
+Received: from localhost (110.8.30.213.rev.vodafone.pt. [213.30.8.110])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-442d68585d1sm129237385e9.31.2025.05.12.07.48.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 12 May 2025 07:48:49 -0700 (PDT)
+Date: Mon, 12 May 2025 17:48:48 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Thomas Andreatta <thomasandreatta2000@gmail.com>
+Cc: dpenkler@gmail.com, gregkh@linuxfoundation.org,
+	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev,
+	Thomas Andreatta <thomas.andreatta2000@gmail.com>
+Subject: Re: [PATCH 1/2] Staging: common: iblib: Changed ibrsc function type
+Message-ID: <ccca3dfd-8657-48b8-9998-c06628353eff@suswa.mountain>
+References: <20250510153800.130974-1-thomas.andreatta2000@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SEZPR06MB5269:EE_|SG2PR06MB5310:EE_
-X-MS-Office365-Filtering-Correlation-Id: ac72fc09-9875-47ec-d1c0-08dd913a8b99
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|52116014|376014|7416014|366016|1800799024|38350700014;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?2fXLrXQg/sX0ub2+lZ8leqKHgM6yNAhM50DzSgSeu9wIRUrDR3ouBLda4chq?=
- =?us-ascii?Q?ZirfJBlBb3AQ1z/fMrdCDnsV51nHrju7TzCQNdkRSgp1UYOilz1Yoh5gr/Py?=
- =?us-ascii?Q?2a5ylCVPnOevGHkgF/voj/ic7pZnQ6+ENQUtD6uBzygV6eBLwwoTzD6U9QPf?=
- =?us-ascii?Q?Oq7G5c9g9Z7pv5WA9c+Uy+4TiMA3ZzZRpKR/OUwue4kiYEsDdp92AykAbyup?=
- =?us-ascii?Q?pVBte9O/9/qaRqMKQ5flokYc7S5SEvfmdI6qdVZUDZdZUofqKtp8AUFsHQNK?=
- =?us-ascii?Q?V7Y3+G49XBqlswRfA55PATt6RY5wJsZoOoMlfnzqmzESh8UhWIGRVg/aaaN7?=
- =?us-ascii?Q?kI+U4PvungQsDYo3PwMnsGR/dDvBDNRG9Ng+N7qjJvty1dgOoq1RIe/uPkbk?=
- =?us-ascii?Q?9PnynpaoyOwu6GIn1Beck2/AZJmI6B0ppzzPFSuOG140eDzpD6S7IUzTCO5V?=
- =?us-ascii?Q?LNi3XguzvFVRPxf2ngLK5hgJJHQfQi2YkYS3JuxV/1Ht9hRnr81b+1PO5L1a?=
- =?us-ascii?Q?Tr4tadk/w0nokozJl/FelOLOXXw9LjSB31mALT8L3KDfO74qFcyjO/vewf79?=
- =?us-ascii?Q?n/+5M+aOMUATeI5JzpkLsmfszzY23SH1BWCvxllbPIc0S0nBub+WZhUWSyc9?=
- =?us-ascii?Q?XJKDLZVNB7WjrCbQPfTyw8RB4PdE2cqlFPgs60kN1bLWnh6T0mtIkuABgmSX?=
- =?us-ascii?Q?fnj3l5/ZP0Oscx94W4A2YYQIIpja8Xphsa0AaM+GrtIgcVHzn4vQDJEVyTEb?=
- =?us-ascii?Q?cBj/M7PUf8q2yj3cDHv2QYHxzY/aUD7dRDX5316alKzfGMk0LGTLTGcRUZG/?=
- =?us-ascii?Q?7Bt+ZO1ZOz/rACt5vP0jgPkJx3g4yPSkNxRwJrAyKBV2PcXVtrwiEqgLnSdZ?=
- =?us-ascii?Q?P8pg1eLsHgzOi7Ht3lhT4WdwDqMMRKDivFSGqqYyhQRhBxih9U0hcL41OunF?=
- =?us-ascii?Q?eDHc7PUTtdD5Jf7HGB0YSRlgZFmhrE2pkuGVmo+NJhiWxmRo8Eo6SSb/ReD+?=
- =?us-ascii?Q?7Z9dmJqR+BfhK5AhKh1GQqvRAncqYgPi+gwfgAb6oBK5cseP7ppenYLTLnOS?=
- =?us-ascii?Q?jQTnrXwe9kmVZYdILULub9u8oOrG1vo23zbCY8joYHOLR3epXhkFf9Pbx1RS?=
- =?us-ascii?Q?BQZFmm4mO6XHGtNhV4JsxrlkhM5Vtn79W9tyZKHntnvx+58cNudjHZ7T4z1k?=
- =?us-ascii?Q?pEFAuvpGtGQ9asLqFvSiVQYeJ79Oa4bnKtSXcjahn13WdwrmYYdz7EwWZwRm?=
- =?us-ascii?Q?4hrTz94L4NWDrq6hjA76mrAY6zt3WbhV8GGYsgQ+Q93r3DK8adLaI+qIA7rS?=
- =?us-ascii?Q?c19cJqOQLIKA9Dp01+pK2LEEF5Br8el4yNStI2zLyZUSTPfU3Cp/wqamYFew?=
- =?us-ascii?Q?4NxcHTB10ApOpwKlIXE8cU8KR+lKki5ggIqYiWI0mATO4yHUcAdeDvmR7YDa?=
- =?us-ascii?Q?y02bqMp2vzb5WnJyARJvojaOTUV6oJbfSbACgc2BM1lYyRjjJvJvNw=3D=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SEZPR06MB5269.apcprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(52116014)(376014)(7416014)(366016)(1800799024)(38350700014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?JL/GLaEG6eUhkrKp7PivJwqFMIsI5wkU8vaztv3zUyYtsKL7I/FhmQ+bg/A+?=
- =?us-ascii?Q?SLfyc2/058WWtlgKMmcX3+wCsj5vqgW6euUA1wR8zKG2UXvVFFnhGEZkwTr1?=
- =?us-ascii?Q?CQdNuabmozPneO1pltebpiVpBmM/CkzgxaDMG6yurz6lIzNqV1PehK92t/+h?=
- =?us-ascii?Q?PzgfmLPWp96mWBrCwZx5KuDKiRqLbdrJzxYNS2qSgOfUxC7VwG1TY2Qo+ya0?=
- =?us-ascii?Q?gn4AUcVXvtYE0GgiZN2efP4mb3R0vMNMouX59hmXu9ovJRLfM06RHpcAmPG7?=
- =?us-ascii?Q?4lwJs++iLD0hu4vZUQ+v0ntLodQ6xo2nMp9a/GPIJfXJesHbMHiyZzX5btVy?=
- =?us-ascii?Q?wQuYiM2WDEcBIbfzJ/nnGfXDLYtieJ1yQmUv3HVnzYQFkTGYX7cz3hS6u9zt?=
- =?us-ascii?Q?td4MD0q4E5Fq8HiUUDtbjjK8v5C9349koSwkUkQbhxdvCsA0p78kGeEHMsVL?=
- =?us-ascii?Q?TlmHRG2a2l0tx/q65PCw7sClDtcLzbEzUPn6iT0g0pfaEgjgeai6v9ZC+Izi?=
- =?us-ascii?Q?dk3yWNh2mhYOrtFYATKGNmft/QX+hQc6rGpCpzeFLVuLQ4hILMVosSYkTamZ?=
- =?us-ascii?Q?BJCmMIKB70NRffMYBboSFmDXSGkQNAolonGceFMklc50AYAx7CYsINBPypkI?=
- =?us-ascii?Q?n0xEj2vlo9KbMnbqLUpc8y5tLfNdZBMMabxvv/BhhH3v8YfxxTbf+ZT5FsCV?=
- =?us-ascii?Q?D6M9tr/1KYQqlhAmiXW2HEVOii5NVr8HjnMB5alZ7xX5VTmEBi9I4QXp31lE?=
- =?us-ascii?Q?oL1RRyU2/R/GH8vnSn7aUTpZ7NBmLIlt9Gsenb6/WocqMQh9MWN7Y7F0dNdy?=
- =?us-ascii?Q?0RGMnDChck9ht5/kJh3iHTeGEZfMXi/xEzNhkkJWixaGeo2+RtnmFY/+/s2P?=
- =?us-ascii?Q?HKHOEuZIXqFVP6tZFByShbgCYvyDKaiJdy0IlZKwCAM1HcrTGRcPzkjyokm6?=
- =?us-ascii?Q?mJ/puEWOsvsbSD1JDE/2G0wtW8Wi0lM8sQl+FBYReKCANf+0fZeddJFxJEXX?=
- =?us-ascii?Q?4iAGZTtU5Egl0bAH75mKKyH2YjlFRxxs7AIkffQ6tmPqC8Vhz0j1PDXWqvgD?=
- =?us-ascii?Q?kPMBAKtxOLo+Nrz8t51foUY4I6De+vmTxGLb6+6DFIvFdBvDJi+0Wh3tcXUx?=
- =?us-ascii?Q?25gjdteQxeKgpJ7NXakOQLaVm3M1+OgiT9RsWZppbj2XsQF80QDdVmcqdvna?=
- =?us-ascii?Q?1WvdbXqTGmPNDfLZHtTlIOs1onUFMx1xDTu0/l49Z9Lt2c4OK4j/ZwMX7+Ms?=
- =?us-ascii?Q?coKPLyblF3LHGezCo3+h5BEV4YRPV1pHeCp0GD7BIfewHufFRlgnwGyti7QD?=
- =?us-ascii?Q?L39kq77EoNekLoQCvQdRf9mR04OyY6vILvediojbvgD7SiEqtgM31Z/uTeDF?=
- =?us-ascii?Q?s724fKxrkkPrmHNUIZPJrzDSZeLwXHLVWakK926FMY4wLU4ibofmC9ReOWtQ?=
- =?us-ascii?Q?buQmjacb384gPTnaHlYQO+nfSg5ZPfd6EGLvG8p4zSeXvR+K7QCFm6XrNOKY?=
- =?us-ascii?Q?+XDGAOyFaM4YJgRVnvHHs9TIGHucnQllLXuLUDKOypTGkkn0vSA+nYuNjfU9?=
- =?us-ascii?Q?6d5B+lX6Q+5tilaCObA4nu7NmdBkrj6UTx9jFaH5?=
-X-OriginatorOrg: vivo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ac72fc09-9875-47ec-d1c0-08dd913a8b99
-X-MS-Exchange-CrossTenant-AuthSource: SEZPR06MB5269.apcprd06.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 May 2025 09:51:19.5391
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 923e42dc-48d5-4cbe-b582-1a797a6412ed
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: PlR4iDtZMyIPhLJicDqjejb+ngIF/dWCtOACPx47zGKf/I379CatrKIdoAfnPPB+b09v3+qiE0J3xxyMpU32Ew==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SG2PR06MB5310
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250510153800.130974-1-thomas.andreatta2000@gmail.com>
 
-+cc Slava and Adrian
+On Sat, May 10, 2025 at 05:37:59PM +0200, Thomas Andreatta wrote:
+> Function ibrsc type changed from void to int.
+> Returning 0 for success.
+> 
+> Signed-off-by: Thomas Andreatta <thomas.andreatta2000@gmail.com>
 
-I'm interested in bringing apfs upstream to the community, and perhaps slava and adrian too.
+You need to work against linux-next.  Also you need to explain *why*
+a patch is needed.
 
-Thx,
-Yangtao
+regards,
+dan carpenter
+
