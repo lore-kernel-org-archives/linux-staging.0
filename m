@@ -1,93 +1,207 @@
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDC5528C5A7
-	for <linux-staging@lists.linux.dev>; Tue, 13 May 2025 14:12:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747145525; cv=none; b=upFxj7YY2/FXTmi+XjMDaoKDYDzykOkx0TgFG2GR5w51NuLgfzUDNpjQ1iovITbe+xQ7BvH4aStip3W/lbaQUOsafA3d5JJZNQjuVpV+1b5a5JEq7/yTJB1pTAR3bHRf7gS6fjRnXLHKApJQS7W60USEy/l8/FjelotaaqhXK5E=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747145525; c=relaxed/simple;
-	bh=2xqvN5MZ0cpWW5I2C/Kd63LpkF2iAU47gBCPKJfXWlk=;
-	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=k5QRmq+agPnjMAPKal1b2io9p7d43CgocsFvKLAr5gTfC9OxdcuKmL8w+8ffhR+aegohxB6wxIIRHG5DD+MSaNlCJhB+Sc/+eVpbBJYjKBXlfppzO+p9kMw66sxbOtwqgOkBHoXKx9ZlBy5Y1ijzl7IpfJtMsg3JpCEs8DQB/4s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=P2CpAX4z; arc=none smtp.client-ip=209.85.214.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 331D21EDA35
+	for <linux-staging@lists.linux.dev>; Tue, 13 May 2025 18:27:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1747160826; cv=pass; b=SOp7vaRwecaGYDxCT4/WNeuV4lBf1g6R0N0wK8eui+aW4zjIR0jDUQ3Ue8t1JUCa8PDuvI7Js2xHF9nnEWAIQo9XlWA5JtK+J7QhvZW7cpPob9RPjm68yhUzJeSScePQvo/CUt7TuCOBaPgh7rv0A375UJU9HEAv0bexIcPa6MY=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1747160826; c=relaxed/simple;
+	bh=TRjTgjWBiAwoOLSvs+VhfUMolx+LVsc+gxciFS20r6Q=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=KzIFN50InWNripGgdfPxdWYKaPKuAUuk5haSjkF9cznVKdZYL/BUa3VGddnEe4YRd3PwLVtp+VXwu+HtW7OhQDXOpouXVI0OmXJsOPGhz5LTpO+34veIuzLQF1c9kQyNFjs7exj82JUAh+cDtMuBZGJ62hSSOOxjrhkwH6VAC/4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=detlev.casanova@collabora.com header.b=R5ebRiJv; arc=pass smtp.client-ip=136.143.188.112
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="P2CpAX4z"
-Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-22fbbf9c01bso46217175ad.3
-        for <linux-staging@lists.linux.dev>; Tue, 13 May 2025 07:12:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1747145523; x=1747750323; darn=lists.linux.dev;
-        h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=J3EOkbiprB+sAgxVEHkLRonbL3H46Q0tOtDWzJ5+klo=;
-        b=P2CpAX4zNqkA5ei6HoFYu22+Nw+n7AJohdfBGOzNczVFS9re5dTLEJSxhQgXAxcoMh
-         sVvkC2Ptes2fRb9wWzELMeWdrkpDfsvaXLL6ZlxGkwaIlkvUEipdwmwVuzkdXtTz4IvI
-         C0pTB91+mtNDCrIQ25biQd9z8XReMFCj1mRO/GaccAx13Vp4nK/DRI4ViX+i2YOzcXoj
-         luNpDunE+cWGItmV5SZwB1rv7xXCNkAozAkPprOEmRZzoC+WctoY5RA2WAbCO0zRQXcl
-         84jo7P4TtedXxWq0e7z+lHT+FBiaq/AYadt/fEDsRXGJzEOaSPwd41AHnsMjEFJpZOLK
-         +8oQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747145523; x=1747750323;
-        h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=J3EOkbiprB+sAgxVEHkLRonbL3H46Q0tOtDWzJ5+klo=;
-        b=Pjnla2Jvj06pNd2qmjr2LK0FlGeVBZnTYAij1qgNPGe06OHjFUZ/N+4FLSk7+JWPH2
-         pNU/St73qXNE+KFlDGVe0wiyA6VAneQ07brjjqiTSRnziIVp8fB3oSnUrhBfCI8LKFeF
-         RUbETQvRPoW+CU7pgmbUdlpXw25PuHimlFKGrHpEXC/DjS3cFARS5qnflcyQ41qWH7JD
-         amlh90s0zrAJwuh3mFEkbxz1QU5E1GCPz6umYEfqRSXAl9jpNDGjorBn+BV4Byha2Gin
-         rdXDPq3PLLyfYKUren6pP2voTS1KsDnl3K4OH7lwl2MOJNjvkmPdOfRCinYaSGJbuRAg
-         EZLQ==
-X-Gm-Message-State: AOJu0Yxbz7nPq0xuI2cPq11NwRTW2MZBT0lSHMshffGh+xYCZRa869LI
-	fAFrys2b6G6GWfU1BlFVuoTihRAf65xYONmOrXE4ZMqMc2U3TM4TGNhwTVOcKtPl3pq3g8RNK+Z
-	UZZD/FHWum1iG1cH2pePDwsOk5yY=
-X-Gm-Gg: ASbGncs/0ZO/8uoX4dLSN1G587I7G3sU/AIv1FDOd2H3qkPAuV3mWXpb2Gy0R7FXprW
-	Fp+xxe4C3FqmCnq/26oQ/8NdzOp/jhXbc7dYtr6ByyQ+mrEJPTHiyrDJctLG+Z9y9p0Ix+T+zeq
-	oy5mZyrUbBGuZb+q0MHgJYUJNd5dqynyUY
-X-Google-Smtp-Source: AGHT+IF45yksE+sO7g0bsyu+gCHTxSnOl+bOkwMK4/IOhUAdyfs8E4kWcc/D5Rr4ozrDkVRLAQcdu228FsL4WfrKTF4=
-X-Received: by 2002:a17:902:dacd:b0:22e:566f:bca7 with SMTP id
- d9443c01a7336-22fc8b5192fmr239873545ad.17.1747145522940; Tue, 13 May 2025
- 07:12:02 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=collabora.com header.i=detlev.casanova@collabora.com header.b="R5ebRiJv"
+ARC-Seal: i=1; a=rsa-sha256; t=1747160806; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=BDN2uLpmb50QwQwa/P9J15Qxa/kcCUN0fkH5pPVUyWnmOGJLtv6yVIYWC3/B6n/5ma1/KKObI8PN5j/BQQNci5W8p1CoazkWNlB0NbCbtl065gJIKIfhOZx+KaxhVQebHz0BsI9S7DyLG+rFA66N71hjfwmYI9XUJivfmtxzNJM=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1747160806; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=WDJ1pkoSIf5LYVV5V3cWH1euKlozzC9b22/qCMaxKas=; 
+	b=m9sQo/9XK0EqfVX2Y79Ld+LdnGNGgI3ShAM95Is62vFeQsDCtnVK0Br77lXqbbHWtS0F1GvTHJ8ksRZaubhoIvQK5Ob49HjpUli1aWRQXmk7O6UTlALu2NyW+EgED1f7sc7schrJ/aAR434buc8sHmNZWSG3aiOiQBoYoTr00F0=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=collabora.com;
+	spf=pass  smtp.mailfrom=detlev.casanova@collabora.com;
+	dmarc=pass header.from=<detlev.casanova@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1747160806;
+	s=zohomail; d=collabora.com; i=detlev.casanova@collabora.com;
+	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Content-Type:Message-Id:Reply-To;
+	bh=WDJ1pkoSIf5LYVV5V3cWH1euKlozzC9b22/qCMaxKas=;
+	b=R5ebRiJvkrVzmthIehK3yjSnSQK/4djfu8/nL5LrJ1snc9W15P3lC+FWIGQKo7X5
+	dy2Wx/hPJ5MiXh5lrd5LQ5Q65IrhVO5qfmBFBv/7YWsTTDqzDbyHy0d21+YxG3MxtPx
+	Y8QIKMPNeA1ob9oAK7Fc9/Erjc4Qj4hi7TVMZqkM=
+Received: by mx.zohomail.com with SMTPS id 1747160803944695.383741776804;
+	Tue, 13 May 2025 11:26:43 -0700 (PDT)
+From: Detlev Casanova <detlev.casanova@collabora.com>
+To: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Nicolas Dufresne <nicolas.dufresne@collabora.com>
+Cc: linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
+ linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+ kernel@collabora.com, Nicolas Dufresne <nicolas.dufresne@collabora.com>
+Subject: Re: [PATCH] media: rkvdec: Restore iommu addresses on errors
+Date: Tue, 13 May 2025 14:26:42 -0400
+Message-ID: <6185929.lOV4Wx5bFT@earth>
+In-Reply-To: <20250508-rkvdec-iommu-reset-v1-1-c46b6efa6e9b@collabora.com>
+References: <20250508-rkvdec-iommu-reset-v1-1-c46b6efa6e9b@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-From: Tanav Chinthapatla <tanavc01@gmail.com>
-Date: Tue, 13 May 2025 10:11:51 -0400
-X-Gm-Features: AX0GCFvLU5dUzxQd5PLroCq5K8AVhqmL2OxGZEuBaeNQtpjBBfb8ofJBYjgj3yc
-Message-ID: <CAPGyJDMb0Ac7KtNc8AUTJ4E-Q4Vw-8JNoKWPMTFSuRU7QiFfdQ@mail.gmail.com>
-Subject: [PATCH v2] staging: rtl8723bs: fix spacing around '+' in rtw_cmd.c
-To: gregkh@linuxfoundation.org
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="utf-8"
+X-ZohoMailClient: External
 
-From 25aa24c7cde7df5901674ec08090992b17afd5b4 Mon Sep 17 00:00:00 2001
-From: Tanav Chinthapatla <tanavc01@gmail.com>
-Date: Tue, 13 May 2025 00:16:29 -0500
-Subject: [PATCH] staging: rtl8723bs: fix spacing around '+' in rtw_cmd.c
+On Thursday, 8 May 2025 17:00:15 EDT Nicolas Dufresne wrote:
+> On errors, the rkvdec chip self resets. This can clear the addresses
+> programmed in the iommu. This case is signaled by the
+> RKVDEC_SOFTRESET_RDY status bit.
+> 
+> Since the iommu framework does not have a restore functionality, and
+> as recommended by the iommu subsystem maintainers, this patch
+> restores the iommu programming by attaching and detaching an empty
+> domain, which will clear and restore the default domain.
+> 
+> Suggested-by: Detlev Casanova <detlev.casanova@collabora.com>
+> Signed-off-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+> ---
 
-Signed-off-by: Tanav Chinthapatla <tanavc01@gmail.com>
----
- drivers/staging/rtl8723bs/core/rtw_cmd.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+I tested it on the Radxa Rock pi 4B (rk3399) and Radxa Rock 5B (rk3588), so
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_cmd.c
-b/drivers/staging/rtl8723bs/core/rtw_cmd.c
-index 1c9e8b01d..98d89e836 100644
---- a/drivers/staging/rtl8723bs/core/rtw_cmd.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_cmd.c
-@@ -1619,7 +1619,7 @@ static void rtw_btinfo_hdl(struct adapter
-*adapter, u8 *buf, u16 buf_len)
-  buf[1] = 0;
-  else if (cmd_idx == BTINFO_BT_AUTO_RPT)
-  buf[1] = 2;
-- hal_btcoex_BtInfoNotify(adapter, len+1, &buf[1]);
-+ hal_btcoex_BtInfoNotify(adapter, len + 1, &buf[1]);
- }
+Tested-by: Detlev Casanova <detlev.casanova@collabora.com>
 
- u8 rtw_c2h_packet_wk_cmd(struct adapter *padapter, u8 *pbuf, u16 length)
--- 
-2.34.1
+And the patch looks good to me, so
+
+Reviewed-by: Detlev Casanova <detlev.casanova@collabora.com>
+
+Regards,
+Detlev.
+
+>  drivers/staging/media/rkvdec/rkvdec.c | 43
+> +++++++++++++++++++++++++++++------ drivers/staging/media/rkvdec/rkvdec.h |
+>  1 +
+>  2 files changed, 37 insertions(+), 7 deletions(-)
+> 
+> diff --git a/drivers/staging/media/rkvdec/rkvdec.c
+> b/drivers/staging/media/rkvdec/rkvdec.c index
+> dd7e57a902640d363d26be887cb535c2668d5b15..38043b1877e221db58f5834ba51e085cf
+> 9127e73 100644 --- a/drivers/staging/media/rkvdec/rkvdec.c
+> +++ b/drivers/staging/media/rkvdec/rkvdec.c
+> @@ -11,6 +11,7 @@
+> 
+>  #include <linux/clk.h>
+>  #include <linux/interrupt.h>
+> +#include <linux/iommu.h>
+>  #include <linux/module.h>
+>  #include <linux/of.h>
+>  #include <linux/platform_device.h>
+> @@ -1000,24 +1001,42 @@ static void rkvdec_v4l2_cleanup(struct rkvdec_dev
+> *rkvdec) v4l2_device_unregister(&rkvdec->v4l2_dev);
+>  }
+> 
+> +static void rkvdec_iommu_restore(struct rkvdec_dev *rkvdec)
+> +{
+> +	if (rkvdec->empty_domain) {
+> +		/*
+> +		 * To rewrite mapping into the attached IOMMU core, attach 
+a new empty
+> domain that +		 * will program an empty table, then detach it 
+to restore
+> the default domain and +		 * all cached mappings.
+> +		 * This is safely done in this interrupt handler to make 
+sure no memory
+> get mapped +		 * through the IOMMU while the empty domain is 
+attached.
+> +		 */
+> +		iommu_attach_device(rkvdec->empty_domain, rkvdec->dev);
+> +		iommu_detach_device(rkvdec->empty_domain, rkvdec->dev);
+> +	}
+> +}
+> +
+>  static irqreturn_t rkvdec_irq_handler(int irq, void *priv)
+>  {
+>  	struct rkvdec_dev *rkvdec = priv;
+> +	struct rkvdec_ctx *ctx = v4l2_m2m_get_curr_priv(rkvdec->m2m_dev);
+>  	enum vb2_buffer_state state;
+>  	u32 status;
+> 
+>  	status = readl(rkvdec->regs + RKVDEC_REG_INTERRUPT);
+> -	state = (status & RKVDEC_RDY_STA) ?
+> -		VB2_BUF_STATE_DONE : VB2_BUF_STATE_ERROR;
+> -
+>  	writel(0, rkvdec->regs + RKVDEC_REG_INTERRUPT);
+> -	if (cancel_delayed_work(&rkvdec->watchdog_work)) {
+> -		struct rkvdec_ctx *ctx;
+> 
+> -		ctx = v4l2_m2m_get_curr_priv(rkvdec->m2m_dev);
+> -		rkvdec_job_finish(ctx, state);
+> +	if (status & RKVDEC_RDY_STA) {
+> +		state = VB2_BUF_STATE_DONE;
+> +	} else {
+> +		state = VB2_BUF_STATE_ERROR;
+> +		if (status & RKVDEC_SOFTRESET_RDY)
+> +			rkvdec_iommu_restore(rkvdec);
+>  	}
+> 
+> +	if (cancel_delayed_work(&rkvdec->watchdog_work))
+> +		rkvdec_job_finish(ctx, state);
+> +
+>  	return IRQ_HANDLED;
+>  }
+> 
+> @@ -1085,6 +1104,13 @@ static int rkvdec_probe(struct platform_device *pdev)
+> return ret;
+>  	}
+> 
+> +	if (iommu_get_domain_for_dev(&pdev->dev)) {
+> +		rkvdec->empty_domain = iommu_paging_domain_alloc(rkvdec-
+>dev);
+> +
+> +		if (!rkvdec->empty_domain)
+> +			dev_warn(rkvdec->dev, "cannot alloc new empty 
+domain\n");
+> +	}
+> +
+>  	vb2_dma_contig_set_max_seg_size(&pdev->dev, DMA_BIT_MASK(32));
+> 
+>  	irq = platform_get_irq(pdev, 0);
+> @@ -1124,6 +1150,9 @@ static void rkvdec_remove(struct platform_device
+> *pdev) rkvdec_v4l2_cleanup(rkvdec);
+>  	pm_runtime_disable(&pdev->dev);
+>  	pm_runtime_dont_use_autosuspend(&pdev->dev);
+> +
+> +	if (rkvdec->empty_domain)
+> +		iommu_domain_free(rkvdec->empty_domain);
+>  }
+> 
+>  #ifdef CONFIG_PM
+> diff --git a/drivers/staging/media/rkvdec/rkvdec.h
+> b/drivers/staging/media/rkvdec/rkvdec.h index
+> 6f8cf50c5d99aad2f52e321f54f3ca17166ddf98..0eb3fd598664bc5af19de120ff6efac13
+> 417541f 100644 --- a/drivers/staging/media/rkvdec/rkvdec.h
+> +++ b/drivers/staging/media/rkvdec/rkvdec.h
+> @@ -105,6 +105,7 @@ struct rkvdec_dev {
+>  	void __iomem *regs;
+>  	struct mutex vdev_lock; /* serializes ioctls */
+>  	struct delayed_work watchdog_work;
+> +	struct iommu_domain *empty_domain;
+>  };
+> 
+>  struct rkvdec_ctx {
+> 
+> ---
+> base-commit: 48dbb76cef65fabaa3ac97461eda90495e954ecd
+> change-id: 20250508-rkvdec-iommu-reset-d8a96b8436c0
+> 
+> Best regards,
+
+
+
+
