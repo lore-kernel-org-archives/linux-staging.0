@@ -1,78 +1,183 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FE9C17578;
-	Tue, 13 May 2025 06:41:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69C5E23E35D
+	for <linux-staging@lists.linux.dev>; Tue, 13 May 2025 10:44:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747118495; cv=none; b=KjIGN4x62VUPGooG3MvVlRCi/huL4P5BH7VsJzcjft4DAh6+7801XmKvuCGCvGLVJpk65A6lrzqcevpBT4VnvZfbxO5oPoKx1RWl/ImafLePlhhpz3ZvCKch9pslQNoCvSdXjNWWmWluuRR33vAoxoW7iNgoI9SsmC5r6Gh5Isg=
+	t=1747133044; cv=none; b=l/UIj+9kDAyjDurV4nkIKVuFg2awpU5ESJZ+4Pb6aHtHlKOa6B+mqdKQcUk6QmeL7b/kuuBOswMnnQX/wXoD1ZOaGoi24BzWqmzEII11lfh+ZqABL/ElmglAH2ttYAPj9s6lyXihCHagGxoNsm/L5hmiSIbK5Ff8vFkMiP4Fvwg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747118495; c=relaxed/simple;
-	bh=mxlbiJgAwnosDbVjQMlB+UTZvwevZ1j+nJw5qI5TijM=;
+	s=arc-20240116; t=1747133044; c=relaxed/simple;
+	bh=JOMeqyEoDj4vkesUvdnVnpqlFYDHJBvDc1WYqwSSUOE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=IHw5FjVLcjBHTq0JeD6m7TV/Pf0wEsTaTIV/+mx8+NrAoZB0Lm8XjrAqWIw1QAgQiV4YUCTu2zZZP6hvFneVzE/nPxp1TsEaHghwys9zFgU3Fmkg8Aui52VJ9qeQjalrIKPb4l0NXk1r8U4k4GXtjs0Vk+7to+go/CC875tF0Rw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=eRxZFyva; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=udkUUnLZGhzDMoSijg4SDr6EpmXleVOJyxm8AFXDRtvixdmaAqKd/nrQWAXsTd4T0cOcUxTTk2glQT5ILsYPZ9x6JEEucf9G4beXmY9QY0yuSmZ4DjWOn5nN6+b8WwEsCUR7PREOH4oWup7dU4cYqtfNdSewnT5Mlc5UnyHzes8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=g0SavODX; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=UOOyyqUY; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=g0SavODX; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=UOOyyqUY; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="eRxZFyva"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 17ECCC4CEE4;
-	Tue, 13 May 2025 06:41:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1747118494;
-	bh=mxlbiJgAwnosDbVjQMlB+UTZvwevZ1j+nJw5qI5TijM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=eRxZFyva6LqoZAt4swSYmDfkS0JZAbhTY59zRmr7zVW1MuzpanbLarv/CsExbH/JN
-	 krnTiwYjiYEBYopi5wVJtkt6olPVhkoJX6JwO9IP99LNMAZcDGaMAfSdzM1TKPDXce
-	 LngNZUqnbvSYFTjEjAjTkTHdXOmcau+ja4P92uPA=
-Date: Tue, 13 May 2025 08:39:48 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Tanav Chinthapatla <tanavc01@gmail.com>
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: rtl8723bs: fix spacing around '+' in rtw_cmd.c
-Message-ID: <2025051301-projector-earlobe-9542@gregkh>
-References: <CAPGyJDMv-N3HkdV4znQg=_i2owE2sbnRhzFem_Uv_15GjADBFQ@mail.gmail.com>
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="g0SavODX";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="UOOyyqUY";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="g0SavODX";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="UOOyyqUY"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 04F1A211A7;
+	Tue, 13 May 2025 10:44:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1747133040; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=gqRhh12uOMrMoumVgK2eTFLenrim4mZSK8O3H6qWdK0=;
+	b=g0SavODXjGqhOM+54LKGeEX+N06siCnd4d/LYlfGVwgYBCp+mUBpkKwFLrjN0jeBZcnjbk
+	LLaEkqZTsVfbdbFzhqUXmnpELZBifkFb4cMOicXpnva1X53M8/WofvnV5p1DMKIz04xNCZ
+	yYZ5kOdpODl+rcm/EUnlLAVw50XaOzw=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1747133040;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=gqRhh12uOMrMoumVgK2eTFLenrim4mZSK8O3H6qWdK0=;
+	b=UOOyyqUYcB0ETv5/lI/kHyjlthOL60FvbOeuYcyRiDZB9sGaLjc5uUA2WCKkkn835Ms+g3
+	HwAnvXY+2WXrKSAw==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=g0SavODX;
+	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=UOOyyqUY
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1747133040; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=gqRhh12uOMrMoumVgK2eTFLenrim4mZSK8O3H6qWdK0=;
+	b=g0SavODXjGqhOM+54LKGeEX+N06siCnd4d/LYlfGVwgYBCp+mUBpkKwFLrjN0jeBZcnjbk
+	LLaEkqZTsVfbdbFzhqUXmnpELZBifkFb4cMOicXpnva1X53M8/WofvnV5p1DMKIz04xNCZ
+	yYZ5kOdpODl+rcm/EUnlLAVw50XaOzw=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1747133040;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=gqRhh12uOMrMoumVgK2eTFLenrim4mZSK8O3H6qWdK0=;
+	b=UOOyyqUYcB0ETv5/lI/kHyjlthOL60FvbOeuYcyRiDZB9sGaLjc5uUA2WCKkkn835Ms+g3
+	HwAnvXY+2WXrKSAw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id EB18A137E8;
+	Tue, 13 May 2025 10:43:59 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id ICtiOW8iI2jPIgAAD6G6ig
+	(envelope-from <jack@suse.cz>); Tue, 13 May 2025 10:43:59 +0000
+Received: by quack3.suse.cz (Postfix, from userid 1000)
+	id 34C6DA0AFB; Tue, 13 May 2025 12:43:51 +0200 (CEST)
+Date: Tue, 13 May 2025 12:43:51 +0200
+From: Jan Kara <jack@suse.cz>
+To: Nick Chan <towinchenmi@gmail.com>
+Cc: 
+	Ernesto =?utf-8?Q?A=2E_Fern=C3=A1ndez?= <ernesto.mnd.fernandez@gmail.com>, Yangtao Li <frank.li@vivo.com>, ethan@ethancedwards.com, 
+	asahi@lists.linux.dev, brauner@kernel.org, dan.carpenter@linaro.org, 
+	ernesto@corellium.com, gargaditya08@live.com, gregkh@linuxfoundation.org, jack@suse.cz, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev, 
+	sven@svenpeter.dev, tytso@mit.edu, viro@zeniv.linux.org.uk, willy@infradead.org, 
+	slava@dubeyko.com, glaubitz@physik.fu-berlin.de
+Subject: Re: Subject: [RFC PATCH v2 0/8] staging: apfs: init APFS filesystem
+ support
+Message-ID: <itb4w3r7ypoitotmazkdkkz6tg4xewr26ffupm563aiwogarmc@prntwvbjksyb>
+References: <20250319-apfs-v2-0-475de2e25782@ethancedwards.com>
+ <20250512101122.569476-1-frank.li@vivo.com>
+ <20250512234024.GA19326@eaf>
+ <63eb2228-dcec-40a6-ba02-b4f3a6e13809@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <CAPGyJDMv-N3HkdV4znQg=_i2owE2sbnRhzFem_Uv_15GjADBFQ@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <63eb2228-dcec-40a6-ba02-b4f3a6e13809@gmail.com>
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Rspamd-Queue-Id: 04F1A211A7
+X-Spam-Flag: NO
+X-Spam-Score: -2.51
+X-Spam-Level: 
+X-Spamd-Result: default: False [-2.51 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	RCVD_COUNT_THREE(0.00)[3];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RCPT_COUNT_TWELVE(0.00)[20];
+	FREEMAIL_TO(0.00)[gmail.com];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com,live.com];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	TAGGED_RCPT(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	ASN(0.00)[asn:25478, ipnet:::/0, country:RU];
+	FREEMAIL_CC(0.00)[gmail.com,vivo.com,ethancedwards.com,lists.linux.dev,kernel.org,linaro.org,corellium.com,live.com,linuxfoundation.org,suse.cz,vger.kernel.org,svenpeter.dev,mit.edu,zeniv.linux.org.uk,infradead.org,dubeyko.com,physik.fu-berlin.de];
+	DKIM_TRACE(0.00)[suse.cz:+];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.cz:dkim,suse.com:email,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo]
+X-Rspamd-Action: no action
 
-On Tue, May 13, 2025 at 01:53:20AM -0400, Tanav Chinthapatla wrote:
-> Hi,
+On Tue 13-05-25 12:13:23, Nick Chan wrote:
 > 
-> This patch fixes a checkpatch style issue in the rtl8723bs driver by
-> correcting spacing around a '+' operator.
+> Ernesto A. Fernández 於 2025/5/13 清晨7:40 寫道:
+> > Hi Yangtao,
+> >
+> > On Mon, May 12, 2025 at 04:11:22AM -0600, Yangtao Li wrote:
+> >> I'm interested in bringing apfs upstream to the community, and perhaps
+> >> slava and adrian too.
+> > Do you have any particular use case in mind here? I don't mind putting in
+> > the work to get the driver upstream, but I don't want to be fighting people
+> > to convince them that it's needed. I'm not even sure about it myself.
 > 
-> The patch is attached to this email.
+> These are the use cases I can think of:
+> 
+> 
+> 1. When running Linux on Apple Silicon Mac, accessing the xART APFS
+> volume is required for enabling some SEP functionalities.
+> 
+> 2. When running Linux on iPhone, iPad, iPod touch, Apple TV (currently
+> there are Apple A7-A11 SoC support in upstream), resizing the main APFS
+> volume is not feasible especially on A11 due to shenanigans with the
+> encrypted data volume. So the safe ish way to store a file system on the
+> disk becomes a using linux-apfs-rw on a (possibly fixed size) volume that
+> only has one file and that file is used as a loopback device.
+> 
+> (do note that the main storage do not currently work upstream and I only have storage working on A11 downstream)
+> 
+> 3. Obviously, accessing Mac files from Linux too, not sure how big of a use case that is but apparently it is
+> big enough for hfsplus to continue receive patches here and there.
 
+I can see that accessing APFS filesystem is useful at times. But the
+question is: why do we need it in the kernel? Why isn't a FUSE driver
+enough? Because for relatively niche usecase like this that is a much more
+acceptable (and easier to maintain) choice.
 
-Hi,
-
-This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
-a patch that has triggered this response.  He used to manually respond
-to these common problems, but in order to save his sanity (he kept
-writing the same thing over and over, yet to different people), I was
-created.  Hopefully you will not take offence and will fix the problem
-in your patch and resubmit it so that it can be accepted into the Linux
-kernel tree.
-
-You are receiving this message because of the following common error(s)
-as indicated below:
-
-- Your patch was attached, please place it inline so that it can be
-  applied directly from the email message itself.
-
-- Your email was sent in HTML format, which is rejected by the mailing
-  lists and does not work for kernel development.
-
-If you wish to discuss this problem further, or you have questions about
-how to resolve this issue, please feel free to respond to this email and
-Greg will reply once he has dug out from the pending patches received
-from other developers.
-
-thanks,
-
-greg k-h's patch email bot
+								Honza
+-- 
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
