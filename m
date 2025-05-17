@@ -1,123 +1,119 @@
-Received: from mail-yw1-f176.google.com (mail-yw1-f176.google.com [209.85.128.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8234481C4
-	for <linux-staging@lists.linux.dev>; Sat, 17 May 2025 03:41:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D01CF1DEFDC
+	for <linux-staging@lists.linux.dev>; Sat, 17 May 2025 11:41:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747453304; cv=none; b=FLj2YOan6nGLzGS1NvBiEaOfvmVfXe2Oy4+WaHtFOcdy721fZLLaIFLBqM5tmxuf4ehEzXmWxv00cQfXuHKQlnJYwvOXcCPXcIS5xfQ84uDvjLHTwZ+ExZpKPHEAOD3padDT8OSJttuOs0xppJPW3R88wWRwbfPp5MqhbYmeQGg=
+	t=1747482083; cv=none; b=ubeh1Up6ScEH75Cov5VgnEYUJbmad5dtx6kpwFUjUp7L1CebmoVsfTY7bGjs4i3rgJ3lbu7ciPmvQH9RPBIjVV6xdPAllQCaDhnviRpfmH0vGnL1xSsJpKa2JMekhNc49/R6eSQbjPQNPWPng4iwuqM7SALx4i9ibPO4a9Xxqh8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747453304; c=relaxed/simple;
-	bh=nCO3xwkNEaNbjPd4tLMwqNXOHIBtcCufIA8YxkdNPyc=;
-	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=nJYoc7lIrwP5COKldrsZHOYN2qwol7Z2jmXK5VEKcOilrkvbVk7oOKt1A+aY/JDm5yMkdv6Vm9ij3cFgbJD+pE0ZAS92Q/C8oZW8PaC2LnbPog6aIyJ5X3ul/VK822JiIwIpORVL/9d1YTvEyMdQtnF4AIo3KlEJnR5wQcoiQBc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=L4q6MoHW; arc=none smtp.client-ip=209.85.128.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1747482083; c=relaxed/simple;
+	bh=0v1Qxly4XbpH9R05dxT0o9FplWG+cb90xtFZgeHVdVI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=akC7UWNq7lvZBERivjIDFkR+vgjfR6Ud1JYD6oqSIUlYAQEZzMybHxr2r5KfrVXTnsWOBY3f/meqZvyobURiFpkoiV7KT3IUHhjiHVqFl8xK2Q0+mwlAxRBPmL8FTRYEDPdE/9pyQeBX73q6u/xxmbkKT+9jQ/xDIbrVL6tNenk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=J1JFYsYD; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="L4q6MoHW"
-Received: by mail-yw1-f176.google.com with SMTP id 00721157ae682-70427fb838cso25726607b3.2
-        for <linux-staging@lists.linux.dev>; Fri, 16 May 2025 20:41:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1747453301; x=1748058101; darn=lists.linux.dev;
-        h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=xBSsz+EZeKdO3LGbXJuLMnrw6SzpUBaMkYbKffSs6Is=;
-        b=L4q6MoHWsu4YqHn5KoTIcQGXyEf597Hht8pk6Spm2Q60mzOlSdJ9yxSqE0un1fh3aq
-         nbWs90D8HcEmNOERiC+G9E2OSFllAwwDC+h0EitYUfODg8gId5P3j0eISdR9cHIwnHa7
-         o5xz+jukr0kaV/m3hREdohwX5vKqnExUI9IoEGELqDaldr228b9sZC+Cr26p1MmXmHfU
-         C93R6KnlSweCvpJew7TFs46NsxE67ZFmoB3kDSP2/S2Jqe4bKFhQEb7pM5maZnjOHjw4
-         NRz5FtQS6lSeMiqv4cr8imk8455/+Dj3H2uGpudEZxAHF0SW+5W1WtTf9atkXJvYmotc
-         RnDA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747453301; x=1748058101;
-        h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=xBSsz+EZeKdO3LGbXJuLMnrw6SzpUBaMkYbKffSs6Is=;
-        b=AaFBT1ZaaWYoXG5diD0lguk2Ekn4ENW5dIrrKIUV9ZDmBasbBZmn+sVgn/2gC7WYiT
-         ZkiayIFjbv6k5X63R0BZSQmOFnp/Oh2WXAdvF8Ad9zt924GB3Tuiw997XyTfRUcBytNj
-         3nU57ah1sR8m0vjq5e5E+O46d53ew/qQsYrba9SVraY2kphAnUUB+rKcqVSarHCntQOH
-         l2yuJ8PRyYE/0TP8N8YsmPNXohHmpWymPxMc6EoKUFu6dRcfe+zeTuQultRexi8pvh9x
-         lO6xDY/rWvr/u+KS8mC5j24uSY2ipsHmRiQHyNVmb5u0CSLPGWp0AlWrQUmgKe9sJhGw
-         94Ew==
-X-Forwarded-Encrypted: i=1; AJvYcCXop66zhx9McJ/sP9TkG+tbjVqIbqNkq7JMuItfsmnxnTdLVujcvcgpbGlJqt0jFkx+oCuSQ0kljjwBpS1M@lists.linux.dev
-X-Gm-Message-State: AOJu0YwEk6pdfTBv6UlRSOEG6kYiuqEqrkhWpMRaDE6FmbD1bnQbTNs9
-	SKXKzUxuovSLMTTVJe0ug+EaDVoQ0o+sYtOcYPP65VNQQWlfe3F8WmAcEVJqBOKOn9rbEBMkXcr
-	f6idcmZ6LTyyTuy1MDdUOVXElODNlquQ=
-X-Gm-Gg: ASbGncsGIDubLsLaywbJrOAdAVO6gx5eRYIdCbQ43JLGv6jDIj5EhfAf5HJbgf+wbXR
-	l8KMNhUmCZcyZvZHMVKL9eOBUDyQOE/gtUxt2bu1Jd5xjRt2Ba1XG0ujc6hy9d0IpBRHcAB+mk9
-	CMkwprk/QY+O6tnfVrnx7zgYQOmUwGBNG9HATnY8tXUWDOAau8gBdxtvrBJu9N8eHz+ri5jcOBN
-	qY=
-X-Google-Smtp-Source: AGHT+IF436gN7/jFCxrpB/MU8XA9XIfXcR+aCYz9gELt5k6Au9AARPhYySBUccJehkcH53YIt5y+OndYonj9VJu76H8=
-X-Received: by 2002:a05:690c:490d:b0:6fb:b907:d965 with SMTP id
- 00721157ae682-70ca79573f4mr81196987b3.3.1747453301148; Fri, 16 May 2025
- 20:41:41 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="J1JFYsYD"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1747482077;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=aLMId0TzbQg32MWeehFM5MFmElv3RDP2SorEgKIM2uA=;
+	b=J1JFYsYDhBKH0He2PV8zi06ow1BKH1rZjsgPmdt/sn6kFLuWnKo58s+2gXmeqDo3obLYC2
+	NQoRS9KVpQUW3oWUvpDjaaNQr1OVUJfAWgN04lST9UTnW61whA2xNnAg9mrfDqUpaRv6XP
+	tDokmvIpBi9r4K53dlnUrwNPjbZj2qs=
+Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-621-GILM-56KOJet9XHefuPX4Q-1; Sat,
+ 17 May 2025 07:41:15 -0400
+X-MC-Unique: GILM-56KOJet9XHefuPX4Q-1
+X-Mimecast-MFC-AGG-ID: GILM-56KOJet9XHefuPX4Q_1747482074
+Received: from mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.111])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 6BAD819560AE;
+	Sat, 17 May 2025 11:41:14 +0000 (UTC)
+Received: from x1.redhat.com (unknown [10.45.224.43])
+	by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 068E718003FC;
+	Sat, 17 May 2025 11:41:09 +0000 (UTC)
+From: Hans de Goede <hdegoede@redhat.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Andy Shevchenko <andy@kernel.org>
+Cc: Hans de Goede <hdegoede@redhat.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev
+Subject: [PATCH 00/23] media: atomisp: gc0310: Modernize and move to drivers/media
+Date: Sat, 17 May 2025 13:40:43 +0200
+Message-ID: <20250517114106.43494-1-hdegoede@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-From: rujra <braker.noob.kernel@gmail.com>
-Date: Sat, 17 May 2025 09:11:30 +0530
-X-Gm-Features: AX0GCFtIxtvxIu4R3iOqAZjRuHeebVLNc8s_0cuzSyovkxkXONjjqOzHvDSMjPg
-Message-ID: <CAG+54DZgF55R2pEtkVBdnwXEyNu9TrSMA9zkmw7RjWrDqX4SsQ@mail.gmail.com>
-Subject: [PATCH] staging : greybus : Documentation : firmware : Replace
- deprecated strncpy() with strscpy()
-To: Johan Hovold <johan@kernel.org>, elder@kernel.org, 
-	Greg KH <gregkh@linuxfoundation.org>
-Cc: greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.111
 
-To ensuring that the firmware_tag is properly null-terminated. When
-copying firmware tag strings to prevent buffer overflows and ensure
-data integrity.
+Hi All,
 
-The maximum size of tag is GB_FIRMWARE_U_TAG_MAX_SIZE = 10 bytes, and it
-may or may not be NULL-terminated.
-included in "greybus_firmware.h"
+Here is a patch series to bring the staging atomisp gc0310 driver inline
+with the expectations for new v4l2 raw camera sensor drivers and then
+after this move it to drivers/media/i2c since it is now just another
+normal modern v4l2 raw camera sensor driver.
 
-changes has been made at 3 positions:
-1: update firmware tag
-2: backend update firmware tag
-3: backend update firmware tag with unipro
+I plan to send a pull-request for patches 1-22 to get added to
+media-commiters/next once they are reviewed. After that Sakari can review
+the final resulting gc0310.c file and merge the last patch moving it.
 
-Signed-off-by: Rujra Bhatt <braker.noob.kernel@gmail.com>
----
- drivers/staging/greybus/Documentation/firmware/firmware.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+Regards,
 
-diff --git a/drivers/staging/greybus/Documentation/firmware/firmware.c
-b/drivers/staging/greybus/Documentation/firmware/firmware.c
-index 765d69faa..f37904b91 100644
---- a/drivers/staging/greybus/Documentation/firmware/firmware.c
-+++ b/drivers/staging/greybus/Documentation/firmware/firmware.c
-@@ -63,7 +63,7 @@ static int update_intf_firmware(int fd)
-        intf_load.major = 0;
-        intf_load.minor = 0;
+Hans
 
--       strncpy((char *)&intf_load.firmware_tag, firmware_tag,
-+       strscpy((char *)&intf_load.firmware_tag, firmware_tag,
-                GB_FIRMWARE_U_TAG_MAX_SIZE);
 
-        ret = ioctl(fd, FW_MGMT_IOC_INTF_LOAD_AND_VALIDATE, &intf_load);
-@@ -101,7 +101,7 @@ static int update_backend_firmware(int fd)
-        /* Get Backend Firmware Version */
-        printf("Getting Backend Firmware Version\n");
+Hans de Goede (23):
+  media: atomisp: gc0310: Rename "dev" function variable to "sensor"
+  media: atomisp: gc0310: Drop unused GC0310_FOCAL_LENGTH_NUM define
+  media: atomisp: gc0310: Modify vblank value to run at 30 fps
+  media: atomisp: gc0310: Switch to CCI register access helpers
+  media: atomisp: gc0310: Use V4L2_CID_ANALOGUE_GAIN for gain control
+  media: atomisp: gc0310: Add selection API support
+  media: atomisp: gc0310: Add link-frequency and pixelrate controls
+  media: atomisp: gc0310: Add vblank and hblank controls
+  media: atomisp: gc0310: Add camera orientation and sensor rotation
+    controls
+  media: atomisp: gc0310: Limit max exposure value to mode-height +
+    vblank
+  media: atomisp: gc0310: Add check_hwcfg() function
+  media: atomisp: gc0310: Fix power on/off sleep times
+  media: atomisp: gc0310: Remove unused is_streaming variable
+  media: atomisp: gc0310: Switch to {enable,disable}_streams
+  media: atomisp: gc0310: Switch to using the sub-device state lock
+  media: atomisp: gc0310: Implement internal_ops.init_state
+  media: atomisp: gc0310: Use v4l2_subdev_get_fmt() as
+    v4l2_subdev_pad_ops.get_fmt()
+  media: atomisp: gc0310: Switch to using sd.active_state fmt
+  media: atomisp: gc0310: Move and rename suspend/resume functions
+  media: atomisp: gc0310: runtime-PM fixes
+  media: atomisp: gc0310: Drop gc0310_get_frame_interval()
+  media: atomisp: gc0310: Drop gc0310_g_skip_frames()
+  media: Move gc0310 sensor drivers to drivers/media/i2c/
 
--       strncpy((char *)&backend_fw_info.firmware_tag, firmware_tag,
-+       strscpy((char *)&backend_fw_info.firmware_tag, firmware_tag,
-                GB_FIRMWARE_U_TAG_MAX_SIZE);
+ MAINTAINERS                                   |   6 +
+ drivers/media/i2c/Kconfig                     |  10 +
+ drivers/media/i2c/Makefile                    |   1 +
+ drivers/media/i2c/gc0310.c                    | 800 ++++++++++++++++++
+ drivers/staging/media/atomisp/i2c/Kconfig     |   8 -
+ drivers/staging/media/atomisp/i2c/Makefile    |   1 -
+ .../media/atomisp/i2c/atomisp-gc0310.c        | 712 ----------------
+ 7 files changed, 817 insertions(+), 721 deletions(-)
+ create mode 100644 drivers/media/i2c/gc0310.c
+ delete mode 100644 drivers/staging/media/atomisp/i2c/atomisp-gc0310.c
 
- retry_fw_version:
-@@ -129,7 +129,7 @@ static int update_backend_firmware(int fd)
-        /* Try Backend Firmware Update over Unipro */
-        printf("Updating Backend Firmware\n");
+-- 
+2.49.0
 
--       strncpy((char *)&backend_update.firmware_tag, firmware_tag,
-+       strscpy((char *)&backend_update.firmware_tag, firmware_tag,
-                GB_FIRMWARE_U_TAG_MAX_SIZE);
-
- retry_fw_update:
---
-2.43.0
