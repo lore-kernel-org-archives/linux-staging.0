@@ -1,105 +1,85 @@
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f202.google.com (mail-pl1-f202.google.com [209.85.214.202])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFFCB205ABF
-	for <linux-staging@lists.linux.dev>; Sun, 18 May 2025 09:44:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA1F01A76BC
+	for <linux-staging@lists.linux.dev>; Sun, 18 May 2025 22:09:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.202
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747561472; cv=none; b=EX0t4qrVn0h24zNVGQxkfDHyu6XZI+BlGhVzcd4XWqKVUcDYtMdRrJnks3xf2WejqoqA3fKrdLxZHKtm2b4us+xFzWb3g82kcDFOQ/6G4VBf91wjo5+5N4aS2VrZIqpWxIYR6PmlCh+pMRCniRNSls9OU7CV2mQbeMZhaxotKfE=
+	t=1747606198; cv=none; b=LCEPC7/OnhJNUU2/fkYkTbmm9N8kahBscrDwetCV8BhS35fwHdxNt7e4i5osxvSBMYARGEEGxzJyyOFhHPwfip2KE+HuNoXhT0NaAb9rFUDyXgf9A926++C6hCOGvDHoxepB/05fOqL1tLlHq5tTT223ObdBA1ziCTfGRjmDjlY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747561472; c=relaxed/simple;
-	bh=xz2DzyzGS9jB37iuZVM3obrb0z5GaS11TF36sibsSm4=;
-	h=Content-Type:MIME-Version:In-Reply-To:References:Subject:From:Cc:
-	 To:Date:Message-ID; b=DqJOW/XyrYJr1Ymr7dDrMgFPKBZDkYHJYASUi/ch5pcyx9NzxIVUhNeG5M/hyC7IeHX0fK7k3ZAVie18z/VyjbrYCMFnQo4rmlAWFGfGnmY5bWvw/McwR0pKxtvqRgzt/VGQOFWMC+MpvagKcc8tyKW1AYf5Cctm1YI4LVOmh5Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=W5E1YoM/; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+	s=arc-20240116; t=1747606198; c=relaxed/simple;
+	bh=WUUkI/runPD4UYFAWLA4UTyBwT40Tgtc9DAcQ9wpeAs=;
+	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=T2PDpG9b9zoS6n4X7oDicxatqC8A4+HPe/5dldWg201s0+nOE+OHzlAyDPBtFqeMe2v639pNx6N9hNCenzhYOvCtu7rpbmhv/xTgzxFOLdl5ViHTw4XaZndv8b+qL4Ie1ViyNdzOvZ9zPX6WbdHkyFzdQt2PS6ctfpH86C0p7Gw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--ericflorin.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=Lhaq04T2; arc=none smtp.client-ip=209.85.214.202
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--ericflorin.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="W5E1YoM/"
-Received: from pendragon.ideasonboard.com (cpc89244-aztw30-2-0-cust6594.18-1.cable.virginm.net [86.31.185.195])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 45718475;
-	Sun, 18 May 2025 11:44:10 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1747561450;
-	bh=xz2DzyzGS9jB37iuZVM3obrb0z5GaS11TF36sibsSm4=;
-	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
-	b=W5E1YoM/Lf4Iry7iLoTmod3Ioi9Bw2VXPp/Qt6SJOPZzA2dpzGAgccTf5lUlsOBSe
-	 OwYv3q6U+SStbMASVPxNkbtNukeR9KlpVAeVorrbjBXFDYmCWf64w2jPDuHAc8PpSo
-	 BSL5wjxE7plLWImzcUySTU1ZZW2LRTfrif90kEEk=
-Content-Type: text/plain; charset="utf-8"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Lhaq04T2"
+Received: by mail-pl1-f202.google.com with SMTP id d9443c01a7336-22de54b0b97so34964485ad.2
+        for <linux-staging@lists.linux.dev>; Sun, 18 May 2025 15:09:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1747606195; x=1748210995; darn=lists.linux.dev;
+        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=gfhLPxw+UZ1Sf6wlYpIDTg9JpsqEdC+eRzqAuOTaGg4=;
+        b=Lhaq04T2I0lWVsRmIQkYNKNjjzCNEedOdGFk0JanbGu0wv6q3GNC5DIQ8KX6KeUrCx
+         v1CaVDc2gB0UEN8lOJn2xGjsMhJvpGdD5s8pUleW9elDClQLM+0+jZQbpqfG1cYHq6CX
+         8BiQWou0K6x9BguNPEXnEpdyxVRhXKnRDuZ3LhYWTmdVLN1lemjlBwuqSjQgacs7+HsM
+         RgFTsNpEwWw7or2uQjxaw8XdVc6xsK2UMQ2d6tc+kQKFG583wTwLOmKgLDzvyXAmaIny
+         p6KeyQ9s4B1ufI6Z2hYiR/odQg06i7VqBosDbkrTGaXq7jnZ7d9EKDl2mpl0kUm6t+Az
+         uJCA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1747606195; x=1748210995;
+        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=gfhLPxw+UZ1Sf6wlYpIDTg9JpsqEdC+eRzqAuOTaGg4=;
+        b=pb4cwCRTcfcAJ8l+awh8MyFgLCVKMEy1R4Ysg9A9+uf14TmtgD9dAXfo3QaAIFoxLa
+         h3hlBKp81EefxiaOe/kuDd966redv88m++MxbhrjvLqvRXgFnIqNkgpYDesfuw6nt9GG
+         8SBDoLu5mwCGawecvWRJUaIHK2fzAGqOmNywi37amt+EsFC/soEQ3zV3JGauFsH4/7u0
+         TjQqOcK7rC/eXsKejLz2n5e5DDlO9qW6PLaKzUipaDma9zi8ORkl4fYaDXKZ3OEv9YrF
+         tlfcg7ivC4mKb46y9FkqgqcEn7kdzFIn53G8hVMxIiuyOkcDl6tClDcDMtzDo9l3NG3M
+         b97Q==
+X-Forwarded-Encrypted: i=1; AJvYcCWAYd6NOJPH/zd6+BGLY2rWBWnSuSAFv+rSgIQeHrFkn1mwjsIrrS5rd8EbfOb5TRilg1LNQmtqbw/LZNIe@lists.linux.dev
+X-Gm-Message-State: AOJu0YzeAljxOdELIi6wGW1mvaa9CWHY9p4Lm4PJqWY0fMTboyuTaQRw
+	UBd5hlA1nCeoYQRa/0aN0nhB921j6xAdR0eCGNxd8DQ7VP+IZDp4XQyQBIcJV4HeXUwodaHYZH3
+	zK0CHlYnMU0x6pr7M/8P4AA==
+X-Google-Smtp-Source: AGHT+IE/fmUAhEdNDzUegq5lLa6Q8dX9Z5TuEMtadBh3S+h8FbzaC55CAiy3l07PTwJodpEclNws7FtKjuJY56b/
+X-Received: from plrj4.prod.google.com ([2002:a17:903:284:b0:22e:327e:32c8])
+ (user=ericflorin job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a17:903:2f44:b0:223:88af:2c30 with SMTP id d9443c01a7336-231de30281bmr131476915ad.16.1747606195043;
+ Sun, 18 May 2025 15:09:55 -0700 (PDT)
+Date: Sun, 18 May 2025 15:09:45 -0700
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20250517114106.43494-22-hdegoede@redhat.com>
-References: <20250517114106.43494-1-hdegoede@redhat.com> <20250517114106.43494-22-hdegoede@redhat.com>
-Subject: Re: [PATCH 21/23] media: atomisp: gc0310: Drop gc0310_get_frame_interval()
-From: Kieran Bingham <kieran.bingham@ideasonboard.com>
-Cc: Hans de Goede <hdegoede@redhat.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org, linux-staging@lists.linux.dev
-To: Andy Shevchenko <andy@kernel.org>, Hans de Goede <hdegoede@redhat.com>, Sakari Ailus <sakari.ailus@linux.intel.com>
-Date: Sun, 18 May 2025 10:44:26 +0100
-Message-ID: <174756146675.4012029.11268561479739972974@ping.linuxembedded.co.uk>
-User-Agent: alot/0.10
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.49.0.1112.g889b7c5bd8-goog
+Message-ID: <cover.1747605658.git.ericflorin@google.com>
+Subject: [PATCH 0/2] staging: sm750fb: style cleanup in `lynx_accel`
+From: Eric Florin <ericflorin@google.com>
+To: teddy.wang@siliconmotion.com
+Cc: sudipm.mukherjee@gmail.com, gregkh@linuxfoundation.org, 
+	linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev, 
+	linux-kernel@vger.kernel.org, Eric Florin <ericflorin@google.com>
+Content-Type: text/plain; charset="UTF-8"
 
-Quoting Hans de Goede (2025-05-17 12:41:04)
-> On raw camera sensors the framerate is controlled through vblank
-> (and optional) hblank controls.
->=20
-> Having a get_frame_interval makes no sense in this case, drop it.
->=20
-> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+This set of patches covers two style cleanups in `struct lynx_accel`
+defined in `drivers/staging/sm750fb/sm750.h`.
 
-Reviewed-by: Kieran Bingham <kieran.bingham@ideasonboard.com>
+PATCH #1: rename `dprBase` to `dpr_base`
+PATCH #2: rename `dpPortBase` to `dp_port_base`
 
-> ---
->  .../staging/media/atomisp/i2c/atomisp-gc0310.c | 18 ------------------
->  1 file changed, 18 deletions(-)
->=20
-> diff --git a/drivers/staging/media/atomisp/i2c/atomisp-gc0310.c b/drivers=
-/staging/media/atomisp/i2c/atomisp-gc0310.c
-> index 152835fa4226..73779c20ca68 100644
-> --- a/drivers/staging/media/atomisp/i2c/atomisp-gc0310.c
-> +++ b/drivers/staging/media/atomisp/i2c/atomisp-gc0310.c
-> @@ -513,23 +513,6 @@ static int gc0310_disable_streams(struct v4l2_subdev=
- *sd,
->         return ret;
->  }
-> =20
-> -static int gc0310_get_frame_interval(struct v4l2_subdev *sd,
-> -                                    struct v4l2_subdev_state *sd_state,
-> -                                    struct v4l2_subdev_frame_interval *i=
-nterval)
-> -{
-> -       /*
-> -        * FIXME: Implement support for V4L2_SUBDEV_FORMAT_TRY, using the=
- V4L2
-> -        * subdev active state API.
-> -        */
-> -       if (interval->which !=3D V4L2_SUBDEV_FORMAT_ACTIVE)
-> -               return -EINVAL;
-> -
-> -       interval->interval.numerator =3D 1;
-> -       interval->interval.denominator =3D GC0310_FPS;
-> -
-> -       return 0;
-> -}
-> -
->  static int gc0310_enum_mbus_code(struct v4l2_subdev *sd,
->                                  struct v4l2_subdev_state *sd_state,
->                                  struct v4l2_subdev_mbus_code_enum *code)
-> @@ -579,7 +562,6 @@ static const struct v4l2_subdev_pad_ops gc0310_pad_op=
-s =3D {
->         .set_fmt =3D v4l2_subdev_get_fmt, /* Only 1 fixed mode supported =
-*/
->         .get_selection =3D gc0310_get_selection,
->         .set_selection =3D gc0310_set_selection,
-> -       .get_frame_interval =3D gc0310_get_frame_interval,
->         .enable_streams =3D gc0310_enable_streams,
->         .disable_streams =3D gc0310_disable_streams,
->  };
-> --=20
-> 2.49.0
->
+Eric Florin (2):
+  staging: sm750fb: rename dprBase to dpr_base
+  staging: sm750fb: rename dpPortBase in lynx_accel
+
+ drivers/staging/sm750fb/sm750.h       | 4 ++--
+ drivers/staging/sm750fb/sm750_accel.c | 6 +++---
+ drivers/staging/sm750fb/sm750_hw.c    | 4 ++--
+ 3 files changed, 7 insertions(+), 7 deletions(-)
+
+-- 
+2.49.0.1112.g889b7c5bd8-goog
+
