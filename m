@@ -1,274 +1,189 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from WA0P291CU002.outbound.protection.outlook.com (mail-polandcentralazon11023136.outbound.protection.outlook.com [40.107.156.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9498287512
-	for <linux-staging@lists.linux.dev>; Mon, 19 May 2025 15:50:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747669839; cv=none; b=d6IruCn5dR7ZVkpYqIdaf5eWrAfga6H2lZ2xZBhvrVVHNkrCTFt35XUEq0oq+jA60XkEnClfoHRwCQ/fNPbP9IcDRgzGQ/ijYBG8JAgiDGKqIes9wrTcJ/XVeGaBbK5lXJuElVR/P29aoTYxuufk3kafwmZ5M7IOMhBohTCi3HI=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747669839; c=relaxed/simple;
-	bh=5V0TqHIiCLQb8ZvP2k7riv+kcSYbLR2nDRn3e8pt4IA=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=HwSLbmFpZqRODHYiR+vOAR1QGmgL7ePQnPwyWJKVdnNJJg7SSVWI2F4UwdH6VWQVSUky5cg4Ry5mjsVNDL87qKaST6jPVlB9pbYC0YKLBPT07VRAeNPhNlzwOCuF/NpUfeMS4107lXRZgTSufW51awGdE+zWUGontAwPtHZmuVA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QPUfa+dF; arc=none smtp.client-ip=198.175.65.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QPUfa+dF"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1747669838; x=1779205838;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=5V0TqHIiCLQb8ZvP2k7riv+kcSYbLR2nDRn3e8pt4IA=;
-  b=QPUfa+dFYsWRSnNrYyxso/blQrbb70qKpWOOSXD3dN1X5pcDqDueLxaN
-   QXzSZsqpDCkRH/y8nGNW66bcKtfXFz/31VDXFvfhqrXCOY+RL6+DwDPZg
-   Nc34iEoWptoPlsx+2RImZF8MgpjU0j/MzeMDS6i9QvF9rKKpicKlSB7wP
-   O3KwY/TEuacjkpTm6MmL3uPOP05q7uHSNI9QyFIWSnsjLzV86toQg38RJ
-   i0vBi8U+2xXuFLcZjZh9zunTPdk6DQGpYja9mZMAF6vPlkg079wxffSO9
-   7BRt94D7s9nrTXaiGesYEo6Iv3VMsv+2W2FOXjBMWv+hOaUsC1O5hIoHg
-   w==;
-X-CSE-ConnectionGUID: /tMUFCBTTmOgP85S4hA1cw==
-X-CSE-MsgGUID: by5+51crS0SlUofPNmtTRg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11438"; a="72082163"
-X-IronPort-AV: E=Sophos;i="6.15,301,1739865600"; 
-   d="scan'208";a="72082163"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 May 2025 08:50:34 -0700
-X-CSE-ConnectionGUID: PlMFt2xPTVu3T4r+y+nkQQ==
-X-CSE-MsgGUID: 8uG5doxmQq2LTKpJjfPvsA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,301,1739865600"; 
-   d="scan'208";a="140302022"
-Received: from black.fi.intel.com ([10.237.72.28])
-  by orviesa008.jf.intel.com with ESMTP; 19 May 2025 08:50:32 -0700
-Received: by black.fi.intel.com (Postfix, from userid 1003)
-	id 666EE117; Mon, 19 May 2025 18:50:30 +0300 (EEST)
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Hans de Goede <hdegoede@redhat.com>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Andy Shevchenko <andy@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: [PATCH v2 1/3] media: atomisp: Remove unused header
-Date: Mon, 19 May 2025 18:46:47 +0300
-Message-ID: <20250519155028.526453-2-andriy.shevchenko@linux.intel.com>
-X-Mailer: git-send-email 2.47.2
-In-Reply-To: <20250519155028.526453-1-andriy.shevchenko@linux.intel.com>
-References: <20250519155028.526453-1-andriy.shevchenko@linux.intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA5C320101D
+	for <linux-staging@lists.linux.dev>; Mon, 19 May 2025 19:40:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.156.136
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1747683613; cv=fail; b=D5B0Tr6ZvA7HpMNLKDsFGYw7CiYoDloId4/Y6aboZXa4kJ7Q/DA9WSPGuGEA1reK7N4CR/KT4TZpvyvgXmHhsd5cvXlXhe0wnkFsANIy4pkCWXJ/ujISY69A+1Jph5op2JDelYw02GBPchv+pHlMeffZsO9pJjMHEzVKCKiyj1k=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1747683613; c=relaxed/simple;
+	bh=sagWI2AaWMnBYCI8xzjyx0uYQIHKQEJVXsxc7SezSrU=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=WwNhpf646g7D0V/JW7xdjrGLNbKQunExK1zzk6D1oeitx9u1XVp7niC5iucfdNkmGhfvTHsSnE80oFQVGRmgk0UfIOkyNvlfD+hFPb/RvIETfl5opbVlq5DA6+/kPrMHpeZn+HytVHhuUXiLDLrOSk3PkJk9K8buGtcAbuyJgX8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=videtronic.com; spf=pass smtp.mailfrom=videtronic.com; arc=fail smtp.client-ip=40.107.156.136
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=videtronic.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=videtronic.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=qqU/P0NZwbA3gTcM4FWBGithJEfwiM3wMUKNQAxvQ+USCBfLHSYzHDD8YYV++x3IBpK7p9P8tDy6xPJt2gQMwpsRWCulWxV7RV8/BjV1KSrnGt66eW1ml9ecuJNV4CB2t8nSz4q+Iuwd2+qy+2iUeJ5tpGkXUu6EmnKsxrDyp9iDIWROiPvg6E8QGYu34MnigjWsN0NXh7lD+QH9H3EPRT8vGaNhf1q5/IadVISKGgoE2AXsEtAianP/hUHRSBXXdEd4ci0a8BpCai89MFESxS2MXq/Ei8H1MQOtCwrwfaylteuPUZSTqnXS6KgIOLTuwRfEBc0kJzKt2rdz0J/2mA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=dFPvibD8cTdBSw3pHU6ciqJqoQV74fTu5NT3eTvhzeo=;
+ b=VnzUFrLxAtWacu/IszdIYsUvyxZbw+CVonalUPydzUJNYIYWvU/JtQDrh9akFY7/Rf9ljPrOTlOLpypyvCU7LX3lAv3DkuhJsR4Us3QWNJ3AAgOeqT1DysFFlx7dcRh363tXlrnenruIwnRuW2UPdsjFy9vYSAMa8Dpy38RcM81zNMOQsTu85QnPVHye9n10hF4XtKIPHCNNQvlfViSAHffFmMJ7x2VCmvSZ2YL5brtKynS6faeG3CyKR7Z4qar3/FVdAX9NW8ztmpxWEm8TtvE/yvER1SfRL3zHGhAC3e0ncUrgB/IT0Yywki3ifJWQBlzPfHrTwK+5nvZnT/0bdw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=videtronic.com; dmarc=pass action=none
+ header.from=videtronic.com; dkim=pass header.d=videtronic.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=videtronic.com;
+Received: from WA2P291MB0309.POLP291.PROD.OUTLOOK.COM (2603:10a6:1d0:24::14)
+ by WA0P291MB0099.POLP291.PROD.OUTLOOK.COM (2603:10a6:1d0:f::6) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.8746.30; Mon, 19 May 2025 19:40:05 +0000
+Received: from WA2P291MB0309.POLP291.PROD.OUTLOOK.COM
+ ([fe80::5b7e:db51:5934:a36f]) by WA2P291MB0309.POLP291.PROD.OUTLOOK.COM
+ ([fe80::5b7e:db51:5934:a36f%3]) with mapi id 15.20.8746.030; Mon, 19 May 2025
+ 19:40:04 +0000
+Message-ID: <16b2528d-d0e5-4683-94fb-77e0fb88785d@videtronic.com>
+Date: Mon, 19 May 2025 21:40:01 +0200
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 00/19] media: i2c: add Maxim GMSL2/3 serializer and
+ deserializer drivers
+To: Cosmin Tanislav <demonsingur@gmail.com>
+Cc: Cosmin Tanislav <cosmin.tanislav@analog.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, =?UTF-8?Q?Niklas_S=C3=B6derlund?=
+ <niklas.soderlund@ragnatech.se>, Julien Massot
+ <julien.massot@collabora.com>, Catalin Marinas <catalin.marinas@arm.com>,
+ Will Deacon <will@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Linus Walleij <linus.walleij@linaro.org>, Bartosz Golaszewski
+ <brgl@bgdev.pl>, Bjorn Andersson <andersson@kernel.org>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Vignesh Raghavendra <vigneshr@ti.com>,
+ =?UTF-8?Q?N=C3=ADcolas_F_=2E_R_=2E_A_=2E_Prado?= <nfraprado@collabora.com>,
+ Taniya Das <quic_tdas@quicinc.com>, Liu Ying <victor.liu@nxp.com>,
+ Ross Burton <ross.burton@arm.com>,
+ Elinor Montmasson <elinor.montmasson@savoirfairelinux.com>,
+ Eric Biggers <ebiggers@google.com>, Hans Verkuil <hverkuil@xs4all.nl>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Zhi Mao <zhi.mao@mediatek.com>, Dongcheng Yan <dongcheng.yan@intel.com>,
+ Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
+ Kieran Bingham <kieran.bingham@ideasonboard.com>,
+ Tommaso Merciai <tomm.merciai@gmail.com>,
+ Dan Carpenter <dan.carpenter@linaro.org>,
+ Ricardo Ribalda <ribalda@chromium.org>,
+ Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>, linux-media@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-staging@lists.linux.dev,
+ linux-gpio@vger.kernel.org
+References: <20250512212832.3674722-1-demonsingur@gmail.com>
+Content-Language: en-US
+From: Jakub Kostiw <jakub.kostiw@videtronic.com>
+In-Reply-To: <20250512212832.3674722-1-demonsingur@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: WA1P291CA0008.POLP291.PROD.OUTLOOK.COM
+ (2603:10a6:1d0:19::19) To WA2P291MB0309.POLP291.PROD.OUTLOOK.COM
+ (2603:10a6:1d0:24::14)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: WA2P291MB0309:EE_|WA0P291MB0099:EE_
+X-MS-Office365-Filtering-Correlation-Id: 02fe57a8-77a7-480d-6c8f-08dd970cf3ce
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|376014|1800799024|366016;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?QTh4OUJSeWVkWEozWWtESCt0YTZoUHRTN0k0NGRIYzdORjZNSFA2VHpMK3Jv?=
+ =?utf-8?B?aEpvb00rT29WdC9QUW5JVlRsaWRQdkwwUjg3bUR5bUhsRFFQaG5iQlg2R1pW?=
+ =?utf-8?B?RmlybzB2THBTbTJ3NDMvZVVlL041bDEraE5Hb2Y3M3l4S3AxK002QmZOQUVr?=
+ =?utf-8?B?ZHUvTlJadTNiVnJlWU92T2xvWGg1bmNsUHo5d1AvV0UyMmdxNjNqbEVZbEIy?=
+ =?utf-8?B?eEdaMjJST0xoS0NtcWdseU5MQ25YNXFHQnN1Tnk3ZGdHeTlzakZESUxuQlk3?=
+ =?utf-8?B?QS82UE1YZWxPYUl0UzA3T1ZpRnVra2RFMmtzblBtYVVWblNBWDltd0xRWDJu?=
+ =?utf-8?B?SHU2Q0dTdFZmV3NSelpGVGFPVmxKNTZldVh5S1pHS3ZUVVI5K0FOeWhYbU1t?=
+ =?utf-8?B?M0lVVWFRVVpONmdtb2prOEkyak4vbXBYTUxjS2xwWXR0RklCY25iVU1HdExm?=
+ =?utf-8?B?azRJWHBmMWRRVUpCVWU2ZlQ2OVpTTXBHRXFoUkoxRXZrRHpXVWdxN28rQXRN?=
+ =?utf-8?B?akhyT2dieUY5NWJTZXJLOG5paitMd1pRZHpDekpkcXR0cVJDQW5wVWt2Mi8r?=
+ =?utf-8?B?d0Nqc3Bjb29Bd0NHTHRoc284N2ZFcVVPMVV3WTJueEVmeVhpTmw0K1g3eGRy?=
+ =?utf-8?B?aEVtR1R2NDVLclJaVUFrUFU1cGxEMC9YRm0zQmdCRnBvLzZPZlhrTDljOUNG?=
+ =?utf-8?B?cFpyOEdzWVh1WmNPcmtoYkdrQ1ZTMzc3MWU3cWgvVHU3d1A2aU81VXBSY1NE?=
+ =?utf-8?B?TEJHenVFTW4xd05jM1JibnVsaFF1U0dNY1FtZktRTmtuVktRQTl5T3BuNGFh?=
+ =?utf-8?B?aTY4VEJSMURqd2N0ZU9YeC96WjVRTlI2OFBPdWtQbWpCSlZsYk90elFGeWhu?=
+ =?utf-8?B?L0ZHVlFsTG9qcTNDNTdPemkxVDIwTC9mTk5WbHRvMk5ic2hFSDk4WVJEZVRW?=
+ =?utf-8?B?ZXluY05EaTNpVGFZeklUY2VKUDkrSHBPUVRPcnE1TmUzeVRqd3Bqb0R1cXpj?=
+ =?utf-8?B?cmRKbkRvZlFjMENMZWNCWFdVVFpHVG9ZaFE1QTdOV2FRbGIzN0M5OTdidHBH?=
+ =?utf-8?B?YXFQY3gzRWpxUWl2d2tmdTBmamUwOVBxVzk5MUxGV05wWERCNzF4OE1RK0Vr?=
+ =?utf-8?B?V2ptTWF6Y3oxb25vbTZCTlhRTisxSWptMVZ6bU5qL0d4Q1N1SldZeEtqY3Bi?=
+ =?utf-8?B?TzI3NGwzaUVsN0NHOWZ0SDlyM3Rwbk5zWDdxQXZFbjBZM245aURmd0h1Um9p?=
+ =?utf-8?B?VmtRQlp6RjROWng5R0NFU0lVL04vVEl0ckhwbUlUNkR4ZW9hSGVaVXFWbFZE?=
+ =?utf-8?B?QlI2bnk5RjlISDJIVU1MWWxzZzJYZlh3aHFueWlBTnZ6Ky9oeXUwSUFET3p3?=
+ =?utf-8?B?bzJkL3JpRDRUanJ3R2U1M2l1bGpvUnNSWjRQWnBXcDhaaVViSS9ESmVFUWlM?=
+ =?utf-8?B?UEhjajdpQkZTczFwd3VESXV6L1AzMjIwZkRyamdiMFpMVk1ZOE9TaVFoWHJP?=
+ =?utf-8?B?M2dkWHZtRzZKajhoTkgxa3RHVW44L2pJd3dVYmNpWXZQRnlYejFDZHVwZjVv?=
+ =?utf-8?B?d3lqMHNzM3REaEorZjJEb0twWlRZNTJxTjNYWFpFVTRTc2FILzloODRqNzEz?=
+ =?utf-8?B?K2o1cjJiTVQ2KzVJaFR1TVlPZHpNUFFUNXh1SStaZUd2SjZzR2JOUzRpZ3Bh?=
+ =?utf-8?B?dnVFV2RHMEh5TzlEamdHQStZODNHMUFlMjFsYkhoRWlqak1QU0RkTURrQ29t?=
+ =?utf-8?B?enZnY3lFdXNBTmM4K2tOUEJnUVQyWUpYekJlMTAwRTJpRTlNaUpSQVpFU0Nu?=
+ =?utf-8?B?Q1JkUmdyYkMyT0FHTUVXSjl2dGZrcVBNTW9jM3pOZno4eVV2Nm5VSStZOVF5?=
+ =?utf-8?B?VHg3VW9OWFZrWk5uMmJzNkN4empCUVlqWk5icHJ6WStabHRmR0dyLzBZOVhm?=
+ =?utf-8?Q?KPTOiLbCnYc=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:WA2P291MB0309.POLP291.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(1800799024)(366016);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?RklRY0RhcDBQbTFGVHphNEp5OGtUcHFRRjErcTBPdjZmeDBkRWczSnBhRm4v?=
+ =?utf-8?B?cXRuZzFFZysxaTg0WUdXOEVRdzEwWTBqZW93Um1zQU8rZUcyQVpFbUlLbTJm?=
+ =?utf-8?B?dU9tamNKb0x5SllzRTUrQnpKNWFkVUl0QlVEOHBadU9RaWlEbDNWeXRlaEg2?=
+ =?utf-8?B?N25sYTM0QmtNRnFYWlpsSThQL2piL3dMWnYrNHQ2UWV6RWJOTXpXcFd5NGhq?=
+ =?utf-8?B?a3hFSU53SkowRDQ4RTRsaGNVWm1YdlZaRDhUdEZ2RVhJYlFPYjJxYk5rWU5E?=
+ =?utf-8?B?UzBERVVhS21TczVkRXVLTm5jNXJTdmNqcThvNi96UlVhUldVWTRLMVhqanpN?=
+ =?utf-8?B?aWhJeDUzWTIwc1ZtMXZpMmcwQ0VwZGpISTVlOW02ZERGeTdIZXZBckhQZ3BC?=
+ =?utf-8?B?MDFWdTc3dzZZZVdZaHJubUQyVGNYcWRtYmU4bTE0T2FNMDJoK3hwOHBST0Vh?=
+ =?utf-8?B?Qk5JZG8zQUJNUVVRZzNhMjBqS3RJVmxXamNCeFhzbGdTYW92ZjVTc3VtNzdy?=
+ =?utf-8?B?c3NrTWRKdzFPNTVHUnkwaVFYclU1d3JMNWRCOUVRNnhZejR6ak9TdkNKSUFG?=
+ =?utf-8?B?VDFEMzI4MHZUVmw2eHB4eHI3bmpSNFpjKzZrZ2V1NGZmZ3hiZHdaMnRTQ0Zu?=
+ =?utf-8?B?YWtBMWZBVEZNV2RwK2tKVVI1U0toTytLTWRSTHRBSzNGWkdyTC9mM1Z1bnU3?=
+ =?utf-8?B?Tm00SFI1cUxxMmdiNXcxcnNnbjF6Nlk5TlhaRzB0clg0S2dRdmJjWE5OUG90?=
+ =?utf-8?B?N0FKQXNuNFFNZHNKeC9hai9oeC9NbTA5UUN3VHA1WWFIWmlZMk03T0l4U1Z2?=
+ =?utf-8?B?QkV0UExEWkRKWFNOTllHTEY4eEgvbjI3aHZiYXhrSEVzN2VYWHZiNjF6NUdB?=
+ =?utf-8?B?WFd0WHk5Mnl4U0d5aityMnpHRmxBd2JUVmVyL1AybXhGYjB6cXZFdGN6a08r?=
+ =?utf-8?B?WnFEWVAvT29kdWd2M2ZMVkdqQUhpVTR5RjN3ZE1tTmovQm1VY0Zrb0lGeWZK?=
+ =?utf-8?B?ODFPZEp3aGNMSkRycmRwRk1ub3NaZE12b21Ca1hVdXBJTTFQUlAyYlN4aFZW?=
+ =?utf-8?B?SE0xLzNHcUxiMlcxUjc5UUVwMCtTQXpwa1M2U2lGaFRsZmpDbHhuWDd0TWhD?=
+ =?utf-8?B?djdIbEl1cm9hZ2pDYityTm9BWlBtTllXbHpVeHRhUVZ1K1MrcUIzQ2pUcTQ5?=
+ =?utf-8?B?UzJuY3lJam5tNGFvOWJVcXhNR0dFS015SWxJRFJweTlBUVI4N0VSTjd0Vy9M?=
+ =?utf-8?B?OVVTbHdhSHVaVHFNcDFaeWRJU2plNGdGcW5QUGhMMVlSOU9YY3doRGhaZjRv?=
+ =?utf-8?B?WkJKNWdIQ0VYMTVXMWduVWtSbWhLRFN5RVNubWhLQkNmeWlxRjV1SjRoSU85?=
+ =?utf-8?B?YmhHNlVUeGRwUnhxZjVPQW5lYnArVWF2am9XTDVGbHJ1UFp0U1JFTGJDSHQz?=
+ =?utf-8?B?MW1iaDkveVc1V1NoWkRjRTZIZWZzRlJWdmg5ZXFjYUhmbTJyZ1dnWFNodm9M?=
+ =?utf-8?B?SmNjUmVhTEl5UHVCbDBYKzR6ZXlRQ25JZmhVNWZYMmJBaW1BUWU5TzVoQXVx?=
+ =?utf-8?B?cGNuRXM1dkZYN0pscUU0M3FTQ1AvNUZWdlcxeDRVSWhidms1V1ZpUUxSMERO?=
+ =?utf-8?B?cG92NFgyZ3J1R3Fyb0J3Wko5QWRlTi9lN0VYWVJ0ejJCNEpIZWtrMlRiRTB2?=
+ =?utf-8?B?UE1DemVGOXZzRTRlbGRGYk5kTVVtTEs0U0xGRzB1QWpLWGh4S3J5NnNodEI0?=
+ =?utf-8?B?VjY4QS91QytkcncvRXk1WWJlV2dPVWFvSFd2YUhqNDZyOUJmOWpuSWpTUk1o?=
+ =?utf-8?B?bjB6cGlPVis1dGszT25pMmJKb1J0TG9zVlJZcnlQVWdPY2x3alRqaTk3cG1s?=
+ =?utf-8?B?cjJDWXFPSDBzMk1ZT29UZTdYQVByVmVHdjMzZnVMdkxIWHFnRjltSGp2amxy?=
+ =?utf-8?B?cEtrZ1BhTThVeVJPRDNiS3JjRW9WNEIybEhlUU5uMWdkNkFvais1NzBIWUk0?=
+ =?utf-8?B?ckdqdzlhOVBEaVFaZXZNQ0owdHdFRW54Mk4rVE01L0Z1aUhEMkxsaUdJWkxw?=
+ =?utf-8?B?ZWJpOEU4ZWE0cFVMbHpGSjJLYzU0M0lOOWgxK3dUbnd0b2FxandDRmJHSEhL?=
+ =?utf-8?B?Tk1pR0kyeXNkSUtGdFpDc04xdm1TVUd6OGMxOUlmUW1pUnh2SWNpckEycXNt?=
+ =?utf-8?B?ZXc9PQ==?=
+X-OriginatorOrg: videtronic.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 02fe57a8-77a7-480d-6c8f-08dd970cf3ce
+X-MS-Exchange-CrossTenant-AuthSource: WA2P291MB0309.POLP291.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 May 2025 19:40:04.3526
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 42908bfd-23a4-4a6c-951d-1ef4d8e0c612
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: NFW+7Txk1DYyz5TuqGmviemt3bp0eqmRbEJUUg+EJasVQuh7gmuK1bwxV+mCdVeNEnxmRaQvOicDDDSpiITbv0FzanC+OvuVmQkfVB92dAE=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: WA0P291MB0099
 
-There are some unused definitions that are using macros from math_support.h.
-In order to have a cleaner future changes, remove them first.
+Hi Cosmin,
 
-Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
----
- .../pci/isp/modes/interface/input_buf.isp.h   |   1 -
- .../pci/isp/modes/interface/isp_const.h       | 157 ------------------
- .../media/atomisp/pci/sh_css_param_dvs.h      |   3 -
- 3 files changed, 161 deletions(-)
- delete mode 100644 drivers/staging/media/atomisp/pci/isp/modes/interface/isp_const.h
-
-diff --git a/drivers/staging/media/atomisp/pci/isp/modes/interface/input_buf.isp.h b/drivers/staging/media/atomisp/pci/isp/modes/interface/input_buf.isp.h
-index c7ade6ce6c68..55de6cb02833 100644
---- a/drivers/staging/media/atomisp/pci/isp/modes/interface/input_buf.isp.h
-+++ b/drivers/staging/media/atomisp/pci/isp/modes/interface/input_buf.isp.h
-@@ -10,7 +10,6 @@ Copyright (c) 2010 - 2015, Intel Corporation.
- 
- /* Temporary include, since IA_CSS_BINARY_MODE_COPY is still needed */
- #include "sh_css_defs.h"
--#include "isp_const.h" /* MAX_VECTORS_PER_INPUT_LINE */
- 
- #define INPUT_BUF_HEIGHT	2 /* double buffer */
- #define INPUT_BUF_LINES		2
-diff --git a/drivers/staging/media/atomisp/pci/isp/modes/interface/isp_const.h b/drivers/staging/media/atomisp/pci/isp/modes/interface/isp_const.h
-deleted file mode 100644
-index b767b0d35bb4..000000000000
---- a/drivers/staging/media/atomisp/pci/isp/modes/interface/isp_const.h
-+++ /dev/null
-@@ -1,157 +0,0 @@
--/* SPDX-License-Identifier: GPL-2.0 */
--/**
--Support for Intel Camera Imaging ISP subsystem.
--Copyright (c) 2010 - 2015, Intel Corporation.
--
--*/
--
--#ifndef _COMMON_ISP_CONST_H_
--#define _COMMON_ISP_CONST_H_
--
--/*#include "isp.h"*/	/* ISP_VEC_NELEMS */
--
--/* Binary independent constants */
--
--#ifndef NO_HOIST
--#  define		NO_HOIST	HIVE_ATTRIBUTE((no_hoist))
--#endif
--
--#define NO_HOIST_CSE HIVE_ATTRIBUTE((no_hoist, no_cse))
--
--#define UNION struct /* Union constructors not allowed in C++ */
--
--#define XMEM_WIDTH_BITS              HIVE_ISP_DDR_WORD_BITS
--#define XMEM_SHORTS_PER_WORD         (HIVE_ISP_DDR_WORD_BITS / 16)
--#define XMEM_INTS_PER_WORD           (HIVE_ISP_DDR_WORD_BITS / 32)
--#define XMEM_POW2_BYTES_PER_WORD      HIVE_ISP_DDR_WORD_BYTES
--
--#define BITS8_ELEMENTS_PER_XMEM_ADDR    CEIL_DIV(XMEM_WIDTH_BITS, 8)
--#define BITS16_ELEMENTS_PER_XMEM_ADDR    CEIL_DIV(XMEM_WIDTH_BITS, 16)
--
--#define ISP_NWAY_LOG2  6
--
--/* *****************************
-- * ISP input/output buffer sizes
-- * ****************************/
--/* input image */
--#define INPUT_BUF_DMA_HEIGHT          2
--#define INPUT_BUF_HEIGHT              2 /* double buffer */
--#define OUTPUT_BUF_DMA_HEIGHT         2
--#define OUTPUT_BUF_HEIGHT             2 /* double buffer */
--#define OUTPUT_NUM_TRANSFERS	      4
--
--/* GDC accelerator: Up/Down Scaling */
--/* These should be moved to the gdc_defs.h in the device */
--#define UDS_SCALING_N                 HRT_GDC_N
--/* AB: This should cover the zooming up to 16MP */
--#define UDS_MAX_OXDIM                 5000
--/* We support maximally 2 planes with different parameters
--       - luma and chroma (YUV420) */
--#define UDS_MAX_PLANES                2
--#define UDS_BLI_BLOCK_HEIGHT          2
--#define UDS_BCI_BLOCK_HEIGHT          4
--#define UDS_BLI_INTERP_ENVELOPE       1
--#define UDS_BCI_INTERP_ENVELOPE       3
--#define UDS_MAX_ZOOM_FAC              64
--/* Make it always one FPGA vector.
--   Four FPGA vectors are required and
--   four of them fit in one ASIC vector.*/
--#define UDS_MAX_CHUNKS                16
--
--#define ISP_LEFT_PADDING	_ISP_LEFT_CROP_EXTRA(ISP_LEFT_CROPPING)
--#define ISP_LEFT_PADDING_VECS	CEIL_DIV(ISP_LEFT_PADDING, ISP_VEC_NELEMS)
--/* in case of continuous the croppong of the current binary doesn't matter for the buffer calculation, but the cropping of the sp copy should be used */
--#define ISP_LEFT_PADDING_CONT	_ISP_LEFT_CROP_EXTRA(SH_CSS_MAX_LEFT_CROPPING)
--#define ISP_LEFT_PADDING_VECS_CONT	CEIL_DIV(ISP_LEFT_PADDING_CONT, ISP_VEC_NELEMS)
--
--#define CEIL_ROUND_DIV_STRIPE(width, stripe, padding) \
--	CEIL_MUL(padding + CEIL_DIV(width - padding, stripe), ((ENABLE_RAW_BINNING || ENABLE_FIXED_BAYER_DS) ? 4 : 2))
--
--/* output (Y,U,V) image, 4:2:0 */
--#define MAX_VECTORS_PER_LINE \
--	CEIL_ROUND_DIV_STRIPE(CEIL_DIV(ISP_MAX_INTERNAL_WIDTH, ISP_VEC_NELEMS), \
--			      ISP_NUM_STRIPES, \
--			      ISP_LEFT_PADDING_VECS)
--
--/*
-- * ITERATOR_VECTOR_INCREMENT' explanation:
-- * when striping an even number of iterations, one of the stripes is
-- * one iteration wider than the other to account for overlap
-- * so the calc for the output buffer vmem size is:
-- * ((width[vectors]/num_of_stripes) + 2[vectors])
-- */
--#define MAX_VECTORS_PER_OUTPUT_LINE \
--	CEIL_DIV(CEIL_DIV(ISP_MAX_OUTPUT_WIDTH, ISP_NUM_STRIPES) + ISP_LEFT_PADDING, ISP_VEC_NELEMS)
--
--/* Must be even due to interlaced bayer input */
--#define MAX_VECTORS_PER_INPUT_LINE	CEIL_MUL((CEIL_DIV(ISP_MAX_INPUT_WIDTH, ISP_VEC_NELEMS) + ISP_LEFT_PADDING_VECS), 2)
--#define MAX_VECTORS_PER_INPUT_STRIPE	CEIL_ROUND_DIV_STRIPE(MAX_VECTORS_PER_INPUT_LINE, \
--							      ISP_NUM_STRIPES, \
--							      ISP_LEFT_PADDING_VECS)
--
--/* Add 2 for left croppping */
--#define MAX_SP_RAW_COPY_VECTORS_PER_INPUT_LINE	(CEIL_DIV(ISP_MAX_INPUT_WIDTH, ISP_VEC_NELEMS) + 2)
--
--#define MAX_VECTORS_PER_BUF_LINE \
--	(MAX_VECTORS_PER_LINE + DUMMY_BUF_VECTORS)
--#define MAX_VECTORS_PER_BUF_INPUT_LINE \
--	(MAX_VECTORS_PER_INPUT_STRIPE + DUMMY_BUF_VECTORS)
--#define MAX_OUTPUT_Y_FRAME_WIDTH \
--	(MAX_VECTORS_PER_LINE * ISP_VEC_NELEMS)
--#define MAX_OUTPUT_Y_FRAME_SIMDWIDTH \
--	MAX_VECTORS_PER_LINE
--#define MAX_OUTPUT_C_FRAME_WIDTH \
--	(MAX_OUTPUT_Y_FRAME_WIDTH / 2)
--#define MAX_OUTPUT_C_FRAME_SIMDWIDTH \
--	CEIL_DIV(MAX_OUTPUT_C_FRAME_WIDTH, ISP_VEC_NELEMS)
--
--/* should be even */
--#define NO_CHUNKING (OUTPUT_NUM_CHUNKS == 1)
--
--#define MAX_VECTORS_PER_CHUNK \
--	(NO_CHUNKING ? MAX_VECTORS_PER_LINE \
--				: 2 * CEIL_DIV(MAX_VECTORS_PER_LINE, \
--					     2 * OUTPUT_NUM_CHUNKS))
--
--#define MAX_C_VECTORS_PER_CHUNK \
--	(MAX_VECTORS_PER_CHUNK / 2)
--
--/* should be even */
--#define MAX_VECTORS_PER_OUTPUT_CHUNK \
--	(NO_CHUNKING ? MAX_VECTORS_PER_OUTPUT_LINE \
--				: 2 * CEIL_DIV(MAX_VECTORS_PER_OUTPUT_LINE, \
--					     2 * OUTPUT_NUM_CHUNKS))
--
--#define MAX_C_VECTORS_PER_OUTPUT_CHUNK \
--	(MAX_VECTORS_PER_OUTPUT_CHUNK / 2)
--
--/* should be even */
--#define MAX_VECTORS_PER_INPUT_CHUNK \
--	(INPUT_NUM_CHUNKS == 1 ? MAX_VECTORS_PER_INPUT_STRIPE \
--			       : 2 * CEIL_DIV(MAX_VECTORS_PER_INPUT_STRIPE, \
--					    2 * OUTPUT_NUM_CHUNKS))
--
--#define DEFAULT_C_SUBSAMPLING      2
--
--/****** DMA buffer properties */
--
--#define RAW_BUF_LINES ((ENABLE_RAW_BINNING || ENABLE_FIXED_BAYER_DS) ? 4 : 2)
--
--/* [isp vmem] table size[vectors] per line per color (GR,R,B,GB),
--   multiples of NWAY */
--#define ISP2400_SCTBL_VECTORS_PER_LINE_PER_COLOR \
--	CEIL_DIV(SH_CSS_MAX_SCTBL_WIDTH_PER_COLOR, ISP_VEC_NELEMS)
--#define ISP2401_SCTBL_VECTORS_PER_LINE_PER_COLOR \
--	CEIL_DIV(SH_CSS_MAX_SCTBL_WIDTH_PER_COLOR, ISP_VEC_NELEMS)
--/* [isp vmem] table size[vectors] per line for 4colors (GR,R,B,GB),
--   multiples of NWAY */
--#define SCTBL_VECTORS_PER_LINE \
--	(SCTBL_VECTORS_PER_LINE_PER_COLOR * IA_CSS_SC_NUM_COLORS)
--
--/*************/
--
--/* Format for fixed primaries */
--
--#define ISP_FIXED_PRIMARY_FORMAT IA_CSS_FRAME_FORMAT_NV12
--
--#endif /* _COMMON_ISP_CONST_H_ */
-diff --git a/drivers/staging/media/atomisp/pci/sh_css_param_dvs.h b/drivers/staging/media/atomisp/pci/sh_css_param_dvs.h
-index b7057887adea..fd5cf6038829 100644
---- a/drivers/staging/media/atomisp/pci/sh_css_param_dvs.h
-+++ b/drivers/staging/media/atomisp/pci/sh_css_param_dvs.h
-@@ -33,9 +33,6 @@
- #define DVS_TABLE_IN_BLOCKDIM_Y_LUMA(X)		(DVS_NUM_BLOCKS_Y(X) + 1)
- #define DVS_TABLE_IN_BLOCKDIM_Y_CHROMA(X)	(DVS_NUM_BLOCKS_Y_CHROMA(X) + 1)
- 
--#define DVS_ENVELOPE_X(X) (((X) == 0) ? (DVS_ENV_MIN_X) : (X))
--#define DVS_ENVELOPE_Y(X) (((X) == 0) ? (DVS_ENV_MIN_Y) : (X))
--
- #define DVS_COORD_FRAC_BITS (10)
- 
- /* ISP2400 */
--- 
-2.47.2
-
+I have tested this patch using following hardware setup:
+* Raspberry Pi 5 + MAX96724 + MAX96717 + IMX219 * Raspberry Pi 5 + 
+MAX96714 + MAX96717 + IMX219 It worked as expected without issues. Great 
+work! --
+Cheers
+Jakub Kostiw
