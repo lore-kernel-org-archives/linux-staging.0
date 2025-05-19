@@ -1,48 +1,48 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9336E272E57
-	for <linux-staging@lists.linux.dev>; Mon, 19 May 2025 11:09:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC42D27876B
+	for <linux-staging@lists.linux.dev>; Mon, 19 May 2025 11:30:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747652987; cv=none; b=V2/CAcZMHg3J8npeUpMSLZzgR0l0zfvZ5w8elGEg7lKeVkEui/uAS06mkumhP/Gf1e+TIp8CQsKWvi9CKsVbPVrLOw6v9M9Sa9986u+G19GmibNClhUmGXk7J4lIGFZs+rv83wXGbrB73QvT/QkhEVKq24b6CjVN6oohCj37V2Q=
+	t=1747654250; cv=none; b=X6pOoMzg0LzJLA4CX1qJXLU76GjF9RN3CNJIR1AkyuQo1Fdbl1PFZfL9niIflLyHe/d5ZjwUpGze/wF9K2EyUWdOGiuzewpqfanqFf8IWe0LhpggZnuW6fdPkCaQjfkVY/vISUwkw3Q4XS6i1JhnvO8JWRZA1xkbDkwmp/EmEaM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747652987; c=relaxed/simple;
-	bh=0GTrluo9pSiVwiaHOxZqAPC8AXPUCY639K9l/g6tCzk=;
+	s=arc-20240116; t=1747654250; c=relaxed/simple;
+	bh=dw8QKQ1w3hhWwpshoCTGyR437tGOX79do+0E0msBRWY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=sr9UCLGzbaEs592+2auURM+lt2YC/QhvIw4FnNGuDE/B4s3KEPC95WKRyPuyRfMnwPu07r6ToV2K2TTP+gELtHUWNvRH1fSMcq9oheROX5qU2mO/bZVFoGiuyysaihP4Bm5dtQilnFL2z2y9qvp2vMcmv59pE3hiq5w2TvqUsRc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=kernel.org; spf=fail smtp.mailfrom=kernel.org; arc=none smtp.client-ip=198.175.65.17
+	 Content-Type:Content-Disposition:In-Reply-To; b=HnIeEtMMNaTKfi2JBdBpeex0gN+HuaZo+4e2foSkHb/bmf4GeDhmAFHoxV0TGgJ0XLc7w3mOJ7lBBo5jDZZ0OxyrD/EIJPcbF3DeytHm5ayjHCEuAxP6CHp2GjOfK1h4I05S01cy/bSI2IcsAPBIWK1QANtgMVV8ufoaSGCBoBQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=kernel.org; spf=fail smtp.mailfrom=kernel.org; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=kernel.org
 Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=kernel.org
-X-CSE-ConnectionGUID: qsdyjJi0SxuZ7/dUu0+chQ==
-X-CSE-MsgGUID: KnnwwfopRMiWeMbOGxEKjA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11437"; a="49529870"
+X-CSE-ConnectionGUID: 6gzvIyEpSD62RqYt/KBSZQ==
+X-CSE-MsgGUID: ZJ0Zx284T4+lQhjU1MDu6A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11437"; a="60202774"
 X-IronPort-AV: E=Sophos;i="6.15,300,1739865600"; 
-   d="scan'208";a="49529870"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 May 2025 04:09:45 -0700
-X-CSE-ConnectionGUID: SWnwxUDCQxWfJzsNJyH/YQ==
-X-CSE-MsgGUID: j89EuJqPS/m+s8Dg8X/DLQ==
+   d="scan'208";a="60202774"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 May 2025 04:30:48 -0700
+X-CSE-ConnectionGUID: M5Oc9LG9TrO7oOoMOshDSg==
+X-CSE-MsgGUID: COyRRPwAQemBYH+3mBE2XA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,300,1739865600"; 
-   d="scan'208";a="140229995"
+   d="scan'208";a="139245925"
 Received: from smile.fi.intel.com ([10.237.72.52])
-  by orviesa008.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 May 2025 04:09:44 -0700
+  by orviesa006.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 May 2025 04:30:46 -0700
 Received: from andy by smile.fi.intel.com with local (Exim 4.98.2)
 	(envelope-from <andy@kernel.org>)
-	id 1uGyNJ-000000030sI-0KHd;
-	Mon, 19 May 2025 14:09:41 +0300
-Date: Mon, 19 May 2025 14:09:40 +0300
+	id 1uGyhf-000000031Ad-1HF1;
+	Mon, 19 May 2025 14:30:43 +0300
+Date: Mon, 19 May 2025 14:30:43 +0300
 From: Andy Shevchenko <andy@kernel.org>
 To: Hans de Goede <hdegoede@redhat.com>
 Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
 	linux-media@vger.kernel.org, linux-staging@lists.linux.dev
-Subject: Re: [PATCH 04/23] media: atomisp: gc0310: Switch to CCI register
- access helpers
-Message-ID: <aCsRdHCBcxqN4LnV@smile.fi.intel.com>
+Subject: Re: [PATCH 07/23] media: atomisp: gc0310: Add link-frequency and
+ pixelrate controls
+Message-ID: <aCsWY1ICUoHTq07L@smile.fi.intel.com>
 References: <20250517114106.43494-1-hdegoede@redhat.com>
- <20250517114106.43494-5-hdegoede@redhat.com>
+ <20250517114106.43494-8-hdegoede@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -51,41 +51,38 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250517114106.43494-5-hdegoede@redhat.com>
+In-Reply-To: <20250517114106.43494-8-hdegoede@redhat.com>
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-On Sat, May 17, 2025 at 01:40:47PM +0200, Hans de Goede wrote:
-> Switch the GC0310 driver over to the CCI register access helpers.
-> 
-> While at it also add a _REG prefix to all register address defines
-> to make clear they are register addresses and group register value
-> defines together with the address definition.
+On Sat, May 17, 2025 at 01:40:50PM +0200, Hans de Goede wrote:
+> Add support for the pixelrate control as expected by libcamera,
+> while at it also add the link-frequency control.
 
 ...
 
-> -#define GC0310_RESET_RELATED			0xFE
-> +#define GC0310_RESET_RELATED_REG		CCI_REG8(0xfe)
+> +/*
+> + * The actual PLL output rate is unknown, the datasheet
+> + * says that the formula for the frame-time in pixels is:
+> + * rowtime = win-width + hblank + sh-delay + 4
+> + * frametime = rowtime * (win-height + vblank)
+> + * Filling this in and multiplying by 30 fps gives:
+> + * pixelrate = (660 + 178 + 42 + 4) * (498 + 27) * 30 = 13923000
+> + */
+> +#define GC0310_PIXELRATE			13923000
 
-Old style: CAPITAL
-New style: small
-
-...
-
-> +#define GC0310_AGC_ADJ_REG			CCI_REG8(0x48)
-
-
-> +#define GC0310_V_CROP_START_REG			CCI_REG16(0x0B)
-> +#define GC0310_H_OUTSIZE_REG			CCI_REG16(0x0F)
-> +#define GC0310_V_OUTSIZE_REG			CCI_REG16(0x0D)
-
-But can we be consistent with the style all over?
+Why not utilise the preprocessor to calculate the above?
+I mean we can define an arithmetic expression instead of the result
+(which is mentioned in the comments anyway).
 
 ...
 
-> -	dev_dbg(&client->dev, "sensor ID = 0x%x\n", ret);
-> +	dev_dbg(&client->dev, "sensor ID = 0x%llx\n", val);
+> +/* single lane, bus-format is 8 bpp, CSI-2 is double data rate */
+> +#define GC0310_LINK_FREQ			(GC0310_PIXELRATE * 8 / 2)
 
-Perhaps %#llx?
+Hmm... I believe it won't be ever the case, but still the Q here is
+if we expect rounded up value? In such a case perhaps BITS_TO_BYTES()
+would make sense. OTOH the format theoretically can be not only 8bpp
+in some cases, but let's say 9bpp, that macro wouldn't help then.
 
 -- 
 With Best Regards,
