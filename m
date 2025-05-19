@@ -1,55 +1,55 @@
-Received: from mail-pg1-f201.google.com (mail-pg1-f201.google.com [209.85.215.201])
+Received: from mail-pl1-f202.google.com (mail-pl1-f202.google.com [209.85.214.202])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 472D31E8338
-	for <linux-staging@lists.linux.dev>; Mon, 19 May 2025 02:05:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 802EF1E9B23
+	for <linux-staging@lists.linux.dev>; Mon, 19 May 2025 02:05:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.202
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747620338; cv=none; b=JYeNZuu2QJCEKAr6BdXl1W6kohsXrGAbsLV75RhF1NGWdMcsRPcyHIZS/1ikugFVjenlrr4B/S36QwmkgGtsTh6GAuO1eQzJDbvlWSRBlTrtDLiZWswWIHKgCwgiPqA7huR3RbmpkVvgc6JAf17hooZnkjfVcmhww+AUtZYtro0=
+	t=1747620340; cv=none; b=g55182phHi5qSBx6AJR3fh7LT9X3GvRRugVF9JGYK2N3InU4qisoqAu6xc/o5xClIjMe+IVWh7OvvDnafeLGWeRkZ2z9Hu855ndML46RFIIDwj8/DLBPmUVG4yVrixQxOw0qY9HbUiOoai+K9ZqxGv/l4NMkTI2BvynPqSSYwcQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747620338; c=relaxed/simple;
-	bh=SlSjPSx3oORnZac0lX3df2Lf1XLvuji2J9tmHdBTFmU=;
+	s=arc-20240116; t=1747620340; c=relaxed/simple;
+	bh=Ir3qwYotxNrRx5ZxChu6Iu2jJnsU/GgC2Fht1CI+cJ8=;
 	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=N8nmQOriajGHEL+YOqnPsRgGRvVkvIlmb9CdLjyx5lEhZWkxX1sDtcZPgi+RzKgmkv/itavlmZmqkvm/ilOQzBKN09eaWTxJ98Hula0p9vqYQowPN8KtvZH8WLtFLbicsXcLn7MjZqGDs/vBi923sgzjQNuNt6zpnoaLBxssk9A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--ericflorin.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=hwMCOIc9; arc=none smtp.client-ip=209.85.215.201
+	 To:Cc:Content-Type; b=DNfmXc0+6RJ26pH2LAghe4jtQTjIti0ld/vwP6+kID8FTs758QbApgd+ybtpwS4gb1B/lAqjCWPNnkAUmctTMcqtcrso/vJqtAazIeMOywkGqGOMla3pJZupUZsT+GYZvP/q/GrQr1fL2qbGlWTtOemJyglI6Zxc3ktg2oxZ4fo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--ericflorin.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=ENOw4+iR; arc=none smtp.client-ip=209.85.214.202
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--ericflorin.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="hwMCOIc9"
-Received: by mail-pg1-f201.google.com with SMTP id 41be03b00d2f7-b1f71ae2181so2449505a12.1
-        for <linux-staging@lists.linux.dev>; Sun, 18 May 2025 19:05:37 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="ENOw4+iR"
+Received: by mail-pl1-f202.google.com with SMTP id d9443c01a7336-232054aa634so10389075ad.3
+        for <linux-staging@lists.linux.dev>; Sun, 18 May 2025 19:05:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1747620336; x=1748225136; darn=lists.linux.dev;
+        d=google.com; s=20230601; t=1747620338; x=1748225138; darn=lists.linux.dev;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=vRY2y3H2M0g7eU6al4Bqcf8B85yBAZ79K9H+4pojmNI=;
-        b=hwMCOIc9cGewUx5Juv87EVisaPh89Uz8da6QjXWeCHYpEW4ATYSZVjPCo0ktEH3OI4
-         TTJVS+vmqD9QBl1eLsLsBMCmgxMEhkhc64KhrJj+q1U4rKcN+sPfvxCis57XFhH7DlU9
-         o18Jk2ItXxNHfuZHwoIraK0nUxAWj/1sOj0X1HyFqYI9lHrTQy52taDzcvskpl0j/i2R
-         aesJmpFWLR/Xw57Qt+PuGj1klfCbojSoERLSXv9Q+WlEYzz/r9ilMGBSEJ+MKDG04PJK
-         8b8S1GvnUVBRrlc434uxYzSb1qda5Rwb9vSYNzqNjACUS+5dg9aRXjQMxKtWs7SfTwCj
-         TOHA==
+        bh=ia1JORafIKNf9NZI5rHJee8OYvmSWCc+nVXQMpMhVBM=;
+        b=ENOw4+iRyiKWfENsSMk/3WPX51WIvr8t6WUC4b1Al7SE6IauHMbnq2zfjiCx9xmQ7G
+         jaUc7bDyOXZOlBD0BcfuVis+UlJyeBl2c9XH5U0zy1n46Nwjryo+CqLivHf/4su8g1IN
+         ppwR4z7sh876L1i8vslNDqmGbuZNUt/kbPA/21HA52lioohb342uwS1rDLpTqFe2wjfb
+         lOFjDYMBSBjibCIp7WGpOn8rhW+9Q56X6RT36pcpIDb4F06dWNaBuYAXKrE74gIT6heW
+         fGhR6HrX/gvXJnyjvONhNtcURmppAWWlY9vJ+0i0oHrnuC8q6LXzgL2j302lKSGWRHVL
+         xtDg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747620336; x=1748225136;
+        d=1e100.net; s=20230601; t=1747620338; x=1748225138;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=vRY2y3H2M0g7eU6al4Bqcf8B85yBAZ79K9H+4pojmNI=;
-        b=p6ltgDnSwEURecVWniDgCcH9866SLMvBpWayqOO9tb61W4PCMnKI6tn5jC0AruIhQ5
-         axfICDqGwbledm1p+gvb8UwqszspfZcejwL0TlXv1MKBO7NQPcIelWhHcFzQBsfuWsvX
-         YjTHO+aTqbOIW3f/KsfFBPhZcxqqP8xUjbCQdQhoIoGFnGHTs9C9P61DHZfywh86jW8v
-         ntRXD3DBpaGIbAZEsOZwIxFFnHFEhCYg2ZPQitX7FXdT1BJaZ07Bs0MpqMXOlkRucqJY
-         gI7jAmdFfSc799LkTX6UXY/edIEhuFKCbQZmmFg+HWZZ/OLvBRst1tmXm79Bi8lunV0Y
-         shbw==
-X-Forwarded-Encrypted: i=1; AJvYcCVEKO0BxihOcY/wI4F4YrdMxkw8vSvNOIgAIaHpW7cN7937TmpEuk3TN/35oahaJ1y7VeuQMwsoaYPTLPCf@lists.linux.dev
-X-Gm-Message-State: AOJu0YwU+PvCJuPQO8VPlB5RCjFPRKsFg9Au28HudhC5v7jrFaVe7Dp3
-	q/ZQ2zYliuBOUbS/BVYAPIZ3Hpk47J4aeA8QWFrM46IGTu5GzqOpclql8AnqWWEoTdmJcUcbux+
-	UQdfgoCkoXbK1b0aql70kqQ==
-X-Google-Smtp-Source: AGHT+IEgLCPDk0lcsU7PJBMeeeiGHkBU66pxZpAlFPIjVpPOdmqlIvYYUbJ1ldSdTgpALODW0ZliY8tcKqdF9dmG
-X-Received: from plxe16.prod.google.com ([2002:a17:902:ef50:b0:220:ea57:34e3])
+        bh=ia1JORafIKNf9NZI5rHJee8OYvmSWCc+nVXQMpMhVBM=;
+        b=jyEj+Y/AtCRBsw5/5U/1/qGN9AStdEqC5r87TDRif/RWNZ/1cWf8ttUNkZ47UwgDLb
+         dGR2NP4jKFXG2vFY9ZLOL7ttKFn2eZMxW2FPSK+8KtJSDdIQqQpS+6uVyct4Fcj315a/
+         NmDRwHebSOpy3mLKi38gfe29VS+3kV0I6y1IOFqmcFXYS55ZIC28BHti4OzuwKiz0uxJ
+         oI8Bu7BKIZvjhbI8J9/TUD8+jM8hJOJ7h2B04DOp/9yFeNB4jnREB3np9ZYZrHgHfVLC
+         rD4zzn8GgZm/KfZBeRiLMoQqvuouQToHklEI7G5/o7HvHEV7FJAHCQKkZ8BedI0QPQn2
+         WRuA==
+X-Forwarded-Encrypted: i=1; AJvYcCUGKtq8sJcklSLZtajcNuiTXO8LMmTX1zx920nbaJAK/a+fgMKdvUV8z89DpZ3TGFLlZoLBIkgM6CdADItB@lists.linux.dev
+X-Gm-Message-State: AOJu0Yzn+GqE7+x/CuPoO+BXVrLlKAx8557dgbtL9mC1azLEvSXzvMj6
+	Qw3a0eIANWiik94AzuJQBBfkB/yurw8fU26+59glHxgjXwmdMq0ETtC2TfvpWEQHpqnSdKX2hJ2
+	TIANikJYgFkBUeC/AknPe1A==
+X-Google-Smtp-Source: AGHT+IEYub+CaQOwQjmJw5cedeG+QL91WXp6CF/LfCf17xPCOhRY9xShUpV3HD7yhcXlneRVxb9kapYtnJqa5486
+X-Received: from plbmv15.prod.google.com ([2002:a17:903:b8f:b0:220:e952:af68])
  (user=ericflorin job=prod-delivery.src-stubby-dispatcher) by
- 2002:a17:902:dacc:b0:231:d0f4:6264 with SMTP id d9443c01a7336-231d43d9bc0mr180230995ad.10.1747620336559;
- Sun, 18 May 2025 19:05:36 -0700 (PDT)
-Date: Sun, 18 May 2025 19:04:50 -0700
+ 2002:a17:903:2452:b0:223:628c:199 with SMTP id d9443c01a7336-231de37fc12mr145942715ad.52.1747620337952;
+ Sun, 18 May 2025 19:05:37 -0700 (PDT)
+Date: Sun, 18 May 2025 19:04:51 -0700
 In-Reply-To: <cover.1747619816.git.ericflorin@google.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -59,8 +59,8 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 Mime-Version: 1.0
 References: <cover.1747619816.git.ericflorin@google.com>
 X-Mailer: git-send-email 2.49.0.1112.g889b7c5bd8-goog
-Message-ID: <3d4bb87742eee4a6792bbdae893256f621ffffe6.1747619816.git.ericflorin@google.com>
-Subject: [PATCH 7/9] staging: sm750fb: rename `hw_sm750_setColReg`
+Message-ID: <e00a39ffba89e000fdf8dc277166297d995aa891.1747619816.git.ericflorin@google.com>
+Subject: [PATCH 8/9] staging: sm750fb: rename `hw_sm750_setBLANK`
 From: Eric Florin <ericflorin@google.com>
 To: teddy.wang@siliconmotion.com
 Cc: sudipm.mukherjee@gmail.com, gregkh@linuxfoundation.org, 
@@ -68,60 +68,56 @@ Cc: sudipm.mukherjee@gmail.com, gregkh@linuxfoundation.org,
 	linux-kernel@vger.kernel.org, Eric Florin <ericflorin@google.com>
 Content-Type: text/plain; charset="UTF-8"
 
-Rename `hw_sm750_setColReg` to `hw_sm750_set_col_reg` to conform with
+Rename `hw_sm750_setBLANK` to `hw_sm750_set_blank` to conform with
 kernel style guidelines as reported by checkpatch.pl
 
-CHECK: Avoid CamelCase: <hw_sm750_setColReg>
+CHECK: Avoid CamelCase: <hw_sm750_setBLANK>
 
 Signed-off-by: Eric Florin <ericflorin@google.com>
 ---
  drivers/staging/sm750fb/sm750.c    | 2 +-
- drivers/staging/sm750fb/sm750.h    | 4 ++--
- drivers/staging/sm750fb/sm750_hw.c | 4 ++--
- 3 files changed, 5 insertions(+), 5 deletions(-)
+ drivers/staging/sm750fb/sm750.h    | 2 +-
+ drivers/staging/sm750fb/sm750_hw.c | 2 +-
+ 3 files changed, 3 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/staging/sm750fb/sm750.c b/drivers/staging/sm750fb/sm750.c
-index 5f4b0064cf92..935c7b1a0fa4 100644
+index 935c7b1a0fa4..eb7e107bae68 100644
 --- a/drivers/staging/sm750fb/sm750.c
 +++ b/drivers/staging/sm750fb/sm750.c
-@@ -545,7 +545,7 @@ static int lynxfb_ops_setcolreg(unsigned int regno,
- 		red >>= 8;
- 		green >>= 8;
- 		blue >>= 8;
--		ret = hw_sm750_setColReg(crtc, regno, red, green, blue);
-+		ret = hw_sm750_set_col_reg(crtc, regno, red, green, blue);
- 		goto exit;
- 	}
+@@ -606,7 +606,7 @@ static int sm750fb_set_drv(struct lynxfb_par *par)
+ 	crtc->ywrapstep = 0;
  
+ 	output->proc_setBLANK = (sm750_dev->revid == SM750LE_REVISION_ID) ?
+-				 hw_sm750le_setBLANK : hw_sm750_setBLANK;
++				 hw_sm750le_setBLANK : hw_sm750_set_blank;
+ 	/* chip specific phase */
+ 	sm750_dev->accel.de_wait = (sm750_dev->revid == SM750LE_REVISION_ID) ?
+ 				    hw_sm750le_de_wait : hw_sm750_de_wait;
 diff --git a/drivers/staging/sm750fb/sm750.h b/drivers/staging/sm750fb/sm750.h
-index db80dd295658..a70f51d08dd2 100644
+index a70f51d08dd2..97682cb8c58f 100644
 --- a/drivers/staging/sm750fb/sm750.h
 +++ b/drivers/staging/sm750fb/sm750.h
-@@ -208,8 +208,8 @@ int hw_sm750_crtc_set_mode(struct lynxfb_crtc *crtc,
- 			   struct fb_var_screeninfo *var,
- 			   struct fb_fix_screeninfo *fix);
+@@ -211,7 +211,7 @@ int hw_sm750_crtc_set_mode(struct lynxfb_crtc *crtc,
+ int hw_sm750_set_col_reg(struct lynxfb_crtc *crtc, ushort index,
+ 			 ushort red, ushort green, ushort blue);
  
--int hw_sm750_setColReg(struct lynxfb_crtc *crtc, ushort index,
--		       ushort red, ushort green, ushort blue);
-+int hw_sm750_set_col_reg(struct lynxfb_crtc *crtc, ushort index,
-+			 ushort red, ushort green, ushort blue);
- 
- int hw_sm750_setBLANK(struct lynxfb_output *output, int blank);
+-int hw_sm750_setBLANK(struct lynxfb_output *output, int blank);
++int hw_sm750_set_blank(struct lynxfb_output *output, int blank);
  int hw_sm750le_setBLANK(struct lynxfb_output *output, int blank);
+ int hw_sm750_pan_display(struct lynxfb_crtc *crtc,
+ 			 const struct fb_var_screeninfo *var,
 diff --git a/drivers/staging/sm750fb/sm750_hw.c b/drivers/staging/sm750fb/sm750_hw.c
-index d3f218cb20f5..04a0f9218eb8 100644
+index 04a0f9218eb8..c64807cd06b3 100644
 --- a/drivers/staging/sm750fb/sm750_hw.c
 +++ b/drivers/staging/sm750fb/sm750_hw.c
-@@ -370,8 +370,8 @@ int hw_sm750_crtc_set_mode(struct lynxfb_crtc *crtc,
- 	return ret;
+@@ -421,7 +421,7 @@ int hw_sm750le_setBLANK(struct lynxfb_output *output, int blank)
+ 	return 0;
  }
  
--int hw_sm750_setColReg(struct lynxfb_crtc *crtc, ushort index, ushort red,
--		       ushort green, ushort blue)
-+int hw_sm750_set_col_reg(struct lynxfb_crtc *crtc, ushort index, ushort red,
-+			 ushort green, ushort blue)
+-int hw_sm750_setBLANK(struct lynxfb_output *output, int blank)
++int hw_sm750_set_blank(struct lynxfb_output *output, int blank)
  {
- 	static unsigned int add[] = { PANEL_PALETTE_RAM, CRT_PALETTE_RAM };
+ 	unsigned int dpms, pps, crtdb;
  
 -- 
 2.49.0.1112.g889b7c5bd8-goog
