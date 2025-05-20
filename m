@@ -1,264 +1,104 @@
-Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28F781EE021
-	for <linux-staging@lists.linux.dev>; Tue, 20 May 2025 05:34:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 969912472AE
+	for <linux-staging@lists.linux.dev>; Tue, 20 May 2025 15:52:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747719294; cv=none; b=p7ADjaLaQ7TBOH/n5ODuf+M1mpKntJK0EfNCJBpIyvA8b1r4o8DyFNVuy0hxs5wf8P/KhWy8TXUuQmjMQFnHSRm1/eCigcFilJy+EhOPrJaazbGnynRq4WY9xiwh/JC8puVSxSqJ56ueyGV4UGYd+BCHNWIhVGr1UOJBk7i3cQM=
+	t=1747756322; cv=none; b=Jpv2KocV3YIBF5mu93dhNy+v0Pa1+rktb+TlrpyEI+qF/pSdm2SXGYRqQkCriJfwsb8atA16bkhJW4lDOtT47yk6Sg3GQfGhl7myJVVQKjRDw8ZtPsvI+KGjvfJcU1mLmDYqE+ngiTg9FaCHF8hdk2kLzixuCBSEzdvR/0KNEMk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747719294; c=relaxed/simple;
-	bh=URKVuzMn08IfAGrd6Euk8GdP5Mk+qwh0+VyqTvfI+XA=;
-	h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Rbrt+S30WSnjGWIRnhplVXWZVh+H36aVHgz/X8FF4hec6ENABKMXYAlPU4EHPcAzoiVI3rDQOjl+sIf86CMSOYQK4tfiSBEbgdSvI8qc2JjHkxX42FbntSIBOWI8EQL0tyNXY53ujVun4e3ewwqM4I1UzQ7/VHE09g1XodWzeWc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XHGhWael; arc=none smtp.client-ip=209.85.210.173
+	s=arc-20240116; t=1747756322; c=relaxed/simple;
+	bh=yDzB+rK4kRvODtUh32t75bfBwyaPRGI3UZDm8Q5fjNQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=HrzbXetmth9bvPkq+s3IzOIv9vFb3jRET0fKQZQYJNw0otti4c9wTgL5avb7gdV39k9GeIyyIiylf91Lfjjl7AEMI0o8PEppW+AUp6e/ZjsSnR79Cy/d0ZsRpn5mbau4gG6AyDPXFu8ql7ZH/OWEho7RTe1GOHr6yRgrQM7RIaA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NIeVpGEr; arc=none smtp.client-ip=209.85.128.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XHGhWael"
-Received: by mail-pf1-f173.google.com with SMTP id d2e1a72fcca58-742c5eb7d1cso3072686b3a.3
-        for <linux-staging@lists.linux.dev>; Mon, 19 May 2025 22:34:52 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NIeVpGEr"
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-43cf06eabdaso57040545e9.2
+        for <linux-staging@lists.linux.dev>; Tue, 20 May 2025 08:52:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1747719292; x=1748324092; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=sJMPUCs8VQyw0KTGePcn7YJkU6n6luiSoyPxP0fVYvg=;
-        b=XHGhWael6pP+fwRsBWHbJHObIhMzJVjyexhaCrnLfjr0Fa2JIlRSmqPmEL5HyIrdJk
-         Edg9XuHIOjuxeq1gjOjDVkQV0GIw42lAzzW/4i3Y46S39FiWepuKLVM+ankfHMENoRU9
-         60+1vjcdTE4DSrp3O2SJKZJiAuOaUzhphuaP016LmKF4iJC02uJ3FJuHtTt4wuO71kpm
-         OZCJHJ4s9nM2/zoqP8XkPl9rlst5O4ihCd0nlFO3webgIO+dS5vR5czIGwbIjNohIikf
-         oeHlh1bjbtaTEl58oDMN+PhCJBH4tdg23q8Gbv5mCWt+B5xoiZltksQ4dR0iz7J2YwUC
-         B/rw==
+        d=gmail.com; s=20230601; t=1747756319; x=1748361119; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=hCWgh0ZdhtzvxMZlS8E6PlbHO1fWal8xoyCgd8Qfje4=;
+        b=NIeVpGErQXRTGG/RBOqDuMLJgr/nk35lOfAPiT6CkyQcfbS4PmsnVZJlfId5j0Go8m
+         mweSAgsAmuOiWzuLS/vg9z9/l1mfEg/Hzl1nqQ3MlE+R/CbKAuhV59sOG/qwwon6J0yF
+         rV0lXTOQw0DGwrQKYgGZaNUARrZRlaZ1fh0Mw9QkDkDU6kW8/n9H+1th7Y2GloR6BZu9
+         CWC3GwtAeH0A+4qt+VNnsLJZ6zRiNwyyBtWjWotJ7ugjc4dih//aC6iDafyBUR2An8Dj
+         0m0mCTuv+XUvUVTiRBxd6XTZJhiYDfdor2naN1RNvsOMmQiHKkOwz27f3Ea5aRX+QBu2
+         1fGw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747719292; x=1748324092;
-        h=content-disposition:mime-version:message-id:subject:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=sJMPUCs8VQyw0KTGePcn7YJkU6n6luiSoyPxP0fVYvg=;
-        b=V3FOWl5J2wUplRGLEgD8u3tJWeM6E+SnKkmramxLFdsslw0ugw7Db4ikKxd/lZVSOn
-         6cgAo9gDWHVSZE+m8uSA2vCBU30QJLBsvqdyN+3LH9riWN1Ax76fNJlU/OKKdar9wZwo
-         jHj7XG6mbxsbnXt7Qj0vaYxFIy7u+cZsIfk3KaTyyxuMdkn6+7R86+wQafSxe6ZiM1DQ
-         p832+lR3iQojNOR34pj06QayDM0EiDg9bKgBIDN4TZRxQP5sUClShZsPbFnSnBXohyXy
-         nKJH9zSBOVAuceVBSLWdmafJmRnLpbHr2mspVd5HYsx6NMcCFgRgkKYN+l4hoz/i/dvC
-         umUA==
-X-Forwarded-Encrypted: i=1; AJvYcCWw7GdVG3xCRs9oOc2UyLX77rVfn9WNDfcJne+3tFucoSVtb+4PmEAfRSbx8zyYHTSyrZ6Uu1Jtl/Zc4s5E@lists.linux.dev
-X-Gm-Message-State: AOJu0Yyx5n62oEcCsV9DWU7C97vAhNBwU2wGNeBSVujKVDFfIlrDI8mr
-	CSBRmzF4++My0NCyKCh59adn6udOmjgVAxqDWtaRjp2N0jL3X8Kk2WuI
-X-Gm-Gg: ASbGncuEFnz0uJLbt5/GDr/aJUl43lTgtoMISesPuzWcjGjj7fLpzgZ1QA3PzurE27I
-	SpmAE03uMc/eSPLUoY+iPArTlQDqhPDjGD1tzdG0cxZWCKQqFE/covqX4dRmS9S2rBR/iZ+exUx
-	dsfJdp5TRUAB8REBWPMxoEr+bLX3FfxbiYHATNi0m/6yKrqxoTRdQ8PY5zMb1f4B4qnDOt+Io95
-	wa4cHdsogAkDBtACHeBUvYlgMmDm22kGpFcfSjuzYEwBeF2G44zeMe53MaBQB3R+YwJKn5isGn2
-	kIPfND04PxeiZHiTlT6D6Sd3UVhhfAp3kYBNQhgBf5OT
-X-Google-Smtp-Source: AGHT+IGDSBX5UeCRSKppT5cT/QW7MYqZuCm3dSGXytsHQKowz1AiXvPyBTU8dOaySiQ5bOo2c0b+Kg==
-X-Received: by 2002:a05:6a00:2e9b:b0:73e:1e21:b653 with SMTP id d2e1a72fcca58-742a978e6a3mr20622144b3a.5.1747719291986;
-        Mon, 19 May 2025 22:34:51 -0700 (PDT)
-Received: from debian ([1.238.22.220])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-742a9876d51sm7377811b3a.141.2025.05.19.22.34.50
+        d=1e100.net; s=20230601; t=1747756319; x=1748361119;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=hCWgh0ZdhtzvxMZlS8E6PlbHO1fWal8xoyCgd8Qfje4=;
+        b=Q5JBPqEI4GyF1pSAb/4oGTu/hEqWE1rZ/2NIMm7B4wBWV7jUZT/rwNqBos5IKnr33j
+         29q5Rr+vyYpgQOSF+nEhDHSOGNFp29DERLuRUUR16Gci0ranNvkBfwc9qbYqeoUW60Wo
+         YtYrYHSS90wEKfmuLzlF+0k+OFrXgMFl7iOC/5fPJ4B8+LmTV0TpXcTOXrHmsJ5VXh+6
+         V7PiNokX6kE4xc1uWytLbOfDHTmTmAFbwL7m+m6uOFCsy991WuGf6PleNXh8iXm32qvr
+         DcRmHrtijf29gPCW6N2mlb2g5drZD+tfYEBUAtslBf1LvB0qmEfvY2lmZryDUavpeNp/
+         PU3A==
+X-Forwarded-Encrypted: i=1; AJvYcCWvtLYMsW3my5tfwY3SvpiCkUFmUIjsKlqx8xRPZvbXAPq9u1Wqp6bJi6X0Sm+ZPyF4TFRUs37UKEGse7Tj@lists.linux.dev
+X-Gm-Message-State: AOJu0YwLkk4gLoCCvKkcAS1Z7ORiuJ4a02fC/eRnVX9l72PO+7o6c2dA
+	W0o4gICahUqCmKcKLS+Uw336UB3yNGn5YxnUS77734ZOAkkZgb+gy4OFT3prtw==
+X-Gm-Gg: ASbGncv0QgLUhM6dNbBGJIQ8E5DifghtIWOCQnYAoRWVSLhE7y7eIVi1WOLaAik4jO7
+	vuc7lzMiYNv1H+pKhA4oJwvfE8oD+yG2t2HO6Z5GT6a671NA6FSxQOCCLEg9fV4onhKBEjVJfRB
+	kjAwht40lwkVA79jmpyhy3CikNxAip4i9y97j/dSU2SbLxFpGpM6m9IeiGGnBzKhCP2tO7Iw9WD
+	rk04WM7DBIlEtLULdzwfquKXhS3DtEY6QrJQ7c64YSI8Qw9WII3AWyvb1RWcab1h/BhDUdRaD7C
+	a0FVwXVfUQlvGX0XXBIAn4WaARPq3h1kM1BPs+YlHMeYoSLLYxMRWjVudZpRv0rK
+X-Google-Smtp-Source: AGHT+IF8v7bpu4ytKc96dJqlgxfj5DJg0OrRJlXHFHPGOXdl7FlkmEH5AAt0Db9U2W+MWb/T7/n/cw==
+X-Received: by 2002:a5d:638e:0:b0:3a3:64b8:ef20 with SMTP id ffacd0b85a97d-3a364b8ef5fmr9383658f8f.52.1747756318554;
+        Tue, 20 May 2025 08:51:58 -0700 (PDT)
+Received: from localhost.localdomain ([2a01:e0a:9ad:d3b0:ec4c:9f30:1dfe:440a])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a35ca62961sm16581478f8f.49.2025.05.20.08.51.57
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 19 May 2025 22:34:51 -0700 (PDT)
-Date: Mon, 19 May 2025 22:34:47 -0700
-From: Sunghun Son <thswpvm1111@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH v2] staging: octeon: remove typedef declaration
-Message-ID: <aCwUd0JNdav9BH6h@debian>
+        Tue, 20 May 2025 08:51:57 -0700 (PDT)
+From: Dave Penkler <dpenkler@gmail.com>
+To: gregkh@linuxfoundation.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Cc: Dave Penkler <dpenkler@gmail.com>
+Subject: [PATCH] staging: gpib: Fix secondary address restriction
+Date: Tue, 20 May 2025 17:51:00 +0200
+Message-ID: <20250520155100.5808-1-dpenkler@gmail.com>
+X-Mailer: git-send-email 2.49.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-Remove typedef declaration from several structs.
-Also replace related function signatures to reflect these changes.
-Issue found by checkpatch.pl
+GPIB secondary addresses have valid values between 0 and 31
+inclusive. The Make Secondary Address function MSA, used to form
+the protocol byte, was using the gpib_address_restrict function
+erroneously restricting the address range to 0 through 30.
 
-Signed-off-by: Sunghun Son <thswpvm1111@gmail.com>
+Remove the call to gpib_address_restrict and simply trim the
+address to 5 bits.
+
+Fixes: 2da03e7e31aa ("staging: gpib: Add user api include files")
+Signed-off-by: Dave Penkler <dpenkler@gmail.com>
 ---
-This is my first time contributing to the kernel.
-I now understand how to enable modules through menuconfig.
-The reason why 'my previous build' is not working is because I didn't enable the module in menuconfig.
-Please let me know if there are any issues.
-Thank you.
+ drivers/staging/gpib/uapi/gpib.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
- drivers/staging/octeon/ethernet.c     |  6 ++--
- drivers/staging/octeon/octeon-stubs.h | 49 +++++++++++++--------------
- 2 files changed, 27 insertions(+), 28 deletions(-)
-
-diff --git a/drivers/staging/octeon/ethernet.c b/drivers/staging/octeon/ethernet.c
-index eadb74fc14c8..2f58a6c0e2e7 100644
---- a/drivers/staging/octeon/ethernet.c
-+++ b/drivers/staging/octeon/ethernet.c
-@@ -201,8 +201,8 @@ EXPORT_SYMBOL(cvm_oct_free_work);
-  */
- static struct net_device_stats *cvm_oct_common_get_stats(struct net_device *dev)
+diff --git a/drivers/staging/gpib/uapi/gpib.h b/drivers/staging/gpib/uapi/gpib.h
+index 4ca3cc9e0cd7..deb7ffcb7902 100644
+--- a/drivers/staging/gpib/uapi/gpib.h
++++ b/drivers/staging/gpib/uapi/gpib.h
+@@ -136,7 +136,7 @@ static inline __u8 MTA(unsigned int addr)
+ 
+ static inline __u8 MSA(unsigned int addr)
  {
--	cvmx_pip_port_status_t rx_status;
--	cvmx_pko_port_status_t tx_status;
-+	struct cvmx_pip_port_status rx_status;
-+	struct cvmx_pko_port_status_t tx_status;
- 	struct octeon_ethernet *priv = netdev_priv(dev);
- 
- 	if (priv->port < CVMX_PIP_NUM_INPUT_PORTS) {
-@@ -798,7 +798,7 @@ static int cvm_oct_probe(struct platform_device *pdev)
- 
- 	num_interfaces = cvmx_helper_get_number_of_interfaces();
- 	for (interface = 0; interface < num_interfaces; interface++) {
--		cvmx_helper_interface_mode_t imode =
-+		enum cvmx_helper_interface_mode imode =
- 		    cvmx_helper_interface_get_mode(interface);
- 		int num_ports = cvmx_helper_ports_on_interface(interface);
- 		int port;
-diff --git a/drivers/staging/octeon/octeon-stubs.h b/drivers/staging/octeon/octeon-stubs.h
-index 44cced319c11..5de94792ccf2 100644
---- a/drivers/staging/octeon/octeon-stubs.h
-+++ b/drivers/staging/octeon/octeon-stubs.h
-@@ -213,14 +213,14 @@ enum cvmx_fau_op_size {
- 	CVMX_FAU_OP_SIZE_64 = 3
- };
- 
--typedef enum {
-+enum cvmx_spi_mode {
- 	CVMX_SPI_MODE_UNKNOWN = 0,
- 	CVMX_SPI_MODE_TX_HALFPLEX = 1,
- 	CVMX_SPI_MODE_RX_HALFPLEX = 2,
- 	CVMX_SPI_MODE_DUPLEX = 3
--} cvmx_spi_mode_t;
-+};
- 
--typedef enum {
-+enum cvmx_helper_interface_mode {
- 	CVMX_HELPER_INTERFACE_MODE_DISABLED,
- 	CVMX_HELPER_INTERFACE_MODE_RGMII,
- 	CVMX_HELPER_INTERFACE_MODE_GMII,
-@@ -231,20 +231,20 @@ typedef enum {
- 	CVMX_HELPER_INTERFACE_MODE_PICMG,
- 	CVMX_HELPER_INTERFACE_MODE_NPI,
- 	CVMX_HELPER_INTERFACE_MODE_LOOP,
--} cvmx_helper_interface_mode_t;
-+};
- 
--typedef enum {
-+enum cvmx_pow_wait {
- 	CVMX_POW_WAIT = 1,
- 	CVMX_POW_NO_WAIT = 0,
--} cvmx_pow_wait_t;
-+};
- 
--typedef enum {
-+enum cvmx_pko_lock {
- 	CVMX_PKO_LOCK_NONE = 0,
- 	CVMX_PKO_LOCK_ATOMIC_TAG = 1,
- 	CVMX_PKO_LOCK_CMD_QUEUE = 2,
--} cvmx_pko_lock_t;
-+};
- 
--typedef enum {
-+enum cvmx_pko_status {
- 	CVMX_PKO_SUCCESS,
- 	CVMX_PKO_INVALID_PORT,
- 	CVMX_PKO_INVALID_QUEUE,
-@@ -252,7 +252,7 @@ typedef enum {
- 	CVMX_PKO_NO_MEMORY,
- 	CVMX_PKO_PORT_ALREADY_SETUP,
- 	CVMX_PKO_CMD_QUEUE_INIT_ERROR
--} cvmx_pko_status_t;
-+};
- 
- enum cvmx_pow_tag_type {
- 	CVMX_POW_TAG_TYPE_ORDERED   = 0L,
-@@ -384,7 +384,7 @@ union cvmx_ipd_sub_port_qos_cnt {
- 	} s;
- };
- 
--typedef struct {
-+struct cvmx_pip_port_status {
- 	uint32_t dropped_octets;
- 	uint32_t dropped_packets;
- 	uint32_t pci_raw_packets;
-@@ -407,13 +407,13 @@ typedef struct {
- 	uint32_t inb_packets;
- 	uint64_t inb_octets;
- 	uint16_t inb_errors;
--} cvmx_pip_port_status_t;
-+};
- 
--typedef struct {
-+struct cvmx_pko_port_status_t {
- 	uint32_t packets;
- 	uint64_t octets;
- 	uint64_t doorbell;
--} cvmx_pko_port_status_t;
-+};
- 
- union cvmx_pip_frm_len_chkx {
- 	uint64_t u64;
-@@ -1258,15 +1258,14 @@ static inline int octeon_is_simulation(void)
+-	return gpib_address_restrict(addr) | SAD;
++	return (addr & 0x1f) | SAD;
  }
  
- static inline void cvmx_pip_get_port_status(uint64_t port_num, uint64_t clear,
--					    cvmx_pip_port_status_t *status)
-+					    struct cvmx_pip_port_status *status)
- { }
- 
- static inline void cvmx_pko_get_port_status(uint64_t port_num, uint64_t clear,
--					    cvmx_pko_port_status_t *status)
-+					    struct cvmx_pko_port_status_t *status)
- { }
- 
--static inline cvmx_helper_interface_mode_t cvmx_helper_interface_get_mode(int
--								   interface)
-+static inline enum cvmx_helper_interface_mode cvmx_helper_interface_get_mode(int interface)
- {
- 	return 0;
- }
-@@ -1342,11 +1341,11 @@ static inline unsigned int cvmx_get_core_num(void)
- }
- 
- static inline void cvmx_pow_work_request_async_nocheck(int scr_addr,
--						       cvmx_pow_wait_t wait)
-+						       enum cvmx_pow_wait wait)
- { }
- 
- static inline void cvmx_pow_work_request_async(int scr_addr,
--					       cvmx_pow_wait_t wait)
-+					       enum cvmx_pow_wait wait)
- { }
- 
- static inline struct cvmx_wqe *cvmx_pow_work_response_async(int scr_addr)
-@@ -1356,13 +1355,13 @@ static inline struct cvmx_wqe *cvmx_pow_work_response_async(int scr_addr)
- 	return wqe;
- }
- 
--static inline struct cvmx_wqe *cvmx_pow_work_request_sync(cvmx_pow_wait_t wait)
-+static inline struct cvmx_wqe *cvmx_pow_work_request_sync(enum cvmx_pow_wait wait)
- {
- 	return (void *)(unsigned long)wait;
- }
- 
- static inline int cvmx_spi_restart_interface(int interface,
--					     cvmx_spi_mode_t mode, int timeout)
-+					     enum cvmx_spi_mode mode, int timeout)
- {
- 	return 0;
- }
-@@ -1381,12 +1380,12 @@ static inline union cvmx_gmxx_rxx_rx_inbnd cvmx_spi4000_check_speed(int interfac
- }
- 
- static inline void cvmx_pko_send_packet_prepare(uint64_t port, uint64_t queue,
--						cvmx_pko_lock_t use_locking)
-+						enum cvmx_pko_lock use_locking)
- { }
- 
--static inline cvmx_pko_status_t cvmx_pko_send_packet_finish(uint64_t port,
-+static inline enum cvmx_pko_status cvmx_pko_send_packet_finish(uint64_t port,
- 		uint64_t queue, union cvmx_pko_command_word0 pko_command,
--		union cvmx_buf_ptr packet, cvmx_pko_lock_t use_locking)
-+		union cvmx_buf_ptr packet, enum cvmx_pko_lock use_locking)
- {
- 	return 0;
- }
+ static inline __u8 PPE_byte(unsigned int dio_line, int sense)
 -- 
-2.39.5
+2.49.0
 
