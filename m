@@ -1,83 +1,51 @@
-Received: from mail-yw1-f177.google.com (mail-yw1-f177.google.com [209.85.128.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B68D235049
-	for <linux-staging@lists.linux.dev>; Wed, 21 May 2025 08:42:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0AA7123C515;
+	Wed, 21 May 2025 09:19:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747816944; cv=none; b=qoD5/vy6VliLLh1rwxO3Fi5mq1QL/qysY5xg2lWHUS4hIjyzuje02J7mxbj3jRsd7Vaf1nb/MERvt3kzuqJZz2lByWjg8Fv5uSHnXDYNMDExzbTNuDCiSytS9jusuQly0G97+KjeZzhPgCayMructz4ZhZSvJl084l6KKsNSV8M=
+	t=1747819178; cv=none; b=iJ8dXf2894hMmfBownOh3gcI9bxKvSRXBO6sStTlKwXDb+vIt0bG+AuGOMzTrwsFhUE/JR3Fb4015pUaosHTGY5kDsK2MLteDL09JeOL11NFg3Kt8gl2WMF0O+tQyaNteHT4PI5kdKhpPhbFy7W0yPjiGWdJLb5m4JuMg56oD3E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747816944; c=relaxed/simple;
-	bh=O9aboa+aA9QUrHv7NG/TajZHCYjHVV9Y+6HTFp4K5aQ=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=PypLzKuDg/Nz7+eQqh0ulAALROMCqR9wmgzXxZXAKBLvKRRwAfMFnMGUq3HskCe0CN5pzBWaMc26kb6e0nd//nKmVE7Fb/qARC8GRKjxXUkHBMH5Z6P5nHXJ+Jaj3LlNr2Vttps5kL3l3sMGnfHnw7PQrje/Zi5uOakxpakICPg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hp1mUzaZ; arc=none smtp.client-ip=209.85.128.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1747819178; c=relaxed/simple;
+	bh=KQZ0URLKaAeR3tem+EHBReFm/G2mKEAF1N/X4iJwrB8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=OWp4Wtxlq4VGAJOzUHYIh+CXpcq1iTjBIvm4YTZb0TkEdrUjCQba42gOxr11+axi0TI1ufEIpYYbtNtZZOkDYa7hsrDBVWFO9f44TF54eNWeYN7ddrqiPNc3YmKMRbFVdRP5O3Ku3aA9OXHv/QL3CKUpCVojybzdZTyqrJdTiXU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=CnwI/D7Q; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hp1mUzaZ"
-Received: by mail-yw1-f177.google.com with SMTP id 00721157ae682-70cb1e8263bso42396267b3.0
-        for <linux-staging@lists.linux.dev>; Wed, 21 May 2025 01:42:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1747816942; x=1748421742; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=SCgJZXkhtbkjdkE3gdVVdoOPKWGJdcA4tMEqgryxtSc=;
-        b=hp1mUzaZn47rBfPtGIJSoGjYaifMmVs6SgAtyoY7aIjd3VPLyjcdYSXdND45jMg9+C
-         YovbWVW07mo94xr23xteNq8y4O55SsTq7ZgAr7L03IcMfA7NIHBVWD0Yjncdv4q7VJef
-         Ly00mkUA7TwugJ4Eq+egpQCdDsSPEiuxmMAcYMgoOEUtO4nma/iAs5UBX8g0HLQ4bnU3
-         nmeJAkTOIhWFiAmckWVKZ304RwM+YBcqgcOhVsA/H3tzHg/HrHZRNBHxuDhiWlS6A9Bz
-         Qmfp8Eh6YM59ISUZckbthdAotQyVZC2K6Qv4XARmCxggqfzRmOcgkkJ12PmptAfRAHNo
-         nR0g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747816942; x=1748421742;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=SCgJZXkhtbkjdkE3gdVVdoOPKWGJdcA4tMEqgryxtSc=;
-        b=I9pFZRB+AhEtjr2ZZrwmtNERZgDDb5Mbv12KILzsfxjAIx+hX4qI76pPzk9ZpPCpEs
-         /Uxu7iDBMgQiJOdpvXdBQoSg0QQ/FgfNi5E/fpCE+ZWjXaUVvw/vIad12zheVnauaD+G
-         /JlUFGFAIm3cbsH4bRKNJK9b+vzqMuPp4LoviY9J1/VuzxRdp/LHK2pUmtbPPoi5eA+w
-         vkm62ixugfbhce6NzSHtEnBR351O8BVbuS7icCkg4wcc9ySGvT2DohhTFYNFQjXm5+xs
-         4kiXhq/+gLGxCTJqwYIhfc2qLglqThnvmzEmxMA7xNbSGOlK3AZwLHV4GSqATJnHEuIk
-         xNAw==
-X-Forwarded-Encrypted: i=1; AJvYcCUBOmvQp267pgre1widze4WFnH+xmYDXgiTlsFVgVQTQHVTTotNeeGMMzFlYb8/CZ1u+OPtsESXFCsR/+QW@lists.linux.dev
-X-Gm-Message-State: AOJu0YzhSsHc+RQ9V/KI0emXXS3r2ONKABiETUl0eKDofXX9JjlpjbZo
-	YaCj+nCC8OuSd7cVJ8c+wNghe+t+7B3HkBwIUeCi94VhF8C6UOaPCh6oMwaSywxWl6mOi9so/3s
-	jA8KXZoEc+1idbVI5E/3GyEc8aAdrsAs=
-X-Gm-Gg: ASbGncv/LW/eeIvxij6Zs1ssFEZ4NPpIhbQdWQoemn8l2zn05m1mPuGCeWHegaBWEXG
-	FfOb+K7vG7QH3NX0I6jiK+ZVrnf1LUiqNhfMBh24rvPeGN6qiMKwYWmmzBpO61gzcZROOg06Zf/
-	aWy37GsmH2hZwSByZ7s/ARxOutdbyModknG6eWHJj70D+ai4rhYGLe1MpTZVHXRFzrvbKoz1eqc
-	tL9
-X-Google-Smtp-Source: AGHT+IFNHZSYsBdgNuwuykkG1XrjBeWI/DMdaIBKSjsDJ2IOaa44XWs61oPcZaHSqqhwBUVLkt3fM50/jwfOB7wmAmo=
-X-Received: by 2002:a05:690c:ed4:b0:708:2604:4a10 with SMTP id
- 00721157ae682-70caafccab3mr271916987b3.18.1747816942101; Wed, 21 May 2025
- 01:42:22 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="CnwI/D7Q"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 19F2EC4CEE4;
+	Wed, 21 May 2025 09:19:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1747819177;
+	bh=KQZ0URLKaAeR3tem+EHBReFm/G2mKEAF1N/X4iJwrB8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=CnwI/D7QchRUObcWrSVYhqS/6KJS9ACo+MIkYyOrkgLUhEnnMdksgs2zCN7G7eHav
+	 VHTDzZyMK+kZr0tp4EaFqhWpAGB9EojTwKD+ZnnQ26y+0fIMAyS/1H/24jQp9Q9zkZ
+	 RLMiJcGSmrBlze+KZaqjdBkWRwAxy/RjSTV1FLps=
+Date: Wed, 21 May 2025 11:19:34 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Rujra Bhatt <braker.noob.kernel@gmail.com>
+Cc: Johan Hovold <johan@kernel.org>, elder@kernel.org,
+	greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH RESEND] staging : greybus : Documentation : firmware :
+ Replace deprecated strncpy() with strscpy()
+Message-ID: <2025052140-reprogram-polish-30da@gregkh>
+References: <aC2ILNV6xgt11KuN@brak3r-Ubuntu>
+ <2025052142-maturing-earthworm-cb31@gregkh>
+ <CAG+54DZWjN3ii-JCOME8XdA1B+5yCmRSo0-wqTv+zt5w6UcEVA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <aC2ILNV6xgt11KuN@brak3r-Ubuntu> <2025052142-maturing-earthworm-cb31@gregkh>
- <CAG+54DZWjN3ii-JCOME8XdA1B+5yCmRSo0-wqTv+zt5w6UcEVA@mail.gmail.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 In-Reply-To: <CAG+54DZWjN3ii-JCOME8XdA1B+5yCmRSo0-wqTv+zt5w6UcEVA@mail.gmail.com>
-From: Rujra Bhatt <braker.noob.kernel@gmail.com>
-Date: Wed, 21 May 2025 14:12:10 +0530
-X-Gm-Features: AX0GCFv4llWsqgoVnjPLvP_a1XEhJ4RdYPXyZq8ZJBAv-ijFh3TqO7nT_Ne_OUA
-Message-ID: <CAG+54Daj+1fj7pm+f-a-WYYzV5FGKby2_gqu6WjZMPCEXPGDYQ@mail.gmail.com>
-Subject: Re: [PATCH RESEND] staging : greybus : Documentation : firmware :
- Replace deprecated strncpy() with strscpy()
-To: Greg KH <gregkh@linuxfoundation.org>
-Cc: Johan Hovold <johan@kernel.org>, elder@kernel.org, greybus-dev@lists.linaro.org, 
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Wed, May 21, 2025 at 2:08=E2=80=AFPM Rujra Bhatt
-<braker.noob.kernel@gmail.com> wrote:
->
+On Wed, May 21, 2025 at 02:08:52PM +0530, Rujra Bhatt wrote:
 > On Wed, May 21, 2025 at 09:06:00AM +0200, Greg KH wrote:
 > > A: http://en.wikipedia.org/wiki/Top_post
 > > Q: Were do I find info about this thing called top-posting?
@@ -97,49 +65,30 @@ On Wed, May 21, 2025 at 2:08=E2=80=AFPM Rujra Bhatt
 > > >
 > > > why is this a RESEND ?:
 > > >
-> > > >> I had sent the same patch 4 days ago and didn't get any reply , he=
-nce tried to resend the same patch for the same,
+> > > >> I had sent the same patch 4 days ago and didn't get any reply , hence tried to resend the same patch for the same,
 > > > here is earlier mail :
-> > > https://mail.google.com/mail/u/1/?ik=3Df63b03515e&view=3Dom&permmsgid=
-=3Dmsg-a:s:12290863930259651721
+> > > https://mail.google.com/mail/u/1/?ik=f63b03515e&view=om&permmsgid=msg-a:s:12290863930259651721
 > >
 > > That is a link to _your_ account, not a public record of your email :(
 > >
 > > > ,
 > > >
 > > > line does not match this:
-> > > >> sorry , i could not get it what it is exactly ?, if possible can y=
-ou share some insights or example so that from in future i would get it rig=
-ht.
+> > > >> sorry , i could not get it what it is exactly ?, if possible can you share some insights or example so that from in future i would get it right.
 > >
 > > Your "From:" line in your email does not match with the signed-off-by
 > > line.
->
+> 
 > This has been addressed successfully, Kindly preview it.
->
-> is this the way correct about the reply email ? , kindly let me know as I
-> have tried to get more and more answers and solved issues, and thank you
-> so much for your guidance and will be keep in mind about the process and =
-will
-> not fail next time onwards.
->
 
+I'm sorry, preview what exactly?  If you think you have fixed it,
+send a new patch with it fixed up as a new version.  I can't determine
+anything just from an email like this :)
 
-> On Wed, May 21, 2025 at 2:02=E2=80=AFPM Greg KH <gregkh@linuxfoundation.o=
-rg> wrote:
-> >
-> > On Wed, May 21, 2025 at 01:30:44PM +0530, Rujra Bhatt wrote:
-> >
-> > <snip>
-> >
-> > For some reason you sent this only to me, which is a bit rude to
-> > everyone else on the mailing list.  I'll be glad to respond if you
-> > resend it to everyone.
-> >
+> is this the way correct about the reply email ?
 
-Re-send it to everyone , as per your guidance ,
-thank you, and sorry for any inconvenience caused.
+Yes.
 
-thank you,
-regards,
-Rujra Bhatt
+thanks,
+
+greg k-h
