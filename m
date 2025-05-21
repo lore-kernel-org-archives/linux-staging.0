@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B1851E260C
-	for <linux-staging@lists.linux.dev>; Wed, 21 May 2025 14:53:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D37B1E5B60
+	for <linux-staging@lists.linux.dev>; Wed, 21 May 2025 14:55:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747839218; cv=none; b=XsIhe9UD7KWxUl1ntE9Ge4Jg8C/f4mD6F70clw4PUF+oKNSVuFgcbsVrtZOwRDTQzz/xoblLBtkI2TDTeuiGPXcgxpeHjuHQCwzh6UAfaUbzjNLLlf86vjN2mzjGqxg12BODaEmg9IZM5hIBDH91QhXXIvyOCMl2GyvffztGXpk=
+	t=1747839359; cv=none; b=mj8V+Sr8NNj+nyToVqww2yLOITBoKrut8YbJblolXf9mjmbuaH+OCJgzoQu52TpQH+XA8PYS1drk8/fYeCCyN6puk7S+cWiMeRUJs9u8u0XM94S7L0VTE2hjmnDeQT4leMf4T3ymLjgu193SvbW/yPfwIYsm+6ESByYnS9ZYKEo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747839218; c=relaxed/simple;
-	bh=C5kWGx5/UvloHX/UveK5EsEsK6H8CdTbyCupJ/mkOmw=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Se1MZn8DzTyOVo0T35Vkkw6FXug+VFqaqhDvSdbxfZRBwFVc7Bo7z/zSD09FxPl4lwVE6MgO6ApSawuOc9quX0/Jl3HiJ/4qDkOWa605PMgK3G0VwOMfsZtWSjwFQr2QOFE036X/KxMt3XuH5Uae468NC7qeM3Rckajili6YHBc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=Pr7Ldbl3; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1747839359; c=relaxed/simple;
+	bh=t91FJSeqItJEcmBvyt4yB/k/FAm8dvOiXl1QymjZyJM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=OAmJ7RIWCrrdAh8loRXoG+cU2waYyYMXurFXUIeLpT8JTTDz9lHlIkagUXVzDCbl9L5EAgUpnFNRJf28hLQKWNAStclDIxwToOmGSaYbceCO87Y0lIkFOtoodfO1oU/cwH/bd1XAWmtjA1wVOzDotwkyY7/zuEG1/UdSDnLNiPc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=N4qjFkuu; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="Pr7Ldbl3"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8E8D9C4CEE4;
-	Wed, 21 May 2025 14:53:37 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="N4qjFkuu"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6BBB3C4CEE4;
+	Wed, 21 May 2025 14:55:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1747839218;
-	bh=C5kWGx5/UvloHX/UveK5EsEsK6H8CdTbyCupJ/mkOmw=;
+	s=korg; t=1747839358;
+	bh=t91FJSeqItJEcmBvyt4yB/k/FAm8dvOiXl1QymjZyJM=;
 	h=From:To:Cc:Subject:Date:From;
-	b=Pr7Ldbl3/+x9ok5E2gsFHbPGw0dLWzkX5V+mebIVkq31aQe0TLZwfGYXOR5YcNVMt
-	 ZuYcuXMqaZtou7+vJ3XWdSiwJYUn7DbWg+J2JFEToZEqBFEVL+HXUBF4mcyglh65ik
-	 3a8sII+Yi3LUUJiOAcLsMRW91EwldQs9VwXr9iwI=
+	b=N4qjFkuuLmaGgQMAfBcDt/TveCJ+9kThVAx5KfQGzWsaL3XT9KdM5IUmsyKacP1Mt
+	 7OdUUqnToZoDqPRgVpbxI4pIGDC/3EDMFvAbYjbmyWSUA1GokwIHJVk6xKtj3ZpDh1
+	 /y0efl+IKegQHhz7q/ufCjWXIUc5OeKTbEc/h108=
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To: linux-staging@lists.linux.dev
 Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: [PATCH] staging: vme: vme_user: fix up const issue in vme_bus_match()
-Date: Wed, 21 May 2025 16:53:33 +0200
-Message-ID: <2025052132-giddiness-slain-5ba1@gregkh>
+Subject: [PATCH] staging: greybus: gbphy: fix up const issue with the match callback
+Date: Wed, 21 May 2025 16:55:55 +0200
+Message-ID: <2025052155-peddling-happier-f825@gregkh>
 X-Mailer: git-send-email 2.49.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -35,32 +35,46 @@ List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=817; i=gregkh@linuxfoundation.org; h=from:subject:message-id; bh=C5kWGx5/UvloHX/UveK5EsEsK6H8CdTbyCupJ/mkOmw=; b=kA0DAAIRMUfUDdst+ykByyZiAGgt6Oygq6l+QDM4YpqyUCTzZRvDG8ujag3VQwmd2y/r9U1JG ohdBAARAgAdFiEE9LYMxb94wiFKMT3LMUfUDdst+ykFAmgt6OwACgkQMUfUDdst+yle9wCgjQte 8QbNj33GJ4wa0rsFO6xrz+AAoLbL4bPOpJSWcKjLvY3wrD8CK/L8
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1526; i=gregkh@linuxfoundation.org; h=from:subject:message-id; bh=t91FJSeqItJEcmBvyt4yB/k/FAm8dvOiXl1QymjZyJM=; b=owGbwMvMwCRo6H6F97bub03G02pJDBm6L6s/T2xtkq9meZQY8vdh9zwO5fdXnlauZdv3/41Dl sm7lY8ndMSyMAgyMciKKbJ82cZzdH/FIUUvQ9vTMHNYmUCGMHBxCsBEmuUZ5uepaa58p7S0Siaj PfHLlTt5fpFaFxkWrGA5ZNAUcGBC0q5Gljh5p7zjs9/XAAA=
 X-Developer-Key: i=gregkh@linuxfoundation.org; a=openpgp; fpr=F4B60CC5BF78C2214A313DCB3147D40DDB2DFB29
 Content-Transfer-Encoding: 8bit
 
-vme_bus_match takes a const pointer and casts it away with
-container_of() which is generally not a good idea.  Fix this up by
-properly marking the output as const.
+gbphy_dev_match_id() should be taking a const pointer, as the pointer
+passed to it from the container_of() call was const to start with (it
+was accidentally cast away with the call.)  Fix this all up by correctly
+marking the pointer types.
 
 Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 ---
- drivers/staging/vme_user/vme.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/staging/greybus/gbphy.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/staging/vme_user/vme.c b/drivers/staging/vme_user/vme.c
-index 42304c9f83a2..57eb9d227819 100644
---- a/drivers/staging/vme_user/vme.c
-+++ b/drivers/staging/vme_user/vme.c
-@@ -1925,7 +1925,7 @@ EXPORT_SYMBOL(vme_unregister_driver);
+diff --git a/drivers/staging/greybus/gbphy.c b/drivers/staging/greybus/gbphy.c
+index 6adcad286633..ab8a1af36808 100644
+--- a/drivers/staging/greybus/gbphy.c
++++ b/drivers/staging/greybus/gbphy.c
+@@ -102,8 +102,8 @@ static int gbphy_dev_uevent(const struct device *dev, struct kobj_uevent_env *en
+ }
  
- static int vme_bus_match(struct device *dev, const struct device_driver *drv)
+ static const struct gbphy_device_id *
+-gbphy_dev_match_id(struct gbphy_device *gbphy_dev,
+-		   struct gbphy_driver *gbphy_drv)
++gbphy_dev_match_id(const struct gbphy_device *gbphy_dev,
++		   const struct gbphy_driver *gbphy_drv)
  {
--	struct vme_driver *vme_drv;
-+	const struct vme_driver *vme_drv;
+ 	const struct gbphy_device_id *id = gbphy_drv->id_table;
  
- 	vme_drv = container_of(drv, struct vme_driver, driver);
+@@ -119,8 +119,8 @@ gbphy_dev_match_id(struct gbphy_device *gbphy_dev,
  
+ static int gbphy_dev_match(struct device *dev, const struct device_driver *drv)
+ {
+-	struct gbphy_driver *gbphy_drv = to_gbphy_driver(drv);
+-	struct gbphy_device *gbphy_dev = to_gbphy_dev(dev);
++	const struct gbphy_driver *gbphy_drv = to_gbphy_driver(drv);
++	const struct gbphy_device *gbphy_dev = to_gbphy_dev(dev);
+ 	const struct gbphy_device_id *id;
+ 
+ 	id = gbphy_dev_match_id(gbphy_dev, gbphy_drv);
 -- 
 2.49.0
 
