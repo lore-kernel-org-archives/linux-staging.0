@@ -1,103 +1,107 @@
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
+Received: from mail-pg1-f169.google.com (mail-pg1-f169.google.com [209.85.215.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 286EE17C21B
-	for <linux-staging@lists.linux.dev>; Wed, 21 May 2025 16:08:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 429AC16DC28;
+	Wed, 21 May 2025 16:28:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747843727; cv=none; b=Ie7XexMHAlCBaSAG0fkR0gk312fG6OYmLYdZoek3Xxq9cmrxlo/W8NResMRYvlPWb4dnaaiezgowowqVGdoXeHef8myaV9z4JVsFHAJjlsm9ETPlbduwdaIDKDHQps1KBIQUn0r0WvmbfGNspghJEbW2JJSW1e6/4hpVGJjZfS0=
+	t=1747844887; cv=none; b=sZ0cZqturs8jVlQ289zM/Q9FoKpAoUUncaZYs8mbsNFHEHIeCVrmXayLm33LMvtSD7pu7j3tFd8HnzSnRJMzmD0FD/o9veAgbY7R7LJx4aCOls+rDgILey7Y8s2thKlrK6n0SWCaFajIkkiVKdOV98C+QbJUeq8IgySqO1JRlLE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747843727; c=relaxed/simple;
-	bh=GYmBRcAK/FeEY5frsVAXpbsVxVjYCuxDnfkvY7Ngcy0=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ZIEjsRI9xwEjh413mrSWZUniw6WjC7WfRy3aP7WlcyGFMqQKPZrUP3k1nutEmxwPl8hNVPy8meYT/mCKh3uY0gkk3cabSLr+yF9m597Fj5DoZPi6EYPX3rx+ABgEuMAg7v7a52NhX1HOqGMqPzgYNytVx+R8V7Z8IU2rajSkO5g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UjBegPM6; arc=none smtp.client-ip=209.85.221.49
+	s=arc-20240116; t=1747844887; c=relaxed/simple;
+	bh=hkYsZjTKh8+Lp6DlZpq/TDRKDHkOiRiet7Xu0/jptts=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=A4kBhrfsy5ZDSmswE1vI0M4LQMvfKCwfhLc7nCS1ud90gX9iuIe4VapnIv4LlQ7RQ24cGw6ANaZEL4P69XYptJBu6ytqbevK+IX+MLTI8NxVmpi9HjGVtn6QpxFhmrUjoE95dKqwshso084YH2MLdvWIarXeAFhVy4f/rXshSOI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AjId7ZN7; arc=none smtp.client-ip=209.85.215.169
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UjBegPM6"
-Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-3a36e090102so2159995f8f.2
-        for <linux-staging@lists.linux.dev>; Wed, 21 May 2025 09:08:44 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AjId7ZN7"
+Received: by mail-pg1-f169.google.com with SMTP id 41be03b00d2f7-b26f5eb16a5so4486397a12.0;
+        Wed, 21 May 2025 09:28:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1747843723; x=1748448523; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=dUG+vkFh57CR3B/+EqWY3NGOAXvFGC6HaBPuiNipVwc=;
-        b=UjBegPM69Z9ES7ldgEz6rCQkjofrIyhcYRfSVAWkiY6TMusp0lJNZMWK7dsDWXboTs
-         Nwyn8f49hQqLTIUOgra6Ks668hXquzPJw+12liyYhXMTDHJpwglyERWVFwn6sXaEg+qu
-         4SHB60oTQAEfga8U57rzZoYLd9t+KyLqUETOFnGuIJMrpGpLgUB323FhfssIGT61b9Y+
-         LTHZfLxWBiE4fdhueDzjVKmGS+UKhbKSpRR3ZHLo+hXpq22TeWfWSvLca/oGmkS9XvFH
-         XqYSYx4XbOLwPHW0P4f2TD4AaF2yHUo7evGcJyjpIUUTT2jZLvBOZ+lJOisaDnbrp3sE
-         LPDA==
+        d=gmail.com; s=20230601; t=1747844884; x=1748449684; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=hkYsZjTKh8+Lp6DlZpq/TDRKDHkOiRiet7Xu0/jptts=;
+        b=AjId7ZN7t1KScu/aiF1R8OHHbvht8QOdiGe6ZewJWkOoU3SGWGue3BE7CUBmvxJbsp
+         MWy+dA7lwk0lAqt+OMAzv5Z9hZSBeSeThFQsh+8EzBoFuUFkv50DBufXLOzssJpSWUlt
+         hX4xPB1ZYkqCnv7JT2izui8wbqMtW3suRMhqr+BThARTPU6qLPA8u1NroWIrM03nSmxi
+         G+E4wqGTGI0vZFYME9+HsHvgiOPzD8aXTtdRrm/Peywd5EdHLH+SaejsstNr2+6l4Mx0
+         kk90gaGFRgQGBJDu50o1kI7tBTV4xkjKhy2n/F4Q8LBehCLb86ipD2rSIk9J+YUr1n0z
+         BDwg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747843723; x=1748448523;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=dUG+vkFh57CR3B/+EqWY3NGOAXvFGC6HaBPuiNipVwc=;
-        b=a1m7UnxezMJl7bZcObifx+1Mag5wDCuhh8x7g1snbmZYfJkyWqOIOmXvC0qbXPal7/
-         eTdi17gV2zesjgoDXZcT7UGRoy98ufhRNjmAno3D6QgLfZz8AXeHgRX71INxGNjwkJq8
-         WpRyT1XBrbFrd2vb8Ub5bz3WYrQZwVD8ViQ6KgVK1zdRDYLM3GJZbDDZvF0eLbLLTBuG
-         6NlscG+D9CdddLARunGP7fGPgEQ3LRAZQzGvLRYk6p31HOAKFFAi2rzI3sexmAdf28+t
-         4kgxT2xQy0WVCSFPgwFXJ6stcuDsi2sE3V6eT/Y0+U0GXx4xlnqebQAQLvcnDTqxzRCp
-         GXbA==
-X-Forwarded-Encrypted: i=1; AJvYcCWVjlB66q50L/yl9gUOsIc73SSPoxGBq8cT0URtn/brp83kdW39KfF1EuA+Q7wxIKuk47Z5qkNqT9slcSPW@lists.linux.dev
-X-Gm-Message-State: AOJu0YwcEMfhi3owtQesuAw/+iDWOBNku0bcmb0z9i+VGTwXs78Yy5Fo
-	j6kiNLdze3C22w5Z/r+5kF2906FRXNzV7OJ9eIFtVa3pEoXhQG+3/JMmuSMETU/e
-X-Gm-Gg: ASbGncuxO1K+Bxd1LxbUOhqtApUv+3YwM5i7LWL7jfmc055wswwevEge8sI2QLY7Ox4
-	asqtX0EeJ56W8v5vKVkdzKKJ5++6iRhYxp+TMpmQHOd21H7a4yBixMhQDqEWpvNCf8ajHwlsa7Y
-	wICqKfxW/3bzK+dzl7eax8oBINT9bmbzn6esdgGi1xw81FzXyTrR5P+6wSv4DhT7j33uqniT05L
-	x5J5pJ0rkdFs2vlOfYGqaW0+wu9E+GEGa10nob+xVtZK60UJ4guvDKsOi74Z98zh2rnCzcvaQX0
-	I+IBf+1LC0V72kZANadZqugLh8Zhm9hTxg8LKWdZPX8xgn65jLerjfuIsKOmSOwEDV9gkT+UyrF
-	fKzvEp1+siug=
-X-Google-Smtp-Source: AGHT+IEDrfBSfT8XTPUz2cWYZtcwP4Iceco1mJpPmtVOTs4DkC7/5ymjq3xKUnLDqO8a5wA30Q5LnQ==
-X-Received: by 2002:a05:6000:2403:b0:3a3:648e:1b74 with SMTP id ffacd0b85a97d-3a3648e1b9fmr17758891f8f.6.1747843723050;
-        Wed, 21 May 2025 09:08:43 -0700 (PDT)
-Received: from localhost.localdomain (82-64-73-52.subs.proxad.net. [82.64.73.52])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a37fb452e5sm2499514f8f.20.2025.05.21.09.08.41
+        d=1e100.net; s=20230601; t=1747844884; x=1748449684;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=hkYsZjTKh8+Lp6DlZpq/TDRKDHkOiRiet7Xu0/jptts=;
+        b=NIO5N+sG8hHp31eA5/Kw7BnM0PSLqLKGIrX+cGfMYvF7WRPUSZ4ZjJcv5mkFzPmXvW
+         xZPNWObenMy6DAcP/VUlxvfjb7mduuvjHulcZhABFknZxNoID1zUlaJsZ0XAlRelnWD1
+         Ba82JVM14AHGgXNZJQHHlzjo0cT0z6KqKFH+GYlpZkJSRRrLAwT2ZUO92INoR1ogXRVU
+         pjVNYGjqob1SGZcPRqPK/HT9AJOYCRrDwVmrz/GXwhghZuczhan6+HAq8W1ZV1PCg+ym
+         hwbnhxB1jaEjW2yrvT3Kryvdaugba/5SEaF+8GQ9AGKTfo0aFpr+vF44DLP2F3yOqnw1
+         sTDQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVjfY3gk6/lhmHawGBliCDQh/dQNaBY/zQdl/sAXavVjLou2gfbo7VJBgqVIwXkGZEM/Wjof3vcdbSghYBTzw==@lists.linux.dev, AJvYcCXYpHHDzcowtAYMMxWm5ma5Kj5KLbz0AB3YZjEcTGWIXjemBbocLvGpZxP+iSYHA0274cDmxg==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yx49b3AkC49dz9DPHGaCUQAn49RTABp8iD3U28DFD01G6mbye6E
+	PKp8JCkXWFdz3U7PS9/Wpni6GVKN3yaWWyqzmupjuJkQrTDSnLQk7/Xt
+X-Gm-Gg: ASbGnculj5G1GqjBlbGPuBwf2Ybdr/071Srwomx7ROoUZfadfj8FZ2j7y2oiv+neetN
+	Fw6csXTfTeEbZ2+n/IF9r6K4NJPOU0ZbJuRL8yfnLh9Lt2XpH/qOjO17JqQoiFvG6A0C5Fe3aSe
+	EN3XnjQ3Zr/b0qYgH/+WAPXPwBt+dk91oLty3iMTCa3YLVXuBJ2FeRZul+43zf5Bx3cTBGUqv7x
+	lHW5+UgxQq/n4z7hiPAkZGjJNuv/hXlcuGNqyBhqeQ0rPNov7NBZHbJLJiRCqv+kJ389CPdG5UB
+	qPmLnkMgsNoriS9eSlhZTWBhn1WUMiGN88LsbkJeye5Q48RW8RqJKB++
+X-Google-Smtp-Source: AGHT+IGDFAfADczlykPv5P2upLGOWFwo2LuRz6MNJKlIPSGrAoz3aDFMma+mezPuKEYNdVrgr78y1w==
+X-Received: by 2002:a17:902:d484:b0:231:e413:986c with SMTP id d9443c01a7336-231e4139adamr268386555ad.11.1747844884384;
+        Wed, 21 May 2025 09:28:04 -0700 (PDT)
+Received: from eaf ([168.226.86.241])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-231d4eba368sm95212305ad.200.2025.05.21.09.27.57
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 21 May 2025 09:08:42 -0700 (PDT)
-From: Dave Penkler <dpenkler@gmail.com>
-To: gregkh@linuxfoundation.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Cc: Dave Penkler <dpenkler@gmail.com>
-Subject: [PATCH] staging: gpib: Update TODO
-Date: Wed, 21 May 2025 18:08:30 +0200
-Message-ID: <20250521160830.30454-1-dpenkler@gmail.com>
-X-Mailer: git-send-email 2.49.0
+        Wed, 21 May 2025 09:28:03 -0700 (PDT)
+Date: Wed, 21 May 2025 13:27:53 -0300
+From: Ernesto =?utf-8?Q?A=2E_Fern=C3=A1ndez?= <ernesto.mnd.fernandez@gmail.com>
+To: Jan Kara <jack@suse.cz>
+Cc: Yangtao Li <frank.li@vivo.com>, ethan@ethancedwards.com,
+	asahi@lists.linux.dev, brauner@kernel.org, dan.carpenter@linaro.org,
+	ernesto@corellium.com, gargaditya08@live.com,
+	gregkh@linuxfoundation.org, linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev,
+	sven@svenpeter.dev, tytso@mit.edu, viro@zeniv.linux.org.uk,
+	willy@infradead.org, slava@dubeyko.com,
+	glaubitz@physik.fu-berlin.de
+Subject: Re: Subject: [RFC PATCH v2 0/8] staging: apfs: init APFS filesystem
+ support
+Message-ID: <20250521162753.GA6112@eaf>
+References: <20250319-apfs-v2-0-475de2e25782@ethancedwards.com>
+ <20250512101122.569476-1-frank.li@vivo.com>
+ <20250512234024.GA19326@eaf>
+ <226043d9-068c-496a-a72c-f3503da2f8f7@vivo.com>
+ <20250520185939.GA7885@eaf>
+ <n7kkoptktdvldadvymcfmnaw3yqbk6bfmzpxvgdkpsvvpc3p7i@ilqcgz7wur7i>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <n7kkoptktdvldadvymcfmnaw3yqbk6bfmzpxvgdkpsvvpc3p7i@ilqcgz7wur7i>
 
-As we no longer have any drivers depending on BROKEN in Kconfig
-remove the fix broken driver line.
+Hi,
+just one nitpick:
 
-Add a list of checkpatch checks/warning that should be ignored.
+On Wed, May 21, 2025 at 12:14:53PM +0200, Jan Kara wrote:
+> We already carry
+> quite a few filesystem drivers used by very few people and since few people
+> are interested it them it's difficult to find people to get these drivers
+> converted to new mount API, iomap infrastructure, new page cache APIs etc.
+> which forces us to keep carring the old interfaces. This gets particularly
+> painful for filesystems where we don't have full specification so usually
+> the mkfs and fsck tooling is not as comprehensive which makes testing
+> changes harder.
 
-Signed-off-by: Dave Penkler <dpenkler@gmail.com>
----
- drivers/staging/gpib/TODO | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+For the record, my fsck [1] is far more thorough than the official one, I
+don't take data corruption lightly. It's only for testing though, it doesn't
+actually fix anything. And of course it could have mistakes since the
+specification is incomplete and buggy.
 
-diff --git a/drivers/staging/gpib/TODO b/drivers/staging/gpib/TODO
-index bf2c39742548..ab41a7f9ca5b 100644
---- a/drivers/staging/gpib/TODO
-+++ b/drivers/staging/gpib/TODO
-@@ -1,6 +1,9 @@
- TODO:
- - checkpatch.pl fixes
--- fix device drivers that are broken ("depends on BROKEN" in Kconfig)
-+  These checks should be ignored:
-+    CHECK:ALLOC_SIZEOF_STRUCT: Prefer kmalloc(sizeof(*board->private_data)...) over kmalloc(sizeof(struct xxx_priv)...)
-+    ./gpio/gpib_bitbang.c:50: ERROR:COMPLEX_MACRO: Macros with complex values should be enclosed in parenthese
-+  This warning will be addressed later:  WARNING:UNDOCUMENTED_DT_STRING: DT compatible string
- - tidy-up comments:
-   - there are some "//comments" and "// comments" scattered around
-   - sometimes they are misaligned
--- 
-2.49.0
-
+[1] https://github.com/linux-apfs/apfsprogs
