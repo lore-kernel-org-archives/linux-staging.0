@@ -1,68 +1,61 @@
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0710125F780;
-	Wed, 21 May 2025 13:25:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6138C280321;
+	Wed, 21 May 2025 13:33:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747833919; cv=none; b=OgSZxD3MiPHn7zF5Je9wtTj/RZOmi4dVWZwnqNwJapLiaPezl95eLXUoGNF2D4m+PJOJij3Eb9omcRPCG+2/M2qJw9VBfY8Hn/+NU6pAvfO7pNe74D88dZ/YsvVYcuP6vtOHf81v/ukJWVLpGOWwOoTm0KEBfVtZ4/pfTzNAytk=
+	t=1747834403; cv=none; b=fL1tEXYEmwtBdIvk7yQsLYY7gKXNtHYwbum6Jxg1w/LOisgwaj3BSd8bNtEWT1nqe9b36LhLIfUxlV7NwYdUrik1IT+/q5g5R+V+f0XtaK3wEgG6zSNvPhNkM1gR6PxMvRgEJ6JlvfHh5L5DETrmEhNkEOwATDUDev6eSFUtm9Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747833919; c=relaxed/simple;
-	bh=KaE6+o2aGnDCIXUMVFpEenjktipp41SjDhYjR6qnzu4=;
-	h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=L8CIAUXsj18qFeybYtB5isub6xvkwylMBM0RLQ5jpsPtB2LWnPGH/jP574AFaYsgnqMFdy3qiYC2PAnY4JMwdKgRCwaeGlpVGcJ02nBS5hAUfLGhSIXzjZz15V0XTjId8LIBBgn+s+0GVo/bPhYT6IV6vYeHV1Ew4bUKgr2JgFI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=O6RoG0lq; arc=none smtp.client-ip=209.85.128.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1747834403; c=relaxed/simple;
+	bh=CZW/edTbhyFW8UMmT161zCSkBIgSRiqy+Oud/aJFEXs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=GSj8RZ7LgFvDN2VrGB+K1DXpSPyszJtP5gXWtKJejxkEIBgXPv0kp1MTPDTphyPVK0FS+S7e2vNtZsun13tqry/lmx73dpLrIOXg8jkD8U+0H39n1A2FpYn35nlZBk5aLEkUou+vYQ312uPhK9A7LFK8HkTyPL9NB0mYsAhS7k4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FDQlFIrL; arc=none smtp.client-ip=192.198.163.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="O6RoG0lq"
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-440668acbf3so3497835e9.0;
-        Wed, 21 May 2025 06:25:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1747833914; x=1748438714; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=aD94Cyds9PidEz6jUW1CAFksapgbj4DqOx2OqS8w/gA=;
-        b=O6RoG0lqkx8rhzLR44NbKC83Gu56W+Wo0DDStzP7CyFL6EuR365epjOVkalhVs8AxV
-         JQCf5EO54zM/6GKSJA39GAJKb8uFKfkgq72mTK/iRUCBDWwcX882fFcoawSJz+Pth79x
-         zdTqwR//mQhNf4PvjtadQSnmkEx/CHg7KnJGmdQe8fKGyc4bokzSWQWA5aITETh6VIQZ
-         MLWjT143uaPxA/vacgn76dYe6suuw3p9UWpb1y/ehGWteD2FxN+MDy/OWwx/kLs+5Urx
-         hcLYPMi4kRCuDqBy8dcC0ikF1DoBQgoLFtOhlkEBUNIgqkg3ajktAvznH0ZD9ljZD7uz
-         0pUA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747833914; x=1748438714;
-        h=content-disposition:mime-version:message-id:subject:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=aD94Cyds9PidEz6jUW1CAFksapgbj4DqOx2OqS8w/gA=;
-        b=H2qYKVh0oxvJTWUSvN2+NZZUAtYmbpUBJGncgPou0vdSCbOvBLs8nial0pDFgH/Naj
-         oxk3Lrq0/AXR0C+YkrZ32P3xl6Uuksdpv4O2ZDLnSrovcPszukhjCbILKwhp+tvYEoeO
-         UppiNHmf+CA26vCU88J+xZknJmWZoKsJ1VzY4u7s5xaieGjZ26hhHn8xAYT1SfPUbtCf
-         U4lM3OkmNItkhHUi8Q2dIwQLnlTS2m7Q7WFqAfE5Di8De1bbL4Q6/FWQGyvcHfk5uni+
-         dc9zPFjha4Bb49r+DhKyqgTRjxZo5f54kW90WwFt/UvSLl4tsRMC7kbFYCqiWFLqotnA
-         lx3Q==
-X-Forwarded-Encrypted: i=1; AJvYcCXHCN90wsm50g01W92f5zXLcUlNpmOoN3IUI219LTJ/PDE2m6jQY8zTP1Cg3xpBYaXmLJn+bvrhgbNU@lists.linux.dev, AJvYcCXZqyg4yP32aWBgi3H2oxxfhX+dUWNy2XnJBEsB6OleqW+GloXJ/zdJ33qLPfUpyGNZTe6uGW6W/8pDpMyX@lists.linux.dev
-X-Gm-Message-State: AOJu0Yy/01lBflvJdGMWeFxjLR3qVAHUchZsRKrg2oIMFWJ6hxVhlbff
-	9vqx65yP3tLkTFzeZ+htY7sD2dip2fl4rS89732KIVZj5Dk/oKkTu8zLO7GWdVLveQJoyQ==
-X-Gm-Gg: ASbGncsR2RUtTi7P+O1V1B5uP7Bq2kiBGL/t2+Sp8jMn7mhoUeNsdYwiw1VSTGg9zfv
-	RcXkGqbkssXI5brQbJdU+VGMj7v3a0+cw3/jaUNshS8rou3IwAICXjEixxTMddoCm7ZOnLkwieo
-	7iTzpHD/8oEqGFN3j1xd/2Tcl54/RpzCCgvYZwF2/ocYk4MiaP5zm0DViohFIFuO7+lTEL8TWz4
-	D1ptBIsy2Ul5gwmqGfisQ5CZLG7pG8T9XMUFnHk0vPUEaxOxjoaTzxD92gGr6ir7n/ZBbSs9XHn
-	O/cpxkf7R3Nz7Gs/Cc6kjcgVUrgnsEEgf+5CXitWD+3oX5I0qitH9uj7YFPSSacrokDYuRC2fTl
-	Ieq9kFBtk8jQYXgdAa2fajy/rVqEturc=
-X-Google-Smtp-Source: AGHT+IHCJ5eTLFeP2ll8ttDks7kJdJ4nSpWPbjGCtqHqI22EbSubTX0w0gXypEMPHz50PPHd2O6DjQ==
-X-Received: by 2002:a05:600c:a07:b0:442:f97a:fee7 with SMTP id 5b1f17b1804b1-442fd6770e0mr73698685e9.6.1747833913804;
-        Wed, 21 May 2025 06:25:13 -0700 (PDT)
-Received: from milos-ThinkPad-T14-Gen-3 (global-184-11.n-1.net.cam.ac.uk. [131.111.184.11])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-447f6b29548sm74461595e9.4.2025.05.21.06.25.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 21 May 2025 06:25:13 -0700 (PDT)
-Date: Wed, 21 May 2025 14:25:12 +0100
-From: Milos Puric <milospuric856@gmail.com>
-To: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org, outreachy@lists.linux.dev
-Subject: [PATCH v2] staging: rtl8723bs: Align next line to open parentheses
- in core/rtw_xmit.c
-Message-ID: <aC3UOPYv8HmzRvij@milos-ThinkPad-T14-Gen-3>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FDQlFIrL"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1747834401; x=1779370401;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=CZW/edTbhyFW8UMmT161zCSkBIgSRiqy+Oud/aJFEXs=;
+  b=FDQlFIrL/BqK3FrXc2i8n5w3JdEbpe+YSstjzVOm6OsSHjJ0tUvGYMXt
+   lv+TY5OokjstxqreZ00ZG5wkBIB7LZ9YrZe39iz6cJdv2zWTQhMU99hSy
+   dOGX+D0CLtFi3r/7uZwOqlTySnznMgGLj6fypYI5eamYdTk+5Pyy+oG48
+   UzSbt5tRNnynu53OlluIDwT+6BvOyyZNu5/XcXI/HU3hRor399lKKqL4y
+   6VyMPyoD1yzmNLPDOxw3kbVMfKztI+zTndVIRIwSxejPiGS4SqAFJ5i9N
+   cczBmYI52wN9c/tk4yGa3yYKjAKzqJU0o0FEVZ+mKfuGjI+4KPG5ZJThi
+   w==;
+X-CSE-ConnectionGUID: 5OmjRRttTCqary3HRGPMDA==
+X-CSE-MsgGUID: IR2YNoIuS2OjG4vjFDh3BA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11440"; a="48930590"
+X-IronPort-AV: E=Sophos;i="6.15,303,1739865600"; 
+   d="scan'208";a="48930590"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 May 2025 06:33:19 -0700
+X-CSE-ConnectionGUID: rPPgbf4bQ269lFrmIi120Q==
+X-CSE-MsgGUID: pCfzpEUZT6uZUYigNcQIzg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,303,1739865600"; 
+   d="scan'208";a="144810186"
+Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
+  by orviesa003.jf.intel.com with ESMTP; 21 May 2025 06:33:04 -0700
+Received: from kbuild by 1992f890471c with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1uHjZ7-000OJA-0t;
+	Wed, 21 May 2025 13:33:01 +0000
+Date: Wed, 21 May 2025 21:32:02 +0800
+From: kernel test robot <lkp@intel.com>
+To: Donny-Dev <donnyturizo13@gmail.com>, gregkh@linuxfoundation.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org, Donny-Dev <donnyturizo13@gmail.com>
+Subject: Re: [PATCH] staging: rtl8723bs: Fix typo in variable name
+ 'ips_deffer_ms'
+Message-ID: <202505212120.fuBu3jP5-lkp@intel.com>
+References: <20250521011358.12910-1-donnyturizo13@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -71,34 +64,109 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250521011358.12910-1-donnyturizo13@gmail.com>
 
-Adhere to Linux kernel coding style.
+Hi Donny-Dev,
 
-Reported by checkpatch:
+kernel test robot noticed the following build errors:
 
-CHECK: Alignment should match open parentheses
+[auto build test ERROR on staging/staging-testing]
 
-Signed-off-by: Milos Puric <milospuric856@gmail.com>
----
-Changes in v2:
-  - Include author full name.
+url:    https://github.com/intel-lab-lkp/linux/commits/Donny-Dev/staging-rtl8723bs-Fix-typo-in-variable-name-ips_deffer_ms/20250521-091609
+base:   staging/staging-testing
+patch link:    https://lore.kernel.org/r/20250521011358.12910-1-donnyturizo13%40gmail.com
+patch subject: [PATCH] staging: rtl8723bs: Fix typo in variable name 'ips_deffer_ms'
+config: sparc-allmodconfig (https://download.01.org/0day-ci/archive/20250521/202505212120.fuBu3jP5-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250521/202505212120.fuBu3jP5-lkp@intel.com/reproduce)
 
- drivers/staging/rtl8723bs/core/rtw_xmit.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505212120.fuBu3jP5-lkp@intel.com/
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_xmit.c b/drivers/staging/rtl8723bs/core/rtw_xmit.c
-index 026d58b4bd7f..8c6841f078b4 100644
---- a/drivers/staging/rtl8723bs/core/rtw_xmit.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_xmit.c
-@@ -381,7 +381,7 @@ static void update_attrib_vcs_info(struct adapter *padapter, struct xmit_frame *
- 		while (true) {
- 			/* IOT action */
- 			if ((pmlmeinfo->assoc_AP_vendor == HT_IOT_PEER_ATHEROS) && (pattrib->ampdu_en == true) &&
--				(padapter->securitypriv.dot11PrivacyAlgrthm == _AES_)) {
-+			    (padapter->securitypriv.dot11PrivacyAlgrthm == _AES_)) {
- 				pattrib->vcs_mode = CTS_TO_SELF;
- 				break;
- 			}
+All errors (new ones prefixed by >>):
+
+   drivers/staging/rtl8723bs/core/rtw_pwrctrl.c: In function '_rtw_pwr_wakeup':
+>> drivers/staging/rtl8723bs/core/rtw_pwrctrl.c:1078:48: error: 'ips_deffer_ms' undeclared (first use in this function); did you mean 'ips_defer_ms'?
+    1078 |         deny_time = jiffies + msecs_to_jiffies(ips_deffer_ms);
+         |                                                ^~~~~~~~~~~~~
+         |                                                ips_defer_ms
+   drivers/staging/rtl8723bs/core/rtw_pwrctrl.c:1078:48: note: each undeclared identifier is reported only once for each function it appears in
+
+
+vim +1078 drivers/staging/rtl8723bs/core/rtw_pwrctrl.c
+
+554c0a3abf216c9 Hans de Goede          2017-03-29  1014  
+fccab3afea6e474 Donny-Dev              2025-05-21  1015  int _rtw_pwr_wakeup(struct adapter *padapter, u32 ips_defer_ms, const char *caller)
+554c0a3abf216c9 Hans de Goede          2017-03-29  1016  {
+554c0a3abf216c9 Hans de Goede          2017-03-29  1017  	struct dvobj_priv *dvobj = adapter_to_dvobj(padapter);
+554c0a3abf216c9 Hans de Goede          2017-03-29  1018  	struct pwrctrl_priv *pwrpriv = dvobj_to_pwrctl(dvobj);
+554c0a3abf216c9 Hans de Goede          2017-03-29  1019  	struct mlme_priv *pmlmepriv;
+554c0a3abf216c9 Hans de Goede          2017-03-29  1020  	int ret = _SUCCESS;
+554c0a3abf216c9 Hans de Goede          2017-03-29  1021  	unsigned long start = jiffies;
+fccab3afea6e474 Donny-Dev              2025-05-21  1022  	unsigned long deny_time = jiffies + msecs_to_jiffies(ips_defer_ms);
+554c0a3abf216c9 Hans de Goede          2017-03-29  1023  
+554c0a3abf216c9 Hans de Goede          2017-03-29  1024  	/* for LPS */
+554c0a3abf216c9 Hans de Goede          2017-03-29  1025  	LeaveAllPowerSaveMode(padapter);
+554c0a3abf216c9 Hans de Goede          2017-03-29  1026  
+554c0a3abf216c9 Hans de Goede          2017-03-29  1027  	/* IPS still bound with primary adapter */
+554c0a3abf216c9 Hans de Goede          2017-03-29  1028  	padapter = GET_PRIMARY_ADAPTER(padapter);
+554c0a3abf216c9 Hans de Goede          2017-03-29  1029  	pmlmepriv = &padapter->mlmepriv;
+554c0a3abf216c9 Hans de Goede          2017-03-29  1030  
+554c0a3abf216c9 Hans de Goede          2017-03-29  1031  	if (time_before(pwrpriv->ips_deny_time, deny_time))
+554c0a3abf216c9 Hans de Goede          2017-03-29  1032  		pwrpriv->ips_deny_time = deny_time;
+554c0a3abf216c9 Hans de Goede          2017-03-29  1033  
+554c0a3abf216c9 Hans de Goede          2017-03-29  1034  
+709c8e49b51c370 Fabio Aiuto            2021-04-07  1035  	if (pwrpriv->ps_processing)
+554c0a3abf216c9 Hans de Goede          2017-03-29  1036  		while (pwrpriv->ps_processing && jiffies_to_msecs(jiffies - start) <= 3000)
+8204b61a775879a Jia-Ju Bai             2018-09-15  1037  			mdelay(10);
+554c0a3abf216c9 Hans de Goede          2017-03-29  1038  
+709c8e49b51c370 Fabio Aiuto            2021-04-07  1039  	if (!(pwrpriv->bInternalAutoSuspend) && pwrpriv->bInSuspend)
+8ec06b9ff8a4f5e Ross Schmidt           2020-11-09  1040  		while (pwrpriv->bInSuspend && jiffies_to_msecs(jiffies - start) <= 3000
+709c8e49b51c370 Fabio Aiuto            2021-04-07  1041  		)
+8204b61a775879a Jia-Ju Bai             2018-09-15  1042  			mdelay(10);
+554c0a3abf216c9 Hans de Goede          2017-03-29  1043  
+554c0a3abf216c9 Hans de Goede          2017-03-29  1044  	/* System suspend is not allowed to wakeup */
+2e20a5ac67f8a58 Nishka Dasgupta        2019-07-25  1045  	if (!(pwrpriv->bInternalAutoSuspend) && pwrpriv->bInSuspend) {
+554c0a3abf216c9 Hans de Goede          2017-03-29  1046  		ret = _FAIL;
+554c0a3abf216c9 Hans de Goede          2017-03-29  1047  		goto exit;
+554c0a3abf216c9 Hans de Goede          2017-03-29  1048  	}
+554c0a3abf216c9 Hans de Goede          2017-03-29  1049  
+554c0a3abf216c9 Hans de Goede          2017-03-29  1050  	/* block??? */
+2e20a5ac67f8a58 Nishka Dasgupta        2019-07-25  1051  	if (pwrpriv->bInternalAutoSuspend  && padapter->net_closed) {
+554c0a3abf216c9 Hans de Goede          2017-03-29  1052  		ret = _FAIL;
+554c0a3abf216c9 Hans de Goede          2017-03-29  1053  		goto exit;
+554c0a3abf216c9 Hans de Goede          2017-03-29  1054  	}
+554c0a3abf216c9 Hans de Goede          2017-03-29  1055  
+554c0a3abf216c9 Hans de Goede          2017-03-29  1056  	/* I think this should be check in IPS, LPS, autosuspend functions... */
+2e20a5ac67f8a58 Nishka Dasgupta        2019-07-25  1057  	if (check_fwstate(pmlmepriv, _FW_LINKED)) {
+554c0a3abf216c9 Hans de Goede          2017-03-29  1058  		ret = _SUCCESS;
+554c0a3abf216c9 Hans de Goede          2017-03-29  1059  		goto exit;
+554c0a3abf216c9 Hans de Goede          2017-03-29  1060  	}
+554c0a3abf216c9 Hans de Goede          2017-03-29  1061  
+554c0a3abf216c9 Hans de Goede          2017-03-29  1062  	if (rf_off == pwrpriv->rf_pwrstate) {
+554c0a3abf216c9 Hans de Goede          2017-03-29  1063  		{
+bc21df678b4d5da Zhansaya Bagdauletkyzy 2021-04-06  1064  			if (ips_leave(padapter) == _FAIL) {
+554c0a3abf216c9 Hans de Goede          2017-03-29  1065  				ret = _FAIL;
+554c0a3abf216c9 Hans de Goede          2017-03-29  1066  				goto exit;
+554c0a3abf216c9 Hans de Goede          2017-03-29  1067  			}
+554c0a3abf216c9 Hans de Goede          2017-03-29  1068  		}
+554c0a3abf216c9 Hans de Goede          2017-03-29  1069  	}
+554c0a3abf216c9 Hans de Goede          2017-03-29  1070  
+554c0a3abf216c9 Hans de Goede          2017-03-29  1071  	/* TODO: the following checking need to be merged... */
+8ec06b9ff8a4f5e Ross Schmidt           2020-11-09  1072  	if (padapter->bDriverStopped || !padapter->bup || !padapter->hw_init_completed) {
+554c0a3abf216c9 Hans de Goede          2017-03-29  1073  		ret = false;
+554c0a3abf216c9 Hans de Goede          2017-03-29  1074  		goto exit;
+554c0a3abf216c9 Hans de Goede          2017-03-29  1075  	}
+554c0a3abf216c9 Hans de Goede          2017-03-29  1076  
+554c0a3abf216c9 Hans de Goede          2017-03-29  1077  exit:
+554c0a3abf216c9 Hans de Goede          2017-03-29 @1078  	deny_time = jiffies + msecs_to_jiffies(ips_deffer_ms);
+554c0a3abf216c9 Hans de Goede          2017-03-29  1079  	if (time_before(pwrpriv->ips_deny_time, deny_time))
+554c0a3abf216c9 Hans de Goede          2017-03-29  1080  		pwrpriv->ips_deny_time = deny_time;
+554c0a3abf216c9 Hans de Goede          2017-03-29  1081  	return ret;
+554c0a3abf216c9 Hans de Goede          2017-03-29  1082  
+
 -- 
-2.43.0
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
