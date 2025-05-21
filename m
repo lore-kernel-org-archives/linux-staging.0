@@ -1,33 +1,69 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D37B1E5B60
-	for <linux-staging@lists.linux.dev>; Wed, 21 May 2025 14:55:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 286EE17C21B
+	for <linux-staging@lists.linux.dev>; Wed, 21 May 2025 16:08:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747839359; cv=none; b=mj8V+Sr8NNj+nyToVqww2yLOITBoKrut8YbJblolXf9mjmbuaH+OCJgzoQu52TpQH+XA8PYS1drk8/fYeCCyN6puk7S+cWiMeRUJs9u8u0XM94S7L0VTE2hjmnDeQT4leMf4T3ymLjgu193SvbW/yPfwIYsm+6ESByYnS9ZYKEo=
+	t=1747843727; cv=none; b=Ie7XexMHAlCBaSAG0fkR0gk312fG6OYmLYdZoek3Xxq9cmrxlo/W8NResMRYvlPWb4dnaaiezgowowqVGdoXeHef8myaV9z4JVsFHAJjlsm9ETPlbduwdaIDKDHQps1KBIQUn0r0WvmbfGNspghJEbW2JJSW1e6/4hpVGJjZfS0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747839359; c=relaxed/simple;
-	bh=t91FJSeqItJEcmBvyt4yB/k/FAm8dvOiXl1QymjZyJM=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=OAmJ7RIWCrrdAh8loRXoG+cU2waYyYMXurFXUIeLpT8JTTDz9lHlIkagUXVzDCbl9L5EAgUpnFNRJf28hLQKWNAStclDIxwToOmGSaYbceCO87Y0lIkFOtoodfO1oU/cwH/bd1XAWmtjA1wVOzDotwkyY7/zuEG1/UdSDnLNiPc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=N4qjFkuu; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1747843727; c=relaxed/simple;
+	bh=GYmBRcAK/FeEY5frsVAXpbsVxVjYCuxDnfkvY7Ngcy0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ZIEjsRI9xwEjh413mrSWZUniw6WjC7WfRy3aP7WlcyGFMqQKPZrUP3k1nutEmxwPl8hNVPy8meYT/mCKh3uY0gkk3cabSLr+yF9m597Fj5DoZPi6EYPX3rx+ABgEuMAg7v7a52NhX1HOqGMqPzgYNytVx+R8V7Z8IU2rajSkO5g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UjBegPM6; arc=none smtp.client-ip=209.85.221.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="N4qjFkuu"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6BBB3C4CEE4;
-	Wed, 21 May 2025 14:55:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1747839358;
-	bh=t91FJSeqItJEcmBvyt4yB/k/FAm8dvOiXl1QymjZyJM=;
-	h=From:To:Cc:Subject:Date:From;
-	b=N4qjFkuuLmaGgQMAfBcDt/TveCJ+9kThVAx5KfQGzWsaL3XT9KdM5IUmsyKacP1Mt
-	 7OdUUqnToZoDqPRgVpbxI4pIGDC/3EDMFvAbYjbmyWSUA1GokwIHJVk6xKtj3ZpDh1
-	 /y0efl+IKegQHhz7q/ufCjWXIUc5OeKTbEc/h108=
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: linux-staging@lists.linux.dev
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: [PATCH] staging: greybus: gbphy: fix up const issue with the match callback
-Date: Wed, 21 May 2025 16:55:55 +0200
-Message-ID: <2025052155-peddling-happier-f825@gregkh>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UjBegPM6"
+Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-3a36e090102so2159995f8f.2
+        for <linux-staging@lists.linux.dev>; Wed, 21 May 2025 09:08:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1747843723; x=1748448523; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=dUG+vkFh57CR3B/+EqWY3NGOAXvFGC6HaBPuiNipVwc=;
+        b=UjBegPM69Z9ES7ldgEz6rCQkjofrIyhcYRfSVAWkiY6TMusp0lJNZMWK7dsDWXboTs
+         Nwyn8f49hQqLTIUOgra6Ks668hXquzPJw+12liyYhXMTDHJpwglyERWVFwn6sXaEg+qu
+         4SHB60oTQAEfga8U57rzZoYLd9t+KyLqUETOFnGuIJMrpGpLgUB323FhfssIGT61b9Y+
+         LTHZfLxWBiE4fdhueDzjVKmGS+UKhbKSpRR3ZHLo+hXpq22TeWfWSvLca/oGmkS9XvFH
+         XqYSYx4XbOLwPHW0P4f2TD4AaF2yHUo7evGcJyjpIUUTT2jZLvBOZ+lJOisaDnbrp3sE
+         LPDA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1747843723; x=1748448523;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=dUG+vkFh57CR3B/+EqWY3NGOAXvFGC6HaBPuiNipVwc=;
+        b=a1m7UnxezMJl7bZcObifx+1Mag5wDCuhh8x7g1snbmZYfJkyWqOIOmXvC0qbXPal7/
+         eTdi17gV2zesjgoDXZcT7UGRoy98ufhRNjmAno3D6QgLfZz8AXeHgRX71INxGNjwkJq8
+         WpRyT1XBrbFrd2vb8Ub5bz3WYrQZwVD8ViQ6KgVK1zdRDYLM3GJZbDDZvF0eLbLLTBuG
+         6NlscG+D9CdddLARunGP7fGPgEQ3LRAZQzGvLRYk6p31HOAKFFAi2rzI3sexmAdf28+t
+         4kgxT2xQy0WVCSFPgwFXJ6stcuDsi2sE3V6eT/Y0+U0GXx4xlnqebQAQLvcnDTqxzRCp
+         GXbA==
+X-Forwarded-Encrypted: i=1; AJvYcCWVjlB66q50L/yl9gUOsIc73SSPoxGBq8cT0URtn/brp83kdW39KfF1EuA+Q7wxIKuk47Z5qkNqT9slcSPW@lists.linux.dev
+X-Gm-Message-State: AOJu0YwcEMfhi3owtQesuAw/+iDWOBNku0bcmb0z9i+VGTwXs78Yy5Fo
+	j6kiNLdze3C22w5Z/r+5kF2906FRXNzV7OJ9eIFtVa3pEoXhQG+3/JMmuSMETU/e
+X-Gm-Gg: ASbGncuxO1K+Bxd1LxbUOhqtApUv+3YwM5i7LWL7jfmc055wswwevEge8sI2QLY7Ox4
+	asqtX0EeJ56W8v5vKVkdzKKJ5++6iRhYxp+TMpmQHOd21H7a4yBixMhQDqEWpvNCf8ajHwlsa7Y
+	wICqKfxW/3bzK+dzl7eax8oBINT9bmbzn6esdgGi1xw81FzXyTrR5P+6wSv4DhT7j33uqniT05L
+	x5J5pJ0rkdFs2vlOfYGqaW0+wu9E+GEGa10nob+xVtZK60UJ4guvDKsOi74Z98zh2rnCzcvaQX0
+	I+IBf+1LC0V72kZANadZqugLh8Zhm9hTxg8LKWdZPX8xgn65jLerjfuIsKOmSOwEDV9gkT+UyrF
+	fKzvEp1+siug=
+X-Google-Smtp-Source: AGHT+IEDrfBSfT8XTPUz2cWYZtcwP4Iceco1mJpPmtVOTs4DkC7/5ymjq3xKUnLDqO8a5wA30Q5LnQ==
+X-Received: by 2002:a05:6000:2403:b0:3a3:648e:1b74 with SMTP id ffacd0b85a97d-3a3648e1b9fmr17758891f8f.6.1747843723050;
+        Wed, 21 May 2025 09:08:43 -0700 (PDT)
+Received: from localhost.localdomain (82-64-73-52.subs.proxad.net. [82.64.73.52])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a37fb452e5sm2499514f8f.20.2025.05.21.09.08.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 21 May 2025 09:08:42 -0700 (PDT)
+From: Dave Penkler <dpenkler@gmail.com>
+To: gregkh@linuxfoundation.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Cc: Dave Penkler <dpenkler@gmail.com>
+Subject: [PATCH] staging: gpib: Update TODO
+Date: Wed, 21 May 2025 18:08:30 +0200
+Message-ID: <20250521160830.30454-1-dpenkler@gmail.com>
 X-Mailer: git-send-email 2.49.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -35,46 +71,33 @@ List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1526; i=gregkh@linuxfoundation.org; h=from:subject:message-id; bh=t91FJSeqItJEcmBvyt4yB/k/FAm8dvOiXl1QymjZyJM=; b=owGbwMvMwCRo6H6F97bub03G02pJDBm6L6s/T2xtkq9meZQY8vdh9zwO5fdXnlauZdv3/41Dl sm7lY8ndMSyMAgyMciKKbJ82cZzdH/FIUUvQ9vTMHNYmUCGMHBxCsBEmuUZ5uepaa58p7S0Siaj PfHLlTt5fpFaFxkWrGA5ZNAUcGBC0q5Gljh5p7zjs9/XAAA=
-X-Developer-Key: i=gregkh@linuxfoundation.org; a=openpgp; fpr=F4B60CC5BF78C2214A313DCB3147D40DDB2DFB29
 Content-Transfer-Encoding: 8bit
 
-gbphy_dev_match_id() should be taking a const pointer, as the pointer
-passed to it from the container_of() call was const to start with (it
-was accidentally cast away with the call.)  Fix this all up by correctly
-marking the pointer types.
+As we no longer have any drivers depending on BROKEN in Kconfig
+remove the fix broken driver line.
 
-Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Add a list of checkpatch checks/warning that should be ignored.
+
+Signed-off-by: Dave Penkler <dpenkler@gmail.com>
 ---
- drivers/staging/greybus/gbphy.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ drivers/staging/gpib/TODO | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/staging/greybus/gbphy.c b/drivers/staging/greybus/gbphy.c
-index 6adcad286633..ab8a1af36808 100644
---- a/drivers/staging/greybus/gbphy.c
-+++ b/drivers/staging/greybus/gbphy.c
-@@ -102,8 +102,8 @@ static int gbphy_dev_uevent(const struct device *dev, struct kobj_uevent_env *en
- }
- 
- static const struct gbphy_device_id *
--gbphy_dev_match_id(struct gbphy_device *gbphy_dev,
--		   struct gbphy_driver *gbphy_drv)
-+gbphy_dev_match_id(const struct gbphy_device *gbphy_dev,
-+		   const struct gbphy_driver *gbphy_drv)
- {
- 	const struct gbphy_device_id *id = gbphy_drv->id_table;
- 
-@@ -119,8 +119,8 @@ gbphy_dev_match_id(struct gbphy_device *gbphy_dev,
- 
- static int gbphy_dev_match(struct device *dev, const struct device_driver *drv)
- {
--	struct gbphy_driver *gbphy_drv = to_gbphy_driver(drv);
--	struct gbphy_device *gbphy_dev = to_gbphy_dev(dev);
-+	const struct gbphy_driver *gbphy_drv = to_gbphy_driver(drv);
-+	const struct gbphy_device *gbphy_dev = to_gbphy_dev(dev);
- 	const struct gbphy_device_id *id;
- 
- 	id = gbphy_dev_match_id(gbphy_dev, gbphy_drv);
+diff --git a/drivers/staging/gpib/TODO b/drivers/staging/gpib/TODO
+index bf2c39742548..ab41a7f9ca5b 100644
+--- a/drivers/staging/gpib/TODO
++++ b/drivers/staging/gpib/TODO
+@@ -1,6 +1,9 @@
+ TODO:
+ - checkpatch.pl fixes
+-- fix device drivers that are broken ("depends on BROKEN" in Kconfig)
++  These checks should be ignored:
++    CHECK:ALLOC_SIZEOF_STRUCT: Prefer kmalloc(sizeof(*board->private_data)...) over kmalloc(sizeof(struct xxx_priv)...)
++    ./gpio/gpib_bitbang.c:50: ERROR:COMPLEX_MACRO: Macros with complex values should be enclosed in parenthese
++  This warning will be addressed later:  WARNING:UNDOCUMENTED_DT_STRING: DT compatible string
+ - tidy-up comments:
+   - there are some "//comments" and "// comments" scattered around
+   - sometimes they are misaligned
 -- 
 2.49.0
 
