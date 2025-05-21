@@ -1,141 +1,66 @@
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 514FD19049A
-	for <linux-staging@lists.linux.dev>; Wed, 21 May 2025 14:04:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B1851E260C
+	for <linux-staging@lists.linux.dev>; Wed, 21 May 2025 14:53:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747836259; cv=none; b=UWl6BkNKwCOJ+D3+1t7uTgou1ZaPEsL/+OZwK8Gw+lXb3fzs0BzGv7uiiVf5hZrW0eOdThpe7irs+JeMyTsN+1wnAn4HSBEv1mN7kW80gyQOY0i4aOXscsmaBdkfo6d0JzvzZN9H1ERKGU56DvHoaXAguXiU9bUBp5LnFUocCG4=
+	t=1747839218; cv=none; b=XsIhe9UD7KWxUl1ntE9Ge4Jg8C/f4mD6F70clw4PUF+oKNSVuFgcbsVrtZOwRDTQzz/xoblLBtkI2TDTeuiGPXcgxpeHjuHQCwzh6UAfaUbzjNLLlf86vjN2mzjGqxg12BODaEmg9IZM5hIBDH91QhXXIvyOCMl2GyvffztGXpk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747836259; c=relaxed/simple;
-	bh=pJCChIdYPmV8Y8I6TxXcKEu87kmLmAblkQhuBNTT6ZU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MByOdN9BaGizDq46Pl3Qrw8mjuJGqUuKsSI1mWCG9sw+G4r5MFgKkrBGkkLzn3wUGXsooavjj9JZaP0P7JKGVpTsMf0djeJGpD8zVOUa9ovBvju3EJwDz2q4dUjWJUzS10kdXWR/BWLEFf8B9z7T4Xc7/6AZOnRd2Hx2ibtCjws=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=dCyLIY2o; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+	s=arc-20240116; t=1747839218; c=relaxed/simple;
+	bh=C5kWGx5/UvloHX/UveK5EsEsK6H8CdTbyCupJ/mkOmw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Se1MZn8DzTyOVo0T35Vkkw6FXug+VFqaqhDvSdbxfZRBwFVc7Bo7z/zSD09FxPl4lwVE6MgO6ApSawuOc9quX0/Jl3HiJ/4qDkOWa605PMgK3G0VwOMfsZtWSjwFQr2QOFE036X/KxMt3XuH5Uae468NC7qeM3Rckajili6YHBc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=Pr7Ldbl3; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="dCyLIY2o"
-Received: from pendragon.ideasonboard.com (179.218-130-109.adsl-dyn.isp.belgacom.be [109.130.218.179])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 143DF6B5;
-	Wed, 21 May 2025 16:03:47 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1747836227;
-	bh=pJCChIdYPmV8Y8I6TxXcKEu87kmLmAblkQhuBNTT6ZU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=dCyLIY2obwiLIaA4LvsV61MsrbPq4D1Ft9DP3G4BQAWvnDsZXGQOvw7fgj1T2uzH7
-	 Ul8WVNchLa357d54EF6HXDCYWw2/dDBDT+4iT/pg8P9aSeQ6rJ+3ccGWRM9kprb+1r
-	 1Qqs8LqnrFa4BYaZYZNr0lCm1euyu0r2MHGP8nY8=
-Date: Wed, 21 May 2025 16:04:02 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Kieran Bingham <kieran.bingham@ideasonboard.com>
-Cc: Andy Shevchenko <andy@kernel.org>, Hans de Goede <hdegoede@redhat.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-	libcamera-devel@lists.libcamera.org
-Subject: Re: [PATCH 05/23] media: atomisp: gc0310: Use V4L2_CID_ANALOGUE_GAIN
- for gain control
-Message-ID: <20250521140402.GL12514@pendragon.ideasonboard.com>
-References: <20250517114106.43494-1-hdegoede@redhat.com>
- <20250517114106.43494-6-hdegoede@redhat.com>
- <174751615300.335894.3402272890581119176@ping.linuxembedded.co.uk>
- <174756137675.4012029.11818241234579920414@ping.linuxembedded.co.uk>
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="Pr7Ldbl3"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8E8D9C4CEE4;
+	Wed, 21 May 2025 14:53:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1747839218;
+	bh=C5kWGx5/UvloHX/UveK5EsEsK6H8CdTbyCupJ/mkOmw=;
+	h=From:To:Cc:Subject:Date:From;
+	b=Pr7Ldbl3/+x9ok5E2gsFHbPGw0dLWzkX5V+mebIVkq31aQe0TLZwfGYXOR5YcNVMt
+	 ZuYcuXMqaZtou7+vJ3XWdSiwJYUn7DbWg+J2JFEToZEqBFEVL+HXUBF4mcyglh65ik
+	 3a8sII+Yi3LUUJiOAcLsMRW91EwldQs9VwXr9iwI=
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: linux-staging@lists.linux.dev
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: [PATCH] staging: vme: vme_user: fix up const issue in vme_bus_match()
+Date: Wed, 21 May 2025 16:53:33 +0200
+Message-ID: <2025052132-giddiness-slain-5ba1@gregkh>
+X-Mailer: git-send-email 2.49.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <174756137675.4012029.11818241234579920414@ping.linuxembedded.co.uk>
+X-Developer-Signature: v=1; a=openpgp-sha256; l=817; i=gregkh@linuxfoundation.org; h=from:subject:message-id; bh=C5kWGx5/UvloHX/UveK5EsEsK6H8CdTbyCupJ/mkOmw=; b=kA0DAAIRMUfUDdst+ykByyZiAGgt6Oygq6l+QDM4YpqyUCTzZRvDG8ujag3VQwmd2y/r9U1JG ohdBAARAgAdFiEE9LYMxb94wiFKMT3LMUfUDdst+ykFAmgt6OwACgkQMUfUDdst+yle9wCgjQte 8QbNj33GJ4wa0rsFO6xrz+AAoLbL4bPOpJSWcKjLvY3wrD8CK/L8
+X-Developer-Key: i=gregkh@linuxfoundation.org; a=openpgp; fpr=F4B60CC5BF78C2214A313DCB3147D40DDB2DFB29
+Content-Transfer-Encoding: 8bit
 
-On Sun, May 18, 2025 at 10:42:56AM +0100, Kieran Bingham wrote:
-> Hi Hans,
-> 
-> +Cc: libcamera-devel
-> 
-> Digging in here I found this part interesting (i.e. perhaps we need to
-> clarify the expected behavours better)
-> 
-> Quoting Kieran Bingham (2025-05-17 22:09:13)
-> > Quoting Hans de Goede (2025-05-17 12:40:48)
-> > > Use V4L2_CID_ANALOGUE_GAIN for gain control, as expected by userspace.
-> > > 
-> > > Signed-off-by: Hans de Goede <hdegoede@redhat.com>
-> > > ---
-> > >  drivers/staging/media/atomisp/i2c/atomisp-gc0310.c | 4 ++--
-> > >  1 file changed, 2 insertions(+), 2 deletions(-)
-> > > 
-> > > diff --git a/drivers/staging/media/atomisp/i2c/atomisp-gc0310.c b/drivers/staging/media/atomisp/i2c/atomisp-gc0310.c
-> > > index ee039f3be4da..756e56f639b7 100644
-> > > --- a/drivers/staging/media/atomisp/i2c/atomisp-gc0310.c
-> > > +++ b/drivers/staging/media/atomisp/i2c/atomisp-gc0310.c
-> > > @@ -289,7 +289,7 @@ static int gc0310_s_ctrl(struct v4l2_ctrl *ctrl)
-> > >                 ret = cci_write(sensor->regmap, GC0310_AEC_PK_EXPO_REG,
-> > >                                 ctrl->val, NULL);
-> > >                 break;
-> > > -       case V4L2_CID_GAIN:
-> > > +       case V4L2_CID_ANALOGUE_GAIN:
-> > >                 ret = gc0310_gain_set(sensor, ctrl->val);
-> > >                 break;
-> > >         default:
-> > > @@ -533,7 +533,7 @@ static int gc0310_init_controls(struct gc0310_device *sensor)
-> > >  
-> > >         /* 32 steps at base gain 1 + 64 half steps at base gain 2 */
-> > 
-> > sounds like a curious gain model...
-> > 
-> > Will be interesting when we get the sensor calibration tools up and
-> > running to plot this. (Or is there already a public datasheet
-> > documenting this?)
-> > 
-> > Is there a split here between analogue gain and digital gain ? Or is it
-> > all expected to be 'analogue gain' ?
-> 
-> I looked deeper, and this does seem to be a split between analogue and
-> digital gain. It also seems like this control might be doing additional
-> calculations which would then have to be accounted for as part of the
-> gain model in libcamera, so then instead of 'sensor specific' it would
-> be 'this linux sensor driver specific' - so maybe the gain functions
-> should be simplified more.
-> 
-> Adding in libcamera-devel - because I think we need to figure out what's
-> best for handling this (overall for all sensors with A+D gain)
-> 
-> There are some sensors I've seen where the digital gain can only be
-> applied 'on top' of the analogue gain, and so it does act like a single
-> control ...
+vme_bus_match takes a const pointer and casts it away with
+container_of() which is generally not a good idea.  Fix this up by
+properly marking the output as const.
 
-I've seen other sensors (in particular the AR0830) that also combine
-analogue and digital gains in a single register. The analogue gain is
-typically quite coarse in that case, and the digital gain is used for
-fine adjustments. In the ar0830 driver I'm writing, I've split the two
-components in two separate controls.
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+---
+ drivers/staging/vme_user/vme.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-> But we probably want to be able to distinguish between analogue gain and
-> digital gain in libcamera / userspace.
-> 
-> However, even if we distinguish ... I suspect there are cases where if
-> we need more gain than just the analogue gain can provide - adding the
-> large steps at the sensor - and then only applying very small amounts of
-> fine-grain digital gain on an ISP would make things simpler or easier
-> overall.
-> 
-> So somehow I think we need to figure out and correctly document and
-> manage the splits between analogue and digital gains, and that will
-> likely have to have a corresponding mapping in either the camera sensor
-> helpers or the tuning files in some part.
-> 
-> > >         sensor->ctrls.gain =
-> > > -               v4l2_ctrl_new_std(hdl, &ctrl_ops, V4L2_CID_GAIN, 0, 95, 1, 31);
-> > > +               v4l2_ctrl_new_std(hdl, &ctrl_ops, V4L2_CID_ANALOGUE_GAIN, 0, 95, 1, 31);
-> > >  
-> > >         return hdl->error;
-> > >  }
-
+diff --git a/drivers/staging/vme_user/vme.c b/drivers/staging/vme_user/vme.c
+index 42304c9f83a2..57eb9d227819 100644
+--- a/drivers/staging/vme_user/vme.c
++++ b/drivers/staging/vme_user/vme.c
+@@ -1925,7 +1925,7 @@ EXPORT_SYMBOL(vme_unregister_driver);
+ 
+ static int vme_bus_match(struct device *dev, const struct device_driver *drv)
+ {
+-	struct vme_driver *vme_drv;
++	const struct vme_driver *vme_drv;
+ 
+ 	vme_drv = container_of(drv, struct vme_driver, driver);
+ 
 -- 
-Regards,
+2.49.0
 
-Laurent Pinchart
