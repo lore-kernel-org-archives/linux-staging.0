@@ -1,129 +1,186 @@
-Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9B3C24167F
-	for <linux-staging@lists.linux.dev>; Wed, 21 May 2025 09:30:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 213E625B666
+	for <linux-staging@lists.linux.dev>; Wed, 21 May 2025 10:15:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747819842; cv=none; b=O+7/iTzNP9X21vElwFW+v3YdnHNGhiXsixzsKmNbCI28kecAj7LD1DDgMQVBjKS4q9SKEO1oPrhmrT8bqHnqwZ0Kx4fAdeHgc0sGRth1WoAcXxWOzwWy2yU86Ero9AbWqFam2H7jKNUfuT3kefg7CU5ZbMVP6DSYLXN1KfuU8gg=
+	t=1747822502; cv=none; b=TvnGcV7OoGXHVDwxQTqlrhUY1WK6iDLU8CPNJ5n/Kf7VpftSqswOh32HBzCzSe9KYRVRujcnMa0Q4ZbLgBo4qo4vKCRmSdi5RB6DizoLAralYWSkVIL7RNTgknTCk1rTa7tw+WNHbms+Kw5GVjSsD+RcvtIGXwfKH/rShJGHPTk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747819842; c=relaxed/simple;
-	bh=R17NssXV/QU3clKpUta5dw8h6ucij/YPwFGrlZXm6N4=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Yb8SPPNc06ea7yTK0ktsrcvmwviD4lPVJMzBULIMiVrTEKKMLREkwrjGml9wR0a+empfcaZkN/TVD9W4NulfLQkfmf4SDJwWRK5q6efCF9INLjuX29/du5Fz9PNlnZgTGLr+PlCMw1WVcHS159cjMBNiR5y3woa4ekWmnz7z5ag=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DZXqqeZp; arc=none smtp.client-ip=209.85.210.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1747822502; c=relaxed/simple;
+	bh=y5z+scst9L6WOsgv58e8D2KAkZzWs3X0bQLmazuf3xI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=qP0V7Zy8xVZtaT9MlFb9RfjeVw80WGMt4VPVYICglsaKwZZ6e44oi1dIPl/21p02uteTfAqj9jEMpa9wCWrx/QSsK1wYqkxiwpijpw3ngg4akJuTEbKbaekCRK9PNG9c0z9XgXOA6S2vTXc7taUqU0FcN7Sl8JVCqY2hp7ETORU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=w574xfpk; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=2JKzkc8c; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=w574xfpk; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=2JKzkc8c; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DZXqqeZp"
-Received: by mail-pf1-f179.google.com with SMTP id d2e1a72fcca58-7398d65476eso5125585b3a.1
-        for <linux-staging@lists.linux.dev>; Wed, 21 May 2025 02:30:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1747819840; x=1748424640; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=JVjUabk5NQmhfEI5CaBTj3E009mNGNPOZl2dDH0wA5k=;
-        b=DZXqqeZpcuRNdFGGTEgaosTYGT4HWl9WJ5PQ29PwH8nQ4/gi7jZXIw+yCiJ4uQk4BZ
-         Y3x/sYEzZKMqq8Ii7SRdbPfuFLLglyEfz/SCrDrHd+nNuweXPBFX2r8/i9RE1K4g4onT
-         qzUeul/W1JR1YRMRmFyIVhOkftkIx0jMO7EqHAytJet6UPFzxbBmIO8VMDshSNkMmF7I
-         ZBfEklzJy3uIu/KquLWDWGBBoJswEiY08y7p+PgQ3kjEqj85oigfnV5dc8l6tXjbXmfp
-         Bfe1zE5ZleRAWqjr96OQAJbeLb9PYgi9FWJQ6xo2HVI073NByoUHs/J6OKHgM9fB9mOn
-         VoRA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747819840; x=1748424640;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=JVjUabk5NQmhfEI5CaBTj3E009mNGNPOZl2dDH0wA5k=;
-        b=c9QPmfHoztVj/bGZN9GTt178ae9b7H+limhvDIJWKMoYfFqK7taB4nuoWN+Ygqnh9F
-         ZqkgXfYY10mBvP5SoKU0V677V4mAWATtQTzQFb3Nrkz0nWE6S/W7nAe8zCUaaD3EWqgV
-         ElNeGh6O/u0zh7PX05YQSjPw5afj/H3LX+6T9L5WuuVf6V5ZvxPxIWTqxybjc3jQvfDJ
-         16dBNA7jyaFMdetLjEUGA2h1tm1hUMKp4T4AGTDX86FF07XgoX3CRwrapLI6oTLmepgV
-         1NXxy953fpTk2C8g+MriJr+Bf9KISVHo+OZDz2n4UTRScbzWT0dGqKKy66GD+ZuO0+zu
-         fj7w==
-X-Forwarded-Encrypted: i=1; AJvYcCUv0XOY1QNhJwY+sAPmhyKrB2oaNtjrceqQhS+vFqbFlXlJsue+W8ISneIyRhgrEFhY3+TmlNgntMHZJeC/@lists.linux.dev
-X-Gm-Message-State: AOJu0Ywpq+8A7MJB0TAc15hRvtfL7Djp5XBGY9nXU71WiecFl4mooz1e
-	nLwwoJLIMosYMsKok29aYAqoWfeYTVYqTaaBjbjveerjrSH9S/SwJKJX
-X-Gm-Gg: ASbGncsuC/Sri35LN1SU90Padry8Mb5vCkN9aSEXRajMZLhqY3R/6rjpKVqFY11k5t2
-	xvKCWm2jwzZlnis8a8L+x5nFkQwIhYc97OdA7wZW934nhKR1IgePtekihT+mUq9++44v+8vPiSR
-	mIWsHmwOF+7P5KyDxzd0h2OwpNg46IgluvvwWdyQKSOlNPXtWaFLVIuLYDNSpRoHglQfxAOU0ub
-	3/dOjEPXThRApgvbXSSNvl4HrMhAxm404lbl1InOkKJi7TjpaW61r1DCuY/piA3tgqzeHtjFser
-	clBpcz6sS9FYJpoF/vHA3At9n8sansE9kNfXoWbWQEJ5gGlmQvjDfdpye0VDa/AeQRZfsw==
-X-Google-Smtp-Source: AGHT+IHUyx+vlWYq4hohag+qL5ddwEkbL8Ga94LR9t3ebzdNx3dQ1c7jzeXIFn1QLgkVEwlx47k1mw==
-X-Received: by 2002:a05:6a00:ac1:b0:736:3ea8:4813 with SMTP id d2e1a72fcca58-742a99fab76mr25752923b3a.2.1747819839565;
-        Wed, 21 May 2025 02:30:39 -0700 (PDT)
-Received: from brak3r-Ubuntu ([2401:4900:91d2:7413:9e7e:c313:d5f8:b22b])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-742a9877030sm9516405b3a.148.2025.05.21.02.30.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 21 May 2025 02:30:39 -0700 (PDT)
-Date: Wed, 21 May 2025 15:00:35 +0530
-From: Rujra Bhatt <braker.noob.kernel@gmail.com>
-To: johan@kernel.org, elder@kernel.org, gregkh@linuxfoundation.org
-Cc: greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH V1] staging : greybus : Documentation : firmware : Replace
- deprecated strncpy() with strscpy()
-Message-ID: <aC2dO1QKTVMOJQ8K@brak3r-Ubuntu>
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="w574xfpk";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="2JKzkc8c";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="w574xfpk";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="2JKzkc8c"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 4D8B121D8E;
+	Wed, 21 May 2025 10:14:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1747822499; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=GynE6KdBO08qdxebfuojQtMAyhQGgYEbFQ7voy4xDSI=;
+	b=w574xfpkganpk1eb5Ie0ntMWtQ2Tt6xHfCbU7Qtqf+uQyJuTo63LdBWTxfWNo0PbvveHPo
+	tbI4rIHQ6MX7TnmbHhylHi/SC74V8dDbxdwdBTyHK/8KIFHh/gcE3p2Ue4W8+u+j2FLL92
+	b77OYTqDCHGObKJ1HiynBQk+v5Kb+3c=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1747822499;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=GynE6KdBO08qdxebfuojQtMAyhQGgYEbFQ7voy4xDSI=;
+	b=2JKzkc8ccR+pjZeCEnqly5WVGqJAHuoBteyXauQOPP8macINxYWNkN41EgYKyt8ZhbwFp9
+	8RClzC9nBnPeOcBw==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1747822499; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=GynE6KdBO08qdxebfuojQtMAyhQGgYEbFQ7voy4xDSI=;
+	b=w574xfpkganpk1eb5Ie0ntMWtQ2Tt6xHfCbU7Qtqf+uQyJuTo63LdBWTxfWNo0PbvveHPo
+	tbI4rIHQ6MX7TnmbHhylHi/SC74V8dDbxdwdBTyHK/8KIFHh/gcE3p2Ue4W8+u+j2FLL92
+	b77OYTqDCHGObKJ1HiynBQk+v5Kb+3c=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1747822499;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=GynE6KdBO08qdxebfuojQtMAyhQGgYEbFQ7voy4xDSI=;
+	b=2JKzkc8ccR+pjZeCEnqly5WVGqJAHuoBteyXauQOPP8macINxYWNkN41EgYKyt8ZhbwFp9
+	8RClzC9nBnPeOcBw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 40E4213AA0;
+	Wed, 21 May 2025 10:14:59 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id VgPSD6OnLWi6TAAAD6G6ig
+	(envelope-from <jack@suse.cz>); Wed, 21 May 2025 10:14:59 +0000
+Received: by quack3.suse.cz (Postfix, from userid 1000)
+	id C7B17A09DE; Wed, 21 May 2025 12:14:53 +0200 (CEST)
+Date: Wed, 21 May 2025 12:14:53 +0200
+From: Jan Kara <jack@suse.cz>
+To: 
+	Ernesto =?utf-8?Q?A=2E_Fern=C3=A1ndez?= <ernesto.mnd.fernandez@gmail.com>
+Cc: Yangtao Li <frank.li@vivo.com>, ethan@ethancedwards.com, 
+	asahi@lists.linux.dev, brauner@kernel.org, dan.carpenter@linaro.org, 
+	ernesto@corellium.com, gargaditya08@live.com, gregkh@linuxfoundation.org, jack@suse.cz, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev, 
+	sven@svenpeter.dev, tytso@mit.edu, viro@zeniv.linux.org.uk, willy@infradead.org, 
+	slava@dubeyko.com, glaubitz@physik.fu-berlin.de
+Subject: Re: Subject: [RFC PATCH v2 0/8] staging: apfs: init APFS filesystem
+ support
+Message-ID: <n7kkoptktdvldadvymcfmnaw3yqbk6bfmzpxvgdkpsvvpc3p7i@ilqcgz7wur7i>
+References: <20250319-apfs-v2-0-475de2e25782@ethancedwards.com>
+ <20250512101122.569476-1-frank.li@vivo.com>
+ <20250512234024.GA19326@eaf>
+ <226043d9-068c-496a-a72c-f3503da2f8f7@vivo.com>
+ <20250520185939.GA7885@eaf>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250520185939.GA7885@eaf>
+X-Spamd-Result: default: False [-2.30 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	FREEMAIL_TO(0.00)[gmail.com];
+	ARC_NA(0.00)[];
+	RCVD_COUNT_THREE(0.00)[3];
+	RCPT_COUNT_TWELVE(0.00)[19];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_TLS_LAST(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com,live.com];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	TAGGED_RCPT(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FREEMAIL_CC(0.00)[vivo.com,ethancedwards.com,lists.linux.dev,kernel.org,linaro.org,corellium.com,live.com,linuxfoundation.org,suse.cz,vger.kernel.org,svenpeter.dev,mit.edu,zeniv.linux.org.uk,infradead.org,dubeyko.com,physik.fu-berlin.de];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.com:email]
+X-Spam-Flag: NO
+X-Spam-Score: -2.30
+X-Spam-Level: 
 
-----------------------------------------------------------
-This is the new Patch for the earlier Patch hence made V1. 
+Hi!
 
-[Note: there will be no significant changes.]
-----------------------------------------------------------
+On Tue 20-05-25 15:59:39, Ernesto A. Fernández wrote:
+> On Tue, May 20, 2025 at 01:08:54PM +0800, Yangtao Li wrote:
+> > Now that some current use cases have already been provided
+> 
+> Some interesting use cases have been mentioned, yes, but I doubt they are
+> common enough to convince upstream to pick up a whole new filesystem. I was
+> also more curious about your own personal interest in the driver, because
+> you are going to get some very hostile feedback if you try to get it merged.
+> You won't get anywhere without strong conviction in the matter.
 
-Changes: 
+Correct, this kind of matches my feelings from this discussion so far. Sure
+APFS support in the kernel would be more convenient for some users. But so
+far I didn't hear a reason why FUSE driver wouldn't cover 99% of the
+usecases (since I know close to nothing about Apple ecosystem, maybe I've
+missed some so please correct me in that case).
 
-To ensuring that the firmware tag is properly null-terminated. When copying firmware tag strings to prevent buffer overflows and ensure data integrity.
+Perhaps to explain the reasons of a pushback a bit: Once the filesystem
+driver is merged, it's very difficult to get rid of it as users may depend
+on it. Each filesystem driver adds certain maintenance burden - most
+notably for changes in VFS and other generic infrastructure that need to
+take into account what each and every filesystem is doing. We already carry
+quite a few filesystem drivers used by very few people and since few people
+are interested it them it's difficult to find people to get these drivers
+converted to new mount API, iomap infrastructure, new page cache APIs etc.
+which forces us to keep carring the old interfaces. This gets particularly
+painful for filesystems where we don't have full specification so usually
+the mkfs and fsck tooling is not as comprehensive which makes testing
+changes harder. So the bar (in terms of usecases) to get the new filesystem
+driver merged is relatively high.
 
+> > APFS in the kernel should have better performance than a FUSE
+> > implementation.
+> 
+> Sure, but how much better? You could try running benchmarks against the two
+> existing (read-only) fuse implementations. And if the driver is indeed much
+> faster, does that matter to you for any particular reason? Keep in mind that
+> you need to convince Jan Kara, not me.
 
-Changes has been made in 3 positions:
-1: update firmware tag
-2: backend update firmware tag
-3: backend update firmware tag with unipro
+Using FUSE to access the filesystem certainly has it's overhead (although
+there is work in progress to heavily reduce that for data-intensive
+operations such as streaming IO). But I doubt your the usecase for APFS is
+to use it as a backend for a file server or a database. We have other
+filesystems in Linux for that. All the usecases I've heard are about being
+able to access you Mac files from Linux. And FUSE driver should have
+acceptable performance for that from my experience.
 
-Signed-off-by: Rujra Bhatt <braker.noob.kernel@gmail.com>
----
- drivers/staging/greybus/Documentation/firmware/firmware.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/staging/greybus/Documentation/firmware/firmware.c b/drivers/staging/greybus/Documentation/firmware/firmware.c
-index 765d69faa..f37904b91 100644
---- a/drivers/staging/greybus/Documentation/firmware/firmware.c
-+++ b/drivers/staging/greybus/Documentation/firmware/firmware.c
-@@ -63,7 +63,7 @@ static int update_intf_firmware(int fd)
- 	intf_load.major = 0;
- 	intf_load.minor = 0;
- 
--	strncpy((char *)&intf_load.firmware_tag, firmware_tag,
-+	strscpy((char *)&intf_load.firmware_tag, firmware_tag,
- 		GB_FIRMWARE_U_TAG_MAX_SIZE);
- 
- 	ret = ioctl(fd, FW_MGMT_IOC_INTF_LOAD_AND_VALIDATE, &intf_load);
-@@ -101,7 +101,7 @@ static int update_backend_firmware(int fd)
- 	/* Get Backend Firmware Version */
- 	printf("Getting Backend Firmware Version\n");
- 
--	strncpy((char *)&backend_fw_info.firmware_tag, firmware_tag,
-+	strscpy((char *)&backend_fw_info.firmware_tag, firmware_tag,
- 		GB_FIRMWARE_U_TAG_MAX_SIZE);
- 
- retry_fw_version:
-@@ -129,7 +129,7 @@ static int update_backend_firmware(int fd)
- 	/* Try Backend Firmware Update over Unipro */
- 	printf("Updating Backend Firmware\n");
- 
--	strncpy((char *)&backend_update.firmware_tag, firmware_tag,
-+	strscpy((char *)&backend_update.firmware_tag, firmware_tag,
- 		GB_FIRMWARE_U_TAG_MAX_SIZE);
- 
- retry_fw_update:
+								Honza
 -- 
-2.43.0
-
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
