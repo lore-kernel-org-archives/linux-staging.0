@@ -1,132 +1,138 @@
-Received: from mail-vk1-f179.google.com (mail-vk1-f179.google.com [209.85.221.179])
+Received: from mail-yw1-f172.google.com (mail-yw1-f172.google.com [209.85.128.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33DB1199EAF
-	for <linux-staging@lists.linux.dev>; Wed, 21 May 2025 07:58:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 479F321ABB9
+	for <linux-staging@lists.linux.dev>; Wed, 21 May 2025 08:39:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747814330; cv=none; b=SrLrHeQbZUFeKZY8UqfnDJgoHfpSS141/KcNWZCx1pZjuUNKoAzwh7/1mOlgYtPRwUssx5m3vxXOntPrJ6UhIj9FQEpXAG3+wAtAb7RrPBpQuORUiI1Fskaw4u2Oqe2FVvCHJJh7tThDYsY1kxEi/pZx8+KanxQE04T9EeNfTig=
+	t=1747816745; cv=none; b=QxvE4nMf5NZQWhlgV7E4XRe9f5GvsynR/DKfLQu5ys6yTgYDNOy84HpCaKQcm690x1VFqEi4BHNQ/wZKJicJ/8RxE4RKoWrdjVmXP6AQM1pJcii6MJgxfYoPI27NZWCYCJEqwpEk6yBTTZAl0u8i2cM5/fwUJsxGaPZISgYE00o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747814330; c=relaxed/simple;
-	bh=Wz/HeTweJzE1PPZQSv30vAtsIJTG7FjXNnXa5xhsZmw=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=TSNrkQ3FWyH87nm+/yKtbipJBhBGj/HiF+EhVTfjfJxk/KvD6DVpHTluIce4bN+ep+OV1omIvFGAs5HGTucBNqv/YL9MaNIxipCzY0Wmn5eNlZ0fnxrmJwJvowszaoN5uW9zlfhXx6+wRE3p5Q6wU4L+0l9Zrt0snWmrahv3vzo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=h0mpx3XD; arc=none smtp.client-ip=209.85.221.179
+	s=arc-20240116; t=1747816745; c=relaxed/simple;
+	bh=ZrHnJ8tLnjK5oeQd5nHc+q9YJwBlpF7SD3M/7pIX/7I=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=L4ZGYuHotmSIwURu5OT0n471oXVOBxJSrD9A/So8vGuoyIUiArjS+dxAY/tMhfWr2I92oGgDSbTtNH6vl7JWbhyW2kRX9tsGrkvNB2gExRfw/LVU5e9i7NH+G8OBDRGRihCGFWtic8XH3x31sDNvz7a2/qJ7b4owCCTbUU+Kda4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Iujq6mXd; arc=none smtp.client-ip=209.85.128.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="h0mpx3XD"
-Received: by mail-vk1-f179.google.com with SMTP id 71dfb90a1353d-5290be1aedcso5124362e0c.1
-        for <linux-staging@lists.linux.dev>; Wed, 21 May 2025 00:58:47 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Iujq6mXd"
+Received: by mail-yw1-f172.google.com with SMTP id 00721157ae682-70dfbe453a0so1165997b3.0
+        for <linux-staging@lists.linux.dev>; Wed, 21 May 2025 01:39:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1747814327; x=1748419127; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=kaQHQDFj7zVBURXI2K41vAHsKHuwZeCUeX0z/tFbjH8=;
-        b=h0mpx3XDIIGjL2xuyjkoWaTLHlYdMSwa6G/auO76p2FAzAJ7wVvSVIA8CTanDuEKSw
-         S3/80jwqEV0Eu25ESSbUsBMg3jBTn6ctNITV8oWTuqkoha6SbocolDYCB5pjiI7Ge7dy
-         OAl4S4kS4o4RcGiGvQLokHA3NPnScVjnslTsyH2z3pjjMHTW/7ALI7S5mNLNMSnSmK68
-         F7JHSF7+i0JidPOQOpol5qq+i4XYymPKuprkRWC+eypO5tC2SFSw9aA/1gQckBFrtgKR
-         4cOnnaOITC3NZxllJswwTelqSc7MqH+Ggbwx1fzidnEUeedKR81mGvZZWkqMi/uAQ3Y2
-         bHaQ==
+        d=gmail.com; s=20230601; t=1747816743; x=1748421543; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=nlxLaOezJ54RMifNGPJT90Ch1a3hAKhBD04YGfXVM6I=;
+        b=Iujq6mXd5JY/sdtXgfOy1vALUSzZbv0RMhLT7HccbdN8AYPHjLoIJNJmHWpwHtJenz
+         BZayeP3qjlNYofqooG+bRcY5O83u83MDzHuheUF/hT0e3FIV7DVyflnU38KwSUu2c1MW
+         v0QZmnJayc78bUUNMNrhn7aayZdoeYlAiK0kXcksLpUgsPB3dx6dThiw1C0T2KRlkLS3
+         LYjymFSLo03clRcztonMqBWpKxVpMh9dI4Dj9NhuH/ZjMiT0AHe/wgnPht75EZlWtAze
+         kDy89xNHMPKKUkK/N8Si5XeHZ7CcSQnh6Zxg2VX6hF7T/McDnMuJHQE2bZks91QRqGB3
+         Ao5g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747814327; x=1748419127;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=kaQHQDFj7zVBURXI2K41vAHsKHuwZeCUeX0z/tFbjH8=;
-        b=q3/Eu8QOVmMGZmUc4Yqn9JqqU0CdvnbwYY2ZNHfrCgOjSv+hYabLvrfTT7IVQV7wsG
-         7r3ao0WqkBGc78Ixi8a3EvoDVMi7tBnDkQadeqd9E9uNuDhXlVYQwRmXv2sPvdsBs4Sa
-         YP2ddYUGG/x5VMtQ+EvOuLrENObYKpYo3ASOIXI6I0lWvhvJFk/ApkTLuoCBEWPHhQN9
-         Ta4kHJQTWDkFJznbRDIg4DqRfxcQEzI5gh/mGWNf7PPvePLX7yp0o9WCEaEgBEU3mR20
-         UfdImVHcpQcTUReXYV25b5EZX0x1It2YmNNn9k4+WNebo5q/whI3AKU+te9qp3zP8Cfa
-         ItTQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWc0NZVpMa5vhzuZ9KX2Qxwo9eL2o1csEMyoz6u2JzlMbq7skaFVgKxA3Rbws4gKR3pBdmnQTx/dXIYrvmp@lists.linux.dev
-X-Gm-Message-State: AOJu0Yy8Fvg/e/yMOe9fht65OjjfPV/+UKrPl2GIYVzMGTpBtWHtuHZD
-	Bujfh+G5proLXWuXbzFpsePfyMbRJR8pD+k6w8vGkbJ8KU+JzNJ7+LwfzS76uqDNQfQ=
-X-Gm-Gg: ASbGncuUrLOEiEfjRj3sXV2c2zM+NntW1CLS2CS8io22/jNgcsnEEUsUJFl7+u8qTm2
-	Mr0QwnipntiLmz6rkYkSltxom+AvMnLgYl9WwtTYvjSac3sob5Iz0Z+K7gkkcm1Gk33gw0QShF9
-	A+45vZXaFYkQyKgPwby3MevwdFDsCPlD0vWHvo4C88WfVK4y8Vb4G6HhAf9t3xXqd07EokpK+9n
-	1a1rqutIaoVdjIOs3SbaHXhNLGbhXScDS2MLGw3p8lGy7I67eFY+AnfwUX+cj6yhJKkBBcEGC0M
-	kVGt0MasYlhYyVgoV4nz88rZA8ldlG6/KtP+bnNlgzgMCX+Y0BkYApJdtqQcDHaq5ov7iUYC
-X-Google-Smtp-Source: AGHT+IF0STG6uMamOgsqgjaRlbu8+bqgdX9UiaP1jm8xcBXSOyL+SDKR01WZEkU62t0tLVnmgrT0rw==
-X-Received: by 2002:a05:6122:1e08:b0:51f:a02b:45d4 with SMTP id 71dfb90a1353d-52dbb4307aemr18070232e0c.1.1747814326824;
-        Wed, 21 May 2025 00:58:46 -0700 (PDT)
-Received: from localhost.localdomain ([2804:1b3:a8c3:4a97:a731:9f98:5e35:f7f4])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-52dba96b12dsm9943892e0c.27.2025.05.21.00.58.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 21 May 2025 00:58:46 -0700 (PDT)
-From: David Tadokoro <davidbtadokoro@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: David Tadokoro <davidbtadokoro@usp.br>,
-	linux-staging@lists.linux.dev
-Subject: [PATCH] staging: rtl8723bs: remove unnecessary braces for single statement blocks
-Date: Wed, 21 May 2025 04:58:31 -0300
-Message-ID: <20250521075831.485199-1-davidbtadokoro@gmail.com>
-X-Mailer: git-send-email 2.49.0
+        d=1e100.net; s=20230601; t=1747816743; x=1748421543;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=nlxLaOezJ54RMifNGPJT90Ch1a3hAKhBD04YGfXVM6I=;
+        b=K8p/PV46MgFmpMuaTnJenGz6LK6iKF7qi4prXADw7lVo1ZqMmom3xvDo0JueNrkYoM
+         reDaB9/GBi100423XKuAU5QO3n9fzoWEc5YePAtQrPsv3b4eHjgQNDsdtmTYF6C7/AAV
+         9Ae3b39FlsPIiOm24wmtw0BP6vUxFxf8X8NLWTDKCrHTNxZ+CdTQP7iHT6j4eAgWDBUo
+         YE/1iDRrPCgoQR63tpzXkEvyO8zoS0hsHX+SlPGGYqXfCu2sMvFQ3QLJz7hvk4WTXXOi
+         uEal4FMSDDLQm5ajqChQxK6TtGN2cPkBhF9DE0b+auh+sB8xiB8RawFUDB1AwT1QIaEO
+         2ASw==
+X-Forwarded-Encrypted: i=1; AJvYcCVtys1mqIpOO7VAxoKL+rMgLypEIJZ3slGj8H6PtN8h1+YunyC1ffTEsm9cQLABm/1m/4CqoCEqU4Mga2S+@lists.linux.dev
+X-Gm-Message-State: AOJu0YwnlijjF7JyRkBoz1oKchkJjq6DsftFXSN+3B3J5VnUsZDVCe/s
+	SU/v/gKPQAsLCkMXyLIjf7+T/Al6xItNndX2t4N3kzerbN+QBn9tpVg3q4Xtm/gISSHKW64lOpL
+	KHEJ8Lnkh2AV6PvVSygQxDNPGOAAFOnE=
+X-Gm-Gg: ASbGncsi5ad+xMQNxAoRGrooore/jD6Xj6eftz4JIRiX0y2jd6Jm7wnvO3h6eIqBzV2
+	OvHS85QDGGqdX6+Bv0s55EWIyQMa6bzEw56gikw0sfruCRHTi7eghfLeXH4xiPB7w+65BKhjZhD
+	1kb4OjWnNYvGX2+b49Q6nlRO9ysB/sX1fFmqFoqU7duYAbmQTjgBvlm9XcZNcHJ3UNfQ==
+X-Google-Smtp-Source: AGHT+IGn1ic8/qU3MsjWAq3GBfIPqaxt/z4IAGrqjkiBpwB9quqh6qpru5pVvB2n0NZEUTIDlvgIJbb6/9KsnN95NN4=
+X-Received: by 2002:a05:690c:3610:b0:70d:fd2a:1457 with SMTP id
+ 00721157ae682-70dfd2a14dbmr3227307b3.1.1747816743190; Wed, 21 May 2025
+ 01:39:03 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <aC2ILNV6xgt11KuN@brak3r-Ubuntu> <2025052142-maturing-earthworm-cb31@gregkh>
+In-Reply-To: <2025052142-maturing-earthworm-cb31@gregkh>
+From: Rujra Bhatt <braker.noob.kernel@gmail.com>
+Date: Wed, 21 May 2025 14:08:52 +0530
+X-Gm-Features: AX0GCFt73yT51gJAn-US9CzR9fBeYpCj9Uj81PJZLSTvmlHCr2-bT7uYTz3V5X0
+Message-ID: <CAG+54DZWjN3ii-JCOME8XdA1B+5yCmRSo0-wqTv+zt5w6UcEVA@mail.gmail.com>
+Subject: Re: [PATCH RESEND] staging : greybus : Documentation : firmware :
+ Replace deprecated strncpy() with strscpy()
+To: Greg KH <gregkh@linuxfoundation.org>
+Cc: Johan Hovold <johan@kernel.org>, elder@kernel.org, greybus-dev@lists.linaro.org, 
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-From: David Tadokoro <davidbtadokoro@usp.br>
+On Wed, May 21, 2025 at 09:06:00AM +0200, Greg KH wrote:
+> A: http://en.wikipedia.org/wiki/Top_post
+> Q: Were do I find info about this thing called top-posting?
+> A: Because it messes up the order in which people normally read text.
+> Q: Why is top-posting such a bad thing?
+> A: Top-posting.
+> Q: What is the most annoying thing in e-mail?
+>
+> A: No.
+> Q: Should I include quotations after my reply?
+>
+>
+> http://daringfireball.net/2007/07/on_top
+>
+> On Wed, May 21, 2025 at 11:11:26AM +0530, rujra wrote:
+> > Hi greg,
+> >
+> > why is this a RESEND ?:
+> >
+> > >> I had sent the same patch 4 days ago and didn't get any reply , henc=
+e tried to resend the same patch for the same,
+> > here is earlier mail :
+> > https://mail.google.com/mail/u/1/?ik=3Df63b03515e&view=3Dom&permmsgid=
+=3Dmsg-a:s:12290863930259651721
+>
+> That is a link to _your_ account, not a public record of your email :(
+>
+> > ,
+> >
+> > line does not match this:
+> > >> sorry , i could not get it what it is exactly ?, if possible can you=
+ share some insights or example so that from in future i would get it right=
+.
+>
+> Your "From:" line in your email does not match with the signed-off-by
+> line.
 
-Remove all unnecessary braces for single-statement blocks in
-`os_dep/recv_linux.c` to conform to code style rules.
+This has been addressed successfully, Kindly preview it.
 
-Warnings reported by checkpatch.pl:
+is this the way correct about the reply email ? , kindly let me know as I
+have tried to get more and more answers and solved issues, and thank you
+so much for your guidance and will be keep in mind about the process and wi=
+ll
+not fail next time onwards.
 
-* WARNING: braces {} are not necessary for single statement blocks
-* WARNING: braces {} are not necessary for any arm of this statement
+thank you,
+regards,
+Rujra Bhatt
 
-Signed-off-by: David Tadokoro <davidbtadokoro@usp.br>
----
- drivers/staging/rtl8723bs/os_dep/recv_linux.c | 13 +++++--------
- 1 file changed, 5 insertions(+), 8 deletions(-)
-
-diff --git a/drivers/staging/rtl8723bs/os_dep/recv_linux.c b/drivers/staging/rtl8723bs/os_dep/recv_linux.c
-index ca808ded61ac..98d3e4777210 100644
---- a/drivers/staging/rtl8723bs/os_dep/recv_linux.c
-+++ b/drivers/staging/rtl8723bs/os_dep/recv_linux.c
-@@ -45,9 +45,8 @@ void rtw_os_recv_resource_free(struct recv_priv *precvpriv)
- /* free os related resource in struct recv_buf */
- void rtw_os_recvbuf_resource_free(struct adapter *padapter, struct recv_buf *precvbuf)
- {
--	if (precvbuf->pskb) {
-+	if (precvbuf->pskb)
- 		dev_kfree_skb_any(precvbuf->pskb);
--	}
- }
- 
- struct sk_buff *rtw_os_alloc_msdu_pkt(union recv_frame *prframe, u16 nSubframe_Length, u8 *pdata)
-@@ -160,21 +159,19 @@ void rtw_handle_tkip_mic_err(struct adapter *padapter, u8 bgroup)
- 		}
- 	}
- 
--	if (bgroup) {
-+	if (bgroup)
- 		key_type |= NL80211_KEYTYPE_GROUP;
--	} else {
-+	else
- 		key_type |= NL80211_KEYTYPE_PAIRWISE;
--	}
- 
- 	cfg80211_michael_mic_failure(padapter->pnetdev, (u8 *)&pmlmepriv->assoc_bssid[0], key_type, -1,
- 		NULL, GFP_ATOMIC);
- 
- 	memset(&ev, 0x00, sizeof(ev));
--	if (bgroup) {
-+	if (bgroup)
- 		ev.flags |= IW_MICFAILURE_GROUP;
--	} else {
-+	else
- 		ev.flags |= IW_MICFAILURE_PAIRWISE;
--	}
- 
- 	ev.src_addr.sa_family = ARPHRD_ETHER;
- 	memcpy(ev.src_addr.sa_data, &pmlmepriv->assoc_bssid[0], ETH_ALEN);
--- 
-2.49.0
-
+On Wed, May 21, 2025 at 2:02=E2=80=AFPM Greg KH <gregkh@linuxfoundation.org=
+> wrote:
+>
+> On Wed, May 21, 2025 at 01:30:44PM +0530, Rujra Bhatt wrote:
+>
+> <snip>
+>
+> For some reason you sent this only to me, which is a bit rude to
+> everyone else on the mailing list.  I'll be glad to respond if you
+> resend it to everyone.
+>
+> thanks,
+>
+> greg k-h
