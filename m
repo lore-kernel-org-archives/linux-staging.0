@@ -1,40 +1,68 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0AA7123C515;
-	Wed, 21 May 2025 09:19:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9B3C24167F
+	for <linux-staging@lists.linux.dev>; Wed, 21 May 2025 09:30:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747819178; cv=none; b=iJ8dXf2894hMmfBownOh3gcI9bxKvSRXBO6sStTlKwXDb+vIt0bG+AuGOMzTrwsFhUE/JR3Fb4015pUaosHTGY5kDsK2MLteDL09JeOL11NFg3Kt8gl2WMF0O+tQyaNteHT4PI5kdKhpPhbFy7W0yPjiGWdJLb5m4JuMg56oD3E=
+	t=1747819842; cv=none; b=O+7/iTzNP9X21vElwFW+v3YdnHNGhiXsixzsKmNbCI28kecAj7LD1DDgMQVBjKS4q9SKEO1oPrhmrT8bqHnqwZ0Kx4fAdeHgc0sGRth1WoAcXxWOzwWy2yU86Ero9AbWqFam2H7jKNUfuT3kefg7CU5ZbMVP6DSYLXN1KfuU8gg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747819178; c=relaxed/simple;
-	bh=KQZ0URLKaAeR3tem+EHBReFm/G2mKEAF1N/X4iJwrB8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=OWp4Wtxlq4VGAJOzUHYIh+CXpcq1iTjBIvm4YTZb0TkEdrUjCQba42gOxr11+axi0TI1ufEIpYYbtNtZZOkDYa7hsrDBVWFO9f44TF54eNWeYN7ddrqiPNc3YmKMRbFVdRP5O3Ku3aA9OXHv/QL3CKUpCVojybzdZTyqrJdTiXU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=CnwI/D7Q; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1747819842; c=relaxed/simple;
+	bh=R17NssXV/QU3clKpUta5dw8h6ucij/YPwFGrlZXm6N4=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=Yb8SPPNc06ea7yTK0ktsrcvmwviD4lPVJMzBULIMiVrTEKKMLREkwrjGml9wR0a+empfcaZkN/TVD9W4NulfLQkfmf4SDJwWRK5q6efCF9INLjuX29/du5Fz9PNlnZgTGLr+PlCMw1WVcHS159cjMBNiR5y3woa4ekWmnz7z5ag=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DZXqqeZp; arc=none smtp.client-ip=209.85.210.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="CnwI/D7Q"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 19F2EC4CEE4;
-	Wed, 21 May 2025 09:19:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1747819177;
-	bh=KQZ0URLKaAeR3tem+EHBReFm/G2mKEAF1N/X4iJwrB8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=CnwI/D7QchRUObcWrSVYhqS/6KJS9ACo+MIkYyOrkgLUhEnnMdksgs2zCN7G7eHav
-	 VHTDzZyMK+kZr0tp4EaFqhWpAGB9EojTwKD+ZnnQ26y+0fIMAyS/1H/24jQp9Q9zkZ
-	 RLMiJcGSmrBlze+KZaqjdBkWRwAxy/RjSTV1FLps=
-Date: Wed, 21 May 2025 11:19:34 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Rujra Bhatt <braker.noob.kernel@gmail.com>
-Cc: Johan Hovold <johan@kernel.org>, elder@kernel.org,
-	greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DZXqqeZp"
+Received: by mail-pf1-f179.google.com with SMTP id d2e1a72fcca58-7398d65476eso5125585b3a.1
+        for <linux-staging@lists.linux.dev>; Wed, 21 May 2025 02:30:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1747819840; x=1748424640; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=JVjUabk5NQmhfEI5CaBTj3E009mNGNPOZl2dDH0wA5k=;
+        b=DZXqqeZpcuRNdFGGTEgaosTYGT4HWl9WJ5PQ29PwH8nQ4/gi7jZXIw+yCiJ4uQk4BZ
+         Y3x/sYEzZKMqq8Ii7SRdbPfuFLLglyEfz/SCrDrHd+nNuweXPBFX2r8/i9RE1K4g4onT
+         qzUeul/W1JR1YRMRmFyIVhOkftkIx0jMO7EqHAytJet6UPFzxbBmIO8VMDshSNkMmF7I
+         ZBfEklzJy3uIu/KquLWDWGBBoJswEiY08y7p+PgQ3kjEqj85oigfnV5dc8l6tXjbXmfp
+         Bfe1zE5ZleRAWqjr96OQAJbeLb9PYgi9FWJQ6xo2HVI073NByoUHs/J6OKHgM9fB9mOn
+         VoRA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1747819840; x=1748424640;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=JVjUabk5NQmhfEI5CaBTj3E009mNGNPOZl2dDH0wA5k=;
+        b=c9QPmfHoztVj/bGZN9GTt178ae9b7H+limhvDIJWKMoYfFqK7taB4nuoWN+Ygqnh9F
+         ZqkgXfYY10mBvP5SoKU0V677V4mAWATtQTzQFb3Nrkz0nWE6S/W7nAe8zCUaaD3EWqgV
+         ElNeGh6O/u0zh7PX05YQSjPw5afj/H3LX+6T9L5WuuVf6V5ZvxPxIWTqxybjc3jQvfDJ
+         16dBNA7jyaFMdetLjEUGA2h1tm1hUMKp4T4AGTDX86FF07XgoX3CRwrapLI6oTLmepgV
+         1NXxy953fpTk2C8g+MriJr+Bf9KISVHo+OZDz2n4UTRScbzWT0dGqKKy66GD+ZuO0+zu
+         fj7w==
+X-Forwarded-Encrypted: i=1; AJvYcCUv0XOY1QNhJwY+sAPmhyKrB2oaNtjrceqQhS+vFqbFlXlJsue+W8ISneIyRhgrEFhY3+TmlNgntMHZJeC/@lists.linux.dev
+X-Gm-Message-State: AOJu0Ywpq+8A7MJB0TAc15hRvtfL7Djp5XBGY9nXU71WiecFl4mooz1e
+	nLwwoJLIMosYMsKok29aYAqoWfeYTVYqTaaBjbjveerjrSH9S/SwJKJX
+X-Gm-Gg: ASbGncsuC/Sri35LN1SU90Padry8Mb5vCkN9aSEXRajMZLhqY3R/6rjpKVqFY11k5t2
+	xvKCWm2jwzZlnis8a8L+x5nFkQwIhYc97OdA7wZW934nhKR1IgePtekihT+mUq9++44v+8vPiSR
+	mIWsHmwOF+7P5KyDxzd0h2OwpNg46IgluvvwWdyQKSOlNPXtWaFLVIuLYDNSpRoHglQfxAOU0ub
+	3/dOjEPXThRApgvbXSSNvl4HrMhAxm404lbl1InOkKJi7TjpaW61r1DCuY/piA3tgqzeHtjFser
+	clBpcz6sS9FYJpoF/vHA3At9n8sansE9kNfXoWbWQEJ5gGlmQvjDfdpye0VDa/AeQRZfsw==
+X-Google-Smtp-Source: AGHT+IHUyx+vlWYq4hohag+qL5ddwEkbL8Ga94LR9t3ebzdNx3dQ1c7jzeXIFn1QLgkVEwlx47k1mw==
+X-Received: by 2002:a05:6a00:ac1:b0:736:3ea8:4813 with SMTP id d2e1a72fcca58-742a99fab76mr25752923b3a.2.1747819839565;
+        Wed, 21 May 2025 02:30:39 -0700 (PDT)
+Received: from brak3r-Ubuntu ([2401:4900:91d2:7413:9e7e:c313:d5f8:b22b])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-742a9877030sm9516405b3a.148.2025.05.21.02.30.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 21 May 2025 02:30:39 -0700 (PDT)
+Date: Wed, 21 May 2025 15:00:35 +0530
+From: Rujra Bhatt <braker.noob.kernel@gmail.com>
+To: johan@kernel.org, elder@kernel.org, gregkh@linuxfoundation.org
+Cc: greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH RESEND] staging : greybus : Documentation : firmware :
- Replace deprecated strncpy() with strscpy()
-Message-ID: <2025052140-reprogram-polish-30da@gregkh>
-References: <aC2ILNV6xgt11KuN@brak3r-Ubuntu>
- <2025052142-maturing-earthworm-cb31@gregkh>
- <CAG+54DZWjN3ii-JCOME8XdA1B+5yCmRSo0-wqTv+zt5w6UcEVA@mail.gmail.com>
+Subject: [PATCH V1] staging : greybus : Documentation : firmware : Replace
+ deprecated strncpy() with strscpy()
+Message-ID: <aC2dO1QKTVMOJQ8K@brak3r-Ubuntu>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -43,52 +71,59 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAG+54DZWjN3ii-JCOME8XdA1B+5yCmRSo0-wqTv+zt5w6UcEVA@mail.gmail.com>
 
-On Wed, May 21, 2025 at 02:08:52PM +0530, Rujra Bhatt wrote:
-> On Wed, May 21, 2025 at 09:06:00AM +0200, Greg KH wrote:
-> > A: http://en.wikipedia.org/wiki/Top_post
-> > Q: Were do I find info about this thing called top-posting?
-> > A: Because it messes up the order in which people normally read text.
-> > Q: Why is top-posting such a bad thing?
-> > A: Top-posting.
-> > Q: What is the most annoying thing in e-mail?
-> >
-> > A: No.
-> > Q: Should I include quotations after my reply?
-> >
-> >
-> > http://daringfireball.net/2007/07/on_top
-> >
-> > On Wed, May 21, 2025 at 11:11:26AM +0530, rujra wrote:
-> > > Hi greg,
-> > >
-> > > why is this a RESEND ?:
-> > >
-> > > >> I had sent the same patch 4 days ago and didn't get any reply , hence tried to resend the same patch for the same,
-> > > here is earlier mail :
-> > > https://mail.google.com/mail/u/1/?ik=f63b03515e&view=om&permmsgid=msg-a:s:12290863930259651721
-> >
-> > That is a link to _your_ account, not a public record of your email :(
-> >
-> > > ,
-> > >
-> > > line does not match this:
-> > > >> sorry , i could not get it what it is exactly ?, if possible can you share some insights or example so that from in future i would get it right.
-> >
-> > Your "From:" line in your email does not match with the signed-off-by
-> > line.
-> 
-> This has been addressed successfully, Kindly preview it.
+----------------------------------------------------------
+This is the new Patch for the earlier Patch hence made V1. 
 
-I'm sorry, preview what exactly?  If you think you have fixed it,
-send a new patch with it fixed up as a new version.  I can't determine
-anything just from an email like this :)
+[Note: there will be no significant changes.]
+----------------------------------------------------------
 
-> is this the way correct about the reply email ?
+Changes: 
 
-Yes.
+To ensuring that the firmware tag is properly null-terminated. When copying firmware tag strings to prevent buffer overflows and ensure data integrity.
 
-thanks,
 
-greg k-h
+Changes has been made in 3 positions:
+1: update firmware tag
+2: backend update firmware tag
+3: backend update firmware tag with unipro
+
+Signed-off-by: Rujra Bhatt <braker.noob.kernel@gmail.com>
+---
+ drivers/staging/greybus/Documentation/firmware/firmware.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/staging/greybus/Documentation/firmware/firmware.c b/drivers/staging/greybus/Documentation/firmware/firmware.c
+index 765d69faa..f37904b91 100644
+--- a/drivers/staging/greybus/Documentation/firmware/firmware.c
++++ b/drivers/staging/greybus/Documentation/firmware/firmware.c
+@@ -63,7 +63,7 @@ static int update_intf_firmware(int fd)
+ 	intf_load.major = 0;
+ 	intf_load.minor = 0;
+ 
+-	strncpy((char *)&intf_load.firmware_tag, firmware_tag,
++	strscpy((char *)&intf_load.firmware_tag, firmware_tag,
+ 		GB_FIRMWARE_U_TAG_MAX_SIZE);
+ 
+ 	ret = ioctl(fd, FW_MGMT_IOC_INTF_LOAD_AND_VALIDATE, &intf_load);
+@@ -101,7 +101,7 @@ static int update_backend_firmware(int fd)
+ 	/* Get Backend Firmware Version */
+ 	printf("Getting Backend Firmware Version\n");
+ 
+-	strncpy((char *)&backend_fw_info.firmware_tag, firmware_tag,
++	strscpy((char *)&backend_fw_info.firmware_tag, firmware_tag,
+ 		GB_FIRMWARE_U_TAG_MAX_SIZE);
+ 
+ retry_fw_version:
+@@ -129,7 +129,7 @@ static int update_backend_firmware(int fd)
+ 	/* Try Backend Firmware Update over Unipro */
+ 	printf("Updating Backend Firmware\n");
+ 
+-	strncpy((char *)&backend_update.firmware_tag, firmware_tag,
++	strscpy((char *)&backend_update.firmware_tag, firmware_tag,
+ 		GB_FIRMWARE_U_TAG_MAX_SIZE);
+ 
+ retry_fw_update:
+-- 
+2.43.0
+
