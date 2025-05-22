@@ -1,68 +1,68 @@
-Received: from mail-yw1-f179.google.com (mail-yw1-f179.google.com [209.85.128.179])
+Received: from mail-yw1-f178.google.com (mail-yw1-f178.google.com [209.85.128.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D96CD239E78
-	for <linux-staging@lists.linux.dev>; Wed, 21 May 2025 23:23:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99C62A50
+	for <linux-staging@lists.linux.dev>; Thu, 22 May 2025 00:33:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747869817; cv=none; b=Gr3SKbDae1jMRIwjPnnWAWS21AJzTpWMUcMW7xUFfoJYF+sKkeTVY9ONVbvRk4xD3vAOT0UQg2zDlbLSDNjvErYPZCxXWU878XvIclm3scgX6kqvzRBu07cbaV4aaALzzusNSV+yJ6+h73VUA1Muv/FlNvzx4AsdObuGStZXgtw=
+	t=1747874027; cv=none; b=hjUBZ+hJBy1WQ2cKXEFC+QKsvBOGu9MFMB9GVNbkuLQ3OrYocOJpKbLyO5vSsDrYAQloubj2+HYk9vWvggGS3qnidgm9iZiOFoWSPT4kP89xK3WDEOqo2H0ka4t6qu93oZ5IithD+NhFUVFn7JWg1Ior5Y3lJunhaGYQClQ7qzo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747869817; c=relaxed/simple;
-	bh=wxsg4EgbCx1fj+v3Py/w/yDWFyRYJGFCBuhrEr96qI4=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=tOAlcu67v3Gfw+sB9yilyhRz/1SQCNzQ3dIv9Njbr46C4w7sB2hWPUA5o05+ONHdLYFbasbfnQ1BVYAJl80Dh6u/BDvbVW96/P0Zq6ehHaqh2LCfB1HHxwXbn3phPlas6BLhu7MBMU4tUqfOThBKwJYP22n0RQInVelBw4LNt9k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=T+4lo7mx; arc=none smtp.client-ip=209.85.128.179
+	s=arc-20240116; t=1747874027; c=relaxed/simple;
+	bh=9WDWmbciPiw9ZwZ7jfIf604Dt4ZghrOpB00gmHmOrKk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=cKD+qoJ5ZjtkycXnp8SphM4k5BOKK4LaTDq+WOk8pRGjZokkpKu5vv2GEBsvkloi7W6RNZt5pvp8lMHQ2UOgegEBMYWRcpI3ljQJRDDcVvARpg7/vjOkEQ3pDyqzh11XZufgnaNOj+C4ce1rHrr9wXVSvxGZ51HIvPKR+l6oeU8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=d37XE66w; arc=none smtp.client-ip=209.85.128.178
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="T+4lo7mx"
-Received: by mail-yw1-f179.google.com with SMTP id 00721157ae682-70c7b8794faso74638907b3.1
-        for <linux-staging@lists.linux.dev>; Wed, 21 May 2025 16:23:35 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="d37XE66w"
+Received: by mail-yw1-f178.google.com with SMTP id 00721157ae682-70cb6744e1eso51311557b3.3
+        for <linux-staging@lists.linux.dev>; Wed, 21 May 2025 17:33:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1747869815; x=1748474615; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1747874024; x=1748478824; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=Wi8GyyRpSYLm6pCKM13JgN3h71bL9ajNP8NCgZ9JC9Q=;
-        b=T+4lo7mxEhmP+EyjKpPryFqR1gyDqtPaUsqlz1+i+Df2/7JmoIdsrgIuvD6SU5Z9FJ
-         Hx+HCjauL8i1OdSLG+oFa/sOCoyOWkEhY/ihhe6/ek0LiTZxu4tmDCJ48voXcA8ctKiM
-         gZUv/vRDZPKtM/yVTXoF/G0ecTqHgBiqt1IzXD+kaN2aUaeuG1Ev0n2L5SGUu2GSQyfE
-         HRhufefqcsbcsoWQITG4GejKQFCCO52QkvKl4v04Ysmg+IroTsasXEoMA2L77cG4DQ4e
-         7IwMD9VgyaTPjO28uQ9ySUHYim2+++Wa/M1bxwlXKD4ypHS2sHx2wv5uwK1O0u9zY5aT
-         /hVQ==
+        bh=5be0pJqrV4kUYpz3rwnukSBU4EkOBXt7QJ8172KXPF8=;
+        b=d37XE66w+NgynT/Ctf9bM3IHXlXGAG3fX/CzL6YtnuhnxJiE2qmjtFCqtHRt5dmF8f
+         P5KS+hwtRguAlck+QscoCC8lHTwqSr84RZP6/bf4cfWR5pjG0Ncg7zkc1K9TaoBtNrIU
+         aCQj3gcDcBb1tYcUTmuO+bIY7C++FxcigTjUXTRq6ma4TY/qdI2sE4IX3KiQetbBKtZW
+         q6Exa7XmRN3E2XjflXYI70HuRCtYMvyDqgeXj1Cm5Nm8nsM6ZFMW0N6ua/wvxsfRekSS
+         N1BZANacKVFTGTtCDt2XRyhfGBh9VU/B/IzQ9gboAqFYQ19eH0Y1y9uFeBvv2GCyGQCI
+         9nbg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747869815; x=1748474615;
+        d=1e100.net; s=20230601; t=1747874024; x=1748478824;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=Wi8GyyRpSYLm6pCKM13JgN3h71bL9ajNP8NCgZ9JC9Q=;
-        b=uwI4U5d7FjxqCYZ7y0l/9u2rOMRYflUbGoGlPj8uoBYyYmmTGKJ+YQ55ezWXU4oBQd
-         G15aRu5bl4Oxo13G2/0G8k2FYjZ+fiywkDpMyOnCsdsnSd4ShZhfB+xw/pvsgXzsOyQj
-         DkK7stqs2pgWv8NFxzSwnfP1k0DpfKgRwiWkY/sZWc6uJoNdAKLWelLdMlQd/b5EkmSZ
-         scn5nCRQu9pAG0pB1myuGm6S553WXqrb9iWCzeplSsMka76bX3LqewDxWeQrBJjg5tx+
-         C3AfrlDnu/RE24yLhPLH/X5PKCCSBlIT/zSkHoqX1OqW1uRw64fccX83h+ZhdvZ7Nwmc
-         OB7A==
-X-Gm-Message-State: AOJu0Yz0CqSVYgXE9KoHoQF4EWAHEPnOSmicUGLCjYq6FEYJHlpNiZ5R
-	fzD82EbkNqaM7aM0/eZDpRpKwqvXzXMT1edbYslpQsPNW+YbY+n7Uv0q
-X-Gm-Gg: ASbGnctA4gurMx3He3os65D33mUMlw9cC3P0atuV+63QQ0tQuxIraDR1QAXMMNAqYLm
-	/Q6QubDPbeJsXh+sdnqoIyJGT+HZO4N5AGiqN1+rNNC5U+KpM3yhKJGNjAljniyRAEd8720w4LX
-	SXAlsTjQRBT4KwqWKZ0PuZlAtyoUD76bAU4HxWNrjdiH8QnuoyMNC5bOTJRIgmT/BU0X8FUHWK/
-	Dibht0pRQOZ/+NS6v4Vp2nSIoTGBgvCQTlYLjC04Dvhv1C1xatc8AzlDc0tepIdZmGVE/eDjAIR
-	WX/LZkXkjwUYryirpVXceEyf7/hKvlPYW/cTHzpcf/hY/FO+p359F5SS4bhd9RNynNsldSsDru4
-	QIaw=
-X-Google-Smtp-Source: AGHT+IHwwHYfGGH2qEaXo2SgMm5hAhmNhNv5yGqf8z077S5mu/ogAZovjmGgdBpzwSVjhrdvyKxyKw==
-X-Received: by 2002:a05:690c:4a06:b0:70e:61b:afe0 with SMTP id 00721157ae682-70e061bd1e4mr10870357b3.6.1747869814728;
-        Wed, 21 May 2025 16:23:34 -0700 (PDT)
-Received: from maquina-virtual-para-linux.. ([191.156.39.247])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-70ca8509360sm28424517b3.71.2025.05.21.16.23.32
+        bh=5be0pJqrV4kUYpz3rwnukSBU4EkOBXt7QJ8172KXPF8=;
+        b=MwcIoRkCyHDnlelowClPBsptueMjSIt20/3mSXY9oJeTN9jJJfKFa+5uePkVz3O1u/
+         Ukc4Hhw8PDJTf42NAxc7riUgue11k+WnWQUBpLmZNPKiYyrx/nsS7n7boXaCwZzIkaJF
+         Ge3fVy/OnBIbDPnY5qk1++lU9mlhE3N/D5zX6mHCQgTuXpA53mMeY40bhba/SUhdYQhg
+         nUuDjvE/oKJxonSRsXIpEYN58lMGPJ/+kC5x9Uk+0S5bPp8z+eFz5iIyMCXA1LP/S2x9
+         Urzi1h7vzBQdD+C/0kx9tTIsgQoCdbIsPqRD42jewYSZ/dQvmW0/yVNrB+89CEl64vfQ
+         9fyQ==
+X-Gm-Message-State: AOJu0YxpAz/eAnP0sTN2uvrYIf7By+wWXAERka9YfBYiL5dN48+wXtN9
+	sW6wR+FjZO7uT5ib9qNQYuPXVjaDpYPY8MHa44k0YyljboX8/1CKf8es
+X-Gm-Gg: ASbGncuxZy+ncYlXONEwzSjJQfVcUgV0m/B+zz1qzz0zY8YwfLOA8N/1wbMna79qizO
+	0Ize0EHQmH2mj0eVnJoMbmgkLjlfFbJuhhHYIoTz67fK6FwqQZ9GkqIILpPSVWm8GGDXEjJHH6t
+	RyAS6R1NAjDGWYtlKUxiTUp8BLWBUrPahl9NE63cbhcfps5w3B47uZxCPS+m5z89v1yeTB/aTor
+	QsunY7cZ1ZTsSUWG6nxOUtbq5hZopXC8smgeLwz7shOUBmFhoZILKo1Zl+ohxBrYYs1CLvoGTXl
+	GCIOLRncQD9KD8BOwgDorBfWTqjmd3x5eMgRmJwVKGRMBGkFUWhnq49ex7cz3vlFKn0RbV1gYNz
+	PKSM=
+X-Google-Smtp-Source: AGHT+IHmIwPJz79bewQ8fxEC6DnTidzwcQaEUNvh7Tm4o1r0JJ452iy88nNmcAIWXOnWrcMs1t/QVA==
+X-Received: by 2002:a05:690c:b82:b0:70d:ed5d:b4c7 with SMTP id 00721157ae682-70ded5db75emr88829467b3.12.1747874024507;
+        Wed, 21 May 2025 17:33:44 -0700 (PDT)
+Received: from maquina-virtual-para-linux.. ([191.156.47.168])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-70ca8324059sm28667417b3.49.2025.05.21.17.33.42
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 21 May 2025 16:23:34 -0700 (PDT)
+        Wed, 21 May 2025 17:33:44 -0700 (PDT)
 From: Donny Turizo <donnyturizo13@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
-	Donny Turizo <donnyturizo13@gmail.com>
-Subject: [PATCH v2] staging: rtl8723bs: Fix typo in variable name 'ips_deffer_ms'
-Date: Wed, 21 May 2025 23:23:26 +0000
-Message-ID: <20250521232326.20438-1-donnyturizo13@gmail.com>
+	Donny-Dev <donnyturizo13@gmail.com>
+Subject: [PATCH] Subject: [PATCH v2] staging: rtl8723bs: rename _Read_EEPROM to _read_eeprom
+Date: Thu, 22 May 2025 00:33:37 +0000
+Message-ID: <20250522003337.23613-1-donnyturizo13@gmail.com>
 X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -72,47 +72,61 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Fixes a typo in the variable name 'ips_deffer_ms', which was
-misspelled as 'deffer' instead of 'defer'. This patch renames
-it to 'ips_defer_ms' to correct the spelling and improve code clarity.
+From: Donny-Dev <donnyturizo13@gmail.com>
 
-Changes in v2:
-- Rebased on gregkh/staging-testing
-- Fixed build error reported by kernel test robot
+Fixes a checkpath warning by renaming the function _Read_EEPROM
+to follow the kernel coding style (snake_case).
 
 Signed-off-by: Donny Turizo <donnyturizo13@gmail.com>
 ---
- drivers/staging/rtl8723bs/core/rtw_pwrctrl.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ drivers/staging/rtl8723bs/core/rtw_cmd.c         | 2 +-
+ drivers/staging/rtl8723bs/include/rtw_cmd.h      | 2 +-
+ drivers/staging/rtl8723bs/include/rtw_mlme_ext.h | 2 +-
+ 3 files changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_pwrctrl.c b/drivers/staging/rtl8723bs/core/rtw_pwrctrl.c
-index 44f7c19308a5..27ba364ea33e 100644
---- a/drivers/staging/rtl8723bs/core/rtw_pwrctrl.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_pwrctrl.c
-@@ -1006,18 +1006,18 @@ inline void rtw_set_ips_deny(struct adapter *padapter, u32 ms)
- /*
- * rtw_pwr_wakeup - Wake the NIC up from: 1)IPS. 2)USB autosuspend
- * @adapter: pointer to struct adapter structure
--* @ips_deffer_ms: the ms will prevent from falling into IPS after wakeup
-+* @ips_defer_ms: the ms will prevent from falling into IPS after wakeup
- * Return _SUCCESS or _FAIL
- */
- 
--int _rtw_pwr_wakeup(struct adapter *padapter, u32 ips_deffer_ms, const char *caller)
-+int _rtw_pwr_wakeup(struct adapter *padapter, u32 ips_defer_ms, const char *caller)
- {
- 	struct dvobj_priv *dvobj = adapter_to_dvobj(padapter);
- 	struct pwrctrl_priv *pwrpriv = dvobj_to_pwrctl(dvobj);
- 	struct mlme_priv *pmlmepriv;
- 	int ret = _SUCCESS;
- 	unsigned long start = jiffies;
--	unsigned long deny_time = jiffies + msecs_to_jiffies(ips_deffer_ms);
-+	unsigned long deny_time = jiffies + msecs_to_jiffies(ips_defer_ms);
- 
- 	/* for LPS */
- 	LeaveAllPowerSaveMode(padapter);
+diff --git a/drivers/staging/rtl8723bs/core/rtw_cmd.c b/drivers/staging/rtl8723bs/core/rtw_cmd.c
+index 49bcefb5e8d2..a0b85beffe5d 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_cmd.c
++++ b/drivers/staging/rtl8723bs/core/rtw_cmd.c
+@@ -15,7 +15,7 @@ static struct _cmd_callback rtw_cmd_callback[] = {
+ 	{GEN_CMD_CODE(_Write_BBREG), NULL},
+ 	{GEN_CMD_CODE(_Read_RFREG), &rtw_getbbrfreg_cmdrsp_callback},
+ 	{GEN_CMD_CODE(_Write_RFREG), NULL}, /*5*/
+-	{GEN_CMD_CODE(_Read_EEPROM), NULL},
++	{GEN_CMD_CODE(_read_eeprom), NULL},
+ 	{GEN_CMD_CODE(_Write_EEPROM), NULL},
+ 	{GEN_CMD_CODE(_Read_EFUSE), NULL},
+ 	{GEN_CMD_CODE(_Write_EFUSE), NULL},
+diff --git a/drivers/staging/rtl8723bs/include/rtw_cmd.h b/drivers/staging/rtl8723bs/include/rtw_cmd.h
+index cb44119ce9a9..e4e7e350d0fc 100644
+--- a/drivers/staging/rtl8723bs/include/rtw_cmd.h
++++ b/drivers/staging/rtl8723bs/include/rtw_cmd.h
+@@ -636,7 +636,7 @@ enum {
+ 	GEN_CMD_CODE(_Write_BBREG),
+ 	GEN_CMD_CODE(_Read_RFREG),
+ 	GEN_CMD_CODE(_Write_RFREG), /*5*/
+-	GEN_CMD_CODE(_Read_EEPROM),
++	GEN_CMD_CODE(_read_eeprom),
+ 	GEN_CMD_CODE(_Write_EEPROM),
+ 	GEN_CMD_CODE(_Read_EFUSE),
+ 	GEN_CMD_CODE(_Write_EFUSE),
+diff --git a/drivers/staging/rtl8723bs/include/rtw_mlme_ext.h b/drivers/staging/rtl8723bs/include/rtw_mlme_ext.h
+index 2080408743ef..63373d665d4f 100644
+--- a/drivers/staging/rtl8723bs/include/rtw_mlme_ext.h
++++ b/drivers/staging/rtl8723bs/include/rtw_mlme_ext.h
+@@ -684,7 +684,7 @@ enum {
+ 	GEN_EVT_CODE(_Read_MACREG) = 0, /*0*/
+ 	GEN_EVT_CODE(_Read_BBREG),
+ 	GEN_EVT_CODE(_Read_RFREG),
+-	GEN_EVT_CODE(_Read_EEPROM),
++	GEN_EVT_CODE(_read_eeprom),
+ 	GEN_EVT_CODE(_Read_EFUSE),
+ 	GEN_EVT_CODE(_Read_CAM),			/*5*/
+ 	GEN_EVT_CODE(_Get_BasicRate),
 
 base-commit: a481f0ebf213e0ccb85f70c07bfcd733d2dc6783
+prerequisite-patch-id: 669780b7fd46182223f192ddc59e8fe8a549c490
+prerequisite-patch-id: d6c04e7cdd735e1491a1e60522a1724b7e122af4
 -- 
 2.43.0
 
