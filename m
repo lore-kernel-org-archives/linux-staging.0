@@ -1,68 +1,68 @@
-Received: from mail-yb1-f180.google.com (mail-yb1-f180.google.com [209.85.219.180])
+Received: from mail-yw1-f180.google.com (mail-yw1-f180.google.com [209.85.128.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EB7A8F66
-	for <linux-staging@lists.linux.dev>; Sun, 25 May 2025 02:48:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3E3717A2FA
+	for <linux-staging@lists.linux.dev>; Sun, 25 May 2025 06:44:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748141305; cv=none; b=tdS2QobAfVqfIWhzf8fYqbND8I7uiRERmfZCf5a3yqwhJqSTG7qsezz/qLbw95JI6VN6Q+28ERVQ0S0XGucvKcdQ1k2f+DDJFRbY0rONdE2MrfInqD2ZxXpYmra4GXRR4uVi3r5eXNy3gRuYwvznJ+Q8jQ+Z7LqSYgz4hsq1GXA=
+	t=1748155475; cv=none; b=ksc0I5E12Kc5IEZ9Om+tkkxun8HJK3qGTcVQlrHPX/KpGslP0Oy9Hz3Q/Ubc537s55c3ZocCgyrYcKnXFhRnFF6PDevQi6Q4c8bwgzfumgULY6TSOMqmTUg3pSq8EfyEJ0vTEhAKa4/Mz0G34gNrwBga+93LwKbrjIkreYF+rp0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748141305; c=relaxed/simple;
-	bh=pWTqB9al9MLBk/zKau+VF7mb/iqHgOdoI6eDiMU93vw=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=UovkF87qka5/bgnc+Fho51qwHkSgo7dYvm/2TZbi1qOgPWkZShGHUZ2hu+G8Cul0Kef5hRxLQVoyujLMpI/j6wYjJDSoxx0Q2pqV0Bk/y/pu7GoTj6asbguubPJwcskPzLVza5Z9QLy9cP9T//5zCwJYuNGEjAJa614JcSnE1FA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CFT+TyOO; arc=none smtp.client-ip=209.85.219.180
+	s=arc-20240116; t=1748155475; c=relaxed/simple;
+	bh=Dd1q7WRp33ehmP8qO24QWF92ZWz2jd1JUhpcvFdYDjE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=dVl21yIsenUyqPt4ydou2jdunb9O3Zgb8Wu8W169hk/a4qQVB+a9MwYF/xMKMHtLyNn5+7IkalNVzyXyewqykmeRQ/tLKwqXsfz0754MnulPN0pl89aA4lHd6MpIX0Ho6nX4WLaMMPs9I2ngEanfalaFZln9DAu+vhZPmmyQdrY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nVIaKSKZ; arc=none smtp.client-ip=209.85.128.180
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CFT+TyOO"
-Received: by mail-yb1-f180.google.com with SMTP id 3f1490d57ef6-e7311e66a8eso776945276.2
-        for <linux-staging@lists.linux.dev>; Sat, 24 May 2025 19:48:23 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nVIaKSKZ"
+Received: by mail-yw1-f180.google.com with SMTP id 00721157ae682-70e2dda56ceso6544547b3.2
+        for <linux-staging@lists.linux.dev>; Sat, 24 May 2025 23:44:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1748141303; x=1748746103; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1748155472; x=1748760272; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=J5H8miVdrreeo2R5rwgILx0vbH1/jlB+6nndREjSBVQ=;
-        b=CFT+TyOObRZ5sT4oRR2J/kx2XJcELCxEe/C7NZDOISwDLWIlxh0uocdDG9i9HixhfQ
-         tFKwlKr3pwwOFHMrpycnq/Nhl6d1jMc/FdMSRnZbfe3CSdnkB0cpuHkaI4bEbNvNLVAw
-         zTnXxgTBHdrqB0yJlP8x1PapmVwoT2oEsnb6WfmwxMH2Vaej4uD7kVpIA+vV5zKoeKeq
-         gvRZpoc/wg49UVSD7T9/DmUtsA/QiO7RWl5AMBtRelt+xwCgDgaaSkBRJu33QeWBoExM
-         hvrGNGN6oUcsKaZS4FhPyfTrK5K3hUvxgR7XjnLp5f9cpqrVi8vpiLnInb2gUe1l4fVB
-         XYOg==
+        bh=ZTzscTj+YcQ1SwnnplFh8eTlzFm7X3URXr/8FG1Ysm8=;
+        b=nVIaKSKZ1wcDgMVYZBmGMT9I1J8p9x05Mx5uh5NIzahTH/6tnZqBaiw72JgwyRP73J
+         CLMkmiUWwTT0xjeciC3UjNxjF2B+1hxB4wp0/Wem+pIAUnxwb3hJBIEfE+Io18mfUzMK
+         IdAZFkQIQghJ91nna7w3oXB4fx6+hR8GVlw2Pu70bOEAXq571gtfV0GfgbeTmZHETZzH
+         kKzjwcD9V/2DGjb2QuAiQHucPbE0cX75uPSZbigAWcxwmX9kOYEa0qPk7IAH45NhiXOv
+         4Plm+DzvCyhLzUwN0XBowpmw8GnKLORWPamck6wxH9K5pxV1qnDfDT6RbOaVXaIixP9p
+         tA0Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1748141303; x=1748746103;
+        d=1e100.net; s=20230601; t=1748155472; x=1748760272;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=J5H8miVdrreeo2R5rwgILx0vbH1/jlB+6nndREjSBVQ=;
-        b=v5As0evD7F+ZgK7uIrkNUBYCYQ+Wf+X3d28cblOMK5qxvE6oryRU+cnLywPBxkEL98
-         loLapg/Q3kg121w74S2Q6+02PD4DP2i6G+lVZMCNAyyuNEKB5LBN7Hca14LSxOcMxuwe
-         xEEbO7++53fPmHpb6zsJJoHWHOqPdLZfAI4fC/zlF3+mh4jeOCPh8GYcBkm+3BG1J5Sk
-         vBHl0NHTgtmVnYPs3Rst+psn5kFnciZ1aWPm3d3jMhrJqxnfsmhckP28Vb/fuN+akBJO
-         +HcsViG9GjsWrzCzSlPo09EBsOl67WJfYQZsaPr3AByWRm6lr+HJ+qYsZiLPvW7orANS
-         H9/Q==
-X-Gm-Message-State: AOJu0YweMx+FzuWqY0tLTfNK1xfXhDvc4cuhRzBRayD6HozOOyiiAjju
-	EtImDS/lh8z2uSeE5Yg3am4d9zExgApebYF1/nhjbtbgO3eAlqNZEhtu
-X-Gm-Gg: ASbGnct9qwSL+AEAtgs1lkaG7kwV45BrSISg2KoG1s0pwx//LcwKnOpot62rX0hiApA
-	1hA+Ad8RqUYLAS43E6VZukaYYKVYKJA7CaLuW25TwURQgYMmVNkeQcY5P0S/jH42wU+Rgbo9Eez
-	lwSazYysymwFLEno6sOigv0KDveI4f5hpghQmuiVfllu0kOCXdKKpBoqHJhe8fxxsUTxP9QoNV0
-	tiuEY35hHapJPeiW7/uDCvG6t5KF26uxhBZ/z4pGbjPTQPLZPeerubeNRVSaCKCdfgDkWulvIgs
-	qWuVwUhLlNl1TO6NPi1nrKHz2jIRdJHOuWAd/vPmLKKXmAdFkcYLVIZMyIVCVxUpI4tXxmzLZP0
-	/0KA=
-X-Google-Smtp-Source: AGHT+IGTYIpzzoB4R49eo/70y47qmccpJpO+y0657G/ZHOyDrLFSgO2Wihs19PpbwoGxGQMTdisH3g==
-X-Received: by 2002:a05:6902:330a:b0:e73:2da2:c300 with SMTP id 3f1490d57ef6-e7d91d84308mr3757453276.44.1748141302842;
-        Sat, 24 May 2025 19:48:22 -0700 (PDT)
+        bh=ZTzscTj+YcQ1SwnnplFh8eTlzFm7X3URXr/8FG1Ysm8=;
+        b=LHYWEZcPs3KxurnQx83zLIBzS83ntxQI1kCafiWr/wi9a00B3Dfxcboif2f1wqe7mS
+         DqrMbK1DG/VqZztl1A9HH+1RB/iPhr87obcQUSFlbG++kiGtCj0htcjNxva+r6oPCTmv
+         PcS137eqT1TcfOMA5BrrABj3MTJxKxXapjgBfvUlZRO0mtcRHDlUUT6b63uEZaYg8teV
+         EM4zS351w5n1QQchbsXlBGV0GIeFFC5Gbe5zYrjvISufWKARw3qBX9xT7odir6kHBbrC
+         TfMtStraF6riRHU0Y0Lh3GBaYsJIee7j1FMIg+6HPn0zA+IZfYzKlFWWgzJ3s/7e6E75
+         0G5Q==
+X-Gm-Message-State: AOJu0YwAPReLbxM6xKSOFTrMldVVN+P7l+jfxA7+tIuUMXBRj4wj2SCj
+	4+lTRo1b2zqRQjQcT/QUGe9gIAiXECqaom4zxMZls4pNcU3o5BVCj1kJ
+X-Gm-Gg: ASbGncuL+qZSxbigg8fcqTQnT8ciUSEJtIhVg36v3ZxMp/9FOcpbwWewXBrobyDyF/i
+	TfwX576WRiLTlZkE0Uw+ISGv/WKAf0btT8sxmRHQy+NIVqEVwuilCNkISXuBC6kaEegEKC3gebU
+	JI4+iNk5ADUEFoTjgjSbQCSe+xm15Y/T8EIFEu/fZotLfJRZ8exhsXQ1YWSKslt+Gan5t2KxQq5
+	AvKeMaaX46odUIUFK7MXJxKYC7nJoLRX1N9CE3BOYBu+PN4dyXe7l41XzzAX6Efjpin+Y5tX411
+	tzVeDpZ4aB5zvjQlBqQOzMbZvuLVFN31NFUi0hfpmO10EgVmblkaRhYg2lEKBbPirngPzF2BA3+
+	ljAU=
+X-Google-Smtp-Source: AGHT+IG80Kj8pAlqxh//VhzPivSEgHHMLwge+CNbDXCkpO8hiEvMp/AhC8cTEnZXB1F2CHEOOEcfXQ==
+X-Received: by 2002:a05:690c:4d8a:b0:70d:fe74:17ff with SMTP id 00721157ae682-70e2dabc1c4mr45381827b3.26.1748155472300;
+        Sat, 24 May 2025 23:44:32 -0700 (PDT)
 Received: from maquina-virtual-para-linux.. ([191.156.247.35])
-        by smtp.gmail.com with ESMTPSA id 3f1490d57ef6-e7d696663ddsm2172687276.21.2025.05.24.19.48.19
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-70e23250267sm8666637b3.65.2025.05.24.23.44.30
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 24 May 2025 19:48:21 -0700 (PDT)
+        Sat, 24 May 2025 23:44:31 -0700 (PDT)
 From: Donny Turizo <donnyturizo13@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Donny Turizo <donnyturizo13@gmail.com>
-Subject: [PATCH v3] staging: rtl8723bs: Fix camelCase to snake_case style in core files
-Date: Sun, 25 May 2025 02:48:14 +0000
-Message-ID: <20250525024814.4362-1-donnyturizo13@gmail.com>
+Subject: [PATCH v4] staging: rtl8723bs: Fix camelCase to snake_case style in core files
+Date: Sun, 25 May 2025 06:44:25 +0000
+Message-ID: <20250525064426.9662-1-donnyturizo13@gmail.com>
 X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -72,31 +72,37 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This patch renames the functions _Read_MACREG and _Write_MACREG to
-_Read_macreg and _Write_macreg respectively, aligning them with the
-Linux kernel's naming convention of using snake_case for identifiers.
+This patch renames functions _Read_Macreg and _Write_Macreg to
+_read_macreg and _write_macreg respectively, aligning them with the
+Linux kernel naming convention of using snake_case for identifiers.
 
-These changes improve code readability and maintain consistency with
-the kernel coding style, particularly in the rtl8723bs staging driver.
+These Changes improve code readability and maintain consistency with
+the kernel coding style, particulary in the rtl8723bs staging driver.
 
 No functional changes introduced.
 
 Signed-off-by: Donny Turizo <donnyturizo13@gmail.com>
 
 ---
-v2: Rebased the patch onto Greg Kroah-Hartman's staging branch for
-proper submission base.
+v2: Corrected the base branch used for the patch.
 
-v3: Updated the commit message body to provide a clear description of
-the changes.
-Changed the "From" field to use my real name as author.
-Updated the existing Signed-off-by line to reflect my real name.
+v3: Rebased onto a branch not maintained by Greg Kroah-Hartmant.
+Also updated the commit message body, changed the "From" field to my
+real name, and updated the Signed-off-by line accordingly.
+
+v4: Rebased properly onto Greg Kroah-Hartman staging tree to ensure
+correct upstream submission.
+
+In v2, the patch was rebased onto the correct tree, but in v3 it was
+rebased onto a branch not maintained by Greg Kroah-Hartman by mistake
+This version fixes that by ensuring the patch is based properly on
+GREGKH staging tree, required for upstream acceptance.
 ---
  drivers/staging/rtl8723bs/core/rtw_cmd.c | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/staging/rtl8723bs/core/rtw_cmd.c b/drivers/staging/rtl8723bs/core/rtw_cmd.c
-index 557bfdf092c2..81f795a82711 100644
+index 437934dd255e..49bcefb5e8d2 100644
 --- a/drivers/staging/rtl8723bs/core/rtw_cmd.c
 +++ b/drivers/staging/rtl8723bs/core/rtw_cmd.c
 @@ -9,8 +9,8 @@
