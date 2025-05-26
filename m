@@ -1,154 +1,168 @@
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B181D1F4C85
-	for <linux-staging@lists.linux.dev>; Mon, 26 May 2025 11:37:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54A3A1BC5C;
+	Mon, 26 May 2025 12:10:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748259441; cv=none; b=qGds6EQpVtENuw4Hqjlva8jZ7TH45DeWFxuG+x7RzGjfvOX54H08LHTGaekcHKGEFnkaD+KxeyNFNI5gUiQ3NFtSwEQwfCj9ewHK4UQMcO6kcvMUp+a11ARBIZmW+DoG8bR1yz48PbMsJbtSVB1X2E4FP1cdlaUw9p37deQFzME=
+	t=1748261443; cv=none; b=NedSbpROZC+jnoGNipX5z5ICD8pgYSqL4N7Xvl5kn4HmatMGF3X0ZJnzAC7zQoDVE+jfrOu68y26bgo/TpQkRBV0ZQWG45khLRCupjy7I9WVcdj244IKcs6kozRB2z+nOUt4kYQYcSLGt9En5q/3V6CCKvTQbWCba9g/fCl+AnY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748259441; c=relaxed/simple;
-	bh=nSDYH4WEhkI0c4mWAbs9ei0wGtWyyYjJxPJ8Zztq6V8=;
+	s=arc-20240116; t=1748261443; c=relaxed/simple;
+	bh=cZQpOYhiY2Gn7/YYsV3N5uVt4FURCVYh5mGWhtCL+dA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MowomzbFDUnY+o2zW5l/TyktTeg29C3DZTzEO0gWj373p41tS9XeXzEacSHx+LSUsDPpvSsHZTlWvrUSr0/tUWYR/PqWhoIZYuIxer1GyAIkWBDddL3ox61yVqxuTqBt0tkTU8Ul0z0yK5XB+jpI9kbx1gnBB+qElZFtbPF0NeQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=juo77kYQ; arc=none smtp.client-ip=209.85.221.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Type:Content-Disposition:In-Reply-To; b=oOPPc1OaBLAwmBa85R7giiXuN2tL1rwKuoTer/fHu35dmbO4Yu/BXi7MNE7It2ryfHvV1N2uO2udoY0gkloTQd+67J/4ddUbYEar4Atd/YdN+wECkxbhkPV5SAembbMSLKm4xFtwPf2FHe2/WRtk5XP0pjD13zxkuFCm24YBV0U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=icVOdcLW; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="juo77kYQ"
-Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-3a37d24e607so65525f8f.1
-        for <linux-staging@lists.linux.dev>; Mon, 26 May 2025 04:37:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1748259437; x=1748864237; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=q+rDiPz0qSiYsyHG9zqVRKjQE9VlYlwaE/0xL4WFAXE=;
-        b=juo77kYQjsN0HskqJ8KvgD/q5l9SQYHyP0FynbDq2s31iR7uXSgXNyQrqaAvf0Svc8
-         RAusWU7Hcc+lLlYBHWrvgmuqiFVXJbBhWeOF1pCEDYO/fsgpJmTnFzYt1wcXB32jWUKz
-         /xXJEFr6EUEHJd4SlogKsi4/fvoKFblNiooonbTh3MM3wUyc99dInD0wiJiFWpoHGye9
-         cH/euvOf/rd9fX42UjtPCJZKtxHSp5U4lBT0yTVYp0JAzXLACBhDACs6G304yOHKQXXZ
-         zTdmVkO05euySofBnteqZ911k1+zIeONkOB/hx5g9Je8VTwN2hjBcQEdJ9ViefwF1onC
-         Mazg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1748259437; x=1748864237;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=q+rDiPz0qSiYsyHG9zqVRKjQE9VlYlwaE/0xL4WFAXE=;
-        b=e1l0uTCPLzEVCjNaR/hwlpDUJpugcr/XsfT+WZo78OZNVcDer7+NpnY/YSWiSENNYb
-         CjyriTCStRsolfU3QiLtpVFxQ9D6kRvbB2Y+qJjG6NKK+FT83cuWzww1dwUlg103nBYv
-         SC5bvXxwp7vV9FkfF/pxNNhyudO06sbuqYid1Y7y2sB9Xcxjmm0Tz1v0N9PwWdzPwAbU
-         orOvm4moNmo/qX4B5uU459j3XFxkw7l5Xygu/4eWin3hbMLt+8u9eipCLj7fNNBkf4cW
-         L8uGxYxIfCd8dIk2NoS7OJOML5Pdrr8URZVt9nuxnFfy3IjGU6QzMpvxoetMcpgqdezc
-         qqEw==
-X-Forwarded-Encrypted: i=1; AJvYcCUkCgcHb6bFhl7L8nODiaFuRUAg2xDSkSIfS9h5TfrimyssmN560IpmKrkqNArLMnC/iA78BDDuni2n+GxT@lists.linux.dev
-X-Gm-Message-State: AOJu0Yws6wWEYlCPDOMxtOysOAeRZ+mIMRk0JhD5j4aSY5DUM/iFD21R
-	iu+JZPMTA5etMiOL5hJAZ3T96f+lQ3vFpZCT928/G0KSwQ8od+2ahIl4sJCnV3gc4tM=
-X-Gm-Gg: ASbGncuWZvme1Fiw52/zW6/fPLDXHR5TV3T2XL/S8N9e1KETlWwn61EZ3+gDfDnuG2E
-	vH6l5nS9dZyFbsvGkjD9Uck5CvhSH/5i2dYFoKm3O4MIHlsCNEch7DVoIKMsUEfq5u84Wi1Q+rK
-	Smdv+fg1krr7BNfA1hUtq7RFlIt8r87qa5TG1pCpaoM8V0QQZ1525bYhax/lCmRk5L0sFylB+GP
-	cp83VS6QGjo9mS4LNMiZsek+xbmWehDoTtJGIzSDfeglF55f7LhTFBTNiDmF/J4Ogtwk9VXJRBi
-	7axB6pxMQ86IWpVHAsB8ee5sVrx2fByMq7saGCCpyY42QjivQ9KfHdIB
-X-Google-Smtp-Source: AGHT+IEv5PUqkz+rdGK7cMHOMrelnch8JlHVRcoDJFXgNKq4OweFef3f63o86S/y+HO8Dwb3Au7C2g==
-X-Received: by 2002:a05:6000:40ca:b0:3a4:d8f8:fba7 with SMTP id ffacd0b85a97d-3a4d8f8fd9dmr2806239f8f.2.1748259436914;
-        Mon, 26 May 2025 04:37:16 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-3a4cce08411sm7388745f8f.51.2025.05.26.04.37.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 26 May 2025 04:37:16 -0700 (PDT)
-Date: Mon, 26 May 2025 14:37:13 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: clingfei <clf700383@gmail.com>, Kees Cook <keescook@chromium.org>
-Cc: elder@kernel.org, johan@kernel.org, vireshk@kernel.org,
-	gregkh@linuxfoundation.org, greybus-dev@lists.linaro.org,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] greybus: Avoid fake flexible array for response data
-Message-ID: <aDRSaZ4Rq47hjMuY@stanley.mountain>
-References: <20250526110654.3916536-1-clf700383@gmail.com>
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="icVOdcLW"
+Received: from pendragon.ideasonboard.com (237.69-130-109.adsl-dyn.isp.belgacom.be [109.130.69.237])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id C9D3B7E6;
+	Mon, 26 May 2025 14:10:15 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1748261415;
+	bh=cZQpOYhiY2Gn7/YYsV3N5uVt4FURCVYh5mGWhtCL+dA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=icVOdcLW8i1i0wDcy19eXcnfv6YEu3DHgAfNLOKlC3hyigEDdazkaPkzSBFXhgze2
+	 XJ2JRgIN7skMdrXTKNbiW6UF+l0M1HZqYIce1ff8yJwrD3hc233QSCREr0u2muS2Yr
+	 VzA+A4yX7/8bDXOjQJo1PHCjL+WUxOpA6WE0/jhM=
+Date: Mon, 26 May 2025 14:10:34 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Mathis Foerst <mathis.foerst@mt.com>
+Cc: linux-kernel@vger.kernel.org,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Steve Longerbeam <slongerbeam@gmail.com>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>, linux-media@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-staging@lists.linux.dev,
+	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+	manuel.traut@mt.com, mathis.foerst@zuehlke.com
+Subject: Re: [PATCH v6 4/7] media: mt9m114: Apply horizontal / vertical flip
+ while streaming
+Message-ID: <20250526121034.GF17743@pendragon.ideasonboard.com>
+References: <20250522143512.112043-1-mathis.foerst@mt.com>
+ <20250522143512.112043-5-mathis.foerst@mt.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20250526110654.3916536-1-clf700383@gmail.com>
+In-Reply-To: <20250522143512.112043-5-mathis.foerst@mt.com>
 
-On Mon, May 26, 2025 at 07:06:54PM +0800, clingfei wrote:
-> As https://lore.kernel.org/all/20240304211940.it.083-kees@kernel.org/
+Hi Mathis,
 
-I don't want to have to read a link to understand the commit message.
+Thank you for the patch.
 
-Does this change really affect anything in terms of "enforce the 0-sized
-destinations" rule?  I don't think this is a destination.  I think Kees
-enabled the checking he wanted.  You should probably CC him since we're
-refering to his email.
+On Thu, May 22, 2025 at 04:35:08PM +0200, Mathis Foerst wrote:
+> The current implementation does not apply changes to the V4L2 controls
+> HFLIP & VFLIP of the sensor immediately if the sensor is in streaming
+> state. The user has to stop and restart the stream for the changes to be
+> applied.
 
-> pointed out, to enforce the 0-sized destinations, the remaining 0-sized
-> destinations need to be handled. Thus the struct
-> gb_control_get_manifest_response and struct gb_i2c_transfer_response
-> are removed.
+This is by design. Changing horizontal or vertical flip will cause a
+shift in the bayer pattern, which would require reconfiguring the
+downstream devices in the pipeline atomically. This affects raw data
+capture.
 
-Here is a better commit message;
-
-"We want to get rid of zero size arrays and use flexible arrays instead.
-However, in this case the struct is just one flexible array of u8 which
-adds no value.  Just use a char pointer instead."
-
-I would have ignored it, probably but actually the
-gb_control_get_manifest_response struct is not used so put that in a
-separate commit.  That's a simpler commit to review.
-
-"The gb_control_get_manifest_response struct is not used.  Delete it."
-
+> Issue a CONFIG_CHANGE when the V4L2 controls HFLIP or VFLIP are set if the
+> sensor is in streaming state to apply the change immediately.
 > 
-> Signed-off-by: clingfei <clf700383@gmail.com>
+> Signed-off-by: Mathis Foerst <mathis.foerst@mt.com>
 > ---
->  drivers/staging/greybus/i2c.c             | 9 ++++-----
->  include/linux/greybus/greybus_protocols.h | 9 ---------
->  2 files changed, 4 insertions(+), 14 deletions(-)
+>  drivers/media/i2c/mt9m114.c | 43 +++++++++++++++++++++++++------------
+>  1 file changed, 29 insertions(+), 14 deletions(-)
 > 
-> diff --git a/drivers/staging/greybus/i2c.c b/drivers/staging/greybus/i2c.c
-> index 14f1ff6d448c..2857c2834206 100644
-> --- a/drivers/staging/greybus/i2c.c
-> +++ b/drivers/staging/greybus/i2c.c
-> @@ -144,15 +144,14 @@ gb_i2c_operation_create(struct gb_connection *connection,
->  }
+> diff --git a/drivers/media/i2c/mt9m114.c b/drivers/media/i2c/mt9m114.c
+> index 6c80c6926aef..7d39978835fe 100644
+> --- a/drivers/media/i2c/mt9m114.c
+> +++ b/drivers/media/i2c/mt9m114.c
+> @@ -399,6 +399,11 @@ struct mt9m114 {
+>  		struct v4l2_ctrl *gain;
+>  		struct v4l2_ctrl *hblank;
+>  		struct v4l2_ctrl *vblank;
+> +		struct {
+> +			/* horizonal / vertical flip cluster */
+> +			struct v4l2_ctrl *hflip;
+> +			struct v4l2_ctrl *vflip;
+> +		};
+>  	} pa;
 >  
->  static void gb_i2c_decode_response(struct i2c_msg *msgs, u32 msg_count,
-> -				   struct gb_i2c_transfer_response *response)
-> +				   u8 *data)
->  {
->  	struct i2c_msg *msg = msgs;
-> -	u8 *data;
->  	u32 i;
+>  	/* Image Flow Processor */
+> @@ -1059,6 +1064,7 @@ static int mt9m114_pa_s_ctrl(struct v4l2_ctrl *ctrl)
+>  	struct v4l2_subdev_state *state;
+>  	int ret = 0;
+>  	u64 mask;
+> +	u64 val;
 >  
-> -	if (!response)
-> +	if (!data)
->  		return;
-> -	data = response->data;
-> +
->  	for (i = 0; i < msg_count; i++) {
->  		if (msg->flags & I2C_M_RD) {
->  			memcpy(msg->buf, data, msg->len);
-> @@ -188,7 +187,7 @@ static int gb_i2c_transfer_operation(struct gb_i2c_device *gb_i2c_dev,
+>  	/* V4L2 controls values are applied only when power is up. */
+>  	if (!pm_runtime_get_if_in_use(&sensor->client->dev))
+> @@ -1095,17 +1101,25 @@ static int mt9m114_pa_s_ctrl(struct v4l2_ctrl *ctrl)
+>  		break;
 >  
->  	ret = gb_operation_request_send_sync(operation);
->  	if (!ret) {
-> -		struct gb_i2c_transfer_response *response;
-> +		u8 *response;
+>  	case V4L2_CID_HFLIP:
+> -		mask = MT9M114_CAM_SENSOR_CONTROL_HORZ_MIRROR_EN;
+> +		mask = MT9M114_CAM_SENSOR_CONTROL_HORZ_MIRROR_EN |
+> +		       MT9M114_CAM_SENSOR_CONTROL_VERT_FLIP_EN;
+> +		val = (sensor->pa.hflip->val ?
+> +		       MT9M114_CAM_SENSOR_CONTROL_HORZ_MIRROR_EN : 0) &
+> +		      (sensor->pa.vflip->val ?
+> +		       MT9M114_CAM_SENSOR_CONTROL_VERT_FLIP_EN : 0);
+>  		ret = cci_update_bits(sensor->regmap,
+>  				      MT9M114_CAM_SENSOR_CONTROL_READ_MODE,
+> -				      mask, ctrl->val ? mask : 0, NULL);
+> -		break;
+> +				      mask, val, NULL);
+> +		/*
+> +		 * A Config-Change needs to be issued for the change to take
+> +		 * effect. If we're not streaming ignore this, the change will
+> +		 * be applied when the stream is started.
+> +		 */
+> +		if (ret || !sensor->streaming)
+> +			break;
 >  
->  		response = operation->response->payload;
->  		gb_i2c_decode_response(msgs, msg_count, response);
+> -	case V4L2_CID_VFLIP:
+> -		mask = MT9M114_CAM_SENSOR_CONTROL_VERT_FLIP_EN;
+> -		ret = cci_update_bits(sensor->regmap,
+> -				      MT9M114_CAM_SENSOR_CONTROL_READ_MODE,
+> -				      mask, ctrl->val ? mask : 0, NULL);
+> +		ret = mt9m114_set_state(sensor,
+> +					MT9M114_SYS_STATE_ENTER_CONFIG_CHANGE);
+>  		break;
+>  
+>  	default:
+> @@ -1406,12 +1420,13 @@ static int mt9m114_pa_init(struct mt9m114 *sensor)
+>  			  sensor->pixrate, sensor->pixrate, 1,
+>  			  sensor->pixrate);
+>  
+> -	v4l2_ctrl_new_std(hdl, &mt9m114_pa_ctrl_ops,
+> -			  V4L2_CID_HFLIP,
+> -			  0, 1, 1, 0);
+> -	v4l2_ctrl_new_std(hdl, &mt9m114_pa_ctrl_ops,
+> -			  V4L2_CID_VFLIP,
+> -			  0, 1, 1, 0);
+> +	sensor->pa.hflip = v4l2_ctrl_new_std(hdl, &mt9m114_pa_ctrl_ops,
+> +					     V4L2_CID_HFLIP,
+> +					     0, 1, 1, 0);
+> +	sensor->pa.vflip = v4l2_ctrl_new_std(hdl, &mt9m114_pa_ctrl_ops,
+> +					     V4L2_CID_VFLIP,
+> +					     0, 1, 1, 0);
+> +	v4l2_ctrl_cluster(2, &sensor->pa.hflip);
+>  
+>  	if (hdl->error) {
+>  		ret = hdl->error;
 
-I like when parameters are called the same thing on both sides.  The
-name "response" adds no value.  Instead get rid of that variable and
-pass operation->response->payload directly.
+-- 
+Regards,
 
-		gb_i2c_decode_response(msgs, msg_count,
-				       operation->response->payload);
-
-regards,
-dan carpenter
-
+Laurent Pinchart
