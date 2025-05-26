@@ -1,32 +1,32 @@
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54A3A1BC5C;
-	Mon, 26 May 2025 12:10:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B68E1F03DE;
+	Mon, 26 May 2025 12:14:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748261443; cv=none; b=NedSbpROZC+jnoGNipX5z5ICD8pgYSqL4N7Xvl5kn4HmatMGF3X0ZJnzAC7zQoDVE+jfrOu68y26bgo/TpQkRBV0ZQWG45khLRCupjy7I9WVcdj244IKcs6kozRB2z+nOUt4kYQYcSLGt9En5q/3V6CCKvTQbWCba9g/fCl+AnY=
+	t=1748261642; cv=none; b=gSN6J6/8ghxXkNW7Zw8dOW2veshI7XVrFmRcfYPHvCREXKXaPAA/ozbfIiXOu5GwP/iHTcQFso434Vr8ZUibEGQoYMztqJypip7xKHT5jlJKo4MSXbo48brg4LzAVG8eXSrk4+I2b8SafErZjgA2zTnJBAvyO7ksF+mQdUBa/jw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748261443; c=relaxed/simple;
-	bh=cZQpOYhiY2Gn7/YYsV3N5uVt4FURCVYh5mGWhtCL+dA=;
+	s=arc-20240116; t=1748261642; c=relaxed/simple;
+	bh=f+xq8YG0asKr+yzADyfPtfiglKdK/kQYPtTCJ4mDz/U=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=oOPPc1OaBLAwmBa85R7giiXuN2tL1rwKuoTer/fHu35dmbO4Yu/BXi7MNE7It2ryfHvV1N2uO2udoY0gkloTQd+67J/4ddUbYEar4Atd/YdN+wECkxbhkPV5SAembbMSLKm4xFtwPf2FHe2/WRtk5XP0pjD13zxkuFCm24YBV0U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=icVOdcLW; arc=none smtp.client-ip=213.167.242.64
+	 Content-Type:Content-Disposition:In-Reply-To; b=lHIFNsAPknuT+3FllPf/yW9XoOIkvLfE2aVBXaqaQquElLQveX2MOL47Uy6vP2G/hADXjJHbe8/jw7iXcVCc88ckuRbGHTI5g10irq/42QQlQzxR5adpwXtZp7wp0VoGEDWVk2Hkpl1+eEHkcTcXKRZZsKbgiyS+J88iyVWELY0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=YKCETNB5; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="icVOdcLW"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="YKCETNB5"
 Received: from pendragon.ideasonboard.com (237.69-130-109.adsl-dyn.isp.belgacom.be [109.130.69.237])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id C9D3B7E6;
-	Mon, 26 May 2025 14:10:15 +0200 (CEST)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id D79627E6;
+	Mon, 26 May 2025 14:13:34 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1748261415;
-	bh=cZQpOYhiY2Gn7/YYsV3N5uVt4FURCVYh5mGWhtCL+dA=;
+	s=mail; t=1748261615;
+	bh=f+xq8YG0asKr+yzADyfPtfiglKdK/kQYPtTCJ4mDz/U=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=icVOdcLW8i1i0wDcy19eXcnfv6YEu3DHgAfNLOKlC3hyigEDdazkaPkzSBFXhgze2
-	 XJ2JRgIN7skMdrXTKNbiW6UF+l0M1HZqYIce1ff8yJwrD3hc233QSCREr0u2muS2Yr
-	 VzA+A4yX7/8bDXOjQJo1PHCjL+WUxOpA6WE0/jhM=
-Date: Mon, 26 May 2025 14:10:34 +0200
+	b=YKCETNB5JI46Ujgv3ggecBeD19hX8cMkpefuQKbexm4+Z+RUxwPCfy9vheRgHj9h8
+	 W9Riw11PSCyfJcZWi9ytnRZzyMU4LllEmue6EM1S416f9hx2oIOfyRxzeKhLbrwhhx
+	 fVqDau7GeCini5W+zIxHyrvLkZC6YzYLOaq3dnFE=
+Date: Mon, 26 May 2025 14:13:53 +0200
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: Mathis Foerst <mathis.foerst@mt.com>
 Cc: linux-kernel@vger.kernel.org,
@@ -45,11 +45,11 @@ Cc: linux-kernel@vger.kernel.org,
 	devicetree@vger.kernel.org, linux-staging@lists.linux.dev,
 	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
 	manuel.traut@mt.com, mathis.foerst@zuehlke.com
-Subject: Re: [PATCH v6 4/7] media: mt9m114: Apply horizontal / vertical flip
- while streaming
-Message-ID: <20250526121034.GF17743@pendragon.ideasonboard.com>
+Subject: Re: [PATCH v6 5/7] media: mt9m114: Allow set_selection while
+ streaming
+Message-ID: <20250526121353.GG17743@pendragon.ideasonboard.com>
 References: <20250522143512.112043-1-mathis.foerst@mt.com>
- <20250522143512.112043-5-mathis.foerst@mt.com>
+ <20250522143512.112043-6-mathis.foerst@mt.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -58,109 +58,85 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20250522143512.112043-5-mathis.foerst@mt.com>
+In-Reply-To: <20250522143512.112043-6-mathis.foerst@mt.com>
 
 Hi Mathis,
 
 Thank you for the patch.
 
-On Thu, May 22, 2025 at 04:35:08PM +0200, Mathis Foerst wrote:
-> The current implementation does not apply changes to the V4L2 controls
-> HFLIP & VFLIP of the sensor immediately if the sensor is in streaming
-> state. The user has to stop and restart the stream for the changes to be
-> applied.
-
-This is by design. Changing horizontal or vertical flip will cause a
-shift in the bayer pattern, which would require reconfiguring the
-downstream devices in the pipeline atomically. This affects raw data
-capture.
-
-> Issue a CONFIG_CHANGE when the V4L2 controls HFLIP or VFLIP are set if the
-> sensor is in streaming state to apply the change immediately.
+On Thu, May 22, 2025 at 04:35:09PM +0200, Mathis Foerst wrote:
+> The current implementation does not apply changes to the crop-
+> configuration of the sensor immediately if the sensor is in
+> streaming state. The user has to stop and restart the stream for
+> the changes to be applied.
+> This can be undesirable e.g. in a calibration usecase where the user
+> wants to see the impact of his changes in a live video stream.
+> Under the condition that the width & height of the cropped image area
+> does not change, the changed cropping configuration can be applied to
+> the pixel-array immediately without disturbing the IFP.
+> 
+> Call mt9m114_configure_pa() in mt9m114_pa_set_selection() if the sensor is
+> in streaming state and the size of the cropping rectangle didn't change,
+> issue a CONFIG_CHANGE to apply the changes immediately.
 > 
 > Signed-off-by: Mathis Foerst <mathis.foerst@mt.com>
 > ---
->  drivers/media/i2c/mt9m114.c | 43 +++++++++++++++++++++++++------------
->  1 file changed, 29 insertions(+), 14 deletions(-)
+>  drivers/media/i2c/mt9m114.c | 24 +++++++++++++++++++++---
+>  1 file changed, 21 insertions(+), 3 deletions(-)
 > 
 > diff --git a/drivers/media/i2c/mt9m114.c b/drivers/media/i2c/mt9m114.c
-> index 6c80c6926aef..7d39978835fe 100644
+> index 7d39978835fe..e909c1227e51 100644
 > --- a/drivers/media/i2c/mt9m114.c
 > +++ b/drivers/media/i2c/mt9m114.c
-> @@ -399,6 +399,11 @@ struct mt9m114 {
->  		struct v4l2_ctrl *gain;
->  		struct v4l2_ctrl *hblank;
->  		struct v4l2_ctrl *vblank;
-> +		struct {
-> +			/* horizonal / vertical flip cluster */
-> +			struct v4l2_ctrl *hflip;
-> +			struct v4l2_ctrl *vflip;
-> +		};
->  	} pa;
+> @@ -1301,11 +1301,14 @@ static int mt9m114_pa_set_selection(struct v4l2_subdev *sd,
+>  	struct mt9m114 *sensor = pa_to_mt9m114(sd);
+>  	struct v4l2_mbus_framefmt *format;
+>  	struct v4l2_rect *crop;
+> +	struct v4l2_rect old_crop;
+> +	int ret = 0;
 >  
->  	/* Image Flow Processor */
-> @@ -1059,6 +1064,7 @@ static int mt9m114_pa_s_ctrl(struct v4l2_ctrl *ctrl)
->  	struct v4l2_subdev_state *state;
->  	int ret = 0;
->  	u64 mask;
-> +	u64 val;
+>  	if (sel->target != V4L2_SEL_TGT_CROP)
+>  		return -EINVAL;
 >  
->  	/* V4L2 controls values are applied only when power is up. */
->  	if (!pm_runtime_get_if_in_use(&sensor->client->dev))
-> @@ -1095,17 +1101,25 @@ static int mt9m114_pa_s_ctrl(struct v4l2_ctrl *ctrl)
->  		break;
+>  	crop = v4l2_subdev_state_get_crop(state, sel->pad);
+> +	old_crop = *crop;
+>  	format = v4l2_subdev_state_get_format(state, sel->pad);
 >  
->  	case V4L2_CID_HFLIP:
-> -		mask = MT9M114_CAM_SENSOR_CONTROL_HORZ_MIRROR_EN;
-> +		mask = MT9M114_CAM_SENSOR_CONTROL_HORZ_MIRROR_EN |
-> +		       MT9M114_CAM_SENSOR_CONTROL_VERT_FLIP_EN;
-> +		val = (sensor->pa.hflip->val ?
-> +		       MT9M114_CAM_SENSOR_CONTROL_HORZ_MIRROR_EN : 0) &
-> +		      (sensor->pa.vflip->val ?
-> +		       MT9M114_CAM_SENSOR_CONTROL_VERT_FLIP_EN : 0);
->  		ret = cci_update_bits(sensor->regmap,
->  				      MT9M114_CAM_SENSOR_CONTROL_READ_MODE,
-> -				      mask, ctrl->val ? mask : 0, NULL);
-> -		break;
-> +				      mask, val, NULL);
-> +		/*
-> +		 * A Config-Change needs to be issued for the change to take
-> +		 * effect. If we're not streaming ignore this, the change will
-> +		 * be applied when the stream is started.
-> +		 */
-> +		if (ret || !sensor->streaming)
-> +			break;
+>  	/*
+> @@ -1331,10 +1334,25 @@ static int mt9m114_pa_set_selection(struct v4l2_subdev *sd,
+>  	format->width = crop->width;
+>  	format->height = crop->height;
 >  
-> -	case V4L2_CID_VFLIP:
-> -		mask = MT9M114_CAM_SENSOR_CONTROL_VERT_FLIP_EN;
-> -		ret = cci_update_bits(sensor->regmap,
-> -				      MT9M114_CAM_SENSOR_CONTROL_READ_MODE,
-> -				      mask, ctrl->val ? mask : 0, NULL);
-> +		ret = mt9m114_set_state(sensor,
-> +					MT9M114_SYS_STATE_ENTER_CONFIG_CHANGE);
->  		break;
+> -	if (sel->which == V4L2_SUBDEV_FORMAT_ACTIVE)
+> -		mt9m114_pa_ctrl_update_blanking(sensor, format);
+> +	if (sel->which != V4L2_SUBDEV_FORMAT_ACTIVE)
+> +		return ret;
 >  
->  	default:
-> @@ -1406,12 +1420,13 @@ static int mt9m114_pa_init(struct mt9m114 *sensor)
->  			  sensor->pixrate, sensor->pixrate, 1,
->  			  sensor->pixrate);
+> -	return 0;
+> +	mt9m114_pa_ctrl_update_blanking(sensor, format);
+> +
+> +	/*
+> +	 * Apply values immediately if streaming and the selection size did not
+> +	 * change.
+> +	 */
+> +	if (sensor->streaming && old_crop.height == crop->height &&
+> +	    old_crop.width == crop->width) {
+
+Changing the width or height of the active crop rectangle should be
+disallowed completely during streaming. mt9m114_pa_set_selection().
+should return -EBUSY in that case.
+
+> +		ret = mt9m114_configure_pa(sensor, state);
+> +		if (ret)
+> +			return ret;
+> +		// Changing the cropping config requires a CONFIG_CHANGE
+> +		ret = mt9m114_set_state(sensor,	MT9M114_SYS_STATE_ENTER_CONFIG_CHANGE);
+> +	}
+> +
+> +	return ret;
+>  }
 >  
-> -	v4l2_ctrl_new_std(hdl, &mt9m114_pa_ctrl_ops,
-> -			  V4L2_CID_HFLIP,
-> -			  0, 1, 1, 0);
-> -	v4l2_ctrl_new_std(hdl, &mt9m114_pa_ctrl_ops,
-> -			  V4L2_CID_VFLIP,
-> -			  0, 1, 1, 0);
-> +	sensor->pa.hflip = v4l2_ctrl_new_std(hdl, &mt9m114_pa_ctrl_ops,
-> +					     V4L2_CID_HFLIP,
-> +					     0, 1, 1, 0);
-> +	sensor->pa.vflip = v4l2_ctrl_new_std(hdl, &mt9m114_pa_ctrl_ops,
-> +					     V4L2_CID_VFLIP,
-> +					     0, 1, 1, 0);
-> +	v4l2_ctrl_cluster(2, &sensor->pa.hflip);
->  
->  	if (hdl->error) {
->  		ret = hdl->error;
+>  static const struct v4l2_subdev_pad_ops mt9m114_pa_pad_ops = {
 
 -- 
 Regards,
