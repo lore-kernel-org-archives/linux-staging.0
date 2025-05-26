@@ -1,168 +1,152 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f196.google.com (mail-pl1-f196.google.com [209.85.214.196])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 164F11D799D;
-	Mon, 26 May 2025 08:46:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02E1E1F4188
+	for <linux-staging@lists.linux.dev>; Mon, 26 May 2025 11:08:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.196
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748249199; cv=none; b=ZSC94GXqUnC80WDRRiLCxSjxm3HKTcMUz1CbygrSu74uvBmPZBPW7ws7l+n0lgOEN3hi2mGIXegq8Rmf/e8OwWELjuTL7bBsk3hfb0Apqy2GuKfKpOsrUhevCZ4hBKFndUcybVvq2akVYIiYJUT5omu1fhS6U5cRlrP+COXBAl8=
+	t=1748257693; cv=none; b=PEXqbQbWsWTovvpzoQLSq9qeHePJpF0QlYbSFVsmQGZdgwMUwF9D/SucpTN0gbaABElRVwm85Vucdp8kFb4juIfNhoSojkGv4iiAAkRYiexgADXS1s1mFJlxvktGGCf3zguGV3VALFW3/GbZ5xQLRUoYyHAn86tBwiOmg9oKc3o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748249199; c=relaxed/simple;
-	bh=9+g3my9JRIFlooxyj8V7sh35hY5IRCQbmUJgQyZCpZA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kE3biYorgVq3xJtL6Z7Zzbgf0l82sygmwpbN+ing7RRo89bPvjEqz7fwI3KkC9E9v/iW/O41oi1dSXOM0y1f93wjciuSbBsnxIUAu412Ae2JMJ53lDjpl679FMQ1EH/CgO+clql2zRisRmB/aULDeimWkfObq00jFO9QLlZfpNI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jcIwft5j; arc=none smtp.client-ip=198.175.65.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1748257693; c=relaxed/simple;
+	bh=O+dE09fzj62OmqV+UsjuQLQsX2ktS32WrQkumdnCevU=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=DBPlSeXBV6b2kNJJynjMwHNWXR2/rNnjmNyk/KpaT1rsCoihrBZ/qyqiaKT3QgvjEMamaWpdFI23JdhtjgHAyUk/XzjNKsZ2Nf8OM5aA0qpvQLsYo4LdPFP2hDkbEtiiGHaKHgnwvmzY+zZR1B3cLiU9a3dljS3dnALbMO4ZC8U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=REazI7dR; arc=none smtp.client-ip=209.85.214.196
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jcIwft5j"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1748249198; x=1779785198;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=9+g3my9JRIFlooxyj8V7sh35hY5IRCQbmUJgQyZCpZA=;
-  b=jcIwft5jv0c/Rh59jl/TCW8kcjY/LSfw8nQoXoi8VtJtepdVSHuq4VWS
-   UBrTgFXVNdHKqduE/NonNAbDHdEQXZnfVZ/PIoz42B7WA1onI4jtu409F
-   cNm/9JebxE4nhF2MOALTomXPSV9UsZLg/3Rd+ve/1dUJzdPtsB04kDQWy
-   uICUUd5sfDywupYNz3F/8E5VLoycEKi3FkMxDPTg5YaP/jwi4GvvR7RP5
-   uYyjK4RYGQ4pPPB6vdMGkYeHyOLpA1+hEFRIRKaIJiLCjLCq1jvQoEOlC
-   YxLAx5sl/+HE3HzfAHQhVIU2vCxBPScDZ40whbQEoIB3L4E9qOrPAwGZe
-   A==;
-X-CSE-ConnectionGUID: gF5xp2PgQPeoc+AV+YPtGg==
-X-CSE-MsgGUID: 1wLTmoAPRWioG2SbN47umQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11444"; a="61271402"
-X-IronPort-AV: E=Sophos;i="6.15,315,1739865600"; 
-   d="scan'208";a="61271402"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 May 2025 01:46:37 -0700
-X-CSE-ConnectionGUID: 87Q8+/OFQEKou9A59x7HZw==
-X-CSE-MsgGUID: K2tL7ZGsTH2TiLuVAaj2fQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,315,1739865600"; 
-   d="scan'208";a="142185826"
-Received: from smoticic-mobl1.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.245.125])
-  by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 May 2025 01:46:32 -0700
-Received: from kekkonen.localdomain (localhost [127.0.0.1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id 6EF9D11F738;
-	Mon, 26 May 2025 11:46:29 +0300 (EEST)
-Date: Mon, 26 May 2025 08:46:29 +0000
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Mathis Foerst <mathis.foerst@mt.com>
-Cc: linux-kernel@vger.kernel.org,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Steve Longerbeam <slongerbeam@gmail.com>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>, linux-media@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-staging@lists.linux.dev,
-	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
-	manuel.traut@mt.com, mathis.foerst@zuehlke.com
-Subject: Re: [PATCH v6 5/7] media: mt9m114: Allow set_selection while
- streaming
-Message-ID: <aDQqZdf1kZ6n3Fcm@kekkonen.localdomain>
-References: <20250522143512.112043-1-mathis.foerst@mt.com>
- <20250522143512.112043-6-mathis.foerst@mt.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="REazI7dR"
+Received: by mail-pl1-f196.google.com with SMTP id d9443c01a7336-2344fc24859so1158565ad.0
+        for <linux-staging@lists.linux.dev>; Mon, 26 May 2025 04:08:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1748257691; x=1748862491; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=TYrv+P2HDOOtjJG1Ylbuyew/XFq9E/PugmdWiaigIXA=;
+        b=REazI7dRRO9GqzDWEQZv+Dcg47aFkI8PVqAi9n1faB3RUV2YS7GYLeAWTkg9LzlhoV
+         DU4QTNaTT/J6WSxMHwrw6zY397r9pgIkdXgY26EBpVlomkJ1WSxR3ZfLdLoiiOT3na42
+         YIr9qDrnWkswU/Bbi7itPCgPltdItStgEeOuqZShdVUgDk/MxXGgidERAcWnqSjhH8+E
+         gMAwOq/ao/dL+WZE4sIVPU4fc7v2fNQ5n0GAmHZrBY3YHepnBL7YG9XjkhJQmwK2qV8M
+         gbTtuuJpMJ7dduC7+L7rFotKeS/bEHgIuq9yd69r6WsDUpipXdd6f9/7f7elWBVrfJd+
+         mJAw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1748257691; x=1748862491;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=TYrv+P2HDOOtjJG1Ylbuyew/XFq9E/PugmdWiaigIXA=;
+        b=p3RIt3CRnVeKcgH4yDyFGK5QQh9KMfdhT1hgDIYg5P9feAVWZUmAqqa4DVE3NTfKwb
+         2wgpXOsB+z7fdXOvkNPjjvw6Vz4Tb8VFmzBuY6V8B5l5QNEHc/QPn8GpDyiHiZcePMlF
+         QZifTBnS9RlIoFgzzhPJLKwhA/oHPH7Qdomd1TwD4Z8CYSLWbNkEd/Q755ZSSDFVsyAz
+         lAni7ge0zviqNgyW1WF7d4kj5/hLi2ewnGQwhy7qA5+9DF2H06J6qYMLOKZDy2s8NXkG
+         rtOUrW8CKHROlo+cDHSKlNDTOLxpyXybLTC4XFYwE9jo5yI8lNVY6ffQNfkk40p07tVc
+         518Q==
+X-Forwarded-Encrypted: i=1; AJvYcCUMBdpZHAM0HNnu23uPl4gZUwgYrPjsSZZh4aeg6mEqhtUp4/aVYCyx+78srineQ096CanDNzazmEs1fh3L@lists.linux.dev
+X-Gm-Message-State: AOJu0YxnlNIFDvIpVJWTvszDGzOZ5VwN7O039RLyuq8gumVAkw2dgvso
+	M0hwPE8v6M4trU0PAPFP70Bzzc+QX52OKgy/Vsv7iKlZccOjjTyjeGsC
+X-Gm-Gg: ASbGncsDLjPNOy7I693rfwu3XTWWBUnGzWpAgQwGGqo1xeecez5hd82gXDGkjMabEO7
+	lIfHg9Rb9qpsDb0yeSBcG5xjz8Gq0ZLQ5ICpWuMQzHEOeJKpsV6HFP6APeyuhApDFe+QOBjeQu2
+	lx4EWdQzkw0b6TKlipGHsVmLSz4Kx9T9tsEGw5kFV5/OjeAqP+RS1CN0Weh2Sbx/6aYuwsPAYqZ
+	12UJyOVkhKdt5uT/vbJS4ukJ4tZWHqJ88+XYigKDcroP0fmREiOeKCBgxswtUs6cxGbR4n5WZX8
+	kxD1zYjYfJ1Ip11stl79Rv8Aj8RvJQ==
+X-Google-Smtp-Source: AGHT+IHq3w0bF9u3FNLf9NfvqS8horvVYf7CrW5lhlByo7h0D4LInhkkAn5Rq1vWblX71HzqOcrmxA==
+X-Received: by 2002:a17:902:db03:b0:223:5525:622f with SMTP id d9443c01a7336-23414f2fca5mr49499585ad.1.1748257691042;
+        Mon, 26 May 2025 04:08:11 -0700 (PDT)
+Received: from user.. ([2001:da8:283:e049::9:6ed3])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-23435e7671asm28156875ad.89.2025.05.26.04.08.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 26 May 2025 04:08:10 -0700 (PDT)
+From: clingfei <clf700383@gmail.com>
+To: elder@kernel.org
+Cc: johan@kernel.org,
+	vireshk@kernel.org,
+	gregkh@linuxfoundation.org,
+	greybus-dev@lists.linaro.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	clf700383@gmail.com
+Subject: [PATCH] greybus: Avoid fake flexible array for response data
+Date: Mon, 26 May 2025 19:06:54 +0800
+Message-Id: <20250526110654.3916536-1-clf700383@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250522143512.112043-6-mathis.foerst@mt.com>
+Content-Transfer-Encoding: 8bit
 
-Hi Mathis,
+As https://lore.kernel.org/all/20240304211940.it.083-kees@kernel.org/
+pointed out, to enforce the 0-sized destinations, the remaining 0-sized
+destinations need to be handled. Thus the struct
+gb_control_get_manifest_response and struct gb_i2c_transfer_response
+are removed.
 
-On Thu, May 22, 2025 at 04:35:09PM +0200, Mathis Foerst wrote:
-> The current implementation does not apply changes to the crop-
-> configuration of the sensor immediately if the sensor is in
-> streaming state. The user has to stop and restart the stream for
-> the changes to be applied.
-> This can be undesirable e.g. in a calibration usecase where the user
-> wants to see the impact of his changes in a live video stream.
-> Under the condition that the width & height of the cropped image area
-> does not change, the changed cropping configuration can be applied to
-> the pixel-array immediately without disturbing the IFP.
-> 
-> Call mt9m114_configure_pa() in mt9m114_pa_set_selection() if the sensor is
-> in streaming state and the size of the cropping rectangle didn't change,
-> issue a CONFIG_CHANGE to apply the changes immediately.
-> 
-> Signed-off-by: Mathis Foerst <mathis.foerst@mt.com>
-> ---
->  drivers/media/i2c/mt9m114.c | 24 +++++++++++++++++++++---
->  1 file changed, 21 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/media/i2c/mt9m114.c b/drivers/media/i2c/mt9m114.c
-> index 7d39978835fe..e909c1227e51 100644
-> --- a/drivers/media/i2c/mt9m114.c
-> +++ b/drivers/media/i2c/mt9m114.c
-> @@ -1301,11 +1301,14 @@ static int mt9m114_pa_set_selection(struct v4l2_subdev *sd,
->  	struct mt9m114 *sensor = pa_to_mt9m114(sd);
->  	struct v4l2_mbus_framefmt *format;
->  	struct v4l2_rect *crop;
-> +	struct v4l2_rect old_crop;
-> +	int ret = 0;
->  
->  	if (sel->target != V4L2_SEL_TGT_CROP)
->  		return -EINVAL;
->  
->  	crop = v4l2_subdev_state_get_crop(state, sel->pad);
-> +	old_crop = *crop;
->  	format = v4l2_subdev_state_get_format(state, sel->pad);
->  
->  	/*
-> @@ -1331,10 +1334,25 @@ static int mt9m114_pa_set_selection(struct v4l2_subdev *sd,
->  	format->width = crop->width;
->  	format->height = crop->height;
->  
-> -	if (sel->which == V4L2_SUBDEV_FORMAT_ACTIVE)
-> -		mt9m114_pa_ctrl_update_blanking(sensor, format);
-> +	if (sel->which != V4L2_SUBDEV_FORMAT_ACTIVE)
-> +		return ret;
->  
-> -	return 0;
-> +	mt9m114_pa_ctrl_update_blanking(sensor, format);
-> +
-> +	/*
-> +	 * Apply values immediately if streaming and the selection size did not
-> +	 * change.
-> +	 */
-> +	if (sensor->streaming && old_crop.height == crop->height &&
-> +	    old_crop.width == crop->width) {
-> +		ret = mt9m114_configure_pa(sensor, state);
-> +		if (ret)
-> +			return ret;
-> +		// Changing the cropping config requires a CONFIG_CHANGE
+Signed-off-by: clingfei <clf700383@gmail.com>
+---
+ drivers/staging/greybus/i2c.c             | 9 ++++-----
+ include/linux/greybus/greybus_protocols.h | 9 ---------
+ 2 files changed, 4 insertions(+), 14 deletions(-)
 
-/* C comments, please. */
-
-> +		ret = mt9m114_set_state(sensor,	MT9M114_SYS_STATE_ENTER_CONFIG_CHANGE);
-
-Please run:
-
-	$ ./scripts/checkpatch.pl --strict --max-line-length=80
-
-on this.
-
-> +	}
-> +
-> +	return ret;
->  }
->  
->  static const struct v4l2_subdev_pad_ops mt9m114_pa_pad_ops = {
-
+diff --git a/drivers/staging/greybus/i2c.c b/drivers/staging/greybus/i2c.c
+index 14f1ff6d448c..2857c2834206 100644
+--- a/drivers/staging/greybus/i2c.c
++++ b/drivers/staging/greybus/i2c.c
+@@ -144,15 +144,14 @@ gb_i2c_operation_create(struct gb_connection *connection,
+ }
+ 
+ static void gb_i2c_decode_response(struct i2c_msg *msgs, u32 msg_count,
+-				   struct gb_i2c_transfer_response *response)
++				   u8 *data)
+ {
+ 	struct i2c_msg *msg = msgs;
+-	u8 *data;
+ 	u32 i;
+ 
+-	if (!response)
++	if (!data)
+ 		return;
+-	data = response->data;
++
+ 	for (i = 0; i < msg_count; i++) {
+ 		if (msg->flags & I2C_M_RD) {
+ 			memcpy(msg->buf, data, msg->len);
+@@ -188,7 +187,7 @@ static int gb_i2c_transfer_operation(struct gb_i2c_device *gb_i2c_dev,
+ 
+ 	ret = gb_operation_request_send_sync(operation);
+ 	if (!ret) {
+-		struct gb_i2c_transfer_response *response;
++		u8 *response;
+ 
+ 		response = operation->response->payload;
+ 		gb_i2c_decode_response(msgs, msg_count, response);
+diff --git a/include/linux/greybus/greybus_protocols.h b/include/linux/greybus/greybus_protocols.h
+index 820134b0105c..14395f9300d6 100644
+--- a/include/linux/greybus/greybus_protocols.h
++++ b/include/linux/greybus/greybus_protocols.h
+@@ -110,11 +110,6 @@ struct gb_control_get_manifest_size_response {
+ 	__le16			size;
+ } __packed;
+ 
+-/* Control protocol manifest get request has no payload */
+-struct gb_control_get_manifest_response {
+-	__u8			data[0];
+-} __packed;
+-
+ /* Control protocol [dis]connected request */
+ struct gb_control_connected_request {
+ 	__le16			cport_id;
+@@ -678,10 +673,6 @@ struct gb_i2c_transfer_request {
+ 	__le16				op_count;
+ 	struct gb_i2c_transfer_op	ops[];		/* op_count of these */
+ } __packed;
+-struct gb_i2c_transfer_response {
+-	__u8				data[0];	/* inbound data */
+-} __packed;
+-
+ 
+ /* GPIO */
+ 
 -- 
-Regards,
+2.34.1
 
-Sakari Ailus
