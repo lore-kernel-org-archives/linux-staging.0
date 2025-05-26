@@ -1,70 +1,76 @@
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E23A256D
-	for <linux-staging@lists.linux.dev>; Mon, 26 May 2025 08:03:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 164F11D799D;
+	Mon, 26 May 2025 08:46:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748246603; cv=none; b=pX1sZH77XnS3LmQXkctS7tdo/X5gKWduiw8qOsY7zoeJOYTdEYgkpqx0zAHvlJxqFqRwKJQdKf/M416hrbNkbqTVN3Xs0Ysr9OMz78dohFTYtZbveg3mE1tRclvtyO4Lv+2gf2ywEEL/LxU0ni//b94ZBAsjwooEeZckcFEO/QA=
+	t=1748249199; cv=none; b=ZSC94GXqUnC80WDRRiLCxSjxm3HKTcMUz1CbygrSu74uvBmPZBPW7ws7l+n0lgOEN3hi2mGIXegq8Rmf/e8OwWELjuTL7bBsk3hfb0Apqy2GuKfKpOsrUhevCZ4hBKFndUcybVvq2akVYIiYJUT5omu1fhS6U5cRlrP+COXBAl8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748246603; c=relaxed/simple;
-	bh=lVTcXDtD6g0a+NcnMtEyejIbZBedLWO3vOFVjaXJwR4=;
+	s=arc-20240116; t=1748249199; c=relaxed/simple;
+	bh=9+g3my9JRIFlooxyj8V7sh35hY5IRCQbmUJgQyZCpZA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qF/VY2m4B9sCsecMx8WivLZSPioG/UdrAse0z8WT8z0Oib/PdqRnm0KZxME2/qTsO/vPJOI1RD95ov3fWDXuz/TaW9RCdif1CcroUOC5xoaM741cyK1Jb3DKqhLaHL4si/Ww7Qp1Jou3KRDH0tHpZuqyABdLWhAT1vAnYH57eBs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=q2fnz5uM; arc=none smtp.client-ip=209.85.221.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Type:Content-Disposition:In-Reply-To; b=kE3biYorgVq3xJtL6Z7Zzbgf0l82sygmwpbN+ing7RRo89bPvjEqz7fwI3KkC9E9v/iW/O41oi1dSXOM0y1f93wjciuSbBsnxIUAu412Ae2JMJ53lDjpl679FMQ1EH/CgO+clql2zRisRmB/aULDeimWkfObq00jFO9QLlZfpNI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jcIwft5j; arc=none smtp.client-ip=198.175.65.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="q2fnz5uM"
-Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-3a36e090102so1065216f8f.2
-        for <linux-staging@lists.linux.dev>; Mon, 26 May 2025 01:03:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1748246599; x=1748851399; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=SPYtiJxPEj4NMJqNxT1zar3Wry/PsazM942gqJr3gSY=;
-        b=q2fnz5uMDmedLDmfPTIVSWELM9xFDeXtfE13HcCpXkvO5Mfi7dibtJ9a+2jkhLOl5g
-         aI486jgiyNFjeKx4fIisG/2RhvkCpuGtXWhVhqI7qny9qV60JLRzH6vN9NPsm+hIBCRM
-         6HreLxrHezUy495vsP9dl+PgHqjY3DH0Zlns1S6lnhynjcLCDR4M+pUiKklb/ZXePrrh
-         UZWeF7N6XX6wCSNjpbTFJ2r2N/+lbXg3OWlixmQGDAdfAlETL16kUd/ER7UX0Eyg0OwE
-         o+qlXFscRWOqZIGPCugtKARTJLmVgCL51ciPtMOtT/Vwv7xH/zrEU8ig37LFptYWSozK
-         zRTQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1748246599; x=1748851399;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=SPYtiJxPEj4NMJqNxT1zar3Wry/PsazM942gqJr3gSY=;
-        b=dmqIuntX1XEaK6BuUYGcw+t4oc4mTL9K1ITpkWwzdPzv//4G1n6AqvJOpgHudhCcx1
-         +E0cJr/E+2XLLnkz4caDSWTvQR4kxvmhxjLCW9HwkWPndsxc0VXYKZeBLuLDYynaLhKU
-         M+Si9wqKXWcp/KXvIZXDgHkqt+Vd4gg2DXuRV39FAjSuGBtC40LCa7tLvgVOsOdQ3e/5
-         x6LbdyEHczs+WWzMYHyKAZ3KAqtoAgZbWSUiUC+awDQ1A6f3rWQSzT8qOR91rDhoWZzi
-         W3i0IrcqmG6+OU/iiplHJgBhwGeQAEfbM8kE9uun+3dVjTrujdwkdWZIghLX/RFk/5K1
-         Au/g==
-X-Forwarded-Encrypted: i=1; AJvYcCVyC/K8vHibBvJsw7JfVtOSBKD8DPlpuzrdM56BN9tqan+oH+zyk0jLER5pDiyUNsmVAfrk6BSbp+faCRxd@lists.linux.dev
-X-Gm-Message-State: AOJu0Yw22vvKu1F+PHcZrrpZM3rwWaGO8LZrHiJiwIvehw/YLYDScDsz
-	EXrlNrZj76G46qOAfcHyOYyaiYcp+7q03wQnea+XBcB0QIofZhm8BKL9lgQPsqrJOGY=
-X-Gm-Gg: ASbGncuzAwZP+XO8D/Ex5gNexqBhmbMSGtv4Bda0YjgGAZ5Eyx192MhT9kZt1J2uQKq
-	7Q1KgkKyKFx5sHPn62z4QcW/yKIOm2H0Ocg/sXXZzbGUUGMe1kqe8vl8QPWSKnEVn9mrAGcz48c
-	iUbXO8ZCMEYHvGvGXHVOX6aRNbJlGFGfGH9AR9ZQAh9YReA/bwEp9MH3OGlR0Plcd3nBuWUIfHk
-	n1cLPYFtRNqPgHlT5H/wf6h3ZctQFuAokdx4UhDbtZ5Z39hM5awBrCksaeArz09+TyDqqBMpDjS
-	lo1AOKadg4y4Efr9ctp+Sv7bNVImYe2qcAyGYmBfli/uWpDsW5/rUz8V
-X-Google-Smtp-Source: AGHT+IEMr0TmkUd9qX2Oy/Wo5X7vaanyihC1ehKQZ1EHSEnhJI+iGEHT6/vJgAx1HAnkKnJSZJINgQ==
-X-Received: by 2002:a05:6000:2f88:b0:3a4:d0fe:42af with SMTP id ffacd0b85a97d-3a4d0fe4f10mr4548065f8f.33.1748246599461;
-        Mon, 26 May 2025 01:03:19 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-447f6f04334sm224252025e9.10.2025.05.26.01.03.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 26 May 2025 01:03:18 -0700 (PDT)
-Date: Mon, 26 May 2025 11:03:15 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Donny Turizo <donnyturizo13@gmail.com>
-Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v6] staging: rtl8723bs: rename _Read_EEPROM and other
- functions to snake_case
-Message-ID: <aDQgQw9XZV_7BIf-@stanley.mountain>
-References: <20250524173745.4907-1-donnyturizo13@gmail.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jcIwft5j"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1748249198; x=1779785198;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=9+g3my9JRIFlooxyj8V7sh35hY5IRCQbmUJgQyZCpZA=;
+  b=jcIwft5jv0c/Rh59jl/TCW8kcjY/LSfw8nQoXoi8VtJtepdVSHuq4VWS
+   UBrTgFXVNdHKqduE/NonNAbDHdEQXZnfVZ/PIoz42B7WA1onI4jtu409F
+   cNm/9JebxE4nhF2MOALTomXPSV9UsZLg/3Rd+ve/1dUJzdPtsB04kDQWy
+   uICUUd5sfDywupYNz3F/8E5VLoycEKi3FkMxDPTg5YaP/jwi4GvvR7RP5
+   uYyjK4RYGQ4pPPB6vdMGkYeHyOLpA1+hEFRIRKaIJiLCjLCq1jvQoEOlC
+   YxLAx5sl/+HE3HzfAHQhVIU2vCxBPScDZ40whbQEoIB3L4E9qOrPAwGZe
+   A==;
+X-CSE-ConnectionGUID: gF5xp2PgQPeoc+AV+YPtGg==
+X-CSE-MsgGUID: 1wLTmoAPRWioG2SbN47umQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11444"; a="61271402"
+X-IronPort-AV: E=Sophos;i="6.15,315,1739865600"; 
+   d="scan'208";a="61271402"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 May 2025 01:46:37 -0700
+X-CSE-ConnectionGUID: 87Q8+/OFQEKou9A59x7HZw==
+X-CSE-MsgGUID: K2tL7ZGsTH2TiLuVAaj2fQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,315,1739865600"; 
+   d="scan'208";a="142185826"
+Received: from smoticic-mobl1.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.245.125])
+  by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 May 2025 01:46:32 -0700
+Received: from kekkonen.localdomain (localhost [127.0.0.1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id 6EF9D11F738;
+	Mon, 26 May 2025 11:46:29 +0300 (EEST)
+Date: Mon, 26 May 2025 08:46:29 +0000
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Mathis Foerst <mathis.foerst@mt.com>
+Cc: linux-kernel@vger.kernel.org,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Steve Longerbeam <slongerbeam@gmail.com>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>, linux-media@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-staging@lists.linux.dev,
+	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+	manuel.traut@mt.com, mathis.foerst@zuehlke.com
+Subject: Re: [PATCH v6 5/7] media: mt9m114: Allow set_selection while
+ streaming
+Message-ID: <aDQqZdf1kZ6n3Fcm@kekkonen.localdomain>
+References: <20250522143512.112043-1-mathis.foerst@mt.com>
+ <20250522143512.112043-6-mathis.foerst@mt.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -73,31 +79,90 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250524173745.4907-1-donnyturizo13@gmail.com>
+In-Reply-To: <20250522143512.112043-6-mathis.foerst@mt.com>
 
-On Sat, May 24, 2025 at 05:37:45PM +0000, Donny Turizo wrote:
-> Renamed _Read_EEPROM and several other functions in rtw_cmd.c to follow
-> the kernel coding style (snake_case). This fixes checkpatch warnings
-> related to naming conventions.
+Hi Mathis,
+
+On Thu, May 22, 2025 at 04:35:09PM +0200, Mathis Foerst wrote:
+> The current implementation does not apply changes to the crop-
+> configuration of the sensor immediately if the sensor is in
+> streaming state. The user has to stop and restart the stream for
+> the changes to be applied.
+> This can be undesirable e.g. in a calibration usecase where the user
+> wants to see the impact of his changes in a live video stream.
+> Under the condition that the width & height of the cropped image area
+> does not change, the changed cropping configuration can be applied to
+> the pixel-array immediately without disturbing the IFP.
 > 
-> Signed-off-by: Donny Turizo <donnyturizo13@gmail.com>
+> Call mt9m114_configure_pa() in mt9m114_pa_set_selection() if the sensor is
+> in streaming state and the size of the cropping rectangle didn't change,
+> issue a CONFIG_CHANGE to apply the changes immediately.
 > 
+> Signed-off-by: Mathis Foerst <mathis.foerst@mt.com>
 > ---
-> v2: Initial patch rejected by the robot due to naming issues.
+>  drivers/media/i2c/mt9m114.c | 24 +++++++++++++++++++++---
+>  1 file changed, 21 insertions(+), 3 deletions(-)
 > 
-> v3: Rebased the patch onto GregKH's staging branch for better integration.
-> 
-> v4: Changed the commit author to my name and renamed all remaining functions
->     to snake_case following kernel coding style.
-> 
-> v5: Renamed command _set_h2c_Lbk to _set_h2c_lbk to fix CamelCase issue.
-> 
-> v6: Actually fixed the misspelled name that was incorrectly stated as
->   fixed in v5.
+> diff --git a/drivers/media/i2c/mt9m114.c b/drivers/media/i2c/mt9m114.c
+> index 7d39978835fe..e909c1227e51 100644
+> --- a/drivers/media/i2c/mt9m114.c
+> +++ b/drivers/media/i2c/mt9m114.c
+> @@ -1301,11 +1301,14 @@ static int mt9m114_pa_set_selection(struct v4l2_subdev *sd,
+>  	struct mt9m114 *sensor = pa_to_mt9m114(sd);
+>  	struct v4l2_mbus_framefmt *format;
+>  	struct v4l2_rect *crop;
+> +	struct v4l2_rect old_crop;
+> +	int ret = 0;
+>  
+>  	if (sel->target != V4L2_SEL_TGT_CROP)
+>  		return -EINVAL;
+>  
+>  	crop = v4l2_subdev_state_get_crop(state, sel->pad);
+> +	old_crop = *crop;
+>  	format = v4l2_subdev_state_get_format(state, sel->pad);
+>  
+>  	/*
+> @@ -1331,10 +1334,25 @@ static int mt9m114_pa_set_selection(struct v4l2_subdev *sd,
+>  	format->width = crop->width;
+>  	format->height = crop->height;
+>  
+> -	if (sel->which == V4L2_SUBDEV_FORMAT_ACTIVE)
+> -		mt9m114_pa_ctrl_update_blanking(sensor, format);
+> +	if (sel->which != V4L2_SUBDEV_FORMAT_ACTIVE)
+> +		return ret;
+>  
+> -	return 0;
+> +	mt9m114_pa_ctrl_update_blanking(sensor, format);
+> +
+> +	/*
+> +	 * Apply values immediately if streaming and the selection size did not
+> +	 * change.
+> +	 */
+> +	if (sensor->streaming && old_crop.height == crop->height &&
+> +	    old_crop.width == crop->width) {
+> +		ret = mt9m114_configure_pa(sensor, state);
+> +		if (ret)
+> +			return ret;
+> +		// Changing the cropping config requires a CONFIG_CHANGE
 
-Surely, this breaks the build?  You're not working against staging-next
-so it's difficult for me to apply this and actually check.
+/* C comments, please. */
 
-regards,
-dan carpenter
+> +		ret = mt9m114_set_state(sensor,	MT9M114_SYS_STATE_ENTER_CONFIG_CHANGE);
 
+Please run:
+
+	$ ./scripts/checkpatch.pl --strict --max-line-length=80
+
+on this.
+
+> +	}
+> +
+> +	return ret;
+>  }
+>  
+>  static const struct v4l2_subdev_pad_ops mt9m114_pa_pad_ops = {
+
+-- 
+Regards,
+
+Sakari Ailus
