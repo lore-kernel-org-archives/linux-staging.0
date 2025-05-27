@@ -1,151 +1,127 @@
-Received: from mail-pj1-f74.google.com (mail-pj1-f74.google.com [209.85.216.74])
+Received: from smtp.forwardemail.net (smtp.forwardemail.net [149.28.215.223])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BD852820C9
-	for <linux-staging@lists.linux.dev>; Tue, 27 May 2025 17:11:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.74
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF9ED28030A
+	for <linux-staging@lists.linux.dev>; Tue, 27 May 2025 17:51:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=149.28.215.223
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748365903; cv=none; b=L1GBihH+kWxpST8Cez/hNX5YY+ATDglINZ/W5pK9P7ZXzlOUpwxqNBGmvrJTdOYn2CVA6wZ9bLrx6cHRr/o1feyvZfzijOeeTa+nwX7Dx5K522/GMx3AMbpN9VGC1OhMEIyJhgmkWzb0xfc1sAcFBlkzK6r/6N2+f83OMbfpspk=
+	t=1748368318; cv=none; b=rsg/29R1FULIvGJ9Zow2ZbfaOttp+SuKeyUT7FnWYEb/LdlKmyK7sXy4Um56lkiMk9LhiVWlg4/XAJeoROsyLiNDGXn5Vh3mkB4+g/spL4bUXkCQR9SX4idNDvgLACgrXLAS/cHGck3OtdtuCQrcVNpLF74f/L+4ikanZrqIjus=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748365903; c=relaxed/simple;
-	bh=WRJHINpKvIzq+kAIFhHGh/uFlb6VeUjDetEZlCoYiZ4=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=l8Kh8n7uTR0xkLWfhhcKTXLXHvceuZc5dcEx9biMOiNPLuvRRV2lqcoVX/kFl+3A31eE9bhKl95IZ7XWEGhlxPs+bZGrcn2CknVrRqyJ7iNUYMeWznwhZoVkdp9as1So4b4XLAqWBUwOl0JfJi4dVIkwJeqo7zzjEwJBQxFnw0w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--ericflorin.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=EwKZnk6w; arc=none smtp.client-ip=209.85.216.74
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--ericflorin.bounces.google.com
+	s=arc-20240116; t=1748368318; c=relaxed/simple;
+	bh=ir+58+LRW1q60psMCkCd3a0Qj6GN01bFJMeXsTypjRE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=JjGoWEsjNLCy2HKBaWQ3qPwu+2XmktlM8JloUOE65a1KM+t6itBES9T6aH+RZmMLXRww2ef+vo3VMGZ20vv2rFcYDGaKkBVSCvk5EdlnI+15dMUbvKbxdxdNtnV+8drxunuznpUtuQOWm4QhTGFzjkOykv9gFxT6TkTWzjw1MmI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kwiboo.se; spf=pass smtp.mailfrom=fe-bounces.kwiboo.se; dkim=pass (2048-bit key) header.d=kwiboo.se header.i=@kwiboo.se header.b=JR3xdIuW; arc=none smtp.client-ip=149.28.215.223
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kwiboo.se
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fe-bounces.kwiboo.se
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="EwKZnk6w"
-Received: by mail-pj1-f74.google.com with SMTP id 98e67ed59e1d1-31147652b36so2675396a91.2
-        for <linux-staging@lists.linux.dev>; Tue, 27 May 2025 10:11:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1748365900; x=1748970700; darn=lists.linux.dev;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=7pWVizCte/zfBc5wbZWXELXXuItPZZs1aoRgUlPPJRw=;
-        b=EwKZnk6wmDSepQ+n90MtZmnnRD5US50vKff0TRDGadbz/htyTaEzRqQxBYQcgwU/sm
-         z0lyAx90+mFyYMS6ZfVKscklPe2lMuIt+8hAyFoOjlMklXSBKselcQd2J6kdntjw7FdE
-         jguAuCTZU+EYrKmtkUNXknvCEU0vqnD9gUeq2st3MaM4ADNr838I2Nk5iO2n6/Orrlhb
-         ObnVa8Z2xTyu9VtABdHmMEazjMDJkbYI/BMZMTz0UZct3OME4HYW780Hkvw5MHpUuifs
-         71mkl64ouCASxyt7RNSzNZ4pstJf7YJTavM5LU60AlG6QbJ+gupko6B5rqFgsBAqSxl3
-         Q6Gg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1748365900; x=1748970700;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=7pWVizCte/zfBc5wbZWXELXXuItPZZs1aoRgUlPPJRw=;
-        b=FQzOTT2slulAr5qmdxhgUaB86DHH3wQv/brJddXaN1h2yJMwVfGzqHF5udKLxl03Mr
-         H9VX9GCQ3YZzwqzZdvsFDrPf64Pf+FzuTuB+n3DTggqj6Qep6WAf28pj+VugGd2xU5p2
-         0PpzuV9nufsUMm1+YAfIhZ5eZcHr/8lGSP1rMdogTum0rSkaoOFexH5Qfor30lw57B7t
-         zT2bsmNCYIB02TYEdcvcvgSMnXpa8wIOQ6rRkkWD58YSVzuT+i1vxT2cKemcgVNrTH9W
-         UfhFinLsLS7kAf09nHW3H/xLv9AO65oPSLGIR5BZUVrPXkLdUu34UOdPqpx7Mhv7Q2cC
-         0rVQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWIWbE4e888WjGVALpdBsi12faRvLkjhy/piQyGZ4xAJKGMK+//2bROiNguq9HC4kVZtgfd6nO/JdqXZyD/@lists.linux.dev
-X-Gm-Message-State: AOJu0YyY274ui+Tind7uPThOSUUSH174H1Cta27lQnPqEbhiCwwrNvhn
-	6uUSExzE/rpEoCgW0na0v4WgAtpc7o9adRfvn6CbJ4NoIuHhtHPaS/GF08k27u+rWtzjSDD4KpQ
-	42jomeaa4w0H5NGrMA2d/Pg==
-X-Google-Smtp-Source: AGHT+IGco4V40TsVlohUm2gdWA+Dyi4GYATtBZ7Xwh96aBepziaL0EAKO0k6gcGCVwhfFEHtJ+i81GuM/G1Mo+NX
-X-Received: from pjuj14.prod.google.com ([2002:a17:90a:d00e:b0:311:4201:4021])
- (user=ericflorin job=prod-delivery.src-stubby-dispatcher) by
- 2002:a17:90b:35cc:b0:2fc:a3b7:108e with SMTP id 98e67ed59e1d1-3110f33438emr22861081a91.4.1748365900271;
- Tue, 27 May 2025 10:11:40 -0700 (PDT)
-Date: Tue, 27 May 2025 10:11:28 -0700
-In-Reply-To: <cover.1748365488.git.ericflorin@google.com>
+	dkim=pass (2048-bit key) header.d=kwiboo.se header.i=@kwiboo.se header.b="JR3xdIuW"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kwiboo.se;
+ h=Content-Transfer-Encoding: Content-Type: In-Reply-To: From: References:
+ Cc: To: Subject: MIME-Version: Date: Message-ID; q=dns/txt;
+ s=fe-e1b5cab7be; t=1748368309;
+ bh=NxuLAslpzoOd596xivdPI/5y/Es3Nx0sBx/hh0IoOiQ=;
+ b=JR3xdIuWHciSfJE+Xf4C2ayoBFb3FO7H3Q/dwyG1ISudnyzkKO7frH+zzC47d4raDz4AEo752
+ NmlzTL+Se02i7/y9b8f3CH/gyDiNOwwWVeLBdfxTCc1xJ+9Vw/CBNa0MG49kT9YiUL71hTNjcOA
+ 5ZB7pjaS7e8JAjh7gkez+vHyKzHDLvZJaE7hD892kOQLB38NHrGw7XZtGBGkOEhso4vckhxxR4y
+ ypBB1RH/BiZ05Xe9q1XU4QLsURqgPKsswkjgQlyFjTN1dyHVmH0PbOCPE1S/GHTG7Tzm/rn3Dwy
+ rrn83cpk6CjwDTrdYqBb/6aTNaA20/xFook/Kl6zIdLw==
+X-Forward-Email-ID: 6835fba8127b2e865ab3d1d9
+X-Forward-Email-Sender: rfc822; jonas@kwiboo.se, smtp.forwardemail.net,
+ 149.28.215.223
+X-Forward-Email-Version: 1.0.3
+X-Forward-Email-Website: https://forwardemail.net
+X-Complaints-To: abuse@forwardemail.net
+X-Report-Abuse: abuse@forwardemail.net
+X-Report-Abuse-To: abuse@forwardemail.net
+Message-ID: <a787e6e0-d4ce-45e3-8263-2489585d3ec0@kwiboo.se>
+Date: Tue, 27 May 2025 19:51:31 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-References: <cover.1748365488.git.ericflorin@google.com>
-X-Mailer: git-send-email 2.49.0.1164.gab81da1b16-goog
-Message-ID: <f247ceee80387ece536aa5657f105321809470f1.1748365488.git.ericflorin@google.com>
-Subject: [PATCH 6/6] staging: sm750fb: Rename local var `nDirection`
-From: Eric Florin <ericflorin@google.com>
-To: teddy.wang@siliconmotion.com
-Cc: sudipm.mukherjee@gmail.com, gregkh@linuxfoundation.org, 
-	linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, Eric Florin <ericflorin@google.com>
-Content-Type: text/plain; charset="UTF-8"
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] media: rkvdec: Switch to using structs instead of writel
+To: Detlev Casanova <detlev.casanova@collabora.com>
+Cc: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+ "linux-rockchip@lists.infradead.org" <linux-rockchip@lists.infradead.org>,
+ "linux-staging@lists.linux.dev" <linux-staging@lists.linux.dev>,
+ "kernel@collabora.com" <kernel@collabora.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+References: <20250527150043.174415-1-detlev.casanova@collabora.com>
+Content-Language: en-US
+From: Jonas Karlman <jonas@kwiboo.se>
+In-Reply-To: <20250527150043.174415-1-detlev.casanova@collabora.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Rename local variable `nDirection` to `n_direction` in
-`sm750_hw_copyarea` to conform with kernel style guidelines as reported
-by checkpatch.pl
+Hi Detlev,
 
-CHECK: Avoid CamelCase: <nDirection>
+On 2025-05-27 17:00, Detlev Casanova wrote:
+> In an effort to merge the rkvdec2 driver [1] with this one, switch from
+> writel() calls to using structs to represent the register mappings.
 
-Signed-off-by: Eric Florin <ericflorin@google.com>
----
- drivers/staging/sm750fb/sm750_accel.c | 16 ++++++++--------
- 1 file changed, 8 insertions(+), 8 deletions(-)
+Please wait with this until HEVC support has landed, now that H264
+4:2:2/Hi10 finally have been merged I was hoping to be able to send a v2
+of the old HEVC series [3]. I was waiting on v6.16-rc1 before sending
+the series but can send it sooner if needed, [4] has current state of v2.
 
-diff --git a/drivers/staging/sm750fb/sm750_accel.c b/drivers/staging/sm750fb/sm750_accel.c
-index a34d8f6a033d..b9f90c934b7d 100644
---- a/drivers/staging/sm750fb/sm750_accel.c
-+++ b/drivers/staging/sm750fb/sm750_accel.c
-@@ -153,9 +153,9 @@ int sm750_hw_copyarea(struct lynx_accel *accel,
- 		      unsigned int width, unsigned int height,
- 		      unsigned int rop2)
- {
--	unsigned int nDirection, de_ctrl;
-+	unsigned int n_direction, de_ctrl;
- 
--	nDirection = LEFT_TO_RIGHT;
-+	n_direction = LEFT_TO_RIGHT;
- 	/* Direction of ROP2 operation: 1 = Left to Right, (-1) = Right to Left */
- 	de_ctrl = 0;
- 
-@@ -173,7 +173,7 @@ int sm750_hw_copyarea(struct lynx_accel *accel,
- 			 *	+----------+
- 			 */
- 
--			nDirection = BOTTOM_TO_TOP;
-+			n_direction = BOTTOM_TO_TOP;
- 		} else if (sy > dy) {
- 			/*  +----------+
- 			 *  |D         |
-@@ -185,7 +185,7 @@ int sm750_hw_copyarea(struct lynx_accel *accel,
- 			 *	+----------+
- 			 */
- 
--			nDirection = TOP_TO_BOTTOM;
-+			n_direction = TOP_TO_BOTTOM;
- 		} else {
- 			/* sy == dy */
- 
-@@ -198,7 +198,7 @@ int sm750_hw_copyarea(struct lynx_accel *accel,
- 				 * +------+---+------+
- 				 */
- 
--				nDirection = RIGHT_TO_LEFT;
-+				n_direction = RIGHT_TO_LEFT;
- 			} else {
- 			/* sx > dx */
- 
-@@ -210,12 +210,12 @@ int sm750_hw_copyarea(struct lynx_accel *accel,
- 				 * +------+---+------+
- 				 */
- 
--				nDirection = LEFT_TO_RIGHT;
-+				n_direction = LEFT_TO_RIGHT;
- 			}
- 		}
- 	}
- 
--	if ((nDirection == BOTTOM_TO_TOP) || (nDirection == RIGHT_TO_LEFT)) {
-+	if ((n_direction == BOTTOM_TO_TOP) || (n_direction == RIGHT_TO_LEFT)) {
- 		sx += width - 1;
- 		sy += height - 1;
- 		dx += width - 1;
-@@ -277,7 +277,7 @@ int sm750_hw_copyarea(struct lynx_accel *accel,
- 		  (height & DE_DIMENSION_Y_ET_MASK)); /* dpr08 */
- 
- 	de_ctrl = (rop2 & DE_CONTROL_ROP_MASK) | DE_CONTROL_ROP_SELECT |
--		((nDirection == RIGHT_TO_LEFT) ? DE_CONTROL_DIRECTION : 0) |
-+		((n_direction == RIGHT_TO_LEFT) ? DE_CONTROL_DIRECTION : 0) |
- 		DE_CONTROL_COMMAND_BITBLT | DE_CONTROL_STATUS;
- 	write_dpr(accel, DE_CONTROL, de_ctrl); /* dpr0c */
- 
--- 
-2.49.0.1151.ga128411c76-goog
+H264 4:2:2/Hi10 and HEVC have been in the works for a few years now,
+would be nice to have it fully land before refactoring starts ;-)
 
+[3] https://lore.kernel.org/linux-media/20231105233630.3927502-1-jonas@kwiboo.se
+[4] https://github.com/Kwiboo/linux-rockchip/commits/linuxtv-rkvdec-hevc-v2b/
+
+> This is done in order to have all supported decoders use the same format
+> in the future and ease reading of the code.
+
+Do you have any work-in-progress patches for this?
+
+> Using structs also improves stability as the hardware is tested and
+> validated downstream using a similar method.
+> It was noticed, on decoders, that:
+>  - Some registers require to be writen in increasing order [2]
+>  - Some registers, even if unrelated, need to be written to their reset
+>    values (it was the case here for axi_ddr_[rw]data).
+> 
+> Using structs can also help improving performance later when, e.g.
+> multicore support is added on RK3588.
+
+Are your referring to the linked-list feature (also present in e.g.
+RK3328) or just for multi-core purpose?
+
+Regards,
+Jonas
+
+> Performance seems to be slightly improved, but at least, not made worse.
+> Running fluster's JVT-AVC_V1 test suite with GStreamer on the Radxa ROCK
+> PI 4 SE gives the following times:
+> 
+> Before this patch:
+> 
+> - --jobs 1: Ran 129/135 tests successfully               in 77.167 secs
+> - --jobs 6: Ran 129/135 tests successfully               in 23.046 secs
+> 
+> With this patch:
+> - --jobs 1: Ran 129/135 tests successfully               in 70.698 secs
+> - --jobs 6: Ran 129/135 tests successfully               in 22.917 secs
+> 
+> This also shows that the fluster score hasn't changed.
+> 
+> [1]: https://lore.kernel.org/all/20250325213303.826925-1-detlev.casanova@collabora.com/
+> [2]: https://lore.kernel.org/all/20200127143009.15677-5-andrzej.p@collabora.com/
+> 
+> Signed-off-by: Detlev Casanova <detlev.casanova@collabora.com>
+> ---
+>  drivers/staging/media/rkvdec/rkvdec-h264.c | 168 +++---
+>  drivers/staging/media/rkvdec/rkvdec-regs.h | 567 ++++++++++++++-------
+>  drivers/staging/media/rkvdec/rkvdec-vp9.c  | 239 ++++-----
+>  drivers/staging/media/rkvdec/rkvdec.c      |   1 -
+>  4 files changed, 559 insertions(+), 416 deletions(-)
+
+[snip]
