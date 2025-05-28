@@ -1,302 +1,560 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B21B3214A6A;
-	Tue, 27 May 2025 22:10:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CF991C84AA
+	for <linux-staging@lists.linux.dev>; Wed, 28 May 2025 09:19:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748383841; cv=none; b=qBAlf/abrIIFAlWMoRonQ/vq2HXPO+hhOL0wsAy9OLsZLKAlocCP+yoIJ0/xhvSKfLvWk5cuzTygfIyMi1G9mmowt69nIZmTz6rZ6/Sf9EnU/piHlqunLOtfD/VjWEQGH2pN8yTi23KHGvjdEwQr6KMxSVQjqtyAWuGiPGGVcXY=
+	t=1748423966; cv=none; b=gAR3M+LUozIz/HfibNFNeM3xEQSghOjnMPcIh8RpV/XB2A2hQsV4aZCBFnS9ea1KOA036BqOtDbTR6jrYJpoIDkzF6q/QysdwFTNEJy/jddhzi0EYDZIFS2Dzhaujs6HMy6a3ZnuR208UdLOKmyRSNujt2PV6Zww9hOrwM8n1zg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748383841; c=relaxed/simple;
-	bh=1rDzv+Wr6O5EVa6U16GCQQwRDF34NE2TMH2wlIZaKaE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=oz/EyiR5+o/Tjl7zG2sf47Xa+XJcXz3gIfZijESZizVf60GtX+r+negayMUPAG6qrYAc4IcKLTFwTC33PA99CFlNuSXkMD5QAy4YKCnDSEglTVlVub2M8jlem58I1/80m8JeOfcEajIF4u2A6R1YOVEJJ1YR3zs4g6ZfR0Eae1E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dnJzgjog; arc=none smtp.client-ip=192.198.163.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1748423966; c=relaxed/simple;
+	bh=AObyPIAlkz/iEol0kDjh0nEk2Pvox4pj3DBy7SpXZ1g=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=uk0i0yb7zvbxv92OkJGGqdb5cCyDAdiNmYsHbqyaDidAPGW/MwzqguOXexs9Ayk3eYSRulV3uNLsG+JRkQhnbEC+VuI7KTVnoku5MN/qcTX8FjXEbI/g2IzDUoryeE2BAko+tm810FdnzCjL/OGixXjzeWYxcirLjwGx6zYnS7U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=m1okRZ/Y; arc=none smtp.client-ip=209.85.210.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dnJzgjog"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1748383840; x=1779919840;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=1rDzv+Wr6O5EVa6U16GCQQwRDF34NE2TMH2wlIZaKaE=;
-  b=dnJzgjogfTAmy0EOpZgvRJQpKUwxtNSYbUgQ7SGYRmuaSUaqPQksUaPP
-   9mX5RlYB5bRrIMTwqkA3fd57G3eyl0sFI2tLGqLl5K3pNxQ2uzkPK7vmu
-   R1OkEkk1WyjtahDT9rGu7k5Ldd6LM9SIIeBuRrizkl4WP+gJmOhhXNQvD
-   M5Dc7uho+LSDjborBK9ALTN6kixe2Xr3yp2IHFffFyrbWEhmMkQVFVKgf
-   EQx3l7kkPZ7QfHrgytKNsc8MO3yOVG0z/ElEYOIXukTHUixoXXOtFie+x
-   g2Vm0Kfqg/W9HcEzzyrxAIJ9Fjpv7O47FCDyuKY8u4TXS9wDcdDmMazzM
-   g==;
-X-CSE-ConnectionGUID: DUTbcRo5SZCVgJIDVdIygA==
-X-CSE-MsgGUID: sSKOM5N/RNSZRGGcRElmaA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11446"; a="50552523"
-X-IronPort-AV: E=Sophos;i="6.15,319,1739865600"; 
-   d="scan'208";a="50552523"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 May 2025 15:10:39 -0700
-X-CSE-ConnectionGUID: lLy04/TiRSGJBAJ2i6ZB+A==
-X-CSE-MsgGUID: rpVnNj1DRG6XlrYpOsaHEA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,319,1739865600"; 
-   d="scan'208";a="173889005"
-Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 27 May 2025 15:10:36 -0700
-Received: from kbuild by 1992f890471c with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1uK2VG-000V2w-1X;
-	Tue, 27 May 2025 22:10:34 +0000
-Date: Wed, 28 May 2025 06:09:48 +0800
-From: kernel test robot <lkp@intel.com>
-To: Detlev Casanova <detlev.casanova@collabora.com>,
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="m1okRZ/Y"
+Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-739b3fe7ce8so2875165b3a.0
+        for <linux-staging@lists.linux.dev>; Wed, 28 May 2025 02:19:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1748423961; x=1749028761; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=QN5imKHK8bvg+c1FfkOpe5yMcpVZLbQsbE6cktPXDCI=;
+        b=m1okRZ/YalqNZEzIyZ/NukkAJNaeYt+10hQ1k7INbBlXDEdI3y/K062ISQqchDktTB
+         uQg0Ac7EUKYvi+RiD0jX9axSfI7kUtsQRTTF1hdJRDQCNy46HLef8UjnNHRhwwHiUlJi
+         PXvth4s3IhVUC+inO9DqQIE4+IlBZ74AgvLDXWwhsF7o3ONmD7OvmXKs3J+c0QeanPm9
+         geEsngEmtIWfKK6FNqjAqKNNGc/Zlv+PRfv5moVzLrYj6VO+F4mvqPdtxMHci+s11sio
+         jnrkA+0oGpTehul4Y1FuoYeLPU28lxSy6vz610NxP+KVnhGkqk4oOqA/jSkXifalnU10
+         pybA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1748423961; x=1749028761;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=QN5imKHK8bvg+c1FfkOpe5yMcpVZLbQsbE6cktPXDCI=;
+        b=aI2HsNfTQTMZtHVDkSW33bpMt4pRBWul80wmG7KrkDda89ELv/cTY2rAMXKCh8JeTF
+         RpBQwkBR5PF5fPE2bpjGOVn8lBochDfJEsICQs7+DcnuqEVWcTmIQpRDsxgn6vdvQ77B
+         D7uhxo3MiYp1U3tcpacx1ZdRBHTZaY3j4GA9OYmJYXJQ/0FdLEd5Y82Im/3q1eVTS2EL
+         ZfakszvzPts90on++t+7/JLIP97UOzs3iED6WmRrpa/rx5IRhjSNderBRDsVIjYzZTJL
+         tx+6ZnM+ERYvI0RTB8MBJGOG3/u3B2PHvTj0Fq3THyDpau+msRDgyU+7UTttRuC11rcN
+         rO9g==
+X-Gm-Message-State: AOJu0YwhJX0GflLjd5Xy2cvszWrzpVIlBV5+WiCkGhweYRAoaCZoj+8I
+	WVhDSLKMD6g/2dgmIKCo20BSictWYCe8qAgl/gK2+lzIyKbCVb0kKU6SPgRo66+FTe1Sfg==
+X-Gm-Gg: ASbGncsKgTiE56wA4nQ8Av2AKPJF1fR+9BKlrp10H0Ta64TSxVL5tWK06g78tmsz+mV
+	TkUwAQ+TJJsAvdZIXqcv+7iqiSGaah0G7M9jdNtQIkyHPjcxVyfsCSmHDQAsKaZhfaNGm6KYf99
+	AQV4+701+XtB8579aemSuFLPAA9nuQkyQysflmLfDTUnctH515cqgLznMA9BQw0oRZzN0CoUVrl
+	M99nDKRYfd24AG0UHEvu4Ix562PH93DDntTPkCdJI5n5x8GOlexofV98fZMgjNmei3U+0a87AmK
+	amCYt9TUqdSyhAaFVb+Fpgq+ybvJH3uohso9qngqH6Oy8z7/KyEpXu0VfmxYcHlARTy3Xu3Izay
+	DJRm5Yg7dWtJD294OCzBPZi0=
+X-Google-Smtp-Source: AGHT+IGbdveEtu7Y+O8HQ50c+v8XrzYBayHMIbjLH7orvobtBNrjcD7mvRBPJTBfrfL8/ZvDCWvV3w==
+X-Received: by 2002:a05:6a21:3992:b0:1ee:d8c8:4b82 with SMTP id adf61e73a8af0-2188c327f47mr31175262637.31.1748423961081;
+        Wed, 28 May 2025 02:19:21 -0700 (PDT)
+Received: from localhost.localdomain ([103.40.79.6])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b2d99ed8ef9sm749598a12.69.2025.05.28.02.19.18
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Wed, 28 May 2025 02:19:20 -0700 (PDT)
+From: Shawn Hua <shawnhuasz@gmail.com>
+X-Google-Original-From: Shawn Hua <yixuanhuashawn@berkeley.edu>
+To: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev,
-	Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	linux-media@vger.kernel.org,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
-	kernel@collabora.com,
-	Detlev Casanova <detlev.casanova@collabora.com>
-Subject: Re: [PATCH] media: rkvdec: Switch to using structs instead of writel
-Message-ID: <202505280607.OOCCyEiw-lkp@intel.com>
-References: <20250527150043.174415-1-detlev.casanova@collabora.com>
+Cc: gregkh@linuxfoundation.org,
+	philipp.g.hortmann@gmail.com,
+	dan.carpenter@linaro.org,
+	pkshih@realtek.com,
+	akpm@linux-foundation.org,
+	yixuanhuashawn@berkeley.edu
+Subject: [PATCH] staging: rtl8723bs: fix checkpatch issues in rtw_pwrctrl.c
+Date: Wed, 28 May 2025 17:19:14 +0800
+Message-Id: <20250528091914.2963-1-yixuanhuashawn@berkeley.edu>
+X-Mailer: git-send-email 2.39.5 (Apple Git-154)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250527150043.174415-1-detlev.casanova@collabora.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Hi Detlev,
+This patch addresses several style issues in rtw_pwrctrl.c, as reported by checkpat
+ch.pl. I’ve fixed most warnings and errors, but left CamelCase and one type of CHECK unresolved.
 
-kernel test robot noticed the following build warnings:
+I’m new to kernel development and submitting this for learning purposes. Please let me know if this type of patch is still helpful, or if it should be reworked or dropped.
 
-[auto build test WARNING on staging/staging-testing]
-[also build test WARNING on staging/staging-next staging/staging-linus linuxtv-media-pending/master linus/master v6.15 next-20250527]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Best regards,
+Shawn Hua
+-----
+This patch fixes ~80 checkpatch.pl style issues, including spacing, indentation, and alignment.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Detlev-Casanova/media-rkvdec-Switch-to-using-structs-instead-of-writel/20250527-230234
-base:   staging/staging-testing
-patch link:    https://lore.kernel.org/r/20250527150043.174415-1-detlev.casanova%40collabora.com
-patch subject: [PATCH] media: rkvdec: Switch to using structs instead of writel
-config: arm64-randconfig-002-20250528 (https://download.01.org/0day-ci/archive/20250528/202505280607.OOCCyEiw-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 7.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250528/202505280607.OOCCyEiw-lkp@intel.com/reproduce)
+Remaining issues:
+- CamelCase warnings were left unchanged to avoid breaking interface consistency across related files.
+- One CHECK regarding alignment with open parenthesis could not be resolved despite several attempts.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505280607.OOCCyEiw-lkp@intel.com/
+No functional changes were made.
 
-All warnings (new ones prefixed by >>):
+Signed-off-by: Shawn Hua <yixuanhuashawn@berkeley.edu>
+---
+ drivers/staging/rtl8723bs/core/rtw_pwrctrl.c | 152 +++++++++----------
+ 1 file changed, 71 insertions(+), 81 deletions(-)
 
-   drivers/staging/media/rkvdec/rkvdec-vp9.c: In function 'config_registers':
->> drivers/staging/media/rkvdec/rkvdec-vp9.c:493:6: warning: variable 'val' set but not used [-Wunused-but-set-variable]
-     u32 val;
-         ^~~
-
-
-vim +/val +493 drivers/staging/media/rkvdec/rkvdec-vp9.c
-
-   483	
-   484	static void config_registers(struct rkvdec_ctx *ctx,
-   485				     const struct rkvdec_vp9_run *run)
-   486	{
-   487		unsigned int y_len, uv_len, yuv_len, bit_depth, aligned_height, aligned_pitch, stream_len;
-   488		const struct v4l2_ctrl_vp9_frame *dec_params;
-   489		struct rkvdec_decoded_buffer *ref_bufs[3];
-   490		struct rkvdec_decoded_buffer *dst, *last, *mv_ref;
-   491		struct rkvdec_vp9_ctx *vp9_ctx = ctx->priv;
-   492		struct rkvdec_regs *regs = &vp9_ctx->regs;
- > 493		u32 val;
-   494		const struct v4l2_vp9_segmentation *seg;
-   495		struct rkvdec_dev *rkvdec = ctx->dev;
-   496		dma_addr_t addr;
-   497		bool intra_only;
-   498		unsigned int i;
-   499	
-   500		dec_params = run->decode_params;
-   501		dst = vb2_to_rkvdec_decoded_buf(&run->base.bufs.dst->vb2_buf);
-   502		ref_bufs[0] = get_ref_buf(ctx, &dst->base.vb, dec_params->last_frame_ts);
-   503		ref_bufs[1] = get_ref_buf(ctx, &dst->base.vb, dec_params->golden_frame_ts);
-   504		ref_bufs[2] = get_ref_buf(ctx, &dst->base.vb, dec_params->alt_frame_ts);
-   505	
-   506		if (vp9_ctx->last.valid)
-   507			last = get_ref_buf(ctx, &dst->base.vb, vp9_ctx->last.timestamp);
-   508		else
-   509			last = dst;
-   510	
-   511		update_dec_buf_info(dst, dec_params);
-   512		update_ctx_cur_info(vp9_ctx, dst, dec_params);
-   513		seg = &dec_params->seg;
-   514	
-   515		intra_only = !!(dec_params->flags &
-   516				(V4L2_VP9_FRAME_FLAG_KEY_FRAME |
-   517				 V4L2_VP9_FRAME_FLAG_INTRA_ONLY));
-   518	
-   519		regs->common.reg02.dec_mode = RKVDEC_MODE_VP9;
-   520	
-   521		bit_depth = dec_params->bit_depth;
-   522		aligned_height = round_up(ctx->decoded_fmt.fmt.pix_mp.height, 64);
-   523	
-   524		aligned_pitch = round_up(ctx->decoded_fmt.fmt.pix_mp.width *
-   525					 bit_depth,
-   526					 512) / 8;
-   527		y_len = aligned_height * aligned_pitch;
-   528		uv_len = y_len / 2;
-   529		yuv_len = y_len + uv_len;
-   530	
-   531		regs->common.reg03.y_hor_virstride = aligned_pitch / 16;
-   532		regs->common.reg03.uv_hor_virstride = aligned_pitch / 16;
-   533		regs->common.reg08.y_virstride = y_len / 16;
-   534		regs->common.reg09.yuv_virstride = yuv_len / 16;
-   535	
-   536		stream_len = vb2_get_plane_payload(&run->base.bufs.src->vb2_buf, 0);
-   537	
-   538		regs->common.stream_len = stream_len;
-   539	
-   540		/*
-   541		 * Reset count buffer, because decoder only output intra related syntax
-   542		 * counts when decoding intra frame, but update entropy need to update
-   543		 * all the probabilities.
-   544		 */
-   545		if (intra_only)
-   546			memset(vp9_ctx->count_tbl.cpu, 0, vp9_ctx->count_tbl.size);
-   547	
-   548		vp9_ctx->cur.segmapid = vp9_ctx->last.segmapid;
-   549		if (!intra_only &&
-   550		    !(dec_params->flags & V4L2_VP9_FRAME_FLAG_ERROR_RESILIENT) &&
-   551		    (!(seg->flags & V4L2_VP9_SEGMENTATION_FLAG_ENABLED) ||
-   552		     (seg->flags & V4L2_VP9_SEGMENTATION_FLAG_UPDATE_MAP)))
-   553			vp9_ctx->cur.segmapid++;
-   554	
-   555		for (i = 0; i < ARRAY_SIZE(ref_bufs); i++)
-   556			config_ref_registers(ctx, run, ref_bufs[i], i);
-   557	
-   558		for (i = 0; i < 8; i++)
-   559			config_seg_registers(ctx, i);
-   560	
-   561		regs->vp9.reg28.tx_mode = vp9_ctx->cur.tx_mode;
-   562		regs->vp9.reg28.frame_reference_mode = dec_params->reference_mode;
-   563	
-   564		if (!intra_only) {
-   565			const struct v4l2_vp9_loop_filter *lf;
-   566			s8 delta;
-   567	
-   568			if (vp9_ctx->last.valid)
-   569				lf = &vp9_ctx->last.lf;
-   570			else
-   571				lf = &vp9_ctx->cur.lf;
-   572	
-   573			val = 0;
-   574			for (i = 0; i < ARRAY_SIZE(lf->ref_deltas); i++) {
-   575				delta = lf->ref_deltas[i];
-   576				switch (i) {
-   577				case 0:
-   578					regs->vp9.reg32.ref_deltas_lastframe0 = delta;
-   579					break;
-   580				case 1:
-   581					regs->vp9.reg32.ref_deltas_lastframe1 = delta;
-   582					break;
-   583				case 2:
-   584					regs->vp9.reg32.ref_deltas_lastframe2 = delta;
-   585					break;
-   586				case 3:
-   587					regs->vp9.reg32.ref_deltas_lastframe3 = delta;
-   588					break;
-   589				}
-   590			}
-   591	
-   592			for (i = 0; i < ARRAY_SIZE(lf->mode_deltas); i++) {
-   593				delta = lf->mode_deltas[i];
-   594				switch (i) {
-   595				case 0:
-   596					regs->vp9.reg33.mode_deltas_lastframe0 = delta;
-   597					break;
-   598				case 1:
-   599					regs->vp9.reg33.mode_deltas_lastframe1 = delta;
-   600					break;
-   601				}
-   602			}
-   603		}
-   604	
-   605		regs->vp9.reg33.segmentation_enable_lstframe =
-   606			vp9_ctx->last.valid && !intra_only &&
-   607			vp9_ctx->last.seg.flags & V4L2_VP9_SEGMENTATION_FLAG_ENABLED;
-   608	
-   609		regs->vp9.reg33.last_show_frame =
-   610			vp9_ctx->last.valid &&
-   611			vp9_ctx->last.flags & V4L2_VP9_FRAME_FLAG_SHOW_FRAME;
-   612	
-   613		regs->vp9.reg33.last_intra_only =
-   614			vp9_ctx->last.valid &&
-   615			vp9_ctx->last.flags &
-   616			(V4L2_VP9_FRAME_FLAG_KEY_FRAME | V4L2_VP9_FRAME_FLAG_INTRA_ONLY);
-   617	
-   618		regs->vp9.reg33.last_widthheight_eqcur =
-   619			vp9_ctx->last.valid &&
-   620			last->vp9.width == dst->vp9.width &&
-   621			last->vp9.height == dst->vp9.height;
-   622	
-   623		regs->vp9.reg36.lasttile_size =
-   624			stream_len - dec_params->compressed_header_size -
-   625			dec_params->uncompressed_header_size;
-   626	
-   627		for (i = 0; !intra_only && i < ARRAY_SIZE(ref_bufs); i++) {
-   628			unsigned int refw = ref_bufs[i]->vp9.width;
-   629			unsigned int refh = ref_bufs[i]->vp9.height;
-   630			u32 hscale, vscale;
-   631	
-   632			hscale = (refw << 14) /	dst->vp9.width;
-   633			vscale = (refh << 14) / dst->vp9.height;
-   634	
-   635			regs->vp9.reg29_31[i].ref_hor_scale = hscale;
-   636			regs->vp9.reg29_31[i].ref_ver_scale = vscale;
-   637		}
-   638	
-   639		addr = vb2_dma_contig_plane_dma_addr(&dst->base.vb.vb2_buf, 0);
-   640		regs->common.decout_base = addr;
-   641		addr = vb2_dma_contig_plane_dma_addr(&run->base.bufs.src->vb2_buf, 0);
-   642		regs->common.strm_rlc_base = addr;
-   643	
-   644		regs->common.cabactbl_base = vp9_ctx->priv_tbl.dma +
-   645			offsetof(struct rkvdec_vp9_priv_tbl, probs);
-   646	
-   647		regs->vp9.count_base = vp9_ctx->count_tbl.dma;
-   648	
-   649		regs->vp9.segidlast_base = vp9_ctx->priv_tbl.dma +
-   650			offsetof(struct rkvdec_vp9_priv_tbl, segmap) +
-   651			(RKVDEC_VP9_MAX_SEGMAP_SIZE * (!vp9_ctx->cur.segmapid));
-   652	
-   653		regs->vp9.segidcur_base = vp9_ctx->priv_tbl.dma +
-   654			offsetof(struct rkvdec_vp9_priv_tbl, segmap) +
-   655			(RKVDEC_VP9_MAX_SEGMAP_SIZE * vp9_ctx->cur.segmapid);
-   656	
-   657		if (!intra_only &&
-   658		    !(dec_params->flags & V4L2_VP9_FRAME_FLAG_ERROR_RESILIENT) &&
-   659		    vp9_ctx->last.valid)
-   660			mv_ref = last;
-   661		else
-   662			mv_ref = dst;
-   663	
-   664		regs->vp9.refcolmv_base = get_mv_base_addr(mv_ref);
-   665	
-   666		regs->vp9.performance_cycle = ctx->decoded_fmt.fmt.pix_mp.width |
-   667			       (ctx->decoded_fmt.fmt.pix_mp.height << 16);
-   668	
-   669		regs->vp9.reg44.strmd_error_e = 0xe;
-   670	
-   671		rkvdec_write_regs(rkvdec, regs);
-   672	}
-   673	
-
+diff --git a/drivers/staging/rtl8723bs/core/rtw_pwrctrl.c b/drivers/staging/rtl8723bs/core/rtw_pwrctrl.c
+index e67a225d4fb3..97f5792013d3 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_pwrctrl.c
++++ b/drivers/staging/rtl8723bs/core/rtw_pwrctrl.c
+@@ -8,7 +8,6 @@
+ #include <hal_data.h>
+ #include <linux/jiffies.h>
+ 
+-
+ void _ips_enter(struct adapter *padapter)
+ {
+ 	struct pwrctrl_priv *pwrpriv = adapter_to_pwrctl(padapter);
+@@ -30,14 +29,12 @@ void _ips_enter(struct adapter *padapter)
+ 		pwrpriv->rf_pwrstate = rf_off;
+ 	}
+ 	pwrpriv->bips_processing = false;
+-
+ }
+ 
+ void ips_enter(struct adapter *padapter)
+ {
+ 	struct pwrctrl_priv *pwrpriv = adapter_to_pwrctl(padapter);
+ 
+-
+ 	hal_btcoex_IpsNotify(padapter, pwrpriv->ips_mode_req);
+ 
+ 	mutex_lock(&pwrpriv->lock);
+@@ -56,9 +53,8 @@ int _ips_leave(struct adapter *padapter)
+ 		pwrpriv->ips_leave_cnts++;
+ 
+ 		result = rtw_ips_pwr_up(padapter);
+-		if (result == _SUCCESS) 
++		if (result == _SUCCESS)
+ 			pwrpriv->rf_pwrstate = rf_on;
+-		
+ 		pwrpriv->bips_processing = false;
+ 
+ 		pwrpriv->bkeepfwalive = false;
+@@ -86,7 +82,7 @@ int ips_leave(struct adapter *padapter)
+ static bool rtw_pwr_unassociated_idle(struct adapter *adapter)
+ {
+ 	struct adapter *buddy = adapter->pbuddy_adapter;
+-	struct mlme_priv *pmlmepriv = &(adapter->mlmepriv);
++	struct mlme_priv *pmlmepriv = &adapter->mlmepriv;
+ 	struct xmit_priv *pxmit_priv = &adapter->xmitpriv;
+ 
+ 	bool ret = false;
+@@ -97,33 +93,33 @@ static bool rtw_pwr_unassociated_idle(struct adapter *adapter)
+ 	if (time_before(jiffies, adapter_to_pwrctl(adapter)->ips_deny_time))
+ 		goto exit;
+ 
+-	if (check_fwstate(pmlmepriv, WIFI_ASOC_STATE|WIFI_SITE_MONITOR)
+-		|| check_fwstate(pmlmepriv, WIFI_UNDER_LINKING|WIFI_UNDER_WPS)
+-		|| check_fwstate(pmlmepriv, WIFI_AP_STATE)
+-		|| check_fwstate(pmlmepriv, WIFI_ADHOC_MASTER_STATE|WIFI_ADHOC_STATE)
++	if (check_fwstate(pmlmepriv, WIFI_ASOC_STATE | WIFI_SITE_MONITOR) ||
++	   check_fwstate(pmlmepriv, WIFI_UNDER_LINKING | WIFI_UNDER_WPS) ||
++	   check_fwstate(pmlmepriv, WIFI_AP_STATE) ||
++	   check_fwstate(pmlmepriv, WIFI_ADHOC_MASTER_STATE | WIFI_ADHOC_STATE)
+ 	)
+ 		goto exit;
+ 
+ 	/* consider buddy, if exist */
+ 	if (buddy) {
+-		struct mlme_priv *b_pmlmepriv = &(buddy->mlmepriv);
++		struct mlme_priv *b_pmlmepriv = &buddy->mlmepriv;
+ 
+-		if (check_fwstate(b_pmlmepriv, WIFI_ASOC_STATE|WIFI_SITE_MONITOR)
+-			|| check_fwstate(b_pmlmepriv, WIFI_UNDER_LINKING|WIFI_UNDER_WPS)
+-			|| check_fwstate(b_pmlmepriv, WIFI_AP_STATE)
+-			|| check_fwstate(b_pmlmepriv, WIFI_ADHOC_MASTER_STATE|WIFI_ADHOC_STATE)
++		if (check_fwstate(b_pmlmepriv, WIFI_ASOC_STATE | WIFI_SITE_MONITOR) ||
++		    check_fwstate(b_pmlmepriv, WIFI_UNDER_LINKING | WIFI_UNDER_WPS) ||
++		    check_fwstate(b_pmlmepriv, WIFI_AP_STATE) ||
++		    check_fwstate(b_pmlmepriv, WIFI_ADHOC_MASTER_STATE | WIFI_ADHOC_STATE)
+ 		)
+ 			goto exit;
+ 	}
+ 
+ 	if (pxmit_priv->free_xmitbuf_cnt != NR_XMITBUFF ||
+-		pxmit_priv->free_xmit_extbuf_cnt != NR_XMIT_EXTBUFF) {
++	    pxmit_priv->free_xmit_extbuf_cnt != NR_XMIT_EXTBUFF) {
+ 		netdev_dbg(adapter->pnetdev,
+ 			   "There are some pkts to transmit\n");
+ 		netdev_dbg(adapter->pnetdev,
+-			   "free_xmitbuf_cnt: %d, free_xmit_extbuf_cnt: %d\n",
+-			   pxmit_priv->free_xmitbuf_cnt,
+-			   pxmit_priv->free_xmit_extbuf_cnt);
++			       "free_xmitbuf_cnt: %d, free_xmit_extbuf_cnt: %d\n",
++			       pxmit_priv->free_xmitbuf_cnt,
++			       pxmit_priv->free_xmit_extbuf_cnt);
+ 		goto exit;
+ 	}
+ 
+@@ -133,7 +129,6 @@ static bool rtw_pwr_unassociated_idle(struct adapter *adapter)
+ 	return ret;
+ }
+ 
+-
+ /*
+  * ATTENTION:
+  *rtw_ps_processor() doesn't handle LPS.
+@@ -164,7 +159,7 @@ void rtw_ps_processor(struct adapter *padapter)
+ 	if (!rtw_pwr_unassociated_idle(padapter))
+ 		goto exit;
+ 
+-	if ((pwrpriv->rf_pwrstate == rf_on) && ((pwrpriv->pwr_state_check_cnts%4) == 0)) {
++	if ((pwrpriv->rf_pwrstate == rf_on) && ((pwrpriv->pwr_state_check_cnts % 4) == 0)) {
+ 		pwrpriv->change_rfpwrstate = rf_off;
+ 		{
+ 			ips_enter(padapter);
+@@ -190,8 +185,6 @@ void traffic_check_for_leave_lps(struct adapter *padapter, u8 tx, u32 tx_packets
+ 	u8 bLeaveLPS = false;
+ 	struct mlme_priv *pmlmepriv = &padapter->mlmepriv;
+ 
+-
+-
+ 	if (tx) { /* from tx */
+ 		xmit_cnt += tx_packets;
+ 
+@@ -200,9 +193,9 @@ void traffic_check_for_leave_lps(struct adapter *padapter, u8 tx, u32 tx_packets
+ 
+ 		if (jiffies_to_msecs(jiffies - start_time) > 2000) { /*  2 sec == watch dog timer */
+ 			if (xmit_cnt > 8) {
+-				if (adapter_to_pwrctl(padapter)->bLeisurePs
+-				    && (adapter_to_pwrctl(padapter)->pwr_mode != PS_MODE_ACTIVE)
+-				    && !(hal_btcoex_IsBtControlLps(padapter))) {
++				if (adapter_to_pwrctl(padapter)->bLeisurePs &&
++				    (adapter_to_pwrctl(padapter)->pwr_mode != PS_MODE_ACTIVE) &&
++				    !(hal_btcoex_IsBtControlLps(padapter))) {
+ 					bLeaveLPS = true;
+ 				}
+ 			}
+@@ -213,16 +206,16 @@ void traffic_check_for_leave_lps(struct adapter *padapter, u8 tx, u32 tx_packets
+ 
+ 	} else { /*  from rx path */
+ 		if (pmlmepriv->LinkDetectInfo.NumRxUnicastOkInPeriod > 4/*2*/) {
+-			if (adapter_to_pwrctl(padapter)->bLeisurePs
+-			    && (adapter_to_pwrctl(padapter)->pwr_mode != PS_MODE_ACTIVE)
+-			    && !(hal_btcoex_IsBtControlLps(padapter)))
++			if (adapter_to_pwrctl(padapter)->bLeisurePs &&
++			    (adapter_to_pwrctl(padapter)->pwr_mode != PS_MODE_ACTIVE) &&
++			    !(hal_btcoex_IsBtControlLps(padapter)))
+ 				bLeaveLPS = true;
+ 		}
+ 	}
+ 
+ 	if (bLeaveLPS)
+ 		/* rtw_lps_ctrl_wk_cmd(padapter, LPS_CTRL_LEAVE, 1); */
+-		rtw_lps_ctrl_wk_cmd(padapter, LPS_CTRL_LEAVE, tx?0:1);
++		rtw_lps_ctrl_wk_cmd(padapter, LPS_CTRL_LEAVE, tx ? 0 : 1);
+ }
+ 
+ /*
+@@ -246,7 +239,6 @@ void rtw_set_rpwm(struct adapter *padapter, u8 pslv)
+ 		if (pwrpriv->rpwm == pslv ||
+ 		    (pwrpriv->rpwm >= PS_STATE_S2 && pslv >= PS_STATE_S2))
+ 			return;
+-
+ 	}
+ 
+ 	if ((padapter->bSurpriseRemoved) || !(padapter->hw_init_completed)) {
+@@ -299,15 +291,16 @@ void rtw_set_rpwm(struct adapter *padapter, u8 pslv)
+ 				break;
+ 			}
+ 		} while (1);
+-	} else
++	} else {
+ 		pwrpriv->cpwm = pslv;
++	}
+ }
+ 
+ static u8 PS_RDY_CHECK(struct adapter *padapter)
+ {
+ 	unsigned long curr_time, delta_time;
+ 	struct pwrctrl_priv *pwrpriv = adapter_to_pwrctl(padapter);
+-	struct mlme_priv *pmlmepriv = &(padapter->mlmepriv);
++	struct mlme_priv *pmlmepriv = &padapter->mlmepriv;
+ 
+ 	if (pwrpriv->bInSuspend)
+ 		return false;
+@@ -319,11 +312,11 @@ static u8 PS_RDY_CHECK(struct adapter *padapter)
+ 	if (delta_time < LPS_DELAY_TIME)
+ 		return false;
+ 
+-	if (check_fwstate(pmlmepriv, WIFI_SITE_MONITOR)
+-		|| check_fwstate(pmlmepriv, WIFI_UNDER_LINKING|WIFI_UNDER_WPS)
+-		|| check_fwstate(pmlmepriv, WIFI_AP_STATE)
+-		|| check_fwstate(pmlmepriv, WIFI_ADHOC_MASTER_STATE|WIFI_ADHOC_STATE)
+-		|| rtw_is_scan_deny(padapter)
++	if (check_fwstate(pmlmepriv, WIFI_SITE_MONITOR) ||
++	    check_fwstate(pmlmepriv, WIFI_UNDER_LINKING | WIFI_UNDER_WPS) ||
++	    check_fwstate(pmlmepriv, WIFI_AP_STATE) ||
++	    check_fwstate(pmlmepriv, WIFI_ADHOC_MASTER_STATE | WIFI_ADHOC_STATE) ||
++	    rtw_is_scan_deny(padapter)
+ 	)
+ 		return false;
+ 
+@@ -337,7 +330,8 @@ static u8 PS_RDY_CHECK(struct adapter *padapter)
+ 	return true;
+ }
+ 
+-void rtw_set_ps_mode(struct adapter *padapter, u8 ps_mode, u8 smart_ps, u8 bcn_ant_mode, const char *msg)
++void rtw_set_ps_mode(struct adapter *padapter, u8 ps_mode, u8 smart_ps,
++		     u8 bcn_ant_mode, const char *msg)
+ {
+ 	struct pwrctrl_priv *pwrpriv = adapter_to_pwrctl(padapter);
+ 
+@@ -348,14 +342,13 @@ void rtw_set_ps_mode(struct adapter *padapter, u8 ps_mode, u8 smart_ps, u8 bcn_a
+ 		if (ps_mode == PS_MODE_ACTIVE)
+ 			return;
+ 
+-
+ 	mutex_lock(&pwrpriv->lock);
+ 
+ 	/* if (pwrpriv->pwr_mode == PS_MODE_ACTIVE) */
+ 	if (ps_mode == PS_MODE_ACTIVE) {
+-		if (!(hal_btcoex_IsBtControlLps(padapter))
+-				|| (hal_btcoex_IsBtControlLps(padapter)
+-					&& !(hal_btcoex_IsLpsOn(padapter)))) {
++		if (!(hal_btcoex_IsBtControlLps(padapter)) ||
++		    (hal_btcoex_IsBtControlLps(padapter) &&
++		   !(hal_btcoex_IsLpsOn(padapter)))) {
+ 			pwrpriv->pwr_mode = ps_mode;
+ 			rtw_set_rpwm(padapter, PS_STATE_S4);
+ 
+@@ -365,9 +358,10 @@ void rtw_set_ps_mode(struct adapter *padapter, u8 ps_mode, u8 smart_ps, u8 bcn_a
+ 			hal_btcoex_LpsNotify(padapter, ps_mode);
+ 		}
+ 	} else {
+-		if ((PS_RDY_CHECK(padapter) && check_fwstate(&padapter->mlmepriv, WIFI_ASOC_STATE)) ||
+-		    ((hal_btcoex_IsBtControlLps(padapter)) && (hal_btcoex_IsLpsOn(padapter)))
+-			) {
++		if ((PS_RDY_CHECK(padapter) &&
++		    check_fwstate(&padapter->mlmepriv, WIFI_ASOC_STATE)) ||
++		   ((hal_btcoex_IsBtControlLps(padapter)) && (hal_btcoex_IsLpsOn(padapter)))
++		   ) {
+ 			u8 pslv;
+ 
+ 			hal_btcoex_LpsNotify(padapter, ps_mode);
+@@ -410,7 +404,6 @@ s32 LPS_RF_ON_check(struct adapter *padapter, u32 delay_ms)
+ 	u8 bAwake = false;
+ 	s32 err = 0;
+ 
+-
+ 	start_time = jiffies;
+ 	while (1) {
+ 		rtw_hal_get_hwreg(padapter, HW_VAR_FWLPS_RF_ON, &bAwake);
+@@ -426,16 +419,16 @@ s32 LPS_RF_ON_check(struct adapter *padapter, u32 delay_ms)
+ 			err = -1;
+ 			break;
+ 		}
+-		msleep(1);
++		msleep(20);
+ 	}
+ 
+ 	return err;
+ }
+ 
+-/*  */
+-/* 	Description: */
+-/* 		Enter the leisure power save mode. */
+-/*  */
++/* */
++/* Description: */
++/* Enter the leisure power save mode. */
++/* */
+ void LPS_Enter(struct adapter *padapter, const char *msg)
+ {
+ 	struct dvobj_priv *dvobj = adapter_to_dvobj(padapter);
+@@ -447,7 +440,7 @@ void LPS_Enter(struct adapter *padapter, const char *msg)
+ 		return;
+ 
+ 	/* Skip lps enter request if number of associated adapters is not 1 */
+-	if (check_fwstate(&(dvobj->padapters->mlmepriv), WIFI_ASOC_STATE))
++	if (check_fwstate(&dvobj->padapters->mlmepriv, WIFI_ASOC_STATE))
+ 		n_assoc_iface++;
+ 	if (n_assoc_iface != 1)
+ 		return;
+@@ -461,17 +454,19 @@ void LPS_Enter(struct adapter *padapter, const char *msg)
+ 			if (pwrpriv->pwr_mode == PS_MODE_ACTIVE) {
+ 				scnprintf(buf, sizeof(buf), "WIFI-%s", msg);
+ 				pwrpriv->bpower_saving = true;
+-				rtw_set_ps_mode(padapter, pwrpriv->power_mgnt, padapter->registrypriv.smart_ps, 0, buf);
++				rtw_set_ps_mode(padapter, pwrpriv->power_mgnt,
++							    padapter->registrypriv.smart_ps, 0, buf);
+ 			}
+-		} else
++		} else {
+ 			pwrpriv->LpsIdleCount++;
++		}
+ 	}
+ }
+ 
+-/*  */
+-/* 	Description: */
+-/* 		Leave the leisure power save mode. */
+-/*  */
++/* */
++/* Description: */
++/* Leave the leisure power save mode. */
++/* */
+ void LPS_Leave(struct adapter *padapter, const char *msg)
+ {
+ #define LPS_LEAVE_TIMEOUT_MS 100
+@@ -499,7 +494,7 @@ void LPS_Leave(struct adapter *padapter, const char *msg)
+ void LeaveAllPowerSaveModeDirect(struct adapter *Adapter)
+ {
+ 	struct adapter *pri_padapter = GET_PRIMARY_ADAPTER(Adapter);
+-	struct mlme_priv *pmlmepriv = &(Adapter->mlmepriv);
++	struct mlme_priv *pmlmepriv = &Adapter->mlmepriv;
+ 	struct pwrctrl_priv *pwrpriv = adapter_to_pwrctl(Adapter);
+ 
+ 	if (Adapter->bSurpriseRemoved)
+@@ -539,7 +534,7 @@ void LeaveAllPowerSaveMode(struct adapter *Adapter)
+ 	if (Adapter->bSurpriseRemoved)
+ 		return;
+ 
+-	if (check_fwstate(&(dvobj->padapters->mlmepriv), WIFI_ASOC_STATE))
++	if (check_fwstate(&dvobj->padapters->mlmepriv, WIFI_ASOC_STATE))
+ 		n_assoc_iface++;
+ 
+ 	if (n_assoc_iface) { /* connect */
+@@ -549,9 +544,8 @@ void LeaveAllPowerSaveMode(struct adapter *Adapter)
+ 
+ 		LPS_Leave_check(Adapter);
+ 	} else {
+-		if (adapter_to_pwrctl(Adapter)->rf_pwrstate == rf_off) 
++		if (adapter_to_pwrctl(Adapter)->rf_pwrstate == rf_off)
+ 			ips_leave(Adapter);
+-		
+ 	}
+ }
+ 
+@@ -584,7 +578,7 @@ void LPS_Leave_check(struct adapter *padapter)
+ 		if (jiffies_to_msecs(jiffies - start_time) > 100)
+ 			break;
+ 
+-		msleep(1);
++		msleep(20);
+ 	}
+ }
+ 
+@@ -619,7 +613,6 @@ void cpwm_int_hdl(struct adapter *padapter, struct reportpwrstate_parm *preportp
+ 
+ exit:
+ 	mutex_unlock(&pwrpriv->lock);
+-
+ }
+ 
+ static void cpwm_event_callback(struct work_struct *work)
+@@ -639,7 +632,6 @@ static void rpwmtimeout_workitem_callback(struct work_struct *work)
+ 	struct dvobj_priv *dvobj;
+ 	struct pwrctrl_priv *pwrpriv;
+ 
+-
+ 	pwrpriv = container_of(work, struct pwrctrl_priv, rpwmtimeoutwi);
+ 	dvobj = pwrctl_to_dvobj(pwrpriv);
+ 	padapter = dvobj->if1;
+@@ -695,7 +687,6 @@ static inline void unregister_task_alive(struct pwrctrl_priv *pwrctrl, u32 tag)
+ 	pwrctrl->alives &= ~tag;
+ }
+ 
+-
+ /*
+  * Description:
+  *Check if the fw_pwrstate is okay for I/O.
+@@ -777,7 +768,6 @@ void rtw_unregister_task_alive(struct adapter *padapter, u32 task)
+ 		if (pwrctrl->cpwm > pslv)
+ 			if ((pslv >= PS_STATE_S2) || (pwrctrl->alives == 0))
+ 				rtw_set_rpwm(padapter, pslv);
+-
+ 	}
+ 
+ 	mutex_unlock(&pwrctrl->lock);
+@@ -996,7 +986,6 @@ void rtw_init_pwrctrl_priv(struct adapter *padapter)
+ 	pwrctrlpriv->wowlan_ap_mode = false;
+ }
+ 
+-
+ void rtw_free_pwrctrl_priv(struct adapter *adapter)
+ {
+ }
+@@ -1004,15 +993,16 @@ void rtw_free_pwrctrl_priv(struct adapter *adapter)
+ inline void rtw_set_ips_deny(struct adapter *padapter, u32 ms)
+ {
+ 	struct pwrctrl_priv *pwrpriv = adapter_to_pwrctl(padapter);
++
+ 	pwrpriv->ips_deny_time = jiffies + msecs_to_jiffies(ms);
+ }
+ 
+ /*
+-* rtw_pwr_wakeup - Wake the NIC up from: 1)IPS. 2)USB autosuspend
+-* @adapter: pointer to struct adapter structure
+-* @ips_deffer_ms: the ms will prevent from falling into IPS after wakeup
+-* Return _SUCCESS or _FAIL
+-*/
++ * rtw_pwr_wakeup - Wake the NIC up from: 1)IPS. 2)USB autosuspend
++ * @adapter: pointer to struct adapter structure
++ * @ips_deffer_ms: the ms will prevent from falling into IPS after wakeup
++ * Return _SUCCESS or _FAIL
++ */
+ 
+ int _rtw_pwr_wakeup(struct adapter *padapter, u32 ips_deffer_ms, const char *caller)
+ {
+@@ -1033,7 +1023,6 @@ int _rtw_pwr_wakeup(struct adapter *padapter, u32 ips_deffer_ms, const char *cal
+ 	if (time_before(pwrpriv->ips_deny_time, deny_time))
+ 		pwrpriv->ips_deny_time = deny_time;
+ 
+-
+ 	if (pwrpriv->ps_processing)
+ 		while (pwrpriv->ps_processing && jiffies_to_msecs(jiffies - start) <= 3000)
+ 			mdelay(10);
+@@ -1081,7 +1070,6 @@ int _rtw_pwr_wakeup(struct adapter *padapter, u32 ips_deffer_ms, const char *cal
+ 	if (time_before(pwrpriv->ips_deny_time, deny_time))
+ 		pwrpriv->ips_deny_time = deny_time;
+ 	return ret;
+-
+ }
+ 
+ int rtw_pm_set_lps(struct adapter *padapter, u8 mode)
+@@ -1091,18 +1079,19 @@ int rtw_pm_set_lps(struct adapter *padapter, u8 mode)
+ 
+ 	if (mode < PS_MODE_NUM) {
+ 		if (pwrctrlpriv->power_mgnt != mode) {
+-			if (mode == PS_MODE_ACTIVE)
++			if (mode == PS_MODE_ACTIVE) {
+ 				LeaveAllPowerSaveMode(padapter);
+-			else
++			} else {
+ 				pwrctrlpriv->LpsIdleCount = 2;
++			}
+ 
+ 			pwrctrlpriv->power_mgnt = mode;
+ 			pwrctrlpriv->bLeisurePs =
+ 				pwrctrlpriv->power_mgnt != PS_MODE_ACTIVE;
+ 		}
+-	} else
++	} else {
+ 		ret = -EINVAL;
+-
++	}
+ 	return ret;
+ }
+ 
+@@ -1117,8 +1106,9 @@ int rtw_pm_set_ips(struct adapter *padapter, u8 mode)
+ 		rtw_ips_mode_req(pwrctrlpriv, mode);
+ 		if ((padapter->bSurpriseRemoved == 0) && (rtw_pwr_wakeup(padapter) == _FAIL))
+ 			return -EFAULT;
+-	} else
++	} else {
+ 		return -EINVAL;
++	}
+ 
+ 	return 0;
+ }
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.39.5 (Apple Git-154)
+
