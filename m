@@ -1,113 +1,158 @@
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC6262797A1
-	for <linux-staging@lists.linux.dev>; Wed, 28 May 2025 10:08:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C096828C016
+	for <linux-staging@lists.linux.dev>; Wed, 28 May 2025 15:11:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748426930; cv=none; b=btmyivGjSws8Dqsc07ga9fUdF+7h80SRTxNyxvhd5rD4fS8LeG1IX71Kvx99FWO9o492stT2HSkC28EEhQMzoR1/JC6bUm++iXnPq+Z2OBvWS7lwtHZhe7I32NPP7VpoF4/o6Evl89bxKkBpy2B6AXF6IVx4dI4SXcHV2Ci60OY=
+	t=1748445064; cv=none; b=B5Lz+OP/Tl1W/HbO5/eS5s7nhIWejTgX7LX+5aNkkxQtFqLlba+js5TJNZMVW9bNbr42QEJRLZIRg2Pc3LqSVatF4XqWxLwWaEjjgAEgBPdyfv/jp14XS2dR+95OZncSGL5M3Agvo8fwSl78HhBmFFmdryZAwrpZ7VE3txEVgrQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748426930; c=relaxed/simple;
-	bh=K6LuZnoG9l9tErcwlPRRYLNk1X769nTvgY4Ttx/vpuk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=eZCmi19l9iCDqZ3dTVunnbaSy/rW9Zt2bnVti9c2MLqP3RVgeO4icvllgjHJR/2Ag0T5uIWc7XtwV8/WPWUAe0OqxEaLXzvUQLndA0kbfwNPoPKSdp6ZzBC7jpHRcyXwY9lQ6OPSNb6BLleRv0kMqdb4gjE6LXGMIgH4mlfUFOo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=MO+nWesH; arc=none smtp.client-ip=209.85.128.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1748445064; c=relaxed/simple;
+	bh=2insgHiZQR7p5wDJ020t1ub628/CBQGfKrAAC0h7XjM=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=nuUU2+LoA8FRABQMlV74qFy2TLxktTiQveV+YkO37GPEHUXpPp2BQgD6C41xFHo/bqzIjtacqWtcBzKNrecbH0vdCI+Sg8C8v4nZJMT5u7bqgYvGCWeazqBUf7c/wpWeCEFHWe+SXjibQJOmz+RopCjGhtqxorCfxh8jOm/sLmY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=ocTIM4H1; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="MO+nWesH"
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-442ed8a275fso56807745e9.2
-        for <linux-staging@lists.linux.dev>; Wed, 28 May 2025 03:08:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1748426925; x=1749031725; darn=lists.linux.dev;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=LXZzj7zT/aoC0USaD96wdCURxHjN4LGV2uTI7X0jaRg=;
-        b=MO+nWesHkPgvCP4tDnwuDGD7reas0j5Bk8Bm2Qk3WxnPPdRrENbBwHVikLsktEFhcU
-         qh03NWA1zFByRwfiDQ7Lq/eZ93ls2qMkw3ms01IRi79vMm4WMZVmSXZkMibVfH8dyiJU
-         sXzHbi+jEP+GT+v24AEFjVTpVjP3zKiq/M9sngS/15ERH+Kf8GeYAogKdX1eSXF6qP2g
-         mYFnY4rsEvft2oNFlp7zkeH+dCqlHMDd+RWy8IsK8hDeqRvdPKhYJGnXdZuAOGGw5ImP
-         Okf1PgnZCZXkVRzLDJvfSU+7oczqM7KwSAvJ8PPlyq/9tCgU6Sq00Dt+iaPtbTyznxfL
-         ImwQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1748426925; x=1749031725;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=LXZzj7zT/aoC0USaD96wdCURxHjN4LGV2uTI7X0jaRg=;
-        b=TK2kTMIffwZvdjnzcf6pNzNBeqIa9BHATS3FZaqFZUEtP4a11pOaElS+e+yY+b769+
-         Z101w7mpAo/1vllC3yJObllt07vz5CXAR7Gs6Vth2BlNDkBsi61DmM9XIfzQ5v2G2x+s
-         fMD1i6EfB2ulT0sJGhYu1skloEBxHTW1GPRGseaKjVa4d1X7uFkuC87OhLheVWqb4Xd4
-         6XKRwWfgN4mdUMkRXrfcpNiJlJGHqvRhet5bw2T7rvy6laqZd+EKDD27+6O+Tcj2AtIg
-         ielqFlKlqAxsx99bBcfjPJTnKYOR1UFx1YpLE7o7Ux1SIIK8qiXtisqeahdxu/w2cBcP
-         GvQw==
-X-Gm-Message-State: AOJu0YxS+AqQIZcFBWCI1B0W7gO1c4zNdVk3SxcoG+XORAUfp6+YKx4I
-	JHJjJEDxE02cx/1POL0UhpXtFhzxDow4SU/iV9u37YuZo2diGKFVzKndnY57+0ydhr0=
-X-Gm-Gg: ASbGncsED8UbmCuk9tcMeOeJamdNBT+SrdrI7PcmF2IxKe21Btl4z0XQEulIaAqGZSt
-	FdXIgUPqgft5heD7xX+xnsYH4ntXeyqO6G0pXyOustHWXsWDlyw2ZrjG4ltNypJxDtxkYbZ5RqH
-	emXToypnqk+adrKFjc0aPjfDFi4x5j1V04H1hqGXcAfHFza/0GnsE/uT1Kr2WdzO8es7tz9U/nl
-	HOmwzOuZUTkzww2DlmOdiGswlP+jN0quHwBX3UWORsCsBdvoeQ/JuKjgszqE7qhhm2khoUrXkFV
-	j0A//sfkXCr9iZLjE3vZ9XBPov1momgAg2eZ272evEgOd61yPrRHh7Ma
-X-Google-Smtp-Source: AGHT+IH1cqD8JfGDs8gNDNG0gb2rXylng5BHr1nRy86mzCRj9b/g68TecwmVmLDn832A+JGk0SdlRA==
-X-Received: by 2002:a05:600c:648a:b0:43e:a7c9:8d2b with SMTP id 5b1f17b1804b1-44c92f21e1fmr126046605e9.24.1748426924877;
-        Wed, 28 May 2025 03:08:44 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-4500e1d3c94sm16176005e9.28.2025.05.28.03.08.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 28 May 2025 03:08:44 -0700 (PDT)
-Date: Wed, 28 May 2025 13:08:40 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Shawn Hua <shawnhuasz@gmail.com>
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	gregkh@linuxfoundation.org, philipp.g.hortmann@gmail.com,
-	pkshih@realtek.com, akpm@linux-foundation.org,
-	yixuanhuashawn@berkeley.edu
-Subject: Re: [PATCH] staging: rtl8723bs: fix checkpatch issues in
- rtw_pwrctrl.c
-Message-ID: <aDbgqBKV-bIJXDjN@stanley.mountain>
-References: <20250528091914.2963-1-yixuanhuashawn@berkeley.edu>
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="ocTIM4H1"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1748445059;
+	bh=2insgHiZQR7p5wDJ020t1ub628/CBQGfKrAAC0h7XjM=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+	b=ocTIM4H1xvxfaSzI137wEbK2D5Nwa7Cpjz4v9oBNtA9O+rufRY7TJbOGrbgcOOjWA
+	 XYJjQoZrJ9jOX5aYU5RwxYcPrBH2xlWJcqPe5e0YMBDY7uqStF6a9uYP7DzmgBeZwh
+	 MPX6QnjVOy+2gMk+zVK9SnPqxQU+APeKYKTFiTBBNVyh88q6lJbjGIL78B+GpuB9vG
+	 rLIj1kklzMKLvzJUDJlfAJMRyZvTETb3yiCUVF4JpAWPkYuO1Q08eD/DOuw2tTvCq+
+	 VYFYn1RRyM15IZZSn/MD+dbLeaXsKM08JM3KwM7G/5cg5tXOxR9qgsS/MHYjK1HuVD
+	 VWGQd+o1twxzg==
+Received: from [IPv6:2606:6d00:17:b2fc::5ac] (unknown [IPv6:2606:6d00:17:b2fc::5ac])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: nicolas)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id 4C49F17E153E;
+	Wed, 28 May 2025 17:10:58 +0200 (CEST)
+Message-ID: <0476c8d6ef2482688d07077592393074398c9ce0.camel@collabora.com>
+Subject: Re: [PATCH] media: rkvdec: Switch to using structs instead of writel
+From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+To: Jonas Karlman <jonas@kwiboo.se>, Detlev Casanova
+	 <detlev.casanova@collabora.com>
+Cc: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>, Mauro Carvalho Chehab	
+ <mchehab@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ "linux-media@vger.kernel.org"	 <linux-media@vger.kernel.org>,
+ "linux-rockchip@lists.infradead.org"	 <linux-rockchip@lists.infradead.org>,
+ "linux-staging@lists.linux.dev"	 <linux-staging@lists.linux.dev>,
+ "kernel@collabora.com" <kernel@collabora.com>, 
+ "linux-kernel@vger.kernel.org"	 <linux-kernel@vger.kernel.org>
+Date: Wed, 28 May 2025 11:10:57 -0400
+In-Reply-To: <a787e6e0-d4ce-45e3-8263-2489585d3ec0@kwiboo.se>
+References: <20250527150043.174415-1-detlev.casanova@collabora.com>
+	 <a787e6e0-d4ce-45e3-8263-2489585d3ec0@kwiboo.se>
+Organization: Collabora Canada
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.56.2 (3.56.2-1.fc42) 
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250528091914.2963-1-yixuanhuashawn@berkeley.edu>
 
-On Wed, May 28, 2025 at 05:19:14PM +0800, Shawn Hua wrote:
-> This patch addresses several style issues in rtw_pwrctrl.c, as reported by checkpat
-> ch.pl. I’ve fixed most warnings and errors, but left CamelCase and one type of CHECK unresolved.
+Hi Jonas,
+
+Le mardi 27 mai 2025 à 19:51 +0200, Jonas Karlman a écrit :
+> Hi Detlev,
 > 
-> I’m new to kernel development and submitting this for learning purposes. Please let me know if this type of patch is still helpful, or if it should be reworked or dropped.
+> On 2025-05-27 17:00, Detlev Casanova wrote:
+> > In an effort to merge the rkvdec2 driver [1] with this one, switch from
+> > writel() calls to using structs to represent the register mappings.
+> 
+> Please wait with this until HEVC support has landed, now that H264
+> 4:2:2/Hi10 finally have been merged I was hoping to be able to send a v2
 
-Emails and patches should line wrap at 74 characters.
+
+Detlev communicated to me that this was meant to have the RFC tag. The intent
+being to check with others if the usage of bitfield in structure for registers is
+acceptable. I personally like it, and don't see any issue with it considering
+the performance is not affected at all. The idea is not new, you can find
+similar proposal from 2019.
+
+https://lore.kernel.org/all/20190131031333.11905-2-ayaka@soulik.info/
+
+> of the old HEVC series [3]. I was waiting on v6.16-rc1 before sending
+> the series but can send it sooner if needed, [4] has current state of v2.
+
+Please don't wait for that, just send as soon as your are happy with it.
+Just based it on current media-committers/next branch, I will deal with the
+rest.
 
 > 
-> Best regards,
-> Shawn Hua
-> -----
+> H264 4:2:2/Hi10 and HEVC have been in the works for a few years now,
+> would be nice to have it fully land before refactoring starts ;-)
 
-Don't start your patch with an email, we don't want that in the git log.
-
-> This patch fixes ~80 checkpatch.pl style issues, including spacing, indentation, and alignment.
-> 
-> Remaining issues:
-> - CamelCase warnings were left unchanged to avoid breaking interface consistency across related files.
-> - One CHECK regarding alignment with open parenthesis could not be resolved despite several attempts.
-
-Don't list the things you haven't done.
+My roadmap was that HEVC was not truly an unstaging dependency. I was a lot
+more worried about concurrent decode, but I have a patch in queue now. So
+unstaging is what I will prioritize once a patch is made. Meanwhile, better send
+you patches soon.
 
 > 
-> No functional changes were made.
+> [3] https://lore.kernel.org/linux-media/20231105233630.3927502-1-jonas@kwiboo.se
+> [4] https://github.com/Kwiboo/linux-rockchip/commits/linuxtv-rkvdec-hevc-v2b/
 > 
+> > This is done in order to have all supported decoders use the same format
+> > in the future and ease reading of the code.
+> 
+> Do you have any work-in-progress patches for this?
+> 
+> > Using structs also improves stability as the hardware is tested and
+> > validated downstream using a similar method.
+> > It was noticed, on decoders, that:
+> >  - Some registers require to be writen in increasing order [2]
+> >  - Some registers, even if unrelated, need to be written to their reset
+> >    values (it was the case here for axi_ddr_[rw]data).
+> > 
+> > Using structs can also help improving performance later when, e.g.
+> > multicore support is added on RK3588.
+> 
+> Are your referring to the linked-list feature (also present in e.g.
+> RK3328) or just for multi-core purpose?
 
-This does too many things at once.  Also start with the latest code.
-Some of these are already fixed.
+RK3588 multi-core design, but this is also needed if you want to use HW queues.
+Multi-core is more pressing at the moment, the benefit of using HW queues will
+have to be proven. It does not make a big difference for a single media.
 
-regards,
-dan carpenter
+Nicolas
 
+> 
+> Regards,
+> Jonas
+> 
+> > Performance seems to be slightly improved, but at least, not made worse.
+> > Running fluster's JVT-AVC_V1 test suite with GStreamer on the Radxa ROCK
+> > PI 4 SE gives the following times:
+> > 
+> > Before this patch:
+> > 
+> > - --jobs 1: Ran 129/135 tests successfully               in 77.167 secs
+> > - --jobs 6: Ran 129/135 tests successfully               in 23.046 secs
+> > 
+> > With this patch:
+> > - --jobs 1: Ran 129/135 tests successfully               in 70.698 secs
+> > - --jobs 6: Ran 129/135 tests successfully               in 22.917 secs
+> > 
+> > This also shows that the fluster score hasn't changed.
+> > 
+> > [1]: https://lore.kernel.org/all/20250325213303.826925-1-detlev.casanova@collabora.com/
+> > [2]: https://lore.kernel.org/all/20200127143009.15677-5-andrzej.p@collabora.com/
+> > 
+> > Signed-off-by: Detlev Casanova <detlev.casanova@collabora.com>
+> > ---
+> >  drivers/staging/media/rkvdec/rkvdec-h264.c | 168 +++---
+> >  drivers/staging/media/rkvdec/rkvdec-regs.h | 567 ++++++++++++++-------
+> >  drivers/staging/media/rkvdec/rkvdec-vp9.c  | 239 ++++-----
+> >  drivers/staging/media/rkvdec/rkvdec.c      |   1 -
+> >  4 files changed, 559 insertions(+), 416 deletions(-)
+> 
+> [snip]
