@@ -1,158 +1,178 @@
-Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C096828C016
-	for <linux-staging@lists.linux.dev>; Wed, 28 May 2025 15:11:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BE9D2882CD
+	for <linux-staging@lists.linux.dev>; Wed, 28 May 2025 15:43:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748445064; cv=none; b=B5Lz+OP/Tl1W/HbO5/eS5s7nhIWejTgX7LX+5aNkkxQtFqLlba+js5TJNZMVW9bNbr42QEJRLZIRg2Pc3LqSVatF4XqWxLwWaEjjgAEgBPdyfv/jp14XS2dR+95OZncSGL5M3Agvo8fwSl78HhBmFFmdryZAwrpZ7VE3txEVgrQ=
+	t=1748447010; cv=none; b=KE35HKPMpbHz7BgCLk6xtykA9yFAm/G+O7LWTtLaSDlsZoduwY5cDT30xFsqHkk5NGJ2v05NWYkSn9yyRUg2CTG5xs6nqKQdFQc/relll9MIC57+QPUV9Dj25/RphJqV/d9VDi6Tefk64aqGe73bbUoRcWJwFadPZ17cgYmDHv0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748445064; c=relaxed/simple;
-	bh=2insgHiZQR7p5wDJ020t1ub628/CBQGfKrAAC0h7XjM=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=nuUU2+LoA8FRABQMlV74qFy2TLxktTiQveV+YkO37GPEHUXpPp2BQgD6C41xFHo/bqzIjtacqWtcBzKNrecbH0vdCI+Sg8C8v4nZJMT5u7bqgYvGCWeazqBUf7c/wpWeCEFHWe+SXjibQJOmz+RopCjGhtqxorCfxh8jOm/sLmY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=ocTIM4H1; arc=none smtp.client-ip=148.251.105.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	s=arc-20240116; t=1748447010; c=relaxed/simple;
+	bh=BMRUJzr0/HLa3ogV5/HusC1YamEdyusN8YfIZyUZixE=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=uKgS058+GzcxFPt+hiH7ywk9xNbqfL/G2VvCq6kTvjOnHG8XX7MsvjLWKx4I6FF8Pdq1Jl0AsK7keY6EpCT9Vxi5swtDLKefHPseao1Q0vjerHRNdAZw2CWWqJV2KiMeV4lbULoe1fv0Jsx+CbtuOITwzJFXo/0zR4YJRHJ9bj0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=openpixelsystems.org; spf=fail smtp.mailfrom=openpixelsystems.org; dkim=pass (2048-bit key) header.d=openpixelsystems-org.20230601.gappssmtp.com header.i=@openpixelsystems-org.20230601.gappssmtp.com header.b=c8EiS8Q1; arc=none smtp.client-ip=209.85.128.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=openpixelsystems.org
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=openpixelsystems.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="ocTIM4H1"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1748445059;
-	bh=2insgHiZQR7p5wDJ020t1ub628/CBQGfKrAAC0h7XjM=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-	b=ocTIM4H1xvxfaSzI137wEbK2D5Nwa7Cpjz4v9oBNtA9O+rufRY7TJbOGrbgcOOjWA
-	 XYJjQoZrJ9jOX5aYU5RwxYcPrBH2xlWJcqPe5e0YMBDY7uqStF6a9uYP7DzmgBeZwh
-	 MPX6QnjVOy+2gMk+zVK9SnPqxQU+APeKYKTFiTBBNVyh88q6lJbjGIL78B+GpuB9vG
-	 rLIj1kklzMKLvzJUDJlfAJMRyZvTETb3yiCUVF4JpAWPkYuO1Q08eD/DOuw2tTvCq+
-	 VYFYn1RRyM15IZZSn/MD+dbLeaXsKM08JM3KwM7G/5cg5tXOxR9qgsS/MHYjK1HuVD
-	 VWGQd+o1twxzg==
-Received: from [IPv6:2606:6d00:17:b2fc::5ac] (unknown [IPv6:2606:6d00:17:b2fc::5ac])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: nicolas)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id 4C49F17E153E;
-	Wed, 28 May 2025 17:10:58 +0200 (CEST)
-Message-ID: <0476c8d6ef2482688d07077592393074398c9ce0.camel@collabora.com>
-Subject: Re: [PATCH] media: rkvdec: Switch to using structs instead of writel
-From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-To: Jonas Karlman <jonas@kwiboo.se>, Detlev Casanova
-	 <detlev.casanova@collabora.com>
-Cc: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>, Mauro Carvalho Chehab	
- <mchehab@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- "linux-media@vger.kernel.org"	 <linux-media@vger.kernel.org>,
- "linux-rockchip@lists.infradead.org"	 <linux-rockchip@lists.infradead.org>,
- "linux-staging@lists.linux.dev"	 <linux-staging@lists.linux.dev>,
- "kernel@collabora.com" <kernel@collabora.com>, 
- "linux-kernel@vger.kernel.org"	 <linux-kernel@vger.kernel.org>
-Date: Wed, 28 May 2025 11:10:57 -0400
-In-Reply-To: <a787e6e0-d4ce-45e3-8263-2489585d3ec0@kwiboo.se>
-References: <20250527150043.174415-1-detlev.casanova@collabora.com>
-	 <a787e6e0-d4ce-45e3-8263-2489585d3ec0@kwiboo.se>
-Organization: Collabora Canada
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.56.2 (3.56.2-1.fc42) 
+	dkim=pass (2048-bit key) header.d=openpixelsystems-org.20230601.gappssmtp.com header.i=@openpixelsystems-org.20230601.gappssmtp.com header.b="c8EiS8Q1"
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-43cec5cd73bso34885e9.3
+        for <linux-staging@lists.linux.dev>; Wed, 28 May 2025 08:43:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=openpixelsystems-org.20230601.gappssmtp.com; s=20230601; t=1748447005; x=1749051805; darn=lists.linux.dev;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=6yl6vUzUKKmJBwsdJArAjkBP/TBHxNgwshqS0VE0gt4=;
+        b=c8EiS8Q1WgRXbB9hjj92AVLWLamEey5HCfpuxbur7PxnGBqktG/Zn9V8BRhjp/kMgj
+         SuodAqKsHA0iMjhTT9qIkC9ir2orPL2hpFAxTKNK5i9uhKd0xd6fkZM3kZ/qe+93oIp5
+         R6p2ceNjZcyUSj5GHCNknzmCWwnRa48CZj7iBaxuB7UgYxahdQUNZpB+jBjvzSQ3al5h
+         S9X0Gtm9ZICPg9IxVx/ITBV2GfcTJmFGRmvyCyvPupagVkcyoN5u3EB0DqFfS26jglWz
+         3HpD40UmT71r5CTcC9pEGLmo+Thq53OyV17jfgP/1kAvMhYJW2maQW9QgYlWRQ4UyVGT
+         uWkA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1748447005; x=1749051805;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=6yl6vUzUKKmJBwsdJArAjkBP/TBHxNgwshqS0VE0gt4=;
+        b=qTvRLOGa1A7HcRIBbSI7mVQqqAWSb1JvgYXqAj6lNmB9WSp7WDFylTxRVp7mAIhzo0
+         ct3cKH0p5KbZUiw43MSJSsTxem8QxZ2xLyusRV2s35/bu78s+CK2QSfbYGLeIvjqgYH8
+         JARAyN1WCLpGhAr+EFpVZy804azt2wxelPxdCtgYAinr6NRNrV6ulQ0AwDneXibDfQo1
+         MsWaMuEx9UI0sx/sPs8qK1CkLkDvXOZtcsz8SwbAr6Ox57+cow1cmZpRlLcuMIw5q0sP
+         L7dkGH2qy12q/2l81voNzdBYtK5CpOw4kE/LbFdy8OZqB/IjXZhNW1WELOrLC9u2GwTf
+         OUbw==
+X-Forwarded-Encrypted: i=1; AJvYcCWRammwKptbH+4zjRw3emH75AXDJIFFpNRtgAS/y77DQ1o9GHF4ptOJIXv7KnG6XRWx0rw+88hOk2Sg2TL7@lists.linux.dev
+X-Gm-Message-State: AOJu0YwB8GYpj3fgHr/PtNsosGm/Wril+vQUkeje2EOMKLx+qrSvjpky
+	RCbfhehOvrnkIzuDZjAHSBSS7etj7vgT7yFP1SKFwighFbC/vosYTdQ9qduq84EnhLE=
+X-Gm-Gg: ASbGnctzSl7PqpHGQ9cyJGMqdyR2qWGj9wt/0lsouccgKZ6p34P4ktuSVkQwhrP0lPV
+	qK7OopyUIsi4CCF31YsN1mGU984UazcajpVuExsQ/bAL4SqRp1egoJJkpDnf8ZJMdydNHHPXoMT
+	Fw/0+2eyjewz4hQsYDKYfYcNi4LhPmLkJUtuc6lbLcPdagU72k21ZnU1FVx8IBE1gh+bjjF8UU/
+	16tsc5VDbhMIXFo78r/K6Eoa6CW2cehTEJ7mcjRf+iDcrcDqTUATPkS6MkWi0q7030IGNs1gEhQ
+	GBaAe5jRPbxKcXqZKEQe75N848h9bnt7xbF5Ea6nSCBYTTY/+qQjmpTodRnkU0hXvGtK3uD8cRg
+	NCKQm/sJVUladUokhwxXBUjZa06YpPB1/KvcFurCUsUE=
+X-Google-Smtp-Source: AGHT+IFbbv0BZAtT3+HnJDyyTNgCMRJZb9KZLNLH4dIHpFGSJZsnxop7uFuUlZaFtez53aVT2kI+Hg==
+X-Received: by 2002:a05:600c:6214:b0:43c:e467:d6ce with SMTP id 5b1f17b1804b1-44cc05358b3mr170613645e9.4.1748447004994;
+        Wed, 28 May 2025 08:43:24 -0700 (PDT)
+Received: from [10.0.12.41] (253.124-78-194.adsl-static.isp.belgacom.be. [194.78.124.253])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a4eacd6f1bsm1769856f8f.80.2025.05.28.08.43.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 28 May 2025 08:43:24 -0700 (PDT)
+From: Bram Vlerick <bram.vlerick@openpixelsystems.org>
+Date: Wed, 28 May 2025 17:42:30 +0200
+Subject: [PATCH] staging: fbtft: add invert display parameter
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20250528-ili9341-invert-dtb-v1-1-080202809332@openpixelsystems.org>
+X-B4-Tracking: v=1; b=H4sIAOUuN2gC/x3MTQqAIBBA4avErBswS/u5SrSoHGsgLFQiCO+et
+ PwW770QyDMFGIoXPN0c+HQZVVnAus9uI2STDVJIJZTskA/u66ZCdjf5iCYuKNpZaaVJG2sgh5c
+ ny88/HaeUPolD9bRkAAAA
+X-Change-ID: 20250528-ili9341-invert-dtb-07a5656e6dfd
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org, 
+ linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, 
+ Bram Vlerick <bram.vlerick@openpixelsystems.org>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2995;
+ i=bram.vlerick@openpixelsystems.org; h=from:subject:message-id;
+ bh=BMRUJzr0/HLa3ogV5/HusC1YamEdyusN8YfIZyUZixE=;
+ b=owEBbQKS/ZANAwAIAblauka9BQbwAcsmYgBoNy8chB2y8w5nbK9+RztKsMs3unwb1aVwo2U36
+ FwTbirKHOeJAjMEAAEIAB0WIQQO7PtG7b77XLxuay25WrpGvQUG8AUCaDcvHAAKCRC5WrpGvQUG
+ 8GvpD/9SsZFzhvQs0gQHp72J5bWBgaHGOAaSW43Xne+PZMAjdUCH4O23F2Syc387TEDUe/FTeWZ
+ kp5HtOO3HdadO8z0wT6nXXINzJfFLkXufNXmxFbHQ8x2VuSGTlIKYhuzla4BlFV+dJJ60/83RRX
+ DKADQ1s4itlnkqEVyeD3cJad734FHh6ZjaqG7sZobZxqcZcGRO7LBBO2SSveqlUZO502Tp9b0MM
+ LHZwjVFPUcDWZpBoJZUTg0Bw5calTX2Mh/Ibwzr1yERYLUO01KqWi2/01IGvu01G3ucNGq0RR2A
+ n7LHuRVOZkJFaBjUx2XPi7bPBYD47fgBMRT5/uIeCM5gh/W/DXFUU+t6j5A6vOE7SF61jWbGrsY
+ wBC3xLx+WDXCvrFhj9xAmV5L+TRjvCEWIsuOy7q88ge/SI7t4d913AWKAEvdvhnhllg+mOSH7Dc
+ BZOo5wTDep2WxoScD9VgeqMv4v8QwkOGCv9H1fDhWZY1fxNCwvpQU9bH111ZD8aSHZPAEHgTdQN
+ eKx6hZNtBFIjq40TAQ5zQnGnAa2NfisLBqVqKAFgaqFahnwB3bRj6EXC4ME4wuCKH1g2O8+xQKY
+ LLKmSqiMsu+UM56ihNwxQ4hVpy5WeDercM0s+Fc2UdFzPNnzrSr1G4BS1YhpzNousCBK7vnlKwX
+ dOZ+YVluePM0Drg==
+X-Developer-Key: i=bram.vlerick@openpixelsystems.org; a=openpgp;
+ fpr=0EECFB46EDBEFB5CBC6E6B2DB95ABA46BD0506F0
 
-Hi Jonas,
+Add devicetree parameter to enable or disable the invert feature of the
+ili9341 display
 
-Le mardi 27 mai 2025 à 19:51 +0200, Jonas Karlman a écrit :
-> Hi Detlev,
-> 
-> On 2025-05-27 17:00, Detlev Casanova wrote:
-> > In an effort to merge the rkvdec2 driver [1] with this one, switch from
-> > writel() calls to using structs to represent the register mappings.
-> 
-> Please wait with this until HEVC support has landed, now that H264
-> 4:2:2/Hi10 finally have been merged I was hoping to be able to send a v2
+Signed-off-by: Bram Vlerick <bram.vlerick@openpixelsystems.org>
+---
+ drivers/staging/fbtft/fb_ili9341.c | 3 +++
+ drivers/staging/fbtft/fbtft-core.c | 2 ++
+ drivers/staging/fbtft/fbtft.h      | 3 +++
+ 3 files changed, 8 insertions(+)
 
+diff --git a/drivers/staging/fbtft/fb_ili9341.c b/drivers/staging/fbtft/fb_ili9341.c
+index 47e72b87d76d996111aaadcf5e56dfdfc1c331ab..a184f57df12b5ad6612a2e83b664a8911c7c79be 100644
+--- a/drivers/staging/fbtft/fb_ili9341.c
++++ b/drivers/staging/fbtft/fb_ili9341.c
+@@ -103,6 +103,9 @@ static int set_var(struct fbtft_par *par)
+ 		break;
+ 	}
+ 
++	if (par->invert)
++		write_reg(par, 0x21);
++
+ 	return 0;
+ }
+ 
+diff --git a/drivers/staging/fbtft/fbtft-core.c b/drivers/staging/fbtft/fbtft-core.c
+index da9c64152a606dc4a176f5a37fa59f6a7d3a2af3..4e827e9899e32313f2e4a9bf12ff49283a63fed3 100644
+--- a/drivers/staging/fbtft/fbtft-core.c
++++ b/drivers/staging/fbtft/fbtft-core.c
+@@ -641,6 +641,7 @@ struct fb_info *fbtft_framebuffer_alloc(struct fbtft_display *display,
+ 	par->buf = buf;
+ 	spin_lock_init(&par->dirty_lock);
+ 	par->bgr = pdata->bgr;
++	par->invert = pdata->invert;
+ 	par->startbyte = pdata->startbyte;
+ 	par->init_sequence = init_sequence;
+ 	par->gamma.curves = gamma_curves;
+@@ -1107,6 +1108,7 @@ static struct fbtft_platform_data *fbtft_properties_read(struct device *dev)
+ 	pdata->display.bpp = fbtft_property_value(dev, "bpp");
+ 	pdata->display.debug = fbtft_property_value(dev, "debug");
+ 	pdata->rotate = fbtft_property_value(dev, "rotate");
++	pdata->invert = device_property_read_bool(dev, "invert");
+ 	pdata->bgr = device_property_read_bool(dev, "bgr");
+ 	pdata->fps = fbtft_property_value(dev, "fps");
+ 	pdata->txbuflen = fbtft_property_value(dev, "txbuflen");
+diff --git a/drivers/staging/fbtft/fbtft.h b/drivers/staging/fbtft/fbtft.h
+index 317be17b95c1672404fc6aecda24d0a1f563685d..71c9c35e7548de314088ac3aeb160d6c6aaf75c9 100644
+--- a/drivers/staging/fbtft/fbtft.h
++++ b/drivers/staging/fbtft/fbtft.h
+@@ -125,6 +125,7 @@ struct fbtft_display {
+  * @display: Display properties
+  * @gpios: Pointer to an array of pinname to gpio mappings
+  * @rotate: Display rotation angle
++ * @invert: Invert display colors
+  * @bgr: LCD Controller BGR bit
+  * @fps: Frames per second (this will go away, use @fps in @fbtft_display)
+  * @txbuflen: Size of transmit buffer
+@@ -135,6 +136,7 @@ struct fbtft_display {
+ struct fbtft_platform_data {
+ 	struct fbtft_display display;
+ 	unsigned int rotate;
++	bool invert;
+ 	bool bgr;
+ 	unsigned int fps;
+ 	int txbuflen;
+@@ -229,6 +231,7 @@ struct fbtft_par {
+ 	bool first_update_done;
+ 	ktime_t update_time;
+ 	bool bgr;
++	bool invert;
+ 	void *extra;
+ 	bool polarity;
+ };
 
-Detlev communicated to me that this was meant to have the RFC tag. The intent
-being to check with others if the usage of bitfield in structure for registers is
-acceptable. I personally like it, and don't see any issue with it considering
-the performance is not affected at all. The idea is not new, you can find
-similar proposal from 2019.
+---
+base-commit: 914873bc7df913db988284876c16257e6ab772c6
+change-id: 20250528-ili9341-invert-dtb-07a5656e6dfd
 
-https://lore.kernel.org/all/20190131031333.11905-2-ayaka@soulik.info/
+Best regards,
+-- 
+Bram Vlerick <bram.vlerick@openpixelsystems.org>
 
-> of the old HEVC series [3]. I was waiting on v6.16-rc1 before sending
-> the series but can send it sooner if needed, [4] has current state of v2.
-
-Please don't wait for that, just send as soon as your are happy with it.
-Just based it on current media-committers/next branch, I will deal with the
-rest.
-
-> 
-> H264 4:2:2/Hi10 and HEVC have been in the works for a few years now,
-> would be nice to have it fully land before refactoring starts ;-)
-
-My roadmap was that HEVC was not truly an unstaging dependency. I was a lot
-more worried about concurrent decode, but I have a patch in queue now. So
-unstaging is what I will prioritize once a patch is made. Meanwhile, better send
-you patches soon.
-
-> 
-> [3] https://lore.kernel.org/linux-media/20231105233630.3927502-1-jonas@kwiboo.se
-> [4] https://github.com/Kwiboo/linux-rockchip/commits/linuxtv-rkvdec-hevc-v2b/
-> 
-> > This is done in order to have all supported decoders use the same format
-> > in the future and ease reading of the code.
-> 
-> Do you have any work-in-progress patches for this?
-> 
-> > Using structs also improves stability as the hardware is tested and
-> > validated downstream using a similar method.
-> > It was noticed, on decoders, that:
-> >  - Some registers require to be writen in increasing order [2]
-> >  - Some registers, even if unrelated, need to be written to their reset
-> >    values (it was the case here for axi_ddr_[rw]data).
-> > 
-> > Using structs can also help improving performance later when, e.g.
-> > multicore support is added on RK3588.
-> 
-> Are your referring to the linked-list feature (also present in e.g.
-> RK3328) or just for multi-core purpose?
-
-RK3588 multi-core design, but this is also needed if you want to use HW queues.
-Multi-core is more pressing at the moment, the benefit of using HW queues will
-have to be proven. It does not make a big difference for a single media.
-
-Nicolas
-
-> 
-> Regards,
-> Jonas
-> 
-> > Performance seems to be slightly improved, but at least, not made worse.
-> > Running fluster's JVT-AVC_V1 test suite with GStreamer on the Radxa ROCK
-> > PI 4 SE gives the following times:
-> > 
-> > Before this patch:
-> > 
-> > - --jobs 1: Ran 129/135 tests successfully               in 77.167 secs
-> > - --jobs 6: Ran 129/135 tests successfully               in 23.046 secs
-> > 
-> > With this patch:
-> > - --jobs 1: Ran 129/135 tests successfully               in 70.698 secs
-> > - --jobs 6: Ran 129/135 tests successfully               in 22.917 secs
-> > 
-> > This also shows that the fluster score hasn't changed.
-> > 
-> > [1]: https://lore.kernel.org/all/20250325213303.826925-1-detlev.casanova@collabora.com/
-> > [2]: https://lore.kernel.org/all/20200127143009.15677-5-andrzej.p@collabora.com/
-> > 
-> > Signed-off-by: Detlev Casanova <detlev.casanova@collabora.com>
-> > ---
-> >  drivers/staging/media/rkvdec/rkvdec-h264.c | 168 +++---
-> >  drivers/staging/media/rkvdec/rkvdec-regs.h | 567 ++++++++++++++-------
-> >  drivers/staging/media/rkvdec/rkvdec-vp9.c  | 239 ++++-----
-> >  drivers/staging/media/rkvdec/rkvdec.c      |   1 -
-> >  4 files changed, 559 insertions(+), 416 deletions(-)
-> 
-> [snip]
