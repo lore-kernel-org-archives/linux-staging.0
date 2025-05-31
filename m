@@ -1,93 +1,97 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 221BA2DCC07
-	for <linux-staging@lists.linux.dev>; Wed, 28 May 2025 21:31:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FCBC1925AB
+	for <linux-staging@lists.linux.dev>; Sat, 31 May 2025 21:13:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748467907; cv=none; b=IjkJgGbOTYAwvi5Z2KSWiF+LXPAGQkBrLEoRcmsbfi1W7ligm+mIUUjZmD/I0x0iJURLsROlrsh1Awg1eAQhO7EqjxdWbp0aDvSvG323qO6gce7ExrpGBWkQ2AEZEn04dU3im+JNQz8PCtDp3cyWPdaNeRSHGvOUnVOMrVOawXg=
+	t=1748726029; cv=none; b=IZeXg0kHUr9mtGD278XOZG3ehYthwOHMn241ahnkeFIG4D2sLRTfii7/GX4yMix/IAlbw8BuOcdhhDMPz3hC2URV0TStr3n0SrA+JohjOUaqz5vNSTzvDM/Irx/hELr26kdVxtbWxPYbex54xcuuN/jNmgqt6Mw0nWs0/ZFgT4Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748467907; c=relaxed/simple;
-	bh=RQlxcJTz6FLqAEEcdtD3+m9OT4QVAwMNwBb0Qwo73oc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dhj35a5waTTDiaqYtmRVO5VtETude0SisxzPKvtEWVFkI/ZwGQGw044qXsAlzJ4BQ8p4vEjCvm3IiELMhrFsSh+00qtpHkwCLUMTb7sbynW6of0TvDvjAG/6eiwLM8GUydr82kTMmjTswXL/qUaGrwGEhfxUxIE2ij5PsE5CsRw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=TJ+R0uBi; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=ljUE3xbR; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	s=arc-20240116; t=1748726029; c=relaxed/simple;
+	bh=PRyboB1k7N2KcrjhZjcaIgm465CDqcL2+Yf2Cysk7ek=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Tfk9XHG7x64TAtJ5jZCTN2ppK2s7bkMQywSxAgFCRncIyEyulXx12CEHmVAZTzzaIOn7Tqgk/rx1Kn8JMMGeunGg2LjOhU0SVSrjdk/vIl0144UBPvPZIMzOD4c7m8BPRc/I7ew3TXuz6FEw2/IHUqBpXw1SU2baDO7YiPOJ12s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VxP1vLwQ; arc=none smtp.client-ip=209.85.210.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="TJ+R0uBi";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="ljUE3xbR"
-Date: Wed, 28 May 2025 23:31:39 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1748467904;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Tp4ba8JmiJXQnAjgWht/WMwnlbGYMjEc5WUFMjibFtc=;
-	b=TJ+R0uBiGaTjq1IXIimJG6H8Y+ux7rzq7WMtuPUzj7Ltp7AC6WzagtsWTNzOrpU4PwxS/U
-	zGlvDaPHXYfaRHSf9U/IR84YBQj0c+2INih5xPfhrKZjggDM/greMXvgvPeTfyB/Oc/aVe
-	BufzX6vK0nPB+0MsUavV4UrC2RBr7T1FLmNJ2redTGCo1+chWInURy4U2lHp6dPUI8sc3K
-	52jXjxXnbTVxraNMSXWl0DuESSNWlxqP5Wah1hy2W6w+L4G9/ZW95yiX8azK67XcXJUP+q
-	YIU+XMlP0CqxpILVk2wt135LgREX4HHEbWEsRcAI62+MJ8yrlwuDIv6bK4IGDw==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1748467904;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Tp4ba8JmiJXQnAjgWht/WMwnlbGYMjEc5WUFMjibFtc=;
-	b=ljUE3xbRO4EoneWlqvz0YzwOQKzxe8iRR4tSHbzg2afAxH6dgnYkwB5Q5fZp2b9IZBvUxM
-	Mnb7tlWO4WcyzKCg==
-From: Nam Cao <namcao@linutronix.de>
-To: Donny Turizo <donnyturizo13@gmail.com>
-Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v8] staging: rtl8723bs: rename _Read_EEPROM and other
- functions to snake_case
-Message-ID: <20250528213139.QHPG7Pf1@linutronix.de>
-References: <20250527004327.3627-1-donnyturizo13@gmail.com>
- <20250528211533.DIM_zxnE@linutronix.de>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VxP1vLwQ"
+Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-74068f95d9fso2269332b3a.0
+        for <linux-staging@lists.linux.dev>; Sat, 31 May 2025 14:13:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1748726027; x=1749330827; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=TPzi5xY/SLx3QtT6MiFRJHzuARJElgyvVmtym/koB58=;
+        b=VxP1vLwQIeNjew4EYrV8vzY2ijTGG9qiO/Cktjr8rnYkInq92Yv2hFciRPQ6lsnb/4
+         h5kvhOciLFz5Sd98rtbKDW1SjGCHG503/RTSU3oNunKShLnq4+ENgQ2QoE/jB/kXV8vp
+         bwrL8NgHran3iaRlBt+1S5p5wJbMpFMo8JsLqA7Gq47Vv7cEPsAdEXvCZjLVU7uQJtDk
+         1CL+1SPQ2C8dfcnUM+kHL6V/SCRN2utDlrnfIEaTWu/ooE92SQAlWmQy1AJ9Z3tSXBUW
+         LhSkruG9v4AeaaYLBZ6Rhm1Dew7/9TTkAq3lPO7dK7NAIXlP0FtXnzNDDIWIsputJjHQ
+         Nswg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1748726027; x=1749330827;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=TPzi5xY/SLx3QtT6MiFRJHzuARJElgyvVmtym/koB58=;
+        b=tSsG5ycL+oKVDEQeMYVBjBdWVXnDHxcKHqE0YM07HlfIwrj3wHWsgJVyWWwxuvdsg+
+         kTNlLt6wzPyqVouHykrLBHnpCW2Wz8u9WH+Fc0eedgik0kwf0hlWbJqKMVLBDnIqA0Nb
+         s6r28yhx/biPQbc/BxrCXUpJ4T1wSTd/buA0awpoysgT8iZ0KAY9KZxaZerb42+eK0ye
+         YR9Ue7zrlzjAbz2XGF+NDexxFKmEX9lqIdv1Ur8f+Uo7onXdxBLZvZZYQAdbLHAXf26b
+         B6vYUwf6JEI/tdr8wg/Eqr4dDxh0g5vScpwYfFaaYuvIKJ6XIiOc73f0GE3cShEGf+O5
+         FG9A==
+X-Forwarded-Encrypted: i=1; AJvYcCVqlqZWiIM2o/2aL5G3yzcAfvN9U67HKQGuDkbzSF7j2nAChKcsOuJ+oxSMQGwbM15stwTGIOBsV/XHKpUe@lists.linux.dev
+X-Gm-Message-State: AOJu0YxQX0Sg02RqFi4kKhj/WGkOZ8FPLPV+5DWLmYNQ7wTNvu1HU8j1
+	QltAzhcKM+YxmPXt6e9OU4vih6znk5tSOY8A7jaSkRNdbo04Kptj2uRP
+X-Gm-Gg: ASbGncsOjQMkath7SWFNRgg2mAX5C8fPAr7GyKJje5HFqzwrZCSRjgNPy1eILkkfHUw
+	rxJKH+9H9R8B4mgRjiwTRUrb9uxwAXsoyFtJ7WovSC7f8PymJdQpaXj45Pqs7nFICGKtPmt0+fD
+	ADZs2ZWd5hQXwLMddmWm1nPY6e2vxfUAF3t7UDpU4Zbjjk0z5xPHiWp9VajB6RY2KcQ6QJP3kUq
+	F9N911z5bp5Q71VELx5fNLVy1hkZjSiIQ7sdAsgQE1X7iNbH5HmJQ/RP4sP4Hqz5kthoV8khKdR
+	6kAQTV9uIYaRuDpB1pTfx0YO0mU+4976Tay5KG03rU9cWqNruMWNlkH0W0eQFG7wqVOr
+X-Google-Smtp-Source: AGHT+IFNXrT07jQqOOjMisC/VlId5cQOFjn3jMV4LhgfHEDxAUPohcM7n20UJSliYShKjOPG5Nj/0A==
+X-Received: by 2002:a05:6a21:3a48:b0:1f5:8221:d68c with SMTP id adf61e73a8af0-21adff48c77mr10543241637.3.1748726026726;
+        Sat, 31 May 2025 14:13:46 -0700 (PDT)
+Received: from khalid-HP-Notebook.. ([49.204.30.182])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-747affaf9dasm5161824b3a.109.2025.05.31.14.13.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 31 May 2025 14:13:46 -0700 (PDT)
+From: khalid.datamax@gmail.com
+To: sudipm.mukherjee@gmail.com
+Cc: teddy.wang@siliconmotion.com,
+	gregkh@linuxfoundation.org,
+	linux-fbdev@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Khalid Faisal <khalid.datamax@gmail.com>
+Subject: [PATCH 0/1] staging: sm750fb: convert CamelCase function names to snake_case
+Date: Sun,  1 Jun 2025 02:41:01 +0530
+Message-ID: <20250531211319.55682-1-khalid.datamax@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250528211533.DIM_zxnE@linutronix.de>
+Content-Transfer-Encoding: 8bit
 
-On Wed, May 28, 2025 at 11:15:44PM +0200, Nam Cao wrote:
-> On Tue, May 27, 2025 at 12:43:27AM +0000, Donny Turizo wrote:
-> > Renamed _Read_EEPROM and several other functions in rtw_cmd.c to follow
-> > the kernel coding style (snake_case). This fixes checkpatch warnings
-> > related to naming conventions.
-> > 
-> > Signed-off-by: Donny Turizo <donnyturizo13@gmail.com>
-> > 
-> > ---
-> > v8:
-> > Actually rebased on top of the latest gregkh/staging-testing.
-> > In v7 I mentioned a rebase, but I had forgotten to run
-> > `git fetch gregkh`, so the patch was not properly rebased.
-> > No code changes from v7. Only the base of the patch is updated.
-> 
-> I still cannot apply the patch. Are you sure you rebased correctly? You
-> mentioned that the patch didn't change, so I think no :(
+This patch cleans up the staging driver sm750fb by converting function names
+that are currently in CamelCase to the preferred snake_case style, following
+Linux kernel coding guidelines.
 
-I think I know what's wrong. This patch is created on top of another patch
-of yours:
-https://lore.kernel.org/linux-staging/20250525064426.9662-1-donnyturizo13@gmail.com/
+Specifically, it renames the following functions for consistency and readability:
+- sii164GetDeviceID		-> sii164_get_device_id
+- sii164ResetChip		-> sii164_reset_chip
+- sii164GetChipString		-> sii164_get_chip_string
+- sii164SetPower		-> sii164_set_power
+- sii164EnableHotPlugDetection	-> sii164_enable_hot_plug_detection
+- sii164IsConnected		-> sii164_is_connected
+- sii164CheckInterrupt		-> sii164_check_interrupt
+- sii164ClearInterrupt		-> sii164_clear_interrupt
 
-Please mention any dependency in your patch. But I suggest waiting for the
-dependency patch to be applied first, before you resend this one.
+This helps maintain uniformity with the rest of the kernel codebase and
+improves maintainability.
 
-> I couldn't apply it to verify the build, but I seriously doubt that this
-> patch doesn't break the build. Are you sure you built the driver? Make sure
-> you have CONFIG_RTL8723BS=y in your .config file. Also double check that
-> there is a drivers/staging/rtl8723bs/core/rtw_cmd.o object file after the
-> build.
+Signed-off-by: Khalid Faisal <khalid.datamax@gmail.com>
 
-I can verify the build now, and yes it breaks the build :(
 
-Best regards,
-Nam
