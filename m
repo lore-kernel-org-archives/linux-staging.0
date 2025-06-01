@@ -1,135 +1,170 @@
-Received: from mail-yw1-f179.google.com (mail-yw1-f179.google.com [209.85.128.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD1D71422AB
-	for <linux-staging@lists.linux.dev>; Sun,  1 Jun 2025 09:31:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FA762690EA;
+	Sun,  1 Jun 2025 23:27:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748770281; cv=none; b=pWaLVcKohusLB0PizgaE/Mm5xilQgQ+PrFLr/kGiGnXDHi6qOexqt+wOuacOBJd0PERPcFUOOkHdTQ1WK3y1A8Mwi4m7W9b6ww3fpIogZcqL+RKb8AZDflnK2UXhJWoBXjFC/C5xMInYlkMqKJgD8mIFD2N9QVlAPgh7J66t3dw=
+	t=1748820421; cv=none; b=ZQ0O9/QRzLcs0IUMCTNOqEeNN2Rzym71WI+b9DV7rSQwlIyJgLz0o+Jn1Trip+wrnoVpp9KpP76le3LxwIUc/Se/hsLTuvG2gFSjrjgvD7ZuFugpSQiXwlrpiwF12H1pAyflQav7mfoLUHc63MUohTcduQwveIdJQ81XYGGIR+Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748770281; c=relaxed/simple;
-	bh=cia7b5/pwiJRcIfZ5Pzs0Ic6wr5bXLhP5y8DFKuUFoo=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ps4lPlQu7UwcLXpXpSVZbSgdFKrkhKbthHFcw9RCOBZi0KjLnRnqvLrJKEWQZGgz/fcPfkCp5vkLldk7/7Q7QRoZMXPJfk0uypBEZ8//KJTBH4cJaPB7QNdMpoReJOSLgU48N/978eivvSQDGXOReASIUnH2GfitklXvnPknz+Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MagGX+Jw; arc=none smtp.client-ip=209.85.128.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1748820421; c=relaxed/simple;
+	bh=dt8kPgWDpFu2sSg07IECaKF33MJ/jwpv24xF5OlDrII=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=QTsSZY+xbPyZ+d5NWMe/61W+lJknr/RWVLQcTs6nApl9NQVEUwfiiUfd0XWZSQg+oEPNWrZhlJ8g4MfS5FZw7pkevv0ivoOfoAhMcD9yy2zJtWWFB10A265fVJWG3FUPe1dO13HNzktVvdwfaiWtPST8VdKl+MmYIkhlmZbUnUo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WdIqWb8r; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MagGX+Jw"
-Received: by mail-yw1-f179.google.com with SMTP id 00721157ae682-7086dcab64bso30684767b3.1
-        for <linux-staging@lists.linux.dev>; Sun, 01 Jun 2025 02:31:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1748770279; x=1749375079; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=M2XnIZlfqbuB02O2JRcDHPIrk01jX+E1tx8F/ogvGZA=;
-        b=MagGX+JwLgSC/Z0LaTuZTiyOSjKJ7QJ7mRR/6oLoiW+H8zSaRemBt5kxA59lQC6jKJ
-         NVcvvsBLimitndnhk3B6cZyWHr4tJU4Cdi7iv88Qe1BqYxbiEEu8VjqF8UxDo5EjoMtU
-         AhIU6qhyXlP/tWxZEe9Dmi/jeVra1d/eVl/PNiJjjBwufU5zv6h/6v9W4MnKYG872oBd
-         J5t9G3ExbZZmZpFFysoy2Ge/y7NnMJ8AfbFgXhb9fKalc5oOQ9Ee/HmcCcI5Rwh1SsAz
-         RGOS+2KucFIOB336L2TKXzEsE+COWUB1mGeKh68HOx2CeURvxKUgqW00Qp7yqdiXYHMx
-         9i4g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1748770279; x=1749375079;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=M2XnIZlfqbuB02O2JRcDHPIrk01jX+E1tx8F/ogvGZA=;
-        b=w5iPJUJyAPEp6sEVjJrc7yGcw+zGv3BmFcBFBgWTh1Jo2MM7e3iXohqyCNT1BzdajN
-         er6FfuUo8JABKNBqHXIwmbktsNyqb1KGQ7FIJ9K19FMAmFFvABX2VuHe8Wkyf11gxL66
-         wF8h82A7BtxgAkIrswax1cV8KklF2GefhYswx3gTCdlWiF7x2dwQNafTchJujpPPvvtB
-         vxR8Z2aomlksPMdZSMisPqK621WkPJV7+0scyqVXyMXM3rhpooQouNDI3cNN8OZg7HfY
-         7PKAXH/SF/Y23ZvmMoPt7yp+C/emv+EEMsUzpRmMmASXHUMNkZAhzCCtnixaChqyHIWJ
-         brlA==
-X-Forwarded-Encrypted: i=1; AJvYcCWPU5GX1Wpm3+wnyUjmum7ADoJeUDB/FvQcStfkljqcd+aD2b05Md2mH3aliWoWeAewO5QYgdBmiR/JfqU5@lists.linux.dev
-X-Gm-Message-State: AOJu0YwXZWXPVG3GCtX8sT0Ib/V51m3VQrvFiDq8rHoDfmM/+zxJ0FbL
-	YwQAHIDJ8LMBkuSEA4nD8vuf74BdkIv1tAhRPVzuUW+mHZKhiemsr2fuuuB14489uJaezkjl7uG
-	Sfq7jYpuyza9a+1KyQTM8nppd2+WVz/o=
-X-Gm-Gg: ASbGncsKV69i1DXhlR5kDN8zJE58MMJ02r2pN2SpY9d5eahRKdXPJ+q1hE1Q3vf6Fjn
-	LZhn/TGAYQ2ESuPcAKdBrXyNm9D0t6dFQpAiiNBbQfd4rCadE0NRpfA2xVR8KqEpOWlN+z+T0n2
-	Qbj2yG8YebwbEQb+2t95kApu2uvc8R59YOP3pAC+Zk8+VC5zo2I45xKcUonE5n4NY+5Q==
-X-Google-Smtp-Source: AGHT+IEAVxxVpc52dXYXmYpF2W2KyGQQojuQC/tNyL+Jz/nubv7tptBH4Ky3KnPNhkTPSeL9J6BGRhHiNSfj1DyScu4=
-X-Received: by 2002:a05:690c:884:b0:70e:2d77:3cfe with SMTP id
- 00721157ae682-71097c34bb1mr62644577b3.2.1748770278556; Sun, 01 Jun 2025
- 02:31:18 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WdIqWb8r"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5424EC4CEF1;
+	Sun,  1 Jun 2025 23:26:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1748820421;
+	bh=dt8kPgWDpFu2sSg07IECaKF33MJ/jwpv24xF5OlDrII=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=WdIqWb8r4kt6iAIp6YlsqR9MdecVFUAQ8eMwaUmdTyRQnMOsbObHG6QOmgYKL7rfS
+	 intzkTDS2nZ0cSYR3AAYU8CLIdj+CNNal4/nDMvvO8TzcW+LwTEtuES+9uYDNT74Bj
+	 UJvNe4ywNdjBtbsIhhZ9jdmEbFeuj1NVgpKTdeMYj7s46soV0F+mnG/7+BV+fOyIbE
+	 Zr8ZOPc4+plT7HZU1Mx3ZJV7/oFi23qUbLE7KhYU4CYXflRAhijNSQI8mCrWbTItLx
+	 eDZfmvQgno/Ty1N4pyYW+KbZLvWcr3+ZtLi/a+ybPS7Lj4ln/CAPVZZFYjAJavS30h
+	 OWgAKT+QjMPyw==
+From: Sasha Levin <sashal@kernel.org>
+To: patches@lists.linux.dev,
+	stable@vger.kernel.org
+Cc: Jonas Karlman <jonas@kwiboo.se>,
+	Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+	Christopher Obbard <chris.obbard@collabora.com>,
+	Hans Verkuil <hverkuil@xs4all.nl>,
+	Sasha Levin <sashal@kernel.org>,
+	ezequiel@vanguardiasur.com.ar,
+	mchehab@kernel.org,
+	gregkh@linuxfoundation.org,
+	matthias.bgg@gmail.com,
+	angelogioacchino.delregno@collabora.com,
+	linux-media@vger.kernel.org,
+	linux-rockchip@lists.infradead.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org
+Subject: [PATCH AUTOSEL 6.15 052/110] media: rkvdec: h264: Use bytesperline and buffer height as virstride
+Date: Sun,  1 Jun 2025 19:23:34 -0400
+Message-Id: <20250601232435.3507697-52-sashal@kernel.org>
+X-Mailer: git-send-email 2.39.5
+In-Reply-To: <20250601232435.3507697-1-sashal@kernel.org>
+References: <20250601232435.3507697-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <CAG+54DZgF55R2pEtkVBdnwXEyNu9TrSMA9zkmw7RjWrDqX4SsQ@mail.gmail.com>
- <aDAvnmtgnssj7K5l@stanley.mountain>
-In-Reply-To: <aDAvnmtgnssj7K5l@stanley.mountain>
-From: Rujra Bhatt <braker.noob.kernel@gmail.com>
-Date: Sun, 1 Jun 2025 15:01:07 +0530
-X-Gm-Features: AX0GCFvrKlBcZktxRYZfmtgwWx5h5VXrJDETBQWkyQDAgoH4Jt5t3xNUgvl3A9M
-Message-ID: <CAG+54DZC9ATaTme_WknauN5LVQRKut-ZJs8SAaZv8FbcQMCf7Q@mail.gmail.com>
-Subject: Re: [PATCH] staging : greybus : Documentation : firmware : Replace
- deprecated strncpy() with strscpy()
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: Johan Hovold <johan@kernel.org>, elder@kernel.org, 
-	Greg KH <gregkh@linuxfoundation.org>, greybus-dev@lists.linaro.org, 
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-stable: review
+X-Patchwork-Hint: Ignore
+X-stable-base: Linux 6.15
+Content-Transfer-Encoding: 8bit
 
-Hi Dan,
+From: Jonas Karlman <jonas@kwiboo.se>
 
+[ Upstream commit d5e0aa61470c48ddc04d433a00e79cef8716377a ]
 
+Use bytesperline and buffer height to calculate the strides configured.
 
-On Fri, May 23, 2025 at 1:49=E2=80=AFPM Dan Carpenter <dan.carpenter@linaro=
-.org> wrote:
->
-> On Sat, May 17, 2025 at 09:11:30AM +0530, rujra wrote:
-> > To ensuring that the firmware_tag is properly null-terminated. When
-> > copying firmware tag strings to prevent buffer overflows and ensure
-> > data integrity.
-> >
-> > The maximum size of tag is GB_FIRMWARE_U_TAG_MAX_SIZE =3D 10 bytes, and=
- it
-> > may or may not be NULL-terminated.
-> > included in "greybus_firmware.h"
-> >
-> > changes has been made at 3 positions:
-> > 1: update firmware tag
-> > 2: backend update firmware tag
-> > 3: backend update firmware tag with unipro
-> >
-> > Signed-off-by: Rujra Bhatt <braker.noob.kernel@gmail.com>
->
-> From doesn't match Signed-off-by line.
->
-> The patch is corrupted and doesn't apply.  Read the two paragraphs of
-> Documentation/process/email-clients.rst.
->
-> This is a usespace program so I don't think it has a strscpy()
-> function.  How did you compile this?
+This does not really change anything other than ensuring the
+bytesperline that is signaled to userspace matches what is configured
+in HW.
 
-I mistakenly submitted the patch with a mismatched From: and
-Signed-off-by: line. I=E2=80=99ll correct the author information from now
-onwards patches by following the guidance in
-Documentation/process/email-clients.rst.
+Signed-off-by: Jonas Karlman <jonas@kwiboo.se>
+Reviewed-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+Tested-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+Tested-by: Christopher Obbard <chris.obbard@collabora.com>
+Signed-off-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+Signed-off-by: Hans Verkuil <hverkuil@xs4all.nl>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
 
-Also, regarding the use of strscpy():
-You're absolutely correct. It's a kernel-space function and not
-available in user space. That call shouldn=E2=80=99t have been there. I=E2=
-=80=99ll
-replace it with a suitable userspace alternative, such as strncpy(),
-as earlier it was.
+### Key Reasons for NO Backport: 1. **Not a Bug Fix**: The commit
+message explicitly states "This does not really change anything other
+than ensuring the bytesperline that is signaled to userspace matches
+what is configured in HW." This is not fixing a functional bug but
+rather improving consistency between userspace and hardware
+configuration. 2. **Code Quality/Consistency Improvement**: The changes
+are primarily about code correctness and consistency rather than fixing
+a critical issue that affects users. This aligns with similar commits
+#1, #2, and #4 which were marked as NO for backporting. 3. **Staging
+Driver**: The rkvdec driver is in `drivers/staging/media/`, which
+indicates it's still under development and not considered stable.
+Staging drivers typically have more relaxed backporting requirements. 4.
+**Specific Code Changes Analysis**: - **Before**: `hor_virstride =
+(sps->bit_depth_luma_minus8 + 8) 0001-Fix-Clippy-warnings.patch
+0002-Enhance-inference-prompt-to-utilize-CVEKERNELDIR-whe.patch
+0003-Update-to-latest-version-of-clap.patch Cargo.lock Cargo.toml
+LICENSE README.md adreno_acd_support_analysis.md
+amd_display_ips_sequential_ono_backport_analysis.md
+analyze_merge_commit.sh dpp_rcg_backport_analysis.md
+drm_amd_display_vertical_interrupt_dcn32_dcn401_backport_analysis.md
+drm_bridge_analysis.txt drm_format_helper_24bit_analysis.md
+drm_imagination_register_update_analysis.md
+drm_mediatek_mtk_dpi_refactoring_analysis.md
+intel_ipu6_constify_analysis.md io_uring_analysis.txt ksmbd_analysis.txt
+merge_commit_analysis.txt model prompt src target test_gpio_cleanup.txt
+test_patch.txt verisilicon_av1_4k_analysis.md dst_fmt->width / 8;` -
+**After**: `hor_virstride = dst_fmt->plane_fmt[0].bytesperline;` -
+**Before**: `ver_virstride = round_up(dst_fmt->height, 16);` -
+**After**: `ver_virstride = dst_fmt->height;` 5. **No Risk Indication**:
+The changes don't indicate they're fixing crashes, data corruption,
+security issues, or other critical problems that would warrant stable
+backporting. 6. **Pattern Match with Similar Commits**: Looking at the
+provided examples: - Similar commits #1, #2, #4, and #5 that make
+stride/calculation improvements were marked as NO - Only commit #3 that
+increased max supported height (a clear functional limitation fix) was
+marked as YES 7. **No Stable Tree Mention**: The commit message contains
+no indication of stable tree inclusion via Fixes: tags or explicit
+stable tree requests. ### Conclusion: This commit improves code
+consistency by using the actual bytesperline values from userspace
+instead of calculating them from SPS parameters, but it doesn't fix a
+user-impacting bug. It's a code quality improvement that follows the
+pattern of other NO-backport commits in the provided examples.
 
-Also I am not able to compile it properly. Will learn it the proper
-way, as I have tried to compile it via turning ON the kernel
-menuconfig for greybus support and
---- [*]"Greybus Firmware Download Class driver" then compiled it using
-make and installed it, Also have not tested via "gcc -o firmware
-firmware.c".
-If you have any suggestions on how to compile or test this more
-effectively, I would really appreciate your guidance.
+ drivers/staging/media/rkvdec/rkvdec-h264.c | 14 +++++++-------
+ 1 file changed, 7 insertions(+), 7 deletions(-)
 
-Thank you so much for the feedback and review. Also sorry for my
-delayed response.
+diff --git a/drivers/staging/media/rkvdec/rkvdec-h264.c b/drivers/staging/media/rkvdec/rkvdec-h264.c
+index 4fc167b42cf0c..7a1e76d423df5 100644
+--- a/drivers/staging/media/rkvdec/rkvdec-h264.c
++++ b/drivers/staging/media/rkvdec/rkvdec-h264.c
+@@ -896,9 +896,9 @@ static void config_registers(struct rkvdec_ctx *ctx,
+ 	dma_addr_t rlc_addr;
+ 	dma_addr_t refer_addr;
+ 	u32 rlc_len;
+-	u32 hor_virstride = 0;
+-	u32 ver_virstride = 0;
+-	u32 y_virstride = 0;
++	u32 hor_virstride;
++	u32 ver_virstride;
++	u32 y_virstride;
+ 	u32 yuv_virstride = 0;
+ 	u32 offset;
+ 	dma_addr_t dst_addr;
+@@ -909,16 +909,16 @@ static void config_registers(struct rkvdec_ctx *ctx,
+ 
+ 	f = &ctx->decoded_fmt;
+ 	dst_fmt = &f->fmt.pix_mp;
+-	hor_virstride = (sps->bit_depth_luma_minus8 + 8) * dst_fmt->width / 8;
+-	ver_virstride = round_up(dst_fmt->height, 16);
++	hor_virstride = dst_fmt->plane_fmt[0].bytesperline;
++	ver_virstride = dst_fmt->height;
+ 	y_virstride = hor_virstride * ver_virstride;
+ 
+ 	if (sps->chroma_format_idc == 0)
+ 		yuv_virstride = y_virstride;
+ 	else if (sps->chroma_format_idc == 1)
+-		yuv_virstride += y_virstride + y_virstride / 2;
++		yuv_virstride = y_virstride + y_virstride / 2;
+ 	else if (sps->chroma_format_idc == 2)
+-		yuv_virstride += 2 * y_virstride;
++		yuv_virstride = 2 * y_virstride;
+ 
+ 	reg = RKVDEC_Y_HOR_VIRSTRIDE(hor_virstride / 16) |
+ 	      RKVDEC_UV_HOR_VIRSTRIDE(hor_virstride / 16) |
+-- 
+2.39.5
 
-regards,
-Rujra Bhatt
