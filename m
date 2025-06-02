@@ -1,95 +1,172 @@
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90C652C3252
-	for <linux-staging@lists.linux.dev>; Mon,  2 Jun 2025 06:00:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C9CFAD23;
+	Mon,  2 Jun 2025 13:00:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748844050; cv=none; b=kZ+C+HVoneTvuPfkammt7aYLWGh0ZYW+HbLPiUUdcN9ft4v4XmLr19OZWbEH6i+yLH3SX2g1xLdeQHTbn8k6xizFgR5+qcRd37wmb6VEMX0rdjP0QWzUKoydekuzv5yGR50hPOTMFwGYf4tCWJc2P4wbiL/F49pp7DW/NQt+9cU=
+	t=1748869250; cv=none; b=hww1hcwqgYPZLcKRk7wElpOOAwqHCBdtSOLI88Q3oO07jAcscJ+X1hC5UovWcO0JLXMjMSauhuRrNr8C+dW9+VbmvKfQNrOH1GpStvNfiyaJxcfju2e1T66w+ZWIW3EFPj6h2LropfoTxd0k48+KFTp85QYUbev+0CwIJliGOio=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748844050; c=relaxed/simple;
-	bh=ZUltAtR07i40pgJXXbIJlpOQg4mwbvuinwqOenRNbWI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mV8WNkksCRQy3cY6ebBO56GK4GNUIP2RhD/D35m1r7WFdXie3D6jwQe5CN4aiuYsnJ3XJB4UN0oZlcUVngVcqIahRsgdmaCDXBwtsRrdwWxF1JMhPh1FJJVP6VrnPqVeFu8rc/E2bxdVBVKbZsYmRtJmJNidl2WHAlSqXXP2Vl8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Oab/YfBe; arc=none smtp.client-ip=209.85.128.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1748869250; c=relaxed/simple;
+	bh=ujsjFmfmKNY3XZSEPL45VVklZB5mdxfIdwBl8x+CdSw=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=Cg35VMjTlpZqNuLohD7RhZ7qw++WVIGWZFnEWjHWk0OBSMWyF79UD04QyrTPlAvgFwYz3ogpIedz6fJDKEsgtvx9HZzByHEFsMUM4W6uIbPOJj72RQZjRJp4sGiaYA/VA2JwSV26717vkjb54HuVd2RxSj8g1QnyqCCDEa7iPoA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=T9HGC4tt; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Oab/YfBe"
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-442ea341570so26113045e9.1
-        for <linux-staging@lists.linux.dev>; Sun, 01 Jun 2025 23:00:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1748844047; x=1749448847; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=ZUltAtR07i40pgJXXbIJlpOQg4mwbvuinwqOenRNbWI=;
-        b=Oab/YfBeKtFP45UZXmDbPblPybuUlf0QZwpKyTMMT3w8w9Tp3iJkeWyYPi6rZGj70P
-         L/hVT4nRT8ietV5xWcDUKOTgrLN/KHJvQFY2gNyDWolLstGNb+r99ewjgmX9wvFS/5gF
-         /CPL+I7nGmOIPQOrGXfZpwP24XvZCybHsgm2cCehQQMOdPE5blxlUSw0+gp9nj18DC+u
-         cWB6UDRk1jYshOy6+kj+wefoZa3cyuKoacRrCu+FyjaKcrxg15uhXjQRMKXSWExUjkk+
-         LWZODQM02wOfO9xY/BJwcIB9jU3C26yMGvw0Dpj+1AAFdwgUhVbJeatSBMrHnYPs4anv
-         kWlA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1748844047; x=1749448847;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ZUltAtR07i40pgJXXbIJlpOQg4mwbvuinwqOenRNbWI=;
-        b=eFl2TpB9IRNk+ymJhg1JyvhPSGIKAjjgwiTi60NMDMmslnH2tCb/4mzwnYPQk5VvHi
-         zW7GpHN79gbKtBKhjHdF+e9+n30G1sge/PTJSnl7RoaKpSgn3SLsidXDuK22Hn8mMfyg
-         vJxcCs2HuBLaHY/nA5dBT8T6Xy5Ahfzky9v6lS5MbFx180/vesPZtJU5f/tZC/SV2xY/
-         7imngZzC2CsPK0pTlM4PGI1VZ6TW1MRz52txCpmEpac7IWGATjIE/QawdMtRM5OSbq3K
-         bkd0zOPa4jf4zG36WQ6Al76WhGCV/38gNXJeZUCYVYRzlR6YZaVvgRZClq311csqatUs
-         7g7Q==
-X-Forwarded-Encrypted: i=1; AJvYcCVIlwomlPsMfS1x/sGf0HZzeqctWS74u1iQbqSPBUq/08U7cdkpY56WlGtSIBuQRkzaeY8cG1Brp8s10R8n@lists.linux.dev
-X-Gm-Message-State: AOJu0YwI0ZK5uUxWH/vSpYp0TZVuddS9cPR0hGFqlWPUHMnqUhVpVG0o
-	jdmU1Cl8/6G41oAvLlgZCIO/CO9Tmccbt2zsmbX+ZVPPzYgZw4bMO2TwsNtSaOnDiIAK7JFRq2Q
-	q8hp7
-X-Gm-Gg: ASbGnctr89NCSQe1U/sicmQe2w4/gbNX+9Jmhn4Der33Y56lRi0ABfKnNhv/MXB7fcL
-	Nu9w0UsfMIc9RcTiwyaj+l71I8UiaVRmnXEl3j/sDLb9U54fo2L/Vqofsu/cZ+rFqjJ5equGXzL
-	LAwIqknaGUygoffJQK3kue4uZp91VeRwHM25wn49YTTWeEk0O03FB5YQGx+8YTWB7Y8PS7Dm/pS
-	Lis1P4bvZ0CQXbtinqZiKVotk2YSJ1N9iYT2yW9ZF+gIP/Q7mhe3HPo2AacWNIM6xGc+2hc6bHM
-	OZu7SgxCF+krgNrU8vVoq4JbS9VZKIYl9+ydRoNd2D9exgFyizajusj7fZERsQNJkA==
-X-Google-Smtp-Source: AGHT+IE4Zr9Qtixv+/C3Qb+X/JxHGQ71ImNqXM3WL3OQKOC8eCLWpkHvUD/xQmb3j6c5zEB7cL/nTQ==
-X-Received: by 2002:a05:6000:310f:b0:3a4:f7df:7564 with SMTP id ffacd0b85a97d-3a4f896ec04mr8654673f8f.0.1748844046754;
-        Sun, 01 Jun 2025 23:00:46 -0700 (PDT)
-Received: from localhost ([41.210.143.146])
-        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-3a4efe740bbsm13691263f8f.54.2025.06.01.23.00.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 01 Jun 2025 23:00:46 -0700 (PDT)
-Date: Mon, 2 Jun 2025 09:00:42 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Nam Cao <namcao@linutronix.de>
-Cc: Donny Turizo <donnyturizo13@gmail.com>, gregkh@linuxfoundation.org,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v8] staging: rtl8723bs: rename _Read_EEPROM and other
- functions to snake_case
-Message-ID: <aD0-Cmc089r4tLLH@stanley.mountain>
-References: <20250527004327.3627-1-donnyturizo13@gmail.com>
- <20250528211533.DIM_zxnE@linutronix.de>
- <20250528213139.QHPG7Pf1@linutronix.de>
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="T9HGC4tt"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1748869240;
+	bh=ujsjFmfmKNY3XZSEPL45VVklZB5mdxfIdwBl8x+CdSw=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+	b=T9HGC4ttEOut4U5T98eg8qP2EaOlhNuuiQkfOgbQNPK6+DQapTUSxzlb5OK3ATb0M
+	 OaTzO64G77yCGN/dk+E6bxaArLjh1pPQXrV5zTf4t2+Di+Fk1yb8WLWSi2JRnA85zv
+	 6MmAOq/zEDfHYoe3M1Xv2/oGT1j43UJNdrmX7/X2xl+/VaoTG/sZ5O6HpEssEvvn28
+	 NYwhMFAFSFletYthThItKCxaoAImwRAsn4vDmBnFKrVp+s9Bqh2kIhOdnGJJ09aoyA
+	 jMXXlvIhQc8Cw2u1bY0z/WiXBFtp1+V/X8Zadvy86eL0aEb2HKP+dGiHEhQs/anCPQ
+	 obYtdpp99cWuw==
+Received: from [IPv6:2606:6d00:10:5285::5ac] (unknown [IPv6:2606:6d00:10:5285::5ac])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: nicolas)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id 1CCD017E01FD;
+	Mon,  2 Jun 2025 15:00:39 +0200 (CEST)
+Message-ID: <4d34103cf31df1cf10dd95f33a285c54249d6e3b.camel@collabora.com>
+Subject: Re: [PATCH AUTOSEL 6.15 054/110] media: rkvdec: Initialize the m2m
+ context before the controls
+From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+To: Sasha Levin <sashal@kernel.org>, patches@lists.linux.dev, 
+	stable@vger.kernel.org
+Cc: Hans Verkuil <hverkuil@xs4all.nl>, ezequiel@vanguardiasur.com.ar, 
+	mchehab@kernel.org, gregkh@linuxfoundation.org,
+ linux-media@vger.kernel.org, 	linux-rockchip@lists.infradead.org,
+ linux-staging@lists.linux.dev, 	linux-kernel@vger.kernel.org
+Date: Mon, 02 Jun 2025 09:00:37 -0400
+In-Reply-To: <20250601232435.3507697-54-sashal@kernel.org>
+References: <20250601232435.3507697-1-sashal@kernel.org>
+	 <20250601232435.3507697-54-sashal@kernel.org>
+Organization: Collabora Canada
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.56.2 (3.56.2-1.fc42) 
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250528213139.QHPG7Pf1@linutronix.de>
+Content-Transfer-Encoding: 8bit
 
-You invested a lot of time into reviewing this patch...
+Le dimanche 01 juin 2025 à 19:23 -0400, Sasha Levin a écrit :
+> From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+> 
+> [ Upstream commit d43d7db3c8a1868dcbc6cb8de90a3cdf309d6cbb ]
+> 
+> Setting up the control handler calls into .s_ctrl ops. While validating
+> the controls the ops may need to access some of the context state, which
+> could lead to a crash if not properly initialized.
+> 
+> Signed-off-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+> Signed-off-by: Hans Verkuil <hverkuil@xs4all.nl>
+> Signed-off-by: Sasha Levin <sashal@kernel.org>
+> ---
+> 
+> Now let me analyze the specific changes proposed in the commit: ##
+> Analysis **YES** This commit should be backported to stable kernel
+> trees. Here's my extensive analysis: ### Core Issue Analysis The commit
+> addresses a critical initialization order bug that can lead to crashes.
 
-On Wed, May 28, 2025 at 11:31:39PM +0200, Nam Cao wrote:
-> Please mention any dependency in your patch.
+"While validating the controls the ops **may** need"
 
-Yep.
+It wasn't the case yet, so its not as critical as this analyses made
+it sound like. The changes that came next, removes superfluous branches
+that was only there for the purpose of avoiding the crash.
 
-> But I suggest waiting for the
-> dependency patch to be applied first, before you resend this one.
+It is harmless otherwise, the change is good practice and at best may
+help people backportin more patches. But not worth "Fixes:" and
+"CC: Stable" in my opinion. You are free to proceed.
 
-We're not going to apply that first patch.
+> The problem occurs in the `rkvdec_open()` function at lines 822-830 in
+> the current code: 1. **Current problematic order:** - Line 822:
+> `rkvdec_init_ctrls(ctx)` is called first - Line 826-830:
+> `v4l2_m2m_ctx_init()` is called second 2. **The problem:** According to
+> the commit message and my analysis of the kernel documentation,
+> `v4l2_ctrl_handler_setup()` (called inside `rkvdec_init_ctrls()`) calls
+> `.s_ctrl` for all controls unconditionally to initialize hardware to
+> default values. The `.s_ctrl` handlers may need to access the m2m
+> context state, but if the m2m context (`ctx->fh.m2m_ctx`) isn't
+> initialized yet, this can cause a crash or undefined behavior. ### Code
+> Changes Analysis The fix is minimal and surgical: - **Lines moved:** The
+> initialization order is swapped - m2m context initialization moves
+> before control handler setup - **Error handling updated:** The error
+> handling paths are correctly updated to match the new initialization
+> order - **No functional changes:** The fix doesn't change driver
+> functionality, only initialization sequence ### Why This Should Be
+> Backported 1. **Fixes a real crash bug:** This addresses a potential
+> crash scenario that affects users 2. **Small and contained:** The change
+> is minimal - just reordering initialization and updating error paths 3.
+> **Low regression risk:** Moving m2m init before control init is safer
+> since m2m context doesn't depend on controls, but controls may depend on
+> m2m context 4. **Follows established patterns:** Similar commit #2 in
+> the historical examples shows a "YES" backport for proper initialization
+> order in V4L2 drivers 5. **Critical subsystem:** Media drivers crashing
+> can affect user applications ### Comparison with Historical Commits -
+> **Similar to commit #2 (YES):** Also fixes initialization order in V4L2
+> media driver to prevent crashes - **Similar to commit #4 (YES):** Media
+> driver fix that's low-risk and contained - **Unlike commits #1, #3, #5
+> (NO):** This actually fixes a bug rather than just cleanup/code style
+> improvements ### Stable Tree Criteria Met ✅ **Important bugfix:**
+> Prevents crashes ✅ **Minimal risk:** Simple reordering with no side
+> effects ✅ **Small change:** Only affects initialization sequence ✅ **No
+> architectural changes:** Pure bug fix ✅ **Confined to subsystem:** Only
+> affects rkvdec driver The fix follows the stable tree rules perfectly -
+> it's an important crash prevention fix with minimal regression risk,
+> making it an ideal backport candidate.
 
-regards,
-dan carpenter
+Suggestion for improving the report, perhaps adding line breaks for
+each items ?
 
+best regards,
+Nicolas
+
+> 
+>  drivers/staging/media/rkvdec/rkvdec.c | 14 +++++++-------
+>  1 file changed, 7 insertions(+), 7 deletions(-)
+> 
+> diff --git a/drivers/staging/media/rkvdec/rkvdec.c b/drivers/staging/media/rkvdec/rkvdec.c
+> index f9bef5173bf25..4702df5b095b7 100644
+> --- a/drivers/staging/media/rkvdec/rkvdec.c
+> +++ b/drivers/staging/media/rkvdec/rkvdec.c
+> @@ -819,24 +819,24 @@ static int rkvdec_open(struct file *filp)
+>  	rkvdec_reset_decoded_fmt(ctx);
+>  	v4l2_fh_init(&ctx->fh, video_devdata(filp));
+>  
+> -	ret = rkvdec_init_ctrls(ctx);
+> -	if (ret)
+> -		goto err_free_ctx;
+> -
+>  	ctx->fh.m2m_ctx = v4l2_m2m_ctx_init(rkvdec->m2m_dev, ctx,
+>  					    rkvdec_queue_init);
+>  	if (IS_ERR(ctx->fh.m2m_ctx)) {
+>  		ret = PTR_ERR(ctx->fh.m2m_ctx);
+> -		goto err_cleanup_ctrls;
+> +		goto err_free_ctx;
+>  	}
+>  
+> +	ret = rkvdec_init_ctrls(ctx);
+> +	if (ret)
+> +		goto err_cleanup_m2m_ctx;
+> +
+>  	filp->private_data = &ctx->fh;
+>  	v4l2_fh_add(&ctx->fh);
+>  
+>  	return 0;
+>  
+> -err_cleanup_ctrls:
+> -	v4l2_ctrl_handler_free(&ctx->ctrl_hdl);
+> +err_cleanup_m2m_ctx:
+> +	v4l2_m2m_ctx_release(ctx->fh.m2m_ctx);
+>  
+>  err_free_ctx:
+>  	kfree(ctx);
