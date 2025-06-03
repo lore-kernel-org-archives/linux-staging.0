@@ -1,71 +1,71 @@
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3EF8528982F
-	for <linux-staging@lists.linux.dev>; Tue,  3 Jun 2025 18:44:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B898528936D
+	for <linux-staging@lists.linux.dev>; Tue,  3 Jun 2025 18:44:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748976248; cv=none; b=SGpWIpBre7d9w5pXM98lJ4iYcQxgawPypG3J9+pmvV4d6gdIUwQ7nSn0J93Yp0bjDmfim+zoiHLbB7sX+w5DpTNHi7qXqeZC2+M8HFqX01dK/0zApmg+3F+G6G3z+Z3quO4Y8ikitRj9m1vyz2Zu0BKjSLgqsAT3WYUJTkkgzP8=
+	t=1748976251; cv=none; b=qMc78Nj6vityLoeZ5MKsX7CSolrdg8ONjAAInR79kJNcSNYXv/bcGcP0XQ8IFFzd272Xh+WYSoqRKnLC0VayNfCyGjXxV9L+smKzgzEYBqCilw0dtk7e1AOGVzYOFDQMDRCBBB/+UQy6kUf7S6yI7HTLk1uk9ODd6c9JxHVRdOk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748976248; c=relaxed/simple;
-	bh=yPesDnhB9t5yVMCCj6DKkbOKpQJNQFkvzUbwNjyUwFE=;
+	s=arc-20240116; t=1748976251; c=relaxed/simple;
+	bh=cs0d62jUhTsQ4M0UtMJEMQnYLyBLCUuZP7GJM7VZ4Mc=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=E6HobQeDWbOjpXBxJdelkTIYDu8k8pZVkbydLqHxQRaS34vk1ZTTXEFicwNenSA/Aw9lE8MhifRkb5tQIixFc02cI71Efho7DbkQLRFyh/gq7T4HtuL90DBBYSfF9wIEYylNskDZvJxNoQXQ+DRj/YQFfpV89kphymqshzMsLsQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IMWeb8pb; arc=none smtp.client-ip=209.85.221.52
+	 MIME-Version; b=j4XLb3kFTUmNOGFzdtQjIHLtzND+4z+bavmyyQB3TH1R7tGkVkIZKpxld1xpTk1R/UD0VTnjPBTyMWz0WQb4xilKzVHEqGGJLCTU4MEb/AnvAO+tA57gv2XfDESJl7uXZ6vd8qjTyieTm8XFNFhSmURl5qhy/4Pp2ZiMcJ+ra4I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ov7+UIbI; arc=none smtp.client-ip=209.85.221.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IMWeb8pb"
-Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-3a3758b122cso3977953f8f.1
-        for <linux-staging@lists.linux.dev>; Tue, 03 Jun 2025 11:44:06 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ov7+UIbI"
+Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-3a365a6804eso4516985f8f.3
+        for <linux-staging@lists.linux.dev>; Tue, 03 Jun 2025 11:44:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1748976244; x=1749581044; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1748976248; x=1749581048; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=iHcQIzbO8vErc+yJtqA1zwASX4NEt6ytpvqXfDCS3ds=;
-        b=IMWeb8pb8J4ZgpQiN9MkIgyJ6w4MEXgzt0y2czzq8rYsSdOunCmUCdXyMDkGXS4ncw
-         9ft2k+0zWf3pZkuCf9LL8rL+A12QWCkKndcKX/WiMQWT2RnTZwbMjEO2uVpBbuxOlbPG
-         ip7DaZbeYS5gQkw9WCYb0px/px+9uAkWECTqD0y42V+e8Z6faOMWHow2by9/4Ivnw1iC
-         J03Qr7+si8dNuSRjNPuMAjiVTt62Q4iw9RYLXYLEsY+hyxKTnFYienFlr/AaY6TxY1Lk
-         LRpykdEx5jBXNgB+i9i+AYWy1oi1rkmTFbR12TUjyo16hYNZWHCxdUG8V59gBcSgLb40
-         +t0w==
+        bh=B9FZ5oqjuv5Ikr1VhUnEUNb3J4Oy/+PaHPwc/4HpVkQ=;
+        b=Ov7+UIbINs7HRKl4suwJ7jybQvxmI/9bX9uppdYUgeDkRvVT1gnY1nE88dvtz/p8sf
+         SjuWJyubGrk2FUaUIrudRA64k/EOhfu2fTjmZOOAPaVnOLbMB5wvcG1bazxLPRAMwYJ9
+         2HEBLn4pRrkl/51Cz45+tnivVB0bkgFfdzrz6AztqmQmxdqRmXKG29oMI+Uka/bvJlp1
+         7eRvSm4pyBRC+GoFTelPaYP20NWuzxRdq113LII5tWAx3rMqk14tvLw9hg7XxJdp5TTZ
+         o/bnKRg4WEUhj9djN6eCYbD2M+D4h/dY+dmPhIHUcUGfk4rTmMSjJy1+CKlwWTlT1i3G
+         7M4A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1748976244; x=1749581044;
+        d=1e100.net; s=20230601; t=1748976248; x=1749581048;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=iHcQIzbO8vErc+yJtqA1zwASX4NEt6ytpvqXfDCS3ds=;
-        b=OiYCb6cPJPUkFRZAcPNiP5Jjv4owzBVYmpDBdRF5ukxv7oKE73lLrNO82HGYBMOxN6
-         SvdsQVPaQoPl87s0ao2xcaLOaqz6PRosjE5964Wv9CWWNgoGfiVshietXfTUqLBeBBnE
-         JjW2VyyCHf+Wp5nw+G4iVMgT1T2fjMpfKWwUC0uJavEUp2JifBgA9awQ9frDqYjZfIO/
-         sbbQJoT21LmbTnwb0sidaneAFgldTy2Dn3ccbEeTH6c4FydE1WTdgagcfcCqEbtlLKie
-         +1MOMyOyJj6l43yHVr7PLBKAzyj7pZsrIJ4sqW629HxGRPXo55E0xeO2PcunJO3bHmhD
-         5ulg==
-X-Forwarded-Encrypted: i=1; AJvYcCWgRnru29BYx/pIneXYCYOoS66yrTlHDUNvmgn6j3+PQ22hqWVuVgyoYaMoG9EzxGbXxwVCpNI1SEOsr74i@lists.linux.dev
-X-Gm-Message-State: AOJu0YxtcDGwhQpEsmCIjzSLqDUwpXe9TAVmbMZJupWkFV63X1+HpS6I
-	+fAOPWG2omkwyBZkSwPBXk86H9VrBzQFNdoWFL8n8Tpwb39hBT5wf6go
-X-Gm-Gg: ASbGncuYgD08W3nAqhcqdtVDa3nUhq7DQ2WzifLqIB/sle5OYN69PvEz3PRNzHHOZ9c
-	61pzRjLfbjKdvvfNBBOXrK4F1KIpI+Spf0VBwT6oWnJ3QUiiAM5Qfi2+KHlFVjSk1v7uaZV3KYn
-	cFETimNOvM0pWH9OUj/qFABqlr2D/0+iJftQFkyPA5fcnupPm/WySwhlQdF35Xy3E749JqBAuh5
-	Fg7I6CHmaNU9wGU/fGotJYs3/qnJsP9b3WW2vXYbRM895t8HR+b5h2X0K3KB82cv2ak1TxHM7+9
-	PnK3DdSrfMf3EEoNua677900q00WgpePq9R6qfI1DUh8u+UGsEdR19QtGnoHsAaId5D7ecrMafs
-	8pwGXbeE1u0Q=
-X-Google-Smtp-Source: AGHT+IG8RYYFqv2zCyGW60oYb4bDuCDm3BVjHRqREoqS7uHzhn1Vs+5KcEjOWDpFdSFBlBrsiQv6Tg==
-X-Received: by 2002:a05:6000:2910:b0:3a5:1cc5:aa6f with SMTP id ffacd0b85a97d-3a51cc5aa90mr415146f8f.34.1748976244478;
-        Tue, 03 Jun 2025 11:44:04 -0700 (PDT)
+        bh=B9FZ5oqjuv5Ikr1VhUnEUNb3J4Oy/+PaHPwc/4HpVkQ=;
+        b=KZFVlgNnEHrie3dUzkTRdWk0v5zfksL2UXJb84Qn6VPIeQ4AN3YOOBaONagE7ZkKtn
+         vbYTUoGpU1ZR16QK763ws2cqFFnFHkOw0giYawtzaLfb2vRZ9JE8jmAXl8OZ6zc1AWdN
+         0z19rYOf/OVLp8+R8xqp1mzO9mzxOQ65ZNQNEPb23xTBySRrKeDj0TSuelDBR8q7ZkQx
+         8D104uZ2JfbNZ2+05AsoYAOp8X/shHE4LX9g+sbvUlvIHaAyYEX07swvoDloNxwVsJo1
+         31YXVYBtJX24YAFfteu52kXA/nX/5t5ZSzEIxG1gJzudN1lwu3R89MaHfX6FO6Z43Yb5
+         m8cQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWKW4ZhbhO0pLmqxjIDqcDTtIduITs7ndyqBf4qoJajEkpE4tQMksv/bjPYdfkMtOzOrDrRdE8AgSxkZ4Zz@lists.linux.dev
+X-Gm-Message-State: AOJu0YwC7iGl4qiWq8Tq/gfJB/v5iGvd3DAPQEIwqpiBGKcw2lndgYrA
+	90nIOS2GgwmZheLZGFlNM/YHPjxaCy9K7s1Ve76VdyJ646EjPm4KQJD5
+X-Gm-Gg: ASbGncvTzOAUgDZ+ClA1MAxTL95mZW5e7RcekDeiLNfDKx5bTF/Kw12kXO7q+m6FH+h
+	ao7S+0Z4OY0KX//Y6hDZUwKMLPIMzRhk2ykXCfccJcwQainPI5JAbGa7yEezPUfU0MpNdRTNf1V
+	DuYLJC9hmCUoNfZe+0lnjIsmtOBnY/sjOXGYQ9DA3RNpu19hfIxxDUWw+u6BZQ4Y9IH4dZGb4qE
+	XE9mcMtA7SEDzXsT8f6Pt+DA36lf6kAaNbCLgk0/MOpoRk5zCak/BYGgRL4z8Wka5G3OgoTqTV0
+	SZz/bFep7hL/Z1pz6bhgURAC2gbXVrtf6p1Jp4tt2oHTXL//P12LMQq9T1uQv1W5DUqt5e+821F
+	1ljRqnX3fbEM=
+X-Google-Smtp-Source: AGHT+IF5Hwuvnc/0J0y8rHsrGxR6kUfr4vat5I1FdEtpqaq/YMu7JxaNXcvi1U8W2zY7/o/ig/bjaw==
+X-Received: by 2002:a05:6000:2089:b0:3a4:e68c:beeb with SMTP id ffacd0b85a97d-3a4f7a4d34dmr12758179f8f.22.1748976247866;
+        Tue, 03 Jun 2025 11:44:07 -0700 (PDT)
 Received: from localhost.localdomain (82-64-73-52.subs.proxad.net. [82.64.73.52])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a4efe73f83sm18449959f8f.49.2025.06.03.11.44.03
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a4efe73f83sm18449959f8f.49.2025.06.03.11.44.07
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 03 Jun 2025 11:44:03 -0700 (PDT)
+        Tue, 03 Jun 2025 11:44:07 -0700 (PDT)
 From: Dave Penkler <dpenkler@gmail.com>
 To: gregkh@linuxfoundation.org,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
 Cc: Dave Penkler <dpenkler@gmail.com>
-Subject: [PATCH 3/4] staging: gpib: Use standard size basic uapi types
-Date: Tue,  3 Jun 2025 20:43:19 +0200
-Message-ID: <20250603184320.30594-4-dpenkler@gmail.com>
+Subject: [PATCH 4/4] staging: gpib: Add bit and byte padding to ioctl structs
+Date: Tue,  3 Jun 2025 20:43:20 +0200
+Message-ID: <20250603184320.30594-5-dpenkler@gmail.com>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <20250603184320.30594-1-dpenkler@gmail.com>
 References: <20250603184320.30594-1-dpenkler@gmail.com>
@@ -77,205 +77,63 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Change unsigned int to __u32,
-       int          to __s32
-  and  short        to __s16
+Ensure that all structs have a size that is an integral mutliple
+of 32 bits.
+
+Change trailing single bit field to __u32 in gpib_open_dev_ioctl
+Add byte padding to  gpib_serial_poll_ioctl and gpib_request_service2
+Add bit padding to gpib_board_info_ioctl and gpib_ppoll_config_ioctl
 
 Signed-off-by: Dave Penkler <dpenkler@gmail.com>
 ---
- drivers/staging/gpib/uapi/gpib_ioctl.h | 106 ++++++++++++-------------
- 1 file changed, 53 insertions(+), 53 deletions(-)
+ drivers/staging/gpib/uapi/gpib_ioctl.h | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/staging/gpib/uapi/gpib_ioctl.h b/drivers/staging/gpib/uapi/gpib_ioctl.h
-index 0fed5c0fa7f2..0da47e28caaa 100644
+index 0da47e28caaa..55bf5e55507a 100644
 --- a/drivers/staging/gpib/uapi/gpib_ioctl.h
 +++ b/drivers/staging/gpib/uapi/gpib_ioctl.h
-@@ -19,71 +19,71 @@ struct gpib_board_type_ioctl {
- /* argument for read/write/command ioctls */
- struct gpib_read_write_ioctl {
- 	__u64 buffer_ptr;
--	unsigned int requested_transfer_count;
--	unsigned int completed_transfer_count;
--	int end; /* end flag return for reads, end io suppression request for cmd*/
--	int handle;
-+	__u32 requested_transfer_count;
-+	__u32 completed_transfer_count;
-+	__s32 end; /* end flag return for reads, end io suppression request for cmd*/
-+	__s32 handle;
- };
- 
- struct gpib_open_dev_ioctl {
--	unsigned int handle;
--	unsigned int pad;
--	int sad;
-+	__u32 handle;
-+	__u32 pad;
-+	__s32 sad;
- 	unsigned is_board : 1;
+@@ -29,7 +29,7 @@ struct gpib_open_dev_ioctl {
+ 	__u32 handle;
+ 	__u32 pad;
+ 	__s32 sad;
+-	unsigned is_board : 1;
++	__u32 is_board;
  };
  
  struct gpib_close_dev_ioctl {
--	unsigned int handle;
-+	__u32 handle;
- };
- 
- struct gpib_serial_poll_ioctl {
--	unsigned int pad;
--	int sad;
-+	__u32 pad;
-+	__s32 sad;
+@@ -40,6 +40,7 @@ struct gpib_serial_poll_ioctl {
+ 	__u32 pad;
+ 	__s32 sad;
  	__u8 status_byte;
++	__u8 padding[3];   // align to 32 bit boundary
  };
  
  struct gpib_eos_ioctl {
--	int eos;
--	int eos_flags;
-+	__s32 eos;
-+	__s32 eos_flags;
- };
- 
- struct gpib_wait_ioctl {
--	int handle;
--	int wait_mask;
--	int clear_mask;
--	int set_mask;
--	int ibsta;
--	int pad;
--	int sad;
--	unsigned int usec_timeout;
-+	__s32 handle;
-+	__s32 wait_mask;
-+	__s32 clear_mask;
-+	__s32 set_mask;
-+	__s32 ibsta;
-+	__s32 pad;
-+	__s32 sad;
-+	__u32 usec_timeout;
- };
- 
- struct gpib_online_ioctl {
- 	__u64 init_data_ptr;
--	int init_data_length;
--	int online;
-+	__s32 init_data_length;
-+	__s32 online;
- };
- 
- struct gpib_spoll_bytes_ioctl {
--	unsigned int num_bytes;
--	unsigned int pad;
--	int sad;
-+	__u32 num_bytes;
-+	__u32 pad;
-+	__s32 sad;
- };
- 
- struct gpib_board_info_ioctl {
--	unsigned int pad;
--	int sad;
--	int parallel_poll_configuration;
--	int autopolling;
--	int is_system_controller;
--	unsigned int t1_delay;
-+	__u32 pad;
-+	__s32 sad;
-+	__s32 parallel_poll_configuration;
-+	__s32 autopolling;
-+	__s32 is_system_controller;
-+	__u32 t1_delay;
+@@ -79,6 +80,7 @@ struct gpib_board_info_ioctl {
+ 	__u32 t1_delay;
  	unsigned ist : 1;
  	unsigned no_7_bit_eos : 1;
++	unsigned padding :30; // align to 32 bit boundary
  };
  
  struct gpib_select_pci_ioctl {
--	int pci_bus;
--	int pci_slot;
-+	__s32 pci_bus;
-+	__s32 pci_slot;
- };
- 
- struct gpib_ppoll_config_ioctl {
-@@ -93,13 +93,13 @@ struct gpib_ppoll_config_ioctl {
+@@ -90,6 +92,7 @@ struct gpib_ppoll_config_ioctl {
+ 	__u8 config;
+ 	unsigned set_ist : 1;
+ 	unsigned clear_ist : 1;
++	unsigned padding :22; // align to 32 bit boundary
  };
  
  struct gpib_pad_ioctl {
--	unsigned int handle;
--	unsigned int pad;
-+	__u32 handle;
-+	__u32 pad;
- };
- 
- struct gpib_sad_ioctl {
--	unsigned int handle;
--	int sad;
-+	__u32 handle;
-+	__s32 sad;
- };
- 
- // select a piece of hardware to attach by its sysfs device path
-@@ -110,7 +110,7 @@ struct gpib_select_device_path_ioctl {
+@@ -110,6 +113,7 @@ struct gpib_select_device_path_ioctl {
  // update status byte and request service
  struct gpib_request_service2 {
  	__u8 status_byte;
--	int new_reason_for_service;
-+	__s32 new_reason_for_service;
++	__u8 padding[3]; // align to 32 bit boundary
+ 	__s32 new_reason_for_service;
  };
  
- /* Standard functions. */
-@@ -123,38 +123,38 @@ enum gpib_ioctl {
- 	IBWAIT = _IOWR(GPIB_CODE, 5, struct gpib_wait_ioctl),
- 	IBRPP = _IOWR(GPIB_CODE, 6, __u8),
- 
--	IBSIC = _IOW(GPIB_CODE, 9, unsigned int),
--	IBSRE = _IOW(GPIB_CODE, 10, int),
-+	IBSIC = _IOW(GPIB_CODE, 9, __u32),
-+	IBSRE = _IOW(GPIB_CODE, 10, __s32),
- 	IBGTS = _IO(GPIB_CODE, 11),
--	IBCAC = _IOW(GPIB_CODE, 12, int),
--	IBLINES = _IOR(GPIB_CODE, 14, short),
-+	IBCAC = _IOW(GPIB_CODE, 12, __s32),
-+	IBLINES = _IOR(GPIB_CODE, 14, __s16),
- 	IBPAD = _IOW(GPIB_CODE, 15, struct gpib_pad_ioctl),
- 	IBSAD = _IOW(GPIB_CODE, 16, struct gpib_sad_ioctl),
--	IBTMO = _IOW(GPIB_CODE, 17, unsigned int),
-+	IBTMO = _IOW(GPIB_CODE, 17, __u32),
- 	IBRSP = _IOWR(GPIB_CODE, 18, struct gpib_serial_poll_ioctl),
- 	IBEOS = _IOW(GPIB_CODE, 19, struct gpib_eos_ioctl),
- 	IBRSV = _IOW(GPIB_CODE, 20, __u8),
- 	CFCBASE = _IOW(GPIB_CODE, 21, __u64),
--	CFCIRQ = _IOW(GPIB_CODE, 22, unsigned int),
--	CFCDMA = _IOW(GPIB_CODE, 23, unsigned int),
-+	CFCIRQ = _IOW(GPIB_CODE, 22, __u32),
-+	CFCDMA = _IOW(GPIB_CODE, 23, __u32),
- 	CFCBOARDTYPE = _IOW(GPIB_CODE, 24, struct gpib_board_type_ioctl),
- 
--	IBMUTEX = _IOW(GPIB_CODE, 26, int),
-+	IBMUTEX = _IOW(GPIB_CODE, 26, __s32),
- 	IBSPOLL_BYTES = _IOWR(GPIB_CODE, 27, struct gpib_spoll_bytes_ioctl),
- 	IBPPC = _IOW(GPIB_CODE, 28, struct gpib_ppoll_config_ioctl),
- 	IBBOARD_INFO = _IOR(GPIB_CODE, 29, struct gpib_board_info_ioctl),
- 
--	IBQUERY_BOARD_RSV = _IOR(GPIB_CODE, 31, int),
-+	IBQUERY_BOARD_RSV = _IOR(GPIB_CODE, 31, __s32),
- 	IBSELECT_PCI = _IOWR(GPIB_CODE, 32, struct gpib_select_pci_ioctl),
--	IBEVENT = _IOR(GPIB_CODE, 33, short),
--	IBRSC = _IOW(GPIB_CODE, 34, int),
--	IB_T1_DELAY = _IOW(GPIB_CODE, 35, unsigned int),
-+	IBEVENT = _IOR(GPIB_CODE, 33, __s16),
-+	IBRSC = _IOW(GPIB_CODE, 34, __s32),
-+	IB_T1_DELAY = _IOW(GPIB_CODE, 35, __u32),
- 	IBLOC = _IO(GPIB_CODE, 36),
- 
--	IBAUTOSPOLL = _IOW(GPIB_CODE, 38, short),
-+	IBAUTOSPOLL = _IOW(GPIB_CODE, 38, __s16),
- 	IBONL = _IOW(GPIB_CODE, 39, struct gpib_online_ioctl),
--	IBPP2_SET = _IOW(GPIB_CODE, 40, short),
--	IBPP2_GET = _IOR(GPIB_CODE, 41, short),
-+	IBPP2_SET = _IOW(GPIB_CODE, 40, __s16),
-+	IBPP2_GET = _IOR(GPIB_CODE, 41, __s16),
- 	IBSELECT_DEVICE_PATH = _IOW(GPIB_CODE, 43, struct gpib_select_device_path_ioctl),
- 	// 44 was IBSELECT_SERIAL_NUMBER
- 	IBRSV2 = _IOW(GPIB_CODE, 45, struct gpib_request_service2)
 -- 
 2.49.0
 
