@@ -1,71 +1,71 @@
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2ADC0BA34
-	for <linux-staging@lists.linux.dev>; Tue,  3 Jun 2025 18:44:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3EF8528982F
+	for <linux-staging@lists.linux.dev>; Tue,  3 Jun 2025 18:44:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748976242; cv=none; b=uU836qwVptSEK4pO1CnqNiQNuvbp4HI82yYEopvApkv2ZxttWYEzrag/53BrQmeJOSlTYKkpwwOc83Wdfzqm87UL4qFLG4H/YPHGFEmRXGwFZ/PCNvgrt2AQhrjc3WsRZPYfTq9Adf42pIAXHsNETbybgWmQg3UbCidYLXDEU3Q=
+	t=1748976248; cv=none; b=SGpWIpBre7d9w5pXM98lJ4iYcQxgawPypG3J9+pmvV4d6gdIUwQ7nSn0J93Yp0bjDmfim+zoiHLbB7sX+w5DpTNHi7qXqeZC2+M8HFqX01dK/0zApmg+3F+G6G3z+Z3quO4Y8ikitRj9m1vyz2Zu0BKjSLgqsAT3WYUJTkkgzP8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748976242; c=relaxed/simple;
-	bh=BTKy6rwniCmZTgA6Z39+urHx80l/dpJ0s7iL3/6zO80=;
+	s=arc-20240116; t=1748976248; c=relaxed/simple;
+	bh=yPesDnhB9t5yVMCCj6DKkbOKpQJNQFkvzUbwNjyUwFE=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=VPa9Wne+LuzwVZxKXICcKtzhvuV0HPx4L7BS39bVeNEF0ED3U+uMOvgdzPBdjQGBlT60MDtUmk++NAAvYNuz05/rOCy1WC+aI/rUhmTZDg1wJFXB8ABBM6PWhks+z635uOBk3yekCySxdtQmT0PkMOpw6PeflHC5JvhrKBD0yw8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lkHAUEaE; arc=none smtp.client-ip=209.85.128.49
+	 MIME-Version; b=E6HobQeDWbOjpXBxJdelkTIYDu8k8pZVkbydLqHxQRaS34vk1ZTTXEFicwNenSA/Aw9lE8MhifRkb5tQIixFc02cI71Efho7DbkQLRFyh/gq7T4HtuL90DBBYSfF9wIEYylNskDZvJxNoQXQ+DRj/YQFfpV89kphymqshzMsLsQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IMWeb8pb; arc=none smtp.client-ip=209.85.221.52
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lkHAUEaE"
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-43edecbfb94so66503955e9.1
-        for <linux-staging@lists.linux.dev>; Tue, 03 Jun 2025 11:44:00 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IMWeb8pb"
+Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-3a3758b122cso3977953f8f.1
+        for <linux-staging@lists.linux.dev>; Tue, 03 Jun 2025 11:44:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1748976239; x=1749581039; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1748976244; x=1749581044; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=59qNnoC0PZCUiRqcfCTJ4/Iv3mXqvFEjwoviJeNS6GU=;
-        b=lkHAUEaEVISYbhCL+8pwQs6OwcZVrE2hk4wqemXm0AyxbaBRsUkmBrE5REOCMMdg3a
-         g+SXlmgGT/ffzhB9wIB2MsAuUjOPMfK6BDic8W2VsnJth4pZXgvdpLchJwDJyjRCb40R
-         5so50aPbrYIMI08fwk9hVIfgjgi7QawQYPg/WCWznnyq4i4toM5Uqohq0NVdmbRF9PND
-         hr2JjCdkdBxz3DPUl6sRb1PBhom/Jq+boEMQvN+2b89ZN+lBKhbUY2QX9hJRWI81hH5h
-         ISV+mKWc9yGtu4AIXLG39hhpt80o0zVqwdeW49JaNpWV24fJJNdFV/ttMHdl26SdJDCQ
-         qViA==
+        bh=iHcQIzbO8vErc+yJtqA1zwASX4NEt6ytpvqXfDCS3ds=;
+        b=IMWeb8pb8J4ZgpQiN9MkIgyJ6w4MEXgzt0y2czzq8rYsSdOunCmUCdXyMDkGXS4ncw
+         9ft2k+0zWf3pZkuCf9LL8rL+A12QWCkKndcKX/WiMQWT2RnTZwbMjEO2uVpBbuxOlbPG
+         ip7DaZbeYS5gQkw9WCYb0px/px+9uAkWECTqD0y42V+e8Z6faOMWHow2by9/4Ivnw1iC
+         J03Qr7+si8dNuSRjNPuMAjiVTt62Q4iw9RYLXYLEsY+hyxKTnFYienFlr/AaY6TxY1Lk
+         LRpykdEx5jBXNgB+i9i+AYWy1oi1rkmTFbR12TUjyo16hYNZWHCxdUG8V59gBcSgLb40
+         +t0w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1748976239; x=1749581039;
+        d=1e100.net; s=20230601; t=1748976244; x=1749581044;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=59qNnoC0PZCUiRqcfCTJ4/Iv3mXqvFEjwoviJeNS6GU=;
-        b=pyk+Ng99q71NWQl+aTcbF+i6Qyg4SmJ/eS6fQye/XdWFVgFerPwnAVnri2t4ZAspgM
-         sbO1oDKXLsZqDgkl+kIvp1KW3GraolEMKjGg47xl5GrcFegpGoESWC62q0Qfna/BzHUu
-         5uXxRIGubD0QgTejtXmZIYGd9NeA9A5TisfEy7hVoo3KewoMt/omGQdKVNkIS+n9MEok
-         bw5KJej5ydcosYgyJCIbdPmhQp+Wi/Iz7If3BJ1xd3o/lNgaISTuGq8eCc0sJL16umPo
-         MxxrKYKibOOjzrvPOBrI9u6dG0p7OQqgy+CIBwrZpE7pIaMRQZzr4loy0AXNvGvB8O5L
-         P19A==
-X-Forwarded-Encrypted: i=1; AJvYcCVacTPzBGoeCNBbk5A0QVhAOEPwSLaWnvIfRbQiupJVj039FdBF01nY9EnVTmB4P1WDRR95xleXW/zO1z0/@lists.linux.dev
-X-Gm-Message-State: AOJu0Yz4dpJRtHRefqTNDWc/UnkxuFazinmg5m8epXZXb2zquyihhtWC
-	szdMzhGmUKpdTTF1qLkkII7TdASvApkbCC2rQcXsUEk4ZwWWo9xscvTT
-X-Gm-Gg: ASbGncv1O8VF7PGFMMIUcyjRCrl9CwpMM3zh7Duo8LnQWDMtn/cAc+uUpQvGuCfP15m
-	Bw0idV2sHSEzA2tNKHQ8CtQt2JWkKTu7k5SnEPyTg8u21gR6L1vmjDicvq7KhcG8qiSBGspmYeR
-	ONn0jKOsyvrb73MuUVqWkdkpLIzcMrPFLBYpgOjp1Rxrzjh5JOc5qoW1UApQoyFT8dXMcGldtx6
-	S/VSnthAtWGOfxa4v6sN9eRMB2abU+peJciDx8ipeYwdTRRdKxnaei2HkikzWeq6NftL+yfq0Fc
-	sMNuZBh8v6Wl7YsX9+/wvRZTis1VylCvbdWj5mkJsGwtG5RGDI3ErsUV/ou2dRbPrkeXRZ0MbH+
-	wbskEMsd6+1M=
-X-Google-Smtp-Source: AGHT+IFnATrJDqDfVpdsS2vtesr8sPjEo8vJu41t/gzywoAWihVtY+HSNGfLyfB4D8RIIV9M5t1LWg==
-X-Received: by 2002:a7b:c048:0:b0:450:c9e3:995c with SMTP id 5b1f17b1804b1-451e2173e0emr42217685e9.12.1748976239019;
-        Tue, 03 Jun 2025 11:43:59 -0700 (PDT)
+        bh=iHcQIzbO8vErc+yJtqA1zwASX4NEt6ytpvqXfDCS3ds=;
+        b=OiYCb6cPJPUkFRZAcPNiP5Jjv4owzBVYmpDBdRF5ukxv7oKE73lLrNO82HGYBMOxN6
+         SvdsQVPaQoPl87s0ao2xcaLOaqz6PRosjE5964Wv9CWWNgoGfiVshietXfTUqLBeBBnE
+         JjW2VyyCHf+Wp5nw+G4iVMgT1T2fjMpfKWwUC0uJavEUp2JifBgA9awQ9frDqYjZfIO/
+         sbbQJoT21LmbTnwb0sidaneAFgldTy2Dn3ccbEeTH6c4FydE1WTdgagcfcCqEbtlLKie
+         +1MOMyOyJj6l43yHVr7PLBKAzyj7pZsrIJ4sqW629HxGRPXo55E0xeO2PcunJO3bHmhD
+         5ulg==
+X-Forwarded-Encrypted: i=1; AJvYcCWgRnru29BYx/pIneXYCYOoS66yrTlHDUNvmgn6j3+PQ22hqWVuVgyoYaMoG9EzxGbXxwVCpNI1SEOsr74i@lists.linux.dev
+X-Gm-Message-State: AOJu0YxtcDGwhQpEsmCIjzSLqDUwpXe9TAVmbMZJupWkFV63X1+HpS6I
+	+fAOPWG2omkwyBZkSwPBXk86H9VrBzQFNdoWFL8n8Tpwb39hBT5wf6go
+X-Gm-Gg: ASbGncuYgD08W3nAqhcqdtVDa3nUhq7DQ2WzifLqIB/sle5OYN69PvEz3PRNzHHOZ9c
+	61pzRjLfbjKdvvfNBBOXrK4F1KIpI+Spf0VBwT6oWnJ3QUiiAM5Qfi2+KHlFVjSk1v7uaZV3KYn
+	cFETimNOvM0pWH9OUj/qFABqlr2D/0+iJftQFkyPA5fcnupPm/WySwhlQdF35Xy3E749JqBAuh5
+	Fg7I6CHmaNU9wGU/fGotJYs3/qnJsP9b3WW2vXYbRM895t8HR+b5h2X0K3KB82cv2ak1TxHM7+9
+	PnK3DdSrfMf3EEoNua677900q00WgpePq9R6qfI1DUh8u+UGsEdR19QtGnoHsAaId5D7ecrMafs
+	8pwGXbeE1u0Q=
+X-Google-Smtp-Source: AGHT+IG8RYYFqv2zCyGW60oYb4bDuCDm3BVjHRqREoqS7uHzhn1Vs+5KcEjOWDpFdSFBlBrsiQv6Tg==
+X-Received: by 2002:a05:6000:2910:b0:3a5:1cc5:aa6f with SMTP id ffacd0b85a97d-3a51cc5aa90mr415146f8f.34.1748976244478;
+        Tue, 03 Jun 2025 11:44:04 -0700 (PDT)
 Received: from localhost.localdomain (82-64-73-52.subs.proxad.net. [82.64.73.52])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a4efe73f83sm18449959f8f.49.2025.06.03.11.43.58
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a4efe73f83sm18449959f8f.49.2025.06.03.11.44.03
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 03 Jun 2025 11:43:58 -0700 (PDT)
+        Tue, 03 Jun 2025 11:44:03 -0700 (PDT)
 From: Dave Penkler <dpenkler@gmail.com>
 To: gregkh@linuxfoundation.org,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
 Cc: Dave Penkler <dpenkler@gmail.com>
-Subject: [PATCH 2/4] staging: gpib: Add local include file for commands
-Date: Tue,  3 Jun 2025 20:43:18 +0200
-Message-ID: <20250603184320.30594-3-dpenkler@gmail.com>
+Subject: [PATCH 3/4] staging: gpib: Use standard size basic uapi types
+Date: Tue,  3 Jun 2025 20:43:19 +0200
+Message-ID: <20250603184320.30594-4-dpenkler@gmail.com>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <20250603184320.30594-1-dpenkler@gmail.com>
 References: <20250603184320.30594-1-dpenkler@gmail.com>
@@ -77,149 +77,205 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add the functions and enums needed only by the kernel drivers
-that were removed from the uapi/gpib.h include file to a separate
-local include file.
-
-Include this new file in the gpibP.h local include file.
+Change unsigned int to __u32,
+       int          to __s32
+  and  short        to __s16
 
 Signed-off-by: Dave Penkler <dpenkler@gmail.com>
 ---
- drivers/staging/gpib/include/gpibP.h    |   1 +
- drivers/staging/gpib/include/gpib_cmd.h | 112 ++++++++++++++++++++++++
- 2 files changed, 113 insertions(+)
- create mode 100644 drivers/staging/gpib/include/gpib_cmd.h
+ drivers/staging/gpib/uapi/gpib_ioctl.h | 106 ++++++++++++-------------
+ 1 file changed, 53 insertions(+), 53 deletions(-)
 
-diff --git a/drivers/staging/gpib/include/gpibP.h b/drivers/staging/gpib/include/gpibP.h
-index 0af72934ce24..1b27f37e0ba0 100644
---- a/drivers/staging/gpib/include/gpibP.h
-+++ b/drivers/staging/gpib/include/gpibP.h
-@@ -11,6 +11,7 @@
+diff --git a/drivers/staging/gpib/uapi/gpib_ioctl.h b/drivers/staging/gpib/uapi/gpib_ioctl.h
+index 0fed5c0fa7f2..0da47e28caaa 100644
+--- a/drivers/staging/gpib/uapi/gpib_ioctl.h
++++ b/drivers/staging/gpib/uapi/gpib_ioctl.h
+@@ -19,71 +19,71 @@ struct gpib_board_type_ioctl {
+ /* argument for read/write/command ioctls */
+ struct gpib_read_write_ioctl {
+ 	__u64 buffer_ptr;
+-	unsigned int requested_transfer_count;
+-	unsigned int completed_transfer_count;
+-	int end; /* end flag return for reads, end io suppression request for cmd*/
+-	int handle;
++	__u32 requested_transfer_count;
++	__u32 completed_transfer_count;
++	__s32 end; /* end flag return for reads, end io suppression request for cmd*/
++	__s32 handle;
+ };
  
- #include "gpib_types.h"
- #include "gpib_proto.h"
-+#include "gpib_cmd.h"
- #include "gpib.h"
- #include "gpib_ioctl.h"
+ struct gpib_open_dev_ioctl {
+-	unsigned int handle;
+-	unsigned int pad;
+-	int sad;
++	__u32 handle;
++	__u32 pad;
++	__s32 sad;
+ 	unsigned is_board : 1;
+ };
  
-diff --git a/drivers/staging/gpib/include/gpib_cmd.h b/drivers/staging/gpib/include/gpib_cmd.h
-new file mode 100644
-index 000000000000..9e96a3bfa22d
---- /dev/null
-+++ b/drivers/staging/gpib/include/gpib_cmd.h
-@@ -0,0 +1,112 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+
-+#ifndef _GPIB_CMD_H
-+#define _GPIB_CMD_H
-+
-+#include <linux/types.h>
-+
-+/* Command byte definitions tests and functions */
-+
-+/* mask of bits that actually matter in a command byte */
-+enum {
-+	gpib_command_mask = 0x7f,
-+};
-+
-+/* Possible GPIB command messages */
-+
-+enum cmd_byte {
-+	GTL = 0x1,	/* go to local			*/
-+	SDC = 0x4,	/* selected device clear	*/
-+	PP_CONFIG = 0x5,
-+	GET = 0x8,	/* group execute trigger	*/
-+	TCT = 0x9,	/* take control			*/
-+	LLO = 0x11,	/* local lockout		*/
-+	DCL = 0x14,	/* device clear			*/
-+	PPU = 0x15,	/* parallel poll unconfigure	*/
-+	SPE = 0x18,	/* serial poll enable		*/
-+	SPD = 0x19,	/* serial poll disable		*/
-+	CFE = 0x1f,     /* configure enable */
-+	LAD = 0x20,	/* value to be 'ored' in to obtain listen address */
-+	UNL = 0x3F,	/* unlisten			*/
-+	TAD = 0x40,	/* value to be 'ored' in to obtain talk address	  */
-+	UNT = 0x5F,	/* untalk			*/
-+	SAD = 0x60,	/* my secondary address (base) */
-+	PPE = 0x60,	/* parallel poll enable (base)	*/
-+	PPD = 0x70	/* parallel poll disable	*/
-+};
-+
-+/* confine address to range 0 to 30. */
-+static inline unsigned int gpib_address_restrict(u32 addr)
-+{
-+	addr &= 0x1f;
-+	if (addr == 0x1f)
-+		addr = 0;
-+	return addr;
-+}
-+
-+static inline u8 MLA(u32 addr)
-+{
-+	return gpib_address_restrict(addr) | LAD;
-+}
-+
-+static inline u8 MTA(u32 addr)
-+{
-+	return gpib_address_restrict(addr) | TAD;
-+}
-+
-+static inline u8 MSA(u32 addr)
-+{
-+	return (addr & 0x1f) | SAD;
-+}
-+
-+static inline s32 gpib_address_equal(u32 pad1, s32 sad1, u32 pad2, s32 sad2)
-+{
-+	if (pad1 == pad2) {
-+		if (sad1 == sad2)
-+			return 1;
-+		if (sad1 < 0 && sad2 < 0)
-+			return 1;
-+	}
-+
-+	return 0;
-+}
-+
-+static inline s32 is_PPE(u8 command)
-+{
-+	return (command & 0x70) == 0x60;
-+}
-+
-+static inline s32 is_PPD(u8 command)
-+{
-+	return (command & 0x70) == 0x70;
-+}
-+
-+static inline s32 in_addressed_command_group(u8 command)
-+{
-+	return (command & 0x70) == 0x0;
-+}
-+
-+static inline s32 in_universal_command_group(u8 command)
-+{
-+	return (command & 0x70) == 0x10;
-+}
-+
-+static inline s32 in_listen_address_group(u8 command)
-+{
-+	return (command & 0x60) == 0x20;
-+}
-+
-+static inline s32 in_talk_address_group(u8 command)
-+{
-+	return (command & 0x60) == 0x40;
-+}
-+
-+static inline s32 in_primary_command_group(u8 command)
-+{
-+	return in_addressed_command_group(command) ||
-+		in_universal_command_group(command) ||
-+		in_listen_address_group(command) ||
-+		in_talk_address_group(command);
-+}
-+
-+#endif /* _GPIB_CMD_H */
+ struct gpib_close_dev_ioctl {
+-	unsigned int handle;
++	__u32 handle;
+ };
+ 
+ struct gpib_serial_poll_ioctl {
+-	unsigned int pad;
+-	int sad;
++	__u32 pad;
++	__s32 sad;
+ 	__u8 status_byte;
+ };
+ 
+ struct gpib_eos_ioctl {
+-	int eos;
+-	int eos_flags;
++	__s32 eos;
++	__s32 eos_flags;
+ };
+ 
+ struct gpib_wait_ioctl {
+-	int handle;
+-	int wait_mask;
+-	int clear_mask;
+-	int set_mask;
+-	int ibsta;
+-	int pad;
+-	int sad;
+-	unsigned int usec_timeout;
++	__s32 handle;
++	__s32 wait_mask;
++	__s32 clear_mask;
++	__s32 set_mask;
++	__s32 ibsta;
++	__s32 pad;
++	__s32 sad;
++	__u32 usec_timeout;
+ };
+ 
+ struct gpib_online_ioctl {
+ 	__u64 init_data_ptr;
+-	int init_data_length;
+-	int online;
++	__s32 init_data_length;
++	__s32 online;
+ };
+ 
+ struct gpib_spoll_bytes_ioctl {
+-	unsigned int num_bytes;
+-	unsigned int pad;
+-	int sad;
++	__u32 num_bytes;
++	__u32 pad;
++	__s32 sad;
+ };
+ 
+ struct gpib_board_info_ioctl {
+-	unsigned int pad;
+-	int sad;
+-	int parallel_poll_configuration;
+-	int autopolling;
+-	int is_system_controller;
+-	unsigned int t1_delay;
++	__u32 pad;
++	__s32 sad;
++	__s32 parallel_poll_configuration;
++	__s32 autopolling;
++	__s32 is_system_controller;
++	__u32 t1_delay;
+ 	unsigned ist : 1;
+ 	unsigned no_7_bit_eos : 1;
+ };
+ 
+ struct gpib_select_pci_ioctl {
+-	int pci_bus;
+-	int pci_slot;
++	__s32 pci_bus;
++	__s32 pci_slot;
+ };
+ 
+ struct gpib_ppoll_config_ioctl {
+@@ -93,13 +93,13 @@ struct gpib_ppoll_config_ioctl {
+ };
+ 
+ struct gpib_pad_ioctl {
+-	unsigned int handle;
+-	unsigned int pad;
++	__u32 handle;
++	__u32 pad;
+ };
+ 
+ struct gpib_sad_ioctl {
+-	unsigned int handle;
+-	int sad;
++	__u32 handle;
++	__s32 sad;
+ };
+ 
+ // select a piece of hardware to attach by its sysfs device path
+@@ -110,7 +110,7 @@ struct gpib_select_device_path_ioctl {
+ // update status byte and request service
+ struct gpib_request_service2 {
+ 	__u8 status_byte;
+-	int new_reason_for_service;
++	__s32 new_reason_for_service;
+ };
+ 
+ /* Standard functions. */
+@@ -123,38 +123,38 @@ enum gpib_ioctl {
+ 	IBWAIT = _IOWR(GPIB_CODE, 5, struct gpib_wait_ioctl),
+ 	IBRPP = _IOWR(GPIB_CODE, 6, __u8),
+ 
+-	IBSIC = _IOW(GPIB_CODE, 9, unsigned int),
+-	IBSRE = _IOW(GPIB_CODE, 10, int),
++	IBSIC = _IOW(GPIB_CODE, 9, __u32),
++	IBSRE = _IOW(GPIB_CODE, 10, __s32),
+ 	IBGTS = _IO(GPIB_CODE, 11),
+-	IBCAC = _IOW(GPIB_CODE, 12, int),
+-	IBLINES = _IOR(GPIB_CODE, 14, short),
++	IBCAC = _IOW(GPIB_CODE, 12, __s32),
++	IBLINES = _IOR(GPIB_CODE, 14, __s16),
+ 	IBPAD = _IOW(GPIB_CODE, 15, struct gpib_pad_ioctl),
+ 	IBSAD = _IOW(GPIB_CODE, 16, struct gpib_sad_ioctl),
+-	IBTMO = _IOW(GPIB_CODE, 17, unsigned int),
++	IBTMO = _IOW(GPIB_CODE, 17, __u32),
+ 	IBRSP = _IOWR(GPIB_CODE, 18, struct gpib_serial_poll_ioctl),
+ 	IBEOS = _IOW(GPIB_CODE, 19, struct gpib_eos_ioctl),
+ 	IBRSV = _IOW(GPIB_CODE, 20, __u8),
+ 	CFCBASE = _IOW(GPIB_CODE, 21, __u64),
+-	CFCIRQ = _IOW(GPIB_CODE, 22, unsigned int),
+-	CFCDMA = _IOW(GPIB_CODE, 23, unsigned int),
++	CFCIRQ = _IOW(GPIB_CODE, 22, __u32),
++	CFCDMA = _IOW(GPIB_CODE, 23, __u32),
+ 	CFCBOARDTYPE = _IOW(GPIB_CODE, 24, struct gpib_board_type_ioctl),
+ 
+-	IBMUTEX = _IOW(GPIB_CODE, 26, int),
++	IBMUTEX = _IOW(GPIB_CODE, 26, __s32),
+ 	IBSPOLL_BYTES = _IOWR(GPIB_CODE, 27, struct gpib_spoll_bytes_ioctl),
+ 	IBPPC = _IOW(GPIB_CODE, 28, struct gpib_ppoll_config_ioctl),
+ 	IBBOARD_INFO = _IOR(GPIB_CODE, 29, struct gpib_board_info_ioctl),
+ 
+-	IBQUERY_BOARD_RSV = _IOR(GPIB_CODE, 31, int),
++	IBQUERY_BOARD_RSV = _IOR(GPIB_CODE, 31, __s32),
+ 	IBSELECT_PCI = _IOWR(GPIB_CODE, 32, struct gpib_select_pci_ioctl),
+-	IBEVENT = _IOR(GPIB_CODE, 33, short),
+-	IBRSC = _IOW(GPIB_CODE, 34, int),
+-	IB_T1_DELAY = _IOW(GPIB_CODE, 35, unsigned int),
++	IBEVENT = _IOR(GPIB_CODE, 33, __s16),
++	IBRSC = _IOW(GPIB_CODE, 34, __s32),
++	IB_T1_DELAY = _IOW(GPIB_CODE, 35, __u32),
+ 	IBLOC = _IO(GPIB_CODE, 36),
+ 
+-	IBAUTOSPOLL = _IOW(GPIB_CODE, 38, short),
++	IBAUTOSPOLL = _IOW(GPIB_CODE, 38, __s16),
+ 	IBONL = _IOW(GPIB_CODE, 39, struct gpib_online_ioctl),
+-	IBPP2_SET = _IOW(GPIB_CODE, 40, short),
+-	IBPP2_GET = _IOR(GPIB_CODE, 41, short),
++	IBPP2_SET = _IOW(GPIB_CODE, 40, __s16),
++	IBPP2_GET = _IOR(GPIB_CODE, 41, __s16),
+ 	IBSELECT_DEVICE_PATH = _IOW(GPIB_CODE, 43, struct gpib_select_device_path_ioctl),
+ 	// 44 was IBSELECT_SERIAL_NUMBER
+ 	IBRSV2 = _IOW(GPIB_CODE, 45, struct gpib_request_service2)
 -- 
 2.49.0
 
