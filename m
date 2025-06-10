@@ -1,194 +1,292 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A432F193062;
-	Mon,  9 Jun 2025 21:13:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 184AB28A717;
+	Tue, 10 Jun 2025 09:24:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749503605; cv=none; b=TEieSYK4HoasgmW+73e6T3kbc4qtroGNCj1jSkJgmpmykHEO5F09fGx0FLgYGlIKWN1HsWdlNUPjpZE61BdqE0HIfy16kyx9HrpsQB4vsjlN+1RSGD1mbxAuNoZTlsewkXnBI+xcXN6/hTnEZtFdp2yKA+d+8c9zz0Y0vK1EK0U=
+	t=1749547491; cv=none; b=Ebx6p+lan9BCk5hE3daomOBFNRutcgrZfXM3AKvf/sM517EKqTkzUOO9D2oal/+9tveyJzk6Jlt9OKaj5y+1pz77nzzasmJLG9VmLT2UqmmNUWv6CV8cokRCNoIPCy8bNo1CF9zHOydcZ8eHNOpfyDEkdkajvpH5ZiWSUQw/h0A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749503605; c=relaxed/simple;
-	bh=X5QJvkv3j9iTTBXNXX/rB02EIeJPcHs224rzb2cLDzc=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=I6okcErGzOsAnil2v+6Tg5wrmeBmafPp+PRlGt7PAnG0Vj8OmEQ6LLThupnSeV9IEY0tzszL0ISgl/2AHFFRO8FJNCL6YUfB3Xd03h/YvUJvliHF96quGkGT2cvCNk1luq2r4kDE5PrKzdom3BwkVP7JXEsaMW6nwc7wdFPErcA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bpIwq2rU; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1749547491; c=relaxed/simple;
+	bh=UBk0O2NifEtSzMDABHTsAPAX1ZK2mbR0B7xvcIeNcf8=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=gZ9a9au3e7C2SnDxC0q8+FVsxb/ATtBPRpeoo2yR0CRzV7f21BTE3+Mngw2GJ/dcSmNjDa9PvVHAaxNAVWw+SP5y2XEaf1Zi+O4OLs9RW7+V5nR2xPaBhb85514QghrUGuVlf0SNskTnDSSSRPtOyh+JzRB0N86ItlcMjU0QB6g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Myqq29bq; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bpIwq2rU"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2985DC4CEEB;
-	Mon,  9 Jun 2025 21:13:23 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Myqq29bq"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 204CCC4CEF2;
+	Tue, 10 Jun 2025 09:24:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1749503605;
-	bh=X5QJvkv3j9iTTBXNXX/rB02EIeJPcHs224rzb2cLDzc=;
-	h=From:Date:Subject:To:Cc:From;
-	b=bpIwq2rUwzQKl3zfzKbT9YJHN2vvEqIcRDykHF8RnSilZ11qhxmilwjHbp2RS7cBE
-	 79akQ0ZevawAWTNxxlOc2okC/REnFzO4WP4ZdnbWp94jnapLHaQgDMd1oYGscZT2xT
-	 xdkV75K/Vw7Cs2VUy3levdwN1r66Nys8UxlprdxeewzF96nmSdgfipdiYmuIIw3HqM
-	 HriOFob2C10CCM+HpRXht9Nf2xYOXpB4UuJnYBrTAPmYpaQ9fNUrrZNOk7mckT6SQO
-	 zkHC69f7CWNCoJzJsvpp/rX5hsngkj5weYe+GfHOqRU7GoZTrwUzsdZ4Gu+Fsmge9y
-	 /nPx/ItoL2VsA==
-From: Nathan Chancellor <nathan@kernel.org>
-Date: Mon, 09 Jun 2025 14:13:14 -0700
-Subject: [PATCH] staging: rtl8723bs: Avoid memset() in aes_cipher() and
- aes_decipher()
+	s=k20201202; t=1749547490;
+	bh=UBk0O2NifEtSzMDABHTsAPAX1ZK2mbR0B7xvcIeNcf8=;
+	h=From:To:Cc:Subject:Date:From;
+	b=Myqq29bqNFixpWKhm/vniAjB5U014iroW5V6KSeHjzQGaWHj3SYAmrn0ZaD1YhweC
+	 /LGwo5D0eiLO0PiSTcfzBObyXlVVbPIlzfig7zqvpS8FxtWnCSnAjDBs8lvOOUyzhQ
+	 Ef3oUMVFOtc1erwpOTuMcBYCEXnCc5Go0+rzrP5ErieBD+pL1lbNhONK/BqYjXjUNE
+	 SiE8W9AtH27iDKHwhasFK88jCXuhuA+jVlxWBMUwliUGA/NP4EtYAMntjlg7QIja4b
+	 79wjTtrTO8Q6pjpbDKOgtNB27F23VMp/Wio3JXY9BJF6v+BOjJZymFb+7ryc3EgRVf
+	 JsEnvS3LeQZTw==
+From: Arnd Bergmann <arnd@kernel.org>
+To: Andy Shevchenko <andy@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Arnd Bergmann <arnd@arndb.de>,
+	Riyan Dhiman <riyandhiman14@gmail.com>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Paolo Perego <pperego@suse.de>,
+	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+	"Matthew Wilcox (Oracle)" <willy@infradead.org>,
+	Jeff Johnson <jeff.johnson@oss.qualcomm.com>,
+	dri-devel@lists.freedesktop.org,
+	linux-fbdev@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] fbtft: reduce stack usage
+Date: Tue, 10 Jun 2025 11:24:38 +0200
+Message-Id: <20250610092445.2640575-1-arnd@kernel.org>
+X-Mailer: git-send-email 2.39.5
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250609-rtl8723bs-fix-clang-arm64-wflt-v1-1-e2accba43def@kernel.org>
-X-B4-Tracking: v=1; b=H4sIAGlOR2gC/x2NQQqDMBAAvyJ77kIak2j6FenB2LVdSFU2UgXx7
- y49DgwzBxQSpgKP6gChHxeeJ4X7rYLh009vQn4pgzXWm2Aiyprbxtap4Mg7Dlkd7OUbHG5jXjG
- 5FIO30bjkQSOLkHr/Qfc8zwvNAAubcAAAAA==
-X-Change-ID: 20250609-rtl8723bs-fix-clang-arm64-wflt-b4b9652904b5
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-staging@lists.linux.dev, llvm@lists.linux.dev, 
- patches@lists.linux.dev, stable@vger.kernel.org, 
- Nathan Chancellor <nathan@kernel.org>
-X-Mailer: b4 0.15-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=5267; i=nathan@kernel.org;
- h=from:subject:message-id; bh=X5QJvkv3j9iTTBXNXX/rB02EIeJPcHs224rzb2cLDzc=;
- b=owGbwMvMwCUmm602sfCA1DTG02pJDBnufsUB1c+2OdotPmr2YYW3QCfbbd9Cu6/fJqT2CKst8
- 6tc2y/ZUcrCIMbFICumyFL9WPW4oeGcs4w3Tk2CmcPKBDKEgYtTACZyYRnDL6aiVatvr2Y9lXYo
- 1NbfM1nzhGf5FNEDn7KtQ7PUMywZKhkZnur6yHnuX/2cbWlqc0nPKfXcoHliRrOmLT8ot7fupdQ
- EBgA=
-X-Developer-Key: i=nathan@kernel.org; a=openpgp;
- fpr=2437CB76E544CB6AB3D9DFD399739260CB6CB716
+Content-Transfer-Encoding: 8bit
 
-After commit 6f110a5e4f99 ("Disable SLUB_TINY for build testing"), which
-causes CONFIG_KASAN to be enabled in allmodconfig again, arm64
-allmodconfig builds with older versions of clang (15 through 17) show an
-instance of -Wframe-larger-than (which breaks the build with
-CONFIG_WERROR=y):
+From: Arnd Bergmann <arnd@arndb.de>
 
-  drivers/staging/rtl8723bs/core/rtw_security.c:1287:5: error: stack frame size (2208) exceeds limit (2048) in 'rtw_aes_decrypt' [-Werror,-Wframe-larger-than]
-   1287 | u32 rtw_aes_decrypt(struct adapter *padapter, u8 *precvframe)
-        |     ^
+The use of vararg function pointers combined with a huge number of
+arguments causes some configurations to exceed the stack size warning
+limit:
 
-This comes from aes_decipher() being inlined in rtw_aes_decrypt().
-Running the same build with CONFIG_FRAME_WARN=128 shows aes_cipher()
-also uses a decent amount of stack, just under the limit of 2048:
+drivers/staging/fbtft/fbtft-core.c:863:12: error: stack frame size (1512) exceeds limit (1280) in 'fbtft_init_display_from_property' [-Werror,-Wframe-larger-than]
 
-  drivers/staging/rtl8723bs/core/rtw_security.c:864:19: warning: stack frame size (1952) exceeds limit (128) in 'aes_cipher' [-Wframe-larger-than]
-    864 | static signed int aes_cipher(u8 *key, uint      hdrlen,
-        |                   ^
+drivers/staging/fbtft/fb_ssd1331.c:131:30: error: stack frame size (1392) exceeds limit (1280) in 'set_gamma' [-Werror,-Wframe-larger-than]
+                  ^
+drivers/staging/fbtft/fb_ssd1351.c:120:30: error: stack frame size (1392) exceeds limit (1280) in 'set_gamma' [-Werror,-Wframe-larger-than]
 
--Rpass-analysis=stack-frame-layout only shows one large structure on the
-stack, which is the ctx variable inlined from aes128k128d(). A good
-number of the other variables come from the additional checks of
-fortified string routines, which are present in memset(), which both
-aes_cipher() and aes_decipher() use to initialize some temporary
-buffers. In this case, since the size is known at compile time, these
-additional checks should not result in any code generation changes but
-allmodconfig has several sanitizers enabled, which may make it harder
-for the compiler to eliminate the compile time checks and the variables
-that come about from them.
+Move the varargs handling into a separate noinline function so each
+individual function stays below the limit. A better approach might be to
+replace the varargs function with one that takes an array of arguments,
+but that would be a much larger rework of the other callers.
 
-The memset() calls are just initializing these buffers to zero, so use
-'= {}' instead, which is used all over the kernel and does the exact
-same thing as memset() without the fortify checks, which drops the stack
-usage of these functions by a few hundred kilobytes.
-
-  drivers/staging/rtl8723bs/core/rtw_security.c:864:19: warning: stack frame size (1584) exceeds limit (128) in 'aes_cipher' [-Wframe-larger-than]
-    864 | static signed int aes_cipher(u8 *key, uint      hdrlen,
-        |                   ^
-  drivers/staging/rtl8723bs/core/rtw_security.c:1271:5: warning: stack frame size (1456) exceeds limit (128) in 'rtw_aes_decrypt' [-Wframe-larger-than]
-   1271 | u32 rtw_aes_decrypt(struct adapter *padapter, u8 *precvframe)
-        |     ^
-
-Cc: stable@vger.kernel.org
-Fixes: 554c0a3abf21 ("staging: Add rtl8723bs sdio wifi driver")
-Signed-off-by: Nathan Chancellor <nathan@kernel.org>
+Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 ---
- drivers/staging/rtl8723bs/core/rtw_security.c | 44 +++++++++------------------
- 1 file changed, 14 insertions(+), 30 deletions(-)
+ drivers/staging/fbtft/fb_ssd1331.c | 36 ++++++++++++------
+ drivers/staging/fbtft/fb_ssd1351.c | 42 ++++++++++++---------
+ drivers/staging/fbtft/fbtft-core.c | 59 +++++++++++++-----------------
+ 3 files changed, 73 insertions(+), 64 deletions(-)
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_security.c b/drivers/staging/rtl8723bs/core/rtw_security.c
-index 1e9eff01b1aa..e9f382c280d9 100644
---- a/drivers/staging/rtl8723bs/core/rtw_security.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_security.c
-@@ -868,29 +868,21 @@ static signed int aes_cipher(u8 *key, uint	hdrlen,
- 		num_blocks, payload_index;
+diff --git a/drivers/staging/fbtft/fb_ssd1331.c b/drivers/staging/fbtft/fb_ssd1331.c
+index 06b7056d6c71..f43ee3249175 100644
+--- a/drivers/staging/fbtft/fb_ssd1331.c
++++ b/drivers/staging/fbtft/fb_ssd1331.c
+@@ -107,6 +107,28 @@ static void write_reg8_bus8(struct fbtft_par *par, int len, ...)
+ 	va_end(args);
+ }
  
- 	u8 pn_vector[6];
--	u8 mic_iv[16];
--	u8 mic_header1[16];
--	u8 mic_header2[16];
--	u8 ctr_preload[16];
-+	u8 mic_iv[16] = {};
-+	u8 mic_header1[16] = {};
-+	u8 mic_header2[16] = {};
-+	u8 ctr_preload[16] = {};
++static noinline_for_stack void write_gamma_reg(struct fbtft_par *par,
++					       u32 gamma[63])
++{
++	write_reg(par, 0xB8,
++		  gamma[0],  gamma[1],  gamma[2],  gamma[3],
++		  gamma[4],  gamma[5],  gamma[6],  gamma[7],
++		  gamma[8],  gamma[9],  gamma[10], gamma[11],
++		  gamma[12], gamma[13], gamma[14], gamma[15],
++		  gamma[16], gamma[17], gamma[18], gamma[19],
++		  gamma[20], gamma[21], gamma[22], gamma[23],
++		  gamma[24], gamma[25], gamma[26], gamma[27],
++		  gamma[28], gamma[29], gamma[30], gamma[31],
++		  gamma[32], gamma[33], gamma[34], gamma[35],
++		  gamma[36], gamma[37], gamma[38], gamma[39],
++		  gamma[40], gamma[41], gamma[42], gamma[43],
++		  gamma[44], gamma[45], gamma[46], gamma[47],
++		  gamma[48], gamma[49], gamma[50], gamma[51],
++		  gamma[52], gamma[53], gamma[54], gamma[55],
++		  gamma[56], gamma[57], gamma[58], gamma[59],
++		  gamma[60], gamma[61], gamma[62]);
++}
++
+ /*
+  * Grayscale Lookup Table
+  * GS1 - GS63
+@@ -130,7 +152,7 @@ static void write_reg8_bus8(struct fbtft_par *par, int len, ...)
+  */
+ static int set_gamma(struct fbtft_par *par, u32 *curves)
+ {
+-	unsigned long tmp[GAMMA_NUM * GAMMA_LEN];
++	u32 tmp[GAMMA_NUM * GAMMA_LEN];
+ 	int i, acc = 0;
  
- 	/* Intermediate Buffers */
--	u8 chain_buffer[16];
--	u8 aes_out[16];
--	u8 padded_buffer[16];
-+	u8 chain_buffer[16] = {};
-+	u8 aes_out[16] = {};
-+	u8 padded_buffer[16] = {};
- 	u8 mic[8];
- 	uint	frtype  = GetFrameType(pframe);
- 	uint	frsubtype  = GetFrameSubType(pframe);
+ 	for (i = 0; i < 63; i++) {
+@@ -150,17 +172,7 @@ static int set_gamma(struct fbtft_par *par, u32 *curves)
+ 		}
+ 	}
  
- 	frsubtype = frsubtype>>4;
+-	write_reg(par, 0xB8,
+-		  tmp[0], tmp[1], tmp[2], tmp[3], tmp[4], tmp[5], tmp[6],
+-		  tmp[7], tmp[8], tmp[9], tmp[10], tmp[11], tmp[12], tmp[13],
+-		  tmp[14], tmp[15], tmp[16], tmp[17], tmp[18], tmp[19], tmp[20],
+-		  tmp[21], tmp[22], tmp[23], tmp[24], tmp[25], tmp[26],	tmp[27],
+-		  tmp[28], tmp[29], tmp[30], tmp[31], tmp[32], tmp[33], tmp[34],
+-		  tmp[35], tmp[36], tmp[37], tmp[38], tmp[39], tmp[40], tmp[41],
+-		  tmp[42], tmp[43], tmp[44], tmp[45], tmp[46], tmp[47], tmp[48],
+-		  tmp[49], tmp[50], tmp[51], tmp[52], tmp[53], tmp[54], tmp[55],
+-		  tmp[56], tmp[57], tmp[58], tmp[59], tmp[60], tmp[61],
+-		  tmp[62]);
++	write_gamma_reg(par, tmp);
  
--	memset((void *)mic_iv, 0, 16);
--	memset((void *)mic_header1, 0, 16);
--	memset((void *)mic_header2, 0, 16);
--	memset((void *)ctr_preload, 0, 16);
--	memset((void *)chain_buffer, 0, 16);
--	memset((void *)aes_out, 0, 16);
--	memset((void *)padded_buffer, 0, 16);
--
- 	if ((hdrlen == WLAN_HDR_A3_LEN) || (hdrlen ==  WLAN_HDR_A3_QOS_LEN))
- 		a4_exists = 0;
- 	else
-@@ -1080,15 +1072,15 @@ static signed int aes_decipher(u8 *key, uint	hdrlen,
- 			num_blocks, payload_index;
- 	signed int res = _SUCCESS;
- 	u8 pn_vector[6];
--	u8 mic_iv[16];
--	u8 mic_header1[16];
--	u8 mic_header2[16];
--	u8 ctr_preload[16];
-+	u8 mic_iv[16] = {};
-+	u8 mic_header1[16] = {};
-+	u8 mic_header2[16] = {};
-+	u8 ctr_preload[16] = {};
+ 	return 0;
+ }
+diff --git a/drivers/staging/fbtft/fb_ssd1351.c b/drivers/staging/fbtft/fb_ssd1351.c
+index 6736b09b2f45..eb8bee6993c3 100644
+--- a/drivers/staging/fbtft/fb_ssd1351.c
++++ b/drivers/staging/fbtft/fb_ssd1351.c
+@@ -96,6 +96,28 @@ static int set_var(struct fbtft_par *par)
+ 	return 0;
+ }
  
- 		/* Intermediate Buffers */
--	u8 chain_buffer[16];
--	u8 aes_out[16];
--	u8 padded_buffer[16];
-+	u8 chain_buffer[16] = {};
-+	u8 aes_out[16] = {};
-+	u8 padded_buffer[16] = {};
- 	u8 mic[8];
++static noinline_for_stack void write_gamma_reg(struct fbtft_par *par,
++					       u32 gamma[63])
++{
++	write_reg(par, 0xB8,
++		  gamma[0],  gamma[1],  gamma[2],  gamma[3],
++		  gamma[4],  gamma[5],  gamma[6],  gamma[7],
++		  gamma[8],  gamma[9],  gamma[10], gamma[11],
++		  gamma[12], gamma[13], gamma[14], gamma[15],
++		  gamma[16], gamma[17], gamma[18], gamma[19],
++		  gamma[20], gamma[21], gamma[22], gamma[23],
++		  gamma[24], gamma[25], gamma[26], gamma[27],
++		  gamma[28], gamma[29], gamma[30], gamma[31],
++		  gamma[32], gamma[33], gamma[34], gamma[35],
++		  gamma[36], gamma[37], gamma[38], gamma[39],
++		  gamma[40], gamma[41], gamma[42], gamma[43],
++		  gamma[44], gamma[45], gamma[46], gamma[47],
++		  gamma[48], gamma[49], gamma[50], gamma[51],
++		  gamma[52], gamma[53], gamma[54], gamma[55],
++		  gamma[56], gamma[57], gamma[58], gamma[59],
++		  gamma[60], gamma[61], gamma[62]);
++}
++
+ /*
+  * Grayscale Lookup Table
+  * GS1 - GS63
+@@ -119,7 +141,7 @@ static int set_var(struct fbtft_par *par)
+  */
+ static int set_gamma(struct fbtft_par *par, u32 *curves)
+ {
+-	unsigned long tmp[GAMMA_NUM * GAMMA_LEN];
++	u32 tmp[GAMMA_NUM * GAMMA_LEN];
+ 	int i, acc = 0;
  
- 	uint frtype  = GetFrameType(pframe);
-@@ -1096,14 +1088,6 @@ static signed int aes_decipher(u8 *key, uint	hdrlen,
+ 	for (i = 0; i < 63; i++) {
+@@ -139,23 +161,7 @@ static int set_gamma(struct fbtft_par *par, u32 *curves)
+ 		}
+ 	}
  
- 	frsubtype = frsubtype>>4;
+-	write_reg(par, 0xB8,
+-		  tmp[0],  tmp[1],  tmp[2],  tmp[3],
+-		  tmp[4],  tmp[5],  tmp[6],  tmp[7],
+-		  tmp[8],  tmp[9],  tmp[10], tmp[11],
+-		  tmp[12], tmp[13], tmp[14], tmp[15],
+-		  tmp[16], tmp[17], tmp[18], tmp[19],
+-		  tmp[20], tmp[21], tmp[22], tmp[23],
+-		  tmp[24], tmp[25], tmp[26], tmp[27],
+-		  tmp[28], tmp[29], tmp[30], tmp[31],
+-		  tmp[32], tmp[33], tmp[34], tmp[35],
+-		  tmp[36], tmp[37], tmp[38], tmp[39],
+-		  tmp[40], tmp[41], tmp[42], tmp[43],
+-		  tmp[44], tmp[45], tmp[46], tmp[47],
+-		  tmp[48], tmp[49], tmp[50], tmp[51],
+-		  tmp[52], tmp[53], tmp[54], tmp[55],
+-		  tmp[56], tmp[57], tmp[58], tmp[59],
+-		  tmp[60], tmp[61], tmp[62]);
++	write_gamma_reg(par, tmp);
  
--	memset((void *)mic_iv, 0, 16);
--	memset((void *)mic_header1, 0, 16);
--	memset((void *)mic_header2, 0, 16);
--	memset((void *)ctr_preload, 0, 16);
--	memset((void *)chain_buffer, 0, 16);
--	memset((void *)aes_out, 0, 16);
--	memset((void *)padded_buffer, 0, 16);
--
- 	/* start to decrypt the payload */
+ 	return 0;
+ }
+diff --git a/drivers/staging/fbtft/fbtft-core.c b/drivers/staging/fbtft/fbtft-core.c
+index da9c64152a60..86c77f996f5b 100644
+--- a/drivers/staging/fbtft/fbtft-core.c
++++ b/drivers/staging/fbtft/fbtft-core.c
+@@ -833,6 +833,28 @@ int fbtft_unregister_framebuffer(struct fb_info *fb_info)
+ }
+ EXPORT_SYMBOL(fbtft_unregister_framebuffer);
  
- 	num_blocks = (plen-8) / 16; /* plen including LLC, payload_length and mic) */
-
----
-base-commit: 19272b37aa4f83ca52bdf9c16d5d81bdd1354494
-change-id: 20250609-rtl8723bs-fix-clang-arm64-wflt-b4b9652904b5
-
-Best regards,
++static noinline_for_stack void fbtft_write_register_64(struct fbtft_par *par,
++							int i, int buf[64])
++{
++	par->fbtftops.write_register(par, i,
++		buf[0], buf[1], buf[2], buf[3],
++		buf[4], buf[5], buf[6], buf[7],
++		buf[8], buf[9], buf[10], buf[11],
++		buf[12], buf[13], buf[14], buf[15],
++		buf[16], buf[17], buf[18], buf[19],
++		buf[20], buf[21], buf[22], buf[23],
++		buf[24], buf[25], buf[26], buf[27],
++		buf[28], buf[29], buf[30], buf[31],
++		buf[32], buf[33], buf[34], buf[35],
++		buf[36], buf[37], buf[38], buf[39],
++		buf[40], buf[41], buf[42], buf[43],
++		buf[44], buf[45], buf[46], buf[47],
++		buf[48], buf[49], buf[50], buf[51],
++		buf[52], buf[53], buf[54], buf[55],
++		buf[56], buf[57], buf[58], buf[59],
++		buf[60], buf[61], buf[62], buf[63]);
++}
++
+ /**
+  * fbtft_init_display_from_property() - Device Tree init_display() function
+  * @par: Driver data
+@@ -887,23 +909,8 @@ static int fbtft_init_display_from_property(struct fbtft_par *par)
+ 				fbtft_par_dbg(DEBUG_INIT_DISPLAY, par,
+ 					      "buf[%d] = %02X\n", j, buf[j]);
+ 
+-			par->fbtftops.write_register(par, i,
+-				buf[0], buf[1], buf[2], buf[3],
+-				buf[4], buf[5], buf[6], buf[7],
+-				buf[8], buf[9], buf[10], buf[11],
+-				buf[12], buf[13], buf[14], buf[15],
+-				buf[16], buf[17], buf[18], buf[19],
+-				buf[20], buf[21], buf[22], buf[23],
+-				buf[24], buf[25], buf[26], buf[27],
+-				buf[28], buf[29], buf[30], buf[31],
+-				buf[32], buf[33], buf[34], buf[35],
+-				buf[36], buf[37], buf[38], buf[39],
+-				buf[40], buf[41], buf[42], buf[43],
+-				buf[44], buf[45], buf[46], buf[47],
+-				buf[48], buf[49], buf[50], buf[51],
+-				buf[52], buf[53], buf[54], buf[55],
+-				buf[56], buf[57], buf[58], buf[59],
+-				buf[60], buf[61], buf[62], buf[63]);
++			fbtft_write_register_64(par, i, buf);
++
+ 		} else if (val & FBTFT_OF_INIT_DELAY) {
+ 			fbtft_par_dbg(DEBUG_INIT_DISPLAY, par,
+ 				      "init: msleep(%u)\n", val & 0xFFFF);
+@@ -996,23 +1003,7 @@ int fbtft_init_display(struct fbtft_par *par)
+ 				}
+ 				buf[j++] = par->init_sequence[i++];
+ 			}
+-			par->fbtftops.write_register(par, j,
+-				buf[0], buf[1], buf[2], buf[3],
+-				buf[4], buf[5], buf[6], buf[7],
+-				buf[8], buf[9], buf[10], buf[11],
+-				buf[12], buf[13], buf[14], buf[15],
+-				buf[16], buf[17], buf[18], buf[19],
+-				buf[20], buf[21], buf[22], buf[23],
+-				buf[24], buf[25], buf[26], buf[27],
+-				buf[28], buf[29], buf[30], buf[31],
+-				buf[32], buf[33], buf[34], buf[35],
+-				buf[36], buf[37], buf[38], buf[39],
+-				buf[40], buf[41], buf[42], buf[43],
+-				buf[44], buf[45], buf[46], buf[47],
+-				buf[48], buf[49], buf[50], buf[51],
+-				buf[52], buf[53], buf[54], buf[55],
+-				buf[56], buf[57], buf[58], buf[59],
+-				buf[60], buf[61], buf[62], buf[63]);
++			fbtft_write_register_64(par, j, buf);
+ 			break;
+ 		case -2:
+ 			i++;
 -- 
-Nathan Chancellor <nathan@kernel.org>
+2.39.5
 
