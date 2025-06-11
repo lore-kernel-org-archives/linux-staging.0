@@ -1,131 +1,88 @@
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86E5C20ADEE
-	for <linux-staging@lists.linux.dev>; Wed, 11 Jun 2025 07:18:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0445E221262
+	for <linux-staging@lists.linux.dev>; Wed, 11 Jun 2025 08:31:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749626283; cv=none; b=dyOhHIonydwUkx55wJzopPw9ssyt5Wml99KmnT9kUHm9CQtYCMn+6YjgwiJqk7q74FCh8iUSa+n+Z/X3CBKnyK24uW9xLzM4yJnt3BhvSVTecRgpnYRl3WujHmpFtbEoielnqNKFrP2cuXoTH+uucGKXjOqPu1uR2u+Fl7wPREE=
+	t=1749630666; cv=none; b=KQe2g0WLKkssVHvXr4R9AWEyRjJq3cMzQrfd+kgZ4/dSNDfu9CmdhSYd14H7f8uqlZvFC+kN8K4TG7+HIqGxZq1GyC81rolOp5pINT0OiC6T6em+VksK22pZ0UOk/dVaNPhn+5puxjhJrzUbH+n/qU6oZwJdjf45GCYhBNU7s08=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749626283; c=relaxed/simple;
-	bh=QNeImmfSFEHcHoVT5BWJstzzNsO907LECLn5apjX4dw=;
-	h=From:Mime-Version:Content-Type:Date:Message-Id:To:Cc:Subject:
-	 References:In-Reply-To; b=i2VUeARz27NOoptBGjx+HgT/Uy8n1uYjKyIwOavqEXqSU9MWQ+8mkP6yqHYEf/IGWsrF91JOXDyDraUMfaTDRp4q4MAXMGeqlVAR+itE0TmZCqLY6ENr77PEU+8juovLusqTO+64Tl7ZzIya3NNCdzjhOTbE3mT45qhkXLAbL+w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Z0s1dKjO; arc=none smtp.client-ip=209.85.128.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Z0s1dKjO"
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-441ab63a415so65720155e9.3
-        for <linux-staging@lists.linux.dev>; Wed, 11 Jun 2025 00:18:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1749626280; x=1750231080; darn=lists.linux.dev;
-        h=in-reply-to:references:subject:cc:to:message-id:date
-         :content-transfer-encoding:mime-version:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=2UV16KNGvk2B5yuORUC0PMOaWLyG4ZWITjVZAENXr0k=;
-        b=Z0s1dKjOqWGPKMW5oEGnSw/nYrga1w2cKEPJZpxP21iSYjh6zMpE5dYjHRIBB0JrHo
-         2GxauNcVWQHxtZv2lIBxcPxjGMaod1hgWs+ETMDv2wst3PdsTZ1DUGgOGYc9BJ8YHcNi
-         6HhKixz0Wmh3GZQ9BHWZ+RrhCqZBRnzGlELKs2L2Y+VNOjeiR8KHRrq63Xjb50iRo6S0
-         AA+YbGdVa5v486Qbmy8L+dQWuyKqDNJKVjxUokMgUFkpwJoXq1d1OfgbmpV4cZrpNlC+
-         waeZxX+2hJGT4w3d/8BSzHkDuxyZ6CehOsU16Ye8IhPG25jH7gi5UZF7B99VqMqUdKGx
-         ptrw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1749626280; x=1750231080;
-        h=in-reply-to:references:subject:cc:to:message-id:date
-         :content-transfer-encoding:mime-version:from:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=2UV16KNGvk2B5yuORUC0PMOaWLyG4ZWITjVZAENXr0k=;
-        b=IYmuYt82sbpcb4x9Dy6zesQxycGJX+zigHgUZlIEj2BY4dKrpJHnLyiTwpM3yjxsWx
-         6lrLa1QL0eUoS4nno6UUYwYcIAWBG6BKnZwR5O9cSPBQs+X9DZAK0FQY6hFbZhT10tw1
-         ZSC56YwHGxg7/wk5T41tQrNt+YZenY5LSLcOyPnIbPFsaCCmHxHRpzu0sZ1b7lBYeNNz
-         pXnc0RCoA6tztYL1GUCc36wNK6nU0A65hcDZvk4PysIvq2PuhEusSbMYO9MV2DcRsiIN
-         C/R3QO7hKyNJSNKcl0DeSIRZk5kwW/XeyGzaXsJtyxK0q5MWDwIGoSKezR1odZPnZwcF
-         tf5w==
-X-Forwarded-Encrypted: i=1; AJvYcCXGdbVqkEnF1HUm4OZ5gFq684Z+iWsDuuREsO6UxvGCSXXwSfCLcAUc1XHCdL+HCinp9PqqzBhUpqcXKxZm@lists.linux.dev
-X-Gm-Message-State: AOJu0YxmnkeVfag+2P5nyJiAbpwfGGacfwcYWC5jhlxrAc42X/0Ns29x
-	L7/FhkHBGqvQo1TLb5GbFy9Y2luo3jEzQLHvCYAObM8bZ5LRqNoCLKpt
-X-Gm-Gg: ASbGncvENvd+AUryqDDxuENC1yv70L03yPshJVwILaWAlF3E7W9bkORqFw3LZkKwu7N
-	vIk04slEA6QhUKDcNIYFi9gYPNUO59cCwDJbip/eme2RxmammI+X08GNNlLv+WSULcOHFcEW4Lw
-	Iq4l+2YaTg9SuqRZfpHmN5zv65viTwdK3tBaCZm9ul7hbvo2XBOyMBD4LxgOdASlLZ3Xp4JjSsc
-	Jzsf8PD9CpQeeM/b279UvBYx1vTu1yn9P9Z8tcmdaak8hwiB433GwYx9x6EXbnPoQK+4fv14x9n
-	IPup5545RNYyPL5lsc47nAa2A5Y3pgGJ8JklyQ/4uAMwjeAvYBToAcDWz5y+z1/6rdMs0yRRK9s
-	rxfqLWyBx89rLCg==
-X-Google-Smtp-Source: AGHT+IFT1pbBYNbS/cZPSP4PTxvgVaj3pNGhmXxZlh1AkFam1XP972B4SbHd1fccSvHvvnUVHTpBrQ==
-X-Received: by 2002:a05:600c:3d13:b0:450:ddb7:ee4d with SMTP id 5b1f17b1804b1-453248cb4c2mr16102345e9.24.1749626279675;
-        Wed, 11 Jun 2025 00:17:59 -0700 (PDT)
-Received: from localhost (a95-94-245-170.cpe.netcabo.pt. [95.94.245.170])
-        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-45325176cf5sm12154925e9.21.2025.06.11.00.17.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 11 Jun 2025 00:17:58 -0700 (PDT)
-From: Rui Miguel Silva <rmfrfs@gmail.com>
-X-Google-Original-From: "Rui Miguel Silva" <rui.silva@linaro.com>
+	s=arc-20240116; t=1749630666; c=relaxed/simple;
+	bh=DXYIv+tycKjLbFi7q3acp8Gyp8fPNbFB5zSpGO5FcZU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=pxrYnF6xAa1WU8EbdZKQncF8H1VP0o7+o34OO048P36ut1N6sFvPRexHDLDET3cCS2Lc7lWmmrGzKZ1vykL1X3SK1+06yxjLonZANkFqoSYWYyZ/jP1pEXS7lodD9DM+VNXM2iu40AZ5pjKPi//epKL/mJpb6eRUOiqJo6O+rCo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=kernel.org; spf=fail smtp.mailfrom=kernel.org; arc=none smtp.client-ip=198.175.65.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=kernel.org
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=kernel.org
+X-CSE-ConnectionGUID: fu16l/T/TDeMT+UVHaG6RA==
+X-CSE-MsgGUID: r+gYcqCFSbehZSA3YKy2wg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11460"; a="69196516"
+X-IronPort-AV: E=Sophos;i="6.16,227,1744095600"; 
+   d="scan'208";a="69196516"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jun 2025 01:31:05 -0700
+X-CSE-ConnectionGUID: sF4xFUWzRrKOlPZNa1B/Fw==
+X-CSE-MsgGUID: iU87REBgRH6elOibkqUvLg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,227,1744095600"; 
+   d="scan'208";a="151901774"
+Received: from smile.fi.intel.com ([10.237.72.52])
+  by orviesa003.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jun 2025 01:31:00 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.98.2)
+	(envelope-from <andy@kernel.org>)
+	id 1uPGrI-00000005aMS-316w;
+	Wed, 11 Jun 2025 11:30:56 +0300
+Date: Wed, 11 Jun 2025 11:30:56 +0300
+From: Andy Shevchenko <andy@kernel.org>
+To: Da Xue <da@libre.computer>
+Cc: Lars-Peter Clausen <lars@metafoo.de>,
+	Michael Hennerich <Michael.Hennerich@analog.com>,
+	Jonathan Cameron <jic23@kernel.org>,
+	David Lechner <dlechner@baylibre.com>,
+	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
+	Mark Brown <broonie@kernel.org>,
+	Rui Miguel Silva <rmfrfs@gmail.com>,
+	Viresh Kumar <vireshk@kernel.org>, Johan Hovold <johan@kernel.org>,
+	Alex Elder <elder@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-spi@vger.kernel.org, greybus-dev@lists.linaro.org,
+	linux-staging@lists.linux.dev
+Subject: Re: [RFC] spi: expand bits_per_word_mask to 64 bits
+Message-ID: <aEk-wIJ8FY73NxQG@smile.fi.intel.com>
+References: <20250611000516.1383268-1-da@libre.computer>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Wed, 11 Jun 2025 08:17:58 +0100
-Message-Id: <DAJIR40MBKSP.11QTS156Y7NH2@linaro.com>
-To: "Bartosz Golaszewski" <brgl@bgdev.pl>, "Rui Miguel Silva"
- <rmfrfs@gmail.com>, "Johan Hovold" <johan@kernel.org>, "Alex Elder"
- <elder@kernel.org>, "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
-Cc: <greybus-dev@lists.linaro.org>, <linux-staging@lists.linux.dev>,
- <linux-kernel@vger.kernel.org>, "Bartosz Golaszewski"
- <bartosz.golaszewski@linaro.org>
-Subject: Re: [PATCH] staging: greybus: remove unnecessary GPIO line
- direction check
-References: <20250610152036.86099-1-brgl@bgdev.pl>
-In-Reply-To: <20250610152036.86099-1-brgl@bgdev.pl>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250611000516.1383268-1-da@libre.computer>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-Hey Bartosz,
-Thanks for the patch.
+On Tue, Jun 10, 2025 at 08:05:15PM -0400, Da Xue wrote:
+> Most current controller IP support 64-bit words.
 
-On Tue Jun 10, 2025 at 4:20 PM WEST, Bartosz Golaszewski wrote:
+"Most of the current controllers support..."
 
-> From: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
->
-> As of commit 92ac7de3175e3 ("gpiolib: don't allow setting values on input
-> lines"), the GPIO core makes sure values cannot be set on input lines.
-> Remove the unnecessary check.
->
-> Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+> Update the mask to u64 from u32.
 
-LGTM.
+>  drivers/iio/adc/ad7949.c         | 2 +-
+>  drivers/spi/spi-dln2.c           | 2 +-
+>  drivers/spi/spi-ingenic.c        | 2 +-
+>  drivers/spi/spi-sh-msiof.c       | 2 +-
+>  drivers/spi/spi.c                | 4 ++--
+>  drivers/staging/greybus/spilib.c | 2 +-
+>  include/linux/spi/altera.h       | 2 +-
+>  include/linux/spi/spi.h          | 6 +++---
 
-Reviewed-by: Rui Miguel Silva <rui.silva@linaro.org>
+I guess it would be nice to split on per-driver basis, starting from updating
+the SPI core. I counted 6 patches in such a case.
 
-Cheers,
-     Rui
-
-> ---
->  drivers/staging/greybus/gpio.c | 6 ------
->  1 file changed, 6 deletions(-)
->
-> diff --git a/drivers/staging/greybus/gpio.c b/drivers/staging/greybus/gpi=
-o.c
-> index f81c34160f720..1280530c8987a 100644
-> --- a/drivers/staging/greybus/gpio.c
-> +++ b/drivers/staging/greybus/gpio.c
-> @@ -192,12 +192,6 @@ static int gb_gpio_set_value_operation(struct gb_gpi=
-o_controller *ggc,
->  	struct gb_gpio_set_value_request request;
->  	int ret;
-> =20
-> -	if (ggc->lines[which].direction =3D=3D 1) {
-> -		dev_warn(dev, "refusing to set value of input gpio %u\n",
-> -			 which);
-> -		return -EPERM;
-> -	}
-> -
->  	request.which =3D which;
->  	request.value =3D value_high ? 1 : 0;
->  	ret =3D gb_operation_sync(ggc->connection, GB_GPIO_TYPE_SET_VALUE,
-> --=20
-> 2.48.1
-
+-- 
+With Best Regards,
+Andy Shevchenko
 
 
