@@ -1,197 +1,176 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A69429B8CE
-	for <linux-staging@lists.linux.dev>; Mon, 16 Jun 2025 10:52:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22E632DBF69;
+	Tue, 17 Jun 2025 12:51:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750071139; cv=none; b=V7EWBa+u63eJGoS5OxcIqQLa8F7lvLKR2hDYmoCT/eQWB0AO3PSDT9tJm433KigbBUjN8fGl+8NK94BKGem3FL/fmoti3uNEMtKQWX71u8sr8NJZ1m/XsyrYKGGPkqQOr2sq7WEHR7Jp2fQFa3oV5uptBkjojTIBRGJu+M1l3cU=
+	t=1750164708; cv=none; b=DyW6uzbSMXQVX68zGNdhbna8N2AD9nIhYNCM2P16O79woMoErcXVdU70D2GdyuxiVi51hv6ryf+Kr07q/jK2oZw0ys7qC2uODTuB0VJbl5x/Tsb+imUCH2HpFn1DB7QyZk9gqB5lE8G3QW/qQ6klpfnOyT0uHpHAJa42mggCaT0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750071139; c=relaxed/simple;
-	bh=pRtjn2ajpJjDDgnbUTZy/EBQ+X/hcS8YWC9E3N75B2k=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=OoTaT/GHd+wsZQ3snelqiAJeeSfjRpwuQ+fx7ZYCQjpRJ/1JbyuRqCHw23kOtup6aExi0MpJiZbtmAAmjF8XPM6L/A/xl6hLbHEhilr0D3M1MEYoT2IWNzgcsu9CO3w4mHXp1Q38Lyenuu26ijmIj9P7m3UYo0Gn1qc70fmCjcQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=InLWoMdU; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1750164708; c=relaxed/simple;
+	bh=y8+C7iI8r1NplDnN9G0yvYuEi4mGegIOzJfcfmDW34w=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=GOag2aJzXzNFLaGnj9ZWfWH4qcjzq/SM6+4GgWYkolURKg9HzD32ZPa8gFe03gB5OFv+FhGf0LMtW9fs9O6uJyWitbIQe2y5DZRFxemsF1WT0MnTN4YqhpBqJTRr21lrjDvvVNVIt85JlRIS6+dhPxsVRFVxZbN7EKFcFRkRkh8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FlFwy6rL; arc=none smtp.client-ip=209.85.216.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="InLWoMdU"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1750071137;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Hk9Uc/UNTVqG7C07kBMIdRJ3hUm2mx5PXQsfSHyh+9o=;
-	b=InLWoMdUtqlU7zBBq/snUS4WJLbJX9t74nrIF7NeyIn1MftTfIohFawhvaZ7OKxs3hgywE
-	PbBd+UE+42aktYif0bv4Ue8Wfa5L9Q3SwrgrZX0MOZjkmjh11C5IAhePXsuAYC7jnyrBB9
-	GSwwiIjnirtLJIl/ZoqipGygx70a+6Y=
-Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
- [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-351-peAIi1LEP0S48gCgp2VD5A-1; Mon, 16 Jun 2025 06:52:15 -0400
-X-MC-Unique: peAIi1LEP0S48gCgp2VD5A-1
-X-Mimecast-MFC-AGG-ID: peAIi1LEP0S48gCgp2VD5A_1750071134
-Received: by mail-ej1-f69.google.com with SMTP id a640c23a62f3a-ad9a8a5ecc6so341978966b.2
-        for <linux-staging@lists.linux.dev>; Mon, 16 Jun 2025 03:52:15 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FlFwy6rL"
+Received: by mail-pj1-f54.google.com with SMTP id 98e67ed59e1d1-3138e64b42aso6490321a91.0;
+        Tue, 17 Jun 2025 05:51:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1750164706; x=1750769506; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=hSxo0ZHyfJr1fQpftYFJehkxIFFbw7pyxo/Db9fNjFU=;
+        b=FlFwy6rLBDkwcfRvu/+0h28jNMorbDBKUln4xSRbZbt4f68O2r9QOIuJPX7f8PcG/a
+         0Qgj2vIWFXIp5w86ivo160KmbADp7ngoAFVhDEGzgXYzPfZy1bT/jpQpl+Zg87LCamlk
+         I0ePjw0s8fgPzKrzV/3VwxW6mjFih8QobSCXdBl7/mZXLj3VmZW5i8rSKPCo/mQvMP9B
+         AfNkrEs55DO6CXhjEIu61n3Bqbw8+4GEqvK2STBve+g/z7gPmtDdHDP+5jtwZXsDG2KJ
+         9YRssWWmzMJX+CjNAV4JQu8AbWWq/pC5cNGraMWZE/JPcRya1tSVosTvBelb9bSFue6a
+         NnQg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750071134; x=1750675934;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Hk9Uc/UNTVqG7C07kBMIdRJ3hUm2mx5PXQsfSHyh+9o=;
-        b=VrH1LjdIaq+eAsw11JBhvwMZdBBWuWVGWn+CWgErcQ3KZv5w5v2XZ8lPWmlwK00gCn
-         Yd/GTe66mQ+C6e2vxUvE1fuBVwO9QVY78F0zRrGd6dHiOhYNCWyFQOZfjrvV5gM6FJi4
-         XGBRx/SDZd83jg0X9W+LfJ63IgQ9SAZcTqYyd1RF2ygcbmWI57tMlVc/7vLQQH4e4QL2
-         8orjsNp5SswxkzSyx0afXmp/2HQBxPxk6oQvj19PrL9eHMVXaD1Q6XkPpSGXvbH6K1ri
-         aCy3xcohpS5UetD1ljMIOfCuV3doUhQH4XQsNtVfJILyJ9XY172tSk3gXlWV1qKY2ovR
-         19bQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXnyrAiuDKTxDULvrxR3xhiQ6gZCtsvM6vToHFtjmZ5oAdZzGrcK9baQaINmUn/7YRAdSjknW5zqDLeJ/99@lists.linux.dev
-X-Gm-Message-State: AOJu0Yw55AhqO8OFSWBOb5NkmDc6D1Fvexq9YLDiXXFkY9uIReeYdsUP
-	b8/rbw3iF4QkoN3Kb98wfr4ckmnXXdBhFZuid2Q+Jhg2T5NDip1w0ZyTORBvHOhM8AnycvxyK0o
-	jETaZYuCnWQixsgR6uOyYxVWGoRF34vpG18vLsQXasf9rTBspkZePDdnzXymcBX4dTLwzTmmioB
-	U=
-X-Gm-Gg: ASbGncucrVQUUiHC2DShHNS4GogChKtvwzOnid30gBkxkB5DT2K6PFF93juYqmKkRPc
-	CiBEnXK/RSn8V5PwZwNPYAKXmd5rTndEFlQS0E7QnwlIyfgx9MEtdkTDVdZcT/tw4gIDlSw+nZM
-	V0WM6TgtjmLKrOX0lxkF9ScxF1TlZj6UNEBUd8fSuiR3wMd3tM/SYsV7AT/gOcxMYGagWEXh/0Y
-	cAqr7vgl1XYLTZdoYml0eBHYpBy8hBl+iYnfMQhhBDeIjhb8nBRTDhdnZCWMfKE+DdgR4hp7A0s
-	kpX5Og5FsQvSpLwZhCtb/d0i4w==
-X-Received: by 2002:a17:906:7954:b0:ad5:3743:3fa1 with SMTP id a640c23a62f3a-adfad59fe96mr807303766b.50.1750071134037;
-        Mon, 16 Jun 2025 03:52:14 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHDfE8XtZp/JlVmaxbngNN01gtbKw114f41ls9b8Zl+6xI4HTLykb1zxM1beH9uYfGTjokCZg==
-X-Received: by 2002:a17:906:7954:b0:ad5:3743:3fa1 with SMTP id a640c23a62f3a-adfad59fe96mr807301666b.50.1750071133531;
-        Mon, 16 Jun 2025 03:52:13 -0700 (PDT)
-Received: from [10.40.98.122] ([78.108.130.194])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-adec899c757sm634292566b.183.2025.06.16.03.52.12
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 16 Jun 2025 03:52:13 -0700 (PDT)
-Message-ID: <98a85abb-5e77-4e66-a192-8db9245e7ef7@redhat.com>
-Date: Mon, 16 Jun 2025 12:52:12 +0200
+        d=1e100.net; s=20230601; t=1750164706; x=1750769506;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=hSxo0ZHyfJr1fQpftYFJehkxIFFbw7pyxo/Db9fNjFU=;
+        b=w2bPHq55ZyKdMU3wwI/VDAvi28N/xvdD38hbY+nqWyfbz4WrfpS1Ne5FKhFXpetBzI
+         TT4Dh0XDWh95mj15qRRCGSu+2A0vWF7U1LKtqa61Jj0wi4Yi/3SCNFj1vYWeMxT2Rkqd
+         cva8SsOcjmCdnpAPUcT2r7iHzOrnEH/XZDjGbz8GZOsHgpDxM3/+JutgANgTq1DVd82V
+         SjTAtyDWempAVKHj87VEJ4vBxh8q3ctWL0+0xMFOj4JWgxPJBTPBmR2johSwBF16X66z
+         +q4UJTRUez+CggKJ0Jk0/XdgDCCku1LaXmiOwYbQCt5ro8q3CedY4uivmE1ee499xoBI
+         PjUQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVo9YImaJlST1mOEJpYSVpK5JwrTVuPtzfU63IAZFxO9akj8arwLjqgBtMWvCHgINYlAigKKNNK25ypmSbu4CB29OoG4g==@lists.linux.dev, AJvYcCXYcE1i3lSbVQ2GUZMKGtJshisIQSg2R5kli+wJiiNOZYyYZOsJSnNCF0YC77Uvl/rIbDPCKBixVCWnuIBCHA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyFhcqgYs+plIbm4or6xb5lKfLbLGVpS2K0zx8/stsXgxlUdJtU
+	5mFCgxtmX/0mnVROb+qU71c3gu0E0qbY8qa8lKI77FUV8pjv4cBBEBV0
+X-Gm-Gg: ASbGncvALVK/a6drYCRi2M6oTJD8UCERhElZGnO8yM39tiZIpQadofpswHAC/hDUpN7
+	C0GMXNeOVbtV3UMvfJLVUaiE7Tdj/bdlwm6ORN82ZDmc85raP4Qv1useIwpqidu75KPFF7/brow
+	FftO3aJLWSl8SCMu/2x1lyVG+YpUtBuShQhmTetLQsLW9m6GdgtDceXPmI0Z0e3spW8qllHzwRj
+	6hJe99t3aAZzG+QlcSYtl70ctyxWbmDbcy+2z9UClINbbv/DYriKs2BaMVtOzuZh0jfYjH+mWam
+	ABe8yY6QAFthxQAkzSzQq2eoEhL2oqayLP+azL1Z9CcreqwL76+q0RTGeAl/+Q+IBEBQLEdeAcS
+	5i/LSr3F200lESIEh/A==
+X-Google-Smtp-Source: AGHT+IFDyTmPgMZj/RHIVJLIOL48m69TjdL4fouKx5vArpbDJpyInEok0Mk+dEvaEXL3/xudr7VNHA==
+X-Received: by 2002:a17:90a:dfc8:b0:311:f05b:86a5 with SMTP id 98e67ed59e1d1-313f19d2977mr23454941a91.0.1750164706232;
+        Tue, 17 Jun 2025 05:51:46 -0700 (PDT)
+Received: from manjaro.domain.name ([2401:4900:1c68:884c:5800:7324:c411:408d])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-313c1806282sm10421980a91.0.2025.06.17.05.51.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 17 Jun 2025 05:51:45 -0700 (PDT)
+From: Pranav Tyagi <pranav.tyagi03@gmail.com>
+To: johan@kernel.org,
+	elder@kernel.org,
+	gregkh@linuxfoundation.org,
+	vireshk@kernel.org
+Cc: greybus-dev@lists.linaro.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	skhan@linuxfoundation.org,
+	linux-kernel-mentees@lists.linux.dev,
+	Pranav Tyagi <pranav.tyagi03@gmail.com>
+Subject: [PATCH] greybus: firmware: use strscpy, fix tag size
+Date: Tue, 17 Jun 2025 18:21:37 +0530
+Message-ID: <20250617125137.24503-1-pranav.tyagi03@gmail.com>
+X-Mailer: git-send-email 2.49.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] staging: rtl8723bs: remove some 5 GHz code
-To: Michael Straube <straube.linux@gmail.com>, gregkh@linuxfoundation.org
-Cc: Larry.Finger@lwfinger.net, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org
-References: <20250615123859.41922-1-straube.linux@gmail.com>
-From: Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <20250615123859.41922-1-straube.linux@gmail.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: BrSQMNmRW9IuJDdH5uSUKyZVJbkPOaXkcURa4C9r4tY_1750071134
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US, nl
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-Hi,
+Increase the size of firmware_tag arrays in the following structs from
+GB_FIRMWARE_U_TAG_MAX_SIZE to GB_FIRMWARE_U_TAG_MAX_SIZE + 1 to
+accommodate null termination:
+	- fw_mgmt_ioc_intf_load_and_validate
+	- fw_mgmt_ioc_get_backend_version
+	- fw_mgmt_ioc_backend_fw_update
+	- fw_mgmt_ioc_get_intf_version
 
-On 15-Jun-25 14:38, Michael Straube wrote:
-> Chips that use this driver are 2.4 GHz only. Remove some code that is
-> executed only for 5 GHz (channel > 14) . This addresses the following
-> TODO item:
-> 
-> - find and remove any code for other chips that is left over
-> 
-> Signed-off-by: Michael Straube <straube.linux@gmail.com>
+Replace strncpy() with strscpy() to ensure proper null termination as
+firmware_tag is interpreted as a null-terminated string
+and printed with %s.
 
-Thanks, patch looks good to me:
+Signed-off-by: Pranav Tyagi <pranav.tyagi03@gmail.com>
+---
+ .../greybus/Documentation/firmware/firmware.c        | 12 ++++++------
+ drivers/staging/greybus/greybus_firmware.h           |  8 ++++----
+ 2 files changed, 10 insertions(+), 10 deletions(-)
 
-Reviewed-by: Hans de Goede <hansg@kernel.org>
-
-Regards,
-
-Hans
-
-
-
-
-> ---
-> Compile tested only, due to lack of hardware.
-> 
->  drivers/staging/rtl8723bs/core/rtw_ap.c        |  9 ++-------
->  drivers/staging/rtl8723bs/core/rtw_mlme.c      | 18 ++++--------------
->  drivers/staging/rtl8723bs/core/rtw_wlan_util.c |  9 ++-------
->  3 files changed, 8 insertions(+), 28 deletions(-)
-> 
-> diff --git a/drivers/staging/rtl8723bs/core/rtw_ap.c b/drivers/staging/rtl8723bs/core/rtw_ap.c
-> index 383a6f7c06f4..b2e7e7267aa4 100644
-> --- a/drivers/staging/rtl8723bs/core/rtw_ap.c
-> +++ b/drivers/staging/rtl8723bs/core/rtw_ap.c
-> @@ -741,13 +741,8 @@ void start_bss_network(struct adapter *padapter)
->  	if (p && ie_len) {
->  		pht_info = (struct HT_info_element *)(p + 2);
->  
-> -		if (cur_channel > 14) {
-> -			if ((pregpriv->bw_mode & 0xf0) > 0)
-> -				cbw40_enable = 1;
-> -		} else {
-> -			if ((pregpriv->bw_mode & 0x0f) > 0)
-> -				cbw40_enable = 1;
-> -		}
-> +		if ((pregpriv->bw_mode & 0x0f) > 0)
-> +			cbw40_enable = 1;
->  
->  		if ((cbw40_enable) &&	 (pht_info->infos[0] & BIT(2))) {
->  			/* switch to the 40M Hz mode */
-> diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme.c b/drivers/staging/rtl8723bs/core/rtw_mlme.c
-> index 1d23ea7d6f59..0b0ee023a239 100644
-> --- a/drivers/staging/rtl8723bs/core/rtw_mlme.c
-> +++ b/drivers/staging/rtl8723bs/core/rtw_mlme.c
-> @@ -2252,13 +2252,8 @@ unsigned int rtw_restructure_ht_ie(struct adapter *padapter, u8 *in_ie, u8 *out_
->  	}
->  
->  	/* to disable 40M Hz support while gd_bw_40MHz_en = 0 */
-> -	if (channel > 14) {
-> -		if ((pregistrypriv->bw_mode & 0xf0) > 0)
-> -			cbw40_enable = 1;
-> -	} else {
-> -		if ((pregistrypriv->bw_mode & 0x0f) > 0)
-> -			cbw40_enable = 1;
-> -	}
-> +	if ((pregistrypriv->bw_mode & 0x0f) > 0)
-> +		cbw40_enable = 1;
->  
->  	if ((cbw40_enable == 1) && (operation_bw == CHANNEL_WIDTH_40)) {
->  		ht_capie.cap_info |= cpu_to_le16(IEEE80211_HT_CAP_SUP_WIDTH);
-> @@ -2366,13 +2361,8 @@ void rtw_update_ht_cap(struct adapter *padapter, u8 *pie, uint ie_len, u8 channe
->  		/* todo: */
->  	}
->  
-> -	if (channel > 14) {
-> -		if ((pregistrypriv->bw_mode & 0xf0) > 0)
-> -			cbw40_enable = 1;
-> -	} else {
-> -		if ((pregistrypriv->bw_mode & 0x0f) > 0)
-> -			cbw40_enable = 1;
-> -	}
-> +	if ((pregistrypriv->bw_mode & 0x0f) > 0)
-> +		cbw40_enable = 1;
->  
->  	/* update cur_bwmode & cur_ch_offset */
->  	if ((cbw40_enable) &&
-> diff --git a/drivers/staging/rtl8723bs/core/rtw_wlan_util.c b/drivers/staging/rtl8723bs/core/rtw_wlan_util.c
-> index 73c70b016f00..0c6072d08661 100644
-> --- a/drivers/staging/rtl8723bs/core/rtw_wlan_util.c
-> +++ b/drivers/staging/rtl8723bs/core/rtw_wlan_util.c
-> @@ -854,13 +854,8 @@ static void bwmode_update_check(struct adapter *padapter, struct ndis_80211_var_
->  
->  	pHT_info = (struct HT_info_element *)pIE->data;
->  
-> -	if (pmlmeext->cur_channel > 14) {
-> -		if ((pregistrypriv->bw_mode & 0xf0) > 0)
-> -			cbw40_enable = 1;
-> -	} else {
-> -		if ((pregistrypriv->bw_mode & 0x0f) > 0)
-> -			cbw40_enable = 1;
-> -	}
-> +	if ((pregistrypriv->bw_mode & 0x0f) > 0)
-> +		cbw40_enable = 1;
->  
->  	if ((pHT_info->infos[0] & BIT(2)) && cbw40_enable) {
->  		new_bwmode = CHANNEL_WIDTH_40;
+diff --git a/drivers/staging/greybus/Documentation/firmware/firmware.c b/drivers/staging/greybus/Documentation/firmware/firmware.c
+index 765d69faa9cc..3b4061f4b34a 100644
+--- a/drivers/staging/greybus/Documentation/firmware/firmware.c
++++ b/drivers/staging/greybus/Documentation/firmware/firmware.c
+@@ -63,8 +63,8 @@ static int update_intf_firmware(int fd)
+ 	intf_load.major = 0;
+ 	intf_load.minor = 0;
+ 
+-	strncpy((char *)&intf_load.firmware_tag, firmware_tag,
+-		GB_FIRMWARE_U_TAG_MAX_SIZE);
++	strscpy((char *)&intf_load.firmware_tag, firmware_tag,
++		GB_FIRMWARE_U_TAG_MAX_SIZE + 1);
+ 
+ 	ret = ioctl(fd, FW_MGMT_IOC_INTF_LOAD_AND_VALIDATE, &intf_load);
+ 	if (ret < 0) {
+@@ -101,8 +101,8 @@ static int update_backend_firmware(int fd)
+ 	/* Get Backend Firmware Version */
+ 	printf("Getting Backend Firmware Version\n");
+ 
+-	strncpy((char *)&backend_fw_info.firmware_tag, firmware_tag,
+-		GB_FIRMWARE_U_TAG_MAX_SIZE);
++	strscpy((char *)&backend_fw_info.firmware_tag, firmware_tag,
++		GB_FIRMWARE_U_TAG_MAX_SIZE + 1);
+ 
+ retry_fw_version:
+ 	ret = ioctl(fd, FW_MGMT_IOC_GET_BACKEND_FW, &backend_fw_info);
+@@ -129,8 +129,8 @@ static int update_backend_firmware(int fd)
+ 	/* Try Backend Firmware Update over Unipro */
+ 	printf("Updating Backend Firmware\n");
+ 
+-	strncpy((char *)&backend_update.firmware_tag, firmware_tag,
+-		GB_FIRMWARE_U_TAG_MAX_SIZE);
++	strscpy((char *)&backend_update.firmware_tag, firmware_tag,
++		GB_FIRMWARE_U_TAG_MAX_SIZE + 1);
+ 
+ retry_fw_update:
+ 	backend_update.status = 0;
+diff --git a/drivers/staging/greybus/greybus_firmware.h b/drivers/staging/greybus/greybus_firmware.h
+index b6042a82ada4..ad5b2c8a6461 100644
+--- a/drivers/staging/greybus/greybus_firmware.h
++++ b/drivers/staging/greybus/greybus_firmware.h
+@@ -38,20 +38,20 @@
+ 
+ /* IOCTL support */
+ struct fw_mgmt_ioc_get_intf_version {
+-	__u8 firmware_tag[GB_FIRMWARE_U_TAG_MAX_SIZE];
++	__u8 firmware_tag[GB_FIRMWARE_U_TAG_MAX_SIZE + 1];
+ 	__u16 major;
+ 	__u16 minor;
+ } __packed;
+ 
+ struct fw_mgmt_ioc_get_backend_version {
+-	__u8 firmware_tag[GB_FIRMWARE_U_TAG_MAX_SIZE];
++	__u8 firmware_tag[GB_FIRMWARE_U_TAG_MAX_SIZE + 1];
+ 	__u16 major;
+ 	__u16 minor;
+ 	__u8 status;
+ } __packed;
+ 
+ struct fw_mgmt_ioc_intf_load_and_validate {
+-	__u8 firmware_tag[GB_FIRMWARE_U_TAG_MAX_SIZE];
++	__u8 firmware_tag[GB_FIRMWARE_U_TAG_MAX_SIZE + 1];
+ 	__u8 load_method;
+ 	__u8 status;
+ 	__u16 major;
+@@ -59,7 +59,7 @@ struct fw_mgmt_ioc_intf_load_and_validate {
+ } __packed;
+ 
+ struct fw_mgmt_ioc_backend_fw_update {
+-	__u8 firmware_tag[GB_FIRMWARE_U_TAG_MAX_SIZE];
++	__u8 firmware_tag[GB_FIRMWARE_U_TAG_MAX_SIZE + 1];
+ 	__u8 status;
+ } __packed;
+ 
+-- 
+2.49.0
 
