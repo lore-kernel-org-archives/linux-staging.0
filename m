@@ -1,71 +1,71 @@
-Received: from mail-oo1-f50.google.com (mail-oo1-f50.google.com [209.85.161.50])
+Received: from mail-ot1-f42.google.com (mail-ot1-f42.google.com [209.85.210.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 115082153D8
-	for <linux-staging@lists.linux.dev>; Wed, 18 Jun 2025 20:32:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DD862153D8
+	for <linux-staging@lists.linux.dev>; Wed, 18 Jun 2025 20:34:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750278759; cv=none; b=ILqB95EeqmEcjrGuDeAFn92YkvfurbcfiT465exwpfRAboLEkVPp9vre9DnxU/ubt3IO86TlV03I7jRZRt9QpySfOAuLW8y8mRJbnvxm+8wcqfkB4Q7csYYWpkBPXP+xork8RwhGnKHbdDfNXkiNV7yKx008wS0xqTOGdOVlnTk=
+	t=1750278851; cv=none; b=tAVyDNhzOREqpz+T/lZ/DMjtTKBUJi7qYX0bikH+27rYoAl26elm+frEd1zROc6pr66yWNTJFxKwy+sUz5z13PEFIcUv0RtArDP/qAJR5XGnraMnEvoVjVOo2td3zxDu7xx+b7ulP2m37FDqkmZUv10T90xSttTKIQxN6cbQ7HI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750278759; c=relaxed/simple;
-	bh=EGl6OGy4N78D26855h34xmMUVG4WDxjfWIM8e5e5wxA=;
+	s=arc-20240116; t=1750278851; c=relaxed/simple;
+	bh=viIN4VP4ODTE3djzQhDO1XWP0PqliIn78TPsOQ8wxdk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=f7bbg/dwFN6n0apuYM1MBzE3DFnkDss7b59FeHieux9bce6fmMCQhkrVnncrllOchB4GRzYtT55n/3ZIFWaG6fTfupHA5+TpvR7kc8D59u8KzuRIo35bg5dDoacfFYx14702OgShr/OfUNmcJx+W2H4BUkCFXUIZKc72abqgyqw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=KFv0Mx4P; arc=none smtp.client-ip=209.85.161.50
+	 Content-Type:Content-Disposition:In-Reply-To; b=jU5oEglvj3bXocEhTuW8Vcd6TwaB5Odjau9bsOorpPVKId5As/F1kfIMUF8OK+fpz9EoPceILvpybk9/TJ5gl8+jIxTPSZ1IVZOm6m9O2UxjKr4fgvuYyWjlwQbSSdrGC56j23k0lqGvPV5wiraIGHM+owMfuMK1AyXl4j9UJwM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=o5HfqCfw; arc=none smtp.client-ip=209.85.210.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="KFv0Mx4P"
-Received: by mail-oo1-f50.google.com with SMTP id 006d021491bc7-605f7d3215cso49516eaf.0
-        for <linux-staging@lists.linux.dev>; Wed, 18 Jun 2025 13:32:37 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="o5HfqCfw"
+Received: by mail-ot1-f42.google.com with SMTP id 46e09a7af769-7387f21daadso36725a34.0
+        for <linux-staging@lists.linux.dev>; Wed, 18 Jun 2025 13:34:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1750278757; x=1750883557; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1750278849; x=1750883649; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=ntRmOHLH3xEiTEq/EoUk0fd3KFAgQFaOvUegSbTQK3U=;
-        b=KFv0Mx4PXd7skvPcvzWVmikGOWOJtLPzK52RPR4d12PN1HboWhCSm/qyY7LNRN32lB
-         YeUyX2KUPO3nt1XjPVHo7uAGwSVynktDiMw7o/0raN3uOfzq8O88SaOiPE1Hrhk8tEem
-         Np+Ggh+yQwEZnSz12ybAPLBd1R5LH+s83/o64m+SONdJNpSpuQlqC9X68yNNcfUFfHZh
-         OFQSkJ+NYbwMfilD0XUHuviMDOltfy1IrEm25pz9HCsJsXzTas4WnK6RpEoyfy89S32s
-         /rKPep6Qs6X2jHUiXMc0TJd5nODYJ5NY/tehD0iOjsFmRZkl/Te3qNxxJj7X1wIT/9Tx
-         sIzA==
+        bh=itEi+BZb0SH8g2JgLmUkzbZyvLO/gnia385Cdpkx+2c=;
+        b=o5HfqCfw5iYRf1GMh7aD4qT0947bBK/bpDkT3QSoKVTZ6WI1VPBx9tCTG/ecu3TXcT
+         2KWNhXavdr8qsUtgYvzhkO+xbR8rEY9uqI261gfGS51kcZwSO1CmBBdDKBjB0EKWfM2x
+         HXoJJd9QAwmIeo4cL8JjHs5kbQeMy4jg/nph7W2xsRop42j/iVE60Eco+P4MgSeYpkPt
+         oKDy6RAVVbEs+UZBW655FnQBMQg8ECePayn00SmJpTn0s4/zcjn4TZczLNzrh0wR8AyW
+         AtAQ8Mstg+xLmObL3GcX4vaqhzUOipMUA5y5hLToo9bhQE6Vbvwre2KTDcyRPq9CmiKg
+         ok4A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750278757; x=1750883557;
+        d=1e100.net; s=20230601; t=1750278849; x=1750883649;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=ntRmOHLH3xEiTEq/EoUk0fd3KFAgQFaOvUegSbTQK3U=;
-        b=JrbbvpGFk1M6Rf6CCCm6Dnst/+pMF5zQ/22lsvPR3cmn32f9oNRCfbn7tKGyHdTL3q
-         cBalEfvRQCxaGeX/KacvU3RSQn0ngTlOmb934Cz0tkkuuRAu/kWxE94KVlczn9G2UnQ6
-         D+ToIDnKGXrtYlCewaOjfRoFWdpPe3mlxDeaVPHgFInNHSGJd6UjSfZwhkqvftmfgn1j
-         5K8RWTSWRmbJXXIdBLL8XI0MYJm+uN0iqlT1mngbchfqoZeGGmTUydTCjVkxpCOdDJLJ
-         XNheF7mlQBfflN7o3QuETVr3AKXTZbinvxTsAlI5AqjCbJuIRBv+Ai9uxojSyaMUMany
-         XAhA==
-X-Forwarded-Encrypted: i=1; AJvYcCVZ7xZBE80QRmwLyqkxVetwU7z+cXcRcNdsEURk3vDrOeOhG/mNEsrpdo3ZeB6E6dVLP7ER1Bh/64P5xPSX@lists.linux.dev
-X-Gm-Message-State: AOJu0Yx5Gl5A/BjLH13izSyGkK80KbZVKt+4ryMefBpx2Ef03PB0lQQM
-	g7bEZDoGvuNi/fac/tXJ4rEBrxCAdwGLvuEyw/hf4IbBTcorZnkh6aPu6BBT8XDUUB2XffB/x77
-	aUgtB
-X-Gm-Gg: ASbGncv8byTv83cycEGJDh/Eakku2MC9ebKLsGUI7XmIzwnMY8Wg3s0Z0gEgZcFAcuy
-	wXY+fAEGf312iOz9UDWC92jUbllxo0OLX2MRXux+QxwMJyOkuzmjYC5uInzPlYiMArv2oTzEsL7
-	ePvw1dyh7uikMhUYqyNERaNS+Pjr2Z0iZLaNxt+BZNmB/pDukDWbkMzKi3c3mOF9RtiOyyk0/DB
-	02x2qsQIBYDKu/qfYzJcCdd06KFxy6NCfWRV8AlaTNciszIpmCwCi3j6IlrIWYAjiZ5BjnPEv3O
-	G6EY/3u2XTXA4gOzdB1b1A+S0F3v/dkXv7E3bfacFdcVZwhQGUUYL6Ry9vvM99wkCa7j6Q==
-X-Google-Smtp-Source: AGHT+IHMgROsrVFIEvJPOP9WQYpCWl2X79did0vflyJuKo93NX6XGwmaPK2BjdghvhNLmAeACUSIyw==
-X-Received: by 2002:a05:6820:2f03:b0:611:11a3:7cd7 with SMTP id 006d021491bc7-61111a37e53mr7437630eaf.4.1750278757032;
-        Wed, 18 Jun 2025 13:32:37 -0700 (PDT)
+        bh=itEi+BZb0SH8g2JgLmUkzbZyvLO/gnia385Cdpkx+2c=;
+        b=R6rFvApHUa4TVYmSRR/Cn9c/uLbg2Qo78kfbXAytochIqdkInc6cCsUupfGF335W2+
+         nuNYd/P/R+2dN30dx7yLQG8kj2ALG9WJ01GClVY0zogoJB247+xrnew5qEPrzte14oI2
+         iszM/qps5esfA2gVpjMIG0Su7ekjMej1l6Whc0e7ytv/3OjW7UcSkbL0YOcUlr3FF49k
+         7MVcrJUO3A0H0Ez01T67cfkAzQdP8SXVMePxlbMOyaGl3lW9C9m3+3Hyx5ng1r/2gfhW
+         2uPFWD0bIZK7qryfV6TwkNOQKPq6+PY/BQuOISJ2sFgl0bYdMhM/rGhWEE2PA6xrh3d5
+         Rtkg==
+X-Forwarded-Encrypted: i=1; AJvYcCU11aIDhj7Q92nroEFvmGLtIN5c0BK/9lvPajNpZGuWSREICJafAiZ+dlLNwpjhszKeK3I38uzFOBWBzw41@lists.linux.dev
+X-Gm-Message-State: AOJu0Yye6wBSSR1TFU6h4WGsWvmaAXydc/wWgkaaSGKzqD0BESn4oPoM
+	dD+qmOzEKjKq0AOCdokC9R1ALoCYKAbK1jl7g2RGrR8Fa+TX/FOWu0XgQ2b0sEggYsc=
+X-Gm-Gg: ASbGnctTVy9XYDEZaZlT0M6Yy0WrQtgfD7bsb6Isjz+3yJM2eGle5uZ0DMvFLTRpkzs
+	FYpQ6eQkd8wS8mNUBi417mTFlaS6GEKuovVR7bzv8KHAqzK9+xc2y42Yajgu2xcOLGdZJ1QhIBd
+	iyb0PdKwZfgqgI4b+4GSj7Wnby/N6oQp38EI4In2RF+/+5HoxZv/Nsksisvodii1xHSTwnzv9L0
+	PPtgYeP1rB95zw2Xyj51wldv/w8dx8FGuojEhbfxq1kkhEWOsBFsjb1rD46rxPFFTMj89u2Pwda
+	GcA7NW4x1EtDj6pxT9zBaIbuh8D46QoXmFeytTqlADLDH0Yrb1lRsDg9KAL2Cm83o9qQpHpFE1r
+	f2ba1
+X-Google-Smtp-Source: AGHT+IE0YqCSUx+2aZl3yM1oe6wZyYRvGwCB+3c+qJkS9lsIeREn9u3N08+YRVrqkSVKntvccr5Jdw==
+X-Received: by 2002:a05:6808:505c:b0:400:e771:ab80 with SMTP id 5614622812f47-40ab5003edcmr688846b6e.0.1750278849164;
+        Wed, 18 Jun 2025 13:34:09 -0700 (PDT)
 Received: from localhost ([2603:8080:b800:f700:1b3b:c162:aefa:da1b])
-        by smtp.gmail.com with ESMTPSA id 006d021491bc7-61108da85f6sm1450668eaf.12.2025.06.18.13.32.35
+        by smtp.gmail.com with ESMTPSA id 5614622812f47-40a741b78f9sm2500687b6e.44.2025.06.18.13.34.08
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 18 Jun 2025 13:32:36 -0700 (PDT)
-Date: Wed, 18 Jun 2025 23:32:34 +0300
+        Wed, 18 Jun 2025 13:34:08 -0700 (PDT)
+Date: Wed, 18 Jun 2025 23:34:07 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
 To: Thomas Andreatta <thomasandreatta2000@gmail.com>
 Cc: hansg@kernel.org, linux-media@vger.kernel.org,
 	linux-staging@lists.linux.dev
-Subject: Re: [PATCH 2/5] Staging: media: atomisp: i2c: hardcoded function name
-Message-ID: <1e524a62-a180-4966-bc46-ced517fbe524@suswa.mountain>
+Subject: Re: [PATCH 3/5] Staging: media: atomisp: i2c: sleep time
+Message-ID: <3cbb1d28-fb95-4a58-b8e6-fee6c69e62c7@suswa.mountain>
 References: <20250615231143.1558392-1-thomas.andreatta2000@gmail.com>
- <20250615231143.1558392-2-thomas.andreatta2000@gmail.com>
+ <20250615231143.1558392-3-thomas.andreatta2000@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -74,10 +74,10 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250615231143.1558392-2-thomas.andreatta2000@gmail.com>
+In-Reply-To: <20250615231143.1558392-3-thomas.andreatta2000@gmail.com>
 
-On Mon, Jun 16, 2025 at 01:11:40AM +0200, Thomas Andreatta wrote:
-> Checkpatch fix: use func instead of hardcoded function name
+On Mon, Jun 16, 2025 at 01:11:41AM +0200, Thomas Andreatta wrote:
+> moved to usleep_range instead of using msleep which could sleep up to 20ms
 > 
 > Signed-off-by: Thomas Andreatta <thomas.andreatta2000@gmail.com>
 > ---
@@ -85,17 +85,19 @@ On Mon, Jun 16, 2025 at 01:11:40AM +0200, Thomas Andreatta wrote:
 >  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
 > diff --git a/drivers/staging/media/atomisp/i2c/atomisp-gc2235.c b/drivers/staging/media/atomisp/i2c/atomisp-gc2235.c
-> index 857d7175942c..f35d1a16f627 100644
+> index f35d1a16f627..48ec2cb03806 100644
 > --- a/drivers/staging/media/atomisp/i2c/atomisp-gc2235.c
 > +++ b/drivers/staging/media/atomisp/i2c/atomisp-gc2235.c
-> @@ -779,7 +779,7 @@ static void gc2235_remove(struct i2c_client *client)
->  	struct v4l2_subdev *sd = i2c_get_clientdata(client);
->  	struct gc2235_device *dev = to_gc2235_sensor(sd);
+> @@ -433,7 +433,7 @@ static int power_up(struct v4l2_subdev *sd)
+>  			goto fail_power;
+>  	}
 >  
-> -	dev_dbg(&client->dev, "gc2235_remove...\n");
-> +	dev_dbg(&client->dev, "%s...\n", __func__);
+> -	msleep(5);
+> +	usleep_range(5000, 6000);
 
-Delete.
+I guess this checkpatch warning is just a trap to catch people who are
+too confident.  You're not supposed to touch these unless you can
+test the code.
 
 regards,
 dan carpenter
