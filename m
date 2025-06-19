@@ -1,135 +1,162 @@
-Received: from mail-pg1-f175.google.com (mail-pg1-f175.google.com [209.85.215.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fout-a6-smtp.messagingengine.com (fout-a6-smtp.messagingengine.com [103.168.172.149])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8658C229B02
-	for <linux-staging@lists.linux.dev>; Thu, 19 Jun 2025 09:19:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9E8B21B908
+	for <linux-staging@lists.linux.dev>; Thu, 19 Jun 2025 10:31:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.149
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750324796; cv=none; b=pb2r+tbjF7abS6OGhLy3k6rEagCMtSEaQxrGknHgD8JYy7jC8V0jPPzdJnIP/2xLkEuVixW5DN3uEDNfUA25HKHVhK+dAQpFer/SMcYpfKx7kLKl6xKruZfNatO5l9y0/X7X3SGsONaw+Zz2tuNfM+DEPjz6mdZP+LGRLE3EDPE=
+	t=1750329092; cv=none; b=QNbD6AR+NcC3brLlbilSI/BJOPCT6iiRxYjKvP9kl4egvQ6dFJOKzasn/QB5kRPQZteEwtemNzqyi1p9kTFKq82A95RRh/vnzJwu3+FjSBtwf9kHWIprw+ZdTsInOGwJVy5ioVxIhB1+X1q+XdAwexcNal5a+I6OjS2/3mKotDc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750324796; c=relaxed/simple;
-	bh=wUOEYdhZ29SHwGl/xTkaVOq2FWv4Ct0fQwiuoKhEtis=;
-	h=Message-ID:Date:MIME-Version:To:From:Subject:Cc:Content-Type; b=TCfhcTAaAsDE2Gc8ziWBquf7wlcMQEIuijw0s6IS3BcX8HxJy93znSyWjFjUrw+BB1FdO4/ELMwYmsCIo5EJkx/22jT6kOFecY7PddmnQPUuEOFqwgjw6s/PuCX+bvZdrh3ny1zuzfUVu7Wd3Ik2mmEvCkkr8iNUR7e8v6ql1Z0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=a7cb5UVs; arc=none smtp.client-ip=209.85.215.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1750329092; c=relaxed/simple;
+	bh=VYGJH0cgcNidgY2b5A18wUcmB0qOwAs6N639WSmFLY8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=PchJc/Bt8fQaqAsa6eQj9azKH3GJEoV+8IVdc/hpE0902oMrLKt1o0YrtvRPx1pTvQ79mWRBO2SaaueJ14IUqSsXtYScClU1rL/jDbfJ2R8R/MDkQDjfMivhBM5eA/6N2Qa5/i2nWmkuBj7LmNha6e8OI3vBc/ERwAbYjAo8mpU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=TJGRQL3I; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=KDw9h6T/; arc=none smtp.client-ip=103.168.172.149
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="a7cb5UVs"
-Received: by mail-pg1-f175.google.com with SMTP id 41be03b00d2f7-b2fcd6fe970so96162a12.3
-        for <linux-staging@lists.linux.dev>; Thu, 19 Jun 2025 02:19:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1750324795; x=1750929595; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:subject:from:reply-to:content-language
-         :to:user-agent:mime-version:date:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=v/4YlE3HAl9brMdxqBP04WkjP+nK0l6GdDNJGUg3hDA=;
-        b=a7cb5UVsjxSswe6mGVCFZQsZCXA1c2XlgqgQi7Nv76Ky00EOHQ6HLdAJweqIud8YlC
-         +kS2bydEM7YSLBxYmvJ/Y5zMGHzuhd8Yw/wezjj9cJF96JmvaeYKJJ+JcDnXRRQxq2th
-         nLY+1EXCqihhKV4PcOnXsjK2g8YnTto/yRiE/BSGC0ayjWxvAiwTvddw0cwwzlS3ClPW
-         /oOCy6PGg+HPWEM0WYFbm/mDLYkxRydKcxxx7NK21aEPKr3zjDS4D9ntGQm1PinbViGN
-         f+j9w1uciFvclra9LORHA7hwMEIkn/VnfINViGjD/fDLcLiNJ/JXcct4gX1RUXJkFWUy
-         IinA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750324795; x=1750929595;
-        h=content-transfer-encoding:cc:subject:from:reply-to:content-language
-         :to:user-agent:mime-version:date:message-id:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=v/4YlE3HAl9brMdxqBP04WkjP+nK0l6GdDNJGUg3hDA=;
-        b=f5yMuFl/OJS6qideo8SPQ75KypN5++KUTeEuD5I6k4v/IJviWr147YKX58Z4MfBv7f
-         nU/HkqVUb7nux0dc9JY7c4zaFTDwyvPGqm6jnqoC9Df3k9qwAjdK9ULw/61nn1+oW1fK
-         mHiCSjqrETfj+Y/TNG74ctDjtol5DyjUEOwzY/rl1Af+PaF1i8XUGAypXuP8QhKyK6V+
-         j0VJ/+b1QaPb9ZZAuWfrg1Atzezs3cbyIrH1JtWEApYo7towtQ4gjAeCF9tH7UlPcgz1
-         wARRxr30/9yGCURovSBkcz9HPtvW8JKLkaIlXEQHbvUtRSKWA04OkLa/2LZh/wa9UvwF
-         K/Tw==
-X-Forwarded-Encrypted: i=1; AJvYcCVhJfJHvrBvQXtpSbd0bgWl8VGlcvGfQxAbXteW6ISz82s3gKbz2mN6RQig3WW2C0wA4/J3Nu5p48dT+CS5@lists.linux.dev
-X-Gm-Message-State: AOJu0YwpC6aWNB+6tcpGS72PiX5tj153wugi3uomTSIeY6QNPUlY4de7
-	wQ0ukcJUn97gSzF7+/Yp7z64+yO3K4zWHJrQH4CdR/yt+BtJPV0auwSxAHIAIPEUefsYMEUi
-X-Gm-Gg: ASbGnctzTUMWq0FlxSwyLX2p1+/miw0UPiKv039EjpoxIPk5RZ7ILpmLqDlLB4BUIoO
-	CFJDL+edzTG3H7aq99WM0M0BxrwvNQHJJhPTj1LPkEDYvHWu8QrgSo1s+5r4Kck0I54N0oZCnlo
-	7dlF6yc+PftyJjzWkJbet7K1qUOH/X98gNC/2bRaG3JfSWwhqMCb87B9wRVjIXxpXkS6mbq4c4o
-	7w7/Fdbd/5l6ttv2QhSvbk45E79xix5V9r+fDhnoVxv/BgM64oFtx8Yzy9dX8BJWq3DywEMUrOo
-	VyIklVv6nDHCkp9/JrHK01S99vkL4imchPucZHiY+KAz6JpSb4xzOA==
-X-Google-Smtp-Source: AGHT+IEOwVnmlW8HJGJmZZDAcMv1C94tin+GyGqBRrpDOir6cIrcvjw4rGkN6VVwGeWeSc86EeXQ9w==
-X-Received: by 2002:a17:902:c40f:b0:22e:6d69:1775 with SMTP id d9443c01a7336-2368edfcb64mr66047925ad.11.1750324794607;
-        Thu, 19 Jun 2025 02:19:54 -0700 (PDT)
-Received: from [0.0.0.0] ([2a09:bac1:3b40:120::16:1d2])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3157a615170sm2229196a91.0.2025.06.19.02.19.37
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 19 Jun 2025 02:19:53 -0700 (PDT)
-Message-ID: <9f098eab-7b98-4827-8538-3cab0e8d7c63@gmail.com>
-Date: Thu, 19 Jun 2025 17:19:32 +0800
+	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="TJGRQL3I";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="KDw9h6T/"
+Received: from phl-compute-09.internal (phl-compute-09.phl.internal [10.202.2.49])
+	by mailfout.phl.internal (Postfix) with ESMTP id CE3201380642;
+	Thu, 19 Jun 2025 06:31:29 -0400 (EDT)
+Received: from phl-mailfrontend-02 ([10.202.2.163])
+  by phl-compute-09.internal (MEProxy); Thu, 19 Jun 2025 06:31:29 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm3; t=1750329089;
+	 x=1750415489; bh=0YyQ5OiIFkEPqrZ6SWC3ezO49kjGRtXe1tfiAaXtyqA=; b=
+	TJGRQL3IigmqzKvAfzT0wXmFihWJZGSANSJH8RlXldFok9lQsRqVw2nO29suTFy9
+	6F+wdYVjeKlY50FnK/54E6112q6g1izi0Ghmac1pbnPiOXDVqtXiTR47r6MHw97d
+	0Ijlh8hRvEZJ47l9HpOHYNs3Liv9+0qQThxSi9yvA0qXt+qsUt21Y6QGcwJ7Ee7S
+	EVhhh6vyN79PBfS/JhQ7RncOuO6CkRRpei3nsNHAtiwY6C0lqKVacLQD5gekmZnS
+	qSu0kSAicre29/8JKBsGAEPcgeJ+l1w/S3Te8OQp3aT1T9p7c7++KXud3kdxTrot
+	ovJ9MITuY1+ucOmoS3qUHw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1750329089; x=
+	1750415489; bh=0YyQ5OiIFkEPqrZ6SWC3ezO49kjGRtXe1tfiAaXtyqA=; b=K
+	Dw9h6T/hlSF8ahctV6Mcpd9PgqiLn7fFQLPB/RWJ7YTVX+t+tM332Ps7PBHhAPvP
+	0PuXvoYU2HNKudQxs0iWzr+cjVgmk9eTnIOIrpDsRqaE7XWxV09hBtdSwnlvdnOx
+	U4jgIl/dk+oTW5mvx0Ab7Y7H4b191er6uH20TTB2WY1X6eyA7zneIlE9Oxx2i53s
+	21Evizc/s0ki7Ggb9c65QWWcoajD3bpz7FyedxNhwPPP/jU9I9RoReob+56IBfj2
+	25xzLgBJotZYaPxqpLRa3UMSfxN8CboazgmZJ/mWDdTYeKYI5hvNX59w2mXwoC+c
+	geM/DOBmdCw6FnjPlIGMw==
+X-ME-Sender: <xms:AedTaLeW0leb5D-cJa8GpIjBR-MPvXQquummYaXnnBSAiFhOkymE2g>
+    <xme:AedTaBOyvILu3SCbcMn5zHPWkslCmBygJwOsH06F5CHzesEEIoO5SCO_fDY57_WJS
+    vWizvCi5Z4LZPtQUZM>
+X-ME-Received: <xmr:AedTaEg8Oc06rLCnoSVR-HWbUDYbqqEJWS2dobqs2t4eeKmVHM56AE7QJk3eHdNeL-8KjoQEuIHlJSRn-xKFAbs2qBOTexWy1Q>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtddvgdehvdelucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceurghi
+    lhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurh
+    epfffhvfevuffkfhggtggugfgjsehtkeertddttdejnecuhfhrohhmpefpihhklhgrshcu
+    ufpnuggvrhhluhhnugcuoehnihhklhgrshdrshhouggvrhhluhhnugesrhgrghhnrghtvg
+    gthhdrshgvqeenucggtffrrghtthgvrhhnpeevteegtddvvdfhtdekgefhfeefheetheek
+    keegfeejudeiudeuleegtdehkeekteenucevlhhushhtvghrufhiiigvpedtnecurfgrrh
+    grmhepmhgrihhlfhhrohhmpehnihhklhgrshdrshhouggvrhhluhhnugesrhgrghhnrght
+    vggthhdrshgvpdhnsggprhgtphhtthhopeduiedpmhhouggvpehsmhhtphhouhhtpdhrtg
+    hpthhtohepuggvmhhonhhsihhnghhurhesghhmrghilhdrtghomhdprhgtphhtthhopeht
+    ohhmihdrvhgrlhhkvghinhgvnhdorhgvnhgvshgrshesihguvggrshhonhgsohgrrhgurd
+    gtohhmpdhrtghpthhtohepmhgthhgvhhgrsgeskhgvrhhnvghlrdhorhhgpdhrtghpthht
+    oheprhhosghhsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehjuhhlihgvnhdrmhgrsh
+    hsohhtsegtohhllhgrsghorhgrrdgtohhmpdhrtghpthhtohepshgrkhgrrhhirdgrihhl
+    uhhssehlihhnuhigrdhinhhtvghlrdgtohhmpdhrtghpthhtoheplhgruhhrvghnthdrph
+    hinhgthhgrrhhtsehiuggvrghsohhnsghorghrugdrtghomhdprhgtphhtthhopehgrhgv
+    ghhkhheslhhinhhugihfohhunhgurghtihhonhdrohhrghdprhgtphhtthhopehlihhnuh
+    hsrdifrghllhgvihhjsehlihhnrghrohdrohhrgh
+X-ME-Proxy: <xmx:AedTaM_GyhSJMaz8ECrJ04ALdo8cCGiQFwJAJ1FqFpVJIeyv1xl7Iw>
+    <xmx:AedTaHtkDA7kZWBG14zDkTLrDJnncbi1tKt9J0CkN2RrekKpswsqRw>
+    <xmx:AedTaLHm1-lAkmfYuzeHSzQrVC3VR0dHXd0K47mS1F-LXxMHUe3BdA>
+    <xmx:AedTaOPQ-SUCnLA7bKcOjUg5_9eH9IF5p9ekSpitHt94pqslzhUjQg>
+    <xmx:AedTaEdLHin6pIVyWVT-gbmxzf2BUMJ-lNNmZ3K-fqVeTJsLnPL78njD>
+Feedback-ID: i80c9496c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 19 Jun 2025 06:31:28 -0400 (EDT)
+Date: Thu, 19 Jun 2025 12:31:26 +0200
+From: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>
+To: Cosmin Tanislav <demonsingur@gmail.com>
+Cc: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Julien Massot <julien.massot@collabora.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	"open list:MAXIM GMSL2 SERIALIZERS AND DESERIALIZERS" <linux-media@vger.kernel.org>,
+	"open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" <devicetree@vger.kernel.org>,
+	open list <linux-kernel@vger.kernel.org>,
+	"moderated list:ARM64 PORT (AARCH64 ARCHITECTURE)" <linux-arm-kernel@lists.infradead.org>,
+	"open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>,
+	"open list:GPIO SUBSYSTEM:Keyword:(devm_)?gpio_(request|free|direction|get|set)" <linux-gpio@vger.kernel.org>,
+	Cosmin Tanislav <cosmin.tanislav@analog.com>
+Subject: Re: [PATCH v4 07/19] dt-bindings: media: i2c: max96712: add myself
+ as maintainer
+Message-ID: <20250619103126.GA2847778@ragnatech.se>
+References: <20250618095858.2145209-1-demonsingur@gmail.com>
+ <20250618095858.2145209-8-demonsingur@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-To: detlev.casanova@collabora.com
-Content-Language: en-US
-Reply-To: 20250325213303.826925-5-detlev.casanova@collabora.com
-From: Jianfeng Liu <liujianfeng1994@gmail.com>
-Subject: Re: [PATCH v4 4/6] media: rockchip: Introduce the rkvdec2 driver
-Cc: alchark@gmail.com, andrzej.p@collabora.com, cassel@kernel.org,
- conor+dt@kernel.org, devicetree@vger.kernel.org, dmitry.perchanov@intel.com,
- dsimic@manjaro.org, ezequiel@vanguardiasur.com.ar,
- gregkh@linuxfoundation.org, heiko@sntech.de, hverkuil@xs4all.nl,
- jacopo.mondi@ideasonboard.com, jeanmichel.hautbois@ideasonboard.com,
- jonas@kwiboo.se, kernel@collabora.com, kieran.bingham@ideasonboard.com,
- krzk+dt@kernel.org, laurent.pinchart@ideasonboard.com,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
- linux-staging@lists.linux.dev, Jianfeng Liu <liujianfeng1994@gmail.com>,
- mchehab@kernel.org, naush@raspberrypi.com, nicolas.dufresne@collabora.com,
- robh@kernel.org, sakari.ailus@linux.intel.com,
- sebastian.reichel@collabora.com, tomi.valkeinen@ideasonboard.com,
- umang.jain@ideasonboard.com
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250618095858.2145209-8-demonsingur@gmail.com>
 
-Hi Detlev,
+Hi Cosmin,
 
-On Tue, 25 Mar 2025 17:22:20 -0400, Detlev Casanova wrote:
+Thanks for your patch.
 
- >+        case RKVDEC2_ALLOC_SRAM:
- >+            virt_addr = (unsigned long)ctx->rcb_bufs[i].cpu;
- >+
- >+            iommu_unmap(rkvdec->iommu_domain, virt_addr, rcb_size);
+On 2025-06-18 12:58:43 +0300, Cosmin Tanislav wrote:
+> Analog Devices is taking responsability for the maintenance of the Maxim
+> GMSL2/3 devices.
+> Add myself to the maintainers list and to the device tree bindings.
+> 
+> Signed-off-by: Cosmin Tanislav <demonsingur@gmail.com>
+> Acked-by: Rob Herring (Arm) <robh@kernel.org>
 
-I'm testing your patch with ffmpeg patched with v4l2-request patches[1], 
-and I usually
+Acked-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
 
-get kernel panic here. After checking rkvdec->iommu_domain before 
-running iommu_unmap,
+> ---
+>  Documentation/devicetree/bindings/media/i2c/maxim,max96712.yaml | 1 +
+>  MAINTAINERS                                                     | 1 +
+>  2 files changed, 2 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/media/i2c/maxim,max96712.yaml b/Documentation/devicetree/bindings/media/i2c/maxim,max96712.yaml
+> index 26f85151afbd..efdece2b33b9 100644
+> --- a/Documentation/devicetree/bindings/media/i2c/maxim,max96712.yaml
+> +++ b/Documentation/devicetree/bindings/media/i2c/maxim,max96712.yaml
+> @@ -9,6 +9,7 @@ title: Quad GMSL2 to CSI-2 Deserializer with GMSL1 Compatibility
+>  
+>  maintainers:
+>    - Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+> +  - Cosmin Tanislav <cosmin.tanislav@analog.com>
+>  
+>  description: |
+>    The MAX96712 deserializer converts GMSL2 or GMSL1 serial inputs into MIPI
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 01363fbcb9b3..77adb1f7ac9c 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -14728,6 +14728,7 @@ F:	drivers/media/i2c/max9286.c
+>  
+>  MAX96712 QUAD GMSL2 DESERIALIZER DRIVER
+>  M:	Niklas Söderlund <niklas.soderlund@ragnatech.se>
+> +M:	Cosmin Tanislav <cosmin.tanislav@analog.com>
+>  L:	linux-media@vger.kernel.org
+>  S:	Maintained
+>  F:	Documentation/devicetree/bindings/media/i2c/maxim,max96712.yaml
+> -- 
+> 2.49.0
+> 
 
-I can pass fluster ffmpeg v4l2-request test. Here is my patch based on 
-your commit:
-
-
-diff --git a/drivers/media/platform/rockchip/rkvdec2/rkvdec2.c 
-b/drivers/media/platform/rockchip/rkvdec2/rkvdec2.c
-index 75768561399..122bcdcebd4 100644
---- a/drivers/media/platform/rockchip/rkvdec2/rkvdec2.c
-+++ b/drivers/media/platform/rockchip/rkvdec2/rkvdec2.c
-@@ -681,8 +681,8 @@ static void rkvdec2_free_rcb(struct rkvdec2_ctx *ctx)
-                 switch (ctx->rcb_bufs[i].type) {
-                 case RKVDEC2_ALLOC_SRAM:
-                         virt_addr = (unsigned long)ctx->rcb_bufs[i].cpu;
--
--                       iommu_unmap(rkvdec->iommu_domain, virt_addr, 
-rcb_size);
-+                       if (rkvdec->iommu_domain)
-+ iommu_unmap(rkvdec->iommu_domain, virt_addr, rcb_size);
-                         gen_pool_free(ctx->dev->sram_pool, virt_addr, 
-rcb_size);
-                         break;
-                 case RKVDEC2_ALLOC_DMA:
-
-
-[1] https://github.com/amazingfate/FFmpeg/commits/n6.1.1-new-patches/
-
-
-Best regards,
-
-Jianfeng
-
+-- 
+Kind Regards,
+Niklas Söderlund
