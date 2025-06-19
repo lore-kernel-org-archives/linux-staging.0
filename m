@@ -1,137 +1,72 @@
-Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4940A20AF98
-	for <linux-staging@lists.linux.dev>; Thu, 19 Jun 2025 15:16:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E38053085DB;
+	Thu, 19 Jun 2025 15:29:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750346184; cv=none; b=Mym0yARWnnWIuKrESoAHeqY8TDCJ85Ll1hphPXUpGnQevqbxPpiUvQIxKYua/s2fdlwbpsNKz27ea3+Zuig4ae3jyJebCtCSy1P3yZeMY6lepmJvdwGuulEWfdmL2OschlqMW6Jk4f4yFDhn/4OOdaJVbXFeF8hhlqF17pb63Dg=
+	t=1750346968; cv=none; b=aPJfq7hvozuER7B/eK+syKFhz4Mnl60vyzCDwVTmH0oVw+46sU8iKTfhsY5sihx5VJQqVvW3xqW+R63qhpvrqscE1qthkH00yjbxH95XOQCIwUl/Adb6u93vN6aS11efo+aPeb/MWg28xUH1ebujAL132bfH9aeg6QMUVgHH5B4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750346184; c=relaxed/simple;
-	bh=XqbG1XOiL6qsyT/mbeOSE4rpnh2l2DOkWH/Yqj+Cv9o=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=ctMWdbjKAH3F+Hi2l3lxK0C26aH1tiPBQEqsYduT3bP/TABEepgfXqK1Hcab9NRQXeWIQwTR0a2Dud+HMZpnc7YA8bQpBc+xYcAuvU4qGpJQX5OFgvnqC51ZnpIz4qPPgNXT6N/8QpRZ0joYxRMz84GmOZHaY9Jq6lO0n3V+Hhw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=kelXxDEN; arc=none smtp.client-ip=148.251.105.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	s=arc-20240116; t=1750346968; c=relaxed/simple;
+	bh=LqEaOVXlb5nhUYPtW3KA8LsScIYIudvJF2Ua/lAq+ak=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=SkYEMXfk1JwPvcXJ6YyErznZHYFCNzj4kKEETEPRQSO7+7Pg1X7xsJR2lMM1fXAocnbcuKIC0wBtFmqlbgUloDg4qIE1LgKy7DPr222yYh0BnGBMGivi44zUNdGoE28ODcyYg+pH/FohAbg7NW/sIEoUD0GT++JogP06ICRBjm8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=A4yGovvm; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="kelXxDEN"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1750346180;
-	bh=XqbG1XOiL6qsyT/mbeOSE4rpnh2l2DOkWH/Yqj+Cv9o=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-	b=kelXxDEN/QdNHQKOrU58SnIzr+lEWmj8NR0M3TjYD6c4pwh5GIDWFI6zPOOZq6hYe
-	 w0olGxtPwgdjA2DGyxuRYVsrbZea59M+zKjKQ9X68Iwwp7UUE90klv8B8zWX4Uaq0f
-	 YWPngXinkEPdoYEw5W0qp+lpTYMIE1P4beue8AMetujUtz74DwMlVzV7A7WRKDBZyw
-	 NB+ZWX/7jK2YuH4+hIDKk8uDDFLgl/HrabTZeSbqPRwAu/7HbSI8CSQWcpmbsA5YVb
-	 Ln1wJXr5BuZlzx+PjI38u8eaO87Ub10ebGV5WC3CdovpObP+75yuTB8+J/GtACu/BP
-	 KGwyjN9daMBqg==
-Received: from [IPv6:2606:6d00:17:b699::5ac] (unknown [IPv6:2606:6d00:17:b699::5ac])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: nicolas)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id D137217E09F0;
-	Thu, 19 Jun 2025 17:16:16 +0200 (CEST)
-Message-ID: <a66e3d27ee427710ed3de8ce89fa3aca40dced03.camel@collabora.com>
-Subject: Re: [PATCH v4 4/6] media: rockchip: Introduce the rkvdec2 driver
-From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-To: Detlev Casanova <detlev.casanova@collabora.com>, 
-	20250325213303.826925-5-detlev.casanova@collabora.com
-Cc: alchark@gmail.com, andrzej.p@collabora.com, cassel@kernel.org, 
-	conor+dt@kernel.org, devicetree@vger.kernel.org,
- dmitry.perchanov@intel.com, 	dsimic@manjaro.org,
- ezequiel@vanguardiasur.com.ar, gregkh@linuxfoundation.org, 
-	heiko@sntech.de, hverkuil@xs4all.nl, jacopo.mondi@ideasonboard.com, 
-	jeanmichel.hautbois@ideasonboard.com, jonas@kwiboo.se,
- kernel@collabora.com, 	kieran.bingham@ideasonboard.com, krzk+dt@kernel.org,
- 	laurent.pinchart@ideasonboard.com, linux-arm-kernel@lists.infradead.org, 
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
-	linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev, Jianfeng
- Liu	 <liujianfeng1994@gmail.com>, mchehab@kernel.org,
- naush@raspberrypi.com, 	robh@kernel.org, sakari.ailus@linux.intel.com,
- sebastian.reichel@collabora.com, 	tomi.valkeinen@ideasonboard.com,
- umang.jain@ideasonboard.com
-Date: Thu, 19 Jun 2025 11:16:15 -0400
-In-Reply-To: <5900973.DvuYhMxLoT@trenzalore>
-References: <9f098eab-7b98-4827-8538-3cab0e8d7c63@gmail.com>
-	 <5900973.DvuYhMxLoT@trenzalore>
-Organization: Collabora Canada
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.56.2 (3.56.2-1.fc42) 
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="A4yGovvm"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EF606C4CEEA;
+	Thu, 19 Jun 2025 15:29:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1750346967;
+	bh=LqEaOVXlb5nhUYPtW3KA8LsScIYIudvJF2Ua/lAq+ak=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=A4yGovvmpk6Tw5qK/Tref13CpSyUEuKdATBY9PjzZ332381njENYhwOaJcyaMQt0H
+	 Dtne2grN1ZnvYcOhdSYE6qoGLxuF3FvwGAfwGFe2kuxarU9rxgg2NMEmJG9MjXi2Fd
+	 VX6mxgADtJ9VOBJo28SCoopuNaVwgVMzRN1wgnqo=
+Date: Thu, 19 Jun 2025 17:29:24 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Eric Florin <ericflorin@google.com>
+Cc: teddy.wang@siliconmotion.com, sudipm.mukherjee@gmail.com,
+	linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/6] staging: sm750fb: rename `sBase` parameter
+Message-ID: <2025061908-snore-pesticide-1389@gregkh>
+References: <cover.1748365488.git.ericflorin@google.com>
+ <61e6984331cc7ff88a9f8207e187cd5b9ffd9c63.1748365488.git.ericflorin@google.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <61e6984331cc7ff88a9f8207e187cd5b9ffd9c63.1748365488.git.ericflorin@google.com>
 
-Le jeudi 19 juin 2025 à 10:39 -0400, Detlev Casanova a écrit :
-> Hi Jianfeng,
+On Tue, May 27, 2025 at 10:11:23AM -0700, Eric Florin wrote:
+> Rename `sBase` to `s_base` in `sm750_hw_copyarea` to conform with style
+> guidelines as reported by checkpatch.pl
 > 
-> This patch set is now a  bit outdated. I will soon send a new version that you 
-> can find at [1].
-> That being said, you may be right. without an iommu, it would panic here 
-> (although the iommu should really be used).
+> CHECK: Avoid CamelCase: <sBase>
+> 
+> Signed-off-by: Eric Florin <ericflorin@google.com>
+> ---
+>  drivers/staging/sm750fb/sm750_accel.c | 8 ++++----
+>  1 file changed, 4 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/staging/sm750fb/sm750_accel.c b/drivers/staging/sm750fb/sm750_accel.c
+> index 44b9e3fe3a41..74e4be8103ac 100644
+> --- a/drivers/staging/sm750fb/sm750_accel.c
+> +++ b/drivers/staging/sm750fb/sm750_accel.c
+> @@ -132,7 +132,7 @@ int sm750_hw_fillrect(struct lynx_accel *accel,
+>  /**
+>   * sm750_hw_copyarea
+>   * @accel: Acceleration device data
+> - * @sBase: Address of source: offset in frame buffer
+> + * @s_base: Address of source: offset in frame buffer
 
-Let's make sure to test it in the next series. One should be able to comment out
-the mmu node in the DT, and then it should work with CMA transparently.
+Wouldn't a better name be "source_base"?
 
 thanks,
-Nicolas
 
-> 
-> [1]: https://gitlab.collabora.com/detlev/linux/-/tree/add-vdpu381-and-383-to-rkvdec
-> 
-> Regards,
-> Detlev
-> 
-> On Thursday, 19 June 2025 05:19:32 EDT Jianfeng Liu wrote:
-> > Hi Detlev,
-> > 
-> > On Tue, 25 Mar 2025 17:22:20 -0400, Detlev Casanova wrote:
-> >  >+        case RKVDEC2_ALLOC_SRAM:
-> >  >+            virt_addr = (unsigned long)ctx->rcb_bufs[i].cpu;
-> >  >+
-> >  >+            iommu_unmap(rkvdec->iommu_domain, virt_addr, rcb_size)
-> > 
-> > I'm testing your patch with ffmpeg patched with v4l2-request patches[1],
-> > and I usually
-> > 
-> > get kernel panic here. After checking rkvdec->iommu_domain before
-> > running iommu_unmap,
-> > 
-> > I can pass fluster ffmpeg v4l2-request test. Here is my patch based on
-> > your commit:
-> > 
-> > 
-> > diff --git a/drivers/media/platform/rockchip/rkvdec2/rkvdec2.c
-> > b/drivers/media/platform/rockchip/rkvdec2/rkvdec2.c
-> > index 75768561399..122bcdcebd4 100644
-> > --- a/drivers/media/platform/rockchip/rkvdec2/rkvdec2.c
-> > +++ b/drivers/media/platform/rockchip/rkvdec2/rkvdec2.c
-> > @@ -681,8 +681,8 @@ static void rkvdec2_free_rcb(struct rkvdec2_ctx *ctx)
-> >                  switch (ctx->rcb_bufs[i].type) {
-> >                  case RKVDEC2_ALLOC_SRAM:
-> >                          virt_addr = (unsigned long)ctx->rcb_bufs[i].cpu;
-> > -
-> > -                       iommu_unmap(rkvdec->iommu_domain, virt_addr,
-> > rcb_size);
-> > +                       if (rkvdec->iommu_domain)
-> > + iommu_unmap(rkvdec->iommu_domain, virt_addr, rcb_size);
-> >                          gen_pool_free(ctx->dev->sram_pool, virt_addr,
-> > rcb_size);
-> >                          break;
-> >                  case RKVDEC2_ALLOC_DMA:
-> > 
-> > 
-> > [1] https://github.com/amazingfate/FFmpeg/commits/n6.1.1-new-patches/
-> > 
-> > 
-> > Best regards,
-> > 
-> > Jianfeng
-> 
-> 
-> 
+greg k-h
