@@ -1,220 +1,136 @@
-Received: from WA0P291CU002.outbound.protection.outlook.com (mail-polandcentralazon11023128.outbound.protection.outlook.com [40.107.156.128])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F43D213E6D
-	for <linux-staging@lists.linux.dev>; Thu, 19 Jun 2025 18:30:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.156.128
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750357841; cv=fail; b=nqQyzJgm8lUlcnLEJraCraX/kKCPYmILW6PwwPTe6htvrULTX9Vf04HjBnTbMJo1K/647BFNs1HQEk/pJOZdeVw73vsIC1OPUda1Y5aw7gcF2hrtdbQOsW/A8weBcm+3ClQTXeV3Y+oKuE+XNCKAHHLTQkCGQoTxmK/wpy858Ag=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750357841; c=relaxed/simple;
-	bh=PHluIehl20JWIpe6jq2Gei4uDTz3YPzTLlZjk0zKnFs=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=PpY05gwd75fuWPQeZQIEqL8+VAdodTEdOvNNuHQsDeIoaTVRoGFEQuxcZmW3lWQmUok1/hZQNl+JnZUfveTyBhrUcnkri4KpETjKEIwp2LMjMpK/RsahIe5+43RsqNgctuBZApHEgFOf1sb5mXqSdlawtR/NsJzAPfePczX41NQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=videtronic.com; spf=pass smtp.mailfrom=videtronic.com; arc=fail smtp.client-ip=40.107.156.128
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=videtronic.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=videtronic.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=a78M+M3p7Khq9ePfZo+B9be4gctw4WgZ5MNB84ZE1nFwjCZXNBo7S8saUyvb1OKQVmOyDOWw5hHpEGl1nMOquSGQBnRU+Y3GZJkag+FJkoFPY2nFItNscQn+hm4XaeaOTWjXsIIH9r6jEW0Rd7MDOnnU/qQNx2clC/BOOYNxQnx2uCKsHsz8xU2lxTStIX8MPUboSssGnuOeQhkk9iX6e7JjbLZUxL0XDkz4pc6iAON9heLFfqsxKhivuJ3MytL6ESohTTfJjnKaNGSqdONkq3QUhpSXSPqqjp/EVgHPP7GDPTjySVEJfh+rb0drvr4k1VlpcQNUdMo7TxZu5yTm1Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=WK4D3GJW/B/HIssozlmgajRS05Y8k9zPp9pMjcEiqIc=;
- b=uo3H2U7t5labABQSUpHwjU6xfe9YMmelHGpgc4rpeehI4UHOZrMRPMi8EILspQX978DcihQ0sP+Zsg24vvuE5h44k9DZuH+/G4I3DIOjwPR6Mw0HQaZSleJBDUg768Ly7762W0FSs/Ju1HT6ljkmy+AOn9YFGildbcOFyTglE5odad6qp+AbwlEDFzbsRTEnfhG6PkEyHJkZQeuKnWg9zsz29syqs6JWPDpvLhhTvgFdd6BuFPjZwLqVGM5X0h2yEB+grooHqRGNr5sJ0ms+kC541QZ+L9YYCzvw66PTZL0QP7hB1lZkPOMihaNHfCF8L8tlgGHQh2adOXJk3cMMEw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=videtronic.com; dmarc=pass action=none
- header.from=videtronic.com; dkim=pass header.d=videtronic.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=videtronic.com;
-Received: from WA2P291MB0309.POLP291.PROD.OUTLOOK.COM (2603:10a6:1d0:24::14)
- by WA2P291MB0287.POLP291.PROD.OUTLOOK.COM (2603:10a6:1d0:22::15) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8835.35; Thu, 19 Jun
- 2025 18:30:35 +0000
-Received: from WA2P291MB0309.POLP291.PROD.OUTLOOK.COM
- ([fe80::5b7e:db51:5934:a36f]) by WA2P291MB0309.POLP291.PROD.OUTLOOK.COM
- ([fe80::5b7e:db51:5934:a36f%5]) with mapi id 15.20.8835.027; Thu, 19 Jun 2025
- 18:30:35 +0000
-Message-ID: <e7c0ab0c-7d4c-4735-9f0d-22874edaf347@videtronic.com>
-Date: Thu, 19 Jun 2025 20:30:33 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 15/19] media: i2c: add Maxim GMSL2/3 serializer and
- deserializer drivers
-To: Cosmin Tanislav <demonsingur@gmail.com>,
- Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
- =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
- Julien Massot <julien.massot@collabora.com>,
- Sakari Ailus <sakari.ailus@linux.intel.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Linus Walleij <linus.walleij@linaro.org>
-Cc: "open list:MAXIM GMSL2 SERIALIZERS AND DESERIALIZERS"
- <linux-media@vger.kernel.org>,
- "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>, open list <linux-kernel@vger.kernel.org>,
- "moderated list:ARM64 PORT (AARCH64 ARCHITECTURE)"
- <linux-arm-kernel@lists.infradead.org>,
- "open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>,
- open "list:GPIO"
- "SUBSYSTEM:Keyword:(devm_)?gpio_(request|free|direction|get|set)"
- <linux-gpio@vger.kernel.org>, Cosmin Tanislav <cosmin.tanislav@analog.com>
-References: <20250618095858.2145209-1-demonsingur@gmail.com>
- <20250618095858.2145209-16-demonsingur@gmail.com>
-Content-Language: fr
-From: Jakub Kostiw <jakub.kostiw@videtronic.com>
-In-Reply-To: <20250618095858.2145209-16-demonsingur@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: WA2P291CA0039.POLP291.PROD.OUTLOOK.COM
- (2603:10a6:1d0:1f::25) To WA2P291MB0309.POLP291.PROD.OUTLOOK.COM
- (2603:10a6:1d0:24::14)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FA172E7181
+	for <linux-staging@lists.linux.dev>; Fri, 20 Jun 2025 16:54:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.169
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1750438480; cv=none; b=NoNWLcqiudRTduQeEXJaO0U7TW8smJuk+VIahsTMVDEdC0n5Oaxt287AqIaXvDADTrH/uHC1Eg8gkxop+Tq7WCaO2Y5N4/wHINFcOkNGJVIPq4ny831N7cWsTvRPGpvbCCpN1WolAR5QD9UKZjFjyzC9ZHgKld6+hxriC2LWSdo=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1750438480; c=relaxed/simple;
+	bh=s9nqYb57y/nutAilPgtn+5a6ISQWT7mmIgEn/sTWkNw=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=BCtEy66hsXeciqaeqiBm6b7UyLvv4qmQNBB0erO9VplxOvzIcXGKjEoN9VlcFathIJZiBo5eMyM1lTuy1HfpyhDJnxHPwW7GAYALtcS5nOJYkN/6lJgsisSSrsXuGsbaCHcjZ1XaXg2IxnLBK3QyzXxbfEMc1W7SiE0vBNqk/L0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HU1gNVfi; arc=none smtp.client-ip=209.85.214.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HU1gNVfi"
+Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-23602481460so19098405ad.0
+        for <linux-staging@lists.linux.dev>; Fri, 20 Jun 2025 09:54:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1750438478; x=1751043278; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=5n8UMa9ZY2/Uq1XXfaQRztTpb/VKkz/BaxVAYOVSYU0=;
+        b=HU1gNVfiwV9lGfIe/EndxoQim3WYzT880m4hpW/2JGBUhUamZS54t21AcY0cDxrHya
+         8YhrMuL9vzhD5E3R/z38U+fmzE3y/rpz8KLSTNFc1taXIDCl4G+5/ptP43zXVcyjyuvy
+         7ZSvSNgKBc/UPkiY4Qn+9rbQM+W8cGx7X9NKT3Gdmm03hjIW/fW+BRo64sHkGaJSccdT
+         TV6zbM94/qkiXFIrZTo/qKJZWyXNbHhGTyKVY5i36TUVZejmglJG2DrWm43nVDmYIyGc
+         c+myam2gI/joF0CwNm04cQWhWPbUG6RFKK0UTlvIbev6zRZG3El87p/L4Y7kC5QXBynC
+         UbDg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1750438478; x=1751043278;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=5n8UMa9ZY2/Uq1XXfaQRztTpb/VKkz/BaxVAYOVSYU0=;
+        b=TCWfGPa5WFmBgAZ96sSlE2jJxe1SZwx9cSdcKYEa/w1sVbwSDXJH8zYeSVWQMNVMwZ
+         5A98lTcikysC/0Itx363liZ7Uqjm0ezlmf9+qmKhdYG+8p7O9reA/id/ZxjKvUxDuVgB
+         Jtm6fkGEDbooJEHq90krA4suGWUCafW0AjvrlVbA/4VBervUNE3wRU9sDiVwRLeBm1p+
+         BpYNP0R+ckmpd/hoTJuaj1H8z61zHMh1ht/a9fFJ16jcjQZnqCy/GgOO77dPORCOU7U2
+         uHCSZ2V+biH74rRUGJQKmlpgggL2TZwhZkSTvdrYmAUMgwm6PmA4WYziIZSJA0KNOpL1
+         L//Q==
+X-Forwarded-Encrypted: i=1; AJvYcCUVU46Ypz5/hiZd2gJebgFHviBaYlG9RZy6Pszjt5xQKOMYtMljDKHDjB/SdC2j7OMPtxPeNU+iXdIZ9nyk@lists.linux.dev
+X-Gm-Message-State: AOJu0YxVFPVBkYeu2q/gCC9ojJyCHlceAs+rwt9TiXHDxL9CDhh1ebMU
+	d6xG7fpdgJYacPe9R4hcodCTmvWgD35D89DisW9PETtyixOCfNa/fZI4
+X-Gm-Gg: ASbGncvIU3GlYot/vRL4MC62uOwOjkEuh/gGgUZfjdFTOjlQEcvncUDIGvEhbqxHjh9
+	eJr28Ax+W7d+0qZPXhEFXHkO8L5784dlutaprtwTwh6fcEDL8t94KrZmgvHWVZjCF9tYEVWFpFZ
+	SIHQJlrWftqW/uUX9B4uN/uSSxkBNmDYGw/ezgcZ2sLitk91VSaUM4dDgpH6hYf8WlGwwannUcG
+	DVm7Kqz84ASyGsDuo3Tf9inBosljN8EIECxPrB/7Nz+gU+BMmZw7H3RyjecmYhY4p7Mi6vl5HJt
+	Zf5670TrO4GLX8+2O4n5/ouTlsi+V9ZJESxCkDNrZRx8E1i7kSgcc9D0FQ==
+X-Google-Smtp-Source: AGHT+IHaN1oW5Hlwn8COrjTD8w04UIf4nZDmAvGd+2JS44q7BflFiyYUhW37lDPvB8pB5dOo1nA6Ig==
+X-Received: by 2002:a17:902:da8c:b0:225:abd2:5e4b with SMTP id d9443c01a7336-237d9841785mr59869815ad.16.1750438478311;
+        Fri, 20 Jun 2025 09:54:38 -0700 (PDT)
+Received: from zinc ([182.216.63.93])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-237d867f5cfsm21727635ad.181.2025.06.20.09.54.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 20 Jun 2025 09:54:37 -0700 (PDT)
+Date: Sat, 21 Jun 2025 01:54:32 +0900
+From: Kisub Choe <kisub.choe.0x1@gmail.com>
+To: sudipm.mukherjee@gmail.com, teddy.wang@siliconmotion.com,
+	gregkh@linuxfoundation.org
+Cc: linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org, kisub.choe.0x1@gmail.com
+Subject: [PATCH v2] staging: sm750fb: remove function pointer proc_setBLANK
+Message-ID: <aFWSSAcboBVi4ROh@zinc>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: WA2P291MB0309:EE_|WA2P291MB0287:EE_
-X-MS-Office365-Filtering-Correlation-Id: 4360aa31-eb30-47da-2454-08ddaf5f6165
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|1800799024|376014|7416014|921020;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?RG54R00vRkVTd0dnQmtwU21uQmFhSThFampnalppZE9yb2dZSUx1SlQ4UXp1?=
- =?utf-8?B?cEhNRitWaEY5RFFJZmZNVFluVDQ1YldWZzNWZjNucVJ1V3dOb2RRb3l3QUlw?=
- =?utf-8?B?RUowemExSEttUmZOR0poS3RSQksrU1ViQVRvbGs0L1U2T003Y3NKUDRQMnlL?=
- =?utf-8?B?MUI4dVQ5MVJOQTdEcURBMjNMazhKYlJrRW4rOXEvNXhFb2dpY3E4ZnVOMXY3?=
- =?utf-8?B?NzJzeUhTNHJ5YkpFVlpjbXUxTG1JSm9vdTJGNVRhK3duZ0w3Yy9EaXQ1bWUz?=
- =?utf-8?B?Nk1xYkJCaVJTRVdTRWFhbFZmNXkwRTRkTG85ZVBDOXpSdlFoVEpjSkhtWlFW?=
- =?utf-8?B?WWRLTkxJNVZUMVc5d01vaFRSK0JPanpueTFJSkd0S1NmdE5HMStVK1BHRzdx?=
- =?utf-8?B?MmIxZTBvbFlZeHc4QmdlRWF2ZmRZNlM3NWZDSkNPcXo1aEdmV3FqdGM2WkdJ?=
- =?utf-8?B?OG9heGZhS1NsYjB3SCtEM0QzQzJkb2lUOTF6MXZqWWV2S3c2aHJsSnNzVmha?=
- =?utf-8?B?aDNiOExxK1FxTmxodTJmQ2dCZHdtYVZ5by9IL3R1dGJHbkxGc3NNWkdqNFJP?=
- =?utf-8?B?SlB2V01tSTFYUGc4VmtUcW15a0VuRTBlczRSaXlHQkJrcVhhRGVKN25MN0NL?=
- =?utf-8?B?bTYreFVUTjc2UzdrOXAzV2RiUUZGSmswN25qWDNkQVFJMjZoNWZ5dlNtbE1N?=
- =?utf-8?B?ZFBpUUlsMlpoa1NkN1RaTGF1N3pJY2t6TlFETmxjbkRVc1R4bUlxNW40cG1Q?=
- =?utf-8?B?WDd1MjBFam9XN2NXT2hGdGFLYlJqYlZBcS8rU3dGcXdaSzBLQkJ2aWZJS2o1?=
- =?utf-8?B?eHl5QmJwOEEweHQ4aFZQWkVMUzUxWDdyS0V3RXhMYWliZ3dXRTJlUTRHVG10?=
- =?utf-8?B?ZGtlcFlIZmJZY01QRlRiZG5JbFdBZ0NwNXJxNTdZNm5uUno2TkFKNHFUTThh?=
- =?utf-8?B?QzR3UmYzU1F4YW9Bc2syN0xGa01US2IrUitnSlB3WWQvUGs3ZmhKZnphVUVO?=
- =?utf-8?B?MGI1K25BY0JyRUp3cGVGeVd6RDAreTIxTjJNWDVsWVNsK1o5akdJdFFIclRI?=
- =?utf-8?B?NUhsblc2enRVSzhsRGpGeUZDdkRJYkVPNGJNT1h2MEhaT3ZFL1pHQnBacU1Y?=
- =?utf-8?B?U2gxbmY4eTlkdUZnV3E3c0h6b29uSWd0R0VyaG1MVVRHNnEwNXRISXNRUjZR?=
- =?utf-8?B?WGdVZndYcUFkRXJodVBnZEFYYWVFVGloLzdkZnEyNlJ1ZHNyZlFkTWNycDlz?=
- =?utf-8?B?alBEZ2J0Mm1BVzFob0p3MHNrM1F2N1cyR0tLWmlmWXJwV1Q5aXIvZmhQcnFn?=
- =?utf-8?B?TGdSTGJyb1EvQnZldDBPNUNKaGthMTc1TFFZc1BjMjBuYmIrdUhmNUNRWUhU?=
- =?utf-8?B?QXJjRTRvMGVwWnMxSGMwS2VDbnViTjRPbURKaXVnZlVqVlZRVU9INjYyNTky?=
- =?utf-8?B?OTRjTGtCdFhkUVVlczdaemtpT294SkcrQjlNemVpMXdsMThibk9ENm9iQnRK?=
- =?utf-8?B?bU1IN2RMTk1CM2N2eUtFYnF0YUhOSWdhTFFZTFovUWQ1czFmcjZ6NTFDdzdM?=
- =?utf-8?B?SHpoZlJVSFIwR3dzOU1QYlRTdlQycll3MGJMZXlJRDNWdmdsV3VNbjR2V3ND?=
- =?utf-8?B?UGw2aG1qZHVpTSttblFTVlRmcTAxbVkxWXoyMXdtMStidC9hZW02QVNXeCtp?=
- =?utf-8?B?RFI1WW9Xa1Z0OExFcklDdG9zRWZPUTBZb3lxN21ncWNvSHhiWGlRL2FacG9h?=
- =?utf-8?B?VUtlNU5UZWV4TmxucGdMTkpMcG1oaVJqTWhJN2kxSGpJZVJ1UmoyeTJnQmNr?=
- =?utf-8?B?NEc1RnpSVlFzcmtScG55cWhGNWRheVJHcE9NU0puNEJOMmoxU1VDZVJhNjdh?=
- =?utf-8?B?Vmh6OWtDSFlFSnhkcytSb2drVCtsdFArc09NSTJIdEV6UkVGWGRqdzdUY1V0?=
- =?utf-8?B?ZTY4c0t2czNpRjVPUU5iM00wTWhwSERYdjFacWlScEtJdThoY0tjclR1dVlw?=
- =?utf-8?B?bGlwSGtTcHhBPT0=?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:WA2P291MB0309.POLP291.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(7416014)(921020);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?bUtEVjdOVXJYZ1RYWjR2dnMwVjlSbmhFRnJvd0hiN21SaUJTZC9SbTl4bU9q?=
- =?utf-8?B?KzEzaUtackJ3WGtMWUovMlR5cDJGcUIyRU1TcUJKVTluWUFwVTJ3Wm0wY0k4?=
- =?utf-8?B?MGdONzY4WTJwT1FuOGpJUEgxSmRRNTgycXhGd3VmTDJmZEdCaWFkY1E5TUF5?=
- =?utf-8?B?Z1hsVzBsZGpOSUlUK0ZLKzRRekp6QWkzNHFLS0VYeWpoMjZtbWh6L0ROZUhp?=
- =?utf-8?B?RXoxYnd4MXNHVytnUnFiS24wa3JQUGZOV2FSNEo0aldYZE5VeWp2ZTZrSDdU?=
- =?utf-8?B?T0xqRzQ3Q2pselN4dXg0bUJtSWJTWUVLSXRHbTgzS3RXWnFrWnRETlMxZFBu?=
- =?utf-8?B?Wi92VExKcWxneDdRc09sNXNlME9EaDloQnozMUtnaE9rdG1EcmRGSk45K0VE?=
- =?utf-8?B?SU9KcTgraDhWUDV5N2pNQkVucG83b2QyWVNCcWV2TmN0eEVzUStJVXBxeDht?=
- =?utf-8?B?cEZaRlo2K05zZFhUcHNsTlFKLzQzelZmUVFoL25RN0lSZTd3bjE0TTdyVy8v?=
- =?utf-8?B?M0pQdVZja3gxU0I2cjBaMXhLT2l2d3dGT3E0Q3RHdmxKa0ZHdVlFTWF4aW5l?=
- =?utf-8?B?ZCtwbG91aEVhK0xQdjVXWjRkeE9wR3czSDBHWUIxc0tSd3BSUEZSRHVaczl0?=
- =?utf-8?B?NVRTNHJnbkg0aEg5RGl0SVVuU0VUektuSTdYbHBPMFcvak9XdjZGcG96allG?=
- =?utf-8?B?WW5IRGxsRU8zY2FzOWx5Qm9JOEVPSjBnZDBydTlraDh1dFNuQVJUTmh6SWth?=
- =?utf-8?B?UC9Rc0dwaUdDZ2d4bzBDTlY3YzVETm5jaVJ5SjErbWxOQTByTE8yVGF4d0wx?=
- =?utf-8?B?MG82NHhEcG9tdUk0RW4wbDUzdGx2aVVWcGJLYk9BL2xFWEJZM1k2TG1pa3o1?=
- =?utf-8?B?WnFrWDJMd05OZS9xTHNKOFRNNXBsZnAyZUZuNlhDUGFIb1VRZlo1TGJ1VWRC?=
- =?utf-8?B?NEp5eCt6Vzk2aHVoRVBtMDhhZStGY2hQaVRGODFQeFdKUU9YS1B6QVNZaDRQ?=
- =?utf-8?B?bGFLaVZZdDBIdS9aOXVzUlFBeWZXd3QxN1dmTGdIV3lMRnRQUmdiRWVpSWg4?=
- =?utf-8?B?L0x3Z2VjNGxqV1NxTUJiYjBkMVhrRndBVHUzeXRQQ2VSUEhvczF5eFJMRkpJ?=
- =?utf-8?B?YUtiSitoY05LMG5VV0UvYWtOekE3NStrOURiL1FtaGNVYTUwSEpkaC81QWI0?=
- =?utf-8?B?N05KZS8yUW91VnBVa1N5VjdFc2drRkc1elFDZ2VQalJ0ZFRjVzQ2aHdFRU1P?=
- =?utf-8?B?STVOOGoxTjRSNnZRdzBDV0RxQlB4OFordCt3SXVpNTBObU93MUV5aXU1eHVl?=
- =?utf-8?B?ZDJKUEdxcFhtV3Y0SHl6UWwxZHFWUmYzT0poTExmTVZaOGhTSGlZZGdwbjRN?=
- =?utf-8?B?dklaN2dzdGJXWWJuZTlUNWhpVElYUGI0WE1kUGlhN2xBeXJGMmkySFhocDNo?=
- =?utf-8?B?bTlJVGxRRC9jYzhPVnUwNDBkb1FxVW9id3hNblNlVVZyM01OeDByZHYyUGQx?=
- =?utf-8?B?V3QzQUhqNTV0aEZ1VE5yYUVqYURkZ3daZXp3SytqSlJZWm1oVHdaSkpCN2VF?=
- =?utf-8?B?dWVvWUZRZjArQmRkbjVSQ3d3elREbjB2bkZ5SmQ0VXF2VDlPOE5NOGdEMFhh?=
- =?utf-8?B?QkR6WnVjVWRtbVI1TzliZXQ3TC9KTmRWOWpacDJSOGdZcHdxM2kzZlhxSXNM?=
- =?utf-8?B?UVgzaHNMZ0hDWWhla2ZOTTR0bloxRENPbnJIVnJrblpmVU84QklUQUZQRlpz?=
- =?utf-8?B?Z1FYVUVpOHM1ZnlVR09Xa01Cc2dEZEhzNGp2UXBOQS80T1NLU21naXg3RHlG?=
- =?utf-8?B?bDU1OGhBUitnVnRXMW52SnFEZG5uS3Q3OGxxNUtKYlRwOTZ6WnYxTTMrQTBU?=
- =?utf-8?B?ckdoWG83N3hQenR6eVBSbEkzMDNpY0F5MFlXNU9VL1NMc0FsQU4wcnc2NWFh?=
- =?utf-8?B?NHZHamhkKzM0eEttUzd3QjlKWEpEOUhuY0RRUW1MN1AyNm5JYXZpWDU1K3hI?=
- =?utf-8?B?RHVTUkJEdk5HM1Yvc016cyt3QzFLcWY2UHJEVzFqa2tWR0tqVVpnYWJWKzU5?=
- =?utf-8?B?a2Q3R0s2YmgzVzZqaXVjOFIwRTY2aWZlYkxtSUVYVWlwRm9Fd2VvZ3UrYitZ?=
- =?utf-8?B?WjU5cnZ6a2pUTHhISHp5LzdCbExEck9tckJQOHltZjI5M0Q1dXFxb3c2dGlu?=
- =?utf-8?B?YlE9PQ==?=
-X-OriginatorOrg: videtronic.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4360aa31-eb30-47da-2454-08ddaf5f6165
-X-MS-Exchange-CrossTenant-AuthSource: WA2P291MB0309.POLP291.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Jun 2025 18:30:34.9853
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 42908bfd-23a4-4a6c-951d-1ef4d8e0c612
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: FPsKFCKHuSK1PyCsIbVRCVevvI+BO0WbcAPTFt7dOxHNWt9qSdu6QszIzFr3ClBDWOi27GowRt2OIT0HklI3O+hli7oNs2AEkIAX3cUCJhk=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: WA2P291MB0287
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Hi Cosmin,
+Call a function based on sm750_dev->revid
+instead of using this indirection
 
-I have tested V4 on Raspberry Pi 5 (v6.15) and I think that I might have 
-found some issues.
+Signed-off-by: Kisub Choe <kisub.choe.0x1@gmail.com>
+---
+Changes in v2:
+  - removed the function pointer in accordance with the feedback
+---
+ drivers/staging/sm750fb/sm750.c | 10 +++++++---
+ drivers/staging/sm750fb/sm750.h |  2 --
+ 2 files changed, 7 insertions(+), 5 deletions(-)
 
-MAX96714+MAX96717+IMX219:
-
-Streaming to memory works as expected, however I have encountered issues 
-when I was testing
-this with libcamera (streams + meta pad).
-
-To make things work in the first place (tested on V3) I had to create 2 
-streams - one for image
-and one for metadata. Essentialy what I did was setting up routes as 
-follows (for both serializer
-and deserializer):
-
-Image stream: [0/0 -> 1/0]
-Meta stream: [0/1 -> 1/1]
-
-With that and some extra adjustments on libcamera side I was able to get 
-video stream.
-
-Now, above fails on V4. I belive that this is to due with following line:
-max_ser.c:
-
-> +	ret = max_validate_tpg_routing(routing);
-> +	if (ret)
-> +		return ret;  
-
-Routing fails here as (I believe) tpg routing is checked even if tpg is not being routed.
-After I commented out this check all worked as before. This was not a problem for deserializer
-as such check does not exist there.
-
-Perhaps this check should be conducted only when is_tpg is true?
-
-MAX96724+MAX96717+IMX219:
-
-This setup was also tested by me on V3 (streaming to memory only) and worked as expected. With V4
-however, after setting up the pipeline, I am unable to get video stream. No error is reported.
-I doubled checked my setup with V3 and it worked flawlessly (with the same configuration scripts).
-Streaming simply hangs after VIDIOC_STREAMON.  I am able to quickly test V3 and V4 so I can provide
-you some further information if needed.
-
---
-Regards
-Jakub
+diff --git a/drivers/staging/sm750fb/sm750.c b/drivers/staging/sm750fb/sm750.c
+index 1d929aca399c..b65a527314f1 100644
+--- a/drivers/staging/sm750fb/sm750.c
++++ b/drivers/staging/sm750fb/sm750.c
+@@ -571,13 +571,19 @@ static int lynxfb_ops_setcolreg(unsigned int regno,
+ 
+ static int lynxfb_ops_blank(int blank, struct fb_info *info)
+ {
++	struct sm750_dev *sm750_dev;
+ 	struct lynxfb_par *par;
+ 	struct lynxfb_output *output;
+ 
+ 	pr_debug("blank = %d.\n", blank);
+ 	par = info->par;
+ 	output = &par->output;
+-	return output->proc_setBLANK(output, blank);
++	sm750_dev = par->dev;
++
++	if (sm750_dev->revid == SM750LE_REVISION_ID)
++		return hw_sm750le_set_blank(output, blank);
++	else
++		return hw_sm750_set_blank(output, blank);
+ }
+ 
+ static int sm750fb_set_drv(struct lynxfb_par *par)
+@@ -605,8 +611,6 @@ static int sm750fb_set_drv(struct lynxfb_par *par)
+ 	crtc->ypanstep = 1;
+ 	crtc->ywrapstep = 0;
+ 
+-	output->proc_setBLANK = (sm750_dev->revid == SM750LE_REVISION_ID) ?
+-				 hw_sm750le_set_blank : hw_sm750_set_blank;
+ 	/* chip specific phase */
+ 	sm750_dev->accel.de_wait = (sm750_dev->revid == SM750LE_REVISION_ID) ?
+ 				    hw_sm750le_de_wait : hw_sm750_de_wait;
+diff --git a/drivers/staging/sm750fb/sm750.h b/drivers/staging/sm750fb/sm750.h
+index 9cf8b3d30aac..640bff625052 100644
+--- a/drivers/staging/sm750fb/sm750.h
++++ b/drivers/staging/sm750fb/sm750.h
+@@ -169,8 +169,6 @@ struct lynxfb_output {
+ 	 * output->channel ==> &crtc->channel
+ 	 */
+ 	void *priv;
+-
+-	int (*proc_setBLANK)(struct lynxfb_output *output, int blank);
+ };
+ 
+ struct lynxfb_par {
+-- 
+2.34.1
 
