@@ -1,156 +1,138 @@
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 980F718FDBE;
-	Sat, 21 Jun 2025 06:29:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEFCE15C158
+	for <linux-staging@lists.linux.dev>; Sat, 21 Jun 2025 13:01:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750487401; cv=none; b=URwnmV/9zHX9SU59ERQYUU4BrJwP7ICarZMswYJus4zuHbIbi0sM9QLq6pwfnu9pfnTtSAzpRhbBlQ4jyvoJ+xW8YM7w5lkzO3qZC2Nwt/r+slDhor38ZzJvPK75YVosc3eP+wT7ODvnc5WkD1Yc0HMU6Ir4veCC+rywyx3ME4U=
+	t=1750510911; cv=none; b=etOVcLfY3p9R0wCZIi6YAoFDEUvPKvXobgr/bkjfGtPqBAf++K20N+Yq6y/fF1zo4MhO2zanO11IGtd5M9e8aDWTle4vK6qi27Whr29CJyRinRo4tXzyOKD9VmW2YBqeNbqM5N8YwzOEwQd+nZRT3j+YYPh1W2iLHisoExwI3sU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750487401; c=relaxed/simple;
-	bh=+8nxB59T4nNd/zAuaPjugmozXPdx/wYZUcfV2AVIE7k=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=Sm7gZCMrxtyIrw25+y/dtb741NTHPmlUoFbsmJ6KIsBEasLXiLbONCUzE5v/YF+0G58SdIs0NwUNte1k2MlY9H9Fs9JjK02VnlcG8UKAQcN5TcBtEiJXSb6cQHbDGUkxKihQ80rk392jERdduFhD5c+tQGrORQHy1Nm5YSiC+PI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hQHXEXQj; arc=none smtp.client-ip=209.85.221.48
+	s=arc-20240116; t=1750510911; c=relaxed/simple;
+	bh=UmuaVwVACEk8G368/vsvTByhNseq8/MmDXVCYyOC58Q=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=G3c5DVQZQwQ2w09RLfl3gvyc4JrUVMWUW9/+UBpYCe+7U5Br0cVsPCfmuv2vmDVw697V1efr9ob46s/nxFWXlukBzQ9AwZLVPuA8E9+3EHzLihg1kQbGJWlYYxhMs/+/Gsqb6w7eNIa8uS3YqzIE5Zb/A53/DXPgKF22Em0r2NU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=c846JOqk; arc=none smtp.client-ip=209.85.214.180
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hQHXEXQj"
-Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-3a4eed70f24so364568f8f.0;
-        Fri, 20 Jun 2025 23:29:59 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="c846JOqk"
+Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-237e6963f63so1834775ad.2
+        for <linux-staging@lists.linux.dev>; Sat, 21 Jun 2025 06:01:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1750487398; x=1751092198; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=NkjbtNwR+2HkOqNIDNJiFuWYyKYkGQKZSPa6ldxqxrI=;
-        b=hQHXEXQjPFcttE4lNgq45oMQWhswrYliZF72N7b01LfkbuxNT4YQJcrqhlqILothYT
-         0ZKxBhdOKmeQB+FMHb+E3T8iVqNBrPhfJWxJfteYGhu4UL8HD3LC3oJQ1V8V7yqw6zRR
-         yPXtB/MhkcxwSY66oVWgNjYW7sZibctIv1D48EtQM5/+jCSXR5KwXJY4ASbRnFbGIzuA
-         HQBqIj0C3MElCvBRil6tcHVWffTPvwoxQVXpme36CfAXobkoQ86R/MrUwohqBsZWbBQ1
-         26TPnpO/HKzR3vaQQI8mP/GPbAUoxZUGOtrR211Lu46P7yD2iR/mNU0StiqUl9WOv6AO
-         c3NQ==
+        d=gmail.com; s=20230601; t=1750510909; x=1751115709; darn=lists.linux.dev;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=++Wr/hdHcpVIEXymOHZrBQsfIoJyvz7x05Ev90joOPw=;
+        b=c846JOqkHeB2isOJLoX940gKDslYti3EeumkM6QORpxCi0Np8YdKcyMsQHDz+Kc4Lx
+         Y3yh9aW4eqyhrWGN3BR9arNciBe0mlojq6+a2ES0NLKQVCt3mty6pnOQRKDtVNUxclyl
+         1miBZHX+jzUCOItIp4wLqRxu9nqDKoV+qdq7WPs9NI/9uVMV2IUfc5IPU9QF2st4m4h1
+         kcMv+TQEuVEkPdiBebNEBBU/v98k4hRhFH82yknVEs+4NAcOtYn+w7cefTSOj5wtBJW8
+         zZp8kwv+9J6ETZUxpVeqDs4JTokJvKoBESMU5AB48W1PuelJiuFmbg4fa7Nt+ii/KTDO
+         Rfgg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750487398; x=1751092198;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20230601; t=1750510909; x=1751115709;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=NkjbtNwR+2HkOqNIDNJiFuWYyKYkGQKZSPa6ldxqxrI=;
-        b=mzL78rNFMHsuhYDu9lAFtYuJUVYMzlb/wRq/1QteqcK2TUs36jjv5BKiq//kSHeN8F
-         OMRMm0UirIvwqUYEKtBmogWLxWj7aAGLyc9W1cmVi3cUkNe329LAnCibkS+j05yTQJ5k
-         CoK+UyuZHXCG3aiUDe4FJkP7uNCMSw+cQ0+Tll5OtSC9Y32DPbJmdpE+W+ILZ6HFaKri
-         lrOviYUi1PNRONBo2f9014qUgWo5GtrrlMvhek4qsYuv3zYljt5TG22QCeRos2bO5cmN
-         DkgaXM5ZB7hkMTNNsES36LVogUQIQaVgAicffpaL+GK9b3WH3GXZthFRWpaqxkHwTJJe
-         nH3Q==
-X-Forwarded-Encrypted: i=1; AJvYcCUoNUv7glaR0appSopfRP1ExYaaz/bEEnyVY0Rt2FPpxJkRD44TlU9UdNTbsNgaCYszhxQd4rgMchuX9XTFFisgPZNI7w==@lists.linux.dev, AJvYcCWp4NYCzzbHLc0dQlsCTasgr7tcwbtwcgni+W+Jk7sIFBXWwCRpOrBm+fp62IHsibQmsMNzhTgsZX9wX5Gq8A==@lists.linux.dev
-X-Gm-Message-State: AOJu0Ywa8huyUmpIt96FTex9TvUpVUZDpCXJK3OjnVf/qRSE7FF0Yr9V
-	IQH+pnTu8SyzUxxzcqMJITVNQJGm0W+i5Y/hDQTuJg/Wx7Q1sGQMsy02F+ZbtDWcgYw=
-X-Gm-Gg: ASbGncsmLiKEz/XWF8wRyH2SLuUkcwbSbiayQLZa9LoWjQuyxJ71MyiZ7sGmrLUBgSs
-	TUtGK9oBA67zAQVFGKPUwsPGJHhuByuJL0PuxnWMsM8MY++9oQZcQJ4twJqhWMUe+Z8XdKNZNyd
-	zETf7PGXLY/0Vqxw96SrNCtsel29iyl1qzTSzEiqCfGbFjJkfjlxnFkCgy9IdkyuGliB+B3ecXx
-	Amlt/aQI8YU40bO1BL6oRheUWQU0d6PzBt8o51MVT2FTWJYjAZTS8puV0DXJItzc65IxCf3llfJ
-	lZFAEKQzpuqFbwdSIGM3YkiyO52hkfhm37I2GubWk22rW8mogRLJ6sEiptV6VbCUvwh8TJk7kD0
-	0+Ml8bZTHKmJ7hwzdY2c3AD0=
-X-Google-Smtp-Source: AGHT+IE/hg0M6sQ7nkl4Ba9kld0aQ2r8UvzDVcYS3F+oasLbyx+jmasGilFbARj3pfUJY1NIUWai6A==
-X-Received: by 2002:a5d:5f4a:0:b0:3a3:6e85:a550 with SMTP id ffacd0b85a97d-3a6d12a1d62mr1739186f8f.5.1750487397581;
-        Fri, 20 Jun 2025 23:29:57 -0700 (PDT)
-Received: from localhost.localdomain ([102.46.244.122])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-453646d1391sm44165945e9.9.2025.06.20.23.29.56
+        bh=++Wr/hdHcpVIEXymOHZrBQsfIoJyvz7x05Ev90joOPw=;
+        b=DM1DKC077lSsJWXVzp3xsv9aG/AJLRnpiO0kX0ZfyrEHpO5oC9lgawKtnOHAwjGOqQ
+         eevuvFD2ifZQArgZBpBr15JqZtS1Ug8m61XgVjccml1iNJeb1SyU/pbsoFiIzm8+YCK9
+         6zqPmuPN0iR/r5Bs5P72NqDKYtx78kerhcegJZXFogYGrf3uAVasgGLB0x1EwcAtdGTW
+         wzS2cJL+rUI1ObC1RaiYW0GpdcEluJ1jDJNvRCXh4f3S9NEJFgHixAqreEbfYA9C8Dtg
+         whUyIQA6zjqXGIPd+K6RGjtX134QqHhll3hJXQyNr6tEdyFQaHGB4/w5u4Z+JjfKVLXU
+         hkmw==
+X-Forwarded-Encrypted: i=1; AJvYcCX0KBU4HJHnS7IZYkxtzywwspbQ0A8l++TyJnk+Jja+ULJAcQ7FGUIlwwnFfHQUa9aFczpJn3JsIe1JJ0bS@lists.linux.dev
+X-Gm-Message-State: AOJu0Yy+04yIxj+CirDOtLVfjuRaICNFcux+DLSlpjsndNUhqOFe4Wij
+	J01ambwreUL4cReaAMSQEnqkfQoT07T5K4qj4f+kZBG1wQY1gcveBiaTyuXKbwsj
+X-Gm-Gg: ASbGncvubB1+Olv5ASjJrWgkbdNHIZd9oZ+4vBGJvl4e/PwegD9LEh91yVqpHF2RV6w
+	2OrKQ6Yr+tPuBgzOHmfG/Rvat93AEyzarjMibBPoXcKhLQwpuHxIL3vJBcDKOCRwAk0m8HCONX+
+	iV8bif4EdbBVoQ/iaRl5Gp7z5sCSBRJzi6Zl2GDveaohF5aT7igVhQMkWbfbuWYD4QMmTK4yDtK
+	uA057dPtXKT4KqjZujvLsnMTOJAAMvSeiFi3nb24Zfm+qzcgj89e0TvSKiKTYIg1YQsQRkRS0go
+	HION+NmYW0w/ifgnKPDWbjW71w5PLerSkzgJ2gRKzxSyxWw5wbA1d2gyvtuCUEvFy8z+JAez6Zn
+	4chidROGygnzs9VlZVElo1xygcdjh0UjYPNNeZ0xdHRA6mGrVvg==
+X-Google-Smtp-Source: AGHT+IHdzUQZnMVQWroq2Y86Ji+WHfkeOg/cc6RKLkTNOoQTQIJHGPYR88ZHTNwdnPBk+xf98vMmoA==
+X-Received: by 2002:a17:902:bb8d:b0:235:ef67:b5a0 with SMTP id d9443c01a7336-237d9a71c36mr64793695ad.36.1750510908606;
+        Sat, 21 Jun 2025 06:01:48 -0700 (PDT)
+Received: from DESKTOP-RD0GVCL.localdomain (124-218-195-161.cm.dynamic.apol.com.tw. [124.218.195.161])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-237d8640ab9sm40575145ad.145.2025.06.21.06.01.46
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 20 Jun 2025 23:29:57 -0700 (PDT)
-From: Abdelrahman Fekry <abdelrahmanfekry375@gmail.com>
-To: andy@kernel.org,
-	hansg@kernel.org,
-	mchehab@kernel.org,
-	sakari.ailus@linux.intel.com,
-	gregkh@linuxfoundation.org
-Cc: linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	skhan@linuxfoundation.org,
-	linux-kernel-mentees@lists.linux.dev,
-	Abdelrahman Fekry <abdelrahmanfekry375@gmail.com>
-Subject: [PATCH] staging: media: atomisp: Replace scnprintf with sysfs_emit in bo_show
-Date: Sat, 21 Jun 2025 09:29:44 +0300
-Message-Id: <20250621062944.168386-1-abdelrahmanfekry375@gmail.com>
-X-Mailer: git-send-email 2.25.1
+        Sat, 21 Jun 2025 06:01:48 -0700 (PDT)
+From: LiangCheng Wang <zaq14760@gmail.com>
+Date: Sat, 21 Jun 2025 21:01:34 +0800
+Subject: [PATCH v1 1/1] staging: atomisp: fix coding style in
+ ia_css_output.host.c
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20250621-bar-v1-1-5a3e7004462c@gmail.com>
+X-B4-Tracking: v=1; b=H4sIAC2tVmgC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDI1MDMyND3aTEIl1Tc+MkiyQTg7QkCwMloMqCotS0zAqwKdFKZYYKhvqGSrG
+ 1tQDlMHRVXQAAAA==
+X-Change-ID: 20250621-bar-573b8b40fb80
+To: Andy Shevchenko <andy@kernel.org>, Hans de Goede <hansg@kernel.org>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>, 
+ Sakari Ailus <sakari.ailus@linux.intel.com>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-staging@lists.linux.dev, LiangCheng Wang <zaq14760@gmail.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1750510907; l=1991;
+ i=zaq14760@gmail.com; h=from:subject:message-id;
+ bh=UmuaVwVACEk8G368/vsvTByhNseq8/MmDXVCYyOC58Q=;
+ b=tloAjt8E0c/tquzQidruBT8mvc3LN9b7bnhxWNqp4xkKJlVl9EYzEysGN/Uvis81F/ujTTdeQ
+ zOz/hWwP9EZAPLr9Zyu/sCqna7coxuEGRIyqUBH260HD8bs/hHBrtOQ
+X-Developer-Key: i=zaq14760@gmail.com; a=ed25519;
+ pk=/x4391DbJ19fFQI7t33HWt3lsHfYPl2I2ax8C+Vxr+M=
 
-Convert buffer output to use sysfs_emit/sysfs_emit_at API for safer
-PAGE_SIZE handling and standardized sysfs output.
+Fix two checkpatch.pl ERRORs:
+- Use tab instead of space for indentation
+- Move trailing statement to next line after if statement
 
-Signed-off-by: Abdelrahman Fekry <abdelrahmanfekry375@gmail.com>
+Signed-off-by: LiangCheng Wang <zaq14760@gmail.com>
 ---
- drivers/staging/media/atomisp/pci/hmm/hmm.c | 24 ++++++---------------
- 1 file changed, 7 insertions(+), 17 deletions(-)
+This patch fixes coding style violations detected by checkpatch.pl in the atomisp driver under staging.
 
-diff --git a/drivers/staging/media/atomisp/pci/hmm/hmm.c b/drivers/staging/media/atomisp/pci/hmm/hmm.c
-index 84102c3aaf97..cae1fccd06af 100644
---- a/drivers/staging/media/atomisp/pci/hmm/hmm.c
-+++ b/drivers/staging/media/atomisp/pci/hmm/hmm.c
-@@ -37,51 +37,41 @@ static const char hmm_bo_type_string[] = "pv";
- static ssize_t bo_show(struct device *dev, struct device_attribute *attr,
- 		       char *buf, struct list_head *bo_list, bool active)
- {
--	ssize_t ret = 0;
-+	ssize_t offset = 0;
- 	struct hmm_buffer_object *bo;
- 	unsigned long flags;
- 	int i;
- 	long total[HMM_BO_LAST] = { 0 };
- 	long count[HMM_BO_LAST] = { 0 };
--	int index1 = 0;
--	int index2 = 0;
- 
--	ret = scnprintf(buf, PAGE_SIZE, "type pgnr\n");
--	if (ret <= 0)
--		return 0;
--
--	index1 += ret;
-+	offset += sysfs_emit(buf, "type pgnr\n");
- 
- 	spin_lock_irqsave(&bo_device.list_lock, flags);
- 	list_for_each_entry(bo, bo_list, list) {
- 		if ((active && (bo->status & HMM_BO_ALLOCED)) ||
- 		    (!active && !(bo->status & HMM_BO_ALLOCED))) {
--			ret = scnprintf(buf + index1, PAGE_SIZE - index1,
-+			offset += sysfs_emit_at(buf, offset,
- 					"%c %d\n",
- 					hmm_bo_type_string[bo->type], bo->pgnr);
- 
- 			total[bo->type] += bo->pgnr;
- 			count[bo->type]++;
--			if (ret > 0)
--				index1 += ret;
- 		}
- 	}
- 	spin_unlock_irqrestore(&bo_device.list_lock, flags);
- 
- 	for (i = 0; i < HMM_BO_LAST; i++) {
- 		if (count[i]) {
--			ret = scnprintf(buf + index1 + index2,
--					PAGE_SIZE - index1 - index2,
-+			offset += sysfs_emit_at(buf,
-+					offset,
- 					"%ld %c buffer objects: %ld KB\n",
- 					count[i], hmm_bo_type_string[i],
- 					total[i] * 4);
--			if (ret > 0)
--				index2 += ret;
- 		}
- 	}
- 
--	/* Add trailing zero, not included by scnprintf */
--	return index1 + index2 + 1;
-+	/* Direct return of accumlated length */
-+	return offset;
+- Use tabs instead of spaces for indentation
+- Move trailing `if` statements to multiline format
+
+This cleanup improves code readability and follows Linux kernel coding standards.
+---
+ .../atomisp/pci/isp/kernels/output/output_1.0/ia_css_output.host.c   | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/staging/media/atomisp/pci/isp/kernels/output/output_1.0/ia_css_output.host.c b/drivers/staging/media/atomisp/pci/isp/kernels/output/output_1.0/ia_css_output.host.c
+index d09365e0c47104dbffbd455bfd649b9079f88c9c..044c7d3706f486ba7cae5941ac598044c831b6c2 100644
+--- a/drivers/staging/media/atomisp/pci/isp/kernels/output/output_1.0/ia_css_output.host.c
++++ b/drivers/staging/media/atomisp/pci/isp/kernels/output/output_1.0/ia_css_output.host.c
+@@ -74,7 +74,7 @@ int ia_css_output0_config(struct sh_css_isp_output_isp_config       *to,
  }
  
- static ssize_t active_bo_show(struct device *dev, struct device_attribute *attr,
+ int ia_css_output1_config(struct sh_css_isp_output_isp_config       *to,
+-		          const struct ia_css_output1_configuration *from,
++			  const struct ia_css_output1_configuration *from,
+ 			  unsigned int size)
+ {
+ 	return ia_css_output_config(to, (const struct ia_css_output_configuration *)from, size);
+@@ -127,7 +127,8 @@ ia_css_output_dump(
+     const struct sh_css_isp_output_params *output,
+     unsigned int level)
+ {
+-	if (!output) return;
++	if (!output)
++		return;
+ 	ia_css_debug_dtrace(level, "Horizontal Output Flip:\n");
+ 	ia_css_debug_dtrace(level, "\t%-32s = %d\n",
+ 			    "enable", output->enable_hflip);
+
+---
+base-commit: 3f75bfff44be0646580fe4efda45d646f9c1693b
+change-id: 20250621-bar-573b8b40fb80
+
+Best regards,
 -- 
-2.25.1
+LiangCheng Wang <zaq14760@gmail.com>
 
