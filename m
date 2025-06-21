@@ -1,136 +1,156 @@
-Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FA172E7181
-	for <linux-staging@lists.linux.dev>; Fri, 20 Jun 2025 16:54:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 980F718FDBE;
+	Sat, 21 Jun 2025 06:29:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750438480; cv=none; b=NoNWLcqiudRTduQeEXJaO0U7TW8smJuk+VIahsTMVDEdC0n5Oaxt287AqIaXvDADTrH/uHC1Eg8gkxop+Tq7WCaO2Y5N4/wHINFcOkNGJVIPq4ny831N7cWsTvRPGpvbCCpN1WolAR5QD9UKZjFjyzC9ZHgKld6+hxriC2LWSdo=
+	t=1750487401; cv=none; b=URwnmV/9zHX9SU59ERQYUU4BrJwP7ICarZMswYJus4zuHbIbi0sM9QLq6pwfnu9pfnTtSAzpRhbBlQ4jyvoJ+xW8YM7w5lkzO3qZC2Nwt/r+slDhor38ZzJvPK75YVosc3eP+wT7ODvnc5WkD1Yc0HMU6Ir4veCC+rywyx3ME4U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750438480; c=relaxed/simple;
-	bh=s9nqYb57y/nutAilPgtn+5a6ISQWT7mmIgEn/sTWkNw=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=BCtEy66hsXeciqaeqiBm6b7UyLvv4qmQNBB0erO9VplxOvzIcXGKjEoN9VlcFathIJZiBo5eMyM1lTuy1HfpyhDJnxHPwW7GAYALtcS5nOJYkN/6lJgsisSSrsXuGsbaCHcjZ1XaXg2IxnLBK3QyzXxbfEMc1W7SiE0vBNqk/L0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HU1gNVfi; arc=none smtp.client-ip=209.85.214.169
+	s=arc-20240116; t=1750487401; c=relaxed/simple;
+	bh=+8nxB59T4nNd/zAuaPjugmozXPdx/wYZUcfV2AVIE7k=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=Sm7gZCMrxtyIrw25+y/dtb741NTHPmlUoFbsmJ6KIsBEasLXiLbONCUzE5v/YF+0G58SdIs0NwUNte1k2MlY9H9Fs9JjK02VnlcG8UKAQcN5TcBtEiJXSb6cQHbDGUkxKihQ80rk392jERdduFhD5c+tQGrORQHy1Nm5YSiC+PI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hQHXEXQj; arc=none smtp.client-ip=209.85.221.48
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HU1gNVfi"
-Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-23602481460so19098405ad.0
-        for <linux-staging@lists.linux.dev>; Fri, 20 Jun 2025 09:54:38 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hQHXEXQj"
+Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-3a4eed70f24so364568f8f.0;
+        Fri, 20 Jun 2025 23:29:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1750438478; x=1751043278; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=5n8UMa9ZY2/Uq1XXfaQRztTpb/VKkz/BaxVAYOVSYU0=;
-        b=HU1gNVfiwV9lGfIe/EndxoQim3WYzT880m4hpW/2JGBUhUamZS54t21AcY0cDxrHya
-         8YhrMuL9vzhD5E3R/z38U+fmzE3y/rpz8KLSTNFc1taXIDCl4G+5/ptP43zXVcyjyuvy
-         7ZSvSNgKBc/UPkiY4Qn+9rbQM+W8cGx7X9NKT3Gdmm03hjIW/fW+BRo64sHkGaJSccdT
-         TV6zbM94/qkiXFIrZTo/qKJZWyXNbHhGTyKVY5i36TUVZejmglJG2DrWm43nVDmYIyGc
-         c+myam2gI/joF0CwNm04cQWhWPbUG6RFKK0UTlvIbev6zRZG3El87p/L4Y7kC5QXBynC
-         UbDg==
+        d=gmail.com; s=20230601; t=1750487398; x=1751092198; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=NkjbtNwR+2HkOqNIDNJiFuWYyKYkGQKZSPa6ldxqxrI=;
+        b=hQHXEXQjPFcttE4lNgq45oMQWhswrYliZF72N7b01LfkbuxNT4YQJcrqhlqILothYT
+         0ZKxBhdOKmeQB+FMHb+E3T8iVqNBrPhfJWxJfteYGhu4UL8HD3LC3oJQ1V8V7yqw6zRR
+         yPXtB/MhkcxwSY66oVWgNjYW7sZibctIv1D48EtQM5/+jCSXR5KwXJY4ASbRnFbGIzuA
+         HQBqIj0C3MElCvBRil6tcHVWffTPvwoxQVXpme36CfAXobkoQ86R/MrUwohqBsZWbBQ1
+         26TPnpO/HKzR3vaQQI8mP/GPbAUoxZUGOtrR211Lu46P7yD2iR/mNU0StiqUl9WOv6AO
+         c3NQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750438478; x=1751043278;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=5n8UMa9ZY2/Uq1XXfaQRztTpb/VKkz/BaxVAYOVSYU0=;
-        b=TCWfGPa5WFmBgAZ96sSlE2jJxe1SZwx9cSdcKYEa/w1sVbwSDXJH8zYeSVWQMNVMwZ
-         5A98lTcikysC/0Itx363liZ7Uqjm0ezlmf9+qmKhdYG+8p7O9reA/id/ZxjKvUxDuVgB
-         Jtm6fkGEDbooJEHq90krA4suGWUCafW0AjvrlVbA/4VBervUNE3wRU9sDiVwRLeBm1p+
-         BpYNP0R+ckmpd/hoTJuaj1H8z61zHMh1ht/a9fFJ16jcjQZnqCy/GgOO77dPORCOU7U2
-         uHCSZ2V+biH74rRUGJQKmlpgggL2TZwhZkSTvdrYmAUMgwm6PmA4WYziIZSJA0KNOpL1
-         L//Q==
-X-Forwarded-Encrypted: i=1; AJvYcCUVU46Ypz5/hiZd2gJebgFHviBaYlG9RZy6Pszjt5xQKOMYtMljDKHDjB/SdC2j7OMPtxPeNU+iXdIZ9nyk@lists.linux.dev
-X-Gm-Message-State: AOJu0YxVFPVBkYeu2q/gCC9ojJyCHlceAs+rwt9TiXHDxL9CDhh1ebMU
-	d6xG7fpdgJYacPe9R4hcodCTmvWgD35D89DisW9PETtyixOCfNa/fZI4
-X-Gm-Gg: ASbGncvIU3GlYot/vRL4MC62uOwOjkEuh/gGgUZfjdFTOjlQEcvncUDIGvEhbqxHjh9
-	eJr28Ax+W7d+0qZPXhEFXHkO8L5784dlutaprtwTwh6fcEDL8t94KrZmgvHWVZjCF9tYEVWFpFZ
-	SIHQJlrWftqW/uUX9B4uN/uSSxkBNmDYGw/ezgcZ2sLitk91VSaUM4dDgpH6hYf8WlGwwannUcG
-	DVm7Kqz84ASyGsDuo3Tf9inBosljN8EIECxPrB/7Nz+gU+BMmZw7H3RyjecmYhY4p7Mi6vl5HJt
-	Zf5670TrO4GLX8+2O4n5/ouTlsi+V9ZJESxCkDNrZRx8E1i7kSgcc9D0FQ==
-X-Google-Smtp-Source: AGHT+IHaN1oW5Hlwn8COrjTD8w04UIf4nZDmAvGd+2JS44q7BflFiyYUhW37lDPvB8pB5dOo1nA6Ig==
-X-Received: by 2002:a17:902:da8c:b0:225:abd2:5e4b with SMTP id d9443c01a7336-237d9841785mr59869815ad.16.1750438478311;
-        Fri, 20 Jun 2025 09:54:38 -0700 (PDT)
-Received: from zinc ([182.216.63.93])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-237d867f5cfsm21727635ad.181.2025.06.20.09.54.36
+        d=1e100.net; s=20230601; t=1750487398; x=1751092198;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=NkjbtNwR+2HkOqNIDNJiFuWYyKYkGQKZSPa6ldxqxrI=;
+        b=mzL78rNFMHsuhYDu9lAFtYuJUVYMzlb/wRq/1QteqcK2TUs36jjv5BKiq//kSHeN8F
+         OMRMm0UirIvwqUYEKtBmogWLxWj7aAGLyc9W1cmVi3cUkNe329LAnCibkS+j05yTQJ5k
+         CoK+UyuZHXCG3aiUDe4FJkP7uNCMSw+cQ0+Tll5OtSC9Y32DPbJmdpE+W+ILZ6HFaKri
+         lrOviYUi1PNRONBo2f9014qUgWo5GtrrlMvhek4qsYuv3zYljt5TG22QCeRos2bO5cmN
+         DkgaXM5ZB7hkMTNNsES36LVogUQIQaVgAicffpaL+GK9b3WH3GXZthFRWpaqxkHwTJJe
+         nH3Q==
+X-Forwarded-Encrypted: i=1; AJvYcCUoNUv7glaR0appSopfRP1ExYaaz/bEEnyVY0Rt2FPpxJkRD44TlU9UdNTbsNgaCYszhxQd4rgMchuX9XTFFisgPZNI7w==@lists.linux.dev, AJvYcCWp4NYCzzbHLc0dQlsCTasgr7tcwbtwcgni+W+Jk7sIFBXWwCRpOrBm+fp62IHsibQmsMNzhTgsZX9wX5Gq8A==@lists.linux.dev
+X-Gm-Message-State: AOJu0Ywa8huyUmpIt96FTex9TvUpVUZDpCXJK3OjnVf/qRSE7FF0Yr9V
+	IQH+pnTu8SyzUxxzcqMJITVNQJGm0W+i5Y/hDQTuJg/Wx7Q1sGQMsy02F+ZbtDWcgYw=
+X-Gm-Gg: ASbGncsmLiKEz/XWF8wRyH2SLuUkcwbSbiayQLZa9LoWjQuyxJ71MyiZ7sGmrLUBgSs
+	TUtGK9oBA67zAQVFGKPUwsPGJHhuByuJL0PuxnWMsM8MY++9oQZcQJ4twJqhWMUe+Z8XdKNZNyd
+	zETf7PGXLY/0Vqxw96SrNCtsel29iyl1qzTSzEiqCfGbFjJkfjlxnFkCgy9IdkyuGliB+B3ecXx
+	Amlt/aQI8YU40bO1BL6oRheUWQU0d6PzBt8o51MVT2FTWJYjAZTS8puV0DXJItzc65IxCf3llfJ
+	lZFAEKQzpuqFbwdSIGM3YkiyO52hkfhm37I2GubWk22rW8mogRLJ6sEiptV6VbCUvwh8TJk7kD0
+	0+Ml8bZTHKmJ7hwzdY2c3AD0=
+X-Google-Smtp-Source: AGHT+IE/hg0M6sQ7nkl4Ba9kld0aQ2r8UvzDVcYS3F+oasLbyx+jmasGilFbARj3pfUJY1NIUWai6A==
+X-Received: by 2002:a5d:5f4a:0:b0:3a3:6e85:a550 with SMTP id ffacd0b85a97d-3a6d12a1d62mr1739186f8f.5.1750487397581;
+        Fri, 20 Jun 2025 23:29:57 -0700 (PDT)
+Received: from localhost.localdomain ([102.46.244.122])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-453646d1391sm44165945e9.9.2025.06.20.23.29.56
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 20 Jun 2025 09:54:37 -0700 (PDT)
-Date: Sat, 21 Jun 2025 01:54:32 +0900
-From: Kisub Choe <kisub.choe.0x1@gmail.com>
-To: sudipm.mukherjee@gmail.com, teddy.wang@siliconmotion.com,
+        Fri, 20 Jun 2025 23:29:57 -0700 (PDT)
+From: Abdelrahman Fekry <abdelrahmanfekry375@gmail.com>
+To: andy@kernel.org,
+	hansg@kernel.org,
+	mchehab@kernel.org,
+	sakari.ailus@linux.intel.com,
 	gregkh@linuxfoundation.org
-Cc: linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org, kisub.choe.0x1@gmail.com
-Subject: [PATCH v2] staging: sm750fb: remove function pointer proc_setBLANK
-Message-ID: <aFWSSAcboBVi4ROh@zinc>
+Cc: linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	skhan@linuxfoundation.org,
+	linux-kernel-mentees@lists.linux.dev,
+	Abdelrahman Fekry <abdelrahmanfekry375@gmail.com>
+Subject: [PATCH] staging: media: atomisp: Replace scnprintf with sysfs_emit in bo_show
+Date: Sat, 21 Jun 2025 09:29:44 +0300
+Message-Id: <20250621062944.168386-1-abdelrahmanfekry375@gmail.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-Call a function based on sm750_dev->revid
-instead of using this indirection
+Convert buffer output to use sysfs_emit/sysfs_emit_at API for safer
+PAGE_SIZE handling and standardized sysfs output.
 
-Signed-off-by: Kisub Choe <kisub.choe.0x1@gmail.com>
+Signed-off-by: Abdelrahman Fekry <abdelrahmanfekry375@gmail.com>
 ---
-Changes in v2:
-  - removed the function pointer in accordance with the feedback
----
- drivers/staging/sm750fb/sm750.c | 10 +++++++---
- drivers/staging/sm750fb/sm750.h |  2 --
- 2 files changed, 7 insertions(+), 5 deletions(-)
+ drivers/staging/media/atomisp/pci/hmm/hmm.c | 24 ++++++---------------
+ 1 file changed, 7 insertions(+), 17 deletions(-)
 
-diff --git a/drivers/staging/sm750fb/sm750.c b/drivers/staging/sm750fb/sm750.c
-index 1d929aca399c..b65a527314f1 100644
---- a/drivers/staging/sm750fb/sm750.c
-+++ b/drivers/staging/sm750fb/sm750.c
-@@ -571,13 +571,19 @@ static int lynxfb_ops_setcolreg(unsigned int regno,
- 
- static int lynxfb_ops_blank(int blank, struct fb_info *info)
+diff --git a/drivers/staging/media/atomisp/pci/hmm/hmm.c b/drivers/staging/media/atomisp/pci/hmm/hmm.c
+index 84102c3aaf97..cae1fccd06af 100644
+--- a/drivers/staging/media/atomisp/pci/hmm/hmm.c
++++ b/drivers/staging/media/atomisp/pci/hmm/hmm.c
+@@ -37,51 +37,41 @@ static const char hmm_bo_type_string[] = "pv";
+ static ssize_t bo_show(struct device *dev, struct device_attribute *attr,
+ 		       char *buf, struct list_head *bo_list, bool active)
  {
-+	struct sm750_dev *sm750_dev;
- 	struct lynxfb_par *par;
- 	struct lynxfb_output *output;
+-	ssize_t ret = 0;
++	ssize_t offset = 0;
+ 	struct hmm_buffer_object *bo;
+ 	unsigned long flags;
+ 	int i;
+ 	long total[HMM_BO_LAST] = { 0 };
+ 	long count[HMM_BO_LAST] = { 0 };
+-	int index1 = 0;
+-	int index2 = 0;
  
- 	pr_debug("blank = %d.\n", blank);
- 	par = info->par;
- 	output = &par->output;
--	return output->proc_setBLANK(output, blank);
-+	sm750_dev = par->dev;
-+
-+	if (sm750_dev->revid == SM750LE_REVISION_ID)
-+		return hw_sm750le_set_blank(output, blank);
-+	else
-+		return hw_sm750_set_blank(output, blank);
+-	ret = scnprintf(buf, PAGE_SIZE, "type pgnr\n");
+-	if (ret <= 0)
+-		return 0;
+-
+-	index1 += ret;
++	offset += sysfs_emit(buf, "type pgnr\n");
+ 
+ 	spin_lock_irqsave(&bo_device.list_lock, flags);
+ 	list_for_each_entry(bo, bo_list, list) {
+ 		if ((active && (bo->status & HMM_BO_ALLOCED)) ||
+ 		    (!active && !(bo->status & HMM_BO_ALLOCED))) {
+-			ret = scnprintf(buf + index1, PAGE_SIZE - index1,
++			offset += sysfs_emit_at(buf, offset,
+ 					"%c %d\n",
+ 					hmm_bo_type_string[bo->type], bo->pgnr);
+ 
+ 			total[bo->type] += bo->pgnr;
+ 			count[bo->type]++;
+-			if (ret > 0)
+-				index1 += ret;
+ 		}
+ 	}
+ 	spin_unlock_irqrestore(&bo_device.list_lock, flags);
+ 
+ 	for (i = 0; i < HMM_BO_LAST; i++) {
+ 		if (count[i]) {
+-			ret = scnprintf(buf + index1 + index2,
+-					PAGE_SIZE - index1 - index2,
++			offset += sysfs_emit_at(buf,
++					offset,
+ 					"%ld %c buffer objects: %ld KB\n",
+ 					count[i], hmm_bo_type_string[i],
+ 					total[i] * 4);
+-			if (ret > 0)
+-				index2 += ret;
+ 		}
+ 	}
+ 
+-	/* Add trailing zero, not included by scnprintf */
+-	return index1 + index2 + 1;
++	/* Direct return of accumlated length */
++	return offset;
  }
  
- static int sm750fb_set_drv(struct lynxfb_par *par)
-@@ -605,8 +611,6 @@ static int sm750fb_set_drv(struct lynxfb_par *par)
- 	crtc->ypanstep = 1;
- 	crtc->ywrapstep = 0;
- 
--	output->proc_setBLANK = (sm750_dev->revid == SM750LE_REVISION_ID) ?
--				 hw_sm750le_set_blank : hw_sm750_set_blank;
- 	/* chip specific phase */
- 	sm750_dev->accel.de_wait = (sm750_dev->revid == SM750LE_REVISION_ID) ?
- 				    hw_sm750le_de_wait : hw_sm750_de_wait;
-diff --git a/drivers/staging/sm750fb/sm750.h b/drivers/staging/sm750fb/sm750.h
-index 9cf8b3d30aac..640bff625052 100644
---- a/drivers/staging/sm750fb/sm750.h
-+++ b/drivers/staging/sm750fb/sm750.h
-@@ -169,8 +169,6 @@ struct lynxfb_output {
- 	 * output->channel ==> &crtc->channel
- 	 */
- 	void *priv;
--
--	int (*proc_setBLANK)(struct lynxfb_output *output, int blank);
- };
- 
- struct lynxfb_par {
+ static ssize_t active_bo_show(struct device *dev, struct device_attribute *attr,
 -- 
-2.34.1
+2.25.1
 
