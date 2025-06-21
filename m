@@ -1,98 +1,119 @@
-Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
+Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FC6E1547CC
-	for <linux-staging@lists.linux.dev>; Sat, 21 Jun 2025 18:27:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C4C515533F
+	for <linux-staging@lists.linux.dev>; Sat, 21 Jun 2025 23:28:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750530423; cv=none; b=kk8DZ0MW/vIz5P0m2Wr8c7tGXU0m5AaOTsSrmfHtXZmvBfXT2rqJ95qU3nU6vKit7KByeUJNvH2hP80QMh7Qf70SKrrpyfRWpS7MN+8LLTKqyVUrkTKVXmmT1wjzUeKCDEAaYcIC1XquO3m1QzkdxrOLrRW82SXA8kMBZz81iLQ=
+	t=1750548504; cv=none; b=N2iBFAGVxie+BXDCwmqe2B+6iGGlLE1YYCE3ilQ4lTt4SgHXTUjB3/kS69Vl7Z4hGm6czRWpjcgrlZXKT4uaCW1WXr2BAE/DrsVA2Aa95YCNM1rzsRd+Cldj2p9HpHlo9Td80F5+e7elbE7cSK4tqklYWmXIRn2qiVe6TZCJct8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750530423; c=relaxed/simple;
-	bh=U9YZoYYImG0JaaXjf+TZhZLctBrJrquR7CQZjMxBEvA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ifAFIrfAmdjnKtkLbNMcUUXmM4v2RylkjLEu8itXSEcOpL+iJL32EHxopM/aGw+j9OcBDiOarqv+0SdBHmCmq2jPpFJaGJyKkbwxzB4yDj24YMdacsl0c1fVlaaDso4Pt2CNWRuDzMoF3dyHaCM6uqDxL+u9hFD3IX0pe2ehW88=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hAZ/cBqN; arc=none smtp.client-ip=209.85.208.43
+	s=arc-20240116; t=1750548504; c=relaxed/simple;
+	bh=1BMO7zCwVyq4cR5IMkJTR++wTf13wr3BBfUK/5fXB4I=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=AwPNwsA1ZnjbUIQDX7TVwdBQnYED/UAVNlrOlvLPPFm2Q2WrIEgMiVl9uwY84iu5NLzt+HE0PEe2nfAmeIZztFV9uHWRffRIq/NuX6FkN2n+yjDt7FuXd7vX2OD/rtvmUkPgU+f/uODG8mHTCDuMKYBZgPdlq8oScDqpjl1Qr0Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jmecZtek; arc=none smtp.client-ip=209.85.214.179
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hAZ/cBqN"
-Received: by mail-ed1-f43.google.com with SMTP id 4fb4d7f45d1cf-60789b450ceso5549596a12.2
-        for <linux-staging@lists.linux.dev>; Sat, 21 Jun 2025 11:27:01 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jmecZtek"
+Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-236377f00a1so26996655ad.3
+        for <linux-staging@lists.linux.dev>; Sat, 21 Jun 2025 16:28:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1750530420; x=1751135220; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=zpscXX20zvGpci4UxXWKpwL6hXgbJYya1UIZqa9ZRN8=;
-        b=hAZ/cBqNr20IF1D3UlF7Ajtioq8QOqJEn7X6ZjTUDNAG3jMQfLSh31NiJ9yPttzeZb
-         bJ/OXPgteIJWOYhDSmSo35fn/U6I0CHdUvQYTKmGXE9YpxdO9pQGGmEAWfV5hj6QVKki
-         OEVUc8i0rzXmbai9f81S3eqYxqfnHmX76SszJFOEChRtbR6K1Mxpdn4OkDoQy9o5wuNs
-         kaViMMCMQODXKcR5rS9KR3N5vC84nzOdZGGqbocvOmoYDQ3HmG4reJoZT2n2NabXPKQY
-         WPM38Gsl9H1V2Re5JutzxvuRGpGJAfhg5oZJkR5HZ/K2gEDFh4dFI64LEIm6ETsbWh7q
-         EV2w==
+        d=gmail.com; s=20230601; t=1750548502; x=1751153302; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=C2fYTarwPpK0jvqPcWLAS7PDSZaF6F/fUngXjtT3TiI=;
+        b=jmecZtekIkrWeB46RnKBbmsE0Q1eRyYCmY3cww7VRsK9pICV/7DSNlqU2mp7kSgSWV
+         WDtmmX31U2V8U6R+jHDe8opC+pV8BwGjrTo/mKOcPMWPxcB5LpI7G6djjLAJgIfO4ofk
+         PUNoNqPYzDImoqWdxdJGJwIMu61tw7vYCU5zi46NssoR9xv8qRaEfarI+tpSR+BdaVF2
+         r+Ook4lqqyvTdQF81hanUYJXz7aOt7GyhR1lf4xFhcey1JVXiqo9HKgG1l2QSAVqjCli
+         W5QA+oH2w17gvC5j66i/aO+Z8bURS+wbolB/CHdStL6qnE6IfC8eiBAft5rZ+/GR1pzL
+         Hu6Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750530420; x=1751135220;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=zpscXX20zvGpci4UxXWKpwL6hXgbJYya1UIZqa9ZRN8=;
-        b=s/joqWZj2AuMcTxpN5xFYMIEH8brbzObR07Bfp0p20CXe/YgT+REec0/wnK7b1n3Hn
-         AWMA3dq9ETndiauxhAstCjUtsrcdBenfqla2AnFAxhB0QoGC+I/lfv7VnXVVhZNd1R3j
-         wBu0Q/t1UO802hxvVOrVqSM/L9kwmlWPSPDe3hpJ07dAwik78FKa9IsggYn1rk1f32Rb
-         nspwQJ3VE78eR7VmrexCLcQtcbb55gy5Xr5IonZrB1ysV5sBgTUQ6oEFmZpsL+GMiiK4
-         8mDDBFWnqehZqh+qEJ+IMX64JrjJiPk0Uxiv32IIRrBnhCPSem31/dLhlPG0Yr7o6sTc
-         ZFpA==
-X-Forwarded-Encrypted: i=1; AJvYcCWaF8pS4ludyJcjyIkcsRR2e9/YuBcDCP9OoG9iVVzpmYRn4qioy1GzYRmHDgxgMaAnrCUDhlNqRwcxSrvI@lists.linux.dev
-X-Gm-Message-State: AOJu0YxUQ8EhGtOi2QGZmKVRBEnwXZXceIfpNnrYJDL5hYTNdwvwW6qu
-	8B+c841GaOPLD805J0D1/dbQrQm5MfsH2vGaTGP/HoVPAMwz3aq0IbjS8Q83OFDgi4GdHB9uQvN
-	qQoFtmOzysnf+mv47M5rchkBRe1/xpcg=
-X-Gm-Gg: ASbGncshV0myQ6CbbXgTqYo2t7mEp5ReOSNRjfbx6hn2Gwywt+FeV5YtOBPUKm7C2LH
-	/sOVdsyhD1XhD6nAmlrL+EM1fU/D6MVaeRj3L9bhNVyDOx6okP/4riW2qCTRJ1UDYL7CvFSx1Ii
-	humFq+R7c/jW25ONDce74Pb8aWeisDOwVBV9IRgQSIN7w=
-X-Google-Smtp-Source: AGHT+IEHRptkqa+LGu4XawDI9fo1KWyDHv5bRmJNTBeBg61tk2jM2Adf8P6lwsID7iXnW0w7sSxC/nB1sBA+Dhnmbxs=
-X-Received: by 2002:a17:907:9603:b0:ad8:9c97:c2da with SMTP id
- a640c23a62f3a-ae057f6473bmr662798966b.40.1750530420340; Sat, 21 Jun 2025
- 11:27:00 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1750548502; x=1751153302;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=C2fYTarwPpK0jvqPcWLAS7PDSZaF6F/fUngXjtT3TiI=;
+        b=KvR1i8SnfPJhF4rUgF4iq6Lxbr6Mh2BL+PxMjjo0CKyinWlPURdrnCLWjNJ2HkpMzy
+         wGxUmQ+M4o+OjN4aGVM4OA6XygxiKPquhlMM2W7H9jFYBi/1ODBe/+AFr0yH9NxqDuvc
+         o30vFX+D5Piwbd2gUdlIY8OKeFENnq0Pesgst8dxy/PJcM2wpU/sv2vIZkDVrTKd+Zwy
+         FDg/BkSaY2jjiV2KuYoZ2oTqYofOQWhZUi5az8eASl5986wxw0GU5TKstqugs9jkonwy
+         ajU60n3U/t8Rg8Ha6ZrjsyhdAJqYNZr8deR9pJiTEHkVWyvDTxJiHXso/1cQJMz4+g+6
+         7+TQ==
+X-Gm-Message-State: AOJu0Yz9SzAVeVJlJpRcyyOb/jJtuEFsHbJBOOVNHkz9aPmu2I1zw8ho
+	F1eBzJ+25cvI/8g9mzH1bRbIHSqLudUcAGt3LYaadOxCbfolQJMCfy7/
+X-Gm-Gg: ASbGncuVPoGy5lPen4lT2jtCj9dOv1pe0d0oS45Y3Hsmk2wbdyJmsglSBo5EJPsjc4x
+	q4EHqssRO6Dn0wl1nCX9AdC0ZAOmLipF8Nyc+Bl84k9kfQdX3sS1hCpWzv6N9Z6y9vRijgSMNyF
+	BAP5EIJ15GDoe3WnWHaMAomSH2+jX/ip8XCM8GHFbRxTA6Bi/GrRePTtlon3itRVticmt4DmjXQ
+	wiC7cp/WdlXhvDhchVgP25nbCx+HDaDOyNkF3BgQz2Ux9sgxVbVVyfCXDDg9dAyv/2dhtLb14df
+	JIOesfAls4ouybE62iI/NI+c8zqrrLdvfuBOb84sNoiruQbjXHQYkIYegw==
+X-Google-Smtp-Source: AGHT+IEl+eni07XId/7tV6K+MIphvOzSUsPaMLYZXBDhuP4KJzfFDhEYMuQ0NPaXMwlhpRtAOiXxCw==
+X-Received: by 2002:a17:902:e5d0:b0:234:ba37:87b0 with SMTP id d9443c01a7336-237d9727096mr106392295ad.13.1750548501764;
+        Sat, 21 Jun 2025 16:28:21 -0700 (PDT)
+Received: from zinc ([182.216.63.93])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-237d8393741sm47867805ad.15.2025.06.21.16.28.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 21 Jun 2025 16:28:21 -0700 (PDT)
+Date: Sun, 22 Jun 2025 08:28:16 +0900
+From: Kisub Choe <kisub.choe.0x1@gmail.com>
+To: gregkh@linuxfoundation.org, philipp.g.hortmann@gmail.com,
+	dan.carpenter@linaro.org
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	kisub.choe.0x1@gmail.com
+Subject: [PATCH] staging: rtl8723bs: replace msleep(1)
+Message-ID: <aFdAEM6GnCudvqMV@zinc>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250621-bar-v2-1-4e6cfc779614@gmail.com>
-In-Reply-To: <20250621-bar-v2-1-4e6cfc779614@gmail.com>
-From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Sat, 21 Jun 2025 21:26:24 +0300
-X-Gm-Features: AX0GCFv2R4o5HgTkGeyad_hvoppFVtnZrW6opZBkdmWRJfshAUZag9Jj25RzrnQ
-Message-ID: <CAHp75VdHAYvTHJwZs0NL5uHEkUtQ2Gyp1Y5GC5JY68h8XS7pvQ@mail.gmail.com>
-Subject: Re: [PATCH v2] staging: media: atomisp: fix coding style in ia_css_output.host.c
-To: LiangCheng Wang <zaq14760@gmail.com>
-Cc: Andy Shevchenko <andy@kernel.org>, Hans de Goede <hansg@kernel.org>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-media@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Sat, Jun 21, 2025 at 5:32=E2=80=AFPM LiangCheng Wang <zaq14760@gmail.com=
-> wrote:
->
-> Fix two checkpatch.pl ERRORs:
-> - Use tab instead of space for indentation
-> - Move trailing statement to next line after if statement
+changed msleep to usleep_range to
 
-...
+Adhere to Linux kernel coding style.
+Reported by checkpatch:
 
->  int ia_css_output1_config(struct sh_css_isp_output_isp_config       *to,
+WARNING: msleep < 20ms can sleep for up to 20ms;
+see function description of msleep().
 
-And what about this big space between 'g' and '*'?
+Signed-off-by: Kisub Choe <kisub.choe.0x1@gmail.com>
+---
+ drivers/staging/rtl8723bs/core/rtw_pwrctrl.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-> -                         const struct ia_css_output1_configuration *from=
-,
-> +                         const struct ia_css_output1_configuration *from=
-,
->                           unsigned int size)
+diff --git a/drivers/staging/rtl8723bs/core/rtw_pwrctrl.c b/drivers/staging/rtl8723bs/core/rtw_pwrctrl.c
+index 6a2583d0d3eb..82e77cd8d80c 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_pwrctrl.c
++++ b/drivers/staging/rtl8723bs/core/rtw_pwrctrl.c
+@@ -7,6 +7,7 @@
+ #include <drv_types.h>
+ #include <hal_data.h>
+ #include <linux/jiffies.h>
++#include <linux/delay.h>
+ 
+ void _ips_enter(struct adapter *padapter)
+ {
+@@ -424,7 +425,7 @@ s32 LPS_RF_ON_check(struct adapter *padapter, u32 delay_ms)
+ 			err = -1;
+ 			break;
+ 		}
+-		msleep(1);
++		usleep_range(900, 1000);
+ 	}
+ 
+ 	return err;
+@@ -581,7 +582,7 @@ void LPS_Leave_check(struct adapter *padapter)
+ 		if (jiffies_to_msecs(jiffies - start_time) > 100)
+ 			break;
+ 
+-		msleep(1);
++		usleep_range(900, 1000);
+ 	}
+ }
+ 
+-- 
+2.34.1
 
---=20
-With Best Regards,
-Andy Shevchenko
