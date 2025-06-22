@@ -1,95 +1,95 @@
-Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
+Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 658283B280;
-	Sun, 22 Jun 2025 20:39:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEBAE2F2E
+	for <linux-staging@lists.linux.dev>; Sun, 22 Jun 2025 20:42:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750624773; cv=none; b=oc9EoOKsyiQBPcrWyN7sivZOuMH9SWS4JthaN47S59P8rYrglYzzxK5zznAPJuVPCq/oKoIiO+nYfVpb/5bE82pj4uEPjxGYWr5JaRXg0kpSkWnlTitX5HaWBncGXM5iWYdSj8yThIuw3YcohVSXx576rzXyb00G2HuaSgd4lb8=
+	t=1750624963; cv=none; b=sILgKXYGWhrmFUTFRP0D7W3nRN5DSLr099mov+P4TyteoDR4Ahx9B1ezIjoDJukBEm8wJdX1vhpIXEJE+eJ9XME/ErKHzVHszqCfW80Nu2hGJ9qhC+VgLFw3Lf+sjXdDBAuczAuOLazXWasPaXpiOlXtpacpwpQMBPOt6+u/LW8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750624773; c=relaxed/simple;
-	bh=N6guHtyGMULMEJD0DmeqXfTFFtMsmAZzCxdt3JROOYM=;
+	s=arc-20240116; t=1750624963; c=relaxed/simple;
+	bh=aBH5ync0KSrwnI3FXleDVUQ8cMpif4dJqFHJOP7BLpw=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=VEOosJdIJAgC6l9BNM2gMAl1ZjXruAvsXwgHLVrRPbo9ArizJxqvmiMIIBVNG3WQCsJwMD1rfn4jRngmPJWckcGYK2Ividm3lTOdl/wbwvN0r2Ae0LiIT34gNl0wEiEKbny920h6ZrrbxbrhImR5710Q8qHrUZ9VVVUGjBaZiSc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Un9nKTP8; arc=none smtp.client-ip=209.85.218.41
+	 To:Cc:Content-Type; b=LGeLOwMqFYgQ9t41onW4S8oWTZxjn17gj6fWxska2lPvN3Pwap7QdgWkXEx6+eSdwbHiQtqbTfkBsbojan3pfKTqBIjQuSn/sk3t6M8vArDjvM2HbklNh136TbA8mYlgZzZZCE1BXNhdeqMwsHKzsp/v6znW65hKme6KUKVLIIc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=B5xm4cFg; arc=none smtp.client-ip=209.85.218.46
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Un9nKTP8"
-Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-ade76b8356cso592481766b.2;
-        Sun, 22 Jun 2025 13:39:31 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="B5xm4cFg"
+Received: by mail-ej1-f46.google.com with SMTP id a640c23a62f3a-acb5ec407b1so579777666b.1
+        for <linux-staging@lists.linux.dev>; Sun, 22 Jun 2025 13:42:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1750624770; x=1751229570; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1750624960; x=1751229760; darn=lists.linux.dev;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=sSQmRB6rd2h8MVTx7uEJn3zEtDJCTLtNHMbRBxoBn+U=;
-        b=Un9nKTP8l5QRCNG0P3eRB0v23ukNgmEtXtPW+oAaiAsH4hRb2Ya57kcd3cdth1FTZL
-         iejIFD//rY/Yp4sJFhD7d+EGuY9tmvOXDUax3lqPFyXGughgVHck8a5DFfePruq1jL21
-         a6lSWNK57P/+nMgQZdgbq9Dcwv1dFhRDFjlefnfIsAukQhq3UptpzRogdwkYN6hM80of
-         mIxsQvZza6yp8RHjpXvpGlGq1ICWDjJeI6SjrSbbkXb4a9W3et9yb4UIJBM5tec95blt
-         WL7iZFcQPAlbYV38FRjpuVUyQ2aHvTcdbIcFhWYTcNh/w0fiZc0X38Fp5zbg2Yh5rFli
-         o1pw==
+        bh=VEaaZjTLxR/wmDq/Wpxqo+FbQo3s+O631q6fY/ypEKA=;
+        b=B5xm4cFgRBL2jTc/kHTSUO1GYKOPRUBKCDICOHXS+4A05d6YOAfJhB8N+pLBAl1HYA
+         yDQc6giktCnjkQP5q4C/YdghWAfMiVf0gwqcu6Yv42oB5kizJZWRq2eIIThq6ULlZ5I3
+         9/NT12QmHNhemVNvXXI7UkzdGD0DczDWEhQCoLn0kfZsfADYFCOuORIFl3VozPjOuaAG
+         4ccUZbFq23hrYOMYqxDu9EF75nmVPTw/pGU2ae+siVJH4KM8caN4mj/4SGKD7bDy0FH8
+         yhUMKeSwM8SJgpa/e6VV6kyiHMsRj291oo1PEessB5khd/zxy0NJSA9y4atx7YG938I+
+         nx0A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750624770; x=1751229570;
+        d=1e100.net; s=20230601; t=1750624960; x=1751229760;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=sSQmRB6rd2h8MVTx7uEJn3zEtDJCTLtNHMbRBxoBn+U=;
-        b=avqH6iRI9B3vDuA2qPf2MK6DiE3zheJZn5RfJMvwr0C6tG3lep3RN8EjbS8LJOa/O+
-         4oskZl7tlmox/Oa3XfuQbNpzGse+vOjIYbY00wh0yEaDzsg2y4cPrhZLIrQldyGsiAyK
-         hL8GJ2ikW6Jzt67SoIMZTreSHImHQYE5U7PlBjf23QHNTTQ01u8SaGAM8OrHZ+UGLBXq
-         r05j7YKslLhf37EJIhOJwLgcdG9ETLiw/OcTqEr+GH9xxuiYV+iHDrORXGTnQ5d1NnHR
-         GgWOqyXS/hE1sZovBsLBkdjK4TTdSXywGf801PoTgjF65aZuCHNcpJDLvQKjN9hsylCK
-         /6pA==
-X-Forwarded-Encrypted: i=1; AJvYcCVeiKQDTaIXWX07zPkB39ni860FAm/tlkfpN/AOljDOrU6bvzIsr4Mq4jN9jcR5uahmPKCjmT7aX8DyRneulLVsqEUTXw==@lists.linux.dev, AJvYcCXugEbRrn8nmQZx2qSt4ynMwDE/QtYhlGJgRsA1Yi6Cy4bxvfdfgr6XD/3foQP282gx/siXhCmiMaVBZKSH3A==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzEUomFT4P2emzp6oQ9TRPmqFb3Vl3pUrdOJV7u+VJL+4DuR3qG
-	yWvtPmT2hLqz9INmbwVosaUg7gWIvvD1rMf4b/5IL/+qHlY6B/cQ+9YrU4bs7LghlWc+5wVRI8q
-	g8lqh15GNZo1Z/2DPEtNu7uiloprixYYPvIvo0XY=
-X-Gm-Gg: ASbGncv8BcA1w0P8geFcUjyrfQLT6V0YUjXZTeLvYY/oBNe8RyaTyrISMM/PuNeOXDA
-	lc2x4j3cgx9QRqyFCgRVoy1OzBiLVwh8aEDrqTFuFDzGKqhqtdOwMNCukyM7cnLJj5YW0SlXazc
-	8DX6cLfJXLHMVr8M7CO7VE0nKZ6rD7tz7MP1wDDBmfHazTlvFt8/VitA==
-X-Google-Smtp-Source: AGHT+IE5Og/WZWlEkV1UzETWK6WHUVp7h5VoEVNPzXLtExpnzD5jPbsGBhn4lHPKUW0pDk/8U4CEsAuh7LKSEOmRoz8=
-X-Received: by 2002:a17:906:f5a9:b0:ad8:a935:b905 with SMTP id
- a640c23a62f3a-ae057d7a6b1mr795786866b.22.1750624769749; Sun, 22 Jun 2025
- 13:39:29 -0700 (PDT)
+        bh=VEaaZjTLxR/wmDq/Wpxqo+FbQo3s+O631q6fY/ypEKA=;
+        b=oJRmT9Cuq9aX58hzjckgbRF5WwBDGYajFscqZgyQ53raG+GsdWS+fkvj2bFbMcaW/u
+         JiuFKdD4iFkzFwdINVRWg8sfE+O02MZ2Dtzs94GbFbvsm1U8ux38uX0PINc16Bl/j2g3
+         bE+EUV2+VJ5eKbM2iQfsALJscHYA7gcyClrvP+oxz4npQoyiHD66gPZnVaIeiljuUJq0
+         3P+vq5CKvCj2qnmDk8k+LnVvaTRh56uDMIK4w+5lYXiKJ51ljp6vJ6QTco0sGTxfcZwk
+         Si9fc5nAbeUc+i0R9bDhp1e7Z1TJQ62FpOxJklfYUzJYwFb8ZoT3ZqE2z/gOqHKLi9OP
+         CZmg==
+X-Forwarded-Encrypted: i=1; AJvYcCWm9CEtWvKh2OneV6uzcQbpH53U5AKbFFsgNOJ23T8cpKda9DGmqnCgkm0CUG8BOI4AWeIgmZ0nA+57j8od@lists.linux.dev
+X-Gm-Message-State: AOJu0Yyx4EpbdcfAbXS8v9OwAo25q3guu6CLBLDz/D0cZ7rzLccVQa9z
+	NGNFdjRnMJSSItCVBT0L/wLeOiBkLzvQuPwWUPVlrKbaftAnmeao98Nkasi7STGtNhcIwXgAOYH
+	PqhDwt6bsFDfq0XnLlbaCmcAJsCA/370=
+X-Gm-Gg: ASbGncvUaGu+Zvr9y51QQAThbQRJKAEaGX20Bdoz1kN1hjn0BKi87+pPJzU/c4rhWNZ
+	fVOovmDfAEjAdb8RTPmJVeaVBM2wR33pwVz33N/ZCXfznFE7+zf+cSnFlV2EMNjLjZaze1jqDtk
+	Iqz6HRrX2aaH5my+vLuuAdPpRTAjAb6wj7KxQc9jb5y/5k0dcFRadIMA==
+X-Google-Smtp-Source: AGHT+IEuCW/KdysCM3ldMjDLa6Hfj5krLcXWfqFZ/oZd25TNQe5yelt2PpsMVNswV4DMKz9ZLEhFH+kmoAcg7ncOtno=
+X-Received: by 2002:a17:907:178d:b0:ae0:635c:a402 with SMTP id
+ a640c23a62f3a-ae0635cad93mr668278066b.50.1750624959931; Sun, 22 Jun 2025
+ 13:42:39 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250622065340.184048-1-abdelrahmanfekry375@gmail.com> <CAHp75VcKQGvcgv+72=9CY9yvvmzTDUaiP8xZZzQCyd553_tqYw@mail.gmail.com>
-In-Reply-To: <CAHp75VcKQGvcgv+72=9CY9yvvmzTDUaiP8xZZzQCyd553_tqYw@mail.gmail.com>
+References: <20250622-bar-v3-1-4cc91ef01c3a@gmail.com>
+In-Reply-To: <20250622-bar-v3-1-4cc91ef01c3a@gmail.com>
 From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Sun, 22 Jun 2025 23:38:53 +0300
-X-Gm-Features: AX0GCFvAarN_hJUIGnkkqkGeTc0xTTJwApkpFWobyp93oaVzvKfSCAh2aYpZQSE
-Message-ID: <CAHp75Vc7=WYeay0xsvVd5NZ-mm+WdU1LrzzFAE1GrdpzH2JjEQ@mail.gmail.com>
-Subject: Re: [PATCH v2] staging: media: atomisp: Replace scnprintf with
- sysfs_emit in bo_show
-To: Abdelrahman Fekry <abdelrahmanfekry375@gmail.com>
-Cc: andy@kernel.org, hansg@kernel.org, mchehab@kernel.org, 
-	sakari.ailus@linux.intel.com, gregkh@linuxfoundation.org, 
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
-	linux-staging@lists.linux.dev, skhan@linuxfoundation.org, 
-	linux-kernel-mentees@lists.linux.dev
+Date: Sun, 22 Jun 2025 23:42:03 +0300
+X-Gm-Features: AX0GCFt-u0KDswVjW_bfV4Y3-CzEDf1LLgcF6bQ7Jm2retz0Z--D-RGtvpCiwyo
+Message-ID: <CAHp75VcFSbLwqot0Rrm=141Y-mCQUuFqNGn=DnfKSSYp-31vcg@mail.gmail.com>
+Subject: Re: [PATCH v3] staging: media: atomisp: fix coding style in ia_css_output.host.c
+To: LiangCheng Wang <zaq14760@gmail.com>
+Cc: Andy Shevchenko <andy@kernel.org>, Hans de Goede <hansg@kernel.org>, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-media@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Sun, Jun 22, 2025 at 11:37=E2=80=AFPM Andy Shevchenko
-<andy.shevchenko@gmail.com> wrote:
-> On Sun, Jun 22, 2025 at 9:54=E2=80=AFAM Abdelrahman Fekry
-> <abdelrahmanfekry375@gmail.com> wrote:
-
-...
-
-> > +       /* Changing to sysfs_emit changes the behaviour if failed*/
+On Sun, Jun 22, 2025 at 6:42=E2=80=AFAM LiangCheng Wang <zaq14760@gmail.com=
+> wrote:
 >
-> This comment, besides missing the space, is useless here. You need to
-> use the comment block for the proposed change.
+> Fix multiple checkpatch.pl ERRORs and coding style issues:
+>
+> - Use tabs instead of spaces for indentation
+> - Move trailing `if` statements to multiline format
+> - Remove excessive space between type and asterisk in function
+>   arguments
+>
+> This cleanup improves code readability and follows Linux kernel
+> coding standards.
 
-Also the text of the comment is a noise. You need to explain better
-what's going on here.
+Change looks okay now. The question is are there only these
+problematic places or more? Can you double check the entire driver for
+these?
 
 --=20
 With Best Regards,
