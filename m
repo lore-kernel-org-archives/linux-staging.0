@@ -1,58 +1,58 @@
-Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
+Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FBFE1862A;
-	Sun, 22 Jun 2025 20:36:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00B922F2E;
+	Sun, 22 Jun 2025 20:38:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750624583; cv=none; b=DkY4fwk/iDRjsWdbZhh1ZaG35nlpAdguMiFA46UHO3/4e+xz8ef8BG0OEDruj9PYe7y/jyXPAipynbCwV7imPtxqms6fFM1NkcBmPsq/LHugnf9fZS1dogDO8dSAU0g3RNuh/0JR+bdZd0jIIxH8CwHn9UZBifFTNw8oqE3gcxM=
+	t=1750624719; cv=none; b=PRv4+zRFUNwuDRjCP09OYfNscTTjALtIFcfUjwsC2zZUFSvL6bmFTASltEgzup2glpa5wOMoEBZa9ZdnOm9c0yV2OArSz72aelF6uM3TC7rXRk7m5to9oJ08k/91rghSih+ZXt5Bw3Y/EkVxk5tWJnWcT7M/KFpFGdFRpNMP3NM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750624583; c=relaxed/simple;
-	bh=hz3Jdtz+LsvuzD4rQ7JolouH51M+SUxhZRQ2TBHTSzs=;
+	s=arc-20240116; t=1750624719; c=relaxed/simple;
+	bh=WmcUJz5Yg3hFpCBfEpBPaXUjMp4R+nRl8xFq2ZIllkk=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=EmOSQvqbgmCx4RJhqbLKEUyH2LPFmxyng7GPVwRfdMEIGdwFUwTQ4Z30J+fl2mop8hcDJMSsrapQhCR2Mb60S59pH4efSxmN/NVvjTMgF2Dq8bTXWw7sHHew1Xs3H/MTmIQAwNfmYSBITVTzxGEBpFiCxyKpb2Jo2756GTf+dfk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WEWD8EYF; arc=none smtp.client-ip=209.85.208.44
+	 To:Cc:Content-Type; b=VTuBoXqqcIEdjhVos/h3DJ/PaUW0siM2wvyyydsBZrRj7jyRV9HYmjrHJoXc3dJZa/Ppfahw/jDgpbKmP4vAXBJOUcXM58IrulW9+p8eerPxQ8q2w3hpyDSNbIq1kRLrwvG3/Hyg78AK1Abr3nGAh9uqH/utJ07MJdOu8GUc+/s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XN1f5Z9N; arc=none smtp.client-ip=209.85.218.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WEWD8EYF"
-Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-6077d0b9bbeso5862219a12.3;
-        Sun, 22 Jun 2025 13:36:21 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XN1f5Z9N"
+Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-ad88d77314bso727612366b.1;
+        Sun, 22 Jun 2025 13:38:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1750624580; x=1751229380; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1750624716; x=1751229516; darn=lists.linux.dev;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=hz3Jdtz+LsvuzD4rQ7JolouH51M+SUxhZRQ2TBHTSzs=;
-        b=WEWD8EYFBvR+xP2f74+qwVqEI/IauWO1+CpM20CUYE8l9N18Rva/tnpNMjZjWpr/ML
-         ILJ3Q7bG7fejE3if4L2qbzYIt7K6X2gihNwG8OkiNZYzfQWl913QYfRuw76aMQc56RDk
-         FFFlQ4Rrqe3/MfxqgqkLRcxmonWHVaMB3ZZTaa00P/Dysmw5KJJ/ys23jv59hDqueoqg
-         UL92PAOUkg9tE4bjB8YXVIEpuSrI0PUMJNL9+VFCjQZOigMXLJScSFja8l1NAMpg22xQ
-         J1b/gjCBwA4ECOatAxQzkkgs7tz3oqDU7TPQpHyybkCwk/oiObEtl4SpY6sXCH0InWdY
-         uCXw==
+        bh=pLvpeoBKGxEwHK+9A/jrmaTsC1Syd7TxhtlcyFyT5Po=;
+        b=XN1f5Z9NcUb3A3/JoQgjB7doLg1A9A5sUdgRijSMmVRBNF+2dHkao9Xe7G4JmTu0ap
+         hVq2HqdS3G3m6f9SY3Dz+nzLZuPsf0gWsHuf7jvgD/UuV8nVQhwferCpDBVqQSFdA9Xc
+         f11VvpqHSra7nDyoOsi2S/jpOyoQL1bZRsutA8Prbu8HK5NmHRH0GbrGqtJze/BHwAVh
+         zb2UPrZ1pE/BGoJufHxZFWNCf5u31pUH0RgqYlhmsLkFX7PiKYHlr5Inttwr+zw8RNVg
+         ruFHp36FtyeH0V3nQcY5Iv7q+6YvEU7NAGlMlL9DetCDdoj4PQNak5jjHujF7LCm4zGl
+         qBbQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750624580; x=1751229380;
+        d=1e100.net; s=20230601; t=1750624716; x=1751229516;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=hz3Jdtz+LsvuzD4rQ7JolouH51M+SUxhZRQ2TBHTSzs=;
-        b=M5pad53w3TvLenyzpa3oZJufWs+SzdxaylouXDaj3mkbBbEJFmiAz4zCTRJNGRqaFS
-         IiNC0rPa5y7bPdsfIVeESjApcTh/4K3CEa3Cw/DJVO3fgFaG7m/HEcy02saQBATMvjGT
-         HIxgh5eIOekPfLwBWHftxGELna0gG5zuItFaSGPXxqLZPY148XMI+h2Uhr442VMpdzme
-         he9uGqL0iCfRCMd7fUlHi10nHjZ27lYY4D8qT+jkEPZKs56qrwmOV50dH+IX2DMlN7Tl
-         ayteY4vnvqaaDIwY6aEwhLguEgy9KsxArrpN05Rrd2ljRWMPJbt4bDG0i812ZG0pnB4A
-         vL9g==
-X-Forwarded-Encrypted: i=1; AJvYcCVWf1lpVAKV/zqFprLJYwCUJib8KJyhr5BhTlQXi0X38CeFfmhJ6EdnwX/zp89dE9RA17tfXxsYCDUaWVbbzQ==@lists.linux.dev, AJvYcCVj3V9bJ+8ZQDrRjZLVQ8Fw8N6Hkpdyi1aeZKzl6SwKMbVnyn+aN+FSFRRnw5GmedZ1rHlrJqgXJDqUCcqpJdRc8UeiSA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyWiVbD/6zu6QHy8jsbQFnoQLlPxhUqb0P8UZYmG0DNuPA5OZFv
-	Pv+S63AA36oDX0teIJVIuQ7iawdV+Aou6UScf3ud3ijwC5kRWlYthvksVpe3OtLOeQl/R+vlfK5
-	1YnkkbUM4yoU2kVJqXjsd4iOtje75h3U=
-X-Gm-Gg: ASbGncvDVb9uvv9pElW1d7wI+EitT7M9R9lXKR+P1kp1lSaFRE5FqcMSWa6YesJ0Hyd
-	HMMNeCfrT9Qy+GQnUNTwwtXcSXzhbvSXIlnaYse0hDiZGUK6KVLJEEu89GrA/ICeai6M06o4Rtk
-	cl00XmdDEvUunKB35fg4NfO4nwrk3HIydh2WUeJ6O3BfhjFi5TGEQKRQ==
-X-Google-Smtp-Source: AGHT+IE1qtYTmD5i8tt1tLxHs2WkHZN3ZMS3MWRlSqhlP1av9VhwsiUOIXlfY7gC43dVW4482nERLdrtCfcCVeuroFw=
-X-Received: by 2002:a17:907:7f05:b0:ad8:8621:924f with SMTP id
- a640c23a62f3a-ae057c5bfa7mr962698266b.56.1750624579604; Sun, 22 Jun 2025
- 13:36:19 -0700 (PDT)
+        bh=pLvpeoBKGxEwHK+9A/jrmaTsC1Syd7TxhtlcyFyT5Po=;
+        b=Ky5M+pG6+ftQICkFLOUISF3vORZWvT5PSQ6YyLDfkj0alYF2Sj02XVfIfP+HKPdKPj
+         JPVJsn+qqwU4HIOPt3XwW+H1ShkhQpjJJiv4/4ihB6e6GgzP6ScD/tsEHzFdNYCJgPnf
+         KgmEXYTZOC4c28z4QQf4no11edCqOAYB56qxpvDIOnx997LTv+Xl53YZBMaGmzQdiaav
+         87bq29PH7b/gcAaAGq6UX92ud4HKNvay0FTnZ1vg6knddes0piBwVnrdtasfE6W2TBZ7
+         7mCDA94P2kPX1hrM0nYERqWs8gMVLJ/QGl0w3Kqc3+7MpUKdZTmo4CD9rj4R75Je9H1p
+         Gb2g==
+X-Forwarded-Encrypted: i=1; AJvYcCVexdtFMqFDdrnJY+Ix59M2vTFNxeKhtGWgiGStXv0ZTGFiZ5AKFRD6hUzDgjrKDsa4jb+DakPCA91uffEomyEFG6QoqA==@lists.linux.dev, AJvYcCWOQVG/hyqPG3jelB7CylNqHtboOJuKDYpgqd2aPiCOXblHXUpyQmi4sAq3B0m+fbCuAtoKlITqAk/bdw3FBQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yx/reyny3Ljy+2zoHnzBhdtjVcqm6dLbgfySAy+LRXDqzdvAVkE
+	Sss8TmUxPuFjmIDEX+ToMRMoNo/Fc4fSF+EL2BXDz9oRDeT1s/CylTNYz25WL/fJdyMSjbMjTBS
+	QGfo35ummPSNyxfT2Dw7f3ItEV50rc1lavwVTzMo=
+X-Gm-Gg: ASbGnctKUcHbncPYzGsvollYUxJQC9QD9/OR5m6iFzvEls6jxrx7filYeUzzWMp3pPu
+	XwvbWUyBDB40zpMOISxTVfg4oykk/Vsv6PAwbzzcIB5HjsVX/2LF1dl4kX9z3USnAdUt0AbPY2q
+	axgW2osNg9Q2sbsNnXM/hvbXMZGjy+HNp5OwDdcpu2tS5ar33kG5izLA==
+X-Google-Smtp-Source: AGHT+IE/HoTMfDM7iHL1WEJQzvJZNfhHGo6JhKrsBNXN7rKIGFaxNc8ayyuH0V3IDNIADtg2RI783/alPVmgjMgX8UE=
+X-Received: by 2002:a17:906:6a26:b0:ad5:3055:a025 with SMTP id
+ a640c23a62f3a-ae05793836bmr899848566b.6.1750624716133; Sun, 22 Jun 2025
+ 13:38:36 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -62,9 +62,9 @@ MIME-Version: 1.0
 References: <20250622065340.184048-1-abdelrahmanfekry375@gmail.com>
 In-Reply-To: <20250622065340.184048-1-abdelrahmanfekry375@gmail.com>
 From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Sun, 22 Jun 2025 23:35:43 +0300
-X-Gm-Features: AX0GCFurLx4IgrMkKza5bDYc9jpXk2K2q9Q6k47AZNNXK8As68byYvLJwDsXEcQ
-Message-ID: <CAHp75Ve_3M3rqmHP5rcbwvhH9x2gUOPzezOCiNzzPp4PmMKtzg@mail.gmail.com>
+Date: Sun, 22 Jun 2025 23:37:59 +0300
+X-Gm-Features: AX0GCFuPJ3qLOkF8NL8wgvWgUOpxetYnW9jsPJWLIWP89I8avEKk2QlvIPatJTw
+Message-ID: <CAHp75VcKQGvcgv+72=9CY9yvvmzTDUaiP8xZZzQCyd553_tqYw@mail.gmail.com>
 Subject: Re: [PATCH v2] staging: media: atomisp: Replace scnprintf with
  sysfs_emit in bo_show
 To: Abdelrahman Fekry <abdelrahmanfekry375@gmail.com>
@@ -84,11 +84,13 @@ On Sun, Jun 22, 2025 at 9:54=E2=80=AFAM Abdelrahman Fekry
 
 ...
 
-> v2:
+> +       /* Changing to sysfs_emit changes the behaviour if failed*/
 
-> - Addressing a possible change in behaviour if sysfs_emit fails.
+This comment, besides missing the space, is useless here. You need to
+use the comment block for the proposed change.
 
-I don't see it being done. Can you elaborate, please?
+> +       offset +=3D sysfs_emit(buf, "type pgnr\n");
+
 
 --=20
 With Best Regards,
