@@ -1,92 +1,98 @@
-Received: from mail-ot1-f50.google.com (mail-ot1-f50.google.com [209.85.210.50])
+Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31F28235BEE
-	for <linux-staging@lists.linux.dev>; Mon, 23 Jun 2025 10:54:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C1161D63C5
+	for <linux-staging@lists.linux.dev>; Mon, 23 Jun 2025 13:53:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750676048; cv=none; b=BTMzOPkmHddKg/TJSh7T2Z+fJ5YoQQYU+rk2PjxxaC87mEQlfm4cFPB/uDdZ18t3AzVMjtoT1rrz8nf0EQQY6QuI2BX4B3r9KGYu2Kvw6HcFWJgWRdfanvbiIx3+XH0q1g5/i4iGNmaEwsC84+dSqcD0XLTVk03nei+ll8yhkG8=
+	t=1750686837; cv=none; b=i03QdB4YwL/a5dNbMKr5qRmor+PW/hGJs3xn7XVub05lZMQ+PLELw7ttr/TPNrlVuabaRZ2qMe9xkfKF2H1XukPv0XHPPKMiNaxp7yWCnYxi1RAP4WrwaULMf5/Hi4wHocVIr+fgFOu2dWTloFUtcwAUfnyvD/s7H2FH3yFeUoY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750676048; c=relaxed/simple;
-	bh=6+8xlbDr5fN7mQXnhtSPaxgdIgk2eut1FkccnDGgG+8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QSGal6R/oYREtLFbAx1HZydaej1vBcRO1kOhbbyrM8G4cn8TcVwcpLd9qiVzoZMomMLgreQQqESaJTQWO7js3u0HCl5oj+Vgx/0kXqEAU5aRlE4wSJ1gAAz3aw12UDLayongsYJvm44avBjq447YpWCEM8+hTOhgnGRMgO8CUhc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=COGLWBLe; arc=none smtp.client-ip=209.85.210.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1750686837; c=relaxed/simple;
+	bh=m++sptggvKTsvRdmmh/Natbe80DqJQ51xNpv63moEe0=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=nxrzGemoKZd6TfipG+yjviTlLyp0ELMEhOwMw4EMd87bIEzA2QbOPaqbUyP+owfTiWbnfm3Cvei+qm6DkeWqTnyeJaDJfP2IObiYrkppSSHmyg4AR3fKH0eJ/nUxw1rNUmttWnrXkwsKGX1OkAUqCNjWc0T1zdHcXTF/0soiMvU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CndLVkO7; arc=none smtp.client-ip=209.85.210.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="COGLWBLe"
-Received: by mail-ot1-f50.google.com with SMTP id 46e09a7af769-73a8d0e3822so2054238a34.2
-        for <linux-staging@lists.linux.dev>; Mon, 23 Jun 2025 03:54:05 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CndLVkO7"
+Received: by mail-pf1-f180.google.com with SMTP id d2e1a72fcca58-747e41d5469so4487310b3a.3
+        for <linux-staging@lists.linux.dev>; Mon, 23 Jun 2025 06:53:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1750676045; x=1751280845; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=DWSVsYHNwP8rg4rURoGYOq5yv5GD0eHOKkQLtMDF/j0=;
-        b=COGLWBLe4Nq39wOySRDVwGzuBD8MvAvSeVFwPsA/ttoCdMy0cR3gc8BCGY0Bpwf3YY
-         EZugs8jBCsb2wAO/OBEqEyfGV4CWIYw/6mwQGHZBuGolQcSGAxVxPZXo534i9EEN48Ue
-         We3AqtxVdOHP5DrZ3bEX9CtxWTOWnTKesahxHt2QtBdWfm77JJZA6fT2xj+8yqFcgQRh
-         +jcq/KUK9EGsIDjPPQMo7VXyehfznXwfCJBWUdQMi4USgjCEdn+0ke2kxbeeL+0tgVtm
-         BBLvaYRgNJNwvVKiDdaYLYG+LlYG2LxX1NL02Zj0f3fTb32tUssmAG1DDawPjCHBTm/8
-         ilAQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750676045; x=1751280845;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1750686836; x=1751291636; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=DWSVsYHNwP8rg4rURoGYOq5yv5GD0eHOKkQLtMDF/j0=;
-        b=Kbz2fAcm+CGW9cGC/QZiEoGPnJCRQSf/LeBc/oPcDki3gcm+m9sqlGf5DDs2XzpbMQ
-         lN0c8kpfltt2CSkkmpkA8WDGaILoSF1NnQ9fVSSucRUXFSCS6jH1Ar1/6y7EWM4m+1iS
-         bJuQMzzx+Hom/gFK0GlrjKm9Y6z68nkMAP8HfX4xJ0Xo7mbDuHJ9XDvKUxvc1Yvap0vW
-         TXKaCQ0Af15PNr9lrCOGpjlRQFuugapq96qpkUZJIR1pGC+jBxuscI0mTohfo6Ta5Zll
-         Zm6vxa9Pu1O6OMiXlmGhH82i1iWVAKuQwRjJr0nZF808axFwB4PinADNKXz2F51bJ9hx
-         48yg==
-X-Forwarded-Encrypted: i=1; AJvYcCUQBEm75qUB+GOWzhPVrMUJOFCw75u/dDZ1jfFhZF0GRwzI/etkrMtZ229UqBjReGMHlMHC5s+cBv6Ec0Ke@lists.linux.dev
-X-Gm-Message-State: AOJu0YyccnT8GeymAUBTQMz7wPfGo25OqiOJfpRUTTrdJAQASt6iiST5
-	MjYUGShSI572kwBqVSYN0MrzHTWfipLpGCMe6CtZONp3Tf1Vy/tEx7enMzfEUM8RKw8=
-X-Gm-Gg: ASbGnctbleYHh4gEmUIefoPeANwqkGPBUOlZGwfjVFAqtty0LJrxzVILzg33q+BZgTM
-	2T/2Lo+fKvri3VvvGpjWiwM2Di3aTEBCuMxGRQdf1hd1ZYBTRO/QqMoKarX5CMsqr0UlQQXL+w9
-	vuHju0HFFJSC9xNH/cSj/x9kZBx19YRb0QMUn5Dc2hj9SSLeXuFrYsBbdeNnBaEF9dPGhN8BJiu
-	s3gl4jFeTwzNAnbKa3mbSrJA8h89KD/IZf5fJeEHYAH55QCc1/iZiyB4Hkn9SSUQu3ZbwifcBpO
-	NbF2GmcoxmwTnZfqIYLCbf+52XqPzWbokaNqnUBzyoII/ZaS7L/c8sSnFBWXmqiWUvz+
-X-Google-Smtp-Source: AGHT+IFMT0KF7HhSx9nvzdNTb6lPuAF/rdvKkBwDB409hsxV/5/mAe+Pc8GJzAaje7GdXO2+8edZ+g==
-X-Received: by 2002:a05:6830:919:b0:73a:96e5:198a with SMTP id 46e09a7af769-73a96e5a731mr9613005a34.8.1750676045191;
-        Mon, 23 Jun 2025 03:54:05 -0700 (PDT)
-Received: from localhost ([2603:8080:b800:f700:608c:e09c:db47:348])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-73a90aee8ecsm1407624a34.10.2025.06.23.03.54.03
+        bh=m++sptggvKTsvRdmmh/Natbe80DqJQ51xNpv63moEe0=;
+        b=CndLVkO7gbNP6ppAhjmDiIdD+Rbdoh8XKYv6oUm/qLbRaW8c1KDcIJXz1bCjE+V0Jo
+         DJXUUE3o8IE1ijh7Wyq9RjtR1D/K/X8S8c1aFhGLJA70uz09LOHJbBGzghU5GAtkHZhi
+         7Dlv7XZTQPcxAF5nVVVfkdsHooF2DmETgPNEAKMzieG3NbwMc7QJP1a15jI6XtizNZNh
+         uraJ1W+HJXYd5j8JX+cvVyMxBFBrpg1cRzsEISBKgiAO2V2piAYhRHNqWRxNi1m8vCSK
+         CtaQVY+fqm59FR7P7y0ddMIiU5vLLQ9RxvEwWFmCdoL5mzu97FjsVymUCmbRSxpGeM56
+         ZJnQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1750686836; x=1751291636;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=m++sptggvKTsvRdmmh/Natbe80DqJQ51xNpv63moEe0=;
+        b=NC7nNsOEq9oNY+wBNx3W7RLcg0bS+GmmLk+e54184pUNwVaIlfCqpeUbO83OP8LX4C
+         aBdVdyYvQ/Bc7WZ3aKY4+u+nyMrDdp923LZY+CJ6mwpz2YqKRLY3C8jgIhNtDfbJYfJo
+         hOTY6/n7iJWanlmJyX6m4I3okEOVh+EFlx5diRusmtLsGzTdn+NwPaX7OejV/Skda3LC
+         Zri8j18AYwiyUN8FdNX5M+1vDLC6gplHfs74ZcM8aRcbXpXqVfTpr+S0BzWzshqNw5sW
+         I2w7eRDShtEbUJxjhif31Zvk22pUzjYY0A+np8BlXCTTQ6BclOSptvWLG8M3RsMM2I2z
+         4QhQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWQoQ9Wowz+WEHeJchDO/+j4YsIjV0NY0pcW+Bc2eOh3AtSkrfqFNgXl0Z+Gz75ylWcXtYnhuntUk6mBovy@lists.linux.dev
+X-Gm-Message-State: AOJu0Yz2St5ACRRb5Py8OrgY7IgxQ5GfGHm5zp6cYcar89k7ArOhD8Z9
+	zFI/+11TiL9JEDljKfnL776s60AXLQJMXGs6IqKt2jPKsj/qCwbs5GXh
+X-Gm-Gg: ASbGncsz5RYpB+wW05Jszu5x+AmPvhJm9nlPaYtus51BMsyBa9wSRzmxkElV+hSGkqQ
+	3AFGQ2jfWLmK9Kk2kb5nLS5X0ZxNMccoP2xOANvYFpaRTdL+HR86TGmZfiBG3t2OS53W9fKqHb1
+	HvZMXJ4VkDKMlVls3ktD02UjHXVOWBnVt+6mJBUQFKX3eAVjcW2jDWRapEoDWEN+HtFBTUtlBp8
+	knNtHtddG3/zHL3u3XY04/6861tcUF47rMY+5tqae2EZfUYOSB52xP6ovaWay7Euhxy8Tuu10gm
+	uQVehg34S1Y1xjzjrabLBMxsD06lZc85V3KW7B9g85w4tbhnmU94Hc2nsyvdvtQOVuSH4XDGtd8
+	C7g730/2ekmw0E5Yp0tHKeKpXYgWJ7QIPBuGF69p7RCp/9aHFQQZPuW4CkhTb
+X-Google-Smtp-Source: AGHT+IHO8SNwFcSEBfcxQ1Deh5eokBB7/N4fSPLaf8uf7bBo1Vs+r9LUpLbtbpu6YeQYhzr1UuY6GA==
+X-Received: by 2002:aa7:8896:0:b0:748:f135:4fe6 with SMTP id d2e1a72fcca58-7490d5875dcmr16754024b3a.10.1750686835914;
+        Mon, 23 Jun 2025 06:53:55 -0700 (PDT)
+Received: from DESKTOP-RD0GVCL.localdomain (124-218-195-161.cm.dynamic.apol.com.tw. [124.218.195.161])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7490a49f3a8sm8645375b3a.62.2025.06.23.06.53.53
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 23 Jun 2025 03:54:04 -0700 (PDT)
-Date: Mon, 23 Jun 2025 13:54:01 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Kisub Choe <kisub.choe.0x1@gmail.com>
-Cc: gregkh@linuxfoundation.org, philipp.g.hortmann@gmail.com,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: rtl8723bs: replace msleep(1)
-Message-ID: <efa56904-eabf-4493-b064-652d02839c6b@suswa.mountain>
-References: <aFdAEM6GnCudvqMV@zinc>
+        Mon, 23 Jun 2025 06:53:55 -0700 (PDT)
+From: LiangCheng Wang <zaq14760@gmail.com>
+To: andy@kernel.org
+Cc: zaq14760@gmail.com,
+	hansg@kernel.org,
+	mchehab@kernel.org,
+	sakari.ailus@linux.intel.com,
+	gregkh@linuxfoundation.org,
+	linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev
+Subject: Re: [PATCH v3] staging: media: atomisp: fix coding style in ia_css_output.host.c
+Date: Mon, 23 Jun 2025 21:53:22 +0800
+Message-ID: <20250623135323.816-1-zaq14760@gmail.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <CAHp75VcFSbLwqot0Rrm=141Y-mCQUuFqNGn=DnfKSSYp-31vcg@mail.gmail.com>
+References: <CAHp75VcFSbLwqot0Rrm=141Y-mCQUuFqNGn=DnfKSSYp-31vcg@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <aFdAEM6GnCudvqMV@zinc>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Sun, Jun 22, 2025 at 08:28:16AM +0900, Kisub Choe wrote:
-> changed msleep to usleep_range to
-> 
-> Adhere to Linux kernel coding style.
-> Reported by checkpatch:
-> 
-> WARNING: msleep < 20ms can sleep for up to 20ms;
-> see function description of msleep().
-> 
-> Signed-off-by: Kisub Choe <kisub.choe.0x1@gmail.com>
+Subject: Re: [PATCH v3] staging: media: atomisp: fix coding style in ia_css_output.host.c
+In-Reply-To: <CAHp75VcFSbLwqot0Rrm=141Y-mCQUuFqNGn=DnfKSSYp-31vcg@mail.gmail.com>
 
-This type of change needs to be tested before it can be merged.
+Dear Andy,
 
-regards,
-dan carpenter
+Thank you for your review.
 
+I'll go through the entire driver again and check for similar issues,
+such as extra spacing between types and asterisks. If I find more,
+I’ll send an updated v4 patch accordingly.
+
+Best regards,
+LiangCheng Wang
