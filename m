@@ -1,75 +1,67 @@
-Received: from mail-ot1-f51.google.com (mail-ot1-f51.google.com [209.85.210.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94B8B130E58
-	for <linux-staging@lists.linux.dev>; Mon, 23 Jun 2025 14:17:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07FC525C6FC;
+	Mon, 23 Jun 2025 14:32:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750688222; cv=none; b=fA0W/+zZZxReStObco89fq0LDMgx5SiUsutJwO8B4k0DepmXmmxA9DO9Y9km/EDEqX6Fwbrx1S93/5XnQJhVNK/Q1esHeA6GBU8AjNGLnmbAaVWnGDVdd8fslmK83IhEnMRzvdokZ6wu6nM0cCGkn2Kzr+boznjW3h5KaFH49yc=
+	t=1750689158; cv=none; b=p+G/52EFyUEHmXJn6wODkCNAa8Ypp9F8V56BEXQQ8Xuw+58u5Dh6DknFP7CYyEW6HtLXm0ikURH2rFmEIwRHGeynr3gWmwVxz48+Oe5wGpKUyZykOwPnqlIFHwt7GjJ23NwlZjTATw666ncx2Lcd6DTnoYLTlPzzdGr1ZhV3OKg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750688222; c=relaxed/simple;
-	bh=4sigOS/urFG8brAKKfv6zzu5o31axp6lF2JzLxHf/DQ=;
+	s=arc-20240116; t=1750689158; c=relaxed/simple;
+	bh=vMTcLD498Wk13c0JEhQoB7DOAQr9EqJCvaELj4r63kM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dXcW9v4WevKpbokeg/URDf8Dpw65YlegnwvzgHleeDPbniy2UMW5Bpu//edNk+ef5ZjAnMaeo40ipH1vEZIT88dxmKnen65iZx0fnqs2hffPrICpzCBivEq1bdCuPSeQK/oXv9fhU0fNnJarfesPhI/InnpGBYRB77Rn4SIvcz8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=lS9fI/+v; arc=none smtp.client-ip=209.85.210.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Type:Content-Disposition:In-Reply-To; b=LAOSEJqqFyKCUrOigHuODkLI8G/TZPUkfuubEc/GwhiHomT6ZKSTPgkXYsOF6enKksvh/gEerJYo+WmNTAgxBcS7I1nQrn1G6XeJyE8C7PktLiIs6nphoFKezHGs7AGguF3a6i4fe2tDd8r54UCIONio4FzhWIVcNz5TKCeoPHs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eeoQ0xYT; arc=none smtp.client-ip=198.175.65.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="lS9fI/+v"
-Received: by mail-ot1-f51.google.com with SMTP id 46e09a7af769-7382ffcb373so2541483a34.0
-        for <linux-staging@lists.linux.dev>; Mon, 23 Jun 2025 07:17:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1750688220; x=1751293020; darn=lists.linux.dev;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=Sw2KbHBZVpbmJppFl8KBxErcXGguWr7O6NCzbr+d6nk=;
-        b=lS9fI/+vN2jqfFqwYpkdMlMmcJMBjVTKZfuQWRjJTYTkEO+pf5sL7DfsXdQCtrart/
-         76yFEz/GJIZiwKyaiY7loC+MbXn0tU3K7Anoah6NICy4SmZMz92PgBJr1hwhClYe2BUs
-         QCJkh/M3ikgk7abE6Q6xyMQzvO83DPSLAf6HN7Fdaj91KDgT6EiHXzMM5GJVmtlMtwi6
-         MnBmruExs2ZhkfR4vbHOiHZHomhSHCUQiIzqfP3qpYUDOYa5PzWEQ085i0o1rpGzymYm
-         TCW3eXWlwkPMt3FsDBdOhkSIVGdhZfgJmb2UTP7Ep5Y9aOt/DoRf1B5WNBw61vjV8Es5
-         B6LA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750688220; x=1751293020;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Sw2KbHBZVpbmJppFl8KBxErcXGguWr7O6NCzbr+d6nk=;
-        b=NfB1r3GEaVOF1D+avrNn70GsnqwixYZJ9wez04TjnfSZ+gZgZmAwxkfnnaeZgyVytS
-         cTEhm4+1E6nW4xyUKlpux7+uezHLmcJVEziNYE8fho+ozSAzKbljIyzc+qbHy1Dv3gZ/
-         lzaiQD6kG9h2vDkRiXO5Xy5HyVVFeJRI8gRB2JA+/xbwSutI6ruoPZt9oOIKIv1fE+PK
-         gCZ51JPE3wQxqZ4ECqxLK9hVjHnQkZe5eHy6Mr1YFOhFWoWQgYFdxeb14izQHvzxGnhm
-         YtfrDhye1bB9oxMbGWy4HKwdO3ZKRA0Moq66Bh1qf1JGJ+gVBHvgxFpUM1Vf47jXoR2A
-         ZpiA==
-X-Forwarded-Encrypted: i=1; AJvYcCVMoDFFsVahM2YKnpKaMiOWwmjx/zjAkxpSrv6wIGzUkP0/JjWtG06FajelrPxTyifvuXWCRSFgXGiwVMMJ@lists.linux.dev
-X-Gm-Message-State: AOJu0YxmSyG4ryk+KmBKIxOWDTTQMBHxf/Jvj+OFIzEOD9cN9kQFog1V
-	JF9Ub+iXKy8ol/AHlzIrF5onFxqr8NpApPWbuJpyMvh2TmGQuvV6dtqfiqXWedN8d8w=
-X-Gm-Gg: ASbGncvhGPBx/3T6M9ApmyZiKn3sQ9HkdzgrE4m0tsFlLyYBw1Sanw/hnk1buRKnl/C
-	tgvjkgk0/XXnbE1uVclQ5I+uFcjUyGPGRxTwN2GrKVfmh4tbDQS/K0a0OiCprvltaKfTMCpoBGt
-	XC3NnW+adlJy1eFXuiBLW5WCMwRVIxbXFplOXpLyduhLM+K7maGacXTyyB4m0Pk3BFH+nADyGrl
-	J1PvGiavv0xlYIc8PiLoDPZTptCZ96Pao571Ue1CaJuCIr4/4VrJTGLw3T3Xk3Eb85O0eINi/L5
-	MibtxymFceSC3KW4IEebiQH1z5gDHRUs//vo1phQvwgBULjR0NWORzwEAahZ7LqqMWkAVQ==
-X-Google-Smtp-Source: AGHT+IH/W6bUwoQ/oCDqxzbkBFhhtZ/Fi6LgoZ05YDqiaOhVb1dp7z4SKY54nEy+7+CedB7z2NIslw==
-X-Received: by 2002:a05:6830:668b:b0:73a:96e5:19b9 with SMTP id 46e09a7af769-73a96e5a6ccmr8122051a34.2.1750688219746;
-        Mon, 23 Jun 2025 07:16:59 -0700 (PDT)
-Received: from localhost ([2603:8080:b800:f700:8c3f:8b5f:5c74:76a9])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-73a90cbb5ccsm1418904a34.58.2025.06.23.07.16.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 23 Jun 2025 07:16:58 -0700 (PDT)
-Date: Mon, 23 Jun 2025 17:16:57 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc: Abdelrahman Fekry <abdelrahmanfekry375@gmail.com>, andy@kernel.org,
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eeoQ0xYT"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1750689157; x=1782225157;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=vMTcLD498Wk13c0JEhQoB7DOAQr9EqJCvaELj4r63kM=;
+  b=eeoQ0xYTKzq32qWITCsK+RnpxZBcroJb0tFbG4iL7BHUNgD3yuxQZ/EU
+   tAV4jjjPZMQbpi6l9y3lRDzZTEv3H8YeH7OedMCOYk2spcYtMuod7brWt
+   1R/RDy7Jl2wGCMNiJb64QDLKyNDQDCe7sf6VJzDYDH+tNJ4sYX8Svthh4
+   dQ+Ww8SBD7it7SAkqLIeemoY0wcySeUD/PASRBNUfbxL9FeO0uV/rgJet
+   /faG5rGLyxq9D6wMG0tm/CX4K71AW6olgUfZmlWQzzAD8z+mPJT7sJ8uX
+   uX0R7aI2wiaWkOkIxvDR/ZRdqcR68RviCv2m5OIeRh0lG6WPo8vRgb7g0
+   w==;
+X-CSE-ConnectionGUID: y5QeG5TFQ9u6VzvtykDcvg==
+X-CSE-MsgGUID: LzX3+1KFS0CDBz3f8pf7+w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11473"; a="75431900"
+X-IronPort-AV: E=Sophos;i="6.16,258,1744095600"; 
+   d="scan'208";a="75431900"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jun 2025 07:32:37 -0700
+X-CSE-ConnectionGUID: 43BbV4pWQ/uKWUbuioHfkg==
+X-CSE-MsgGUID: T0AY/+3qRD69iPCJBY0IVA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,258,1744095600"; 
+   d="scan'208";a="152135974"
+Received: from smile.fi.intel.com ([10.237.72.52])
+  by orviesa008.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jun 2025 07:32:33 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.98.2)
+	(envelope-from <andriy.shevchenko@intel.com>)
+	id 1uTiDm-00000009CSC-1JdB;
+	Mon, 23 Jun 2025 17:32:30 +0300
+Date: Mon, 23 Jun 2025 17:32:30 +0300
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: Andy Shevchenko <andy.shevchenko@gmail.com>,
+	Abdelrahman Fekry <abdelrahmanfekry375@gmail.com>, andy@kernel.org,
 	hansg@kernel.org, mchehab@kernel.org, sakari.ailus@linux.intel.com,
 	gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org,
 	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
 	skhan@linuxfoundation.org, linux-kernel-mentees@lists.linux.dev
 Subject: Re: [PATCH] staging: media: atomisp: Replace scnprintf with
  sysfs_emit in bo_show
-Message-ID: <a2a67998-f67e-4677-a348-780bf640bfc3@suswa.mountain>
+Message-ID: <aFllforMcR-WStUf@smile.fi.intel.com>
 References: <20250621062944.168386-1-abdelrahmanfekry375@gmail.com>
  <CAHp75Ve3PWgkwncVv5tGxzjWkF+Nodtp=Q3dpCejfSRD1BFMig@mail.gmail.com>
+ <a2a67998-f67e-4677-a348-780bf640bfc3@suswa.mountain>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -79,25 +71,33 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAHp75Ve3PWgkwncVv5tGxzjWkF+Nodtp=Q3dpCejfSRD1BFMig@mail.gmail.com>
+In-Reply-To: <a2a67998-f67e-4677-a348-780bf640bfc3@suswa.mountain>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On Sat, Jun 21, 2025 at 09:24:40PM +0300, Andy Shevchenko wrote:
-> On Sat, Jun 21, 2025 at 9:30 AM Abdelrahman Fekry
-> >
-> > -       ret = scnprintf(buf, PAGE_SIZE, "type pgnr\n");
-> > -       if (ret <= 0)
-> > -               return 0;
-> > -
-> > -       index1 += ret;
-> > +       offset += sysfs_emit(buf, "type pgnr\n");
+On Mon, Jun 23, 2025 at 05:16:57PM +0300, Dan Carpenter wrote:
+> On Sat, Jun 21, 2025 at 09:24:40PM +0300, Andy Shevchenko wrote:
+> > On Sat, Jun 21, 2025 at 9:30 AM Abdelrahman Fekry
+
+...
+
+> > > -       ret = scnprintf(buf, PAGE_SIZE, "type pgnr\n");
+> > > -       if (ret <= 0)
+> > > -               return 0;
+> > > -
+> > > -       index1 += ret;
+> > > +       offset += sysfs_emit(buf, "type pgnr\n");
+> > 
+> > This changes the behaviour in case the sysfs_emit() fails. Not that
+> > this is a big issue, but it should be pointed out somewhere.
 > 
-> This changes the behaviour in case the sysfs_emit() fails. Not that
-> this is a big issue, but it should be pointed out somewhere.
-> 
-> ...
+> Neither scnprintf() nor sysfs_emit() can return negatives.
 
-Neither scnprintf() nor sysfs_emit() can return negatives.
+Good, that's what I asked the author to investigate and add the respective
+comment / update commit message accordingly.
 
-regards,
-dan carpenter
+-- 
+With Best Regards,
+Andy Shevchenko
+
 
