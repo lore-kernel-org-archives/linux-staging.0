@@ -1,103 +1,105 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07FC525C6FC;
-	Mon, 23 Jun 2025 14:32:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DF0025E47E
+	for <linux-staging@lists.linux.dev>; Mon, 23 Jun 2025 14:35:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750689158; cv=none; b=p+G/52EFyUEHmXJn6wODkCNAa8Ypp9F8V56BEXQQ8Xuw+58u5Dh6DknFP7CYyEW6HtLXm0ikURH2rFmEIwRHGeynr3gWmwVxz48+Oe5wGpKUyZykOwPnqlIFHwt7GjJ23NwlZjTATw666ncx2Lcd6DTnoYLTlPzzdGr1ZhV3OKg=
+	t=1750689335; cv=none; b=VlDhvehkOpifYlE5AuuzKasxYGzmj1KVaMhVXQ/csJ/+Oq1VG+Sv3wLT4iV9gCCLnfwBIevsL+Stl+A8XfVlUbejni0Akh7va2toeiFCcyY/rqBtlUX1gKOKHr3HaQCVLfo25hQJ/OeK/vHbTGu1PnMcTcPx8TQ0OjH+kMGzEV0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750689158; c=relaxed/simple;
-	bh=vMTcLD498Wk13c0JEhQoB7DOAQr9EqJCvaELj4r63kM=;
+	s=arc-20240116; t=1750689335; c=relaxed/simple;
+	bh=9LGKOzoBSn5ielAxf43x1FsCr8uxqxO5k4cdaz7r3uo=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LAOSEJqqFyKCUrOigHuODkLI8G/TZPUkfuubEc/GwhiHomT6ZKSTPgkXYsOF6enKksvh/gEerJYo+WmNTAgxBcS7I1nQrn1G6XeJyE8C7PktLiIs6nphoFKezHGs7AGguF3a6i4fe2tDd8r54UCIONio4FzhWIVcNz5TKCeoPHs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eeoQ0xYT; arc=none smtp.client-ip=198.175.65.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=kyzGTJzdFklTpEfDmLYzNhDKpdSe4vO2DR9HdGGDK0j4sm4wUpRn9QRoU3a7NJWjh+qfQegXVz8Ks9GMYvgJFgJ824+/xMg45yY0I5Zyt61PllZmlYeBbcrAASG5J106hrIBO6hG9CijKz4jJIJBi9kq8oRguLY0X9RQWndHIbE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XzaFLRfB; arc=none smtp.client-ip=209.85.216.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eeoQ0xYT"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1750689157; x=1782225157;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=vMTcLD498Wk13c0JEhQoB7DOAQr9EqJCvaELj4r63kM=;
-  b=eeoQ0xYTKzq32qWITCsK+RnpxZBcroJb0tFbG4iL7BHUNgD3yuxQZ/EU
-   tAV4jjjPZMQbpi6l9y3lRDzZTEv3H8YeH7OedMCOYk2spcYtMuod7brWt
-   1R/RDy7Jl2wGCMNiJb64QDLKyNDQDCe7sf6VJzDYDH+tNJ4sYX8Svthh4
-   dQ+Ww8SBD7it7SAkqLIeemoY0wcySeUD/PASRBNUfbxL9FeO0uV/rgJet
-   /faG5rGLyxq9D6wMG0tm/CX4K71AW6olgUfZmlWQzzAD8z+mPJT7sJ8uX
-   uX0R7aI2wiaWkOkIxvDR/ZRdqcR68RviCv2m5OIeRh0lG6WPo8vRgb7g0
-   w==;
-X-CSE-ConnectionGUID: y5QeG5TFQ9u6VzvtykDcvg==
-X-CSE-MsgGUID: LzX3+1KFS0CDBz3f8pf7+w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11473"; a="75431900"
-X-IronPort-AV: E=Sophos;i="6.16,258,1744095600"; 
-   d="scan'208";a="75431900"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jun 2025 07:32:37 -0700
-X-CSE-ConnectionGUID: 43BbV4pWQ/uKWUbuioHfkg==
-X-CSE-MsgGUID: T0AY/+3qRD69iPCJBY0IVA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,258,1744095600"; 
-   d="scan'208";a="152135974"
-Received: from smile.fi.intel.com ([10.237.72.52])
-  by orviesa008.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jun 2025 07:32:33 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.98.2)
-	(envelope-from <andriy.shevchenko@intel.com>)
-	id 1uTiDm-00000009CSC-1JdB;
-	Mon, 23 Jun 2025 17:32:30 +0300
-Date: Mon, 23 Jun 2025 17:32:30 +0300
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XzaFLRfB"
+Received: by mail-pj1-f45.google.com with SMTP id 98e67ed59e1d1-3135f3511bcso4400952a91.0
+        for <linux-staging@lists.linux.dev>; Mon, 23 Jun 2025 07:35:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1750689333; x=1751294133; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=XlzQYA4Vqi8dQ5FDOU8JcHAlJHgTJcysjtW2A8SXnvI=;
+        b=XzaFLRfBsE6eHkLdYb3lr19/vYhfi2JuU8iK0dewTAZpFuA7RXpVStm61vYQrrL091
+         GUqFrsLdUX+o48Ni5hh+e38lq/HufrA1xn/ybBGVcS2h+ruSyYqGJOHqcVzfO3M07OzI
+         dELmCctiEyVogZwFSvTwGaqpMsZ8naN1sOiKknhVd2bVvYnXY3nKQp+F8od2ZPGFPOYi
+         5/KPmmMpaCa+n36G/Byg9B3qPxNDyhlntmdIyMVop1FpKEMOLiIJYIhMQL+ZXUoX81ad
+         3uTcHrumT275Sr6NRgBzDyeoqeFQC3fWUJYEUFyK5U3se7QsYrMSJxNJA1VK8cAU8HjA
+         aNYQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1750689333; x=1751294133;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=XlzQYA4Vqi8dQ5FDOU8JcHAlJHgTJcysjtW2A8SXnvI=;
+        b=Mv9WJczAK5dhRRj/IrMAltZ/9X2loq88z8ui3aAylpV1O4gW132aO5ahMEWz4ntwWo
+         6V0FK1L7zW1BpozZTuVgxgUAb9OwPQLdAzExqyADTAmOWU1/uGRO9YGJYgoLWUvQq8kC
+         OiyvOzYPq0D8wzNqH1JOoUny8DTUUiOumrc2eBKY+im99lLAbB9VHBdlue3/lbu8prBg
+         CST5KpddUZ5Aq2aVhXmcXiJsu1wSYcTJtidD7qH9Je7tbWdKN4uC2BpQi38NJV8d1fyI
+         ZqwJv9Zf0X4N8GResQ1pzYhbY2npuSaXwzdsC+doc5bLzc/d5CnTAnuT3LDYWk2sux6H
+         FoSA==
+X-Forwarded-Encrypted: i=1; AJvYcCVAYxmgTj90ZejOsebPikFMokhvydKql/H6uzTXA+muZxT0bEy9XJ9STD3gOn2dJ7fiGbTLIn61MWePmupW@lists.linux.dev
+X-Gm-Message-State: AOJu0YwDgWt8ZieL8EG4+ejj2Vi/oHNHVNE/Ie+dG68lsHcvsq2o3vYd
+	lSJBK4BAVjHi+FdAa7DWN6BYKSPZWLVC09HepL5Zvjm2/ajdlSb3eHd/
+X-Gm-Gg: ASbGncuEYg91YFcM9QNblT97NnPYuyRH88sMeB+FuZnUzk2Rt+5QV3h/4u7uTgxmHSt
+	mLTwDU2qo/UMosyKIDMQGrWdYMD/VXIn37V39jd5Mki98JQp5v8GBif29twmIA6syegCt3NLbX6
+	PT8NbpOeJb7Lhm7nGMuA/5YOtRdRIcA0k6Y3l2qLRL/2ajNdaxA9eMtjuaS0VFnbZnZlUBl8x7H
+	j0zMZShXneDq1wktXfAwhGfI+ULp22PI3MQNqtBT7yfp6yv22c1DJvLjrGFYd2mkFLrodKsX7UO
+	k+rd0hVFTx+Tn/ZvXreLbhk2/0BHU0O+6JGzDKeJnaMWlkbcPgyNHqKLJ4ard1k=
+X-Google-Smtp-Source: AGHT+IFX+VmhiUBnmA4pNZEE74T73jbLUZc8BjmHxWRKCnJo1+RhenR8isYSZfLvtDMHgo1LsTb7Cg==
+X-Received: by 2002:a17:90b:4fc2:b0:314:7e4a:db08 with SMTP id 98e67ed59e1d1-3159d8c5de2mr23707176a91.18.1750689332776;
+        Mon, 23 Jun 2025 07:35:32 -0700 (PDT)
+Received: from rpi4B8Gs ([182.216.63.93])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3158a331288sm11812762a91.43.2025.06.23.07.35.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 23 Jun 2025 07:35:32 -0700 (PDT)
+Date: Mon, 23 Jun 2025 23:35:27 +0900
+From: Kisub Choe <kisub.choe.0x1@gmail.com>
 To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: Andy Shevchenko <andy.shevchenko@gmail.com>,
-	Abdelrahman Fekry <abdelrahmanfekry375@gmail.com>, andy@kernel.org,
-	hansg@kernel.org, mchehab@kernel.org, sakari.ailus@linux.intel.com,
-	gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-	skhan@linuxfoundation.org, linux-kernel-mentees@lists.linux.dev
-Subject: Re: [PATCH] staging: media: atomisp: Replace scnprintf with
- sysfs_emit in bo_show
-Message-ID: <aFllforMcR-WStUf@smile.fi.intel.com>
-References: <20250621062944.168386-1-abdelrahmanfekry375@gmail.com>
- <CAHp75Ve3PWgkwncVv5tGxzjWkF+Nodtp=Q3dpCejfSRD1BFMig@mail.gmail.com>
- <a2a67998-f67e-4677-a348-780bf640bfc3@suswa.mountain>
+Cc: Kisub Choe <kisub.choe.0x1@gmail.com>, gregkh@linuxfoundation.org,
+	philipp.g.hortmann@gmail.com, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: rtl8723bs: replace msleep(1)
+Message-ID: <aFlmL0DtydfsbFl0@rpi4B8Gs>
+References: <aFdAEM6GnCudvqMV@zinc>
+ <efa56904-eabf-4493-b064-652d02839c6b@suswa.mountain>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <a2a67998-f67e-4677-a348-780bf640bfc3@suswa.mountain>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+In-Reply-To: <efa56904-eabf-4493-b064-652d02839c6b@suswa.mountain>
 
-On Mon, Jun 23, 2025 at 05:16:57PM +0300, Dan Carpenter wrote:
-> On Sat, Jun 21, 2025 at 09:24:40PM +0300, Andy Shevchenko wrote:
-> > On Sat, Jun 21, 2025 at 9:30 AM Abdelrahman Fekry
-
-...
-
-> > > -       ret = scnprintf(buf, PAGE_SIZE, "type pgnr\n");
-> > > -       if (ret <= 0)
-> > > -               return 0;
-> > > -
-> > > -       index1 += ret;
-> > > +       offset += sysfs_emit(buf, "type pgnr\n");
+On Mon, Jun 23, 2025 at 01:54:01PM +0300, Dan Carpenter wrote:
+> On Sun, Jun 22, 2025 at 08:28:16AM +0900, Kisub Choe wrote:
+> > changed msleep to usleep_range to
 > > 
-> > This changes the behaviour in case the sysfs_emit() fails. Not that
-> > this is a big issue, but it should be pointed out somewhere.
+> > Adhere to Linux kernel coding style.
+> > Reported by checkpatch:
+> > 
+> > WARNING: msleep < 20ms can sleep for up to 20ms;
+> > see function description of msleep().
+> > 
+> > Signed-off-by: Kisub Choe <kisub.choe.0x1@gmail.com>
 > 
-> Neither scnprintf() nor sysfs_emit() can return negatives.
+> This type of change needs to be tested before it can be merged.
+> 
+> regards,
+> dan carpenter
+> 
 
-Good, that's what I asked the author to investigate and add the respective
-comment / update commit message accordingly.
+Thank you for feedback.
+I understand that this type of change should be tested due to its impact
+on time-sensitive behavior.
+However, I currently don't have access to any device that uses this
+driver.
+Please let me know how you'd suggest proceeding in this case.
 
--- 
-With Best Regards,
-Andy Shevchenko
-
-
+Regards,
+Kisub Choe.
