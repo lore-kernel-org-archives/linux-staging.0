@@ -1,62 +1,62 @@
-Received: from mail-oi1-f170.google.com (mail-oi1-f170.google.com [209.85.167.170])
+Received: from mail-ot1-f51.google.com (mail-ot1-f51.google.com [209.85.210.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19EC9224B1F
-	for <linux-staging@lists.linux.dev>; Mon, 23 Jun 2025 22:25:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2FC8219E0
+	for <linux-staging@lists.linux.dev>; Mon, 23 Jun 2025 22:56:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750717520; cv=none; b=kmf/RtBXCk8N+VXkDQeJjITBacAgNo/lR/3uKFb5AlwvA9mRLKm/qt2OK3oPMLomlXANe0mCaXN15leEqkfVt9LyChOkJ6xzj20WZd1WQHvgPlzSHW4Rwe+ahsH74VK2r9VDuzmvg3Hjy5fcB8izPaQnIJVfo1Yp9wsfsPvcKVo=
+	t=1750719365; cv=none; b=JoKLEDR8mWgUuFyC83byzy+iJfQ7Fyyh0L1uwFHjRSUvyS6Rm6m9K6EN8PgYGzniuKbdE+S3z1F5+bU4El00Qchb6xo/Knj6aGN9Dtl4LBRYzMW7RRSuAfFpdHp/QRKQ/he/uiO9lSPVdy8N6K/0kXJz3TKSpQVyBp+RDOfAmqE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750717520; c=relaxed/simple;
-	bh=iSqfQdhhNrFUcXqgyYNd2M03410UI/DXw37Kxcdnpw4=;
+	s=arc-20240116; t=1750719365; c=relaxed/simple;
+	bh=gO+eL83KdifAzJPi0HCo9DgdX1PW4Hs4m00dnR5SKys=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QgF7dHhfbcq//LVl80qkgSIrjm2WCALAd2Dxu5IsECqwpAikN2WoO3UVg2mmUESV0A+wp2dzw6F3lCAYdEUl7Nmgp68BRy4vtm95++GbrwwTTFutmLJaMi9n0EjGBd6OTQ9KsTykb5qcQE4xZv4R5zN154ziJcUXLPsYorJP2qQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Uo+E9rrP; arc=none smtp.client-ip=209.85.167.170
+	 Content-Type:Content-Disposition:In-Reply-To; b=m4HJowwm74e8Jpc9fuXUYTZCcx2YZOQciC4JICmE0nW99clo8R3jByrQX5eHiBuIbj8Vp2ig1w808QY4+8X3DaAkWSIvjemQLJ3aEpFlsGsNxziAowe+6q2X5kr+kqpTyJEgiRX088wXgQNPe6ENZXz8BAzjt1RJjbS3AdYEJBk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=iNIQLvOH; arc=none smtp.client-ip=209.85.210.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Uo+E9rrP"
-Received: by mail-oi1-f170.google.com with SMTP id 5614622812f47-408d7e2b040so3169412b6e.2
-        for <linux-staging@lists.linux.dev>; Mon, 23 Jun 2025 15:25:17 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="iNIQLvOH"
+Received: by mail-ot1-f51.google.com with SMTP id 46e09a7af769-72c173211feso1314319a34.1
+        for <linux-staging@lists.linux.dev>; Mon, 23 Jun 2025 15:56:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1750717517; x=1751322317; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1750719362; x=1751324162; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=YurwFid4CmPM1zECZ7NAIyg8xcw24kM7tKeHyFwlZDY=;
-        b=Uo+E9rrPozR7sQkKz72GCqbtJEdg4bfJIPO++eywXLYbVONSoEeHRejJO8Swm2Oxnv
-         ByJkxzTsi4PQf1gXdTCUZvtF5Jj9De6t2WzFGKKwVSCN35QVxqnPYglNoPusY4RuSa3j
-         2gs90okxjtW5CdUvrqBCOLx3Dspc838V95T+ZufwfMJs/HG2QJZwa9VtVW3CXq+GVO8f
-         amCrTDPrw34VyZdcSRvt/E4WDvHPsErSzaoMXgpHNIq30d6F+RiGY1PRyCWV29PCoebY
-         3NTNu98unXU7PdWwsOCswcvJDN1+ujcemUgDOtC0r9H6Inx3BAyzQwLEKtxNfLZy7h+e
-         XsGw==
+        bh=kCYGlmL5zX2bvvlJbBCCxMvXekeyhiCldD5Z4r6oMog=;
+        b=iNIQLvOHkw3e+AaSPyyKRyBkVdwzUf0bB97y4B7knu735mDw566R6eAXMiqaw5NyMp
+         V7HK2uFh4UbrwmASmmDpDOgCfMfyWCCP1rB9f5o+wrVyAGVv3g+qtNU/znFOwjOqyGmZ
+         SeHcZ0iutT64xGz79fotPvlNbDc8TnhW5RdOQUVyYOcmr0rr4xYsm75e2ElHfihI2t1/
+         IPrjUBDRAwDsgvByiKjblannwUISO4FIS9UdEyNIqbWCD3uvFMWAqsRHgfAbPobVIJFs
+         rL/7+WWoSAscD084tOTdtKWVeZvxQwU9SbA75maioAFBT6WvONbXXd6ki9Vc07SkoyLl
+         DA5w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750717517; x=1751322317;
+        d=1e100.net; s=20230601; t=1750719362; x=1751324162;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=YurwFid4CmPM1zECZ7NAIyg8xcw24kM7tKeHyFwlZDY=;
-        b=cJAKYQ5doyfG69ynHlFSLAtUo3cVNePpEkQdI/sURFjuNCieaz/Qsb152VCQjjIBDu
-         /fTczdxS8s+WV8qQblAz2ZknaakXZpZ9Yu1+7MC/iAvVps5Q0Me5xKxEsCK57jSmyJu9
-         rlKE+71raeldmFJW8Gs5qFuj3/VKwrE7GLYRwQ+BWB5YpJhE5XVvJEFmNzPfrl+EemDs
-         pIkYrr4ABO7TbXtMrfqTrVe5Td//YBs+8EVdSgjy6lfZ6s/G6zxBy4VTRqKzQzeTgYJC
-         Lj0dkdlD5flHqmVpe1Ulz7GqjQlWrsJ6r7Ox40rPldiP3bD6A0fPl5PzK4eM9Zl4HR4v
-         e2Ow==
-X-Forwarded-Encrypted: i=1; AJvYcCUKXt9bNM7U4ILncEbeNg9QmXI81IKx8+HNRGhULAZeOqVnHXaecsh8Itc3usYAj2SPRn+5cmDpsdYh64e5@lists.linux.dev
-X-Gm-Message-State: AOJu0YyBbcm8Wfy8USOAvcfxZl1y75Mp83hNxNwG+nhNkEZegKqEbSQ/
-	61HBkScg/WxMZY8YsL1D6fWKOyZB6vBqgXneNjdxtLc89k0gdl5QvK0IFrgfQx0l3Ss=
-X-Gm-Gg: ASbGncsg8GDepvCE1X/yUThSTe+oIUTwqmfvnauqnXDqEI15bE36jYEjCfR21HqzXFH
-	Y24XQt9F8uS6E21Rrn7tC/7ie5621xAxCOlSqC2EbCWc1WHTBpgvGBZQo7QgtRmsMPhZ4IENGKo
-	9yIcPb3hC1lM1iKwMMH7+w2I7icnkCROiJFb5sHpJHY+ytKOhCzTtH+ao3jXLVxK7SezYNTbah2
-	trjCqMJ7R642fivzTaC0R/b8lALRDMlGtHW8HNIYkR24LozoI4AuPJCO54Bin6PraukONp1kbe+
-	nR3fcaw/HA2ZknzotN8XVOmj5VPvbEG8HRmHcgEW8Hiz5fH4bZ7YQBCAl8JngFFokuj6GQ==
-X-Google-Smtp-Source: AGHT+IE91XZYWlprKGhHxRhe/CzOGIt6hPjcFJioO4ZNtu61oT2yO1/raktvIuwHoxAPy2DMwidNoA==
-X-Received: by 2002:a05:6808:2008:b0:40a:54f8:2cac with SMTP id 5614622812f47-40ac6fe3646mr10872876b6e.37.1750717517244;
-        Mon, 23 Jun 2025 15:25:17 -0700 (PDT)
+        bh=kCYGlmL5zX2bvvlJbBCCxMvXekeyhiCldD5Z4r6oMog=;
+        b=VHqIdNNSnozQ6klG4j5U4Znp5jTDFFlgw8ui6o1QFcfQxmSMizVqQiSbhl/vWynR4H
+         2L6YiCt3L0umiifecvV39xSTOLpFtIr7sq5cVWqMtcy490ZPPmSpNLEgOLdatApYoWJ2
+         2uDQ7rNWcA2faPFwQq8fz45j5C70IZVwpPciZCRzOSPuO715IopjQagnXkz182JE04Mr
+         T3EMriGxO9MVLQS32EvSw1Zy/TZ4WshVehAwTTJ09jkG4eimUJYV3uND+Mvrj0twfKdU
+         zbf1nczMsCJM03EAZXWaHWWxzCgQxrP5GCy1O1/RgwgXvJjrcYAtK111DICfhwUiuxMK
+         uf/A==
+X-Forwarded-Encrypted: i=1; AJvYcCXeD8gt2Qk+4HMEU0/D6NNDEK2oWdLF+2XN+kS2C8FtaRyeuM7ETzNfcEj3/u4Zpaq+kEziPRj8LnKsSYGv@lists.linux.dev
+X-Gm-Message-State: AOJu0YzS0BRhCj6zrxvwkt7ytujH9PsCsBi0FNoLWVKjXm6hXqnl74En
+	L6O42O87HCnvmRkDIPSaVhPwsuHjhEtkWl4dCC8//BGjQgyvs4oOJPAcMWlLnoCZfIo=
+X-Gm-Gg: ASbGnctcMUXzod62B6GwAiAbNRaWT65IabOQDoO+aPvSbxF5O4fiwwg0IraAa3yFsBH
+	DB4m36bIAWsTu+yw9Yc0F90FUaktmHBh4zDJagQW5FJoijCEnHVeNhFwhacxM0CLmkJzggnSQb8
+	Gv9kxIjpMcV2i3BhkQa0YKEn98RncXbzIWP4iq8feKtqWFxsKWBL9C319sJzNFrYojum9xu/aBC
+	3/I1OLDpsTK+LXzOUJ8xFHPo89CfxCN5WDSTIElQ6Rk4AUreYMjN7WJ27PmseQkOi94OTBTX6a1
+	hwSjpfB20dffgL8UhCi0gwz6/q8RbzaTEDCpMAG/R5dqspwc104R20RwS7SYqifv3XIfgw==
+X-Google-Smtp-Source: AGHT+IH2qJp3cfXp8vqsQfiwtJzTBVtR00oSUzJTlWLB1sUQjr8uuhV9Ojft3NeNTOmhlhWt7+2srA==
+X-Received: by 2002:a05:6830:8104:b0:727:3664:ca3a with SMTP id 46e09a7af769-73a91870a2cmr8528739a34.0.1750719361986;
+        Mon, 23 Jun 2025 15:56:01 -0700 (PDT)
 Received: from localhost ([2603:8080:b800:f700:8c3f:8b5f:5c74:76a9])
-        by smtp.gmail.com with ESMTPSA id 5614622812f47-40ac6d3b353sm1557857b6e.46.2025.06.23.15.25.15
+        by smtp.gmail.com with ESMTPSA id 46e09a7af769-73a908bc982sm1612798a34.0.2025.06.23.15.56.01
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 23 Jun 2025 15:25:16 -0700 (PDT)
-Date: Tue, 24 Jun 2025 01:25:14 +0300
+        Mon, 23 Jun 2025 15:56:01 -0700 (PDT)
+Date: Tue, 24 Jun 2025 01:55:59 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
 To: Colin Ian King <colin.i.king@gmail.com>
 Cc: Dave Penkler <dpenkler@gmail.com>,
@@ -66,8 +66,9 @@ Cc: Dave Penkler <dpenkler@gmail.com>,
 	linux-kernel@vger.kernel.org
 Subject: Re: [PATCH][next] staging: gpib: fix unset padding field copy back
  to userspace
-Message-ID: <cc005697-1911-485f-9c50-30442558851c@suswa.mountain>
+Message-ID: <30c88178-173e-4432-ab2f-beb26ab9d0b7@suswa.mountain>
 References: <20250623220958.280424-1-colin.i.king@gmail.com>
+ <cc005697-1911-485f-9c50-30442558851c@suswa.mountain>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -76,25 +77,67 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250623220958.280424-1-colin.i.king@gmail.com>
+In-Reply-To: <cc005697-1911-485f-9c50-30442558851c@suswa.mountain>
 
-On Mon, Jun 23, 2025 at 11:09:58PM +0100, Colin Ian King wrote:
-> The introduction of a padding field in the gpib_board_info_ioctl is
-> showing up as initialized data on the stack frame being copyied back
-> to userspace in function board_info_ioctl. The simplest fix is to
-> initialize the entire struct to zero to ensure all unassigned padding
-> fields are zero'd before being copied back to userspace.
+On Tue, Jun 24, 2025 at 01:25:14AM +0300, Dan Carpenter wrote:
+> On Mon, Jun 23, 2025 at 11:09:58PM +0100, Colin Ian King wrote:
+> > The introduction of a padding field in the gpib_board_info_ioctl is
+> > showing up as initialized data on the stack frame being copyied back
+> > to userspace in function board_info_ioctl. The simplest fix is to
+> > initialize the entire struct to zero to ensure all unassigned padding
+> > fields are zero'd before being copied back to userspace.
+> > 
+> > Fixes: b8394732ff0c ("staging: gpib: Add bit and byte padding to ioctl structs")
+> > Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
+> > ---
 > 
-> Fixes: b8394732ff0c ("staging: gpib: Add bit and byte padding to ioctl structs")
-> Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
-> ---
+> The fix is good, but the bug has been there since the driver was
+> introduced, it's only just now that the static checkers have started
+> catching it.  Oddly/sadly Smatch doesn't catch this one.  I'll have to
+> investigate.
+> 
+> Fixes: 9dde4559e939 ("staging: gpib: Add GPIB common core driver")
+> 
+> regards,
+> dan carpenter
 
-The fix is good, but the bug has been there since the driver was
-introduced, it's only just now that the static checkers have started
-catching it.  Oddly/sadly Smatch doesn't catch this one.  I'll have to
-investigate.
+Fixed.
 
-Fixes: 9dde4559e939 ("staging: gpib: Add GPIB common core driver")
+We should still print a warning about empty bits after a bitfield.
+I bet fixing that will find a dozen bugs at least...
 
 regards,
 dan carpenter
+
+--- >8 ---
+[PATCH] rosenberg: warn about uninitialized bitfields
+
+You could have a bitfield where not all the bits are set.  Warn about
+that.
+
+Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
+---
+ check_rosenberg.c | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
+
+diff --git a/check_rosenberg.c b/check_rosenberg.c
+index 22df8a3e5b64..80e15f2cf5ec 100644
+--- a/check_rosenberg.c
++++ b/check_rosenberg.c
+@@ -221,8 +221,12 @@ static int member_uninitialized(char *name, struct symbol *outer, struct symbol
+ 	struct symbol *base;
+ 	struct sm_state *sm;
+ 
++	if (!member->ident)
++		return FALSE;
+ 	base = get_base_type(member);
+-	if (!base || base->type != SYM_BASETYPE || !member->ident)
++	if (!base)
++		return FALSE;
++	if (base->type != SYM_BASETYPE && base->type != SYM_BITFIELD)
+ 		return FALSE;
+ 
+ 	if (pointer)
+-- 
+2.47.2
+
