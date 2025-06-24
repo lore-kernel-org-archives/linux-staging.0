@@ -1,64 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1092129994E;
-	Tue, 24 Jun 2025 13:25:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9A5329994C
+	for <linux-staging@lists.linux.dev>; Tue, 24 Jun 2025 14:02:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750771509; cv=none; b=JRxaE0jFWbS9cclDi3ujcQ4iJbIRBsaFMwBXHLE2hbGeqQIanVV6p3TjLDQAbFPSoBqeJjryGSIQnsm5jtAF7F+C1jo16z6x8T/NSQ4xxj7EqeXnKXj/2oSsY8cA9bHmCwyL9SeBIN0CBfjkqK5xgSjNSuVbyyRy/H+6GEnC5UE=
+	t=1750773755; cv=none; b=Z+YjfPhQWmFCIfcFjxVfadF+8IREjj49E2wqoTBBOj6JgVT0uEz5BRBxY6QixB+FrLDCafdYNI/Himo44mG0uwfPi+9GhxBnyOCth14hlfHCwxpTdsic9yP2wG3fzAsmfvHq2rBCJij/CD99ukb4nGXsjELCgGGT76/R5CJ7nOc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750771509; c=relaxed/simple;
-	bh=MzfSzjUF95yxpmEYVS+Rj4B5oJS885I5tmi8QnxSL1c=;
+	s=arc-20240116; t=1750773755; c=relaxed/simple;
+	bh=0jXyK2KxOnQeocRhBtX6DHW3qKYWO5X4okDglyyLHB8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=E/LmwUjEH7vG2Qq/8HCmxhGqziSQxeP8tjyW4v+LrWvHw3UqYCELIY/Af/xctnWxcVnf6qPXC1h8O7tlY0YVK5fKO+ckttq2VBGzyJH8kqPZhxZuhPXmwXMBhTct6yq4hINjbSbDYL6qJv5/75O4JUpEoJgzOm2R4z83XARSbs8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Gbs6DHX7; arc=none smtp.client-ip=192.198.163.7
+	 Content-Type:Content-Disposition:In-Reply-To; b=Y/1ROr4d8zjKFxHjWxMX3jORCZzCr8blt3E8urAa5qCUtMAflauCtOEG1MVaytj4SWiAdbD0kYh27kZOobNIvnxlDSV2dnqia/O1+/5mAgaVKshsRwCtmsywdVR3GnC7hGTS2yagDToPCQwKJnmT4M7dW88gC2G/pwKn1XEvayk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Vw6+Psjj; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Gbs6DHX7"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Vw6+Psjj"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1750771508; x=1782307508;
+  t=1750773753; x=1782309753;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=MzfSzjUF95yxpmEYVS+Rj4B5oJS885I5tmi8QnxSL1c=;
-  b=Gbs6DHX7vJXE+ub0x2b8lJDOrFkLav+EdFE9v89KpqLvNM2MmhJTzZY6
-   H1WyE0Fw9fIvovUKmxQGpOskau1jnnCLfNTQQvkWAxEOpJO42wUJocB6/
-   /lIQT2pVtqprs8RGU9aPU5DZ+d3MOXprLnlq4ErNdIT4tWVhVC0e1hRga
-   YA0BsRkzLREowI35fvyCQAcnKGavSDjp1B+Na/uGMnrvup/EAVl2FDqJu
-   PIiliPgeD5BCxoOYfKEvIGgwaWTePhICBK5sSKvMnVt/nSttFUDDkB8h8
-   v5MpMcZoCV6ri6rRYhqeSHe3Ev0zTAtxJtR3vESOJI/mG4YRC7YzmQTIq
-   w==;
-X-CSE-ConnectionGUID: 2uFw6Nz8QIWlI+RucuDJ+w==
-X-CSE-MsgGUID: hRwTYrTPS8emHCYl0NZxYw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11474"; a="78429903"
+  bh=0jXyK2KxOnQeocRhBtX6DHW3qKYWO5X4okDglyyLHB8=;
+  b=Vw6+Psjjo7RUX/fD+c9Ra0jxkSGgTJZgdeD53mhqtVZ2cpfqFnEMIJbL
+   nIwhlbWvHcyJpizrgU06xyk91Y/Jgn6lgVhzPkytHEWVoi2n6FvZmO+M0
+   FCepqwjH5CVqZR5mnF/6frZ/17X6z6F5ooxYSZcTCt0Mt643K1yzuR8Am
+   +etBNnE8AEYMeNZzG66Mg/FOv3Tuo6xLhoRojclL1QzvT6lNJ3gJDdezz
+   Fo2xLLnLErdtUfKPz7I7lLGBa6JbROe9kOmXzA6UpkU7769Eo4oIq1jye
+   /ZZuMBu4q42ZygbtjD+TndbWSJ4BrLMV8AywEbnKqZAjnTNXbGWKwuF2G
+   Q==;
+X-CSE-ConnectionGUID: 3PiMCpPGSnK+6WtrdJGPMQ==
+X-CSE-MsgGUID: 4Wkm9nPXT/ymUfLdOI0Swg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11474"; a="52244677"
 X-IronPort-AV: E=Sophos;i="6.16,261,1744095600"; 
-   d="scan'208";a="78429903"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jun 2025 06:25:07 -0700
-X-CSE-ConnectionGUID: hjY2OfY9Sy6CJL0qqPCPFA==
-X-CSE-MsgGUID: sgp4haqyTcCmo2ZwpTutYw==
+   d="scan'208";a="52244677"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jun 2025 07:02:33 -0700
+X-CSE-ConnectionGUID: k3OOOs0DRSSQe+FZydan+w==
+X-CSE-MsgGUID: pRhfOAVNSIq/gw/SKclo3g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,261,1744095600"; 
-   d="scan'208";a="152210127"
+   d="scan'208";a="157698101"
 Received: from smile.fi.intel.com ([10.237.72.52])
-  by fmviesa009.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jun 2025 06:25:04 -0700
+  by orviesa005.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jun 2025 07:02:32 -0700
 Received: from andy by smile.fi.intel.com with local (Exim 4.98.2)
 	(envelope-from <andriy.shevchenko@linux.intel.com>)
-	id 1uU3e0-00000009TgJ-1Uhr;
-	Tue, 24 Jun 2025 16:25:00 +0300
-Date: Tue, 24 Jun 2025 16:24:59 +0300
+	id 1uU4EG-00000009UGl-0Yqs;
+	Tue, 24 Jun 2025 17:02:28 +0300
+Date: Tue, 24 Jun 2025 17:02:27 +0300
 From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Abdelrahman Fekry <abdelrahmanfekry375@gmail.com>
-Cc: andy@kernel.org, hdegoede@redhat.com, mchehab@kernel.org,
-	sakari.ailus@linux.intel.com, gregkh@linuxfoundation.org,
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev, shuah@linuxfoundation.org,
-	linux-kernel-mentees@lists.linux.dev, dan.carpenter@linaro.org
-Subject: Re: [PATCH] staging: media: atomisp: remove debug sysfs attributes
- active_bo and free_bo
-Message-ID: <aFqnK5nIHilUSxPq@smile.fi.intel.com>
-References: <20250624130841.34693-1-abdelrahmanfekry375@gmail.com>
+To: Hans de Goede <hdegoede@redhat.com>, linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org, linux-staging@lists.linux.dev
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Andy Shevchenko <andy@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: Re: [rft, PATCH v2 0/3] media: atomisp: replace math macros
+Message-ID: <aFqv8-sSqA7yxnMo@smile.fi.intel.com>
+References: <20250519155028.526453-1-andriy.shevchenko@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -67,32 +66,19 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250624130841.34693-1-abdelrahmanfekry375@gmail.com>
+In-Reply-To: <20250519155028.526453-1-andriy.shevchenko@linux.intel.com>
 Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
  krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On Tue, Jun 24, 2025 at 04:08:41PM +0300, Abdelrahman Fekry wrote:
-> The sysfs attributes active_bo and free_bo expose internal buffer
-> state used only for debugging purposes. These are not part of
-> any standard kernel ABI and needs to be removed before this
-> driver can be moved out of drivers/staging.
+On Mon, May 19, 2025 at 06:46:46PM +0300, Andy Shevchenko wrote:
+> Kill unused definitions that may use custom macros from math_support.h
+> and reduce usage of the latter and even kill some of them at the end
+> of the series.
 > 
-> - Remove active_bo and free_bo attributes
-> - Remove group registration calls form hmm_init() and hmm_cleanup()
+> Please, apply only after tests that confirm everything is working
+> as expected.
 
-Suggested-by: ?
-
-...
-
-> +	/* Removed sysfs group registration for active_bo and free_bo attributes */
-
-> +
-> +	/* Removed sysfs group remove for active_bo and free_bo attributes */
-
-These comments do not bring a value, no need to have them.
-
-With the above fixed,
-Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Hans, have you had any chance to test this?
 
 -- 
 With Best Regards,
