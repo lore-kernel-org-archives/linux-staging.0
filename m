@@ -1,105 +1,101 @@
-Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
+Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B900F2E889B;
-	Tue, 24 Jun 2025 18:09:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C5CB2EA48F
+	for <linux-staging@lists.linux.dev>; Tue, 24 Jun 2025 18:13:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750788600; cv=none; b=J84rcFNYG0HmfACsgGz/cqvEjs0MaJ5fONmcQcoEBqqdxTJMCuurJJxSc2F+IzA0X7w1suI5IKMhAhTtlG5JsauYeJNwzbvhwJoP7VlD29+bSrX2h6CEqQH8gtvqR5mWR5wRWiSuGTyx55b4lkuuz918QPU6ySw4M+PidAyZKaI=
+	t=1750788791; cv=none; b=Nmi3eJUBlHOljR/+FE2k2KwN48hUEk1xqfjSlv1761nGe+T+9Q1E7D3LwT3GUECLbu5n/APpJsObDfX9Pn0jWah3sMpYw9Vsr9mPCBPk3yFdwwglPWueogu1PvP9aqS/ZzU6XSGtQP5qy1nK4mS8o2tGakl/YcPLQ+24ANlGD/I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750788600; c=relaxed/simple;
-	bh=FCIIYY5qiec2hBe50pDiWONT5FDHydwnIw9Ol4ckVRc=;
+	s=arc-20240116; t=1750788791; c=relaxed/simple;
+	bh=ZXA8DRWVPPHnm2xugJwcLuE0I9ArDZyOMS9O8RmbD0c=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=b/Z9ebjwxtHsOzVMEJbkmJtnk9cJbujqzQ28VvJAJJLz8ix5b7CXiVm1HUsHfmRrt9CJukoppgw2V93m+5MMtkDJ09pDo79jYUmqNe4F5Y5Xc2Voa93Iwb5EtC49wwUBGTQ5guVWA34AfQl3bTzw8yJrfaakSzuCfE3IWrgaH6M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jurQ9045; arc=none smtp.client-ip=209.85.218.41
+	 To:Cc:Content-Type; b=RMcyW4ButrfrUUHY2si4m5BGiSwIx1nZX8UleAgtlhr/GIrynuJ97zYaT/egfctf0pKOPfqVWVSqEjPIeJtwlb9iJx4zxuAynasfvw+OhMnCuhWaZtDOuQTaSNx8hPqQRG9URnjjBQmYMCC9oQgNfQWIlTpLUzIR1wyYoNSYcOA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NaBYEHlQ; arc=none smtp.client-ip=209.85.218.47
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jurQ9045"
-Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-ad56cbc7b07so879009666b.0;
-        Tue, 24 Jun 2025 11:09:58 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NaBYEHlQ"
+Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-ad8a8da2376so940695466b.3
+        for <linux-staging@lists.linux.dev>; Tue, 24 Jun 2025 11:13:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1750788597; x=1751393397; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1750788788; x=1751393588; darn=lists.linux.dev;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=FCIIYY5qiec2hBe50pDiWONT5FDHydwnIw9Ol4ckVRc=;
-        b=jurQ9045bwGiENoCggJP2xaWB8vowA7XWYYKG7OBIxiKpQSluqNjxq3R5mFEfAN4U+
-         LJw+i9sDT8Ygq5SJAZtpT3tU0xpy9sVSr2zSbQY2VkgPUB1zBVMz2dFgBV5Lea9H3mlu
-         Rl7Kqu6nKlLL8FYZZvZeOVnAQkEPgTxhoiMtZuf9PqComiwHCthwQADU/33Xzwd4itOg
-         TsOlE4in+tS862OYBqxwx/aKgtTaF6eTXpUpiKybLKhOoPlRQeIo18mHjl0bx5jPnDGQ
-         d2X6lFgkS3bG2YGJx7zrkNkfDq+pIdSfS1/YeCWh66ZFeTjXHZpAtMqLOvF4agOvLt/E
-         u4Zw==
+        bh=ZXA8DRWVPPHnm2xugJwcLuE0I9ArDZyOMS9O8RmbD0c=;
+        b=NaBYEHlQklQpSRKUcFD2alHv5V5AiftdWFNR4r0JIqV+zxTq3pr3d0XCLmtHu2tWTj
+         I2FdCe+ZscBK2yJoQJBz1b6lJNG8bf5DcCbJy4Lx5NrFN2qErWqxoGW9TP4zpPa1yCOb
+         q3nOXCI+zsiJpDhUGCXL/BDhNE0BUQxYEuFWgPJTUPVtaTdftIq8lU8GwQbhAZXCk/8G
+         qUI33baLUU0trIsF3pKAV+IEjipW1WYuOWEg2vbDt+lO/7b7FEcaSldrrd9O6Eha1akg
+         3CtKwPi4KtOaPIZ7P/azHgWabu3bSUSRCStmw8KUGwRjyszfYqLTg4yep49juUl2RKZc
+         ljMA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750788597; x=1751393397;
+        d=1e100.net; s=20230601; t=1750788788; x=1751393588;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=FCIIYY5qiec2hBe50pDiWONT5FDHydwnIw9Ol4ckVRc=;
-        b=fpIhI6wxQgew2kFWxbtiyqryCQxvwm8pVt0fDv+7Raagb9t6aaLZCj4rNPVsy5Y47W
-         0dbU95Zo0FzT0RhD6G+dV4d31/Vt7cnSObe005ZAEkc2Gw1ykf43B7PUbQV1Wr4omy+Z
-         DHLXF8tLKyF06uucTzbD4yGmES6Y/JI3x+unfYXxS6w/Q/OhIkoljWJJPOdVV/v6mi8U
-         fSQzx4hDJb2l5zP5QoQtL9sB2VG0up0fepX6m/vPKoEAP3f2PQzQ8hhkZ1O6XRA66Hvx
-         zZ99OpkuTRhODHcd+v4IdmRzwaN9zLRsF8V2Mi1gDLyzhwtwzmYJGJntnCMlXd7e78Ob
-         Qi9w==
-X-Forwarded-Encrypted: i=1; AJvYcCVgwzlaz4Ild8u3CzCjNsR4jjv42P4uXLmDzkT085VHcRSk31YXkLcsNIJWR8nGCIyCe4s2IK/cm0jP3QVXS4O9NnvInQ==@lists.linux.dev, AJvYcCXYfhoc+Et+wW/XMDGT+E3JpWCGeK+NM7CEvIxNvAA63HD2prjZFBl+0gIoo/QUrE+4cwTxSkrSaoJgAlrNng==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyVvD8XJmK5mz6trHiQQjz6ayEH2k5W8oiztUMvXb9v/BYIuz+w
-	VQKEBkeNNanA6hakbKxuy35jgAc6pc4UsTWZNT/5B8a70w/OKijSwAYbeoznmI/BR+Mewuib61t
-	MzJ69DEy9I3P/BEQLJGiUrHHUAd+Pkzw=
-X-Gm-Gg: ASbGncur2PFapclQp8GbInsgFLEHUp+ZQs88QgvPOtox3tvhOGuWtWZCwXyS1mOqfAd
-	FXKqElk3dOd6Obu3oo3n/2JlYMoolU2CqM8C7a7XBbDvZ1VBgKIx64yVBOjUM7125nEYLgxAbW+
-	wLAwGlwTgPOu+owb785DDGJN7U4Gki+Git14xzKniMhcg=
-X-Google-Smtp-Source: AGHT+IFjXqH44JSIY4FR9M2YtgUubwZ5Ww1de+8Ma1i2aCedPQ6TNDK+zEWWzi3PePdzsy8XyB2BHESWItZygc14TPs=
+        bh=ZXA8DRWVPPHnm2xugJwcLuE0I9ArDZyOMS9O8RmbD0c=;
+        b=xDlTw9NSl57PKeyzMTf6Zvr9C7m3lkl0uEh9s+k99+NyqzlK+GDJUF0Yk1Zmsdj9y+
+         Z1wkURWAoe38zMz2ETDCN8u+CapRj7Z4d9UdE+wmzfv5cRFDjuRZkQL2U6JxjpCqaGPG
+         fpjq8fxwAAWkxiniXwfByS5akvWU403Pd/YANxNJKS8ZAGetTPF0Yd3wqGSkiCUelzjN
+         PLqPbWQTJ0XocbEJzzMk1YRoeaooDbtssj+csFyZH04ppG57OUuTKbGjWMp4Wa4Sqzip
+         13aVEobzo9fC7hH0nt3VMgJKWdMBcNDCGyTYeeCRkS2lVYbqjmq/X5Yb8QWwL+mPO3Iz
+         Z73A==
+X-Forwarded-Encrypted: i=1; AJvYcCWeN1nzjwKHijUiqLrAXMQ4YiTqBqM19/MwOlKnTvOJ19ZZpRGt6B6udab0rZPOOW9Ls6A9mKt+fVSC0a3d@lists.linux.dev
+X-Gm-Message-State: AOJu0Yz36nfmzlKwmgIhZ38RHweiLEfk9EL7wV4t7oDNJ202Yzebq/6H
+	H+zbRmOXP46pmVm+ru95nGSGyoS8TPhE4h1Q8ldkX/C4V8O6b1W932GmtrQWu+rYbDg6wFbaQGU
+	rnyh/KTPSX6hHmfwPAzZn0Tn+aSgdtXdLWWN05a0=
+X-Gm-Gg: ASbGncv3XTEvmlgPU0idF5g7vygJ44oaByweh8F7Mlrg5W0Jq/BZtyiQSlr4Xj5S0t0
+	3ut0az2tCOmWWw20jDI3wicp2t9Ax6Ajyqt+bOSQf2t4gyvdZpOmstImRzq2JvoCvVtH0lE+Ukq
+	XjQd/gWUiPwkz/kryNy7sXMvWCi/PU4/fOZ8R+RlTZEFY=
+X-Google-Smtp-Source: AGHT+IHAPhrE2siqZLDcYTmASprwv0ffOHbs35Be8BcBAzfVlcI6RKVtZ5YdVQMZrIAQEx/vZPcLhhOsSIhbiavvE0I=
 X-Received: by 2002:a17:907:c810:b0:ad8:ae51:d16 with SMTP id
- a640c23a62f3a-ae0befc0232mr21137966b.55.1750788596736; Tue, 24 Jun 2025
- 11:09:56 -0700 (PDT)
+ a640c23a62f3a-ae0befc0232mr22330766b.55.1750788787409; Tue, 24 Jun 2025
+ 11:13:07 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250624170746.47188-1-abdelrahmanfekry375@gmail.com>
-In-Reply-To: <20250624170746.47188-1-abdelrahmanfekry375@gmail.com>
+References: <CAHp75Ve_G=ziR7sJmKw4t3BRASogGQ1kWUsNNNWESFmmS4rVhw@mail.gmail.com>
+ <20250624152000.489-1-zaq14760@gmail.com>
+In-Reply-To: <20250624152000.489-1-zaq14760@gmail.com>
 From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Tue, 24 Jun 2025 21:09:20 +0300
-X-Gm-Features: Ac12FXxMOJwp6ramOYp60uAHkuhid_dAfeHVQHPNfJmZDrOA2sU6IjPkvPJHtoY
-Message-ID: <CAHp75VfL2uMpOP2xfa6zf=MAFrt0Phz87xo5w3bC21t0-TTQKg@mail.gmail.com>
-Subject: Re: [PATCH v3] staging: media: atomisp: remove debug sysfs attributes
- active_bo and free_bo
-To: Abdelrahman Fekry <abdelrahmanfekry375@gmail.com>
-Cc: andy@kernel.org, hdegoede@redhat.com, mchehab@kernel.org, 
+Date: Tue, 24 Jun 2025 21:12:31 +0300
+X-Gm-Features: Ac12FXxT6Ms8-cnSXjz5XCPtCtveFRdKHi5l-CJC9dofBzFjUDvnc4Qezvh7NrQ
+Message-ID: <CAHp75VeijMvnbrCmRuqTeo_maxevCA9rB-r5URHaX+TrDNvyGA@mail.gmail.com>
+Subject: Re: [PATCH v4] staging: media: atomisp: fix coding style in ia_css_output.host.c
+To: LiangCheng Wang <zaq14760@gmail.com>
+Cc: andy@kernel.org, hansg@kernel.org, mchehab@kernel.org, 
 	sakari.ailus@linux.intel.com, gregkh@linuxfoundation.org, 
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
-	linux-staging@lists.linux.dev, skhan@linuxfoundation.org, 
-	linux-kernel-mentees@lists.linux.dev, dan.carpenter@linaro.org
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-staging@lists.linux.dev
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-You really need to slow down with the new versions.
+On Tue, Jun 24, 2025 at 6:20=E2=80=AFPM LiangCheng Wang <zaq14760@gmail.com=
+> wrote:
 
-On Tue, Jun 24, 2025 at 8:07=E2=80=AFPM Abdelrahman Fekry
-<abdelrahmanfekry375@gmail.com> wrote:
->
-> The sysfs attributes active_bo and free_bo expose internal buffer state u=
-sed
-> only for debugging purposes. These are not part of any standard kernel AB=
-I,
-> and needs to be removed before this driver can be moved out of drivers/st=
-aging.
+> You're right =E2=80=94 the driver is quite large and contains many simila=
+r issues.
+> To keep the patches manageable and easier to review, I plan to split the =
+cleanup into multiple smaller patches.
+> I'll start by submitting a series of patches, each focusing on a specific=
+ file or type of issue.
 
-needs --> need
-can --> may
+Please don't base on file, base only on type of issue. But cover
+entire driver. And if you do some work with a script (shell,
+coccinelle or similar), include the text in the comment or cover
+letter so the maintainer may do the similar steps on their side and
+check if the result is the same or so.
 
-> - Remove active_bo and free_bo attributes
-> - Remove group registeration calls form hmm_init() and hmm_cleanup()
+> Since I=E2=80=99m contributing in my free time outside of work, I may nee=
+d to spread the cleanup over several days.
+> I=E2=80=99ll do my best to keep the patches consistent and focused.
 
-registration
-
-> Suggested-by : Hans de Goede <hansg@kernel.org>
-
-This is not a tag. Check Submitting Patches documentation and find the
-issue and fix it accordingly.
+No problem, take your time and thanks for your help!
 
 --=20
 With Best Regards,
