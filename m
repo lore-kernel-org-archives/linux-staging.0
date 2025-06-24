@@ -1,222 +1,103 @@
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D5882D29C6;
-	Tue, 24 Jun 2025 14:50:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 661622D8765
+	for <linux-staging@lists.linux.dev>; Tue, 24 Jun 2025 15:20:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750776624; cv=none; b=XrV+td8HzvBQihA/s+ci7ovViE/LXyAyM14kGINckXwL/7C/E0C9liTsyTVL91Qdhloua2NascJT5uomE4eMwbSNVOCg9PtiA16itC+uPBH6dUukiOkAk+h+/jTfHyp/WkwkzcGeCcYr/8kUCWKeGJ45RwclpOEnDyfFNBOnZ70=
+	t=1750778408; cv=none; b=H02kbbItAEhOPpgdITBc1Yi0SfSQuFuOWy5E+mB9Ipaw+6kO62ARqEuCbMcnHU5u8Pqku2w3WUTRtDcb8hDObpqdZF4ugUTcOt5urN9VrwEiLRdMavIX1SYIu4PPA1Ey6p8gJsja/hOOb4bftcQqhzvhcBDvI6xm+1p5p6nwYwM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750776624; c=relaxed/simple;
-	bh=BLBs6VvptUTipdYqP5sZ+EBtpSjpz67hsxN65i7P6Jk=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=Aw157kbYhNbyaTG+5Utp4tz+VW42e9FlN6ma5IrTE08NdSj08GmcNACjyMdbpTM7wYSLzf4IwPtNgscbfcxYK1SposqZN8hB6m9RKtguU0kzNs+MwhjIRoZq14hYNhus+0524iM1XuNN3XhcaFGAiLDqLv0aDKQrOQqlwfVDs8c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=joAq0qF8; arc=none smtp.client-ip=209.85.221.53
+	s=arc-20240116; t=1750778408; c=relaxed/simple;
+	bh=9WOZ2U16bU4qdb2Fyo3eqQ8m2kp6QdcIvW61S3g6rps=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=ElqGipHq/qSoJAs+5vjQ+sARPef0RpK8RCeIhe3Z+1LiyRbIcqD5w6Mn1Ypt2099SbKVbbEpjXinByw88dLL4ZsOW8ZED/i8rnFhxubkJFHPury05c5lhPdGX29gIKQuTTYpPGMbCEbwaDSjb+B2pLRESCk2BTDc67diA1LZqAE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bppDZYUH; arc=none smtp.client-ip=209.85.214.175
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="joAq0qF8"
-Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-3a4e749d7b2so958406f8f.0;
-        Tue, 24 Jun 2025 07:50:22 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bppDZYUH"
+Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-234b9dfb842so49903285ad.1
+        for <linux-staging@lists.linux.dev>; Tue, 24 Jun 2025 08:20:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1750776621; x=1751381421; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=MLiCLOp03+AJLmaw4roATsJrCtRQMhCkeGidyycUVtg=;
-        b=joAq0qF8zNWo/jItk1S3vO9WcKDuFM7K9IcvKNF7qLgFusrBOCUHIytMTTJ6CObvf2
-         YkhzMNZ9g7btxSUw91CUUzlHM2MuTdbmkAj05UWLixAXOwLwxyIL9DVwVySP+//gTAdi
-         bfA6a97iWa8Fj0eai7YcIhotXA9Lh9s9hNtrrUL/pjVzzDtuojHpASMk5vEJVm7CrHHD
-         f1/7VjR5D6TwkXgCDWnfKRu3/xOXrwZqfmBV3vVRPtWdiedA7snufDA75v40X+JkOQE7
-         752AYy9jkLLusWH0hRleo+mvov/tR4rJ9j9LQwO54naFpeSHpG2MZkmlE49F57KjK2bt
-         TXDQ==
+        d=gmail.com; s=20230601; t=1750778407; x=1751383207; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=3Gn79PJLQC7ePGyYkvVQEXF99s8ix0dYxp4JZA4p7J4=;
+        b=bppDZYUHimWKblPdB6hBfMlocRuxrEZoUNTWIzJVNsN4H8os9dPhKgJ4Syh5Bybn10
+         7BE3xAholtTysJDipx81SZty+f1QLkWQ7CfCXSS7w1yzXINatAd+9CiB4pAGEVMwhFa4
+         RHVZmre/Xt+PGRzyGzn8tvk9itPajtfPSURZVmpKVyCTQn0vC2A4zvOguSy84RVlSSIB
+         j80zOYC0HbHBBmjnM4SfWYXU4BvfLkwPbE8AebZEf9nnphVfAGyINKXFdHGMXQRVs6MA
+         vMdiliKh4C+EB5f/0mzhpcAF6CgR+mDGaPl87LOKgONcCYsr4UYN/RycGVUTGOPeE0Cr
+         zzqg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750776621; x=1751381421;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=MLiCLOp03+AJLmaw4roATsJrCtRQMhCkeGidyycUVtg=;
-        b=nsWTLDZyC3BIf0ZG+rPstNQb3rRuC59YcWzshSw/dAYTdH51KQJFqFs4OQA8JGjVKp
-         OVOqF3Xtd0ZdWyTzgCSwLzBS20uFSX/cqGAza/P6FDW1vM8rf4Zg71k/oaeteZ5hKSMi
-         D8uLRhgG09dSPBNFH4N6GdkGZG81/Fss4S2gfeN420nTlbMmOyYANVozR4fCe5FWerUl
-         pFhTltQf0HCDB4do2AHyHS7ZH6dJwMN+L52nhMoEUqN+B2LLzTXjP3a67Sr6TrL1bwFf
-         vOQjtJqA6cE0I9ClDW+xyGZwV0nW31J10n1Clx6d5AMB7TNbpcpxyWImpLs7dQ3GvAFW
-         xC9g==
-X-Forwarded-Encrypted: i=1; AJvYcCU5btTvO7vAYmNAL8l9D5yJFKt12ihxXv/sBLcIlyyPjZdiG5kE8Wa6buu7nQQYFRF1KdQCcJulJpDKNyE+eg==@lists.linux.dev, AJvYcCXjOCiBjSIgwHNT4HoLkXxIGBXR2A+TGSdtOzeVxk6glPFwA/94irmIsp6PRzV5eyt3BvYQqMC9ZNOVbLSUnmZWfWEiWg==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yx9gDxmTUKK8Ni7h0mmgHv+uU/Gl0joLeWu9OxgqGFdeTLvDWVV
-	Q8fArTKGiX5lpInsy+em9KcIyg/crRkZhSHzPM1WETNlzC2tXjT2lSPE
-X-Gm-Gg: ASbGnctrwxJh7OLy0x4FhEe/7Geo61FCdPEqS1ccQrCj2u1bVpLqpo2SMvJffpcz5q9
-	l6jTyPZnETETNB3rwGD8kMsQy9l18NF3Rma1PADTsFIoDQFno+5dyQkIkTqQf06Fe2sS8UZNObG
-	jDqQFqem5Wtw7egXjtDP5OizH3nhM/uYFonMJ4QgELd/x9I8K4fzDGamYjjT1VEWkhJPggvNKoa
-	RqQSXZAgo91Z0DOFWwbbsJfTGI/31Gxtk83YCRWnm2vQHH1yLilYYF8u1iG2vaU5RGewOhx46ft
-	ukMk01qSj5PG8a74AIB2uOK+PymjUkE+y95YCj8oIrDYk5syOrXt9F5PdWNP9q794+2oTkCdpcn
-	ADHrJ7Gr54XATw9qwsPMchV4=
-X-Google-Smtp-Source: AGHT+IGp7FJxQ3lNRUT+69d4u3yFJMen8jE313LI5u9E0DtmCWAKYJVpQdPQQhXkTON2m4kEE//Lew==
-X-Received: by 2002:a05:6000:2f83:b0:3a4:f7ea:a638 with SMTP id ffacd0b85a97d-3a6d128bc58mr4951035f8f.3.1750776620577;
-        Tue, 24 Jun 2025 07:50:20 -0700 (PDT)
-Received: from localhost.localdomain ([156.208.189.36])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a6e80ff8b8sm2092841f8f.71.2025.06.24.07.50.18
+        d=1e100.net; s=20230601; t=1750778407; x=1751383207;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=3Gn79PJLQC7ePGyYkvVQEXF99s8ix0dYxp4JZA4p7J4=;
+        b=bq40EPWRqNdgT3BPNnrQUDb7ty4G/Eqdx4y+XUWygzGyBS3I/FA6Q3l3BMvBNwXbxg
+         ioVpNO43nXxLQZ63BZCFmDX/AXXfCz8En8mif4NNvt+hTDDlBSk7it3XuWRVQT93l0h8
+         UQthpxGgpj6eU7+sC3VYaqP9XTlTYyiLHSe/GA9JH9GhDCtNe0ebKVfmLnaKE0kRTk2m
+         166ig2NK9vtVuBk0kFoYD9djxephIgEenhrM/LdiE8MWCGS/RvbI6aSlnydhj0WRqCKh
+         6fzqIyrAYOXw6hmIjDbeHngcna/p59W2yBXXwx/JONtIXsHiKnl1vM9pqrRC2MYE/17t
+         yfZg==
+X-Forwarded-Encrypted: i=1; AJvYcCXMBXdfUwHkTkWzV7GnkrAkuftESQCRy9F7lsTyiCAowVMfN5N2vqQNRZfARQiP67657ooY3KPfwXJriwru@lists.linux.dev
+X-Gm-Message-State: AOJu0Yyy38fVLAZdAjFk2ZRzDo1fHxmJLaOonTwYLP5c9QTOr5YIACjn
+	i2BmES8TI9APVir0zCtLDHheIAsfPkUwbnI+zfV/g7Zh6sYoI5+iJsH4
+X-Gm-Gg: ASbGncsSWebaGuW+rggoVdtxLYhkTkb93ZaxcZCr9X2gqyn6M1LeVrSj1Ut+dNwE4O7
+	KCyWMDYgUICqL+LLBu3kxw5W6+uUrFjAKvsxh2uOTy/jpG2fO4uPQCJ6iiqC8BsnyAtMNGIPrJa
+	OZDBZR7q4BJkqgsZUVboHbU2VK4wiZJoBuha5Je+8auLuVwZ3ccB1zwqI21Yln31mFu37yjMtOu
+	1HsiXOBO75tKQifQzaNsUYzU63R1pFi1YFUpnQcDn4PIzXNNAFroyD1+EY07xfswZFE6gRW5L8f
+	TU9G2deJgsmSXAwwembxcbPizwfYQKY/cV3yqAOq7FVcGsjl8WCZqk02ScvFz/dK6IaTQQ1UPwv
+	4/ClTgiSuzBT0ohTgTxlW6cWQEeW6BpohlgesbpnsLd+00EfUFw==
+X-Google-Smtp-Source: AGHT+IH1Csh1hHtPrY2L0DzN9wun8J1kFW3ajVUEsxPwcR2fKElwEotatpGo0o+Bff9Z9QctMzExug==
+X-Received: by 2002:a17:902:da8c:b0:236:6e4f:d439 with SMTP id d9443c01a7336-237d9965716mr267845215ad.23.1750778406609;
+        Tue, 24 Jun 2025 08:20:06 -0700 (PDT)
+Received: from DESKTOP-RD0GVCL.localdomain (124-218-195-161.cm.dynamic.apol.com.tw. [124.218.195.161])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-237d8672498sm111979465ad.166.2025.06.24.08.20.04
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 24 Jun 2025 07:50:19 -0700 (PDT)
-From: Abdelrahman Fekry <abdelrahmanfekry375@gmail.com>
-To: andy@kernel.org,
-	hdegoede@redhat.com,
+        Tue, 24 Jun 2025 08:20:06 -0700 (PDT)
+From: LiangCheng Wang <zaq14760@gmail.com>
+To: andy@kernel.org
+Cc: zaq14760@gmail.com,
+	hansg@kernel.org,
 	mchehab@kernel.org,
 	sakari.ailus@linux.intel.com,
-	gregkh@linuxfoundation.org
-Cc: linux-kernel@vger.kernel.org,
+	gregkh@linuxfoundation.org,
 	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	skhan@linuxfoundation.org,
-	linux-kernel-mentees@lists.linux.dev,
-	dan.carpenter@linaro.org,
-	Abdelrahman Fekry <abdelrahmanfekry375@gmail.com>
-Subject: [PATCH v2] staging: media: atomisp: remove debug sysfs attributes active_bo and free_bo
-Date: Tue, 24 Jun 2025 17:49:43 +0300
-Message-Id: <20250624144943.39297-1-abdelrahmanfekry375@gmail.com>
-X-Mailer: git-send-email 2.25.1
+	linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev
+Subject: Re: [PATCH v4] staging: media: atomisp: fix coding style in ia_css_output.host.c
+Date: Tue, 24 Jun 2025 23:19:58 +0800
+Message-ID: <20250624152000.489-1-zaq14760@gmail.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <CAHp75Ve_G=ziR7sJmKw4t3BRASogGQ1kWUsNNNWESFmmS4rVhw@mail.gmail.com>
+References: <CAHp75Ve_G=ziR7sJmKw4t3BRASogGQ1kWUsNNNWESFmmS4rVhw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-The sysfs attributes active_bo and free_bo expose internal buffer
-state used only for debugging purposes. These are not part of
-any standard kernel ABI and needs to be removed before this
-driver can be moved out of drivers/staging.
+Subject: Re: [PATCH v4] staging: media: atomisp: fix coding style in ia_css_output.host.c
+In-Reply-To: <CAHp75Ve_G=ziR7sJmKw4t3BRASogGQ1kWUsNNNWESFmmS4rVhw@mail.gmail.com>
 
-- Remove active_bo and free_bo attributes
-- Remove group registration calls form hmm_init() and hmm_cleanup()
+Dear Andy,
 
-Suggested-by : Hans de Goede <hansg@kernel.org>
-Signed-off-by: Abdelrahman Fekry <abdelrahmanfekry375@gmail.com>
----
-v2:
-- Add Suggested-by line
-- Remove unnecessary comments
-v1: https://lore.kernel.org/all/20250624130841.34693-1-abdelrahmanfekry375@gmail.com/
+Thank you for your suggestion.
 
- drivers/staging/media/atomisp/pci/hmm/hmm.c | 92 +--------------------
- 1 file changed, 1 insertion(+), 91 deletions(-)
+You're right — the driver is quite large and contains many similar issues.  
+To keep the patches manageable and easier to review, I plan to split the cleanup into multiple smaller patches.  
+I'll start by submitting a series of patches, each focusing on a specific file or type of issue.
 
-diff --git a/drivers/staging/media/atomisp/pci/hmm/hmm.c b/drivers/staging/media/atomisp/pci/hmm/hmm.c
-index 84102c3aaf97..0a4d7dd5e6c4 100644
---- a/drivers/staging/media/atomisp/pci/hmm/hmm.c
-+++ b/drivers/staging/media/atomisp/pci/hmm/hmm.c
-@@ -28,88 +28,6 @@ struct hmm_bo_device bo_device;
- static ia_css_ptr dummy_ptr = mmgr_EXCEPTION;
- static bool hmm_initialized;
- 
--/*
-- * p: private
-- * v: vmalloc
-- */
--static const char hmm_bo_type_string[] = "pv";
--
--static ssize_t bo_show(struct device *dev, struct device_attribute *attr,
--		       char *buf, struct list_head *bo_list, bool active)
--{
--	ssize_t ret = 0;
--	struct hmm_buffer_object *bo;
--	unsigned long flags;
--	int i;
--	long total[HMM_BO_LAST] = { 0 };
--	long count[HMM_BO_LAST] = { 0 };
--	int index1 = 0;
--	int index2 = 0;
--
--	ret = scnprintf(buf, PAGE_SIZE, "type pgnr\n");
--	if (ret <= 0)
--		return 0;
--
--	index1 += ret;
--
--	spin_lock_irqsave(&bo_device.list_lock, flags);
--	list_for_each_entry(bo, bo_list, list) {
--		if ((active && (bo->status & HMM_BO_ALLOCED)) ||
--		    (!active && !(bo->status & HMM_BO_ALLOCED))) {
--			ret = scnprintf(buf + index1, PAGE_SIZE - index1,
--					"%c %d\n",
--					hmm_bo_type_string[bo->type], bo->pgnr);
--
--			total[bo->type] += bo->pgnr;
--			count[bo->type]++;
--			if (ret > 0)
--				index1 += ret;
--		}
--	}
--	spin_unlock_irqrestore(&bo_device.list_lock, flags);
--
--	for (i = 0; i < HMM_BO_LAST; i++) {
--		if (count[i]) {
--			ret = scnprintf(buf + index1 + index2,
--					PAGE_SIZE - index1 - index2,
--					"%ld %c buffer objects: %ld KB\n",
--					count[i], hmm_bo_type_string[i],
--					total[i] * 4);
--			if (ret > 0)
--				index2 += ret;
--		}
--	}
--
--	/* Add trailing zero, not included by scnprintf */
--	return index1 + index2 + 1;
--}
--
--static ssize_t active_bo_show(struct device *dev, struct device_attribute *attr,
--			      char *buf)
--{
--	return bo_show(dev, attr, buf, &bo_device.entire_bo_list, true);
--}
--
--static ssize_t free_bo_show(struct device *dev, struct device_attribute *attr,
--			    char *buf)
--{
--	return bo_show(dev, attr, buf, &bo_device.entire_bo_list, false);
--}
--
--
--static DEVICE_ATTR_RO(active_bo);
--static DEVICE_ATTR_RO(free_bo);
--
--static struct attribute *sysfs_attrs_ctrl[] = {
--	&dev_attr_active_bo.attr,
--	&dev_attr_free_bo.attr,
--	NULL
--};
--
--static struct attribute_group atomisp_attribute_group[] = {
--	{.attrs = sysfs_attrs_ctrl },
--};
--
- int hmm_init(void)
- {
- 	int ret;
-@@ -130,14 +48,6 @@ int hmm_init(void)
- 	 */
- 	dummy_ptr = hmm_alloc(1);
- 
--	if (!ret) {
--		ret = sysfs_create_group(&atomisp_dev->kobj,
--					 atomisp_attribute_group);
--		if (ret)
--			dev_err(atomisp_dev,
--				"%s Failed to create sysfs\n", __func__);
--	}
--
- 	return ret;
- }
- 
-@@ -145,7 +55,7 @@ void hmm_cleanup(void)
- {
- 	if (dummy_ptr == mmgr_EXCEPTION)
- 		return;
--	sysfs_remove_group(&atomisp_dev->kobj, atomisp_attribute_group);
-+
- 
- 	/* free dummy memory first */
- 	hmm_free(dummy_ptr);
--- 
-2.25.1
+Since I’m contributing in my free time outside of work, I may need to spread the cleanup over several days.  
+I’ll do my best to keep the patches consistent and focused.
 
+Thanks again for your guidance.
+
+Best regards,  
+LiangCheng Wang
