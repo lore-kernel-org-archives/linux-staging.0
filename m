@@ -1,103 +1,388 @@
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
+Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 661622D8765
-	for <linux-staging@lists.linux.dev>; Tue, 24 Jun 2025 15:20:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61CC5274B3D
+	for <linux-staging@lists.linux.dev>; Tue, 24 Jun 2025 15:35:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750778408; cv=none; b=H02kbbItAEhOPpgdITBc1Yi0SfSQuFuOWy5E+mB9Ipaw+6kO62ARqEuCbMcnHU5u8Pqku2w3WUTRtDcb8hDObpqdZF4ugUTcOt5urN9VrwEiLRdMavIX1SYIu4PPA1Ey6p8gJsja/hOOb4bftcQqhzvhcBDvI6xm+1p5p6nwYwM=
+	t=1750779309; cv=none; b=WE56kx4X//PRpom1GO3VE7k48UW4wjoEA8HRxYKhEGOFC2kUrzYFWa8FZ7hJkuZQArdYsJg0zycYYXqKBHTsxRnEZNd11BviiCLwnwPvfD2o7Zq9QCKKzrJ3vZvy83PDtbzIZf9iBYY/btsiM3LTtUrsBX7f2V7M/JxeXoBEFQ8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750778408; c=relaxed/simple;
-	bh=9WOZ2U16bU4qdb2Fyo3eqQ8m2kp6QdcIvW61S3g6rps=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=ElqGipHq/qSoJAs+5vjQ+sARPef0RpK8RCeIhe3Z+1LiyRbIcqD5w6Mn1Ypt2099SbKVbbEpjXinByw88dLL4ZsOW8ZED/i8rnFhxubkJFHPury05c5lhPdGX29gIKQuTTYpPGMbCEbwaDSjb+B2pLRESCk2BTDc67diA1LZqAE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bppDZYUH; arc=none smtp.client-ip=209.85.214.175
+	s=arc-20240116; t=1750779309; c=relaxed/simple;
+	bh=1HUxxCYLFrqk9fOqAtlEf05Tsq5YZPh0/z8kiPbJoyM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=C5wfXDmVuUyVSr/DN+k8aEe0MgbqxOYFbQSKdjLi0SiM7Bl4BDZ9aGqmo9zIfR1OJn5xxFWSn1GfjpAlGWlqoxiJYn4mpR9SJhLDQiGDKRQkJKQYNmXKiu8RH6X/9uQAhUq2sQXpZqpORebSk6LRZ+V31c7Mdg7DF0boQtzs5MY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iqvB/3NK; arc=none smtp.client-ip=209.85.218.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bppDZYUH"
-Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-234b9dfb842so49903285ad.1
-        for <linux-staging@lists.linux.dev>; Tue, 24 Jun 2025 08:20:07 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iqvB/3NK"
+Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-ade30256175so977053566b.1
+        for <linux-staging@lists.linux.dev>; Tue, 24 Jun 2025 08:35:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1750778407; x=1751383207; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=3Gn79PJLQC7ePGyYkvVQEXF99s8ix0dYxp4JZA4p7J4=;
-        b=bppDZYUHimWKblPdB6hBfMlocRuxrEZoUNTWIzJVNsN4H8os9dPhKgJ4Syh5Bybn10
-         7BE3xAholtTysJDipx81SZty+f1QLkWQ7CfCXSS7w1yzXINatAd+9CiB4pAGEVMwhFa4
-         RHVZmre/Xt+PGRzyGzn8tvk9itPajtfPSURZVmpKVyCTQn0vC2A4zvOguSy84RVlSSIB
-         j80zOYC0HbHBBmjnM4SfWYXU4BvfLkwPbE8AebZEf9nnphVfAGyINKXFdHGMXQRVs6MA
-         vMdiliKh4C+EB5f/0mzhpcAF6CgR+mDGaPl87LOKgONcCYsr4UYN/RycGVUTGOPeE0Cr
-         zzqg==
+        d=gmail.com; s=20230601; t=1750779306; x=1751384106; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:content-language:from
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=gjxr0DWMFDYRX+nr+frdmAXuPqrd6N6eH3MNM9mRgUs=;
+        b=iqvB/3NKe4Tx6w+oNGqmNGzS4o3qZMRpA6lCZi7WgqN9jVjNElPp6OaJidt0TxxnXp
+         CZeEiazsNj9saw6KsWo1hCT5jkimCeabYT4d7q+do7zHCDZuJP0l/Okxt8/lnwkgj9Y/
+         ZkqSSW3KtaJA089/THTsWSe8UKICbs4Q1bGuVrESsqcFARlC6XWREXw/ZQkltyqCbkJ1
+         58WvcbT0KVugO7OZuaeivI+nRBGiJJZI0uSm6IQojnZDgIF5ul4ho6qIr5IE4VQhc+7z
+         eWfyHJV8C6RAcH8kvODGy/OsLZ20moTdJunjCw3x6THv1GtMtwN7E0ufBfvh+2a6Tcaf
+         QLag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750778407; x=1751383207;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=3Gn79PJLQC7ePGyYkvVQEXF99s8ix0dYxp4JZA4p7J4=;
-        b=bq40EPWRqNdgT3BPNnrQUDb7ty4G/Eqdx4y+XUWygzGyBS3I/FA6Q3l3BMvBNwXbxg
-         ioVpNO43nXxLQZ63BZCFmDX/AXXfCz8En8mif4NNvt+hTDDlBSk7it3XuWRVQT93l0h8
-         UQthpxGgpj6eU7+sC3VYaqP9XTlTYyiLHSe/GA9JH9GhDCtNe0ebKVfmLnaKE0kRTk2m
-         166ig2NK9vtVuBk0kFoYD9djxephIgEenhrM/LdiE8MWCGS/RvbI6aSlnydhj0WRqCKh
-         6fzqIyrAYOXw6hmIjDbeHngcna/p59W2yBXXwx/JONtIXsHiKnl1vM9pqrRC2MYE/17t
-         yfZg==
-X-Forwarded-Encrypted: i=1; AJvYcCXMBXdfUwHkTkWzV7GnkrAkuftESQCRy9F7lsTyiCAowVMfN5N2vqQNRZfARQiP67657ooY3KPfwXJriwru@lists.linux.dev
-X-Gm-Message-State: AOJu0Yyy38fVLAZdAjFk2ZRzDo1fHxmJLaOonTwYLP5c9QTOr5YIACjn
-	i2BmES8TI9APVir0zCtLDHheIAsfPkUwbnI+zfV/g7Zh6sYoI5+iJsH4
-X-Gm-Gg: ASbGncsSWebaGuW+rggoVdtxLYhkTkb93ZaxcZCr9X2gqyn6M1LeVrSj1Ut+dNwE4O7
-	KCyWMDYgUICqL+LLBu3kxw5W6+uUrFjAKvsxh2uOTy/jpG2fO4uPQCJ6iiqC8BsnyAtMNGIPrJa
-	OZDBZR7q4BJkqgsZUVboHbU2VK4wiZJoBuha5Je+8auLuVwZ3ccB1zwqI21Yln31mFu37yjMtOu
-	1HsiXOBO75tKQifQzaNsUYzU63R1pFi1YFUpnQcDn4PIzXNNAFroyD1+EY07xfswZFE6gRW5L8f
-	TU9G2deJgsmSXAwwembxcbPizwfYQKY/cV3yqAOq7FVcGsjl8WCZqk02ScvFz/dK6IaTQQ1UPwv
-	4/ClTgiSuzBT0ohTgTxlW6cWQEeW6BpohlgesbpnsLd+00EfUFw==
-X-Google-Smtp-Source: AGHT+IH1Csh1hHtPrY2L0DzN9wun8J1kFW3ajVUEsxPwcR2fKElwEotatpGo0o+Bff9Z9QctMzExug==
-X-Received: by 2002:a17:902:da8c:b0:236:6e4f:d439 with SMTP id d9443c01a7336-237d9965716mr267845215ad.23.1750778406609;
-        Tue, 24 Jun 2025 08:20:06 -0700 (PDT)
-Received: from DESKTOP-RD0GVCL.localdomain (124-218-195-161.cm.dynamic.apol.com.tw. [124.218.195.161])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-237d8672498sm111979465ad.166.2025.06.24.08.20.04
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 24 Jun 2025 08:20:06 -0700 (PDT)
-From: LiangCheng Wang <zaq14760@gmail.com>
-To: andy@kernel.org
-Cc: zaq14760@gmail.com,
-	hansg@kernel.org,
-	mchehab@kernel.org,
-	sakari.ailus@linux.intel.com,
-	gregkh@linuxfoundation.org,
-	linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev
-Subject: Re: [PATCH v4] staging: media: atomisp: fix coding style in ia_css_output.host.c
-Date: Tue, 24 Jun 2025 23:19:58 +0800
-Message-ID: <20250624152000.489-1-zaq14760@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <CAHp75Ve_G=ziR7sJmKw4t3BRASogGQ1kWUsNNNWESFmmS4rVhw@mail.gmail.com>
-References: <CAHp75Ve_G=ziR7sJmKw4t3BRASogGQ1kWUsNNNWESFmmS4rVhw@mail.gmail.com>
+        d=1e100.net; s=20230601; t=1750779306; x=1751384106;
+        h=content-transfer-encoding:in-reply-to:content-language:from
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=gjxr0DWMFDYRX+nr+frdmAXuPqrd6N6eH3MNM9mRgUs=;
+        b=wH5IL0Y0JIeCcwsv27zsNMulkSdCVlV3lvOBJjkmC50SoO/Wix+c62ZQOGGwv00LxI
+         Eh8uryxLFE3SMQ+QIAqmOkwNm39xJjDuHvJJR34NT2C1kkgyJZybVgjSOHtnaPfw2Yv8
+         Y1vS1nXAnEVPC5+52ADQDX+YReit/S1A8msOgtnIGiq43o66/4pmn0Z3YWsK9rrgqPa+
+         droFtLmUd8WBBYz71fDxebf8qQrYak+/4ntkESYPLrbWeG4O4Rdnq4tPHkYbq0C/fBcu
+         nuAXT57C6CMPOwCTNL+cFE5tYUfRIqnHXTKwfT2csCe+08rcDnw/26Jzi55ztyzKStwz
+         m9Aw==
+X-Forwarded-Encrypted: i=1; AJvYcCUc5+4pgznROK4qoqybmj5UVF7/d62Tg6jHW70yMkRAjobIcUaJ94Lfp2JMemM9M4RnvxFWQoROAvVoM2xF@lists.linux.dev
+X-Gm-Message-State: AOJu0YyCF68bsya/K42IeAjewi+cLXg7MTaIzc3YI+Rs566GBxypDG++
+	n5J8QFBtZBw1MaVTaBONDByMBA7QyKMZ6QBnR8V0lqnQ3Fk6JVsxS098
+X-Gm-Gg: ASbGncuuol7Lc3fgJLIPrApJijd5GwPxO8AH8XZbkiNB48/ZabtlTsfLUBLK8u3eciS
+	7Yhqq9KriDTRDwdTICC20qQrWrG4dPVaGNgQnm3zHByhEg/jz8b2d9W7QWEWTG1SwcK+djEHYmH
+	1npDZfuoanzKt6SbdPBHnjGTYkvRptT+4uTjnuYVKOyE6swXYX4V46cYtPEnb6ZpPm0xaR/3tJP
+	cTeN2O28Y6ypTD//m1wE/Y6NcGGGVFTvyffsvXeTLpKMkphgg2QcMLNU+mqm0waZSgNaHEA/WcM
+	enXpemhSP5pIECbo0s0BiaLC6nnRO7H4IJxpr9PKXqVXotG+gsw2RbpZbEaWEZq4rpmA
+X-Google-Smtp-Source: AGHT+IFMf6c08eRNogrQBTupf94hSj3WK35oGshLvdYZh9ALEZnOXrZJBqFGAgxlC8Ri8V449wZhGA==
+X-Received: by 2002:a17:907:7f1f:b0:ae0:ba6f:35b9 with SMTP id a640c23a62f3a-ae0ba6f393dmr79982366b.28.1750779305215;
+        Tue, 24 Jun 2025 08:35:05 -0700 (PDT)
+Received: from [192.168.0.100] ([188.27.131.45])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ae0540833fasm902150766b.103.2025.06.24.08.35.03
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 24 Jun 2025 08:35:04 -0700 (PDT)
+Message-ID: <42fdeee8-a23e-4499-83c6-77d50418cff2@gmail.com>
+Date: Tue, 24 Jun 2025 18:34:58 +0300
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 15/19] media: i2c: add Maxim GMSL2/3 serializer and
+ deserializer drivers
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
+ =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+ Julien Massot <julien.massot@collabora.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Linus Walleij <linus.walleij@linaro.org>,
+ "open list:MAXIM GMSL2 SERIALIZERS AND DESERIALIZERS"
+ <linux-media@vger.kernel.org>,
+ "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>, open list <linux-kernel@vger.kernel.org>,
+ "moderated list:ARM64 PORT (AARCH64 ARCHITECTURE)"
+ <linux-arm-kernel@lists.infradead.org>,
+ "open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>,
+ open "list:GPIO"
+ "SUBSYSTEM:Keyword:(devm_)?gpio_(request|free|direction|get|set)"
+ <linux-gpio@vger.kernel.org>, Cosmin Tanislav <cosmin.tanislav@analog.com>
+References: <20250618095858.2145209-1-demonsingur@gmail.com>
+ <20250618095858.2145209-16-demonsingur@gmail.com>
+ <aFpnU8EHGt14UMHC@kekkonen.localdomain>
+From: Cosmin Tanislav <demonsingur@gmail.com>
+Content-Language: en-US
+In-Reply-To: <aFpnU8EHGt14UMHC@kekkonen.localdomain>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Subject: Re: [PATCH v4] staging: media: atomisp: fix coding style in ia_css_output.host.c
-In-Reply-To: <CAHp75Ve_G=ziR7sJmKw4t3BRASogGQ1kWUsNNNWESFmmS4rVhw@mail.gmail.com>
 
-Dear Andy,
+On 6/24/25 11:52 AM, Sakari Ailus wrote:
+ > Hi Cosmin,
+ >
+ > Thanks for the set.
+ >
+ > This patch is pretty massive. Could you split it into the serialiser and
+ > deserialiser frameworks and then invididual drivers using it (six-ish
+ > patches in total)?
+ >
 
-Thank you for your suggestion.
+I'll try to split it up for easier review, thanks.
 
-You're right — the driver is quite large and contains many similar issues.  
-To keep the patches manageable and easier to review, I plan to split the cleanup into multiple smaller patches.  
-I'll start by submitting a series of patches, each focusing on a specific file or type of issue.
+I'll strip some of the context so I can answer easier.
 
-Since I’m contributing in my free time outside of work, I may need to spread the cleanup over several days.  
-I’ll do my best to keep the patches consistent and focused.
+The comments I stripped out are things I'll do without discussion.
 
-Thanks again for your guidance.
+...
 
-Best regards,  
-LiangCheng Wang
+ >> +struct max9296a_chip_info {
+ >> +	unsigned int max_register;
+ >> +	unsigned int versions;
+ >> +	unsigned int modes;
+ >> +	unsigned int num_pipes;
+ >> +	unsigned int pipe_hw_ids[MAX9296A_PIPES_NUM];
+ >> +	unsigned int phy_hw_ids[MAX9296A_PHYS_NUM];
+ >> +	unsigned int num_phys;
+ >> +	unsigned int num_links;
+ >> +	struct max_phys_configs phys_configs;
+ >> +	bool use_atr;
+ >> +	bool has_per_link_reset;
+ >> +	bool phy0_lanes_0_1_on_second_phy;
+ >> +	bool polarity_on_physical_lanes;
+ >> +	bool needs_single_link_version;
+ >> +	bool needs_unique_stream_id;
+ >> +	bool supports_cphy;
+ >> +	bool supports_phy_log;
+ >> +	bool adjust_rlms;
+ >> +	bool fix_tx_ids;
+ >> +
+ >> +	enum max_gmsl_mode tpg_mode;
+ >> +
+ >> +	int (*set_pipe_stream_id)(struct max_des *des, struct max_des_pipe 
+*pipe,
+ >> +				  unsigned int stream_id);
+ >> +	int (*set_pipe_enable)(struct max_des *des, struct max_des_pipe *pipe,
+ >> +			       bool enable);
+ >> +	int (*set_pipe_link)(struct max_des *des, struct max_des_pipe *pipe,
+ >> +			     struct max_des_link *link);
+ >> +	int (*set_pipe_tunnel_phy)(struct max_des *des, struct 
+max_des_pipe *pipe,
+ >> +				   struct max_des_phy *phy);
+ >> +	int (*set_pipe_tunnel_enable)(struct max_des *des, struct 
+max_des_pipe *pipe,
+ >> +				      bool enable);
+ >
+ > Given this many callbacks, having an operations struct for them seems
+ > appropriate.
+ >
+
+Are you proposing adding another struct just to put these ops inside?
+
+What I could do is use the existing struct max_des_ops and assign the
+appropriate members in it, and then put whatever is left that's not
+needed for the common framework in struct max9296a_chip_info, and add
+a pointer to the struct max_des_ops instance it struct
+max9296a_chip_info.
+
+...
+
+ >> +static int max9296a_log_phy_status(struct max_des *des,
+ >> +				   struct max_des_phy *phy, const char *name)
+ >> +{
+ >> +	struct max9296a_priv *priv = des_to_priv(des);
+ >> +	unsigned int index = phy->index;
+ >> +	unsigned int val;
+ >> +	int ret;
+ >> +
+ >> +	if (!priv->info->supports_phy_log)
+ >> +		return 0;
+ >> +
+ >> +	ret = regmap_read(priv->regmap, MAX9296A_MIPI_PHY18, &val);
+ >> +	if (ret)
+ >> +		return ret;
+ >> +
+ >> +	pr_info("%s: \tcsi2_pkt_cnt: %lu\n", name,
+ >> +		field_get(MAX9296A_MIPI_PHY18_CSI2_TX_PKT_CNT(index), val));
+ >> +
+ >> +	ret = regmap_read(priv->regmap, MAX9296A_MIPI_PHY20(index), &val);
+ >> +	if (ret)
+ >> +		return ret;
+ >> +
+ >> +	pr_info("%s: \tphy_pkt_cnt: %u\n", name, val);
+ >
+ > dev_info()?
+ >
+
+I initially used pr_info() with the subdev name passed from core
+framwork to be consistent with the rest of the prints which use
+v4l2_info().
+
+I'll see how using dev_info() looks like, it would be nice if it would
+match the v4l2_info() format, even though v4l2-ctl --log-status doesn't
+care since all it looks for is `START STATUS`.
+
+ >> +
+ >> +	return 0;
+ >> +}
+ >> +
+ >> +static int max9296a_set_enable(struct max_des *des, bool enable)
+ >> +{
+ >> +	struct max9296a_priv *priv = des_to_priv(des);
+ >> +
+ >> +	return regmap_assign_bits(priv->regmap, MAX9296A_BACKTOP12,
+ >> +				  MAX9296A_BACKTOP12_CSI_OUT_EN, enable);
+ >> +}
+ >> +
+ >> +static int max9296a_init_phy(struct max_des *des, struct 
+max_des_phy *phy)
+ >> +{
+ >> +	struct max9296a_priv *priv = des_to_priv(des);
+ >> +	bool is_cphy = phy->bus_type == V4L2_MBUS_CSI2_CPHY;
+ >> +	unsigned int num_data_lanes = phy->mipi.num_data_lanes;
+ >> +	unsigned int dpll_freq = phy->link_frequency * 2;
+ >> +	unsigned int num_hw_data_lanes;
+ >> +	unsigned int hw_index = max9296a_phy_id(priv, phy);
+ >> +	unsigned int index = phy->index;
+ >> +	unsigned int used_data_lanes = 0;
+ >> +	unsigned int val;
+ >
+ > For register values, please use a type that explicitly specifies the 
+number
+ > of bits, e.g. u32.
+ >
+
+I used the type of the argument received by the regmap methods.
+
+...
+
+ >> +static int max9296a_reset_link(struct max9296a_priv *priv, unsigned 
+int index)
+ >> +{
+ >> +	unsigned int reg, mask;
+ >> +
+ >> +	if (index == 0) {
+ >> +		reg = MAX9296A_CTRL0;
+ >> +		mask = MAX9296A_CTRL0_RESET_ONESHOT;
+ >> +	} else {
+ >> +		reg = MAX9296A_CTRL2;
+ >> +		mask = MAX9296A_CTRL2_RESET_ONESHOT_B;
+ >> +	}
+ >
+ > I might use an array for this.
+ >
+ > Is index guaranteed to be 0 or 1?
+ >
+
+Should be, yes, but using an array for just two indices would cause a
+bit of indirection when looking at the code. If it was more I would have
+used one.
+
+ >> +
+ >> +	return regmap_set_bits(priv->regmap, reg, mask);
+ >> +}
+ >> +
+ >> +static int max9296a_init_link_rlms(struct max9296a_priv *priv,
+ >> +				   struct max_des_link *link)
+ >> +{
+ >> +	unsigned int index = link->index;
+ >> +	int ret;
+ >> +
+ >> +	/*
+ >> +	 * These settings are described as required on datasheet page 53
+ >> +	 * for MAX96714.
+ >> +	 */
+ >> +
+ >> +	ret = regmap_write(priv->regmap, MAX9296A_RLMS3E(index), 0xfd);
+ >> +	if (ret)
+ >> +		return ret;
+ >
+ > You could also do:
+ >
+ > 	if (!ret)
+ > 		ret = ...;
+ >
+ > And return ret at the end. It's one line less per call. Up to you.
+ >
+ >> +
+ >> +	ret = regmap_write(priv->regmap, MAX9296A_RLMS3F(index), 0x3d);
+ >
+ > What are these magic numbers? Could we have human-readable names for 
+them?
+ >
+ > The register names seem pretty opaque, too. Some explanation here would
+ > seem reasonable.
+ >
+
+They're extracted from the datasheet of MAX96714, the values are
+undocumented, but they're necessary to "optimize performance" of the
+GMSL link. I'll add a comment stating the datasheet page and section.
+
+...
+
+ >> diff --git a/drivers/media/i2c/maxim-serdes/max_des.c 
+b/drivers/media/i2c/maxim-serdes/max_des.c
+ >> new file mode 100644
+ >> index 000000000000..6a45f42fe033
+ >> --- /dev/null
+ >> +++ b/drivers/media/i2c/maxim-serdes/max_des.c
+ >> @@ -0,0 +1,3108 @@
+ >> +// SPDX-License-Identifier: GPL-2.0
+ >> +/*
+ >> + * Maxim GMSL2 Deserializer Driver
+ >
+ > How about naming the file maxim-deserialiser? I'd use e.g. "maxim_des"
+ > prefix for the functions. Just "max" is quite generic.
+ >
+
+max_des seems explicit enough. The max naming comes from the common
+prefix in the name of the chips, eg: MAX96724, MAX96717, not from Maxim.
+
+If I intended it to come from maxim, I would have obviously used maxim_,
+since that's what vendor-prefixes.yaml specifies.
+
+Although they were initially made by Maxim, Analog Devices bought Maxim,
+so using maxim_ would make as much sense as using adi_.
+
+Switching to maxim_ would only lengthen the name of the functions,
+types, symbols, macros, etc, and at least register/masks macros are
+already extremely long.
+
+...
+
+ >> +static int max_des_parse_src_dt_endpoint(struct max_des_priv *priv,
+ >> +					 struct max_des_phy *phy,
+ >> +					 struct fwnode_handle *fwnode)
+ >> +{
+ >> +	struct max_des *des = priv->des;
+ >> +	u32 pad = max_des_phy_to_pad(des, phy);
+ >> +	struct v4l2_fwnode_endpoint v4l2_ep = { .bus_type = 
+V4L2_MBUS_UNKNOWN };
+ >> +	struct v4l2_mbus_config_mipi_csi2 *mipi = &v4l2_ep.bus.mipi_csi2;
+ >> +	enum v4l2_mbus_type bus_type;
+ >> +	struct fwnode_handle *ep;
+ >> +	u64 link_frequency;
+ >> +	unsigned int i;
+ >> +	int ret;
+ >> +
+ >> +	ep = fwnode_graph_get_endpoint_by_id(fwnode, pad, 0, 0);
+ >> +	if (!ep)
+ >> +		return 0;
+ >> +
+ >> +	ret = v4l2_fwnode_endpoint_alloc_parse(ep, &v4l2_ep);
+ >> +	fwnode_handle_put(ep);
+ >> +	if (ret) {
+ >> +		dev_err(priv->dev, "Could not parse endpoint on port %u\n", pad);
+ >> +		return ret;
+ >> +	}
+ >> +
+ >> +	bus_type = v4l2_ep.bus_type;
+ >> +	if (bus_type != V4L2_MBUS_CSI2_DPHY &&
+ >> +	    bus_type != V4L2_MBUS_CSI2_CPHY) {
+ >> +		v4l2_fwnode_endpoint_free(&v4l2_ep);
+ >> +		dev_err(priv->dev, "Unsupported bus-type %u on port %u\n",
+ >> +			pad, bus_type);
+ >> +		return -EINVAL;
+ >> +	}
+ >> +
+ >> +	ret = 0;
+ >
+ > ret is already 0 here.
+ >
+ >> +	if (v4l2_ep.nr_of_link_frequencies == 0)
+ >> +		link_frequency = MAX_DES_LINK_FREQUENCY_DEFAULT;
+ >
+ > Isn't this required in DT?
+ >
+
+Required from a schema standpoint or a code standpoint?
+
+Code:
+
+rval = fwnode_property_count_u64(fwnode, "link-frequencies");
+if (rval > 0) {
+}
+
+No rval <= 0 case.
+
+And I don't think I made it required in the schema.
+
+...
