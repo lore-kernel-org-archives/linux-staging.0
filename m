@@ -1,143 +1,117 @@
-Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f172.google.com (mail-yw1-f172.google.com [209.85.128.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78DDE26B0BC
-	for <linux-staging@lists.linux.dev>; Wed, 25 Jun 2025 16:13:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC1E920B81B;
+	Wed, 25 Jun 2025 20:07:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750868008; cv=none; b=XfEAbbtot6fPZYmd/uFnwBHqNm0wEqT+dVAJrql3fBPAiCt42V1DwabXiEurf7zSipzIuurZITEXfspn8vUKcKtGB3azZNCnwKNP+mGD3B+E2q6KHtLmODuBcL8Ls549mIUi7dPUHUKYvBYfeZ6ilEWmIWITjTHrEqP5up938kw=
+	t=1750882069; cv=none; b=SCaUXf4dhsI3rYA66t3yyIN38EGlsYPq64AWXHDSnSd+yW/xedV3THQWS9/CBDmLsIdittE1bL2hEObtlczPKaJT1rMvYmBIb6qJmBFkHG0odu3XACloTK1SWwIVLp8YVSYGBPiI7nLkcfQukgmt+uUKVQ6yQjCz7EvbAxsQNLI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750868008; c=relaxed/simple;
-	bh=IIQljKBsNRMZzyX/Rtn6xxA6HrVZM41HmNzZGjrS+bc=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=kd6WFd73sSErYZF1JpnSlDp8B9wOeoA2+Zf1rU350sLBRk2EIJ3JHtu5avOjd52m+gvaVuLawrPY8m9ueTG5jCC81NkzIY5vweyDMc2txp3VSv/zH4QtYLDxvmI34vUlvnzcQ5Bjafq8x8QPl1gPZj7yt3aLkBR3wME9cE+UsLY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=afqgb50X; arc=none smtp.client-ip=148.251.105.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	s=arc-20240116; t=1750882069; c=relaxed/simple;
+	bh=EjtCgjlPuYa9OqKtTw5kDeGLPeJpAT12j+uPFgv0rOg=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=lVx2+rvyBcFkCBQf29FSYJhcZFYOvzxBNXudjB3ave31gUkAgWF+13UBh9vBAkCXswN4xH3TxQm5cPmIDeaaiEbR2SORU/CXd/+aA4244ydUsoZkl0pSW/QZGW8K9/HmXOSa5Hqvpm5BoG5tCSIWsyFDokqFMWD7znzaxowz4MI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TCiCEVCJ; arc=none smtp.client-ip=209.85.128.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="afqgb50X"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1750868004;
-	bh=IIQljKBsNRMZzyX/Rtn6xxA6HrVZM41HmNzZGjrS+bc=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-	b=afqgb50Xmd4fpACfmLcinWsRLQN09kVBJtwqMJ2v7rl+t/yH8DTDpSLQISRJz70zA
-	 eSZiVO3RJlgLJP6qPscVt912gxR7zny4IGv0kkqowCLJ7eiMHL5tyYYFVzFY2D24WL
-	 GgeY64UmAlz8Njb1MRa70lKlVBeGIs4yCy/u0Jw+o/tda3C4+zBzo0vJkU227jwyXR
-	 XrgpbpbUhc9BTRgcWUDADkFDDsq49zTA9J33rfwqvancfDIIYMcFbwzFJg9xzE6CaM
-	 NLgiwAdPO172FCMjCL3DXA25DQKYhqTJ2y/3W4el37bIqkKpWolv3i6aQdWmEn3Zp6
-	 G63fs6uKBWK1w==
-Received: from [IPv6:2606:6d00:17:b699::bad] (unknown [IPv6:2606:6d00:17:b699::bad])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: nicolas)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id 1286C17E0202;
-	Wed, 25 Jun 2025 18:13:22 +0200 (CEST)
-Message-ID: <6ac8b8db02190da7d2edc9ce4abe5e7a7cab70d6.camel@collabora.com>
-Subject: Re: [PATCH] media: rkvdec: Fix a NULL vs IS_ERR() bug in probe()
-From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-To: Dan Carpenter <dan.carpenter@linaro.org>, Ezequiel Garcia
-	 <ezequiel@vanguardiasur.com.ar>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Greg Kroah-Hartman
-	 <gregkh@linuxfoundation.org>, Hans Verkuil <hverkuil@xs4all.nl>, Detlev
- Casanova <detlev.casanova@collabora.com>, linux-media@vger.kernel.org, 
-	linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org
-Date: Wed, 25 Jun 2025 12:13:20 -0400
-In-Reply-To: <696219e9-a1c7-4c87-b15c-1ffd42c95d58@sabinyo.mountain>
-References: <696219e9-a1c7-4c87-b15c-1ffd42c95d58@sabinyo.mountain>
-Autocrypt: addr=nicolas.dufresne@collabora.com; prefer-encrypt=mutual;
- keydata=mQGiBEUQN0MRBACQYceNSezSdMjx7sx6gwKkMghrrODgl3B0eXBTgNp6c431IfOOEsdvk
- oOh1kwoYcQgbg4MXw6beOltysX4e8fFWsiRkc2nvvRW9ir9kHDm49MkBLqaDjTqOkYKNMiurFW+go
- zpr/lUW15QqT6v68RYe0zRdtwGZqeLzX2LVuukGwCg4AISzswrrYHNV7vQLcbaUhPgIl0D+gILYT9
- TJgAEK4YHW+bFRcY+cgUFoLQqQayECMlctKoLOE69nIYOc/hDr9uih1wxrQ/yL0NJvQCohSPyoyLF
- 9b2EuIGhQVp05XP7FzlTxhYvGO/DtO08ec85+bTfVBMV6eeY4MS3ZU+1z7ObD7Pf29YjyTehN2Dan
- 6w1g2rBk5MoA/9nDocSlk4pbFpsYSFmVHsDiAOFje3+iY4ftVDKunKYWMhwRVBjAREOByBagmRau0
- cLEcElpf4hX5f978GoxSGIsiKoDAlXX+ICDOWC1/EXhEEmBR1gL0QJgiVviNyLfGJlZWnPjw6xhhm
- tHYWTDxBOP5peztyc2PqeKsLsLWzAr7QnTmljb2xhcyBEdWZyZXNuZSA8bmljb2xhc0BuZHVmcmVz
- bmUuY2E+iGIEExECACIFAlXA3CACGwMGCwkIBwMCBhUIAgkKCwQWAgMBAh4BAheAAAoJEHFTAi2sB
- qgcJngAnRDBTr8bhzuH0KQwFP1nEYtfgpKdAKCrQ/sJfuG/8zsd7J8wVl7y3e8ARbRDTmljb2xhcy
- BEdWZyZXNuZSAoQi4gU2MuIEluZm9ybWF0aXF1ZSkgPG5pY29sYXMuZHVmcmVzbmVAZ21haWwuY29
- tPohgBBMRAgAgBQJFlCyOAhsDBgsJCAcDAgQVAggDBBYCAwECHgECF4AACgkQcVMCLawGqBwhLQCg
- zYlrLBj6KIAZ4gmsfjXD6ZtddT8AoIeGDicVq5WvMHNWign6ApQcZUihtElOaWNvbGFzIER1ZnJlc
- 25lIChCLiBTYy4gSW5mb3JtYXRpcXVlKSA8bmljb2xhcy5kdWZyZXNuZUBjb2xsYWJvcmEuY28udW
- s+iGIEExECACIFAkuzca8CGwMGCwkIBwMCBhUIAgkKCwQWAgMBAh4BAheAAAoJEHFTAi2sBqgcQX8
- An2By6LDEeMxi4B9hUbpvRnzaaeNqAJ9Rox8rfqHZnSErw9bCHiBwvwJZ77QxTmljb2xhcyBEdWZy
- ZXNuZSA8bmljb2xhcy5kdWZyZXNuZUBjb2xsYWJvcmEuY29tPohiBBMRAgAiBQJNzZzPAhsDBgsJC
- AcDAgYVCAIJCgsEFgIDAQIeAQIXgAAKCRBxUwItrAaoHLlxAKCYAGf4JL7DYDLs/188CPMGuwLypw
- CfWKc9DorA9f5pyYlD5pQo6SgSoiC0R05pY29sYXMgRHVmcmVzbmUgKEIgU2MuIEluZm9ybWF0aXF
- 1ZSkgPG5pY29sYXMuZHVmcmVzbmVAdXNoZXJicm9va2UuY2E+iGAEExECACAFAkUQN0MCGwMGCwkI
- BwMCBBUCCAMEFgIDAQIeAQIXgAAKCRBxUwItrAaoHPTnAJ0WGgJJVspoctAvEcI00mtp5WAFGgCgr
- +E7ItOqZEHAs+xabBgknYZIFPU=
-Organization: Collabora Canada
-Content-Type: multipart/signed; micalg="pgp-sha1"; protocol="application/pgp-signature";
-	boundary="=-Yg+9RAryTT3i1Yp4yaC4"
-User-Agent: Evolution 3.56.2 (3.56.2-1.fc42) 
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TCiCEVCJ"
+Received: by mail-yw1-f172.google.com with SMTP id 00721157ae682-70e2a7a2ce6so306247b3.0;
+        Wed, 25 Jun 2025 13:07:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1750882067; x=1751486867; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=EjtCgjlPuYa9OqKtTw5kDeGLPeJpAT12j+uPFgv0rOg=;
+        b=TCiCEVCJ77drPh93dIUhSOMkWm858e5sBOYnuE8ACjhvXk9WRtdDEqOrfBQPkq1A0y
+         VgDDgoRyyGrxxY1EjwEUmPHGC5j4mswpIKk67kZM1P7s8NDvPZlbbmB2KDvNg7AyU77w
+         jNTPISq2p8GqbhfKL3hveTexcIHZAT56AKzw93MS33177P+Vam22ThVPVkogVZm1y6ah
+         Q76Z1PAwSYJzJ0gOFIj3i6QQF5VG0kIlCbYV31QmY2VjacqvXZxMqtXxiGOsFmwyHbAH
+         bUqkG1fkd89ovOa1cQxUYy0ZxdfQHSsLpJmDC9kee2oHXkg7iIrhhdITHaBaet2js5/S
+         mh/g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1750882067; x=1751486867;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=EjtCgjlPuYa9OqKtTw5kDeGLPeJpAT12j+uPFgv0rOg=;
+        b=pHp/1zrptjcGrOj3T7F4DHX8Eee6O4WE5Dn6JQbXNAfOuJKa6bRMWLr1AgrxFFlhfI
+         9oUzIAgitv5ELLONUexWlEQpdp9cPJKiv8uJC4ZJLqwGT0H7yr4a5qxz0fr6gWPl1DpS
+         iy9RxBSOvuF8qRbd9ffwvyc61r8sQapQzxoLa7jiiiLooQ6xowtCd3nwFb4sWwdphirJ
+         VVPDBnfKraq1/3NJ7rVJTx4FGANBuy0XpiMgdHdAqPQ1OcmmnxAtK+fCXFaCWbHupXOO
+         IJVrSOUcgTo4bTsXAF6eUyU33VHcl616JveA39M9uGw7BJrntBDyaHK7GxSZ7WH14PEn
+         NquQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXFRG/JPuJYOfnHALlJnKi+cI2c9TY6TKmQPqK00+rvD1RxptQOmxKjm4u8BvGu+WLEKxn2Ody4gxhdyBFOKw==@lists.linux.dev, AJvYcCXkdfrzaq928tiwDRbb1OQ4ceVT753deuS8rJ1WeM3yHWzjPVzD9VqKzkTJNpVzx4ywusIzwkjaAuNQy6b9BzailUdk8w==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yy15wgBloGCfZHkttD7BNNGfuyfjETlImNg002oKL304C84lG81
+	jPG2ZsIR+dmovth66BkbBvtSssvr+LY2HduA0H2hVmNU/5CTm580yKNeZeAH40YqB7smqy1gygU
+	w0sIvkrTaFRK2MH4YcoYkZZqCs/hTNxY=
+X-Gm-Gg: ASbGnct1lavuUJlPON4/L6SgtAO5ZJdc09vlUNtbW+1CwDiQHG6g+FmjCG0m3Bp86bb
+	FwT5SXXTXUYuMDpTeI9/FXYDANAy/HT+70cUoEQYsnsA67HjJQy5WoznymbZkw+kR0auItbo+xt
+	YCz9fN70pmlHNtndeBoskdZZxpKsJoOyOO2kvr6s4oxU0=
+X-Google-Smtp-Source: AGHT+IGz4txyKPd7fSv+f9CzjEkDSNQgHwjMbV5Yhzz8B88moF+AakLXs8owD2LqNSjcS5hCDxId5lFVReEZt6ABDzE=
+X-Received: by 2002:a05:690c:67c1:b0:712:cc11:af5 with SMTP id
+ 00721157ae682-71406b6599fmr29578827b3.0.1750882065681; Wed, 25 Jun 2025
+ 13:07:45 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-
-
---=-Yg+9RAryTT3i1Yp4yaC4
+References: <20250624170746.47188-1-abdelrahmanfekry375@gmail.com> <CAHp75VfL2uMpOP2xfa6zf=MAFrt0Phz87xo5w3bC21t0-TTQKg@mail.gmail.com>
+In-Reply-To: <CAHp75VfL2uMpOP2xfa6zf=MAFrt0Phz87xo5w3bC21t0-TTQKg@mail.gmail.com>
+From: Abdelrahman Fekry <abdelrahmanfekry375@gmail.com>
+Date: Wed, 25 Jun 2025 23:07:34 +0300
+X-Gm-Features: Ac12FXzwVYZpPh2GdM0bP_aNvwstV2K-3UVsUmTB7suEGHiFt6UKlSIQ2Vw63lA
+Message-ID: <CAGn2d8NmM3Jr+ZR=hj6KYyHdkx1Vc0-Q2RE7Y2o9RfQM1dPAog@mail.gmail.com>
+Subject: Re: [PATCH v3] staging: media: atomisp: remove debug sysfs attributes
+ active_bo and free_bo
+To: Andy Shevchenko <andy.shevchenko@gmail.com>
+Cc: andy@kernel.org, hdegoede@redhat.com, mchehab@kernel.org, 
+	sakari.ailus@linux.intel.com, gregkh@linuxfoundation.org, 
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+	linux-staging@lists.linux.dev, skhan@linuxfoundation.org, 
+	linux-kernel-mentees@lists.linux.dev, dan.carpenter@linaro.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hi,
+Hi, Thanks for your review and most importantly your patience :)
 
-Le mercredi 25 juin 2025 =C3=A0 10:23 -0500, Dan Carpenter a =C3=A9crit=C2=
-=A0:
-> The iommu_paging_domain_alloc() function doesn't return NULL on error it
-> returns error pointers.=C2=A0 Update the check and then set ->empty_domai=
-n to
-> NULL because the rest of the driver assumes it can be NULL.
+On Tue, Jun 24, 2025 at 9:09=E2=80=AFPM Andy Shevchenko
+<andy.shevchenko@gmail.com> wrote:
 >
-> Fixes: ff8c5622f9f7 ("media: rkvdec: Restore iommu addresses on errors")
+> You really need to slow down with the new versions.
+>
+> On Tue, Jun 24, 2025 at 8:07=E2=80=AFPM Abdelrahman Fekry
+> <abdelrahmanfekry375@gmail.com> wrote:
+> >
+> > The sysfs attributes active_bo and free_bo expose internal buffer state=
+ used
+> > only for debugging purposes. These are not part of any standard kernel =
+ABI,
+> > and needs to be removed before this driver can be moved out of drivers/=
+staging.
+>
+> needs --> need
+> can --> may
+>
+noted , will fix this
+> > - Remove active_bo and free_bo attributes
+> > - Remove group registeration calls form hmm_init() and hmm_cleanup()
+>
+> registration
+>
+noted , will fix this
+> > Suggested-by : Hans de Goede <hansg@kernel.org>
+>
+> This is not a tag. Check Submitting Patches documentation and find the
+> issue and fix it accordingly.
+>
+noted , i now know the issue and will fix it
+> --
+> With Best Regards,
+> Andy Shevchenko
 
-Oh, sorry about that, I'll will test your patch this week, but otherwise
-looks good to me, fixing yet one more error path. I'll take the time
-to test dropping the iommu node from the DT while at it, as I simply
-don't remember if that was re-tested after that change.
-
-regards,
-Nicolas
-
-> Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
-> ---
-> =C2=A0drivers/staging/media/rkvdec/rkvdec.c | 4 +++-
-> =C2=A01 file changed, 3 insertions(+), 1 deletion(-)
->=20
-> diff --git a/drivers/staging/media/rkvdec/rkvdec.c b/drivers/staging/medi=
-a/rkvdec/rkvdec.c
-> index d707088ec0dc..1b7f27e4d961 100644
-> --- a/drivers/staging/media/rkvdec/rkvdec.c
-> +++ b/drivers/staging/media/rkvdec/rkvdec.c
-> @@ -1162,8 +1162,10 @@ static int rkvdec_probe(struct platform_device *pd=
-ev)
-> =C2=A0	if (iommu_get_domain_for_dev(&pdev->dev)) {
-> =C2=A0		rkvdec->empty_domain =3D iommu_paging_domain_alloc(rkvdec->dev);
-> =C2=A0
-> -		if (!rkvdec->empty_domain)
-> +		if (IS_ERR(rkvdec->empty_domain)) {
-> +			rkvdec->empty_domain =3D NULL;
-> =C2=A0			dev_warn(rkvdec->dev, "cannot alloc new empty domain\n");
-> +		}
-> =C2=A0	}
-> =C2=A0
-> =C2=A0	vb2_dma_contig_set_max_seg_size(&pdev->dev, DMA_BIT_MASK(32));
-
---=-Yg+9RAryTT3i1Yp4yaC4
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
-Content-Transfer-Encoding: 7bit
-
------BEGIN PGP SIGNATURE-----
-
-iF0EABECAB0WIQSScpfJiL+hb5vvd45xUwItrAaoHAUCaFwgIAAKCRBxUwItrAao
-HJNoAKCHiY+S3IyVE4XjQknVwTjwtJf1vACgqDbhVHBrZ4XhiuSSP0h7rE8sanI=
-=F7Kw
------END PGP SIGNATURE-----
-
---=-Yg+9RAryTT3i1Yp4yaC4--
+Best Regards,
+Abdelrahman Fekry
