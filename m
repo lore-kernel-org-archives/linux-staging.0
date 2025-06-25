@@ -1,66 +1,73 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ot1-f42.google.com (mail-ot1-f42.google.com [209.85.210.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C85B4C92
-	for <linux-staging@lists.linux.dev>; Wed, 25 Jun 2025 15:18:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 990502BF015
+	for <linux-staging@lists.linux.dev>; Wed, 25 Jun 2025 15:23:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750864711; cv=none; b=bdyyouOug8E/Ls7fvS/NI7Dvu5/3pEw+UIECkq6h616HrYHmLSvbiQlyJGBS9N2wMHum6CVfPIq04fbrXeg+UqZ0aKPhSVtl4d8nvoAd9aPriAGQZRKUAUSlUuTh7Iqk1HzfF7vBciCrVMzHi+JxPO0kU8rE2qR0najD9LkPFb8=
+	t=1750864994; cv=none; b=hw7zKfq373JvH+Dtx3sy1tvSDiPmUe1m2yTBvO4rEkzHFhmcOvQOfq4mUvpV/l/IRFB59enOuyZ7eH07wgLDhbUnxy8+bErmzPn2yLlOFPBw6LtoQnqqJLHpxzEazwUlV8uWKdxRWACOyIhuQx38Z0ErkWYos4AImD0A+j7FUHQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750864711; c=relaxed/simple;
-	bh=MjRZ/bEHMhVc5FqVAFElEXGRGKcKpNQLI+R38XRacJc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=rqaOqjg+GBs+WrVjrJvulPoAbiFM4A8aJcmzyiHvk+spo1y88reYX/poJMRfWeQ3wvjhuZqKeJHZTqE3iG1ZDsvejHkviR+FM5sBafERWf9eyzEu/77Sr/ngxZIfpdDlFlct5XcvKX8XLUyI9rpwOKF3OwQFMQZD1Iz/LzGZg54=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WcrQRkoG; arc=none smtp.client-ip=192.198.163.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1750864994; c=relaxed/simple;
+	bh=5O2/4BpQHfklLSAAZ+OUfTKYve/rhKype+tQDUVh+no=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=b56EO4PA2DJ+SRlYqZqME3/dTzBnKUF1e9MzrWAED6EtQvtEbIxfT0MPakdFOEOaTPlEkhSggU3FzbuFyDpsiyBn15+bWPbYCxTd4VTQBxVYx+7MMjB/KeO3IDC7ipOnn4SVf4/ATnME1S6rvOHJkgwu3vadr4VMR8k33EhqamY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=VrzsYZlz; arc=none smtp.client-ip=209.85.210.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WcrQRkoG"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1750864710; x=1782400710;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=MjRZ/bEHMhVc5FqVAFElEXGRGKcKpNQLI+R38XRacJc=;
-  b=WcrQRkoGAIlwD/ks2pY8VVe5U/vO8XrEvl12pmsvEcqsV34BDVC6o8+x
-   BiBiHxz/kZAlRXKspKzG5gMSLOu1gAy2yWmNpab5s96Hf+RICg7o/biYI
-   fVmKyIKiesFgCoH1pDelcZ42nXmrv2HKid32C+KVV/CEj1XcdvL4GNTxM
-   CteVCgzBB905SQdolsgR2dvHlOS4am0YFt/n04RBeAaYUWSi5tCPj2AKX
-   RtFf+YpZw3anhGaYdRelbr+R93aVwPZHhGj83AUjpnxl77wlBe5a7ADyQ
-   RRvJHhzo8Nh5ahNuAX3PBd5LYDAdETaGjxb6YyVc6v3z54V+YGunmqjwX
-   g==;
-X-CSE-ConnectionGUID: 94iSrBRMRxWdKeVkk5TkaA==
-X-CSE-MsgGUID: 3ce21OmgQEOdTmOrtd/GMg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11475"; a="53279648"
-X-IronPort-AV: E=Sophos;i="6.16,265,1744095600"; 
-   d="scan'208";a="53279648"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jun 2025 08:18:30 -0700
-X-CSE-ConnectionGUID: zWTG5itzTNOrQWjiXbC3UA==
-X-CSE-MsgGUID: RsvjY+UrQVyMWA5/IE8p8Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,265,1744095600"; 
-   d="scan'208";a="152538596"
-Received: from smile.fi.intel.com ([10.237.72.52])
-  by fmviesa009.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jun 2025 08:18:27 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.98.2)
-	(envelope-from <andriy.shevchenko@intel.com>)
-	id 1uURtI-00000009oZL-2IK9;
-	Wed, 25 Jun 2025 18:18:24 +0300
-Date: Wed, 25 Jun 2025 18:18:24 +0300
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: LiangCheng Wang <zaq14760@gmail.com>
-Cc: Andy Shevchenko <andy@kernel.org>, Hans de Goede <hansg@kernel.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="VrzsYZlz"
+Received: by mail-ot1-f42.google.com with SMTP id 46e09a7af769-73a01a7bee7so580471a34.1
+        for <linux-staging@lists.linux.dev>; Wed, 25 Jun 2025 08:23:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1750864991; x=1751469791; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=RscgyY7zr0J0heuodisQOvqSQWiux2P+I5t0Y0pHfw4=;
+        b=VrzsYZlzf7I6FoH01UkVx7mCG4KO/VlaFrTpKS33ajnf14/luOK1VgYyOwiG9ANIr8
+         lIGWIgnc9x4oTP2ngTZNWzVVJElLzQ7o730rfSfB+qcllBE7Bli9C9SP3Lsxc3IE3LUS
+         x6KNNoDjJPhFF83ALD6Tyrf7djZV6EBSAWY27c3SPYhKvLceLtW4TP0uo3IzFvN+3t2x
+         Um+VdtHlHxCFCLw80LGrJmO1ENHytUnGUks9iyv7q5PfGP3l+PO/u6Ec+VFA6dqvMgHZ
+         f/VxFdNyv8+Hq+hp0/ggx+0apmJiEX0lMVFu8CMtVZfoFXIYLLxYgYznmS2LUUUv37zo
+         mBsg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1750864991; x=1751469791;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=RscgyY7zr0J0heuodisQOvqSQWiux2P+I5t0Y0pHfw4=;
+        b=IvfC2zXUvoU4IzCN20EHPn34VvNS4girbXrDHRudHbXmlb7Vt/QZWRvJ/R37MG1CI1
+         BHHj/EQEgZFPKu1Ebkoqhs14fy6jMucVmbjPxURJk5EuZtG8sFFj9za0YqBo2/J/k0s9
+         bHCgB6odIHajPUm/GZis9CVMAhKMgosn/hhCEeFv0qDn3KpAC8xQ0VnzeTecXDqEq0/n
+         C8LCycCDFQAfm3n9sO47Xaaol/Ze0TGJxywFJSfRkm9WDRzpnXlmZ/kFp/diyp/6BJd/
+         ljH5kASH/SS5a2rp9tCTkQNVXSVmMwK++ke4DKLBU1Ys5f90qT4v/wpmnS1vj1Oi/wm9
+         f8ag==
+X-Forwarded-Encrypted: i=1; AJvYcCUJKUHEI9KSuW+t+QT994xoPLfQXi68+WXsTX4sejlMvcmOUhBKQRLkbD2hlYmUupd1Zg6wA2kmx3pdgilD@lists.linux.dev
+X-Gm-Message-State: AOJu0YxsZbybIRCyqUI1BrFtKvLSsRiDb1bPYlx7C3XAleJUYEFcFpGv
+	neSYK6yW++AEikqHFo5pUchyz2827nvzOovYdLBkSvKF4tEqZQ5EG0oAnVGFRY+GoXs=
+X-Gm-Gg: ASbGncu6N+3Qu72tVSpRSoTOZec5sM9X8RHASnKxhNLpZ605pRhj4X1Sj7tvGrLrtdp
+	N1DxbYt2dtp4QJCEZ0/QA8oy5lmBmeS+Qj13wI6mYTLc4y0xQ49lq+1zhL/Ge/vbUXvDri6XP6Y
+	+ewpZiPLLRforgQclCFWU0ie9ues6AxP4QDVp0o7qL5fk/DfSIqbLYMQNEecHYpZAJydXisWE2A
+	3dNtAEkgRXEK5qKwbFHcU0h3CnqtEH0L+/aMdX5VDulw5iab0wgaw/eqt2AV6q9qjZjoure3VyO
+	f41Ac91R68mDo5QnsH5iqlXEn4ZG24qNqsLOx1fiYwavOM+sf0GWbxk+PpkR9qiOAkmFDg==
+X-Google-Smtp-Source: AGHT+IFW4wlR0wlfzJlAh8x3qk2Cx37JojTQFFpNrPClMsltnG4YGIKmiULYONmufRuAqIk5456wBg==
+X-Received: by 2002:a05:6830:2113:b0:731:cac7:364e with SMTP id 46e09a7af769-73adc811af9mr2506085a34.22.1750864991484;
+        Wed, 25 Jun 2025 08:23:11 -0700 (PDT)
+Received: from localhost ([2603:8080:b800:f700:1fca:a60b:12ab:43a3])
+        by smtp.gmail.com with UTF8SMTPSA id 46e09a7af769-73a90ca9c12sm2237043a34.50.2025.06.25.08.23.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 25 Jun 2025 08:23:11 -0700 (PDT)
+Date: Wed, 25 Jun 2025 10:23:10 -0500
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+	Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev
-Subject: Re: [PATCH v5] staging: media: atomisp: fix tab/space issues in
- output1.0
-Message-ID: <aFwTQKtvQFVpaJP8@smile.fi.intel.com>
-References: <20250625-bar-v5-1-db960608b607@gmail.com>
- <aFwSgCtrK7DH3pIw@smile.fi.intel.com>
+	Hans Verkuil <hverkuil@xs4all.nl>,
+	Detlev Casanova <detlev.casanova@collabora.com>,
+	linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	kernel-janitors@vger.kernel.org
+Subject: [PATCH] media: rkvdec: Fix a NULL vs IS_ERR() bug in probe()
+Message-ID: <696219e9-a1c7-4c87-b15c-1ffd42c95d58@sabinyo.mountain>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -69,27 +76,34 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <aFwSgCtrK7DH3pIw@smile.fi.intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+X-Mailer: git-send-email haha only kidding
 
-On Wed, Jun 25, 2025 at 06:15:12PM +0300, Andy Shevchenko wrote:
-> On Wed, Jun 25, 2025 at 11:04:31PM +0800, LiangCheng Wang wrote:
+The iommu_paging_domain_alloc() function doesn't return NULL on error it
+returns error pointers.  Update the check and then set ->empty_domain to
+NULL because the rest of the driver assumes it can be NULL.
 
-...
+Fixes: ff8c5622f9f7 ("media: rkvdec: Restore iommu addresses on errors")
+Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
+---
+ drivers/staging/media/rkvdec/rkvdec.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-> Have you tried simply to run slang-format against the whole driver using the
-
-clang-format
-
-> clang-format configuration from the kernel source tree?
-
-.clang-format
-
-> With it done, you may just make it as a single patch.
-
+diff --git a/drivers/staging/media/rkvdec/rkvdec.c b/drivers/staging/media/rkvdec/rkvdec.c
+index d707088ec0dc..1b7f27e4d961 100644
+--- a/drivers/staging/media/rkvdec/rkvdec.c
++++ b/drivers/staging/media/rkvdec/rkvdec.c
+@@ -1162,8 +1162,10 @@ static int rkvdec_probe(struct platform_device *pdev)
+ 	if (iommu_get_domain_for_dev(&pdev->dev)) {
+ 		rkvdec->empty_domain = iommu_paging_domain_alloc(rkvdec->dev);
+ 
+-		if (!rkvdec->empty_domain)
++		if (IS_ERR(rkvdec->empty_domain)) {
++			rkvdec->empty_domain = NULL;
+ 			dev_warn(rkvdec->dev, "cannot alloc new empty domain\n");
++		}
+ 	}
+ 
+ 	vb2_dma_contig_set_max_seg_size(&pdev->dev, DMA_BIT_MASK(32));
 -- 
-With Best Regards,
-Andy Shevchenko
-
+2.47.2
 
