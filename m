@@ -1,158 +1,104 @@
-Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com [209.85.208.171])
+Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5A492E7634
-	for <linux-staging@lists.linux.dev>; Tue, 24 Jun 2025 18:58:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE18B1D432D
+	for <linux-staging@lists.linux.dev>; Wed, 25 Jun 2025 04:55:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750791495; cv=none; b=u1h0DHaNX3nJHwW0gSaKR0exvwR0+YMiBPXY97o6ojXMiWIsfkdPaJ0GWyhcnRKVs3V+24ctRoo0L44nG8+NnsmSYenngiHTKEsBNKqZh0xfBqdZgTcr26Pkq1KXqYj34Hsrnop9jga7DChCqKLFO8gUGBhNCxV0VLykEkc2U8I=
+	t=1750827340; cv=none; b=nkaDWSDej/pGh7ozXwjkeB0RmPA9GHSFj+CGckBUlgPDPErKMxI735Et4x7oTrAEe/qLSyEZd0MYbchKfWeVuzIPmMAEvXtHRjwIlgzCIBVHJK+q1EShav66sLvrkgFJGErxcBOt/CPXE/cwci9p6fUafiVe57It00P9r+OOqo8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750791495; c=relaxed/simple;
-	bh=npWwWKZPd5rdEqfk5ixF6kz+HcjFPiAMk+Q3wRxBc94=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=VdeeMv2KWup3DbSOvUK+bJUrz8xKV3R4eJnjyFL3JdAMGxUOZM9CHhv18R2yOejgG7qikBDBuTIWmVAZj9psN8j5zlSXT5rLtnJMHvNzfJowx5uyBGcogBGI05H5nfc3b5o6ehzHPAoRY0J4+0UBn2F6Zbk/prVDRVzkZpx0iJ4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=JSOFrs5O; arc=none smtp.client-ip=209.85.208.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1750827340; c=relaxed/simple;
+	bh=KSjhtsYtDPWq5P0JewRLIYDc5syrJxdWyOswWFMIj2U=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=dOI3cWeXV9Izmn0kCcnbHFjuMe1mCuIZvf2rhUqoM/YREX667UbIaTtYNxVeCPoDEY3A8OS8v40vq8NN40FyHQsCHFicPDEabVW6VrPGdP/8IzAAdq5//i2C83afSnQHg3VDdXmhjqMwzvaIsaaHBujtJozBg8ahZ9IIG+HEDVM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=V1WIsps0; arc=none smtp.client-ip=209.85.210.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="JSOFrs5O"
-Received: by mail-lj1-f171.google.com with SMTP id 38308e7fff4ca-32b7fd20f99so2066941fa.0
-        for <linux-staging@lists.linux.dev>; Tue, 24 Jun 2025 11:58:13 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="V1WIsps0"
+Received: by mail-pf1-f172.google.com with SMTP id d2e1a72fcca58-748d982e97cso5308319b3a.1
+        for <linux-staging@lists.linux.dev>; Tue, 24 Jun 2025 21:55:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1750791492; x=1751396292; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=h7ui9krklnTDspgMC7AGFpPjhbbUuQIxEzApTtxeYDw=;
-        b=JSOFrs5Oh4irAZXynklk2g4PkVvgIWj3qWkr4nurUmDSJt7oh0azxj0YwqsxwN7HaZ
-         j31OTD3QTboxXEkkb71X14yN/oz9e8emUf7GzXj5EUOmh7xPMG8YXlGSoHzFh09Bo25A
-         v3If/xQlcCiQFmyd5IRS+sxe1M7WB1Ge8RNjAa2/hvawWc4R4BFCFfwCoy5YCOM796fr
-         C//94Ft4UwyuKM0xXgd2Kbr6BaEylreEwmFoYhsHNFZz8kbHI3QyN4CW9xMUE9qc26cS
-         16jnxBTADNKGBaNyHlKF/rs22Dby0GMUJuKDyl2pleactTFY0TxcGtMFqzG5WM3Z+eoE
-         TNGQ==
+        d=gmail.com; s=20230601; t=1750827338; x=1751432138; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=UO6NTPCPP/dvAMAtqZiOjPibwhoAo2anGboFbitGK6M=;
+        b=V1WIsps01PXPR4Yu1Kut7TgH59j6Sdi20ByA3l3tZG4dA1P/K2MQzoUgfm1p7OBem5
+         D3nS0CIoOjLTP1J8ZYYs1X8ttrUhPmsT1dRmXn84tzyLM9/FzcmUluttQIpsI/NZY9Eq
+         VNxu+ibR3oHPxshDjE6pgUHF9jfDvFdJRSGX/I+qqr7CQ2k6bnIuUvI/3AahUUBDgLZe
+         TVBPFWmvJItWbAMj8iq/ziPh5Ics1UEoMH1ezTI2xImEyQR6qkoXucxLFHIRVdOOVmd1
+         wKIqwxK/EhtRuIc5uBwuh18TZ+aghuvueA9OooZT2/Ry0TwVjim0E5CK1W/VCZ2J20Tw
+         I3BA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750791492; x=1751396292;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=h7ui9krklnTDspgMC7AGFpPjhbbUuQIxEzApTtxeYDw=;
-        b=PfWW0VkySqyxVRtwoffUx3DgLOr0pRe6Jy0DOwhh9y/rc5wSGg6kz6+1WU0PKLxUw/
-         997MXeXTVVv+SzQBzebxUSUtdwppzwgCrWcW7rkaV2297TYTNz21AXYks2jnfzImzTiO
-         2cC1r3bRHdGfwYNhgcAB7hGGcazgtkoN3j9D8XPOyR5abvKKhbOj4PwIxLTdhQMG82Cd
-         FnpOtCE6xABSK5wXxOsmuTShHmWJpvdLRT+PKyDP1UKBkJyJe8ItBKAlf6uebBiizdOI
-         wHsufD4dIDbk1dPkJDoDzRCjJp6iz+aZKutgXx7c5q9m1I8vrZARLpqq9BKqNjGxbLA5
-         zLAw==
-X-Forwarded-Encrypted: i=1; AJvYcCWYw7FZitSiT5JBQ9oVrAJ0n/gtOnFzvDohKOxBny8ZY1lVk10yiZ9UsxpJxPJkQu45qQYhE554DvgLmq9+@lists.linux.dev
-X-Gm-Message-State: AOJu0YyorJUGS4/PBSbpJXsowhbGJKVGOoruRF2tZLb9erWERDpQ6MDD
-	0XBd89WeVBqbboabmj6lo63fccc8HF5P+El5U0S8iAD+xFBQXIi5vdCTaxgcCFakkpWDRlPwiLT
-	qhHaonpLWXgPRY/UD3fksh8IIM5OfMy2NmxToJ4bZpw==
-X-Gm-Gg: ASbGnctfQ02+9+leYn05O5WVcJwhEbaaI1rlBYa35sxHUa6JOaqfhOO13imZaU9Oml+
-	TRLQrJDHP6Lncqy7jKJXOFOUZX9v0W9dxz9W7V0evZB+rkqUepaydXx64OJQILAKZAlP9XSnnXP
-	etLRRzv3fOosPZy/vzbIkDY+POdAcbNefnOeZw1eLHuqk=
-X-Google-Smtp-Source: AGHT+IFHkwtjvOJNCrFEWstn9L634lZ8TSAnodhGn+aKzDIVOJMa02nwLbdMCDdRl+xviZehHHIuiwGlHeUOdx9D6us=
-X-Received: by 2002:a05:651c:214b:b0:32c:a690:724b with SMTP id
- 38308e7fff4ca-32cb968d882mr10090081fa.19.1750791491756; Tue, 24 Jun 2025
- 11:58:11 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1750827338; x=1751432138;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=UO6NTPCPP/dvAMAtqZiOjPibwhoAo2anGboFbitGK6M=;
+        b=VyMPz2e4c23x2FwLGd+ZMuMOPKeF2dENSmObCyAnDv9k1gXU56YbWZScgxRffVV52l
+         bZlw9M+Bhg8o3SL1f3voJMXSikq/JCdddoy+Q+aJ9UZiuxscLmqqYYWdzcJlS0/Chlr7
+         PyH9wTlXz7it+aICa4OqSsogDuLzkupXwIX4vPf6BpntvlZATUzA0qhW+SVu6EhBPn6q
+         xxck2mzb4sStB0HnO4d1hgmo8i8H44QDvQkaI4r7yUAeEJPv78g4bM4QHe1dWqB+HNNb
+         w9nuGGzkFmyXvhNTfC5R1hbJ9Aaa6sjxSdwtAIAMxuzl2F24Ht9AO19BnSNZYfO1V+vD
+         935Q==
+X-Forwarded-Encrypted: i=1; AJvYcCWBbyCwSFhfoKXhBrtc4AUkJQyqMoTpTQVW7LGs7+KJzgurRlxNFAhyYM99+8RhFvuZsOEJQhAsXdXAEHxM@lists.linux.dev
+X-Gm-Message-State: AOJu0YzvZoHL8c9yZgYnrzEu+HTHsd2jI8Ud0DbgXf4LTAcFWQi+odJw
+	qOx5tZnO+TK2KsfVeyF/om45rBJ57Q3g63p86F65YxyB6cmIb7s5JuBRFp8kHf7OL2NhXg==
+X-Gm-Gg: ASbGncs8K/rEnYd/QIpozIDroJHSqcyD+94uCLrFmVGSHexVaT4aRVxmYCCOIc0sYdu
+	Pv3vzwz9YTcS3w14osHQPVl+RN3rjSU1XpfxUg17FmBsFlQG/bUBiH8R8EfB/UgFx7MAdin6EnP
+	UkmSUSth1MWXgno5UneP6cC4CxkU4cngNKlWDEvF+bAHRuNBS7nbuuedBQycEAXZWEuinV1GuR3
+	eN0w4Aunt1YYGZ3eqQU7N4rdRPGDzvWVIts081V5J0rG18bkwRsG7B9q/0Ut1rYwh9eRkABGrpC
+	FIeylXnmYmZ3DJw/qcmsoQVxiv5Uf7QwKYIZl8aoptD4FDXyJ0xXSjrHrzEkQinEUCCpMWv01Xf
+	PYjf8vmPwT/bosjw4Lg==
+X-Google-Smtp-Source: AGHT+IFLbqpz8txyiEyP4O5dWK2HN68bf3Px02AjjgY6ny0rLjNSLfBKIcKav5NxVJRGNqxZfpE+Uw==
+X-Received: by 2002:a05:6a00:2195:b0:736:2a73:6756 with SMTP id d2e1a72fcca58-74ad45e6b34mr2574345b3a.21.1750827337903;
+        Tue, 24 Jun 2025 21:55:37 -0700 (PDT)
+Received: from archlinux.worldlink.com.np ([2400:1a00:3b42:5d1:1d64:4a49:adde:630d])
+        by smtp.googlemail.com with ESMTPSA id d2e1a72fcca58-749b5e21120sm3610679b3a.43.2025.06.24.21.55.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 24 Jun 2025 21:55:37 -0700 (PDT)
+From: Pratibimba Khadka <pratibimbakhadka@gmail.com>
+To: sudipm.mukherjee@gmail.com
+Cc: Pratibimba Khadka <pratibimbakhadka@gmail.com>,
+	Teddy Wang <teddy.wang@siliconmotion.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-fbdev@vger.kernel.org (open list:STAGING - SILICON MOTION SM750 FRAME BUFFER DRIVER),
+	linux-staging@lists.linux.dev (open list:STAGING SUBSYSTEM),
+	linux-kernel@vger.kernel.org (open list)
+Subject: [PATCH] staging: sm750fb: Mark g_fbmode as a pointer to const pointer
+Date: Wed, 25 Jun 2025 10:40:26 +0545
+Message-ID: <20250625045526.82758-1-pratibimbakhadka@gmail.com>
+X-Mailer: git-send-email 2.50.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250618095858.2145209-1-demonsingur@gmail.com> <20250618095858.2145209-5-demonsingur@gmail.com>
-In-Reply-To: <20250618095858.2145209-5-demonsingur@gmail.com>
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Tue, 24 Jun 2025 20:58:00 +0200
-X-Gm-Features: AX0GCFv3Y0xzvM4_ytzUY9wWsLoaPRcLNq10rxfdsma9gTvF5iQYKz-0B24NXH0
-Message-ID: <CACRpkdYwBAaEi--y64oVwVcAMH9z0LO5ZG_fvNK-CuxdERiYBQ@mail.gmail.com>
-Subject: Re: [PATCH v4 04/19] dt-bindings: media: i2c: max96717: add support
- for pinctrl/pinconf
-To: Cosmin Tanislav <demonsingur@gmail.com>
-Cc: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>, 
-	=?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>, 
-	Julien Massot <julien.massot@collabora.com>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	"open list:MAXIM GMSL2 SERIALIZERS AND DESERIALIZERS" <linux-media@vger.kernel.org>, 
-	"open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" <devicetree@vger.kernel.org>, open list <linux-kernel@vger.kernel.org>, 
-	"moderated list:ARM64 PORT (AARCH64 ARCHITECTURE)" <linux-arm-kernel@lists.infradead.org>, 
-	"open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>, 
-	"open list:GPIO SUBSYSTEM:Keyword:(devm_)?gpio_(request|free|direction|get|set)" <linux-gpio@vger.kernel.org>, Cosmin Tanislav <cosmin.tanislav@analog.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-Hi Cosmin,
+Fixes a checkpatch warning:
+WARNING: static const char * array should probably be static const char * const
 
-thanks for your patch! Overall this looks good!
+The array `g_fbmode` contains constant string pointers that are not supposed to be modified. By declaring it as `const char * const`, both the string literals and the pointers themselves are protected from accidental modification, which improves code safety and clarity.
 
-On Wed, Jun 18, 2025 at 11:59=E2=80=AFAM Cosmin Tanislav <demonsingur@gmail=
-.com> wrote:
+Signed-off-by: Pratibimba Khadka <pratibimbakhadka@gmail.com>
+---
+ drivers/staging/sm750fb/sm750.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-> MAX96717 is capable of configuring various pin properties.
->
-> Add pinctrl/pinconf properties to support this usecase.
->
-> Signed-off-by: Cosmin Tanislav <demonsingur@gmail.com>
-(...)
-> +      slew-rate:
-> +        description: |
-> +          Slew rate.
-> +          0 - Fastest
-> +          1 - Fast
-> +          2 - Slow
-> +          3 - Slowest
-> +        maximum: 3
+diff --git a/drivers/staging/sm750fb/sm750.c b/drivers/staging/sm750fb/sm750.c
+index 1d929aca3..d3bce107f 100644
+--- a/drivers/staging/sm750fb/sm750.c
++++ b/drivers/staging/sm750fb/sm750.c
+@@ -33,7 +33,7 @@
+ static int g_hwcursor = 1;
+ static int g_noaccel;
+ static int g_nomtrr;
+-static const char *g_fbmode[] = {NULL, NULL};
++static const char *const g_fbmode[] = {NULL, NULL};
+ static const char *g_def_fbmode = "1024x768-32@60";
+ static char *g_settings;
+ static int g_dualview;
+-- 
+2.50.0
 
-Would be great to have some SI units on this? Like how many milliseconds
-etc.
-
-> +      maxim,jitter-compensation:
-> +        type: boolean
-> +        description: Enables jitter compensation.
-
-What does that mean?
-
-> +      maxim,gmsl-tx:
-> +        type: boolean
-> +        description: Enable transmitting pin value to GMSL link.
-> +
-> +      maxim,gmsl-rx:
-> +        type: boolean
-> +        description: Enable receiving pin value from GMSL link.
-> +
-> +      maxim,gmsl-tx-id:
-> +        $ref: /schemas/types.yaml#/definitions/uint32
-> +        description:
-> +          Identifier used while transmitting value to GMSL link.
-> +          Default value matches the pin number.
-> +        minimum: 0
-> +        maximum: 31
-> +
-> +      maxim,gmsl-rx-id:
-> +        $ref: /schemas/types.yaml#/definitions/uint32
-> +        description:
-> +          Identifier used while receiving value from GMSL link.
-> +          Default value matches the pin number.
-> +        minimum: 0
-> +        maximum: 31
-
-Maybe add some words about what an GMSL link is somewhere?
-
-> +      maxim,rclkout-clock:
-> +        $ref: /schemas/types.yaml#/definitions/uint32
-> +        description: |
-> +          Clock value.
-> +          0 - XTAL / 1 =3D 25MHz
-> +          1 - XTAL / 2 =3D 12.5MHz
-> +          2 - XTAL / 4 =3D 6.25MHz
-> +          3 - Reference PLL output
-> +        minimum: 0
-> +        maximum: 3
-
-I'm no expert but isn't this something the clock framework has some standar=
-d
-binding for? assigned-clock-rates?
-
-Yours,
-Linus Walleij
