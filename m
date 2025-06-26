@@ -1,240 +1,145 @@
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
+Received: from mail-oi1-f175.google.com (mail-oi1-f175.google.com [209.85.167.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EA6528C85D
-	for <linux-staging@lists.linux.dev>; Thu, 26 Jun 2025 18:22:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BAF52EF9B5
+	for <linux-staging@lists.linux.dev>; Thu, 26 Jun 2025 19:20:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750962147; cv=none; b=b9DrJR6yUDrtlurJ/OZcNtx3WdpvyZg6S+bAtG9g775EdLnrHDm3VCzZuJ6CgQ27J8Kd0FNZokHDiP34taMTOTtAQ/X5aIK1zHbLY5cyCpmrCOfaUiJZs4qQLC+xQ+2Wyetu9qLst/tXFtd4DenKWWZanH86n2oE6mlDyGQO0Qs=
+	t=1750965603; cv=none; b=OrB+5J3561DM44gHpRAA5wKVKKA9AdUH4JsuSiPWRNgocDanlzS161dvegiTuATtw1PB3R2OxuDYyaFIp3uOJJ5pVjk4eyU2todCUgGAhgnmGZvKOZhopS0Ej+Xj3wLp3POZDLLbASH9XJErAKi5DaIFah2QnfL5axTJR6DeZW0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750962147; c=relaxed/simple;
-	bh=5cHac69oKYxodXtxB3SPe0LwKvLm0p6w1/6RJ/XyoZU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=kyTHRJxEK2G8xi5Fiied76K139tZDpz1rY/xp9pOgj8egXr0IvDr5rqPIYg8IF+z/Swh2qbj+qIjX/V3P4A6T9k6shuCGNhkm7p52iwGPqiODlzw4xeL7BOesX2iGFAjpVKPsEK0ReA9FZ6JjDrT8s6Bv2bEqV09CAaZjrvGJl8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=usp.br; spf=pass smtp.mailfrom=usp.br; dkim=pass (2048-bit key) header.d=usp.br header.i=@usp.br header.b=sY1Cy8Sx; arc=none smtp.client-ip=209.85.214.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=usp.br
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=usp.br
+	s=arc-20240116; t=1750965603; c=relaxed/simple;
+	bh=NXZiagHgTh4ICA7Z9PcDT/eyqyxuGCGLWpxNSBxlOw4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=P6KYTm6YsSBmTDnqt4Gv1TYOKkyiCDOLsf0DJSiHSTQ5JJZzVqRIQaZEZ0UyEzAQw8t5QgNYb6oYRl5MR1uRGie+NBGQTVFYmyVdXASnfKpuMYmRtqEEdkydkUd7cEem5h0hwOOp2mHPeqmBuo2w0KyVw9EVx5OOZ7cZiwBSFFY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=I9DYoKKY; arc=none smtp.client-ip=209.85.167.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=usp.br header.i=@usp.br header.b="sY1Cy8Sx"
-Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-235f9ea8d08so14573975ad.1
-        for <linux-staging@lists.linux.dev>; Thu, 26 Jun 2025 11:22:23 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="I9DYoKKY"
+Received: by mail-oi1-f175.google.com with SMTP id 5614622812f47-40b32b6af9eso130254b6e.1
+        for <linux-staging@lists.linux.dev>; Thu, 26 Jun 2025 12:20:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=usp.br; s=usp-google; t=1750962143; x=1751566943; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=mWPkFFmTIdZEAaU2As3DwN6xujYoIXmrnl7uwmSiIkg=;
-        b=sY1Cy8Sxen9fBUQ39VELP3qISU8r0/Vkl18GCbBlX7o3A23BaqJhcvNwj6D7YJsNE1
-         wObN9suYD5c8NdZJaCXaC5jB/71CrBnv6JcJE/dJnHlHOvBNAElDn1G8vIw0A1X2fp2P
-         95rBsTSWRY9EYorGHuX4jst4YS997Q5n8RGa33l2EuoqRGslbOIGCWli/fCMu1SATzTS
-         x0Ho5v4LSe1LripkcbH2HQYzRf9rdjW2wpYH0ybZNQ3tzU1fCWYC6B3wHO4c4PO/EMtk
-         TI9FY5YEg7eYtpbjAwVZASSl/h//aqJdliVpd4RrMuvQM8NfozszlPn+Xnzb2cg+VsVz
-         TYmQ==
+        d=linaro.org; s=google; t=1750965601; x=1751570401; darn=lists.linux.dev;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=Jw2OSuwMAy9W3gBCyzotqn/e/diunkHgHz26UnXH3Nw=;
+        b=I9DYoKKYoopg7HGOaPTAv2JvYOfVG9rUO0QBTtFHkaJxTBiuzM/ufJxT6pOfXXdOwA
+         bHHqAUl0TqDV9nsebv/c7K4Qz6ZZc6wXjmGREUbl3Vwj93tgXIq4zlqxsM8STvsDn/+D
+         xfDIyLbIXU4ndh0MwUgwBl35oNVz+tFG+u9qmxDrRCl+mwjcxKSMQjVhBw0BDeQNeJ9S
+         YACt+XUEhaOZ9e+fZu4eFHfhmhr0lmOkLcBZ5wGs+QrFwnosYyiaUVEFNQhe5835uo1c
+         Qdnu/gq1tdzUzqF1HhaiDZ+qBx4sK1YPPLJ/XqeM5A/JZ3OHA8Oq+WWAAiNWB8S22Xoj
+         iSbA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750962143; x=1751566943;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
+        d=1e100.net; s=20230601; t=1750965601; x=1751570401;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=mWPkFFmTIdZEAaU2As3DwN6xujYoIXmrnl7uwmSiIkg=;
-        b=v1BFFb+9kVrcjO+aBPPFMXLJloKpfbXP/nGWTi2ACnfIR0whI1SVPnKN00p/yV1hu/
-         kndzmp0tHz3VpxS4CtgkEWpltbMPMNsOJCg5OKemjtrPGCrqFP7GmJhOJL92n5i1QGg/
-         0KSGlD+Emsg4CSoH66OWwFbgN3A0DI4iLfo1GxvHShPm33QBYH7gxxxu+0A8pLgjzkSG
-         kZmPR87GDQ/cS0cC2kiptY0qhFHtW8T9up+ik32VGSChEI1fryxdO/xmN0tcPazc5EeW
-         L/dAfJCa5BN1wOju9mOrndc+L1GNX49hzLUpLWdGd4sh+rOou43PkW6QioMT82ZSVB8f
-         doAw==
-X-Forwarded-Encrypted: i=1; AJvYcCXVgmNZD29m9JaGMx5RK0YIlS0hfZ5SCQCJKmH53zEUqX4f+fxoOlTgadwEFHyXzz6pIq2XJgqbFUgsqh9h@lists.linux.dev
-X-Gm-Message-State: AOJu0Yz++1cWfZxADHoBN2U3XL2UnUbd91JKC9UK44jUIMDzWcGOBJ6/
-	1CbrMxNL4yNIWvZoBK+g49Vh1iCSSg3aukl1hjCbdKNl9854NNVbAbD1Cs2fNnQ6DFY=
-X-Gm-Gg: ASbGnctaD8xq/l/XPrFQAv8qSUPX7Xire+I2wbv50tfyKNMrdoGxuGKKjK4VDBF9Nb9
-	v3O0hUNOvHzFWt0LIeD3gdv5sjM1clnOhkbH5iWo+ELVZqeGTKeReF2OIby//8Wm8dWR2KOwzj9
-	7p2H3jvAyY1InwSd1TN0fll88ap7b6q0ZzkM4qcP9ulw+AJ4WiPe4jn0HZ9KU8ZiMyWX++ulLBl
-	4bEJXu7+MA/Xh2FsCCXS79yup+hOn6wiBRG3inkDTd2LUcKVO5lTm0rdz71VpRBwvjQ8RVDYuy+
-	cqBSkrEuagEclHqmy1/hCXEzyqbKFyO3/hSTLBXL8UOB/KxQyM62qe1fSwJRDo5FpYF5QFMSE7S
-	NPiZAo5sEqQS4gmaUatrEpZq7KrTU+2ds4Yi6xswQzRfA
-X-Google-Smtp-Source: AGHT+IFs4LXLMUtFT0x8igFmtJwtvhLFafnH7Rh09VBF8jTCmNg60iWTU5jnzKU2s9hGJmkA1FJNHQ==
-X-Received: by 2002:a17:903:3c4e:b0:236:93cb:48b with SMTP id d9443c01a7336-23ac4680b53mr5089785ad.44.1750962142748;
-        Thu, 26 Jun 2025 11:22:22 -0700 (PDT)
-Received: from ?IPV6:2804:14d:8084:946d:411e:e43:f1b:c7d3? ([2804:14d:8084:946d:411e:e43:f1b:c7d3])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-23abe3f859dsm3626425ad.172.2025.06.26.11.22.19
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 26 Jun 2025 11:22:22 -0700 (PDT)
-Message-ID: <ba35b960-a981-4671-9f7f-060da10feaa1@usp.br>
-Date: Thu, 26 Jun 2025 15:22:17 -0300
+        bh=Jw2OSuwMAy9W3gBCyzotqn/e/diunkHgHz26UnXH3Nw=;
+        b=GP0qI+RM98Nfn91UXa6x4sA1Hhszbzt6BPSRfTYGr1olzvk5egcuheMHUgftFqzkSV
+         y1OITKzSO9QmaaKqMosLKnMe8/zdGyz7s9XyfnwQg0n2XAa3GJoTBgZoKduRsIkbgG3C
+         JkbF+ZWt3IQadbOmpbSoYvDZthWUsbQ2IgvSPAOTS80gs5iZ5lVwicwSRq8eqqjiiUjP
+         GhO5iSqwWKQeP7ElEyfeYHVU5s7YFqOVjgbE/qdk5L0ojAPRDaTnv3eGED3df+02pXyv
+         SP0BFn7baMKiDE5olztk9TtpSWcuyYm/hkE9muiJHwoU9O42zpTLlt6bQHgbGZQPEPJu
+         VFqw==
+X-Forwarded-Encrypted: i=1; AJvYcCVaOovt7Uentc+R68DfLQ4bDh9lYFXnANzxBFIsT3XAUcFKRlbZr08iLkM/vD35xBrWBjB+JMFC+JW/u3y5@lists.linux.dev
+X-Gm-Message-State: AOJu0YyA0qgkGcG3tBZZxJzuddQe8AGeAUD8LGK3BbKuwr8kDH2ki3Tw
+	x4jAL9YSfA34a9KzWwVsYk4QgTcVDkWeAw3EPEyDMhbl5ePgjmXVhIBmeycfh3pdI+M=
+X-Gm-Gg: ASbGncutqpmRJW5lLOmGT7E8b5HsvzRHHGXBn3KWLpvVFsGQOXaB9YYYu8n5Q9+Wj9V
+	NfHlmk0puCfyLHG3/wPpSwuRExcYUi/a39Fd977Nbv4vam3EmTxA9tJDjK+zT9SkQdbK6xFY6ns
+	zrQa1G3F41/O36aTZwwo0a1JICqipM9m5/wagbWay9NKUOX8CJ1mleiRwr5pNifXGpwv0scukj+
+	7s2ngfFRmW5y1RoBo+ipNymw1HSVMu5hL4diguUwAQV9hOzKU0NJ/BejMpill1mmTxCKW3LER8F
+	5LllkHWhPMobBMgGpMs9ts142fAAvcfr9CXqVnHbTrIvsdbpJE5SAAmYx1nVX1U0MD/T
+X-Google-Smtp-Source: AGHT+IFY7CJ7QeQO5lGm3SZuq1NkH2K1MhQoLCsDuDsQ1TcbQSnB0KYdrUkAGt1PGEgX5gAvdU6Ntw==
+X-Received: by 2002:a05:6808:1592:b0:401:e67c:b3be with SMTP id 5614622812f47-40b33c495a1mr285207b6e.4.1750965601252;
+        Thu, 26 Jun 2025 12:20:01 -0700 (PDT)
+Received: from localhost ([2603:8080:b800:f700:154:5a01:d5a1:16d6])
+        by smtp.gmail.com with ESMTPSA id 5614622812f47-40b322b1d89sm75889b6e.19.2025.06.26.12.20.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 26 Jun 2025 12:20:00 -0700 (PDT)
+Date: Thu, 26 Jun 2025 22:19:59 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Abdelrahman Fekry <abdelrahmanfekry375@gmail.com>
+Cc: andy@kernel.org, hdegoede@redhat.com, mchehab@kernel.org,
+	sakari.ailus@linux.intel.com, gregkh@linuxfoundation.org,
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev, skhan@linuxfoundation.org,
+	linux-kernel-mentees@lists.linux.dev
+Subject: Re: [PATCH v2] staging: media: atomisp: remove debug sysfs
+ attributes active_bo and free_bo
+Message-ID: <8b08f2a3-8219-49b8-be47-fc33a95a3953@suswa.mountain>
+References: <20250624144943.39297-1-abdelrahmanfekry375@gmail.com>
+ <cef03d37-715c-47a8-81d4-0872d505c39b@suswa.mountain>
+ <CAGn2d8ML8eTcN2G18B7FYkapROnOeAKJir5fJvOXDdXTLY43aQ@mail.gmail.com>
+ <5ce9dac3-0b7a-45d1-8313-2f65165b50e7@suswa.mountain>
+ <CAGn2d8N8GrRR0FnaB7S2BsPs0HXHhwHfg+q55HbfkMqy1kMGTw@mail.gmail.com>
+ <5d579b8c-0676-46d8-a020-77ee91e1e7d3@suswa.mountain>
+ <CAGn2d8PdiBRN09L__XEsH=cNYz4rDR2A-GnSqCM6Y5TmtT+wcw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 4/5] staging: vchiq_arm: Create keep-alive thread during
- probe
-To: Stefan Wahren <wahrenst@gmx.net>,
- Florian Fainelli <florian.fainelli@broadcom.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Umang Jain <umang.jain@ideasonboard.com>,
- Ojaswin Mujoo <ojaswin98@gmail.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Kieran Bingham <kieran.bingham@ideasonboard.com>,
- Dan Carpenter <dan.carpenter@linaro.org>,
- linux-arm-kernel@lists.infradead.org, bcm-kernel-feedback-list@broadcom.com,
- kernel-list@raspberrypi.com, linux-staging@lists.linux.dev
-References: <20250309125014.37166-1-wahrenst@gmx.net>
- <20250309125014.37166-5-wahrenst@gmx.net>
-Content-Language: en-US
-From: =?UTF-8?Q?Ma=C3=ADra_Canal?= <maira.canal@usp.br>
-In-Reply-To: <20250309125014.37166-5-wahrenst@gmx.net>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAGn2d8PdiBRN09L__XEsH=cNYz4rDR2A-GnSqCM6Y5TmtT+wcw@mail.gmail.com>
 
-Hi Stefan,
+Thank you.  This is good analysis.
 
-On 09/03/25 09:50, Stefan Wahren wrote:
-> Creating the keep-alive thread in vchiq_platform_init_state have
-> the following advantages:
-> - abort driver probe if kthread_create fails (more consistent behavior)
-> - make resource release process easier
+On Thu, Jun 26, 2025 at 06:19:40PM +0300, Abdelrahman Fekry wrote:
+> Hello Dan , Thanks for your review
 > 
-> Since vchiq_keepalive_thread_func is defined below
-> vchiq_platform_init_state, the latter must be moved.
+> On Tue, Jun 24, 2025 at 9:31 PM Dan Carpenter <dan.carpenter@linaro.org> wrote:
+> > Yes.  Nothing is checking for if hmm_init() fails.  Step through the
+> > code and verify that nothing crashes or bad happens as a result.
+> >
+> > For example, I think hmm_bo_alloc() will print "hmm_bo_device not inited
+> > yet." and return.  So that's kind of annoying but it's not a crash.
+> > Search through the rest of the driver and verify how it will behave.
+> >
 > 
-> Signed-off-by: Stefan Wahren <wahrenst@gmx.net>
-> ---
->   .../interface/vchiq_arm/vchiq_arm.c           | 69 +++++++++----------
->   1 file changed, 34 insertions(+), 35 deletions(-)
+> So, I have been searching through the code as you suggested,
+> and found a couple of interesting things to look at.
+> 
+> Firstly, no function that calls hmm_init() checks its return code,
+> and it doesn’t crash anywhere because of this, so it's not a problem.
+> But the thing is, the hmm_initialized flag inside the hmm_init() function
+> is set even if hmm_bo_device_init() fails, and this can be misleading for
+> functions like __hm_alloc() that check this flag later.
+
+Yeah.
+
+> 
+> Secondly, the function hmm_bo_alloc() and others don’t check
+> the return code of hmm_init().
+
+hmm_init() is called from two places, atomisp_pci_probe() and
+__hmm_alloc().  Is it really possible to call __hmm_alloc() before
+atomisp_pci_probe() has succeeded?  That's an important question.
+Please try to read the code and find the answer.
+
+It would be better to only call hmm_init() from the probe function
+and delete the call in __hmm_alloc() but I don't know if that's
+possible.
+
+> Instead, they check the flag
+> HMM_BO_DEVICE_INITED inside bdev, which is set by the function
+> hmm_bo_device_init(). The problem is, if we inspect hmm_bo_device_init(),
+> we find that the HMM_BO_DEVICE_INITED flag is set before the calls to
+> kmem_cache_create(), kmem_cache_alloc(), and __bo_init().
+> This means that if any of these functions fail, the flag will still be set,
+> which can lead to misbehavior in functions that rely on it, like hmm_bo_alloc().
 > 
 
-After this patch landed on 6.12 stable, I started to observe the
-following warning in Mesa CI [1]:
+Yeah.  That seems correct to me too.
 
-20:07:07.830: [  242.653532] INFO: task vchiq-keep/0:85 blocked for more 
-than 120 seconds.
-20:07:07.835: [  242.660404]       Not tainted 6.12.34-v8-+ #13
-20:07:07.843: [  242.666173] "echo 0 > 
-/proc/sys/kernel/hung_task_timeout_secs" disables this message.
-20:07:07.852: [  242.677126] task:vchiq-keep/0    state:D stack:0 
-pid:85    tgid:85    ppid:2      flags:0x00000008
-20:07:07.854: [  242.690734] Call trace:
-20:07:07.857: [  242.693191]  __switch_to+0x188/0x230
-20:07:07.858: [  242.697010]  __schedule+0xa54/0xb28
-20:07:07.859: [  242.704889]  schedule+0x80/0x120
-20:07:07.859: [  242.712581]  schedule_preempt_disabled+0x30/0x50
-20:07:07.860: [  242.721437]  kthread+0xd4/0x1a0
-20:07:07.861: [  242.724606]  ret_from_fork+0x10/0x20
+> Should I tackle these problems after submitting the original patch of
+> removing the debug sysfs attr. ?
 
-If I revert this patch, I no longer get those warnings. From that, I was
-wondering: is it possible that in some scenarios, we might never
-actually get to the connected state and therefore, we wouldn't wake up
-the kthread that we created when we initialized the state?
+Perfect.  Sounds good.
 
-[1] https://gitlab.freedesktop.org/mairacanal/mesa/-/jobs/78940369
-
-Best Regards,
-- Maíra
-
-> diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-> index 0c7ea2d0ee85..64f9536f1232 100644
-> --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-> +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-> @@ -280,29 +280,6 @@ static int vchiq_platform_init(struct platform_device *pdev, struct vchiq_state
->   	return 0;
->   }
-> 
-> -int
-> -vchiq_platform_init_state(struct vchiq_state *state)
-> -{
-> -	struct vchiq_arm_state *platform_state;
-> -
-> -	platform_state = devm_kzalloc(state->dev, sizeof(*platform_state), GFP_KERNEL);
-> -	if (!platform_state)
-> -		return -ENOMEM;
-> -
-> -	rwlock_init(&platform_state->susp_res_lock);
-> -
-> -	init_completion(&platform_state->ka_evt);
-> -	atomic_set(&platform_state->ka_use_count, 0);
-> -	atomic_set(&platform_state->ka_use_ack_count, 0);
-> -	atomic_set(&platform_state->ka_release_count, 0);
-> -
-> -	platform_state->state = state;
-> -
-> -	state->platform_state = (struct opaque_platform_state *)platform_state;
-> -
-> -	return 0;
-> -}
-> -
->   static struct vchiq_arm_state *vchiq_platform_get_arm_state(struct vchiq_state *state)
->   {
->   	return (struct vchiq_arm_state *)state->platform_state;
-> @@ -1011,6 +988,39 @@ vchiq_keepalive_thread_func(void *v)
->   	return 0;
->   }
-> 
-> +int
-> +vchiq_platform_init_state(struct vchiq_state *state)
-> +{
-> +	struct vchiq_arm_state *platform_state;
-> +	char threadname[16];
-> +
-> +	platform_state = devm_kzalloc(state->dev, sizeof(*platform_state), GFP_KERNEL);
-> +	if (!platform_state)
-> +		return -ENOMEM;
-> +
-> +	snprintf(threadname, sizeof(threadname), "vchiq-keep/%d",
-> +		 state->id);
-> +	platform_state->ka_thread = kthread_create(&vchiq_keepalive_thread_func,
-> +						   (void *)state, threadname);
-> +	if (IS_ERR(platform_state->ka_thread)) {
-> +		dev_err(state->dev, "couldn't create thread %s\n", threadname);
-> +		return PTR_ERR(platform_state->ka_thread);
-> +	}
-> +
-> +	rwlock_init(&platform_state->susp_res_lock);
-> +
-> +	init_completion(&platform_state->ka_evt);
-> +	atomic_set(&platform_state->ka_use_count, 0);
-> +	atomic_set(&platform_state->ka_use_ack_count, 0);
-> +	atomic_set(&platform_state->ka_release_count, 0);
-> +
-> +	platform_state->state = state;
-> +
-> +	state->platform_state = (struct opaque_platform_state *)platform_state;
-> +
-> +	return 0;
-> +}
-> +
->   int
->   vchiq_use_internal(struct vchiq_state *state, struct vchiq_service *service,
->   		   enum USE_TYPE_E use_type)
-> @@ -1331,7 +1341,6 @@ void vchiq_platform_conn_state_changed(struct vchiq_state *state,
->   				       enum vchiq_connstate newstate)
->   {
->   	struct vchiq_arm_state *arm_state = vchiq_platform_get_arm_state(state);
-> -	char threadname[16];
-> 
->   	dev_dbg(state->dev, "suspend: %d: %s->%s\n",
->   		state->id, get_conn_state_name(oldstate), get_conn_state_name(newstate));
-> @@ -1346,17 +1355,7 @@ void vchiq_platform_conn_state_changed(struct vchiq_state *state,
-> 
->   	arm_state->first_connect = 1;
->   	write_unlock_bh(&arm_state->susp_res_lock);
-> -	snprintf(threadname, sizeof(threadname), "vchiq-keep/%d",
-> -		 state->id);
-> -	arm_state->ka_thread = kthread_create(&vchiq_keepalive_thread_func,
-> -					      (void *)state,
-> -					      threadname);
-> -	if (IS_ERR(arm_state->ka_thread)) {
-> -		dev_err(state->dev, "suspend: Couldn't create thread %s\n",
-> -			threadname);
-> -	} else {
-> -		wake_up_process(arm_state->ka_thread);
-> -	}
-> +	wake_up_process(arm_state->ka_thread);
->   }
-> 
->   static const struct of_device_id vchiq_of_match[] = {
-> --
-> 2.34.1
-> 
-> 
+regards,
+dan carpenter
 
