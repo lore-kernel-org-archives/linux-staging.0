@@ -1,118 +1,110 @@
-Received: from mail-yw1-f179.google.com (mail-yw1-f179.google.com [209.85.128.179])
+Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E33E62E718D;
-	Thu, 26 Jun 2025 15:19:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DEB01F5828
+	for <linux-staging@lists.linux.dev>; Thu, 26 Jun 2025 16:10:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750951198; cv=none; b=MgPW/6reATLYzbdqBFlMxNJf+74ETOmq6B9xnCZZVaS690/Am6OYzPIraOsd1SdmG4z5Zxl1FXZoaoTISG/Xqy7CYdnoJLBQNcJqNVkN+NVc2wao444KXIY0EVDagrO7HA6Ntq7+DetB6jvE3PEzgV0WtRR4QJf9KN0ro9oIeRk=
+	t=1750954224; cv=none; b=u87HodPIiSw0YI3YPGTQOHl4TUjtRbNh7c9SHrFU3Zx0Zw5APzFlgmvPlNadTP9e7R/mDk12yal7WJwdXPi/P6MgxxYlUpK5gUCe8qh0pbmIkD98RwC1xhP82a7n4UqHIxUtj+v9CXCcqlT2crSOl8kGOsABunTjpoTwgR8+DVI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750951198; c=relaxed/simple;
-	bh=R+c2qSbTSKIC0tT9gkvNPds08WjRbxM6PibZWtchYDQ=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=kcTABrLnMvcPc/zATPlySI/WDJEeg5FPvJKB1bLgPVu6zs/wXOehqvAiILIF+SpwvxvIs5lqrDGx0Jj6WzSD/mYSNq1Od4Qw+9Y3TNbIfNvCcQgOehyGNKxXJSW7OHEntS/IEnCLn3ydKBCv+Kx4KzLrT4PMOHmaHH75RPlf1jU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jIO0MaWG; arc=none smtp.client-ip=209.85.128.179
+	s=arc-20240116; t=1750954224; c=relaxed/simple;
+	bh=AQiq4z0xA88o3HSFvbhcfQRTGqMXtRqE6hPl7TrS0QA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=GqnO4I/liU0shZv9mg4Rt1ao1ZSWi+PgwsWpSk3DBCBhG24k8u/fsqvlplY3GYNllj7rPgQI8aVv/dqCjdploM13Kgb9WfW6mxssWWmpzadkB7MrV0EWbJ57FsrnJi7N7xIY4ezGnVLyN0vLL3brXG3FvjC9TQs+poOO12eUhpQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=I17eJ44l; arc=none smtp.client-ip=209.85.210.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jIO0MaWG"
-Received: by mail-yw1-f179.google.com with SMTP id 00721157ae682-7118c12e45aso881407b3.1;
-        Thu, 26 Jun 2025 08:19:52 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="I17eJ44l"
+Received: by mail-pf1-f172.google.com with SMTP id d2e1a72fcca58-7490acf57b9so988252b3a.2
+        for <linux-staging@lists.linux.dev>; Thu, 26 Jun 2025 09:10:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1750951192; x=1751555992; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=1JJKqMrEaML+dwFM/EI98+cWAy1tTBYyBi2gNj/iDEY=;
-        b=jIO0MaWGvK6AdTDSgaF4w2WCLu19vN1yfuOx93ogWuiidRgFI+ASHjSN86CHG4fOum
-         6MBZvSUq7IQT0ZemJjQy7ASJjgBGyzUud6uuNxRefBEHEwshNk5mk1k6dk7qLg88rqlG
-         cJRC5+yctPU4LNMbbt9OgKhwPihwPYnpWC2cQg0gO6ELWEZKecmdQPRpAseHLkgiNNwv
-         rvcKonZtDLGVvp3dZqyLkf2NBDEZXsjLOvEEWGO0sy0G1JnILq+l1xSCI6qgUYwxNUp0
-         6kO4bQdRBzXW0oJ25tu35dhrAhpupk3dDrU6xLKmyz9BngcHgrA87FQQ2XzkWFDohCCo
-         d10A==
+        d=gmail.com; s=20230601; t=1750954223; x=1751559023; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=RO2tN+aSoxvaSEMRq7XEvMbHrJsjG9xLguEP52powFc=;
+        b=I17eJ44lkDQbsKya1zWb+kNyGNV+zEqiRBjNp7MCjYVY90FbYjQDuko/YBGWqrRXaG
+         Mt9+xPl1Q5FLyriOdi1uSIuVZ4WwI45zEyza3rbQbMOBNM7WqglRLwnNWBBY1IL7nq17
+         U7wwI4m2FQqqqpFvUJpLjCxnn+nk5OGUGiYFfkhtpcRGyzpHYSUHBnq+uM2k8vOOyLNK
+         XTjsuotLANDZjxoDkriOPuVlUP+yL4YuJBgXICy3YFvDvtfbUXpR6OEwY5T99xmuYw4Z
+         SvJW0Ijz1b+5N6Sttwf5FT9p+6IIfibOluM8+YEi5vX/9xNFuXrhxYxtT+l8Cc1CgG0M
+         Gl0w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750951192; x=1751555992;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=1JJKqMrEaML+dwFM/EI98+cWAy1tTBYyBi2gNj/iDEY=;
-        b=wb2BvEuuCrSGH1PP0lOtn7EuhPPl3Nuc1c6vZf3IgV7/lEEp3zmlxQ6wzkeq11W5EX
-         1K7IzZVycsD6kabI6ahxN+09PLoCbAQXimqV1W/FgnkX2093z323xt8/MWqW3T/uQsC4
-         kJ80+u9IHdEZ4Z7KBKRUhbe1ZkA1+6SDIQ/xyJv1cygFPtzfVr2R+RsbmkHMEBMO/UML
-         IMxFtS5Yg9bhbQKcuO95KVuEBbaubKANZDAdoL4TSr1ugSVX+J99FfkKdyLG2gbBIs7B
-         dP7J6+zx1G9aYseyyih+C4OJgdTJQXRkcCDFP1Al7RrU5NZILXizacJQbOrCh1VRxTVQ
-         lw8A==
-X-Forwarded-Encrypted: i=1; AJvYcCUOty6Zf4rN8BxyW0MYXOxs9iqkXEm0Gsfowpm5K5ft4YU5Ad0im5zKvDf1T3Ko3PvUt9egv6U/mZDh8fmHZbpaF9sAig==@lists.linux.dev, AJvYcCVhVcwBB5clkczYoPSDDUc8kZo7GeCTl0WOexbv6ArwXYewiBvc3AOpEwL8g8R9zp/d29RyzHai7Pf1mOcaPg==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yz5Pv4RxBv1D7WNQkMlFTvj5t4BB3G11wj86klBP6qoevpo1pxl
-	MdMo/DGwEGw/YB6wuSuFxXLnQQjSxjKBeZmt0J6ewlLNuNKrkb8BzgJx8LwSWvUHRiQxVL9dk6f
-	WmujLz7ujmAAZWksW4wz1t7JlmsNvaIU=
-X-Gm-Gg: ASbGncsJ+vJuSsvyRUGV6jDq1fRZhpwC4H5ZIbocm2PrFD6gIuMkt4OTV0MURz49qeC
-	fXzxIv+BCfyxbx4GNvD1lIq3okRJ53I07uIWgZmZp/PvNnHjpLG5j5xnkrxqhKtp4ST7Omt3OSc
-	PbvHS2ocJhqJKmEF0NWIi6uwGq0z+VMUXzdlHt/2yOTvUCEvGi0/fl
-X-Google-Smtp-Source: AGHT+IFOnJmKn+JJ2frYecHk4EE6Fmul0pWhubm7itDVDM5Ubw/30TpmRooTP07goDGc31er/cpoSSsTxEwrFRlC4XA=
-X-Received: by 2002:a05:690c:6f84:b0:70f:7bea:5dd with SMTP id
- 00721157ae682-71406e1368emr44684307b3.9.1750951191557; Thu, 26 Jun 2025
- 08:19:51 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1750954223; x=1751559023;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=RO2tN+aSoxvaSEMRq7XEvMbHrJsjG9xLguEP52powFc=;
+        b=K0BA954MDJCxCy8llu7PbubVTV+PFwlvM4JIPVNS+y6TrzyJr4KUejRX/fY2x3XjLD
+         j4OVOpEusF65APqy4W1iJF5TZ44VlKOiITJd7YX26oGjpPyZHYUda/lDVGWOP88wyKLA
+         N5w56NwRV01Bj9bEwxt0++UUG2IhBZGLtCvJ5Eq/inbJDuRQl0EjqwnhOHoBC+d714mZ
+         XuMNGGUOrAFlU4XiZNTXcWNgdkdy8ij4CelJBZK0B8yC0e9jgagxvK0w31Citozyjqyu
+         i2srWcRfoZJr+Y3YYIxyBJVzBAkuWIJwH/pBi1s6KDVemOmx92cNidteRMkZMp7yOqTP
+         tOEA==
+X-Forwarded-Encrypted: i=1; AJvYcCVifLCzXT19hqnie/zB2DTWaIKBoj3mAcRKJV13a/RlHLTQSZ05defQmD0gl5fJ+z5xDKOOecBz51YYEZ4C@lists.linux.dev
+X-Gm-Message-State: AOJu0YzlikbEqnPH7Aea8RX0NeoKQXQsqg5mQkITbri0gcFxFSMTyFrK
+	4xQaH+Bhq69tlWfApscK/XcbmIOEX0e84njaO+cDSu6/mx/CDn41tdwM
+X-Gm-Gg: ASbGncsuLjYvC6/S8mI6NkZhttcyQC85vz0tUlppapRgbCzCLlx3UeA6aeRKLiskMZT
+	n+5+Gk9XIptLdq1eW5jya80M/NMUfu56vC9GIicYXZTJA+mY6dSTIBdrLHKLvcAxMRDhTDD0UR/
+	uaOVMTdMS/8et8d65hjN2L64lYAqpMbOFuOcv3xH2ZAiLrq+oae91GpqcW0gthP1lzsNISX1Ltn
+	tVTstr0GW4vZd1Bv3VyM4yyirLcM+5NzkEWva7FYv2pagXd5plijPnyr7m2HBqbD2RiTm4qrMhL
+	R5awelnK3klsMAOWUNLs+j0uO8lkKgKdQp20XlLlFZIbNv/JItE96C1H8lYSoz+czA==
+X-Google-Smtp-Source: AGHT+IF9+/ylR0X0zs3Ub5Nxn8yMQupY0tyd0iZN0NmSeaDh2qSacydKHfMjG6bR6+uLmMbB2VYVHw==
+X-Received: by 2002:a05:6a00:3c90:b0:748:3485:b99d with SMTP id d2e1a72fcca58-74ad45abe59mr11562215b3a.18.1750954222499;
+        Thu, 26 Jun 2025 09:10:22 -0700 (PDT)
+Received: from icarus.. ([45.64.160.138])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-74af540ae36sm114168b3a.14.2025.06.26.09.10.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 26 Jun 2025 09:10:22 -0700 (PDT)
+From: Pratibimba Khadka <pratibimbakhadka@gmail.com>
+To: mchehab@kernel.org
+Cc: Pratibimba Khadka <pratibimbakhadka@gmail.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Al Viro <viro@zeniv.linux.org.uk>,
+	linux-media@vger.kernel.org (open list:MEDIA INPUT INFRASTRUCTURE (V4L/DVB)),
+	linux-staging@lists.linux.dev (open list:STAGING SUBSYSTEM),
+	linux-kernel@vger.kernel.org (open list)
+Subject: [PATCH] staging: av7110: Replace msleep() with usleep_range() in tuner function
+Date: Thu, 26 Jun 2025 21:53:50 +0545
+Message-ID: <20250626160853.8772-1-pratibimbakhadka@gmail.com>
+X-Mailer: git-send-email 2.49.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250624144943.39297-1-abdelrahmanfekry375@gmail.com>
- <cef03d37-715c-47a8-81d4-0872d505c39b@suswa.mountain> <CAGn2d8ML8eTcN2G18B7FYkapROnOeAKJir5fJvOXDdXTLY43aQ@mail.gmail.com>
- <5ce9dac3-0b7a-45d1-8313-2f65165b50e7@suswa.mountain> <CAGn2d8N8GrRR0FnaB7S2BsPs0HXHhwHfg+q55HbfkMqy1kMGTw@mail.gmail.com>
- <5d579b8c-0676-46d8-a020-77ee91e1e7d3@suswa.mountain>
-In-Reply-To: <5d579b8c-0676-46d8-a020-77ee91e1e7d3@suswa.mountain>
-From: Abdelrahman Fekry <abdelrahmanfekry375@gmail.com>
-Date: Thu, 26 Jun 2025 18:19:40 +0300
-X-Gm-Features: Ac12FXwpty1WwCsHouZ9sWJvvTacKyf47jvNYTt5mDohhxxtLmxfkIn5JlmFx3U
-Message-ID: <CAGn2d8PdiBRN09L__XEsH=cNYz4rDR2A-GnSqCM6Y5TmtT+wcw@mail.gmail.com>
-Subject: Re: [PATCH v2] staging: media: atomisp: remove debug sysfs attributes
- active_bo and free_bo
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: andy@kernel.org, hdegoede@redhat.com, mchehab@kernel.org, 
-	sakari.ailus@linux.intel.com, gregkh@linuxfoundation.org, 
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
-	linux-staging@lists.linux.dev, skhan@linuxfoundation.org, 
-	linux-kernel-mentees@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-Hello Dan , Thanks for your review
+Replace msleep(10) with usleep_range(10000, 12000) in the PLL lock
+waiting loop of nexusca_stv0297_tuner_set_params().
 
-On Tue, Jun 24, 2025 at 9:31=E2=80=AFPM Dan Carpenter <dan.carpenter@linaro=
-.org> wrote:
-> Yes.  Nothing is checking for if hmm_init() fails.  Step through the
-> code and verify that nothing crashes or bad happens as a result.
->
-> For example, I think hmm_bo_alloc() will print "hmm_bo_device not inited
-> yet." and return.  So that's kind of annoying but it's not a crash.
-> Search through the rest of the driver and verify how it will behave.
->
+usleep_range() is preferred over msleep() for short delays (< 20ms) as
+it provides better accuracy and allows the scheduler flexibility for
+power management optimizations. The 10-12ms range maintains the same
+timing behavior while giving the kernel scheduler room to optimize.
 
-So, I have been searching through the code as you suggested,
-and found a couple of interesting things to look at.
+This change improves timing precision during the PLL lock detection
+phase without affecting the overall functionality of the tuner
+configuration process.
 
-Firstly, no function that calls hmm_init() checks its return code,
-and it doesn=E2=80=99t crash anywhere because of this, so it's not a proble=
-m.
-But the thing is, the hmm_initialized flag inside the hmm_init() function
-is set even if hmm_bo_device_init() fails, and this can be misleading for
-functions like __hm_alloc() that check this flag later.
+Signed-off-by: Pratibimba Khadka <pratibimbakhadka@gmail.com>
+---
+ drivers/staging/media/av7110/av7110.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Secondly, the function hmm_bo_alloc() and others don=E2=80=99t check
-the return code of hmm_init(). Instead, they check the flag
-HMM_BO_DEVICE_INITED inside bdev, which is set by the function
-hmm_bo_device_init(). The problem is, if we inspect hmm_bo_device_init(),
-we find that the HMM_BO_DEVICE_INITED flag is set before the calls to
-kmem_cache_create(), kmem_cache_alloc(), and __bo_init().
-This means that if any of these functions fail, the flag will still be set,
-which can lead to misbehavior in functions that rely on it, like hmm_bo_all=
-oc().
+diff --git a/drivers/staging/media/av7110/av7110.c b/drivers/staging/media/av7110/av7110.c
+index bc9a2a40afcb..7f6c610579c8 100644
+--- a/drivers/staging/media/av7110/av7110.c
++++ b/drivers/staging/media/av7110/av7110.c
+@@ -1827,7 +1827,7 @@ static int nexusca_stv0297_tuner_set_params(struct dvb_frontend *fe)
+ 		if (i2c_transfer(&av7110->i2c_adap, &readmsg, 1) == 1)
+ 			if (data[0] & 0x40)
+ 				break;
+-		msleep(10);
++		usleep_range(10000, 12000);
+ 	}
+ 
+ 	return 0;
+-- 
+2.49.0
 
-Should I tackle these problems after submitting the original patch of
-removing the debug sysfs attr. ?
-
-Best Regards,
-Abdelrahman Fekry
