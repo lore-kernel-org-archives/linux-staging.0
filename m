@@ -1,54 +1,74 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oo1-f53.google.com (mail-oo1-f53.google.com [209.85.161.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B945D20B80B;
-	Fri, 27 Jun 2025 19:38:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D8A321ABC8
+	for <linux-staging@lists.linux.dev>; Fri, 27 Jun 2025 19:39:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751053099; cv=none; b=Rp9UYrO4PjGc7O5b5eb77Cgmtrei1YOqSZES7MWLA6169tzxOkV0vThB8H27TqAj7+dkli+1g/NQRo3udST6gOb2in1ECAu/uve1Wtu2U56M1AUHKw/CkHnswIYtiqZunsAoyq2WW8WobO3MTCSJqf+9BqV2jC/hIbFu8vW6uEw=
+	t=1751053169; cv=none; b=iRFE2iA0qCpgQvaciQynkQytmPXSjlmOVHkmk/RaDyHoWEtD2ly7t969bM72pLeNyIWyaRr6iVSOZeY1Qy1NvM53Y+CKzW1Xqh3oHsjng+trXrxgX36Ey9SVnwLk16nTmeU//6QbEHJfx/THYP4w+X2LUIe4zfJG7kny2p7bZuU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751053099; c=relaxed/simple;
-	bh=735/kAbCuqWFzGQy/87S1JSxB/l43GhAFiWH7b5eExk=;
+	s=arc-20240116; t=1751053169; c=relaxed/simple;
+	bh=fN0Kh2ojk27IcYub4BPpYkImoeGoFKi6u7WjndHiWkA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=j/9W4l5Qx/UQ7v0i7XvxksKByQsgMeejvCSu/K45OgY/X4LIEl7Rm/TLRjZuncejxZEWcwJK4pdLN2Qh3Hgk1taTm64iPjuUsNuk2BPM+ElmGp01j8e+rotdl+RJFuELQ3fOR0rOaB705lUbMybHy59oxDsJk0CU06AB9s0YQlM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hv3JKSY7; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=XegQJwB98OBqcs+WbY0X6AuaS/WdTtCN/cr5UEvUHrKdbgorjJcsDr0WgGqaLbhrU/xcJKrOBTKBlQcW3V226pc53oEj60g7PLNMlEb5qxxrlLQaYvkriHoY3ofYMEfbEuWq/DYyzvtyKeAzsl4M838Rg9xBt8nHjIXRWnWy4Kk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=ofg/fL0M; arc=none smtp.client-ip=209.85.161.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hv3JKSY7"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 29E1FC4CEE3;
-	Fri, 27 Jun 2025 19:38:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1751053099;
-	bh=735/kAbCuqWFzGQy/87S1JSxB/l43GhAFiWH7b5eExk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=hv3JKSY7xsPIult6z98FBvCjWmWYP+vOw7hFbC3qqSEDzWLGlk9PB39DMgGDn4NbS
-	 pHfesi22YUwypbfO06LdjDiPBepbwwUV1YFgR4acriSIeqXYQWqEBT+xyJhpOeahKn
-	 r2iS7ymkJ5GArX5aC8dKyaISXLaOO5Cq2/hrfIwT9OBZc2jZFjLwGn8cgyMsk+DUDu
-	 /ZgfrfM7hy2HGNXH29qTY70aGBlxRrIEeXfZirFgMwfS+LY3sw1hA1uPy8d+GHKjZx
-	 gtBQo+pT8bnVY0eWfKkuhV+Sf8qJss6lFFzr2aDlf9dKhPRoW+bnqVgaCd8+lcWERm
-	 wYwtnbRbpOv4w==
-Date: Fri, 27 Jun 2025 14:38:18 -0500
-From: Rob Herring <robh@kernel.org>
-To: Cosmin Tanislav <demonsingur@gmail.com>
-Cc: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Niklas =?iso-8859-1?Q?S=F6derlund?= <niklas.soderlund@ragnatech.se>,
-	Julien Massot <julien.massot@collabora.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ofg/fL0M"
+Received: by mail-oo1-f53.google.com with SMTP id 006d021491bc7-60ef850d5fbso775298eaf.1
+        for <linux-staging@lists.linux.dev>; Fri, 27 Jun 2025 12:39:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1751053166; x=1751657966; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=suI3XDptlOt7dxiujjvASAv8boeYPAFXuAl8v0Kjmgk=;
+        b=ofg/fL0M12FN49YYwcmZSaV3iLAvlrzj22b7KKFPGf4cayXRwAfmEv78hxmU634IuO
+         1e+8hp8Kk3k98bPnny1T0pYxVSnKXmLNjUsVQX64Azsa2Zpid5imCpWJMvuX1iloBlj9
+         CahkgUXVZugcqu76KvRqMVwbvwZvh8IfgXHXj/t8rbT1i/3mtkpqQ3M6B/Frz4DY6PzL
+         Sfliop0NYLVgAwiU57cKzIdZPEYkx2eeQ2vTFr5B52U1VKJRxjuKjStOktCj6FFY2jd8
+         wOE9N4X9snufJtsAP5QZX867TSltT8wrilsyuwOn9u12kJ1MmXdNywMX3Czwlg/haS2O
+         sHzg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1751053166; x=1751657966;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=suI3XDptlOt7dxiujjvASAv8boeYPAFXuAl8v0Kjmgk=;
+        b=Uk3m/iSrTXm2i1JkTW1twOJj5uWSoRzuxH5bGxZK6d+8hKBDkjMB/cKocoBWCohXNO
+         vltwNKPpIQvM6TI1IuRtR7KDtQ5BpTNEEml9n1VqKX2YHXC8Si4kN/vIkMMWxxQ8rZSf
+         sbdVeBsroxnQi6LRITS/pKyyppwIETGXKgK8qI2Tw1mE7BoNaJo6E+4GW2LJqjuM+8jK
+         k0eCP78Kz4xJuwOHXLIAAPz7FxjBYSe6IZ5KGfwHeRDvB88mvFOmLa7BkaE8QhSxStFs
+         q8IXF/KQKBiUIrL0IjvbUSQzIucuRsDIPD3tcB06WpOFqmVUXPEU0mNNTxyYWJdg38TR
+         przA==
+X-Forwarded-Encrypted: i=1; AJvYcCXl3vvtnSecAfjLEjSwjSo/OthSe0JORJVzCP0H0XLURzP49mz8bUuQpMTwWArXJjLvnM2tfg4UC4S97B0f@lists.linux.dev
+X-Gm-Message-State: AOJu0YwgqeWNELfC+975KFDsb9xZGAjHf6mEs98w7wNB5ejHFG82cars
+	5fJF2wG1Y+m45kzEAE0PzofgMG0fmLgNEhqfyLdA7sMuJEvwcNHsBmBVbVCHJ1emLM4=
+X-Gm-Gg: ASbGncuwRd+Dl/B/Msz3wtfhS2WxyMRYcrbOp62qKubXJRMwCA8VrxPqo7zceM6UCZI
+	8wRnsfQHyjqmEr3u7q2eQLUz7sA7VdXTiZfMMrnTj6s/0ncs4uUqPuaBZ3n6kndzr1dydx2190S
+	OmbHmn3ELt7rnMkgZL3C5+k0cd0wx8QuLmae9i/k+jGxH6/Qu7MqlHM+zQWRhKbooCnHqhIUyn5
+	Kg0xajgoXRuk1Q26x5RPVoKXBDxnrLzDgWeGuWZtvpVD707CpVJnm90CHc0EpYC+BbDpZ42ZXZA
+	UXEiKXO86h3B9W00mYl5UPWqulP5P60teasUt91TDUMhLVn9EvuNTVWemIQZSIaVBnw5Vw==
+X-Google-Smtp-Source: AGHT+IF/5yUXUJ1U/LstDtUP6YpGrdRLcEbQGFsZNqCq52p8mdReUkf+RyutYfRViO/wlG1V6E9mTw==
+X-Received: by 2002:a4a:e90b:0:b0:611:80f3:eb44 with SMTP id 006d021491bc7-611b90eca36mr3218582eaf.3.1751053166574;
+        Fri, 27 Jun 2025 12:39:26 -0700 (PDT)
+Received: from localhost ([2603:8080:b800:f700:f3a4:7b11:3bf4:5d7b])
+        by smtp.gmail.com with ESMTPSA id 006d021491bc7-611b848d77fsm311990eaf.14.2025.06.27.12.39.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 27 Jun 2025 12:39:26 -0700 (PDT)
+Date: Fri, 27 Jun 2025 22:39:23 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Abdalla Al-Dalleh <abdalla.ahmad@sesame.org.jo>
+Cc: Dave Penkler <dpenkler@gmail.com>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	"open list:MAXIM GMSL2 SERIALIZERS AND DESERIALIZERS" <linux-media@vger.kernel.org>,
-	"open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" <devicetree@vger.kernel.org>,
-	open list <linux-kernel@vger.kernel.org>,
-	"moderated list:ARM64 PORT (AARCH64 ARCHITECTURE)" <linux-arm-kernel@lists.infradead.org>,
+	Michael Rubin <matchstick@neverthere.org>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Paul =?iso-8859-1?Q?Retourn=E9?= <paul.retourne@orange.fr>,
 	"open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>,
-	"open list:GPIO SUBSYSTEM:Keyword:(devm_)?gpio_(request|free|direction|get|set)" <linux-gpio@vger.kernel.org>,
-	Cosmin Tanislav <cosmin.tanislav@analog.com>
-Subject: Re: [PATCH v4 04/19] dt-bindings: media: i2c: max96717: add support
- for pinctrl/pinconf
-Message-ID: <20250627193818.GA4051037-robh@kernel.org>
-References: <20250618095858.2145209-1-demonsingur@gmail.com>
- <20250618095858.2145209-5-demonsingur@gmail.com>
+	open list <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] drivers: staging: gpib: minor fixes for some C macros.
+Message-ID: <4edd380e-6314-4fa0-8051-ac55144e061d@suswa.mountain>
+References: <20250627193613.552193-1-abdalla.ahmad@sesame.org.jo>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -57,89 +77,38 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250618095858.2145209-5-demonsingur@gmail.com>
+In-Reply-To: <20250627193613.552193-1-abdalla.ahmad@sesame.org.jo>
 
-On Wed, Jun 18, 2025 at 12:58:40PM +0300, Cosmin Tanislav wrote:
-> MAX96717 is capable of configuring various pin properties.
+On Fri, Jun 27, 2025 at 10:36:13PM +0300, Abdalla Al-Dalleh wrote:
+> Ran checkpatch.pl on drivers/staging/gpib/, found the following:
+>  - gpio: gpib_bitbang.c: wrapped LINVAL macro w/ parenthesis.
+>  - hp_82341: hp_82341.c: Used comments instead of "#if 0"
+>  - tnt4882: tnt4882_gpib.c: Used comments instead of "#if 0"
 > 
-> Add pinctrl/pinconf properties to support this usecase.
-> 
-> Signed-off-by: Cosmin Tanislav <demonsingur@gmail.com>
+> Signed-off-by: Abdalla Al-Dalleh <abdalla.ahmad@sesame.org.jo>
 > ---
->  .../bindings/media/i2c/maxim,max96717.yaml    | 110 ++++++++++++++++++
->  1 file changed, 110 insertions(+)
+>  drivers/staging/gpib/gpio/gpib_bitbang.c    |  4 ++--
+>  drivers/staging/gpib/hp_82341/hp_82341.c    | 14 +++++++-------
+>  drivers/staging/gpib/tnt4882/tnt4882_gpib.c | 14 +++++++-------
+>  3 files changed, 16 insertions(+), 16 deletions(-)
 > 
-> diff --git a/Documentation/devicetree/bindings/media/i2c/maxim,max96717.yaml b/Documentation/devicetree/bindings/media/i2c/maxim,max96717.yaml
-> index 167c3dd50683..5998e2518be9 100644
-> --- a/Documentation/devicetree/bindings/media/i2c/maxim,max96717.yaml
-> +++ b/Documentation/devicetree/bindings/media/i2c/maxim,max96717.yaml
-> @@ -121,6 +121,116 @@ required:
->    - reg
->    - ports
+> diff --git a/drivers/staging/gpib/gpio/gpib_bitbang.c b/drivers/staging/gpib/gpio/gpib_bitbang.c
+> index 625fef24a0bf..45cf4571c58d 100644
+> --- a/drivers/staging/gpib/gpio/gpib_bitbang.c
+> +++ b/drivers/staging/gpib/gpio/gpib_bitbang.c
+> @@ -47,10 +47,10 @@
+>  			dev_dbg(board->gpib_dev, frm, ## __VA_ARGS__); } \
+>  	while (0)
 >  
-> +patternProperties:
-> +  '-pins$':
-> +    type: object
-> +    additionalProperties: false
-> +
-> +    properties:
-> +      function:
-> +        enum: [gpio, rclkout]
-> +
-> +      pins: true
-> +      drive-open-drain: true
-> +      drive-push-pull: true
-> +      bias-disable: true
-> +      output-disable: true
-> +      output-enable: true
-> +      output-low: true
-> +      output-high: true
-> +      input-enable: true
-> +
-> +      slew-rate:
-> +        description: |
-> +          Slew rate.
-> +          0 - Fastest
-> +          1 - Fast
-> +          2 - Slow
-> +          3 - Slowest
-> +        maximum: 3
-> +
-> +      bias-pull-up:
-> +        oneOf:
-> +          - type: boolean
-> +            description: Enable regular 40kOhm pull-up
-> +          - enum: [ 40000, 1000000 ]
-> +            description: Enable either the 40kOhm or the 1MOhm pull-up
-> +
-> +      bias-pull-down:
-> +        oneOf:
-> +          - type: boolean
-> +            description: Enable regular 40kOhm pull-down
-> +          - enum: [ 40000, 1000000 ]
-> +            description: Enable either the 40kOhm or the 1MOhm pull-down
-> +
-> +      maxim,jitter-compensation:
-> +        type: boolean
-> +        description: Enables jitter compensation.
-> +
-> +      maxim,gmsl-tx:
-> +        type: boolean
-> +        description: Enable transmitting pin value to GMSL link.
-> +
-> +      maxim,gmsl-rx:
-> +        type: boolean
-> +        description: Enable receiving pin value from GMSL link.
-> +
-> +      maxim,gmsl-tx-id:
-> +        $ref: /schemas/types.yaml#/definitions/uint32
-> +        description:
-> +          Identifier used while transmitting value to GMSL link.
-> +          Default value matches the pin number.
-> +        minimum: 0
+> -#define LINVAL gpiod_get_value(DAV),		\
+> +#define LINVAL (gpiod_get_value(DAV),		\
+>  		gpiod_get_value(NRFD),		\
+>  		gpiod_get_value(NDAC),		\
+> -		gpiod_get_value(SRQ)
+> +		gpiod_get_value(SRQ))
 
-The minimum is already 0 being unsigned. Elsewhere too.
+This breaks the build.
 
-With that,
+regards,
+dan carpenter
 
-Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
