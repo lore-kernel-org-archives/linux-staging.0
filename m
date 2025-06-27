@@ -1,65 +1,69 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15FC929DB7F;
-	Fri, 27 Jun 2025 11:01:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEEC929A9C9
+	for <linux-staging@lists.linux.dev>; Fri, 27 Jun 2025 11:07:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751022077; cv=none; b=EwwJVFBRiZd1LlFCQ1si50yH04hbvs1bZzCewIPHUaF/SV5b1G5ofwGyLAt8Z78PbFNPRk+VdNmn8h98ry7k7839+S8mzonP0C4bKpBkA7rp5+jGB7cqyVPBCSQAqcsOiZ3oGB/9/NoxWy/paFs9UqHWxEu+A0B46sJ43G1sysI=
+	t=1751022468; cv=none; b=ktNlA3zcz+1KwSoiNiuwLTcVMD+ObBuvTIS/NyWfKdnoQl0FpT6qez7xGmdUzTzRCIIk/j+lnIYOCLsdbAdy4dTHSbRPpxAsAbiIBjTD6twPfD2nyVuwby6Oex4vil9gJ2l5wh8EYVzzX7/zale09LwohzKD91t2cdU56/sL0Kk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751022077; c=relaxed/simple;
-	bh=c+o4o1W5LrCSv6enfzhJpCZAcCcaLrGjYkQH30oj5Sw=;
+	s=arc-20240116; t=1751022468; c=relaxed/simple;
+	bh=+F4+PRH6RZeS8ugoToiy4TCKLKkcYPK+TGHSXOUNJ18=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nDQM4cyG1P8nJlPFd409z+t/5hv8vt8hIdxDPmrE89if3+NfzlwqGMazo9LexVILiXiAHya5CDrOvTfzR71tkmaOLe7rbGYMCkqtaFbS0AqNyItmX9OGv+a7uapVuIh2vNpbIQoJV0izogJNKsTiGMUUFH4zvavxUctzwiapDAM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eCOKEq9n; arc=none smtp.client-ip=192.198.163.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=OgSRPEXwt/+VQ9krta88LTsy4Ua9/w/+0bsxi+CGpgZ2ejXCM4qpnzEzTMe45E51qj/RD8AbmlC2FbaCYo7wjykPpnGK5K6ON5A3Np5HXSifPgfH84wE5a5/dx+tXNUYct6d4gDr3GzIvTQccyH90mehfzsjcL/SIaB5EFcENEE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NhrvX4V6; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eCOKEq9n"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NhrvX4V6"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1751022074; x=1782558074;
+  t=1751022467; x=1782558467;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=c+o4o1W5LrCSv6enfzhJpCZAcCcaLrGjYkQH30oj5Sw=;
-  b=eCOKEq9nfS4EjC27rmVOVPE0ZG/FXQTMn5fms9EkoHZCqLwOyj9FgXDD
-   Ckt5sU82FTfH8ZA4HKLkF4POspOKZJdFqgDeoprNW209Ltnp7uImNZphm
-   ApHuoza4ZChrrfnnXna1STisZ1y8Y5fGZScOsRhwjOQc0frmmhcPQszXV
-   pnnTCnEmJDJ3VDmm2ETgWX6DhtDmak6TriLHu2RnuZH0ldR+QvoV+S3kq
-   9B3I+U/gwXw4lqqtPGB6ljsryiLhCLNQiF76uYv4aWJmICAz87CGfFnou
-   mjJm7S+9LwdsXsTg7iwXlncSLQ/ntbD4XwhQKAmfafdms0nKvT3fGe4kZ
+  bh=+F4+PRH6RZeS8ugoToiy4TCKLKkcYPK+TGHSXOUNJ18=;
+  b=NhrvX4V6DkzlA6WcbF8LuqO3gQ1pX/5MaVdAGCgPPV0z5Hp5+QDtxMUv
+   ESkDvLJyBSBSx4ODcm7DCNx1VsBAtdCx/x4fM24GfEW4uPZ8EgNAhMGRj
+   b5HuBlPwCB2N03fPeai4KDswkUfGkfRpPIqw8obqVsSlM80Swz8nbRFVj
+   iCfX+nDgwp49YozuNfkkdnkYw0TEeGnKIcFLRek/WVaUyzcQRrs6OWsqM
+   0kbzps/Ln4Ts1lfVa+zOi0BGreQ2K7u6L1/JJrj+eYvll1O2pWzyRGfd7
+   o+Gmh45oAh7hHxvgG78Anc8R2MVkbsXITCL2pIpn/fFt+i1yH6aGoJhGV
    w==;
-X-CSE-ConnectionGUID: xHmS41iCS3GFHxXiJFBQdw==
-X-CSE-MsgGUID: F9LD4aBYSpGwfNAQp5plGA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11476"; a="52565520"
+X-CSE-ConnectionGUID: qcKeHP46TIuFzZi4uJy/sQ==
+X-CSE-MsgGUID: ZDmDczMqTPWy73vy9yv75w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11476"; a="64772550"
 X-IronPort-AV: E=Sophos;i="6.16,270,1744095600"; 
-   d="scan'208";a="52565520"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jun 2025 04:01:13 -0700
-X-CSE-ConnectionGUID: MI9ObuygSn6Tx29iN1mzMg==
-X-CSE-MsgGUID: bUThnTU3Sj+M4+waK9dyGg==
+   d="scan'208";a="64772550"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jun 2025 04:07:45 -0700
+X-CSE-ConnectionGUID: 6KDakIrXREWbY/0lrldFZA==
+X-CSE-MsgGUID: Fpu8o9HZTqm4cjPeGaFeug==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,270,1744095600"; 
-   d="scan'208";a="152957137"
+   d="scan'208";a="153494856"
 Received: from smile.fi.intel.com ([10.237.72.52])
-  by orviesa007.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jun 2025 04:01:10 -0700
+  by fmviesa010.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jun 2025 04:07:40 -0700
 Received: from andy by smile.fi.intel.com with local (Exim 4.98.2)
 	(envelope-from <andriy.shevchenko@intel.com>)
-	id 1uV6pO-0000000ASU7-3Cng;
-	Fri, 27 Jun 2025 14:01:06 +0300
-Date: Fri, 27 Jun 2025 14:01:06 +0300
+	id 1uV6vh-0000000ASaL-04jT;
+	Fri, 27 Jun 2025 14:07:37 +0300
+Date: Fri, 27 Jun 2025 14:07:36 +0300
 From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: Abdelrahman Fekry <abdelrahmanfekry375@gmail.com>
-Cc: andy@kernel.org, hdegoede@redhat.com, mchehab@kernel.org,
-	sakari.ailus@linux.intel.com, gregkh@linuxfoundation.org,
-	linux-kernel-mentees@lists.linux.dev, linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-	skhan@linuxfoundation.com, dan.carpenter@linaro.org,
-	Hans de Goede <hansg@kernel.org>
-Subject: Re: [PATCH v5] staging: media: atomisp: remove debug sysfs
- attributes active_bo and free_bo
-Message-ID: <aF558plEWPpTw78F@smile.fi.intel.com>
-References: <20250627100604.29061-1-abdelrahmanfekry375@gmail.com>
+To: Andy Shevchenko <andy.shevchenko@gmail.com>
+Cc: Dan Carpenter <dan.carpenter@linaro.org>,
+	Abdun Nihaal <abdun.nihaal@gmail.com>, andy@kernel.org,
+	gregkh@linuxfoundation.org, lorenzo.stoakes@oracle.com,
+	tzimmermann@suse.de, riyandhiman14@gmail.com, willy@infradead.org,
+	notro@tronnes.org, thomas.petazzoni@free-electrons.com,
+	dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: fbtft: fix potential memory leak in
+ fbtft_framebuffer_alloc()
+Message-ID: <aF57eMeNafg1w9Qw@smile.fi.intel.com>
+References: <20250626172412.18355-1-abdun.nihaal@gmail.com>
+ <aF2Ic8BP0zWS6R19@smile.fi.intel.com>
+ <0327da98-8a7c-4db8-8bcd-4179b87a9486@suswa.mountain>
+ <aF3CwnHyW5HHzDSG@surfacebook.localdomain>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -68,20 +72,22 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250627100604.29061-1-abdelrahmanfekry375@gmail.com>
+In-Reply-To: <aF3CwnHyW5HHzDSG@surfacebook.localdomain>
 Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
  krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On Fri, Jun 27, 2025 at 01:06:04PM +0300, Abdelrahman Fekry wrote:
-> The sysfs attributes active_bo and free_bo expose internal buffer
-> state used only for debugging purposes. These are not part of
-> any standard kernel ABI, and need to be removed before this
-> driver may be moved out of drivers/staging.
-> 
-> - Remove active_bo and free_bo attributes
-> - Remove group registration calls form hmm_init() and hmm_cleanup()
+On Fri, Jun 27, 2025 at 12:59:30AM +0300, Andy Shevchenko wrote:
+> Thu, Jun 26, 2025 at 11:11:39PM +0300, Dan Carpenter kirjoitti:
+> > On Thu, Jun 26, 2025 at 08:50:43PM +0300, Andy Shevchenko wrote:
+> > > On Thu, Jun 26, 2025 at 10:54:10PM +0530, Abdun Nihaal wrote:
 
-Reviewed-by: Andy Shevchenko <andriy.shevchenko@intel.com>
+...
+
+> Ah, you have a point. Yes, the moving vmem allocation will solve the ordering
+> issue.
+
+...with moving from devm for the txbuf. Otherwise we would still have a
+problematic ordering with it.
 
 -- 
 With Best Regards,
