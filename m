@@ -1,249 +1,211 @@
-Received: from OSPPR02CU001.outbound.protection.outlook.com (mail-norwayeastazon11023089.outbound.protection.outlook.com [40.107.159.89])
+Received: from DUZPR83CU001.outbound.protection.outlook.com (mail-northeuropeazon11022125.outbound.protection.outlook.com [52.101.66.125])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1E86207A0C
-	for <linux-staging@lists.linux.dev>; Fri, 27 Jun 2025 19:29:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.159.89
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32016CA6F
+	for <linux-staging@lists.linux.dev>; Fri, 27 Jun 2025 19:36:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.66.125
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751052581; cv=fail; b=H0xvSEr5jaYaBrv1GcrlxI7A6nRj1Eo9uupr3C7kIZB3rNj8wDVoJT1iFhiPi5FFQrO/tz7dzfwSNapq8usJ6cgOvc1v1JNoCEffFxsYAjxTFuzTm4+Qgfo78arCu4N24gBG1KkhX2ryVUgQDNOZWkGAtduKZCv3mMhOvB+HcH8=
+	t=1751052991; cv=fail; b=UZHD6bFZrSmK0vHZBJ2AbbxNCr6hjxR7eAekoxn7qltkheNUL/1PAzUP5nUH3n6b9a1GGOIYtPwKUo28Pt1z2FrXtWqt1puVU5C6MGVRm1cw0+MkInkKi3xYXIyiuCHfIK+Ni0Sh7tlGtVIvFVHMfxABTQIMiwZnjFN7bf0xrOY=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751052581; c=relaxed/simple;
-	bh=vpZK6xBIcvqPOcrw+IXFi/F9DDSbIUuQcxsMYFC3oXM=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=b3ytWqu0F8fWXjlsGotlQ3+0oluF/b1E0KGPd/N4jIi3dD90F+HrD1TASICWK75CL/Erx8Tds1APN/gTo2UdFYOVao4jmXK/69GDlCggGl7TwN6kd31p9u35WLYa8+jE3SGOpi+1JU0zWZZwMtjhSze3pjYz4BKNq2lfzUhoGBY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sesame.org.jo; spf=pass smtp.mailfrom=sesame.org.jo; dkim=pass (1024-bit key) header.d=sesame.org.jo header.i=@sesame.org.jo header.b=Z7kXra/6; arc=fail smtp.client-ip=40.107.159.89
+	s=arc-20240116; t=1751052991; c=relaxed/simple;
+	bh=HvWVHXXjN1F64+YacFwfHg3KwRc/Zd8qXpNxqwKGzzk=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type; b=FEXFhUdLuY6J7Z6RVl4wW72I7jdoDYtMuhmZoYmpO9UxwoR0bShj4Wh5KatRmRF+i4Ih95s+tJnDAYQ+RbU9uHxyvsMb4/dWkO+xINYbMpmHetyd1rVlWilGjl4eyLznLGeWHb3pzDEq5Nx+ZcRALnz1hU3zpGhQHQXeyNEXaUs=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sesame.org.jo; spf=pass smtp.mailfrom=sesame.org.jo; dkim=pass (1024-bit key) header.d=sesame.org.jo header.i=@sesame.org.jo header.b=SxtqOLJ5; arc=fail smtp.client-ip=52.101.66.125
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sesame.org.jo
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sesame.org.jo
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=sesame.org.jo header.i=@sesame.org.jo header.b="Z7kXra/6"
+	dkim=pass (1024-bit key) header.d=sesame.org.jo header.i=@sesame.org.jo header.b="SxtqOLJ5"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=J+o6C5U/4rPx7oujdXMsGfPuAfKrWRmj+WZvzD4LrCZ1dN9P+vLcLfqtTA+UhL1exVc9juX+/yNV2gAgkiRMGDxARRjwGPGV891DhiOUiCCt7XnuJqPngd47kkk3P4seyHsZMW/1yuCDakXj/T12beyffA3HuNtEpnoXD4SOgJ6cnUvUhFbw1uzgU1dqXzdgMxTiGNpLBNGzTLp0cSYpqUwe6o01BkMJAAXmm+3+JueXubX/pX5mfadRHXKnntf3D2Anst5BR9ElOCzliywK8sHZlM5jLS9z5Q72s1kwUyv6Mx1XGW8ysf4mApngF806sKIDmZP2Fz71Enm5eimJSg==
+ b=yR8Lzv2KKj2PMIAimWTwmLyhCkzyn8SxbzFJoHzM4Vjo+gATO0rfDCyyzpOkf0y8ZczvvoZnKkkLrkSraOFG1n6x20eez7XkC9IVHrYI/NjR1ugEd2i7JpH1VSmJFfu+SQ/ZdAVYv2yOavL/EAZG6hBY0Q08yY3hD9g8lB8IpBTkVmUqZuCOne5c0NHLBn3BtXiyrO8HkkrGsoeAbixIVZsx+4kHVbz7LTI5YalyMffoWJNKLbs9c8gMaGgftbzKnZNbSZ+3/W0xDnZJFNX8119yvxavN7n/BGu9uNpScQJJCSvZpPqiiKAdSqBG8NLRCbTPtVcwV0ZEi5iuIw3TkA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=vpZK6xBIcvqPOcrw+IXFi/F9DDSbIUuQcxsMYFC3oXM=;
- b=x3e2YkVkdBwoSz5GMfWXODXyZmpqJ0AR9q3B2i+/lX6xEIDokq5cR9pIHc+4wP2oqMd8gV/DzGrdnYJSD/eLWtwXkCAEF8N467zYhX6rmwCy17E3w1OOvFGy/q/6WgxdWbyyDQzJ2MTGZbIGhVDuj5kWepaHAkMODEGDYOuoXEJwIh77RxOiIMrwq8smNfN3n+l0jAcoheZCpl9vpBwzWOcd4vlpxZ6ALDB0mR1+1tHtP58fmzfKu+gLSuzPFIs4OzeFOVbDdVuqvnMeat9zCffIE4fLDa/6j84oSKiBEqbAESoRyhQJpAu7rKHnj3Ss3vOc+sS37Q3jDe801Lu8HQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=sesame.org.jo; dmarc=pass action=none
- header.from=sesame.org.jo; dkim=pass header.d=sesame.org.jo; arc=none
+ bh=tgZAwqWDakGrornFTk6XKwUteN61VEw6SWRRvSD+XwU=;
+ b=JlYUL+HRoIsQl7IuenrrFZEtHC52t3LHROEC0Hml7qZqTsiYW84d2tq9PJFHuPthQH5P95Pd5WU00WfqmzhXNv8G0WR43W8D5LIPlOgU/+sM+qke7k6VsDr/qMCVyM5F/wGAoqAYtqLSyu9a2D3/o5n+zvjz9893xzZ8NxJ2a0Y+lww9pco714M2wEFjDFPRaUi9tfiFhjkg7mIMChlXyHiel2H3QZz1/zw7qInz7EtkgMw449JihyoL3F44JItSoT7oN5dyasfMMzKWaC7YPG/lsx1yQxjAhsz6M2fUHk9XyGmqpf6gzwRnhxvzwEfPASM0voaEUdaDU/lkpvkB1w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 80.90.171.68) smtp.rcpttodomain=lists.linux.dev smtp.mailfrom=sesame.org.jo;
+ dmarc=bestguesspass action=none header.from=sesame.org.jo; dkim=none (message
+ not signed); arc=none (0)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sesame.org.jo;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=vpZK6xBIcvqPOcrw+IXFi/F9DDSbIUuQcxsMYFC3oXM=;
- b=Z7kXra/6H2z59v5tZVY+hdn1px7GWF9DdSoqAZpfh+fgJscEx28NdUKppYjF9D9CXqDo/mWvVtpZwE8C85TgbPR/6yytiTCAt8NPOINWP2JvAM6rGd4zClVOEzXSi+GSLHhvXCM9dK9GkWRyf82xsRzWgkkTicraHZJSNvAJerQ=
-Received: from AM9PR08MB6114.eurprd08.prod.outlook.com (2603:10a6:20b:287::8)
- by PAXPR08MB6608.eurprd08.prod.outlook.com (2603:10a6:102:150::12) with
+ bh=tgZAwqWDakGrornFTk6XKwUteN61VEw6SWRRvSD+XwU=;
+ b=SxtqOLJ59RLMaAdCL+7n32wYfm3JNvvRXHwBt6LT/wBX/c7fxzRFMYxj5PKwfop9F8TfuWug0Q5dqwZbcNkFbY0h7SIVT4OZ/y5gJAqU/WA2inEBbJUhGeQJ5Lu/k1wq/+38p3DI9HtFsUp2RQYmT+A33AGQ3aLXy+4ZZYPTPxo=
+Received: from CWLP123CA0247.GBRP123.PROD.OUTLOOK.COM (2603:10a6:400:19e::9)
+ by AM9PR08MB6274.eurprd08.prod.outlook.com (2603:10a6:20b:2d5::24) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8857.27; Fri, 27 Jun
- 2025 19:29:36 +0000
-Received: from AM9PR08MB6114.eurprd08.prod.outlook.com
- ([fe80::e7d:2350:5c10:a839]) by AM9PR08MB6114.eurprd08.prod.outlook.com
- ([fe80::e7d:2350:5c10:a839%5]) with mapi id 15.20.8880.015; Fri, 27 Jun 2025
- 19:29:36 +0000
-From: Abdalla Ahmad <Abdalla.Ahmad@sesame.org.jo>
-To: Andy Shevchenko <andriy.shevchenko@intel.com>
-CC: Lars-Peter Clausen <lars@metafoo.de>, Michael Hennerich
-	<Michael.Hennerich@analog.com>, Jonathan Cameron <jic23@kernel.org>, David
- Lechner <dlechner@baylibre.com>, =?iso-8859-1?Q?Nuno_S=E1?=
-	<nuno.sa@analog.com>, Andy Shevchenko <andy@kernel.org>, Greg Kroah-Hartman
-	<gregkh@linuxfoundation.org>, Gabriel Shahrouzi <gshahrouzi@gmail.com>, open
- list <linux-kernel@vger.kernel.org>, "open list:IIO SUBSYSTEM AND DRIVERS"
-	<linux-iio@vger.kernel.org>, "open list:STAGING SUBSYSTEM"
-	<linux-staging@lists.linux.dev>
-Subject: Re: [PATCH] drivers: staging: iio: frequency: ad9832.h: Fixed TODO
- note.
-Thread-Topic: [PATCH] drivers: staging: iio: frequency: ad9832.h: Fixed TODO
- note.
-Thread-Index: AQHb54wYGKmukPAvzEyOKvcw++VNsbQXVVCAgAAPAeY=
-Date: Fri, 27 Jun 2025 19:29:36 +0000
-Message-ID:
- <AM9PR08MB6114261F0CA8CD89EC443E59A145A@AM9PR08MB6114.eurprd08.prod.outlook.com>
-References: <20250627175114.548076-1-abdalla.ahmad@sesame.org.jo>
- <aF7kW6xRxRb0VN5H@smile.fi.intel.com>
-In-Reply-To: <aF7kW6xRxRb0VN5H@smile.fi.intel.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-msip_labels:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=sesame.org.jo;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: AM9PR08MB6114:EE_|PAXPR08MB6608:EE_
-x-ms-office365-filtering-correlation-id: 69eadc96-a30c-4df9-8a9f-08ddb5b0f3c8
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam:
- BCL:0;ARA:13230040|376014|366016|41320700013|1800799024|7416014|38070700018;
-x-microsoft-antispam-message-info:
- =?iso-8859-1?Q?iTlh8q1jlaknaXb/942MX1F5O0EqL+FpQkN9jdpRr4myQ1XmTAaAaTYiIe?=
- =?iso-8859-1?Q?MhYmG0aWuNshzFdjd71bqOtMLXeNOGC+4T7V2abHNCc2m1pSmhGq2MEyd6?=
- =?iso-8859-1?Q?8H+f022Eink8hS7KY8YO185I8kYO8f40zKHXSEpa7sfwjXrKoqCzljjL4R?=
- =?iso-8859-1?Q?yHWvcBSXizWZJIlyX6gbLgBA24bEr1dBhtEo9NsgiFfce3E9rSxs66Sunt?=
- =?iso-8859-1?Q?NSWF7x6E+BXgvBq5tpUY5UIeOY/9peaCjzGQk6ejc7pqObFXUnZYpdAj1d?=
- =?iso-8859-1?Q?4iYywMQwR0wrucdTC2CQVpozxWh0c+hw2Hp85oTVK4MlhPHUKhEIbJgeCQ?=
- =?iso-8859-1?Q?SrRb3yhlHFFK0IOANc26iv2ekcFS3UbvZ/vjTwixh3FOz6eo3fM7pd8kAV?=
- =?iso-8859-1?Q?KZPlP1Z9oED2eNoP9p77JRcE+OEkCzg/g6f/yJMVtzt8ZnVqGxTe9LcpYW?=
- =?iso-8859-1?Q?JDRw2yKXg5YMuh4hW+xNJ8H53kGj8R7OaKQWaSt/O0q0+PR8TDk9041fMe?=
- =?iso-8859-1?Q?hXHJeGJrMRxsfhLVAqs0iTThDb5tqtgU7Oc69VER6LBK0MMY7Xmkv9/307?=
- =?iso-8859-1?Q?WC/NCK2oDBTuquY+ZEJ4RzRqwCzOQtN4sTxheslKgcm1HrOlxFVon829Bo?=
- =?iso-8859-1?Q?jWJjp8duhD7wQhy6XNSe+ty05UW875ZKB11BBAc8s+2L3bzkkxuxC8cmbE?=
- =?iso-8859-1?Q?hZD2oRX2j74yAqKb85eaz+IAO67oKxihKCoOtoybh5DvhKRxUnifBWnzlk?=
- =?iso-8859-1?Q?CtItpLJy0QDu4YM8IZqxf6ablshy3vTeA2JTKVlEcQCwfSYcCSq9/g+FKl?=
- =?iso-8859-1?Q?xyk2jjjoHQmkJV0IIITgT4xuIol207vZhjw7N6AzdVitFw1kBsAF27O4N+?=
- =?iso-8859-1?Q?f5jouPpKMUI50BtLCzP7qdtKCLJD8CW50ISFf1oL6lyc5Tm7IXjORmscn5?=
- =?iso-8859-1?Q?lu5grOWwiqs5YMvkjl2EEp6BbnbEmVadwjXfyyRJPJeYof2VfPZ810e/hQ?=
- =?iso-8859-1?Q?L/OjQCUPvkRXiLA2EENFIj6hr1iu7PraqhUyWNz58/ueQxsZYyPRNImjmI?=
- =?iso-8859-1?Q?jOnmL7LnPWjErEsrHqBVPv5a2Jo+gPARbuOPr04zT536nzYu5EkhLe2xm/?=
- =?iso-8859-1?Q?j0baJFWv1ve28NDn4PzADNnn0JllYqPBumhnEhvZtOwZSpfgEEsPBSEoNk?=
- =?iso-8859-1?Q?gnd76boX+22pB7rzuln2twL/WHQ7VmAmGb7yRxy58JTjFPyxQ2iac7vKv5?=
- =?iso-8859-1?Q?nV5LbnhZPcEJuhYxsAL7bC4nOoVbRVdJthqC7Uw+U8QfAtZZhcksFBcIFc?=
- =?iso-8859-1?Q?AF1r94gEZS2+7dxRfeQJ1iJ96b/XNRFVgJDaocaXpkfotTU2AqoeVFhhwg?=
- =?iso-8859-1?Q?vwfD9uZ6ITDpFJEdwibUcGNrzrV5A26snnjUne/aaiqYDsSoMZq1VpSC8j?=
- =?iso-8859-1?Q?D3p56Jswqji1cERvqkcNFAveL8q1mtHXTCBLz6Ee/435r4m8B4m4kPfhD0?=
- =?iso-8859-1?Q?0bDIeRdfV3aY6YXGSAXG09gXTnSP8OPL8vjg5KhdQhGg=3D=3D?=
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM9PR08MB6114.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(41320700013)(1800799024)(7416014)(38070700018);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?iso-8859-1?Q?7WDaux/MUalM3TWBFTqS5uTZicwyAV0hBJyL6cGkK8q1OxrnvSoSbs7Wp4?=
- =?iso-8859-1?Q?HDLAMnU9C6Pb+rcn9WbMR/IQJqzFTaXSE2E/BVB1CC9tMK2NnrMf5IyYOU?=
- =?iso-8859-1?Q?m+jegBI1TUttkHp5Wf4o9bh0FzXAMuHksJoT/DQpBRUMuv3xr1xt+5erAf?=
- =?iso-8859-1?Q?+znSAmvpTm20nDUTjux5vkY5xFQLihefuixtVf46ag29v+5QCU7IJY3C0D?=
- =?iso-8859-1?Q?Q+/jUj1z6IUOCZAtSyqDNlNoisNd5ZQF90A8tqgIB0OHGRDMK+WmJSu7Hs?=
- =?iso-8859-1?Q?TgcsUY6ODg1Hvyh08UJWR8AEB2FPWPJAKrBOA2Y3nFNoKWpdzfI3IQ/88t?=
- =?iso-8859-1?Q?aperg7fKt4gWXPBo294UQQ2Wc0to4+SVLnwkMv9+9/a6NP1THuMoskrOiE?=
- =?iso-8859-1?Q?MY/vzw65KwXBnE87r/KqO16oiSKcl0yIQioAYOEoTqO8HNUvk9Gk2u51+o?=
- =?iso-8859-1?Q?kKfAXw/bTg7O6m0T8jTUhzpB6Dw5jeLgv/Ca+NLCs0Wzl96BY6JQui6fju?=
- =?iso-8859-1?Q?1GH41xM4ijLGgmBLSg1/eh4clFsDdMab8LBW0vnDW3JuJFGimY5tMqOlVK?=
- =?iso-8859-1?Q?5TyUAHJ5IF6wLmCNbJcpW7LzvqEFwy60TboLKGvJmUz72PGX/ZwiFjBDFK?=
- =?iso-8859-1?Q?RzgDNh1c6PE/Qzl3Tz2zSmRt8tMo1c/SBal6qoDJe927Cmo1n7BSpBUB1Q?=
- =?iso-8859-1?Q?bGKDRMe0WUOsXVUvDUmQfLV1DGWcCod7vbbdHFm+fVB0h4TKI2NhocF52X?=
- =?iso-8859-1?Q?+WQCcs8B/8jdv3k2TPGlE5CgOMOFdwN0oUWwzCtgPb7rG3yWJWZRhMKSsa?=
- =?iso-8859-1?Q?x1F+NxavnXyDs0rxXjU6nzvldMv5j+Td43Q8A23WGz+JdRkSR4HJMgM3tk?=
- =?iso-8859-1?Q?17+sZoC3BZdfHcJoT6HfrRYMIM37GXbveeK1KDAIdmnhH/e2uEFbaS4jOL?=
- =?iso-8859-1?Q?qSgVUbzbe2Bk5Vt4ZI7ArNatdIU688QC/AiJsV8E0QufwHkmA6ZHCCe9+6?=
- =?iso-8859-1?Q?fwAZM0Tz5JSxPiYnoZWCoyLQ+6xsep/9NJhqb/1dQ3GJ0V17vnLBtwwb9p?=
- =?iso-8859-1?Q?Y+dFdfkM2kogRZtCcyfjxUOZqXASbDgO753o2ZJHkIMWStSHBa1cRSBZtG?=
- =?iso-8859-1?Q?U2YjsHbd2JPBwYHG3zWAqLst1FdSCbkujlZowOBzEbwysx3DsvfbPSkZQI?=
- =?iso-8859-1?Q?nIbM+I041spdDaMTyq6tK2tRs1GAGSxcgxH4X2yYvgaBXcM2QfBtF8OCfS?=
- =?iso-8859-1?Q?9Ki/KFks3fmDaA+4azLZEOHe+ARZImAU7s1vM7vzbl0tKvAcLlasKEwVkg?=
- =?iso-8859-1?Q?txoDOxB3kNqi0ljRlihUm4x+/8EBGIzsUaujCkJoBr7tPu1YCuH1enRZBm?=
- =?iso-8859-1?Q?q1EGtpkDph+uvrWxLrBXfqb649Xm53PM6XWAkjr7tHqfJe1opBoninrvtK?=
- =?iso-8859-1?Q?7k+EVYTB5++Z61IND5+LHCetHLG9LyH+dXLQtILYSrh7US3t6BXMhaoOEa?=
- =?iso-8859-1?Q?dPfXoseEqw8/Ipf3yD+a7FwfMsMb1JAdw2F0kmkLAhFZuhTx2IfYey7UCd?=
- =?iso-8859-1?Q?3TyG0itk4ZfwNKUgx8zSPo47sMwTi8cek1DffUxJuoUs8NZxHq7+RA0lvQ?=
- =?iso-8859-1?Q?uikKB4i3TY14JAfIvdURYsBq61wOUgqpOn?=
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8857.25; Fri, 27 Jun
+ 2025 19:36:27 +0000
+Received: from AMS0EPF00000198.eurprd05.prod.outlook.com
+ (2603:10a6:400:19e:cafe::d2) by CWLP123CA0247.outlook.office365.com
+ (2603:10a6:400:19e::9) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.8880.24 via Frontend Transport; Fri,
+ 27 Jun 2025 19:36:27 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 80.90.171.68)
+ smtp.mailfrom=sesame.org.jo; dkim=none (message not signed)
+ header.d=none;dmarc=bestguesspass action=none header.from=sesame.org.jo;
+Received-SPF: Pass (protection.outlook.com: domain of sesame.org.jo designates
+ 80.90.171.68 as permitted sender) receiver=protection.outlook.com;
+ client-ip=80.90.171.68; helo=SESAME-SMTP.SESAME.LOCAL; pr=C
+Received: from SESAME-SMTP.SESAME.LOCAL (80.90.171.68) by
+ AMS0EPF00000198.mail.protection.outlook.com (10.167.16.244) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.8880.14 via Frontend Transport; Fri, 27 Jun 2025 19:36:26 +0000
+Received: from mail.sesame.org.jo ([10.1.100.13]) by SESAME-SMTP.SESAME.LOCAL with Microsoft SMTPSVC(10.0.14393.4169);
+	 Fri, 27 Jun 2025 22:36:42 +0300
+From: Abdalla Al-Dalleh <abdalla.ahmad@sesame.org.jo>
+To: Dave Penkler <dpenkler@gmail.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Michael Rubin <matchstick@neverthere.org>,
+	Dan Carpenter <dan.carpenter@linaro.org>,
+	Arnd Bergmann <arnd@arndb.de>,
+	=?UTF-8?q?Paul=20Retourn=C3=A9?= <paul.retourne@orange.fr>,
+	Abdalla Al-Dalleh <abdalla.ahmad@sesame.org.jo>,
+	linux-staging@lists.linux.dev (open list:STAGING SUBSYSTEM),
+	linux-kernel@vger.kernel.org (open list)
+Subject: [PATCH] drivers: staging: gpib: minor fixes for some C macros.
+Date: Fri, 27 Jun 2025 22:36:13 +0300
+Message-ID: <20250627193613.552193-1-abdalla.ahmad@sesame.org.jo>
+X-Mailer: git-send-email 2.50.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-OriginalArrivalTime: 27 Jun 2025 19:36:42.0037 (UTC) FILETIME=[CEEFE650:01DBE79A]
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: AMS0EPF00000198:EE_|AM9PR08MB6274:EE_
+Content-Type: text/plain
+X-MS-Office365-Filtering-Correlation-Id: 8655a02b-087c-4ce8-4a40-08ddb5b1e887
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|1800799024|376014|82310400026|36860700013|41320700013;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?a/wv1m+g//kMUHktF+k+S13KLpyUsKBu8kkqO/BnJiKzMrN0MMglk7vt/W5y?=
+ =?us-ascii?Q?hKqoG1byl/SpNx7Zc0+o/Tk4LxWYcvTlwFiIeFOi9dBwgfZDIC6tC0+VtsaQ?=
+ =?us-ascii?Q?l0QnEo9/K48rcda97BrUUf+Z9/SiBFIT1XUK9aDRiK1j6nuAwMPDCEUZ+xwf?=
+ =?us-ascii?Q?oJhMQnxgbM4SP4XwgcNbsgmwKxV2uQ/X9PLGhANaWfmZ6gAIRx6nvz0xayn1?=
+ =?us-ascii?Q?ihKaqAPfmvO/a2zIFiXqLDY5b/yK2DhXY0rEHJ4ox0zhnMXavcSd/Tkglwuu?=
+ =?us-ascii?Q?TYhFqp8O3nNCNUDUDwubDpnrVLnEObPqUJYfPInYROs2iOKRQO9RsdGDuwFP?=
+ =?us-ascii?Q?YHhT4CL4wlLv5NwMQGjgdYhjfzJFcfkrQeiGzogSB/lAwh11ku+VT1+Q8xPT?=
+ =?us-ascii?Q?sEqfZm37X11Ofm1VExiBgkPehCN4o3+VijVMr4KYPkcVrvLP514rjAjb2HPA?=
+ =?us-ascii?Q?H/IMlQI0uspwsIYEHfdjBnBVc1VMRP8mliL6nlK+RQ9dyfdtEHh0558b75EL?=
+ =?us-ascii?Q?7HoVl7jQaIgxQyOJR/6hqnMqr5UxJM8sb7/vxmdHog+EDxTOeMEotkExdUwZ?=
+ =?us-ascii?Q?ceMgwXla0zNyS72QUVAwG+9IerEwTwwiVdlyfAkC3+B+Igq0dDYiLSKGnV5z?=
+ =?us-ascii?Q?sCPO5LvQ3ham/oA37wzVSklUWj4svqm4IadQw7hG4TQDj7vxZ6CLhyDsBrf/?=
+ =?us-ascii?Q?SV7+QfQ9F5r/e5aDt9pYC0liyp4ddVG4fC5Lr3/XGMahyr74Eg/jAbvnH1OW?=
+ =?us-ascii?Q?jbf1k0TqZpigoPz/6u6DQVWC7jfBttmJqiR1LN7mHzzgt1LDSjVVQrHZYvhB?=
+ =?us-ascii?Q?5fHVwvrpXOBwyw1xp8o5iGzqI5xU5hr8bR7c4l1Oqq84yhVqimSnQLSm6qrL?=
+ =?us-ascii?Q?3GNJxXG/0o2n2TrDuZG+uEaBo9i5Kj9X40nYA3fwzm43tGVw+6uVWc8iZO2Q?=
+ =?us-ascii?Q?EnbsTpBQBtLZuVjwngUNZzxyaVGtPUs/azpPJsl+MvZaIgKrAoaezq7sTJxW?=
+ =?us-ascii?Q?n9MztxCLqFYN7njV9lq+g3fvq/qv5/DRmNUVxQuiS7zdUCELfl3rnxgqazsq?=
+ =?us-ascii?Q?40xPkDhPVmlgKtJBFzPatjCaR2eG5z/QLNse+fXiXGF8m9JYFSycPKN/Tvvc?=
+ =?us-ascii?Q?hWdi2Y5fuYTyIQsgsoil99n9kG2q5/fNTT6g+vKbDL2RXUD8FMnihPnqG59K?=
+ =?us-ascii?Q?D03OqOADQdC/y/fvTNxThCMi2ijItPtpzVLqK8WM8Y3VHhmrL/cliPYLPw5N?=
+ =?us-ascii?Q?zpVpeG0zdWSESxi8+YW1P2U2eGAUIZCZlO5pqUyMhCaxpGeGAQ3IaBWtV7xj?=
+ =?us-ascii?Q?AcaaE6RhiibZ5TtME2PIyOoFssAVlP/4Vxw2YUUTEQ3IWOo/OU3VT8Cul+kR?=
+ =?us-ascii?Q?veRuzthGV1g0NfsYtZFien5UyICbxNjR/+Pwdtbi4fe+uuLKdHITS+79zzfG?=
+ =?us-ascii?Q?aphKmSdoxE/cnJTFrfpc/eUplhSVzqPXNGNZ0kqQiOQpNNORm+f31FsnVbkT?=
+ =?us-ascii?Q?vB6VcQuCfI3fBIt5kpeZUAnBpa9RjNcJvaCw?=
+X-Forefront-Antispam-Report:
+	CIP:80.90.171.68;CTRY:JO;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SESAME-SMTP.SESAME.LOCAL;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(1800799024)(376014)(82310400026)(36860700013)(41320700013);DIR:OUT;SFP:1102;
 X-OriginatorOrg: sesame.org.jo
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: AM9PR08MB6114.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 69eadc96-a30c-4df9-8a9f-08ddb5b0f3c8
-X-MS-Exchange-CrossTenant-originalarrivaltime: 27 Jun 2025 19:29:36.5269
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Jun 2025 19:36:26.6840
  (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 0788906c-6e04-423a-b37e-862cc7808738
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: PLTdSFKBdFEybPTtOyChgs1G9igXmOpq92bBznu0RZJ6UEXJfNP24jfabtoJZR3DH+Q5PPX4fGsApVmdFWdcZSgXO33hmDmPAid8AgMN9Oc=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAXPR08MB6608
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8655a02b-087c-4ce8-4a40-08ddb5b1e887
+X-MS-Exchange-CrossTenant-Id: 0788906c-6e04-423a-b37e-862cc7808738
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=0788906c-6e04-423a-b37e-862cc7808738;Ip=[80.90.171.68];Helo=[SESAME-SMTP.SESAME.LOCAL]
+X-MS-Exchange-CrossTenant-AuthSource:
+	AMS0EPF00000198.eurprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM9PR08MB6274
 
-Hi=0A=
-=0A=
-> Nothing of the above explains "why you are doing this".=0A=
-=0A=
-The original TODO in drivers/staging/iio/frequency/ad9832.h was:=0A=
-> TODO: struct ad9832_platform_data needs to go into include/linux/iio=0A=
-So I guess if it really needs to go into include/linux/iio and ad9832 being=
- a DAC, then include/linux/iio/dac/ is the appropriate place. Otherwise, th=
-e TODO note needs to be removed.=0A=
-=0A=
-> Also it sounds like you put three different things in one basket.=0A=
-I don't think it is; the header file is now empty (like some of the header =
-files), subsequently the header moved to a new location and the c source ne=
-eds to include the new file.=0A=
-=0A=
-> Haven't you added -M -C when preparing the patch? This will make sure you=
- are really copying / moving the context and show only the differences.=0A=
-Both gave exact patch file.=0A=
-=0A=
-> Ideally this should be dropped from any global header file. If one needs =
-something like this, it can be propagated via software nodes.=0A=
-Well, Including it in include/linux/iio/ made sense to me, would you please=
- elaborate?=0A=
-=0A=
-=0A=
-Best Regards,=0A=
-Abdalla=0A=
-=0A=
-=0A=
-=0A=
-________________________________________=0A=
-From:=A0Andy Shevchenko <andriy.shevchenko@intel.com>=0A=
-Sent:=A0Friday, June 27, 2025 9:35 PM=0A=
-To:=A0Abdalla Ahmad <Abdalla.Ahmad@sesame.org.jo>=0A=
-Cc:=A0Lars-Peter Clausen <lars@metafoo.de>; Michael Hennerich <Michael.Henn=
-erich@analog.com>; Jonathan Cameron <jic23@kernel.org>; David Lechner <dlec=
-hner@baylibre.com>; Nuno S=E1 <nuno.sa@analog.com>; Andy Shevchenko <andy@k=
-ernel.org>; Greg Kroah-Hartman <gregkh@linuxfoundation.org>; Gabriel Shahro=
-uzi <gshahrouzi@gmail.com>; open list <linux-kernel@vger.kernel.org>; open =
-list:IIO SUBSYSTEM AND DRIVERS <linux-iio@vger.kernel.org>; open list:STAGI=
-NG SUBSYSTEM <linux-staging@lists.linux.dev>=0A=
-Subject:=A0Re: [PATCH] drivers: staging: iio: frequency: ad9832.h: Fixed TO=
-DO note.=0A=
-=A0=0A=
-On Fri, Jun 27, 2025 at 08:51:14PM +0300, Abdalla Al-Dalleh wrote:=0A=
-> - drivers/staging/iio/frequency/ad9832.c: Changed .h file location=0A=
-> - drivers/staging/iio/frequency/ad9832.h: Removed struct definition=0A=
-=0A=
-Nothing of the above explains "why you are doing this".=0A=
-=0A=
-> - include/linux/iio/dac/ad9832.h: Added header file according to the=0A=
->=A0=A0 TODO note.=0A=
-=0A=
-Also it sounds like you put three different things in one basket.=0A=
-=0A=
-...=0A=
-=0A=
->=A0 #include <linux/iio/iio.h>=0A=
->=A0 #include <linux/iio/sysfs.h>=0A=
-> -=0A=
-=0A=
-This blank line should stay. It will delimit the groups of headers.=0A=
-=0A=
-> -#include "ad9832.h"=0A=
-> +#include <linux/iio/dac/ad9832.h>=0A=
->=A0=0A=
->=A0 #include "dds.h"=0A=
-=0A=
-> +++ b/include/linux/iio/dac/ad9832.h=0A=
-> @@ -0,0 +1,33 @@=0A=
-=0A=
-Haven't you added -M -C when preparing the patch? This will make sure you a=
-re=0A=
-really copying / moving the context and show only the differences.=0A=
-=0A=
-...=0A=
-=0A=
-> +struct ad9832_platform_data {=0A=
-> +=A0=A0=A0=A0 unsigned long=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 freq0;=0A=
-> +=A0=A0=A0=A0 unsigned long=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 freq1;=0A=
-> +=A0=A0=A0=A0 unsigned short=A0=A0=A0=A0=A0=A0=A0=A0=A0 phase0;=0A=
-> +=A0=A0=A0=A0 unsigned short=A0=A0=A0=A0=A0=A0=A0=A0=A0 phase1;=0A=
-> +=A0=A0=A0=A0 unsigned short=A0=A0=A0=A0=A0=A0=A0=A0=A0 phase2;=0A=
-> +=A0=A0=A0=A0 unsigned short=A0=A0=A0=A0=A0=A0=A0=A0=A0 phase3;=0A=
-> +};=0A=
-=0A=
-Ideally this should be dropped from any global header file. If one needs=0A=
-something like this, it can be propagated via software nodes.=0A=
-=0A=
---=0A=
-With Best Regards,=0A=
-Andy Shevchenko=0A=
-=0A=
+Ran checkpatch.pl on drivers/staging/gpib/, found the following:
+ - gpio: gpib_bitbang.c: wrapped LINVAL macro w/ parenthesis.
+ - hp_82341: hp_82341.c: Used comments instead of "#if 0"
+ - tnt4882: tnt4882_gpib.c: Used comments instead of "#if 0"
+
+Signed-off-by: Abdalla Al-Dalleh <abdalla.ahmad@sesame.org.jo>
+---
+ drivers/staging/gpib/gpio/gpib_bitbang.c    |  4 ++--
+ drivers/staging/gpib/hp_82341/hp_82341.c    | 14 +++++++-------
+ drivers/staging/gpib/tnt4882/tnt4882_gpib.c | 14 +++++++-------
+ 3 files changed, 16 insertions(+), 16 deletions(-)
+
+diff --git a/drivers/staging/gpib/gpio/gpib_bitbang.c b/drivers/staging/gpib/gpio/gpib_bitbang.c
+index 625fef24a0bf..45cf4571c58d 100644
+--- a/drivers/staging/gpib/gpio/gpib_bitbang.c
++++ b/drivers/staging/gpib/gpio/gpib_bitbang.c
+@@ -47,10 +47,10 @@
+ 			dev_dbg(board->gpib_dev, frm, ## __VA_ARGS__); } \
+ 	while (0)
+ 
+-#define LINVAL gpiod_get_value(DAV),		\
++#define LINVAL (gpiod_get_value(DAV),		\
+ 		gpiod_get_value(NRFD),		\
+ 		gpiod_get_value(NDAC),		\
+-		gpiod_get_value(SRQ)
++		gpiod_get_value(SRQ))
+ #define LINFMT "DAV: %d	 NRFD:%d  NDAC: %d SRQ: %d"
+ 
+ #include "gpibP.h"
+diff --git a/drivers/staging/gpib/hp_82341/hp_82341.c b/drivers/staging/gpib/hp_82341/hp_82341.c
+index 1b0822b2a3b8..f641613e128b 100644
+--- a/drivers/staging/gpib/hp_82341/hp_82341.c
++++ b/drivers/staging/gpib/hp_82341/hp_82341.c
+@@ -805,14 +805,14 @@ static void hp_82341_detach(struct gpib_board *board)
+ 	hp_82341_free_private(board);
+ }
+ 
+-#if 0
+ /* unused, will be needed when the driver is turned into a pnp_driver */
+-static const struct pnp_device_id hp_82341_pnp_table[] = {
+-	{.id = "HWP1411"},
+-	{.id = ""}
+-};
+-MODULE_DEVICE_TABLE(pnp, hp_82341_pnp_table);
+-#endif
++/*
++ * static const struct pnp_device_id hp_82341_pnp_table[] = {
++ *	{.id = "HWP1411"},
++ *	{.id = ""}
++ * };
++ * MODULE_DEVICE_TABLE(pnp, hp_82341_pnp_table);
++ */
+ 
+ static int __init hp_82341_init_module(void)
+ {
+diff --git a/drivers/staging/gpib/tnt4882/tnt4882_gpib.c b/drivers/staging/gpib/tnt4882/tnt4882_gpib.c
+index a17b69e34986..7d679604488e 100644
+--- a/drivers/staging/gpib/tnt4882/tnt4882_gpib.c
++++ b/drivers/staging/gpib/tnt4882/tnt4882_gpib.c
+@@ -1369,14 +1369,14 @@ static struct pci_driver tnt4882_pci_driver = {
+ 	.probe = &tnt4882_pci_probe
+ };
+ 
+-#if 0
+ /* unused, will be needed when the driver is turned into a pnp_driver */
+-static const struct pnp_device_id tnt4882_pnp_table[] = {
+-	{.id = "NICC601"},
+-	{.id = ""}
+-};
+-MODULE_DEVICE_TABLE(pnp, tnt4882_pnp_table);
+-#endif
++/*
++ * static const struct pnp_device_id tnt4882_pnp_table[] = {
++ *	{.id = "NICC601"},
++ *	{.id = ""}
++ * };
++ * MODULE_DEVICE_TABLE(pnp, tnt4882_pnp_table);
++ */
+ 
+ #ifdef CONFIG_GPIB_PCMCIA
+ static struct gpib_interface ni_pcmcia_interface;
+-- 
+2.43.0
+
