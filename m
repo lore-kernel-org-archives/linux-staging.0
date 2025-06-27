@@ -1,73 +1,70 @@
-Received: from mail-oa1-f51.google.com (mail-oa1-f51.google.com [209.85.160.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77B112E8E08
-	for <linux-staging@lists.linux.dev>; Fri, 27 Jun 2025 15:44:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B83D014EC73;
+	Fri, 27 Jun 2025 16:03:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751039052; cv=none; b=VYBtswzxPC6Dxeh1YVQ8Sd68GzaZw9/kfT8xqhcG6KVzPExmxl/tM2SKVHMThKjLOB6s7Tf/jK1n+W86FEKiYTTaphSIeL6XfF+o35PINJc2VIOdz3n/34+Lp6Z2DMNluUp36Sbv5XKu5fPtxGiqc8OWDEGtPR7HSz01M7+qxGs=
+	t=1751040214; cv=none; b=EXtVT57TNSb9zqABPnRbQcUDnLqasY85hJOQyBT7+qAqqO6N4QnB8ACMNr1S+U+LQAnLiEkeq31wkbN2fjBcfe/R7rHOxjzU1sVKF09egOiA1y200Z5TMTlczTFdT2EwY1VKh2Ju0Tr95umJd/9NUIZ5YOaE8UQYjqb0S3nQwzE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751039052; c=relaxed/simple;
-	bh=LcnRDVEnZy6QHKQQxsP/nvCacp9OQV2gpAzUNBJMFr0=;
+	s=arc-20240116; t=1751040214; c=relaxed/simple;
+	bh=SweOwYIisz+RSUn+EV34sWhAEWNmOQ/nrZuEKIbq+FE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XbcCLee23veNilCHvUVAMJ7eI0P3tG06VyZLPJuGCv+mn0Yf7kXxSV2lBPJdSgkMrHTUTEEyIJct8glUdhgd+HSC+I/655ER4lEmaJY5o80NMeNlrzoNQDplKiLnjIMMSuJdQ6xJ5eFx6D1YqRciM19RSen9R/FIIpOSjKR3dQk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=A2tXb510; arc=none smtp.client-ip=209.85.160.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Type:Content-Disposition:In-Reply-To; b=mOL3xrl5zD7R5yhBcWTMlRYD/Mj7JtlpHCV30k1pAEcDHBL/BHWuJOnMKpsIB3pS8LI5U2+jj1Mfw3K1+5z/ARyWqbUsKCpZwxRibwswxhslEacgqMA/YhUHZN5DgBk4vZBi99AEsgHf66P7plx0K9hjMBnjpK/V79isDpMnUf8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WHqgHXIi; arc=none smtp.client-ip=192.198.163.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="A2tXb510"
-Received: by mail-oa1-f51.google.com with SMTP id 586e51a60fabf-2ebb72384dbso704212fac.1
-        for <linux-staging@lists.linux.dev>; Fri, 27 Jun 2025 08:44:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1751039049; x=1751643849; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=vNskI9ihVQwbRR9S2z7pyG2KNmQ2CECCpU1on9KtPmA=;
-        b=A2tXb510DGJ5FXH4TII9ksJCZMcAA4BnrJyM/zYjAxnzHanmySrTDypXKmj5bz3Wh8
-         AGCnyF6F3tAMytcvCv3f0oLoaBb/OIVfbaOwjIoSeTMfw58G6081j1K69TLWDpQMHTZH
-         nEb89nrlFnim0Nc0X2x4BrrtN+cGpTZ3+jDSJUGS1nk1gaP0aUgUltE+n3PaBMnzJzaZ
-         yuUGa1YUFafvsWMrH0ee31Sw+c690ECdJM1nTXvZzooefgN6LMtESurxsfN/6yRDH6vz
-         HUL2lwQFsAliVKvl+9OP/Z0uALMy6LiMUBXWUF9YEoYs/Th/g0kFRIXUMf1RgH2SHPpO
-         g19Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751039049; x=1751643849;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=vNskI9ihVQwbRR9S2z7pyG2KNmQ2CECCpU1on9KtPmA=;
-        b=T+7uyF4pT5eMwG3t8O7PUS5/sRp/I4zeDqSRb2nBxh7PCX7VzC3AjoG/V21t9kVpT+
-         ThQ7jkyRT4/U8xaE+/EmCMgeMqdYfMJS/+IikNr+YJ/Qnd6H7zjIzstcBjQP2smkHXvY
-         P/gZESJpDIlFC3aSz0WFQBNDE6jZ0uhwyYBC1to47e0WfOZl1fav9vfxNCPrjEXvgl1Z
-         J9IS0/sjRVGAjCl5b/OlzmLQSjIrtnnEvGiCG7sSf/xJytVE9ZBZ+zgjyY4vV1VBjN1S
-         a7Y4YAr7BeplLe4mZWZ067zTMmSdzdL88E1MKC5qPfxFTeftCRqgRswd8MqS+0Oj8zda
-         muOw==
-X-Forwarded-Encrypted: i=1; AJvYcCXGzvTixGdeMU3HCs5tb6ELb7UE2sRpbvTJ2pJXfdtTEHLus7M4OWOACU4wGpOWY87GjcFPXzole4FVk2Sd@lists.linux.dev
-X-Gm-Message-State: AOJu0YwYTBNXdCmTIq1gQJlTXbRSeXSXEC1/Vf7DUvdCFYeECjHjiV3e
-	xuOt7R6VanUWrxoE2K2LqG0zAT4DAuJ5+fucoh/z1HwDZX2FzDn6K0a59JxPUKQbaJY=
-X-Gm-Gg: ASbGncts00xTNRAmId/rElQmYOXqVqU29Sw9Fgsotz1PVGUjqiTdchBouS+UqNeql+A
-	PEoOEm4apxZZSMgRhz2wp8kp+VOj0zeMQhXp3TCzWhLcMYATMufmWaks/NOoTM8mjkt8+ubAoIh
-	zhMXRZCUQhkLLW5wX34hsxDqBd9zjmbAP9zj6tDaCeK4pDx79XmP/y3KBAMZTUZT1PiMPYhBHJt
-	L0HVcgJ+k5E29zDQuq0BAqeYHuyYlgAXepXqAglkb9She7snAGN61uC2ZWG+63diWcHGDGec42g
-	eDFoGVSrtg4B9iMtoAW9Vf50XjfjiN7dsYUvX3ANcypcR8ylyB+jZqssnSOtiZ6TU+xbvQ==
-X-Google-Smtp-Source: AGHT+IHhU09H+nMf0lfOpqCHxF+Y0NTLulCnQbm0DdYiPRfdIF593CXffYxkSUXy1F9j48/+OHfs/A==
-X-Received: by 2002:a05:6870:a10b:b0:29e:5897:e9d1 with SMTP id 586e51a60fabf-2efed7a51d7mr2326653fac.39.1751039049549;
-        Fri, 27 Jun 2025 08:44:09 -0700 (PDT)
-Received: from localhost ([2603:8080:b800:f700:f3a4:7b11:3bf4:5d7b])
-        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-2efd4f0f7d4sm911929fac.18.2025.06.27.08.44.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 27 Jun 2025 08:44:09 -0700 (PDT)
-Date: Fri, 27 Jun 2025 18:44:06 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Abdelrahman Fekry <abdelrahmanfekry375@gmail.com>
-Cc: andy@kernel.org, hdegoede@redhat.com, mchehab@kernel.org,
-	sakari.ailus@linux.intel.com, gregkh@linuxfoundation.org,
-	linux-kernel-mentees@lists.linux.dev, linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-	skhan@linuxfoundation.com, Hans de Goede <hansg@kernel.org>
-Subject: Re: [PATCH v5] staging: media: atomisp: remove debug sysfs
- attributes active_bo and free_bo
-Message-ID: <e7dfe490-abfc-49da-8beb-50ce02678c86@suswa.mountain>
-References: <20250627100604.29061-1-abdelrahmanfekry375@gmail.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WHqgHXIi"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1751040213; x=1782576213;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=SweOwYIisz+RSUn+EV34sWhAEWNmOQ/nrZuEKIbq+FE=;
+  b=WHqgHXIiivfUG16HKFKKMrZZdyPiKEt8oVdjJ5TAhRSJa7JFzRIc3rP9
+   D2cft4Qm7iteCNqPON2NEnSwTrU1JA5hIciNenNtLVN6HB4VoD+CQbej1
+   BLIClmCuRGVjhl3dhUVPtDuPrUJIhURn3H0ODk5hZgKaYdCVH7Xek62mJ
+   BfkvMP2XdQhKPRT3TIPBRqdoOXFDFpwzoWovyRczy3KskjPjjiEB6VauA
+   hrms4wVuyHD8gfUMtlSE4rI2R7PQIDygaDtA+Q/3Gu/4RiVRFiiz5kZNr
+   Uw0Qel+Zt3yZJX71KJhwcMata2ucr/SxfxNvEl3kDm16xzc7S+PcbqeiZ
+   g==;
+X-CSE-ConnectionGUID: 2gVQXUq5Ram/FUsIATx30Q==
+X-CSE-MsgGUID: x3sZ6dq9SwGaqVA2cNjJOA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11477"; a="57165020"
+X-IronPort-AV: E=Sophos;i="6.16,270,1744095600"; 
+   d="scan'208";a="57165020"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jun 2025 09:03:32 -0700
+X-CSE-ConnectionGUID: quOsVAcRTJ28fr/y7IVW6g==
+X-CSE-MsgGUID: d3bnjaQxQWCDqXv3mdySOg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,270,1744095600"; 
+   d="scan'208";a="153326466"
+Received: from smile.fi.intel.com ([10.237.72.52])
+  by orviesa008.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jun 2025 09:03:29 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.98.2)
+	(envelope-from <andriy.shevchenko@intel.com>)
+	id 1uVBXx-0000000AWur-1dH7;
+	Fri, 27 Jun 2025 19:03:25 +0300
+Date: Fri, 27 Jun 2025 19:03:25 +0300
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: LiangCheng Wang <zaq14760@gmail.com>
+Cc: Hans de Goede <hansg@kernel.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Andy Shevchenko <andy@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+	Bill Wendling <morbo@google.com>,
+	Justin Stitt <justinstitt@google.com>, linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev,
+	llvm@lists.linux.dev
+Subject: Re: [PATCH v6] staging: media: atomisp: apply clang-format and fix
+ checkpatch.pl errors
+Message-ID: <aF7Azdn8G8EloJsH@smile.fi.intel.com>
+References: <20250627-bar-v6-1-b22b5ea3ced0@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -76,26 +73,63 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250627100604.29061-1-abdelrahmanfekry375@gmail.com>
+In-Reply-To: <20250627-bar-v6-1-b22b5ea3ced0@gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On Fri, Jun 27, 2025 at 01:06:04PM +0300, Abdelrahman Fekry wrote:
-> The sysfs attributes active_bo and free_bo expose internal buffer
-> state used only for debugging purposes. These are not part of
-> any standard kernel ABI, and need to be removed before this
-> driver may be moved out of drivers/staging.
+On Fri, Jun 27, 2025 at 10:56:09PM +0800, LiangCheng Wang wrote:
+> Applied clang-format to the entire AtomISP driver to improve code consistency,
+> readability, and adherence to Linux kernel coding style.
 > 
-> - Remove active_bo and free_bo attributes
-> - Remove group registration calls form hmm_init() and hmm_cleanup()
+> Additionally, manually fixed all checkpatch.pl-reported ERRORs across
+> the driver, including:
 > 
-> Suggested-by: Hans de Goede <hansg@kernel.org>
-> Signed-off-by: Abdelrahman Fekry <abdelrahmanfekry375@gmail.com>
+> - Macro definitions with complex expressions now wrapped in parentheses
+> - Removed unnecessary parentheses in return statements
+> - Avoided initializing globals to zero
+> - Fixed invalid spacing around unary operators
+> 
+> This patch only includes formatting and stylistic changes with no functional logic modifications.
+> 
+> Suggested-by: Andy Shevchenko <andy@kernel.org>
+> Link: https://lore.kernel.org/all/aFwSgCtrK7DH3pIw@smile.fi.intel.com/
+> Signed-off-by: LiangCheng Wang <zaq14760@gmail.com>
 > ---
+> This patch applies clang-format to the entire AtomISP driver and manually
+> fixes all checkpatch.pl-reported ERRORs. The intent is to improve code
+> consistency and align with kernel coding standards.
+> 
+> Formatting and error fixes include:
+> - Replacing space-based indentation with tabs
+> - Wrapping complex macros in parentheses
+> - Removing redundant return parentheses
+> - Avoiding unnecessary zero-initialized globals
+> 
+> The following tools were used:
+>   clang-format -i $(find drivers/staging/media/atomisp/ -name "*.[ch]")
+>   ./scripts/checkpatch.pl -f $(find drivers/staging/media/atomisp/ -name "*.[ch]") | grep '^ERROR:' -B 1 -A 2
 
-Thanks!
+> WARNINGs (~1500) were intentionally left untouched to keep this patch
+> focused and reviewable. These may be addressed in future patches.
 
-Reviewed-by: Dan Carpenter <dan.carpenter@linaro.org>
+Thanks for this version, but no need to send such a huge changes.
+Just make a public Git repo with it and provide just a cover letter.
+This is unreviewable.
 
-regards,
-dan carpenter
+Looking at some changes it might be doubtful. Perhaps we need a modified
+version of .clang-format for this driver. Dunno. It's up to Hans, and others
+are welcome to share their opinions.
+
+In particular I'm referring to the change of amount of TABs, like
+
+#define FOO		1234
+
+to
+
+#define FOO 1234 // if it's even a TAB there!
+
+-- 
+With Best Regards,
+Andy Shevchenko
 
 
