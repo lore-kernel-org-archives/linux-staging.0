@@ -1,74 +1,83 @@
-Received: from mail-oo1-f53.google.com (mail-oo1-f53.google.com [209.85.161.53])
+Received: from mail-oi1-f181.google.com (mail-oi1-f181.google.com [209.85.167.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D8A321ABC8
-	for <linux-staging@lists.linux.dev>; Fri, 27 Jun 2025 19:39:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D2E3194C96
+	for <linux-staging@lists.linux.dev>; Fri, 27 Jun 2025 19:45:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751053169; cv=none; b=iRFE2iA0qCpgQvaciQynkQytmPXSjlmOVHkmk/RaDyHoWEtD2ly7t969bM72pLeNyIWyaRr6iVSOZeY1Qy1NvM53Y+CKzW1Xqh3oHsjng+trXrxgX36Ey9SVnwLk16nTmeU//6QbEHJfx/THYP4w+X2LUIe4zfJG7kny2p7bZuU=
+	t=1751053540; cv=none; b=mAHM8FWkMFkgQXIPgNisBaiOhqXyV3PEISgUxF2CeyD19XaqcypLZ1Kia/K8b/+JFDizkGiBgB3oQp99rsH40wmEnOldTRolhPkm6DSWHziObTkSW6cwucVrI2kBYo6gzek46cU2tjaTAKUEMRcLqA5S+K8M14z6AagYFwXLLa0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751053169; c=relaxed/simple;
-	bh=fN0Kh2ojk27IcYub4BPpYkImoeGoFKi6u7WjndHiWkA=;
+	s=arc-20240116; t=1751053540; c=relaxed/simple;
+	bh=QRn5xwx7XJKMLTne51Uubho7iQaz55Fgt6gUQUEa2PM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XegQJwB98OBqcs+WbY0X6AuaS/WdTtCN/cr5UEvUHrKdbgorjJcsDr0WgGqaLbhrU/xcJKrOBTKBlQcW3V226pc53oEj60g7PLNMlEb5qxxrlLQaYvkriHoY3ofYMEfbEuWq/DYyzvtyKeAzsl4M838Rg9xBt8nHjIXRWnWy4Kk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=ofg/fL0M; arc=none smtp.client-ip=209.85.161.53
+	 Content-Type:Content-Disposition:In-Reply-To; b=FTATuEU9PHDRaRvZ9+I42s1Xj/m+1fgy+KJSi8O1i6/VX80jfDy2KG/gFQBqMTwNRTtobR0J9bDOukVt6yRWQq/I85TuXKA1ZKXTV/Y0YXtnE3YgoFMZS108MKKPNn5enI8MSTuXw1c1NS6SO43n4qOkH8AJ/dplquu/h/YJQrY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=OWMr217k; arc=none smtp.client-ip=209.85.167.181
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ofg/fL0M"
-Received: by mail-oo1-f53.google.com with SMTP id 006d021491bc7-60ef850d5fbso775298eaf.1
-        for <linux-staging@lists.linux.dev>; Fri, 27 Jun 2025 12:39:27 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="OWMr217k"
+Received: by mail-oi1-f181.google.com with SMTP id 5614622812f47-40791b696a2so826083b6e.2
+        for <linux-staging@lists.linux.dev>; Fri, 27 Jun 2025 12:45:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1751053166; x=1751657966; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1751053538; x=1751658338; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=suI3XDptlOt7dxiujjvASAv8boeYPAFXuAl8v0Kjmgk=;
-        b=ofg/fL0M12FN49YYwcmZSaV3iLAvlrzj22b7KKFPGf4cayXRwAfmEv78hxmU634IuO
-         1e+8hp8Kk3k98bPnny1T0pYxVSnKXmLNjUsVQX64Azsa2Zpid5imCpWJMvuX1iloBlj9
-         CahkgUXVZugcqu76KvRqMVwbvwZvh8IfgXHXj/t8rbT1i/3mtkpqQ3M6B/Frz4DY6PzL
-         Sfliop0NYLVgAwiU57cKzIdZPEYkx2eeQ2vTFr5B52U1VKJRxjuKjStOktCj6FFY2jd8
-         wOE9N4X9snufJtsAP5QZX867TSltT8wrilsyuwOn9u12kJ1MmXdNywMX3Czwlg/haS2O
-         sHzg==
+        bh=1PHv1VdGkBxI9IqaoEgDKrlQycIIKb+rA84lWs0tETQ=;
+        b=OWMr217kzZblOX4jrSreZxLsm8FCZmybg4JcOStowQAhUBJ4IYD88QxZVb8R5QG2P5
+         5cf22pbfYp+hs9NphANomtPxZUATERK2YPtPR/lOmiWth7IelbJPIj6qWqxkSusyCa9n
+         tNgIuBEkfu9KMYSXTx2pWKSvbSU/cpm5YNcYbi82Awk/4xRj7KtHjIAnNnjfs/VfmdcA
+         AcMsG+eXP638IefN8jgZ8cEjy2p1+8vb9TiLvIiSBP6BHUa4sshls0NlKaqnHdKkdalg
+         VgeyJ0gWuqI2niYHEvY9MF0gOhE38iBOQwgFAlf6ZMepnrT0qL9/gmviWCdqXSQIRx12
+         EwMQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751053166; x=1751657966;
+        d=1e100.net; s=20230601; t=1751053538; x=1751658338;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=suI3XDptlOt7dxiujjvASAv8boeYPAFXuAl8v0Kjmgk=;
-        b=Uk3m/iSrTXm2i1JkTW1twOJj5uWSoRzuxH5bGxZK6d+8hKBDkjMB/cKocoBWCohXNO
-         vltwNKPpIQvM6TI1IuRtR7KDtQ5BpTNEEml9n1VqKX2YHXC8Si4kN/vIkMMWxxQ8rZSf
-         sbdVeBsroxnQi6LRITS/pKyyppwIETGXKgK8qI2Tw1mE7BoNaJo6E+4GW2LJqjuM+8jK
-         k0eCP78Kz4xJuwOHXLIAAPz7FxjBYSe6IZ5KGfwHeRDvB88mvFOmLa7BkaE8QhSxStFs
-         q8IXF/KQKBiUIrL0IjvbUSQzIucuRsDIPD3tcB06WpOFqmVUXPEU0mNNTxyYWJdg38TR
-         przA==
-X-Forwarded-Encrypted: i=1; AJvYcCXl3vvtnSecAfjLEjSwjSo/OthSe0JORJVzCP0H0XLURzP49mz8bUuQpMTwWArXJjLvnM2tfg4UC4S97B0f@lists.linux.dev
-X-Gm-Message-State: AOJu0YwgqeWNELfC+975KFDsb9xZGAjHf6mEs98w7wNB5ejHFG82cars
-	5fJF2wG1Y+m45kzEAE0PzofgMG0fmLgNEhqfyLdA7sMuJEvwcNHsBmBVbVCHJ1emLM4=
-X-Gm-Gg: ASbGncuwRd+Dl/B/Msz3wtfhS2WxyMRYcrbOp62qKubXJRMwCA8VrxPqo7zceM6UCZI
-	8wRnsfQHyjqmEr3u7q2eQLUz7sA7VdXTiZfMMrnTj6s/0ncs4uUqPuaBZ3n6kndzr1dydx2190S
-	OmbHmn3ELt7rnMkgZL3C5+k0cd0wx8QuLmae9i/k+jGxH6/Qu7MqlHM+zQWRhKbooCnHqhIUyn5
-	Kg0xajgoXRuk1Q26x5RPVoKXBDxnrLzDgWeGuWZtvpVD707CpVJnm90CHc0EpYC+BbDpZ42ZXZA
-	UXEiKXO86h3B9W00mYl5UPWqulP5P60teasUt91TDUMhLVn9EvuNTVWemIQZSIaVBnw5Vw==
-X-Google-Smtp-Source: AGHT+IF/5yUXUJ1U/LstDtUP6YpGrdRLcEbQGFsZNqCq52p8mdReUkf+RyutYfRViO/wlG1V6E9mTw==
-X-Received: by 2002:a4a:e90b:0:b0:611:80f3:eb44 with SMTP id 006d021491bc7-611b90eca36mr3218582eaf.3.1751053166574;
-        Fri, 27 Jun 2025 12:39:26 -0700 (PDT)
+        bh=1PHv1VdGkBxI9IqaoEgDKrlQycIIKb+rA84lWs0tETQ=;
+        b=oFo+MiwbzKWGmbqJfxBBEVdMf8sWKl4w9MSWkPT7InBGOUXPaIHNYjdc1eiy6dpTb7
+         N6weFc2mS0zM7OBx8BXOLlzyO0cEkL6ngi2zD7BDECBKZ+RCLS4mUciBF/7f3EJhPXgm
+         ruhGWoH9eC06foftqelD2bYngugF91r7UjqbI4xWMDdzkWlJx+wCSjKZyIPBBE7EeK9H
+         ZD+emTiyb65vVtHqdrrp8COx80LjawxC/cAtA8K+LwwW5LoUDTNGMcvV1Ly+PZfK9UAB
+         pZYRuif55pDD8d98eKUHwTgtw/ayf4KaKyxd/DswXhBumN2eyafCSTSDkz4QBKei59aw
+         lrqg==
+X-Forwarded-Encrypted: i=1; AJvYcCXtM8n6JqDElNHXi6ovBJqa+V+2O5RHMSlIDTe40bGvHh91zBghzbon9r2cfT94KNyiKwjktu+SJKzkULso@lists.linux.dev
+X-Gm-Message-State: AOJu0YzwayAaz1uUZA3no/T11BVPetnPednJlm/sElr7xZxhayMtR5ss
+	HySyOcXhjSdzSNw9V5/GX+nnZZpuLkdNw8E7u2BjrHBArh+/n9QYBPAbB4mCiaAU8rxVGHyehFm
+	yqWv7ZmU=
+X-Gm-Gg: ASbGncskVKnCHk00gJcnAFYKPAa5W4JH2C3EovpXoSwqN04pVzljJz1ZZdzHnE0L1Mn
+	ioYC7tCET8Xu9FgK5vu7GgAjitFdZTcveyd94yPSWpZEJRxQgRlThVa5awe6KvZS2rafGVMEC6a
+	Zb/PvdbeMz4PYRzfvVeFgylqmJ4b3HQ4vJApXobsJ4XVDDDATEDI7kuK0w2F1ob4XwZvGndk4Kn
+	jGEtHu6zVuETn/bR+PR0b+a+Z9hmhrPxHMrh29psujbGk4/N8JxaQDaBFxQLlWumR/GmYtcPQQx
+	vAZqTA6KHdRCftRnJ38pXlPDLMYsjHo/VZyDOdB8x6rwbVkH+Abosy87rJQ56dwXxN0l/Q==
+X-Google-Smtp-Source: AGHT+IGOy33iVFqaz2J3YryBDyHCiRkin6krtfcbh3XEjok/Bk15oJetu93it8PEur2H1TKYtZrRnQ==
+X-Received: by 2002:a05:6808:300f:b0:404:c561:6225 with SMTP id 5614622812f47-40b33e4a4ecmr3388652b6e.30.1751053538324;
+        Fri, 27 Jun 2025 12:45:38 -0700 (PDT)
 Received: from localhost ([2603:8080:b800:f700:f3a4:7b11:3bf4:5d7b])
-        by smtp.gmail.com with ESMTPSA id 006d021491bc7-611b848d77fsm311990eaf.14.2025.06.27.12.39.24
+        by smtp.gmail.com with ESMTPSA id 006d021491bc7-611b848b3f6sm312396eaf.9.2025.06.27.12.45.37
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 27 Jun 2025 12:39:26 -0700 (PDT)
-Date: Fri, 27 Jun 2025 22:39:23 +0300
+        Fri, 27 Jun 2025 12:45:37 -0700 (PDT)
+Date: Fri, 27 Jun 2025 22:45:36 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Abdalla Al-Dalleh <abdalla.ahmad@sesame.org.jo>
-Cc: Dave Penkler <dpenkler@gmail.com>,
+To: Abdalla Ahmad <Abdalla.Ahmad@sesame.org.jo>
+Cc: Andy Shevchenko <andriy.shevchenko@intel.com>,
+	Lars-Peter Clausen <lars@metafoo.de>,
+	Michael Hennerich <Michael.Hennerich@analog.com>,
+	Jonathan Cameron <jic23@kernel.org>,
+	David Lechner <dlechner@baylibre.com>,
+	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
+	Andy Shevchenko <andy@kernel.org>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Michael Rubin <matchstick@neverthere.org>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Paul =?iso-8859-1?Q?Retourn=E9?= <paul.retourne@orange.fr>,
-	"open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>,
-	open list <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] drivers: staging: gpib: minor fixes for some C macros.
-Message-ID: <4edd380e-6314-4fa0-8051-ac55144e061d@suswa.mountain>
-References: <20250627193613.552193-1-abdalla.ahmad@sesame.org.jo>
+	Gabriel Shahrouzi <gshahrouzi@gmail.com>,
+	open list <linux-kernel@vger.kernel.org>,
+	"open list:IIO SUBSYSTEM AND DRIVERS" <linux-iio@vger.kernel.org>,
+	"open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>
+Subject: Re: [PATCH] drivers: staging: iio: frequency: ad9832.h: Fixed TODO
+ note.
+Message-ID: <36b382da-dc1c-4aeb-add0-a96082ea71d9@suswa.mountain>
+References: <20250627175114.548076-1-abdalla.ahmad@sesame.org.jo>
+ <aF7kW6xRxRb0VN5H@smile.fi.intel.com>
+ <AM9PR08MB6114261F0CA8CD89EC443E59A145A@AM9PR08MB6114.eurprd08.prod.outlook.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -77,37 +86,22 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250627193613.552193-1-abdalla.ahmad@sesame.org.jo>
+In-Reply-To: <AM9PR08MB6114261F0CA8CD89EC443E59A145A@AM9PR08MB6114.eurprd08.prod.outlook.com>
 
-On Fri, Jun 27, 2025 at 10:36:13PM +0300, Abdalla Al-Dalleh wrote:
-> Ran checkpatch.pl on drivers/staging/gpib/, found the following:
->  - gpio: gpib_bitbang.c: wrapped LINVAL macro w/ parenthesis.
->  - hp_82341: hp_82341.c: Used comments instead of "#if 0"
->  - tnt4882: tnt4882_gpib.c: Used comments instead of "#if 0"
+On Fri, Jun 27, 2025 at 07:29:36PM +0000, Abdalla Ahmad wrote:
+> Hi
 > 
-> Signed-off-by: Abdalla Al-Dalleh <abdalla.ahmad@sesame.org.jo>
-> ---
->  drivers/staging/gpib/gpio/gpib_bitbang.c    |  4 ++--
->  drivers/staging/gpib/hp_82341/hp_82341.c    | 14 +++++++-------
->  drivers/staging/gpib/tnt4882/tnt4882_gpib.c | 14 +++++++-------
->  3 files changed, 16 insertions(+), 16 deletions(-)
+> > Nothing of the above explains "why you are doing this".
 > 
-> diff --git a/drivers/staging/gpib/gpio/gpib_bitbang.c b/drivers/staging/gpib/gpio/gpib_bitbang.c
-> index 625fef24a0bf..45cf4571c58d 100644
-> --- a/drivers/staging/gpib/gpio/gpib_bitbang.c
-> +++ b/drivers/staging/gpib/gpio/gpib_bitbang.c
-> @@ -47,10 +47,10 @@
->  			dev_dbg(board->gpib_dev, frm, ## __VA_ARGS__); } \
->  	while (0)
->  
-> -#define LINVAL gpiod_get_value(DAV),		\
-> +#define LINVAL (gpiod_get_value(DAV),		\
->  		gpiod_get_value(NRFD),		\
->  		gpiod_get_value(NDAC),		\
-> -		gpiod_get_value(SRQ)
-> +		gpiod_get_value(SRQ))
+> The original TODO in drivers/staging/iio/frequency/ad9832.h was:
+> > TODO: struct ad9832_platform_data needs to go into include/linux/iio
+> So I guess if it really needs to go into include/linux/iio and ad9832 being a DAC, then include/linux/iio/dac/ is the appropriate place. Otherwise, the TODO note needs to be removed.
+>
 
-This breaks the build.
+Please, change your email client to line wrap at 74 characters.
+
+The way you quoted Andy's email it weird as well.  You'll want to
+configure your email client to do it properly.
 
 regards,
 dan carpenter
