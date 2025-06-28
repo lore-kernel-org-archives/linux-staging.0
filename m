@@ -1,89 +1,382 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 760EC1401C;
-	Sat, 28 Jun 2025 15:12:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DADBC1A704B
+	for <linux-staging@lists.linux.dev>; Sat, 28 Jun 2025 19:24:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751123574; cv=none; b=qUoOxqDw2/JSTt15aoeLjGAWCDv3V73hmowF/Z5NBHzuynoUAf8v7cfo/aLyxud+EzNhELa12V8twO7lTGH5BziWhWL45+5nSS4/SuHi/NIprBNWr2qcJVpazGiXAYGdZS49uzWv1vOB/OEzd/ARxJeOGkVoCxt8JG0b7CaSwxQ=
+	t=1751138646; cv=none; b=OUSEUTAp61rNMnkbM8LM/l5NdZ7AL//oH/LLE/bkc6nU9Dqm+lF1Txj6rOH4kTFvBYhHOYtmo8VNy+vUY1VnSYgf5FIR7z4sxRNiB3dZpWoAKLVtQeLCHv2ectBd0ux4X5+FsAGNz84mz03enz1gLomECeEvEjHKNNHnCaFfFiQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751123574; c=relaxed/simple;
-	bh=Su952xlJaznvagA5q2zxyjauve2XziNZOY/9Q9A5gTU=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Sq6M3zHj6dRnMORtI/Ko4jPdwyxGr/B2fP8m1mTx5ndDj9dd5XYlOrh7p+78JJ7WxqEQfYlCVsd2J42KFIUGE3HvAUfDpPU9teTzCjFkO6gzyk2R1MWeWlu/83kEQ3oTKtj+faFNW2H+kvuL2VkiTCfXx7FQJNZEltksQEK0OLc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tgbi/VKD; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1751138646; c=relaxed/simple;
+	bh=Ro0FlmLrWinNnokFyHfNdQ0lgtJM4CNJNMoTbYRCWyU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=MkbW54LrT3ROwsUTTQrxQn/DbFcAeFThFzhIvLSpdGy04lvxwv0orEJX9yJHV29ZNrUf5kKiNPNcPL6csdNEm34dqpIFBFvL7DssRT4rlgJqpnG6ogTbzADc/Fyx/S5IJsA6ZEqfI+0cNSddjPy5UtU6pa5NpQKtdcNcSzRtZiw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JA8kP2O+; arc=none smtp.client-ip=192.198.163.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tgbi/VKD"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C602FC4CEEA;
-	Sat, 28 Jun 2025 15:12:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1751123573;
-	bh=Su952xlJaznvagA5q2zxyjauve2XziNZOY/9Q9A5gTU=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=tgbi/VKDLUu4+JS4AHGA78v8TvfFjPHRMPitEKdY+yjNx7jKFUy4o5Wcazijzz2j0
-	 5NVj0Fqy5k+lAeTJTsyG4kIOEKyvnKAoRTPe60JoKt8dfEGu4ABveZ78g4eYvasSIe
-	 vbZIldflS67MZigHpHt/zUl4um5pQG73CYQgkAJaOD99MtRLFIjGWHS4Bnq0sDbJeo
-	 90a5teY16rWrSnjm3miXNcTcB9Xo+FImqM2f3JjC4Za6HEow0gBnujsELJZ7PFEQ1i
-	 zN9cLcWuxgmvF1AzBl9CLZCdE61kYLe602OAa1dev3NmlO9MfLVjiRgYskbgQdq3CY
-	 lx6FSidkmnBSw==
-Date: Sat, 28 Jun 2025 16:12:41 +0100
-From: Jonathan Cameron <jic23@kernel.org>
-To: David Lechner <dlechner@baylibre.com>
-Cc: Abdalla Ahmad <Abdalla.Ahmad@sesame.org.jo>, Andy Shevchenko
- <andriy.shevchenko@intel.com>, Lars-Peter Clausen <lars@metafoo.de>,
- Michael Hennerich <Michael.Hennerich@analog.com>, Nuno =?UTF-8?B?U8Oh?=
- <nuno.sa@analog.com>, Andy Shevchenko <andy@kernel.org>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, Gabriel Shahrouzi <gshahrouzi@gmail.com>,
- open list <linux-kernel@vger.kernel.org>, "open list:IIO SUBSYSTEM AND
- DRIVERS" <linux-iio@vger.kernel.org>, "open list:STAGING SUBSYSTEM"
- <linux-staging@lists.linux.dev>
-Subject: Re: [PATCH] drivers: staging: iio: frequency: ad9832.h: Fixed TODO
- note.
-Message-ID: <20250628161241.10ad84ef@jic23-huawei>
-In-Reply-To: <364b2846-e299-4be5-aadf-0668445c715d@baylibre.com>
-References: <20250627175114.548076-1-abdalla.ahmad@sesame.org.jo>
-	<aF7kW6xRxRb0VN5H@smile.fi.intel.com>
-	<AM9PR08MB6114261F0CA8CD89EC443E59A145A@AM9PR08MB6114.eurprd08.prod.outlook.com>
-	<364b2846-e299-4be5-aadf-0668445c715d@baylibre.com>
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.48; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JA8kP2O+"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1751138645; x=1782674645;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=Ro0FlmLrWinNnokFyHfNdQ0lgtJM4CNJNMoTbYRCWyU=;
+  b=JA8kP2O+zLivpfqdTYgZwqhRxTVoOYK2kPrbiySQr2m6D++dfEtjJbtI
+   v44ieVRAuul4m3t3X54gj0un3CzUvJwNOw6dqRC787nBtwQqW75os3+XQ
+   P7+gV2k7mhmp6paMeMNuYOZlzE1tIdfVv3fKZdXexA0ZHsHd3N+AGmXxX
+   B6EuAmIImtno5y/HL/110hYR/XTiS4Ty3aV4j7AA4T21H3sSdU0VknVkY
+   9AlJZx8vgpJ4v367ifhQnP74adZKDUq6M1FCgx9dcndhGLw+1Ak7SYbMW
+   QGiQVP/r2i2G0wpi3vKz6oqMO+eT20/oTb8b4xoXe+cUQGM2q4oEuRDZd
+   A==;
+X-CSE-ConnectionGUID: 7Wj371EKSpigfReguYm7vg==
+X-CSE-MsgGUID: XqHeVKTIRBiWbwC4HM8L2Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11478"; a="64769806"
+X-IronPort-AV: E=Sophos;i="6.16,273,1744095600"; 
+   d="scan'208";a="64769806"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jun 2025 12:24:04 -0700
+X-CSE-ConnectionGUID: jXePO38bT0CHGprmdchIyw==
+X-CSE-MsgGUID: JQD1j8FrRjiEqykhhgA7CQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,273,1744095600"; 
+   d="scan'208";a="153792123"
+Received: from kniemiec-mobl1.ger.corp.intel.com (HELO svinhufvud.fi.intel.com) ([10.245.245.225])
+  by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jun 2025 12:24:00 -0700
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	by svinhufvud.fi.intel.com (Postfix) with ESMTP id 9683E4435F;
+	Sat, 28 Jun 2025 22:23:57 +0300 (EEST)
+Message-ID: <66fd382c-6c6f-4d45-ad36-6308cea3e47f@linux.intel.com>
+Date: Sat, 28 Jun 2025 21:10:47 +0300
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 15/19] media: i2c: add Maxim GMSL2/3 serializer and
+ deserializer drivers
+Content-Language: en-US
+To: Cosmin Tanislav <demonsingur@gmail.com>
+Cc: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
+ =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+ Julien Massot <julien.massot@collabora.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Linus Walleij <linus.walleij@linaro.org>,
+ "open list:MAXIM GMSL2 SERIALIZERS AND DESERIALIZERS"
+ <linux-media@vger.kernel.org>,
+ "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>, open list <linux-kernel@vger.kernel.org>,
+ "moderated list:ARM64 PORT (AARCH64 ARCHITECTURE)"
+ <linux-arm-kernel@lists.infradead.org>,
+ "open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>,
+ open "list:GPIO"
+ "SUBSYSTEM:Keyword:(devm_)?gpio_(request|free|direction|get|set)"
+ <linux-gpio@vger.kernel.org>, Cosmin Tanislav <cosmin.tanislav@analog.com>
+References: <20250618095858.2145209-1-demonsingur@gmail.com>
+ <20250618095858.2145209-16-demonsingur@gmail.com>
+ <aFpnU8EHGt14UMHC@kekkonen.localdomain>
+ <42fdeee8-a23e-4499-83c6-77d50418cff2@gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+In-Reply-To: <42fdeee8-a23e-4499-83c6-77d50418cff2@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Fri, 27 Jun 2025 15:32:43 -0500
-David Lechner <dlechner@baylibre.com> wrote:
+Hi Cosmin,
 
-> On 6/27/25 2:29 PM, Abdalla Ahmad wrote:
-> > Hi  
+On 6/24/25 18:34, Cosmin Tanislav wrote:
+> On 6/24/25 11:52 AM, Sakari Ailus wrote:
+>  >> +struct max9296a_chip_info {
+>  >> +    unsigned int max_register;
+>  >> +    unsigned int versions;
+>  >> +    unsigned int modes;
+>  >> +    unsigned int num_pipes;
+>  >> +    unsigned int pipe_hw_ids[MAX9296A_PIPES_NUM];
+>  >> +    unsigned int phy_hw_ids[MAX9296A_PHYS_NUM];
+>  >> +    unsigned int num_phys;
+>  >> +    unsigned int num_links;
+>  >> +    struct max_phys_configs phys_configs;
+>  >> +    bool use_atr;
+>  >> +    bool has_per_link_reset;
+>  >> +    bool phy0_lanes_0_1_on_second_phy;
+>  >> +    bool polarity_on_physical_lanes;
+>  >> +    bool needs_single_link_version;
+>  >> +    bool needs_unique_stream_id;
+>  >> +    bool supports_cphy;
+>  >> +    bool supports_phy_log;
+>  >> +    bool adjust_rlms;
+>  >> +    bool fix_tx_ids;
+>  >> +
+>  >> +    enum max_gmsl_mode tpg_mode;
+>  >> +
+>  >> +    int (*set_pipe_stream_id)(struct max_des *des, struct 
+> max_des_pipe *pipe,
+>  >> +                  unsigned int stream_id);
+>  >> +    int (*set_pipe_enable)(struct max_des *des, struct max_des_pipe 
+> *pipe,
+>  >> +                   bool enable);
+>  >> +    int (*set_pipe_link)(struct max_des *des, struct max_des_pipe 
+> *pipe,
+>  >> +                 struct max_des_link *link);
+>  >> +    int (*set_pipe_tunnel_phy)(struct max_des *des, struct 
+> max_des_pipe *pipe,
+>  >> +                   struct max_des_phy *phy);
+>  >> +    int (*set_pipe_tunnel_enable)(struct max_des *des, struct 
+> max_des_pipe *pipe,
+>  >> +                      bool enable);
+>  >
+>  > Given this many callbacks, having an operations struct for them seems
+>  > appropriate.
+>  >
+> 
+> Are you proposing adding another struct just to put these ops inside?
+> 
+> What I could do is use the existing struct max_des_ops and assign the
+> appropriate members in it, and then put whatever is left that's not
+> needed for the common framework in struct max9296a_chip_info, and add
+> a pointer to the struct max_des_ops instance it struct
+> max9296a_chip_info.
+
+Ah, I missed this wasn't specific to a device. Please ignore the comment.
+
+...
+
+>  >> +static int max9296a_log_phy_status(struct max_des *des,
+>  >> +                   struct max_des_phy *phy, const char *name)
+>  >> +{
+>  >> +    struct max9296a_priv *priv = des_to_priv(des);
+>  >> +    unsigned int index = phy->index;
+>  >> +    unsigned int val;
+>  >> +    int ret;
+>  >> +
+>  >> +    if (!priv->info->supports_phy_log)
+>  >> +        return 0;
+>  >> +
+>  >> +    ret = regmap_read(priv->regmap, MAX9296A_MIPI_PHY18, &val);
+>  >> +    if (ret)
+>  >> +        return ret;
+>  >> +
+>  >> +    pr_info("%s: \tcsi2_pkt_cnt: %lu\n", name,
+>  >> +        field_get(MAX9296A_MIPI_PHY18_CSI2_TX_PKT_CNT(index), val));
+>  >> +
+>  >> +    ret = regmap_read(priv->regmap, MAX9296A_MIPI_PHY20(index), &val);
+>  >> +    if (ret)
+>  >> +        return ret;
+>  >> +
+>  >> +    pr_info("%s: \tphy_pkt_cnt: %u\n", name, val);
+>  >
+>  > dev_info()?
+>  >
+> 
+> I initially used pr_info() with the subdev name passed from core
+> framwork to be consistent with the rest of the prints which use
+> v4l2_info().
+> 
+> I'll see how using dev_info() looks like, it would be nice if it would
+> match the v4l2_info() format, even though v4l2-ctl --log-status doesn't
+> care since all it looks for is `START STATUS`.
+
+Ok. Up to you.
+
+...
+
+>  >> +static int max9296a_init_phy(struct max_des *des, struct 
+> max_des_phy *phy)
+>  >> +{
+>  >> +    struct max9296a_priv *priv = des_to_priv(des);
+>  >> +    bool is_cphy = phy->bus_type == V4L2_MBUS_CSI2_CPHY;
+>  >> +    unsigned int num_data_lanes = phy->mipi.num_data_lanes;
+>  >> +    unsigned int dpll_freq = phy->link_frequency * 2;
+>  >> +    unsigned int num_hw_data_lanes;
+>  >> +    unsigned int hw_index = max9296a_phy_id(priv, phy);
+>  >> +    unsigned int index = phy->index;
+>  >> +    unsigned int used_data_lanes = 0;
+>  >> +    unsigned int val;
+>  >
+>  > For register values, please use a type that explicitly specifies the 
+> number
+>  > of bits, e.g. u32.
+>  >
+> 
+> I used the type of the argument received by the regmap methods.
+
+Ack.
+
 > 
 > ...
 > 
-> >   
-> >> Ideally this should be dropped from any global header file. If one needs
-> >> something like this, it can be propagated via software nodes.> Well, Including it in include/linux/iio/ made sense to me, would you please elaborate?  
-> >   
+>  >> +static int max9296a_reset_link(struct max9296a_priv *priv, unsigned 
+> int index)
+>  >> +{
+>  >> +    unsigned int reg, mask;
+>  >> +
+>  >> +    if (index == 0) {
+>  >> +        reg = MAX9296A_CTRL0;
+>  >> +        mask = MAX9296A_CTRL0_RESET_ONESHOT;
+>  >> +    } else {
+>  >> +        reg = MAX9296A_CTRL2;
+>  >> +        mask = MAX9296A_CTRL2_RESET_ONESHOT_B;
+>  >> +    }
+>  >
+>  > I might use an array for this.
+>  >
+>  > Is index guaranteed to be 0 or 1?
+>  >
 > 
-> No one uses platform data anymore. We use linux/properties.h instead to give
-> named properties for this sort of thing. So the right thing to do would be to
-> create a proper devicetree binding for the chip to define the properties and
-> fix up the driver so that we can move it out of staging. Then the header file
-> would just be deleted as part of these changes when we stop using platform
-> data.
-> 
-> If you don't care about the driver and just want the TODO to go away, then
-> we can just delete the comment since it is no longer applicable. It doesn't
-> make sense to move the header out of staging without moving the rest of the
-> driver out of staging at the same time.
-> 
+> Should be, yes, but using an array for just two indices would cause a
+> bit of indirection when looking at the code. If it was more I would have
+> used one.
 
-I think larger, better change would be to also delete the platform data definition
-and the use of it in the driver.  I don't think the content needs to come
-from firmware or board files.
+Ack.
 
-Jonathan
+> 
+>  >> +
+>  >> +    return regmap_set_bits(priv->regmap, reg, mask);
+>  >> +}
+>  >> +
+>  >> +static int max9296a_init_link_rlms(struct max9296a_priv *priv,
+>  >> +                   struct max_des_link *link)
+>  >> +{
+>  >> +    unsigned int index = link->index;
+>  >> +    int ret;
+>  >> +
+>  >> +    /*
+>  >> +     * These settings are described as required on datasheet page 53
+>  >> +     * for MAX96714.
+>  >> +     */
+>  >> +
+>  >> +    ret = regmap_write(priv->regmap, MAX9296A_RLMS3E(index), 0xfd);
+>  >> +    if (ret)
+>  >> +        return ret;
+>  >
+>  > You could also do:
+>  >
+>  >     if (!ret)
+>  >         ret = ...;
+>  >
+>  > And return ret at the end. It's one line less per call. Up to you.
+>  >
+>  >> +
+>  >> +    ret = regmap_write(priv->regmap, MAX9296A_RLMS3F(index), 0x3d);
+>  >
+>  > What are these magic numbers? Could we have human-readable names for 
+> them?
+>  >
+>  > The register names seem pretty opaque, too. Some explanation here would
+>  > seem reasonable.
+>  >
+> 
+> They're extracted from the datasheet of MAX96714, the values are
+> undocumented, but they're necessary to "optimize performance" of the
+> GMSL link. I'll add a comment stating the datasheet page and section.
+
+Ack, sounds good.
+
+> 
+> ...
+> 
+>  >> diff --git a/drivers/media/i2c/maxim-serdes/max_des.c b/drivers/ 
+> media/i2c/maxim-serdes/max_des.c
+>  >> new file mode 100644
+>  >> index 000000000000..6a45f42fe033
+>  >> --- /dev/null
+>  >> +++ b/drivers/media/i2c/maxim-serdes/max_des.c
+>  >> @@ -0,0 +1,3108 @@
+>  >> +// SPDX-License-Identifier: GPL-2.0
+>  >> +/*
+>  >> + * Maxim GMSL2 Deserializer Driver
+>  >
+>  > How about naming the file maxim-deserialiser? I'd use e.g. "maxim_des"
+>  > prefix for the functions. Just "max" is quite generic.
+>  >
+> 
+> max_des seems explicit enough. The max naming comes from the common
+> prefix in the name of the chips, eg: MAX96724, MAX96717, not from Maxim.
+
+Yeah, the prefix Maxim uses for their chips is a bit unfortunate in 
+naming context. I guess it's ok as it's not part of the UAPI.
+
+> 
+> If I intended it to come from maxim, I would have obviously used maxim_,
+> since that's what vendor-prefixes.yaml specifies.
+> 
+> Although they were initially made by Maxim, Analog Devices bought Maxim,
+> so using maxim_ would make as much sense as using adi_.
+> 
+> Switching to maxim_ would only lengthen the name of the functions,
+> types, symbols, macros, etc, and at least register/masks macros are
+> already extremely long.
+> 
+> ...
+> 
+>  >> +static int max_des_parse_src_dt_endpoint(struct max_des_priv *priv,
+>  >> +                     struct max_des_phy *phy,
+>  >> +                     struct fwnode_handle *fwnode)
+>  >> +{
+>  >> +    struct max_des *des = priv->des;
+>  >> +    u32 pad = max_des_phy_to_pad(des, phy);
+>  >> +    struct v4l2_fwnode_endpoint v4l2_ep = { .bus_type = 
+> V4L2_MBUS_UNKNOWN };
+>  >> +    struct v4l2_mbus_config_mipi_csi2 *mipi = &v4l2_ep.bus.mipi_csi2;
+>  >> +    enum v4l2_mbus_type bus_type;
+>  >> +    struct fwnode_handle *ep;
+>  >> +    u64 link_frequency;
+>  >> +    unsigned int i;
+>  >> +    int ret;
+>  >> +
+>  >> +    ep = fwnode_graph_get_endpoint_by_id(fwnode, pad, 0, 0);
+>  >> +    if (!ep)
+>  >> +        return 0;
+>  >> +
+>  >> +    ret = v4l2_fwnode_endpoint_alloc_parse(ep, &v4l2_ep);
+>  >> +    fwnode_handle_put(ep);
+>  >> +    if (ret) {
+>  >> +        dev_err(priv->dev, "Could not parse endpoint on port %u\n", 
+> pad);
+>  >> +        return ret;
+>  >> +    }
+>  >> +
+>  >> +    bus_type = v4l2_ep.bus_type;
+>  >> +    if (bus_type != V4L2_MBUS_CSI2_DPHY &&
+>  >> +        bus_type != V4L2_MBUS_CSI2_CPHY) {
+>  >> +        v4l2_fwnode_endpoint_free(&v4l2_ep);
+>  >> +        dev_err(priv->dev, "Unsupported bus-type %u on port %u\n",
+>  >> +            pad, bus_type);
+>  >> +        return -EINVAL;
+>  >> +    }
+>  >> +
+>  >> +    ret = 0;
+>  >
+>  > ret is already 0 here.
+>  >
+>  >> +    if (v4l2_ep.nr_of_link_frequencies == 0)
+>  >> +        link_frequency = MAX_DES_LINK_FREQUENCY_DEFAULT;
+>  >
+>  > Isn't this required in DT?
+>  >
+> 
+> Required from a schema standpoint or a code standpoint?
+> 
+> Code:
+> 
+> rval = fwnode_property_count_u64(fwnode, "link-frequencies");
+> if (rval > 0) {
+> }
+> 
+> No rval <= 0 case.
+> 
+> And I don't think I made it required in the schema.
+
+I'd do that. The device requires this configuration to operate anyway. 
+Also the concern of EMI may be lesser in environments serdes devices are 
+used but I wouldn't say it's not there.
+
+-- 
+Regards,
+
+Sakari Ailus
 
