@@ -1,382 +1,106 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DADBC1A704B
-	for <linux-staging@lists.linux.dev>; Sat, 28 Jun 2025 19:24:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDAFE1D5147;
+	Sat, 28 Jun 2025 19:52:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751138646; cv=none; b=OUSEUTAp61rNMnkbM8LM/l5NdZ7AL//oH/LLE/bkc6nU9Dqm+lF1Txj6rOH4kTFvBYhHOYtmo8VNy+vUY1VnSYgf5FIR7z4sxRNiB3dZpWoAKLVtQeLCHv2ectBd0ux4X5+FsAGNz84mz03enz1gLomECeEvEjHKNNHnCaFfFiQ=
+	t=1751140362; cv=none; b=h7muwqiWR1cA+t18vyRYqEoNMhftMfXusLum6xKTROd4SvW1kj/PruvWAmV8RU37YLLRCxtRcPLLLTRFXcV7jFIK8Y+G4kz2SDSzOpaRbgNi1W28vjlbVQUlTksLk0cbnoGOkSNAPLZbm+mi43Fuo92/Un4hTHqvzdOFseALCcU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751138646; c=relaxed/simple;
-	bh=Ro0FlmLrWinNnokFyHfNdQ0lgtJM4CNJNMoTbYRCWyU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=MkbW54LrT3ROwsUTTQrxQn/DbFcAeFThFzhIvLSpdGy04lvxwv0orEJX9yJHV29ZNrUf5kKiNPNcPL6csdNEm34dqpIFBFvL7DssRT4rlgJqpnG6ogTbzADc/Fyx/S5IJsA6ZEqfI+0cNSddjPy5UtU6pa5NpQKtdcNcSzRtZiw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JA8kP2O+; arc=none smtp.client-ip=192.198.163.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1751140362; c=relaxed/simple;
+	bh=p5dDr/QmlkdAT4RE6psUgiwKICVbxaJ/GCmdG5WoHkg=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=hYtoDYRiUXeH77QkcKOEM+0QVL1iMdaW+/LuLdqYMIx1DlUsU9rhruAT7gb6mnXxLfawfPldm7aYK8tVIqusTrjrQf514+8STLMOSEgqLIWtWgxdWy8ZtgdHQU8YHwuy7SCIBYwBKIb8kD/g0jxIIsRXvcoNRNvLLBewEnD0M10=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=D7jfsZUE; arc=none smtp.client-ip=209.85.218.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JA8kP2O+"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1751138645; x=1782674645;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=Ro0FlmLrWinNnokFyHfNdQ0lgtJM4CNJNMoTbYRCWyU=;
-  b=JA8kP2O+zLivpfqdTYgZwqhRxTVoOYK2kPrbiySQr2m6D++dfEtjJbtI
-   v44ieVRAuul4m3t3X54gj0un3CzUvJwNOw6dqRC787nBtwQqW75os3+XQ
-   P7+gV2k7mhmp6paMeMNuYOZlzE1tIdfVv3fKZdXexA0ZHsHd3N+AGmXxX
-   B6EuAmIImtno5y/HL/110hYR/XTiS4Ty3aV4j7AA4T21H3sSdU0VknVkY
-   9AlJZx8vgpJ4v367ifhQnP74adZKDUq6M1FCgx9dcndhGLw+1Ak7SYbMW
-   QGiQVP/r2i2G0wpi3vKz6oqMO+eT20/oTb8b4xoXe+cUQGM2q4oEuRDZd
-   A==;
-X-CSE-ConnectionGUID: 7Wj371EKSpigfReguYm7vg==
-X-CSE-MsgGUID: XqHeVKTIRBiWbwC4HM8L2Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11478"; a="64769806"
-X-IronPort-AV: E=Sophos;i="6.16,273,1744095600"; 
-   d="scan'208";a="64769806"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jun 2025 12:24:04 -0700
-X-CSE-ConnectionGUID: jXePO38bT0CHGprmdchIyw==
-X-CSE-MsgGUID: JQD1j8FrRjiEqykhhgA7CQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,273,1744095600"; 
-   d="scan'208";a="153792123"
-Received: from kniemiec-mobl1.ger.corp.intel.com (HELO svinhufvud.fi.intel.com) ([10.245.245.225])
-  by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jun 2025 12:24:00 -0700
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by svinhufvud.fi.intel.com (Postfix) with ESMTP id 9683E4435F;
-	Sat, 28 Jun 2025 22:23:57 +0300 (EEST)
-Message-ID: <66fd382c-6c6f-4d45-ad36-6308cea3e47f@linux.intel.com>
-Date: Sat, 28 Jun 2025 21:10:47 +0300
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="D7jfsZUE"
+Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-ae0de0c03e9so437125866b.2;
+        Sat, 28 Jun 2025 12:52:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1751140359; x=1751745159; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=p5dDr/QmlkdAT4RE6psUgiwKICVbxaJ/GCmdG5WoHkg=;
+        b=D7jfsZUEpE86oS1JKtPbAfZ4M6oASMa9Sk0egzJPW1dYDL20rCW7EU9rGu+NTc0n3+
+         +tRte8X655s8ve7GnHzt4wmg666Ph9GvqnzfiTfxzW432pPfMqlBXn9BPD3pHGG5WIR9
+         zoFGA2/ACbMxEbqphgu8D2ds09ojzImSZ2PCfDeKYsrxj/aZIDdqtdtq+LPv05SwIxls
+         st4S6U2PL9BR9EWXTJsnzSJrYZUO8aTz2Hi97bSkPMiFuFCi2Ee8wgj0fv57pto5pxAR
+         q+uGdSMM1m588wCa9hOAhBJJjpc+/0AWQDlzNPg4NQS9rOWbWBmopRek+qBWCwbHPOKK
+         JHSQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1751140359; x=1751745159;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=p5dDr/QmlkdAT4RE6psUgiwKICVbxaJ/GCmdG5WoHkg=;
+        b=ccaJNqm0ywNGZw/16QJz67n0+iGHfoHMsShYiesvRYZfgp4NH1ih16XIvnsxQzooVT
+         yPS2x0IPAuNIIzFZAFp6HNbeyYVy8AyFZPQzWRzHnJrCXyoProem6afeC7Ol4Lqwpl90
+         iqwE4yzEHwsybnFLMjkxcSH3XfI7QPF74c1r/nhVFxXYHJ6Pu/YSxxy+5grF+h9Z+SWM
+         I23+qHOexNJgiW/mzerVDGkyddCWXopEqrOeU5X4nGm9bEqUu9+rQsGRIRNqmMVislAQ
+         E3PnUA4CgkJDqZfkXxrPAuL59JjAzMoIHtGkuV8ia9V1ZQOanvms9t2DCnWXsmQA01Dv
+         cvFQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWQtEGFjJp0KYMxwX3cZUhdvmVcQTPH/5z3uh7NtpLcyzxJBUy9JpGQJ9Bg+vSytZPr+fMgbpYAf01eslvBO4YmD163uQ==@lists.linux.dev, AJvYcCXlg9EKId/Mmxe2WE1+BX6cp5kY8Hg4T0ZhUhec4rVfaDhLhi4ZPe6kLUJi8hvhmtWG3+fNJBPHPJq0cobKdQ==@lists.linux.dev
+X-Gm-Message-State: AOJu0YzUf3WSOwqKSWFTsxQkcGsAscQ65lfrTq6UaYL3pAbR1abTzuKK
+	PG8mqZ1qwxcACQ4nf17WNcl0Z43frKtgG0CuxE7gbx9fgpySSA+zQLXNHGePb5ApzlNljjVNJSb
+	SzHb42yetJBxUIZyQlpTkWH0EHi95vbM=
+X-Gm-Gg: ASbGncsTm9nN9SSVnCORPNDnYCxRPTw8sYoHKE/LdvgNkWJhKn5H7s446T9Td5gUNaG
+	9xDJq2Q2H+yMFXoidUoq5ULsARoHytvYEjFge1OJnJklxVIOY87M0oQDf/8O0Q1KjoWULfuwk4d
+	/5nm+IPCz7domTbv/yqUpx/Hm9YSNFoNoxLw1m10ZzBiY=
+X-Google-Smtp-Source: AGHT+IFBHBg3vA0AFVg02J52ULkzSBs1nSVBKO1AVzpVaER5V/vml4hMtzUii6kiTf6eFhi6SMgNg7P5g/X4e+kpJ/4=
+X-Received: by 2002:a17:906:d554:b0:ae0:4820:2474 with SMTP id
+ a640c23a62f3a-ae35015c079mr767127866b.43.1751140358759; Sat, 28 Jun 2025
+ 12:52:38 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 15/19] media: i2c: add Maxim GMSL2/3 serializer and
- deserializer drivers
-Content-Language: en-US
-To: Cosmin Tanislav <demonsingur@gmail.com>
-Cc: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
- =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
- Julien Massot <julien.massot@collabora.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Linus Walleij <linus.walleij@linaro.org>,
- "open list:MAXIM GMSL2 SERIALIZERS AND DESERIALIZERS"
- <linux-media@vger.kernel.org>,
- "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>, open list <linux-kernel@vger.kernel.org>,
- "moderated list:ARM64 PORT (AARCH64 ARCHITECTURE)"
- <linux-arm-kernel@lists.infradead.org>,
- "open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>,
- open "list:GPIO"
- "SUBSYSTEM:Keyword:(devm_)?gpio_(request|free|direction|get|set)"
- <linux-gpio@vger.kernel.org>, Cosmin Tanislav <cosmin.tanislav@analog.com>
-References: <20250618095858.2145209-1-demonsingur@gmail.com>
- <20250618095858.2145209-16-demonsingur@gmail.com>
- <aFpnU8EHGt14UMHC@kekkonen.localdomain>
- <42fdeee8-a23e-4499-83c6-77d50418cff2@gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-In-Reply-To: <42fdeee8-a23e-4499-83c6-77d50418cff2@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+References: <20250628052536.43737-1-abdelrahmanfekry375@gmail.com>
+In-Reply-To: <20250628052536.43737-1-abdelrahmanfekry375@gmail.com>
+From: Andy Shevchenko <andy.shevchenko@gmail.com>
+Date: Sat, 28 Jun 2025 22:52:02 +0300
+X-Gm-Features: Ac12FXwisHFwiusykwimkGfvNJfdF3Mavaq2pBz6g46Qc34NpDDwkbGORGvQ7S8
+Message-ID: <CAHp75Vcy3dHRu8Wb2KZ=xK7adz=-P-iuRTeR8vOWzHzZL9uFeg@mail.gmail.com>
+Subject: Re: [PATCH] staging: media: atomisp: Fix premature setting of
+ HMM_BO_DEVICE_INITED flag
+To: Abdelrahman Fekry <abdelrahmanfekry375@gmail.com>
+Cc: andy@kernel.org, hdegoede@redhat.com, mchehab@kernel.org, 
+	sakari.ailus@linux.intel.com, gregkh@linuxfoundation.org, 
+	linux-kernel-mentees@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	linux-media@vger.kernel.org, linux-staging@lists.linux.dev, 
+	skhan@linuxfoundation.com, dan.carpenter@linaro.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Cosmin,
+On Sat, Jun 28, 2025 at 8:26=E2=80=AFAM Abdelrahman Fekry
+<abdelrahmanfekry375@gmail.com> wrote:
+>
+> The HMM_BO_DEVICE_INITED flag was being set in hmm_bo_device_init()
+> before key initialization steps like kmem_cache_create(),
+> kmem_cache_alloc(), and __bo_init().
+>
+> This means that if any of these steps fail, the flag remains set,
+> misleading other parts of the driver (e.g. hmm_bo_alloc())
+> into thinking the device is initialized. This could lead
+> to undefined behavior or invalid memory use.
 
-On 6/24/25 18:34, Cosmin Tanislav wrote:
-> On 6/24/25 11:52 AM, Sakari Ailus wrote:
->  >> +struct max9296a_chip_info {
->  >> +    unsigned int max_register;
->  >> +    unsigned int versions;
->  >> +    unsigned int modes;
->  >> +    unsigned int num_pipes;
->  >> +    unsigned int pipe_hw_ids[MAX9296A_PIPES_NUM];
->  >> +    unsigned int phy_hw_ids[MAX9296A_PHYS_NUM];
->  >> +    unsigned int num_phys;
->  >> +    unsigned int num_links;
->  >> +    struct max_phys_configs phys_configs;
->  >> +    bool use_atr;
->  >> +    bool has_per_link_reset;
->  >> +    bool phy0_lanes_0_1_on_second_phy;
->  >> +    bool polarity_on_physical_lanes;
->  >> +    bool needs_single_link_version;
->  >> +    bool needs_unique_stream_id;
->  >> +    bool supports_cphy;
->  >> +    bool supports_phy_log;
->  >> +    bool adjust_rlms;
->  >> +    bool fix_tx_ids;
->  >> +
->  >> +    enum max_gmsl_mode tpg_mode;
->  >> +
->  >> +    int (*set_pipe_stream_id)(struct max_des *des, struct 
-> max_des_pipe *pipe,
->  >> +                  unsigned int stream_id);
->  >> +    int (*set_pipe_enable)(struct max_des *des, struct max_des_pipe 
-> *pipe,
->  >> +                   bool enable);
->  >> +    int (*set_pipe_link)(struct max_des *des, struct max_des_pipe 
-> *pipe,
->  >> +                 struct max_des_link *link);
->  >> +    int (*set_pipe_tunnel_phy)(struct max_des *des, struct 
-> max_des_pipe *pipe,
->  >> +                   struct max_des_phy *phy);
->  >> +    int (*set_pipe_tunnel_enable)(struct max_des *des, struct 
-> max_des_pipe *pipe,
->  >> +                      bool enable);
->  >
->  > Given this many callbacks, having an operations struct for them seems
->  > appropriate.
->  >
-> 
-> Are you proposing adding another struct just to put these ops inside?
-> 
-> What I could do is use the existing struct max_des_ops and assign the
-> appropriate members in it, and then put whatever is left that's not
-> needed for the common framework in struct max9296a_chip_info, and add
-> a pointer to the struct max_des_ops instance it struct
-> max9296a_chip_info.
+Nice. Can you make some fault injection (temporary by modifying the
+code to always fail, for example) and actually prove this in practice?
+If so, the few (important) lines from the given Oops would be nice to
+have here.
 
-Ah, I missed this wasn't specific to a device. Please ignore the comment.
+> Additionally, since __bo_init() is called from inside
+> hmm_bo_device_init() after the flag was already set, its internal
+> check for HMM_BO_DEVICE_INITED is redundant.
+>
+> - Move the flag assignment to the end after all allocations succeed.
+> - Remove redundant check of the flag inside __bo_init()
 
-...
 
->  >> +static int max9296a_log_phy_status(struct max_des *des,
->  >> +                   struct max_des_phy *phy, const char *name)
->  >> +{
->  >> +    struct max9296a_priv *priv = des_to_priv(des);
->  >> +    unsigned int index = phy->index;
->  >> +    unsigned int val;
->  >> +    int ret;
->  >> +
->  >> +    if (!priv->info->supports_phy_log)
->  >> +        return 0;
->  >> +
->  >> +    ret = regmap_read(priv->regmap, MAX9296A_MIPI_PHY18, &val);
->  >> +    if (ret)
->  >> +        return ret;
->  >> +
->  >> +    pr_info("%s: \tcsi2_pkt_cnt: %lu\n", name,
->  >> +        field_get(MAX9296A_MIPI_PHY18_CSI2_TX_PKT_CNT(index), val));
->  >> +
->  >> +    ret = regmap_read(priv->regmap, MAX9296A_MIPI_PHY20(index), &val);
->  >> +    if (ret)
->  >> +        return ret;
->  >> +
->  >> +    pr_info("%s: \tphy_pkt_cnt: %u\n", name, val);
->  >
->  > dev_info()?
->  >
-> 
-> I initially used pr_info() with the subdev name passed from core
-> framwork to be consistent with the rest of the prints which use
-> v4l2_info().
-> 
-> I'll see how using dev_info() looks like, it would be nice if it would
-> match the v4l2_info() format, even though v4l2-ctl --log-status doesn't
-> care since all it looks for is `START STATUS`.
-
-Ok. Up to you.
-
-...
-
->  >> +static int max9296a_init_phy(struct max_des *des, struct 
-> max_des_phy *phy)
->  >> +{
->  >> +    struct max9296a_priv *priv = des_to_priv(des);
->  >> +    bool is_cphy = phy->bus_type == V4L2_MBUS_CSI2_CPHY;
->  >> +    unsigned int num_data_lanes = phy->mipi.num_data_lanes;
->  >> +    unsigned int dpll_freq = phy->link_frequency * 2;
->  >> +    unsigned int num_hw_data_lanes;
->  >> +    unsigned int hw_index = max9296a_phy_id(priv, phy);
->  >> +    unsigned int index = phy->index;
->  >> +    unsigned int used_data_lanes = 0;
->  >> +    unsigned int val;
->  >
->  > For register values, please use a type that explicitly specifies the 
-> number
->  > of bits, e.g. u32.
->  >
-> 
-> I used the type of the argument received by the regmap methods.
-
-Ack.
-
-> 
-> ...
-> 
->  >> +static int max9296a_reset_link(struct max9296a_priv *priv, unsigned 
-> int index)
->  >> +{
->  >> +    unsigned int reg, mask;
->  >> +
->  >> +    if (index == 0) {
->  >> +        reg = MAX9296A_CTRL0;
->  >> +        mask = MAX9296A_CTRL0_RESET_ONESHOT;
->  >> +    } else {
->  >> +        reg = MAX9296A_CTRL2;
->  >> +        mask = MAX9296A_CTRL2_RESET_ONESHOT_B;
->  >> +    }
->  >
->  > I might use an array for this.
->  >
->  > Is index guaranteed to be 0 or 1?
->  >
-> 
-> Should be, yes, but using an array for just two indices would cause a
-> bit of indirection when looking at the code. If it was more I would have
-> used one.
-
-Ack.
-
-> 
->  >> +
->  >> +    return regmap_set_bits(priv->regmap, reg, mask);
->  >> +}
->  >> +
->  >> +static int max9296a_init_link_rlms(struct max9296a_priv *priv,
->  >> +                   struct max_des_link *link)
->  >> +{
->  >> +    unsigned int index = link->index;
->  >> +    int ret;
->  >> +
->  >> +    /*
->  >> +     * These settings are described as required on datasheet page 53
->  >> +     * for MAX96714.
->  >> +     */
->  >> +
->  >> +    ret = regmap_write(priv->regmap, MAX9296A_RLMS3E(index), 0xfd);
->  >> +    if (ret)
->  >> +        return ret;
->  >
->  > You could also do:
->  >
->  >     if (!ret)
->  >         ret = ...;
->  >
->  > And return ret at the end. It's one line less per call. Up to you.
->  >
->  >> +
->  >> +    ret = regmap_write(priv->regmap, MAX9296A_RLMS3F(index), 0x3d);
->  >
->  > What are these magic numbers? Could we have human-readable names for 
-> them?
->  >
->  > The register names seem pretty opaque, too. Some explanation here would
->  > seem reasonable.
->  >
-> 
-> They're extracted from the datasheet of MAX96714, the values are
-> undocumented, but they're necessary to "optimize performance" of the
-> GMSL link. I'll add a comment stating the datasheet page and section.
-
-Ack, sounds good.
-
-> 
-> ...
-> 
->  >> diff --git a/drivers/media/i2c/maxim-serdes/max_des.c b/drivers/ 
-> media/i2c/maxim-serdes/max_des.c
->  >> new file mode 100644
->  >> index 000000000000..6a45f42fe033
->  >> --- /dev/null
->  >> +++ b/drivers/media/i2c/maxim-serdes/max_des.c
->  >> @@ -0,0 +1,3108 @@
->  >> +// SPDX-License-Identifier: GPL-2.0
->  >> +/*
->  >> + * Maxim GMSL2 Deserializer Driver
->  >
->  > How about naming the file maxim-deserialiser? I'd use e.g. "maxim_des"
->  > prefix for the functions. Just "max" is quite generic.
->  >
-> 
-> max_des seems explicit enough. The max naming comes from the common
-> prefix in the name of the chips, eg: MAX96724, MAX96717, not from Maxim.
-
-Yeah, the prefix Maxim uses for their chips is a bit unfortunate in 
-naming context. I guess it's ok as it's not part of the UAPI.
-
-> 
-> If I intended it to come from maxim, I would have obviously used maxim_,
-> since that's what vendor-prefixes.yaml specifies.
-> 
-> Although they were initially made by Maxim, Analog Devices bought Maxim,
-> so using maxim_ would make as much sense as using adi_.
-> 
-> Switching to maxim_ would only lengthen the name of the functions,
-> types, symbols, macros, etc, and at least register/masks macros are
-> already extremely long.
-> 
-> ...
-> 
->  >> +static int max_des_parse_src_dt_endpoint(struct max_des_priv *priv,
->  >> +                     struct max_des_phy *phy,
->  >> +                     struct fwnode_handle *fwnode)
->  >> +{
->  >> +    struct max_des *des = priv->des;
->  >> +    u32 pad = max_des_phy_to_pad(des, phy);
->  >> +    struct v4l2_fwnode_endpoint v4l2_ep = { .bus_type = 
-> V4L2_MBUS_UNKNOWN };
->  >> +    struct v4l2_mbus_config_mipi_csi2 *mipi = &v4l2_ep.bus.mipi_csi2;
->  >> +    enum v4l2_mbus_type bus_type;
->  >> +    struct fwnode_handle *ep;
->  >> +    u64 link_frequency;
->  >> +    unsigned int i;
->  >> +    int ret;
->  >> +
->  >> +    ep = fwnode_graph_get_endpoint_by_id(fwnode, pad, 0, 0);
->  >> +    if (!ep)
->  >> +        return 0;
->  >> +
->  >> +    ret = v4l2_fwnode_endpoint_alloc_parse(ep, &v4l2_ep);
->  >> +    fwnode_handle_put(ep);
->  >> +    if (ret) {
->  >> +        dev_err(priv->dev, "Could not parse endpoint on port %u\n", 
-> pad);
->  >> +        return ret;
->  >> +    }
->  >> +
->  >> +    bus_type = v4l2_ep.bus_type;
->  >> +    if (bus_type != V4L2_MBUS_CSI2_DPHY &&
->  >> +        bus_type != V4L2_MBUS_CSI2_CPHY) {
->  >> +        v4l2_fwnode_endpoint_free(&v4l2_ep);
->  >> +        dev_err(priv->dev, "Unsupported bus-type %u on port %u\n",
->  >> +            pad, bus_type);
->  >> +        return -EINVAL;
->  >> +    }
->  >> +
->  >> +    ret = 0;
->  >
->  > ret is already 0 here.
->  >
->  >> +    if (v4l2_ep.nr_of_link_frequencies == 0)
->  >> +        link_frequency = MAX_DES_LINK_FREQUENCY_DEFAULT;
->  >
->  > Isn't this required in DT?
->  >
-> 
-> Required from a schema standpoint or a code standpoint?
-> 
-> Code:
-> 
-> rval = fwnode_property_count_u64(fwnode, "link-frequencies");
-> if (rval > 0) {
-> }
-> 
-> No rval <= 0 case.
-> 
-> And I don't think I made it required in the schema.
-
-I'd do that. The device requires this configuration to operate anyway. 
-Also the concern of EMI may be lesser in environments serdes devices are 
-used but I wouldn't say it's not there.
-
--- 
-Regards,
-
-Sakari Ailus
-
+--=20
+With Best Regards,
+Andy Shevchenko
