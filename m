@@ -1,168 +1,94 @@
-Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09DD8221FBA
-	for <linux-staging@lists.linux.dev>; Sat, 28 Jun 2025 14:23:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25EFA17A30F;
+	Sat, 28 Jun 2025 15:10:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751120627; cv=none; b=BgY4R4brVfMdNNfdoaKz8XHMNXnc+m1leTENudZcvi6g4POI7JGLbinwPExcqc348A8iH04hWqkQrQx1ZVc2Qyzo8cAUFLJlMFAQxS+AxVdyE0odqabGMsIXqcTapW+tViI/mBFxtRTxpe8YZDmKf2rJkrutc2RC5HFuNuWq19Q=
+	t=1751123451; cv=none; b=HfP4OIng6zH/fFSpr8eysFCrq9RQCZeqHoCFXRxX36YS1zZKad5RuKm2+RPXPFlY9pR8ar2hWmxSYA4RGm4bRkZCiHNp4EtTmCSzRBEumiZmO3ESU27X24p8+pbM4qBld172WdrwyiCUjshF1VoJqT+lu3ihqI9Tx2T07L37eRI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751120627; c=relaxed/simple;
-	bh=y8vZHnIcnnizXNKPY2Mc8qBAg1LXMI8wsARCtaw3agw=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=gDaEJcb9axqSxaXaQpsBtvM4iEJyLm5Rt2KQsfeb5iCrHt+Pi7rrfx+beEuC5hB6n9HGRfgrsvCD4SStSWdOrl/ofamtdDEpLPpLMC/EeRM1ALX1uuf+c56jvINWekRYZxYeUH/JBLj5e0hQbsFas4iwxWCFpgmCbJtorWzNsf8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dtVrkozI; arc=none smtp.client-ip=209.85.218.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1751123451; c=relaxed/simple;
+	bh=eLsqj/fOVCPWf9o+Sbx0y/JVneX7UpFssHR5B8t2+mk=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=h4PIB0DJLYQqsvITZilnSBB5ZsFAPQehSRryQU5iTze2BEKzMISfqU7CJ5Ao09njRdWoFtc8BvWrMPo6T/SAM1FxBXDIl54z40aFcxHZRZQwD+W8LdzaM4rSPum5s/Bvzx3GjJsimFo1A0KkZyPvYMUaqXO/OOlg8UqcQikoaPg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AnYRt0vt; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dtVrkozI"
-Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-ae0dd62f2adso521946566b.2
-        for <linux-staging@lists.linux.dev>; Sat, 28 Jun 2025 07:23:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1751120624; x=1751725424; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=WYXNYp1TJi32LMgdotg59zB/0M2Rxxe9xf9QDl4Zu3o=;
-        b=dtVrkozIQQ3FDOBWB40k6U+9+j58kZs3VOC3fsYsAg93+N9VzKGx1KCbEy6cRjDc4F
-         1UKpIO62CKcfFqqhb+XJw6eSkq//V5pPsm6og2H448y2S/Lbt/iDu6EIxyxMMHe7xIe/
-         xdnuCQskObJ+jkfDHn+JqYnW38/pFPuWC1P/2xjm3rFqMLfX27MuALB88p9bOToySIQr
-         Fb0SOXPeTeAIM2raXFAE6Uenxs9C+3wOJl1y/qDrJOd5Zqp+N6qlsn10L6BT7IQ21obU
-         98viEg9W7BJAU+lf0NvFwSRyF0PVxlCWcNnItVIJby89ib2mG6xIhN94hlbVTht4KW1h
-         vcEg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751120624; x=1751725424;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=WYXNYp1TJi32LMgdotg59zB/0M2Rxxe9xf9QDl4Zu3o=;
-        b=MM11bHezszRArqo4gZZJm9bBEY7Sr7NHslB1b0kXNgZgG0BonpQPVfz7kA5ksXalAZ
-         waomNm5ZV/jx3ChYR5NWtQtYkeH5ia874pnJbhwznUqRpzmovnr5eGZIXM2to+I7Tn9d
-         pTLvE1wxrpfgOFSluHknDjciHLCNq72g22QYrz1MwHX6dWPB49+L1HB29DfqHRM5mNmT
-         qT/fWvq8c21SI5tripgb6Bo5RhNWL6zV4/DBP3Nu4RM2+en33R/u8W5atmqiUMILm2dn
-         G7LQ15Poe7UCABIVw2/m6ItENfTaG5QfJIaEdJwB9T54Q6Oh34jlJB80yre7yjjTeXue
-         meGg==
-X-Forwarded-Encrypted: i=1; AJvYcCXTzL9DJ6baclvp+aMx+9M7oy5fO9ajDxrBz9OD/o/a5wSmULoWhKT/FJUh/FV39zrFPXTnNdRRuOCdSEfV@lists.linux.dev
-X-Gm-Message-State: AOJu0YyCV+QtjEPSQPMXiIJ3zISDmaGby9TdAq1MJn6rn4kO2ixmagkQ
-	7RbdZg2ZXDpiGpQkfekiAbxL8im/Cp6IVx47IPENG2pMFYaWatYl4kyX
-X-Gm-Gg: ASbGncuRSjaxMH3KLKyoFMwqww+gi9rZf0fUqOGR6CN3haHUUBOEIknZotEe9CF7Ti5
-	rqM5qrXDn91A4NTru1H4z1FCTvbMVNjcmSINIJ4HZfDIAtOEm7NHeMwUAlX52iX4EE6MmTqs52q
-	zf/OrAZpdYW6qqGGQSLMPoh8/qVWOZbY7ErvcK5WsbH1gKIRsWNPcwkbshVUtokzZZeZwxxPUOq
-	XaokQFiVm3n09XXx1ZcouSBUWMrFlciyU3Zxc78bDXRbhp1zLM2fGNu6VlDiahOGQqPPP+dmkLy
-	eQMOgCrTjRS4oJYe7RrzsoPJ67M06MapwCIKPUwDI+ogPcQ/GsfiKnvhv6JxAtojr/CyzDjI+mP
-	DGPk7sPftNOQSlIYj8ECbPmst3TwOpEyFNFRk/fp4k5J5154=
-X-Google-Smtp-Source: AGHT+IFw9GhOGm58j/puukv7HldvclAFNdGzNOlslcFMYDa19bZwOEMSMxrh0dUNYYMNPJUL29yHaA==
-X-Received: by 2002:a17:907:9693:b0:ae0:d201:a333 with SMTP id a640c23a62f3a-ae3500dfae5mr696619366b.30.1751120623982;
-        Sat, 28 Jun 2025 07:23:43 -0700 (PDT)
-Received: from localhost.localdomain (ip5f5ab8df.dynamic.kabel-deutschland.de. [95.90.184.223])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ae353659fe9sm325333166b.53.2025.06.28.07.23.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 28 Jun 2025 07:23:43 -0700 (PDT)
-From: Michael Straube <straube.linux@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: hdegoede@redhat.com,
-	Larry.Finger@lwfinger.net,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Michael Straube <straube.linux@gmail.com>
-Subject: [PATCH] staging: rtl8723bs: remove empty functions
-Date: Sat, 28 Jun 2025 16:23:30 +0200
-Message-ID: <20250628142330.58045-1-straube.linux@gmail.com>
-X-Mailer: git-send-email 2.49.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AnYRt0vt"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6F3A2C4CEEA;
+	Sat, 28 Jun 2025 15:10:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1751123450;
+	bh=eLsqj/fOVCPWf9o+Sbx0y/JVneX7UpFssHR5B8t2+mk=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=AnYRt0vt/m4FcrDhVlA0Q/LiE1SRbWaroFZOG+8/hYqOz3W2ZYmgORlWpe3/SEf0r
+	 h4+hTatOTlDHF5/V9jJ06+I6zEbX+LDd34C/NoTQWqrN33VZSj+9P3oMtqyJ84SG1S
+	 S9no5GXCiO0YzvH0BIGhqrozZQHNwPqOKBK2Lpg7q2mXINGm2caWRHHCBor4YbI1lE
+	 2PxiSfzZWtpk/+A84ggF5MdskNITCpMX+UiwPju6ixUDUDWAPEc+7h2qc72A6dtFMU
+	 3KCAeT0PntBbvJEY3BlNaqy8YrDoVMCUalpkhx94UYBddqb1r7ltlAheZpBYDGRgX/
+	 0VWf2HQ1F9y6Q==
+Date: Sat, 28 Jun 2025 16:10:40 +0100
+From: Jonathan Cameron <jic23@kernel.org>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Abdalla Al-Dalleh <abdalla.ahmad@sesame.org.jo>, Lars-Peter Clausen
+ <lars@metafoo.de>, Michael Hennerich <Michael.Hennerich@analog.com>, David
+ Lechner <dlechner@baylibre.com>, Nuno =?UTF-8?B?U8Oh?=
+ <nuno.sa@analog.com>, Andy Shevchenko <andy@kernel.org>, Gabriel Shahrouzi
+ <gshahrouzi@gmail.com>, open list <linux-kernel@vger.kernel.org>, "open
+ list:IIO SUBSYSTEM AND DRIVERS" <linux-iio@vger.kernel.org>, "open
+ list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>
+Subject: Re: [PATCH] drivers: staging: iio: frequency: ad9832.h: Fixed TODO
+ note.
+Message-ID: <20250628161040.3d21e2c4@jic23-huawei>
+In-Reply-To: <2025062815-resolute-cornflake-48c4@gregkh>
+References: <20250627175114.548076-1-abdalla.ahmad@sesame.org.jo>
+	<2025062815-resolute-cornflake-48c4@gregkh>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.48; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-The functions rtw_hal_dm_deinit(), odm_CmnInfoInit_Debug(), and
-odm_BasicDbgMessage() are empty, hence we can remove them to get rid of
-some dead code.
+On Sat, 28 Jun 2025 07:08:46 +0100
+Greg Kroah-Hartman <gregkh@linuxfoundation.org> wrote:
 
-Signed-off-by: Michael Straube <straube.linux@gmail.com>
----
- drivers/staging/rtl8723bs/hal/hal_intf.c     |  4 ----
- drivers/staging/rtl8723bs/hal/odm.c          | 10 ----------
- drivers/staging/rtl8723bs/include/hal_intf.h |  1 -
- drivers/staging/rtl8723bs/os_dep/os_intfs.c  |  3 ---
- 4 files changed, 18 deletions(-)
+> On Fri, Jun 27, 2025 at 08:51:14PM +0300, Abdalla Al-Dalleh wrote:
+> > - drivers/staging/iio/frequency/ad9832.c: Changed .h file location
+> > - drivers/staging/iio/frequency/ad9832.h: Removed struct definition
+> > - include/linux/iio/dac/ad9832.h: Added header file according to the
+> >   TODO note.
+> > 
+> > Signed-off-by: Abdalla Al-Dalleh <abdalla.ahmad@sesame.org.jo>
+> > ---
+> >  drivers/staging/iio/frequency/ad9832.c |  3 +--
+> >  drivers/staging/iio/frequency/ad9832.h | 23 ------------------
+> >  include/linux/iio/dac/ad9832.h         | 33 ++++++++++++++++++++++++++  
+> 
+> Staging drivers need to be "self-contained" for now.
+> 
+> Why do you even need a .h file for a single .c file anyway?  Why not
+> just remove it?
+> 
 
-diff --git a/drivers/staging/rtl8723bs/hal/hal_intf.c b/drivers/staging/rtl8723bs/hal/hal_intf.c
-index 0db8f623b805..6fb1e81dde42 100644
---- a/drivers/staging/rtl8723bs/hal/hal_intf.c
-+++ b/drivers/staging/rtl8723bs/hal/hal_intf.c
-@@ -38,10 +38,6 @@ void rtw_hal_dm_init(struct adapter *padapter)
- 	rtl8723b_init_dm_priv(padapter);
- }
- 
--void rtw_hal_dm_deinit(struct adapter *padapter)
--{
--}
--
- static void rtw_hal_init_opmode(struct adapter *padapter)
- {
- 	enum ndis_802_11_network_infrastructure networkType = Ndis802_11InfrastructureMax;
-diff --git a/drivers/staging/rtl8723bs/hal/odm.c b/drivers/staging/rtl8723bs/hal/odm.c
-index 8d6131f0ad47..ba85efb30db2 100644
---- a/drivers/staging/rtl8723bs/hal/odm.c
-+++ b/drivers/staging/rtl8723bs/hal/odm.c
-@@ -315,14 +315,6 @@ static void odm_CommonInfoSelfUpdate(struct dm_odm_t *pDM_Odm)
- 		pDM_Odm->bOneEntryOnly = false;
- }
- 
--static void odm_CmnInfoInit_Debug(struct dm_odm_t *pDM_Odm)
--{
--}
--
--static void odm_BasicDbgMessage(struct dm_odm_t *pDM_Odm)
--{
--}
--
- /* 3 ============================================================ */
- /* 3 RATR MASK */
- /* 3 ============================================================ */
-@@ -735,7 +727,6 @@ void ODM_DMInit(struct dm_odm_t *pDM_Odm)
- {
- 
- 	odm_CommonInfoSelfInit(pDM_Odm);
--	odm_CmnInfoInit_Debug(pDM_Odm);
- 	odm_DIGInit(pDM_Odm);
- 	odm_NHMCounterStatisticsInit(pDM_Odm);
- 	odm_AdaptivityInit(pDM_Odm);
-@@ -761,7 +752,6 @@ void ODM_DMInit(struct dm_odm_t *pDM_Odm)
- void ODM_DMWatchdog(struct dm_odm_t *pDM_Odm)
- {
- 	odm_CommonInfoSelfUpdate(pDM_Odm);
--	odm_BasicDbgMessage(pDM_Odm);
- 	odm_FalseAlarmCounterStatistics(pDM_Odm);
- 	odm_NHMCounterStatistics(pDM_Odm);
- 
-diff --git a/drivers/staging/rtl8723bs/include/hal_intf.h b/drivers/staging/rtl8723bs/include/hal_intf.h
-index 85de862823c2..5dddafe035c2 100644
---- a/drivers/staging/rtl8723bs/include/hal_intf.h
-+++ b/drivers/staging/rtl8723bs/include/hal_intf.h
-@@ -200,7 +200,6 @@ void rtw_hal_def_value_init(struct adapter *padapter);
- void rtw_hal_free_data(struct adapter *padapter);
- 
- void rtw_hal_dm_init(struct adapter *padapter);
--void rtw_hal_dm_deinit(struct adapter *padapter);
- 
- uint rtw_hal_init(struct adapter *padapter);
- uint rtw_hal_deinit(struct adapter *padapter);
-diff --git a/drivers/staging/rtl8723bs/os_dep/os_intfs.c b/drivers/staging/rtl8723bs/os_dep/os_intfs.c
-index 3cbfc305ede3..d757209dec0c 100644
---- a/drivers/staging/rtl8723bs/os_dep/os_intfs.c
-+++ b/drivers/staging/rtl8723bs/os_dep/os_intfs.c
-@@ -709,9 +709,6 @@ void rtw_cancel_all_timer(struct adapter *padapter)
- 	rtw_clear_scan_deny(padapter);
- 
- 	timer_delete_sync(&padapter->recvpriv.signal_stat_timer);
--
--	/* cancel dm timer */
--	rtw_hal_dm_deinit(padapter);
- }
- 
- u8 rtw_free_drv_sw(struct adapter *padapter)
--- 
-2.49.0
+Better yet would be to switch away from platform data as that belongs
+to a long gone era.
+
+However in this case it's all a bit pointless as we don't normally support 'power
+up settings' of things like this. Power up state until someone opts in
+should be to output nothing at all. That should be same as before the driver
+loads if the device doesn't have non volatile storage to save a requested
+setup from a previous boot.
+
+The policy decision on what to output is a user space script problem, not
+something that we should provide from firmware.
+
+Jonathan
+
+
+> thanks,
+> 
+> greg k-h
 
