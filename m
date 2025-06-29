@@ -1,97 +1,112 @@
-Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
+Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B98D0227EB6
-	for <linux-staging@lists.linux.dev>; Sun, 29 Jun 2025 14:23:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAA671E51D
+	for <linux-staging@lists.linux.dev>; Sun, 29 Jun 2025 14:41:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751207004; cv=none; b=WZeuPMU/R1xwR2l21R5SGinuzAXp4l5s7dIn3Om0uaw2DuF1Pal3gfUU8aZfK1r59BKhAKkfp0UAsXmk9t357g0X2Z3PdaXDywEza+0reQz2nypCOnXWDrQJoPi1Skdh3Gv0xktNnQm22g03Vop+26dGt0e1AmMJ7OaqaE253F0=
+	t=1751208071; cv=none; b=TCPNdzLqqoAvNqPdSbCcK6YwwtD54aF27t+0DEHbtooLAIkV8G1REQoifq5vMd+LVYINE+CTfxhDyBsH5l7OnU7s0oCjzQKvxLNwFX80F0zLbEoBVzwjiD8lEpqQu516MXhfYru6Q8EiH4B+9P4HtNoE0PQDvDaS2T43OXvN4zk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751207004; c=relaxed/simple;
-	bh=nAzkLf6fByBaHr2zsZXR+WogUuCuVekqUNUPbP7vlYk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=BCEukwPVS6XFbAFB7yXa5TtXOulDVzVUmfbvkfEacCuWe94hR8YpzyinljjRKTMNb44CUR598r0e7RDnvWJfiavASEUKQoiyl6r56X6rRwvE7V1nhMYMuSqVI9idxWD6uuKEHIlwoS7oVc2rIKBnn7Ahv+Qg61lT6ISB1Yj1y1g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XmxWVEAg; arc=none smtp.client-ip=209.85.214.170
+	s=arc-20240116; t=1751208071; c=relaxed/simple;
+	bh=iCNtVUFqhKvE4SJOApR9iY9D8ji493pCEBANWLuTF8M=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=AZ15NjGTr9Wd2wPzfwA36JCZHA+ZPfqV24w94mpm62hFSpHdEGBO8xMldV/1Qndm0JC7/15ts8RaPG2dnGv2y5tqLrb6jqbQuN0Li/X4RAK9OggcSlFMPRXLkcLuxr9x24Th9PLKN+kDC5mh/Gyev2vP3jtgkfWuDjlkY/C6YIM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kv8qxT9F; arc=none smtp.client-ip=209.85.210.174
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XmxWVEAg"
-Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-23508d30142so13877195ad.0
-        for <linux-staging@lists.linux.dev>; Sun, 29 Jun 2025 07:23:22 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kv8qxT9F"
+Received: by mail-pf1-f174.google.com with SMTP id d2e1a72fcca58-7490702fc7cso2771259b3a.1
+        for <linux-staging@lists.linux.dev>; Sun, 29 Jun 2025 07:41:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1751207002; x=1751811802; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=4XmE3HNeFPwhvV3YapnRmO/5DkoCIHrdHE5yflvWYiA=;
-        b=XmxWVEAgDAlhsr0YihVQNTkRWc/tVDVXi+45u4MnjRqtWESH0eojekFKl9quYqTPKQ
-         uSfXBVs/C38e02rY4GTc+09oFZQy6tGNUjh3QhI5asMcLK/SXYvBz7E+Ec5u8uOvaX0y
-         qufYUSdxBzhE0QdKUneouho2bfipTcJcW+1Gco5o9ZQS21xYfKpzTBG9t9L+uTXFjLPS
-         F+CuidqhpxjdayQiHWyYSbZsClLAlI+K2baogZkCZS4X0if3iRKWh2fl86fViuQIuFTr
-         d8UT/3Nw3PHHQkGFsuTI6DT2Cj7f0CwKF53ozjfKzLY3TT4j+xnevFDGik6PR3VkIchx
-         KXtw==
+        d=gmail.com; s=20230601; t=1751208069; x=1751812869; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=ngH93iqwU56AyBIpW4Url2/UbBhraQmZe5IjknGkMe8=;
+        b=kv8qxT9FDCTSpWPqIuyHKBLNxMO11QwZ7Id21tyO/jS9ASqXPwfRMrzp6CsUYPv+e5
+         0iFfEXjRPXM6R9ZLyvZsJzgFp49djs9dFnE9D41pSBbSMQqvZ7x/2S1LzoeoIk8BwvnV
+         rE57LEhYSSSmHzFo22Xe2ihua8wF3DznNTyde9Bh7CiS/fClBBydgCzbZdTijRqyYsZD
+         OuA/cvTjaaPGQ1843JAWWvCznc4WdfwqNT24jNnmWzNrRgGEn2OHie1dUzJHlWDyX/7i
+         rPiyUD+nP9yltKRYDP9dmPVLD+JFMxvE9UHNERFHnWiZQ3L1VLAXbmkzOn0dcupGKMlO
+         ANrw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751207002; x=1751811802;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=4XmE3HNeFPwhvV3YapnRmO/5DkoCIHrdHE5yflvWYiA=;
-        b=Sciw56atRyg8S2Xk8aNH28vuA3BhP4bJf3a09ggmBH57yr8uYR0oUawAxeDJEdXaua
-         QjO0Ql94qZ4AJdj/OngDX9r3pP/aIda9E3buGxbiSYgcGXvS+lhVGGn3Fge4FfALrsCE
-         1zhRMKLcG++INu4YhyLd1vJbYItoWQgaFxa/R20/XqTRmKt3AHqx0G/SJEcdquO04RGr
-         KW+erCIuMurGhgvASx/xes7jUC+PwsYbH0KjrI1nV4Q+krHzszVEvcI4Jqvyzwr6OFRi
-         Pp9JfxgELIK/XdwK+CXBSYxWRBXWNnaMfm1g/mz9sKHXCb8UnTtsze4NN8x8j52FrqO5
-         xOjg==
-X-Forwarded-Encrypted: i=1; AJvYcCUWX3MIyRf8JDcm2jI0OhAIOqKuanYF04MeOUtvOZhpyLQbWB8r5r6/Sk9t/65UgpfKyxnh3tvfU0Da+ER5@lists.linux.dev
-X-Gm-Message-State: AOJu0YwUizO9zK6vVL7r3YQlS84UrWLVzdR/xuJLqQVAxxzl7BwnDBAJ
-	BdthnHjiJOisU6uxhzOCK+kvL8NrECHS/0iCri07YL8EVRFcbJ/XkHRa
-X-Gm-Gg: ASbGncujCgQBkCWVzz/JOycZA5Bl/b1xR3BMuBq//lACFWtwVIuMBeU6LxsZE/n9MO4
-	V6HH9srbF0Eibn7hBoKdxIOFw7NO+Jnq3ybmzE6yPkFqZFbCx7q/sGeyt7caSxQYMktWe3wNEJ/
-	+iVRtR6AEts0b1HfmMD93SstVEchgJR6m7UiumcH7gSse2s/pkGeQo39x8zIrE9XMmeAWXiAM8L
-	rVMPCkCHTOIw381OU/p8wwQovuk1yUwfvL0+ZyVFqoKuhZDpS2TPGK27JaR2bQM5l+pYA4ULglk
-	YDgjrQyl5sEkSR77UfExjhmmMfrPNKXLd3KurNwU9m3qeCWSJXElNwQ=
-X-Google-Smtp-Source: AGHT+IHXD8nXRq9dLp21pFDQyRXR7/wWUgH4S+2XEaLAGY7dzwkGVIgjA3e+5v3+0oNfgBvPx8YFhQ==
-X-Received: by 2002:a17:903:1aad:b0:234:ef42:5d5b with SMTP id d9443c01a7336-23ac3deb9a5mr167279295ad.16.1751207002043;
-        Sun, 29 Jun 2025 07:23:22 -0700 (PDT)
-Received: from essd ([49.37.221.186])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-23acb39bd67sm60442735ad.136.2025.06.29.07.23.16
+        d=1e100.net; s=20230601; t=1751208069; x=1751812869;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=ngH93iqwU56AyBIpW4Url2/UbBhraQmZe5IjknGkMe8=;
+        b=bPxd0B4cYsLmQEQzpgSiQuqCp/BDi47Db0MJD+ZuowCHFP5XnXbXYDIUkRunvPNKGe
+         IRGwsBfRcEaTW78B6GpUSxmZGYojvgnfGULnYXMIxZHmffYvibCz88spsXUSvMQb5ZCy
+         wlAfbQFutqzD5H0AfrjsfJoBgsdDsUMnVsqXU85lpVILSXBVaSZuA6B+BL+BBnLe5cS1
+         YXWxWJwBDpDa50hS5Em/D8l+xHRX1b27vrZwFgr+ml5nWFo/PDM0biz99l5Hv/E7PhGG
+         0G8VnIs2XtnhE3MeBZTOKpft8gTujM3hU1+SIa/Wr+A8w9bnJxBQ5hfSr+ZzoMwm/d0O
+         Mzsw==
+X-Forwarded-Encrypted: i=1; AJvYcCVwd6lPN/BKa/ywnbTJXA+hqTCg0WaScc9Wu046uYfmZGnMuhrCH8XVwEpcqYl1QFPz1JglR8M35CmFMHjG@lists.linux.dev
+X-Gm-Message-State: AOJu0YwuJvfjeITa6p7dtz3uymVopkrV27Jtj4kzERrCYoD1ULf6s5fy
+	lTIknBfHB1kOKFwWjVbGFEcX1JRKpqCmrx1HPno1MA6DaYPeJGGmTvAg
+X-Gm-Gg: ASbGncug5N8bzasNSDhedakm5tAtYl2g5MM1Tgg2/RT7lGHG7xL2TdgaggO4lvyc9vo
+	foHDvSsUCigH9jLd0XxW/3jwhZAZ5falEjb2FbDa8HXLLYNlnBStwosg+xJmq13olDtaZsbes/b
+	sxH3f9ijiqDlY7HFqlqLSoeJMDWp5rt09NqYzXot2TjiUPNawllM4dsMU5vKJadRwG5nw+Y1Mx+
+	4ch082Xb3afuAHnKhEuQSmFRDq61+/Y/wdQkVm2NYHdO7UcBkGtj6AsXVdFles/lHYDCUKWiqBy
+	A/FpyaaPqa38tOamMPMocoWyS6lUMyii/+QH3CW2m8krwW+qjv6Jl6Do+s8Sxi0M2VZIiPq87qw
+	ur/yQXZF17OYg
+X-Google-Smtp-Source: AGHT+IHtRc/795RNnE3dT1YxPcD9508ibGAtu/WX122P8XMCfUg4pdoaiikvlcOosNNP++JAPhMsug==
+X-Received: by 2002:a05:6a21:339c:b0:21f:becf:5f4d with SMTP id adf61e73a8af0-220a169c8edmr14074658637.20.1751208069031;
+        Sun, 29 Jun 2025 07:41:09 -0700 (PDT)
+Received: from localhost.localdomain ([49.37.221.186])
+        by smtp.googlemail.com with ESMTPSA id d2e1a72fcca58-74af55c7e89sm7039127b3a.109.2025.06.29.07.41.03
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 29 Jun 2025 07:23:21 -0700 (PDT)
-Date: Sun, 29 Jun 2025 19:53:12 +0530
+        Sun, 29 Jun 2025 07:41:08 -0700 (PDT)
 From: Abdun Nihaal <abdun.nihaal@gmail.com>
-To: Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc: andy@kernel.org, dan.carpenter@linaro.org, gregkh@linuxfoundation.org, 
-	lorenzo.stoakes@oracle.com, tzimmermann@suse.de, riyandhiman14@gmail.com, 
-	willy@infradead.org, notro@tronnes.org, thomas.petazzoni@free-electrons.com, 
-	dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, Andy Shevchenko <andriy.shevchenko@intel.com>
-Subject: Re: [PATCH v2 2/2] staging: fbtft: cleanup error handling in
- fbtft_framebuffer_alloc()
-Message-ID: <eemnoitjhvt3nkt6k66dl6p75zqvsdttalyncfg2dqs2bcbkgy@pvr5wgx3x5xz>
-References: <cover.1751086324.git.abdun.nihaal@gmail.com>
- <62320323049c72b6e3fda6fa7a55e080b29491e8.1751086324.git.abdun.nihaal@gmail.com>
- <CAHp75VeSYesZuJ-NEfEAvaRepEUtdLmxGrYmthD1YkSg-bsK_g@mail.gmail.com>
+To: andy@kernel.org
+Cc: Abdun Nihaal <abdun.nihaal@gmail.com>,
+	dan.carpenter@linaro.org,
+	gregkh@linuxfoundation.org,
+	lorenzo.stoakes@oracle.com,
+	tzimmermann@suse.de,
+	riyandhiman14@gmail.com,
+	willy@infradead.org,
+	notro@tronnes.org,
+	thomas.petazzoni@free-electrons.com,
+	dri-devel@lists.freedesktop.org,
+	linux-fbdev@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v3 0/2] staging: fbtft: cleanup fbtft_framebuffer_alloc()
+Date: Sun, 29 Jun 2025 20:10:09 +0530
+Message-ID: <cover.1751207100.git.abdun.nihaal@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAHp75VeSYesZuJ-NEfEAvaRepEUtdLmxGrYmthD1YkSg-bsK_g@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
 
-On Sat, Jun 28, 2025 at 10:58:20PM +0300, Andy Shevchenko wrote:
-> > +       struct fbtft_par *par = info->par;
-> > +
-> > +       if (par->txbuf.len > 0)
-> 
-> Do we really need this check? If txbuf.buf is kept NULL (please, check
-> this), the kfree() is NULL-aware.
+Fix a potential memory leak and cleanup error handling in
+fbtft_framebuffer_alloc().
 
-I assumed that the par->txbuf.buf may be uninitialized, but I checked it
-now and it uses kzalloc to allocate, so it must be NULL to begin with.
+v3:
+- Remove a redundant check before calling kfree
 
-I'll remove the check, and send a v3.
+v2:
+- Change the earlier patch to also handle the error code returned by
+  fb_deferred_io_init() and update Fixes tag to point to the commit that
+  introduced the memory allocation (which leads to leak).
+- Add second patch to make the error handling order symmetric to
+  fbtft_framebuffer_release() and also remove managed allocation for
+  txbuf as suggested by Andy and Dan.
 
-Regards,
-Nihaal
+Link to v2: https://lore.kernel.org/linux-staging/cover.1751086324.git.abdun.nihaal@gmail.com/T/#md111471ddd69e6ddb0a6b98e565551ffbd791a34
+Link to v1: https://lore.kernel.org/all/20250626172412.18355-1-abdun.nihaal@gmail.com/
+
+Abdun Nihaal (2):
+  staging: fbtft: fix potential memory leak in fbtft_framebuffer_alloc()
+  staging: fbtft: cleanup error handling in fbtft_framebuffer_alloc()
+
+ drivers/staging/fbtft/fbtft-core.c | 38 +++++++++++++++++-------------
+ 1 file changed, 21 insertions(+), 17 deletions(-)
+
+-- 
+2.43.0
+
