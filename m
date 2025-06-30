@@ -1,202 +1,195 @@
-Received: from leonov.paulk.fr (leonov.paulk.fr [185.233.101.22])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8243921FF3C;
-	Mon, 30 Jun 2025 20:33:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.233.101.22
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C5D5280338
+	for <linux-staging@lists.linux.dev>; Mon, 30 Jun 2025 21:02:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751315609; cv=none; b=Fq8y60CEBL5oETjd+41Dmaw30gJLcDYwyfLvBuUHBhqFrQ58bKyirRmjsKXVQW/cGrKFq8um3OnWQ+aUCQO6a1v5B4gT39MYimg1dLQmscAPcQXRA3y5BWZRI1ymSllHhVqvx2go1JcL2H1UlMU+rohBsO4Wo2tVxwjMO7O4j+E=
+	t=1751317344; cv=none; b=t7rhvRf0yOftlL1ru4xty1QSi8zfJmyAQF+6fpITLauUw1emwiOe4ekmOOyGwEJxn4QmCuChWiF1ZJYFyOVIpK7U9vvrXOnv11QfaBRcEIqFVkC5eaRN3Cw2gUzpitrbOT6jormHQH39Zb3A6Xt22c0k/UuzhKINznTn+oqDFUU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751315609; c=relaxed/simple;
-	bh=2OB/+AlHmcEMy7GsDaHtTK9UQ7XQLPRS7E6ZJ0ln+P0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PtCLiz7ZrkMDCL0FbVeHzq+ZqNpB89XUDs6p+jdfk0lc7zcsyV8Da6JzbG5eZ2HMOYN//TifOIFb2gfD/ii/X2PL0N0RtuYeO2z+AlopB9eijLnPolmgHSLJTmlgnnkqV5UB7L7TzAnAQVvDe6ebp4pt5gut7Bk/kA5RU4SUvT4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sys-base.io; spf=pass smtp.mailfrom=sys-base.io; arc=none smtp.client-ip=185.233.101.22
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sys-base.io
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sys-base.io
-Received: from laika.paulk.fr (12.234.24.109.rev.sfr.net [109.24.234.12])
-	by leonov.paulk.fr (Postfix) with ESMTPS id 39B711F0004F;
-	Mon, 30 Jun 2025 20:33:11 +0000 (UTC)
-Received: by laika.paulk.fr (Postfix, from userid 65534)
-	id A5710AC9125; Mon, 30 Jun 2025 20:33:09 +0000 (UTC)
-X-Spam-Level: 
-Received: from collins (unknown [192.168.1.1])
-	by laika.paulk.fr (Postfix) with ESMTPSA id 205E8AC9119;
-	Mon, 30 Jun 2025 20:33:08 +0000 (UTC)
-Date: Mon, 30 Jun 2025 22:33:05 +0200
-From: Paul Kocialkowski <paulk@sys-base.io>
-To: Nicolas Dufresne <nicolas@ndufresne.ca>
-Cc: linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+	s=arc-20240116; t=1751317344; c=relaxed/simple;
+	bh=fN5AyUDSjivmScTDQEptYySYmoeck1+soU1qFzXnDF8=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=l/MG3MotBuIfyo7qfhHpTgtCq/rreVIXMyjv3L7jFt/jX4YaknkkPCp6jah1MBlTrBGJRPn89vvZLJGf8hlnJztHxK4oPryzHCkk3lHbryvDY3zpjWBab+P6cu7rlqtkUU/TEFaJNzQgnmj1pHtbj/AKEL/wIUWOMdHJXrNZ+8Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=babs2OjB; arc=none smtp.client-ip=209.85.221.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="babs2OjB"
+Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-3a6e8b1fa37so2284011f8f.2
+        for <linux-staging@lists.linux.dev>; Mon, 30 Jun 2025 14:02:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1751317341; x=1751922141; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Ws/TSm+ZZeehlVxXUB88Ms5rsDGr5e9O7TxAj23rWQw=;
+        b=babs2OjBSvRVvvVYJwEpYOUHNAvfoWNZ0+8YYBRxaeXJOND2WLypwK5TvzNcmCxhuL
+         4aAkbIjAgIIJE5YqN0dIJw1s9TJdnuUq3ySyDzVOgvVTkJKYRXLLaxNUCEevwVHzltOI
+         XZzBKxaeu8JYfaWxOFyN7QUiqJNdISOz7rucow+r1W0Jsn05rRGrB5tkomLL9noYds9T
+         iJyN3bpQlo8tx9pdAsEkQcx0e6uLPJavXnnK4ctiKyC32UntRlR2CwCAvqpRu6lS2ZZR
+         Qrkcil9iZbnQ8LJIhKtUrOr6dI1G9d8iXLXj08kUN5r95hKqKxYNc1Xc+PtMigZtRTxo
+         1i1g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1751317341; x=1751922141;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Ws/TSm+ZZeehlVxXUB88Ms5rsDGr5e9O7TxAj23rWQw=;
+        b=C8sb8x+gbSl+S+Yj9zya4PRIC+a99u9qBFbGe//XvlB2L6dK4BRafGJp5XAZArGk3H
+         uWUkAdCuwmuvOPagyjqSiP2Vywd7rz+VslW2oo6QACp8B1ZqrOoiZvcZuHFiNgx+Whsq
+         n9FSaH7AbewRit6PJ9yxEciID7qYiupf9+xiFCiiA39KpuPl14foGw+qlNDbzD5NaDWw
+         iJjoQNakoAmtX+sq91j9Kd66QOf56M53pg3gHChfwSVMjUBQNI4iNc3XyP2E4D3tXH7k
+         gloYs4shiWvfwKkmGSYLFFyspLQHf0QF4QX1jgzjpNTlr3IaT0YqnXr+O97lbXZlGv7e
+         AEWw==
+X-Forwarded-Encrypted: i=1; AJvYcCWyWo/40ib3X2vHWjdxaE3QNW2uHZJ4M3qkfJR+Gma+Ac5PftnRPLsj5pmhq/6hyZCdNwxSSCfYnzMxOTf9@lists.linux.dev
+X-Gm-Message-State: AOJu0YylufUEdS4At5nfrz5odOjIaaoUurcaAEUze373JAlEGtj3ACf4
+	Tz72QE/JQ8IHFnKTRzTNo8sf5iCRLvmyfqDGWmqRiVlfpx2RMBFaTyfk
+X-Gm-Gg: ASbGncvXzGI58H5G3CQqzUd7QU9YDc7tR0t/nUhrdkpGTvolY/DKOEUaiwnWT7vYc4k
+	zXvNDaJagd1PE1Aw81aiUHcT8s1/tIcGsHEAqWrloXginOgBJsBvs7AEvHdPETRc+xFp7p8qb7h
+	/hkXfExq+KgI/hWw0T6XWAl2u+dp3KqjW6AMvpj9juW+PCcy+SCv42M2n2Utqm6uAkknGPtKOep
+	ThTPHoOP6GJH3GEO2zCSwbcU3ZQ/WnYcSrzDbjTjmLA+LxqZezxYVJqeRzWv4ionbOMfsqRuGay
+	IMW4TRskC/I4/rbtYeTzOalHkxXQYVE7WIyYCyGxRgN29/OIu9NVB8zjTEQ/RbAUrhgCN7E352G
+	H/H4zgw==
+X-Google-Smtp-Source: AGHT+IGSemyFfun8x66j729jzWKL23uFr3oT8p6ycJ2Gqg8IaVogp53Aua09Ypb0xc3CjaZ29XZz+A==
+X-Received: by 2002:adf:b649:0:b0:3a4:cf40:ff37 with SMTP id ffacd0b85a97d-3a8f45494cdmr11129730f8f.6.1751317340305;
+        Mon, 30 Jun 2025 14:02:20 -0700 (PDT)
+Received: from cachyos.customer.ask4.lan ([89.26.177.221])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a88c7fada5sm11503584f8f.32.2025.06.30.14.02.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 30 Jun 2025 14:02:19 -0700 (PDT)
+From: Marcos Garcia <magazo2005@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: philipp.g.hortmann@gmail.com,
+	dan.carpenter@linaro.org,
+	karanja99erick@gmail.com,
+	rodrigo.gobbi.7@gmail.com,
+	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Hans Verkuil <hans@jjverkuil.nl>,
-	Jernej Skrabec <jernej.skrabec@siol.net>
-Subject: Re: [PATCH] media: cedrus: Add support for additional output formats
-Message-ID: <aGL0gVwHb8eJvCEu@collins>
-References: <20250523154359.2454180-1-paulk@sys-base.io>
- <82be6ca4c33d394fc52fbe2a90362fa6955d0a47.camel@ndufresne.ca>
+	Marcos Garcia <magazo2005@gmail.com>
+Subject: [PATCH staging] staging: rtl8723bs: Replace magic numbers in beacon initialization
+Date: Mon, 30 Jun 2025 23:02:11 +0200
+Message-ID: <20250630210211.3922530-1-magazo2005@gmail.com>
+X-Mailer: git-send-email 2.50.0
+In-Reply-To: <38411a98-d907-4173-a528-8d50b337de0c@suswa.mountain>
+References: <38411a98-d907-4173-a528-8d50b337de0c@suswa.mountain>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="j/92dNluNZQpr6ZF"
-Content-Disposition: inline
-In-Reply-To: <82be6ca4c33d394fc52fbe2a90362fa6955d0a47.camel@ndufresne.ca>
+Content-Transfer-Encoding: 8bit
 
+Replace hardcoded register values in rtl8723b_InitBeaconParameters()
+with descriptive defines to improve code readability and maintainability:
+- TBTT_PROHIBIT_DEFAULT (0x6404): Sets TBTT prohibit time to 100ms
+  (bits [15:8]) with a 2ms margin (bits [7:0]).
+- BCNTCFG_DEFAULT (0x660F): Configures maximum AIFS for beacon
+  transmission to ensure high priority, as recommended by the designer.
 
---j/92dNluNZQpr6ZF
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Preserve original comments where they provide useful context, such as
+firmware control in power-saving mode and designer notes about beacon
+contention. Fix typo "contension" to "contention" in the comment.
 
-Hi Nicolas,
+Signed-off-by: Marcos Garcia <magazo2005@gmail.com>
+---
+ .../staging/rtl8723bs/hal/rtl8723b_hal_init.c | 50 +++++++++++++++----
+ kernel/sched/ext.c                            |  8 ++-
+ 2 files changed, 46 insertions(+), 12 deletions(-)
 
-Le Mon 30 Jun 25, 15:16, Nicolas Dufresne a =C3=A9crit :
->=20
-> Hi Paul, Jernej,
->=20
-> Le vendredi 23 mai 2025 =C3=A0 17:43 +0200, Paul Kocialkowski a =C3=A9cri=
-t=C2=A0:
-> > From: Jernej Skrabec <jernej.skrabec@siol.net>
-> >=20
-> > If VPU supports untiled output, it actually supports several different
-> > YUV 4:2:0 layouts, namely NV12, NV21, YUV420 and YVU420.
-> >=20
-> > Add support for all of them.
-> >=20
-> > Signed-off-by: Jernej Skrabec <jernej.skrabec@siol.net>
-> > Reviewed-by: Paul Kocialkowski <paulk@sys-base.io>
-> > ---
-> >=20
-> > Looks like this patch never made it, sorry about that.
-> > I've rebased it atop media/next and added my Reviewed-by tag.
-> > ---
-> > =C2=A0drivers/staging/media/sunxi/cedrus/cedrus_hw.c | 18 +++++++++++++=
-++++-
-> > =C2=A0.../staging/media/sunxi/cedrus/cedrus_video.c=C2=A0 | 18 ++++++++=
-++++++++++
-> > =C2=A02 files changed, 35 insertions(+), 1 deletion(-)
-> >=20
-> > diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_hw.c
-> > b/drivers/staging/media/sunxi/cedrus/cedrus_hw.c
-> > index 32af0e96e762..168d89c5a16d 100644
-> > --- a/drivers/staging/media/sunxi/cedrus/cedrus_hw.c
-> > +++ b/drivers/staging/media/sunxi/cedrus/cedrus_hw.c
-> > @@ -86,9 +86,25 @@ void cedrus_dst_format_set(struct cedrus_dev *dev,
-> > =C2=A0
-> > =C2=A0	switch (fmt->pixelformat) {
-> > =C2=A0	case V4L2_PIX_FMT_NV12:
-> > +	case V4L2_PIX_FMT_NV21:
-> > +	case V4L2_PIX_FMT_YUV420:
-> > +	case V4L2_PIX_FMT_YVU420:
-> > =C2=A0		chroma_size =3D ALIGN(width, 16) * ALIGN(height, 16) / 2;
-> > =C2=A0
-> > -		reg =3D VE_PRIMARY_OUT_FMT_NV12;
-> > +		switch (fmt->pixelformat) {
-> > +		case V4L2_PIX_FMT_NV12:
-> > +			reg =3D VE_PRIMARY_OUT_FMT_NV12;
-> > +			break;
-> > +		case V4L2_PIX_FMT_NV21:
-> > +			reg =3D VE_PRIMARY_OUT_FMT_NV21;
-> > +			break;
-> > +		case V4L2_PIX_FMT_YUV420:
-> > +			reg =3D VE_PRIMARY_OUT_FMT_YU12;
-> > +			break;
-> > +		case V4L2_PIX_FMT_YVU420:
->=20
-> Just so its recorded, Hans added a default: case here while applying.
+diff --git a/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c b/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
+index cc7886d75a0b..a3438280e1ab 100644
+--- a/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
++++ b/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
+@@ -1183,9 +1183,25 @@ void rtl8723b_read_chip_version(struct adapter *padapter)
+ 	ReadChipVersion8723B(padapter);
+ }
+ 
+-/* Beacon Configuration */
+-#define TBTT_PROHIBIT_DEFAULT_MS	0x6404  /* 100ms interval + 4ms margin */
+-#define BCNTCFG_AIFS_LARGEST		0x660F  /* Max AIFS for beacon priority */
++/*
++ * Beacon Configuration
++ *
++ * REG_TBTT_PROHIBIT: 16-bit register where:
++ *   - Bits [15:8] = TBTT prohibit time in units of 1ms
++ *   - Bits [7:0] = TBTT prohibit margin time in units of 0.5ms
++ * Default value of 0x6404 means:
++ *   - 0x64 (100) ms prohibit time
++ *   - 0x04 (4 * 0.5 = 2) ms margin time
++ */
++#define TBTT_PROHIBIT_100MS_2MS_MARGIN 0x6404
++
++/*
++ * REG_BCNTCFG: Beacon configuration register
++ * 0x660F sets AIFS to maximum value (0xF) with other default parameters
++ * This ensures beacons get highest priority (no contention window),
++ * as suggested by the original designer for test chips.
++ */
++#define BCNTCFG_MAX_AIFS 0x660F
+ 
+ void rtl8723b_InitBeaconParameters(struct adapter *padapter)
+ {
+@@ -1193,19 +1209,31 @@ void rtl8723b_InitBeaconParameters(struct adapter *padapter)
+ 	u16 val16;
+ 	u8 val8 = DIS_TSF_UDT;
+ 
+-	val16 = val8 | (val8 << 8); /* port0 and port1 */
+-	val16 |= EN_BCN_FUNCTION;   /* Enable prot0 beacon function */
++	/* Configure beacon control for both port 0 and port 1 */
++	val16 = val8 | (val8 << 8);
++	val16 |= EN_BCN_FUNCTION; /* Enable beacon function for PSTDMA */
+ 	rtw_write16(padapter, REG_BCN_CTRL, val16);
+ 
+-	/* Fixed: Replaced magic numbers with defines */
+-	rtw_write16(padapter, REG_TBTT_PROHIBIT, TBTT_PROHIBIT_DEFAULT_MS);
++	/* Configure TBTT prohibit timer with 100ms interval + 2ms margin */
++	rtw_write16(padapter, REG_TBTT_PROHIBIT, TBTT_PROHIBIT_100MS_2MS_MARGIN);
++
++	/*
++	 * Firmware controls early interrupt timing in power save mode,
++	 * so only set REG_DRVERLYINT when not in station mode
++	 */
++	if (!check_fwstate(&padapter->mlmepriv, WIFI_STATION_STATE))
++		rtw_write8(padapter, REG_DRVERLYINT, DRIVER_EARLY_INT_TIME_8723B); /* 5ms */
+ 
+-	if (check_fwstate(&padapter->mlmepriv, WIFI_STATION_STATE) == false)
+-		rtw_write8(padapter, REG_DRVERLYINT, DRIVER_EARLY_INT_TIME_8723B);
++	/* Set beacon DMA interrupt time to 2ms */
++	rtw_write8(padapter, REG_BCNDMATIM, BCN_DMA_ATIME_INT_TIME_8723B); /* 2ms */
+ 
+-	rtw_write8(padapter, REG_BCNDMATIM, BCN_DMA_ATIME_INT_TIME_8723B);
+-	rtw_write16(padapter, REG_BCNTCFG, BCNTCFG_AIFS_LARGEST);
++	/*
++	 * Suggested by designer timchen: Set AIFS to maximum to avoid contention
++	 * before sending beacons on test chips. By tynli, 2009.11.03
++	 */
++	rtw_write16(padapter, REG_BCNTCFG, BCNTCFG_MAX_AIFS);
+ 
++	/* Save initial register values for reference */
+ 	pHalData->RegBcnCtrlVal = rtw_read8(padapter, REG_BCN_CTRL);
+ 	pHalData->RegTxPause = rtw_read8(padapter, REG_TXPAUSE);
+ 	pHalData->RegFwHwTxQCtrl = rtw_read8(padapter, REG_FWHW_TXQ_CTRL+2);
+diff --git a/kernel/sched/ext.c b/kernel/sched/ext.c
+index b498d867ba21..7cecc0ca700d 100644
+--- a/kernel/sched/ext.c
++++ b/kernel/sched/ext.c
+@@ -4258,7 +4258,13 @@ void scx_group_set_weight(struct task_group *tg, unsigned long weight)
+ 
+ void scx_group_set_idle(struct task_group *tg, bool idle)
+ {
+-	/* TODO: Implement ops->cgroup_set_idle() */
++	struct sched_ext_ops *ops;
++
++	rcu_read_lock();
++	ops = rcu_dereference(ext_ops);
++	if (ops && ops->cgroup_set_idle)
++		ops->cgroup_set_idle(tg, idle);
++	rcu_read_unlock();
+ }
+ 
+ static void scx_cgroup_lock(void)
+-- 
+2.50.0
 
-Thanks for the notification! I would maybe have selected NV12 instead but
-I guess it doesn't really matter all that much since there should be layers
-of checking before this is reached.
-
-All the best,
-
-Paul
-
-> regards,
-> Nicolas
->=20
-> > +			reg =3D VE_PRIMARY_OUT_FMT_YV12;
-> > +			break;
-> > +		}
-> > =C2=A0		cedrus_write(dev, VE_PRIMARY_OUT_FMT, reg);
-> > =C2=A0
-> > =C2=A0		reg =3D chroma_size / 2;
-> > diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_video.c
-> > b/drivers/staging/media/sunxi/cedrus/cedrus_video.c
-> > index 77f78266f406..9fae2c7493d0 100644
-> > --- a/drivers/staging/media/sunxi/cedrus/cedrus_video.c
-> > +++ b/drivers/staging/media/sunxi/cedrus/cedrus_video.c
-> > @@ -64,6 +64,21 @@ static struct cedrus_format cedrus_formats[] =3D {
-> > =C2=A0		.pixelformat	=3D V4L2_PIX_FMT_NV12_32L32,
-> > =C2=A0		.directions	=3D CEDRUS_DECODE_DST,
-> > =C2=A0	},
-> > +	{
-> > +		.pixelformat	=3D V4L2_PIX_FMT_NV21,
-> > +		.directions	=3D CEDRUS_DECODE_DST,
-> > +		.capabilities	=3D CEDRUS_CAPABILITY_UNTILED,
-> > +	},
-> > +	{
-> > +		.pixelformat	=3D V4L2_PIX_FMT_YUV420,
-> > +		.directions	=3D CEDRUS_DECODE_DST,
-> > +		.capabilities	=3D CEDRUS_CAPABILITY_UNTILED,
-> > +	},
-> > +	{
-> > +		.pixelformat	=3D V4L2_PIX_FMT_YVU420,
-> > +		.directions	=3D CEDRUS_DECODE_DST,
-> > +		.capabilities	=3D CEDRUS_CAPABILITY_UNTILED,
-> > +	},
-> > =C2=A0};
-> > =C2=A0
-> > =C2=A0#define CEDRUS_FORMATS_COUNT	ARRAY_SIZE(cedrus_formats)
-> > @@ -140,6 +155,9 @@ void cedrus_prepare_format(struct v4l2_pix_format
-> > *pix_fmt)
-> > =C2=A0		break;
-> > =C2=A0
-> > =C2=A0	case V4L2_PIX_FMT_NV12:
-> > +	case V4L2_PIX_FMT_NV21:
-> > +	case V4L2_PIX_FMT_YUV420:
-> > +	case V4L2_PIX_FMT_YVU420:
-> > =C2=A0		/* 16-aligned stride. */
-> > =C2=A0		bytesperline =3D ALIGN(width, 16);
-> > =C2=A0
-
-
-
---=20
-Paul Kocialkowski,
-
-Independent contractor - sys-base - https://www.sys-base.io/
-Free software developer - https://www.paulk.fr/
-
-Expert in multimedia, graphics and embedded hardware support with Linux.
-
---j/92dNluNZQpr6ZF
-Content-Type: application/pgp-signature; name=signature.asc
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCgAdFiEEAbcMXZQMtj1fphLChP3B6o/ulQwFAmhi9IEACgkQhP3B6o/u
-lQz62BAAhX2v+UCfk6uEGKgA4rfzG+Z71Iiofi7yyldfe8bKOfC7JFCyK7OC8nS3
-WNKKff7l/PPtLwGmnNkIMhCk73FmEeLV+x4M5cKT3mJw1ji2EtqjdFnDjtBs6sxX
-LhWMPucBigl5ViG/PDO0SSjTohWEdcCuZ0de5uzmuLhngWVTPOziR4foZBsgIPtD
-U/SJsl78MyCCNVHKDaOUK+yvByW7tr2DhLqs044gLpqlP3ivgOCROmPCB6t9kysi
-x0HSFCptZpuqLsBi40GCYCHW8euFkgP3PsozSRLjFV5hmYJDT5XTyIRpyXrEC+hV
-d0ZpoMmKa8cYNXslLHY8puul1bL65rKrndg7FC40rzzdG6QZOGfTTX0B9iP3cASt
-cgp3hdtBrpRIl80oGMF2A1Iqe4J7QDymZUKAP29WZcevsT+kwACqLEMXfND6pR1t
-tz7LbxpSsapHCEg5J+dUkQOAAwiXXebTyXd4Xw3t2voMess1NrMYzMweY3Aqfor2
-ADo+uqaUb9r6wFz7tfzw9kjl+1R6GMp181JLwkrDWfEaCcgm6Os3QysnrdIIVw3Y
-Us8mPDLYoF6Na0cdP3Q3dNvNS3LE30dUlireBIImUHCoUaCfq8mhsPmV1tv6QPkD
-xn4DkovOrV5H3HvSfC2TpPnDNo2U/yvkcORdWIOAPGqYdoiyOEo=
-=5fAK
------END PGP SIGNATURE-----
-
---j/92dNluNZQpr6ZF--
