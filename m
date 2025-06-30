@@ -1,210 +1,95 @@
-Received: from mail-qt1-f177.google.com (mail-qt1-f177.google.com [209.85.160.177])
+Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBBEA433A4
-	for <linux-staging@lists.linux.dev>; Mon, 30 Jun 2025 19:16:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D176D19067C
+	for <linux-staging@lists.linux.dev>; Mon, 30 Jun 2025 19:17:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751311005; cv=none; b=TufmtlvtLSfG78Ko71iqFiysIQE1ped1eod7tMV632WDfQzKnQywvcWxOyJOdwdqORwMqNLMltlXekSG8v/nuR73CfDd9DKc3vo+u+BPeUPoqN7ZqvVUXMKSuHA4/R8MDvngaj2a0ph59YBcGnf6/vobhQwytEiqwPl3OTix/eA=
+	t=1751311053; cv=none; b=DX8lVNYVC83okor+BuVU5E0xdHpX7SZbL7EIDY/TvFOiUhNW593vnzl9fFCDK5R/ZZnTJw9a9B3Eq2ppmybrrfy3UDzCmiaexQoS3txpCb9l/giycTGhgZ3M7XuRsVVZlnEoUdDUuS3LJUNE4bEhXK1pNUT3mSxz42kXbFG8smI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751311005; c=relaxed/simple;
-	bh=BkVPf9VvjyU/6g05e8LRsSJlmFpCQMsrY6Q+ll0m+4A=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=E8dmauIK5XHqMOFzXLT4zSf8L2sJgu8fOCytee1aDBx/dQCqPxoqEhQF8xV5nnpz55t6g6KlqxrUsnY6fqTB5aIlx+4++R9RUT1FD7ChtvFu+lalSQS8QPNlLZU/QjnC1XYSJxw/4Htv83/QTwjCB8HxSAWXGEOpbOOLiNW3Ac8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ndufresne.ca; spf=pass smtp.mailfrom=ndufresne.ca; dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b=pu3ILKSY; arc=none smtp.client-ip=209.85.160.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ndufresne.ca
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ndufresne.ca
+	s=arc-20240116; t=1751311053; c=relaxed/simple;
+	bh=NsqELtxqi47KDtpNerRjKlGBO25wxTKkp8u182cGn98=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=MfhqDlSpIxD8Nyt2GuFEOUflpCfz+kgOtF/V9tGcnkSBeSGGltmsnj2l9aBfNkMIk8wAqPttLQJBhUk2H9hePniwJpsh/RWnbdfAKDjThWxVQnAhNV9XWLn1GlXMqfDaSC/09wBFzXuz810134l93oZ0wM08zmqT6k9M76h55Pg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=aD3g2SzB; arc=none smtp.client-ip=209.85.210.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b="pu3ILKSY"
-Received: by mail-qt1-f177.google.com with SMTP id d75a77b69052e-4a8244e8860so8919971cf.2
-        for <linux-staging@lists.linux.dev>; Mon, 30 Jun 2025 12:16:43 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aD3g2SzB"
+Received: by mail-pf1-f179.google.com with SMTP id d2e1a72fcca58-747fc77bb2aso2367156b3a.3
+        for <linux-staging@lists.linux.dev>; Mon, 30 Jun 2025 12:17:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ndufresne-ca.20230601.gappssmtp.com; s=20230601; t=1751311003; x=1751915803; darn=lists.linux.dev;
-        h=mime-version:user-agent:autocrypt:references:in-reply-to:date:cc:to
-         :from:subject:message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=zR6ngs40KDKrfuQ8uGrYMi9KPu0z0Fij7dHU34pFebA=;
-        b=pu3ILKSYcIKcOFtApykPsWDkkqZBLlMFMh2h8qp9L3kr6nOynImJeA2yONEnOZJPXe
-         S2ZofHe+YIBtRHzpt5UvhfsTXdttQXiejJeD2W1Czpk1KV0ROPb9bIUkXF6bhwMlcvvW
-         XYZkG50/mtieyxs2Xr5g+el6eD4GCayZyMD+Lbt66X/d2hrCgSot8rjkDPFL4HKg3xeT
-         006AMBCbFOspMfVjdwX3MPOZhZDgdczvryLVc1QblioAv4RW63wSUQTFIzo6b6LYbK3z
-         l2JpR4adzJwnmB3dFReoy5M7Jm6u9HWigJV442eTStegGF5dXZaMpu4Re+8D6W2rKOyD
-         cXzQ==
+        d=gmail.com; s=20230601; t=1751311051; x=1751915851; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=Um5P65+nf9UZ6CcWggyKqfAjkPQHQmkomV6ie3f7noc=;
+        b=aD3g2SzBYLU1vileFLN7zihmLl9DUy8pPMJtI1dPTBexIHWeBlVrR0AxvYsvugqjOo
+         4vCqYs6EqPIIkQP1vM6wyurU8jtzYny9hqNeCjtPuT1NqynXSiKHLTVa7HWlrJjrZDj6
+         0krFq1rnbH0EIhlzHhwrtdwuCyX/lhZO+D3wMuqJDHsILbJ9x4kZSCzKqtaGgLLCBUnB
+         HtWL0X0N/f0FdQxlAHRpo24dukWVdadEk9xuyxUbgpndVpRUk1WvlIOEPaC9HqecEwpc
+         0viYMJApjnR3UFq3eTc7bUu/rHWrocZZKzHZ9YheJoX6td1Gc2GMhActuCfiP5n/tw4G
+         4QfQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751311003; x=1751915803;
-        h=mime-version:user-agent:autocrypt:references:in-reply-to:date:cc:to
-         :from:subject:message-id:x-gm-message-state:from:to:cc:subject:date
+        d=1e100.net; s=20230601; t=1751311051; x=1751915851;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=zR6ngs40KDKrfuQ8uGrYMi9KPu0z0Fij7dHU34pFebA=;
-        b=YwpV3hOKOCCOX6qqu95GCGiwhxXvZCtKcmC+io0LDrTpCI3TWnzXRXdb3y397okeer
-         VZBKlCAN/a2jbvg80Sv+bIVdcsBr8AOwyox/mB/XRkuDAcFgVuIepE2hiaiXC2mAkVRS
-         4NWGJX8ie+vKQydlIOdNqgeloFG2ASne06kbCa1QaAMoaiHaze3etryGHZ75vKF8Vz0d
-         b37FfPi2RjYsVUk7LTAxxi+Mx601Ptfzodz2xARtDiqsbxStm0re6qIkjSrhsWfcYvk4
-         EWfLdynN/R1cv0wvKmEahRuKU2hKBo8BOBjf1jptjoZA07LkpV93VLKrpWOAIeG8wG06
-         PUwQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWtqY/47UQ7et+K2KAZk49CFZYPhvRpGcHHYHz1DwyF2443HglvEc0WCRAbWBythlFCYnccDbexOZV+qfnj@lists.linux.dev
-X-Gm-Message-State: AOJu0YzCT1bHtHlKAUR5Sf2UJP7W5w95nFYyMo146pkn94qb94RdLEJP
-	fH5wJC61B8LStssaIAdvNv0W/MbvEL2nCi0RswukSG5kfv1Jf8adsE+NrnHHhkQY9z8=
-X-Gm-Gg: ASbGncuYDa7tZGY8VbiBOxLDOMxBPfOdyz/kevpyXw8sJ2UdQtpq9/ahwgpH7tG9z1b
-	9QRX+3jdPbBmaI2FyjJLBRjV0s217QczHmvI1T2cPUKukq98C1ZKRKGofwV8zVgM2Iu4D9intKm
-	n7+S4IiHgwlUE4NlZLEfWSUB296+/+BSZnDm9HfWEq835ArzX4sUZ83toveL1i1WehbXp4LO4pA
-	5PtyBKXIR7B5nxz5YUMg/uc0W4zvoNOHxH5U70Bql/Tx6tuAuqKnxfA4DnEkn3qu9wsApSzgMyv
-	Kh305CdI2td60Cc22HchELdc1wtirRqoqamJecjwMzoRsQX7KF+9yDclStynzm2huok=
-X-Google-Smtp-Source: AGHT+IESAXpZrbCN9sq0IGqWEgBIgw7TERMevL4glDJMzoeekiYHSxfwJOAsDJinhURnk5aOEcbJIw==
-X-Received: by 2002:a05:622a:2611:b0:4a7:14c3:7405 with SMTP id d75a77b69052e-4a7fcbb0be4mr267384891cf.27.1751311002729;
-        Mon, 30 Jun 2025 12:16:42 -0700 (PDT)
-Received: from ?IPv6:2606:6d00:17:b699::c41? ([2606:6d00:17:b699::c41])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-4a7fc57d81asm63480201cf.65.2025.06.30.12.16.41
+        bh=Um5P65+nf9UZ6CcWggyKqfAjkPQHQmkomV6ie3f7noc=;
+        b=Ksgsv+7FEyXEbs2eJbcFtzC4Tl/m2G1IagH9OAa985BekeBrF7EexZ5pKX7vw+MenE
+         RnVMRMlwCtmGB4YpHj9QNh4ViWBzYs6ndBGvFhcRVZn6M6XWqba+LA1X+kv1T/zbzgUQ
+         RaCr/HgpVSNCgHoJKEz/rMVFUYnQQMJfNCOm2IyTrsrrckbNIM+dBJgBd4uGdp5gqhDK
+         ywRNtctoQOlToD9pPKkrD5RWGN+kHFjGcrWFE9O7r45D22WiWxEX5qtnaXcoutL5b+UG
+         mVU8/wETjzwz+k2/paz1WISRmMJ/+bqcjWwt9j+Wg6SsWvZBghdc3toqJ8BoV7Y5za7M
+         LrMQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVuc3W5MaQa02s2+UBDtb8f1VjFgF1xeehpBNnV/KJ2grPwtd3v+87JhyGP34pEy+UcliEI3+Y7yDIHZTIU@lists.linux.dev
+X-Gm-Message-State: AOJu0YyZDfF5Waz8SbRH2WZjjVbAAgJXs4nvhq4QHjWDBjYVl9llgFID
+	GIOmcSKdPwCd1v4OOG1KdaevW0PgYq2H0Iia4Qof3cutA28XkSEgee+Z
+X-Gm-Gg: ASbGncuzPDdb7tzgu1IlsvI2VHuzQ0oCrgHZhKB2VSh6kzY/dExbl7ythN4CbVWdAtX
+	8bfgxlgFqHqNIKNXrKUb+ubYsy2YBP18am8Fg0uNKcSL5tdrA1tQAvCYUkeDcf57B5iWA4opBbQ
+	aw4Cp1nZ2l4Y/AuHYc7KNc/60R/b3L6HP+7cpkHN5qIlnzAcSm9Jkkd/Rro+45tscZ8WEZekJQ1
+	WNgOGh2q68K4EXf5p+4fzEvvc9s4XkxePq093lVOEgZaCypysiHgvjMjFZVwLF/iHZfAHyR9NAM
+	vJiRcI/8ur9NlVaxzYVP5BfrhPTSZG+dwHreXeOR2oIuQK76ycTgtOo=
+X-Google-Smtp-Source: AGHT+IH7tDIInMf2NZlvN/kfsFCNXiU4Z8uqHFH4ypgMKE0Hx9X2SxMn1hWbWYecPU0Ne2UXg2PsXQ==
+X-Received: by 2002:a05:6a00:2288:b0:746:3025:6576 with SMTP id d2e1a72fcca58-74af6f222dfmr19186926b3a.14.1751311051009;
+        Mon, 30 Jun 2025 12:17:31 -0700 (PDT)
+Received: from essd ([49.37.221.186])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-74af57ef0f3sm9986457b3a.154.2025.06.30.12.17.25
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 30 Jun 2025 12:16:41 -0700 (PDT)
-Message-ID: <82be6ca4c33d394fc52fbe2a90362fa6955d0a47.camel@ndufresne.ca>
-Subject: Re: [PATCH] media: cedrus: Add support for additional output formats
-From: Nicolas Dufresne <nicolas@ndufresne.ca>
-To: Paul Kocialkowski <paulk@sys-base.io>, linux-media@vger.kernel.org, 
-	linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
-	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Chen-Yu Tsai
- <wens@csie.org>,  Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel Holland
- <samuel@sholland.org>, Hans Verkuil <hans@jjverkuil.nl>,  Jernej Skrabec
- <jernej.skrabec@siol.net>
-Date: Mon, 30 Jun 2025 15:16:40 -0400
-In-Reply-To: <20250523154359.2454180-1-paulk@sys-base.io>
-References: <20250523154359.2454180-1-paulk@sys-base.io>
-Autocrypt: addr=nicolas@ndufresne.ca; prefer-encrypt=mutual;
- keydata=mDMEaCN2ixYJKwYBBAHaRw8BAQdAM0EHepTful3JOIzcPv6ekHOenE1u0vDG1gdHFrChD
- /e0MU5pY29sYXMgRHVmcmVzbmUgPG5pY29sYXMuZHVmcmVzbmVAY29sbGFib3JhLmNvbT6ImQQTFg
- oAQQIbAwULCQgHAgIiAgYVCgkICwIEFgIDAQIeBwIXgBYhBO8NUoEVxMPCGgRvEtlBlFEpYHL0BQJ
- oLLLGBQkJZfd1AAoJENlBlFEpYHL0BEkA/3qkWYt99myYFSmTJUF8UB/7OroEm3vr1HRqXeQe9Qp2
- AP0bsoAe6KjEPa/pJfuJ2khrOPPHxvyt/PBNbI5BYcIABLQnTmljb2xhcyBEdWZyZXNuZSA8bmljb
- 2xhc0BuZHVmcmVzbmUuY2E+iJkEExYKAEECGwMFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4AWIQ
- TvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaCyy+AUJCWX3dQAKCRDZQZRRKWBy9FJ5AQCNy8SX8DpHbLa
- cy58vgDwyIpB89mok9eWGGejY9mqpRwEAhHzs+/n5xlVlM3bqy1yHnAzJqVwqBE1D0jG0a9V6VQI=
-Content-Type: multipart/signed; micalg="pgp-sha512";
-	protocol="application/pgp-signature"; boundary="=-PkVzrifhkU38IZasPoP3"
-User-Agent: Evolution 3.56.2 (3.56.2-1.fc42) 
+        Mon, 30 Jun 2025 12:17:30 -0700 (PDT)
+Date: Tue, 1 Jul 2025 00:47:22 +0530
+From: Abdun Nihaal <abdun.nihaal@gmail.com>
+To: Greg KH <gregkh@linuxfoundation.org>
+Cc: andy@kernel.org, dan.carpenter@linaro.org, lorenzo.stoakes@oracle.com, 
+	tzimmermann@suse.de, riyandhiman14@gmail.com, willy@infradead.org, notro@tronnes.org, 
+	thomas.petazzoni@free-electrons.com, dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org, 
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	Andy Shevchenko <andriy.shevchenko@intel.com>
+Subject: Re: [PATCH v3 2/2] staging: fbtft: cleanup error handling in
+ fbtft_framebuffer_alloc()
+Message-ID: <ezkfonpaubsmw6gr4tutgnjmbhvsuwkhaiya7xozl2szfqi4f3@zmde3sfybyzi>
+References: <cover.1751207100.git.abdun.nihaal@gmail.com>
+ <4e062d040806dc29d6124ac0309e741c63f13ac0.1751207100.git.abdun.nihaal@gmail.com>
+ <2025063022-chump-pointless-6580@gregkh>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <2025063022-chump-pointless-6580@gregkh>
 
+Hello Greg,
 
---=-PkVzrifhkU38IZasPoP3
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On Mon, Jun 30, 2025 at 07:16:38PM +0200, Greg KH wrote:
+> This patch does not apply to my tree, can you rebase and resend?
 
+I think you have added both the V1 patch and this current V3 patchset to
+your tree, that's why this patch does not apply.
 
-Hi Paul, Jernej,
+Commit eb2cb7dab60f ("staging: fbtft: fix potential memory leak in fbtft_framebuffer_alloc()") 
+on staging-testing is an older version of this patchset, and so it has to be dropped.
 
-Le vendredi 23 mai 2025 =C3=A0 17:43 +0200, Paul Kocialkowski a =C3=A9crit=
-=C2=A0:
-> From: Jernej Skrabec <jernej.skrabec@siol.net>
->=20
-> If VPU supports untiled output, it actually supports several different
-> YUV 4:2:0 layouts, namely NV12, NV21, YUV420 and YVU420.
->=20
-> Add support for all of them.
->=20
-> Signed-off-by: Jernej Skrabec <jernej.skrabec@siol.net>
-> Reviewed-by: Paul Kocialkowski <paulk@sys-base.io>
-> ---
->=20
-> Looks like this patch never made it, sorry about that.
-> I've rebased it atop media/next and added my Reviewed-by tag.
-> ---
-> =C2=A0drivers/staging/media/sunxi/cedrus/cedrus_hw.c | 18 +++++++++++++++=
-++-
-> =C2=A0.../staging/media/sunxi/cedrus/cedrus_video.c=C2=A0 | 18 ++++++++++=
-++++++++
-> =C2=A02 files changed, 35 insertions(+), 1 deletion(-)
->=20
-> diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_hw.c
-> b/drivers/staging/media/sunxi/cedrus/cedrus_hw.c
-> index 32af0e96e762..168d89c5a16d 100644
-> --- a/drivers/staging/media/sunxi/cedrus/cedrus_hw.c
-> +++ b/drivers/staging/media/sunxi/cedrus/cedrus_hw.c
-> @@ -86,9 +86,25 @@ void cedrus_dst_format_set(struct cedrus_dev *dev,
-> =C2=A0
-> =C2=A0	switch (fmt->pixelformat) {
-> =C2=A0	case V4L2_PIX_FMT_NV12:
-> +	case V4L2_PIX_FMT_NV21:
-> +	case V4L2_PIX_FMT_YUV420:
-> +	case V4L2_PIX_FMT_YVU420:
-> =C2=A0		chroma_size =3D ALIGN(width, 16) * ALIGN(height, 16) / 2;
-> =C2=A0
-> -		reg =3D VE_PRIMARY_OUT_FMT_NV12;
-> +		switch (fmt->pixelformat) {
-> +		case V4L2_PIX_FMT_NV12:
-> +			reg =3D VE_PRIMARY_OUT_FMT_NV12;
-> +			break;
-> +		case V4L2_PIX_FMT_NV21:
-> +			reg =3D VE_PRIMARY_OUT_FMT_NV21;
-> +			break;
-> +		case V4L2_PIX_FMT_YUV420:
-> +			reg =3D VE_PRIMARY_OUT_FMT_YU12;
-> +			break;
-> +		case V4L2_PIX_FMT_YVU420:
-
-Just so its recorded, Hans added a default: case here while applying.
-
-regards,
-Nicolas
-
-> +			reg =3D VE_PRIMARY_OUT_FMT_YV12;
-> +			break;
-> +		}
-> =C2=A0		cedrus_write(dev, VE_PRIMARY_OUT_FMT, reg);
-> =C2=A0
-> =C2=A0		reg =3D chroma_size / 2;
-> diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_video.c
-> b/drivers/staging/media/sunxi/cedrus/cedrus_video.c
-> index 77f78266f406..9fae2c7493d0 100644
-> --- a/drivers/staging/media/sunxi/cedrus/cedrus_video.c
-> +++ b/drivers/staging/media/sunxi/cedrus/cedrus_video.c
-> @@ -64,6 +64,21 @@ static struct cedrus_format cedrus_formats[] =3D {
-> =C2=A0		.pixelformat	=3D V4L2_PIX_FMT_NV12_32L32,
-> =C2=A0		.directions	=3D CEDRUS_DECODE_DST,
-> =C2=A0	},
-> +	{
-> +		.pixelformat	=3D V4L2_PIX_FMT_NV21,
-> +		.directions	=3D CEDRUS_DECODE_DST,
-> +		.capabilities	=3D CEDRUS_CAPABILITY_UNTILED,
-> +	},
-> +	{
-> +		.pixelformat	=3D V4L2_PIX_FMT_YUV420,
-> +		.directions	=3D CEDRUS_DECODE_DST,
-> +		.capabilities	=3D CEDRUS_CAPABILITY_UNTILED,
-> +	},
-> +	{
-> +		.pixelformat	=3D V4L2_PIX_FMT_YVU420,
-> +		.directions	=3D CEDRUS_DECODE_DST,
-> +		.capabilities	=3D CEDRUS_CAPABILITY_UNTILED,
-> +	},
-> =C2=A0};
-> =C2=A0
-> =C2=A0#define CEDRUS_FORMATS_COUNT	ARRAY_SIZE(cedrus_formats)
-> @@ -140,6 +155,9 @@ void cedrus_prepare_format(struct v4l2_pix_format
-> *pix_fmt)
-> =C2=A0		break;
-> =C2=A0
-> =C2=A0	case V4L2_PIX_FMT_NV12:
-> +	case V4L2_PIX_FMT_NV21:
-> +	case V4L2_PIX_FMT_YUV420:
-> +	case V4L2_PIX_FMT_YVU420:
-> =C2=A0		/* 16-aligned stride. */
-> =C2=A0		bytesperline =3D ALIGN(width, 16);
-> =C2=A0
-
---=-PkVzrifhkU38IZasPoP3
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaGLimAAKCRDZQZRRKWBy
-9PJgAP9YO0WJH/NNq+CaJXSgK9tAYcGlb9/A+rt2u9ac3/xO2QD/SGzZr5aodnIh
-3ut2Ast1YM6fTcN+X5020Z2kjtkjGgc=
-=mibq
------END PGP SIGNATURE-----
-
---=-PkVzrifhkU38IZasPoP3--
+Regards,
+Nihaal
