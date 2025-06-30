@@ -1,75 +1,72 @@
-Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
+Received: from mail-ot1-f53.google.com (mail-ot1-f53.google.com [209.85.210.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D176D19067C
-	for <linux-staging@lists.linux.dev>; Mon, 30 Jun 2025 19:17:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8486200112
+	for <linux-staging@lists.linux.dev>; Mon, 30 Jun 2025 20:13:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751311053; cv=none; b=DX8lVNYVC83okor+BuVU5E0xdHpX7SZbL7EIDY/TvFOiUhNW593vnzl9fFCDK5R/ZZnTJw9a9B3Eq2ppmybrrfy3UDzCmiaexQoS3txpCb9l/giycTGhgZ3M7XuRsVVZlnEoUdDUuS3LJUNE4bEhXK1pNUT3mSxz42kXbFG8smI=
+	t=1751314421; cv=none; b=VX/kdpWcYD3EqFb1vGsa4sJXCnlUGOo399X5Bs3M1VRmlTax3TzC8VpkJp7LF9fw8LtnBpc2hdvTJdIhh64egQX+m0dABI4c813BRg6M/0U7wZSMlFpWR78JKOOcVBNK954Ozq7OGaFiJLAKEJK9WzX8PtFDUj0lDZueEFNc8yE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751311053; c=relaxed/simple;
-	bh=NsqELtxqi47KDtpNerRjKlGBO25wxTKkp8u182cGn98=;
+	s=arc-20240116; t=1751314421; c=relaxed/simple;
+	bh=Rz5c9iymJ89RgH7VupYvYE77SNzmWUAZJfYVmptlxFw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MfhqDlSpIxD8Nyt2GuFEOUflpCfz+kgOtF/V9tGcnkSBeSGGltmsnj2l9aBfNkMIk8wAqPttLQJBhUk2H9hePniwJpsh/RWnbdfAKDjThWxVQnAhNV9XWLn1GlXMqfDaSC/09wBFzXuz810134l93oZ0wM08zmqT6k9M76h55Pg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=aD3g2SzB; arc=none smtp.client-ip=209.85.210.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=iJ983FpfISYmEq/XnA6U4Pj2eM+1tDxEZ5YP8EFQxewQQ3k5MWI7uOiY49VX0m/jMDnJubRzqyoyV3pc2sj4LEleYZ5FPTMrmfEhWnv0UE0S8ENl2L7RJXzlECSau8+WnuGF+czaDWFnsjZFQq03jg+h6I2oqVx1Pk+fqrWRrrs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=RMBNzyO8; arc=none smtp.client-ip=209.85.210.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aD3g2SzB"
-Received: by mail-pf1-f179.google.com with SMTP id d2e1a72fcca58-747fc77bb2aso2367156b3a.3
-        for <linux-staging@lists.linux.dev>; Mon, 30 Jun 2025 12:17:31 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="RMBNzyO8"
+Received: by mail-ot1-f53.google.com with SMTP id 46e09a7af769-72c172f1de1so1371572a34.3
+        for <linux-staging@lists.linux.dev>; Mon, 30 Jun 2025 13:13:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1751311051; x=1751915851; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1751314419; x=1751919219; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=Um5P65+nf9UZ6CcWggyKqfAjkPQHQmkomV6ie3f7noc=;
-        b=aD3g2SzBYLU1vileFLN7zihmLl9DUy8pPMJtI1dPTBexIHWeBlVrR0AxvYsvugqjOo
-         4vCqYs6EqPIIkQP1vM6wyurU8jtzYny9hqNeCjtPuT1NqynXSiKHLTVa7HWlrJjrZDj6
-         0krFq1rnbH0EIhlzHhwrtdwuCyX/lhZO+D3wMuqJDHsILbJ9x4kZSCzKqtaGgLLCBUnB
-         HtWL0X0N/f0FdQxlAHRpo24dukWVdadEk9xuyxUbgpndVpRUk1WvlIOEPaC9HqecEwpc
-         0viYMJApjnR3UFq3eTc7bUu/rHWrocZZKzHZ9YheJoX6td1Gc2GMhActuCfiP5n/tw4G
-         4QfQ==
+        bh=1Pw9uo4PLqW445+ML/2nj2YC9JrDhcP48EMZJgbllM0=;
+        b=RMBNzyO8daGi5f1mZ6zREbYtF91n1dLyx5XhB0sfHZF4ayngK34uyZO8wGJIiknsUm
+         XsJWb3g8I0cID2MO5xMa9cawTrW1qX3QBkrFG3D/ssLfu0IuMg1tSEJjN9wUbXWN9PI/
+         Mm16PnkZUZ4Gc+7R9or0+q/yUx230EcsQgsAg10nIiELu26OoHedDx++Lls0BWM/sHDz
+         kmVvbNBuXR0ISZfQKwB3vuUKCxAVu/01ggooEtHyOHIIWR4hAQ5AHDhTVbqn0aOyg8OB
+         K1eng2UTX3Lvb3j0XfdA28AHHxZULPH3qGQkep1VK4zkyGsrqSccBcEwhsDuPLHRKsNf
+         tveQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751311051; x=1751915851;
+        d=1e100.net; s=20230601; t=1751314419; x=1751919219;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Um5P65+nf9UZ6CcWggyKqfAjkPQHQmkomV6ie3f7noc=;
-        b=Ksgsv+7FEyXEbs2eJbcFtzC4Tl/m2G1IagH9OAa985BekeBrF7EexZ5pKX7vw+MenE
-         RnVMRMlwCtmGB4YpHj9QNh4ViWBzYs6ndBGvFhcRVZn6M6XWqba+LA1X+kv1T/zbzgUQ
-         RaCr/HgpVSNCgHoJKEz/rMVFUYnQQMJfNCOm2IyTrsrrckbNIM+dBJgBd4uGdp5gqhDK
-         ywRNtctoQOlToD9pPKkrD5RWGN+kHFjGcrWFE9O7r45D22WiWxEX5qtnaXcoutL5b+UG
-         mVU8/wETjzwz+k2/paz1WISRmMJ/+bqcjWwt9j+Wg6SsWvZBghdc3toqJ8BoV7Y5za7M
-         LrMQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVuc3W5MaQa02s2+UBDtb8f1VjFgF1xeehpBNnV/KJ2grPwtd3v+87JhyGP34pEy+UcliEI3+Y7yDIHZTIU@lists.linux.dev
-X-Gm-Message-State: AOJu0YyZDfF5Waz8SbRH2WZjjVbAAgJXs4nvhq4QHjWDBjYVl9llgFID
-	GIOmcSKdPwCd1v4OOG1KdaevW0PgYq2H0Iia4Qof3cutA28XkSEgee+Z
-X-Gm-Gg: ASbGncuzPDdb7tzgu1IlsvI2VHuzQ0oCrgHZhKB2VSh6kzY/dExbl7ythN4CbVWdAtX
-	8bfgxlgFqHqNIKNXrKUb+ubYsy2YBP18am8Fg0uNKcSL5tdrA1tQAvCYUkeDcf57B5iWA4opBbQ
-	aw4Cp1nZ2l4Y/AuHYc7KNc/60R/b3L6HP+7cpkHN5qIlnzAcSm9Jkkd/Rro+45tscZ8WEZekJQ1
-	WNgOGh2q68K4EXf5p+4fzEvvc9s4XkxePq093lVOEgZaCypysiHgvjMjFZVwLF/iHZfAHyR9NAM
-	vJiRcI/8ur9NlVaxzYVP5BfrhPTSZG+dwHreXeOR2oIuQK76ycTgtOo=
-X-Google-Smtp-Source: AGHT+IH7tDIInMf2NZlvN/kfsFCNXiU4Z8uqHFH4ypgMKE0Hx9X2SxMn1hWbWYecPU0Ne2UXg2PsXQ==
-X-Received: by 2002:a05:6a00:2288:b0:746:3025:6576 with SMTP id d2e1a72fcca58-74af6f222dfmr19186926b3a.14.1751311051009;
-        Mon, 30 Jun 2025 12:17:31 -0700 (PDT)
-Received: from essd ([49.37.221.186])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-74af57ef0f3sm9986457b3a.154.2025.06.30.12.17.25
+        bh=1Pw9uo4PLqW445+ML/2nj2YC9JrDhcP48EMZJgbllM0=;
+        b=JErKPdsN+DrMCsvhIuSq7mYjyJIrd4MaXGMHQXkYNShCpMueQdh1sS7s0hvQyzzzo0
+         5wSxWrtp3uJaVOsV4ei7+jktwXPchb1mhbTOZo+mNCH+MM3Iv3mraBpAaFzrttZuPqQc
+         4vJtTN5G/UWVUK5R1+GkkQJ74x4LwnV4+DUPccAHGsA5DI0PJKgCFVvV/mb6HkRMQClD
+         o5zWGdrdP/MoQTaZiNhO0Xbh7kSJGCoO0tXHou3V05cWeGyfduzL6KHT9Kjm8iGqc5y4
+         VIeMqPsbWRZhS7k96r21Rv6ZQBYIqaKVf9XHZMAzD8V7Yn7rhsbBxm2nSbGkdZeB6UEE
+         WE+Q==
+X-Forwarded-Encrypted: i=1; AJvYcCVjY8autV0PNfPq+oiVp10kMVrh5tHN2udUD5AFakd5MNoU5QIU5yj7nor1X3As4DcGCDo9k+H07Hdm32ze@lists.linux.dev
+X-Gm-Message-State: AOJu0YwkqL9mKHB60fuHTECuJpTh70YaWiLWY2e9muCYg1Hx25pJ/gUI
+	oD1NG7YkPKK3FE5gQFy0Kuk9m/k8dMO3XjsL7kzV4ZM2bMmIJcmGXFGPGDjctwzS8j0=
+X-Gm-Gg: ASbGncsjbmQAh04gXFwbuVHci7SrbVU7ZGLC8pD97Ip0k1H3k9zgbF2swygd5zkFUeY
+	Xravlnn8/7/AmSkPmmRg4WXdYfbkVBbNOHgPne6rgtpuu6giOhNMGzbMxw/JJTchmnvU9t6Q/J+
+	E0nMWP34uVv8wr3RxI/Z+fcNSLiVKnfm8VS+V1Wd7Ky5EDxbKOTvugKYtQZDzTgNO4p5XIpio6b
+	NQtOkLkaVoQrBqO0T1crmwsY8hWsUPrdsK1YL2sOe9sxcORQky7vOJFki07XoVvDcUADIhyqp0w
+	WJ7qb4Pq9DaC8Sy83n8/w0P7B2sJUHepqRiqHP2/8JZ5wVUaZW/n1fx7u789rd7x7nODpI5+atf
+	xwKc=
+X-Google-Smtp-Source: AGHT+IF2bHM+w0oqv+2GI5jLOgo08atfHsKBXad89kPavKIYpA3L2mvYlOwrOo1nKxkMGjuZXO2PVQ==
+X-Received: by 2002:a05:6830:6501:b0:739:fcb4:db17 with SMTP id 46e09a7af769-73afc57af58mr10984924a34.15.1751314418614;
+        Mon, 30 Jun 2025 13:13:38 -0700 (PDT)
+Received: from localhost ([2603:8080:b800:f700:fb67:363d:328:e253])
+        by smtp.gmail.com with ESMTPSA id 46e09a7af769-73afb0068e6sm1807151a34.17.2025.06.30.13.13.37
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 30 Jun 2025 12:17:30 -0700 (PDT)
-Date: Tue, 1 Jul 2025 00:47:22 +0530
-From: Abdun Nihaal <abdun.nihaal@gmail.com>
-To: Greg KH <gregkh@linuxfoundation.org>
-Cc: andy@kernel.org, dan.carpenter@linaro.org, lorenzo.stoakes@oracle.com, 
-	tzimmermann@suse.de, riyandhiman14@gmail.com, willy@infradead.org, notro@tronnes.org, 
-	thomas.petazzoni@free-electrons.com, dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org, 
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	Andy Shevchenko <andriy.shevchenko@intel.com>
-Subject: Re: [PATCH v3 2/2] staging: fbtft: cleanup error handling in
- fbtft_framebuffer_alloc()
-Message-ID: <ezkfonpaubsmw6gr4tutgnjmbhvsuwkhaiya7xozl2szfqi4f3@zmde3sfybyzi>
-References: <cover.1751207100.git.abdun.nihaal@gmail.com>
- <4e062d040806dc29d6124ac0309e741c63f13ac0.1751207100.git.abdun.nihaal@gmail.com>
- <2025063022-chump-pointless-6580@gregkh>
+        Mon, 30 Jun 2025 13:13:38 -0700 (PDT)
+Date: Mon, 30 Jun 2025 23:13:36 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Marcos Garcia <magazo2005@gmail.com>
+Cc: gregkh@linuxfoundation.org, philipp.g.hortmann@gmail.com,
+	karanja99erick@gmail.com, rodrigo.gobbi.7@gmail.com,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH staging] staging: rtl8723bs: replace magic numbers in
+ beacon init
+Message-ID: <38411a98-d907-4173-a528-8d50b337de0c@suswa.mountain>
+References: <20250630173339.3828756-1-magazo2005@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -78,18 +75,99 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <2025063022-chump-pointless-6580@gregkh>
+In-Reply-To: <20250630173339.3828756-1-magazo2005@gmail.com>
 
-Hello Greg,
+On Mon, Jun 30, 2025 at 07:33:39PM +0200, Marcos Garcia wrote:
+> Replace hardcoded register values in rtl8723b_InitBeaconParameters()
+> with properly named defines documenting their purpose:
+> - TBTT_PROHIBIT_DEFAULT_MS (0x6404) for 100ms interval + 4ms margin
+> - BCNTCFG_AIFS_LARGEST (0x660F) for maximum AIFS value
+> 
+> This improves maintainability while preserving the original behavior.
+> 
+> Signed-off-by: Marcos Garcia <magazo2005@gmail.com>
+> ---
+>  .../staging/rtl8723bs/hal/rtl8723b_hal_init.c | 27 +++++++++----------
+>  1 file changed, 12 insertions(+), 15 deletions(-)
+> 
+> diff --git a/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c b/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
+> index 893cab0532ed..cc7886d75a0b 100644
+> --- a/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
+> +++ b/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
+> @@ -1183,31 +1183,28 @@ void rtl8723b_read_chip_version(struct adapter *padapter)
+>  	ReadChipVersion8723B(padapter);
+>  }
+>  
+> +/* Beacon Configuration */
+> +#define TBTT_PROHIBIT_DEFAULT_MS	0x6404  /* 100ms interval + 4ms margin */
 
-On Mon, Jun 30, 2025 at 07:16:38PM +0200, Greg KH wrote:
-> This patch does not apply to my tree, can you rebase and resend?
+I don't understand the units here.  How is 100 + 4 = 0x6404.
+0x6404 is 25604 in decimal...  I don't get it at all.
 
-I think you have added both the V1 patch and this current V3 patchset to
-your tree, that's why this patch does not apply.
+> +#define BCNTCFG_AIFS_LARGEST		0x660F  /* Max AIFS for beacon priority */
 
-Commit eb2cb7dab60f ("staging: fbtft: fix potential memory leak in fbtft_framebuffer_alloc()") 
-on staging-testing is an older version of this patchset, and so it has to be dropped.
+I don't understand this comment.  This feels like ChatGPT...  It's
+got that magical feeling where every word follows the other so smoothly
+but when you think about the meaning, it's both really vague and
+slightly wrong.  What is "beacon priority"?  What other types of
+priority are there?  What type of units is this?
 
-Regards,
-Nihaal
+> +
+>  void rtl8723b_InitBeaconParameters(struct adapter *padapter)
+>  {
+>  	struct hal_com_data *pHalData = GET_HAL_DATA(padapter);
+>  	u16 val16;
+>  	u8 val8 = DIS_TSF_UDT;
+>  
+> -
+> -	val16 = val8 | (val8 << 8); /*  port0 and port1 */
+> -
+> -	/*  Enable prot0 beacon function for PSTDMA */
+> -	val16 |= EN_BCN_FUNCTION;
+> -
+> +	val16 = val8 | (val8 << 8); /* port0 and port1 */
+> +	val16 |= EN_BCN_FUNCTION;   /* Enable prot0 beacon function */
+>  	rtw_write16(padapter, REG_BCN_CTRL, val16);
+>  
+> -	/*  TODO: Remove these magic number */
+> -	rtw_write16(padapter, REG_TBTT_PROHIBIT, 0x6404);/*  ms */
+> -	/*  Firmware will control REG_DRVERLYINT when power saving is enable, */
+> -	/*  so don't set this register on STA mode. */
+
+This comment was clear and useful.  Keep it.
+
+> +	/* Fixed: Replaced magic numbers with defines */
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+This is kind of information about what you're fixing is supposed to
+go in the commit message.  Not the comments.
+
+
+> +	rtw_write16(padapter, REG_TBTT_PROHIBIT, TBTT_PROHIBIT_DEFAULT_MS);
+> +
+>  	if (check_fwstate(&padapter->mlmepriv, WIFI_STATION_STATE) == false)
+> -		rtw_write8(padapter, REG_DRVERLYINT, DRIVER_EARLY_INT_TIME_8723B); /*  5ms */
+> -	rtw_write8(padapter, REG_BCNDMATIM, BCN_DMA_ATIME_INT_TIME_8723B); /*  2ms */
+
+These comments that explained that DRIVER_EARLY_INT_TIME_8723B was 5ms
+and BCN_DMA_ATIME_INT_TIME_8723B is 2ms are kind of crap.  The define
+should have been called something like BCN_DMA_ATIME_2MS or something.
+But they were at least better than nothing.
+
+> +		rtw_write8(padapter, REG_DRVERLYINT, DRIVER_EARLY_INT_TIME_8723B);
+>  
+> -	/*  Suggested by designer timchen. Change beacon AIFS to the largest number */
+> -	/*  because test chip does not contension before sending beacon. by tynli. 2009.11.03 */
+
+This comment has a typo s/contension/contention/ and it's not clear
+if we're trying to avoid contention or if we don't need to worry about
+contention.  So it's not perfect, but it does potentially provide some
+useful clues about the code so it's better than the new comments in that
+sense.  Let's keep it until we can find a better explanation.
+
+regards,
+dan carpenter
+
+> -	rtw_write16(padapter, REG_BCNTCFG, 0x660F);
+> +	rtw_write8(padapter, REG_BCNDMATIM, BCN_DMA_ATIME_INT_TIME_8723B);
+> +	rtw_write16(padapter, REG_BCNTCFG, BCNTCFG_AIFS_LARGEST);
+
