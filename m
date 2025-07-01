@@ -1,90 +1,111 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5E641E515
-	for <linux-staging@lists.linux.dev>; Tue,  1 Jul 2025 13:48:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 881B826FA59;
+	Tue,  1 Jul 2025 13:54:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751377735; cv=none; b=KUntaaWKCDJ/VTyWxdOURdBYy0UwhFPx6vJJrR+fwfVoQNxGhsUU6x9RIye/0s5qP2Cmuhnj4BckO/KruSmhZsC7O1p6vJReKGCtzUX8Qrvbgfz7re8VHxVGUECAvY4c8vm5qh4guMX9A9hbnzAGD8zdJwqK7rY8o/SDHZJLFKg=
+	t=1751378089; cv=none; b=AbKgh54cfIO2FigyF6S41ZNk0YgkcQAn6xlK9KnonolOazPWixg87BHuVZEhcc/cmAroqjNeaLSh0TgZdtoIohqJDHi6xA/ma9erI9eous/UVxR1f4PSq+3702rxTIz9N+v4TYzVebI96KPdEC+fmXkDIvr+lXX6ZfppBN5MWZ4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751377735; c=relaxed/simple;
-	bh=COcxqTJmLCQuqGNIIvXZW8XzPWpwkkkrB4it1BwU/rw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SdkmGPTqvOVm5fpZ+w1YkSP3ebbAtD0gqZUXbcOpcVUZg52RA0o5PdS4oRxFG2mAq8/KIGIaMLCZjOj89TNmQ4s+npTC8aG2updZePPWpnLw1wk5iwDRnuxWl3rWlo2dyoWOYr9zdZnhsjHRofzh+hX59Lhl/t3LBxyy4ZrKewE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=e98RBByA; arc=none smtp.client-ip=192.198.163.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1751378089; c=relaxed/simple;
+	bh=ZL/u65dIbxosbqEkEvyApJed1MUepl7ko0Ds7XvleG0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=rjntNQU9euv0NrL28dKZfdT2veA0jtOMUPV1aHn3h+lziv//ckk+ZG5903Tnd6qukqKBOPlny7Tgikt4IjW89G/CWo33TrAxXoH9cVsXH3Qb48TLGNxspS7VBcr17GcEqPH2l1AszUi2ROGC4fufemA9tkWxcyeLMtSS8sfXn94=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Nsz8DVWj; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="e98RBByA"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1751377733; x=1782913733;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=COcxqTJmLCQuqGNIIvXZW8XzPWpwkkkrB4it1BwU/rw=;
-  b=e98RBByAmidyKcLppr5KThRntVRU+Objwyqc8QjmOVKaQculxTHyFnCa
-   va530QJvwpOsiflfL+tqNSdwMl60e5CNXduPHq6gsifUaWHUSSPlZAFOg
-   wxPHQ/XMLzmMo6iNBrnz5zmIXEhxa88w1CDZ+OPhCLvOd0hy2ZBw2e/oW
-   35vPVzwDjpCDn+pk+vxBA2LLTjWxxJhFQhB7QWo39ns0UpD9TJYUDu0uA
-   M79Apm5w0jE5NHOniKuCJpMatj86ah+efYOUDsPU+mkM1fULa6Ple1S4f
-   5xZWsDIrYBGGPnW59BcZ4qVp+rPgW3QcEYeGKmF2kGP8NpzhhwOvW144k
-   g==;
-X-CSE-ConnectionGUID: hgbLUlCTSUS7Duyb7JCJkA==
-X-CSE-MsgGUID: 2ck/e4/oQLmoalbxxqWJ1A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11481"; a="53579992"
-X-IronPort-AV: E=Sophos;i="6.16,279,1744095600"; 
-   d="scan'208";a="53579992"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jul 2025 06:48:52 -0700
-X-CSE-ConnectionGUID: 7znLXOmqSLKgUFROLBP8PQ==
-X-CSE-MsgGUID: +ro+hUc/Ta2CfGOwTALfIA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,279,1744095600"; 
-   d="scan'208";a="153548388"
-Received: from smile.fi.intel.com ([10.237.72.52])
-  by orviesa009.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jul 2025 06:48:49 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.98.2)
-	(envelope-from <andriy.shevchenko@intel.com>)
-	id 1uWbLp-0000000BbxK-2psc;
-	Tue, 01 Jul 2025 16:48:45 +0300
-Date: Tue, 1 Jul 2025 16:48:45 +0300
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: Abdun Nihaal <abdun.nihaal@gmail.com>
-Cc: andy@kernel.org, dan.carpenter@linaro.org, gregkh@linuxfoundation.org,
-	lorenzo.stoakes@oracle.com, tzimmermann@suse.de,
-	riyandhiman14@gmail.com, willy@infradead.org, notro@tronnes.org,
-	thomas.petazzoni@free-electrons.com,
-	dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 1/2] Revert "staging: fbtft: fix potential memory leak
- in fbtft_framebuffer_alloc()"
-Message-ID: <aGPnPVjB6bGKMkwV@smile.fi.intel.com>
-References: <cover.1751361715.git.abdun.nihaal@gmail.com>
- <a689f32d6c56d6c5c6ba8e2faa0305b5e92d9897.1751361715.git.abdun.nihaal@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Nsz8DVWj"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C603BC4CEEB;
+	Tue,  1 Jul 2025 13:54:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1751378089;
+	bh=ZL/u65dIbxosbqEkEvyApJed1MUepl7ko0Ds7XvleG0=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=Nsz8DVWjSFKbqjow7W6o1m10uyyNr8ckimVR/Zp/X3duRAgeYnFGLj+WfAClnWxFm
+	 bivyyT/qnOjyP4sfFsEEegvR7vcg7k8VOHxXiXYV3ssXDXte+YtRAqwP3tD6IfK8MS
+	 Mrt1JLhH2zajYEsV3n9jQ/4LmmD47quFngMft/WipvTT8ZUitgvwd0bnVB0lTeK4h4
+	 P+txvfbJ2FmzsVDKS5hQTsRovvNqYRALDXS+kMQwGM3ejlPp5Y20KuJY7WHjuJpoUj
+	 r+V33xOBw6QSqwDWvcl7BFjSM7qftWk/NxdXJmp6z+60potRDTENv2VeDHqeNBKNsY
+	 HXHg6odR75Mgg==
+Message-ID: <836dc6b6-2821-47fc-8f24-0838f979af76@kernel.org>
+Date: Tue, 1 Jul 2025 15:54:45 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <a689f32d6c56d6c5c6ba8e2faa0305b5e92d9897.1751361715.git.abdun.nihaal@gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] staging: media: atomisp: Fix premature setting of
+ HMM_BO_DEVICE_INITED flag
+To: Andy Shevchenko <andriy.shevchenko@intel.com>,
+ Abdelrahman Fekry <abdelrahmanfekry375@gmail.com>
+Cc: Andy Shevchenko <andy.shevchenko@gmail.com>, andy@kernel.org,
+ hdegoede@redhat.com, mchehab@kernel.org, sakari.ailus@linux.intel.com,
+ gregkh@linuxfoundation.org, linux-kernel-mentees@lists.linux.dev,
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+ linux-staging@lists.linux.dev, skhan@linuxfoundation.com,
+ dan.carpenter@linaro.org
+References: <20250628052536.43737-1-abdelrahmanfekry375@gmail.com>
+ <CAHp75Vcy3dHRu8Wb2KZ=xK7adz=-P-iuRTeR8vOWzHzZL9uFeg@mail.gmail.com>
+ <CAGn2d8OMRaeozOMxj1Ry8i9T3sJ5J1QqA_Jpk7wYO8KiUbpKBA@mail.gmail.com>
+ <aGPYZhK65LaD0wVO@smile.fi.intel.com>
+Content-Language: en-US, nl
+From: Hans de Goede <hansg@kernel.org>
+In-Reply-To: <aGPYZhK65LaD0wVO@smile.fi.intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Tue, Jul 01, 2025 at 03:10:22PM +0530, Abdun Nihaal wrote:
-> This reverts commit eb2cb7dab60f ("staging: fbtft: fix potential memory
-> leak in fbtft_framebuffer_alloc()").
+Hi,
+
+On 1-Jul-25 2:45 PM, Andy Shevchenko wrote:
+> On Tue, Jul 01, 2025 at 02:58:43PM +0300, Abdelrahman Fekry wrote:
+>> Hello Andy,
+>> On Sat, Jun 28, 2025 at 10:52 PM Andy Shevchenko
+>> <andy.shevchenko@gmail.com> wrote:
+>>> On Sat, Jun 28, 2025 at 8:26 AM Abdelrahman Fekry
+>>> <abdelrahmanfekry375@gmail.com> wrote:
 > 
-> An updated patch has been added as commit 505bffe21233 ("staging:
-> fbtft: fix potential memory leak in fbtft_framebuffer_alloc()"),
-> and so reverting the old patch.
+>>>> The HMM_BO_DEVICE_INITED flag was being set in hmm_bo_device_init()
+>>>> before key initialization steps like kmem_cache_create(),
+>>>> kmem_cache_alloc(), and __bo_init().
+>>>>
+>>>> This means that if any of these steps fail, the flag remains set,
+>>>> misleading other parts of the driver (e.g. hmm_bo_alloc())
+>>>> into thinking the device is initialized. This could lead
+>>>> to undefined behavior or invalid memory use.
+>>>
+>>> Nice. Can you make some fault injection (temporary by modifying the
+>>> code to always fail, for example) and actually prove this in practice?
+>>> If so, the few (important) lines from the given Oops would be nice to
+>>> have here.
+> 
+>> I have been trying to test it without having any intel atomisp
+>> hardware and failed continuously, do you have any tips or maybe some
+>> resources on how i can test this driver.
+> 
+> So, the easiest way as I can see it is to ask people who possess the HW to
+> test, but you need to provide a testing patch (which can be applied on top
+> of this one, for example).
 
-Revert has its automatic line, please do not remove it.
+I don't think it is worth testing the error path here,
+the old code is obviously wrong.
 
--- 
-With Best Regards,
-Andy Shevchenko
+What is interesting here is to see if the extra call to hmm_init()
+in __hmm_alloc() is necessary at all.
 
+And obviously hmm_init() needs to propagate the error return
+from hmm_bo_init() right away instead of continuing if nothing
+was wrong and then only returning the error at the end.
+
+So it seems that there plenty of cleanup to do around this
+without needing error injection to test all paths.
+
+Actually I'm pretty sure that there will be quite a few
+error-handling paths with bugs in the atomisp code given
+its overall quality. But lets clean things up first, that
+should make addressing any such cases easier.
+
+Regards,
+
+Hans
 
