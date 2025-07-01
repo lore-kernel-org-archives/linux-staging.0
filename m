@@ -1,115 +1,118 @@
-Received: from mail-yb1-f170.google.com (mail-yb1-f170.google.com [209.85.219.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 440D026FA4C;
-	Tue,  1 Jul 2025 11:58:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35FE52741DC;
+	Tue,  1 Jul 2025 12:45:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751371138; cv=none; b=P/0L+DUPEOxTw075DFB32Kg4G0RMOI7QnKJsyaDQwkgxiaG6G7FR/czpbh3dOVuDsrsoTiL0ATN1Z4mtbDuc2rVkPIF6BaaorsFpPC8zvsIFV3TntdfDi74MVVxqLGXzS1NI/4U0yqETXmFiqzq+hTGGEAcvn/5TwQLZz2YEF1Q=
+	t=1751373934; cv=none; b=ra0WcHYZ5Ob4R2czSo5fkNaWAyptXh6qPpQ5R3zU9oSXG9zW+SVMdGh24WDYfR6F6JgKK7iSik0BkgG0DHD+Pm/9JudIlwYM7GKZ4qyr/nyMgj1at6jbvWUtrFlxe/NCcj2MvIQ2Evcjo+cCYCpM/Vdi5ttVSm1ctb1S0TD93/I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751371138; c=relaxed/simple;
-	bh=Vedol4hY+rRqUDONgAmDx8al8REG5r4lfPvZiD3cx/A=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=HitD7j3TkziIaF5ufz+YD/6v9HdARWaAnc192h43gtjx7t26XJNG1n5Cb/RylETzRA1tlyvhIUeLnGzojaXkyGjfyl17FuOWRzPQfnGBQLcl+kUfGPOyrne+XIoqwwtnCSnhm8yDmHXJK4M7PVZ+pa28+AojzvTjLgY8Gnp1ua4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TFpqnSeg; arc=none smtp.client-ip=209.85.219.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1751373934; c=relaxed/simple;
+	bh=jLzMVW+bdlcX8BieIAvHsE5uVq8etbvJL+agrUWGPV8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=GSHJMIsubAF3Ppi0ErMWHzGyd817vdiFzym1nmGJsB8s6JMnKXe+Hispc0QWiWY7k9IQNrtN8FBFKjo4cyejgBA8ym2YVtuecfepv0kutURW2XRpZBwdBYXuCCAbl3j+RzKxqdXwaHTSkdX4aeJpAkhVM5a5LjrC5y6gPAeQtOk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cUNUk+U7; arc=none smtp.client-ip=198.175.65.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TFpqnSeg"
-Received: by mail-yb1-f170.google.com with SMTP id 3f1490d57ef6-e821922451fso518455276.0;
-        Tue, 01 Jul 2025 04:58:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1751371135; x=1751975935; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Vedol4hY+rRqUDONgAmDx8al8REG5r4lfPvZiD3cx/A=;
-        b=TFpqnSegVVg0c0cuDYc6dOpWbfXLRfNtHCo4/GzlieVPJPpDOxRBsd5hw9rNrLulbV
-         Nz+tiy0FdehLZOZi329I0Adh24qZaXToh0gGVaIQXwN52wqzxgC6sXPJFItGNK6kpuFW
-         WuwnIDTBHYI+Gq+OvQysUTlJl7/hldQZqcHnkkZUiDx49Andwpv7BA0EFFIBIC7MT0LJ
-         z6bcC/+mNi4XWtPJ52Bpr9hqw9G6etgz/eqRRm2dILkp8A9UqPpzGjHSedp4ZfrTvo1P
-         RWzYqGhqZY2UKAgfMl0t+2k610g026GhhBF6+MAOoT+ZQdUNvGQzIQAproNCyxdQEIS2
-         GxDA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751371135; x=1751975935;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Vedol4hY+rRqUDONgAmDx8al8REG5r4lfPvZiD3cx/A=;
-        b=pvUhtrfczILbvG/vA0sajf14mCH3HwDs68izdgmruaDJN78SasO/gtSvs/SApTl988
-         +AJvs3XdKGLahPbNgR59wzlC4kG5lR4AVlaJj9klDBe5sO4Rj1bU/7UXIQ//15gZCOMa
-         nxNIYgSyudKm17poRTFPw+WhdiOK7HOzwU5Ohr2kcDZ2A1Vm7wzf0Y2ODA3fNiIxiCzo
-         gohSLhsQRESCzsxbCGAA+mECI5xAeVZHQ4wlGFXWVMbnEMuyHDsiEd/IW0IyJfdk/4Yu
-         7YIEIRmKPRbF60kVrZPzxFbVtmc6n/k6jegSq5+vMYbVB92ufQchxJoo20BvGG8LJRif
-         aVYQ==
-X-Forwarded-Encrypted: i=1; AJvYcCU2yH7dVrReMQDhnVPoPPZuU60LKsO+RpnPrMMPr6meyMMkjkAepWtdnX9GC/PzvSrtCYYJy7OAyYQSKWMcFA==@lists.linux.dev, AJvYcCWUQQ8RSXGHWoRr/6iMJ9RMdr9BDGHnih+uJL3dEsA9MTusKpHxvN0jMALkJKWwcp7Px2xhXgFK8a2elADm3nTfzJNieA==@lists.linux.dev
-X-Gm-Message-State: AOJu0Ywb6/pzJeWoTo0/v9JSnVgjS4TQd+ufDWJQhwZCQ4c6tW7OkLwM
-	yy6lYQfYBv18wMCl5bm+48lP2zn0zA14mFF5BHK4dYH86DAhvMpkfE6rkW5Beb0j5zj6Pmh+CvF
-	mJr2gmbQfkRMgTqClqp3d5TeTe4S11YE=
-X-Gm-Gg: ASbGncvZ7dq6g/4dfbbsj5ArEhf69mCqfO6mehreJXa3OUNMqUSa5xgRPFXTdZschBx
-	O9x7gXs9n0g76S/oIOAixpx3zraapRoc7wwFOIvXnczlzbWsYbBnfh6udWMnmWWM0CY+FLkJxLC
-	4rrqOsiitpMZT9oQKV5IWAwGShTX6Ci2Z/qkfs+/2eIpqEHQ==
-X-Google-Smtp-Source: AGHT+IGgiJowCKFFlZiwDygK8oHms47QTPESpY33t7E8BJA47fJPqG+qtL9rmc9YTIE/0oPqnV67PA1ClFix1ShCh+w=
-X-Received: by 2002:a05:690c:dc6:b0:70f:7bea:5dd with SMTP id
- 00721157ae682-7163f7a475bmr18155327b3.9.1751371134880; Tue, 01 Jul 2025
- 04:58:54 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cUNUk+U7"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1751373933; x=1782909933;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=jLzMVW+bdlcX8BieIAvHsE5uVq8etbvJL+agrUWGPV8=;
+  b=cUNUk+U7q1kM5Y6wReW7oVYPeshrFsgV8VG4y7m/OaOigklM3Dttxi9q
+   vMu8HxUcuqlV0DJGldcob2JlFqdP54M0FyzS7qp94xKN5lVJXXPDqSs9w
+   LBWiQS3+TQFKX8EKn3rMtVFx/CnJOHmLyeKK0sGzJjByXMMub/FmloIS4
+   aDudAyndVJY3O/XZqNjQSLiDGM2FMvNUTIg9m2E4s8z4HP3L+e12rne5Y
+   JIq7clWHRjNyUCLxZyzlgYlzCTQ5WzDDYD+wb/UlPus/RzgzLRAK9OVqX
+   TdOkPeDJyN+cZnVpdtl1slY55gJV4HmPTdj6/Bb8FD6auLYS3cu5yxQoU
+   A==;
+X-CSE-ConnectionGUID: VWrgGzXZRi2O9jMetVGqZQ==
+X-CSE-MsgGUID: PF/pRvG6R9uZrgGvs6VszQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11481"; a="57318039"
+X-IronPort-AV: E=Sophos;i="6.16,279,1744095600"; 
+   d="scan'208";a="57318039"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jul 2025 05:45:32 -0700
+X-CSE-ConnectionGUID: SRVgI8rqQ4WsstZn1bAFyw==
+X-CSE-MsgGUID: uaVhz3xfQcK7oIGIqObU4w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,279,1744095600"; 
+   d="scan'208";a="153851008"
+Received: from smile.fi.intel.com ([10.237.72.52])
+  by fmviesa006.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jul 2025 05:45:29 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.98.2)
+	(envelope-from <andriy.shevchenko@intel.com>)
+	id 1uWaMY-0000000BbAP-1iXd;
+	Tue, 01 Jul 2025 15:45:26 +0300
+Date: Tue, 1 Jul 2025 15:45:26 +0300
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: Abdelrahman Fekry <abdelrahmanfekry375@gmail.com>
+Cc: Andy Shevchenko <andy.shevchenko@gmail.com>, andy@kernel.org,
+	hdegoede@redhat.com, mchehab@kernel.org,
+	sakari.ailus@linux.intel.com, gregkh@linuxfoundation.org,
+	linux-kernel-mentees@lists.linux.dev, linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+	skhan@linuxfoundation.com, dan.carpenter@linaro.org
+Subject: Re: [PATCH] staging: media: atomisp: Fix premature setting of
+ HMM_BO_DEVICE_INITED flag
+Message-ID: <aGPYZhK65LaD0wVO@smile.fi.intel.com>
+References: <20250628052536.43737-1-abdelrahmanfekry375@gmail.com>
+ <CAHp75Vcy3dHRu8Wb2KZ=xK7adz=-P-iuRTeR8vOWzHzZL9uFeg@mail.gmail.com>
+ <CAGn2d8OMRaeozOMxj1Ry8i9T3sJ5J1QqA_Jpk7wYO8KiUbpKBA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250628052536.43737-1-abdelrahmanfekry375@gmail.com> <CAHp75Vcy3dHRu8Wb2KZ=xK7adz=-P-iuRTeR8vOWzHzZL9uFeg@mail.gmail.com>
-In-Reply-To: <CAHp75Vcy3dHRu8Wb2KZ=xK7adz=-P-iuRTeR8vOWzHzZL9uFeg@mail.gmail.com>
-From: Abdelrahman Fekry <abdelrahmanfekry375@gmail.com>
-Date: Tue, 1 Jul 2025 14:58:43 +0300
-X-Gm-Features: Ac12FXx77Wq8plk53ER_MI4X8N7_XDcU6XFGVrvytjF9j2XAfeNRxtYwsScU_o8
-Message-ID: <CAGn2d8OMRaeozOMxj1Ry8i9T3sJ5J1QqA_Jpk7wYO8KiUbpKBA@mail.gmail.com>
-Subject: Re: [PATCH] staging: media: atomisp: Fix premature setting of
- HMM_BO_DEVICE_INITED flag
-To: Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc: andy@kernel.org, hdegoede@redhat.com, mchehab@kernel.org, 
-	sakari.ailus@linux.intel.com, gregkh@linuxfoundation.org, 
-	linux-kernel-mentees@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	linux-media@vger.kernel.org, linux-staging@lists.linux.dev, 
-	skhan@linuxfoundation.com, dan.carpenter@linaro.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAGn2d8OMRaeozOMxj1Ry8i9T3sJ5J1QqA_Jpk7wYO8KiUbpKBA@mail.gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-Hello Andy,
-On Sat, Jun 28, 2025 at 10:52=E2=80=AFPM Andy Shevchenko
-<andy.shevchenko@gmail.com> wrote:
->
-> On Sat, Jun 28, 2025 at 8:26=E2=80=AFAM Abdelrahman Fekry
-> <abdelrahmanfekry375@gmail.com> wrote:
-> >
-> > The HMM_BO_DEVICE_INITED flag was being set in hmm_bo_device_init()
-> > before key initialization steps like kmem_cache_create(),
-> > kmem_cache_alloc(), and __bo_init().
-> >
-> > This means that if any of these steps fail, the flag remains set,
-> > misleading other parts of the driver (e.g. hmm_bo_alloc())
-> > into thinking the device is initialized. This could lead
-> > to undefined behavior or invalid memory use.
->
-> Nice. Can you make some fault injection (temporary by modifying the
-> code to always fail, for example) and actually prove this in practice?
-> If so, the few (important) lines from the given Oops would be nice to
-> have here.
->
-I have been trying to test it without having any intel atomisp
-hardware and failed continuously, do you have any tips or maybe some
-resources on how i can test this driver.
+On Tue, Jul 01, 2025 at 02:58:43PM +0300, Abdelrahman Fekry wrote:
+> Hello Andy,
+> On Sat, Jun 28, 2025 at 10:52 PM Andy Shevchenko
+> <andy.shevchenko@gmail.com> wrote:
+> > On Sat, Jun 28, 2025 at 8:26 AM Abdelrahman Fekry
+> > <abdelrahmanfekry375@gmail.com> wrote:
 
-> > Additionally, since __bo_init() is called from inside
-> > hmm_bo_device_init() after the flag was already set, its internal
-> > check for HMM_BO_DEVICE_INITED is redundant.
+> > > The HMM_BO_DEVICE_INITED flag was being set in hmm_bo_device_init()
+> > > before key initialization steps like kmem_cache_create(),
+> > > kmem_cache_alloc(), and __bo_init().
+> > >
+> > > This means that if any of these steps fail, the flag remains set,
+> > > misleading other parts of the driver (e.g. hmm_bo_alloc())
+> > > into thinking the device is initialized. This could lead
+> > > to undefined behavior or invalid memory use.
 > >
-> > - Move the flag assignment to the end after all allocations succeed.
-> > - Remove redundant check of the flag inside __bo_init()
->
->
-Thanks for your continuous guidance.
-> --
-> With Best Regards,
-> Andy Shevchenko
+> > Nice. Can you make some fault injection (temporary by modifying the
+> > code to always fail, for example) and actually prove this in practice?
+> > If so, the few (important) lines from the given Oops would be nice to
+> > have here.
+
+> I have been trying to test it without having any intel atomisp
+> hardware and failed continuously, do you have any tips or maybe some
+> resources on how i can test this driver.
+
+So, the easiest way as I can see it is to ask people who possess the HW to
+test, but you need to provide a testing patch (which can be applied on top
+of this one, for example).
+
+> > > Additionally, since __bo_init() is called from inside
+> > > hmm_bo_device_init() after the flag was already set, its internal
+> > > check for HMM_BO_DEVICE_INITED is redundant.
+> > >
+> > > - Move the flag assignment to the end after all allocations succeed.
+> > > - Remove redundant check of the flag inside __bo_init()
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
