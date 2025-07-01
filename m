@@ -1,70 +1,37 @@
-Received: from mail-ot1-f41.google.com (mail-ot1-f41.google.com [209.85.210.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8777B236431
-	for <linux-staging@lists.linux.dev>; Mon, 30 Jun 2025 23:16:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 994B4A47;
+	Tue,  1 Jul 2025 05:14:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751325420; cv=none; b=RzIHXFjBW5c+itM63lD1LitbD4aKwi1ZtACx0dbiTtw46SOaUEeYfgx94Av5mCp0J3cZFaWkFkmwD4MsTDTMehUh8xfL6d0P0uLfxGBTGQ7DQdOBN4CnBtqOULoW8NDxc46D/+wOUgFwTYtjdHuqk+aOoK32MEgS9wwPnmM7u94=
+	t=1751346856; cv=none; b=ZWSg6pSSvuKeAzt6rot7kVzB/BCjIGRMKGs2bHydborcmBNNs5BfCPQB1I504mZHjRl5ZNATptlApXIYsOS1VusZl3NQ0hQawyruPpx5SRgapPhImq4e3ElEFk5XfT81xz/PLyvoHH2QRXMcWEwE58jJVHa76rAP8rMlXJSTdZQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751325420; c=relaxed/simple;
-	bh=n8QfZ0rnJ0oU6x9/bVIPheJOm21x+iAfPDADw8dIoag=;
+	s=arc-20240116; t=1751346856; c=relaxed/simple;
+	bh=4EI84xoe1kHo6E7yA1cYA+lVhLbZuwVZ6TP6KFJRjE4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=g8+UoZb4XUWMBJwkLogK2aoh5o+3ovsN0WLEwdk65QMN1owVRlGNKne0RUDutHSzImqby5GyJV8YNGNgJBeBRxFn7pjywvXdUnb56h40uBB2xJh2aHNmWxnOkIkQdsiBjOEtIJaRLsOPIKtZFdiw3fKA8wcrlU8Bu3tWhMl9zuM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=mNopf7ru; arc=none smtp.client-ip=209.85.210.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Type:Content-Disposition:In-Reply-To; b=ddDiiuPGgAad0uk30MkBDQiXibfLswEudQl5G8kVGumTSKryNc8WvboXu8pH9w98efnT/XJ6h7ulMpfncGurbh2lyXn8R+j06gYTZJvt4yiwQXxcmSGk+9Zidbt6O281h3sgn1nA9Lg4FacGnT+62xPRU2kAFLs2dqjKBk7o5qo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=WA/3/LVy; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="mNopf7ru"
-Received: by mail-ot1-f41.google.com with SMTP id 46e09a7af769-7387f21daadso3168179a34.0
-        for <linux-staging@lists.linux.dev>; Mon, 30 Jun 2025 16:16:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1751325417; x=1751930217; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=dPsglbeSfBYikFMRlZLM+myXUf3rDQJ1e/HuWqhv0Kg=;
-        b=mNopf7ruxma8MctYaTklY8hFUI8mXgjq+YtnPtSAbguUsd/iprhQ2/Ep/LCzudGzbo
-         IzBSmJRPiZYy7InGEKFZXPRC/1U8uZTdJQMmm76dEs00afPxNoU0cVVd53g2k5A3bGsj
-         p8hwZRhALUglGlz3GHtGSMyWiAIBwNGmGBcZWeOuOkmEs+8tWNxYXXwoUi6Fypqjz18k
-         XDdFVf1ddMnPx+K9pMfa3qklefbNVFpy+lI1ywBDnxsRVWuvha6kQxsJC85WXWm3dvpB
-         w3EHIcfgAMaOMTVasrCoxg3+MAs1+bSXNcrXPJeINWvn39CXM6vmCZ4E3V0EdJG8vyek
-         BRjg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751325417; x=1751930217;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=dPsglbeSfBYikFMRlZLM+myXUf3rDQJ1e/HuWqhv0Kg=;
-        b=F0HsGkyl1EE1u7JhTz2g9Y1/WlVVth/BOI9gC/0UP3s2Yhj1nbcOqcPAGllFHZQJz5
-         gJ/5Fvqy1qMH2p9OFpLMy5ixj0OLvadxNhtItIvVqtgjamGILwrhNNfkRJAaSdRqJ8a+
-         vmDgeVICJT86jUIZCssN1vaEPSUFXFpQCPtPqxlHhecad0Bnh33VsU//h1pOkNjTFBip
-         gIYC2YoG9pNjmM+QC8DRJfmUlVFoGJFPe40po2D3q8c21oNUoVBCOjkxsGnSh50V9ET7
-         xEoZhy1y7+f8HPa1LnQvcb4BcTMHq87+eleqiFze81D7GOG7s2tuIYmgoTsvNg7N2JYK
-         qD8A==
-X-Forwarded-Encrypted: i=1; AJvYcCVIxSPaqjKJIHn1Qc1M+uTnmzSFKtvSksvcHfnD1ovD65oP/B/CdWH/hWd1B5+cuHnBbHTcmcngyYnQkjut@lists.linux.dev
-X-Gm-Message-State: AOJu0YygENvCNsyteuIWB7+HdFQVtrTX6XQEEr87N8Rs2zLEG8R73rTn
-	4K5XMopBth3WZYK6yK50LS3qHpVeVMZKdbCtkTNoHomsas/R1RMJq+jJUkr5ljUxlpA=
-X-Gm-Gg: ASbGnctWNLs5aD2kmpkEmw3WYQLGz3lq4Jiuudd9YlTJLInhJenyaueYt60HKQLLoDM
-	tDcIUWado2ZN+x9IpofkK5arrWmjtRpMMQ+sdtXI/wdkBhWP9pzEqKFFkW1hNFKil/Gvjhsi5Ev
-	5hqpklnFZFWNH//Gkm3pM26lNhDKIdTsC2HnZPpDhY4QUHgWaGtaBuDJpwvSbi7K+w4oKxrY9lz
-	NzNw/63Jm6+2XRXnVl9ZvymMP5SfrzAWV17xU7/jhfGW0abij3RStoYQV45mXNoPwd6/Ddhn2cw
-	QtsCq8N97rUjzF89loiyLoY/EqXWi2m222s6T7ATLWgjlbgsjNGxtR7MoZvT91llqMnx
-X-Google-Smtp-Source: AGHT+IEO4423qNPUoHeSs9Ticg1iFqBds4SMvKWENz/3Z7lV5vqhHiAViodxGv2Yd3U+TjK0V9jRiA==
-X-Received: by 2002:a05:6830:1d8a:b0:735:a6b9:3b48 with SMTP id 46e09a7af769-73b3b7d7bdbmr1021171a34.10.1751325417416;
-        Mon, 30 Jun 2025 16:16:57 -0700 (PDT)
-Received: from localhost ([2603:8080:b800:f700:fb67:363d:328:e253])
-        by smtp.gmail.com with ESMTPSA id 006d021491bc7-611b857b8dcsm1264293eaf.26.2025.06.30.16.16.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 30 Jun 2025 16:16:56 -0700 (PDT)
-Date: Tue, 1 Jul 2025 02:16:54 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="WA/3/LVy"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 239C7C4CEEB;
+	Tue,  1 Jul 2025 05:14:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1751346856;
+	bh=4EI84xoe1kHo6E7yA1cYA+lVhLbZuwVZ6TP6KFJRjE4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=WA/3/LVyMWmjOkxhgPa5g2/HPbtQ6WQ/VeFoI2fNmePUB3FNN/ECFDL2IQg/zA39Y
+	 go/Tqwfdv+wees0iQsyZSimb2cEve0h8UMr9DaYREKrUVvdiuDxxWfY9fJizALhV4o
+	 wa2e3qfhsufVEMHH5EJvEevcTNGdi2XKBO+yLno0=
+Date: Tue, 1 Jul 2025 07:14:13 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
 To: Marcos Garcia <magazo2005@gmail.com>
-Cc: gregkh@linuxfoundation.org, philipp.g.hortmann@gmail.com,
+Cc: philipp.g.hortmann@gmail.com, dan.carpenter@linaro.org,
 	karanja99erick@gmail.com, rodrigo.gobbi.7@gmail.com,
 	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
 Subject: Re: [PATCH staging] staging: rtl8723bs: Replace magic numbers in
  beacon initialization
-Message-ID: <327e77c3-b754-4b99-ad57-ce87ac2e92bd@suswa.mountain>
+Message-ID: <2025070157-suing-uptake-356e@gregkh>
 References: <38411a98-d907-4173-a528-8d50b337de0c@suswa.mountain>
  <20250630210211.3922530-1-magazo2005@gmail.com>
 Precedence: bulk
@@ -84,11 +51,6 @@ On Mon, Jun 30, 2025 at 11:02:11PM +0200, Marcos Garcia wrote:
 >   (bits [15:8]) with a 2ms margin (bits [7:0]).
 > - BCNTCFG_DEFAULT (0x660F): Configures maximum AIFS for beacon
 >   transmission to ensure high priority, as recommended by the designer.
-
-This commit message references TBTT_PROHIBIT_DEFAULT and BCNTCFG_DEFAULT
-which don't exist.  At this point I'm kind of assuming that you're
-using ChatGPT to write your patches.
-
 > 
 > Preserve original comments where they provide useful context, such as
 > firmware control in power-saving mode and designer notes about beacon
@@ -111,12 +73,6 @@ using ChatGPT to write your patches.
 > -/* Beacon Configuration */
 > -#define TBTT_PROHIBIT_DEFAULT_MS	0x6404  /* 100ms interval + 4ms margin */
 > -#define BCNTCFG_AIFS_LARGEST		0x660F  /* Max AIFS for beacon priority */
-
-You've written this patch on top of a different patch which we're not
-going to apply.
-
-https://staticthinking.wordpress.com/2022/07/27/how-to-send-a-v2-patch/
-
 > +/*
 > + * Beacon Configuration
 > + *
@@ -128,16 +84,6 @@ https://staticthinking.wordpress.com/2022/07/27/how-to-send-a-v2-patch/
 > + *   - 0x04 (4 * 0.5 = 2) ms margin time
 > + */
 > +#define TBTT_PROHIBIT_100MS_2MS_MARGIN 0x6404
-
-Are you getting this from a spec somewhere?  Where is the link?  So the
-original comment was wrong with regards to 4 ms margin vs 2 ms margin?
-This kind of information needs to be in the v2 notes.
-
-I think I need to see the spec before I can review further.
-
-regards,
-dan carpenter
-
 > +
 > +/*
 > + * REG_BCNTCFG: Beacon configuration register
@@ -211,3 +157,32 @@ dan carpenter
 > -- 
 > 2.50.0
 > 
+> 
+
+Hi,
+
+This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
+a patch that has triggered this response.  He used to manually respond
+to these common problems, but in order to save his sanity (he kept
+writing the same thing over and over, yet to different people), I was
+created.  Hopefully you will not take offence and will fix the problem
+in your patch and resubmit it so that it can be accepted into the Linux
+kernel tree.
+
+You are receiving this message because of the following common error(s)
+as indicated below:
+
+- This looks like a new version of a previously submitted patch, but you
+  did not list below the --- line any changes from the previous version.
+  Please read the section entitled "The canonical patch format" in the
+  kernel file, Documentation/process/submitting-patches.rst for what
+  needs to be done here to properly describe this.
+
+If you wish to discuss this problem further, or you have questions about
+how to resolve this issue, please feel free to respond to this email and
+Greg will reply once he has dug out from the pending patches received
+from other developers.
+
+thanks,
+
+greg k-h's patch email bot
