@@ -1,318 +1,462 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF9201A38E4;
-	Wed,  2 Jul 2025 02:43:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FBB327A102
+	for <linux-staging@lists.linux.dev>; Wed,  2 Jul 2025 13:21:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751424241; cv=none; b=CM10SRAMGhFOR8mpm2iSgeuhEK/xpnorLuaSU6UX0ytA+13a4RD2EoYlyDHwpmt6bIsMK1sDSYWbA44NC6C2EDUvhAIg0mCpdAonbQojkjtxd8TTm5jM5Rr8ak+AwhcNtUJFwHlLooTb+fapAesi9NfTa86oGc8pOLw8JKnr7AE=
+	t=1751462476; cv=none; b=jiMsh+kVWFxpPOqrEftGvfNukuYs5sgYNN+YfuuGmdE+9v8YXMzpI5h6CExxjUcTessa0SYF0K02WzZ3EYiGApBHMJxDx5sSQAmJH9DbkCe4TCqyxCkvghE4xxyJvc/i7XHFcYEHSIq5Nx5/96am33Tl+nvY3POt4aEal4M2MUg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751424241; c=relaxed/simple;
-	bh=WY/UF0Kz4fdyrIcGhIYv72DnhRYvkYh1HFe585W8SDU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tCDcSr/QQkJyUR6uN/X0iegtM7D2xh9mKRm/BRHCok+H88GBgPC3+TM1Vz3LjDJ8O0uOmvdRH9rhwjN1AwkJDPwy6qB3kg8XnSZbCNDr9J5Lx6t2I8pwTT6ERrCw0mmwyWD40r92ag+mTJR0sleHOU6LWjtXyb9nUmqG3Lv47Zo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=egJq4t98; arc=none smtp.client-ip=198.175.65.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1751462476; c=relaxed/simple;
+	bh=P6CDtdjlFXcuRnyGLztxFkhpgUz7eB6Wp/Jq0GAagJU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=TCn/Y2JODGUDIE4D2N7RGMaIa4mknqOPbGVZWRT7EwCrltVjFsK3+kIXKvUn9eRqDupPgBYSQOgHgrHSggjBCZ7BwRsiJCQzXRIJ4r8WnVhs+GxFYqZiRsaizcVWJEWmY6ynZH/71ygHRN29O4mgg3mlr/FmObOFdAVF07Qhnws=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JsBcSyHC; arc=none smtp.client-ip=209.85.218.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="egJq4t98"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1751424239; x=1782960239;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=WY/UF0Kz4fdyrIcGhIYv72DnhRYvkYh1HFe585W8SDU=;
-  b=egJq4t98sShXb99WpjokcTqBeKXbTjulPjSgY3R9gHiSUDLo+zy+tno+
-   bbJWGIZmjaW93SMNVF6QwDvlRXmc8HM02qTPSBEnUzRaPai/sT5E4/Y/4
-   7ls+zw/0pfpcQSYPc60k96ub/rVKPxOpuiX+vgbTziX9f0bguA02hMnFh
-   muhpVI2UExh8lho0dYuxOQZ7G3r9RMW2xVRtTf15IYjEoY8c5UPOAZlgO
-   GTgbnaWfzgwBwCSBXkAizLMtQtsWD1svFW0FhVgKDuCtyKyBw4pAcQWdS
-   57X1nQslnR4Kp7q7SPPxmdVnHd+Fk7hEp0Rktd+kPordCJmWFEbTkkrMe
-   g==;
-X-CSE-ConnectionGUID: YLe3V0xqRRSaIaCRP8jIig==
-X-CSE-MsgGUID: HQ+Z9YTURnCeJB++8Q5ITg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11481"; a="71131402"
-X-IronPort-AV: E=Sophos;i="6.16,280,1744095600"; 
-   d="scan'208";a="71131402"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jul 2025 19:43:59 -0700
-X-CSE-ConnectionGUID: pMCYd+4KS2WjbIz8LBlYYQ==
-X-CSE-MsgGUID: s5PIGkm0RfmDcBf6KILl1Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,280,1744095600"; 
-   d="scan'208";a="153404495"
-Received: from lkp-server01.sh.intel.com (HELO 0b2900756c14) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 01 Jul 2025 19:43:56 -0700
-Received: from kbuild by 0b2900756c14 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1uWnRx-00003f-25;
-	Wed, 02 Jul 2025 02:43:53 +0000
-Date: Wed, 2 Jul 2025 10:43:45 +0800
-From: kernel test robot <lkp@intel.com>
-To: Pratibimba Khadka <pratibimbakhadka@gmail.com>,
-	sudipm.mukherjee@gmail.com
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Pratibimba Khadka <pratibimbakhadka@gmail.com>,
-	Teddy Wang <teddy.wang@siliconmotion.com>,
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JsBcSyHC"
+Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-ad574992fcaso758074166b.1
+        for <linux-staging@lists.linux.dev>; Wed, 02 Jul 2025 06:21:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1751462471; x=1752067271; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=ZJ8O7Ku4GH+lHfTGhQPlXUrYhDzx7AaPEGA0VRXziwY=;
+        b=JsBcSyHCWblWkgUH5GuAuWhYi1RP16KnkmeNMGFR7JP4jy9dSXKwlIQVuW20mpAAWH
+         j8oyTlkfDK7BO/P66NkDXCC9aDqfXDycCcBFoq/+SErORXnl0xfEo/fbk1qRjJUpfKnv
+         BCgCFoVqsaOD5AJlT3rDu2t3LsCQMYixwl4NxL2FuVuUVdSm1fjnyJr6387vlcTxskS1
+         faezexYvTBOLyqUArnxw6SPETs6YbZMqZBb1jtupywAEzrs/zcRkbH4psM7ktJhuogWA
+         ZdDA50WMxX9QQLaprt5lZ5fd6HcM2MN6Im84pet6qEE+/mJdEjKWEjQA4Sfua6xFdNBM
+         R0ng==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1751462471; x=1752067271;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=ZJ8O7Ku4GH+lHfTGhQPlXUrYhDzx7AaPEGA0VRXziwY=;
+        b=Xd+H4MuMIAHLYl8V5pbqV9icc1h7yP63JQ8cuIGK0q3V13NIaEpea4j0ML5aFeVwgm
+         Ey2Leb1440Xcb0wWiMSPWNwZgFImpcFCrJOlg2Vpw5tj13lAqDm0zXbfZLKt/Q+TXuGz
+         +grKLmdl4XTUnoqEJeOUS9lCXKO0Ryiyu1GRW+CZr3vPwIXPXUmlur+Srwt6fw5uDflx
+         GJWwz3naB21yN44FwbThNf2dij5vuYGFKTGa/4l+XensG6XBxgVjpVzQa4fJxMioNtDI
+         LwuPyNMd1Ax5zz6dUGMrtVxek+xQCBK2VCBJepSVZllD8txf95nbX3kqd3Hb40XfAvEq
+         /I+Q==
+X-Forwarded-Encrypted: i=1; AJvYcCVgDQOe0/1ZGgTKaDMgaoNZpVFATiVuamRxeaK3QYtv0ZH7JAkZguLF6WVdFUZHZeIpnyJd6JdoNtJbBGOQ@lists.linux.dev
+X-Gm-Message-State: AOJu0YzMf+bfdfA8uRdeQM5RkVHa8C2fLogNGAvQUCYzf+JqDSsvZwzD
+	vCvGBtXH679BQl9N7PNw0fZ0rHJmUF6ZYpXpHCUh0yqTHEXFRtAEyiHk
+X-Gm-Gg: ASbGncsZglDn9QdZEJKlN4/QaljxPuRU1oDv5h50J8SOQS+IvhMEFcbiJ/G+pabiHhW
+	9MOQ4drfnIQmVleT9W8zT9QXleCPoW+BNXv9XHitA8Cga3IdNDq2ObAVfM212raETGNuQvDzFGC
+	XjBr9YyRQ/d9TbE0169CBWxIlw2vYvKtCqKBOVwj58nAk+U+GyEln5A5F5cb722pVHXlZ831R0G
+	H7/jz5kHvjubKlQtyOddChjsouBwG3yL8YZ+XMSfJlcNHZXPVgMQZbTsYKDlWDYrxTD3bowkg4u
+	39BjieExFLuf7QcNbQ+RS13lo10kqrMvJNkIgObte7NIC49TnZNM8MoxXGTQwixKWsoSAIsiQHk
+	=
+X-Google-Smtp-Source: AGHT+IFVjfR6hKuBd+Dli2gZtjR0gSea4bSuNNdwwdll0XtdPNauiyDsYS9Kprdb1jNmit5LdbybRw==
+X-Received: by 2002:a17:906:6dc2:b0:ade:2e4b:50d1 with SMTP id a640c23a62f3a-ae3c2bb9a30mr231553166b.29.1751462470776;
+        Wed, 02 Jul 2025 06:21:10 -0700 (PDT)
+Received: from demon-pc.localdomain ([188.27.131.45])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ae35363b094sm1063800966b.22.2025.07.02.06.21.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 02 Jul 2025 06:21:10 -0700 (PDT)
+From: Cosmin Tanislav <demonsingur@gmail.com>
+To: Cosmin Tanislav <cosmin.tanislav@analog.com>,
+	Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	=?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+	Julien Massot <julien.massot@collabora.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: sm750fb: Mark g_fbmode as a pointer to const
- pointer
-Message-ID: <202507021020.PinpEoBX-lkp@intel.com>
-References: <20250625045526.82758-1-pratibimbakhadka@gmail.com>
+	Linus Walleij <linus.walleij@linaro.org>
+Cc: linux-media@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-staging@lists.linux.dev,
+	linux-gpio@vger.kernel.org,
+	Cosmin Tanislav <demonsingur@gmail.com>
+Subject: [PATCH v5 00/24] media: i2c: add Maxim GMSL2/3 serializer and deserializer drivers
+Date: Wed,  2 Jul 2025 16:20:26 +0300
+Message-ID: <20250702132104.1537926-1-demonsingur@gmail.com>
+X-Mailer: git-send-email 2.50.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250625045526.82758-1-pratibimbakhadka@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Hi Pratibimba,
+This series adds new drivers for multiple Maxim GMSL2 and GMSL3 devices,
+replacing the few GMSL2 drivers already in upstream, and introducing a
+common framework that can be used to implement such GMSL chips, which
+avoids code duplication while also adding support for previously
+unsupported features.
 
-kernel test robot noticed the following build errors:
+While the normally acceptable and polite way would be to extend the
+current mainline drivers, the choice was made here to add a totally new
+set of drivers. The current drivers support only a small subset of the
+possible features, and only a few devices, so the end result after
+extending them would in any case be essentially fully rewritten, new
+drivers.
 
-[auto build test ERROR on staging/staging-testing]
+This series depends on support for internal pads, for which a patch has
+been added.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Pratibimba-Khadka/staging-sm750fb-Mark-g_fbmode-as-a-pointer-to-const-pointer/20250625-125713
-base:   staging/staging-testing
-patch link:    https://lore.kernel.org/r/20250625045526.82758-1-pratibimbakhadka%40gmail.com
-patch subject: [PATCH] staging: sm750fb: Mark g_fbmode as a pointer to const pointer
-config: i386-buildonly-randconfig-003-20250702 (https://download.01.org/0day-ci/archive/20250702/202507021020.PinpEoBX-lkp@intel.com/config)
-compiler: clang version 20.1.7 (https://github.com/llvm/llvm-project 6146a88f60492b520a36f8f8f3231e15f3cc6082)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250702/202507021020.PinpEoBX-lkp@intel.com/reproduce)
+The previous version is at:
+https://lore.kernel.org/lkml/20250618095858.2145209-1-demonsingur@gmail.com
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507021020.PinpEoBX-lkp@intel.com/
+The following deserializers are supported:
+ * MAX96712 (already exists in staging)
+ * MAX96714 (already exists)
+ * MAX96714F (already exists)
+ * MAX96714R (GMSL2)
+ * MAX96716 (GMSL2)
+ * MAX96724 (already exists as part of existing MAX96712 driver)
+ * MAX96724F (GMSL2)
+ * MAX96724R (GMSL2)
+ * MAX9296A (GMSL2)
+ * MAX96792A (GMSL3)
 
-All errors (new ones prefixed by >>):
+The following serializers are supported:
+ * MAX96717 (already exists)
+ * MAX9295A (GMSL2)
+ * MAX96793 (GMSL3)
 
->> drivers/staging/sm750fb/sm750.c:786:19: error: cannot assign to variable 'g_fbmode' with const-qualified type 'const char *const[2]'
-     786 |                 g_fbmode[index] = g_def_fbmode;
-         |                 ~~~~~~~~~~~~~~~ ^
-   drivers/staging/sm750fb/sm750.c:36:26: note: variable 'g_fbmode' declared const here
-      36 | static const char *const g_fbmode[] = {NULL, NULL};
-         | ~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/staging/sm750fb/sm750.c:788:20: error: cannot assign to variable 'g_fbmode' with const-qualified type 'const char *const[2]'
-     788 |                         g_fbmode[index] = g_fbmode[0];
-         |                         ~~~~~~~~~~~~~~~ ^
-   drivers/staging/sm750fb/sm750.c:36:26: note: variable 'g_fbmode' declared const here
-      36 | static const char *const g_fbmode[] = {NULL, NULL};
-         | ~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/staging/sm750fb/sm750.c:949:17: error: cannot assign to variable 'g_fbmode' with const-qualified type 'const char *const[2]'
-     949 |                                 g_fbmode[0] = opt;
-         |                                 ~~~~~~~~~~~ ^
-   drivers/staging/sm750fb/sm750.c:36:26: note: variable 'g_fbmode' declared const here
-      36 | static const char *const g_fbmode[] = {NULL, NULL};
-         | ~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/staging/sm750fb/sm750.c:953:17: error: cannot assign to variable 'g_fbmode' with const-qualified type 'const char *const[2]'
-     953 |                                 g_fbmode[1] = opt;
-         |                                 ~~~~~~~~~~~ ^
-   drivers/staging/sm750fb/sm750.c:36:26: note: variable 'g_fbmode' declared const here
-      36 | static const char *const g_fbmode[] = {NULL, NULL};
-         | ~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~
-   4 errors generated.
+Known backward compatibility breakages:
+ * No default routing. Default routing has been intentionally ommitted
+   as the devices support quite complex routing and it would be
+   unfeasible to provide sane defaults for multi-link deserialziers.
+   It is expected that userspace programs would set appropritate
+   routing.
 
+The following list enumerates new features that are supported by the
+common framework and their respective chip-specific drivers:
+ * Full Streams API support. Most deserializers have support for more
+   than one link, and more than one PHY. Streams support allows
+   configuration of routing between these links and PHYs.
 
-vim +786 drivers/staging/sm750fb/sm750.c
+ * .get_frame_desc() support. Both the serializers and deserializers
+   implement this to query and provide frame descriptor data. This is
+   used in features explained in-depth below.
 
-81dee67e215b23 Sudip Mukherjee         2015-03-03  713  
-81dee67e215b23 Sudip Mukherjee         2015-03-03  714  static int lynxfb_set_fbinfo(struct fb_info *info, int index)
-81dee67e215b23 Sudip Mukherjee         2015-03-03  715  {
-81dee67e215b23 Sudip Mukherjee         2015-03-03  716  	int i;
-81dee67e215b23 Sudip Mukherjee         2015-03-03  717  	struct lynxfb_par *par;
-e359b6a863e19f Mike Rapoport           2015-10-26  718  	struct sm750_dev *sm750_dev;
-81dee67e215b23 Sudip Mukherjee         2015-03-03  719  	struct lynxfb_crtc *crtc;
-81dee67e215b23 Sudip Mukherjee         2015-03-03  720  	struct lynxfb_output *output;
-81dee67e215b23 Sudip Mukherjee         2015-03-03  721  	struct fb_var_screeninfo *var;
-81dee67e215b23 Sudip Mukherjee         2015-03-03  722  	struct fb_fix_screeninfo *fix;
-81dee67e215b23 Sudip Mukherjee         2015-03-03  723  
-81dee67e215b23 Sudip Mukherjee         2015-03-03  724  	const struct fb_videomode *pdb[] = {
-81dee67e215b23 Sudip Mukherjee         2015-03-03  725  		lynx750_ext, NULL, vesa_modes,
-81dee67e215b23 Sudip Mukherjee         2015-03-03  726  	};
-81dee67e215b23 Sudip Mukherjee         2015-03-03  727  	int cdb[] = {ARRAY_SIZE(lynx750_ext), 0, VESA_MODEDB_SIZE};
-d5d66cfea2ca28 Kelsey Skunberg         2019-04-27  728  	static const char * const mdb_desc[] = {
-81dee67e215b23 Sudip Mukherjee         2015-03-03  729  		"driver prepared modes",
-81dee67e215b23 Sudip Mukherjee         2015-03-03  730  		"kernel prepared default modedb",
-81dee67e215b23 Sudip Mukherjee         2015-03-03  731  		"kernel HELPERS prepared vesa_modes",
-81dee67e215b23 Sudip Mukherjee         2015-03-03  732  	};
-81dee67e215b23 Sudip Mukherjee         2015-03-03  733  
-70407df77665c0 Michel von Czettritz    2015-03-26  734  	static const char *fixId[2] = {
-81dee67e215b23 Sudip Mukherjee         2015-03-03  735  		"sm750_fb1", "sm750_fb2",
-81dee67e215b23 Sudip Mukherjee         2015-03-03  736  	};
-81dee67e215b23 Sudip Mukherjee         2015-03-03  737  
-81dee67e215b23 Sudip Mukherjee         2015-03-03  738  	int ret, line_length;
-81dee67e215b23 Sudip Mukherjee         2015-03-03  739  
-81dee67e215b23 Sudip Mukherjee         2015-03-03  740  	ret = 0;
-81dee67e215b23 Sudip Mukherjee         2015-03-03  741  	par = (struct lynxfb_par *)info->par;
-e359b6a863e19f Mike Rapoport           2015-10-26  742  	sm750_dev = par->dev;
-81dee67e215b23 Sudip Mukherjee         2015-03-03  743  	crtc = &par->crtc;
-81dee67e215b23 Sudip Mukherjee         2015-03-03  744  	output = &par->output;
-81dee67e215b23 Sudip Mukherjee         2015-03-03  745  	var = &info->var;
-81dee67e215b23 Sudip Mukherjee         2015-03-03  746  	fix = &info->fix;
-81dee67e215b23 Sudip Mukherjee         2015-03-03  747  
-81dee67e215b23 Sudip Mukherjee         2015-03-03  748  	/* set index */
-81dee67e215b23 Sudip Mukherjee         2015-03-03  749  	par->index = index;
-81dee67e215b23 Sudip Mukherjee         2015-03-03  750  	output->channel = &crtc->channel;
-81dee67e215b23 Sudip Mukherjee         2015-03-03  751  	sm750fb_set_drv(par);
-81dee67e215b23 Sudip Mukherjee         2015-03-03  752  
-d11ac7cbcc266c Sudip Mukherjee         2015-08-07  753  	/*
-d11ac7cbcc266c Sudip Mukherjee         2015-08-07  754  	 * set current cursor variable and proc pointer,
-d11ac7cbcc266c Sudip Mukherjee         2015-08-07  755  	 * must be set after crtc member initialized
-d11ac7cbcc266c Sudip Mukherjee         2015-08-07  756  	 */
-fdc234d85210d9 Benjamin Philip         2021-07-28  757  	crtc->cursor.offset = crtc->o_screen + crtc->vidmem_size - 1024;
-e359b6a863e19f Mike Rapoport           2015-10-26  758  	crtc->cursor.mmio = sm750_dev->pvReg +
-e359b6a863e19f Mike Rapoport           2015-10-26  759  		0x800f0 + (int)crtc->channel * 0x140;
-81dee67e215b23 Sudip Mukherjee         2015-03-03  760  
-81dee67e215b23 Sudip Mukherjee         2015-03-03  761  	pr_info("crtc->cursor.mmio = %p\n", crtc->cursor.mmio);
-cd33da26036ea5 Christopher Carbone     2022-08-23  762  	crtc->cursor.max_h = 64;
-cd33da26036ea5 Christopher Carbone     2022-08-23  763  	crtc->cursor.max_w = 64;
-39f9137268ee3d Benjamin Philip         2021-07-26  764  	crtc->cursor.size = crtc->cursor.max_h * crtc->cursor.max_w * 2 / 8;
-e359b6a863e19f Mike Rapoport           2015-10-26  765  	crtc->cursor.vstart = sm750_dev->pvMem + crtc->cursor.offset;
-81dee67e215b23 Sudip Mukherjee         2015-03-03  766  
-3de08a2d14ff8c Lorenzo Stoakes         2015-03-20  767  	memset_io(crtc->cursor.vstart, 0, crtc->cursor.size);
-f7c8a046577e09 Thomas Zimmermann       2023-11-27  768  	if (!g_hwcursor)
-52d0744d751d8f Arnd Bergmann           2016-11-09  769  		sm750_hw_cursor_disable(&crtc->cursor);
-81dee67e215b23 Sudip Mukherjee         2015-03-03  770  
-81dee67e215b23 Sudip Mukherjee         2015-03-03  771  	/* set info->fbops, must be set before fb_find_mode */
-e359b6a863e19f Mike Rapoport           2015-10-26  772  	if (!sm750_dev->accel_off) {
-81dee67e215b23 Sudip Mukherjee         2015-03-03  773  		/* use 2d acceleration */
-f7c8a046577e09 Thomas Zimmermann       2023-11-27  774  		if (!g_hwcursor)
-f7c8a046577e09 Thomas Zimmermann       2023-11-27  775  			info->fbops = &lynxfb_ops_accel;
-f7c8a046577e09 Thomas Zimmermann       2023-11-27  776  		else
-f7c8a046577e09 Thomas Zimmermann       2023-11-27  777  			info->fbops = &lynxfb_ops_accel_with_cursor;
-f7c8a046577e09 Thomas Zimmermann       2023-11-27  778  	} else {
-f7c8a046577e09 Thomas Zimmermann       2023-11-27  779  		if (!g_hwcursor)
-81dee67e215b23 Sudip Mukherjee         2015-03-03  780  			info->fbops = &lynxfb_ops;
-f7c8a046577e09 Thomas Zimmermann       2023-11-27  781  		else
-f7c8a046577e09 Thomas Zimmermann       2023-11-27  782  			info->fbops = &lynxfb_ops_with_cursor;
-f7c8a046577e09 Thomas Zimmermann       2023-11-27  783  	}
-81dee67e215b23 Sudip Mukherjee         2015-03-03  784  
-81dee67e215b23 Sudip Mukherjee         2015-03-03  785  	if (!g_fbmode[index]) {
-81dee67e215b23 Sudip Mukherjee         2015-03-03 @786  		g_fbmode[index] = g_def_fbmode;
-81dee67e215b23 Sudip Mukherjee         2015-03-03  787  		if (index)
-81dee67e215b23 Sudip Mukherjee         2015-03-03  788  			g_fbmode[index] = g_fbmode[0];
-81dee67e215b23 Sudip Mukherjee         2015-03-03  789  	}
-81dee67e215b23 Sudip Mukherjee         2015-03-03  790  
-81dee67e215b23 Sudip Mukherjee         2015-03-03  791  	for (i = 0; i < 3; i++) {
-81dee67e215b23 Sudip Mukherjee         2015-03-03  792  		ret = fb_find_mode(var, info, g_fbmode[index],
-81dee67e215b23 Sudip Mukherjee         2015-03-03  793  				   pdb[i], cdb[i], NULL, 8);
-81dee67e215b23 Sudip Mukherjee         2015-03-03  794  
-81dee67e215b23 Sudip Mukherjee         2015-03-03  795  		if (ret == 1) {
-81dee67e215b23 Sudip Mukherjee         2015-03-03  796  			pr_info("success! use specified mode:%s in %s\n",
-81dee67e215b23 Sudip Mukherjee         2015-03-03  797  				g_fbmode[index],
-81dee67e215b23 Sudip Mukherjee         2015-03-03  798  				mdb_desc[i]);
-81dee67e215b23 Sudip Mukherjee         2015-03-03  799  			break;
-81dee67e215b23 Sudip Mukherjee         2015-03-03  800  		} else if (ret == 2) {
-81dee67e215b23 Sudip Mukherjee         2015-03-03  801  			pr_warn("use specified mode:%s in %s,with an ignored refresh rate\n",
-81dee67e215b23 Sudip Mukherjee         2015-03-03  802  				g_fbmode[index],
-81dee67e215b23 Sudip Mukherjee         2015-03-03  803  				mdb_desc[i]);
-81dee67e215b23 Sudip Mukherjee         2015-03-03  804  			break;
-81dee67e215b23 Sudip Mukherjee         2015-03-03  805  		} else if (ret == 3) {
-81dee67e215b23 Sudip Mukherjee         2015-03-03  806  			pr_warn("wanna use default mode\n");
-4bd9503d0becdb Michel von Czettritz    2015-03-26  807  			/*break;*/
-81dee67e215b23 Sudip Mukherjee         2015-03-03  808  		} else if (ret == 4) {
-81dee67e215b23 Sudip Mukherjee         2015-03-03  809  			pr_warn("fall back to any valid mode\n");
-81dee67e215b23 Sudip Mukherjee         2015-03-03  810  		} else {
-3318bb5e945f70 Michel von Czettritz    2015-03-26  811  			pr_warn("ret = %d,fb_find_mode failed,with %s\n",
-3318bb5e945f70 Michel von Czettritz    2015-03-26  812  				ret,
-3318bb5e945f70 Michel von Czettritz    2015-03-26  813  				mdb_desc[i]);
-81dee67e215b23 Sudip Mukherjee         2015-03-03  814  		}
-81dee67e215b23 Sudip Mukherjee         2015-03-03  815  	}
-81dee67e215b23 Sudip Mukherjee         2015-03-03  816  
-81dee67e215b23 Sudip Mukherjee         2015-03-03  817  	/* some member of info->var had been set by fb_find_mode */
-81dee67e215b23 Sudip Mukherjee         2015-03-03  818  
-271dbae3c6a1da Prasant Jalan           2017-04-01  819  	pr_info("Member of info->var is :\n"
-271dbae3c6a1da Prasant Jalan           2017-04-01  820  		"xres=%d\n"
-271dbae3c6a1da Prasant Jalan           2017-04-01  821  		"yres=%d\n"
-271dbae3c6a1da Prasant Jalan           2017-04-01  822  		"xres_virtual=%d\n"
-271dbae3c6a1da Prasant Jalan           2017-04-01  823  		"yres_virtual=%d\n"
-271dbae3c6a1da Prasant Jalan           2017-04-01  824  		"xoffset=%d\n"
-271dbae3c6a1da Prasant Jalan           2017-04-01  825  		"yoffset=%d\n"
-271dbae3c6a1da Prasant Jalan           2017-04-01  826  		"bits_per_pixel=%d\n"
-271dbae3c6a1da Prasant Jalan           2017-04-01  827  		" ...\n",
-3318bb5e945f70 Michel von Czettritz    2015-03-26  828  		var->xres,
-3318bb5e945f70 Michel von Czettritz    2015-03-26  829  		var->yres,
-3318bb5e945f70 Michel von Czettritz    2015-03-26  830  		var->xres_virtual,
-3318bb5e945f70 Michel von Czettritz    2015-03-26  831  		var->yres_virtual,
-3318bb5e945f70 Michel von Czettritz    2015-03-26  832  		var->xoffset,
-3318bb5e945f70 Michel von Czettritz    2015-03-26  833  		var->yoffset,
-3318bb5e945f70 Michel von Czettritz    2015-03-26  834  		var->bits_per_pixel);
-81dee67e215b23 Sudip Mukherjee         2015-03-03  835  
-81dee67e215b23 Sudip Mukherjee         2015-03-03  836  	/* set par */
-81dee67e215b23 Sudip Mukherjee         2015-03-03  837  	par->info = info;
-81dee67e215b23 Sudip Mukherjee         2015-03-03  838  
-81dee67e215b23 Sudip Mukherjee         2015-03-03  839  	/* set info */
-e3a3f9f5123683 Mike Rapoport           2015-10-26  840  	line_length = ALIGN((var->xres_virtual * var->bits_per_pixel / 8),
-e3a3f9f5123683 Mike Rapoport           2015-10-26  841  			    crtc->line_pad);
-81dee67e215b23 Sudip Mukherjee         2015-03-03  842  
-81dee67e215b23 Sudip Mukherjee         2015-03-03  843  	info->pseudo_palette = &par->pseudo_palette[0];
-cc59bde1c920ab Benjamin Philip         2021-07-28  844  	info->screen_base = crtc->v_screen;
-81dee67e215b23 Sudip Mukherjee         2015-03-03  845  	pr_debug("screen_base vaddr = %p\n", info->screen_base);
-81dee67e215b23 Sudip Mukherjee         2015-03-03  846  	info->screen_size = line_length * var->yres_virtual;
-81dee67e215b23 Sudip Mukherjee         2015-03-03  847  
-81dee67e215b23 Sudip Mukherjee         2015-03-03  848  	/* set info->fix */
-81dee67e215b23 Sudip Mukherjee         2015-03-03  849  	fix->type = FB_TYPE_PACKED_PIXELS;
-81dee67e215b23 Sudip Mukherjee         2015-03-03  850  	fix->type_aux = 0;
-81dee67e215b23 Sudip Mukherjee         2015-03-03  851  	fix->xpanstep = crtc->xpanstep;
-81dee67e215b23 Sudip Mukherjee         2015-03-03  852  	fix->ypanstep = crtc->ypanstep;
-81dee67e215b23 Sudip Mukherjee         2015-03-03  853  	fix->ywrapstep = crtc->ywrapstep;
-81dee67e215b23 Sudip Mukherjee         2015-03-03  854  	fix->accel = FB_ACCEL_SMI;
-81dee67e215b23 Sudip Mukherjee         2015-03-03  855  
-9c15db83a86bf8 Kumar Kartikeya Dwivedi 2021-01-31  856  	strscpy(fix->id, fixId[index], sizeof(fix->id));
-81dee67e215b23 Sudip Mukherjee         2015-03-03  857  
-fdc234d85210d9 Benjamin Philip         2021-07-28  858  	fix->smem_start = crtc->o_screen + sm750_dev->vidmem_start;
-81dee67e215b23 Sudip Mukherjee         2015-03-03  859  	pr_info("fix->smem_start = %lx\n", fix->smem_start);
-d11ac7cbcc266c Sudip Mukherjee         2015-08-07  860  	/*
-d11ac7cbcc266c Sudip Mukherjee         2015-08-07  861  	 * according to mmap experiment from user space application,
-81dee67e215b23 Sudip Mukherjee         2015-03-03  862  	 * fix->mmio_len should not larger than virtual size
-81dee67e215b23 Sudip Mukherjee         2015-03-03  863  	 * (xres_virtual x yres_virtual x ByPP)
-81dee67e215b23 Sudip Mukherjee         2015-03-03  864  	 * Below line maybe buggy when user mmap fb dev node and write
-81dee67e215b23 Sudip Mukherjee         2015-03-03  865  	 * data into the bound over virtual size
-d11ac7cbcc266c Sudip Mukherjee         2015-08-07  866  	 */
-81dee67e215b23 Sudip Mukherjee         2015-03-03  867  	fix->smem_len = crtc->vidmem_size;
-81dee67e215b23 Sudip Mukherjee         2015-03-03  868  	pr_info("fix->smem_len = %x\n", fix->smem_len);
-81dee67e215b23 Sudip Mukherjee         2015-03-03  869  	info->screen_size = fix->smem_len;
-81dee67e215b23 Sudip Mukherjee         2015-03-03  870  	fix->line_length = line_length;
-e359b6a863e19f Mike Rapoport           2015-10-26  871  	fix->mmio_start = sm750_dev->vidreg_start;
-81dee67e215b23 Sudip Mukherjee         2015-03-03  872  	pr_info("fix->mmio_start = %lx\n", fix->mmio_start);
-e359b6a863e19f Mike Rapoport           2015-10-26  873  	fix->mmio_len = sm750_dev->vidreg_size;
-81dee67e215b23 Sudip Mukherjee         2015-03-03  874  	pr_info("fix->mmio_len = %x\n", fix->mmio_len);
-b610e1193a917f Matej Dujava            2020-04-30  875  
-b610e1193a917f Matej Dujava            2020-04-30  876  	lynxfb_set_visual_mode(info);
-81dee67e215b23 Sudip Mukherjee         2015-03-03  877  
-81dee67e215b23 Sudip Mukherjee         2015-03-03  878  	/* set var */
-81dee67e215b23 Sudip Mukherjee         2015-03-03  879  	var->activate = FB_ACTIVATE_NOW;
-81dee67e215b23 Sudip Mukherjee         2015-03-03  880  	var->accel_flags = 0;
-81dee67e215b23 Sudip Mukherjee         2015-03-03  881  	var->vmode = FB_VMODE_NONINTERLACED;
-81dee67e215b23 Sudip Mukherjee         2015-03-03  882  
-81dee67e215b23 Sudip Mukherjee         2015-03-03  883  	pr_debug("#1 show info->cmap :\nstart=%d,len=%d,red=%p,green=%p,blue=%p,transp=%p\n",
-81dee67e215b23 Sudip Mukherjee         2015-03-03  884  		 info->cmap.start, info->cmap.len,
-81dee67e215b23 Sudip Mukherjee         2015-03-03  885  		 info->cmap.red, info->cmap.green, info->cmap.blue,
-81dee67e215b23 Sudip Mukherjee         2015-03-03  886  		 info->cmap.transp);
-81dee67e215b23 Sudip Mukherjee         2015-03-03  887  
-61c507cf652da1 Michel von Czettritz    2015-03-26  888  	ret = fb_alloc_cmap(&info->cmap, 256, 0);
-61c507cf652da1 Michel von Czettritz    2015-03-26  889  	if (ret < 0) {
-008272072d61a8 Masanari Iida           2015-05-28  890  		pr_err("Could not allocate memory for cmap.\n");
-81dee67e215b23 Sudip Mukherjee         2015-03-03  891  		goto exit;
-81dee67e215b23 Sudip Mukherjee         2015-03-03  892  	}
-81dee67e215b23 Sudip Mukherjee         2015-03-03  893  
-81dee67e215b23 Sudip Mukherjee         2015-03-03  894  	pr_debug("#2 show info->cmap :\nstart=%d,len=%d,red=%p,green=%p,blue=%p,transp=%p\n",
-81dee67e215b23 Sudip Mukherjee         2015-03-03  895  		 info->cmap.start, info->cmap.len,
-81dee67e215b23 Sudip Mukherjee         2015-03-03  896  		 info->cmap.red, info->cmap.green, info->cmap.blue,
-81dee67e215b23 Sudip Mukherjee         2015-03-03  897  		 info->cmap.transp);
-81dee67e215b23 Sudip Mukherjee         2015-03-03  898  
-81dee67e215b23 Sudip Mukherjee         2015-03-03  899  exit:
-81dee67e215b23 Sudip Mukherjee         2015-03-03  900  	lynxfb_ops_check_var(var, info);
-81dee67e215b23 Sudip Mukherjee         2015-03-03  901  	return ret;
-81dee67e215b23 Sudip Mukherjee         2015-03-03  902  }
-81dee67e215b23 Sudip Mukherjee         2015-03-03  903  
+ * .get_mbus_config() support. The deserializers implement this to allow
+   upstream devices to query the link frequency of its pads.
+
+ * Address translation with I2C ATR for the serializers.
+
+ * I2C ATR translation - some deserializers cannot do muxing since I2C
+   communication channel masking is not available per-link, and the only
+   other way to select links is to turn them off, causing link resets.
+   For such cases, I2C ATR is used to change the address of the
+   serializers at probe time.
+
+ * Automatic GMSL link version negotiation between GMSL3, GMSL2 6Gbps, GMSL2
+   3Gbps.
+
+ * Automatic stream id selection for deserializers which need serializers to
+   stream on unique stream ids.
+
+ * Automatic VC remapping on the deserializers. VCs are picked so that
+   if they were unique on the sink pad, they will end up as unique on
+   the source pad they are routed to too, prioritizing using the same
+   VC ID as the sink pad, to facilitate the possibility of using tunnel
+   mode.
+
+ * Automatic pixel mode / tunnel mode selection. Tunnel mode is used
+   when VC IDs do not need to be changed and all hardware supports
+   tunnel mode, otherwise, pixel mode is used. The serializers are
+   automatically switched between the two by using a private API.
+
+ * Automatic double mode selection. In pixel mode, double mode can be
+   used to pack two pixels into a single data unit, optimizing bandwidth
+   usage. The serializers are automatically set up to support the double
+   modes determined by the deserializers using a private API.
+
+ * Automatic data padding. In pixel mode, if the data being transferred
+   uses two different BPPs, data needs to be padded. The serializers
+   automatically set this up depending on the configured double mode
+   settings and incoming data types.
+
+ * Logging. Both the deserializers and serializers implement the V4L2
+   .log_status() ops to allow debugging of the internal state and
+   important chip status registers.
+
+ * PHY modes. Deserializer chips commonly have more than a single PHY.
+   The firmware ports are parsed to determine the modes in which to
+   configure the PHYs (2x4, 4x2, 1x4+2x2, 2x2+1x4, and variations using
+   fewer lanes).
+
+ * Serializer pinctrl. Serializers implement pinctrl to allow setting
+   configs which would otherwise be inaccessible through GPIO: TX/RX via
+   GMSL link, pull-up & pull-down (with strength), open-drain &
+   push-pull, slew rate, RCLK pin selection.
+
+ * TPG with selectable formats, resolutions and framerates for both
+   serializers and deserializers.
+
+The drivers have been tested on the following hardware combinations, but
+further testing is welcome to ensure no / minimal breakage:
+ * Raspberry Pi 5 + MAX9296A + 2xMAX96717 + 2xIMX219
+ * Raspberry Pi 5 + MAX96714 + 1xMAX96717 + 1xIMX219
+ * Raspberry Pi 5 + MAX96716A + 2xMAX96717 + 2xIMX219
+ * Raspberry Pi 5 + MAX96712 + 4xMAX96717 + 4xIMX219
+ * Raspberry Pi 5 + MAX96724 + 4xMAX96717 + 4xIMX219
+ * Raspberry Pi 5 + MAX96792A + 1xMAX96793 + 1xMAX96717 + 2xIMX219
+ * Raspberry Pi 5 + MAX96792A + 2xMAX96717 + 2xIMX219
+ * Renesas V4H + MAX96712 + 2xMAX96717 + 2xIMX219
+
+Analog Devices is taking responsibility for the maintenance of these
+drivers and common framework, and plans to add support for new
+broad-market chips on top of them.
+
+Special thanks go to Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+for testing the drivers, helping debug and coming up with ideas /
+implementations for various features.
+
+V5:
+ * dt-bindings: max96717: restrict RCLKOUT to pins 2 & 4
+ * dt-bindings: max96717: remove confusing rclksel pinconf property
+ * dt-bindings: max96717: remove maxim,gmsl-tx/rx pinconf property
+ * dt-bindings: max96717: remove gmsl prefix from maxim,gmsl-tx-id/rx-id
+ * dt-bindings: max96717: remove minimum: 0
+ * dt-bindings: max96717: better document slew-rate
+ * dt-bindings: max96717: better document maxim,jitter-compensation
+ * dt-bindings: max96717: better document maxim,tx-id/rx-id
+
+ * max_serdes: add default TPG values
+ * max_serdes: remove MAX_MIPI_FMT macro
+ * max_serdes: EXPORT_SYMBOL -> EXPORT_SYMBOL_GPL
+ * max_serdes: remove EXPORT_SYMBOL_GPL from symbols not used in other
+   modules
+ * max_serdes: rename symbols/macros/types to have max_serdes prefix
+ * max_serdes: slim down TPG functions
+
+ * max_des: fix may be used uninitialized errors
+ * max_des: fix misplaced TPG validation
+ * max_des: fix setting pipe PHY in tunnel mode for chips that support
+   both set_pipe_phy() and set_pipe_tunnel_phy()
+ * max_des: move doubled_bpp/sink_bpps variables to usage place
+ * max_des: do not dynamically control PHY enable, letting lanes be in
+   LP-11 when not streaming
+ * max_des: refactor get/set_pipe_stream_id() logic
+ * max_des: remove explicit ret = 0
+
+ * max_ser: make VC remaps not pipe-specific, allocate dynamically
+
+ * max9296a: add missing 1080p30 TPG entry
+ * max9296a: move BIT() left shift into macro
+ * max9296a: move BIT() ternary into macro
+ * max9296a: reuse max_des_ops for chip-specific ops\
+ * max9296a: document and compress RLMS register writes
+
+ * max96717: restrict RCLKOUT to pins 2 & 4 because of hardware
+   capabilities
+ * max96717: add support for XTAL/1, XTAL/2, XTAL/4 clocks
+ * max96717: set RX_EN/TX_EN automatically
+ * max96717: reorder custom pinconf flags
+ * max96717: drop OF dependency
+
+ * drop of_match_ptr
+ * re-do some indentation
+ * implement TPG pattern control
+ * remove pr_info() usage
+ * inline lane polarity val = 0
+ * inline returns
+ * rewrite some Kconfig docs
+ * split up patches for easier review
+
+V4:
+ * max_des: fix infinite version loop
+ * max_des: fix pipe link id when there are more pipes than links
+ * max_des: implement setting pipe link
+ * max_des: do not pass routing to phy update
+ * max_des: move GMSL version strings to max_serdes
+ * max_des: split finding existing VC remap from adding a new one
+ * max_des: add tracking for in-use pipes
+ * max_des: skip unused pipes when finding / setting pixel/tunnel mode
+ * max_des: simplify remap code
+ * max_des: split set_pipe_phy() into set_pipe_tunnel_phy()
+
+ * max_ser: clean up i2c_xlates printing
+ * max_ser: fix changing serializer address
+ * max_ser: move non-continuous mode check into max96717 driver
+
+ * max96724: use regmap_set_bits for STREAM_SEL_ALL
+ * max96724: match surrounding indent for MAX96724_PHY1_ALT_CLOCK
+ * max96724: fix setting invalid PHY to 1 when PHY 0 is in 4-lane mode
+ * max96724: remove support for setting pipe phy from max96712
+ * max96724: fix setting double mode on pipes 4-7
+ * max96724: drop powerdown gpios
+
+ * max96717: use gpio_chip's set_rv
+
+ * max9296a: switch versions to unsigned int
+ * max9296a: remove parantheses from MAX9296A_MIPI_PHY18/20
+ * max9296a: fix printing of PHY packet counts
+ * max9296a: fix phy_hw_ids size
+
+ * remove usage of cammel case in defines
+ * move field_get/prep to max_serdes.h
+ * rework stream id setup
+ * rework tunnel/pixel mode finding
+ * rework bpps retrieval
+ * pass whole subdev state around
+ * add helper for retrieving a route's hw components / frame desc
+ * update pipe enable based on active routes
+ * add support for tunnel-only chips and VC remaps in tunnel mode
+ * simplify max_get_streams_masks()
+ * add support for TPG
+
+V3:
+ * dt-bindings: drop reflow text patches
+
+ * dt-bindings: max96717: move pinctrl configuration into main file
+ * dt-bindings: max96717: allow a single level of pins configuration
+ * dt-bindings: max96717: use regex for matching pins nodes
+ * dt-bindings: max96717: drop extra allOf in pinctrl configuration
+ * dt-bindings: max96717: fix i2c-atr channel name regex
+ * dt-bindings: max96717: limit pinctrl functions to gpio / rclkout
+ * dt-bindings: max96717: limit pins for gpio / rclkout
+ * dt-bindings: max96717: add description for bias-pull-up/down
+ * dt-bindings: max96717: require pins and function properties
+ * dt-bindings: max96717: turn single compatible strings into an enum
+
+ * dt-bindings: max9296a: include indices in port descriptions
+ * dt-bindings: max9296a: remove property-less schema from input ports
+ * dt-bindings: max9296a: use ATR for MAX96716A too, removing MUX entirely
+
+ * dt-bindings: max96712: include indices in port descriptions
+ * dt-bindings: max96712: deprecate enable-gpios in favor of powerdown-gpios
+ * dt-bindings: max96712: switch from MUX to ATR
+
+ * dt-bindings: max96714: add support for MAX96714R
+
+ * max_des: fix POC NULL check
+ * max_des: remove index var in POC enable
+ * max_des: fix writing empty remaps
+ * max_des: skip mode setting in tunnel mode
+ * max_des: remove a duplicate source->sd NULL check
+ * max_des: set pipe tunnel mode even for disabled links
+
+ * max_ser: apply TX ID changes irrespective of serializer ID
+
+ * max9296a: fix typo in BACKTOP22
+ * max9296a: make register macros more consistent
+ * max9296a: switch MAX96716 from MUX to ATR
+ * max9296a: deduplicate max9296a_phy_id() logic
+ * max9296a: use proper PHY id in remaps
+ * max9296a: fix DPLL reset clear
+ * max9296a: limit MAX96714F to GMSL2 3Gbps
+ * max9296a: add support for MAX96714R
+ * max9296a: do not write GMSL3 link select registers in GMSL2 devices
+ * max9296a: use field_prep when setting RX_RATE
+ * max9296a: simplify setting SEL_STREAM for MAX96714
+ * max9296a: max96716_set_pipe_phy -> max96716a_set_pipe_phy
+ * max9296a: fix off-by-one in lane polarity when using
+   polarity_on_physical_lanes
+
+ * max96724: fix typo in BACKTOP22
+ * max96724: switch from MUX to ATR
+ * max96724: add support for powerdown GPIO
+ * max96724: remove support for tunneling from MAX96712
+ * max96724: only set tunnel-related bits when in tunnel mode
+ * max96724: add support for MAX96724F/R
+ * max96724: oneshot reset links after link selection
+
+ * remove GMSL2 version defaults, set all supported versions explicitly
+ * reorder GMSL versions to start from 0
+ * add support for GMSL2 3Gbps
+ * support GMSL version finding for devices using MUX / GATE
+ * add support for deserializers which don't have individual control
+   of each link's GMSL version
+ * add support for deserializers that need unique stream ids across all
+   serializers
+ * select_link_version -> set_link_version
+ * select_resets_link -> use_atr
+
+V2:
+ * add missing compatible for MAX96717F
+ * fix embarrassing dt-bindings mistakes
+ * move MAX9296A/MAX96716/MAX96792A to a separate file as they have two
+   links / PHYs, and adding those conditionally seems impossible
+
+Cosmin Tanislav (23):
+  dt-bindings: media: i2c: max96717: add myself as maintainer
+  dt-bindings: media: i2c: max96717: add support for I2C ATR
+  dt-bindings: media: i2c: max96717: add support for pinctrl/pinconf
+  dt-bindings: media: i2c: max96717: add support for MAX9295A
+  dt-bindings: media: i2c: max96717: add support for MAX96793
+  dt-bindings: media: i2c: max96712: add myself as maintainer
+  dt-bindings: media: i2c: max96712: use pattern properties for ports
+  dt-bindings: media: i2c: max96712: add support for I2C ATR
+  dt-bindings: media: i2c: max96712: add support for POC supplies
+  dt-bindings: media: i2c: max96712: add support for MAX96724F/R
+  dt-bindings: media: i2c: max96714: add myself as maintainer
+  dt-bindings: media: i2c: max96714: add support for MAX96714R
+  dt-bindings: media: i2c: add MAX9296A, MAX96716A, MAX96792A
+  media: i2c: add Maxim GMSL2/3 serializer and deserializer framework
+  media: i2c: add Maxim GMSL2/3 serializer framework
+  media: i2c: add Maxim GMSL2/3 deserializer framework
+  media: i2c: maxim-serdes: add MAX96717 driver
+  media: i2c: maxim-serdes: add MAX96724 driver
+  media: i2c: maxim-serdes: add MAX9296A driver
+  arm64: defconfig: disable deprecated MAX96712 driver
+  staging: media: remove MAX96712 driver
+  media: i2c: remove MAX96717 driver
+  media: i2c: remove MAX96714 driver
+
+Sakari Ailus (1):
+  media: mc: Add INTERNAL pad flag
+
+ .../bindings/media/i2c/maxim,max9296a.yaml    |  242 ++
+ .../bindings/media/i2c/maxim,max96712.yaml    |   70 +-
+ .../bindings/media/i2c/maxim,max96714.yaml    |    6 +-
+ .../bindings/media/i2c/maxim,max96717.yaml    |  155 +-
+ .../media/mediactl/media-types.rst            |    8 +
+ MAINTAINERS                                   |   13 +-
+ arch/arm64/configs/defconfig                  |    1 -
+ drivers/media/i2c/Kconfig                     |   34 +-
+ drivers/media/i2c/Makefile                    |    3 +-
+ drivers/media/i2c/max96714.c                  | 1017 ------
+ drivers/media/i2c/max96717.c                  | 1102 ------
+ drivers/media/i2c/maxim-serdes/Kconfig        |   55 +
+ drivers/media/i2c/maxim-serdes/Makefile       |    6 +
+ drivers/media/i2c/maxim-serdes/max9296a.c     | 1354 +++++++
+ drivers/media/i2c/maxim-serdes/max96717.c     | 1685 +++++++++
+ drivers/media/i2c/maxim-serdes/max96724.c     | 1180 +++++++
+ drivers/media/i2c/maxim-serdes/max_des.c      | 3111 +++++++++++++++++
+ drivers/media/i2c/maxim-serdes/max_des.h      |  151 +
+ drivers/media/i2c/maxim-serdes/max_ser.c      | 2075 +++++++++++
+ drivers/media/i2c/maxim-serdes/max_ser.h      |  145 +
+ drivers/media/i2c/maxim-serdes/max_serdes.c   |  413 +++
+ drivers/media/i2c/maxim-serdes/max_serdes.h   |  183 +
+ drivers/media/mc/mc-entity.c                  |   10 +-
+ drivers/staging/media/Kconfig                 |    2 -
+ drivers/staging/media/Makefile                |    1 -
+ drivers/staging/media/max96712/Kconfig        |   14 -
+ drivers/staging/media/max96712/Makefile       |    2 -
+ drivers/staging/media/max96712/max96712.c     |  487 ---
+ include/uapi/linux/media.h                    |    1 +
+ 29 files changed, 10839 insertions(+), 2687 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/media/i2c/maxim,max9296a.yaml
+ delete mode 100644 drivers/media/i2c/max96714.c
+ delete mode 100644 drivers/media/i2c/max96717.c
+ create mode 100644 drivers/media/i2c/maxim-serdes/Kconfig
+ create mode 100644 drivers/media/i2c/maxim-serdes/Makefile
+ create mode 100644 drivers/media/i2c/maxim-serdes/max9296a.c
+ create mode 100644 drivers/media/i2c/maxim-serdes/max96717.c
+ create mode 100644 drivers/media/i2c/maxim-serdes/max96724.c
+ create mode 100644 drivers/media/i2c/maxim-serdes/max_des.c
+ create mode 100644 drivers/media/i2c/maxim-serdes/max_des.h
+ create mode 100644 drivers/media/i2c/maxim-serdes/max_ser.c
+ create mode 100644 drivers/media/i2c/maxim-serdes/max_ser.h
+ create mode 100644 drivers/media/i2c/maxim-serdes/max_serdes.c
+ create mode 100644 drivers/media/i2c/maxim-serdes/max_serdes.h
+ delete mode 100644 drivers/staging/media/max96712/Kconfig
+ delete mode 100644 drivers/staging/media/max96712/Makefile
+ delete mode 100644 drivers/staging/media/max96712/max96712.c
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.50.0
+
