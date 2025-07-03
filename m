@@ -1,108 +1,100 @@
-Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 112652980A4
-	for <linux-staging@lists.linux.dev>; Thu,  3 Jul 2025 06:52:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.165.32
+Received: from zg8tmja2lje4os43os4xodqa.icoremail.net (zg8tmja2lje4os43os4xodqa.icoremail.net [206.189.79.184])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A622D6AA7
+	for <linux-staging@lists.linux.dev>; Thu,  3 Jul 2025 07:03:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=206.189.79.184
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751525556; cv=none; b=I5EaYM6WP1AMTbbBJCucRczadvTwtJfUYe9TOE3qS9CgDRq+v9VCFgoakXzn7ULCFuyC0DEa8eAB9xVHcb6Qb8TqoY/pjQA6chaqLj9G/jvkiLFIeG6ZBm1ioZaTZdNO4h8jZsa6o9I7ehwMvOgj8Kt4D4NSKpFCQ16sVMEFHj0=
+	t=1751526241; cv=none; b=ROH2J+hf4AwjUNt4SzVtjIQZUrcFC0eKOIuWqVPDCyHVQD4I5palmZMLtg3MrH8RkmZrH4cyPdaSBniBExBm/M3PytYNedREBBoGmxJ3468aSnzKiIGZj6cXukfG3qcuQhBRwWAYt++Mf/FVEZrXAAhThs8WCSvL4QY6nmV1Df0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751525556; c=relaxed/simple;
-	bh=DqN2N5ueI5IMCu7gG6Cy+ZAUpQ8Bbr6GhxkJYGn1eTk=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=b2wh1B1azbePqHUalDGCA+6YwbAdEXQPwoYuzrRi++SpFdlaPdqonwgP31+8qCIFr12Z+fc1i9sPH4Ge/4xfXwuyTycWGudFW5nPN4PMGA/Z1zH9fCgcPKktOGhkdfdng/3gXAcG3POVgY5XDp+AyrsDmb5MY2VwY03gz+r82iY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=AiAnOF26; arc=none smtp.client-ip=205.220.165.32
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="AiAnOF26"
-Received: from pps.filterd (m0246629.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 562NfgVw012956;
-	Thu, 3 Jul 2025 06:52:29 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
-	:content-transfer-encoding:date:from:message-id:mime-version
-	:subject:to; s=corp-2025-04-25; bh=e+EyyLxfVVwKroGuM7/9TQt49EDWq
-	gpZLGakvFamdiY=; b=AiAnOF26OVMg8RbUdnosu778CgKG2wejUkVWLtYhGiw/+
-	3lvPWJw4d4v2sQAVAyumXucaQKZG0F8NtmiHjU03tE2OBCJ13uiAaPKHBe3JBw+r
-	c4heDAWj7fsP6Xuy4U+yQye9heqFo69RPRUYDenziC2Ptao5nB7OAxMa2CZccsT9
-	oHG3aCexUhBojSmgmGV39dLjW3kmxnJVHZ4rZMynZ+O0YFbIBqMk74MSy9gr2muA
-	NKxf6mJdTqTgcNOSwubYyIL5/aks9A5puhOOolwf7Av/wo1Si1Nj0hOuyU78xv9K
-	UYwZhOVNaxv2ec90dd9Qko5EKwJHwLfmWHtvZ2lNw==
-Received: from iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta03.appoci.oracle.com [130.35.103.27])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 47jum7ynkt-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 03 Jul 2025 06:52:29 +0000 (GMT)
-Received: from pps.filterd (iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-	by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 563643bn019310;
-	Thu, 3 Jul 2025 06:52:28 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
-	by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 47jy1h0q34-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 03 Jul 2025 06:52:28 +0000
-Received: from iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 5636qRva013575;
-	Thu, 3 Jul 2025 06:52:27 GMT
-Received: from ca-dev112.us.oracle.com (ca-dev112.us.oracle.com [10.129.136.47])
-	by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTP id 47jy1h0q2a-1;
-	Thu, 03 Jul 2025 06:52:27 +0000
-From: Harshit Mogalapalli <harshit.m.mogalapalli@oracle.com>
-To: Dave Penkler <dpenkler@gmail.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Michael Rubin <matchstick@neverthere.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Nihar Chaithanya <niharchaithanya@gmail.com>,
-        Rodrigo Gobbi <rodrigo.gobbi.7@gmail.com>,
-        linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Cc: dan.carpenter@linaro.org, kernel-janitors@vger.kernel.org,
-        error27@gmail.com, harshit.m.mogalapalli@oracle.com
-Subject: [PATCH] staging: gpib: cec: Fix inconsistent indentation in cec_pci_attach()
-Date: Wed,  2 Jul 2025 23:52:14 -0700
-Message-ID: <20250703065224.1956688-1-harshit.m.mogalapalli@oracle.com>
-X-Mailer: git-send-email 2.47.1
+	s=arc-20240116; t=1751526241; c=relaxed/simple;
+	bh=DUdiaZ9whhqniFQVblr9wu/+lWFSE1XeD7IPimyEAR4=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:Content-Type:
+	 MIME-Version:Message-ID; b=CFFgf5Ik+FXiVtzyAzx/5FZiRGGzE+I9PNy0plwaQMIpOG+flURibg9ax4eOqLS2Y0JHQW1h3Oc/gHgfccNJzmPdTIOS/FWnJfoDRkTUB6YWo0EbaW54ZsFAxXGs8dVlcWMJ65GfNyu/2OPiEbLNiEx4+KtILDLIv9nGJsrEtjk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=zju.edu.cn; spf=pass smtp.mailfrom=zju.edu.cn; arc=none smtp.client-ip=206.189.79.184
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=zju.edu.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zju.edu.cn
+Received: from zju.edu.cn (unknown [115.197.243.13])
+	by mtasvr (Coremail) with SMTP id _____wA3iLtTK2ZoWejaAw--.10708S3;
+	Thu, 03 Jul 2025 15:03:48 +0800 (CST)
+Received: from linma$zju.edu.cn ( [115.197.243.13] ) by
+ ajax-webmail-mail-app2 (Coremail) ; Thu, 3 Jul 2025 15:03:46 +0800
+ (GMT+08:00)
+Date: Thu, 3 Jul 2025 15:03:46 +0800 (GMT+08:00)
+X-CM-HeaderCharset: UTF-8
+From: "Lin Ma" <linma@zju.edu.cn>
+To: "Greg KH" <gregkh@linuxfoundation.org>
+Cc: wkang77@gmail.com, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org, stable@kernel.org
+Subject: Re: [PATCH v1 1/2] staging: gdm724x: fix type confusion in
+ gdm_lte_event_rcv()
+X-Priority: 3
+X-Mailer: Coremail Webmail Server Version 2024.3-cmXT6 build
+ 20250620(94335109) Copyright (c) 2002-2025 www.mailtech.cn zju.edu.cn
+In-Reply-To: <2025070355-uncommon-handlebar-c6f3@gregkh>
+References: <20250703052723.14616-1-linma@zju.edu.cn>
+ <2025070343-halves-prison-c40f@gregkh>
+ <97e5af3.9183.197cefa02cc.Coremail.linma@zju.edu.cn>
+ <2025070355-uncommon-handlebar-c6f3@gregkh>
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset=UTF-8
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.7,FMLib:17.12.80.40
- definitions=2025-07-03_01,2025-07-02_04,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0 mlxscore=0 malwarescore=0
- bulkscore=0 suspectscore=0 mlxlogscore=999 phishscore=0 spamscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2505160000
- definitions=main-2507030053
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzAzMDA1MyBTYWx0ZWRfX24Zjpo09pDd9 9IZm3uMwNxq1df4b3NjSvtzflmd+QgWATaefPoWZCpvKmh5vSVh2N0M+L1LrdhsEmNHY+jtR1NT j3/Yynof9WKX+12jxtT4LEHgHolEcHfc8BU4TxkCa+7xLaVb1Eu1HYgjbvorNrPBzoNMAZW6RoT
- l94hwY01LB2cAKRnvS+rbnB45IzsPTvNBFGacp7iRnmWfC9vLX/vt4Aye2ZWWkRQ2KRRBs3T7n/ 7xyM6W+77k3oWF8aMWnpx0/LwuX5LDbB0U6SYu4uzEj6iOT2GOXvVXi/TEJCxL5D7Ki8+vVNfVJ x1sUykzwqIjGmPus36zRQgy6WZY/EdXyqnTVVOSf2qdpFk/5Ub1J9uNoHOjSOtH2lDoq++7oLep
- eDI4nuXYdHPrYtmfWufqgfNB+LKB1IduYemvPt1efLs+mF73YHiwEbzPCikVrQ/5IJdbJ1Of
-X-Authority-Analysis: v=2.4 cv=MvBS63ae c=1 sm=1 tr=0 ts=686628ad b=1 cx=c_pps a=qoll8+KPOyaMroiJ2sR5sw==:117 a=qoll8+KPOyaMroiJ2sR5sw==:17 a=Wb1JkmetP80A:10 a=yPCof4ZbAAAA:8 a=paq7JNiWqQOroC8ECiYA:9 cc=ntf awl=host:13216
-X-Proofpoint-ORIG-GUID: KmuWAf26nqlHZmSczEf8XopVzZ4KlFbx
-X-Proofpoint-GUID: KmuWAf26nqlHZmSczEf8XopVzZ4KlFbx
+Message-ID: <7792df9a.9245.197cf193a6a.Coremail.linma@zju.edu.cn>
+X-Coremail-Locale: zh_CN
+X-CM-TRANSID:zC_KCgBnkIdSK2ZodB9aAA--.11595W
+X-CM-SenderInfo: qtrwiiyqvtljo62m3hxhgxhubq/1tbiAwEQEmhlCw4MWwAAsf
+X-CM-DELIVERINFO: =?B?twbGxgXKKxbFmtjJiESix3B1w3tPqcowV1L23Bze5QtIr9Db75bEBiiEybVhThS0pI
+	APHlVyJpD759Nt3m89ewvKkHSI4jG4s/k4p76Wwm7QDmPoNjFoGBgDV3xhOiUlmDEcOhGd
+	W0XeuqohAFAqSKl8EP1g9XiRQZ5m4zI7y8Q4UFTOOxy/CAt3qG6zaBeEcG0PLw==
+X-Coremail-Antispam: 1Uk129KBj93XoWxJr43AF4DWFy7KF15uFykZwc_yoW8Wr4rpa
+	4DK3WFkrWDWr1xXa1Iq3ySyFyYvr4xA3yFgF1rAayY9rs8AFyfArWfX3yUCF15uFWDKF1F
+	ya4xtr9akaykArXCm3ZEXasCq-sJn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7KY7ZEXa
+	sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
+	0xBIdaVrnRJUUUmEb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
+	IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
+	e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_tr0E3s1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
+	0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AK
+	xVW0oVCq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc804VCY07AIYIkI8VC2zVCFFI0UMc
+	02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAF
+	wI0_Gr0_Cr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcxkI7VAKI48JM4x0Y48IcxkI7V
+	AKI48G6xCjnVAKz4kxM4xvF2IEb7IF0Fy264kE64k0F24lFcxC0VAYjxAxZF0Ex2IqxwCF
+	04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwCFI7km07C267AKxVWUXVWUAw
+	C20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAF
+	wI0_JF0_Jw1lIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjx
+	v20xvEc7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2
+	jsIE14v26r4j6F4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UMVCEFcxC0VAYjxAxZF
+	UvcSsGvfC2KfnxnUUI43ZEXa7IU8CJm5UUUUU==
 
-This is a cleanup which fixes inconsistent indentation. This is found
-with smatch.
-
-	drivers/staging/gpib/cec/cec_gpib.c:305
-	cec_pci_attach() warn: inconsistent indenting
-
-Signed-off-by: Harshit Mogalapalli <harshit.m.mogalapalli@oracle.com>
----
- drivers/staging/gpib/cec/cec_gpib.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/staging/gpib/cec/cec_gpib.c b/drivers/staging/gpib/cec/cec_gpib.c
-index e8736cbf50e3..0c9d10ee7cd2 100644
---- a/drivers/staging/gpib/cec/cec_gpib.c
-+++ b/drivers/staging/gpib/cec/cec_gpib.c
-@@ -302,7 +302,7 @@ static int cec_pci_attach(struct gpib_board *board, const struct gpib_board_conf
- 		return -EBUSY;
- 
- 	cec_priv->plx_iobase = pci_resource_start(cec_priv->pci_device, 1);
--		nec_priv->iobase = pci_resource_start(cec_priv->pci_device, 3);
-+	nec_priv->iobase = pci_resource_start(cec_priv->pci_device, 3);
- 
- 	isr_flags |= IRQF_SHARED;
- 	if (request_irq(cec_priv->pci_device->irq, cec_interrupt, isr_flags, DRV_NAME, board)) {
--- 
-2.39.3
+SGVsbG8gR3JlZywKCj4gPiBgYGAKPiA+IAo+ID4gLSBieSBgZGV2LT50eXBlYC4gU2VlIGF4MjVf
+ZGV2aWNlX2V2ZW50KCkKPiA+IGBgYAo+ID4gc3RhdGljIGludCBheDI1X2RldmljZV9ldmVudChz
+dHJ1Y3Qgbm90aWZpZXJfYmxvY2sgKnRoaXMsIHVuc2lnbmVkIGxvbmcgZXZlbnQsCj4gPiAgICAg
+ICAgICAgICAgICAgIHZvaWQgKnB0cikKPiA+IHsKPiA+ICAgICBzdHJ1Y3QgbmV0X2RldmljZSAq
+ZGV2ID0gbmV0ZGV2X25vdGlmaWVyX2luZm9fdG9fZGV2KHB0cik7Cj4gPiAKPiA+ICAgICAuLi4u
+Li4KPiA+IAo+ID4gICAgIC8qIFJlamVjdCBub24gQVguMjUgZGV2aWNlcyAqLwo+ID4gICAgIGlm
+IChkZXYtPnR5cGUgIT0gQVJQSFJEX0FYMjUpCj4gPiAgICAgICAgIHJldHVybiBOT1RJRllfRE9O
+RTsKPiA+IGBgYAo+IAo+IAo+IFRob3NlIGFyZSBjb3JlIGZ1bmN0aW9ucyB0aGF0IGFsbCBkcml2
+ZXJzIGFyZSB1c2luZywgYW5kIHRoZSAidHlwZSIgb2YKPiBkZXZpY2UgaXMgYWxzbyBvayB0byBs
+b29rIGF0LiAgWW91IGFyZSB0cnlpbmcgdG8gY29tcGFyZSBhIHNwZWNpZmljCj4gY2FsbGJhY2sg
+aW4gdGhpcyBjaGFuZ2UsIHdoaWNoIGZlZWxzIHdyb25nIHRvIG1lLgoKR290IGl0LiBJIHdpbGwg
+dHJ5IHRvIHByZXBhcmUgYW5vdGhlciB2ZXJzaW9uLgoKPiAKPiBXYWl0LCB3aGF0IHRyZWUgYXJl
+IHlvdSBtYWtpbmcgdGhpcyBjaGFuZ2UgYWdhaW5zdD8gIEkgZG9uJ3QgZXZlbiBzZWUKPiB0aGUg
+ZmlsZSB5b3UgYXJlIHRyeWluZyB0byBwYXRjaCBpbiB0aGUgbGF0ZXN0IHRyZWUsIGFyZSB5b3Ug
+c3VyZSBpdCdzCj4gbm90IGp1c3QgZGVsZXRlZCBhbHJlYWR5Pwo+IAo+IC4uLgo+IAo+IEFnYWlu
+LCBtYWtlIHN1cmUgdGhpcyBmaWxlIGlzIHN0aWxsIHByZXNlbnQgaW4gdGhlIHRyZWUgYmVmb3Jl
+IGdvaW5nCj4gZnVydGhlciA6KQo+IAo+IHRoYW5rcywKPiAKPiBncmVnIGstaAoKWWVzLCB5b3Ug
+YXJlIHJpZ2h0LCBqdXN0IGxpa2UgaG93IEkgcG9pbnRlZCBvdXQgaW4gdGhlIHBhdGNoOgoKIiIi
+ClRoaXMgYnVnIHdhcyAiZml4ZWQiIGluIHVwc3RyZWFtIGtlcm5lbCBieSB0aGUgY29tbWl0IDFj
+MmQzNjRlN2Y3ZgooInN0YWdpbmc6IGdkbTcyNHg6IFJlbW92ZSB1bnVzZWQgZHJpdmVyIikuIEhv
+d2V2ZXIsIG90aGVyIHN0YWJsZQp2ZXJzaW9ucyBzdGlsbCBjb250YWluIGl0LiBGaXggdGhlIGNv
+bmZ1c2lvbiBidWcgYnkgYWRkaW5nIGNoZWNrcy4KIiIiCgpUaGF0IGlzLCB0b2dldGhlciB3aXRo
+IGFub3RoZXIgaWRlbnRpZmllZCBidWcsIGhhcyBhbHJlYWR5IGJlZW4gZGVsZXRlZCB0aGUKbGF0
+ZXN0IHVwc3RyZWFtIGtlcm5lbC4gKHNlZSBodHRwczovL2xvcmUua2VybmVsLm9yZy9sa21sLzIw
+MjUwNzAzMDUyODM3LjE1NDU4LTEtbGlubWFAemp1LmVkdS5jbi9ULyN1KQoKSSBzZW50IHRoaXMg
+cGF0Y2gganVzdCBiZWNhdXNlIHRoZSBzdGFibGUgdmVyc2lvbiwgbGlrZSA1LjE1LjE4Niwgc3Rp
+bGwKY29udGFpbnMgaXQuIFQuVAoKVGhlcmVmb3JlLCBzaGFsbCBJIHByb2NlZWQgd2l0aCB0aGUg
+cGF0Y2hlcz8gT3IgbWF5YmUgdGhlIHN0YWJsZSB0cmVlCmNvdWxkIGFsc28gZGVsZXRlIHRoYXQg
+dnVsbmVyYWJsZSBjb2RlPwoKClRoYW5rcyBmb3IgdGhlIHJlcGx5IQoKClNpbmNlcmVseQpMaW4=
 
