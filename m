@@ -1,110 +1,155 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7EF7C2EE5E7;
-	Wed,  2 Jul 2025 16:14:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from sgoci-sdnproxy-4.icoremail.net (sgoci-sdnproxy-4.icoremail.net [129.150.39.64])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6679528F92E
+	for <linux-staging@lists.linux.dev>; Thu,  3 Jul 2025 05:28:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=129.150.39.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751472863; cv=none; b=pMe3YQxfl5r0W4US8DIkP8xsnYRdrC/GkU4Rv51zq68X+8U/eZH0209G58bemJgQgXAYPbxbNOvoOaB0pmJK4Zb468NTXz5AUVbZp0FCloMSKMxVbvAhpk+qixhLv0U+mALDaJigm2Yc28NCbtK6xmATETJMyd2vzyFS2lpRdOI=
+	t=1751520519; cv=none; b=ZrVY+MgvGZk6YkteUFzkR9mzRpPqHKEFqKlF4EDNzOdMaMTLGkTd53qQuxHRpXsK9wE4jWuI3vshxGapQU5ZL8UIhFW+urYnnMn7XTRUI9dfOpV+Oci1kL1kgsAitSrGXo3J+oMRajFzWVjJ1YXar4SCHXj0OtLnfaJSjmrYNr8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751472863; c=relaxed/simple;
-	bh=qAqCnDiXmDWDKpsRVEMIVXLauOz1Q2uyONAQFH9F8c0=;
-	h=Date:Content-Type:MIME-Version:From:Cc:To:In-Reply-To:References:
-	 Message-Id:Subject; b=cW/JECTUdRh88E7cNl9i+rjRvdyTrU33GglZaRk+TpdN3syar+WhKIVbSBWZh0y4wV1LJ/55r17tXWa2OjBD3s8cMvnwXF8p9Tsk4nXGr7rvvJkKIhaN5nJjEV2UWVP9u9FeH1xCaA5Mc/7QcFnvU1x1SIM0xXT1/u+PxSqfj7Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XkDoA3qX; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XkDoA3qX"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E4687C4CEE7;
-	Wed,  2 Jul 2025 16:14:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1751472863;
-	bh=qAqCnDiXmDWDKpsRVEMIVXLauOz1Q2uyONAQFH9F8c0=;
-	h=Date:From:Cc:To:In-Reply-To:References:Subject:From;
-	b=XkDoA3qXcO87nKbrvLlQAOcEuefHPBdeAAhnCzoT3xJo364HpCdXMR1XT/fpybOb7
-	 ZVKKm6zwfmDqUiZglStC/614VObrg24NyJzETSAuy0tG/78OJ4VL9BJQT26gC5G9Vs
-	 SXe7ARU4hsSQoM8N29HOTpXCyY7JrlykGiZza9My7fFrlfjVhM8QdTnMM2Y89mIn+8
-	 R2xoI7cmqcAdkyFIRBs72YU22l2yS4RWaOypt2DXFIHdqhHIIFa5CFVoqnT529jNKl
-	 Ufvvg2YmIYjzrNwJKq3VOZcQnSCuZlTxafY2Eq9iXDPkv4uP+rERmf+YjLjhJmrLRX
-	 fMIxVhWJ62qwg==
-Date: Wed, 02 Jul 2025 11:14:22 -0500
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+	s=arc-20240116; t=1751520519; c=relaxed/simple;
+	bh=TC+qEIkXrPSclNkP12gXHAeFkxVzrhO5q+i96pejEfA=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=Br3gKuO9ylus1ofzwirJ8Yxz20fh8bnWlfQiBREMtJDrumSdzm8TinyMaDJ3Yhroxwp6LX9v6QjBgQ9ORVG4ymqcHpjUDBqxbIwNlOWB/WVZsUt+hCGLtsE3A2av3ofaPeONUaNNDSr4Ks2L2IdZL0/YKezeSXdmecqEQIwWCpE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=zju.edu.cn; spf=pass smtp.mailfrom=zju.edu.cn; arc=none smtp.client-ip=129.150.39.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=zju.edu.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zju.edu.cn
+Received: from zju.edu.cn (unknown [115.197.243.13])
+	by mtasvr (Coremail) with SMTP id _____wA3tnzRFGZoGjvaAw--.9244S3;
+	Thu, 03 Jul 2025 13:27:45 +0800 (CST)
+Received: from localhost (unknown [115.197.243.13])
+	by mail-app2 (Coremail) with SMTP id zC_KCgCH0YnOFGZoZbpZAA--.46124S2;
+	Thu, 03 Jul 2025 13:27:42 +0800 (CST)
+From: Lin Ma <linma@zju.edu.cn>
+To: gregkh@linuxfoundation.org,
+	linma@zju.edu.cn,
+	wkang77@gmail.com,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Cc: stable@kernel.org
+Subject: [PATCH v1 1/2] staging: gdm724x: fix type confusion in gdm_lte_event_rcv()
+Date: Thu,  3 Jul 2025 13:27:23 +0800
+Message-Id: <20250703052723.14616-1-linma@zju.edu.cn>
+X-Mailer: git-send-email 2.39.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-From: "Rob Herring (Arm)" <robh@kernel.org>
-Cc: Sakari Ailus <sakari.ailus@linux.intel.com>, 
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
- =?utf-8?q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>, 
- Cosmin Tanislav <cosmin.tanislav@analog.com>, 
- Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, devicetree@vger.kernel.org, 
- linux-gpio@vger.kernel.org, Linus Walleij <linus.walleij@linaro.org>, 
- linux-media@vger.kernel.org, Julien Massot <julien.massot@collabora.com>, 
- linux-staging@lists.linux.dev, Mauro Carvalho Chehab <mchehab@kernel.org>
-To: Cosmin Tanislav <demonsingur@gmail.com>
-In-Reply-To: <20250702132104.1537926-15-demonsingur@gmail.com>
-References: <20250702132104.1537926-1-demonsingur@gmail.com>
- <20250702132104.1537926-15-demonsingur@gmail.com>
-Message-Id: <175147286213.1836974.10095173958992106810.robh@kernel.org>
-Subject: Re: [PATCH v5 14/24] dt-bindings: media: i2c: add MAX9296A,
- MAX96716A, MAX96792A
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:zC_KCgCH0YnOFGZoZbpZAA--.46124S2
+X-CM-SenderInfo: qtrwiiyqvtljo62m3hxhgxhubq/
+X-CM-DELIVERINFO: =?B?dkp2XwXKKxbFmtjJiESix3B1w3tPqcowV1L23Bze5QtIr9Db75bEBiiEybVhThS0pI
+	APHuzd9MjVyyPJ6TZADBymyvYqeLy/zd2SdA1moC/t6RvKt+xuG6/u4Jq+LjM8xpiXlpbS
+	HjvJNPZS9fWeLI9Xv8OOzd4IW7/Oam7APkTTWnhX
+X-Coremail-Antispam: 1Uk129KBj93XoWxZw48Cr13trWxKF48ZF1fuFX_yoWrtw1UpF
+	45t3WDCF48JF1UAF4UAr17ZFyfAF47AFykXr97Awn5AF1DZr1kAr42vFWUGry7trs8JFyx
+	JasrJr1jyw1UJabCm3ZEXasCq-sJn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7KY7ZEXa
+	sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
+	0xBIdaVrnRJUUUvmb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
+	IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
+	e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_tr0E3s1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
+	0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AK
+	xVW0oVCq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc804VCY07AIYIkI8VC2zVCFFI0UMc
+	02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUXVWUAwAv7VC2z280aVAF
+	wI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcxkI7VAKI48JM4x0Y48IcxkI7V
+	AKI48G6xCjnVAKz4kxMxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I
+	3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxV
+	WUAVWUtwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8I
+	cVCY1x0267AKxVWUJVW8JwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aV
+	AFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZE
+	Xa7IU8c4S7UUUUU==
 
+This code assumes ifindex provided by user always result in device of
+gdb netdev type. Without proper type checking, the casting to nic type
+could cause type confusion.
 
-On Wed, 02 Jul 2025 16:20:40 +0300, Cosmin Tanislav wrote:
-> The MAX9296A deserializer converts single or dual serial inputs to MIPI
-> CSI-2 outputs. The GMSL2 links operate at a fixed rate of 3Gbps or 6Gbps
-> in the forward direction and 187.5Mbps in the reverse direction.
-> In GMSL1 mode, each serial link can be paired with 3.12Gbps or 1.5Gbps
-> GMSL1 serializers or operate up to 4.5Gbps with GMSL2 serializers with
-> GMSL1 backward compatibility. The MAX9296A supports mixed GMSL2 and
-> GMSL1 links. The serial inputs operate independently, allowing videos
-> with different timings and resolutions to be received on each input.
-> 
-> MAX96716A supports both tunnel and pixel mode.
-> MAX96792A supports both tunnel and pixel mode, and has two GMSL3 links.
-> 
-> Signed-off-by: Cosmin Tanislav <demonsingur@gmail.com>
-> Acked-by: Rob Herring (Arm) <robh@kernel.org>
-> ---
->  .../bindings/media/i2c/maxim,max9296a.yaml    | 242 ++++++++++++++++++
->  MAINTAINERS                                   |   6 +
->  2 files changed, 248 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/media/i2c/maxim,max9296a.yaml
-> 
+Example crash trace shown as below:
 
-My bot found errors running 'make dt_binding_check' on your patch:
+[   49.516445] BUG: kernel NULL pointer dereference, address: 0000000000000000
+[   49.520016] #PF: supervisor read access in kernel mode
+[   49.520397] #PF: error_code(0x0000) - not-present page
+[   49.520780] PGD 0 P4D 0
+[   49.520997] Oops: 0000 [#1] PREEMPT SMP NOPTI
+[   49.521324] CPU: 0 PID: 172 Comm: trigger Tainted: G         C         6.1.90 #2
+[   49.521877] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS rel-1.16.0-0-gd239552ce722-prebuilt.qemu.org 04/01/2014
+[   49.522709] RIP: 0010:gdm_lte_event_rcv+0x17/0x40 [gdmulte]
+[   49.523121] Code: 48 89 e5 5d 31 ff c3 cc cc cc cc 0f 1f 84 00 00 00 00 00 0f 1f 44 00 00 55 48 8b 87 c8 09 00 00 48 89 d6 45 31 c0 89 ca 31 c9 <48> 8b 38 48 8b 40 28 48 89 e5 e8 3a 10 00 c2 5d 31 c0 31 d2 31 c9
+[   49.524533] RSP: 0018:ffffc900006879d0 EFLAGS: 00010246
+[   49.524929] RAX: 0000000000000000 RBX: ffff888004af8000 RCX: 0000000000000000
+[   49.525461] RDX: 0000000000000010 RSI: ffff888004aa1e14 RDI: ffff888004af8000
+[   49.525958] RBP: ffffc90000687a08 R08: 0000000000000000 R09: 0000000000000000
+[   49.526487] R10: 0000000000000000 R11: 0000000000000000 R12: 0000000000000010
+[   49.527029] R13: ffff888004aa1e00 R14: 0000000000000001 R15: ffff888004aa1e14
+[   49.527567] FS:  00007e6a8ab2c740(0000) GS:ffff88807dc00000(0000) knlGS:0000000000000000
+[   49.528122] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+[   49.528544] CR2: 0000000000000000 CR3: 0000000005cc2000 CR4: 00000000000006f0
+[   49.529033] DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+[   49.529615] DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+[   49.530120] Call Trace:
+[   49.530310]  <TASK>
+[   49.530492]  ? __die_body.cold+0x1a/0x1f
+[   49.530790]  ? __die+0x2a/0x3b
+[   49.531024]  ? page_fault_oops+0x170/0x2f0
+[   49.531387]  ? gdm_lte_event_rcv+0x17/0x40 [gdmulte]
+[   49.531735]  ? kernelmode_fixup_or_oops+0xb2/0x140
+[   49.532105]  ? __bad_area_nosemaphore+0x197/0x1f0
+[   49.532492]  ? find_vma+0x30/0x50
+[   49.532739]  ? bad_area_nosemaphore+0x16/0x30
+[   49.533072]  ? do_user_addr_fault+0x2a8/0x5a0
+[   49.533403]  ? exc_page_fault+0x80/0x1b0
+[   49.533731]  ? asm_exc_page_fault+0x27/0x30
+[   49.534034]  ? gdm_lte_event_rcv+0x17/0x40 [gdmulte]
+[   49.534412]  ? netlink_rcv+0x9a/0xd0 [gdmulte]
+[   49.534748]  netlink_unicast+0x24d/0x390
+[   49.535059]  netlink_sendmsg+0x25e/0x4d0
+[   49.535350]  __sock_sendmsg+0x6d/0x70
+[   49.535664]  __sys_sendto+0x151/0x1b0
+[   49.535958]  __x64_sys_sendto+0x24/0x40
+[   49.536236]  x64_sys_call+0x18d4/0x21b0
+[   49.536533]  do_syscall_64+0x56/0x90
+[   49.536831]  ? kmem_cache_alloc+0x180/0x340
+[   49.537132]  ? security_file_alloc+0x2e/0xf0
+[   49.537500]  ? apparmor_file_alloc_security+0x40/0x1e0
+[   49.537897]  ? __wake_up_common_lock+0x8b/0xd0
+[   49.538237]  ? __check_object_size+0x71/0x260
+[   49.538623]  ? _copy_to_user+0x25/0x60
+[   49.538920]  ? move_addr_to_user+0x53/0xe0
+[   49.539228]  ? __sys_getsockname+0xa8/0x110
+[   49.539567]  ? exit_to_user_mode_prepare+0x49/0x230
+[   49.539958]  ? syscall_exit_to_user_mode+0x22/0x60
+[   49.540307]  ? do_syscall_64+0x62/0x90
+[   49.540618]  ? lock_mm_and_find_vma+0x43/0x220
+[   49.540945]  ? exit_to_user_mode_prepare+0x49/0x230
+[   49.541304]  ? irqentry_exit_to_user_mode+0x10/0x30
+[   49.541685]  ? irqentry_exit+0x43/0x50
+[   49.541995]  ? exc_page_fault+0x91/0x1b0
+[   49.542316]  entry_SYSCALL_64_after_hwframe+0x6e/0xd8
+[   49.542666] RIP: 0033:0x7e6a8abb6407
 
-yamllint warnings/errors:
+This bug was "fixed" in upstream kernel by the commit 1c2d364e7f7f
+("staging: gdm724x: Remove unused driver"). However, other stable
+versions still contain it. Fix the confusion bug by adding checks.
 
-dtschema/dtc warnings/errors:
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/media/i2c/maxim,max9296a.example.dtb: serializer@40 (maxim,max96717): compatible: 'oneOf' conditional failed, one must be fixed:
-	['maxim,max96717'] is too short
-	'maxim,max96717' is not one of ['maxim,max9295a', 'maxim,max96717f']
-	from schema $id: http://devicetree.org/schemas/media/i2c/maxim,max96717.yaml#
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/media/i2c/maxim,max9296a.example.dtb: serializer@40 (maxim,max96717): compatible: 'oneOf' conditional failed, one must be fixed:
-	['maxim,max96717'] is too short
-	'maxim,max96717' is not one of ['maxim,max9295a', 'maxim,max96717f']
-	from schema $id: http://devicetree.org/schemas/media/i2c/maxim,max96717.yaml#
+Cc: stable@kernel.org
+Fixes: 61e121047645 ("staging: gdm7240: adding LTE USB driver")
+Signed-off-by: Lin Ma <linma@zju.edu.cn>
+---
+ drivers/staging/gdm724x/gdm_lte.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-doc reference errors (make refcheckdocs):
-
-See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20250702132104.1537926-15-demonsingur@gmail.com
-
-The base for the series is generally the latest rc1. A different dependency
-should be noted in *this* patch.
-
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
-
-pip3 install dtschema --upgrade
-
-Please check and re-submit after running the above command yourself. Note
-that DT_SCHEMA_FILES can be set to your schema file to speed up checking
-your schema. However, it must be unset to test all examples with your schema.
+diff --git a/drivers/staging/gdm724x/gdm_lte.c b/drivers/staging/gdm724x/gdm_lte.c
+index 1f0283fc1d2c..73c7bea16b80 100644
+--- a/drivers/staging/gdm724x/gdm_lte.c
++++ b/drivers/staging/gdm724x/gdm_lte.c
+@@ -522,6 +522,9 @@ static void gdm_lte_event_rcv(struct net_device *dev, u16 type,
+ {
+ 	struct nic *nic = netdev_priv(dev);
+ 
++	if (dev->netdev_ops->ndo_open != gdm_lte_open)
++		return;
++
+ 	nic->phy_dev->send_hci_func(nic->phy_dev->priv_dev, msg, len, NULL,
+ 				    NULL);
+ }
+-- 
+2.17.1
 
