@@ -1,109 +1,149 @@
-Received: from zg8tmja5ljk3lje4mi4ymjia.icoremail.net (zg8tmja5ljk3lje4mi4ymjia.icoremail.net [209.97.182.222])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F3F7E293B61
-	for <linux-staging@lists.linux.dev>; Thu,  3 Jul 2025 06:29:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.97.182.222
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8CA0226D03;
+	Thu,  3 Jul 2025 06:46:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751524200; cv=none; b=i0rqw3ZAlDQF3V30vffn7Vlyfv3PI3AxIoiVTkV8ZjMhuhwMs2POqe6MhuOeyeTbUyXFNSkO7ZFWWLnl1HO9ZFPi9k34RlnuHT7rjOL43fFD43TmtZiYnfRFefe7BMh/wou7dIukDcZ51g02M5yx+O0MAWshkT86wnKkjiWrv1g=
+	t=1751525164; cv=none; b=boRs5GcUSxQlXhaGD33JDonwo1VuUhIbCRD+q3Lf96VI8DKvdj8IDnU1YF02FrUXwAAXY8kdNaStbNLMkSIO5cAMgsKjcBUG+IouIpHrv3I80G3bkciCj9P9Y5/5knaRTRFDm+pWRNhkA5i42ViG8FacvdQ96hc9MJV9vLkP93Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751524200; c=relaxed/simple;
-	bh=igRhDsuiSuXQRzp+0eQ1JsrZSJ5AY9mIOhpTpRULOVE=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:Content-Type:
-	 MIME-Version:Message-ID; b=Yo8ubUDg0D4ntn6N90X2pQf1j7IyEwfOfT1UCN0mvUn4C4RWxI1sl5XnUNZ3QSAWHl0kqPaCrB6OSWU5JeLfyc2nwZMehdHocZD6Tpqusms1/RW9q8v8K0gAJCsGr42/JTCf2tnlMWI86cSFmS9B4Wyuu+yQaSNQQ5m+cg2uLIA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=zju.edu.cn; spf=pass smtp.mailfrom=zju.edu.cn; arc=none smtp.client-ip=209.97.182.222
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=zju.edu.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zju.edu.cn
-Received: from zju.edu.cn (unknown [115.197.243.13])
-	by mtasvr (Coremail) with SMTP id _____wAXEExVI2ZoJKfaAw--.10212S3;
-	Thu, 03 Jul 2025 14:29:42 +0800 (CST)
-Received: from linma$zju.edu.cn ( [115.197.243.13] ) by
- ajax-webmail-mail-app2 (Coremail) ; Thu, 3 Jul 2025 14:29:40 +0800
- (GMT+08:00)
-Date: Thu, 3 Jul 2025 14:29:40 +0800 (GMT+08:00)
-X-CM-HeaderCharset: UTF-8
-From: "Lin Ma" <linma@zju.edu.cn>
-To: "Greg KH" <gregkh@linuxfoundation.org>
+	s=arc-20240116; t=1751525164; c=relaxed/simple;
+	bh=B3QnSFNJf2zcbHXXL6CmMgCCoF5Xv2PGQuokDUej7OA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=oo5d1wGFiVS9OpTtDpPqXl4jG8BoJRFtvZy56hnbuJgnOmBF8NSGtqdkJnfLfF4VPndLtsITz67lQvpLJEWTMTTTZRxxxnWtSlNiHyX//IP8fQbZax/1Egi3zOSAkOhUH4T6KDy59qkdI7sZ2XkM+D5yRIkyEnppkNWsj4c1BVw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=oX1ezOc/; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="oX1ezOc/"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 00C6CC4CEE3;
+	Thu,  3 Jul 2025 06:46:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1751525163;
+	bh=B3QnSFNJf2zcbHXXL6CmMgCCoF5Xv2PGQuokDUej7OA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=oX1ezOc/LeEsEsyNRlk0d1zxPdfmVlO9513qnMZN2I7fKFqHCbP/ZLtU1+HCO97Jw
+	 ud4znRPPZa1evYjl1lpVe2r5VrUQMhIg++PvUg0m9mFgf6GxYyHre1DSzbMUT48oVA
+	 5r4PbRkGKV7V9HeNoa61XU/yQv6QnNv098OWVu6A=
+Date: Thu, 3 Jul 2025 08:45:59 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Lin Ma <linma@zju.edu.cn>
 Cc: wkang77@gmail.com, linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org, stable@kernel.org
 Subject: Re: [PATCH v1 1/2] staging: gdm724x: fix type confusion in
  gdm_lte_event_rcv()
-X-Priority: 3
-X-Mailer: Coremail Webmail Server Version 2024.3-cmXT6 build
- 20250620(94335109) Copyright (c) 2002-2025 www.mailtech.cn zju.edu.cn
-In-Reply-To: <2025070343-halves-prison-c40f@gregkh>
+Message-ID: <2025070355-uncommon-handlebar-c6f3@gregkh>
 References: <20250703052723.14616-1-linma@zju.edu.cn>
  <2025070343-halves-prison-c40f@gregkh>
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset=UTF-8
+ <97e5af3.9183.197cefa02cc.Coremail.linma@zju.edu.cn>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Message-ID: <97e5af3.9183.197cefa02cc.Coremail.linma@zju.edu.cn>
-X-Coremail-Locale: zh_CN
-X-CM-TRANSID:zC_KCgAnToVUI2ZowvxZAA--.11651W
-X-CM-SenderInfo: qtrwiiyqvtljo62m3hxhgxhubq/1tbiAwEQEmhlCw4LqQAAsq
-X-CM-DELIVERINFO: =?B?9E9y5AXKKxbFmtjJiESix3B1w3tPqcowV1L23Bze5QtIr9Db75bEBiiEybVhThS0pI
-	APHlVyJpD759Nt3m89ewvKkHS2l85V1JX4pgBxrPTgKXn82pmPe1xoh9OFE5HRk2gjSVLO
-	fm3FMTiIbenwKZIMugowJ7SMZAUJS1HMGBlyRbnUeJ8zLClqYtuHwjweEWzeCw==
-X-Coremail-Antispam: 1Uk129KBj93XoW7uF4Dury8GF4fJryxWFWrXrc_yoW8uw4rpa
-	y5uayrtrW8XF97Wan5GFW2gF42gr1xK348C3s3ta45Wr1DXay8JFyrKrW5A3s8AF95AryS
-	v3WUZ3y3Kw17uagCm3ZEXasCq-sJn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7KY7ZEXa
-	sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
-	0xBIdaVrnRJUUUPCb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
-	IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
-	e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_tr0E3s1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
-	0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AK
-	xVW0oVCq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc804VCY07AIYIkI8VC2zVCFFI0UMc
-	02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAF
-	wI0_Gr0_Cr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcxkI7VAKI48JM4x0Y48IcxkI7V
-	AKI48G6xCjnVAKz4kxM4xvF2IEb7IF0Fy264kE64k0F24lFcxC0VAYjxAxZF0Ex2IqxwCF
-	04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r
-	18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_JF0_Jw1lIxkGc2Ij64vI
-	r41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr
-	1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvE
-	x4A2jsIEc7CjxVAFwI0_Gr0_Gr1UMVCEFcxC0VAYjxAxZFUvcSsGvfC2KfnxnUUI43ZEXa
-	7IU8CJm5UUUUU==
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <97e5af3.9183.197cefa02cc.Coremail.linma@zju.edu.cn>
 
-SGVsbG8gR3JlZywKCj4gPiBAQCAtNTIyLDYgKzUyMiw5IEBAIHN0YXRpYyB2b2lkIGdkbV9sdGVf
-ZXZlbnRfcmN2KHN0cnVjdCBuZXRfZGV2aWNlICpkZXYsIHUxNiB0eXBlLAo+ID4gIHsKPiA+ICAJ
-c3RydWN0IG5pYyAqbmljID0gbmV0ZGV2X3ByaXYoZGV2KTsKPiA+ICAKPiA+ICsJaWYgKGRldi0+
-bmV0ZGV2X29wcy0+bmRvX29wZW4gIT0gZ2RtX2x0ZV9vcGVuKQo+ID4gKwkJcmV0dXJuOwo+IAo+
-IFdoeSBzaG91bGQgYSBkcml2ZXIgYmUgcG9raW5nIGFyb3VuZCBpbiBuZXRkZXZfb3BzPyAgVGhh
-dCBmZWVscyB3cm9uZywKPiB3aGF0IHdvdWxkIGV2ZXIgY2hhbmdlIHRoaXM/ICBXaHkgbm90IGZp
-eCB0aGF0IGluc3RlYWQ/Cj4gCj4gdGhhbmtzLAo+IAo+IGdyZWcgay1oCgpZZXMsIGl0IHNlZW1z
-IHRoYXQgY29tcGFyaW5nIG9wcyBpcyBxdWl0ZSBhbWJpZ3VvdXMgYW5kIHdlaXJkLiBIb3dldmVy
-LCBpbnZlc3RpZ2F0aW9uIG9uCmNvZGUgc2hvd3MgdmFyaW91cyBjaGVja3MgYWdhaW5zdCBuZXRf
-ZGV2aWNlLgoKLSBieSBgZGV2LT5wcml2X2ZsYWdzYC4gU2VlIGlzX3ZsYW5fZGV2KCkKYGBgCnN0
-YXRpYyBpbmxpbmUgYm9vbCBpc192bGFuX2Rldihjb25zdCBzdHJ1Y3QgbmV0X2RldmljZSAqZGV2
-KQp7CiAgICAgICAgcmV0dXJuIGRldi0+cHJpdl9mbGFncyAmIElGRl84MDJfMVFfVkxBTjsKfQpg
-YGAKCi0gYnkgYGRldi0+cnRubF9saW5rX29wcy0+a2luZGAuIFNlZSBsb29rdXBfaW50ZXJmYWNl
-KCkKYGBgCnN0YXRpYyBzdHJ1Y3Qgd2dfZGV2aWNlICpsb29rdXBfaW50ZXJmYWNlKHN0cnVjdCBu
-bGF0dHIgKiphdHRycywKICAgICAgICAgICAgICAgICAgICAgIHN0cnVjdCBza19idWZmICpza2Ip
-CnsKICAgIGRldiA9IGRldl9nZXRfYnlfaW5kZXgoc29ja19uZXQoc2tiLT5zayksCiAgICAgICAg
-ICAgICAgICAgICAgICAgbmxhX2dldF91MzIoYXR0cnNbV0dERVZJQ0VfQV9JRklOREVYXSkpOwog
-ICAgLi4uCiAgICBpZiAoIWRldi0+cnRubF9saW5rX29wcyB8fCAhZGV2LT5ydG5sX2xpbmtfb3Bz
-LT5raW5kIHx8CiAgICAgICAgc3RyY21wKGRldi0+cnRubF9saW5rX29wcy0+a2luZCwgS0JVSUxE
-X01PRE5BTUUpKSB7CiAgICAuLi4KfQpgYGAKCi0gYnkgYGRldi0+dHlwZWAuIFNlZSBheDI1X2Rl
-dmljZV9ldmVudCgpCmBgYApzdGF0aWMgaW50IGF4MjVfZGV2aWNlX2V2ZW50KHN0cnVjdCBub3Rp
-Zmllcl9ibG9jayAqdGhpcywgdW5zaWduZWQgbG9uZyBldmVudCwKICAgICAgICAgICAgICAgICB2
-b2lkICpwdHIpCnsKICAgIHN0cnVjdCBuZXRfZGV2aWNlICpkZXYgPSBuZXRkZXZfbm90aWZpZXJf
-aW5mb190b19kZXYocHRyKTsKCiAgICAuLi4uLi4KCiAgICAvKiBSZWplY3Qgbm9uIEFYLjI1IGRl
-dmljZXMgKi8KICAgIGlmIChkZXYtPnR5cGUgIT0gQVJQSFJEX0FYMjUpCiAgICAgICAgcmV0dXJu
-IE5PVElGWV9ET05FOwpgYGAKCkFzIGZvciBwb2tpbmcgYXJvdW5kIGluIG5ldGRldl9vcHMsIHdl
-IGRpZG4ndCBrbm93IGlmIGl0IGlzIHRoZSBiZXN0IHNvbHV0aW9uLApqdXN0IGJlY2F1c2Ugc29t
-ZSBjb2RlIGRpZCBzaW1pbGFyIGNoZWNrcywgZS5nLgoKYGBgCnN0YXRpYyBzdHJ1Y3QgdGVhbSAq
-dGVhbV9ubF90ZWFtX2dldChzdHJ1Y3QgZ2VubF9pbmZvICppbmZvKQp7CiAgICBkZXYgPSBkZXZf
-Z2V0X2J5X2luZGV4KG5ldCwgaWZpbmRleCk7CiAgICBpZiAoIWRldiB8fCBkZXYtPm5ldGRldl9v
-cHMgIT0gJnRlYW1fbmV0ZGV2X29wcykgewogICAgICAgIC4uLiAKICAgIH0KfQpgYGAKCmFuZAoK
-YGBgCnN0YXRpYyBpbnQgbWx4NWVfc2V0X3ZmX3R1bm5lbCguLi4pCnsKICAgIHJvdXRlX2RldiA9
-IGRldl9nZXRfYnlfaW5kZXgoZGV2X25ldChvdXRfZGV2KSwgcm91dGVfZGV2X2lmaW5kZXgpOwoK
-ICAgIGlmICghcm91dGVfZGV2IHx8IHJvdXRlX2Rldi0+bmV0ZGV2X29wcyAhPSAmbWx4NWVfbmV0
-ZGV2X29wcyB8fCAuLi4gKSB7CiAgICAgICAgLi4uCiAgICB9Cn0KYGBgCgpGcm9tIG15IHBvaW50
-IG9mIHZpZXcsIHVzaW5nIGBkZXYtPnR5cGUvZmxhZ3MvcHJpdl9mbGFnc2AgY291bGQgYmUgYSBi
-ZXR0ZXIKY2hvaWNlIGlmIGl0J3Mgb2theSB0byBpbnRyb2R1Y2UgbW9yZSBkZWZpbml0aW9ucy4K
-ClVzaW5nIG5ldGRldl9vcHMgaXMgbW9yZSBzdHJhaWdodGZvcndhcmQuIE9yIG1heWJlIEkgc2hv
-dWxkIGp1c3QgY29tcGFyZSB0aGUKYC0+bmV0ZGV2X29wc2AgaW5zdGVhZCBvZiB0aGUgYC0+bmV0
-ZGV2X29wcy0+bmRvX29wZW5gPwoKCgpUaGFuc2sKTGlu
+On Thu, Jul 03, 2025 at 02:29:40PM +0800, Lin Ma wrote:
+> Hello Greg,
+> 
+> > > @@ -522,6 +522,9 @@ static void gdm_lte_event_rcv(struct net_device *dev, u16 type,
+> > >  {
+> > >  	struct nic *nic = netdev_priv(dev);
+> > >  
+> > > +	if (dev->netdev_ops->ndo_open != gdm_lte_open)
+> > > +		return;
+> > 
+> > Why should a driver be poking around in netdev_ops?  That feels wrong,
+> > what would ever change this?  Why not fix that instead?
+> > 
+> > thanks,
+> > 
+> > greg k-h
+> 
+> Yes, it seems that comparing ops is quite ambiguous and weird. However, investigation on
+> code shows various checks against net_device.
+> 
+> - by `dev->priv_flags`. See is_vlan_dev()
+> ```
+> static inline bool is_vlan_dev(const struct net_device *dev)
+> {
+>         return dev->priv_flags & IFF_802_1Q_VLAN;
+> }
+> ```
+> 
+> - by `dev->rtnl_link_ops->kind`. See lookup_interface()
+> ```
+> static struct wg_device *lookup_interface(struct nlattr **attrs,
+>                       struct sk_buff *skb)
+> {
+>     dev = dev_get_by_index(sock_net(skb->sk),
+>                        nla_get_u32(attrs[WGDEVICE_A_IFINDEX]));
+>     ...
+>     if (!dev->rtnl_link_ops || !dev->rtnl_link_ops->kind ||
+>         strcmp(dev->rtnl_link_ops->kind, KBUILD_MODNAME)) {
+>     ...
+> }
+> ```
+> 
+> - by `dev->type`. See ax25_device_event()
+> ```
+> static int ax25_device_event(struct notifier_block *this, unsigned long event,
+>                  void *ptr)
+> {
+>     struct net_device *dev = netdev_notifier_info_to_dev(ptr);
+> 
+>     ......
+> 
+>     /* Reject non AX.25 devices */
+>     if (dev->type != ARPHRD_AX25)
+>         return NOTIFY_DONE;
+> ```
 
+
+Those are core functions that all drivers are using, and the "type" of
+device is also ok to look at.  You are trying to compare a specific
+callback in this change, which feels wrong to me.
+
+Wait, what tree are you making this change against?  I don't even see
+the file you are trying to patch in the latest tree, are you sure it's
+not just deleted already?
+
+> As for poking around in netdev_ops, we didn't know if it is the best solution,
+> just because some code did similar checks, e.g.
+> 
+> ```
+> static struct team *team_nl_team_get(struct genl_info *info)
+> {
+>     dev = dev_get_by_index(net, ifindex);
+>     if (!dev || dev->netdev_ops != &team_netdev_ops) {
+>         ... 
+>     }
+> }
+> ```
+> 
+> and
+> 
+> ```
+> static int mlx5e_set_vf_tunnel(...)
+> {
+>     route_dev = dev_get_by_index(dev_net(out_dev), route_dev_ifindex);
+> 
+>     if (!route_dev || route_dev->netdev_ops != &mlx5e_netdev_ops || ... ) {
+>         ...
+>     }
+> }
+> ```
+> 
+> From my point of view, using `dev->type/flags/priv_flags` could be a better
+> choice if it's okay to introduce more definitions.
+> 
+> Using netdev_ops is more straightforward. Or maybe I should just compare the
+> `->netdev_ops` instead of the `->netdev_ops->ndo_open`?
+
+Again, make sure this file is still present in the tree before going
+further :)
+
+thanks,
+
+greg k-h
