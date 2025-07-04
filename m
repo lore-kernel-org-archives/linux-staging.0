@@ -1,62 +1,63 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 163232F2366
-	for <linux-staging@lists.linux.dev>; Fri,  4 Jul 2025 07:54:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E42E12F3C36
+	for <linux-staging@lists.linux.dev>; Fri,  4 Jul 2025 07:55:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751615701; cv=none; b=QYjXSSp74PoqbrbzRdyMX2gMMQinXCEci2R42nY8tgUYkv0zYfOI/KVE4JsMb05a7ZM7sHII2hZzA3ldKuFmqRge45E7m04p2rT/dDDZmp4ybUvHn0IiiRalepZPBzTLFfoxmvUUl2PY8McJ9uQapcKg42JINJ8OByvZQF7o5Co=
+	t=1751615705; cv=none; b=HT0ZEjSEJ/+HQKWW2zrPHvwK6ev19dqLfqjJVHuMarotelPAWgqv4m21WHH0gn6iyC06L+Zz8bykswZCZInv5ePHpwMebEUAUAa752pudewISc4vvI8j0Wf0UlLPwTELclkR1WDsaMsyy/4i7Y0exMYekp3tTpRNhH+83vvnIl8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751615701; c=relaxed/simple;
-	bh=mdM0fCBRCMeIMAVi7fqCrM0fXAuMJVicckxaZNS+bgI=;
+	s=arc-20240116; t=1751615705; c=relaxed/simple;
+	bh=jYjiHNs7+nnRhnxWuagXuOKoGclwye4obrP5Szc2NG8=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=sIhkAnqHm3Ue4mnSt2yyooT+Ozmi3APb9O9H4kXESyQgHbi7m/XkxGH5iOG8vumrCYucADTdgfxV/wqoyfMtN1F5fNYM+LNDb6QSCvh9Zf0OqrXOWH633F/RPAXMZjqsaPoHlcaqXJbTefqTBWv/kXmh2M4JGAMCJGYVLwVJP8g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GoScNqlI; arc=none smtp.client-ip=198.175.65.11
+	 MIME-Version; b=uXrjgLWXNfPaIAP/7fGbrJud7+D8VyzwP04OYDaQIuMVzxB27z9B4ORM3Qzt1TvFiNQHeE8uo+AblkD4VS19DI8ExSSKtHnUrGST3RV1rbPq1I6HZTUp1SqhIXs1F+VDF+R5oRl0t6wWB5UTWjKeDgBrcWZqk2q7B0RNNXTEOqw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KKkpoiG2; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GoScNqlI"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KKkpoiG2"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1751615699; x=1783151699;
+  t=1751615703; x=1783151703;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=mdM0fCBRCMeIMAVi7fqCrM0fXAuMJVicckxaZNS+bgI=;
-  b=GoScNqlI7To1vuNCY0AzHc6VxbNxsHmmgc0JTKKLefNKaJ6C4WmNHIOW
-   e236Y/FeKJN8+OxAillIh2ZwMobzboBiUXvCfr/ynJ92YBLKiPHvEnGcm
-   guvZJmYWkKe/2EhderWa/4PfX61+X8iq2NgaQ7iZESuKg1eFBG+zv/Hyt
-   dLPZHrMHxQC8JyGWReRA8Qq7RH/rqvaO1N6nGx1xVnCs9/wtczgM8YAhe
-   /cx5DbwOUqAVyzOHadCnsctyMkMoNpqc8qXoV/Dw/ud21CV468EWzGR2e
-   AcCMkhkgvfXWmNrjHQ5CGYBi7+VMeW7Fa8hnkvifcpprOlQu6WchLQ8bK
+  bh=jYjiHNs7+nnRhnxWuagXuOKoGclwye4obrP5Szc2NG8=;
+  b=KKkpoiG22uySWWGI5Jl2D3qqld27e8UPj0kIlEe7ehMP5x0i2tfRydBx
+   kW9xIFieaks/0OaixP/dwo8keGk9zVHgppwcz3Bqhtmch2CWu7qvhEy4E
+   sEhOFUC4NSqpWRek7Vf+PZQg0DzqFecZX4EGpA9Zyr+G1AZr1GppzUqzY
+   jNkKIpiMNMh2Z+ZetOP5WH8uEAZ9zIcD9U2s4Cygz17+88EpOlIgQ1t28
+   MynUVf+fd/HhQc6FIyYHjfqlagLvgj4V3UCB+o09GJ4AVjTTWESI3Tvm2
+   TWs+HEuBNqo6k9piGIGODGzPFAmokZiGcY4orInnoRM2dG52XcEIj8cO8
    Q==;
-X-CSE-ConnectionGUID: cjo77PuFQfydxBudvo05cw==
-X-CSE-MsgGUID: ewD5yLBSRDmXXnByI8VcEA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11483"; a="64194262"
+X-CSE-ConnectionGUID: dPqx69/xTqO/LQBPT7StjQ==
+X-CSE-MsgGUID: R6NOGmOLRS6QpVKhIZeEyg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11483"; a="64194267"
 X-IronPort-AV: E=Sophos;i="6.16,286,1744095600"; 
-   d="scan'208";a="64194262"
+   d="scan'208";a="64194267"
 Received: from fmviesa003.fm.intel.com ([10.60.135.143])
   by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jul 2025 00:54:59 -0700
-X-CSE-ConnectionGUID: LhFiReD2SIile6uLjhnPyQ==
-X-CSE-MsgGUID: o0jYIUk4SJePdq14auC1hg==
+X-CSE-ConnectionGUID: yk+YfJ50SW+r/4KA71Ve/g==
+X-CSE-MsgGUID: l2mPlxxSSpS0B9pgrJDDKQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,286,1744095600"; 
-   d="scan'208";a="158616652"
+   d="scan'208";a="158616671"
 Received: from jkrzyszt-mobl2.ger.corp.intel.com (HELO svinhufvud.fi.intel.com) ([10.245.244.244])
-  by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jul 2025 00:54:51 -0700
+  by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jul 2025 00:54:55 -0700
 Received: from svinhufvud.lan (localhost [IPv6:::1])
-	by svinhufvud.fi.intel.com (Postfix) with ESMTP id 4B87844419;
-	Fri,  4 Jul 2025 10:54:49 +0300 (EEST)
+	by svinhufvud.fi.intel.com (Postfix) with ESMTP id 3937244433;
+	Fri,  4 Jul 2025 10:54:51 +0300 (EEST)
 Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
 From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Johan Hovold <johan@kernel.org>,
-	Alex Elder <elder@kernel.org>,
+To: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: greybus-dev@lists.linaro.org,
+Cc: linux-media@vger.kernel.org,
+	linux-rockchip@lists.infradead.org,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH 62/80] staging: greybus: Remove redundant pm_runtime_mark_last_busy() calls
-Date: Fri,  4 Jul 2025 10:54:48 +0300
-Message-Id: <20250704075448.3221843-1-sakari.ailus@linux.intel.com>
+Subject: [PATCH 64/80] media: rkvdec: Remove redundant pm_runtime_mark_last_busy() calls
+Date: Fri,  4 Jul 2025 10:54:50 +0300
+Message-Id: <20250704075450.3221972-1-sakari.ailus@linux.intel.com>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250704075225.3212486-1-sakari.ailus@linux.intel.com>
 References: <20250704075225.3212486-1-sakari.ailus@linux.intel.com>
@@ -85,34 +86,21 @@ rc2:
         git://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git \
                 pm-runtime-6.17-rc1
 
- drivers/staging/greybus/gbphy.c | 1 -
- drivers/staging/greybus/gbphy.h | 1 -
- 2 files changed, 2 deletions(-)
+ drivers/staging/media/rkvdec/rkvdec.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/drivers/staging/greybus/gbphy.c b/drivers/staging/greybus/gbphy.c
-index 6adcad286633..3068bd71cd98 100644
---- a/drivers/staging/greybus/gbphy.c
-+++ b/drivers/staging/greybus/gbphy.c
-@@ -53,7 +53,6 @@ static void gbphy_dev_release(struct device *dev)
- #ifdef CONFIG_PM
- static int gb_gbphy_idle(struct device *dev)
+diff --git a/drivers/staging/media/rkvdec/rkvdec.c b/drivers/staging/media/rkvdec/rkvdec.c
+index d707088ec0dc..445f7c92eee3 100644
+--- a/drivers/staging/media/rkvdec/rkvdec.c
++++ b/drivers/staging/media/rkvdec/rkvdec.c
+@@ -765,7 +765,6 @@ static void rkvdec_job_finish(struct rkvdec_ctx *ctx,
  {
--	pm_runtime_mark_last_busy(dev);
- 	pm_request_autosuspend(dev);
- 	return 0;
- }
-diff --git a/drivers/staging/greybus/gbphy.h b/drivers/staging/greybus/gbphy.h
-index d4a225b76338..4a4ebc7f2b98 100644
---- a/drivers/staging/greybus/gbphy.h
-+++ b/drivers/staging/greybus/gbphy.h
-@@ -85,7 +85,6 @@ static inline void gbphy_runtime_put_autosuspend(struct gbphy_device *gbphy_dev)
- {
- 	struct device *dev = &gbphy_dev->dev;
+ 	struct rkvdec_dev *rkvdec = ctx->dev;
  
--	pm_runtime_mark_last_busy(dev);
- 	pm_runtime_put_autosuspend(dev);
+-	pm_runtime_mark_last_busy(rkvdec->dev);
+ 	pm_runtime_put_autosuspend(rkvdec->dev);
+ 	rkvdec_job_finish_no_pm(ctx, result);
  }
- 
 -- 
 2.39.5
 
