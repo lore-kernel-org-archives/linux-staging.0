@@ -1,91 +1,121 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18685A2D;
-	Fri,  4 Jul 2025 09:43:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB4DF2C158F
+	for <linux-staging@lists.linux.dev>; Fri,  4 Jul 2025 13:05:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751622183; cv=none; b=YupVVKCC+nGrEGNamzflUL9tn8vvcfP/ijk6maI1Zqx+jC/eJcxfrc9dN+JqZOQdHa2v/AhCeaxWWt//PbKdLI9ClTICSwDPq7AM02c2tqS1G7XVy2Rb9EcA3A35CZJfmr6fxd7Qe3cUAfME/pg+t72CbyELiVuK5XYz77CSnh8=
+	t=1751634350; cv=none; b=VB5eUY5z16lMvbLPcqPgYG+zH5ivw+rfINTrLemvrDCBYGDFIcJ81spEur7c+ZTNBjRlU2yi8FQSAmh8tKx+ZwFW0vE4ogwNoZF/lZUhhUG5ldvirzUg7CzP9AkrKgDZgWCcTYNemGK6F024ZxOX0BLysI0jGL4z3UOX36asQhk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751622183; c=relaxed/simple;
-	bh=5eb6AKCbpHuIGf13tSNQmtmiiVKq+2jlzkApt8oVY6s=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=oaAg6B8VPd68GKOVN0GFTYg+DALtv8bZ0Ii/NeWzwshmzy1sznhixM/+PSE29sJ7ACNYDH+B1tjGT+A2abLn51ENa0hr3Zpcws7r+Vf0uC/9iTqeeICxapL6KqE/Z6nuxNsQtRm22vzNQ0sagYeMvhKfkpfVd+uRyJpIozlf8CU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gURBsIeN; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1751634350; c=relaxed/simple;
+	bh=yBMvYngooK6EJfsWMCJUDLpwW8VA0ZjBtwiC97EGBZc=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=k/NpSZExQS2chC6CNapjfHeE859G6zAGMRZTNfyInwposTBYGJpBDdzPnRSuO+SoWAMaJr4bZ4mBnLrrIJRttAmozyogaKc4CUKK0q5JSuOdFspn5JR2p0c/SsxSsi3GZAO6o+nJ7dSz2JikZ7WTFT3kvjYsp7Kf/EK7gDHnADU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=eRDThnc/; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gURBsIeN"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 343A2C4CEE3;
-	Fri,  4 Jul 2025 09:43:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1751622182;
-	bh=5eb6AKCbpHuIGf13tSNQmtmiiVKq+2jlzkApt8oVY6s=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=gURBsIeNGdjDFKqABlcuncjz1243ZRy45f/kRPdAyPmhsWxh1x9lrh9X/WJ+rRqKp
-	 Jwt/6UNnKNjGypQxQdJDsYwPf2dI89i3DX5TKiBo0FvPk2cAzDa7yYaQeg53CCULsd
-	 SHlDd+n2SoJLwI7Ffcv0sOpVoNKU8WLfu1q2u+xMo7MntFZBxymOZjGjIREwgugHq1
-	 LwMXinKhgBQ3mZrymfpq2Qr+4Q3GsoGfeZlYBBVmHSoyOhdCyWt0kl7R5r/QjEfK4C
-	 QLzmvQ+KF2aykYDaLE1qW8r+x7uFJ8ZtVEwiP0B4CqrX8f1MPgmLbr2INz3kvTwpcI
-	 axbqlCOmpM+Mg==
-Message-ID: <d0614e1c-2966-4766-999c-2bc58d643e7e@kernel.org>
-Date: Fri, 4 Jul 2025 11:42:58 +0200
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="eRDThnc/"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1751634346;
+	bh=yBMvYngooK6EJfsWMCJUDLpwW8VA0ZjBtwiC97EGBZc=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+	b=eRDThnc/NDm+M2Ul2z1dSvnrLN1ARR5Yf31jhgrVTzShjPxH4+IbwZpP0AgIgm/6F
+	 uUMxC0TXKjnqNkXruIGbTD4QErwDA8a5FKoc3tu0d6A+lqen6BKupBIe67xuoYfMQ5
+	 lTvXpIp1IlDzDeiMpto7Q6fiYAB7nkatXOz1YcjbFN2q3w78XHIQnZtNYyh9zbUGpu
+	 w30keY0Mk/jh3vEsLi40EpzxFd0OxeeFz5/QliOcWMJKHwNu8y2GmoU7ASoyMs6J9g
+	 Kl99sKoWC+weIGC8MrUl86OTec/pFD0u21eErD5o/hFNHi3+dv5m2ZZliIkcsh555G
+	 2qaI/S05E36tg==
+Received: from [IPv6:2606:6d00:17:b699::c41] (unknown [IPv6:2606:6d00:17:b699::c41])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: nicolas)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id 9711217E07FF;
+	Fri,  4 Jul 2025 15:05:45 +0200 (CEST)
+Message-ID: <88675ffb0b8336c0b2c195bdc53dc9823849055b.camel@collabora.com>
+Subject: Re: [PATCH 64/80] media: rkvdec: Remove redundant
+ pm_runtime_mark_last_busy() calls
+From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>, Ezequiel Garcia	
+ <ezequiel@vanguardiasur.com.ar>, Mauro Carvalho Chehab
+ <mchehab@kernel.org>,  Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org, 
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Date: Fri, 04 Jul 2025 09:05:44 -0400
+In-Reply-To: <20250704075450.3221972-1-sakari.ailus@linux.intel.com>
+References: <20250704075225.3212486-1-sakari.ailus@linux.intel.com>
+	 <20250704075450.3221972-1-sakari.ailus@linux.intel.com>
+Autocrypt: addr=nicolas.dufresne@collabora.com; prefer-encrypt=mutual;
+ keydata=mQGiBEUQN0MRBACQYceNSezSdMjx7sx6gwKkMghrrODgl3B0eXBTgNp6c431IfOOEsdvk
+ oOh1kwoYcQgbg4MXw6beOltysX4e8fFWsiRkc2nvvRW9ir9kHDm49MkBLqaDjTqOkYKNMiurFW+go
+ zpr/lUW15QqT6v68RYe0zRdtwGZqeLzX2LVuukGwCg4AISzswrrYHNV7vQLcbaUhPgIl0D+gILYT9
+ TJgAEK4YHW+bFRcY+cgUFoLQqQayECMlctKoLOE69nIYOc/hDr9uih1wxrQ/yL0NJvQCohSPyoyLF
+ 9b2EuIGhQVp05XP7FzlTxhYvGO/DtO08ec85+bTfVBMV6eeY4MS3ZU+1z7ObD7Pf29YjyTehN2Dan
+ 6w1g2rBk5MoA/9nDocSlk4pbFpsYSFmVHsDiAOFje3+iY4ftVDKunKYWMhwRVBjAREOByBagmRau0
+ cLEcElpf4hX5f978GoxSGIsiKoDAlXX+ICDOWC1/EXhEEmBR1gL0QJgiVviNyLfGJlZWnPjw6xhhm
+ tHYWTDxBOP5peztyc2PqeKsLsLWzAr7QnTmljb2xhcyBEdWZyZXNuZSA8bmljb2xhc0BuZHVmcmVz
+ bmUuY2E+iGIEExECACIFAlXA3CACGwMGCwkIBwMCBhUIAgkKCwQWAgMBAh4BAheAAAoJEHFTAi2sB
+ qgcJngAnRDBTr8bhzuH0KQwFP1nEYtfgpKdAKCrQ/sJfuG/8zsd7J8wVl7y3e8ARbRDTmljb2xhcy
+ BEdWZyZXNuZSAoQi4gU2MuIEluZm9ybWF0aXF1ZSkgPG5pY29sYXMuZHVmcmVzbmVAZ21haWwuY29
+ tPohgBBMRAgAgBQJFlCyOAhsDBgsJCAcDAgQVAggDBBYCAwECHgECF4AACgkQcVMCLawGqBwhLQCg
+ zYlrLBj6KIAZ4gmsfjXD6ZtddT8AoIeGDicVq5WvMHNWign6ApQcZUihtElOaWNvbGFzIER1ZnJlc
+ 25lIChCLiBTYy4gSW5mb3JtYXRpcXVlKSA8bmljb2xhcy5kdWZyZXNuZUBjb2xsYWJvcmEuY28udW
+ s+iGIEExECACIFAkuzca8CGwMGCwkIBwMCBhUIAgkKCwQWAgMBAh4BAheAAAoJEHFTAi2sBqgcQX8
+ An2By6LDEeMxi4B9hUbpvRnzaaeNqAJ9Rox8rfqHZnSErw9bCHiBwvwJZ77QxTmljb2xhcyBEdWZy
+ ZXNuZSA8bmljb2xhcy5kdWZyZXNuZUBjb2xsYWJvcmEuY29tPohiBBMRAgAiBQJNzZzPAhsDBgsJC
+ AcDAgYVCAIJCgsEFgIDAQIeAQIXgAAKCRBxUwItrAaoHLlxAKCYAGf4JL7DYDLs/188CPMGuwLypw
+ CfWKc9DorA9f5pyYlD5pQo6SgSoiC0R05pY29sYXMgRHVmcmVzbmUgKEIgU2MuIEluZm9ybWF0aXF
+ 1ZSkgPG5pY29sYXMuZHVmcmVzbmVAdXNoZXJicm9va2UuY2E+iGAEExECACAFAkUQN0MCGwMGCwkI
+ BwMCBBUCCAMEFgIDAQIeAQIXgAAKCRBxUwItrAaoHPTnAJ0WGgJJVspoctAvEcI00mtp5WAFGgCgr
+ +E7ItOqZEHAs+xabBgknYZIFPU=
+Organization: Collabora Canada
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.56.2 (3.56.2-1.fc42) 
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] staging: media: atomisp: fix coding style
-To: Pablo <pablo@pablo.ct.ws>, linux-media@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev,
- hdegoede@redhat.com, mchehab@kernel.org, sakari.ailus@linux.intel.com,
- andy@kernel.org, gregkh@linuxfoundation.org
-Cc: ~lkcamp/patches@lists.sr.ht, koike@igalia.com, pablolucas890@gmail.com
-References: <20250503200030.5982-1-pablo@pablo.ct.ws>
-Content-Language: en-US, nl
-From: Hans de Goede <hansg@kernel.org>
-In-Reply-To: <20250503200030.5982-1-pablo@pablo.ct.ws>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 3-May-25 10:00 PM, Pablo wrote:
-> Fix a coding style:
-> "ERROR: that open brace { should be on the previous line"
-> issue reported in ia_css_vf.host.c:94.
+Le vendredi 04 juillet 2025 à 10:54 +0300, Sakari Ailus a écrit :
+> pm_runtime_put_autosuspend(), pm_runtime_put_sync_autosuspend(),
+> pm_runtime_autosuspend() and pm_request_autosuspend() now include a call
+> to pm_runtime_mark_last_busy(). Remove the now-reduntant explicit call to
+> pm_runtime_mark_last_busy().
 > 
-> Signed-off-by: Pablo <pablo@pablo.ct.ws>
+> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 
-Thank you for your patch.
-
-I have merged this in my media-atomisp branch:
-https://git.kernel.org/pub/scm/linux/kernel/git/hansg/linux.git/log/?h=media-atomisp
-
-And this patch will be included in my next
-pull-request to Mauro (to media subsystem maintainer)
-
-Regards,
-
-Hans
-
-
+Reviewed-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
 
 > ---
->  Hey, this is my first patch, I apreciate any feedback, thanks!
->  .../media/atomisp/pci/isp/kernels/vf/vf_1.0/ia_css_vf.host.c   | 3 +--
->  1 file changed, 1 insertion(+), 2 deletions(-)
+> The cover letter of the set can be found here
+> <URL:
+> https://lore.kernel.org/linux-pm/20250704075225.3212486-1-sakari.ailus@linux.i
+> ntel.com>.
 > 
-> diff --git a/drivers/staging/media/atomisp/pci/isp/kernels/vf/vf_1.0/ia_css_vf.host.c b/drivers/staging/media/atomisp/pci/isp/kernels/vf/vf_1.0/ia_css_vf.host.c
-> index ece5e3da3..0ce75d9bd 100644
-> --- a/drivers/staging/media/atomisp/pci/isp/kernels/vf/vf_1.0/ia_css_vf.host.c
-> +++ b/drivers/staging/media/atomisp/pci/isp/kernels/vf/vf_1.0/ia_css_vf.host.c
-> @@ -91,8 +91,7 @@ configure_kernel(
->  	unsigned int vf_log_ds = 0;
->  
->  	/* First compute value */
-> -	if (vf_info)
-> -	{
-> +	if (vf_info) {
->  		err = sh_css_vf_downscale_log2(out_info, vf_info, &vf_log_ds);
->  		if (err)
->  			return err;
-
+> In brief, this patch depends on PM runtime patches adding marking the last
+> busy timestamp in autosuspend related functions. The patches are here, on
+> rc2:
+> 
+>         git://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git \
+>                 pm-runtime-6.17-rc1
+> 
+>  drivers/staging/media/rkvdec/rkvdec.c | 1 -
+>  1 file changed, 1 deletion(-)
+> 
+> diff --git a/drivers/staging/media/rkvdec/rkvdec.c
+> b/drivers/staging/media/rkvdec/rkvdec.c
+> index d707088ec0dc..445f7c92eee3 100644
+> --- a/drivers/staging/media/rkvdec/rkvdec.c
+> +++ b/drivers/staging/media/rkvdec/rkvdec.c
+> @@ -765,7 +765,6 @@ static void rkvdec_job_finish(struct rkvdec_ctx *ctx,
+>  {
+>  	struct rkvdec_dev *rkvdec = ctx->dev;
+>  
+> -	pm_runtime_mark_last_busy(rkvdec->dev);
+>  	pm_runtime_put_autosuspend(rkvdec->dev);
+>  	rkvdec_job_finish_no_pm(ctx, result);
+>  }
