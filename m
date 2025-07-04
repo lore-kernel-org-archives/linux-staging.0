@@ -1,109 +1,226 @@
-Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED06923C4E5;
-	Thu,  3 Jul 2025 21:44:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5099270ECD
+	for <linux-staging@lists.linux.dev>; Fri,  4 Jul 2025 07:11:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751579078; cv=none; b=lQcTq2pqcXvmZ4qXCRQVUf28DUPBVK1E9lk8mhYRO9uh2P+w4klT+Umcub5Jmqw+Kw3ExYGIXxlI7pkCPxbxyEOhy39afAmbL13Cq3RcZcBMYuboSZVQuFlQB2lixEfu65YaFgVZN611p1U4Rg18v8JvDqMIHe8RhSKmc5zV2dg=
+	t=1751613085; cv=none; b=LUpu7F+npYRjJC6lK3d7aNWEDO4Qbc/ek1BF9FPif0Hr9HdqbOnf9czI0uwM7naEAFgxqWs6osYWtOkN7IiWtFpUAy4mplVzAd1BFIIryfttCjGQ/V8W3OGK7wP1jyhtY+OlY4/aQ23wKRpyf5RwZcTyztEg0kTJGYJ0JWcNuNI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751579078; c=relaxed/simple;
-	bh=IIoeyyq1GZIa2BjYk3OpqgiSGOD9oO9LywnSHtt7jvU=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Jm1kxgwmmLdQDi6qGg1Tb74YWIbisBqG3bewaol2I52LOWmPAYmpkwVTnCYxVq0hdj2Ejhrmw6vhmSto90gl9NUPK+Adf2/T7MTuP7A7VU2/PVasS+bEMBURFg39tLNVDNUeoLr9FevL9NYRW1UQiIutA0gj87Bus01aCl/ATaE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=H2931pR7; arc=none smtp.client-ip=209.85.208.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1751613085; c=relaxed/simple;
+	bh=u1t9kgo32n46P3lCiA/YsRG69hKIm2B9bRzkw/n0hCc=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=mClFkkocy/pbV5PhG9VL7w+G1MeIUx4yGsaK45jD1j//kNoZVOAPs67ZPIj4btL/k8DiKRUq2WrcJteC6XeK5vWOt3EAfeRTuL8eRHxwjTXZj+XLmsNYZv8Ph/wZjRVsKc5Q+Qr3prN7g+1XihKF4wHMTYp6cduRoQFxeZXGCNI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=VrV1onED; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="H2931pR7"
-Received: by mail-ed1-f43.google.com with SMTP id 4fb4d7f45d1cf-607434e1821so426037a12.0;
-        Thu, 03 Jul 2025 14:44:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1751579075; x=1752183875; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=IIoeyyq1GZIa2BjYk3OpqgiSGOD9oO9LywnSHtt7jvU=;
-        b=H2931pR7gu1a8OimSf1ytG46U6OkutJQl45xuWG91+QKaMNJVnIH8/m2Hbah6QdM6m
-         KROAlR9Sb/CrrZkYKOjswieDs7AYROvUethmlAVLlYD9kj3R1SF2QN0/kS1pTk2ZBdou
-         aoaDHZcwCknRAUwL4ZSKwmSIAcCgQKbT8NLd9CAiizEBDa33mILAcvSv4kEbeGI4zBJI
-         LlEEfbUObFHfbO+pjYWLANmDyyKe8dHLAHQbSRuoihvZc4zKgRBxPNxdpSp/t/IzpdBK
-         zPxoI05f+Nwp0TtSl/UOyUbN6jpLx0H6kNwbTjyrV6SNLc5l55FTb5tZYMF3C419edTT
-         X9Rw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751579075; x=1752183875;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=IIoeyyq1GZIa2BjYk3OpqgiSGOD9oO9LywnSHtt7jvU=;
-        b=JY2B0XJXbze0E3wIVB4E5Y67UIR3ZRGW0/8pvZBWBsxsJlLh4IgBZIZSKRMEn1dH9h
-         4zYjGFsWhGdtL6sCWOC2oa8JLsJfydWtIo9qx9iDZIoqvlUENszcDViJ+ohRp2fVo6Zw
-         8Et0AEsfkZGS9BiOR/2sM+o2O+MykpoEM4tnnSQWrYXQFmKTldgaJjifKWhdLFqJVJjQ
-         /w3qJNrCI30Y38kbXLTva70aJqOrlVnOgFmD/W1gFRfdjcg4aoOXoYg1MMXZn0ow5phD
-         CRDBstFbjLY3EWd5LXzRhldU0idi01iVc7wPD76KtgUrfvNxUac/X4gnyPyzaJgO0kn9
-         SU7A==
-X-Forwarded-Encrypted: i=1; AJvYcCUWXENW/aOVXSX68PBr4yGbuh0pOcyJGiKE/+PB+D7k4iLhTcntxAll5VUpC9kIOqxFluCHEXiwnImuXnhSeJn9vPXGvA==@lists.linux.dev, AJvYcCV0yVblxP1R6HZQrUUBiRUiOEdOW6YZZOiOgcIMvWGS9Ryx8oS+foPlswHoa/NOb+CM0uR6laOXWbwYgin/iw==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwHIxM/oaIFdIMOtHRtFtz1TfMlZa2fyfdg8UOtMas/wv+7qAAl
-	r3neHfcf/fTs6S7qEgYkmeT/soLKsIemUNjs30X22bm1tBayxTzc+3BvIE2GW9bRcQgDDSLZNx+
-	oC/6DGmr5QYmkFCNqlprwVI6hCyi33nw=
-X-Gm-Gg: ASbGncvX/YAJ95O+5Jf6f6XLUQL4Dm1JErfocWUVpqpS0W6GNC8ltzOA7fXIKxegPq9
-	bPIbojyQwIiazXpSn8YYAYwsB6T4Wzm4keVAE7s3hIsYo26hqbLRY9igqot1Rl5LQL4S2/ad78e
-	1resO4PEvqq7XOMaH+SUWaxBaTrU5J3zLnbzBIPLPbYBQ=
-X-Google-Smtp-Source: AGHT+IHp4LtpoHgPrz8vKo5NxF0850fg3ZRp89l0VEVuQnqdnTSUiMkcg6zqLhd4WpnMFCUIhnuEr8ripxN8lv9rITI=
-X-Received: by 2002:a17:907:3e9f:b0:ade:4339:9358 with SMTP id
- a640c23a62f3a-ae3fbc5bcc1mr11741166b.22.1751579075044; Thu, 03 Jul 2025
- 14:44:35 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="VrV1onED"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1751613078;
+	bh=u1t9kgo32n46P3lCiA/YsRG69hKIm2B9bRzkw/n0hCc=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+	b=VrV1onEDAPBj1gXtmoDisI701xglCoEK1T4zryC7ADJ75bTtZGaIAJCx4Y+zBoPs9
+	 jM2f/d/caI78n4W2MpPqQao8YaRoUF7u30y0XWeTUEDxLcBtmqmPRMGR2ST4oDCJu+
+	 Qx6XV7KY1/PubEW2Ziu6FYhvT5UhsTk+aXN8llhNT+E67Ib9Wug3a8gxAQe8iyLJx6
+	 tIcOVLsKDZ8XcymS+x2gdF32VGkyCvLqBB1epj+7AvtkVbnqQFHINFE/8SvYN0tDMH
+	 hyzc0M3q8/ZRbKrqC64M/xogbPmQeeNgeV7X/3VYKjRNVS/7aJk6Sgjm1Ztl1SbsLF
+	 Qt9f/pWZD7hsw==
+Received: from 2a01cb0892f2d600c8f85cf092d4af51.ipv6.abo.wanadoo.fr (2a01cb0892f2d600C8F85cF092d4Af51.ipv6.abo.wanadoo.fr [IPv6:2a01:cb08:92f2:d600:c8f8:5cf0:92d4:af51])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: jmassot)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id B028B17E0EB8;
+	Fri,  4 Jul 2025 09:11:17 +0200 (CEST)
+Message-ID: <f2f39aad24dc000bd1066ade7a7a38a072a00664.camel@collabora.com>
+Subject: Re: [PATCH v5 00/24] media: i2c: add Maxim GMSL2/3 serializer and
+ deserializer drivers
+From: Julien Massot <julien.massot@collabora.com>
+To: Cosmin Tanislav <demonsingur@gmail.com>, Cosmin Tanislav	
+ <cosmin.tanislav@analog.com>, Tomi Valkeinen	
+ <tomi.valkeinen+renesas@ideasonboard.com>, Mauro Carvalho Chehab	
+ <mchehab@kernel.org>, Rob Herring <robh@kernel.org>, Niklas
+ =?ISO-8859-1?Q?S=F6derlund?=	 <niklas.soderlund@ragnatech.se>, Sakari Ailus
+ <sakari.ailus@linux.intel.com>,  Laurent Pinchart
+ <laurent.pinchart@ideasonboard.com>, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>, Linus Walleij <linus.walleij@linaro.org>
+Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-staging@lists.linux.dev, linux-gpio@vger.kernel.org
+Date: Fri, 04 Jul 2025 09:11:16 +0200
+In-Reply-To: <cbf8d7bd-24a4-4dc1-8d9f-bbc4bee45d8d@gmail.com>
+References: <20250702132104.1537926-1-demonsingur@gmail.com>
+	 <5e1b26637706f6eac92acbbb3d5a7dafa0c2c232.camel@collabora.com>
+	 <d4052ab3-9cd1-45e8-81b0-b6512822e646@gmail.com>
+	 <c661e7f3faec269f73d6240fbe7b84e3bc97157a.camel@collabora.com>
+	 <cbf8d7bd-24a4-4dc1-8d9f-bbc4bee45d8d@gmail.com>
+Organization: Collabora Ltd.
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.2 (3.56.2-1.fc42) 
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250703163350.5163-1-abdelrahmanfekry375@gmail.com>
-In-Reply-To: <20250703163350.5163-1-abdelrahmanfekry375@gmail.com>
-From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Fri, 4 Jul 2025 00:43:58 +0300
-X-Gm-Features: Ac12FXyhrh_8lMHSEmUBcj2pEZdCZKx9DoJsYb6ibx03ED0ZVcENiX9lPD_jlAo
-Message-ID: <CAHp75VfOVksdSwLjWPZqSeRS9_zxSKp=DD2xL06TPnjy5N2jzg@mail.gmail.com>
-Subject: Re: [PATCH] staging: media: atomisp: Remove custom sysfs attributes
- from atomisp_drvfs.c
-To: Abdelrahman Fekry <abdelrahmanfekry375@gmail.com>
-Cc: hansg@kernel.org, mchehab@kernel.org, sakari.ailus@linux.intel.org, 
-	andy@kernel.org, gregkh@linuxfoundation.org, linux-media@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev, 
-	linux-kernel-mentees@lists.linux.dev, skhan@linuxfoundation.org, 
-	dan.carpenter@linaro.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Thu, Jul 3, 2025 at 7:34=E2=80=AFPM Abdelrahman Fekry
-<abdelrahmanfekry375@gmail.com> wrote:
->
-> Continue the process of atomisp driver cleanup as dicussed with hans
-> and andy in [1].
->
-> Tackle TODO item "Remove custom sysfs files created by atomisp_drvfs.c":
-> - Removing dbglvl, dbgfun, and dbgopt sysfs attributes
-> - Eliminating their show/store handler functions
-> - Deleting the attribute group definitions
-> - Preserving dbg_attr_groups[] as an empty array for compatibility
+On Thu, 2025-07-03 at 17:46 +0300, Cosmin Tanislav wrote:
+>=20
+>=20
+> On 7/3/25 4:54 PM, Julien Massot wrote:
+> > On Thu, 2025-07-03 at 15:17 +0300, Cosmin Tanislav wrote:
+> > >=20
+> > >=20
+> > > On 7/3/25 3:07 PM, Julien Massot wrote:
+> > > > Hi Cosmin,
+> > > >=20
+> > > > On Wed, 2025-07-02 at 16:20 +0300, Cosmin Tanislav wrote:
+> > > > > This series adds new drivers for multiple Maxim GMSL2 and GMSL3 d=
+evices,
+> > > > > replacing the few GMSL2 drivers already in upstream, and introduc=
+ing a
+> > > > > common framework that can be used to implement such GMSL chips, w=
+hich
+> > > > > avoids code duplication while also adding support for previously
+> > > > > unsupported features.
+> > > > >=20
+> > > > > While the normally acceptable and polite way would be to extend t=
+he
+> > > > > current mainline drivers, the choice was made here to add a total=
+ly new
+> > > > > set of drivers. The current drivers support only a small subset o=
+f the
+> > > > > possible features, and only a few devices, so the end result afte=
+r
+> > > > > extending them would in any case be essentially fully rewritten, =
+new
+> > > > > drivers.
+> > > > >=20
+> > > > Thanks for your work,
+> > > > The common framework will help a lot to drive new GMSL chips, and m=
+ost of the
+> > > > features are covered.
+> > > >=20
+> > > > > This series depends on support for internal pads, for which a pat=
+ch has
+> > > > > been added.
+> > > > >=20
+> > > > > The previous version is at:
+> > > > > https://lore.kernel.org/lkml/20250618095858.2145209-1-demonsingur=
+@gmail.com
+> > > > >=20
+> > > > > The following deserializers are supported:
+> > > > > =C2=A0=C2=A0=C2=A0* MAX96712 (already exists in staging)
+> > > > > =C2=A0=C2=A0=C2=A0* MAX96714 (already exists)
+> > > > > =C2=A0=C2=A0=C2=A0* MAX96714F (already exists)
+> > > > > =C2=A0=C2=A0=C2=A0* MAX96714R (GMSL2)
+> > > > > =C2=A0=C2=A0=C2=A0* MAX96716 (GMSL2)
+> > > > > =C2=A0=C2=A0=C2=A0* MAX96724 (already exists as part of existing =
+MAX96712 driver)
+> > > > > =C2=A0=C2=A0=C2=A0* MAX96724F (GMSL2)
+> > > > > =C2=A0=C2=A0=C2=A0* MAX96724R (GMSL2)
+> > > > > =C2=A0=C2=A0=C2=A0* MAX9296A (GMSL2)
+> > > > > =C2=A0=C2=A0=C2=A0* MAX96792A (GMSL3)
+> > > > >=20
+> > > > > The following serializers are supported:
+> > > > > =C2=A0=C2=A0=C2=A0* MAX96717 (already exists)
+> > > > > =C2=A0=C2=A0=C2=A0* MAX9295A (GMSL2)
+> > > > > =C2=A0=C2=A0=C2=A0* MAX96793 (GMSL3)
+> > > > >=20
+> > > > > Known backward compatibility breakages:
+> > > > > =C2=A0=C2=A0=C2=A0* No default routing. Default routing has been =
+intentionally ommitted
+> > > > > =C2=A0=C2=A0=C2=A0=C2=A0 as the devices support quite complex rou=
+ting and it would be
+> > > > > =C2=A0=C2=A0=C2=A0=C2=A0 unfeasible to provide sane defaults for =
+multi-link deserialziers.
+> > > > > =C2=A0=C2=A0=C2=A0=C2=A0 It is expected that userspace programs w=
+ould set appropritate
+> > > > > =C2=A0=C2=A0=C2=A0=C2=A0 routing.
+> > > > >=20
+> > > > This part is the most annoying one: at the moment, there is no way =
+to set the routing except
+> > > > by
+> > > > manually enabling a boolean within the kernel source.
+> > > > You can't guess what routing the user really wants, but please at l=
+east provide a default
+> > > > routing
+> > > > table that allows using your drivers =E2=80=94 for example, the dev=
+ice's default routing.
+> > > >=20
+> > >=20
+> > > It's a very delicate issue... I'll try to see if I can do that.
+> > > It would be great if we could enable the streams API globally since i=
+t's
+> > > been merged since Jan 15 2023. It's been over two years.
+> > >=20
+> > >=20
+> > > Thanks,
+> > >=20
+> > > >=20
+> > > >=20
+> > > > > The following list enumerates new features that are supported by =
+the
+> > > > > common framework and their respective chip-specific drivers:
+> > > > > =C2=A0=C2=A0=C2=A0* Full Streams API support. Most deserializers =
+have support for more
+> > > > > =C2=A0=C2=A0=C2=A0=C2=A0 than one link, and more than one PHY. St=
+reams support allows
+> > > > > =C2=A0=C2=A0=C2=A0=C2=A0 configuration of routing between these l=
+inks and PHYs.
+> > > > >=20
+> > > > > =C2=A0=C2=A0=C2=A0* .get_frame_desc() support. Both the serialize=
+rs and deserializers
+> > > > > =C2=A0=C2=A0=C2=A0=C2=A0 implement this to query and provide fram=
+e descriptor data. This is
+> > > > > =C2=A0=C2=A0=C2=A0=C2=A0 used in features explained in-depth belo=
+w.
+> > > >=20
+> > > > So are almost all the sensor drivers incompatible?
+> > > >=20
+> > >=20
+> > > Yes, sensor drivers need to have .get_frame_desc() implemented... It'=
+s
+> > > not a huge feat and it's the only way this type of bridge could work
+> > > properly.
+> > >=20
+> > > Alternatively, we could add a fallback that bases its decision on the
+> > > stream format, but I'd prefer if we didn't and we would just implemen=
+t
+> > > .get_frame_desc(). After this series is merged I can submit my patche=
+s
+> > > for imx219.
+> > There is already one pending on the mailing list
+> > "media: i2c: imx219: Report streams using frame descriptors"
+> > I guess it's fine if we require the sensor to implement this function.
+> >=20
+> > But I had to do it for vgxy61.
+> >=20
+> > Btw I tested:
+> > TI AM62x + max96716 + 1 x max96717f + stvg5661 (tunnel mode)
+> > With special lanes mapping and polarities.
+> >=20
+> > And I had to:
+> >=20
+> > - Apply pending patches for j721e to support the enable_stream API inst=
+ead of s_stream
+> > - Enable the experimental v4l2_subdev_enable_streams_api
+> > - Add get_frame_desc to the sensor driver
+>=20
+> Did it work without issues with those changes?
+>=20
+Yes :)
+btw you can add:
+Tested-by: Julien Massot <julien.massot@collabora.com>
+>=20
+> If that's the case then I think all I can do to make it is easier is to
+> add default routing. I'm not a fan of each driver having its own
+> get_frame_desc() fallback, especially when it's a very small change to
+> do to the sensor drivers.
+Ok for me.
 
-> [1]: https://lore.kernel.org/all/836dc6b6-2821-47fc-8f24-0838f979af76@ker=
-nel.org/
->
-
-Make this Link tag:
-
-Link: https://lore.kernel.org/all/836dc6b6-2821-47fc-8f24-0838f979af76@kern=
-el.org/
-[1]
-
-> Suggested-by: Hans de Goede <hansg@kernel.org>
-> Signed-off-by: Abdelrahman Fekry <abdelrahmanfekry375@gmail.com>
-
-Change LGTM,
-Reviewed-by: Andy Shevchenko <andy@kernel.org>
-
+Ragards,
 --=20
-With Best Regards,
-Andy Shevchenko
+Julien
