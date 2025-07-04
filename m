@@ -1,78 +1,71 @@
-Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
+Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4ED6E1B7F4;
-	Fri,  4 Jul 2025 14:16:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 171CA299954
+	for <linux-staging@lists.linux.dev>; Fri,  4 Jul 2025 15:27:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751638583; cv=none; b=sefXXAIoz45lnzJ3hKy3FuKOF3Ihnzg3dOV6BgwOGSJxxLSx/BCkIlqioC5Ry+qjNdo7jsqg9jyiaUr2Ws+xu5WEAR1vGlefZiUvvWtzVywxkzhZAINNe4GvQXnoYSPhIBS0ApBOLsaWynufSufUuO+YLWANAErhYS1+j191k4I=
+	t=1751642871; cv=none; b=CEF3w6ZKftYQxqnTygGQkRBhbdJD9aN/ZK7/9LKCvPrAMULJHtgxZJSDp1+s/3XuGyy3B45jKN3iJYLZEFMe3/zHkrhneIFffeNqB4o20DiEasmwVyUtFfNVjZOVwaXHhvv0ZEpKZzMcjDimHA/B7tyCTPp6s+7EoO5zc+xik30=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751638583; c=relaxed/simple;
-	bh=oo+uEgK1Jfph1XkO08KqkKaj+w/7lywoKLOEgNgfAZQ=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=SZgbRfy9TLeAvp2o8viyMF8C1U9oJOJdoVmoG+CgEyDJCAojemKm10ksjfH4M+hqyoPLlKmZLt8damHr+q6BrvIAGv33IzMILXzL+OZd9YwzHyvVf90qB1uUL7oLSI6owjs8Jk81uMpwAlDSttDXACBBMkaZZJettocoIg8MBdE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bPJqc0Q6; arc=none smtp.client-ip=209.85.208.47
+	s=arc-20240116; t=1751642871; c=relaxed/simple;
+	bh=4v3TRQ4gYwnhEwc5GUKsBPODNNDA4dpVHy1PtRhstxw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=oeeGjSUHIFcL1K4MC/ylWFXs2toBCx8fA1MPaU4lLE6HQT7g1xLcqDTCJct8TBDfCcZet44R8BbqUuH5lG63Id9CiRE86tS7BB1EOe0hC5S09rxE3O/mxjC+Hb3WkbwpSxcxpWer1Qfa17hw/+brqz3iBrZhNrJKvFHHeMhav8E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hXY3QwCG; arc=none smtp.client-ip=209.85.218.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bPJqc0Q6"
-Received: by mail-ed1-f47.google.com with SMTP id 4fb4d7f45d1cf-60fdd24613fso73087a12.1;
-        Fri, 04 Jul 2025 07:16:21 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hXY3QwCG"
+Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-ae34f589193so20219566b.2
+        for <linux-staging@lists.linux.dev>; Fri, 04 Jul 2025 08:27:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1751638580; x=1752243380; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1751642868; x=1752247668; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=sb8iimynI9CzYNi0AnSl9OGFpIWMTxy9TSj8evqbmoU=;
-        b=bPJqc0Q6kmMYlrPeC370yknI0IqkEaAmvOu8cVQaceq6WrwAQJxOhg/r+wgaKSKdrw
-         jZL7Sm7+KLlPyaooAfVYTwGrmiBwOgFdX2LByGiImwbv2++lsT5D7h/X27vJVa1VPPdB
-         tlEsyhISrodgY7UtN/Dp1LyGWjPyHrnemwk7fqJmZea7/bxgqM4VXc7PboNBtTIuzO6S
-         Jyn/mQVLSrNR2BzJqUqORandA9dinpqfZmUoYYt9rZ9c3toU/itOXgXulaojVhnUuDWh
-         ui/nbVcPD/AfbGhRxZUpkScLDYYp+33QKi2QOxzmvnG6PaPoho4Fy4MR7Ng1VDdK98NQ
-         sQZA==
+        bh=K+ebNQOqTu5W6nuPcdddqE5wsc9kXNQZiBU7TM8ffBE=;
+        b=hXY3QwCG0co6UmkuaOe7CcebwXZhCMPE3He1c1xJSzxWqE9aATl8WZfyw9pKVkmRsm
+         pi3uaFAVflNMGxyXp39sOpQ8p6JzPDuHNhPgFUTjsjkzOZNLoxXGZtx0m4XQItJngg3j
+         dsn4efy4ysutlN414BRcy0FiwL1VndmE5hZncAiFIb0r5psMALcFgXPLbxn+6Tg3ZjSP
+         9lgGJnGR3cZAwPk4h2iJIJiLgVK9V8WFMU+PJWYzIvL4hVBdFhAUkXVb+dy+SZYC6S2p
+         FLuuGGFNX4EB6TWJRtuvl7PBgwQ60GybaQQ83EZ1WFbIxTN9xjyywHLY3RaNGNiZWOjE
+         gzag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751638580; x=1752243380;
+        d=1e100.net; s=20230601; t=1751642868; x=1752247668;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=sb8iimynI9CzYNi0AnSl9OGFpIWMTxy9TSj8evqbmoU=;
-        b=itE91ElacRha/sZEM6cn0/hIABYYdRcWMqao2HH4tApC7KLg7h3UqrtJepHSW/lD5H
-         Ib5qDKNJRkr3AijDtlVK+lRtyWUF4CUX70och3AqJgw9Oi5qHqtsASYps8pmMx8WxEKB
-         KHta3xeZz1W9c6h+r5bBARpZLHJud1ExBb68gLPTrjF6FTIF7dZxmAyHlGzSkKvOdPax
-         d9PutMitgZgsWPhaNrko6DJzCAilmtIF9w2DgWELzUkT1J/1h1xkA1V5P1xNW1pvKacW
-         VIS7RsAfhrKZkGqqSQNcj9PDfoSJMd/czYcoe8IYAV6T2KORRz3+wECcJ7+m4gNQ5aen
-         tpGg==
-X-Forwarded-Encrypted: i=1; AJvYcCW95P4JiEA9D2PaMEVyJikWNWzaxnUJwkxh6lrE7cLpsEi3RP6y8xrYOW4Nu/Stsk0pxi70w22flU4ZhnQXCw==@lists.linux.dev, AJvYcCWI4CDB8yZ4oAuYPAQcB1QeNkqgKBWTRUfOLGKinWGDHZ3PEae3LE0MzPI2Vm/SKC5A7JNE0pwZH3DkgNzc9osjX2LfKw==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzaWaboasj+HbSnYKHPR17+MmhvJkhNgto2aqaODzdJgAwyAcHo
-	RDryiKrAeE+ZVg2Qwo6t3NlD3unT/8j7m/taWVeNBONUj6lSj0wkH52p
-X-Gm-Gg: ASbGncsjEGfxRWsbBExxMjx5Mp8IJpoYaj38JU98OnhQ8icy8AA5B1Af39jDMFx14DY
-	MNnv7pCTsK34UJgj2h6a9slVi2k4mzCkImJLF4aMoY3OuzzHUVKKWvKTzz4jGMTSAtrK41IN5Xi
-	+TO6++02XqGI5NlvVxCtANkcPMU44Av5mwPIMGpVHGOvRDR/7CvoXIQsSkr8W2KlrsA48kmurA3
-	F4aTIsUsxy2ZbiY77FznkROquVG56FgxRpZT6wfsZ4drQweHR0c+18wtt5wFp1CIj9Ft+ImBjPA
-	Jv+2B7WH/11YqmkDemPm7eGme+J4ZUxl68fswjNYJJw1SMKTLiVx+eipKhF4fglcjU90Y6nhoZs
-	0UfSEFZ+OYFDR8vzooRjKuA==
-X-Google-Smtp-Source: AGHT+IFc7IohEsknf/s8s4QFDEXv5Yh63dnCdh0iNkJ2FiQksbeWPWAzsgLI+sTiW+yLce4CuDrXlw==
-X-Received: by 2002:a05:6402:40c9:b0:602:f026:82cc with SMTP id 4fb4d7f45d1cf-60fd65641e7mr705154a12.5.1751638579144;
-        Fri, 04 Jul 2025 07:16:19 -0700 (PDT)
-Received: from localhost.localdomain ([41.37.222.172])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-60fcb8c7f7bsm1390972a12.81.2025.07.04.07.16.17
+        bh=K+ebNQOqTu5W6nuPcdddqE5wsc9kXNQZiBU7TM8ffBE=;
+        b=Tc+J2RKmDCO1414ipv+wy+qNwuGOSVKUTuwsFqEvuJwZtmNfUPR4KpTLBEeY88kYsO
+         VMrNuU+kVo8tbrxdvwffVj2c6ujLjYIIeYxPubukiz/VzPbOgv2dvOKl4ve2iqR6PeR5
+         sCLg54S5O7QbH1IuWwk1CeySyhgpmN8da2I91WBgopkPl6E9cB/gEd+OvadgRBAlpLPF
+         5zS0pIbczG50dBdbPceDKOL6TDCfR6sFJjJFYTzECQrQUmiy7kLaPZmZs1geFCW0WUky
+         Gm1GMib8SXMa4ZY471VXE/lZ0cteI+k1DsFlPxmQ09raXBjcgyV6kbc+zLjF2lVCP11R
+         fFqQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXNoYTZmsZPTFvoix5cJJiMG+0prhwq2HEVTExubgMFu5Y2boXOgmSTB2aG3zsvcaY+UN/fqZQHOi6K7334@lists.linux.dev
+X-Gm-Message-State: AOJu0YzXCl29zqJz6rLNwjNVVanPSCv1LyRxyIdggDRpbtTqWpr69fGt
+	+qTdLKEXcS2eaj3vMCd9R4Kio/s+ZknxZfygwJlPUL6eadR7wQHJwy4h
+X-Gm-Gg: ASbGncvXnRJbAMg3+aGLSwEqB0NnINzHz0QPDNHgcaMD2Tg0xZEoxEm46OAHJAfsiGA
+	FoYUZSoDEh6OhEYMEeomu6lY74msz14QuvNzBkmOVTwGDkvQLU4ABbc5hdA3Oht40c16tVleEO/
+	pomdxm/FsdsiGLGI63lfHnqxHW815m6VBWCFAAaQE5/5dKqToVaMd+LRebTeB6xOUfyaRBpADkE
+	ZtFbKElTg2PAKBHZh7PqymqKGHeWspuQnSLeQwmVnvTsD+c/GPIFymA1zoXUaN9MB5lMvc2dVkH
+	YntFJJgR/nVYOJR1s/riisOzAOybsWTKQymicWYSM26QyLdGjg==
+X-Google-Smtp-Source: AGHT+IF6oLHogNvjH3Oz67SB2byAsyBihuBG/+HbpIQjbMscOU/bzY+tofufIUk1WNXeICSLqYmeug==
+X-Received: by 2002:a17:907:3daa:b0:ae3:cd73:efb9 with SMTP id a640c23a62f3a-ae3fc212ea3mr109904766b.12.1751642868054;
+        Fri, 04 Jul 2025 08:27:48 -0700 (PDT)
+Received: from fridge ([46.2.120.40])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ae3f6ac5feasm190894866b.107.2025.07.04.08.27.47
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 04 Jul 2025 07:16:18 -0700 (PDT)
-From: Abdelrahman Fekry <abdelrahmanfekry375@gmail.com>
-To: hansg@kernel.org,
-	mchehab@kernel.org,
-	sakari.ailus@linux.intel.com,
-	andy@kernel.org,
-	gregkh@linuxfoundation.org
-Cc: linux-media@vger.kernel.org,
+        Fri, 04 Jul 2025 08:27:47 -0700 (PDT)
+From: Emre Cecanpunar <emreleno@gmail.com>
+To: gregkh@linuxfoundation.org,
+	linux-staging@lists.linux.dev
+Cc: linux-tegra@vger.kernel.org,
+	marvin24@gmx.de,
 	linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel-mentees@lists.linux.dev,
-	skhan@linuxfoundation.org,
-	dan.carpenter@linaro.org,
-	Abdelrahman Fekry <abdelrahmanfekry375@gmail.com>
-Subject: [PATCH v2] staging: media: atomisp: Remove custom sysfs attributes from atomisp_drvfs.c
-Date: Fri,  4 Jul 2025 17:15:27 +0300
-Message-Id: <20250704141527.10146-1-abdelrahmanfekry375@gmail.com>
-X-Mailer: git-send-email 2.25.1
+	Emre Cecanpunar <emreleno@gmail.com>
+Subject: [PATCH] staging: nvec: silence macro argument warnings in NVEC_PHD()
+Date: Fri,  4 Jul 2025 18:27:37 +0300
+Message-ID: <20250704152737.14315-1-emreleno@gmail.com>
+X-Mailer: git-send-email 2.50.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -81,181 +74,31 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Continue the cleanup of the AtomISP driver as discussed with Hans and Andy
-in [1].
+checkpatch.pl warns that the NVEC_PHD macro defines unused arguments.
+Use (void) casts to prevent unused argument warnings when the macro is disabled.
 
-Tackle the TODO item: "Remove custom sysfs files created by atomisp_drvfs.c":
-- Remove the sysfs attributes `dbglvl`, `dbgfun`, and `dbgopt`.
-- Delete their associated show/store handler functions.
-- Remove the corresponding attribute group definitions.
-- Keep `dbg_attr_groups[]` as an empty array to preserve compatibility.
-
-Link: https://lore.kernel.org/all/836dc6b6-2821-47fc-8f24-0838f979af76@kernel.org/ [1]
-Suggested-by: Hans de Goede <hansg@kernel.org>
-Reviewed-by: Andy Shevchenko <andy@kernel.org>
-Signed-off-by: Abdelrahman Fekry <abdelrahmanfekry375@gmail.com>
+Signed-off-by: Emre Cecanpunar <emreleno@gmail.com>
 ---
-v2:
-- modify the reference link line.
+ drivers/staging/nvec/nvec_ps2.c | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
- .../staging/media/atomisp/pci/atomisp_drvfs.c | 138 ------------------
- 1 file changed, 138 deletions(-)
-
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_drvfs.c b/drivers/staging/media/atomisp/pci/atomisp_drvfs.c
-index 31c82c3c0d33..c25fd3ff003d 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_drvfs.c
-+++ b/drivers/staging/media/atomisp/pci/atomisp_drvfs.c
-@@ -1,9 +1,4 @@
- // SPDX-License-Identifier: GPL-2.0
--/*
-- * Support for atomisp driver sysfs interface
-- *
-- * Copyright (c) 2014 Intel Corporation. All Rights Reserved.
-- */
-
- #include <linux/device.h>
- #include <linux/err.h>
-@@ -16,140 +11,7 @@
- #include "hmm/hmm.h"
- #include "ia_css_debug.h"
-
--#define OPTION_BIN_LIST			BIT(0)
--#define OPTION_BIN_RUN			BIT(1)
--#define OPTION_VALID			(OPTION_BIN_LIST | OPTION_BIN_RUN)
--
--/*
-- * dbgopt: iunit debug option:
-- *        bit 0: binary list
-- *        bit 1: running binary
-- *        bit 2: memory statistic
-- */
--static unsigned int dbgopt = OPTION_BIN_LIST;
--
--static inline int iunit_dump_dbgopt(struct atomisp_device *isp,
--				    unsigned int opt)
--{
--	int ret = 0;
--
--	if (opt & OPTION_VALID) {
--		if (opt & OPTION_BIN_LIST) {
--			ret = atomisp_css_dump_blob_infor(isp);
--			if (ret) {
--				dev_err(isp->dev, "%s dump blob infor err[ret:%d]\n",
--					__func__, ret);
--				goto opt_err;
--			}
--		}
--
--		if (opt & OPTION_BIN_RUN) {
--			if (isp->asd.streaming) {
--				atomisp_css_dump_sp_raw_copy_linecount(true);
--				atomisp_css_debug_dump_isp_binary();
--			} else {
--				ret = -EPERM;
--				dev_err(isp->dev, "%s dump running bin err[ret:%d]\n",
--					__func__, ret);
--				goto opt_err;
--			}
--		}
--	} else {
--		ret = -EINVAL;
--		dev_err(isp->dev, "%s dump nothing[ret=%d]\n", __func__, ret);
--	}
--
--opt_err:
--	return ret;
--}
--
--static ssize_t dbglvl_show(struct device *dev, struct device_attribute *attr,
--			   char *buf)
--{
--	unsigned int dbglvl = ia_css_debug_get_dtrace_level();
--
--	return sysfs_emit(buf, "dtrace level:%u\n", dbglvl);
--}
--
--static ssize_t dbglvl_store(struct device *dev, struct device_attribute *attr,
--			    const char *buf, size_t size)
--{
--	unsigned int dbglvl;
--	int ret;
--
--	ret = kstrtouint(buf, 10, &dbglvl);
--	if (ret)
--		return ret;
--
--	if (dbglvl < 1 || dbglvl > 9)
--		return -ERANGE;
--
--	ia_css_debug_set_dtrace_level(dbglvl);
--	return size;
--}
--static DEVICE_ATTR_RW(dbglvl);
--
--static ssize_t dbgfun_show(struct device *dev, struct device_attribute *attr,
--			   char *buf)
--{
--	unsigned int dbgfun = atomisp_get_css_dbgfunc();
--
--	return sysfs_emit(buf, "dbgfun opt:%u\n", dbgfun);
--}
--
--static ssize_t dbgfun_store(struct device *dev, struct device_attribute *attr,
--			    const char *buf, size_t size)
--{
--	struct atomisp_device *isp = dev_get_drvdata(dev);
--	unsigned int opt;
--	int ret;
--
--	ret = kstrtouint(buf, 10, &opt);
--	if (ret)
--		return ret;
--
--	return atomisp_set_css_dbgfunc(isp, opt);
--}
--static DEVICE_ATTR_RW(dbgfun);
--
--static ssize_t dbgopt_show(struct device *dev, struct device_attribute *attr,
--			   char *buf)
--{
--	return sysfs_emit(buf, "option:0x%x\n", dbgopt);
--}
--
--static ssize_t dbgopt_store(struct device *dev, struct device_attribute *attr,
--			    const char *buf, size_t size)
--{
--	struct atomisp_device *isp = dev_get_drvdata(dev);
--	unsigned int opt;
--	int ret;
--
--	ret = kstrtouint(buf, 10, &opt);
--	if (ret)
--		return ret;
--
--	dbgopt = opt;
--	ret = iunit_dump_dbgopt(isp, dbgopt);
--	if (ret)
--		return ret;
--
--	return size;
--}
--static DEVICE_ATTR_RW(dbgopt);
--
--static struct attribute *dbg_attrs[] = {
--	&dev_attr_dbglvl.attr,
--	&dev_attr_dbgfun.attr,
--	&dev_attr_dbgopt.attr,
--	NULL
--};
--
--static const struct attribute_group dbg_attr_group = {
--	.attrs = dbg_attrs,
--};
-
- const struct attribute_group *dbg_attr_groups[] = {
--	&dbg_attr_group,
- 	NULL
- };
---
-2.25.1
+diff --git a/drivers/staging/nvec/nvec_ps2.c b/drivers/staging/nvec/nvec_ps2.c
+index 575233fa1677..38e736b3761e 100644
+--- a/drivers/staging/nvec/nvec_ps2.c
++++ b/drivers/staging/nvec/nvec_ps2.c
+@@ -28,7 +28,11 @@
+ 	print_hex_dump(KERN_DEBUG, str, DUMP_PREFIX_NONE, \
+ 			16, 1, buf, len, false)
+ #else
+-#define NVEC_PHD(str, buf, len) do { } while (0)
++#define NVEC_PHD(str, buf, len) do { \
++	(void)(str); \
++	(void)(buf); \
++	(void)(len); \
++} while (0)
+ #endif
+ 
+ enum ps2_subcmds {
+-- 
+2.50.0
 
