@@ -1,226 +1,118 @@
-Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5099270ECD
-	for <linux-staging@lists.linux.dev>; Fri,  4 Jul 2025 07:11:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 163232F2366
+	for <linux-staging@lists.linux.dev>; Fri,  4 Jul 2025 07:54:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751613085; cv=none; b=LUpu7F+npYRjJC6lK3d7aNWEDO4Qbc/ek1BF9FPif0Hr9HdqbOnf9czI0uwM7naEAFgxqWs6osYWtOkN7IiWtFpUAy4mplVzAd1BFIIryfttCjGQ/V8W3OGK7wP1jyhtY+OlY4/aQ23wKRpyf5RwZcTyztEg0kTJGYJ0JWcNuNI=
+	t=1751615701; cv=none; b=QYjXSSp74PoqbrbzRdyMX2gMMQinXCEci2R42nY8tgUYkv0zYfOI/KVE4JsMb05a7ZM7sHII2hZzA3ldKuFmqRge45E7m04p2rT/dDDZmp4ybUvHn0IiiRalepZPBzTLFfoxmvUUl2PY8McJ9uQapcKg42JINJ8OByvZQF7o5Co=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751613085; c=relaxed/simple;
-	bh=u1t9kgo32n46P3lCiA/YsRG69hKIm2B9bRzkw/n0hCc=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=mClFkkocy/pbV5PhG9VL7w+G1MeIUx4yGsaK45jD1j//kNoZVOAPs67ZPIj4btL/k8DiKRUq2WrcJteC6XeK5vWOt3EAfeRTuL8eRHxwjTXZj+XLmsNYZv8Ph/wZjRVsKc5Q+Qr3prN7g+1XihKF4wHMTYp6cduRoQFxeZXGCNI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=VrV1onED; arc=none smtp.client-ip=148.251.105.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	s=arc-20240116; t=1751615701; c=relaxed/simple;
+	bh=mdM0fCBRCMeIMAVi7fqCrM0fXAuMJVicckxaZNS+bgI=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=sIhkAnqHm3Ue4mnSt2yyooT+Ozmi3APb9O9H4kXESyQgHbi7m/XkxGH5iOG8vumrCYucADTdgfxV/wqoyfMtN1F5fNYM+LNDb6QSCvh9Zf0OqrXOWH633F/RPAXMZjqsaPoHlcaqXJbTefqTBWv/kXmh2M4JGAMCJGYVLwVJP8g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GoScNqlI; arc=none smtp.client-ip=198.175.65.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="VrV1onED"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1751613078;
-	bh=u1t9kgo32n46P3lCiA/YsRG69hKIm2B9bRzkw/n0hCc=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-	b=VrV1onEDAPBj1gXtmoDisI701xglCoEK1T4zryC7ADJ75bTtZGaIAJCx4Y+zBoPs9
-	 jM2f/d/caI78n4W2MpPqQao8YaRoUF7u30y0XWeTUEDxLcBtmqmPRMGR2ST4oDCJu+
-	 Qx6XV7KY1/PubEW2Ziu6FYhvT5UhsTk+aXN8llhNT+E67Ib9Wug3a8gxAQe8iyLJx6
-	 tIcOVLsKDZ8XcymS+x2gdF32VGkyCvLqBB1epj+7AvtkVbnqQFHINFE/8SvYN0tDMH
-	 hyzc0M3q8/ZRbKrqC64M/xogbPmQeeNgeV7X/3VYKjRNVS/7aJk6Sgjm1Ztl1SbsLF
-	 Qt9f/pWZD7hsw==
-Received: from 2a01cb0892f2d600c8f85cf092d4af51.ipv6.abo.wanadoo.fr (2a01cb0892f2d600C8F85cF092d4Af51.ipv6.abo.wanadoo.fr [IPv6:2a01:cb08:92f2:d600:c8f8:5cf0:92d4:af51])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: jmassot)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id B028B17E0EB8;
-	Fri,  4 Jul 2025 09:11:17 +0200 (CEST)
-Message-ID: <f2f39aad24dc000bd1066ade7a7a38a072a00664.camel@collabora.com>
-Subject: Re: [PATCH v5 00/24] media: i2c: add Maxim GMSL2/3 serializer and
- deserializer drivers
-From: Julien Massot <julien.massot@collabora.com>
-To: Cosmin Tanislav <demonsingur@gmail.com>, Cosmin Tanislav	
- <cosmin.tanislav@analog.com>, Tomi Valkeinen	
- <tomi.valkeinen+renesas@ideasonboard.com>, Mauro Carvalho Chehab	
- <mchehab@kernel.org>, Rob Herring <robh@kernel.org>, Niklas
- =?ISO-8859-1?Q?S=F6derlund?=	 <niklas.soderlund@ragnatech.se>, Sakari Ailus
- <sakari.ailus@linux.intel.com>,  Laurent Pinchart
- <laurent.pinchart@ideasonboard.com>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, Linus Walleij <linus.walleij@linaro.org>
-Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-staging@lists.linux.dev, linux-gpio@vger.kernel.org
-Date: Fri, 04 Jul 2025 09:11:16 +0200
-In-Reply-To: <cbf8d7bd-24a4-4dc1-8d9f-bbc4bee45d8d@gmail.com>
-References: <20250702132104.1537926-1-demonsingur@gmail.com>
-	 <5e1b26637706f6eac92acbbb3d5a7dafa0c2c232.camel@collabora.com>
-	 <d4052ab3-9cd1-45e8-81b0-b6512822e646@gmail.com>
-	 <c661e7f3faec269f73d6240fbe7b84e3bc97157a.camel@collabora.com>
-	 <cbf8d7bd-24a4-4dc1-8d9f-bbc4bee45d8d@gmail.com>
-Organization: Collabora Ltd.
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.2 (3.56.2-1.fc42) 
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GoScNqlI"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1751615699; x=1783151699;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=mdM0fCBRCMeIMAVi7fqCrM0fXAuMJVicckxaZNS+bgI=;
+  b=GoScNqlI7To1vuNCY0AzHc6VxbNxsHmmgc0JTKKLefNKaJ6C4WmNHIOW
+   e236Y/FeKJN8+OxAillIh2ZwMobzboBiUXvCfr/ynJ92YBLKiPHvEnGcm
+   guvZJmYWkKe/2EhderWa/4PfX61+X8iq2NgaQ7iZESuKg1eFBG+zv/Hyt
+   dLPZHrMHxQC8JyGWReRA8Qq7RH/rqvaO1N6nGx1xVnCs9/wtczgM8YAhe
+   /cx5DbwOUqAVyzOHadCnsctyMkMoNpqc8qXoV/Dw/ud21CV468EWzGR2e
+   AcCMkhkgvfXWmNrjHQ5CGYBi7+VMeW7Fa8hnkvifcpprOlQu6WchLQ8bK
+   Q==;
+X-CSE-ConnectionGUID: cjo77PuFQfydxBudvo05cw==
+X-CSE-MsgGUID: ewD5yLBSRDmXXnByI8VcEA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11483"; a="64194262"
+X-IronPort-AV: E=Sophos;i="6.16,286,1744095600"; 
+   d="scan'208";a="64194262"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jul 2025 00:54:59 -0700
+X-CSE-ConnectionGUID: LhFiReD2SIile6uLjhnPyQ==
+X-CSE-MsgGUID: o0jYIUk4SJePdq14auC1hg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,286,1744095600"; 
+   d="scan'208";a="158616652"
+Received: from jkrzyszt-mobl2.ger.corp.intel.com (HELO svinhufvud.fi.intel.com) ([10.245.244.244])
+  by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jul 2025 00:54:51 -0700
+Received: from svinhufvud.lan (localhost [IPv6:::1])
+	by svinhufvud.fi.intel.com (Postfix) with ESMTP id 4B87844419;
+	Fri,  4 Jul 2025 10:54:49 +0300 (EEST)
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Johan Hovold <johan@kernel.org>,
+	Alex Elder <elder@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: greybus-dev@lists.linaro.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH 62/80] staging: greybus: Remove redundant pm_runtime_mark_last_busy() calls
+Date: Fri,  4 Jul 2025 10:54:48 +0300
+Message-Id: <20250704075448.3221843-1-sakari.ailus@linux.intel.com>
+X-Mailer: git-send-email 2.39.5
+In-Reply-To: <20250704075225.3212486-1-sakari.ailus@linux.intel.com>
+References: <20250704075225.3212486-1-sakari.ailus@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-On Thu, 2025-07-03 at 17:46 +0300, Cosmin Tanislav wrote:
->=20
->=20
-> On 7/3/25 4:54 PM, Julien Massot wrote:
-> > On Thu, 2025-07-03 at 15:17 +0300, Cosmin Tanislav wrote:
-> > >=20
-> > >=20
-> > > On 7/3/25 3:07 PM, Julien Massot wrote:
-> > > > Hi Cosmin,
-> > > >=20
-> > > > On Wed, 2025-07-02 at 16:20 +0300, Cosmin Tanislav wrote:
-> > > > > This series adds new drivers for multiple Maxim GMSL2 and GMSL3 d=
-evices,
-> > > > > replacing the few GMSL2 drivers already in upstream, and introduc=
-ing a
-> > > > > common framework that can be used to implement such GMSL chips, w=
-hich
-> > > > > avoids code duplication while also adding support for previously
-> > > > > unsupported features.
-> > > > >=20
-> > > > > While the normally acceptable and polite way would be to extend t=
-he
-> > > > > current mainline drivers, the choice was made here to add a total=
-ly new
-> > > > > set of drivers. The current drivers support only a small subset o=
-f the
-> > > > > possible features, and only a few devices, so the end result afte=
-r
-> > > > > extending them would in any case be essentially fully rewritten, =
-new
-> > > > > drivers.
-> > > > >=20
-> > > > Thanks for your work,
-> > > > The common framework will help a lot to drive new GMSL chips, and m=
-ost of the
-> > > > features are covered.
-> > > >=20
-> > > > > This series depends on support for internal pads, for which a pat=
-ch has
-> > > > > been added.
-> > > > >=20
-> > > > > The previous version is at:
-> > > > > https://lore.kernel.org/lkml/20250618095858.2145209-1-demonsingur=
-@gmail.com
-> > > > >=20
-> > > > > The following deserializers are supported:
-> > > > > =C2=A0=C2=A0=C2=A0* MAX96712 (already exists in staging)
-> > > > > =C2=A0=C2=A0=C2=A0* MAX96714 (already exists)
-> > > > > =C2=A0=C2=A0=C2=A0* MAX96714F (already exists)
-> > > > > =C2=A0=C2=A0=C2=A0* MAX96714R (GMSL2)
-> > > > > =C2=A0=C2=A0=C2=A0* MAX96716 (GMSL2)
-> > > > > =C2=A0=C2=A0=C2=A0* MAX96724 (already exists as part of existing =
-MAX96712 driver)
-> > > > > =C2=A0=C2=A0=C2=A0* MAX96724F (GMSL2)
-> > > > > =C2=A0=C2=A0=C2=A0* MAX96724R (GMSL2)
-> > > > > =C2=A0=C2=A0=C2=A0* MAX9296A (GMSL2)
-> > > > > =C2=A0=C2=A0=C2=A0* MAX96792A (GMSL3)
-> > > > >=20
-> > > > > The following serializers are supported:
-> > > > > =C2=A0=C2=A0=C2=A0* MAX96717 (already exists)
-> > > > > =C2=A0=C2=A0=C2=A0* MAX9295A (GMSL2)
-> > > > > =C2=A0=C2=A0=C2=A0* MAX96793 (GMSL3)
-> > > > >=20
-> > > > > Known backward compatibility breakages:
-> > > > > =C2=A0=C2=A0=C2=A0* No default routing. Default routing has been =
-intentionally ommitted
-> > > > > =C2=A0=C2=A0=C2=A0=C2=A0 as the devices support quite complex rou=
-ting and it would be
-> > > > > =C2=A0=C2=A0=C2=A0=C2=A0 unfeasible to provide sane defaults for =
-multi-link deserialziers.
-> > > > > =C2=A0=C2=A0=C2=A0=C2=A0 It is expected that userspace programs w=
-ould set appropritate
-> > > > > =C2=A0=C2=A0=C2=A0=C2=A0 routing.
-> > > > >=20
-> > > > This part is the most annoying one: at the moment, there is no way =
-to set the routing except
-> > > > by
-> > > > manually enabling a boolean within the kernel source.
-> > > > You can't guess what routing the user really wants, but please at l=
-east provide a default
-> > > > routing
-> > > > table that allows using your drivers =E2=80=94 for example, the dev=
-ice's default routing.
-> > > >=20
-> > >=20
-> > > It's a very delicate issue... I'll try to see if I can do that.
-> > > It would be great if we could enable the streams API globally since i=
-t's
-> > > been merged since Jan 15 2023. It's been over two years.
-> > >=20
-> > >=20
-> > > Thanks,
-> > >=20
-> > > >=20
-> > > >=20
-> > > > > The following list enumerates new features that are supported by =
-the
-> > > > > common framework and their respective chip-specific drivers:
-> > > > > =C2=A0=C2=A0=C2=A0* Full Streams API support. Most deserializers =
-have support for more
-> > > > > =C2=A0=C2=A0=C2=A0=C2=A0 than one link, and more than one PHY. St=
-reams support allows
-> > > > > =C2=A0=C2=A0=C2=A0=C2=A0 configuration of routing between these l=
-inks and PHYs.
-> > > > >=20
-> > > > > =C2=A0=C2=A0=C2=A0* .get_frame_desc() support. Both the serialize=
-rs and deserializers
-> > > > > =C2=A0=C2=A0=C2=A0=C2=A0 implement this to query and provide fram=
-e descriptor data. This is
-> > > > > =C2=A0=C2=A0=C2=A0=C2=A0 used in features explained in-depth belo=
-w.
-> > > >=20
-> > > > So are almost all the sensor drivers incompatible?
-> > > >=20
-> > >=20
-> > > Yes, sensor drivers need to have .get_frame_desc() implemented... It'=
-s
-> > > not a huge feat and it's the only way this type of bridge could work
-> > > properly.
-> > >=20
-> > > Alternatively, we could add a fallback that bases its decision on the
-> > > stream format, but I'd prefer if we didn't and we would just implemen=
-t
-> > > .get_frame_desc(). After this series is merged I can submit my patche=
-s
-> > > for imx219.
-> > There is already one pending on the mailing list
-> > "media: i2c: imx219: Report streams using frame descriptors"
-> > I guess it's fine if we require the sensor to implement this function.
-> >=20
-> > But I had to do it for vgxy61.
-> >=20
-> > Btw I tested:
-> > TI AM62x + max96716 + 1 x max96717f + stvg5661 (tunnel mode)
-> > With special lanes mapping and polarities.
-> >=20
-> > And I had to:
-> >=20
-> > - Apply pending patches for j721e to support the enable_stream API inst=
-ead of s_stream
-> > - Enable the experimental v4l2_subdev_enable_streams_api
-> > - Add get_frame_desc to the sensor driver
->=20
-> Did it work without issues with those changes?
->=20
-Yes :)
-btw you can add:
-Tested-by: Julien Massot <julien.massot@collabora.com>
->=20
-> If that's the case then I think all I can do to make it is easier is to
-> add default routing. I'm not a fan of each driver having its own
-> get_frame_desc() fallback, especially when it's a very small change to
-> do to the sensor drivers.
-Ok for me.
+pm_runtime_put_autosuspend(), pm_runtime_put_sync_autosuspend(),
+pm_runtime_autosuspend() and pm_request_autosuspend() now include a call
+to pm_runtime_mark_last_busy(). Remove the now-reduntant explicit call to
+pm_runtime_mark_last_busy().
 
-Ragards,
---=20
-Julien
+Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+---
+The cover letter of the set can be found here
+<URL:https://lore.kernel.org/linux-pm/20250704075225.3212486-1-sakari.ailus@linux.intel.com>.
+
+In brief, this patch depends on PM runtime patches adding marking the last
+busy timestamp in autosuspend related functions. The patches are here, on
+rc2:
+
+        git://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git \
+                pm-runtime-6.17-rc1
+
+ drivers/staging/greybus/gbphy.c | 1 -
+ drivers/staging/greybus/gbphy.h | 1 -
+ 2 files changed, 2 deletions(-)
+
+diff --git a/drivers/staging/greybus/gbphy.c b/drivers/staging/greybus/gbphy.c
+index 6adcad286633..3068bd71cd98 100644
+--- a/drivers/staging/greybus/gbphy.c
++++ b/drivers/staging/greybus/gbphy.c
+@@ -53,7 +53,6 @@ static void gbphy_dev_release(struct device *dev)
+ #ifdef CONFIG_PM
+ static int gb_gbphy_idle(struct device *dev)
+ {
+-	pm_runtime_mark_last_busy(dev);
+ 	pm_request_autosuspend(dev);
+ 	return 0;
+ }
+diff --git a/drivers/staging/greybus/gbphy.h b/drivers/staging/greybus/gbphy.h
+index d4a225b76338..4a4ebc7f2b98 100644
+--- a/drivers/staging/greybus/gbphy.h
++++ b/drivers/staging/greybus/gbphy.h
+@@ -85,7 +85,6 @@ static inline void gbphy_runtime_put_autosuspend(struct gbphy_device *gbphy_dev)
+ {
+ 	struct device *dev = &gbphy_dev->dev;
+ 
+-	pm_runtime_mark_last_busy(dev);
+ 	pm_runtime_put_autosuspend(dev);
+ }
+ 
+-- 
+2.39.5
+
