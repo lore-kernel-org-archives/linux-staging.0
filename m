@@ -1,146 +1,111 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp.smtpout.orange.fr (smtp-66.smtpout.orange.fr [80.12.242.66])
+	(using TLSv1.2 with cipher AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 868451A83E4;
-	Fri,  4 Jul 2025 20:53:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 530F918FDDB
+	for <linux-staging@lists.linux.dev>; Sat,  5 Jul 2025 09:52:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.12.242.66
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751662437; cv=none; b=XcztNFCdDjQfo6/hR4DUX7nivd0N8VzpnMTq5jNpyhumjSJcWMIJvfw3W0rZOSm3ZYZNez1lQZTBXgSNzBpyo0EfLtMA7xOKO93n+phUt849NNtHFA5J/2Kw9+7QVG2dhKImJWipnycy4+wT7UgTdXKU9+PFXyDpqGJEAHRehjE=
+	t=1751709161; cv=none; b=A1As1GGC2M3g8sTp2O4x+29C8W8KCfIx+7U1i9EyrzYIOQFdklKFYyQz4TKhOBooZiZiFqhMbZC1wMH7GkmjGfUZqletKN9rGqBhjYCeNF6ySRhnFX78ulceJzvdETSQhmyUEo5TzUJ5qCuYjn+oCIxlTdsvd8M2atNjRN7WzLY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751662437; c=relaxed/simple;
-	bh=Ne9AmoxN3z3zc+TjqJ/AesjfpnzXFrEC21F/4uGvKto=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=KVcmHj8+la82zmW4Nhnp4tEmo5j0jnCTeusjgG+lK/OZLRh3Vc56oVFEjuyVo6B2cAMhb8uKD+jFeva6crYYCT7tt38WqXK6GNz50QjuFUSzWXrmjK/8qnfhsQanr5OC5FY/H5c6Bz2nstcchm4zsx20gm9c4lmyjc1d1/KWs08=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Qy+9wgpP; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1751709161; c=relaxed/simple;
+	bh=CzpSSXYyPsaC6/NztURQQO+AIJKD/8vk/v9dURRN1Mo=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=FTh4iNBxvACV7L6O4wq2dJPkdDpZBaK2KaZS6qducCL35JVLm6/hbh614Lvk3KIQ57zRUNnayesdZxDhEWaKjaogV/xt9/UZOblMEYEnnijfGr/lWbb01zkubVCL4e4LDkwAEYeDpNbGqcVccnd5aYYeQizQQIsX89fv3/ZkKSs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr; spf=pass smtp.mailfrom=wanadoo.fr; dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b=o0aRe66F; arc=none smtp.client-ip=80.12.242.66
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wanadoo.fr
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Qy+9wgpP"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EBF9DC4CEE3;
-	Fri,  4 Jul 2025 20:53:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1751662437;
-	bh=Ne9AmoxN3z3zc+TjqJ/AesjfpnzXFrEC21F/4uGvKto=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=Qy+9wgpPGVcbo+soLEs+pdj58Rd2ZIzfkwabviSeYC5TJMxy4QZQ8Zt1Wwu1uNBdw
-	 UbSv5wsOwd3Yua3xLQwQkaTmqecmZlTceqp6xXckHL6Wa6n9r79iGmN4tJH876jH+7
-	 lxZIMzvKDpQIkpEYe4GUMpZX5/FHQPq0srJN4+qIBHyDNzWRYBYkrZSftKgciLZW2j
-	 +UaSVn4vMCqREmEhuDEQUPj54xsqYnxhGQqUaMGFqY12nPwNETN8bg4utQMmZR4591
-	 msWgHXKf7iF9T71E3/pEoRcbJWPujbh/pKWuIzCEX/19Uw8bjt1k5Y2WaA3QjLKacE
-	 se2dXTepgTMeQ==
-Message-ID: <2bee7047-ce37-4878-bf19-37c323f256cf@kernel.org>
-Date: Fri, 4 Jul 2025 22:53:52 +0200
+	dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b="o0aRe66F"
+Received: from fedora.home ([IPv6:2a01:cb10:785:b00:8347:f260:7456:7662])
+	by smtp.orange.fr with ESMTPA
+	id XzZUu6PDV2WitXzZVuS5Rk; Sat, 05 Jul 2025 11:52:37 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
+	s=t20230301; t=1751709157;
+	bh=QnR8CnrbOwzo9XNZ3DaMPvu0/VthNa4EH5qhRRM7rUU=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version;
+	b=o0aRe66F6iWBDR3tENSXH1o+Dej7rmmQ2d2cKqzJNmGX1y09amkeOSSs4V0spgVHf
+	 KK2RjAqC9E3JJ36mMYhN17DaT+aCD+5QQM2fJuVRTA0FPOk9k1U+qTfZnxQuAgMLZA
+	 eYdOZ8zQ5VAZ+l/aZBSvbEjXYjn8vi4e1xMwj//BKJ7A69Vtvkie07t/lWj+Bqbv9C
+	 s1jsoduyj+GctuKSsNR/Gao1lUP7YOa/WquFSAdYgUHHpwZGaDBHKqEVWoLyRN+evz
+	 cT4GJEcNPgSFyEt4NcnGiylRWVHStRASSIdScuRpIZRH8aSdVSF0GOrAHRulPj5FfE
+	 ECwV7FsX8e+qA==
+X-ME-Helo: fedora.home
+X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
+X-ME-Date: Sat, 05 Jul 2025 11:52:37 +0200
+X-ME-IP: 2a01:cb10:785:b00:8347:f260:7456:7662
+From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+To: thomas.richard@bootlin.com,
+	Dave Penkler <dpenkler@gmail.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-kernel@vger.kernel.org,
+	kernel-janitors@vger.kernel.org,
+	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+	linux-staging@lists.linux.dev
+Subject: [PATCH v2] staging: gpib: Fix error handling paths in cb_gpib_probe()
+Date: Sat,  5 Jul 2025 11:52:33 +0200
+Message-ID: <bf89d6f2f8b8c680720d02061fc4ebdd805deca8.1751709098.git.christophe.jaillet@wanadoo.fr>
+X-Mailer: git-send-email 2.50.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 05/23] media: atomisp: gc0310: Use V4L2_CID_ANALOGUE_GAIN
- for gain control
-To: Kieran Bingham <kieran.bingham@ideasonboard.com>,
- Andy Shevchenko <andy@kernel.org>, Hans de Goede <hdegoede@redhat.com>,
- Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org,
- linux-staging@lists.linux.dev
-References: <20250517114106.43494-1-hdegoede@redhat.com>
- <20250517114106.43494-6-hdegoede@redhat.com>
- <174751615300.335894.3402272890581119176@ping.linuxembedded.co.uk>
-Content-Language: en-US, nl
-From: Hans de Goede <hansg@kernel.org>
-In-Reply-To: <174751615300.335894.3402272890581119176@ping.linuxembedded.co.uk>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-Hi Kieran,
+If cb_gpib_config() fails, 'info' needs to be freed, as already done in the
+remove function.
 
-Thank you for the reviews.
+While at it, remove a pointless comment related to gpib_attach().
 
-On 17-May-25 23:09, Kieran Bingham wrote:
-> Quoting Hans de Goede (2025-05-17 12:40:48)
->> Use V4L2_CID_ANALOGUE_GAIN for gain control, as expected by userspace.
->>
->> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
->> ---
->>  drivers/staging/media/atomisp/i2c/atomisp-gc0310.c | 4 ++--
->>  1 file changed, 2 insertions(+), 2 deletions(-)
->>
->> diff --git a/drivers/staging/media/atomisp/i2c/atomisp-gc0310.c b/drivers/staging/media/atomisp/i2c/atomisp-gc0310.c
->> index ee039f3be4da..756e56f639b7 100644
->> --- a/drivers/staging/media/atomisp/i2c/atomisp-gc0310.c
->> +++ b/drivers/staging/media/atomisp/i2c/atomisp-gc0310.c
->> @@ -289,7 +289,7 @@ static int gc0310_s_ctrl(struct v4l2_ctrl *ctrl)
->>                 ret = cci_write(sensor->regmap, GC0310_AEC_PK_EXPO_REG,
->>                                 ctrl->val, NULL);
->>                 break;
->> -       case V4L2_CID_GAIN:
->> +       case V4L2_CID_ANALOGUE_GAIN:
->>                 ret = gc0310_gain_set(sensor, ctrl->val);
->>                 break;
->>         default:
->> @@ -533,7 +533,7 @@ static int gc0310_init_controls(struct gc0310_device *sensor)
->>  
->>         /* 32 steps at base gain 1 + 64 half steps at base gain 2 */
-> 
-> sounds like a curious gain model...
-> 
-> Will be interesting when we get the sensor calibration tools up and
-> running to plot this. (Or is there already a public datasheet
-> documenting this?)
+Fixes: e9dc69956d4d ("staging: gpib: Add Computer Boards GPIB driver")
+Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+---
+Changes in v2:
+  - Fix the Fixes tag   [Thomas Richard]
+  - Synch with latest -next
+  - no compile tested. I think, thanks to commit 79d2e1919a27
+    ("staging: gpib: fix Makefiles")
 
-There is a datasheet but it does not document much other then
-register names.
+v1: https://lore.kernel.org/all/459c267de8c9bf48fcb555364930ae7e3cdc798b.1729940596.git.christophe.jaillet@wanadoo.fr/
+
+Compile tested only.
+---
+ drivers/staging/gpib/cb7210/cb7210.c | 15 +++++++++++----
+ 1 file changed, 11 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/staging/gpib/cb7210/cb7210.c b/drivers/staging/gpib/cb7210/cb7210.c
+index 298ed306189d..3e2397898a9b 100644
+--- a/drivers/staging/gpib/cb7210/cb7210.c
++++ b/drivers/staging/gpib/cb7210/cb7210.c
+@@ -1184,8 +1184,7 @@ struct local_info {
+ static int cb_gpib_probe(struct pcmcia_device *link)
+ {
+ 	struct local_info *info;
+-
+-//	int ret, i;
++	int ret;
  
-> Is there a split here between analogue gain and digital gain ? Or is it
-> all expected to be 'analogue gain' ?
-
-here is the actual method setting the gain:
-
-        /* Taken from original driver, this never sets dgain lower then 32? */
-
-        /* Change 0 - 95 to 32 - 127 */
-        gain += 32;
-
-        if (gain < 64) {
-                again = 0x0; /* sqrt(2) */
-                dgain = gain;
-        } else {
-                again = 0x2; /* 2 * sqrt(2) */
-                dgain = gain / 2;
-        }
-
-        cci_write(sensor->regmap, GC0310_AGC_ADJ_REG, again, &ret);
-        cci_write(sensor->regmap, GC0310_DGC_ADJ_REG, dgain, &ret);
-
-The 32 half steps come from the dgain = gain / 2 for steps 32 - 95 .
-
-Note the again / dgain names here are confusing. The data sheet describes
-the 2 registers which are being written as follows:
-
-AGC:
-P0:0x48 ANALOG_COL_gain-col_code 4 bit wide default 0x00 RO [7:4] ANALOG_COL_gain [2:0] col_code
-
-DGC:
-P0:0x71 Auto_pregain 8 bit wide default 0x20 RO Auto_pregain
-
-Note DGC is described as read-only in the datasheet, maybe the datesheet is off by one
-and we should actually look at register 0x70 in the datasheet:
-
-P0:0x70 Global_gain 8 bit wide default 0x40 RW Global_gain
-
-Either way based on the function calculations I get the feeling that
-the first register is actually setting some fixed analog pre-multiplier
-and the second register is the actual analog gain.
-
-Despite the names used in the driver (inherited from Android kernels) it
-does not feel to me like one of the 2 registers is a digital gain
-register.
-
-So I'm going to keep this as is for now and once we've gain calibration
-tooling up and running make a plot with the current gain code and then
-modify the driver to make this fit one of the standard gain models.
-
-Regards,
-
-Hans
-
+ 	/* Allocate space for private device-specific data */
+ 	info = kzalloc(sizeof(*info), GFP_KERNEL);
+@@ -1211,8 +1210,16 @@ static int cb_gpib_probe(struct pcmcia_device *link)
+ 
+ 	/* Register with Card Services */
+ 	curr_dev = link;
+-	return cb_gpib_config(link);
+-} /* gpib_attach */
++	ret = cb_gpib_config(link);
++	if (ret)
++		goto free_info;
++
++	return 0;
++
++free_info:
++	kfree(info);
++	return ret;
++}
+ 
+ /*
+  *   This deletes a driver "instance".  The device is de-registered
+-- 
+2.50.0
 
