@@ -1,111 +1,105 @@
-Received: from smtp.smtpout.orange.fr (smtp-66.smtpout.orange.fr [80.12.242.66])
-	(using TLSv1.2 with cipher AES128-GCM-SHA256 (128/128 bits))
+Received: from relay15.mail.gandi.net (relay15.mail.gandi.net [217.70.178.235])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 530F918FDDB
-	for <linux-staging@lists.linux.dev>; Sat,  5 Jul 2025 09:52:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.12.242.66
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAFD52E3715
+	for <linux-staging@lists.linux.dev>; Sat,  5 Jul 2025 14:17:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.178.235
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751709161; cv=none; b=A1As1GGC2M3g8sTp2O4x+29C8W8KCfIx+7U1i9EyrzYIOQFdklKFYyQz4TKhOBooZiZiFqhMbZC1wMH7GkmjGfUZqletKN9rGqBhjYCeNF6ySRhnFX78ulceJzvdETSQhmyUEo5TzUJ5qCuYjn+oCIxlTdsvd8M2atNjRN7WzLY=
+	t=1751725066; cv=none; b=mlrbsarsYtNa6Y5lRwo10InLiYXHPLFOn9V4hFKGwm9FcLjycb4FTujzjBmPLG3gSMp/b51jnqfOwJY0ibhOkB2Zr8pthD7Mz7FyiboyJ1Vh+6e37OMci0ynQenlL0FzxbyGPpNU7MAT73BJLk5pYam35jubpuwCAZeWUHJuZNM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751709161; c=relaxed/simple;
-	bh=CzpSSXYyPsaC6/NztURQQO+AIJKD/8vk/v9dURRN1Mo=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=FTh4iNBxvACV7L6O4wq2dJPkdDpZBaK2KaZS6qducCL35JVLm6/hbh614Lvk3KIQ57zRUNnayesdZxDhEWaKjaogV/xt9/UZOblMEYEnnijfGr/lWbb01zkubVCL4e4LDkwAEYeDpNbGqcVccnd5aYYeQizQQIsX89fv3/ZkKSs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr; spf=pass smtp.mailfrom=wanadoo.fr; dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b=o0aRe66F; arc=none smtp.client-ip=80.12.242.66
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wanadoo.fr
+	s=arc-20240116; t=1751725066; c=relaxed/simple;
+	bh=RFcVFRd+jB7yzjZEF15amP7MCa2Sg4A/zIVm0kIVtVM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=MJDYV/wG/5ayXy12mxG9853NhdpyfPSlwVyzUL1hhHLwlZuYYPLJrS622g2dWy9qpSvanBir3tZxgq1iKpJqIh/xDVLN7EAO1eD7jgvfbFZQ54viONc/QKtIoMYjUJDfViGvdwdZwUzLi0Pmf4h+ou2vokPECo0FKRnxA//fFCU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=VOeAwa/9; arc=none smtp.client-ip=217.70.178.235
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b="o0aRe66F"
-Received: from fedora.home ([IPv6:2a01:cb10:785:b00:8347:f260:7456:7662])
-	by smtp.orange.fr with ESMTPA
-	id XzZUu6PDV2WitXzZVuS5Rk; Sat, 05 Jul 2025 11:52:37 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
-	s=t20230301; t=1751709157;
-	bh=QnR8CnrbOwzo9XNZ3DaMPvu0/VthNa4EH5qhRRM7rUU=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version;
-	b=o0aRe66F6iWBDR3tENSXH1o+Dej7rmmQ2d2cKqzJNmGX1y09amkeOSSs4V0spgVHf
-	 KK2RjAqC9E3JJ36mMYhN17DaT+aCD+5QQM2fJuVRTA0FPOk9k1U+qTfZnxQuAgMLZA
-	 eYdOZ8zQ5VAZ+l/aZBSvbEjXYjn8vi4e1xMwj//BKJ7A69Vtvkie07t/lWj+Bqbv9C
-	 s1jsoduyj+GctuKSsNR/Gao1lUP7YOa/WquFSAdYgUHHpwZGaDBHKqEVWoLyRN+evz
-	 cT4GJEcNPgSFyEt4NcnGiylRWVHStRASSIdScuRpIZRH8aSdVSF0GOrAHRulPj5FfE
-	 ECwV7FsX8e+qA==
-X-ME-Helo: fedora.home
-X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
-X-ME-Date: Sat, 05 Jul 2025 11:52:37 +0200
-X-ME-IP: 2a01:cb10:785:b00:8347:f260:7456:7662
-From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-To: thomas.richard@bootlin.com,
-	Dave Penkler <dpenkler@gmail.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-kernel@vger.kernel.org,
-	kernel-janitors@vger.kernel.org,
-	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
-	linux-staging@lists.linux.dev
-Subject: [PATCH v2] staging: gpib: Fix error handling paths in cb_gpib_probe()
-Date: Sat,  5 Jul 2025 11:52:33 +0200
-Message-ID: <bf89d6f2f8b8c680720d02061fc4ebdd805deca8.1751709098.git.christophe.jaillet@wanadoo.fr>
-X-Mailer: git-send-email 2.50.0
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="VOeAwa/9"
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 5A7C34313C;
+	Sat,  5 Jul 2025 14:17:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1751725061;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=pS5IedIEzgY1pshAvlpXhjZDmSvEewXvev0cnX3lWPQ=;
+	b=VOeAwa/9AcN38Sa7bRO3kPWHIGn4rm+OQxuxnECEY+VKRQfydCb8cc+fNZ3dBwGRKINIDw
+	cT/Tu9DYMbiBm4IVMU53kqQGn/OMnBbfPq+5PcebA1Uhlx4BpgLfs1tChXvXwVsnQySKYc
+	zo3H45QdkCt8Xv2Shr9oWckGS++VfHaeD4xcVxrPyZseJgOTR0Z47f71z/CR5q1sBR2De4
+	CCgiO6S5sD/Tpobo/oTo5ZMYMrQ52soQaIY6xtoGCM4frODN5Qh+k+QjsrRS/PUYj5Jivp
+	L1r2wc+E/vpgJs8ZwtdkZUTI9JmdUSVwxZC6FKwXIR1NMMzh5WVxp2XFt/PPhA==
+Message-ID: <8f8130b2-fec1-48bc-944e-e676a1715c31@bootlin.com>
+Date: Sat, 5 Jul 2025 16:17:35 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] staging: gpib: Fix error handling paths in
+ cb_gpib_probe()
+To: Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+ Dave Penkler <dpenkler@gmail.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org,
+ linux-staging@lists.linux.dev
+References: <bf89d6f2f8b8c680720d02061fc4ebdd805deca8.1751709098.git.christophe.jaillet@wanadoo.fr>
+Content-Language: en-US
+From: Thomas Richard <thomas.richard@bootlin.com>
+In-Reply-To: <bf89d6f2f8b8c680720d02061fc4ebdd805deca8.1751709098.git.christophe.jaillet@wanadoo.fr>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-GND-State: clean
+X-GND-Score: -100
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdefgddviedviecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvvehfhfgjtgfgsehtjeertddtvdejnecuhfhrohhmpefvhhhomhgrshcutfhitghhrghrugcuoehthhhomhgrshdrrhhitghhrghrugessghoohhtlhhinhdrtghomheqnecuggftrfgrthhtvghrnhepudfhffeivedvfffhfeehveevteetveejueehtddtgfejjeejhfeufffgjedvieejnecuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucfkphepvdgrtddumegtsgdugeemfhegtdemsghftddtmehftdehgeemtgeltgdvmedvudgtfeemudehieeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepvdgrtddumegtsgdugeemfhegtdemsghftddtmehftdehgeemtgeltgdvmedvudgtfeemudehieeipdhhvghloheplgfkrfggieemvdgrtddumegtsgdugeemfhegtdemsghftddtmehftdehgeemtgeltgdvmedvudgtfeemudehieeingdpmhgrihhlfhhrohhmpehthhhomhgrshdrrhhitghhrghrugessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepjedprhgtphhtthhopegthhhrihhsthhophhhvgdrjhgrihhllhgvthesfigrnhgrughoohdrfhhrpdhrtghpthhto
+ hepughpvghnkhhlvghrsehgmhgrihhlrdgtohhmpdhrtghpthhtohepghhrvghgkhhhsehlihhnuhigfhhouhhnuggrthhiohhnrdhorhhgpdhrtghpthhtoheplhhinhhugidqkhgvrhhnvghlsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtohepkhgvrhhnvghlqdhjrghnihhtohhrshesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehlihhnuhigqdhsthgrghhinhhgsehlihhsthhsrdhlihhnuhigrdguvghvpdhrtghpthhtohepthhhohhmrghsrdhrihgthhgrrhgusegsohhothhlihhnrdgtohhm
 
-If cb_gpib_config() fails, 'info' needs to be freed, as already done in the
-remove function.
+Hi Christophe,
 
-While at it, remove a pointless comment related to gpib_attach().
+On 7/5/25 11:52 AM, Christophe JAILLET wrote:
+> If cb_gpib_config() fails, 'info' needs to be freed, as already done in the
+> remove function.
+> 
+> While at it, remove a pointless comment related to gpib_attach().
+> 
+> Fixes: e9dc69956d4d ("staging: gpib: Add Computer Boards GPIB driver")
+> Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+> ---
+> Changes in v2:
+>   - Fix the Fixes tag   [Thomas Richard]
+>   - Synch with latest -next
+>   - no compile tested. I think, thanks to commit 79d2e1919a27
+>     ("staging: gpib: fix Makefiles")
+> 
+> v1: https://lore.kernel.org/all/459c267de8c9bf48fcb555364930ae7e3cdc798b.1729940596.git.christophe.jaillet@wanadoo.fr/
+> 
+> Compile tested only.
+> ---
+>  drivers/staging/gpib/cb7210/cb7210.c | 15 +++++++++++----
+>  1 file changed, 11 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/staging/gpib/cb7210/cb7210.c b/drivers/staging/gpib/cb7210/cb7210.c
+> index 298ed306189d..3e2397898a9b 100644
+> --- a/drivers/staging/gpib/cb7210/cb7210.c
+> +++ b/drivers/staging/gpib/cb7210/cb7210.c
+> @@ -1184,8 +1184,7 @@ struct local_info {
+>  static int cb_gpib_probe(struct pcmcia_device *link)
+>  {
+>  	struct local_info *info;
+> -
+> -//	int ret, i;
+> +	int ret;
+>  
+>  	/* Allocate space for private device-specific data */
+>  	info = kzalloc(sizeof(*info), GFP_KERNEL);
 
-Fixes: e9dc69956d4d ("staging: gpib: Add Computer Boards GPIB driver")
-Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
----
-Changes in v2:
-  - Fix the Fixes tag   [Thomas Richard]
-  - Synch with latest -next
-  - no compile tested. I think, thanks to commit 79d2e1919a27
-    ("staging: gpib: fix Makefiles")
+You should use devm_kzalloc(). The memory will be automatically freed by
+the core. So no need to call kfree() in case of error during the probe.
+And you can remove the kfree() in cb_gpib_remove().
 
-v1: https://lore.kernel.org/all/459c267de8c9bf48fcb555364930ae7e3cdc798b.1729940596.git.christophe.jaillet@wanadoo.fr/
+Regards,
 
-Compile tested only.
----
- drivers/staging/gpib/cb7210/cb7210.c | 15 +++++++++++----
- 1 file changed, 11 insertions(+), 4 deletions(-)
-
-diff --git a/drivers/staging/gpib/cb7210/cb7210.c b/drivers/staging/gpib/cb7210/cb7210.c
-index 298ed306189d..3e2397898a9b 100644
---- a/drivers/staging/gpib/cb7210/cb7210.c
-+++ b/drivers/staging/gpib/cb7210/cb7210.c
-@@ -1184,8 +1184,7 @@ struct local_info {
- static int cb_gpib_probe(struct pcmcia_device *link)
- {
- 	struct local_info *info;
--
--//	int ret, i;
-+	int ret;
- 
- 	/* Allocate space for private device-specific data */
- 	info = kzalloc(sizeof(*info), GFP_KERNEL);
-@@ -1211,8 +1210,16 @@ static int cb_gpib_probe(struct pcmcia_device *link)
- 
- 	/* Register with Card Services */
- 	curr_dev = link;
--	return cb_gpib_config(link);
--} /* gpib_attach */
-+	ret = cb_gpib_config(link);
-+	if (ret)
-+		goto free_info;
-+
-+	return 0;
-+
-+free_info:
-+	kfree(info);
-+	return ret;
-+}
- 
- /*
-  *   This deletes a driver "instance".  The device is de-registered
--- 
-2.50.0
-
+Thomas
