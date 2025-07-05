@@ -1,105 +1,138 @@
-Received: from relay15.mail.gandi.net (relay15.mail.gandi.net [217.70.178.235])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAFD52E3715
-	for <linux-staging@lists.linux.dev>; Sat,  5 Jul 2025 14:17:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.178.235
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 072981C5F14
+	for <linux-staging@lists.linux.dev>; Sat,  5 Jul 2025 18:06:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751725066; cv=none; b=mlrbsarsYtNa6Y5lRwo10InLiYXHPLFOn9V4hFKGwm9FcLjycb4FTujzjBmPLG3gSMp/b51jnqfOwJY0ibhOkB2Zr8pthD7Mz7FyiboyJ1Vh+6e37OMci0ynQenlL0FzxbyGPpNU7MAT73BJLk5pYam35jubpuwCAZeWUHJuZNM=
+	t=1751738782; cv=none; b=ruxFJm8881C0+86mkUyY7hz2wgAKM7NY3ZOq4byjJszqTOOjQviZw23CFTCDbssCE9USRkO1jYjEr8PlabeO+hquRcWRQfe3r+cOvZdUdy2Rxr2clfF6fyAlYwd4+2fYDVp53fcErutMaWA8B8jOX87uu0RwSuoJtWqIJ+qKPek=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751725066; c=relaxed/simple;
-	bh=RFcVFRd+jB7yzjZEF15amP7MCa2Sg4A/zIVm0kIVtVM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=MJDYV/wG/5ayXy12mxG9853NhdpyfPSlwVyzUL1hhHLwlZuYYPLJrS622g2dWy9qpSvanBir3tZxgq1iKpJqIh/xDVLN7EAO1eD7jgvfbFZQ54viONc/QKtIoMYjUJDfViGvdwdZwUzLi0Pmf4h+ou2vokPECo0FKRnxA//fFCU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=VOeAwa/9; arc=none smtp.client-ip=217.70.178.235
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1751738782; c=relaxed/simple;
+	bh=uR59lb9H/lfgoU9Sn+rQKcQEZ1rNsprAnKuqExnCuvM=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=DWBO7u41XIdRMH3NR3z4D0d4Dl1BfPwWaErnCPgmAG8yCJOU32XjgWyY3FpweNj0OR2VAQDUuixZE0dZ6jCcqHBG3uwtgVAYtydQTUQyQie70ezErdv2uSxntLUMCaaB2wjGbgXfMjCfj6nsfsxsr0DbsX9F0mQx8XK4WncE/Og=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=T+2LtI/A; arc=none smtp.client-ip=209.85.218.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="VOeAwa/9"
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 5A7C34313C;
-	Sat,  5 Jul 2025 14:17:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1751725061;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=pS5IedIEzgY1pshAvlpXhjZDmSvEewXvev0cnX3lWPQ=;
-	b=VOeAwa/9AcN38Sa7bRO3kPWHIGn4rm+OQxuxnECEY+VKRQfydCb8cc+fNZ3dBwGRKINIDw
-	cT/Tu9DYMbiBm4IVMU53kqQGn/OMnBbfPq+5PcebA1Uhlx4BpgLfs1tChXvXwVsnQySKYc
-	zo3H45QdkCt8Xv2Shr9oWckGS++VfHaeD4xcVxrPyZseJgOTR0Z47f71z/CR5q1sBR2De4
-	CCgiO6S5sD/Tpobo/oTo5ZMYMrQ52soQaIY6xtoGCM4frODN5Qh+k+QjsrRS/PUYj5Jivp
-	L1r2wc+E/vpgJs8ZwtdkZUTI9JmdUSVwxZC6FKwXIR1NMMzh5WVxp2XFt/PPhA==
-Message-ID: <8f8130b2-fec1-48bc-944e-e676a1715c31@bootlin.com>
-Date: Sat, 5 Jul 2025 16:17:35 +0200
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="T+2LtI/A"
+Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-ae0dad3a179so306197566b.1
+        for <linux-staging@lists.linux.dev>; Sat, 05 Jul 2025 11:06:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1751738777; x=1752343577; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=2r57m1/rYYXdbfa/z4iUUp6uIVwbvm+uoIkvDFGx3vE=;
+        b=T+2LtI/Af3t6eO0UVfsCGqN09k0xMLeutFNgXkleBTuxGfoOV4uQnj1V968laET2iA
+         TkZDU1v6G9xzo/b0vQJ9dZzMFf0QiUMyadstEAQNd8xvFIQ3JKzmyzyavPN4Fc8vP6V1
+         WCIbeJG0Tkw3uSKg7iDihVwRIZSAygwZc75sVfU7fk1He9HpGCD8rFd8sAVp9KRY+tD0
+         yjpGHSFuD/5LsCRI3OsEuFqOhvS2biugSRYACIxMI6HYnyepiGheXNUhReuw8auCdlGK
+         oXDzUfqKZf4BTjAnvyR/vxd+PAJ61h6QEoCFEhiTOSLCwvjz6Tw/SXj7wRWt8zzQB2SY
+         pfuA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1751738777; x=1752343577;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=2r57m1/rYYXdbfa/z4iUUp6uIVwbvm+uoIkvDFGx3vE=;
+        b=J+m1QHHvKDQ9jSKfMvVJktad1wi0z08CsoNGgmGU6wfpVpzNNs6DsjIuA/KAJjKvwh
+         5RmMrvPO8xojob4v+iO10TuvbnQKFSljrj7n5utQGPSgswWDkCRNyJK9Y59q+NiNmkKi
+         XMbzPGWQnvOy2kTbdqzSZcyUZvjBwsqZStz6VRevRV0nCBUL3saZHWoDyxuR4i3ck/sQ
+         WIlR2z+Gk3gPPfrgFupuX2wKMgiruetBPQKI5z1VK01JZ3xVmk0saVW55fp6TD+7TO+X
+         YXwE0cUTX3jvpFfzzyK9Ug2PR6qexxH6H6deMaF15WvF5H89Lcrwz7GOGpZz0tUP3UL1
+         vafQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWCJPzkrnOJoseMYQVhOHA5XDGP2TSqKlvJ2U2dzH21CKuwHuYrWwzaOaqHjRNS/eBElrryO/jCJ4Q65yF2@lists.linux.dev
+X-Gm-Message-State: AOJu0YwtwAb5LXuUe/iFu6gJ+kVG3PZRNGPoqWWGYI3UQBdsVdyjt8n8
+	zlQHfI7AjT1aCZo8h5ytOYsvlM7i59WCcGDuIAp+kkvh01/ENQY6ALe09H621VSbYzugxWSe3xB
+	0bomqo+hKdGnUKeyn+0nhr4hubFTlxEAxulGR1J9XyA==
+X-Gm-Gg: ASbGnctnOPmMoBzL8Bp7wzLHYrkKGdtD4UeHfduS8byUNDRpaEUl7ul2uMj9abaKA5N
+	IEk1j8jH3zkoVN9LlKV8QyEw3ovF4fJ5QSJYoCsiOgjW1rwhjrN8o8gg2yIfQ3Sn3rSLzXZ4Sir
+	o2il3OesjPm974RCbyyRD53uap6K+mnsC0RNNTc2qc5H4=
+X-Google-Smtp-Source: AGHT+IEDfHyDt38OunkkIya8vKcdY96VOV+ryvPNgk44Qbne1Sw/BiXVwzmd0z0H+gWDDQpeNgZYUITNAg1JkyW8CAw=
+X-Received: by 2002:a17:907:7f8d:b0:ad8:9f9d:b139 with SMTP id
+ a640c23a62f3a-ae41079eca6mr259561166b.5.1751738777030; Sat, 05 Jul 2025
+ 11:06:17 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] staging: gpib: Fix error handling paths in
- cb_gpib_probe()
-To: Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
- Dave Penkler <dpenkler@gmail.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org,
- linux-staging@lists.linux.dev
-References: <bf89d6f2f8b8c680720d02061fc4ebdd805deca8.1751709098.git.christophe.jaillet@wanadoo.fr>
-Content-Language: en-US
-From: Thomas Richard <thomas.richard@bootlin.com>
-In-Reply-To: <bf89d6f2f8b8c680720d02061fc4ebdd805deca8.1751709098.git.christophe.jaillet@wanadoo.fr>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-GND-State: clean
-X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdefgddviedviecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvvehfhfgjtgfgsehtjeertddtvdejnecuhfhrohhmpefvhhhomhgrshcutfhitghhrghrugcuoehthhhomhgrshdrrhhitghhrghrugessghoohhtlhhinhdrtghomheqnecuggftrfgrthhtvghrnhepudfhffeivedvfffhfeehveevteetveejueehtddtgfejjeejhfeufffgjedvieejnecuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucfkphepvdgrtddumegtsgdugeemfhegtdemsghftddtmehftdehgeemtgeltgdvmedvudgtfeemudehieeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepvdgrtddumegtsgdugeemfhegtdemsghftddtmehftdehgeemtgeltgdvmedvudgtfeemudehieeipdhhvghloheplgfkrfggieemvdgrtddumegtsgdugeemfhegtdemsghftddtmehftdehgeemtgeltgdvmedvudgtfeemudehieeingdpmhgrihhlfhhrohhmpehthhhomhgrshdrrhhitghhrghrugessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepjedprhgtphhtthhopegthhhrihhsthhophhhvgdrjhgrihhllhgvthesfigrnhgrughoohdrfhhrpdhrtghpthhto
- hepughpvghnkhhlvghrsehgmhgrihhlrdgtohhmpdhrtghpthhtohepghhrvghgkhhhsehlihhnuhigfhhouhhnuggrthhiohhnrdhorhhgpdhrtghpthhtoheplhhinhhugidqkhgvrhhnvghlsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtohepkhgvrhhnvghlqdhjrghnihhtohhrshesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehlihhnuhigqdhsthgrghhinhhgsehlihhsthhsrdhlihhnuhigrdguvghvpdhrtghpthhtohepthhhohhmrghsrdhrihgthhgrrhgusegsohhothhlihhnrdgtohhm
+References: <20250704-new_atomisp-v8-0-2a8560cbd9be@gmail.com> <20250704-new_atomisp-v8-2-2a8560cbd9be@gmail.com>
+In-Reply-To: <20250704-new_atomisp-v8-2-2a8560cbd9be@gmail.com>
+From: Andy Shevchenko <andy.shevchenko@gmail.com>
+Date: Sat, 5 Jul 2025 21:05:40 +0300
+X-Gm-Features: Ac12FXxc0pLzjFm1T_riYbWX52EozYkvE-lyJ6R0GNlauuX5KTWJMb5xmhXu-8U
+Message-ID: <CAHp75Vdd8aOhQ73opych5WohuM2CXq2dPgdgHW0ZdYHRU=u5WQ@mail.gmail.com>
+Subject: Re: [PATCH v8 2/3] staging: media: atomisp: fix indentation in anr
+To: LiangCheng Wang <zaq14760@gmail.com>
+Cc: Andy Shevchenko <andy@kernel.org>, Hans de Goede <hansg@kernel.org>, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-media@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Christophe,
+On Fri, Jul 4, 2025 at 6:41=E2=80=AFPM LiangCheng Wang <zaq14760@gmail.com>=
+ wrote:
+>
+> This patch fixes tab/space indentation issues in anr
+> following kernel coding style guidelines.
+>
+> No functional logic changes were made.
 
-On 7/5/25 11:52 AM, Christophe JAILLET wrote:
-> If cb_gpib_config() fails, 'info' needs to be freed, as already done in the
-> remove function.
-> 
-> While at it, remove a pointless comment related to gpib_attach().
-> 
-> Fixes: e9dc69956d4d ("staging: gpib: Add Computer Boards GPIB driver")
-> Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-> ---
-> Changes in v2:
->   - Fix the Fixes tag   [Thomas Richard]
->   - Synch with latest -next
->   - no compile tested. I think, thanks to commit 79d2e1919a27
->     ("staging: gpib: fix Makefiles")
-> 
-> v1: https://lore.kernel.org/all/459c267de8c9bf48fcb555364930ae7e3cdc798b.1729940596.git.christophe.jaillet@wanadoo.fr/
-> 
-> Compile tested only.
-> ---
->  drivers/staging/gpib/cb7210/cb7210.c | 15 +++++++++++----
->  1 file changed, 11 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/staging/gpib/cb7210/cb7210.c b/drivers/staging/gpib/cb7210/cb7210.c
-> index 298ed306189d..3e2397898a9b 100644
-> --- a/drivers/staging/gpib/cb7210/cb7210.c
-> +++ b/drivers/staging/gpib/cb7210/cb7210.c
-> @@ -1184,8 +1184,7 @@ struct local_info {
->  static int cb_gpib_probe(struct pcmcia_device *link)
->  {
->  	struct local_info *info;
-> -
-> -//	int ret, i;
-> +	int ret;
->  
->  	/* Allocate space for private device-specific data */
->  	info = kzalloc(sizeof(*info), GFP_KERNEL);
+...
 
-You should use devm_kzalloc(). The memory will be automatically freed by
-the core. So no need to call kfree() in case of error during the probe.
-And you can remove the kfree() in cb_gpib_remove().
+> -       {
+> -               0, 3, 1, 2, 3, 6, 4, 5, 1, 4, 2, 3, 2, 5, 3, 4,
+> -               0, 3, 1, 2, 3, 6, 4, 5, 1, 4, 2, 3, 2, 5, 3, 4,
+> -               0, 3, 1, 2, 3, 6, 4, 5, 1, 4, 2, 3, 2, 5, 3, 4,
+> -               0, 3, 1, 2, 3, 6, 4, 5, 1, 4, 2, 3, 2, 5, 3, 4
+> -       },
+> +       { 0, 3, 1, 2, 3, 6, 4, 5, 1, 4, 2, 3, 2, 5, 3, 4,
+> +         0, 3, 1, 2, 3, 6, 4, 5, 1, 4, 2, 3, 2, 5, 3, 4,
+> +         0, 3, 1, 2, 3, 6, 4, 5, 1, 4, 2, 3, 2, 5, 3, 4,
+> +         0, 3, 1, 2, 3, 6, 4, 5, 1, 4, 2, 3, 2, 5, 3, 4 },
 
-Regards,
+This change is not okay. Please, leave the curly braces on their own lines.
 
-Thomas
+> -       {10, 20, 30}
+> +       { 10, 20, 30 }
+
+This is okay, but also makes sense to add a trailing comma.
+
+...
+
+>  void
+> -ia_css_anr_encode(
+> -    struct sh_css_isp_anr_params *to,
+> -    const struct ia_css_anr_config *from,
+> -    unsigned int size);
+> +ia_css_anr_encode(struct sh_css_isp_anr_params *to,
+> +                 const struct ia_css_anr_config *from,
+> +                 unsigned int size);
+
+Don't we want to have something like
+
+void ia_css_anr_encode(struct sh_css_isp_anr_params *to,
+                      const struct ia_css_anr_config *from,
+                      unsigned int size);
+
+?
+
+Ditto for other similar cases.
+
+...
+
+>  /* Application specific DMA settings  */
+> -#define ANR_BPP                 10
+> -#define ANR_ELEMENT_BITS        ((CEIL_DIV(ANR_BPP, 8)) * 8)
+> +#define ANR_BPP 10
+> +#define ANR_ELEMENT_BITS ((CEIL_DIV(ANR_BPP, 8)) * 8)
+
+Doesn't look like a good change.
+
+--=20
+With Best Regards,
+Andy Shevchenko
