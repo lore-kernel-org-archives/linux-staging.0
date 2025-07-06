@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12ED81FF7BC;
-	Sun,  6 Jul 2025 09:58:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C2C11E3769;
+	Sun,  6 Jul 2025 13:46:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751795935; cv=none; b=GgTlY/lUb7+CCYh3ePv1fLol6Jy/Nlprw+XTWfYjRpUZZh9nQyok0UQYDoE6fgx5UnUm6w9msN1GRAZlF9eowWlyzAnZ6G6Dp1SAhQhKR/ev6S9CApaogWCQc81/xqaUdX3cAeELyK6qNmEo1a0mj2WOIpf2MJdB3gA0O8P8IZg=
+	t=1751809563; cv=none; b=oLGSsVGLjStRaXa4e2PTkmT8owCVmA7ozgcwv+K85HVzBZeqafyF4SMyAa2a5e+AXj3cEXXi7GvpWsv0BUTlqNbO+r16iDNRYGimpwmqhnqVXUwzwS62pRaZTz/ShO71UkKjqG1xnVJS4AzLHmPJVv3EyS3NlRiXdbxOxMwT2us=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751795935; c=relaxed/simple;
-	bh=sFq2D70TtLqED4H2fXdaTrrvqq+ts9ySPJxShkZRK6Y=;
+	s=arc-20240116; t=1751809563; c=relaxed/simple;
+	bh=4PyPV4ihbtb4N17V5FIt8RMbHEy8VxELoPK9bhcf3MQ=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ovU6tw36/aro5KlsKbL5BuC2p/DYlgk/ytqpxEoiJMkWBPAWuDEz23Z0rN2i4p8ZktdkIVotrc2uT5L0UC29wndPV12HIoS/0k5toh9E3ivJfy2IJSBpfVLqu+aFfZVbX+nYd0iq6OXFbeQtTKmX8fT1R0R4L0Z0b0ZxzWwC3d0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qS+vZ2Cm; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:Content-Type; b=LTzrsH9YPd9psP9itymya+EbIbzk5SsL3rthK986XwYWPIXLTCDkBDnHKJ4YNMFxnupk+C3BfKCGTTg6RWlf0W8SG10CMxbC4EdgamsL1KN3oXTbZy2Yf0AkmpHB47iNvjrYbepXuH4bGD737PGYNCHcT7uHyIl8iA42NSu3+BE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iVrAd/gl; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qS+vZ2Cm"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9C67BC4CEED;
-	Sun,  6 Jul 2025 09:58:45 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iVrAd/gl"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3C15CC4CEED;
+	Sun,  6 Jul 2025 13:45:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1751795934;
-	bh=sFq2D70TtLqED4H2fXdaTrrvqq+ts9ySPJxShkZRK6Y=;
+	s=k20201202; t=1751809562;
+	bh=4PyPV4ihbtb4N17V5FIt8RMbHEy8VxELoPK9bhcf3MQ=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=qS+vZ2Cm9UGGQ+V6wtxonhp1YpfG6UCT3QnGtlhy+PzaYSfUCuos0Nh7ptveynZ11
-	 uSHZVi7yIqk5OhmMVMuWbe/nq8mSJxkxAdtkyEu0nlNOqcq6wwImy/kAsZMpc7UykW
-	 IkUEBDJ7LnQgjP3yQ7cBC5DNm7kc5/n4Q/hjir/bLdqVO3UfU0Y4ezX2684EN/xmVQ
-	 1gqElWfVptd9nPooy/4uCUlgf6TlkPrw4rA4E6B2SQi5fhoxNoIbc+blpwAlq9wrbi
-	 i2Gjg2btIOXmqubPRORJ6LGkHOXg/6lxF1Gjdn0ht23jmeoYlZ7ttMLqnRc+tacVrN
-	 a7IOdlEv5fwgg==
-Message-ID: <3ea3d1c7-b6e1-48f2-8d2f-ce62b0471e2f@kernel.org>
-Date: Sun, 6 Jul 2025 11:58:34 +0200
+	b=iVrAd/gl4sIKZ7mQ7To7euAR6f0QKH3/qVEpW/EkU3F7UnMbzkcteZnKSxGpl9ULU
+	 mylsU2TicLm/SUBHPWj7e8kaooV5OmmRnrG1XGYOC92vtim/s9LTEX/s8XeFKjhHKL
+	 6GjJrd9fjzdl16R7fgtIie6QfKH1FLr0+3VDqvdVopEIuNUPcyXcs6Cd0FfQUwAJrL
+	 8X3M27qX7OV2P9LY+e5nko7ox1B3FOdf2yLCNeaocaFLz5NzL3kH3Oq59BSFXyDTOe
+	 muWhEfmJSLkq4mn7uoLCyFwjIIhZwk6wZ1mqPCGtOTDvYM6l5r8YkFDejtAYfPNvlO
+	 +4mVgRWEo6S2A==
+Message-ID: <16059b45-3875-4541-afc4-aaa48dfeb618@kernel.org>
+Date: Sun, 6 Jul 2025 15:45:54 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -35,64 +35,43 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 11/23] media: atomisp: gc0310: Add check_hwcfg() function
+Subject: Re: [PATCH 14/23] media: atomisp: gc0310: Switch to
+ {enable,disable}_streams
 To: Andy Shevchenko <andy@kernel.org>, Hans de Goede <hdegoede@redhat.com>
 Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
  Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org,
  linux-staging@lists.linux.dev
 References: <20250517114106.43494-1-hdegoede@redhat.com>
- <20250517114106.43494-12-hdegoede@redhat.com>
- <aCsXg_gj2VOoFPeO@smile.fi.intel.com>
+ <20250517114106.43494-15-hdegoede@redhat.com>
+ <aCsZTV6XuPiqCReu@smile.fi.intel.com>
 Content-Language: en-US, nl
 From: Hans de Goede <hansg@kernel.org>
-In-Reply-To: <aCsXg_gj2VOoFPeO@smile.fi.intel.com>
+In-Reply-To: <aCsZTV6XuPiqCReu@smile.fi.intel.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-Hi,
+Hi Andy,
 
-On 19-May-25 1:35 PM, Andy Shevchenko wrote:
-> On Sat, May 17, 2025 at 01:40:54PM +0200, Hans de Goede wrote:
->> Add a check_hwcfg() function to check if the external clk-freq, CSI
->> link-freq and lane-count match the driver's expectations.
+On 19-May-25 1:43 PM, Andy Shevchenko wrote:
+> On Sat, May 17, 2025 at 01:40:57PM +0200, Hans de Goede wrote:
+>> Switch from s_stream() to enable_streams() and disable_streams() pad
+>> operations. They are preferred and required for streams support.
 > 
 > ...
 > 
->> +	struct v4l2_fwnode_endpoint bus_cfg = {
->> +		.bus_type = V4L2_MBUS_CSI2_DPHY
+> (side note: that cleanup.h may help with locking as well)
 > 
-> Leave trailing comma, it might help in case we add anything later on.
+>> +	ret = pm_runtime_get_sync(&client->dev);
+>> +	if (ret)
+>> +		goto error_power_down;
+> 
+> Hmm... Don't you want rather to have pm_runtime_resume_and_get()?
 
-Ack I've fixed this while merging this series
-for the atomisp pull-request for 6.17 which I'm preparing.
-
-> 
->> +	};
-> 
-> ...
-> 
->> +	ret = fwnode_property_read_u32(dev_fwnode(dev), "clock-frequency",
->> +				       &mclk);
->> +	if (ret) {
->> +		fwnode_handle_put(ep_fwnode);
-> 
-> Hmm... Can we switch driver to use __free() instead?
-
-None of the other sensor drivers do that and IIRC it is
-also put a few lines below when we're done with it,
-well before the end of the function making __free not
-suitable.
+Ack I've fixed this while merging the series into
+my media-atomisp branch for the upcoming atomisp pull-req
+for 6.17 .
 
 Regards,
 
 Hans
-
-
-
-
-> 
->> +		return dev_err_probe(dev, ret,
->> +				     "reading clock-frequency property\n");
->> +	}
-> 
 
