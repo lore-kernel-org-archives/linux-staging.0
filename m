@@ -1,156 +1,104 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40F932D8DA8;
-	Mon,  7 Jul 2025 15:01:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BEBDB2989BC
+	for <linux-staging@lists.linux.dev>; Tue,  8 Jul 2025 08:04:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751900493; cv=none; b=A3uxZ7OdlinTWSfMA9nGia5NLACjSYIWdKcIESMim3o+FDphYi8lUmzLiG/i89H+g2coI2uZAKiaZ8a9/IC4XTioyiDxcDBMfL1QLQfa6nf0pEH+EUfv+iUXKahiBg6wAxk0Tvf5Y/LgC4w6kXYV8hq9dw2B9/vGnsXY/vp9nio=
+	t=1751961849; cv=none; b=pxYWL3xYj4hLCcsHyz/mmWR0c/iQf6SaqSYqLbqpsGo7jZxp3qJTbcVQBKOu5dSgI2wlGeTQ+TY5H7G+A4c3MOtkNy6KyRT04597NoSesQdgZnjQnxVZCCysXTsgmG6MMNEDXgUBleWJIu0KH5n4eSEXi7zw3z2pXfnT9sY99rY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751900493; c=relaxed/simple;
-	bh=bDeOA9LNZPnxTNLqEm+hANJIkTLV5RLBv0lR/n6Vkf4=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=RYqPJ+FIQ5fHTsWrnI0Rn2lmFAfcryRtZ2NRC3NTAvNXql9a6U1tJMDH9wgv5gR4atvcG+D4O9uFuTFMmGc5hsZHXr6N0f8+nj8ukT6rTIfMCf+hUH3guEOEKAiq7JlTH1irxOtlWc8foYiS2WOZT1KCAN5e7WBl7yw3QwPO1FA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lohaAPHP; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1751961849; c=relaxed/simple;
+	bh=4vMpqOrDlN29qP+1/MNcq0CSkKLp1dWgHqjTaKBYHTs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=l1zS26BwljXLbJe+M2RPdNE4iWjBlJR1c4ojH4tuUcj2bhJKQQ8hElk9hwNLBp2WhfSKx6O+rh0aeuq2yk9UGvVSz/Im6SXgf1hoPKt52QYQBEJw3yHHq4ldZHeHd57Dpi8VQZ2IFCEWTIYNSzt6njoA89JYiyWCHba2VJy4VUc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QgSUVYWV; arc=none smtp.client-ip=198.175.65.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lohaAPHP"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C7793C4CEE3;
-	Mon,  7 Jul 2025 15:01:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1751900492;
-	bh=bDeOA9LNZPnxTNLqEm+hANJIkTLV5RLBv0lR/n6Vkf4=;
-	h=Date:Subject:From:To:Cc:References:In-Reply-To:From;
-	b=lohaAPHPXCoMNk6HZgIRmMLDCBsO1a8u2mot/h/UUsVV9h9rCPfgpeVeYehsS4xdf
-	 bXzzc/loEl3MQxlZv3afzoSxo1wJZLFktdqqz+BpHjHXM8x32q5+bmBdEe4PSTX/Aj
-	 Q4fKrs5lhSwk5EcmpgVndQhKUcsvgwL1xMNLG+fidqT2SEbYkkr8Lc+9J3N27x06S8
-	 3OATFWswRDBcO+RFIuUoQHl0zhq8nsqi+qzDCKpQu2eMSn6h4Hvgc0Qx0YAs9ArPRW
-	 Yz/u/LbSw0DmVIAs6ijZV9J0E6pPyjJGzcsrnWsVdgqSBoQ5DKE0agKUiWhMXb41XI
-	 9Nqx4pRxORX4w==
-Message-ID: <ade60c0c-f3ef-4089-89e5-f57483ac8b66@kernel.org>
-Date: Mon, 7 Jul 2025 17:01:28 +0200
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QgSUVYWV"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1751961848; x=1783497848;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=4vMpqOrDlN29qP+1/MNcq0CSkKLp1dWgHqjTaKBYHTs=;
+  b=QgSUVYWVOSfqCug8MMiyCk8arZyhJPrWzSIQgxU3V3eoLGzr/yEpUc4a
+   olKBzInY7jDJnuA4tYj8s/nWMsei1GWdYJByaig+xBTQbPMlWExp0J9TW
+   IBN7w2Fla6eLN/xi6+Sv1gWJ/wskb7RlalSnaS7gpTMxmPpb9CtI8vJIz
+   PIzqlWcu9Q3RPQBTbB+ZN7JrNaUCB2pNnyiUeRO2AdrAK0WF5Ld6EtWSK
+   kuPNaWKdbcIXTYd3aHDgYiAgeEMscgnNxiE0ijvpDHXpokVQwr+kG2loh
+   Rwpzelphg+NrxmB2p2dmjoSQSRd404dzK1Gtr2admdT7jVbwzHqVpuPmg
+   g==;
+X-CSE-ConnectionGUID: tEYP1KkESBSjA4FSu6cNcg==
+X-CSE-MsgGUID: ArI90AlzSpuk+IJEf5sIbg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11487"; a="76740250"
+X-IronPort-AV: E=Sophos;i="6.16,296,1744095600"; 
+   d="scan'208";a="76740250"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jul 2025 01:04:07 -0700
+X-CSE-ConnectionGUID: q04dNPkzSxejXcX1tvgFjg==
+X-CSE-MsgGUID: /su0Pv/sR8CKFVpiMoEObw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,296,1744095600"; 
+   d="scan'208";a="154844038"
+Received: from cpetruta-mobl1.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.244.230])
+  by orviesa010-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jul 2025 01:04:05 -0700
+Received: from kekkonen.localdomain (localhost [127.0.0.1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id 76ACA11F8A6;
+	Tue,  8 Jul 2025 11:04:02 +0300 (EEST)
+Date: Tue, 8 Jul 2025 08:04:02 +0000
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Hans de Goede <hansg@kernel.org>
+Cc: Andy Shevchenko <andy@kernel.org>, Hans de Goede <hdegoede@redhat.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	linux-media@vger.kernel.org, linux-staging@lists.linux.dev
+Subject: Re: [PATCH 07/23] media: atomisp: gc0310: Add link-frequency and
+ pixelrate controls
+Message-ID: <aGzQ8vAZ6x9IOIiw@kekkonen.localdomain>
+References: <20250517114106.43494-1-hdegoede@redhat.com>
+ <20250517114106.43494-8-hdegoede@redhat.com>
+ <aCsWY1ICUoHTq07L@smile.fi.intel.com>
+ <3bb4690c-eedf-4cb6-8779-2ea1004510e2@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] staging: media: atomisp: unify initialization flag
- usage in HMM
-From: Hans de Goede <hansg@kernel.org>
-To: Abdelrahman Fekry <abdelrahmanfekry375@gmail.com>, mchehab@kernel.org,
- sakari.ailus@linux.intel.org, andy@kernel.org, gregkh@linuxfoundation.org
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-staging@lists.linux.dev, linux-kernel-mentees@lists.linux.dev,
- skhan@linuxfoundation.org, dan.carpenter@linaro.org
-References: <20250707140923.58935-1-abdelrahmanfekry375@gmail.com>
- <20250707140923.58935-3-abdelrahmanfekry375@gmail.com>
- <d063964c-5ca9-4602-8338-05c46c2d2775@kernel.org>
-Content-Language: en-US, nl
-In-Reply-To: <d063964c-5ca9-4602-8338-05c46c2d2775@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <3bb4690c-eedf-4cb6-8779-2ea1004510e2@kernel.org>
 
-Hi,
-
-On 7-Jul-25 4:14 PM, Hans de Goede wrote:
-> Hi Abdelrahman,
+On Sun, Jul 06, 2025 at 11:57:17AM +0200, Hans de Goede wrote:
+> Hi Andy,
 > 
-> On 7-Jul-25 16:09, Abdelrahman Fekry wrote:
->> Previously, the initialization state of the `hmm_bo_device` was tracked
->> in two places: a global `hmm_initialized` boolean in `hmm.c`, and a local
->> integer `flag` in the `hmm_bo_device` struct. This was redundant and could
->> lead to inconsistent state checks.
->>
->> - Removes the global `hmm_initialized` variable and all checks against it.
->> - Replaces the `int flag` in `struct hmm_bo_device` with a strongly-typed 
->>  `enum hmm_bo_device_init_flag flag` (values: UNINITED = 0, INITED = 1).
->> - Initializes `flag` to `HMM_BO_DEVICE_UNINITED` at declaration to 
->>   ensure a well-defined starting state.
->> - Removes a redundant `hmm_init()` call inside `__hmm_alloc()` since its
->>   always called after hmm_init()
->>
->> This change improves type safety, consistency, and readability when
->> handling the HMM initialization state.
->>
->> Signed-off-by: Abdelrahman Fekry <abdelrahmanfekry375@gmail.com>
->> ---
->>  .../staging/media/atomisp/include/hmm/hmm_bo.h   |  9 +++++++--
->>  drivers/staging/media/atomisp/pci/hmm/hmm.c      | 16 ++++------------
->>  2 files changed, 11 insertions(+), 14 deletions(-)
->>
->> diff --git a/drivers/staging/media/atomisp/include/hmm/hmm_bo.h b/drivers/staging/media/atomisp/include/hmm/hmm_bo.h
->> index e09ac29ac43d..155f9d89b365 100644
->> --- a/drivers/staging/media/atomisp/include/hmm/hmm_bo.h
->> +++ b/drivers/staging/media/atomisp/include/hmm/hmm_bo.h
->> @@ -58,7 +58,10 @@
->>  #define	ISP_VM_SIZE	(0x7FFFFFFF)	/* 2G address space */
->>  #define	ISP_PTR_NULL	NULL
->>  
->> -#define	HMM_BO_DEVICE_INITED	0x1
->> +enum hmm_bo_device_init_flag {
->> +	HMM_BO_DEVICE_INITED	= 0x1,
->> +	HMM_BO_DEVICE_UNINITED	= 0x2,
->> +};
->>  
->>  enum hmm_bo_type {
->>  	HMM_BO_PRIVATE,
->> @@ -86,7 +89,9 @@ struct hmm_bo_device {
->>  
->>  	/* list lock is used to protect the entire_bo_list */
->>  	spinlock_t	list_lock;
->> -	int flag;
->> +
->> +	/* flag to indicate whether the bo device is inited or not */
->> +	enum hmm_bo_device_init_flag flag;
+> On 19-May-25 1:30 PM, Andy Shevchenko wrote:
+> > On Sat, May 17, 2025 at 01:40:50PM +0200, Hans de Goede wrote:
+> >> Add support for the pixelrate control as expected by libcamera,
+> >> while at it also add the link-frequency control.
+> > 
+> > ...
+> > 
+> >> +/*
+> >> + * The actual PLL output rate is unknown, the datasheet
+> >> + * says that the formula for the frame-time in pixels is:
+> >> + * rowtime = win-width + hblank + sh-delay + 4
+> >> + * frametime = rowtime * (win-height + vblank)
+> >> + * Filling this in and multiplying by 30 fps gives:
+> >> + * pixelrate = (660 + 178 + 42 + 4) * (498 + 27) * 30 = 13923000
+> >> + */
+> >> +#define GC0310_PIXELRATE			13923000
+> > 
+> > Why not utilise the preprocessor to calculate the above?
+> > I mean we can define an arithmetic expression instead of the result
+> > (which is mentioned in the comments anyway).
 > 
-> Please just replace this with a "bool initialized"; data
-> member taking `true` and `false as values instead of
-> introducing a new type for this.
-> 
->>  
->>  	/* linked list for entire buffer object */
->>  	struct list_head entire_bo_list;
->> diff --git a/drivers/staging/media/atomisp/pci/hmm/hmm.c b/drivers/staging/media/atomisp/pci/hmm/hmm.c
->> index c2ee9d2ec0d5..767a3a24f8e5 100644
->> --- a/drivers/staging/media/atomisp/pci/hmm/hmm.c
->> +++ b/drivers/staging/media/atomisp/pci/hmm/hmm.c
->> @@ -24,9 +24,10 @@
->>  #include "mmu/isp_mmu.h"
->>  #include "mmu/sh_mmu_mrfld.h"
->>  
->> -struct hmm_bo_device bo_device;
->> +struct hmm_bo_device bo_device = {
->> +	.flag = HMM_BO_DEVICE_UNINITED,
->> +};
->>  static ia_css_ptr dummy_ptr = mmgr_EXCEPTION;
->> -static bool hmm_initialized;
->>  
->>  int hmm_init(void)
->>  {
->> @@ -38,8 +39,6 @@ int hmm_init(void)
->>  		dev_err(atomisp_dev, "hmm_bo_device_init failed.\n");
->>  		return ret;
->>  
->> -	hmm_initialized = true;
->> -
->>  	/*
->>  	 * As hmm use NULL to indicate invalid ISP virtual address,
->>  	 * and ISP_VM_START is defined to 0 too, so we allocate
->> @@ -62,7 +61,7 @@ void hmm_cleanup(void)
->>  	dummy_ptr = 0;
->>  
->>  	hmm_bo_device_exit(&bo_device);
->> -	hmm_initialized = false;
->> +	bo_device.flag = HMM_BO_DEVICE_UNINITED;
-> 
-> This clearing of the flag / setting `initialized = false` belongs inside bo_exit()
-> not here.
+> I don't really see any added value in using the pre-processor
+> for this, it just makes the #define line unnecessarily long.
 
-To be clear I meant this belongs inside hmm_bo_device_exit().
+My suggestion would be the same as Andy's. If you think the calculated
+value should appear there as well, then I'd put it in a comment.
 
-Regards,
-
-Hans
-
-
+-- 
+Sakari Ailus
