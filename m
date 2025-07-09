@@ -1,75 +1,108 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94B4C2580D7;
-	Wed,  9 Jul 2025 11:06:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E758F2E62C2;
+	Wed,  9 Jul 2025 14:57:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752059165; cv=none; b=YL6aV8BjBLMFRprR3StsqwjD4CtxeueV+S0nGBJYZRRZ3arb2bIanUbxOvyLzCeKSk83UwYNS3BQi3RlEvH+OCdtYSDrqZ78zP/GFkBt2iUr2FDfOIf6/O1FfYRIPossVBfTm0PuauXa91VZM+YdgrYuqvtp6TRFqCpciDK1Evg=
+	t=1752073038; cv=none; b=mHH6TXKLJXA/TtfL7h5Iq8kdFAjnYMFAj8n4q76NegYvrHuVZMW3fzONZtJUoMDrnvDiDD1wWeWQ2ntnVdwSzTCHp2qBpJz7JoMyeABjyUsGOjGFD+VK0ujia0bEnVC7mVAMIGrgfmGNKI/JiwFxE6OpPl921pBo1pSX95ErMus=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752059165; c=relaxed/simple;
-	bh=4VoxDg+122c2K2gnuT4+FeK7BlVbqegWDVw05YJfIjI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VvzdfCknp/En2CotvkUUOrpDwgmHT8Ywr9DYXEXODyNAWeBzFx9D3T1bd3ZpupqggwWRcVouTwIG6fHXhIQ1otEBenRMG2ok9k3N3npePxIsO/VvzC85q+tnDTa+kdNZTX6ZQ3pnp+yRhuPHCcuIUXJs9eBiuaYPEt6L1NasW90=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=lCwwm8v7; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1752073038; c=relaxed/simple;
+	bh=spBVLzp4goF65+k84GXkCH1Ow6kEAqHCrAHfgZzrE8o=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=b3ASYYayaN2BZBKsw2QIw1q+M3Uo312+4/pHwyk+68WWWSabiRhEgR3tLNonqX/2I5dEJ9BReav5N2hK6VpFx4ThlXLgr99dalIKFg7j9Pss9wZImS+AbDDhPwqnAMURvS8IVEH3WG+5jvOyBcgOxxLK4lkN7BF5ZoHY5VlAXzM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MuWQCA5T; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="lCwwm8v7"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C4BC4C4CEEF;
-	Wed,  9 Jul 2025 11:06:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1752059165;
-	bh=4VoxDg+122c2K2gnuT4+FeK7BlVbqegWDVw05YJfIjI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=lCwwm8v7AaLG0lBfKR7hY5JLAXUr3d1tjQ2lGfk/DmpaPbsoaHSXkpVWImTdoIaQ8
-	 z9f5lJWUvtfpGfyU+SvbCysgrkJjJMaJZ9/nMgD9SfcU9CQHKGsdWpBumYF+kkro8I
-	 p9kQEHbzjmQPHR/i0q3tjVfY5NcgHrlfQvhC9Loc=
-Date: Wed, 9 Jul 2025 13:06:01 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Emre Cecanpunar <emreleno@gmail.com>
-Cc: linux-staging@lists.linux.dev, linux-tegra@vger.kernel.org,
-	marvin24@gmx.de, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: nvec: silence macro argument warnings in
- NVEC_PHD()
-Message-ID: <2025070914-repave-feisty-b44a@gregkh>
-References: <20250704152737.14315-1-emreleno@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MuWQCA5T"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 784D3C4CEEF;
+	Wed,  9 Jul 2025 14:57:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1752073034;
+	bh=spBVLzp4goF65+k84GXkCH1Ow6kEAqHCrAHfgZzrE8o=;
+	h=From:To:Cc:Subject:Date:From;
+	b=MuWQCA5Te0PfHAyy27RJ/ceRYg0R4G0YouKDSMr6lmkjpLhn0a1TtoQ/WvEARsYLt
+	 CSFlxOVDL4MGMX7bOh/joTrmMN28RDOMwbukprXD+IqvcqGzy07YcRmAS7ZSJtxIMj
+	 j/RkHK6qbs128by3gZiTMgd1JuMLj5kLKm+muV5dtMQ5s7uqEVOqbFDJLC4pKCwPjj
+	 jEBfBsBszRAH1ozJYXH6kDkw0H/Utf1sDbZp5e8v2Bv9dfMjfFUs2F3POIjdlBmHVN
+	 JFwW2kCvQquPCfjsfXVC2bDvsjdEVcNhbr6btqOOU6tsR+atz4CtEqu2+u9eEAw+rt
+	 4sneTPaT9AGUg==
+From: Arnd Bergmann <arnd@kernel.org>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Bingbu Cao <bingbu.cao@intel.com>,
+	Hans Verkuil <hverkuil@xs4all.nl>
+Cc: Arnd Bergmann <arnd@arndb.de>,
+	Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] media: staging/ipu7: avoid division by 64-bit value
+Date: Wed,  9 Jul 2025 16:56:56 +0200
+Message-Id: <20250709145710.102669-1-arnd@kernel.org>
+X-Mailer: git-send-email 2.39.5
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250704152737.14315-1-emreleno@gmail.com>
+Content-Transfer-Encoding: 8bit
 
-On Fri, Jul 04, 2025 at 06:27:37PM +0300, Emre Cecanpunar wrote:
-> checkpatch.pl warns that the NVEC_PHD macro defines unused arguments.
-> Use (void) casts to prevent unused argument warnings when the macro is disabled.
-> 
-> Signed-off-by: Emre Cecanpunar <emreleno@gmail.com>
-> ---
->  drivers/staging/nvec/nvec_ps2.c | 6 +++++-
->  1 file changed, 5 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/staging/nvec/nvec_ps2.c b/drivers/staging/nvec/nvec_ps2.c
-> index 575233fa1677..38e736b3761e 100644
-> --- a/drivers/staging/nvec/nvec_ps2.c
-> +++ b/drivers/staging/nvec/nvec_ps2.c
-> @@ -28,7 +28,11 @@
->  	print_hex_dump(KERN_DEBUG, str, DUMP_PREFIX_NONE, \
->  			16, 1, buf, len, false)
->  #else
-> -#define NVEC_PHD(str, buf, len) do { } while (0)
-> +#define NVEC_PHD(str, buf, len) do { \
-> +	(void)(str); \
-> +	(void)(buf); \
-> +	(void)(len); \
-> +} while (0)
+From: Arnd Bergmann <arnd@arndb.de>
 
-This is really not needed at all, sorry.  Especially for a define that
-will never even be used.  Can you work to remove NVEC_PS2_DEBUG instead,
-as that's not a good idea.
+On 32-bit targets, this causes a link failure:
 
-thanks,
+x86_64-linux-ld: drivers/staging/media/ipu7/ipu7-isys-csi-phy.o: in function `ipu7_isys_phy_config':
+ipu7-isys-csi-phy.c:(.text+0x1509): undefined reference to `__udivdi3'
 
-greg k-h
+Note that this does not divide a 64-bit number by a 32-bit one as usual,
+but the other way round, which is something that the compiler should
+really be able to figure out but does not (as of gcc-15).
+
+A few lines higher, a similar division is done using the incorrect div_u64()
+that truncates the 64-bit divisor to 32 bits.
+
+Change both to use the safe but slow div64_u64() helper.
+
+Fixes: a516d36bdc3d ("media: staging/ipu7: add IPU7 input system device driver")
+Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+---
+ drivers/staging/media/ipu7/ipu7-isys-csi-phy.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/staging/media/ipu7/ipu7-isys-csi-phy.c b/drivers/staging/media/ipu7/ipu7-isys-csi-phy.c
+index 4407750c7f40..b8c5db7ae300 100644
+--- a/drivers/staging/media/ipu7/ipu7-isys-csi-phy.c
++++ b/drivers/staging/media/ipu7/ipu7-isys-csi-phy.c
+@@ -734,6 +734,7 @@ static void ipu7_isys_cphy_config(struct ipu7_isys *isys, u8 id, u8 lanes,
+ 	u16 reg;
+ 	u16 val;
+ 	u32 i;
++	u64 r64;
+ 	u32 r;
+ 
+ 	if (is_ipu7p5(isys->adev->isp->hw_ver))
+@@ -806,8 +807,8 @@ static void ipu7_isys_cphy_config(struct ipu7_isys *isys, u8 id, u8 lanes,
+ 		dwc_phy_write_mask(isys, id, reg, 2, 0, 2);
+ 	}
+ 
+-	deass_thresh = (u16)div_u64_rem(7 * 1000 * 6, mbps * 5U, &r) + 1;
+-	if (r != 0)
++	deass_thresh = (u16)div64_u64_rem(7 * 1000 * 6, mbps * 5U, &r64) + 1;
++	if (r64 != 0)
+ 		deass_thresh++;
+ 
+ 	reg = CORE_DIG_RW_TRIO0_2;
+@@ -815,8 +816,7 @@ static void ipu7_isys_cphy_config(struct ipu7_isys *isys, u8 id, u8 lanes,
+ 		dwc_phy_write_mask(isys, id, reg + 0x400 * i,
+ 				   deass_thresh, 0, 7);
+ 
+-	delay_thresh =
+-		((224U - (9U * 7U)) * 1000U) / (5U * mbps) - 7U;
++	delay_thresh = div64_u64((224U - (9U * 7U)) * 1000U, 5U * mbps) - 7u;
+ 
+ 	if (delay_thresh < 1)
+ 		delay_thresh = 1;
+-- 
+2.39.5
+
