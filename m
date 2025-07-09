@@ -1,39 +1,37 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13A56286892;
-	Wed,  9 Jul 2025 11:04:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94B4C2580D7;
+	Wed,  9 Jul 2025 11:06:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752059067; cv=none; b=XyTgD4sN96YbK1iQ1MQAgg+QDhHhWGBMGjUyvw+hN+wzrPlbap5FDOFiKx1LxCDmvIfsHU/6nPsny0LyGp5Ivuc0eqjURfXb+L9tHUsizrD1PdpM9a/RdG4/8YCD1COlJQK4aLV9oymox6haYBojSW2g9FTOmLA7PSBPtrSBYzs=
+	t=1752059165; cv=none; b=YL6aV8BjBLMFRprR3StsqwjD4CtxeueV+S0nGBJYZRRZ3arb2bIanUbxOvyLzCeKSk83UwYNS3BQi3RlEvH+OCdtYSDrqZ78zP/GFkBt2iUr2FDfOIf6/O1FfYRIPossVBfTm0PuauXa91VZM+YdgrYuqvtp6TRFqCpciDK1Evg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752059067; c=relaxed/simple;
-	bh=G9z/hxPCD8cUfyP4wAboIFpKkrFJ0muA+l4VWXBKGBk=;
+	s=arc-20240116; t=1752059165; c=relaxed/simple;
+	bh=4VoxDg+122c2K2gnuT4+FeK7BlVbqegWDVw05YJfIjI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ovlT+OFTKxEJCPrCZnhgBQQSyZtpAyfsjfjpuyBwAuHFI3XPu0T5jC7SxfMERMMvt3WYgieVY5HyCT43czZMEroB/R4xoIdLLHnJZ+mWs5ahy5f9gQCUydKWA3iHaOi08Blsz9d3pM+INs4naZKWpA6LCasRRmpwxgv8gGIdUsw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=jDky5j9f; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=VvzdfCknp/En2CotvkUUOrpDwgmHT8Ywr9DYXEXODyNAWeBzFx9D3T1bd3ZpupqggwWRcVouTwIG6fHXhIQ1otEBenRMG2ok9k3N3npePxIsO/VvzC85q+tnDTa+kdNZTX6ZQ3pnp+yRhuPHCcuIUXJs9eBiuaYPEt6L1NasW90=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=lCwwm8v7; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="jDky5j9f"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3AD3CC4CEEF;
-	Wed,  9 Jul 2025 11:04:26 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="lCwwm8v7"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C4BC4C4CEEF;
+	Wed,  9 Jul 2025 11:06:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1752059066;
-	bh=G9z/hxPCD8cUfyP4wAboIFpKkrFJ0muA+l4VWXBKGBk=;
+	s=korg; t=1752059165;
+	bh=4VoxDg+122c2K2gnuT4+FeK7BlVbqegWDVw05YJfIjI=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=jDky5j9fmCJBev2Gmm88KZP8/4w3PNlRZ6zKAZ2E8XmMoSG9oksxCOg2jLyOQ1U+/
-	 5wZ8gEWvy3nNWiiUbgDsqau0D7QEkO1vUjU2saYuL7IupJZVN5oTnv+sGhqbuUD+np
-	 Pe44+Tb2sJkpBv5OyeDFDQONykCQ0CSGs0VpZ9z8=
-Date: Wed, 9 Jul 2025 13:04:23 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Thomas Richard <thomas.richard@bootlin.com>
-Cc: Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
-	Dave Penkler <dpenkler@gmail.com>, linux-kernel@vger.kernel.org,
-	kernel-janitors@vger.kernel.org, linux-staging@lists.linux.dev
-Subject: Re: [PATCH v2] staging: gpib: Fix error handling paths in
- cb_gpib_probe()
-Message-ID: <2025070900-founder-boastful-66cf@gregkh>
-References: <bf89d6f2f8b8c680720d02061fc4ebdd805deca8.1751709098.git.christophe.jaillet@wanadoo.fr>
- <8f8130b2-fec1-48bc-944e-e676a1715c31@bootlin.com>
+	b=lCwwm8v7AaLG0lBfKR7hY5JLAXUr3d1tjQ2lGfk/DmpaPbsoaHSXkpVWImTdoIaQ8
+	 z9f5lJWUvtfpGfyU+SvbCysgrkJjJMaJZ9/nMgD9SfcU9CQHKGsdWpBumYF+kkro8I
+	 p9kQEHbzjmQPHR/i0q3tjVfY5NcgHrlfQvhC9Loc=
+Date: Wed, 9 Jul 2025 13:06:01 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Emre Cecanpunar <emreleno@gmail.com>
+Cc: linux-staging@lists.linux.dev, linux-tegra@vger.kernel.org,
+	marvin24@gmx.de, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: nvec: silence macro argument warnings in
+ NVEC_PHD()
+Message-ID: <2025070914-repave-feisty-b44a@gregkh>
+References: <20250704152737.14315-1-emreleno@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -42,54 +40,35 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <8f8130b2-fec1-48bc-944e-e676a1715c31@bootlin.com>
+In-Reply-To: <20250704152737.14315-1-emreleno@gmail.com>
 
-On Sat, Jul 05, 2025 at 04:17:35PM +0200, Thomas Richard wrote:
-> Hi Christophe,
+On Fri, Jul 04, 2025 at 06:27:37PM +0300, Emre Cecanpunar wrote:
+> checkpatch.pl warns that the NVEC_PHD macro defines unused arguments.
+> Use (void) casts to prevent unused argument warnings when the macro is disabled.
 > 
-> On 7/5/25 11:52 AM, Christophe JAILLET wrote:
-> > If cb_gpib_config() fails, 'info' needs to be freed, as already done in the
-> > remove function.
-> > 
-> > While at it, remove a pointless comment related to gpib_attach().
-> > 
-> > Fixes: e9dc69956d4d ("staging: gpib: Add Computer Boards GPIB driver")
-> > Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-> > ---
-> > Changes in v2:
-> >   - Fix the Fixes tag   [Thomas Richard]
-> >   - Synch with latest -next
-> >   - no compile tested. I think, thanks to commit 79d2e1919a27
-> >     ("staging: gpib: fix Makefiles")
-> > 
-> > v1: https://lore.kernel.org/all/459c267de8c9bf48fcb555364930ae7e3cdc798b.1729940596.git.christophe.jaillet@wanadoo.fr/
-> > 
-> > Compile tested only.
-> > ---
-> >  drivers/staging/gpib/cb7210/cb7210.c | 15 +++++++++++----
-> >  1 file changed, 11 insertions(+), 4 deletions(-)
-> > 
-> > diff --git a/drivers/staging/gpib/cb7210/cb7210.c b/drivers/staging/gpib/cb7210/cb7210.c
-> > index 298ed306189d..3e2397898a9b 100644
-> > --- a/drivers/staging/gpib/cb7210/cb7210.c
-> > +++ b/drivers/staging/gpib/cb7210/cb7210.c
-> > @@ -1184,8 +1184,7 @@ struct local_info {
-> >  static int cb_gpib_probe(struct pcmcia_device *link)
-> >  {
-> >  	struct local_info *info;
-> > -
-> > -//	int ret, i;
-> > +	int ret;
-> >  
-> >  	/* Allocate space for private device-specific data */
-> >  	info = kzalloc(sizeof(*info), GFP_KERNEL);
+> Signed-off-by: Emre Cecanpunar <emreleno@gmail.com>
+> ---
+>  drivers/staging/nvec/nvec_ps2.c | 6 +++++-
+>  1 file changed, 5 insertions(+), 1 deletion(-)
 > 
-> You should use devm_kzalloc(). The memory will be automatically freed by
-> the core. So no need to call kfree() in case of error during the probe.
-> And you can remove the kfree() in cb_gpib_remove().
+> diff --git a/drivers/staging/nvec/nvec_ps2.c b/drivers/staging/nvec/nvec_ps2.c
+> index 575233fa1677..38e736b3761e 100644
+> --- a/drivers/staging/nvec/nvec_ps2.c
+> +++ b/drivers/staging/nvec/nvec_ps2.c
+> @@ -28,7 +28,11 @@
+>  	print_hex_dump(KERN_DEBUG, str, DUMP_PREFIX_NONE, \
+>  			16, 1, buf, len, false)
+>  #else
+> -#define NVEC_PHD(str, buf, len) do { } while (0)
+> +#define NVEC_PHD(str, buf, len) do { \
+> +	(void)(str); \
+> +	(void)(buf); \
+> +	(void)(len); \
+> +} while (0)
 
-Some people, myself include, hate the devm_*() apis, so no need to force
-them on anyone please :)
+This is really not needed at all, sorry.  Especially for a define that
+will never even be used.  Can you work to remove NVEC_PS2_DEBUG instead,
+as that's not a good idea.
 
 thanks,
 
