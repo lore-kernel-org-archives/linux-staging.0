@@ -1,38 +1,38 @@
 Received: from mout.gmx.net (mout.gmx.net [212.227.15.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 624E72ED165
-	for <linux-staging@lists.linux.dev>; Fri, 11 Jul 2025 15:40:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65EBC2ED149
+	for <linux-staging@lists.linux.dev>; Fri, 11 Jul 2025 15:41:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752248462; cv=none; b=LGCPWKQPRUeXmy+ztned8WXv5hW7VLq3r+ESWnYiwCPDAMCG++BpeEg8mCnwa5KQWcrdLSu/4VPSWZXvnJZvxN/RnUPYb8893J9EaKAjxw7Ghaijqvn3LQa7CkubteT72BCXi+zzeWK2YnMAyCupoo3x4UTVZZb1Km+Ac1Sx74o=
+	t=1752248468; cv=none; b=jQ9SPqVz7b+/A+MIz/uEIfibJoL6B8NAVTVcXbJaNE1Gg1ZQvFhhNM8zw13lMSPmTfI4KHjhpP8lwP67qIGPm2PeQ/ppeiCuUa/WhKgvK1csd4yLba5G2jF6jglpORIgmaBsmxhdnbK5A0eHH7tn6lx98HhdkYEEBmtGJxqpBbU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752248462; c=relaxed/simple;
-	bh=nKd3YqfucpUVGwkJytl2AoRb2Teyt0y7Je/tX/1Z0ew=;
+	s=arc-20240116; t=1752248468; c=relaxed/simple;
+	bh=bRD4WoHrOQDyC0icRY9Ap4u+SWJQx64xVvLm+r6WjwI=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=STuU7aPIGHwr/YZahNSD+9UEYsURpnjQc/qqAmCt19udhGxSMCHzt5s4U3WIUy/FB9r74EgYWtDfC4VeRc4AniIyqGSUvKxj76AHfk7UAxbqJ2O8QihQw7OFV5hlhhe+WSodyFJJ3ygD0NGCQ9l7KysQm8tzP4n6hRYgmlnfOvg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.net; spf=pass smtp.mailfrom=gmx.net; dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b=oU7isWcC; arc=none smtp.client-ip=212.227.15.15
+	 MIME-Version:Content-Type; b=JMEtjt7jbEIVim/d1EiTH/vCg9wYU1p8kLht4Pybtbgc6eiUc+wCWgcaiXFzXd8AGwjGsk2TqjUANCSNdtCSoeHa/Vd31AdhY/SN70+BwvIQ2ySvdHNrhz7SSo/Ql1SHD+v3yP9blTQj9IEj1C9QbviVCemQCUl+nxWUSA5S5V4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.net; spf=pass smtp.mailfrom=gmx.net; dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b=LQ1duoaZ; arc=none smtp.client-ip=212.227.15.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b="oU7isWcC"
+	dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b="LQ1duoaZ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.net;
-	s=s31663417; t=1752248449; x=1752853249; i=wahrenst@gmx.net;
-	bh=brFnAh/YUrEXC18snDoiMV6YgR34Ku0ps2YTOINPKp4=;
+	s=s31663417; t=1752248447; x=1752853247; i=wahrenst@gmx.net;
+	bh=Pvmdzzon70L1hOLqeuWPtYOsuZehChUPPCRRTupcrA8=;
 	h=X-UI-Sender-Class:From:To:Cc:Subject:Date:Message-Id:In-Reply-To:
 	 References:MIME-Version:Content-Type:Content-Transfer-Encoding:cc:
 	 content-transfer-encoding:content-type:date:from:message-id:
 	 mime-version:reply-to:subject:to;
-	b=oU7isWcCDPrUs4R5IIi4gjbvyhmb0Fp4q0k2lpfKuvDyP50eCYALMhExwCwHX7HQ
-	 Zn7D469Uu5VqmRV+TnRhN517+YqRMQalTsGRrnBX3AkGaB5GEZrNjdh/GJJmZ0KKG
-	 oA4GxJusnOq0VaFdo78jEJZWCIkc/pdZxisYnJ1qAznanP17x41Muf/h0egGpbyuI
-	 xYftjH6TZxbQ1aSdSBeaBPnnQ1yEmW5a48QYh4UjWGuhSppP+9Kg86JfcpUt7o6Ex
-	 AVBBMmgD02mj49lBUMTyUdEX26gPmOjWQeMhKGbtkz8Sn1vRb94mA+TFAinuJttCc
-	 XjrNOng5AeFqqFAaHQ==
+	b=LQ1duoaZCaombf/ZBDb9r2QOjMuF5Jj5+c5ViHcmoP5YCeHl+sXrRSrgoxosxE6c
+	 iUy5IOjSzw0gg8m3GMWIneW9VWDtwtoD6y7i6WNZWPgV9TUZqvYpLL9kzIOgTTEJw
+	 i8vB7JsL+aQjwGatk4yqke2EUTr23k03kOBrRJenrBkaNV3olfgK6DT9LArcLxUYe
+	 KjVXfcEC697TSOpqplG6WSmM2/MyJd/poya76N3FYJ20G8UMLBa8F5sNVtICtyqGR
+	 jcdnllArQOCCBplRH47epoVGeuqcUntu0l/tDCHEbs8p0Tj+HMvt7GGl1v6UTAvGX
+	 cb6OG8Yzn2fLkKztLA==
 X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
 Received: from stefanw-SCHENKER ([91.41.216.208]) by mail.gmx.net (mrgmx004
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1MfYLa-1v7Nkk34Zc-00egZv; Fri, 11
- Jul 2025 17:40:46 +0200
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1MdNY2-1v9agP3TsG-00cTeF; Fri, 11
+ Jul 2025 17:40:45 +0200
 From: Stefan Wahren <wahrenst@gmx.net>
 To: Florian Fainelli <florian.fainelli@broadcom.com>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
@@ -42,11 +42,11 @@ Cc: Dan Carpenter <dan.carpenter@linaro.org>,
 	kernel-list@raspberrypi.com,
 	linux-staging@lists.linux.dev,
 	Stefan Wahren <wahrenst@gmx.net>,
-	=?UTF-8?q?Ma=C3=ADra=20Canal?= <maira.canal@usp.br>,
+	=?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>,
 	stable@kernel.org
-Subject: [PATCH 2/3] Revert "staging: vchiq_arm: Create keep-alive thread during probe"
-Date: Fri, 11 Jul 2025 17:40:30 +0200
-Message-Id: <20250711154031.24178-3-wahrenst@gmx.net>
+Subject: [PATCH 1/3] Revert "staging: vchiq_arm: Improve initial VCHIQ connect"
+Date: Fri, 11 Jul 2025 17:40:29 +0200
+Message-Id: <20250711154031.24178-2-wahrenst@gmx.net>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20250711154031.24178-1-wahrenst@gmx.net>
 References: <20250711154031.24178-1-wahrenst@gmx.net>
@@ -58,208 +58,169 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:iQ+mfMQgYDa4LGt86vwa7KXqc4RyIl/YZQLn2lRdclPrN4+ym0t
- Aw9K9dBAv5avBRVSqdv9m0Fm+XMt5eVye78UNFAknM588p8ReH4OtTKs/wUQiDDNtmrFSXJ
- WsoK6DeyIoW0jn0rXfn8vF9CjI+Unk97euwnO4VNnx6vbeGA+1qGuWEaXJJgujvP7Ou4xR0
- OzRtFbW3v8AXEvrvGkCxA==
+X-Provags-ID: V03:K1:XPMa324HfxC3iLXRnKYUBTBW8QnkPAyU2y/MVE/V2Ab+K2O2mcD
+ CDZJzWjlxixJSJQPRLSn7TQoCbmx2X+p6L8EWDToSV7Mej2sLQWDIkbIwXZcAJ1mvirgM9m
+ R4HsgDyGScBZ/YSMlUNG/QAP9ugGN9CLGIWlSskC/01R8pRMKSPlzYvGEVnnhdvKo+09PX7
+ Gab2phRr8Juc5rk0D0kSA==
 X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:txfjVgtOJtk=;LjzrWJ+2CEwpjNsjQNsQyodP0KP
- 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
- uQr2Q=
+UI-OutboundReport: notjunk:1;M01:P0:3LE+fveJhmw=;Lsuuij3WnGn5g6ST7aaO4kx4zPs
+ +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
+ gBhIN6AQcGad64B11vK9pZ8=
 
-The commit 86bc88217006 ("staging: vchiq_arm: Create keep-alive thread
-during probe") introduced a regression for certain configurations,
-which doesn't have a VCHIQ user. This results in a unused and hanging
-keep-alive thread:
+The commit 3e5def4249b9 ("staging: vchiq_arm: Improve initial VCHIQ connec=
+t")
+based on the assumption that in good case the VCHIQ connect always happen =
+and
+therefore the keep-alive thread is guaranteed to be woken up. This is wron=
+g,
+because in certain configurations there are no VCHIQ users and so the VCHI=
+Q
+connect never happen. So revert it.
 
-  INFO: task vchiq-keep/0:85 blocked for more than 120 seconds.
-        Not tainted 6.12.34-v8-+ #13
-  "echo 0 > /proc/sys/kernel/hung_task_timeout_secs" disables this message=
-.
-  task:vchiq-keep/0    state:D stack:0 pid:85    tgid:85    ppid:2
-  Call trace:
-   __switch_to+0x188/0x230
-   __schedule+0xa54/0xb28
-   schedule+0x80/0x120
-   schedule_preempt_disabled+0x30/0x50
-   kthread+0xd4/0x1a0
-   ret_from_fork+0x10/0x20
-
-Fixes: 86bc88217006 ("staging: vchiq_arm: Create keep-alive thread during =
-probe")
-Reported-by: Ma=C3=ADra Canal <maira.canal@usp.br>
+Fixes: 3e5def4249b9 ("staging: vchiq_arm: Improve initial VCHIQ connect")
+Reported-by: Ma=C3=ADra Canal <mcanal@igalia.com>
 Closes: https://lore.kernel.org/linux-staging/ba35b960-a981-4671-9f7f-060d=
 a10feaa1@usp.br/
 Cc: <stable@kernel.org>
 Signed-off-by: Stefan Wahren <wahrenst@gmx.net>
 =2D--
- .../interface/vchiq_arm/vchiq_arm.c           | 69 ++++++++++---------
- 1 file changed, 35 insertions(+), 34 deletions(-)
+ .../interface/vchiq_arm/vchiq_arm.c           | 28 ++++++++++++++-----
+ .../interface/vchiq_arm/vchiq_core.c          |  1 -
+ .../interface/vchiq_arm/vchiq_core.h          |  2 --
+ 3 files changed, 21 insertions(+), 10 deletions(-)
 
 diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c=
  b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-index cdf5687ad4f0..6434cbdc1a6e 100644
+index 5dbf8d53db09..cdf5687ad4f0 100644
 =2D-- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
 +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-@@ -280,6 +280,29 @@ static int vchiq_platform_init(struct platform_device=
- *pdev, struct vchiq_state
- 	return 0;
+@@ -97,6 +97,13 @@ struct vchiq_arm_state {
+ 	 * tracked separately with the state.
+ 	 */
+ 	int peer_use_count;
++
++	/*
++	 * Flag to indicate that the first vchiq connect has made it through.
++	 * This means that both sides should be fully ready, and we should
++	 * be able to suspend after this point.
++	 */
++	int first_connect;
+ };
+=20
+ static int
+@@ -1329,19 +1336,26 @@ vchiq_check_service(struct vchiq_service *service)
+ 	return ret;
  }
 =20
-+int
-+vchiq_platform_init_state(struct vchiq_state *state)
-+{
-+	struct vchiq_arm_state *platform_state;
-+
-+	platform_state =3D devm_kzalloc(state->dev, sizeof(*platform_state), GFP=
-_KERNEL);
-+	if (!platform_state)
-+		return -ENOMEM;
-+
-+	rwlock_init(&platform_state->susp_res_lock);
-+
-+	init_completion(&platform_state->ka_evt);
-+	atomic_set(&platform_state->ka_use_count, 0);
-+	atomic_set(&platform_state->ka_use_ack_count, 0);
-+	atomic_set(&platform_state->ka_release_count, 0);
-+
-+	platform_state->state =3D state;
-+
-+	state->platform_state =3D (struct opaque_platform_state *)platform_state=
-;
-+
-+	return 0;
-+}
-+
- static struct vchiq_arm_state *vchiq_platform_get_arm_state(struct vchiq_=
-state *state)
- {
- 	return (struct vchiq_arm_state *)state->platform_state;
-@@ -988,39 +1011,6 @@ vchiq_keepalive_thread_func(void *v)
- 	return 0;
- }
-=20
--int
--vchiq_platform_init_state(struct vchiq_state *state)
+-void vchiq_platform_connected(struct vchiq_state *state)
 -{
--	struct vchiq_arm_state *platform_state;
--	char threadname[16];
+-	struct vchiq_arm_state *arm_state =3D vchiq_platform_get_arm_state(state=
+);
 -
--	platform_state =3D devm_kzalloc(state->dev, sizeof(*platform_state), GFP=
-_KERNEL);
--	if (!platform_state)
--		return -ENOMEM;
--
--	snprintf(threadname, sizeof(threadname), "vchiq-keep/%d",
--		 state->id);
--	platform_state->ka_thread =3D kthread_create(&vchiq_keepalive_thread_fun=
-c,
--						   (void *)state, threadname);
--	if (IS_ERR(platform_state->ka_thread)) {
--		dev_err(state->dev, "couldn't create thread %s\n", threadname);
--		return PTR_ERR(platform_state->ka_thread);
--	}
--
--	rwlock_init(&platform_state->susp_res_lock);
--
--	init_completion(&platform_state->ka_evt);
--	atomic_set(&platform_state->ka_use_count, 0);
--	atomic_set(&platform_state->ka_use_ack_count, 0);
--	atomic_set(&platform_state->ka_release_count, 0);
--
--	platform_state->state =3D state;
--
--	state->platform_state =3D (struct opaque_platform_state *)platform_state=
-;
--
--	return 0;
+-	wake_up_process(arm_state->ka_thread);
 -}
 -
- int
- vchiq_use_internal(struct vchiq_state *state, struct vchiq_service *servi=
-ce,
- 		   enum USE_TYPE_E use_type)
-@@ -1341,6 +1331,7 @@ void vchiq_platform_conn_state_changed(struct vchiq_=
-state *state,
+ void vchiq_platform_conn_state_changed(struct vchiq_state *state,
+ 				       enum vchiq_connstate oldstate,
  				       enum vchiq_connstate newstate)
  {
- 	struct vchiq_arm_state *arm_state =3D vchiq_platform_get_arm_state(state=
++	struct vchiq_arm_state *arm_state =3D vchiq_platform_get_arm_state(state=
 );
-+	char threadname[16];
-=20
++
  	dev_dbg(state->dev, "suspend: %d: %s->%s\n",
  		state->id, get_conn_state_name(oldstate), get_conn_state_name(newstate)=
 );
-@@ -1355,7 +1346,17 @@ void vchiq_platform_conn_state_changed(struct vchiq=
-_state *state,
-=20
- 	arm_state->first_connect =3D 1;
- 	write_unlock_bh(&arm_state->susp_res_lock);
--	wake_up_process(arm_state->ka_thread);
-+	snprintf(threadname, sizeof(threadname), "vchiq-keep/%d",
-+		 state->id);
-+	arm_state->ka_thread =3D kthread_create(&vchiq_keepalive_thread_func,
-+					      (void *)state,
-+					      threadname);
-+	if (IS_ERR(arm_state->ka_thread)) {
-+		dev_err(state->dev, "suspend: Couldn't create thread %s\n",
-+			threadname);
-+	} else {
-+		wake_up_process(arm_state->ka_thread);
++	if (state->conn_state !=3D VCHIQ_CONNSTATE_CONNECTED)
++		return;
++
++	write_lock_bh(&arm_state->susp_res_lock);
++	if (arm_state->first_connect) {
++		write_unlock_bh(&arm_state->susp_res_lock);
++		return;
 +	}
++
++	arm_state->first_connect =3D 1;
++	write_unlock_bh(&arm_state->susp_res_lock);
++	wake_up_process(arm_state->ka_thread);
  }
 =20
  static const struct of_device_id vchiq_of_match[] =3D {
+diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.=
+c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
+index e7b0c800a205..e2cac0898b8f 100644
+=2D-- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
++++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
+@@ -3343,7 +3343,6 @@ vchiq_connect_internal(struct vchiq_state *state, st=
+ruct vchiq_instance *instanc
+ 			return -EAGAIN;
+=20
+ 		vchiq_set_conn_state(state, VCHIQ_CONNSTATE_CONNECTED);
+-		vchiq_platform_connected(state);
+ 		complete(&state->connect);
+ 	}
+=20
+diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.=
+h b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.h
+index 3b5c0618e567..9b4e766990a4 100644
+=2D-- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.h
++++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.h
+@@ -575,8 +575,6 @@ int vchiq_send_remote_use(struct vchiq_state *state);
+=20
+ int vchiq_send_remote_use_active(struct vchiq_state *state);
+=20
+-void vchiq_platform_connected(struct vchiq_state *state);
+-
+ void vchiq_platform_conn_state_changed(struct vchiq_state *state,
+ 				       enum vchiq_connstate oldstate,
+ 				  enum vchiq_connstate newstate);
 =2D-=20
 2.34.1
 
