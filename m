@@ -1,77 +1,89 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AD8227FD70
-	for <linux-staging@lists.linux.dev>; Thu, 10 Jul 2025 02:52:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 518AD204C0F
+	for <linux-staging@lists.linux.dev>; Fri, 11 Jul 2025 08:23:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752115947; cv=none; b=m88F7G6ANn9kSqbUoY0eH4GBn1D1XHMqfkbt2ye2Hq0qbU0Xoai+o+F6mKQXrp2hJV5V1IDLdUBstB7JDz58driEi1Z+B4s5oFpeWU9g4KXI29lY7L8ceHk5IQK0ngWWjKrPyF+FyZgK9GCs0fiHTiIsMzWBWz/Db3JAMuiA/Ho=
+	t=1752222232; cv=none; b=ntMVPdc36j72JhkUviNJDu3UZtha07y6UbgyVdqn3pzlPkS5KjoFHugUnbXYUjafN1HUokJUh9liOaC+NZ+MlrkGx4sJk+oKRefaYBKRInbMv+jysPMpUgmSAuo2584ldz88OlcpFamhgiBLNBAKk/2GM7lPmoS2G87AuMsX99M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752115947; c=relaxed/simple;
-	bh=FedmxWs8c4lEVdFul/1RlIardC+Qw3uxBIZuWVNe2IQ=;
-	h=Subject:To:Cc:References:From:Message-ID:Date:MIME-Version:
-	 In-Reply-To:Content-Type; b=SEMsljOEuZNCkzIlm3BRa1qFkzbYxl+nOWhD+wsX9TNUBCq2lRAY9ViWU+ogZ08okfVyxUFye1zujiWEBLR5ILOHkMC6qhoo2Jdu+sZyUvqNHp8FCAP+x17zQgfyt9gkE4o2uT1Zx1rUbOJxaZFShS4Ic5iDXDijskYHgaeNKAg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lH/AXy+B; arc=none smtp.client-ip=192.198.163.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1752222232; c=relaxed/simple;
+	bh=b9d30X6AC2Mh3W35ZDDPDH18rY2ay2okI4QB1jFKHdk=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=Vc4Fr6rGgRTaMxo6JwZR8whaAnzZ2E8P0URoushWaDfgvWK7i/nAI8bJyjX67fEw8rj+YFWq5vtdxUVaRRhc1gl7CJKzxkfOpelYUyqV+4mVq8riDENlsoadZZ4pt9Wu5dXY0gwmAC5CwoJmwgVKoYbwWGPAJj2rkroFKftbRfU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KaU8xNnU; arc=none smtp.client-ip=209.85.128.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lH/AXy+B"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1752115945; x=1783651945;
-  h=subject:to:cc:references:from:message-id:date:
-   mime-version:in-reply-to:content-transfer-encoding;
-  bh=FedmxWs8c4lEVdFul/1RlIardC+Qw3uxBIZuWVNe2IQ=;
-  b=lH/AXy+BbKVVF6pujD/y6TJXNcTuJxHEbIYVxFXE4kY3mPTviVJ3XAbn
-   1cVjpUFc9d4jUSKGB7WKa/nTipclUorDaj9EluirdA9Dlhb0Oqe5Jg2HK
-   VQLDnOR8VLsqO1xQjOhYHNsgDW88aGZzZQ98NTtupEsWJwJUA6ma4AQgi
-   MSDT0qGdpC7hGziaXWTVDJKJ+CP3lTpkRSg8js2RlfswjV+GMdRL/NtVb
-   ZhorE4UU4RjAnOoS5oHzjrITufCF1ygTWVP+58I0Sxh05ZOY6bDLEPy99
-   Qut+6N1qQPOlGRLUwBK1yoHqrsO9vMlycYDSMVtcUnjkU240XmKElRBbm
-   Q==;
-X-CSE-ConnectionGUID: 0tUMjvfASjqfXDtQjXcPuQ==
-X-CSE-MsgGUID: YnA/pJ5KSV+eRpseWM3ekA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11489"; a="53499968"
-X-IronPort-AV: E=Sophos;i="6.16,299,1744095600"; 
-   d="scan'208";a="53499968"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jul 2025 19:52:24 -0700
-X-CSE-ConnectionGUID: EfNBHWkjTC2uv4fr02OtHg==
-X-CSE-MsgGUID: 7Nr91Ib0SC+hFEXjC+XUtg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,299,1744095600"; 
-   d="scan'208";a="155591962"
-Received: from ipu5-build.bj.intel.com (HELO [10.238.232.136]) ([10.238.232.136])
-  by fmviesa007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jul 2025 19:52:22 -0700
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KaU8xNnU"
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-4530921461aso11923045e9.0
+        for <linux-staging@lists.linux.dev>; Fri, 11 Jul 2025 01:23:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1752222228; x=1752827028; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=xOPImjUv0NDEdWmQs1u+PH6j3hgf9YuU1oi+RRGD16g=;
+        b=KaU8xNnUiXnYTbOZs8vc1A9XjgztBqmZFiTZfM3t1yuAynEKRHwWKN9YT0zJCUw+uh
+         xisX2HRi7NPsDIPic0PEd4pn7U9zH0/7UnOs88xGL8+HKriOQnwNWPxWAfla/inMpk2/
+         AJLx4/vEBGIKtTk3FMFESAfwU+kbku6JXQkPJaAAi6d9LEsh2f111t9oaMfOwews2wMP
+         fr8qNV0wyTR1X9BY/UQMxN/IIXVK4XszHsgsfXN8NPQVyUt4OG5Wg9q3CDK8yAci8q7F
+         AtA7hAiOLaZGixrHhtlyjjTa5MfQzMgGaiyph679EhJN+iTzoZV2nFFCeRq7UODUvhIj
+         wQXg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1752222228; x=1752827028;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=xOPImjUv0NDEdWmQs1u+PH6j3hgf9YuU1oi+RRGD16g=;
+        b=f+j8tNBrIfiWMa+mQOzXukHax2/c1WO2EQl0tSyoOaR6lmQqPD4BudZKlQmL4QXbQ+
+         bEBM4NSmKTH1wxgxDdlgTDffKojhCK2RHPDBM85s7zHqNuX6AB+WhoUXeKqGVsIyH+3A
+         VDThJbYJnfEFGzTNV6zuN2//OLE4GdPoRviRzfPXAoGnIjIaa5Caoajn+hJTk87CqEZM
+         uEe4TwdgN9C12oHk/87oEVD7EkPFgOuUL5VATHoRW+r67YiOd/6FbfQFNmDt946lIFa4
+         y2/uhmyfWARdaCI1hQCX6N48XjTo/3GpncPtqiJeGqOKpJT5n69w7LTFbs5ydJZlYh4x
+         AnKA==
+X-Forwarded-Encrypted: i=1; AJvYcCWVOXsOa/IQnV9nczWAP1reuMj4g1RC584PfeZEDXqCtNnv2DoTmq4ZfkObITthInOBrm+i52YefSh3w4wm@lists.linux.dev
+X-Gm-Message-State: AOJu0Yw0RK5ZqJRIgvhpZtBGmEL8uNs7KU7+cIJSAqdqWH+ZFQLHzc4Q
+	QazI1W7FqVQSGkCK2+Vh/kA31B559yf2H3xNx87PaDtX1t0GO2amcBVq
+X-Gm-Gg: ASbGncvF0jeeV4s3jxHqyXtu695ORlx/cc0IH7PncgoZ/Gy7KNnwWo0x284OX5/ZZSt
+	p+bNiGG3CPBYbwKKUPQgYT/RnYxbB1vApJrA/+j916EbhjxEGI+/Bus670lpxyv1eRjQRJZHSMl
+	R3qOGKLj+SxBhyPgAzlCeuMORTaMTGjuLWsH6pTHEZBxnSYL4Dv3LsTnS/CDtt2TRpTXnHm3Tp6
+	aLmMFcHqGqq1Ho9WLSxkCIwkgPXleWo09/eiFayo5jdlTkMbDjqF5lPRmw+6nL5DtBJtfDpb4YK
+	MKpWAsoJorbJr8HJcau6+at/7EzRtz35FLxc4Kk/sQ9Rzk+tFtPZHPD9yjPsn+LWl9N6TY7kS3L
+	2lP7m9RhhE3nOgL1mgJMxfjbkJtlZB8Etu+gMWXoNTOC/z88TN+Ahkg==
+X-Google-Smtp-Source: AGHT+IHr0DTxguxEgcI5wlEVMqeoTEaGB3CfaOWnNYJU9nFgV5lDHABmZQi3Ev7VdxsvlmVZMsSSGw==
+X-Received: by 2002:a05:600c:138d:b0:453:697:6f08 with SMTP id 5b1f17b1804b1-45565edcb1emr11723075e9.26.1752222228404;
+        Fri, 11 Jul 2025 01:23:48 -0700 (PDT)
+Received: from pumpkin (host-92-21-58-28.as13285.net. [92.21.58.28])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-454d612429csm73543555e9.23.2025.07.11.01.23.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 11 Jul 2025 01:23:48 -0700 (PDT)
+Date: Fri, 11 Jul 2025 09:23:29 +0100
+From: David Laight <david.laight.linux@gmail.com>
+To: Arnd Bergmann <arnd@kernel.org>
+Cc: Sakari Ailus <sakari.ailus@linux.intel.com>, Mauro Carvalho Chehab
+ <mchehab@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Bingbu Cao <bingbu.cao@intel.com>, Hans Verkuil <hverkuil@xs4all.nl>, Arnd
+ Bergmann <arnd@arndb.de>, Stanislaw Gruszka
+ <stanislaw.gruszka@linux.intel.com>, linux-media@vger.kernel.org,
+ linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
 Subject: Re: [PATCH] media: staging/ipu7: avoid division by 64-bit value
-To: Arnd Bergmann <arnd@kernel.org>,
- Sakari Ailus <sakari.ailus@linux.intel.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Bingbu Cao <bingbu.cao@intel.com>, Hans Verkuil <hverkuil@xs4all.nl>
-Cc: Arnd Bergmann <arnd@arndb.de>,
- Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>,
- linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org
+Message-ID: <20250711092329.74e52573@pumpkin>
+In-Reply-To: <20250709145710.102669-1-arnd@kernel.org>
 References: <20250709145710.102669-1-arnd@kernel.org>
-From: Bingbu Cao <bingbu.cao@linux.intel.com>
-Message-ID: <4b7bdfb6-c0ae-ee2d-c3e2-590f2b5225b3@linux.intel.com>
-Date: Thu, 10 Jul 2025 10:45:38 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <20250709145710.102669-1-arnd@kernel.org>
-Content-Type: text/plain; charset=windows-1252
-Content-Language: en-US
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
+On Wed,  9 Jul 2025 16:56:56 +0200
+Arnd Bergmann <arnd@kernel.org> wrote:
 
-On 7/9/25 10:56 PM, Arnd Bergmann wrote:
 > From: Arnd Bergmann <arnd@arndb.de>
 > 
 > On 32-bit targets, this causes a link failure:
@@ -115,6 +127,12 @@ On 7/9/25 10:56 PM, Arnd Bergmann wrote:
 > +	deass_thresh = (u16)div64_u64_rem(7 * 1000 * 6, mbps * 5U, &r64) + 1;
 > +	if (r64 != 0)
 >  		deass_thresh++;
+
+While 'mbps' is presumably u64, it can't be big.
+So this can just be:
+	deass_threas = roundup(7 * 1000 * 6 / 5, (u32)mbps) + 1;
+
+
 >  
 >  	reg = CORE_DIG_RW_TRIO0_2;
 > @@ -815,8 +816,7 @@ static void ipu7_isys_cphy_config(struct ipu7_isys *isys, u8 id, u8 lanes,
@@ -124,13 +142,12 @@ On 7/9/25 10:56 PM, Arnd Bergmann wrote:
 > -	delay_thresh =
 > -		((224U - (9U * 7U)) * 1000U) / (5U * mbps) - 7U;
 > +	delay_thresh = div64_u64((224U - (9U * 7U)) * 1000U, 5U * mbps) - 7u;
+
+That one just needs a (u32) cast, although the 5 can be moved.
+
+	David
+
 >  
 >  	if (delay_thresh < 1)
 >  		delay_thresh = 1;
-> 
 
-Reviewed-by: Bingbu Cao <bingbu.cao@linux.intel.com>
-
--- 
-Best regards,
-Bingbu Cao
