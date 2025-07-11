@@ -1,53 +1,53 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5EAF295519
-	for <linux-staging@lists.linux.dev>; Fri, 11 Jul 2025 12:25:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 986C51E5729
+	for <linux-staging@lists.linux.dev>; Fri, 11 Jul 2025 12:26:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752236726; cv=none; b=DT1s6w+vreLf7N77Bb2TimiTPqeAbq02l1z4cAPrh2f798p3iHo5hguY1nzzsO0Y8/17iO7wroPU6Dqryh5g2GSZWgw+ei6wwfoXwrp6akK2AmmT0dhBx+x91Xqds0klKLcTvSdEB/7ikI1PENu0gLjUZRrAK4orQFsx31niN1U=
+	t=1752236820; cv=none; b=BpWvlW2ojXAJoAvvqAH16ifj3hEyHSMsXsJifKTjPO+V0Jx9ZYdlORtLj5ce1daq3+3+vHi6uyJvvZhhyR8ONNwSDt7ZQQfnCQiEKPkGtie0nil9ka6k0EnXMOxZq1jv+bR3abYcrHXkBjH9itsLRz08tBuSHFZhcZyAK0Ja5w8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752236726; c=relaxed/simple;
-	bh=eB1NGX9YMF6q82VnaNMoGmtrWfntd1dbl39nMtl/Jls=;
+	s=arc-20240116; t=1752236820; c=relaxed/simple;
+	bh=PwPblxCQiG8QR9cpfkd31MjigdRdcRoUtdKO5axKO/A=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=t2hd8j8aPTS8QyEBN2WBE2LWJTPYGeHkVtm6KwS8bW+dplb+tUU319k7aJhvCp2oqO5MMM01qixUR86DwzN1cEyVtOhVLshysYVRmaGC8QkR2aPaijEKoPswD9WtEZc81UaxTPIXxCWFng+tWalmNh4C3kuWmJSFW7zqIqLSdoc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fk6X4Yhd; arc=none smtp.client-ip=198.175.65.12
+	 Content-Type:Content-Disposition:In-Reply-To; b=JP5Hld2mNlciiOzSg51OuoOU4a2ihFRldfqdv1jTHX0dUbP4oQMNODR4sPEkRTtbYrTMkvtB7wmGItT+KCodjpqR3JYVOQg/pP5suSmLY8+KJSFRxN9PD3TN8xsHxpy3Hbhvdp4ydX5N6zgp3Zegv1h5QInmWTZdMFeLVBwPss0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hNApxfJH; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fk6X4Yhd"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hNApxfJH"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1752236724; x=1783772724;
+  t=1752236820; x=1783772820;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=eB1NGX9YMF6q82VnaNMoGmtrWfntd1dbl39nMtl/Jls=;
-  b=fk6X4YhdS3VCOUnWefyjFpLPAxxHP8hgdhAD2jy+AwSeFdcAySHmnRpD
-   0oXx2Z9533BiHJfUAlHHZRfT0kakwVWeP1XK5FYW1WNJIwmQusvZskXqP
-   Z+1xP+egxmBhQMe9Nevjq8nioYvCzgxRzmchJqtdfrAR55jYsbVWbV8XC
-   U44pqZ2NbjqJp5eUIpaZgc+m3iZz1IqfWfKumBwSIQsuBljJLrY8hiVJ+
-   5p8Da9I+j/TvlwkAFa08GR6Rc5k2ca6+iQKdCB7iFedjRP7UVABUzO++R
-   YYbXb6EIGAw5rqM3aqSPKyFhtPecIkJpl9cwz4QnDM+oWlmKAd2oDYCHF
+  bh=PwPblxCQiG8QR9cpfkd31MjigdRdcRoUtdKO5axKO/A=;
+  b=hNApxfJHzgE6yN79GmEW259jGNCd35fWZ2QliKbnXkj+b0fnvuL+1GUQ
+   epJ1QivTKie1FGipfv/UqujHlFKOzdu9zbcagBeFlDhbzHDJ1JQsgBtVn
+   WxECePWaRPITlqa+nuO2EIUQX6so+ST5axRLPQ39sOQt9fqzEdTF0Ma/2
+   gmLgjycUXilrKUHN7hKcmpTODj11dk6fFc1ctFiL0ps8+eeKxdmgZI4X5
+   Urio1UUGblXWlta7M/n/1Kk/7bMRjCqH2eyJJTWUdxUmJBCerK7Nvnd/U
+   RQ8v03GVyUfl1Uj5hf92zVODSenGjcG3L0DgR0kCaeqRQ50siMLYRwl+S
    g==;
-X-CSE-ConnectionGUID: ZhGl3ltQT5KGGSraRx8gLA==
-X-CSE-MsgGUID: EziYYfOzT3i3ML1tm95kCQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11491"; a="65981324"
+X-CSE-ConnectionGUID: FX+H/UNrQUyhY1Wn0MzgyQ==
+X-CSE-MsgGUID: /LQoVU4IRJmRxyk+/5ckyw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11491"; a="54250652"
 X-IronPort-AV: E=Sophos;i="6.16,303,1744095600"; 
-   d="scan'208";a="65981324"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jul 2025 05:25:24 -0700
-X-CSE-ConnectionGUID: AqOnp4PnQzm3wrDurReOCw==
-X-CSE-MsgGUID: tdeiCF1ITmK0iwyQHz3h8w==
+   d="scan'208";a="54250652"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jul 2025 05:26:59 -0700
+X-CSE-ConnectionGUID: 7GL8snfGRKmGw+Qdsgi3eg==
+X-CSE-MsgGUID: mrYMQaYnSiWpiu7DkY/k5g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,303,1744095600"; 
-   d="scan'208";a="161918492"
+   d="scan'208";a="160657843"
 Received: from smile.fi.intel.com ([10.237.72.52])
-  by fmviesa004.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jul 2025 05:25:21 -0700
+  by fmviesa005.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jul 2025 05:26:56 -0700
 Received: from andy by smile.fi.intel.com with local (Exim 4.98.2)
 	(envelope-from <andriy.shevchenko@intel.com>)
-	id 1uaCoY-0000000EWMs-3uMk;
-	Fri, 11 Jul 2025 15:25:18 +0300
-Date: Fri, 11 Jul 2025 15:25:18 +0300
+	id 1uaCq5-0000000EWO6-209g;
+	Fri, 11 Jul 2025 15:26:53 +0300
+Date: Fri, 11 Jul 2025 15:26:53 +0300
 From: Andy Shevchenko <andriy.shevchenko@intel.com>
 To: LiangCheng Wang <zaq14760@gmail.com>
 Cc: Andy Shevchenko <andy@kernel.org>, Hans de Goede <hansg@kernel.org>,
@@ -56,10 +56,10 @@ Cc: Andy Shevchenko <andy@kernel.org>, Hans de Goede <hansg@kernel.org>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
 	linux-staging@lists.linux.dev
-Subject: Re: [PATCH v9 2/3] staging: media: atomisp: fix indentation in anr
-Message-ID: <aHECrvSQCicV5nP5@smile.fi.intel.com>
+Subject: Re: [PATCH v9 3/3] staging: media: atomisp: fix indentation in bh
+Message-ID: <aHEDDc1CPDDwwtsH@smile.fi.intel.com>
 References: <20250711-new_atomisp-v9-0-a9dd62425ef6@gmail.com>
- <20250711-new_atomisp-v9-2-a9dd62425ef6@gmail.com>
+ <20250711-new_atomisp-v9-3-a9dd62425ef6@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -68,32 +68,19 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250711-new_atomisp-v9-2-a9dd62425ef6@gmail.com>
+In-Reply-To: <20250711-new_atomisp-v9-3-a9dd62425ef6@gmail.com>
 Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
  krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On Fri, Jul 11, 2025 at 07:54:37PM +0800, LiangCheng Wang wrote:
-> This patch fixes tab/space indentation issues in anr
+On Fri, Jul 11, 2025 at 07:54:38PM +0800, LiangCheng Wang wrote:
+> This patch fixes tab/space indentation issues in bh
 > following kernel coding style guidelines.
 > 
 > No functional logic changes were made.
 
-Same comments about Link tags and suggestions in general.
-
-...
-
->  		0, 3, 1, 2, 3, 6, 4, 5, 1, 4, 2, 3, 2, 5, 3, 4,
->  		0, 3, 1, 2, 3, 6, 4, 5, 1, 4, 2, 3, 2, 5, 3, 4
-
-Side note, would be nice to add a trailing comma here.
-I think it's okay to do in this patch as this is not
-enough for a separate change and the driver in staging,
-the rules are slightly relaxed on it.
-
->  	},
-> -	{10, 20, 30}
-> +	{ 10, 20, 30 },
->  };
+Since the changes are all similar, I suggest to squash all three to one patch.
+I hope Hnas won't object this. The code looks good to me in all three with
+the small nit-picks and Link tag usage.
 
 -- 
 With Best Regards,
