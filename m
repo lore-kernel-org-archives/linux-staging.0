@@ -1,89 +1,128 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 986C51E5729
-	for <linux-staging@lists.linux.dev>; Fri, 11 Jul 2025 12:26:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4EDE22ECEA6
+	for <linux-staging@lists.linux.dev>; Fri, 11 Jul 2025 15:40:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752236820; cv=none; b=BpWvlW2ojXAJoAvvqAH16ifj3hEyHSMsXsJifKTjPO+V0Jx9ZYdlORtLj5ce1daq3+3+vHi6uyJvvZhhyR8ONNwSDt7ZQQfnCQiEKPkGtie0nil9ka6k0EnXMOxZq1jv+bR3abYcrHXkBjH9itsLRz08tBuSHFZhcZyAK0Ja5w8=
+	t=1752248456; cv=none; b=r+HyIyNpb9y3kWLzKL/uh160DjzL3PRloBTCCYVBc4oklXoo2gcAPPnsimWiZQqQbXIByHYuYciCOPdS2BMAeTWuXoCeCkqBX3rwMeBg1DN76aXoHOyL/UI3UUla2P/YfHBMs7UQtTjJLOGiOzdNiW/vitI5g71KfA30DudIFnY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752236820; c=relaxed/simple;
-	bh=PwPblxCQiG8QR9cpfkd31MjigdRdcRoUtdKO5axKO/A=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JP5Hld2mNlciiOzSg51OuoOU4a2ihFRldfqdv1jTHX0dUbP4oQMNODR4sPEkRTtbYrTMkvtB7wmGItT+KCodjpqR3JYVOQg/pP5suSmLY8+KJSFRxN9PD3TN8xsHxpy3Hbhvdp4ydX5N6zgp3Zegv1h5QInmWTZdMFeLVBwPss0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hNApxfJH; arc=none smtp.client-ip=198.175.65.20
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1752248456; c=relaxed/simple;
+	bh=u0+tsDH6XQ259Vk+AzaAGYAESfCkG9oNGS7UJZ7xc+E=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=rK/4k3cBgIV4cXacxl5fUpTluHe++rgETKKEjE6qQaMaJL8fAotdJ14wA0yUV5/WyzczWeZtmYyG8t7UvMFTeN7huQJj3XvhYOB4Jmz448NOwNw0PvnWNSLYMVWgu/QewEPUrx0fNDaYaQ6IM5YX0BsUnP/ZeVy/PNNW2hp60UI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.net; spf=pass smtp.mailfrom=gmx.net; dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b=Nzxg9nin; arc=none smtp.client-ip=212.227.15.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hNApxfJH"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1752236820; x=1783772820;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=PwPblxCQiG8QR9cpfkd31MjigdRdcRoUtdKO5axKO/A=;
-  b=hNApxfJHzgE6yN79GmEW259jGNCd35fWZ2QliKbnXkj+b0fnvuL+1GUQ
-   epJ1QivTKie1FGipfv/UqujHlFKOzdu9zbcagBeFlDhbzHDJ1JQsgBtVn
-   WxECePWaRPITlqa+nuO2EIUQX6so+ST5axRLPQ39sOQt9fqzEdTF0Ma/2
-   gmLgjycUXilrKUHN7hKcmpTODj11dk6fFc1ctFiL0ps8+eeKxdmgZI4X5
-   Urio1UUGblXWlta7M/n/1Kk/7bMRjCqH2eyJJTWUdxUmJBCerK7Nvnd/U
-   RQ8v03GVyUfl1Uj5hf92zVODSenGjcG3L0DgR0kCaeqRQ50siMLYRwl+S
-   g==;
-X-CSE-ConnectionGUID: FX+H/UNrQUyhY1Wn0MzgyQ==
-X-CSE-MsgGUID: /LQoVU4IRJmRxyk+/5ckyw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11491"; a="54250652"
-X-IronPort-AV: E=Sophos;i="6.16,303,1744095600"; 
-   d="scan'208";a="54250652"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jul 2025 05:26:59 -0700
-X-CSE-ConnectionGUID: 7GL8snfGRKmGw+Qdsgi3eg==
-X-CSE-MsgGUID: mrYMQaYnSiWpiu7DkY/k5g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,303,1744095600"; 
-   d="scan'208";a="160657843"
-Received: from smile.fi.intel.com ([10.237.72.52])
-  by fmviesa005.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jul 2025 05:26:56 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.98.2)
-	(envelope-from <andriy.shevchenko@intel.com>)
-	id 1uaCq5-0000000EWO6-209g;
-	Fri, 11 Jul 2025 15:26:53 +0300
-Date: Fri, 11 Jul 2025 15:26:53 +0300
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: LiangCheng Wang <zaq14760@gmail.com>
-Cc: Andy Shevchenko <andy@kernel.org>, Hans de Goede <hansg@kernel.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev
-Subject: Re: [PATCH v9 3/3] staging: media: atomisp: fix indentation in bh
-Message-ID: <aHEDDc1CPDDwwtsH@smile.fi.intel.com>
-References: <20250711-new_atomisp-v9-0-a9dd62425ef6@gmail.com>
- <20250711-new_atomisp-v9-3-a9dd62425ef6@gmail.com>
+	dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b="Nzxg9nin"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.net;
+	s=s31663417; t=1752248445; x=1752853245; i=wahrenst@gmx.net;
+	bh=WGNVNUN3+kMS8Pk+lW7Mu54XMRd7ahgEZfB5hqHxV0Y=;
+	h=X-UI-Sender-Class:From:To:Cc:Subject:Date:Message-Id:
+	 MIME-Version:Content-Type:Content-Transfer-Encoding:cc:
+	 content-transfer-encoding:content-type:date:from:message-id:
+	 mime-version:reply-to:subject:to;
+	b=Nzxg9ninBUFzYbR1TH8e6+EAfPKMV/Uhv82VcSh/5QUfrYRj7+9gQf/NBQK7Zb+z
+	 fhgt3JBW7ss70598RJAregIsmF0o4WuUV9sF+njOaxqgxCybKyumpxp7vXcMhCQ1W
+	 8yTB9rmvhiUKc3W9K/TzyWVMkymso2A6HuvFIdd6FGwQI109BULVM7YjubOHllF/1
+	 DwCocmTBwYNk1j9kSVZ7NkMZ+Kz4SboJ+ieRM7lwS2r0ugryguUOBwSTfFRk1Eesk
+	 WsnjW5hna1KUXnToVTvSS3dmc3TjU0jz20BY8WukKX8IoZtLUbZsH3GLhBUbCVm/m
+	 l52CPj1D/1PZjAb5EQ==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from stefanw-SCHENKER ([91.41.216.208]) by mail.gmx.net (mrgmx004
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1MoO2E-1uyY330ijY-00nS1L; Fri, 11
+ Jul 2025 17:40:45 +0200
+From: Stefan Wahren <wahrenst@gmx.net>
+To: Florian Fainelli <florian.fainelli@broadcom.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Dan Carpenter <dan.carpenter@linaro.org>,
+	linux-arm-kernel@lists.infradead.org,
+	bcm-kernel-feedback-list@broadcom.com,
+	kernel-list@raspberrypi.com,
+	linux-staging@lists.linux.dev,
+	Stefan Wahren <wahrenst@gmx.net>
+Subject: [PATCH 0/3] staging: vchiq_arm: Fix regression & resource leaks
+Date: Fri, 11 Jul 2025 17:40:28 +0200
+Message-Id: <20250711154031.24178-1-wahrenst@gmx.net>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250711-new_atomisp-v9-3-a9dd62425ef6@gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:3ghwf+cpjS3W+KSJ4b7WqI74pMZ1vtdWImtjwkzcC46u3Lbt5Ee
+ WR+WDDkZIdn5WMil2zCWJjfamo3qnY0mWyru01i/2NWJE3bQ9uJGl8MMm768jxrUrieMEaa
+ TB5v1LEO92S6JO07pBjDwjEOWrEVouBHoQnUhgV1DRxMLvMsyhFwv/ceLBUAsZJX6gmm6/L
+ cJ1UMOgHZaIgcqSgHBOvA==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:Ga+hzia5/XA=;AgynK4QR2nNeD3nQ6EDOF8uDqbD
+ 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
+ uSzLSpeuWX1ILxJaimKolEY=
 
-On Fri, Jul 11, 2025 at 07:54:38PM +0800, LiangCheng Wang wrote:
-> This patch fixes tab/space indentation issues in bh
-> following kernel coding style guidelines.
-> 
-> No functional logic changes were made.
+This small series fixes a regression introduced by recent changes and
+possible resource leaks in the VCHIQ driver.
 
-Since the changes are all similar, I suggest to squash all three to one patch.
-I hope Hnas won't object this. The code looks good to me in all three with
-the small nit-picks and Link tag usage.
+Stefan Wahren (3):
+  Revert "staging: vchiq_arm: Improve initial VCHIQ connect"
+  Revert "staging: vchiq_arm: Create keep-alive thread during probe"
+  staging: vchiq_arm: Make vchiq_shutdown never fail
 
--- 
-With Best Regards,
-Andy Shevchenko
+ .../interface/vchiq_arm/vchiq_arm.c           | 98 +++++++++++--------
+ .../interface/vchiq_arm/vchiq_core.c          |  1 -
+ .../interface/vchiq_arm/vchiq_core.h          |  2 -
+ 3 files changed, 56 insertions(+), 45 deletions(-)
 
+=2D-=20
+2.34.1
 
