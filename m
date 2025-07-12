@@ -1,61 +1,63 @@
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6F8F27604B;
-	Sat, 12 Jul 2025 19:13:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99735289806;
+	Sat, 12 Jul 2025 19:13:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752347626; cv=none; b=AOUPzH5JPaW38UqX7XfKuy6tlisftPExnotZr/fgsuKguLObiUVLGLE2gWXraMZwAxNJYKGcGYdSdwWJdnYvQjiduhud9JHXTauXu5FbSmofaR5ggMkBBHqBiijSx8I9mU/2t31j79bglthRKGkqY0rKYWjKU743xJDrBV3rC6Q=
+	t=1752347634; cv=none; b=oU5DOZDzrAH9rayS/wjXuJrqXc89lu7/x0aWbTmbQSpAO2fa907trq3M+8rAZxo3kLIesBh1o1RXavqCOY2bUem1OS8HalbCnW/O28OhyWtYbk68vCE34E9LN1Xs2Z+kxl/JM88Qz/MLMQhYrWcP2vANrDjg4uws/NIzJsnInx4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752347626; c=relaxed/simple;
-	bh=KJin/EHTvDTBQXRUn5NEbpxZouun+ebCq9+ujQ1tSZ0=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=ksmxU0yhfkiDXkWwu1CLwZh2fgkfRzQZFUXe3S1KVXrcUoxtIevfxqDOx71II2ToVtQ4kelNhYMunxkWUbufRF8R0B27E2KUC6YtNQd4O75OjevRa5VLYUfAaGi5d+37LbGUm7DDnkfceLTuTAumAfBThFy7p11MwhXJa6wLAuI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=E38S6Pxf; arc=none smtp.client-ip=209.85.221.46
+	s=arc-20240116; t=1752347634; c=relaxed/simple;
+	bh=gVkFMLfDZNAcblb5dwn0J3mL9GjMWVi400R+BI3nj1o=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=IOZK8WRej5dcb6xF2h0lQt2O6nFcE+VDEfvmf1XkJkYPsl3KgL51qnxWfmtRzTQfTnz+dEoTLu9DXZPQofUH+1fOF2c6gJLOjKwhLHhMA1Y3nVpRzL+lwJ2GhFmUDMHrVuwlrY5OpsOqmpVoQB33wBuXk+tYvDmpL0+S3e8Q/fg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XHYy/c13; arc=none smtp.client-ip=209.85.221.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="E38S6Pxf"
-Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-3b39c46e1cfso410744f8f.3;
-        Sat, 12 Jul 2025 12:13:44 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XHYy/c13"
+Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-3a577ab8c34so309256f8f.3;
+        Sat, 12 Jul 2025 12:13:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1752347623; x=1752952423; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=Uk7OIVhNCkZOCbdEqKaALvak+tALtSP7Gbings6es30=;
-        b=E38S6PxfxZADeMtC10YYxn+wsRZDpKNaQdd55Opu+nchn6+Qctpu0Htww6y6euggor
-         hq7bNlsagx/uyffuD6RSk3j+/9B9v6Lv/U51vk+ZAicbKUzqvPirkZsn60j1WomRKhYL
-         2ALhWkaL5UwjbktKFJxoejrfDmQB69boocGXyP0+Cl+LLkB2hR/3/jS/rTVqztGfpzBK
-         C+MSSh2qlqMoZjx1+X88oJNJRQ+zMh+fdgIVdzhe1myH9kF3VvwCfxO2+jiZqPl1Dpl+
-         q408+stIbVN+BX/Visv5H6QCADoh6KCBbBeIXKNqOb3Sm/88TcaOKd+YZqEqQwUhY2rl
-         2qdA==
+        d=gmail.com; s=20230601; t=1752347631; x=1752952431; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=1WgcUUdQRBquLpdf5eq5AqmAdjxeq8xvK3pQY9lcVSM=;
+        b=XHYy/c13ujocwVMp3VhxJxlyq/HVPkzl/egTZKFmh9MYNwtvISOFpwxYLVtfZyzwxJ
+         gskJpSmzAFaV3NokjpizVrMZNFD0G6PFMrIPyhycokKTczsgdKrZVXX9Hq4Xi7iM9JRw
+         2ICbeUQjtoe6S8IUdAVvY+qI/sD8eqkYHcduDKOlfN+Q3A3MZJ5HvBMCij19+uZy/qeD
+         OW/cBkUNYvhCG8EbikwlNySrpOCN9Cc0EBWih+2x5HoDuDFncbXn6w2b4EP0cwvJTYkG
+         CglGWzm9Cs1x0ADnoKmjAsy7n3QFGc6wvCReGER9nGele8x0aKFTIl/9VK/It+S1lnEc
+         lOXA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752347623; x=1752952423;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Uk7OIVhNCkZOCbdEqKaALvak+tALtSP7Gbings6es30=;
-        b=d7trqGWGw8JX345PN6dxdzelH7vwvXFdUqY3JUbamaSGFVU9KizIbBXhfK+mi+hmV6
-         rxpWFO+8YuB8c8qzbhPGmlpyN50oLDc51Y768zy4l1J3YNEBKlgj7B/VjECV8HerUdzg
-         00qoBxrkjpWd+HGb+hHSPNN2ikMVeINwAS5VOpc6U7c2n+Jisf59NyimEcb7h6eXXS0i
-         G3fTR8rzxJwY2OBXB+j4Qa7lZYshPL+1ZwZ+B7zDi8Tl09Bikk7lewYnx59COLzmOnvs
-         E4t5Xk1T610whffkP1s20yEAp8xCKslkq0ZMbgYeYpYioi/2+vSjhDLrogF/Q3CqDVxq
-         WwZw==
-X-Forwarded-Encrypted: i=1; AJvYcCV07QW2sch0l9kcxmxZlPrqll97dQQpiEpUqGCVxhULSYi9gGIP/4KqQMgt61+SBdYqZoau021tUKfYPTOrsA==@lists.linux.dev, AJvYcCVkj+YTE0fRrmJlDp9V5LIe8CXAZiiFbBtw7BazbC5ra6+3IdqZ/t0ua0IDzVzdi05LFxqnpAnw6hihb/sGoGxbl/5mYw==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzYWriQ3723mOs4EGVgXiEYvcRMEuWVO5OypmElg4UNpBBqN6WV
-	8DzYaBWzRyBvRhnbibY6ouEj++seqG8AtIOzx3BItedEfPs1Y+FJa5sT
-X-Gm-Gg: ASbGncsGWQtqFjLrPuM01RpC0BUCYUjMruRudx2ModMAc4vyyEuNu3P1djFwCeLtEdp
-	1Wy76jbKIffevIUCB0FE4aYnpZph/vBOBVF5up/KpXZDnomI+cFguYWVkD7wIxYYUhw0piENcnp
-	eHTcOdpXuISP9kDVyoME0PTRpGFdc3LPsNzEx0OK2965QDRw3cg3UoGykQXsWZ4qKDb1EmXhAwm
-	VEnZo2+F+TF/qMDeV0b2J4Lf9oEvEKc4TXs451ZcE1aCHcVhbsBhTNCWLdraRk8ApTvUr1WoALY
-	XAYRedTkS+2F1lAIYhO854satLD7/O0b2zuEqIRXDs9qZEA8+ofXfPGfcviHv+bqoUP7ZXj0Szg
-	GPWNfjNwecvcN9UBBn510EKc5EWySUykXDjHuaAkWdjYVosvS9YsAYkid7g==
-X-Google-Smtp-Source: AGHT+IGrOLiglXKeSvNNhz3uLxDcdedoN3kV3nyhrWgBUWURBZi/gUNkTpSUE9cOpKnvyxpg0sxaOQ==
-X-Received: by 2002:adf:9cc9:0:b0:3a5:2ee8:ee1d with SMTP id ffacd0b85a97d-3b5f18a6c77mr2090255f8f.16.1752347622114;
-        Sat, 12 Jul 2025 12:13:42 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1752347631; x=1752952431;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=1WgcUUdQRBquLpdf5eq5AqmAdjxeq8xvK3pQY9lcVSM=;
+        b=BKv13OOx5avkR/wVdBEEs8+YTStdNaWEusIUZmm/81jry3Y4rauHslerMlgfPrXI+s
+         Qe1MDho1IcBLU1OJGDLbQsp2YNBcSSnKwzU9+sA1UAb+aF0CcTCjtZ6GLmIDQfwhM5H1
+         m0fe+vwIQJb3MSt5dRZV6sSerpT8XWSyAaAprm3aozPJ9FVq/KfqCJ18vqwE5DQFjsVQ
+         rzzmtYjg4iLPWRSb6qpo2a1Recjc8GqmgSI98GjzYKByL2OnjC35PLd2vXQz00dgzzRO
+         QUl/n4SdsZtMIFEYmh5skFteohQYAKEpHUwuGl5Qf6VdW75tkt+WpGJNvJ1OsrRTs5ax
+         m/RA==
+X-Forwarded-Encrypted: i=1; AJvYcCV9+xOnNu/o2TGGss5EIfhkbUzjzc+STtTdidG5FiveWLI/aGBabEI+Obqax5k56RMd+wQJ+oxe9WUGSzjZut1HlsScKQ==@lists.linux.dev, AJvYcCXfLJNzBFuh5zSCWBvsIBMU/VRIyusg5mOkxflsdsxxhk6jZsz+PsLkIJisHwFtQKyseBRXydPOcK3SbNTyjg==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwSQMB+xSaG5Rklwag3pGWvOb6IzyxKb6EusSy+aoI36DlHPmfm
+	4D8oxw27tEKnrUwHluGZhmu5hYvQH2xiyp/AXXKqfQ4EA04MWGitJxKT
+X-Gm-Gg: ASbGncv9QA9e80AMKa02AHSVh/E/ma6UH8GfNM9hsxtvrdJPo1jnrpoyo3uj28LjTm8
+	n9IpM1TeLXveR+u79G/TEmE7I5O58sCaB/jyP6hpV4rBlg8u2mwQBtiHU20g19t7MV99bSG79Zs
+	CvqbTEsHqXW+2qA2Uai2/0F0LB+HM880a8Mg+lGcCiZM65J6M1ldFAuLcojuTXUIe7bJyeopLui
+	S7aTcGj6aoywd5DLumjhhCsa1QUvWHvSroTH05paZG66c6+zDDQcPlpLYvMprjLvfSETV+8Nt9d
+	C23LvcA8Q1QaTS4yUhIF4yKXK9HrwQTFAjyDMZvRPcDiMki3DlbzCTUtgXmljqfva1U9XzOGp9N
+	zIME2a/qJD24kf1cVJX+S7hRg1eOB9EsVt48uOE0EEYX1B3tK6Vt72J/99A==
+X-Google-Smtp-Source: AGHT+IEiXGKJd934lZQw1ynm98/xMBFQxAUGyeTUudLL41WEikCMOr9VQ1P1QDGRYsdZvXZZHfjwkg==
+X-Received: by 2002:a05:6000:2502:b0:3a4:dd00:9ac3 with SMTP id ffacd0b85a97d-3b5f2e3e6a3mr2219628f8f.12.1752347630394;
+        Sat, 12 Jul 2025 12:13:50 -0700 (PDT)
 Received: from localhost.localdomain ([102.42.96.153])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3b5e8e26ff9sm7947939f8f.93.2025.07.12.12.13.40
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3b5e8e26ff9sm7947939f8f.93.2025.07.12.12.13.49
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 12 Jul 2025 12:13:41 -0700 (PDT)
+        Sat, 12 Jul 2025 12:13:50 -0700 (PDT)
 From: Abdelrahman Fekry <abdelrahmanfekry375@gmail.com>
 To: hansg@kernel.org,
 	mchehab@kernel.org,
@@ -69,10 +71,12 @@ Cc: linux-media@vger.kernel.org,
 	skhan@linuxfoundation.org,
 	dan.carpenter@linaro.org,
 	Abdelrahman Fekry <abdelrahmanfekry375@gmail.com>
-Subject: [PATCH 0/3] staging: media: atomisp: More Cleanup on driver AtomIsp
-Date: Sat, 12 Jul 2025 22:13:22 +0300
-Message-Id: <20250712191325.132666-1-abdelrahmanfekry375@gmail.com>
+Subject: [PATCH 1/3] staging: media: atomisp: return early on hmm_bo_device_init() failure
+Date: Sat, 12 Jul 2025 22:13:23 +0300
+Message-Id: <20250712191325.132666-2-abdelrahmanfekry375@gmail.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20250712191325.132666-1-abdelrahmanfekry375@gmail.com>
+References: <20250712191325.132666-1-abdelrahmanfekry375@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -81,30 +85,41 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Continuing the cleanup work that is being done on the AtomIsp driver,
-This series:
+hmm_init() would continue execution even if hmm_bo_device_init() failed,
+potentially leading to bad behaviour when calling hmm_alloc().
 
-- Process the error inside hmm_init().
-- Unifies the HMM init tracking method.
-- move hmm related function to hmm.c.
+- returns the error immediately if hmm_bo_device_init() fails.
 
-Previously, These patches were sent individualy but they build on
-each other so i resent them as one patch series
-
-Suggested-by: Hans de Goede <hansg@kernel.org>
 Signed-off-by: Abdelrahman Fekry <abdelrahmanfekry375@gmail.com>
-Abdelrahman Fekry (3):
-  staging: media: atomisp: return early on hmm_bo_device_init() failure
-  staging: media: atomisp: unify HMM initialization tracking
-  staging: media: atomisp: move hmm_get_mmu_base_addr()
+---
+ drivers/staging/media/atomisp/pci/hmm/hmm.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
- .../staging/media/atomisp/include/hmm/hmm.h   |  4 +--
- .../media/atomisp/include/hmm/hmm_bo.h        | 11 ++-----
- .../media/atomisp/pci/atomisp_compat_css20.c  | 12 -------
- drivers/staging/media/atomisp/pci/hmm/hmm.c   | 31 ++++++++++---------
- .../staging/media/atomisp/pci/hmm/hmm_bo.c    | 17 ++++------
- 5 files changed, 27 insertions(+), 48 deletions(-)
-
+diff --git a/drivers/staging/media/atomisp/pci/hmm/hmm.c b/drivers/staging/media/atomisp/pci/hmm/hmm.c
+index f998b57f90c4..97c7ce970aef 100644
+--- a/drivers/staging/media/atomisp/pci/hmm/hmm.c
++++ b/drivers/staging/media/atomisp/pci/hmm/hmm.c
+@@ -34,8 +34,10 @@ int hmm_init(void)
+ 
+ 	ret = hmm_bo_device_init(&bo_device, &sh_mmu_mrfld,
+ 				 ISP_VM_START, ISP_VM_SIZE);
+-	if (ret)
++	if (ret) {
+ 		dev_err(atomisp_dev, "hmm_bo_device_init failed.\n");
++		return ret;
++	}
+ 
+ 	hmm_initialized = true;
+ 
+@@ -48,7 +50,7 @@ int hmm_init(void)
+ 	 */
+ 	dummy_ptr = hmm_alloc(1);
+ 
+-	return ret;
++	return 0;
+ }
+ 
+ void hmm_cleanup(void)
 -- 
 2.25.1
 
