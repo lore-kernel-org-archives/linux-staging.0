@@ -1,93 +1,93 @@
-Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
+Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6EDF7263F38
-	for <linux-staging@lists.linux.dev>; Mon, 14 Jul 2025 17:41:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 493411EEA31
+	for <linux-staging@lists.linux.dev>; Mon, 14 Jul 2025 17:48:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752514865; cv=none; b=TDww24zGHc18CkAgZvzw/yDoNCNVFegbnESIr/TOOCPfjrUH6bDVXD7F5jOPQvI4RgCWfvPy7eKRVu+ARpfqA/gz5nO6+rrsEOJIz4ts+1TpaCmh9hRgtBzVMIT88zkaVstoZbnP7XgbJfgkf69+OGwEQ0h0ZTl79W9yjWm5BE0=
+	t=1752515301; cv=none; b=l1GkFOLHCUK6Q9CzHFMuWus8EkRol+v0jOVG4v5oD3GaJUrQp4PSKcLMJczH6la0fbCwoH+ZeMt1dGpstRe1LzlLeFpA34h/cUM/b1YYqwed6o+poLeRaGhAzkKVAflHTQGhN+tr9DoBAltyEoSA9IoUMVEw5h+X3gbOaawr5Dg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752514865; c=relaxed/simple;
-	bh=NPFd3R8ciXJFzWHMJJumcx2y8sJv394JB4rAdNTOTZg=;
+	s=arc-20240116; t=1752515301; c=relaxed/simple;
+	bh=cVMR5EXV8k6eD6rR6o3olHZAHPNYMmm96AvBBNldjgg=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=GvIBQwKzSgqKaSLg6SeN+VihVAfE8hjj9CSW7gMlMXLVlUde/hVwQ0nMgrsV/+KFCzWQqzpDTWaECgz7gZZJN6X9V7PFcQJDNcAhOaj/ZUIm9e2IYjSYhNQpL6TXuT2TXR89PcvSYR5JrC4W/QBQxajVkBmdGAF1vKpDvEtRztY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dfrIrQRW; arc=none smtp.client-ip=209.85.218.52
+	 To:Cc:Content-Type; b=ptDzfcw8m5D+ZHKZfyUKyAnaCEU4PNtBrsASgZkfqIUcpiZ6OX6NycYBiUuboQ7yJfYwKeAdcRV8j8+yHzuVnVnVoc1+jbXQF7YXlo6//AMh8t0tVpIDSpJGg94IWGzfn5nrT5YqRJbJSEh5cufsHpPy2s5bla7bbwO8GUXf3Q0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=i182M77u; arc=none smtp.client-ip=209.85.208.44
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dfrIrQRW"
-Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-ae0b6532345so1027846366b.1
-        for <linux-staging@lists.linux.dev>; Mon, 14 Jul 2025 10:41:03 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="i182M77u"
+Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-604bff84741so8708173a12.2
+        for <linux-staging@lists.linux.dev>; Mon, 14 Jul 2025 10:48:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1752514862; x=1753119662; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1752515298; x=1753120098; darn=lists.linux.dev;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=NPFd3R8ciXJFzWHMJJumcx2y8sJv394JB4rAdNTOTZg=;
-        b=dfrIrQRWxE6sPbvw/nhfg8IjfhjiqFSwNLb8flN5ZWH1DzZ9zM36aRDFkhWCNzu+mM
-         uTYDU/4zTrpXf98RkzP0tdcLgqdibggK1tCq2QWZ7AkgkOgsr34UKfUm0e9tHr9RUNOy
-         y0yvP08wAwfKi2gAIOy0YcQNLhrB4Ib1AdDJDkQvLHEt/tQ2YPVHOXAI0YpkkN5b4FLx
-         VR575wLV9gVSxLrcrLAfZHqnDLZEtF31LdzoDYJle2vEOMxtO4E2RHe5t0YyK8iCaVLN
-         ziSPLzBrx6sCiSIjT4nQASS+u1vow5mAnBhRvAddI/45QOnxzBnpPrHM3xdeVzv7DptW
-         CrRA==
+        bh=cVMR5EXV8k6eD6rR6o3olHZAHPNYMmm96AvBBNldjgg=;
+        b=i182M77u+7oA3Xay09cSCEna7EyPG2y8lTYHJlYQF9mIVGjXDKEb6zUzUGMFRNGHan
+         AcvXpfxXnYpujZgDUAirU4gX6vDYB7PCvInJisz+rxshTJm2Ss0zITemYeX95AC7HLkb
+         pNf/3LpQLvxczMHX1i/PTMTw9haNd3/IdPJLX9qbZP9huOxnRz0Dg1gljy6SUEX/QPQ1
+         12fg5zsNhEmY60BtVEC85UN1QwWNIkHw/rZkFgDGYo2+9z5zcamNKYHoouJzdK2JSoxG
+         RQCdLLwz8n1K+fSOiszlr50oLtK35Fx75L0SYZOAsMJOBVcnQMDe49afT75rcDco7aiz
+         2G0Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752514862; x=1753119662;
+        d=1e100.net; s=20230601; t=1752515298; x=1753120098;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=NPFd3R8ciXJFzWHMJJumcx2y8sJv394JB4rAdNTOTZg=;
-        b=k1NJtpo7hEtG+zrsq/4lK+W4nhL/Bq/fqpzVEpUeUjDBQR7ttVlU5WPUHY5rEWLJDQ
-         hVMeYXTffIiv2cUWtiiFHpJufSYtNLeGQ6P5vEmwMy+kKmaW/RldvPl+ovxQvmVOx3/b
-         TnR8tgqw59lLAOsz3tdhtQqeevmReaYjYiksMvbPVtJ3uwk9t7RvoX8E8NkCosp5Ge8Y
-         iDyr9Pm8SY14M675CgzudmJ+hzNOHgOx3yD/l3fAbX7zo6KQ5cgGQ8vmi/6SOf37Xjy3
-         tAl8q39bfTTAnxIMnjbE+jfJ9gbsQwWODUsz9Z3zNO0psVp20XSqUZ0516Sj6bUmlo9W
-         BCwQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVNQMJde9cKx66lw5sBoyUl0z2W5JFWAVdsDMT422tW3EjyJprPRxcWqARqiAGruCYmSUNkRg6+GE1Je8p1@lists.linux.dev
-X-Gm-Message-State: AOJu0Ywmkxgrs7FziLlUy9L0XCj2pv4/SmQJqyUIS9W0iCcRsXg5Wjz1
-	kb7iJbVXs5hTPFbquZzoXIZHKAMOqRNpLveFybf7gNhMu0LpuIo7QERbjmfQNU6/3cktDYje6UP
-	uMggoItcPJZQ9EVGeO2i6hZv4veP5Xt6A+PtC1MM=
-X-Gm-Gg: ASbGncv7Hw0Bac2gbUm8lxznvOF6zbxxIZupKmbod+zY1CUvivSHyH53TTM/P56VAvm
-	wR9MD6s2oSJY+0n3MVazFdNxP/5JnRyRm5q/gbFhEYwREsZdTIWQxrQMpYs0w/zxAYSWaHqxL/0
-	oqqeWWrtoyRK2DwM5DqlC4KN+AYyOA7PMcjXnEhjIErsiaLL9VEOdiRo3EIIPNuQ8lNog8V3pMA
-	21Is8o=
-X-Google-Smtp-Source: AGHT+IEXKFgpazo2t8Our8NWjsZVR9xU7lCVsLBI4sXrZBBdTjy4XX9xQS1xqz2uAv9NTIz6K+dT9Chhb64cXkuf+g8=
-X-Received: by 2002:a17:907:7283:b0:ad8:91e4:a931 with SMTP id
- a640c23a62f3a-ae9b5cb0f68mr48082666b.26.1752514861527; Mon, 14 Jul 2025
- 10:41:01 -0700 (PDT)
+        bh=cVMR5EXV8k6eD6rR6o3olHZAHPNYMmm96AvBBNldjgg=;
+        b=oYWSD6xKqHDRMiA8wZspQFLN6HZMKYIsLH9wl1ZJ93r/fGr3Z80K73fsRoFE3zgfCO
+         YCiXd/ZRYZGkq15LaPey3gZ1JGJ4gJOgA/G1t4IJ1s/o/6DMKSMz3SXKKDPRJ9EfUW+2
+         DCApB4dPKueeIkAm6jYH9ow6wbHb6xI+1FoGWQdu7j88EDtQRpx90TJb5ufM6bLCJ+dX
+         DYfVS7dw3Kssl8FGbcmB+N9UAnNxbHpeT8Q5C4XIdGwJ9shbR4Uvg3sTFB/IzWiHx2m0
+         aXLPMHovY4364psqItA2LwLuS4fA9Q0id9iNl2gFEz9qkPWxpcM2I18WiCwf7uP8rtYf
+         IKXg==
+X-Forwarded-Encrypted: i=1; AJvYcCVMijMuOSPiBEJZda0UMiuWjbds9kdQCZAp5kUPE7e/Fu7ApQNi/gWaJHf77Hhy80QRS6vuiFZSttJzffzL@lists.linux.dev
+X-Gm-Message-State: AOJu0Yz5nDorioku+PlOTje8Hjxym+vJxltr8ea/O2s/urJhb4JyngmE
+	6HabDmpa7qkeIl0lImCjDusD6tUBKHeapEqOSg3Hp0IPbBk2ghQJixTR6XVtY8ZPwIpU908kdUJ
+	U8lbf1lMvMZFjrne0bgLUYrte6KjSeKE=
+X-Gm-Gg: ASbGncuFeXWTSZYH0xvFAeidpBqZdzimBTYWEmytQugQVTdurxf7ITVZO0d3xgkofje
+	+WdLk6A8PfJXnAZbhiN/SQ3GpeE+PfD0XTsux49N/5QvvMHxOi5WU5qrpdsZiQN//kIo4I0uVpr
+	W16ik60DA9+IdXUZWd0JM8MBY4eXZ8HQLfFpeZpO1akbaE0WWYX/nwmEFZnh6TesVz4Hg40mzbA
+	wXtvfF+du4yZdHP8Q==
+X-Google-Smtp-Source: AGHT+IGcjzBmfTiWeE+N2mLwhGEP5BvYK9+VML9tJbJRcZap8A8xcLJsoCcrWNT9arZ4kLyLBKLax9ZxO+eLpNK7ji4=
+X-Received: by 2002:a17:906:f596:b0:ae0:66e8:9ddb with SMTP id
+ a640c23a62f3a-ae6fbdc7e12mr1528201466b.19.1752515298262; Mon, 14 Jul 2025
+ 10:48:18 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250714134119.67280-1-jmkim@debian.org>
-In-Reply-To: <20250714134119.67280-1-jmkim@debian.org>
+References: <20250714153409.46085-1-martin@weidenauer.cc>
+In-Reply-To: <20250714153409.46085-1-martin@weidenauer.cc>
 From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Mon, 14 Jul 2025 20:40:25 +0300
-X-Gm-Features: Ac12FXwPYmMO1EkQwRChQx0VnT-S9mLxYW7JoqtZdWg7MeU_PNj3a38ix5xAwm0
-Message-ID: <CAHp75VfPZNaQsUCJOyhmwUd+GT-mkujTz2o5Ofx6oRK+QTuSFg@mail.gmail.com>
-Subject: Re: [PATCH] staging: media: atomisp: fix open brace placement
-To: Jongmin Kim <jmkim@debian.org>
-Cc: Hans de Goede <hansg@kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	Sakari Ailus <sakari.ailus@linux.intel.com>, Andy Shevchenko <andy@kernel.org>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-media@vger.kernel.org, 
+Date: Mon, 14 Jul 2025 20:47:41 +0300
+X-Gm-Features: Ac12FXy6-0zrWuqaeotADyZJbAA0J8fwpyqF8G2dlE1cswL8QBsJQQz4h1A3eGc
+Message-ID: <CAHp75VdUNe=bn-Emv6oyHtejTMyhKaiqQfGic0Ha94Z_FAPs2A@mail.gmail.com>
+Subject: Re: [PATCH] staging: atomisp: isp: fix open brace on new line
+To: Martin Weidenauer <martin@weidenauer.cc>, Woohee Yang <woohee9527@gmail.com>, 
+	Jongmin Kim <jmkim@debian.org>
+Cc: hansg@kernel.org, mchehab@kernel.org, sakari.ailus@linux.intel.com, 
+	andy@kernel.org, gregkh@linuxfoundation.org, linux-media@vger.kernel.org, 
 	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev, 
 	~lkcamp/patches@lists.sr.ht, koike@igalia.com
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Jul 14, 2025 at 4:41=E2=80=AFPM Jongmin Kim <jmkim@debian.org> wrot=
-e:
+Guys, please, coordinate and issue only one (or a few) patch(es) per
+an issue. No need to send zillions patches for the same problem
+file-by-file.
+
+On Mon, Jul 14, 2025 at 6:34=E2=80=AFPM Martin Weidenauer <martin@weidenaue=
+r.cc> wrote:
 >
-> Fix checkpatch errors "ERROR: open brace '{' following function definitio=
-ns
-> go on the next line" in binary.c.
+> Fix checkpatch error "ERROR: that open brace { should be on the previous =
+line"
+> in ia_css_dvs.host.c:277.
 
-It seems you are doing something that another person is already doing.
-Please, coordinate.
-In case Hans wants to apply this as is,
-Reviewed-by: Andy Shevchenko <andy@kernel.org>
 
---=20
+--
 With Best Regards,
 Andy Shevchenko
