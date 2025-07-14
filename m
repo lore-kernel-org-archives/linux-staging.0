@@ -1,48 +1,51 @@
-Received: from frida.bearstech.com (frida.bearstech.com [78.40.125.115])
+Received: from stravinsky.debian.org (stravinsky.debian.org [82.195.75.108])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16F75248F60
-	for <linux-staging@lists.linux.dev>; Mon, 14 Jul 2025 13:40:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=78.40.125.115
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20E74205ABA;
+	Mon, 14 Jul 2025 13:41:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=82.195.75.108
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752500462; cv=none; b=tybSXPvAnHb9GKj5t9lZyxfRKfeb2xWHwmVLZvXDJxLEMdorcKZJ10bp+6gG+JbiYaCoWnXwYVqo2Y4iNxjIN8FF1Ty5V6Q11QZZouPnLnLHwQHyAKUA3m/Rusd3/bOWQD8uXoJIORWjWeSjWyTQKTIf6OuhAfq7rZSlyaFk2h8=
+	t=1752500512; cv=none; b=eIoeLkBQtczHpwroGM05biEZjnp07gNcss85MZqy8x+ELRvhJIBAy4mKRIa7ijxQp1QsSUx1hY/OokvK1AhqKIbqIGH1Jtms4e1qKr8alKPks9VdvHqIUyDSKk6i8BtFSCHrdY5hP6l+efHMDej9oRngUKXlrpftkR4/jGLu2m8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752500462; c=relaxed/simple;
-	bh=swd+UnGSJSjZhyKlzU+gp04gAHFAY+mZIm/+2HU0xzs=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=EuCPzPDpg1oUZ8KqUospSpAkohBb4HmODwyhtk0iiRSCWGgyZKR7pVZStZUWTRjzzS7XZpODRh70n2TXnXET2AFFV7jdMMX6YCthnwkvCRffUw0Nc+QpR86O8+H5nSx+Th0z05qVnHupSvu8InIVEO820z/Op5mFf+zep7uXnV0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bearstech.com; spf=pass smtp.mailfrom=bearstech.com; dkim=pass (2048-bit key) header.d=bearstech.com header.i=@bearstech.com header.b=A2pD3GQ/; arc=none smtp.client-ip=78.40.125.115
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bearstech.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bearstech.com
+	s=arc-20240116; t=1752500512; c=relaxed/simple;
+	bh=46KpK6LBeVGkPg/LZ7EN2RhfJQ51O/T2UeIdJHUYK1A=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=r08zuvXag2mB1YTE2fXEDhlT7aVPfgaK/iYbLDkG5+VOgnBRCNoqMs/cePOoX5v1/2QZ8zZ+og7/pCqqo6ID4M7PcFGJ2unZ+emvP/UbidCJPrsPam1UPP++tmrwEQoXi0MdHs4a6/0SQ32pYGo0cvAudyzYm+GUdtKhFG5jLm4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org; spf=none smtp.mailfrom=debian.org; dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b=VeuCM+bD; arc=none smtp.client-ip=82.195.75.108
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=debian.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bearstech.com header.i=@bearstech.com header.b="A2pD3GQ/"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=bearstech.com;
-	s=bearstech2024; t=1752499919;
-	bh=swd+UnGSJSjZhyKlzU+gp04gAHFAY+mZIm/+2HU0xzs=;
-	h=From:To:Cc:Subject:Date:From;
-	b=A2pD3GQ/061vWvha8LIIqU1CcmEJufBiS6vXXUK3dbCmkDQlWHgDVeMwnapWsfbRQ
-	 CGBc4AkX8KQrf8TNepfa9jdv/fz4Wr6H67R+lHfSi5AraUG7RadS/4jMjk2YTS6QNs
-	 fvulg2N1abbJLKUq/8+gR4ostEL35aWY4Qp9dAvTsxDPUwwAch4lcax3dUb7N+KmdR
-	 L0AlG5pDoam7tIhwIpZJl3Tyxko5+XzZTqMI2vyYEbUUp19PnrqGs9ChJ9nvnx13vT
-	 sQ4kiHLYBIzfyNW9w9kfMaPX6bG4j6nnRoBVm/lbum1EJrNjGBP2axldFwTVd5bv1V
-	 nuC5ktzByInOA==
-Received: from zeroco.bearstech.lan (unknown [89.234.162.240])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: vcaron@bearstech.com)
-	by frida.bearstech.com (Postfix) with ESMTPSA id 02E48AA;
-	Mon, 14 Jul 2025 15:31:58 +0200 (CEST)
-From: Vincent Caron <vcaron@bearstech.com>
-To: gregkh@linuxfoundation.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
+	dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b="VeuCM+bD"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=debian.org;
+	s=smtpauto.stravinsky; h=X-Debian-User:Content-Transfer-Encoding:MIME-Version
+	:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:Content-ID:
+	Content-Description:In-Reply-To:References;
+	bh=7I9ULU5egYD6Yg6nTBUc/jDjpNReUJ4ytNTYeknpg9k=; b=VeuCM+bDA6y2gUuDVYJvfacPVO
+	qmcm84ywz+Idb88sagb2Jaas7eqtC7eOSY2JYEs8xgc65DdAAwbTyQNy5fSm+lv3KlmTItd4/jMie
+	DOI6rln/XGeLnJz1SIMI8Cd82SumVVU1MnzAUM7racd2VnqR2eZRTHwQUf7879EyxAGaRqzH2uPhc
+	ycWTJmq3NZAenJPrguF/iPmSNNlfdRzN4MzMBudErJXdXeWoxIINNPF+WKAONS6SwdpEA1xw/pzjG
+	iwRvdJC9uZ5b2sk2hWRvlT+Cbm1OutoWtNtor/FDJ2a26+fx12WzxlYVk0Lg9ippFLySVAUhFc53f
+	fbVRJc+w==;
+Received: from authenticated user
+	by stravinsky.debian.org with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
+	(Exim 4.94.2)
+	(envelope-from <jmkim@debian.org>)
+	id 1ubJRC-0016Jv-7C; Mon, 14 Jul 2025 13:41:46 +0000
+From: Jongmin Kim <jmkim@debian.org>
+To: Hans de Goede <hansg@kernel.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Andy Shevchenko <andy@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev
 Cc: ~lkcamp/patches@lists.sr.ht,
 	koike@igalia.com,
-	Vincent Caron <vcaron@bearstech.com>
-Subject: [PATCH] staging: rtl8723bs: remove spurious if-block braces
-Date: Mon, 14 Jul 2025 15:17:43 +0200
-Message-Id: <20250714131743.343482-1-vcaron@bearstech.com>
-X-Mailer: git-send-email 2.39.5
+	Jongmin Kim <jmkim@debian.org>
+Subject: [PATCH] staging: media: atomisp: fix open brace placement
+Date: Mon, 14 Jul 2025 15:41:16 +0200
+Message-ID: <20250714134119.67280-1-jmkim@debian.org>
+X-Mailer: git-send-email 2.50.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -50,39 +53,73 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Virus-Scanned: clamav-milter 1.0.7 at frida
-X-Virus-Status: Clean
+X-Debian-User: jmkim
 
-Fix checkpatch "WARNING: braces {} are not necessary for single statement
-blocks" in rtl8723bs/os_dep/os_intfs.c:1207.
+Fix checkpatch errors "ERROR: open brace '{' following function definitions
+go on the next line" in binary.c.
 
-Signed-off-by: Vincent Caron <vcaron@bearstech.com>
+Signed-off-by: Jongmin Kim <jmkim@debian.org>
 
 ---
-Dear maintainer,
-
-this is my first (very modest) kernel patch, training with the workflow
-under the guidance of Helen at DebConf25 hacklab.
+Hey, this is my first patch, I appreciate any feedback, thanks!
 ---
- drivers/staging/rtl8723bs/os_dep/os_intfs.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ .../media/atomisp/pci/runtime/binary/src/binary.c | 15 ++++++++++-----
+ 1 file changed, 10 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/staging/rtl8723bs/os_dep/os_intfs.c b/drivers/staging/rtl8723bs/os_dep/os_intfs.c
-index d4dc169e19d7..8b957468e174 100644
---- a/drivers/staging/rtl8723bs/os_dep/os_intfs.c
-+++ b/drivers/staging/rtl8723bs/os_dep/os_intfs.c
-@@ -1204,9 +1204,9 @@ int rtw_resume_common(struct adapter *padapter)
+diff --git a/drivers/staging/media/atomisp/pci/runtime/binary/src/binary.c b/drivers/staging/media/atomisp/pci/runtime/binary/src/binary.c
+index af93ca96747c..01085a789180 100644
+--- a/drivers/staging/media/atomisp/pci/runtime/binary/src/binary.c
++++ b/drivers/staging/media/atomisp/pci/runtime/binary/src/binary.c
+@@ -350,7 +350,8 @@ ia_css_binary_dvs_stat_grid_info(
+ int
+ ia_css_binary_3a_grid_info(const struct ia_css_binary *binary,
+ 			   struct ia_css_grid_info *info,
+-			   struct ia_css_pipe *pipe) {
++			   struct ia_css_pipe *pipe)
++{
+ 	struct ia_css_3a_grid_info *s3a_info;
+ 	int err = 0;
  
- 	hal_btcoex_SuspendNotify(padapter, 0);
+@@ -441,7 +442,8 @@ supports_bds_factor(u32 supported_factors,
  
--	if (pwrpriv) {
-+	if (pwrpriv)
- 		pwrpriv->bInSuspend = false;
--	}
-+
- 	netdev_dbg(padapter->pnetdev, "%s:%d in %d ms\n", __func__, ret,
- 		   jiffies_to_msecs(jiffies - start_time));
+ static int
+ binary_init_info(struct ia_css_binary_xinfo *info, unsigned int i,
+-		 bool *binary_found) {
++		 bool *binary_found)
++{
+ 	const unsigned char *blob = sh_css_blob_info[i].blob;
+ 	unsigned int size = sh_css_blob_info[i].header.blob.size;
  
+@@ -465,7 +467,8 @@ binary_init_info(struct ia_css_binary_xinfo *info, unsigned int i,
+  * be selected if no other primary matches.
+  */
+ int
+-ia_css_binary_init_infos(void) {
++ia_css_binary_init_infos(void)
++{
+ 	unsigned int i;
+ 	unsigned int num_of_isp_binaries = sh_css_num_binaries - NUM_OF_SPS - NUM_OF_BLS;
+ 
+@@ -498,7 +501,8 @@ ia_css_binary_init_infos(void) {
+ }
+ 
+ int
+-ia_css_binary_uninit(void) {
++ia_css_binary_uninit(void)
++{
+ 	unsigned int i;
+ 	struct ia_css_binary_xinfo *b;
+ 
+@@ -637,7 +641,8 @@ ia_css_binary_fill_info(const struct ia_css_binary_xinfo *xinfo,
+ 			struct ia_css_binary *binary,
+ 			struct ia_css_resolution *dvs_env,
+ 			int stream_config_left_padding,
+-			bool accelerator) {
++			bool accelerator)
++{
+ 	const struct ia_css_binary_info *info = &xinfo->sp;
+ 	unsigned int dvs_env_width = 0,
+ 	dvs_env_height = 0,
 -- 
-2.39.5
+2.50.0
 
