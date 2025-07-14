@@ -1,51 +1,71 @@
-Received: from stravinsky.debian.org (stravinsky.debian.org [82.195.75.108])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f180.google.com (mail-yw1-f180.google.com [209.85.128.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20E74205ABA;
-	Mon, 14 Jul 2025 13:41:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=82.195.75.108
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8324F253F1D
+	for <linux-staging@lists.linux.dev>; Mon, 14 Jul 2025 13:46:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752500512; cv=none; b=eIoeLkBQtczHpwroGM05biEZjnp07gNcss85MZqy8x+ELRvhJIBAy4mKRIa7ijxQp1QsSUx1hY/OokvK1AhqKIbqIGH1Jtms4e1qKr8alKPks9VdvHqIUyDSKk6i8BtFSCHrdY5hP6l+efHMDej9oRngUKXlrpftkR4/jGLu2m8=
+	t=1752500788; cv=none; b=KIObIXKMq67Trh7k0OcTLJN8HEuHnisn9Reifk5Goy430RG52YgmfLO0maoIJ4wgB0Pz38iVy9e5X/uPGY/E37nPqhLVScn6Qb1eGYoD9i0M33zyi4YIOqt0f4Y52FcptElLRzoeFiXGayxbQMRHBEZPCWMTwhWGKy3Vnsuegq8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752500512; c=relaxed/simple;
-	bh=46KpK6LBeVGkPg/LZ7EN2RhfJQ51O/T2UeIdJHUYK1A=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=r08zuvXag2mB1YTE2fXEDhlT7aVPfgaK/iYbLDkG5+VOgnBRCNoqMs/cePOoX5v1/2QZ8zZ+og7/pCqqo6ID4M7PcFGJ2unZ+emvP/UbidCJPrsPam1UPP++tmrwEQoXi0MdHs4a6/0SQ32pYGo0cvAudyzYm+GUdtKhFG5jLm4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org; spf=none smtp.mailfrom=debian.org; dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b=VeuCM+bD; arc=none smtp.client-ip=82.195.75.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=debian.org
+	s=arc-20240116; t=1752500788; c=relaxed/simple;
+	bh=UWzSca5u9tiBU+W9UUwhaW3+bszaRw65dQ+DZ4fHHbw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=DFog1m2B1FKnsfRC9VUxbJTwkyVLMTiGwB3NcrslmMZoGKwsPyieRnxAQkvkwzD3+nSdqY7sTMss7y8Q+W1y7ZDD/09rPdqIPQ9hT/W3z9t4+5CsGErEJfBQs9/1o2E22FtqAMwQtr7Uzi9Mm9XyyaWE2j20MO7kYoqOdi5V214=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=giLcHyAE; arc=none smtp.client-ip=209.85.128.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b="VeuCM+bD"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=debian.org;
-	s=smtpauto.stravinsky; h=X-Debian-User:Content-Transfer-Encoding:MIME-Version
-	:Message-ID:Date:Subject:Cc:To:From:Reply-To:Content-Type:Content-ID:
-	Content-Description:In-Reply-To:References;
-	bh=7I9ULU5egYD6Yg6nTBUc/jDjpNReUJ4ytNTYeknpg9k=; b=VeuCM+bDA6y2gUuDVYJvfacPVO
-	qmcm84ywz+Idb88sagb2Jaas7eqtC7eOSY2JYEs8xgc65DdAAwbTyQNy5fSm+lv3KlmTItd4/jMie
-	DOI6rln/XGeLnJz1SIMI8Cd82SumVVU1MnzAUM7racd2VnqR2eZRTHwQUf7879EyxAGaRqzH2uPhc
-	ycWTJmq3NZAenJPrguF/iPmSNNlfdRzN4MzMBudErJXdXeWoxIINNPF+WKAONS6SwdpEA1xw/pzjG
-	iwRvdJC9uZ5b2sk2hWRvlT+Cbm1OutoWtNtor/FDJ2a26+fx12WzxlYVk0Lg9ippFLySVAUhFc53f
-	fbVRJc+w==;
-Received: from authenticated user
-	by stravinsky.debian.org with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
-	(Exim 4.94.2)
-	(envelope-from <jmkim@debian.org>)
-	id 1ubJRC-0016Jv-7C; Mon, 14 Jul 2025 13:41:46 +0000
-From: Jongmin Kim <jmkim@debian.org>
-To: Hans de Goede <hansg@kernel.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Andy Shevchenko <andy@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-media@vger.kernel.org,
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="giLcHyAE"
+Received: by mail-yw1-f180.google.com with SMTP id 00721157ae682-717a2ef8943so42273757b3.1
+        for <linux-staging@lists.linux.dev>; Mon, 14 Jul 2025 06:46:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1752500785; x=1753105585; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=r6Hbz92/x9FL+FBlPeBNmgTh+QKbNYeF+ROETx2CnRA=;
+        b=giLcHyAEJC/WhSTOnHWnUXPEd3+4xiHrgzpR/GJeTOF9FaNj3JXmsHK5wcxyXHLyWa
+         gy50WJyHkFKETH8RXLBNJeyrVGdHAdS7igzUdsJhgDkmrXrgdlDKgu+l4KmitmzAP3Lk
+         I9L7oF5jOgbGhaqzxCpbsSDaudGBqfT7S0fcslVi+lrsk0Ri4Rg62uWR98ysRy27VxPq
+         Urc+06rKvluQKEKDspBBML/aqPCyRo3xpDR16YOv9jGwZZ22lg5yH5mkHB+oPrveLFfV
+         2Ja5PH5JHdyYQr97bIVIf8Hf12i4XcZBF5/gSNQnlAk9VaD1JbwVz+EzejoRclrQw5YL
+         EpWw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1752500785; x=1753105585;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=r6Hbz92/x9FL+FBlPeBNmgTh+QKbNYeF+ROETx2CnRA=;
+        b=PVYLCTK6QruPzpCZ2U7w/wo9a5eBWFvqOG/79dSXY1ZubmZjGTTu7K64tWhZLOn7Iv
+         NICsl7xR20Me03fO5wLRaz4K8f197cNgBJMjCSnxofttwAM7hNA2QV3mj7MkF1RAJsBm
+         yFuQbdydf8J2FTpsZSIY047xv6E80ZFQDEP5UQUvES3cV5voKaTL3H0PaPnAhYPdF0I7
+         qSWaR0aCUEbQgVOWStcmkXczPfd8Mu1JpucY0cMCUX7a8b5aO9uAVukPJpxKP6X855tz
+         m/zCynWPpm4NI6TZmlkBsfGcL7MpeA9RAkvNP4taYVW3CWTgrU/gqDWxI56+0F/4TCO+
+         +IYQ==
+X-Gm-Message-State: AOJu0YwOY1xiVr9Zdh0GqazLBH/lzWVvZyXCfQ9CbNJbAuVPh1+AQFGK
+	ed0SdDg/0Q4B1uD42LjxRvM4LgQlWDbWCIjwclh7Yh/RpAiM4qdkauS4hH3DoFaHBgA=
+X-Gm-Gg: ASbGncsX+KL9nhrWQzPyM1QzoINR57yRxgviVXObtJMiBPAqZFFT2gIOBOalAGH6hm2
+	UkYyhudG60iG74NMXdYm/nf8uzZQoBa4cM3i+Fl7VaEZS68gy66vQLfe+irL4BQ2tsWTgkD1hyh
+	9URvd7KafCLg8gGPoBUhPGpLtmbkeYEwEky3SzqUkwDm9Ko6KWiWLx2UPDkaQN4b8Obfcsgji0r
+	+2pRjWCHxbpyREYIitqE5Psi45Zuwj6ggEm2xe41xyheRx6R3Mccb7m4Hl9DgpuqgiDUuDXEUR6
+	ERC0tx+cgaOLSz/kfqFs15zlRwPIPSrkTpAruWijWioRDVNur9y51XZmnXSdlj2PXvyFD5dDWRr
+	FqP/Rbd6bnpauc1fKzYlmwj3N9jy3tYtMys81TAh5N983mZVuXBg=
+X-Google-Smtp-Source: AGHT+IEjFQnYc3dX2wC/TJw+1x2lmoR80MZ9iengzJu2U4aQJIm7eVy+DcNW7hsQ+5G1kVVNvKQ+2A==
+X-Received: by 2002:a05:690c:c09:b0:716:69e0:bb85 with SMTP id 00721157ae682-717d5dab701mr219868997b3.18.1752500785259;
+        Mon, 14 Jul 2025 06:46:25 -0700 (PDT)
+Received: from elitebook.4.local ([2a00:5881:3041:2700:8626:7146:3329:ad67])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-717c5d891fesm19722487b3.52.2025.07.14.06.46.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 14 Jul 2025 06:46:24 -0700 (PDT)
+From: Andrei Zeucianu <benjaminpotron@gmail.com>
+To: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev
+	gregkh@linuxfoundation.org
 Cc: ~lkcamp/patches@lists.sr.ht,
 	koike@igalia.com,
-	Jongmin Kim <jmkim@debian.org>
-Subject: [PATCH] staging: media: atomisp: fix open brace placement
-Date: Mon, 14 Jul 2025 15:41:16 +0200
-Message-ID: <20250714134119.67280-1-jmkim@debian.org>
-X-Mailer: git-send-email 2.50.0
+	Andrei Zeucianu <benjaminpotron@gmail.com>
+Subject: [PATCH] staging: rtl8723bs: hal: remove blank line before close brace
+Date: Mon, 14 Jul 2025 15:46:11 +0200
+Message-ID: <20250714134611.119442-1-benjaminpotron@gmail.com>
+X-Mailer: git-send-email 2.47.2
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -53,73 +73,32 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Debian-User: jmkim
 
-Fix checkpatch errors "ERROR: open brace '{' following function definitions
-go on the next line" in binary.c.
+Fix checkpatch error "CHECK: Blank lines aren't necessary
+before a close brace '}' in odm_DIG.c:374.
 
-Signed-off-by: Jongmin Kim <jmkim@debian.org>
+Signed-off-by: Andrei Zeucianu <benjaminpotron@gmail.com>
 
 ---
-Hey, this is my first patch, I appreciate any feedback, thanks!
----
- .../media/atomisp/pci/runtime/binary/src/binary.c | 15 ++++++++++-----
- 1 file changed, 10 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/staging/media/atomisp/pci/runtime/binary/src/binary.c b/drivers/staging/media/atomisp/pci/runtime/binary/src/binary.c
-index af93ca96747c..01085a789180 100644
---- a/drivers/staging/media/atomisp/pci/runtime/binary/src/binary.c
-+++ b/drivers/staging/media/atomisp/pci/runtime/binary/src/binary.c
-@@ -350,7 +350,8 @@ ia_css_binary_dvs_stat_grid_info(
- int
- ia_css_binary_3a_grid_info(const struct ia_css_binary *binary,
- 			   struct ia_css_grid_info *info,
--			   struct ia_css_pipe *pipe) {
-+			   struct ia_css_pipe *pipe)
-+{
- 	struct ia_css_3a_grid_info *s3a_info;
- 	int err = 0;
+Hi, this is my first commit/patch in the Linux kernel, I would
+appreciate any feedback! Thanks!
+---
+ drivers/staging/rtl8723bs/hal/odm_DIG.c | 1 -
+ 1 file changed, 1 deletion(-)
+
+diff --git a/drivers/staging/rtl8723bs/hal/odm_DIG.c b/drivers/staging/rtl8723bs/hal/odm_DIG.c
+index 1e2946a23beb..f10427abd849 100644
+--- a/drivers/staging/rtl8723bs/hal/odm_DIG.c
++++ b/drivers/staging/rtl8723bs/hal/odm_DIG.c
+@@ -370,7 +370,6 @@ void odm_DIGInit(void *pDM_VOID)
  
-@@ -441,7 +442,8 @@ supports_bds_factor(u32 supported_factors,
- 
- static int
- binary_init_info(struct ia_css_binary_xinfo *info, unsigned int i,
--		 bool *binary_found) {
-+		 bool *binary_found)
-+{
- 	const unsigned char *blob = sh_css_blob_info[i].blob;
- 	unsigned int size = sh_css_blob_info[i].header.blob.size;
- 
-@@ -465,7 +467,8 @@ binary_init_info(struct ia_css_binary_xinfo *info, unsigned int i,
-  * be selected if no other primary matches.
-  */
- int
--ia_css_binary_init_infos(void) {
-+ia_css_binary_init_infos(void)
-+{
- 	unsigned int i;
- 	unsigned int num_of_isp_binaries = sh_css_num_binaries - NUM_OF_SPS - NUM_OF_BLS;
- 
-@@ -498,7 +501,8 @@ ia_css_binary_init_infos(void) {
+ 	pDM_DigTable->rx_gain_range_max = DM_DIG_MAX_NIC;
+ 	pDM_DigTable->rx_gain_range_min = DM_DIG_MIN_NIC;
+-
  }
  
- int
--ia_css_binary_uninit(void) {
-+ia_css_binary_uninit(void)
-+{
- 	unsigned int i;
- 	struct ia_css_binary_xinfo *b;
  
-@@ -637,7 +641,8 @@ ia_css_binary_fill_info(const struct ia_css_binary_xinfo *xinfo,
- 			struct ia_css_binary *binary,
- 			struct ia_css_resolution *dvs_env,
- 			int stream_config_left_padding,
--			bool accelerator) {
-+			bool accelerator)
-+{
- 	const struct ia_css_binary_info *info = &xinfo->sp;
- 	unsigned int dvs_env_width = 0,
- 	dvs_env_height = 0,
 -- 
-2.50.0
+2.47.2
 
