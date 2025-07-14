@@ -1,296 +1,165 @@
-Received: from MRWPR03CU001.outbound.protection.outlook.com (mail-francesouthazon11011060.outbound.protection.outlook.com [40.107.130.60])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp.forwardemail.net (smtp.forwardemail.net [149.28.215.223])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6514323ED5A;
-	Mon, 14 Jul 2025 08:20:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.130.60
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752481211; cv=fail; b=aqcf+sVxNKYdrPrIsDHCN2745GlLYg258iXxmgengLzUlfeucdEd+bgtr71Yr2oEAtcNsCuuDyjq7fiyOt+9pA0KuQmAaJheC1sfy5VTde+BwXwn56fyMpgJ/25EYSMMUN7+BJhMcVhkn2wt1km6cMv9MZZlfghHXLhLh5LlxNo=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752481211; c=relaxed/simple;
-	bh=9Ywz10QaZTBmxPUsazFIaz/wHA8bBZY23QrIuKNUkGQ=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=iovSCbXS7o1LUTuqhFZ2VR979mSzlG2onzliDdJaDl3JH/3mIhnHgAbTiJMUK7+uR0bOYy2D6BxgkcT9iWZaH2V51+8QWAefey0v3/qJ9dInz+n7pci9CBqjQXBf/ZTPpaLCIy1KIOzWBeRF0SJIiooyUhWiaWdj1ZWP0narTKw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mt.com; spf=fail smtp.mailfrom=mt.com; dkim=pass (2048-bit key) header.d=mt.com header.i=@mt.com header.b=oQuHmVO2; arc=fail smtp.client-ip=40.107.130.60
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mt.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=mt.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7490724CEE8
+	for <linux-staging@lists.linux.dev>; Mon, 14 Jul 2025 13:12:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=149.28.215.223
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1752498752; cv=none; b=Xdv1BX3oBNeCvs+c3uVGhvWYEdwnVPCWzHDviGZSAoU+z2MhxAa4j1Hgec28Hh+apir+WmAJ9WOPq2niHYnhcLxkKzx4jkMwN3f+EzlTkKAI9mkOt9sniG5dpk/dnX+5miN+Nap0seQgNBFM7rddXec8KuTF5SLO/PU+QGHNoIQ=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1752498752; c=relaxed/simple;
+	bh=uxtVMW5ptGidGGwUzvq6Y9xl6J+S5oSN6o93pQ6Z7o0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=braniX7g8HmHZGG5y/DwFt1dYT8FwzMb2M4RNlMn6KJmZT8C8w32PfmMTAlI5EOC3iZFGrvREAGQ6A9Q8B0LROfCLiB71LUVG7LDwQiUCVZYTWFJD7bwc6WBs8U1S4xxKxNnRp2hNBGTXsAy0whmKPkolqIOUPmjFlkLG4Lo694=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ubuntu.com; spf=pass smtp.mailfrom=fe-bounces.ubuntu.com; dkim=pass (2048-bit key) header.d=ubuntu.com header.i=@ubuntu.com header.b=EhRtxneI; arc=none smtp.client-ip=149.28.215.223
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ubuntu.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fe-bounces.ubuntu.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mt.com header.i=@mt.com header.b="oQuHmVO2"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=mYkyQ5jCasAz4hQZhxeihNDgLGteRMx5bVniynAf1wYn9gMO+kWag47zmOos4CPsXNRKANOg3DEpNTxALShDQtRbFa0lArDkEmqZBgaDnZ2NQA0NFJ/kwa2XTscDRQvxMJAvcT52Fnei1VkXc5v9/Iir2EbgjmDw2iWqeN1ioBZFIOtjKKdojvlZNloJQQwgOsZKdYnpiO2Q6OslXO2UqKOQl2H+X8E0u/xMhGOxKBAYd3X3ZqdXCCygpp+JNQqpzdQlbsNAasmnK2XG0dJINdCp94NtkyS+x+2xYJNnMyymlqpwDDZg2RJj2Ndhf4xDTVXY+cjwVEK6ioNBA31bfw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ntwXyvWcB5pN2RSp8hHJjUsty1gNUb6WcjV1nT8AgjE=;
- b=POn4fpUdPwI6gQg43goqGAcKsCEiqlmycJWWJGReA/oNg0iff75WLDQfUzjjDpz4JJn4LdgVNWShdKpCcbdvwH5oTYas1JGu3SlaZB5zRymqjrdS8/loy9+3ylM3R+0sFWpmcnsV3cizb/whyZ7K/AnrZyJJ09HoRsMtPcs5xLak49wBQZLj6j0I5TWSbnOQGcGHEfXxH+USvdkMaoJo98YcFj0LnTLhxd733hk1/PwLxdAXI4NXI74ccbKZLbFKPFySmnv4cFLph9p+TjW2mXn5/OZGPqycxDm/mAqYNpgtzAlpSbuxJr2Mzac938tCiIggruRwAqZ94rmI2QKJHg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=mt.com; dmarc=pass action=none header.from=mt.com; dkim=pass
- header.d=mt.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mt.com; s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ntwXyvWcB5pN2RSp8hHJjUsty1gNUb6WcjV1nT8AgjE=;
- b=oQuHmVO2PzGA0pByY784LQM6achKHgdinOtBa6J9yJIR/rF6ZwrTejTRv/HsBq9L1UU2JT0TmVD2syuNu6fFVdWL9sDc47TeSkkmkD1/IqCec3MACTMkQPHnMoUADnuC3k893VfRSqlhAdWZelbpBwyQXCAWIAnnj74cfYYvm4UURtMSI3ECgGXgHQXhDZ5zLSgu+WusUBsw1CRlEx5nY2bckE/U4uOQseh6EwralrEG7xDO4vu+QvrdqrLBvwBLafbvP+rovhmeXBnu0ikCq8W7ft59aV6AsqDwEzj+AH3dgf6dDdMHIRUibt4FujKY8AdnsO3th0rbxZpUIl5HGg==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=mt.com;
-Received: from DB9PR03MB7755.eurprd03.prod.outlook.com (2603:10a6:10:2cc::22)
- by DB8PR03MB6250.eurprd03.prod.outlook.com (2603:10a6:10:136::8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8922.32; Mon, 14 Jul
- 2025 08:20:05 +0000
-Received: from DB9PR03MB7755.eurprd03.prod.outlook.com
- ([fe80::2ef6:ec79:4089:ce54]) by DB9PR03MB7755.eurprd03.prod.outlook.com
- ([fe80::2ef6:ec79:4089:ce54%3]) with mapi id 15.20.8922.023; Mon, 14 Jul 2025
- 08:20:04 +0000
-From: Mathis Foerst <mathis.foerst@mt.com>
-To: linux-kernel@vger.kernel.org
-Cc: Mathis Foerst <mathis.foerst@mt.com>,
-	Steve Longerbeam <slongerbeam@gmail.com>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	linux-media@vger.kernel.org,
+	dkim=pass (2048-bit key) header.d=ubuntu.com header.i=@ubuntu.com header.b="EhRtxneI"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ubuntu.com;
+ h=Content-Transfer-Encoding: MIME-Version: Message-ID: Date: Subject: Cc:
+ To: From; q=dns/txt; s=fe-953a8a3ca9; t=1752498748;
+ bh=urrC69RSn/xpKnJTpVLILpFXwIJPBmtW775RpQeEWDE=;
+ b=EhRtxneITAYOZ/Yren0XdwE2zWeKKP4lRhjl+4AzI35qWdqxuCsWzM8uyrK+OKl8z9eNW9dH+
+ ERzojF/6SxamZueH2+yinqi9OoVNlD7JeGtAc/+HXqHmq+W/qxj8TzPzjqoWLVea/NyYjDvyG3L
+ YI2f/KXuUA1abg6LpglZ3nyxTLdMwecFfLpeXXgX7TroKEwrZZaOEawN1E6AcEbz4XCLOo2gTIX
+ TEtdYP2EvJYLJ4QWf9zYzyS5M9mQ/nOx5MiKPnNp7hIq54M8i5gCfaiP3+f2TcMTKR+j1YHhOrK
+ 9ox0cYksUbrA4d7mNV1Dy2bI0YIGpkWaRuqgHsqR99lw==
+X-Forward-Email-ID: 6875023685526031a5bf8a98
+X-Forward-Email-Sender: rfc822; schopin@ubuntu.com, smtp.forwardemail.net,
+ 149.28.215.223
+X-Forward-Email-Version: 1.1.6
+X-Forward-Email-Website: https://forwardemail.net
+X-Complaints-To: abuse@forwardemail.net
+X-Report-Abuse: abuse@forwardemail.net
+X-Report-Abuse-To: abuse@forwardemail.net
+From: Simon Chopin <schopin@ubuntu.com>
+To: greybus-dev@lists.linaro.org,
 	linux-staging@lists.linux.dev,
-	imx@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	manuel.traut@mt.com,
-	mathis.foerst@zuehlke.com
-Subject: [PATCH v5 RESEND 1/1] media: imx: csi: Parse link configuration from fw_node
-Date: Mon, 14 Jul 2025 10:19:13 +0200
-Message-Id: <20250714081913.516481-2-mathis.foerst@mt.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20250714081913.516481-1-mathis.foerst@mt.com>
-References: <20250714081913.516481-1-mathis.foerst@mt.com>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: ZR0P278CA0200.CHEP278.PROD.OUTLOOK.COM
- (2603:10a6:910:6a::11) To DB9PR03MB7755.eurprd03.prod.outlook.com
- (2603:10a6:10:2cc::22)
+	linux-kernel@vger.kernel.org,
+	Johan Hovold <johan@kernel.org>,
+	Alex Elder <elder@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: ~lkcamp/patches@lists.sr.ht,
+	koike@igalia.com,
+	Simon Chopin <schopin@ubuntu.com>
+Subject: [PATCH] staging: greybus: fix whitespace alignments in firmware.c
+Date: Mon, 14 Jul 2025 15:10:47 +0200
+Message-ID: <20250714131101.434301-1-schopin@ubuntu.com>
+X-Mailer: git-send-email 2.48.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DB9PR03MB7755:EE_|DB8PR03MB6250:EE_
-X-MS-Office365-Filtering-Correlation-Id: 282c310c-2992-483d-5e73-08ddc2af3c81
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|376014|7416014|52116014|19092799006|1800799024|38350700014;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?CI19HGdbv8Gl4OjHBRPHx/kkzFBKh6of9Qsq0Obk+mDohf/Zop6rMk4XriGu?=
- =?us-ascii?Q?qCN1II0ftELwN1ESWCs9M2g48mfTggzjimjGBG4CNRV8xOz+AZl67RxKOXUX?=
- =?us-ascii?Q?3DhGGaDgA10+kdbE3QkyUv0cjU/VcGi27yvUE2Ugho1qw6gE7H/0qFYAwzTe?=
- =?us-ascii?Q?u6EqmA2pJGaFh+lJPDH8kl6UuEMo9CzP4pq9JNRy3vQh0sjNzOHGveuYFuAy?=
- =?us-ascii?Q?5iuoa2gHwcqIDNFnksgB/F6UNtiRdkH5qg4Pxn0z3nEeC8hytRsR7I4unM0B?=
- =?us-ascii?Q?ioRbY2MorvBEUQD8rR97L26CBswIze/oVUr6zYkI7gQ7B826mUWtdGZtMcfz?=
- =?us-ascii?Q?RFSFscqwJb2QlhElg/v8kZu8FbIwGSbc/RJlEINRrfDMO15tk2PKWMnA2c1O?=
- =?us-ascii?Q?BzQLH0WlgyCSoXxeNXofMVZtU1jGfPKm3lGKLJpMgMOClQP7sNSYWUiwbZah?=
- =?us-ascii?Q?DlzWfjNDwPmyX+uuNoMJVpANbNxTBFRsZKRliYXl6leOt9ygjEOzr274u8Y3?=
- =?us-ascii?Q?dUzJlIQW9Cjzwt7IzUUKmgYfYhYYGbBxjZgYU+86Pji1dVTDIgPCmk5aTA9a?=
- =?us-ascii?Q?NUmTBUmsse7ActuiUFaDNiAexVxLI2u7omktAzzjEU08GYSDmk0gO0Rk+jAK?=
- =?us-ascii?Q?jhzir7FfU0jmop0z5Trq8vlGQvA2x1q1E0IXrD9QDBXA8NfPuOdsHYaVaGzk?=
- =?us-ascii?Q?74Z3ETov++vx8K+Td+Gxq7xJ9nT893IYUX2laCvqVycEb4/7gzII7mXr6Ip7?=
- =?us-ascii?Q?XX3Zl5qsl1N8k9sRqFE/XX2Ccs/Vyt1vs81mGSLb8a4E6otVQvqxe/N2n5Bb?=
- =?us-ascii?Q?bm4ezbsu+o3KZoDbKxYVTp3DIfpAvxLp9BO8q96KoULMbfvoStaGaSF+k8kL?=
- =?us-ascii?Q?UiN0dIHRIYLuw0goZSzR0d5+XsTKv07sYgqdJ5ErTQQrIAOeGJpDX/0NkplY?=
- =?us-ascii?Q?HRDmqaNZm4fFaXeYwL44HXWumfEByj+osOLxkm4GRY85brYLVXwaCcocJcbP?=
- =?us-ascii?Q?dE3oNGEYwagIg1c5oDt8aqeuItx7jZFZ987IT01KulHyBUSkgE1QlJE3S6f/?=
- =?us-ascii?Q?cCDCBUFxUeN2BS+9omTA/FeCjF2MNaROkNeN4GiTf477VcBCgkUCJlX+cCrR?=
- =?us-ascii?Q?1Yz0PGDl0k56Va6LDMwVUr1GjIAzXWfamciy1ueFRg1EI5INYWDmSG3mxX1m?=
- =?us-ascii?Q?kfFrh6/Ujx7RMgj9hVFhvpbWEALBPWzNZ6NWruSbYGmkES2gPXSH645m3PSO?=
- =?us-ascii?Q?R377njTmO1XYNezzcenjNhijtLY1Q39hhu42jEFMC+vU/eCRD1JSm8yXgPRg?=
- =?us-ascii?Q?IqzCel5p1GuCno3x+TwrHfApcsX+R3JAEkw9KN1qJjbwrFC7RUQJsYdtcVbc?=
- =?us-ascii?Q?5OSDzBWtOWEsG139nHYW8iMSXTSsT5FDzSAOs6PzNMIksGmuQNKiKUBegczh?=
- =?us-ascii?Q?9fxEaduoJCJhDiIo655VyUiy/DtYt6gnvsFlaEqP+D2awctMFZBGHA=3D=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB9PR03MB7755.eurprd03.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(7416014)(52116014)(19092799006)(1800799024)(38350700014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?VMlnyz2Guj+nk09lbYSEOD2CNJONqd5gU0Is/wWYDkKnM6FKG49u/Ck8RUNa?=
- =?us-ascii?Q?wZN7jBODJX9m4khDoo5FhRl5R9vERXo+htQj1R+PGxTMzX8mxjwByMqncKnz?=
- =?us-ascii?Q?8JVKUfx0y/gHulBEcuxDZUw6K0g8YrbYIQhXAhwn5SowhgUZ5baAvHx8UR7R?=
- =?us-ascii?Q?7vYPXusvSNYyZ1F9508ZCjvhi/gZI+UQYbo/BSysd0nVW0UggLhZnv7C/Zj1?=
- =?us-ascii?Q?e0KNCK8SRjg115I/l5TKpt5NdsM7Nc8jYp5aYtdZxGZ2DutEb9vwUy1JUVad?=
- =?us-ascii?Q?IX3FNT7iz9gAp5iLV8CNxJaF03DgO1p5G1ejf1kzCFV6i52WZ5LVz+QeQdeP?=
- =?us-ascii?Q?pUYyePtM1omOplqcYQ5KQgdD9ITsFkivoqVvjOIrQK3/Xw6W9hToeP34QXOT?=
- =?us-ascii?Q?J/pEZXM9/sax9TjVWkUDyp/ceO08NFZmGj+4AAGYW2o5SZMDmnuXgpg/w7RE?=
- =?us-ascii?Q?1kNh12kiV3+7ftr7nKSeS/w0Y7XW3/4D7sZRMUV3ZeLJGkkbnkdxwohmqR8h?=
- =?us-ascii?Q?p4NFITPnn7mmOG+UM+y/c7KRJ8nWAItnGDuA2m/v8W09GZRxHAqmBVOosW6S?=
- =?us-ascii?Q?KXANWSZJlhxKV4FATCp1ZPa56MUM7nkKyHOIQ0nrUhT1/55dYInpzAKZgA3u?=
- =?us-ascii?Q?oT6IGfNrVANqWlWPJt3dNNwrjqTOnjGzqWieFAI/nwkTvVr5ZQcnzCi35lqH?=
- =?us-ascii?Q?k/ceBKK/NsPPH99oV4Erw9i7//zY40Z4EjUc9EMJRoctUnmxRCfhlgxuhALe?=
- =?us-ascii?Q?yuEF7mfrI35hTytJRufyhrGkzd/pvJQwqm06fRt0X942sfNYa4VoDACttElc?=
- =?us-ascii?Q?7l2Lv5CX9XzKih4qHPVRaCCvtcj2I5Wk/SoH2eJYwYBSxezg32LILW14m781?=
- =?us-ascii?Q?ePqi0/RLLWErdqawk76yDZ7CZTeB0FIgceNUGWPxGGfAWp5Io++nq2CjKr1Q?=
- =?us-ascii?Q?F1+teYAZXNa8FRCeOmo1u3DL5S9VJpBL4tErfshDA4yfWZuiTEAYMR2x8VhK?=
- =?us-ascii?Q?APsRom0IQAj3324PdCjzM9pV/9iRZpWAkXGqdeOZVN8lHLhvdoBUhKE27Hn4?=
- =?us-ascii?Q?BU4f1Dk9pg3ObeWzEM9Z/JJOz0jksta31bTVga4YHG3tQpef7fZrj+0ZaJ8r?=
- =?us-ascii?Q?UlVb/okcP3ASWcz7CI1conw5O2kHwaGZG+3BWbTm1OXpkvJGh8cwO2hdHsJM?=
- =?us-ascii?Q?k8Nn3Oizk8Gk9C5GjLRnsf2KF1Xs1BoXO2/hSvNfHX9W0df6u8QlPudAerlA?=
- =?us-ascii?Q?W/95p1IBjHhcv/6KCwXCjaxkkjfXtI8DcYxmoLnQJZQmLqDQDJfZ2tQ+T1Cj?=
- =?us-ascii?Q?moA5mlYuBJvglkV0NRHRwSQ+xeBvZrHREYscra5mMdPHIsIeXGvyfd/so9rV?=
- =?us-ascii?Q?GBMXie3hkpTySw2WAtopgVtQYy8B0Sorqp0W9Vn72HoIpA1Jl3qipX3Hv9Yq?=
- =?us-ascii?Q?xZeJnimHnwoGO5r87erH1vrTyw0KG2kFoPxAzIIZ8YsnlEP49MsFxJ6wWvkX?=
- =?us-ascii?Q?71cJK/Zff6IcTtMsCpEZneWy0sjiyzU3lb4hIfyv2JQ8BSII2ysX7usgRgdN?=
- =?us-ascii?Q?K6ZGcUFtScsoA8GFMvIfLzoki7kpkI1IUgjWrUQj?=
-X-OriginatorOrg: mt.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 282c310c-2992-483d-5e73-08ddc2af3c81
-X-MS-Exchange-CrossTenant-AuthSource: DB9PR03MB7755.eurprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Jul 2025 08:20:04.7757
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: fb4c0aee-6cd2-482f-a1a5-717e7c02496b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: P0QhnlkMcpN2yeLqh7lxHyJHHCJTLlvNweJO3Xk9T09dUGXZ34Ho2ShenZvslpe5dYOeHFxpFxGLc+M7sC1HDw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB8PR03MB6250
+Content-Transfer-Encoding: 8bit
 
-The imx-media-csi driver requires upstream camera drivers to implement
-the subdev-pad-op "get_mbus_config" [0]. Camera drivers that don't
-implement this function are not usable on the i.MX6.
+This addresses all instances of the checkpatch.pl warning
+"CHECK: Alignment should match open parenthesis"
+in this file.
 
-The docs for get_mbus_config [1] say:
-@get_mbus_config: get the media bus configuration of a remote sub-device.
-            The media bus configuration is usually retrieved from the
-            firmware interface at sub-device probe time, immediately
-            applied to the hardware and eventually adjusted by the
-            driver.
+Signed-off-by: Simon Chopin <schopin@ubuntu.com>
 
-Currently, the imx-media-csi driver is not incorporating the information
-from the firmware interface and therefore relies on the implementation of
-get_mbus_config by the camera driver.
-
-To be compatible with camera drivers not implementing get_mbus_config
-(which is the usual case), use the bus information from the fw interface:
-
-The camera does not necessarily has a direct media bus link to the CSI as
-the video-mux and/or the MIPI CSI-2 receiver of the i.MX6 might be in
-between them on the media pipeline.
-The CSI driver already implements the functionality to find the connected
-camera sub-device to call get_mbus_config on it.
-
-At this point the driver is modified as follows:
-In the case that get_mbus_config is not implemented by the upstream
-camera, try to get its endpoint configuration from the firmware interface
-usign v4l2_fwnode_endpoint_parse.
-For the supported mbus_types (V4L2_MBUS_PARALLEL, V4L2_MBUS_BT656 and
-V4L2_MBUS_CSI2_DPHY), extract the mbus_config from the endpoint
-configuration.
-For all other mbus_types, return an error.
-
-Note that parsing the mbus_config from the fw interface is not done during
-probing because the camera that's connected to the CSI can change based on
-the selected input of the video-mux at runtime.
-
-[0] drivers/staging/media/imx/imx-media-csi.c - line 211..216
-[1] include/media/v4l2-subdev.h - line 814
-
-Signed-off-by: Mathis Foerst <mathis.foerst@mt.com>
 ---
- drivers/staging/media/imx/imx-media-csi.c | 62 +++++++++++++++++++++--
- 1 file changed, 58 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/staging/media/imx/imx-media-csi.c b/drivers/staging/media/imx/imx-media-csi.c
-index a7cd3ef95fc3..5c2f197ae961 100644
---- a/drivers/staging/media/imx/imx-media-csi.c
-+++ b/drivers/staging/media/imx/imx-media-csi.c
-@@ -158,6 +158,50 @@ static inline bool requires_passthrough(struct v4l2_mbus_config *mbus_cfg,
- 		 infmt->code != MEDIA_BUS_FMT_YUYV8_2X8);
- }
+This patch was created as part of the "Submit your first
+contribution to the Linux kernel" workshop at Debconf 25.
+---
+ .../greybus/Documentation/firmware/firmware.c | 24 +++++++++----------
+ 1 file changed, 12 insertions(+), 12 deletions(-)
+
+diff --git a/drivers/staging/greybus/Documentation/firmware/firmware.c b/drivers/staging/greybus/Documentation/firmware/firmware.c
+index 765d69faa9cc..b27d425c5c06 100644
+--- a/drivers/staging/greybus/Documentation/firmware/firmware.c
++++ b/drivers/staging/greybus/Documentation/firmware/firmware.c
+@@ -47,12 +47,12 @@ static int update_intf_firmware(int fd)
+ 	ret = ioctl(fd, FW_MGMT_IOC_GET_INTF_FW, &intf_fw_info);
+ 	if (ret < 0) {
+ 		printf("Failed to get interface firmware version: %s (%d)\n",
+-			fwdev, ret);
++		       fwdev, ret);
+ 		return -1;
+ 	}
  
-+static int csi_parse_upstream_fw_link_config(struct csi_priv *priv,
-+					     struct v4l2_subdev *remote_sd,
-+					     struct v4l2_mbus_config *mbus_cfg)
-+{
-+	struct fwnode_handle *ep_node;
-+	struct v4l2_fwnode_endpoint ep = { .bus_type = mbus_cfg->type };
-+	int ret;
-+
-+	ep_node = fwnode_graph_get_endpoint_by_id(dev_fwnode(remote_sd->dev),
-+						  0, 0,
-+						  FWNODE_GRAPH_ENDPOINT_NEXT);
-+	if (!ep_node)
-+		return -ENOTCONN;
-+
-+	ret = v4l2_fwnode_endpoint_parse(ep_node, &ep);
-+	/*
-+	 * Retry with V4L2_MBUS_BT656 if parsing fails with V4L2_MBUS_PARALLEL
-+	 * as the parallel interface supports both MBUS types.
-+	 */
-+	if (ret == -ENXIO && mbus_cfg->type == V4L2_MBUS_PARALLEL) {
-+		ep.bus_type = V4L2_MBUS_BT656;
-+		ret = v4l2_fwnode_endpoint_parse(ep_node, &ep);
-+	}
-+	fwnode_handle_put(ep_node);
-+	if (ret)
-+		return ret;
-+
-+	switch (ep.bus_type) {
-+	case V4L2_MBUS_PARALLEL:
-+	case V4L2_MBUS_BT656:
-+		mbus_cfg->bus.parallel = ep.bus.parallel;
-+		break;
-+	case V4L2_MBUS_CSI2_DPHY:
-+		mbus_cfg->bus.mipi_csi2 = ep.bus.mipi_csi2;
-+		break;
-+	default:
-+		v4l2_err(&priv->sd, "Unsupported mbus_type: %i\n",
-+			 ep.bus_type);
-+		return -EINVAL;
-+	}
-+	mbus_cfg->type = ep.bus_type;
-+	return 0;
-+}
-+
- /*
-  * Queries the media bus config of the upstream entity that provides data to
-  * the CSI. This will either be the entity directly upstream from the CSI-2
-@@ -175,6 +219,7 @@ static int csi_get_upstream_mbus_config(struct csi_priv *priv,
- 		return -EPIPE;
+ 	printf("Interface Firmware tag (%s), major (%d), minor (%d)\n",
+-		intf_fw_info.firmware_tag, intf_fw_info.major,
++	       intf_fw_info.firmware_tag, intf_fw_info.major,
+ 		intf_fw_info.minor);
  
- 	sd = priv->src_sd;
-+	mbus_cfg->type = V4L2_MBUS_CSI2_DPHY;
+ 	/* Try Interface Firmware load over Unipro */
+@@ -69,20 +69,20 @@ static int update_intf_firmware(int fd)
+ 	ret = ioctl(fd, FW_MGMT_IOC_INTF_LOAD_AND_VALIDATE, &intf_load);
+ 	if (ret < 0) {
+ 		printf("Failed to load interface firmware: %s (%d)\n", fwdev,
+-			ret);
++		       ret);
+ 		return -1;
+ 	}
  
- 	switch (sd->grp_id) {
- 	case IMX_MEDIA_GRP_ID_CSI_MUX:
-@@ -186,8 +231,14 @@ static int csi_get_upstream_mbus_config(struct csi_priv *priv,
- 		sd = imx_media_pipeline_subdev(&sd->entity,
- 					       IMX_MEDIA_GRP_ID_CSI2,
- 					       true);
--		if (IS_ERR(sd))
-+		if (IS_ERR(sd)) {
- 			sd = priv->src_sd;
-+			/*
-+			 * If the CSI-2 receiver is not on the path, the
-+			 * parallel port is in use.
-+			 */
-+			mbus_cfg->type = V4L2_MBUS_PARALLEL;
-+		}
- 		break;
- 	case IMX_MEDIA_GRP_ID_CSI2:
- 		break;
-@@ -211,9 +262,12 @@ static int csi_get_upstream_mbus_config(struct csi_priv *priv,
- 	ret = v4l2_subdev_call(remote_sd, pad, get_mbus_config,
- 			       remote_pad->index, mbus_cfg);
- 	if (ret == -ENOIOCTLCMD)
--		v4l2_err(&priv->sd,
--			 "entity %s does not implement get_mbus_config()\n",
--			 remote_pad->entity->name);
-+		/*
-+		 * If the upstream sd does not implement get_mbus_config,
-+		 * try to parse the link configuration from its fw_node
-+		 */
-+		ret = csi_parse_upstream_fw_link_config(priv, remote_sd,
-+							mbus_cfg);
+ 	if (intf_load.status != GB_FW_U_LOAD_STATUS_VALIDATED &&
+ 	    intf_load.status != GB_FW_U_LOAD_STATUS_UNVALIDATED) {
+ 		printf("Load status says loading failed: %d\n",
+-			intf_load.status);
++		       intf_load.status);
+ 		return -1;
+ 	}
  
- 	return ret;
- }
+ 	printf("Interface Firmware (%s) Load done: major: %d, minor: %d, status: %d\n",
+-		firmware_tag, intf_load.major, intf_load.minor,
+-		intf_load.status);
++	       firmware_tag, intf_load.major, intf_load.minor,
++	       intf_load.status);
+ 
+ 	/* Initiate Mode-switch to the newly loaded firmware */
+ 	printf("Initiate Mode switch\n");
+@@ -108,12 +108,12 @@ static int update_backend_firmware(int fd)
+ 	ret = ioctl(fd, FW_MGMT_IOC_GET_BACKEND_FW, &backend_fw_info);
+ 	if (ret < 0) {
+ 		printf("Failed to get backend firmware version: %s (%d)\n",
+-			fwdev, ret);
++		       fwdev, ret);
+ 		return -1;
+ 	}
+ 
+ 	printf("Backend Firmware tag (%s), major (%d), minor (%d), status (%d)\n",
+-		backend_fw_info.firmware_tag, backend_fw_info.major,
++	       backend_fw_info.firmware_tag, backend_fw_info.major,
+ 		backend_fw_info.minor, backend_fw_info.status);
+ 
+ 	if (backend_fw_info.status == GB_FW_U_BACKEND_VERSION_STATUS_RETRY)
+@@ -122,7 +122,7 @@ static int update_backend_firmware(int fd)
+ 	if ((backend_fw_info.status != GB_FW_U_BACKEND_VERSION_STATUS_SUCCESS)
+ 	    && (backend_fw_info.status != GB_FW_U_BACKEND_VERSION_STATUS_NOT_AVAILABLE)) {
+ 		printf("Failed to get backend firmware version: %s (%d)\n",
+-			fwdev, backend_fw_info.status);
++		       fwdev, backend_fw_info.status);
+ 		return -1;
+ 	}
+ 
+@@ -148,10 +148,10 @@ static int update_backend_firmware(int fd)
+ 
+ 	if (backend_update.status != GB_FW_U_BACKEND_FW_STATUS_SUCCESS) {
+ 		printf("Load status says loading failed: %d\n",
+-			backend_update.status);
++		       backend_update.status);
+ 	} else {
+ 		printf("Backend Firmware (%s) Load done: status: %d\n",
+-				firmware_tag, backend_update.status);
++		       firmware_tag, backend_update.status);
+ 	}
+ 
+ 	return 0;
+@@ -185,7 +185,7 @@ int main(int argc, char *argv[])
+ 		fw_timeout = strtoul(argv[4], &endptr, 10);
+ 
+ 	printf("Trying Firmware update: fwdev: %s, type: %s, tag: %s, timeout: %u\n",
+-		fwdev, fw_update_type == 0 ? "interface" : "backend",
++	       fwdev, fw_update_type == 0 ? "interface" : "backend",
+ 		firmware_tag, fw_timeout);
+ 
+ 	printf("Opening %s firmware management device\n", fwdev);
+
+base-commit: 1b0ee85ee7967a4d7a68080c3f6a66af69e4e0b4
 -- 
-2.34.1
+2.48.1
 
