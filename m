@@ -1,121 +1,85 @@
-Received: from layka.disroot.org (layka.disroot.org [178.21.23.139])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from stravinsky.debian.org (stravinsky.debian.org [82.195.75.108])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E643254873
-	for <linux-staging@lists.linux.dev>; Mon, 14 Jul 2025 13:56:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.21.23.139
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A3CD1FDA94;
+	Mon, 14 Jul 2025 14:03:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=82.195.75.108
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752501403; cv=none; b=N739IN7PcL/otj2o4ddswWJs7UK3k40lJ9LRheOS0lBxMlVE5flmC/WWtrzjLWMdWz0g6qxkVrNqxUnLWBPiwULcssVA7z19WIBTC3Rv8llHBFyO6mAjUFpGw1DQ1IzN+gHnxH4kLsR/6ABLXk+vhqNO/G4H8y0qH+KTFWvqet0=
+	t=1752501797; cv=none; b=bS4/HV645GbSBzBmTbbFyZr5KysRubDHGx1VWMK2lrrIb9ImC1WOkv24fyd+zxznSOzC6hiRWGxwpGuof2f98iovru42U+mutRnItZJDz+bgCSC+ZhXWYAM8aBAv6T7/OIKTwFu4ZZljGWqoEeKENbXr/c3xUjF5nc1jRcUP/Hk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752501403; c=relaxed/simple;
-	bh=2r4PJwbTP9Cp4Jke1ehe7I0MltoLzGMlwQSBAqTFUmM=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=eaeMy17QqJ+PK1MXHeebk9OZtBnnecvgUhHf4ml5larKlAinHaqUiZNDLLO7qdnpFRRpbfRDzvMI7ShOY/wsGTjsrQpRgWyfk5OkhwjsVrtvea+rG/s3U4Rf8V08twj5KAknobVT8OYgXTIrZLZ5OcExGML450r8u1lknX2Tbio=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=disroot.org; spf=pass smtp.mailfrom=disroot.org; dkim=pass (2048-bit key) header.d=disroot.org header.i=@disroot.org header.b=Lm7aAlyc; arc=none smtp.client-ip=178.21.23.139
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=disroot.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=disroot.org
+	s=arc-20240116; t=1752501797; c=relaxed/simple;
+	bh=A7WlxUnNpImSsGbjOxRFg3xdaaOHXi5Txv+vIAdoa4w=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=egXZQgPGL9B6rhAHVKq/ZD3YPQF6/n1XfohKZUzmoRbfBU8HzZOT5EelyztkHLjx49nnqzEndQDRIF2JZJgRU/HxU1kaS0QWAPfTvjkDaRbaaVQXSBBHsecT4mQTKaTn85/fGu4TObsZd+Cx3sMp3kbHxQh6dKQYB/Lke9HxHDI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org; spf=none smtp.mailfrom=debian.org; dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b=RA+LIWrj; arc=none smtp.client-ip=82.195.75.108
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=debian.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=disroot.org header.i=@disroot.org header.b="Lm7aAlyc"
-Received: from mail01.disroot.lan (localhost [127.0.0.1])
-	by disroot.org (Postfix) with ESMTP id 4F077219D4;
-	Mon, 14 Jul 2025 15:56:33 +0200 (CEST)
-X-Virus-Scanned: SPAM Filter at disroot.org
-Received: from layka.disroot.org ([127.0.0.1])
- by localhost (disroot.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id um6tW3_VHP22; Mon, 14 Jul 2025 15:56:32 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=disroot.org; s=mail;
-	t=1752501392; bh=2r4PJwbTP9Cp4Jke1ehe7I0MltoLzGMlwQSBAqTFUmM=;
-	h=From:To:Cc:Subject:Date;
-	b=Lm7aAlyct43Xu4OjGv7sYrci5fa5kzBZ8gCYhk2+2zDSG201+WFpqr2u331baSpec
-	 0aDFPaSrpgYLVWpFNAutxvO0jZS47k60SQ8FDFXAc6kR0FsPx+/HNTNI29GBNvBpzM
-	 JD0J2P2Od3l1hV9r4WLcO6B+WayPCW7qAeC/qLu+Vj81ncUyp8N1WI9UmA/U//fk1r
-	 8oXBGquRhhQWTie1U8dZoyDqeL6OeUlwM9EH2hztdqAOrrLwGK/o4p+mApHRJMM6UQ
-	 3DnRkN8ztv2IuFwkLLB2FiJUFIp6PCkoFa7ZWSU1l5MCfzxM8NeoJ7BKH7yp9HTgFU
-	 Yu1Xgz34+7jaw==
-From: Akhil Varkey <akhilvarkey@disroot.org>
-To: greybus-dev@lists.linaro.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	rmfrfs@gmail.com,
-	johan@kernel.org,
-	elder@kernel.org,
-	gregkh@linuxfoundation.org
-Cc: ~lkcamp/patches@lists.sr.ht,
-	koike@igalia.com,
-	Akhil Varkey <akhilvarkey@disroot.org>
-Subject: [PATCH] staging: greybus: power_supply fix alignment
-Date: Mon, 14 Jul 2025 15:56:03 +0200
-Message-ID: <20250714135606.41671-1-akhilvarkey@disroot.org>
+	dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b="RA+LIWrj"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=debian.org;
+	s=smtpauto.stravinsky; h=X-Debian-User:Content-Type:MIME-Version:Message-ID:
+	Subject:Cc:To:From:Date:Reply-To:Content-Transfer-Encoding:Content-ID:
+	Content-Description:In-Reply-To:References;
+	bh=q4CbpbmpjajkKumLluX7ElNNQCOsTWVd86WNCYP+jzU=; b=RA+LIWrj5gK1iIfxmZJnx6LQAo
+	6L4MeokPWC2pjpUOsMQ3bK55HP+OEXG/F2vc3ONWO//UItrUwSaSuTxXSKcZnGQrcYTxE55eDzZvV
+	9DLKnrrDEP/aMb0hGW+8I55CH1NU/+NuWcYnKeq3cODqIP34sSZG0z8/Rp+lpmitJtCc5ySjKe5/I
+	QV6mulaccXqQWMVvlg/7LOC1XCpX9MZ3IOuwcgM/60rmtTKjHXnhoFRES4QDdQ/VkwJLet5F208Mu
+	NS31bpatkhYKkgfkyVC+/9HmkvjJhR37kXyKC4jXmTki2EVccYq51hY77nixR9OXxMOsYBO3fvybO
+	EfahUn5w==;
+Received: from authenticated user
+	by stravinsky.debian.org with esmtpsa (TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
+	(Exim 4.94.2)
+	(envelope-from <weepingclown@debian.org>)
+	id 1ubJlx-00173W-Mm; Mon, 14 Jul 2025 14:03:13 +0000
+Date: Mon, 14 Jul 2025 19:33:10 +0530
+From: Ananthu C V <weepingclown@debian.org>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	~lkcamp/patches@lists.sr.ht, koike@igalia.com,
+	weepingclown@debian.org
+Cc: ~lkcamp/patches@lists.sr.ht, koike@igalia.com,
+	Ananthu C V <weepingclown@debian.org>
+Subject: [PATCH] staging: rtl8723bs: remove unncessary multiple blank lines
+Message-ID: <20250714140307.51506-1-weepingclown@debian.org>
+Mail-Followup-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	~lkcamp/patches@lists.sr.ht, koike@igalia.com
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-Mailer: git-send-email 2.39.5
+Organization: The Debian Project
+X-Debian-User: weepingclown
 
-Fix checkpatch check "CHECK:Alignment should match open parenthesis"
+fix "CHECK: Please don't use multiple blank lines" in
+drivers/staging/rtl8723bs/os_dep/os_intfs.c:102
 
-Signed-off-by: Akhil Varkey <akhilvarkey@disroot.org>
+Signed-off-by: Ananthu C V <weepingclown@debian.org>
 ---
-
-Hello, This is my first patch, I appreciate any feedbacks. Thanks!!
+Hello! This is my first patch, any feedback is very much
+appreciated!
 ---
- drivers/staging/greybus/power_supply.c | 14 +++++++-------
- 1 file changed, 7 insertions(+), 7 deletions(-)
+ drivers/staging/rtl8723bs/os_dep/os_intfs.c | 2 --
+ 1 file changed, 2 deletions(-)
 
-diff --git a/drivers/staging/greybus/power_supply.c b/drivers/staging/greybus/power_supply.c
-index 2ef46822f676..a484c0ca058d 100644
---- a/drivers/staging/greybus/power_supply.c
-+++ b/drivers/staging/greybus/power_supply.c
-@@ -324,7 +324,7 @@ static struct gb_power_supply_prop *get_psy_prop(struct gb_power_supply *gbpsy,
- }
+diff --git a/drivers/staging/rtl8723bs/os_dep/os_intfs.c b/drivers/staging/rtl8723bs/os_dep/os_intfs.c
+index d4dc169e19d7..7b53a32094bc 100644
+--- a/drivers/staging/rtl8723bs/os_dep/os_intfs.c
++++ b/drivers/staging/rtl8723bs/os_dep/os_intfs.c
+@@ -99,8 +99,6 @@ MODULE_PARM_DESC(rtw_ant_num, "Antenna number setting");
+ static int rtw_antdiv_cfg = 1; /*  0:OFF , 1:ON, 2:decide by Efuse config */
+ static int rtw_antdiv_type; /* 0:decide by efuse  1: for 88EE, 1Tx and 1RxCG are diversity.(2 Ant with SPDT), 2:  for 88EE, 1Tx and 2Rx are diversity.(2 Ant, Tx and RxCG are both on aux port, RxCS is on main port), 3: for 88EE, 1Tx and 1RxCG are fixed.(1Ant, Tx and RxCG are both on aux port) */
  
- static int is_psy_prop_writeable(struct gb_power_supply *gbpsy,
--				     enum power_supply_property psp)
-+				 enum power_supply_property psp)
- {
- 	struct gb_power_supply_prop *prop;
+-
+-
+ static int rtw_hw_wps_pbc;
  
-@@ -493,7 +493,7 @@ static int gb_power_supply_description_get(struct gb_power_supply *gbpsy)
- 	if (!gbpsy->model_name)
- 		return -ENOMEM;
- 	gbpsy->serial_number = kstrndup(resp.serial_number, PROP_MAX,
--				       GFP_KERNEL);
-+					GFP_KERNEL);
- 	if (!gbpsy->serial_number)
- 		return -ENOMEM;
- 
-@@ -546,7 +546,7 @@ static int gb_power_supply_prop_descriptors_get(struct gb_power_supply *gbpsy)
- 	}
- 
- 	gbpsy->props = kcalloc(gbpsy->properties_count, sizeof(*gbpsy->props),
--			      GFP_KERNEL);
-+			       GFP_KERNEL);
- 	if (!gbpsy->props) {
- 		ret = -ENOMEM;
- 		goto out_put_operation;
-@@ -634,8 +634,8 @@ static int __gb_power_supply_property_get(struct gb_power_supply *gbpsy,
- }
- 
- static int __gb_power_supply_property_strval_get(struct gb_power_supply *gbpsy,
--						enum power_supply_property psp,
--						union power_supply_propval *val)
-+						 enum power_supply_property psp,
-+						 union power_supply_propval *val)
- {
- 	switch (psp) {
- 	case POWER_SUPPLY_PROP_MODEL_NAME:
-@@ -943,8 +943,8 @@ static int gb_power_supplies_setup(struct gb_power_supplies *supplies)
- 		goto out;
- 
- 	supplies->supply = kcalloc(supplies->supplies_count,
--				     sizeof(struct gb_power_supply),
--				     GFP_KERNEL);
-+				   sizeof(struct gb_power_supply),
-+				   GFP_KERNEL);
- 
- 	if (!supplies->supply) {
- 		ret = -ENOMEM;
+ int rtw_mc2u_disable;
 -- 
-2.47.2
+2.39.5
 
