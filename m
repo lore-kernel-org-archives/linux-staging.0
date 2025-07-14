@@ -1,42 +1,48 @@
-Received: from geovh.egeo.net.eu.org (geovh.egeo.net.eu.org [37.187.0.189])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 111BF4315F
-	for <linux-staging@lists.linux.dev>; Mon, 14 Jul 2025 13:40:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=37.187.0.189
+Received: from frida.bearstech.com (frida.bearstech.com [78.40.125.115])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16F75248F60
+	for <linux-staging@lists.linux.dev>; Mon, 14 Jul 2025 13:40:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=78.40.125.115
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752500459; cv=none; b=FVJQgkhEfWgEwxebSY+mGRYufOqIyPEFfhlh5d73fh/k7DojVrZKzvkdIv/bACStMBRpifZi070+LxsbsegUEU9FvhPe9od1cEzszfqx7nR3zgRUDA1FahQ6I+4ozzq/NXoFMQN68tmL5Tqzpu/0dKB0mORr6zlS7Gsu8223SXs=
+	t=1752500462; cv=none; b=tybSXPvAnHb9GKj5t9lZyxfRKfeb2xWHwmVLZvXDJxLEMdorcKZJ10bp+6gG+JbiYaCoWnXwYVqo2Y4iNxjIN8FF1Ty5V6Q11QZZouPnLnLHwQHyAKUA3m/Rusd3/bOWQD8uXoJIORWjWeSjWyTQKTIf6OuhAfq7rZSlyaFk2h8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752500459; c=relaxed/simple;
-	bh=Av4sZlAnaXxNH+OG5H4W3D7HSIb+S9k6Olf8ZLnd3JQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=W/FuhqbKFpBs2SC2RjaLrFKoiO/1Cj4NUjp2UL9L/RVwVFzGbVGRskWvXM3Ge85pWfxLw+MrsHF3c6rT4rUla3kCYkNYl/k8jk5Mmm5bGCXcC4QCleXs/MengH5HHfJz1Q6QpvsY2gQroyo1mSFW5jLPhPxvOl3INLE/y/h2nJE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=viard.dev; spf=pass smtp.mailfrom=viard.dev; dkim=pass (2048-bit key) header.d=viard.dev header.i=@viard.dev header.b=qa0XMd+r; arc=none smtp.client-ip=37.187.0.189
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=viard.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=viard.dev
+	s=arc-20240116; t=1752500462; c=relaxed/simple;
+	bh=swd+UnGSJSjZhyKlzU+gp04gAHFAY+mZIm/+2HU0xzs=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=EuCPzPDpg1oUZ8KqUospSpAkohBb4HmODwyhtk0iiRSCWGgyZKR7pVZStZUWTRjzzS7XZpODRh70n2TXnXET2AFFV7jdMMX6YCthnwkvCRffUw0Nc+QpR86O8+H5nSx+Th0z05qVnHupSvu8InIVEO820z/Op5mFf+zep7uXnV0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bearstech.com; spf=pass smtp.mailfrom=bearstech.com; dkim=pass (2048-bit key) header.d=bearstech.com header.i=@bearstech.com header.b=A2pD3GQ/; arc=none smtp.client-ip=78.40.125.115
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bearstech.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bearstech.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=viard.dev header.i=@viard.dev header.b="qa0XMd+r"
-DKIM-Filter: OpenDKIM Filter v2.11.0 geovh.egeo.net.eu.org CCB598006B
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=viard.dev; s=201812;
-	t=1752499988; bh=Av4sZlAnaXxNH+OG5H4W3D7HSIb+S9k6Olf8ZLnd3JQ=;
+	dkim=pass (2048-bit key) header.d=bearstech.com header.i=@bearstech.com header.b="A2pD3GQ/"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=bearstech.com;
+	s=bearstech2024; t=1752499919;
+	bh=swd+UnGSJSjZhyKlzU+gp04gAHFAY+mZIm/+2HU0xzs=;
 	h=From:To:Cc:Subject:Date:From;
-	b=qa0XMd+rgnvSKSyhF6cVM2/2pESa6YV3QWT231wU1BZlJOa+pLCXGfFZlkmQFQrtm
-	 bHbnaUD7w/3i1DWDdC0vqGTX9dok2x4UdDDB1uE10QnkhEa6C6TyJWd7U97bqYzh36
-	 vorRyrUf11k59VfLBCP4DDedqf3881bjLg5kWtxj6CpV8lGaoAo63/KzJVSRudA5mr
-	 /WgH/KvYzgn5v3mehE6Yu2OBgNPbG3aXLb5TS4qFLyLv46ifq/eXtOv/kkY5USYmZT
-	 H4QoZeuVY2k4xAuTNZodSJQFetaM9Xx0V696K+LTEEu+/AKcSL84kSojHuSP2KcFnj
-	 rkxi1zts5uAdg==
-Received: from slimgeo (unknown [IPv6:2a00:5881:3041:2700:399c:b271:5bcd:1c08])
-	by geovh.egeo.net.eu.org (Postfix) with ESMTPSA id CCB598006B;
-	Mon, 14 Jul 2025 13:33:07 +0000 (UTC)
-From: Alexandre Viard <xela@viard.dev>
-To: linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	gregkh@linuxfoundation.org
+	b=A2pD3GQ/061vWvha8LIIqU1CcmEJufBiS6vXXUK3dbCmkDQlWHgDVeMwnapWsfbRQ
+	 CGBc4AkX8KQrf8TNepfa9jdv/fz4Wr6H67R+lHfSi5AraUG7RadS/4jMjk2YTS6QNs
+	 fvulg2N1abbJLKUq/8+gR4ostEL35aWY4Qp9dAvTsxDPUwwAch4lcax3dUb7N+KmdR
+	 L0AlG5pDoam7tIhwIpZJl3Tyxko5+XzZTqMI2vyYEbUUp19PnrqGs9ChJ9nvnx13vT
+	 sQ4kiHLYBIzfyNW9w9kfMaPX6bG4j6nnRoBVm/lbum1EJrNjGBP2axldFwTVd5bv1V
+	 nuC5ktzByInOA==
+Received: from zeroco.bearstech.lan (unknown [89.234.162.240])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: vcaron@bearstech.com)
+	by frida.bearstech.com (Postfix) with ESMTPSA id 02E48AA;
+	Mon, 14 Jul 2025 15:31:58 +0200 (CEST)
+From: Vincent Caron <vcaron@bearstech.com>
+To: gregkh@linuxfoundation.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
 Cc: ~lkcamp/patches@lists.sr.ht,
 	koike@igalia.com,
-	Alexandre Viard <xela@viard.dev>
-Subject: [PATCH] staging: rtl8723bs: os_dep: remove whitespace after cast.
-Date: Mon, 14 Jul 2025 15:32:30 +0200
-Message-ID: <20250714133238.67997-1-xela@viard.dev>
-X-Mailer: git-send-email 2.50.0
+	Vincent Caron <vcaron@bearstech.com>
+Subject: [PATCH] staging: rtl8723bs: remove spurious if-block braces
+Date: Mon, 14 Jul 2025 15:17:43 +0200
+Message-Id: <20250714131743.343482-1-vcaron@bearstech.com>
+X-Mailer: git-send-email 2.39.5
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -44,31 +50,39 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-Virus-Scanned: clamav-milter 1.0.7 at frida
+X-Virus-Status: Clean
 
-Fix checkpatch error "CHECK: No space is necessary after a cast"
-in sdio_intf.c:292
+Fix checkpatch "WARNING: braces {} are not necessary for single statement
+blocks" in rtl8723bs/os_dep/os_intfs.c:1207.
 
-Signed-off-by: Alexandre Viard <xela@viard.dev>
+Signed-off-by: Vincent Caron <vcaron@bearstech.com>
+
 ---
+Dear maintainer,
 
-Hello, this is my first patch on the kernel, I appreciate any feedback, thanks!
+this is my first (very modest) kernel patch, training with the workflow
+under the guidance of Helen at DebConf25 hacklab.
 ---
- drivers/staging/rtl8723bs/os_dep/sdio_intf.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/staging/rtl8723bs/os_dep/os_intfs.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/staging/rtl8723bs/os_dep/sdio_intf.c b/drivers/staging/rtl8723bs/os_dep/sdio_intf.c
-index 5a7238e661ff..e735747f2000 100644
---- a/drivers/staging/rtl8723bs/os_dep/sdio_intf.c
-+++ b/drivers/staging/rtl8723bs/os_dep/sdio_intf.c
-@@ -289,7 +289,7 @@ static struct adapter *rtw_sdio_if1_init(struct dvobj_priv *dvobj, const struct
+diff --git a/drivers/staging/rtl8723bs/os_dep/os_intfs.c b/drivers/staging/rtl8723bs/os_dep/os_intfs.c
+index d4dc169e19d7..8b957468e174 100644
+--- a/drivers/staging/rtl8723bs/os_dep/os_intfs.c
++++ b/drivers/staging/rtl8723bs/os_dep/os_intfs.c
+@@ -1204,9 +1204,9 @@ int rtw_resume_common(struct adapter *padapter)
  
- 	rtw_hal_chip_configure(padapter);
+ 	hal_btcoex_SuspendNotify(padapter, 0);
  
--	hal_btcoex_Initialize((void *) padapter);
-+	hal_btcoex_Initialize((void *)padapter);
+-	if (pwrpriv) {
++	if (pwrpriv)
+ 		pwrpriv->bInSuspend = false;
+-	}
++
+ 	netdev_dbg(padapter->pnetdev, "%s:%d in %d ms\n", __func__, ret,
+ 		   jiffies_to_msecs(jiffies - start_time));
  
- 	/* 3 6. read efuse/eeprom data */
- 	rtw_hal_read_chip_info(padapter);
 -- 
-2.50.0
+2.39.5
 
