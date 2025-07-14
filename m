@@ -1,92 +1,84 @@
-Received: from taubenbroetchen.weidenauer.cc (taubenbroetchen.weidenauer.cc [37.252.242.197])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from hosted.mailcow.de (hosted.mailcow.de [5.1.76.202])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DC5C2505A9
-	for <linux-staging@lists.linux.dev>; Mon, 14 Jul 2025 13:51:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=37.252.242.197
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC2EA24E4BD
+	for <linux-staging@lists.linux.dev>; Mon, 14 Jul 2025 13:53:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=5.1.76.202
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752501085; cv=none; b=r3kO3bHI0ALWOjTK/kC6Wi4f9msKXvlvwF+W9trO937F38XxhgUpCDZ+hpheneth4zOJW5AjVl1YNwWOGj6oqOMqzsEkO2pUHHcNVUxZlQgiJDUKPxQPDqg/AYdqYlzUX21o/A8rtLoApqjfuBaYl2KNmBvA3BhpZND70sqW0DM=
+	t=1752501188; cv=none; b=CneNqbeKY3MwcpE5v1enQBsiefpGqeNAUgafyLIj0433ZTKJyinwSB9eMraCMn3owm0xuHpOey+Brjp9drgiS0/n6TK2/AN1GpJhvNahWMxc5JB4w9ZarGdiRXW4vfonySm8w7kh9u9QbE5x75ZhVwyIMX2Yi7NTWpvzqEqWhuA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752501085; c=relaxed/simple;
-	bh=Y/WjS9Hpfaq+L5YVT987Aiul12A09O2mxfF/fOIhq9A=;
-	h=Date:From:To:CC:Subject:In-Reply-To:References:Message-ID:
-	 MIME-Version:Content-Type; b=utvAnJ6N7uJaTKWPNOqflv5s93GUJF9VrbtaZq8sTfYQvRdJQvx0CB2gJveRbLZZg+V/+3Hc2bRs/bzXxygtNYlr0TcIeETdCQN67iTMsOpHCzQxUtbLi7edDH9odNKm+RkMR+jNW+ETp+iG2Tmw7TTRl+O4tJlpSR6AAL2SkjE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=weidenauer.cc; spf=pass smtp.mailfrom=weidenauer.cc; dkim=pass (2048-bit key) header.d=weidenauer.cc header.i=@weidenauer.cc header.b=S86kwcLG; arc=none smtp.client-ip=37.252.242.197
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=weidenauer.cc
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weidenauer.cc
+	s=arc-20240116; t=1752501188; c=relaxed/simple;
+	bh=ZpvaDQ6D1LgO7scU7GaRUpWvzJdm4Ccx4HXyYU2xtl4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=MeZmvo66Kxe/W1KTlFpL8aM706EcaFtVOxI0tuZ9fFvhGGY84fFE+xHUfV6yAgFU2x1Xl87E0zpV23aBKEsrcC7/JEs/9chs9IDfTiuE+lViWIWDjZfiX49tQQh2RCcUe0Pud8e5xm3jJnPqXauOdtEvt1yarGrXWTs6t4SP0kk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=abhy.me; spf=pass smtp.mailfrom=abhy.me; dkim=pass (2048-bit key) header.d=abhy.me header.i=@abhy.me header.b=bfODwRDB; arc=none smtp.client-ip=5.1.76.202
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=abhy.me
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=abhy.me
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=weidenauer.cc header.i=@weidenauer.cc header.b="S86kwcLG"
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=weidenauer.cc;
-	s=taubenbroetchen; t=1752501081;
-	bh=Y/WjS9Hpfaq+L5YVT987Aiul12A09O2mxfF/fOIhq9A=;
-	h=Date:From:To:CC:Subject:In-Reply-To:References:From;
-	b=S86kwcLGvjKQcJ5X05ytLQU/w58iyT+nZpHC1/THaeWkMnKS0BN6CG1xwH1S7lsCD
-	 LQUDn2ltYgLDAG0D3Yq8xo85sEjLNZlfdAu37/9sUQ1oe1x2/DTrAgDDV0QTkFrmwJ
-	 GqfWWz9anchnmpNFXWuXxUf0KXVNYr86P4dEyWvJl0canDQagiTLbQCvzOJCxkXd50
-	 wajUBcAewzxyC+SZ3xPZTzZ0Qbv42PHi4UyinxC8CBvnnjoOL1/XVQgexuRT/UUaLK
-	 AdekMacLWa21bDUL3qy/5/nqBXKtreBr7Vo9KoEH2Amt3Y773NTjxDj5DGLI9EolYE
-	 +PkhsWspAVDow==
-Received: from [127.0.0.1] (212095005104.public.telering.at [212.95.5.104])
-	by taubenbroetchen.weidenauer.cc (Postfix) with ESMTPSA id A4B0264470;
-	Mon, 14 Jul 2025 15:51:20 +0200 (CEST)
-Date: Mon, 14 Jul 2025 15:51:19 +0200
-From: Martin Weidenauer <martin@weidenauer.cc>
-To: Greg KH <gregkh@linuxfoundation.org>
-CC: hansg@kernel.org, mchehab@kernel.org, sakari.ailus@linux.intel.com,
- andy@kernel.org, linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-staging@lists.linux.dev, ~lkcamp/patches@lists.sr.ht, koike@igalia.com
-Subject: Re: [PATCH] staging: atomisp: isp: fix open brace on new line
-User-Agent: K-9 Mail for Android
-In-Reply-To: <2025071444-overeater-washday-405c@gregkh>
-References: <20250714131953.45947-1-martin@weidenauer.cc> <2025071444-overeater-washday-405c@gregkh>
-Message-ID: <9F1430C9-1AC7-4955-8785-1E321BCD6E88@weidenauer.cc>
+	dkim=pass (2048-bit key) header.d=abhy.me header.i=@abhy.me header.b="bfODwRDB"
+Received: from mail.abhy.me (mail.abhy.me [156.67.110.73])
+	(Authenticated sender: relay-abhinav@mailcow.de)
+	by hosted.mailcow.de (Postcow) with ESMTPSA id A968B5C0264;
+	Mon, 14 Jul 2025 15:46:47 +0200 (CEST)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 05A7DC1609;
+	Mon, 14 Jul 2025 19:16:37 +0530 (IST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=abhy.me; s=dkim;
+	t=1752500805; h=from:subject:date:message-id:to:cc:mime-version:
+	 content-transfer-encoding; bh=/XW1mZMqwG9RLzu6IY65wC4dZ35utOaJ0H/k4M8fGOs=;
+	b=bfODwRDBe3IiAcXIsEiNlTmjA9vYfcWJrO2wxd0sSjcq/SyD3ggjk0oLyk4TEw/LmPv61R
+	6gNQcZYE4djG0UlaAt1TFwtpuORNWzzKf3tT2LPeVmLRHhj3urThSB1hXb+k3lL5lLqsnh
+	6tzdpA57iRXOzoPME8zXpjVeQFcRwdaIeW9o02XarQJTbs98zFmS5jaWlZZ0kM2PZzT5+g
+	SFj9L3h6Rvu0J/16neyLvLEo184VF1qRuMJM0ZIw9rF7b6+D6OGsZzHhH9kDth7RLPeKCi
+	X+zSGnnbNaPQf3usvaWDkksU0I/mYHEu+JGlipKJ7XnSUptnr2P5nsiYAQtnpQ==
+From: Abhinav Krishna C K <me@abhy.me>
+To: greybus-dev@lists.linaro.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	gregkh@linuxfoundation.org,
+	elder@kernel.org,
+	johan@kernel.org
+Cc: ~lkcamp/patches@lists.sr.ht,
+	koike@igalia.com,
+	Abhinav Krishna C K <me@abhy.me>
+Subject: [PATCH] staging: greybus: firmware: Move logical AND to previous line
+Date: Mon, 14 Jul 2025 15:45:32 +0200
+Message-ID: <20250714134537.59218-1-me@abhy.me>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Rspamd-Server: mw-taubenbroetchen01
-X-Rspamd-Queue-Id: A4B0264470
-X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-0.10 / 8.00];
-	MIME_GOOD(-0.10)[text/plain];
-	FROM_HAS_DN(0.00)[];
-	RCVD_COUNT_ZERO(0.00)[0];
-	ARC_NA(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[10];
-	MID_RHS_MATCH_FROM(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_DN_SOME(0.00)[]
+Content-Transfer-Encoding: 8bit
+X-Last-TLS-Session-Version: TLSv1.3
 
-If you mean the indentation in the file, I think it's unfortunately just a =
-messy driver in general=2E
-I mean I could fix it in another commit in general if you want=2E
+Fix checkpatch CHECK:
+    "Logical continuations should be on the previous line"
+ in firmware.c:123
 
-Be well,
-Martin
+Signed-off-by: Abhinav Krishna C K <me@abhy.me>
 
-On 14 July 2025 15:24:57 CEST, Greg KH <gregkh@linuxfoundation=2Eorg> wrot=
-e:
->On Mon, Jul 14, 2025 at 03:19:53PM +0200, Martin Weidenauer wrote:
->> 	Fix checkpatch error "ERROR: that open brace { should be on the previo=
-us line"
->> 	in ia_css_dvs=2Ehost=2Ec:277=2E
->>=20
->> 	Signed-off-by: Martin Weidenauer <martin@weidenauer=2Ecc>
->>=20
->> 	---
->>=20
->> 	Hey, this is my first patch, I appreciate any feedback=2E Greetings fr=
-om DebConf25!
->
->Odd indentation, how did that happen?
->
->thanks,
->
->greg k-h
+---
+
+Hello, this is my first patch, I appreciate any feedback, Thanks!
+---
+ drivers/staging/greybus/Documentation/firmware/firmware.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/staging/greybus/Documentation/firmware/firmware.c b/drivers/staging/greybus/Documentation/firmware/firmware.c
+index 765d69faa9cc..e8fb2f575cd5 100644
+--- a/drivers/staging/greybus/Documentation/firmware/firmware.c
++++ b/drivers/staging/greybus/Documentation/firmware/firmware.c
+@@ -119,8 +119,8 @@ static int update_backend_firmware(int fd)
+ 	if (backend_fw_info.status == GB_FW_U_BACKEND_VERSION_STATUS_RETRY)
+ 		goto retry_fw_version;
+ 
+-	if ((backend_fw_info.status != GB_FW_U_BACKEND_VERSION_STATUS_SUCCESS)
+-	    && (backend_fw_info.status != GB_FW_U_BACKEND_VERSION_STATUS_NOT_AVAILABLE)) {
++	if ((backend_fw_info.status != GB_FW_U_BACKEND_VERSION_STATUS_SUCCESS) &&
++	    (backend_fw_info.status != GB_FW_U_BACKEND_VERSION_STATUS_NOT_AVAILABLE)) {
+ 		printf("Failed to get backend firmware version: %s (%d)\n",
+ 			fwdev, backend_fw_info.status);
+ 		return -1;
+-- 
+2.47.2
+
