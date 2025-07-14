@@ -1,85 +1,125 @@
-Received: from stravinsky.debian.org (stravinsky.debian.org [82.195.75.108])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f176.google.com (mail-qt1-f176.google.com [209.85.160.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A3CD1FDA94;
-	Mon, 14 Jul 2025 14:03:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=82.195.75.108
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A87724A07C
+	for <linux-staging@lists.linux.dev>; Mon, 14 Jul 2025 14:07:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752501797; cv=none; b=bS4/HV645GbSBzBmTbbFyZr5KysRubDHGx1VWMK2lrrIb9ImC1WOkv24fyd+zxznSOzC6hiRWGxwpGuof2f98iovru42U+mutRnItZJDz+bgCSC+ZhXWYAM8aBAv6T7/OIKTwFu4ZZljGWqoEeKENbXr/c3xUjF5nc1jRcUP/Hk=
+	t=1752502023; cv=none; b=dNFJBAbjumKZjOyPeVjovfS0Ot1bP0wW1smIQlK8lOA7uwrvxnCvYiD2Mk3v8WYNBu0ynublYCGgLm33gaCMyzK69brItqGj3k/Q+JQfX7AIYxPjrrXCNhASD5VHyuH38gxb4jX/MoYKG95DxiwmI/jbOMzrTQXcch7dQhdav9A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752501797; c=relaxed/simple;
-	bh=A7WlxUnNpImSsGbjOxRFg3xdaaOHXi5Txv+vIAdoa4w=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=egXZQgPGL9B6rhAHVKq/ZD3YPQF6/n1XfohKZUzmoRbfBU8HzZOT5EelyztkHLjx49nnqzEndQDRIF2JZJgRU/HxU1kaS0QWAPfTvjkDaRbaaVQXSBBHsecT4mQTKaTn85/fGu4TObsZd+Cx3sMp3kbHxQh6dKQYB/Lke9HxHDI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org; spf=none smtp.mailfrom=debian.org; dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b=RA+LIWrj; arc=none smtp.client-ip=82.195.75.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=debian.org
+	s=arc-20240116; t=1752502023; c=relaxed/simple;
+	bh=+04pRfrMC5bnxVH1z1JDJ55WhOxbPv/wMsPDtKE/wug=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=kPbCVbvcX7IOJuuUsCSRdrvuwyN9LeyLHLjRia356Y/+JlGygaGSPHxWLX5klgETnYqrBovv9lg8k034ISiTSP2OKmyiaxPJ4BeVta34AfC9HbhSbizpxG0Fvy7nicj+SZfMEoPOAFBWuSjHBhVEb1yYtI808qaR5GdmurUt7J0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LOHOY8Yu; arc=none smtp.client-ip=209.85.160.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b="RA+LIWrj"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=debian.org;
-	s=smtpauto.stravinsky; h=X-Debian-User:Content-Type:MIME-Version:Message-ID:
-	Subject:Cc:To:From:Date:Reply-To:Content-Transfer-Encoding:Content-ID:
-	Content-Description:In-Reply-To:References;
-	bh=q4CbpbmpjajkKumLluX7ElNNQCOsTWVd86WNCYP+jzU=; b=RA+LIWrj5gK1iIfxmZJnx6LQAo
-	6L4MeokPWC2pjpUOsMQ3bK55HP+OEXG/F2vc3ONWO//UItrUwSaSuTxXSKcZnGQrcYTxE55eDzZvV
-	9DLKnrrDEP/aMb0hGW+8I55CH1NU/+NuWcYnKeq3cODqIP34sSZG0z8/Rp+lpmitJtCc5ySjKe5/I
-	QV6mulaccXqQWMVvlg/7LOC1XCpX9MZ3IOuwcgM/60rmtTKjHXnhoFRES4QDdQ/VkwJLet5F208Mu
-	NS31bpatkhYKkgfkyVC+/9HmkvjJhR37kXyKC4jXmTki2EVccYq51hY77nixR9OXxMOsYBO3fvybO
-	EfahUn5w==;
-Received: from authenticated user
-	by stravinsky.debian.org with esmtpsa (TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
-	(Exim 4.94.2)
-	(envelope-from <weepingclown@debian.org>)
-	id 1ubJlx-00173W-Mm; Mon, 14 Jul 2025 14:03:13 +0000
-Date: Mon, 14 Jul 2025 19:33:10 +0530
-From: Ananthu C V <weepingclown@debian.org>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	~lkcamp/patches@lists.sr.ht, koike@igalia.com,
-	weepingclown@debian.org
-Cc: ~lkcamp/patches@lists.sr.ht, koike@igalia.com,
-	Ananthu C V <weepingclown@debian.org>
-Subject: [PATCH] staging: rtl8723bs: remove unncessary multiple blank lines
-Message-ID: <20250714140307.51506-1-weepingclown@debian.org>
-Mail-Followup-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	~lkcamp/patches@lists.sr.ht, koike@igalia.com
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LOHOY8Yu"
+Received: by mail-qt1-f176.google.com with SMTP id d75a77b69052e-4a77ea7ed49so58569981cf.0
+        for <linux-staging@lists.linux.dev>; Mon, 14 Jul 2025 07:07:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1752502021; x=1753106821; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=A11jZ3IWs915tX3jAt6nejExoHwEI3hR6vxjjTJTwmY=;
+        b=LOHOY8Yujf3tIkI67EOJ9Yfm+is0qNYWebwtWYs5pQKEOrJNuEsqNWv5qsNH4V1GZ8
+         5MwrcN3Kl6GKsWPxu3LgIiGwf5iysz9/DuGPyb7r5p1bdPP7xpopkJyknXo9B3N78eKi
+         yje9t4LTZIB02Zazfvc0KGa1wNH4qd2WAajXODpawaav0qFvQpHTuzp4flq59CPBj8JI
+         Ex5hGgCMz8bIQq7luKvQBpKvv06SsWocKvdMoFTvkp8ilgSXRV0pFlTd6/Q+RETOOm+C
+         qJ6wbnXYk3jvEqBAy34b75w6LiNf7EbAnqJlvO41iObRJQZIH5wMnhbS0q0TXaXfw0bs
+         Fv/Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1752502021; x=1753106821;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=A11jZ3IWs915tX3jAt6nejExoHwEI3hR6vxjjTJTwmY=;
+        b=EidtK1barvWxCjBnGl5RwvnPY8RDeKfJULW7HYUKytf4TeMGKBXeGGw6ACExkUtSfS
+         CcuJ6ZdepncnGs8nkrRmz3UXM8gHke9Q4C5jbLEQGgLS7QN+KjI3PUG49B1HeldnqLZ7
+         bpQncnFTENNYqeDXt2tnmMHexkLnZyWdjYgvrtQ1cVGYaTy7nm5RpIgSjhajwZ9M8fFh
+         tnT6M3M9V2vmVcnQ4vBVzoV6cG13V4J0updm+I5bj3BrQxyNCyJZJ+p1FmkXCuoi7Na+
+         IO2wZioOovV89hHzJZtsJi8Yq9qvL4VDhayfNJr4SzeLm+0QLQTfhuDQlK47Iu0AGeGA
+         PWKQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUjn99/vihClLUkDflz37shR9LPpTiGNg+8xjT+rFvoTHIPhVfOhKtjK8DrsugFVGUJMfHdk0apqzrW7J5B@lists.linux.dev
+X-Gm-Message-State: AOJu0YyF8oVEMSItGnvist448iKVsWQ2HzbqHocqQFS8X9isGMqyTKTo
+	NQKACfrwI9LEdVouYk4WYBdT2JSbO93wwC/OcVbT2w26HmHuNSROgC8H
+X-Gm-Gg: ASbGncsmu3IkA0/bNd+TXJ50ktBZTfPgIUtw3gwSDgqpqPA3zeEZOpjEL1enMIpa23W
+	rIP2WMUUsWy7nVYUPDRoH4bVtvNqmiGEpUIK2Jfp8W/T4zFuIEB01Ze0JAlnQ6pb2VW8JPUp2UT
+	1xzNcrjviK675HdkLolVNuv4e5ROJIBYgwpyT2AZiyoB4GUGXkrBP3JOecXIqhrWx3iK1HhcStD
+	5NzuNfGnqePK5grhKvMj5GsFU1U3nUPR7rw5ZF+WHLxQJkjF70hj289H4Uv5KwzjAH3vlArae+J
+	uCy9GOvPM71Yrfnm6uVhGTfFZv6T3y9ELBLs97VW6g4O1JHUCp4k6jYQE0g7Iq9v2ovDQ9t2S+k
+	+U2PwiBM2pzB+ATGinfjDlqq9+he/ezgkpAmsEBmF
+X-Google-Smtp-Source: AGHT+IEv313TLhURVuJV2ZjFg7WZOUSA5K8QH3+VOSOLnS1GhFcpirLmcVMiUuQvO1TRBLf2PHw96g==
+X-Received: by 2002:a05:622a:5c05:b0:49a:4fc0:56ff with SMTP id d75a77b69052e-4a9e9ca5040mr311134641cf.12.1752502021073;
+        Mon, 14 Jul 2025 07:07:01 -0700 (PDT)
+Received: from localhost.localdomain ([2a00:5881:3041:2700:bc8c:6e13:ff9d:5355])
+        by smtp.gmail.com with ESMTPSA id 3f1490d57ef6-e8b7ae2a91bsm2940614276.1.2025.07.14.07.06.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 14 Jul 2025 07:07:00 -0700 (PDT)
+From: Woohee Yang <woohee9527@gmail.com>
+To: Andy Shevchenko <andy@kernel.org>,
+	Hans de Goede <hansg@kernel.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev
+Cc: ~lkcamp/patches@lists.sr.ht,
+	koike@igalia.com,
+	Woohee Yang <woohee9527@gmail.com>
+Subject: [PATCH v2] stating: media: atomisp: fix open brace placement
+Date: Mon, 14 Jul 2025 16:06:47 +0200
+Message-ID: <20250714140651.213850-1-woohee9527@gmail.com>
+X-Mailer: git-send-email 2.47.2
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-X-Mailer: git-send-email 2.39.5
-Organization: The Debian Project
-X-Debian-User: weepingclown
+Content-Transfer-Encoding: 8bit
 
-fix "CHECK: Please don't use multiple blank lines" in
-drivers/staging/rtl8723bs/os_dep/os_intfs.c:102
+Fix checkpatch error "ERROR: that open brace { should be on the previous
+line" in isp_param.c
 
-Signed-off-by: Ananthu C V <weepingclown@debian.org>
+Signed-off-by: Woohee Yang <woohee9527@gmail.com>
+
 ---
-Hello! This is my first patch, any feedback is very much
-appreciated!
----
- drivers/staging/rtl8723bs/os_dep/os_intfs.c | 2 --
- 1 file changed, 2 deletions(-)
 
-diff --git a/drivers/staging/rtl8723bs/os_dep/os_intfs.c b/drivers/staging/rtl8723bs/os_dep/os_intfs.c
-index d4dc169e19d7..7b53a32094bc 100644
---- a/drivers/staging/rtl8723bs/os_dep/os_intfs.c
-+++ b/drivers/staging/rtl8723bs/os_dep/os_intfs.c
-@@ -99,8 +99,6 @@ MODULE_PARM_DESC(rtw_ant_num, "Antenna number setting");
- static int rtw_antdiv_cfg = 1; /*  0:OFF , 1:ON, 2:decide by Efuse config */
- static int rtw_antdiv_type; /* 0:decide by efuse  1: for 88EE, 1Tx and 1RxCG are diversity.(2 Ant with SPDT), 2:  for 88EE, 1Tx and 2Rx are diversity.(2 Ant, Tx and RxCG are both on aux port, RxCS is on main port), 3: for 88EE, 1Tx and 1RxCG are fixed.(1Ant, Tx and RxCG are both on aux port) */
+Hey, this is my first patch, I appreciate any feedback, thank you!
+
+Changelog:
+v2: modified commit message
+v1: https://lore.kernel.org/linux-media/20250714135014.212067-1-woohee9527@gmail.com/
+---
+ .../media/atomisp/pci/runtime/isp_param/src/isp_param.c     | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/staging/media/atomisp/pci/runtime/isp_param/src/isp_param.c b/drivers/staging/media/atomisp/pci/runtime/isp_param/src/isp_param.c
+index 251dd75a7613..b4aac76c2ed5 100644
+--- a/drivers/staging/media/atomisp/pci/runtime/isp_param/src/isp_param.c
++++ b/drivers/staging/media/atomisp/pci/runtime/isp_param/src/isp_param.c
+@@ -102,8 +102,7 @@ ia_css_isp_param_allocate_isp_parameters(
+ 	unsigned int mem, pclass;
  
--
--
- static int rtw_hw_wps_pbc;
+ 	pclass = IA_CSS_PARAM_CLASS_PARAM;
+-	for (mem = 0; mem < IA_CSS_NUM_MEMORIES; mem++)
+-	{
++	for (mem = 0; mem < IA_CSS_NUM_MEMORIES; mem++) {
+ 		for (pclass = 0; pclass < IA_CSS_NUM_PARAM_CLASSES; pclass++) {
+ 			u32 size = 0;
  
- int rtw_mc2u_disable;
+@@ -178,8 +177,7 @@ ia_css_isp_param_copy_isp_mem_if_to_ddr(
+     enum ia_css_param_class pclass) {
+ 	unsigned int mem;
+ 
+-	for (mem = 0; mem < N_IA_CSS_ISP_MEMORIES; mem++)
+-	{
++	for (mem = 0; mem < N_IA_CSS_ISP_MEMORIES; mem++) {
+ 		size_t       size	  = host->params[pclass][mem].size;
+ 		ia_css_ptr ddr_mem_ptr  = ddr->params[pclass][mem].address;
+ 		char	    *host_mem_ptr = host->params[pclass][mem].address;
 -- 
-2.39.5
+2.47.2
 
