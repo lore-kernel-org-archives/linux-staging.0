@@ -1,49 +1,36 @@
-Received: from taubenbroetchen.weidenauer.cc (taubenbroetchen.weidenauer.cc [37.252.242.197])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from camille.insymetrique.net (camille.insymetrique.net [80.67.172.148])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 243B8149C51
-	for <linux-staging@lists.linux.dev>; Mon, 14 Jul 2025 13:28:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=37.252.242.197
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3E5E23A9BB
+	for <linux-staging@lists.linux.dev>; Mon, 14 Jul 2025 13:29:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.67.172.148
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752499703; cv=none; b=dJ3cCTNGEIaTAyJ0IZWupfwjjYtiK1KOfzWt+LdgCYwRnQzinINTDI7P46B/Ss1C56ycuB4iCH8A/n0rsMJJgNAeOgjlnKvgnpWMGnkX6lDy0qGOogSkbfXbFowvrTZRPjCAWl5raqEDZZR2IgZjWKhqesTg+KstHVH0UoEi2kI=
+	t=1752499765; cv=none; b=fJDxfXzGWC6tXu/X4jZbvRG6gOQ2wrSwIUtiyeXqQWTy6sOrmU465PcCbVtq5mNvL7x+xuBGgP1EfJFAOqXZKZ/XuUW4Y0xdnfUEVyPecUa/aPK9wv5SMEsFf9MvpCLVndYEuyEthq3bHA/JdSb/dKtnMLiLOOj1o058aXpjoFo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752499703; c=relaxed/simple;
-	bh=8IL/An7Yj43eAS+bkcr9o/TBnce1TMn3he0jdXyWtLo=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=V9ovBUgflgJrcHVzI3Tg+VfEVvBqW1KUqOV2yW/bY8ZOmmoUyo6zt4mVEu3CVR51tFxaN1ucKzaG+12Xw0YN6mb9q9PCGB3jxodKypSRIFIGJY73GslSxUv8IOkB2fo4YcLrmDp93/R511QtjBwc6gXuoSfXDhXHssiilEm+FjI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=weidenauer.cc; spf=pass smtp.mailfrom=weidenauer.cc; dkim=pass (2048-bit key) header.d=weidenauer.cc header.i=@weidenauer.cc header.b=DxRg24c3; arc=none smtp.client-ip=37.252.242.197
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=weidenauer.cc
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weidenauer.cc
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=weidenauer.cc header.i=@weidenauer.cc header.b="DxRg24c3"
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=weidenauer.cc;
-	s=taubenbroetchen; t=1752499209;
-	bh=8IL/An7Yj43eAS+bkcr9o/TBnce1TMn3he0jdXyWtLo=;
-	h=From:To:Cc:Subject:Date:From;
-	b=DxRg24c3NzV1qk4whTTsAN1ulPHuddWPFp562nlmSH7wJtNZ0XpydZykOsIEExltV
-	 SHHo7EjwD5XOgsNm5+Wzu6gmO4HYpxqoZMQJ4/dEntMO98kMt/SqpQg/BT8VD2s9GH
-	 0TWbl0LCV03V7hX5EISiWlXjnbqh566UCmrma95Acaq9phbYb0k2jchhPi4IPKfwmf
-	 L7G8WJfq0J9d+2eOO6Hyk66V/qrYM7pcK+VDSVcSrO32QEnStmR1xrzk5PnlxUbCcX
-	 4wC1Ax58wJ5u1mjeUpj/76L3Lge5Vla/W0TN29lgIH86SWCN58EqNyKTz2yyQQ47Yp
-	 0g/fcSPR1zUAA==
-Received: from mw-debconf-kernel.vesonet.local (unknown [10.20.60.99])
-	by taubenbroetchen.weidenauer.cc (Postfix) with ESMTPSA id EDBCC63D6F;
-	Mon, 14 Jul 2025 15:20:08 +0200 (CEST)
-From: Martin Weidenauer <martin@weidenauer.cc>
-To: hansg@kernel.org,
-	mchehab@kernel.org,
-	sakari.ailus@linux.intel.com,
-	andy@kernel.org,
-	gregkh@linuxfoundation.org,
-	linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev
+	s=arc-20240116; t=1752499765; c=relaxed/simple;
+	bh=VoE/He8A7pFiu7S2/GPsIasmNwCHjvnNQp8zOIbyzw0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=NygvHtmc0flKoKXZ60eeZqKNVpnL8EiYjLee3lp7PGaQ2NWX9lRkl+gaoPuMjGABxWmC5cSjsdOOM4WF9vzn2MYYOUvPb7EWbLruAMOmoaIPp7jxQN0xjKmYzUi4gP/SazILTFhmXdLj3g/pf15srRvp+cfIvFv9qUdd2wJDrXs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dupart.org; spf=pass smtp.mailfrom=dupart.org; arc=none smtp.client-ip=80.67.172.148
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dupart.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dupart.org
+Received: from kern.. (unknown [89.234.162.240])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	(Authenticated sender: jonathan@dupart.org)
+	by camille.insymetrique.net (Postfix) with ESMTPSA id 4bgjhV3VCSz75P6;
+	Mon, 14 Jul 2025 13:24:10 +0000 (UTC)
+From: Jonathan Dupart <jonathan+kernel@dupart.org>
+X-Clacks-Overhead: GNU Terry Pratchett
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
 Cc: ~lkcamp/patches@lists.sr.ht,
 	koike@igalia.com,
-	Martin Weidenauer <martin@weidenauer.cc>
-Subject: [PATCH] staging: atomisp: isp: fix open brace on new line
-Date: Mon, 14 Jul 2025 15:19:53 +0200
-Message-Id: <20250714131953.45947-1-martin@weidenauer.cc>
-X-Mailer: git-send-email 2.39.5
+	Jonathan Dupart <jonathan+kernel@dupart.org>
+Subject: [PATCH] staging: rtl8723bs: hal: add spaces around ternary operator
+Date: Mon, 14 Jul 2025 15:23:41 +0200
+Message-ID: <20250714132343.1613229-1-jonathan+kernel@dupart.org>
+X-Mailer: git-send-email 2.47.2
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -51,48 +38,32 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Rspamd-Server: mw-taubenbroetchen01
-X-Rspamd-Queue-Id: EDBCC63D6F
-X-Rspamd-Action: no action
-X-Spamd-Result: default: False [1.40 / 8.00];
-	MID_CONTAINS_FROM(1.00)[];
-	R_MISSING_CHARSET(0.50)[];
-	MIME_GOOD(-0.10)[text/plain];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	RCVD_COUNT_ZERO(0.00)[0];
-	RCPT_COUNT_SEVEN(0.00)[11];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[]
 
-	Fix checkpatch error "ERROR: that open brace { should be on the previous line"
-	in ia_css_dvs.host.c:277.
+Adhere to Linux kernel coding style according to checkpatch :
 
-	Signed-off-by: Martin Weidenauer <martin@weidenauer.cc>
+CHECK: spaces required around that ':' (ctx:VxV)
 
-	---
+Signed-off-by: Jonathan Dupart <jonathan+kernel@dupart.org>
 
-	Hey, this is my first patch, I appreciate any feedback. Greetings from DebConf25!
 ---
- .../atomisp/pci/isp/kernels/dvs/dvs_1.0/ia_css_dvs.host.c      | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+Hey, this is my first patch, I appreciate any feedback, thanks!
+---
+ drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/staging/media/atomisp/pci/isp/kernels/dvs/dvs_1.0/ia_css_dvs.host.c b/drivers/staging/media/atomisp/pci/isp/kernels/dvs/dvs_1.0/ia_css_dvs.host.c
-index 30c84639d7e8..7fda12d3a646 100644
---- a/drivers/staging/media/atomisp/pci/isp/kernels/dvs/dvs_1.0/ia_css_dvs.host.c
-+++ b/drivers/staging/media/atomisp/pci/isp/kernels/dvs/dvs_1.0/ia_css_dvs.host.c
-@@ -274,8 +274,7 @@ store_dvs_6axis_config(
- 					       binary,
- 					       dvs_in_frame_info);
- 
--	if (!me)
--	{
-+	if (!me) {
- 		IA_CSS_LEAVE_ERR_PRIVATE(-ENOMEM);
- 		return -ENOMEM;
- 	}
+diff --git a/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c b/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
+index 893cab0532ed..563d66afa547 100644
+--- a/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
++++ b/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
+@@ -3185,7 +3185,7 @@ void GetHwReg8723B(struct adapter *padapter, u8 variable, u8 *val)
+ 		break;
+ 	case HW_VAR_CHK_HI_QUEUE_EMPTY:
+ 		val16 = rtw_read16(padapter, REG_TXPKT_EMPTY);
+-		*val = (val16 & BIT(10)) ? true:false;
++		*val = (val16 & BIT(10)) ? true : false;
+ 		break;
+ 	default:
+ 		GetHwReg(padapter, variable, val);
 -- 
-2.39.5
+2.47.2
 
