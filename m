@@ -1,165 +1,58 @@
-Received: from smtp.forwardemail.net (smtp.forwardemail.net [149.28.215.223])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7490724CEE8
-	for <linux-staging@lists.linux.dev>; Mon, 14 Jul 2025 13:12:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=149.28.215.223
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12B4325487B;
+	Mon, 14 Jul 2025 13:21:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752498752; cv=none; b=Xdv1BX3oBNeCvs+c3uVGhvWYEdwnVPCWzHDviGZSAoU+z2MhxAa4j1Hgec28Hh+apir+WmAJ9WOPq2niHYnhcLxkKzx4jkMwN3f+EzlTkKAI9mkOt9sniG5dpk/dnX+5miN+Nap0seQgNBFM7rddXec8KuTF5SLO/PU+QGHNoIQ=
+	t=1752499290; cv=none; b=NxfKBEOA+y6ztv67Z8Bf+l7GnX2y/Pcya/v/O9/IourlAQUnURB5NTNO8te5k4DV6wjSBM83GsbnEu1/Rbvhr3NQl7AqmIoEgetchg3M9dvcUo98CjO5B3uGkREThNnfEgGXmbwSBFVPAz8ZHX1HTRYI7ypFyFKg3fScOa24qi8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752498752; c=relaxed/simple;
-	bh=uxtVMW5ptGidGGwUzvq6Y9xl6J+S5oSN6o93pQ6Z7o0=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=braniX7g8HmHZGG5y/DwFt1dYT8FwzMb2M4RNlMn6KJmZT8C8w32PfmMTAlI5EOC3iZFGrvREAGQ6A9Q8B0LROfCLiB71LUVG7LDwQiUCVZYTWFJD7bwc6WBs8U1S4xxKxNnRp2hNBGTXsAy0whmKPkolqIOUPmjFlkLG4Lo694=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ubuntu.com; spf=pass smtp.mailfrom=fe-bounces.ubuntu.com; dkim=pass (2048-bit key) header.d=ubuntu.com header.i=@ubuntu.com header.b=EhRtxneI; arc=none smtp.client-ip=149.28.215.223
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ubuntu.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fe-bounces.ubuntu.com
+	s=arc-20240116; t=1752499290; c=relaxed/simple;
+	bh=25Q81RBxzGD0tuOnHIG97mH5lfFX0cnFEdskq40h3HY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZnvshrG3QQnhA++IW93ugpOPgM3IgnlSJlHQVYhHOs1jlO0kAH9bWN5JAa629dvvDbymnsW6PlAjdDzYcT3T5GUwwMI5l6gpIzoewRX1TN73ywfXyhyFVzU9tKx7RRC/CJyqa40XNrH2OWuGfRKxgqpixPH7bRZJ8kBcAoRjiSQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=TXLzeWp/; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ubuntu.com header.i=@ubuntu.com header.b="EhRtxneI"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ubuntu.com;
- h=Content-Transfer-Encoding: MIME-Version: Message-ID: Date: Subject: Cc:
- To: From; q=dns/txt; s=fe-953a8a3ca9; t=1752498748;
- bh=urrC69RSn/xpKnJTpVLILpFXwIJPBmtW775RpQeEWDE=;
- b=EhRtxneITAYOZ/Yren0XdwE2zWeKKP4lRhjl+4AzI35qWdqxuCsWzM8uyrK+OKl8z9eNW9dH+
- ERzojF/6SxamZueH2+yinqi9OoVNlD7JeGtAc/+HXqHmq+W/qxj8TzPzjqoWLVea/NyYjDvyG3L
- YI2f/KXuUA1abg6LpglZ3nyxTLdMwecFfLpeXXgX7TroKEwrZZaOEawN1E6AcEbz4XCLOo2gTIX
- TEtdYP2EvJYLJ4QWf9zYzyS5M9mQ/nOx5MiKPnNp7hIq54M8i5gCfaiP3+f2TcMTKR+j1YHhOrK
- 9ox0cYksUbrA4d7mNV1Dy2bI0YIGpkWaRuqgHsqR99lw==
-X-Forward-Email-ID: 6875023685526031a5bf8a98
-X-Forward-Email-Sender: rfc822; schopin@ubuntu.com, smtp.forwardemail.net,
- 149.28.215.223
-X-Forward-Email-Version: 1.1.6
-X-Forward-Email-Website: https://forwardemail.net
-X-Complaints-To: abuse@forwardemail.net
-X-Report-Abuse: abuse@forwardemail.net
-X-Report-Abuse-To: abuse@forwardemail.net
-From: Simon Chopin <schopin@ubuntu.com>
-To: greybus-dev@lists.linaro.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Johan Hovold <johan@kernel.org>,
-	Alex Elder <elder@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: ~lkcamp/patches@lists.sr.ht,
-	koike@igalia.com,
-	Simon Chopin <schopin@ubuntu.com>
-Subject: [PATCH] staging: greybus: fix whitespace alignments in firmware.c
-Date: Mon, 14 Jul 2025 15:10:47 +0200
-Message-ID: <20250714131101.434301-1-schopin@ubuntu.com>
-X-Mailer: git-send-email 2.48.1
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="TXLzeWp/"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 12B9FC4CEED;
+	Mon, 14 Jul 2025 13:21:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1752499289;
+	bh=25Q81RBxzGD0tuOnHIG97mH5lfFX0cnFEdskq40h3HY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=TXLzeWp/s/VPnyiI/ryBjNGBYy4cmESglEckU7J8ohCqCIKUjRFENhe1o+jsuyr96
+	 JdFG0zc1koXlFIzJlP8sAHPgCv0LYIMlfFJ+zD0pYvK4MnO4pGil/aPFMqSThvVwVS
+	 quMVd2h4I5bYC9v4E8kZMWtFEgVlcVO4NjqqbY1A=
+Date: Mon, 14 Jul 2025 15:21:26 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Simon Chopin <schopin@ubuntu.com>
+Cc: greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org, Johan Hovold <johan@kernel.org>,
+	Alex Elder <elder@kernel.org>, ~lkcamp/patches@lists.sr.ht,
+	koike@igalia.com
+Subject: Re: [PATCH] staging: greybus: fix whitespace alignments in firmware.c
+Message-ID: <2025071437-autograph-scalping-b1bd@gregkh>
+References: <20250714131101.434301-1-schopin@ubuntu.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250714131101.434301-1-schopin@ubuntu.com>
 
-This addresses all instances of the checkpatch.pl warning
-"CHECK: Alignment should match open parenthesis"
-in this file.
+On Mon, Jul 14, 2025 at 03:10:47PM +0200, Simon Chopin wrote:
+> This addresses all instances of the checkpatch.pl warning
+> "CHECK: Alignment should match open parenthesis"
+> in this file.
 
-Signed-off-by: Simon Chopin <schopin@ubuntu.com>
+Which file?  This is a documentation file, not a file that the kernel
+builds :)
 
----
+So you might want to add "Documentation" to the subject line, right?
 
-This patch was created as part of the "Submit your first
-contribution to the Linux kernel" workshop at Debconf 25.
----
- .../greybus/Documentation/firmware/firmware.c | 24 +++++++++----------
- 1 file changed, 12 insertions(+), 12 deletions(-)
+thanks,
 
-diff --git a/drivers/staging/greybus/Documentation/firmware/firmware.c b/drivers/staging/greybus/Documentation/firmware/firmware.c
-index 765d69faa9cc..b27d425c5c06 100644
---- a/drivers/staging/greybus/Documentation/firmware/firmware.c
-+++ b/drivers/staging/greybus/Documentation/firmware/firmware.c
-@@ -47,12 +47,12 @@ static int update_intf_firmware(int fd)
- 	ret = ioctl(fd, FW_MGMT_IOC_GET_INTF_FW, &intf_fw_info);
- 	if (ret < 0) {
- 		printf("Failed to get interface firmware version: %s (%d)\n",
--			fwdev, ret);
-+		       fwdev, ret);
- 		return -1;
- 	}
- 
- 	printf("Interface Firmware tag (%s), major (%d), minor (%d)\n",
--		intf_fw_info.firmware_tag, intf_fw_info.major,
-+	       intf_fw_info.firmware_tag, intf_fw_info.major,
- 		intf_fw_info.minor);
- 
- 	/* Try Interface Firmware load over Unipro */
-@@ -69,20 +69,20 @@ static int update_intf_firmware(int fd)
- 	ret = ioctl(fd, FW_MGMT_IOC_INTF_LOAD_AND_VALIDATE, &intf_load);
- 	if (ret < 0) {
- 		printf("Failed to load interface firmware: %s (%d)\n", fwdev,
--			ret);
-+		       ret);
- 		return -1;
- 	}
- 
- 	if (intf_load.status != GB_FW_U_LOAD_STATUS_VALIDATED &&
- 	    intf_load.status != GB_FW_U_LOAD_STATUS_UNVALIDATED) {
- 		printf("Load status says loading failed: %d\n",
--			intf_load.status);
-+		       intf_load.status);
- 		return -1;
- 	}
- 
- 	printf("Interface Firmware (%s) Load done: major: %d, minor: %d, status: %d\n",
--		firmware_tag, intf_load.major, intf_load.minor,
--		intf_load.status);
-+	       firmware_tag, intf_load.major, intf_load.minor,
-+	       intf_load.status);
- 
- 	/* Initiate Mode-switch to the newly loaded firmware */
- 	printf("Initiate Mode switch\n");
-@@ -108,12 +108,12 @@ static int update_backend_firmware(int fd)
- 	ret = ioctl(fd, FW_MGMT_IOC_GET_BACKEND_FW, &backend_fw_info);
- 	if (ret < 0) {
- 		printf("Failed to get backend firmware version: %s (%d)\n",
--			fwdev, ret);
-+		       fwdev, ret);
- 		return -1;
- 	}
- 
- 	printf("Backend Firmware tag (%s), major (%d), minor (%d), status (%d)\n",
--		backend_fw_info.firmware_tag, backend_fw_info.major,
-+	       backend_fw_info.firmware_tag, backend_fw_info.major,
- 		backend_fw_info.minor, backend_fw_info.status);
- 
- 	if (backend_fw_info.status == GB_FW_U_BACKEND_VERSION_STATUS_RETRY)
-@@ -122,7 +122,7 @@ static int update_backend_firmware(int fd)
- 	if ((backend_fw_info.status != GB_FW_U_BACKEND_VERSION_STATUS_SUCCESS)
- 	    && (backend_fw_info.status != GB_FW_U_BACKEND_VERSION_STATUS_NOT_AVAILABLE)) {
- 		printf("Failed to get backend firmware version: %s (%d)\n",
--			fwdev, backend_fw_info.status);
-+		       fwdev, backend_fw_info.status);
- 		return -1;
- 	}
- 
-@@ -148,10 +148,10 @@ static int update_backend_firmware(int fd)
- 
- 	if (backend_update.status != GB_FW_U_BACKEND_FW_STATUS_SUCCESS) {
- 		printf("Load status says loading failed: %d\n",
--			backend_update.status);
-+		       backend_update.status);
- 	} else {
- 		printf("Backend Firmware (%s) Load done: status: %d\n",
--				firmware_tag, backend_update.status);
-+		       firmware_tag, backend_update.status);
- 	}
- 
- 	return 0;
-@@ -185,7 +185,7 @@ int main(int argc, char *argv[])
- 		fw_timeout = strtoul(argv[4], &endptr, 10);
- 
- 	printf("Trying Firmware update: fwdev: %s, type: %s, tag: %s, timeout: %u\n",
--		fwdev, fw_update_type == 0 ? "interface" : "backend",
-+	       fwdev, fw_update_type == 0 ? "interface" : "backend",
- 		firmware_tag, fw_timeout);
- 
- 	printf("Opening %s firmware management device\n", fwdev);
-
-base-commit: 1b0ee85ee7967a4d7a68080c3f6a66af69e4e0b4
--- 
-2.48.1
-
+greg k-h
