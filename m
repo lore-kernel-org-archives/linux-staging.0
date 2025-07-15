@@ -1,192 +1,155 @@
-Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout.gmx.net (mout.gmx.net [212.227.17.22])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 636E02C08B1
-	for <linux-staging@lists.linux.dev>; Tue, 15 Jul 2025 18:28:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97E2F8633F
+	for <linux-staging@lists.linux.dev>; Tue, 15 Jul 2025 19:59:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.22
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752604120; cv=none; b=sWiRQIgjf1U1WWJP4beZfMDtiB+NBHbUDIItPgiFc2032STzC5hIgWCsz72HlUfPyUqNR9qGktWHERyth1rSgrR0jir0jFki3rz8nK1sGZMlabtWDBpcZ+Qjpk3mgxZBeRYDoGSqZKlgvER2V/NISx635UwoplsIWUJXv8Xvr40=
+	t=1752609591; cv=none; b=D4PBDqQGzl1eJbYPqFRy8OCqY/vZC+youS7Hv2F3AQ+9B/gRljgr8dOauO31jfFPme17W4xewj8QPFSO60wsgdYJiGeyDjjfOaF9TkshCnkHxDNmmWhWpNYUvSHNlCLEaLbotJ482+Ap17gGo+4OEBDp1ZvizoA34WS8TkjVTTg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752604120; c=relaxed/simple;
-	bh=mpU5R7KnzhOMbd4mN29cmChRyB3oADBmJ7JKuMhNmkQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=qUtWEKeRAL0JmtXKgavkLs3qSRhLnxucJ8S+Pb9JTqattSMazdyE2Ji23vB8QLlO/oCJ2GEntU7M/WpoTcjjJL4zTgVyiJnQghHNvBixuGcbRQm4tM6/mu3Ag4QDsuk0DSYoRtK9S+/8cg3yg2VPtM8+e8YrDKyWxIvk8GnMib8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nQPEt5BT; arc=none smtp.client-ip=209.85.208.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1752609591; c=relaxed/simple;
+	bh=HtYMb6yVCAUvhC9HlfV6pgZmuQ6uNY4LQtBm0hW7gTY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=J8sq8xdUlqN7EHYgC9mX4H7OTCFhh1gWOUBlsZk3Yt/jsyHGhVxYGJupgcapzIyO8Yjwnf9ktRBjeMJijCwgclk205V/0tS8xgSIcI+hBEY5U8VmKS6dS+PDg57TCmY/isvRl2BtcuFihF4rVpMyInzw79W08sNWbA8BFyw1ASM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.net; spf=pass smtp.mailfrom=gmx.net; dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b=JtG7Ajfv; arc=none smtp.client-ip=212.227.17.22
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nQPEt5BT"
-Received: by mail-ed1-f41.google.com with SMTP id 4fb4d7f45d1cf-60c79bedc19so10219842a12.3
-        for <linux-staging@lists.linux.dev>; Tue, 15 Jul 2025 11:28:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1752604117; x=1753208917; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=+DpYsszl2QuakqvLkMzTig3n2mo4OvaOkwLGvJ5A63Q=;
-        b=nQPEt5BTfO0HAKImkpqinGE/LmUP7d9J8MeWYMnPNI+WW0A5zelMsPD4bB6Ifb/bER
-         ItVHO8AJxxDEEg0Uznh0D1hchWNkGEb18yFfWTVTK6dRxCB+mDhji0NDrcNV5YPpnP8h
-         mm/etbzEGToQ+cqOwmDFykqdgA4FgKqLtpFn9IZgjHv6NULdc18LZwc0C5l8mOEV+die
-         UZ8PC9Rhb8OT4AAfFE8bz7pWoRLR516iUW9zciTm/KH3fNSM6OfvDryl6pqcQjFgCnhD
-         fXXaBwNFs+ebUX9ezAxAhs9PFKZlF+XRvrfzXoIoGjZhUYC+V2psDwid/qEAFwsKNhYK
-         p/VQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752604117; x=1753208917;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=+DpYsszl2QuakqvLkMzTig3n2mo4OvaOkwLGvJ5A63Q=;
-        b=e6oCLp1zNH5EeD8E3Gudtdbc03o7/Z66M+IWRivoQAtNyE2GBUQmcjaRXoXfP6LZ66
-         P35I3cCz7f7+3lCRCizCg9VULR+JjkUXGcSYQD/ukzBrcdotHHWx2ouySj6lXHWCXPxU
-         a9v3qfmyTSmgZB8fkGYIvvcT5TRccGIt/MVcPfPD2SZ4YMrEXKkCsF63NVEGEgTD/7SY
-         eQLgl00FOxtnycaDpS2WEADpZwhm8U6qljxYovaVBZUh5EBj+/1lZB9JtRkZ8Zl1oOMN
-         coiUERUzqggMFGX8G1JuaM7gfV1G2QHSdqrLrmGUFi1kApSiMeR4Q/AYm4C4i9tc8b1p
-         jSwg==
-X-Forwarded-Encrypted: i=1; AJvYcCVZj5sJiHewdkMrTCZypdF0iWH0/AT4DJ4loeIFDizmSS/pQPAsvxffCoMVvmpBqp4sNbz8XzdRAr5erLRE@lists.linux.dev
-X-Gm-Message-State: AOJu0Yx6slywJ+KQ/EoVM8Wramr2fc2vjS6RXugkk7/zraQ1zm7pWseV
-	uyWs70cHhEp9vTA2gNbyqIMXjW7JNgU1ONdyaWvvE/p/QWbMDtzbMShp
-X-Gm-Gg: ASbGncsV8fBdXoY1z5iFdmUKpZI125I3ZkcRNJ9hyzVZqRNYF28RiafwsZ+U6HoQqyc
-	Julylzo3O1WOW3Rn5DCDosXs8vzZ5sXMeB1XdcLO5CKrYDV7ADjw2Zrgx1jSSVzHYhO2lhYwU8n
-	JOj8Nx3G8c9NO6SSIStzpxNWq6x66+UM2we2EqMbLnt6YBXt7eG3VlhUPBmuCUFUBvUL/EYxuYI
-	fhA9aApEHDIRbduN5VogF1sw+clPh/PIn+2GwTVseblNYlnH7t3XQLxxy2Cwq1fgzFytluol3Hn
-	P16A6MB4mpXdW14Z5e9Ly7ngiUkz7MmtrNJlO8ReCI+xozo5EvbPY9zoavlfkisrFFiX8VMMdDY
-	B7KLYpjjnR2LlXIm+RSLNa7c=
-X-Google-Smtp-Source: AGHT+IHtnmNRdfCGqStJ0TqWPul3dFG2M+jv02OtQnl6sKNpCpopF13wAyUpSNMo9xJuANuxI+0E9w==
-X-Received: by 2002:a17:907:c8a8:b0:ad5:27f5:7183 with SMTP id a640c23a62f3a-ae9c9b1ca9bmr44967866b.39.1752604116436;
-        Tue, 15 Jul 2025 11:28:36 -0700 (PDT)
-Received: from tumbleweed ([95.90.185.48])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ae6e82df2fbsm1039562766b.158.2025.07.15.11.28.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 15 Jul 2025 11:28:36 -0700 (PDT)
-From: Michael Straube <straube.linux@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: hdegoede@redhat.com,
-	Larry.Finger@lwfinger.net,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Michael Straube <straube.linux@gmail.com>
-Subject: [PATCH 11/11] staging: rtl8723bs: remove struct hal_ops
-Date: Tue, 15 Jul 2025 20:28:14 +0200
-Message-ID: <20250715182814.212708-12-straube.linux@gmail.com>
-X-Mailer: git-send-email 2.50.1
-In-Reply-To: <20250715182814.212708-1-straube.linux@gmail.com>
-References: <20250715182814.212708-1-straube.linux@gmail.com>
+	dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b="JtG7Ajfv"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.net;
+	s=s31663417; t=1752609586; x=1753214386; i=wahrenst@gmx.net;
+	bh=HR0EpZECN4ryp0h05eQXFbtfZW6WoZHapCp9X04ymH4=;
+	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
+	 References:From:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding:cc:content-transfer-encoding:
+	 content-type:date:from:message-id:mime-version:reply-to:subject:
+	 to;
+	b=JtG7AjfvD6k/tlU6+/0UVZt/HvDFLTn9G2OSQFrlEWhhDB1uAzRBEyxlJ9mu3q7X
+	 NAJqueMfeC1zQ9k53OkmPZxuJsgtXweaWsIax48QYTwFgXwDe2S3dbslmLShhm1n+
+	 MzEEJfmv+la2+keeQRDvJIJ8LQjUWSnABIhKiwLn/9aCE9gzIvakcg2pz9gNddObm
+	 yb3yhg5jDa5MpVFt1OdlyAHb/GpuJiqoc54er7tQJ2ZdmAS3BOpw54xebc6N2NH8n
+	 k1UQcOgB6bXVR/uLDyfb0Z4ehqTqxG3AOjIx/OKFzutrTkIxf0nomSFQesntTHO5f
+	 bS/F0lmjbLtwZjmMJQ==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from [192.168.1.105] ([91.41.216.208]) by mail.gmx.net (mrgmx104
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1MdefJ-1vB6Z63T8r-00dey3; Tue, 15
+ Jul 2025 21:59:45 +0200
+Message-ID: <5e9e606e-d227-4d87-a5b7-cb5a105dcd98@gmx.net>
+Date: Tue, 15 Jul 2025 21:59:45 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH V2 0/3] staging: vchiq_arm: Fix regression & resource
+ leaks
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Florian Fainelli <florian.fainelli@broadcom.com>,
+ Dan Carpenter <dan.carpenter@linaro.org>,
+ linux-arm-kernel@lists.infradead.org, bcm-kernel-feedback-list@broadcom.com,
+ kernel-list@raspberrypi.com, linux-staging@lists.linux.dev
+References: <20250715161108.3411-1-wahrenst@gmx.net>
+ <2025071555-stubbed-hardiness-8306@gregkh>
+Content-Language: en-US
+From: Stefan Wahren <wahrenst@gmx.net>
+Autocrypt: addr=wahrenst@gmx.net; keydata=
+ xjMEZ1dOJBYJKwYBBAHaRw8BAQdA7H2MMG3q8FV7kAPko5vOAeaa4UA1I0hMgga1j5iYTTvN
+ IFN0ZWZhbiBXYWhyZW4gPHdhaHJlbnN0QGdteC5uZXQ+wo8EExYIADcWIQT3FXg+ApsOhPDN
+ NNFuwvLLwiAwigUCZ1dOJAUJB4TOAAIbAwQLCQgHBRUICQoLBRYCAwEAAAoJEG7C8svCIDCK
+ JQ4BAP4Y9uuHAxbAhHSQf6UZ+hl5BDznsZVBJvH8cZe2dSZ6AQCNgoc1Lxw1tvPscuC1Jd1C
+ TZomrGfQI47OiiJ3vGktBc44BGdXTiQSCisGAQQBl1UBBQEBB0B5M0B2E2XxySUQhU6emMYx
+ f5QR/BrEK0hs3bLT6Hb9WgMBCAfCfgQYFggAJhYhBPcVeD4Cmw6E8M000W7C8svCIDCKBQJn
+ V04kBQkHhM4AAhsMAAoJEG7C8svCIDCKJxoA/i+kqD5bphZEucrJHw77ujnOQbiKY2rLb0pE
+ aHMQoiECAQDVbj827W1Yai/0XEABIr8Ci6a+/qZ8Vz6MZzL5GJosAA==
+In-Reply-To: <2025071555-stubbed-hardiness-8306@gregkh>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:zYVKzfcFd4uGENI+HCFCOme+S6BbXKaojQ4vnTYwyqZe48UWwM6
+ L0y7Or+n/6u5nD1nXxDemfrffoB38IqvP/wVZuDGykY8BuUQTb70FYOw/w6GvN5/p7a2JMj
+ Uj7/Djn4EgtVQolgs21XSVPwf4kee92V2rjyfUwOGejxxYVOvQFKSBCt6c1Th/al6IawbAJ
+ MOAk6/VlC9oJG8OydfgtA==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:qNOfnrjXf1k=;w6rCnlbxfUVZixrZ8u8YNeZWgQa
+ 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
 
-After previous patches, struct hal_ops is finally empty now. Remove
-the structure and related initialization functions.
+Am 15.07.25 um 19:44 schrieb Greg Kroah-Hartman:
+> On Tue, Jul 15, 2025 at 06:11:05PM +0200, Stefan Wahren wrote:
+>> This small series fixes a regression introduced by recent changes and
+>> possible resource leaks in the VCHIQ driver.
+>>
+>> Changes in V2:
+>> - Add Ma=C3=ADra's Reviewed-bys
+>> - Fix Reported address in patch #2
+>>
+>> Stefan Wahren (3):
+>>    Revert "staging: vchiq_arm: Improve initial VCHIQ connect"
+>>    Revert "staging: vchiq_arm: Create keep-alive thread during probe"
+>>    staging: vchiq_arm: Make vchiq_shutdown never fail
+>>
+>>   .../interface/vchiq_arm/vchiq_arm.c           | 98 +++++++++++-------=
+-
+>>   .../interface/vchiq_arm/vchiq_core.c          |  1 -
+>>   .../interface/vchiq_arm/vchiq_core.h          |  2 -
+>>   3 files changed, 56 insertions(+), 45 deletions(-)
+> I already applied v1, is there any code changes that are different here?
+Strange, I didn't received a mail that the patches has been applied. No,=
+=20
+there wasn't any code changes.
 
-Signed-off-by: Michael Straube <straube.linux@gmail.com>
----
- drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c | 5 -----
- drivers/staging/rtl8723bs/hal/sdio_halinit.c      | 8 --------
- drivers/staging/rtl8723bs/include/drv_types.h     | 1 -
- drivers/staging/rtl8723bs/include/hal_intf.h      | 3 ---
- drivers/staging/rtl8723bs/include/rtl8723b_hal.h  | 1 -
- drivers/staging/rtl8723bs/include/sdio_hal.h      | 2 --
- drivers/staging/rtl8723bs/os_dep/sdio_intf.c      | 2 --
- 7 files changed, 22 deletions(-)
-
-diff --git a/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c b/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
-index 1e9447633465..a9f33444aec2 100644
---- a/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
-+++ b/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
-@@ -1312,11 +1312,6 @@ void UpdateHalRAMask8723B(struct adapter *padapter, u32 mac_id, u8 rssi_level)
- 	pdmpriv->INIDATA_RATE[mac_id] = psta->init_rate;
- }
- 
--
--void rtl8723b_set_hal_ops(struct hal_ops *pHalFunc)
--{
--}
--
- void rtl8723b_InitAntenna_Selection(struct adapter *padapter)
- {
- 	u8 val;
-diff --git a/drivers/staging/rtl8723bs/hal/sdio_halinit.c b/drivers/staging/rtl8723bs/hal/sdio_halinit.c
-index af9a2b068796..35f48b564199 100644
---- a/drivers/staging/rtl8723bs/hal/sdio_halinit.c
-+++ b/drivers/staging/rtl8723bs/hal/sdio_halinit.c
-@@ -1251,11 +1251,3 @@ u8 SetHalDefVar8723BSDIO(struct adapter *Adapter, enum hal_def_variable eVariabl
- {
- 	return SetHalDefVar8723B(Adapter, eVariable, pValue);
- }
--
--void rtl8723bs_set_hal_ops(struct adapter *padapter)
--{
--	struct hal_ops *pHalFunc = &padapter->HalFunc;
--
--	rtl8723b_set_hal_ops(pHalFunc);
--
--}
-diff --git a/drivers/staging/rtl8723bs/include/drv_types.h b/drivers/staging/rtl8723bs/include/drv_types.h
-index 7b0e824e05a9..080c321665c0 100644
---- a/drivers/staging/rtl8723bs/include/drv_types.h
-+++ b/drivers/staging/rtl8723bs/include/drv_types.h
-@@ -350,7 +350,6 @@ struct adapter {
- 
- 	void *HalData;
- 	u32 hal_data_sz;
--	struct hal_ops	HalFunc;
- 
- 	s32	bDriverStopped;
- 	s32	bSurpriseRemoved;
-diff --git a/drivers/staging/rtl8723bs/include/hal_intf.h b/drivers/staging/rtl8723bs/include/hal_intf.h
-index 248f54f04c5e..67d51e55bd44 100644
---- a/drivers/staging/rtl8723bs/include/hal_intf.h
-+++ b/drivers/staging/rtl8723bs/include/hal_intf.h
-@@ -160,9 +160,6 @@ enum hal_intf_ps_func {
- 
- typedef s32 (*c2h_id_filter)(u8 *c2h_evt);
- 
--struct hal_ops {
--};
--
- #define RF_CHANGE_BY_INIT	0
- #define RF_CHANGE_BY_IPS	BIT28
- #define RF_CHANGE_BY_PS		BIT29
-diff --git a/drivers/staging/rtl8723bs/include/rtl8723b_hal.h b/drivers/staging/rtl8723bs/include/rtl8723b_hal.h
-index a4a14474c35d..40ff96d3cf74 100644
---- a/drivers/staging/rtl8723bs/include/rtl8723b_hal.h
-+++ b/drivers/staging/rtl8723bs/include/rtl8723b_hal.h
-@@ -223,7 +223,6 @@ void Hal_EfuseParseVoltage_8723B(struct adapter *padapter, u8 *hwinfo,
- 
- void C2HPacketHandler_8723B(struct adapter *padapter, u8 *pbuffer, u16 length);
- 
--void rtl8723b_set_hal_ops(struct hal_ops *pHalFunc);
- void SetHwReg8723B(struct adapter *padapter, u8 variable, u8 *val);
- void GetHwReg8723B(struct adapter *padapter, u8 variable, u8 *val);
- u8 SetHalDefVar8723B(struct adapter *padapter, enum hal_def_variable variable,
-diff --git a/drivers/staging/rtl8723bs/include/sdio_hal.h b/drivers/staging/rtl8723bs/include/sdio_hal.h
-index 024acf9b530d..6538253765f1 100644
---- a/drivers/staging/rtl8723bs/include/sdio_hal.h
-+++ b/drivers/staging/rtl8723bs/include/sdio_hal.h
-@@ -11,6 +11,4 @@ u8 sd_int_isr(struct adapter *padapter);
- void sd_int_dpc(struct adapter *padapter);
- void rtw_set_hal_ops(struct adapter *padapter);
- 
--void rtl8723bs_set_hal_ops(struct adapter *padapter);
--
- #endif /* __SDIO_HAL_H__ */
-diff --git a/drivers/staging/rtl8723bs/os_dep/sdio_intf.c b/drivers/staging/rtl8723bs/os_dep/sdio_intf.c
-index e735747f2000..f3caaa857c86 100644
---- a/drivers/staging/rtl8723bs/os_dep/sdio_intf.c
-+++ b/drivers/staging/rtl8723bs/os_dep/sdio_intf.c
-@@ -216,8 +216,6 @@ void rtw_set_hal_ops(struct adapter *padapter)
- {
- 	/* alloc memory for HAL DATA */
- 	rtw_hal_data_init(padapter);
--
--	rtl8723bs_set_hal_ops(padapter);
- }
- 
- static void sd_intf_start(struct adapter *padapter)
--- 
-2.50.1
+Best regards
+>
+> thanks,
+>
+> greg k-h
 
