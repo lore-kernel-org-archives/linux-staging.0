@@ -1,63 +1,61 @@
-Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
+Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 432BE28F948
-	for <linux-staging@lists.linux.dev>; Tue, 15 Jul 2025 18:28:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B70F82BE057
+	for <linux-staging@lists.linux.dev>; Tue, 15 Jul 2025 18:28:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752604113; cv=none; b=d6T7pmOTjYQQshnM9IcI33QadHQ6GSR9ipoSQ1dRUwSUWY60mIQLSJz80urt97Vj/V/JRFZdfdgHuOerpmojDKGKkA6FKWtGKBgriD++STUCUIVg3p0Td4VGo1UfZF4JvXdmSVCyLVY4OSOWh4agLW7gOgrUeFtFQl6fwDqOr1Y=
+	t=1752604114; cv=none; b=OwFxsV/UKybqEYZH+hFHWjOtV0QQsWMvU35GhGhEzmx7ZIsF7arpwTZewbm+p2zBGWQ1HJaOmyk2Lksxb/+DqyMVrKGNHo3hQ5G6KfptNNUiSjvmxFCC8gDx/7/adhpBkX5Vevtuuj3zfxr0wo33Q1xXx63bV/mO4gy0P9i8BmY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752604113; c=relaxed/simple;
-	bh=RGMQ8EJRQNAP+O0nR/eluDRpL/DwO8M7+yfSc7ut35w=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=izzRoGcxYWyu6rwcFcCqE8xkjEsolNYc53HA/x7RmujZ0Xgj/tpF7lYoi3YX73KQ2z8pis1ul2oQnITd/1w34XXDFCAYYNmwg9+5fyp8FSu/L70tvbOzDIMBkakN/E53T+EBrFIvEwHLAPu6GFF7hWNIKSdtIhROr8otKHseC/o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=md29SW8E; arc=none smtp.client-ip=209.85.218.42
+	s=arc-20240116; t=1752604114; c=relaxed/simple;
+	bh=fzOSRSQCoHNu0dLeNFk9R+TyySgHxZ9QTmLjc6x/0b4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=spTa2rn/AxkIsCUzWuHd2etHA/YCE0UnsToUK+BdgGrjOVSnId1SgEdQI49q3h1V9Fj77XpHZ0SSVFwfW/8i9TGgQ8i5euifhrqKfakq1ksMGY2h4NcXVvDIr4pOwb0rInoUM7oNJ6emkRE+sWp3IQzmZ6weYO9kWuqdb8Whj84=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Lrir4VG4; arc=none smtp.client-ip=209.85.218.48
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="md29SW8E"
-Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-ae35f36da9dso1185512466b.0
-        for <linux-staging@lists.linux.dev>; Tue, 15 Jul 2025 11:28:32 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Lrir4VG4"
+Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-ae3ec622d2fso1016194466b.1
+        for <linux-staging@lists.linux.dev>; Tue, 15 Jul 2025 11:28:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1752604111; x=1753208911; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=yMmjaIlR4ZenTaxCD2MM6OSgv9kE1Hp4WFX2rahkbZw=;
-        b=md29SW8EfI2njHPrqSNhHfd2JjE7so7oKW5QlF+x3eFjBGXGsFbiRL1Ds0CDck4Xai
-         slZcuplsUou/7y4vYm4OTzJEJm2RgyeV2JUQtlU8sIgirHOVZu2Y/EvAT48zdfFV2PuH
-         2buQFTwUTYO1Jkj1/6C/AH2jmEs3Upobh+dxWHbQYhIR3QraQ5dL/IZQzmbS4Q7YhdnF
-         bAC3Gzv+l5ciN75Bv3dniJJYPHpuAAlLfu4NOS9DZ3ALc+2dLk8dHPlNJ7Z2NL//Mekj
-         ELudLhzuBfgX+qZ8XvRs+o7b6yrTV2W3/+5/F+b60Fyg1DayXRqN0Glp/p7SZYw34TJN
-         G+ZA==
+        d=gmail.com; s=20230601; t=1752604110; x=1753208910; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=vNAKp9Jrrt/krq6KY8ZZhtTOTeAjVwlU8hOn6TWbOn4=;
+        b=Lrir4VG4L0SlzLCxFs7R89SPZlPpkk9Ir09kL6PJ5Yy+AtAZU4V2VgcXgue4sJhIRb
+         URfjmU0H9ZDz2mBsV/DfnEAH362f0NwYd/HO4m5ecIZsOhniftE+c1B4DAlyO0B0SDWB
+         DDfCbSLtSSN6Ncjn+VGg7JpdPUwSFeEshUt7T880ZISA/DMUo24y2GSzpewtl+6iebDe
+         5xtPsDmVa5Wn91ZGk9Ca0PbIgCvzAcKtKrAFu6vGqE+sTTlnU21ydiwo3dT1VNCx7+e0
+         FPPAHrBnPmhIHBQywvC40GcuFembFKSN6Pm0VJ59vk6qsjajxXx6L4wxP92fUHfvrb/1
+         EMIQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752604111; x=1753208911;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=yMmjaIlR4ZenTaxCD2MM6OSgv9kE1Hp4WFX2rahkbZw=;
-        b=HN3zbipxDFj/8HK6GeU4BTOtW0upnBMznuhw05x1MluoyOa9hvwljI/57rS+yeC2dZ
-         6ANw7xZSHW5ws/+ye4B1Bo85Gu0EZfBN2noXZ+WOIleqCGYShtHZ2fE26Af7/YA1G2Ys
-         z8X567nRhLoQq4P1OEjUnPGplTaYBCJDSi506K6MKKq+bOghkhL8AIv3uXRT6zZW7x14
-         rcQWvbM84kv2+ERO2+bEAJpTmPg3Alu3sA2urBxJtf6EBAJtjZLBdn4X3uM4zjD3QJbb
-         2X/waVvwxG+5NN4XM3Pzmj/t6/X8q2baaZ6mJsVkz+UK/JfXvU/cJMJbAB0knlP1aBF1
-         3l+w==
-X-Forwarded-Encrypted: i=1; AJvYcCXkJ5m4dbQ789qIhO7P9+HHDXH8rynVL9pEnL0r+cMJDm2+LjMxDE21+igUORT+unJYloIL+GGMVXUePGcc@lists.linux.dev
-X-Gm-Message-State: AOJu0Yw4kp/vG1W3cfibNojIWlOMELL3KH3hFth/OEPQ71pAaGR6X2wk
-	VwiJ5jQVXJk6ejc6ZRkK4XGbmB8ZvKuvgKJt39QJryXOzwRlI6Uw1izs
-X-Gm-Gg: ASbGncv/W1RdlOjChWMAs5W65UM95Oc0Hs8tH3jMIGobAl9ilM5D/6lEG8es5OajsDa
-	NNnkrP1kf0QI+ImPEgrY8C4Ni2GFCFU1UWhltBq7AqlPa1ZZM1k38W4EmPcgyw/YWd/jWVjA/QG
-	y8snRbJtBdHFxoLo5i5/YZI+W9s2XnpMBhMs1K4/NuBcizLMv3cvWlf+IAQYknoY7H67LCBU+4E
-	SIhpqctzH35LtBhmmeZpDbjslkTWLirZXU3tMWrbKdTgCnJ1pFAso9sUQbdEKXfuqFs1YQOrrcw
-	Ekfa3YU9yAfIn3NDfZTQrq6Zb/6qy2XMgdrIC59Kb+joH1A6CwylrmHv8JsUP/dQzi0YRIwtLdG
-	K4nyALRMi54RXQmx2XS49hlnycCYwCY7/6w==
-X-Google-Smtp-Source: AGHT+IG5BvDjN1LsfM9YL+RrdxBZ0+b+WKjzMqa27BPTAumF3Q75BMkOiFaKsae3DdxTFNE9xviL6w==
-X-Received: by 2002:a17:907:7b0a:b0:ae3:7b53:31bd with SMTP id a640c23a62f3a-ae9c9b18672mr57537866b.28.1752604110415;
-        Tue, 15 Jul 2025 11:28:30 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1752604110; x=1753208910;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=vNAKp9Jrrt/krq6KY8ZZhtTOTeAjVwlU8hOn6TWbOn4=;
+        b=mNd4T4tp1ICtemRSrkV5Riby/cNn6GI3/8GYu7j2WB4jntctR8N+9231h8cvKbdWOC
+         VGGlmSHChcteEXa7Om7kfQsr52hiJ+q/jHTqUNf0sE/nsNiZn3bC4YHB2H1jac18UnMR
+         1sfx84BdV3SYNehbaZ978OUvly+CbXnTDRvZyYE7B+a9yOxuqXjlHVkVkCWdqta6Xrnw
+         F2j7EEIsvHu9ubDY+ZyLQi/QIqiAihpB022qoacJU0pcuHw7MkBF+WftwALHL2lFa/y1
+         sU35+A98xg62gt2Yi3KlGiOmBIH+MY6CK4fqEER155lsg3wTN0PI7s498KN7EZ+usv7K
+         nHaw==
+X-Forwarded-Encrypted: i=1; AJvYcCVREFQgAm1uMQHV4OfuG+yCzsR+j9E08Kqyynpt4TPOtCvX8QknuvlL0Zu+kQtqZUNaTmtcSKurEZtFFiOf@lists.linux.dev
+X-Gm-Message-State: AOJu0YzLwbIOywgR2yN+dhQPIxn4lJJZXjxyiy7df/qhWDD72cH/8zDF
+	sVm0OjvEHAu5UWBycBV+hNeLjwxNOzFB4ei3jnCBxuvDsgWFt5oW8T6TFCMiRg==
+X-Gm-Gg: ASbGncsKrYgp39JWxDoMQ4J0gydlVNHIm6LHOeeGpAjxcF5bPpq9r+I116/Z2YzU+K7
+	nmBMukBSyVPxYuMrXAC9VkMPVpb/xYFWKJf/blIxwRylVyvf0or912kN5OetSEQ5KDh5BjfVoFe
+	TuEW/xYi1AbIZ4bqUXAli3SI486VZGX9ne/fSCCRXDUWTyA1b3fbqGai092HjajvwfE1TmP7NEt
+	7JWDCOZjWV+ag/nLh6JRdaOTp+39JHhtS5Z03IN5RVHGYQvRoS+WFSq0SS8kWlpRbkFlEPh+6Oi
+	cHnJuDAmt9lQaAATZ413O1CBJBsbOeXRiQPrkdCGw2vIsyvVDMvoo+pGNJsRdp0sEEBxjadPKMw
+	f8lhQOzR/aHlmrSN1bGPr4aI=
+X-Google-Smtp-Source: AGHT+IH//uRs0DZirwZlWD3pjj8AlbNnhVRn/1OY+8pccSolDMIpgSzcJHR+8gQWtBuy82tFc80XGg==
+X-Received: by 2002:a17:907:868e:b0:ae3:ed38:8f63 with SMTP id a640c23a62f3a-ae9c999736fmr48181366b.14.1752604109818;
+        Tue, 15 Jul 2025 11:28:29 -0700 (PDT)
 Received: from tumbleweed ([95.90.185.48])
         by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ae6e82df2fbsm1039562766b.158.2025.07.15.11.28.29
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 15 Jul 2025 11:28:30 -0700 (PDT)
+        Tue, 15 Jul 2025 11:28:29 -0700 (PDT)
 From: Michael Straube <straube.linux@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: hdegoede@redhat.com,
@@ -65,12 +63,10 @@ Cc: hdegoede@redhat.com,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Michael Straube <straube.linux@gmail.com>
-Subject: [PATCH 01/11] staging: rtl8723bs: remove function pointer SetHalODMVarHandler
-Date: Tue, 15 Jul 2025 20:28:04 +0200
-Message-ID: <20250715182814.212708-2-straube.linux@gmail.com>
+Subject: [PATCH 00/11] staging: rtl8723bs: get rid of struct hal_ops
+Date: Tue, 15 Jul 2025 20:28:03 +0200
+Message-ID: <20250715182814.212708-1-straube.linux@gmail.com>
 X-Mailer: git-send-email 2.50.1
-In-Reply-To: <20250715182814.212708-1-straube.linux@gmail.com>
-References: <20250715182814.212708-1-straube.linux@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -79,77 +75,38 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Remove function pointer SetHalODMVarHandler and use rtl8723b_SetHalODMVar
-directly to reduce code complexity.
+This series removes the remaining function pointers from the hal_ops
+structure, and finally removes the structure itself. This reduces code
+complexity and thereby improves readability, as the hal_ops structure
+is just an unnecessary layer of abstraction.
 
-Signed-off-by: Michael Straube <straube.linux@gmail.com>
----
- drivers/staging/rtl8723bs/hal/hal_intf.c          | 3 +--
- drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c | 9 +--------
- drivers/staging/rtl8723bs/include/hal_intf.h      | 2 +-
- 3 files changed, 3 insertions(+), 11 deletions(-)
+The patches have been compile-tested only, due to lack of hardware.
 
-diff --git a/drivers/staging/rtl8723bs/hal/hal_intf.c b/drivers/staging/rtl8723bs/hal/hal_intf.c
-index 6fb1e81dde42..84c64bd04598 100644
---- a/drivers/staging/rtl8723bs/hal/hal_intf.c
-+++ b/drivers/staging/rtl8723bs/hal/hal_intf.c
-@@ -129,8 +129,7 @@ u8 rtw_hal_get_def_var(struct adapter *padapter, enum hal_def_variable eVariable
- 
- void rtw_hal_set_odm_var(struct adapter *padapter, enum hal_odm_variable eVariable, void *pValue1, bool bSet)
- {
--	if (padapter->HalFunc.SetHalODMVarHandler)
--		padapter->HalFunc.SetHalODMVarHandler(padapter, eVariable, pValue1, bSet);
-+	rtl8723b_SetHalODMVar(padapter, eVariable, pValue1, bSet);
- }
- 
- void rtw_hal_enable_interrupt(struct adapter *padapter)
-diff --git a/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c b/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
-index b74d916ebbe1..8b7816e47131 100644
---- a/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
-+++ b/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
-@@ -1267,12 +1267,7 @@ void rtl8723b_SetBeaconRelatedRegisters(struct adapter *padapter)
- 	rtw_write8(padapter, bcn_ctrl_reg, val8);
- }
- 
--static void rtl8723b_SetHalODMVar(
--	struct adapter *Adapter,
--	enum hal_odm_variable eVariable,
--	void *pValue1,
--	bool bSet
--)
-+void rtl8723b_SetHalODMVar(struct adapter *Adapter, enum hal_odm_variable eVariable, void *pValue1, bool bSet)
- {
- 	SetHalODMVar(Adapter, eVariable, pValue1, bSet);
- }
-@@ -1325,8 +1320,6 @@ void UpdateHalRAMask8723B(struct adapter *padapter, u32 mac_id, u8 rssi_level)
- 
- void rtl8723b_set_hal_ops(struct hal_ops *pHalFunc)
- {
--	pHalFunc->SetHalODMVarHandler = &rtl8723b_SetHalODMVar;
--
- 	pHalFunc->xmit_thread_handler = &hal_xmit_handler;
- 	pHalFunc->hal_notch_filter = &hal_notch_filter_8723b;
- 
-diff --git a/drivers/staging/rtl8723bs/include/hal_intf.h b/drivers/staging/rtl8723bs/include/hal_intf.h
-index da4215841773..f9f169262fb4 100644
---- a/drivers/staging/rtl8723bs/include/hal_intf.h
-+++ b/drivers/staging/rtl8723bs/include/hal_intf.h
-@@ -161,7 +161,6 @@ enum hal_intf_ps_func {
- typedef s32 (*c2h_id_filter)(u8 *c2h_evt);
- 
- struct hal_ops {
--	void (*SetHalODMVarHandler)(struct adapter *padapter, enum hal_odm_variable eVariable, void *pValue1, bool bSet);
- 	s32 (*xmit_thread_handler)(struct adapter *padapter);
- 	void (*hal_notch_filter)(struct adapter *adapter, bool enable);
- 	void (*hal_reset_security_engine)(struct adapter *adapter);
-@@ -277,6 +276,7 @@ u8 GetHalDefVar8723BSDIO(struct adapter *Adapter, enum hal_def_variable eVariabl
- u8 SetHalDefVar8723BSDIO(struct adapter *Adapter, enum hal_def_variable eVariable, void *pValue);
- void UpdateHalRAMask8723B(struct adapter *padapter, u32 mac_id, u8 rssi_level);
- void rtl8723b_SetBeaconRelatedRegisters(struct adapter *padapter);
-+void rtl8723b_SetHalODMVar(struct adapter *Adapter, enum hal_odm_variable eVariable, void *pValue1, bool bSet);
- void Hal_EfusePowerSwitch(struct adapter *padapter, u8 bWrite, u8 PwrState);
- void Hal_ReadEFuse(struct adapter *padapter, u8 efuseType, u16 _offset,
- 		   u16 _size_byte, u8 *pbuf, bool bPseudoTest);
+Michael Straube (11):
+  staging: rtl8723bs: remove function pointer SetHalODMVarHandler
+  staging: rtl8723bs: remove wrapper rtl8723b_SetHalODMVar
+  staging: rtl8723bs: remove function pointer hal_notch_filter
+  staging: rtl8723bs: remove function pointer c2h_handler
+  staging: rtl8723bs: remove macro FillH2CCmd
+  staging: rtl8723bs: remove function pointer fill_h2c_cmd
+  staging: rtl8723bs: remove macro hal_xmit_handler
+  staging: rtl8723bs: remove function pointer xmit_thread_handler
+  staging: rtl8723bs: remove function pointer hal_reset_security_engine
+  staging: rtl8723bs: remove function pointer c2h_id_filter
+  staging: rtl8723bs: remove struct hal_ops
+
+ drivers/staging/rtl8723bs/hal/hal_intf.c      | 33 ++++---------------
+ .../staging/rtl8723bs/hal/rtl8723b_hal_init.c | 26 +--------------
+ drivers/staging/rtl8723bs/hal/sdio_halinit.c  |  8 -----
+ drivers/staging/rtl8723bs/include/drv_types.h |  1 -
+ drivers/staging/rtl8723bs/include/hal_intf.h  | 13 +-------
+ .../staging/rtl8723bs/include/rtl8723b_cmd.h  |  1 -
+ .../staging/rtl8723bs/include/rtl8723b_hal.h  |  1 -
+ .../staging/rtl8723bs/include/rtl8723b_xmit.h |  1 -
+ drivers/staging/rtl8723bs/include/sdio_hal.h  |  2 --
+ drivers/staging/rtl8723bs/os_dep/sdio_intf.c  |  2 --
+ 10 files changed, 8 insertions(+), 80 deletions(-)
+
 -- 
 2.50.1
 
