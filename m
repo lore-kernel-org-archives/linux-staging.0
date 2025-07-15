@@ -1,110 +1,207 @@
-Received: from mail-oa1-f52.google.com (mail-oa1-f52.google.com [209.85.160.52])
+Received: from mail-oi1-f176.google.com (mail-oi1-f176.google.com [209.85.167.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7E80225776
-	for <linux-staging@lists.linux.dev>; Tue, 15 Jul 2025 20:30:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43B5E2C17A0
+	for <linux-staging@lists.linux.dev>; Tue, 15 Jul 2025 20:48:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752611443; cv=none; b=pccVZpK6e6RRV7N7wicC7YBkurQiMd6zf8dVg77wZfS7IGprXpolg3FY/Z1V1STBkvKyoo3VVl5HsOdtYQKOcj2sjmCk02cTD5yHntr3AiX3XCQESKn9iMVjWThD6lHyA5R87kXdKitgsSLNLG4DuHkXx4WZ8S6UUPNuO0BwAxQ=
+	t=1752612489; cv=none; b=EBTM1Epa142jKPL1N5OFUdaq2Ls9GgVE5E+78QH1dRo7LR2/4lsQUjNmJ4rOxcczQlXCva4oRvtYKZGOfW9+GAfsYAmmVyvJvkzo5uA+JFW1qY3Qe0mHgOy0lNe9T83W9duyXoKn0tx04a6eff7OZO+2f1qYZPtQSLxp2NrbfNY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752611443; c=relaxed/simple;
-	bh=1yQoQkvqX9mmnClp25QvfEznRInvWZaMgXS1yJYfpKA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=psS2ih/nPK1MPnylEBM9uI/1PnclcyVpqC3zbzYEmWA74J7YKDmSxcCxRabEA6gq2x5CJywZYuy3SNEC3Mgg+U8Jc37aIj3MZWStxaFxwaFGofUz1RI+dxJXh4loGyEo9CQhMuMtZPgzZd+t79nHGflNfvCaBbyTC7xzenrMheo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=vuJYs0v0; arc=none smtp.client-ip=209.85.160.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1752612489; c=relaxed/simple;
+	bh=MmjF4zOxAcXh1fxyxypmBCi31e0kCddMEICEOIXtgb4=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=O3TC1rPd5QH8NBCWNdDYMp7LDDq0ogF4cXBl0IXMn2XqXS14QF6qf9h5Ds+esuWKaWr+OhY6NwpqTRxhgcXq0VVebeH9mNcOUruMQEyAJpqtRTYH8gt+qMdD5kSGtuRkgaUBICKYZRycXd+9CZgDft9BQ8rORbtu6yvBmOELWWk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MeGQKLm9; arc=none smtp.client-ip=209.85.167.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="vuJYs0v0"
-Received: by mail-oa1-f52.google.com with SMTP id 586e51a60fabf-2c6ed7efb1dso3878295fac.2
-        for <linux-staging@lists.linux.dev>; Tue, 15 Jul 2025 13:30:41 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MeGQKLm9"
+Received: by mail-oi1-f176.google.com with SMTP id 5614622812f47-41cfa50c73dso49086b6e.0
+        for <linux-staging@lists.linux.dev>; Tue, 15 Jul 2025 13:48:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1752611441; x=1753216241; darn=lists.linux.dev;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=0qnU3e/UbtN7g5RYL6+3ED+hDCWkfgVIl5O8F9TCC94=;
-        b=vuJYs0v0EzatMqlXGBJUGxM06N0QKXJZOVsymBASKBZXAsDex+RZ663ih76Q17kQlv
-         n4Wu4xe3rJnNPIXmz8SCGNmVsTOJI8ThtAwwEOW7fWP3c5I+gGy81OIPeL8Z71XJfjG+
-         qCOM7TuDcDpzYe4C5ZMp/LlBCBwkxRb85BvYT7SctuRGsXV1NyIas5Q8Gf5iP67qiLOh
-         Qi65lEa6wf6OKjkDdPmO5WpMMw/Dp5uGasjn/hlFKMCNAeuE7/ZykPFN1rZPmXYP4dK8
-         sXWlxBse4Hu7hFvq1d/hgNjn745OSU9dYHm5OW8d2LZwAzJBEOx7eY3Q7P/Bq6QeaukN
-         mAAA==
+        d=gmail.com; s=20230601; t=1752612485; x=1753217285; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=b8Vz2CZMV2vKDYQvb72/FeUb1gFMhQDy+4DurVPlGRU=;
+        b=MeGQKLm9YDC29oguKVqwqPMXmEflVXCUCYVreBMwfo1hqvZf77Ps2JU1C3uQymC0fJ
+         OnVlJT4irRaW34FBotgMw5s/zZMUwljCY9lPIHpqXRlXWdyiF6EX0go+qfW+NKHBgW5N
+         ai9e0qHTlmhWVuZ2HF2SPXX4Nm9vdm1okm9jR4To+jyTzBnyjSY3XrmkZ00/Riv4pY/C
+         Rx4PHk7NwiBFeWhJvMI4l9MyYVQIbbTXOKuiAw9PUF9aAab5r/Psih5HpWBxP9HSeCAB
+         RVc7XC+nauvuddcHv9WTpKdn4zOA9/KeM/z/ZxvAGlE2ZwW61aFRnu+UUmO/OkXkwX1O
+         hhrA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752611441; x=1753216241;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=0qnU3e/UbtN7g5RYL6+3ED+hDCWkfgVIl5O8F9TCC94=;
-        b=IbZByhuWYzG8N7/hfWUo+/bg02gq0u//f87G9GQ590rISERxfd6grCz/TEutfnrAUd
-         c3I8FS1atWWGt0D/TdBTeWnfLILjEfJyICAuAUZkLVkSKkVJ7zd/yCeXHNa+Ym7htLOI
-         gKX5KIs5rW7FPvrYVmyeYMf9ATku+M9rRDrrWUIOtTKaGnJkjq5iKYc4+guNMRxEHtPR
-         0VbP5iqF59bArKmwDkZ8Ph3NS1ravMqZlAPLPgiLPreR2Xz/n7ydSAir3GIXbGhCOmgm
-         PeJ23ORgLHF8kglBifxPa0m9XylxtE4eyy82wrPKpVLAqzXBZwJ9+cjkUyc+KHmcUEYU
-         mYiA==
-X-Forwarded-Encrypted: i=1; AJvYcCVcdQfur2Whf1OORecUM3ts+AgRFF+dP2Jp0VcZAVgUZkBMWUNNNhEd0D9YNQd9fxExXZgBCjq2uvEGcYf+@lists.linux.dev
-X-Gm-Message-State: AOJu0YyCmAv/FVs0KMRycw5WWdrspMn96qubwBB9rIZAatkH4svUx4Gs
-	sh+i359Bi6i0bqWU7jxuFzpvI4Ziu6r70g6EbfHfsg1ydhOiq33wqRrpaUOQQMcjcPk=
-X-Gm-Gg: ASbGnct2MBlgPEOBYT9DXnwDbwIgTam4pXU3ZvYZXb7e9BnMbUTZbVqoho4+FOLeK/b
-	ohMMlJ9SWfAFxP7MwRJ0evy4VBP7dFWvv9mcwfsIZyCqjPpgSo5KJodCXBvrBFXXGj8NxkxHzjs
-	yaPLVUqP6c0x+844vYGvPxzEgKsZYt5dSTr5wTjpcMOxO2VC6ge4yMtWROn9Wx2HlbP9T6o/6lT
-	euixhboeJ8bZPFuIJR3D1sPzS7YY0BL15+kyhHOM/d5CowAvGWb//OiF1xLaQaiwwEfIoegsOuN
-	L5f8OK3e54X1rH4u0g8xXB+xwlXE+dJpESFnYYg+A1URvphkqB0d1GfM4gBA8BQ9udjlfHsY+q6
-	VnTkE6GDoHM2FN5KA4ClGFej2ptna
-X-Google-Smtp-Source: AGHT+IG2+pwfhzJLrz8IScyfJm6Y2ziaIzZQnZsetieX7P83RKFLQioSOUBeRHkfbvI6bsQBYcAosQ==
-X-Received: by 2002:a05:6871:780f:b0:2ff:8956:fd45 with SMTP id 586e51a60fabf-2ffb1eafe32mr237804fac.0.1752611440637;
-        Tue, 15 Jul 2025 13:30:40 -0700 (PDT)
-Received: from localhost ([2603:8080:b800:f700:9b4e:9dd8:875d:d59])
-        by smtp.gmail.com with UTF8SMTPSA id 586e51a60fabf-2ff11235201sm2896491fac.12.2025.07.15.13.30.39
+        d=1e100.net; s=20230601; t=1752612485; x=1753217285;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=b8Vz2CZMV2vKDYQvb72/FeUb1gFMhQDy+4DurVPlGRU=;
+        b=wK/G3qya8P/xOJpRvyqKElie3E5lnZV8i4D6IXHnCKVd7vE7qeP1bNc6QjosDY+hOG
+         vlRlJEm2CkJwXv9IBxjOwUHznNBC2pmnZhI8xhtoFSQUtzY9vIcCe+B9fFVTGT3UbVE9
+         ZKeGhIsGtmXOz3O8A+ditXaMAu90/VqhAisTgvQ9X761UaI5Dvbsu77urr0vQBupl7c6
+         ejuxZ9pAFybCBUgdJWgo/6J2U9pVxWGSKC/5pJ8fkqbN9wN/poQ+8UhVZsG1cSNaOsri
+         MuVoHy0fb31ZyPB7l2mQrtV128lDRIyOz1YxDZ+PNIaaRUs6+RxJYmJ+ItYhw2keBa4S
+         mhuA==
+X-Forwarded-Encrypted: i=1; AJvYcCXVHWU4sRHjgAj+QswScVh/dTZddVTVPzXUf3AGs/j1wI4xs3D2Hx//IhAmvOQKi7HkDEvORh64ycEHw/NI@lists.linux.dev
+X-Gm-Message-State: AOJu0YxJccfXJl+/fbNfwE9GRzgczjIuIQpxezsdmdgEWfmmNEap0nXF
+	tfebrZyGjP9tlmV4yB1KOwAahv+H/AZoduJaQZNhk5lwroyNDhsJznxJ
+X-Gm-Gg: ASbGncvcUMlgGDW3OK3sdguzb91ENffwvQHyR12gWKexjDitL0OpD8at1ORDDI8tbm6
+	+xaFUBsJRFN9oKGCG+Sjbf1Oe2XdubqDumrBXL2o310pGMQVSlkEHNx1c5+EGBTKSIhNsMJTRVp
+	qdf2bGjXJh/mZcjnLiNIos79l+/67HlboSv8FtGb6VU4wC9ZQ4X4xCEcbADXBpVJhE4rE5Zk9Kh
+	gfDbZo28Tx3nQYLWUHhT2KXt+T5FAWz8rgNJpchZy4Fy2t1lmu+LdYtRMHaL49Mp5ytZSmlCfoR
+	VimPANxq0EaFzeZe8HMJ7zmYONj+wAd8IPeeY2cyf6spJT9l2R5lHFOR1kPEG0B/tF0DgOlS5D/
+	kuYuUSvMoDKkmqU8zi6m5lgT42naXZQYyiIlj8AIgcmVnma5ZZyUW
+X-Google-Smtp-Source: AGHT+IGBefood9YVhRWUHRKITBcoY2rpnWTH4Yi5cfOmcElBnl75/DCrxwGYnuvzRNswvrA/08/KUA==
+X-Received: by 2002:a05:6808:4fd3:b0:40b:1b09:2608 with SMTP id 5614622812f47-41cede8611amr421128b6e.1.1752612484995;
+        Tue, 15 Jul 2025 13:48:04 -0700 (PDT)
+Received: from localhost.localdomain ([181.161.31.179])
+        by smtp.gmail.com with ESMTPSA id 5614622812f47-4141c1ac493sm2290959b6e.38.2025.07.15.13.48.03
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 15 Jul 2025 13:30:39 -0700 (PDT)
-Date: Tue, 15 Jul 2025 15:30:38 -0500
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-Cc: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Hans Verkuil <hverkuil@xs4all.nl>,
-	Detlev Casanova <detlev.casanova@collabora.com>,
-	linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	kernel-janitors@vger.kernel.org
-Subject: Re: [PATCH] media: rkvdec: Fix a NULL vs IS_ERR() bug in probe()
-Message-ID: <e4d9553b-34b2-4c2e-8d56-f86f3d51fcfe@sabinyo.mountain>
-References: <696219e9-a1c7-4c87-b15c-1ffd42c95d58@sabinyo.mountain>
- <6ac8b8db02190da7d2edc9ce4abe5e7a7cab70d6.camel@collabora.com>
+        Tue, 15 Jul 2025 13:48:04 -0700 (PDT)
+From: =?UTF-8?q?Ignacio=20Pe=C3=B1a?= <ignacio.pena87@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: =?UTF-8?q?Ignacio=20Pe=C3=B1a?= <ignacio.pena87@gmail.com>,
+	linux-staging@lists.linux.dev,
+	devel@driverdev.osuosl.org
+Subject: [PATCH] staging: sm750fb: Fix checkpatch warnings in sm750.c
+Date: Tue, 15 Jul 2025 16:48:04 -0400
+Message-Id: <20250715204804.44380-1-ignacio.pena87@gmail.com>
+X-Mailer: git-send-email 2.39.5 (Apple Git-154)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <6ac8b8db02190da7d2edc9ce4abe5e7a7cab70d6.camel@collabora.com>
 
-On Wed, Jun 25, 2025 at 12:13:20PM -0400, Nicolas Dufresne wrote:
-> Hi,
-> 
-> Le mercredi 25 juin 2025 ‡ 10:23 -0500, Dan Carpenter a Ècrit†:
-> > The iommu_paging_domain_alloc() function doesn't return NULL on error it
-> > returns error pointers.† Update the check and then set ->empty_domain to
-> > NULL because the rest of the driver assumes it can be NULL.
-> >
-> > Fixes: ff8c5622f9f7 ("media: rkvdec: Restore iommu addresses on errors")
-> 
-> Oh, sorry about that, I'll will test your patch this week, but otherwise
-> looks good to me, fixing yet one more error path. I'll take the time
-> to test dropping the iommu node from the DT while at it, as I simply
-> don't remember if that was re-tested after that change.
-> 
-> regards,
-> Nicolas
-> 
+Fix multiple checkpatch warnings:
+- Change 'static const char *' to 'static const char *const'
+- Fix alignment issues with function arguments
+- Change CamelCase variable 'Bpp' to 'bpp' following kernel style
 
-Ping?
+These changes improve code readability and compliance with Linux
+kernel coding style without changing functionality.
 
-regards,
-dan carpenter
+Signed-off-by: Ignacio Pe√±a <ignacio.pena87@gmail.com>
+---
+ drivers/staging/sm750fb/sm750.c | 30 +++++++++++++++---------------
+ 1 file changed, 15 insertions(+), 15 deletions(-)
+
+diff --git a/drivers/staging/sm750fb/sm750.c b/drivers/staging/sm750fb/sm750.c
+index 1d929aca3..f36ad8324 100644
+--- a/drivers/staging/sm750fb/sm750.c
++++ b/drivers/staging/sm750fb/sm750.c
+@@ -33,7 +33,7 @@
+ static int g_hwcursor = 1;
+ static int g_noaccel;
+ static int g_nomtrr;
+-static const char *g_fbmode[] = {NULL, NULL};
++static const char *const g_fbmode[] = {NULL, NULL};
+ static const char *g_def_fbmode = "1024x768-32@60";
+ static char *g_settings;
+ static int g_dualview;
+@@ -121,13 +121,13 @@ static int lynxfb_ops_cursor(struct fb_info *info, struct fb_cursor *fbcursor)
+ 	sm750_hw_cursor_disable(cursor);
+ 	if (fbcursor->set & FB_CUR_SETSIZE)
+ 		sm750_hw_cursor_set_size(cursor,
+-					fbcursor->image.width,
+-					fbcursor->image.height);
++					 fbcursor->image.width,
++					 fbcursor->image.height);
+ 
+ 	if (fbcursor->set & FB_CUR_SETPOS)
+ 		sm750_hw_cursor_set_pos(cursor,
+-				       fbcursor->image.dx - info->var.xoffset,
+-				       fbcursor->image.dy - info->var.yoffset);
++					fbcursor->image.dx - info->var.xoffset,
++					fbcursor->image.dy - info->var.yoffset);
+ 
+ 	if (fbcursor->set & FB_CUR_SETCMAP) {
+ 		/* get the 16bit color of kernel means */
+@@ -160,7 +160,7 @@ static void lynxfb_ops_fillrect(struct fb_info *info,
+ {
+ 	struct lynxfb_par *par;
+ 	struct sm750_dev *sm750_dev;
+-	unsigned int base, pitch, Bpp, rop;
++	unsigned int base, pitch, bpp, rop;
+ 	u32 color;
+ 
+ 	if (info->state != FBINFO_STATE_RUNNING)
+@@ -175,9 +175,9 @@ static void lynxfb_ops_fillrect(struct fb_info *info,
+ 	 */
+ 	base = par->crtc.o_screen;
+ 	pitch = info->fix.line_length;
+-	Bpp = info->var.bits_per_pixel >> 3;
++	bpp = info->var.bits_per_pixel >> 3;
+ 
+-	color = (Bpp == 1) ? region->color :
++	color = (bpp == 1) ? region->color :
+ 		((u32 *)info->pseudo_palette)[region->color];
+ 	rop = (region->rop != ROP_COPY) ? HW_ROP2_XOR : HW_ROP2_COPY;
+ 
+@@ -190,7 +190,7 @@ static void lynxfb_ops_fillrect(struct fb_info *info,
+ 	spin_lock(&sm750_dev->slock);
+ 
+ 	sm750_dev->accel.de_fillrect(&sm750_dev->accel,
+-				     base, pitch, Bpp,
++				     base, pitch, bpp,
+ 				     region->dx, region->dy,
+ 				     region->width, region->height,
+ 				     color, rop);
+@@ -202,7 +202,7 @@ static void lynxfb_ops_copyarea(struct fb_info *info,
+ {
+ 	struct lynxfb_par *par;
+ 	struct sm750_dev *sm750_dev;
+-	unsigned int base, pitch, Bpp;
++	unsigned int base, pitch, bpp;
+ 
+ 	par = info->par;
+ 	sm750_dev = par->dev;
+@@ -213,7 +213,7 @@ static void lynxfb_ops_copyarea(struct fb_info *info,
+ 	 */
+ 	base = par->crtc.o_screen;
+ 	pitch = info->fix.line_length;
+-	Bpp = info->var.bits_per_pixel >> 3;
++	bpp = info->var.bits_per_pixel >> 3;
+ 
+ 	/*
+ 	 * If not use spin_lock, system will die if user load driver
+@@ -225,7 +225,7 @@ static void lynxfb_ops_copyarea(struct fb_info *info,
+ 
+ 	sm750_dev->accel.de_copyarea(&sm750_dev->accel,
+ 				     base, pitch, region->sx, region->sy,
+-				     base, pitch, Bpp, region->dx, region->dy,
++				     base, pitch, bpp, region->dx, region->dy,
+ 				     region->width, region->height,
+ 				     HW_ROP2_COPY);
+ 	spin_unlock(&sm750_dev->slock);
+@@ -234,7 +234,7 @@ static void lynxfb_ops_copyarea(struct fb_info *info,
+ static void lynxfb_ops_imageblit(struct fb_info *info,
+ 				 const struct fb_image *image)
+ {
+-	unsigned int base, pitch, Bpp;
++	unsigned int base, pitch, bpp;
+ 	unsigned int fgcol, bgcol;
+ 	struct lynxfb_par *par;
+ 	struct sm750_dev *sm750_dev;
+@@ -247,7 +247,7 @@ static void lynxfb_ops_imageblit(struct fb_info *info,
+ 	 */
+ 	base = par->crtc.o_screen;
+ 	pitch = info->fix.line_length;
+-	Bpp = info->var.bits_per_pixel >> 3;
++	bpp = info->var.bits_per_pixel >> 3;
+ 
+ 	/* TODO: Implement hardware acceleration for image->depth > 1 */
+ 	if (image->depth != 1) {
+@@ -274,7 +274,7 @@ static void lynxfb_ops_imageblit(struct fb_info *info,
+ 
+ 	sm750_dev->accel.de_imageblit(&sm750_dev->accel,
+ 				      image->data, image->width >> 3, 0,
+-				      base, pitch, Bpp,
++				      base, pitch, bpp,
+ 				      image->dx, image->dy,
+ 				      image->width, image->height,
+ 				      fgcol, bgcol, HW_ROP2_COPY);
+-- 
+2.39.5 (Apple Git-154)
 
