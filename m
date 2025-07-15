@@ -1,104 +1,163 @@
-Received: from mail-yb1-f170.google.com (mail-yb1-f170.google.com [209.85.219.170])
+Received: from layka.disroot.org (layka.disroot.org [178.21.23.139])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA3292D9EEF
-	for <linux-staging@lists.linux.dev>; Tue, 15 Jul 2025 11:25:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB2C818E1F
+	for <linux-staging@lists.linux.dev>; Tue, 15 Jul 2025 11:38:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.21.23.139
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752578727; cv=none; b=HQmhn7OuI0k4qWkRrXyVIpEqJYsiKf2DH5Ccm0WtJKQDNKAlV170vRsOrfoViJYtKVnvs0ulIQ7xl+G8HFVomaEjABitijZg4ZGUppJ60wcADdmWP+PUcuIscNDdg+QDvYIB7rooUnqkR/4VlfjAtlM8A+APt1Fv5PTj2F3wwdU=
+	t=1752579488; cv=none; b=c9GeoTX0G9QzSzNmJV1sIICgtwgIeuJmnfxegxFICV6782RoYxcQIg28ih/382FsPZeV4Ki94SUZEldExqQ4Vs4cWGeH3RsawcFSElSEjKa+TVFrlJXjR7OF/J0Sud8EtCfYFIj2fdp8bjuzwFlerF/J+TIWU2Ip/WuXaJMuN/g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752578727; c=relaxed/simple;
-	bh=jHbaE+DWOPVlLwbyTIAvmC8OzDURw4LfeUDIJ89w3Jg=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=HrNcPnqVvbLMMpAvjAKLDmnjspEPnhJREBKCBlTIRuCAGqYqOGV6V4uHcdNQlnX2Qe4cmjkwR89FaRGVcScjzjzIZiUfQpMI08Mw2WCeRTpLc3hhT01iriygjl9hlYX3oFn8NepCi/GXMeRKDSNwytN7NQ6gmtds1L1H9GVqAH4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IbtOLgEV; arc=none smtp.client-ip=209.85.219.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1752579488; c=relaxed/simple;
+	bh=d2e+1AfbwM8V7xMaHjfjAHW4oTYLAlJH5EMpKSwCC/Y=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=mm1F0rDdo0tkha/U3wPKbeHRurkb/lUyGg2xLp2uJkYVdL8m4TvP3W/r3W/lzvewDQ4Ga4h/CDsiuIEMADqMj2AcjeZZA2bGrcIu6cQZ0IwcQM8m4QGxzFor+VMH6NR0HqfIBS9vSgci32lrz71mrqvD9zEnvP/ZNbT/pFnIbBQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=disroot.org; spf=pass smtp.mailfrom=disroot.org; dkim=pass (2048-bit key) header.d=disroot.org header.i=@disroot.org header.b=fWVVcABg; arc=none smtp.client-ip=178.21.23.139
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=disroot.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=disroot.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IbtOLgEV"
-Received: by mail-yb1-f170.google.com with SMTP id 3f1490d57ef6-e812fc35985so4532302276.0
-        for <linux-staging@lists.linux.dev>; Tue, 15 Jul 2025 04:25:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1752578725; x=1753183525; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=vo34cMBbfu5ZCEstKlXmULPS9HKFY7p6hoApDHlHdqo=;
-        b=IbtOLgEVJPmi+HNZ1LKlQQF1CiMKwu/+83grUOJGHp8SIQXOKoUUz1dbKy/3jjpIof
-         ZWaRYSAJBCbxEnG/zybMrBmY2ZCEYUIU+vWBSt9M8NhZtfd/TFT1IN6pgnq5iuh2GelL
-         ugDPsuonvpzFh/VBswsRJVx80jCAVa6BBVASIr8F8Rd1uKTgQJKU7EaxyDwL3An4+UIJ
-         XYtsawyqMX13t/jJGHe672E6iADWcooYqLrxN7/OXWq0l1OEQIaitnXJVFsagdSe0gyv
-         jenLFEonvSwOurrTAXrfq9AohegBtJuxgCFYGQYd4DT7+7jUzhPC+oVTlSDx7pAE/pyV
-         Onsw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752578725; x=1753183525;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=vo34cMBbfu5ZCEstKlXmULPS9HKFY7p6hoApDHlHdqo=;
-        b=Xt4TI1ZABgVicd10CK+k7JLz41ucku8hmSFSQVz5gYD7dINCOs09lVzc7g3B7Z7vo6
-         NaNxzvLfg7pnLfr0CNr8B3WQbZ9z5xrTVyVC1183elVOOtQSWRrFAD4yqMxmtdGMWAvU
-         +kWv8vJNB3Ibp0DwcUGhCIxAihE1gJOxZ/LmeoTlBHgHXkNhLDuHNTPHO1soYTWefV9K
-         ceiDavoslRPIpHbWs0kz7esfoj7pV/gIoPD31izfTTN/U9xv2Y2DoCUAftmHjwkz0C7d
-         GbHumCbF6CifBcFAJ4m50WOu/oClaBZwpnQj4cUeO39026rE9o1b16nQKeiOhxZOz1Wy
-         VP6w==
-X-Forwarded-Encrypted: i=1; AJvYcCUJVni63QbFMPat2kjPy6Y8LsIz4wQ7HdCk4J+uAfdXv+Ju2ANATSNUov4z/TY3haWwW0QJnBbf02+VKuoP@lists.linux.dev
-X-Gm-Message-State: AOJu0Yx44n4s/drChoqlw7wa57RCESo+qAFr9hWEbKtFUua2G4bqc4VI
-	d5oBUNu61mhnBIT2OGJvF7h/PXIsl/Og4DFMUoNiZKl4IQtZpPmVMHvf
-X-Gm-Gg: ASbGncu6GRAqwqfvqFNcs3fPS2Sdb1oh7YOmpbQtk6PgXmwVQC1jGR6lyqXN9TA/JkI
-	YFHIbfKqJR7fg1y+DPg3RYWnGLFDZ0tAxLlTU43ZqyYsANpwGSA0uTjZZkbELzQofso/1GF9NiS
-	oiJdmCzhkZN8rhNF/6Cybnnbfuv5cjowY/+NUYxRtn3UPxFafns307xODyhvp58aMg9J5KEJ1ww
-	4uWt4nSatYhUjJAZ7z3q7u++mywSc9Jj+ob4fcKkAyutzfpNjaWzhTpVergCQpZxj0qXFk7kcRo
-	xt8onL8UXeQlLIJiyHgtHfT61VkI09gP2ul5ba2gijYWid5bq7Sh9EcaJhPinyR7bLivJQXm3sF
-	ebGOCrwB3+MDAUn/pNgJJiiJW+cx355tnsRie1g==
-X-Google-Smtp-Source: AGHT+IH0IhETsj8P/JA08XcPMH7nWCokuLPtF1IOgO6LXzPBkyRklzIaRUiZn1jEXAuM/Zxi5H9xEw==
-X-Received: by 2002:a05:690c:46ca:b0:710:d950:e70c with SMTP id 00721157ae682-71824c44966mr32166897b3.28.1752578724786;
-        Tue, 15 Jul 2025 04:25:24 -0700 (PDT)
-Received: from DebAmplar.DebAmplar ([2a00:5881:3041:2700:501a:6a32:a864:a47])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-717c5d891fesm23810387b3.52.2025.07.15.04.25.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 15 Jul 2025 04:25:24 -0700 (PDT)
-From: Ana Oliveira <anac.amplar@gmail.com>
-To: gregkh@linuxfoundation.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Cc: ~lkcamp/patches@lists.sr.ht,
-	koike@igalia.com,
-	Ana Oliveira <anac.amplar@gmail.com>
-Subject: [PATCH] staging: rtl8723bs: os_dep: remove blank line before close brace '}'
-Date: Tue, 15 Jul 2025 08:25:13 -0300
-Message-Id: <20250715112513.4541-1-anac.amplar@gmail.com>
-X-Mailer: git-send-email 2.39.5
+	dkim=pass (2048-bit key) header.d=disroot.org header.i=@disroot.org header.b="fWVVcABg"
+Received: from mail01.disroot.lan (localhost [127.0.0.1])
+	by disroot.org (Postfix) with ESMTP id 32092207B6;
+	Tue, 15 Jul 2025 13:38:04 +0200 (CEST)
+X-Virus-Scanned: SPAM Filter at disroot.org
+Received: from layka.disroot.org ([127.0.0.1])
+ by localhost (disroot.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id ohWm7pHh7jh5; Tue, 15 Jul 2025 13:38:03 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=disroot.org; s=mail;
+	t=1752579483; bh=d2e+1AfbwM8V7xMaHjfjAHW4oTYLAlJH5EMpKSwCC/Y=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=fWVVcABgKZBpNCbPrDvWaLGMRySibU7tKiVVO61TXU5I04TtAOHw5JNNbqCVnZ1gB
+	 h7/UgiSUs6UJtUPaczqTZ0JtpLX0m5YxQ6jtbNlzB0f56yG9UuGOMber9U4DmpBTq6
+	 5+SSCSXwrdgPAiWOgYuSRRwqh6hNJVxH11UGkRH61tBOYC21I01ne/2aVh1gNRz2tn
+	 IBgXV+C+PSTChASsBr3wF2nXzqU40dxeR/afTem3YHJfpXyiuNYKrtq58Z7gLjgX3h
+	 9Fz+faod+9aMhW1NG43B/E44hWN2OjAEVRsFlafybN6GjKKTboz4uUp9QEWqc8Er/+
+	 iQ+ELT7ZPmifw==
+Message-ID: <af2103a0-f9d0-4980-9ec7-e4ce512ea59a@disroot.org>
+Date: Tue, 15 Jul 2025 13:38:02 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] staging: greybus: power_supply fix alignment
+To: Rui Miguel Silva <rmfrfs@gmail.com>, Greg KH <gregkh@linuxfoundation.org>
+Cc: greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org, johan@kernel.org, elder@kernel.org,
+ ~lkcamp/patches@lists.sr.ht, koike@igalia.com
+References: <20250714135606.41671-1-akhilvarkey@disroot.org>
+ <DBBXCAEMM5ZO.GTKVMMR2XDJ7@linaro.com> <2025071540-sepia-amuck-c757@gregkh>
+ <DBCIG2AHAZHR.31GUITYRTUZXJ@linaro.com>
+Content-Language: en-US
+From: Akhil <akhilvarkey@disroot.org>
+In-Reply-To: <DBCIG2AHAZHR.31GUITYRTUZXJ@linaro.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Fix checkpatch error "CHECK: Blank lines aren't necessary before
-a close brace '}'" in sdio_ops_linux.c:309.
+Hi Rui and Greg,
 
-Signed-off-by: Ana Oliveira <anac.amplar@gmail.com>
+On 15/07/25 11:10, Rui Miguel Silva wrote:
+> Hey Greg,
+> On Tue Jul 15, 2025 at 9:05 AM WEST, Greg KH wrote:
+> 
+>> On Mon, Jul 14, 2025 at 05:38:31PM +0100, Rui Miguel Silva wrote:
+>>> Hey Akhil,
+>>> Thanks for your patch.
+>>>
+>>> All looks good with the exception of a small nit...
+>>>
+>>> On Mon Jul 14, 2025 at 2:56 PM WEST, Akhil Varkey wrote:
+>>>
+>>>> Fix checkpatch check "CHECK:Alignment should match open parenthesis"
+>>>>
+>>>> Signed-off-by: Akhil Varkey <akhilvarkey@disroot.org>
+>>>> ---
+>>>>
+>>>> Hello, This is my first patch, I appreciate any feedbacks. Thanks!!
+>>>
+>>> Welcome, and continue...
+>>>
+>>>> ---
+>>>>   drivers/staging/greybus/power_supply.c | 14 +++++++-------
+>>>>   1 file changed, 7 insertions(+), 7 deletions(-)
+>>>>
+>>>> diff --git a/drivers/staging/greybus/power_supply.c b/drivers/staging/greybus/power_supply.c
+>>>> index 2ef46822f676..a484c0ca058d 100644
+>>>> --- a/drivers/staging/greybus/power_supply.c
+>>>> +++ b/drivers/staging/greybus/power_supply.c
+>>>> @@ -324,7 +324,7 @@ static struct gb_power_supply_prop *get_psy_prop(struct gb_power_supply *gbpsy,
+>>>>   }
+>>>>   
+>>>>   static int is_psy_prop_writeable(struct gb_power_supply *gbpsy,
+>>>> -				     enum power_supply_property psp)
+>>>> +				 enum power_supply_property psp)
+>>>>   {
+>>>>   	struct gb_power_supply_prop *prop;
+>>>>   
+>>>> @@ -493,7 +493,7 @@ static int gb_power_supply_description_get(struct gb_power_supply *gbpsy)
+>>>>   	if (!gbpsy->model_name)
+>>>>   		return -ENOMEM;
+>>>>   	gbpsy->serial_number = kstrndup(resp.serial_number, PROP_MAX,
+>>>> -				       GFP_KERNEL);
+>>>> +					GFP_KERNEL);
+>>>>   	if (!gbpsy->serial_number)
+>>>>   		return -ENOMEM;
+>>>>   
+>>>> @@ -546,7 +546,7 @@ static int gb_power_supply_prop_descriptors_get(struct gb_power_supply *gbpsy)
+>>>>   	}
+>>>>   
+>>>>   	gbpsy->props = kcalloc(gbpsy->properties_count, sizeof(*gbpsy->props),
+>>>> -			      GFP_KERNEL);
+>>>> +			       GFP_KERNEL);
+>>>>   	if (!gbpsy->props) {
+>>>>   		ret = -ENOMEM;
+>>>>   		goto out_put_operation;
+>>>> @@ -634,8 +634,8 @@ static int __gb_power_supply_property_get(struct gb_power_supply *gbpsy,
+>>>>   }
+>>>>   
+>>>>   static int __gb_power_supply_property_strval_get(struct gb_power_supply *gbpsy,
+>>>> -						enum power_supply_property psp,
+>>>> -						union power_supply_propval *val)
+>>>> +						 enum power_supply_property psp,
+>>>> +						 union power_supply_propval *val)
+>>>
+>>> Here you fix the alignment, but the last line goes over column 81, even
+>>> though 80 is not really one hard requirement anymore, all code
+>>> (strings is ok to go over to be easier to grep for messages) is on that
+>>> register.
+>>>
+>>> So, to be coherent, if you could please send a V2 without this specific change
+>>> would be great, Or even better, if you could get rid of all the _ and __
+>>> prefixes in functions names that would be great, and will give more
+>>> space for function paramethers.
+>>> Your call.
+>>
+>> Nah, this is fine as-is, we can go over the limit to 100 for tiny stuff
+>> like this.
+>>
+>> And the __ prefixes should be there to show no locking, or "internal"
+>> functions, right?  So changing the name needs to happen very carefully.
+> 
+> Yup, we can go either way here. I do not have strong feelings about
+> this.
+> 
+> So, LGTM, Thanks Akhil.
+> Reviewed-by: Rui Miguel Silva <rui.silva@linaro.org>
+> 
+> Cheers,
+>      Rui
+> 
+>>
+>> thanks,
+>>
+>> greg k-h
+> 
+> 
+> 
 
----
+Thanks accepting my patches and for the suggestions on what could be 
+done better.
 
-Hey, this is my first patch, I appreciate any feedback, thanks
----
- drivers/staging/rtl8723bs/os_dep/sdio_ops_linux.c | 1 -
- 1 file changed, 1 deletion(-)
-
-diff --git a/drivers/staging/rtl8723bs/os_dep/sdio_ops_linux.c b/drivers/staging/rtl8723bs/os_dep/sdio_ops_linux.c
-index 4a7c0c9cc7ef..5dc00e9117ae 100644
---- a/drivers/staging/rtl8723bs/os_dep/sdio_ops_linux.c
-+++ b/drivers/staging/rtl8723bs/os_dep/sdio_ops_linux.c
-@@ -305,7 +305,6 @@ void sd_write32(struct intf_hdl *pintfhdl, u32 addr, u32 v, s32 *err)
- 				}
- 			}
- 		}
--
- 	}
- }
- 
--- 
-2.39.5
-
+Best Regards,
+Akhil Varkey
