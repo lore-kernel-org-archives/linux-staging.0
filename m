@@ -1,163 +1,128 @@
-Received: from layka.disroot.org (layka.disroot.org [178.21.23.139])
+Received: from mail-yb1-f178.google.com (mail-yb1-f178.google.com [209.85.219.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB2C818E1F
-	for <linux-staging@lists.linux.dev>; Tue, 15 Jul 2025 11:38:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.21.23.139
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3FE92DE70D
+	for <linux-staging@lists.linux.dev>; Tue, 15 Jul 2025 12:19:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752579488; cv=none; b=c9GeoTX0G9QzSzNmJV1sIICgtwgIeuJmnfxegxFICV6782RoYxcQIg28ih/382FsPZeV4Ki94SUZEldExqQ4Vs4cWGeH3RsawcFSElSEjKa+TVFrlJXjR7OF/J0Sud8EtCfYFIj2fdp8bjuzwFlerF/J+TIWU2Ip/WuXaJMuN/g=
+	t=1752581950; cv=none; b=mWvNtdh4DstZdrmc2B3iug36z2Myf9WQFcXIh6sTnmyKCc33kpPk/dFqKzbHBeICzrcAxCQbffqIfbdH+QVMBr/+lhIzAIxMm903LKsIwbPeSB6LwYI3Xj367WLjJT4dPzaV10WSN0t0YMQ4o86CIk2hWelpkLsU50768T1Nt4o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752579488; c=relaxed/simple;
-	bh=d2e+1AfbwM8V7xMaHjfjAHW4oTYLAlJH5EMpKSwCC/Y=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=mm1F0rDdo0tkha/U3wPKbeHRurkb/lUyGg2xLp2uJkYVdL8m4TvP3W/r3W/lzvewDQ4Ga4h/CDsiuIEMADqMj2AcjeZZA2bGrcIu6cQZ0IwcQM8m4QGxzFor+VMH6NR0HqfIBS9vSgci32lrz71mrqvD9zEnvP/ZNbT/pFnIbBQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=disroot.org; spf=pass smtp.mailfrom=disroot.org; dkim=pass (2048-bit key) header.d=disroot.org header.i=@disroot.org header.b=fWVVcABg; arc=none smtp.client-ip=178.21.23.139
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=disroot.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=disroot.org
+	s=arc-20240116; t=1752581950; c=relaxed/simple;
+	bh=qvgiBgPI/1MvYYwFH/XMV/9+QdkZpnesuL1H6Zud1mI=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=u7KgC8dJ8OqfxUZghKIaVLtFOGv0YOnCPr8FJynRWffxvsWSz3w1yiMIlQIU02FtcT2a5014ILB9h38p42ba+DbmsakWmz4w0CztikP+6IK8zQ7lU5mHVkX/bkzlX8f3l2F8ge6u3nrcJWMyg3qgjDj2SojRhmNGQBYK7j7Ki0c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CX6WoT7o; arc=none smtp.client-ip=209.85.219.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=disroot.org header.i=@disroot.org header.b="fWVVcABg"
-Received: from mail01.disroot.lan (localhost [127.0.0.1])
-	by disroot.org (Postfix) with ESMTP id 32092207B6;
-	Tue, 15 Jul 2025 13:38:04 +0200 (CEST)
-X-Virus-Scanned: SPAM Filter at disroot.org
-Received: from layka.disroot.org ([127.0.0.1])
- by localhost (disroot.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id ohWm7pHh7jh5; Tue, 15 Jul 2025 13:38:03 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=disroot.org; s=mail;
-	t=1752579483; bh=d2e+1AfbwM8V7xMaHjfjAHW4oTYLAlJH5EMpKSwCC/Y=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=fWVVcABgKZBpNCbPrDvWaLGMRySibU7tKiVVO61TXU5I04TtAOHw5JNNbqCVnZ1gB
-	 h7/UgiSUs6UJtUPaczqTZ0JtpLX0m5YxQ6jtbNlzB0f56yG9UuGOMber9U4DmpBTq6
-	 5+SSCSXwrdgPAiWOgYuSRRwqh6hNJVxH11UGkRH61tBOYC21I01ne/2aVh1gNRz2tn
-	 IBgXV+C+PSTChASsBr3wF2nXzqU40dxeR/afTem3YHJfpXyiuNYKrtq58Z7gLjgX3h
-	 9Fz+faod+9aMhW1NG43B/E44hWN2OjAEVRsFlafybN6GjKKTboz4uUp9QEWqc8Er/+
-	 iQ+ELT7ZPmifw==
-Message-ID: <af2103a0-f9d0-4980-9ec7-e4ce512ea59a@disroot.org>
-Date: Tue, 15 Jul 2025 13:38:02 +0200
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CX6WoT7o"
+Received: by mail-yb1-f178.google.com with SMTP id 3f1490d57ef6-e8bbaedb460so343043276.3
+        for <linux-staging@lists.linux.dev>; Tue, 15 Jul 2025 05:19:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1752581947; x=1753186747; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=KIfmy0/3xkga8hiuCxq1ZZdtAivDaHAR4qHd1TqxdHU=;
+        b=CX6WoT7oTjiEijAarttUeHG2GiDNeXTLp89JBdYlDVF+xa7Y0/DrPtWO0enALY74f3
+         irvYzNbAgz8KJrxbPgabxhnLDdB+3kXKRk/oosPHY1c4kgIyQHRO1QqswnCxWIv55KE6
+         DKHX0taPFyOl8BpK8SR75+MHqNSWqY7c8/Efb4CpjhB2dK8Uo++XXbxWM03He6AcNomS
+         P5/Jf0BX3s0R0slX58Uq7XifDKIycq49qoFt4XU05caWddpzBzl0NETfJHJzg2cz/Een
+         q1yVhW/Lt2/sNlkMsj6NkAzRTwp8Ag2Zgenz9IvxO4Xbhx8lMrBWvLIRchhTps7Jx5G6
+         NOeA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1752581947; x=1753186747;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=KIfmy0/3xkga8hiuCxq1ZZdtAivDaHAR4qHd1TqxdHU=;
+        b=rtqN/cLPvTSoBaG+o6AixgQHYXEEIfenghPWNDZRkg7nbCz4lvkAKEBTMdu0dmRJJx
+         ADJUol6Id4vvTNLFi8OLh4KZ+yM76vcrIRrEIlox/CQ3TFhMz3z0a96PVbXTkEOj35cC
+         llJCMPULtWsYS3Im8mT5hLnLMwk7WXuYeDGodl3bLx9sw4FZktnW5RzhzJvw0q7JHstZ
+         t8iFqsERuAlfQQxohVoeXVI8AAIIlZfSo2c/JSGuyzVJNqtjQpygzPszeN0FaUQ6bDo5
+         vdkZDXnTlaGAGI3hOEijSQGHsLveOB+G9gTdX/clW0UZc+UXDTnsK3Napj4ZZv38/QR1
+         fLXQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXR8Ic9YNNOOMZ2vxEFDoc3nRwbFwxxTDuOnIzaGofY32d+yUk6DoewpjmLll2ewn9T2FBFG47i48t/cmZj@lists.linux.dev
+X-Gm-Message-State: AOJu0YygJVTlsc3p2n7z/zj86AduYJsLyNE5+wnHcLGMYc39rQyBKvlD
+	wIetjFyJtpuikDhDZ+YGH+Vgj0dOlpsRY72wAyX/5urenbzP6V7YHPY1
+X-Gm-Gg: ASbGncu7713i5Z8cjAc3PoW8Tx1WEjOay3ct5MxaD53RxBWgCMwexozTmcpll57rJQf
+	tvMuBtVGicDVovKSjQ/A0NY8syoPN668zhhbK1A+WXI4t3V7EKIPWpWn3YTb8AzaVrJtsX87CEv
+	3xC/Ke8TOCGS+sulwhdrB/fjKdMX14xo14I5NcRegVLtnFhGnl2lQW1u6v5f0DcClPS/glJLi4I
+	Y+6IJKdKfVggYAqZmOxvxvemt7Myb82b9uzdQEOCKluvaVd+NzDjKgylNfhPLH9gCQxYV70WUDc
+	QJM2mZQyRBsb0DirHcKZFC2TzpELKA/KOfvM+kISJX44s22VeTQx/RM6R+yVgxBiSlCU6XjvHYV
+	n5zE2FFVYHY8P4IGaOykhKpqkZpx8xXV3fQ==
+X-Google-Smtp-Source: AGHT+IGfSxm300vEgPQlNRYqtUBzpiflKmyfITdm3khjnCbUjiMfC5i1vY9+2xSVU+3qZKC6YuCnvw==
+X-Received: by 2002:a05:6902:260f:b0:e8b:444c:a1b0 with SMTP id 3f1490d57ef6-e8b85aa6ba2mr18358309276.16.1752581947558;
+        Tue, 15 Jul 2025 05:19:07 -0700 (PDT)
+Received: from debian.test ([89.234.162.240])
+        by smtp.gmail.com with ESMTPSA id 3f1490d57ef6-e8bbaec0d01sm230378276.6.2025.07.15.05.19.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 15 Jul 2025 05:19:07 -0700 (PDT)
+From: Michelle Jin <shjy180909@gmail.com>
+To: andy@kernel.org,
+	hansg@kernel.org,
+	mchehab@kernel.org,
+	sakari.ailus@linux.intel.com,
+	gregkh@linuxfoundation.org,
+	linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev
+Cc: lkcamp/patches@lists.sr.ht,
+	koike@igalia.com,
+	Michelle Jin <shjy180909@gmail.com>
+Subject: [PATCH] media: atomisp: fix trailing block comment style
+Date: Tue, 15 Jul 2025 08:18:39 -0400
+Message-Id: <20250715121839.12987-1-shjy180909@gmail.com>
+X-Mailer: git-send-email 2.39.5
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] staging: greybus: power_supply fix alignment
-To: Rui Miguel Silva <rmfrfs@gmail.com>, Greg KH <gregkh@linuxfoundation.org>
-Cc: greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org, johan@kernel.org, elder@kernel.org,
- ~lkcamp/patches@lists.sr.ht, koike@igalia.com
-References: <20250714135606.41671-1-akhilvarkey@disroot.org>
- <DBBXCAEMM5ZO.GTKVMMR2XDJ7@linaro.com> <2025071540-sepia-amuck-c757@gregkh>
- <DBCIG2AHAZHR.31GUITYRTUZXJ@linaro.com>
-Content-Language: en-US
-From: Akhil <akhilvarkey@disroot.org>
-In-Reply-To: <DBCIG2AHAZHR.31GUITYRTUZXJ@linaro.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-Hi Rui and Greg,
+Fixes a checkpatch.pl warning regarding block comment formatting.
 
-On 15/07/25 11:10, Rui Miguel Silva wrote:
-> Hey Greg,
-> On Tue Jul 15, 2025 at 9:05 AM WEST, Greg KH wrote:
-> 
->> On Mon, Jul 14, 2025 at 05:38:31PM +0100, Rui Miguel Silva wrote:
->>> Hey Akhil,
->>> Thanks for your patch.
->>>
->>> All looks good with the exception of a small nit...
->>>
->>> On Mon Jul 14, 2025 at 2:56 PM WEST, Akhil Varkey wrote:
->>>
->>>> Fix checkpatch check "CHECK:Alignment should match open parenthesis"
->>>>
->>>> Signed-off-by: Akhil Varkey <akhilvarkey@disroot.org>
->>>> ---
->>>>
->>>> Hello, This is my first patch, I appreciate any feedbacks. Thanks!!
->>>
->>> Welcome, and continue...
->>>
->>>> ---
->>>>   drivers/staging/greybus/power_supply.c | 14 +++++++-------
->>>>   1 file changed, 7 insertions(+), 7 deletions(-)
->>>>
->>>> diff --git a/drivers/staging/greybus/power_supply.c b/drivers/staging/greybus/power_supply.c
->>>> index 2ef46822f676..a484c0ca058d 100644
->>>> --- a/drivers/staging/greybus/power_supply.c
->>>> +++ b/drivers/staging/greybus/power_supply.c
->>>> @@ -324,7 +324,7 @@ static struct gb_power_supply_prop *get_psy_prop(struct gb_power_supply *gbpsy,
->>>>   }
->>>>   
->>>>   static int is_psy_prop_writeable(struct gb_power_supply *gbpsy,
->>>> -				     enum power_supply_property psp)
->>>> +				 enum power_supply_property psp)
->>>>   {
->>>>   	struct gb_power_supply_prop *prop;
->>>>   
->>>> @@ -493,7 +493,7 @@ static int gb_power_supply_description_get(struct gb_power_supply *gbpsy)
->>>>   	if (!gbpsy->model_name)
->>>>   		return -ENOMEM;
->>>>   	gbpsy->serial_number = kstrndup(resp.serial_number, PROP_MAX,
->>>> -				       GFP_KERNEL);
->>>> +					GFP_KERNEL);
->>>>   	if (!gbpsy->serial_number)
->>>>   		return -ENOMEM;
->>>>   
->>>> @@ -546,7 +546,7 @@ static int gb_power_supply_prop_descriptors_get(struct gb_power_supply *gbpsy)
->>>>   	}
->>>>   
->>>>   	gbpsy->props = kcalloc(gbpsy->properties_count, sizeof(*gbpsy->props),
->>>> -			      GFP_KERNEL);
->>>> +			       GFP_KERNEL);
->>>>   	if (!gbpsy->props) {
->>>>   		ret = -ENOMEM;
->>>>   		goto out_put_operation;
->>>> @@ -634,8 +634,8 @@ static int __gb_power_supply_property_get(struct gb_power_supply *gbpsy,
->>>>   }
->>>>   
->>>>   static int __gb_power_supply_property_strval_get(struct gb_power_supply *gbpsy,
->>>> -						enum power_supply_property psp,
->>>> -						union power_supply_propval *val)
->>>> +						 enum power_supply_property psp,
->>>> +						 union power_supply_propval *val)
->>>
->>> Here you fix the alignment, but the last line goes over column 81, even
->>> though 80 is not really one hard requirement anymore, all code
->>> (strings is ok to go over to be easier to grep for messages) is on that
->>> register.
->>>
->>> So, to be coherent, if you could please send a V2 without this specific change
->>> would be great, Or even better, if you could get rid of all the _ and __
->>> prefixes in functions names that would be great, and will give more
->>> space for function paramethers.
->>> Your call.
->>
->> Nah, this is fine as-is, we can go over the limit to 100 for tiny stuff
->> like this.
->>
->> And the __ prefixes should be there to show no locking, or "internal"
->> functions, right?  So changing the name needs to happen very carefully.
-> 
-> Yup, we can go either way here. I do not have strong feelings about
-> this.
-> 
-> So, LGTM, Thanks Akhil.
-> Reviewed-by: Rui Miguel Silva <rui.silva@linaro.org>
-> 
-> Cheers,
->      Rui
-> 
->>
->> thanks,
->>
->> greg k-h
-> 
-> 
-> 
+The trailing '*/' on line 78 was moved to a separate line to conform to
+Linux kernel coding style guidelines.
 
-Thanks accepting my patches and for the suggestions on what could be 
-done better.
+Signed-off-by: Michelle Jin <shjy180909@gmail.com>
+---
+ .../media/atomisp/include/linux/atomisp_platform.h   | 12 ++++++++----
+ 1 file changed, 8 insertions(+), 4 deletions(-)
 
-Best Regards,
-Akhil Varkey
+diff --git a/drivers/staging/media/atomisp/include/linux/atomisp_platform.h b/drivers/staging/media/atomisp/include/linux/atomisp_platform.h
+index 6146555fe9cf..95e18c7ddc13 100644
+--- a/drivers/staging/media/atomisp/include/linux/atomisp_platform.h
++++ b/drivers/staging/media/atomisp/include/linux/atomisp_platform.h
+@@ -73,9 +73,11 @@ enum atomisp_input_format {
+ 	/* CSI2-MIPI specific format: YUV data.
+ 	 */
+ 	ATOMISP_INPUT_FORMAT_YUV420_8_SHIFT,  /* YUV420 8-bit (Chroma Shifted
+-						 Pixel Sampling) */
++					       * Pixel Sampling)
++					       */
+ 	ATOMISP_INPUT_FORMAT_YUV420_10_SHIFT, /* YUV420 8-bit (Chroma Shifted
+-						 Pixel Sampling) */
++					       * Pixel Sampling)
++					       */
+ 
+ 	/* CSI2-MIPI specific format: Generic long packet data
+ 	 */
+@@ -119,10 +121,12 @@ struct atomisp_input_stream_info {
+ 	enum atomisp_input_stream_id stream;
+ 	u8 enable;
+ 	/* Sensor driver fills ch_id with the id
+-	   of the virtual channel. */
++	 * of the virtual channel.
++	 */
+ 	u8 ch_id;
+ 	/* Tells how many streams in this virtual channel. If 0 ignore rest
+-	 * and the input format will be from mipi_info */
++	 * and the input format will be from mipi_info
++	 */
+ 	u8 isys_configs;
+ 	/*
+ 	 * if more isys_configs is more than 0, sensor needs to configure the
+-- 
+2.39.5
+
