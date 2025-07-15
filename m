@@ -1,98 +1,175 @@
-Received: from mail-oa1-f49.google.com (mail-oa1-f49.google.com [209.85.160.49])
+Received: from mail-ot1-f43.google.com (mail-ot1-f43.google.com [209.85.210.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 814A719AD5C
-	for <linux-staging@lists.linux.dev>; Tue, 15 Jul 2025 23:07:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFA051F1537
+	for <linux-staging@lists.linux.dev>; Tue, 15 Jul 2025 23:44:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752620834; cv=none; b=fwZZuBn9LaqYZUb7YlDx7Wl1GtYTcqfJXbh0C5uhEwY7Du1XSAn9B/q2WnUdZtj3Gen+VErtnwnKdQlcswEIwXupVSLYL3MEv4ncky3sxOTXlFBKGv+0xID9Bw6IN0KFBHApLuPRIIegildOF9taatpeN8udOBpJEDiEJpBWJTo=
+	t=1752623063; cv=none; b=AW4Q/Yw/6ZWwtGiMfVhwZZyeMW6Hbf6zGUCitisJSa4toXIJj6lKtY9GaVdtTIMezm+z0re+kFbOezeKa6Ddv9evqtEPPio+TGrxLINl5nIngcQ2ISHxdHjqMdlRxI+9+7w+Gfeltm2lKChwBAgRFr5UICSAjoiIhqehPqHkJ6o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752620834; c=relaxed/simple;
-	bh=TdwRQ8hBs8RNJ0rWvmW48ICtfaJmKpknY8G8u7R1u/k=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qXNjiQ4/s9MpsRulTW39t71zomaySmDRboU0TKY9DXpq9vbJFYqEAVmhrbfZ1994Tdb1JGHgL+crePQ7JTUjP/avVFpJ6OtjDmtl1fCpSap8MPLRvgMmraNLgGlMRy1KgmfJkkz2ELxiogZ+eGWbmdy9YShxtjsU9yxGjyLE79o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=UB1fMeO4; arc=none smtp.client-ip=209.85.160.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1752623063; c=relaxed/simple;
+	bh=+Atcn7GjradKBoPS2dBsAipA/U2stMAjGUh4M3wWR/A=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=HAPc1CoYWcaIUITls63Wp6gKxQinHLpbeXVzD54hOzgQiEIDLByoVNtOQXwyuTVnLve+PoRqLjgjDEgXRxUZwMMrAYAs14f2IfPFCVwvg/7cPk0K1TDQIqgO49ApKxFmI/n6Q42y8bFVDmvHb6WEMaby5X8E4BCvONB/k7kDuZk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=F+SYGnPv; arc=none smtp.client-ip=209.85.210.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="UB1fMeO4"
-Received: by mail-oa1-f49.google.com with SMTP id 586e51a60fabf-2f77591f208so198465fac.0
-        for <linux-staging@lists.linux.dev>; Tue, 15 Jul 2025 16:07:12 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="F+SYGnPv"
+Received: by mail-ot1-f43.google.com with SMTP id 46e09a7af769-73e4a448370so1318003a34.0
+        for <linux-staging@lists.linux.dev>; Tue, 15 Jul 2025 16:44:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1752620831; x=1753225631; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=T8/xCeqyZt2wmgn8IDHS3lAPNn8HdJhxhAcP0TpDRFQ=;
-        b=UB1fMeO463AElXV08ydT2UXrXkbLgP1JoMS5ze00mReEsbk9X2qi3p0iN7Gc+MRNTA
-         JHb8wBFVwvjD53RnCB1fbyk7/eD+6/CiU0+DpELuW98WGEurOHiVuQpbg89i12WzGDqm
-         j61tHer/4S8dzOPNl6vDVpPD1zycj8Murav6vxHIhXOFipbNqKYfRr5bWfw64o+bJ445
-         YiVoWYCN42ktZq4/iCtlaj8OQzPLNQmvSeQOzpxpGDHwYJU/jDsnOCPGD0IdjbaD+G5b
-         mU8UYtrhh0jlhDoir/RezEaBwa+zwoSYxyVUkeHVJe1eNXpNuG+Lhun7MUwEmGNNhnAR
-         r95A==
+        d=gmail.com; s=20230601; t=1752623061; x=1753227861; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=dOnOPqVVq2mV3MoQFzfHEqB2Oa+icBT3tmfw/6rp8l4=;
+        b=F+SYGnPvJtDuPcz3JDEiPeeqB4RbfsjhlbnAJeFZSWBkgPcZiS9lE+IxoQBO+LBNCu
+         1fXM5dkME35SqV0MNi7lzxbcMl244HZ0UMn08tUrn9D/b48C2yvCJamPd+d7b0y6Cj5u
+         K8z+O8HhbhtGU4e2I8hSZX8NVEfCQnV0JqYfUDdvMhsuQQZzaHgO6ELx22mXr33uTx+b
+         0DeKit+l2Xh0TccRM7FQQqBhsiQCwzPm0ErWihv1OeTiZRQfVUMM8/9HtSL6ImYsN5Ig
+         Tl3G41In61pcgzKP17sGxLx3uPYYS5WnhLmoKnf5xOvps3S3GclhTlVzOb7fsfwiHK2a
+         p62g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752620831; x=1753225631;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=T8/xCeqyZt2wmgn8IDHS3lAPNn8HdJhxhAcP0TpDRFQ=;
-        b=elvYWprqsk7HQnWzYs4S+QaQoVmd6EApAC9UFXKQBaq4NUQh78/wOIMD7cdtXvy1LD
-         hyNtCKddLwKaxT7YIgk5P6fF3WLKcNDPKRS1ayAc0rgEJjbdG7T400u4NeCThxWSsrqU
-         e8YQLA1p6rGBkYY5IUKT7jdtKoFf1Zdsni8eDcST8g28NdjrlnSGiE/4FiHxZs3uomtY
-         nx4oS9xqIBNpllWA/XdtvVSQHJ2VB5uQRLw8D6Jdt3WT/doZ0lMY88O/jkS25LpJ/Den
-         Mzpne51r0PNb3FFCjdoh/OP5a/CXHJZkqfsPCTbEIFW8npTi62Araz3Li9HDRIVFXUJs
-         buew==
-X-Forwarded-Encrypted: i=1; AJvYcCWRJpCLnabCMLjOFJxleMu+Jmg/1TbSvFxcYwpKpZYVHIv+HRLCMUhZyZfUopiTnM6nBC2mqv8LnaoUziXN@lists.linux.dev
-X-Gm-Message-State: AOJu0YzD+PEj/HJhfx/TVIbzuWvntEKrI6wmjkxK6KAJuVR5GRQMBM/+
-	8kXfQhEfnpPz2Vti/mIZzzhHdO7FG3kXt0kihvfglU5e1LiorYc3u2nx46bi1KJjA3KjNr8oavm
-	o4Dsl
-X-Gm-Gg: ASbGncv2qUuUR+B2VuDPXb55EL5Tfk+AMjfW/kPEzHm7NGIVRjHZn1KZdIua4GzYKiu
-	7tS3OACzNFUy1ehqvLWUClD07LJxXBGzMpqmoHmxs5InDl+rQwhUjDFnLnR88lqlCqRtJDhX9II
-	IxHW1OwKTiFmQpWM1BTTTZmP8LuNa2CqkuAd5SjMsqbGF7pBv87r6v0nPS8gyLbUsvYRz7uMPeS
-	zD00Y5FGLaTa30fJBNQ0n8kxgJv16enHojbglVFXvpDTOw3M1fOR5/UFRVHp/wmmOzp8rOMSQ6v
-	FLRkgijXwsAc7UhvpA2F749xwCd66b4EpnuB5J9yOzviMVANfmo41boWJKD7DFs2AqeCxeKo8ic
-	SjOD3acvvKx3bfrDPnjKiT4f9h2R3
-X-Google-Smtp-Source: AGHT+IH6Iw8x0Ssmy6W7B2jmVJ1SqRlf9P0FregO7tqkNLu6G0HHdGAJ2aG2ptJl+JKWDH/D9aKSFQ==
-X-Received: by 2002:a05:6870:3c1b:b0:2eb:9fe5:d06c with SMTP id 586e51a60fabf-2ffb09a5173mr834588fac.3.1752620831387;
-        Tue, 15 Jul 2025 16:07:11 -0700 (PDT)
-Received: from localhost ([2603:8080:b800:f700:a172:6205:b5e:43cb])
-        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-2ff116d3541sm3036132fac.35.2025.07.15.16.07.09
+        d=1e100.net; s=20230601; t=1752623061; x=1753227861;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=dOnOPqVVq2mV3MoQFzfHEqB2Oa+icBT3tmfw/6rp8l4=;
+        b=JrDv3rLGpf9/pBJp+HnunmlmyHrJ4rsJ34LTU6LHBGxHJt1Ph+KXZ4mk0luOUM62M6
+         2ZjM6FbUk/FR4/v09b5uZV+UtJMoKrh2GfYNtz6ZJ3fyq0DG56jaimJ7Oy2f7SWkIYh0
+         OcjqJqyqpTo0W2nT9Iyxv/1UtjlyZA45bDdxC8aV7hewas+VBsXZaCtXs1SZWDvX+sS7
+         lyTTG8GPJ5IO7boihUEG/QOul1bzpbEGBN+gKFPk8DzmC+rcTuKVb1dl7/keesG5f7qC
+         cnauKG6pjtIQD7lUd0MQDIOuP51UEpIxZpggOOYUikwKJRrsayH4u0d4d20SQPsduL3a
+         RyuA==
+X-Gm-Message-State: AOJu0Yy6q5KSxdu+pWuzsQLU+5BBbqPLdPNu0HDjgKN88jnTRzUv6uGM
+	4dUI5fT8WUmVxjyfN/LUMghgedTZ3BhAOydr6wIHa3B7LmXy0DYrI/RJEfZ7+6t8
+X-Gm-Gg: ASbGncvmJ3zIGysjBHHj+qXAdSbrR/AeTKUSWOBDif0B4f36k9tHJdMQeOkL8iMdfnR
+	f1mJUT/V8zknOubf2AGyDY/tRz4whNbwfdwOc9aFGHR8nM3STKfIVvvQuosCwlOSjxg59vUi+ZI
+	XdGHz1PrahzkNXBkRLL+7Cd7qw+MVdPuo/HsYvHzfAIBucdmWnNRRLYRHPGqhyEHjokqptexKMx
+	UwTPj00HVJtGosRqphN0Ma9f/zT37xNm4zb2tKOVynPlA3bnHhjiQMAE0Ic6M7IyeQOiKj7JnoI
+	rqApztczCHnOuX2tqIhp8VZCi2LNuDlB3AjbhLUknsxKWoHy/EDjtia+h/+sCbi38dX1I98R4uA
+	8kwakEUTN7hqBn/a+sADy0DrB+sZ7m3diHZUZcfGOqtdF94F8Q9Ut
+X-Google-Smtp-Source: AGHT+IHsNtDefUaq3q9eseLlP1Ue5LkH4Rez/pyXrG4FVr8oYqQkc7QyzWh/klgUh3UxMMpE5Vxqng==
+X-Received: by 2002:a05:6830:910:b0:72b:9316:d596 with SMTP id 46e09a7af769-73e64a490cfmr1118118a34.3.1752623060788;
+        Tue, 15 Jul 2025 16:44:20 -0700 (PDT)
+Received: from localhost.localdomain ([181.161.11.224])
+        by smtp.gmail.com with ESMTPSA id 46e09a7af769-73cf10a7f48sm2514647a34.25.2025.07.15.16.44.19
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 15 Jul 2025 16:07:10 -0700 (PDT)
-Date: Wed, 16 Jul 2025 02:07:08 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Ana Oliveira <anac.amplar@gmail.com>
-Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org, ~lkcamp/patches@lists.sr.ht,
-	koike@igalia.com
-Subject: Re: [PATCH] staging: rtl8723bs: os_dep: remove blank line before
- close brace '}'
-Message-ID: <588099c8-98a6-4d89-b638-479c7ee1ca07@suswa.mountain>
-References: <20250715112513.4541-1-anac.amplar@gmail.com>
+        Tue, 15 Jul 2025 16:44:20 -0700 (PDT)
+From: =?UTF-8?q?Ignacio=20Pe=C3=B1a?= <ignacio.pena87@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-staging@lists.linux.dev,
+	=?UTF-8?q?Ignacio=20Pe=C3=B1a?= <ignacio.pena87@gmail.com>
+Subject: [PATCH] staging: rtl8723bs: Fix comment style warnings
+Date: Tue, 15 Jul 2025 19:44:16 -0400
+Message-Id: <20250715234416.50030-1-ignacio.pena87@gmail.com>
+X-Mailer: git-send-email 2.39.5 (Apple Git-154)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250715112513.4541-1-anac.amplar@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Tue, Jul 15, 2025 at 08:25:13AM -0300, Ana Oliveira wrote:
-> Fix checkpatch error "CHECK: Blank lines aren't necessary before
-> a close brace '}'" in sdio_ops_linux.c:309.
-> 
-> Signed-off-by: Ana Oliveira <anac.amplar@gmail.com>
-> 
-> ---
-> 
-> Hey, this is my first patch, I appreciate any feedback, thanks
-> ---
+Fix checkpatch warnings in rtl8723bs driver:
+- Fix block comment style by moving */ to separate line
+- Add missing blank line after variable declarations
+- Remove space before tab in commented code
 
-Looks good.
+These are coding style fixes that don't change functionality.
 
-Reviewed-by: Dan Carpenter <dan.carpenter@linaro.org>
+Signed-off-by: Ignacio Peña <ignacio.pena87@gmail.com>
+---
+ drivers/staging/rtl8723bs/core/rtw_cmd.c   |  2 +-
+ drivers/staging/rtl8723bs/core/rtw_efuse.c | 19 +++++++++++++------
+ 2 files changed, 14 insertions(+), 7 deletions(-)
 
-regards,
-dan carpenter
+diff --git a/drivers/staging/rtl8723bs/core/rtw_cmd.c b/drivers/staging/rtl8723bs/core/rtw_cmd.c
+index 437934dd2..f02b3b485 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_cmd.c
++++ b/drivers/staging/rtl8723bs/core/rtw_cmd.c
+@@ -1318,7 +1318,7 @@ u8 rtw_lps_ctrl_wk_cmd(struct adapter *padapter, u8 lps_ctrl_type, u8 enqueue)
+ 	u8 res = _SUCCESS;
+ 
+ 	/* if (!pwrctrlpriv->bLeisurePs) */
+-	/* 	return res; */
++	/*	return res; */
+ 
+ 	if (enqueue) {
+ 		ph2c = rtw_zmalloc(sizeof(struct cmd_obj));
+diff --git a/drivers/staging/rtl8723bs/core/rtw_efuse.c b/drivers/staging/rtl8723bs/core/rtw_efuse.c
+index 7a74b011d..fc6dee711 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_efuse.c
++++ b/drivers/staging/rtl8723bs/core/rtw_efuse.c
+@@ -70,7 +70,8 @@ Efuse_Write1ByteToFakeContent(u16 Offset, u8 Value)
+  * When			Who		Remark
+  * 11/17/2008	MHC		Create Version 0.
+  *
+- *---------------------------------------------------------------------------*/
++ *---------------------------------------------------------------------------
++ */
+ void
+ Efuse_PowerSwitch(
+ struct adapter *padapter,
+@@ -85,6 +86,7 @@ u8
+ Efuse_CalculateWordCnts(u8 word_en)
+ {
+ 	u8 word_cnts = 0;
++
+ 	if (!(word_en & BIT(0)))
+ 		word_cnts++; /*  0 : write enable */
+ 	if (!(word_en & BIT(1)))
+@@ -163,7 +165,8 @@ EFUSE_GetEfuseDefinition(
+  * When			Who		Remark
+  * 09/23/2008	MHC		Copy from WMAC.
+  *
+- *---------------------------------------------------------------------------*/
++ *---------------------------------------------------------------------------
++ */
+ u8
+ EFUSE_Read1Byte(
+ struct adapter *Adapter,
+@@ -313,7 +316,8 @@ Efuse_WordEnableDataWrite(struct adapter *padapter,
+  * When			Who		Remark
+  * 11/11/2008	MHC		Create Version 0.
+  *
+- *---------------------------------------------------------------------------*/
++ *---------------------------------------------------------------------------
++ */
+ void
+ Efuse_ReadAllMap(
+ 	struct adapter *padapter,
+@@ -350,7 +354,8 @@ void Efuse_ReadAllMap(struct adapter *padapter, u8 efuseType, u8 *Efuse, bool bP
+  * When			Who		Remark
+  * 11/12/2008	MHC		Create Version 0.
+  *
+- *---------------------------------------------------------------------------*/
++ *---------------------------------------------------------------------------
++ */
+ static void efuse_ShadowRead1Byte(struct adapter *padapter, u16 Offset, u8 *Value)
+ {
+ 	struct eeprom_priv *pEEPROM = GET_EEPROM_EFUSE_PRIV(padapter);
+@@ -396,7 +401,8 @@ static void efuse_ShadowRead4Byte(struct adapter *padapter, u16 Offset, u32 *Val
+  * When			Who		Remark
+  * 11/13/2008	MHC		Create Version 0.
+  *
+- *---------------------------------------------------------------------------*/
++ *---------------------------------------------------------------------------
++ */
+ void EFUSE_ShadowMapUpdate(struct adapter *padapter, u8 efuseType, bool bPseudoTest)
+ {
+ 	struct eeprom_priv *pEEPROM = GET_EEPROM_EFUSE_PRIV(padapter);
+@@ -429,7 +435,8 @@ void EFUSE_ShadowMapUpdate(struct adapter *padapter, u8 efuseType, bool bPseudoT
+  * When			Who		Remark
+  * 11/12/2008	MHC		Create Version 0.
+  *
+- *---------------------------------------------------------------------------*/
++ *---------------------------------------------------------------------------
++ */
+ void EFUSE_ShadowRead(struct adapter *padapter, u8 Type, u16 Offset, u32 *Value)
+ {
+ 	if (Type == 1)
+-- 
+2.39.5 (Apple Git-154)
 
