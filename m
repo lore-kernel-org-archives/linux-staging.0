@@ -1,71 +1,71 @@
-Received: from mail-ot1-f42.google.com (mail-ot1-f42.google.com [209.85.210.42])
+Received: from mail-oi1-f171.google.com (mail-oi1-f171.google.com [209.85.167.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01F9E2741BC
-	for <linux-staging@lists.linux.dev>; Wed, 16 Jul 2025 03:38:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91A2B279358
+	for <linux-staging@lists.linux.dev>; Wed, 16 Jul 2025 03:38:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752637093; cv=none; b=nkeFjuG3yfkUq43A4iy99fFmcPYUHIlXmkFD21J3M3Qy6vythceFpYELD//0HFXCJLMq2KMYut50+KLC2G5e66MBfDSCI6hAVgSXO5HCynJN/LCpy9LzMDKiveFVdPuCSNN4nJ7wTKimhKovC4XIwzKjmSEBMEDRMwGgnGq94PM=
+	t=1752637095; cv=none; b=Ruel4EnNPIMNsZVNt/cV2kbl7p/py2Xe3a1RWwPwRTs+aS11LGdQufyV57nrG09eiMJ3ZqwaFe8f/OjcvT/EyKvtj3mhh9mUzqoR3d28WVPTpuAlqyMGDKG+yOcYqcT/eMn9HO/pgvBmfdxjqkc5OXmnysvYn6//OXXzFxQNIyc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752637093; c=relaxed/simple;
-	bh=YkOymsbrNFSkPHr2H/MLJ+sTTzLwp3OS0KBXDQCmCtw=;
+	s=arc-20240116; t=1752637095; c=relaxed/simple;
+	bh=m4veNJrjCLTKvu1iSBXId7E1tBvXo4OimoJ/Mueem9E=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=NBcMb4F6x83z96yxmQeFL5T+DJ4Ad4BNDsxQl4twZrXZhS2bF53POGEECP43mDibFxF09zo678ZFQe8SBnn06oNlHjDisa6yznDfirp9sS8n4dQvk8WARSe4ntJAQ26GrMMDBm31gpoJjlEucJ6dRww9+8eVcBQNKRPSByprTBI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=J4cWEH9c; arc=none smtp.client-ip=209.85.210.42
+	 MIME-Version:Content-Type; b=ct5aCx9s//vHe0aM3J6tVfCbbZ1aTNOpDKx4euAy0tg/Re3t3Nle5MKlxU3peoMtSnSvoDHvP1sBeNKs2A2m3a5OLZ6OxWv5fsrv54Emgv/7Uc115/hcYbZxIxsD4blgELI8yJf6xca9F+rxECCk+/e6D6uDgYZ0UuVaUNoWxgU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Me8VvN2Q; arc=none smtp.client-ip=209.85.167.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="J4cWEH9c"
-Received: by mail-ot1-f42.google.com with SMTP id 46e09a7af769-72c27166ab3so3868000a34.1
-        for <linux-staging@lists.linux.dev>; Tue, 15 Jul 2025 20:38:11 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Me8VvN2Q"
+Received: by mail-oi1-f171.google.com with SMTP id 5614622812f47-40a55314d06so1876838b6e.1
+        for <linux-staging@lists.linux.dev>; Tue, 15 Jul 2025 20:38:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1752637091; x=1753241891; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1752637092; x=1753241892; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=aTQYh3TSQe3Ke5lhkP3Kv1GZGvu8tMfK/edh4edU7rQ=;
-        b=J4cWEH9cY8vbn1Pe5cXR9CrBdZHwK7rKpx9UTfskhLjSgAcbhLSrCZsJ0S082g6G8W
-         W4iSHFL+YKU0dYjiqBfoL+0P08oP8Smq6Kcfckn69THxl21AHTki1DHa8qGWsF2ZeHhd
-         LBIjbuUTsqjxNjQcdyoQ0JEvG9AgVKgTlDWmqdWcrBxeVo2l+xtpuQlRCRHM1/EhLiPM
-         n1SrhpZZeUuFyZReqtEVyM+30GmSFIj7QLYKWBDwg2xFVGQM7JrgyiHKmMlharmHkI7U
-         X63ULLl2+PomCqjQMeYyKzJROWsDnRek0bcjiSEHVTXpusUY9Mdru4SuniEfiicedafo
-         1crg==
+        bh=xV0AnC79VI6gCrCB07gTOb5HX2nG6iuSm2nLX9idpbI=;
+        b=Me8VvN2QftAWKcqfB8vB0vxbZlhjs1IKlcxzAIGku4qoSpZuf+aUwokrYDHTZCwd8R
+         efgW9HC1U+gYC5vOBGEYiPw7NWELh/WLz+RmnocXZyJWdq4cy27rmrGBAicJSfPNVfnK
+         cuZXBu9xxlRY1fbcIbGv6y8eXtwj/Ov4G00IZiStMAOPqnYCLiIs/3zBGzYAvpKiEuZj
+         1D7zalQJssUyBVEZ1A+akXmDDfMW3i9ZkEeMThrZInHmUrept7ePt/4TyIrmjol188SJ
+         ZTIKGw+l0mS63R3qt7QwKjYLNWvQfb/XxQnHWPKopymar/rZonq8c0jy93xkZ+vIrdSy
+         96Gw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752637091; x=1753241891;
+        d=1e100.net; s=20230601; t=1752637092; x=1753241892;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=aTQYh3TSQe3Ke5lhkP3Kv1GZGvu8tMfK/edh4edU7rQ=;
-        b=V9RndcuGrJa82vcIt2ftBt7w9IBafAFSnsQj91Qau8iUGnKHJhl3qENNS9AcYAAajq
-         Ambn3hUZ9Gt/F5z59+46yB3M8jFwY6WBUjwBZmdbGUJAfSg6l2ERmXF6PSqSjQjqMORw
-         S8tolLeJAQ0Q5W0yXMCKGPu8EuRKJslhGn9jtT/OCXDdjJuFxvKMdG7H6MAHfAMmJhWS
-         b1obIPau1Ll0a24bR33AUVudxTpEsxtwhlRZGf+pvDTniPySFSfGJ8GP8do5wwtBdHKI
-         jhdN1v32sIemJd5hW9R2sD2HEYlRWuBpv/mdfFth+WaHJN3bG5CdExfW6tz2bD71SYSE
-         thuA==
-X-Gm-Message-State: AOJu0YwK6tG5NOVypNh5tg8rWW/lEOmzKv1fWR4cGgalwkWQyHHCFbtd
-	wf19pnaOVZ1iZgJlAPR7paDU4ZAe4wYscm+obSI5rcAE714sOFfL2Dnn
-X-Gm-Gg: ASbGncsDpQj/zppar4dPX9c3AtpywyhOqceySueL6VjVc0KTKW5y/U8Q68jxlCjyk6O
-	P8zl70UJPag8Q5/bL9PoJa7FYr6xfPGRUKl7fyof0auTdJC9NvpZqff7K+RAi1iSbTLkodYVE70
-	wAgBq3Hqf57a5Dz89Kn+vAAaAiKZBtqRPlgoQ/JQ0svhqRyS2jxrrxkoNwbaRRJT7FNZc6v00jc
-	azkTJxx8m6I/ToVDnyWKMfRo9IfjThVaH1SL7P/02yWpVx6W7xl2M+IC9h9sSgRsYwmtC2hV+oD
-	88TkbrDc+wHyY5nepIGKJyVEWTSMNshGtXlHzpdljjMyfpteKK0S5UdtbSTcQ+tNGlVEfzVlxy5
-	TXHwHsjEQxmQVYEBXKZ+Uto83L11Zj+5ZkoJ4y1AzErgnk+KKkaXr
-X-Google-Smtp-Source: AGHT+IGS7bx9+KmZh+bTEnWGO72xVs02ddqV8Ipzq9HBFxZ3uwMCtTt3ij/EF8xas3sKxuD/Z0KY3Q==
-X-Received: by 2002:a05:6871:5895:b0:2ea:d491:eb45 with SMTP id 586e51a60fabf-2ffb244a744mr952449fac.18.1752637090920;
-        Tue, 15 Jul 2025 20:38:10 -0700 (PDT)
+        bh=xV0AnC79VI6gCrCB07gTOb5HX2nG6iuSm2nLX9idpbI=;
+        b=f6S7jScOECnyF8zxidTA+MlLyKEbPHNoWe2zanLp+xsTX4W9aAjz4wdZX0UScnQsWQ
+         0W/jpykWk6G3xN64I+edwi+n7W33zZMbrwWcK6iMgu6bigCyrahh1/tTcAZP+B7Ykgas
+         Qbwg9b70CmxMHnqTnYY+Qvl1SvX93v5J0G22qpDaKWgArjFc2ktifz8xfE50Dlq/QWSl
+         debGQsRg2J2dseEgOK4PdbZ2gn5JrKtaVh4FMXQZ0tP8A7sD+oyjza1Q5uSfM66+7Lxw
+         eAuPiIbWsYJUPF2ee9kzPSfocxFb4TVssJJrGbe+z+Qczw1E5JQHR0dMtOVH6VdOjtpv
+         HiRA==
+X-Gm-Message-State: AOJu0Yy4FMtBRSvZUvy8/E/8pHMco7Yrtw6XAyBzuLhCGWdLrK77hHqG
+	3YMopzYHJlE/R90b57+lOmkQnSw1SHlpEai/Z5kvPYZGHRXwnOFWQH9bjo34pBhr
+X-Gm-Gg: ASbGncsY+ONYV2iye8NbPY+AffUddgpHQ6hELol4WUDYnvuCokvIaJ+np1PDVrXLgSb
+	1aZ/A4eHjNwoS6HCZFCTBo7NWRtmYJw6VmPovWxDFg1NHWhyzW3hDMKQpAsuZXcgPDDI7MITgQS
+	hdUWnqHldo05NBiL+/aJEq2xN9HWWTKgSYFcSERVkss57yxLspGn3TI2826t4RkdmLYz0ZScS4V
+	qUQ/z3V5wV8R8z2dKP5+gyofIakGNaTXCsdk3QZ31UKw8oSmrS7xTEg85saSs1gq5NrzjlBeQ28
+	3wk/S8tKeoEGggLcBE2bl61jSSUs84DRBxYwznwkOZQiFahKfC+nwVVsPUtl4Vn27KqcjKzKEip
+	xpAcm1nkWwNxvIPjPQ7iNIMTsP2qh/3PV0FdoC0JQKjcBtzUDTK3LcqRvIapt0Iw=
+X-Google-Smtp-Source: AGHT+IEr5iLn9be4GrnFM45RjIpjgyYaTlcLT7ci1XZtjOeq/uRd1wyTTBOpNbesKlRS67XBqEwcrw==
+X-Received: by 2002:a05:6870:304a:b0:2fe:f4f4:8501 with SMTP id 586e51a60fabf-2ffaf4dd538mr1364166fac.22.1752637092573;
+        Tue, 15 Jul 2025 20:38:12 -0700 (PDT)
 Received: from localhost.localdomain ([181.161.11.224])
-        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-2ff116d22easm3140980fac.33.2025.07.15.20.38.09
+        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-2ff116d22easm3140980fac.33.2025.07.15.20.38.11
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 15 Jul 2025 20:38:10 -0700 (PDT)
+        Tue, 15 Jul 2025 20:38:12 -0700 (PDT)
 From: =?UTF-8?q?Ignacio=20Pe=C3=B1a?= <ignacio.pena87@gmail.com>
 To: Dan Carpenter <dan.carpenter@linaro.org>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	=?UTF-8?q?Ignacio=20Pe=C3=B1a?= <ignacio.pena87@gmail.com>
-Subject: [PATCH v2 2/3] staging: sm750fb: Fix function parameter alignment
-Date: Tue, 15 Jul 2025 23:38:03 -0400
-Message-Id: <20250716033804.59650-3-ignacio.pena87@gmail.com>
+Subject: [PATCH v2 3/3] staging: sm750fb: Fix CamelCase variable naming
+Date: Tue, 15 Jul 2025 23:38:04 -0400
+Message-Id: <20250716033804.59650-4-ignacio.pena87@gmail.com>
 X-Mailer: git-send-email 2.39.5 (Apple Git-154)
 In-Reply-To: <20250716033804.59650-1-ignacio.pena87@gmail.com>
 References: <20250716033804.59650-1-ignacio.pena87@gmail.com>
@@ -78,36 +78,103 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Align function parameters properly to fix checkpatch.pl warnings about
-misaligned function arguments.
+Rename variable 'Bpp' to 'bpp' to fix checkpatch.pl warnings about
+CamelCase variable names. Use lowercase naming convention for
+local variables.
 
 Signed-off-by: Ignacio Peña <ignacio.pena87@gmail.com>
 ---
- drivers/staging/sm750fb/sm750.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ drivers/staging/sm750fb/sm750.c | 20 ++++++++++----------
+ 1 file changed, 10 insertions(+), 10 deletions(-)
 
 diff --git a/drivers/staging/sm750fb/sm750.c b/drivers/staging/sm750fb/sm750.c
-index d3bce107f..a896227ef 100644
+index a896227ef..f36ad8324 100644
 --- a/drivers/staging/sm750fb/sm750.c
 +++ b/drivers/staging/sm750fb/sm750.c
-@@ -121,13 +121,13 @@ static int lynxfb_ops_cursor(struct fb_info *info, struct fb_cursor *fbcursor)
- 	sm750_hw_cursor_disable(cursor);
- 	if (fbcursor->set & FB_CUR_SETSIZE)
- 		sm750_hw_cursor_set_size(cursor,
--					fbcursor->image.width,
--					fbcursor->image.height);
-+					 fbcursor->image.width,
-+					 fbcursor->image.height);
+@@ -160,7 +160,7 @@ static void lynxfb_ops_fillrect(struct fb_info *info,
+ {
+ 	struct lynxfb_par *par;
+ 	struct sm750_dev *sm750_dev;
+-	unsigned int base, pitch, Bpp, rop;
++	unsigned int base, pitch, bpp, rop;
+ 	u32 color;
  
- 	if (fbcursor->set & FB_CUR_SETPOS)
- 		sm750_hw_cursor_set_pos(cursor,
--				       fbcursor->image.dx - info->var.xoffset,
--				       fbcursor->image.dy - info->var.yoffset);
-+					fbcursor->image.dx - info->var.xoffset,
-+					fbcursor->image.dy - info->var.yoffset);
+ 	if (info->state != FBINFO_STATE_RUNNING)
+@@ -175,9 +175,9 @@ static void lynxfb_ops_fillrect(struct fb_info *info,
+ 	 */
+ 	base = par->crtc.o_screen;
+ 	pitch = info->fix.line_length;
+-	Bpp = info->var.bits_per_pixel >> 3;
++	bpp = info->var.bits_per_pixel >> 3;
  
- 	if (fbcursor->set & FB_CUR_SETCMAP) {
- 		/* get the 16bit color of kernel means */
+-	color = (Bpp == 1) ? region->color :
++	color = (bpp == 1) ? region->color :
+ 		((u32 *)info->pseudo_palette)[region->color];
+ 	rop = (region->rop != ROP_COPY) ? HW_ROP2_XOR : HW_ROP2_COPY;
+ 
+@@ -190,7 +190,7 @@ static void lynxfb_ops_fillrect(struct fb_info *info,
+ 	spin_lock(&sm750_dev->slock);
+ 
+ 	sm750_dev->accel.de_fillrect(&sm750_dev->accel,
+-				     base, pitch, Bpp,
++				     base, pitch, bpp,
+ 				     region->dx, region->dy,
+ 				     region->width, region->height,
+ 				     color, rop);
+@@ -202,7 +202,7 @@ static void lynxfb_ops_copyarea(struct fb_info *info,
+ {
+ 	struct lynxfb_par *par;
+ 	struct sm750_dev *sm750_dev;
+-	unsigned int base, pitch, Bpp;
++	unsigned int base, pitch, bpp;
+ 
+ 	par = info->par;
+ 	sm750_dev = par->dev;
+@@ -213,7 +213,7 @@ static void lynxfb_ops_copyarea(struct fb_info *info,
+ 	 */
+ 	base = par->crtc.o_screen;
+ 	pitch = info->fix.line_length;
+-	Bpp = info->var.bits_per_pixel >> 3;
++	bpp = info->var.bits_per_pixel >> 3;
+ 
+ 	/*
+ 	 * If not use spin_lock, system will die if user load driver
+@@ -225,7 +225,7 @@ static void lynxfb_ops_copyarea(struct fb_info *info,
+ 
+ 	sm750_dev->accel.de_copyarea(&sm750_dev->accel,
+ 				     base, pitch, region->sx, region->sy,
+-				     base, pitch, Bpp, region->dx, region->dy,
++				     base, pitch, bpp, region->dx, region->dy,
+ 				     region->width, region->height,
+ 				     HW_ROP2_COPY);
+ 	spin_unlock(&sm750_dev->slock);
+@@ -234,7 +234,7 @@ static void lynxfb_ops_copyarea(struct fb_info *info,
+ static void lynxfb_ops_imageblit(struct fb_info *info,
+ 				 const struct fb_image *image)
+ {
+-	unsigned int base, pitch, Bpp;
++	unsigned int base, pitch, bpp;
+ 	unsigned int fgcol, bgcol;
+ 	struct lynxfb_par *par;
+ 	struct sm750_dev *sm750_dev;
+@@ -247,7 +247,7 @@ static void lynxfb_ops_imageblit(struct fb_info *info,
+ 	 */
+ 	base = par->crtc.o_screen;
+ 	pitch = info->fix.line_length;
+-	Bpp = info->var.bits_per_pixel >> 3;
++	bpp = info->var.bits_per_pixel >> 3;
+ 
+ 	/* TODO: Implement hardware acceleration for image->depth > 1 */
+ 	if (image->depth != 1) {
+@@ -274,7 +274,7 @@ static void lynxfb_ops_imageblit(struct fb_info *info,
+ 
+ 	sm750_dev->accel.de_imageblit(&sm750_dev->accel,
+ 				      image->data, image->width >> 3, 0,
+-				      base, pitch, Bpp,
++				      base, pitch, bpp,
+ 				      image->dx, image->dy,
+ 				      image->width, image->height,
+ 				      fgcol, bgcol, HW_ROP2_COPY);
 -- 
 2.39.5 (Apple Git-154)
 
