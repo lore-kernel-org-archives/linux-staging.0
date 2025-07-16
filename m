@@ -1,72 +1,71 @@
-Received: from mail-ot1-f45.google.com (mail-ot1-f45.google.com [209.85.210.45])
+Received: from mail-oi1-f182.google.com (mail-oi1-f182.google.com [209.85.167.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4719253F00
-	for <linux-staging@lists.linux.dev>; Wed, 16 Jul 2025 14:49:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C9D31BC9E2
+	for <linux-staging@lists.linux.dev>; Wed, 16 Jul 2025 14:57:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752677362; cv=none; b=af+sQe8x7DBCEtzzj3K/y4y05n2lqswBYA1BA15PwK5fNDkqPRtRlvWGifhgY0+Drlf4ftvrZUSvWbL6IQsnJ5Yv5wsHbW9+OEjGeHFqRFgSYJF4D+I0PaQ+WE0BN7d4vYb5LBWqZGvJuvPH2OMTkbOKHXnbDGfA0FdrwTFJ7cY=
+	t=1752677853; cv=none; b=Op+57uS/2RsSB9RgMU5DlGqJzBJ26Am/XMA8yf4Pfhiym6UzkpnDP6FdbEU7q7T3x6iEibR/dETjoI0pE4uJUJPLYuj3vDsha3ygpuAHkEAuBy5pnthhprFic0h32u5ZuKYCmA1y7dSg0ELnW18b21fx9Ehfad1Pu2399yvntg4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752677362; c=relaxed/simple;
-	bh=rb+JcVig+1JxVAXB+2ujL08krPkxo/YfrGlS7HNGBZc=;
+	s=arc-20240116; t=1752677853; c=relaxed/simple;
+	bh=yX61iu/JTpBMNAmF89HaJrlr5AbYSvRrlHtBwQqnCB8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jxkMRonT4lKbP4tu1EyVZ5LpLvwuJVRMbr5ciqOZAbLg1Grj4X1cjnn3vVhOkH5+7d9RkBfkYjwJr++8cgl2+aGUChs+V6OPi64dvBR7ROnU94HS2Hurcwqd2+8BtrJYKjpXI0DqfWZnqvkhoUvnjw4GktXQp094b3OT5Jd2jto=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=J+B3lFhC; arc=none smtp.client-ip=209.85.210.45
+	 Content-Type:Content-Disposition:In-Reply-To; b=AMFIhMxwA0TDVf767pqY1sjlLcW7BwLnA71UdGEAN3Eu55jOrsoRf9Q0QCm4WvOIZDrseuEnG1GAAIrppVNC2goxN3U+q/8kp2oK5iZULBeF0bnh3p9LnU63GbPkhblhXb2IWXik+JVLKMeaL2L+SK12wEFJzccj05Z3Wghf/jA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=eora75EV; arc=none smtp.client-ip=209.85.167.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="J+B3lFhC"
-Received: by mail-ot1-f45.google.com with SMTP id 46e09a7af769-73e586fcc28so583123a34.0
-        for <linux-staging@lists.linux.dev>; Wed, 16 Jul 2025 07:49:20 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="eora75EV"
+Received: by mail-oi1-f182.google.com with SMTP id 5614622812f47-40a4de175a3so13210b6e.0
+        for <linux-staging@lists.linux.dev>; Wed, 16 Jul 2025 07:57:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1752677359; x=1753282159; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1752677851; x=1753282651; darn=lists.linux.dev;
         h=in-reply-to:content-transfer-encoding:content-disposition
          :mime-version:references:message-id:subject:cc:to:from:date:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=IsCfdjXlvijfA91XUA0RoS/QIVlPjo3qX7wrVxeu8Tg=;
-        b=J+B3lFhCzcANcVV4dDpGGGqvVYjYYk0UWBa8l/QaKv5NjGNxXdZ9trE0Gfp+iZgjUz
-         PpzPU4AK6rcrffe3BXS2ELxObLvkeUTxsvOjvad/IHOdRvVmR1i9oPRwH0BJWrcKRena
-         hSe1uIR1YoErASVWph4TNDcQSW+EhfQ7sU3D1fs+Rr/HN9P7PnEkAwFRywDDDR3qqW00
-         zQJf7i8O+wV+bBnufgw9STSEHUBm6BZvn7X38Jg/0lLdFYP6lTQNix0n1hoJCSk56Ieq
-         lp4bhBc7U1LOaDHPqTA8e93frI+tRw15HTVE7B0YNSh+RrG3PYsSMrs9XW4WomwaO72K
-         gc+Q==
+        bh=0fIYKXxdNlL0Loh/Hk/oMDRUcTIJHiUYhypnrLxw5qY=;
+        b=eora75EVpRbtLeb38y/On0KRU94c9dhgFJ5n7jyxULLpHBzwHmXLt2LsVQzTXPonDh
+         jeIql3WBK7oPRkTQrnP/l0i0lALuTjlpLfbCa4ghkFFMwqAuYazgEIe6d0BnLEgmFsQY
+         RgpeKHpSqmvqcyXT+WeMGh1Yt3mCj4VkDiL68pcXP61nHbxej9EexgMFGW868Jhmmcg1
+         QfPp5ixXs0WsLyYaLxy6D7AmbvQ45IVtAw5CXo0OOiYRuNRmpRtu5xGdnjhtnnEOMhKM
+         oFq6RLGBN+E0PLdLDGXeb6ANRiw2BIsWsl1EoqESCYnSsisYpqB7Fy1h1na9wnOSDJxs
+         k3MQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752677359; x=1753282159;
+        d=1e100.net; s=20230601; t=1752677851; x=1753282651;
         h=in-reply-to:content-transfer-encoding:content-disposition
          :mime-version:references:message-id:subject:cc:to:from:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=IsCfdjXlvijfA91XUA0RoS/QIVlPjo3qX7wrVxeu8Tg=;
-        b=gyv0xeC7Jf2ARxo4rDau2hJ4GuaZw54BJiFpjORObTxrnyYBSt1QKiIyMKxHxEMOuv
-         ihKw7VTSiIGC6gnStWmafnqMN3rgm8Dry7yFXFI5gjqMKrza9PbBPnrZvIm7ITl3T+uB
-         aTmeZXjiRthvOVYl7LVWsEjt8UQK0h5WEgCvHTVTHr19V5CHqrfadUOH67hKd8FgTG9a
-         n5NWAn8/jegKs0+BzgoxpCENxjNNaOfa0A20rRiWqMFPhTNEbs1EKmhjpJ5p4kGCRgdf
-         +rTrac51OCXrpGhwM9Soz4LVdoYLZMZTNUx4EPjnEzTwnsJrL2kBRC07DCFepCz7GHFI
-         v6mA==
-X-Forwarded-Encrypted: i=1; AJvYcCVKctJSYwOj3Vnu1qRF8W2psL37MF/QnfN1plAkNn7U1eeRFyCnNzyra2+6T5wpTug4dAdvMwMsugVL+VeG@lists.linux.dev
-X-Gm-Message-State: AOJu0YxNygVtjLUSMeWn4ekO+5wyPcD9fLII4vcNdkArpQpU/KbcpsZ3
-	gpIKGpeD+UcWgOvv+Df4+8UpiHZOEu6+ZxDWhLqCTHTQN4vUzwFxquyV+KWnCZw2xWI4TPGc/gt
-	ZHS3s
-X-Gm-Gg: ASbGncuNyWY6wCWca8khHlXctgr846XnftzOgXpxK16gXq7fWIxvzcNBdJGRN6Kqvwr
-	C1gdmvYHaZhj6QAg7by9QFZhwGud34KnJ3D520Ikw+mWsj/nVnTXbf4mvEoumrnK7BZ1A5NiRmz
-	C1mND8uzqU4vAY+HXqZZzb14XfvzITBX+l9COcX+pfl4XovvQZfMUkgvNqq7vAuX5JbRG/50A0z
-	ipZ6mCVcvjKxQKa1Z41Pdlled0zhTRSc+7bXDZ4TAjDU9LAjEHOmJCTxLhXsBfYhhvoYzqie4qb
-	PtBlaAnmP65e3TnH4vjLbbyfKhdwv4434QMUjHILacjwvBqtIDe5Fs9iYHJSw2OFrsl9hk9+pmq
-	/LyJqlKAhbaZsCuqn8v+0m2emq/7O
-X-Google-Smtp-Source: AGHT+IGr+PaLVt+okTkyHFXFyqJwvz0KNCEPfk2u3WIVNq2/RJzyGGS2Wi1+QcalWaannwCfQj+XVQ==
-X-Received: by 2002:a05:6830:668b:b0:73c:e6de:88a1 with SMTP id 46e09a7af769-73e652b3a70mr3551654a34.10.1752677359541;
-        Wed, 16 Jul 2025 07:49:19 -0700 (PDT)
+        bh=0fIYKXxdNlL0Loh/Hk/oMDRUcTIJHiUYhypnrLxw5qY=;
+        b=kXFrouFRK9z8IMlJ0vNLrct99Lz2p+GzsZMIroLimxETg+h+qoX8WAkjiUx/oCteRQ
+         lGM4xN8/hwKnP49Zw6UMgdYDYRw7pcfpkyZVC6+Jiv5vkm6CGdsOkRYpZZuEpnJMEQNk
+         Vz8upTlCQECZ0/0bhWIwa8NjeNTLuiyq9q9v2VSgN28cYhXqa00WIZz4CAy/Uet5dlIQ
+         1DKu/qvHvmOdQR2PPO7gZesYhD2rSpoY7G6d5mQlTUBl6C2GmH1cQbQ7i+7Yu41WrEey
+         3tRGzHt1iQ1bEc5DG4bVYFhjn/Dax7KTuukDHbvyulhOKhgYd65Cn4IID0Bk6XxW/hKn
+         8s4Q==
+X-Forwarded-Encrypted: i=1; AJvYcCXcYyNvhR1ncZp/pUvGmz1qsjDTXZRvOdDlsr4gf+vHOj/VJ9Rx/MTQgi4StjQ0eEqJNHoeHD26ZqXFSiWR@lists.linux.dev
+X-Gm-Message-State: AOJu0YwLmJK4F2sjtTN4tmpUK4TsGZONKiBbHfqulbqFgmSyndMiy9bk
+	0mXX1ua7a8fBtAG34utSzP8iOLRQTHINm2CqvoXa1nfSgYNa+54OBJU15fqWuqSlH4A=
+X-Gm-Gg: ASbGncvN3FgqYAfjCBctwIzk1CpZaubckE7Ec0yTwtO9RGMzVpsB5iISPjfp9u3ypGz
+	Ue5X6yAAXLZs25wUqiG1ZyGagf3btoqLHxgkyFHgLe4F5+u96xen5Bcva/lSDFDIL0jdppJ3MwZ
+	/Ad+oJo2UdRYyjkmEbsVw0rzj+PFTs/46Bw+OLU00S4mvaOkOSS9XkzyThgW3/48c6/Ff4j6Kzg
+	ao4rrCt7vOPmnIN/gDG+eE3yiuXy9fGuiQHeL1CDNS1+WNCztL2Gr7KtJFyQjEjQEo25gXDdBmQ
+	I/pHq/V8M9wiLuRU/vD5vDcDBUsuSgyRpPhtFRnXuBzHh3NKGFPtEeb4ruKjfynW82kVb8Y9+Hn
+	qrUKZ6zUDatyrfMBJ/nqygnOeyi/2
+X-Google-Smtp-Source: AGHT+IHWjYbkc4jkr0fUQqSgs4+cS3vheaLhFzQoFzml5IC/9Gi/CE5z2ISM97jPhKtAzwGsiEN4lg==
+X-Received: by 2002:a05:6808:3c44:b0:406:6e4b:bd91 with SMTP id 5614622812f47-41d032fced9mr2080869b6e.7.1752677850582;
+        Wed, 16 Jul 2025 07:57:30 -0700 (PDT)
 Received: from localhost ([2603:8080:b800:f700:2564:68a3:7d6:cb7d])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-73cf10ac870sm3025163a34.28.2025.07.16.07.49.18
+        by smtp.gmail.com with ESMTPSA id 006d021491bc7-613d9d6cdbdsm2176467eaf.7.2025.07.16.07.57.29
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 16 Jul 2025 07:49:19 -0700 (PDT)
-Date: Wed, 16 Jul 2025 17:49:17 +0300
+        Wed, 16 Jul 2025 07:57:30 -0700 (PDT)
+Date: Wed, 16 Jul 2025 17:57:28 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
 To: Ignacio =?iso-8859-1?Q?Pe=F1a?= <ignacio.pena87@gmail.com>
 Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev
-Subject: Re: [PATCH v2 1/3] staging: rtl8723bs: remove unnecessary comment
- separator lines
-Message-ID: <21139f7a-207e-4770-8387-c408bab8de9f@suswa.mountain>
-References: <20250716113740.73025-1-ignacio.pena87@gmail.com>
+Subject: Re: [PATCH 1/4] staging: rtl8723bs: fix yoda condition in
+ rtl8723b_cmd
+Message-ID: <f29d3e68-d528-4fae-8298-d818e32316fe@suswa.mountain>
+References: <20250716113808.73115-1-ignacio.pena87@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -76,31 +75,37 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250716113740.73025-1-ignacio.pena87@gmail.com>
+In-Reply-To: <20250716113808.73115-1-ignacio.pena87@gmail.com>
 
-On Wed, Jul 16, 2025 at 07:37:38AM -0400, Ignacio Peña wrote:
+On Wed, Jul 16, 2025 at 07:38:05AM -0400, Ignacio Peña wrote:
 > From: Ignacio Pena <ignacio.pena87@gmail.com>
 > 
-> Remove the long dashed separator lines from block comments as they
-> don't follow kernel coding style, as suggested by Greg KH.
+> Fix checkpatch warning about comparisons that should place the
+> constant on the right side of the test.
 > 
 > Signed-off-by: Ignacio Pena <ignacio.pena87@gmail.com>
 > ---
->  drivers/staging/rtl8723bs/core/rtw_efuse.c | 6 ------
->  1 file changed, 6 deletions(-)
+>  drivers/staging/rtl8723bs/hal/rtl8723b_cmd.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/drivers/staging/rtl8723bs/core/rtw_efuse.c b/drivers/staging/rtl8723bs/core/rtw_efuse.c
-> index 7a74b011d..abc123def 100644
-> --- a/drivers/staging/rtl8723bs/core/rtw_efuse.c
-> +++ b/drivers/staging/rtl8723bs/core/rtw_efuse.c
-> @@ -70,7 +70,6 @@ Efuse_Write1ByteToFakeContent(u16 Offset, u8 Value)
->   * When			Who		Remark
->   * 11/17/2008	MHC		Create Version 0.
->   *
-> - *---------------------------------------------------------------------------*/
->  void
+> diff --git a/drivers/staging/rtl8723bs/hal/rtl8723b_cmd.c b/drivers/staging/rtl8723bs/hal/rtl8723b_cmd.c
+> index 56526056d..abc123def 100644
+> --- a/drivers/staging/rtl8723bs/hal/rtl8723b_cmd.c
+> +++ b/drivers/staging/rtl8723bs/hal/rtl8723b_cmd.c
+> @@ -24,7 +24,7 @@ static u8 _is_fw_read_cmd_down(struct adapter *padapter, u8 msgbox_num)
+>  
+>  	do {
+>  		valid = rtw_read8(padapter, REG_HMETFR) & BIT(msgbox_num);
+> -		if (0 == valid) {
+> +		if (valid == 0) {
 
-How is this supposed to compile?
+Is "valid" a number?  Like, are counting the number of valid things?
+"== 0," means it's a number or an ammount.  Also it's idiomatic for
+strcmp() so we would say "if (strcmp(str, "foo") == 0)" to mean the
+strings are equal.  For boolean, we would say "if (!valid)" except
+valid really means invalid in this context...
+
+This whole function is garbage.  Re-write it.
 
 regards,
 dan carpenter
