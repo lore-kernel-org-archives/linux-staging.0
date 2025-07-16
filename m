@@ -1,70 +1,70 @@
-Received: from mail-ot1-f48.google.com (mail-ot1-f48.google.com [209.85.210.48])
+Received: from mail-ot1-f45.google.com (mail-ot1-f45.google.com [209.85.210.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F21242F3C06
-	for <linux-staging@lists.linux.dev>; Wed, 16 Jul 2025 11:37:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A69E28E594
+	for <linux-staging@lists.linux.dev>; Wed, 16 Jul 2025 11:37:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752665867; cv=none; b=hTXTxn8wo206EuQrxwdL28iVQEluIQgMMXFv9t7bDSZXfn4JEpJUZUA6xY2VPNE0kAU8PdiPbNsr6KYdKAJZQ9UyFW63fyzmCjeZmvbLxUyaI9w6NCWiqRGKZW/Cz/AjJC4R58TaWK2KtXEY4qJVAHbbwBSSBDLL/p2DgYpGCOQ=
+	t=1752665868; cv=none; b=HPgWvCrNzbi4lPWs5Dy+otraDZ4cAwEuBlMmU03AZPg0lMrOf28ZaTBkCvi4mKv4ryrWTZ5jkgB2zAX7RpB54RAcOmFz8oRgyjAKjCwiUyowcPv0ihMl4Y2B0dHTUEXFGuE31LOKYWXKBXQj35Xo12Wz7Q5LG7jL3Baa4xaWEK4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752665867; c=relaxed/simple;
-	bh=2VFoAxEsXC9kIU6YlGV+sXjGJjO7a8/yiV+fjzBXlQE=;
+	s=arc-20240116; t=1752665868; c=relaxed/simple;
+	bh=weW9xJjrkzaCH7Hrw6XcHSom/EuMx1e5TuHHxS58nVc=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=szSxmpID/jc/IPKb6iVXIOgrJxQEQRZpp675UCS/07uQjkeIF5qJrpwQNkOLb44s8vv/BMWrPSNwKxPkn6bOv5/JWDKXHrY2eD7E492z1KG37cwTNK812TRN04ZfNOTMuNIBSDq4R7uP+in8R1w+nRefTHMXDHJGPp7xWUQS/c4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lKv0h6rg; arc=none smtp.client-ip=209.85.210.48
+	 MIME-Version; b=omvwkzMVMdKO+IjOK5Fa3MYekURdNjj03T7bZroPBkv7brZAUk6R8bUajER9fKwdXyy4AZ9EYPF8PK8TxsCOUTg40H34TLLZ+svzTUFaeQgtOAdEl5pNZXg8WYpyhr2dlExDGUNYQmJCa+i3FOjKvOQ8h2kil/n4m5uiXmjmBB8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DMekQ5I2; arc=none smtp.client-ip=209.85.210.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lKv0h6rg"
-Received: by mail-ot1-f48.google.com with SMTP id 46e09a7af769-73cddf31d42so478040a34.2
-        for <linux-staging@lists.linux.dev>; Wed, 16 Jul 2025 04:37:45 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DMekQ5I2"
+Received: by mail-ot1-f45.google.com with SMTP id 46e09a7af769-73e55e829fdso1218640a34.2
+        for <linux-staging@lists.linux.dev>; Wed, 16 Jul 2025 04:37:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1752665865; x=1753270665; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1752665866; x=1753270666; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=ixmgEAzznPLZ2ZzWUNtrUOJK3M7+ud4I62i2D1aBa3g=;
-        b=lKv0h6rgAkLpl2wZbVy8udWv06z1W3n3BbUDjhS0+q0Es1aeN4F49woQAYaxMEJ8/T
-         k5pCGZqIVbtHx5J65eP9pETKR81ml8o/DcZ/zqC5wIE/MToDQnE63wvIGjQQJZdg1Wiq
-         ZdJIDs23JDsx1JZWOtMsyDUoNKPiOErVoVS5csA1IRJdyE6cztrqCpGJdKDzamSDySN3
-         ZkHpmqIeG8z3hbrVU1Xz7h0qWAJQHhI7JNS9vAnkc6mFMlOLIhFjqKhS70mUJUvaj8q5
-         ZSln2aqD8hSUqD5pN5L5sjX6otAOYO+ehtNibNQfpSdIcJLTIP08PAMDf5t5xFhx/u1Y
-         v1kA==
+        bh=E/nyxTASqFpICDFAtdIim/Uv6sN7ikk9BK5+ibmR71w=;
+        b=DMekQ5I2roTDQOwZp4aihVjLRAJc5K3QzaGi8H5SQHlDq8VrtRi8PwFBvyyOpHr8Mp
+         4fQkZAg8IFn/5heAYYWhhPnb/ZEZVftMUKd9mzS5yAtdyURSWFNbbQ5IHlU2FC+k1uxM
+         /pEpzXz1I+cYe7Aw/NQYPQB8beSBfFJfu49wNaYzZNmOX+0fY8HHrlkydg9yX0NlY16z
+         6sxURIxAOc/btjZVSsOey7KeeSPbPht6a8Wm7zXfRyy1x96xEC1BFZUV4OVNQQvX2heA
+         3a01WlnUqSVrThD5AeOXb/VXVSsqVhcmJW+Z4TlxFGclZdSzKhRFYMygz9pabxibRJbI
+         Y2OA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752665865; x=1753270665;
+        d=1e100.net; s=20230601; t=1752665866; x=1753270666;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=ixmgEAzznPLZ2ZzWUNtrUOJK3M7+ud4I62i2D1aBa3g=;
-        b=iqqhKW7V+O8nKIGt8p2EeRcVlYn66WGz0UnGvyeMWPSDBAYV+/TMr//MBGwICEcuVu
-         KGbxjdhe52KBMtCw+lOFcYG4WeU2qVCY0zmgQzCo9gp7eVfYtcTxdl7j/XRIVqetSaVm
-         xJBQYT7khkAUVlswb/Jg0JHko7XqkaGdwqlsekQf/N14mFJqFASGnIn+Raf6LmQcHYlQ
-         hn4S4oBMAEoAYeH6ALNwquuuFJBfaopjpjYJ6btELVhQl31Uyopm9BsnJs/q/ciJJAye
-         XGUBZazGy3DPkmDS3Js8Emk3vOdB4apCXaewrvu/XGybMgJm9b57fankApSn96gScRKe
-         PH8w==
-X-Forwarded-Encrypted: i=1; AJvYcCVWLeI0wp/dpGkagNXE6ncYO0r0sj7NuQwN25i0w57W9sBMKBg6OuGxHDNtOCeRaFzFPPLECl8qcAEvP0Xu@lists.linux.dev
-X-Gm-Message-State: AOJu0YwptBA1ABRASeoqui5d4HG9q+7ZFZS2shZAMKikqKIepTilI92k
-	abkPpq47rKs3glLWrxewPz1nQ2u266bHC9o5JCmS1AjgxDWZAXB1vluL
-X-Gm-Gg: ASbGncsJhohLCI69rPOZ7YkctyOgyQ86q9UCRUL315m6MTvX4NlgEMZ1JTANmvC4GmO
-	1r8GqDztRrNE1dW1OskKlsBfJcoyZCj5cm5Yzh8at7GicBJDfsdaSWHrmsAm/ofCNXETJIczprs
-	50rDWXFZ7ZX45JbAhPEwCzcDeHyofIdGhHTsRUtOx9dBPdyv1WdJX85IsHP0H26AgS0EezGUeZ8
-	rU1wGJ2elNAVV0hQeo/nGW8N9aS2MxO3y04dPBgGsstLPaaLUExkzp82huYCvGFrqdV+0+whgip
-	wdPSU1Nsi8UyvtbPgTFN0TB444vqXJ/Eb5Q4sa78TwjI2MYDjyf1F+A3mB+B9DMKcSJLHX7LlHm
-	3OZ5R+AoSmsrAfAu/kLSDhb552U+a3a7E+Z2mgs6373hDr9fR5VDZ
-X-Google-Smtp-Source: AGHT+IGAhNUGMLY2vT+dpFhRSwAJn6/Nde7kZoSsaeoWvo6u5tkcSFFyEkvDHpTBaQwdbPcYLXqngA==
-X-Received: by 2002:a05:6830:700f:b0:739:fc48:6831 with SMTP id 46e09a7af769-73e665b7ab4mr2194428a34.21.1752665865017;
-        Wed, 16 Jul 2025 04:37:45 -0700 (PDT)
+        bh=E/nyxTASqFpICDFAtdIim/Uv6sN7ikk9BK5+ibmR71w=;
+        b=NkgRGkWcWexC4cJZYaZ6sD73YlMP2GmLdMS0E7/OmnmJETD/BB3sM0boLJjDuNO6fq
+         XmCFMmj4Vt3WdGBCu8vPHbFPbre758r38RsnKzsLWZTEVrQGECCxGdmRmZD4Q+FDjmha
+         vZhfVNwv4FWcqhhGG1LO23O+Gjtxf8mu0xhynaftDJq4bxVC6Erhi5wvL3M0khoI7uVz
+         SqtilvU72DV9rTF3EvDu5aTVdL0RoXoMH6VQ3M5VwR317QaASLc6LQ2mZ8UuY6WzWP8j
+         4jWs44k0hn1zV3PyWTlIZb4r7I81blrY8LUoLkUcgUifTMb1dGQWmfI69YzMlzKv4Qpb
+         fHJA==
+X-Forwarded-Encrypted: i=1; AJvYcCXER9IOnfAuQiJe3K5b7BrfBQyRAopwrcc2GcXTk3wszXizioxcP3f67CgJex6ea4YKZocQWKH1FVy1+RfA@lists.linux.dev
+X-Gm-Message-State: AOJu0YzuIv3W/qxv1EPqADiZH6HVKAqcDVjMgR5PRqsY35RRYrpqx3Ru
+	kVippRBYM20XCiPqEdmjwVJeM/tBqmwqmwQBB8+hTOwnf8ncnUp/VXO3
+X-Gm-Gg: ASbGncvF97gtWak3vQuQ76rKw665Cv6hGRmI4WS0lgoH7XdXB9fRgfVoHV2YWbseHKf
+	Tfid5ALua6Kw6g+35v4pJaqCdKZU2etiO5L0Upv8BPRpLR6D5R19XjA6RqkTG4Nvfn6vq8bEyLi
+	f9lUL2o4KZ+YYyDLTSPcLSzQeDJ7f79BMceycFazlFtaLD0JyocPNd3Hy6AlBmahttgHBkNEW1z
+	j8HBqf/p3iYsdXU60gw15VaYlAxv1x7Fziu/xsULheehXvtSJGbH/USvD6yVZjGkUoiGXB6JtxS
+	iBFB6wGAQ4bSxYHZC+lE5b6ErAG4XbzHAt5W4eOuF6Sz1SpzMUoHmIbGpoPvn3tBZiNUGrV6FzB
+	iiQ4UN6l90GMjwN1M/b/Xl1hXMsm/vXz7sCHL4AK8i19o1BY5VvtH
+X-Google-Smtp-Source: AGHT+IFjktlMQyL10G8tJcxa24+V2Yl3blcwfbFICEepkpZBPXC9YBV3jyPVbGUBWvoRTYLzzhwsSw==
+X-Received: by 2002:a05:6830:64ca:b0:72b:872f:efc8 with SMTP id 46e09a7af769-73e665c07d7mr1699898a34.24.1752665866441;
+        Wed, 16 Jul 2025 04:37:46 -0700 (PDT)
 Received: from localhost.localdomain ([181.161.11.224])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-73cf12b62e8sm2904769a34.60.2025.07.16.04.37.43
+        by smtp.gmail.com with ESMTPSA id 46e09a7af769-73cf12b62e8sm2904769a34.60.2025.07.16.04.37.45
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 16 Jul 2025 04:37:44 -0700 (PDT)
+        Wed, 16 Jul 2025 04:37:46 -0700 (PDT)
 From: =?UTF-8?q?Ignacio=20Pe=C3=B1a?= <ignacio.pena87@gmail.com>
 To: gregkh@linuxfoundation.org,
 	linux-staging@lists.linux.dev
 Cc: Ignacio Pena <ignacio.pena87@gmail.com>
-Subject: [PATCH v2 2/3] staging: rtl8723bs: add missing blank line after declaration
-Date: Wed, 16 Jul 2025 07:37:39 -0400
-Message-Id: <20250716113740.73025-2-ignacio.pena87@gmail.com>
+Subject: [PATCH v2 3/3] staging: rtl8723bs: remove unnecessary commented code
+Date: Wed, 16 Jul 2025 07:37:40 -0400
+Message-Id: <20250716113740.73025-3-ignacio.pena87@gmail.com>
 X-Mailer: git-send-email 2.39.5 (Apple Git-154)
 In-Reply-To: <20250716113740.73025-1-ignacio.pena87@gmail.com>
 References: <20250716113740.73025-1-ignacio.pena87@gmail.com>
@@ -78,25 +78,27 @@ Content-Transfer-Encoding: 8bit
 
 From: Ignacio Pena <ignacio.pena87@gmail.com>
 
-Fix checkpatch warning by adding required blank line after variable
-declaration in Efuse_CalculateWordCnts function.
+Remove commented out code that serves no purpose, as suggested
+by Greg KH.
 
 Signed-off-by: Ignacio Pena <ignacio.pena87@gmail.com>
 ---
- drivers/staging/rtl8723bs/core/rtw_efuse.c | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/staging/rtl8723bs/core/rtw_cmd.c | 3 ---
+ 1 file changed, 3 deletions(-)
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_efuse.c b/drivers/staging/rtl8723bs/core/rtw_efuse.c
-index abc123def..def456abc 100644
---- a/drivers/staging/rtl8723bs/core/rtw_efuse.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_efuse.c
-@@ -84,6 +84,7 @@ u8
- Efuse_CalculateWordCnts(u8 word_en)
- {
- 	u8 word_cnts = 0;
-+
- 	if (!(word_en & BIT(0)))
- 		word_cnts++; /*  0 : write enable */
- 	if (!(word_en & BIT(1)))
+diff --git a/drivers/staging/rtl8723bs/core/rtw_cmd.c b/drivers/staging/rtl8723bs/core/rtw_cmd.c
+index 437934dd2..abc789def 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_cmd.c
++++ b/drivers/staging/rtl8723bs/core/rtw_cmd.c
+@@ -1317,9 +1317,6 @@ u8 rtw_lps_ctrl_wk_cmd(struct adapter *padapter, u8 lps_ctrl_type, u8 enqueue)
+ 	/* struct pwrctrl_priv *pwrctrlpriv = adapter_to_pwrctl(padapter); */
+ 	u8 res = _SUCCESS;
+ 
+-	/* if (!pwrctrlpriv->bLeisurePs) */
+-	/* 	return res; */
+-
+ 	if (enqueue) {
+ 		ph2c = rtw_zmalloc(sizeof(struct cmd_obj));
+ 		if (!ph2c) {
 -- 
 2.39.5
