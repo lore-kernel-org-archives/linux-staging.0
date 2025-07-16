@@ -1,137 +1,138 @@
-Received: from mail-oa1-f47.google.com (mail-oa1-f47.google.com [209.85.160.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A879EC2
-	for <linux-staging@lists.linux.dev>; Wed, 16 Jul 2025 11:38:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 396D31FECB0
+	for <linux-staging@lists.linux.dev>; Wed, 16 Jul 2025 12:00:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752665897; cv=none; b=EBr8LL2tHbkCKt3BcxwgwJHXTmCvausy3O6N5hOkWW31eYSXak6TAsKOevg/FFTNMccilKEpiPmG+XmBbW/KsDUulb9nD8IN6+rkhh5fw+GEn4U82e8gUHyWhaHE6zBmxtkzyQlAR0ghGu++grBktleaPh/tO8ThsPc3b3pkL5I=
+	t=1752667209; cv=none; b=R8uqZZ934qNrL+LvQGHqcpazB3yhm0bVTdUivn/IDWtlj+YuYS1TQLnwaY9LNAlxeoQ+jw6MlQBE1AHZ7un24l+Kysrj1X+7POs4ryVoRO4nm1QXAPzY8GA+lHA5SClgahMP1Hze6qiBRlXotmFCv9zrtpris52kZNnA0BCOXhE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752665897; c=relaxed/simple;
-	bh=30Bja2rHFYT6qRP13VWLwROwVlgipqsukeuTxKU6rK0=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=IK8A7xXCqbTs07D74+fDYHkOKUNa9O/NT+JKSESjQFHMRenNKUUl/35P7R50Ek3A8yUtlOI3AxkvQLGw2Rn6uzu9zHH6eYv7jw/pD56REMa0Kq4cPfq9tjDu0QJVbrqcwQYqFTxkYrgpF68gCnTH6gUWP5Ba+BYBIKSwzuS/iAw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cdvDT0Zi; arc=none smtp.client-ip=209.85.160.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1752667209; c=relaxed/simple;
+	bh=REfYG0y1V5JUVC4Q7wIXUcib7iF+kuVZMdibeSMEPlQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=sU2l/02mAFZowLTOQpGxcfcZlJeBASZLYh1mLw6JQ3lTPNs6XpmOJm4a3jcKo8FELfU2y54J+aUWOo0SeP3/vEfpdrJXTTv/vENe8pD+Vk+lLXDmBKF4k1SzuaWaXzAVW8Y+VLYJH9gm/fPyDubkU4eZuzcQFNUMfCXXfORvgVo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=TZpL51ow; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cdvDT0Zi"
-Received: by mail-oa1-f47.google.com with SMTP id 586e51a60fabf-2efbbf5a754so3868792fac.0
-        for <linux-staging@lists.linux.dev>; Wed, 16 Jul 2025 04:38:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1752665894; x=1753270694; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=lmzijtn7Q7pEMnH9ui6AfH1YFAubb7T4SBq8jmpOh1w=;
-        b=cdvDT0ZiY1mO0D7PWlvqbcqRWGMK0/Oao7w6LJqDS9LZG8j23izIc9jsQVlzhw3PDs
-         FwESbXlrspwa0aBl9a5kxEu+yJ5NsmhW7+0pdH1k580TjRj/InZ/BzDb2rHBLylCqszx
-         siirH/MbruAVgNqvQHn3fE36mSNcq2kUGB10TgaNz+MlpFTqKQsOFkIGX4wJwFELh7th
-         89Kuy7au2ghhxDjEIuFhE0RoHgswW/bE71AsaQ5UXMI8iEa4eFkubZ9Um5t15dDne08a
-         CaIlCLU58+wLEozDY3T1zXcjiXqY3F4EbTRfDh/pEIsmr+WJjFIQEuENJY944uPKK6Bb
-         Fe7w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752665894; x=1753270694;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=lmzijtn7Q7pEMnH9ui6AfH1YFAubb7T4SBq8jmpOh1w=;
-        b=X2nIQtmiqpmWQ3YGpJYm6ouZfF4vUDtucEoLc8Xl8CrmHjpLvZCo202TO7PM5MdnSJ
-         H9HTNIaFF63ImypXrnjSNUGla0NpU/IPVotVxg4228HE0+JVsUVxlBaUVWQvECJP41OV
-         CQk8ZavUyu6d2wbcA560k2KLQNE7aPQoP1CBTbaZh8lWXgk0ZvR1H4HRL3I4DeauFU4b
-         HFz1WQfvdZowba2Q3b5d2GCHZ2VX8EBMSFuniGyMTY1AhvkEdlqpv7pM1oLo/ZR0LFow
-         FaM4kEP9Qimlb/wgPDrAL7G1WdgNxCAbS6YnSwX9UMVuNL18Gc4KNODsp6svKKfSRXjR
-         /LAA==
-X-Forwarded-Encrypted: i=1; AJvYcCVDwBBXRJc8Vp0+xCWOJga3/06kfWvdAEvtUrHPbsHme5TuHgvWJwePrTFyrkP7PfG58bFUNa2R9HXA5W36@lists.linux.dev
-X-Gm-Message-State: AOJu0YzpU/KO1ZBJjTDGwLQPMTqxCKc70tC6ofkW1ykeQM8Ihg+vPLTn
-	jPX/oCiOO1e/l/URuHpxDu9HjTJ9AJAz8rYDTUoSXcK+qpKo3JNu5955
-X-Gm-Gg: ASbGncvN5VwycoeUVMIAl/8oteP5WOTWBh7KJNbKF+NQeGwYLvibVv8QGveCIYtPseh
-	FhFxJlq3+Iidx7ULqGOOdqdz9KrFO2CgZupzo6fB8R+4XBhVrzfTSfzhhFnuK6UvMprrFrMI902
-	AD8DswjjHUMHTg/KHi3iWRm0qBHa/PEjMR7y9iUQZcSDwnzE80T/kMhCCGNGIOtYZrEPGa5Rctj
-	AD/ZVzcCEjnG4KmY4oz+uODjbeAiUD/Gjs4kofmppflCilv5XLRSvyKfVJcUpVG1gaH85oAv5Wt
-	jbxezpGOKK1/S1FGdZek3kT0QyOQjg0kobdPq95fsZIOtnqEdDydihOhoMChzeXgFcG0+eBV3xK
-	UBKEkhP7IS/KrVvrDAvmLIyVfspvaYKW+4hV0JNVoKwU4jkMjfOiC
-X-Google-Smtp-Source: AGHT+IH+Yw+ZyfyblxUL7BEbKbLohu7fkQEuJEKc4v1r454PO0F4s4EfWQphe7K9K7kzk7sDe5OpwA==
-X-Received: by 2002:a05:6870:b24f:b0:2bc:716c:4622 with SMTP id 586e51a60fabf-2ffb24e6b25mr1873264fac.38.1752665894297;
-        Wed, 16 Jul 2025 04:38:14 -0700 (PDT)
-Received: from localhost.localdomain ([181.161.11.224])
-        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-2ff1127dd10sm3353730fac.19.2025.07.16.04.38.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 16 Jul 2025 04:38:13 -0700 (PDT)
-From: =?UTF-8?q?Ignacio=20Pe=C3=B1a?= <ignacio.pena87@gmail.com>
-To: gregkh@linuxfoundation.org,
-	linux-staging@lists.linux.dev
-Cc: Ignacio Pena <ignacio.pena87@gmail.com>
-Subject: [PATCH 3/4] staging: rtl8723bs: fix block comment alignment in rtl8723b_cmd
-Date: Wed, 16 Jul 2025 07:38:07 -0400
-Message-Id: <20250716113808.73115-3-ignacio.pena87@gmail.com>
-X-Mailer: git-send-email 2.39.5 (Apple Git-154)
-In-Reply-To: <20250716113808.73115-1-ignacio.pena87@gmail.com>
-References: <20250716113808.73115-1-ignacio.pena87@gmail.com>
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="TZpL51ow"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 67F53C4CEF0;
+	Wed, 16 Jul 2025 12:00:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1752667208;
+	bh=REfYG0y1V5JUVC4Q7wIXUcib7iF+kuVZMdibeSMEPlQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=TZpL51ow2z922MHN6YlmciaZ1cY/pJi1V90TcNm0wML/ILMuf+9wfqx1JKp8SEjZi
+	 tSGMJRC6Jw08sFWqLxjWBQwnX4Mdg2h1BzoeOjK6qYygXuWDbObALrdBO0P60CfKlx
+	 +VNtPRa/X1FYhap7Rm8H0kawG4pYSZCY+RmNJxBQ=
+Date: Wed, 16 Jul 2025 14:00:06 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Ignacio =?iso-8859-1?Q?Pe=F1a?= <ignacio.pena87@gmail.com>
+Cc: linux-staging@lists.linux.dev
+Subject: Re: [PATCH v2 1/3] staging: rtl8723bs: remove unnecessary comment
+ separator lines
+Message-ID: <2025071645-portly-battalion-a295@gregkh>
+References: <20250716113740.73025-1-ignacio.pena87@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250716113740.73025-1-ignacio.pena87@gmail.com>
 
-From: Ignacio Pena <ignacio.pena87@gmail.com>
+On Wed, Jul 16, 2025 at 07:37:38AM -0400, Ignacio Peña wrote:
+> From: Ignacio Pena <ignacio.pena87@gmail.com>
+> 
+> Remove the long dashed separator lines from block comments as they
+> don't follow kernel coding style, as suggested by Greg KH.
+> 
+> Signed-off-by: Ignacio Pena <ignacio.pena87@gmail.com>
+> ---
+>  drivers/staging/rtl8723bs/core/rtw_efuse.c | 6 ------
+>  1 file changed, 6 deletions(-)
+> 
+> diff --git a/drivers/staging/rtl8723bs/core/rtw_efuse.c b/drivers/staging/rtl8723bs/core/rtw_efuse.c
+> index 7a74b011d..abc123def 100644
+> --- a/drivers/staging/rtl8723bs/core/rtw_efuse.c
+> +++ b/drivers/staging/rtl8723bs/core/rtw_efuse.c
+> @@ -70,7 +70,6 @@ Efuse_Write1ByteToFakeContent(u16 Offset, u8 Value)
+>   * When			Who		Remark
+>   * 11/17/2008	MHC		Create Version 0.
+>   *
+> - *---------------------------------------------------------------------------*/
+>  void
+>  Efuse_PowerSwitch(
+>  struct adapter *padapter,
+> @@ -163,7 +162,6 @@ EFUSE_GetEfuseDefinition(
+>   * When			Who		Remark
+>   * 09/23/2008	MHC		Copy from WMAC.
+>   *
+> - *---------------------------------------------------------------------------*/
+>  u8
+>  EFUSE_Read1Byte(
+>  struct adapter *Adapter,
+> @@ -313,7 +311,6 @@ Efuse_WordEnableDataWrite(struct adapter *padapter,
+>   * When			Who		Remark
+>   * 11/11/2008	MHC		Create Version 0.
+>   *
+> - *---------------------------------------------------------------------------*/
+>  void
+>  Efuse_ReadAllMap(
+>  	struct adapter *padapter,
+> @@ -350,7 +347,6 @@ void Efuse_ReadAllMap(struct adapter *padapter, u8 efuseType, u8 *Efuse, bool bP
+>   * When			Who		Remark
+>   * 11/12/2008	MHC		Create Version 0.
+>   *
+> - *---------------------------------------------------------------------------*/
+>  static void efuse_ShadowRead1Byte(struct adapter *padapter, u16 Offset, u8 *Value)
+>  {
+>  	struct eeprom_priv *pEEPROM = GET_EEPROM_EFUSE_PRIV(padapter);
+> @@ -396,7 +392,6 @@ static void efuse_ShadowRead4Byte(struct adapter *padapter, u16 Offset, u32 *Val
+>   * When			Who		Remark
+>   * 11/13/2008	MHC		Create Version 0.
+>   *
+> - *---------------------------------------------------------------------------*/
+>  void EFUSE_ShadowMapUpdate(struct adapter *padapter, u8 efuseType, bool bPseudoTest)
+>  {
+>  	struct eeprom_priv *pEEPROM = GET_EEPROM_EFUSE_PRIV(padapter);
+> @@ -429,7 +424,6 @@ void EFUSE_ShadowMapUpdate(struct adapter *padapter, u8 efuseType, bool bPseudoT
+>   * When			Who		Remark
+>   * 11/12/2008	MHC		Create Version 0.
+>   *
+> - *---------------------------------------------------------------------------*/
+>  void EFUSE_ShadowRead(struct adapter *padapter, u8 Type, u16 Offset, u32 *Value)
+>  {
+>  	if (Type == 1)
+> -- 
+> 2.39.5
+> 
 
-Fix block comment formatting to align the * on each line properly
-according to kernel coding style.
+Hi,
 
-Signed-off-by: Ignacio Pena <ignacio.pena87@gmail.com>
----
- drivers/staging/rtl8723bs/hal/rtl8723b_cmd.c | 26 +++++++++++++-------------
- 1 file changed, 13 insertions(+), 13 deletions(-)
+This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
+a patch that has triggered this response.  He used to manually respond
+to these common problems, but in order to save his sanity (he kept
+writing the same thing over and over, yet to different people), I was
+created.  Hopefully you will not take offence and will fix the problem
+in your patch and resubmit it so that it can be accepted into the Linux
+kernel tree.
 
-diff --git a/drivers/staging/rtl8723bs/hal/rtl8723b_cmd.c b/drivers/staging/rtl8723bs/hal/rtl8723b_cmd.c
-index def456abc..789abc123 100644
---- a/drivers/staging/rtl8723bs/hal/rtl8723b_cmd.c
-+++ b/drivers/staging/rtl8723bs/hal/rtl8723b_cmd.c
-@@ -34,13 +34,13 @@ static u8 _is_fw_read_cmd_down(struct adapter *padapter, u8 msgbox_num)
- 
- 
- /*****************************************
--* H2C Msg format :
--*| 31 - 8		|7-5	| 4 - 0	|
--*| h2c_msg	|Class	|CMD_ID |
--*| 31-0						|
--*| Ext msg					|
--*
--******************************************/
-+ * H2C Msg format :
-+ * | 31 - 8		|7-5	| 4 - 0	|
-+ * | h2c_msg	|Class	|CMD_ID |
-+ * | 31-0						|
-+ * | Ext msg					|
-+ *
-+ ******************************************/
- s32 FillH2CCmd8723B(struct adapter *padapter, u8 ElementID, u32 CmdLen, u8 *pCmdBuffer)
- {
- 	u8 h2c_box_num;
-@@ -435,13 +435,13 @@ void rtl8723b_set_FwPwrMode_cmd(struct adapter *padapter, u8 psmode)
- 
- 		}
- 
--/* offload to FW if fw version > v15.10
--		pmlmeext->DrvBcnEarly = 0;
--		pmlmeext->DrvBcnTimeOut =7;
--
--		if ((pmlmeext->DrvBcnEarly!= 0Xff) && (pmlmeext->DrvBcnTimeOut!= 0xff))
--			u1H2CPwrModeParm[H2C_PWRMODE_LEN-1] = BIT(0) | ((pmlmeext->DrvBcnEarly<<1)&0x0E) |((pmlmeext->DrvBcnTimeOut<<4)&0xf0) ;
--*/
-+/*
-+ * offload to FW if fw version > v15.10
-+ *		pmlmeext->DrvBcnEarly = 0;
-+ *		pmlmeext->DrvBcnTimeOut =7;
-+ *
-+ *		if ((pmlmeext->DrvBcnEarly!= 0Xff) && (pmlmeext->DrvBcnTimeOut!= 0xff))
-+ *			u1H2CPwrModeParm[H2C_PWRMODE_LEN-1] = BIT(0) | ((pmlmeext->DrvBcnEarly<<1)&0x0E) |((pmlmeext->DrvBcnTimeOut<<4)&0xf0) ;
-+ */
- 
- 	}
- 
--- 
-2.39.5
+You are receiving this message because of the following common error(s)
+as indicated below:
+
+- This looks like a new version of a previously submitted patch, but you
+  did not list below the --- line any changes from the previous version.
+  Please read the section entitled "The canonical patch format" in the
+  kernel file, Documentation/process/submitting-patches.rst for what
+  needs to be done here to properly describe this.
+
+If you wish to discuss this problem further, or you have questions about
+how to resolve this issue, please feel free to respond to this email and
+Greg will reply once he has dug out from the pending patches received
+from other developers.
+
+thanks,
+
+greg k-h's patch email bot
