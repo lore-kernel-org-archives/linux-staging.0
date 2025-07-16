@@ -1,119 +1,124 @@
-Received: from mail-oa1-f44.google.com (mail-oa1-f44.google.com [209.85.160.44])
+Received: from mail-yb1-f171.google.com (mail-yb1-f171.google.com [209.85.219.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5A4519D06B
-	for <linux-staging@lists.linux.dev>; Wed, 16 Jul 2025 14:58:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 245C22F5C4C;
+	Wed, 16 Jul 2025 17:27:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752677916; cv=none; b=C4Fsa50n3chXax8RIxDQI6+gIgWRhO/MBPrdvqr+owBnRf1YsDXquHFE69qs623oFRtX676eKiSVG9m/KMIxJ3Su+mrBfhblvIsiuGBf6C2yScmFusNVmFEwXQ4ubAjXUot1EAX7bJZ6ghVRWCQVtDEbxf2kXtafh2oOZeO4zEo=
+	t=1752686864; cv=none; b=bd7cxyltEiNoh3xzj4nlTU3hgHoofhYldsVrobmF9BziAXRXAsRZjoN5nGic4LY7ErxJ4GVBh4Q4drEsj13l583xWeuPB1SlgVkPCaF7MzX+zfQV65zGHSbqZJieLSEjOAXMyw0SSdy7m7Cwycst53pc27c8q7kVfxSFk+auXdQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752677916; c=relaxed/simple;
-	bh=MOX5FLSTuz4gUJyElIjKVpCmGAf/+/SwzprErmNYXao=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KVbvKQ8orV0rA9/6/rDcb37XPCNX5fWqCMqHkvd7rhUUJhNM22DgtBkjSgnymtOdC1sx5gq7EY5XW/fY7tHptczjLqez97gXeHFByFtid3lk89MXxSbLfC3ys0CrZ/BLU59nKVGy8nyhYxlOOW5HNhtLI1Iy+2aLtEr5Si6YbjI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=LZdBVSD/; arc=none smtp.client-ip=209.85.160.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1752686864; c=relaxed/simple;
+	bh=vGllGUCGiDgHJ1wVGKD70Ly2L0DljA2b3eYLzfs3SOk=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=T/XoqA00gMHmtY6fOI3gBjb9PnRQvco4wU4xyIrSkoMF8xwXTzEwizZ2gUjZt4i5NPUQLLVEw58xpBTwa5EBAWcaQHNToC3C7A7Jb9SkWBsaz0wcPUzWY5KzONp36eQPWGmjGRVmD04MG2ZmzEbw4uE9L9RK2gC9y3LpgpRmaos=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RKplPYRw; arc=none smtp.client-ip=209.85.219.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="LZdBVSD/"
-Received: by mail-oa1-f44.google.com with SMTP id 586e51a60fabf-2f78ef10832so3537fac.3
-        for <linux-staging@lists.linux.dev>; Wed, 16 Jul 2025 07:58:34 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RKplPYRw"
+Received: by mail-yb1-f171.google.com with SMTP id 3f1490d57ef6-e8b802286efso19177276.3;
+        Wed, 16 Jul 2025 10:27:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1752677914; x=1753282714; darn=lists.linux.dev;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=3m45BGM+l7hWNTfPbsljo+iULDrTlSlvRi9+iUw9IvA=;
-        b=LZdBVSD/7M8DKPnRBvnpY8mDGh0/vDQkL5bgvBKpyjMCFoUNx7w9FGk0q6XYXOKoiw
-         gHrDIXBQ9iKsMcilOKHDx5k1Me5+/IgF3j7BDWyclW7lFbYfPCT64BkXF8A52QoNVaC/
-         lGJjWnfwPntp9+VPeJhif/uAazQZmQ2r5VJPxDxfGIruzLZYrPpAjz2zLCpREEGI54Ky
-         hpBfKE0fg/qInJOkWTwNscbE/jFDWD6sb28+q2fPfJN5Tuzr5+1C53Mfph7teMxe89I2
-         EPwj2mZ/ZkGD4eT+vZxg4ESQpT55UG16mgXedjpwRsQBC380Js1KFoIQOlimXL8n6ZTN
-         nthQ==
+        d=gmail.com; s=20230601; t=1752686862; x=1753291662; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=NvloVeMtiDsDLEZd6NogCW6v2SRhUa+PTaZTZmI7UkU=;
+        b=RKplPYRwQjLx7UiPlhf5TSMTom0afZuiCIcDGOiE202OZJmAHH9MK30ySA5rdYeGQm
+         GaSdu+aZntiJ+3RoHEksCO6AvxNHruFgxxF0qVrpsknTBrapQtUNpCb6x1UIocHfIHtR
+         7c6XLYNLvGqlzK3YuBVYLKczNr6Kn6mikVpcbu39DzSdQOQW4gn/Vc8Z8l9vFAqPgXv2
+         LHOTjCpm9W4Lltcaa2cFFRUHUyjC3/XMXCLT2DJ03u9t6+GM0Ho4sM9U9FtQLK+UpvWA
+         koniTB1zrx7duRNZnDVB1+zxvRKhbmUDl8DmZ89YSX2ErHaNTPLLsL1wcX+7CNJ/omh5
+         HXlw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752677914; x=1753282714;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=3m45BGM+l7hWNTfPbsljo+iULDrTlSlvRi9+iUw9IvA=;
-        b=qfJXkGE7AynMmgqyS83bidoNhZx41RBxId0qcy1nCrebVYRJsP8S5YGYHnWrXZUCx3
-         Hfvsb4aax7U+6s0RUU725pSBucJOIEUsC+GJpk31iG0eceDqEdpEo9bHI+p5jNlXPV3o
-         6nboCjBO0r0Y5QtGgdu4fFyuK3twyXenK+1smwNiOBzY7VNKDquY9euk71KaRBbtxhvr
-         TMPQN4x7DdJ4C6A5vJ4ne95Lu4CEs4EYSWevT9UeXg908MkI0ewiBV4Vpcns/sUHNCt2
-         QNAX9nRkeQOF1cFRqUsLM74TjXko7eO7pkDS9Z+U98urouhomOefegvefnd+yes4KL9m
-         wLxw==
-X-Forwarded-Encrypted: i=1; AJvYcCXYV8wq8hboPfqRnp8lHPhs/iSIzIB6sQxsfuqdUGRxkg2y7m0WpiPkM8PhzmTvoZYb06N3f3GiiW0cHTzt@lists.linux.dev
-X-Gm-Message-State: AOJu0YzTDxaaGVyxFL2LblihxKGCIDIJNFYwyW9k+/oX17kXbfADd8Ot
-	eLHqCNRhMM5qwA0vloUh2R75lXZygo7yeSV9suyTanw5Hbc8HfUKTsCbWJQ/8MnfElw=
-X-Gm-Gg: ASbGncukE2lMlmjhA9JWgJxV01054VqCd/R507i0/3WYCaiMMQaN79v+VunpAEQUraf
-	dEGx9GEVsEmfmCJ398jbNPx01GIuXjazOEwEhXwk+VwRdTbx0d/hTfWsOKFhpuVVXS0pU1OoYj4
-	CX4Qu9W5lGRqEXKNentkZFMjxxCleu/R8dXVHkaDzSrIPZ0stdUVc8V0DX1Uk4LsIKsXpbxxsyp
-	iBJlXNlMjVw8mSkglRxkanDNMBWk6bx/JjFRspgCPfvGa/RN4LzVIWSQyY+t/sHqM5xrg85km9a
-	RM7EFwCb7r4cKacM57ZNL1be/yB/dlyNTc1IM/MK+xYeJdHXi++FclHRWya6wG8CBAkx7NXX/nZ
-	K7UUrHdgNoocNTUe13lODZtu9+P3H
-X-Google-Smtp-Source: AGHT+IGPDRDGTGWtsm0enNOZoTDYjmJ1+WpJCzBBYWbatrsQi58k48BUuUzP7TVR+vTSQiuuXI/ZQg==
-X-Received: by 2002:a05:6871:7244:b0:2ff:9224:b1c8 with SMTP id 586e51a60fabf-2ffaf5a4bc4mr2923399fac.36.1752677913663;
-        Wed, 16 Jul 2025 07:58:33 -0700 (PDT)
-Received: from localhost ([2603:8080:b800:f700:2564:68a3:7d6:cb7d])
-        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-2ff111c36a0sm3509364fac.2.2025.07.16.07.58.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 16 Jul 2025 07:58:33 -0700 (PDT)
-Date: Wed, 16 Jul 2025 17:58:31 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Ignacio =?iso-8859-1?Q?Pe=F1a?= <ignacio.pena87@gmail.com>
-Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev
-Subject: Re: [PATCH 3/4] staging: rtl8723bs: fix block comment alignment in
- rtl8723b_cmd
-Message-ID: <6591cf13-7f1b-4079-939b-5277a046e990@suswa.mountain>
-References: <20250716113808.73115-1-ignacio.pena87@gmail.com>
- <20250716113808.73115-3-ignacio.pena87@gmail.com>
+        d=1e100.net; s=20230601; t=1752686862; x=1753291662;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=NvloVeMtiDsDLEZd6NogCW6v2SRhUa+PTaZTZmI7UkU=;
+        b=q6vDNzdgYaQjlmQfCUryJBt+YHqoVx943gwsNOX1RwCLVbs9be2GHdUYXkBJnczZE/
+         4vsT0jipCMuiDqmwnbKeis+iJEXsCdlISblp2v3U+IhFgU1GUc8vZSM3sw/W7H7rDi5w
+         a2ZMDIDHMBd/BXpkcSoHHq5/EEeVfouVTzMHFDTxXdp3tvHTEIsmSEGXKEvIpso2KOY/
+         qu7i/jDvJNq8icWGWV+Vd7wb/tPzbt4idiCS+UKF77t+HqoLslaXANwq4MMtcfNjuSfN
+         j+KLHZq+h0Wv25uZEOnvNgX4VZ1lFVVxSd0e0hu6i/W3KuIimFnSu6PjGutNXyEjt+6c
+         yn8g==
+X-Forwarded-Encrypted: i=1; AJvYcCVbih7W8iCOvqR2Fh06qrcJBSKgrqhZKrPex4uLtoYKHGRMfd96OaLZulmHVRpS2wte9rIgEw1gVS3mcdAD/78EMoY6dQ==@lists.linux.dev, AJvYcCWH+hBkv6VKUIMVXLbR2gJs7i3KEOyZ+zX5oClrAopT2ra58m2i4h4PtGIBalONbU2N0poDgMsFrhHsLJm6OA==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yy99TeOlVQ9rpAclXQF+pQAKhf8O9/dRn89TYaBsG3KF+iwpDAF
+	RmM5mK1JGg/9uQbQi8E+aSThzKoTSdmHJSyHxKudFIbXvV1cydi7IGVRfog+/y3tog1P1nj4qCs
+	MW369mnJOTTQHcJiqlSwZY6TcGtv3Kn4=
+X-Gm-Gg: ASbGnct4yTH2ppWndrLF2D55k2XzCCB1bP7Sf8uQI3wkih+p37F40GajsFyQ+OuLnbm
+	RYhR1k/ok4WxDi5s+Z4qjvDUNJkTDuaSjbUTY9q8c1UBYysxR9iDpfBGvBnOXIpap3Y3gq80VN9
+	HJyIiT6oPqDQUbaIzVWuVW23x+HKG8zWxTZwbu2Ctf8Uzhq4bOrCCP3XbZOKzi0X4lBXoxNSNBy
+	k518aNClg==
+X-Google-Smtp-Source: AGHT+IFcZRB9tZAKWFUgshmLoFJAFSdkhYD1bM0wT/BrW7MpFemhgFBwLKraWqKGpig35iTB8Sh1V6QrJffqXy/oSu0=
+X-Received: by 2002:a05:690c:3:b0:714:49b:d58f with SMTP id
+ 00721157ae682-71835187107mr27550687b3.8.1752686861665; Wed, 16 Jul 2025
+ 10:27:41 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250716113808.73115-3-ignacio.pena87@gmail.com>
+References: <20250716014225.15279-1-abdelrahmanfekry375@gmail.com> <CAHp75Ve6rE22crmt5mUioWtkWm_-ODV+Dk2gcTQ8ickhMMkvAQ@mail.gmail.com>
+In-Reply-To: <CAHp75Ve6rE22crmt5mUioWtkWm_-ODV+Dk2gcTQ8ickhMMkvAQ@mail.gmail.com>
+From: Abdelrahman Fekry <abdelrahmanfekry375@gmail.com>
+Date: Wed, 16 Jul 2025 20:27:30 +0300
+X-Gm-Features: Ac12FXw688dtJae5mhU7UFhqJ-ZLDHJXMPWRh_b7-LKwxRnzxxdPYQexaIOmM0k
+Message-ID: <CAGn2d8NpjYse9k04Efy8cZtgs9sWwGD6s7LQqDyTcQ0+U3bMrg@mail.gmail.com>
+Subject: Re: [PATCH] staging: media: atomisp: add missing mutex lock in atomisp_s_fmt_cap
+To: Andy Shevchenko <andy.shevchenko@gmail.com>
+Cc: hansg@kernel.org, mchehab@kernel.org, sakari.ailus@linux.intel.com, 
+	andy@kernel.org, gregkh@linuxfoundation.org, linux-media@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev, 
+	linux-kernel-mentees@lists.linux.dev, skhan@linuxfoundation.org, 
+	dan.carpenter@linaro.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, Jul 16, 2025 at 07:38:07AM -0400, Ignacio Peña wrote:
-> From: Ignacio Pena <ignacio.pena87@gmail.com>
-> 
-> Fix block comment formatting to align the * on each line properly
-> according to kernel coding style.
-> 
-> Signed-off-by: Ignacio Pena <ignacio.pena87@gmail.com>
-> ---
->  drivers/staging/rtl8723bs/hal/rtl8723b_cmd.c | 26 +++++++++++++-------------
->  1 file changed, 13 insertions(+), 13 deletions(-)
-> 
-> diff --git a/drivers/staging/rtl8723bs/hal/rtl8723b_cmd.c b/drivers/staging/rtl8723bs/hal/rtl8723b_cmd.c
-> index def456abc..789abc123 100644
-> --- a/drivers/staging/rtl8723bs/hal/rtl8723b_cmd.c
-> +++ b/drivers/staging/rtl8723bs/hal/rtl8723b_cmd.c
-> @@ -34,13 +34,13 @@ static u8 _is_fw_read_cmd_down(struct adapter *padapter, u8 msgbox_num)
->  
->  
->  /*****************************************
-> -* H2C Msg format :
-> -*| 31 - 8		|7-5	| 4 - 0	|
-> -*| h2c_msg	|Class	|CMD_ID |
-> -*| 31-0						|
-> -*| Ext msg					|
-> -*
-> -******************************************/
-> + * H2C Msg format :
-> + * | 31 - 8		|7-5	| 4 - 0	|
-> + * | h2c_msg	|Class	|CMD_ID |
-> + * | 31-0						|
-> + * | Ext msg					|
-> + *
-> + ******************************************/
-  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-This is not the correct comment format.
+Hi Andy,
 
-regards,
-dan carpenter
+On Wed, Jul 16, 2025 at 11:11=E2=80=AFAM Andy Shevchenko
+<andy.shevchenko@gmail.com> wrote:
+>
+> On Wed, Jul 16, 2025 at 4:42=E2=80=AFAM Abdelrahman Fekry
+> <abdelrahmanfekry375@gmail.com> wrote:
+> >
+> > The function atomisp_set_fmt() modifies shared device state and expects
+> > callers to hold the isp->mutex for synchronization. While most internal
+> > callers correctly lock the mutex before invoking atomisp_set_fmt(), the
+> > V4L2 ioctl handler atomisp_s_fmt_cap() does not.
+> >
+> > This results in an unsafe execution path for VIDIOC_S_FMT ioctls
+> > (e.g. via v4l2-ctl), where shared structures such as pipe->pix and
+> > pipe->frame_info may be modified concurrently without proper protection=
+.
+> >
+> > - Fix this by explicitly locking isp->mutex in atomisp_s_fmt_cap().
+>
+> If it's a fix, please add the Fixes tag.
+>
+will do , thanks.
+> ...
+>
+> > -       return atomisp_set_fmt(vdev, f);
+> > +       mutex_lock(&isp->mutex);
+> > +       ret =3D atomisp_set_fmt(vdev, f);
+> > +       mutex_unlock(&isp->mutex);
+>
+> Side note: Can you consider switching the driver to use cleanup.h
+> (guard()(), scoped_guard(), __free(), etc)?
+will look at it .
 
+Would you please look at this patch series [1] , it hasn't got any feedback
+and i have more work that builds on it.
+
+> --
+> With Best Regards,
+> Andy Shevchenko
+
+Link: https://lore.kernel.org/all/20250712191325.132666-1-abdelrahmanfekry3=
+75@gmail.com/
+[1]
+Best Regards,
+Abdelrahman Fekry
