@@ -1,176 +1,107 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oa1-f42.google.com (mail-oa1-f42.google.com [209.85.160.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C50AFBF6
-	for <linux-staging@lists.linux.dev>; Wed, 16 Jul 2025 04:54:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61F6A20C00C
+	for <linux-staging@lists.linux.dev>; Wed, 16 Jul 2025 05:34:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752641666; cv=none; b=E8Fpav5gDKDBAmyfoRXe0hmJUoca032WmTSrk/g6BGsiG80YRKah6AqQYySBKIARQ1XLtz44xA9Sii2UdkwDfkAZAhU4Ph8N+We7JH8keh3ZRaEFoNpBHsbJdYVQhCzP5PMdKMTtYSB7d+PZ28mNIfvYNOXsKnJ6wBdlSH8JZZE=
+	t=1752644043; cv=none; b=PHwKCz9aBmmbV8e+tmjRHyABZebrIA4yaVO6cIfrwtUJ6FS/yz+yChjkC4Ph/PCFxyt/EU/lG4y3PJh1EsT1Ekwj4ozudw2dakomulHQZNF3HNl1vf+qvrBQUXDFW+fcxZV5IdO0zy6P5M65EqH2DN/MlxWqwsaoRIy9cY3gx8c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752641666; c=relaxed/simple;
-	bh=zKYtW4QwiSNLEjul/oWj9o0Km9D1rasdRuKakY+L3rA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bxx4bWoUvD3/M5J9Lt/vTFfW7BPJuz/2/2GDl2pWzz3ZW4swd0Ryy6hogG3rgw4QvZMFO0FVYkGuWEUQ9+p+wVXU2CJW8C2AO+Zrz5jGt8Naf7y0k3xzqFwTQFvDYtZ0EY102Xu0qgU6uliiLbrrtY97Squ8jz+9nVfPWtX9SUQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=DICl5G20; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1752644043; c=relaxed/simple;
+	bh=cNufzzX6p5FF5CERPxqcBZVe+aNnOCr7buWvHeVDuhI=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=MoOHHkBkSFwxCpx+Hm/9sUdRa7n01wUOj9DFZieX3oZfp6JJPB06uD6teP7wCpFNVQw8FfVRRE7UwonbVESmugqDWkZboINzT7pQM1xviRznG1has63iuiNJFqvQ+LRiW/nhJR/5lKECjQx1gOXDYXXXxakzC952FyN/GdMrRVw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RGpZ9VoE; arc=none smtp.client-ip=209.85.160.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="DICl5G20"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C7CA2C4CEF6;
-	Wed, 16 Jul 2025 04:54:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1752641666;
-	bh=zKYtW4QwiSNLEjul/oWj9o0Km9D1rasdRuKakY+L3rA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=DICl5G201J7buEhzheNbb/aL+O4ycs8vHJuObN4HnCnFmENBW1r3SNVh4f2WeqL0n
-	 OMXgyUYHg+ab93FcfsMKu8q1UjHWuQIw+Tkt8yFKo5CgyMTgjv1EUM62RcOWazoNoU
-	 aIkvCytTZLAifjN73ju3VvOrmp1fEehTVo4PrWsI=
-Date: Wed, 16 Jul 2025 06:54:23 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Ignacio =?iso-8859-1?Q?Pe=F1a?= <ignacio.pena87@gmail.com>
-Cc: linux-staging@lists.linux.dev
-Subject: Re: [PATCH] staging: rtl8723bs: Fix comment style warnings
-Message-ID: <2025071607-subfloor-varsity-4ab2@gregkh>
-References: <20250715234416.50030-1-ignacio.pena87@gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RGpZ9VoE"
+Received: by mail-oa1-f42.google.com with SMTP id 586e51a60fabf-2ebb468cbb4so5377134fac.2
+        for <linux-staging@lists.linux.dev>; Tue, 15 Jul 2025 22:34:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1752644041; x=1753248841; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=RDOgATEAUyP9K9p3Zv+8JK2XjaYGa7N1hnSZCjzbOK4=;
+        b=RGpZ9VoEIQbM7FM+qsS0KIzYX80dk1RQ+xPTC8/DlerHVrplEP1F8QUUZzpHscgOoi
+         TCdsZSZS+b1dT8TZneDbRBy87RXe6421qrebcpeWQTm8uiiodgLNPQD7qixYPa4xejpk
+         QIOrxlFPkmT387W6FUz/f7URdHBscazDyAZ+uC3L1J9nl2sORISKp5ORTjAvSq/KI5Xc
+         vNT6B+J5eFLDF+B9jkkf8bSihhZManEyDYbbv/FMkRLuIJh0mBn78hg+6JQy7YkkMj3O
+         VxwEtibOW8EWrD5+EuwsA+a/gpkPbGUwiLWCNH8Gtv3hawnUhpCf1lqmdKHfvloAQo78
+         wD7A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1752644041; x=1753248841;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=RDOgATEAUyP9K9p3Zv+8JK2XjaYGa7N1hnSZCjzbOK4=;
+        b=p7TZTG2zBM0fEK4fTbDH3dmIKKkQLVIydjz6vg4NM3UacYRy1iki/j4rUacgYlWyZA
+         fILzgScFW0NIuu91PdAer5m/H+4WGbktTHF4lda9lQVpJcolOWiUMHHfp1wHuMMsfeFE
+         yhcseoX/CDcJHzd0Whb4ge7IWfiD2uvBg+w/sp4k6D1NxF4HKs8i3r+WPu/tLXSl8tzU
+         ndIsSPekOvcwJ1qW+djYZJBlbCZSWdd4R/+RMKIuRcaWJj8PqSYwZUtd8DQ/ultNye2X
+         pNC26+z3qGH3LoihbZNdjZF2VGJQ11izeyIqs8eQbNaaY/W6kjuY1rTeKYIG9WWPFktG
+         UVtw==
+X-Forwarded-Encrypted: i=1; AJvYcCUYrsKMvoSW24V+Lgu9tVA01Akqq5nAfD2zMKbpznKLqJDMM8nQahEikFXAQ21h2SM65+aZTvw/QIwptJef@lists.linux.dev
+X-Gm-Message-State: AOJu0YzH8WvkOramwYSlOmBjQPD/UBKaw2rGOan2Eh2qHkPvDPNYTuNa
+	rw88yeyAVYCxPWH9U3Lf+yxXIzYemVUXiOIQxAgOSGz6O10STZsjB1HQ
+X-Gm-Gg: ASbGncs5nmVea3lT+JVvaPPN9NrOFc7etEHj3RhlWo5P1KSUtAD51qNo42loSBBYSNH
+	4RrSXekSVhufLmkH0VjWlsas0mJGiCc9HwZ+jFi5F1UT55y6pF7AjyjxMcjIC7XwKPbtKzFbPb9
+	Q9fyTFOgiY2AJVMXohT2fPHvD5+6Rn0DVfsrFy0nSlpp0vfjdy5kDl9j81vAZu9RAmeNBIXSfEK
+	pfiS/euzHQyN2fIQq9d/jmZJAxHI003LLV9guX0Xqp2BC8QUSOS+uDZ1aUeLnjyxUyBXwHSi344
+	8FTNMmQbkTMGmGj+0eibHklOqlbw4L4WHlf0S7mFOs485Jyi8hiZZWTXnM4ryQnU2lXlGAmzvQc
+	mZ1zSmvk97NkqPUEpVc0c/i2/DbaQIYpsogEL0rmmZqeGKJ63/dbbFxyhbWdOcK0=
+X-Google-Smtp-Source: AGHT+IEnm99PBrpBHs4oYnFow6Mgz95xNrN6nf2+8ISvAgjCFhRJlU6vc1cCjJgEvegnil1ol2/Asw==
+X-Received: by 2002:a05:6870:1cb:b0:2ea:87d7:5a35 with SMTP id 586e51a60fabf-2ffb251ccc0mr1172559fac.36.1752644041309;
+        Tue, 15 Jul 2025 22:34:01 -0700 (PDT)
+Received: from localhost.localdomain ([181.161.11.224])
+        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-2ff8ede965fsm1264461fac.40.2025.07.15.22.33.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 15 Jul 2025 22:34:00 -0700 (PDT)
+From: =?UTF-8?q?Ignacio=20Pe=C3=B1a?= <ignacio.pena87@gmail.com>
+To: gregkh@linuxfoundation.org,
+	linux-staging@lists.linux.dev
+Cc: dan.carpenter@linaro.org,
+	Ignacio Pena <ignacio.pena87@gmail.com>
+Subject: [PATCH v3 1/2] staging: sm750fb: fix function parameter alignment
+Date: Wed, 16 Jul 2025 01:33:56 -0400
+Message-Id: <20250716053357.64711-1-ignacio.pena87@gmail.com>
+X-Mailer: git-send-email 2.39.5 (Apple Git-154)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250715234416.50030-1-ignacio.pena87@gmail.com>
 
-On Tue, Jul 15, 2025 at 07:44:16PM -0400, Ignacio Peña wrote:
-> Fix checkpatch warnings in rtl8723bs driver:
-> - Fix block comment style by moving */ to separate line
-> - Add missing blank line after variable declarations
-> - Remove space before tab in commented code
-> 
-> These are coding style fixes that don't change functionality.
-> 
-> Signed-off-by: Ignacio Peña <ignacio.pena87@gmail.com>
-> ---
->  drivers/staging/rtl8723bs/core/rtw_cmd.c   |  2 +-
->  drivers/staging/rtl8723bs/core/rtw_efuse.c | 19 +++++++++++++------
->  2 files changed, 14 insertions(+), 7 deletions(-)
-> 
-> diff --git a/drivers/staging/rtl8723bs/core/rtw_cmd.c b/drivers/staging/rtl8723bs/core/rtw_cmd.c
-> index 437934dd2..f02b3b485 100644
-> --- a/drivers/staging/rtl8723bs/core/rtw_cmd.c
-> +++ b/drivers/staging/rtl8723bs/core/rtw_cmd.c
-> @@ -1318,7 +1318,7 @@ u8 rtw_lps_ctrl_wk_cmd(struct adapter *padapter, u8 lps_ctrl_type, u8 enqueue)
->  	u8 res = _SUCCESS;
->  
->  	/* if (!pwrctrlpriv->bLeisurePs) */
-> -	/* 	return res; */
-> +	/*	return res; */
->  
->  	if (enqueue) {
->  		ph2c = rtw_zmalloc(sizeof(struct cmd_obj));
-> diff --git a/drivers/staging/rtl8723bs/core/rtw_efuse.c b/drivers/staging/rtl8723bs/core/rtw_efuse.c
-> index 7a74b011d..fc6dee711 100644
-> --- a/drivers/staging/rtl8723bs/core/rtw_efuse.c
-> +++ b/drivers/staging/rtl8723bs/core/rtw_efuse.c
-> @@ -70,7 +70,8 @@ Efuse_Write1ByteToFakeContent(u16 Offset, u8 Value)
->   * When			Who		Remark
->   * 11/17/2008	MHC		Create Version 0.
->   *
-> - *---------------------------------------------------------------------------*/
-> + *---------------------------------------------------------------------------
-> + */
->  void
->  Efuse_PowerSwitch(
->  struct adapter *padapter,
-> @@ -85,6 +86,7 @@ u8
->  Efuse_CalculateWordCnts(u8 word_en)
->  {
->  	u8 word_cnts = 0;
-> +
->  	if (!(word_en & BIT(0)))
->  		word_cnts++; /*  0 : write enable */
->  	if (!(word_en & BIT(1)))
-> @@ -163,7 +165,8 @@ EFUSE_GetEfuseDefinition(
->   * When			Who		Remark
->   * 09/23/2008	MHC		Copy from WMAC.
->   *
-> - *---------------------------------------------------------------------------*/
-> + *---------------------------------------------------------------------------
-> + */
->  u8
->  EFUSE_Read1Byte(
->  struct adapter *Adapter,
-> @@ -313,7 +316,8 @@ Efuse_WordEnableDataWrite(struct adapter *padapter,
->   * When			Who		Remark
->   * 11/11/2008	MHC		Create Version 0.
->   *
-> - *---------------------------------------------------------------------------*/
-> + *---------------------------------------------------------------------------
-> + */
->  void
->  Efuse_ReadAllMap(
->  	struct adapter *padapter,
-> @@ -350,7 +354,8 @@ void Efuse_ReadAllMap(struct adapter *padapter, u8 efuseType, u8 *Efuse, bool bP
->   * When			Who		Remark
->   * 11/12/2008	MHC		Create Version 0.
->   *
-> - *---------------------------------------------------------------------------*/
-> + *---------------------------------------------------------------------------
-> + */
->  static void efuse_ShadowRead1Byte(struct adapter *padapter, u16 Offset, u8 *Value)
->  {
->  	struct eeprom_priv *pEEPROM = GET_EEPROM_EFUSE_PRIV(padapter);
-> @@ -396,7 +401,8 @@ static void efuse_ShadowRead4Byte(struct adapter *padapter, u16 Offset, u32 *Val
->   * When			Who		Remark
->   * 11/13/2008	MHC		Create Version 0.
->   *
-> - *---------------------------------------------------------------------------*/
-> + *---------------------------------------------------------------------------
-> + */
->  void EFUSE_ShadowMapUpdate(struct adapter *padapter, u8 efuseType, bool bPseudoTest)
->  {
->  	struct eeprom_priv *pEEPROM = GET_EEPROM_EFUSE_PRIV(padapter);
-> @@ -429,7 +435,8 @@ void EFUSE_ShadowMapUpdate(struct adapter *padapter, u8 efuseType, bool bPseudoT
->   * When			Who		Remark
->   * 11/12/2008	MHC		Create Version 0.
->   *
-> - *---------------------------------------------------------------------------*/
-> + *---------------------------------------------------------------------------
-> + */
->  void EFUSE_ShadowRead(struct adapter *padapter, u8 Type, u16 Offset, u32 *Value)
->  {
->  	if (Type == 1)
-> -- 
-> 2.39.5 (Apple Git-154)
-> 
-> 
+From: Ignacio Pena <ignacio.pena87@gmail.com>
 
-Hi,
+Fix checkpatch warning about improper function parameter alignment
+in sm750_hw_cursor_set_pos function call.
 
-This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
-a patch that has triggered this response.  He used to manually respond
-to these common problems, but in order to save his sanity (he kept
-writing the same thing over and over, yet to different people), I was
-created.  Hopefully you will not take offence and will fix the problem
-in your patch and resubmit it so that it can be accepted into the Linux
-kernel tree.
+Signed-off-by: Ignacio Pena <ignacio.pena87@gmail.com>
+---
 
-You are receiving this message because of the following common error(s)
-as indicated below:
+Changes in v3:
+- Removed the const declaration patch as g_fbmode is modified at runtime
+- Split only into alignment and naming fixes
 
-- Your patch did many different things all at once, making it difficult
-  to review.  All Linux kernel patches need to only do one thing at a
-  time.  If you need to do multiple things (such as clean up all coding
-  style issues in a file/driver), do it in a sequence of patches, each
-  one doing only one thing.  This will make it easier to review the
-  patches to ensure that they are correct, and to help alleviate any
-  merge issues that larger patches can cause.
+ drivers/staging/sm750fb/sm750.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-If you wish to discuss this problem further, or you have questions about
-how to resolve this issue, please feel free to respond to this email and
-Greg will reply once he has dug out from the pending patches received
-from other developers.
-
-thanks,
-
-greg k-h's patch email bot
+diff --git a/drivers/staging/sm750fb/sm750.c b/drivers/staging/sm750fb/sm750.c
+index abc123def456..def456abc123 100644
+--- a/drivers/staging/sm750fb/sm750.c
++++ b/drivers/staging/sm750fb/sm750.c
+@@ -125,8 +125,8 @@ static int lynxfb_ops_cursor(struct fb_info *info, struct fb_cursor *fbcursor)
+ 
+ 	if (fbcursor->set & FB_CUR_SETPOS)
+ 		sm750_hw_cursor_set_pos(cursor,
+-				       fbcursor->image.dx - info->var.xoffset,
+-				       fbcursor->image.dy - info->var.yoffset);
++					fbcursor->image.dx - info->var.xoffset,
++					fbcursor->image.dy - info->var.yoffset);
+ 
+ 	if (fbcursor->set & FB_CUR_SETCMAP) {
+ 		/* get the 16bit color of kernel means */
+-- 
+2.39.3
