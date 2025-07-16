@@ -1,63 +1,63 @@
-Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
+Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54A91218858
-	for <linux-staging@lists.linux.dev>; Wed, 16 Jul 2025 19:31:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D10E28F51E
+	for <linux-staging@lists.linux.dev>; Wed, 16 Jul 2025 19:31:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752694287; cv=none; b=BfxQfdC8o6hD9v22aJxB6I0rJM6o5e26oiLw73i0FhqmqPQm1UXf406+QkO8wmwtH+acrY02VvCYRRs7FkLGBG3ZwKjthX1D9Qj4tJTP/ZZF7R5Y7zOZYT/X6s3cZjYDTr44YeUKeobMaMyilA/WdNiPCWNB2wk0yOhzYQsL97I=
+	t=1752694288; cv=none; b=cRC6EVe7RivfPJh/PsqN79CCq3YoALLxmQqZf1DluJ6zn3HvcdDUFNPfxufRjYVxLe/S5w2581NLpOUr7rBAnRUVe4sC5Mm+EG1UPWj6NV0K3+rqEUcDi1lRSMt+kd+ZyhiFB3F0Ob7dJezKYY9GSqQhDiXcnVBUuFu/JGAyQt4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752694287; c=relaxed/simple;
-	bh=GD/LZsxNHLFcQHHnyEVtdV+W9ayAHFLj58BoFvS4TbE=;
+	s=arc-20240116; t=1752694288; c=relaxed/simple;
+	bh=zcLk3E8m6QKZ807ZGbq64IqbDDccDL60ZUVrGYH/xx0=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=o5kR3OgR/vcb72YzaO+SKMS06oWprm4z0h9nIRsUu7swJngIOmEug9FOzRoFwZIc7asIL3zYf6fpWpSkrdJGcPR4lx+6wUtaEVWysDb3t0E+VF6rBQten1UAMEcNNr7BezeS1mgp2V3nuTpDoFFaTK+4UnK+4Dl7K5KY+7oSY1E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OTeyEarM; arc=none smtp.client-ip=209.85.208.45
+	 MIME-Version; b=TNg0FZxYYA2HydTVG2u85n5Qr4DYdyNsv1SmDdsRtTrUdl0jl1CpY5DEDYUUPej7WIeCFSM/C9a/NDof2nISewNvHAVbA6PXtOpbIkhrFIV57yWcRrhZg0RMRIrPV0kljlOO64TdXE+MYw6Irn1W80hDP9Xy/2X96kq7/85RJ8U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FsPU6NBB; arc=none smtp.client-ip=209.85.218.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OTeyEarM"
-Received: by mail-ed1-f45.google.com with SMTP id 4fb4d7f45d1cf-60700a745e5so291307a12.3
-        for <linux-staging@lists.linux.dev>; Wed, 16 Jul 2025 12:31:25 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FsPU6NBB"
+Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-ae0dffaa8b2so45207966b.0
+        for <linux-staging@lists.linux.dev>; Wed, 16 Jul 2025 12:31:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1752694284; x=1753299084; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1752694285; x=1753299085; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=ugGfw2VY9clI/uFiDBLfJMlcFJHXwCMAz/SON03qpmQ=;
-        b=OTeyEarMwTNGY7sVjJtF7mKje2FdvGi8mr5OiqEUXD6VJ5647AWHPpwNweoPyuVq/u
-         CC6SPLltcsJKkSD2mmcCmOHc8JepaHCApcjYoWvwqynMPTPReyJsAxIR/Wr01N688xOe
-         Ib+cGlKQl4ifll3OMLon8yBfBjPmsc+q5wcOXOac5F76vQ6kth/+bRuPNUuvLEAcUs/N
-         FrAuFxpsZ7ZdauxaroikX8IwcMEMO/Akv2fiknOULqU93vlHSnYar/t0PSnBTgvka5Vr
-         0bPm569NPV/lKo6JrjqwOBw8Kyjt2tk1l1Ls3VP5wZ21HjSbnAt7eos3wSKiuFZRy2aa
-         VJrw==
+        bh=wVxh55aabjNpQwgd6JsidGTK+fKXf2/FtFM7EHjRQPc=;
+        b=FsPU6NBBHVGMKd1ZPEkiiPx57UKeTJiVHHulSUc0euoVJD8DFTkxhanv6ThL2tfpSS
+         YTr2fOSCnZGnatrb3EqClcLSMwDhbyimXjuZMSdlJy4fNsLooQnpvlkH0YMzueYQLzhz
+         C2TPSc4XNz6QkYUI5hZcywNUusodcqQH3cqluZP1A4zWKU62bPig6ba0QRQwYVpniH6G
+         q7m8WQXu1PgmZtavmligJDHbvnuec2qGg1+QwwBTEci+oKfdpekvUMFqh2A9pnu+Rexq
+         Y1Rtemxp4+kga4rQPU2nZ3ZaMJdcLD/JWxz5p515kIH8Y/t8YHChFAkGfkHN8PI2qHAO
+         55Gg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752694284; x=1753299084;
+        d=1e100.net; s=20230601; t=1752694285; x=1753299085;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=ugGfw2VY9clI/uFiDBLfJMlcFJHXwCMAz/SON03qpmQ=;
-        b=YMKI8ae/spvl2Y+iXCvF/84HW7Cn+MwNlWiAff4Ngy/+xODCdP1gLTHJSYfMwlcJl7
-         znUxlXBZw+hrEhEkD6Ffbdmxo2X7Kc451DwbMxnfEYXRe7Yf9duKvkRQw63tulLg650P
-         4VUgc8G8r/kyjb1d6P5qQ8OA5zsqCkcePWxYqy7qgY3XFiOuSFfMmuY8HLBjQbDB4c8E
-         0dlV+Qk4J9dvopZbG3iNdI+pS4J1NvxZv4BeiQFiOQMzCGSPoplGkrXpDd4t2wP0wJxP
-         WgQe16C5Vqa2UwtV/vfUgx/5/9DckeITBA+J6A2QJZ8hzcJgXCWk6ktkURV4CWhw0FZj
-         jb8A==
-X-Forwarded-Encrypted: i=1; AJvYcCWU0nt5EHLjEAUVrLg6WG0J8sFxEfI0k+e/TZ8oa1D2jqAX8GTcDmrgayPaw/R0FlhFw85OsQ8eG7JPPFTw@lists.linux.dev
-X-Gm-Message-State: AOJu0YxinyRTQ9pdoliBI1+Y02fFL/WorNSFgeA6Js+DmkFjM+hmpQyR
-	lq3vL4+Zx26sPGvvmOB6BjRE+M4tkTf9gCozLFGHI0mbOLvS+zZYQ8xl
-X-Gm-Gg: ASbGncs1+VxzW0zMei3MI6aUAB/15oxqjzN4dnGHd6DLKZI4ingsCja7MY3tMxdVMdD
-	1Gjt16oJ38xoarhwtZn2k60iFnE4ptljCsNa8fyYix8JrTth8MRmFulfBGGeoEEU0DCxRXRXaMW
-	utXcj7jrF3o/zdkv/4BpWeGhzj/DUbQCsMwmF4rVFdEOjmmfdUgxdFsXtCGz9+CoOMdVsZbPR2E
-	2EUetZby3GogqE61yz9+ggSM2i5HYD3xStXg7aRtRTxFI8mOCf60h+qBO6rPJwNjM6nJnIkJgid
-	wl2is//7dq15jHYnr4xi2VHdyxUiBrcS9TiNgp7rZVQczjkLr0LCQFUg37sLr9CIgSd3OGFUR3s
-	0KheJnw3vDCEHUAgKTtxBxYeTjsIBJm2PNgA=
-X-Google-Smtp-Source: AGHT+IF1oWUA1OVfQOx4un1l96swc4j/iudsLCvxwM4vbZlbA9kI9dWlcOanNjxGseag2MN8Zx+TEw==
-X-Received: by 2002:a17:907:983:b0:ae0:cde3:4bbd with SMTP id a640c23a62f3a-ae9ce14a5edmr399552966b.44.1752694283416;
-        Wed, 16 Jul 2025 12:31:23 -0700 (PDT)
+        bh=wVxh55aabjNpQwgd6JsidGTK+fKXf2/FtFM7EHjRQPc=;
+        b=KGjRXtCKTqY4KxnKgfnurbO70lgPRW09JcTQ62YwKwj4ZSwsztR60tQ5INoOnxnMml
+         U972rSF5+UqkhvcjqlqcQAbB8d8p9ZJTT+yqYqgOJKDyI0CN8KDV0NcBvA+PgtQ1ciOp
+         /N6nouwYW64+UCWba45Sj63KQLH3ci44rugNU+nmSSapGkif7edT4M7ieNBYd8usXqrS
+         YDYbbMtPyMNzu9ssEApuU3zJ5ajbSN+xWqe32UtxQWd4N+uQ+aakT6FiqGfQA4N6+SfW
+         sontDl0pIlFJcEVqXMVbV6NoWO9QMyiei7vOrS9ek2QwnC+tMTcgjSxrEhVznChcWkkv
+         zbRQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXKwgyCO5NiPaBa/uglYBpJqhLKGKX6AhVxllWFlKVO+zq3bBSWZVkiTdFpDUA6Xy0+ETLaVvOfi9+j92LC@lists.linux.dev
+X-Gm-Message-State: AOJu0YwyGlGcVZVeCDcJDHwgtzYzFLZOGt//OJyPwagLs+alF1v1wcKJ
+	iTRVZWZ+u2bhDfAUaW7znG6VIGkntA8JtuHFNv/FOh3HXPBxpOvv2lvC
+X-Gm-Gg: ASbGncvi+rhKe9wpRP6GDsWnd8sv7k8lvYmvUOo16z8mAbc0tSYf4+Omo0Z1QhlmY1+
+	IU3SnNmcrfsQLOJl4vY4dNnkywLBWbnBu8leccdlGhYC/yBBWo+JgS+N7kN7cZCUV5eYCR+6fiv
+	T4cZpisJRvwUuMCznyynhRo1WUKlDDm2ZpyqJ1fvGwBNGBgLXcvbsLC67qRjkAQMtXsZqjU8nHk
+	HErOwfwnHedYEFLc+CyitlpBWGu8ihu3TdPDXu8J9wBs7m9ZzoaokULjaZeqvkLZX/pFD8xA8M2
+	k616GFtemepmijiCPuoCnhklg7qte8Y4C/jFU/B32eZc5gCKb6BLuhh0+UXOv894qaDQk071CvF
+	GDQkr8Fi2uvgvhsmuVocuKVBvhG1ZRm+iGJU=
+X-Google-Smtp-Source: AGHT+IFSA4AiC68Qy08vTumwlbKm1tuQWQ2gsGG9cujoxGVmA40XsWkJjJbkAdrdu2z+pb2qG6iypQ==
+X-Received: by 2002:a17:906:9f8b:b0:add:f2c8:7d3f with SMTP id a640c23a62f3a-aec4fbea90bmr19353366b.33.1752694285308;
+        Wed, 16 Jul 2025 12:31:25 -0700 (PDT)
 Received: from demon-pc.localdomain ([188.27.131.45])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ae6e82df54csm1226534666b.155.2025.07.16.12.31.22
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ae6e82df54csm1226534666b.155.2025.07.16.12.31.24
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 16 Jul 2025 12:31:23 -0700 (PDT)
+        Wed, 16 Jul 2025 12:31:24 -0700 (PDT)
 From: Cosmin Tanislav <demonsingur@gmail.com>
 To: Cosmin Tanislav <cosmin.tanislav@analog.com>,
 	Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
@@ -74,10 +74,11 @@ Cc: linux-media@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
 	linux-staging@lists.linux.dev,
-	linux-gpio@vger.kernel.org
-Subject: [PATCH v6 01/24] media: mc: Add INTERNAL pad flag
-Date: Wed, 16 Jul 2025 22:30:46 +0300
-Message-ID: <20250716193111.942217-2-demonsingur@gmail.com>
+	linux-gpio@vger.kernel.org,
+	Cosmin Tanislav <demonsingur@gmail.com>
+Subject: [PATCH v6 02/24] dt-bindings: media: i2c: max96717: add myself as maintainer
+Date: Wed, 16 Jul 2025 22:30:47 +0300
+Message-ID: <20250716193111.942217-3-demonsingur@gmail.com>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <20250716193111.942217-1-demonsingur@gmail.com>
 References: <20250716193111.942217-1-demonsingur@gmail.com>
@@ -89,95 +90,41 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
+Analog Devices is taking responsability for the maintenance of the Maxim
+GMSL2/3 devices.
+Add myself to the maintainers list and to the device tree bindings.
 
-Internal source pads will be used as routing endpoints in V4L2
-[GS]_ROUTING IOCTLs, to indicate that the stream begins in the entity.
-Internal source pads are pads that have both SINK and INTERNAL flags set.
-
-Also prevent creating links to pads that have been flagged as internal and
-initialising SOURCE pads with INTERNAL flag set.
-
-Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+Signed-off-by: Cosmin Tanislav <demonsingur@gmail.com>
+Acked-by: Rob Herring (Arm) <robh@kernel.org>
 ---
- .../userspace-api/media/mediactl/media-types.rst       |  8 ++++++++
- drivers/media/mc/mc-entity.c                           | 10 ++++++++--
- include/uapi/linux/media.h                             |  1 +
- 3 files changed, 17 insertions(+), 2 deletions(-)
+ Documentation/devicetree/bindings/media/i2c/maxim,max96717.yaml | 1 +
+ MAINTAINERS                                                     | 1 +
+ 2 files changed, 2 insertions(+)
 
-diff --git a/Documentation/userspace-api/media/mediactl/media-types.rst b/Documentation/userspace-api/media/mediactl/media-types.rst
-index 6332e8395263b..f55ef055bcf85 100644
---- a/Documentation/userspace-api/media/mediactl/media-types.rst
-+++ b/Documentation/userspace-api/media/mediactl/media-types.rst
-@@ -361,6 +361,7 @@ Types and flags used to represent the media graph elements
- .. _MEDIA-PAD-FL-SINK:
- .. _MEDIA-PAD-FL-SOURCE:
- .. _MEDIA-PAD-FL-MUST-CONNECT:
-+.. _MEDIA-PAD-FL-INTERNAL:
+diff --git a/Documentation/devicetree/bindings/media/i2c/maxim,max96717.yaml b/Documentation/devicetree/bindings/media/i2c/maxim,max96717.yaml
+index d1e8ba6e368ec..15ab37702a927 100644
+--- a/Documentation/devicetree/bindings/media/i2c/maxim,max96717.yaml
++++ b/Documentation/devicetree/bindings/media/i2c/maxim,max96717.yaml
+@@ -9,6 +9,7 @@ title: MAX96717 CSI-2 to GMSL2 Serializer
  
- .. flat-table:: Media pad flags
-     :header-rows:  0
-@@ -381,6 +382,13 @@ Types and flags used to represent the media graph elements
- 	  enabled links even when this flag isn't set; the absence of the flag
- 	  doesn't imply there is none.
+ maintainers:
+   - Julien Massot <julien.massot@collabora.com>
++  - Cosmin Tanislav <cosmin.tanislav@analog.com>
  
-+    *  -  ``MEDIA_PAD_FL_INTERNAL``
-+       -  The internal flag indicates an internal pad that has no external
-+	  connections. Such a pad shall not be connected with a link.
-+
-+	  The internal flag may currently be present only in a source pad where
-+	  it indicates that the :ref:``stream <media-glossary-stream>``
-+	  originates from within the entity.
+ description:
+   The MAX96717 serializer converts MIPI CSI-2 D-PHY formatted input
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 24c557ee091d7..e973b0a985815 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -14761,6 +14761,7 @@ F:	drivers/media/i2c/max96714.c
  
- One and only one of ``MEDIA_PAD_FL_SINK`` and ``MEDIA_PAD_FL_SOURCE``
- must be set for every pad.
-diff --git a/drivers/media/mc/mc-entity.c b/drivers/media/mc/mc-entity.c
-index 0455909055820..d1feacc608072 100644
---- a/drivers/media/mc/mc-entity.c
-+++ b/drivers/media/mc/mc-entity.c
-@@ -213,7 +213,9 @@ int media_entity_pads_init(struct media_entity *entity, u16 num_pads,
- 		iter->index = i++;
- 
- 		if (hweight32(iter->flags & (MEDIA_PAD_FL_SINK |
--					     MEDIA_PAD_FL_SOURCE)) != 1) {
-+					     MEDIA_PAD_FL_SOURCE)) != 1 ||
-+		    (iter->flags & MEDIA_PAD_FL_INTERNAL &&
-+		     !(iter->flags & MEDIA_PAD_FL_SINK))) {
- 			ret = -EINVAL;
- 			break;
- 		}
-@@ -1118,7 +1120,8 @@ int media_get_pad_index(struct media_entity *entity, u32 pad_type,
- 
- 	for (i = 0; i < entity->num_pads; i++) {
- 		if ((entity->pads[i].flags &
--		     (MEDIA_PAD_FL_SINK | MEDIA_PAD_FL_SOURCE)) != pad_type)
-+		     (MEDIA_PAD_FL_SINK | MEDIA_PAD_FL_SOURCE |
-+		      MEDIA_PAD_FL_INTERNAL)) != pad_type)
- 			continue;
- 
- 		if (entity->pads[i].sig_type == sig_type)
-@@ -1148,6 +1151,9 @@ media_create_pad_link(struct media_entity *source, u16 source_pad,
- 		return -EINVAL;
- 	if (WARN_ON(!(sink->pads[sink_pad].flags & MEDIA_PAD_FL_SINK)))
- 		return -EINVAL;
-+	if (WARN_ON(source->pads[source_pad].flags & MEDIA_PAD_FL_INTERNAL) ||
-+	    WARN_ON(sink->pads[sink_pad].flags & MEDIA_PAD_FL_INTERNAL))
-+		return -EINVAL;
- 
- 	link = media_add_link(&source->links);
- 	if (link == NULL)
-diff --git a/include/uapi/linux/media.h b/include/uapi/linux/media.h
-index 1c80b1d6bbaf3..80cfd12a43fc1 100644
---- a/include/uapi/linux/media.h
-+++ b/include/uapi/linux/media.h
-@@ -208,6 +208,7 @@ struct media_entity_desc {
- #define MEDIA_PAD_FL_SINK			(1U << 0)
- #define MEDIA_PAD_FL_SOURCE			(1U << 1)
- #define MEDIA_PAD_FL_MUST_CONNECT		(1U << 2)
-+#define MEDIA_PAD_FL_INTERNAL			(1U << 3)
- 
- struct media_pad_desc {
- 	__u32 entity;		/* entity ID */
+ MAX96717 GMSL2 SERIALIZER DRIVER
+ M:	Julien Massot <julien.massot@collabora.com>
++M:	Cosmin Tanislav <cosmin.tanislav@analog.com>
+ L:	linux-media@vger.kernel.org
+ S:	Maintained
+ F:	Documentation/devicetree/bindings/media/i2c/maxim,max96717.yaml
 -- 
 2.50.1
 
