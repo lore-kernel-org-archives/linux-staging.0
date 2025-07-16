@@ -1,36 +1,37 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 396D31FECB0
-	for <linux-staging@lists.linux.dev>; Wed, 16 Jul 2025 12:00:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47A8A291C09
+	for <linux-staging@lists.linux.dev>; Wed, 16 Jul 2025 12:00:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752667209; cv=none; b=R8uqZZ934qNrL+LvQGHqcpazB3yhm0bVTdUivn/IDWtlj+YuYS1TQLnwaY9LNAlxeoQ+jw6MlQBE1AHZ7un24l+Kysrj1X+7POs4ryVoRO4nm1QXAPzY8GA+lHA5SClgahMP1Hze6qiBRlXotmFCv9zrtpris52kZNnA0BCOXhE=
+	t=1752667217; cv=none; b=ToFPf1fuvGHJJdOzazI4wwueL6zXG6U2sp1m5UaZ5jQWLH+GCy0RyrdPkSonlKr6fEvHCskr9nJ2JA20XJflzxdtCfcfxkMpMCy4lw1s65oQpIzhOSJEXJrIfownTlVt3WzlqISr/eViUuxHWQXg+LOxoA+FRPGjSbAAni1ZF6M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752667209; c=relaxed/simple;
-	bh=REfYG0y1V5JUVC4Q7wIXUcib7iF+kuVZMdibeSMEPlQ=;
+	s=arc-20240116; t=1752667217; c=relaxed/simple;
+	bh=9J6L7nD5y/l9QYLzuxnlujD/YX9mrzTzB85d/jCYy7U=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=sU2l/02mAFZowLTOQpGxcfcZlJeBASZLYh1mLw6JQ3lTPNs6XpmOJm4a3jcKo8FELfU2y54J+aUWOo0SeP3/vEfpdrJXTTv/vENe8pD+Vk+lLXDmBKF4k1SzuaWaXzAVW8Y+VLYJH9gm/fPyDubkU4eZuzcQFNUMfCXXfORvgVo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=TZpL51ow; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=bQKV08qh4qg6HPQboqdjjy/QDLDTxCfQmwdIYOX80f+uK1uoN0Wi5chYwZ3nBdx0VCqIzMbrGcGuHvixGLNWs4v+abmS2BqKDuuBEX+FSCCR7Hokx2uyoxONqH54d90AumqTgAnY3RAIxO13/a+leXC3YejTWN4A47hKwWoc+sQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=DxcKQ7NF; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="TZpL51ow"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 67F53C4CEF0;
-	Wed, 16 Jul 2025 12:00:08 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="DxcKQ7NF"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7D4F1C4CEF0;
+	Wed, 16 Jul 2025 12:00:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1752667208;
-	bh=REfYG0y1V5JUVC4Q7wIXUcib7iF+kuVZMdibeSMEPlQ=;
+	s=korg; t=1752667216;
+	bh=9J6L7nD5y/l9QYLzuxnlujD/YX9mrzTzB85d/jCYy7U=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=TZpL51ow2z922MHN6YlmciaZ1cY/pJi1V90TcNm0wML/ILMuf+9wfqx1JKp8SEjZi
-	 tSGMJRC6Jw08sFWqLxjWBQwnX4Mdg2h1BzoeOjK6qYygXuWDbObALrdBO0P60CfKlx
-	 +VNtPRa/X1FYhap7Rm8H0kawG4pYSZCY+RmNJxBQ=
-Date: Wed, 16 Jul 2025 14:00:06 +0200
+	b=DxcKQ7NFejD2UUMN4Nnr5i9E23UJP14r4w01Mdl43gSMhpT69dI62F2/E87/Zg9gu
+	 0G3VlnUBesfeS90B9KEOIhzENbCyYbgTiQqPYWD0gpHRj+L1USgKapyZq0deqftaNz
+	 Ez7Rdp1YGcghOztDfdWQL+1fpTdjVeE964G03Tao=
+Date: Wed, 16 Jul 2025 14:00:14 +0200
 From: Greg KH <gregkh@linuxfoundation.org>
 To: Ignacio =?iso-8859-1?Q?Pe=F1a?= <ignacio.pena87@gmail.com>
 Cc: linux-staging@lists.linux.dev
-Subject: Re: [PATCH v2 1/3] staging: rtl8723bs: remove unnecessary comment
- separator lines
-Message-ID: <2025071645-portly-battalion-a295@gregkh>
+Subject: Re: [PATCH v2 2/3] staging: rtl8723bs: add missing blank line after
+ declaration
+Message-ID: <2025071610-level-puritan-d840@gregkh>
 References: <20250716113740.73025-1-ignacio.pena87@gmail.com>
+ <20250716113740.73025-2-ignacio.pena87@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -40,74 +41,35 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250716113740.73025-1-ignacio.pena87@gmail.com>
+In-Reply-To: <20250716113740.73025-2-ignacio.pena87@gmail.com>
 
-On Wed, Jul 16, 2025 at 07:37:38AM -0400, Ignacio Peña wrote:
+On Wed, Jul 16, 2025 at 07:37:39AM -0400, Ignacio Peña wrote:
 > From: Ignacio Pena <ignacio.pena87@gmail.com>
 > 
-> Remove the long dashed separator lines from block comments as they
-> don't follow kernel coding style, as suggested by Greg KH.
+> Fix checkpatch warning by adding required blank line after variable
+> declaration in Efuse_CalculateWordCnts function.
 > 
 > Signed-off-by: Ignacio Pena <ignacio.pena87@gmail.com>
 > ---
->  drivers/staging/rtl8723bs/core/rtw_efuse.c | 6 ------
->  1 file changed, 6 deletions(-)
+>  drivers/staging/rtl8723bs/core/rtw_efuse.c | 1 +
+>  1 file changed, 1 insertion(+)
 > 
 > diff --git a/drivers/staging/rtl8723bs/core/rtw_efuse.c b/drivers/staging/rtl8723bs/core/rtw_efuse.c
-> index 7a74b011d..abc123def 100644
+> index abc123def..def456abc 100644
 > --- a/drivers/staging/rtl8723bs/core/rtw_efuse.c
 > +++ b/drivers/staging/rtl8723bs/core/rtw_efuse.c
-> @@ -70,7 +70,6 @@ Efuse_Write1ByteToFakeContent(u16 Offset, u8 Value)
->   * When			Who		Remark
->   * 11/17/2008	MHC		Create Version 0.
->   *
-> - *---------------------------------------------------------------------------*/
->  void
->  Efuse_PowerSwitch(
->  struct adapter *padapter,
-> @@ -163,7 +162,6 @@ EFUSE_GetEfuseDefinition(
->   * When			Who		Remark
->   * 09/23/2008	MHC		Copy from WMAC.
->   *
-> - *---------------------------------------------------------------------------*/
->  u8
->  EFUSE_Read1Byte(
->  struct adapter *Adapter,
-> @@ -313,7 +311,6 @@ Efuse_WordEnableDataWrite(struct adapter *padapter,
->   * When			Who		Remark
->   * 11/11/2008	MHC		Create Version 0.
->   *
-> - *---------------------------------------------------------------------------*/
->  void
->  Efuse_ReadAllMap(
->  	struct adapter *padapter,
-> @@ -350,7 +347,6 @@ void Efuse_ReadAllMap(struct adapter *padapter, u8 efuseType, u8 *Efuse, bool bP
->   * When			Who		Remark
->   * 11/12/2008	MHC		Create Version 0.
->   *
-> - *---------------------------------------------------------------------------*/
->  static void efuse_ShadowRead1Byte(struct adapter *padapter, u16 Offset, u8 *Value)
+> @@ -84,6 +84,7 @@ u8
+>  Efuse_CalculateWordCnts(u8 word_en)
 >  {
->  	struct eeprom_priv *pEEPROM = GET_EEPROM_EFUSE_PRIV(padapter);
-> @@ -396,7 +392,6 @@ static void efuse_ShadowRead4Byte(struct adapter *padapter, u16 Offset, u32 *Val
->   * When			Who		Remark
->   * 11/13/2008	MHC		Create Version 0.
->   *
-> - *---------------------------------------------------------------------------*/
->  void EFUSE_ShadowMapUpdate(struct adapter *padapter, u8 efuseType, bool bPseudoTest)
->  {
->  	struct eeprom_priv *pEEPROM = GET_EEPROM_EFUSE_PRIV(padapter);
-> @@ -429,7 +424,6 @@ void EFUSE_ShadowMapUpdate(struct adapter *padapter, u8 efuseType, bool bPseudoT
->   * When			Who		Remark
->   * 11/12/2008	MHC		Create Version 0.
->   *
-> - *---------------------------------------------------------------------------*/
->  void EFUSE_ShadowRead(struct adapter *padapter, u8 Type, u16 Offset, u32 *Value)
->  {
->  	if (Type == 1)
+>  	u8 word_cnts = 0;
+> +
+>  	if (!(word_en & BIT(0)))
+>  		word_cnts++; /*  0 : write enable */
+>  	if (!(word_en & BIT(1)))
 > -- 
 > 2.39.5
 > 
+
 
 Hi,
 
