@@ -1,74 +1,69 @@
-Received: from mail-oi1-f171.google.com (mail-oi1-f171.google.com [209.85.167.171])
+Received: from mail-oa1-f45.google.com (mail-oa1-f45.google.com [209.85.160.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D3BD20C00C
-	for <linux-staging@lists.linux.dev>; Wed, 16 Jul 2025 05:34:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DF4420C00C
+	for <linux-staging@lists.linux.dev>; Wed, 16 Jul 2025 05:36:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752644045; cv=none; b=qfL1IP7FywpUo45YD7+J3AGcMBiN9zCWYSZZ3xipI8vBE1f+Vdtpj9F9mBuQr3RKzgF9Xr6Q9A86vJoRuvL9A+BIVyqcuOY5myblG5bMJop25j4ATFHv/EZRUaHOh7mHN4iyUSfF6Tw+HxSOCp5d4qLHf/z/DoGlvQ6xgj0vW/s=
+	t=1752644181; cv=none; b=ueXlX0KrFA+3frdD4VG0yyFVeEUQbWP/Tpletu9ZHIRukE7ea8wAPSz9r+tNJkRsQa/uummqKgPGz01xtGkjhiaEB6U25pCVdSGWCLiD/ZTc2CuYi4jubjUvZHMqtEjnQLK3DrAJn9X425E5AhbrgtWIzOz8Gn0EZfrCZJbj7DE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752644045; c=relaxed/simple;
-	bh=b/4jnK7wBCumwLbQfLBj7/XTNYkNE0d7MMEpOcHfxtQ=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=GoifKk/RRSTArYdhYb//nWCvSxORcY3DXBnTX/mtbsbIgE+yDSxXzg+7ZQyACdLkhaqSuJVRs2ZdA/F0oQpGgfY8kDUrCyaoanpuxrC3xGHzFsWix6swNg2u3ODrRFXm+ML2xIiXxrpDbb11KhG1viCrp6mozhVdxJIQLjRbICU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YxYZhOTu; arc=none smtp.client-ip=209.85.167.171
+	s=arc-20240116; t=1752644181; c=relaxed/simple;
+	bh=M5INun39tksfwABwaRlV5j3FOvnT1FyBQQtsJpB1deM=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=baSRVroeRreF9z9WGf72J4KFIwnmOPMZRuFP27/j/baUOmLcUL9PzO7rh2ouaeNGPYptslNbPEK4Bo0XLv4CIcROOwIT834R2gkn0sC1yBfIE3sRBGBPIivv65TmJqZ/CjQXGvwZxn4X0Y6CbF1e9VO7sIDtvSfIiMSkBP1SVAk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lic/EceR; arc=none smtp.client-ip=209.85.160.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YxYZhOTu"
-Received: by mail-oi1-f171.google.com with SMTP id 5614622812f47-41b4bf6ead9so1113019b6e.3
-        for <linux-staging@lists.linux.dev>; Tue, 15 Jul 2025 22:34:03 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lic/EceR"
+Received: by mail-oa1-f45.google.com with SMTP id 586e51a60fabf-2ea58f008e9so5108585fac.0
+        for <linux-staging@lists.linux.dev>; Tue, 15 Jul 2025 22:36:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1752644043; x=1753248843; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=vtVAs0dckty3rF9uFcThORweDhh8/fwqpb41aaKhbks=;
-        b=YxYZhOTuLJawUJqFKRV9X8uqIWtnDi+Vp1VzHDWZCPvj5tBVrGUzUBkymmbtqrNzxZ
-         iQLXSTv1KWqNog9THurVD65Pk8u0hYtKCipwNikGpTMu8osl0WfVE+Ug1x+5rkh+CKRg
-         hGi0jYDjq7LDZr1AMl+YgVsrEBI9LRqMs7e7sNY4rsO64Wqwv3nczJ2GZlfvFEL+WWWC
-         T239epjCdYGLNBE9FgB8iTR3CUj3rmcJXfroq2qWeGerihQBoej6b+WAMrEmfyd57QcD
-         MdCevEKOkMyeOkpBe9uIdqcgFPVQiDfHoKqjspJ5XxX0BES192qjTTOceO60vrnKYrna
-         z25w==
+        d=gmail.com; s=20230601; t=1752644178; x=1753248978; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=IEsa6lnqOzYqGSywCIC1dTTftmFfal8UqYSzAjHrOFk=;
+        b=lic/EceR/3LnssOpdsB4XO04J/MOCn/wDE0BSjE1mdeFC466TuOsefd+2VEYnN/QUF
+         833yqgcHmx6YU3vXYh33JfZk1DwNXl1HDEhAFGTPirxChTQTjLm/UYu1IAv01zY7hy07
+         +fSi4tps0sDWq7LkOA5DUrdOLOkY1UK0Eiwd0EqcR6YgbN++Era+mpQKFc6MEh8+SlWp
+         G85lr7uDUQlYnV5JFkJWa4YumhSEl13vqAvfEtrJq4oVnWsZAOc1camG8leeabJ0fIVE
+         R7fEnB1Vki57oHTbeWfNnSfupNKRa3DtQN9VpS8iOKlNsdTRcSFXd2p+gMWWVXXXbQ2A
+         eKog==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752644043; x=1753248843;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=vtVAs0dckty3rF9uFcThORweDhh8/fwqpb41aaKhbks=;
-        b=xDEvNEPbT1saiKADf9rHAzqwTw+PoAO5vcGsh6bCdnNS0JgQeLzG3fF2lOev7UeOuq
-         KcAs4639lwtc8Ff+sEtdISVQW5H4BxOELNad1u99ZZIfFLRpweb+Nqi4DajiVJ69qZky
-         sWFs0vQnCWa+6Z+1lMQ007jKinVFLzQC6i4Gw17fPcAAXlt/oBvwYGen8TN73yNyjKQU
-         hWhCLzm31nhpLL3V7XNeTwjrttHQIEyabN5UOxe9GmSAHTobNfs12N1GfbwQ2hch2Jph
-         qHzcx4SigEnFR+kDSlHYgneNnkT+ToDPVDq5zMee9hGtjmbjm9qAAa0cnivFLU9rL/75
-         0UQw==
-X-Forwarded-Encrypted: i=1; AJvYcCUdl/fINHvd+D5e+S+AZFPD5rWk/Q812SWloYs79G6exjKJx6IGmRd434Z4YTGKQL5t2Fj4IKCpGUBYxSBN@lists.linux.dev
-X-Gm-Message-State: AOJu0Yw7LYy7vK+zf4QtHBy3csInMSSzIpVdmPozA5x7MuoPMhhD+P0n
-	ryB+uwQSilIr1e3h+UC0W5hPqZZrlNO6ZUFu4RlSMJX6WFtnQemWhkrV
-X-Gm-Gg: ASbGncvZ8wWbwKflzplCKYhuCWc68TLMvlYghxsZLHF7x457z+BvUEb0uadGwsuN3K6
-	UHNIJusrnSHQ7RYuqg2wZxFp3JIpenyGdzePJ7wkVoOnAf0UyvhYQdCb77HyM+j00mGxAZJRQnr
-	lMxxnySHPuZKBY7SngVaco+OYO8FyOzRE/gwSDyfWlx3wjlOk2sl+A5J/oFSypZMmADIuA6nnhY
-	1GoX/8jSWkPYNUBd85PXlPTqsQDJMy64RSkbcRW8b1yuDsLvZ0XDmd8wbqw0ND4gGpYL38V/wQ5
-	D4LVimfIdEPpKQacKptUP/vWdMNZyUMIUY0/TUm4hhGcOG8gD/z6RJCia9fr5RwAqZulaMGnzyt
-	cTWMCOqCkjvcqsmoL9xlDRdpBeu+vIXswhVgn49UnZeL4jxt/FDcp
-X-Google-Smtp-Source: AGHT+IGQeWUtcX4ONb5+oo1zJNydqczAFN9t20DW1rCwQcnbWKUbkfn5+jG1r+xJ4gt/kHGNfqDCEQ==
-X-Received: by 2002:a05:6808:50a4:b0:405:6b13:ca55 with SMTP id 5614622812f47-41d05c3ca63mr1063722b6e.37.1752644043054;
-        Tue, 15 Jul 2025 22:34:03 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1752644178; x=1753248978;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=IEsa6lnqOzYqGSywCIC1dTTftmFfal8UqYSzAjHrOFk=;
+        b=gK8lDG1XrKslNBjqnf2fgqXJj9h7a/rPokARJQeQQ/mKx/AgO7MgNQQdsStiT9b+d5
+         h5pDv97EqFe/Te8t7DRzXr8LXZgy+wh2tVTZRGYiigmnUYA1xef9VpPgPwc/fNEt2QEc
+         Iqx1QssRZKkh5ajC8j/D5CDZ/q3EbbFAeONJ40yfpKkq1v+BvTdpeOmRXT8ph7q3nsUb
+         COtlWngDsOt2VHGodIerfxRwL4XTrQFXsFyMhE/0K/rL6Tm1mXWoEgBm4s+FeifHd45t
+         0IPwlUslWZN8Huh13XHTkX1Kho1BWwCeAbV1axumtIRLk3CilCIIlQaKq4my5L8xNFGa
+         DCUA==
+X-Forwarded-Encrypted: i=1; AJvYcCU2b+AP+Rj6R4246TulruoInttxc5LocMqWhYqpgzAYPVK6Ni6KXSA1DABPHHlmM2KpDh5HrYWWFsp9dI4F@lists.linux.dev
+X-Gm-Message-State: AOJu0YxIHdpEGeRb5k9773s2C3lbumRScPAMairvd3Z7UrELCx8mYzy5
+	cHA3/infIdiGET1Y54hC95GiospRGh7QXkaPsxGKHocBsPdoDM8oosHU
+X-Gm-Gg: ASbGncsvwyt85z5qJJm5leh6AtVaSSjw21Dd56+cGnHyAp1+yBc+mSzljZJYH7EfYDW
+	nfb5kboGmBOtjsDiCJV02LdkgLdorAylxtZyKufmLPSIkdZWR1+UeUbUnZgIcNbp7RvnMh5M8Kl
+	u1ZUMWg5icDk3iZAy9OlU3E8CpZxYrr6gepOsYJNkHLR5adzMWcWG6P7tsk5yx6QRRux1pbvUfL
+	JROJPfrGjkZ5HqmgikGAy0pjDq/Bs8R0ptj76QUWwKVOJBnPx8psk5fizBLILIlUo1JUu490bsF
+	DueS7Nh/VwT97t4nDG2o48KRm8z/98S3B/j8LFD4CPBOjqLd8Xhowdd2cRgrK5YTWidmltdYM+G
+	6tR+u97Slh/sM3+1olcJQKODFRQBF4I6c8V7Vf3jruXKrVHrlkNOg
+X-Google-Smtp-Source: AGHT+IFH4vPrAaApjfd33i2zkGsyjCi58GztaCj+Jehax8w9Qowdcq8pxC3vZduItj7XgwHaJ51Z9Q==
+X-Received: by 2002:a05:6871:589e:b0:2ff:a2c7:f01e with SMTP id 586e51a60fabf-2ffb2522176mr1103379fac.38.1752644178478;
+        Tue, 15 Jul 2025 22:36:18 -0700 (PDT)
 Received: from localhost.localdomain ([181.161.11.224])
-        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-2ff8ede965fsm1264461fac.40.2025.07.15.22.34.01
+        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-2ff111c379bsm3177613fac.5.2025.07.15.22.36.09
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 15 Jul 2025 22:34:02 -0700 (PDT)
+        Tue, 15 Jul 2025 22:36:12 -0700 (PDT)
 From: =?UTF-8?q?Ignacio=20Pe=C3=B1a?= <ignacio.pena87@gmail.com>
 To: gregkh@linuxfoundation.org,
 	linux-staging@lists.linux.dev
-Cc: dan.carpenter@linaro.org,
-	Ignacio Pena <ignacio.pena87@gmail.com>
-Subject: [PATCH v3 2/2] staging: sm750fb: fix CamelCase variable naming
-Date: Wed, 16 Jul 2025 01:33:57 -0400
-Message-Id: <20250716053357.64711-2-ignacio.pena87@gmail.com>
+Cc: Ignacio Pena <ignacio.pena87@gmail.com>
+Subject: [PATCH 1/3] staging: rtl8723bs: fix block comment end markers
+Date: Wed, 16 Jul 2025 01:36:02 -0400
+Message-Id: <20250716053604.64798-1-ignacio.pena87@gmail.com>
 X-Mailer: git-send-email 2.39.5 (Apple Git-154)
-In-Reply-To: <20250716053357.64711-1-ignacio.pena87@gmail.com>
-References: <20250716053357.64711-1-ignacio.pena87@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -79,105 +74,77 @@ Content-Transfer-Encoding: 8bit
 
 From: Ignacio Pena <ignacio.pena87@gmail.com>
 
-Replace CamelCase variable 'Bpp' with lowercase 'bpp' to fix
-checkpatch warnings about improper variable naming convention.
+Fix checkpatch warnings about block comment style by moving the
+closing comment marker '*/' to a separate line.
 
 Signed-off-by: Ignacio Pena <ignacio.pena87@gmail.com>
 ---
+ drivers/staging/rtl8723bs/core/rtw_efuse.c | 15 +++++++++------
+ 1 file changed, 9 insertions(+), 6 deletions(-)
 
-Changes in v3:
-- Removed the const declaration patch as g_fbmode is modified at runtime
-- Split only into alignment and naming fixes
-
- drivers/staging/sm750fb/sm750.c | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
-
-diff --git a/drivers/staging/sm750fb/sm750.c b/drivers/staging/sm750fb/sm750.c
-index def456abc123..789abc123def 100644
---- a/drivers/staging/sm750fb/sm750.c
-+++ b/drivers/staging/sm750fb/sm750.c
-@@ -161,7 +161,7 @@ static void lynxfb_ops_fillrect(struct fb_info *info,
+diff --git a/drivers/staging/rtl8723bs/core/rtw_efuse.c b/drivers/staging/rtl8723bs/core/rtw_efuse.c
+index 7a74b011d..1e2b3c456 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_efuse.c
++++ b/drivers/staging/rtl8723bs/core/rtw_efuse.c
+@@ -70,7 +70,8 @@ Efuse_Write1ByteToFakeContent(u16 Offset, u8 Value)
+  * When                        Who             Remark
+  * 11/17/2008  MHC             Create Version 0.
+  *
+- *---------------------------------------------------------------------------*/
++ *---------------------------------------------------------------------------
++ */
+ void
+ Efuse_PowerSwitch(
+ struct adapter *padapter,
+@@ -163,7 +164,8 @@ EFUSE_GetEfuseDefinition(
+  * When                        Who             Remark
+  * 09/23/2008  MHC             Copy from WMAC.
+  *
+- *---------------------------------------------------------------------------*/
++ *---------------------------------------------------------------------------
++ */
+ u8
+ EFUSE_Read1Byte(
+ struct adapter *Adapter,
+@@ -313,7 +315,8 @@ Efuse_WordEnableDataWrite(struct adapter *padapter,
+  * When                        Who             Remark
+  * 11/11/2008  MHC             Create Version 0.
+  *
+- *---------------------------------------------------------------------------*/
++ *---------------------------------------------------------------------------
++ */
+ void
+ Efuse_ReadAllMap(
+        struct adapter *padapter,
+@@ -350,7 +353,8 @@ void Efuse_ReadAllMap(struct adapter *padapter, u8 efuseType, u8 *Efuse, bool bP
+  * When                        Who             Remark
+  * 11/12/2008  MHC             Create Version 0.
+  *
+- *---------------------------------------------------------------------------*/
++ *---------------------------------------------------------------------------
++ */
+ static void efuse_ShadowRead1Byte(struct adapter *padapter, u16 Offset, u8 *Value)
  {
- 	struct lynxfb_par *par;
- 	struct sm750_dev *sm750_dev;
--	unsigned int base, pitch, Bpp, rop;
-+	unsigned int base, pitch, bpp, rop;
- 	u32 color;
- 
- 	if (info->state != FBINFO_STATE_RUNNING)
-@@ -175,10 +175,10 @@ static void lynxfb_ops_fillrect(struct fb_info *info,
- 	 */
- 	base = par->crtc.o_screen;
- 	pitch = info->fix.line_length;
--	Bpp = info->var.bits_per_pixel >> 3;
-+	bpp = info->var.bits_per_pixel >> 3;
- 
--	color = (Bpp == 1) ? region->color :
-+	color = (bpp == 1) ? region->color :
- 		((u32 *)info->pseudo_palette)[region->color];
- 	rop = (region->rop != ROP_COPY) ? HW_ROP2_XOR : HW_ROP2_COPY;
- 
-@@ -191,7 +191,7 @@ static void lynxfb_ops_fillrect(struct fb_info *info,
- 	spin_lock(&sm750_dev->slock);
- 
- 	sm750_dev->accel.de_fillrect(&sm750_dev->accel,
--				     base, pitch, Bpp,
-+				     base, pitch, bpp,
- 				     region->dx, region->dy,
- 				     region->width, region->height,
- 				     color, rop);
-@@ -203,7 +203,7 @@ static void lynxfb_ops_copyarea(struct fb_info *info,
+        struct eeprom_priv *pEEPROM = GET_EEPROM_EFUSE_PRIV(padapter);
+@@ -396,7 +400,8 @@ static void efuse_ShadowRead4Byte(struct adapter *padapter, u16 Offset, u32 *Val
+  * When                        Who             Remark
+  * 11/13/2008  MHC             Create Version 0.
+  *
+- *---------------------------------------------------------------------------*/
++ *---------------------------------------------------------------------------
++ */
+ void EFUSE_ShadowMapUpdate(struct adapter *padapter, u8 efuseType, bool bPseudoTest)
  {
- 	struct lynxfb_par *par;
- 	struct sm750_dev *sm750_dev;
--	unsigned int base, pitch, Bpp;
-+	unsigned int base, pitch, bpp;
- 
- 	par = info->par;
- 	sm750_dev = par->dev;
-@@ -214,7 +214,7 @@ static void lynxfb_ops_copyarea(struct fb_info *info,
- 	 */
- 	base = par->crtc.o_screen;
- 	pitch = info->fix.line_length;
--	Bpp = info->var.bits_per_pixel >> 3;
-+	bpp = info->var.bits_per_pixel >> 3;
- 
- 	/*
- 	 * If not use spin_lock, system will die if user load driver
-@@ -226,7 +226,7 @@ static void lynxfb_ops_copyarea(struct fb_info *info,
- 
- 	sm750_dev->accel.de_copyarea(&sm750_dev->accel,
- 				     base, pitch, region->sx, region->sy,
--				     base, pitch, Bpp, region->dx, region->dy,
-+				     base, pitch, bpp, region->dx, region->dy,
- 				     region->width, region->height,
- 				     HW_ROP2_COPY);
- 	spin_unlock(&sm750_dev->slock);
-@@ -235,7 +235,7 @@ static void lynxfb_ops_imageblit(struct fb_info *info,
- 				 const struct fb_image *image)
+        struct eeprom_priv *pEEPROM = GET_EEPROM_EFUSE_PRIV(padapter);
+@@ -429,7 +434,8 @@ void EFUSE_ShadowMapUpdate(struct adapter *padapter, u8 efuseType, bool bPseudoT
+  * When                        Who             Remark
+  * 11/12/2008  MHC             Create Version 0.
+  *
+- *---------------------------------------------------------------------------*/
++ *---------------------------------------------------------------------------
++ */
+ void EFUSE_ShadowRead(struct adapter *padapter, u8 Type, u16 Offset, u32 *Value)
  {
- 	unsigned int base, pitch, Bpp;
-+	unsigned int base, pitch, bpp;
- 	unsigned int fgcol, bgcol;
- 	struct lynxfb_par *par;
- 	struct sm750_dev *sm750_dev;
-@@ -248,7 +248,7 @@ static void lynxfb_ops_imageblit(struct fb_info *info,
- 	 */
- 	base = par->crtc.o_screen;
- 	pitch = info->fix.line_length;
--	Bpp = info->var.bits_per_pixel >> 3;
-+	bpp = info->var.bits_per_pixel >> 3;
- 
- 	/* TODO: Implement hardware acceleration for image->depth > 1 */
- 	if (image->depth != 1) {
-@@ -274,7 +274,7 @@ static void lynxfb_ops_imageblit(struct fb_info *info,
- 
- 	sm750_dev->accel.de_imageblit(&sm750_dev->accel,
- 				      image->data, image->width >> 3, 0,
--				      base, pitch, Bpp,
-+				      base, pitch, bpp,
- 				      image->dx, image->dy,
- 				      image->width, image->height,
- 				      fgcol, bgcol, HW_ROP2_COPY);
+        if (Type == 1)
 -- 
-2.39.3
+2.39.5
