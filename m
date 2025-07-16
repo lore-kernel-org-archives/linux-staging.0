@@ -1,67 +1,107 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E318B67F
-	for <linux-staging@lists.linux.dev>; Wed, 16 Jul 2025 07:40:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D302F28C5BD;
+	Wed, 16 Jul 2025 08:11:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752651625; cv=none; b=UKL7UrmI7KWWe3kO2SbwYSWC0PYUiGtiE3A5kFcQF3xascAoFafKSCYLo+Y61TkOU0iBEq5UAjMAVtbhj4vUwHPo+H1blwNe0qjQ/d5RXPH+7clyyH+Jr9PUrTY4ppGE9iTaDovjnINHY81kGCGW37x9XktarJmV929hhSXjjgI=
+	t=1752653499; cv=none; b=GVBhIaoJS6/pT7s4pvY7DJ0h2zg2MBpgcHNZfOINAGta5vwk9Q8tPv8dHCnK9Zc/zeZMc6M7PNH07NB5u7i/5uiHmRgWJ5Ufi9G14aWI6KTGeP+uwcSz5+kMZflIJjRW8f1jAVWW4PF6U8tyVSddMJtNBSI1/OxqRMrkMxBu21I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752651625; c=relaxed/simple;
-	bh=1yPFQr+LQ7wcO8XPJ4Yn13eZFfHEKxgk28BiUOh/5mc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=RukcfQ7RtdD61NzeTfimYD/u1x+S7HPDhgrPiVsSVHMxnFPmvVX11dY7AQuf0yNZop7iI3+TtjvPpNxZ7T13mf51nux9PYdaNcFMuuejBGYBPtalfK/Tze/hYv4O4t0OaJLa2OSkKrr+9E4xIF6H7d6WR1QvTGvGgyh1uJDDRmM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=S4MeuuiR; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1752653499; c=relaxed/simple;
+	bh=k79BMsIbK+zTQT1FqOMBe93RDWwnnBPN6W0nNfSHYXs=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=nZKXpwrYUNZ+05yR1mk1+hcz5cVn2r23Ww8R0e3dzoAe7iZRdQgDDPNBBBnXBPLIh8WVS75l7RiTLKDRjTq49DFlFEJNki9beH5dDMjuFB3Fs4PaItrl+4+p7OEAJaUq2sn+lLde5tyEMGZnN5s7EByR0volyFYxU2kXaXcC0H4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GfZnKHKq; arc=none smtp.client-ip=209.85.218.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="S4MeuuiR"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B12EFC4CEF0;
-	Wed, 16 Jul 2025 07:40:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1752651625;
-	bh=1yPFQr+LQ7wcO8XPJ4Yn13eZFfHEKxgk28BiUOh/5mc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=S4MeuuiRJ1wXZ8qEoH3OY8k1n/lNYd55D7r/IDa3lXQ/RqCqSt9j7V08FQ1SLtA7+
-	 hdCwsStMcZsVZqE5FEduso8f3GK2ShBTxUivdIpvSrD1B8aiSx44eV0tRfvmBCLIc+
-	 l9f2VRQIl8ggDp6GjNgzJznuDkoSmepVXmtbBqnw=
-Date: Wed, 16 Jul 2025 09:40:22 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Ignacio =?iso-8859-1?Q?Pe=F1a?= <ignacio.pena87@gmail.com>
-Cc: linux-staging@lists.linux.dev, dan.carpenter@linaro.org
-Subject: Re: [PATCH v3 2/2] staging: sm750fb: fix CamelCase variable naming
-Message-ID: <2025071650-plaza-doing-ce5d@gregkh>
-References: <20250716053357.64711-1-ignacio.pena87@gmail.com>
- <20250716053357.64711-2-ignacio.pena87@gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GfZnKHKq"
+Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-ae36dc91dc7so1096196266b.2;
+        Wed, 16 Jul 2025 01:11:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1752653496; x=1753258296; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=+J10ZHGKZA+2to8uQChpxJ+la5LZtKmfI+OysvrYK24=;
+        b=GfZnKHKqHAhEOouR5Hw4NAonqa5o1dzyCSHT7rIxSMu+17hhlK2nCoKkycMkSOgm4h
+         tgUoc9uMYMV2TnN2A3h//r3HaJoh0V207xJi056FRoy5RRYNXEtRrw7ATTqhlmiWVue4
+         pOyqxa0orxz2OKfUojoJPiib37gVvF5Zd+BqIjPLhUF3VVcOO6UkOxBVG7zARkwkLl61
+         aa6OsXoxzfa6He5KBvN+itjWu6gMuQqpgRc7uhj77qz00fNnl3lUKUWpMNiJj1oPQz78
+         Z3HoKDMA2oJhL04ApFQ6WvLPyeHFpIzdoL9ihPcCkntM6B9NDtnDXVBUobDv2k8HYAic
+         eK1Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1752653496; x=1753258296;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=+J10ZHGKZA+2to8uQChpxJ+la5LZtKmfI+OysvrYK24=;
+        b=IuBFwPj8uqXEMB0nkEAeXYVHQnKitcqqVoy1jbJwGctbgv8Pr9h1LIoOobeJX1QLB+
+         16b4oYD+pf9XYUd7ou9rnk/c/gW4NIa4W+Ghza7jeiKJf9FYfSUC1jJKKXPwVAlaKvOX
+         cdJgV15PEZIV47Ms4s3hG7ClUDCnS/iLYiOFLLRc64+xNiIsjJay1ti2bzQ0USxQ5qwT
+         ZFh9ksPRurNx78S4ew6YgwnCmIOlmr96pQQaCFBTtPueb0ITAqA/hjZUFiE5KI+DK0av
+         uI/SFtAH83jE3bAXOOQJ57F9uRYZrrEjhRYc+sX/FwUM68y1yWUe1sD2MESKbh45kfzT
+         Zk9A==
+X-Forwarded-Encrypted: i=1; AJvYcCVQ2GTye6RFMtoC9jOUvndfXn9Nac/bjjK95J/j3mfRVt6G2Jd9wtx8qUyqmr+m2nVuG/Y52QbkBLWm1gYcbA==@lists.linux.dev, AJvYcCX/qCAOHowd7TiFnitSVyB0nu6d17cybIVfc8pdybTvVMeI/DfhNhzFV9g7nnlHvt2ZTwzCd9HD8zGw+zo9RMVJlhlzpw==@lists.linux.dev
+X-Gm-Message-State: AOJu0YwHEpRdkkQFD42ARdPcM0w8JIE53zMab6beL3v7k2F6jDoL/Tk2
+	M5qTMCS6wZG9xpY72Yc8K9HlNbJyd2r9K8gpEdOwBZpqUHqLe6heVfMaqBTm0w87fwle70ux/33
+	puNXSg157bZI86/G7S46GlKXbc8x+ZuA=
+X-Gm-Gg: ASbGncuM5XeUZ09jzSNdCUG7MP7KgYC0SS0eL1y5QdLIXfWvtY3XiztD6P4Iur1k04l
+	5NltngEJAaVEB/J01NDAkkvdOciwe3DoXgsSEQVPDTbUnUDcsNIaCRBuVVWwqrwcBGB32zug90Z
+	7WrhlT0gADWQJl5ii9pHbe7ApnNGouqd2K7Wvrp4LdnZwzg1ln266VYKZxK57eSynMDSaQ8fNpr
+	i3CLUcZgw==
+X-Google-Smtp-Source: AGHT+IFdUeFRiLRYSzyqZz8go9Y8LtsVEDFel7v1v4PGl5CPO196A/RSkK7i/IOWULX4PwzobdlFqnfns3bzAhWFF2E=
+X-Received: by 2002:a17:907:f1ea:b0:add:fe17:e970 with SMTP id
+ a640c23a62f3a-ae9cddfe2e8mr163141766b.14.1752653495712; Wed, 16 Jul 2025
+ 01:11:35 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250716053357.64711-2-ignacio.pena87@gmail.com>
+References: <20250716014225.15279-1-abdelrahmanfekry375@gmail.com>
+In-Reply-To: <20250716014225.15279-1-abdelrahmanfekry375@gmail.com>
+From: Andy Shevchenko <andy.shevchenko@gmail.com>
+Date: Wed, 16 Jul 2025 11:10:59 +0300
+X-Gm-Features: Ac12FXxtN8CIVFs4-2mQKtJils4_U3AeV1g-oFVo2bsh5PDlNAO4qKhAGDd-3Bg
+Message-ID: <CAHp75Ve6rE22crmt5mUioWtkWm_-ODV+Dk2gcTQ8ickhMMkvAQ@mail.gmail.com>
+Subject: Re: [PATCH] staging: media: atomisp: add missing mutex lock in atomisp_s_fmt_cap
+To: Abdelrahman Fekry <abdelrahmanfekry375@gmail.com>
+Cc: hansg@kernel.org, mchehab@kernel.org, sakari.ailus@linux.intel.com, 
+	andy@kernel.org, gregkh@linuxfoundation.org, linux-media@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev, 
+	linux-kernel-mentees@lists.linux.dev, skhan@linuxfoundation.org, 
+	dan.carpenter@linaro.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, Jul 16, 2025 at 01:33:57AM -0400, Ignacio Peña wrote:
-> From: Ignacio Pena <ignacio.pena87@gmail.com>
-> 
-> Replace CamelCase variable 'Bpp' with lowercase 'bpp' to fix
-> checkpatch warnings about improper variable naming convention.
-> 
-> Signed-off-by: Ignacio Pena <ignacio.pena87@gmail.com>
-> ---
-> 
-> Changes in v3:
-> - Removed the const declaration patch as g_fbmode is modified at runtime
-> - Split only into alignment and naming fixes
+On Wed, Jul 16, 2025 at 4:42=E2=80=AFAM Abdelrahman Fekry
+<abdelrahmanfekry375@gmail.com> wrote:
+>
+> The function atomisp_set_fmt() modifies shared device state and expects
+> callers to hold the isp->mutex for synchronization. While most internal
+> callers correctly lock the mutex before invoking atomisp_set_fmt(), the
+> V4L2 ioctl handler atomisp_s_fmt_cap() does not.
+>
+> This results in an unsafe execution path for VIDIOC_S_FMT ioctls
+> (e.g. via v4l2-ctl), where shared structures such as pipe->pix and
+> pipe->frame_info may be modified concurrently without proper protection.
+>
+> - Fix this by explicitly locking isp->mutex in atomisp_s_fmt_cap().
 
-This patch is somehow corrupted:
+If it's a fix, please add the Fixes tag.
 
-Hunk #1 succeeded at 160 (offset -1 lines).
-patch: **** malformed patch at line 47: @@ -191,7 +191,7 @@ static void lynxfb_ops_fillrect(struct fb_info *info,
+...
 
-How did you create it?
+> -       return atomisp_set_fmt(vdev, f);
+> +       mutex_lock(&isp->mutex);
+> +       ret =3D atomisp_set_fmt(vdev, f);
+> +       mutex_unlock(&isp->mutex);
 
-thanks,
+Side note: Can you consider switching the driver to use cleanup.h
+(guard()(), scoped_guard(), __free(), etc)?
 
-greg k-h
+--=20
+With Best Regards,
+Andy Shevchenko
