@@ -1,112 +1,137 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8680F266F05;
-	Wed, 16 Jul 2025 21:35:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09AF420B7EE;
+	Thu, 17 Jul 2025 01:30:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752701714; cv=none; b=amdBEIXpwn2KBCEeBaU9J7nKrzfNRw9G8oojnb4Z1RyHmE9eDdVR/A2GsDDIZWetR/kF2OsmWZw4PVOd93ZzBtGNA5Q8lbgdY23PXelx8AS4ajqRgb6B2wlAxDEWUWZZePQ1DgaZQYNk1n6qXljs9OYUBVyOYTLr86KyLJGiwbw=
+	t=1752715847; cv=none; b=evfCTok3QksfLqVC81rHm7eASUQonrxl/OdbWgQLLE7LN2S6CzglSyxoON14ggBBvc/oMqoH+QfPJOnbu/XFZULv47p8OPwf/36Or2ylBVmm5rcZ2w11PGtb/oWwO5C3jUBL3kxiNMEStSgvyJG3xxPi9qbwvqv3hxVnVrNIqTM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752701714; c=relaxed/simple;
-	bh=I+SsuYKuKb1oPJn8xEiqBq/dE2QgqTu7aIwJzz2nSGM=;
-	h=Date:Content-Type:MIME-Version:From:Cc:To:In-Reply-To:References:
-	 Message-Id:Subject; b=u95FbmDK//CIXtzZP+we6XfjqcXnnQQ6WLLPTxgpVO7BcPOM+Gzh3RkmThtC5VappBPHAbGaEUGdiekHTaoQJkaUWl4dKlprMLDcavCIAPIT79zcq62RWXvrlYNnp/x7XGUNuUTHKbB1rZ1a7eJ1Q/J9V80YeOybzwbWr++FDOY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TIYCGT6K; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1752715847; c=relaxed/simple;
+	bh=t51vLpvwGCji3WfHfop/1c3FGfyG9mabn/HIMUh4ovQ=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=dIDG3eB3F+7m6h5yIspOSWG01pS9wKoifQEbK1fvPaa4q9ZAj9cRqZ9SjM4mFT+VJDOksfpAaHQBuI72scX5ndhQO5Wm9XL1FjFYHYvvMHrRwlTp/cavt9ntKz2MUc1UdJh9NQxYf9MOXxLYhya0teR0a/Kz/l9K7jcA7DQND1I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LZLLemW0; arc=none smtp.client-ip=209.85.221.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TIYCGT6K"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 06CE1C4CEE7;
-	Wed, 16 Jul 2025 21:35:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1752701714;
-	bh=I+SsuYKuKb1oPJn8xEiqBq/dE2QgqTu7aIwJzz2nSGM=;
-	h=Date:From:Cc:To:In-Reply-To:References:Subject:From;
-	b=TIYCGT6KEhF7zj5LNSho42EyJc1rH7Veqeu4TNU3xuXjY10FO0fGt9OdG/o9ZEPIi
-	 TqifTc+caMjefREvUC2W6hZutwGSG4S/jDenIoeuSKkBDOhgxDzBhXXCaAIV9R7vyc
-	 tNVDpbGA/yxi/fHzZWljc3+u7E7Jt3QELfNn7TuViQ6wxYBovpIO6GvExdHpFBv6Qu
-	 HG0WWH296RmLIrHnJByQZw5Rv+owREEvR7MgvBDCj3lG4TkFfoX/RMcX9Xmf4r0u96
-	 Gd4Nvo/IhlEQn6aatWlC4xrZQTBMz2tqAJ6TN0obzv+SEsk3MzpKnKIC6kESvHSnCZ
-	 uJtUnAS/kAhZA==
-Date: Wed, 16 Jul 2025 16:35:13 -0500
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LZLLemW0"
+Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-3a4f64cdc2dso61196f8f.1;
+        Wed, 16 Jul 2025 18:30:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1752715844; x=1753320644; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=H+kklIjjiVUrQ0AXButuBYND4S6p/85t9mFfj0+LcY4=;
+        b=LZLLemW0hEDZfnkux0HWFW/BcFtqFXqSSWVm+EqP1VC3YQ8i9bGKGqc/U36ZpF/a3t
+         xeIqAY+KRTLAVzDHMHsgqPEIx4y0qgErcXF5Sf3828NhaCaoFwiQ4Iens9eJ4gSFcawu
+         WoRTCbVba4raCvYG8aC3GmlYq2e+F84l3YeGQlGtT7k5fWti31m4MrIZKkvotwiBfuSz
+         U+U/aF+20+OgxR6q4q/2A8LIxLQoSBnU/X+W+Z/DfbwhIQLOmXo92B0a25BHZwLaMQXt
+         ahLIMFsENoQzX2ieDaDXnmhTRGv2zCjULRiZkBqZS7R2OuySlfRQ0cZD/0EYafrvL5Xw
+         R+Vg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1752715844; x=1753320644;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=H+kklIjjiVUrQ0AXButuBYND4S6p/85t9mFfj0+LcY4=;
+        b=G9mhRwa0/ossZLHuO1hGXIXWERULART1FQLz7vaZu0aGI13MBCu3SxYaS2B57EiqhP
+         ZVoTPgMQP1YzYb3jT1ERsftbvuA+U1rmccwGDfwVlm7fHRIw28DRKmFjokBryS3yzMUh
+         9DbkHBh4iPCO1IDoyaDOUTS5TjGDbzdfoXrtM7XAT8sNpKcCnBiWc7UU0sp2W0g7329E
+         p6UhWI8/C8TiC4ALOJCJGGrfJHgXisRR3VP/oNZaTNiwkVB7o7MfPlSt81f5ghQgiaCO
+         vXn0HU/P7oCNhAiAD7pq7Os4OINy8epwIf1FYJy6VooWhUjXLI3sIOofacOo6kPAYQY7
+         9SLQ==
+X-Forwarded-Encrypted: i=1; AJvYcCU5r5X13W5bTEZAVFhQU1r3m3/pAGSg+PS3QDpBMCnajy26Tdnj8YNwHRt0vmA1CLVB4n8S2F/2gaccefTdrg==@lists.linux.dev, AJvYcCXKmLjbq3huKRVzrFKtFbCZsqQbvnG7o+teA8fnl0uE3DH5f1ttDXLZIAu0dGa72sMLoHCbPp7Kq/gOgG1k4tUF2pnN6w==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyWa9NHsxERrCZhSJ0Z9JIFG5mnBlPI7eiBcwNm1QnupfRDh3tu
+	uByKDGfYwieLV4I2iQFUgHGAPkDLJVPfQCjgb3W+FtrrVyW3NvCCQJ2W
+X-Gm-Gg: ASbGncvVfTd9Y5Y3jfKOk5IhYc28LWxA6XIQKTZjBygAwQ0VOpn/47zlFv4sq5Ont8O
+	Nqipiw6DtZp+fslo6pMg2ILj0791ffVW2w+SDDk6D6sZ1EaPKwX/yPfeO5IQVVRALaCLVXDT6j1
+	hFglc9SfNJMvYAFpK2mHc5m9w4cQK4p+AsQfDCR4TB753f2f/IcGRjVmtKh3EL4mRXHmBHfwVRv
+	SGr8D7KLLWnk7Xsxl/nqiCiAo4rVsRs+kzEpfaI6GZOBU/nWh99Aa08zZYIhG5lEPM1NBnCEDVy
+	ELrXa11+hT+5QQVfPVuRO/7a9pfY1DAG2ZCdcn3D893sUzhzpvcM7bX+H0+/q8F+4ZfsnCbuck0
+	H6CQRzS1pKzu7dHkRcvlriW3G+OMDUb1KfcBkLDX63hOay7Nu/sDfGKHtZFec
+X-Google-Smtp-Source: AGHT+IGuAQHAVt+Ejfc6IMxLjZrv3iHwTroSL4krgJeFWI/p8To0LpPVCPV4Mn1dJ4YTjmmAm1Gn9A==
+X-Received: by 2002:a05:600c:530f:b0:456:2137:5662 with SMTP id 5b1f17b1804b1-456338a25f4mr8234185e9.7.1752715844013;
+        Wed, 16 Jul 2025 18:30:44 -0700 (PDT)
+Received: from localhost.localdomain ([154.182.204.213])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-45634f6bc51sm7204555e9.17.2025.07.16.18.30.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 16 Jul 2025 18:30:43 -0700 (PDT)
+From: Abdelrahman Fekry <abdelrahmanfekry375@gmail.com>
+To: hansg@kernel.org,
+	mchehab@kernel.org,
+	sakari.ailus@linux.intel.com,
+	andy@kernel.org,
+	gregkh@linuxfoundation.org
+Cc: linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel-mentees@lists.linux.dev,
+	skhan@linuxfoundation.org,
+	dan.carpenter@linaro.org,
+	Abdelrahman Fekry <abdelrahmanfekry375@gmail.com>
+Subject: [PATCH v2] staging: media: atomisp: add missing mutex lock in atomisp_s_fmt_cap
+Date: Thu, 17 Jul 2025 04:30:03 +0300
+Message-Id: <20250717013003.20936-1-abdelrahmanfekry375@gmail.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-From: "Rob Herring (Arm)" <robh@kernel.org>
-Cc: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>, 
- Mauro Carvalho Chehab <mchehab@kernel.org>, devicetree@vger.kernel.org, 
- linux-gpio@vger.kernel.org, 
- =?utf-8?q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>, 
- linux-media@vger.kernel.org, 
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
- Julien Massot <julien.massot@collabora.com>, linux-staging@lists.linux.dev, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Sakari Ailus <sakari.ailus@linux.intel.com>, 
- linux-arm-kernel@lists.infradead.org, 
- Cosmin Tanislav <cosmin.tanislav@analog.com>, 
- Linus Walleij <linus.walleij@linaro.org>, linux-kernel@vger.kernel.org
-To: Cosmin Tanislav <demonsingur@gmail.com>
-In-Reply-To: <20250716193111.942217-15-demonsingur@gmail.com>
-References: <20250716193111.942217-1-demonsingur@gmail.com>
- <20250716193111.942217-15-demonsingur@gmail.com>
-Message-Id: <175270171321.1284786.126748563521510901.robh@kernel.org>
-Subject: Re: [PATCH v6 14/24] dt-bindings: media: i2c: add MAX9296A,
- MAX96716A, MAX96792A
+Content-Transfer-Encoding: 8bit
 
+The function atomisp_set_fmt() modifies shared device state and expects
+callers to hold the isp->mutex for synchronization. While most internal
+callers correctly lock the mutex before invoking atomisp_set_fmt(), the
+V4L2 ioctl handler atomisp_s_fmt_cap() does not.
 
-On Wed, 16 Jul 2025 22:30:59 +0300, Cosmin Tanislav wrote:
-> The MAX9296A deserializer converts single or dual serial inputs to MIPI
-> CSI-2 outputs. The GMSL2 links operate at a fixed rate of 3Gbps or 6Gbps
-> in the forward direction and 187.5Mbps in the reverse direction.
-> In GMSL1 mode, each serial link can be paired with 3.12Gbps or 1.5Gbps
-> GMSL1 serializers or operate up to 4.5Gbps with GMSL2 serializers with
-> GMSL1 backward compatibility. The MAX9296A supports mixed GMSL2 and
-> GMSL1 links. The serial inputs operate independently, allowing videos
-> with different timings and resolutions to be received on each input.
-> 
-> MAX96716A supports both tunnel and pixel mode.
-> MAX96792A supports both tunnel and pixel mode, and has two GMSL3 links.
-> 
-> Signed-off-by: Cosmin Tanislav <demonsingur@gmail.com>
-> Acked-by: Rob Herring (Arm) <robh@kernel.org>
-> ---
->  .../bindings/media/i2c/maxim,max9296a.yaml    | 242 ++++++++++++++++++
->  MAINTAINERS                                   |   6 +
->  2 files changed, 248 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/media/i2c/maxim,max9296a.yaml
-> 
+This results in an unsafe execution path for VIDIOC_S_FMT ioctls
+(e.g. via v4l2-ctl), where shared structures such as pipe->pix and
+pipe->frame_info may be modified concurrently without proper protection.
 
-My bot found errors running 'make dt_binding_check' on your patch:
+- Fix this by explicitly locking isp->mutex in atomisp_s_fmt_cap().
 
-yamllint warnings/errors:
+Fixes: 4bdab80981ca ("media: atomisp: Make it possible to call atomisp_set_fmt() without a file handle")
+Signed-off-by: Abdelrahman Fekry <abdelrahmanfekry375@gmail.com>
+---
+v2:
+- Add Fixes tag
+- use cleanup.h micros instead of explicitly calling mutex_lock/unlock
 
-dtschema/dtc warnings/errors:
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/media/i2c/maxim,max9296a.example.dtb: serializer@40 (maxim,max96717): compatible: 'oneOf' conditional failed, one must be fixed:
-	['maxim,max96717'] is too short
-	'maxim,max96717' is not one of ['maxim,max9295a', 'maxim,max96717f']
-	from schema $id: http://devicetree.org/schemas/media/i2c/maxim,max96717.yaml#
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/media/i2c/maxim,max9296a.example.dtb: serializer@40 (maxim,max96717): compatible: 'oneOf' conditional failed, one must be fixed:
-	['maxim,max96717'] is too short
-	'maxim,max96717' is not one of ['maxim,max9295a', 'maxim,max96717f']
-	from schema $id: http://devicetree.org/schemas/media/i2c/maxim,max96717.yaml#
+v1: https://lore.kernel.org/all/20250716014225.15279-1-abdelrahmanfekry375@gmail.com/
+ drivers/staging/media/atomisp/pci/atomisp_ioctl.c | 10 +++++++++-
+ 1 file changed, 9 insertions(+), 1 deletion(-)
 
-doc reference errors (make refcheckdocs):
-
-See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20250716193111.942217-15-demonsingur@gmail.com
-
-The base for the series is generally the latest rc1. A different dependency
-should be noted in *this* patch.
-
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
-
-pip3 install dtschema --upgrade
-
-Please check and re-submit after running the above command yourself. Note
-that DT_SCHEMA_FILES can be set to your schema file to speed up checking
-your schema. However, it must be unset to test all examples with your schema.
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_ioctl.c b/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
+index bb8b2f2213b0..d3b8e480065e 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
++++ b/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
+@@ -9,6 +9,7 @@
+ 
+ #include <linux/delay.h>
+ #include <linux/pci.h>
++#include <linux/cleanup.h>
+ 
+ #include <media/v4l2-ioctl.h>
+ #include <media/v4l2-event.h>
+@@ -416,8 +417,15 @@ static int atomisp_s_fmt_cap(struct file *file, void *fh,
+ 			     struct v4l2_format *f)
+ {
+ 	struct video_device *vdev = video_devdata(file);
++	struct atomisp_device *isp = video_get_drvdata(vdev);
++
++	int ret;
+ 
+-	return atomisp_set_fmt(vdev, f);
++	scoped_guard(mutex, &isp->mutex)
++	{
++		ret = atomisp_set_fmt(vdev, f);
++	}
++	return ret;
+ }
+ 
+ /*
+-- 
+2.25.1
 
