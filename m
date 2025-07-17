@@ -1,74 +1,74 @@
-Received: from mail-ot1-f41.google.com (mail-ot1-f41.google.com [209.85.210.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A7AB2F85E1
-	for <linux-staging@lists.linux.dev>; Thu, 17 Jul 2025 14:30:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93E331E0E14;
+	Thu, 17 Jul 2025 20:29:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752762613; cv=none; b=AbG58ovx5YpvyZ5gyLHQuDz5oMjHCSGH14AT+IofCy8YedfLZiX5hbAgIg/n4qT3Rw9ywKhwzCwBdgp7os3bWq3Z8f3n8dzDLa8AM+oILk8vB/03aFTPLQRwrrZSz8yA3AQOT+AEvdyUBdNKFcZnof8pr4SU2Cn19qmwIbSPqM8=
+	t=1752784175; cv=none; b=PunlUcR4E8Q19j7JE5WLoIahLHAl4SJsRnL0+1DVp1t8MgmWjRWyVCWZDGTuI6Wd5GSrtxsWC2v2jkd3kBrQlz6NIq4fOQer+bdLza9hsImyS9S71RYcp+xCKgU7XVcjsU52c61RFQvRCPIO7UfvpcAlykwKx0pVJMUEyxt4Qvo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752762613; c=relaxed/simple;
-	bh=i4AOCu/t+teVCBfAnuyDW57wdR/g54HBsrTynSNwcfg=;
+	s=arc-20240116; t=1752784175; c=relaxed/simple;
+	bh=C6FdhU3UGgV2AuO9mM334Y3xFvIMzWgfEMGceIlV6tA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fWeyPW/DtQeXfXRSToSgg2s9C0Oxohv5vsCuL4TKFowlpqTcjMot/j3qcV1YtUzmIoHvQp6Lz92rKKEASnn9ONfhcv5tn3he6Y1PGKqdy5Z8IRv+SmDqq3IN3qtQlub/VRVHP3e5zie6K0O2RpMYhOKicc5F0fEOQ21AhqLXFVY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=ZCVahSRF; arc=none smtp.client-ip=209.85.210.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Type:Content-Disposition:In-Reply-To; b=olcUJqGDnuzEGKFvGTTAgHH09gybscj6FUunHgas8+HQ+O09kG4kqGPNXYP/GZC0Xd25WrTlifURzV2h0MK7by1iiEk5Jw2tH40TU3+W5We9Eua/zpApuvPNvOo+p7MnbmusZvLQEiZP3Wdn+7lz0r8YeepjqOPqWfz9PiP6wT8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cSCdpR1r; arc=none smtp.client-ip=198.175.65.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ZCVahSRF"
-Received: by mail-ot1-f41.google.com with SMTP id 46e09a7af769-73e810dbf5aso6886a34.0
-        for <linux-staging@lists.linux.dev>; Thu, 17 Jul 2025 07:30:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1752762610; x=1753367410; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=c9WyUNURTxDjhSFlDNytarMEzB5jWv8rhBlf3egCP8I=;
-        b=ZCVahSRFNTISUNT9htYLDmjsrcnM3C4cBorOzTbl3E4in8i3SR73mfk0fQeZTbhJQJ
-         Zon95K755nVaGGHA40roKr63Cdjy9TlvPwSj8Szo7Vc3hoaNhkUbedOv9t+cPptCyLJG
-         PMHnZzwgSSTymalUzbO32qZoHdyAlxyvwogw0LGC0GpaYQaHNiS0OhhNPCtp3Jx1bsdz
-         m4QTNgPdJVwfH8x6EltWMlRyYelXE5EY6uQSthJ0VNlhf7DEl0DeG7MmhCYTa27R4EZS
-         Pif45knPJzrsQcT77q2gSu+cvEuF8w5wiolXG7Jf1v4tpe4CnzsuXwUcZLFAJFfq7w9Q
-         4Ciw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752762610; x=1753367410;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=c9WyUNURTxDjhSFlDNytarMEzB5jWv8rhBlf3egCP8I=;
-        b=E991YLJf0xFW42n8ALrcvJOMh8dl5mWpOG627oy7fSO0+PPTnuI8o1+bzbUnTqjg3e
-         SGODGowKZrrY5+GflTcIVk1BkmKuD9jS0lEIQhVrFGV8cKebvM5eQRlGZtU7nsBCqlpu
-         yfoY8RKlC8a7oVvQWnDeGRRNKY/NQYDuFIpILVKCEyCtyrVGeikitbd3bEcfXDQ1RU5y
-         DLZfibVRHcu2YEJ0XXBSRDLqT2qbd33CreRWnIQUfkvKP0FehX2Oo9hFGTaiU6Ebleit
-         glGygQn5zUbruF8EQaympXyPrF7FQfxrvOmVhqdesFXgw8zNuI1rtFECjrgb6YZe434f
-         5cFQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUJeuEFVHo+YkdU1u/n5Gjwk/6iDq/KOXK30pfO1R87blR/5Qymq5ZGadDIfE1r5jv4vPuPQGStv4K6u0yI@lists.linux.dev
-X-Gm-Message-State: AOJu0Yyu1tMpu0QLiEOENIjFqo8MPpo+MAazxYWIxfdSpDVkpQkL6OiV
-	jAs4LRAO4CPND/gLB/4IpbF+PbxQcsUWj73W4UzaTUp+WjLEHO2gBDHc9fOWayqWoQk=
-X-Gm-Gg: ASbGncsbR5Kv/49Epv4pc2hkj+w2/K+8//Gd2y1/uAP4aeXK3jTKXGHbSF4Dcl4jQgy
-	iQPpAZGqhGCOB6TAAhhDTIDjCO4iBnQQXNDHZFcMP8kfXeVr8YrsGVAzf/3Nq20OeMkieP8WnKU
-	US8Xw8ck+iSFgjsv4TlDYekUPdCJxDsovssUVslPbNdpu/WDvfQBDuo8/ljoHrWVp4zAhd5gUKy
-	hK/tMAZE5hzFEWwetrxZ358Q/UqfNq10VxP1HmuAVtZ6M4lBx3NN80I/3oktMs3frVCDiTNyhyn
-	+2nYKKBWM2LaIFxH5U6dUlL2US1kTRGdx2GF+U3/Bt7C4mCEl/y5mYpSQ/KjYuk1/t6GXOHh/QL
-	pGU0M/kneEDvsJ+C1IjqBYnXnfNGE
-X-Google-Smtp-Source: AGHT+IHk7/gc9YLubk1Cjji23IU9exbggTb4A51g9DQ8a5fEshA2ox0UCblR1EaUtTw1t+IxEkNNCw==
-X-Received: by 2002:a05:6830:2113:b0:73e:6bd0:ff93 with SMTP id 46e09a7af769-73e6bd14111mr4602096a34.12.1752762610529;
-        Thu, 17 Jul 2025 07:30:10 -0700 (PDT)
-Received: from localhost ([2603:8080:b800:f700:2c38:70d4:43e:b901])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-73e5d9028c4sm2024909a34.59.2025.07.17.07.30.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 17 Jul 2025 07:30:09 -0700 (PDT)
-Date: Thu, 17 Jul 2025 17:30:08 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Abdelrahman Fekry <abdelrahmanfekry375@gmail.com>
-Cc: hansg@kernel.org, mchehab@kernel.org, sakari.ailus@linux.intel.com,
-	andy@kernel.org, gregkh@linuxfoundation.org,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev, linux-kernel-mentees@lists.linux.dev,
-	skhan@linuxfoundation.org
-Subject: Re: [PATCH v3] staging: media: atomisp: add missing mutex lock in
- atomisp_s_fmt_cap
-Message-ID: <3b926b78-b95c-440d-846d-bc9d95aee714@suswa.mountain>
-References: <20250717124234.24572-1-abdelrahmanfekry375@gmail.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cSCdpR1r"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1752784174; x=1784320174;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=C6FdhU3UGgV2AuO9mM334Y3xFvIMzWgfEMGceIlV6tA=;
+  b=cSCdpR1rEH9bSy/InHfjYL9uOBIgC5UQcub9nvFn5e+/VrjC4XN5cymc
+   WOBjIjvvlp+3maGdXkS9UI16SqdWL7MHUH9DetGjXqRrk9KWl95PEN7bW
+   bykPLxAp/3LF8krmYoM9DDx4u71RjBYmnPc6yrkN0Mptzdn+Yvv+0SovS
+   hWLWpE/xB7/AO3xtduiUIMJHI09cMxSAieIHF0DXjd5MTetj9fhHo2gk6
+   DfwwEYGGz1h0KSyXwlFj8q18vYHnrLZG00HiJT2mvaLcCZJqYfFxGdH7g
+   O0ZAcgKsjR3FryLoWBamNIgeA46cQAKo2SP0XpxAssU5HpBjzeJs/GsdT
+   w==;
+X-CSE-ConnectionGUID: iL2LDW6/Rr2FzOti+yScyA==
+X-CSE-MsgGUID: gV1NOvBeTXqpKdbuoGFdDw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11495"; a="55199015"
+X-IronPort-AV: E=Sophos;i="6.16,319,1744095600"; 
+   d="scan'208";a="55199015"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jul 2025 13:29:33 -0700
+X-CSE-ConnectionGUID: IRcuRXtURFCGgyf33KkCAg==
+X-CSE-MsgGUID: TM9lQl1yQcCDNX9X15Gm1A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,319,1744095600"; 
+   d="scan'208";a="158583072"
+Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
+  by fmviesa010.fm.intel.com with ESMTP; 17 Jul 2025 13:29:28 -0700
+Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1ucVEM-000E03-0r;
+	Thu, 17 Jul 2025 20:29:26 +0000
+Date: Fri, 18 Jul 2025 04:29:11 +0800
+From: kernel test robot <lkp@intel.com>
+To: Cosmin Tanislav <demonsingur@gmail.com>,
+	Cosmin Tanislav <cosmin.tanislav@analog.com>,
+	Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Niklas =?iso-8859-1?Q?S=F6derlund?= <niklas.soderlund@ragnatech.se>,
+	Julien Massot <julien.massot@collabora.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Linus Walleij <linus.walleij@linaro.org>
+Cc: Paul Gazzillo <paul@pgazz.com>,
+	Necip Fazil Yildiran <fazilyildiran@gmail.com>,
+	oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-staging@lists.linux.dev,
+	linux-gpio@vger.kernel.org
+Subject: Re: [PATCH v6 18/24] media: i2c: maxim-serdes: add MAX96717 driver
+Message-ID: <202507180404.Rvs0GsdN-lkp@intel.com>
+References: <20250716193111.942217-19-demonsingur@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -77,28 +77,58 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250717124234.24572-1-abdelrahmanfekry375@gmail.com>
+In-Reply-To: <20250716193111.942217-19-demonsingur@gmail.com>
 
-On Thu, Jul 17, 2025 at 03:42:34PM +0300, Abdelrahman Fekry wrote:
-> The function atomisp_set_fmt() modifies shared device state and expects
-> callers to hold the isp->mutex for synchronization. While most internal
-> callers correctly lock the mutex before invoking atomisp_set_fmt(), the
-> V4L2 ioctl handler atomisp_s_fmt_cap() does not.
-> 
-> This results in an unsafe execution path for VIDIOC_S_FMT ioctls
-> (e.g. via v4l2-ctl), where shared structures such as pipe->pix and
-> pipe->frame_info may be modified concurrently without proper protection.
-> 
-> - Fix this by explicitly locking isp->mutex in atomisp_s_fmt_cap().
-> 
-> Fixes: 4bdab80981ca ("media: atomisp: Make it possible to call atomisp_set_fmt() without a file handle")
-> Signed-off-by: Abdelrahman Fekry <abdelrahmanfekry375@gmail.com>
-> ---
+Hi Cosmin,
 
-Thanks!
+kernel test robot noticed the following build warnings:
 
-Reviewed-by: Dan Carpenter <dan.carpenter@linaro.org>
+[auto build test WARNING on next-20250716]
+[also build test WARNING on v6.16-rc6]
+[cannot apply to robh/for-next staging/staging-testing staging/staging-next staging/staging-linus arm64/for-next/core linus/master v6.16-rc6 v6.16-rc5 v6.16-rc4]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-regards,
-dan carpenter
+url:    https://github.com/intel-lab-lkp/linux/commits/Cosmin-Tanislav/media-mc-Add-INTERNAL-pad-flag/20250717-033901
+base:   next-20250716
+patch link:    https://lore.kernel.org/r/20250716193111.942217-19-demonsingur%40gmail.com
+patch subject: [PATCH v6 18/24] media: i2c: maxim-serdes: add MAX96717 driver
+config: nios2-kismet-CONFIG_GENERIC_PINCONF-CONFIG_VIDEO_MAX96717-0-0 (https://download.01.org/0day-ci/archive/20250718/202507180404.Rvs0GsdN-lkp@intel.com/config)
+reproduce: (https://download.01.org/0day-ci/archive/20250718/202507180404.Rvs0GsdN-lkp@intel.com/reproduce)
 
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507180404.Rvs0GsdN-lkp@intel.com/
+
+kismet warnings: (new ones prefixed by >>)
+>> kismet: WARNING: unmet direct dependencies detected for GENERIC_PINCONF when selected by VIDEO_MAX96717
+   WARNING: unmet direct dependencies detected for I2C_MUX
+     Depends on [n]: I2C [=n]
+     Selected by [y]:
+     - VIDEO_MAXIM_SERDES [=y] && MEDIA_SUPPORT [=y] && VIDEO_DEV [=y]
+   
+   WARNING: unmet direct dependencies detected for GENERIC_PINCONF
+     Depends on [n]: PINCTRL [=n]
+     Selected by [y]:
+     - VIDEO_MAX96717 [=y] && MEDIA_SUPPORT [=y] && VIDEO_DEV [=y] && COMMON_CLK [=y]
+   
+   WARNING: unmet direct dependencies detected for GENERIC_PINMUX_FUNCTIONS
+     Depends on [n]: PINCTRL [=n]
+     Selected by [y]:
+     - VIDEO_MAX96717 [=y] && MEDIA_SUPPORT [=y] && VIDEO_DEV [=y] && COMMON_CLK [=y]
+   
+   WARNING: unmet direct dependencies detected for GENERIC_PINCTRL_GROUPS
+     Depends on [n]: PINCTRL [=n]
+     Selected by [y]:
+     - VIDEO_MAX96717 [=y] && MEDIA_SUPPORT [=y] && VIDEO_DEV [=y] && COMMON_CLK [=y]
+   
+   WARNING: unmet direct dependencies detected for I2C_ATR
+     Depends on [n]: I2C [=n]
+     Selected by [y]:
+     - VIDEO_MAXIM_SERDES [=y] && MEDIA_SUPPORT [=y] && VIDEO_DEV [=y]
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
