@@ -1,114 +1,113 @@
-Received: from mail-qk1-f171.google.com (mail-qk1-f171.google.com [209.85.222.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp1.iitb.ac.in (smtpd9.iitb.ac.in [103.21.126.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD6421C84BD
-	for <linux-staging@lists.linux.dev>; Fri, 18 Jul 2025 03:49:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9FAB41C63
+	for <linux-staging@lists.linux.dev>; Fri, 18 Jul 2025 05:04:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.21.126.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752810563; cv=none; b=tKb3kzAEtsydeRtDcm9HyHH4tsJ490wCmycATLsnS3ia+Pzvgtyt2yGX/+eqbqpZuvIqGpbBahm9ZIck4faER5h2W/xdgSHuwCQ/yxkpoYkT8YXp3fII+I0RkC5lFBMcx2UqIx+JU4iFwjLOPPMEU7IOW9JDBGT9/bPD92fO5cM=
+	t=1752815072; cv=none; b=UMu3c+OgnCGRRtVQr0sv6V2DzLo/zK2CoIzbhVRsfbflKN/bcHvLHpUpdPwAKM2kFdh//jZo+S11Q0HpvSM9/hqrPD1egKg6txqoLsCmqjYkrqfG2eTd1R0/32PO6tisFjQme5oH0iKGNv63iDejY9uBghFWVVD5JtCIStdJpzk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752810563; c=relaxed/simple;
-	bh=TUYntXoe7RxxZnZMgxLkh3iZOefyIpODGMo4hHDC1ec=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=AQSYr6aeMPOS6voch44Eur90C0+kisw9S8hG7gO56yJjXM7j2Xe+HHUKxRM3ZsITq9x/cUS0XZHtrvD0IaH1vgLozeAg07wl8/FMR21zBa9jPA/89ixqx93D8iGApzoAIf3Z8M0z8jufR2HqNYVXEsZ0b7HU8cSuNRp2t7lO9GU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YoIhEdyc; arc=none smtp.client-ip=209.85.222.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1752815072; c=relaxed/simple;
+	bh=CFx1IeDtZ+sN7mgMMepBTLN+tYrRYBQxlBPdHX6l2uY=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=PGbB7igElvWny6w4ihga3bXO/rjJCZU/Bs8V8QPw0yN9EZYaswBt98oPC/X6N13CryKEgPdVeX39FWD2w1Q+ymdR09Y9p2wY+ovVXr8pEu37JDfa7TLpS7qbdwUVgI9I9b5K4QkNz6Kc0tdpWLRC1GkUeAwqQMGZ6WFGjygu4JA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=ee.iitb.ac.in; spf=pass smtp.mailfrom=ee.iitb.ac.in; dkim=pass (1024-bit key) header.d=iitb.ac.in header.i=@iitb.ac.in header.b=GnPlu2Wc; arc=none smtp.client-ip=103.21.126.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=ee.iitb.ac.in
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ee.iitb.ac.in
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YoIhEdyc"
-Received: by mail-qk1-f171.google.com with SMTP id af79cd13be357-7e182e4171bso177289885a.3
-        for <linux-staging@lists.linux.dev>; Thu, 17 Jul 2025 20:49:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1752810561; x=1753415361; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=/ahzSbzOVkCgO0V1iipUMnKt+g1BWb60GhxM8vm63ng=;
-        b=YoIhEdycpsBOoAUpKHZNrMHD4+aKs1jWpGhpEWLBtHs4Bi+yzy5D9+NcmazwlLcH//
-         awiGAtF+Ftk/22qaqQu/0F2C22/zuF1DMYtMgkRY3fstNtOaAUL3GSgcM9XOuqdk51+V
-         DpOcVuQ8alqW+lCRghs+k/KJ79oYyevH8sUuV2wETyuCBpEBGe7Vmj45jPJBPV7bNEEH
-         dmrsuUL1Y9LHX566svnM5hHKzaRz1W5fQSsv7srVsFuJI1nYX4+pX8NZ8ps+eBR3ob9s
-         f3VLcTd22uRF8LO55I5+ocvQRzfFMx88GcIp6oc/mVpwcJbPhSSds5JnOFtd8bQ+9VZu
-         sFog==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752810561; x=1753415361;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=/ahzSbzOVkCgO0V1iipUMnKt+g1BWb60GhxM8vm63ng=;
-        b=ocpVYF2tWCD6Tc/qS8l3NF0H/Od5GbjF7q4Ko1zbXaFyG0fN55CWOvhaSUB9AIS3R4
-         DshBlBgDwumTWGE/XQs2QsE6hCrR4bw+PReutkAWRMDjyVAzNvjdu75CMCQb3HnOzy2R
-         5v7D7ZbvKJyB53Zub+Ae5FIKxWyA5haBNp4HoPA1GM8jDXjqtuWyeplyPgZRNbjMDLbS
-         /D8+uP7H71hVLt/h6obpLoMCkOGiA8zWtV/Twm3A+M6PNyay/41DY9RogkTef23y0yoJ
-         GZXX2TfUvBkJhQnEyEGj9gG8uYhXSnz0utbNIOU+1RTpQGd88TPihFHhS/LRxsaPQtVh
-         AaYw==
-X-Gm-Message-State: AOJu0Yw74R6jpqb1C5PXMNiM4V8UbTBIZLwn1lURFgxCUFfwbJcMDA2+
-	y5W4U25T8hN8acydeW/7QEHJXK89MCbeQY6VOkZEo44QhTTpwVYcqQHM
-X-Gm-Gg: ASbGncsXDgNTWREw+/sJacFv9DF+Tovn6r5Xpg53WbdNtizpmRM3CGuetKU4kPVWvVV
-	9c2BlMBUoubNbnpk1IRLLXOANmqAV7+O8QV1p4RMb5BXKQ3cTT/kfcC4bnaBKe+okPOFbHALQZr
-	D1dc1p8OkRgFbG8hhutTzmDVgCamoghgv6VUdBwzw6vpX2FRFxVZURsi9fVN/Bb8b2Mjv38kc6z
-	AUU9D9d8bfyTbMzO3PK6n3lGrxEYmjuMRA3Ry01N+RFcg15lKM6ES3Yqd1n76YWxZqkc/RdBwm9
-	ffnAaod9qxfpvlmhTbrZvP2DIyHl4HjxQUdMUF11ZyI4d+Iaa28/VqYIrH39kQdJ4+jmAZiYOkq
-	c9sGJNgi389dXUXM7ZFCUAd2Om7OZ2/3fuVmLy9fwpXpHIFMqt3pX
-X-Google-Smtp-Source: AGHT+IHwz2ZQ9UVQsUrHY6uima8WLEW793ry54aYseMx0tESu7LoYKDH8an0Vh/LM1hsaavk7gb6eQ==
-X-Received: by 2002:a05:620a:4726:b0:7db:e87:918b with SMTP id af79cd13be357-7e3435ead7dmr1235595585a.33.1752810560690;
-        Thu, 17 Jul 2025 20:49:20 -0700 (PDT)
-Received: from localhost.localdomain ([181.161.11.224])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-7e356b47f8esm41183885a.33.2025.07.17.20.49.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 17 Jul 2025 20:49:20 -0700 (PDT)
-From: =?UTF-8?q?Ignacio=20Pe=C3=B1a?= <ignacio.pena87@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	=?UTF-8?q?Ignacio=20Pe=C3=B1a?= <ignacio.pena87@gmail.com>
-Subject: [PATCH 1/2] staging: sm750fb: make const arrays static const char * const
-Date: Thu, 17 Jul 2025 23:49:13 -0400
-Message-Id: <20250718034913.49300-1-ignacio.pena87@gmail.com>
-X-Mailer: git-send-email 2.39.5 (Apple Git-154)
+	dkim=pass (1024-bit key) header.d=iitb.ac.in header.i=@iitb.ac.in header.b="GnPlu2Wc"
+Received: from ldns1.iitb.ac.in (ldns1.iitb.ac.in [10.200.12.1])
+	by smtp1.iitb.ac.in (Postfix) with SMTP id 6112A104CBAC
+	for <linux-staging@lists.linux.dev>; Fri, 18 Jul 2025 10:24:33 +0530 (IST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.iitb.ac.in 6112A104CBAC
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=iitb.ac.in; s=mail;
+	t=1752814473; bh=CFx1IeDtZ+sN7mgMMepBTLN+tYrRYBQxlBPdHX6l2uY=;
+	h=Date:From:To:Cc:Subject:From;
+	b=GnPlu2WcC27uQRQ06Fbdv44xHFOL6HTCNAf2upNDaRm76T8q4EokBfr1OWnj5MZZW
+	 7DsKuex367kV4zDoxQ6jpw1XLITFrQXkEHWYdDeYDjwp2dlWPLC/bzM7seECfWXJOQ
+	 em/qNuZ5hmpE4g2kfNzJRO0vyq7iVZL+YUod0pis=
+Received: (qmail 32448 invoked by uid 510); 18 Jul 2025 10:24:33 +0530
+X-Qmail-Scanner-Diagnostics: from 10.200.1.25 by ldns1 (envelope-from <akhilesh@ee.iitb.ac.in>, uid 501) with qmail-scanner-2.11
+ spamassassin: 3.4.1. mhr: 1.0. {clamdscan: 0.101.4/26439} 
+ Clear:RC:1(10.200.1.25):SA:0(0.0/7.0):. Processed in 2.55098 secs; 18 Jul 2025 10:24:33 +0530
+X-Spam-Level: 
+X-Spam-Pyzor: Reported 0 times.
+X-Envelope-From: akhilesh@ee.iitb.ac.in
+X-Qmail-Scanner-Mime-Attachments: |
+X-Qmail-Scanner-Zip-Files: |
+Received: from unknown (HELO ldns1.iitb.ac.in) (10.200.1.25)
+  by ldns1.iitb.ac.in with SMTP; 18 Jul 2025 10:24:30 +0530
+Received: from bhairav.ee.iitb.ac.in (bhairav.ee.iitb.ac.in [10.107.1.1])
+	by ldns1.iitb.ac.in (Postfix) with ESMTP id 2A40236003F;
+	Fri, 18 Jul 2025 10:24:30 +0530 (IST)
+Received: from bhairav-test.ee.iitb.ac.in (bhairav.ee.iitb.ac.in [10.107.1.1])
+	(Authenticated sender: akhilesh)
+	by bhairav.ee.iitb.ac.in (Postfix) with ESMTPSA id E71351E814DD;
+	Fri, 18 Jul 2025 10:24:29 +0530 (IST)
+Date: Fri, 18 Jul 2025 10:24:14 +0530
+From: Akhilesh Patil <akhilesh@ee.iitb.ac.in>
+To: gregkh@linuxfoundation.org, griffin@kroah.com, riyandhiman14@gmail.com,
+	gagath@debian.org, pedropz1537@gmail.com
+Cc: liyuesong@vivo.com, linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev, skhan@linuxfoundation.org,
+	akhilesh@ee.iitb.ac.in
+Subject: [PATCH] staging: vme_user: fix spelling errors
+Message-ID: <aHnTdicud7sW/Zis@bhairav-test.ee.iitb.ac.in>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Fix checkpatch warning:
-"WARNING: static const char * array should probably be
- static const char * const"
+Fix spelling errors reported by codespell tool as below.
+bewteen --> between
+enty --> entry
+Copntroller --> Controller
 
-This makes both the array and its contents immutable, which is the
-intended behavior for these constant string arrays:
-- g_fbmode: array of framebuffer mode strings
-- fixId: array of framebuffer device names
-
-Signed-off-by: Ignacio Peña <ignacio.pena87@gmail.com>
+Signed-off-by: Akhilesh Patil <akhilesh@ee.iitb.ac.in>
 ---
- drivers/staging/sm750fb/sm750.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/staging/vme_user/vme.c        | 4 ++--
+ drivers/staging/vme_user/vme_tsi148.h | 2 +-
+ 2 files changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/staging/sm750fb/sm750.c b/drivers/staging/sm750fb/sm750.c
-index 1d929aca3..82e01f114 100644
---- a/drivers/staging/sm750fb/sm750.c
-+++ b/drivers/staging/sm750fb/sm750.c
-@@ -33,7 +33,7 @@
- static int g_hwcursor = 1;
- static int g_noaccel;
- static int g_nomtrr;
--static const char *g_fbmode[] = {NULL, NULL};
-+static const char * const g_fbmode[] = {NULL, NULL};
- static const char *g_def_fbmode = "1024x768-32@60";
- static char *g_settings;
- static int g_dualview;
-@@ -731,7 +731,7 @@ static int lynxfb_set_fbinfo(struct fb_info *info, int index)
- 		"kernel HELPERS prepared vesa_modes",
- 	};
+diff --git a/drivers/staging/vme_user/vme.c b/drivers/staging/vme_user/vme.c
+index 42304c9f83a2..a9bff27127a7 100644
+--- a/drivers/staging/vme_user/vme.c
++++ b/drivers/staging/vme_user/vme.c
+@@ -809,7 +809,7 @@ EXPORT_SYMBOL(vme_master_free);
+  * @vdev: Pointer to VME device struct vme_dev assigned to driver instance.
+  * @route: Required src/destination combination.
+  *
+- * Request a VME DMA controller with capability to perform transfers bewteen
++ * Request a VME DMA controller with capability to perform transfers between
+  * requested source/destination combination.
+  *
+  * Return: Pointer to VME DMA resource on success, NULL on failure.
+@@ -1045,7 +1045,7 @@ void vme_dma_free_attribute(struct vme_dma_attr *attributes)
+ EXPORT_SYMBOL(vme_dma_free_attribute);
  
--	static const char *fixId[2] = {
-+	static const char * const fixId[2] = {
- 		"sm750_fb1", "sm750_fb2",
- 	};
+ /**
+- * vme_dma_list_add - Add enty to a VME DMA list.
++ * vme_dma_list_add - Add entry to a VME DMA list.
+  * @list: Pointer to VME list.
+  * @src: Pointer to DMA list attribute to use as source.
+  * @dest: Pointer to DMA list attribute to use as destination.
+diff --git a/drivers/staging/vme_user/vme_tsi148.h b/drivers/staging/vme_user/vme_tsi148.h
+index db246cbc54c3..f73ac92320bb 100644
+--- a/drivers/staging/vme_user/vme_tsi148.h
++++ b/drivers/staging/vme_user/vme_tsi148.h
+@@ -1347,7 +1347,7 @@ static const int TSI148_LCSR_INTC_MBC[4] = { TSI148_LCSR_INTC_MB0C,
+ #define TSI148_GCSR_GCTRL_LRST         BIT(15)	/* Local Reset */
+ #define TSI148_GCSR_GCTRL_SFAILEN      BIT(14)	/* System Fail enable */
+ #define TSI148_GCSR_GCTRL_BDFAILS      BIT(13)	/* Board Fail Status */
+-#define TSI148_GCSR_GCTRL_SCON         BIT(12)	/* System Copntroller */
++#define TSI148_GCSR_GCTRL_SCON         BIT(12)	/* System Controller */
+ #define TSI148_GCSR_GCTRL_MEN          BIT(11)	/* Module Enable (READY) */
  
+ #define TSI148_GCSR_GCTRL_LMI3S        BIT(7)	/* Loc Monitor 3 Int Status */
 -- 
-2.39.5 (Apple Git-154)
+2.34.1
 
