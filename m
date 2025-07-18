@@ -1,81 +1,64 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C40D011712;
-	Fri, 18 Jul 2025 07:43:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69C6727B51C;
+	Fri, 18 Jul 2025 07:46:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752824611; cv=none; b=Nd+wAibUSEU6cy8+dcUPR463MmsRAzhyv0XHSx1UZy65sQ9DQYmJMYucrx8WOS3r6kQhHJSC4QeIMLWAc1XqyoDlZ2HftbxLhAYhdJFpu42EWA4y+7OogWyJ3TXjpvGt3VfGL4yfqDNfU6Jm2YSsOHjBLcv7I+2B2aQSOpiVFcw=
+	t=1752824767; cv=none; b=Pgfwt/7rqQ51HIvS2e9qKZTpk2BintU05CTrtU3nQUPykbqCVPfS09pOlA6PYmc7Ty1vkpFl1cVp5dvwD75+7PkGiKz8ougVUrrsh4DrPnBqEwdaagACsITNOFwF3+3g2hz6QxstkuRuG570a9Jhj5TVsYmCj+LGWHczbuh61O8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752824611; c=relaxed/simple;
-	bh=VoQq/GDooCJ10CgN0+t5tOPIB+5GpIc0cfgvx9g2O2E=;
+	s=arc-20240116; t=1752824767; c=relaxed/simple;
+	bh=V1rqD+7v1f36V63WJXdXj5uO0cgm5H2sGPsV3R2+jhc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=EDrghQJ/gbgCoxTQC+CBmwUIiJiqmRGQwbfkVioLsL5MmSVZOLMctaT6jlpividQXMT4J2x+rI5wwCs1JruzaDfxD9G10D6B/11XhFR3r7doylv8Ed1AG+1eDIUjaSF/45crlas0bvmXLxWi5PdJJUpQ1l4HuR9WQ/LUxGipB7g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=btx+EBaX; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=a795Mu+X7KghjxzQbdYPe9AnevQKYCkW+29jQO7V4c5RXfaminBPyHd3ZYDJ2vEt0GAiCHPywGo4J48Sp/Ke6/AtA0hOqLepKC44FID4NraihMELnO++f6fU3SSsz3NDmojn40MUBbbBn2dsPgQ70mlZJjACgHTXS62XeLIC6B4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=IcqRStjj; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="btx+EBaX"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DDFCDC4CEED;
-	Fri, 18 Jul 2025 07:43:30 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="IcqRStjj"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 96908C4CEED;
+	Fri, 18 Jul 2025 07:46:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1752824611;
-	bh=VoQq/GDooCJ10CgN0+t5tOPIB+5GpIc0cfgvx9g2O2E=;
+	s=korg; t=1752824766;
+	bh=V1rqD+7v1f36V63WJXdXj5uO0cgm5H2sGPsV3R2+jhc=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=btx+EBaXmqd5aDDm2TyARUMGq3XmU2qy5fsFbQTKA6Io+lhxnDXtAxPeeIwb1iuLx
-	 JR4AUMJEyfL1QSHrPEyNDwugKudz3WpIaLU9yAmsJJ88Y+mxo/rDjhmDCFJvvkKMxX
-	 7eEzA3C56RVJ9zVpxA70VEc+zjmDcyvj4Lx+3qfA=
-Date: Fri, 18 Jul 2025 09:43:28 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Vivek BalachandharTN <vivek.balachandhar@gmail.com>
+	b=IcqRStjjogF2tiT+jJOvaAeRlDnL75dQg8Ij8i2wGCbzv/Kn20xn/Vgig9Fq817Ex
+	 QDxhCuZk0hPyy8IsnvTLK4LaIUlXom+KSjLaDv60bCpdgpX9EkAYDhpD24pNhoIZdx
+	 Ft/JhI4FvDFWo/mdUPcogFCYZV3iJFYEC0TsRP9A=
+Date: Fri, 18 Jul 2025 09:44:39 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Ignacio =?iso-8859-1?Q?Pe=F1a?= <ignacio.pena87@gmail.com>
 Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v5 1/1] staging: rtl8192u: Rename ChannelPlan to
- channel_plan and fix index name
-Message-ID: <2025071809-sulfur-unvaried-8e9a@gregkh>
-References: <20250718025206.171361-1-vivek.balachandhar@gmail.com>
- <20250718025206.171361-2-vivek.balachandhar@gmail.com>
+Subject: Re: [PATCH 1/2] staging: sm750fb: make const arrays static const
+ char * const
+Message-ID: <2025071808-jogger-snowflake-1911@gregkh>
+References: <20250718034913.49300-1-ignacio.pena87@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20250718025206.171361-2-vivek.balachandhar@gmail.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250718034913.49300-1-ignacio.pena87@gmail.com>
 
-On Fri, Jul 18, 2025 at 02:52:06AM +0000, Vivek BalachandharTN wrote:
-> This patch renames the global array ChannelPlan to channel_plan
-> to follow Linux kernel coding style. Also renamed the index
-> variable from channel_plan to chan_plan_idx to avoid
-> shadowing and improve readability.
+On Thu, Jul 17, 2025 at 11:49:13PM -0400, Ignacio Peña wrote:
+> Fix checkpatch warning:
+> "WARNING: static const char * array should probably be
+>  static const char * const"
 > 
-> v2:
-> - Fixed Cc list to include Greg and staging list
+> This makes both the array and its contents immutable, which is the
+> intended behavior for these constant string arrays:
+> - g_fbmode: array of framebuffer mode strings
+> - fixId: array of framebuffer device names
 > 
-> v3:
-> - Removed EXTRAVERSION = -vivek from Makefile.
-> 
-> v4:
-> - Tested and verified Makefile EXTRAVERSION removal does not break build
-> - Removed EXTRAVERSION = -vivek to keep version clean
-> 
-> v5:
-> - Renamed chan_plan_idx to chan per Dan Carpenter's feedback.
-> - Removed mistaken blank line addition in init/main.c.
-> - Removed unrelated changes to Makefile and init/main.c.
-> 
-> Signed-off-by: Vivek BalachandharTN <vivek.balachandhar@gmail.com>
+> Signed-off-by: Ignacio Peña <ignacio.pena87@gmail.com>
 > ---
->  drivers/staging/rtl8192u/r8192U_core.c | 16 +++++++++-------
->  1 file changed, 9 insertions(+), 7 deletions(-)
+>  drivers/staging/sm750fb/sm750.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 
-Again, please read the documentation file for how to properly put a
-version log for the patch (it goes below the --- line.)  Look at the
-hundreds/thousands of examples on the public mailing lists for examples
-of what to do here.
-
-And also, please make sure that your patch actually applies against the
-latest development tree (i.e. linux-next or the subsystem development
-tree.)  I don't think that's the case here at all :(
+Always test-build your patches so you don't break maintainers workflow
+by submitting patches that break the build :(
 
 thanks,
 
