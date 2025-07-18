@@ -1,130 +1,98 @@
-Received: from mail-ot1-f49.google.com (mail-ot1-f49.google.com [209.85.210.49])
+Received: from mail-qv1-f43.google.com (mail-qv1-f43.google.com [209.85.219.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CFB6D528
-	for <linux-staging@lists.linux.dev>; Fri, 18 Jul 2025 02:02:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B548A923
+	for <linux-staging@lists.linux.dev>; Fri, 18 Jul 2025 02:52:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752804168; cv=none; b=YiPmBwIBLtEV4IKlqX4enMMMvqriZO98s4n7gHy+osyQIYLW9UV2pLe6P8Tq3ucxdzZCWsrtxV1KMLXvU2SQphv6fQL9q+P9DO6fLbiqsB4Cb3DK3x+GWMlC6E3+ooJilvdM+eVJgjU+j1ytdNHh10JniHGND3Z6GEiANrgYVaE=
+	t=1752807140; cv=none; b=fPzv+yoTAMpDzpLVlgMF2V3EADYL9mxRHM4ycvPh0Tz2oy8FE4myUF2owlpAOu9dAp1w3+7+ltAJskVxbcZUY42iEi1vQSUr7IR+fgcFeqhysm4Ehg1CZrepvxipwWdo9izy1i3THynq9eOs1tzGEDR9gx9r0MHQGZBiQSwJ4b4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752804168; c=relaxed/simple;
-	bh=tItl6Xkm0myXhSrQP9N9X6CM9SpkzyyAffNHX9OFsgM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=OGqmF881LCUVGm4zTSbo6G6RLoEOHvRnBF9GZUUwrA1obXa+IEr3IN1tjWsZZkJx4SQst75PcaxN+2PLPRXktBlOYeYNF8oU9wFNetNd2NhIH1VxHEDXLtDpO/sjH1LU+6yysrOsP5OD0aIBG/yfCqrJAQArH+geRnXGTka449Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Tx9LsgBa; arc=none smtp.client-ip=209.85.210.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1752807140; c=relaxed/simple;
+	bh=uO/aLk34PxK6RuOp80mrh8FbIyan0m1N7A2QsZ13ks0=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=XvCJN2dCzWnvMYqhQE6X60j2vnL9T+MbhuXA/yvgbh+S9Gc8effNoJWX7izzMb5287ecbUmgfMK1NZp7P1K00xVqAEQtsTdWY9Mwx2KesHy0qws5T/0PY/mhFsJDiTkZ9bg9klYnc40mEf1z/ctaBusaOOxKzRZwRoYnlZOjyxs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=L1SQSs/D; arc=none smtp.client-ip=209.85.219.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Tx9LsgBa"
-Received: by mail-ot1-f49.google.com with SMTP id 46e09a7af769-73e7bb65255so687165a34.0
-        for <linux-staging@lists.linux.dev>; Thu, 17 Jul 2025 19:02:45 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="L1SQSs/D"
+Received: by mail-qv1-f43.google.com with SMTP id 6a1803df08f44-704c5464aecso15563906d6.0
+        for <linux-staging@lists.linux.dev>; Thu, 17 Jul 2025 19:52:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1752804165; x=1753408965; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=mQIQyKdRFgYCxy5HSe3Ua2IVeutNacTw7X3cVK/drF8=;
-        b=Tx9LsgBaQHP1FhMqBGjh9e+zKGraqWavSo43Kbw3haQj/GRTMrbOB0AzcFEXK8Navl
-         bBnwIRmtXfxRaTlStUaAXkgOqiJTuzj5SdsHv41hb6dnOn4xlRTMjrTmt6Bo49TgVRwo
-         AA8OY1KhcckIbTO/FxBfYTb/eMEK7Gi6Dl/xiK2uoiVCAvOHXCyetbkf2evBPhUcMOGf
-         nOgVOJYoR0AZLc3FtFwuQpzYZZ1wi82pGt1BPD7jldfDEjTjz9Ka604V6fcgUWclA1ZD
-         gd8cWxAM50fgkjbdvS+D+avxvzpj/0cXaEK5+GXF6xnf8RTJuXJ80iwkQhDG+xdWmL38
-         N+qw==
+        d=gmail.com; s=20230601; t=1752807138; x=1753411938; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=pGG0XVFo2FBP426ZvN01QcnEm/j5L0pLYY1EkcsyU/w=;
+        b=L1SQSs/D8A6wyN6zR1wL/gWYc+qKKKHY84oBhpfecxsFRAwEGPTmS4BpSHU4ybPpQE
+         zxZWl/LrIvVw2Qdv3DGXL7/60zqQw1zjILNa4GXODOm/0R9/ienF0x8O8SLSU49tXHQr
+         DvfHHBUYJBCd23oexd/nK0HugNymosozsLLzwg9JFaEqc1+EpkmTIYW/kecFAn59pdvP
+         ShOq05k2HRDC77gAAlQ1J9OfZEE9ismFwnzzZlVoiwYWxGNuTwohkIyCATMHu1hGsGXF
+         /fpHUrLFD8pYYt9jvuri8Ca/CPCEmB14WsKoNmXEL3wtrANrx9VTwKZrwwugbzLmguRJ
+         PFXw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752804165; x=1753408965;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=mQIQyKdRFgYCxy5HSe3Ua2IVeutNacTw7X3cVK/drF8=;
-        b=FTKhwmRzYyDrg01XzDV6+8AL6KS/m1eqCzEmEGyBew3PJFDjEiajWfa1JpnHibqgwF
-         0FYI3ABnrPqwlFKX2uErsFMwkj7nvzgiKXksJqeLdZCy6c7mHQevtpGBibQr08Wb4IZx
-         KmSvd6TmWLLucYCkYZnL3lHAXMl6YkEQi4+sfs5QSITHT8Be5cNHHKEAmnJkFTkFJIj6
-         cbQerrjdKI04xA1TsFyfSfyCoRs+n36gmeklHvnH/BLxOyEb87NQvKp0CyUT9V2xxfpT
-         +mHqVP6sBZBT7oDUpp9QPI/R900ikfWCSyV7VZKVSDufc006gK+GHqd7c7lMaH3FELy6
-         mZ1Q==
-X-Forwarded-Encrypted: i=1; AJvYcCV96e1Zo4DOy6VVNsRm6zSgEf+dF6WK2fPS9xY6vnBGgmrKCgOhqR491ZBo9gR03tR0evzPCM2H5Ajlx1/Y@lists.linux.dev
-X-Gm-Message-State: AOJu0Yxxxbpd4Gg39IpO/SHtH4oGgMURTdUlJBYi8jQWEsUys+GQPCk6
-	AA+CsA4nhmeDGhDTX2Pu9kIfJl2vV1uhid4Fzxaxs4BYUVHstBWoKXi23ILKbrwZ2ig=
-X-Gm-Gg: ASbGnctqOmMZiJ0mKC7piDu7YKVYcVPKgw2cknf1glElI5CK3LG7f8HyHUh/QjnFOyK
-	5WbC9XuQGSjiC835HV4TyYaPHO+wHXpc3tVtFkimS1gDPCx5/MZRZceoVgXHQ2pF+smPr7hkR5c
-	Md4H/ihLAnRSzqwPawjnrnJhNrk+rqQh6Cc6J7CY6QxwejzP1H6vx2GuyN2enk8tuw+zB80Pef2
-	2iqcU64PhHEvP+Jb+3SSpDtGZ3Xia2eaRjLDPh/kIf9n47hi7Nd7QuZ8lSxckXZML7zXbbtGysQ
-	sPzrx0vJWeBXMuuhyI3aB2/vrdpiotc1sROXXaQN5R5AajfYRtmMCNCKB1SoQu44qxHeUH2PMpd
-	ZnHhqbehGmWHi2mDCqmvCZujO7mqM
-X-Google-Smtp-Source: AGHT+IEI8sBMyOgnw6y2eCUr5fjpT0b/Hn5vFbc1u562p9vD1WxLFCBfM5OhNgbekGnp7NVxtkJ2pQ==
-X-Received: by 2002:a05:6830:8104:b0:73b:1efa:5f6d with SMTP id 46e09a7af769-73e661974a1mr5923482a34.16.1752804165130;
-        Thu, 17 Jul 2025 19:02:45 -0700 (PDT)
-Received: from localhost ([2603:8080:b800:f700:2c38:70d4:43e:b901])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-73e8367f410sm249912a34.24.2025.07.17.19.02.43
+        d=1e100.net; s=20230601; t=1752807138; x=1753411938;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=pGG0XVFo2FBP426ZvN01QcnEm/j5L0pLYY1EkcsyU/w=;
+        b=RuFAnBcINFml63wvC9CNJbk13g1aWDKl4jm7TbHAprnW9tzxwrR40s7KYUPdIYVrv8
+         FMqhAVPvyEmuLqLTD1kFVarx6a3ZhH3Zu4XtfX9QpjoOmK8EOUYhEYkOPVSxfk6Xf3zw
+         w8JnJQHdVtLuNvLDK6l3hcLefmFw+pURlM7SrEDq4t6tgbPYfSXZEt8+xt6Sk7ENQGRz
+         15iWf3PMhQN1AJ4In02u2nmkWbGQncn2z92GgBfaUiWa9sXYoRHxC5USjWbmmjEdE/iI
+         KG6S25h4E9Vh3VqQ5pcuGHmbww9Ju5q1AdTkI6gzI4o2aKX++nMEzWHeGn9ufZPQt4ti
+         7GVw==
+X-Gm-Message-State: AOJu0YwBlzLCoKK9c5gueoxWt2ETdri2zyIjhMpn7rd0dv+m1hSd/Efi
+	HmswbA3YevpEgHx3CsLAmosJuwLQFnPpBaumTRtoz89T5RFN3w11s6QivALaTg==
+X-Gm-Gg: ASbGncseO0FZaZqctdEwJwcC8kw5VASoiAf/MFcPWleZDxsfkEHQjd0bkI6L+Bau1b3
+	fAhY+pRrCHqbfnZP1SylOqb0+USNsysPkCC/fi+Z3iRrBW19BEKLepAK7l7ojuViBPj+vZBi4jV
+	GwCc/G6DXT8bvtTacEcB7hGdIHxsBF0h5DbATQdE+SUno5LbcVRp5wLon8vHHbUtdejky0OvVYc
+	KJBFGG3rSDLvyW91y1TbVT2uwH4wo5CvJ1pjTCU5vOVTVGKLhH2CRhdtgecgKekV4vkweNPwnwr
+	BotTNzTBGVfDlaS8XQYlWvWJXW48Wa5IuEWgTiNigXV6gikMv6qDY2DWHHiMogJY8FMKAXrozKe
+	39ct4HFMTlo1tz/7Dduy0cUv6IsaaikjUk8DCCFxdoE2KRkjvYvQ=
+X-Google-Smtp-Source: AGHT+IGGEdFMjsd5e7qbjSVwxJTb2UjsHp4FrYMeWQlkHqMQHmF2eQ2SMeO6q6aDdnjwpskl4Cod9A==
+X-Received: by 2002:a05:6214:5f0e:b0:704:93e8:5e5a with SMTP id 6a1803df08f44-704f6ac6425mr143547526d6.28.1752807137919;
+        Thu, 17 Jul 2025 19:52:17 -0700 (PDT)
+Received: from linux-kernel-dev-start.. ([159.203.26.228])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-7051ba9d63asm2710226d6.89.2025.07.17.19.52.17
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 17 Jul 2025 19:02:44 -0700 (PDT)
-Date: Fri, 18 Jul 2025 05:02:42 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Vivek BalachandharTN <vivek.balachandhar@gmail.com>
-Cc: gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev
-Subject: Re: [PATCH v3] staging: rtl8192u: Rename ChannelPlan to channel_plan
- and fix index name
-Message-ID: <6c0d6a6e-4b47-48c9-acbd-b5dd33fd0001@suswa.mountain>
-References: <20250718015525.162561-1-vivek.balachandhar@gmail.com>
+        Thu, 17 Jul 2025 19:52:17 -0700 (PDT)
+From: Vivek BalachandharTN <vivek.balachandhar@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Vivek BalachandharTN <vivek.balachandhar@gmail.com>
+Subject: [PATCH v5 0/1] staging: rtl8192u: Rename ChannelPlan to channel_plan and fix shadowed index
+Date: Fri, 18 Jul 2025 02:52:05 +0000
+Message-Id: <20250718025206.171361-1-vivek.balachandhar@gmail.com>
+X-Mailer: git-send-email 2.39.5
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250718015525.162561-1-vivek.balachandhar@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-The rtl8192u driver was removed.  Work against the current code.  (Just
-use linux-next probably).
+This is my first contribution to Linux Kernel. 
+This patch addresses a naming inconsistency in the rtl8192u driver.
 
-On Fri, Jul 18, 2025 at 01:55:25AM +0000, Vivek BalachandharTN wrote:
-> This patch renames the global array ChannelPlan to channel_plan
-> to follow Linux kernel coding style. Also renamed the index
-> variable from channel_plan to chan_plan_idx to avoid
-> shadowing and improve readability.
-> 
-> v2:
-> - Fixed Cc list to include Greg and staging list
-> 
-> v3:
-> - Removed EXTRAVERSION = -vivek from Makefile.
+- The global array `ChannelPlan` has been renamed to `channel_plan` to follow Linux kernel naming conventions.
+- The local variable used as an index into this array was also named `channel_plan`, which caused shadowing. It has been renamed to `chan` for clarity and to avoid confusion.
 
-Heh.  No.  Still there.  Slow down, there is no rush.  Let people
-review the rest and see if there is anything else to change.
+Changes since v4:
+- Renamed `chan_plan_idx` to `chan` per Dan Carpenter’s suggestion.
+- Removed unrelated and accidental changes to `Makefile` and `init/main.c`.
 
-> @@ -145,12 +145,12 @@ static struct CHANNEL_LIST ChannelPlan[] = {
->  	{{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14}, 14}
->  };
->  
-> -static void rtl819x_set_channel_map(u8 channel_plan, struct r8192_priv *priv)
-> +static void rtl819x_set_channel_map(u8 chan_plan_idx, struct r8192_priv *priv)
+This change improves code readability and compliance with kernel coding style.
 
-I hate the name chan_plan_idx.  Probably "chan" would have been a better
-name.
+---
 
->  {
->  	int i, max_chan = -1, min_chan = -1;
->  	struct ieee80211_device *ieee = priv->ieee80211;
->  
-> -	switch (channel_plan) {
-> +	switch (chan_plan_idx) {
-> diff --git a/init/main.c b/init/main.c
-> index aa21add5f..648589720 100644
-> --- a/init/main.c
-> +++ b/init/main.c
-> @@ -680,6 +680,7 @@ static void __init setup_command_line(char *command_line)
->  
->  static __initdata DECLARE_COMPLETION(kthreadd_done);
->  
-> +
+Vivek BalachandharTN (1):
+  staging: rtl8192u: Rename ChannelPlan to channel_plan and fix index
+    name
 
-This change is a mistake as well.
+ drivers/staging/rtl8192u/r8192U_core.c | 16 +++++++++-------
+ 1 file changed, 9 insertions(+), 7 deletions(-)
 
->  noinline void __ref rest_init(void)
->  {
->  	struct task_struct *tsk;
-
-regards,
-dan carpenter
+-- 
+2.39.5
