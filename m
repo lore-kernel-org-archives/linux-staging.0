@@ -1,156 +1,114 @@
-Received: from mail-qv1-f47.google.com (mail-qv1-f47.google.com [209.85.219.47])
+Received: from mail-qk1-f171.google.com (mail-qk1-f171.google.com [209.85.222.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F355D1C6FE8
-	for <linux-staging@lists.linux.dev>; Fri, 18 Jul 2025 02:52:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD6421C84BD
+	for <linux-staging@lists.linux.dev>; Fri, 18 Jul 2025 03:49:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752807162; cv=none; b=czkVs0WUMS2CbyvMl/2mB2hXoqOlUgGemVAu26n9iM7/CKtoSQ5X2TioCsZiZWZUX0QGAFS5E7Bn9apeV8g61Y+nNMzLnYoQMzD25of288QL9arunMNe2ICUzuErLPNvHP1hYRsOofnsaSWEgrGYZFdNLHw+NkXOXo5xhCHnrN0=
+	t=1752810563; cv=none; b=tKb3kzAEtsydeRtDcm9HyHH4tsJ490wCmycATLsnS3ia+Pzvgtyt2yGX/+eqbqpZuvIqGpbBahm9ZIck4faER5h2W/xdgSHuwCQ/yxkpoYkT8YXp3fII+I0RkC5lFBMcx2UqIx+JU4iFwjLOPPMEU7IOW9JDBGT9/bPD92fO5cM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752807162; c=relaxed/simple;
-	bh=h9GGpNNIpEixTMir1PYqWvBLQrrlkuxtKIziA8p8SMQ=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=XSSoscg/Km31MVIwRPyGn2V2rCkOt3hbhsFN/8gqx0X6fD654O5FS7sAcEMFlaJyokynq3957Fm72v/ra/8qJ7fTTivWC/p6MQZN9vnN6jlN3sjU5bG490R9x4+njB3XlLmXviicwqC3Oaq0gntvU1tgp8aqY1XBkiRqCboLbTQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ty3nCoVR; arc=none smtp.client-ip=209.85.219.47
+	s=arc-20240116; t=1752810563; c=relaxed/simple;
+	bh=TUYntXoe7RxxZnZMgxLkh3iZOefyIpODGMo4hHDC1ec=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=AQSYr6aeMPOS6voch44Eur90C0+kisw9S8hG7gO56yJjXM7j2Xe+HHUKxRM3ZsITq9x/cUS0XZHtrvD0IaH1vgLozeAg07wl8/FMR21zBa9jPA/89ixqx93D8iGApzoAIf3Z8M0z8jufR2HqNYVXEsZ0b7HU8cSuNRp2t7lO9GU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YoIhEdyc; arc=none smtp.client-ip=209.85.222.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ty3nCoVR"
-Received: by mail-qv1-f47.google.com with SMTP id 6a1803df08f44-6fafb6899c2so19124376d6.0
-        for <linux-staging@lists.linux.dev>; Thu, 17 Jul 2025 19:52:40 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YoIhEdyc"
+Received: by mail-qk1-f171.google.com with SMTP id af79cd13be357-7e182e4171bso177289885a.3
+        for <linux-staging@lists.linux.dev>; Thu, 17 Jul 2025 20:49:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1752807160; x=1753411960; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=iDlXE/KCw2qSqLxnWSLl7l0n5eGJ5huDsYk4m27l4sE=;
-        b=Ty3nCoVRFGv5PF2bXGE5QPYi5BM7vXHYOAD08QQNxYTTd5RnV8OqPT0XO5/CUDex1/
-         92LNjRPFW6GhXoINOU9KdSVyHy+g6xN6p08Diqikx3tpH1GyYn190+5MoOTRjMmjKb3Y
-         4IidwoBW4ju0wgTrgxpnEjkud01vDp491MjvCnDlmYRwEmUFYfaWW25drbLi/w1/3uKQ
-         6TaWc93ZRXAtKsfQ3lg8kuMg9CvJsPwqiMHaGTEwziwMWDQhpA9q4ZCnRA6vzYWPAkDr
-         UiR6qWNQkysQIOIrExz77L9bK7clo9ch2X7grOMYWgAV94g1gNsqaOwXldQs3vJaYiOD
-         6QFA==
+        d=gmail.com; s=20230601; t=1752810561; x=1753415361; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=/ahzSbzOVkCgO0V1iipUMnKt+g1BWb60GhxM8vm63ng=;
+        b=YoIhEdycpsBOoAUpKHZNrMHD4+aKs1jWpGhpEWLBtHs4Bi+yzy5D9+NcmazwlLcH//
+         awiGAtF+Ftk/22qaqQu/0F2C22/zuF1DMYtMgkRY3fstNtOaAUL3GSgcM9XOuqdk51+V
+         DpOcVuQ8alqW+lCRghs+k/KJ79oYyevH8sUuV2wETyuCBpEBGe7Vmj45jPJBPV7bNEEH
+         dmrsuUL1Y9LHX566svnM5hHKzaRz1W5fQSsv7srVsFuJI1nYX4+pX8NZ8ps+eBR3ob9s
+         f3VLcTd22uRF8LO55I5+ocvQRzfFMx88GcIp6oc/mVpwcJbPhSSds5JnOFtd8bQ+9VZu
+         sFog==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752807160; x=1753411960;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=iDlXE/KCw2qSqLxnWSLl7l0n5eGJ5huDsYk4m27l4sE=;
-        b=wWTPxJ94Z0jzh4TyY5qXV5+2eQaSOBwsLqwtBlJYGpNKnmo6jtCwV3c1vwtaoo79wa
-         na+FI8H/23z5p8XyTieeYSLdv7TjwuM7kudQ2U5QIxfUxn1UPEy4GSV8lfNpkWkWwnYC
-         aow62ax9O8iIuE8fMcJoQUFSz019Oq6jLMhfRA14McHt7aulGYyWOCCHkiVGKMqZZyq7
-         3Hm6i9sW2CQXhLME6fWl0xeic0wfZflAd5fmxP/Hs4DQTaHvZDVJcTkUUQvWEHAGZScv
-         /jlCncS4oZ9YhSS5KFuEs4Jmv0bLQTxUaBaUroDwHFqY1kQKVV5WbyCZRER5PbcahY9H
-         KA4A==
-X-Gm-Message-State: AOJu0YxnyS01jcImocFS1sbL3vybyRnEy81HHfQEXRrVpkNYP0lVmQYI
-	yg4+ZJFlDUkjmYIt3oWQMqCRrDFOvDyLQCok4hHQXViSxNh0T4Dd5Zy8
-X-Gm-Gg: ASbGncuda641pcRV+vKEPYKePncOUC9RhiFj7gHAiNBiqsUdSWzxS812qFYPQoTqUs9
-	Eq85ArAkecwCN0s8rWzYpMGEThbvIgANVP59usN/lb1TPkTyh4ppiOstFbtgYoqb/YlhqfjV2vi
-	+laeLFNBBB7Z45YSZ+frTCVxiMUnBcTP1tE5icpOi+47vqec9JLlj+CJ1LPgCRas4OvD90dHDyJ
-	r7+0wUoA9CC0kv0wF0JPfups2y9v3ouGs/qOpa0TOaQ87n4Yht65makj3ANrEzRmqn08g+/8QHq
-	Sd/oS4+H74G4ZZVdUu6trSlnnPQNm4qVhX/DEyvy++pctU0kfJvDz7oq+uKz/jcj4/h897NjRnS
-	pzOyNUaaiwOwMDC29GK/iXvRlgv6fsWDVJbUVhWrxtREs/ArJ0UA=
-X-Google-Smtp-Source: AGHT+IHZtvH+GBGMsUktTpIH4Ks+9vJ3s3yC14qfjb2oKzvv4uW0x2T0ny6TWVGFGCML8OmP7FzqEw==
-X-Received: by 2002:a05:6214:1bcc:b0:704:f7d8:7032 with SMTP id 6a1803df08f44-705055a32bemr84490596d6.23.1752807159696;
-        Thu, 17 Jul 2025 19:52:39 -0700 (PDT)
-Received: from linux-kernel-dev-start.. ([159.203.26.228])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-7051ba9d63asm2710226d6.89.2025.07.17.19.52.39
+        d=1e100.net; s=20230601; t=1752810561; x=1753415361;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=/ahzSbzOVkCgO0V1iipUMnKt+g1BWb60GhxM8vm63ng=;
+        b=ocpVYF2tWCD6Tc/qS8l3NF0H/Od5GbjF7q4Ko1zbXaFyG0fN55CWOvhaSUB9AIS3R4
+         DshBlBgDwumTWGE/XQs2QsE6hCrR4bw+PReutkAWRMDjyVAzNvjdu75CMCQb3HnOzy2R
+         5v7D7ZbvKJyB53Zub+Ae5FIKxWyA5haBNp4HoPA1GM8jDXjqtuWyeplyPgZRNbjMDLbS
+         /D8+uP7H71hVLt/h6obpLoMCkOGiA8zWtV/Twm3A+M6PNyay/41DY9RogkTef23y0yoJ
+         GZXX2TfUvBkJhQnEyEGj9gG8uYhXSnz0utbNIOU+1RTpQGd88TPihFHhS/LRxsaPQtVh
+         AaYw==
+X-Gm-Message-State: AOJu0Yw74R6jpqb1C5PXMNiM4V8UbTBIZLwn1lURFgxCUFfwbJcMDA2+
+	y5W4U25T8hN8acydeW/7QEHJXK89MCbeQY6VOkZEo44QhTTpwVYcqQHM
+X-Gm-Gg: ASbGncsXDgNTWREw+/sJacFv9DF+Tovn6r5Xpg53WbdNtizpmRM3CGuetKU4kPVWvVV
+	9c2BlMBUoubNbnpk1IRLLXOANmqAV7+O8QV1p4RMb5BXKQ3cTT/kfcC4bnaBKe+okPOFbHALQZr
+	D1dc1p8OkRgFbG8hhutTzmDVgCamoghgv6VUdBwzw6vpX2FRFxVZURsi9fVN/Bb8b2Mjv38kc6z
+	AUU9D9d8bfyTbMzO3PK6n3lGrxEYmjuMRA3Ry01N+RFcg15lKM6ES3Yqd1n76YWxZqkc/RdBwm9
+	ffnAaod9qxfpvlmhTbrZvP2DIyHl4HjxQUdMUF11ZyI4d+Iaa28/VqYIrH39kQdJ4+jmAZiYOkq
+	c9sGJNgi389dXUXM7ZFCUAd2Om7OZ2/3fuVmLy9fwpXpHIFMqt3pX
+X-Google-Smtp-Source: AGHT+IHwz2ZQ9UVQsUrHY6uima8WLEW793ry54aYseMx0tESu7LoYKDH8an0Vh/LM1hsaavk7gb6eQ==
+X-Received: by 2002:a05:620a:4726:b0:7db:e87:918b with SMTP id af79cd13be357-7e3435ead7dmr1235595585a.33.1752810560690;
+        Thu, 17 Jul 2025 20:49:20 -0700 (PDT)
+Received: from localhost.localdomain ([181.161.11.224])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-7e356b47f8esm41183885a.33.2025.07.17.20.49.19
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 17 Jul 2025 19:52:39 -0700 (PDT)
-From: Vivek BalachandharTN <vivek.balachandhar@gmail.com>
-To: gregkh@linuxfoundation.org
+        Thu, 17 Jul 2025 20:49:20 -0700 (PDT)
+From: =?UTF-8?q?Ignacio=20Pe=C3=B1a?= <ignacio.pena87@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
-	Vivek BalachandharTN <vivek.balachandhar@gmail.com>
-Subject: [PATCH v5 1/1] staging: rtl8192u: Rename ChannelPlan to channel_plan and fix index name
-Date: Fri, 18 Jul 2025 02:52:06 +0000
-Message-Id: <20250718025206.171361-2-vivek.balachandhar@gmail.com>
-X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20250718025206.171361-1-vivek.balachandhar@gmail.com>
-References: <20250718025206.171361-1-vivek.balachandhar@gmail.com>
+	=?UTF-8?q?Ignacio=20Pe=C3=B1a?= <ignacio.pena87@gmail.com>
+Subject: [PATCH 1/2] staging: sm750fb: make const arrays static const char * const
+Date: Thu, 17 Jul 2025 23:49:13 -0400
+Message-Id: <20250718034913.49300-1-ignacio.pena87@gmail.com>
+X-Mailer: git-send-email 2.39.5 (Apple Git-154)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-This patch renames the global array ChannelPlan to channel_plan
-to follow Linux kernel coding style. Also renamed the index
-variable from channel_plan to chan_plan_idx to avoid
-shadowing and improve readability.
+Fix checkpatch warning:
+"WARNING: static const char * array should probably be
+ static const char * const"
 
-v2:
-- Fixed Cc list to include Greg and staging list
+This makes both the array and its contents immutable, which is the
+intended behavior for these constant string arrays:
+- g_fbmode: array of framebuffer mode strings
+- fixId: array of framebuffer device names
 
-v3:
-- Removed EXTRAVERSION = -vivek from Makefile.
-
-v4:
-- Tested and verified Makefile EXTRAVERSION removal does not break build
-- Removed EXTRAVERSION = -vivek to keep version clean
-
-v5:
-- Renamed chan_plan_idx to chan per Dan Carpenter's feedback.
-- Removed mistaken blank line addition in init/main.c.
-- Removed unrelated changes to Makefile and init/main.c.
-
-Signed-off-by: Vivek BalachandharTN <vivek.balachandhar@gmail.com>
+Signed-off-by: Ignacio Peña <ignacio.pena87@gmail.com>
 ---
- drivers/staging/rtl8192u/r8192U_core.c | 16 +++++++++-------
- 1 file changed, 9 insertions(+), 7 deletions(-)
+ drivers/staging/sm750fb/sm750.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/staging/rtl8192u/r8192U_core.c b/drivers/staging/rtl8192u/r8192U_core.c
-index 0a60ef201..092f36383 100644
---- a/drivers/staging/rtl8192u/r8192U_core.c
-+++ b/drivers/staging/rtl8192u/r8192U_core.c
-@@ -120,7 +120,7 @@ struct CHANNEL_LIST {
- 	u8	Len;
- };
+diff --git a/drivers/staging/sm750fb/sm750.c b/drivers/staging/sm750fb/sm750.c
+index 1d929aca3..82e01f114 100644
+--- a/drivers/staging/sm750fb/sm750.c
++++ b/drivers/staging/sm750fb/sm750.c
+@@ -33,7 +33,7 @@
+ static int g_hwcursor = 1;
+ static int g_noaccel;
+ static int g_nomtrr;
+-static const char *g_fbmode[] = {NULL, NULL};
++static const char * const g_fbmode[] = {NULL, NULL};
+ static const char *g_def_fbmode = "1024x768-32@60";
+ static char *g_settings;
+ static int g_dualview;
+@@ -731,7 +731,7 @@ static int lynxfb_set_fbinfo(struct fb_info *info, int index)
+ 		"kernel HELPERS prepared vesa_modes",
+ 	};
  
--static struct CHANNEL_LIST ChannelPlan[] = {
-+static struct CHANNEL_LIST channel_plan[] = {
- 	/* FCC */
- 	{{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 36, 40, 44, 48, 52, 56, 60, 64, 149, 153, 157, 161, 165}, 24},
- 	/* IC */
-@@ -145,12 +145,12 @@ static struct CHANNEL_LIST ChannelPlan[] = {
- 	{{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14}, 14}
- };
+-	static const char *fixId[2] = {
++	static const char * const fixId[2] = {
+ 		"sm750_fb1", "sm750_fb2",
+ 	};
  
--static void rtl819x_set_channel_map(u8 channel_plan, struct r8192_priv *priv)
-+static void rtl819x_set_channel_map(u8 chan, struct r8192_priv *priv)
- {
- 	int i, max_chan = -1, min_chan = -1;
- 	struct ieee80211_device *ieee = priv->ieee80211;
- 
--	switch (channel_plan) {
-+	switch (chan) {
- 	case COUNTRY_CODE_FCC:
- 	case COUNTRY_CODE_IC:
- 	case COUNTRY_CODE_ETSI:
-@@ -172,15 +172,17 @@ static void rtl819x_set_channel_map(u8 channel_plan, struct r8192_priv *priv)
- 				 "unknown rf chip, can't set channel map in function:%s()\n",
- 				 __func__);
- 		}
--		if (ChannelPlan[channel_plan].Len != 0) {
-+		if (channel_plan[chan].Len != 0) {
- 			/* Clear old channel map */
- 			memset(GET_DOT11D_INFO(ieee)->channel_map, 0,
- 			       sizeof(GET_DOT11D_INFO(ieee)->channel_map));
- 			/* Set new channel map */
--			for (i = 0; i < ChannelPlan[channel_plan].Len; i++) {
--				if (ChannelPlan[channel_plan].Channel[i] < min_chan || ChannelPlan[channel_plan].Channel[i] > max_chan)
-+			for (i = 0; i < channel_plan[chan].Len; i++) {
-+				if (channel_plan[chan].Channel[i] < min_chan ||
-+					channel_plan[chan].Channel[i] > max_chan)
- 					break;
--				GET_DOT11D_INFO(ieee)->channel_map[ChannelPlan[channel_plan].Channel[i]] = 1;
-+				GET_DOT11D_INFO(ieee)->channel_map
-+					[channel_plan[chan].Channel[i]] = 1;
- 			}
- 		}
- 		break;
 -- 
-2.39.5
+2.39.5 (Apple Git-154)
 
