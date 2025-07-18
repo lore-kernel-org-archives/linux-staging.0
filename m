@@ -1,100 +1,100 @@
-Received: from mail-ot1-f49.google.com (mail-ot1-f49.google.com [209.85.210.49])
+Received: from mail-ot1-f41.google.com (mail-ot1-f41.google.com [209.85.210.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4EE418E20
-	for <linux-staging@lists.linux.dev>; Fri, 18 Jul 2025 21:05:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F188918E20
+	for <linux-staging@lists.linux.dev>; Fri, 18 Jul 2025 21:07:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752872716; cv=none; b=QB0nPjQ7q+UiZfkXuQXGzhAL4oXRFsDDehEetimZKxiBvJxBYgQkbfKymsaMcDMd4uNgBX/KU7XhyR/rMHVxVFxBTdiQ9VXpaZelPdx0xUtz/3CCsewAq3ORYWm0dKdUPtN2tKSB5CqjN0Ya4lR5o9u8XAKMko0P5hke4bmhu3U=
+	t=1752872826; cv=none; b=riKEtnXoqVszAKMGIvvIosS9M2Ms8re/QzR93tiYL7n8v/FaA4f6PdWl+zZi9MoK75PXg5NLVoJDB9XcC4y5DGAx0VdpoCLUxWtcUFT1Nmx6qPRF0z4RlQMH6YloLyMNW4zt6aZUaGOTHfEHRhfJZCUtp1fefcgPfjZIeMCeUpA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752872716; c=relaxed/simple;
-	bh=UIDY4eNffZd6VU4WcqmYHwOy+XkRBoPC0tEQIobAF1k=;
+	s=arc-20240116; t=1752872826; c=relaxed/simple;
+	bh=5TwKigiH08MXi3g8F9YV0r2S2yH4dRD08h/ffr23QEs=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=M9Go/2N1Y3RyPyz4qaMOtu2qzHzMhwdfW7oAqLECGu/v51OYoMhiJrLjLdzXTehhp01z5TpKjGXOqMdxSf9s3Kmu6c0uPdWa+wCs66yz7UVXj1FQRRF6J/nILvqn51KhD2BbMrJItuQeHF03DijGihOcaj6q1ekQuF+za7rFexU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=sVKzXtC4; arc=none smtp.client-ip=209.85.210.49
+	 Content-Type:Content-Disposition:In-Reply-To; b=rtGkK2ztbRiDi4IlPHUyEkWy8g47mThO/hq9WgFhEHJKTOypOo0pJHsBB6XGnJe1s2jg0P9evwN6DkkzoycdsJ60MfcdOHpJOlVfVP1KUR/4qCz/rPMA0oT/EmyjpQsF3ZpH6FpKGuu0qI12kKsPceT69l7ueWwngR2ANSE/9hA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=CPjCRPva; arc=none smtp.client-ip=209.85.210.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="sVKzXtC4"
-Received: by mail-ot1-f49.google.com with SMTP id 46e09a7af769-73e88bc3796so340248a34.0
-        for <linux-staging@lists.linux.dev>; Fri, 18 Jul 2025 14:05:14 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="CPjCRPva"
+Received: by mail-ot1-f41.google.com with SMTP id 46e09a7af769-72c14138668so1039875a34.2
+        for <linux-staging@lists.linux.dev>; Fri, 18 Jul 2025 14:07:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1752872714; x=1753477514; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=lVaMLZuQ3F36ySxiRVFdwYKeo/o3u/qT80a9cWmFQmw=;
-        b=sVKzXtC4P+469rnMeKa70N+Emls//AvBi+B4OCGyErqstUwRxPA9qCUZUIbuaLRDGn
-         bMzTjtFea40cx6UgvRNeQQ9jtZaY/i+ZKZZz1CCqb28Tm0fPhLIAAmhGFN/XcZach8Fw
-         imcixIdKRge2op2pnE8DMMbX0c8Zt1aQLA6XXvC9P8Bb5lDnjU3lZkoLNcaYFvZKxZ9G
-         quZ+ED3IZMe0W8FLwXHSjpCV68XNklWbgJqScKyTxGnxrOaBPUbY+2rNb93rB0szh2AS
-         CuNqRVxqEtC29Uk08KtfM5EOx4wSbkzWLBLJHs/OeKWuTfDrBOC57W2hWf3F2aeidIFc
-         kxvg==
+        d=linaro.org; s=google; t=1752872824; x=1753477624; darn=lists.linux.dev;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=IDq7oOQ52kdbaZwGEtTLrjH3q1ZZE7Dja6w1bzcer4A=;
+        b=CPjCRPvalLCf1uvZLFdlS5bLm/UL1liiN9DVOejdkCcbynV8LujiU+tMmayN5W+v5a
+         Vs/WBgyj3+fFojDShnNRjb+u5J1clY5zx8QHSPtctw9PZ37Cv8m2JrNm1o6dJxpLJVvP
+         TZUZzTFk9Pj+4iPPmkXjDSXYGCer7KSDhx/d31E9Py54KnBtldBVZx7t7331cizBdoUX
+         eIJXlBjwS8teYpDKMRbRJ6WMRgPQX11FDvNMQei6311ccDQckEiJ48OMog1DbnYjePbU
+         q6K1GF3a+qxlPbMEDiaph5scIRUHJPfcD0YeUqyREvSLAZEXquzKxWJIg9UMKM4HNE0G
+         P3xQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752872714; x=1753477514;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=lVaMLZuQ3F36ySxiRVFdwYKeo/o3u/qT80a9cWmFQmw=;
-        b=HBO+Fn0KcAgOaq8VNukZUZpdlIIXyuNjX68rDSf2JT9K/0s0D4VT7Su170K+zcRA8n
-         wId5z2uMnu4wDUhiOk317SIN8CFCDj9H1zLXnLgP1QE+WUEAk56ktXm+Fm5VjNOX4Drl
-         nFAQu+54nmHdUIWyKkUed5h+LKehSrJRneKwO12zDr27Uz7sEsSou83oIHdrMJxeuQeC
-         55Ri/ooT9WkmmuVJdxAIZpmWXceQUD2qj2xdxqXcy0F/Xw6ODudJCUNwAW/oeqKBsGDT
-         zo9ynJZXDQbRXUBsUWFwS+dRfHxt9QSZ2nkcUgwK+ucEPcadciJHdgnT4KJZstjbHJR9
-         0Z/A==
-X-Gm-Message-State: AOJu0YxPkYj6KFWTtj9nXX95Dmdl3MIwvdYaCcK9x/cpK00L10AutnHO
-	kMIgXpNKPVRpBhBNA48ipx3noRUMJWIZtH8LGDT//vdgqec9kdNXbhFby5HyOmtXuKfJjwq186l
-	Xo3BS
-X-Gm-Gg: ASbGncvapzYEeagqhR4YRmQIsj/JqtHxRWOswEc0sD95Yqe2aGMbmXXCgxujwhN3I/Q
-	WFzDhKvaJFV+GDBGYp7o4Eqcv2kwc1h1uW1x/TvW/BcbtubVAw/YyCl4WauWgovGqJ08FYiH2le
-	KcZ/FhfswNLT+u0Ur5b6puMiePdvMzH1GJV+5H8RfC+diVv3XB7UJf1L0YoZYjZk4qpH49oyX8+
-	eT9znRMJiABO3XuXcbsAkCPAgOgnIhaR+fa9CHGcRStfNkgZou9pQOiMckQqn30FJdmJWkeUMlG
-	EPJGDHcTPwd/uoTn8berh9oy3W+Q9fntCPCkbCatIJ/uxgPAVZTsnxjpYBIuECR/D9yDOvJGK1V
-	SR5NvldHkfLxsRkReAn0EV+Z/EYXRFg==
-X-Google-Smtp-Source: AGHT+IHyKyyRfyG0vkcajqrNmJysRKCXt5k1/jIfO+NgCDq8mB6f6leaEYa0oz0/6PlEVCiroKsYNg==
-X-Received: by 2002:a05:6830:3494:b0:727:3303:7ea8 with SMTP id 46e09a7af769-73e64b12bb2mr9843337a34.25.1752872713789;
-        Fri, 18 Jul 2025 14:05:13 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1752872824; x=1753477624;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=IDq7oOQ52kdbaZwGEtTLrjH3q1ZZE7Dja6w1bzcer4A=;
+        b=WnDORL9qULbFZeJqYvqDfJV7Q3GKhSuSHCxVPHTUm4Ogks6pw+qsuU6gLooPY+anyA
+         FD1A7/UONDs4Tuwd2uPtaXyUATwOOTurZwCGDMN2ahfeGO/yOuxktnTASS/Ipsvtpfgx
+         jaBxvU/5Bir9tAR11aUUhipLlZCwBU+lZn36/08lo/KpBGwXzfh7FYHN5I9KQiUsN4cx
+         hVFNp+lp38jvKbiQDhL4ze3Tfo1xe8ccfBIuHQQYBmRAXkCPAOI0X4LhBlVNRVzsSVNI
+         JpYZAEcdvxxeq9pHE2WLegBiuvlyo6MJMI5aE7x6HiZdPwAHwkHzEuWj4Ujjyzplr35L
+         YXCg==
+X-Forwarded-Encrypted: i=1; AJvYcCWiyGfRKbOrSyqWtwQLyp1yNIiJ0Lby70Nib7CeKgGoimLkJKQ1T3py3n8NXXcuYdfkcCUJCiBH8R53p+Yh@lists.linux.dev
+X-Gm-Message-State: AOJu0Yzx1Jnupmmu0KENgQ8qLnCLQZyPhOjPyqhGC/bTASuEdWZs7MrR
+	O6J5h9ePZlTWuTx0G/SDWaTVz6bGsvo3vXrDJotNPhoCK3LGfWA9t6JK8x+6qFL3UaIX188tPev
+	omCrF
+X-Gm-Gg: ASbGnctXAxZ5+ajh3CYP/3sd3Iv3p4QzMwIPx36luwS8NhcC8mDBUzjTJdrSI3Y5nZo
+	z1R0EyhbqTr+mWLs2WzwXCIqD8KK+4nZfg8FU5TuxtUtsY8enB5cHRmAmRxJ/DaqF76cGOhs467
+	h7635d9Gi4zw0Klkm4STRmQAv2w4vCMOxMqvXht8cXcDUFVfBNmu2RPg0/cqPhwhUu+wGxeVMlf
+	HiT+ulCY8sSsjE0Fcwy+P+GELbK9S8eCOtyMFvMLeUDvtGgFLCIqDwrzT6nMt9AxF+I5qitzg1F
+	FnlHHO1nNhBvN4nkJzTcoLZ4PPra+1JCrUucG8D/0Wapzl4jeSFhz2aUCGK75/rzMNrM5D4oNM0
+	huq3TCMMA8kXuUsrF5jIiLd3q6zLLlA==
+X-Google-Smtp-Source: AGHT+IEj/fNcFQQTUD8tJFDiwFrmLtonsc1w1R/cHms01UPIzSBjuIHwW08BPvsQyp9RY0wnRv1veQ==
+X-Received: by 2002:a05:6808:2e45:b0:41e:a422:390 with SMTP id 5614622812f47-41f99941b7amr2869684b6e.38.1752872823962;
+        Fri, 18 Jul 2025 14:07:03 -0700 (PDT)
 Received: from localhost ([2603:8080:b800:f700:e5d3:a824:1a57:fcaf])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-73e8369bf60sm931373a34.28.2025.07.18.14.05.12
+        by smtp.gmail.com with ESMTPSA id 5614622812f47-41fd10c22a3sm698017b6e.8.2025.07.18.14.07.03
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 18 Jul 2025 14:05:13 -0700 (PDT)
-Date: Sat, 19 Jul 2025 00:05:11 +0300
+        Fri, 18 Jul 2025 14:07:03 -0700 (PDT)
+Date: Sat, 19 Jul 2025 00:07:02 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Tony Bronzo <abronzo@mac.com>
-Cc: linux-staging@lists.linux.dev, gregkh@linuxfoundation.org
-Subject: Re: [PATCH 1/1] staging: fbtft: fbtft-bus: replace blank modifier
- with identity() macro
-Message-ID: <ea5ebd9d-1c3d-47f5-90b9-ad0121df0466@suswa.mountain>
-References: <20250718191935.5918-1-abronzo@mac.com>
- <20250718191935.5918-2-abronzo@mac.com>
+To: Ignacio =?iso-8859-1?Q?Pe=F1a?= <ignacio.pena87@gmail.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] staging: sm750fb: make fixId array static const char
+ * const
+Message-ID: <01f7bfc2-284a-479b-b73e-40907dfba387@suswa.mountain>
+References: <aHqvUrXtxwf_k9sI@MacBook-Pro-de-Ignacio.local>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20250718191935.5918-2-abronzo@mac.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <aHqvUrXtxwf_k9sI@MacBook-Pro-de-Ignacio.local>
 
-On Fri, Jul 18, 2025 at 03:19:35PM -0400, Tony Bronzo wrote:
-> The previous blank 3rd parameter in two define_fbtft_write_reg() calls
-> created a trailing ', )' and triggered:
+On Fri, Jul 18, 2025 at 04:32:18PM -0400, Ignacio Peña wrote:
+> Fix checkpatch warning for the fixId array only:
+> "WARNING: static const char * array should probably be
+>  static const char * const"
 > 
->   ERROR: space prohibited before that '('
->   ERROR: space required after that ','
+> The g_fbmode array cannot be made const as it is modified at runtime
+> in lynxfb_setup() and lynx_alloc().
 > 
-> Introduce a local identity() macro and pass it instead.
+> Signed-off-by: Ignacio Peña <ignacio.pena87@gmail.com>
+> ---
+> v2: Only change fixId array. The g_fbmode array is modified at
+>     runtime (lines 786, 788, 949, 953) and cannot be const.
 
-This is a very creative solution and so far as I can see this doesn't
-break anything.  But it does make the code more confusing, so a better
-solution is to just ignore the checkpatch warning.
+There you go.  That works.
 
-Like another solution would be to just say:
-
-#define empty_define /* checkpatch doesn't like macros which end in comma */
-
-Less creative.  Slightly simpler.  But still no good.  Just ignore
-checkpatch when it is wrong.
+Reviewed-by: Dan Carpenter <dan.carpenter@linaro.org>
 
 regards,
 dan carpenter
