@@ -1,110 +1,101 @@
-Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
+Received: from mail-oo1-f52.google.com (mail-oo1-f52.google.com [209.85.161.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A279422127A
-	for <linux-staging@lists.linux.dev>; Sun, 20 Jul 2025 17:34:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A48A91A08A3
+	for <linux-staging@lists.linux.dev>; Sun, 20 Jul 2025 18:03:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753032890; cv=none; b=bBebOa02UZRCHhuG0Ajxid9VpHjekHzdRgoMnRmDrltB+N+TPyhBrk22zm1OXCiouF3ekONOgCoxDDwxlV4XSD3yuBbnMq6o0PXVoXWVggYdWJ3TFtnZ1VfQIGDQyYQx0LFR1c3HxTwBfAx0DJ29VcM57ivnAvX4w3uyKjLDGJ4=
+	t=1753034614; cv=none; b=MdGpiPKv8Y9QqnAdInUYrS4s4lnsOBFoPH3+wwa3NOjeQhDTrV8hUYzv2kxwOUkGotaWF1SlBrnw0oS/KjmFGktLBsyoBmXuCYAZFy8v9L2J5AT5CVc9Q7NvaQahuW1bYVEs4Yv2+AK62RgN4y3m4MKO7gH7nNN3LzZrsI5HBo4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753032890; c=relaxed/simple;
-	bh=WYiPAll4tY1OAECznw8fHRxRO2Vrsqio68NfasHC/Wg=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=SLuCusVxiRLTOpv8TXOoZ71LEYI9HijL2MuVcdr70xPVNv1mGTXES8sxyitni4CR+VBsL/RyZgj8pmxxycW8wuoO9qOO4CCHgzHDVtsnc64GcUnvyAZcgFRr013jG7upie9XNsj6CS4ygdVv+uqbpuotjndVCcc5gD8KooEjIh4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QRl7gtP3; arc=none smtp.client-ip=209.85.218.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1753034614; c=relaxed/simple;
+	bh=bhtDgzKsiFjwXyxsdZ/4h48cFPpB3WRr/3arOlv70uA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ngeG+6gUeqCUWpnUn6AT5mNRvSN0PAUDJnMsXNxVl/zWtrtX3s3bbL0/ZMN4NgPb3hqXK+5xjebarE8gWeoSENI7ZmEbqJc+IkvdOL5KzUzEiNmtEJWTPnZpATB8fNgGJ1jJ/t48QtQYx6UUUooj/QdqTqlu5yjWlWIpNFEfoC8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=XSrpv4Vr; arc=none smtp.client-ip=209.85.161.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QRl7gtP3"
-Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-ae708b0e83eso641582866b.2
-        for <linux-staging@lists.linux.dev>; Sun, 20 Jul 2025 10:34:48 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="XSrpv4Vr"
+Received: by mail-oo1-f52.google.com with SMTP id 006d021491bc7-60402c94319so1738174eaf.1
+        for <linux-staging@lists.linux.dev>; Sun, 20 Jul 2025 11:03:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1753032887; x=1753637687; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=0rjwniYbLc2oomqWt/74DXQQMaXpZxhV3eVwursaB4g=;
-        b=QRl7gtP3p5qKIHg6e2g49HN8iob6PHhEPnis/KTqYaxGnUXjJUVxEqWSv35lT/UBAJ
-         O2uXWIcuQMWeLJP7QTxcx7kFzdUomtzXzc1tpin+9wEjpBtbcfJXMcpTLq0hYuUen7v0
-         V56kraEBJB20841nXtTo7MilQ9HY963ktRoHX9DQ/en0AS/QST5i9UAu7i2N4JL9rnkX
-         hZ97LEevT1hFlj1J5O+R2TC+wyxP8N/2yxvaqNQjm9euHgHO8HPXj0lkoFYR3dJ3ZJch
-         0TiG/g30+eElWZJCpKvwfevv4IidsoC91p38eHG5XEwVOKKGG09emKq7ZHrbuOX7p8F4
-         e+BA==
+        d=linaro.org; s=google; t=1753034611; x=1753639411; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=r1fiTpYldSHzYxGLzWC3f8B8z2BwRBsV2K6tEBNsuDs=;
+        b=XSrpv4VrLNbDlr1v01nwWSyV/A/vzvEe2YppuX4zPuXxREGZIfcb6UqV4BctwP8rY3
+         O4II8qKF8rNWmcuvkLzF/eUApFVXvORuvh70+akkj9WG+sPKWelIlOh5vENJpZe3uAuC
+         cOl86I8mXJwqrKZSFaUn9xB3MxNAkXCFznRnzqGs+c2iGiRuZ6SZTC/kIPFDOIQrik3e
+         pvd/Iby2vFduhCvXJb1PSOPsYkltie4m/SdQwgEwJvEDgzcU9EhCrdp8oNBlxsKL88jS
+         q3q5GVVPDcWScFv5zAuF4Db0eCsa+2G338k2U4K9sWnb0hMVpGlSDytqit3KOAuvtXTo
+         rf4Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1753032887; x=1753637687;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=0rjwniYbLc2oomqWt/74DXQQMaXpZxhV3eVwursaB4g=;
-        b=T9lz3eXoS54M/A0ACLjIfsMvb5gtE2I5nefK60VSJa/UglWxwnfoqjQR1nT9J/TPWv
-         h7ZJhVIMfh6N5B5/zaxPxHyiN5ouCmEkZCFUy1G62BcENiueeSSvOD2nv5K2QxAjCTFZ
-         h1+nqvEKqkzuqt3zCr7eDOBiNZtkD9dhf3yHTVq0QIlFtWa5s4ljHJ20hJIbTrxVlVoT
-         WsAUo4P+mBA13Ex1rJwC7oHAh5nBKMTkCCYoA/sO53+00j8r57TfTSmzxRZ46n2L90yO
-         yNZxL5r9U1dBeNPbWTb+aL19OSYtA2y0OO1v8IuPmtnwa7EdLxLBefK3gDe9qL3rY+5G
-         NBvg==
-X-Gm-Message-State: AOJu0Yx0yElQPGSZC1AKLhD6gpT8DRPZmkhUxo7q7mILtlVMvfEeMKh7
-	Njpf3PZ1a/Z+xle96wdd9JZWopc+CrC9tZgwB+KIASyGOQcdWJhDPSdQ
-X-Gm-Gg: ASbGncuZSLO+WQKsZAB/6l2av9nmQHoj3j2n7G09l+lFffuMrYoQ7B+wZMwAoSy9dJY
-	7t+6RIgDx2sVM9xCz8pbZHkcOcN2hh3J+fK5vVNqGkWZrIaParevZt1H8XrF0ZAO9t7hn70ybK3
-	mE/CWw0sOUdZCOlSX6C9w3ZNvOmXY6as8IiUse/B4Z0GqxMHptLIZrOsCAKOCrccVXFfwBygsCr
-	hd6+mO0zfFtUPxzoa6zcCS8VygQ/nqcQ/ztEuhqTTA2Zx62AZZKp0UZnrMluO6wD1Yl7szXivsc
-	tZY8MnJLf40MIvVTTgGjEp5wnPuWDavJDuJpS73guqYsB37iNSItjTB110souf7pBSr4RsWdgFN
-	7Qxvn+ErgJ2gFgDU1E1D1T+aQ1JMfzOkLHXcF7Y7xsLtFW245FgUogJwuK7U7trvQkhW7/qg=
-X-Google-Smtp-Source: AGHT+IGXQK6jIhKKcIF11I3HgYglI/oR1jVmP6EakhyNay5Tui2wXSyGLl+RONdwe1CszFyNGexblw==
-X-Received: by 2002:a17:907:7f18:b0:ae8:fd2d:44b8 with SMTP id a640c23a62f3a-ae9ce0778b7mr1737021366b.29.1753032886716;
-        Sun, 20 Jul 2025 10:34:46 -0700 (PDT)
-Received: from PC01.localdomain (094190205166.static.ipv4.heldenvannu.net. [94.190.205.166])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-aec6c7d475fsm526842866b.43.2025.07.20.10.34.46
+        d=1e100.net; s=20230601; t=1753034611; x=1753639411;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=r1fiTpYldSHzYxGLzWC3f8B8z2BwRBsV2K6tEBNsuDs=;
+        b=QpNB7+J+rIsUn6o5kL7dLxwFHgDz0diW7pkIebHQQjEkIC8mOyxGmbKQNIxyjVg9x1
+         f3+NmVWeBc2XIO2uWClKh24TaBTX+1L/eoI+ytQ5OyhB3TJitiAYjSV+TZ8X+vZewgt2
+         wTzPxEYDspDz4ZerYrbmGqL/y6x2nFgAonOmUmLLJqdG5c4+0SUMgLrjynxI2DeU4tIw
+         8XHAiyANVMi2xjUl/uGic9ssbM4MFt+X9z8SuHzw9mvlU6GuK0CuMAMDnwaLkDYCSpmx
+         q7KvPBylDf8p37vBNWYP5Wj9f9/uGl8VVs3Yue0NuUDAKjc0aSIfj2OOuE3xh0iETZlL
+         40wA==
+X-Gm-Message-State: AOJu0Ywk3v0ZVHT9JGM9CVUO/DURpFwYhF+7g/2VtfVCeVFbegP9T868
+	V9EWWocaln+gg4x1W7Q/9X5R0sIZLdMfq/b7Hib7nMxr8UzNC0E3EChKxg65iRAyo5GjzsH3CsU
+	F5jB/nn8=
+X-Gm-Gg: ASbGncuzyFsWKbxjuA8Mq9Z8YymM5uf3KGC2sR3xrJpz00Lg1xSH4fMKrh57PswUSXC
+	XXbQpSrMew0bbaoojYcX6aX+KjA4O0ZM7S+jIk9ATAM/+rZyAqCltunBWy24f5pLAclD5DPF9ZD
+	wfvUfQqokaYU0FafVnrOHR0Do+lywjSQv34DI1H5w+6hlr1LF87UpkYCWmmCup9YiH5hMkOY58B
+	0re7ScD2PUoj6TNduhVPIJk/4k086oF7ECmEJ2yviCrsLtQnZe0cLDPZQZKwCm/Fi9k20uaDk6b
+	UoTZaJlvnSBx7Xu7JJ/R/ZZLAe27s0swE43nSHNQKBNYgB68PPenVOCIDe+OdGc3KPMT8z48GAB
+	m3UHPBmrOhNU=
+X-Google-Smtp-Source: AGHT+IHtyPmRdW+ZxMT8HYDvH7uiKoz3hDXI6p99r4O9UHXEQkAF6dlxkNSdIENOt/+CmTUNtnlwhQ==
+X-Received: by 2002:a05:6820:1e84:b0:615:c779:eaad with SMTP id 006d021491bc7-615c77a0d18mr5159784eaf.7.1753034611515;
+        Sun, 20 Jul 2025 11:03:31 -0700 (PDT)
+Received: from localhost ([2603:8080:b800:f700::17c0])
+        by smtp.gmail.com with ESMTPSA id 46e09a7af769-73e8369d595sm2250474a34.25.2025.07.20.11.03.29
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 20 Jul 2025 10:34:46 -0700 (PDT)
-From: Bruce Qin <bqn9090@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Bruce Qin <bqn9090@gmail.com>
-Subject: [PATCH] staging: rtl8723bs: fix if-statement alignment and line continuation in rtw_ap.c
-Date: Sun, 20 Jul 2025 19:34:44 +0200
-Message-ID: <20250720173444.33407-1-bqn9090@gmail.com>
-X-Mailer: git-send-email 2.43.0
+        Sun, 20 Jul 2025 11:03:30 -0700 (PDT)
+Date: Sun, 20 Jul 2025 21:03:28 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Alok Tiwari <alok.a.tiwari@oracle.com>
+Cc: linux-staging@lists.linux.dev, marvin24@gmx.de,
+	gregkh@linuxfoundation.org, ac100@lists.launchpad.net,
+	linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: nvec: Fix incorrect null termination of battery
+ manufacturer
+Message-ID: <45476946-f717-49f5-8d21-34ea146bd624@suswa.mountain>
+References: <20250719080755.3954373-1-alok.a.tiwari@oracle.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250719080755.3954373-1-alok.a.tiwari@oracle.com>
 
-This patch addresses three checkpatch-reported style issues in a multiline
-if-statement:
+On Sat, Jul 19, 2025 at 01:07:42AM -0700, Alok Tiwari wrote:
+> The battery manufacturer string was incorrectly null terminated using
+> bat_model instead of bat_manu. This could result in an unintended
+> write to the wrong field and potentially incorrect behavior.
+> 
+> fixe the issue by correctly null terminating the bat_manu string.
+> 
+> Fixes: 32890b983086 ("Staging: initial version of the nvec driver")
+> Signed-off-by: Alok Tiwari <alok.a.tiwari@oracle.com>
+> ---
 
-- Moved '&&' to the end of the previous line to follow logical continuation style
-- Fixed indentation to align with the opening parenthesis of the expression
-- Avoided ending a line with an open parenthesis '('
+Nice.  How did you find this copy and paste bug?  I guess we could write
+a static checker rule that if you do a copy followed by setting a NUL
+terminator, they have to be the same string buffer.
 
-These changes improve readability and conform to Linux kernel coding conventions.
-No functional changes.
+KTODO: detect copy and paste bugs setting the NUL terminator
 
-Signed-off-by: Bruce Qin <bqn9090@gmail.com>
----
- drivers/staging/rtl8723bs/core/rtw_ap.c | 7 +++----
- 1 file changed, 3 insertions(+), 4 deletions(-)
+Reviewed-by: Dan Carpenter <dan.carpenter@linaro.org>
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_ap.c b/drivers/staging/rtl8723bs/core/rtw_ap.c
-index 383a6f7c06f4..838d2feed883 100644
---- a/drivers/staging/rtl8723bs/core/rtw_ap.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_ap.c
-@@ -258,10 +258,9 @@ void expire_timeout_chk(struct adapter *padapter)
- 		} else {
- 			/* TODO: Aging mechanism to digest frames in sleep_q to */
- 			/* avoid running out of xmitframe */
--			if (psta->sleepq_len > (NR_XMITFRAME / pstapriv->asoc_list_cnt)
--				&& padapter->xmitpriv.free_xmitframe_cnt < ((
--					NR_XMITFRAME / pstapriv->asoc_list_cnt
--				) / 2)
-+			if (psta->sleepq_len > (NR_XMITFRAME / pstapriv->asoc_list_cnt) &&
-+			    padapter->xmitpriv.free_xmitframe_cnt <
-+					((NR_XMITFRAME / pstapriv->asoc_list_cnt) / 2)
- 			)
- 				wakeup_sta_to_xmit(padapter, psta);
- 		}
--- 
-2.43.0
+regards,
+dan capenter
 
