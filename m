@@ -1,72 +1,72 @@
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8342A2AE6D
-	for <linux-staging@lists.linux.dev>; Sun, 20 Jul 2025 14:56:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AA3D21ABC1
+	for <linux-staging@lists.linux.dev>; Sun, 20 Jul 2025 14:56:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753023385; cv=none; b=aaO17VXHpytqMqDHnb79VPdB8aojQv2AcgIyoUlUvebCtEu1jd3vUhj+gtfP/66ZDuRd2nkzudFnp/i4sakQT9RdQ/jNqZdAleVFPb+KBxKEZtb9QmNO8jDj5hu1LintaLzj0tasrJgVwlId1BeOGhyZtRTLFoiRDqPbEjbKZCU=
+	t=1753023389; cv=none; b=mNkF9Eq70U7Cicg94kgtHcf/Q/cWya/vaIzpPtd1jXyA8xcPwo2aHwmohmZXNrqH1rmYbBof/Ign0Tn6QulhiBF9W5XnFzpEqZRJ6Xs5Kxr38Vxkp/l0IpQol05zrUlyZuyAd8ONhSKcM/UQTYuQFMRGZoRIiiZlRa9Tw4PQqg0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753023385; c=relaxed/simple;
-	bh=5WIpg8M4OZIHbRgfpFIrvs+X9wtAwRb/9qKnD4fRiXA=;
+	s=arc-20240116; t=1753023389; c=relaxed/simple;
+	bh=ribTfZgfN4Swj4DCnf2k0fCVnzcMOJAmpeD925EJ0wQ=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=ew9w9NdIiZweRmCc8E7+ZHHUmf8qqMCNO9S3hD+/Xh2IkTTCVeSmPdEe2s3xbmqWTg1nhSjCrammIftqVN5CiYjJlGcyMZhAqMJSkEx9Hw1E3r1shsxFV3gfqWe+Ek8YIl49jppuG6SLIIP2Xw5UkmfJND9xgEtl5hq2rccT0PE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SNxj86k4; arc=none smtp.client-ip=209.85.128.48
+	 MIME-Version; b=ZQHHHlV72hM60Ljd+EVrvJrTYkpbsa5xbiVE1Azs/Y8EYGXvUVCHztj0+zbMkh+S8OMaqn5Rh+2yRQs8K3Ni6c0R9OX3z+ZdX1WztIjItZnTQapPW7HLJ3V18cbqERAhISQneRXXQ3Rwg4tVOIy6LFAoUHAzA74/ZuOxSlYx0YE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fEfrr/GJ; arc=none smtp.client-ip=209.85.221.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SNxj86k4"
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-4563cfac19cso23668185e9.2
-        for <linux-staging@lists.linux.dev>; Sun, 20 Jul 2025 07:56:23 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fEfrr/GJ"
+Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-3a4fb9c2436so2028732f8f.1
+        for <linux-staging@lists.linux.dev>; Sun, 20 Jul 2025 07:56:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1753023382; x=1753628182; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1753023386; x=1753628186; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=CSzJbfBxGlFQhYe06l+5g3yW+X7vjXzZyyKhKql0gbI=;
-        b=SNxj86k4WQg+KMlbtP0fDDAFwdsWfYw9xZ8m97Qex6NvwpYOMlePzY7in4KxRi+AF6
-         MvHyGGTvW2z+coXaXvuO46dGJNKZLpNtY0n7qwUTs06+eemMrfr636jt47gtio/Vu8ex
-         LI2rT5LrjW5HHw35i5UQZDaSZK0JbdnwAAOgdq4eLhNT9gpRtFA+YZrhZg9R9l5cQXpt
-         NNPTDqElgDVr4cZSex3mDMSqCQQpCBr2fOR61ncBanYBLKSVzw1WnCP8G4DwksYU6pXR
-         ehGge02IOrac37QHI3TIQeucEu1Tj5XMZt/2pe0hENii5bvCeFHNj2mT2Dt3TCWtMBcc
-         eVAw==
+        bh=2UuUWSppNYBkTWP+WVrf/p9iebsLL3gMHy2LG4YOpY8=;
+        b=fEfrr/GJafcg7bAvRMPkkIRdyXL9r3Zy5RE59nMjCfOTT2vOkD7fYWKET2hSjAdznD
+         BIlzOaj5/y01BykZEUOqDtMnTK/zqMX49JWqVxPCmJSoOKDsfmsg/Q6R4IloUH2HhcxC
+         paDxqnBHZv8bx6+n3fPFBAc/RXiFkQiXJFaPAuAWq+50gsDxOnQbGWDQF4iQu0ZAhaRh
+         F0KcmqUrOeaSH02gnSGkgMjpCEYtx6SbSB3HvpE+OkGbhGIr9W7mP4q/KxqKmuSMfoWk
+         M3QfNTPtS8bIVROwLmWmKCTErkMZCYvPS4CS3m9OG7tEPNTJpncGVM0eI46xb0InwXOJ
+         01Cg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1753023382; x=1753628182;
+        d=1e100.net; s=20230601; t=1753023386; x=1753628186;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=CSzJbfBxGlFQhYe06l+5g3yW+X7vjXzZyyKhKql0gbI=;
-        b=kJ0U7qtxqtKGGCS9J0EsCc1UM/xRixBPz0DZsubly8tZM9Z36ThilyIw5Q9mKDxeJp
-         iLOPGlapxbzZxXjst4ByizF08BP+V+cwRzRj4SZFUHHgAvDI0o2FtVvHTtQpBa6wuvyf
-         gMCNDzBwMjZ2lY1H1QjrwX9HGBQkEOZ9FpTjKOvKr+Nakjsuul4eAWDkQhSCi37/I/b9
-         2tQK4RvqMwtAzsHAVls+ZkOHV2KoDw8SOK3ecPv7Jrwfqgx5irTtt3oWUIqk7uCIrFaU
-         Cu+LcHkhk3B3C7vRRSM2vOi9Vbjt9b3o2uWESzil6M4He8V9KIuopFqEpN8/9d6EuG1v
-         8j+Q==
-X-Forwarded-Encrypted: i=1; AJvYcCUiyTiejIM8w24LpIcMByN94spRbmOe0Ut5OPvDxluIs4KoOGB9ejjQsUVYP/40E0jbu5Jgmn0np2NwwXMJ@lists.linux.dev
-X-Gm-Message-State: AOJu0Yz2fj1krotOsQXRf6ctPR5XOXSxsK+a5RkP6UM9G2S8WdBBtvpc
-	OcZ8ElaRcghHHQyfExLbqGwiJgi+NXfxA6tj0b3fvNR6B1MovvfKpP6v
-X-Gm-Gg: ASbGncvUYDA9aOvutPhiKzVczQ74nuaVegdy/L0qumyRu8N4RIHxNyawhfrAnPCAi1f
-	VqJ4PvJ985NhdbS+bc0LqCjYZ/BjYScLwQ1cEBR+E58KnV+iNLZi0jB69wVzbaSZiqNpwB/k8KS
-	gNs0K9eoekJPh2UweEm3uBhe3OnfuYXz50HOvvuh7E7TjI3bH8Hg9fDPnAAMr82oX/o+n96Z9Yr
-	Ov4DhP8S4wHcpCTshgxn6uCOxzRyG3uavkuruObhswhkKX7zKCksk1Hocfa8MJIpuHsnLwGrnu7
-	0D2Tv9zsCnd31LvgpCaCS44sREq+vntb00NDjVDHOzNEQVaADygNMoSmLP8Sb8HASm9+2v1MjB5
-	QdowCVGzvFvDoKiNqOdpe
-X-Google-Smtp-Source: AGHT+IGZczZVkPif0Pk8IFfldzizZ942+bXzIwRE7N2C07sn03JovOeIbpAhMuvwF7KBmood5j/VdA==
-X-Received: by 2002:a05:600c:3b86:b0:456:fd4:5322 with SMTP id 5b1f17b1804b1-4562e04538bmr170383705e9.11.1753023381726;
-        Sun, 20 Jul 2025 07:56:21 -0700 (PDT)
+        bh=2UuUWSppNYBkTWP+WVrf/p9iebsLL3gMHy2LG4YOpY8=;
+        b=JWKcOu4tkK/w2m7zHzv5dH2rikuIDQWPiwynDjee4dJiTeucp/ghCVZg8130BCTRc3
+         NRPNEun7BnpO4s61b5RLeysk8QYPm3rlKm0ZHfYbkys+ieprh/RMX0VbSo9z2jP3TVuV
+         aj09kgx6mcYFYFmBsxXDN+yaNdtGsx3WzJ3WpHduMrjzcTW74VTKXuQIM0PR8Zwp2mPd
+         ZpER1IGYVFRAzjoCRnfCETQ5+2o+gKhG2Df5vkmWwN6Rd/tcvuVDFH2Z1/7KPIEuN3wP
+         puO6siyNUiE8NhNdma1jJ4W0OwYnQn6mEaI1nd0vX7/fKTv+EcsIRd7tipGwog1SWYq3
+         uq5A==
+X-Forwarded-Encrypted: i=1; AJvYcCW5otMtAjAMxYmBNXgUUf95F5t4rt0IpDmAYsOfWw4zJXqMqD79TstSyro3LfCN5h0G5weRFA77LoFoLLA6@lists.linux.dev
+X-Gm-Message-State: AOJu0YyvZ+sMACvUlbfvhHwvlbhd9MCB5FbrVgL9S9I/Uw5mPVGVgz7s
+	MOpgUaaYDfF9r4uuZ41Qz5uGF+RjIe6gk4Vo18lSKJYGbiIJsC5U5OJD
+X-Gm-Gg: ASbGncsgrLLGZPXHHQKkZY9oCw55WBoPBBEKcqwHlK75+cvw7IHNEHESg0875ahcODp
+	8ABmOw81+SmFK7EiuisBjP1kYkKRHj+cUuzVYW/eaLNrmA+VjNSUE9dOoGQE/ymFZHWMvQfDVas
+	+WK58XLXVfbs5quG1n8uj0S+YN+CVU9iSfkVuiNl9RbulbKrIy3eItBs0+9sxJTAMscvgxHX+Yu
+	zKmFPz/RgZdM82bJm5i0PIphqAwVTQ696+PrT0mwrnHWt7y+IO7NkABwc0lukmb7v5YUhISwbqp
+	8m4ysg48lkNStXyriCZRxIGb+Z+gPb/tI4y6+cZJqXFfXtZcLKIGIKtvamGez6ynD6lUGMu/WrU
+	ba8NjS7NzDCAo0JW2GAqQ
+X-Google-Smtp-Source: AGHT+IGE8UZYIluepOPcaCVn+QDPY+5P4p6qhA3641C/Up7FV2fSyN9SdRezUhNWMpmxeFVg1XfNEw==
+X-Received: by 2002:a05:6000:2312:b0:3b4:65d4:8e27 with SMTP id ffacd0b85a97d-3b61b217fcbmr7775079f8f.29.1753023386218;
+        Sun, 20 Jul 2025 07:56:26 -0700 (PDT)
 Received: from zephyr ([77.237.185.246])
-        by smtp.googlemail.com with ESMTPSA id ffacd0b85a97d-3b61ca4c754sm7770550f8f.59.2025.07.20.07.56.20
+        by smtp.googlemail.com with ESMTPSA id ffacd0b85a97d-3b61ca4c754sm7770550f8f.59.2025.07.20.07.56.24
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 20 Jul 2025 07:56:21 -0700 (PDT)
+        Sun, 20 Jul 2025 07:56:25 -0700 (PDT)
 From: Ali Nasrolahi <a.nasrolahi01@gmail.com>
 X-Google-Original-From: Ali Nasrolahi <A.Nasrolahi01@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: linux-kernel@vger.kernel.org,
 	linux-staging@lists.linux.dev,
 	Ali Nasrolahi <A.Nasrolahi01@gmail.com>
-Subject: [PATCH v2 1/3] staging: rtl8723bs: fix comment style and formatting in osdep_service.c
-Date: Sun, 20 Jul 2025 18:25:22 +0330
-Message-ID: <20250720145524.9733-2-A.Nasrolahi01@gmail.com>
+Subject: [PATCH v2 2/3] staging: rtl8723bs: fix comment formatting in basic_types.h
+Date: Sun, 20 Jul 2025 18:25:23 +0330
+Message-ID: <20250720145524.9733-3-A.Nasrolahi01@gmail.com>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <20250720145524.9733-1-A.Nasrolahi01@gmail.com>
 References: <20250720145524.9733-1-A.Nasrolahi01@gmail.com>
@@ -78,59 +78,63 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This patch fixes minor coding style issues reported by checkpatch:
-- Corrected comment block formatting
-- Removed redundant blank line
-- Improved variable assignment readability
+Fix coding style issues reported by checkpatch.pl:
+- Adjusted block comment trailing markers
+- Unified comment spacing and indentation
+- Removed redundant semicolon from macro definition
 
 Signed-off-by: Ali Nasrolahi <A.Nasrolahi01@gmail.com>
 ---
- drivers/staging/rtl8723bs/os_dep/osdep_service.c | 11 ++++++-----
- 1 file changed, 6 insertions(+), 5 deletions(-)
+ drivers/staging/rtl8723bs/include/basic_types.h | 15 +++++++--------
+ 1 file changed, 7 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/staging/rtl8723bs/os_dep/osdep_service.c b/drivers/staging/rtl8723bs/os_dep/osdep_service.c
-index a00f9f0c85c..60c3da009a5 100644
---- a/drivers/staging/rtl8723bs/os_dep/osdep_service.c
-+++ b/drivers/staging/rtl8723bs/os_dep/osdep_service.c
-@@ -7,9 +7,9 @@
- #include <drv_types.h>
- 
- /*
--* Translate the OS dependent @param error_code to OS independent RTW_STATUS_CODE
--* @return: one of RTW_STATUS_CODE
+diff --git a/drivers/staging/rtl8723bs/include/basic_types.h b/drivers/staging/rtl8723bs/include/basic_types.h
+index 57bb717327c..640db1e79e7 100644
+--- a/drivers/staging/rtl8723bs/include/basic_types.h
++++ b/drivers/staging/rtl8723bs/include/basic_types.h
+@@ -26,7 +26,7 @@
+  *	1. Read/write packet content.
+  *	2. Before write integer to IO.
+  *	3. After read integer from IO.
 -*/
-+ * Translate the OS dependent @param error_code to OS independent RTW_STATUS_CODE
-+ * @return: one of RTW_STATUS_CODE
 + */
- inline int RTW_STATUS_CODE(int error_code)
- {
- 	if (error_code >= 0)
-@@ -152,7 +152,6 @@ void rtw_buf_update(u8 **buf, u32 *buf_len, u8 *src, u32 src_len)
- 		kfree(ori);
- }
  
--
- /**
-  * rtw_cbuf_full - test if cbuf is full
-  * @cbuf: pointer of struct rtw_cbuf
-@@ -204,6 +203,7 @@ bool rtw_cbuf_push(struct rtw_cbuf *cbuf, void *buf)
- void *rtw_cbuf_pop(struct rtw_cbuf *cbuf)
- {
- 	void *buf;
-+
- 	if (rtw_cbuf_empty(cbuf))
- 		return NULL;
+ /*  */
+ /*  Byte Swapping routine. */
+@@ -94,7 +94,7 @@
+ #define BIT_OFFSET_LEN_MASK_8(__bitoffset, __bitlen) \
+ 	(BIT_LEN_MASK_8(__bitlen) << (__bitoffset))
  
-@@ -226,7 +226,8 @@ struct rtw_cbuf *rtw_cbuf_alloc(u32 size)
- 	cbuf = rtw_malloc(struct_size(cbuf, bufs, size));
+-/*Description:
++/* Description:
+  * Return 4-byte value in host byte ordering from
+  * 4-byte pointer in little-endian system.
+  */
+@@ -105,11 +105,10 @@
+ #define LE_P1BYTE_TO_HOST_1BYTE(__pstart) \
+ 	(EF1BYTE(*((u8 *)(__pstart))))
  
- 	if (cbuf) {
--		cbuf->write = cbuf->read = 0;
-+		cbuf->read = 0;
-+		cbuf->write = 0;
- 		cbuf->size = size;
- 	}
+-/*  */
+-/* 	Description: */
+-/* 		Translate subfield (continuous bits in little-endian) of 4-byte value in litten byte to */
+-/* 		4-byte value in host byte ordering. */
+-/*  */
++/* Description:
++ *	Translate subfield (continuous bits in little-endian) of 4-byte value in litten byte to
++ *	4-byte value in host byte ordering.
++ */
+ #define LE_BITS_TO_4BYTE(__pstart, __bitoffset, __bitlen) \
+ 	(\
+ 		(LE_P4BYTE_TO_HOST_4BYTE(__pstart) >> (__bitoffset))  & \
+@@ -163,7 +162,7 @@
+ 		(					\
+ 		LE_BITS_CLEARED_TO_2BYTE(__pstart, __bitoffset, __bitlen) | \
+ 		((((u16)__val) & BIT_LEN_MASK_16(__bitlen)) << (__bitoffset)) \
+-		);
++		)
  
+ #define SET_BITS_TO_LE_1BYTE(__pstart, __bitoffset, __bitlen, __val) \
+ 		*((u8 *)(__pstart)) = EF1BYTE			\
 -- 
 2.50.1
 
