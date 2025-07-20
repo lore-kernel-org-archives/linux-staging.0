@@ -1,72 +1,72 @@
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AA3D21ABC1
-	for <linux-staging@lists.linux.dev>; Sun, 20 Jul 2025 14:56:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3005921CA1E
+	for <linux-staging@lists.linux.dev>; Sun, 20 Jul 2025 14:56:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753023389; cv=none; b=mNkF9Eq70U7Cicg94kgtHcf/Q/cWya/vaIzpPtd1jXyA8xcPwo2aHwmohmZXNrqH1rmYbBof/Ign0Tn6QulhiBF9W5XnFzpEqZRJ6Xs5Kxr38Vxkp/l0IpQol05zrUlyZuyAd8ONhSKcM/UQTYuQFMRGZoRIiiZlRa9Tw4PQqg0=
+	t=1753023393; cv=none; b=pb1kgwQmZ1iG7y/VwBjsLGpIYCWkF9L2cb8BgTiEKPDo/pooTw06GIOF65py0sidSKpFnB+yHWz1+mBxDFJgsmzEJj0Tfo79Mql33J9xCLqDxpX9tSWnu55GDXjNi+fxpmjQe8Ts0NYV17iYfjgMYKDXWiQNAD+znbjFzAKv2b0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753023389; c=relaxed/simple;
-	bh=ribTfZgfN4Swj4DCnf2k0fCVnzcMOJAmpeD925EJ0wQ=;
+	s=arc-20240116; t=1753023393; c=relaxed/simple;
+	bh=mWyrTWsnTK7eVL2ucLwWqpg72terTu+CfZahdXbXO8g=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=ZQHHHlV72hM60Ljd+EVrvJrTYkpbsa5xbiVE1Azs/Y8EYGXvUVCHztj0+zbMkh+S8OMaqn5Rh+2yRQs8K3Ni6c0R9OX3z+ZdX1WztIjItZnTQapPW7HLJ3V18cbqERAhISQneRXXQ3Rwg4tVOIy6LFAoUHAzA74/ZuOxSlYx0YE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fEfrr/GJ; arc=none smtp.client-ip=209.85.221.54
+	 MIME-Version; b=Zlp1GYVb8Z09ZiTq6rlH8xEyeagBe5JBncRH1t3NOLgXBr7zEan7aMJSVw6wWcP3W+K2XSqtPZwleP/aKKOYMKBrydcl5IyWDfy4Mntj1jMIo1SlizWMbhQ3XmBY/5jWZdUQBEEd5nx6Wxal247iC5WwKsmLJ6r7iZOvfcJj7M4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lqjZdeb3; arc=none smtp.client-ip=209.85.128.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fEfrr/GJ"
-Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-3a4fb9c2436so2028732f8f.1
-        for <linux-staging@lists.linux.dev>; Sun, 20 Jul 2025 07:56:27 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lqjZdeb3"
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-45622a1829eso10619785e9.1
+        for <linux-staging@lists.linux.dev>; Sun, 20 Jul 2025 07:56:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1753023386; x=1753628186; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1753023389; x=1753628189; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=2UuUWSppNYBkTWP+WVrf/p9iebsLL3gMHy2LG4YOpY8=;
-        b=fEfrr/GJafcg7bAvRMPkkIRdyXL9r3Zy5RE59nMjCfOTT2vOkD7fYWKET2hSjAdznD
-         BIlzOaj5/y01BykZEUOqDtMnTK/zqMX49JWqVxPCmJSoOKDsfmsg/Q6R4IloUH2HhcxC
-         paDxqnBHZv8bx6+n3fPFBAc/RXiFkQiXJFaPAuAWq+50gsDxOnQbGWDQF4iQu0ZAhaRh
-         F0KcmqUrOeaSH02gnSGkgMjpCEYtx6SbSB3HvpE+OkGbhGIr9W7mP4q/KxqKmuSMfoWk
-         M3QfNTPtS8bIVROwLmWmKCTErkMZCYvPS4CS3m9OG7tEPNTJpncGVM0eI46xb0InwXOJ
-         01Cg==
+        bh=mRdo3LqdiuYxa0l565rnPZPszxyhOzRNI2kuLRN50Co=;
+        b=lqjZdeb3BdUHN/uEWWd4uJNIuMstOureI8lQnYYOx/BF9b49r61bLJO0cPSVhJ3dyc
+         /3Vbs7lqTU4buaUiYipTm5GrATWOVdscNbQiCoIh7CwHqJJCIaa3P+W877wywGwlZtXn
+         InLAkza/9dh0kJm84I+4iGcyQhHr/AfQ9v4DvsjyxFYI9E0p82HB2GS6yoiURfhS/F75
+         oFlRFSY4zhIpWdx116Vd50Ytl9DtxIUhwzeLuJiDxKQb2G8TW9aEM8B28dNaqt8vFC8k
+         MjqxoqVy+xv02QaESkADpjquHhytGUQq77SYUgWEURuor1jdUg8/ZJ0BoVpeEb2fi+lh
+         BdNg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1753023386; x=1753628186;
+        d=1e100.net; s=20230601; t=1753023389; x=1753628189;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=2UuUWSppNYBkTWP+WVrf/p9iebsLL3gMHy2LG4YOpY8=;
-        b=JWKcOu4tkK/w2m7zHzv5dH2rikuIDQWPiwynDjee4dJiTeucp/ghCVZg8130BCTRc3
-         NRPNEun7BnpO4s61b5RLeysk8QYPm3rlKm0ZHfYbkys+ieprh/RMX0VbSo9z2jP3TVuV
-         aj09kgx6mcYFYFmBsxXDN+yaNdtGsx3WzJ3WpHduMrjzcTW74VTKXuQIM0PR8Zwp2mPd
-         ZpER1IGYVFRAzjoCRnfCETQ5+2o+gKhG2Df5vkmWwN6Rd/tcvuVDFH2Z1/7KPIEuN3wP
-         puO6siyNUiE8NhNdma1jJ4W0OwYnQn6mEaI1nd0vX7/fKTv+EcsIRd7tipGwog1SWYq3
-         uq5A==
-X-Forwarded-Encrypted: i=1; AJvYcCW5otMtAjAMxYmBNXgUUf95F5t4rt0IpDmAYsOfWw4zJXqMqD79TstSyro3LfCN5h0G5weRFA77LoFoLLA6@lists.linux.dev
-X-Gm-Message-State: AOJu0YyvZ+sMACvUlbfvhHwvlbhd9MCB5FbrVgL9S9I/Uw5mPVGVgz7s
-	MOpgUaaYDfF9r4uuZ41Qz5uGF+RjIe6gk4Vo18lSKJYGbiIJsC5U5OJD
-X-Gm-Gg: ASbGncsgrLLGZPXHHQKkZY9oCw55WBoPBBEKcqwHlK75+cvw7IHNEHESg0875ahcODp
-	8ABmOw81+SmFK7EiuisBjP1kYkKRHj+cUuzVYW/eaLNrmA+VjNSUE9dOoGQE/ymFZHWMvQfDVas
-	+WK58XLXVfbs5quG1n8uj0S+YN+CVU9iSfkVuiNl9RbulbKrIy3eItBs0+9sxJTAMscvgxHX+Yu
-	zKmFPz/RgZdM82bJm5i0PIphqAwVTQ696+PrT0mwrnHWt7y+IO7NkABwc0lukmb7v5YUhISwbqp
-	8m4ysg48lkNStXyriCZRxIGb+Z+gPb/tI4y6+cZJqXFfXtZcLKIGIKtvamGez6ynD6lUGMu/WrU
-	ba8NjS7NzDCAo0JW2GAqQ
-X-Google-Smtp-Source: AGHT+IGE8UZYIluepOPcaCVn+QDPY+5P4p6qhA3641C/Up7FV2fSyN9SdRezUhNWMpmxeFVg1XfNEw==
-X-Received: by 2002:a05:6000:2312:b0:3b4:65d4:8e27 with SMTP id ffacd0b85a97d-3b61b217fcbmr7775079f8f.29.1753023386218;
-        Sun, 20 Jul 2025 07:56:26 -0700 (PDT)
+        bh=mRdo3LqdiuYxa0l565rnPZPszxyhOzRNI2kuLRN50Co=;
+        b=fsSluU7NSeyP7QHhYvN7gkYgMDNzuTJDjCNHTfW1ZCSC2Zhq7362jmY+J0i/Qorhod
+         7avF5MD/WFGma+qgoB8ma0+dmx/q7vmnkkQUuOUptQNnJcEyro+CCqvEnkvYyBk6N+uv
+         5EP0FXNS2reG0Dahe+69QZIqf6nqGgZFY0/Mjt+gtNc7BSnePhdPTrkoQsaSxhwoHSXf
+         e9M3UCvIWAvqs6xU8z3l84NYEsumO0F+3GaJsxgMBZJKjFaeEFLUbX98izEts78scoIu
+         9NIuJKp8S3dg1FljzBD9i4wfqcApw3l0cw1ueBNzi91FsfkAQKh4IJSW1gjxNSV4DbOn
+         q/Wg==
+X-Forwarded-Encrypted: i=1; AJvYcCUsmgzaI5Qd1mkBFakZqyElV2l5/VxBA14JstYQ78G8QYntIYx9rBJX7jyNU/UQRCZVlKT8cNP+qYKus6sE@lists.linux.dev
+X-Gm-Message-State: AOJu0YzEsihyKqcgz4/BcHZyBui3e5wQTf3wWW6P9zejP2Vp70F5pxhG
+	0pRSbRH7Xn7kwl58HP0mp+yb/T02EUjj6zbO9cq+6+X1ItP6V8lZh/MTqPUKmPdd
+X-Gm-Gg: ASbGnctwdwUnrTOiWiDcgH4+nX4cVVmEhPzP2H/5MiCiwpJcfIotGsJS+ANCleDyzGZ
+	glnwNIONmPaVTX/CNmqmdHWwhXlqFvdYio1W7rFy7HMjYFpkyTYJVmSHvNZTZBnjbeTQKT3WArU
+	xAbaTJPz9NdZ5L4MlGj7E2TQT1IX6V/Adjmt5TFGD2tsGDlmKyjSWzQYsMpHVdn3WilwhKr301i
+	y4n9dxeRd4gSPggt3u/rE5KkHV+Iy0JqVOZvfwvbCouL5zpvWFUq2fxkd/+pP9vlgBuwYkQBM+y
+	qVhfKrphDZpuJ01Ew9NG2zgMb3V2q5ekTYbMjBkJM/JCa/lD5becE900JZx7sj3OOhl09mYVSCD
+	ymasdL502RiMt1951dx82WXt+TGRHoJo=
+X-Google-Smtp-Source: AGHT+IG8e1KtQzYSLx0BPesPFUjhuIJ7UDeJpFPe7u5MvIMjFZREUEhHGw4SPCYps+xOIW03s3F4nA==
+X-Received: by 2002:a05:600c:8205:b0:456:2020:165d with SMTP id 5b1f17b1804b1-4563b8fcc48mr93798435e9.31.1753023388967;
+        Sun, 20 Jul 2025 07:56:28 -0700 (PDT)
 Received: from zephyr ([77.237.185.246])
-        by smtp.googlemail.com with ESMTPSA id ffacd0b85a97d-3b61ca4c754sm7770550f8f.59.2025.07.20.07.56.24
+        by smtp.googlemail.com with ESMTPSA id ffacd0b85a97d-3b61ca4c754sm7770550f8f.59.2025.07.20.07.56.27
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 20 Jul 2025 07:56:25 -0700 (PDT)
+        Sun, 20 Jul 2025 07:56:28 -0700 (PDT)
 From: Ali Nasrolahi <a.nasrolahi01@gmail.com>
 X-Google-Original-From: Ali Nasrolahi <A.Nasrolahi01@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: linux-kernel@vger.kernel.org,
 	linux-staging@lists.linux.dev,
 	Ali Nasrolahi <A.Nasrolahi01@gmail.com>
-Subject: [PATCH v2 2/3] staging: rtl8723bs: fix comment formatting in basic_types.h
-Date: Sun, 20 Jul 2025 18:25:23 +0330
-Message-ID: <20250720145524.9733-3-A.Nasrolahi01@gmail.com>
+Subject: [PATCH v2 3/3] staging: rtl8723bs: replace unnamed parameters in hal_btcoex.h for consistency
+Date: Sun, 20 Jul 2025 18:25:24 +0330
+Message-ID: <20250720145524.9733-4-A.Nasrolahi01@gmail.com>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <20250720145524.9733-1-A.Nasrolahi01@gmail.com>
 References: <20250720145524.9733-1-A.Nasrolahi01@gmail.com>
@@ -78,63 +78,40 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Fix coding style issues reported by checkpatch.pl:
-- Adjusted block comment trailing markers
-- Unified comment spacing and indentation
-- Removed redundant semicolon from macro definition
+Update unnamed parameters in function declarations with explicit names
+to be consistent with the rest of the functions in hal_btcoex.h file.
 
 Signed-off-by: Ali Nasrolahi <A.Nasrolahi01@gmail.com>
 ---
- drivers/staging/rtl8723bs/include/basic_types.h | 15 +++++++--------
- 1 file changed, 7 insertions(+), 8 deletions(-)
+ drivers/staging/rtl8723bs/include/hal_btcoex.h | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/staging/rtl8723bs/include/basic_types.h b/drivers/staging/rtl8723bs/include/basic_types.h
-index 57bb717327c..640db1e79e7 100644
---- a/drivers/staging/rtl8723bs/include/basic_types.h
-+++ b/drivers/staging/rtl8723bs/include/basic_types.h
-@@ -26,7 +26,7 @@
-  *	1. Read/write packet content.
-  *	2. Before write integer to IO.
-  *	3. After read integer from IO.
--*/
-+ */
+diff --git a/drivers/staging/rtl8723bs/include/hal_btcoex.h b/drivers/staging/rtl8723bs/include/hal_btcoex.h
+index 525cce3574f..df58b11605f 100644
+--- a/drivers/staging/rtl8723bs/include/hal_btcoex.h
++++ b/drivers/staging/rtl8723bs/include/hal_btcoex.h
+@@ -22,7 +22,7 @@ struct bt_coexist {
  
- /*  */
- /*  Byte Swapping routine. */
-@@ -94,7 +94,7 @@
- #define BIT_OFFSET_LEN_MASK_8(__bitoffset, __bitlen) \
- 	(BIT_LEN_MASK_8(__bitlen) << (__bitoffset))
+ void hal_btcoex_SetBTCoexist(struct adapter *padapter, u8 bBtExist);
+ bool hal_btcoex_IsBtExist(struct adapter *padapter);
+-bool hal_btcoex_IsBtDisabled(struct adapter *);
++bool hal_btcoex_IsBtDisabled(struct adapter *padapter);
+ void hal_btcoex_SetPgAntNum(struct adapter *padapter, u8 antNum);
+ void hal_btcoex_SetSingleAntPath(struct adapter *padapter, u8 singleAntPath);
  
--/*Description:
-+/* Description:
-  * Return 4-byte value in host byte ordering from
-  * 4-byte pointer in little-endian system.
-  */
-@@ -105,11 +105,10 @@
- #define LE_P1BYTE_TO_HOST_1BYTE(__pstart) \
- 	(EF1BYTE(*((u8 *)(__pstart))))
+@@ -46,9 +46,9 @@ void hal_btcoex_Handler(struct adapter *padapter);
+ s32 hal_btcoex_IsBTCoexCtrlAMPDUSize(struct adapter *padapter);
+ bool hal_btcoex_IsBtControlLps(struct adapter *padapter);
+ bool hal_btcoex_IsLpsOn(struct adapter *padapter);
+-u8 hal_btcoex_RpwmVal(struct adapter *);
+-u8 hal_btcoex_LpsVal(struct adapter *);
+-u32 hal_btcoex_GetRaMask(struct adapter *);
++u8 hal_btcoex_RpwmVal(struct adapter *padapter);
++u8 hal_btcoex_LpsVal(struct adapter *padapter);
++u32 hal_btcoex_GetRaMask(struct adapter *padapter);
+ void hal_btcoex_RecordPwrMode(struct adapter *padapter, u8 *pCmdBuf, u8 cmdLen);
  
--/*  */
--/* 	Description: */
--/* 		Translate subfield (continuous bits in little-endian) of 4-byte value in litten byte to */
--/* 		4-byte value in host byte ordering. */
--/*  */
-+/* Description:
-+ *	Translate subfield (continuous bits in little-endian) of 4-byte value in litten byte to
-+ *	4-byte value in host byte ordering.
-+ */
- #define LE_BITS_TO_4BYTE(__pstart, __bitoffset, __bitlen) \
- 	(\
- 		(LE_P4BYTE_TO_HOST_4BYTE(__pstart) >> (__bitoffset))  & \
-@@ -163,7 +162,7 @@
- 		(					\
- 		LE_BITS_CLEARED_TO_2BYTE(__pstart, __bitoffset, __bitlen) | \
- 		((((u16)__val) & BIT_LEN_MASK_16(__bitlen)) << (__bitoffset)) \
--		);
-+		)
- 
- #define SET_BITS_TO_LE_1BYTE(__pstart, __bitoffset, __bitlen, __val) \
- 		*((u8 *)(__pstart)) = EF1BYTE			\
+ #endif /*  !__HAL_BTCOEX_H__ */
 -- 
 2.50.1
 
