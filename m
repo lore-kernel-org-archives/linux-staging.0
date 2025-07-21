@@ -1,89 +1,103 @@
-Received: from mail-qt1-f178.google.com (mail-qt1-f178.google.com [209.85.160.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 972E41E835B
-	for <linux-staging@lists.linux.dev>; Mon, 21 Jul 2025 06:56:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.178
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753081002; cv=none; b=CFVXyQgXzJ5J9u9Qv2V7pzB58WfEwfLB9SJMoX7DsQ4GSjUKdtRFTdku8Z9qTlfzXlTDBPVvLg3mydaLhtLpeC4sOTarMKuU6wDGs1TwlViU1DqTL1vvZAvd0owNQ++kedSPfG9XhZjM2FqhjdQTQ+/FsFVzmMAFSss+0Y6QplY=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753081002; c=relaxed/simple;
-	bh=0DQBXq2HN/6qH+Y9jouZFed5XRHr7dG2MrXu9+Jzw9E=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=caLiQlU670J8YTj1m+Z84MK98pCzf3nMWcEIJiDXoFxeHrCvArcGXhfyl5YQ7FQA1p4PyOA/DCPds9/dML14ttgm8RPrftEHJu08nYIJYRPK6DoIx9fFq0CKsQkHRA8xEPIaI80HwjbV18c0ODZTGO6/TmH2IB1BmHjSFlosGfs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ncMR8rtk; arc=none smtp.client-ip=209.85.160.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 212F42D3EEE
+	for <linux-staging@lists.linux.dev>; Mon, 21 Jul 2025 14:08:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1753106903; cv=pass; b=KzoX09sSuhSN8701qz35TNTGanej6wI4OvHc3twMuuE273ruaUbXxf6AE+ll6jDz5sij3grGfe24+SaAAl07XszcTHjbbYPaPsV7V6S+68agsZ5P51HDfZ/AbrJgTp+Tf+g20g0lHjSjO05u0IZM2T8DPwXjmjtBLDbiFEQeNXc=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1753106903; c=relaxed/simple;
+	bh=aPE9OP5n/nxXpSPei6MkovrRMZGc+nmT492+wys9qe4=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=cjZ2GEKi9biChzg5DUBGe5PgaoZDFvzUKtdagO3RKLsi11aVIRX37l/2INp167j1BnA0SE8cppjKPqKvqtaDk7X7heR/IcFcfEZsiOXeuMZKIj3op8FpT4niiZt+5xwXxWUl9EMDRKnPVKfEaWie0NPG8PrU4+u8mnbpCG3YLuY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=detlev.casanova@collabora.com header.b=O1/OT2JS; arc=pass smtp.client-ip=136.143.188.112
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ncMR8rtk"
-Received: by mail-qt1-f178.google.com with SMTP id d75a77b69052e-4ab71ac933eso32705251cf.2
-        for <linux-staging@lists.linux.dev>; Sun, 20 Jul 2025 23:56:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1753080999; x=1753685799; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=yQQIZUQ7UmKmkjv2gej5jBDOs0zZHuvpMuMVygz6yH8=;
-        b=ncMR8rtkWS+kS66v3pizSCxVimJyAGHCD65BBLYhUeSL4ifq2nkVHpAja6gV1XX9Ke
-         m5e9KHYO21pxRrcwyBd7qzyI4+/ktTF315X/bFf6UGYkA9miXgCjQZTr6IT3rmXVVuPW
-         y2xxxKb9u7LcFuzol2vxW8JbsJUCaDjKEzmKwDm4fzWpinsT1GCiPjQUOoZMRbRp7hFq
-         prTkIlO1Sfdllb4Pl0KisIMBgoMhOSNRdQS3LpNjB61VCkYpsrCE8ws/BAJFSMo3WVtP
-         HDKHgpOJPKsfbVlB98DQdGu4PNe+dWXn1DdbJjhbwJsRCXRvTdLQKuFw/WXgXUd26na4
-         YeFQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1753080999; x=1753685799;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=yQQIZUQ7UmKmkjv2gej5jBDOs0zZHuvpMuMVygz6yH8=;
-        b=rNERIKkgBZcUspJ8zI6+KyRNe61lgCrhaFQXAqald5hmsRwPCIu2u/zjIVT0UUpZiF
-         XJLjO+AA8qzDeYhdWm0NJDbmXsthJP6bIy4ngLcp+KDQNQ26EYkUeK4kSCaEVWzfo3q9
-         Z0OpUlyYR0oc09EOZDRGeXqXYbINtUE+RicGu/3md4KQzj0ahUD/JuE59/ocK5KZfbkN
-         I1CgYbDI5e1giwhRGFypA3R64waK7OZF0OW8K2mAhNsviA5N0Ahqob1bZTlbalxe2Qau
-         cBnxmuYWPUTjskiV9rehOue6YxFC7RvJ2kegkLnniuohYnp25TnTMgOi2rlQFibF6GzA
-         ip8g==
-X-Forwarded-Encrypted: i=1; AJvYcCXpzcaJaUemn8PfHB9QwpMbm7kxZpuM1ct4GHBpa9cypuTYnbeXqTb8lvTmGng+X5TlF96fURo7zq+Qw+O4@lists.linux.dev
-X-Gm-Message-State: AOJu0YwFeK729r6IAc2iGBj+MdDv+FsOmx60Y3yMRW7kxx0hO0Umwn83
-	itVuplbZTRhYMC/KH57CGA+bNWtdkxzWOYFxiBtvTWw3dXQmR4SubuXp
-X-Gm-Gg: ASbGncvN9qf7HuJ4+g5w7boYE04tLM6Une4VPPqpAX4JVGaPEb7iKtsYJmYZBRuqYsk
-	fxOap0u4EQXzRQz5c696ieF2tCuxcJFOhbDaPoZDuFUGvExN/Ti6W96jW3HcQKHM+hky3/CDWYz
-	3Dsvezugi1w5ld+u4cw4UcFRri4H95PFjzSBO2Zxw/1ok9TH/slWLNSKdvVd1DI6ofyLrkKznGW
-	OxZZvzhbQThKXtLh6r48VyuExQcXHdlMiy6u2BH0dWatlfx/SNnjcdKAUxg0SqnLZcleIM4Jef9
-	giGdJ89AmU9mVsiwKxEI4YkDNrPQIP1gWxwHSqXhOxAIK+WBRR/W2949rFAvM+IFZKKp8eOjJn/
-	N2uW7t8up7cGRGQGi+1gPo2ETMuxcuJ7HFjRCQOVOEuZJa+S+HAI=
-X-Google-Smtp-Source: AGHT+IGkllGgVq7+POAScPebihOJ+wo8Yd03YccxYtdX0vB/pY9isPBmAYjxxVgNa39x+HavQXdN0Q==
-X-Received: by 2002:a05:622a:309:b0:4ab:a8ed:5be6 with SMTP id d75a77b69052e-4aba8ed60f2mr318058371cf.39.1753080999367;
-        Sun, 20 Jul 2025 23:56:39 -0700 (PDT)
-Received: from linux-kernel-dev-start.. ([159.203.26.228])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-4abb4af44d7sm39127791cf.38.2025.07.20.23.56.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 20 Jul 2025 23:56:39 -0700 (PDT)
-From: Vivek BalachandharTN <vivek.balachandhar@gmail.com>
-To: vivek.balachandhar@gmail.com
-Cc: gregkh@linuxfoundation.org,
-	linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev
-Subject: Re: [PATCH v2] staging: rtl8723bs: clean up redundant & parentheses
-Date: Mon, 21 Jul 2025 06:56:28 +0000
-Message-Id: <20250721065628.297870-1-vivek.balachandhar@gmail.com>
-X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20250721061412.297554-1-vivek.balachandhar@gmail.com>
-References: <20250721061412.297554-1-vivek.balachandhar@gmail.com>
+	dkim=pass (1024-bit key) header.d=collabora.com header.i=detlev.casanova@collabora.com header.b="O1/OT2JS"
+ARC-Seal: i=1; a=rsa-sha256; t=1753106889; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=Z59vGM/4C6HeCkGkpTGlXB/INooxTGTCbMXlVKrKnXCzYTgMLU1rufxW22HSGRc9v8c8iuDKMUfprp3da72GnPAku7gGTij3Bm5s6lPNLDmuwzw1DROb8sLE+WkP7v+awCypwBrSCPCNNxcqxm5tMK1eEYRxjI96zDnGf20o7is=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1753106889; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=iUwGYLVqI6Xet0Y6yYXId8OhAeexUPWui/BWydgtxjc=; 
+	b=XFMi09ggTPwIeka28tO2P/9v65WtMvNUHgWd6CrO28mYZ10fSUVAoceyZKJzy0RZ05Hl5DcJuf2tgv/lnb52ozIejBKm/DS0Fy6VgFHJT1Q6oMy/1/CH9BuxqumRG42c2Y/IY9eXEBz36denos92wRamjZZ/RTZQwJ+CTJ1eXok=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=collabora.com;
+	spf=pass  smtp.mailfrom=detlev.casanova@collabora.com;
+	dmarc=pass header.from=<detlev.casanova@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1753106889;
+	s=zohomail; d=collabora.com; i=detlev.casanova@collabora.com;
+	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Content-Type:Message-Id:Reply-To;
+	bh=iUwGYLVqI6Xet0Y6yYXId8OhAeexUPWui/BWydgtxjc=;
+	b=O1/OT2JS33uLJgy6z/cS/tvpgWhtZPC+kVwWlYfZ3Q2P/tDCOTkJrKTdjeFcwFJX
+	Q0Az0saTpCz2ZbJ6YqiL4gfo42cNWX6fS6wE+FBuv58OqMpewlGvmPf3IGx95wZ3t4p
+	iwpd8EUhPHMOeOO9ZOkSVNKHzLo8DhR4ufMeL1nc=
+Received: by mx.zohomail.com with SMTPS id 1753106885694476.02518889834164;
+	Mon, 21 Jul 2025 07:08:05 -0700 (PDT)
+From: Detlev Casanova <detlev.casanova@collabora.com>
+To: Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+ Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+ Dan Carpenter <dan.carpenter@linaro.org>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org,
+ linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org
+Subject: Re: [PATCH] media: rkvdec: Fix a NULL vs IS_ERR() bug in probe()
+Date: Mon, 21 Jul 2025 10:08:03 -0400
+Message-ID: <6175873.lOV4Wx5bFT@trenzalore>
+In-Reply-To: <696219e9-a1c7-4c87-b15c-1ffd42c95d58@sabinyo.mountain>
+References: <696219e9-a1c7-4c87-b15c-1ffd42c95d58@sabinyo.mountain>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="utf-8"
+X-ZohoMailClient: External
 
-Thanks Greg — that makes sense.
+Hi Dan,
 
-I'll break the changes into a properly versioned patch series based on type and resend the v2.
+On Wednesday, 25 June 2025 11:23:10 EDT Dan Carpenter wrote:
+> The iommu_paging_domain_alloc() function doesn't return NULL on error it
+> returns error pointers.  Update the check and then set ->empty_domain to
+> NULL because the rest of the driver assumes it can be NULL.
+> 
+> Fixes: ff8c5622f9f7 ("media: rkvdec: Restore iommu addresses on errors")
+> Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
+> ---
+>  drivers/staging/media/rkvdec/rkvdec.c | 4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/staging/media/rkvdec/rkvdec.c
+> b/drivers/staging/media/rkvdec/rkvdec.c index d707088ec0dc..1b7f27e4d961
+> 100644
+> --- a/drivers/staging/media/rkvdec/rkvdec.c
+> +++ b/drivers/staging/media/rkvdec/rkvdec.c
+> @@ -1162,8 +1162,10 @@ static int rkvdec_probe(struct platform_device *pdev)
+> if (iommu_get_domain_for_dev(&pdev->dev)) {
+>  		rkvdec->empty_domain = 
+iommu_paging_domain_alloc(rkvdec->dev);
+> 
+> -		if (!rkvdec->empty_domain)
+> +		if (IS_ERR(rkvdec->empty_domain)) {
+> +			rkvdec->empty_domain = NULL;
+>  			dev_warn(rkvdec->dev, "cannot alloc new 
+empty domain\n");
+> +		}
+>  	}
+> 
+>  	vb2_dma_contig_set_max_seg_size(&pdev->dev, DMA_BIT_MASK(32));
 
-Appreciate the clarity!
+Thank you for finding this one. I tested it on rock 5b and all is good. 
 
-Best,  
-Vivek
+Tested-by: Detlev Casanova <detlev.casanova@collabora.com>
+
+Regards,
+Detlev.
+
 
