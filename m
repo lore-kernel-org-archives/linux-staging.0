@@ -1,100 +1,171 @@
-Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15CB22DEA60
-	for <linux-staging@lists.linux.dev>; Mon, 21 Jul 2025 16:56:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E885E22CBE9;
+	Mon, 21 Jul 2025 17:29:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753117021; cv=none; b=hBBsz5r0MdAgLxkk4IJUblMJ8wt0kbYbLjfqdWRZGAO029tkJpuxHM1UzmKX83CyXQZ3LjKzr1jpZ7kW9r6kkLLIITDv6wDkGyUO/OpNifTYt/ixcNsIIkUzyJkxslGtiZDmUPtdCVEqKGBtYrze5B9e4MRuaB44mbMR1DqSn44=
+	t=1753118950; cv=none; b=py1MtubFlYt8YhPBx8mY58W3t/mqJeXVuASM+m092N9O75VLOPdvVuWOYGLxOJ8pn9HX02sJJpSROT8bG0RuXrxIiPYZEFTMFFnxqvejCFES0tTUtPl5+Km52AA8fSiF2U+axlmFlrOSVtZlXVZB5SDdr8vpLPk+K9BVPaJa4uM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753117021; c=relaxed/simple;
-	bh=5ikrG52niIvSMqEoDc/5U2cdAJ0QxIU0RIVnhtX/YzU=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=WyPqlqDfrTNnUJPld5ttkwco35GpdDGU4hQX24J4O95QyoAzxXkOCTnAo92NEC2rZbvq7L3P0KWPTo3i9oP1lnEZFQ2rXMZ7dieB6ldC0AjjLxyRyU7oeRs62BwE8fFj2j2KRAu+dODPP9+1i+FTRyGTzt1y0LXdhcEeFnIBYlQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bo/ydF0A; arc=none smtp.client-ip=209.85.208.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1753118950; c=relaxed/simple;
+	bh=B8N6WxM+v8XOq0Vq34N67AdT6Tg5qewYqoq0XjzmhMY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=SYX7CXb0S/i9VwZxUJb5lR/XGT31tZqhAar7Uro14a0eN1g2LDIdaSwdl8d7nwAb3IEZyRVazGwSDika1c33z1u+zXdEAZo6ext82ccz/fLZdd1tVMsd9lSrQKFozrJ4A1j1iMO1JK6ij63DReVCE6DiEh+PgOZFvzDCd2a3+14=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=B6EONrxQ; arc=none smtp.client-ip=192.198.163.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bo/ydF0A"
-Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-6088d856c6eso7882756a12.0
-        for <linux-staging@lists.linux.dev>; Mon, 21 Jul 2025 09:56:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1753117018; x=1753721818; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=KycE6mEc0YN9C10a1qOjE8F0swLnK7OKIA1QKEpWqxQ=;
-        b=bo/ydF0A/GEtwokMjK0e0ia6hq+3sxvhhMuTWAsAaAa9m1mZJm9MDP6/G1oFjJyaTT
-         +dEaCdILvYvULLOl9LzDfQJojnN/YLzCr8uZTycZR/ukrq7vxSYE9gGbV16zQpHOYKuX
-         L+bhYHJD5XU92vGluPFpsH076NuYsWgvXtRSj0QsWZfSHpIEz0jaHN56reYJQVFFRuy2
-         qrzbWyb31ERMYPV2lSrYxaR9u6CHADUDNJTt//ZzxU+DoocOK7AEfNpJ7GAY8K+AOLon
-         YJdlAgucCnu5MUzIUtf5Uj7AeNG/8x0b5dJAB9ns0YV6vlDeb1deKOcOtXie7amDoUAa
-         IFBw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1753117018; x=1753721818;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=KycE6mEc0YN9C10a1qOjE8F0swLnK7OKIA1QKEpWqxQ=;
-        b=B1DODXfCqSY5QJM3B6P7Ri2zVnATCUlJe+55uBIVBkpO6KnvYvKA9wAEJZKXWLO7iO
-         nA5HlDGyz6f5zyjQJ/m5J9VOJq4VbTe5fA1AErZJ9tRx3X79UFGkV8tM1/fP2GxXU645
-         2yR8w5uX6LHqnr3eWthpvyMMyghhqeOg23viTTt+xK/JuLp9t03OiMn/R9v61CJRrbB4
-         GjNZHjzItue3M/HPzxi+tqfrVsOE5NdEXDLyhIhPEYCioNOkhd/z86deSlHQcloatIVd
-         TI7lndbHOhCdiWYgtALEm/9N5uxe+l+itaRw5+zRt8yjexNipB7GMeAmo0aPmyIQnLkF
-         BPPA==
-X-Forwarded-Encrypted: i=1; AJvYcCUVHoMmg7ePoBGBco6ZLxMgSZ58z3vn7pnKLhDDs4J7+CPxCpMtTMRoYoD2gG4ni5KDqMGYepMEUBWrqXBZ@lists.linux.dev
-X-Gm-Message-State: AOJu0Ywq4Kz79C1XeJ6DC22aNXE2RPgp48I7fOrrkSVZ8bSxOzKU5e0R
-	/Rbs56iICLo6VV85VFfGhXcy61nM6Xa5rqv5cU8bfSHSLBE++gwufRh3oFHLVeuh
-X-Gm-Gg: ASbGnct8qg144r6+rTyjbeTP9Kiiz9Jo+CTSrG3J7CNlvxhPF/ay9R+0LuzGpM7N81X
-	sBK29RZvfQCV6+YlNL6ZmbX5FR6ENOqE/cJXMRCuAavZDIAk/Ai8fDsXoadHjBjMpTsKm3N9kns
-	RUt/O95tSOqTJIBjO8DqSaS3Cwm4ZvZ/7ZPSS8Q/PrgM1AJiY7V+JI7BQut3BXYwyUbzFN74xqe
-	LNZthiDrYPREkZ/1s/fJLnCtYdVS5Dntu3G5emjYvm/l3BvS1wrXMLXr9xfB328v7u4rwdupdEy
-	wePfoON8LiYIYXmpqyZOoBrrfFRjUxpTy3zKITlIvpp8OPrKMNtfqqSfjJvpDOa0N5zTTS+GVFv
-	hctFslOVCNwrcScISx7CvVsTer5orBw==
-X-Google-Smtp-Source: AGHT+IFkLM6d9KiheRng+f/N6qM1dRFv6Q1xvfQ+tsyi/c8iYXWk5mjkRBH/6jkO2tpQ1lBBcrJCZQ==
-X-Received: by 2002:a05:6402:321e:b0:607:f082:5fbf with SMTP id 4fb4d7f45d1cf-612821361b0mr17683589a12.12.1753117018310;
-        Mon, 21 Jul 2025 09:56:58 -0700 (PDT)
-Received: from zephyr ([77.237.184.54])
-        by smtp.googlemail.com with ESMTPSA id 4fb4d7f45d1cf-612f15f596dsm3923507a12.51.2025.07.21.09.56.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 21 Jul 2025 09:56:57 -0700 (PDT)
-From: Ali Nasrolahi <a.nasrolahi01@gmail.com>
-X-Google-Original-From: Ali Nasrolahi <A.Nasrolahi01@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	Ali Nasrolahi <A.Nasrolahi01@gmail.com>
-Subject: [PATCH] staging: rtl8723bs: remove redundant semicolon in basic_types.h
-Date: Mon, 21 Jul 2025 20:26:39 +0330
-Message-ID: <20250721165639.10078-1-A.Nasrolahi01@gmail.com>
-X-Mailer: git-send-email 2.50.1
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="B6EONrxQ"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1753118949; x=1784654949;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=B8N6WxM+v8XOq0Vq34N67AdT6Tg5qewYqoq0XjzmhMY=;
+  b=B6EONrxQnhfsTChYD+4AWzl2HrFhag/By+PYGncL64XrHe0JecZDe620
+   xYZJY4cR0ZjTkCBXInXetM68Q806YBgX8bYtlj5p8Rzq97Fur4ZFeZcyD
+   T2+0oi8im2aH8PENMq5JXvp6Oonnorfhs2b1estBKYyK0zjqnP9gqnXbN
+   duR9G0m6MsuyYdzJleh6Xihg1gr8DBLFTccuVmSfDdUDCAez56NBvCzl4
+   2mCsA3q72caIadA3o1GPXFTXPNz4v1mn7lxFZwKREggc75IHwN+HHSbsO
+   Fh3oDoyzBiB0bFcFaY9fWWINjvJHVkl+dghfJ/zEDIbsn7a6iEe7MN+u4
+   A==;
+X-CSE-ConnectionGUID: mR5CAHa3QpOe0AkeAqsw/g==
+X-CSE-MsgGUID: dkG+e2/2SFKtOE5a+uZAqw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11499"; a="55286815"
+X-IronPort-AV: E=Sophos;i="6.16,329,1744095600"; 
+   d="scan'208";a="55286815"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jul 2025 10:29:08 -0700
+X-CSE-ConnectionGUID: QlR1Fjn/Rf+FBkC9266sQA==
+X-CSE-MsgGUID: jyUa+hUEQEivMclXV/4H8w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,329,1744095600"; 
+   d="scan'208";a="158202195"
+Received: from smile.fi.intel.com ([10.237.72.52])
+  by orviesa010.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jul 2025 10:29:04 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.98.2)
+	(envelope-from <andriy.shevchenko@intel.com>)
+	id 1uduJx-0000000HOV6-11Cc;
+	Mon, 21 Jul 2025 20:29:01 +0300
+Date: Mon, 21 Jul 2025 20:29:00 +0300
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: LiangCheng Wang <zaq14760@gmail.com>, Andy Shevchenko <andy@kernel.org>,
+	Hans de Goede <hansg@kernel.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+	Bill Wendling <morbo@google.com>,
+	Justin Stitt <justinstitt@google.com>, linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev,
+	llvm@lists.linux.dev
+Subject: Re: [PATCH v10] staging: media: atomisp: fix indentation in aa, anr,
+ and bh modules
+Message-ID: <aH543MEsDbnhRzM8@smile.fi.intel.com>
+References: <20250718-new_atomisp-v10-1-54bdff660058@gmail.com>
+ <8f7db034-6b38-44c3-b841-ef4bc1db3973@suswa.mountain>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <8f7db034-6b38-44c3-b841-ef4bc1db3973@suswa.mountain>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-This patch removes a redundant semicolon for
-the macro SET_BITS_TO_LE_2BYTE from basic_types.h
+On Fri, Jul 18, 2025 at 07:06:10PM +0300, Dan Carpenter wrote:
+> On Fri, Jul 18, 2025 at 11:02:14PM +0800, LiangCheng Wang wrote:
+> > Fix tab/space indentation and move a standalone kernel-doc
+> > comment of the 'strength' field of the struct ia_css_aa_config
+> > to the whole-structure one.
+> > Align with kernel coding style guidelines.
 
-Signed-off-by: Ali Nasrolahi <A.Nasrolahi01@gmail.com>
----
- drivers/staging/rtl8723bs/include/basic_types.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+...
 
-diff --git a/drivers/staging/rtl8723bs/include/basic_types.h b/drivers/staging/rtl8723bs/include/basic_types.h
-index e2f203910be..640db1e79e7 100644
---- a/drivers/staging/rtl8723bs/include/basic_types.h
-+++ b/drivers/staging/rtl8723bs/include/basic_types.h
-@@ -162,7 +162,7 @@
- 		(					\
- 		LE_BITS_CLEARED_TO_2BYTE(__pstart, __bitoffset, __bitlen) | \
- 		((((u16)__val) & BIT_LEN_MASK_16(__bitlen)) << (__bitoffset)) \
--		);
-+		)
- 
- #define SET_BITS_TO_LE_1BYTE(__pstart, __bitoffset, __bitlen, __val) \
- 		*((u8 *)(__pstart)) = EF1BYTE			\
+> >  		0, 3, 1, 2, 3, 6, 4, 5, 1, 4, 2, 3, 2, 5, 3, 4,
+> >  		0, 3, 1, 2, 3, 6, 4, 5, 1, 4, 2, 3, 2, 5, 3, 4,
+> >  		0, 3, 1, 2, 3, 6, 4, 5, 1, 4, 2, 3, 2, 5, 3, 4,
+> > -		0, 3, 1, 2, 3, 6, 4, 5, 1, 4, 2, 3, 2, 5, 3, 4
+> > +		0, 3, 1, 2, 3, 6, 4, 5, 1, 4, 2, 3, 2, 5, 3, 4,
+> 
+> No need to add a comma to this line.  The comma at the end of the line
+> is useful when we might add another element to an array.  But here the
+> length is fixed.
+
+Still, it's good to have it to avoid any additional churn in case it
+might be extended. We can argue if this needs to be a separate commit
+from the main topic of this patch.
+
+> If someone were to add a comma here and it was new code, then that's
+> fine.  But I don't want to have to review a separate patch which only
+> adds a unnecessary comma.
+> 
+> >  	},
+> > -	{10, 20, 30}
+> > +	{ 10, 20, 30 },
+> 
+> Same here.  This comma serves no purpose.  We can't actually add
+> anything to this struct.  What would be actually helpful would be to
+> use designated initializers.
+
+Here we touched the line, and adding trailing comma just reduces a potential
+churn in the future. I can show you plenty of changes when patch touches
+unrelated line just for the sake of adding a new one after the affected.
+
+...
+
+> diff --git a/drivers/staging/media/atomisp/pci/isp/kernels/anr/anr_1.0/ia_css_anr.host.c b/drivers/staging/media/atomisp/pci/isp/kernels/anr/anr_1.0/ia_css_anr.host.c
+> index 899d566234b9..3de7ebea3d6e 100644
+> --- a/drivers/staging/media/atomisp/pci/isp/kernels/anr/anr_1.0/ia_css_anr.host.c
+> +++ b/drivers/staging/media/atomisp/pci/isp/kernels/anr/anr_1.0/ia_css_anr.host.c
+> @@ -11,14 +11,14 @@
+>  #include "ia_css_anr.host.h"
+>  
+>  const struct ia_css_anr_config default_anr_config = {
+> -	10,
+> -	{
+> +	.threshold = 10,
+> +	.thresholds = {
+>  		0, 3, 1, 2, 3, 6, 4, 5, 1, 4, 2, 3, 2, 5, 3, 4,
+>  		0, 3, 1, 2, 3, 6, 4, 5, 1, 4, 2, 3, 2, 5, 3, 4,
+>  		0, 3, 1, 2, 3, 6, 4, 5, 1, 4, 2, 3, 2, 5, 3, 4,
+>  		0, 3, 1, 2, 3, 6, 4, 5, 1, 4, 2, 3, 2, 5, 3, 4
+
+With the trailing comma it will be better for the consistency in this case.
+Otherwise I like your approach.
+
+>  	},
+> -	{10, 20, 30}
+> +	.factors = {10, 20, 30},
+>  };
+>  
+>  void
+> 
+> I added a comma to the end of .factors because there is a 1% change we
+> will add a new member to the struct and it's the right thing to do.  I
+> was already changing that line, so I'm allowed to make tiny white space
+> changes like this.
+> 
+> But notice how I left off the comma after the numbers.  That array is a
+> fixed size and nothing can be added.  Leaving off the comma communicates
+> that.  Also there was no need to change that line.  It's unrelated to
+> using desgnated initializers.  If you added a comma, you would need to
+> send a separate patch for that with a commit message to describe and
+> justify it.  As a reviewer, I would need to go through the line
+> carefully and verify that none of the other numbers had been changed.
+> 
+> The commit message for the above patch would say, "Use a designated
+> initializer for default_anr_config.  It helps readability."  There would
+> be no need to mention that "I added a comma" to the end of the .factors
+> line because it's a minor thing that we're not really stressed about.
+
 -- 
-2.50.1
+With Best Regards,
+Andy Shevchenko
+
 
