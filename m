@@ -1,63 +1,63 @@
-Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
+Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99D3F2D323D
-	for <linux-staging@lists.linux.dev>; Tue, 22 Jul 2025 07:41:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34E0F2DCC02
+	for <linux-staging@lists.linux.dev>; Tue, 22 Jul 2025 07:41:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753170091; cv=none; b=TpA5hVqTl0D2/o2KsoEr7/p0MK7DlcEFTfKoQXBRk79HZ+Tc5ZABnvI1ixGeHzNkbSGi4uWJBX9lG5/aKTRJ8PbsgmL/dHNZc+4RAQ8M+Ae7AdwBpuIWL6TRiuyCoDIF2vX2ENa1u0D3yUP586ClzjZ633vsxV55okYCY+8U2x0=
+	t=1753170092; cv=none; b=Wp9QN2vONPrxUnjZvpsMr3KEl4RDT+JJtIMJxpijl2aDGOqgRi2nPIDuE9oIjR7rM61oHAzWU7MnrBsohO6JzkuFQ1LiJnRdeHTSfvWF6gdjDsTQSKUv+jlGLIziD573SW5iXJzxD02ajhyDGtoZJ6T2PpCXgezPi1TzSZMci8E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753170091; c=relaxed/simple;
-	bh=LAFzkfsjMSCq3mQX3QMycHLyMEh/8g9K5shOKKAytmw=;
+	s=arc-20240116; t=1753170092; c=relaxed/simple;
+	bh=SyYOr2zV6XxG5xIVDOSbyAo9C7BbNCREXuZ/bamKzU0=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=kq5UmBt4JAiQZWu2tprtzuK0H93bZm2JcZzEUxkp7LPMxOxpvaYbFcs3OF8zFatAVV1QirwBxTqXwNLbPGSFTli/Bpf30NXuQhyvlp7X2hA4zVC2/6LzlSNZlCCzhwDRF6iEqX8GxHNZrN7tk+JQOTX0FD0yWQLx9RyBpJCYro0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WcfFoWaS; arc=none smtp.client-ip=209.85.208.44
+	 MIME-Version; b=p78NW22eQitJ+jM1JyVfKhfvRDs02VnQr1HOpbIxaya4qCP5jcLC70nWreW8S1bCyRcphq5Az7rYaaxpQl/W4cuz6kyC8BGvO+2TVCzgHbCxkdb56xLwVA0feWc8EQ+jl68gFaZ1FEWh12YHZSy7VqCr0+LdWp02mzIl12+boLU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=W+6A0VrV; arc=none smtp.client-ip=209.85.218.47
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WcfFoWaS"
-Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-60702d77c60so10097305a12.3
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="W+6A0VrV"
+Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-ae35f36da9dso1020604366b.0
         for <linux-staging@lists.linux.dev>; Tue, 22 Jul 2025 00:41:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20230601; t=1753170088; x=1753774888; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=gZNogBY7S57ztBtcwsWdypdOXKto1q8N8tm4BSbYJAQ=;
-        b=WcfFoWaSYcy9QNbj5LUAXHdSfZl7O+56KdOs3zeoLvg7n3F/li3wSywM+GsneF0dxg
-         Zlu95Tho/sQde5NosihMQPk6SaxuD/vd5tPQxwUpv6dZJx96IVUMjeERj+PazdDedsje
-         MZShb4b6CY/Ise64WZ35WqHdFzW8j7Hme5JhaIzw3HaciXWzIqV7g6WSzXC40D5SN/aO
-         QDLBCiJVwl0LNKsmk6m7+pea9ulc/5kQXSouDWuB+iGwKiDpl1TjSPlCFSiK6KaYh3Ph
-         JM60JHdUDu1EqV0imvuEeYytXvqI8SSP9aP5Yecehx8KQ5oWVJhPZJiJxEq0TK3vQ0TA
-         mG3A==
+        bh=lGU8KfFDM4IZZr2GDAlyAqDQq8y18Wqb22CKVd1xvY8=;
+        b=W+6A0VrV1g/d85rFTC19DjsmYDHbftpReW3iY5tN7fuNtGVBNLLRZ+48ipXzn+6myj
+         J8k2IAP+Jkj+7Bbnc+bTxw12Wc8IXWnjfWxzY3yxwvI2MMvn33jDfGmGwLmv6yZ80ZU9
+         dGpUkoGj2MPXJXsUKLGdR8fn55giV6lUPbV5UvUnSjDLcmfaHXK64wqxlbQdypch3mNT
+         TTfcXiJ34oYcDTDQVLL6NxaNzLbqwCEt7OfbWtmaVX6fn3DRxdIXVh2KYfAnI+sJIAoD
+         CRgpEj2CqCUlNqsX6u1hEC1m4mZOftfMToiGTvpSAFLjJlolIoTuoLwAt/Jx7G3OI/pp
+         DOcg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20230601; t=1753170088; x=1753774888;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=gZNogBY7S57ztBtcwsWdypdOXKto1q8N8tm4BSbYJAQ=;
-        b=LSrIVB0rpHYuJOTfCLeFxrRrFbyr4vOULgo8lrSJFa4crNufokSnCrQfDoIKMAb0yb
-         UsRZ300PfucKWNx77MjgYw/8iC8gNHP9hXJHfFj3OPr3+OZJ2if61lsfmg4zko4H6qXL
-         oEzWg/qi1eSDh5XOWpIsG0efQmH+Mx5AAieYgszDRu/K3ry+Kma6s2S+S1hU/uWlxW5d
-         3QD3RpqlgS/WoUV6KJqrUvA0jDDehdt3C6oz65SeFTs2LIFW1S0nvfOk9UNETfL01Egu
-         K0YdNaeU4rsuJ6p71F3vuFfdz6L7ZvswxAkF/548f0ktISBYcAy+PgNDjBvdN2p4f9no
-         69Hg==
-X-Forwarded-Encrypted: i=1; AJvYcCVDQRi6mgUbWjglbN4ErXfQLQ4rxrXipvYmtVWMAR4sU5ddb0IWq5eG9R3S8/Tliar5nSofrb/0kj51irJe@lists.linux.dev
-X-Gm-Message-State: AOJu0YyCjN7avraGlo15WYLshxBpEGQIEDSao6yYcEJNDuNKDCYw8cxb
-	Rpg75nnO9odEeM9R99qU6M1EKldCzrQrQarj3q1M7BC6REV2AmW3vE1b
-X-Gm-Gg: ASbGncvsQBldpy5/TBSr6BDYEPHT+i/jgRNJ/dPkM8db6LzwMX/voUVGO8MyYSD2VfH
-	RyxtTAHbv/GSnTMsDpsrS9HQPKViwL/YKKk4c5iCaq9y4bKJM9CG/egvo2Y8CjWUvPxtnCbdQeP
-	EuTTxpi5y+nRDXgN7HnwhZA3xIJkMv1kAXcFEuugsNxVa9I7LJkKuJSjq8f11pUc1I2JAu2Lkv3
-	ZeHLOXr7gI860LpBvXYaF7umezRdQl5vTHcXMuJWNUE+3tTooDzOX4KncWpPKwMU6n6LNm4rg5w
-	aPRg4nMcvG+Z3wCPFEZ3zSRjdf/7EUMVledIgsmYRq+DIOsboc8B4iGM/3oubnSkmHLnk5yxyzJ
-	4qBv7/T+PJJUrTuRnkW9opsQ=
-X-Google-Smtp-Source: AGHT+IFW90x0hbLkyLT3UYkJcBiH0wEay939st4w3DBG/C7BPZnwEOkPFBURA4+AnF45CuVZdakffg==
-X-Received: by 2002:a17:906:68d2:b0:ae0:da2f:dcf3 with SMTP id a640c23a62f3a-ae9c9be2d5dmr2050002366b.59.1753170087837;
-        Tue, 22 Jul 2025 00:41:27 -0700 (PDT)
+        bh=lGU8KfFDM4IZZr2GDAlyAqDQq8y18Wqb22CKVd1xvY8=;
+        b=TKz6HIJek5z33HQZa1QBM+BVnMLBZMlnNKNBbBkjdXu97y6H01vUVD6TECrId5mJIf
+         RKAHHjMDGMGwgl7rC7CzoVHHtQmfzV7zKsK00XYfuAVNS/hmQ1JH5W5C7xbu1bR7usQz
+         eGSe2En89NW6dflmIUARpLZqXeZHBG4bBulA353LKg7B/SPp6qwNwSO7ePTKClZuegGF
+         pTcDlg6tfBBMHFlimuPr8kzE1c2kjkvLrC9EiuceO4Ru8uyp+JhcmYwkWQUAiEMtrYez
+         AkQ0LJckpuSICGFqPhHEWsPT69bW5h9ty1iq2FwAru+wLgTOYj2caTjED+1CZ9xBbOJ0
+         OG/A==
+X-Forwarded-Encrypted: i=1; AJvYcCVhyLT5zUxDBkDv1MtEJQ7l56sw1YFBkLxTUeFfRTBNW0I3N44d5sBS1bH3feaq7sIKW7FnnTZ+IZKXa9c3@lists.linux.dev
+X-Gm-Message-State: AOJu0Yyo/1/Q8Ia2N0XLWGHL1DUJRCyIuW95bJYrBYNm+kCTdTxDxd6d
+	fbAD43yB9MdAv8w1a//rlFwGp+fUjfxvUQmAgwsZoONrpwjTHcFtGZ/8
+X-Gm-Gg: ASbGncvAybxa0QWHxb1hiuuUo7gCPTKBSGbLyAdGnvRQLf+CIitQtaier8nESMnR1SK
+	i/I+2qXMrAU+l5hzki0VE32cPwN3uoPnvFWs3UNh0dExfBI2Fo0K8q3svEqx/+wl+UXNDGlVsT1
+	w0GrRZkBvTJV2O3TDleKpBa5mJLplf7AcwFYJkYPHWtcIvcp/srOEGpfY3DWbJ6Gz718tyHcX5L
+	ZC2EuOQIkvNGrOHzqHJDBZkjv2UpL19ffXBsO0NmXiM9gXexu7b+eboKytVLdgOEDuYrz5stMTP
+	+i3X9HbyNEDDKXSxj2F4w0Fxe2zbT44tJ+gNLmNJQEuhIhaJIkqnExVX7oa5gncBBuFwHMmd4qg
+	lf1Twgr7JirB/79Y7iXHByzg=
+X-Google-Smtp-Source: AGHT+IGDSya8s9ywgwmIycnqxfqEdjtBFsT7b2LHbPorWjslOCCpbtsVDGoOXd2sca4tKDRZhAtDKA==
+X-Received: by 2002:a17:907:cca3:b0:ae9:bf1c:50a4 with SMTP id a640c23a62f3a-ae9ce078f47mr1615975666b.36.1753170088409;
+        Tue, 22 Jul 2025 00:41:28 -0700 (PDT)
 Received: from tumbleweed ([95.90.185.15])
         by smtp.gmail.com with ESMTPSA id a640c23a62f3a-aec6c79d6c6sm821224666b.32.2025.07.22.00.41.27
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 22 Jul 2025 00:41:27 -0700 (PDT)
+        Tue, 22 Jul 2025 00:41:28 -0700 (PDT)
 From: Michael Straube <straube.linux@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: hdegoede@redhat.com,
@@ -65,9 +65,9 @@ Cc: hdegoede@redhat.com,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Michael Straube <straube.linux@gmail.com>
-Subject: [PATCH 6/7] staging: rtl8723bs: dm_CheckStatistics is empty
-Date: Tue, 22 Jul 2025 09:41:14 +0200
-Message-ID: <20250722074115.35044-7-straube.linux@gmail.com>
+Subject: [PATCH 7/7] staging: rtl8723bs: DoIQK_8723B is empty
+Date: Tue, 22 Jul 2025 09:41:15 +0200
+Message-ID: <20250722074115.35044-8-straube.linux@gmail.com>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <20250722074115.35044-1-straube.linux@gmail.com>
 References: <20250722074115.35044-1-straube.linux@gmail.com>
@@ -79,38 +79,82 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The function dm_CheckStatistics is empty, remove it.
+The function DoIQK_8723B is empty, remove the function and code that
+uses it.
 
 Signed-off-by: Michael Straube <straube.linux@gmail.com>
 ---
- drivers/staging/rtl8723bs/hal/rtl8723b_dm.c | 7 -------
- 1 file changed, 7 deletions(-)
+ drivers/staging/rtl8723bs/hal/HalPhyRf.h       |  2 --
+ drivers/staging/rtl8723bs/hal/HalPhyRf_8723B.c | 10 ----------
+ drivers/staging/rtl8723bs/hal/HalPhyRf_8723B.h |  7 -------
+ 3 files changed, 19 deletions(-)
 
-diff --git a/drivers/staging/rtl8723bs/hal/rtl8723b_dm.c b/drivers/staging/rtl8723bs/hal/rtl8723b_dm.c
-index d1c875cf8e6d..928226679ab4 100644
---- a/drivers/staging/rtl8723bs/hal/rtl8723b_dm.c
-+++ b/drivers/staging/rtl8723bs/hal/rtl8723b_dm.c
-@@ -12,9 +12,6 @@
+diff --git a/drivers/staging/rtl8723bs/hal/HalPhyRf.h b/drivers/staging/rtl8723bs/hal/HalPhyRf.h
+index fdbdd68edf2a..1e79ab9cb773 100644
+--- a/drivers/staging/rtl8723bs/hal/HalPhyRf.h
++++ b/drivers/staging/rtl8723bs/hal/HalPhyRf.h
+@@ -15,7 +15,6 @@ enum pwrtrack_method {
+ };
  
- /*  Global var */
+ typedef void (*FuncSetPwr)(struct dm_odm_t *, enum pwrtrack_method, u8, u8);
+-typedef void (*FuncIQK)(struct dm_odm_t *, u8, u8, u8);
+ typedef void (*FuncLCK)(struct dm_odm_t *);
+ typedef void (*FuncSwing)(struct dm_odm_t *, u8 **, u8 **, u8 **, u8 **);
  
--static void dm_CheckStatistics(struct adapter *Adapter)
+@@ -27,7 +26,6 @@ struct txpwrtrack_cfg {
+ 	u8 RfPathCount;
+ 	u32 ThermalRegAddr;
+ 	FuncSetPwr ODM_TxPwrTrackSetPwr;
+-	FuncIQK DoIQK;
+ 	FuncLCK PHY_LCCalibrate;
+ 	FuncSwing GetDeltaSwingTable;
+ };
+diff --git a/drivers/staging/rtl8723bs/hal/HalPhyRf_8723B.c b/drivers/staging/rtl8723bs/hal/HalPhyRf_8723B.c
+index 81149ab81904..34692cca33f5 100644
+--- a/drivers/staging/rtl8723bs/hal/HalPhyRf_8723B.c
++++ b/drivers/staging/rtl8723bs/hal/HalPhyRf_8723B.c
+@@ -142,15 +142,6 @@ static void setCCKFilterCoefficient(struct dm_odm_t *pDM_Odm, u8 CCKSwingIndex)
+ 	}
+ }
+ 
+-void DoIQK_8723B(
+-	struct dm_odm_t *pDM_Odm,
+-	u8 DeltaThermalIndex,
+-	u8 ThermalValue,
+-	u8 Threshold
+-)
 -{
 -}
- /*  */
- /*  functions */
- /*  */
-@@ -144,10 +141,6 @@ void rtl8723b_HalDmWatchDog(struct adapter *Adapter)
- 		(hw_init_completed == true) &&
- 		((!fw_current_in_ps_mode) && bFwPSAwake)
- 	) {
--		/*  */
--		/*  Calculate Tx/Rx statistics. */
--		/*  */
--		dm_CheckStatistics(Adapter);
- 		rtw_hal_check_rxfifo_full(Adapter);
- 	}
+-
+ /*-----------------------------------------------------------------------------
+  * Function:	odm_TxPwrTrackSetPwr88E()
+  *
+@@ -353,7 +344,6 @@ void ConfigureTxpowerTrack_8723B(struct txpwrtrack_cfg *pConfig)
+ 	pConfig->ThermalRegAddr = RF_T_METER_8723B;
  
+ 	pConfig->ODM_TxPwrTrackSetPwr = ODM_TxPwrTrackSetPwr_8723B;
+-	pConfig->DoIQK = DoIQK_8723B;
+ 	pConfig->PHY_LCCalibrate = PHY_LCCalibrate_8723B;
+ 	pConfig->GetDeltaSwingTable = GetDeltaSwingTable_8723B;
+ }
+diff --git a/drivers/staging/rtl8723bs/hal/HalPhyRf_8723B.h b/drivers/staging/rtl8723bs/hal/HalPhyRf_8723B.h
+index 775095ad0921..c83442917f9d 100644
+--- a/drivers/staging/rtl8723bs/hal/HalPhyRf_8723B.h
++++ b/drivers/staging/rtl8723bs/hal/HalPhyRf_8723B.h
+@@ -18,13 +18,6 @@
+ 
+ void ConfigureTxpowerTrack_8723B(struct txpwrtrack_cfg *pConfig);
+ 
+-void DoIQK_8723B(
+-	struct dm_odm_t *pDM_Odm,
+-	u8 DeltaThermalIndex,
+-	u8 ThermalValue,
+-	u8 Threshold
+-);
+-
+ void ODM_TxPwrTrackSetPwr_8723B(
+ 	struct dm_odm_t *pDM_Odm,
+ 	enum pwrtrack_method Method,
 -- 
 2.50.1
 
