@@ -1,63 +1,63 @@
-Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
+Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00AE32264CF
-	for <linux-staging@lists.linux.dev>; Tue, 22 Jul 2025 07:41:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 646432882C6
+	for <linux-staging@lists.linux.dev>; Tue, 22 Jul 2025 07:41:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753170088; cv=none; b=bDbMe/aSf83efo8FWf8/9gT1X0HKrFxCU2LZHGg37QxcHIzn8iAFzZAreWLS+PDGlclgKDhAEBRiMyn2RNVW9upxSEdCzvNxdeL394ATKbkttSIbyzWF8OfFoTHvqOyaWcam8KzM25E4GqMEDjVKGkxBBUxrpV4XjO2DajkNI2A=
+	t=1753170089; cv=none; b=DTw0UBMgyAkpU31hOZKBm+6wXQ22tc1xaPZXvBOzPS1+7nqGGcsPrF8eGkeYLWIDPdgetDvef4VkfRdceJiMgIUkwVauRw88FXlGYbWnkV9m2uCyEICIm7pynG0hNrPrvKV3Iu4q3j/mTGx3wSmiORnnZeeEVnD8Xhn2iJ8MSZI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753170088; c=relaxed/simple;
-	bh=09X1FYDd5bLS3DPuAiSRXnDoFN1mXNFisgGOgUL8+Lw=;
+	s=arc-20240116; t=1753170089; c=relaxed/simple;
+	bh=rtRC4Ev3m/O8U1vK5Biqqwhz/fsXnQUBT200dVjZ+Ec=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=GLN0Ox97icvSRbOnmMCsJBoWU2IzIJnymKo1xZ+fDjoqcBc0hWu9N7Uuk48pub8b5stMDFDS4CHvN543Sh0tqosUKUY4n0J0Cc8bhRJNQauqlKCp3yEaRtjWRJbheaJ+OBk3jOwhKRjbWvMUK9JWnuRks+O09w2i4GcxO37W2Ss=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gVrdWnef; arc=none smtp.client-ip=209.85.218.47
+	 MIME-Version; b=IJDO3rkyfdT3ijeP7PulFF6Z8EqQEtAfoZ0cHoLew61yVLxR4/92cj2ZKMbVzgT0Lks54rIIfdE9Db/wNgKztZY36h/x6ySgfnHhAyqg1Ve6W85HvNSntkzY1IQasInkVDHzgMomJjBXnEH+z0PfaFt5z+S4r7oOdRylrlbjC10=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Pzrz/ZlN; arc=none smtp.client-ip=209.85.208.50
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gVrdWnef"
-Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-ae0b2ead33cso913143566b.0
-        for <linux-staging@lists.linux.dev>; Tue, 22 Jul 2025 00:41:26 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Pzrz/ZlN"
+Received: by mail-ed1-f50.google.com with SMTP id 4fb4d7f45d1cf-612b34ef0c2so8814321a12.0
+        for <linux-staging@lists.linux.dev>; Tue, 22 Jul 2025 00:41:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1753170085; x=1753774885; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1753170086; x=1753774886; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=6W1FPOz9tSHUX2gqoRxUY9TCTbS2xN4Rbh5H0nxiSmc=;
-        b=gVrdWnefqPjfiijZ5pJ5KDvwIK4HBK3vK3w9vksA/cGV7JTmjduTqf05/VelskklFU
-         oMzFrUq7jpRUE5NIYqa6muPqs3HJv4CdMh6PBGamBbKzQ7TVTsEQVtf9DTnoFSo5lQzl
-         OkTgGlwbiEs4aYdZgG2egFdI20nWtvA4+bUKFYW4gQBVnJgwsbcvaHJGbc9hQ93wLTn3
-         aMnbduj7aO1rK11myTJ6nCzQQTq/mDhm6GFXzqldpb+ziP2aGwmyFJFsqcyA0ZDwZxfH
-         ut2LTBi9Tmwc6cRvPTDPKOJvV8gC6F3ek5cNM6SARs2yVBIAvoasFWvb4nIhCJuu8kpe
-         CnKg==
+        bh=mD+WDAZpBhywuFmsykKhAgacOLRRprRh6YgpDRi2+z4=;
+        b=Pzrz/ZlN+tnZHRtmiMPXcBdjTVkSeAIkNMBqBn91SkIDzMPEaBKrVZGm+99SRE5E6D
+         G/60u64Am6GHzJL1WieL6kYAeY0uS4i9xsu0l/YFa2A3TRffjMmqZPw3cDSEfsjQvDf7
+         aNUUGzP1wkVehUZ8f0YiSgiFz31AH4F2+xvt4WLfCfC7IxKWhJas3UeG2kln8SV+6BJ0
+         GkodukzeBQ38JfwaKQGNCxNtraWgjWtOFAKBsoh1tMiOSlyZJBj0lPVyPUB5CODL9Egt
+         ZETKgLGB+QT3NaESjEioi/jJjdTp3RTb6Z+qx/UjmL4aESD/k0VgouOl4nPH9FiAQnOS
+         Gk5A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1753170085; x=1753774885;
+        d=1e100.net; s=20230601; t=1753170086; x=1753774886;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=6W1FPOz9tSHUX2gqoRxUY9TCTbS2xN4Rbh5H0nxiSmc=;
-        b=gYMSoiDoAUCX+JgVqRRxfgpy9IWmiqfrb/AFZK0uTntYZ42KqYB6i5aqZy3Ibe89/i
-         1gv0Q4AGqxRKoVCx+XmAe3kSx2DjKHTlWoaVHJpQ1B5hBPIVepDElfz5J3ESnjq7Hofh
-         JmE7nSnjDBY+34mxwtaDzrrn4f38arPGVHWT8WNnZWK+u+3ofSqEwTm82G5wMhHtEviN
-         itFK3twWEkYlbDiVv8lG52tKHF7n7C6lONwfBGeJr/yBjVnsMu959FmON2/fbkuTEEpV
-         t5PY4AQhnQJvY5kEiD1qc+Xjg24t/RA4Zz52vbYgKBpPBhREprB45lIpbBxqnVKtShSy
-         Atdg==
-X-Forwarded-Encrypted: i=1; AJvYcCUXW2uyN9xlb44nLH6m+t6cmOEz/n+IaBFp06XwjQ95aJlSJx4IeEreEVTuTfNLvciF72nLnJr8BaWgzadB@lists.linux.dev
-X-Gm-Message-State: AOJu0YxszfztBAPEy9kJYid2fsuTGk5w7CVHImt8YdC5yvgaCz+Ixyfr
-	e052R55VF8r3gv8nn5+DBL21AYtVE2l5Pti1vSIKWSQlgklG+3WQPRQf
-X-Gm-Gg: ASbGnct8ZxhF0zVYAV8WxDpryRCrrNA02YSvFZQHfNfha9MRMbWgrAvWHjscXKjMcop
-	y+B1nEQIZXee3ftxyMiEuDT+zszUoS+x/IvYOrhFVes0Kg9Lu3oYmS9sWx5Uq3qGysdELBhXcqc
-	82vAtewrJh+VhJgJA97ffMwU4Xz/4W9nyUHqt2MhnpvM1/62GSVcxfErSCR+caFA15DV5S+Zwyw
-	S8sT3feaMjPXDa6XdO8atugbtxXJYZTS/fswXDbwIMlomy5arnjM0Ozs0Q7ssDwziuLccYNVteT
-	pyc2YzXWREiiRJe/fdRVnUrr1PM2jsaH4YKuRmKR/1Q71PP+fLjYQCtM6uaStpd45z3eoz8RMCo
-	ybqGBR06CAxcwl1OAjB7Z4v8=
-X-Google-Smtp-Source: AGHT+IGPSGEgzME5Asjigl248gpzG65M9tdsmmmrjez5T1volOyNNvzre0xWUF6TuXh91rCAHDkfAw==
-X-Received: by 2002:a17:907:971b:b0:ae7:f389:c751 with SMTP id a640c23a62f3a-af14f24210bmr252751666b.0.1753170084965;
-        Tue, 22 Jul 2025 00:41:24 -0700 (PDT)
+        bh=mD+WDAZpBhywuFmsykKhAgacOLRRprRh6YgpDRi2+z4=;
+        b=IVq1tUgslagBpBxfplMgywxlAY1wERa43d8YxCubp+c7uw5UrNMXaMBtz9V+O4qaS7
+         T+nNESTR5bseaLVhl/yh4vkyn3KOMd4O2KVf/98Aaz0EBJW4mYN/knGLKAcSnIf+6YxQ
+         wuVFcBc3fmri7jrLck2cfHX2Wejxy3H8UriZ1VfqW8mug/ZJacferRRz+qHHl4b+f66l
+         ebTeuQoXlctU17JK53QDUhv1imk++3yxj2cpVsNM0jIO0zWyCGM5SKmdDwYeusVNwRDo
+         Pv3B3jHbuKLEntp8mweud34oCBEFPKZbua6JiXZI8Ib7Qx6IDg67rZ2JyIttbFwkgQlA
+         gvyQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVY1p3RlAq7JKRjNdQCCwp22DJk96unFZv+TILxL+SDLtVcoK3/AiUjrNTH5ojxAnJj2bPMxMT7tMl92pOs@lists.linux.dev
+X-Gm-Message-State: AOJu0YxJR9CvjoZAh3l1TOEATt1VILKd9pSO7f5OnfSAbxLxW/KJNSEK
+	whxw+jWgsvkG++czBGwZzBfX28AgJlH2k2fYx5sOX4nUR6vWtY4jqQ2bm7I/yQ==
+X-Gm-Gg: ASbGncsFOY0iNvXtEZ4nnayV//SGEMaSk/WXcKsdJMP5jgsmR8qdOJigfRMGye+rIyf
+	aVVWd3tX4Pbfn6WQYojfE38HsUukLNN1u+xhru4iqayUZmpF17a7LYeYzRdSgC+1eNXPcIxzHg/
+	hNEBhCXl/DnjhNLkE25BYynkPXRj49goluG8vhCKU/jgs/HRnpfAyy6/BiK/fDFN5r5j9kTd303
+	1PY41/eeOezKBlp6BLpFLY9O7Y8BIO2Kj7G9AKwu8RYaYKdvGKVeSeZy/xEVUrhInXrh7HgSHZh
+	aAwVIwHvz52JYuIt3RJnt3giUY5kiJjLpxkP03t1XVbvIOIp2VEwk0JnwrWE886o0OUubdclK3s
+	BS+ZDcryrX4LIuT0TtZtP8F0=
+X-Google-Smtp-Source: AGHT+IE7BkXfLIsvxlP1JCVlXpdU6K0hfAWqn/gXsklQoTqpQ23YZ2oC7vEcEUHa/9rB83DtWsLlwA==
+X-Received: by 2002:a17:907:d89:b0:ae9:933d:f0de with SMTP id a640c23a62f3a-aec4fbee39amr2202987566b.36.1753170085549;
+        Tue, 22 Jul 2025 00:41:25 -0700 (PDT)
 Received: from tumbleweed ([95.90.185.15])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-aec6c79d6c6sm821224666b.32.2025.07.22.00.41.24
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-aec6c79d6c6sm821224666b.32.2025.07.22.00.41.25
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 22 Jul 2025 00:41:24 -0700 (PDT)
+        Tue, 22 Jul 2025 00:41:25 -0700 (PDT)
 From: Michael Straube <straube.linux@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: hdegoede@redhat.com,
@@ -65,9 +65,9 @@ Cc: hdegoede@redhat.com,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Michael Straube <straube.linux@gmail.com>
-Subject: [PATCH 1/7] staging: rtl8723bs: CheckFwRsvdPageContent is empty
-Date: Tue, 22 Jul 2025 09:41:09 +0200
-Message-ID: <20250722074115.35044-2-straube.linux@gmail.com>
+Subject: [PATCH 2/7] staging: rtl8723bs: rtl8723b_set_FwAoacRsvdPage_cmd is empty
+Date: Tue, 22 Jul 2025 09:41:10 +0200
+Message-ID: <20250722074115.35044-3-straube.linux@gmail.com>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <20250722074115.35044-1-straube.linux@gmail.com>
 References: <20250722074115.35044-1-straube.linux@gmail.com>
@@ -79,61 +79,51 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The function CheckFwRsvdPageContent is empty, remove it.
+The function rtl8723b_set_FwAoacRsvdPage_cmd is empty, remove it.
 
 Signed-off-by: Michael Straube <straube.linux@gmail.com>
 ---
- drivers/staging/rtl8723bs/hal/rtl8723b_cmd.c      | 9 ---------
- drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c | 2 --
- drivers/staging/rtl8723bs/include/rtl8723b_cmd.h  | 2 --
- 3 files changed, 13 deletions(-)
+ drivers/staging/rtl8723bs/hal/rtl8723b_cmd.c | 12 ++----------
+ 1 file changed, 2 insertions(+), 10 deletions(-)
 
 diff --git a/drivers/staging/rtl8723bs/hal/rtl8723b_cmd.c b/drivers/staging/rtl8723bs/hal/rtl8723b_cmd.c
-index 56526056dd1d..3c5d516cb3af 100644
+index 3c5d516cb3af..93b63a16b4e0 100644
 --- a/drivers/staging/rtl8723bs/hal/rtl8723b_cmd.c
 +++ b/drivers/staging/rtl8723bs/hal/rtl8723b_cmd.c
-@@ -287,15 +287,6 @@ static void ConstructNullFunctionData(
- 	*pLength = pktlen;
+@@ -300,10 +300,6 @@ static void rtl8723b_set_FwRsvdPage_cmd(struct adapter *padapter, struct rsvdpag
+ 	FillH2CCmd8723B(padapter, H2C_8723B_RSVD_PAGE, H2C_RSVDPAGE_LOC_LEN, u1H2CRsvdPageParm);
  }
  
--/*
-- * To check if reserved page content is destroyed by beacon because beacon
-- * is too large.
-- */
--/* 2010.06.23. Added by tynli. */
--void CheckFwRsvdPageContent(struct adapter *Adapter)
+-static void rtl8723b_set_FwAoacRsvdPage_cmd(struct adapter *padapter, struct rsvdpage_loc *rsvdpageloc)
 -{
 -}
 -
- static void rtl8723b_set_FwRsvdPage_cmd(struct adapter *padapter, struct rsvdpage_loc *rsvdpageloc)
+ void rtl8723b_set_FwMediaStatusRpt_cmd(struct adapter *padapter, u8 mstatus, u8 macid)
  {
- 	u8 u1H2CRsvdPageParm[H2C_RSVDPAGE_LOC_LEN] = {0};
-diff --git a/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c b/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
-index a9f33444aec2..1608bc71bd71 100644
---- a/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
-+++ b/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
-@@ -1196,8 +1196,6 @@ static void StopTxBeacon(struct adapter *padapter)
- 	rtw_write8(padapter, REG_TBTT_PROHIBIT+1, 0x64);
- 	pHalData->RegReg542 &= ~BIT(0);
- 	rtw_write8(padapter, REG_TBTT_PROHIBIT+2, pHalData->RegReg542);
--
--	CheckFwRsvdPageContent(padapter);  /*  2010.06.23. Added by tynli. */
- }
+ 	u8 u1H2CMediaStatusRptParm[H2C_MEDIA_STATUS_RPT_LEN] = {0};
+@@ -605,12 +601,9 @@ static void rtl8723b_set_FwRsvdPagePkt(
+ 		dump_mgntframe_and_wait(padapter, pcmdframe, 100);
+ 	}
  
- static void _BeaconFunctionEnable(struct adapter *padapter, u8 Enable, u8 Linked)
-diff --git a/drivers/staging/rtl8723bs/include/rtl8723b_cmd.h b/drivers/staging/rtl8723bs/include/rtl8723b_cmd.h
-index 0665c4955936..6b2d79e19088 100644
---- a/drivers/staging/rtl8723bs/include/rtl8723b_cmd.h
-+++ b/drivers/staging/rtl8723bs/include/rtl8723b_cmd.h
-@@ -175,8 +175,6 @@ void rtl8723b_set_FwMediaStatusRpt_cmd(struct adapter *padapter, u8 mstatus, u8
- void rtl8723b_download_rsvd_page(struct adapter *padapter, u8 mstatus);
- void rtl8723b_download_BTCoex_AP_mode_rsvd_page(struct adapter *padapter);
+-	if (check_fwstate(pmlmepriv, _FW_LINKED)) {
++	if (check_fwstate(pmlmepriv, _FW_LINKED))
+ 		rtl8723b_set_FwRsvdPage_cmd(padapter, &RsvdPageLoc);
+-		rtl8723b_set_FwAoacRsvdPage_cmd(padapter, &RsvdPageLoc);
+-	} else {
+-		rtl8723b_set_FwAoacRsvdPage_cmd(padapter, &RsvdPageLoc);
+-	}
++
+ 	return;
  
--void CheckFwRsvdPageContent(struct adapter *padapter);
--
- void rtl8723b_set_FwPwrModeInIPS_cmd(struct adapter *padapter, u8 cmd_param);
+ error:
+@@ -876,7 +869,6 @@ static void SetFwRsvdPagePkt_BTCoex(struct adapter *padapter)
+ 	dump_mgntframe_and_wait(padapter, pcmdframe, 100);
  
- s32 FillH2CCmd8723B(struct adapter *padapter, u8 ElementID, u32 CmdLen, u8 *pCmdBuffer);
+ 	rtl8723b_set_FwRsvdPage_cmd(padapter, &RsvdPageLoc);
+-	rtl8723b_set_FwAoacRsvdPage_cmd(padapter, &RsvdPageLoc);
+ 
+ 	return;
+ 
 -- 
 2.50.1
 
