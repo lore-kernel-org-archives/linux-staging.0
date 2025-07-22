@@ -1,37 +1,37 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52C092E49A4;
-	Tue, 22 Jul 2025 07:37:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 985612D3EE6;
+	Tue, 22 Jul 2025 07:37:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753169854; cv=none; b=pOdYdAQwdCD80Fc+LpVwO+dEPxSh3mI7Tt2nw5PT+2Dxn4jhcyh+D7m6msQBfAcSt21zH1sVeXWWOi6W/vnVlsISsNRLoH2f2SnxZx0lx2lk9aYBdEDNSlqx58lwBJeVMEpeuqvwJeaa5CpZwp1w3oqJTo2x7jkVuPnSXLGjF8M=
+	t=1753169862; cv=none; b=p1wkTrXmydvKuJbQ4aKgRoVHA4SuUI9NzW7K5AZuiJWZZeUmNRnJhs34fVlOeslc3MBsJNya4YdG6zgqlHNivPOSXeZwAAG1zELyfLNVuFSguwK64NteUz5XD5/XnoDJI9BcYMwOd4/1Emnwi2cLfY+hqwoDD25/sBSNoy1+D0Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753169854; c=relaxed/simple;
-	bh=2EUwiNyXmmuhM5rxIewdixPcv5XvuZw0V+Q11YUN8iM=;
+	s=arc-20240116; t=1753169862; c=relaxed/simple;
+	bh=wQrJ9UHPZYFTmcGKkglIDRkfLqzGfb57w5Nsxc2fB6c=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=rHxQ1cUXkn9NWOyk3ffSQvKER+Wc4/382gjRBFFtxRUXI2ewPKAOYECa7AEiHsy2rV7vXUeEDL4l9C5sS2SAlxetbCCqEzHxk0mW7tcTgZPG040z5p71GnEIkmmjiBwJHyQMMBQxagFxUIcRTiESaRlaF00XaG0Js7u2jfGv4Io=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=FnyQufKo; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=olY5AX8z6FRMoYEIbtcU88LRkrY617I6AKP3P3V5jz5LdWyu0Zn2QDABcsj2czmOTmlTNqQvhDGaE9sklLJfMyarcRSAGVqeQ541OUgiqQJPIQT7NUaGDZbAwpwVnd1vBj8jYL/k4KrT5NUAtuDeLr4PeX0OsnX2pdN/b5MW3sc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=g+DYrc1r; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="FnyQufKo"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5499FC4CEEB;
-	Tue, 22 Jul 2025 07:37:33 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="g+DYrc1r"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B57DEC4CEEB;
+	Tue, 22 Jul 2025 07:37:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1753169853;
-	bh=2EUwiNyXmmuhM5rxIewdixPcv5XvuZw0V+Q11YUN8iM=;
+	s=korg; t=1753169862;
+	bh=wQrJ9UHPZYFTmcGKkglIDRkfLqzGfb57w5Nsxc2fB6c=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=FnyQufKowC21Htmo5nnwxdLogCRpYRVDCODJB++AWugSnd3RGHPiXUniayZXYHzT7
-	 SIQ2CwYiGGvJKJRdYay6J9c7vqsrbGz5TJVT70+5xEYqBrof32dc5HpLV9YSm+THVs
-	 qYAr1Qwr5ZffHrm0UgneP3hLcxMFgU7CxHRKl88A=
-Date: Tue, 22 Jul 2025 09:37:30 +0200
+	b=g+DYrc1rZ2uYtfNP+SOFC7CbIfLhffy+Vmgjs1nFMwCk+C4ZJragAwK4ItUvuMHIP
+	 vWl8GNW6Q9Hxq/nCACy/eR5rEXHoo8eToi5cuU4Bl3Rnd6FRmXYERWmOXh1Q/beUpf
+	 Od03LNRefmETRc7sTFOlBzEQLqCLb0vC4QwFRX8s=
+Date: Tue, 22 Jul 2025 09:37:39 +0200
 From: Greg KH <gregkh@linuxfoundation.org>
 To: Ali Nasrolahi <a.nasrolahi01@gmail.com>
 Cc: linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
-Subject: Re: [PATCH v3 1/2] staging: rtl8723bs: fix comment formatting in
- basic_types.h
-Message-ID: <2025072209-retract-rocking-c69d@gregkh>
+Subject: Re: [PATCH v3 2/2] staging: rtl8723bs: fix comment style and
+ formatting in osdep_service.c
+Message-ID: <2025072233-duh-atrium-2ff5@gregkh>
 References: <20250721164343.8395-1-A.Nasrolahi01@gmail.com>
- <20250721164343.8395-2-A.Nasrolahi01@gmail.com>
+ <20250721164343.8395-3-A.Nasrolahi01@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -40,56 +40,62 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250721164343.8395-2-A.Nasrolahi01@gmail.com>
+In-Reply-To: <20250721164343.8395-3-A.Nasrolahi01@gmail.com>
 
-On Mon, Jul 21, 2025 at 08:13:42PM +0330, Ali Nasrolahi wrote:
+On Mon, Jul 21, 2025 at 08:13:43PM +0330, Ali Nasrolahi wrote:
 > Signed-off-by: Ali Nasrolahi <A.Nasrolahi01@gmail.com>
 > ---
->  drivers/staging/rtl8723bs/include/basic_types.h | 13 ++++++-------
->  1 file changed, 6 insertions(+), 7 deletions(-)
+>  drivers/staging/rtl8723bs/os_dep/osdep_service.c | 11 ++++++-----
+>  1 file changed, 6 insertions(+), 5 deletions(-)
 > 
-> diff --git a/drivers/staging/rtl8723bs/include/basic_types.h b/drivers/staging/rtl8723bs/include/basic_types.h
-> index 57bb717327c..e2f203910be 100644
-> --- a/drivers/staging/rtl8723bs/include/basic_types.h
-> +++ b/drivers/staging/rtl8723bs/include/basic_types.h
-> @@ -26,7 +26,7 @@
->   *	1. Read/write packet content.
->   *	2. Before write integer to IO.
->   *	3. After read integer from IO.
+> diff --git a/drivers/staging/rtl8723bs/os_dep/osdep_service.c b/drivers/staging/rtl8723bs/os_dep/osdep_service.c
+> index a00f9f0c85c..60c3da009a5 100644
+> --- a/drivers/staging/rtl8723bs/os_dep/osdep_service.c
+> +++ b/drivers/staging/rtl8723bs/os_dep/osdep_service.c
+> @@ -7,9 +7,9 @@
+>  #include <drv_types.h>
+>  
+>  /*
+> -* Translate the OS dependent @param error_code to OS independent RTW_STATUS_CODE
+> -* @return: one of RTW_STATUS_CODE
 > -*/
+> + * Translate the OS dependent @param error_code to OS independent RTW_STATUS_CODE
+> + * @return: one of RTW_STATUS_CODE
 > + */
+>  inline int RTW_STATUS_CODE(int error_code)
+>  {
+>  	if (error_code >= 0)
+> @@ -152,7 +152,6 @@ void rtw_buf_update(u8 **buf, u32 *buf_len, u8 *src, u32 src_len)
+>  		kfree(ori);
+>  }
 >  
->  /*  */
->  /*  Byte Swapping routine. */
-> @@ -94,7 +94,7 @@
->  #define BIT_OFFSET_LEN_MASK_8(__bitoffset, __bitlen) \
->  	(BIT_LEN_MASK_8(__bitlen) << (__bitoffset))
+> -
+>  /**
+>   * rtw_cbuf_full - test if cbuf is full
+>   * @cbuf: pointer of struct rtw_cbuf
+> @@ -204,6 +203,7 @@ bool rtw_cbuf_push(struct rtw_cbuf *cbuf, void *buf)
+>  void *rtw_cbuf_pop(struct rtw_cbuf *cbuf)
+>  {
+>  	void *buf;
+> +
+>  	if (rtw_cbuf_empty(cbuf))
+>  		return NULL;
 >  
-> -/*Description:
-> +/* Description:
->   * Return 4-byte value in host byte ordering from
->   * 4-byte pointer in little-endian system.
->   */
-> @@ -105,11 +105,10 @@
->  #define LE_P1BYTE_TO_HOST_1BYTE(__pstart) \
->  	(EF1BYTE(*((u8 *)(__pstart))))
+> @@ -226,7 +226,8 @@ struct rtw_cbuf *rtw_cbuf_alloc(u32 size)
+>  	cbuf = rtw_malloc(struct_size(cbuf, bufs, size));
 >  
-> -/*  */
-> -/* 	Description: */
-> -/* 		Translate subfield (continuous bits in little-endian) of 4-byte value in litten byte to */
-> -/* 		4-byte value in host byte ordering. */
-> -/*  */
-> +/* Description:
-> + *	Translate subfield (continuous bits in little-endian) of 4-byte value in litten byte to
-> + *	4-byte value in host byte ordering.
-> + */
->  #define LE_BITS_TO_4BYTE(__pstart, __bitoffset, __bitlen) \
->  	(\
->  		(LE_P4BYTE_TO_HOST_4BYTE(__pstart) >> (__bitoffset))  & \
+>  	if (cbuf) {
+> -		cbuf->write = cbuf->read = 0;
+> +		cbuf->read = 0;
+> +		cbuf->write = 0;
+>  		cbuf->size = size;
+>  	}
+>  
 > -- 
 > 2.50.1
 > 
 > 
+
 
 Hi,
 
