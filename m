@@ -1,35 +1,37 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41DD32DA760;
-	Tue, 22 Jul 2025 07:37:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52C092E49A4;
+	Tue, 22 Jul 2025 07:37:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753169829; cv=none; b=PAkcs5mGfNZDpDPJJokEdQ+Z+bUwVeuviRM2J32axgv9+ZBjsW6MITqG2XfbS/uHceh7gd/h+uAn0TchxzBnjizqo+TKRAUqmwejVwi+LXssyKErSO2WGjKtFLhua6/Va4rIfygv+BD7Rqtj/1DhV7PFpO9gHgemspquRS1Ju7Q=
+	t=1753169854; cv=none; b=pOdYdAQwdCD80Fc+LpVwO+dEPxSh3mI7Tt2nw5PT+2Dxn4jhcyh+D7m6msQBfAcSt21zH1sVeXWWOi6W/vnVlsISsNRLoH2f2SnxZx0lx2lk9aYBdEDNSlqx58lwBJeVMEpeuqvwJeaa5CpZwp1w3oqJTo2x7jkVuPnSXLGjF8M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753169829; c=relaxed/simple;
-	bh=2d1azXNbCL/mkAP3q1E7r/u+tfD/Mi0QIqW0rDmZcDI=;
+	s=arc-20240116; t=1753169854; c=relaxed/simple;
+	bh=2EUwiNyXmmuhM5rxIewdixPcv5XvuZw0V+Q11YUN8iM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tUbyx98olI/i4a+YznZpXJmbvfCfJrcL5egKbkwGxnoOgalnGAhgGyuiuGqkS2NIrvahvt1USn2yb8/Zw4r9TudXkyAUSdnxfarJJXpqXMa25w99qK5nk+vnf2GklHl5FEsuxp18UfujmA4j7DYxeHfNoRBixC6XXmao/jqMUd4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=KloGL+zb; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=rHxQ1cUXkn9NWOyk3ffSQvKER+Wc4/382gjRBFFtxRUXI2ewPKAOYECa7AEiHsy2rV7vXUeEDL4l9C5sS2SAlxetbCCqEzHxk0mW7tcTgZPG040z5p71GnEIkmmjiBwJHyQMMBQxagFxUIcRTiESaRlaF00XaG0Js7u2jfGv4Io=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=FnyQufKo; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="KloGL+zb"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 73FEFC4CEF4;
-	Tue, 22 Jul 2025 07:37:08 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="FnyQufKo"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5499FC4CEEB;
+	Tue, 22 Jul 2025 07:37:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1753169828;
-	bh=2d1azXNbCL/mkAP3q1E7r/u+tfD/Mi0QIqW0rDmZcDI=;
+	s=korg; t=1753169853;
+	bh=2EUwiNyXmmuhM5rxIewdixPcv5XvuZw0V+Q11YUN8iM=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=KloGL+zbkZ1Z0mLDXuXTSrzl7kW0wqDnXVgcaVH/6C0j7Lma4YSu0xASGAs6Mj8u/
-	 YarSKKEb1jityqdgmfNG5FzW7lJ2HwLyY3kU67pH/VIPbLCG8UUkchwIqWqnarDGDR
-	 jEuZq2Ytv/xkgDyKWz6ASyxj2lEMv2706OC8BS7g=
-Date: Tue, 22 Jul 2025 09:37:05 +0200
+	b=FnyQufKowC21Htmo5nnwxdLogCRpYRVDCODJB++AWugSnd3RGHPiXUniayZXYHzT7
+	 SIQ2CwYiGGvJKJRdYay6J9c7vqsrbGz5TJVT70+5xEYqBrof32dc5HpLV9YSm+THVs
+	 qYAr1Qwr5ZffHrm0UgneP3hLcxMFgU7CxHRKl88A=
+Date: Tue, 22 Jul 2025 09:37:30 +0200
 From: Greg KH <gregkh@linuxfoundation.org>
 To: Ali Nasrolahi <a.nasrolahi01@gmail.com>
 Cc: linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
-Subject: Re: [PATCH v3 0/2] staging: rtl8723bs: fix coding style issues
-Message-ID: <2025072239-verdict-saloon-1263@gregkh>
+Subject: Re: [PATCH v3 1/2] staging: rtl8723bs: fix comment formatting in
+ basic_types.h
+Message-ID: <2025072209-retract-rocking-c69d@gregkh>
 References: <20250721164343.8395-1-A.Nasrolahi01@gmail.com>
+ <20250721164343.8395-2-A.Nasrolahi01@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -38,28 +40,56 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250721164343.8395-1-A.Nasrolahi01@gmail.com>
+In-Reply-To: <20250721164343.8395-2-A.Nasrolahi01@gmail.com>
 
-On Mon, Jul 21, 2025 at 08:13:41PM +0330, Ali Nasrolahi wrote:
-> This patch series addresses several coding style and comment formatting issues
-> in the rtl8723bs staging driver as reported by checkpatch.pl.
+On Mon, Jul 21, 2025 at 08:13:42PM +0330, Ali Nasrolahi wrote:
+> Signed-off-by: Ali Nasrolahi <A.Nasrolahi01@gmail.com>
+> ---
+>  drivers/staging/rtl8723bs/include/basic_types.h | 13 ++++++-------
+>  1 file changed, 6 insertions(+), 7 deletions(-)
 > 
-> Thanks for your time and feedbacks
-> 
-> Ali Nasrolahi (2):
->   staging: rtl8723bs: fix comment formatting in basic_types.h
->   staging: rtl8723bs: fix comment style and formatting in
->     osdep_service.c
-> 
->  drivers/staging/rtl8723bs/include/basic_types.h  | 13 ++++++-------
->  drivers/staging/rtl8723bs/os_dep/osdep_service.c | 11 ++++++-----
->  2 files changed, 12 insertions(+), 12 deletions(-)
-> 
+> diff --git a/drivers/staging/rtl8723bs/include/basic_types.h b/drivers/staging/rtl8723bs/include/basic_types.h
+> index 57bb717327c..e2f203910be 100644
+> --- a/drivers/staging/rtl8723bs/include/basic_types.h
+> +++ b/drivers/staging/rtl8723bs/include/basic_types.h
+> @@ -26,7 +26,7 @@
+>   *	1. Read/write packet content.
+>   *	2. Before write integer to IO.
+>   *	3. After read integer from IO.
+> -*/
+> + */
+>  
+>  /*  */
+>  /*  Byte Swapping routine. */
+> @@ -94,7 +94,7 @@
+>  #define BIT_OFFSET_LEN_MASK_8(__bitoffset, __bitlen) \
+>  	(BIT_LEN_MASK_8(__bitlen) << (__bitoffset))
+>  
+> -/*Description:
+> +/* Description:
+>   * Return 4-byte value in host byte ordering from
+>   * 4-byte pointer in little-endian system.
+>   */
+> @@ -105,11 +105,10 @@
+>  #define LE_P1BYTE_TO_HOST_1BYTE(__pstart) \
+>  	(EF1BYTE(*((u8 *)(__pstart))))
+>  
+> -/*  */
+> -/* 	Description: */
+> -/* 		Translate subfield (continuous bits in little-endian) of 4-byte value in litten byte to */
+> -/* 		4-byte value in host byte ordering. */
+> -/*  */
+> +/* Description:
+> + *	Translate subfield (continuous bits in little-endian) of 4-byte value in litten byte to
+> + *	4-byte value in host byte ordering.
+> + */
+>  #define LE_BITS_TO_4BYTE(__pstart, __bitoffset, __bitlen) \
+>  	(\
+>  		(LE_P4BYTE_TO_HOST_4BYTE(__pstart) >> (__bitoffset))  & \
 > -- 
 > 2.50.1
 > 
 > 
-
 
 Hi,
 
@@ -74,12 +104,11 @@ kernel tree.
 You are receiving this message because of the following common error(s)
 as indicated below:
 
-- This looks like a new version of a previously submitted patch series,
-  but you did not list below the --- line any changes from the previous
-  version.  Please read the section entitled "The canonical patch
-  format" in the kernel file,
-  Documentation/process/submitting-patches.rst for what needs to be done
-  here to properly describe this.
+- You did not specify a description of why the patch is needed, or
+  possibly, any description at all, in the email body.  Please read the
+  section entitled "The canonical patch format" in the kernel file,
+  Documentation/process/submitting-patches.rst for what is needed in
+  order to properly describe the change.
 
 If you wish to discuss this problem further, or you have questions about
 how to resolve this issue, please feel free to respond to this email and
