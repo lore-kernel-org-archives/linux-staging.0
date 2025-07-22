@@ -1,37 +1,36 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 985612D3EE6;
-	Tue, 22 Jul 2025 07:37:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B10F2D94A4;
+	Tue, 22 Jul 2025 07:38:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753169862; cv=none; b=p1wkTrXmydvKuJbQ4aKgRoVHA4SuUI9NzW7K5AZuiJWZZeUmNRnJhs34fVlOeslc3MBsJNya4YdG6zgqlHNivPOSXeZwAAG1zELyfLNVuFSguwK64NteUz5XD5/XnoDJI9BcYMwOd4/1Emnwi2cLfY+hqwoDD25/sBSNoy1+D0Y=
+	t=1753169896; cv=none; b=tZLbS2MjcYSwbweivaN9vgqxCoKyyLwG61/5t0U8+taFSpKQ8EHRlFQF/X0O2QVmbmNgwb1UkgOb/LLYOQ43pEx6GMLjnaeBJYGd770lqixSsrkLfntqQSEvtZrHYewhSbXsocnFzNxZugCrkVWF7KqhrY1TRMRaI/Ug4Dyxjpw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753169862; c=relaxed/simple;
-	bh=wQrJ9UHPZYFTmcGKkglIDRkfLqzGfb57w5Nsxc2fB6c=;
+	s=arc-20240116; t=1753169896; c=relaxed/simple;
+	bh=+8GB4p5kenoyxeeFKg1NGt6cpXw/JWSiJv1t8bHCLaE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=olY5AX8z6FRMoYEIbtcU88LRkrY617I6AKP3P3V5jz5LdWyu0Zn2QDABcsj2czmOTmlTNqQvhDGaE9sklLJfMyarcRSAGVqeQ541OUgiqQJPIQT7NUaGDZbAwpwVnd1vBj8jYL/k4KrT5NUAtuDeLr4PeX0OsnX2pdN/b5MW3sc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=g+DYrc1r; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=U8FP0qCWmoTT5NEtVw8sDA2kmCw9WIkkBXLVH5a/uC4AW0Dk7A0vWrapocii8iT28A3HwWnTy9UbgiRn4tczubQrxuC4/i0br0G6iPTagu75Un1I03fK4SXLI5aNbEjzyLUdd+AcfXgjFLdaiMngFMTEaAcnKin5zyy5z16h+hk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=zL4imzYN; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="g+DYrc1r"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B57DEC4CEEB;
-	Tue, 22 Jul 2025 07:37:41 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="zL4imzYN"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 06EA1C4CEF4;
+	Tue, 22 Jul 2025 07:38:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1753169862;
-	bh=wQrJ9UHPZYFTmcGKkglIDRkfLqzGfb57w5Nsxc2fB6c=;
+	s=korg; t=1753169895;
+	bh=+8GB4p5kenoyxeeFKg1NGt6cpXw/JWSiJv1t8bHCLaE=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=g+DYrc1rZ2uYtfNP+SOFC7CbIfLhffy+Vmgjs1nFMwCk+C4ZJragAwK4ItUvuMHIP
-	 vWl8GNW6Q9Hxq/nCACy/eR5rEXHoo8eToi5cuU4Bl3Rnd6FRmXYERWmOXh1Q/beUpf
-	 Od03LNRefmETRc7sTFOlBzEQLqCLb0vC4QwFRX8s=
-Date: Tue, 22 Jul 2025 09:37:39 +0200
+	b=zL4imzYNjVx9BDuGZzNIIKSl5H0gyDtSkUWE7/LBR8kLzpNbnWUFVHJQ7gPw5PSnx
+	 s16PJlRuc44jiHWOS2P1j1bNpDUpBB97X23V/YBZ18yBKXAhEEexblvHFqdTACThrc
+	 GxKSKJrf5ircySp2v8pFjbcNJ4yqX5uxTaSt9VPE=
+Date: Tue, 22 Jul 2025 09:38:12 +0200
 From: Greg KH <gregkh@linuxfoundation.org>
 To: Ali Nasrolahi <a.nasrolahi01@gmail.com>
 Cc: linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
-Subject: Re: [PATCH v3 2/2] staging: rtl8723bs: fix comment style and
- formatting in osdep_service.c
-Message-ID: <2025072233-duh-atrium-2ff5@gregkh>
-References: <20250721164343.8395-1-A.Nasrolahi01@gmail.com>
- <20250721164343.8395-3-A.Nasrolahi01@gmail.com>
+Subject: Re: [PATCH] staging: rtl8723bs: remove redundant semicolon in
+ basic_types.h
+Message-ID: <2025072250-plaster-helper-aa7f@gregkh>
+References: <20250721165639.10078-1-A.Nasrolahi01@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -40,87 +39,16 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250721164343.8395-3-A.Nasrolahi01@gmail.com>
+In-Reply-To: <20250721165639.10078-1-A.Nasrolahi01@gmail.com>
 
-On Mon, Jul 21, 2025 at 08:13:43PM +0330, Ali Nasrolahi wrote:
-> Signed-off-by: Ali Nasrolahi <A.Nasrolahi01@gmail.com>
-> ---
->  drivers/staging/rtl8723bs/os_dep/osdep_service.c | 11 ++++++-----
->  1 file changed, 6 insertions(+), 5 deletions(-)
-> 
-> diff --git a/drivers/staging/rtl8723bs/os_dep/osdep_service.c b/drivers/staging/rtl8723bs/os_dep/osdep_service.c
-> index a00f9f0c85c..60c3da009a5 100644
-> --- a/drivers/staging/rtl8723bs/os_dep/osdep_service.c
-> +++ b/drivers/staging/rtl8723bs/os_dep/osdep_service.c
-> @@ -7,9 +7,9 @@
->  #include <drv_types.h>
->  
->  /*
-> -* Translate the OS dependent @param error_code to OS independent RTW_STATUS_CODE
-> -* @return: one of RTW_STATUS_CODE
-> -*/
-> + * Translate the OS dependent @param error_code to OS independent RTW_STATUS_CODE
-> + * @return: one of RTW_STATUS_CODE
-> + */
->  inline int RTW_STATUS_CODE(int error_code)
->  {
->  	if (error_code >= 0)
-> @@ -152,7 +152,6 @@ void rtw_buf_update(u8 **buf, u32 *buf_len, u8 *src, u32 src_len)
->  		kfree(ori);
->  }
->  
-> -
->  /**
->   * rtw_cbuf_full - test if cbuf is full
->   * @cbuf: pointer of struct rtw_cbuf
-> @@ -204,6 +203,7 @@ bool rtw_cbuf_push(struct rtw_cbuf *cbuf, void *buf)
->  void *rtw_cbuf_pop(struct rtw_cbuf *cbuf)
->  {
->  	void *buf;
-> +
->  	if (rtw_cbuf_empty(cbuf))
->  		return NULL;
->  
-> @@ -226,7 +226,8 @@ struct rtw_cbuf *rtw_cbuf_alloc(u32 size)
->  	cbuf = rtw_malloc(struct_size(cbuf, bufs, size));
->  
->  	if (cbuf) {
-> -		cbuf->write = cbuf->read = 0;
-> +		cbuf->read = 0;
-> +		cbuf->write = 0;
->  		cbuf->size = size;
->  	}
->  
-> -- 
-> 2.50.1
-> 
-> 
+On Mon, Jul 21, 2025 at 08:26:39PM +0330, Ali Nasrolahi wrote:
+> This patch removes a redundant semicolon for
+> the macro SET_BITS_TO_LE_2BYTE from basic_types.h
 
+Please use the full 72 columns for your changelog text.
 
-Hi,
-
-This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
-a patch that has triggered this response.  He used to manually respond
-to these common problems, but in order to save his sanity (he kept
-writing the same thing over and over, yet to different people), I was
-created.  Hopefully you will not take offence and will fix the problem
-in your patch and resubmit it so that it can be accepted into the Linux
-kernel tree.
-
-You are receiving this message because of the following common error(s)
-as indicated below:
-
-- You did not specify a description of why the patch is needed, or
-  possibly, any description at all, in the email body.  Please read the
-  section entitled "The canonical patch format" in the kernel file,
-  Documentation/process/submitting-patches.rst for what is needed in
-  order to properly describe the change.
-
-If you wish to discuss this problem further, or you have questions about
-how to resolve this issue, please feel free to respond to this email and
-Greg will reply once he has dug out from the pending patches received
-from other developers.
+And this says what you did, but not why you did it.
 
 thanks,
 
-greg k-h's patch email bot
+greg k-h
