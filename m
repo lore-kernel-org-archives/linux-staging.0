@@ -1,58 +1,78 @@
-Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f49.google.com (mail-qv1-f49.google.com [209.85.219.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2FC52192F4
-	for <linux-staging@lists.linux.dev>; Wed, 23 Jul 2025 19:26:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.177.32
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4C1C18E1F
+	for <linux-staging@lists.linux.dev>; Thu, 24 Jul 2025 03:17:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753298770; cv=none; b=thP/xmdcOqLxfzzljMQdb/it/7LrDC43Pp2cmJrxxzg2wPqd+NR73fWvGVsrsHvchhMf5ayKx6bXVE3GmuXJpDYS7DQmnuepYcCJac75Tmyp1vnCwoXWRZqYB3qd8DxbUvd1nMWbWMvXzfD59CBbc5D1Ib7pfQwto+8h6snPjmg=
+	t=1753327076; cv=none; b=etF6JdudALYKUGsRBOzQlksMXoj6Cg+LlSvRn3lajy2q5I9uAVhUTRUqCgl0J2gT/26YqyruvWB9Vf+H64fZTJtrJh2wwAR5wE38QTX/XJ5IJ4UdMXa1zrNH4pbqnVvZYRTONBjxLfqzEQN9dMvKut/vxu3Rb9/DFbr2/C03yyw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753298770; c=relaxed/simple;
-	bh=McKtVO0Hih5A9AVjNMHsFSbGO7m6LL6HMnmcX3RYaM0=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=A5XA7P9Xj1phcnht3XaCDuzHNdODJInbqpgzKuzxLZLQAnt/OiIGvv3dxORFB7XlcIzAUe92k+yda2pqK8BteIbIV1OsxVmIWZ5FhcBsnXbvdkks25ioN0P3B+sbaOUthWTa9PO8lM03UlrC7BhPeGTBXRvip7EOz3h+d4EwTE8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=hNOs0sMM; arc=none smtp.client-ip=205.220.177.32
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
+	s=arc-20240116; t=1753327076; c=relaxed/simple;
+	bh=QTkkDJTPCTOX/PBqhLvE73FsUJC/VYLEVVtFobyeEfo=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=OujN7OzEcY7+QDXWmt3jBO2Vonjv5c7L0fIc1OfmRknrOFua8F1CsJg69sYH9/8oI5Kf8hqdW9zjhcJmp48TbuvWHn9I44SdVpzsulNuxUzBWMHDGVpoHyvY6VnuXO51SLUPawKGEW76A/KlRC3rq1FNXNS8UnHLLY0gjj/jTZE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=O6x1yieZ; arc=none smtp.client-ip=209.85.219.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="hNOs0sMM"
-Received: from pps.filterd (m0246632.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 56NHttM6009436;
-	Wed, 23 Jul 2025 19:26:06 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
-	:content-transfer-encoding:date:from:message-id:mime-version
-	:subject:to; s=corp-2025-04-25; bh=o7Xj0Emi+6jkt4QCvj9ula6o/6JAU
-	0YBmQDnMaeeNpc=; b=hNOs0sMMrTU+Awv7bbiaSbGPAmgAN2DpIX786dgjW+YJd
-	z/l2Hpntuv7opZs9l/ZMtlKhX55QaUTHTjgrAp/383Nd93R8HCYJA1JiW0Ea8UAI
-	c2wdQSILKPmXH2qP1htRGY7HnJxgLCrVEUwYqoILyegdy+uvMo1FRw6+kCsOn3h+
-	K9inF5d/0YJNd0dWtJGebg8IbiQwPd8ubQadBB5TKjYRrs/8KshGBg1pr2hfC400
-	BODMvYENvNtzmZliHgERgzfXD9kcLIKj77RH+aP9PfCjyjYq+ZRlYSdLEKE1VQpG
-	Tn4jdCGU2eY0c9kiiyEXZF12R+6x1R37svAEGSiLQ==
-Received: from iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta03.appoci.oracle.com [130.35.103.27])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 4805e2g7y8-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Wed, 23 Jul 2025 19:26:06 +0000 (GMT)
-Received: from pps.filterd (iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-	by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 56NI0sDe038352;
-	Wed, 23 Jul 2025 19:26:05 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
-	by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 4801tb12yx-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Wed, 23 Jul 2025 19:26:05 +0000
-Received: from iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
-	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 56NJQ5rH022657;
-	Wed, 23 Jul 2025 19:26:05 GMT
-Received: from ca-dev110.us.oracle.com (ca-dev110.us.oracle.com [10.129.136.45])
-	by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTP id 4801tb12y4-1;
-	Wed, 23 Jul 2025 19:26:05 +0000
-From: Alok Tiwari <alok.a.tiwari@oracle.com>
-To: sudipm.mukherjee@gmail.com, teddy.wang@siliconmotion.com,
-        gregkh@linuxfoundation.org, linux-fbdev@vger.kernel.org,
-        linux-staging@lists.linux.dev
-Cc: alok.a.tiwari@oracle.com, linux-kernel@vger.kernel.org
-Subject: [bug report] staging: sm750fb: Fix polarity assignment for vertical and horizontal mode
-Date: Wed, 23 Jul 2025 12:24:31 -0700
-Message-ID: <20250723192528.77109-1-alok.a.tiwari@oracle.com>
-X-Mailer: git-send-email 2.46.0
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="O6x1yieZ"
+Received: by mail-qv1-f49.google.com with SMTP id 6a1803df08f44-6fd0a3cd326so6380086d6.1
+        for <linux-staging@lists.linux.dev>; Wed, 23 Jul 2025 20:17:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1753327073; x=1753931873; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=XAljfrVbCQMP4OjU7vXlw+3foLy1g0TZyrn3Si/4cH4=;
+        b=O6x1yieZCObnlMDFCDSkVjfbVUXSNr+/SKoIYEFUY2aqA1HJBPkNLftIXEQnXOx7rq
+         o3q3BKsvxGUtSwMoXlBkzoX6b9u9tcOOYA4MiKES7S61W1QXoCFOGZdYtqMArT8T2Efr
+         HFEIAgpyoTGhHLhrdwCKhrO52niNjc4IKcfjdYLQpXvXXG3iB+c6MHz8WkOZY5tVHKGr
+         HQfGqr+FbM4NuxdxbqIjm/HoqWUHZSpq2M+H8NK4KB6qBaSzXGuGYvIIHZU5KFZ4R3aZ
+         pqDpP2T3peuR+MwYGV8zOS6lgxS6iX+xuxZZ8kNcQY2R+5D3SG9gmjQAYlDJkMAevkqb
+         puuA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1753327073; x=1753931873;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=XAljfrVbCQMP4OjU7vXlw+3foLy1g0TZyrn3Si/4cH4=;
+        b=fyzmf69iHAPFh+3YSUUUYSBLJtKET+6Sf8HysOfp8CxbaWMPZt28UdASCOubNHg6VR
+         fO8HDpGnEe3eoQoiPvzJygGPPzs/H841AFBocVY2p5egVp4L+NY/pYUKdCT8nWEcaRbv
+         3+cITYozpl3pYPmO57BGULcO3rMVNhf7rqA8LM0h+sHfnCoJoKt9HAqfBuZgZ8/s8vcM
+         Q7Lsk/RN+ToY+U32bUjUS59CJoyWVl3kW3oVB1YwGfSGlJTAkwbfJyoVo1ecIcnmhDBS
+         wbU2YFvR2rEzZp2k8S4yD1OHCwEL98teQPVXqHzjULJfooslhFVA3f8QLniPFYsrrzqX
+         zwEg==
+X-Forwarded-Encrypted: i=1; AJvYcCV+f/7vIDFUSexmHOJFdzHsepCylONfMLUNWYQKUWz+nIYhkTqM10mqJKmF3FcUC2j/MoPABVSTGtm3psex@lists.linux.dev
+X-Gm-Message-State: AOJu0YwzMMN269+ONaxjci77nm393YSbZSTX137HhnRbX84hO6tlSGoh
+	fGFta70k6OcLxbgLpuSCoDjxvvwLJxYsM/2EByCnDhC9g6fZRYrr0OECrhyEZuUy7XWBAw==
+X-Gm-Gg: ASbGnctmrvgwd6URnXpak7CbjRjp8XmSIHaXV/nwcokBlu4ugoq0cARWF+HEe6RZWSL
+	/9h059EUIDID8/qD0Svm27AnJsKCya3Bvfcz4pYwwjMEmhAgEYby8GkGoDqypOKxTtw/237D+rJ
+	VEhmk7Js8ZB2T+dzD3f29znIiueafUjYTf9S62PXkvS1UtrWvYygT20SVNrIOFDCeE2gcgjabn1
+	6BPRsZp5GCDAM8oZF3njgdAzBdECh+ZdanvZCQMhH0xY059fmBo7fCRXmpgJ6Gc3q+qahxCYmf/
+	7rHLs1s359VfmROBdWeq4JiAZaam+vzg9Tf7V5NvSQWeZYt9ypmwfh1skEaGq199TRytSdeX7up
+	txLg2ue4QEHj6YzJ1wvZ+/RL/ykFi61byNHiankVgd+ZmdfUu1Ik+XmcJnjip8SPc/Y4Vw/p+SA
+	==
+X-Google-Smtp-Source: AGHT+IGMaoS2TN/vrjr4g20wygLTfR/K95in9/Al1VF4gv+iGx1fxXLgraUVzRNWvs/TzpAp/LgS5A==
+X-Received: by 2002:a05:6214:21e9:b0:6fb:f03:6b24 with SMTP id 6a1803df08f44-7070069c990mr78773656d6.40.1753327073341;
+        Wed, 23 Jul 2025 20:17:53 -0700 (PDT)
+Received: from ax1.localdomain (c-69-136-155-163.hsd1.mi.comcast.net. [69.136.155.163])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-7070fca2597sm6671566d6.64.2025.07.23.20.17.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 23 Jul 2025 20:17:53 -0700 (PDT)
+From: "A.T. Jefferies" <alextjefferies@gmail.com>
+To: thierry.reding@gmail.com,
+	jonathanh@nvidia.com,
+	skomatineni@nvidia.com,
+	luca.ceresoli@bootlin.com,
+	mchehab@kernel.org,
+	gregkh@linuxfoundation.org
+Cc: linux-media@vger.kernel.org,
+	linux-tegra@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	"A.T. Jefferies" <alextjefferies@gmail.com>
+Subject: [PATCH] staging: media: tegra-video: use BIT() macro instead of shift
+Date: Wed, 23 Jul 2025 23:17:57 +0000
+Message-ID: <20250723231757.15443-1-alextjefferies@gmail.com>
+X-Mailer: git-send-email 2.50.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -60,65 +80,38 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-07-23_03,2025-07-23_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0 mlxscore=0 suspectscore=0
- bulkscore=0 malwarescore=0 adultscore=0 spamscore=0 mlxlogscore=999
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2505160000
- definitions=main-2507230164
-X-Authority-Analysis: v=2.4 cv=WaYMa1hX c=1 sm=1 tr=0 ts=6881374e b=1 cx=c_pps
- a=qoll8+KPOyaMroiJ2sR5sw==:117 a=qoll8+KPOyaMroiJ2sR5sw==:17
- a=Wb1JkmetP80A:10 a=yPCof4ZbAAAA:8 a=dYcGuau3DC2CDLyDpIsA:9 cc=ntf
- awl=host:12062
-X-Proofpoint-GUID: fKMKiYlUq6jK_HTh1oR3XqYkoeo99nBW
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzIzMDE2NCBTYWx0ZWRfX+Wpp0PUoVB+Q
- 82wgPOPJqKBirSki6OxbmI8lbs2GPkjes3x3gNtmFpnb1R0IYdPRyreAkd4Ixrp3Pz+BDiB9SP+
- /MJxMtSFIaEpdRZw6C3u6I26csTYvvo7102uGrZ2szga/STfBvzslldauM6Pp18bQwPWl9+I9qz
- ocR2+FOa5mldwQm4lleEn0VtzJkNc5lu8q+K+7KIvDtqYp7IV1F6EDiWtgb6S1uBUUgG3f370w3
- 4pc6TwVvWhMYt/Mme4kJPBfNowtlhKbUXHuViFx97iqtvkHl3x0aT5YTIXo2w9yn60hNEAYqtnE
- zq78H8xuPAWvGgHsMBr8iZ3KfEJ5lCb07ENItTqu6cc9wpe0l3OOoNe26Q4XwBF0b1/vY6j2nr+
- x0yLFmZICH1kvc3gTvViLujLoas4EYa+LSf3Ov0UAXnWq2KzHRhGKTq93JBDuVK+S0q9LwQz
-X-Proofpoint-ORIG-GUID: fKMKiYlUq6jK_HTh1oR3XqYkoeo99nBW
 
-In drivers/staging/sm750fb/sm750_hw.c,
-the vertical and horizontal sync polarity assignments were incorrectly
-ordered. 
-The assignment for modparm.vertical_sync_polarity was mistakenly using
-the FB_SYNC_HOR_HIGH_ACT bit instead of FB_SYNC_VERT_HIGH_ACT, 
-and the horizontal polarity line was commented out or missing.
+Replace two instances of (1 << X) with BIT(X) in tegra20.c to follow
+kernel coding style guidelines and improve clarity. The BIT() macro
+also ensures proper type handling for larger shifts.
 
-This patch corrects the logic by properly assigning:
-
-vertical_sync_polarity -> from FB_SYNC_VERT_HIGH_ACT
-horizontal_sync_polarity -> from FB_SYNC_HOR_HIGH_ACT
-
-Please let me know your feedback.
-Thanks,
-Alok
+Signed-off-by: A.T. Jefferies <alextjefferies@gmail.com>
 ---
-Fixes: 81dee67e215b ("staging: sm750fb: add sm750 to staging")
-Signed-off-by: Alok Tiwari <alok.a.tiwari@oracle.com>
----
- drivers/staging/sm750fb/sm750_hw.c | 4 ++--
+ drivers/staging/media/tegra-video/tegra20.c | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/staging/sm750fb/sm750_hw.c b/drivers/staging/sm750fb/sm750_hw.c
-index 7119b67efe11b..5a32756f98c31 100644
---- a/drivers/staging/sm750fb/sm750_hw.c
-+++ b/drivers/staging/sm750fb/sm750_hw.c
-@@ -280,9 +280,9 @@ int hw_sm750_crtc_set_mode(struct lynxfb_crtc *crtc,
- 	/* set timing */
- 	modparm.pixel_clock = ps_to_hz(var->pixclock);
- 	modparm.vertical_sync_polarity =
--		(var->sync & FB_SYNC_HOR_HIGH_ACT) ? POS : NEG;
--	modparm.horizontal_sync_polarity =
- 		(var->sync & FB_SYNC_VERT_HIGH_ACT) ? POS : NEG;
-+	modparm.horizontal_sync_polarity =
-+		(var->sync & FB_SYNC_HOR_HIGH_ACT) ? POS : NEG;
- 	modparm.clock_phase_polarity =
- 		(var->sync & FB_SYNC_COMP_HIGH_ACT) ? POS : NEG;
- 	modparm.horizontal_display_end = var->xres;
+diff --git a/drivers/staging/media/tegra-video/tegra20.c b/drivers/staging/media/tegra-video/tegra20.c
+index 7b8f8f810b35..1473f1b1f203 100644
+--- a/drivers/staging/media/tegra-video/tegra20.c
++++ b/drivers/staging/media/tegra-video/tegra20.c
+@@ -42,7 +42,7 @@
+ #define       VI_INPUT_BT656				BIT(25)
+ #define       VI_INPUT_YUV_INPUT_FORMAT_SFT		8  /* bits [9:8] */
+ #define       VI_INPUT_YUV_INPUT_FORMAT_UYVY		(0 << VI_INPUT_YUV_INPUT_FORMAT_SFT)
+-#define       VI_INPUT_YUV_INPUT_FORMAT_VYUY		(1 << VI_INPUT_YUV_INPUT_FORMAT_SFT)
++#define       VI_INPUT_YUV_INPUT_FORMAT_VYUY		BIT(VI_INPUT_YUV_INPUT_FORMAT_SFT)
+ #define       VI_INPUT_YUV_INPUT_FORMAT_YUYV		(2 << VI_INPUT_YUV_INPUT_FORMAT_SFT)
+ #define       VI_INPUT_YUV_INPUT_FORMAT_YVYU		(3 << VI_INPUT_YUV_INPUT_FORMAT_SFT)
+ #define       VI_INPUT_INPUT_FORMAT_SFT			2  /* bits [5:2] */
+@@ -73,7 +73,7 @@
+ #define       VI_OUTPUT_H_DIRECTION			BIT(19)
+ #define       VI_OUTPUT_YUV_OUTPUT_FORMAT_SFT		17
+ #define       VI_OUTPUT_YUV_OUTPUT_FORMAT_UYVY		(0 << VI_OUTPUT_YUV_OUTPUT_FORMAT_SFT)
+-#define       VI_OUTPUT_YUV_OUTPUT_FORMAT_VYUY		(1 << VI_OUTPUT_YUV_OUTPUT_FORMAT_SFT)
++#define       VI_OUTPUT_YUV_OUTPUT_FORMAT_VYUY		BIT(VI_OUTPUT_YUV_OUTPUT_FORMAT_SFT)
+ #define       VI_OUTPUT_YUV_OUTPUT_FORMAT_YUYV		(2 << VI_OUTPUT_YUV_OUTPUT_FORMAT_SFT)
+ #define       VI_OUTPUT_YUV_OUTPUT_FORMAT_YVYU		(3 << VI_OUTPUT_YUV_OUTPUT_FORMAT_SFT)
+ #define       VI_OUTPUT_OUTPUT_BYTE_SWAP		BIT(16)
 -- 
-2.46.0
+2.50.0
 
