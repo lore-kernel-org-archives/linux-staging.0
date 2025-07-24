@@ -1,178 +1,93 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F9B82750F6;
-	Thu, 24 Jul 2025 11:33:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0A462D97AB
+	for <linux-staging@lists.linux.dev>; Thu, 24 Jul 2025 17:20:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753356803; cv=none; b=iFPyhJsAcjBTrwTe82NxRfcRU5bPnv9iwqMcIVWj9QqWPX3iS8q1FVx90G9d8Ehy7xmnoWjjxzYUxxQ3Jay35idANRGSN0wfgkwF+LVEC+o6NBrbcJM7sK7q2ZhVi6O45zoAGh3bZ1IKadi8sMmsqVM1eRU8crCDGFK5/oyLrBc=
+	t=1753377642; cv=none; b=Lyk6TjbwOEj8qdOeJl+/dew+RFv5h/0uixIDo1zCMF4CScnrVT5cwV07CrU9VKfjIIQ5DoWIa/QEnKgWGcZ3coEly+tpa8tojU7DvjKgUJt+d6dohrWjh1LFZ0wlROL8bc+Jal0m0z29VkeERZmFo/aV18+77rheP3z68ZJ3U9g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753356803; c=relaxed/simple;
-	bh=lDnwCdX+NKqdtDDi8VUr93VKMdqOc/4K7u67AT/OKA4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CllCenxGMidQ1I5yuKsSibVQVdsdcj7WMqmGwdW9uWvrdEsrucGk0V3rFjYW714yc+LdJr01RjYWpdwVTmAU7Q/O+Pv9uaQCQ+csTubKPERNNwQ/UNXVU+ZblS/ZRWyOCYFvsDqUsV90B1u39EMNolfkRMOrZwffh3COtHcsX5A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=2sl/Wn2c; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1753377642; c=relaxed/simple;
+	bh=JjdIyqho2L1pdY174b2WWL7+9YNKkEJOJ0h/Daqbh7k=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=WfKQ2/DguKpzKqvQ7nByWOmm2cFBDoq/Em9fbl60hz8E2zcVCvwD8CG2iYwmSArNC/Prsgws7e7kscGpgtLNGZ87NWnuSR5mDt1mFTeKsYsj9FWxUZgtg3HrLPr2nCPSTOPVJ4I+nuoOgNMaK8uMuyI2PSbGSqTYZWey5hbdvwE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NGI1Koub; arc=none smtp.client-ip=209.85.208.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="2sl/Wn2c"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A7796C4CEED;
-	Thu, 24 Jul 2025 11:33:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1753356803;
-	bh=lDnwCdX+NKqdtDDi8VUr93VKMdqOc/4K7u67AT/OKA4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=2sl/Wn2clmFwIsufObEG+et9w3xv5LRoa1hTQn3J12vJayjBFBT3eCMkG2phiZKqh
-	 8wtoCyQYfbEcs87qCIKwqYC6GGnIiGqCzHB/NbhRZUDga76m2VheLAKsYDxr8GJCwq
-	 l1LH0rLpovyOGzeb7/zmr7RCwfcJbqmzqSAJ/LTU=
-Date: Thu, 24 Jul 2025 13:33:17 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: samiksha.palav27@gmail.com
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: sm750fb: Add hardware acceleration for 16bpp
- imageblit
-Message-ID: <2025072451-spokesman-chevron-5b88@gregkh>
-References: <20250724105254.3926-2-samiksha.palav27@gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NGI1Koub"
+Received: by mail-ed1-f42.google.com with SMTP id 4fb4d7f45d1cf-608acb0a27fso2163356a12.0
+        for <linux-staging@lists.linux.dev>; Thu, 24 Jul 2025 10:20:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1753377639; x=1753982439; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=JjdIyqho2L1pdY174b2WWL7+9YNKkEJOJ0h/Daqbh7k=;
+        b=NGI1Koubr9ItcgMP47GEQJlicMeAUiNESnWzlNf6sgB5bCqKip1AMnEcprGpMGN7Yg
+         vrH4xwsXASwRxONoMs2lKl0wQxTyO4Ch1SnuR4dKOodih4VNB3JqOPyKdCRPWD+Q7vSK
+         71rFU7HZs/XUUst5V08OpWvV+kzooKFucsSHIsWyOljQ3DxvC9t9BOOgGBOV6oOu7pma
+         xfx/yfDuuBYZ3eEXK5qahXP+Ffk17YcFs11OVXxdyYwGr4qmGgCoB2d9eCz1BNRQa7Pu
+         nUTgg7X0MwAlQU0MrYxd3EwHCvSmuOOBhXa6dHUiKm/zke+eLPgJZVJR/yNE3TFKvlzk
+         fHsQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1753377639; x=1753982439;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=JjdIyqho2L1pdY174b2WWL7+9YNKkEJOJ0h/Daqbh7k=;
+        b=bRYdRs+hIOYduPWiPrldaR4M06m9Gx1Iqn+rF6go89ie42oCkvjDFhx9a0yt67dkJI
+         VxV75ydtb86oceY2dunj+U7l+D5lXf9gJxP3VQa8DCsGDw20e2Y5PVxfwRI71QLJw1HK
+         JhD0QPbmYCUZuWlN1EJCqY7f3RFLAkB8s+ooYCvS6iwnFTGOMAoSnqgQpufje2c8Fd23
+         TXaDCNdCsIrfemSsKMtoV8KHFa7/QtLX7TFBTNpmJS8gj2QkNIFmTFekDRo4QLByZx9/
+         BLT6LGIcwrEXY1nqSX4E5MrWziv8cAAHwZxvpGRNzboPBiAiJd8UfIxguh2/LWTzMYgO
+         3RAA==
+X-Gm-Message-State: AOJu0Yz1sxNGriN6lfJn4U2fYzjov4qmW7T4HFDujyBdbdo9oHi/9jDR
+	WkmQaYs3aMyZyzjzBGpRKHv72XTrQGUGLy6Lsa68yCdzvl5SbSPjVskd
+X-Gm-Gg: ASbGncvh6Hg14qAVbutWKYCPrkwexZbk+jJsWbZi3u2v5j+Z7qtV0ZTwBAXH/yzWDLX
+	tul5q/liMRt49KQ8L356iqp8DlyhhLd2/wWLy9mmsnxrqfYQiX23hANgeKB9tTjoTN0UnfyDf8s
+	zsambcnGaSnf1SZaybJqTd8aFctCKIxrbK0bdqVMfn98gyzCTqstn9NcvsogMSxFc3CPeeHsq4J
+	uauxOLO9nzsShCeIDDUWFqdX+I59WElF4mMLd1C0lLaQryCIPdNcwZ0PRNguhFI/N2Cxa3N1NsW
+	z6IVRj7KIXja+6FOQ0avmyh42egfyql8ttGWM84Trq/stbF+V4+OPsjslFL+nd3w8scu200fl9V
+	v3rpL7DElAqox2WL2c5cQZ/XN3CHJBLH5w0iIWM5tqMk7xl795OuOziwfYCEpH4wYWEoj5Qo=
+X-Google-Smtp-Source: AGHT+IG/I/3kuH0MZeGbxqTluMGA0auO0pu9OlYfyOh5h6egxRVqvJCnVFafA2Q77VjQxho1xSTtqQ==
+X-Received: by 2002:a17:907:9629:b0:ae6:fa02:888d with SMTP id a640c23a62f3a-af2f9381e96mr794874066b.53.1753377638775;
+        Thu, 24 Jul 2025 10:20:38 -0700 (PDT)
+Received: from PC01.localdomain (094190205166.static.ipv4.heldenvannu.net. [94.190.205.166])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-af47ff42b60sm134341466b.132.2025.07.24.10.20.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 24 Jul 2025 10:20:38 -0700 (PDT)
+From: Bruce Qin <bqn9090@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	bqn9090@gmail.com
+Subject: 
+Date: Thu, 24 Jul 2025 19:17:13 +0200
+Message-ID: <20250724172034.44679-1-bqn9090@gmail.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <2025072409-promoter-shame-8105@gregkh>
+References: <2025072409-promoter-shame-8105@gregkh>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250724105254.3926-2-samiksha.palav27@gmail.com>
 
-On Thu, Jul 24, 2025 at 04:22:08PM +0530, samiksha.palav27@gmail.com wrote:
-> From: shdwcodr <samiksha.palav27@gmail.com>
-> 
-> This is my first kernel patch, as mentioned in my kernel introduction.
-> I'm starting out with drivers/staging, and this patch targets the
-> sm750fb driver.
-> 
-> Previously, all image depths other than 1 fell back to cfb_imageblit().
-> This patch adds support for hardware-accelerated blitting for 16bpp
-> images using sm750_hw_imageblit().
-> 
-> The fallback path for other depths remains unchanged, with a TODO
-> comment in place for future enhancements.
-> 
-> Signed-off-by: shdwcodr <samiksha.palav27@gmail.com>
-> ---
->  drivers/staging/sm750fb/sm750.c | 53 +++++++++++++++++++++++++++++----
->  1 file changed, 47 insertions(+), 6 deletions(-)
-> 
-> diff --git a/drivers/staging/sm750fb/sm750.c b/drivers/staging/sm750fb/sm750.c
-> index 1d929aca399c..e65b747fbfd0 100644
-> --- a/drivers/staging/sm750fb/sm750.c
-> +++ b/drivers/staging/sm750fb/sm750.c
-> @@ -121,12 +121,12 @@ static int lynxfb_ops_cursor(struct fb_info *info, struct fb_cursor *fbcursor)
->  	sm750_hw_cursor_disable(cursor);
->  	if (fbcursor->set & FB_CUR_SETSIZE)
->  		sm750_hw_cursor_set_size(cursor,
-> -					fbcursor->image.width,
-> +					 fbcursor->image.width,
->  					fbcursor->image.height);
->  
->  	if (fbcursor->set & FB_CUR_SETPOS)
->  		sm750_hw_cursor_set_pos(cursor,
-> -				       fbcursor->image.dx - info->var.xoffset,
-> +					fbcursor->image.dx - info->var.xoffset,
->  				       fbcursor->image.dy - info->var.yoffset);
->  
->  	if (fbcursor->set & FB_CUR_SETCMAP) {
-> @@ -249,10 +249,51 @@ static void lynxfb_ops_imageblit(struct fb_info *info,
->  	pitch = info->fix.line_length;
->  	Bpp = info->var.bits_per_pixel >> 3;
->  
-> -	/* TODO: Implement hardware acceleration for image->depth > 1 */
-> -	if (image->depth != 1) {
-> -		cfb_imageblit(info, image);
-> -		return;
-> +	static void write_pixel(struct fb_info *info, int x, int y, u32 color)
-> +
-> +	{
-> +		u32 location;
-> +		u8 *fb_ptr = (u8 *)info->screen_base;
-> +
-> +		location = (y * info->fix.line_length) + (x * (info->var.bits_per_pixel / 8));
-> +
-> +		if (info->var.bits_per_pixel == 16) {
-> +			u16 c = ((color >> 8) & 0xF800) |
-> +				((color >> 5) & 0x07E0) |
-> +				((color >> 3) & 0x001F); // Convert 24-bit RGB to RGB565
-> +			*((u16 *)(fb_ptr + location)) = c;
-> +		} else if (info->var.bits_per_pixel == 32) {
-> +			*((u32 *)(fb_ptr + location)) = color;
-> +		}
-> +	}
-> +
-> +	void sm750fb_imageblit(struct fb_info *info, const struct fb_image *image)
-> +
-> +	{
-> +		/*
-> +		 * TODO: Add hardware-accelerated support for more image depths
-> +		 * Currently only 16-bit (RGB565) images are handled in fast path.
-> +		 */
-> +		if (image->depth != 16) {
-> +			cfb_imageblit(info, image);
-> +			return;
-> +		}
-> +
-> +		/* Accelerated rendering for 16-bit (RGB565) images */
-> +		const u16 *src = (const u16 *)image->data;
-> +
-> +		u32 fg_color = ((image->fg_color & 0xF800) << 8) |
-> +			       ((image->fg_color & 0x07E0) << 5) |
-> +			       ((image->fg_color & 0x001F) << 3); // RGB565 → RGB888
-> +
-> +		for (int j = 0; j < image->height; j++) {
-> +			for (int i = 0; i < image->width; i++) {
-> +				u16 pixel = src[j * image->width + i];
-> +
-> +				if (pixel) // Draw only non-zero (foreground) pixels
-> +					write_pixel(info, image->dx + i, image->dy + j, fg_color);
-> +			}
-> +		}
->  	}
->  
->  	if (info->fix.visual == FB_VISUAL_TRUECOLOR ||
-> -- 
-> 2.43.0
-> 
-> 
 
-Hi,
+Hi Greg,
 
-This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
-a patch that has triggered this response.  He used to manually respond
-to these common problems, but in order to save his sanity (he kept
-writing the same thing over and over, yet to different people), I was
-created.  Hopefully you will not take offence and will fix the problem
-in your patch and resubmit it so that it can be accepted into the Linux
-kernel tree.
+Thank you for reviewing my patch and pointing out the issue with the closing parenthesis.
 
-You are receiving this message because of the following common error(s)
-as indicated below:
+You're absolutely right — the ')' should not be on its own line. I've corrected it as suggested and am resending the patch as v2.
 
-- Your patch did many different things all at once, making it difficult
-  to review.  All Linux kernel patches need to only do one thing at a
-  time.  If you need to do multiple things (such as clean up all coding
-  style issues in a file/driver), do it in a sequence of patches, each
-  one doing only one thing.  This will make it easier to review the
-  patches to ensure that they are correct, and to help alleviate any
-  merge issues that larger patches can cause.
+I really appreciate your time and feedback. It means a lot to me as a new contributor. Thank you for helping keep the codebase clean and consistent.
 
-- You did not specify a description of why the patch is needed, or
-  possibly, any description at all, in the email body.  Please read the
-  section entitled "The canonical patch format" in the kernel file,
-  Documentation/process/submitting-patches.rst for what is needed in
-  order to properly describe the change.
+Best regards,
+Bruce Qin
 
-If you wish to discuss this problem further, or you have questions about
-how to resolve this issue, please feel free to respond to this email and
-Greg will reply once he has dug out from the pending patches received
-from other developers.
-
-thanks,
-
-greg k-h's patch email bot
+Changes since v1:
+- Moved closing ')' to the end of the last expression line (as suggested by the maintainer)
