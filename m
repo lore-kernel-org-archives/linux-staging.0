@@ -1,117 +1,152 @@
-Received: from mail-qv1-f49.google.com (mail-qv1-f49.google.com [209.85.219.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4C1C18E1F
-	for <linux-staging@lists.linux.dev>; Thu, 24 Jul 2025 03:17:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5224E223327;
+	Thu, 24 Jul 2025 08:08:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753327076; cv=none; b=etF6JdudALYKUGsRBOzQlksMXoj6Cg+LlSvRn3lajy2q5I9uAVhUTRUqCgl0J2gT/26YqyruvWB9Vf+H64fZTJtrJh2wwAR5wE38QTX/XJ5IJ4UdMXa1zrNH4pbqnVvZYRTONBjxLfqzEQN9dMvKut/vxu3Rb9/DFbr2/C03yyw=
+	t=1753344488; cv=none; b=MQX1eUS57YNd2GiFoKZ5Byz4HKl1nKbyHAPZ8UtcQqb7//53VXW4gw9cg0qaeEoyENkMPXh6o4QDM6eo03HdJJddq5LSq5w9zlFce4HEKou4F45VTRMR52qynFL6rJh21MqSt38z8pmwhJmxT7zW8DF3Kf7lh89UiuORa04GPQs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753327076; c=relaxed/simple;
-	bh=QTkkDJTPCTOX/PBqhLvE73FsUJC/VYLEVVtFobyeEfo=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=OujN7OzEcY7+QDXWmt3jBO2Vonjv5c7L0fIc1OfmRknrOFua8F1CsJg69sYH9/8oI5Kf8hqdW9zjhcJmp48TbuvWHn9I44SdVpzsulNuxUzBWMHDGVpoHyvY6VnuXO51SLUPawKGEW76A/KlRC3rq1FNXNS8UnHLLY0gjj/jTZE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=O6x1yieZ; arc=none smtp.client-ip=209.85.219.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1753344488; c=relaxed/simple;
+	bh=D109zUVaN75LJ2BDCN+vmyDZuBNjWIBhOr8sOZnfsJo=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=Z88EI1cPt55xHq4o/BuS4ueR/8LwykLBWs0ie7YKQXiFFljm2VCm6ZXJDtc2ui7P3VpiSAM9aS6VEaJqvurdoJqpWJ8e4LUmZnsYdoE+wSQhOBXP38dLghN+xZycHGE6IwKK0fviOMbO5k0WUgG72AUPK59dlv93M6ghc3UBdG0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qMh3s1D8; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="O6x1yieZ"
-Received: by mail-qv1-f49.google.com with SMTP id 6a1803df08f44-6fd0a3cd326so6380086d6.1
-        for <linux-staging@lists.linux.dev>; Wed, 23 Jul 2025 20:17:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1753327073; x=1753931873; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=XAljfrVbCQMP4OjU7vXlw+3foLy1g0TZyrn3Si/4cH4=;
-        b=O6x1yieZCObnlMDFCDSkVjfbVUXSNr+/SKoIYEFUY2aqA1HJBPkNLftIXEQnXOx7rq
-         o3q3BKsvxGUtSwMoXlBkzoX6b9u9tcOOYA4MiKES7S61W1QXoCFOGZdYtqMArT8T2Efr
-         HFEIAgpyoTGhHLhrdwCKhrO52niNjc4IKcfjdYLQpXvXXG3iB+c6MHz8WkOZY5tVHKGr
-         HQfGqr+FbM4NuxdxbqIjm/HoqWUHZSpq2M+H8NK4KB6qBaSzXGuGYvIIHZU5KFZ4R3aZ
-         pqDpP2T3peuR+MwYGV8zOS6lgxS6iX+xuxZZ8kNcQY2R+5D3SG9gmjQAYlDJkMAevkqb
-         puuA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1753327073; x=1753931873;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=XAljfrVbCQMP4OjU7vXlw+3foLy1g0TZyrn3Si/4cH4=;
-        b=fyzmf69iHAPFh+3YSUUUYSBLJtKET+6Sf8HysOfp8CxbaWMPZt28UdASCOubNHg6VR
-         fO8HDpGnEe3eoQoiPvzJygGPPzs/H841AFBocVY2p5egVp4L+NY/pYUKdCT8nWEcaRbv
-         3+cITYozpl3pYPmO57BGULcO3rMVNhf7rqA8LM0h+sHfnCoJoKt9HAqfBuZgZ8/s8vcM
-         Q7Lsk/RN+ToY+U32bUjUS59CJoyWVl3kW3oVB1YwGfSGlJTAkwbfJyoVo1ecIcnmhDBS
-         wbU2YFvR2rEzZp2k8S4yD1OHCwEL98teQPVXqHzjULJfooslhFVA3f8QLniPFYsrrzqX
-         zwEg==
-X-Forwarded-Encrypted: i=1; AJvYcCV+f/7vIDFUSexmHOJFdzHsepCylONfMLUNWYQKUWz+nIYhkTqM10mqJKmF3FcUC2j/MoPABVSTGtm3psex@lists.linux.dev
-X-Gm-Message-State: AOJu0YwzMMN269+ONaxjci77nm393YSbZSTX137HhnRbX84hO6tlSGoh
-	fGFta70k6OcLxbgLpuSCoDjxvvwLJxYsM/2EByCnDhC9g6fZRYrr0OECrhyEZuUy7XWBAw==
-X-Gm-Gg: ASbGnctmrvgwd6URnXpak7CbjRjp8XmSIHaXV/nwcokBlu4ugoq0cARWF+HEe6RZWSL
-	/9h059EUIDID8/qD0Svm27AnJsKCya3Bvfcz4pYwwjMEmhAgEYby8GkGoDqypOKxTtw/237D+rJ
-	VEhmk7Js8ZB2T+dzD3f29znIiueafUjYTf9S62PXkvS1UtrWvYygT20SVNrIOFDCeE2gcgjabn1
-	6BPRsZp5GCDAM8oZF3njgdAzBdECh+ZdanvZCQMhH0xY059fmBo7fCRXmpgJ6Gc3q+qahxCYmf/
-	7rHLs1s359VfmROBdWeq4JiAZaam+vzg9Tf7V5NvSQWeZYt9ypmwfh1skEaGq199TRytSdeX7up
-	txLg2ue4QEHj6YzJ1wvZ+/RL/ykFi61byNHiankVgd+ZmdfUu1Ik+XmcJnjip8SPc/Y4Vw/p+SA
-	==
-X-Google-Smtp-Source: AGHT+IGMaoS2TN/vrjr4g20wygLTfR/K95in9/Al1VF4gv+iGx1fxXLgraUVzRNWvs/TzpAp/LgS5A==
-X-Received: by 2002:a05:6214:21e9:b0:6fb:f03:6b24 with SMTP id 6a1803df08f44-7070069c990mr78773656d6.40.1753327073341;
-        Wed, 23 Jul 2025 20:17:53 -0700 (PDT)
-Received: from ax1.localdomain (c-69-136-155-163.hsd1.mi.comcast.net. [69.136.155.163])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-7070fca2597sm6671566d6.64.2025.07.23.20.17.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 23 Jul 2025 20:17:53 -0700 (PDT)
-From: "A.T. Jefferies" <alextjefferies@gmail.com>
-To: thierry.reding@gmail.com,
-	jonathanh@nvidia.com,
-	skomatineni@nvidia.com,
-	luca.ceresoli@bootlin.com,
-	mchehab@kernel.org,
-	gregkh@linuxfoundation.org
-Cc: linux-media@vger.kernel.org,
-	linux-tegra@vger.kernel.org,
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qMh3s1D8"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C40A3C4CEED;
+	Thu, 24 Jul 2025 08:08:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1753344486;
+	bh=D109zUVaN75LJ2BDCN+vmyDZuBNjWIBhOr8sOZnfsJo=;
+	h=From:To:Cc:Subject:Date:From;
+	b=qMh3s1D8ktW86wUo7On1Y6zcoAf5gVY1zcbbTttjoJufDFxdbgK4y+C57678SFr4/
+	 bcYMWIorr8YcgaV4N+Z54SJSSuYoxmA43SRHYmCwVPqMOTQqUtLgS4Ph6gB4DEmh5G
+	 6J5U0E2IdIhYmHHeM8LXLr0S1JW+OEt0FpY//6vDCKHFqQUfUw2ymypKCNMneFcItn
+	 msmuQDlNLozdrWhlVq4i6XVDt7VApDMaRnqH48fDOCWPkAc5MjL8rI6LpPO/9Na/3O
+	 OcguZxPhH1QD+URhYaLhPXBWeaYDT3SNEwslX/mDpZlvaMAUvMN7RKjX1UAUARcaZw
+	 jpkdRVwivoE9w==
+From: Kees Cook <kees@kernel.org>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Kees Cook <kees@kernel.org>,
+	zepta <z3ptaa@gmail.com>,
+	Ard Biesheuvel <ardb@kernel.org>,
+	Andy Shevchenko <andy@kernel.org>,
+	Hans de Goede <hansg@kernel.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	linux-media@vger.kernel.org,
 	linux-staging@lists.linux.dev,
+	Bartosz Golaszewski <brgl@bgdev.pl>,
+	Abraham Samuel Adekunle <abrahamadekunle50@gmail.com>,
+	Thomas Andreatta <thomasandreatta2000@gmail.com>,
 	linux-kernel@vger.kernel.org,
-	"A.T. Jefferies" <alextjefferies@gmail.com>
-Subject: [PATCH] staging: media: tegra-video: use BIT() macro instead of shift
-Date: Wed, 23 Jul 2025 23:17:57 +0000
-Message-ID: <20250723231757.15443-1-alextjefferies@gmail.com>
-X-Mailer: git-send-email 2.50.1
+	linux-hardening@vger.kernel.org
+Subject: [PATCH] staging: media: atomisp: Fix stack buffer overflow in gmin_get_var_int()
+Date: Thu, 24 Jul 2025 01:08:05 -0700
+Message-Id: <20250724080756.work.741-kees@kernel.org>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4056; i=kees@kernel.org; h=from:subject:message-id; bh=D109zUVaN75LJ2BDCN+vmyDZuBNjWIBhOr8sOZnfsJo=; b=owGbwMvMwCVmps19z/KJym7G02pJDBmNL5+wOE13WPr0yP9Ar9lyW8W43M+3zGhJjHcKcHNua 5E5+lyho5SFQYyLQVZMkSXIzj3OxeNte7j7XEWYOaxMIEMYuDgFYCI9GYwMhyP+MR1QVy+XOvHx jMoCE8MetWnt9pwRG0Qe/KpyvHXKjZFhS9ZTrkyuiZtOrmvd6cmlnNSwMfWfrZ+N9Y2sbS2eRy2 5AQ==
+X-Developer-Key: i=kees@kernel.org; a=openpgp; fpr=A5C3F68F229DD60F723E6E138972F4DFDC6DC026
 Content-Transfer-Encoding: 8bit
 
-Replace two instances of (1 << X) with BIT(X) in tegra20.c to follow
-kernel coding style guidelines and improve clarity. The BIT() macro
-also ensures proper type handling for larger shifts.
+When gmin_get_config_var() calls efi.get_variable() and the EFI variable
+is larger than the expected buffer size, two behaviors combine to create
+a stack buffer overflow:
 
-Signed-off-by: A.T. Jefferies <alextjefferies@gmail.com>
+1. gmin_get_config_var() does not return the proper error code when
+   efi.get_variable() fails. It returns the stale 'ret' value from
+   earlier operations instead of indicating the EFI failure.
+
+2. When efi.get_variable() returns EFI_BUFFER_TOO_SMALL, it updates
+   *out_len to the required buffer size but writes no data to the output
+   buffer. However, due to bug #1, gmin_get_var_int() believes the call
+   succeeded.
+
+The caller gmin_get_var_int() then performs:
+- Allocates val[CFG_VAR_NAME_MAX + 1] (65 bytes) on stack
+- Calls gmin_get_config_var(dev, is_gmin, var, val, &len) with len=64
+- If EFI variable is >64 bytes, efi.get_variable() sets len=required_size
+- Due to bug #1, thinks call succeeded with len=required_size
+- Executes val[len] = 0, writing past end of 65-byte stack buffer
+
+This creates a stack buffer overflow when EFI variables are larger than
+64 bytes. Since EFI variables can be controlled by firmware or system
+configuration, this could potentially be exploited for code execution.
+
+Fix the bug by returning proper error codes from gmin_get_config_var()
+based on EFI status instead of stale 'ret' value.
+
+The gmin_get_var_int() function is called during device initialization
+for camera sensor configuration on Intel Bay Trail and Cherry Trail
+platforms using the atomisp camera stack.
+
+Reported-by: zepta <z3ptaa@gmail.com>
+Closes: https://lore.kernel.org/all/CAPBS6KoQyM7FMdPwOuXteXsOe44X4H3F8Fw+y_qWq6E+OdmxQA@mail.gmail.com
+Fixes: 38d4f74bc148 ("media: atomisp_gmin_platform: stop abusing efivar API")
+Signed-off-by: Kees Cook <kees@kernel.org>
 ---
- drivers/staging/media/tegra-video/tegra20.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Ard Biesheuvel <ardb@kernel.org>
+Cc: Andy Shevchenko <andy@kernel.org>
+Cc: Hans de Goede <hansg@kernel.org>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: <linux-media@vger.kernel.org>
+Cc: <linux-staging@lists.linux.dev>
 
-diff --git a/drivers/staging/media/tegra-video/tegra20.c b/drivers/staging/media/tegra-video/tegra20.c
-index 7b8f8f810b35..1473f1b1f203 100644
---- a/drivers/staging/media/tegra-video/tegra20.c
-+++ b/drivers/staging/media/tegra-video/tegra20.c
-@@ -42,7 +42,7 @@
- #define       VI_INPUT_BT656				BIT(25)
- #define       VI_INPUT_YUV_INPUT_FORMAT_SFT		8  /* bits [9:8] */
- #define       VI_INPUT_YUV_INPUT_FORMAT_UYVY		(0 << VI_INPUT_YUV_INPUT_FORMAT_SFT)
--#define       VI_INPUT_YUV_INPUT_FORMAT_VYUY		(1 << VI_INPUT_YUV_INPUT_FORMAT_SFT)
-+#define       VI_INPUT_YUV_INPUT_FORMAT_VYUY		BIT(VI_INPUT_YUV_INPUT_FORMAT_SFT)
- #define       VI_INPUT_YUV_INPUT_FORMAT_YUYV		(2 << VI_INPUT_YUV_INPUT_FORMAT_SFT)
- #define       VI_INPUT_YUV_INPUT_FORMAT_YVYU		(3 << VI_INPUT_YUV_INPUT_FORMAT_SFT)
- #define       VI_INPUT_INPUT_FORMAT_SFT			2  /* bits [5:2] */
-@@ -73,7 +73,7 @@
- #define       VI_OUTPUT_H_DIRECTION			BIT(19)
- #define       VI_OUTPUT_YUV_OUTPUT_FORMAT_SFT		17
- #define       VI_OUTPUT_YUV_OUTPUT_FORMAT_UYVY		(0 << VI_OUTPUT_YUV_OUTPUT_FORMAT_SFT)
--#define       VI_OUTPUT_YUV_OUTPUT_FORMAT_VYUY		(1 << VI_OUTPUT_YUV_OUTPUT_FORMAT_SFT)
-+#define       VI_OUTPUT_YUV_OUTPUT_FORMAT_VYUY		BIT(VI_OUTPUT_YUV_OUTPUT_FORMAT_SFT)
- #define       VI_OUTPUT_YUV_OUTPUT_FORMAT_YUYV		(2 << VI_OUTPUT_YUV_OUTPUT_FORMAT_SFT)
- #define       VI_OUTPUT_YUV_OUTPUT_FORMAT_YVYU		(3 << VI_OUTPUT_YUV_OUTPUT_FORMAT_SFT)
- #define       VI_OUTPUT_OUTPUT_BYTE_SWAP		BIT(16)
+Note that as an exercise this fix and the commit log body (I wrote the
+tags) was entirely written by an LLM (and reviewed by me), though I really
+had to help it focus on where to be looking. Here were my prompts:
+
+Is there a buffer overflow problem associated with gmin_get_config_var()'s
+use of efi.get_variable()?
+
+What does efi.get_variable() do to out_len if it fails?
+
+Does the function return an error when efi.get_variable fails?
+
+What would the caller do when it sees a success but when efi.get_variable
+changed out_len?
+
+Propose fixes and write a commit message with all of the details you
+just gave me about reachability, impact, etc.
+
+Since the EFI_SUCCESS test ends with "return 0" you don't need an explicit
+"else" block for the error path code.
+---
+ .../staging/media/atomisp/pci/atomisp_gmin_platform.c    | 9 +++++----
+ 1 file changed, 5 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c b/drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c
+index 5f59519ac8e2..964cc3bcc0ac 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c
++++ b/drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c
+@@ -1272,14 +1272,15 @@ static int gmin_get_config_var(struct device *maindev,
+ 	if (efi_rt_services_supported(EFI_RT_SUPPORTED_GET_VARIABLE))
+ 		status = efi.get_variable(var16, &GMIN_CFG_VAR_EFI_GUID, NULL,
+ 					  (unsigned long *)out_len, out);
+-	if (status == EFI_SUCCESS)
++	if (status == EFI_SUCCESS) {
+ 		dev_info(maindev, "found EFI entry for '%s'\n", var8);
+-	else if (is_gmin)
++		return 0;
++	}
++	if (is_gmin)
+ 		dev_info(maindev, "Failed to find EFI gmin variable %s\n", var8);
+ 	else
+ 		dev_info(maindev, "Failed to find EFI variable %s\n", var8);
+-
+-	return ret;
++	return -ENOENT;
+ }
+ 
+ int gmin_get_var_int(struct device *dev, bool is_gmin, const char *var, int def)
 -- 
-2.50.0
+2.34.1
 
