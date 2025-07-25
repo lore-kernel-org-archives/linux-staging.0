@@ -1,100 +1,127 @@
-Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net [217.70.183.193])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDC9AF9D6
-	for <linux-staging@lists.linux.dev>; Fri, 25 Jul 2025 08:09:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.193
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1862A153BED
+	for <linux-staging@lists.linux.dev>; Fri, 25 Jul 2025 17:19:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753430998; cv=none; b=hW5GfGueesoeqv96acVilbDE1WhRe2JnRN+hL62Sd2Q+aSdy3hQZUdtPiSDSaRYj+g1jA0kRukoP1NECmEswf0T8WBzivF/zf6S/vWbYEW81DGHBur31uO8hGg4Omys0FHqMW7m0MOryR7BGhhvlymUN9EF9OBjN6ayoneBRDSE=
+	t=1753463979; cv=none; b=DTrHVbdbKwf6ltQ6N3ZqKYYP5VQnx84QmFOTH77MwXhPcqqY8kC8pXXKePsbvL4QZMov7L3BDVgxbr9fIo+woi7H9PZcq0nIMhTQUj6YCgFngvz0u89nAieCQ8A7PXN1E6eb9b011kegGs7bUBCV3fDsAbhzQ3UaHBDwGNaDt+M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753430998; c=relaxed/simple;
-	bh=yOEF3pbrz4Kx9Yvk4LzkBbXrI6GwPwnuHpZ0B+OKRpo=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=sU5hcBKm1PV0gfkRynK0qUHn7fXQCDeaf5CLrAqEthx1BASVzSATFO/W477ZMCNlmutG1wcQqWMrDSeRbl/M9HDs2vuGSeKSf7cwbByq8qvYpjV5IsLZEAbIeTDF7ZzvZBjDx5r6xfdKIlZzs/fw3pmgkk0384eXUXDcGxYrtkc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=RAPrugMY; arc=none smtp.client-ip=217.70.183.193
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1753463979; c=relaxed/simple;
+	bh=Y1KSUYsyaE6HbJs2IIuCubCrplcn/uqjWMb9Oub3kMw=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=fH8PGs6yRU9o8I3xEPufjwpTZIYNPtU10P3JdnRm8g9d2HIyAc9W+ODALck+1yhWOM+wZDpThZsjzasWXT4oVqH926aehVWjxzftmdDc7pemof+fNGVKKm0PJwyLXB4I6vtx8/2gFV/7Pvl40Zya306xBoyYl08UoC+b6PXC5M4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hSVLE2Cn; arc=none smtp.client-ip=209.85.218.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="RAPrugMY"
-Received: by mail.gandi.net (Postfix) with ESMTPSA id E1A7E443AB;
-	Fri, 25 Jul 2025 08:09:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1753430988;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ptbYJ8jnyRK4joUoCr7OOdtZ5ECC4czwvLjcYQx+OrI=;
-	b=RAPrugMYfyP6vElz0cdX04uv2YJ8z9gJ7sIJtCfDcY/oCekpcJwubei/qeuokr3XNJYMMc
-	0IlZ80zS8mox/m7Qq/LG0C/YzZihWgvye1/suNr78Fhw9YlWyKKp42txuSd/HjokWEpxp6
-	Tpw6YEdIscZONSAn2c5ONLuq8jOQWVvjymFst1FcG+jJuK7SBdeR/gnXDrYPqwHH/yiD6r
-	4uVHoL3odpCueiCJvfbBKXw63pkb3U9jbB4Z2D2wv9ystb7QtX8ujouTc1s4m7CrI5pHkS
-	6fAS97VhfnckAa4JjywL4hRbQXc5wRpEryYkEScCBmuYkPYmE5EZnBeW6h1ZLw==
-Date: Fri, 25 Jul 2025 10:09:43 +0200
-From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-To: "A.T. Jefferies" <alextjefferies@gmail.com>
-Cc: thierry.reding@gmail.com, jonathanh@nvidia.com, skomatineni@nvidia.com,
- mchehab@kernel.org, gregkh@linuxfoundation.org,
- linux-media@vger.kernel.org, linux-tegra@vger.kernel.org,
- linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: media: tegra-video: use BIT() macro instead of
- shift
-Message-ID: <20250725100943.0a974c7c@booty>
-In-Reply-To: <20250723231757.15443-1-alextjefferies@gmail.com>
-References: <20250723231757.15443-1-alextjefferies@gmail.com>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hSVLE2Cn"
+Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-ae3be3eabd8so505604766b.1
+        for <linux-staging@lists.linux.dev>; Fri, 25 Jul 2025 10:19:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1753463975; x=1754068775; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=FMKeCN6G97kMJOA2iye1JNWo2RzUVGDnYFn5d9NsQ9g=;
+        b=hSVLE2CnIAPYLcagL8pU3jYG2cYEFtkqalqEF/uqynrBlJ6xXue3PNammlfENYEWZ9
+         tOYacgX7faPOQFJnQzT5TtZT1rOqlDrd8ICE0S2MIGB1Di5S5RmiKgh7aQnT7glG41Ac
+         08eICCVxE+Beaa4IJ+ndXIMjLwLcEiSEzwDJVeOR/iLynmsux0h1CBnfijZ1EC4NdWhR
+         5fzVqplRQZmz9/MVsegaamdMPuiyEUZg6Rw5M3RpnZnXs/qYr9y2RK1937c9RCLh1kyq
+         IAylNHKnBGlHqvthZuFIsmcvblCAvf5fN28GgDpQgCNskJJFoP7af2JFxF5Y6Lvi9aHD
+         /Pbg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1753463975; x=1754068775;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=FMKeCN6G97kMJOA2iye1JNWo2RzUVGDnYFn5d9NsQ9g=;
+        b=M6DXUsbS5JgEDd9rGM9W51KgBLqpwu8EWnkyG7FdBUL5fSBojZiW/CuiPPldh8EbgV
+         UoPqeTe1kjSp6cqAz1pJgLBdgp/09XQgfEQWCrmMnLz+b2GFaZo+1pcDoq/qsbnaa9pK
+         pyh81LjHpfjqk9s7fXHCCJr1KC7UshIkTRHsUbOcvJ3qvEFr+abA9cBI/giw7PmTMW0e
+         3GtyohgHcjs/B4PzUo3ufNo0omSaMjxb4EFhSlmK3efTMTlmmKfx/nSNypKB5qgOFTIW
+         nQgjtz+B4sDZ+ppEAA8sPeOVDnArK6dQ0iWyolSy5mEwfjdQ2ISbUrayX+winvPnEele
+         xQxQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXP/Tkk5ARPUkHEzXjSpwDq2mFkHFT5GQ+WJc27BDnpKPTWRL42vxKkIJhCX1qoPSZuN0PJpxZ+6ZuGqtRs@lists.linux.dev
+X-Gm-Message-State: AOJu0YwCd4KQflU01GEBM0kOJ/qsg6DNvXsrH6N2X46zndPRWAnfL3D0
+	Xrwgbjg7RTvChYvhQkqVNzjtFUZror3NcC/YkcV5jbdL5KWZjVUitok0
+X-Gm-Gg: ASbGncuSl4nkdwgcTurMTRG4odXHeA8dhVTfrpJ0mLvfM9onnmb/9G//uEqhfXKfqK/
+	/UnIgA1f9Q6WmxFmMaNo13/sM6U25WJWumxLUxorea9NUqn9Rj+CpjzjhhbdNnRlvpe1kezmFZD
+	UwUid65E1/OLs2GCmteBIyMDHFWaE8PGqzb7uqkXYCcIGAq/W+Z2VvSAXK5Ak8gx+hVu90X9b5M
+	X8eakZWErNGcRUxu0yUS+lvmWlzplWGC0QWiFOv94yjZU1cA0R1XgUfDw/Tz3I2eVZJ+DjBXrcI
+	ukbwPm7sQ6c48Tk3wqOvs6t/DktLja9OmsTdmKy+ymMikyMIWVne5S/dNok/Jwq+d13a4AxjqIa
+	JQvO1YASlhcQ0rluCgq3OsBKdwDRs1poJGY98IjJ3NOYPTr4Y3apRITuPAKhQM+nEteb0UbLBun
+	ari7xDEg==
+X-Google-Smtp-Source: AGHT+IEaEmCiIoGrZas9PLfSl62sSWOiTuZrFdkBEM7IJKU/GlPZfysTiUH5h5P0uHyk7NJHEItEiw==
+X-Received: by 2002:a17:907:3d46:b0:ae3:52ae:b0d2 with SMTP id a640c23a62f3a-af61df5289dmr370816266b.18.1753463974809;
+        Fri, 25 Jul 2025 10:19:34 -0700 (PDT)
+Received: from PC01.localdomain (094190205166.static.ipv4.heldenvannu.net. [94.190.205.166])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-af635a61103sm18857066b.70.2025.07.25.10.19.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 25 Jul 2025 10:19:34 -0700 (PDT)
+From: Bruce Qin <bqn9090@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: bqn9090@gmail.com,
+	linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev
+Subject: [PATCH v3] staging: rtl8723bs: fix if-statement alignment and line continuation in rtw_ap.c
+Date: Fri, 25 Jul 2025 19:19:33 +0200
+Message-ID: <20250725171933.10027-1-bqn9090@gmail.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <2025072552-filled-glacier-1e9d@gregkh>
+References: <2025072552-filled-glacier-1e9d@gregkh>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-GND-State: clean
-X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdefgdekfedtudcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvfevuffkjghfohfogggtgfesthejredtredtvdenucfhrhhomhepnfhutggrucevvghrvghsohhlihcuoehluhgtrgdrtggvrhgvshholhhisegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeeglefffefghefhtddvfeeufeeiveekgffgleekieduteekkeetvdehudekgfdvvdenucffohhmrghinhepsghoohhtlhhinhdrtghomhenucfkphepfeejrdduiedurdduvdegrddugeeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepfeejrdduiedurdduvdegrddugeeipdhhvghlohepsghoohhthidpmhgrihhlfhhrohhmpehluhgtrgdrtggvrhgvshholhhisegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopedutddprhgtphhtthhopegrlhgvgihtjhgvfhhfvghrihgvshesghhmrghilhdrtghomhdprhgtphhtthhopehthhhivghrrhihrdhrvgguihhnghesghhmrghilhdrtghomhdprhgtphhtthhopehjohhnrghthhgrnhhhsehnvhhiughirgdrtghomhdprhgtphhtthhopehskhhomhgrthhinhgvnhhisehnvhhiughirgdrtghomhdprhgtphhtthhopehmt
- ghhvghhrggssehkvghrnhgvlhdrohhrghdprhgtphhtthhopehgrhgvghhkhheslhhinhhugihfohhunhgurghtihhonhdrohhrghdprhgtphhtthhopehlihhnuhigqdhmvgguihgrsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhinhhugidqthgvghhrrgesvhhgvghrrdhkvghrnhgvlhdrohhrgh
-X-GND-Sasl: luca.ceresoli@bootlin.com
+Content-Transfer-Encoding: 8bit
 
-Hello A.T. Jefferies,
+This patch fixes several style issues in a multiline if-statement:
 
-On Wed, 23 Jul 2025 23:17:57 +0000
-"A.T. Jefferies" <alextjefferies@gmail.com> wrote:
+- Moved '&&' to the end of the previous line to follow logical
+  continuation style
+- Fixed indentation to align with the opening parenthesis of the expression
+- Avoided ending a line with an open parenthesis '('
+- Moved closing ')' to the end of the last expression line
+  (as suggested by the maintainer)
 
-> Replace two instances of (1 << X) with BIT(X) in tegra20.c to follow
-> kernel coding style guidelines and improve clarity. The BIT() macro
-> also ensures proper type handling for larger shifts.
-> 
-> Signed-off-by: A.T. Jefferies <alextjefferies@gmail.com>
-> ---
->  drivers/staging/media/tegra-video/tegra20.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/staging/media/tegra-video/tegra20.c b/drivers/staging/media/tegra-video/tegra20.c
-> index 7b8f8f810b35..1473f1b1f203 100644
-> --- a/drivers/staging/media/tegra-video/tegra20.c
-> +++ b/drivers/staging/media/tegra-video/tegra20.c
-> @@ -42,7 +42,7 @@
->  #define       VI_INPUT_BT656				BIT(25)
->  #define       VI_INPUT_YUV_INPUT_FORMAT_SFT		8  /* bits [9:8] */
->  #define       VI_INPUT_YUV_INPUT_FORMAT_UYVY		(0 << VI_INPUT_YUV_INPUT_FORMAT_SFT)
-> -#define       VI_INPUT_YUV_INPUT_FORMAT_VYUY		(1 << VI_INPUT_YUV_INPUT_FORMAT_SFT)
-> +#define       VI_INPUT_YUV_INPUT_FORMAT_VYUY		BIT(VI_INPUT_YUV_INPUT_FORMAT_SFT)
->  #define       VI_INPUT_YUV_INPUT_FORMAT_YUYV		(2 << VI_INPUT_YUV_INPUT_FORMAT_SFT)
->  #define       VI_INPUT_YUV_INPUT_FORMAT_YVYU		(3 << VI_INPUT_YUV_INPUT_FORMAT_SFT)
+These changes improve readability
+  and conform to Linux kernel coding conventions.
+No functional changes.
 
-Thanks for your patch. However I'm afraid I don't think this is a good
-idea. 1 is just one out of 4 possible values out of 4 possible values
-for a multi-bit register field. All the 4 should use the same style.
+Signed-off-by: Bruce Qin <bqn9090@gmail.com>
+---
+Changes in v3:
+- Wrapped commit message lines at 72 columns (checkpatch warning resolved).
+- Ensured only one copy is submitted (per Greg's feedback).
+- Carried forward the fix from v2 (closing ')' adjustment 
+  as suggested by Greg).
+- Thanks again to Greg Kroah-Hartman for the helpful review!
 
-BIT() is perfect for single-bit register fields. It's not for multi-bit
-fields.
+ drivers/staging/rtl8723bs/core/rtw_ap.c | 8 +++-----
+ 1 file changed, 3 insertions(+), 5 deletions(-)
 
-Luca
-
+diff --git a/drivers/staging/rtl8723bs/core/rtw_ap.c b/drivers/staging/rtl8723bs/core/rtw_ap.c
+index 383a6f7c06f4..c652e0cd35f3 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_ap.c
++++ b/drivers/staging/rtl8723bs/core/rtw_ap.c
+@@ -258,11 +258,9 @@ void expire_timeout_chk(struct adapter *padapter)
+ 		} else {
+ 			/* TODO: Aging mechanism to digest frames in sleep_q to */
+ 			/* avoid running out of xmitframe */
+-			if (psta->sleepq_len > (NR_XMITFRAME / pstapriv->asoc_list_cnt)
+-				&& padapter->xmitpriv.free_xmitframe_cnt < ((
+-					NR_XMITFRAME / pstapriv->asoc_list_cnt
+-				) / 2)
+-			)
++			if (psta->sleepq_len > (NR_XMITFRAME / pstapriv->asoc_list_cnt) &&
++			    padapter->xmitpriv.free_xmitframe_cnt <
++					((NR_XMITFRAME / pstapriv->asoc_list_cnt) / 2))
+ 				wakeup_sta_to_xmit(padapter, psta);
+ 		}
+ 	}
 -- 
-Luca Ceresoli, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+2.43.0
+
