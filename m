@@ -1,70 +1,70 @@
-Received: from mail-qk1-f171.google.com (mail-qk1-f171.google.com [209.85.222.171])
+Received: from mail-qk1-f179.google.com (mail-qk1-f179.google.com [209.85.222.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FA4421C16A
-	for <linux-staging@lists.linux.dev>; Sat, 26 Jul 2025 04:34:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48C6B21D011
+	for <linux-staging@lists.linux.dev>; Sat, 26 Jul 2025 04:34:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753504445; cv=none; b=H8iMFail62WqsictAmzQR90PkezatDAJC/uC0GlGcxhRO2MY8K3bk11NQJdzPm4KFlX+0rMOxbGwx67tRDdHiQQ/KscTFRGbcu+5RpcS0ZmH7UXzyVjJz1W+G46TjSUbpk518XMp9Jr7Ba7d/y8VXeTlaAaAXeFvaeRWbECMvZw=
+	t=1753504447; cv=none; b=MPfly3syccmhubvCKe0oumkXUNqU45YQPI8tnjq7XnEXOwg+OUDmLgOElHqNmhEjF790T78xuOha3zg49VQMw14wr/QtajGFc064nPlAiJ4legIKzMYHlknz+IjoTW4zSXuD38ZwPIJpPlPyNZB0PJayL2rnpfx5kTC2Yv0UhNA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753504445; c=relaxed/simple;
-	bh=bM0Vvx92cKEQOLfqkhukRo406X8XLDfUAl5uTTOBuYs=;
+	s=arc-20240116; t=1753504447; c=relaxed/simple;
+	bh=95tRCUajd2YWzthjvIMZXiLAW0pTk6LVGoVuxLw9wO0=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=g6H2Qv7wPstaIG0CJ7IBOB8uH+diQcHMeOCMIsuMf2aaS85HBEM0LBdfYhWp+wnO8NuYX7/zPQFJ08MHZNuA8qa76L/n7EigQwCoW9x1R9wszwF5xZCfOpXUsiIcEplsCsUvW2/l/eJPYJv4+qA9Wml5aoVIZib80/72eEj7Vww=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LYcvAeNA; arc=none smtp.client-ip=209.85.222.171
+	 MIME-Version; b=DU7rqMHwqmiYYXOdz9Ih07lbm0BXjPzSRotoGehEyLyKl9rIWAanuyEVamaSMCd+dUIIH+83PjuDvkkKrU/x7c9Ms+yFxEF1HcvfwKUa0c1FzSdbadEn12n3Gtlh+O1YYF3j/x8QBfZOH2oVS/I092zEhZkssn7WvxWxIRTGv7g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AfjhKIwg; arc=none smtp.client-ip=209.85.222.179
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LYcvAeNA"
-Received: by mail-qk1-f171.google.com with SMTP id af79cd13be357-7e32c95778aso138632385a.3
-        for <linux-staging@lists.linux.dev>; Fri, 25 Jul 2025 21:34:03 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AfjhKIwg"
+Received: by mail-qk1-f179.google.com with SMTP id af79cd13be357-7e278d8345aso265022885a.0
+        for <linux-staging@lists.linux.dev>; Fri, 25 Jul 2025 21:34:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1753504442; x=1754109242; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1753504445; x=1754109245; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=AFyIKyxFfSvkenjutTa3WXgF+K78uS/6Wm5w41WWk5k=;
-        b=LYcvAeNA+yVAAZtsa949jYwDZd0Vr80d3BIMYS+ddiMdzm1C6afRkk+7LGsckCxvF/
-         FdvQYeqskcirKGe9OV85ORKG2cPbcW/ZjH0++jfpJKtgHoA8sHcndeMokUI4juL93fy6
-         e1SDWGB51HoyfSAtMO9/SqrfwVw6FkNq39xy4I85bKEKEaUybAJDRnnhNqGNK8MrhnDn
-         hy8I4gJPVfd3pY7pfj/s/EOgdYyg7BpN36Q1IHk+M/L33uGbHBRJDl6i+LikWf5bPGjl
-         tQ5E4g6Ez81kyD8XCV3BoQkJMvSCAG6KnYHJL1Vob9hJEY/OxnvTDREZIl5ONeOIPpLa
-         dUTw==
+        bh=a+oh4R8+Xz4P49bJ6RR1wQypz80s2da0SdRPMOzyOPc=;
+        b=AfjhKIwgHurSJStNJGVe7gl/cho6PbQrVmOajqbAyG81kUt5Rw7j2PbKjX2ekPvUo9
+         fWPOoRISbspGX9+eeqePngq/H4yG3J2xHQMCvo+mtb3OPPCp7wFL5+iXV9zhOT4pKm7k
+         dqKJ/kJWE4rf1i4s8M1CG8Strph8rinRp/ECBuup3G0jtL7MUC/T3wS5sobA+W9XprQz
+         jWlfccCqjQmc815zUg63EyHsESFiY6oSdzUh+/7gJLS9iI5AxZlE+fCXkNE6qoHA0wWJ
+         QQLUJZevx1IStJxuqxUFYtEGCz8hoKjMQj2RgoUECShH31iKZKvqs1wmj4K5UtIhXw54
+         F1GQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1753504442; x=1754109242;
+        d=1e100.net; s=20230601; t=1753504445; x=1754109245;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=AFyIKyxFfSvkenjutTa3WXgF+K78uS/6Wm5w41WWk5k=;
-        b=lyoeb2H0yPmz3CJK1+G/mWMPL6DpJtby83oz7+UZRM5ih97mIw/DpAMaf4qdtTx3BV
-         AP97hhD/Qgcq7oWoJ5Hhvoiew3kzBSgDUKgCPUS0MOGpK52riO84KQOtylYFKgcan9iL
-         AcLTQXh3XZDq3Ob4HMMpPRukrkN9zNMcQ2jC/r4wtLtZC6fH3Rgk8c6h5kK/fpClka5f
-         h0fGUTVCJ1/Yk6WRe2ll5McD+dEuGocdURV0dtoGVh5mxNillUaWFpYdfbOvwseXvp14
-         YBn4hTTM1CT9AKMoE17JY2VuG2YCA5cOaH6ARD5Kj+YhGGIQqCjCCm+8nbTOWuA0qaXi
-         50DA==
-X-Gm-Message-State: AOJu0YyGRumnbtkLuJ7mwp3973u5b0MzinX6vOtG0YNxG8FmyOlzivBw
-	VIQgd7DTIK3Fh6tv2SiVnmm7X+/rLRQwSgH7cnHZomyx51jzsDa/puOJ
-X-Gm-Gg: ASbGnctd/iXnNEoTiU6/ppctX44rVI+259M4n11lF45ScLO9uUJv/L9ScrqdJcKb12o
-	wbnpDTr4oM8xUaXzTQjTRxQ/RbtM+YvnAGImaWfmC9a1+laF6VXT7whMFy0Idrq1lpTCBJUr4Pg
-	TDQMMQLtPaS1kHvjwxzZodE5XdXeNH9yJeF+ftJTmQSkaLucDZ1dySwaS8BMlVGjg+zI9tMtxsV
-	DsFicGZz7r4ZnDLv45jUQMYy6twSIbMzI+u4gJfMTKiXtifTZA87zsksQ+gyKyqKUa3dG2mApbY
-	1wCfzpx7E5yzTKlsZmqA7RsdrSOfsH7ANgodBkPDOjQVrq6lUfRDCOx7K/WIstgOWgHJhkZofiE
-	jAxDN3mp6lLnO28+sZc6JcxXpLY6iY3ZaQpNPNryDd4hyvsXo6XI=
-X-Google-Smtp-Source: AGHT+IFpFHZe0lJfxuzoFTC3VS+z3g4wsWyK4qBicXrUgk9/6HYdXvu+ijC0mv83e++I4g7KoxuBsw==
-X-Received: by 2002:a05:620a:2552:b0:7e3:426d:f45f with SMTP id af79cd13be357-7e63bfb09b8mr357945985a.34.1753504442457;
-        Fri, 25 Jul 2025 21:34:02 -0700 (PDT)
+        bh=a+oh4R8+Xz4P49bJ6RR1wQypz80s2da0SdRPMOzyOPc=;
+        b=ow7l8FmPXlla6YzqTzyuZsgnzZNDETsEHvKCwADGJOkRPyxy8xiLLG8faJOfXZVevh
+         aFZkqFRXmk7hKsdm0cRH63ktGP3s5jjhsCECLq4C2CdRPsTA24Iwk1CEouYGMuKU5Rcp
+         6uLCQWnbNUa5nN9r0C04yMnsLsDUD3G1o/rUt9qJ6zpyf859dwOAXZRqGwWdUFnBUy8f
+         PA9KqgfYEbUj5nb9dyewriRsKQOgOoJPQ2goBJX1IEk/aGWn9BX5SpPH5am3jJAEvZ8/
+         FOJuA6pMXwEfBedQFZixajR0afBIAR6nDOmvZYuPiDBqIdaZEwXvzsq6i3+fyqOnxDdp
+         ct9A==
+X-Gm-Message-State: AOJu0YxORG5fsDYlXO+MJbTvnWX51lmT84n875bfW0bSXC2jVzV6RjA4
+	fW6hoZtlAmuKYCzPp0HJwYfOm09OU2EsZejg5pgu8uJf67dp/Q4ZaGRr
+X-Gm-Gg: ASbGncs3TdQYlCoGckeU+E6I6os2707DOttUSDyoSSso4HRraN/xPBx0/ZNU/ByQ/gA
+	SIHNZSCHNlZd22OtbW6/Sr5zuQS8EiXck77ZmsU/iaJNBSp1IZc4lx3g1E+xOl7biybf4ZlNKG8
+	eOIqiKB/QC0bX5b/GPBO62kMyn+ctcd9aI0nj955/d7DgrbETgBz6ZuQsPdXHtMQT6KAccXiq/L
+	YCVL1dGzkkP3ed8QJKCGCq0gTaBDSh98UeUEc8QwPTcWzKFzmwmVAT7C1Jllp7Hw3YGRUBwBEWY
+	TCfE+JYfcokZzvXIkr2ghnzslR/UCBRUAGG9BoCaGBYi5n/ZLsOMoo1z1e1B13AcfFaY2Ht2WHb
+	08C/EP90myQjERgUEJvUuJ4IJvZKCvEgwLX6lsTF6xkJQv9VqnjY=
+X-Google-Smtp-Source: AGHT+IENcPolz2NGbAdveExhQu7dx7/c6T6biciIaJRVqa3hpe/07ZSgoIvG0LIF/sal83OsbxKm5Q==
+X-Received: by 2002:a05:620a:109a:b0:7e6:28e8:2dab with SMTP id af79cd13be357-7e63bf8c5b4mr442052285a.40.1753504445233;
+        Fri, 25 Jul 2025 21:34:05 -0700 (PDT)
 Received: from linux-kernel-dev-start.. ([159.203.26.228])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-7e6432a885asm70322185a.36.2025.07.25.21.34.01
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-7e6432a885asm70322185a.36.2025.07.25.21.34.04
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 25 Jul 2025 21:34:02 -0700 (PDT)
+        Fri, 25 Jul 2025 21:34:04 -0700 (PDT)
 From: Vivek BalachandharTN <vivek.balachandhar@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	vivek.balachandhar@gmail.com
-Subject: [PATCH 15/20] staging: rtl8723bs: remove unnecessary braces for single statement blocks
-Date: Sat, 26 Jul 2025 04:32:13 +0000
-Message-Id: <20250726043218.386738-16-vivek.balachandhar@gmail.com>
+Subject: [PATCH 16/20] staging: rtl8723bs: add braces to all arms of conditional statement
+Date: Sat, 26 Jul 2025 04:32:14 +0000
+Message-Id: <20250726043218.386738-17-vivek.balachandhar@gmail.com>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250726043218.386738-1-vivek.balachandhar@gmail.com>
 References: <20250726043218.386738-1-vivek.balachandhar@gmail.com>
@@ -76,41 +76,36 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Removed braces from conditional blocks that contain only a single statement,
-as per Linux kernel coding style guidelines. This enhances code clarity
-and reduces visual clutter.
+Added braces to all branches of conditional statements for consistency
+and to prevent potential future errors when modifying or extending logic.
+
+This aligns with kernel coding style recommendations for clarity
+and maintainability.
 
 Signed-off-by: Vivek BalachandharTN <vivek.balachandhar@gmail.com>
 ---
- drivers/staging/rtl8723bs/core/rtw_mlme.c | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
+ drivers/staging/rtl8723bs/core/rtw_mlme.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme.c b/drivers/staging/rtl8723bs/core/rtw_mlme.c
-index d845eaecd615..fb7ab7eceb54 100644
+index fb7ab7eceb54..7552f7e4d14a 100644
 --- a/drivers/staging/rtl8723bs/core/rtw_mlme.c
 +++ b/drivers/staging/rtl8723bs/core/rtw_mlme.c
-@@ -487,9 +487,8 @@ void rtw_update_scanned_network(struct adapter *adapter, struct wlan_bssid_ex *t
- 			break;
- 		}
+@@ -1571,11 +1571,11 @@ void rtw_mlme_reset_auto_scan_int(struct adapter *adapter)
+ 	struct mlme_ext_priv *pmlmeext = &adapter->mlmeextpriv;
+ 	struct mlme_ext_info *pmlmeinfo = &pmlmeext->mlmext_info;
  
--		if (rtw_roam_flags(adapter)) {
-+		if (rtw_roam_flags(adapter))
- 			/* TODO: don't select network in the same ess as oldest if it's new enough*/
--		}
- 
- 		if (!oldest || time_after(oldest->last_scanned, pnetwork->last_scanned))
- 			oldest = pnetwork;
-@@ -2415,9 +2414,8 @@ void rtw_update_ht_cap(struct adapter *padapter, u8 *pie, uint ie_len, u8 channe
- 	len = 0;
- 	p = rtw_get_ie(pie + sizeof(struct ndis_802_11_fix_ie), WLAN_EID_HT_OPERATION, &len,
- 		       ie_len - sizeof(struct ndis_802_11_fix_ie));
--	if (p && len > 0) {
-+	if (p && len > 0)
- 		/* todo: */
--	}
- 
- 	if ((pregistrypriv->bw_mode & 0x0f) > 0)
- 		cbw40_enable = 1;
+-	if (pmlmeinfo->VHT_enable) /* disable auto scan when connect to 11AC AP */
++	if (pmlmeinfo->VHT_enable) { /* disable auto scan when connect to 11AC AP */
+ 		mlme->auto_scan_int_ms = 0;
+-	else if (adapter->registrypriv.wifi_spec && is_client_associated_to_ap(adapter) == true)
++	} else if (adapter->registrypriv.wifi_spec && is_client_associated_to_ap(adapter) == true) {
+ 		mlme->auto_scan_int_ms = 60 * 1000;
+-	else if (rtw_chk_roam_flags(adapter, RTW_ROAM_ACTIVE)) {
++	} else if (rtw_chk_roam_flags(adapter, RTW_ROAM_ACTIVE)) {
+ 		if (check_fwstate(mlme, WIFI_STATION_STATE) && check_fwstate(mlme, _FW_LINKED))
+ 			mlme->auto_scan_int_ms = mlme->roam_scan_int_ms;
+ 	} else {
 -- 
 2.39.5
 
