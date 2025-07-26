@@ -1,69 +1,73 @@
-Received: from mail-qk1-f179.google.com (mail-qk1-f179.google.com [209.85.222.179])
+Received: from mail-qk1-f169.google.com (mail-qk1-f169.google.com [209.85.222.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDDC28488
-	for <linux-staging@lists.linux.dev>; Sat, 26 Jul 2025 04:33:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2ABB43159
+	for <linux-staging@lists.linux.dev>; Sat, 26 Jul 2025 04:33:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753504396; cv=none; b=WuUEfQBitsSkc0dUGBFY145XrMdcX6jED+1zEq4twNMK6oio1ueoGdKFlCuMHKJGY2A+shL9ed/uUiZ8xsjYzlS+Ot3iun4d+AxStUAUgTX+s/D8Cs7SpzA8wxRNbFwzkJQdeX2Mfk/RjpTEMaDhHMvySWcC/JOpiYbcli0xfeY=
+	t=1753504403; cv=none; b=PJxaOMAYawt2JV3PwSOKN8o9tQOWChLxEbcChklc7x+wfHCt1ti2rSZd2egSXhl+bV5cqL08WfNMj8G4ITF13rIkaigNKjI+AWpnu7dBzH5uiaA/TqO3AQ/wYRTuGipr71olkEiQ44sUxhzSOHmUHaIWDOCED9f3NUILSZ2CSts=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753504396; c=relaxed/simple;
-	bh=yqLflEss5+rW5p1lBzUzxijl/tQZexw316Q+5lZBc9A=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=ZV3Il0PjT2w37DM/TBudXHIY4TVvkOwDWmd6sbZg0H+mJIKYYcNvGcr7S4WsL4KT4Ru60EkRpx/rE7y2xyKcj0bhiOBrtg0U5WrMhWRMxbQnY4BUgDogCgSRArhU0CuySc+FV/ZEI85lfj6hfaz0EpMr4wjisJuqtVwvAE+3Q3Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=E/XoxPR1; arc=none smtp.client-ip=209.85.222.179
+	s=arc-20240116; t=1753504403; c=relaxed/simple;
+	bh=aGrJcQ1guL6WjuU05ZF+eyGXhxPTzs0xtdZ+Pl5RiqI=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=AYn30ZaQJO8LRlXcmex5kwroo7ww0xEcCjuCkwVnBqh9D80QhhKEoHm++e3NkxKm9tD6QrHuvO+evK2qfUIhPBkulKKHES06CjTwBcVs2Ingq1/iV9r3W9PJZN4kcUk3K4fUF5sF0M5/4hRSUdk2joNectjikylMjru959WnDwQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SGBqLdRn; arc=none smtp.client-ip=209.85.222.169
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="E/XoxPR1"
-Received: by mail-qk1-f179.google.com with SMTP id af79cd13be357-7e62a1cbf81so397463385a.0
-        for <linux-staging@lists.linux.dev>; Fri, 25 Jul 2025 21:33:14 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SGBqLdRn"
+Received: by mail-qk1-f169.google.com with SMTP id af79cd13be357-7df981428abso420680485a.1
+        for <linux-staging@lists.linux.dev>; Fri, 25 Jul 2025 21:33:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1753504394; x=1754109194; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=BW1xnx+eic9ymH8SDNqekLeIBVOT7EdCfOdZuvvoJF4=;
-        b=E/XoxPR1M5k/iaEsE/fI8nZwp+ooYiryaVeFCohrp6jF2PjTk570JwIqnMJVYdMSYo
-         mhQDOpLkvGdgsIbFyb8mWX9kuyHyMkUNceTLHAgRKumQ6SvLzNA03K0RLEwTfcw1tYZf
-         4YfWte8jfb7XA5oPZ+hve/fE+CpkFAD4P31AFvewfWRozfhiHK7E56OS2xKHAAwqtHDg
-         WNsekFocIWqmpU8fUqhFELt/qGurciAcNvblPSjU8QbJc+UXMtU4PYnkdxyv2G/iTITj
-         67SPxcg4KMWhUNNMGa/TgXHrlHreOBsq0O2rl44m7f5NSQPwxuKS0DcVx1/MXCyT8I1y
-         fQmg==
+        d=gmail.com; s=20230601; t=1753504401; x=1754109201; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=8qnYWP5uxktCzJJeTbiSoBQ7UpZzwA2RvsbCjUbPPeI=;
+        b=SGBqLdRn7x19TIiWsRLIaDxLom+TXPyJkBgSKVN5SvAlU7FlvaDU3ww2Eumpn0K6/F
+         Ze6AD7bEINf28Ok/BjFivcL4GumpvVUnGxQcNv3KU3+TaMPQmQnTjqkk8aVTvNJytnkd
+         H3Uv/HK0Oc+udl2c1YcTreTTR0R1JAGDhKd3/Fgq8U8d92rkUSKASqvMdipMPREaq/72
+         SUn4b+uw64oCTHwhjz3O5BfPNIK6VSLAbxKEeKB7un/BqshU2k7uYBAFeIpskLzpmKwM
+         XzsmgEalOCcS6VZ4CEbRgnDnOo4taON59757jIIBEfhNmXwJyz6IuApvgbduUjbev0xT
+         rkjA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1753504394; x=1754109194;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=BW1xnx+eic9ymH8SDNqekLeIBVOT7EdCfOdZuvvoJF4=;
-        b=SvhgwsolXihUaBOezco00+PD67OUvfLv80MHCrGgAy/An4XmiRknTtmWSf/B0H8fFG
-         GE2Gv2m39lvl1u7A0JZEdec737THAbplQH7tuwjdaD2zT6ZD1Y4GJ4Yx9Jn96BdGfmki
-         2sVzxGE9MzHIH0HiqMPeazMbtA83GO7/8zedL3AqJct/zziex+QkVO9EXz3S3REVi2Z6
-         z+r5gipiDsX4Fayh7q1DokhJyKH9V3oyTg8o120nQp/XBzPhoqaypbyMO8F10AV4Ssec
-         8cI7T1vuIjPEm3hZX6y1BMtil4E2voYKJUn9/5SBPiXCcTtA+LXtGKG21AEm1/YpA88T
-         jROw==
-X-Gm-Message-State: AOJu0YyXl3i2YsTq0wj2PibC/TDuVkAzC2ze19uAuW3JTJ7CB+w4ajo/
-	Ya5NBpxG7bxTfD/SLOqCMq32p6VGDjb+292HDil2wIdPwnH5siIirCFx
-X-Gm-Gg: ASbGnctUQYsPVNfblk0mJeXYO5pOZ0VF2IKkFg808LTGObSY7svUov/mFoacOJ2+eLI
-	mdJPUhqFEDM7Cm8VoBAz3aWREnO4clL3aWOzwqZWY8zWro1vjIm2JHYQ7O8O+O6LuBLYFlEBCMG
-	9BvKRbkU2U5HjiiLZIJR4+GF7gjcS1sZgJ+blCKLLwNIUaKrcC7RMNWMzho4Zwq5Rw+8LDcT0BA
-	J87W4XN2GrV9ebGIn5cZy97DDIlI0NRJTQUdzJPYa9wJmOBgxWPRat9ZEpQ2iGzXeIJeIf/r6xU
-	sZKu9MehhA4iGhBb6jeI1nEARLyKEIWFSlxKCQW5RtFWoCGD66LTcR9dCTT3sLviE/RGAq0K781
-	04ladjybYa6MMpNYwfBC4OIOAwTPyIyg58kGJNIxIy0sX4gKspJQ=
-X-Google-Smtp-Source: AGHT+IHd3rG8570Bas2ZttHZNDcdf3KiYipJI+hbnOt3fNKzufWFCnJEWz0pfoRYwZE5qJwTFLQcuQ==
-X-Received: by 2002:a05:620a:260f:b0:7d4:2c9:e0c4 with SMTP id af79cd13be357-7e63bfb3348mr447476785a.28.1753504393652;
-        Fri, 25 Jul 2025 21:33:13 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1753504401; x=1754109201;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=8qnYWP5uxktCzJJeTbiSoBQ7UpZzwA2RvsbCjUbPPeI=;
+        b=iFqUuwyfac+86FstoVO7DRmG8KZml/lbfToZ/+w3NSUzfXGexRuUN2GH8CbEk2o1Mh
+         3vhF6QUu9c68ddnyoSzwe/UyKw4ZzSR9BX2TXPS2IHzCPdSy+gCp6Wy0wK5/NEKZ4dAE
+         AQ5lOeWPwpwnsNbzM0Qi+W+SHBxHfsBYVyeQRDVucDvRg3b0V5Le+JPUTrznwnxgxFNA
+         YtDFRkxWkeaBBzOpacY/HRCEdltkCxvEqKkMXcq6nUhAi3Af/VOqOISw788vrUd7bcfY
+         Kj4ylV9eD6wP/5yZor/safDzMYpgBdXjqsh60EuzicRj4oQ4h4ddhiXZXMb94uNUCFrl
+         gicw==
+X-Gm-Message-State: AOJu0YzqGvp3veXcQFdN05R/yzJcEWF8T4ZHywNxnVzLd5SFCB4hdL9C
+	8+OPyMkaCSlZMQPFrzes5eOcWzfPMBFnDqsm/a1EQg6bIEqf46mHf3wB
+X-Gm-Gg: ASbGncsYy+keaG2sX1BFdeRDiSTBQRPeWMlsTj2WmrFcOJuTT2OS+TDnxDBW73oYMIj
+	cqE9cU+36RgOEytNU1VhEPbC+7M9Yv4NqENTUCl3v8jknm6aUR5pmlLOefbdmJMXZTtVAyXK7vu
+	w/aQNWU1+bTWF3JOTKGp6PlGrtFl6c//nboVypuYzGKtymXwMulBVVx/VzOZU8MljKf0kllyjkO
+	sbAu2c6rv2XusI1b4E79KKuGE9qD159nhhRXyhcU55QTVUTUMOMiQDOT1Dn7t0xPw+wMVoT6GMU
+	ojGRWxqXmEymjupZXVgWE3h3oCaf/lrn2mo7h+d0vSwE7H9PjDpVPvSecnxE6MBsw53WY0gDMzK
+	cAuBiTBbmkABYYDh8vi6FMX7yQgDNbIUMre82i0vkzd+kKIvmfgc=
+X-Google-Smtp-Source: AGHT+IHscYgHll4ESn96HKmYhGJ92hcYbxJkf1pCvKGDNzYZt+yqgNp2YDOhlGxpIWU/OK3f6UsVgg==
+X-Received: by 2002:a05:620a:aa09:b0:7e1:d0fb:3454 with SMTP id af79cd13be357-7e63c1b7d9cmr601564485a.53.1753504400659;
+        Fri, 25 Jul 2025 21:33:20 -0700 (PDT)
 Received: from linux-kernel-dev-start.. ([159.203.26.228])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-7e6432a885asm70322185a.36.2025.07.25.21.33.12
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-7e6432a885asm70322185a.36.2025.07.25.21.33.19
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 25 Jul 2025 21:33:13 -0700 (PDT)
+        Fri, 25 Jul 2025 21:33:19 -0700 (PDT)
 From: Vivek BalachandharTN <vivek.balachandhar@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	vivek.balachandhar@gmail.com
-Subject: [PATCH 00/20] rtl8723bs: cleanup and style improvements for better readability 
-Date: Sat, 26 Jul 2025 04:31:58 +0000
-Message-Id: <20250726043218.386738-1-vivek.balachandhar@gmail.com>
+Subject: [PATCH 01/20] staging: rtl8723bs: fix spacing around operators
+Date: Sat, 26 Jul 2025 04:31:59 +0000
+Message-Id: <20250726043218.386738-2-vivek.balachandhar@gmail.com>
 X-Mailer: git-send-email 2.39.5
+In-Reply-To: <20250726043218.386738-1-vivek.balachandhar@gmail.com>
+References: <20250726043218.386738-1-vivek.balachandhar@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -72,44 +76,270 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This patch series includes 20 commits that clean up and improve
-the style and formatting of the rtl8723bs driver in the staging tree.
-The changes address spacing issues, indentation, comment formatting,
-blank lines, and minor code clarity improvements.
+The driver contained multiple instances of inconsistent
+or incorrect spacing around binary operators such as `+`,
+`&&`, `>>`, `/`, `|`, `&`, `<<`, and others.
+These violations reduce code readability and do not conform
+to the Linux kernel coding style guidelines.
 
-No functional changes are introduced. All commits adhere to the Linux kernel
-coding style guidelines to enhance code readability and maintainability.
+This commit standardizes spacing around all such operators,
+improving code readability and maintainability. No functional
+changes have been made.
 
-The patches have been tested and are ready for review.
+Identified using checkpatch.pl.
 
-Vivek BalachandharTN (20):
-  staging: rtl8723bs: fix spacing around operators
-  staging: rtl8723bs: remove unnecessary blank lines around braces
-  staging: rtl8723bs: add blank line after function declaration
-  staging: rtl8723bs: remove unnecessary space after type cast
-  staging: rtl8723bs: remove space before tabs
-  staging: rtl8723bs: fix overlong lines and clarify lengthy comments
-  staging: rtl8723bs: align asterisk in block comment to fix formatting
-  staging: rtl8723bs: fix logical continuation style by moving to
-    previous line
-  staging: rtl8723bs: fix indentation to align with open parenthesis
-  staging: rtl8723bs: adding asterisks in multi-line block comments
-  staging: rtl8723bs: remove space before semicolon
-  staging: rtl8723bs: fix excessive indentation in nested if statement
-  staging: rtl8723bs: fix unbalanced braces around conditional blocks
-  staging: rtl8723bs: remove unnecessary parentheses around assignment
-  staging: rtl8723bs: remove unnecessary braces for single statement
-    blocks
-  staging: rtl8723bs: add braces to all arms of conditional statement
-  staging: rtl8723bs: add blank line after variable declarations
-  staging: rtl8723bs: fix line ending with '('
-  staging: rtl8723bs: place constant on right side of comparison
-  staging: rtl8723bs: merge nested if conditions for clarity and tab
-    problems
+Signed-off-by: Vivek BalachandharTN <vivek.balachandhar@gmail.com>
+---
+ drivers/staging/rtl8723bs/core/rtw_mlme.c | 72 +++++++++++------------
+ 1 file changed, 36 insertions(+), 36 deletions(-)
 
- drivers/staging/rtl8723bs/core/rtw_mlme.c | 506 ++++++++++++----------
- 1 file changed, 285 insertions(+), 221 deletions(-)
-
+diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme.c b/drivers/staging/rtl8723bs/core/rtw_mlme.c
+index 692d0c2b766d..da64d5714237 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_mlme.c
++++ b/drivers/staging/rtl8723bs/core/rtw_mlme.c
+@@ -256,8 +256,8 @@ void rtw_generate_random_ibss(u8 *pibss)
+ 	pibss[1] = 0x11;
+ 	pibss[2] = 0x87;
+ 	pibss[3] = (u8)(curtime & 0xff) ;/* p[0]; */
+-	pibss[4] = (u8)((curtime>>8) & 0xff) ;/* p[1]; */
+-	pibss[5] = (u8)((curtime>>16) & 0xff) ;/* p[2]; */
++	pibss[4] = (u8)((curtime >> 8) & 0xff) ;/* p[1]; */
++	pibss[5] = (u8)((curtime >> 16) & 0xff) ;/* p[2]; */
+ }
+ 
+ u8 *rtw_get_capability_from_ie(u8 *ie)
+@@ -410,14 +410,14 @@ void update_network(struct wlan_bssid_ex *dst, struct wlan_bssid_ex *src,
+ 		sq_final = padapter->recvpriv.signal_qual;
+ 		/* the rssi value here is undecorated, and will be used for antenna diversity */
+ 		if (sq_smp != 101) /* from the right channel */
+-			rssi_final = (src->rssi+dst->rssi*4)/5;
++			rssi_final = (src->rssi + dst->rssi * 4) / 5;
+ 		else
+ 			rssi_final = rssi_ori;
+ 	} else {
+ 		if (sq_smp != 101) { /* from the right channel */
+-			ss_final = ((u32)(src->phy_info.signal_strength)+(u32)(dst->phy_info.signal_strength)*4)/5;
+-			sq_final = ((u32)(src->phy_info.signal_quality)+(u32)(dst->phy_info.signal_quality)*4)/5;
+-			rssi_final = (src->rssi+dst->rssi*4)/5;
++			ss_final = ((u32)(src->phy_info.signal_strength) + (u32)(dst->phy_info.signal_strength) * 4) / 5;
++			sq_final = ((u32)(src->phy_info.signal_quality) + (u32)(dst->phy_info.signal_quality) * 4) / 5;
++			rssi_final = (src->rssi + dst->rssi * 4) / 5;
+ 		} else {
+ 			/* bss info not receiving from the right channel, use the original RX signal infos */
+ 			ss_final = dst->phy_info.signal_strength;
+@@ -587,7 +587,7 @@ int rtw_is_desired_network(struct adapter *adapter, struct wlan_network *pnetwor
+ 	privacy = pnetwork->network.privacy;
+ 
+ 	if (check_fwstate(pmlmepriv, WIFI_UNDER_WPS)) {
+-		if (rtw_get_wps_ie(pnetwork->network.ies+_FIXED_IE_LENGTH_, pnetwork->network.ie_length-_FIXED_IE_LENGTH_, NULL, &wps_ielen))
++		if (rtw_get_wps_ie(pnetwork->network.ies + _FIXED_IE_LENGTH_, pnetwork->network.ie_length - _FIXED_IE_LENGTH_, NULL, &wps_ielen))
+ 			return true;
+ 		else
+ 			return false;
+@@ -832,14 +832,14 @@ void rtw_free_assoc_resources(struct adapter *adapter, int lock_scanned_queue)
+ 	struct dvobj_priv *psdpriv = adapter->dvobj;
+ 	struct debug_priv *pdbgpriv = &psdpriv->drv_dbg;
+ 
+-	if (check_fwstate(pmlmepriv, WIFI_STATION_STATE|WIFI_AP_STATE)) {
++	if (check_fwstate(pmlmepriv, WIFI_STATION_STATE | WIFI_AP_STATE)) {
+ 		struct sta_info *psta;
+ 
+ 		psta = rtw_get_stainfo(&adapter->stapriv, tgt_network->network.mac_address);
+ 		rtw_free_stainfo(adapter,  psta);
+ 	}
+ 
+-	if (check_fwstate(pmlmepriv, WIFI_ADHOC_STATE|WIFI_ADHOC_MASTER_STATE|WIFI_AP_STATE)) {
++	if (check_fwstate(pmlmepriv, WIFI_ADHOC_STATE | WIFI_ADHOC_MASTER_STATE | WIFI_AP_STATE)) {
+ 		struct sta_info *psta;
+ 
+ 		rtw_free_all_stainfo(adapter);
+@@ -886,7 +886,7 @@ void rtw_indicate_disconnect(struct adapter *padapter)
+ {
+ 	struct	mlme_priv *pmlmepriv = &padapter->mlmepriv;
+ 
+-	_clr_fwstate_(pmlmepriv, _FW_UNDER_LINKING|WIFI_UNDER_WPS);
++	_clr_fwstate_(pmlmepriv, _FW_UNDER_LINKING | WIFI_UNDER_WPS);
+ 
+ 	if (rtw_to_roam(padapter) > 0)
+ 		_clr_fwstate_(pmlmepriv, _FW_LINKED);
+@@ -913,7 +913,7 @@ inline void rtw_indicate_scan_done(struct adapter *padapter, bool aborted)
+ 
+ 	if ((!adapter_to_pwrctl(padapter)->bInSuspend) &&
+ 	    (!check_fwstate(&padapter->mlmepriv,
+-			    WIFI_ASOC_STATE|WIFI_UNDER_LINKING))) {
++			    WIFI_ASOC_STATE | WIFI_UNDER_LINKING))) {
+ 		rtw_set_ips_deny(padapter, 0);
+ 		_set_timer(&padapter->mlmepriv.dynamic_chk_timer, 1);
+ 	}
+@@ -1053,8 +1053,8 @@ static void rtw_joinbss_update_network(struct adapter *padapter, struct wlan_net
+ 	switch (pnetwork->network.infrastructure_mode) {
+ 	case Ndis802_11Infrastructure:
+ 
+-			if (pmlmepriv->fw_state&WIFI_UNDER_WPS)
+-				pmlmepriv->fw_state = WIFI_STATION_STATE|WIFI_UNDER_WPS;
++			if (pmlmepriv->fw_state & WIFI_UNDER_WPS)
++				pmlmepriv->fw_state = WIFI_STATION_STATE | WIFI_UNDER_WPS;
+ 			else
+ 				pmlmepriv->fw_state = WIFI_STATION_STATE;
+ 
+@@ -1224,7 +1224,7 @@ void rtw_sta_media_status_rpt(struct adapter *adapter, struct sta_info *psta, u3
+ 	if (!psta)
+ 		return;
+ 
+-	media_status_rpt = (u16)((psta->mac_id<<8)|mstatus); /*   MACID|OPMODE:1 connect */
++	media_status_rpt = (u16)((psta->mac_id << 8) | mstatus); /*   MACID|OPMODE:1 connect */
+ 	rtw_hal_set_hwreg(adapter, HW_VAR_H2C_MEDIA_STATUS_RPT, (u8 *)&media_status_rpt);
+ }
+ 
+@@ -1342,13 +1342,13 @@ void rtw_stadel_event_callback(struct adapter *adapter, u8 *pbuf)
+ 	if (mac_id >= 0) {
+ 		u16 media_status;
+ 
+-		media_status = (mac_id<<8)|0; /*   MACID|OPMODE:0 means disconnect */
++		media_status = (mac_id << 8) | 0; /*   MACID|OPMODE:0 means disconnect */
+ 		/* for STA, AP, ADHOC mode, report disconnect stauts to FW */
+ 		rtw_hal_set_hwreg(adapter, HW_VAR_H2C_MEDIA_STATUS_RPT, (u8 *)&media_status);
+ 	}
+ 
+ 	/* if (check_fwstate(pmlmepriv, WIFI_AP_STATE)) */
+-	if ((pmlmeinfo->state&0x03) == WIFI_FW_AP_STATE)
++	if ((pmlmeinfo->state & 0x03) == WIFI_FW_AP_STATE)
+ 		return;
+ 
+ 	mlmeext_sta_del_event_callback(adapter);
+@@ -1524,7 +1524,7 @@ void rtw_mlme_reset_auto_scan_int(struct adapter *adapter)
+ 	if (pmlmeinfo->VHT_enable) /* disable auto scan when connect to 11AC AP */
+ 		mlme->auto_scan_int_ms = 0;
+ 	else if (adapter->registrypriv.wifi_spec && is_client_associated_to_ap(adapter) == true)
+-		mlme->auto_scan_int_ms = 60*1000;
++		mlme->auto_scan_int_ms = 60 * 1000;
+ 	else if (rtw_chk_roam_flags(adapter, RTW_ROAM_ACTIVE)) {
+ 		if (check_fwstate(mlme, WIFI_STATION_STATE) && check_fwstate(mlme, _FW_LINKED))
+ 			mlme->auto_scan_int_ms = mlme->roam_scan_int_ms;
+@@ -1923,7 +1923,7 @@ int rtw_restruct_wmm_ie(struct adapter *adapter, u8 *in_ie, u8 *out_ie, uint in_
+ 	while (i < in_len) {
+ 		ielength = initial_out_len;
+ 
+-		if (in_ie[i] == 0xDD && in_ie[i+2] == 0x00 && in_ie[i+3] == 0x50  && in_ie[i+4] == 0xF2 && in_ie[i+5] == 0x02 && i+5 < in_len) { /* WMM element ID and OUI */
++		if (in_ie[i] == 0xDD && in_ie[i + 2] == 0x00 && in_ie[i + 3] == 0x50  && in_ie[i + 4] == 0xF2 && in_ie[i + 5] == 0x02 && i + 5 < in_len) { /* WMM element ID and OUI */
+ 			for (j = i; j < i + 9; j++) {
+ 				out_ie[ielength] = in_ie[j];
+ 				ielength++;
+@@ -1935,7 +1935,7 @@ int rtw_restruct_wmm_ie(struct adapter *adapter, u8 *in_ie, u8 *out_ie, uint in_
+ 			break;
+ 		}
+ 
+-		i += (in_ie[i+1]+2); /*  to the next IE element */
++		i += (in_ie[i + 1] + 2); /*  to the next IE element */
+ 	}
+ 
+ 	return ielength;
+@@ -2009,13 +2009,13 @@ signed int rtw_restruct_sec_ie(struct adapter *adapter, u8 *in_ie, u8 *out_ie, u
+ 		authmode = WLAN_EID_RSN;
+ 
+ 	if (check_fwstate(pmlmepriv, WIFI_UNDER_WPS)) {
+-		memcpy(out_ie+ielength, psecuritypriv->wps_ie, psecuritypriv->wps_ie_len);
++		memcpy(out_ie + ielength, psecuritypriv->wps_ie, psecuritypriv->wps_ie_len);
+ 
+ 		ielength += psecuritypriv->wps_ie_len;
+ 	} else if ((authmode == WLAN_EID_VENDOR_SPECIFIC) || (authmode == WLAN_EID_RSN)) {
+ 		/* copy RSN or SSN */
+-		memcpy(&out_ie[ielength], &psecuritypriv->supplicant_ie[0], psecuritypriv->supplicant_ie[1]+2);
+-		ielength += psecuritypriv->supplicant_ie[1]+2;
++		memcpy(&out_ie[ielength], &psecuritypriv->supplicant_ie[0], psecuritypriv->supplicant_ie[1] + 2);
++		ielength += psecuritypriv->supplicant_ie[1] + 2;
+ 		rtw_report_sec_ie(adapter, authmode, psecuritypriv->supplicant_ie);
+ 	}
+ 
+@@ -2183,7 +2183,7 @@ void rtw_build_wmm_ie_ht(struct adapter *padapter, u8 *out_ie, uint *pout_len)
+ 
+ 	if (padapter->mlmepriv.qospriv.qos_option == 0) {
+ 		out_len = *pout_len;
+-		rtw_set_ie(out_ie+out_len, WLAN_EID_VENDOR_SPECIFIC,
++		rtw_set_ie(out_ie + out_len, WLAN_EID_VENDOR_SPECIFIC,
+ 			   _WMM_IE_Length_, WMM_IE, pout_len);
+ 
+ 		padapter->mlmepriv.qospriv.qos_option = 1;
+@@ -2227,7 +2227,7 @@ unsigned int rtw_restructure_ht_ie(struct adapter *padapter, u8 *in_ie, u8 *out_
+ 	} else {
+ 		p = rtw_get_ie(in_ie, WLAN_EID_HT_OPERATION, &ielen, in_len);
+ 		if (p && (ielen == sizeof(struct ieee80211_ht_addt_info))) {
+-			struct HT_info_element *pht_info = (struct HT_info_element *)(p+2);
++			struct HT_info_element *pht_info = (struct HT_info_element *)(p + 2);
+ 
+ 			if (pht_info->infos[0] & BIT(2)) {
+ 				switch (pht_info->infos[0] & 0x3) {
+@@ -2290,14 +2290,14 @@ unsigned int rtw_restructure_ht_ie(struct adapter *padapter, u8 *in_ie, u8 *out_
+ 		rtw_hal_get_def_var(padapter, HW_VAR_MAX_RX_AMPDU_FACTOR,
+ 				    &max_rx_ampdu_factor);
+ 
+-	ht_capie.ampdu_params_info = (max_rx_ampdu_factor&0x03);
++	ht_capie.ampdu_params_info = (max_rx_ampdu_factor & 0x03);
+ 
+ 	if (padapter->securitypriv.dot11PrivacyAlgrthm == _AES_)
+-		ht_capie.ampdu_params_info |= (IEEE80211_HT_CAP_AMPDU_DENSITY&(0x07<<2));
++		ht_capie.ampdu_params_info |= (IEEE80211_HT_CAP_AMPDU_DENSITY & (0x07 << 2));
+ 	else
+-		ht_capie.ampdu_params_info |= (IEEE80211_HT_CAP_AMPDU_DENSITY&0x00);
++		ht_capie.ampdu_params_info |= (IEEE80211_HT_CAP_AMPDU_DENSITY & 0x00);
+ 
+-	rtw_set_ie(out_ie+out_len, WLAN_EID_HT_CAPABILITY,
++	rtw_set_ie(out_ie + out_len, WLAN_EID_HT_CAPABILITY,
+ 		   sizeof(struct ieee80211_ht_cap), (unsigned char *)&ht_capie, pout_len);
+ 
+ 	phtpriv->ht_option = true;
+@@ -2306,7 +2306,7 @@ unsigned int rtw_restructure_ht_ie(struct adapter *padapter, u8 *in_ie, u8 *out_
+ 		p = rtw_get_ie(in_ie, WLAN_EID_HT_OPERATION, &ielen, in_len);
+ 		if (p && (ielen == sizeof(struct ieee80211_ht_addt_info))) {
+ 			out_len = *pout_len;
+-			rtw_set_ie(out_ie+out_len, WLAN_EID_HT_OPERATION, ielen, p+2, pout_len);
++			rtw_set_ie(out_ie + out_len, WLAN_EID_HT_OPERATION, ielen, p + 2, pout_len);
+ 		}
+ 	}
+ 
+@@ -2339,18 +2339,18 @@ void rtw_update_ht_cap(struct adapter *padapter, u8 *pie, uint ie_len, u8 channe
+ 
+ 	/* check Max Rx A-MPDU Size */
+ 	len = 0;
+-	p = rtw_get_ie(pie+sizeof(struct ndis_802_11_fix_ie), WLAN_EID_HT_CAPABILITY, &len, ie_len-sizeof(struct ndis_802_11_fix_ie));
++	p = rtw_get_ie(pie + sizeof(struct ndis_802_11_fix_ie), WLAN_EID_HT_CAPABILITY, &len, ie_len - sizeof(struct ndis_802_11_fix_ie));
+ 	if (p && len > 0) {
+-		pht_capie = (struct ieee80211_ht_cap *)(p+2);
++		pht_capie = (struct ieee80211_ht_cap *)(p + 2);
+ 		max_ampdu_sz = (pht_capie->ampdu_params_info & IEEE80211_HT_CAP_AMPDU_FACTOR);
+-		max_ampdu_sz = 1 << (max_ampdu_sz+3); /*  max_ampdu_sz (kbytes); */
++		max_ampdu_sz = 1 << (max_ampdu_sz + 3); /*  max_ampdu_sz (kbytes); */
+ 
+ 		phtpriv->rx_ampdu_maxlen = max_ampdu_sz;
+ 
+ 	}
+ 
+ 	len = 0;
+-	p = rtw_get_ie(pie+sizeof(struct ndis_802_11_fix_ie), WLAN_EID_HT_OPERATION, &len, ie_len-sizeof(struct ndis_802_11_fix_ie));
++	p = rtw_get_ie(pie + sizeof(struct ndis_802_11_fix_ie), WLAN_EID_HT_OPERATION, &len, ie_len - sizeof(struct ndis_802_11_fix_ie));
+ 	if (p && len > 0) {
+ 		/* todo: */
+ 	}
+@@ -2429,8 +2429,8 @@ void rtw_issue_addbareq_cmd(struct adapter *padapter, struct xmit_frame *pxmitfr
+ 	phtpriv = &psta->htpriv;
+ 
+ 	if (phtpriv->ht_option && phtpriv->ampdu_enable) {
+-		issued = (phtpriv->agg_enable_bitmap>>priority)&0x1;
+-		issued |= (phtpriv->candidate_tid_bitmap>>priority)&0x1;
++		issued = (phtpriv->agg_enable_bitmap >> priority) & 0x1;
++		issued |= (phtpriv->candidate_tid_bitmap >> priority) & 0x1;
+ 
+ 		if (issued == 0) {
+ 			psta->htpriv.candidate_tid_bitmap |= BIT((u8)priority);
+@@ -2501,7 +2501,7 @@ void _rtw_roaming(struct adapter *padapter, struct wlan_network *tgt_network)
+ signed int rtw_linked_check(struct adapter *padapter)
+ {
+ 	if ((check_fwstate(&padapter->mlmepriv, WIFI_AP_STATE) == true) ||
+-			(check_fwstate(&padapter->mlmepriv, WIFI_ADHOC_STATE|WIFI_ADHOC_MASTER_STATE) == true)) {
++			(check_fwstate(&padapter->mlmepriv, WIFI_ADHOC_STATE | WIFI_ADHOC_MASTER_STATE) == true)) {
+ 		if (padapter->stapriv.asoc_sta_count > 2)
+ 			return true;
+ 	} else {	/* Station mode */
 -- 
 2.39.5
 
