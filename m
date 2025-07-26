@@ -1,203 +1,177 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4EE623E324;
-	Sat, 26 Jul 2025 10:26:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D258B1401B;
+	Sat, 26 Jul 2025 12:24:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753525589; cv=none; b=q67cQ1QE62ziCJ1e1D3gQoFC9h7o4PVqzDVZgTF0XHFOUSQ8VZ0iVfMRqYMP+nTV5SXPCeHPrFQZARrxAhvx+XvyFRJmWH+s8F1qybr47hzEZ+5iwNM/8kpL9plFW0xHQ9EBP4AntMdx9OlBzmqixCJRH4yUlY9eN6U20vdzdEE=
+	t=1753532697; cv=none; b=cEJ9tXj+y3X14JapPQsh+6YIulCoeUyomThMiQzAZJdKkNgYIxDyvUH0uQp9qbWQ0H8qA2fn00K3vBFzBR4Zy97OIfHZHX6vdAg5ngg36AX/0XZlU2tH20BIHwIBWkpRUPNJxkq7H+PI5R6hJ7Ay41BfhwFvrmHCCEAc7/A01UQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753525589; c=relaxed/simple;
-	bh=mXm6wcwBc4Kd8D2LPcQhshcnfpgL/tU2/Tl8OI1xRhw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=K2znAtYwi/oKb7mwYklQjylZi49MBp8J7CvFkUdFAIf2+c1HdJjNbbV1SlkYqfZbrOfKEInBuePcuwUmmd3C2ZRIUddfY1u1gOs7BTh1E4NPYZa6cA1KPT1sXihQY38tmVVeH4Rzqi0DAfNhKhCF83EL8zbGyQv1Hk8ZXERspvI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JtNu1I/U; arc=none smtp.client-ip=198.175.65.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1753532697; c=relaxed/simple;
+	bh=Q9pEJcfekPUcRknoRen3DDDH4rZm+F68Z4P+bPSeIfQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=FWeRa5GbHPeE1QXtQsErueyiqoCCSyc/urCavm+c3OdtxGffdqWlV8C0rdEH7cREvvNAXrWqnhJZYGqSRb+DsqnfdyVZzbtKjBe3v2Zh4s60TDlyn2i02o1hGoC6DC3He/N8wf2vhOfWUtq6t0H1AOhvxLoJFDLgXUvpRpJkMAE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=I4dXwOHn; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JtNu1I/U"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1753525588; x=1785061588;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=mXm6wcwBc4Kd8D2LPcQhshcnfpgL/tU2/Tl8OI1xRhw=;
-  b=JtNu1I/UTWqv2KA35ks1Wtw6C2kYEp1AQ00NOXh2Tw7P1WHvI3FdvaAr
-   wBLh78KLLPZ/Upwlea3TFYvzgq2h47y7t0xYDcf7qKrHjIMJAivIHwnVs
-   1NbNMoj3Wqtgt3EpkTOx8kQV1D2/P82NsM3n91fUfJKy2GTfUo6/x3LC+
-   sKVjehMUrBr72y41RwaUzBX6F6pUjqPIkEJlFbZqDb9i1bIakQXiY7tKC
-   7wCRjTxwkVvvrKt3TX001O1l3krw/of35k7J55bhdiFjMoY6TggI8Zff9
-   X9vMgmXhpPeCKvUq6Io6LaG7ZQJEsbK/L3bsm4wAyQFck6GRyHl3JfV/y
-   Q==;
-X-CSE-ConnectionGUID: gdS1p8uURUuqjTUKaZL8EQ==
-X-CSE-MsgGUID: Fj676iihQV6LYEq6i2RCSQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11503"; a="59497445"
-X-IronPort-AV: E=Sophos;i="6.16,339,1744095600"; 
-   d="scan'208";a="59497445"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jul 2025 03:26:28 -0700
-X-CSE-ConnectionGUID: zpUvcUdoQXOjVxzv/rcSRA==
-X-CSE-MsgGUID: AFp1f55pRKOvFvlm/dPC3w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,339,1744095600"; 
-   d="scan'208";a="185141884"
-Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 26 Jul 2025 03:26:26 -0700
-Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1ufc6h-000LsA-2b;
-	Sat, 26 Jul 2025 10:26:23 +0000
-Date: Sat, 26 Jul 2025 18:26:16 +0800
-From: kernel test robot <lkp@intel.com>
-To: samiksha.palav27@gmail.com, gregkh@linuxfoundation.org
-Cc: oe-kbuild-all@lists.linux.dev, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org, shdwcodr <samiksha.palav27@gmail.com>
-Subject: Re: [PATCH] staging: sm750fb: Add hardware acceleration for 16bpp
- imageblit
-Message-ID: <202507261818.EFdmyMEX-lkp@intel.com>
-References: <20250724105254.3926-2-samiksha.palav27@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="I4dXwOHn"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AF1E5C4CEED;
+	Sat, 26 Jul 2025 12:24:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1753532696;
+	bh=Q9pEJcfekPUcRknoRen3DDDH4rZm+F68Z4P+bPSeIfQ=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=I4dXwOHnRQWjHsJ+SYTfUaiY82KVajXotoujJmsV/uFacibOC2t0bUwA+D7kG2y9Y
+	 zhTyAy1ojM9unojFjq6Res0zwM+N1/1ZZEQiKC+ECVy7z5NDLirytIRWBPHT9mxiAm
+	 K8NgPO/zr7mHoLv94p+zhbHEFk+LUEeSb/fM9JLd+GBXKaXw+kUnSAKZoayURITwWb
+	 RyBnhXxVcPgO9SBNnzfngQ0HC3Q+crrQkGMewjujJeHr/pm4D73QJJ9maNLsOl6CJW
+	 SUVVCX5TA1sKzCnLXkgUCnP7ttazW7vYoz3e+KKhXLS6bBqV/OsWFChaWJ5wuxiPJU
+	 mkcnaniU7eV1g==
+Message-ID: <0b284755-1ae7-4f5f-8338-836dfcb1db59@kernel.org>
+Date: Sat, 26 Jul 2025 14:24:51 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250724105254.3926-2-samiksha.palav27@gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] staging: media: atomisp: Fix stack buffer overflow in
+ gmin_get_var_int()
+To: Kees Cook <kees@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: zepta <z3ptaa@gmail.com>, Ard Biesheuvel <ardb@kernel.org>,
+ Andy Shevchenko <andy@kernel.org>, Mauro Carvalho Chehab
+ <mchehab@kernel.org>, Sakari Ailus <sakari.ailus@linux.intel.com>,
+ linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+ Bartosz Golaszewski <brgl@bgdev.pl>,
+ Abraham Samuel Adekunle <abrahamadekunle50@gmail.com>,
+ Thomas Andreatta <thomasandreatta2000@gmail.com>,
+ linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org
+References: <20250724080756.work.741-kees@kernel.org>
+Content-Language: en-US, nl
+From: Hans de Goede <hansg@kernel.org>
+In-Reply-To: <20250724080756.work.741-kees@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi,
+Hi Kees,
 
-kernel test robot noticed the following build errors:
+On 24-Jul-25 10:08 AM, Kees Cook wrote:
+> When gmin_get_config_var() calls efi.get_variable() and the EFI variable
+> is larger than the expected buffer size, two behaviors combine to create
+> a stack buffer overflow:
+> 
+> 1. gmin_get_config_var() does not return the proper error code when
+>    efi.get_variable() fails. It returns the stale 'ret' value from
+>    earlier operations instead of indicating the EFI failure.
+> 
+> 2. When efi.get_variable() returns EFI_BUFFER_TOO_SMALL, it updates
+>    *out_len to the required buffer size but writes no data to the output
+>    buffer. However, due to bug #1, gmin_get_var_int() believes the call
+>    succeeded.
+> 
+> The caller gmin_get_var_int() then performs:
+> - Allocates val[CFG_VAR_NAME_MAX + 1] (65 bytes) on stack
+> - Calls gmin_get_config_var(dev, is_gmin, var, val, &len) with len=64
+> - If EFI variable is >64 bytes, efi.get_variable() sets len=required_size
+> - Due to bug #1, thinks call succeeded with len=required_size
+> - Executes val[len] = 0, writing past end of 65-byte stack buffer
+> 
+> This creates a stack buffer overflow when EFI variables are larger than
+> 64 bytes. Since EFI variables can be controlled by firmware or system
+> configuration, this could potentially be exploited for code execution.
+> 
+> Fix the bug by returning proper error codes from gmin_get_config_var()
+> based on EFI status instead of stale 'ret' value.
+> 
+> The gmin_get_var_int() function is called during device initialization
+> for camera sensor configuration on Intel Bay Trail and Cherry Trail
+> platforms using the atomisp camera stack.
+> 
+> Reported-by: zepta <z3ptaa@gmail.com>
+> Closes: https://lore.kernel.org/all/CAPBS6KoQyM7FMdPwOuXteXsOe44X4H3F8Fw+y_qWq6E+OdmxQA@mail.gmail.com
+> Fixes: 38d4f74bc148 ("media: atomisp_gmin_platform: stop abusing efivar API")
+> Signed-off-by: Kees Cook <kees@kernel.org>
 
-[auto build test ERROR on staging/staging-linus]
-[also build test ERROR on linus/master v6.16-rc7]
-[cannot apply to staging/staging-testing staging/staging-next next-20250725]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Thanks, patch looks good to me:
 
-url:    https://github.com/intel-lab-lkp/linux/commits/samiksha-palav27-gmail-com/staging-sm750fb-Add-hardware-acceleration-for-16bpp-imageblit/20250724-185607
-base:   staging/staging-linus
-patch link:    https://lore.kernel.org/r/20250724105254.3926-2-samiksha.palav27%40gmail.com
-patch subject: [PATCH] staging: sm750fb: Add hardware acceleration for 16bpp imageblit
-config: sparc64-randconfig-001-20250725 (https://download.01.org/0day-ci/archive/20250726/202507261818.EFdmyMEX-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250726/202507261818.EFdmyMEX-lkp@intel.com/reproduce)
+Reviewed-by: Hans de Goede <hansg@kernel.org>
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507261818.EFdmyMEX-lkp@intel.com/
+I've already send an atomisp pull-request for 6.17 out
+and this is already in media-committers/next now and
+the media subsystem is typically not good in merging
+fixes just before the merge window.
 
-All error/warnings (new ones prefixed by >>):
+Kees, the file touched here is unchanged in
+media-committers/next vs Linus' latest master, can you
+send this fix to Linus yourself ?
 
-   drivers/staging/sm750fb/sm750.c: In function 'lynxfb_ops_imageblit':
->> drivers/staging/sm750fb/sm750.c:252:14: error: invalid storage class for function 'write_pixel'
-     static void write_pixel(struct fb_info *info, int x, int y, u32 color)
-                 ^~~~~~~~~~~
-   At top level:
->> drivers/staging/sm750fb/sm750.c:270:7: warning: 'sm750fb_imageblit' defined but not used [-Wunused-function]
-     void sm750fb_imageblit(struct fb_info *info, const struct fb_image *image)
-          ^~~~~~~~~~~~~~~~~
+Regards,
+
+Hans
 
 
-vim +/write_pixel +252 drivers/staging/sm750fb/sm750.c
 
-   233	
-   234	static void lynxfb_ops_imageblit(struct fb_info *info,
-   235					 const struct fb_image *image)
-   236	{
-   237		unsigned int base, pitch, Bpp;
-   238		unsigned int fgcol, bgcol;
-   239		struct lynxfb_par *par;
-   240		struct sm750_dev *sm750_dev;
-   241	
-   242		par = info->par;
-   243		sm750_dev = par->dev;
-   244		/*
-   245		 * each time 2d function begin to work,below three variable always need
-   246		 * be set, seems we can put them together in some place
-   247		 */
-   248		base = par->crtc.o_screen;
-   249		pitch = info->fix.line_length;
-   250		Bpp = info->var.bits_per_pixel >> 3;
-   251	
- > 252		static void write_pixel(struct fb_info *info, int x, int y, u32 color)
-   253	
-   254		{
-   255			u32 location;
-   256			u8 *fb_ptr = (u8 *)info->screen_base;
-   257	
-   258			location = (y * info->fix.line_length) + (x * (info->var.bits_per_pixel / 8));
-   259	
-   260			if (info->var.bits_per_pixel == 16) {
-   261				u16 c = ((color >> 8) & 0xF800) |
-   262					((color >> 5) & 0x07E0) |
-   263					((color >> 3) & 0x001F); // Convert 24-bit RGB to RGB565
-   264				*((u16 *)(fb_ptr + location)) = c;
-   265			} else if (info->var.bits_per_pixel == 32) {
-   266				*((u32 *)(fb_ptr + location)) = color;
-   267			}
-   268		}
-   269	
- > 270		void sm750fb_imageblit(struct fb_info *info, const struct fb_image *image)
-   271	
-   272		{
-   273			/*
-   274			 * TODO: Add hardware-accelerated support for more image depths
-   275			 * Currently only 16-bit (RGB565) images are handled in fast path.
-   276			 */
-   277			if (image->depth != 16) {
-   278				cfb_imageblit(info, image);
-   279				return;
-   280			}
-   281	
-   282			/* Accelerated rendering for 16-bit (RGB565) images */
-   283			const u16 *src = (const u16 *)image->data;
-   284	
-   285			u32 fg_color = ((image->fg_color & 0xF800) << 8) |
-   286				       ((image->fg_color & 0x07E0) << 5) |
-   287				       ((image->fg_color & 0x001F) << 3); // RGB565 → RGB888
-   288	
-   289			for (int j = 0; j < image->height; j++) {
-   290				for (int i = 0; i < image->width; i++) {
-   291					u16 pixel = src[j * image->width + i];
-   292	
-   293					if (pixel) // Draw only non-zero (foreground) pixels
-   294						write_pixel(info, image->dx + i, image->dy + j, fg_color);
-   295				}
-   296			}
-   297		}
-   298	
-   299		if (info->fix.visual == FB_VISUAL_TRUECOLOR ||
-   300		    info->fix.visual == FB_VISUAL_DIRECTCOLOR) {
-   301			fgcol = ((u32 *)info->pseudo_palette)[image->fg_color];
-   302			bgcol = ((u32 *)info->pseudo_palette)[image->bg_color];
-   303		} else {
-   304			fgcol = image->fg_color;
-   305			bgcol = image->bg_color;
-   306		}
-   307	
-   308		/*
-   309		 * If not use spin_lock, system will die if user load driver
-   310		 * and immediately unload driver frequently (dual)
-   311		 * since they fb_count could change during the lifetime of
-   312		 * this lock, we are holding it for all cases.
-   313		 */
-   314		spin_lock(&sm750_dev->slock);
-   315	
-   316		sm750_dev->accel.de_imageblit(&sm750_dev->accel,
-   317					      image->data, image->width >> 3, 0,
-   318					      base, pitch, Bpp,
-   319					      image->dx, image->dy,
-   320					      image->width, image->height,
-   321					      fgcol, bgcol, HW_ROP2_COPY);
-   322		spin_unlock(&sm750_dev->slock);
-   323	}
-   324	
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+
+
+
+
+> ---
+> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> Cc: Ard Biesheuvel <ardb@kernel.org>
+> Cc: Andy Shevchenko <andy@kernel.org>
+> Cc: Hans de Goede <hansg@kernel.org>
+> Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
+> Cc: Sakari Ailus <sakari.ailus@linux.intel.com>
+> Cc: <linux-media@vger.kernel.org>
+> Cc: <linux-staging@lists.linux.dev>
+> 
+> Note that as an exercise this fix and the commit log body (I wrote the
+> tags) was entirely written by an LLM (and reviewed by me), though I really
+> had to help it focus on where to be looking. Here were my prompts:
+> 
+> Is there a buffer overflow problem associated with gmin_get_config_var()'s
+> use of efi.get_variable()?
+> 
+> What does efi.get_variable() do to out_len if it fails?
+> 
+> Does the function return an error when efi.get_variable fails?
+> 
+> What would the caller do when it sees a success but when efi.get_variable
+> changed out_len?
+> 
+> Propose fixes and write a commit message with all of the details you
+> just gave me about reachability, impact, etc.
+> 
+> Since the EFI_SUCCESS test ends with "return 0" you don't need an explicit
+> "else" block for the error path code.
+> ---
+>  .../staging/media/atomisp/pci/atomisp_gmin_platform.c    | 9 +++++----
+>  1 file changed, 5 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c b/drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c
+> index 5f59519ac8e2..964cc3bcc0ac 100644
+> --- a/drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c
+> +++ b/drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c
+> @@ -1272,14 +1272,15 @@ static int gmin_get_config_var(struct device *maindev,
+>  	if (efi_rt_services_supported(EFI_RT_SUPPORTED_GET_VARIABLE))
+>  		status = efi.get_variable(var16, &GMIN_CFG_VAR_EFI_GUID, NULL,
+>  					  (unsigned long *)out_len, out);
+> -	if (status == EFI_SUCCESS)
+> +	if (status == EFI_SUCCESS) {
+>  		dev_info(maindev, "found EFI entry for '%s'\n", var8);
+> -	else if (is_gmin)
+> +		return 0;
+> +	}
+> +	if (is_gmin)
+>  		dev_info(maindev, "Failed to find EFI gmin variable %s\n", var8);
+>  	else
+>  		dev_info(maindev, "Failed to find EFI variable %s\n", var8);
+> -
+> -	return ret;
+> +	return -ENOENT;
+>  }
+>  
+>  int gmin_get_var_int(struct device *dev, bool is_gmin, const char *var, int def)
+
