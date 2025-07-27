@@ -1,274 +1,103 @@
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.20])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F302204F99
-	for <linux-staging@lists.linux.dev>; Sun, 27 Jul 2025 10:11:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBE251F19A
+	for <linux-staging@lists.linux.dev>; Sun, 27 Jul 2025 19:17:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753611088; cv=none; b=usBE+XCMmwYGa4TCEYf2So3IPAmAJ8R4NSau5uk6DUe84UiQs6kahiGDUNkB/2MSIM3pADckbPH669MzlWTrQsahcCM6MQjiWv7otb6xehGEDGpt/miCJBt6UAjDdgfeXJVq2R1FlIIlNzPdDF8RW5+DZxvgI8asPzg0E+84yIU=
+	t=1753643845; cv=none; b=sfX0bTujJCqzT5qqR7GIG/JSW2DNh3b/QsbpDtNDEQU2JwajKpUzzQ4y97abcElM0jO6U16Bc4E2cTiIekxtzNg2B8zlOvCRvj/z2rTWIL5xYH4hpxBd6p602Cc9216eTLmq5ELS9qUegZieka7tYBA+ZQyYI6NID4vvOLW7LIQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753611088; c=relaxed/simple;
-	bh=vDoZh9aovUBA3yV07jWNh7cQHnw5T5pbReZnHv7y1BU=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=uZGczXhRwU/KYPxFw3VetNtLO0XIDLZ2WZoWMVDDBW1uFl+MAr81yE5L+T0Vx4Yoj5lBpIs01VoJ8AxeU1FiP1EHfdLUpJwL8SBJNcLtmpGSIvN+1Cldfv21Dfn4YbKBqG5JQ9WOMrH8iYd71b9Zu1JqbatEUO3QAdBreIYFGk8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.us; spf=pass smtp.mailfrom=gmx.us; dkim=pass (2048-bit key) header.d=gmx.us header.i=len.bao@gmx.us header.b=pfd32wS8; arc=none smtp.client-ip=212.227.17.20
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.us
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.us
+	s=arc-20240116; t=1753643845; c=relaxed/simple;
+	bh=DA8SKo3gjxFsO4naG53gpmTJP6cZpBTggbw3PhnVU4w=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ppyO/bZ3H6VROm8Iu2Tb019hpAkT4VIZeuo3+x6vioLENJjRaB27jXD/BvOldTDDIPXzR8h5bjRlFH/VzYd6EON428S6sMfrUqyP9EbJ7C4U4r9NP0vrupZhpabRt2w8V8oMecrceJHwLLppllTOJXHF9GlGMOkhzFc2Ic/v21M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mXrY469Q; arc=none smtp.client-ip=192.198.163.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmx.us header.i=len.bao@gmx.us header.b="pfd32wS8"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.us;
-	s=s31663417; t=1753611078; x=1754215878; i=len.bao@gmx.us;
-	bh=B0lNLS7zepxoxJcxEo9OOZzCjav4Zs2gfiYailXBRpw=;
-	h=X-UI-Sender-Class:From:To:Cc:Subject:Date:Message-ID:
-	 MIME-Version:Content-Transfer-Encoding:cc:
-	 content-transfer-encoding:content-type:date:from:message-id:
-	 mime-version:reply-to:subject:to;
-	b=pfd32wS8RmTTN/plbsrb4W+Zvr2RDVEcvs7cEY5oNEUsyH83sdGdx/qoxXBRDflr
-	 +86waqWVbAKouZrmLzpp/lfB0jM/N8/L9IG/hcGlCkAa9OOEGhP//EwrSMW6Dj9Wn
-	 YZRC76RVead/Us5NAU1ka1exTD+MP4jG5k+IAdSHXht7uuBM4NN6w3TatxFZrqn8t
-	 533sOsPZNBAcXfdEwQD9OXuDVJjIxdh0E0zT6VkftWQD/+Z7JpGYwmIPGZnz+QZUV
-	 j9EJpones/mYMPOYl9HMDAE8jGDHdh0/Qeg7EL3LTDPmChxKYTI5CDSEtDoV6+98i
-	 o+Pr7i8sy8g/3VwnoA==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from ubuntu ([79.159.189.119]) by mail.gmx.net (mrgmx104
- [212.227.17.174]) with ESMTPSA (Nemesis) id 1MWRVb-1vD74Y3Dch-00TMiP; Sun, 27
- Jul 2025 12:11:17 +0200
-From: Len Bao <len.bao@gmx.us>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Len Bao <len.bao@gmx.us>,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] staging: octeon: Use 'u64' instead of 'uint64_t' in union cvmx_pip_wqe_word2
-Date: Sun, 27 Jul 2025 10:10:47 +0000
-Message-ID: <20250727101052.41181-1-len.bao@gmx.us>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mXrY469Q"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1753643844; x=1785179844;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=DA8SKo3gjxFsO4naG53gpmTJP6cZpBTggbw3PhnVU4w=;
+  b=mXrY469QJXQN1a3tkjD9HvBYme0W4muTu7x5Hl5kO5+DXZseyjIZOGjF
+   0lTw/1Rv6S9wgzZbvIYkOyCbVUsm3aBSF+SJ1c/yq181eVYjtyzSDxYqm
+   Fci5uUcMpXUyNCF4W5+Gfb+0si2hn6Mnq7EprKOkZuv68TpvL9QYotV8G
+   M+n3TOjUp7ntpuWKLZzPbF33j/i61wCfSEgnfkiMO9XGQnX7uO/u1h7jG
+   uxjAmh1LpURXbUwqJPaZfGFLPQJAXKhzlyIJqA5gLXAimxz7ZLA8Bw4aU
+   emQwHdvnMQ9znCooOn7GqF2lFr8LVOMZuGRhxxWYXUCxEjumkZK4zIsJU
+   Q==;
+X-CSE-ConnectionGUID: q07e17J5TSGwxBThjkHbfQ==
+X-CSE-MsgGUID: kqUR7GxvRESuPCTYMaRg7A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11504"; a="66601288"
+X-IronPort-AV: E=Sophos;i="6.16,339,1744095600"; 
+   d="scan'208";a="66601288"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jul 2025 12:17:23 -0700
+X-CSE-ConnectionGUID: XAqqRAWFSFaddf8FjFc9yQ==
+X-CSE-MsgGUID: fpTgazu9Qj+8pamhVTDu2w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,339,1744095600"; 
+   d="scan'208";a="162109573"
+Received: from mjarzebo-mobl1.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.245.124])
+  by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jul 2025 12:17:20 -0700
+Received: from kekkonen.localdomain (localhost [127.0.0.1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id 83F1911FAF5;
+	Sun, 27 Jul 2025 22:17:17 +0300 (EEST)
+Date: Sun, 27 Jul 2025 19:17:17 +0000
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Cosmin Tanislav <demonsingur@gmail.com>
+Cc: Cosmin Tanislav <cosmin.tanislav@analog.com>,
+	Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Niklas =?iso-8859-1?Q?S=F6derlund?= <niklas.soderlund@ragnatech.se>,
+	Julien Massot <julien.massot@collabora.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-staging@lists.linux.dev, linux-gpio@vger.kernel.org
+Subject: Re: [PATCH v7 01/24] media: mc: Add INTERNAL pad flag
+Message-ID: <aIZ7PVTXVDGZN-60@kekkonen.localdomain>
+References: <20250718152500.2656391-1-demonsingur@gmail.com>
+ <20250718152500.2656391-2-demonsingur@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:O7Vk1PgHqgQu/irvoYno1BgA0o7Tp1YKt/OBmxE8ezxey5iJno2
- jQhKlxxbxJ82IjAiqoRFSxdlaeCT77/8CVvGGZ/VEnYz+3wcPrRu7b6Dya1WzjQN/0PvlSt
- zYYqGJ5eHtrbotfKrTqPhruFXchjQ0mk2Lta6+b3u5+6MTSCB1N4Xri2rACpNnnOUGpFJWh
- PwWq1Wpr2e19fWEW5gTtg==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:RQVmAK8kSv0=;jELbfd89062WtnvV8kyCYrqCL/4
- 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
- lkovnlkNZ8Q==
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250718152500.2656391-2-demonsingur@gmail.com>
 
-In the kernel type 'u64' is preferred over type 'uint64_t'. So, refactor
-the 'union cvmx_pip_wqe_word2' to use the former. At the same time, take
-advantage of this to align the bits quantity to improve readability.
-Also, separate the structs with blank lines to gain readability.
+Hi Cosmin,
 
-Signed-off-by: Len Bao <len.bao@gmx.us>
-=2D--
- drivers/staging/octeon/octeon-stubs.h | 134 +++++++++++++-------------
- 1 file changed, 68 insertions(+), 66 deletions(-)
+On Fri, Jul 18, 2025 at 06:24:37PM +0300, Cosmin Tanislav wrote:
+> From: Sakari Ailus <sakari.ailus@linux.intel.com>
+> 
+> Internal source pads will be used as routing endpoints in V4L2
+> [GS]_ROUTING IOCTLs, to indicate that the stream begins in the entity.
+> Internal source pads are pads that have both SINK and INTERNAL flags set.
+> 
+> Also prevent creating links to pads that have been flagged as internal and
+> initialising SOURCE pads with INTERNAL flag set.
+> 
+> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 
-diff --git a/drivers/staging/octeon/octeon-stubs.h b/drivers/staging/octeo=
-n/octeon-stubs.h
-index 44cced319..35b5078ba 100644
-=2D-- a/drivers/staging/octeon/octeon-stubs.h
-+++ b/drivers/staging/octeon/octeon-stubs.h
-@@ -43,81 +43,83 @@
- #define CVMX_POW_WQ_INT_PC		0
-=20
- union cvmx_pip_wqe_word2 {
--	uint64_t u64;
-+	u64 u64;
-+
- 	struct {
--		uint64_t bufs:8;
--		uint64_t ip_offset:8;
--		uint64_t vlan_valid:1;
--		uint64_t vlan_stacked:1;
--		uint64_t unassigned:1;
--		uint64_t vlan_cfi:1;
--		uint64_t vlan_id:12;
--		uint64_t pr:4;
--		uint64_t unassigned2:8;
--		uint64_t dec_ipcomp:1;
--		uint64_t tcp_or_udp:1;
--		uint64_t dec_ipsec:1;
--		uint64_t is_v6:1;
--		uint64_t software:1;
--		uint64_t L4_error:1;
--		uint64_t is_frag:1;
--		uint64_t IP_exc:1;
--		uint64_t is_bcast:1;
--		uint64_t is_mcast:1;
--		uint64_t not_IP:1;
--		uint64_t rcv_error:1;
--		uint64_t err_code:8;
-+		u64 bufs         : 8;
-+		u64 ip_offset    : 8;
-+		u64 vlan_valid   : 1;
-+		u64 vlan_stacked : 1;
-+		u64 unassigned   : 1;
-+		u64 vlan_cfi     : 1;
-+		u64 vlan_id      : 12;
-+		u64 pr           : 4;
-+		u64 unassigned2  : 8;
-+		u64 dec_ipcomp   : 1;
-+		u64 tcp_or_udp   : 1;
-+		u64 dec_ipsec    : 1;
-+		u64 is_v6        : 1;
-+		u64 software     : 1;
-+		u64 L4_error     : 1;
-+		u64 is_frag      : 1;
-+		u64 IP_exc       : 1;
-+		u64 is_bcast     : 1;
-+		u64 is_mcast     : 1;
-+		u64 not_IP       : 1;
-+		u64 rcv_error    : 1;
-+		u64 err_code     : 8;
- 	} s;
-+
- 	struct {
--		uint64_t bufs:8;
--		uint64_t ip_offset:8;
--		uint64_t vlan_valid:1;
--		uint64_t vlan_stacked:1;
--		uint64_t unassigned:1;
--		uint64_t vlan_cfi:1;
--		uint64_t vlan_id:12;
--		uint64_t port:12;
--		uint64_t dec_ipcomp:1;
--		uint64_t tcp_or_udp:1;
--		uint64_t dec_ipsec:1;
--		uint64_t is_v6:1;
--		uint64_t software:1;
--		uint64_t L4_error:1;
--		uint64_t is_frag:1;
--		uint64_t IP_exc:1;
--		uint64_t is_bcast:1;
--		uint64_t is_mcast:1;
--		uint64_t not_IP:1;
--		uint64_t rcv_error:1;
--		uint64_t err_code:8;
-+		u64 bufs         : 8;
-+		u64 ip_offset    : 8;
-+		u64 vlan_valid   : 1;
-+		u64 vlan_stacked : 1;
-+		u64 unassigned   : 1;
-+		u64 vlan_cfi     : 1;
-+		u64 vlan_id      : 12;
-+		u64 port         : 12;
-+		u64 dec_ipcomp   : 1;
-+		u64 tcp_or_udp   : 1;
-+		u64 dec_ipsec    : 1;
-+		u64 is_v6        : 1;
-+		u64 software     : 1;
-+		u64 L4_error     : 1;
-+		u64 is_frag      : 1;
-+		u64 IP_exc       : 1;
-+		u64 is_bcast     : 1;
-+		u64 is_mcast     : 1;
-+		u64 not_IP       : 1;
-+		u64 rcv_error    : 1;
-+		u64 err_code     : 8;
- 	} s_cn68xx;
-=20
- 	struct {
--		uint64_t unused1:16;
--		uint64_t vlan:16;
--		uint64_t unused2:32;
-+		u64 unused1 : 16;
-+		u64 vlan    : 16;
-+		u64 unused2 : 32;
- 	} svlan;
-+
- 	struct {
--		uint64_t bufs:8;
--		uint64_t unused:8;
--		uint64_t vlan_valid:1;
--		uint64_t vlan_stacked:1;
--		uint64_t unassigned:1;
--		uint64_t vlan_cfi:1;
--		uint64_t vlan_id:12;
--		uint64_t pr:4;
--		uint64_t unassigned2:12;
--		uint64_t software:1;
--		uint64_t unassigned3:1;
--		uint64_t is_rarp:1;
--		uint64_t is_arp:1;
--		uint64_t is_bcast:1;
--		uint64_t is_mcast:1;
--		uint64_t not_IP:1;
--		uint64_t rcv_error:1;
--		uint64_t err_code:8;
-+		u64 bufs         : 8;
-+		u64 unused       : 8;
-+		u64 vlan_valid   : 1;
-+		u64 vlan_stacked : 1;
-+		u64 unassigned   : 1;
-+		u64 vlan_cfi     : 1;
-+		u64 vlan_id      : 12;
-+		u64 pr           : 4;
-+		u64 unassigned2  : 12;
-+		u64 software     : 1;
-+		u64 unassigned3  : 1;
-+		u64 is_rarp      : 1;
-+		u64 is_arp       : 1;
-+		u64 is_bcast     : 1;
-+		u64 is_mcast     : 1;
-+		u64 not_IP       : 1;
-+		u64 rcv_error    : 1;
-+		u64 err_code     : 8;
- 	} snoip;
--
- };
-=20
- union cvmx_pip_wqe_word0 {
-=2D-=20
-2.43.0
+Could you use this version
+<URL:https://git.linuxtv.org/sailus/media_tree.git/commit/?h=metadata&id=265fd80075b5f3d25525cf026f33f8fa8572b3d3>
+of the patch instead?
 
+I can't yet say whether my metadata series should land before this set
+though. I'll try to send an update on that in a few weeks' time.
+
+-- 
+Kind regards,
+
+Sakari Ailus
