@@ -1,177 +1,274 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mout.gmx.net (mout.gmx.net [212.227.17.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D258B1401B;
-	Sat, 26 Jul 2025 12:24:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F302204F99
+	for <linux-staging@lists.linux.dev>; Sun, 27 Jul 2025 10:11:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753532697; cv=none; b=cEJ9tXj+y3X14JapPQsh+6YIulCoeUyomThMiQzAZJdKkNgYIxDyvUH0uQp9qbWQ0H8qA2fn00K3vBFzBR4Zy97OIfHZHX6vdAg5ngg36AX/0XZlU2tH20BIHwIBWkpRUPNJxkq7H+PI5R6hJ7Ay41BfhwFvrmHCCEAc7/A01UQ=
+	t=1753611088; cv=none; b=usBE+XCMmwYGa4TCEYf2So3IPAmAJ8R4NSau5uk6DUe84UiQs6kahiGDUNkB/2MSIM3pADckbPH669MzlWTrQsahcCM6MQjiWv7otb6xehGEDGpt/miCJBt6UAjDdgfeXJVq2R1FlIIlNzPdDF8RW5+DZxvgI8asPzg0E+84yIU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753532697; c=relaxed/simple;
-	bh=Q9pEJcfekPUcRknoRen3DDDH4rZm+F68Z4P+bPSeIfQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=FWeRa5GbHPeE1QXtQsErueyiqoCCSyc/urCavm+c3OdtxGffdqWlV8C0rdEH7cREvvNAXrWqnhJZYGqSRb+DsqnfdyVZzbtKjBe3v2Zh4s60TDlyn2i02o1hGoC6DC3He/N8wf2vhOfWUtq6t0H1AOhvxLoJFDLgXUvpRpJkMAE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=I4dXwOHn; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1753611088; c=relaxed/simple;
+	bh=vDoZh9aovUBA3yV07jWNh7cQHnw5T5pbReZnHv7y1BU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=uZGczXhRwU/KYPxFw3VetNtLO0XIDLZ2WZoWMVDDBW1uFl+MAr81yE5L+T0Vx4Yoj5lBpIs01VoJ8AxeU1FiP1EHfdLUpJwL8SBJNcLtmpGSIvN+1Cldfv21Dfn4YbKBqG5JQ9WOMrH8iYd71b9Zu1JqbatEUO3QAdBreIYFGk8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.us; spf=pass smtp.mailfrom=gmx.us; dkim=pass (2048-bit key) header.d=gmx.us header.i=len.bao@gmx.us header.b=pfd32wS8; arc=none smtp.client-ip=212.227.17.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.us
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.us
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="I4dXwOHn"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AF1E5C4CEED;
-	Sat, 26 Jul 2025 12:24:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1753532696;
-	bh=Q9pEJcfekPUcRknoRen3DDDH4rZm+F68Z4P+bPSeIfQ=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=I4dXwOHnRQWjHsJ+SYTfUaiY82KVajXotoujJmsV/uFacibOC2t0bUwA+D7kG2y9Y
-	 zhTyAy1ojM9unojFjq6Res0zwM+N1/1ZZEQiKC+ECVy7z5NDLirytIRWBPHT9mxiAm
-	 K8NgPO/zr7mHoLv94p+zhbHEFk+LUEeSb/fM9JLd+GBXKaXw+kUnSAKZoayURITwWb
-	 RyBnhXxVcPgO9SBNnzfngQ0HC3Q+crrQkGMewjujJeHr/pm4D73QJJ9maNLsOl6CJW
-	 SUVVCX5TA1sKzCnLXkgUCnP7ttazW7vYoz3e+KKhXLS6bBqV/OsWFChaWJ5wuxiPJU
-	 mkcnaniU7eV1g==
-Message-ID: <0b284755-1ae7-4f5f-8338-836dfcb1db59@kernel.org>
-Date: Sat, 26 Jul 2025 14:24:51 +0200
+	dkim=pass (2048-bit key) header.d=gmx.us header.i=len.bao@gmx.us header.b="pfd32wS8"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.us;
+	s=s31663417; t=1753611078; x=1754215878; i=len.bao@gmx.us;
+	bh=B0lNLS7zepxoxJcxEo9OOZzCjav4Zs2gfiYailXBRpw=;
+	h=X-UI-Sender-Class:From:To:Cc:Subject:Date:Message-ID:
+	 MIME-Version:Content-Transfer-Encoding:cc:
+	 content-transfer-encoding:content-type:date:from:message-id:
+	 mime-version:reply-to:subject:to;
+	b=pfd32wS8RmTTN/plbsrb4W+Zvr2RDVEcvs7cEY5oNEUsyH83sdGdx/qoxXBRDflr
+	 +86waqWVbAKouZrmLzpp/lfB0jM/N8/L9IG/hcGlCkAa9OOEGhP//EwrSMW6Dj9Wn
+	 YZRC76RVead/Us5NAU1ka1exTD+MP4jG5k+IAdSHXht7uuBM4NN6w3TatxFZrqn8t
+	 533sOsPZNBAcXfdEwQD9OXuDVJjIxdh0E0zT6VkftWQD/+Z7JpGYwmIPGZnz+QZUV
+	 j9EJpones/mYMPOYl9HMDAE8jGDHdh0/Qeg7EL3LTDPmChxKYTI5CDSEtDoV6+98i
+	 o+Pr7i8sy8g/3VwnoA==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from ubuntu ([79.159.189.119]) by mail.gmx.net (mrgmx104
+ [212.227.17.174]) with ESMTPSA (Nemesis) id 1MWRVb-1vD74Y3Dch-00TMiP; Sun, 27
+ Jul 2025 12:11:17 +0200
+From: Len Bao <len.bao@gmx.us>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Len Bao <len.bao@gmx.us>,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] staging: octeon: Use 'u64' instead of 'uint64_t' in union cvmx_pip_wqe_word2
+Date: Sun, 27 Jul 2025 10:10:47 +0000
+Message-ID: <20250727101052.41181-1-len.bao@gmx.us>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] staging: media: atomisp: Fix stack buffer overflow in
- gmin_get_var_int()
-To: Kees Cook <kees@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: zepta <z3ptaa@gmail.com>, Ard Biesheuvel <ardb@kernel.org>,
- Andy Shevchenko <andy@kernel.org>, Mauro Carvalho Chehab
- <mchehab@kernel.org>, Sakari Ailus <sakari.ailus@linux.intel.com>,
- linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
- Bartosz Golaszewski <brgl@bgdev.pl>,
- Abraham Samuel Adekunle <abrahamadekunle50@gmail.com>,
- Thomas Andreatta <thomasandreatta2000@gmail.com>,
- linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org
-References: <20250724080756.work.741-kees@kernel.org>
-Content-Language: en-US, nl
-From: Hans de Goede <hansg@kernel.org>
-In-Reply-To: <20250724080756.work.741-kees@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:O7Vk1PgHqgQu/irvoYno1BgA0o7Tp1YKt/OBmxE8ezxey5iJno2
+ jQhKlxxbxJ82IjAiqoRFSxdlaeCT77/8CVvGGZ/VEnYz+3wcPrRu7b6Dya1WzjQN/0PvlSt
+ zYYqGJ5eHtrbotfKrTqPhruFXchjQ0mk2Lta6+b3u5+6MTSCB1N4Xri2rACpNnnOUGpFJWh
+ PwWq1Wpr2e19fWEW5gTtg==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:RQVmAK8kSv0=;jELbfd89062WtnvV8kyCYrqCL/4
+ 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
+ lkovnlkNZ8Q==
 
-Hi Kees,
+In the kernel type 'u64' is preferred over type 'uint64_t'. So, refactor
+the 'union cvmx_pip_wqe_word2' to use the former. At the same time, take
+advantage of this to align the bits quantity to improve readability.
+Also, separate the structs with blank lines to gain readability.
 
-On 24-Jul-25 10:08 AM, Kees Cook wrote:
-> When gmin_get_config_var() calls efi.get_variable() and the EFI variable
-> is larger than the expected buffer size, two behaviors combine to create
-> a stack buffer overflow:
-> 
-> 1. gmin_get_config_var() does not return the proper error code when
->    efi.get_variable() fails. It returns the stale 'ret' value from
->    earlier operations instead of indicating the EFI failure.
-> 
-> 2. When efi.get_variable() returns EFI_BUFFER_TOO_SMALL, it updates
->    *out_len to the required buffer size but writes no data to the output
->    buffer. However, due to bug #1, gmin_get_var_int() believes the call
->    succeeded.
-> 
-> The caller gmin_get_var_int() then performs:
-> - Allocates val[CFG_VAR_NAME_MAX + 1] (65 bytes) on stack
-> - Calls gmin_get_config_var(dev, is_gmin, var, val, &len) with len=64
-> - If EFI variable is >64 bytes, efi.get_variable() sets len=required_size
-> - Due to bug #1, thinks call succeeded with len=required_size
-> - Executes val[len] = 0, writing past end of 65-byte stack buffer
-> 
-> This creates a stack buffer overflow when EFI variables are larger than
-> 64 bytes. Since EFI variables can be controlled by firmware or system
-> configuration, this could potentially be exploited for code execution.
-> 
-> Fix the bug by returning proper error codes from gmin_get_config_var()
-> based on EFI status instead of stale 'ret' value.
-> 
-> The gmin_get_var_int() function is called during device initialization
-> for camera sensor configuration on Intel Bay Trail and Cherry Trail
-> platforms using the atomisp camera stack.
-> 
-> Reported-by: zepta <z3ptaa@gmail.com>
-> Closes: https://lore.kernel.org/all/CAPBS6KoQyM7FMdPwOuXteXsOe44X4H3F8Fw+y_qWq6E+OdmxQA@mail.gmail.com
-> Fixes: 38d4f74bc148 ("media: atomisp_gmin_platform: stop abusing efivar API")
-> Signed-off-by: Kees Cook <kees@kernel.org>
+Signed-off-by: Len Bao <len.bao@gmx.us>
+=2D--
+ drivers/staging/octeon/octeon-stubs.h | 134 +++++++++++++-------------
+ 1 file changed, 68 insertions(+), 66 deletions(-)
 
-Thanks, patch looks good to me:
-
-Reviewed-by: Hans de Goede <hansg@kernel.org>
-
-I've already send an atomisp pull-request for 6.17 out
-and this is already in media-committers/next now and
-the media subsystem is typically not good in merging
-fixes just before the merge window.
-
-Kees, the file touched here is unchanged in
-media-committers/next vs Linus' latest master, can you
-send this fix to Linus yourself ?
-
-Regards,
-
-Hans
-
-
-
-
-
-
-
-
-> ---
-> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> Cc: Ard Biesheuvel <ardb@kernel.org>
-> Cc: Andy Shevchenko <andy@kernel.org>
-> Cc: Hans de Goede <hansg@kernel.org>
-> Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
-> Cc: Sakari Ailus <sakari.ailus@linux.intel.com>
-> Cc: <linux-media@vger.kernel.org>
-> Cc: <linux-staging@lists.linux.dev>
-> 
-> Note that as an exercise this fix and the commit log body (I wrote the
-> tags) was entirely written by an LLM (and reviewed by me), though I really
-> had to help it focus on where to be looking. Here were my prompts:
-> 
-> Is there a buffer overflow problem associated with gmin_get_config_var()'s
-> use of efi.get_variable()?
-> 
-> What does efi.get_variable() do to out_len if it fails?
-> 
-> Does the function return an error when efi.get_variable fails?
-> 
-> What would the caller do when it sees a success but when efi.get_variable
-> changed out_len?
-> 
-> Propose fixes and write a commit message with all of the details you
-> just gave me about reachability, impact, etc.
-> 
-> Since the EFI_SUCCESS test ends with "return 0" you don't need an explicit
-> "else" block for the error path code.
-> ---
->  .../staging/media/atomisp/pci/atomisp_gmin_platform.c    | 9 +++++----
->  1 file changed, 5 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c b/drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c
-> index 5f59519ac8e2..964cc3bcc0ac 100644
-> --- a/drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c
-> +++ b/drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c
-> @@ -1272,14 +1272,15 @@ static int gmin_get_config_var(struct device *maindev,
->  	if (efi_rt_services_supported(EFI_RT_SUPPORTED_GET_VARIABLE))
->  		status = efi.get_variable(var16, &GMIN_CFG_VAR_EFI_GUID, NULL,
->  					  (unsigned long *)out_len, out);
-> -	if (status == EFI_SUCCESS)
-> +	if (status == EFI_SUCCESS) {
->  		dev_info(maindev, "found EFI entry for '%s'\n", var8);
-> -	else if (is_gmin)
-> +		return 0;
-> +	}
-> +	if (is_gmin)
->  		dev_info(maindev, "Failed to find EFI gmin variable %s\n", var8);
->  	else
->  		dev_info(maindev, "Failed to find EFI variable %s\n", var8);
-> -
-> -	return ret;
-> +	return -ENOENT;
->  }
->  
->  int gmin_get_var_int(struct device *dev, bool is_gmin, const char *var, int def)
+diff --git a/drivers/staging/octeon/octeon-stubs.h b/drivers/staging/octeo=
+n/octeon-stubs.h
+index 44cced319..35b5078ba 100644
+=2D-- a/drivers/staging/octeon/octeon-stubs.h
++++ b/drivers/staging/octeon/octeon-stubs.h
+@@ -43,81 +43,83 @@
+ #define CVMX_POW_WQ_INT_PC		0
+=20
+ union cvmx_pip_wqe_word2 {
+-	uint64_t u64;
++	u64 u64;
++
+ 	struct {
+-		uint64_t bufs:8;
+-		uint64_t ip_offset:8;
+-		uint64_t vlan_valid:1;
+-		uint64_t vlan_stacked:1;
+-		uint64_t unassigned:1;
+-		uint64_t vlan_cfi:1;
+-		uint64_t vlan_id:12;
+-		uint64_t pr:4;
+-		uint64_t unassigned2:8;
+-		uint64_t dec_ipcomp:1;
+-		uint64_t tcp_or_udp:1;
+-		uint64_t dec_ipsec:1;
+-		uint64_t is_v6:1;
+-		uint64_t software:1;
+-		uint64_t L4_error:1;
+-		uint64_t is_frag:1;
+-		uint64_t IP_exc:1;
+-		uint64_t is_bcast:1;
+-		uint64_t is_mcast:1;
+-		uint64_t not_IP:1;
+-		uint64_t rcv_error:1;
+-		uint64_t err_code:8;
++		u64 bufs         : 8;
++		u64 ip_offset    : 8;
++		u64 vlan_valid   : 1;
++		u64 vlan_stacked : 1;
++		u64 unassigned   : 1;
++		u64 vlan_cfi     : 1;
++		u64 vlan_id      : 12;
++		u64 pr           : 4;
++		u64 unassigned2  : 8;
++		u64 dec_ipcomp   : 1;
++		u64 tcp_or_udp   : 1;
++		u64 dec_ipsec    : 1;
++		u64 is_v6        : 1;
++		u64 software     : 1;
++		u64 L4_error     : 1;
++		u64 is_frag      : 1;
++		u64 IP_exc       : 1;
++		u64 is_bcast     : 1;
++		u64 is_mcast     : 1;
++		u64 not_IP       : 1;
++		u64 rcv_error    : 1;
++		u64 err_code     : 8;
+ 	} s;
++
+ 	struct {
+-		uint64_t bufs:8;
+-		uint64_t ip_offset:8;
+-		uint64_t vlan_valid:1;
+-		uint64_t vlan_stacked:1;
+-		uint64_t unassigned:1;
+-		uint64_t vlan_cfi:1;
+-		uint64_t vlan_id:12;
+-		uint64_t port:12;
+-		uint64_t dec_ipcomp:1;
+-		uint64_t tcp_or_udp:1;
+-		uint64_t dec_ipsec:1;
+-		uint64_t is_v6:1;
+-		uint64_t software:1;
+-		uint64_t L4_error:1;
+-		uint64_t is_frag:1;
+-		uint64_t IP_exc:1;
+-		uint64_t is_bcast:1;
+-		uint64_t is_mcast:1;
+-		uint64_t not_IP:1;
+-		uint64_t rcv_error:1;
+-		uint64_t err_code:8;
++		u64 bufs         : 8;
++		u64 ip_offset    : 8;
++		u64 vlan_valid   : 1;
++		u64 vlan_stacked : 1;
++		u64 unassigned   : 1;
++		u64 vlan_cfi     : 1;
++		u64 vlan_id      : 12;
++		u64 port         : 12;
++		u64 dec_ipcomp   : 1;
++		u64 tcp_or_udp   : 1;
++		u64 dec_ipsec    : 1;
++		u64 is_v6        : 1;
++		u64 software     : 1;
++		u64 L4_error     : 1;
++		u64 is_frag      : 1;
++		u64 IP_exc       : 1;
++		u64 is_bcast     : 1;
++		u64 is_mcast     : 1;
++		u64 not_IP       : 1;
++		u64 rcv_error    : 1;
++		u64 err_code     : 8;
+ 	} s_cn68xx;
+=20
+ 	struct {
+-		uint64_t unused1:16;
+-		uint64_t vlan:16;
+-		uint64_t unused2:32;
++		u64 unused1 : 16;
++		u64 vlan    : 16;
++		u64 unused2 : 32;
+ 	} svlan;
++
+ 	struct {
+-		uint64_t bufs:8;
+-		uint64_t unused:8;
+-		uint64_t vlan_valid:1;
+-		uint64_t vlan_stacked:1;
+-		uint64_t unassigned:1;
+-		uint64_t vlan_cfi:1;
+-		uint64_t vlan_id:12;
+-		uint64_t pr:4;
+-		uint64_t unassigned2:12;
+-		uint64_t software:1;
+-		uint64_t unassigned3:1;
+-		uint64_t is_rarp:1;
+-		uint64_t is_arp:1;
+-		uint64_t is_bcast:1;
+-		uint64_t is_mcast:1;
+-		uint64_t not_IP:1;
+-		uint64_t rcv_error:1;
+-		uint64_t err_code:8;
++		u64 bufs         : 8;
++		u64 unused       : 8;
++		u64 vlan_valid   : 1;
++		u64 vlan_stacked : 1;
++		u64 unassigned   : 1;
++		u64 vlan_cfi     : 1;
++		u64 vlan_id      : 12;
++		u64 pr           : 4;
++		u64 unassigned2  : 12;
++		u64 software     : 1;
++		u64 unassigned3  : 1;
++		u64 is_rarp      : 1;
++		u64 is_arp       : 1;
++		u64 is_bcast     : 1;
++		u64 is_mcast     : 1;
++		u64 not_IP       : 1;
++		u64 rcv_error    : 1;
++		u64 err_code     : 8;
+ 	} snoip;
+-
+ };
+=20
+ union cvmx_pip_wqe_word0 {
+=2D-=20
+2.43.0
 
