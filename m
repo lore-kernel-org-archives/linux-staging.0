@@ -1,74 +1,77 @@
-Received: from mail-qv1-f54.google.com (mail-qv1-f54.google.com [209.85.219.54])
+Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 691882236EB
-	for <linux-staging@lists.linux.dev>; Mon, 28 Jul 2025 06:43:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1019B221FD8
+	for <linux-staging@lists.linux.dev>; Mon, 28 Jul 2025 07:27:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753685025; cv=none; b=EI6tflTDheeI/m0Pa0nLeLYc2Dv5AbEY6haeajZLdHXl/v56V6mMwOOK2bdKKdRrocOcTpo2CEJcYTblF9NpoHZ0IdldBdeFNej7Rr1zR1DV5SuMN1rRLYiY/ZeRCg5fDoy7WZH5r6YsiCYhUpYEY/Fo3L8BYtJ/G+ExjcPmOH4=
+	t=1753687676; cv=none; b=o2MQ0UNJefL1/B6B6g7W0yQ54/zZg2eldv6R+5R2+An8Zsw7ZReMyZS11xim+e8d9MlCNXG6stUSbUv7k46RhfuQufXJWgRYYdKmPvecXN/C2WUCOJ35t18o2w8gNSzNtWjmRyGGQle736l/fWZyroZCFtESxYcD5rL2ffV0zQU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753685025; c=relaxed/simple;
-	bh=ICkLCQRNWkIQwQfoaVtdgQfsexMdUfuuMixiPal4tgc=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=OBKGZyI7Tfw6iTCUeFEygeWnxxhhThL4ZlFyo6DafDZVCZQARmlATy8XR1x9haPGsnxD0h1jdG7sd8XKsXHdqwYgHRvrifNPAKUkzc4Agy2s1jLwCJ+TEbXMhKprk1gVHeqAZCYMYkjTOxIil/5+P7RxuRXvR5GRjQLFH7yKvPU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KD1GjYa0; arc=none smtp.client-ip=209.85.219.54
+	s=arc-20240116; t=1753687676; c=relaxed/simple;
+	bh=s8XctckT3Sdb4YvEEyVaRTMNQimbq2CU+c1oA1oZ7ho=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=A7CghrvgOsGcb2oqMIEsSyS8U5FeDkhPuf4wZ+tbSYpohEGcsmJ/b0LWsau/AZvYryVRT5SsVr7kpxK2H72rR7HNbomem6jrH2E/lM18yX4llx+/Y3dCgbmGbGZQLOtwmcea7ZoUgdturqpILASFR5Zo2fgLtH80zx9PXpVDrLc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QKkIO+NJ; arc=none smtp.client-ip=209.85.214.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KD1GjYa0"
-Received: by mail-qv1-f54.google.com with SMTP id 6a1803df08f44-6fa980d05a8so32232436d6.2
-        for <linux-staging@lists.linux.dev>; Sun, 27 Jul 2025 23:43:42 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QKkIO+NJ"
+Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-24049d16515so962035ad.1
+        for <linux-staging@lists.linux.dev>; Mon, 28 Jul 2025 00:27:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1753685021; x=1754289821; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=5snVPivmEg3Xnsr7kWQ2OSaRpjExflTHsvK9SmeV5Ic=;
-        b=KD1GjYa0TQY/pcPWECDv/F+/meYE+ixlYGcs26j8UbpWU53TA9/lI9IF7O8ovpeSGz
-         Fg3N6LhLAl3bWQYKIw5czCxvhewXF5JjM9nRlvzMlnAK+UQHQG7IZ9Y+3Fal16s63e8D
-         wTcvbrk1UkJjZU91HXy44huAFhwN9vB7k2ew1YlDckSj0wEQ1679lHq9kQkymKiDYsef
-         yxFsfQCmuRMaifny++4q6Lv9eVUHk2B6aF+TAi4Xz7ntXVrhAPI/cBZObnXM4t5AadsH
-         DU6fuXf7SXrnDuOoY4KBwZ1/AYhxZAiYuPVH0LgSCJ6RDdKEo1BVjBAud6RnmjIXSenj
-         FQVg==
+        d=gmail.com; s=20230601; t=1753687674; x=1754292474; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=CIkA7rxj2aeFkUnZL3Z4nhuVfvXyGjEGJhkZwRCP+pk=;
+        b=QKkIO+NJD3CmRtV1MWCRuYoIrHGxLPHOlGpWHqkZXJz2L6rleMDj8IlhRPIZL8MG8d
+         2YnYSEt3fkiMGeLpKahu4b2KKIPdylzemnYmZy2CdMTl6ea+pxw9O9FKRjKMP3LNxncI
+         HHIaXUOSPBvRwZPm5XyGonm3AiO6/xVIKGH+TA4cO5jPY+RtLY/6EH7Uk7F3gGtUOHTM
+         4QoUOqWaJGh0Aw9x9rQeLpXiALEEfZM5m2gCd23fPDVy+iG/d0zo+UIHu1q54IJEfSP9
+         WMCu86GZ9K6b5soR3wnJPtx7HFAyYcUpYc19aAewgGDjhz8HHE4vVa09q0H+MCW19HOB
+         inEQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1753685021; x=1754289821;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=5snVPivmEg3Xnsr7kWQ2OSaRpjExflTHsvK9SmeV5Ic=;
-        b=NQRmBaF0tDVAATA1TTPtsMqLfUKEiujWU31PZK68GfenasulMc0XzrBfUX0cdLWxbA
-         Vl9yr0Z5tDu1JN8zjRMWp6SevYEjmtdh2wvtR0ZqPzSMFJSdzZMeAQRxybWmZTBSEkYG
-         BiW/S2EZjzjAcfqyWpqnNmcb+XrLyy1GRVPOuyMzC9J3hb9VpY/oDjVAvCq096CRIbIH
-         lKW4mxxmAK0QvWz1TT0K+i676L8ifFLJYosbj9h/K6qFSl3J1QadBPiDnrssSdOnJGeh
-         wwMFTNUwNKLU7YeUwqRAugvTy92bYjeLnpvFwOTeGqNEX3nejnEcIDb4toXD+FmoeJ8F
-         058Q==
-X-Forwarded-Encrypted: i=1; AJvYcCXeQrDAafUgOrHlo9+pfqv9jHSJFRoo8W/GLR36wxFbTI0sA0AeEqQLwqMlcb14flQVabTs2bMnA+lAekrB@lists.linux.dev
-X-Gm-Message-State: AOJu0YyMYpCmQhoDWObfjQiS0oa39kZt8/tVPGHYiypMA00CwSrHvbhI
-	9Jxt6GHcxEWcPV7jLWqYLbwTxStTVcMMgbJ3CKOralJLf3LwUqPZ2cVU
-X-Gm-Gg: ASbGnct1OyD39zdsH7nnDnA4HgMvf7eODM73aZ0sekgbjsivi/Ui3XO2yKRm87NorPn
-	4eMs793Bqg01mqNWvb0X2QheS2hnscuTiICoFp3liG5UtlT1McHAvBsrQ95eaT8icP/RrOywLIO
-	DU79EWRUpm/skAV8bR7o+DuChieVma2qBEtk3ecpC2+Q/dprJNFQx3D21ta6koqOPojJjTGEcvM
-	xDOMw0I2em8iqv96jqqv//DzZ48tXPbRysSDb6amcDRhB6KN9yel31ieqY/TGJ3bEE+OZBKKe+7
-	r7Ep0lutuUjhwQ1dFnuBt1BM8Xt/KINsgjgucZbKoXU4Ncu0G1upBlljXhGrgddbh6G3Ed3xcQD
-	vQRpyQRxeIBSkkPeTSpmz/dwKrkuKAegzT7xxzBW4jqwCxGrtAno=
-X-Google-Smtp-Source: AGHT+IEXelpE8W1diOtr0Axo883c8NWykGxfuDdek6Bd2yUucxkYmKbL0ViQNXdCwhj+pY4ZUFOwUg==
-X-Received: by 2002:a05:6214:b6a:b0:707:4c0c:5316 with SMTP id 6a1803df08f44-7074c0c542amr21984906d6.46.1753685021058;
-        Sun, 27 Jul 2025 23:43:41 -0700 (PDT)
-Received: from linux-kernel-dev-start.. ([159.203.26.228])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-70729c15a4bsm28349946d6.60.2025.07.27.23.43.40
+        d=1e100.net; s=20230601; t=1753687674; x=1754292474;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=CIkA7rxj2aeFkUnZL3Z4nhuVfvXyGjEGJhkZwRCP+pk=;
+        b=jOglk5EsOUWmzVipHtG31aNl4ClGWW7gpKxmp/3S8NqZwowLsKybhvBpKCsFbEPGDZ
+         0ij0sPePNkBhkM42JamCbhGEay2/ByKfrIADyvur4RXVkQXZhsUNHGPyfC2ZKL7goxOB
+         eDbZh6Vh561Ma38VzpWS7SqUA7dNyo3jDi+bZ0PGg1G6wc7TU4ri1a4SajYuPRtM5kY6
+         nUSrRFhm1byh4a8/x8gdOxUDTATNkTWBT1dBZR/MrKfJH7mWGyZftdsL/2SRqsgdPwkM
+         Ozp00YSTlPV0y8hUKcgXsr+T4KL73Lg+axB2t6jO6gcqQ5Rr5hgaWQFFtjkIwN9j75Dd
+         PJow==
+X-Forwarded-Encrypted: i=1; AJvYcCVK0Ba8bU/WiYib6RghfWyWc4SY+ZN+7evPstcXg4ZEUImcrmXig8qBJXha4MxDeOAqwQPlzdn2ardsHNK8@lists.linux.dev
+X-Gm-Message-State: AOJu0Yw3P0sX0V6769kesIxsfaiRh4IT+cKS7nu9BczeoZ/VxJZRGh+n
+	coFTiiRuD417jFnSU2o4CSjKyPZCa9L5aKF+Tglsaz06DQwNNeAxVhQW
+X-Gm-Gg: ASbGncsmqh/TY6dlO86qOgImQTlDdRZDFl00nP5o8P5ghgJU+bIx5jK95qq4cEZDVXR
+	qi1cB4z8X2dZbwfTKkRzK7+wtI5kG6jQszL4FWtuLv9e+LK1jn42p8owrYbtMfHFieW8z2DR1hW
+	m9UnHefTbi5vtPGbMRKhVTf2u/i/tWRrokq+n3UzPj+SYQhRrkRmlMXrLiuNZDMw1Kx7UObYFoi
+	nsuREqM/vNj0WkGOBax0Xqp5Z9+SWEFhOsbRED5yCz1nkbD7S48QqLmn4FwWAVR5Xd9qiqIzzLA
+	JnKiXoSSGfb7ZSmjGTH+ayuecKZH4krwiWYcg0kGMKUiNyXJdF3ojRFnKaBZjPkxHTveWW/dCRP
+	NTTiSIl5ycMGV5GMo0vVHjh55eQ9WPfpxsaB0IDxXmxm6Gv+ffnHcG+Y0K4Xbk3BYKI3tfJzcic
+	IbuQ==
+X-Google-Smtp-Source: AGHT+IGxXFmKSvT4xZhknxQ8XN0geHH0nu1k5wB6QGBZYZRXvZJGddPc1NKhIESQxbDZ2gZaSJERlA==
+X-Received: by 2002:a17:903:fa3:b0:235:f298:cbbd with SMTP id d9443c01a7336-23fb30ac008mr182227745ad.21.1753687674219;
+        Mon, 28 Jul 2025 00:27:54 -0700 (PDT)
+Received: from SIQOL-WIN-0002-DARSHAN.localdomain ([49.36.68.217])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2403f4dbd1bsm5783435ad.59.2025.07.28.00.27.50
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 27 Jul 2025 23:43:40 -0700 (PDT)
-From: Vivek BalachandharTN <vivek.balachandhar@gmail.com>
-To: vivek.balachandhar@gmail.com
-Cc: gregkh@linuxfoundation.org,
+        Mon, 28 Jul 2025 00:27:53 -0700 (PDT)
+From: "Darshan R." <rathod.darshan.0896@gmail.com>
+To: hansg@kernel.org,
+	mchehab@kernel.org,
+	gregkh@linuxfoundation.org
+Cc: sakari.ailus@linux.intel.com,
+	andy@kernel.org,
+	linux-media@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev
-Subject: [PATCH v2 14/20] staging: rtl8723bs: remove unnecessary parentheses in conditional
-Date: Mon, 28 Jul 2025 06:43:28 +0000
-Message-Id: <20250728064328.423024-1-vivek.balachandhar@gmail.com>
-X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20250728063510.422849-1-vivek.balachandhar@gmail.com>
-References: <20250728063510.422849-1-vivek.balachandhar@gmail.com>
+	linux-staging@lists.linux.dev,
+	jogidishank503@gmail.com,
+	"Darshan R." <rathod.darshan.0896@gmail.com>
+Subject: [PATCH] staging: media: atomisp: Fix indentation and styling in output kernel code
+Date: Mon, 28 Jul 2025 07:28:22 +0000
+Message-ID: <20250728072822.10730-1-rathod.darshan.0896@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -77,36 +80,80 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Removed superfluous parentheses around a function call inside an
-if-condition. These extra parentheses are not required and violate
-kernel coding style guidelines.
+Updated the formatting of function definitions and if statements to match
+kernel coding standards. This helps with readability and consistency across
+the codebase.
 
-Cleaning them up improves code readability without changing logic.
+These are non-functional changes aimed at preparing the driver for eventual
+mainline readiness by addressing common checkpatch warnings.
 
-Signed-off-by: Vivek BalachandharTN <vivek.balachandhar@gmail.com>
-
-v1:
-- Fixed incorrect wording: the change was not around assignment
-- Addressed feedback from Markus Elfring.
-v2:
-- Mentioned the wrong version number in the previous patch.
+Signed-off-by: Darshan R. <rathod.darshan.0896@gmail.com>
 ---
- drivers/staging/rtl8723bs/core/rtw_mlme.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ .../output/output_1.0/ia_css_output.host.c    | 22 ++++++++++---------
+ 1 file changed, 12 insertions(+), 10 deletions(-)
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme.c b/drivers/staging/rtl8723bs/core/rtw_mlme.c
-index 3702d7e7a954..d845eaecd615 100644
---- a/drivers/staging/rtl8723bs/core/rtw_mlme.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_mlme.c
-@@ -700,7 +700,7 @@ void rtw_surveydone_event_callback(struct adapter	*adapter, u8 *pbuf)
- 	rtw_set_signal_stat_timer(&adapter->recvpriv);
+diff --git a/drivers/staging/media/atomisp/pci/isp/kernels/output/output_1.0/ia_css_output.host.c b/drivers/staging/media/atomisp/pci/isp/kernels/output/output_1.0/ia_css_output.host.c
+index d09365e0c471..4f84c6d3622a 100644
+--- a/drivers/staging/media/atomisp/pci/isp/kernels/output/output_1.0/ia_css_output.host.c
++++ b/drivers/staging/media/atomisp/pci/isp/kernels/output/output_1.0/ia_css_output.host.c
+@@ -34,9 +34,9 @@ static const struct ia_css_output1_configuration default_output1_configuration
  
- 	if (pmlmepriv->to_join) {
--		if ((check_fwstate(pmlmepriv, WIFI_ADHOC_STATE) == true)) {
-+		if (check_fwstate(pmlmepriv, WIFI_ADHOC_STATE) == true) {
- 			if (check_fwstate(pmlmepriv, _FW_LINKED) == false) {
- 				set_fwstate(pmlmepriv, _FW_UNDER_LINKING);
+ void
+ ia_css_output_encode(
+-    struct sh_css_isp_output_params *to,
+-    const struct ia_css_output_config *from,
+-    unsigned int size)
++	struct sh_css_isp_output_params *to,
++	const struct ia_css_output_config *from,
++	unsigned int size)
+ {
+ 	(void)size;
+ 	to->enable_hflip = from->enable_hflip;
+@@ -74,7 +74,7 @@ int ia_css_output0_config(struct sh_css_isp_output_isp_config       *to,
+ }
  
+ int ia_css_output1_config(struct sh_css_isp_output_isp_config       *to,
+-		          const struct ia_css_output1_configuration *from,
++			  const struct ia_css_output1_configuration *from,
+ 			  unsigned int size)
+ {
+ 	return ia_css_output_config(to, (const struct ia_css_output_configuration *)from, size);
+@@ -95,7 +95,7 @@ int ia_css_output_configure(const struct ia_css_binary     *binary,
+ }
+ 
+ int ia_css_output0_configure(const struct ia_css_binary    *binary,
+-			    const struct ia_css_frame_info *info)
++			     const struct ia_css_frame_info *info)
+ {
+ 	if (info) {
+ 		struct ia_css_output0_configuration config =
+@@ -124,10 +124,12 @@ int ia_css_output1_configure(const struct ia_css_binary     *binary,
+ 
+ void
+ ia_css_output_dump(
+-    const struct sh_css_isp_output_params *output,
+-    unsigned int level)
++	const struct sh_css_isp_output_params *output,
++	unsigned int level)
+ {
+-	if (!output) return;
++	if (!output)
++		return;
++
+ 	ia_css_debug_dtrace(level, "Horizontal Output Flip:\n");
+ 	ia_css_debug_dtrace(level, "\t%-32s = %d\n",
+ 			    "enable", output->enable_hflip);
+@@ -138,8 +140,8 @@ ia_css_output_dump(
+ 
+ void
+ ia_css_output_debug_dtrace(
+-    const struct ia_css_output_config *config,
+-    unsigned int level)
++	const struct ia_css_output_config *config,
++	unsigned int level)
+ {
+ 	ia_css_debug_dtrace(level,
+ 			    "config.enable_hflip=%d",
 -- 
-2.39.5
+2.43.0
 
