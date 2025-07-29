@@ -1,84 +1,130 @@
-Received: from mail-vs1-f48.google.com (mail-vs1-f48.google.com [209.85.217.48])
+Received: from mail-pg1-f175.google.com (mail-pg1-f175.google.com [209.85.215.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43E841FFC74
-	for <linux-staging@lists.linux.dev>; Tue, 29 Jul 2025 05:15:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A535479C0
+	for <linux-staging@lists.linux.dev>; Tue, 29 Jul 2025 14:13:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753766110; cv=none; b=Mgyl5NH2W9za3PYYvBjxCL8/Y53tExmAm1hPKbuNRzAum7S9ufXaNLjXF3jjAkSAaBFvU+IM2CJY59bUspJjyHaQEHREYOpWr1YMsekzjwnVwHTvVsG7uiCNzl4899zK9s2PPYO2u6aXmWeWGVwcurLK12NKcJ3CfobDHCkdRG8=
+	t=1753798410; cv=none; b=QTVkCigYKrFhhov6FPD9PdCXdG2c1tAJlo5VlIxS2IrNlBa1mTbqLMzrxJDwvA165J/ib+3GnjrNmknFP52xCqInIUxGziytMk1V8NblLFZ7IWydd1BI0CM6odtxtkYDJqICmV6S+L+Ie7rdZriMaoazk3Z3NB3cKVdXEuz0mbc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753766110; c=relaxed/simple;
-	bh=tsWARfck02K8FlpDOd1ZR5gMvfYv/p7eSp2lFpjb2HA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=oSZCGRXhqh+9nDHiXJN6L41LqVR+fBwpUcKwg1PtulQGOkVwgtDPpH7Taq/08cSgKMBfJGCPUSkEXBAfiWlIIqyiIke4x8UuSpNL3HHrZvzGe9QZxQjlE/IT18ZaT0Qa+6CaJhxfVw01c97cJvi3ldQYXLPMPw7McCm+kDwK5+o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ebG4Wn6F; arc=none smtp.client-ip=209.85.217.48
+	s=arc-20240116; t=1753798410; c=relaxed/simple;
+	bh=FjA+c9Z3l+4QM+NHVNGoenTDXDVzESzeLLANK4ezG8E=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=FWhrbmv1/A1x0tk7hER2TTtgxmniwN4yPhkaJ4ZbE+5z/Ox/SYXfwcCsio0VEqfqhw8c25jxTNe9hB59PYVGvb8LH/LS1ScmeWj/LVtaJDzuiQPlJDG3tARFUdrl6ITRH3N3ggCcmxtn1s9dgqbNsAajFuEzsRWnWp0p1u3kZvA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ff9pMFd7; arc=none smtp.client-ip=209.85.215.175
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ebG4Wn6F"
-Received: by mail-vs1-f48.google.com with SMTP id ada2fe7eead31-4e7fc3309f2so1491579137.2
-        for <linux-staging@lists.linux.dev>; Mon, 28 Jul 2025 22:15:07 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ff9pMFd7"
+Received: by mail-pg1-f175.google.com with SMTP id 41be03b00d2f7-b3bad2f99f5so922873a12.1
+        for <linux-staging@lists.linux.dev>; Tue, 29 Jul 2025 07:13:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1753766107; x=1754370907; darn=lists.linux.dev;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=tsWARfck02K8FlpDOd1ZR5gMvfYv/p7eSp2lFpjb2HA=;
-        b=ebG4Wn6FOkni8EiPFmVYrOaVm87hb70pGibDRQNQ55ohRY82Ptp66vZhvYsdPJc7Jq
-         /yijltlh2IfeoYPnN8m0NL5V2hneoXklaEQrCshQ+dHINE/5eBrq6JjafTYfz/Wf6Elk
-         jeJLK6gE0hn0q+kn+4au7Is42jtn/+Dj6L9tZH8IwdMo6FEUzeGWlVmFGyeKRONzBLl9
-         y6FQ2Pva2tptxEfb4z7eHPCy1437wBaoN2cG7piiev3AUqtkE0ZdJlXx/z6qujr5Wx2f
-         zop7Jn6KV7qh1wbwIMnNeUC/wZHoRe09dbx+Jo6lIJ3w1JJf0NYiQfXaDzp68DuzYE05
-         WEvg==
+        d=gmail.com; s=20230601; t=1753798408; x=1754403208; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=yitw0gBISuOZ2v41sPRu4k5vKVXgFczbihRYKhefvpk=;
+        b=ff9pMFd7reeJhFzxroyrMuKYnx8Hb+Gjrmh8fw8D2awq66QgNJVe8gINIo/59uJTPd
+         diDNdwN1oPZEsNbmKqO6386GuNmvM92QHMpBg6sCzTIEmqJ35e0iFxvV7GDEOrEz/GuF
+         QebmssOTQWiWudd/kqjIbDDJAfoAZ4zbK3pD4sVdJCRUjmNwmJxNrsJ2rm0RIp/em0+z
+         op5uzLBCWty7i/Oct7MGgftBEW5HuzCOw2rz2YmGglZU0bYHCj67GfNb3qw70Y6yAcnC
+         K6TkSO1OZhphjqBusQ2tn7DmCv34AS1TLbDxFLd8VzBupcBBZnM+uJ2JMjbjZu/Lm3kh
+         XVFg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1753766107; x=1754370907;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20230601; t=1753798408; x=1754403208;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=tsWARfck02K8FlpDOd1ZR5gMvfYv/p7eSp2lFpjb2HA=;
-        b=h6X+iH0kpLjRyqrzMpWpN7t1bGK/Le9s6Sg7C1qEGiShyBxk/nowqddewdB97uhGz5
-         Gi9OJ/gqkP/FmzoEzBnTo549ajevI6iwH7p5uv5m22MoloVdzFoleTh9Cy/h6TXlSgAJ
-         jWXtZym4idNbKIJSK7QmI8UCQyGOB7D+eZ4X16Zp5gO3jPSuHxif7W5x3sIqLoqOyOXq
-         SjSI4yBWlTUdgQc964/sokcpZZGRAPh1C5sVJ2Ut3/kDhNe8dZbxc5Q1F/1hpWLxxhG0
-         1KBI37bBcJ7TACrRmOHUAS5f3uZNBn72otOjPike9kOaYwHrmTB8ekVYaXZaQVu9H72W
-         gkAw==
-X-Forwarded-Encrypted: i=1; AJvYcCWQ2Kc8oyB0cEHZguFChN0GQb93RA6MmXbDE9NNcukrIAu7e5dHpluhUJSTWAa6/mZ2l+c27g6XKeEXomV2@lists.linux.dev
-X-Gm-Message-State: AOJu0YxTVoGXwJ3JXH4gxAT8TaPl37hB123wVwsZRDGGdB7avQLQlSgb
-	vq3Jvcz6XEQaL6kGvHTfGMMn7zzwS+vPmmA4KVoj4Qu0tj44PJkHv8zgVDC3uKefhp8v5yQNKcN
-	KIHgLBgYwmpvi2WvlEAzQtD/q/rwNPGM=
-X-Gm-Gg: ASbGncsVR1dGa7mjZxllG6g803fHUW19epgzNY0MvixglLo/n8HnKMf2nJZa+qhTlN6
-	9LTGVtmTS5pXwSQkpLEDtor4VLq3ldYvNAYyWBOB8uN2tizByj4n0dEL1RX8Qj/lJZawqpNa2Ue
-	ke1gGBG9d9LV3bXQiJfTcjRMIpPgCEYSCRd9iyVHskdURifeVH0WW07P+GW6WZXYkzeITV7aMuA
-	uOwrt2yoREQHHHdF3XX77WGipsBRib1x9japkLpHg==
-X-Google-Smtp-Source: AGHT+IFno0zUgj0Aw6YpqbiUSyDL8qKR0XIqSJkgIQWlCwXeHID0sqfEdnRuV7QtINe91KwD42altBqC6rX2oByXIk4=
-X-Received: by 2002:a05:6102:3f8e:b0:4fa:58e:89c9 with SMTP id
- ada2fe7eead31-4fa3fa53e65mr5523077137.5.1753766106990; Mon, 28 Jul 2025
- 22:15:06 -0700 (PDT)
+        bh=yitw0gBISuOZ2v41sPRu4k5vKVXgFczbihRYKhefvpk=;
+        b=PTX7SNc3LV4LF4O+csz9pcF/antJ+EmArhhz037a9leMG+34AM7HZYs1BMsdNY0I8i
+         3Gpk4A9YQIYvb4adhhCcFD1cYTFDIKifGSLt84rcuVV/Tj9PyVTERfcBxZvAU31Ma9YL
+         h0Ksv5Pl2wENjIdIZYmxA9d25zkMSYPD1/H5gSnBSl8RRANaykPEIuY0VIR+P3fSwrwt
+         ETp73ljyetxuLK6gGq8552qgWlngwSV9z757p0HBv1flnpX5DCSJbleRcOS2s+uucC9n
+         EGX4hOXrpiF/etu+6+9O7zp4jj1vO87TqJHBFe7259IQf3H/Cmab840Ff+yWzdGLff+y
+         Orng==
+X-Forwarded-Encrypted: i=1; AJvYcCXL5lCVgtgH4ne3HHIgoP2zmWgspueA+gVeE2Jln5Q1mtL9tkKI5WhvIWcROWsHUCeurhmwzANwVKC9z6hm@lists.linux.dev
+X-Gm-Message-State: AOJu0YzlTdLL38dKsIPIXqP6yjpIkTZBOCCSsroHpht9cQsXWrZxC+5n
+	jM/fsU6ebcHumUz4y//nYPsEEWYhwxFvaPlPgkCUAoOAcyVbgg773ih5
+X-Gm-Gg: ASbGncuoBWSuyE1j7c9MtH2imxvyhdQ+Xg6AZqAEvRJHo9aQRs1rJroyImQe/s18fUo
+	43N4ylRDwlJrXoUrRa+umScEVsdt0us1O8JQ5nrJT26txqfK1qsdqwkYlRaacAXHPlI+UONLbz6
+	c+G2TgVR9L0ASuDJEvLqPuRGA1z/+KieccfrIBEGb+duiei72dyu8ln+JyM+izk7f/XuXMQuISa
+	JlkLmn9YIfq1Quj/xYJ6OPcMQPds6bNI7d/lOgzOzdWZDDJx1ev+NFDl7yAv++RHenTZy4CODkp
+	KFxTcvF+ZJWx+DvujKJksNy9crTqip6Ahwjj+14IPMQT0IZAtbCiAL5hyOE0d4qHMXaRPjW+Vql
+	GaM++Slt9Cs1Ss9/TyY3UJqxzOlDFzAQU5g==
+X-Google-Smtp-Source: AGHT+IEh8uGgxD/fdfhuPyfTdSWJ4/hYFFr9SgxPTOKH4o1yLWj1vXkRgP+kd9clAvFUmaIRreFW3g==
+X-Received: by 2002:a17:903:298b:b0:23f:fa47:f933 with SMTP id d9443c01a7336-24063cd35b2mr53089125ad.8.1753798407855;
+        Tue, 29 Jul 2025 07:13:27 -0700 (PDT)
+Received: from localhost ([2409:4089:1091:3d13:b803:71:1df8:9600])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-240469a8084sm36273345ad.79.2025.07.29.07.13.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 29 Jul 2025 07:13:27 -0700 (PDT)
+From: ashirvadm04@gmail.com
+To: gregkh@linuxfoundation.org
+Cc: philipp.g.hortmann@gmail.com,
+	dan.carpenter@linaro.org,
+	sayyad.abid16@gmail.com,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Ashirvad Mohanty <ashirvadm04@gmail.com>
+Subject: [PATCH] staging: rtl8723bs: Replace magic numbers in rtl8723b_InitBeaconParameters
+Date: Tue, 29 Jul 2025 19:42:10 +0530
+Message-ID: <20250729141224.16013-1-ashirvadm04@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250728072822.10730-1-rathod.darshan.0896@gmail.com> <CAHp75Vfq6P2osMc5A5TZ5Usgyc7mFGNme6TmCQugTE1=8c1zAg@mail.gmail.com>
-In-Reply-To: <CAHp75Vfq6P2osMc5A5TZ5Usgyc7mFGNme6TmCQugTE1=8c1zAg@mail.gmail.com>
-From: Darshan Rathod <rathod.darshan.0896@gmail.com>
-Date: Tue, 29 Jul 2025 10:45:33 +0530
-X-Gm-Features: Ac12FXx4nWqm93Dxep0xI7h8FOwPhhH-QR82_j4ozPQ6iUsTnDmci7QL56S-id4
-Message-ID: <CAK6+rv4yQ7BsJP4KJWAv0wwvcA4MOHwo+y+9pJtGPDVOs9GY5g@mail.gmail.com>
-Subject: Re: [PATCH] staging: media: atomisp: Fix indentation and styling in
- output kernel code
-To: Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc: hansg@kernel.org, mchehab@kernel.org, gregkh@linuxfoundation.org, 
-	sakari.ailus@linux.intel.com, andy@kernel.org, linux-media@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev, 
-	jogidishank503@gmail.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
->Hello,
+From: Ashirvad Mohanty <ashirvadm04@gmail.com>
 
-Please disregard this patch. I would like to formally withdraw this patch
+Replace magic numbers 0x6404 and 0x660F in rtl8723b_InitBeaconParameters
+with macros TBTT_PROHIBIT_TIME_8723B and BCN_AIFS_CFG_8723B, respectively,
+defined in rtl8723b_hal.h. This addresses the TODO to remove magic numbers,
+improving code readability and maintainability per Linux kernel coding style.
 
-Sorry for the noise.
+Signed-off-by: Ashirvad Mohanty <ashirvadm04@gmail.com>
+---
+ drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c | 5 ++---
+ drivers/staging/rtl8723bs/include/rtl8723b_hal.h  | 2 ++
+ 2 files changed, 4 insertions(+), 3 deletions(-)
 
-Thanks,
-Darshan R.
+diff --git a/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c b/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
+index 893cab0532ed..d6c75854f27a 100644
+--- a/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
++++ b/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
+@@ -1197,8 +1197,7 @@ void rtl8723b_InitBeaconParameters(struct adapter *padapter)
+ 
+ 	rtw_write16(padapter, REG_BCN_CTRL, val16);
+ 
+-	/*  TODO: Remove these magic number */
+-	rtw_write16(padapter, REG_TBTT_PROHIBIT, 0x6404);/*  ms */
++	rtw_write16(padapter, REG_TBTT_PROHIBIT, TBTT_PROHIBIT_TIME_8723B); /*  ms */
+ 	/*  Firmware will control REG_DRVERLYINT when power saving is enable, */
+ 	/*  so don't set this register on STA mode. */
+ 	if (check_fwstate(&padapter->mlmepriv, WIFI_STATION_STATE) == false)
+@@ -1207,7 +1206,7 @@ void rtl8723b_InitBeaconParameters(struct adapter *padapter)
+ 
+ 	/*  Suggested by designer timchen. Change beacon AIFS to the largest number */
+ 	/*  because test chip does not contension before sending beacon. by tynli. 2009.11.03 */
+-	rtw_write16(padapter, REG_BCNTCFG, 0x660F);
++	rtw_write16(padapter, REG_BCNTCFG, BCN_AIFS_CFG_8723B);
+ 
+ 	pHalData->RegBcnCtrlVal = rtw_read8(padapter, REG_BCN_CTRL);
+ 	pHalData->RegTxPause = rtw_read8(padapter, REG_TXPAUSE);
+diff --git a/drivers/staging/rtl8723bs/include/rtl8723b_hal.h b/drivers/staging/rtl8723bs/include/rtl8723b_hal.h
+index a4a14474c35d..5b4e303e20eb 100644
+--- a/drivers/staging/rtl8723bs/include/rtl8723b_hal.h
++++ b/drivers/staging/rtl8723bs/include/rtl8723b_hal.h
+@@ -71,6 +71,8 @@ struct rt_firmware_hdr {
+ 
+ #define DRIVER_EARLY_INT_TIME_8723B  0x05
+ #define BCN_DMA_ATIME_INT_TIME_8723B 0x02
++#define TBTT_PROHIBIT_TIME_8723B     0x6404
++#define BCN_AIFS_CFG_8723B           0x660F
+ 
+ /* for 8723B */
+ /* TX 32K, RX 16K, Page size 128B for TX, 8B for RX */
+-- 
+2.43.0
+
