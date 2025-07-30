@@ -1,63 +1,63 @@
-Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
+Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CF9E293C67
-	for <linux-staging@lists.linux.dev>; Wed, 30 Jul 2025 10:45:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CE09295517
+	for <linux-staging@lists.linux.dev>; Wed, 30 Jul 2025 10:45:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753872315; cv=none; b=j+BRt5aQkvd8SLQpoWqZZNsBEPdFsXhZTTHTEZ4P9lMCn2GJvpa9VkW0KSMteOoWPFysEK7srQIK5mw3pemryhLtJHub84fxHX8E2Snu7GjxFDXbl885JHoKY7GL6H5E9H/enY+1AcXsSXrJRZkIbE0XNeZUoYfIuUA5rv1fNTc=
+	t=1753872316; cv=none; b=fa47qlsqU1gjvgF7V9Dug8eR/Dv5XTvOIXyv42W8vX3eY4UiVy0qCHlnC2pH3MIzlAkQPEn3up0nFhsIJIKxD3OLCPgV0L+hVLrVsPYGmmxR5Tu0LdcvXD/hHfXFMmnANSWMEwrtGmMtuRyM2nQRx5ho/w5OoWddyiq7xDkNMgg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753872315; c=relaxed/simple;
-	bh=fwh6BBb1oPpBjnAuFQhlbe/p9oFK7aX4uP4YTtMMkRc=;
+	s=arc-20240116; t=1753872316; c=relaxed/simple;
+	bh=1k5ncuPLYLjmJSNvSn6S3vq7O1Ze6ESSHk8F+Z6n0nI=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=J4u/5EieD0v2zgHZeh2C9nkqGtWdAxnMfIormqthXIIw0c1COUFog9sCUwDrI2wiyQPL3fFrhUCI0x48N655gKsOvJnZ3AIxap5GQTAq4MwNGsmLxS5resmI6HfdTOVSPc98q5svVva5PabrozNJvYUwVjrEsbFV5pgAtNGMyCU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QhC5fCzO; arc=none smtp.client-ip=209.85.208.51
+	 MIME-Version; b=rik/mtlKI+/xS6FpzFZVfUzDvNGm3KGbnFblEJjZtZHqUrpBV75qEDrew6GRADS67xJpjjL3cIpADQLS3GiG1h8klUVfP669kJlqZPKGRdvguxa3VBjv5zNmcZSTdWBvUR9BlhYesq4e/wMvKxY8VUi8GrrJMNeD8IXC4o5Lxo8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Xz8aD8ec; arc=none smtp.client-ip=209.85.208.52
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QhC5fCzO"
-Received: by mail-ed1-f51.google.com with SMTP id 4fb4d7f45d1cf-61571192c3aso2278253a12.2
-        for <linux-staging@lists.linux.dev>; Wed, 30 Jul 2025 03:45:13 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Xz8aD8ec"
+Received: by mail-ed1-f52.google.com with SMTP id 4fb4d7f45d1cf-61557997574so1318130a12.3
+        for <linux-staging@lists.linux.dev>; Wed, 30 Jul 2025 03:45:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1753872312; x=1754477112; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1753872313; x=1754477113; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=gD7P+A/dPPOpT95JlWf4RUNkIaG+iReLqz+c8wdRhiw=;
-        b=QhC5fCzOY48gX1ACx2LoeAZUHezkrAMIcm92geqtIJaKItSQzUMv8gEjb2eBdZLk9Y
-         bclRkRLGmUALABnG+We7OI3JInoP9KJAbnMhb08LcmtVh5gwTLBMjubA2Wd0P0hlplwL
-         /yvR+s0iGb4ezsXYlkbY2yHstzElYOEl8e/dFtAFwaiguhcW/3QXRvqXI5o81QZxocBq
-         h89JV1jER9ccwjvOBwsf3P2/7jk254+MZkKJkGhEUrjyzVsKY7bF5bXzPLCv7vlufgDb
-         vztuOrnMBNXBjktNNsuazysG5QJ71sbv+X0nc861HACVMsQDXFVnq1vZarCFzTCbYPqg
-         ZamA==
+        bh=TnAv1OGjpNdst6+omDSot3tyUGyzMvpWfnjJwpDwNOo=;
+        b=Xz8aD8echkYIh67lYqi6s7LlrXkoSVDD4n1blpULjeRupQML3Q5Qza7Bwe5TXGfEHI
+         v18q/pOsmZg78x0rmUSyZ8sHw9nF2dK8Nuu2YIwj14hIXttemkmyT10x9uVmXLrgfrkI
+         +e2w8eYK4X25euCX9B5GCLFc6eEPO5fbTLkeMCUNKQtmUMPXsnUWO5jRxPYbMHw8LTP9
+         MLhHCee0LcME9mw3Tfw1UUryKbweawiuRfLa0NW5O46tEo6G9gADWJMlFBbHDOynB9ln
+         w7/jCSbub8xUesJrUba+qod9gFRxQGWIDp/BcWr7SJo8xxR4EZxQKfF97X4hVTKl/Od6
+         vIsw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1753872312; x=1754477112;
+        d=1e100.net; s=20230601; t=1753872313; x=1754477113;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=gD7P+A/dPPOpT95JlWf4RUNkIaG+iReLqz+c8wdRhiw=;
-        b=mhgxf8ARZxzlHoKUFb9NMYeZgtSnqkaEHQvUn0PCwB48VTSOityadFZHSujhWbYYOD
-         RYVe6nQlZvIchR6sKGe2YF/XmxVN9JjzLfXdaPVTTbYT0RSrIHKm9nq2Ln2wFVjgqfYM
-         yXPSt258xcXhcktf6xhlElR2NxlZJTVciqkCFeTSCltmZBR4D3km2GHT9vB5x9QO/9sj
-         /j06W7cTq13hC0VdDCXtdKFfYP9PlF+O4HE8F/eTIujiA4Hrieg99YBnCGWACkmwA0ba
-         CZDpNfv6IGc6JN2fojnT3KGg2v7H/eGRB5ohn8gNjKK5A7wsKqDm2DLC0VDXhegU2wLx
-         jCQA==
-X-Forwarded-Encrypted: i=1; AJvYcCVAqBacY44QWzeL6ClGe+ZDi66SV2pMLJf+Y4Zw5rguEIibNPZS01ftLZ/xtpv8OldWKCw2j1IUjjrE+AKR@lists.linux.dev
-X-Gm-Message-State: AOJu0Yxcz0P0RFpCAVocoeTBfPLGJDVpV3Cc6ym4LncNUgybJgruQLWk
-	uaHEja4gMJRBsUhUbxA2hfcnUr7O9DltwiWGqsIg9RtLBIb5en4eWpau
-X-Gm-Gg: ASbGncsDAExi0WTAdHaLlNmPSSZp4CIv59wZOq8YUv3s7CYOmNaOtD/HmTq8Bm0oQ0i
-	O8IZ+ns646tP8Xb4wPDC63QMUJaNdJ95LYgb9tQ1Hs4tXXAW4lj+46nja7N8AgxJaRUDD6iovir
-	pv8tbBtMwFpjcij0gUojU8/xLEEHTp6EvdIrsyGroW8T6IxXM+abn8Fj4n3PkpmcIqn7GY6y3Gj
-	G9PNxKZ8YCUHwIqD1BKodkPb4sWPZidyy+owJFAUXSiYnj6/P7yVe/tnGM0+57PIzdcVHWA9XNm
-	H+MzhdytbCyY1vziDR0bbUZ62Hilacdxs1Paj//acORm1FXk+sFZ0mLtuugk8aSS4THbiX2hTBU
-	eZiCvDYOSP1LzhmB0wxWwyg1iFvbHCiLZJd2mlJcQJtt1w+TI88p8gmZy
-X-Google-Smtp-Source: AGHT+IGpHLLmmk9Td6T7DijXaBzDDXhnBjG/5PT9Z+sbGUV25oV0DkzwZaprzzQBGuKKiMQcuzrwvw==
-X-Received: by 2002:a05:6402:5108:b0:615:6481:d1c with SMTP id 4fb4d7f45d1cf-61586ec9a54mr2432690a12.1.1753872312170;
+        bh=TnAv1OGjpNdst6+omDSot3tyUGyzMvpWfnjJwpDwNOo=;
+        b=McADJQG33kYJnJoK7PbSsHinAf5VfRFnWKFruTZ4T8c2XtAG3JsTfbqdcijgJ/yXqb
+         kghsGduJ9yvoKCIak0VmlBmYlPescAiZQcKhAA6qK2D/I/CDIoEKLWNNUTQCP0RGgtGF
+         M9KT2ru9igWt1KA4K6QgCBSNDfFvWrdfPuO2xXNyu7QdIqnFWxrPz+tvUsdriv04f038
+         mE3jti6Ti2DqXuQjS18eANYGcXo4Lnp/sX82KMapiKMvdwtFjWug3bzI187uhbzxF40r
+         WxLrOlyZOjwHkEQCtRRCQEUcD9pLrDLEwtElHW6Vp7X1Foaa0IPqAjrxRc4zgE7EgUJj
+         ZOcg==
+X-Forwarded-Encrypted: i=1; AJvYcCUw7TvPomYWnb2523uzhuzfDNCy4SN+NkYw5n/+UES0bjXu6bBSagPiArt87QQvnMR9mshUKOPo3dGKi5PT@lists.linux.dev
+X-Gm-Message-State: AOJu0YyKTnofx5PN9Rz2WGjTd3dqaZS/JsHrFeRVgdYtNdJzdKL5NCL+
+	bobtVV0n50svLpUViurI35jP63RNAaOJq2bDKcxDoj5WdcA/9j2ahPu2
+X-Gm-Gg: ASbGncunXWaHrq5crqiI7HoSp2LZNQcVRwFdVGiMBpTxJmwhVVLwPWvlj1q2YVhdUnx
+	mKLTRlRpfgGj6vtgFHdawTSnlZTFKqqdcTVi1cj8pBdD3K3Amu3PU6nF4DEwdP0PgcIGMcUYGzY
+	XDy/tnZC3BymzcTW/AN2X76HKxsSjhoy95vJQYepI4Nghs7B3WtHaoMcojm/FB2aoQ8audPnbe7
+	ZKBa5aHJJiAZIIfJNjxeXh71WP1nLfeSYESXvdMk0p5C7VkYrWrRA5eIcDjWUo3Cxmt+X3m5sM8
+	s5WWnfj9lWUBzVitZIEZfTobFOQB09qxDXFnN+BLAH+oxpAUlkfd5X046skFDYP9IeMLFuc3YjL
+	RJkEDUx9pZodt3+6EgbnWjx5AMidzxYFoxQwXfqlRez+9wwKoltNQrx2C
+X-Google-Smtp-Source: AGHT+IFegvOXCvA5sF0jNFm/UnIAP1YzQ26yl3/5ZrWK+EV9rktXxZYfEire4zGPtTBYLO1vFpq5AQ==
+X-Received: by 2002:a05:6402:2751:b0:615:5b45:2eb9 with SMTP id 4fb4d7f45d1cf-61586ec4393mr2799100a12.5.1753872312832;
         Wed, 30 Jul 2025 03:45:12 -0700 (PDT)
 Received: from tumbleweed (ip-77-25-32-208.web.vodafone.de. [77.25.32.208])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6157974fde0sm1582734a12.7.2025.07.30.03.45.11
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6157974fde0sm1582734a12.7.2025.07.30.03.45.12
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 30 Jul 2025 03:45:11 -0700 (PDT)
+        Wed, 30 Jul 2025 03:45:12 -0700 (PDT)
 From: Michael Straube <straube.linux@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: hdegoede@redhat.com,
@@ -65,9 +65,9 @@ Cc: hdegoede@redhat.com,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Michael Straube <straube.linux@gmail.com>
-Subject: [PATCH 6/8] staging: rtl8723bs: merge rtw_os_indicate_disconnect into rtw_indicate_disconnect
-Date: Wed, 30 Jul 2025 12:44:59 +0200
-Message-ID: <20250730104501.150270-7-straube.linux@gmail.com>
+Subject: [PATCH 7/8] staging: rtl8723bs: move rtw_report_sec_ie to core/rtw_mlme.c
+Date: Wed, 30 Jul 2025 12:45:00 +0200
+Message-ID: <20250730104501.150270-8-straube.linux@gmail.com>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <20250730104501.150270-1-straube.linux@gmail.com>
 References: <20250730104501.150270-1-straube.linux@gmail.com>
@@ -79,74 +79,116 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Merge the functionality of the function rtw_os_indicate_disconnect into the
-function rtw_indicate_disconnect to reduce code in the os_dep directory.
+Move the function rtw_report_sec_ie from os_dep/mlme_linux.c to
+core/rtw_mlme.c to reduce code in the os_dep directory.
 
 Signed-off-by: Michael Straube <straube.linux@gmail.com>
 ---
- drivers/staging/rtl8723bs/core/rtw_mlme.c      | 12 ++++++++----
- drivers/staging/rtl8723bs/include/mlme_osdep.h |  1 -
- drivers/staging/rtl8723bs/os_dep/mlme_linux.c  | 12 ------------
- 3 files changed, 8 insertions(+), 17 deletions(-)
+ drivers/staging/rtl8723bs/core/rtw_mlme.c     | 34 +++++++++++++++++++
+ .../staging/rtl8723bs/include/mlme_osdep.h    |  2 --
+ drivers/staging/rtl8723bs/os_dep/mlme_linux.c | 34 -------------------
+ 3 files changed, 34 insertions(+), 36 deletions(-)
 
 diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme.c b/drivers/staging/rtl8723bs/core/rtw_mlme.c
-index 38238ea5ec99..27f775d8f9a8 100644
+index 27f775d8f9a8..1c720947955e 100644
 --- a/drivers/staging/rtl8723bs/core/rtw_mlme.c
 +++ b/drivers/staging/rtl8723bs/core/rtw_mlme.c
-@@ -930,10 +930,14 @@ void rtw_indicate_disconnect(struct adapter *padapter)
- 	if (rtw_to_roam(padapter) > 0)
- 		_clr_fwstate_(pmlmepriv, _FW_LINKED);
+@@ -2033,6 +2033,40 @@ static int rtw_append_pmkid(struct adapter *Adapter, int iEntry, u8 *ie, uint ie
+ 	return ie_len;
+ }
  
--	if (check_fwstate(&padapter->mlmepriv, _FW_LINKED)
--		|| (rtw_to_roam(padapter) <= 0)
--	) {
--		rtw_os_indicate_disconnect(padapter);
-+	if (check_fwstate(&padapter->mlmepriv, _FW_LINKED) || rtw_to_roam(padapter) <= 0) {
-+		/*  Do it first for tx broadcast pkt after disconnection issue! */
-+		netif_carrier_off(padapter->pnetdev);
++static void rtw_report_sec_ie(struct adapter *adapter, u8 authmode, u8 *sec_ie)
++{
++	uint	len;
++	u8 *buff, *p, i;
++	union iwreq_data wrqu;
 +
-+		rtw_cfg80211_indicate_disconnect(padapter);
++	buff = NULL;
++	if (authmode == WLAN_EID_VENDOR_SPECIFIC) {
++		buff = rtw_zmalloc(IW_CUSTOM_MAX);
++		if (!buff)
++			return;
 +
-+		/* modify for CONFIG_IEEE80211W, none 11w also can use the same command */
-+		rtw_reset_securitypriv_cmd(padapter);
- 
- 		/* set ips_deny_time to avoid enter IPS before LPS leave */
- 		rtw_set_ips_deny(padapter, 3000);
++		p = buff;
++
++		p += scnprintf(p, IW_CUSTOM_MAX - (p - buff), "ASSOCINFO(ReqIEs =");
++
++		len = sec_ie[1] + 2;
++		len = (len < IW_CUSTOM_MAX) ? len : IW_CUSTOM_MAX;
++
++		for (i = 0; i < len; i++)
++			p += scnprintf(p, IW_CUSTOM_MAX - (p - buff), "%02x", sec_ie[i]);
++
++		p += scnprintf(p, IW_CUSTOM_MAX - (p - buff), ")");
++
++		memset(&wrqu, 0, sizeof(wrqu));
++
++		wrqu.data.length = p - buff;
++
++		wrqu.data.length = (wrqu.data.length < IW_CUSTOM_MAX) ? wrqu.data.length : IW_CUSTOM_MAX;
++
++		kfree(buff);
++	}
++}
++
+ signed int rtw_restruct_sec_ie(struct adapter *adapter, u8 *in_ie, u8 *out_ie, uint in_len)
+ {
+ 	u8 authmode = 0x0;
 diff --git a/drivers/staging/rtl8723bs/include/mlme_osdep.h b/drivers/staging/rtl8723bs/include/mlme_osdep.h
-index 00c0a44c125a..8e8b5de285dc 100644
+index 8e8b5de285dc..3930d9e6dab7 100644
 --- a/drivers/staging/rtl8723bs/include/mlme_osdep.h
 +++ b/drivers/staging/rtl8723bs/include/mlme_osdep.h
-@@ -8,7 +8,6 @@
+@@ -8,8 +8,6 @@
  #define __MLME_OSDEP_H_
  
  
--extern void rtw_os_indicate_disconnect(struct adapter *adapter);
- extern void rtw_report_sec_ie(struct adapter *adapter, u8 authmode, u8 *sec_ie);
- 
+-extern void rtw_report_sec_ie(struct adapter *adapter, u8 authmode, u8 *sec_ie);
+-
  void rtw_reset_securitypriv(struct adapter *adapter);
+ 
+ #endif	/* _MLME_OSDEP_H_ */
 diff --git a/drivers/staging/rtl8723bs/os_dep/mlme_linux.c b/drivers/staging/rtl8723bs/os_dep/mlme_linux.c
-index 326acbd8dc84..d2f4855e9d9d 100644
+index d2f4855e9d9d..918d9496d7cc 100644
 --- a/drivers/staging/rtl8723bs/os_dep/mlme_linux.c
 +++ b/drivers/staging/rtl8723bs/os_dep/mlme_linux.c
-@@ -66,18 +66,6 @@ void rtw_reset_securitypriv(struct adapter *adapter)
+@@ -65,37 +65,3 @@ void rtw_reset_securitypriv(struct adapter *adapter)
+ 	/*  add for CONFIG_IEEE80211W, none 11w also can use */
  	spin_unlock_bh(&adapter->security_key_mutex);
  }
- 
--void rtw_os_indicate_disconnect(struct adapter *adapter)
+-
+-void rtw_report_sec_ie(struct adapter *adapter, u8 authmode, u8 *sec_ie)
 -{
--	/* struct rt_pmkid_list   backupPMKIDList[ NUM_PMKID_CACHE ]; */
+-	uint	len;
+-	u8 *buff, *p, i;
+-	union iwreq_data wrqu;
 -
--	netif_carrier_off(adapter->pnetdev); /*  Do it first for tx broadcast pkt after disconnection issue! */
+-	buff = NULL;
+-	if (authmode == WLAN_EID_VENDOR_SPECIFIC) {
+-		buff = rtw_zmalloc(IW_CUSTOM_MAX);
+-		if (!buff)
+-			return;
 -
--	rtw_cfg80211_indicate_disconnect(adapter);
+-		p = buff;
 -
--	/* modify for CONFIG_IEEE80211W, none 11w also can use the same command */
--	rtw_reset_securitypriv_cmd(adapter);
+-		p += scnprintf(p, IW_CUSTOM_MAX - (p - buff), "ASSOCINFO(ReqIEs =");
+-
+-		len = sec_ie[1] + 2;
+-		len = (len < IW_CUSTOM_MAX) ? len : IW_CUSTOM_MAX;
+-
+-		for (i = 0; i < len; i++)
+-			p += scnprintf(p, IW_CUSTOM_MAX - (p - buff), "%02x", sec_ie[i]);
+-
+-		p += scnprintf(p, IW_CUSTOM_MAX - (p - buff), ")");
+-
+-		memset(&wrqu, 0, sizeof(wrqu));
+-
+-		wrqu.data.length = p - buff;
+-
+-		wrqu.data.length = (wrqu.data.length < IW_CUSTOM_MAX) ? wrqu.data.length : IW_CUSTOM_MAX;
+-
+-		kfree(buff);
+-	}
 -}
--
- void rtw_report_sec_ie(struct adapter *adapter, u8 authmode, u8 *sec_ie)
- {
- 	uint	len;
 -- 
 2.50.1
 
