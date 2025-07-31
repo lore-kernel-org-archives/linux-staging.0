@@ -1,130 +1,94 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yb1-f180.google.com (mail-yb1-f180.google.com [209.85.219.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00D3E13B284;
-	Thu, 31 Jul 2025 05:29:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 274D7198E81;
+	Thu, 31 Jul 2025 05:59:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753939770; cv=none; b=aUxYnquMoxNpkP4cxkvSjKcexAlU4ty9oW9Mi9VE6a5vpF4ZjPsryHrfOXUvIqPBOB336K70qGeoULj1fj6AsPsyYNyr3ou5elRlb0gq6DbsfQer7YCwYS28E2njfFfmSuo8AsWRz4qWaRKT6h3VlJGGIJhVhZ0KD5jDCo3X7AA=
+	t=1753941589; cv=none; b=vCGstd6L22rRdRQfMZVZKA2+P5YDZsKU9gpBjLGcowzNAD6k1XGcop+SAvfStf4fO8eBAfzH64PWMCd86rtWX9yIgt27/aC46l8Hi5jvLg8+sCnGxmndgRboqJpPkXOG/7maYRFfs6Q+lTOzbKGIiumkUDdIlNhFOKBzPJSmrr4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753939770; c=relaxed/simple;
-	bh=/IdXjZYSJoAkISSpqioyA198U7HNB0nE1iTZAs89knY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZMjll+c3uSF0A+Ks3++1PBVZ585VP1PXclokks1d5gn16r4eziOVSwCMfVzYj7dvyHVtKOKc36TrPqGbD0rolQSvrsf0cDhJLMIvVYCxtIAJ2+yeGWwm3OXriukwrLIRyJqeupN0H0822i6u71rWMQDAHWcVkMhkOjH0pgULPQc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=u5j54o4O; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1753941589; c=relaxed/simple;
+	bh=J8rLlA5rFoSxe/LBQNtFHx8yM/xQnHQuZGw9cloIMwg=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=HJaLiuD+KW8JOH9KMyK95KzaXyIoFi2nNhl5QEIerf0WSbScmrQoIP7H4A5JKlQ6VU1R6C5zTztUGCLdbboyAc2ZIa6EPIPdfPkOnDPUceQUa7j0B/diK/NOu47U3S6KK/+uTSYqOtVUHiEnoDJx2FVz67gZdW6LzZrsd3+Q1j8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nR7Fv6bo; arc=none smtp.client-ip=209.85.219.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="u5j54o4O"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 18A48C4CEEF;
-	Thu, 31 Jul 2025 05:29:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1753939769;
-	bh=/IdXjZYSJoAkISSpqioyA198U7HNB0nE1iTZAs89knY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=u5j54o4Oh/WR/7IVETP/LU3M90jiWwZyCGFdAln4aRJC52pKddXT8MXSX4EDHjPfa
-	 m01YvwVgcqpZv4vc27v9ASX9XIbUHBW6ZbFtkSr4xixlGE6ulvB+pzUb2KTyYXgfQ4
-	 LPOPR5KzA8KIfGBYEDzTXXvklEsa/Vgpv9jQLOfg=
-Date: Thu, 31 Jul 2025 07:29:26 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Vivek BalachandharTN <vivek.balachandhar@gmail.com>
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 00/20] rtl8723bs: cleanup and style improvements for
- better readability
-Message-ID: <2025073101-playful-easeful-3008@gregkh>
-References: <20250726043218.386738-1-vivek.balachandhar@gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nR7Fv6bo"
+Received: by mail-yb1-f180.google.com with SMTP id 3f1490d57ef6-e8e077e9704so20092276.2;
+        Wed, 30 Jul 2025 22:59:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1753941587; x=1754546387; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=9dQ53H+TOKm58J6xbivZa5XJg+//Guq+YDIyJd62miY=;
+        b=nR7Fv6boWV9wilBUkMPkiGlu4nBkAswOqZJQLtKPDQiXYILbAERzak+16jpkt1QoCo
+         Xi43eUF1L6PxuqPEz+b/ruo5xfF0H8DKy27oXaHWkrovhpm/6KyRWxuBS01tG77dhw31
+         gOE9mFuIDo1NZ45Tp+grQNcR2FObbQgrNBo2h/zKBwgYCp8Oam9B9/1ZNQQnOptfAm7o
+         /n2exBMrVNcCf+w7/ItELQ/G77IGtmF+W92esClYJDgQJlXu+jroETSAc521TWri55NO
+         trC601FLGSHiqPQvu4O8H0cXhv5d4amCXx4t6NC3bYjxIkXZoL+9KWbIc5vRrWhiqzKD
+         WB+A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1753941587; x=1754546387;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=9dQ53H+TOKm58J6xbivZa5XJg+//Guq+YDIyJd62miY=;
+        b=gmNejuBl5klaf+gyj+MissOKMKgKUrjoXwW5dQYHavwdsyWN59vi0j15F7GiMJHV96
+         KGtEThrPsWuyxYfo6P8EO+RbzAjqXsFpAj/Hb/N90bKjkwzlvd97SdDzJCvVHZGzBkgB
+         /lYvRjr+seTl0knEp0xaR+AvJDSfWN+Qa8gKsJbYsoVAIVqsNDuZtEaOyS8R6z/WS3Tb
+         uhwPlWil/cMFihIwQ9JRnVVigjTXtnQKRXQYgEJdgIM1juZcBI8S372R2os4pvBKdh3Q
+         h5gKl5Y05HPUySjqs+Joe5IrO4ii/6KD1cKYvsHjNwVsZL/FayWwgjjS2qfDOFLJB4ON
+         A4ig==
+X-Forwarded-Encrypted: i=1; AJvYcCUAekIqz1A9X6txPd+UxMlWQnbikJNczi2qlbtMUWJbBY0bU6bEe/Fmprqce9LNhdhtJMs1lrh1LDOHA2dxlw==@lists.linux.dev, AJvYcCWcrnSPhrj6nXHGiJdyJBO7Zo2RvAYddR0/9PGbZSEdjEws4aVcD1kXqkRgwl5glRkD7gwHA/JoVkznlE7p4b9KuXbaSA==@lists.linux.dev
+X-Gm-Message-State: AOJu0Yy2hGypno/F1fs5LcccwgCLkfA2vPIYxbsOXR7jgMt+guDLRckQ
+	t6tXelAOa17jie6fIGg8ZD8hRAyJ/IU/IAqgHlV5SFFkG/qS9RWcG7HarCOta195iGjSTux/f5d
+	ugI/GIBJ9BpF8rWCyYx9nz6MhhEDfAd0=
+X-Gm-Gg: ASbGncvAf9bvZBlmPaVjJiQlLzLMumqk6NhSUaiX3rIdD0FsWxCS6aD7PAygXEYoFM2
+	X+JRkgGlC2kY7X9xPVGZMC7He4aEi8uAwJBG0CxC3LBqCKTO8dLlbm0+cFE0eKCgNeeFsUGtEBT
+	Ls/OGQGmGjXsS2wnBohNnJo9TZ9gF6fPEoWtqFm6ezriFk/r3pPfVNsmrHTN4837R8CLQMGnsoW
+	CtrIbRkFA==
+X-Google-Smtp-Source: AGHT+IHV1FOZO6uXbkwgGN6sg7ti/JeFYC05gD1OlE+HgiaqFCp2b8NgXZyaJzEa/fHMB5YZYgcVeHujYfx9w6/LZRM=
+X-Received: by 2002:a05:6902:128b:b0:e8e:e44:36f0 with SMTP id
+ 3f1490d57ef6-e8e3147a230mr4186168276.2.1753941586965; Wed, 30 Jul 2025
+ 22:59:46 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250726043218.386738-1-vivek.balachandhar@gmail.com>
+References: <20250712191325.132666-1-abdelrahmanfekry375@gmail.com>
+ <eb7fd8f3-1d6e-421f-b5d9-f9e2d2992da5@suswa.mountain> <CAGn2d8Mkfdmd3Td3aKQwaa539nMfL0rmJ5d6tLr9A12HSkCUzg@mail.gmail.com>
+ <CAGn2d8O0TMqBR0wvBVbWzKKKqQyLWzn9Rn-8bhYTC6wR7-HwcA@mail.gmail.com> <2025073142-unwarlike-shining-c534@gregkh>
+In-Reply-To: <2025073142-unwarlike-shining-c534@gregkh>
+From: Abdelrahman Fekry <abdelrahmanfekry375@gmail.com>
+Date: Thu, 31 Jul 2025 08:59:35 +0300
+X-Gm-Features: Ac12FXyj7e58j5vXnodDMSrmXuhb3ICXzfvYlPPqgKf27RAemXdLC8KbtxQ5lnA
+Message-ID: <CAGn2d8O_OpgKP1_JO4Ha1jFx8_Yx_w1P-5_dyWwLYHD9mVD5dw@mail.gmail.com>
+Subject: Re: [PATCH 0/3] staging: media: atomisp: More Cleanup on driver AtomIsp
+To: Greg KH <gregkh@linuxfoundation.org>
+Cc: Dan Carpenter <dan.carpenter@linaro.org>, hansg@kernel.org, mchehab@kernel.org, 
+	sakari.ailus@linux.intel.com, andy@kernel.org, linux-media@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev, 
+	linux-kernel-mentees@lists.linux.dev, skhan@linuxfoundation.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Sat, Jul 26, 2025 at 04:31:58AM +0000, Vivek BalachandharTN wrote:
-> This patch series includes 20 commits that clean up and improve
-> the style and formatting of the rtl8723bs driver in the staging tree.
-> The changes address spacing issues, indentation, comment formatting,
-> blank lines, and minor code clarity improvements.
-> 
-> No functional changes are introduced. All commits adhere to the Linux kernel
-> coding style guidelines to enhance code readability and maintainability.
-> 
-> The patches have been tested and are ready for review.
-> 
-> Vivek BalachandharTN (20):
->   staging: rtl8723bs: fix spacing around operators
->   staging: rtl8723bs: remove unnecessary blank lines around braces
->   staging: rtl8723bs: add blank line after function declaration
->   staging: rtl8723bs: remove unnecessary space after type cast
->   staging: rtl8723bs: remove space before tabs
->   staging: rtl8723bs: fix overlong lines and clarify lengthy comments
->   staging: rtl8723bs: align asterisk in block comment to fix formatting
->   staging: rtl8723bs: fix logical continuation style by moving to
->     previous line
->   staging: rtl8723bs: fix indentation to align with open parenthesis
->   staging: rtl8723bs: adding asterisks in multi-line block comments
->   staging: rtl8723bs: remove space before semicolon
->   staging: rtl8723bs: fix excessive indentation in nested if statement
->   staging: rtl8723bs: fix unbalanced braces around conditional blocks
->   staging: rtl8723bs: remove unnecessary parentheses around assignment
->   staging: rtl8723bs: remove unnecessary braces for single statement
->     blocks
->   staging: rtl8723bs: add braces to all arms of conditional statement
->   staging: rtl8723bs: add blank line after variable declarations
->   staging: rtl8723bs: fix line ending with '('
->   staging: rtl8723bs: place constant on right side of comparison
->   staging: rtl8723bs: merge nested if conditions for clarity and tab
->     problems
-> 
->  drivers/staging/rtl8723bs/core/rtw_mlme.c | 506 ++++++++++++----------
->  1 file changed, 285 insertions(+), 221 deletions(-)
-
-I understand wanting to get this right, but it's the middle of the merge
-window right now, and you are sending new versions for no obvious
-reason.  AND you are sending multiple versions of them.  Right now your
-submissions look like this:
-
-  Jul 26 Vivek Balachand (1.9K) [PATCH 00/20] rtl8723bs: cleanup and style improvements for better readability
-  Jul 26 Vivek Balachand (1.0K) ├─>[PATCH 14/20] staging: rtl8723bs: remove unnecessary parentheses around assignment
-  Jul 28 Vivek Balachand (1.1K) │ └─>[PATCH v1 14/20] staging: rtl8723bs: remove unnecessary parentheses in conditional
-  Jul 28 Vivek Balachand (1.2K) │   └─>[PATCH v2 14/20] staging: rtl8723bs: remove unnecessary parentheses in conditional
-  Jul 30 Vivek Balachand (1.3K) │     └─>[PATCH v3 14/20] staging: rtl8723bs: remove unnecessary parentheses in conditional
-  Jul 31 Vivek Balachand (1.5K) │       ├─>[PATCH v4 14/20] staging: rtl8723bs: remove unnecessary parentheses in conditional
-  Jul 30 Vivek Balachand (1.5K) │       ├─>[PATCH v4 14/20] staging: rtl8723bs: remove unnecessary parentheses in conditional
-  Jul 30 Vivek Balachand (1.5K) │       └─>[PATCH 14/20] staging: rtl8723bs: remove unnecessary parentheses in conditional
-  Jul 26 Vivek Balachand (0.9K) ├─>[PATCH 03/20] staging: rtl8723bs: add blank line after function declaration
-  Jul 28 Vivek Balachand (1.1K) │ └─>[PATCH v1 03/20] staging: rtl8723bs: add blank line between rtw_roaming() and _rtw_roaming()
-  Jul 30 Vivek Balachand (1.2K) │   └─>[PATCH v2 03/20] staging: rtl8723bs: add blank line between rtw_roaming() and _rtw_roaming()
-  Jul 30 Vivek Balachand (1.3K) │     └─>[PATCH v3 03/20] staging: rtl8723bs: add blank line between rtw_roaming() and _rtw_roaming()
-  Jul 30 Vivek Balachand (1.3K) │       ├─>[PATCH v4 03/20] staging: rtl8723bs: add blank line between rtw_roaming() and _rtw_roaming()
-  Jul 30 Vivek Balachand (1.3K) │       └─>[PATCH v4 03/20] staging: rtl8723bs: add blank line between rtw_roaming() and _rtw_roaming()
-  Jul 26 Vivek Balachand (0.9K) ├─>[PATCH 11/20] staging: rtl8723bs: remove space before semicolon
-  Jul 26 Vivek Balachand (2.8K) ├─>[PATCH 10/20] staging: rtl8723bs: adding asterisks in multi-line block comments
-  Jul 26 Vivek Balachand (4.0K) ├─>[PATCH 09/20] staging: rtl8723bs: fix indentation to align with open parenthesis
-  Jul 26 Vivek Balachand (3.7K) ├─>[PATCH 08/20] staging: rtl8723bs: fix logical continuation style by moving to previous line
-  Jul 26 Vivek Balachand (3.7K) ├─>[PATCH 07/20] staging: rtl8723bs: align asterisk in block comment to fix formatting
-  Jul 26 Vivek Balachand ( 28K) ├─>[PATCH 06/20] staging: rtl8723bs: fix overlong lines and clarify lengthy comments
-  Jul 26 Vivek Balachand (1.0K) ├─>[PATCH 20/20] staging: rtl8723bs: merge nested if conditions for clarity and tab problems
-  Jul 26 Vivek Balachand (1.1K) ├─>[PATCH 19/20] staging: rtl8723bs: place constant on right side of comparison
-  Jul 26 Vivek Balachand (0.9K) ├─>[PATCH 18/20] staging: rtl8723bs: fix line ending with '('
-  Jul 26 Vivek Balachand (4.2K) ├─>[PATCH 05/20] staging: rtl8723bs: remove space before tabs
-  Jul 26 Vivek Balachand (0.9K) ├─>[PATCH 17/20] staging: rtl8723bs: add blank line after variable declarations
-  Jul 26 Vivek Balachand (1.5K) ├─>[PATCH 16/20] staging: rtl8723bs: add braces to all arms of conditional statement
-  Jul 26 Vivek Balachand (1.3K) ├─>[PATCH 15/20] staging: rtl8723bs: remove unnecessary braces for single statement blocks
-  Jul 26 Vivek Balachand (1.6K) ├─>[PATCH 04/20] staging: rtl8723bs: remove unnecessary space after type cast
-  Jul 26 Vivek Balachand (1.7K) ├─>[PATCH 13/20] staging: rtl8723bs: fix unbalanced braces around conditional blocks
-  Jul 26 Vivek Balachand (0.9K) ├─>[PATCH 12/20] staging: rtl8723bs: fix excessive indentation in nested if statement
-  Jul 26 Vivek Balachand (7.2K) ├─>[PATCH 02/20] staging: rtl8723bs: remove unnecessary blank lines around braces
-  Jul 26 Vivek Balachand ( 12K) └─>[PATCH 01/20] staging: rtl8723bs: fix spacing around operators
-
-If you were sent a patch series like this, what would you do to attempt to
-review and/or apply them?
-
-Please relax, wait until after the merge window is over, and then resend a new
-series please.
-
-thanks,
-
-greg k-h
+On Thu, Jul 31, 2025 at 7:35=E2=80=AFAM Greg KH <gregkh@linuxfoundation.org=
+> wrote:
+>
+> On Thu, Jul 31, 2025 at 06:24:09AM +0300, Abdelrahman Fekry wrote:
+> > Hi Maintainers,
+> > I'm just bringing attention to this patch series as I have a lot of
+> > other patches that build on it .
+>
+> It is the middle of the merge window.  Please wait for -rc1 to be
+> released, there is no rush.
+noted, thank you!
+>
+> thanks,
+>
+> greg k-h
