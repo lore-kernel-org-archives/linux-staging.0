@@ -1,93 +1,108 @@
-Received: from mail-qv1-f41.google.com (mail-qv1-f41.google.com [209.85.219.41])
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D994A2D0C76
-	for <linux-staging@lists.linux.dev>; Thu, 31 Jul 2025 13:50:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D9A3225784
+	for <linux-staging@lists.linux.dev>; Thu, 31 Jul 2025 15:59:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753969853; cv=none; b=LWoj8Mo/9LfKjh71CA9PtuvRfeEmbUNWxRuzT7bJJPZ21GeUPLbcyqdU0ScQQ2b2X8EOIXqS6dK5mzYI7XFtN+TO6N90dHVuFgyoRSsI0C7coolSRdDUMtUzsrsbuEsDVJgXRHTHPLKJdsldj+0ANinwdK2zaPJ+9+uLseSHcYg=
+	t=1753977547; cv=none; b=XViMNRKKdHHAovqKjmVM+rXixeM5l8ZDClxpnLPiET4rTTA6vKzV8QEBLYwLTZkuZD14bhucnz3mUfda10v2485++M1TIE66w0ZfAdWqdRVZOGYN48y3IF/k0q4a3ButiZZMathR6LpoEQ8vhmRcX9Z9hJPMihL3DurbcQcuBQ4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753969853; c=relaxed/simple;
-	bh=wHephPRnWFJ/Wj+ePanHPAULwCYpiEvcIkvecMIKdO0=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=bM0rwJQDVuRpeJCMI2RZBeBf7c41oPJ+YtIY5nv4ZJ3D7uC8RcT536QYHhIgy81DzqsbvA3dmpZGhfdN4yzQLQHCi4CTspXaUj4e8SF1AyQCoZ6+PeLPw7IcCBQ4E3n1FMMQTFI5XWMjHVinyxCqPnPpRt+HM9ZpuXtWZT7vlnI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UE+wh3Bp; arc=none smtp.client-ip=209.85.219.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1753977547; c=relaxed/simple;
+	bh=EGUB34VsUmvG1Zb9ZRJWC5Cb4aXm/XLM4GSFfCMKf1k=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=nC3eRCZkYkLXla+S9cPDV0QYFuVCfGYAVXMIWL5FgX2l4BIgF+wyQVn9E0W30dXrgGsesFO5qJGbqspR27WcMIme8fgz7Pbg5M11RJQxWJIkeku+4RtOHlbRk7thN0pZqcIFdVRUMTEKTc3xuB0/dnlhH2d37zQ9g/F+fEwrV7Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=lx1k3rmZ; arc=none smtp.client-ip=209.85.221.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UE+wh3Bp"
-Received: by mail-qv1-f41.google.com with SMTP id 6a1803df08f44-70884da4b55so4135556d6.3
-        for <linux-staging@lists.linux.dev>; Thu, 31 Jul 2025 06:50:51 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="lx1k3rmZ"
+Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-3b788feab29so387675f8f.2
+        for <linux-staging@lists.linux.dev>; Thu, 31 Jul 2025 08:59:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1753969851; x=1754574651; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=tEQ1XoGm9eaZ2CQwlCxSmOHdyKgEeGnL9srDeytRVGU=;
-        b=UE+wh3BprVZiq+JpQgXs6JmgJ//Aa2mBW3wjdKsDIgqJEZBUheZop/kEjbZhd8SHdE
-         DExErGU7KszsNSZtwqJlEBPJAuoTQyrSOIsYdMSgKusU/z7AS37SlxMA6KVzclWRgq6n
-         Q8O7yT8DR+hIy+RjmxJnKCYizx4ilMmrPlxNEd9v/T+ozHHw20kdAAdZBnhXA1FuSXTE
-         yzU8M0bcd+IGHPia4+4naye4Z5LvAa88vlbjGB9m9EAEcvJBR2eypR6oceqmavljF7ow
-         vpy/5fPG1/TNsaiZdqOYedmM1UL2/H2Bcv1cB8WwQ7vGpBLWUKVERlWAGUdC5mG4dJl5
-         Enuw==
+        d=linaro.org; s=google; t=1753977544; x=1754582344; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=17RO5tj8wCg7IBKuIfx2NeFRjK89caraONSxCkuBGWc=;
+        b=lx1k3rmZJCmnTfl5d0ew/ufM7Xv8CVaYQDNzvxg4qZNTui6W8y9iFfQJvhDkVF7smE
+         65ZH+ZkMOW/bWr4sDslnfQOwVba42FHdc2rLSjOYd3TzYMtPgiodHQp9Uc1JFH4FLlwc
+         agZH2GRu5Pfi00Yp7D4DUh1Sm+2ZRuqvdJ2/PJeFNdRe6v007n5DWqJJEbQlHaYC3ctO
+         G+7dxb/g4LJ60/OQ6o5HrA08M/4aHtBLK52Oapn9ILO0t/PIzpteNxdTYggvs4qJAXSC
+         lAG77obl1EMb6Zgl3sDNRqcqxKGrd2kieUTvl0394UJ34XZLWq7moLy095kR3x4u7KQW
+         KIZA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1753969851; x=1754574651;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=tEQ1XoGm9eaZ2CQwlCxSmOHdyKgEeGnL9srDeytRVGU=;
-        b=R8t19w8fiBzA0UWx1JLrCKqRxKpkSznj4bg5mU8oACnzYCTHqPj4m/gJWYbpTc4RjP
-         ROcgjyABxMnRFM/S20ynaXNWnrzSQJ2/M8ezGTDTzpOadL16/PxggFfifloxXXVjmMZw
-         9a7MyCAmQm5Jq99mhPZPLLE+kc3uzbDFq3IGGQwm4ULSOlJ9AKyeyrDeiNZsPcVHvka+
-         5ecgFmVwZcMVO5UX1o7/S9aMWQXkqi2cRGTiUxEPx3SQxJGqfrH50NNClxv6YqDolR7M
-         MTdb1B6jzueMMyHvgUyhdI3fdQMm0drU5iT6KwBmFxpf/jFQjKWVUHcPgxT9zF77vqu4
-         3mEQ==
-X-Forwarded-Encrypted: i=1; AJvYcCW3pwUmO//JZRXzekC6AmQtu8m78jGVTdZdofpkiz9vF1Rf7ydSPNjKgMn4rSwgG4i4YewWVEoDPCeuDDR/@lists.linux.dev
-X-Gm-Message-State: AOJu0Yx1yS8fCuynYimuPWDXCfsplUtg1LlkWXwbF9s0JLOWqAR88ZqI
-	mB/s/hdDYArxRIPQNDI8d7VcAp8gVqw0oDvOAOVDOc5GRqe2H4Ar0i7H
-X-Gm-Gg: ASbGncvh0AHi52wBFp1Sfn21c8QCEA9QjHS9AyoogAxSKFI6uEJUieGh8ijfHNIaFQ3
-	2rZ5ViUrw6jXIBhqrkX7h76w/qsjw+8X9fKqNYdq8KUlOkXXVob0j+2UpUflF+2c9mw+sjlbn6s
-	FqLzfPyyN7iGfjVyL1U+OpNdpSF98xfzURXvFEr1ceZdUL7fNFqy0t+iZZ/+XrfSYBdZmUm70Ge
-	5fkMr5a6UuclD6+W9I2U20g9iW57uUZvGRlIO8BNLSrfOxH3HeHxxb4+YOMCqCDJVGM3eGdS0l1
-	XqxPEnEw/wTTLYbgzft7dz5HeubvYplKVpt0SskfcauTJwxVNpENTNRFGvsVSsntaVwxnSTLyGc
-	KA1bIefaRLV7yM7o7MbDNIgWGQ7auEwzRDp0wwE1UcIe9HzcIxsc=
-X-Google-Smtp-Source: AGHT+IH6+W3kKYsyKhKdjnmM6R+IzB/8tbDPac9jcn00m9evOh5Gm43paWEMVoBv6rMeNBc8x9iA3Q==
-X-Received: by 2002:a05:6214:2626:b0:707:2ef6:c13e with SMTP id 6a1803df08f44-70767056804mr95728996d6.1.1753969850705;
-        Thu, 31 Jul 2025 06:50:50 -0700 (PDT)
-Received: from linux-kernel-dev-start.. ([159.203.26.228])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-7077c716effsm7740906d6.0.2025.07.31.06.50.50
+        d=1e100.net; s=20230601; t=1753977544; x=1754582344;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=17RO5tj8wCg7IBKuIfx2NeFRjK89caraONSxCkuBGWc=;
+        b=u88u2qh7nMISuecaBSGlI93vJZtlJqJYJurpigQVqGYj0dnmUMrzcHwD+xzoIzddBm
+         p164Ft8TS0Xr2QNy2lxm+EH1AlbSJzkwrfk5twY2RJBa+qe8Dh7NyF0kiFaFOTtxZ2q6
+         1gf+UoBP3HNURLUJDXm+vTcjNhqJQjrIxD8MkiT421Rcj23E7SuOvw0P9LBSOyyO1dFR
+         cYau9JKyxqSYIjp8L/h+gwO7KHlPDtkhetRe59+LmuqnaylMVYRS4m4S6zlXvDksujLa
+         lBhmZffVyRVa3GDGm9/U4pnxaG/7yNA5fB/B/5sXbQo26VIplKkuoCBpPPScEjowBvIe
+         EW/g==
+X-Forwarded-Encrypted: i=1; AJvYcCUSSEoPWcVAmqqT0/cYu46r+BQKxFz+fezFmxNgvAJaskG01ebaHg2NaZSWiXKDtCAwHp60X4t40f+R6fOa@lists.linux.dev
+X-Gm-Message-State: AOJu0YyUqXU+FdjbEhwHkvIa6EmeOczFog5Dsdj+VoRYdbRqDqvz6g3u
+	AfZ/DFHt0+0kuZPfPTJa6WF8kj2meE2AmTsvcj1aefqSNVtSzBBvVQIW3tFZ32FFSpI=
+X-Gm-Gg: ASbGncvgWv9bI/qmKPZljpOlE5d/C51Yl0LRJmoN53JoSB1qXbjsROM4fS38A77ha55
+	eaE0/tueigKWg0Kc7fF8LWqbwzZzttKERtm8zdQkpk4A7WC+TIoCbZFyzUIa06rA596nBf4MEUM
+	WHV+mGZu1nwyw4zVmY3OTzsnNtZXGrQScaMMu96sl9KxSbpjDlsFZF19VSTDAzMgA+8day63q/p
+	7/e1LnIOr3udMYOMqZGd07Wte3Xd7vdlHiYGW4/12MlPBF4lSvrwgnm/Fp7VSdAJ9lz1mB7cxrC
+	fa6771ZTp1txeOBLsRMbpiqiGbf7Nww0lrX5dwjf0tBKTVjrlaz28zF+0y6Nk2QFB5UvgC3fJ6m
+	0F5i0F1TkCiSMGEHQEJ634NHIixM=
+X-Google-Smtp-Source: AGHT+IGi5XSwe1WlINYSaZIl9PD30Bv4d1ucxiE0q9IdFf/Di5Lqoo+8RUJufu6hF+pT8D6IwS4/tg==
+X-Received: by 2002:a05:6000:2481:b0:3b8:4da3:cace with SMTP id ffacd0b85a97d-3b84da3cfb4mr2016313f8f.29.1753977544176;
+        Thu, 31 Jul 2025 08:59:04 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4589ee621adsm32429795e9.30.2025.07.31.08.59.03
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 31 Jul 2025 06:50:50 -0700 (PDT)
-From: Vivek BalachandharTN <vivek.balachandhar@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	vivek.balachandhar@gmail.com
-Subject: Re: Feedback on Patch Submissions
-Date: Thu, 31 Jul 2025 13:50:22 +0000
-Message-Id: <20250731135022.515348-1-vivek.balachandhar@gmail.com>
-X-Mailer: git-send-email 2.39.5
-In-Reply-To: <2025073101-playful-easeful-3008@gregkh>
-References: <2025073101-playful-easeful-3008@gregkh>
+        Thu, 31 Jul 2025 08:59:03 -0700 (PDT)
+Date: Thu, 31 Jul 2025 18:59:01 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Michael Straube <straube.linux@gmail.com>
+Cc: gregkh@linuxfoundation.org, hdegoede@redhat.com,
+	Larry.Finger@lwfinger.net, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 3/8] staging: rtl8723bs: move rtw_init_mlme_timer to
+ core/rtw_mlme.c
+Message-ID: <05bc4742-ef57-482b-a2af-23a7f238fd69@suswa.mountain>
+References: <20250730104501.150270-1-straube.linux@gmail.com>
+ <20250730104501.150270-4-straube.linux@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250730104501.150270-4-straube.linux@gmail.com>
 
-Hi Greg,
+On Wed, Jul 30, 2025 at 12:44:56PM +0200, Michael Straube wrote:
+> +static void _rtw_set_scan_deny_timer_hdl(struct timer_list *t)
+> +{
+> +	struct adapter *adapter =
+> +	timer_container_of(adapter, t, mlmepriv.set_scan_deny_timer);
 
-Thanks for your feedback — I understand your concerns now.
+You accidentally deleted a tab here.  This should have been:
 
-Apologies for the excessive revisions and resends during the merge window. I got too focused on addressing review comments quickly and lost sight of the timing and volume.
+	struct adapter *adapter =
+		timer_container_of(adapter, t, mlmepriv.set_scan_deny_timer);
 
-I'll hold off on resending until after the merge window closes, and will consolidate everything into a clean, single series.
+regards,
+dan carpenter
 
-Appreciate your patience, and thanks again for the guidance.
+> +
+> +	rtw_clear_scan_deny(adapter);
+> +}
 
-Best regards,  
-Vivek BalachandharTN
+[ snip ]
+
+> -static void _rtw_set_scan_deny_timer_hdl(struct timer_list *t)
+> -{
+> -	struct adapter *adapter =
+> -		timer_container_of(adapter, t, mlmepriv.set_scan_deny_timer);
+> -
+> -	rtw_clear_scan_deny(adapter);
+> -}
 
