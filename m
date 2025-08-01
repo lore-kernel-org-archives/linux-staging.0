@@ -1,40 +1,71 @@
-Received: from leonov.paulk.fr (leonov.paulk.fr [185.233.101.22])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3085360
-	for <linux-staging@lists.linux.dev>; Fri,  1 Aug 2025 08:30:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.233.101.22
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86E8F2AD0D
+	for <linux-staging@lists.linux.dev>; Fri,  1 Aug 2025 08:32:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754037036; cv=none; b=kc6pxSwZZAZHXwbrmpjP2Rt6gbstgbueY3mS9LFYg3O/exFnP3kPQ1pkGmVbTr6h6GiSIqlanmsA7ve1ALK4vTBaokdrqldMdcIcz9LZqHmI84DYYdgA70g+NcuP7NIsYnCfuay74qxD2ovAMgTBAUGyJwjj6yAQXCkXBWf5i4M=
+	t=1754037159; cv=none; b=XIzUbRO7ZRI9SX5QB4n7Zmi31qNj3/iTU3j3KeaaU5Q4AWbfD+JM6HyNDboSCCIz3dYQ43U5EPKTjvepjLVspt0o/11fPv2YoqAQMbM+47I7kAVuixnTgemCESnQLR8hEFwtpG/NNnKXzlshPapClK6hiO+KgDxBiLYPldZbawc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754037036; c=relaxed/simple;
-	bh=pHwO2lQbomnHeulpznF5TDaTNdoAuuEEitIN2jfiTGY=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=GVgEH0jwK+2tMw/KYgODAAaX6N3Hv4DlyBqSGyeU2L9c2drHBSnPddCHvWsntkUL6DCeRjb3xxAcr8T/QdB25t2FLZDzw7L53mRYNuh2Y7pkXOMm4GN2p3VTegdEQhkSi+j4JPPHsWQOErYFrauU0NXGmNNkTWOc5+BXD2RFNjk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sys-base.io; spf=pass smtp.mailfrom=sys-base.io; arc=none smtp.client-ip=185.233.101.22
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sys-base.io
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sys-base.io
-Received: from laika.paulk.fr (12.234.24.109.rev.sfr.net [109.24.234.12])
-	by leonov.paulk.fr (Postfix) with ESMTPS id D4C131F0004B
-	for <linux-staging@lists.linux.dev>; Fri,  1 Aug 2025 08:22:09 +0000 (UTC)
-Received: by laika.paulk.fr (Postfix, from userid 65534)
-	id 2C7DCB00FC8; Fri,  1 Aug 2025 08:22:09 +0000 (UTC)
-X-Spam-Level: *
-Received: from shepard (unknown [192.168.1.65])
-	by laika.paulk.fr (Postfix) with ESMTP id 71270B00FC9;
-	Fri,  1 Aug 2025 08:21:51 +0000 (UTC)
-From: Paul Kocialkowski <paulk@sys-base.io>
-To: linux-media@vger.kernel.org,
+	s=arc-20240116; t=1754037159; c=relaxed/simple;
+	bh=QLYvYIlNsru6sVR2dQ1cSAedc3A4vVjd8m3PtqCxK0k=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=qZ+nbzi9SuVAH9IgB9Xf1WQHqJClnHlU4wp9YShJf+qQrYwMD9nfRLQiTB403oQrD0Ntj3erCYVOksjNkLe545dUx8z2h4qRj4Cn+X4Mbo2vzSpNOh+5Ni2kNyPvsz2eulbgv3RCx7moHGLXMsyWj3VzHhIUZuGIVB+SCK45K5c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nHVZQq+v; arc=none smtp.client-ip=209.85.208.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nHVZQq+v"
+Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-6157c81ff9eso1977300a12.3
+        for <linux-staging@lists.linux.dev>; Fri, 01 Aug 2025 01:32:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1754037156; x=1754641956; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=w61+8xZzLE9ZAKBOlZw6XCNl+aIH1RldJ/u9IGbSh9U=;
+        b=nHVZQq+vDyOvuUTjZqRBmcZfU+9TMvcdmoMb6R1k31T04Cz2ynlMxFb/v6tlSd6GtF
+         qOcPPuH+i857kOEBqSsVInBr/tE4FcL8Ckeo+2ka3BvxKssdEd8Z77x8cd4MbZGlifZ3
+         ZqXeIX+y+rC/TS2SC9hEOLMx9BDeJQ4M1STQ+m611Qm5xXb5KrYITaxQ5ynE4EY9WEEi
+         0OuhRrpYNsYXOp+2ymmacveTXc5vWjb3qvxaK2cKA1iw3d/QYF4jLGOHLqER7GUMif39
+         HmHCIF82YFckMA9dPvrtE0MAdnqtQtO5FtMKNHAfRL3eyxjW/nbN1zxxnBMIyGpTdCog
+         Q+kg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1754037156; x=1754641956;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=w61+8xZzLE9ZAKBOlZw6XCNl+aIH1RldJ/u9IGbSh9U=;
+        b=vJQDbJ4B0T4tnShQEAH0hL7bqNmUmPxqxJbr0ND54T+qLVB1SLTheIyI1Va9a2i4ac
+         j09qs1GNt4Pc91Z8sxUkjXtyFu0BXOsJl5ERvdVhjb6zKZB56jg/R8r5HPNy8cYjbPta
+         ujPnnZIZy9VwLAJdcv3Iyku8GHb/GrezHtBe7YFdpQj1nAaQDWybEYMtz3zhWHA+V8gi
+         W+cMOogw8+xtPBBg59AB0vwLDOx+Sy+kYD/+AFdQruekvpNA3kRSMBKoYzIOLEptitNE
+         fncwaouUVkaSThDve2QGvfVW6SlKbHlSxamNbQfpx2o17oKkCn/ZylUIiHMmOl6nA+Vz
+         QDnA==
+X-Forwarded-Encrypted: i=1; AJvYcCWfKMlciwYGDEciK3+U//u4NNRw4i+veRMlqdCLjJWYJiY5WSRH70X81i1fIF04PotIIz3Y3olGRdNADjIR@lists.linux.dev
+X-Gm-Message-State: AOJu0YyVTvCtzP+KZsZ/I498c+/vVLT+jBar9m2iDWJNQAzFyj6pIo9T
+	lSSrf4B7l1s426d23nbpVaHtNUH5dmZOvmNmX/5VLgddb5TwCKtiZTT+
+X-Gm-Gg: ASbGncsVooSIqostZEnYIpvBLB9zQkaAIUX/zzXBfjXE0k0VAXGAlk3FG0OJpPo/mdm
+	Dt3nEHrLyaqlNgsdqAdp5yQHpIRB006ZUiZJfPHzJyUu/oB4Sc3JBfFImEq2YxFl+jOMpx6/ysk
+	nPQisPzYFL4x5AJzhbsDsSMaj8WYfvOjYv/BvRDYm0HDw6hA3I7XwhSocebYRzfFDPI4ngzdSQu
+	yErcY7Wwop1XfCnhnHk1kMaN42oODPOZkGWiQxjlLy7aEDVbD+P0ltWgkNvkwFDHUSRRGDiCZzf
+	U2feRiSwOSfeFbXDF2hf2drMp7+V36otqgq3xpapv83XbV9/Is6HHFeAGSpcEsOpxd6ZZ54SEbV
+	jusX26igXMBneW0v3Clq+KWM0wPRQ+ka4sWPkP6LEnKPRgaEa6aI=
+X-Google-Smtp-Source: AGHT+IGSjaHMpSM2F0DUBfBzULo8o9lfOwTP1cmyjskDFOpXe49VIrHx6V9mwMpaiCqRqoWuELGnqQ==
+X-Received: by 2002:a05:6402:1ecb:b0:615:b0a9:20d with SMTP id 4fb4d7f45d1cf-615b0a9071dmr4970679a12.20.1754037155594;
+        Fri, 01 Aug 2025 01:32:35 -0700 (PDT)
+Received: from tumbleweed (ip-77-25-33-2.web.vodafone.de. [77.25.33.2])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-615a911a59dsm2362735a12.62.2025.08.01.01.32.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 01 Aug 2025 01:32:35 -0700 (PDT)
+From: Michael Straube <straube.linux@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: hdegoede@redhat.com,
+	Larry.Finger@lwfinger.net,
 	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Cc: Jack Zhu <jack.zhu@starfivetech.com>,
-	Changhuang Liang <changhuang.liang@starfivetech.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Hans Verkuil <hverkuil@xs4all.nl>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Paul Kocialkowski <paulk@sys-base.io>
-Subject: [PATCH] media: starfive: camss: Use common dma-contig dma addr helper
-Date: Fri,  1 Aug 2025 10:21:49 +0200
-Message-ID: <20250801082149.591192-1-paulk@sys-base.io>
+	linux-kernel@vger.kernel.org,
+	Michael Straube <straube.linux@gmail.com>
+Subject: [PATCH v2 0/8] staging: rtl8723bs: get rid of os_dep/mlme_linux.c
+Date: Fri,  1 Aug 2025 10:31:23 +0200
+Message-ID: <20250801083131.82915-1-straube.linux@gmail.com>
 X-Mailer: git-send-email 2.50.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -44,32 +75,39 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The vb2_plane_cookie helpers is not meant to be used directly by
-drivers using the generic dma-contig allocator.
+This series moves/merges the functions/functionality of os_dep/mlme_linux.c
+into the corresponding parts of the driver in the core directory to reduce
+"os dependent" code.
 
-Use the common helper to retrieve the plane dma address instead.
+The patches have been compile-tested only due to lack of hardware.
 
-Signed-off-by: Paul Kocialkowski <paulk@sys-base.io>
----
- drivers/staging/media/starfive/camss/stf-video.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+v1 -> v2: added back accidently removed tabs in patch 3/8
 
-diff --git a/drivers/staging/media/starfive/camss/stf-video.c b/drivers/staging/media/starfive/camss/stf-video.c
-index a0420eb6a0aa..b0b9b70b9641 100644
---- a/drivers/staging/media/starfive/camss/stf-video.c
-+++ b/drivers/staging/media/starfive/camss/stf-video.c
-@@ -167,10 +167,8 @@ static int video_buf_init(struct vb2_buffer *vb)
- 	struct stfcamss_video *video = vb2_get_drv_priv(vb->vb2_queue);
- 	struct stfcamss_buffer *buffer = to_stfcamss_buffer(vbuf);
- 	const struct v4l2_pix_format *fmt = &video->active_fmt.fmt.pix;
--	dma_addr_t *paddr;
- 
--	paddr = vb2_plane_cookie(vb, 0);
--	buffer->addr[0] = *paddr;
-+	buffer->addr[0] = vb2_dma_contig_plane_dma_addr(vb, 0);
- 
- 	if (fmt->pixelformat == V4L2_PIX_FMT_NV12)
- 		buffer->addr[1] =
+Michael Straube (8):
+  staging: rtl8723bs: remove wrapper rtw_os_indicate_scan_done
+  staging: rtl8723bs: move init_mlme_ext_timer to core/rtw_mlme_ext.c
+  staging: rtl8723bs: move rtw_init_mlme_timer to core/rtw_mlme.c
+  staging: rtl8723bs: remove wrapper init_addba_retry_timer
+  staging: rtl8723bs: merge rtw_os_indicate_connect into
+    rtw_indicate_connect
+  staging: rtl8723bs: merge rtw_os_indicate_disconnect into
+    rtw_indicate_disconnect
+  staging: rtl8723bs: move rtw_report_sec_ie to core/rtw_mlme.c
+  staging: rtl8723bs: move rtw_reset_securitypriv to core/rtw_mlme.c
+
+ drivers/staging/rtl8723bs/Makefile            |   1 -
+ drivers/staging/rtl8723bs/core/rtw_mlme.c     | 151 ++++++++++++++-
+ drivers/staging/rtl8723bs/core/rtw_mlme_ext.c |   9 +
+ drivers/staging/rtl8723bs/core/rtw_sta_mgt.c  |   2 +-
+ drivers/staging/rtl8723bs/include/drv_types.h |   1 -
+ .../staging/rtl8723bs/include/mlme_osdep.h    |  19 --
+ drivers/staging/rtl8723bs/include/rtw_mlme.h  |   1 +
+ .../staging/rtl8723bs/include/rtw_mlme_ext.h  |   2 -
+ drivers/staging/rtl8723bs/os_dep/mlme_linux.c | 179 ------------------
+ 9 files changed, 155 insertions(+), 210 deletions(-)
+ delete mode 100644 drivers/staging/rtl8723bs/include/mlme_osdep.h
+ delete mode 100644 drivers/staging/rtl8723bs/os_dep/mlme_linux.c
+
 -- 
 2.50.1
 
