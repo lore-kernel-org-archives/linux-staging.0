@@ -1,63 +1,63 @@
-Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
+Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1725C20C001
-	for <linux-staging@lists.linux.dev>; Fri,  1 Aug 2025 08:32:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF15221772A
+	for <linux-staging@lists.linux.dev>; Fri,  1 Aug 2025 08:32:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754037160; cv=none; b=i+H67SPNiArvisS16R2ypyCLNL0OtPJU8xkOqoMlY7z9GcErLbs4a/rbkRMNFxi9b5jOL8HdKl95o16fVParJM3mVZcwjO6D3PAXOkntLBChYe041LJ4URA4yR1/OSYvJsOuruDr3T3LLKdVeGwaSP+/WcH5E5bZvcHg+95ymr8=
+	t=1754037161; cv=none; b=qsWOmH6RrE7FN/A7+bIrpVEamlRHAGGidlsz7OzTtFS7KBYHgbRPz/+X/lUTe2N6uytlU54zOqBfz7EMBMNWvvAe9urlJsPcXKNYEwcA/u4K/BcEwbaKPznJPV0HEctMuuiy/Gyv0u4RGHbWa66aBeWS6p/cs0Oww7DL4isMxm4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754037160; c=relaxed/simple;
-	bh=/+vcYsI4ZQyJ++t1I38Ppuj4VT8P+XooHoXgtmskaOw=;
+	s=arc-20240116; t=1754037161; c=relaxed/simple;
+	bh=429Dsz1UXCl+tc4Qfhqn6rxGh5DaOcSImn2Rmb4v8WI=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=beRpNJw+7v/8+zV5j8L0bHvfpQcxi/YJMBOwrYr+YDd4QhWFuNbbN4FA3NUZtT3ulo0XgMIJlciDKP7cSCYTPjhyu9ZQNsAu2EvMeTBqPm4W2PvfUVHGw+8qZ7QdpklzoO6h5wcuNPwSZur7GQtDKBTEPG01eIPlDKMHsyVsQlI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=l3+qX8OB; arc=none smtp.client-ip=209.85.208.44
+	 MIME-Version; b=iTagSf+ftWWcm2CD5fyiQsHjzaBK+22jK6ibR93YNoxYtRwxfU0rRa8SROiKEbLYx5Vl+E2f4mtLW60z1idBHfG8d1S/AZgVwPE6kSmiHzqrTojXvkb0EVYGAambECNVnKgKcXsIyOOo6ZJ4JDQUD88QNikxuwqzUgT1jRoRUj4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kKLwNLo1; arc=none smtp.client-ip=209.85.208.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="l3+qX8OB"
-Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-61576e33ce9so3176200a12.1
-        for <linux-staging@lists.linux.dev>; Fri, 01 Aug 2025 01:32:38 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kKLwNLo1"
+Received: by mail-ed1-f53.google.com with SMTP id 4fb4d7f45d1cf-615378b42ecso1013558a12.0
+        for <linux-staging@lists.linux.dev>; Fri, 01 Aug 2025 01:32:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1754037157; x=1754641957; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1754037158; x=1754641958; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=j6jMC12tEugVk5aruwhIYXcetQLysBmEwE741CRW/oY=;
-        b=l3+qX8OBkLDmaLHxvEsdtPTrKLkPIC2urIhBtNpOSn6aKu1bbaD5z0Nb9cxOqD/ris
-         2l4AdazSTjm7Jh+u96OspzSnD7UWbzcURMWRE39C9sLZj9iADjdFbDSS8QFrlepFK1Jn
-         Ota8DPYWxaIw4MjZSjX0rIeaWTHUKz1+pQ9OT06cDwLTCGFeeJHbypq/vQIsaln/LW8z
-         7CHQkUreH4X5s9P7gwqWp+y60/quu/od4mvPfEVOEYscTfwPDyagmj8Zsn1mVpW7pvU9
-         aKrrNNoFGkQTPuEjkQap5G5dEuXbUDEPv/ZDiwPIsMwIyOrp8ML1PWBXLlWEdnGDLUnr
-         zitw==
+        bh=SvAoNTM7MhnTBXwN9OXdWpK9Cl2xaDI6Blg0pAmiyvk=;
+        b=kKLwNLo1wV1hrVAN701nAoiop0v1jzyajqhq3eBeaaMR7CgBT2FUR4uSS6x4I0E1fk
+         Y5qxyTZasRC3qEPVQb6967pp//Mpd8Dwk1dtYOnlwgWsC8LETHWyKX1cHf/LWhOeptq4
+         u8Pw9fS1BxLygZWhNZrogf0H2c6oFsxADVvy4+Jgjmjy2UXuzY5Ww17mMEQypEKFkFae
+         e6xQibAkik74h5BFX0/APBpRJtiZaYUaUKsHarEjfSp9wIFEVS1z5lLv7vImAI9QwpNp
+         srm0QFaktPRUrWlVifUym5ubST8QQhc4qC9PaafIL5l9BJW1pkkgAb++NUu4TrqR9yWN
+         Nitg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1754037157; x=1754641957;
+        d=1e100.net; s=20230601; t=1754037158; x=1754641958;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=j6jMC12tEugVk5aruwhIYXcetQLysBmEwE741CRW/oY=;
-        b=Dg33oUNr4QxtY4J0MWIt/6sHjsX87XyYf1gt6KrnNELcSLpxPmIJsTNtTU67wp/p07
-         Ln/secD71a0ClYDk92xLwnLmrvtFZ8DsyT0l6dRrNiCeGEuYsnYMKRxqd5VXvYkt63bU
-         onJZDpoA96diT64ZPdcFjVPPspottp9j2OK+R43oP3qZcpsmNQY0XBPM9wD8D+XPqF2o
-         65WiYg/4gEFObpxqWmM/B+jkqdZ2IzEk8DQ7nV9E95omNw3q5l7ESLfV+ndFtfuqPhhR
-         zMgQQQAxaKGMhsV16pslnlcJUKbOVve52O+1ldF5c7qh9HlPX29WcJ55C+5U3m6SaePe
-         5THg==
-X-Forwarded-Encrypted: i=1; AJvYcCXTx5HrhZ73AJqLDJCss5A1pwEeh3WDAZyFLWzO6VUH57szH9mhP10yvpKVK+G/THRkCXViTVldnd2oUoQt@lists.linux.dev
-X-Gm-Message-State: AOJu0YzCfw4W8VIe9xlucECNc0xnK3RB2vmIFMunP7J988rzNQp2acVx
-	IQuCGfAtvXgoOUYrIjFcjS4z6fS6aLPS1sR+JIjP9cEd3bYrYV/Wq+xb
-X-Gm-Gg: ASbGnctgNCUFnQ1S5zgrAI0iohzoXVcYR1ffWqvFQ7wNrnv4r627dSzF+vKivLN9A3a
-	6GiJeUskYVrtcXiDhyV61JZS6ZSFu63EBhYwrVe6UUU0SaKCwhdrcO/MXsSGRpnW3OLCV4a235H
-	9m942bmPNs/bV2uhg482Tjcm5TIGPQyjE+c8Dnq/tyERZG0jTiUIR6A/u1r+NR1CV0Tystz06nD
-	YqjGsjZHjPH1iak36w7ej30apCTVotyWDK6uMJRJh13ReiRy1iKCZ1zchskYS5J8yhG0DQjUkwK
-	bXg1YgJc1WIC2Gd2UTuBmra4RehNPl5joNDvGTH3Cip+sbMqXp35J9GHCFebsDISr9VGdrR0f57
-	5mSKvuirbiu27rFxesuUBqFdZjdeqf41e9Gpy0tUz9tNSMLzK848=
-X-Google-Smtp-Source: AGHT+IHciq99BbuZpWhzmGyVurHmceDhuGv0VyhSlty1GL9uJXllpooZ1oSHCxPfXsLTyOQc240QsA==
-X-Received: by 2002:a05:6402:2809:b0:615:4c85:47a0 with SMTP id 4fb4d7f45d1cf-615ae19999dmr5006820a12.7.1754037156991;
-        Fri, 01 Aug 2025 01:32:36 -0700 (PDT)
+        bh=SvAoNTM7MhnTBXwN9OXdWpK9Cl2xaDI6Blg0pAmiyvk=;
+        b=UU4K1gKjU+AHw2wqgsXkWJMi7yKKb37YyUv01U1+DkfihIMRX5Wa40ZczmV6cDXw0N
+         GGiRsmXcJ1MXBGggV0cxaSiwxATyHBazShZ30EQt2o6amF/AeoICDfptdO2S9ficJgpk
+         SXTnOlEhrcexlWZlPhdKAXPKEqrtv226aXOTscpNEIWr39ZlpWihd/dDY1FfhwOveZNt
+         hDvm/Bpwx3omYBBtMlUOxvqKSI8pT1uS8yEv2z5jHOVMuE4Iht+TIH5IU8CVhLSfdtET
+         QJ5TjM5yFsTKPaNiaAiVeLvkIgW4038DJAlA4ETs+O0ymUfn/y/p7zNRoWSiRUako0WG
+         2fvQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWYFm/g5ZPetDUvGXWjq5k10VZS8j2J6Bg0i84VkmSItSmpauvQ1EKDUsm90QolBmlMl8taNc4IjWwcdxZv@lists.linux.dev
+X-Gm-Message-State: AOJu0Ywz7TKKtiVt5SDFyizumdDiRrMd04OglIIslFQY2mfm3isczjs7
+	UPACn9ifTcUoACpNunDHKv0b1HglIdtNfk5g5djaPxtG32ewA6E1LS4h
+X-Gm-Gg: ASbGncuzZRa73T3D/qJD1iCKpE7avVphKgHsOUdqnj6j3reDm40lrqJHN0aj8wc3GAo
+	tSmvFDWlYUxltyrOHVIWAva1G5R9j4szFIfw6RKg71WKtlI/Sf3lzDKBFhX8CAk5DuuAtvoHPgz
+	VWsP8+3Li/j6FvDdadeDwVR+9zqxR07SIS3QckUbwB01vvUbECZVx/lVAggqLaor4TE+OpRVGUF
+	PJo46W6GCDtmGaKzyjGz+NmOQD6z7k0kgjmKuwTqV7RlPJGaZ+zIV3/csGIaFSRQRX49wg/3YoR
+	iGkaLZETXd04wh1ScOGzNFiI7pZ+k2TEHN53eBljTeJ3T3jOc/S+sDWuCold/730keSA3WqZ29d
+	J9TZdlcJ1dy8j4IXbCAtJoDwUw4PPmYzwXbtlKm2h+wS1O1ub6+Vk7QZWwxT0rA==
+X-Google-Smtp-Source: AGHT+IG9UtA818tUQyzTBxmyycijLf90jRyxH1yIxm+p2IBSQn5NV1nmQ8MpIGTh4noUUEDvN6MmGQ==
+X-Received: by 2002:a05:6402:210a:b0:615:b6b9:d859 with SMTP id 4fb4d7f45d1cf-615b6b9db0dmr5281972a12.3.1754037158132;
+        Fri, 01 Aug 2025 01:32:38 -0700 (PDT)
 Received: from tumbleweed (ip-77-25-33-2.web.vodafone.de. [77.25.33.2])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-615a911a59dsm2362735a12.62.2025.08.01.01.32.36
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-615a911a59dsm2362735a12.62.2025.08.01.01.32.37
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 01 Aug 2025 01:32:36 -0700 (PDT)
+        Fri, 01 Aug 2025 01:32:37 -0700 (PDT)
 From: Michael Straube <straube.linux@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: hdegoede@redhat.com,
@@ -65,9 +65,9 @@ Cc: hdegoede@redhat.com,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Michael Straube <straube.linux@gmail.com>
-Subject: [PATCH v2 2/8] staging: rtl8723bs: move init_mlme_ext_timer to core/rtw_mlme_ext.c
-Date: Fri,  1 Aug 2025 10:31:25 +0200
-Message-ID: <20250801083131.82915-3-straube.linux@gmail.com>
+Subject: [PATCH v2 3/8] staging: rtl8723bs: move rtw_init_mlme_timer to core/rtw_mlme.c
+Date: Fri,  1 Aug 2025 10:31:26 +0200
+Message-ID: <20250801083131.82915-4-straube.linux@gmail.com>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <20250801083131.82915-1-straube.linux@gmail.com>
 References: <20250801083131.82915-1-straube.linux@gmail.com>
@@ -79,66 +79,112 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Move the function init_mlme_ext_timer from os_dep/mlme_linux.c to
-core/rtw_mlme_ext.c to reduce code in the os_dep directory.
+Move the function rtw_init_mlme_timer from os_dep/mlme_linux.c to
+core/rtw_mlme.c to reduce code in the os_dep directory.
 
 Signed-off-by: Michael Straube <straube.linux@gmail.com>
 ---
-v1 -> v2: no changes
+v1 -> v2: add back accidently removed tabs
 
- drivers/staging/rtl8723bs/core/rtw_mlme_ext.c    | 9 +++++++++
- drivers/staging/rtl8723bs/include/rtw_mlme_ext.h | 1 -
- drivers/staging/rtl8723bs/os_dep/mlme_linux.c    | 8 --------
- 3 files changed, 9 insertions(+), 9 deletions(-)
+ drivers/staging/rtl8723bs/core/rtw_mlme.c     | 30 +++++++++++++++++++
+ .../staging/rtl8723bs/include/mlme_osdep.h    |  1 -
+ drivers/staging/rtl8723bs/os_dep/mlme_linux.c | 30 -------------------
+ 3 files changed, 30 insertions(+), 31 deletions(-)
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-index bc980d21d50e..0e685c0f2f2f 100644
---- a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-@@ -374,6 +374,15 @@ static u8 init_channel_set(struct adapter *padapter, u8 ChannelPlan, struct rt_c
- 	return chanset_size;
- }
+diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme.c b/drivers/staging/rtl8723bs/core/rtw_mlme.c
+index ebc4bd6ecce9..2e957f00bd75 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_mlme.c
++++ b/drivers/staging/rtl8723bs/core/rtw_mlme.c
+@@ -9,6 +9,36 @@
+ #include <hal_btcoex.h>
+ #include <linux/jiffies.h>
  
-+static void init_mlme_ext_timer(struct adapter *padapter)
++static void _dynamic_check_timer_handler(struct timer_list *t)
 +{
-+	struct	mlme_ext_priv *pmlmeext = &padapter->mlmeextpriv;
++	struct adapter *adapter =
++		timer_container_of(adapter, t, mlmepriv.dynamic_chk_timer);
 +
-+	timer_setup(&pmlmeext->survey_timer, survey_timer_hdl, 0);
-+	timer_setup(&pmlmeext->link_timer, link_timer_hdl, 0);
-+	timer_setup(&pmlmeext->sa_query_timer, sa_query_timer_hdl, 0);
++	rtw_dynamic_check_timer_handler(adapter);
++
++	_set_timer(&adapter->mlmepriv.dynamic_chk_timer, 2000);
 +}
 +
- void init_mlme_ext_priv(struct adapter *padapter)
++static void _rtw_set_scan_deny_timer_hdl(struct timer_list *t)
++{
++	struct adapter *adapter =
++		timer_container_of(adapter, t, mlmepriv.set_scan_deny_timer);
++
++	rtw_clear_scan_deny(adapter);
++}
++
++static void rtw_init_mlme_timer(struct adapter *padapter)
++{
++	struct	mlme_priv *pmlmepriv = &padapter->mlmepriv;
++
++	timer_setup(&pmlmepriv->assoc_timer, _rtw_join_timeout_handler, 0);
++	timer_setup(&pmlmepriv->scan_to_timer, rtw_scan_timeout_handler, 0);
++	timer_setup(&pmlmepriv->dynamic_chk_timer,
++		    _dynamic_check_timer_handler, 0);
++	timer_setup(&pmlmepriv->set_scan_deny_timer,
++		    _rtw_set_scan_deny_timer_hdl, 0);
++}
++
+ int	rtw_init_mlme_priv(struct adapter *padapter)
  {
- 	struct registry_priv *pregistrypriv = &padapter->registrypriv;
-diff --git a/drivers/staging/rtl8723bs/include/rtw_mlme_ext.h b/drivers/staging/rtl8723bs/include/rtw_mlme_ext.h
-index 2080408743ef..58e2d8e159d6 100644
---- a/drivers/staging/rtl8723bs/include/rtw_mlme_ext.h
-+++ b/drivers/staging/rtl8723bs/include/rtw_mlme_ext.h
-@@ -426,7 +426,6 @@ void init_mlme_default_rate_set(struct adapter *padapter);
- void init_mlme_ext_priv(struct adapter *padapter);
- int init_hw_mlme_ext(struct adapter *padapter);
- void free_mlme_ext_priv(struct mlme_ext_priv *pmlmeext);
--extern void init_mlme_ext_timer(struct adapter *padapter);
- extern void init_addba_retry_timer(struct adapter *padapter, struct sta_info *psta);
- extern struct xmit_frame *alloc_mgtxmitframe(struct xmit_priv *pxmitpriv);
+ 	int	i;
+diff --git a/drivers/staging/rtl8723bs/include/mlme_osdep.h b/drivers/staging/rtl8723bs/include/mlme_osdep.h
+index c84c84c68286..4bb7a01caf4a 100644
+--- a/drivers/staging/rtl8723bs/include/mlme_osdep.h
++++ b/drivers/staging/rtl8723bs/include/mlme_osdep.h
+@@ -8,7 +8,6 @@
+ #define __MLME_OSDEP_H_
  
+ 
+-extern void rtw_init_mlme_timer(struct adapter *padapter);
+ extern void rtw_os_indicate_disconnect(struct adapter *adapter);
+ extern void rtw_os_indicate_connect(struct adapter *adapter);
+ extern void rtw_report_sec_ie(struct adapter *adapter, u8 authmode, u8 *sec_ie);
 diff --git a/drivers/staging/rtl8723bs/os_dep/mlme_linux.c b/drivers/staging/rtl8723bs/os_dep/mlme_linux.c
-index 09bf363efa8b..d22d6cf3cb11 100644
+index d22d6cf3cb11..5cb27ddab769 100644
 --- a/drivers/staging/rtl8723bs/os_dep/mlme_linux.c
 +++ b/drivers/staging/rtl8723bs/os_dep/mlme_linux.c
-@@ -164,11 +164,3 @@ void init_addba_retry_timer(struct adapter *padapter, struct sta_info *psta)
- 	timer_setup(&psta->addba_retry_timer, addba_timer_hdl, 0);
- }
+@@ -6,36 +6,6 @@
+  ******************************************************************************/
+ #include <drv_types.h>
  
--void init_mlme_ext_timer(struct adapter *padapter)
+-static void _dynamic_check_timer_handler(struct timer_list *t)
 -{
--	struct	mlme_ext_priv *pmlmeext = &padapter->mlmeextpriv;
+-	struct adapter *adapter =
+-		timer_container_of(adapter, t, mlmepriv.dynamic_chk_timer);
 -
--	timer_setup(&pmlmeext->survey_timer, survey_timer_hdl, 0);
--	timer_setup(&pmlmeext->link_timer, link_timer_hdl, 0);
--	timer_setup(&pmlmeext->sa_query_timer, sa_query_timer_hdl, 0);
+-	rtw_dynamic_check_timer_handler(adapter);
+-
+-	_set_timer(&adapter->mlmepriv.dynamic_chk_timer, 2000);
 -}
+-
+-static void _rtw_set_scan_deny_timer_hdl(struct timer_list *t)
+-{
+-	struct adapter *adapter =
+-		timer_container_of(adapter, t, mlmepriv.set_scan_deny_timer);
+-
+-	rtw_clear_scan_deny(adapter);
+-}
+-
+-void rtw_init_mlme_timer(struct adapter *padapter)
+-{
+-	struct	mlme_priv *pmlmepriv = &padapter->mlmepriv;
+-
+-	timer_setup(&pmlmepriv->assoc_timer, _rtw_join_timeout_handler, 0);
+-	timer_setup(&pmlmepriv->scan_to_timer, rtw_scan_timeout_handler, 0);
+-	timer_setup(&pmlmepriv->dynamic_chk_timer,
+-		    _dynamic_check_timer_handler, 0);
+-	timer_setup(&pmlmepriv->set_scan_deny_timer,
+-		    _rtw_set_scan_deny_timer_hdl, 0);
+-}
+-
+ void rtw_os_indicate_connect(struct adapter *adapter)
+ {
+ 	struct mlme_priv *pmlmepriv = &(adapter->mlmepriv);
 -- 
 2.50.1
 
