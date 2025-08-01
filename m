@@ -1,138 +1,119 @@
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB4D723ABB4
-	for <linux-staging@lists.linux.dev>; Thu, 31 Jul 2025 18:13:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39DC03C26
+	for <linux-staging@lists.linux.dev>; Fri,  1 Aug 2025 07:19:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753985595; cv=none; b=YInJcYNcb0TY0LEojX9JRlHumTQK9nqrgy37oih/PwB/ILxxCC4JqqsVYRInSValwLtcaz5F4HPKu+xOiplLkakana78f+2ILKLjz9H6cccQpINSDlwn/N6Kpn6h53nsUc6JrbFArqSti5Tufyk388odwuIOm2P+Gq2E4HotF2k=
+	t=1754032753; cv=none; b=C5h6uvpqHB+XkeLdx38cHDwPMOd5LfzVzLnu51v7O+ozXbPz+wDV5R4KhPWftJgzA6Ax89LTDEGud0s2Q6St6tmc7KJyZOb+3jIuvWAKci8togWYVnPn3ycADjsTQeAO07lCu7zWMSxhLKgIJW1k48qL2xUOM+hWsNaBGAmVbGc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753985595; c=relaxed/simple;
-	bh=wFLSG1Ulab6iKXiKYb5seOCv5xy4H4N4O+mXSaEOb0E=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nDrkj/L5SxEeVXN2llWmqaS2diZCOplywMk8gKb18SXi9FS5f0mVMYvUU4RKuceUMthINf0UDQMh8w13ia4tY6kk+gFnpUZ+DjWbwWLS9S+ecdjRs2qHyoG3GH1ODIh+FLtBTyRmnWq1V2S/j01/ZeFvwvoxktQeVKJ83e8N3mg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=FZblhiJw; arc=none smtp.client-ip=209.85.128.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1754032753; c=relaxed/simple;
+	bh=Mbl+RyTD2gFwGo7uHhpS/tKBW0RUI/sFTtJ1XeFL9Z8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=dCVPDDiO01n7nOejcDv02dWWkIUDI2Qb+TgxJSn4nCY+408fUTlHsF1S8yZaEw6MGxKZ37asd8qVoP9KCekAd//+rnXFyi4pFsCGlmpJf11MpisvgGBZXuJlH/D2xdtY18J3nNQn2ubdBQxIEF3zY3R8WxLoOwtqgUNWWclk/oA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ByR6xqFs; arc=none smtp.client-ip=209.85.208.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="FZblhiJw"
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-4538bc52a8dso6451415e9.2
-        for <linux-staging@lists.linux.dev>; Thu, 31 Jul 2025 11:13:12 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ByR6xqFs"
+Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-615c8ca53efso1617599a12.2
+        for <linux-staging@lists.linux.dev>; Fri, 01 Aug 2025 00:19:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1753985591; x=1754590391; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=khPC5CAFWL6Dx66QS31uBvJHhzcyJG/ZzOS5ZJNRudU=;
-        b=FZblhiJw0tHFQGnOIVUPeojrDm9LydhszGznV+LBV4MfWDWt7WqnQegRDbeukpLBhG
-         kQct6RaiyZtSP05zynWKygfGmZhxikGkgiWklhsUgpgvNU9CoF77E0/DPD9GC1KDVN0+
-         adiMCHHuU+aIERw6lmp0XWdPmC0q/DiB41LEB7KZ26OSJZBIoWMZn6/IKrSorcfNccws
-         QkyFLrflHDnOB6bLxXntrbkKPC3n8Skd8apuCCQde/+rC7nk9DtUfqbmAXmvp3wi9zKR
-         P5pg++nRPXkuIfvb3P6NsKmppKV83LfoJcp6QD2uZ8WVK3pM7YhekTfsPWqlV1g7GWLC
-         KsnQ==
+        d=gmail.com; s=20230601; t=1754032750; x=1754637550; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=GZwv/qzs+19lK98+ODjU5waUBilwF5SbMGy7Dm5005I=;
+        b=ByR6xqFsoEK7g+EL+fNXuBnslLiP3IqATPT3Ky13LbrLcHQBTv9qBVsOQBoXelmpna
+         9TGRIIY4Yy89UZezD9FSKdqbTLpmhUbsPXUvzS3S8ioaqfS6dTeyCYn1FYjbc7JQpR9P
+         OVaFBJ6bK5YQET4vqKP879hBr8lcEU8OoINLltOhR003sUNPqg1CoibOUEC+pDrn7uYz
+         eIWfT9TI5sXnAquXGuAlBcQQAkpC4xPBWwqXRO+zePKov8G8mj2vcvUGqjASI1at+pnZ
+         bUpCroIOaLyICUj8ZfbVVMBc96YJvv/99Th8RhEstV/djq8c7ZNC5hO4JzBm1TZsUZ9c
+         JbOQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1753985591; x=1754590391;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=khPC5CAFWL6Dx66QS31uBvJHhzcyJG/ZzOS5ZJNRudU=;
-        b=mbqmpeq8RTgGO0m6rhqurs5CWd7MA+owUCqMqMx++PncZ1cfRH3tStmUEHJD3Yzw5A
-         p+QaJvU5+hRlLryAElsofCOn/x0BAxuEJfIuDxW+w2VHHyp2eY9TfOzDyPFY2XFKa8j0
-         tko5+ZAikLKUk4YiNtNaM9gO3XYh9G2YzVtQRlm0Gsihvv4O/NRS08cVAfAilLCqETHk
-         AiBrIyzwoarpcuJP3dge+gMDA/58ITMIy5v8CsH/nx/ferVTHFU90gCXSB4EFQpisXCh
-         NUdCGdkQgBGAcrSb4iePjYMmxxLmLKKc5t44hcIpx1EtLvQCqOkmPKnISCX2gJEzW5XA
-         46NA==
-X-Forwarded-Encrypted: i=1; AJvYcCXKmk3YcdBAGIPbzpkDHiGKKT0/lVhv5ETJTShgyFh/FeYNCg/f8E3y1YjNw6mY3Snpfqm/oRAT8f/MMQxB@lists.linux.dev
-X-Gm-Message-State: AOJu0Yw+YQdt9lABCJrL6H146RnOZtZomVp0UlZcMw8leoUhXVdOFsBt
-	okZpE7+CHc6gWRbPss3fFntbyvhvLVp67F6qhtZG6ptiW5Qum8rYVH4zsEwAO4rCsBo=
-X-Gm-Gg: ASbGncv7Tkz+JNh0G6jWNdRz2Z6wfEI+UMcBSBCsir5GZbzy+QesJ8GSwl3EpLdarPn
-	JRpLEgT9sPBo8bJiP8zHdUGZFt3eLTk6LKLYLFH0Rs22/PLWQqlixtcdvsH15KIiufFfRfzHTk8
-	nuISIFSlaWtfBty+66DPwSjrfemAKvaa0KPZyKCxgWwThXSxMYv4d5uGtGYq2lo/Wgi1RLUBPFW
-	+QUj+3QuvpKyDCEBaWoYkkErRKu+RVlO6zy0UqxJwA0FL12zWR/XUZ6PBBWF3lR426mPUw9Bjx7
-	zy8zEuXes9x3mQMowE5C+GMqx3+rLmq1Z6n4WnlYnGA9i9h7FiArnR3W7pevuZ+w2doKvdRsisU
-	JpoxAjZhE54S89w7UID4Z6rj2TtY=
-X-Google-Smtp-Source: AGHT+IHEqCFNhgCLiwP/29jshYubmNscmwnmSCzs+vaDOgyXEAUaqK75fKy7u401XjtvRY2P9tl/Jw==
-X-Received: by 2002:a05:600c:6304:b0:456:191b:9e8d with SMTP id 5b1f17b1804b1-45892b9d0bdmr68568855e9.11.1753985590948;
-        Thu, 31 Jul 2025 11:13:10 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4589536bc34sm73465595e9.2.2025.07.31.11.13.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 31 Jul 2025 11:13:10 -0700 (PDT)
-Date: Thu, 31 Jul 2025 21:13:07 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: ALOK TIWARI <alok.a.tiwari@oracle.com>
-Cc: sudipm.mukherjee@gmail.com, teddy.wang@siliconmotion.com,
-	gregkh@linuxfoundation.org, linux-fbdev@vger.kernel.org,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [External] : Re: [bug report] staging: sm750fb: Fix polarity
- assignment for vertical and horizontal mode
-Message-ID: <ed4c5bce-d252-4d86-9358-65a48214d3b0@suswa.mountain>
-References: <20250723192528.77109-1-alok.a.tiwari@oracle.com>
- <dbd2df69-27cc-4fd8-8e5b-78b6872d5d16@suswa.mountain>
- <25636f64-7b15-41d4-9ea6-216c22d84be4@oracle.com>
+        d=1e100.net; s=20230601; t=1754032750; x=1754637550;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=GZwv/qzs+19lK98+ODjU5waUBilwF5SbMGy7Dm5005I=;
+        b=UfblqAXmOFrF8M6zAtIJFFkyiA2ga2a12XrUA8WIB2XAom0dRkZaspYyF/sjZHhMdv
+         Vp204pcw8gSjsoXMHOv7r1p+MMFdf7N3XA7XyU+VwjtIw/uWRrp4BDhVbKoO7PKjyzwn
+         /ju/WM6n/02kQYo4VMJJZdK8RHw2fgGWtRKVDhqPo6MRgq+7L6wP5Msq8PEJ5e+piWZS
+         tDR6Z0G8bva5RWYmuKbpny3xp0WmhXZA1kRQmjFxQn7SCKy8rzoP0WeOjwiyiNvGt0v+
+         XpQkU1oDkoj6/U1knb4Jj4LRzVWcqagXmmGFywcp6XlC1IgfxUwXjh/OiH7ENjgFsqFt
+         J8zg==
+X-Forwarded-Encrypted: i=1; AJvYcCVQDnkqt6lGChwaLcxDjXrWc+Dql3YXAMgZ2Ikjov/WUp6zll6x5NNCUC95wK0fvcDDE2hksbHJAePuLtzx@lists.linux.dev
+X-Gm-Message-State: AOJu0Ywr52lKjvQqFpGCjhi9qXMxzQehc8m1rsa2H4FVx3ZZBxn8ldRz
+	FEcO/6c9a/SXtqm/zK/USNCpavzB1zC4+cW1oRx3/IVxdaAOme6kt+4p
+X-Gm-Gg: ASbGncv+I3F58HxGbaO9iQWtHrSJIjpKLVpoP8chAN8xPoqbUW21K8vJQ56Lk87zVYh
+	MbJ2V51q2V2++S7ZxRDsEaT4enQ8eVm0cgh8Yj29J0+8+4cmgik5CwsfS7wbqkGpz+vLXd9KH7O
+	4R/5Cx8crRzkeFUYKuIgI9KaV3H+vQkRqfONw/7z1YmJPhqFTjFfvcjK3oi8uK1f8kKr9jzyBxl
+	UqOWYY7WgNix9MH+miaQY097ySuLDfvTKmw2DXfWRds5zxNH+SJ1QSFfEr+fPYJMiaoXvXZO4cq
+	WyfNS7dgXMV4T80S4Hlde5fcJgPRley7aX79XtaiHV8kO9elJkvJFUX4p0rGzGlECQ6tYPY7+NA
+	Jid9ykIdUu1Xss/1q7S0bWKFz1GA27+ph4wUeq05NS+mOo/Buq6cO52yo9w==
+X-Google-Smtp-Source: AGHT+IF0QDEuCcmr8EjWLA4qqb0NrlU2hIjfuVXZIQbkssIh/lLuqkGBQ0k0LDR4BAnagV3h88KFDQ==
+X-Received: by 2002:a17:907:7f90:b0:ae3:c6a3:f833 with SMTP id a640c23a62f3a-af93173c5edmr167493266b.23.1754032750236;
+        Fri, 01 Aug 2025 00:19:10 -0700 (PDT)
+Received: from [192.168.0.101] (ip-77-25-33-2.web.vodafone.de. [77.25.33.2])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-af91a218cf8sm242483366b.95.2025.08.01.00.19.09
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 01 Aug 2025 00:19:09 -0700 (PDT)
+Message-ID: <b77087d4-a80d-46e6-8d96-3ce976bc70d7@gmail.com>
+Date: Fri, 1 Aug 2025 09:19:09 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <25636f64-7b15-41d4-9ea6-216c22d84be4@oracle.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 3/8] staging: rtl8723bs: move rtw_init_mlme_timer to
+ core/rtw_mlme.c
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: gregkh@linuxfoundation.org, hdegoede@redhat.com,
+ Larry.Finger@lwfinger.net, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+References: <20250730104501.150270-1-straube.linux@gmail.com>
+ <20250730104501.150270-4-straube.linux@gmail.com>
+ <05bc4742-ef57-482b-a2af-23a7f238fd69@suswa.mountain>
+Content-Language: en-US
+From: Michael Straube <straube.linux@gmail.com>
+In-Reply-To: <05bc4742-ef57-482b-a2af-23a7f238fd69@suswa.mountain>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Thu, Jul 31, 2025 at 10:03:46PM +0530, ALOK TIWARI wrote:
+Am 31.07.25 um 17:59 schrieb Dan Carpenter:
+> On Wed, Jul 30, 2025 at 12:44:56PM +0200, Michael Straube wrote:
+>> +static void _rtw_set_scan_deny_timer_hdl(struct timer_list *t)
+>> +{
+>> +	struct adapter *adapter =
+>> +	timer_container_of(adapter, t, mlmepriv.set_scan_deny_timer);
 > 
+> You accidentally deleted a tab here.  This should have been:
 > 
-> On 7/31/2025 9:41 PM, Dan Carpenter wrote:
-> > On Wed, Jul 23, 2025 at 12:24:31PM -0700, Alok Tiwari wrote:
-> > > In drivers/staging/sm750fb/sm750_hw.c,
-> > > the vertical and horizontal sync polarity assignments were incorrectly
-> > > ordered.
-> > > The assignment for modparm.vertical_sync_polarity was mistakenly using
-> > > the FB_SYNC_HOR_HIGH_ACT bit instead of FB_SYNC_VERT_HIGH_ACT,
-> > > and the horizontal polarity line was commented out or missing.
-> > > 
-> > > This patch corrects the logic by properly assigning:
-> > > 
-> > > vertical_sync_polarity -> from FB_SYNC_VERT_HIGH_ACT
-> > > horizontal_sync_polarity -> from FB_SYNC_HOR_HIGH_ACT
-> > > 
-> > > Please let me know your feedback.
-> > > Thanks,
-> > > Alok
-> > > ---
-> > > Fixes: 81dee67e215b ("staging: sm750fb: add sm750 to staging")
-> > > Signed-off-by: Alok Tiwari <alok.a.tiwari@oracle.com>
-> > > ---
-> > 
-> > Did you find this copy and paste bug by testing or reviewing the code?
-> > How does this bug look like to a user?  Please put that in your commit
-> > message.
-> > 
-> > This looks reasonable to me, but the patch is badly formatted.
-> > 
-> > 1) It should say [PATCH] in the subject.
-> > 2) The body of the email should be the commit message.
-> > 3) the --- should only come after the Signed-off-by line.
-> > 
-> > Try applying your patch with `git am` and review the log to see what I
-> > mean.
-> > 
-> > regards,
-> > dan carpenter
-> > 
+> 	struct adapter *adapter =
+> 		timer_container_of(adapter, t, mlmepriv.set_scan_deny_timer);
 > 
+> regards,
+> dan carpenter
 > 
-> Thanks Dan. By reviewing the code, I noticed some awkward assignment.
-> However, I was not sure about this code, so instead of sending a formal
-> patch, I just removed my SB and marked it as a [bug report].
-> I will send formal patch with proper SB.
+>> +
+>> +	rtw_clear_scan_deny(adapter);
+>> +}
+> 
+> [ snip ]
+> 
+>> -static void _rtw_set_scan_deny_timer_hdl(struct timer_list *t)
+>> -{
+>> -	struct adapter *adapter =
+>> -		timer_container_of(adapter, t, mlmepriv.set_scan_deny_timer);
+>> -
+>> -	rtw_clear_scan_deny(adapter);
+>> -}
 > 
 
-Good eye.  Put "I noticed this in review and haven't tested under the
---- cut off line".  If we apply it and it breaks then we've been
-properly warned.  Something needs to be changed, if it's only to rename
-the variables or add a comment.  But I think your patch is correct.
+Hi Dan,
+thank you for reviewing, I'll fix that up and send v2.
 
 regards,
-dan carpenter
-
+Michael
