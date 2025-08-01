@@ -1,106 +1,114 @@
-Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C97BF246788
-	for <linux-staging@lists.linux.dev>; Fri,  1 Aug 2025 12:35:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFDC428B511
+	for <linux-staging@lists.linux.dev>; Fri,  1 Aug 2025 16:01:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754051732; cv=none; b=iSTOYfcGl3KLyxHoRKywVpCnal6BhwhjfoyZbyYhz0AqRuGj6RFTpMI6UQ2bmgrmPe4bkBddnL6jX5xExJ/G44W3u3r+HYsu1pMN9C8WbU4eBqVOAO2Ztk99zQA949KA0MwXqV1bEhhay1blZmcj5E7o/PlNUxD+Kcy/UHdkDV4=
+	t=1754064062; cv=none; b=rrASuBG2EYbKoazPDZhri96M+OTLiwKUVUEQOgl+nwfxXzttJe1E+9T+OZbncAl77S7Gi2RR/kK2ZB/+IC+FbwHul5AZxp7DCewwxtIlfQLMHIseG7KQxR2ZVoImkaggHvUfzWslh7aQ21OLPZeL3CMhIonQgW4U5MuBPy/vhG8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754051732; c=relaxed/simple;
-	bh=C8FmHEvnmbzUP4vtQLOTlZM8bMrMzhs7Se6Hmqknmxg=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=I3PDgL8YJxF/MAKPfW8C3taRBNkYruSg4JXNvp4YBQ1o+At9Yy77fI+7JiTgv0q+2mhsJ8i8SL7A8LSdOu3GF23YtOUMZtuBJGWkJEdc2/1J1uEN5Krw0BWfNvBlyw7FaJiganbTV/OyGD8hrNuQ4Tu/n6bHrjqJ6ZGsH42fh3w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=h2OM8FoK; arc=none smtp.client-ip=148.251.105.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	s=arc-20240116; t=1754064062; c=relaxed/simple;
+	bh=gxbyO/nRf/1euIk2zGL39AVfBifO9dw5pC4STJtJJe4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=V7wBh+NcqH+PD4y30mUsM8wv5bAAMS5K3MYPfSc6jexl169LAMYGPD+96/f9GctJuKK5MyXNy/M9Z8G872HlvTBsxTBG0N4U6/t98sMpkCtzWPXaMAgidT2s7In1sGoHYPWEfYrsO/rKRTBuTiKNu4KKEE/XK2Po8uDMZ5vmX5c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IwpeRC60; arc=none smtp.client-ip=209.85.128.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="h2OM8FoK"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1754051729;
-	bh=C8FmHEvnmbzUP4vtQLOTlZM8bMrMzhs7Se6Hmqknmxg=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-	b=h2OM8FoKBU/uigF8dHwvR14102JwdYaEyHsLlmXalyFOExzw3bpBEIAuSFEqf8MhJ
-	 vlOPl3sUFrPh+a0wv8VALo7NmRalG6TbVpJxZ9Hc2cWDP9EKHGCUpBsHwG0SYpSOMp
-	 /mCa0hJ2Lg8iSAZSEhgcGogoohvqKcUfAbLyBVJuN++hM0673cCkhclGkpvmKQZO4i
-	 rauQBq2pVMO6KLT9bU8bJSlvWmi2g7mizAbHruUUX1v05KZg0aKRQ3K0V5UWDGX8OC
-	 0oEm5yz5RVRijShKZPiMwZQ5devf13niFalwG9kyJK7AxYm3xje5VwT3rW5x8osYFD
-	 bZvaHnzLi7Hdg==
-Received: from 2a01cb0892f2d600c8f85cf092d4af51.ipv6.abo.wanadoo.fr (2a01cb0892f2d600c8f85cf092d4af51.ipv6.abo.wanadoo.fr [IPv6:2a01:cb08:92f2:d600:c8f8:5cf0:92d4:af51])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
-	(No client certificate requested)
-	(Authenticated sender: jmassot)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id 48D9117E0DD7;
-	Fri,  1 Aug 2025 14:35:28 +0200 (CEST)
-Message-ID: <5a12d6adc1ffcdfca7ad2d77dc7a080839f5a375.camel@collabora.com>
-Subject: Re: [PATCH v6 06/24] dt-bindings: media: i2c: max96717: add support
- for MAX96793
-From: Julien Massot <julien.massot@collabora.com>
-To: Cosmin Tanislav <demonsingur@gmail.com>, Cosmin Tanislav	
- <cosmin.tanislav@analog.com>, Tomi Valkeinen	
- <tomi.valkeinen+renesas@ideasonboard.com>, Mauro Carvalho Chehab	
- <mchehab@kernel.org>, Rob Herring <robh@kernel.org>, Niklas
- =?ISO-8859-1?Q?S=F6derlund?=	 <niklas.soderlund@ragnatech.se>, Sakari Ailus
- <sakari.ailus@linux.intel.com>,  Laurent Pinchart
- <laurent.pinchart@ideasonboard.com>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, Linus Walleij <linus.walleij@linaro.org>
-Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-staging@lists.linux.dev, linux-gpio@vger.kernel.org
-Date: Fri, 01 Aug 2025 14:35:27 +0200
-In-Reply-To: <20250716193111.942217-7-demonsingur@gmail.com>
-References: <20250716193111.942217-1-demonsingur@gmail.com>
-	 <20250716193111.942217-7-demonsingur@gmail.com>
-Organization: Collabora Ltd.
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.2 (3.56.2-1.fc42) 
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IwpeRC60"
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-458b2d9dba5so2790075e9.1
+        for <linux-staging@lists.linux.dev>; Fri, 01 Aug 2025 09:01:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1754064059; x=1754668859; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=u4xW5Buo0/4Bn0zJX3iGqHwSKxl50sPUyBxGezBYQu0=;
+        b=IwpeRC60DvCRG2XCQ5GkqeeQXMia94A3XLtTOgxuM80qu7CYA4RIRUTHpOiRH01QTS
+         XvH1xbBivJjuBlP/SMmQnlhfGVjALhxcpB/Z7QMhMCXMUaicp9Fjv7UHG4NQEqvCXqTz
+         zwyBsJebViiNXIFoimNbKppDJvIBA1jwaQBvdsezdOewr9d2mSV2XBy5Vk1nOx5M4UKg
+         HHZ3o/VxnbgOrJUIQENQKEL0RUxV/5VEW655W53XuS5nsUQ4xJLjcthAylpbTCAnENjh
+         OrZnFPWOOac7O4dIF4v/bGQfGewFC5QesFML2gBqY7VLVVxPfR6PjyxK+z9X8jDlsyn0
+         Ualg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1754064059; x=1754668859;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=u4xW5Buo0/4Bn0zJX3iGqHwSKxl50sPUyBxGezBYQu0=;
+        b=t0SUK1xJcABMszSFuvr5L+IqD+/MjgMwxVw2fN5orpZOC/61MxxFuDI2hx7x0RVDB/
+         SSddbC3AkbbcTcjNkZK5vyZCdRsu4Xc3CgefFNUWtdZ0sKq1xDhFpbYRL6x6jscwK3kx
+         GX8Y+g086A8x187+QIBC3SQi+XsGXveW1Ypaw4lz31tl+itwDe/BUIJSVLoEUgG4fYk2
+         Wzz60Y145MnMnAr1pPq8DppZsA0x/ktUJFNvIIm5vN0Feyy5/BBlU1rDelXm+2/KwtJb
+         duKHIo9hSjWf2GRbWumfn5KxqTx0PVyhRGZujtEvvCjbTT3+hO5SNOsLA8tapO5+qRs4
+         +Frw==
+X-Forwarded-Encrypted: i=1; AJvYcCWXpoGIjYrtTEc1GyZjKDC/5b0Y8aHgThP1lYpn/B6eF+xnKqKMAkgD9t0NF9vgBptgnFf0iFm0gTCBsxk4@lists.linux.dev
+X-Gm-Message-State: AOJu0Yyr2iQf/XbMgmWd7nRJxOcOjSczcwS/97bL78LEK3rQqFuNjR7b
+	U48MwV+rUp1/GsXNEog9yR17KdBA4WLBKcG70YOmYU/k2lsqdhDKTS0J
+X-Gm-Gg: ASbGnct6sjftvISU8VhC4/t436sM5Zk2Nri94RWyBw+oijvyg8Q2xDrFxyQg9zE2sGz
+	4lTXEh4ghoF4mtylNL72Qfx+JAUnzbt93b5QojuVhEfzfSQV4DRO7NOfgxDYYGSwsJubztPXpsn
+	0/MXQQqavW/ghWdcFrmIJ9uEsDgaEy4H4xp5PQAGRoowNr8qxGKO0UGo+TyE59v41kZeQCLAG+f
+	82FWaMqwYejSpaZ+5hicWWsOpJZUK8KXP56hqzQui50ATfLmsLowAhI0r3k4EkjsK4g9wMuSZDN
+	Sdj/sYuhbmmErgfsRjYfG/VPRXQZhGjqcfRULoDjA6pJ8rXFDpe4279xltbma4kVJNyfCmHAZ9+
+	leyg2L0wW6pwMTBCFHRXs
+X-Google-Smtp-Source: AGHT+IF9JwLpR1JPS1Ju0IJ8Bt8BrxT04aZO/d6OuQjLQr1C7i8RtgkGdUSbXUCIePYULDMObludzQ==
+X-Received: by 2002:a05:600c:8b63:b0:456:475b:7af6 with SMTP id 5b1f17b1804b1-45892b931ecmr101032855e9.7.1754064058758;
+        Fri, 01 Aug 2025 09:00:58 -0700 (PDT)
+Received: from localhost ([87.254.0.133])
+        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-3b79c4534b3sm6249748f8f.47.2025.08.01.09.00.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 01 Aug 2025 09:00:58 -0700 (PDT)
+From: Colin Ian King <colin.i.king@gmail.com>
+To: Andy Shevchenko <andy@kernel.org>,
+	Hans de Goede <hansg@kernel.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev
+Cc: kernel-janitors@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH][next] media: atomisp: Fix incorrect snprintf format specifiers for signed integers
+Date: Fri,  1 Aug 2025 17:00:23 +0100
+Message-ID: <20250801160023.2434130-1-colin.i.king@gmail.com>
+X-Mailer: git-send-email 2.50.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 
-On Wed, 2025-07-16 at 22:30 +0300, Cosmin Tanislav wrote:
-> MAX96793 is a newer variant of the MAX96717 which also supports GMSL3
-> links.
->=20
-> Document this compatibility.
->=20
-> Signed-off-by: Cosmin Tanislav <demonsingur@gmail.com>
-> Acked-by: Rob Herring (Arm) <robh@kernel.org>
-> ---
-> =C2=A0.../devicetree/bindings/media/i2c/maxim,max96717.yaml=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 3 +++
-> =C2=A01 file changed, 3 insertions(+)
->=20
-> diff --git a/Documentation/devicetree/bindings/media/i2c/maxim,max96717.y=
-aml
-> b/Documentation/devicetree/bindings/media/i2c/maxim,max96717.yaml
-> index 78ecbab8205a5..02a44db982852 100644
-> --- a/Documentation/devicetree/bindings/media/i2c/maxim,max96717.yaml
-> +++ b/Documentation/devicetree/bindings/media/i2c/maxim,max96717.yaml
-> @@ -30,6 +30,8 @@ description:
-> =C2=A0
-> =C2=A0=C2=A0 MAX9295A only supports pixel mode.
-> =C2=A0
-> +=C2=A0 MAX96793 also supports GMSL3 mode.
-> +
-> =C2=A0properties:
-> =C2=A0=C2=A0 compatible:
-> =C2=A0=C2=A0=C2=A0=C2=A0 oneOf:
-> @@ -39,6 +41,7 @@ properties:
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - items:
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - enum:
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0 - maxim,max96717
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0 - maxim,max96793
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - const: max=
-im,max96717f
-> =C2=A0
-> =C2=A0=C2=A0 '#gpio-cells':
+There are incorrect %u format specifiers being used to for signed integers,
+fix this by using %d instead.
 
-Reviewed-by: Julien Massot <julien.massot@collabora.com>
+Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
+---
+ drivers/staging/media/atomisp/pci/runtime/bufq/src/bufq.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/staging/media/atomisp/pci/runtime/bufq/src/bufq.c b/drivers/staging/media/atomisp/pci/runtime/bufq/src/bufq.c
+index bda35614c862..0f0d16f4ce7c 100644
+--- a/drivers/staging/media/atomisp/pci/runtime/bufq/src/bufq.c
++++ b/drivers/staging/media/atomisp/pci/runtime/bufq/src/bufq.c
+@@ -497,7 +497,7 @@ void ia_css_bufq_dump_queue_info(void)
+ 	for (i = 0; i < SH_CSS_MAX_SP_THREADS; i++) {
+ 		for (j = 0; j < SH_CSS_MAX_NUM_QUEUES; j++) {
+ 			snprintf(prefix, BUFQ_DUMP_FILE_NAME_PREFIX_SIZE,
+-				 "host2sp_buffer_queue[%u][%u]", i, j);
++				 "host2sp_buffer_queue[%d][%d]", i, j);
+ 			bufq_dump_queue_info(prefix,
+ 					     &css_queues.host2sp_buffer_queue_handles[i][j]);
+ 		}
+@@ -505,7 +505,7 @@ void ia_css_bufq_dump_queue_info(void)
+ 
+ 	for (i = 0; i < SH_CSS_MAX_NUM_QUEUES; i++) {
+ 		snprintf(prefix, BUFQ_DUMP_FILE_NAME_PREFIX_SIZE,
+-			 "sp2host_buffer_queue[%u]", i);
++			 "sp2host_buffer_queue[%d]", i);
+ 		bufq_dump_queue_info(prefix,
+ 				     &css_queues.sp2host_buffer_queue_handles[i]);
+ 	}
+-- 
+2.50.0
+
