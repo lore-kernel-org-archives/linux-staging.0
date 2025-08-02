@@ -1,93 +1,104 @@
-Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2AFF16F8E9
-	for <linux-staging@lists.linux.dev>; Fri,  1 Aug 2025 21:58:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 627961A2632
+	for <linux-staging@lists.linux.dev>; Sat,  2 Aug 2025 07:32:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754085503; cv=none; b=EjX0Kdl+5uuVjrvUkquJNee77/SS+1x8X6gMEN3KZmG+cKp/o4KtqqxR44Vrk1P4p0sP9qx/SgUqs0zZb04s45tewYzLXyq5YFBtesiEq4RsaIUx3pi26Y0YaRzWy5lLKPF72LXHWaYVN7hkzjnhzM8yJfbD66yD4PpbtMFzU6I=
+	t=1754119928; cv=none; b=NpkRqtUdeqdfxfli2Xt+MSM+gaQrKjHmLQ0Fy1/GZzDN/NeO9rtvR1G4YzP4yjrtK+KU8h+I/YcM2+IaBHDxVPG/9tAae9+fgCYn/nD9vrWwt4ZXGHMYj05JOi7AZUZpUc6oFVOyQFzu+3W68yl51jlzc0+100GuxhnXVM1dk2c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754085503; c=relaxed/simple;
-	bh=9W9aLRKcskQT2G+1SL74xY98V8kvoY+yZ4RYwLfO4lQ=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Rpq0iSgCwL1eVQrX1c9TbFHBwECkKYfTOGnJt93exnB4T4gpBQ4IFYvUQtNR0YC+ozyODkIwz5/Udg2vcb5aP1XU4zRpww0p5fkJkrWRGLNkINMhCt9kjuDwdMlxQoFrsYwkWggQo74Ey4EVbqNvDs0yAxnPsvXpWNeL2HSYl08=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JyccCTdt; arc=none smtp.client-ip=209.85.208.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1754119928; c=relaxed/simple;
+	bh=X8HRyQFPoOlzxmLgSDnwmZXBUKycsDjwrurq5e80avE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=lOAf6MY3tnWXYB9XcB1cNfC0N008aOhdTngGfoq8kAat5+xRKh2v6F0uYp/Px0sz/ReNFwUYQECQVP9Pq3wxCJ247QqShJoegGr7rLy0B+M6Aejvt7hKiC8U4gQT4z21TLVjqKQL95k3/9Oyy8SFYU8j1zIvAeAELnaj7zkEEOQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=vDhdC6h/; arc=none smtp.client-ip=209.85.221.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JyccCTdt"
-Received: by mail-ed1-f50.google.com with SMTP id 4fb4d7f45d1cf-615d0b11621so1933812a12.1
-        for <linux-staging@lists.linux.dev>; Fri, 01 Aug 2025 14:58:21 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="vDhdC6h/"
+Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-3b7823559a5so1647814f8f.0
+        for <linux-staging@lists.linux.dev>; Sat, 02 Aug 2025 00:32:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1754085500; x=1754690300; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=9W9aLRKcskQT2G+1SL74xY98V8kvoY+yZ4RYwLfO4lQ=;
-        b=JyccCTdtEMrrESCHsXnrdZXFb5yBn+uH7dSmf6u2FE3BdbgBu2Wm2dJrtXwnQtKDRv
-         d5w2N9GCk7CIOp2AdCyWH5oaVguphtkfTP34OAisixtpG9wfqnmfoN0GF7rloriEYiQG
-         j5Hzc9vMUDVn2t2KNa82eBp8ir/JVKhuCb9o+ilUZqb27Gylv+iAmSBP0IYA8SUq2Efx
-         cjgxMWnjOVqU9GVeD974e/RojrF4kteX9lcPAEwchHk8/ZBAsL7G1S+5KV/flNHgfMTx
-         ZM1Ovi0Pyari2HKlnGsIUCtHpgqCy/pPUllnCxH0YzkNtVOux5I9hqyA6xtCHcCTzRAS
-         w56A==
+        d=linaro.org; s=google; t=1754119925; x=1754724725; darn=lists.linux.dev;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=6Pft35+3lXQVnWPsUsq5tpsncZSpCehFTU7fpA7XTkY=;
+        b=vDhdC6h/9NjVpoNm2nZlzyUwTVOgheg0MRx/iM3cK3T1kFjQxZIZ84tFbFT+7lTKHh
+         wuEdQClqAKL8LW9cL0lBjwZ+jgvI+/T2+9DLez9Y9cT7OdFl2azbUDihCQ7muiGW4RnM
+         Q//C773H6qf/Re1CIlQ/sRGJl8A5qTn4V1uq4bjTkPaFlEylFRibLt0ghrKDwNcaoeqN
+         /Nu9F5eFZHRlCZgCwuhokrGzPQxg49/rRadENPMFUrzERmkKSt1gS3bBSnxNGVkPaj2x
+         cqlSgwwQKd32+vwgoOI8xXGK7fkmLQvF8U0/547DuYBlikkCO1rRN74AI6YneF4u5Hc0
+         M6Sw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1754085500; x=1754690300;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=9W9aLRKcskQT2G+1SL74xY98V8kvoY+yZ4RYwLfO4lQ=;
-        b=ES5xN3v4VOI8UX3RaJcsbtRHiAYaCul/yLnSWEmGeqE1j7g3jbKfajPzexmIrUUgwV
-         SpJ3Ub5a8hF4WscvufKeXw4KHJhDyHXFlmDseeWoJ7pHR0AgNHBNTZ+lf+lRtYog3x7n
-         kk0y+Nm9V/uJEsn2DBLo3IOGoHNdUSJb20R2aWjF8y+np3g89qYCxNM1KbQZKdWVKXz+
-         dEVJglT3GR8eanvw5yzkkUKRU3Uiyl2H3klhXviSGYIZDv4ETnpb8XW3tETo5X0VEUq4
-         /51KX98263DnnhVCdh4kaNRKnQ0RFD3sjDWasRP700gfwv1Ja24wDrh9rfORTTyPOm5K
-         SRWg==
-X-Forwarded-Encrypted: i=1; AJvYcCUF2HNLKEgC7ELOuoq+5fehsqJRbW3b3SjmQx+5IK0KfEJzzzdE35sS87w2JBbhn/IlSrIznHLsOcyzSb0k@lists.linux.dev
-X-Gm-Message-State: AOJu0YxMlxQBykjLqwvo6GyYqpyxVnge39UXMn0ZCsm+gvs1Bbu/L6cD
-	BOG7eXg8tIa5lxuyEyIrBfPAlz1pzJ4XrIjlgyIxtL01Ny6zKQ474jjYISPCE/jw9siMYZo4/aJ
-	vNhOLeVOvQRIV+sLQBdJkBmJM63HBr+JhNBBST98=
-X-Gm-Gg: ASbGncug3aLenQHgDuPDWtJEYRSmQluXDsjPRAn5760N6Hf4yrE7Oj/BrLu0zjRsBZ7
-	S2G6JlZCuCp1pNyCXP62tRcfI5y9lGa0jWlrCoURyGKBCLIQaBNMFCBeUal+4J9BPAgTcTyMfWu
-	QnNly7BbloRbdR89sNjTwLieBcMJKEfSL34WrCffVAMY/0DKXjCeNCFSBGlxLn0oq+okCXczBxX
-	neIAew6jLcS57pVFSJM
-X-Google-Smtp-Source: AGHT+IGRVGVyVuPJT5g+alark4GxiU9Zv8r0lEr7ASyTvdvyElIxZVu7IYlNYR9NTTG/h/hIC6BKUMEQv7AJTLW61rY=
-X-Received: by 2002:a17:906:6a10:b0:af2:4690:9df3 with SMTP id
- a640c23a62f3a-af91beb7837mr862906366b.14.1754085499840; Fri, 01 Aug 2025
- 14:58:19 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1754119925; x=1754724725;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=6Pft35+3lXQVnWPsUsq5tpsncZSpCehFTU7fpA7XTkY=;
+        b=vU2ISydL9q7AwDV8LDTtTEGn7IiK568d0lbkxVgskij74sFV3BWXCwVvPGidxF1YKP
+         oToZp1AdESelwTQEj12iYo39q/LZH79NFFyzJbxrqfMMbs+37WdxKJjCBjWh4pEUCJTI
+         3Wkl4Lzm/3s5yFLXEa5Wl5+PFWJcjgpfOoTEgEv/R5WI/rTEku1LLa3Dh8MOIqA0URSf
+         /IWwkjBE/scpb80Y7he7dpWvstuUYKwItM8JQaK4mCIGaGrRTMwCPvz6MjWpPSDfR5z7
+         A+4hxV200ZuodbjAUGcshL/3ayBkR0f6d9d+wtLqhIaGD97NVHzjMT5LKHzsWwicgOFA
+         yGzQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUv0CffhpeCtD1pgQ+BtfIpLPteJexwMHGSj6QoNVTidL7rGN8pMpCDuJ4DOhK1dO8PUUAbNzbzwmJ/4w9A@lists.linux.dev
+X-Gm-Message-State: AOJu0YzZn0PVMqHFlLo82bQyd/UNjEeTTpDukbcey1cft/g07lSWEgXD
+	nKHoP1gpClPUujfldEWQpH4Ko7+vw778rTzSnh3TLvYAL39isyn3iCB+SCHi5wS77DQ=
+X-Gm-Gg: ASbGnct6FBPAUfb6aDJATqCXcMmVpzluHQaLfXC3pnf2Cw/xR0JXVvY8/X/vDVgaKq6
+	OjRw+Qkg0sa5cFL19WYHIJGsQgS92zmH8k2GTO3UE3SIJpZMHrldY38+/iSWniZqxFVhe5yrAoB
+	eCZO4WKI2KUBG+2LgA7YBOJEa93fdMM+KekM7zMdzLfjjN8YRq9qV5uVFFsZvFhu64XciptSXq7
+	lPfwruWOzIfYF979TPp9LrFFrktO6F0VoCEQX4XorV4jjQwNYSQB4xs3VuhSjLLqC7L28RZ6zHu
+	8WsFJvxPlbCPml83mt4X28F99+Ux/bvDVnvXdSZXKE6yael2lX7jjpnPmBXoYeP++Myyv6NKRpf
+	cSU0EiIGyYHt3OlpcDQbjLOj8Ikw=
+X-Google-Smtp-Source: AGHT+IEncAhoLdtPekt1mG/QjBbcpjITQUAV/Ke+Zpd3fYn54X7RELoK7NrhYvkBeCEbn5j1iK8FgA==
+X-Received: by 2002:a05:6000:2481:b0:3b5:f93a:bcc with SMTP id ffacd0b85a97d-3b8d94c1ceamr2065362f8f.35.1754119924640;
+        Sat, 02 Aug 2025 00:32:04 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4589536acc9sm133848185e9.6.2025.08.02.00.32.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 02 Aug 2025 00:32:04 -0700 (PDT)
+Date: Sat, 2 Aug 2025 10:32:01 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Andy Shevchenko <andy.shevchenko@gmail.com>
+Cc: Colin Ian King <colin.i.king@gmail.com>,
+	Andy Shevchenko <andy@kernel.org>, Hans de Goede <hansg@kernel.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+	kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH][next] media: atomisp: Fix incorrect snprintf format
+ specifiers for signed integers
+Message-ID: <10626b28-9619-47ea-abad-db823c01bb96@suswa.mountain>
+References: <20250801160023.2434130-1-colin.i.king@gmail.com>
+ <CAHp75VeDt=1=9epJPQjzfyyph09bov9UWWwpaAXgu01Egf1hag@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250801160023.2434130-1-colin.i.king@gmail.com>
-In-Reply-To: <20250801160023.2434130-1-colin.i.king@gmail.com>
-From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Fri, 1 Aug 2025 23:57:43 +0200
-X-Gm-Features: Ac12FXymuCoCTkN9AJAJa7gXREI0nQIfvbT-NIqpDvHhaI6WuM_cL9u36xBUzHw
-Message-ID: <CAHp75VeDt=1=9epJPQjzfyyph09bov9UWWwpaAXgu01Egf1hag@mail.gmail.com>
-Subject: Re: [PATCH][next] media: atomisp: Fix incorrect snprintf format
- specifiers for signed integers
-To: Colin Ian King <colin.i.king@gmail.com>
-Cc: Andy Shevchenko <andy@kernel.org>, Hans de Goede <hansg@kernel.org>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-media@vger.kernel.org, 
-	linux-staging@lists.linux.dev, kernel-janitors@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAHp75VeDt=1=9epJPQjzfyyph09bov9UWWwpaAXgu01Egf1hag@mail.gmail.com>
 
-On Fri, Aug 1, 2025 at 6:01=E2=80=AFPM Colin Ian King <colin.i.king@gmail.c=
-om> wrote:
->
-> There are incorrect %u format specifiers being used to for signed integer=
-s,
-> fix this by using %d instead.
+On Fri, Aug 01, 2025 at 11:57:43PM +0200, Andy Shevchenko wrote:
+> On Fri, Aug 1, 2025 at 6:01 PM Colin Ian King <colin.i.king@gmail.com> wrote:
+> >
+> > There are incorrect %u format specifiers being used to for signed integers,
+> > fix this by using %d instead.
+> 
+> Both of them sound to me like the fix of the symptom and not the
+> cause. Can we simply make types of the iterators to be unsigned
+> instead?
 
-Both of them sound to me like the fix of the symptom and not the
-cause. Can we simply make types of the iterators to be unsigned
-instead?
+Making iterator unsigned by default only increases the rate of bugs.
 
---=20
-With Best Regards,
-Andy Shevchenko
+(Although, my stats might be biased because I'm only looking at bugs I
+can detect through static analysis).
+
+regards,
+dan carpenter
+
