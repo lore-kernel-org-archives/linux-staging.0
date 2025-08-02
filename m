@@ -1,34 +1,35 @@
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C541A21B9E0;
-	Sat,  2 Aug 2025 09:26:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 244692367C0;
+	Sat,  2 Aug 2025 09:27:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754126814; cv=none; b=gRuIBQx5Nt32Idg1cwXljuRCGKJnij2DRXD2hxfevu+qfmJTZn6AVYx2If4oOiRxh6yyZBTQ5ylVljd2nj/snYVXCvpg81tmV6UY8vhvEJFWdftOubegncADqZBMLBRv/4+QgTzmxSlu6aDlK9sYFIrPNXjGSqjIqsU348ZxUPQ=
+	t=1754126822; cv=none; b=tQjuRarDtvxoZrVlH7IOASnJTX0yY6v/u+oVFPtop8+xJuamms9ryLinCid+x7oBA5PJDzR8/aDe0jfjMBG2XM2+NJCBJzzetEaSbB/vUMXy2jyWQcb7pfdKXxSTdo+ODsFR3uM2HHISqd/8Bfq4Y5sardhwq774IKADDJgerXM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754126814; c=relaxed/simple;
-	bh=plDKQLiwBIj0x8r/FQG+sxFHvp8nFgmjt6T8+cGPkZI=;
+	s=arc-20240116; t=1754126822; c=relaxed/simple;
+	bh=YeeZiet6PqHm7IlGh7t3GZOdydEI6jy4AdesJo+UFJ8=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=QCiGqJssShkUqpl8X9CQH0FLa+i7SB1NgZHOL8pM6tIUjFjjkOeqjLhN3VwsNq9YNO0QG9pBnBNk34mM6K6Xjx932RRGh5M4Zw53XoZYR6E8M0V6RnyzDJATOSRHDbEPxl3pg/WfOR9iUhXXyiyX8s42WxjDn2e8XFh5IvUTvbo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=Yg7mSLXy; arc=none smtp.client-ip=213.167.242.64
+	 In-Reply-To:To:Cc; b=sfrLZJr5ACiKZK9sLvvu1t4UMXyU92UNI+XesS1FTJ/84Fygh5mAH8yr6paIhoeQBiXX4a15z1TD/j8STrAnQnERonnE3uS5USTUMdEMeyM9Dgf6qUZGFOrs3jRxlzq2pJG7ZakDLn3r7zojEnPV2YpT/h6Xq5EEcopW4JXKNjk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=efEEkJTn; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="Yg7mSLXy"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="efEEkJTn"
 Received: from [192.168.0.172] (mob-5-90-138-121.net.vodafone.it [5.90.138.121])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 7C7583997;
-	Sat,  2 Aug 2025 11:25:56 +0200 (CEST)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 4C35D330E;
+	Sat,  2 Aug 2025 11:26:06 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1754126766;
-	bh=plDKQLiwBIj0x8r/FQG+sxFHvp8nFgmjt6T8+cGPkZI=;
+	s=mail; t=1754126774;
+	bh=YeeZiet6PqHm7IlGh7t3GZOdydEI6jy4AdesJo+UFJ8=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=Yg7mSLXywEATs7NdZAo/15CRPyv1tSknSnoBACCZsbidd3zRcjyh5s7g5TNfPXgb9
-	 gUhe1Tm6jpa01d4o5M2x6RA6R1VZl63+VBHlceA7hW5Fvnepymmk7TyYyDGBnQ6TTA
-	 Sw6wC1k5m0p9lWqybBEcYlPRZH86WPer4t5vumTM=
+	b=efEEkJTnS1kS5gUzaXOmI/yYslA+2pJMaHIkGKProANNbr8dxKaCBtqnVHS7MQhUm
+	 5O2inCnrkmxZUR7Sb/afzgyTKrbaPNf/CC1zw3zEX7ePOorKxhty47n27+ZtwThhbW
+	 xJ9x9IaW2d+ETCWGrE3pPgiKenybAl/eZ+xNKYmQ=
 From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Date: Sat, 02 Aug 2025 11:22:42 +0200
-Subject: [PATCH 20/65] media: camss: Remove custom .release fop()
+Date: Sat, 02 Aug 2025 11:22:43 +0200
+Subject: [PATCH 21/65] media: chips-media: wave5: Pass file pointer to
+ wave5_cleanup_instance()
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -37,7 +38,7 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250802-media-private-data-v1-20-eb140ddd6a9d@ideasonboard.com>
+Message-Id: <20250802-media-private-data-v1-21-eb140ddd6a9d@ideasonboard.com>
 References: <20250802-media-private-data-v1-0-eb140ddd6a9d@ideasonboard.com>
 In-Reply-To: <20250802-media-private-data-v1-0-eb140ddd6a9d@ideasonboard.com>
 To: Mauro Carvalho Chehab <mchehab@kernel.org>, 
@@ -126,60 +127,101 @@ Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-stm32@st-md-mailman.stormreply.com, mjpeg-users@lists.sourceforge.net, 
  Jacopo Mondi <jacopo.mondi@ideasonboard.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1305;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3292;
  i=jacopo.mondi@ideasonboard.com; h=from:subject:message-id;
- bh=plDKQLiwBIj0x8r/FQG+sxFHvp8nFgmjt6T8+cGPkZI=;
- b=owEBbQKS/ZANAwAKAXI0Bo8WoVY8AcsmYgBojdj5cxYW858SCw6LTG+aHwiW1liG/P/5haVZ9
- 0mzExpmUPCJAjMEAAEKAB0WIQS1xD1IgJogio9YOMByNAaPFqFWPAUCaI3Y+QAKCRByNAaPFqFW
- PHhwEACP6/NBzk7i6VJN72Jn8/7oEe8k4hjRvq0+0ovO2wCFUpNc5OX+ZqalxcHnw8QWm9aZoBX
- cthgY0YADO91eZH63UwrNZViYnp2K+RtXE89BkRMKucikIDs/zTZr9+wHcPCGbbw7Ue+q1HuWh3
- 4gVRKZ7fbAXbp3R244W2ws9cxUElPjUZzgiPmQqHurk6/MxXXC2MU7AgVMc80OAUyGeAODZwwmJ
- wfVDsO5348pe+cK6lIPs8PbtbOyXTzrP+qAA1+0EraPxa5RW7DJTG2+OZRvqJ2bxfWQl6EGqx0Y
- 4WIL25OQyMoRYTiak2eEHRH5de8cfpPxTqzix6noCSKq8dHwYleqMhG0F/Uhsw8SGP33AzYmhNu
- LKYAEM03Uh3l7qmXVqBDHnZOvBcenlAd9RGHeFJmDdcXyzC84PVQVKHHbQbGZWpMa3XCHcwqB6r
- dyTqw36hcSnIGas5cBvTAfz1puBJYHqsdthf3soOfaYgYWsgZnt0Wl9cIYbkJiV7BfcZgpbhqF8
- cf/WNrSpBF3AnjeYXdbvfwB2GbgLK2U2ocbsCWGGsrsv89ej4XYypUVse+T+uox6Dh+nUj+w375
- sTcNMNGfzONapg7E8wydsqThpj3t8+rIufCWwqaBcMobAYyhE0VrXzs+5ThA40cwY/dLD0VM6A/
- RxrM2yMXPUqLZUw==
+ bh=sFLeSeZ18AiPz7TNtzZuErYTeuXEDyYERBW9KVUCez8=;
+ b=owEBbQKS/ZANAwAKAXI0Bo8WoVY8AcsmYgBojdj5Ab8WMNqTk1vrNJmzEF9fusCZ5AJs5tg8p
+ ikoDaHa4TGJAjMEAAEKAB0WIQS1xD1IgJogio9YOMByNAaPFqFWPAUCaI3Y+QAKCRByNAaPFqFW
+ PIGXD/9X1mdSs4tmw4s1JTfYvMbuDI1kxi3A97kXvrt+El+sQRTisOHlSxLE9USoyAGm9PnoFPY
+ icrGza2HD8EwUhtANb4EwK4SX8gRpvg5DXsHiY+BzBm4ZVvbrn4YKQ8EspQAqrqPqNpRCC3jLzn
+ 0GRaHqxDXvUIkwHB48fJQ6GV3QDhI0wZH4KOeyPYnI+UAT/tN3QLKewQVSIxCvc+x44Uz1UIfYt
+ kdVvO1fp4phNaCAUHr+TNYEglxeQRmyTjF7EFg8glg2DIQvarhZjR2idgNmJRc32RfKKlrWhLLG
+ qsc3G5XT4rTHdpVwmtUQZodlMjwJIMrLeeq3gmQLcuVkPx7WrqJFWrykMYjVSJW9boC6wQNseOL
+ g/jwwARgjsbT4VVBTM34U4UGM25/qXegXPcvFArnizqPHj2jNKsfNiwqCk9hQvsaZb0hejeg2C6
+ PIHxrsXkFRQdQNuT5CuoeTdUazuF9Y8PozrVwKktzkTD3iCYWR6uVAZwa5j/+W0fWDzMJe3etdR
+ iL0DtcbzUnBRXuciDmUfTXXz4QqjEoF7LYYGV9gHpobdDmtnG6aN+YRDMpFr8/cXnc76JpLWK1O
+ iZ4WMJ6IpVenQcUxz2evwcVueKdYxxj8eIkzeEvX3GLQmspDOksNr43SNDrl2k/d9vKpDQ7djH2
+ UWeorQDKZwyuLsQ==
 X-Developer-Key: i=jacopo.mondi@ideasonboard.com; a=openpgp;
  fpr=72392EDC88144A65C701EA9BA5826A2587AD026B
 
-The 'file->private_data' pointer is reset in the vb2_fop_release()
-call path. For this reason a custom handler for the .release
-file operation is not needed and the driver can use
-vb2_fop_release() directly.
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
+In preparation for a tree-wide rework automated with coccinelle that
+will need to access a struct file pointer in the
+wave5_cleanup_instance() function, pass it from the callers. There is
+not functional change yet.
+
+Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
 ---
- drivers/media/platform/qcom/camss/camss-video.c | 11 +----------
- 1 file changed, 1 insertion(+), 10 deletions(-)
+ drivers/media/platform/chips-media/wave5/wave5-helper.c  | 4 ++--
+ drivers/media/platform/chips-media/wave5/wave5-helper.h  | 2 +-
+ drivers/media/platform/chips-media/wave5/wave5-vpu-dec.c | 2 +-
+ drivers/media/platform/chips-media/wave5/wave5-vpu-enc.c | 2 +-
+ 4 files changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/media/platform/qcom/camss/camss-video.c b/drivers/media/platform/qcom/camss/camss-video.c
-index c5d02f9ebc6aa9bfd6910944f3d40a2e5f0a908f..831486e14754ab3a24b077e21be14ea3169220a4 100644
---- a/drivers/media/platform/qcom/camss/camss-video.c
-+++ b/drivers/media/platform/qcom/camss/camss-video.c
-@@ -604,20 +604,11 @@ static const struct v4l2_ioctl_ops msm_vid_ioctl_ops = {
-  * V4L2 file operations
-  */
+diff --git a/drivers/media/platform/chips-media/wave5/wave5-helper.c b/drivers/media/platform/chips-media/wave5/wave5-helper.c
+index 031dea0ee61c6c5afddf7ff47d67d85826f16d8d..ed8ff04a899da0a3c9e0f037dac2c9548c98920f 100644
+--- a/drivers/media/platform/chips-media/wave5/wave5-helper.c
++++ b/drivers/media/platform/chips-media/wave5/wave5-helper.c
+@@ -27,7 +27,7 @@ const char *state_to_str(enum vpu_instance_state state)
+ 	}
+ }
  
--static int video_release(struct file *file)
--{
--	vb2_fop_release(file);
--
--	file->private_data = NULL;
--
--	return 0;
--}
--
- static const struct v4l2_file_operations msm_vid_fops = {
- 	.owner          = THIS_MODULE,
- 	.unlocked_ioctl = video_ioctl2,
- 	.open           = v4l2_fh_open,
--	.release        = video_release,
-+	.release        = vb2_fop_release,
- 	.poll           = vb2_fop_poll,
- 	.mmap		= vb2_fop_mmap,
- 	.read		= vb2_fop_read,
+-void wave5_cleanup_instance(struct vpu_instance *inst)
++void wave5_cleanup_instance(struct vpu_instance *inst, struct file *filp)
+ {
+ 	int i;
+ 
+@@ -78,7 +78,7 @@ int wave5_vpu_release_device(struct file *filp,
+ 		}
+ 	}
+ 
+-	wave5_cleanup_instance(inst);
++	wave5_cleanup_instance(inst, filp);
+ 
+ 	return ret;
+ }
+diff --git a/drivers/media/platform/chips-media/wave5/wave5-helper.h b/drivers/media/platform/chips-media/wave5/wave5-helper.h
+index 9937fce553fc33000bd31abcfc6d7345f6f7e485..976a402e426ff329490717925a08a76d777cbe3e 100644
+--- a/drivers/media/platform/chips-media/wave5/wave5-helper.h
++++ b/drivers/media/platform/chips-media/wave5/wave5-helper.h
+@@ -14,7 +14,7 @@
+ #define MAX_FMTS	12
+ 
+ const char *state_to_str(enum vpu_instance_state state);
+-void wave5_cleanup_instance(struct vpu_instance *inst);
++void wave5_cleanup_instance(struct vpu_instance *inst, struct file *filp);
+ int wave5_vpu_release_device(struct file *filp,
+ 			     int (*close_func)(struct vpu_instance *inst, u32 *fail_res),
+ 			     char *name);
+diff --git a/drivers/media/platform/chips-media/wave5/wave5-vpu-dec.c b/drivers/media/platform/chips-media/wave5/wave5-vpu-dec.c
+index fd71f0c43ac37a0bb56f669d4b89d6054cb181d5..f3188d720ed3e183f3400816a9c939014213711d 100644
+--- a/drivers/media/platform/chips-media/wave5/wave5-vpu-dec.c
++++ b/drivers/media/platform/chips-media/wave5/wave5-vpu-dec.c
+@@ -1840,7 +1840,7 @@ static int wave5_vpu_open_dec(struct file *filp)
+ 	return 0;
+ 
+ cleanup_inst:
+-	wave5_cleanup_instance(inst);
++	wave5_cleanup_instance(inst, filp);
+ 	return ret;
+ }
+ 
+diff --git a/drivers/media/platform/chips-media/wave5/wave5-vpu-enc.c b/drivers/media/platform/chips-media/wave5/wave5-vpu-enc.c
+index 1e5fc5f8b856c5329b2c6007649285a28749b6aa..b69a1206fa12c2ff5f3a32d269b8fd3b80a597aa 100644
+--- a/drivers/media/platform/chips-media/wave5/wave5-vpu-enc.c
++++ b/drivers/media/platform/chips-media/wave5/wave5-vpu-enc.c
+@@ -1784,7 +1784,7 @@ static int wave5_vpu_open_enc(struct file *filp)
+ 	return 0;
+ 
+ cleanup_inst:
+-	wave5_cleanup_instance(inst);
++	wave5_cleanup_instance(inst, filp);
+ 	return ret;
+ }
+ 
 
 -- 
 2.49.0
