@@ -1,250 +1,162 @@
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com [209.85.215.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 195E415C0;
-	Sat,  2 Aug 2025 16:04:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754150664; cv=pass; b=cY2jxf+Xmxm7KiEQKTP+oI1L7hhNNyS+n1PGLHgF+vi37UcjLuVjdPxPO8BugeVOedUE95Cevy0EiXJoKd53nMOPiEwTZ4+74QXRIvRMlpjalCJx4NQQj+Ref5xIk99RdWA8DtNzGsf0hAeOg9Q2tUr9LiasydTccEwNDbTJs2U=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754150664; c=relaxed/simple;
-	bh=Vdg8jHA+16KK4kio/H2ZmPEJzKRxTHixv3V9j/VFf7M=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=iFBvdmXikyo7M+Zf23lf3nWF/PMAR1a9+EkiSBJBc0KWgH7c9rxR4yGQBNen36m4JhyV6O7UhR9JDTlxwzaSeCAmYdPcHJsYfWCIAN7hP7W4QwgXdaAhklJoMVqgJsyu7gwMkWQgredkeZM0BngaUNRQeNa8e2ZukbUXmJtYcB0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=detlev.casanova@collabora.com header.b=V2U4lWFe; arc=pass smtp.client-ip=136.143.188.112
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AA1C1A0730;
+	Sun,  3 Aug 2025 17:50:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.173
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1754243450; cv=none; b=mEl/aJw6bHKSfvMYwtx5lJ2wpiI4lUNor/ViUyMrGziqz1+gBQCkeMSFtI/M+4JgC/rC7DE3yMSgmMb2F+y5ss0ON6udhhhFhuS6ZkLGXEMqHDvKy6mFpbM0brs5EsuzkUCfAa3hV0/UVPQhTR9GjZaSBvJtr2BtyefL5MYim+Y=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1754243450; c=relaxed/simple;
+	bh=DJiSK5yw31vSZeaWgFi3HoD1YTH8Ir78jDdMH+9lJz8=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=c1g6hc/4SzHYMA6Lj9v+zsjRXWsxU6pi4oGcqmDvd6F9CJAi1iGxh/5GlnwCAF6u+jcSgxwBruJtj/OP9vHh7nUkchWuwCWUGWCx2MDg5yQdfxtfxYLKMqoGQZlK6qIhtqQr7mDcKtNYXl0HQCQ2b3xcwZH7h0c3+wNARywNnSY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Eb/UePy9; arc=none smtp.client-ip=209.85.215.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=collabora.com header.i=detlev.casanova@collabora.com header.b="V2U4lWFe"
-ARC-Seal: i=1; a=rsa-sha256; t=1754150560; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=WQqpUkXPtrxzpxaZ2hYfl+XOPYKxR/yR0rcNvg04LRAV+Tsf44cBMfyRI8vwmTxp6gChLAQiPjGtlwy/K9/JX//NPyH7DHB8Ls9uEYjsC0dr6CE5dX7KPtJg9DFRaUhNEv2SbmQChbOmcjGtuyBrJWCXYi6NE//Lt6k/YcpSEVQ=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1754150560; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=xtf+dEyzkoelWC2Fx1wwuEkZQXXlAY749DZ4vNup7Cw=; 
-	b=hHHrzU5f++KJzrykhl5qlTExwl012A/zJUgHdgegKkwmNfKI8D3LZOgAROYses2JC1f6mU8skpwAGlagDmezWPJTkb+oc3sAmcoyg1tGLWs3PFHZAsPvG7EG9Z1xxAZTqJneL5PWuQ0spEMdUg74OA81m7ClHn9VORnJf/lBfuU=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=collabora.com;
-	spf=pass  smtp.mailfrom=detlev.casanova@collabora.com;
-	dmarc=pass header.from=<detlev.casanova@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1754150560;
-	s=zohomail; d=collabora.com; i=detlev.casanova@collabora.com;
-	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Content-Type:Message-Id:Reply-To;
-	bh=xtf+dEyzkoelWC2Fx1wwuEkZQXXlAY749DZ4vNup7Cw=;
-	b=V2U4lWFeUsKW1XUdY48JG6pxgTjVc/FBs9bOk6qZ6M6qlPk/usIQI2rIzHjaum91
-	Wvxe2kb/Bg9+AdRIIIXAhwCMTefshntu3rhhapqWQg1gEagHTxztLAzLCKJfhTyRN02
-	lQWJkogElFkvVK07iEt7bkp3i5NJH/xmkBJnBsA8=
-Received: by mx.zohomail.com with SMTPS id 1754150557071593.1499218812709;
-	Sat, 2 Aug 2025 09:02:37 -0700 (PDT)
-From: Detlev Casanova <detlev.casanova@collabora.com>
-To: Mauro Carvalho Chehab <mchehab@kernel.org>,
- Devarsh Thakkar <devarsht@ti.com>, Benoit Parrot <bparrot@ti.com>,
- Hans Verkuil <hverkuil@kernel.org>, Mike Isely <isely@pobox.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Hans de Goede <hansg@kernel.org>,
- Parthiban Veerasooran <parthiban.veerasooran@microchip.com>,
- Christian Gromm <christian.gromm@microchip.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Alex Shi <alexs@kernel.org>,
- Yanteng Si <si.yanteng@linux.dev>, Dongliang Mu <dzm91@hust.edu.cn>,
- Jonathan Corbet <corbet@lwn.net>, Tomasz Figa <tfiga@chromium.org>,
- Marek Szyprowski <m.szyprowski@samsung.com>,
- Andy Walls <awalls@md.metrocast.net>,
- Michael Tretter <m.tretter@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Bin Liu <bin.liu@mediatek.com>, Matthias Brugger <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Dmitry Osipenko <digetx@gmail.com>,
- Thierry Reding <thierry.reding@gmail.com>,
- Jonathan Hunter <jonathanh@nvidia.com>,
- Mirela Rabulea <mirela.rabulea@nxp.com>, Shawn Guo <shawnguo@kernel.org>,
- Sascha Hauer <s.hauer@pengutronix.de>, Fabio Estevam <festevam@gmail.com>,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- Michal Simek <michal.simek@amd.com>, Ming Qian <ming.qian@nxp.com>,
- Zhou Peng <eagle.zhou@nxp.com>,
- Xavier Roumegue <xavier.roumegue@oss.nxp.com>,
- Philipp Zabel <p.zabel@pengutronix.de>,
- Vikash Garodia <quic_vgarodia@quicinc.com>,
- Dikshita Agarwal <quic_dikshita@quicinc.com>,
- Abhinav Kumar <abhinav.kumar@linux.dev>,
- Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
- Sylwester Nawrocki <sylvester.nawrocki@gmail.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
- Samuel Holland <samuel@sholland.org>,
- Daniel Almeida <daniel.almeida@collabora.com>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>,
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
- Nas Chung <nas.chung@chipsnmedia.com>,
- Jackson Lee <jackson.lee@chipsnmedia.com>,
- Minghsiu Tsai <minghsiu.tsai@mediatek.com>,
- Houlong Wei <houlong.wei@mediatek.com>,
- Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
- Tiffany Lin <tiffany.lin@mediatek.com>,
- Yunfei Dong <yunfei.dong@mediatek.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Magnus Damm <magnus.damm@gmail.com>,
- Mikhail Ulyanov <mikhail.ulyanov@cogentembedded.com>,
- Jacob Chen <jacob-chen@iotwrt.com>,
- Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
- Heiko Stuebner <heiko@sntech.de>, Krzysztof Kozlowski <krzk@kernel.org>,
- Alim Akhtar <alim.akhtar@samsung.com>,
- Sylwester Nawrocki <s.nawrocki@samsung.com>,
- =?UTF-8?B?xYF1a2Fzeg==?= Stelmach <l.stelmach@samsung.com>,
- Andrzej Pietrasiewicz <andrzejtp2010@gmail.com>,
- Jacek Anaszewski <jacek.anaszewski@gmail.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Fabien Dessenne <fabien.dessenne@foss.st.com>,
- Hugues Fruchet <hugues.fruchet@foss.st.com>,
- Jean-Christophe Trotin <jean-christophe.trotin@foss.st.com>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- Nicolas Dufresne <nicolas.dufresne@collabora.com>,
- Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- Steve Longerbeam <slongerbeam@gmail.com>, Maxime Ripard <mripard@kernel.org>,
- Paul Kocialkowski <paulk@sys-base.io>,
- Niklas =?UTF-8?B?U8O2ZGVybHVuZA==?= <niklas.soderlund@ragnatech.se>,
- Robert Foss <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>,
- Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
- Corentin Labbe <clabbe@baylibre.com>,
- Sakari Ailus <sakari.ailus@linux.intel.com>,
- Bingbu Cao <bingbu.cao@intel.com>, Tianshu Qiu <tian.shu.qiu@intel.com>,
- Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>,
- Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-staging@lists.linux.dev, linux-doc@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
- linux-tegra@vger.kernel.org, imx@lists.linux.dev,
- linux-renesas-soc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- linux-samsung-soc@vger.kernel.org, linux-sunxi@lists.linux.dev,
- linux-usb@vger.kernel.org, linux-amlogic@lists.infradead.org,
- linux-rockchip@lists.infradead.org, linux-stm32@st-md-mailman.stormreply.com,
- mjpeg-users@lists.sourceforge.net,
- Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Subject: Re: [PATCH 44/65] media: rockchip: rkvdec: Access v4l2_fh from file
-Date: Sat, 02 Aug 2025 12:02:27 -0400
-Message-ID: <12713603.O9o76ZdvQC@trenzalore>
-In-Reply-To: <20250802-media-private-data-v1-44-eb140ddd6a9d@ideasonboard.com>
-References:
- <20250802-media-private-data-v1-0-eb140ddd6a9d@ideasonboard.com>
- <20250802-media-private-data-v1-44-eb140ddd6a9d@ideasonboard.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Eb/UePy9"
+Received: by mail-pg1-f173.google.com with SMTP id 41be03b00d2f7-b3aa2a0022cso3466369a12.1;
+        Sun, 03 Aug 2025 10:50:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1754243449; x=1754848249; darn=lists.linux.dev;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=5WDyaOvtCXv9NJO8ZoH8TFWDjjaf7wJBFVeWQpU5YhM=;
+        b=Eb/UePy96Qsg7n+Ek1NY8i8NJG2AAhph6+NRTOLc5Hebpfrfa8no/FH6exxzZIeLw4
+         +RpcDdo8MRU19tZfA7SCOPKUCZIOc/bTNI+adUgv+L8dLig1hyQMFCNaVNYyv01z5jok
+         y1SJVmkev3wWkp49ctCRVek0UR/sZElbr65Fr+wJNJamk+i8bmri/EBDhm3dcjCyZoNz
+         WO6qqo64hP8xsXniKW2njn+g0OB6TqhbbrH7ayAC6ygBcL9+49is72dVYWw254pU+R/H
+         8sWR18399+iWd6gE6CSqer9bIkVrE1lt3z6sPy1+X98TgnCQQ7jIICadNaH/15VSWoKZ
+         8SgA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1754243449; x=1754848249;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=5WDyaOvtCXv9NJO8ZoH8TFWDjjaf7wJBFVeWQpU5YhM=;
+        b=g67397zatKR6EsiSvNFjoHz/MNyEB5IvbYBTFzOhTiTwCsaXxfk2fyC57I1PgwH3Ko
+         TJDTv8x9PkrCwib69AWCT1hIKXa2WLUGOHKNGte3cwk/OU/AC4WujOcqYC/FRqz830a1
+         uHGhhjhA+k8XM+QPY0LW5c+oCUQWqAuRf7s+fsXqYPawYJNqJ0Fvxc3l/0M+JQxNdv3K
+         rnrMyAsLoRWjJTuugFjKViQvy3r5sipU9hdrYQPmFWlR/cdlEYZFbPEFSrn9ofQ/CGLI
+         HIrGqCk73fiMAI6X5HZRrzIEiGSw7jLkhcVvQGwW3oEDu7wcDOA8qlNz++o0rJJFhm7M
+         M2Xg==
+X-Forwarded-Encrypted: i=1; AJvYcCVOAp9zTPpDAI4DSRxb3AhfL6ooFvSfMBON3J8nTqpCyeO5Dv70eS011s9YylLFZ7rjFs67xvg3HbHVxBKqMrsM/TzDbQ==@lists.linux.dev, AJvYcCWF1cJ+Jw+LreY5PBFwLQ7nmhGF9brNDvZlOPrR2sIYTMGDdd1RANkolI8X1/bRRRH09eOw++CzlQMgVIRCDA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyGuGWs9IjkDd3sbW1u2gE5bBo6GXFNH//PoQ2X18npMjNRMMBb
+	mWteOIk300JOek0C8a75xqvS2ranQ8q7PqxL99ObXzjoZTCUVM1xNGmx
+X-Gm-Gg: ASbGncs1eQGsPaSSdNv9zTR4YLN2+PMvoLRYdCqrpHIlyFU1UwhLYOAu6b3ByL9cad8
+	n2JbTE2fWdzXqrhGjECgbxxzx9SwybdUT+oN6+b7ZZgveYW6rso0hrp+PcbkxgJF/XhfQJd9hfv
+	DoBgunFbueLKh6oCXvTuJNdjboCjPPG+aqlO3lFHPul6yAZv/BewRBfiknav7Plgu3hqdmWtid6
+	PNFpk3Rua1h8r5JyX2sOJFhUZDlsOD4rAh1ZtdPKDNKX2aTvLnuxE5wzIhDvZxIySvQEQSeHTrl
+	rNGJ+a5DLdu5n9f27R+cKr2gIRwDP2vLfyWxbdJZiVOQcBXUv4JJG6iTRUF2hAxj4W4os8XQqK4
+	Ge2BefZWWZhNHU46I4HnKbcB7leEeGvpI
+X-Google-Smtp-Source: AGHT+IGX/HUMKV1bH9ywZLaMy2B08//y844ZJnjF/5ErmKsBhlBzUgfoooG0/8ewYodeApVof0bBbg==
+X-Received: by 2002:a17:903:32c1:b0:234:b743:c7a4 with SMTP id d9443c01a7336-2424701ae4fmr102641745ad.38.1754243448705;
+        Sun, 03 Aug 2025 10:50:48 -0700 (PDT)
+Received: from localhost ([106.105.221.253])
+        by smtp.gmail.com with UTF8SMTPSA id d9443c01a7336-241e899a48esm91069455ad.114.2025.08.03.10.50.45
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 03 Aug 2025 10:50:48 -0700 (PDT)
+From: Nai-Chen Cheng <bleach1827@gmail.com>
+Date: Mon, 04 Aug 2025 01:49:55 +0800
+Subject: [PATCH] staging: media: ipu3: use string_choices API instead of
+ ternary operator
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
 Content-Type: text/plain; charset="utf-8"
-X-ZohoMailClient: External
+Content-Transfer-Encoding: 7bit
+Message-Id: <20250804-ipu3-string-choices-v1-1-506834a013b5@gmail.com>
+X-B4-Tracking: v=1; b=H4sIAEKhj2gC/x3MPQqAMAxA4atIZgOx/hWvIg5SY5ulSqMiiHe3O
+ H7Dew8oJ2GFoXgg8SUqW8yoygJcmKNnlCUbDJmWLDUo+1mjHkmiRxc2caxo5o6oWc3SWwu53BO
+ vcv/XcXrfDxJfyBZlAAAA
+To: Sakari Ailus <sakari.ailus@linux.intel.com>, 
+ Bingbu Cao <bingbu.cao@intel.com>, Tianshu Qiu <tian.shu.qiu@intel.com>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-media@vger.kernel.org, linux-staging@lists.linux.dev, 
+ linux-kernel@vger.kernel.org, linux-kernel-mentees@lists.linux.dev, 
+ Shuah Khan <skhan@linuxfoundation.org>, 
+ Nai-Chen Cheng <bleach1827@gmail.com>
+X-Mailer: b4 0.13.0
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1754243443; l=2507;
+ i=bleach1827@gmail.com; s=20250730; h=from:subject:message-id;
+ bh=DJiSK5yw31vSZeaWgFi3HoD1YTH8Ir78jDdMH+9lJz8=;
+ b=htjeU4Zc0Y182neDXxTA5WYFV023GLFtax2bY9msrCmY8VaQM8iVUxmWzyM0JUIi3ZHu9z7/z
+ OmLsS9HRoqQA5z2KpiaaEdGLpQuXW22+thgPtEFK/gf8MK2zCxs3XVf
+X-Developer-Key: i=bleach1827@gmail.com; a=ed25519;
+ pk=jahFPRplw20Aaim8fIt8SxlFMqkHbJ+s8zYBGbtHH5g=
 
-Hi Jacopo,
+Use string_choices API instead of manually determining the output using
+ternary operator to improve code readability and consistency.
 
-Thanks for the cleanup !
+This also fixes cocci warning.
 
-On Saturday, 2 August 2025 05:23:06 EDT Jacopo Mondi wrote:
-> The v4l2_fh associated with an open file handle is now guaranteed
-> to be available in file->private_data, initialised by v4l2_fh_add().
-> 
-> Access the v4l2_fh, and from there the driver-specific structure,
-> from the file * in all ioctl handlers.
-> 
-> While at it, remove the now unused fh_to_rkvdec_ctx() macro.
-> 
-> Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+Signed-off-by: Nai-Chen Cheng <bleach1827@gmail.com>
+---
+ drivers/staging/media/ipu3/ipu3-css.c  | 3 ++-
+ drivers/staging/media/ipu3/ipu3-v4l2.c | 5 +++--
+ 2 files changed, 5 insertions(+), 3 deletions(-)
 
-Reviewed-by: Detlev Casanova <detlev.casanova@collabora.com>
+diff --git a/drivers/staging/media/ipu3/ipu3-css.c b/drivers/staging/media/ipu3/ipu3-css.c
+index 1b0a59b78949..777cac1c27bf 100644
+--- a/drivers/staging/media/ipu3/ipu3-css.c
++++ b/drivers/staging/media/ipu3/ipu3-css.c
+@@ -4,6 +4,7 @@
+ #include <linux/device.h>
+ #include <linux/iopoll.h>
+ #include <linux/slab.h>
++#include <linux/string_choices.h>
+ 
+ #include "ipu3.h"
+ #include "ipu3-css.h"
+@@ -226,7 +227,7 @@ int imgu_css_set_powerup(struct device *dev, void __iomem *base,
+ 	state = readl(base + IMGU_REG_STATE);
+ 
+ 	dev_dbg(dev, "CSS pm_ctrl 0x%x state 0x%x (power %s)\n",
+-		pm_ctrl, state, state & IMGU_STATE_POWER_DOWN ? "down" : "up");
++		pm_ctrl, state, str_down_up(state & IMGU_STATE_POWER_DOWN));
+ 
+ 	/* Power up CSS using wrapper */
+ 	if (state & IMGU_STATE_POWER_DOWN) {
+diff --git a/drivers/staging/media/ipu3/ipu3-v4l2.c b/drivers/staging/media/ipu3/ipu3-v4l2.c
+index ad6095bf717d..2f6041d342f4 100644
+--- a/drivers/staging/media/ipu3/ipu3-v4l2.c
++++ b/drivers/staging/media/ipu3/ipu3-v4l2.c
+@@ -3,6 +3,7 @@
+ 
+ #include <linux/module.h>
+ #include <linux/pm_runtime.h>
++#include <linux/string_choices.h>
+ 
+ #include <media/v4l2-event.h>
+ #include <media/v4l2-ioctl.h>
+@@ -287,7 +288,7 @@ static int imgu_link_setup(struct media_entity *entity,
+ 	WARN_ON(pad >= IMGU_NODE_NUM);
+ 
+ 	dev_dbg(&imgu->pci_dev->dev, "pipe %u pad %u is %s", pipe, pad,
+-		 flags & MEDIA_LNK_FL_ENABLED ? "enabled" : "disabled");
++		 str_enabled_disabled(flags & MEDIA_LNK_FL_ENABLED));
+ 
+ 	imgu_pipe = &imgu->imgu_pipe[pipe];
+ 	imgu_pipe->nodes[pad].enabled = flags & MEDIA_LNK_FL_ENABLED;
+@@ -302,7 +303,7 @@ static int imgu_link_setup(struct media_entity *entity,
+ 		__clear_bit(pipe, imgu->css.enabled_pipes);
+ 
+ 	dev_dbg(&imgu->pci_dev->dev, "pipe %u is %s", pipe,
+-		 flags & MEDIA_LNK_FL_ENABLED ? "enabled" : "disabled");
++		 str_enabled_disabled(flags & MEDIA_LNK_FL_ENABLED));
+ 
+ 	return 0;
+ }
 
-> ---
->  drivers/media/platform/rockchip/rkvdec/rkvdec.c | 14 +++++++-------
->  drivers/media/platform/rockchip/rkvdec/rkvdec.h |  5 -----
->  2 files changed, 7 insertions(+), 12 deletions(-)
-> 
-> diff --git a/drivers/media/platform/rockchip/rkvdec/rkvdec.c
-> b/drivers/media/platform/rockchip/rkvdec/rkvdec.c index
-> 481c2488f9ac64e70869ed21e5053cfbc4ed6e0e..9fa80ab3c62b7753e6c992aefd106ee99
-> ed375e4 100644 --- a/drivers/media/platform/rockchip/rkvdec/rkvdec.c
-> +++ b/drivers/media/platform/rockchip/rkvdec/rkvdec.c
-> @@ -354,7 +354,7 @@ static int rkvdec_try_capture_fmt(struct file *file,
-> void *priv, struct v4l2_format *f)
->  {
->  	struct v4l2_pix_format_mplane *pix_mp = &f->fmt.pix_mp;
-> -	struct rkvdec_ctx *ctx = fh_to_rkvdec_ctx(priv);
-> +	struct rkvdec_ctx *ctx = file_to_rkvdec_ctx(file);
->  	const struct rkvdec_coded_fmt_desc *coded_desc;
-> 
->  	/*
-> @@ -387,7 +387,7 @@ static int rkvdec_try_output_fmt(struct file *file, void
-> *priv, struct v4l2_format *f)
->  {
->  	struct v4l2_pix_format_mplane *pix_mp = &f->fmt.pix_mp;
-> -	struct rkvdec_ctx *ctx = fh_to_rkvdec_ctx(priv);
-> +	struct rkvdec_ctx *ctx = file_to_rkvdec_ctx(file);
->  	const struct rkvdec_coded_fmt_desc *desc;
-> 
->  	desc = rkvdec_find_coded_fmt_desc(pix_mp->pixelformat);
-> @@ -418,7 +418,7 @@ static int rkvdec_try_output_fmt(struct file *file, void
-> *priv, static int rkvdec_s_capture_fmt(struct file *file, void *priv,
->  				struct v4l2_format *f)
->  {
-> -	struct rkvdec_ctx *ctx = fh_to_rkvdec_ctx(priv);
-> +	struct rkvdec_ctx *ctx = file_to_rkvdec_ctx(file);
->  	struct vb2_queue *vq;
->  	int ret;
-> 
-> @@ -439,7 +439,7 @@ static int rkvdec_s_capture_fmt(struct file *file, void
-> *priv, static int rkvdec_s_output_fmt(struct file *file, void *priv,
->  			       struct v4l2_format *f)
->  {
-> -	struct rkvdec_ctx *ctx = fh_to_rkvdec_ctx(priv);
-> +	struct rkvdec_ctx *ctx = file_to_rkvdec_ctx(file);
->  	struct v4l2_m2m_ctx *m2m_ctx = ctx->fh.m2m_ctx;
->  	const struct rkvdec_coded_fmt_desc *desc;
->  	struct v4l2_format *cap_fmt;
-> @@ -504,7 +504,7 @@ static int rkvdec_s_output_fmt(struct file *file, void
-> *priv, static int rkvdec_g_output_fmt(struct file *file, void *priv,
->  			       struct v4l2_format *f)
->  {
-> -	struct rkvdec_ctx *ctx = fh_to_rkvdec_ctx(priv);
-> +	struct rkvdec_ctx *ctx = file_to_rkvdec_ctx(file);
-> 
->  	*f = ctx->coded_fmt;
->  	return 0;
-> @@ -513,7 +513,7 @@ static int rkvdec_g_output_fmt(struct file *file, void
-> *priv, static int rkvdec_g_capture_fmt(struct file *file, void *priv,
->  				struct v4l2_format *f)
->  {
-> -	struct rkvdec_ctx *ctx = fh_to_rkvdec_ctx(priv);
-> +	struct rkvdec_ctx *ctx = file_to_rkvdec_ctx(file);
-> 
->  	*f = ctx->decoded_fmt;
->  	return 0;
-> @@ -532,7 +532,7 @@ static int rkvdec_enum_output_fmt(struct file *file,
-> void *priv, static int rkvdec_enum_capture_fmt(struct file *file, void
-> *priv, struct v4l2_fmtdesc *f)
->  {
-> -	struct rkvdec_ctx *ctx = fh_to_rkvdec_ctx(priv);
-> +	struct rkvdec_ctx *ctx = file_to_rkvdec_ctx(file);
->  	u32 fourcc;
-> 
->  	fourcc = rkvdec_enum_decoded_fmt(ctx, f->index, ctx->image_fmt);
-> diff --git a/drivers/media/platform/rockchip/rkvdec/rkvdec.h
-> b/drivers/media/platform/rockchip/rkvdec/rkvdec.h index
-> 35effe9467845fdfc4ffea432211d1d2e75a08b0..481aaa4bffe975fa106fb22e78bef90ad
-> e86a6cf 100644 --- a/drivers/media/platform/rockchip/rkvdec/rkvdec.h
-> +++ b/drivers/media/platform/rockchip/rkvdec/rkvdec.h
-> @@ -124,11 +124,6 @@ struct rkvdec_ctx {
->  	void *priv;
->  };
-> 
-> -static inline struct rkvdec_ctx *fh_to_rkvdec_ctx(struct v4l2_fh *fh)
-> -{
-> -	return container_of(fh, struct rkvdec_ctx, fh);
-> -}
-> -
->  static inline struct rkvdec_ctx *file_to_rkvdec_ctx(struct file *filp)
->  {
->  	return container_of(file_to_v4l2_fh(filp), struct rkvdec_ctx, fh);
+---
+base-commit: 186f3edfdd41f2ae87fc40a9ccba52a3bf930994
+change-id: 20250804-ipu3-string-choices-2a6004f2d788
 
-
-
+Best regards,
+-- 
+Nai-Chen Cheng <bleach1827@gmail.com>
 
