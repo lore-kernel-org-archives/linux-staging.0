@@ -1,226 +1,87 @@
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 522741514DC;
-	Tue,  5 Aug 2025 09:59:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68F1DEEC0;
+	Tue,  5 Aug 2025 11:02:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754387966; cv=none; b=SARgzC+BCKIWwet8ajcHEntdfyOZBfg8Vpr/c3eQE4SIbeGqFrjDCtooPdBk+Yd6PTjGJjD7yyBZAcBneobs0vDEzmV7hG0CGrL9wBCezQuZ0/oofahkdxmMlVHbgVLA91pOyWkzikCOYZnQOPHiSZ2NHoaDe/GoODimTCwFSZ8=
+	t=1754391768; cv=none; b=fCGOhZSiCYTZq9SCBxwEcPerFJeqBv9uBR9lJKhUbH9OeRo3IC3GZtFYTcLkXlC+Wf/cM0RnLk8DiaZRRZVLjOL/tNvYBA5MUtRUulyi9ZN53QbfD8UOUwuAdlWSpJiusnO3Xc/gWliaZg7igN7STIlZFf55bvP6SE1izvUc3FE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754387966; c=relaxed/simple;
-	bh=RV+XSnddoBH4JRWHZZy+4T5rBIZcZFEquw455N0WQVA=;
-	h=Content-Type:MIME-Version:In-Reply-To:References:Subject:From:Cc:
-	 To:Date:Message-ID; b=dcxVRrlpdK0TjPDV+scV6CbPMN9i/WoLiOvwJ03BBgmctmgOCyla7ggh0O6VjzPP0YdKR80wPpMgl5XJ9wPIs035GbPV81mnRDwp9ZaEQ9ARXvDQ0AFaNpDfcY5VMebtPzobOE1AmFnYXjkuJJEBtGvEFmjwUEX/RdZKO+PlqEM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=aPIOyP3C; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+	s=arc-20240116; t=1754391768; c=relaxed/simple;
+	bh=EjslFoKz385OQJla0S/06AbB1iqynByZR1aRppAa/8A=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=DBZ1vPc/rBtwZFBqQ5DiR/sM5CANJfmSSe0RgZs1ejjdJq26iiSAQ97Rc8a7u8d0JT2X9rmCbucVsPGmjX7nQ3/EnqsPI6CFuHCc6SZfKbqnv3+1Wy6J7h3afUaOZDRPR8lowaopxS6jCuwB4zejuHKD4pkfB0HA4t19CB+X2I0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=X1tGrM+X; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="aPIOyP3C"
-Received: from pendragon.ideasonboard.com (cpc89244-aztw30-2-0-cust6594.18-1.cable.virginm.net [86.31.185.195])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id D96F2AD0;
-	Tue,  5 Aug 2025 11:58:34 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1754387915;
-	bh=RV+XSnddoBH4JRWHZZy+4T5rBIZcZFEquw455N0WQVA=;
-	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
-	b=aPIOyP3CCN60ghQ95OYLB9emUWH/n0b6O3gtc9ZoA+uMAITK5524gPFOoFe3iPgrR
-	 PeGZgkGvvmEIfAIjVWqinSJN2vlhZuO+XIf+jbLxH1tzVI09y3TIRrSaAcZCkteW9d
-	 f9FcX+PdukMOKmU3dXioC96DYHeFg17Pwv6UxHrs=
-Content-Type: text/plain; charset="utf-8"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="X1tGrM+X"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B6AA0C4CEF0;
+	Tue,  5 Aug 2025 11:02:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1754391768;
+	bh=EjslFoKz385OQJla0S/06AbB1iqynByZR1aRppAa/8A=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=X1tGrM+XFLR4eTM8K6dfmXu35VxLHQC6249VyB02gOlL62JDHVBD65KfOi4soVpjx
+	 lqmad8HYSYjhXG1vMsnTJTcVTWBX2Jru1muZp2gECh3EuxMaQl6X8RyDbBw1LtPhPb
+	 /GfYKX96wkzVaDdL4KpVUuG4JXXyoJd/gpu8SXP4Wn7HV504kYOSo19Ild9i86gIZL
+	 dHCutkgSV00mE5r9ii3CfvXGF7JqaFDw4Uw8Rjvui0uLmenvcAO7Puq92GtX7Hy+VJ
+	 f8upNqoFncGKSqGJ9eV2UNxpLzeE3kFBruE3BW/BNhGSs1aY6jtw6Mh25buHCXd/6o
+	 jZ4EGsFM6RzCA==
+Message-ID: <23e31686-3bc2-4524-9735-fd50c1f9746e@kernel.org>
+Date: Tue, 5 Aug 2025 13:02:44 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20250802-media-private-data-v1-42-eb140ddd6a9d@ideasonboard.com>
-References: <20250802-media-private-data-v1-0-eb140ddd6a9d@ideasonboard.com> <20250802-media-private-data-v1-42-eb140ddd6a9d@ideasonboard.com>
-Subject: Re: [PATCH 42/65] media: renesas: Access v4l2_fh from file
-From: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev, linux-doc@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, linux-tegra@vger.kernel.org, imx@lists.linux.dev, linux-renesas-soc@vger.kernel.org, linux-arm-msm@vger.kernel.org, linux-samsung-soc@vger.kernel.org, linux-sunxi@lists.linux.dev, linux-usb@vger.kernel.org, linux-amlogic@lists.infradead.org, linux-rockchip@lists.infradead.org, linux-stm32@st-md-mailman.stormreply.com, mjpeg-users@lists.sourceforge.net
-To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Date: Tue, 05 Aug 2025 10:59:19 +0100
-Message-ID: <175438795943.1641235.15440393062572657340@ping.linuxembedded.co.uk>
-User-Agent: alot/0.9.1
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 0/8] staging: rtl8723bs: get rid of os_dep/mlme_linux.c
+To: Michael Straube <straube.linux@gmail.com>, gregkh@linuxfoundation.org
+Cc: hdegoede@redhat.com, Larry.Finger@lwfinger.net,
+ linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+References: <20250801083131.82915-1-straube.linux@gmail.com>
+From: Hans de Goede <hansg@kernel.org>
+Content-Language: en-US, nl
+In-Reply-To: <20250801083131.82915-1-straube.linux@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Quoting Jacopo Mondi (2025-08-02 10:23:04)
-> The v4l2_fh associated with an open file handle is now guaranteed
-> to be available in file->private_data, initialised by v4l2_fh_add().
->=20
-> Access the v4l2_fh, and from there the driver-specific structure,
-> from the file * in all ioctl handlers.
->=20
-> While at it, remove the now unused fh_to_ctx() macro.
->=20
-> Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+Hi Michael,
 
-Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+On 1-Aug-25 10:31 AM, Michael Straube wrote:
+> This series moves/merges the functions/functionality of os_dep/mlme_linux.c
+> into the corresponding parts of the driver in the core directory to reduce
+> "os dependent" code.
+> 
+> The patches have been compile-tested only due to lack of hardware.
+> 
+> v1 -> v2: added back accidently removed tabs in patch 3/8
+> 
+> Michael Straube (8):
+>   staging: rtl8723bs: remove wrapper rtw_os_indicate_scan_done
+>   staging: rtl8723bs: move init_mlme_ext_timer to core/rtw_mlme_ext.c
+>   staging: rtl8723bs: move rtw_init_mlme_timer to core/rtw_mlme.c
+>   staging: rtl8723bs: remove wrapper init_addba_retry_timer
+>   staging: rtl8723bs: merge rtw_os_indicate_connect into
+>     rtw_indicate_connect
+>   staging: rtl8723bs: merge rtw_os_indicate_disconnect into
+>     rtw_indicate_disconnect
+>   staging: rtl8723bs: move rtw_report_sec_ie to core/rtw_mlme.c
+>   staging: rtl8723bs: move rtw_reset_securitypriv to core/rtw_mlme.c
 
-> ---
->  drivers/media/platform/renesas/rcar_fdp1.c | 11 +++--------
->  drivers/media/platform/renesas/rcar_jpu.c  | 21 ++++++++-------------
->  2 files changed, 11 insertions(+), 21 deletions(-)
->=20
-> diff --git a/drivers/media/platform/renesas/rcar_fdp1.c b/drivers/media/p=
-latform/renesas/rcar_fdp1.c
-> index e78d8fb104e9544d27c8ace38888995ca170483f..84c3901a2e5dc3e7ccfb3b440=
-62e839f8f19ee02 100644
-> --- a/drivers/media/platform/renesas/rcar_fdp1.c
-> +++ b/drivers/media/platform/renesas/rcar_fdp1.c
-> @@ -630,11 +630,6 @@ struct fdp1_ctx {
->         struct fdp1_field_buffer        *previous;
->  };
-> =20
-> -static inline struct fdp1_ctx *fh_to_ctx(struct v4l2_fh *fh)
-> -{
-> -       return container_of(fh, struct fdp1_ctx, fh);
-> -}
-> -
->  static inline struct fdp1_ctx *file_to_ctx(struct file *filp)
->  {
->         return container_of(file_to_v4l2_fh(filp), struct fdp1_ctx, fh);
-> @@ -1411,8 +1406,8 @@ static int fdp1_enum_fmt_vid_out(struct file *file,=
- void *priv,
-> =20
->  static int fdp1_g_fmt(struct file *file, void *priv, struct v4l2_format =
-*f)
->  {
-> +       struct fdp1_ctx *ctx =3D file_to_ctx(file);
->         struct fdp1_q_data *q_data;
-> -       struct fdp1_ctx *ctx =3D fh_to_ctx(priv);
-> =20
->         if (!v4l2_m2m_get_vq(ctx->fh.m2m_ctx, f->type))
->                 return -EINVAL;
-> @@ -1589,7 +1584,7 @@ static void fdp1_try_fmt_capture(struct fdp1_ctx *c=
-tx,
-> =20
->  static int fdp1_try_fmt(struct file *file, void *priv, struct v4l2_forma=
-t *f)
->  {
-> -       struct fdp1_ctx *ctx =3D fh_to_ctx(priv);
-> +       struct fdp1_ctx *ctx =3D file_to_ctx(file);
-> =20
->         if (f->type =3D=3D V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE)
->                 fdp1_try_fmt_output(ctx, NULL, &f->fmt.pix_mp);
-> @@ -1660,7 +1655,7 @@ static void fdp1_set_format(struct fdp1_ctx *ctx,
-> =20
->  static int fdp1_s_fmt(struct file *file, void *priv, struct v4l2_format =
-*f)
->  {
-> -       struct fdp1_ctx *ctx =3D fh_to_ctx(priv);
-> +       struct fdp1_ctx *ctx =3D file_to_ctx(file);
->         struct v4l2_m2m_ctx *m2m_ctx =3D ctx->fh.m2m_ctx;
->         struct vb2_queue *vq =3D v4l2_m2m_get_vq(m2m_ctx, f->type);
-> =20
-> diff --git a/drivers/media/platform/renesas/rcar_jpu.c b/drivers/media/pl=
-atform/renesas/rcar_jpu.c
-> index 058fcfb967bd98440f33272db42f0d973299d572..9c70a74a2969fce6446b0f26e=
-0637a68eade3942 100644
-> --- a/drivers/media/platform/renesas/rcar_jpu.c
-> +++ b/drivers/media/platform/renesas/rcar_jpu.c
-> @@ -480,11 +480,6 @@ static struct jpu_ctx *ctrl_to_ctx(struct v4l2_ctrl =
-*c)
->         return container_of(c->handler, struct jpu_ctx, ctrl_handler);
->  }
-> =20
-> -static struct jpu_ctx *fh_to_ctx(struct v4l2_fh *fh)
-> -{
-> -       return container_of(fh, struct jpu_ctx, fh);
-> -}
-> -
->  static struct jpu_ctx *file_to_ctx(struct file *filp)
->  {
->         return container_of(file_to_v4l2_fh(filp), struct jpu_ctx, fh);
-> @@ -661,7 +656,7 @@ static u8 jpu_parse_hdr(void *buffer, unsigned long s=
-ize, unsigned int *width,
->  static int jpu_querycap(struct file *file, void *priv,
->                         struct v4l2_capability *cap)
->  {
-> -       struct jpu_ctx *ctx =3D fh_to_ctx(priv);
-> +       struct jpu_ctx *ctx =3D file_to_ctx(file);
-> =20
->         if (ctx->encoder)
->                 strscpy(cap->card, DRV_NAME " encoder", sizeof(cap->card)=
-);
-> @@ -719,7 +714,7 @@ static int jpu_enum_fmt(struct v4l2_fmtdesc *f, u32 t=
-ype)
->  static int jpu_enum_fmt_cap(struct file *file, void *priv,
->                             struct v4l2_fmtdesc *f)
->  {
-> -       struct jpu_ctx *ctx =3D fh_to_ctx(priv);
-> +       struct jpu_ctx *ctx =3D file_to_ctx(file);
-> =20
->         return jpu_enum_fmt(f, ctx->encoder ? JPU_ENC_CAPTURE :
->                             JPU_DEC_CAPTURE);
-> @@ -728,7 +723,7 @@ static int jpu_enum_fmt_cap(struct file *file, void *=
-priv,
->  static int jpu_enum_fmt_out(struct file *file, void *priv,
->                             struct v4l2_fmtdesc *f)
->  {
-> -       struct jpu_ctx *ctx =3D fh_to_ctx(priv);
-> +       struct jpu_ctx *ctx =3D file_to_ctx(file);
-> =20
->         return jpu_enum_fmt(f, ctx->encoder ? JPU_ENC_OUTPUT : JPU_DEC_OU=
-TPUT);
->  }
-> @@ -828,7 +823,7 @@ static int __jpu_try_fmt(struct jpu_ctx *ctx, struct =
-jpu_fmt **fmtinfo,
-> =20
->  static int jpu_try_fmt(struct file *file, void *priv, struct v4l2_format=
- *f)
->  {
-> -       struct jpu_ctx *ctx =3D fh_to_ctx(priv);
-> +       struct jpu_ctx *ctx =3D file_to_ctx(file);
-> =20
->         if (!v4l2_m2m_get_vq(ctx->fh.m2m_ctx, f->type))
->                 return -EINVAL;
-> @@ -839,7 +834,7 @@ static int jpu_try_fmt(struct file *file, void *priv,=
- struct v4l2_format *f)
->  static int jpu_s_fmt(struct file *file, void *priv, struct v4l2_format *=
-f)
->  {
->         struct vb2_queue *vq;
-> -       struct jpu_ctx *ctx =3D fh_to_ctx(priv);
-> +       struct jpu_ctx *ctx =3D file_to_ctx(file);
->         struct v4l2_m2m_ctx *m2m_ctx =3D ctx->fh.m2m_ctx;
->         struct jpu_fmt *fmtinfo;
->         struct jpu_q_data *q_data;
-> @@ -868,8 +863,8 @@ static int jpu_s_fmt(struct file *file, void *priv, s=
-truct v4l2_format *f)
-> =20
->  static int jpu_g_fmt(struct file *file, void *priv, struct v4l2_format *=
-f)
->  {
-> +       struct jpu_ctx *ctx =3D file_to_ctx(file);
->         struct jpu_q_data *q_data;
-> -       struct jpu_ctx *ctx =3D fh_to_ctx(priv);
-> =20
->         if (!v4l2_m2m_get_vq(ctx->fh.m2m_ctx, f->type))
->                 return -EINVAL;
-> @@ -902,8 +897,8 @@ static const struct v4l2_ctrl_ops jpu_ctrl_ops =3D {
-> =20
->  static int jpu_streamon(struct file *file, void *priv, enum v4l2_buf_typ=
-e type)
->  {
-> -       struct jpu_ctx *ctx =3D fh_to_ctx(priv);
->         struct jpu_q_data *src_q_data, *dst_q_data, *orig, adj, *ref;
-> +       struct jpu_ctx *ctx =3D file_to_ctx(file);
->         enum v4l2_buf_type adj_type;
-> =20
->         src_q_data =3D jpu_get_q_data(ctx, V4L2_BUF_TYPE_VIDEO_OUTPUT_MPL=
-ANE);
-> @@ -1284,8 +1279,8 @@ static int jpu_open(struct file *file)
-> =20
->  static int jpu_release(struct file *file)
->  {
-> -       struct jpu *jpu =3D video_drvdata(file);
->         struct jpu_ctx *ctx =3D file_to_ctx(file);
-> +       struct jpu *jpu =3D video_drvdata(file);
-> =20
->         v4l2_m2m_ctx_release(ctx->fh.m2m_ctx);
->         v4l2_ctrl_handler_free(&ctx->ctrl_handler);
->=20
-> --=20
-> 2.49.0
->
+Thank you for your continued work on improving the rtl8723bs driver.
+
+I've given these patches a test-spin on a tablet with
+a rtl8723bs wifi module (on top of your previous patches).
+
+The patches work and they look good to me:
+
+Tested-by: Hans de Goede <hansg@kernel.org>
+Reviewed-by: Hans de Goede <hansg@kernel.org>
+
+for the series.
+
+Regards,
+
+Hans
+
