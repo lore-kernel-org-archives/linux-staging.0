@@ -1,188 +1,191 @@
-Received: from mail-yw1-f174.google.com (mail-yw1-f174.google.com [209.85.128.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from DU2PR03CU002.outbound.protection.outlook.com (mail-northeuropeazon11011025.outbound.protection.outlook.com [52.101.65.25])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1B6026F445;
-	Tue,  5 Aug 2025 12:13:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.174
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754396003; cv=none; b=hnK8Qn4XtXe2eD0PGIbij+9kv6BACI2745IRNKUhmxvPEDruMhATk6QGXOtKvDjPWwuOEDc/AXj/tKkHB0u45ht/pIlpmx6lvsDIiZJTai8TmanVRtktmWspS5mEsl68p3gxqmnucTlfi4Aje1JxjwQyoXgkDs6VdZoTf1p80jA=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754396003; c=relaxed/simple;
-	bh=EwgV03aMmUigY4Ai2ZcUT6R7WsVFMtOcHbmjEh5+jE4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Y0CVyhQBvqX6UuHhl2VgmBNhGlUsI5j6XZmp+9daVB/NQaJNPCqH8godmkgh+IXcTgIzZcJ6zAKFHdZ5wNcUduwBhhFenzAx0gGD4FSHxDApF4yS/vjuoxGcQAWiHrnbRBzYz80Ajn6qIclklWVfZyd9axmdijvPSzlDJb7uooU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Orv6euLt; arc=none smtp.client-ip=209.85.128.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A0A222D4C0;
+	Tue,  5 Aug 2025 20:52:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.65.25
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1754427175; cv=fail; b=IGY63g+zZLmmJAbPLn1l5Ozu7YyKZ8bH6Q3BznrCLJpY6q7YNgGdPJurPgm+IwJvegEJfaL/XzGoYLnUJQ8vMLcfMGlujy2IT2+uZ4EMa8kKk+BC7n8P/HyKxGC3ehQUQb4qYuAUWNOUHIc8CjsnWScUjfKg9GVFYCgCe6hlEP8=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1754427175; c=relaxed/simple;
+	bh=ANUcviAbm0uEy20HqSd0SDTdEkEP9EjPTWrl2KN0gI0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=fHUhzq/I80DJLZhEovIjFtSWBxTjJtbPZwg3twlzyjytxYuiAmj2al5cjSi9e/D41bhvdXGIQEPutu6Ipj1tjClLNUa3j5U/2t2LRoTSzcsekrfgcr0q8OihNMKxNYbiFhW7+pfT9zR0NpfT4p63A0tCoDbpzs8QlsYR+5QOQUA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=TWPM3+2N; arc=fail smtp.client-ip=52.101.65.25
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Orv6euLt"
-Received: by mail-yw1-f174.google.com with SMTP id 00721157ae682-71a29139678so3669187b3.3;
-        Tue, 05 Aug 2025 05:13:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1754395998; x=1755000798; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=p8V2DgHri8YgTejj87JvYTtqdyOnLtF+JDKa1lXF5to=;
-        b=Orv6euLtSchNV8dZJGoW9AnmczzXWQaSavlrRd98PMD3zJg8KHZuCVPl6E8uKkDq5U
-         N10zkiA7YhM5wGab4ejJnF5tWyM672ZaC+QwjToumIIN2ibQ3eO2rL+vgQpMdrFC1gFd
-         pcv8QmWOLg092o6iF8J3Ww5UUByO3aTcZZhmd6KRDvM4sPrx/bxycZ9TKDuRYyFu84CT
-         HDgiTvghP61IdOF6wvALBM6UnoFz/oBxQ8s6/G8CjprOwPBPP3F++yGH9YDnSAmi4G12
-         BQ8lGhip9UNygNMWlsDbSDDmrc9sOaZKuXirNCczukgZqEpXgLdo1o3+X7NLU0Slo0b6
-         EKkg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1754395998; x=1755000798;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=p8V2DgHri8YgTejj87JvYTtqdyOnLtF+JDKa1lXF5to=;
-        b=Zbm7JmImDkokKUoc7fpu3V8u2N4YV3568fckzNd8a+yfhxcTR5qnezvlY+mpmcyhrd
-         5BtGFDpiHkpT0cnoC5QBBsoV6KPYj9yrEs/pq7mXBdljdyQmMOjfPXqlXSJmR/QLSoYv
-         +DjbQFrifgM4GI+hyS27WVAlAkVbScDxDBa+c8mwz8xMvAlXz1Xw5Zu7aPomANIRDCwE
-         sbZXJiNvX0KMSkHzpwjsPn0CHqFsTFvptXOVvbmmfjTCr90+NUPcGufeR9r4+DghpoqM
-         6AMHivU1brgo0/4Fj/y3A8xU4OXsKWDxuJZBm4VvVnJ8e+y64T89Cfbao0ag7DLvW2S6
-         mc1A==
-X-Forwarded-Encrypted: i=1; AJvYcCUIzY49SCpTaUqbpDE0M7fZeSEggAm8D9Huh5aPdKG/4+dl06a7JRilKLC/CyD2yQ49g7ZyA3rfwBs6koQTEA==@lists.linux.dev, AJvYcCXKCLzWvWQ0q8CaLJ2w4hFYA8CaNIq6L0QdAJse/nFWCarljOOI9mUVSfhK2ZVDkRtmaCiQt5VUV9/Mpk2By1ZPjYH0pA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YyNMeOcvBQARP+WDLgW5YmAibQzWxFUCbv5rD70gEzdecnyFuh8
-	GsDh8tySNu/T9PIPMldCLLzK92VCkWcniBfLIIawy8q8WWSmOO+FnKsgzV3laI24GIFwRl7GLWO
-	C/NI/BtiEET23u+gKO5W7iyRMd6PxZmY=
-X-Gm-Gg: ASbGncs/dLwDdb1TDRiH5skM5bhkHyKtsq7ut0auaQ0FBF2gE+GS09LejgtnCPNWqzH
-	dKOYeITsazJfcP2sp/w53cNFSMIpMYxLynPlKvJUzTaBNR6MMbvKmE2pPR0ViAU7r6b9wVOnKAy
-	YpIuEWW1GSeUl9J2RdlnVffNWPc0WRkQ6IOQAoK9IBhspXxBiXKwEuXNmm1ZsE3I7CrERYe/wSG
-	MPP9Eef
-X-Google-Smtp-Source: AGHT+IFno5ZUE+zPi7eL10QnBpUmwNfmnQnJRM7Ol/kSuAJPwRUHFeKn/aaBiKWgZBJ4/hwctVDxvaI1CZE+sNLrowI=
-X-Received: by 2002:a05:690c:3390:b0:71a:2d5f:49b9 with SMTP id
- 00721157ae682-71b7ed87a67mr84871107b3.1.1754395997637; Tue, 05 Aug 2025
- 05:13:17 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="TWPM3+2N"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Ct9RG/794m7B3qIKRzhLgfkW2xP3PFtPs9kbUpDS4cSXFptTg++dM7v3XFIzgOUYHZLM8tvBjRzGBCRZy6l5VnsN5K9pd1RRvX53JrFiSBaF3eaLhBsD14QoGT4LhMEcO9xLi+rS4c88VoelBR43+UDt51BaOPlCjHpQSnJg/qE7mvbZofViWPhAxsYqjRLs23o1zPdAsNbaWsxCAB0ponqjks+450PaE/WZC/Fk3RmZNo6i1F6ZnLR2iMTNzjl6oQD6gnotj3WIb/nEFg6ZJ36gTfZvA0feXtMmotE3Dpou69ro8Gb0Icd1LUOFkfX12j5A4AhDfbx3SelLAzcbUA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ytQG2jZj6KSjKr/Hro+I4nlFHGRyT4u6fCABxPd5a+M=;
+ b=NI0HsspyV3flGN7DXK2/PFYqg21egrWLWRSeWbaxBO5qDWEQUBqUPMgEJml04T2ALEI99CPf4Pc+ukt/7tQapgiT4ITHCCY2oR/uVpspB+EYjGm+pLS+Ps7ExTBDkDbfoYtI2TFhbSFSumGlnxSKIKr1LIng2DN+pCRzXkfA0sd2vaQ4hXFJphi4CEU+pKFKoCf8WsAb51Vmo1zktLa7vBId03WHm/EFf/1lX1vhqUXrRNWMRwEJfipg3lhaTS9gIJQIHSF7TrO9OvB3kmhv/757R1SOUNbUE0+TZ+Mfd8XO4NcJQNNk4JaAERalR2Z4/G2V6+w44mXnnbxvQyN08Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ytQG2jZj6KSjKr/Hro+I4nlFHGRyT4u6fCABxPd5a+M=;
+ b=TWPM3+2NK8dKnrItnHUXsY5zvAb2ZVLQPFNHLE/lh7pExqxnJYoqBj9+sZDlo8g3rIrFLX/dlpYh1oDR7XfoFjbYXaarA9bOiUfDasCdhOG7EpqF4ApNPMYsgdSGNphdy6G26ySoQmiKSmUx/gdXpVKvpue1Vm3lG1B3K8Ps+WwjiFSkP0Lbqv+R6RLAYjMqE6W+vfnp6K31EMfLgMSBqFKNnlXCLdAlKq8WF9PW9lMrmQsgICU9PSYld4ZPfc7SvM2gHIg4PONsPZNgDU1HTi+XBFE9WIlH9+/ED5GcQHH0N5rGPKOxtrleYTxdMfw1dF0u3giHk9nlRx7G+RBxBQ==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+Received: from PAXPR04MB9642.eurprd04.prod.outlook.com (2603:10a6:102:240::14)
+ by DB9PR04MB8393.eurprd04.prod.outlook.com (2603:10a6:10:25f::8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8989.21; Tue, 5 Aug
+ 2025 20:52:48 +0000
+Received: from PAXPR04MB9642.eurprd04.prod.outlook.com
+ ([fe80::9126:a61e:341d:4b06]) by PAXPR04MB9642.eurprd04.prod.outlook.com
+ ([fe80::9126:a61e:341d:4b06%5]) with mapi id 15.20.8989.018; Tue, 5 Aug 2025
+ 20:52:48 +0000
+Date: Tue, 5 Aug 2025 16:52:41 -0400
+From: Frank Li <Frank.li@nxp.com>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: linux-media@vger.kernel.org, Hans de Goede <hansg@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Steve Longerbeam <slongerbeam@gmail.com>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Hans Verkuil <hverkuil@kernel.org>, linux-staging@lists.linux.dev,
+	imx@lists.linux.dev
+Subject: Re: [PATCH 3/3] media: staging: imx: Drop custom
+ .unsubscribe_event() handler
+Message-ID: <aJJvGSfwfyaqpVAc@lizhi-Precision-Tower-5810>
+References: <20250801211933.22553-1-laurent.pinchart@ideasonboard.com>
+ <20250801211933.22553-4-laurent.pinchart@ideasonboard.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250801211933.22553-4-laurent.pinchart@ideasonboard.com>
+X-ClientProxiedBy: SJ0PR13CA0116.namprd13.prod.outlook.com
+ (2603:10b6:a03:2c5::31) To PAXPR04MB9642.eurprd04.prod.outlook.com
+ (2603:10a6:102:240::14)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250717124234.24572-1-abdelrahmanfekry375@gmail.com> <5c9bf027-f362-4176-b4af-bcba9aa96e0c@kernel.org>
-In-Reply-To: <5c9bf027-f362-4176-b4af-bcba9aa96e0c@kernel.org>
-From: Abdelrahman Fekry <abdelrahmanfekry375@gmail.com>
-Date: Tue, 5 Aug 2025 15:13:07 +0300
-X-Gm-Features: Ac12FXwc6JwF_PWuXYoAwmMgTz0-8NbtMwbbTAQwO8Nlhz1mma8RYwLFA7qqMM8
-Message-ID: <CAGn2d8MC4JckjW8isvz6q6SMsb9VEAR2QrnNkJHPRuLZtwqqSg@mail.gmail.com>
-Subject: Re: [PATCH v3] staging: media: atomisp: add missing mutex lock in atomisp_s_fmt_cap
-To: Hans de Goede <hansg@kernel.org>
-Cc: mchehab@kernel.org, sakari.ailus@linux.intel.com, andy@kernel.org, 
-	gregkh@linuxfoundation.org, linux-media@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev, 
-	linux-kernel-mentees@lists.linux.dev, skhan@linuxfoundation.org, 
-	dan.carpenter@linaro.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PAXPR04MB9642:EE_|DB9PR04MB8393:EE_
+X-MS-Office365-Filtering-Correlation-Id: bb570207-dbb4-4d5e-55d7-08ddd462090c
+X-LD-Processed: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+ BCL:0;ARA:13230040|4022899009|366016|1800799024|52116014|376014|19092799006|38350700014|7053199007;
+X-Microsoft-Antispam-Message-Info:
+ =?us-ascii?Q?a29yL9Pi3doebZLzidhnIkQ+yNMzZI65XpCkJw/LtO1lvNS+ZSS4l22yF/86?=
+ =?us-ascii?Q?F7MkFFD1rRDhhR+cdSCotQFQrYVe1AJXity2HPsEeweN8cnQXP5m77mVWATQ?=
+ =?us-ascii?Q?6kyXG5/AZ8Ap/5wB3FUTX3sIDAeZqoWCcd84B1DfQw9AKPx/XQr7bMVm0b0j?=
+ =?us-ascii?Q?0/RuDIWSz5t0Vycm49yFczxLjZjZS2/baDymO7QHPkk9yCUz01Or91kB2a0c?=
+ =?us-ascii?Q?nAba8LFhBcYXi+kpvgcrs1isBBa3J4xndTGHnqGIZcvklqZkvhkKuhpYXZ6p?=
+ =?us-ascii?Q?IgrUwaF47vOPjwrYNci5r0JXl/6NRuMf7Fw7TxavxebKSNsFOMAhiYoZwm2x?=
+ =?us-ascii?Q?MIgypfkvWr7uIIN0MdHagPO7H/pBKu1Vkz+HbSDVPkNmocTbBGmeydDTmoyX?=
+ =?us-ascii?Q?OGlPsuHB1rDv5nmwvl9nvBoqF+1lf1JpbKBdMocQ4rJRdxrjwCDVS2Tm1/1a?=
+ =?us-ascii?Q?0gHZ3j6jhI146K7QBHNSNv+SWHqB4IZstJXXkxuFRbMWXcBDQ33rsLv90TA0?=
+ =?us-ascii?Q?ksU5aqNSXT28ndaUtSrAEa9KiQsGxzua98sBFxuB7Yt2AmE1OxVK+s3u/grh?=
+ =?us-ascii?Q?ZUA2Eobt+nbnCQqy2BBarAviHSc3iRKQaAtoeEgd1LzESI9vfaQ+kMSsAHgb?=
+ =?us-ascii?Q?h0khZQdioMCte7JBOrEIIWm0O8OitRBkm92VxzxbdsyU8ipN1aAflBVgx+mI?=
+ =?us-ascii?Q?tSVI48e6shjF4kV7r1y0CiWsYFLvPvT2H4NPOtoZYbeUGk/sYlfd4eJQNoOh?=
+ =?us-ascii?Q?TRSks3d5VdXCO6UcZf/NH15EdWjpzmwbDYm4u5ufbWh8wZNKnyDuUNTgI3Ji?=
+ =?us-ascii?Q?QNLV6SlcJnlTD2xqi96+SPgjyfbN6IOws6C/yjHJJ07FY3afcXEY/Uy2ET5M?=
+ =?us-ascii?Q?zKC/OLTUrmLdAMAcEOeHF1u+o6v/t/eT2JR+QGE1vr2QjhVbo8U6Ivu/XYX5?=
+ =?us-ascii?Q?/m44Be44nO/BQrw6s8vjUbsjlzx7B8+qcukzMTo2lsrHNr7Xlzy6WUCye5xl?=
+ =?us-ascii?Q?t3iKI3Pm8kX39Fq18hiNre0hh9DkTQNfcwKlCxlXXR318deszhRLo6ry7W7+?=
+ =?us-ascii?Q?kR5bjBLKmAenoNA+cspyMG1fihrhd6MFKmOwxNgEKzxG6OxhixyeSf8JW/Q2?=
+ =?us-ascii?Q?1zyjuXq3e/YtfTnk2mDiZSu55WKQWoYKF45CuPzfxIh33s26qmkaMwt0cdWd?=
+ =?us-ascii?Q?kzOijB+kOfZXGZ6EdEL2HglhygftdVJPq1eTvMZDPp0Fu2iNMUAI4rgvkjwy?=
+ =?us-ascii?Q?bghi7wyU3olWYA7NWQ8RU67Sve2xsjT40VEJ1J26dgoJ3lho3zHknuHg96kR?=
+ =?us-ascii?Q?Xf8SMYs4RbsAAyQtL27H23G7CxKPLPC9rgtxnzrm5S+FggRKlCot9loj8Mfv?=
+ =?us-ascii?Q?ICEucRkoHFTe6MOcs5uxKTte+M7iAwLPt7dR7DuYD9KD7uZwNO9KemVm1ACn?=
+ =?us-ascii?Q?sZ6+KZ89XO/vc2V6CEMidtpBcsfs6rJTvtRjcbM5R7mC+qEuLgyEiA=3D=3D?=
+X-Forefront-Antispam-Report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR04MB9642.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(4022899009)(366016)(1800799024)(52116014)(376014)(19092799006)(38350700014)(7053199007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+ =?us-ascii?Q?BfZ9jyAmTWyhxUcPWoVtl2wxcY1MTNae8CWLFV/XdjM7IJTdQZXjuLXf/xDz?=
+ =?us-ascii?Q?3KodtLxyAOMJuliJEGvM29lJf7J/gryQ7yECsYfuZJWVNTTp7wyCeCdQ6BOZ?=
+ =?us-ascii?Q?0fp6I/NCqRD4GJ4tqqi1qe46D29gkDyk58ztrRwF8GYdNsjXE5Ff4xZMZXRZ?=
+ =?us-ascii?Q?lAyDndCf8SxG6jxImynn32FdslGbUobb29hP4mg0REPfbjbob8/xCPj3LYxw?=
+ =?us-ascii?Q?3QG77aeyeV+uRhzBJb0d2Ap/7s1i9NCR6a8j0zpcNIqjQxN1TAwj6WQTLD9w?=
+ =?us-ascii?Q?dwpoXXHkYX/C6j2Cy6iCisqmMlmpaRYQYtEyXuLkRtWyxduqpyR/8/efE3O0?=
+ =?us-ascii?Q?s0MiFDIE8GHaYAQJscag9dpDtSmc89bh5jcmw3bo7EoXwuWzflPc9JaXP3MQ?=
+ =?us-ascii?Q?YYuGrxD3PuO8a2v2YFPj3mR7T/qztWBOZKZ1pgkpLB1WtFrRWfXCc8daUBXm?=
+ =?us-ascii?Q?5XRRyMf5Nt7QKSmt1ukDQsKD//JrSf+eiFhUrzh2FhMkRj6XdFwl9qmGSjtC?=
+ =?us-ascii?Q?kcVlY2gkzUfMZjfx+ngEbFuVut2OexTXm3XlwtB3Hlatv/K5X7aBGlJw1BFY?=
+ =?us-ascii?Q?i5XJkIKpTjJzGzEIqn1MnNLM4zdYu8XqBd/lv88zzhOL2qjTKZxuZKaBKiIo?=
+ =?us-ascii?Q?6u5G40IMVp74rNljG5z5lDv/S77xMo+dE1wVHCxVwkKt+EJrX/hgM4Hogyu9?=
+ =?us-ascii?Q?cJb020wHheUI/AJqq/6S6jwybBtPME4Po9AlZaG1YlXb2uvaLpGZHoM/4kDM?=
+ =?us-ascii?Q?Ujqc/BxOJvnLmymX7NBLvLqU+mQzJs5IJoPsLDCkU1edmZxgUlTm4jWRnb6P?=
+ =?us-ascii?Q?ZqugFmojBL3Ia0Sw/M3jH9xHY5oV77UM5fEJLDAOylEWfbxeEwjDGCy7z4Bb?=
+ =?us-ascii?Q?3ECJFn1XHBkNkew1xX2kw5YTNOVsQgdxVy+TKTTeVFnE18e0QGgXiHYQz+MD?=
+ =?us-ascii?Q?lM9KMXO50jFfAdf3QQVMV2ZyodGMS5K+s3wdPL4vV5l6cqRWm+dhd5WBlFq8?=
+ =?us-ascii?Q?MjPDAHELpbhdM8PQvaYpc9ubYIO7shh9mbeetNBjwdUQqsiS8R0jMeGwLLID?=
+ =?us-ascii?Q?06P3hBXBSaPs9UnUa8suwp0nE5kDWy9iP1HwKDKz3wdJRDlZTZVqVziCilZm?=
+ =?us-ascii?Q?Oktgg9uSHZZXa2RVgEqDIx6vypGNkClPcdMgqh09qtZJXgGapm1fkYbQJAIE?=
+ =?us-ascii?Q?QLCqmpo96/usX9UFP0ovWDo+BlJ4EBS8QnHb2lKyXUa9ITvUerdzmf7PS0uH?=
+ =?us-ascii?Q?eCCGxLzYcePDPFhqwJBS+qsL+ZQMYNJvkZUsRPU7n6M/jQBbPTTnu1nzxm1s?=
+ =?us-ascii?Q?QPt3gU9B8S46+LHw+m7U48SzutK1A3UasT2lwfl3nAsqJnqLxcFrkLYtcNjO?=
+ =?us-ascii?Q?0ntwn4CrHYloulB2PeLPJc3TG1Hhxydar+48eyxVjOgmFhrNGPTqql8unszl?=
+ =?us-ascii?Q?f449DZqR5bbF3esUKzcs9Njfm6wkqr0803iqeb61r40bhlMY/mqAoold6noB?=
+ =?us-ascii?Q?EOCkTTgbcvJSD40+CRElPVwqshFl0ZrL5kim7BHrbZtcXrzDfhbl7jJ7MHen?=
+ =?us-ascii?Q?XcsxcLgmQDa9vJUy8dDrCP0tdAfnHOuHhyF0MC6T?=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: bb570207-dbb4-4d5e-55d7-08ddd462090c
+X-MS-Exchange-CrossTenant-AuthSource: PAXPR04MB9642.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Aug 2025 20:52:48.2360
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: xolm/nZhBwBvA3Z6JIc3W26hVQ73xBOPQVo6uhhsXaHAodu/eTBp1KV959+7qPKVqeVvs1pvR7p8PoFtg3WGNQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB9PR04MB8393
 
-Hi Hans,
-Thanks for the feedback.
+On Sat, Aug 02, 2025 at 12:19:33AM +0300, Laurent Pinchart wrote:
+> The csi_unsubscribe_event() function simply calls
+> v4l2_event_unsubscribe(), forwarding its arguments. Replace it with the
+> v4l2_event_subdev_unsubscribe() helper that performs exactly the same
+> operation.
+>
+> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> ---
 
-On Tue, Aug 5, 2025 at 12:00=E2=80=AFPM Hans de Goede <hansg@kernel.org> wr=
-ote:
+Reviewed-by: Frank Li <Frank.Li@nxp.com>
+
+>  drivers/staging/media/imx/imx-media-csi.c | 8 +-------
+>  1 file changed, 1 insertion(+), 7 deletions(-)
 >
-> Hi,
+> diff --git a/drivers/staging/media/imx/imx-media-csi.c b/drivers/staging/media/imx/imx-media-csi.c
+> index a7cd3ef95fc3..fd7e37d803e7 100644
+> --- a/drivers/staging/media/imx/imx-media-csi.c
+> +++ b/drivers/staging/media/imx/imx-media-csi.c
+> @@ -1751,12 +1751,6 @@ static int csi_subscribe_event(struct v4l2_subdev *sd, struct v4l2_fh *fh,
+>  	return v4l2_event_subscribe(fh, sub, 0, NULL);
+>  }
 >
-> On 17-Jul-25 2:42 PM, Abdelrahman Fekry wrote:
-> > The function atomisp_set_fmt() modifies shared device state and expects
-> > callers to hold the isp->mutex for synchronization. While most internal
-> > callers correctly lock the mutex before invoking atomisp_set_fmt(), the
-> > V4L2 ioctl handler atomisp_s_fmt_cap() does not.
-> >
-> > This results in an unsafe execution path for VIDIOC_S_FMT ioctls
-> > (e.g. via v4l2-ctl), where shared structures such as pipe->pix and
-> > pipe->frame_info may be modified concurrently without proper protection=
-.
-> >
-> > - Fix this by explicitly locking isp->mutex in atomisp_s_fmt_cap().
+> -static int csi_unsubscribe_event(struct v4l2_subdev *sd, struct v4l2_fh *fh,
+> -				 struct v4l2_event_subscription *sub)
+> -{
+> -	return v4l2_event_unsubscribe(fh, sub);
+> -}
+> -
+>  static int csi_registered(struct v4l2_subdev *sd)
+>  {
+>  	struct csi_priv *priv = v4l2_get_subdevdata(sd);
+> @@ -1872,7 +1866,7 @@ static const struct media_entity_operations csi_entity_ops = {
 >
-> Thank you for your patch, but I'm afraid that this stems from
-> not understanding how v4l2 drivers work.
+>  static const struct v4l2_subdev_core_ops csi_core_ops = {
+>  	.subscribe_event = csi_subscribe_event,
+> -	.unsubscribe_event = csi_unsubscribe_event,
+> +	.unsubscribe_event = v4l2_event_subdev_unsubscribe,
+>  };
 >
-> isp->mutex is set as the mutex for the /dev/video# node in:
-> drivers/staging/media/atomisp/pci/atomisp_v4l2.c:
+>  static const struct v4l2_subdev_video_ops csi_video_ops = {
+> --
+> Regards,
 >
-> int atomisp_video_init(struct atomisp_video_pipe *video)
-> {
->         ...
->         video->vdev.lock =3D &video->isp->mutex;
->
-> This guarantees that any ioctl handlers will be called with
-> isp->mutex already held.
->
-> The suggested change here will result in trying to lock
-> the mutex a second time leading to a deadlock.
-great, now i understand.
->
-> So NACK for this patch.
->
-> What would be useful is adding:
->
->         lockdep_assert_held(&isp->mutex);
->
-> to functions which expect the mutex to be held. I regularly
-> test the atomisp code with lockdep enabled kernels so this
-> will help catch any paths where we indeed are not locking
-> the mutex while we should lock it.
-will look into that.
-Could you please check my other patch series if you have time
-https://lore.kernel.org/all/20250712191325.132666-1-abdelrahmanfekry375@gma=
-il.com/
-thank you !
->
-> Regards.
->
-> Hans
->
->
->
->
->
->
-> >
-> > Fixes: 4bdab80981ca ("media: atomisp: Make it possible to call atomisp_=
-set_fmt() without a file handle")
-> > Signed-off-by: Abdelrahman Fekry <abdelrahmanfekry375@gmail.com>
-> > ---
-> > v3:
-> > - Use guard(mutex) as suggested by Dan Carpenter and Andy Shevchenko
-> > - Remove extra blank line after variable declaration
-> > - Fix include order as requested by Andy Shevchenko
-> >
-> > v2: https://lore.kernel.org/all/20250717013003.20936-1-abdelrahmanfekry=
-375@gmail.com/
-> > - Add Fixes tag
-> > - use cleanup.h micros instead of explicitly calling mutex_lock/unlock
-> >
-> > v1: https://lore.kernel.org/all/20250716014225.15279-1-abdelrahmanfekry=
-375@gmail.com/
-> > ---
-> >  drivers/staging/media/atomisp/pci/atomisp_ioctl.c | 3 +++
-> >  1 file changed, 3 insertions(+)
-> >
-> > diff --git a/drivers/staging/media/atomisp/pci/atomisp_ioctl.c b/driver=
-s/staging/media/atomisp/pci/atomisp_ioctl.c
-> > index bb8b2f2213b0..2690c05afff3 100644
-> > --- a/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
-> > +++ b/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
-> > @@ -7,6 +7,7 @@
-> >   * Copyright (c) 2010 Silicon Hive www.siliconhive.com.
-> >   */
-> >
-> > +#include <linux/cleanup.h>
-> >  #include <linux/delay.h>
-> >  #include <linux/pci.h>
-> >
-> > @@ -416,7 +417,9 @@ static int atomisp_s_fmt_cap(struct file *file, voi=
-d *fh,
-> >                            struct v4l2_format *f)
-> >  {
-> >       struct video_device *vdev =3D video_devdata(file);
-> > +     struct atomisp_device *isp =3D video_get_drvdata(vdev);
-> >
-> > +     guard(mutex)(&isp->mutex);
-> >       return atomisp_set_fmt(vdev, f);
-> >  }
-> >
+> Laurent Pinchart
 >
