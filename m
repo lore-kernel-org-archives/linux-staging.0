@@ -1,59 +1,38 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCE612609D9;
-	Thu,  7 Aug 2025 09:07:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FC094A0A;
+	Thu,  7 Aug 2025 12:32:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754557650; cv=none; b=F1y5D9QWTZKv3XVINTePunJy/2lH55RQek6Fhhqan6oSgs0Ou0MIzGXOdZU1lXKS1r+VdVLfNdp2ttHU3q1pRpu29yaBcXIbdMnkclDJNl+oNjPS2xYhT8b9VdV1hk/moibXDz+6uyxeBx5NhrcnYslBj53La/BuULGo8MNRl9c=
+	t=1754569938; cv=none; b=dz41E9nERz6UQcXajF9vBI+bWbmLhpbkE7uhj+v/zFtFg43g6yFnsrf2f/G3k34OtXdUd5ff2PEBbkgYuMMQcamtBYFAw+QLBng2mMAjJfNjsNGaQ0Wum//CDEtwesTH3Qx1Yyh06fT2QFJq2utEEu/d8SYcjtbHxLCBfzaZQD4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754557650; c=relaxed/simple;
-	bh=LdyIokBuO7Un8obo21ibvQiKDOlr/VJXcK2c42DetEE=;
+	s=arc-20240116; t=1754569938; c=relaxed/simple;
+	bh=mDLUQyipon3TC8s7Xe5hlhtx/kxMnlzT8INeN44SBME=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=TbxTfCn7FLNDHEhYYt58uIL3TeN/IMOjgIh8Rdo7rdZfdOj/J80YZk1yKRXTwsFUF4xN/IJEZyLBmH5s5CsmNcGs+ZoFqiGv+Vm+RLSEID2TyjGsuXhjhk6r0B+BPXXgRTfppAitWEiLNEIu4NrizUVErgEo4Bop70q4ErkrPWE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cw8Dulap; arc=none smtp.client-ip=198.175.65.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=mEiZVcganbbQbr5v0yaxpu6Mfkwb15aY55k6yyvoNh5n9Hb5LSD414yuTtEIVfIYmSi9CZh0+4sd+1MslliCYexGM6lvdp6Bww5QFQ2kw5q449TNM28fgU+Kh9+r2vqQWBleZWT5MbVgoADPi19Q09gGWvMbMs7n0ecU+0Mr/vk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=LACv+uFT; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cw8Dulap"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1754557648; x=1786093648;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=LdyIokBuO7Un8obo21ibvQiKDOlr/VJXcK2c42DetEE=;
-  b=cw8Dulap25ByJpc137n0CP99OxH+yvd3XX2WBpIoE/ARbYCcEV1uwTrU
-   MXSj8PTh/Je4K18K6i0SswfPidmFljdcAzdoJR+v77mrJc+jg3Q//D9K/
-   F/iSzBVpgKS+N0YfMdeC1QX3cuV4MnTGXcGpd1OSqMqyPn+CJCXue9Z9Q
-   8QuylB0Z1l3cD0nPlDvs7Dl1YhV2gD790+38dEXM+dmTZvh6w7M5WuRKV
-   lPf0Px354GTSPYgggeBxQk7kq7vIVRCgsphuiovCyV/4Z2QfquJd8bhLx
-   J/dAb3sMXkCHVH3EMiFv8XgiVZ8m2ynkNZgjmBZlA34TScvNH5Ez44yK4
-   A==;
-X-CSE-ConnectionGUID: Ssu07C0BRYGbDRleIDeByA==
-X-CSE-MsgGUID: ENNmcRusRpaOC9BpI7f0Jw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11514"; a="68340087"
-X-IronPort-AV: E=Sophos;i="6.17,271,1747724400"; 
-   d="scan'208";a="68340087"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Aug 2025 02:07:27 -0700
-X-CSE-ConnectionGUID: HkVbQkL0THy+UJOo9yzC6A==
-X-CSE-MsgGUID: KJ6iZxlSSOyomEAi+j3fxw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.17,271,1747724400"; 
-   d="scan'208";a="169473134"
-Received: from mjarzebo-mobl1.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.244.255])
-  by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Aug 2025 02:07:16 -0700
-Received: from kekkonen.localdomain (localhost [127.0.0.1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id 79BBB11FC45;
-	Thu,  7 Aug 2025 12:07:13 +0300 (EEST)
-Date: Thu, 7 Aug 2025 09:07:13 +0000
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="LACv+uFT"
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id EDCB18FA;
+	Thu,  7 Aug 2025 14:31:22 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1754569883;
+	bh=mDLUQyipon3TC8s7Xe5hlhtx/kxMnlzT8INeN44SBME=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=LACv+uFTAOqCoVr6y4n8xhP/phvZ2YaIqX4nfPzsq8htw1/33Ig2joQ5o1c7g1TI/
+	 sm6fQdyxttR4+gfZN8u7QpF8EcmmN4qBOEZ1BO6Gpa7oo5sCerPApF06+UQkNeTbXv
+	 CoAosKL4r64nC+r6TFuPhQz7Lyc1Gdn1yLFrA/Yc=
+Date: Thu, 7 Aug 2025 15:31:57 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Hans Verkuil <hverkuil+cisco@kernel.org>
+Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Devarsh Thakkar <devarsht@ti.com>, Benoit Parrot <bparrot@ti.com>,
 	Hans Verkuil <hverkuil@kernel.org>, Mike Isely <isely@pobox.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
 	Hans de Goede <hansg@kernel.org>,
 	Parthiban Veerasooran <parthiban.veerasooran@microchip.com>,
 	Christian Gromm <christian.gromm@microchip.com>,
@@ -123,10 +102,11 @@ Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Steve Longerbeam <slongerbeam@gmail.com>,
 	Maxime Ripard <mripard@kernel.org>,
 	Paul Kocialkowski <paulk@sys-base.io>,
-	Niklas =?iso-8859-1?Q?S=F6derlund?= <niklas.soderlund@ragnatech.se>,
+	Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
 	Robert Foss <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>,
 	Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
 	Corentin Labbe <clabbe@baylibre.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
 	Bingbu Cao <bingbu.cao@intel.com>,
 	Tianshu Qiu <tian.shu.qiu@intel.com>,
 	Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>,
@@ -141,33 +121,101 @@ Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
 	linux-rockchip@lists.infradead.org,
 	linux-stm32@st-md-mailman.stormreply.com,
 	mjpeg-users@lists.sourceforge.net
-Subject: Re: [PATCH 64/65] media: staging: ipu7: isys: Don't set
- V4L2_FL_USES_V4L2_FH manually
-Message-ID: <aJRswZIVKCuzqCpr@kekkonen.localdomain>
+Subject: Re: [PATCH 58/65] media: zoran: Remove access to __fh
+Message-ID: <20250807123157.GF11583@pendragon.ideasonboard.com>
 References: <20250802-media-private-data-v1-0-eb140ddd6a9d@ideasonboard.com>
- <20250802-media-private-data-v1-64-eb140ddd6a9d@ideasonboard.com>
+ <20250802-media-private-data-v1-58-eb140ddd6a9d@ideasonboard.com>
+ <d8875dea-aa04-41fc-b1b4-519d06ed6cba@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20250802-media-private-data-v1-64-eb140ddd6a9d@ideasonboard.com>
+In-Reply-To: <d8875dea-aa04-41fc-b1b4-519d06ed6cba@kernel.org>
 
-On Sat, Aug 02, 2025 at 11:23:26AM +0200, Jacopo Mondi wrote:
-> From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+On Thu, Aug 07, 2025 at 08:58:01AM +0200, Hans Verkuil wrote:
+> On 02/08/2025 11:23, Jacopo Mondi wrote:
+> > The __fh parameter is assigned to an unsued variable. Remove it
+> > and remove the unused struct zoran_fh type.
+> > 
+> > Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+> > ---
+> >  drivers/media/pci/zoran/zoran.h        | 6 ------
+> >  drivers/media/pci/zoran/zoran_driver.c | 3 +--
+> >  2 files changed, 1 insertion(+), 8 deletions(-)
+> > 
+> > diff --git a/drivers/media/pci/zoran/zoran.h b/drivers/media/pci/zoran/zoran.h
+> > index 1cd990468d3de9db8b14b72483972041c57bfee2..d05e222b392156bf1b3b4c83c6591db642c3c377 100644
+> > --- a/drivers/media/pci/zoran/zoran.h
+> > +++ b/drivers/media/pci/zoran/zoran.h
+> > @@ -154,12 +154,6 @@ struct zoran_jpg_settings {
+> >  
+> >  struct zoran;
+> >  
+> > -/* zoran_fh contains per-open() settings */
+> > -struct zoran_fh {
+> > -	struct v4l2_fh fh;
+> > -	struct zoran *zr;
+> > -};
+> > -
+> >  struct card_info {
+> >  	enum card_type type;
+> >  	char name[32];
+> > diff --git a/drivers/media/pci/zoran/zoran_driver.c b/drivers/media/pci/zoran/zoran_driver.c
+> > index f42f596d3e6295e31e3b33cd83c5f7243911bd30..ec7fc1da4cc02f5a344cb49bb9a783c41c758195 100644
+> > --- a/drivers/media/pci/zoran/zoran_driver.c
+> > +++ b/drivers/media/pci/zoran/zoran_driver.c
+> > @@ -511,12 +511,11 @@ static int zoran_s_fmt_vid_cap(struct file *file, void *__fh,
 > 
-> The V4L2_FL_USES_V4L2_FH flag is set by v4l2_fh_init(). It is not meant
-> to be set manually by drivers. Drop it from the ipu7-isys driver.
+> This driver uses __fh as the name for the second argument of the ioctl
+> callbacks. Can you take this opportunity to rename it to either 'fh' or 'priv'?
+
+It's a bit of yak shaving, but not too difficult so it will be addressed
+in the next version (Jacopo already wrote the patches, thanks).
+
+> Generally it's not a good idea to prefix variables with __ for no good reason.
 > 
-> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+> Grepping for __fh also shows two other drivers:
+> 
+> drivers/media/platform/chips-media/coda/coda-common.c:#define fh_to_ctx(__fh)   container_of(__fh, struct coda_ctx, fh)
+> drivers/media/platform/samsung/s5p-mfc/s5p_mfc_common.h:#define fh_to_ctx(__fh) container_of(__fh, struct s5p_mfc_ctx, fh)
+> 
+> I think it is a good idea to rename __fh to fh there as well.
 
-Thanks, Jacopo!
+That can't be done, otherwise things like
 
-Reviewed-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+#define fh_to_ctx(fh)	container_of(fh, struct coda_ctx, fh)
+
+static inline struct coda_ctx *file_to_ctx(struct file *filp)
+{
+	return fh_to_ctx(file_to_v4l2_fh(filp));
+}
+
+will expand in the file_to_ctx() function to
+
+	return container_of(file_to_v4l2_fh(filp), struct coda_ctx, file_to_v4l2_fh(filp))
+
+We could rename the __fh argument to vfh or v4l2fh, but I think __fh is
+equally good there. It's just the macro argument name.
+
+> >  			       struct v4l2_format *fmt)
+> >  {
+> >  	struct zoran *zr = video_drvdata(file);
+> > -	struct zoran_fh *fh = __fh;
+> >  	int i;
+> >  	int res = 0;
+> >  
+> >  	if (fmt->fmt.pix.pixelformat == V4L2_PIX_FMT_MJPEG)
+> > -		return zoran_s_fmt_vid_out(file, fh, fmt);
+> > +		return zoran_s_fmt_vid_out(file, __fh, fmt);
+> >  
+> >  	for (i = 0; i < NUM_FORMATS; i++)
+> >  		if (fmt->fmt.pix.pixelformat == zoran_formats[i].fourcc)
 
 -- 
-Sakari Ailus
+Regards,
+
+Laurent Pinchart
