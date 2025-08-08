@@ -1,153 +1,67 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from smtp1.iitb.ac.in (smtpd9.iitb.ac.in [103.21.126.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6E58246BD5;
-	Fri,  8 Aug 2025 07:22:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4FA2271478
+	for <linux-staging@lists.linux.dev>; Fri,  8 Aug 2025 09:57:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.21.126.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754637766; cv=none; b=NXJF35xBAGVp9Slrmhoqf/fh4ZHrUGZEc1+nROKZb21JdaGV85pRVyKu0LK8323sfZJEWHS+SPoL8xmWEw4lln1zT2g+SbT/1C7HVMSLvi4F805gwWVYFVqOr4WmG5llySy8/uTM5HFeN/fKuB5u/gDAFuqS4FI7tNQwFyoWo+Q=
+	t=1754647043; cv=none; b=Ogyu7VFTNcPIXz2ONgyHxnuErVGz/B37dugFvbMR5ke0K8T8xmKEBQK3KNTVygybcoUGjqCSenSGHYKCx0EDHar1cRWAKetwMZr/tfe5CXojy+3Sy5V6Bpqgz1x3Q+fHIwELwGRso6tkvT2rJBLZoytypxHcZLPnSQGptGf7htY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754637766; c=relaxed/simple;
-	bh=fbLBorPezoJWXQtvSg4WV87SLfHofuZpGSIX8FwjR+A=;
+	s=arc-20240116; t=1754647043; c=relaxed/simple;
+	bh=TD6ycEpP0Ic2Cf/QILVrlMXzF1naP6yC1ssQpc7BjZQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ms1iq8uOCjvB/FKC1QIIwifZ+kmurlPsMzYDgElzbUydOMZBQ1BdMm10ThL49eWkgukouhuqmohoH9zMKQmrN/wz9jlS5H14B5xoDA04/7edggjEupUvBC1bGBvZkoEk+uZjUvhgymlT47tjhjxjPxzaRd9Bx5I9C+l2ECTtxJg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SjoHuh8E; arc=none smtp.client-ip=192.198.163.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=X/xGawjDIWszGGbUiwdqtLPMaTMbSWQfWjIkbiGtQQAOD4baQ+hnABF+l4ZsJCqcOuOinPXxrsQXNL0AGQ37lLbPecTUbA7u00zyulyW3IUc+5nqh7iBgAjoS1nuM08rXZZ5NHbLNsBbC2m6vbGR5ANcfUzPxJnJPHYMpcnHLUU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=ee.iitb.ac.in; spf=pass smtp.mailfrom=ee.iitb.ac.in; dkim=pass (1024-bit key) header.d=iitb.ac.in header.i=@iitb.ac.in header.b=wbE23IyI; arc=none smtp.client-ip=103.21.126.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=ee.iitb.ac.in
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ee.iitb.ac.in
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SjoHuh8E"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1754637765; x=1786173765;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=fbLBorPezoJWXQtvSg4WV87SLfHofuZpGSIX8FwjR+A=;
-  b=SjoHuh8EtHrM7tgnpeCISrbn+ybxjw+1nTrgNHifhOx0XgOgVkr5Cuuq
-   QTgS2euRU21K08ExSx6XWM4R3aJ8MHoCdI5B9BeUSigO294lBNzoUbC4s
-   3qTDTaw6I8B2rpsik9gfMzELmwTRBR+1lR0r0bH9lLTXcB1xJXhtfCPts
-   GUjZiAOGkr3QPNoN903b6dHEavWdVXdEAoHumJnWb5Km9bjKoCgAv4RBG
-   GYMoPvvKd/s0yCUtz03HPgpoiRDbPr4wOkEFMm+Ux/OF22JWdWGT1dBHz
-   +oR2ceLdD6cLS/EVyr8iFK4KlFzt2aF94wG5fzNrbwYTdMRt9scHowyn5
-   g==;
-X-CSE-ConnectionGUID: bAIiAh+oRdCOguhB7yoT7w==
-X-CSE-MsgGUID: B1yS/pezQKuMbxtn4zwhXA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11514"; a="82427442"
-X-IronPort-AV: E=Sophos;i="6.17,274,1747724400"; 
-   d="scan'208";a="82427442"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Aug 2025 00:22:44 -0700
-X-CSE-ConnectionGUID: OdNPlVlrR9m1H28JVd9Cfw==
-X-CSE-MsgGUID: 6MIOtN9XTOqpGi12upForA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.17,274,1747724400"; 
-   d="scan'208";a="188944168"
-Received: from fpallare-mobl4.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.245.151])
-  by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Aug 2025 00:22:33 -0700
-Received: from kekkonen.localdomain (localhost [127.0.0.1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id 7FB8211FC97;
-	Fri,  8 Aug 2025 10:22:31 +0300 (EEST)
-Date: Fri, 8 Aug 2025 07:22:31 +0000
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Devarsh Thakkar <devarsht@ti.com>, Benoit Parrot <bparrot@ti.com>,
-	Hans Verkuil <hverkuil@kernel.org>, Mike Isely <isely@pobox.com>,
-	Hans de Goede <hansg@kernel.org>,
-	Parthiban Veerasooran <parthiban.veerasooran@microchip.com>,
-	Christian Gromm <christian.gromm@microchip.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Alex Shi <alexs@kernel.org>, Yanteng Si <si.yanteng@linux.dev>,
-	Dongliang Mu <dzm91@hust.edu.cn>, Jonathan Corbet <corbet@lwn.net>,
-	Tomasz Figa <tfiga@chromium.org>,
-	Marek Szyprowski <m.szyprowski@samsung.com>,
-	Andy Walls <awalls@md.metrocast.net>,
-	Michael Tretter <m.tretter@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Bin Liu <bin.liu@mediatek.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Dmitry Osipenko <digetx@gmail.com>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	Mirela Rabulea <mirela.rabulea@nxp.com>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-	Michal Simek <michal.simek@amd.com>, Ming Qian <ming.qian@nxp.com>,
-	Zhou Peng <eagle.zhou@nxp.com>,
-	Xavier Roumegue <xavier.roumegue@oss.nxp.com>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Vikash Garodia <quic_vgarodia@quicinc.com>,
-	Dikshita Agarwal <quic_dikshita@quicinc.com>,
-	Abhinav Kumar <abhinav.kumar@linux.dev>,
-	Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-	Sylwester Nawrocki <sylvester.nawrocki@gmail.com>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>,
-	Daniel Almeida <daniel.almeida@collabora.com>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Kevin Hilman <khilman@baylibre.com>,
-	Jerome Brunet <jbrunet@baylibre.com>,
-	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-	Nas Chung <nas.chung@chipsnmedia.com>,
-	Jackson Lee <jackson.lee@chipsnmedia.com>,
-	Minghsiu Tsai <minghsiu.tsai@mediatek.com>,
-	Houlong Wei <houlong.wei@mediatek.com>,
-	Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
-	Tiffany Lin <tiffany.lin@mediatek.com>,
-	Yunfei Dong <yunfei.dong@mediatek.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Mikhail Ulyanov <mikhail.ulyanov@cogentembedded.com>,
-	Jacob Chen <jacob-chen@iotwrt.com>,
-	Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
-	Heiko Stuebner <heiko@sntech.de>,
-	Detlev Casanova <detlev.casanova@collabora.com>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Alim Akhtar <alim.akhtar@samsung.com>,
-	Sylwester Nawrocki <s.nawrocki@samsung.com>,
-	=?utf-8?Q?=C5=81ukasz?= Stelmach <l.stelmach@samsung.com>,
-	Andrzej Pietrasiewicz <andrzejtp2010@gmail.com>,
-	Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-	Andrzej Hajda <andrzej.hajda@intel.com>,
-	Fabien Dessenne <fabien.dessenne@foss.st.com>,
-	Hugues Fruchet <hugues.fruchet@foss.st.com>,
-	Jean-Christophe Trotin <jean-christophe.trotin@foss.st.com>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-	Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-	Steve Longerbeam <slongerbeam@gmail.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Paul Kocialkowski <paulk@sys-base.io>,
-	Niklas =?iso-8859-1?Q?S=F6derlund?= <niklas.soderlund@ragnatech.se>,
-	Robert Foss <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>,
-	Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
-	Corentin Labbe <clabbe@baylibre.com>,
-	Bingbu Cao <bingbu.cao@intel.com>,
-	Tianshu Qiu <tian.shu.qiu@intel.com>,
-	Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev, linux-doc@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org, linux-tegra@vger.kernel.org,
-	imx@lists.linux.dev, linux-renesas-soc@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
-	linux-sunxi@lists.linux.dev, linux-usb@vger.kernel.org,
-	linux-amlogic@lists.infradead.org,
-	linux-rockchip@lists.infradead.org,
-	linux-stm32@st-md-mailman.stormreply.com,
-	mjpeg-users@lists.sourceforge.net
-Subject: Re: [PATCH 64/65] media: staging: ipu7: isys: Don't set
- V4L2_FL_USES_V4L2_FH manually
-Message-ID: <aJWltxB6NfXg53KI@kekkonen.localdomain>
-References: <20250802-media-private-data-v1-0-eb140ddd6a9d@ideasonboard.com>
- <20250802-media-private-data-v1-64-eb140ddd6a9d@ideasonboard.com>
- <aJRswZIVKCuzqCpr@kekkonen.localdomain>
- <20250807170135.GH11583@pendragon.ideasonboard.com>
+	dkim=pass (1024-bit key) header.d=iitb.ac.in header.i=@iitb.ac.in header.b="wbE23IyI"
+Received: from ldns2.iitb.ac.in (ldns2.iitb.ac.in [10.200.12.2])
+	by smtp1.iitb.ac.in (Postfix) with SMTP id 6D5401019E02
+	for <linux-staging@lists.linux.dev>; Fri,  8 Aug 2025 15:27:15 +0530 (IST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.iitb.ac.in 6D5401019E02
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=iitb.ac.in; s=mail;
+	t=1754647035; bh=TD6ycEpP0Ic2Cf/QILVrlMXzF1naP6yC1ssQpc7BjZQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=wbE23IyIpJePvbXvPMkKAtNrz5jpAbRv+9QKYnkcWjXiwu+c5BkUZWSkvJbaAe8Xa
+	 L5UQ+/93yyjpPhxDAewl3dT3RHKZd1qdeTdoeNaTX4UeFi5pn4PhELJUb2NjaquQrl
+	 x7dqEfq3isWQWWMqxgTraY0Fw9Z8bSbQX1UdlYKM=
+Received: (qmail 31965 invoked by uid 510); 8 Aug 2025 15:27:15 +0530
+X-Qmail-Scanner-Diagnostics: from 10.200.1.25 by ldns2 (envelope-from <akhilesh@ee.iitb.ac.in>, uid 501) with qmail-scanner-2.11
+ spamassassin: 3.4.1. mhr: 1.0. {clamdscan: 0.100.0/26337} 
+ Clear:RC:1(10.200.1.25):SA:0(0.0/7.0):. Processed in 3.405661 secs; 08 Aug 2025 15:27:15 +0530
+X-Spam-Level: 
+X-Spam-Pyzor: Reported 0 times.
+X-Envelope-From: akhilesh@ee.iitb.ac.in
+X-Qmail-Scanner-Mime-Attachments: |
+X-Qmail-Scanner-Zip-Files: |
+Received: from unknown (HELO ldns2.iitb.ac.in) (10.200.1.25)
+  by ldns2.iitb.ac.in with SMTP; 8 Aug 2025 15:27:11 +0530
+Received: from bhairav.ee.iitb.ac.in (bhairav.ee.iitb.ac.in [10.107.1.1])
+	by ldns2.iitb.ac.in (Postfix) with ESMTP id 008FC34155E;
+	Fri,  8 Aug 2025 15:27:11 +0530 (IST)
+Received: from bhairav-test.ee.iitb.ac.in (bhairav.ee.iitb.ac.in [10.107.1.1])
+	(Authenticated sender: akhilesh)
+	by bhairav.ee.iitb.ac.in (Postfix) with ESMTPSA id A95C31E81482;
+	Fri,  8 Aug 2025 15:27:09 +0530 (IST)
+Date: Fri, 8 Aug 2025 15:27:04 +0530
+From: Akhilesh Patil <akhilesh@ee.iitb.ac.in>
+To: Andy Shevchenko <andriy.shevchenko@intel.com>,
+	gregkh@linuxfoundation.org
+Cc: lars@metafoo.de, Michael.Hennerich@analog.com, jic23@kernel.org,
+	dlechner@baylibre.com, nuno.sa@analog.com, andy@kernel.org,
+	marcelo.schmitt1@gmail.com, gshahrouzi@gmail.com,
+	hridesh699@gmail.com, linux-iio@vger.kernel.org,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	akhileshpatilvnit@gmail.com, skhan@linuxfoundation.org
+Subject: Re: [PATCH] staging: iio: ad5933: Fix implicit fall-through in
+ switch()
+Message-ID: <aJXJ8PRPNT+kgozU@bhairav-test.ee.iitb.ac.in>
+References: <aIdKAJVnskdAVUMi@bhairav-test.ee.iitb.ac.in>
+ <2025072835-singer-penny-a421@gregkh>
+ <aIeDDsRurrgXqRQn@bhairav-test.ee.iitb.ac.in>
+ <2025072808-evict-snorkel-8998@gregkh>
+ <aJJ0npFx1mwJ-MoV@smile.fi.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -156,28 +70,59 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250807170135.GH11583@pendragon.ideasonboard.com>
+In-Reply-To: <aJJ0npFx1mwJ-MoV@smile.fi.intel.com>
 
-On Thu, Aug 07, 2025 at 08:01:35PM +0300, Laurent Pinchart wrote:
-> Hi Sakari,
+On Wed, Aug 06, 2025 at 12:16:14AM +0300, Andy Shevchenko wrote:
+> On Mon, Jul 28, 2025 at 04:23:49PM +0200, Greg KH wrote:
+> > On Mon, Jul 28, 2025 at 07:32:54PM +0530, Akhilesh Patil wrote:
+> > > On Mon, Jul 28, 2025 at 12:39:21PM +0200, Greg KH wrote:
+> > > > On Mon, Jul 28, 2025 at 03:29:28PM +0530, Akhilesh Patil wrote:
 > 
-> On Thu, Aug 07, 2025 at 09:07:13AM +0000, Sakari Ailus wrote:
-> > On Sat, Aug 02, 2025 at 11:23:26AM +0200, Jacopo Mondi wrote:
-> > > From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > > 
-> > > The V4L2_FL_USES_V4L2_FH flag is set by v4l2_fh_init(). It is not meant
-> > > to be set manually by drivers. Drop it from the ipu7-isys driver.
-> > > 
-> > > Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > > Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-> > 
-> > Thanks, Jacopo!
-> > 
-> > Reviewed-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> ...
 > 
-> Can we get you review on patch 63/65 too (for the IPU6 driver) too ?
+> > > > > +	default:
+> > > > > +		return -EINVAL;
+> > > > 
+> > > > What tool is requiring this to be added?  It's totally redundant and
+> > > > needs to have the tool fixed instead.
+> > > 
+> > > This patch is not inspired by any tool as such.
+> > > I observed this code pattern while manually reading the staging area iio
+> > > code. From my eyes, there is implicit intention to return from switch block if
+> > > no match is found which can be improved in readibility by explicit
+> > > default block returning error.
+> > > I agree this is redundant and will not have any functional impact.
+> > > However, imo - this can help support kernel wide efforts to
+> > > clarify switch() blocks.
+> > > 
+> > > The motivation for this patch is from a035d552 which talks about
+> > > eleminating ambiguity by clearly defining swich() case blocks.
+> > 
+> > Yes, but the code right after this does the "default return", so that is
+> > now dead code.
+> 
+> Hmm... If I read the code correctly it is either already was a dead code before
+> that patch, or it's still accessible via goto label.
+> 
+> > I'd recommend the "pattern" that the current code is in, it's simpler.
+> 
+> The pattern to return from all switch cases, including default is commonly used
+> in IIO drivers.
+Thanks Andy for your view here. Yes, this pattern is seen in iio drivers
+including dead code as we discussed here.
+For example, v6.16: drivers/iio/chemical/sgp30.c:406-411 shows same
+pattern as this patch will introduce.
 
-Done.
+hence, IMO this patch can help this staging code align with coding
+pattern of iio drivers. However even without this patch there is no
+functional impact and it can be skipped also, I am okay either ways :)
 
--- 
-Sakari Ailus
+Regards,
+Akhilesh
+
+> 
+> -- 
+> With Best Regards,
+> Andy Shevchenko
+> 
+> 
