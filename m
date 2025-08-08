@@ -1,119 +1,158 @@
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D47E27E05E
-	for <linux-staging@lists.linux.dev>; Fri,  8 Aug 2025 14:17:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C1361F09A5
+	for <linux-staging@lists.linux.dev>; Fri,  8 Aug 2025 20:48:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754662680; cv=none; b=CQV3SiPPf95HhcFeUw5knhgw1izNwrXgzRoGjmeBpFVKn9J7rxHKFTWLGUuCrWXZ5w1tA6vdVKHVFxZZG97WBL8KIL/je2yNBaB14iyNd0BiIoJIV6/nomeknev1py1lHWgcKQLDCwRqZv/kjU4YOl2RUO4V78k5xKpTHssEFxg=
+	t=1754686138; cv=none; b=FE5Vpqxhbs04gA2Lwpxbu859NRpxsbRvpYUONDxJMuWvrK85KuwqnVcJDhFJ1hb0rnDzzCFybicy2olmBriwx+eftAPadzQvb0z+0RpyesVgXBX3fqjGUMmpaOL0UNAufzRZs5Dnm5E3sNeLLVIZAZIKxsu9Zl3Jb+VUuZwEC8U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754662680; c=relaxed/simple;
-	bh=daIX4JK8NK3VHE7qAVQNF+gGHWpHY0OS4ETmy5cXu7s=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=RwV8na4ak+fItdGfZ0qNtjmxd6qzYWMiLe3Kx8uYeyuopco7IMxy0HF99scEFa+gmwL8k9eVn3kjrJuPx2hEaJn64CnB++chbEiLDo/EgoPUyl3hM3qJAVSQ6veL/aLZK9DEgNxW/g1zj27xANiAodF770ihLBnN2r5ky8iIv2U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=ERmb/vXu; arc=none smtp.client-ip=209.85.221.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1754686138; c=relaxed/simple;
+	bh=vOb/HCCt2WUEqQ/efVXEzqAG7wvFxG4DONZYmff06TA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=XMdpqeL3iv2wYaQznaPXM+NM1uRSE+huD0/QSKckY4eZVwKaw5x66aVzYfrdGY6r8cVob6kRO7s5JjAfm2L3CeiBSxjHpf46aM5hdLRtUwW3LA+dAggLXAnGgLs24DqnLlZKR5gEMnNFU0cpdyV7UaPCYuFMcp5KZ2zetx2vWTE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CbL6kJd6; arc=none smtp.client-ip=209.85.221.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ERmb/vXu"
-Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-3b78127c5d1so1356712f8f.3
-        for <linux-staging@lists.linux.dev>; Fri, 08 Aug 2025 07:17:58 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CbL6kJd6"
+Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-3b78bca0890so1228460f8f.3
+        for <linux-staging@lists.linux.dev>; Fri, 08 Aug 2025 13:48:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1754662677; x=1755267477; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=uWZABYiSs8SrBKzKqRb40mOmDVtsHcPHk62yBk6hQeY=;
-        b=ERmb/vXuq14h+yPXNZZCyYYW46DpKovSycoNCjIhk8wS7Eu8tFkzv8ViFgJk3a0H65
-         9x36ew52Jj1Xzj2CQdnhlQiwJSNQnteNbdkZzPrK7HiTzriGHwTW/ofau+snGYxNyOkv
-         CmsJqgejhbySmWd/keQkN/nvlBjDyGj78K0/G01ShZYT8veFDjXfTeoaMvZBaIqk4fUM
-         ZsMyzG1KE69abcf3FX9Z4i8ipvIc6x4n88YPAAxeIhBCsh1soLtxWA4kXpwu3VKl4JbY
-         LLC0Q8bSyiBU5RpLfFU32IkgPnSWwbVoaWU/m/SlcVXCP2hz86vS/04tZxNDBIUkd8Jk
-         U2Vw==
+        d=gmail.com; s=20230601; t=1754686135; x=1755290935; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=+FYwnamL8Yi1pORoPawSuyn3NJhs89bPw4JEe6661wE=;
+        b=CbL6kJd6JE4h4PCah59CsplEmDUTFnt3tSvmCwhmOlOVQ8hM91pyLM7lLyRRZYLmF6
+         W2cjNMBn5ZPOeeeAnG9VeNwawLrY/xLQNjn+w0cH5YUaM1ibEaCozrqA0iRtiZLcxqCf
+         EGFZyxYENydq2h4vAVkQgirQl4Dw18DslfqqmfUch1tPczbPVvyD3YhBRv2yug3EaMVF
+         lLm6og1yXO3SIk4MQivPqtW1sh57wsy0G74hLOOcNj+0WZ7//v/LL1xkRITtVkFNJ8pS
+         BMTR6ittsV1Fpf/zWPg4YSd1az1aNYhiMd8vmmYQu7tCnFd50U67wRYSgduYMdbiRjAw
+         6zxw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1754662677; x=1755267477;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=uWZABYiSs8SrBKzKqRb40mOmDVtsHcPHk62yBk6hQeY=;
-        b=ktSUUG3eYYlO5AdqHxQOUzDUH1TVlHU+ywyvsCgI+9mU+YdoqL36nl2DHxR/HxJ7MP
-         C42H6qgILQGfoQO0W1rYT89H1lXlSRUriWDBW0NDgfWInCyavsDCdUlycB1LU7luqLcu
-         0lM26JEe6bhBlkapr5eWvYHOyT+hlnlO0tBWa4aPIPoljzPXlodY0mcr2TUrNiqWR2kt
-         lol3lM3g1faWaq8ZvWf3OpKafQ23aMdn9BIP0xmOQqe0V4ROC4CecBGzV+GBOOQbKA3o
-         PDgEBvcMUrI0xuy+EGUw6SIj0dbogyhZ88N9JgbB86qwAOEpEJ509I5A2Fr+9m+TO+4T
-         YIew==
-X-Forwarded-Encrypted: i=1; AJvYcCX57/ZosFICKZRe5nbKl+ww9ZpYSgCIgOz0zNgd+LPCM7dAU98BPW4U+jKJ6PhFaayaW/e+RPE2OPjk7ZeC@lists.linux.dev
-X-Gm-Message-State: AOJu0YzfqiwUs0g8NC0JmyE6HJrpoTyFl6ecyx/1NjMwUB7b+poZxlAB
-	fsTXmIvcPi1pWntVKMV8HKscOn1Qp+tt08cUKvwPKzOUm4AUA0JiSRopbIKjYg4YNiU=
-X-Gm-Gg: ASbGncuZ+53MDWWZQKJ+0gz4rJPoSqyGOmLIM+AxLNf4qflSuE0tt3JHoxgqmTpp7SW
-	LF7XdnUQkqgMJt8TkXMsdN7l/Y4dQDgDJPBtqVG9yzvO6A2FsBNUox5dqlMKIvEjKThcWXdW6Fv
-	cIBtSuTzzY5bduQFjvE3BJiV+nGsevSKpwPAPyhORo8XX7IWVu1NiQ0FdBLE0jZ2Yq6VvNa7Q9I
-	yNdr2O1gARwZ3tCQUhMTYqGSyzyVmV7HlvGaSB4UnUj4w3H0kNMmAEz/sSM2rYRL7eboyVUuKnJ
-	NXXM9PDEFCATKIlWPjeMi3fXI1VcSkLFIO7VSK1+e3u83AmTVKKvScCxFqtF84p91bHgXCEwkGP
-	KZZJ/KzHhfJeWzJpguUeCKCbuJVg=
-X-Google-Smtp-Source: AGHT+IFPPfJMbG/l0hwg3hY9KzR9hWEGIjCDtVw/Wfa9LU/nZh+B3l1yZ8BOL2K2cF+u/tp52PSl0g==
-X-Received: by 2002:a05:6000:2308:b0:3a6:d92d:9f7c with SMTP id ffacd0b85a97d-3b9009298a6mr3071537f8f.9.1754662676678;
-        Fri, 08 Aug 2025 07:17:56 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-3b79c4a2848sm30099218f8f.71.2025.08.08.07.17.55
+        d=1e100.net; s=20230601; t=1754686135; x=1755290935;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=+FYwnamL8Yi1pORoPawSuyn3NJhs89bPw4JEe6661wE=;
+        b=iFJa1ZnNgWH9XrFZpcq0jq3WQM3fAA8rfbNsPVNDlMOdZNE+obWXqF32vKP73uRmTs
+         VQyc/Mj/09dTe3ODBlAx/i2QPa7IFTYg2kE03p6QLts5TgFJwO2if330J6szkUfEcbWq
+         ZGzcPZMexHOOOCO6f96EaQrGDP72EhrhQ71hVNEh87PrgyZQnbSrjNVkxgC6v+Xj/InR
+         7j4DEQhHORucYUCIOHB5poiovd8VnmmjWTYm6bfvE9dtcevnFUBKB819KlJjzXymUnDS
+         QYh+fLl4U+To97uApAQU5ABn5rKzA+STIp/+pwO7GWo8TXweCnLMwg97IuT1wB+Xv+J0
+         y9jw==
+X-Forwarded-Encrypted: i=1; AJvYcCXNXDgvkedVBcnPXONPDcEqgvRipjR4hxPWFYKZcBZzk4/i+HzYWXUeC+NxCd1FAyG2aUfhkS3jgZUOe0tT@lists.linux.dev
+X-Gm-Message-State: AOJu0YxzmeRkGOO03V3XMko524yoOyOV5GmN181SnTVfWWTXndvov1+C
+	39Fnu54qjHK6gLZ+xuOkZ9vSd01mE+1GBGzYPc5XCkpNeERXOwj+5g2H
+X-Gm-Gg: ASbGnct7XcIlk0WmsOqI10HphN9Sns+hmJ9Y5R9bKFgJ/25AW5b9XyRZROybYpKxRZm
+	cb+pUk8HCd1BVV+5K4H21VEpZQIrSxP20WrAPYCVilEcBL9PZZVUk5r16CYfAGFgYrQn6dMx7+Q
+	ZVBF4n+ZoWtDzDJx9cxaoOPdOl2xPZI7oaXkg6MMDI1pPzuMJXLtPhwLdgzAss3DdHL8JV8E8CK
+	HpWgTkJ5d3PMXUoNOY7WvYT0CdLAlREXV/boD8xScSSoBFJwFHXPpmChy9NoJXGZuxahAst3TVk
+	nlgjBJex+EsQAEsI2Gj58wVZn0MO1kqe7Sf8+qd+7bVgEGCHJtNy/b36tU7rtkOJ97yiSpOJn6J
+	XwBFo86bxFhikWWoIa4yUIJaGuzwZwsF2qw==
+X-Google-Smtp-Source: AGHT+IG8z9GqClT2tCxGF0u3p2c+ZwJkUeIGJTBogSttYX4uEJmTv930xgqedDBKerv+dMh46biU5A==
+X-Received: by 2002:a05:6000:402a:b0:3b7:96c0:4172 with SMTP id ffacd0b85a97d-3b90092fd6amr3528704f8f.11.1754686135334;
+        Fri, 08 Aug 2025 13:48:55 -0700 (PDT)
+Received: from ws-linux01 ([2a02:2f0e:c207:b600:978:f6fa:583e:b091])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3b79c4533f1sm31815003f8f.42.2025.08.08.13.48.54
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 08 Aug 2025 07:17:56 -0700 (PDT)
-Date: Fri, 8 Aug 2025 17:17:52 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: "Colin King (gmail)" <colin.i.king@gmail.com>
-Cc: Yong Zhi <yong.zhi@intel.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Bingbu Cao <bingbu.cao@intel.com>,
-	Tianshu Qiu <tian.shu.qiu@intel.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"mailing list: linux-media" <linux-media@vger.kernel.org>,
-	"linux-staging@lists.linux.dev" <linux-staging@lists.linux.dev>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: Re: media: staging/intel-ipu3: css - possible typo in array being
- assigned
-Message-ID: <aJYHECY1gjZ2xsSP@stanley.mountain>
-References: <9b3313da-9cc3-4d3e-b271-05ee36736e4f@gmail.com>
+        Fri, 08 Aug 2025 13:48:54 -0700 (PDT)
+From: Ovidiu Panait <ovidiu.panait.oss@gmail.com>
+To: gregkh@linuxfoundation.org,
+	linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev
+Cc: Ovidiu Panait <ovidiu.panait.oss@gmail.com>
+Subject: [PATCH 1/2] staging: axis-fifo: remove unnecessary dev_set_drvdata() calls
+Date: Fri,  8 Aug 2025 23:48:30 +0300
+Message-ID: <20250808204831.2618122-1-ovidiu.panait.oss@gmail.com>
+X-Mailer: git-send-email 2.50.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <9b3313da-9cc3-4d3e-b271-05ee36736e4f@gmail.com>
+Content-Transfer-Encoding: 8bit
 
-Yeah...  It probably should be the below patch.  The commit message would
-say something like:
+Remove unnecessary dev_set_drvdata() calls - driver_data will be set to
+NULL in device_unbind_cleanup() at driver exit time.
 
-Subject: Fix copy and paste bug.
+This allows us to remove the 'err_initial' label, simplifying the probe
+function a bit.
 
-This code is copy and pasted from earlier in the function and the NULL
-check should be if (p_pl) instead of if (p_tr).  Except that p_pl is
-never NULL and the check can be removed.
+Signed-off-by: Ovidiu Panait <ovidiu.panait.oss@gmail.com>
+---
+ drivers/staging/axis-fifo/axis-fifo.c | 19 ++++++-------------
+ 1 file changed, 6 insertions(+), 13 deletions(-)
 
-The impact of this bug is that for several callers the
-"p_pl[pl_idx].cfg_set = pl_cfg_set" value is never set.  (I wonder why
-this didn't show up in testing?)"
-
-regards,
-dan carpenter
-
-diff --git a/drivers/staging/media/ipu3/ipu3-css-params.c b/drivers/staging/media/ipu3/ipu3-css-params.c
-index 2c48d57a3180..2d1c38119258 100644
---- a/drivers/staging/media/ipu3/ipu3-css-params.c
-+++ b/drivers/staging/media/ipu3/ipu3-css-params.c
-@@ -1617,10 +1617,9 @@ imgu_css_acc_process_lines(const struct process_lines *pl,
- 				/* Inside the grid */
- 				p_pl[pl_idx].lines = process_lines;
+diff --git a/drivers/staging/axis-fifo/axis-fifo.c b/drivers/staging/axis-fifo/axis-fifo.c
+index 57ed58065eba..06f7cfab4c6a 100644
+--- a/drivers/staging/axis-fifo/axis-fifo.c
++++ b/drivers/staging/axis-fifo/axis-fifo.c
+@@ -693,10 +693,8 @@ static int axis_fifo_probe(struct platform_device *pdev)
  
--			if (p_tr) {
--				p_pl[pl_idx].cfg_set = pl_cfg_set;
--				pl_cfg_set = 1 - pl_cfg_set;
--			}
-+			p_pl[pl_idx].cfg_set = pl_cfg_set;
-+			pl_cfg_set = 1 - pl_cfg_set;
-+
- 			pl_idx++;
- 		}
+ 	/* get iospace for the device and request physical memory */
+ 	fifo->base_addr = devm_platform_get_and_ioremap_resource(pdev, 0, &r_mem);
+-	if (IS_ERR(fifo->base_addr)) {
+-		rc = PTR_ERR(fifo->base_addr);
+-		goto err_initial;
+-	}
++	if (IS_ERR(fifo->base_addr))
++		return PTR_ERR(fifo->base_addr);
+ 
+ 	dev_dbg(fifo->dt_device, "remapped memory to 0x%p\n", fifo->base_addr);
+ 
+@@ -711,7 +709,7 @@ static int axis_fifo_probe(struct platform_device *pdev)
+ 
+ 	rc = axis_fifo_parse_dt(fifo);
+ 	if (rc)
+-		goto err_initial;
++		return rc;
+ 
+ 	reset_ip_core(fifo);
+ 
+@@ -723,7 +721,7 @@ static int axis_fifo_probe(struct platform_device *pdev)
+ 	/* get IRQ resource */
+ 	rc = platform_get_irq(pdev, 0);
+ 	if (rc < 0)
+-		goto err_initial;
++		return rc;
+ 
+ 	/* request IRQ */
+ 	fifo->irq = rc;
+@@ -732,7 +730,7 @@ static int axis_fifo_probe(struct platform_device *pdev)
+ 	if (rc) {
+ 		dev_err(fifo->dt_device, "couldn't allocate interrupt %i\n",
+ 			fifo->irq);
+-		goto err_initial;
++		return rc;
  	}
+ 
+ 	/* ----------------------------
+@@ -747,15 +745,11 @@ static int axis_fifo_probe(struct platform_device *pdev)
+ 	fifo->miscdev.parent = dev;
+ 	rc = misc_register(&fifo->miscdev);
+ 	if (rc < 0)
+-		goto err_initial;
++		return rc;
+ 
+ 	axis_fifo_debugfs_init(fifo);
+ 
+ 	return 0;
+-
+-err_initial:
+-	dev_set_drvdata(dev, NULL);
+-	return rc;
+ }
+ 
+ static void axis_fifo_remove(struct platform_device *pdev)
+@@ -765,7 +759,6 @@ static void axis_fifo_remove(struct platform_device *pdev)
+ 
+ 	debugfs_remove(fifo->debugfs_dir);
+ 	misc_deregister(&fifo->miscdev);
+-	dev_set_drvdata(dev, NULL);
+ }
+ 
+ static const struct of_device_id axis_fifo_of_match[] = {
+-- 
+2.50.0
+
