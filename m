@@ -1,44 +1,49 @@
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D09EE2BEFFE
-	for <linux-staging@lists.linux.dev>; Sat,  9 Aug 2025 21:18:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4EDC02BF006;
+	Sat,  9 Aug 2025 21:19:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754774282; cv=none; b=AdC653jA6V7Ax/8AwNDUHphGzxK9EuGuS/xoVKVxzwbrBvzv2cxr3iV9c5dQBhwBVkKZRHI+VJ/uvGdtJvvzcptcf6xQ7UGZlqOieivTn4sy7Xagj/dHwzmC+wCM6mq67WW0UgzI/t7PDu1CcXoJ0uZaUSJ1JEpVzxXdUIS9uh4=
+	t=1754774349; cv=none; b=DiM1qm0InnUfoH2QD4p7D7Xc10kZwF85SZpagMLFWxa7F7WUzw3VL27omchQUUVbsljChP5rtByUuLkzec+EdifBVPjDq1e6F5M23ieNI0FcUuDH9N8dxVDMeDuPcvny8CB5slp59+OpvH08Z5Hx7WH5MFH5RW3NVUjXmn/Yd88=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754774282; c=relaxed/simple;
-	bh=CONJRFwUSaXF4SyNVsml/luG8bYDv2XTtePVAVdFjvI=;
+	s=arc-20240116; t=1754774349; c=relaxed/simple;
+	bh=TqSNPHQ51geLYoaPbn/7SwDHBQStX7gKsiICnE34Qgc=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=sCNIxjXpn16kmflU4f2rU+X5NBa5bK7x3k8fPLvo4CGmciU+x9qYraLy4HlOWfJ6rXYGYvfHXlYnFiX7hrD1esoPQizSqu4Si/cL/9vAaBvd+hvSOriOiyOwPCVRq7H0AWjpAZqQZctoOJ6oLygRfQXGZMD0/8fg3gr5DaQdWBU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=CnaKWJj+; arc=none smtp.client-ip=213.167.242.64
+	 MIME-Version; b=Erk8JSuIBzIA+AoS1eOPOwlMM1ePN8BExRXtXt8uH3LqxGii//IebXqJjQEF+4J4h1jOZqQarmJyIy02+/RZYP2fF5suoR7yPnrhA5r3GxYGvPSoHSHjQ8CIvDYMf4KWFnWxvTGpQTjKZ/Rb0OjpBxXsT+PVnwWkxlJ4pN3zfBQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=VFgVTqSf; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="CnaKWJj+"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="VFgVTqSf"
 Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id CD775162B;
-	Sat,  9 Aug 2025 23:17:08 +0200 (CEST)
+	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 2FADE502;
+	Sat,  9 Aug 2025 23:18:14 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1754774229;
-	bh=CONJRFwUSaXF4SyNVsml/luG8bYDv2XTtePVAVdFjvI=;
+	s=mail; t=1754774294;
+	bh=TqSNPHQ51geLYoaPbn/7SwDHBQStX7gKsiICnE34Qgc=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=CnaKWJj++DWdZNCtHSeHGX4CZNroUt2fNpSxht8TpzWvH7sLmmHkjwoCysuDGtvE/
-	 dOMoO7OcYsvamuuk32IbMrOVfjLYizEjGko6PNCM+vy914h5hO1EbnMzQQrmD0nHdt
-	 F7GACFeRwQUYbc9LTYTbdmcx6/vM5CM3gGb+XT90=
+	b=VFgVTqSfT/zkcrE+f/1Wgwds1dAaxLfVyLw4YQeVQ8Ytfe7KJ1kz/tQq8EHclGhze
+	 suJX8Qb+I5kow336kb/7ZVO4JLDyEHcEboiFZO7TWqvJSKqZPsKeSol4qYEzllIkL8
+	 EnVT3mmGvblfeC71fl77CEAx5Tvz0PhwXBN6iRvE=
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: linux-media@vger.kernel.org
 Cc: Hans Verkuil <hans@jjverkuil.nl>,
 	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
 	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Bingbu Cao <bingbu.cao@intel.com>,
-	Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>,
+	Steve Longerbeam <slongerbeam@gmail.com>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-staging@lists.linux.dev
-Subject: [PATCH v2 29/76] media: staging: ipu7: isys: Don't set V4L2_FL_USES_V4L2_FH manually
-Date: Sun, 10 Aug 2025 00:16:06 +0300
-Message-ID: <20250809211654.28887-30-laurent.pinchart@ideasonboard.com>
+	Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	linux-staging@lists.linux.dev,
+	imx@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org
+Subject: [PATCH v2 68/76] media: staging: imx: Access v4l2_fh from file
+Date: Sun, 10 Aug 2025 00:16:45 +0300
+Message-ID: <20250809211654.28887-69-laurent.pinchart@ideasonboard.com>
 X-Mailer: git-send-email 2.49.1
 In-Reply-To: <20250809211654.28887-1-laurent.pinchart@ideasonboard.com>
 References: <20250809211654.28887-1-laurent.pinchart@ideasonboard.com>
@@ -52,27 +57,91 @@ Content-Transfer-Encoding: 8bit
 
 From: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 
-The V4L2_FL_USES_V4L2_FH flag is set by v4l2_fh_init(). It is not meant
-to be set manually by drivers. Drop it from the ipu7-isys driver.
+The v4l2_fh associated with an open file handle is now guaranteed
+to be available in file->private_data, initialised by v4l2_fh_add().
 
+Access the v4l2_fh, and from there the driver-specific structure,
+from the file * in all ioctl handlers.
+
+Co-developed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
 Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-Reviewed-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 ---
- drivers/staging/media/ipu7/ipu7-isys-video.c | 1 -
- 1 file changed, 1 deletion(-)
+Changes since v1:
 
-diff --git a/drivers/staging/media/ipu7/ipu7-isys-video.c b/drivers/staging/media/ipu7/ipu7-isys-video.c
-index 8756da3a8fb0..6b31c766bc58 100644
---- a/drivers/staging/media/ipu7/ipu7-isys-video.c
-+++ b/drivers/staging/media/ipu7/ipu7-isys-video.c
-@@ -1082,7 +1082,6 @@ int ipu7_isys_video_init(struct ipu7_isys_video *av)
- 	__ipu_isys_vidioc_try_fmt_vid_cap(av, &format);
- 	av->pix_fmt = format.fmt.pix;
+- Update file-to-ctx macro due to removal of fh-to-ctx macro
+---
+ drivers/staging/media/imx/imx-media-csc-scaler.c | 14 ++++++--------
+ 1 file changed, 6 insertions(+), 8 deletions(-)
+
+diff --git a/drivers/staging/media/imx/imx-media-csc-scaler.c b/drivers/staging/media/imx/imx-media-csc-scaler.c
+index dc7f9a77cbe6..1869c5792ecb 100644
+--- a/drivers/staging/media/imx/imx-media-csc-scaler.c
++++ b/drivers/staging/media/imx/imx-media-csc-scaler.c
+@@ -23,8 +23,6 @@
  
--	set_bit(V4L2_FL_USES_V4L2_FH, &av->vdev.flags);
- 	video_set_drvdata(&av->vdev, av);
+ #include "imx-media.h"
  
- 	ret = video_register_device(&av->vdev, VFL_TYPE_VIDEO, -1);
+-#define fh_to_ctx(__fh)	container_of(__fh, struct ipu_csc_scaler_ctx, fh)
+-
+ #define IMX_CSC_SCALER_NAME "imx-csc-scaler"
+ 
+ enum {
+@@ -68,7 +66,7 @@ struct ipu_csc_scaler_ctx {
+ 
+ static inline struct ipu_csc_scaler_ctx *file_to_ctx(struct file *filp)
+ {
+-	return fh_to_ctx(file_to_v4l2_fh(filp));
++	return container_of(file_to_v4l2_fh(filp), struct ipu_csc_scaler_ctx, fh);
+ }
+ 
+ static struct ipu_csc_scaler_q_data *get_q_data(struct ipu_csc_scaler_ctx *ctx,
+@@ -184,7 +182,7 @@ static int ipu_csc_scaler_enum_fmt(struct file *file, void *fh,
+ static int ipu_csc_scaler_g_fmt(struct file *file, void *priv,
+ 				struct v4l2_format *f)
+ {
+-	struct ipu_csc_scaler_ctx *ctx = fh_to_ctx(priv);
++	struct ipu_csc_scaler_ctx *ctx = file_to_ctx(file);
+ 	struct ipu_csc_scaler_q_data *q_data;
+ 
+ 	q_data = get_q_data(ctx, f->type);
+@@ -197,7 +195,7 @@ static int ipu_csc_scaler_g_fmt(struct file *file, void *priv,
+ static int ipu_csc_scaler_try_fmt(struct file *file, void *priv,
+ 				  struct v4l2_format *f)
+ {
+-	struct ipu_csc_scaler_ctx *ctx = fh_to_ctx(priv);
++	struct ipu_csc_scaler_ctx *ctx = file_to_ctx(file);
+ 	struct ipu_csc_scaler_q_data *q_data = get_q_data(ctx, f->type);
+ 	struct ipu_image test_in, test_out;
+ 	enum v4l2_field field;
+@@ -245,8 +243,8 @@ static int ipu_csc_scaler_try_fmt(struct file *file, void *priv,
+ static int ipu_csc_scaler_s_fmt(struct file *file, void *priv,
+ 				struct v4l2_format *f)
+ {
++	struct ipu_csc_scaler_ctx *ctx = file_to_ctx(file);
+ 	struct ipu_csc_scaler_q_data *q_data;
+-	struct ipu_csc_scaler_ctx *ctx = fh_to_ctx(priv);
+ 	struct vb2_queue *vq;
+ 	int ret;
+ 
+@@ -301,7 +299,7 @@ static int ipu_csc_scaler_s_fmt(struct file *file, void *priv,
+ static int ipu_csc_scaler_g_selection(struct file *file, void *priv,
+ 				      struct v4l2_selection *s)
+ {
+-	struct ipu_csc_scaler_ctx *ctx = fh_to_ctx(priv);
++	struct ipu_csc_scaler_ctx *ctx = file_to_ctx(file);
+ 	struct ipu_csc_scaler_q_data *q_data;
+ 
+ 	switch (s->target) {
+@@ -339,7 +337,7 @@ static int ipu_csc_scaler_g_selection(struct file *file, void *priv,
+ static int ipu_csc_scaler_s_selection(struct file *file, void *priv,
+ 				      struct v4l2_selection *s)
+ {
+-	struct ipu_csc_scaler_ctx *ctx = fh_to_ctx(priv);
++	struct ipu_csc_scaler_ctx *ctx = file_to_ctx(file);
+ 	struct ipu_csc_scaler_q_data *q_data;
+ 
+ 	switch (s->target) {
 -- 
 Regards,
 
