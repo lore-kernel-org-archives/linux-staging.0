@@ -1,49 +1,47 @@
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E8491DB154;
-	Sun, 10 Aug 2025 01:33:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CEBF189902;
+	Sun, 10 Aug 2025 01:33:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754789596; cv=none; b=KG7hZXHPlw3aL5aSNeFtmzBXOwbYRQyUiFZfrzbcDfH3Tx9bn5wZhyMhngMavzWjVQEiCse/DOyFyP17DW1ch8BR7EbGIqy69z/ho1OnfueKO2lATrjmzWsHFGSJhia9xMcsiqZlcZjQK2yJUCcFv8UovAkCCI224vJEw+fazZY=
+	t=1754789609; cv=none; b=HoIQ0wtRlhv73F1GNgDsSpPJrpW2Sq6FvBKC03cgjNWJdv2UoSTMWJK9+NzcMIZ6a4gmlFJmHu0lZYuthujeyiRZPggvgheCbtMHpOVne6vTiPCCYkXCmeyDQnL5Qw+u35L0OQI9W87FzYE6kSelw5JK59po+vSJw0S/aevRlkM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754789596; c=relaxed/simple;
-	bh=1dP0gqieA4IYv3wyTB37hTBt2kmaz/Nywv73C1Govuc=;
+	s=arc-20240116; t=1754789609; c=relaxed/simple;
+	bh=ssl4Me/gPXuBeRmfPMzWwlJur2QUqpzxwRsQZwiB9TQ=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Q0qxuMG01RZCq7QhIBNfjG4OkkOQESbLDCllKgwbi057C+3kNGwphVTk6VBMwvH1OzZCx0UM+GQaga4rKys2dVannmbXE5gPunxYkdI98DJgDZMrL785Adpk59Y+2+2sKGu9zWh9LClTJhOTptJY/lazC4tIP2AKMXTx/dCCgCI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=HKBHL1HW; arc=none smtp.client-ip=213.167.242.64
+	 MIME-Version; b=oqZMUBiJpWjemCeRIWjpSC1Rdbt1RQU6cOpGCoJ4js7XIwv0/xK2Fj4QirzX/5PbY0pGR4lQ36WiB+oOgu+jFm/JSb0fqCsAeZQNbaVgIHEKiNaYp8V8breB2QC653DXPdXZMCNs44RtMYt9gHia1fBXbebPFBMddZ5p/uhViBU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=Z8Pp+cUv; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="HKBHL1HW"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="Z8Pp+cUv"
 Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 3FE7A18B9;
-	Sun, 10 Aug 2025 03:32:22 +0200 (CEST)
+	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id DC22F99F;
+	Sun, 10 Aug 2025 03:32:35 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1754789542;
-	bh=1dP0gqieA4IYv3wyTB37hTBt2kmaz/Nywv73C1Govuc=;
+	s=mail; t=1754789556;
+	bh=ssl4Me/gPXuBeRmfPMzWwlJur2QUqpzxwRsQZwiB9TQ=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=HKBHL1HWD/YEhYZu8p7OopczcbX43TGDosZXqCOgMF+0frPGcGh2nK/I2RJfec2UN
-	 Myk6WLlT1N7Dctir+psbryMdQrxh63VqyVSCLgUixkt0MCQ6v4Vk3zeY8KNgeqEzyg
-	 AF31CS9kcYRCygvmaOu/8dm7Bh8snEBkQLp15m5Y=
+	b=Z8Pp+cUvabxHafYAOUM4rb1+OCQgjSMhFI3IJfimbvEiOZ3ASwly2zKDA26vUb6Zn
+	 o4ZKADA/q2vdJgb486cmhHifmhtPs58aoVofUyHRkGNbKd/XbFDsVRkB4MdMSPZquL
+	 7dOCoIhU3D397z95W99LMRW5iDBGCnndnHmwELw8=
 From: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 To: linux-media@vger.kernel.org
 Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
 	Hans Verkuil <hans@jjverkuil.nl>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Steve Longerbeam <slongerbeam@gmail.com>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
+	Paul Kocialkowski <paulk@sys-base.io>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
 	linux-staging@lists.linux.dev,
-	imx@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org
-Subject: [PATCH v3 68/76] media: staging: imx: Access v4l2_fh from file
-Date: Sun, 10 Aug 2025 04:30:50 +0300
-Message-ID: <20250810013100.29776-69-laurent.pinchart+renesas@ideasonboard.com>
+	linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev
+Subject: [PATCH v3 76/76] media: staging: Rename second ioctl handlers argument to 'void *priv'
+Date: Sun, 10 Aug 2025 04:30:58 +0300
+Message-ID: <20250810013100.29776-77-laurent.pinchart+renesas@ideasonboard.com>
 X-Mailer: git-send-email 2.49.1
 In-Reply-To: <20250810013100.29776-1-laurent.pinchart+renesas@ideasonboard.com>
 References: <20250810013100.29776-1-laurent.pinchart+renesas@ideasonboard.com>
@@ -55,93 +53,125 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+The second argument to the ioctl handlers is not a file handle any more.
+The standard practice is to name it 'void *priv' in drivers. Many
+drivers still name it 'void *fh', and a few use more exotic names.
+Replace those more exotic names with 'void *priv' in all media staging
+drivers.
 
-The v4l2_fh associated with an open file handle is now guaranteed
-to be available in file->private_data, initialised by v4l2_fh_add().
-
-Access the v4l2_fh, and from there the driver-specific structure,
-from the file * in all ioctl handlers.
-
-Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Co-developed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 ---
-Changes since v1:
+ .../media/sunxi/sun6i-isp/sun6i_isp_capture.c    | 16 ++++++++--------
+ .../media/sunxi/sun6i-isp/sun6i_isp_params.c     |  6 +++---
+ 2 files changed, 11 insertions(+), 11 deletions(-)
 
-- Update file-to-ctx macro due to removal of fh-to-ctx macro
----
- drivers/staging/media/imx/imx-media-csc-scaler.c | 14 ++++++--------
- 1 file changed, 6 insertions(+), 8 deletions(-)
-
-diff --git a/drivers/staging/media/imx/imx-media-csc-scaler.c b/drivers/staging/media/imx/imx-media-csc-scaler.c
-index dc7f9a77cbe6..1869c5792ecb 100644
---- a/drivers/staging/media/imx/imx-media-csc-scaler.c
-+++ b/drivers/staging/media/imx/imx-media-csc-scaler.c
-@@ -23,8 +23,6 @@
- 
- #include "imx-media.h"
- 
--#define fh_to_ctx(__fh)	container_of(__fh, struct ipu_csc_scaler_ctx, fh)
--
- #define IMX_CSC_SCALER_NAME "imx-csc-scaler"
- 
- enum {
-@@ -68,7 +66,7 @@ struct ipu_csc_scaler_ctx {
- 
- static inline struct ipu_csc_scaler_ctx *file_to_ctx(struct file *filp)
- {
--	return fh_to_ctx(file_to_v4l2_fh(filp));
-+	return container_of(file_to_v4l2_fh(filp), struct ipu_csc_scaler_ctx, fh);
+diff --git a/drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_capture.c b/drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_capture.c
+index 24899f41dc1c..e7b99cee63d6 100644
+--- a/drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_capture.c
++++ b/drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_capture.c
+@@ -419,7 +419,7 @@ static void sun6i_isp_capture_format_prepare(struct v4l2_format *format)
+ 	pix_format->xfer_func = V4L2_XFER_FUNC_DEFAULT;
  }
  
- static struct ipu_csc_scaler_q_data *get_q_data(struct ipu_csc_scaler_ctx *ctx,
-@@ -184,7 +182,7 @@ static int ipu_csc_scaler_enum_fmt(struct file *file, void *fh,
- static int ipu_csc_scaler_g_fmt(struct file *file, void *priv,
- 				struct v4l2_format *f)
+-static int sun6i_isp_capture_querycap(struct file *file, void *private,
++static int sun6i_isp_capture_querycap(struct file *file, void *priv,
+ 				      struct v4l2_capability *capability)
  {
--	struct ipu_csc_scaler_ctx *ctx = fh_to_ctx(priv);
-+	struct ipu_csc_scaler_ctx *ctx = file_to_ctx(file);
- 	struct ipu_csc_scaler_q_data *q_data;
+ 	struct sun6i_isp_device *isp_dev = video_drvdata(file);
+@@ -433,7 +433,7 @@ static int sun6i_isp_capture_querycap(struct file *file, void *private,
+ 	return 0;
+ }
  
- 	q_data = get_q_data(ctx, f->type);
-@@ -197,7 +195,7 @@ static int ipu_csc_scaler_g_fmt(struct file *file, void *priv,
- static int ipu_csc_scaler_try_fmt(struct file *file, void *priv,
- 				  struct v4l2_format *f)
+-static int sun6i_isp_capture_enum_fmt(struct file *file, void *private,
++static int sun6i_isp_capture_enum_fmt(struct file *file, void *priv,
+ 				      struct v4l2_fmtdesc *fmtdesc)
  {
--	struct ipu_csc_scaler_ctx *ctx = fh_to_ctx(priv);
-+	struct ipu_csc_scaler_ctx *ctx = file_to_ctx(file);
- 	struct ipu_csc_scaler_q_data *q_data = get_q_data(ctx, f->type);
- 	struct ipu_image test_in, test_out;
- 	enum v4l2_field field;
-@@ -245,8 +243,8 @@ static int ipu_csc_scaler_try_fmt(struct file *file, void *priv,
- static int ipu_csc_scaler_s_fmt(struct file *file, void *priv,
- 				struct v4l2_format *f)
- {
-+	struct ipu_csc_scaler_ctx *ctx = file_to_ctx(file);
- 	struct ipu_csc_scaler_q_data *q_data;
--	struct ipu_csc_scaler_ctx *ctx = fh_to_ctx(priv);
- 	struct vb2_queue *vq;
- 	int ret;
+ 	u32 index = fmtdesc->index;
+@@ -446,7 +446,7 @@ static int sun6i_isp_capture_enum_fmt(struct file *file, void *private,
+ 	return 0;
+ }
  
-@@ -301,7 +299,7 @@ static int ipu_csc_scaler_s_fmt(struct file *file, void *priv,
- static int ipu_csc_scaler_g_selection(struct file *file, void *priv,
- 				      struct v4l2_selection *s)
+-static int sun6i_isp_capture_g_fmt(struct file *file, void *private,
++static int sun6i_isp_capture_g_fmt(struct file *file, void *priv,
+ 				   struct v4l2_format *format)
  {
--	struct ipu_csc_scaler_ctx *ctx = fh_to_ctx(priv);
-+	struct ipu_csc_scaler_ctx *ctx = file_to_ctx(file);
- 	struct ipu_csc_scaler_q_data *q_data;
+ 	struct sun6i_isp_device *isp_dev = video_drvdata(file);
+@@ -456,7 +456,7 @@ static int sun6i_isp_capture_g_fmt(struct file *file, void *private,
+ 	return 0;
+ }
  
- 	switch (s->target) {
-@@ -339,7 +337,7 @@ static int ipu_csc_scaler_g_selection(struct file *file, void *priv,
- static int ipu_csc_scaler_s_selection(struct file *file, void *priv,
- 				      struct v4l2_selection *s)
+-static int sun6i_isp_capture_s_fmt(struct file *file, void *private,
++static int sun6i_isp_capture_s_fmt(struct file *file, void *priv,
+ 				   struct v4l2_format *format)
  {
--	struct ipu_csc_scaler_ctx *ctx = fh_to_ctx(priv);
-+	struct ipu_csc_scaler_ctx *ctx = file_to_ctx(file);
- 	struct ipu_csc_scaler_q_data *q_data;
+ 	struct sun6i_isp_device *isp_dev = video_drvdata(file);
+@@ -471,7 +471,7 @@ static int sun6i_isp_capture_s_fmt(struct file *file, void *private,
+ 	return 0;
+ }
  
- 	switch (s->target) {
+-static int sun6i_isp_capture_try_fmt(struct file *file, void *private,
++static int sun6i_isp_capture_try_fmt(struct file *file, void *priv,
+ 				     struct v4l2_format *format)
+ {
+ 	sun6i_isp_capture_format_prepare(format);
+@@ -479,7 +479,7 @@ static int sun6i_isp_capture_try_fmt(struct file *file, void *private,
+ 	return 0;
+ }
+ 
+-static int sun6i_isp_capture_enum_input(struct file *file, void *private,
++static int sun6i_isp_capture_enum_input(struct file *file, void *priv,
+ 					struct v4l2_input *input)
+ {
+ 	if (input->index != 0)
+@@ -491,7 +491,7 @@ static int sun6i_isp_capture_enum_input(struct file *file, void *private,
+ 	return 0;
+ }
+ 
+-static int sun6i_isp_capture_g_input(struct file *file, void *private,
++static int sun6i_isp_capture_g_input(struct file *file, void *priv,
+ 				     unsigned int *index)
+ {
+ 	*index = 0;
+@@ -499,7 +499,7 @@ static int sun6i_isp_capture_g_input(struct file *file, void *private,
+ 	return 0;
+ }
+ 
+-static int sun6i_isp_capture_s_input(struct file *file, void *private,
++static int sun6i_isp_capture_s_input(struct file *file, void *priv,
+ 				     unsigned int index)
+ {
+ 	if (index != 0)
+diff --git a/drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_params.c b/drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_params.c
+index 3d95ed0b023e..77c2d06c0436 100644
+--- a/drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_params.c
++++ b/drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_params.c
+@@ -383,7 +383,7 @@ static const struct vb2_ops sun6i_isp_params_queue_ops = {
+ 
+ /* Video Device */
+ 
+-static int sun6i_isp_params_querycap(struct file *file, void *private,
++static int sun6i_isp_params_querycap(struct file *file, void *priv,
+ 				     struct v4l2_capability *capability)
+ {
+ 	struct sun6i_isp_device *isp_dev = video_drvdata(file);
+@@ -397,7 +397,7 @@ static int sun6i_isp_params_querycap(struct file *file, void *private,
+ 	return 0;
+ }
+ 
+-static int sun6i_isp_params_enum_fmt(struct file *file, void *private,
++static int sun6i_isp_params_enum_fmt(struct file *file, void *priv,
+ 				     struct v4l2_fmtdesc *fmtdesc)
+ {
+ 	struct sun6i_isp_device *isp_dev = video_drvdata(file);
+@@ -412,7 +412,7 @@ static int sun6i_isp_params_enum_fmt(struct file *file, void *private,
+ 	return 0;
+ }
+ 
+-static int sun6i_isp_params_g_fmt(struct file *file, void *private,
++static int sun6i_isp_params_g_fmt(struct file *file, void *priv,
+ 				  struct v4l2_format *format)
+ {
+ 	struct sun6i_isp_device *isp_dev = video_drvdata(file);
 -- 
 Regards,
 
