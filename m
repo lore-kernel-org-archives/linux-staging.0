@@ -1,169 +1,158 @@
-Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
+Received: from mail-qv1-f43.google.com (mail-qv1-f43.google.com [209.85.219.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46B202DCBF7
-	for <linux-staging@lists.linux.dev>; Mon, 11 Aug 2025 08:54:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 190E118DB35
+	for <linux-staging@lists.linux.dev>; Mon, 11 Aug 2025 13:48:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754902500; cv=none; b=TGhBVuA1C17KYP7F0qOoG/4OUko2/kykV3e+hl7tTRAJ5eCFmwiw1ITVn1bMnAD78JEh6de6YGeRCo9bTrUB8U1f8mKQ/lcY61k2jeax+s5D0UsBkElTH9lzYkjSeVtZqU3D1F4Y2qU2zBtYtXA8NRdA24JEspPRBU7KHtn8iYI=
+	t=1754920135; cv=none; b=aSJFM/du2FUEvPE3UtocjEPJtq9rt8N4lipL7/Ael2qTLEWdLLe/b/R0z4yPiXt/mAL+kMpuXeB03Kq/sVBo6lt2+ET6E7686L2WhasizPOy9t4uKEEx08IAG6jUjMniXXsNePJZa4zLcPz1s1n3jML9tLpAj4yerKOJAvmzkjY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754902500; c=relaxed/simple;
-	bh=VG6PWBB/5tMPvLzF6xGjoyk6UV1hR54oWT9n+hvDuEY=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Y2rtu+CEa4Ss4T7gKI3dCkLruHAAXF86ixzEu00klOdW2ohYD3UTia3FFX47cYP+3HJro/nfrvEgMf1nUBTYvogP+hb6Ya0/hgUqbOU1rMNqFVXeH+f0uY6Nm9Z6lNHn+3GB9aC3/9NzHXwwJWmOtfqdxEfp8YYGPv0i5GWBDKQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lVG9BpGR; arc=none smtp.client-ip=209.85.218.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1754920135; c=relaxed/simple;
+	bh=UKSmwahiogqW1pXeYgXf8Eygszt2u88JnqRx0xZfhNE=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=ItHxu/PjnSyeOKidE21OfOJjxN1ZMz+VAo1X0SO5w1VKoWb5jxseIQE0HTdRcdYQA3w0VGMQt6Hvaa33wWAdVwfulKG6LtkhoGoyXv23m2g6QdIUOze95UHSk8hxdjCeeMiblR3OfDRhc+mM821Re9VowidTkUkubgAKC6e5oGU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ndufresne.ca; spf=pass smtp.mailfrom=ndufresne.ca; dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b=Q7KdweYX; arc=none smtp.client-ip=209.85.219.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ndufresne.ca
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ndufresne.ca
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lVG9BpGR"
-Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-af958127df5so618937166b.2
-        for <linux-staging@lists.linux.dev>; Mon, 11 Aug 2025 01:54:58 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b="Q7KdweYX"
+Received: by mail-qv1-f43.google.com with SMTP id 6a1803df08f44-70736b2ea12so22348606d6.1
+        for <linux-staging@lists.linux.dev>; Mon, 11 Aug 2025 06:48:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1754902496; x=1755507296; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=XR9qdCVqEjtc6+fwt52lhLQBEhkPHeI4a9cD0bCXdeQ=;
-        b=lVG9BpGRhjphVKjoMOng5kSYTYsY5RgbdkQ8RG7p4ZPd47OYpr7S4vSQMhXzbqZ/vc
-         5jUAANVyzAP3dHU6Qa3vQbFMmxnGKsHWJyPOxBkjf6MJOw8YJQI4IRPKL8RhquL9b24q
-         RGdY8Oe+bSsCEuI8eK0uCHWN1NGf6M702McVmFpqAql9be2wQ5OXfUPEDqWbC16y5Mca
-         j1yBjhksNqfpujMKwo1xz1DSNHpFNx26DGoWmRJitC7sDvn2AcqXstebh6WDzN2tmTtT
-         MA01iHbwVlQN0LVe9UQziKGinAiBNsieEkfIlEDV41uzqWuje01Z3elxw+eW2+C0EP7/
-         D7Pg==
+        d=ndufresne-ca.20230601.gappssmtp.com; s=20230601; t=1754920133; x=1755524933; darn=lists.linux.dev;
+        h=mime-version:user-agent:autocrypt:references:in-reply-to:date:cc:to
+         :from:subject:message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=VWV2hjLplr0Slgw9ppK6HuD7SF+ufb5rfXPdExiThcw=;
+        b=Q7KdweYX2fZOaA7eCZr+fEgZlI8bRRIG1bophtY+bn+Csnz/i8scrXa+ddWmQAT1qs
+         0Zt6vEnRRyusn9jP4Rqa7ANB78TFQPr3Z/y9u6QmO4WlNnOE6QJbSmxX7lwOPPzmS/1d
+         YqFmGBjQU+CfAeNuWBhbEL6/QQz9UfjOp7zTR/8mkfBlCY2DGtKc90JeCtdRIpPzpS4r
+         amCBFlylFkHdeUFs2b4g27XujvxHmnQqygRRNOfyXNClj3sxgaHfp6YrtAYkWVO5DlIO
+         nSaQYWOvBvAY3flcuRSpftVzUAU7QwAqb7Eq+smdojg0iWyDFDBzIscdr1nMmkOV60A7
+         sxdQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1754902496; x=1755507296;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=XR9qdCVqEjtc6+fwt52lhLQBEhkPHeI4a9cD0bCXdeQ=;
-        b=tsTBqDY2dQIrljVc+CQYpqqlQk+130i2V7nY+EuRPBK5PVPVkBY6BM3Hx8DHyfGUpu
-         /MpuCdsagDBrFkNw7f6Q527AhKgv6gBnbzCcWZmMoCBiQ8wb+JYA76vvqcgMKcowZavw
-         UvxwLk7XGnZDYARiWYHj1RNfMfcYU6RTuRCFPP3BAR+cnFII8KKzMNdx9ybmE0aqelUb
-         p21+HUUMT4ttGfSrah3H3/co91blFWws040VahMRvOPxlxSqrN9CmC4jmJeifB3/dDDn
-         7r2zDPYlWa4wN9t1bVwvcrpFdkxtEzCgII+GmLNZW1VTsOPnYxemi97UE7KiTspHdGek
-         YWXA==
-X-Forwarded-Encrypted: i=1; AJvYcCUqimmesKhB26fn2mGcFvbVrGSuEHFFnaFvasJOpX1n7pj2CT8qcr2MlSOquCiZf4y9U4gpp6b+sA6F7tB0@lists.linux.dev
-X-Gm-Message-State: AOJu0Yyv+3e+ct7M27flaxSeuOYWDEHmGn/4kheYP+xAxiDC7Jy7HBko
-	c79r8NmaThNwu+tuQpaV4uGNQqJ8VXd6kKlNjkJy0Cj+MhAUY+ZxsLG/
-X-Gm-Gg: ASbGncsz+ScLHo/OB33V5hFQ1jggzeHFJE02e5oMbIyXGVb6tGHTVzl0K0lUSX/Lw8G
-	5rgDrujAvPfBKTsvcDpJYVQ2QJr1RE4HMMN3ipz6RfPC0N/w6QK56AqY5JpIYdCyPZNpRVEj8uk
-	O06vh5DBYZvUoVfs4uev57gbswdg0e7M/3mexJaadQAxuHvA7r3dlpJTxRLOeZ4N1V8NV5OV1aH
-	ZtfWxQl1Cxb8++Jdlm6mKJ2qdcZDvIFfVDgv9d4bnLU8dYmT6tMp+62P64YsG2C8UGREaA++C6J
-	L+/UTqalMVCxBkRgapCUO9Rp19IILKzey0kieEJw4fg2Bvc6BawssQo7l0oI4N6qw+LbqDx8OEF
-	u7VvbTTnaNcUbC1x9o+1sv0n1lKFBuFrCpA==
-X-Google-Smtp-Source: AGHT+IH8Fm7gghXlK13iQCuIgoR8rOQNScRMP/oXs3wdL9JIvaCNmWwrxdyN/oPIKqpBCVYGVdNpMg==
-X-Received: by 2002:a17:907:972a:b0:ad8:8719:f6f3 with SMTP id a640c23a62f3a-af9c645b793mr1029294066b.22.1754902496483;
-        Mon, 11 Aug 2025 01:54:56 -0700 (PDT)
-Received: from ws-linux01 ([2a02:2f0e:c207:b600:978:f6fa:583e:b091])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-af91ee3c1f7sm1924687166b.68.2025.08.11.01.54.55
+        d=1e100.net; s=20230601; t=1754920133; x=1755524933;
+        h=mime-version:user-agent:autocrypt:references:in-reply-to:date:cc:to
+         :from:subject:message-id:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=VWV2hjLplr0Slgw9ppK6HuD7SF+ufb5rfXPdExiThcw=;
+        b=rKaLT75zkK82F6YsD3y7b7oqe3sXOA4O+0iwS/Z19fnd3axZOAeKN22HdWqxwQy/Hq
+         d/fF+OJTC2FZa+VSlouM99Fjf8/8oPypWxE0TjDwnNdi8nttFKYLl8TjGa1cTFc/V00e
+         QFdnOtDPR8COopthE+Rgak3kopd5UZKaLJZ9X+N6gZ0tsjB9KEirVNyYrKZkKzFIep4i
+         lgnymJfPNV+Y69m2B12ooXIpzMqC6fVBgvybp/ut14J7RIZ/ifvEJeGkBNFU5f6UxE5r
+         IyvutK3oLloQLL8PF8QAUKDKLALPnQn/DU737jfOUs2Gw0390r0gvp0heE5swu7bK4yO
+         PmGg==
+X-Forwarded-Encrypted: i=1; AJvYcCUiN2WcjQ9MLUIaTmki4TtSgJzKzQM8kLFHII1V4FMlsc8Gk3CBqRAPMNttQgnwk1suf+YBT2Z1va5c3uo6@lists.linux.dev
+X-Gm-Message-State: AOJu0YyGm25dMqzFIww+hH8WaZaYj7vjmWJW0heDvghj72/5scjU0GJg
+	MmUmBWwlg6okTXPlr+CXcyy2rm647eiT66LjYM1GZVy+VAGGNavHfANeKSwAiVQTqw8=
+X-Gm-Gg: ASbGncsi0CtelyHYhzuIjY6qdyVkV5U2mSc8W4YuU8MykCuYc55xir1S27eQKHrO8tW
+	u8+7kR4DoqKL+KIneytMwAN9MdoZ469wT2wg4cizp02gwN+rPJeNcytG0tFMynO9mTbaBRQi/3m
+	93Iqi9tDpIReW9IIYWXwto/8T8Jp+ax6fjyvOuX7Gc4RNYmXRLo25B8Y15tW2R87skzl2Tm1f90
+	DLfCMdCwKbqs+8VLDUHVvPwpHTr1riaieChO6auykFX+JxIkXHKvpYbyUNIERuqX+uhj8AgalAE
+	Lh9bZvcTHdxhz0YtIKCtTP+UKbBaQAG0/KiuJBmZ7zJbAuXNOdcjABuVfwhN8SH1hB4eG05VO/T
+	YKJMeQqc16sCovb1nvQATc8QFE5w=
+X-Google-Smtp-Source: AGHT+IGWo1UxGtBJWVYSzxpvE5ZF5/dBz2Is5MsjfG1C/pxYl+/rzztidkfAyi1zkWZdsKT8xJCVpw==
+X-Received: by 2002:a05:6214:2466:b0:6fb:1c3:f527 with SMTP id 6a1803df08f44-7099a4833a2mr205043136d6.39.1754920132919;
+        Mon, 11 Aug 2025 06:48:52 -0700 (PDT)
+Received: from ?IPv6:2606:6d00:11:5a76::c41? ([2606:6d00:11:5a76::c41])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-7077cd89d8dsm156083316d6.53.2025.08.11.06.48.51
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 11 Aug 2025 01:54:56 -0700 (PDT)
-From: Ovidiu Panait <ovidiu.panait.oss@gmail.com>
-To: gregkh@linuxfoundation.org,
-	linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev
-Cc: Ovidiu Panait <ovidiu.panait.oss@gmail.com>
-Subject: [PATCH v2 2/2] staging: axis-fifo: use unique identifiers in device names
-Date: Mon, 11 Aug 2025 11:54:17 +0300
-Message-ID: <20250811085417.2641674-2-ovidiu.panait.oss@gmail.com>
-X-Mailer: git-send-email 2.50.0
-In-Reply-To: <20250811085417.2641674-1-ovidiu.panait.oss@gmail.com>
-References: <20250811085417.2641674-1-ovidiu.panait.oss@gmail.com>
+        Mon, 11 Aug 2025 06:48:51 -0700 (PDT)
+Message-ID: <9b86fb9ac5b9cfdb773fef2db33fc13d011f53f4.camel@ndufresne.ca>
+Subject: Re: [PATCH 64/80] media: rkvdec: Remove redundant
+ pm_runtime_mark_last_busy() calls
+From: Nicolas Dufresne <nicolas@ndufresne.ca>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>, Ezequiel Garcia	
+ <ezequiel@vanguardiasur.com.ar>, Mauro Carvalho Chehab
+ <mchehab@kernel.org>,  Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org, 
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Date: Mon, 11 Aug 2025 09:48:50 -0400
+In-Reply-To: <20250704075450.3221972-1-sakari.ailus@linux.intel.com>
+References: <20250704075225.3212486-1-sakari.ailus@linux.intel.com>
+	 <20250704075450.3221972-1-sakari.ailus@linux.intel.com>
+Autocrypt: addr=nicolas@ndufresne.ca; prefer-encrypt=mutual;
+ keydata=mDMEaCN2ixYJKwYBBAHaRw8BAQdAM0EHepTful3JOIzcPv6ekHOenE1u0vDG1gdHFrChD
+ /e0MU5pY29sYXMgRHVmcmVzbmUgPG5pY29sYXMuZHVmcmVzbmVAY29sbGFib3JhLmNvbT6ImQQTFg
+ oAQQIbAwULCQgHAgIiAgYVCgkICwIEFgIDAQIeBwIXgBYhBO8NUoEVxMPCGgRvEtlBlFEpYHL0BQJ
+ oLLLGBQkJZfd1AAoJENlBlFEpYHL0BEkA/3qkWYt99myYFSmTJUF8UB/7OroEm3vr1HRqXeQe9Qp2
+ AP0bsoAe6KjEPa/pJfuJ2khrOPPHxvyt/PBNbI5BYcIABLQnTmljb2xhcyBEdWZyZXNuZSA8bmljb
+ 2xhc0BuZHVmcmVzbmUuY2E+iJkEExYKAEECGwMFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4AWIQ
+ TvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaCyy+AUJCWX3dQAKCRDZQZRRKWBy9FJ5AQCNy8SX8DpHbLa
+ cy58vgDwyIpB89mok9eWGGejY9mqpRwEAhHzs+/n5xlVlM3bqy1yHnAzJqVwqBE1D0jG0a9V6VQI=
+Content-Type: multipart/signed; micalg="pgp-sha512";
+	protocol="application/pgp-signature"; boundary="=-mWE7/NTeJOJLJAFXEhhw"
+User-Agent: Evolution 3.56.2 (3.56.2-1.fc42) 
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-Axis-fifo devices use physical addresses in their name, for example
-'axis_fifo_0x43c00000'. This is generally frowned upon and it does not
-follow the usual naming scheme that uses unique identifiers.
 
-Therefore, use ida_alloc()/ida_free() to implement unique identifiers
-for axis-fifo device names (i.e. axis_fifo0, axis_fifo1, etc.).
+--=-mWE7/NTeJOJLJAFXEhhw
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Ovidiu Panait <ovidiu.panait.oss@gmail.com>
----
-Changes in v2:
- - add mising ida_destroy() call in module unload path
+Hi Sakari,
 
- drivers/staging/axis-fifo/axis-fifo.c | 18 +++++++++++++-----
- 1 file changed, 13 insertions(+), 5 deletions(-)
+Le vendredi 04 juillet 2025 =C3=A0 10:54 +0300, Sakari Ailus a =C3=A9crit=
+=C2=A0:
+> pm_runtime_put_autosuspend(), pm_runtime_put_sync_autosuspend(),
+> pm_runtime_autosuspend() and pm_request_autosuspend() now include a call
+> to pm_runtime_mark_last_busy(). Remove the now-reduntant explicit call to
+> pm_runtime_mark_last_busy().
+>=20
+> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> ---
+> The cover letter of the set can be found here
+> <URL:
+> https://lore.kernel.org/linux-pm/20250704075225.3212486-1-sakari.ailus@li=
+nux.i
+> ntel.com>.
+>=20
+> In brief, this patch depends on PM runtime patches adding marking the las=
+t
+> busy timestamp in autosuspend related functions. The patches are here, on
+> rc2:
+>=20
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 git://git.kernel.org/pub/scm/l=
+inux/kernel/git/rafael/linux-pm.git \
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0 pm-runtime-6.17-rc1
+>=20
+> =C2=A0drivers/staging/media/rkvdec/rkvdec.c | 1 -
 
-diff --git a/drivers/staging/axis-fifo/axis-fifo.c b/drivers/staging/axis-fifo/axis-fifo.c
-index 06f7cfab4c6a..e8aa632e0a31 100644
---- a/drivers/staging/axis-fifo/axis-fifo.c
-+++ b/drivers/staging/axis-fifo/axis-fifo.c
-@@ -107,6 +107,8 @@
- static long read_timeout = 1000; /* ms to wait before read() times out */
- static long write_timeout = 1000; /* ms to wait before write() times out */
- 
-+static DEFINE_IDA(axis_fifo_ida);
-+
- /* ----------------------------
-  * module command-line arguments
-  * ----------------------------
-@@ -123,6 +125,7 @@ MODULE_PARM_DESC(write_timeout, "ms to wait before blocking write() timing out;
-  */
- 
- struct axis_fifo {
-+	int id;
- 	int irq; /* interrupt */
- 	void __iomem *base_addr; /* kernel space memory */
- 
-@@ -698,10 +701,6 @@ static int axis_fifo_probe(struct platform_device *pdev)
- 
- 	dev_dbg(fifo->dt_device, "remapped memory to 0x%p\n", fifo->base_addr);
- 
--	/* create unique device name */
--	snprintf(device_name, 32, "%s_%pa", DRIVER_NAME, &r_mem->start);
--	dev_dbg(fifo->dt_device, "device name [%s]\n", device_name);
--
- 	/* ----------------------------
- 	 *          init IP
- 	 * ----------------------------
-@@ -737,6 +736,11 @@ static int axis_fifo_probe(struct platform_device *pdev)
- 	 *      init char device
- 	 * ----------------------------
- 	 */
-+	fifo->id = ida_alloc(&axis_fifo_ida, GFP_KERNEL);
-+	if (fifo->id < 0)
-+		return fifo->id;
-+
-+	snprintf(device_name, 32, "%s%d", DRIVER_NAME, fifo->id);
- 
- 	/* create character device */
- 	fifo->miscdev.fops = &fops;
-@@ -744,8 +748,10 @@ static int axis_fifo_probe(struct platform_device *pdev)
- 	fifo->miscdev.name = device_name;
- 	fifo->miscdev.parent = dev;
- 	rc = misc_register(&fifo->miscdev);
--	if (rc < 0)
-+	if (rc < 0) {
-+		ida_free(&axis_fifo_ida, fifo->id);
- 		return rc;
-+	}
- 
- 	axis_fifo_debugfs_init(fifo);
- 
-@@ -759,6 +765,7 @@ static void axis_fifo_remove(struct platform_device *pdev)
- 
- 	debugfs_remove(fifo->debugfs_dir);
- 	misc_deregister(&fifo->miscdev);
-+	ida_free(&axis_fifo_ida, fifo->id);
- }
- 
- static const struct of_device_id axis_fifo_of_match[] = {
-@@ -798,6 +805,7 @@ module_init(axis_fifo_init);
- static void __exit axis_fifo_exit(void)
- {
- 	platform_driver_unregister(&axis_fifo_driver);
-+	ida_destroy(&axis_fifo_ida);
- }
- 
- module_exit(axis_fifo_exit);
--- 
-2.50.0
+This driver was de-stage during 6.17, I will port it, no action required.
 
+Nicolas
+
+> =C2=A01 file changed, 1 deletion(-)
+>=20
+> diff --git a/drivers/staging/media/rkvdec/rkvdec.c
+> b/drivers/staging/media/rkvdec/rkvdec.c
+> index d707088ec0dc..445f7c92eee3 100644
+> --- a/drivers/staging/media/rkvdec/rkvdec.c
+> +++ b/drivers/staging/media/rkvdec/rkvdec.c
+> @@ -765,7 +765,6 @@ static void rkvdec_job_finish(struct rkvdec_ctx *ctx,
+> =C2=A0{
+> =C2=A0	struct rkvdec_dev *rkvdec =3D ctx->dev;
+> =C2=A0
+> -	pm_runtime_mark_last_busy(rkvdec->dev);
+> =C2=A0	pm_runtime_put_autosuspend(rkvdec->dev);
+> =C2=A0	rkvdec_job_finish_no_pm(ctx, result);
+> =C2=A0}
+
+--=-mWE7/NTeJOJLJAFXEhhw
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaJn0wgAKCRDZQZRRKWBy
+9DLPAQCqPt0lXZfnbdVvPntu1sqxcp/kkdwbjcqoHkgLxA145AD+NS/iRHqsrNt9
+OFMoxaM4XZImGCGuuAnhiF3H/IWu/AM=
+=SIv5
+-----END PGP SIGNATURE-----
+
+--=-mWE7/NTeJOJLJAFXEhhw--
