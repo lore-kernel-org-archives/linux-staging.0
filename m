@@ -1,49 +1,49 @@
 Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 684E32F745D
-	for <linux-staging@lists.linux.dev>; Tue, 12 Aug 2025 15:52:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 794CF30E82A
+	for <linux-staging@lists.linux.dev>; Tue, 12 Aug 2025 15:52:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755013974; cv=none; b=l+xftJehuYOoWnuNQOs0liPNekDzALl58ziLWD9ZcmUX7EgPT7TB2U2bRfXLdrF0OF77YvBx+Xukk8Ar65xFNJR0PqGT9MEKQS1ibkVfECvdWTTRj9plAVwPwisaKiS9WjvTVuFgQvU7AUNHwfZXCczcQIpmAdnIgy/c0CGJ/2k=
+	t=1755013976; cv=none; b=gJ24fwWf+1T4y5/ejEgBwS3Yxp6aGwzcvFWnfN0XrpHI3qIbVSka/bv8kJB4P071VvQrz2flqo86oJqRlSNj0HCjwdNgTurKvwkAJcmma9LZrHaa7o7JA6WN4zEzD+gOtuvZ0cRJwm6FNsg0V+u/jkhKuoFzlgnD1u+SKPs5N5Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755013974; c=relaxed/simple;
-	bh=H8Qm7sDR6sFfmMhYO70q6TApPQXnFgsGJ5LF44w2Ni0=;
+	s=arc-20240116; t=1755013976; c=relaxed/simple;
+	bh=jmLedCN4R2YU+yGCxHz2Yf4utVRQz3r3OsmD+iWWE6Q=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=HJGOeoARqSiHP8CxK00DHo+3ZUxvSiXQSFXExjWGHfn2bc3MPS1CvWPXrVojU0Q1c990bJ8gyBGaTVp9t+RoK+m7ff7ij7qNxQSt8yIG8eTXSRDSRNs8GPObMRXttnndt6zBwe2Kr+7047eqZocGIAvvuQC+aQz4aJTMuMnZKRY=
+	 MIME-Version; b=mDZ56vJFp32x6GREUUSxBj1STS34esan2eZKbrGsJ0WQUQMhOSpE9ZTh8eKeaVU2nUZNwq1EDWb8BKiD+U+6Hr+FQmFF9ExOvojKSiba9zlHMQ9pZOmsYlJ3Tr3yX+SNAMMJLv4hAhzIx51eJB2t7ODjwmuH1bdXzDCWr+9SEVA=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=fomichev.me; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.210.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=fomichev.me
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-76b8d289f73so5335545b3a.1
-        for <linux-staging@lists.linux.dev>; Tue, 12 Aug 2025 08:52:52 -0700 (PDT)
+Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-76be8e4b59aso4855079b3a.1
+        for <linux-staging@lists.linux.dev>; Tue, 12 Aug 2025 08:52:54 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755013972; x=1755618772;
+        d=1e100.net; s=20230601; t=1755013974; x=1755618774;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=hw6APkuisRn1IO+Yq90b/XIN4JEuOM+T0XNRQV/DOFA=;
-        b=uwoR5NFRkmMGMkU8Wns5zmyjEe/qIvK51frOjcd6NE2WXJRQ3md4zapQZ/CpUbP9pL
-         VyWJVsEp8YeIde2OMOvjEWnD2pKuaW/hyrHtnjUkmy2sBjwXrbrc3R7nBsrDFdbfR9+l
-         Nhmvwq2It6Osf79p0EPEwKihskvcpgmZgC1rdQGbwEud9BwtzeNY6PoWK0eJXo7IR3QN
-         HQuAA/PgJJpyDzfwy1Q8veKleUHVZU8R2STR/OSXBEddv8M1O9no9cKyfW/DG0x65r4D
-         SSS/nJF0oXNhnDFBmPoXGspkKEmHiMXxBTDLNanRlOwN1An3VtMakryCavoxDLwr0y4J
-         +D+A==
-X-Forwarded-Encrypted: i=1; AJvYcCWS45mLvOmhardHyeb3M+vlp4RYyyo/jh96TfYuNFT7woWsyKUfUHA+uQOdd8TK7IsmNhktCZY8r8j4J4JL@lists.linux.dev
-X-Gm-Message-State: AOJu0YxrKeJd8yWm0Xqjj1EXJ7NbX8+f2OULUNvOFW770iWiBWmFEe3I
-	ch50Bsa+6nENjq4DBCjigsKkF0geZAEazVICtOQ6c1kVFFX+y7aX52Y=
-X-Gm-Gg: ASbGncudB0cyG/gthk6CGAs2h1W5R9Jw2wH5IPGj5zCqiXtUNYkRQYrBMr+A2UIrlpd
-	PgZ9VO3IzKRr5XG4hP23e62QtbYpmqJ37QV1NMblY4H0NQcAg6puwru6jUT1kj7cgkqcRc1XXom
-	QjOKLUbrpXFXGGyQl/6QZjlcYa2wGJQDZf/IREPcXEfw8GroiNxCSE+hWaSaaTWpEKkZ8eX/krE
-	15uDV7Xa77L2s/8ijpcB8+cX3YgIKooZp9UYcaWPOABdhD+W/gJUBwbv7yWLEfvRLm6rqJJ336C
-	NTSCo5aAO1aLQl/ArEgbBABQT72HPNsIA+M5vK/GamYx0Zww2vv6ZljVrDfadcv7CRdA6erxBVn
-	AIA1zEQL0rLuSDh02p3eKwjCm4ld8dU1wJTp29d72NXLtAMTrAXrUiNu94YU=
-X-Google-Smtp-Source: AGHT+IE9mqitrJgp0ti2dNmcFeTLvil3ZhGhwEi8BPipsrW15PJbfSzyXxpXrXvlwLEBV343ULlwnA==
-X-Received: by 2002:a05:6a20:72a6:b0:240:1f14:f6a0 with SMTP id adf61e73a8af0-2409a97167cmr6622771637.25.1755013971622;
-        Tue, 12 Aug 2025 08:52:51 -0700 (PDT)
+        bh=K1U24j3avMI496lsvK/FFAte0M6oHVilfdD7GVgxXmw=;
+        b=i+ErIe5i5ZoZLwBOI41TLJsWzixMBQdqkG1W/zirRNpCzZsHP535y6H/s1ev1pyb+L
+         hPOaeXWilx61etY8/U3JrRnuJRodys5gn9/YL8XzXNZwYo2DO49JOT8sLJ39c3yb87D9
+         HESUo55fXQA7xkkYMajMhJ68qCVUE1B+/2POtOOnPwwUGuniJ86++zXJXb6KihnS0Add
+         58jTSDN+BWJvXYvZuPQcLm6SKhiSf81P2Vcx9U84I2Iy14R78DM/Zf7NXja1TBKlw0uc
+         GFWxN5Q8viVpIwAuzo0wnPbDkpfn9KNgeNx9AkuilJaUc9cA2C2c2CPdQiWR9eDj5WcK
+         mKCA==
+X-Forwarded-Encrypted: i=1; AJvYcCW4+1nPrSuCH4A/mrsU/YCZb1hGXfTskfiOx4mXjNmdoBoKGZF79RISm/rx2OGtgbEY4P19FAENRypqZZoh@lists.linux.dev
+X-Gm-Message-State: AOJu0Yx3dZ3Lzbd3QrOP/+zqfqD6c7Neq6v0/ZGtBMP7Xp26R5zhbX6s
+	zMHrKcPkNdBltl2fKzgVRGRzDEJbPKVP9sXhdBnxAsPQPJTUA/yTwwg=
+X-Gm-Gg: ASbGncvKxGL3HA0ikyP4AejEYx2awxEO6oSu2oGQYlyzLpnFh7loiTl5GgkroEA3L/w
+	G3L7Yi5rxbRMmvPUFZrY1B8tSqtqlmg1BQs+xckujRQe9N/MN9Mmr6hNZStwUVfKsRJ72UbimBB
+	cD+AoJPp1wdTW5DKrU00J6g+kb6GifAvfonxO99iM962jIGmUYkU+2yjHOEM0yx5IWu4quTEDp6
+	45HXJ3KgUFYuih7uTa4uoBgf3ZA/JFOsoG6/D/5tJiOFrccPMyyH/Cykf9eiCQT4H/etmnzSZof
+	pJ19bk0zoa3LXD+fpxAMj4NuIT2yZKc15MIotJ/H59p+T7KTt2GSuNQwh5AMmWv6r6aMZN3Zats
+	srcgw8t6tMDAzI5ZL3OT9ywMGNoCmKSMo7l7nd6Tsair5ILB7P+VTB2J7jHc=
+X-Google-Smtp-Source: AGHT+IFUKvjZ3Rba9MvqVnh8vH8eFopfwTUPgEOJxRTkNbViqfPFICyo8rbbnicPKgPRyQnCxRtE3g==
+X-Received: by 2002:aa7:88c8:0:b0:748:e1e4:71de with SMTP id d2e1a72fcca58-76e1fdb0881mr36267b3a.14.1755013973774;
+        Tue, 12 Aug 2025 08:52:53 -0700 (PDT)
 Received: from localhost (c-73-158-218-242.hsd1.ca.comcast.net. [73.158.218.242])
-        by smtp.gmail.com with UTF8SMTPSA id 41be03b00d2f7-b428ca11a67sm12235295a12.53.2025.08.12.08.52.51
+        by smtp.gmail.com with UTF8SMTPSA id d2e1a72fcca58-76bccfbd98csm29585074b3a.67.2025.08.12.08.52.53
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 12 Aug 2025 08:52:51 -0700 (PDT)
+        Tue, 12 Aug 2025 08:52:53 -0700 (PDT)
 From: Stanislav Fomichev <sdf@fomichev.me>
 To: netdev@vger.kernel.org
 Cc: davem@davemloft.net,
@@ -66,9 +66,9 @@ Cc: davem@davemloft.net,
 	netfilter-devel@vger.kernel.org,
 	coreteam@netfilter.org,
 	herbert@gondor.apana.org.au
-Subject: [PATCH net-next 5/7] staging: octeon: Convert to skb_dst_drop
-Date: Tue, 12 Aug 2025 08:52:43 -0700
-Message-ID: <20250812155245.507012-6-sdf@fomichev.me>
+Subject: [PATCH net-next 7/7] net: Add skb_dst_check_unset
+Date: Tue, 12 Aug 2025 08:52:45 -0700
+Message-ID: <20250812155245.507012-8-sdf@fomichev.me>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <20250812155245.507012-1-sdf@fomichev.me>
 References: <20250812155245.507012-1-sdf@fomichev.me>
@@ -80,28 +80,55 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Instead of doing dst_release and skb_dst_set, do skb_dst_drop which
-should do the right thing.
+To prevent dst_entry leaks, add warning when the non-NULL dst_entry
+is rewritten.
 
 Signed-off-by: Stanislav Fomichev <sdf@fomichev.me>
 ---
- drivers/staging/octeon/ethernet-tx.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ include/linux/skbuff.h | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
-diff --git a/drivers/staging/octeon/ethernet-tx.c b/drivers/staging/octeon/ethernet-tx.c
-index 261f8dbdc382..0ba240e634a1 100644
---- a/drivers/staging/octeon/ethernet-tx.c
-+++ b/drivers/staging/octeon/ethernet-tx.c
-@@ -346,8 +346,7 @@ netdev_tx_t cvm_oct_xmit(struct sk_buff *skb, struct net_device *dev)
- 	 * The skbuff will be reused without ever being freed. We must
- 	 * cleanup a bunch of core things.
- 	 */
--	dst_release(skb_dst(skb));
--	skb_dst_set(skb, NULL);
-+	skb_dst_drop(skb);
- 	skb_ext_reset(skb);
- 	nf_reset_ct(skb);
- 	skb_reset_redirect(skb);
+diff --git a/include/linux/skbuff.h b/include/linux/skbuff.h
+index 8240e0826204..2f9dac54d627 100644
+--- a/include/linux/skbuff.h
++++ b/include/linux/skbuff.h
+@@ -1159,6 +1159,12 @@ static inline struct dst_entry *skb_dst(const struct sk_buff *skb)
+ 	return (struct dst_entry *)(skb->_skb_refdst & SKB_DST_PTRMASK);
+ }
+ 
++static inline void skb_dst_check_unset(struct sk_buff *skb)
++{
++	DEBUG_NET_WARN_ON_ONCE((skb->_skb_refdst & SKB_DST_PTRMASK) &&
++			       !(skb->_skb_refdst & SKB_DST_NOREF));
++}
++
+ /**
+  * skb_dst_reset() - return current dst_entry value and clear it
+  * @skb: buffer
+@@ -1187,6 +1193,7 @@ static inline unsigned long skb_dst_reset(struct sk_buff *skb)
+  */
+ static inline void skb_dst_restore(struct sk_buff *skb, unsigned long refdst)
+ {
++	skb_dst_check_unset(skb);
+ 	skb->_skb_refdst = refdst;
+ }
+ 
+@@ -1200,6 +1207,7 @@ static inline void skb_dst_restore(struct sk_buff *skb, unsigned long refdst)
+  */
+ static inline void skb_dst_set(struct sk_buff *skb, struct dst_entry *dst)
+ {
++	skb_dst_check_unset(skb);
+ 	skb->slow_gro |= !!dst;
+ 	skb->_skb_refdst = (unsigned long)dst;
+ }
+@@ -1216,6 +1224,7 @@ static inline void skb_dst_set(struct sk_buff *skb, struct dst_entry *dst)
+  */
+ static inline void skb_dst_set_noref(struct sk_buff *skb, struct dst_entry *dst)
+ {
++	skb_dst_check_unset(skb);
+ 	WARN_ON(!rcu_read_lock_held() && !rcu_read_lock_bh_held());
+ 	skb->slow_gro |= !!dst;
+ 	skb->_skb_refdst = (unsigned long)dst | SKB_DST_NOREF;
 -- 
 2.50.1
 
