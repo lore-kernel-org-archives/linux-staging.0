@@ -1,49 +1,49 @@
-Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70DED2F8BD3
-	for <linux-staging@lists.linux.dev>; Tue, 12 Aug 2025 15:52:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57F1523D7EB
+	for <linux-staging@lists.linux.dev>; Tue, 12 Aug 2025 15:52:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755013972; cv=none; b=KB1028usynUU7iWpeHpem/dMYk4fN9ya6Zi9/6Yv0/KKNoGt25iC6ts9mGEreQZ76CbCBQpirKDxP3+liwDVo28IEdsK/FP7SlLjn5RZFtQhxofhDA3EAEXiWjPUSSpPbkphqJiC9B56fgpxZ3lkv6EyvYJhyWkW7z6qNGyrol8=
+	t=1755013973; cv=none; b=EGpTVhANt1D2JR52I1CHf9ev0qWSXbKEUIqk+/dIlJCTwyLHYN9kYHXCfcH52wR8xIWK+IeG/1QW7Ixf5v4MWZl7es8lq/C7N2zrkwKzq/2MUwHOc4kKwbzKXlEhI+HC4pQUXrrqFvEssmTGDENAtqwhF8kjIkSXMnbaN9+YRAk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755013972; c=relaxed/simple;
-	bh=Y6yt61AOmS8VLZtjJ1BuuUWNqePIcTOn+4ook9c6mRM=;
+	s=arc-20240116; t=1755013973; c=relaxed/simple;
+	bh=aD8GbCKvKiWaTtzd6D9lq/XvzMzboWn1cL6psXbvr88=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=cAyliNzNfyuYnnl3EcD4XBsrgRBUw8B1IEHcLdBxrPXcXoYCsn94zevvFgQHRYtnXMxzTU15eFAwjTLuSGsjhS8Cpo0bYq4nBvoegxRT2SNAW9ErpxLky+QdP86Gs1tdXWMckTNebJN2syrkQ7iw2R6jmwMa6DYCf2v1zCDlJ/M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=fomichev.me; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.210.179
+	 MIME-Version; b=srhlZcrF6rdxK1PcZEd83zaZqHS3zB10KO4GT62r3E84gVi2ICi0jbnp58w427bpH3dfnasBhH+cpomyT9h/hIHC6hLkyVk20hmkjM6KfDQYlahYPyxjOhwWXwlYSusA+fAfjrKw+OjXTiIS/WQyEgM0aYqRvfjmzZXB7qLFrpI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=fomichev.me; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.214.181
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=fomichev.me
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pf1-f179.google.com with SMTP id d2e1a72fcca58-76bed310fa1so4853848b3a.2
-        for <linux-staging@lists.linux.dev>; Tue, 12 Aug 2025 08:52:49 -0700 (PDT)
+Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-23aeac7d77aso48490555ad.3
+        for <linux-staging@lists.linux.dev>; Tue, 12 Aug 2025 08:52:51 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755013969; x=1755618769;
+        d=1e100.net; s=20230601; t=1755013970; x=1755618770;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=qmQTgKFXI0yRI1h+Wuwej2H5g2T+K6OFKy/n9+ooPsI=;
-        b=Jwk1tCDOjCj8Qm8EqDgzWCyE5p4GfFh/wViwevRVCJwCtfA8zejJeuQQkYhm3UE/lf
-         n/CsS5XfdkrbFJbTuGhUo4QThVfJ3dlvsx1Z1N26PoApW05KnKHltA6OAU/AhCfCK8Jt
-         MG7SLHZtMB9jEFt/E/f8hyaK7xg5zgZtVkuyy7S+ivABN628oitKmpPwGdDI2utXjg66
-         nEsn+zmnOV7MD1WDMhB3qlqtm90/bld7oLL0b2PQ9BArnrtbje2M+2G9eRAm/GxD24KT
-         fLqX9ZsapFtfkCkJ3DJGcANOFX14uuo7VdQGJWwq8JgIZ/lBlXDURITSEpH/8yHq6nRR
-         6t5Q==
-X-Forwarded-Encrypted: i=1; AJvYcCV4OXPHvsIC7tTqvBLe7/kB2sbzeXMTXLDmt1vOH77kY1Pkg4FBE5/WplW5kLgjmbEfnBu5cAbKcLYWMaB8@lists.linux.dev
-X-Gm-Message-State: AOJu0Yyf7gsRUpB0ou4LbAAe+pyjz37ObahCYrCv/ehCfUnzmra8/RKI
-	TEBJECAqgEhSc0wg60x3vEDkQxXMCtYhUru7rVQ26E+n45fIC3FFGUk=
-X-Gm-Gg: ASbGncsvELhL/NyH/KSY3RQWhEYYG6U11vRe8AxOA0O03ON03clkPnLDy24C3SDR6FL
-	MvVJyUCuD0bgWZGj7Qw2BKgPnbjBbCL90wlEQ6HPoTmOsKWmcd60Zhdrx0jsjgJBXU194k2UqcE
-	NzF40R/xT8HzQeKlbIFrPLNH/Hgk7wcJkibOICSv9A4Fiw8o6dsGkydYGt3pKBMLbnmaz4lIUS+
-	/2DhaAI4uv0reZIGa+1QgiSIonecStBy/fgkHMgQin6NaMcdAX6cT+mv5LDPPIkXpuT0r1a60n8
-	LnIQf4/oQ3pEzss6hQJi8+wliwPgxAjItIyiP9nEq9nHcO12dtCqdmfOGC7o+Iq9ooSrIoULX9t
-	ZCganhuFw8IhYpZ3GdvFjjvIKsIohhFAAqxcsWkmoK5V6RaPuWttndD8iwC0=
-X-Google-Smtp-Source: AGHT+IGJSjbc3JsMK2uU2uNHTgltCW9hcJeoyzvVY/wYRm8KIQ5ucZ82mLJT2TdzcjIEdgViuEX/LA==
-X-Received: by 2002:a17:902:c94f:b0:23f:f983:5ca1 with SMTP id d9443c01a7336-2430c01c8f1mr2953545ad.12.1755013968571;
-        Tue, 12 Aug 2025 08:52:48 -0700 (PDT)
+        bh=mfa3i9rOipmYMsnw23KZ5Tctd8O9telY4wmzE+SpLWU=;
+        b=WHvsoxkvNcXhfayvtRBbHQA/VKXZT0Q5l7Lfh8qIGy1JyyapqYq1g0KOC2BgGGOzTa
+         sl+uvfJMGJdBBbvphxqNjd+I3H2c28raQTWptpy4gKdzel0PutJTpS+8UaP+3a0kaZML
+         ojh5j9BA+t5DY2QvIqna9e4+4IUrwPVXYX0AQLexGCcz1NbbImDKMQX5rzffX4JRmVHz
+         oxLwEMj8AZdQ+TWcCZwn2YWFJ0SO8oO9rjTD5gh99bphGLODiM5PWCz8cIkot88yjuEX
+         cwqC/7v0p8diquW80Wf4z2Yr1nALUHh2QA4acFeJ48zPZzLb4/2If0abkVq+r3FVvvP2
+         zZyA==
+X-Forwarded-Encrypted: i=1; AJvYcCX81S5Wwck3wjwdp1FR4s97wHwbqbrJ1zKSPW/oatWiEuJUq71btA6/zCbML1/y5qwD8Qr+E5DokEyjkIHz@lists.linux.dev
+X-Gm-Message-State: AOJu0YxeJtF6Eri4gpk5HjKzEagp1Mj4MCzZAp/2CKpffs2b0kH2EG+y
+	LXsv/fySf49NJz2soypAXwxZ/SMgHEeUwSKS0HjVw1v+gvD2N8de/rk=
+X-Gm-Gg: ASbGncsYVi5x7mgszcAlmPIpa4orSzj/DgiNGOYEhi+TZeIC7miz2pAS/lY0sj+vL1/
+	xWi+EtOZdfwYg4W43/cAKH8HxRVZTu5D7gZJe3CJfZnZQuRCO5i+6TBcpmUjkWemLxN4mmB+54R
+	rb3GcTkIXLmkT0AmrmFYPV1EK5RnNssbgKbSgbcbwbhZjvjIeA5B9NGD0ACzzmfv+p75etlZPlb
+	rC6vDEGz1MT59webFEjs9YdTqBYfw6Ux6sUmDFrwFgAWUncFOOpVx3aICaKO5bspG0Ze3EOSIOg
+	79mEQ5mxAbO+eKUN+RVVUqkfMBsGEOXKjls0w0aiaDgcPB1yjCa4Z9dXaCpYhCMxg+pmBmYXCo7
+	Y4OL3KJyHXbGZLjzHOYFv1yHaZQ8aPijhK4a3vOC0wylyL6bf+/Izs1fTRrU=
+X-Google-Smtp-Source: AGHT+IGBGkmr9pZr40H+xsMkIBamZYWaMKPk4BVzM+vCAsfxbVPqNX7XjaIWfAH5MMccHcGWAr36sg==
+X-Received: by 2002:a17:902:f551:b0:240:6766:ac01 with SMTP id d9443c01a7336-2430bfeb488mr3595155ad.2.1755013970508;
+        Tue, 12 Aug 2025 08:52:50 -0700 (PDT)
 Received: from localhost (c-73-158-218-242.hsd1.ca.comcast.net. [73.158.218.242])
-        by smtp.gmail.com with UTF8SMTPSA id d9443c01a7336-241e899d347sm300038675ad.140.2025.08.12.08.52.48
+        by smtp.gmail.com with UTF8SMTPSA id d9443c01a7336-241e8975c94sm303016765ad.93.2025.08.12.08.52.49
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 12 Aug 2025 08:52:48 -0700 (PDT)
+        Tue, 12 Aug 2025 08:52:50 -0700 (PDT)
 From: Stanislav Fomichev <sdf@fomichev.me>
 To: netdev@vger.kernel.org
 Cc: davem@davemloft.net,
@@ -66,9 +66,9 @@ Cc: davem@davemloft.net,
 	netfilter-devel@vger.kernel.org,
 	coreteam@netfilter.org,
 	herbert@gondor.apana.org.au
-Subject: [PATCH net-next 2/7] xfrm: Switch to skb_dst_reset to clear dst_entry
-Date: Tue, 12 Aug 2025 08:52:40 -0700
-Message-ID: <20250812155245.507012-3-sdf@fomichev.me>
+Subject: [PATCH net-next 4/7] net: Switch to skb_dst_reset/skb_dst_restore for ip_route_input callers
+Date: Tue, 12 Aug 2025 08:52:42 -0700
+Message-ID: <20250812155245.507012-5-sdf@fomichev.me>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <20250812155245.507012-1-sdf@fomichev.me>
 References: <20250812155245.507012-1-sdf@fomichev.me>
@@ -82,40 +82,62 @@ Content-Transfer-Encoding: 8bit
 
 Going forward skb_dst_set will assert that skb dst_entry
 is empty during skb_dst_set. skb_dst_reset is added to reset
-existing entry without doing refcnt. Switch to skb_dst_reset
-in __xfrm_route_forward and add a comment on why it's safe
-to skip skb_dst_restore.
+existing entry without doing refcnt. skb_dst_restore should
+be used to restore the previous entry. Convert icmp_route_lookup
+and ip_options_rcv_srr to these helpers. Add extra call to
+skb_dst_drop to icmp_route_lookup to clear the ip_route_input
+entry.
 
 Signed-off-by: Stanislav Fomichev <sdf@fomichev.me>
 ---
- net/xfrm/xfrm_policy.c | 10 ++++++++--
- 1 file changed, 8 insertions(+), 2 deletions(-)
+ net/ipv4/icmp.c       | 7 ++++---
+ net/ipv4/ip_options.c | 5 ++---
+ 2 files changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/net/xfrm/xfrm_policy.c b/net/xfrm/xfrm_policy.c
-index c5035a9bc3bb..a5ffe26b64d5 100644
---- a/net/xfrm/xfrm_policy.c
-+++ b/net/xfrm/xfrm_policy.c
-@@ -3881,12 +3881,18 @@ int __xfrm_route_forward(struct sk_buff *skb, unsigned short family)
+diff --git a/net/ipv4/icmp.c b/net/ipv4/icmp.c
+index 2ffe73ea644f..93a166a7ec8d 100644
+--- a/net/ipv4/icmp.c
++++ b/net/ipv4/icmp.c
+@@ -544,14 +544,15 @@ static struct rtable *icmp_route_lookup(struct net *net, struct flowi4 *fl4,
+ 			goto relookup_failed;
+ 		}
+ 		/* Ugh! */
+-		orefdst = skb_in->_skb_refdst; /* save old refdst */
+-		skb_dst_set(skb_in, NULL);
++		orefdst = skb_dst_reset(skb_in);
+ 		err = ip_route_input(skb_in, fl4_dec.daddr, fl4_dec.saddr,
+ 				     dscp, rt2->dst.dev) ? -EINVAL : 0;
+ 
+ 		dst_release(&rt2->dst);
+ 		rt2 = skb_rtable(skb_in);
+-		skb_in->_skb_refdst = orefdst; /* restore old refdst */
++		/* steal dst entry from skb_in, don't drop refcnt */
++		skb_dst_reset(skb_in);
++		skb_dst_restore(skb_in, orefdst);
  	}
  
- 	skb_dst_force(skb);
--	if (!skb_dst(skb)) {
-+	dst = skb_dst(skb);
-+	if (!dst) {
- 		XFRM_INC_STATS(net, LINUX_MIB_XFRMFWDHDRERROR);
- 		return 0;
- 	}
+ 	if (err)
+diff --git a/net/ipv4/ip_options.c b/net/ipv4/ip_options.c
+index e3321932bec0..95f113dc37d8 100644
+--- a/net/ipv4/ip_options.c
++++ b/net/ipv4/ip_options.c
+@@ -615,14 +615,13 @@ int ip_options_rcv_srr(struct sk_buff *skb, struct net_device *dev)
+ 		}
+ 		memcpy(&nexthop, &optptr[srrptr-1], 4);
  
--	dst = xfrm_lookup(net, skb_dst(skb), &fl, NULL, XFRM_LOOKUP_QUEUE);
-+	/* ignore return value from skb_dst_reset, xfrm_lookup takes
-+	 * care of dropping the refcnt if needed.
-+	 */
-+	skb_dst_reset(skb);
-+
-+	dst = xfrm_lookup(net, dst, &fl, NULL, XFRM_LOOKUP_QUEUE);
- 	if (IS_ERR(dst)) {
- 		res = 0;
- 		dst = NULL;
+-		orefdst = skb->_skb_refdst;
+-		skb_dst_set(skb, NULL);
++		orefdst = skb_dst_reset(skb);
+ 		err = ip_route_input(skb, nexthop, iph->saddr, ip4h_dscp(iph),
+ 				     dev) ? -EINVAL : 0;
+ 		rt2 = skb_rtable(skb);
+ 		if (err || (rt2->rt_type != RTN_UNICAST && rt2->rt_type != RTN_LOCAL)) {
+ 			skb_dst_drop(skb);
+-			skb->_skb_refdst = orefdst;
++			skb_dst_restore(skb, orefdst);
+ 			return -EINVAL;
+ 		}
+ 		refdst_drop(orefdst);
 -- 
 2.50.1
 
