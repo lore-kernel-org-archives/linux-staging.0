@@ -1,144 +1,114 @@
-Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from s.wfbtzhsw.outbound-mail.sendgrid.net (s.wfbtzhsw.outbound-mail.sendgrid.net [159.183.224.105])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A6EF335C7
-	for <linux-staging@lists.linux.dev>; Mon, 11 Aug 2025 14:20:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 112552DA74C
+	for <linux-staging@lists.linux.dev>; Tue, 12 Aug 2025 01:56:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.183.224.105
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754922038; cv=none; b=burMYviDFUDQTpGPzFX1PZLNG4cA4mipulrpqQ8fEklLqgxLIDs812aEwf/3sWkP5ZO89agKubGxomCve7dfZ/ErEoKD7+9VQWv2yXIdZLGPK54FTMWKUo/wqyhk4sjYXQiuNif/o9i8LnKMPiURsGuKt0fb0FuWfL04nKaU7hY=
+	t=1754963770; cv=none; b=hubcloDiBDYxOe6kAAs8gscfi8txDHKuulIt0UsJyHtGZwlQ95AWqS3qJstaHZttCBHSpnvT6mJovlwA/r/rezUEK5WSe5bOb8TH8Z7C8pgz6XpriRDlsS7pgiq4lSFxau7b8UbdVV1j3oqr7ix0HUhu/pvhNrU/+HwaXHi7mcY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754922038; c=relaxed/simple;
-	bh=vEIDG6maACRIeiu15+qMeYtnTf+etWbiNRijwscZcks=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=gQtwr+8bLMPPWwHOnY0p8q/yKDvuh3uzVKYJSxkV3ybTP4B9cZbrXU7R8AE5q5sRSkqr0ch+j1EyIf9aFz4u983WiadjMVhYPqCrHuRZMy0WOYukr3k+/m6BwngxZu46mL8srxTMXLBfZIyluiG47t+eeUpdqa0ZyMZxeJHJOcE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=Dt+boeMR; arc=none smtp.client-ip=148.251.105.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	s=arc-20240116; t=1754963770; c=relaxed/simple;
+	bh=ptjaTb7dX34VvrLyNQVgaFO+MBHJfAMqQTH19NFY+2I=;
+	h=From:Subject:Date:Message-Id:MIME-Version:To:Cc:Content-Type; b=JOGVzzNAK56bwoLSsIkIq/BEexFaWY2/+enA5jf7RMo/Otex1jneLnrpkoVA2nY/zhcMSMcsFxfD8XabF6JZPlAGpkg85CP2iiRDH/QPg6Q8h9JOF2txCuVrSBnU0/hcArdgFQ04tcHBlJMR+Qy+nOjfrXU/hlZz1LiSiDoIwkQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=hotmail.com; spf=pass smtp.mailfrom=sendgrid.net; dkim=pass (1024-bit key) header.d=sendgrid.net header.i=@sendgrid.net header.b=CiTZlOr2; arc=none smtp.client-ip=159.183.224.105
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=hotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sendgrid.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="Dt+boeMR"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1754922034;
-	bh=vEIDG6maACRIeiu15+qMeYtnTf+etWbiNRijwscZcks=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-	b=Dt+boeMRuEDjhLpS6TPx5pKodwyAD8lvIjdJ4FjrvbyC4WEp4qbN8o7qNGNX+8faf
-	 ZNsDPw5VQJx40hnZcUAn9BaBGiwYIy+vnUeqXq8rsIej4T5RTmHZoTNnqp3K5b/F+E
-	 gVtYKR0GGVkB0chU/DbAXvfZveSA0eoUTKIV3yxQJvhEnUSkPoOBAmdrJ+2f7ba+Gp
-	 c1b7x+GTWYp8Mfg7Fp1KcOwKpVxpq8vQz8DGUTJ5oxD1jn3gL0JO4rNHsVlG/11eD1
-	 adF+OOGxDQordLntdCafZAYXn+5XE+o3HJayKFM19+ZS774YKEnQOpcHQu/D1C9tYm
-	 RO2hg9Up98F0w==
-Received: from [IPv6:2606:6d00:11:5a76::c41] (unknown [IPv6:2606:6d00:11:5a76::c41])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: nicolas)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id 0636317E090E;
-	Mon, 11 Aug 2025 16:20:32 +0200 (CEST)
-Message-ID: <0a0834d23f3d6d339bc26b73e2af6fe038e7deab.camel@collabora.com>
-Subject: Re: [PATCH] media: rkvdec: Fix a NULL vs IS_ERR() bug in probe()
-From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-To: Dan Carpenter <dan.carpenter@linaro.org>, Ezequiel Garcia
-	 <ezequiel@vanguardiasur.com.ar>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Greg Kroah-Hartman
-	 <gregkh@linuxfoundation.org>, Hans Verkuil <hverkuil@xs4all.nl>, Detlev
- Casanova <detlev.casanova@collabora.com>, linux-media@vger.kernel.org, 
-	linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org
-Date: Mon, 11 Aug 2025 10:20:31 -0400
-In-Reply-To: <696219e9-a1c7-4c87-b15c-1ffd42c95d58@sabinyo.mountain>
-References: <696219e9-a1c7-4c87-b15c-1ffd42c95d58@sabinyo.mountain>
-Autocrypt: addr=nicolas.dufresne@collabora.com; prefer-encrypt=mutual;
- keydata=mQGiBEUQN0MRBACQYceNSezSdMjx7sx6gwKkMghrrODgl3B0eXBTgNp6c431IfOOEsdvk
- oOh1kwoYcQgbg4MXw6beOltysX4e8fFWsiRkc2nvvRW9ir9kHDm49MkBLqaDjTqOkYKNMiurFW+go
- zpr/lUW15QqT6v68RYe0zRdtwGZqeLzX2LVuukGwCg4AISzswrrYHNV7vQLcbaUhPgIl0D+gILYT9
- TJgAEK4YHW+bFRcY+cgUFoLQqQayECMlctKoLOE69nIYOc/hDr9uih1wxrQ/yL0NJvQCohSPyoyLF
- 9b2EuIGhQVp05XP7FzlTxhYvGO/DtO08ec85+bTfVBMV6eeY4MS3ZU+1z7ObD7Pf29YjyTehN2Dan
- 6w1g2rBk5MoA/9nDocSlk4pbFpsYSFmVHsDiAOFje3+iY4ftVDKunKYWMhwRVBjAREOByBagmRau0
- cLEcElpf4hX5f978GoxSGIsiKoDAlXX+ICDOWC1/EXhEEmBR1gL0QJgiVviNyLfGJlZWnPjw6xhhm
- tHYWTDxBOP5peztyc2PqeKsLsLWzAr7QnTmljb2xhcyBEdWZyZXNuZSA8bmljb2xhc0BuZHVmcmVz
- bmUuY2E+iGIEExECACIFAlXA3CACGwMGCwkIBwMCBhUIAgkKCwQWAgMBAh4BAheAAAoJEHFTAi2sB
- qgcJngAnRDBTr8bhzuH0KQwFP1nEYtfgpKdAKCrQ/sJfuG/8zsd7J8wVl7y3e8ARbRDTmljb2xhcy
- BEdWZyZXNuZSAoQi4gU2MuIEluZm9ybWF0aXF1ZSkgPG5pY29sYXMuZHVmcmVzbmVAZ21haWwuY29
- tPohgBBMRAgAgBQJFlCyOAhsDBgsJCAcDAgQVAggDBBYCAwECHgECF4AACgkQcVMCLawGqBwhLQCg
- zYlrLBj6KIAZ4gmsfjXD6ZtddT8AoIeGDicVq5WvMHNWign6ApQcZUihtElOaWNvbGFzIER1ZnJlc
- 25lIChCLiBTYy4gSW5mb3JtYXRpcXVlKSA8bmljb2xhcy5kdWZyZXNuZUBjb2xsYWJvcmEuY28udW
- s+iGIEExECACIFAkuzca8CGwMGCwkIBwMCBhUIAgkKCwQWAgMBAh4BAheAAAoJEHFTAi2sBqgcQX8
- An2By6LDEeMxi4B9hUbpvRnzaaeNqAJ9Rox8rfqHZnSErw9bCHiBwvwJZ77QxTmljb2xhcyBEdWZy
- ZXNuZSA8bmljb2xhcy5kdWZyZXNuZUBjb2xsYWJvcmEuY29tPohiBBMRAgAiBQJNzZzPAhsDBgsJC
- AcDAgYVCAIJCgsEFgIDAQIeAQIXgAAKCRBxUwItrAaoHLlxAKCYAGf4JL7DYDLs/188CPMGuwLypw
- CfWKc9DorA9f5pyYlD5pQo6SgSoiC0R05pY29sYXMgRHVmcmVzbmUgKEIgU2MuIEluZm9ybWF0aXF
- 1ZSkgPG5pY29sYXMuZHVmcmVzbmVAdXNoZXJicm9va2UuY2E+iGAEExECACAFAkUQN0MCGwMGCwkI
- BwMCBBUCCAMEFgIDAQIeAQIXgAAKCRBxUwItrAaoHPTnAJ0WGgJJVspoctAvEcI00mtp5WAFGgCgr
- +E7ItOqZEHAs+xabBgknYZIFPU=
-Organization: Collabora Canada
-Content-Type: multipart/signed; micalg="pgp-sha1"; protocol="application/pgp-signature";
-	boundary="=-zVq3E96LLIkOM0QvJy4y"
-User-Agent: Evolution 3.56.2 (3.56.2-1.fc42) 
+	dkim=pass (1024-bit key) header.d=sendgrid.net header.i=@sendgrid.net header.b="CiTZlOr2"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sendgrid.net;
+	h=from:subject:date:mime-version:to:cc:content-transfer-encoding:
+	content-type:cc:content-type:date:from:subject:to;
+	s=smtpapi; bh=4oBQmst1n3VEnFu+osicTK+MtNnZ0TgeYRbV1ZyKo8k=;
+	b=CiTZlOr2Nh5F2GHR1UqaiXw2+2NEQ2Stf1KDTGxNbT3Eh0hEsM+FMJydUD784M8grzj6
+	twHWpmQf5N+7ytc6HEm2t0NLa23SNjiLmtc4/kcOcOlWCiVUoK5IYvrkMym+ucYW4Es+b5
+	dHT3Ewmsis1DXNd2vZdpHYCb/2YRQJzT0=
+Received: by recvd-7fd96f4944-h2fdt with SMTP id recvd-7fd96f4944-h2fdt-1-689A9F36-5
+	2025-08-12 01:56:06.369029894 +0000 UTC m=+5908321.600103385
+Received: from localhost (unknown)
+	by geopod-ismtpd-11 (SG) with ESMTP
+	id 7-ojFJCcRE2MTrXuxMtA4Q
+	Tue, 12 Aug 2025 01:56:06.008 +0000 (UTC)
+From: Yuri Martins <yurimartins2004@hotmail.com>
+Subject: [PATCH] staging: vc04_services/vchiq-mmal: fix typos in comments
+Date: Tue, 12 Aug 2025 01:56:06 +0000 (UTC)
+Message-Id: <20250812015524.64413-1-yurimartins2004@hotmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-
-
---=-zVq3E96LLIkOM0QvJy4y
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-Hi Dan,
-
-Le mercredi 25 juin 2025 =C3=A0 10:23 -0500, Dan Carpenter a =C3=A9crit=C2=
-=A0:
-> The iommu_paging_domain_alloc() function doesn't return NULL on error it
-> returns error pointers.=C2=A0 Update the check and then set ->empty_domai=
-n to
-> NULL because the rest of the driver assumes it can be NULL.
->=20
-> Fixes: ff8c5622f9f7 ("media: rkvdec: Restore iommu addresses on errors")
-> Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
-> ---
-> =C2=A0drivers/staging/media/rkvdec/rkvdec.c | 4 +++-
-
-I've re-applied to the now de-staged driver, and will send that as fixes fo=
-r
-6.17.
-
-thanks,
-Nicolas
-
-> =C2=A01 file changed, 3 insertions(+), 1 deletion(-)
->=20
-> diff --git a/drivers/staging/media/rkvdec/rkvdec.c
-> b/drivers/staging/media/rkvdec/rkvdec.c
-> index d707088ec0dc..1b7f27e4d961 100644
-> --- a/drivers/staging/media/rkvdec/rkvdec.c
-> +++ b/drivers/staging/media/rkvdec/rkvdec.c
-> @@ -1162,8 +1162,10 @@ static int rkvdec_probe(struct platform_device *pd=
-ev)
-> =C2=A0	if (iommu_get_domain_for_dev(&pdev->dev)) {
-> =C2=A0		rkvdec->empty_domain =3D iommu_paging_domain_alloc(rkvdec-
-> >dev);
-> =C2=A0
-> -		if (!rkvdec->empty_domain)
-> +		if (IS_ERR(rkvdec->empty_domain)) {
-> +			rkvdec->empty_domain =3D NULL;
-> =C2=A0			dev_warn(rkvdec->dev, "cannot alloc new empty
-> domain\n");
-> +		}
-> =C2=A0	}
-> =C2=A0
-> =C2=A0	vb2_dma_contig_set_max_seg_size(&pdev->dev, DMA_BIT_MASK(32));
-
---=-zVq3E96LLIkOM0QvJy4y
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
+X-SG-EID: 
+ =?us-ascii?Q?u001=2E6ieiQIm7OvTDXtE=2Fxfw5eonpObpZ49ICwJQVMpAHgswW=2FbfUf0YOgwEO=2F?=
+ =?us-ascii?Q?RoROFENTv55eS57JVaktoLd4pMnwF=2FfvlJPO429?=
+ =?us-ascii?Q?MKyDQhniRHdRbs0K4etPP1ZwPhd+Fm4eWTNktbl?=
+ =?us-ascii?Q?uKR0ruEtHd+uaDTa60N6ZnjS4cfZpez561L0k=2FK?=
+ =?us-ascii?Q?7O4mm9KRu7tzuRPdIrQYS=2FfzqZByiEdAhW17z86?=
+ =?us-ascii?Q?7BG+2mULpNlZMLi1b=2FcInsWvWtOtuO0IjI47Ora?=
+ =?us-ascii?Q?Me1SzJUrw=2FWwpCaXb+JQCtL=2FJg=3D=3D?=
+To: florian.fainelli@broadcom.com, gregkh@linuxfoundation.org
+Cc: bcm-kernel-feedback-list@broadcom.com, umang.jain@ideasonboard.com,
+	linux-rpi-kernel@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, Yuri Martins
+	<yurimartins2004@hotmail.com>
+X-Entity-ID: u001./v1UP53i8YyoizAUvofPCQ==
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
 
------BEGIN PGP SIGNATURE-----
+Fix three spelling mistakes found in comments across the
+vchiq-mmal driver component:
 
-iF0EABECAB0WIQSScpfJiL+hb5vvd45xUwItrAaoHAUCaJn8LwAKCRBxUwItrAao
-HJkYAKCtvUQZ5z1RoybjCWS8gUg8D6MFYgCgljilOqw9QLf/xqvyixDpZsUTlyk=
-=K30S
------END PGP SIGNATURE-----
+- recived -> received
+- servie  -> service
+- enque   -> enqueues
 
---=-zVq3E96LLIkOM0QvJy4y--
+Signed-off-by: Yuri Martins <yurimartins2004@hotmail.com>
+---
+ drivers/staging/vc04_services/vchiq-mmal/mmal-msg.h   | 2 +-
+ drivers/staging/vc04_services/vchiq-mmal/mmal-vchiq.c | 2 +-
+ drivers/staging/vc04_services/vchiq-mmal/mmal-vchiq.h | 2 +-
+ 3 files changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/staging/vc04_services/vchiq-mmal/mmal-msg.h b/drivers/staging/vc04_services/vchiq-mmal/mmal-msg.h
+index 471413248a14..1889494425eb 100644
+--- a/drivers/staging/vc04_services/vchiq-mmal/mmal-msg.h
++++ b/drivers/staging/vc04_services/vchiq-mmal/mmal-msg.h
+@@ -13,7 +13,7 @@
+ 
+ /*
+  * all the data structures which serialise the MMAL protocol. note
+- * these are directly mapped onto the recived message data.
++ * these are directly mapped onto the received message data.
+  *
+  * BEWARE: They seem to *assume* pointers are u32 and that there is no
+  * structure padding!
+diff --git a/drivers/staging/vc04_services/vchiq-mmal/mmal-vchiq.c b/drivers/staging/vc04_services/vchiq-mmal/mmal-vchiq.c
+index 3fe482bd2793..c2b5a37915f2 100644
+--- a/drivers/staging/vc04_services/vchiq-mmal/mmal-vchiq.c
++++ b/drivers/staging/vc04_services/vchiq-mmal/mmal-vchiq.c
+@@ -326,7 +326,7 @@ static int bulk_receive(struct vchiq_mmal_instance *instance,
+ 		 * committed a buffer_to_host operation to the mmal
+ 		 * port without the buffer to back it up (underflow
+ 		 * handling) and there is no obvious way to deal with
+-		 * this - how is the mmal servie going to react when
++		 * this - how is the mmal service going to react when
+ 		 * we fail to do the xfer and reschedule a buffer when
+ 		 * it arrives? perhaps a starved flag to indicate a
+ 		 * waiting bulk receive?
+diff --git a/drivers/staging/vc04_services/vchiq-mmal/mmal-vchiq.h b/drivers/staging/vc04_services/vchiq-mmal/mmal-vchiq.h
+index 97abe4bdcfc5..8c3959f6f97f 100644
+--- a/drivers/staging/vc04_services/vchiq-mmal/mmal-vchiq.h
++++ b/drivers/staging/vc04_services/vchiq-mmal/mmal-vchiq.h
+@@ -115,7 +115,7 @@ int vchiq_mmal_component_disable(struct vchiq_mmal_instance *instance,
+ 
+ /* enable a mmal port
+  *
+- * enables a port and if a buffer callback provided enque buffer
++ * enables a port and, if a buffer callback provided, enqueues buffer
+  * headers as appropriate for the port.
+  */
+ int vchiq_mmal_port_enable(struct vchiq_mmal_instance *instance,
+-- 
+2.34.1
+
