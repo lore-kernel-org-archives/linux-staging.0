@@ -1,49 +1,49 @@
-Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
+Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 794CF30E82A
-	for <linux-staging@lists.linux.dev>; Tue, 12 Aug 2025 15:52:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C71F30E821
+	for <linux-staging@lists.linux.dev>; Tue, 12 Aug 2025 15:52:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755013976; cv=none; b=gJ24fwWf+1T4y5/ejEgBwS3Yxp6aGwzcvFWnfN0XrpHI3qIbVSka/bv8kJB4P071VvQrz2flqo86oJqRlSNj0HCjwdNgTurKvwkAJcmma9LZrHaa7o7JA6WN4zEzD+gOtuvZ0cRJwm6FNsg0V+u/jkhKuoFzlgnD1u+SKPs5N5Q=
+	t=1755013976; cv=none; b=M7BuV1365oENSnsZ1s1HbMwLGx4utNvaZ1ut4JbULRy1D1Qawa1Dg0KIORqtYLs05k469FLLjHL5p+nWDFZ71RjhlLdGoA6zBCBm17FUS098EqgARSzB29aSX3xRGzycf6P2yEenWHYg0Jblx4bn1gURmXGxlxXN0w607u8ScsE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1755013976; c=relaxed/simple;
-	bh=jmLedCN4R2YU+yGCxHz2Yf4utVRQz3r3OsmD+iWWE6Q=;
+	bh=n0sQUuKqf3jLXpNCjqUW24KyPE8yGVDwJlEFI3R/YWo=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=mDZ56vJFp32x6GREUUSxBj1STS34esan2eZKbrGsJ0WQUQMhOSpE9ZTh8eKeaVU2nUZNwq1EDWb8BKiD+U+6Hr+FQmFF9ExOvojKSiba9zlHMQ9pZOmsYlJ3Tr3yX+SNAMMJLv4hAhzIx51eJB2t7ODjwmuH1bdXzDCWr+9SEVA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=fomichev.me; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.210.171
+	 MIME-Version; b=ZYS9zofjRWxaSbEhF+ImEvNW5KI3nu+Vt9OurCR2RPtHfC76Jy5TkMK2MUBVNxMTahBGuqh7OWSugAL58YnX32OYHRzTyZUcmX0idhApH+N2BwLhG7RITnW0IbyZ4/sj+yagQ6sEKOy9L4oRxn092qU2DecmBZ79QD+gW4GIOrk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=fomichev.me; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.210.176
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=fomichev.me
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-76be8e4b59aso4855079b3a.1
-        for <linux-staging@lists.linux.dev>; Tue, 12 Aug 2025 08:52:54 -0700 (PDT)
+Received: by mail-pf1-f176.google.com with SMTP id d2e1a72fcca58-76b77a97a04so5182889b3a.1
+        for <linux-staging@lists.linux.dev>; Tue, 12 Aug 2025 08:52:53 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755013974; x=1755618774;
+        d=1e100.net; s=20230601; t=1755013973; x=1755618773;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=K1U24j3avMI496lsvK/FFAte0M6oHVilfdD7GVgxXmw=;
-        b=i+ErIe5i5ZoZLwBOI41TLJsWzixMBQdqkG1W/zirRNpCzZsHP535y6H/s1ev1pyb+L
-         hPOaeXWilx61etY8/U3JrRnuJRodys5gn9/YL8XzXNZwYo2DO49JOT8sLJ39c3yb87D9
-         HESUo55fXQA7xkkYMajMhJ68qCVUE1B+/2POtOOnPwwUGuniJ86++zXJXb6KihnS0Add
-         58jTSDN+BWJvXYvZuPQcLm6SKhiSf81P2Vcx9U84I2Iy14R78DM/Zf7NXja1TBKlw0uc
-         GFWxN5Q8viVpIwAuzo0wnPbDkpfn9KNgeNx9AkuilJaUc9cA2C2c2CPdQiWR9eDj5WcK
-         mKCA==
-X-Forwarded-Encrypted: i=1; AJvYcCW4+1nPrSuCH4A/mrsU/YCZb1hGXfTskfiOx4mXjNmdoBoKGZF79RISm/rx2OGtgbEY4P19FAENRypqZZoh@lists.linux.dev
-X-Gm-Message-State: AOJu0Yx3dZ3Lzbd3QrOP/+zqfqD6c7Neq6v0/ZGtBMP7Xp26R5zhbX6s
-	zMHrKcPkNdBltl2fKzgVRGRzDEJbPKVP9sXhdBnxAsPQPJTUA/yTwwg=
-X-Gm-Gg: ASbGncvKxGL3HA0ikyP4AejEYx2awxEO6oSu2oGQYlyzLpnFh7loiTl5GgkroEA3L/w
-	G3L7Yi5rxbRMmvPUFZrY1B8tSqtqlmg1BQs+xckujRQe9N/MN9Mmr6hNZStwUVfKsRJ72UbimBB
-	cD+AoJPp1wdTW5DKrU00J6g+kb6GifAvfonxO99iM962jIGmUYkU+2yjHOEM0yx5IWu4quTEDp6
-	45HXJ3KgUFYuih7uTa4uoBgf3ZA/JFOsoG6/D/5tJiOFrccPMyyH/Cykf9eiCQT4H/etmnzSZof
-	pJ19bk0zoa3LXD+fpxAMj4NuIT2yZKc15MIotJ/H59p+T7KTt2GSuNQwh5AMmWv6r6aMZN3Zats
-	srcgw8t6tMDAzI5ZL3OT9ywMGNoCmKSMo7l7nd6Tsair5ILB7P+VTB2J7jHc=
-X-Google-Smtp-Source: AGHT+IFUKvjZ3Rba9MvqVnh8vH8eFopfwTUPgEOJxRTkNbViqfPFICyo8rbbnicPKgPRyQnCxRtE3g==
-X-Received: by 2002:aa7:88c8:0:b0:748:e1e4:71de with SMTP id d2e1a72fcca58-76e1fdb0881mr36267b3a.14.1755013973774;
-        Tue, 12 Aug 2025 08:52:53 -0700 (PDT)
+        bh=dZz85zxG1Fdx2Dk3+7K6+fby+2lWmdMlXym1/uID5+g=;
+        b=F5+w/T09dFQmwFvMADGXztWbtnF2yFWkkdP5MKwdcoN+h/eYmZFOsRSURZ2rf1OGoG
+         IiOw6s6FgxMWlJEnIetew/rhRoYEbn7ntKahRNCjodo0xBV5OLXGLhGAKlrSKZwrUpLl
+         TPfuY/gj11VWQ6E65JXmrpCO3gUHPjjawSsOGHrYqd0jElGpeZcugY4thWpZjs+LbPkL
+         WkRVsDRRBQ+00Zm9tiN2vgnXutNoz80Mp9fzFS/gdRxEeob1zL+FdEDKyHEmYcksv3TO
+         HM6K1f8UhX+R4wD17Ut4YyNtFhSSOS1BWGzgep7mc1yVxoVfffaQ6NPy85qKiyG7f76H
+         omjw==
+X-Forwarded-Encrypted: i=1; AJvYcCV6PdqNqi7Mi6oyDzgKvPvA/K6BmIXSdSHQude+2EAbLLIbfrfoMRRaYRsNFkywLV6wZy1vMGzkGhTy1iFR@lists.linux.dev
+X-Gm-Message-State: AOJu0YwB3BCXK5CBtgU//MB+jPjdj88evu8EaKEtwgNRbLqYd2r0TkaA
+	AO9B4C61Nt4uUpfC/n57oVEeRu1CtboA2mjHS+8cnPDq6ZAkqx+/+jw=
+X-Gm-Gg: ASbGncsqUxPGN1z3VsyqmwIs34dHAUDjrvKz5zI0/+ziNHCz06bar3sH8lboetKB/fV
+	E5/lvFzFjW9Sy8DKnm8NmZeaOS5ejIjqCI00k1KNNm0csdG7ApSpJ5CICRs3WJMItOD6cPKV8Gc
+	pI6toseGxIPfuaOSr3sZAaL81zYbSb+gqKijB14FewyiCDKytrG1umLoPTOsW57Ti5OPu58xJFx
+	SqCmf3+iiZSStNEe7rmHtzUc8YyEQYtCtRZE/iORTXCjtXZsJdAeNw0AbXV2VmM6xoRZ4wrEPrh
+	xbcvyAAnTglKKVJ0twH31dKoqdpHFbb4h/5BBYItHA7T7voMQuC/lqm7D9MMz4i2OUv+0en2fXm
+	7ZQtBuYfdcCHIncPDFXqroJVOGjfUmdvv2TU4mt9oVJnqo1KGRnVcSp3QRZM=
+X-Google-Smtp-Source: AGHT+IEO5Z5M/KtjpW0VLb1+nruS8V4gTPoqbW8FOI4fKlCjaJC6j7Dcr7qiVY+6B9jvyJru9WYgYw==
+X-Received: by 2002:a17:902:da8c:b0:242:a3fa:edb4 with SMTP id d9443c01a7336-2430c133180mr2455155ad.44.1755013972729;
+        Tue, 12 Aug 2025 08:52:52 -0700 (PDT)
 Received: from localhost (c-73-158-218-242.hsd1.ca.comcast.net. [73.158.218.242])
-        by smtp.gmail.com with UTF8SMTPSA id d2e1a72fcca58-76bccfbd98csm29585074b3a.67.2025.08.12.08.52.53
+        by smtp.gmail.com with UTF8SMTPSA id d9443c01a7336-241e899a81fsm302235345ad.120.2025.08.12.08.52.52
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 12 Aug 2025 08:52:53 -0700 (PDT)
+        Tue, 12 Aug 2025 08:52:52 -0700 (PDT)
 From: Stanislav Fomichev <sdf@fomichev.me>
 To: netdev@vger.kernel.org
 Cc: davem@davemloft.net,
@@ -66,9 +66,9 @@ Cc: davem@davemloft.net,
 	netfilter-devel@vger.kernel.org,
 	coreteam@netfilter.org,
 	herbert@gondor.apana.org.au
-Subject: [PATCH net-next 7/7] net: Add skb_dst_check_unset
-Date: Tue, 12 Aug 2025 08:52:45 -0700
-Message-ID: <20250812155245.507012-8-sdf@fomichev.me>
+Subject: [PATCH net-next 6/7] chtls: Convert to skb_dst_reset
+Date: Tue, 12 Aug 2025 08:52:44 -0700
+Message-ID: <20250812155245.507012-7-sdf@fomichev.me>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <20250812155245.507012-1-sdf@fomichev.me>
 References: <20250812155245.507012-1-sdf@fomichev.me>
@@ -80,55 +80,102 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-To prevent dst_entry leaks, add warning when the non-NULL dst_entry
-is rewritten.
+Going forward skb_dst_set will assert that skb dst_entry
+is empty during skb_dst_set. skb_dst_reset is added to reset
+existing entry without doing refcnt. Chelsio driver is
+doing extra dst management via skb_dst_set(NULL). Replace
+these calls with skb_dst_reset.
 
 Signed-off-by: Stanislav Fomichev <sdf@fomichev.me>
 ---
- include/linux/skbuff.h | 9 +++++++++
- 1 file changed, 9 insertions(+)
+ .../ethernet/chelsio/inline_crypto/chtls/chtls_cm.c    | 10 +++++-----
+ .../ethernet/chelsio/inline_crypto/chtls/chtls_cm.h    |  4 ++--
+ .../ethernet/chelsio/inline_crypto/chtls/chtls_io.c    |  2 +-
+ 3 files changed, 8 insertions(+), 8 deletions(-)
 
-diff --git a/include/linux/skbuff.h b/include/linux/skbuff.h
-index 8240e0826204..2f9dac54d627 100644
---- a/include/linux/skbuff.h
-+++ b/include/linux/skbuff.h
-@@ -1159,6 +1159,12 @@ static inline struct dst_entry *skb_dst(const struct sk_buff *skb)
- 	return (struct dst_entry *)(skb->_skb_refdst & SKB_DST_PTRMASK);
+diff --git a/drivers/net/ethernet/chelsio/inline_crypto/chtls/chtls_cm.c b/drivers/net/ethernet/chelsio/inline_crypto/chtls/chtls_cm.c
+index 6f6525983130..b333da3b21bf 100644
+--- a/drivers/net/ethernet/chelsio/inline_crypto/chtls/chtls_cm.c
++++ b/drivers/net/ethernet/chelsio/inline_crypto/chtls/chtls_cm.c
+@@ -171,7 +171,7 @@ static void chtls_purge_receive_queue(struct sock *sk)
+ 	struct sk_buff *skb;
+ 
+ 	while ((skb = __skb_dequeue(&sk->sk_receive_queue)) != NULL) {
+-		skb_dst_set(skb, (void *)NULL);
++		skb_dst_reset(skb);
+ 		kfree_skb(skb);
+ 	}
+ }
+@@ -194,7 +194,7 @@ static void chtls_purge_recv_queue(struct sock *sk)
+ 	struct sk_buff *skb;
+ 
+ 	while ((skb = __skb_dequeue(&tlsk->sk_recv_queue)) != NULL) {
+-		skb_dst_set(skb, NULL);
++		skb_dst_reset(skb);
+ 		kfree_skb(skb);
+ 	}
+ }
+@@ -1734,7 +1734,7 @@ static int chtls_rx_data(struct chtls_dev *cdev, struct sk_buff *skb)
+ 		pr_err("can't find conn. for hwtid %u.\n", hwtid);
+ 		return -EINVAL;
+ 	}
+-	skb_dst_set(skb, NULL);
++	skb_dst_reset(skb);
+ 	process_cpl_msg(chtls_recv_data, sk, skb);
+ 	return 0;
+ }
+@@ -1786,7 +1786,7 @@ static int chtls_rx_pdu(struct chtls_dev *cdev, struct sk_buff *skb)
+ 		pr_err("can't find conn. for hwtid %u.\n", hwtid);
+ 		return -EINVAL;
+ 	}
+-	skb_dst_set(skb, NULL);
++	skb_dst_reset(skb);
+ 	process_cpl_msg(chtls_recv_pdu, sk, skb);
+ 	return 0;
+ }
+@@ -1855,7 +1855,7 @@ static int chtls_rx_cmp(struct chtls_dev *cdev, struct sk_buff *skb)
+ 		pr_err("can't find conn. for hwtid %u.\n", hwtid);
+ 		return -EINVAL;
+ 	}
+-	skb_dst_set(skb, NULL);
++	skb_dst_reset(skb);
+ 	process_cpl_msg(chtls_rx_hdr, sk, skb);
+ 
+ 	return 0;
+diff --git a/drivers/net/ethernet/chelsio/inline_crypto/chtls/chtls_cm.h b/drivers/net/ethernet/chelsio/inline_crypto/chtls/chtls_cm.h
+index f61ca657601c..4ca919925455 100644
+--- a/drivers/net/ethernet/chelsio/inline_crypto/chtls/chtls_cm.h
++++ b/drivers/net/ethernet/chelsio/inline_crypto/chtls/chtls_cm.h
+@@ -171,14 +171,14 @@ static inline void chtls_set_req_addr(struct request_sock *oreq,
+ 
+ static inline void chtls_free_skb(struct sock *sk, struct sk_buff *skb)
+ {
+-	skb_dst_set(skb, NULL);
++	skb_dst_reset(skb);
+ 	__skb_unlink(skb, &sk->sk_receive_queue);
+ 	__kfree_skb(skb);
  }
  
-+static inline void skb_dst_check_unset(struct sk_buff *skb)
-+{
-+	DEBUG_NET_WARN_ON_ONCE((skb->_skb_refdst & SKB_DST_PTRMASK) &&
-+			       !(skb->_skb_refdst & SKB_DST_NOREF));
-+}
-+
- /**
-  * skb_dst_reset() - return current dst_entry value and clear it
-  * @skb: buffer
-@@ -1187,6 +1193,7 @@ static inline unsigned long skb_dst_reset(struct sk_buff *skb)
-  */
- static inline void skb_dst_restore(struct sk_buff *skb, unsigned long refdst)
+ static inline void chtls_kfree_skb(struct sock *sk, struct sk_buff *skb)
  {
-+	skb_dst_check_unset(skb);
- 	skb->_skb_refdst = refdst;
+-	skb_dst_set(skb, NULL);
++	skb_dst_reset(skb);
+ 	__skb_unlink(skb, &sk->sk_receive_queue);
+ 	kfree_skb(skb);
  }
+diff --git a/drivers/net/ethernet/chelsio/inline_crypto/chtls/chtls_io.c b/drivers/net/ethernet/chelsio/inline_crypto/chtls/chtls_io.c
+index 465fa8077964..85e4d90efd5b 100644
+--- a/drivers/net/ethernet/chelsio/inline_crypto/chtls/chtls_io.c
++++ b/drivers/net/ethernet/chelsio/inline_crypto/chtls/chtls_io.c
+@@ -1434,7 +1434,7 @@ static int chtls_pt_recvmsg(struct sock *sk, struct msghdr *msg, size_t len,
+ 		continue;
+ found_ok_skb:
+ 		if (!skb->len) {
+-			skb_dst_set(skb, NULL);
++			skb_dst_reset(skb);
+ 			__skb_unlink(skb, &sk->sk_receive_queue);
+ 			kfree_skb(skb);
  
-@@ -1200,6 +1207,7 @@ static inline void skb_dst_restore(struct sk_buff *skb, unsigned long refdst)
-  */
- static inline void skb_dst_set(struct sk_buff *skb, struct dst_entry *dst)
- {
-+	skb_dst_check_unset(skb);
- 	skb->slow_gro |= !!dst;
- 	skb->_skb_refdst = (unsigned long)dst;
- }
-@@ -1216,6 +1224,7 @@ static inline void skb_dst_set(struct sk_buff *skb, struct dst_entry *dst)
-  */
- static inline void skb_dst_set_noref(struct sk_buff *skb, struct dst_entry *dst)
- {
-+	skb_dst_check_unset(skb);
- 	WARN_ON(!rcu_read_lock_held() && !rcu_read_lock_bh_held());
- 	skb->slow_gro |= !!dst;
- 	skb->_skb_refdst = (unsigned long)dst | SKB_DST_NOREF;
 -- 
 2.50.1
 
