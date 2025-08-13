@@ -1,37 +1,57 @@
-Received: from Chamillionaire.breakpoint.cc (Chamillionaire.breakpoint.cc [91.216.245.30])
+Received: from smtp1.iitb.ac.in (smtpd9.iitb.ac.in [103.21.126.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E35021255A;
-	Wed, 13 Aug 2025 10:01:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.216.245.30
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A6BD2F5467
+	for <linux-staging@lists.linux.dev>; Wed, 13 Aug 2025 11:43:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.21.126.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755079306; cv=none; b=c4omN1ixtjR1ETivkNWu1kmRHq1pX2hsKe6lenqblkjb49OFvJD/zu0cg9CIJ0S3NAe+v0LSOgkk+vRIx21swpC1T7SsISphOZ9K3muqGtUA4D+GM1DeACzYOt/FnfHFxo7Ke5PqU0BNSA1wtO+GdrW5YmSjJ9utzlkahnW5Gyw=
+	t=1755085386; cv=none; b=EZ2qySFz5ns0WQfXLuQKVzwSPdqYvqmzk5f/wwehC3lWnDI6WO4z6W0ObbHC84ntfesIahhE/rKQ3QvDA1bZ3tfKytBYRRVyBL0PJ1D9nZQBvrVP182JoJjbTgesnHONHnPJxphcI2VuKVcAOLH+CpRqR0AldAI9tQdVlJ5r7vo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755079306; c=relaxed/simple;
-	bh=GxaKAI7BYKuo3rINvK6Gs+xNPXBkQTSmTM5vlA3ySws=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=i0/ohylvC8oBK5EkAramXwm5kEjpEqAFeZ/RJ7W+9Pe6foYxGgtGIroH0Dh5LvXL/HB7pX+k9BPLem5Nrfbnyhi+S6lLS3OTJ9oGNY8teycgZlbT1ISg9T3WpCXTXqlh93hnMPZPSiT3I9FnLMHl1NjsNoQz27d4PyJEvIOcLog=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=strlen.de; spf=pass smtp.mailfrom=strlen.de; arc=none smtp.client-ip=91.216.245.30
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=strlen.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=strlen.de
-Received: by Chamillionaire.breakpoint.cc (Postfix, from userid 1003)
-	id 4CBFD605F7; Wed, 13 Aug 2025 12:01:42 +0200 (CEST)
-Date: Wed, 13 Aug 2025 12:01:41 +0200
-From: Florian Westphal <fw@strlen.de>
-To: syzbot ci <syzbot+ci1b726090b21fedf1@syzkaller.appspotmail.com>
-Cc: abhishektamboli9@gmail.com, andrew@lunn.ch, ayush.sawal@chelsio.com,
-	coreteam@netfilter.org, davem@davemloft.net, dsahern@kernel.org,
-	edumazet@google.com, gregkh@linuxfoundation.org,
-	herbert@gondor.apana.org.au, horms@kernel.org, kadlec@netfilter.org,
-	kuba@kernel.org, linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev, mhal@rbox.co, netdev@vger.kernel.org,
-	netfilter-devel@vger.kernel.org, pabeni@redhat.com,
-	pablo@netfilter.org, sdf@fomichev.me, steffen.klassert@secunet.com,
-	syzbot@lists.linux.dev, syzkaller-bugs@googlegroups.com
-Subject: Re: [syzbot ci] Re: net: Convert to skb_dst_reset and skb_dst_restore
-Message-ID: <aJxihWEdn5cVlP6z@strlen.de>
-References: <20250812155245.507012-1-sdf@fomichev.me>
- <689c457b.a70a0220.7865.0049.GAE@google.com>
+	s=arc-20240116; t=1755085386; c=relaxed/simple;
+	bh=qMWpIT3q6+DH/e2eftD66/YT6lp/ktA3herAdpzEiCw=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=WaydcnMVunFsZ4ghQkgpQiF8CfVWCzU5YDnPmZ3ltw0yeFdcdTPSg/XaW412xo5qsGChgKcxUKS3DwvSS/+HLcYQgsiV58D9Kr9sgDmu7xZvS2cjyMSvbNNTz9FdZULJl56WEHYoxetwjcQ+NWOiLCv++6HZjTsKKvzf8tt5z2w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=ee.iitb.ac.in; spf=pass smtp.mailfrom=ee.iitb.ac.in; dkim=pass (1024-bit key) header.d=iitb.ac.in header.i=@iitb.ac.in header.b=wy+eNmNH; arc=none smtp.client-ip=103.21.126.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=ee.iitb.ac.in
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ee.iitb.ac.in
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=iitb.ac.in header.i=@iitb.ac.in header.b="wy+eNmNH"
+Received: from ldns1.iitb.ac.in (ldns1.iitb.ac.in [10.200.12.1])
+	by smtp1.iitb.ac.in (Postfix) with SMTP id 615E1101C95D
+	for <linux-staging@lists.linux.dev>; Wed, 13 Aug 2025 17:12:57 +0530 (IST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp1.iitb.ac.in 615E1101C95D
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=iitb.ac.in; s=mail;
+	t=1755085377; bh=qMWpIT3q6+DH/e2eftD66/YT6lp/ktA3herAdpzEiCw=;
+	h=Date:From:To:Cc:Subject:From;
+	b=wy+eNmNHangXvZY+OXaj35iXyImUDAt4r81M5ORB3z9YAzwGHYXwkvh+4Lyl9QVwl
+	 LsN8YM4IzyLCz0h4kHIVKzmRG4xRWYKVd887MWWXHFYfpEkbhh1/R4RRtDOb0aWt8n
+	 jhEcSDITv7XtWxPrYPnEM2stwxYVfFNERetGw78Y=
+Received: (qmail 2846 invoked by uid 510); 13 Aug 2025 17:12:57 +0530
+X-Qmail-Scanner-Diagnostics: from 10.200.1.25 by ldns1 (envelope-from <akhilesh@ee.iitb.ac.in>, uid 501) with qmail-scanner-2.11
+ spamassassin: 3.4.1. mhr: 1.0. {clamdscan: 0.101.4/26439} 
+ Clear:RC:1(10.200.1.25):SA:0(0.0/7.0):. Processed in 2.134612 secs; 13 Aug 2025 17:12:57 +0530
+X-Spam-Level: 
+X-Spam-Pyzor: Reported 0 times.
+X-Envelope-From: akhilesh@ee.iitb.ac.in
+X-Qmail-Scanner-Mime-Attachments: |
+X-Qmail-Scanner-Zip-Files: |
+Received: from unknown (HELO ldns1.iitb.ac.in) (10.200.1.25)
+  by ldns1.iitb.ac.in with SMTP; 13 Aug 2025 17:12:55 +0530
+Received: from bhairav.ee.iitb.ac.in (bhairav.ee.iitb.ac.in [10.107.1.1])
+	by ldns1.iitb.ac.in (Postfix) with ESMTP id C8470360035;
+	Wed, 13 Aug 2025 17:12:54 +0530 (IST)
+Received: from bhairav-test.ee.iitb.ac.in (bhairav.ee.iitb.ac.in [10.107.1.1])
+	(Authenticated sender: akhilesh)
+	by bhairav.ee.iitb.ac.in (Postfix) with ESMTPSA id A29621E812E7;
+	Wed, 13 Aug 2025 17:12:54 +0530 (IST)
+Date: Wed, 13 Aug 2025 17:12:48 +0530
+From: Akhilesh Patil <akhilesh@ee.iitb.ac.in>
+To: parthiban.veerasooran@microchip.com, christian.gromm@microchip.com,
+	gregkh@linuxfoundation.org
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	akhileshpatilvnit@gmail.com, skhan@linuxfoundation.org
+Subject: [PATCH] staging: most: video: improve arguments to copy_to_user()
+Message-ID: <aJx6OF6L2Nza9zQ0@bhairav-test.ee.iitb.ac.in>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -40,24 +60,41 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <689c457b.a70a0220.7865.0049.GAE@google.com>
 
-syzbot ci <syzbot+ci1b726090b21fedf1@syzkaller.appspotmail.com> wrote:
-> syzbot ci has tested the following series
-> 
-> [v1] net: Convert to skb_dst_reset and skb_dst_restore
-> https://lore.kernel.org/all/20250812155245.507012-1-sdf@fomichev.me
-> * [PATCH net-next 1/7] net: Add skb_dst_reset and skb_dst_restore
-> * [PATCH net-next 2/7] xfrm: Switch to skb_dst_reset to clear dst_entry
-> * [PATCH net-next 3/7] netfilter: Switch to skb_dst_reset to clear dst_entry
-> * [PATCH net-next 4/7] net: Switch to skb_dst_reset/skb_dst_restore for ip_route_input callers
-> * [PATCH net-next 5/7] staging: octeon: Convert to skb_dst_drop
-> * [PATCH net-next 6/7] chtls: Convert to skb_dst_reset
-> * [PATCH net-next 7/7] net: Add skb_dst_check_unset
-> 
-> and found the following issue:
-> WARNING in nf_reject_fill_skb_dst
+Define cnt constant as unsigned long as expected by copy_to_user()
+to avoid implicit type conversion. Define rem constant as unsigned long
+to compare it with the same type size_t of count variable.
+Use standard helper min() to carry out careful comparison to achive
+same functionality.
 
-Looks like a bug uncovered by this series.
+Signed-off-by: Akhilesh Patil <akhilesh@ee.iitb.ac.in>
+---
+This patch is motivated from coccinelle report which suggested to use
+kernel standard helper min(). During build check, I found that
+comparison max()  showing error while comparing variables of
+different types. Hence this patch also fixes that to make comparison of
+save types.
 
-I'll have a look.
+Compile tested only.
+---
+ drivers/staging/most/video/video.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/staging/most/video/video.c b/drivers/staging/most/video/video.c
+index 2b3cdb1ce140..4b15c390c32d 100644
+--- a/drivers/staging/most/video/video.c
++++ b/drivers/staging/most/video/video.c
+@@ -172,8 +172,8 @@ static ssize_t comp_vdev_read(struct file *filp, char __user *buf,
+ 
+ 	while (count > 0 && data_ready(mdev)) {
+ 		struct mbo *const mbo = get_top_mbo(mdev);
+-		int const rem = mbo->processed_length - fh->offs;
+-		int const cnt = rem < count ? rem : count;
++		unsigned long const rem = mbo->processed_length - fh->offs;
++		unsigned long const cnt = min(rem, count);
+ 
+ 		if (copy_to_user(buf, mbo->virt_address + fh->offs, cnt)) {
+ 			v4l2_err(&mdev->v4l2_dev, "read: copy_to_user failed\n");
+-- 
+2.34.1
+
