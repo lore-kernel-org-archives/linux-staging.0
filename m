@@ -1,150 +1,94 @@
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 420672777FC
-	for <linux-staging@lists.linux.dev>; Wed, 13 Aug 2025 15:40:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DE5D29A2;
+	Thu, 14 Aug 2025 00:57:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755099638; cv=none; b=G6Orrkdgr+mDexRzEro5ME5BFbgrr3403l9fwsZu7ZMesze3fN4lTQ0lCzJdJgi36zBzUxG0vmL9uj/Z8QCPPB7Wt7iDk6h4VhkOOVrdPh5eEo4FTVrEEZNVDdUnNAUzBETn8wBTXdH2mUo/hQkLj63bjx+esue+kMG1jLoErf4=
+	t=1755133062; cv=none; b=NxITwBxXdjHJZgIAyjGTCFbmcYHRlo3qpH0dGmmR4z9/MU2qSt+dQCP+nBbqT9A+sv2fH8sLqqn4Yp9vkuI00J6AmOS9leWwmbu608aVnDh4BVYZSEP5CxL9LBfZc8gt0/YIdtjPNst5ZmWxYE4OE6fkZcMCKorvFzWwS3oXDEo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755099638; c=relaxed/simple;
-	bh=tTfqMQ+xfqg6EEGY4MoHKxYaaNAZl3Gjahz3boKFQY0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=soJz8uW4uI5a3WdgEL47MfDwkD7Apvu/fOcf1+EgiKMzs+TU1u+d1m9jdMMTvZ/uVCbEnkbfFjpxN3URmQEpAHYbX0GL/wRnjK1Itdj9tKD0K3DkpaDI7jz6ZMigBDyQzsiu+8IpZMA2qCU+pyTtah7VIy7d2Hy8nHgj7oJ+NRE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=PFJJXJYe; arc=none smtp.client-ip=209.85.128.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1755133062; c=relaxed/simple;
+	bh=+IMn7C7Sq7bYpHjCzCPlaS5XdaZQiDEZ1iugmJAtHog=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=J0PiAewlnW9yyaofWhQT6PzZ/H2+yzOyTKmQ/mTycmyS8aTaJVn+SKlusfvoYQCcvD6GJyjRDNJgX4C0dDKy4JSu0DbtUH+Ya2WRfmqssFq38kaLL/pq5vWU2o+G/5jH3Dwc+DGiqu6EEwcTUCkNNThOeg/G5UIOXRTPLaECDF0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jHgwLrac; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="PFJJXJYe"
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-458baf449cbso65129905e9.0
-        for <linux-staging@lists.linux.dev>; Wed, 13 Aug 2025 08:40:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1755099634; x=1755704434; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=H9jF1D4WAW3iiaMWmJGnvVMjBRXIxJDhqU8qEtUUnnQ=;
-        b=PFJJXJYemuMn43mpkNQ4yMsuOIopHLssu0LwhjcrFHbr9pfNOyY6tosKAzoRkEvIhT
-         1mW162FCQJdYwjVciD7ED+YcG5H8XX1qdg8qzl+yOdWTP+nbes2Hzsx07IQkh8AXq0B+
-         RMhNyuXgEr26oTn+fi1fO1UVn0uiI0SjGw4PFkuZp9ZNCLzSxouc2x0tigTMYtDqgGfq
-         Fyw41dOIWE2UFN/ZoVKJs7TtcR+HFd431vIweVHnzTdjlHgQS/Xrjf5ueFcmP0xcRSYb
-         WyeN+2BQMK2ykGB8rZxkPjKM94N03ahSyevwOJty+c7kKl8GwvZJTxrCYlr2ZJvj4PSN
-         Uoaw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755099634; x=1755704434;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=H9jF1D4WAW3iiaMWmJGnvVMjBRXIxJDhqU8qEtUUnnQ=;
-        b=Nzz4ywteT3Pj1Qk4yQziGQeW5KQEoUA2UfdzTi3JyXmc0sH2CuKjfANG5hSQbAwkzu
-         kg/cbeLH8HjINXC5FN8+4gv/PS/yl0+y1fB5NW1zeRpMbb+7dshz44HOzfuRHl8kXs6w
-         FZFqPpUlZAdM1a3uKBV+FG+Mz3nkamJ4T0qYkBoUKKE2IIWRlfcpz+8uI06hK35oE4DW
-         NwFk/qDk16nvg8q02us86G+o+yOjA2Ad2mZJINkE8REVgCSLa+PBw/7QVVn3jcU0eFRQ
-         oxGgmq0M7D8gfHfhVovKGjxx8e3BL06nKV8/6Hv0jfA6EX7yGJBDKmL6CciGH3SApDh6
-         gbDw==
-X-Forwarded-Encrypted: i=1; AJvYcCXDTxm78s/y/P87nIpTXz8JZxBUjLSqx7eIKSS5KR0oPmfvcdAlz5S36l89HoJdupXjjwbUharjGROwVedY@lists.linux.dev
-X-Gm-Message-State: AOJu0Yzq86oRIndL0LIVD+HqTXdZHJmqcxmECdkM9RSyUwiv75RMZbgp
-	3MfDUhV9JWOSlDJECpztbK7JAo1lAg+D362PJTRihJfgobMRDkeL11rMsoyVKQWU5Iw=
-X-Gm-Gg: ASbGncuhtTc5ex3Twgw42Dp2Zt5IpITxy/dEA2X9q3WpDsAuK1UC1QG2A0GwoMwRGeK
-	YZ97Vo2GLO2+nQnKPt6bYMl+XiAmcZgY4OPY2exSGasyKNcxB6QnRozr8RSDbqfBByVf+QIpNF7
-	h1wtPCII2cIkw9yRzr/D1osznbjKDod+02m1th7/Yn1qh7xMkPCObdREiF0utZ3yOEyLEJZLCFH
-	kW3jw41viVAd/YBOJ57qV8wfQQ2Pp6caev3BYobyczAraTJNsCj6pjO03ptrMc/gkKOcdKZg/ds
-	UP15H91e69uYpApNMNJvU8w/KLiwHU8+AY8q2PoMEgRKW8mPxpRh8F0mUYLdGDrsjxydBTAPpJg
-	kHIV8Ec2UVTvnnjlCB6fYCO0N15N1eC/UEza4Kov500o=
-X-Google-Smtp-Source: AGHT+IHjyT6fodZTCUswIlR9R1NEGMLkFv4skjXff6LcV3bNBKG7HbuXpFFE1+ZhJWivPfA0Kl0qxw==
-X-Received: by 2002:a05:600c:45c7:b0:459:dde3:1a56 with SMTP id 5b1f17b1804b1-45a165e996cmr30088825e9.28.1755099634561;
-        Wed, 13 Aug 2025 08:40:34 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-45a1a519633sm6837845e9.12.2025.08.13.08.40.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 13 Aug 2025 08:40:34 -0700 (PDT)
-Date: Wed, 13 Aug 2025 18:40:30 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Akhilesh Patil <akhilesh@ee.iitb.ac.in>
-Cc: parthiban.veerasooran@microchip.com, christian.gromm@microchip.com,
-	gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org, akhileshpatilvnit@gmail.com,
-	skhan@linuxfoundation.org
-Subject: Re: [PATCH] staging: most: video: improve arguments to copy_to_user()
-Message-ID: <aJyx7o9KeVS0HEhh@stanley.mountain>
-References: <aJx6OF6L2Nza9zQ0@bhairav-test.ee.iitb.ac.in>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jHgwLrac"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 22FA7C4CEEB;
+	Thu, 14 Aug 2025 00:57:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1755133061;
+	bh=+IMn7C7Sq7bYpHjCzCPlaS5XdaZQiDEZ1iugmJAtHog=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=jHgwLracLj2YbX6WDRy0A4VQVgtQT1qXrNFyJAt+GbhZB7mGmr3RiSjOojOjW5vO/
+	 oaL/zI8FfYZxdtJ1czykMF0XWbQGVzf5Vhzqi6s6UYgpA/JYxpbeBCTmni72XF37HT
+	 Bl09K7vU7fMF1vARG3t6qdh+a9pYA5A20d7/nYB4Ac2eszh/WuBKj4mlN2W4t4Qna1
+	 ABVfNLomGg1snZPFGrVZKychbQzfjXUvhJxvZRLk8ADWTRlTJM/EGlOJ2hku0RXVsR
+	 UB37HG7X9+YwYVjQOIGuwsRJ/zhJKYGDS9ndJOt6tthi8FWRQ01/9Mcr/Xa8OSNxNw
+	 nPZPna1zGI/BA==
+Date: Wed, 13 Aug 2025 17:57:40 -0700
+From: Jakub Kicinski <kuba@kernel.org>
+To: Stanislav Fomichev <sdf@fomichev.me>
+Cc: netdev@vger.kernel.org, davem@davemloft.net, edumazet@google.com,
+ pabeni@redhat.com, ayush.sawal@chelsio.com, andrew+netdev@lunn.ch,
+ gregkh@linuxfoundation.org, horms@kernel.org, dsahern@kernel.org,
+ pablo@netfilter.org, kadlec@netfilter.org, steffen.klassert@secunet.com,
+ mhal@rbox.co, abhishektamboli9@gmail.com, linux-kernel@vger.kernel.org,
+ linux-staging@lists.linux.dev, netfilter-devel@vger.kernel.org,
+ coreteam@netfilter.org, herbert@gondor.apana.org.au
+Subject: Re: [PATCH net-next 1/7] net: Add skb_dst_reset and skb_dst_restore
+Message-ID: <20250813175740.4c24e747@kernel.org>
+In-Reply-To: <20250812155245.507012-2-sdf@fomichev.me>
+References: <20250812155245.507012-1-sdf@fomichev.me>
+	<20250812155245.507012-2-sdf@fomichev.me>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <aJx6OF6L2Nza9zQ0@bhairav-test.ee.iitb.ac.in>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Wed, Aug 13, 2025 at 05:12:48PM +0530, Akhilesh Patil wrote:
-> Define cnt constant as unsigned long as expected by copy_to_user()
-> to avoid implicit type conversion. Define rem constant as unsigned long
-> to compare it with the same type size_t of count variable.
-> Use standard helper min() to carry out careful comparison to achive
-> same functionality.
-> 
-> Signed-off-by: Akhilesh Patil <akhilesh@ee.iitb.ac.in>
-> ---
-> This patch is motivated from coccinelle report which suggested to use
-> kernel standard helper min(). During build check, I found that
-> comparison max()  showing error while comparing variables of
-> different types. Hence this patch also fixes that to make comparison of
-> save types.
-> 
-> Compile tested only.
-> ---
->  drivers/staging/most/video/video.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/staging/most/video/video.c b/drivers/staging/most/video/video.c
-> index 2b3cdb1ce140..4b15c390c32d 100644
-> --- a/drivers/staging/most/video/video.c
-> +++ b/drivers/staging/most/video/video.c
-> @@ -172,8 +172,8 @@ static ssize_t comp_vdev_read(struct file *filp, char __user *buf,
->  
->  	while (count > 0 && data_ready(mdev)) {
->  		struct mbo *const mbo = get_top_mbo(mdev);
-> -		int const rem = mbo->processed_length - fh->offs;
-> -		int const cnt = rem < count ? rem : count;
-> +		unsigned long const rem = mbo->processed_length - fh->offs;
-> +		unsigned long const cnt = min(rem, count);
+On Tue, 12 Aug 2025 08:52:39 -0700 Stanislav Fomichev wrote:
+> +/**
+> + * skb_dst_reset() - return current dst_entry value and clear it
+> + * @skb: buffer
+> + *
+> + * Resets skb dst_entry without adjusting its reference count. Useful in
+> + * cases where dst_entry needs to be temporarily reset and restored.
+> + * Note that the returned value cannot be used directly because it
+> + * might contain SKB_DST_NOREF bit.
+> + *
+> + * When in doubt, prefer skb_dst_drop() over skb_dst_reset() to correctly
+> + * handle dst_entry reference counting.
 
-The easiest (and most pointless and trivial) comment to make is the
-"const" adds no value here.  It doesn't help the compiler and it doesn't
-help human readers.
+thoughts on prefixing these two new helpers with __ to hint that
+they are low level and best avoided?
 
-So you wanted to use min(), but it generated warnings that rem is signed
-and count is unsigned.  A different way to silence the warning is to
-say umin(rem, count).  The umin() macro casts both sides to unsigned.
+> + *
+> + * Returns: original skb dst_entry.
+> + */
+> +static inline unsigned long skb_dst_reset(struct sk_buff *skb)
+> +{
+> +	unsigned long refdst = skb->_skb_refdst;
+> +
+> +	skb->_skb_refdst = 0;
+> +	return refdst;
+> +}
+> +
+> +/**
+> + * skb_dst_restore() - restore skb dst_entry saved via skb_dst_reset
 
-diff --git a/drivers/staging/most/video/video.c b/drivers/staging/most/video/video.c
-index 2b3cdb1ce140..de07ed831815 100644
---- a/drivers/staging/most/video/video.c
-+++ b/drivers/staging/most/video/video.c
-@@ -173,7 +173,7 @@ static ssize_t comp_vdev_read(struct file *filp, char __user *buf,
- 	while (count > 0 && data_ready(mdev)) {
- 		struct mbo *const mbo = get_top_mbo(mdev);
- 		int const rem = mbo->processed_length - fh->offs;
--		int const cnt = rem < count ? rem : count;
-+		int const cnt = umin(rem, count);
- 
- 		if (copy_to_user(buf, mbo->virt_address + fh->offs, cnt)) {
- 			v4l2_err(&mdev->v4l2_dev, "read: copy_to_user failed\n");
+saved -> removed ?
+Also I think for better kdoc linking it's good to add () after function
+names
 
-So can the rem variable actually be negative?  It can't unless there is
-an issue with locking but I feel like the locking in this driver is
-pretty suspect so there could easily be an issue.
+> + * @skb: buffer
 
-So probably we could investigate to see if multiple thread can call
-comp_vdev_read() at the same time and maybe add a sanity check to say:
+kdoc missing for refdst
 
-	int rem = mbo->processed_length - fh->offs;
-
-	if (rem < 0) {
-		WARN_ON_ONCE(true);
-		return -EINVAL;
-	}
-
-regards,
-dan carpenter
+> + */
+> +static inline void skb_dst_restore(struct sk_buff *skb, unsigned long refdst)
+> +{
+> +	skb->_skb_refdst = refdst;
