@@ -1,143 +1,107 @@
-Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6508E29E0FD
-	for <linux-staging@lists.linux.dev>; Sun, 17 Aug 2025 17:14:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DB3486348
+	for <linux-staging@lists.linux.dev>; Sun, 17 Aug 2025 19:25:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755450863; cv=none; b=gVQrLKIYlLp/DMTJpUa5jjViJm8+fPpR0PVBmSWUCLmqN7umTNU3laabo3n0+9Ad3pn9GdwEWAjCHj7zuFbS8Rag70HkWQuql1pD/sS6/dF2xLq0fStaQj5/X0l2X73nV/d/1Wz0Q1nq5PNOXDs1Z0VmwPQTmSrwL9Kqt+/IACg=
+	t=1755458703; cv=none; b=Y43gqnrfvIMebd7FxnR+ZoGfRQrxWX+QionRJjMtfzyRZ7vQueMb4uhnokmb+n13PXOA8ig8cTs9ZFQtzxy/+YV/V/piGJxcFZvZHmMROCmdQRWO72ASAPZy2TGw5+W/Qn+RlB5eIDgBDNnrG0B8rDpsoublDPWfN1VI+YVX984=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755450863; c=relaxed/simple;
-	bh=EdsXrgswoXc/LcRSdAyb1O3Hx5UkEBDBkHDaZ4mDY/I=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=dB7/UvTs5DELiW1OAu8q/oGIZ5NIWyv+cDXAKtERGlvO0AtKm2oWhwuUzM2s9E5/dPzjhW6vmrfRzWld5YF1rFfp9aZ2uhLCLvUDkZuGnAdHexnOPMCuRnrml0kOz+bFlNhNA/NyMTmZKdQZJjJidxJk3Vl0AKCN2DmndFYDZ1U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RlWjLrRk; arc=none smtp.client-ip=209.85.208.46
+	s=arc-20240116; t=1755458703; c=relaxed/simple;
+	bh=xL6R8m/nXCFkJx9BMX3ZnWeIl1yLQn9APl1EfADjcYA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=YvQsEnmLKhocU5SA4wN+SK2Nh3gjGnIrts3d96o5yde+o/YSB/vYbo+6Y9z/8IV3Z/spyjhLgTp1W46O6jbJX4PvnWc/AH6is9lgtVTlgzNbL4+LAYFyxkK3K4BE0vjWsMiOBUjnkAag3CLA6+DWulqcpaUz6BjtVGJ4x0p2qJk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ip5Pk7XI; arc=none smtp.client-ip=209.85.221.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RlWjLrRk"
-Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-6188b5be5deso4448768a12.0
-        for <linux-staging@lists.linux.dev>; Sun, 17 Aug 2025 10:14:21 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ip5Pk7XI"
+Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-3b9e41669d6so2754155f8f.2
+        for <linux-staging@lists.linux.dev>; Sun, 17 Aug 2025 12:25:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1755450860; x=1756055660; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1755458700; x=1756063500; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=LY0YIEoUecUVF5HfBlI2OFzc+QtaIhgG2Wu8Bta8CWI=;
-        b=RlWjLrRkMJrJ8fejaDJggnpW79G2wxliWgSUmfIcQ0DbGZehuIQvF0zy77jshub5VV
-         EWQF5KXVrKXVD6JnxERgEqejYbRNR/87mCf9haAYdGm+THfeeIxQ8B8eH5QdWO2xw+aP
-         dFivfaxBeqV6OfFlMIFAg0/EHiBP1tcrPzsptLDvA0XPS95IvbzZBp7aBcV/8tWZNexA
-         zFAyj4nhxMt6KbnjcFUaxWiNH8WBgHp35BA1aKQ72AedfoGo588LQ3FTEFSQ76tXuSK1
-         mgZnnQoq8DMmXVE8h4NJj8fwjbeJHaV5obl13vRNdATHgOrlQJvAMKQLhNUSX+kZSXN8
-         oZOQ==
+        bh=FE5LvxHI/u/9rY7Jgwh0AsRJ/tZlVUrx+gbhVYMLy5Y=;
+        b=ip5Pk7XIyb0aLM4XuUcPp1mRFdkh/NdGIeHUO/2pEZXmILJUW81mVJi/KqG6pLA0wQ
+         WNuE/7UenKTJbZO4+T5b4kBgn24rS0CQuDQn3d3D3kVkKnNXAWhjdHz8AY8KIp6uTsSz
+         0RdWNd3fyx75WCMYfP4Zvax8znTnE7THFWuM1e3TaWR+zep+EO9FA9uCuHr9/j1smyzC
+         IianTMsv9YYvnjDAsRnVt8sm0jxqWzKwNEyvr9e59QOEMP3L5Q3zvwxS3pHOp33edmvC
+         o6juEQbwWjqN4cWIp+iHoSeRUclp0XXDVFP31ZXP5sOSuQmJskCHY9rGsGxmx/rUq6vH
+         wZvA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755450860; x=1756055660;
+        d=1e100.net; s=20230601; t=1755458700; x=1756063500;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=LY0YIEoUecUVF5HfBlI2OFzc+QtaIhgG2Wu8Bta8CWI=;
-        b=VrU2HvLPG3f27Hv9azoriTd4q72E0DJ7XEBurafLvDzfCY9kbIbDFQsHykkbTD9JhH
-         NNWYwO0BT6LNbRRkpvJaqF5qKtJs3dAMn8JrDYf8H0Efc+Yy53DqDIy/QCiFR51lJMuX
-         nKramHeSU7ErrjClsOmFaTS5CSiWduoiFrCG2GJX1tjx3AtS5P2vVjpCdaelv7C+iyBg
-         gcNFiyHppgJWcf/NS5X1ZfnOWzJmRWskXKqsI70UIqc8alDD/7+1ijQuh6f64K+eeH8w
-         EHdI34NVOX/jVtWoIQk8smW0OoD9F5tZpQK7jEwFqb8hpKhFLFWG2aMBuVpZdeSoMdp/
-         962Q==
-X-Forwarded-Encrypted: i=1; AJvYcCW08HJJjE+f0Y9ve1kdDqwi6+PNqLfYnZ8KIublZGg3AouI7jIAGWzXQaT7CHAaMPhk7888t/cjuh0uvsJ/@lists.linux.dev
-X-Gm-Message-State: AOJu0YzqeClyQwrZohbJstZpUceepDAPdYcxnN0y8aBpRQNCNuo/H2rR
-	Qy9JOQqU9J8mQXuALLng1Kcdo2Sut33njq6dREG9oQzVGkYUDZQpT1Tz
-X-Gm-Gg: ASbGnctO1LtoLZ+lLkFp26hi6sWdx3aNeE/Ixo1/Kw4VgnIts7dtBzagSZeQIPAYULG
-	4v0xCMXu4svhabGZswKRRMIK1+AeM+gQ4mxi0I9IAIEkp+eF18XhE8J/xtjJmVF8sSSMkzigiyc
-	oRkgmndTBRLJGhSKWxKuwwP02pyR6bEIVW7JwY9OuBW3+5sT8+AnCjaYaMgV/+GgXWjCh5nfOh4
-	PlX6TnQGq29hA2kpTCW4DPGSH7XmTTosGxVR0kmhng0TwcJerqEFfaoII3aRBXioUBTpsAEDUuq
-	AIN/H1x99V+jw3TeyWYa0t3p+GbIWqpxQ+0JO6aIU/cwteoPrTrp+jpCgIQ+tilXlqyAph9GUm7
-	/VARflbWueeS1onYvZ3H2SZV/H/klSq+KsQ==
-X-Google-Smtp-Source: AGHT+IGTN3iEvbwgt1xnZ9FgE2o8v+iy5yboUBLF5nA0P8h3zvmiBjNvUzKjvIuN7BJmKtdf0bSh6w==
-X-Received: by 2002:a05:6402:234b:b0:617:fe86:6bff with SMTP id 4fb4d7f45d1cf-618b0513fe6mr8219743a12.8.1755450859385;
-        Sun, 17 Aug 2025 10:14:19 -0700 (PDT)
-Received: from ws-linux01 ([2a02:2f0e:c207:b600:978:f6fa:583e:b091])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-618b02b2e97sm5414399a12.56.2025.08.17.10.14.18
+        bh=FE5LvxHI/u/9rY7Jgwh0AsRJ/tZlVUrx+gbhVYMLy5Y=;
+        b=Ix66MM6q6li9esTuFB7KeY4+5y6r3cg6/xBOR/8MR5f4DoVE65oPK7ORFocDlk/1ki
+         GTsM9U+tbkoF2N7oNZ/4OVbBhFLisWgW7lfBHSjfl1KHWJLcB3sHQUO3G6DFKEDktUgl
+         v1srXogyxMkSgclXhWI9RgyfHwcBxNAEjWt1nCSwaHa9RgjC6DJS5uRSNDyV+H00Nz5H
+         aNE7L++juuOYIB2Rz4oxns/cuWH0XDPKXkcI3cuzIZjvED/dsyDKGujcy1hbrBqCx14c
+         Dke0OIB0U6dXRe3Nb34mo7w/vZabBQt/uC5hcuNVQI+gMNJg4ha541AFxMyUifjs2dD9
+         VyUw==
+X-Forwarded-Encrypted: i=1; AJvYcCWeul2Y+WDX1AIlVuld2JcbLDNlxCeIgt6qiHTsFmj7v5AgxnD+GOK1/gs4m5LqrRfpNY9KLkiMsetG2sDB@lists.linux.dev
+X-Gm-Message-State: AOJu0Ywoj/yetrbAHtNOkNLvFud4WPcaN8Smse/FbS0e9GjpU59t5LqA
+	/0V0PIW+f3nzVRCLAdMlxX46dnOz9T2rsqnGKcHqLvYQzF9bpIflSqEz
+X-Gm-Gg: ASbGncuu4m9yUSBBaX+PiZw1ULIzHz9ai1KGRKl/6gLdKwmNU6vheT/9vjei/JG8Ste
+	9506+jwx2DgRmsgeghyR5LX7zm3PzngUYVLZOHwTILoDNkSm1i/ux4+erFb2FxA31XHA3dHnI3w
+	Rrl3n4fSqTSn6Q0NXElCpqpsBFNc/f9mgoZ9UzvY9xREu7t4Nj7csHS5tlAgRZKXMERsJObItq+
+	J4B5H64NhNfPxJVRznlT3NgK8zdMURBGI6q3p42uc9db+kSQqIWYpyU8O51mdSOYPHdk7YXBxsP
+	pr1We+F5sK+QY4VUUGup7bxGR9nmUDZUPTekYkPzLnSbiv0PyfwExcxbhvFFeOZ5QpCG8KFatsN
+	cyErp6n7GAvT4W+zQbu674qaYV+/kd6CkVsm7ZcNa6FF7iU+fWKvaEcTeQZKqdlS+dnWFYYbPGD
+	NKJIIcq94U3IQq
+X-Google-Smtp-Source: AGHT+IHbLevYiqVnCty4Q8SzEZcXz+rOpZ/2YyoJYFaBeEoB2NwGJh23htNkZ/5c7jJgxTuiXI+kqQ==
+X-Received: by 2002:a5d:5d0a:0:b0:3b9:8224:d3cf with SMTP id ffacd0b85a97d-3bc6a83c6b0mr4325502f8f.54.1755458700279;
+        Sun, 17 Aug 2025 12:25:00 -0700 (PDT)
+Received: from simo-20nx006jmx (adsl196-126-73-217-196.adsl196-11.iam.net.ma. [196.217.73.126])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-45a1c6cf151sm141569315e9.8.2025.08.17.12.24.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 17 Aug 2025 10:14:19 -0700 (PDT)
-From: Ovidiu Panait <ovidiu.panait.oss@gmail.com>
-To: gregkh@linuxfoundation.org,
+        Sun, 17 Aug 2025 12:24:59 -0700 (PDT)
+From: Mohammed Guermoud <mohammed.guermoud@gmail.com>
+To: marvin24@gmx.de,
+	gregkh@linuxfoundation.org
+Cc: ac100@lists.launchpad.net,
+	linux-tegra@vger.kernel.org,
+	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev
-Cc: gshahrouzi@gmail.com,
-	Ovidiu Panait <ovidiu.panait.oss@gmail.com>,
-	stable@vger.kernel.org
-Subject: [PATCH v2] staging: axis-fifo: fix maximum TX packet length check
-Date: Sun, 17 Aug 2025 20:13:50 +0300
-Message-ID: <20250817171350.872105-1-ovidiu.panait.oss@gmail.com>
-X-Mailer: git-send-email 2.50.0
+	Mohammed Guermoud <mohammed.guermoud@gmail.com>
+Subject: [PATCH] staging: nvec: Silence unused argument warning in NVEC_PHD macro
+Date: Sun, 17 Aug 2025 20:24:25 +0100
+Message-ID: <20250817192425.12983-1-mohammed.guermoud@gmail.com>
+X-Mailer: git-send-email 2.50.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Since commit 2ca34b508774 ("staging: axis-fifo: Correct handling of
-tx_fifo_depth for size validation"), write() operations with packets
-larger than 'tx_fifo_depth - 4' words are no longer rejected with -EINVAL.
+The NVEC_PHD macro was defined with three arguments (str, buf, len)
+that were not used in its empty body, causing a compiler warning.
 
-Fortunately, the packets are not actually getting transmitted to hardware,
-otherwise they would be raising a 'Transmit Packet Overrun Error'
-interrupt, which requires a reset of the TX circuit to recover from.
+This patch silences the warning by explicitly casting the unused
+arguments to (void), making the intent clear without changing
+functionality.
 
-Instead, the request times out inside wait_event_interruptible_timeout()
-and always returns -EAGAIN, since the wake up condition can never be true
-for these packets. But still, they unnecessarily block other tasks from
-writing to the FIFO and the EAGAIN return code signals userspace to retry
-the write() call, even though it will always fail and time out.
-
-According to the AXI4-Stream FIFO reference manual (PG080), the maximum
-valid packet length is 'tx_fifo_depth - 4' words, so attempting to send
-larger packets is invalid and should not be happening in the first place:
-
-> The maximum packet that can be transmitted is limited by the size of
-> the FIFO, which is (C_TX_FIFO_DEPTH–4)*(data interface width/8) bytes.
-
-Therefore, bring back the old behavior and outright reject packets larger
-than 'tx_fifo_depth - 4' with -EINVAL. Add a comment to explain why the
-check is necessary. The dev_err() message was removed to avoid cluttering
-the dmesg log if an invalid packet is received from userspace.
-
-Fixes: 2ca34b508774 ("staging: axis-fifo: Correct handling of tx_fifo_depth for size validation")
-Cc: stable@vger.kernel.org
-Signed-off-by: Ovidiu Panait <ovidiu.panait.oss@gmail.com>
+Signed-off-by: Mohammed Guermoud <mohammed.guermoud@gmail.com>
 ---
-Changes in v2:
-- added "cc: stable" tag
+ drivers/staging/nvec/nvec_ps2.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
- drivers/staging/axis-fifo/axis-fifo.c | 14 ++++++++++----
- 1 file changed, 10 insertions(+), 4 deletions(-)
-
-diff --git a/drivers/staging/axis-fifo/axis-fifo.c b/drivers/staging/axis-fifo/axis-fifo.c
-index e8aa632e0a31..271236ad023f 100644
---- a/drivers/staging/axis-fifo/axis-fifo.c
-+++ b/drivers/staging/axis-fifo/axis-fifo.c
-@@ -325,11 +325,17 @@ static ssize_t axis_fifo_write(struct file *f, const char __user *buf,
- 		return -EINVAL;
- 	}
+diff --git a/drivers/staging/nvec/nvec_ps2.c b/drivers/staging/nvec/nvec_ps2.c
+index 575233fa1677..7accdcafeeac 100644
+--- a/drivers/staging/nvec/nvec_ps2.c
++++ b/drivers/staging/nvec/nvec_ps2.c
+@@ -28,7 +28,7 @@
+ 	print_hex_dump(KERN_DEBUG, str, DUMP_PREFIX_NONE, \
+ 			16, 1, buf, len, false)
+ #else
+-#define NVEC_PHD(str, buf, len) do { } while (0)
++#define NVEC_PHD(str, buf, len) do { (void)str; (void)buf; (void)len; } while (0)
+ #endif
  
--	if (words_to_write > fifo->tx_fifo_depth) {
--		dev_err(fifo->dt_device, "tried to write more words [%u] than slots in the fifo buffer [%u]\n",
--			words_to_write, fifo->tx_fifo_depth);
-+	/*
-+	 * In 'Store-and-Forward' mode, the maximum packet that can be
-+	 * transmitted is limited by the size of the FIFO, which is
-+	 * (C_TX_FIFO_DEPTH–4)*(data interface width/8) bytes.
-+	 *
-+	 * Do not attempt to send a packet larger than 'tx_fifo_depth - 4',
-+	 * otherwise a 'Transmit Packet Overrun Error' interrupt will be
-+	 * raised, which requires a reset of the TX circuit to recover.
-+	 */
-+	if (words_to_write > (fifo->tx_fifo_depth - 4))
- 		return -EINVAL;
--	}
- 
- 	if (fifo->write_flags & O_NONBLOCK) {
- 		/*
+ enum ps2_subcmds {
 -- 
-2.50.0
+2.50.1
 
