@@ -1,170 +1,252 @@
-Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com [209.85.210.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from OS8PR02CU002.outbound.protection.outlook.com (mail-japanwestazon11012034.outbound.protection.outlook.com [40.107.75.34])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E93E19B5B1
-	for <linux-staging@lists.linux.dev>; Sun, 17 Aug 2025 05:42:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.177
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755409335; cv=none; b=h7nxcyLV9HnE7oXNXGP+z+KvLauD4fAWeWgPFfZgsoRN6YuALd1IFW4TqYYWbYcqSIm+mzJ2bpRAexdn/oXWXQAQwz9AdZ1XY3/kkYavIhBZZx/3aRZYdrmYyIt0F3yhMq1tTw5wpiU3EAblXIVk46FRVpLdaHuN2PLS3ypOKdM=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755409335; c=relaxed/simple;
-	bh=+Z/mYmkjlGyP67pyAOekkR7e7NjNa85sfzlsmC09o7c=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=XnKrZ2C12GM2ApxvBh1D0wrpnqlkmbwoSKaxox9pfm9HvNrJZnM4WftuiEohLZWQLtwy3Fxx+HGN9u1HJQvjZ1+R4LMBjpCVMdpsL3Wy8jWV5jLV5NyVyS0I+Jh5fLGxWa1SLSs372BHAIYoWjlbfla0emhQXYxhRiJSCQ5jDjg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=U8mrdYmn; arc=none smtp.client-ip=209.85.210.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B09D22156C
+	for <linux-staging@lists.linux.dev>; Sun, 17 Aug 2025 09:29:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.75.34
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1755422997; cv=fail; b=r1bt2JLbGswcGX8jH0gpxeAeORp8ECvt59MV9sCmstAstF9fSUk6KXuviKGPzFo/ByAJwOLBlE5GnHjB+JEyHY6CCO/QoDxdifhN731vyBgd52E5PUXTGv1lF6j1J6oAk+04t4F+RoYm1IVzy7H6TUBwXgT/IXUSFCD7Bpq8RV4=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1755422997; c=relaxed/simple;
+	bh=32osoICVIV6a0WUVtcKTXFijWatWl2Bp/TMmZLeEYGY=;
+	h=From:To:Subject:Date:Message-Id:Content-Type:MIME-Version; b=t4pxKawDk9OvauY5HNEoxnY2Td89kNnj2A7zHH6rJxyZmf6QU7bAW5EV0v939cGjl1OnkmaYzj9Mu+S+DoAVYwonCeziTHKV3jaQb9R4E0ve7M9/UOB6TA/sxE6MJwTdl8NWizYFFr8hmlX4sWpWxifinCB8EfKgW/0+q7HdxAI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=vivo.com; spf=pass smtp.mailfrom=vivo.com; dkim=pass (2048-bit key) header.d=vivo.com header.i=@vivo.com header.b=GFpxC4zU; arc=fail smtp.client-ip=40.107.75.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=vivo.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=vivo.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="U8mrdYmn"
-Received: by mail-pf1-f177.google.com with SMTP id d2e1a72fcca58-76e563b25c4so333242b3a.0
-        for <linux-staging@lists.linux.dev>; Sat, 16 Aug 2025 22:42:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1755409333; x=1756014133; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=lztrOR28v6KPQTHH6JN0VDxNFUFZdX/DljHltjGKunA=;
-        b=U8mrdYmn5T8KkseTaq09gAgHHErM38yvpwVqKTiCnwVRIUFcvmEI0Joab/JVc0Jyu/
-         itlmqRuzzuTrK4TLEQnwKQbwR99Pj1Zf9z6tEeJkVZnxdpJ837HhVSB2r3MIXzki1hCW
-         VJkneH7njO0iUKCoKDWBGLmVs39xEEzFlribAGPFVTLZkVSw4UlQWQBy/uOGUXAgbw5Q
-         Hdogim8fX01hc+YnX5vtkQx9GSFwzEeWQ0ewDlEvg9PvyaI5usLl3fj47N0OuTQPmEMF
-         9fFbYpYwu6LfY0cw5DEqgmukHkfxl3NsZ6hjXQCi9hsW4ReahUt0Z3V0F2ZyjEDwVDMA
-         FcMg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755409333; x=1756014133;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=lztrOR28v6KPQTHH6JN0VDxNFUFZdX/DljHltjGKunA=;
-        b=uhiBf0TYKMjDR5ve4yGW+MPgdvGiAkyAqUBLBABUtW85WfKpEZEnDyPLctsxmaE30T
-         u5JQqsyYiJ/a22DFIOAFjb/u9Qga1E5VH7MCS+8S6i6t8R/SeBdqbD8J4rg5AkCPJxbg
-         d+pj4aatSIcg9J34QEHrglUi91nPDjkYlfgyvgq5UowVFtipZMZDcIDoTpmAOr92KQm7
-         y590A9KHL/1XxpUobYqw8uFRz8coiTcjEBzZkcEx3VFHByC2OHUrdXfPFuXpUplLw3kf
-         UmQHelqZnU1qaZYpX+dHzChTILzg61Pi7pL28w1neStoAkeovRYCExH0e7sM19n6QXki
-         KrTw==
-X-Gm-Message-State: AOJu0Yx8oGZGumC5uwaxFvYqGDcHKEE2/kPW7Qz7F5+kLTZHltiNNmsy
-	hRc4o+fMM86oFm9wOvfS4vdrndPzLbAAaW6+0YCfAZ0k+2CuSEpaXNe5
-X-Gm-Gg: ASbGncuRXJp1t+5a9vHUtjg2jnQj2waorI/KlFZqKGfu43BdQlnRaI97vqSck1FCnNC
-	JrT2L4shBekvsK+M2b9f0rYlu1EMH6EnoiF4EOdL/ZciA1L8V3EkmPdz4kOaGCR/uCplBYxcTdi
-	BpPjgbFE4eNrqRLhZGeZH7WJj2jfQqVko13WAIniFvrWQNhlT6P/Ia4fNj9Fvbg87lfJtPGRlON
-	7VVjJ6+hnxP1ouRB6aJ7hJz/KdAt7H484Ix0Z1pD4No2WHUW+WEraFFz2PddKELrAkEjQ9NtkRG
-	/otZerRTUOVvBK1XGakhgL2mSMxIvQb40MRtMUn0GZx6JoSx56dx2redeGA0GFzNmWfX4pLFpMl
-	1pmGvLFW/YtILmlOdAu9vT764dokw6nRw15qJbDhEYDaa5g==
-X-Google-Smtp-Source: AGHT+IHEioWaeVG/U1soMmh47oMpljvSROQMIVcpZi5IAIHMOXfqp4999NtwZNER3LhvdbvVOZKztw==
-X-Received: by 2002:a05:6a20:1594:b0:23d:ae11:e1e1 with SMTP id adf61e73a8af0-240d302fcb8mr10433573637.12.1755409333429;
-        Sat, 16 Aug 2025 22:42:13 -0700 (PDT)
-Received: from 100ask.localdomain ([116.234.47.202])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-76e452663f0sm4374848b3a.21.2025.08.16.22.42.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 16 Aug 2025 22:42:13 -0700 (PDT)
-From: Nino Zhang <ninozhang001@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: linux-staging@lists.linux.dev,
+	dkim=pass (2048-bit key) header.d=vivo.com header.i=@vivo.com header.b="GFpxC4zU"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=D7m9pLSwjxibccQiiUuvvXcYsZjrICyfrdQxyhgawRIw5Ib3DRnZL9UepWwQ/ZDNNvpuO1j6GP10NzvqPttb5+XbXtM5OfQLa9GOxVqNmXTj4nuDEbK3JV6yjNNH5Fai/EZ9/GSuo5wC8cUeAO8tHyCAPcXKvaGelFLS38peAl+xYR2CaOmQHKheiUMA/ED2t+yC3R/55TidOAR7Jor16IL2vX24kWacrpRPRgFznJ0trMtobpULkXYG87TqR/bRbsWSbRXqU30jxmK5viS9fVdwlJdBcQ+8DvHKWaskhcXX7FzgBLQjqNpWny/myxEO2UcB8xO4WM/5BGyj+gw6jQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=yul5VYtD5+ihW/a3O8jB8NcouS7DtX4szKeGXqGwsn8=;
+ b=Ttsv5a3zQjBzAmEFbTOEjG+anBffbo1hr0Jxhl9t4p3IWAZnuiML+OklnyHtBoydoGPJUfckR/hbFmj70P67Txiiz+UrPCJwZNWxxB0QHvsjxV8FmY5Crkof04+Kz13DtuWwhURs5BkF4VZSCvjAG0XYFolKZFMCfQUQtEftajC+a4DZ+4GcnUr3uKlavjBssqcl9kORg4WhVhyFozOEi9eVBmCczvvOV0ci4S/cpc0KOZeDW/FXjMbnlGjM0UD6uULwPmMJbOMa6kh/uJTw9UDpxBC8NKFHSvPGitLZYU/LG1AlcWxwEM78LrSvpuS5IgPtEgq5TRuUxcjsiCUrCg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=vivo.com; dmarc=pass action=none header.from=vivo.com;
+ dkim=pass header.d=vivo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vivo.com; s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=yul5VYtD5+ihW/a3O8jB8NcouS7DtX4szKeGXqGwsn8=;
+ b=GFpxC4zUYMWbObjajx58+3Ltx6ebixrvjjQGU62QPFN/SoxJSPoCzZadRIuPcSYtIy7GZ5yy18+I4Kk1TBY2lffxILJRMwcSSjA8gYtXyHJTudjYp7r42EYi3l34Fea64CnPBWyu1GhA5SecKgNJ3HoM5qAyNW0L6aZPMwfgyiJYf9DmNONrtNZss9UaQAz++DbBrhSTmlAfa/dsWcjJCzcauxiYG2joDC4aomkRGgHatqbcOZtly0jGEaMj0GoGaLe0v1WAJRZ9sj+N+lLoBaqf8e0KB2qdflW/IhzzDVUVzp8hmex6sIRfb7f7TLaGDZUoHp+MgrJLZIFMLqwezA==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=vivo.com;
+Received: from SI2PR06MB5140.apcprd06.prod.outlook.com (2603:1096:4:1af::9) by
+ KUXPR06MB8097.apcprd06.prod.outlook.com (2603:1096:d10:52::12) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9031.21; Sun, 17 Aug 2025 09:29:51 +0000
+Received: from SI2PR06MB5140.apcprd06.prod.outlook.com
+ ([fe80::468a:88be:bec:666]) by SI2PR06MB5140.apcprd06.prod.outlook.com
+ ([fe80::468a:88be:bec:666%5]) with mapi id 15.20.9031.021; Sun, 17 Aug 2025
+ 09:29:51 +0000
+From: Qianfeng Rong <rongqianfeng@vivo.com>
+To: Andy Shevchenko <andy@kernel.org>,
+	Hans de Goede <hansg@kernel.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Qianfeng Rong <rongqianfeng@vivo.com>,
+	Colin Ian King <colin.i.king@gmail.com>,
 	linux-kernel@vger.kernel.org,
-	straube.linux@gmail.com,
-	Nino Zhang <ninozhang001@gmail.com>
-Subject: [PATCH] staging: rtl8723bs: fix coding style issues in core/rtw_mlme.c
-Date: Sun, 17 Aug 2025 13:42:02 +0800
-Message-ID: <20250817054202.31171-1-ninozhang001@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev
+Subject: [PATCH] media: atomisp: use kmalloc_array() for array space allocation
+Date: Sun, 17 Aug 2025 17:29:39 +0800
+Message-Id: <20250817092942.95053-1-rongqianfeng@vivo.com>
+X-Mailer: git-send-email 2.34.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SGXP274CA0008.SGPP274.PROD.OUTLOOK.COM (2603:1096:4:b8::20)
+ To SI2PR06MB5140.apcprd06.prod.outlook.com (2603:1096:4:1af::9)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SI2PR06MB5140:EE_|KUXPR06MB8097:EE_
+X-MS-Office365-Filtering-Correlation-Id: 05f084fe-4a69-4278-84c7-08dddd709dcf
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|366016|1800799024|376014|52116014|38350700014|921020;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?rzFDACburCWGK/+gFfE7KIlVdKIU18YlLXaV1CK/8W3t99Z5inP8kCtbJr4l?=
+ =?us-ascii?Q?yzk1lrl9G+P2UpYOltmjpUr5BB/nVWlmRu8GVHxSB+0UeDMR5z8mhOC7X1Vw?=
+ =?us-ascii?Q?QcOJ1JxJfTvNICSnlyeaXVloajljcPGASw62MlQOBhtS3dxGDdouxlKWo6ig?=
+ =?us-ascii?Q?pQaRZ9DkcjpkKMXLY9bf7fYQrI9nIrLSzNx0LomeJQ7e+L/sAc5Ci3k1dfWE?=
+ =?us-ascii?Q?Rqzet1lHkfV1LfhOBF2lKZpKC5GlhmR7ygbegzXvAPWYP+rX9wjAlzU3jPI/?=
+ =?us-ascii?Q?zVF9gHR94kGCLxwcPixf/AKszO1L4yLIKCaYaDsxHYK0YzOF/qQFh6H6N/6j?=
+ =?us-ascii?Q?+AJ7EYYXu2sLFc3LWATvbO5E/4AJS6aZqu3/rfMvUXwkpJ10P6zzzg7p91wP?=
+ =?us-ascii?Q?ZxHfMoPenlT7PENlGlNPnRg3B9a4b0trx5Quy6KRE3WvcM7G0qEv2exPffNr?=
+ =?us-ascii?Q?qflfsej6Ptzi/EXFsESDVuErQghsLt+SlKHrMG+RX2BXWtNNMzEeczIakLp/?=
+ =?us-ascii?Q?tOFJkdJpLLwbkcDWqVJBiSVyMp6x0U8F+ulbhQcUsNk+kJdfYKPQx8F+3taj?=
+ =?us-ascii?Q?0+wWhBHOB8OtT3foPBgjwzyvLg1RIkocypPERVGD95qZZDAH5ZkU0dK0Papo?=
+ =?us-ascii?Q?EuXHSqRBXyGyfK/gXBHoJX4r/qhfAe7iWbVGOqx0MZSz0zJZdcWnQBOMkpvp?=
+ =?us-ascii?Q?8j8Wo8AkO9277c+E65v//RUip90H4l7nChGS3r6Q0N6H5YnDm3sVHosN6FQf?=
+ =?us-ascii?Q?92Iyq4pu0W369Ni9mMFlaomgBAxMYLNdbEW0D0XlLkG/wwhpJhow0alnBQ3r?=
+ =?us-ascii?Q?uVLhIz/ijha8MRkUF3t+JvmcpI6pKb1LbCoZt8sWj6YD/IRY68fRNzVexUMZ?=
+ =?us-ascii?Q?lGXDKPAFs44kA579xVNzr3A9tqwEPAmSR0l8H8BRrSbZhdOrP/FXBCSDrs+r?=
+ =?us-ascii?Q?bjgFvXgdEjPlkX/9guTN3+MKz8ECb8dFWbUritgKwgsKstUIfHigN05/Uows?=
+ =?us-ascii?Q?WrrcBAQVilQkISy2beyIhWyYRO7cAe84wxtnRHz2hxXNfK42rICHb3XJmpjK?=
+ =?us-ascii?Q?v1/gx9lAARLMC9wDxOdiohqwAYVom8NspZY3BE0bLaytwxlVoi4YlqjyNpcY?=
+ =?us-ascii?Q?a1S6thXyphTSmwoXxQ1ozR3jpSr81n9Yleq2pmBIHY4xZgq5LZVaq9PIKNV5?=
+ =?us-ascii?Q?wFfe/IUrRiKwT45NLFiX5DQi0rhz9dNYbQsBBa2yYTJjCGGqdsr5u5K77n4N?=
+ =?us-ascii?Q?sSFczai66jECPIm7/+UCr95ynHi0QkVdlwayqPmTCIlbXRivX9b2kEsk0ILh?=
+ =?us-ascii?Q?vA8UpJc1/Wfw81nUzM/vSWpx+QBmttp41CL5EZwI6KSUIp7lc8W2zKoGtXyT?=
+ =?us-ascii?Q?3uAAJW4BbkbHeek66vWTjxVGKdx/iW8iw5zNHLp62GU/xuRUmKA5q0jy1VxU?=
+ =?us-ascii?Q?KScPckx2eQRMp8EfnZG3hKUrJj9w2wBCoWWJMFhrKxdOHiEIRDhms875f3vo?=
+ =?us-ascii?Q?d7Jk95+ozqXNzHU=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SI2PR06MB5140.apcprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(52116014)(38350700014)(921020);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?VM/iCODIow1N7O7oFKf5Qxw2d7KyCWtTObV5Sjo6pnEgs4GBH92aYVAUzV11?=
+ =?us-ascii?Q?aXC+rRiBRNOeVmygQaCcyi0h4kWL82uvv/4zt4Ir7xFZuJc9J/celpTBAIxL?=
+ =?us-ascii?Q?HUJzjpV8SZx1vGJgIUXU1wE0hw2PXHHlnICU4TH5FMuN5wGb8cHImD+zXEE7?=
+ =?us-ascii?Q?mIUo4ePo5pBSnEv273Jhtx+4gYj9Rba6eZKVnHlv8UxB0c2xZLnwFWULVYwS?=
+ =?us-ascii?Q?VnkM+qaFFZUtAaJRqfWiTxq5PpE/fLLQsgG2DGNiQquRdQEZOm37MTeG4C+Y?=
+ =?us-ascii?Q?CKKqS0guGyTptQqUlsNT4SKbenk4HzQdD2y98zZTw76msYBDHdfTZ6D1lnt2?=
+ =?us-ascii?Q?T92k0L4pSf1bPVOU0yBSdJgWt3w0FVL1BSAMAPUG+fFEJnuiYK+lwWZmKudI?=
+ =?us-ascii?Q?Pcdm3fwGFs+uipUu79K5Tt61WKK+JpYPWRNG47OcnbPlEFnEKORBvX+gjytR?=
+ =?us-ascii?Q?jcsfVha8734AvCTctCCmWEx2448KrJBnW0vsugljc4Y+Eh2wTlvDRAx8Z6Ue?=
+ =?us-ascii?Q?mmCV/1jM6RtRry2B0ndDtan7RlMdSFfhgNYWsQ3ULF0ocIx+OYgySaAQTVZI?=
+ =?us-ascii?Q?nSWA6bb9jq9iTfLl27/+dQXNkFpZny0k9/CmODI2pfLBoA4G13m2DjjNJCG3?=
+ =?us-ascii?Q?Y8d36i1c87zlGmf0qJ5OjqUcmysdjN5wNp4UjBNxFVkKbnCk4DJetEgK8MfO?=
+ =?us-ascii?Q?x27bY511K5Qqcfx8asSad2euQ7DyZpWyjcmij5wrVVbkYa0SZ5juVZV0PaL3?=
+ =?us-ascii?Q?bxUs3CRk/6bfEV/g/Kv62kpR/bfViRPyczpYCshLZeQa7L4ajPXRjXj995ag?=
+ =?us-ascii?Q?TE3UjxyVI7z/9Cc7c35icq4X+pjwErd3aKwiVf84sqc30H0pJOubaQIthwIY?=
+ =?us-ascii?Q?H/YyWmzqHDWHumn0k2bw8Ihj+wMvGPaNSlMWFFXLad+nnmN/MtD2pd0+1MBq?=
+ =?us-ascii?Q?4DycjBT2DbQGFfryQPygNN3NMPdpliX6mtR6kYTfn1H28DvtviGkjIvdnW7M?=
+ =?us-ascii?Q?675fboTjfGiai83t0+3v1yUtSLcXQb8z2jnLyaB9JO58qHcdQ3nKZehcyOeV?=
+ =?us-ascii?Q?BjFaDVQBd2iuWNw02ovqcQ2AbDAcLGSAwC/QmK6F5bRqv55JFL/TEskOOkZr?=
+ =?us-ascii?Q?vp0ed8b5VcmpIXC7wAHpBxJKlReH4Hi3zGn3JSmgh5QyfKLhzD1Kpbj97NiH?=
+ =?us-ascii?Q?i5IE6v7Y++n7vyrMgequAaSJGHyKOYWttZvWo8+umG6D7tY701pSsfps/d3f?=
+ =?us-ascii?Q?Tjmpil6scymrJD+rsAKQS23XCO0QaIByGKExNHO8BTG+Z4Lm0Du+gF2bfwQK?=
+ =?us-ascii?Q?aT2rRXv/rhfLJTaeuAnkeQyS6gcHhhde0AjwBkH4UGwFDLDkgkeN/440LzZW?=
+ =?us-ascii?Q?69lBtY23GbReAoC/9Y9EYLEoLmbecbU/tTJHj/Qmqu8cX9A1a8AIH8SEri2D?=
+ =?us-ascii?Q?arSgCfgoGB4+TU/E8v5kMZDhe0dY7AfcR8GzTb5WZ+V2BfQczbRPFekgFfSW?=
+ =?us-ascii?Q?6vYzwYbm+5pvzb90xTVFuYEYkjV4zYuO0j6+EKhOdS075HQWwvQ393p2FqBD?=
+ =?us-ascii?Q?qd4HtFlU2Wvs+Oz0RG0aYO4+9sfZzr4VaMcoLh/k?=
+X-OriginatorOrg: vivo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 05f084fe-4a69-4278-84c7-08dddd709dcf
+X-MS-Exchange-CrossTenant-AuthSource: SI2PR06MB5140.apcprd06.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Aug 2025 09:29:51.1697
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 923e42dc-48d5-4cbe-b582-1a797a6412ed
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: y2EQv0xOF/Jm1INrQbp+IMugfnwTG3W7cym6qBDHWbb+KskNrQ/ByEW2Hu0K0t6NGeYtS/RX5c5ZMMQl7PM+TQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: KUXPR06MB8097
 
-This patch fixes coding style problems in rtw_mlme.c:
-- Delete unnecessary blank lines.
+Replace kmalloc(count * sizeof) with kmalloc_array() for safer memory
+allocation and overflow prevention.
 
-Signed-off-by: Nino Zhang <ninozhang001@gmail.com>
+Signed-off-by: Qianfeng Rong <rongqianfeng@vivo.com>
 ---
- drivers/staging/rtl8723bs/core/rtw_mlme.c | 10 ----------
- 1 file changed, 10 deletions(-)
+ drivers/staging/media/atomisp/pci/sh_css.c | 52 +++++++++++-----------
+ 1 file changed, 27 insertions(+), 25 deletions(-)
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme.c b/drivers/staging/rtl8723bs/core/rtw_mlme.c
-index 692d0c2b766d..8ec039d832e9 100644
---- a/drivers/staging/rtl8723bs/core/rtw_mlme.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_mlme.c
-@@ -170,7 +170,6 @@ void _rtw_free_network(struct	mlme_priv *pmlmepriv, struct wlan_network *pnetwor
+diff --git a/drivers/staging/media/atomisp/pci/sh_css.c b/drivers/staging/media/atomisp/pci/sh_css.c
+index 73bd87f43a8c..f7ce2872ced7 100644
+--- a/drivers/staging/media/atomisp/pci/sh_css.c
++++ b/drivers/staging/media/atomisp/pci/sh_css.c
+@@ -5821,36 +5821,37 @@ static int ia_css_pipe_create_cas_scaler_desc_single_output(
+ 		i *= max_scale_factor_per_stage;
+ 	}
  
- void _rtw_free_network_nolock(struct	mlme_priv *pmlmepriv, struct wlan_network *pnetwork)
- {
--
- 	struct __queue *free_queue = &pmlmepriv->free_bss_pool;
- 
- 	if (!pnetwork)
-@@ -225,7 +224,6 @@ void rtw_free_network_queue(struct adapter *padapter, u8 isfreeall)
- 
- 	phead = get_list_head(scanned_queue);
- 	list_for_each_safe(plist, tmp, phead) {
--
- 		pnetwork = list_entry(plist, struct wlan_network, list);
- 
- 		_rtw_free_network(pmlmepriv, pnetwork, isfreeall);
-@@ -380,7 +378,6 @@ struct	wlan_network	*rtw_get_oldest_wlan_network(struct __queue *scanned_queue)
- 	phead = get_list_head(scanned_queue);
- 
- 	list_for_each(plist, phead) {
--
- 		pwlan = list_entry(plist, struct wlan_network, list);
- 
- 		if (!pwlan->fixed) {
-@@ -868,7 +865,6 @@ void rtw_indicate_connect(struct adapter *padapter)
- 	pmlmepriv->to_join = false;
- 
- 	if (!check_fwstate(&padapter->mlmepriv, _FW_LINKED)) {
--
- 		set_fwstate(pmlmepriv, _FW_LINKED);
- 
- 		rtw_os_indicate_connect(padapter);
-@@ -929,7 +925,6 @@ void rtw_scan_abort(struct adapter *adapter)
- 	pmlmeext->scan_abort = true;
- 	while (check_fwstate(pmlmepriv, _FW_UNDER_SURVEY)
- 		&& jiffies_to_msecs(start) <= 200) {
--
- 		if (adapter->bDriverStopped || adapter->bSurpriseRemoved)
- 			break;
- 
-@@ -1397,7 +1392,6 @@ void rtw_stadel_event_callback(struct adapter *adapter, u8 *pbuf)
- 
- 	if (check_fwstate(pmlmepriv, WIFI_ADHOC_MASTER_STATE) ||
- 	      check_fwstate(pmlmepriv, WIFI_ADHOC_STATE)) {
--
- 		rtw_free_stainfo(adapter,  psta);
- 
- 		if (adapter->stapriv.asoc_sta_count == 1) {/* a sta + bc/mc_stainfo (not Ibss_stainfo) */
-@@ -1540,7 +1534,6 @@ static void rtw_auto_scan_handler(struct adapter *padapter)
- 
- 	if (pmlmepriv->auto_scan_int_ms != 0
- 		&& jiffies_to_msecs(jiffies - pmlmepriv->scan_start_time) > pmlmepriv->auto_scan_int_ms) {
--
- 		if (!padapter->registrypriv.wifi_spec) {
- 			if (check_fwstate(pmlmepriv, _FW_UNDER_SURVEY | _FW_UNDER_LINKING) == true)
- 				goto exit;
-@@ -1673,7 +1666,6 @@ int rtw_select_roaming_candidate(struct mlme_priv *mlme)
- 	phead = get_list_head(queue);
- 
- 	list_for_each(mlme->pscanned, phead) {
--
- 		pnetwork = list_entry(mlme->pscanned, struct wlan_network,
- 				      list);
- 
-@@ -1770,7 +1762,6 @@ int rtw_select_and_join_from_scanned_queue(struct mlme_priv *pmlmepriv)
- 
- 	phead = get_list_head(queue);
- 	list_for_each(pmlmepriv->pscanned, phead) {
--
- 		pnetwork = list_entry(pmlmepriv->pscanned,
- 				      struct wlan_network, list);
- 
-@@ -1863,7 +1854,6 @@ signed int rtw_set_key(struct adapter *adapter, struct security_priv *psecurityp
- 		adapter->securitypriv.key_mask |= BIT(psetkeyparm->keyid);
- 
- 	switch (psetkeyparm->algorithm) {
--
- 	case _WEP40_:
- 		keylen = 5;
- 		memcpy(&psetkeyparm->key[0], &psecuritypriv->dot11DefKey[keyid].skey[0], keylen);
+-	descr->in_info = kmalloc(descr->num_stage *
+-				 sizeof(struct ia_css_frame_info),
+-				 GFP_KERNEL);
++	descr->in_info = kmalloc_array(descr->num_stage,
++				       sizeof(struct ia_css_frame_info),
++				       GFP_KERNEL);
+ 	if (!descr->in_info) {
+ 		err = -ENOMEM;
+ 		goto ERR;
+ 	}
+-	descr->internal_out_info = kmalloc(descr->num_stage *
+-					   sizeof(struct ia_css_frame_info),
+-					   GFP_KERNEL);
++	descr->internal_out_info = kmalloc_array(descr->num_stage,
++						 sizeof(struct ia_css_frame_info),
++						 GFP_KERNEL);
+ 	if (!descr->internal_out_info) {
+ 		err = -ENOMEM;
+ 		goto ERR;
+ 	}
+-	descr->out_info = kmalloc(descr->num_stage *
+-				  sizeof(struct ia_css_frame_info),
+-				  GFP_KERNEL);
++	descr->out_info = kmalloc_array(descr->num_stage,
++					sizeof(struct ia_css_frame_info),
++					GFP_KERNEL);
+ 	if (!descr->out_info) {
+ 		err = -ENOMEM;
+ 		goto ERR;
+ 	}
+-	descr->vf_info = kmalloc(descr->num_stage *
+-				 sizeof(struct ia_css_frame_info),
+-				 GFP_KERNEL);
++	descr->vf_info = kmalloc_array(descr->num_stage,
++				       sizeof(struct ia_css_frame_info),
++				       GFP_KERNEL);
+ 	if (!descr->vf_info) {
+ 		err = -ENOMEM;
+ 		goto ERR;
+ 	}
+-	descr->is_output_stage = kmalloc(descr->num_stage * sizeof(bool),
+-					 GFP_KERNEL);
++	descr->is_output_stage = kmalloc_array(descr->num_stage,
++					       sizeof(bool),
++					       GFP_KERNEL);
+ 	if (!descr->is_output_stage) {
+ 		err = -ENOMEM;
+ 		goto ERR;
+@@ -5977,29 +5978,30 @@ ia_css_pipe_create_cas_scaler_desc(struct ia_css_pipe *pipe,
+ 		err = -ENOMEM;
+ 		goto ERR;
+ 	}
+-	descr->internal_out_info = kmalloc(descr->num_stage *
+-					   sizeof(struct ia_css_frame_info),
+-					   GFP_KERNEL);
++	descr->internal_out_info = kmalloc_array(descr->num_stage,
++						 sizeof(struct ia_css_frame_info),
++						 GFP_KERNEL);
+ 	if (!descr->internal_out_info) {
+ 		err = -ENOMEM;
+ 		goto ERR;
+ 	}
+-	descr->out_info = kmalloc(descr->num_stage *
+-				  sizeof(struct ia_css_frame_info),
+-				  GFP_KERNEL);
++	descr->out_info = kmalloc_array(descr->num_stage,
++					sizeof(struct ia_css_frame_info),
++					GFP_KERNEL);
+ 	if (!descr->out_info) {
+ 		err = -ENOMEM;
+ 		goto ERR;
+ 	}
+-	descr->vf_info = kmalloc(descr->num_stage *
+-				 sizeof(struct ia_css_frame_info),
+-				 GFP_KERNEL);
++	descr->vf_info = kmalloc_array(descr->num_stage,
++				       sizeof(struct ia_css_frame_info),
++				       GFP_KERNEL);
+ 	if (!descr->vf_info) {
+ 		err = -ENOMEM;
+ 		goto ERR;
+ 	}
+-	descr->is_output_stage = kmalloc(descr->num_stage * sizeof(bool),
+-					 GFP_KERNEL);
++	descr->is_output_stage = kmalloc_array(descr->num_stage,
++					       sizeof(bool),
++					       GFP_KERNEL);
+ 	if (!descr->is_output_stage) {
+ 		err = -ENOMEM;
+ 		goto ERR;
 -- 
-2.43.0
+2.34.1
 
