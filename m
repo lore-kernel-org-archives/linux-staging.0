@@ -1,321 +1,114 @@
-Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44])
+Received: from mail-vs1-f50.google.com (mail-vs1-f50.google.com [209.85.217.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5503F2580DE
-	for <linux-staging@lists.linux.dev>; Mon, 18 Aug 2025 15:29:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3AC9524DCF9
+	for <linux-staging@lists.linux.dev>; Mon, 18 Aug 2025 15:37:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755530994; cv=none; b=BKJNwzhbWOZ2eYMXTKeQcl693UzWoGj47CVsAJPP44kHQ1xeL05JuEwPoji1h9WgdNS/wyxW1lG044xS/kVihtOJpU2nesoZVHuleKhdECJIvOe54GZ7EwjCHWM78femAImwInn7ka3H1iVbjvY8tOTqHN2C9IY9zO+h1PkjiLw=
+	t=1755531426; cv=none; b=uTVLMBJpkfVpyUSh855rp8SlfZzMkl8lWAzcBCB8Gb48vjwDD7/COILp/nILNcZW/z5cIJUL6yadYAgBkLuVvZ4TOjZaPPWelz6sNnbOJTdbJ4ahY7nly8kNCu+i4EOEmv4+aHk0CVYoIo1LtUwAKCA3cJ4cVqlm3zTE/7GXM2I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755530994; c=relaxed/simple;
-	bh=yriGlQzcEMLleh7mWxR7vFguMsohOZ68CFtpSpS6ILs=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=DL6YAZLuKt1kp2PsaZxp3GZUa75Lh0d4eCAhB2Lv8K3/j7Cg+JfWFfyFiYRwULv3m362NsJAEM9Rvgk1OLr1ot3ORyjlbniVbKu/nxnmkvJxK/P25rk7Qc7mImrcJ1yvvLZA6+uYy+ENuuPwfJJEAU+zStmheLmYObhFvmW7uhs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CjL8/JDu; arc=none smtp.client-ip=209.85.216.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+	s=arc-20240116; t=1755531426; c=relaxed/simple;
+	bh=k/H8oG8FJ/KNAXVFQEahMziIkd6GKMRM8pwD91rQQ9g=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=CF2UtvMXuYmGdDKPUPZHUkAlROafjMoQaDohCZJtWPbuBmZSbMAZU6Rwa75zbIKNWO1O5mHKXHXG1sXmX1A0fEd/yFFEeM62A9MNMC+0NEIdtPo+DHmK3/v2wE0J6tVjMk2DnFjamdd8r1VMAYdtpsYwn9ZxgCnDlHyAD1Y0AbU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.217.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CjL8/JDu"
-Received: by mail-pj1-f44.google.com with SMTP id 98e67ed59e1d1-32326e5a623so3487634a91.3
-        for <linux-staging@lists.linux.dev>; Mon, 18 Aug 2025 08:29:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1755530992; x=1756135792; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=zmAzhKxgIoC4PtMsSkpfRCV+yrZcsGB0TsbomWCMnMA=;
-        b=CjL8/JDu3bZFwv2quNCsnRsp+q/B4OkW2iRLl9QFR3bCfGnotUa/dmDUFAX2R0telA
-         L+heqNoYTqFZ4UBm6gCRWwZwGwlrnDdVb0GHLRiSQb182VSHhi2tW/iA4m6ZLPmtJpqa
-         pHeY1aQegSbzL58qqVn/l/wewMdD1gIYeYuv5D3Vq54TvafOTmURTh51MA2EoD/H6WTL
-         HojqCRYtmPfqoE5oLXZWjootVuePU6Z4OFAGPKCGdJN3TljjC3v/QSrrPSV9+Lq0bX9T
-         pK+ebnCndr/E6dQ/+Y2OxTAOcvFU70qG36v/eXCeiKUkBjzxjOJvLJTmIzLPWGwNwAxg
-         DTeQ==
+Received: by mail-vs1-f50.google.com with SMTP id ada2fe7eead31-50f8ad279f8so3027482137.2
+        for <linux-staging@lists.linux.dev>; Mon, 18 Aug 2025 08:37:03 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755530992; x=1756135792;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20230601; t=1755531423; x=1756136223;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=zmAzhKxgIoC4PtMsSkpfRCV+yrZcsGB0TsbomWCMnMA=;
-        b=cXJEliRUnc6U3Xd0WFFY6MKgzZmv/Na+Zezgmlqmd0fdpaBLCjgS5woII/ZvNsrmi7
-         4Z8zfEPxpQK2btzOHjGHUj+EIeGClPncv7TwEqUJHmcvGAON1LDAMqpHVg+tCMoz2RrF
-         q7B7/zYzMQYwuF0s8okV7Obu2MnjpcLdmDseFp7naViDpx3qnVMKTqKyWwcdFsc1HVDN
-         5wrYxG8HxFyO/3rv/OF546igE7iSq7lVM6DjqNV/ec8joyGJ0U3J13dy9E0mZ+AKxjCJ
-         3AzUj4xFy4JMb49oRF3cXUCbMNdfMoob79zREqbCT3O/9LD6fpSTuqX7sHHTq5AGLkcb
-         umsQ==
-X-Gm-Message-State: AOJu0YyTa+gh3hejNDfsUHIAKwofIE5NZV5xgEgh3pEKASQnDHKEx49U
-	D9JU+soVz9ZlGl6eSrU5bqg/xAcTMviagaL3MP/eYPpypjnwQUwjmXiT
-X-Gm-Gg: ASbGncui6AiTCy4nW5VS5tJZzn6GVRgSdS5Sr1+06Sy3RmZsMaZjuSiXLmLExFMiLUR
-	XWtuH0OhrGSK6Ru7EzZ1YJRyZ4S9h+rE7vd0sBCuCVJiDrJk+iKt6OST8IIrt8xA64AJ5l3spB4
-	LIsaE+LVh2TUTrJ06FmHXc2zq5o2GhWVcZv5RzSKQ0v6WTpYSze1gGciV1TdpoAlSNV6c9whcCn
-	8MwgpjyobgJwSFD1SG69yeCG9pYcPjKohZK4WoE6jvSjvVVAKu7l+J/uNmyyl6Xu6jIIKox/T2j
-	vavMM6ttwREXSoqnVndQXxUwtRcs8GdOp/++N7tPnrY5JjwNSdB3g0Lh3XuQYhq8YCu27lsn3ur
-	cjlxrPR3EI/uO2OtlErT8H8yislAc2gt8En7xEiJNU7LgJbbuWjYqeg==
-X-Google-Smtp-Source: AGHT+IEIqGhn0GevJJjiuIsFvjkfIr9/VwS3/pEa6Jw90W4qz2RiTCGQkL2o3GnwuHovUN3YYGeaew==
-X-Received: by 2002:a17:90b:4a10:b0:31e:8203:4b9d with SMTP id 98e67ed59e1d1-3234dc9ec09mr11916037a91.29.1755530992364;
-        Mon, 18 Aug 2025 08:29:52 -0700 (PDT)
-Received: from 100ask.localdomain ([116.234.47.202])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3237e3ecc64sm288282a91.15.2025.08.18.08.29.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 18 Aug 2025 08:29:51 -0700 (PDT)
-From: Nino Zhang <ninozhang001@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	straube.linux@gmail.com,
-	Nino Zhang <ninozhang001@gmail.com>
-Subject: [PATCH v3] staging: rtl8723bs: fix coding style issues in core/rtw_mlme.c
-Date: Mon, 18 Aug 2025 23:26:41 +0800
-Message-ID: <20250818152641.106740-1-ninozhang001@gmail.com>
-X-Mailer: git-send-email 2.43.0
+        bh=KPnXyjQyRiPNxWrfvyKTF8MriephV3eeN7jOjaXGjKk=;
+        b=OPOZGjhwtpv2X4hYxzsjwBzV8OGI8YtTRKo2NFn7dApzg3wuJTauGPJp0Ld60+qXo1
+         uYX2jfTuBko42IyOiFMjIONElu0f1I/Dn7kzwkjJClvQD9JnHx9B75kfSCMDisXi0+/W
+         Mm10M2uCO79C6P43U0hSqFTsbGdRMCo1akT144tubEL1tt+KDLkxVXAK3JAjbMqEKqWB
+         tPSG7STrfJ9WG8HL+m2a8pS6+1oJpJbZoNkeRwBOMQI4TG3zGACXG7Gx8aubw5Q3iEfU
+         NflKl3ICCcdvZlH5nk+IGdcPrR1lVLPV3g+AWohXttn0izdyHXdXv0WEhSpHe9JHNrrw
+         kzQA==
+X-Forwarded-Encrypted: i=1; AJvYcCXhS3rd0w9ue3LXRD4kkDgX4UbhpHQs28yl9Zi4OfsDdlAtAqSlryXchxdUxbgM6j6X8Glfb3sSbXJJTBeS@lists.linux.dev
+X-Gm-Message-State: AOJu0YyGX7+hoaSxMNhwCKKhMMqtwGT3Bj7cdlpNe/8+4eBHWcAL22gE
+	K3JWYeZL/Qzo0iJsk65UnZwHHWqbgnjVK5JM/fDY1fGWimCGdVGHlNEbVxf/6Emh
+X-Gm-Gg: ASbGnctrwTaBt0hF2GsiZPFdT5hbYyNzkPjvP39peXLQdmpzvEF6jTg5wpVFi6woNJM
+	ION4+y1U0zM0X+fcw/TVuBUSs3dPW85ibGTeHGivNZPyHnw91pfUYbfMrXZkKrPWnQhssyuRahC
+	tFBsv8rA8YiFYTEQcp54tpRdtqgCUqLeq/S2ZqLm/WuAQDDfUoFdZNVAiPbWdsjzfAdKqKQPKZG
+	ksGZ34W1RxZ+Q6LU+Q530W2sU9/aBiJUV0P49rEn5nor035YtFAuCOdV0gkwX5FMlnVCHAy27Qj
+	cVcM49xf4plKci4cqYzZld5ncgKfL4rWbE4yTakCvfqVygRSLocOmJvo7thuJIgZrXmX+wkWTLp
+	Ge93vFh8AsIqOn0VlMpcRqoLit9RCqgx9iaoQUTxETGarASLJFqW870CmMsuO
+X-Google-Smtp-Source: AGHT+IGNFsO0Re5IBQ/cqM9ooXAHDR4VueeGTjj7mRwF1u2nTJg31VEuKhW3cpcLCeVIw9jehxMFvg==
+X-Received: by 2002:a05:6102:38cc:b0:4e6:d94f:c197 with SMTP id ada2fe7eead31-5126d218da8mr4788448137.23.1755531422836;
+        Mon, 18 Aug 2025 08:37:02 -0700 (PDT)
+Received: from mail-ua1-f45.google.com (mail-ua1-f45.google.com. [209.85.222.45])
+        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-53b2bd51987sm1931926e0c.4.2025.08.18.08.37.02
+        for <linux-staging@lists.linux.dev>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 18 Aug 2025 08:37:02 -0700 (PDT)
+Received: by mail-ua1-f45.google.com with SMTP id a1e0cc1a2514c-890190bf2dbso2459128241.2
+        for <linux-staging@lists.linux.dev>; Mon, 18 Aug 2025 08:37:02 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCVOedrgA6E9uNOcvcBySnHhVjAZk+GUpM17iL5uOIIdSi1fex4FhUn0ZMO8pqEzaCGwTAGOE2jN+b8yZQ/4@lists.linux.dev
+X-Received: by 2002:a05:6102:4a84:b0:4ec:b2cc:de60 with SMTP id
+ ada2fe7eead31-5126af22cf7mr5384089137.11.1755531422341; Mon, 18 Aug 2025
+ 08:37:02 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20250817192425.12983-1-mohammed.guermoud@gmail.com>
+In-Reply-To: <20250817192425.12983-1-mohammed.guermoud@gmail.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Mon, 18 Aug 2025 17:36:50 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdXQfUCYdt-PJX8rYP3bf8Z_ea3Obgunm-_7KmJxMrU_fQ@mail.gmail.com>
+X-Gm-Features: Ac12FXw4gbFdT9fnsf3GhA6Uid_mXhbaQ1tCt30kMl8rgK4UTMaDn8DaYsPtEDE
+Message-ID: <CAMuHMdXQfUCYdt-PJX8rYP3bf8Z_ea3Obgunm-_7KmJxMrU_fQ@mail.gmail.com>
+Subject: Re: [PATCH] staging: nvec: Silence unused argument warning in
+ NVEC_PHD macro
+To: Mohammed Guermoud <mohammed.guermoud@gmail.com>
+Cc: marvin24@gmx.de, gregkh@linuxfoundation.org, ac100@lists.launchpad.net, 
+	linux-tegra@vger.kernel.org, linux-staging@lists.linux.dev, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-Fix blank line issues in coding style:
-- Remove unnecessary blank lines after an open brace '{'.
-- Remove unnecessary blank lines before a closing brace '}'.
-- Add missing blank lines after variable declarations.
-- Add blank lines after function, struct, union, and enum declarations.
+Hi Mohammed,
 
-Signed-off-by: Nino Zhang <ninozhang001@gmail.com>
----
-v2 -> v3:
-- Fix the email format issue reported by the bot of Greg.
-  (https://lore.kernel.org/all/2025081850-carpenter-radiation-8790@gregkh/)
-Link to v2: https://lore.kernel.org/r/20250818071411.90159-2-ninozhang001@gmail.com/
+On Mon, 18 Aug 2025 at 17:10, Mohammed Guermoud
+<mohammed.guermoud@gmail.com> wrote:
+> The NVEC_PHD macro was defined with three arguments (str, buf, len)
+> that were not used in its empty body, causing a compiler warning.
+>
+> This patch silences the warning by explicitly casting the unused
+> arguments to (void), making the intent clear without changing
+> functionality.
+>
+> Signed-off-by: Mohammed Guermoud <mohammed.guermoud@gmail.com>
 
-v1 -> v2:
-- Make modifications based on the staging-next branch.
-Link to v1: https://lore.kernel.org/r/20250817054202.31171-1-ninozhang001@gmail.com/
----
+Thanks for your patch!
 
- drivers/staging/rtl8723bs/core/rtw_mlme.c | 29 ++---------------------
- 1 file changed, 2 insertions(+), 27 deletions(-)
+> --- a/drivers/staging/nvec/nvec_ps2.c
+> +++ b/drivers/staging/nvec/nvec_ps2.c
+> @@ -28,7 +28,7 @@
+>         print_hex_dump(KERN_DEBUG, str, DUMP_PREFIX_NONE, \
+>                         16, 1, buf, len, false)
+>  #else
+> -#define NVEC_PHD(str, buf, len) do { } while (0)
+> +#define NVEC_PHD(str, buf, len) do { (void)str; (void)buf; (void)len; } while (0)
+>  #endif
+>
+>  enum ps2_subcmds {
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme.c b/drivers/staging/rtl8723bs/core/rtw_mlme.c
-index fdf06b5253a7..c06d990350e6 100644
---- a/drivers/staging/rtl8723bs/core/rtw_mlme.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_mlme.c
-@@ -200,7 +200,6 @@ void _rtw_free_network(struct	mlme_priv *pmlmepriv, struct wlan_network *pnetwor
- 
- void _rtw_free_network_nolock(struct	mlme_priv *pmlmepriv, struct wlan_network *pnetwork)
- {
--
- 	struct __queue *free_queue = &pmlmepriv->free_bss_pool;
- 
- 	if (!pnetwork)
-@@ -255,11 +254,9 @@ void rtw_free_network_queue(struct adapter *padapter, u8 isfreeall)
- 
- 	phead = get_list_head(scanned_queue);
- 	list_for_each_safe(plist, tmp, phead) {
--
- 		pnetwork = list_entry(plist, struct wlan_network, list);
- 
- 		_rtw_free_network(pmlmepriv, pnetwork, isfreeall);
--
- 	}
- 
- 	spin_unlock_bh(&scanned_queue->lock);
-@@ -348,7 +345,6 @@ int rtw_is_same_ibss(struct adapter *adapter, struct wlan_network *pnetwork)
- 		ret = true;
- 
- 	return ret;
--
- }
- 
- inline int is_same_ess(struct wlan_bssid_ex *a, struct wlan_bssid_ex *b)
-@@ -378,7 +374,6 @@ int is_same_network(struct wlan_bssid_ex *src, struct wlan_bssid_ex *dst, u8 fea
- 			(d_cap & WLAN_CAPABILITY_IBSS)) &&
- 			((s_cap & WLAN_CAPABILITY_ESS) ==
- 			(d_cap & WLAN_CAPABILITY_ESS));
--
- }
- 
- struct wlan_network *_rtw_find_same_network(struct __queue *scanned_queue, struct wlan_network *network)
-@@ -410,7 +405,6 @@ struct	wlan_network	*rtw_get_oldest_wlan_network(struct __queue *scanned_queue)
- 	phead = get_list_head(scanned_queue);
- 
- 	list_for_each(plist, phead) {
--
- 		pwlan = list_entry(plist, struct wlan_network, list);
- 
- 		if (!pwlan->fixed) {
-@@ -419,7 +413,6 @@ struct	wlan_network	*rtw_get_oldest_wlan_network(struct __queue *scanned_queue)
- 		}
- 	}
- 	return oldest;
--
- }
- 
- void update_network(struct wlan_bssid_ex *dst, struct wlan_bssid_ex *src,
-@@ -454,7 +447,6 @@ void update_network(struct wlan_bssid_ex *dst, struct wlan_bssid_ex *src,
- 			sq_final = dst->phy_info.signal_quality;
- 			rssi_final = dst->rssi;
- 		}
--
- 	}
- 
- 	if (update_ie) {
-@@ -516,7 +508,6 @@ void rtw_update_scanned_network(struct adapter *adapter, struct wlan_bssid_ex *t
- 
- 		if (!oldest || time_after(oldest->last_scanned, pnetwork->last_scanned))
- 			oldest = pnetwork;
--
- 	}
- 
- 	/* If we didn't find a match, then get a new network slot to initialize
-@@ -560,7 +551,6 @@ void rtw_update_scanned_network(struct adapter *adapter, struct wlan_bssid_ex *t
- 				pnetwork->network.phy_info.signal_quality = 0;
- 
- 			list_add_tail(&pnetwork->list, &queue->queue);
--
- 		}
- 	} else {
- 		/* we have an entry and we are going to update it. But this entry may
-@@ -623,7 +613,6 @@ int rtw_is_desired_network(struct adapter *adapter, struct wlan_network *pnetwor
- 			return true;
- 		else
- 			return false;
--
- 	}
- 	if (adapter->registrypriv.wifi_spec == 1) { /* for  correct flow of 8021X  to do.... */
- 		u8 *p = NULL;
-@@ -900,7 +889,6 @@ void rtw_indicate_connect(struct adapter *padapter)
- 	pmlmepriv->to_join = false;
- 
- 	if (!check_fwstate(&padapter->mlmepriv, _FW_LINKED)) {
--
- 		set_fwstate(pmlmepriv, _FW_LINKED);
- 
- 		if (check_fwstate(pmlmepriv, WIFI_ADHOC_MASTER_STATE) ||
-@@ -974,7 +962,6 @@ void rtw_scan_abort(struct adapter *adapter)
- 	pmlmeext->scan_abort = true;
- 	while (check_fwstate(pmlmepriv, _FW_UNDER_SURVEY)
- 		&& jiffies_to_msecs(start) <= 200) {
--
- 		if (adapter->bDriverStopped || adapter->bSurpriseRemoved)
- 			break;
- 
-@@ -1067,7 +1054,6 @@ static struct sta_info *rtw_joinbss_update_stainfo(struct adapter *padapter, str
- 	}
- 
- 	return psta;
--
- }
- 
- /* pnetwork : returns from rtw_joinbss_event_callback */
-@@ -1502,11 +1488,11 @@ void rtw_stadel_event_callback(struct adapter *adapter, u8 *pbuf)
- 
- 	if (check_fwstate(pmlmepriv, WIFI_ADHOC_MASTER_STATE) ||
- 	      check_fwstate(pmlmepriv, WIFI_ADHOC_STATE)) {
--
- 		rtw_free_stainfo(adapter,  psta);
- 
- 		if (adapter->stapriv.asoc_sta_count == 1) {/* a sta + bc/mc_stainfo (not Ibss_stainfo) */
- 			u8 ret = _SUCCESS;
-+
- 			spin_lock_bh(&pmlmepriv->scanned_queue.lock);
- 			/* free old ibss network */
- 			pwlan = rtw_find_network(&pmlmepriv->scanned_queue, tgt_network->network.mac_address);
-@@ -1536,7 +1522,6 @@ void rtw_stadel_event_callback(struct adapter *adapter, u8 *pbuf)
- 			if (ret != _SUCCESS)
- 				goto unlock;
- 		}
--
- 	}
- 
- unlock:
-@@ -1595,7 +1580,6 @@ void _rtw_join_timeout_handler(struct timer_list *t)
- 
- 		/* indicate disconnect for the case that join_timeout and check_fwstate != FW_LINKED */
- 		rtw_cfg80211_indicate_disconnect(adapter);
--
- 	}
- 
- 	spin_unlock_bh(&pmlmepriv->lock);
-@@ -1645,7 +1629,6 @@ static void rtw_auto_scan_handler(struct adapter *padapter)
- 
- 	if (pmlmepriv->auto_scan_int_ms != 0
- 		&& jiffies_to_msecs(jiffies - pmlmepriv->scan_start_time) > pmlmepriv->auto_scan_int_ms) {
--
- 		if (!padapter->registrypriv.wifi_spec) {
- 			if (check_fwstate(pmlmepriv, _FW_UNDER_SURVEY | _FW_UNDER_LINKING) == true)
- 				goto exit;
-@@ -1778,12 +1761,10 @@ int rtw_select_roaming_candidate(struct mlme_priv *mlme)
- 	phead = get_list_head(queue);
- 
- 	list_for_each(mlme->pscanned, phead) {
--
- 		pnetwork = list_entry(mlme->pscanned, struct wlan_network,
- 				      list);
- 
- 		rtw_check_roaming_candidate(mlme, &candidate, pnetwork);
--
- 	}
- 
- 	if (!candidate) {
-@@ -1875,12 +1856,10 @@ int rtw_select_and_join_from_scanned_queue(struct mlme_priv *pmlmepriv)
- 
- 	phead = get_list_head(queue);
- 	list_for_each(pmlmepriv->pscanned, phead) {
--
- 		pnetwork = list_entry(pmlmepriv->pscanned,
- 				      struct wlan_network, list);
- 
- 		rtw_check_join_candidate(pmlmepriv, &candidate, pnetwork);
--
- 	}
- 
- 	if (!candidate) {
-@@ -1968,7 +1947,6 @@ signed int rtw_set_key(struct adapter *adapter, struct security_priv *psecurityp
- 		adapter->securitypriv.key_mask |= BIT(psetkeyparm->keyid);
- 
- 	switch (psetkeyparm->algorithm) {
--
- 	case _WEP40_:
- 		keylen = 5;
- 		memcpy(&psetkeyparm->key[0], &psecuritypriv->dot11DefKey[keyid].skey[0], keylen);
-@@ -2044,7 +2022,6 @@ int rtw_restruct_wmm_ie(struct adapter *adapter, u8 *in_ie, u8 *out_ie, uint in_
- 	}
- 
- 	return ielength;
--
- }
- 
- /* Ported from 8185: IsInPreAuthKeyList(). 
-@@ -2449,7 +2426,6 @@ unsigned int rtw_restructure_ht_ie(struct adapter *padapter, u8 *in_ie, u8 *out_
- 	}
- 
- 	return phtpriv->ht_option;
--
- }
- 
- /* the function is > passive_level (in critical_section) */
-@@ -2484,7 +2460,6 @@ void rtw_update_ht_cap(struct adapter *padapter, u8 *pie, uint ie_len, u8 channe
- 		max_ampdu_sz = 1 << (max_ampdu_sz+3); /*  max_ampdu_sz (kbytes); */
- 
- 		phtpriv->rx_ampdu_maxlen = max_ampdu_sz;
--
- 	}
- 
- 	len = 0;
-@@ -2575,7 +2550,6 @@ void rtw_issue_addbareq_cmd(struct adapter *padapter, struct xmit_frame *pxmitfr
- 			rtw_addbareq_cmd(padapter, (u8) priority, pattrib->ra);
- 		}
- 	}
--
- }
- 
- void rtw_append_exented_cap(struct adapter *padapter, u8 *out_ie, uint *pout_len)
-@@ -2616,6 +2590,7 @@ void rtw_roaming(struct adapter *padapter, struct wlan_network *tgt_network)
- 	_rtw_roaming(padapter, tgt_network);
- 	spin_unlock_bh(&pmlmepriv->lock);
- }
-+
- void _rtw_roaming(struct adapter *padapter, struct wlan_network *tgt_network)
- {
- 	struct mlme_priv *pmlmepriv = &padapter->mlmepriv;
+The proper solution would be to remove the custom NVEC_PHD() macro (and
+NVEC_PS2_DEBUG), and just call print_hex_dump_debug() directly instead.
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
 -- 
-2.43.0
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
