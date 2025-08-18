@@ -1,71 +1,36 @@
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 791F225D549
-	for <linux-staging@lists.linux.dev>; Mon, 18 Aug 2025 06:29:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7771B275AE8;
+	Mon, 18 Aug 2025 06:36:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755498580; cv=none; b=UPKC4S9Hb8gE6Dys64Gpp9mcKBloPhN8CS7jBb9S+fEhDJ7p7YU/qSsxTEBLfqz9AVdnm0RW7AXUmWkhW+Thjv9uUCaXrhH1tak0HPojd6q3z5GPPdjBlnKmzShTgN14Qqq2Q1a95Fc/WA71UBd1Tx6WNkFIpo0ltJ6Do4b0GJI=
+	t=1755498991; cv=none; b=TtoKuOtsahtLiLhuKM5/KnS5mzZExA/Jmo5c2a0tuI1GmZ4LP7ikiDtB0wCPFdL5M0oO/uiDlqp2uTdtibZBcqSmmWerWBNuY+SfHliwVXjPBjl8+UyWCoIN9+kOKZJueXQoAMmB6ugSZNj8uYo18UbQKq8O8/V3604MnXIsf5I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755498580; c=relaxed/simple;
-	bh=5g0wbn6Ph17xvgAq5KvhX1KEiqUBS3GvRDxnv2BGP5U=;
+	s=arc-20240116; t=1755498991; c=relaxed/simple;
+	bh=LiA38k16f5PzdEc/NByEG7vfa2ClKMQV1Lf9NYZmUG0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=H9yGcU6uDgFhJg1JhqGFxY7Z8sOo2hyh+illwXdq9kv6+aJNwk+TYFwulUSofAvrRTT/YMVRbR9JZywn64+DcgD6yHdS6cZVW9Fp7k54ontmxoihFxD0/NOkPPPEbV9wOn14no43xf5II/7mk0jeXuUSWMMmytUV4D8NqslvERs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=oI5gvo/h; arc=none smtp.client-ip=209.85.221.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Type:Content-Disposition:In-Reply-To; b=SUjWiaB03KSkLyJFYj6+YhdX5iCUKNQ+/XbleOATsY9I2qFu5VttSlrhBb4NPtfKPafBsI1HnvrupkSMIW4QpCnJ4hJGv1EFMhFMTOH5BqE1F9DvOaYYMqeTrwWaFGZtcIcWihf/3fEgXQ7AcG3Prig23Cu3VZutOpMlJ0k/EtQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=N50zQrLB; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="oI5gvo/h"
-Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-3b9e411c820so2006299f8f.1
-        for <linux-staging@lists.linux.dev>; Sun, 17 Aug 2025 23:29:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1755498577; x=1756103377; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=+3tkiOT20kGsUTSkgr+xHio85hrWrVQxIwikWx+eXEg=;
-        b=oI5gvo/huzi5smVgypjmiYEgVoMDE8q1NNCdJ6XEOeZP5FHO0Sr5V0AYkfXxLCdvuX
-         PVn66cTOSqWJNUJyw6BNvO3HatBD/38uA80sDnyN6SSyq+XBgQOte59fiVntf5q3pXfO
-         sha4K50e5gf1H1LsWWR9iqp0w+ZmeAPk2NM/FeMccco+umLfBKZ9KpGL/pFBEfOwA8M0
-         BDZWrGdEqsLmfhlV3EHwqkUsU15EG8Vx6mLWU1yZJOVeE5HjWoNzSqrRBXG/7XJsHs59
-         Nd13NpvupGzbcwoFtG/8Qn2rAF8AmDrfECanQMHcwtISNwzDDL9ZtM34c/qUE0GPQSIE
-         64rg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755498577; x=1756103377;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=+3tkiOT20kGsUTSkgr+xHio85hrWrVQxIwikWx+eXEg=;
-        b=QWRiboNnVBC1iU6Ix9XpeWkSY8pnk9K58jKs6qUIYiT0LR/obH+S3qovrogf0Ktg7W
-         DPwn8hjQfF8R2MTRJKTAHMs9ogn+FIS7aMvnYAsyXb0diAlzo4k1nMhYxAK68PN4Iw6V
-         i8yKeJIDq4yRJj8hZGKZRR4J7b264E9f9XGQdh8EkipTohB/jZ2PieFZoI6fKXIDk0uF
-         zNylonuZxBL2DHTsLV/iMNpTxyESRphURcehsdGKmCN9m5aECRm65whlYUKfKJkyPsvQ
-         +E2OwpPkOIlqFcQ4f+rivwI3rgzvjMgJVCy5Ok/lS70SIUbuQ7xrBzulMD9tyb5FFCx9
-         XXlw==
-X-Forwarded-Encrypted: i=1; AJvYcCUtqOxk59Pxi4ZxqtrNSHbIx8kn87ON/4aoBx7AVI06zPc9gCvgQGX/pHXMEISH8UExMDAhBnSQtsCrBiVV@lists.linux.dev
-X-Gm-Message-State: AOJu0YxM9SUkPpDRNjckGjPLAY8qUE4ZdptoG77Fut50kfRgQjhzsxQr
-	3DsjDa4qqF3A/uGJzHFql3C0Ixdnk+TvAUKGtOBJgauMBGUJilK6867GrOjDduYUJ2Q=
-X-Gm-Gg: ASbGncuocz6jHHHHKAqGByhXY0cflJaCj3Qe8HrKBTbE9eA01sG+iJqu/PJ//cgbv1g
-	UItqJ6i28EdOOnUDt2SQLOeaeTbv79GPRNlwHi5RrXwvxQaqO5e1K46e0K/LIZBx5cySWZ0LZpJ
-	IR++BoAWbSxxQoGEeVX9ITfFyHzYawSfPH7aZ0IVhaJTSEIB+ewhMfEDF3pOguQI2r3D3AT8IRh
-	L8RkJsVw6Hgef9XfjU3UFEK9TEG6VchIHVrQaD8XrgO1RYQpGdWqrTnse+nzMpeXXHXxEy9Oc0I
-	PUcgL2pFbK2IARIOC+F5jONwOpYlZkJsRObVEn0EvObz/ykQoq0O+15jjt0Cjr1GxOq7J3Tif8h
-	iZ/rASH1a155/Z5qDRdpOWcuTVRIMStGSGPQFNA==
-X-Google-Smtp-Source: AGHT+IHndy6oVv4OJ+/MsKM5qa8MXzOeKQJV79th477YwHEuET0jW0JUWVhK0OGjN+EbNCIL5zw9Vg==
-X-Received: by 2002:a5d:5f8f:0:b0:3b9:6e:5242 with SMTP id ffacd0b85a97d-3bb66567d13mr7922421f8f.4.1755498576770;
-        Sun, 17 Aug 2025 23:29:36 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-45a223292d2sm123065385e9.21.2025.08.17.23.29.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 17 Aug 2025 23:29:36 -0700 (PDT)
-Date: Mon, 18 Aug 2025 09:29:33 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="N50zQrLB"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 930B0C4CEEB;
+	Mon, 18 Aug 2025 06:36:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1755498991;
+	bh=LiA38k16f5PzdEc/NByEG7vfa2ClKMQV1Lf9NYZmUG0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=N50zQrLBbGaAmus8p+f5ywsHuEmgPcmdJwQ3YX89L49/AwQOreXFoR9pH3TM/zvqB
+	 ZM0ny5broyb7G/G8xHyaphLTGARVuNSFrz8TpQkhelbdxq6Et6XGQtayj2dg4Teg21
+	 xT55Zh9rL5T3mPvu4pThlLV4+WVVOB7eMN2gr6CU=
+Date: Mon, 18 Aug 2025 08:36:27 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
 To: Mohammed Guermoud <mohammed.guermoud@gmail.com>
-Cc: marvin24@gmx.de, gregkh@linuxfoundation.org, ac100@lists.launchpad.net,
-	linux-tegra@vger.kernel.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
+Cc: marvin24@gmx.de, ac100@lists.launchpad.net, linux-tegra@vger.kernel.org,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
 Subject: Re: [PATCH] staging: nvec: Silence unused argument warning in
  NVEC_PHD macro
-Message-ID: <aKLITYYTOkMpNkQy@stanley.mountain>
+Message-ID: <2025081859-shabby-sanitizer-100d@gregkh>
 References: <20250817192425.12983-1-mohammed.guermoud@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -86,13 +51,30 @@ On Sun, Aug 17, 2025 at 08:24:25PM +0100, Mohammed Guermoud wrote:
 > functionality.
 > 
 > Signed-off-by: Mohammed Guermoud <mohammed.guermoud@gmail.com>
+> ---
+>  drivers/staging/nvec/nvec_ps2.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/staging/nvec/nvec_ps2.c b/drivers/staging/nvec/nvec_ps2.c
+> index 575233fa1677..7accdcafeeac 100644
+> --- a/drivers/staging/nvec/nvec_ps2.c
+> +++ b/drivers/staging/nvec/nvec_ps2.c
+> @@ -28,7 +28,7 @@
+>  	print_hex_dump(KERN_DEBUG, str, DUMP_PREFIX_NONE, \
+>  			16, 1, buf, len, false)
+>  #else
+> -#define NVEC_PHD(str, buf, len) do { } while (0)
+> +#define NVEC_PHD(str, buf, len) do { (void)str; (void)buf; (void)len; } while (0)
 
-What's the warning.  Does it break the build since we're using -Werror?
+As Dan said, what is the warning?
 
-I feel like in the end, I'm going to say just ignore the compiler warning
-since this is not a bug in the code but obviously if it breaks the build
-then that's a different story.
+And this isn't the best/proper way to handle this type of issue.  Best
+is to make an inline function that does nothing, as that way you
+properly check the variable types.
 
-regards,
-dan carpenter
+But, I'll push back and say why is this even needed at all?  As
+NVEC_PS2_DEBUG is never defined, why not just remove them?
 
+thanks,
+
+greg k-h
