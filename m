@@ -1,48 +1,49 @@
-Received: from mail-pg1-f179.google.com (mail-pg1-f179.google.com [209.85.215.179])
+Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CD6225B30E
-	for <linux-staging@lists.linux.dev>; Mon, 18 Aug 2025 15:40:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64B1625B311
+	for <linux-staging@lists.linux.dev>; Mon, 18 Aug 2025 15:40:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755531636; cv=none; b=gtm9h75PZyj8T9l54YKD/sQn6iQjn4IdH1YGxKDPQmtNuKdA3KOjL53/NizTBRL3GDeGyrVeh3ASEKL3E8bAXsSUVk4nN5fwsI64mxMKfLj9UqUySZVS3jwgvKNqw9WyJlInamYUFVb49ordUBPsYGcYPcXPgVVM5ry16BHsCI0=
+	t=1755531636; cv=none; b=Wh1SoEMXEM6GnV7jia6h4g+Sg/MooEXagJoR0Sj0FzJ/r8BR/ki2Vb6nBhBPMNzZ92IgQU5yWeHSDW9slnvkBhR+91PKpjNYfE3KMQ09PzAy9QR8/DgKCQ9iAKN6jMDITtnrsPkKZHB+zVAKyj+SCuTCuTAyadGhki1CpzBxgKY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1755531636; c=relaxed/simple;
-	bh=WEv2PQfVPI+9ejQt1JOoeGYCKznQPO8LDnUgsOnT2GY=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Bm2aKQzBnZqm8bzMxcBSOOvl8ErRbYxZdrENuF7Zq6OyKWC7MwmKjREq/0UEa7MpiDLP7ZkZ7BslS6K3aYw5xpwMQf5OoGYgyGLURu8U8enT3S3yFvOQBo8TTxRjVyUAiwD60gFHUxHYkd1tezSWKLEeeCbcoGaDjAwxTo2Nl9E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=fomichev.me; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.215.179
+	bh=ZxyGscOHeqQ4OoQLuMcftJmNOcrzdMA3DnVbJ/3/Ji4=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=qjjwx3F+Mi/S2R14PXG/M4YG49FfLBij9u0Om97Mtul/pBHBTkI+XbaPSp3UahwLEjP6ncl1zPW4ctYoF7RFMFe9LqaC2d4KfaX1PzFMObG8XGvt2A6mkl3WCHWu2lA93nrDP7wBven+z49bbrnrDMNkQcnthQ4prVevsJk6h68=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=fomichev.me; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.210.170
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=fomichev.me
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pg1-f179.google.com with SMTP id 41be03b00d2f7-b4746fd4793so965285a12.1
-        for <linux-staging@lists.linux.dev>; Mon, 18 Aug 2025 08:40:34 -0700 (PDT)
+Received: by mail-pf1-f170.google.com with SMTP id d2e1a72fcca58-76e2eb09041so3548560b3a.3
+        for <linux-staging@lists.linux.dev>; Mon, 18 Aug 2025 08:40:35 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755531633; x=1756136433;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=05onlVW0XXyv0dQ8dN62N/saox8u4e4HZdWmUU3MZIw=;
-        b=Yxp1dJnkO+vWaPOnAODpy6zBfPbl6RaZmxaXz8wOI0AtOTjEt47mt+EzeFcGo7PiK9
-         r5H2xvAzmPbnVXTfn6MnfWjWxPPqYJWW0NXe8BVm89ly198WeGSzS3IpXqv6KbSNlcEp
-         CSQL5l0Ttc2vynp65DFVN/j/AVhJNTF/SWkP5NaxqSrXqUXu0891XGWdRdkJzfJJDOnb
-         AyuHLpAybZGufn47JysIR+HUs2uVHCpegjujYI06rMNTmF2COQ3AR3FmYg5Sm5M/rBN+
-         /s/pudtz3ylgV4mgk+Gf91b3Kpnf2Q2eulw9oburJs0ppFmr+A0QCaZVHCbKOYvO+MOG
-         SHjw==
-X-Forwarded-Encrypted: i=1; AJvYcCU/HUX4yjKxLK3Mds9WCmFtDr9OHle2aIIoiad34XALoZFeq+7trNfuNe/fOAtpznh+bjdmQW1JwMi644E4@lists.linux.dev
-X-Gm-Message-State: AOJu0YzFPF1s9UdrLTTFs3Sj8fGlRqpVIO4k/PEE9Fm9P13K+g9SsZQ3
-	oPn9WNDGcVnGyuveslvbDu/mRQeSE70WOtf6HDKBlGzzuYPs8ZGvWKY=
-X-Gm-Gg: ASbGncuB3kA+Qnf15Umfo4SzFKU4ZYv+W+gvrjWdVqt/CTZPP7n/EtCcvTSh0f7PVH0
-	31A36hT3CmorzIkCx2t8NteOAU2X4jIIb2Miiqx6eX8qMBarQ91H/E75NC/Rn1+yMrGWvZr769z
-	XY1OXy8QYRRoXAubgRgDKlUC54ZkYGVpktXMkIU8k+ZurRjy7AdIjzxlm4SGGhwW2NJ+DXQhSTn
-	8KO4NQNdBwRjBamAYuKJLVOS9oZJ67I9fTkwwLqzqcfdjwu0+L/4O6d92fQgf3dpimquy/Y6xoj
-	345sZFlsgNvNhImELALVV3KnjrllFf9fJ8Zmi/qZiOOuK7HjLURmcJwxXUUPhKMAbyFB4OnWFNn
-	4nCNLDj19uSezBVuuGOjwyEx4iBXGyrLk8TO6THCn38e2WB+vxrIuzynHckw=
-X-Google-Smtp-Source: AGHT+IE2Pj5Ew6lBgyqgzz48L0gmUrnTfjQU1Y3HzmaVdoKRrzgV7rZc5UlY0kXH/5xhGcGN5tjsIw==
-X-Received: by 2002:a17:903:f85:b0:244:99b4:b38e with SMTP id d9443c01a7336-24499b4b460mr18629385ad.24.1755531633443;
-        Mon, 18 Aug 2025 08:40:33 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1755531634; x=1756136434;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=4jXoBQiGcML+O5CHFOk8NakzzuxAVed76FZQO5V7Zuo=;
+        b=A72b4Pc/nmJZFNeyu+ghLXi1ogDz0dVBb+fSQFQoLacKKq74OJ19AfVPTw37M5eIVP
+         j2xXgd7jw+08MyuWgFSJ7nJT6/VK3F1nXuajtPWgSBTERd+TjwC3WjpO26wHnYBys+MP
+         Ysj/2Q4dloS6e/FLWEWmjQdjPEMQrVqv0IHCSe3Y1qjZkeFFlyhFZy5Iku9nSpU1G7EH
+         ZfYNZXrZH/DHe7F7/hjVBrxId5AQ4FtGP/wpOJkrfMA0rcvR1r9ZJyg1hqkdRLz8Z+BM
+         6iAfVimMlROXSuUctc8ai0jQLi0MUeWRtlZEAYrLv8l0jvOprXgz2w49knYYw7txRZIt
+         BQIw==
+X-Forwarded-Encrypted: i=1; AJvYcCWQB+Mibhm3aSoUV2Ayt2udlmXsRBom/gWmuClMJGIfO1JqV4B1Wm95nJzgEzHPexmKDUb53kexpEuBE0ht@lists.linux.dev
+X-Gm-Message-State: AOJu0YygWxOC1F5LTWVskl9YERCBWKdI10ERwmwinaLTMWnR5GOK2lcH
+	nUTRTehwzcQNYo1f8EwfeMFRkTX1MJIiXz7PsM0UTvXPf/VEDvB1EP0=
+X-Gm-Gg: ASbGnctAY3dcXcz1v6dJz3euKIRWVbiqWbcUXe/+WQqdo8uAzZ2pC3ZJmFT6t/37ZKs
+	vu6psraclo0oqwsNzO9SHIiZgc4WfEwbcViIlQqLVVXxjEnHJJfLDnwcioPTAflO6Z+57wU8sDE
+	1Eb9LCPUFvKZoXzhAWnmuqNXCKPm2h7BfytbHKiz6QpFxUJL6JM6UHPfvj3B8f+6oZD6KgT9xgM
+	lz/xdZBqWQS6a55Nr+kkXASZl1rGCddzx9tmR3W/Zb1Y4VyIEgVrC3ntSlpKyfPNbSKCUD760KH
+	LBNAQUYihd8ENtBBcTgXkr0wLVT0aYwtnKbOcKbvKJFBy2DeeDf4bC7BdeJxwmDQLNhFiupjwLW
+	bt4YNms4sRXfMqkZYQr/YSGOhZ5+J9nFdhMqFDuq1a6ePk6TZ5Oe7wBvl8UIK5IArVhBDGg==
+X-Google-Smtp-Source: AGHT+IF/N1PLy55109GC/Y7zY4a/TPzsoK+ogpED49iOqmUzUNQ5ofGeFk3sGZ2eemY8kdMbbgxW8A==
+X-Received: by 2002:a05:6a00:17aa:b0:76b:e16f:ca91 with SMTP id d2e1a72fcca58-76e446adf03mr14527105b3a.1.1755531634478;
+        Mon, 18 Aug 2025 08:40:34 -0700 (PDT)
 Received: from localhost (c-73-158-218-242.hsd1.ca.comcast.net. [73.158.218.242])
-        by smtp.gmail.com with UTF8SMTPSA id d9443c01a7336-2446ca9e057sm84009905ad.3.2025.08.18.08.40.32
+        by smtp.gmail.com with UTF8SMTPSA id d2e1a72fcca58-76e455ba020sm7502378b3a.109.2025.08.18.08.40.34
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 18 Aug 2025 08:40:33 -0700 (PDT)
+        Mon, 18 Aug 2025 08:40:34 -0700 (PDT)
 From: Stanislav Fomichev <sdf@fomichev.me>
 To: netdev@vger.kernel.org
 Cc: davem@davemloft.net,
@@ -66,10 +67,12 @@ Cc: davem@davemloft.net,
 	netfilter-devel@vger.kernel.org,
 	coreteam@netfilter.org,
 	herbert@gondor.apana.org.au
-Subject: [PATCH net-next v2 0/7] net: Convert to skb_dstref_steal and skb_dstref_restore
-Date: Mon, 18 Aug 2025 08:40:25 -0700
-Message-ID: <20250818154032.3173645-1-sdf@fomichev.me>
+Subject: [PATCH net-next v2 1/7] net: Add skb_dstref_steal and skb_dstref_restore
+Date: Mon, 18 Aug 2025 08:40:26 -0700
+Message-ID: <20250818154032.3173645-2-sdf@fomichev.me>
 X-Mailer: git-send-email 2.50.1
+In-Reply-To: <20250818154032.3173645-1-sdf@fomichev.me>
+References: <20250818154032.3173645-1-sdf@fomichev.me>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -78,42 +81,63 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-To diagnose and prevent issues similar to [0], emit warning
-(CONFIG_DEBUG_NET) from skb_dst_set and skb_dst_set_noref when
-overwriting non-null reference-counted entry. Two new helpers
-are added to handle special cases where the entry needs to be
-reset and restored: skb_dstref_steal/skb_dstref_restore. The bulk of
-the patches in the series converts manual _skb_refst manipulations
-to these new helpers.
+Going forward skb_dst_set will assert that skb dst_entry
+is empty during skb_dst_set to prevent potential leaks. There
+are few places that still manually manage dst_entry not using
+the helpers. Convert them to the following new helpers:
+- skb_dstref_steal that resets dst_entry and returns previous dst_entry
+  value
+- skb_dstref_restore that restores dst_entry previously reset via
+  skb_dstref_steal
 
-0: https://lore.kernel.org/netdev/20250723224625.1340224-1-sdf@fomichev.me/T/#u
+Signed-off-by: Stanislav Fomichev <sdf@fomichev.me>
+---
+ include/linux/skbuff.h | 32 ++++++++++++++++++++++++++++++++
+ 1 file changed, 32 insertions(+)
 
-v2:
-- rename to skb_dstref_steal/skb_dstref_restore (Jakub)
-- fix kdoc (Jakub)
-
-Stanislav Fomichev (7):
-  net: Add skb_dstref_steal and skb_dstref_restore
-  xfrm: Switch to skb_dstref_steal to clear dst_entry
-  netfilter: Switch to skb_dstref_steal to clear dst_entry
-  net: Switch to skb_dstref_steal/skb_dstref_restore for ip_route_input
-    callers
-  staging: octeon: Convert to skb_dst_drop
-  chtls: Convert to skb_dst_reset
-  net: Add skb_dst_check_unset
-
- .../chelsio/inline_crypto/chtls/chtls_cm.c    | 10 ++---
- .../chelsio/inline_crypto/chtls/chtls_cm.h    |  4 +-
- .../chelsio/inline_crypto/chtls/chtls_io.c    |  2 +-
- drivers/staging/octeon/ethernet-tx.c          |  3 +-
- include/linux/skbuff.h                        | 41 +++++++++++++++++++
- net/ipv4/icmp.c                               |  7 ++--
- net/ipv4/ip_options.c                         |  5 +--
- net/ipv4/netfilter.c                          |  5 ++-
- net/ipv6/netfilter.c                          |  5 ++-
- net/xfrm/xfrm_policy.c                        | 10 ++++-
- 10 files changed, 72 insertions(+), 20 deletions(-)
-
+diff --git a/include/linux/skbuff.h b/include/linux/skbuff.h
+index 14b923ddb6df..7538ca507ee9 100644
+--- a/include/linux/skbuff.h
++++ b/include/linux/skbuff.h
+@@ -1159,6 +1159,38 @@ static inline struct dst_entry *skb_dst(const struct sk_buff *skb)
+ 	return (struct dst_entry *)(skb->_skb_refdst & SKB_DST_PTRMASK);
+ }
+ 
++/**
++ * skb_dstref_steal() - return current dst_entry value and clear it
++ * @skb: buffer
++ *
++ * Resets skb dst_entry without adjusting its reference count. Useful in
++ * cases where dst_entry needs to be temporarily reset and restored.
++ * Note that the returned value cannot be used directly because it
++ * might contain SKB_DST_NOREF bit.
++ *
++ * When in doubt, prefer skb_dst_drop() over skb_dstref_steal() to correctly
++ * handle dst_entry reference counting.
++ *
++ * Returns: original skb dst_entry.
++ */
++static inline unsigned long skb_dstref_steal(struct sk_buff *skb)
++{
++	unsigned long refdst = skb->_skb_refdst;
++
++	skb->_skb_refdst = 0;
++	return refdst;
++}
++
++/**
++ * skb_dstref_restore() - restore skb dst_entry removed via skb_dstref_steal()
++ * @skb: buffer
++ * @refdst: dst entry from a call to skb_dstref_steal()
++ */
++static inline void skb_dstref_restore(struct sk_buff *skb, unsigned long refdst)
++{
++	skb->_skb_refdst = refdst;
++}
++
+ /**
+  * skb_dst_set - sets skb dst
+  * @skb: buffer
 -- 
 2.50.1
 
