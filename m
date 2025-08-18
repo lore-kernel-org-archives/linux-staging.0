@@ -1,107 +1,100 @@
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DB3486348
-	for <linux-staging@lists.linux.dev>; Sun, 17 Aug 2025 19:25:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5EF5214AD0D
+	for <linux-staging@lists.linux.dev>; Mon, 18 Aug 2025 06:15:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755458703; cv=none; b=Y43gqnrfvIMebd7FxnR+ZoGfRQrxWX+QionRJjMtfzyRZ7vQueMb4uhnokmb+n13PXOA8ig8cTs9ZFQtzxy/+YV/V/piGJxcFZvZHmMROCmdQRWO72ASAPZy2TGw5+W/Qn+RlB5eIDgBDNnrG0B8rDpsoublDPWfN1VI+YVX984=
+	t=1755497746; cv=none; b=LAjOZSLkpt1SE/N39vIteUYfxi3Md4e/RzZ3FICyEaFo+f1981/A2571HY6GP9/lFwsNOtvozImVRf9BTxiuY4S3Qxw+9tLjufFeVu8D5WGl2aVZE7z8vccO4OND0P9LC1saj5VAb1iiw8kvEcf6rYv3FxgllVD3sVIkNFFiVNQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755458703; c=relaxed/simple;
-	bh=xL6R8m/nXCFkJx9BMX3ZnWeIl1yLQn9APl1EfADjcYA=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=YvQsEnmLKhocU5SA4wN+SK2Nh3gjGnIrts3d96o5yde+o/YSB/vYbo+6Y9z/8IV3Z/spyjhLgTp1W46O6jbJX4PvnWc/AH6is9lgtVTlgzNbL4+LAYFyxkK3K4BE0vjWsMiOBUjnkAag3CLA6+DWulqcpaUz6BjtVGJ4x0p2qJk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ip5Pk7XI; arc=none smtp.client-ip=209.85.221.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1755497746; c=relaxed/simple;
+	bh=MYHptY7qVMdCeYExxbFTjOvHEMfmgG75pzPebFLBE6Q=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=fIr7/l7qz188to2qIeWjsL98fGXdbuh/b85JtI51s35tP15HArxc5tsz/0wtvMXhxS7ljrObzbTWoL2m/QDxPSPY8HK+AOEGLMmSAZfOHoXUVWQBRn1luQ/RDwuknTGL4lGpcu5CSmhk4UivIZdaW1p1dZ8iC5HSQ/r90jewtsQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=kXDZ6VlU; arc=none smtp.client-ip=209.85.221.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ip5Pk7XI"
-Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-3b9e41669d6so2754155f8f.2
-        for <linux-staging@lists.linux.dev>; Sun, 17 Aug 2025 12:25:02 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="kXDZ6VlU"
+Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-3b9d41c1963so1774441f8f.0
+        for <linux-staging@lists.linux.dev>; Sun, 17 Aug 2025 23:15:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1755458700; x=1756063500; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=FE5LvxHI/u/9rY7Jgwh0AsRJ/tZlVUrx+gbhVYMLy5Y=;
-        b=ip5Pk7XIyb0aLM4XuUcPp1mRFdkh/NdGIeHUO/2pEZXmILJUW81mVJi/KqG6pLA0wQ
-         WNuE/7UenKTJbZO4+T5b4kBgn24rS0CQuDQn3d3D3kVkKnNXAWhjdHz8AY8KIp6uTsSz
-         0RdWNd3fyx75WCMYfP4Zvax8znTnE7THFWuM1e3TaWR+zep+EO9FA9uCuHr9/j1smyzC
-         IianTMsv9YYvnjDAsRnVt8sm0jxqWzKwNEyvr9e59QOEMP3L5Q3zvwxS3pHOp33edmvC
-         o6juEQbwWjqN4cWIp+iHoSeRUclp0XXDVFP31ZXP5sOSuQmJskCHY9rGsGxmx/rUq6vH
-         wZvA==
+        d=linaro.org; s=google; t=1755497743; x=1756102543; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=+PSsAQl2WRt5OEtha/zrB/DgNNONu4LNMZgefW2fQN0=;
+        b=kXDZ6VlURclVz+l4gz/uIbIp8QN55CLoFsGHvbATYLeuX5v2G1Oo0kL1H0af4cBthc
+         tg7nq4tgyLAgXf/UlXA7SdoMA3doiJJMPn1hfwY7gWuw65H6klpjddDzoMzIi0WCmrBt
+         SoCDxrg+90yzBs5aMBmOHD812FF2VebJ712TnEnnjKD/PWO312IncAQ8I21M33u/dt1u
+         d+TqMjw6BQgjgSmUdEwzbqYfbgneu7wT3QVZ0OTJnIg+LIoh6wm/NRqY8nTbsenvv8Jd
+         NOTfO9OY3RTcgnLs0qjufeY6rEYLT4FgPLHhEYPgFgmoeoidoqGGejSLtR1WP91CvLEp
+         /SCw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755458700; x=1756063500;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=FE5LvxHI/u/9rY7Jgwh0AsRJ/tZlVUrx+gbhVYMLy5Y=;
-        b=Ix66MM6q6li9esTuFB7KeY4+5y6r3cg6/xBOR/8MR5f4DoVE65oPK7ORFocDlk/1ki
-         GTsM9U+tbkoF2N7oNZ/4OVbBhFLisWgW7lfBHSjfl1KHWJLcB3sHQUO3G6DFKEDktUgl
-         v1srXogyxMkSgclXhWI9RgyfHwcBxNAEjWt1nCSwaHa9RgjC6DJS5uRSNDyV+H00Nz5H
-         aNE7L++juuOYIB2Rz4oxns/cuWH0XDPKXkcI3cuzIZjvED/dsyDKGujcy1hbrBqCx14c
-         Dke0OIB0U6dXRe3Nb34mo7w/vZabBQt/uC5hcuNVQI+gMNJg4ha541AFxMyUifjs2dD9
-         VyUw==
-X-Forwarded-Encrypted: i=1; AJvYcCWeul2Y+WDX1AIlVuld2JcbLDNlxCeIgt6qiHTsFmj7v5AgxnD+GOK1/gs4m5LqrRfpNY9KLkiMsetG2sDB@lists.linux.dev
-X-Gm-Message-State: AOJu0Ywoj/yetrbAHtNOkNLvFud4WPcaN8Smse/FbS0e9GjpU59t5LqA
-	/0V0PIW+f3nzVRCLAdMlxX46dnOz9T2rsqnGKcHqLvYQzF9bpIflSqEz
-X-Gm-Gg: ASbGncuu4m9yUSBBaX+PiZw1ULIzHz9ai1KGRKl/6gLdKwmNU6vheT/9vjei/JG8Ste
-	9506+jwx2DgRmsgeghyR5LX7zm3PzngUYVLZOHwTILoDNkSm1i/ux4+erFb2FxA31XHA3dHnI3w
-	Rrl3n4fSqTSn6Q0NXElCpqpsBFNc/f9mgoZ9UzvY9xREu7t4Nj7csHS5tlAgRZKXMERsJObItq+
-	J4B5H64NhNfPxJVRznlT3NgK8zdMURBGI6q3p42uc9db+kSQqIWYpyU8O51mdSOYPHdk7YXBxsP
-	pr1We+F5sK+QY4VUUGup7bxGR9nmUDZUPTekYkPzLnSbiv0PyfwExcxbhvFFeOZ5QpCG8KFatsN
-	cyErp6n7GAvT4W+zQbu674qaYV+/kd6CkVsm7ZcNa6FF7iU+fWKvaEcTeQZKqdlS+dnWFYYbPGD
-	NKJIIcq94U3IQq
-X-Google-Smtp-Source: AGHT+IHbLevYiqVnCty4Q8SzEZcXz+rOpZ/2YyoJYFaBeEoB2NwGJh23htNkZ/5c7jJgxTuiXI+kqQ==
-X-Received: by 2002:a5d:5d0a:0:b0:3b9:8224:d3cf with SMTP id ffacd0b85a97d-3bc6a83c6b0mr4325502f8f.54.1755458700279;
-        Sun, 17 Aug 2025 12:25:00 -0700 (PDT)
-Received: from simo-20nx006jmx (adsl196-126-73-217-196.adsl196-11.iam.net.ma. [196.217.73.126])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-45a1c6cf151sm141569315e9.8.2025.08.17.12.24.59
+        d=1e100.net; s=20230601; t=1755497743; x=1756102543;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=+PSsAQl2WRt5OEtha/zrB/DgNNONu4LNMZgefW2fQN0=;
+        b=h5nH1aPlo2fKXRcJjW9Y+T1533UzUSFZqrhzBtl5UAmgxVeAWkyKkI/pUtTZpi4xBb
+         wfSn+/9ri1TC//xXIQuXusR5Lil0ivZ8JYw5aXr0SEPyEDeATmAgs3Nf7FWRF7SOtzoe
+         jaHxDz0lGZE2m1Ndpsqp7gHb/JzuyBdAk3Mfn0nt07fr0kyKgcgGh7uKeURmLoFLmX1k
+         qXmFGy6WQwhzRQmU+q8NkR+fyeVwTrYkRNx0meBwyRy0nlGMI7loRE66Ze1YeHvJbX1F
+         3xLZbvci8Dznp8Pdh71E0I+jAsMlnTNmtG2aJOuxZamzogm9JIOxFTpRoeCnQaKC/yWS
+         I+WA==
+X-Forwarded-Encrypted: i=1; AJvYcCXIk2BSK3OEPRvXaWxXPDLVBAxL/K7HmLvy1cIKK+BBonnFFmcrP9I411cW4Jo3iXQ4GHEpcVadLoZKOvMY@lists.linux.dev
+X-Gm-Message-State: AOJu0YyWIKk1M0J8WBq7ZxyVLuzjp8hfN4HAZwGDD5mUvs27hH+eEPkH
+	4Veufck0TF1oDRlc50dfx5kUkUH9QzniKD0ghkFF711ze8+dg5JGhk0iJ1Ns0kAKzlY=
+X-Gm-Gg: ASbGncsNwFwzpSTHjxv/KPqKjqJJAGKqphSZKx+jEatiPlpL7FBoECbReEApqym8VV5
+	noLtPJSv9ZB9C/O/zIzvXzG8VeSmSZEvm2+UJctzQyA0XiyOPPLbYc9ZSOUN8Xb+AOEZIhJGSRf
+	TFNHhajFTrcTIar+f8iiz0nk2AV9s3tnMax628S2WPDoX7J4FySyeSTkz+OWiJaNeDMjM4ZjX4y
+	/aM5UEk5r7m5pCksePODhBGtdpaFF+T526WSgZcs0nR5RKfHVnbD1g/PwxlfzBZMSeffcH3hS0Z
+	VNRXXIwOD2jnqwVLzcdnU7CibxpAxLQ4TUiHpWhcu9vjuCdiYyBdDL1ud208bIrCvvM0+P05clj
+	L9FSydhEQE94xR+M1QU9dpDAeXaTplfIcsuVD9uAhSg8=
+X-Google-Smtp-Source: AGHT+IG09uXnf83+BxfTTXuZFbE6IWpXIJALIrxVKeBEh/KVAHcmGhBFx2Xg2Z9xfz9OU41mjepSqQ==
+X-Received: by 2002:a5d:5f54:0:b0:3b7:9af4:9c93 with SMTP id ffacd0b85a97d-3bc6a55e8cbmr5720130f8f.35.1755497742661;
+        Sun, 17 Aug 2025 23:15:42 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-45a1ce9758asm155462025e9.15.2025.08.17.23.15.41
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 17 Aug 2025 12:24:59 -0700 (PDT)
-From: Mohammed Guermoud <mohammed.guermoud@gmail.com>
-To: marvin24@gmx.de,
-	gregkh@linuxfoundation.org
-Cc: ac100@lists.launchpad.net,
-	linux-tegra@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Mohammed Guermoud <mohammed.guermoud@gmail.com>
-Subject: [PATCH] staging: nvec: Silence unused argument warning in NVEC_PHD macro
-Date: Sun, 17 Aug 2025 20:24:25 +0100
-Message-ID: <20250817192425.12983-1-mohammed.guermoud@gmail.com>
-X-Mailer: git-send-email 2.50.1
+        Sun, 17 Aug 2025 23:15:42 -0700 (PDT)
+Date: Mon, 18 Aug 2025 09:15:38 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Abdelrahman Fekry <abdelrahmanfekry375@gmail.com>
+Cc: hansg@kernel.org, mchehab@kernel.org, sakari.ailus@linux.intel.com,
+	andy@kernel.org, gregkh@linuxfoundation.org,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev, linux-kernel-mentees@lists.linux.dev,
+	skhan@linuxfoundation.org, Hans de Goede <hdegoede@redhat.com>
+Subject: Re: [PATCH v3] staging: media: atomisp: Add lock asserts for various
+ functions
+Message-ID: <aKLFCjIEEbEUqEXK@stanley.mountain>
+References: <20250816170603.41051-1-abdelrahmanfekry375@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250816170603.41051-1-abdelrahmanfekry375@gmail.com>
 
-The NVEC_PHD macro was defined with three arguments (str, buf, len)
-that were not used in its empty body, causing a compiler warning.
+On Sat, Aug 16, 2025 at 08:06:03PM +0300, Abdelrahman Fekry wrote:
+> diff --git a/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c b/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c
+> index be5f37f4a6fd..03067479dd69 100644
+> --- a/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c
+> +++ b/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c
+> @@ -1447,9 +1447,11 @@ int atomisp_css_input_set_resolution(struct atomisp_sub_device *asd,
+>  				     enum atomisp_input_stream_id stream_id,
+>  				     struct v4l2_mbus_framefmt *ffmt)
+>  {
+> +	struct atomisp_device *isp = asd->isp;
+>  	struct ia_css_stream_config *s_config =
+> -		    &asd->stream_env[stream_id].stream_config;
+> +	&asd->stream_env[stream_id].stream_config;
 
-This patch silences the warning by explicitly casting the unused
-arguments to (void), making the intent clear without changing
-functionality.
+Don't delete this whitespace.
 
-Signed-off-by: Mohammed Guermoud <mohammed.guermoud@gmail.com>
----
- drivers/staging/nvec/nvec_ps2.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/staging/nvec/nvec_ps2.c b/drivers/staging/nvec/nvec_ps2.c
-index 575233fa1677..7accdcafeeac 100644
---- a/drivers/staging/nvec/nvec_ps2.c
-+++ b/drivers/staging/nvec/nvec_ps2.c
-@@ -28,7 +28,7 @@
- 	print_hex_dump(KERN_DEBUG, str, DUMP_PREFIX_NONE, \
- 			16, 1, buf, len, false)
- #else
--#define NVEC_PHD(str, buf, len) do { } while (0)
-+#define NVEC_PHD(str, buf, len) do { (void)str; (void)buf; (void)len; } while (0)
- #endif
- 
- enum ps2_subcmds {
--- 
-2.50.1
+regards,
+dan carpenter
 
