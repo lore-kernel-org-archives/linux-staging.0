@@ -1,167 +1,112 @@
-Received: from SEYPR02CU001.outbound.protection.outlook.com (mail-koreacentralazon11013039.outbound.protection.outlook.com [40.107.44.39])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oa1-f53.google.com (mail-oa1-f53.google.com [209.85.160.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CFB92C2375
-	for <linux-staging@lists.linux.dev>; Tue, 19 Aug 2025 13:12:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.44.39
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755609151; cv=fail; b=uH0ZAtCVYONIpEbMcjzdpTueqPHCihe9iTR7UMh6ptahN7c9QR1VdZyjzumiKmEFV/zi8YSlZB81XR6FWo4w5eP7eDy5WIAzh9wWUsoSOiU7hC0DaW5z9EsEGgpBnNKQlNcO0TpVEDHInXqGOcobtbag7JMOVfz8cbxnrHPW3UY=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755609151; c=relaxed/simple;
-	bh=DRtDnJ8dMYn/seOE7F2UzjzyPdpUARnOl+WRv65XHSg=;
-	h=From:To:Cc:Subject:Date:Message-Id:Content-Type:MIME-Version; b=gtY0YPQt8MEV/Y7X4Ruq1vuDQVfe+bFLtNK8TuKTIB5xD2bTsWoI1sKU9uH4zp7EMXAmj9YpcA7ege4x1nOOlasVw3bsv6LvtIb3tC2cEJ4s105VMzuSGpdbB7Ly0ty+LgYUYd82tIR00Dl+kLvkzz+gIZIDangikDbd8Hf99QM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=vivo.com; spf=pass smtp.mailfrom=vivo.com; dkim=pass (2048-bit key) header.d=vivo.com header.i=@vivo.com header.b=fvBGz7vi; arc=fail smtp.client-ip=40.107.44.39
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=vivo.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=vivo.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7D26236A9C
+	for <linux-staging@lists.linux.dev>; Tue, 19 Aug 2025 14:13:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.53
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1755612783; cv=none; b=IWdATRvhAvVPJTawLZ+TfBA+FRTahrfSxzqw9mzcvzhswFm9pUJxVZfTrw+l73OSbZnKXbpLlUc6whWArhGePM83kmY0o7dh2gPiQQVE2ytcl8y1G6ozQCw0qhmsftPxDMMX19Y9YspWJ0qNcn0FP/qKTXvDsnNYzohqTrElVS4=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1755612783; c=relaxed/simple;
+	bh=tcvLkDZhSYdC1JNpLYire5yRg2GM/bnYtQffZEEQXGg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=DqVVlYRlsCznv0gnJ0KEINGN5j4771uoJopZRn67fzZivhZoYpXAVTpIOvR8rIqs+xVIdl4jKrVQXyxayDiA56+8XIQrrW6jeYE//P8wW5lucpOW0Xpi/9RguFUJGExc4mwOj+ugDCqyUDJlH9RuKxxZbm/1pLBnTwGtf9J86TY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=QWG5TRik; arc=none smtp.client-ip=209.85.160.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=vivo.com header.i=@vivo.com header.b="fvBGz7vi"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=rSeHV5Ur2vJ6VZL0uRmk0zQWVroKJSroI3w11MXU/TljZx/LmvaG3nrvPOKysJ36D1/Jq2P4kLPx/+mVgrmO59FKWXR1lYmdTBIh/qnZx0QirzOAvz/KXrX9o9F4pmDI82FsNzLwJ5OBmheQgqgK8WLqyv7eUW8lUt1DilR/9Kk5FLq7rnohSdwRVamz+XRGXJqUwUyXyHWo8TvSkCekiyRt6MdQL9AHTXg5EGZyjt8btiJEYilecj1hn368T0tRzjkuugAPksfGQUZhM7DATcAyVUXjmRMNaYtm1WAi/NRkpfVmyn8BsiJHw+9SG+Y38b9xsIDPKGd83730sLoNJg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=OYhXrRc/OCgbjPUAyIutKc/cKWG4c48UOVxuuFYaAhs=;
- b=YPGLoTEES6cVHx7/vtv8yWixIsrGNpkz7ewpxqUCOYZVIAXfQPaNYokvPwkQUn32KIBRZXdU1C4UQJTx5oPrTLbyBMPvg+RortWeZTS3Oxuml0t2qN2inA7iIbdMiKYy/sqoaiob4x5XlsqigxkeHuwfYDhMoywEt65tnqskKTaLHPKiUXVApw9+3jNxEu1OF7nozui9fGnNwxv/7HRUPWTWddhCmpG/Qm9Q/dE7Kc0zEFmBBJFUk79ooYn8Y7XcQ/JBtH18OtGi0cKte4ciyR2Qg4P6u7NBF/ZWnETqdRBfHdmuEI+oSDCFTQ8KHqapuzSpBMGuDJvf7mL7mjGu/Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=vivo.com; dmarc=pass action=none header.from=vivo.com;
- dkim=pass header.d=vivo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vivo.com; s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=OYhXrRc/OCgbjPUAyIutKc/cKWG4c48UOVxuuFYaAhs=;
- b=fvBGz7viGmKJyQVJpRl8odGAmnoInL9e/smQJHT4E/c1hDRYwJafueyCyGC2A0KItkDUzYeVxYHhT8ORUmmC5VPkbaZ64ZeVZyevk9GGsiAsj7Sl2vh+naTV845aaTW44H8tVpIJa9WV22u7WiiKLKpZt1+VDVHQHHKrcK1pgXylqnJmqr/9eryvjIorySWnxOV214ynAxVaXqwWOUwpD+JBYob2VvV1Lh16BYQfkuaCjo3CteVDHOQUvR7lGRM2xWCXicrLZHeVFc3VmyxzlQCYLRghuiMZ7Y/dNk4D5pZ8K9KxzgLHVZZFONILmep296z38cel4ldcdEb2vX+4nQ==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=vivo.com;
-Received: from SEZPR06MB5576.apcprd06.prod.outlook.com (2603:1096:101:c9::14)
- by KUZPR06MB8028.apcprd06.prod.outlook.com (2603:1096:d10:49::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9031.24; Tue, 19 Aug
- 2025 13:12:24 +0000
-Received: from SEZPR06MB5576.apcprd06.prod.outlook.com
- ([fe80::5c0a:2748:6a72:99b6]) by SEZPR06MB5576.apcprd06.prod.outlook.com
- ([fe80::5c0a:2748:6a72:99b6%5]) with mapi id 15.20.9031.023; Tue, 19 Aug 2025
- 13:12:24 +0000
-From: Liao Yuanhong <liaoyuanhong@vivo.com>
-To: Dave Penkler <dpenkler@gmail.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Michael Rubin <matchstick@neverthere.org>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Dan Carpenter <dan.carpenter@linaro.org>,
-	linux-staging@lists.linux.dev (open list:STAGING SUBSYSTEM),
-	linux-kernel@vger.kernel.org (open list)
-Cc: Liao Yuanhong <liaoyuanhong@vivo.com>
-Subject: [PATCH] staging: gpib: tnt4882: Remove redundant header files
-Date: Tue, 19 Aug 2025 21:11:54 +0800
-Message-Id: <20250819131203.152724-1-liaoyuanhong@vivo.com>
-X-Mailer: git-send-email 2.34.1
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: SI2PR01CA0039.apcprd01.prod.exchangelabs.com
- (2603:1096:4:193::16) To SEZPR06MB5576.apcprd06.prod.outlook.com
- (2603:1096:101:c9::14)
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="QWG5TRik"
+Received: by mail-oa1-f53.google.com with SMTP id 586e51a60fabf-30ccebb0cc3so3715452fac.3
+        for <linux-staging@lists.linux.dev>; Tue, 19 Aug 2025 07:13:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1755612781; x=1756217581; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:to:subject:user-agent:mime-version:date:message-id:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=sC03Vtb6Z+xfVGAeKON3EIuIsQUVP+6HYJOuJwwhIu4=;
+        b=QWG5TRikrhCAGXqvQ4e560mps7T+a4pcOyg3aSGEGpJEqwDX/V9EXCH8kl4XqrEm6q
+         th5LfHLv7LSPf/EazFxnYJIRqYo3PQSbjSPrrg2Uv9Dl5igYBonD4gEZWy/WI1q0bnrF
+         Yt6tcNXNPW+m+ksWDgZnY580MMQpdkOn1OuZMo/h9teY6fB00dOxg295dKjXTNBdY+VA
+         juQaKQ8RroEsKaDF1M0Teu4pcFyD5eOrEbLC4XFmavwpc4enPJSrNYmQpH9Lt2tS98D5
+         x7hoDm0q+7pwhPCVZdvyGZi2BbsPJYYJYSWRIzTvNZqwNnfJik2l5Hlqk5hEJfBhskx2
+         li5A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1755612781; x=1756217581;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=sC03Vtb6Z+xfVGAeKON3EIuIsQUVP+6HYJOuJwwhIu4=;
+        b=L7ItBzjGr1JKvrqjd5cOJPEmoBuoyW0CbWh04kL+Xau6vVZrDE3mzw5x4RU2YeqK7+
+         7IyQ9saO/HtPn076lA8aVCnEl6vG/rESvznX3zDyWLLjNTCASxnmF5Ui99XRpK5UuJA6
+         R85AWLEVKBmNZgfW3Ey2PPa76q/bnglhCP+P2yPL+vS9l3ZmMX+a5uLIXOgD9OGLUUWI
+         ZPVqnOWwYd4R5LE/4spx+Onm/RZUed7PpU+QrZoXrd/AVrSZ+Oa5DInCL89j+2pinSnJ
+         Lyf53gEKVr3y+rXYrUKNPwZO4sp9wX5Cai6ZV7wJZbukp2RIvGYOy6YDDapTu289S+QN
+         KQEg==
+X-Forwarded-Encrypted: i=1; AJvYcCUzZGtjUhjFLsuYR924jpPZZGupQWloYQ3G73u/JxjAx/UFSX8hsrwc1vzgZxXA+Htb/idi6Y7Xg+mSAngU@lists.linux.dev
+X-Gm-Message-State: AOJu0YzR7CprgKzeFazcetu7cwdljRLQxbXQYKqBokxrtzz3N8Xtj2hV
+	MDBYo5a5f6AJhkBZtRJ0piC0c8TKTxGrxyERfFhl25kzgIWzm2oaNT6d1bAyAXhzax0=
+X-Gm-Gg: ASbGncv4C8+nUaupy+PVQQSpdTy4G+V/HfgIUp1sG0X4PEJIAsTt4m1cnj2Su9c5ZUd
+	0orgbBeRe6Flk2wvFMiNmdHLjcFTLrWzdUK14b+vE0SK+vGpx2IXcK/6RVNC9ej3Agex2CigYo9
+	nM/eQIPBZGa1HRd9f/k7J7dT8F1nt1Bol/7w9yAEI06Pr0M0oaJBJ8Zwx2/3CsJwth40HEOF/iI
+	an9GTKh8A4Js/9NEQfOAJ7k92ktwgnhN7GWEo0jfpDpr2nUdkhb2FDX02D/+N3TYvVrVGRR/YLg
+	PWKI3Gg2H92OZz3SGzQmFpvDE0X+oxLwkC4yIZF9WwwO/j5LnmgOdE60LzfWNTMsbQnWz5Fs/Cg
+	IDj3D+kMYDD7NvM0l6SM3KlupCgdEibT9ISxN8QGaJ5cmOIEzdLBjTBHbW+0Rrq0F8HLsPVIzBO
+	M=
+X-Google-Smtp-Source: AGHT+IE/mtp9q8E9onSsRDxS37DeKqaFV5tEDirGChhOYgu4v9D31FyRKTaNPgh6rP0QWQ29DpP8GA==
+X-Received: by 2002:a05:6870:1f07:b0:2f3:e087:678d with SMTP id 586e51a60fabf-3110c0629c2mr1810405fac.11.1755612780668;
+        Tue, 19 Aug 2025 07:13:00 -0700 (PDT)
+Received: from ?IPV6:2600:8803:e7e4:1d00:990c:4d50:9c6c:f367? ([2600:8803:e7e4:1d00:990c:4d50:9c6c:f367])
+        by smtp.gmail.com with ESMTPSA id 46e09a7af769-7439203bd13sm2416648a34.24.2025.08.19.07.12.59
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 19 Aug 2025 07:13:00 -0700 (PDT)
+Message-ID: <6b915b3a-8e6d-485a-9050-474bce154fec@baylibre.com>
+Date: Tue, 19 Aug 2025 09:12:59 -0500
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SEZPR06MB5576:EE_|KUZPR06MB8028:EE_
-X-MS-Office365-Filtering-Correlation-Id: d8f8670b-58ab-4236-5340-08dddf220982
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|52116014|366016|376014|38350700014;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?an1EToX9ugjdQGEQy/ATjwuUoIH0o/+WK679VdI7re2xdMOr99faP4/DczBQ?=
- =?us-ascii?Q?HNtJktYF3yBgUg+A9VYSgR6oim4xmmA6brh7emjVLC/o/ncOMk/w/l4zxYzn?=
- =?us-ascii?Q?DQDVaVJejSlALkgaPK2ziw8CJPnv3rvXEZjQmn5QsaRNABeW50o5SXLdNprc?=
- =?us-ascii?Q?La6e0PlQLZWXd0CM8YZY/en1PotHtgl7Zl6RNsZ5CBXLQplYMHN7L942XxND?=
- =?us-ascii?Q?0GquWAw9IzIMHmZeidYFuT2DpJLoYF+/HWvHT0M5e9kSXtgWr4HqpNL1VNYx?=
- =?us-ascii?Q?TNkQBPiht7rXdykKi5pHLayNKPDXIkfuCkLHZwEXVE9Kyk35J6ITxTr0Tnz7?=
- =?us-ascii?Q?Awm0fiaSOSNB5g1mDfd4zK+ihV1ehUnCmsCGL6j717bnx4VlOYhG33BwB4CF?=
- =?us-ascii?Q?5pEFNcBIUJKe8PAWYvDvq03ZVNO3gfpfutl6qRZyZtNl4x19qGU9J5iyD/ZK?=
- =?us-ascii?Q?fqcRuI6smEIt0JdB4sFZLBlB69MLjsl6tlk0tLStl01ZvO32kV/Q1Zot52wI?=
- =?us-ascii?Q?BgidVuWE4/OTnUKD7Ioy9EsoCKfQErTd1T4Oy400o66aL7cKqU20CKzbZ7Mh?=
- =?us-ascii?Q?9VVBfWtrg6KD/h2vpVA/2JJVoxlWbHtmN6bhkXaHqzIOfY4bX6DbQdHewKBS?=
- =?us-ascii?Q?kH/p4q7A0lSHgAyHjgLhPcVau2kaJrsRsUj+P666BizlCsdg+F7wM+oB0S97?=
- =?us-ascii?Q?nfrcqRr8A4G+/8gIwLGIIxcz20nytUKr3o6N07LIxxcGvXPmyjq9sFrnAen2?=
- =?us-ascii?Q?UcYhw3+CrP7dBBrnnVW6QPkFcxntSzYVCkO5Gq1TvoJgDNTqxOG4a5n97wWv?=
- =?us-ascii?Q?rPKAcgilr5d2hHhX7E6lan+j7pwXBFfazzQN5uCYqW52oI6sp2DcK/RXdLtB?=
- =?us-ascii?Q?Q7zmHfUDK7M3G7CyNQBBeJd/i/UYC2lFlZ73AxP/QrqHrLVJZhzgPWULC1GG?=
- =?us-ascii?Q?dopkn4wGYYSe82zpM7hy4z4HBnola2IDJGA+ovU9XOqHC6jYTSqfsMn3tHsE?=
- =?us-ascii?Q?fja6iyZ8LKo8hD7Slnzw5NQc+l5SDqAAuNsOsdNFvGOxH1naSk4XKMdyXQVw?=
- =?us-ascii?Q?tzIUlqsApw4G5acULHz9fQgcC/Ihtz+I3eiaKI9HPhVNsfdT/FehA1rPTLfg?=
- =?us-ascii?Q?2vi+73QyZVIB0sQlswp7rYtgBM5xAZ5exYmmQh3rJlpi577zkn/UPB0X8Df9?=
- =?us-ascii?Q?PNrMLenzYCWeViDHFIsrnVkqY2l0VcnbBRxQdBdzzTyW/GoGvSyfft+GnB8Z?=
- =?us-ascii?Q?Q4W3N6p2ASKgRyb2xDTBBBbRJshlPui2ZS7KqXBr3elT//8gP5sYF6V8k6Xz?=
- =?us-ascii?Q?5s7iz3CtmIZTJ85dyJVRr/sfwT1fDCf17vrSFqZJfrJJjGXavOxzlQFaQyM5?=
- =?us-ascii?Q?JoZeGZY2of6hDiRgPui5tVzqDsFaa9gs8e6Y6JYkF05b/gYuP4ytjtYHnS+r?=
- =?us-ascii?Q?FXd6Yl1RfzLFIaF+dGy6+EQ72m9Qv3vHx5uRAkwC8Rxd6epuM1iatA=3D=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SEZPR06MB5576.apcprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(52116014)(366016)(376014)(38350700014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?cPjmXozIq5xbXhjjWixo2PN4IOZrQyopyVyhkSMXqrK0s2C1rzgXulEACj46?=
- =?us-ascii?Q?fj/kQZK+5/+tquh4EPxzLz99UmV1g8p4JR2nu+1IO2GrWHjp9auiNXNy6BCw?=
- =?us-ascii?Q?VJZyxtpPCHAoj999I9YOLLwoh1fHIgYByA5toPsFjGyKOA4IW42oNfv+RnTB?=
- =?us-ascii?Q?gaLLVlQtcZLZrY8U/3iGZw6xInENU2GkIQRswhSsOEYnF+ekW7Jm8oYeTohL?=
- =?us-ascii?Q?j4cbnr3bV+5L2hz5QVciIz25Rpot/3c4HpvQ2Lh/A4BOawDl4rICq4UyX08e?=
- =?us-ascii?Q?j3rIxzPL3pMWItl+MJjI7ryHfiI21hdKqjz+8ZLP28h2UbZvzHsU0DTbvNEP?=
- =?us-ascii?Q?CS8wZscZXkyseBrEp3nkGfY90TZstiYAk209nhKn40vqbBUEApFqfpW3nQQb?=
- =?us-ascii?Q?YsLPFYLy3aHZRaZwRlvy6Bn/N8+/WOdsvua1RUeyUcVZq0baHAqi5D07RFXK?=
- =?us-ascii?Q?2pd75zknyoWm5XLzLZ68rjij0aKnl8bsDrgbA6zcVNpzW3Kep2x17PX8t+8R?=
- =?us-ascii?Q?Z+S5sBcbTofsjckHInPYAEVX7WCDSnFxYkNbbI/UjMSS3Ib8YHtesQM5W9hO?=
- =?us-ascii?Q?Buev2MGgZMkt5ZmOTV85uBQENyWNCERWqD3fuLHNzrkCMD/TuaERn/0QhQBe?=
- =?us-ascii?Q?AFpHu7cVfg/Idi3tH89PhodzI+hx5yX+W0IBwV/ctydfj84FWYwCujBnFsvf?=
- =?us-ascii?Q?5a2pDNsPyjcIb6RpZJR5UDyIoTFpNYRmZK5TcoMMQ3GCE+RirR6M5jW3YrFD?=
- =?us-ascii?Q?g27V6kVPLkIPCVfB16YRhgPnXFgUFH2Y0aQyokKH4JCB7ie4DsVxFcDDjj65?=
- =?us-ascii?Q?wcx6t3gpP4sTFi19sd5BJNvjRAhf8xZcrG3V6s4h+zvg4AotfmxUr8PfpUd3?=
- =?us-ascii?Q?/lJa+VKcfM/zx9E/gbNie+gnWioXLTPOUH/JWCAVRMYVdqfVfeb6iz9qjVAX?=
- =?us-ascii?Q?JRskOsnZ1pHYYtYl96dXiuW7rjUwdg0djIulZobZ4dE5hWBJRnUGGTDisW1X?=
- =?us-ascii?Q?nzJ7hWA5pbKddrGoA3zDAbA+LZxNzKoqe806IbYoFQyDFQZ/CZBEHgLSdv58?=
- =?us-ascii?Q?rh9e8MSJSvX8ecdPwA6W7FRULcHJHsm/oPfn2DfX2Gp8KcmVhYbRgbUQY+sq?=
- =?us-ascii?Q?AWXrGvDuZu0q1hCJ5IPJ6bOd9Xl9EOcBNUdzqgi2iTm5IPxXJkkvMK/TN1gw?=
- =?us-ascii?Q?v57hcE5+z+UVnUHQg/mKMBOqFzafEQZ3iVE/hiifD+xF5h0ufAQLWXuI/gjm?=
- =?us-ascii?Q?E19J046OaI0pvQiLqdYcY3gFG25KfTaztsNdSmueaYdsQrtxdDdIvcV62p1g?=
- =?us-ascii?Q?p1Mc5d7dNt0z65O5McWkFyJffIfpYwHUhqUyc+Zr0wKOCEx7zbWAPBxJnEP7?=
- =?us-ascii?Q?NaowPFfuCikIKtbiyW+SaMYvpK0r4rf7kweEUM3vonVJNNDlamBPtDz1wvAo?=
- =?us-ascii?Q?Uk8T1C8C9rxIkzx7V4lbLzATe+o8So631KNSiLwUBgk8csBvlTw20PHA3khp?=
- =?us-ascii?Q?NtK8a5E8KBB+vt5kLw6U1uj6uHYGO59gP4xws2dsBT8yt/y8Kgwt0t1JguEU?=
- =?us-ascii?Q?cRyFu8kmbX52eecKPcrpsx//JDEvCDYUfyZHKZJx?=
-X-OriginatorOrg: vivo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d8f8670b-58ab-4236-5340-08dddf220982
-X-MS-Exchange-CrossTenant-AuthSource: SEZPR06MB5576.apcprd06.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Aug 2025 13:12:23.9992
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 923e42dc-48d5-4cbe-b582-1a797a6412ed
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: yoM3i71ESTdoaDf1LOzyzpyqCsbvEWZk3oeF/C4u4WbPvMDQAwhZ3HMdl3Uxq3OgIiJugEPH959FPxpbULyzNQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: KUZPR06MB8028
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] staging: iio: adc: ad7816: Use spi_set_drvdata() for
+ clarity
+To: Salah Triki <salah.triki@gmail.com>, Lars-Peter Clausen
+ <lars@metafoo.de>, Michael Hennerich <Michael.Hennerich@analog.com>,
+ Jonathan Cameron <jic23@kernel.org>, =?UTF-8?Q?Nuno_S=C3=A1?=
+ <nuno.sa@analog.com>, Andy Shevchenko <andy@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-iio@vger.kernel.org,
+ linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+References: <aKRigf3TtH-x-i1C@pc>
+Content-Language: en-US
+From: David Lechner <dlechner@baylibre.com>
+In-Reply-To: <aKRigf3TtH-x-i1C@pc>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-The header file <linux/ioport.h> is already included on line 12, outside of
-the #ifdef CONFIG_GPIB_PCMCIA block. It does not need to be included again
-inside the #ifdef CONFIG_GPIB_PCMCIA block.
+On 8/19/25 6:39 AM, Salah Triki wrote:
+> Replace the use of `dev_set_drvdata()` with the `spi_set_drvdata()`
+> helper. This is functionally identical, but improves readability.
+> 
+> Signed-off-by: Salah Triki <salah.triki@gmail.com>
+> ---
+>  drivers/staging/iio/adc/ad7816.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/staging/iio/adc/ad7816.c b/drivers/staging/iio/adc/ad7816.c
+> index 4774df778de9..599f75103cb0 100644
+> --- a/drivers/staging/iio/adc/ad7816.c
+> +++ b/drivers/staging/iio/adc/ad7816.c
+> @@ -360,7 +360,7 @@ static int ad7816_probe(struct spi_device *spi_dev)
+>  		return -ENOMEM;
+>  	chip = iio_priv(indio_dev);
+>  	/* this is only used for device removal purposes */
 
-Fixes: 0cd5b05551e02 ("staging: gpib: Add TNT4882 chip based GPIB driver")
-Signed-off-by: Liao Yuanhong <liaoyuanhong@vivo.com>
----
- drivers/staging/gpib/tnt4882/tnt4882_gpib.c | 1 -
- 1 file changed, 1 deletion(-)
+This comment is no longer true. The driver does not have a .remove
+callback. So we can just remove the comment and the dev_set_drvdata().
 
-diff --git a/drivers/staging/gpib/tnt4882/tnt4882_gpib.c b/drivers/staging/gpib/tnt4882/tnt4882_gpib.c
-index a17b69e34986..5ab46a25e025 100644
---- a/drivers/staging/gpib/tnt4882/tnt4882_gpib.c
-+++ b/drivers/staging/gpib/tnt4882/tnt4882_gpib.c
-@@ -1522,7 +1522,6 @@ static void __exit tnt4882_exit_module(void)
- #include <linux/moduleparam.h>
- #include <linux/ptrace.h>
- #include <linux/timer.h>
--#include <linux/ioport.h>
- #include <linux/io.h>
- 
- #include <pcmcia/cistpl.h>
--- 
-2.34.1
+> -	dev_set_drvdata(&spi_dev->dev, indio_dev);
+> +	spi_set_drvdata(spi_dev, indio_dev);
+>  
+>  	chip->spi_dev = spi_dev;
+>  	for (i = 0; i <= AD7816_CS_MAX; i++)
 
