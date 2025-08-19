@@ -1,91 +1,136 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05E8322157F;
-	Tue, 19 Aug 2025 18:20:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B54621ADCB
+	for <linux-staging@lists.linux.dev>; Tue, 19 Aug 2025 19:45:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755627655; cv=none; b=cta6WN8C3JKW+eG/4AdLelwwUg7rnKgtN6sZ/MadhrgNlkPeaVImPgogXkDDoNqPZ/wTg4poDUSJ6o9UEgCAzDI8kk364beHwmusBSghsgFHIjI4eOGxsaDuOpeu3SH5mIvEAB0wreYlAFokydXNcOvCPVTbr1XWpM7rJsnxqMs=
+	t=1755632714; cv=none; b=bmQqpoyvKg5v/OiBgD1U5IoGbPv3OC57GD+V7yYlKA/1spQOWcBDS0YVi6NfmdbbONna59YqbpQKT1CjV1YqThfQwnupuhR5AlzYP+lLVFaXvjRnqo5jXtPJBFo8+8Oti0+IK3cKOyMvtj4qCmXeu/YSBBvXeIS/235yBsrEf5A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755627655; c=relaxed/simple;
-	bh=2cSizdNtjP8nEgtp+IapxXa32stuAUieeQxXIGSwPUU=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=kXkDnKhOoa50zijiOBh+rtNbouP/hzxrR2lT7Q3htB6B8iW/aUKwixA17N9APjqSQ7b9OV6uho4eVaL3/Pu3/CImPIZapZFV2eixLRd7ESHm1VHVmwphq45cUWAjO5fU42yThcrVXczf2iLyKkDnyXZIdKGBeBMbIy7RUH8yv38=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=G7D1lgO2; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1755632714; c=relaxed/simple;
+	bh=7hYcoDZzopVr3IFH6fDdSM89T0PNbMOEudRMR0Xt7Eo=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=p9dLxeaJCJshAkdj3Vtr95ZwqDaHhuif2IaYvXgk1cVrBYwVyvKYRK5q98Tsn0aDqpyG2Q69I2ft4+lLoOvKVC3Lr4nn78xxHZ+uD7wUMeCpVjbzzIv6EV/0OfMrYb9NpR6oBDmfuoOpJepsfIM6D6V5Dkw+M/QjRkeJ6sEIJzA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=S66Ivw29; arc=none smtp.client-ip=209.85.128.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="G7D1lgO2"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7900DC4CEF1;
-	Tue, 19 Aug 2025 18:20:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1755627654;
-	bh=2cSizdNtjP8nEgtp+IapxXa32stuAUieeQxXIGSwPUU=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=G7D1lgO2eg4XrgnMtog+GfhMNIpn9vKbsx3UMCOH8azpQShGLofbiy+EtVcU2jLFr
-	 LGWGDd4l2kjIfh+YtTGQj9BujZrpssd14QkF9tySCaxpuxZGIY+ZxNnxTBRzYK0PCj
-	 e/TJIJVI43hF0VdTuRBVNjOv/AxIwgrxEuXym1ixXTmkZ5BU6HzVyV4XnICfbq+sms
-	 pIm2JrnrUG9snmjoKK+u8CVxSVU8HDmNzbypEzBv6pmC19ry4fXpgwtf+UfExhZRrv
-	 8fySciPmKyFrIEzPNFKJSv2vuvwICnnDyBFpSVZoU9MF0I1nHgSI2ZF2+r8MLW5ZK4
-	 51nll0JknadmA==
-Date: Tue, 19 Aug 2025 19:20:44 +0100
-From: Jonathan Cameron <jic23@kernel.org>
-To: David Lechner <dlechner@baylibre.com>
-Cc: Salah Triki <salah.triki@gmail.com>, Lars-Peter Clausen
- <lars@metafoo.de>, Michael Hennerich <Michael.Hennerich@analog.com>, Nuno
- =?UTF-8?B?U8Oh?= <nuno.sa@analog.com>, Andy Shevchenko <andy@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-iio@vger.kernel.org,
- linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] staging: iio: adc: ad7816: Drop unnecessary
- dev_set_drvdata() call
-Message-ID: <20250819192044.5637c96b@jic23-huawei>
-In-Reply-To: <f7815955-7e8a-4f67-b699-8b19cb38683a@baylibre.com>
-References: <aKSRpTuwA0P-ZaUS@pc>
-	<f7815955-7e8a-4f67-b699-8b19cb38683a@baylibre.com>
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="S66Ivw29"
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-45a1b065d58so43440535e9.1
+        for <linux-staging@lists.linux.dev>; Tue, 19 Aug 2025 12:45:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1755632711; x=1756237511; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=80FfVf7cUzwUy7tgcn/X288yxUMH5V6Bpw69CJ451WU=;
+        b=S66Ivw29ArUyAon0t7qCJ2jQuV4hlaS3+ZnWU3Ittd/CIEHJPIflNGNpxIookRaD+j
+         8dd3fvyb64Un6rx7ZQEJV+mIgwprNxHWyCtgLlwt9RiknIP8/xqmwCTinC3681g3SfdI
+         WR00gaqzBBxmH1DSlD+0lSzmWQkf0pPpZcDWeRSl0+LirbgFKfHQM2UeldLwaq+1fX84
+         ifN68Fu2VKU1eozYbA1Rs82HHeDERMLPISXWQ56c80Cn4ztMYblvVwI5L7lzFnN3s0se
+         dNzsuhSEtidrDleVFOagVsgdKCiSFE20QrWEz/qbMvx/xxz9/ge9ZweRD9weOvlKSzTe
+         J0pQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1755632711; x=1756237511;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=80FfVf7cUzwUy7tgcn/X288yxUMH5V6Bpw69CJ451WU=;
+        b=iCtGZihDm8UL7h4DhJC1ohZicM1Qa6iw5uEhbF29W26jDMmSbdjHn091/GtIwl2z8F
+         ejxy7CVTywotrn95KLSPc9lSK8HX30tSJjoeXxkqKxCocsS/10BmJL4Ah8bmjbpPRBqe
+         /6rIphCyjpzOUfK4Lwx4nWs3GYMBVIdqGkD5UdvuEOYMpE7eE2pak0G9osebbWSHOL1E
+         3KPMlIsIoiyifrQO81bUHHAfFmpLDYFXKibZPzYpTc8s1VxswSHFll+LTI0Y2DPeuEp5
+         fWQlStP1tm1aURVkPz+4exM8r2Lzhb1ehh/UGPyuJZMeguYNlBynRlbo/NZCheiTI0mZ
+         keDQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUF4uGPSoXemRzgOsKPxcw7cqJtAazfs5hnnmlUEvHGMYd5s8RmDk7E+UDxZ0DBvde4OLFzY3ohmReQ0QSP@lists.linux.dev
+X-Gm-Message-State: AOJu0YxpDzcfSJz18hzHMpLdNCGAuSNxt98LZn88A0pm+tdAgB5yXmeL
+	bm83qCDEoufDJXwDdO/f4DAr59jaiV5xduRRJInDCKGKUiS6o+NUdr5u
+X-Gm-Gg: ASbGnctzRLDnzLIZn8A+0A4Lmc0GDjfn8sK3CgfBnCOkXSW0DwMayEN4U8UdXQJS84v
+	rjO9lNpeZ1sBxNKOTkNwNIcBcnC/GB0ZpN1p5Y4QROsEtwohoAcSOSfFLgfy/kQcSwRnU21YkrC
+	iCkOVLNJjvOpMZJZ7/jbVd9+hTOtwXOQwWJWaXyw4L4ALT1tItHTdPnF9xJQshfGuntjp1dxOLk
+	TDFtUpHas0EKlif0rCZ/9H/gmxdpjaUmdUKZJfjJxc97++RKtjsrtJrwT7aPQKwCHQ9yMvNHPWk
+	Iq4kmQ/mM0MS7rDIGcmkfIuh3tijDsCiUQgwhaIXFSgefsNUF99TQxGcV54Zeds8AnKO9RtpvsZ
+	EWytvO2rsWdQnvUtcCR6q13UALxqmizL0MW3ydP5reZM4dLSGmnovlnvit0gUO/iMZPlExlm/jy
+	uj7Qm5jpF+n1TKUYGJabHaqq8EOA==
+X-Google-Smtp-Source: AGHT+IEvQoGlja9R+ZR7/ohI+yJpAG3IODPFFy8R3prK2DU3y+dW6LXDTltf0RGXTR9uOiKPhw/bnA==
+X-Received: by 2002:a05:600c:3b84:b0:459:d3d0:650e with SMTP id 5b1f17b1804b1-45b479b57abmr1101635e9.13.1755632710303;
+        Tue, 19 Aug 2025 12:45:10 -0700 (PDT)
+Received: from simo-20nx006jmx (adsl196-216-195-217-196.adsl196-15.iam.net.ma. [196.217.195.216])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-45a1cda0021sm221264235e9.13.2025.08.19.12.45.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 19 Aug 2025 12:45:09 -0700 (PDT)
+From: Mohammed Guermoud <mohammed.guermoud@gmail.com>
+To: marvin24@gmx.de,
+	gregkh@linuxfoundation.org
+Cc: ac100@lists.launchpad.net,
+	linux-tegra@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Mohammed Guermoud <mohammed.guermoud@gmail.com>
+Subject: [PATCH v3] staging: nvec: Remove unused NVEC_PHD macro
+Date: Tue, 19 Aug 2025 20:44:30 +0100
+Message-ID: <20250819194430.4525-1-mohammed.guermoud@gmail.com>
+X-Mailer: git-send-email 2.50.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On Tue, 19 Aug 2025 10:05:09 -0500
-David Lechner <dlechner@baylibre.com> wrote:
+The NVEC_PHD macro is a debugging helper that is only enabled when
+NVEC_PS2_DEBUG is defined. As this flag is never defined in the kernel,
+the macro and all of its call sites are dead code.
 
-> On 8/19/25 10:00 AM, Salah Triki wrote:
-> > Remove the call to `dev_set_drvdata()` and the associated comment
-> > since private data is never read.
-> > 
-> > Signed-off-by: Salah Triki <salah.triki@gmail.com>
-> > ---
-> > Changes in v2 :  
-> 
-> Reviewed-by: David Lechner <dlechner@baylibre.com>
+As suggested by Greg Kroah-Hartman, removing the code is the cleanest
+solution.
 
-Applied, thanks!
+Signed-off-by: Mohammed Guermoud <mohammed.guermoud@gmail.com>
+---
+v3: Fix commit message.
+v2: version caused a build error.  It's better to just delete the
+    code instead of trying to silence the warning.
+	
+ drivers/staging/nvec/nvec_ps2.c | 13 -------------
+ 1 file changed, 13 deletions(-)
 
-This motivated to do my periodic can I drop this driver yet check
-against my usual rule of once it's obsolete from the supplier and
-no significant work on the driver (staging only I'm less keen to remove
-drives in good condition!)
-Unfortunately 7817 which it supports is still in production :(
-I then checked the other drivers still there and they all cover production
-parts as well.
+diff --git a/drivers/staging/nvec/nvec_ps2.c b/drivers/staging/nvec/nvec_ps2.c
+index 7accdcafeeac..2e36893e0008 100644
+--- a/drivers/staging/nvec/nvec_ps2.c
++++ b/drivers/staging/nvec/nvec_ps2.c
+@@ -23,14 +23,6 @@
+ #define DISABLE_MOUSE	0xf5
+ #define PSMOUSE_RST	0xff
+ 
+-#ifdef NVEC_PS2_DEBUG
+-#define NVEC_PHD(str, buf, len) \
+-	print_hex_dump(KERN_DEBUG, str, DUMP_PREFIX_NONE, \
+-			16, 1, buf, len, false)
+-#else
+-#define NVEC_PHD(str, buf, len) do { (void)str; (void)buf; (void)len; } while (0)
+-#endif
+-
+ enum ps2_subcmds {
+ 	SEND_COMMAND = 1,
+ 	RECEIVE_N,
+@@ -70,18 +62,13 @@ static int nvec_ps2_notifier(struct notifier_block *nb,
+ 	case NVEC_PS2_EVT:
+ 		for (i = 0; i < msg[1]; i++)
+ 			serio_interrupt(ps2_dev.ser_dev, msg[2 + i], 0);
+-		NVEC_PHD("ps/2 mouse event: ", &msg[2], msg[1]);
+ 		return NOTIFY_STOP;
+ 
+ 	case NVEC_PS2:
+ 		if (msg[2] == 1) {
+ 			for (i = 0; i < (msg[1] - 2); i++)
+ 				serio_interrupt(ps2_dev.ser_dev, msg[i + 4], 0);
+-			NVEC_PHD("ps/2 mouse reply: ", &msg[4], msg[1] - 2);
+ 		}
+-
+-		else if (msg[1] != 2) /* !ack */
+-			NVEC_PHD("unhandled mouse event: ", msg, msg[1] + 2);
+ 		return NOTIFY_STOP;
+ 	}
+ 
+-- 
+2.50.1
 
-This is a pretty simple device and probably a good target for someone
-who wants to try their first driver. It would be a near rewrite as this
-code is miles off ABI wise.
-
-Doesn't look like there is a currently available dev board, but it's
-available in a TSSOP and will run on wide range of voltages so not
-a challenge for someone to give a go on a break out board.
-
-Just thought I'd mention that and see if anyone jumped on it ;)
-
-Jonathan
-
-p.s. One day I'll just decide to delete all the remaining staging drivers.
-     Analog folk, they are all yours!  I can't blame any of you though
-     as I think the first stuff from Michael was the following year.
-  
