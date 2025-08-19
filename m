@@ -1,61 +1,63 @@
-Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
+Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DADDA33A019
-	for <linux-staging@lists.linux.dev>; Tue, 19 Aug 2025 12:16:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C12833A026
+	for <linux-staging@lists.linux.dev>; Tue, 19 Aug 2025 12:16:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755605805; cv=none; b=JC5gpXsMM2XOF7/Q+jvN+FvhPDi8WKZZWu9F+7SwOzI42dNDn17rcaU4HoWHt573KpHrIwtZqIJcuoSojyMXOkPJ+9+Z1TP6eZRZHRRb6Cboj/EXwVcJRb5HAh+PR5LIwoqtXnx4dh2OcBrRdoD6vC2JD+68RmLMliQY3HBOir0=
+	t=1755605806; cv=none; b=FVbQh4U+AFLDbrz9E+XuO8RnP7PSD/a+WRF5uRFmncHZ8T2xPHH3+MUhRNeGUbgYZStJPFJKrxQiWjJy4zkiZVBWZtjb6VjNYvn0NJn326L1ymhAvCE6q4cezesA7K0Rb+N04ZpuJX+6GV1SM83z2SnAWFT/Wc0pdmGRrwMzq98=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755605805; c=relaxed/simple;
-	bh=SJJL1hsjRl5/WRv/ON5a7qMwezRcNYQJsaRc0g+WDXw=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=b3P98A2twj0/tI4VMWmM9r0cBqrbVmrtMku4rDKREpN2y+zBWBcYa+oCDOL6vNmLVvX55XtJ+MjiGecc8NuzJ0kUvYNE/GFBRnFvBIX5BvmiR1pISYBSpav4ZRAR7WKCgcTA3PGpvP1vuIEvQnbAASDWLJdkaJudCBqsTj4wmYI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bGSBq3pH; arc=none smtp.client-ip=209.85.218.45
+	s=arc-20240116; t=1755605806; c=relaxed/simple;
+	bh=jCks2FO351KgLe/fBb6hVWkS78U7RfPD0J2SavjybMY=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=GNYQPDAiDw0BOVzSbnQF4gBa6BCy0WSwMhsq3/vO8RmllBTekLs5OKZDxp5CLFprsPxpaQ+Sc3H59cYZlPC+7Pby6mGfmmzNg5gI3VoNpVCntGQVYKjKWA7klO9k488UBCZK7Vclct16dCQfb5nH7Z1xCOyHSFIcerKrAXvCtyI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kdP1krpN; arc=none smtp.client-ip=209.85.218.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bGSBq3pH"
-Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-afcb78c77ebso843690966b.1
-        for <linux-staging@lists.linux.dev>; Tue, 19 Aug 2025 05:16:43 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kdP1krpN"
+Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-afcb78f5df4so858910466b.1
+        for <linux-staging@lists.linux.dev>; Tue, 19 Aug 2025 05:16:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1755605802; x=1756210602; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=OTZBF2cKOGdV37BgNxVIad8RxVSZEEHpIkQVHokH8Wo=;
-        b=bGSBq3pHaPQBqnUrJUkJ2xmloTz1jZFQsQzbEXSUQn+l1X3EaUzZ38tz+sB53nfrVa
-         3QAOT2z9L7+ny8AWhp3uiL3obt5NFRo34qF14Clc3ck3KqfNBNU3r/HdCf0dbV+S0smK
-         8IUT7wSO4Nk+Lych09X4CD79Z+VSsztRpJyI+xunUDizcx2t+KhdP5xU6K3s4JBbUSSz
-         hUVYQrG9mCCzIw0JjMs6EooMZaJDJ+vRq09N+2Ll0986Hte3zyPWnNKHk+JVqeSuYrlq
-         kmuqreyn5AgWrgLHCX5juxxVgHoGXZQbK+5610VTlLffF07jcpJaimmJ6wI7Bd0Oe1q/
-         ZMBw==
+        d=gmail.com; s=20230601; t=1755605803; x=1756210603; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=o/oKOTJz58St1gTwh/bBKNgiqYHP+xMc0H1/D5ORgpY=;
+        b=kdP1krpNksr801VNqWy71W5Jw4wPpZmiaiHP87SLDGYfe+AxmkkWO7ncS9EDfLKbBP
+         +NX+yzmzvYEQ4BF49K1OjxlRSrAokLpYttYAxgK7nJ0pC/su3tmpdhJBF4vK7VYyHBLu
+         sB6Rozvab5teJudtDEMI4HvSkzHBRB7jyzXApPfu6cNbK75tl84mX9CAm5saZEZAM3Oy
+         yMDE3oVl/e+fC0THaPPM83GcXk4ajyBlSmpJWZmPFeBMkrEqPZZjdoM8okxcopV7cRQC
+         IIreiVWR0I1ULuWw2R5tppYzZhLe31uP5DehITXxJiiviKvF1TQTXZc8hxJfmI0BMT/C
+         CnZA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755605802; x=1756210602;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=OTZBF2cKOGdV37BgNxVIad8RxVSZEEHpIkQVHokH8Wo=;
-        b=BfZI7RhARVqP608OEwfnFO5Od3aAoNEKTGvBjItB5NNWfvCX2QZOmKxxtuG8qsO8A+
-         Odsn2oHW/Wg4PuA/B7spdP+7jprIn8tsgDglEOsQJFeE92dj5cnV71+SBOLE/BFi+EP1
-         NfRyzRABhQ0nqIYO12Lr3d9b5hxkNPcYESqrplIpFHZ7Q+nZTqIvAP37TRq5HeucVvkf
-         Nk37nPDGNIlGaWteqKgoq/54AN+Edhb2+uHCJ0xXNrQqdx0mHxEeTY6fiBrQKUGqqVT7
-         n/M/MikMbjS9v3+fxzLsGSK96x1VS4mcy/Rij7VNRWxi0Q7hvDD7SGuGYjDEeYXUKi5A
-         Tf/Q==
-X-Forwarded-Encrypted: i=1; AJvYcCUEssqgpPxF0hmCpOu/T6pObiO8/fpsPYoXol5Sk1XKPKAUlFHtDs4gbTOJ3xvgWMUIeaAWz5IWqfKsk6Jz@lists.linux.dev
-X-Gm-Message-State: AOJu0Yzwx1KyKawLFrSHC/7lzwooc8dgENwfEomNYsUYcrquE8F1E/6k
-	Pv9FhGfsjtsf/75IaeBx2z3FkEgfaJqQQ5bKIsEBUFjvKA55njNnGBFd
-X-Gm-Gg: ASbGncvGXn+abrYySmuTQq/H1ndAiS5SQp/J+qD7ClHic2v+lWh+7veiFqD7b6dHAt2
-	529TXMLpb9RUmUbb+IAVolRds1AFLrfUHGshTFbpPXV6xr8DFxJC3vCRBVw/2o14Cnxza14F8He
-	acF2uAWh0/Dex43MWF7vkVEeMz9dMUFPKw6PkDH/hrb24k2/t0CCTQ823BQIjR/CSUns2f/hatW
-	JmbHWZ+nUem+WZOQVWkc/FWAvPnTObp+22DPMy2a1pxPLpfcqemQ4qMFRY6s9Uwfa3Ux5xKvSmI
-	YSAEPkZU2C9gGvPk3vcnxwtfol5FWJ4PereZ3m8WAsopJj0KOsnQI+q4zBKQCXNLmOY2CKrDDh/
-	tBmrHSFa2TgecDg==
-X-Google-Smtp-Source: AGHT+IFOn/TJHFwwAXjt/aa4+DjS3IYy277UAXO/A/XxXv0w3obUkySSlcaEnmlY0FxNsalKHy8ajQ==
-X-Received: by 2002:a17:907:971d:b0:af9:44fe:dea1 with SMTP id a640c23a62f3a-afddccd40afmr224499366b.23.1755605801830;
-        Tue, 19 Aug 2025 05:16:41 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1755605803; x=1756210603;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=o/oKOTJz58St1gTwh/bBKNgiqYHP+xMc0H1/D5ORgpY=;
+        b=qIeYzWcq/oF3IsJSQbtg5Qtf76uQtzaZ2aNuvfz7lHVNYWYf171N1qacz4LYCeqiIN
+         M1gvRkfrc+phEW9H6b3P3VThB3YQ+U+cWklzdG/2ymzQrdnGIZMYsczn7DGbSjZdbf2L
+         qr09rVsdn/ehkVK8/6kRY9ju9B3Ni09Q3l6I6Fbuw5VYey2ILj4vZ1iCQTK/UNYyb3yu
+         zTwyg2tYImI7YFc2KjmGSzG3YQCqToVOieq2OhK1Gbi197BEwbQdZjiQNdOgp/xOibPj
+         hMmKM1zZNUu5bEtEZ+x2OJKwW2TNUH8VoHDJhWljiYgOPoR/RYRp2MuaoiE7jJz4QIcq
+         Sg+A==
+X-Forwarded-Encrypted: i=1; AJvYcCV45wJW6a0Iqeo3RDSgFZJ5eNY4urkEo+t0+EySR08lxw78B0DiFPCWY6F+F6yAVU++DqC/3KmdQXidgk2p@lists.linux.dev
+X-Gm-Message-State: AOJu0Yx9VivNTm9ftQ8U2cQsr/O0hUjLUP4KsJLc1hhUTDOleqcK5Hrp
+	sh6x4PE/vnpAymDjlJlcWZZlJ1YYZqX0n7M+xP3O/DaHenV6h3yQbB7j
+X-Gm-Gg: ASbGncuYOuHKmQ2oR7sfMhJKkemw7uZysW69AwpXwPWtFL+gnyr0OGTkB1WHliq/ga+
+	Gv3cRxuLf/FGO+ZLajs3qukXnTCVbaisgCv1JJZNKko9LBEeoogzPwnuH3qeKknXneNVaCJThfP
+	MQgOy+EvJQ08uVX+H/L2GVAJ44C4zMQFn9UJwq2/6Tt/ZhBXWlryIABAoZKI89tuj/fmV9jtVCv
+	OtWAbi8ZzgRrc41MXLJCQ04qQYe+S6Ba7iEiJk7DdQDEfszqlGP/o3PF0vBCsc3gQ6k2I3iZIk6
+	58a89f5Z1PCDb9gd81INoP2QQRNdbJkXVxUC5jQb9VHURmoPKjbOyA1zVoMHlf/uWH8TPnL9zo7
+	on0UlLku5gWbC6w==
+X-Google-Smtp-Source: AGHT+IH6gI4Wt9MTamNQRuZI3BgyK+3myche9xoYOBrZQHy1Q90e/zgSuCy2a+6/nFauZvLKfIttEw==
+X-Received: by 2002:a17:907:6d27:b0:af9:71fc:726 with SMTP id a640c23a62f3a-afddcbad953mr235796566b.17.1755605803433;
+        Tue, 19 Aug 2025 05:16:43 -0700 (PDT)
 Received: from xeon.. ([188.163.112.76])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-afcdce72cbbsm1012018666b.35.2025.08.19.05.16.40
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-afcdce72cbbsm1012018666b.35.2025.08.19.05.16.41
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 19 Aug 2025 05:16:41 -0700 (PDT)
+        Tue, 19 Aug 2025 05:16:43 -0700 (PDT)
 From: Svyatoslav Ryhel <clamor95@gmail.com>
 To: Thierry Reding <thierry.reding@gmail.com>,
 	Thierry Reding <treding@nvidia.com>,
@@ -87,68 +89,53 @@ Cc: linux-media@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	linux-clk@vger.kernel.org,
 	linux-staging@lists.linux.dev
-Subject: [PATCH v1 00/19] tegra-video: add CSI support for Tegra20 and Tegra30
-Date: Tue, 19 Aug 2025 15:16:12 +0300
-Message-ID: <20250819121631.84280-1-clamor95@gmail.com>
+Subject: [PATCH v1 01/19] clk: tegra: init CSUS clock for Tegra20 and Tegra30
+Date: Tue, 19 Aug 2025 15:16:13 +0300
+Message-ID: <20250819121631.84280-2-clamor95@gmail.com>
 X-Mailer: git-send-email 2.48.1
+In-Reply-To: <20250819121631.84280-1-clamor95@gmail.com>
+References: <20250819121631.84280-1-clamor95@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Add support for MIPI CSI device found in Tegra20 and Tegra30 SoC along
-with a set of changes required for that.
+CSUS clock is required to be enabled on camera device configuration or
+else camera module refuses to initiate properly.
 
-Svyatoslav Ryhel (19):
-  clk: tegra: init CSUS clock for Tegra20 and Tegra30
-  dt-bindings: clock: tegra20: Add IDs for CSI PAD clocks
-  clk: tegra30: add CSI PAD clock gates
-  dt-bindings: display: tegra: document Tegra30 VIP
-  staging: media: tegra-video: expand VI and VIP support to Tegra30
-  staging: media: tegra-video: csi: move CSI helpers to header
-  staging: media: tegra-video: csi: parametrize MIPI calibration device
-    presence
-  staging: media: tegra-video: vi: adjust get_selection op check
-  staging: media: tegra-video: vi: add flip controls only if no source
-    controls are provided
-  staging: media: tegra-video: tegra20: set correct maximum width and
-    height
-  staging: media: tegra-video: tegra20: add support for second output of
-    VI
-  staging: media: tegra-video: tegra20: simplify format align
-    calculations
-  staging: media: tegra-video: tegra20: set VI HW revision
-  staging: media: tegra-video: tegra20: increase maximum VI clock
-    frequency
-  staging: media: tegra-video: tegra20: expand format support with
-    RAW8/10 and YUV422 1X16
-  staging: media: tegra-video: tegra20: adjust luma buffer stride
-  dt-bindings: display: tegra: document Tegra20 and Tegra30 CSI
-  ARM: tegra: add CSI binding for Tegra20 and Tegra30
-  staging: media: tegra-video: add CSI support for Tegra20 and Tegra30
+Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
+---
+ drivers/clk/tegra/clk-tegra20.c | 1 +
+ drivers/clk/tegra/clk-tegra30.c | 1 +
+ 2 files changed, 2 insertions(+)
 
- .../display/tegra/nvidia,tegra20-vip.yaml     |   1 +
- .../display/tegra/nvidia,tegra210-csi.yaml    |  78 +-
- arch/arm/boot/dts/nvidia/tegra20.dtsi         |  17 +-
- arch/arm/boot/dts/nvidia/tegra30.dtsi         |  19 +-
- drivers/clk/tegra/clk-tegra20.c               |   1 +
- drivers/clk/tegra/clk-tegra30.c               |  16 +-
- drivers/staging/media/tegra-video/Makefile    |   1 +
- drivers/staging/media/tegra-video/csi.c       |  35 +-
- drivers/staging/media/tegra-video/csi.h       |  11 +
- drivers/staging/media/tegra-video/tegra20.c   | 771 +++++++++++++++---
- drivers/staging/media/tegra-video/tegra210.c  |   1 +
- drivers/staging/media/tegra-video/vi.c        |  20 +-
- drivers/staging/media/tegra-video/vi.h        |   4 +-
- drivers/staging/media/tegra-video/video.c     |   6 +
- drivers/staging/media/tegra-video/vip.c       |   5 +-
- include/dt-bindings/clock/tegra30-car.h       |   4 +-
- 16 files changed, 842 insertions(+), 148 deletions(-)
-
+diff --git a/drivers/clk/tegra/clk-tegra20.c b/drivers/clk/tegra/clk-tegra20.c
+index 551ef0cf0c9a..42f8150c6110 100644
+--- a/drivers/clk/tegra/clk-tegra20.c
++++ b/drivers/clk/tegra/clk-tegra20.c
+@@ -1043,6 +1043,7 @@ static struct tegra_clk_init_table init_table[] = {
+ 	{ TEGRA20_CLK_GR3D, TEGRA20_CLK_PLL_C, 300000000, 0 },
+ 	{ TEGRA20_CLK_VDE, TEGRA20_CLK_PLL_C, 300000000, 0 },
+ 	{ TEGRA20_CLK_PWM, TEGRA20_CLK_PLL_P, 48000000, 0 },
++	{ TEGRA20_CLK_CSUS, TEGRA20_CLK_CLK_MAX, 6000000, 1 },
+ 	/* must be the last entry */
+ 	{ TEGRA20_CLK_CLK_MAX, TEGRA20_CLK_CLK_MAX, 0, 0 },
+ };
+diff --git a/drivers/clk/tegra/clk-tegra30.c b/drivers/clk/tegra/clk-tegra30.c
+index 82a8cb9545eb..70e85e2949e0 100644
+--- a/drivers/clk/tegra/clk-tegra30.c
++++ b/drivers/clk/tegra/clk-tegra30.c
+@@ -1237,6 +1237,7 @@ static struct tegra_clk_init_table init_table[] = {
+ 	{ TEGRA30_CLK_HDA, TEGRA30_CLK_PLL_P, 102000000, 0 },
+ 	{ TEGRA30_CLK_HDA2CODEC_2X, TEGRA30_CLK_PLL_P, 48000000, 0 },
+ 	{ TEGRA30_CLK_PWM, TEGRA30_CLK_PLL_P, 48000000, 0 },
++	{ TEGRA30_CLK_CSUS, TEGRA30_CLK_CLK_MAX, 6000000, 1 },
+ 	/* must be the last entry */
+ 	{ TEGRA30_CLK_CLK_MAX, TEGRA30_CLK_CLK_MAX, 0, 0 },
+ };
 -- 
 2.48.1
 
