@@ -1,209 +1,96 @@
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69E77243367
-	for <linux-staging@lists.linux.dev>; Wed, 20 Aug 2025 05:39:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D2AC2135AD
+	for <linux-staging@lists.linux.dev>; Wed, 20 Aug 2025 06:31:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755668391; cv=none; b=sop35sV0YG8PrGLuK2lgnIl23q9lneIDjqKf1k0na+ZF+NqCs42Mi2KccylFCLGCIAQFDBvJFScTb/Oydz14NI8LOiC0uJpVkyH0yML9tM2CFq0eRA1zcwArSjXT27XwOm93ODRAIXHduKq8OT/zKxr9sgkmefsHr9e9aFt+va4=
+	t=1755671483; cv=none; b=cGx6TufnGBTX+RGZQtrhJYB2moXgczRi3rTmKVWyLP3xLocYbz6zjIg6onAbJjim6PaRC/fxQWFm1Nc89NgtCaGkPRvlMwKYfh/1o1k4TSRcE5AQnKl0nIAQ7IzGu9LrmcnvYoKNklB0CP4oQTCXG9NTn/8KxjZTJ1F1j8zf3To=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755668391; c=relaxed/simple;
-	bh=N7yVpy7/MX023VQgG6ZBBN+wGnFtCu8u02qmP0x1N7w=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=uknse6vRHQKUmQpSLBl/+V8SwFcQx3TYDIZGeVDEFWCnjNwe5TCas3cpAfLC2fcjFwHnTZfbCwtEUqCPVicrV/K7cryFbn5OxYELYtQ1SrbR7RpyQyUwGNpfrNXT99ESCHVXIM/pls9etLUPsqTM4CzLe2otzun5cPyVAyPmVwk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lKzc0e8L; arc=none smtp.client-ip=209.85.221.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1755671483; c=relaxed/simple;
+	bh=/zY5PMOi310ktVYGpnYfeiQf9K4srfJWKah+xam5yrY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Zzmp8PRlckkR1uFUD89YyIQYvdxhB6dkSdb0ERFC6tIdOV/JnjhtprrRdcle9eQvW6Qv8fWKzjWwEE80ujjqkgv2BLgqMuKUK//PwJnRs9axztKbxa2xexLq050d0xy6rRjCnnbPovFbQ5tTO115ma/S5M3395lHG3u6Le89g1E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=kglqXJU7; arc=none smtp.client-ip=209.85.128.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lKzc0e8L"
-Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-3b9a342e8ffso332911f8f.0
-        for <linux-staging@lists.linux.dev>; Tue, 19 Aug 2025 22:39:49 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="kglqXJU7"
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-45a1b05a49cso45363175e9.1
+        for <linux-staging@lists.linux.dev>; Tue, 19 Aug 2025 23:31:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1755668388; x=1756273188; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ccknhVRPHaFFv1IUxfvlWqkKeJThBY2h9VPsCt/mOXA=;
-        b=lKzc0e8LTmbjSouboZcgiE+6OnEDZSvL2wjnAQhI1Dl7hOmKxj5/fijgYatJ3fBwzc
-         RDLXL5Kd1uKlYofInJkVNBSml6DCDt345v/xTXqqME7YF3bU23/p+GLX6cFxliyS5FBm
-         Hp/9v++sqLe5M3fcXkLJeiAUac0B2Ty1EzjLM0yiKUbXXaeYxZK5hDUCyw7XzIsyrUvW
-         RwkvqEaDJmqRpmti6+a9ySYeQ7bqy/eg3K+fkeuTGky0ywn0sdEGkivFLbSZtbwzxyyL
-         XiPzwBEfV01njmGqjjsNsf1/G/GxdPU4hRLwQ2V21ruCqS/fq3el/NROSpBn04LwRUOI
-         2jhg==
+        d=linaro.org; s=google; t=1755671479; x=1756276279; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=zm2V1odyqTiqeUQ144+lcYOoX8xxycxwVvudsLtseZg=;
+        b=kglqXJU7ZFv1hGQVN2WGhnRtdZV9gsA2DmBb+QOe/9fCSp6Qea3hQJIlmHrUjwC1Kb
+         9+b5JxHrSxR7qL0NvFER1VtX0hcQDgeFRAUmDUsgbvJNlBB8r4+0296C6lprR4YpPGQM
+         DQUOeFIa+5PHaqnKBPU6PzNTvCWq8hmmtoTIsO7fSbShzUpuQJoYSJbOJvQTD/VNyudF
+         9TfxCXrcb1vMSpC072zCG3d3WC8r/9p4Ma/yzVYoy4PQ0DMmopTuTNucTIhxP9Bhlcb0
+         9MTPR2dURai7AOhn9ROFU7FbnDkRjEZF7xqAnYhu66P9/H+EhBY/Mr1HUcy32M1mAOIY
+         Frgw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755668388; x=1756273188;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ccknhVRPHaFFv1IUxfvlWqkKeJThBY2h9VPsCt/mOXA=;
-        b=aL2pQsnA2fcEmEuOAL4qPaKm17W9Zu7Ef/KIfxkaqao5sNi4dk5IrIMK4bqhRZk4lO
-         pgvboMPNyImad/hitLwHEdaZjyOLyeD6V4R87yf6vZSur/LB0wgQiOI3Gw1613aydKVw
-         VMFsp49I5QsfYD5sa2AE9iaA41pDnYCwPIf20+fxlpC6qw0OM66tC+ZyqZCruDFM6p14
-         FoC34P8t3QyKiAgG5mSY/QAHgXWmiVJioWg7Mzt168ueCpD+nwakRMCMaHWyrpf4vEsk
-         XJ+Qr0VYYHqJtoqDFldtAYkSNO9DUfpDpsa8MmkulR/ZardAzOTUVdPRvNl0RkKy80Z3
-         5TDA==
-X-Forwarded-Encrypted: i=1; AJvYcCUYBQ8QgQg2DDukRxLLHTPADfZHfnSG+L8VxqKcjN09Gyr/YtgP0nggBOjOeM5ijZQ5d+ggDzx1uHGChIn6@lists.linux.dev
-X-Gm-Message-State: AOJu0YwU6EOhIZNj6kr2gr9w0IeX3SycUNRpl44J3h2BHCehKk9WJ4PO
-	TdlAV19O6gaccdTjwFEs7ugAPqeAOUvlVZAbaPcb8qWLcYt95plKP6FVCArjaOsqLMCxkQxtlbS
-	heQocBr4cTFPKSAlbjFMOXJ3keMZ1ej8=
-X-Gm-Gg: ASbGncuaHuzJXDJIGOSn2eNQ1e+6dEaUu7rkuUCJUHaYxR7zwOj+ORfL0AulRsEzaF4
-	aS45DhfRGJ2HROK4GZ0wAK5HW81fWBtXC1mtY0TuwYPhKh5P0xACYN7gdeUN204dLLKtvvy+/D9
-	t2iZofDCDSm80hYhmKzPtVrUBuyIrrih0E6H5YSzvMPKEb4PwC883QA3w6tLW9h24M1Grk+r1N7
-	vcALBa7
-X-Google-Smtp-Source: AGHT+IHwCiiCNR7psLFhYIIVfqt8gU87v84Q5qmwWq0pKLvUVOdRq92tkYNwCIUAaI04l/H3wpVbXTn8JTp3UCxiUZw=
-X-Received: by 2002:adf:8b05:0:b0:3c3:ae31:717e with SMTP id
- ffacd0b85a97d-3c3ae317631mr152960f8f.4.1755668387612; Tue, 19 Aug 2025
- 22:39:47 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1755671479; x=1756276279;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=zm2V1odyqTiqeUQ144+lcYOoX8xxycxwVvudsLtseZg=;
+        b=OGLxbcPEursd6D3JoxKMWIIwzp+b0xS2C7vX902tlKEVZ3+Im2wCEsPLjHPi9pHxQG
+         zBD15YGxoDVhKfUaha0cuFhg6CyMJw8NwAwpM5+qWfSznRJirlqeCkCyT1EZYY9JLfdo
+         mkHqbbQU437ocOHp6kfvuv4FDnHfPbcoeu1FG0ezra1IAPz0rECAmhyvfi1AC0ICyy47
+         PMFFTki9sUc6ingJPDoesTx/qSyAP6cL1hNQllpkbjUScepwZLUc98sYI59PU/6biDEq
+         zACgbs9PzF7TcNIc1U3OerFNXgWZXMJN9SlYCSQytiZwucwUfGb4MhFAqekRK15cocY6
+         Luvg==
+X-Forwarded-Encrypted: i=1; AJvYcCXccrwMIVtMrILyHJOnvninEAQ4ahXN8rS0iLJMh0PqJRb5lXICwFX9BOZFsBotuolrxM2dpwFv50uSjtys@lists.linux.dev
+X-Gm-Message-State: AOJu0Yyq+gXP6QQ4B/3mT5bDm0XbfhnAR0kLGJAh8ignHa+D6FnukWMA
+	+yW4tCzXE/2cUzAd2q4AhxRUGLRX9kXtmEfi7/mdt5Wlk7rdspeTd49G1fsYhDimR70=
+X-Gm-Gg: ASbGncs4+QxwLS0lLjKB2n1ML5pjUfEbaUmQEAanKzI05Y4rhVST3MoXLbwTBXMhdpj
+	y/iv/lGIb+cCWBcu9FjKPSrMxcNlI5bxXeov/qfd1wdBUXRLwvQr8JOeBVtnIWIEUjEmuE6RAxh
+	YZk+zWttk06F5dwWzcZbQlRwaN4WQ4sGnEwFTY9BLAHgnMOGxPYtHUIXH7BaPNMckQT5NFysVIJ
+	HtxXsvPdRSuUIUws5+fY8R1fSAPP8hFuffWfHfhQ4UfbwbYpii2/u9KMLxKMTgMAo7hQiwJWFj9
+	GoVShOddukMIvScvdHu5KDkZJX0uumisPsVZqhY8esITrIjS2AUJGdqrOpDVmcbuQnrOnHetdcF
+	K6piRKglLN+uiTKSNL7T9uvn3w/A2PL0aqHLzG6buoDM67yBxd/HJWA==
+X-Google-Smtp-Source: AGHT+IHD67e0X5QiTWO18n/Hjm63pK2HXsKittHH1LjgztM5w2vz+Tz+Iiy0mNFamv15+XzTSBAF8A==
+X-Received: by 2002:a05:600c:4fcd:b0:458:add2:d4b4 with SMTP id 5b1f17b1804b1-45b479a3e26mr11414505e9.12.1755671479001;
+        Tue, 19 Aug 2025 23:31:19 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-45b47cac162sm17779485e9.20.2025.08.19.23.31.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 19 Aug 2025 23:31:18 -0700 (PDT)
+Date: Wed, 20 Aug 2025 09:31:14 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Mohammed Guermoud <mohammed.guermoud@gmail.com>
+Cc: marvin24@gmx.de, gregkh@linuxfoundation.org, ac100@lists.launchpad.net,
+	linux-tegra@vger.kernel.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3] staging: nvec: Remove unused NVEC_PHD macro
+Message-ID: <aKVrsrvMrTEgAY4R@stanley.mountain>
+References: <20250819194430.4525-1-mohammed.guermoud@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250819121631.84280-1-clamor95@gmail.com> <20250819121631.84280-18-clamor95@gmail.com>
- <20250819203007.GA1266319-robh@kernel.org>
-In-Reply-To: <20250819203007.GA1266319-robh@kernel.org>
-From: Svyatoslav Ryhel <clamor95@gmail.com>
-Date: Wed, 20 Aug 2025 08:39:36 +0300
-X-Gm-Features: Ac12FXzWZ_Nd9h62ySrEyXbVbvxJKlW0WeyZsHY-B28WzAACkjTJONuBotQYEIA
-Message-ID: <CAPVz0n2tsE3FHAz7sbdwkWaRQtmXJ5wNg8vvb2B9k8iYuyvUQQ@mail.gmail.com>
-Subject: Re: [PATCH v1 17/19] dt-bindings: display: tegra: document Tegra20
- and Tegra30 CSI
-To: Rob Herring <robh@kernel.org>
-Cc: Thierry Reding <thierry.reding@gmail.com>, Thierry Reding <treding@nvidia.com>, 
-	Mikko Perttunen <mperttunen@nvidia.com>, Jonathan Hunter <jonathanh@nvidia.com>, 
-	Sowjanya Komatineni <skomatineni@nvidia.com>, Luca Ceresoli <luca.ceresoli@bootlin.com>, 
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Peter De Schrijver <pdeschrijver@nvidia.com>, 
-	Prashant Gaikwad <pgaikwad@nvidia.com>, Michael Turquette <mturquette@baylibre.com>, 
-	Stephen Boyd <sboyd@kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Dmitry Osipenko <digetx@gmail.com>, 
-	Charan Pedumuru <charan.pedumuru@gmail.com>, linux-media@vger.kernel.org, 
-	linux-tegra@vger.kernel.org, dri-devel@lists.freedesktop.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-clk@vger.kernel.org, linux-staging@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250819194430.4525-1-mohammed.guermoud@gmail.com>
 
-=D0=B2=D1=82, 19 =D1=81=D0=B5=D1=80=D0=BF. 2025=E2=80=AF=D1=80. =D0=BE 23:3=
-0 Rob Herring <robh@kernel.org> =D0=BF=D0=B8=D1=88=D0=B5:
->
-> On Tue, Aug 19, 2025 at 03:16:29PM +0300, Svyatoslav Ryhel wrote:
-> > Document CSI hw block found in Tegra20 and Tegra30 SoC.
-> >
-> > Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
-> > ---
-> >  .../display/tegra/nvidia,tegra210-csi.yaml    | 78 +++++++++++++++----
-> >  1 file changed, 63 insertions(+), 15 deletions(-)
-> >
-> > diff --git a/Documentation/devicetree/bindings/display/tegra/nvidia,teg=
-ra210-csi.yaml b/Documentation/devicetree/bindings/display/tegra/nvidia,teg=
-ra210-csi.yaml
-> > index fa07a40d1004..a5669447a33b 100644
-> > --- a/Documentation/devicetree/bindings/display/tegra/nvidia,tegra210-c=
-si.yaml
-> > +++ b/Documentation/devicetree/bindings/display/tegra/nvidia,tegra210-c=
-si.yaml
-> > @@ -16,30 +16,78 @@ properties:
-> >
-> >    compatible:
-> >      enum:
-> > +      - nvidia,tegra20-csi
-> > +      - nvidia,tegra30-csi
-> >        - nvidia,tegra210-csi
-> >
-> >    reg:
-> >      maxItems: 1
-> >
-> > -  clocks:
-> > -    items:
-> > -      - description: module clock
-> > -      - description: A/B lanes clock
-> > -      - description: C/D lanes clock
-> > -      - description: E lane clock
-> > -      - description: test pattern generator clock
-> > -
-> > -  clock-names:
-> > -    items:
-> > -      - const: csi
-> > -      - const: cilab
-> > -      - const: cilcd
-> > -      - const: cile
-> > -      - const: csi_tpg
-> > +  clocks: true
-> > +  clock-names: true
-> >
-> >    power-domains:
-> >      maxItems: 1
-> >
-> > +allOf:
-> > +  - if:
-> > +      properties:
-> > +        compatible:
-> > +          contains:
-> > +            enum:
-> > +              - nvidia,tegra20-csi
-> > +    then:
-> > +      properties:
-> > +        clocks:
-> > +          items:
-> > +            - description: module clock
-> > +
-> > +        clock-names:
-> > +          items:
-> > +            - const: csi
-> > +  - if:
-> > +      properties:
-> > +        compatible:
-> > +          contains:
-> > +            enum:
-> > +              - nvidia,tegra30-csi
-> > +    then:
-> > +      properties:
-> > +        clocks:
-> > +          items:
-> > +            - description: module clock
-> > +            - description: PAD A clock
-> > +            - description: PAD B clock
-> > +
-> > +        clock-names:
-> > +          items:
-> > +            - const: csi
-> > +            - const: csia_pad
-> > +            - const: csib_pad
-> > +  - if:
-> > +      properties:
-> > +        compatible:
-> > +          contains:
-> > +            enum:
-> > +              - nvidia,tegra210-csi
-> > +    then:
-> > +      properties:
-> > +        clocks:
-> > +          items:
-> > +            - description: module clock
-> > +            - description: A/B lanes clock
-> > +            - description: C/D lanes clock
-> > +            - description: E lane clock
-> > +            - description: test pattern generator clock
-> > +
-> > +        clock-names:
-> > +          items:
-> > +            - const: csi
-> > +            - const: cilab
-> > +            - const: cilcd
-> > +            - const: cile
-> > +            - const: csi_tpg
-> > +
->
-> This is longer that what's the same. I think this should be a separate
-> schema doc.
->
+On Tue, Aug 19, 2025 at 08:44:30PM +0100, Mohammed Guermoud wrote:
+> The NVEC_PHD macro is a debugging helper that is only enabled when
+> NVEC_PS2_DEBUG is defined. As this flag is never defined in the kernel,
+> the macro and all of its call sites are dead code.
+> 
+> As suggested by Greg Kroah-Hartman, removing the code is the cleanest
+> solution.
+> 
+> Signed-off-by: Mohammed Guermoud <mohammed.guermoud@gmail.com>
+> ---
 
-CSI hw block configuration is similar between generations, the main
-difference is the amount of clocks routed. Not sure if it is worth it
-to create duplicates with sole difference in number of clocks used.
+Thanks!
 
-> Rob
+Reviewed-by: Dan Carpenter <dan.carpenter@linaro.org>
+
+regards,
+dan carpenter
+
