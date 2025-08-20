@@ -1,96 +1,139 @@
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+Received: from mail-pg1-f177.google.com (mail-pg1-f177.google.com [209.85.215.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D2AC2135AD
-	for <linux-staging@lists.linux.dev>; Wed, 20 Aug 2025 06:31:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A507413D512
+	for <linux-staging@lists.linux.dev>; Wed, 20 Aug 2025 10:46:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755671483; cv=none; b=cGx6TufnGBTX+RGZQtrhJYB2moXgczRi3rTmKVWyLP3xLocYbz6zjIg6onAbJjim6PaRC/fxQWFm1Nc89NgtCaGkPRvlMwKYfh/1o1k4TSRcE5AQnKl0nIAQ7IzGu9LrmcnvYoKNklB0CP4oQTCXG9NTn/8KxjZTJ1F1j8zf3To=
+	t=1755686766; cv=none; b=S1lP029ZeXcbg8RuB9iCYfFCRPeRJ6mx27d4smKt0S2iSVkijGXsMiCZ4jd4S/gj1kKQkC+w69qsDDR/kl/qyActvrhCMSr6LLoJGmnAlhvz18FfOiyR3eW1NbS3hwlBQD5POORSoPqQbjKB+pLPzPd4WicFolMWPtmrtYdfjDI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755671483; c=relaxed/simple;
-	bh=/zY5PMOi310ktVYGpnYfeiQf9K4srfJWKah+xam5yrY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Zzmp8PRlckkR1uFUD89YyIQYvdxhB6dkSdb0ERFC6tIdOV/JnjhtprrRdcle9eQvW6Qv8fWKzjWwEE80ujjqkgv2BLgqMuKUK//PwJnRs9axztKbxa2xexLq050d0xy6rRjCnnbPovFbQ5tTO115ma/S5M3395lHG3u6Le89g1E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=kglqXJU7; arc=none smtp.client-ip=209.85.128.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1755686766; c=relaxed/simple;
+	bh=3Me8tP3A/Dq4n2o7fv0IO64KsodsWLaH93wYg8ejh9A=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=FS+K6svoTVWIGK05E4LoEdJct+S/30h4uhiaGneWhorEB8ga2YlGQyzarL4iTSb/mdeWtfR0WhP4TjqEtec6h94QSUolfwY8cuaohfmdQlk1DVwh5raOEEGgtOPq5fBwH4kCRMBDBESFl/pWIDzGycKjWCOjyZ4WE+UzpEAaS5s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=WaZcr62b; arc=none smtp.client-ip=209.85.215.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="kglqXJU7"
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-45a1b05a49cso45363175e9.1
-        for <linux-staging@lists.linux.dev>; Tue, 19 Aug 2025 23:31:20 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="WaZcr62b"
+Received: by mail-pg1-f177.google.com with SMTP id 41be03b00d2f7-b4746fd4793so2667600a12.1
+        for <linux-staging@lists.linux.dev>; Wed, 20 Aug 2025 03:46:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1755671479; x=1756276279; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=zm2V1odyqTiqeUQ144+lcYOoX8xxycxwVvudsLtseZg=;
-        b=kglqXJU7ZFv1hGQVN2WGhnRtdZV9gsA2DmBb+QOe/9fCSp6Qea3hQJIlmHrUjwC1Kb
-         9+b5JxHrSxR7qL0NvFER1VtX0hcQDgeFRAUmDUsgbvJNlBB8r4+0296C6lprR4YpPGQM
-         DQUOeFIa+5PHaqnKBPU6PzNTvCWq8hmmtoTIsO7fSbShzUpuQJoYSJbOJvQTD/VNyudF
-         9TfxCXrcb1vMSpC072zCG3d3WC8r/9p4Ma/yzVYoy4PQ0DMmopTuTNucTIhxP9Bhlcb0
-         9MTPR2dURai7AOhn9ROFU7FbnDkRjEZF7xqAnYhu66P9/H+EhBY/Mr1HUcy32M1mAOIY
-         Frgw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755671479; x=1756276279;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+        d=google.com; s=20230601; t=1755686764; x=1756291564; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=zm2V1odyqTiqeUQ144+lcYOoX8xxycxwVvudsLtseZg=;
-        b=OGLxbcPEursd6D3JoxKMWIIwzp+b0xS2C7vX902tlKEVZ3+Im2wCEsPLjHPi9pHxQG
-         zBD15YGxoDVhKfUaha0cuFhg6CyMJw8NwAwpM5+qWfSznRJirlqeCkCyT1EZYY9JLfdo
-         mkHqbbQU437ocOHp6kfvuv4FDnHfPbcoeu1FG0ezra1IAPz0rECAmhyvfi1AC0ICyy47
-         PMFFTki9sUc6ingJPDoesTx/qSyAP6cL1hNQllpkbjUScepwZLUc98sYI59PU/6biDEq
-         zACgbs9PzF7TcNIc1U3OerFNXgWZXMJN9SlYCSQytiZwucwUfGb4MhFAqekRK15cocY6
-         Luvg==
-X-Forwarded-Encrypted: i=1; AJvYcCXccrwMIVtMrILyHJOnvninEAQ4ahXN8rS0iLJMh0PqJRb5lXICwFX9BOZFsBotuolrxM2dpwFv50uSjtys@lists.linux.dev
-X-Gm-Message-State: AOJu0Yyq+gXP6QQ4B/3mT5bDm0XbfhnAR0kLGJAh8ignHa+D6FnukWMA
-	+yW4tCzXE/2cUzAd2q4AhxRUGLRX9kXtmEfi7/mdt5Wlk7rdspeTd49G1fsYhDimR70=
-X-Gm-Gg: ASbGncs4+QxwLS0lLjKB2n1ML5pjUfEbaUmQEAanKzI05Y4rhVST3MoXLbwTBXMhdpj
-	y/iv/lGIb+cCWBcu9FjKPSrMxcNlI5bxXeov/qfd1wdBUXRLwvQr8JOeBVtnIWIEUjEmuE6RAxh
-	YZk+zWttk06F5dwWzcZbQlRwaN4WQ4sGnEwFTY9BLAHgnMOGxPYtHUIXH7BaPNMckQT5NFysVIJ
-	HtxXsvPdRSuUIUws5+fY8R1fSAPP8hFuffWfHfhQ4UfbwbYpii2/u9KMLxKMTgMAo7hQiwJWFj9
-	GoVShOddukMIvScvdHu5KDkZJX0uumisPsVZqhY8esITrIjS2AUJGdqrOpDVmcbuQnrOnHetdcF
-	K6piRKglLN+uiTKSNL7T9uvn3w/A2PL0aqHLzG6buoDM67yBxd/HJWA==
-X-Google-Smtp-Source: AGHT+IHD67e0X5QiTWO18n/Hjm63pK2HXsKittHH1LjgztM5w2vz+Tz+Iiy0mNFamv15+XzTSBAF8A==
-X-Received: by 2002:a05:600c:4fcd:b0:458:add2:d4b4 with SMTP id 5b1f17b1804b1-45b479a3e26mr11414505e9.12.1755671479001;
-        Tue, 19 Aug 2025 23:31:19 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-45b47cac162sm17779485e9.20.2025.08.19.23.31.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 19 Aug 2025 23:31:18 -0700 (PDT)
-Date: Wed, 20 Aug 2025 09:31:14 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Mohammed Guermoud <mohammed.guermoud@gmail.com>
-Cc: marvin24@gmx.de, gregkh@linuxfoundation.org, ac100@lists.launchpad.net,
-	linux-tegra@vger.kernel.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3] staging: nvec: Remove unused NVEC_PHD macro
-Message-ID: <aKVrsrvMrTEgAY4R@stanley.mountain>
-References: <20250819194430.4525-1-mohammed.guermoud@gmail.com>
+        bh=3Me8tP3A/Dq4n2o7fv0IO64KsodsWLaH93wYg8ejh9A=;
+        b=WaZcr62b43vTpcHCJsXuNTlaVFMA30JkRArAUbNloPT23y1E/SlAFv/OD4YvniG3dl
+         cvZjw3sfb5/7d6Yq9rpIkd7cP31sTvuGKVr5Sulypv2YZGcdb7n4f20FzBGDLa7LNR8W
+         h3cQRfpmmwjJufRRxS1bs36Ix7uXVYcbo/ITei7xmiGRLletjn1Nq4YtJOP5AVMFWm89
+         PwqjHgFJ0dpIrKus7xvGGVDTNDC41MHe831ySeisVgWH8qWnUx7Yvd185zsl3hBu2Wwn
+         RElk2LdUJShrN6EZFSTTQ9fanMv8LIG6TggEqkikljThzbLJGtW+d+LLGmuKXarwKHHc
+         SzEA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1755686764; x=1756291564;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=3Me8tP3A/Dq4n2o7fv0IO64KsodsWLaH93wYg8ejh9A=;
+        b=jeFLfvlGXdBxmCm6XN2/H7zUQNgDsMgmXXwzdwdjqbf3hn6l9xEwYnJQtX+Mgt7+/v
+         ZsxZ7Yjbv6C12SZqgCw0y/9OpqHCt3xP2C//1C27b7wCLI4tOn0+U4G0aXAAx6q/TNm9
+         7AZZS+jg6lMSn1euJ7ebWEMYwuPGNmql5bTy0bjWdKGTmX/TuaBMIsHvrCHRfJUYaTcG
+         IyBMaK1v7aKgaIrw/rfWWNhlmUywQYc0bbNZojCMsDRlzPNKE4VHJF4E1dj7C5ZnbLgl
+         jLkPHPpaJw1U5q6/GOgiZlX7v6/MJD04icXKfIcZ9mlSQn1YmtKIg2A7FZdFJ/ejZZ99
+         yJzg==
+X-Forwarded-Encrypted: i=1; AJvYcCWlmKRcxpSLfVKXEAH2+LLwwanEdyxHt1vKkdHjp2mHEUR1ib2qSc7b6QyN7GV70l0/4tpmnoSQQPtZtus0@lists.linux.dev
+X-Gm-Message-State: AOJu0Ywk3xqdWAR2sp55SNGrtRTLt0H/RLl8DsOJrkwykswNkaTmy5fu
+	5b0+9tWNLn7+qCLRRpvbUVZMCf5gNiACmH93S9vgffSGGJinou/8PCDfPyruRYQK2VR8tACsPiL
+	F3ybN5Zw69fJ8gsIraXGzNyK2hesHQeBgqv7Cxvrj
+X-Gm-Gg: ASbGnct/BNwsAlg0c3awfzXjBUUmsBRfRZF0tvxmZb4D3/lHJjH2dF94a0Hpchq5UUR
+	/9WyKdeUrvMHGOx5AKB6IAuY9qWaYbV8L0hvQW72KYZpA9hSSNACu/tzukYXD2pRfbadArmueHm
+	yU8nTb2vXuOagB++mNEZlRftLpbthkZ7XLsthYuQDrv5iaLbIGpft9swAdos4duivDDB676DIji
+	z7UJ6HNBYI8OQvL6L7OKLxm6h260m6SnrVp1MSnPX/mTzLwP991WtY=
+X-Google-Smtp-Source: AGHT+IEKtl2lrK5/2y4ZHW8BdiMqTimWqMJrLgdgwZdhWnnQOIhxftCfwBi0pC/VAlu+Wj78IDSFaxfyMArkbO0q10c=
+X-Received: by 2002:a17:902:cecc:b0:23f:e2e0:f89b with SMTP id
+ d9443c01a7336-245ef0bf919mr29929205ad.3.1755686763672; Wed, 20 Aug 2025
+ 03:46:03 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250819194430.4525-1-mohammed.guermoud@gmail.com>
+References: <20250818154032.3173645-1-sdf@fomichev.me> <68a49b30.050a0220.e29e5.00c8.GAE@google.com>
+ <20250819175842.7edaf8a5@kernel.org>
+In-Reply-To: <20250819175842.7edaf8a5@kernel.org>
+From: Aleksandr Nogikh <nogikh@google.com>
+Date: Wed, 20 Aug 2025 12:45:52 +0200
+X-Gm-Features: Ac12FXzOW9XPurRHcsWYD8YIbcfeKfyX5uwi588A3HEp9L6p1uEzyk061ngsuoE
+Message-ID: <CANp29Y4g6kzpsjis4=rUjhfg=BPMiR9Jk68z=NT0MeDyJS7CaQ@mail.gmail.com>
+Subject: Re: [syzbot ci] Re: net: Convert to skb_dstref_steal and skb_dstref_restore
+To: Jakub Kicinski <kuba@kernel.org>
+Cc: syzbot ci <syzbot+ci77a5caa9fce14315@syzkaller.appspotmail.com>, 
+	abhishektamboli9@gmail.com, andrew@lunn.ch, ayush.sawal@chelsio.com, 
+	coreteam@netfilter.org, davem@davemloft.net, dsahern@kernel.org, 
+	edumazet@google.com, fw@strlen.de, gregkh@linuxfoundation.org, 
+	herbert@gondor.apana.org.au, horms@kernel.org, kadlec@netfilter.org, 
+	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev, mhal@rbox.co, 
+	netdev@vger.kernel.org, netfilter-devel@vger.kernel.org, pabeni@redhat.com, 
+	pablo@netfilter.org, sdf@fomichev.me, steffen.klassert@secunet.com, 
+	syzbot@lists.linux.dev, syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, Aug 19, 2025 at 08:44:30PM +0100, Mohammed Guermoud wrote:
-> The NVEC_PHD macro is a debugging helper that is only enabled when
-> NVEC_PS2_DEBUG is defined. As this flag is never defined in the kernel,
-> the macro and all of its call sites are dead code.
-> 
-> As suggested by Greg Kroah-Hartman, removing the code is the cleanest
-> solution.
-> 
-> Signed-off-by: Mohammed Guermoud <mohammed.guermoud@gmail.com>
-> ---
+Hi Jakub,
 
-Thanks!
+Thanks for the heads-up!
+I didn't even think that this tag could pose problems for other
+automatic tools :)
 
-Reviewed-by: Dan Carpenter <dan.carpenter@linaro.org>
+On Wed, Aug 20, 2025 at 2:58=E2=80=AFAM Jakub Kicinski <kuba@kernel.org> wr=
+ote:
+>
+> On Tue, 19 Aug 2025 08:41:36 -0700 syzbot ci wrote:
+> > syzbot ci has tested the following series
+> >
+> > [v2] net: Convert to skb_dstref_steal and skb_dstref_restore
+> > https://lore.kernel.org/all/20250818154032.3173645-1-sdf@fomichev.me
+> > * [PATCH net-next v2 1/7] net: Add skb_dstref_steal and skb_dstref_rest=
+ore
+> > * [PATCH net-next v2 2/7] xfrm: Switch to skb_dstref_steal to clear dst=
+_entry
+> > * [PATCH net-next v2 3/7] netfilter: Switch to skb_dstref_steal to clea=
+r dst_entry
+> > * [PATCH net-next v2 4/7] net: Switch to skb_dstref_steal/skb_dstref_re=
+store for ip_route_input callers
+> > * [PATCH net-next v2 5/7] staging: octeon: Convert to skb_dst_drop
+> > * [PATCH net-next v2 6/7] chtls: Convert to skb_dst_reset
+> > * [PATCH net-next v2 7/7] net: Add skb_dst_check_unset
+>
+> > ***
+> >
+> > If these findings have caused you to resend the series or submit a
+> > separate fix, please add the following tag to your commit message:
+> > Tested-by: syzbot@syzkaller.appspotmail.com
+>
+> Hi Aleksandr!
+>
+> Could we do something about this Tested-by: tag?
+> Since the syzbot CI reports are sent in reply to a series patchwork and
+> other tooling will think that syzbot is sending it's Tested-by tag for
+> this series.
+>
+> In some cases we know that the issues found are unrelated, or rather
+> expect them to be fixed separately.
 
-regards,
-dan carpenter
+FWIW if you notice the reported issues that are completely unrelated,
+please let me know.
 
+>
+> Could we perhaps indent the tag with a couple of spaces? Not 100% sure
+> but I _think_ most tools will match the tags only from start of line.
+
+Sure, that sounds like a very simple solution.
+I've adjusted the email template - now there are several leading
+whitespaces on the tag line. I hope it will help (otherwise we'll see
+what else can be done).
+
+--=20
+Aleksandr
