@@ -1,139 +1,163 @@
-Received: from mail-pg1-f177.google.com (mail-pg1-f177.google.com [209.85.215.177])
+Received: from mail-wm1-f74.google.com (mail-wm1-f74.google.com [209.85.128.74])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A507413D512
-	for <linux-staging@lists.linux.dev>; Wed, 20 Aug 2025 10:46:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B95982ED848
+	for <linux-staging@lists.linux.dev>; Wed, 20 Aug 2025 12:45:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.74
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755686766; cv=none; b=S1lP029ZeXcbg8RuB9iCYfFCRPeRJ6mx27d4smKt0S2iSVkijGXsMiCZ4jd4S/gj1kKQkC+w69qsDDR/kl/qyActvrhCMSr6LLoJGmnAlhvz18FfOiyR3eW1NbS3hwlBQD5POORSoPqQbjKB+pLPzPd4WicFolMWPtmrtYdfjDI=
+	t=1755693955; cv=none; b=CmiNlV6CZsjeHrlj6LWEaHx/Vjk/6b8UxAMy1IPQcvXuC4KFk2UztqfP4FtgFrGZKPIusrZZKCimwerf9ejCvqiB4YMdbkkGmPpb8WqXInjE5uWDQhXUuxMsuRb8O1XLjBWNr1tdreGAhDvIqCGhaFciZPJBAiJHpVs1q8PwZCI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755686766; c=relaxed/simple;
-	bh=3Me8tP3A/Dq4n2o7fv0IO64KsodsWLaH93wYg8ejh9A=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=FS+K6svoTVWIGK05E4LoEdJct+S/30h4uhiaGneWhorEB8ga2YlGQyzarL4iTSb/mdeWtfR0WhP4TjqEtec6h94QSUolfwY8cuaohfmdQlk1DVwh5raOEEGgtOPq5fBwH4kCRMBDBESFl/pWIDzGycKjWCOjyZ4WE+UzpEAaS5s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=WaZcr62b; arc=none smtp.client-ip=209.85.215.177
+	s=arc-20240116; t=1755693955; c=relaxed/simple;
+	bh=7AZ0eI9TlHe52bT1lMC6WLW7ZECYFMBF31lbfocuWEQ=;
+	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=nzJLHJ/k6mScSrPE4NiRLQjvZzrU2i7Rgtw0whNmT+C9eY5C9AXlOTMk4uB5B7Yf/Qceig0Pv88R7xx0uU4fw5ZS0T6yZDEDmI5FVbp5+MXTPHqon2dDuwU63FwlRcdOtePEHR4Em4CtS9uKWHHbm6BXL9Zi1uTMmvRFEco+8A0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--abarnas.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=IlaNLFvL; arc=none smtp.client-ip=209.85.128.74
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--abarnas.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="WaZcr62b"
-Received: by mail-pg1-f177.google.com with SMTP id 41be03b00d2f7-b4746fd4793so2667600a12.1
-        for <linux-staging@lists.linux.dev>; Wed, 20 Aug 2025 03:46:04 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="IlaNLFvL"
+Received: by mail-wm1-f74.google.com with SMTP id 5b1f17b1804b1-45a1ac1bf0dso5591765e9.0
+        for <linux-staging@lists.linux.dev>; Wed, 20 Aug 2025 05:45:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1755686764; x=1756291564; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=3Me8tP3A/Dq4n2o7fv0IO64KsodsWLaH93wYg8ejh9A=;
-        b=WaZcr62b43vTpcHCJsXuNTlaVFMA30JkRArAUbNloPT23y1E/SlAFv/OD4YvniG3dl
-         cvZjw3sfb5/7d6Yq9rpIkd7cP31sTvuGKVr5Sulypv2YZGcdb7n4f20FzBGDLa7LNR8W
-         h3cQRfpmmwjJufRRxS1bs36Ix7uXVYcbo/ITei7xmiGRLletjn1Nq4YtJOP5AVMFWm89
-         PwqjHgFJ0dpIrKus7xvGGVDTNDC41MHe831ySeisVgWH8qWnUx7Yvd185zsl3hBu2Wwn
-         RElk2LdUJShrN6EZFSTTQ9fanMv8LIG6TggEqkikljThzbLJGtW+d+LLGmuKXarwKHHc
-         SzEA==
+        d=google.com; s=20230601; t=1755693952; x=1756298752; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:from:subject:message-id
+         :mime-version:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=L5gozRnSQkDuhLJMwdLaWw1qElhIPtCo1zd2N9em84E=;
+        b=IlaNLFvLB9Dvat1/yKAc8Oi3z3A7qzstV41HcRTzrNVKlTGg/5LuAbVek9+z6wB6k1
+         xyimhebg/XG6tsawp0N/slrrzRYNqjo2oLUZVP6CjrUfSgGKeFrFVH5W3HQOSDyHM6Qm
+         9HiJUm1V/fVCqIlGB7or1I7gDkw+6Mk9nAHFRjIYKA+GmunMJgMmMbtYGkAsE6OOeM9/
+         lAWzpM32cgmvL7NJEhyRjrR+zLYIkrPZrUY1O0TCB78p7AP7Sl279EydgY9Z5aTyLuN7
+         AnHLSMishzLLa0oCBJI/Q1RPBDv6KGtlBnPuXMqxVygWCrJ+P03qsEPWmwlBokDy1Je4
+         SUWw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755686764; x=1756291564;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=3Me8tP3A/Dq4n2o7fv0IO64KsodsWLaH93wYg8ejh9A=;
-        b=jeFLfvlGXdBxmCm6XN2/H7zUQNgDsMgmXXwzdwdjqbf3hn6l9xEwYnJQtX+Mgt7+/v
-         ZsxZ7Yjbv6C12SZqgCw0y/9OpqHCt3xP2C//1C27b7wCLI4tOn0+U4G0aXAAx6q/TNm9
-         7AZZS+jg6lMSn1euJ7ebWEMYwuPGNmql5bTy0bjWdKGTmX/TuaBMIsHvrCHRfJUYaTcG
-         IyBMaK1v7aKgaIrw/rfWWNhlmUywQYc0bbNZojCMsDRlzPNKE4VHJF4E1dj7C5ZnbLgl
-         jLkPHPpaJw1U5q6/GOgiZlX7v6/MJD04icXKfIcZ9mlSQn1YmtKIg2A7FZdFJ/ejZZ99
-         yJzg==
-X-Forwarded-Encrypted: i=1; AJvYcCWlmKRcxpSLfVKXEAH2+LLwwanEdyxHt1vKkdHjp2mHEUR1ib2qSc7b6QyN7GV70l0/4tpmnoSQQPtZtus0@lists.linux.dev
-X-Gm-Message-State: AOJu0Ywk3xqdWAR2sp55SNGrtRTLt0H/RLl8DsOJrkwykswNkaTmy5fu
-	5b0+9tWNLn7+qCLRRpvbUVZMCf5gNiACmH93S9vgffSGGJinou/8PCDfPyruRYQK2VR8tACsPiL
-	F3ybN5Zw69fJ8gsIraXGzNyK2hesHQeBgqv7Cxvrj
-X-Gm-Gg: ASbGnct/BNwsAlg0c3awfzXjBUUmsBRfRZF0tvxmZb4D3/lHJjH2dF94a0Hpchq5UUR
-	/9WyKdeUrvMHGOx5AKB6IAuY9qWaYbV8L0hvQW72KYZpA9hSSNACu/tzukYXD2pRfbadArmueHm
-	yU8nTb2vXuOagB++mNEZlRftLpbthkZ7XLsthYuQDrv5iaLbIGpft9swAdos4duivDDB676DIji
-	z7UJ6HNBYI8OQvL6L7OKLxm6h260m6SnrVp1MSnPX/mTzLwP991WtY=
-X-Google-Smtp-Source: AGHT+IEKtl2lrK5/2y4ZHW8BdiMqTimWqMJrLgdgwZdhWnnQOIhxftCfwBi0pC/VAlu+Wj78IDSFaxfyMArkbO0q10c=
-X-Received: by 2002:a17:902:cecc:b0:23f:e2e0:f89b with SMTP id
- d9443c01a7336-245ef0bf919mr29929205ad.3.1755686763672; Wed, 20 Aug 2025
- 03:46:03 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1755693952; x=1756298752;
+        h=content-transfer-encoding:cc:to:from:subject:message-id
+         :mime-version:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=L5gozRnSQkDuhLJMwdLaWw1qElhIPtCo1zd2N9em84E=;
+        b=ko8wMFGJlLMK8vGejZ3o8IpuMxRf/l2Ijv6eHaBkQVNoBbR+CDeEt+BJlWEY5oK4Eb
+         osHsuV5fXvyg2VUzrsgXjADIGBLZAyk7whe4AQMhBK3dufzlPUJ6qWopQYMUtvLsIqto
+         k98DaMOKYN/lsEMUsitMTZgtBrnawliNRZxyB9EUbGvyLUMLA2rf+TbU1TEwfNTEFIE4
+         5Q63P2O0Eta1AMhLVD/nK+yWwKtWywMdur51XzbIZ/VUOHq7rYrC5pKug8+XniyAMqEp
+         kAkflAeBTfOwN0VpO6VgiDPUEzWuWDwf/BpnneG11IslvFGPWqfuRqMW4Bm7PLzQiFZ9
+         WFYg==
+X-Forwarded-Encrypted: i=1; AJvYcCWEi7Lzy9berC4udQl356aQJKrFZFLFPJXRxSba+L1GpySoJlwcy0tOC/n7m29wA1DPtssi0SMazd2o+Vdb@lists.linux.dev
+X-Gm-Message-State: AOJu0YzRmGWejasqI21JgfqyMP/h5ICEfYGE0xUAQyBQTf+ksJfvSTc8
+	BhIzXkxV9pqVEKuxq7uZWaS/nauxzOGWSLLN98mu1XAXOsGOjqyIgIQ6ntcf/USYD0+TzVynP/n
+	pzOBgYeJbtA==
+X-Google-Smtp-Source: AGHT+IHVetR1KhaNo7u3MMikYnmy6Ccr19qtqBiiIGbBQ8eluV+r4wxJSlvm1cyFFrRG2yeAI2VhAGBN2H78
+X-Received: from wmbds11.prod.google.com ([2002:a05:600c:628b:b0:458:bfa7:dd5b])
+ (user=abarnas job=prod-delivery.src-stubby-dispatcher) by 2002:a05:600c:4a9d:b0:45a:2686:dda2
+ with SMTP id 5b1f17b1804b1-45b43e6e738mr35344485e9.5.1755693952214; Wed, 20
+ Aug 2025 05:45:52 -0700 (PDT)
+Date: Wed, 20 Aug 2025 12:45:19 +0000
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-References: <20250818154032.3173645-1-sdf@fomichev.me> <68a49b30.050a0220.e29e5.00c8.GAE@google.com>
- <20250819175842.7edaf8a5@kernel.org>
-In-Reply-To: <20250819175842.7edaf8a5@kernel.org>
-From: Aleksandr Nogikh <nogikh@google.com>
-Date: Wed, 20 Aug 2025 12:45:52 +0200
-X-Gm-Features: Ac12FXzOW9XPurRHcsWYD8YIbcfeKfyX5uwi588A3HEp9L6p1uEzyk061ngsuoE
-Message-ID: <CANp29Y4g6kzpsjis4=rUjhfg=BPMiR9Jk68z=NT0MeDyJS7CaQ@mail.gmail.com>
-Subject: Re: [syzbot ci] Re: net: Convert to skb_dstref_steal and skb_dstref_restore
-To: Jakub Kicinski <kuba@kernel.org>
-Cc: syzbot ci <syzbot+ci77a5caa9fce14315@syzkaller.appspotmail.com>, 
-	abhishektamboli9@gmail.com, andrew@lunn.ch, ayush.sawal@chelsio.com, 
-	coreteam@netfilter.org, davem@davemloft.net, dsahern@kernel.org, 
-	edumazet@google.com, fw@strlen.de, gregkh@linuxfoundation.org, 
-	herbert@gondor.apana.org.au, horms@kernel.org, kadlec@netfilter.org, 
-	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev, mhal@rbox.co, 
-	netdev@vger.kernel.org, netfilter-devel@vger.kernel.org, pabeni@redhat.com, 
-	pablo@netfilter.org, sdf@fomichev.me, steffen.klassert@secunet.com, 
-	syzbot@lists.linux.dev, syzkaller-bugs@googlegroups.com
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.51.0.rc1.167.g924127e9c0-goog
+Message-ID: <20250820124519.2287171-1-abarnas@google.com>
+Subject: [PATCH] staging: media: atomisp: Whitespaces style cleanup in gdc.c
+From: "=?UTF-8?q?Adrian=20Barna=C5=9B?=" <abarnas@google.com>
+To: Hans de Goede <hansg@kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	Sakari Ailus <sakari.ailus@linux.intel.com>, Andy Shevchenko <andy@kernel.org>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-media@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
+Cc: "=?UTF-8?q?Adrian=20Barna=C5=9B?=" <abarnas@google.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hi Jakub,
+NFC: This patch cleans up coding style whitespace issues
+in drivers/staging/media/atomisp/pci/hive_isp_css_common/host/gdc.c
 
-Thanks for the heads-up!
-I didn't even think that this tag could pose problems for other
-automatic tools :)
+Fixes include:
+ - removal of unnecessary line breaks
+ - correcting spacing around operators
+ - correcting spaces between types and names
 
-On Wed, Aug 20, 2025 at 2:58=E2=80=AFAM Jakub Kicinski <kuba@kernel.org> wr=
-ote:
->
-> On Tue, 19 Aug 2025 08:41:36 -0700 syzbot ci wrote:
-> > syzbot ci has tested the following series
-> >
-> > [v2] net: Convert to skb_dstref_steal and skb_dstref_restore
-> > https://lore.kernel.org/all/20250818154032.3173645-1-sdf@fomichev.me
-> > * [PATCH net-next v2 1/7] net: Add skb_dstref_steal and skb_dstref_rest=
-ore
-> > * [PATCH net-next v2 2/7] xfrm: Switch to skb_dstref_steal to clear dst=
-_entry
-> > * [PATCH net-next v2 3/7] netfilter: Switch to skb_dstref_steal to clea=
-r dst_entry
-> > * [PATCH net-next v2 4/7] net: Switch to skb_dstref_steal/skb_dstref_re=
-store for ip_route_input callers
-> > * [PATCH net-next v2 5/7] staging: octeon: Convert to skb_dst_drop
-> > * [PATCH net-next v2 6/7] chtls: Convert to skb_dst_reset
-> > * [PATCH net-next v2 7/7] net: Add skb_dst_check_unset
->
-> > ***
-> >
-> > If these findings have caused you to resend the series or submit a
-> > separate fix, please add the following tag to your commit message:
-> > Tested-by: syzbot@syzkaller.appspotmail.com
->
-> Hi Aleksandr!
->
-> Could we do something about this Tested-by: tag?
-> Since the syzbot CI reports are sent in reply to a series patchwork and
-> other tooling will think that syzbot is sending it's Tested-by tag for
-> this series.
->
-> In some cases we know that the issues found are unrelated, or rather
-> expect them to be fixed separately.
+Signed-off-by: Adrian Barna=C5=9B <abarnas@google.com>
+---
+ .../pci/hive_isp_css_common/host/gdc.c        | 33 +++++++------------
+ 1 file changed, 12 insertions(+), 21 deletions(-)
 
-FWIW if you notice the reported issues that are completely unrelated,
-please let me know.
-
->
-> Could we perhaps indent the tag with a couple of spaces? Not 100% sure
-> but I _think_ most tools will match the tags only from start of line.
-
-Sure, that sounds like a very simple solution.
-I've adjusted the email template - now there are several leading
-whitespaces on the tag line. I hope it will help (otherwise we'll see
-what else can be done).
-
+diff --git a/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/gdc=
+.c b/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/gdc.c
+index 8bb78b4d7c677..69d709888c05a 100644
+--- a/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/gdc.c
++++ b/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/gdc.c
+@@ -14,10 +14,8 @@
+ /*
+  * Local function declarations
+  */
+-static inline void gdc_reg_store(
+-    const gdc_ID_t		ID,
+-    const unsigned int	reg,
+-    const hrt_data		value);
++static inline void gdc_reg_store(const gdc_ID_t ID, const unsigned int reg=
+,
++				 const hrt_data value);
+=20
+ #ifndef __INLINE_GDC__
+ #include "gdc_private.h"
+@@ -26,9 +24,7 @@ static inline void gdc_reg_store(
+ /*
+  * Exported function implementations
+  */
+-void gdc_lut_store(
+-    const gdc_ID_t		ID,
+-    const int			data[4][HRT_GDC_N])
++void gdc_lut_store(const gdc_ID_t ID, const int data[4][HRT_GDC_N])
+ {
+ 	unsigned int i, lut_offset =3D HRT_GDC_LUT_IDX;
+=20
+@@ -36,15 +32,13 @@ void gdc_lut_store(
+ 	assert(HRT_GDC_LUT_COEFF_OFFSET <=3D (4 * sizeof(hrt_data)));
+=20
+ 	for (i =3D 0; i < HRT_GDC_N; i++) {
+-		hrt_data	entry_0 =3D data[0][i] & HRT_GDC_BCI_COEF_MASK;
+-		hrt_data	entry_1 =3D data[1][i] & HRT_GDC_BCI_COEF_MASK;
+-		hrt_data	entry_2 =3D data[2][i] & HRT_GDC_BCI_COEF_MASK;
+-		hrt_data	entry_3 =3D data[3][i] & HRT_GDC_BCI_COEF_MASK;
++		hrt_data entry_0 =3D data[0][i] & HRT_GDC_BCI_COEF_MASK;
++		hrt_data entry_1 =3D data[1][i] & HRT_GDC_BCI_COEF_MASK;
++		hrt_data entry_2 =3D data[2][i] & HRT_GDC_BCI_COEF_MASK;
++		hrt_data entry_3 =3D data[3][i] & HRT_GDC_BCI_COEF_MASK;
+=20
+-		hrt_data	word_0 =3D entry_0 |
+-				     (entry_1 << HRT_GDC_LUT_COEFF_OFFSET);
+-		hrt_data	word_1 =3D entry_2 |
+-				     (entry_3 << HRT_GDC_LUT_COEFF_OFFSET);
++		hrt_data word_0 =3D entry_0 | (entry_1 << HRT_GDC_LUT_COEFF_OFFSET);
++		hrt_data word_1 =3D entry_2 | (entry_3 << HRT_GDC_LUT_COEFF_OFFSET);
+=20
+ 		gdc_reg_store(ID, lut_offset++, word_0);
+ 		gdc_reg_store(ID, lut_offset++, word_1);
+@@ -85,8 +79,7 @@ void gdc_lut_convert_to_isp_format(const int in_lut[4][HR=
+T_GDC_N],
+ 	}
+ }
+=20
+-int gdc_get_unity(
+-    const gdc_ID_t		ID)
++int gdc_get_unity(const gdc_ID_t ID)
+ {
+ 	assert(ID < N_GDC_ID);
+ 	(void)ID;
+@@ -96,10 +89,8 @@ int gdc_get_unity(
+ /*
+  * Local function implementations
+  */
+-static inline void gdc_reg_store(
+-    const gdc_ID_t		ID,
+-    const unsigned int	reg,
+-    const hrt_data		value)
++static inline void gdc_reg_store(const gdc_ID_t ID, const unsigned int	reg=
+,
++				 const hrt_data value)
+ {
+ 	ia_css_device_store_uint32(GDC_BASE[ID] + reg * sizeof(hrt_data), value);
+ 	return;
 --=20
-Aleksandr
+2.51.0.rc1.167.g924127e9c0-goog
+
