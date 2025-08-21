@@ -1,98 +1,98 @@
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9AEE3B29E
-	for <linux-staging@lists.linux.dev>; Thu, 21 Aug 2025 13:37:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD1E522578A
+	for <linux-staging@lists.linux.dev>; Thu, 21 Aug 2025 13:54:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755783445; cv=none; b=Gka0XPD0rZOHUpkUfzrruUqyeoh6ZCxZqjEp19tZYgaeq9Ss7ELWz11FO531y1yCb0H0I1zZjrKoqJk89n4DGcFz6wyzCJ56sUNlB+iYgWYJyTQC6FoH9hilrTHqQcbfTzTSEV3E5rCFwyW15CwgnVezvoa/iYehh10ACFLU7x8=
+	t=1755784458; cv=none; b=tGkq+ToD8UTD627tmn7QO82G/QU3WLfLpCvh9t2u4X8X2mt0e7wxEmkSNf3YRv0hvi3ofeXAY7q7GVtEPBCxVSGRu07cKh4o1vouoL5zf2qHJY3xDV8UsM3DfewJVRcnnani6QEOxGE8eMg8cW4+ISDq97cwB8VPqhJa6p+OMJM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755783445; c=relaxed/simple;
-	bh=S0tBL68alPBoiQhQgrLoetKbMqWhl6PN9VracU1Lsqs=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=L6u6h0lj1HyDVQU1duVQpqk31whnAmJ7XXiLOhkNwLFPLbSLA183lYC/Pk8LZB8e/szizV3GxAZWvrltue/AB4aEGAZxd5+AZDMe1QolzRU9pAWhrDh7kIy2wRQ0uh1HqKEjzb9/wXb1XretXCYkI1icctrWL1hlY872cz8Iy4g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=gczZN2ho; arc=none smtp.client-ip=209.85.214.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1755784458; c=relaxed/simple;
+	bh=zC7C7olZcUe9Z8cx+F7Mg0Zp4tUGSbUZ1HeIK5G/2j4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Qml8nSEuzVg51J8jmnuRAwUAEi19SXZsEZPrs/GttooGLg8e537fHAaFVOU/5JvN2UBBqa99XSucT6itZxMTirtJy3IM9FuyzpKlgJicghM4uREf77yY8BygVf3uzNPOjH/+avFNfAVwKASgBNHkus1PZ5AKhcwnRqQ8blxMUMw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=zx1G8xeN; arc=none smtp.client-ip=209.85.128.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="gczZN2ho"
-Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-244580523a0so9060755ad.1
-        for <linux-staging@lists.linux.dev>; Thu, 21 Aug 2025 06:37:23 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="zx1G8xeN"
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-45a1b00e4a1so8998435e9.0
+        for <linux-staging@lists.linux.dev>; Thu, 21 Aug 2025 06:54:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1755783443; x=1756388243; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=f6+lAEs4MsieSPVTZ/E6noXDmgaG1ojns092XrliUQI=;
-        b=gczZN2hof7JInS+401QSZ2Xj2p3JzukaiFh6MYOzieydj4sXL3XvGfrv5sofcTDJKj
-         BpjScRXCxNUoEpaUt+cJP8LtrJtvd7kHutxgFKHJjMpTg8t/ubrQsL/CboDrL6RvbLPH
-         5JhM00HPgyRaHaxxvaQur4BLa87WR5pcu4CEogutUm33ouTL1j8v3xIdMENj2QQ72zNY
-         ok6fpEGc60DG4gDCrQWFhdh98apd1buNDzh44ky8Xv9OLv6zrlxpPUS5pnp9xFbCyJGx
-         SnkV1qNI7rMPqIrRTX2ODia/6eiPgPmdrQd0OQBi44ObnXmRFrDMFI0IwD0s30OmCImS
-         6kMA==
+        d=linaro.org; s=google; t=1755784455; x=1756389255; darn=lists.linux.dev;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=+3RckpGmvYMoNZtx01O704Cre8/z3CXAKxswJRZI57k=;
+        b=zx1G8xeNhbQf9t6n5lehZVW0aITlsus7SaoF9XyqPTnaB48AaZOfWjUSi1xJV9AZrf
+         sOXziFexkPMEEubtguQQ6q5IPRS3+D39F7G4iYlg6BY4t0tQR4AICnNncT0LDaxa2WM9
+         KcsjrByFqmpjJQL3aFYO3Laz6TtOTScpXNMMpjjq8OXdS57q9woB+dNbqWFlE2cpz985
+         FJLAEYTu13MVlXFmRZqePTnT9egLQqmjb4smUbMTrdu/SzQcfP/tNk4z4RIiqRGvOIbK
+         QdrOqh6tswYADSDutdhpAB+68Vvb2//mQdFOUjTgTE8S++h8+UkQM9IEcM9R3ydV9GiZ
+         lorQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755783443; x=1756388243;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=f6+lAEs4MsieSPVTZ/E6noXDmgaG1ojns092XrliUQI=;
-        b=Sv1JPZTPbwCVwwxE7EgQBgV7bCfsAgjT76hhnifpcll68B/Q6N0FK4qGM/g6ncsrtb
-         KxpJC3PfayG0v98Y9ya3pTGM/tN2YgiDbBiJv1oV0uj9oCpsvB0/6UnsUIAuwVAqnz6J
-         J9AygvD01/1Vs8/eT3LNiG6lWVuALd+1iOKy2o2tOZEmUxe7Z9XMPB+8K56jlIeqvrut
-         9wCrMv/r8HJkoXc3uwjVxyVBcAcEYPxgJt/3r206rUKD9iqoN+fRvcVjNMl0TA4g7rYu
-         GayJ8GAlZR7Zo9bteXpob1UbUxBLC0Lp+gjV5iXIxKgzKBBg7URoEUrvNHCn4RRwU2kb
-         5fTA==
-X-Forwarded-Encrypted: i=1; AJvYcCXrlyf6dlzOmsEzXGISOyJrPsN6X7T8g3fZugcqEGOHt5Izr6AfhE3x6RcsNihpsnvfHAIJkLYQaMAqe/sH@lists.linux.dev
-X-Gm-Message-State: AOJu0YwlnWG0LvOzGez/IUTO59wamYwGjAstEXHw/Nl09y3sqj5EMgEg
-	bndMI3gEpLHpohhKsdWcsDK0rh6rbWDfw/W5QWJO0Q4nHGxMvwlf3JcdkknZPWmaMrVj2EkIPya
-	u0a9hTltgbdVCSwurQ3KYY4SHFHDXCYKnzGUUtmot
-X-Gm-Gg: ASbGncvIvY9jZkLWeA5kwHcIJVv7CF81SwOxHSlaxB1I9QsrW6BA9j39/zonFDSVTYF
-	opYwiYAp7v7T4Wbn9DHwpl+HaXEvso1ZRV4hafy57VktKkZgqnCOQ3JwgB/TV3sXia7/+q2IxDX
-	kup9+fFVYYa0sGvLoJ7FIzqvYNzKXneak9bZfIJjt4S/13FJ02MVzNdcQ8oPUJQiOA8zYwUtkB3
-	TCGTuY4Xx31LfQH//uMKWWi/fKh+NRf3ZEbK8RxOLpKwbVs+L9LJw==
-X-Google-Smtp-Source: AGHT+IFKuVeM8P/4fFTgJ9U8pzM7gkzc2YyF0U06MGypBG9yR59a576LajRenIcFYbHnNEUd1SatYN2HBujM5YeBS1c=
-X-Received: by 2002:a17:902:cecb:b0:246:2703:87ae with SMTP id
- d9443c01a7336-246270392ccmr1041385ad.30.1755783442839; Thu, 21 Aug 2025
- 06:37:22 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1755784455; x=1756389255;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=+3RckpGmvYMoNZtx01O704Cre8/z3CXAKxswJRZI57k=;
+        b=lwG08STXSgV0YAWI7kiXTaV10ggtQ2rzzDeDQFnzj2He43A4Y0Dvsxjbx3ZalOogin
+         ZcvvwaLiYe/CNfdSUTLzmtjaDoelt+CY0Iez3Xwq9jZbdTshreWb4sKXvhrOhd4ffAqv
+         F00JchuTVJjB7+DP6jtdT79lIGadovpefNwkQaahSJNkdNxeXmwa+3ZBevYyJSrSm+9t
+         rsVC1hfyKDlgCvsIst3lmE/yDbijdPuLG5I01aGJ4v0d36PrbAQJWLwfNop9dnpBWTso
+         Bt6WfFCUFdEMkP5UIhtxbRK92QJAaHF50Sv/F0rr87qWdnPkPa3NRRzEeLmpMRsVHBaA
+         cncQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXPeW/YDsZyFm8n2EyJotqZe/ydayUBpMO6+gOh8if4fK2etqJhDQmItgtiNWX1xPXzvK7KdNGfzjc7OSLX@lists.linux.dev
+X-Gm-Message-State: AOJu0Ywo+eWKVOdT1Q4nZm2RhyqD1T7W33IV3BEhduGn+3G8l6PGOxvV
+	SKf8OndYsEgB7J7JU0P08w8MchEY4ZxWIbGBpBywwlyjL/wDdUK1ZiiQttJBw8vN46I=
+X-Gm-Gg: ASbGncvQn5yBiOnZod6zDcVUVPLiV8aOABk/EbP7bqoxcQEil8dipcLUNARx650eIx7
+	OOU7q5V+eFtZ4+PhqRYum6OrfYWyEqpnJdDA6IUc9E4iRXaTLml8jnyVcTgCOimOab0hMOn3pu5
+	Y+2+4H/Pd7ov3Ydl1f0oFsA75RXLDsKETMfr+6RShUac8VHUCUXL5W+W85//gsC29vBMkAlNDXk
+	+CCHHn5fD6WHVgKrnr/LnyihR/nKPJaxcsgTFkx0NujMLGSfdATC4/FAeZUhwZYkPhjprnygCgn
+	5EgaIDaZamIAfK+hnFS2ri+/gfy4SXnzmFJuvWkJvGsiYqZKq9IpifpT7Tj4XW7SwZ+eSHby1op
+	jb/NNLSq48ZY7Bj2mStpbiBKWM2E=
+X-Google-Smtp-Source: AGHT+IHiR4UgXlDVbxv/WGTxxHwGZcE5uF0kFr14Nzs0vJdVHWLv9FD7z21HRn/vBRYJKN0FFsSjWA==
+X-Received: by 2002:a05:600c:458a:b0:43d:fa59:af97 with SMTP id 5b1f17b1804b1-45b4d85d764mr20115275e9.32.1755784455144;
+        Thu, 21 Aug 2025 06:54:15 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-45b4dbfe2ecsm28935915e9.13.2025.08.21.06.54.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 21 Aug 2025 06:54:14 -0700 (PDT)
+Date: Thu, 21 Aug 2025 16:54:11 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Adrian =?utf-8?Q?Barna=C5=9B?= <abarnas@google.com>
+Cc: Hans de Goede <hansg@kernel.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Andy Shevchenko <andy@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev
+Subject: Re: [PATCH v3 1/3] staging: media: atomisp: Remove unnecessary
+ forward declaration in gdc.c
+Message-ID: <aKclAywjKpHBd7QR@stanley.mountain>
+References: <20250821133521.2665734-1-abarnas@google.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250821070130.2581766-1-abarnas@google.com> <aKcRDWlRQ1gughvQ@stanley.mountain>
-In-Reply-To: <aKcRDWlRQ1gughvQ@stanley.mountain>
-From: =?UTF-8?Q?Adrian_Barna=C5=9B?= <abarnas@google.com>
-Date: Thu, 21 Aug 2025 15:37:11 +0200
-X-Gm-Features: Ac12FXxRWvefi0pFzenHIpwJbcSrmWtx4bZJqgVYzbGZBgzhqDHq0XNWj_bwV7s
-Message-ID: <CAATBrPH-TTAdpCyCopZNsgTCqwnTBxjEiBg9HQ8KnJaPESA6Sg@mail.gmail.com>
-Subject: Re: [PATCH v2 1/3] staging: media: atomisp: Remove unnecessary inline
- declaration in gdc.c
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: Hans de Goede <hansg@kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	Sakari Ailus <sakari.ailus@linux.intel.com>, Andy Shevchenko <andy@kernel.org>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-media@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250821133521.2665734-1-abarnas@google.com>
 
-Thank you Dan
+On Thu, Aug 21, 2025 at 01:35:19PM +0000, Adrian Barnaś wrote:
+> Get rid of gdc_reg_store() forward declaration because it brings no value.
+> 
+> Signed-off-by: Adrian Barnaś <abarnas@google.com>
+> ---
 
-Posted v3 applying your suggestions.
+Thanks.
 
-Best regards
-Adrian Barna=C5=9B
+Reviewed-by: Dan Carpenter <dan.carpenter@linaro.org>
 
-On Thu, Aug 21, 2025 at 2:29=E2=80=AFPM Dan Carpenter <dan.carpenter@linaro=
-.org> wrote:
->
-> On Thu, Aug 21, 2025 at 07:01:28AM +0000, Adrian Barna=C5=9B wrote:
-> > Get rid of gdc_reg_store() forward declaration because it brings no val=
-ue
->
-> The subject should say "forward" instead of "inline".  Also add a period
-> to the end of your sentences.
->
-> regards,
-> dan carpenter
->
+regards,
+dan carpenter
+
