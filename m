@@ -1,57 +1,57 @@
-Received: from mail-wr1-f73.google.com (mail-wr1-f73.google.com [209.85.221.73])
+Received: from mail-wm1-f74.google.com (mail-wm1-f74.google.com [209.85.128.74])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CBBC257851
-	for <linux-staging@lists.linux.dev>; Thu, 21 Aug 2025 07:01:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.73
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 107B827A909
+	for <linux-staging@lists.linux.dev>; Thu, 21 Aug 2025 07:01:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.74
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755759700; cv=none; b=HBxs8OOQ4c/ogwzhPde1Sb9l2v0oeDD7mxtke3oJPNFA26/eHvixC2OQUc+RKr/3xdfJz7SJ0ZSmGYmxxb9fR0aRD11zpDPtcaGN9Of12fQOdsFIdkor1KwDHHuSSFhTjp07tmn+p8i9LKgCZD9miQV/cPH+qFAU+lzdb3vFE0E=
+	t=1755759701; cv=none; b=ijprxAA948xqcSwaHCzxeLQVuWY9DIml9VVy2JRiCXqqoYv7IGQimMVdz8LIdQzG4QdjkCURkNMOYLDyMlB3BjxsovCkr9xH4mHIo4W4emehGuMwq+RtgjB2hkwFj0qO969KdGyQdPWTPLOwihNDJxI7hsNaUamMBfrjHye3o84=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755759700; c=relaxed/simple;
-	bh=Lwh49xgm8E8hyfnJwvscG8id7WBz9JOebvAR2zKXZl8=;
+	s=arc-20240116; t=1755759701; c=relaxed/simple;
+	bh=M7Bib/JdBebS40o0jrtpXS8iLuYAPBh94mqbSc28ZVA=;
 	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=ms+qsnfbTVu9ezSOq+uodJyDOokbvGTSRW7ZYrAjasvvKAWaXZWXjTgyojtZBqdYZ0scqacxtg7Ji8e6OE5l0IUldBXeDnyMDi5O+M5AP2UpS3OBzMCVtcPi41h2St/3sTU6RQveDPa+8cKfboOmKXafqYjX1ReuDKGKgbZX5lA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--abarnas.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=ZtwqiL6t; arc=none smtp.client-ip=209.85.221.73
+	 To:Cc:Content-Type; b=h6W8YDgFFwCQ9Vt1uTC1o8UhK3674GvE2OE+lYI2+2DxLScS4WHgpthC/xM2/0qktLqvnP9ooJKucJSB6+ZFKhvk5LDO98rIGZ5EgPlMXeyWzME7MWzQK1P84QQ2DhiL+oFkU/iD12Hror4GLQxBcT8kLQaYB2PWgmhvNZDKiko=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--abarnas.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=Py64/XpE; arc=none smtp.client-ip=209.85.128.74
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--abarnas.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="ZtwqiL6t"
-Received: by mail-wr1-f73.google.com with SMTP id ffacd0b85a97d-3b9edf80ddcso242854f8f.3
-        for <linux-staging@lists.linux.dev>; Thu, 21 Aug 2025 00:01:37 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Py64/XpE"
+Received: by mail-wm1-f74.google.com with SMTP id 5b1f17b1804b1-45a1b0caae1so3336315e9.3
+        for <linux-staging@lists.linux.dev>; Thu, 21 Aug 2025 00:01:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1755759696; x=1756364496; darn=lists.linux.dev;
+        d=google.com; s=20230601; t=1755759698; x=1756364498; darn=lists.linux.dev;
         h=content-transfer-encoding:cc:to:from:subject:message-id:references
          :mime-version:in-reply-to:date:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=rWHak7BTTuUjCdYO75xAv1rLY7D54sU+2w+NwPKTwUE=;
-        b=ZtwqiL6txpDXPmUc9NONMjjmKhZNYlCzHftAyQM/SBM03KJswxaAqZsU3PWBEtjvKw
-         tyPYmPPfHutQ8Mo8Fuwv8jZeHLAVnVP8JHdaXnbVBP2wigaGfRIHBQHeEv1ssbbWsSxR
-         wMXdXp17V7gRJCtO3DqJexAnwbC7WbcVtOwMreOyjq5UHqLbSjxlGtRzH3ZgnNMmgFya
-         6nLJ1EOzNEp+axOjUB9C7iz8ct35Nek1U8+bCSV0YlPWWIGl0SxFLKyNm9rEFQMRqddM
-         pIzaA0e0zDatHO5OYwPfFf049okiVll8JgS1Or0MrqCAtvWEXiyYUs76OKmrrHxp80G8
-         Tr0Q==
+        bh=PcGKTRnVn7a8V2x6X2YOKx93dEJmZrO+ztyFPSTimuc=;
+        b=Py64/XpEwNcgYiarKCmrzBOxi87yQLUjuXhuQkGvQ8lSY8xEZYqVlzl1kd0qcwbEHU
+         U9Qch6uklx1XQZzngZfOvIraZGfb9aA6w8Xj5fEu6uPnCxVYhghR8d8Ny1XVQ0BNz30d
+         wDa7YpUAbHYlIyaslaNaO5w1vTAJTJ1zwZrxpccliG8FFK2aAz4wXqgDdBS4KTCTCltU
+         F3jkA9C5P9TnIrSIgyHFIcNpAac5AH7xVezMO5V/G7n3n61l74Q8s1yFJFAJA5vTnut8
+         cik48RX+s2TCGxko7mH0IvIopzrncFdJdf3cwTTSndkw+kkuTD6CxJxxNSjAJVlGcffv
+         lFog==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755759696; x=1756364496;
+        d=1e100.net; s=20230601; t=1755759698; x=1756364498;
         h=content-transfer-encoding:cc:to:from:subject:message-id:references
          :mime-version:in-reply-to:date:x-gm-message-state:from:to:cc:subject
          :date:message-id:reply-to;
-        bh=rWHak7BTTuUjCdYO75xAv1rLY7D54sU+2w+NwPKTwUE=;
-        b=jiobcAVoSM4cQfxnnSvTGA3ZJpqW4tUlSlEZ3z5T9llojFLUTd2rQSMFprSJK7/hnB
-         hHphggnTQKt/8fbcBGG9dJBUtm1H+Kcb06uZzN1E/POtFs6bkoTzVMbMlltIBGT8Zxo6
-         LG0u/VE1LN72O9ouFQkMGSJi44Ww+DgIgLveGJkLCl2wSsK3cAvLyRYhCzxiPTLmyNiZ
-         SGqdLh3QcZ61Fxe2Qk/aIF4Ul+O7Mnz9UeNv+NpchwgKo8/9rdgX7cNLvAomtYOlyPK+
-         rl7wy7Fw/uOyvP0f5j9+VEx7l6dhxI+DbXsJJ/p2gkAzNzIptMXaMyBsXMC1mOXSuc/a
-         qcgA==
-X-Forwarded-Encrypted: i=1; AJvYcCXvbLwr48BXf6WZWzUM8VmzRulAAbk3yD8GPwKJ2E+fPVPfmwCzUnahkxr+69xM5fDJLo60+iGt8zAzhAq/@lists.linux.dev
-X-Gm-Message-State: AOJu0Yy5p7Qf4oELKyw0rTfDgPND2G8FCVGuV7jBtJeDh3BR9f/uGllv
-	GSg7H91X8eWff6fE38t07jP18e9ZUvgWg7FWxbkZVxhZeIIj2OJtXqeoiMm+YsoCKrWylqUnO8i
-	4Ct93JhW2cw==
-X-Google-Smtp-Source: AGHT+IF7hlrAjiNuM/KEHKAFY8yyo63CcT8LWrl4yHVQAKYWdCNBYFgKuNHYzShQe6cb3WgyW1zJUwj7YKrw
-X-Received: from wrbdk16.prod.google.com ([2002:a05:6000:b50:b0:3b7:d75e:c4a7])
- (user=abarnas job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6000:250e:b0:3b8:d1a4:bab9
- with SMTP id ffacd0b85a97d-3c497369e98mr1055445f8f.45.1755759696323; Thu, 21
- Aug 2025 00:01:36 -0700 (PDT)
-Date: Thu, 21 Aug 2025 07:01:29 +0000
+        bh=PcGKTRnVn7a8V2x6X2YOKx93dEJmZrO+ztyFPSTimuc=;
+        b=moyBSnBlzl81W5kwD2aBcUxJG5haLN18WnB61ruQWIqUEJ0cEwUqqLy29zGgEevasx
+         QxFJfhBCESV51KC/ih1As2tViHJ39CoctV/YGgxQoZJdBb88zIHxb1Lxd0eBMN+O/iqL
+         xjMWiABqLLt0cU4nogFr9V8yy6NpL9xDNwtMT7+3OFho3U+a9LlF1G3nHStWaBXfMWFF
+         CM8llpMXaPiqluMYf/kwLyvdouLSJ3xE+Bi/7ITY+fWS4VacvLZpvS7dAQcR3lN92Cq2
+         BPrx/YGKXtdytNNV3tJqnMhRbkpqu5rtjAw4f2hvhLReOUR9iRSj4fEKFVy2Y7b5mJsF
+         oUYQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUZnxdsgPcHy9fh09Ukib6zMXKCEDk7DJiMIOfzLGenu11Krh9KwDiUDU6LiNzIRNCV9rbwnh2ndlzwc3kd@lists.linux.dev
+X-Gm-Message-State: AOJu0YzDykFdkQ2Kqtk0w8UO38taq9t7+Ij7HNVdkYDr7hBpWMqmop4p
+	sLbemLcv4uxr295i9f43dKMXSCvK4n/7+7ztWTH8XQaRC17j8b6BAw2HbYvJvJSJ4QUehykaCSj
+	8piFRuXslPw==
+X-Google-Smtp-Source: AGHT+IEvKA1t2VWCcec4SBBub/I6NGaabcJJj+3ewD0kETAjlRi67Ua4kezlEOhJEmMUX/fPtb3Na0Ihfzre
+X-Received: from wmbdw4.prod.google.com ([2002:a05:600c:6384:b0:459:dcf5:1b54])
+ (user=abarnas job=prod-delivery.src-stubby-dispatcher) by 2002:a05:600c:3ba7:b0:456:1b93:76b
+ with SMTP id 5b1f17b1804b1-45b4e4f5815mr5734895e9.4.1755759698355; Thu, 21
+ Aug 2025 00:01:38 -0700 (PDT)
+Date: Thu, 21 Aug 2025 07:01:30 +0000
 In-Reply-To: <20250821070130.2581766-1-abarnas@google.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -61,8 +61,9 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 Mime-Version: 1.0
 References: <20250821070130.2581766-1-abarnas@google.com>
 X-Mailer: git-send-email 2.51.0.rc2.233.g662b1ed5c5-goog
-Message-ID: <20250821070130.2581766-2-abarnas@google.com>
-Subject: [PATCH v2 2/3] staging: media: atomisp: Whitespaces style cleanup in gdc.c
+Message-ID: <20250821070130.2581766-3-abarnas@google.com>
+Subject: [PATCH v2 3/3] staging: media: atomisp: Remove return from end of
+ void function in gdc.c
 From: "=?UTF-8?q?Adrian=20Barna=C5=9B?=" <abarnas@google.com>
 To: Hans de Goede <hansg@kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
 	Sakari Ailus <sakari.ailus@linux.intel.com>, Andy Shevchenko <andy@kernel.org>, 
@@ -73,69 +74,27 @@ Cc: "=?UTF-8?q?Adrian=20Barna=C5=9B?=" <abarnas@google.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Clean up coding style whitespace issues
-in drivers/staging/media/atomisp/pci/hive_isp_css_common/host/gdc.c
-
-Fixes include:
- - removal of unnecessary line breaks
- - correcting spacing around operators
- - correcting spaces between types and names
+Fix checkpatch.pl warning on useless return on the end of the void function
 
 Signed-off-by: Adrian Barna=C5=9B <abarnas@google.com>
 ---
- .../pci/hive_isp_css_common/host/gdc.c        | 21 +++++++------------
- 1 file changed, 8 insertions(+), 13 deletions(-)
+ drivers/staging/media/atomisp/pci/hive_isp_css_common/host/gdc.c | 1 -
+ 1 file changed, 1 deletion(-)
 
 diff --git a/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/gdc=
 .c b/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/gdc.c
-index bfda3cd13306e..bd44410729bb4 100644
+index bd44410729bb4..0906f1d1051b7 100644
 --- a/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/gdc.c
 +++ b/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/gdc.c
-@@ -24,9 +24,7 @@ static inline void gdc_reg_store(const gdc_ID_t ID, const=
- unsigned int reg,
- /*
-  * Exported function implementations
-  */
--void gdc_lut_store(
--    const gdc_ID_t		ID,
--    const int			data[4][HRT_GDC_N])
-+void gdc_lut_store(const gdc_ID_t ID, const int data[4][HRT_GDC_N])
- {
- 	unsigned int i, lut_offset =3D HRT_GDC_LUT_IDX;
-=20
-@@ -34,15 +32,13 @@ void gdc_lut_store(
- 	assert(HRT_GDC_LUT_COEFF_OFFSET <=3D (4 * sizeof(hrt_data)));
-=20
- 	for (i =3D 0; i < HRT_GDC_N; i++) {
--		hrt_data	entry_0 =3D data[0][i] & HRT_GDC_BCI_COEF_MASK;
--		hrt_data	entry_1 =3D data[1][i] & HRT_GDC_BCI_COEF_MASK;
--		hrt_data	entry_2 =3D data[2][i] & HRT_GDC_BCI_COEF_MASK;
--		hrt_data	entry_3 =3D data[3][i] & HRT_GDC_BCI_COEF_MASK;
-+		hrt_data entry_0 =3D data[0][i] & HRT_GDC_BCI_COEF_MASK;
-+		hrt_data entry_1 =3D data[1][i] & HRT_GDC_BCI_COEF_MASK;
-+		hrt_data entry_2 =3D data[2][i] & HRT_GDC_BCI_COEF_MASK;
-+		hrt_data entry_3 =3D data[3][i] & HRT_GDC_BCI_COEF_MASK;
-=20
--		hrt_data	word_0 =3D entry_0 |
--				     (entry_1 << HRT_GDC_LUT_COEFF_OFFSET);
--		hrt_data	word_1 =3D entry_2 |
--				     (entry_3 << HRT_GDC_LUT_COEFF_OFFSET);
-+		hrt_data word_0 =3D entry_0 | (entry_1 << HRT_GDC_LUT_COEFF_OFFSET);
-+		hrt_data word_1 =3D entry_2 | (entry_3 << HRT_GDC_LUT_COEFF_OFFSET);
-=20
+@@ -43,7 +43,6 @@ void gdc_lut_store(const gdc_ID_t ID, const int data[4][H=
+RT_GDC_N])
  		gdc_reg_store(ID, lut_offset++, word_0);
  		gdc_reg_store(ID, lut_offset++, word_1);
-@@ -83,8 +79,7 @@ void gdc_lut_convert_to_isp_format(const int in_lut[4][HR=
-T_GDC_N],
  	}
+-	return;
  }
 =20
--int gdc_get_unity(
--    const gdc_ID_t		ID)
-+int gdc_get_unity(const gdc_ID_t ID)
- {
- 	assert(ID < N_GDC_ID);
- 	(void)ID;
+ /*
 --=20
 2.51.0.rc2.233.g662b1ed5c5-goog
 
