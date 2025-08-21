@@ -1,88 +1,94 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 510922222CB
-	for <linux-staging@lists.linux.dev>; Thu, 21 Aug 2025 09:26:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B1FF2869E
+	for <linux-staging@lists.linux.dev>; Thu, 21 Aug 2025 12:29:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755768406; cv=none; b=Yz0U2cDBDaW6Q+Kdy/OiC+1pa2SjbpR5b5eJS6gkjDTA4cCHW8+t7L4HAueNcqwm6LAF+Ke5YICtw9KQHYNKkHzZPQpbLYzXdhoRvQM91rUR01j+SYJYS4uFCTIHDyLnfVJsYjL/9UySEdKIexb+4euVt9XB8rfyCcRJNuMa8uU=
+	t=1755779348; cv=none; b=gt7H2r4JJ2J+TwB0rZzDTWD22auOtOqXkD2bSBX3Dj/RMUceuInyLSWhrX36BcGenkPpXXnG7/bMrBi5sfPnBGSy/yUcJbhia373dpKIuQHDb/ABRFHy4EqlxiLZRUi4NQIl81EjrOhYldPiy4ir3Fqt2YgQWHDET5ZtJ+eA664=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755768406; c=relaxed/simple;
-	bh=PQOJTBPJoyQfCaJKlfGKvW3sZq/+GNu3eo+031+ohKc=;
+	s=arc-20240116; t=1755779348; c=relaxed/simple;
+	bh=ipyvJjqvXQZXiCECZcXAcXKFk38PARAX3ClkU4503z8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=c9qM+WFAntM9VD1ORI0gJYuiIWhgxRjlJmIy5Bk/2uCy9q0cb56/TkuUa4BNgIv04iiJHUnOOrrav+o3Zzdz8PH4hAahzdREg8TuzvgZvdzfNI+c5IQOOO7G9gvKaC7Ju5w7ojKvxLGD8g860gs6D0glkm/Pdubi3kr+srUEBR0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=S+um4o4l; arc=none smtp.client-ip=192.198.163.8
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=WejPwNjLQ3fKs9hI2PYodCqQ9V8WbcklCQQjeTmO2PzlrbghnGljWSObgqJm4AsR36RWmi2T+DAL6DosQcyIB3UkO3Cx/GLRZ9z5RFbNBJClnq/mPgyQpMnAXZAS9PUeARA3tFoXKjRzfMN/GiFwAEgRJXshPeY/0IhlfzHfz4A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=LCvXuGAT; arc=none smtp.client-ip=209.85.128.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="S+um4o4l"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1755768405; x=1787304405;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=PQOJTBPJoyQfCaJKlfGKvW3sZq/+GNu3eo+031+ohKc=;
-  b=S+um4o4l+ifUaAtICHGi/EZly4Skq1TChWSu4UD8v37N2Hr4shew7Bhr
-   yZxkfYzYYKrxvUFiZ3eALNvnN6ShBjPUM/uMMWvIBJzYVpcSboNA/+CMC
-   8GXeSi+R+7vCqNuSS+nnNV0LhWn9sA7FehSsepSlKH3TgNfvh9ciuGWVD
-   IZGYJUXwKCZlErIlu2Kf5hWktPr/vdUv62siWBDe13gHoQxeMGSVVUOxt
-   pZjrC8JxLkPiLTKcK/JniHhTtTCttmdrzSzNkTJsjoIJTQkThOJBDgvxh
-   roSECmsYWrRiQZAF94aBh6rfTryDhg6SlLVx7uGR9l9XYQNplzQH/F7Nn
-   g==;
-X-CSE-ConnectionGUID: XnYGiwRBQxyZ4YAhKtvtsw==
-X-CSE-MsgGUID: yGM6KvSmR3q6FeftEhV6mg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11527"; a="75636924"
-X-IronPort-AV: E=Sophos;i="6.17,306,1747724400"; 
-   d="scan'208";a="75636924"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Aug 2025 02:26:45 -0700
-X-CSE-ConnectionGUID: qD3OKUNpQ7+Uusx0LXqupA==
-X-CSE-MsgGUID: MjeHRN/DSyG0Of+9Wq0q4g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.17,306,1747724400"; 
-   d="scan'208";a="168274682"
-Received: from smile.fi.intel.com ([10.237.72.52])
-  by fmviesa006.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Aug 2025 02:26:42 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.98.2)
-	(envelope-from <andriy.shevchenko@intel.com>)
-	id 1up1Z9-00000007BUH-2QpV;
-	Thu, 21 Aug 2025 12:26:39 +0300
-Date: Thu, 21 Aug 2025 12:26:39 +0300
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: Qianfeng Rong <rongqianfeng@vivo.com>
-Cc: Andy Shevchenko <andy@kernel.org>, Hans de Goede <hansg@kernel.org>,
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="LCvXuGAT"
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-45b4a25ccceso5291805e9.3
+        for <linux-staging@lists.linux.dev>; Thu, 21 Aug 2025 05:29:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1755779346; x=1756384146; darn=lists.linux.dev;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=uk+Gw1wsKmJ7CUTVerhhurDygK4Wa2zZgqD1NupOrg8=;
+        b=LCvXuGATeXwnSntQdfRSHpyTi5EIWdwOZ7IumYaWXs0mXKhFPvZLz2LY01kjpfzzu8
+         xfIV0PL0OnnqnqBROb11At51P0eg5Ec0XwUe4ojQNUx1bm7/7ja8WimUYlhsIcTo4MTN
+         o1tLfV9zE51z/x4wxqN0mjN0Figvo4l6Lsx0zB9Bh5+UlgYfJ8K/TChvJaxp0rybE6FG
+         /Y3W/XB0JlKKyIOL5PF7fwkAuNmGyHzWe2srKx3sobxAL0CSuxwjA7gcqvz+qf535PpR
+         zDyKlpR4vmOXkxgYluZ+za3bRCFiF1+fDhrsAjSHJ5FB3Ya54uh9V2iFXLgC9YnslwmV
+         5U9g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1755779346; x=1756384146;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=uk+Gw1wsKmJ7CUTVerhhurDygK4Wa2zZgqD1NupOrg8=;
+        b=X7vkxrBzmV8XjgYbvtcs68DVj9IAQJE4MA3TjntEJmEUrqDmHfa90lfYDURCmShu0M
+         RiVJciWo5eAzR/pW/6e+tVuu3RvMFuKDqTMQ/BcGbGCLIOP6o2/R2lb5wsWuOs2pIhRH
+         vNuvkylIFwjwyKmVkbg2WJxtU3WeliotjNmmXUMs7TowNDkYLR/vJXP1PLKarELH8XCK
+         LAQN6ZWWPZbIApqIbPrf+e1VIhlz5QKo5niAM0hfmD5RmnSV/dp0459eQj+jZicLgFLn
+         SAZF+1ne6p+hZfrpxXAArnaZ0upMQSaWxVYVrOfmnZfFF0L2eXKWUk54c3nPsZvbWiWE
+         NDeA==
+X-Forwarded-Encrypted: i=1; AJvYcCUcmnDLr3BuNrq9V/Tm+j+nG+TdpIcePBw1hxnsjJ8DGCgZpOl4uxJOAurwFbpAYRDtqH6+J1OieBjDN6wv@lists.linux.dev
+X-Gm-Message-State: AOJu0YyWq2KcaWIdOSxpu37sgk2MaBU6IEWmADjafLTt5xkM/AuIOJnG
+	TgGSZOtzbyrTrVGmqB/AaMQXM6EkSizeOCDL4GaOxya36AgTH58JzyqS9v2KDXUybYY=
+X-Gm-Gg: ASbGncuovf5HSVvVvFrS8+1ZaPEHu6Of2F40Af/NcamfQr4H3VUi6mYXn6AQCbbhVj8
+	OSfKMOo24el8beVd6R+4tS4bNMZv1xff+gzuaBNAjKKgxExVjGFHhX5nPUlevVk8GcSi5EwF6lB
+	qaONfrWYGZMBB0r+N9eczM1r7B6hWAvoosFo61ch0V2FleHWXwEOche0N6n+nOeABEEpVqzLGtJ
+	HUGkalZBgfJA6S4RlCv4wNOSwoZJBp4c/w6Xk6LV/RQG6QfFRzLG91DNJJ1BXMMYZaci/C8Q1SF
+	1ejSWz5481uxkiRU7G5ts9y0Gt6014cOEeo6eiETbZluw65UWx5tvVQnxGvykUkjmSwq5HGGCay
+	C9Wlb/xxMhC8R5XeNp4OILMu3ttuFoD0FMUfkHw==
+X-Google-Smtp-Source: AGHT+IGJrYKPC9BNmSR70F39FVaCXjHhbs3ESqGZ+t90Sf0UFy3gTnptWt8uEhlEoOhqqmoO/zvgsA==
+X-Received: by 2002:a05:600c:4743:b0:459:d6a6:77c with SMTP id 5b1f17b1804b1-45b4d85db41mr19889845e9.33.1755779345665;
+        Thu, 21 Aug 2025 05:29:05 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-45b4dc25b04sm26193375e9.22.2025.08.21.05.29.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 21 Aug 2025 05:29:05 -0700 (PDT)
+Date: Thu, 21 Aug 2025 15:29:01 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Adrian =?utf-8?Q?Barna=C5=9B?= <abarnas@google.com>
+Cc: Hans de Goede <hansg@kernel.org>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Andy Shevchenko <andy@kernel.org>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Colin Ian King <colin.i.king@gmail.com>,
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
 	linux-staging@lists.linux.dev
-Subject: Re: [PATCH v2] media: atomisp: use kmalloc_array() for array space
- allocation
-Message-ID: <aKbmTz3bd2dq_i3X@smile.fi.intel.com>
-References: <20250821081746.528018-1-rongqianfeng@vivo.com>
+Subject: Re: [PATCH v2 1/3] staging: media: atomisp: Remove unnecessary
+ inline declaration in gdc.c
+Message-ID: <aKcRDWlRQ1gughvQ@stanley.mountain>
+References: <20250821070130.2581766-1-abarnas@google.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20250821081746.528018-1-rongqianfeng@vivo.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250821070130.2581766-1-abarnas@google.com>
 
-On Thu, Aug 21, 2025 at 04:17:42PM +0800, Qianfeng Rong wrote:
-> Replace kmalloc(count * sizeof(type)) with kmalloc_array() for safer memory
-> allocation and overflow prevention. Additionally, replace sizeof(type) with
-> sizeof(*ptr) to improve code robustness.
+On Thu, Aug 21, 2025 at 07:01:28AM +0000, Adrian Barnaś wrote:
+> Get rid of gdc_reg_store() forward declaration because it brings no value
 
-LGTM, thanks.
-Reviewed-by: Andy Shevchenko <andriy.shevchenko@intel.com>
+The subject should say "forward" instead of "inline".  Also add a period
+to the end of your sentences.
 
--- 
-With Best Regards,
-Andy Shevchenko
-
+regards,
+dan carpenter
 
