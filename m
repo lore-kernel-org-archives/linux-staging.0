@@ -1,65 +1,68 @@
-Received: from mail-wm1-f73.google.com (mail-wm1-f73.google.com [209.85.128.73])
+Received: from mail-wr1-f73.google.com (mail-wr1-f73.google.com [209.85.221.73])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E29C81AF0A7
-	for <linux-staging@lists.linux.dev>; Thu, 21 Aug 2025 07:01:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.73
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CBBC257851
+	for <linux-staging@lists.linux.dev>; Thu, 21 Aug 2025 07:01:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.73
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755759698; cv=none; b=EjSTsCHAK7gpOYAkO+o/Ryi1bE7KucUOJpVkamzp7KYZmY/xahuu4rPmRhTkHEtAbDUtpSowuxyAtzjHW3BA5pzOLSgiDSx65kpUe9p8IsjNs4ro0yPT0ar+yn1dHnScGcnZ3vOF36JSAs/ulAIXypjHJEqgdxCgcZjF85xUax8=
+	t=1755759700; cv=none; b=HBxs8OOQ4c/ogwzhPde1Sb9l2v0oeDD7mxtke3oJPNFA26/eHvixC2OQUc+RKr/3xdfJz7SJ0ZSmGYmxxb9fR0aRD11zpDPtcaGN9Of12fQOdsFIdkor1KwDHHuSSFhTjp07tmn+p8i9LKgCZD9miQV/cPH+qFAU+lzdb3vFE0E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755759698; c=relaxed/simple;
-	bh=xAbwWeBBjg9N+cdieYDjYzALaVmrwO5vpPTMIUPytzk=;
-	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=nNN2u8ZGbqq1QWL5nC/Y5GjHleeRxJcIGO4Cd3bsl6P3I871RooxzI8ksP1WFRc4hppeJ3eQKQpNlsaavJp8Q1c1UnxnEPd53SwsvMWrBXPTcrWm/qhU0lUlnUgXhPCV9FzsfcKkdM8EpkjKcTtlooexpdCnH+2uUPAZ+GNYWUw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--abarnas.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=GlG6Nmqh; arc=none smtp.client-ip=209.85.128.73
+	s=arc-20240116; t=1755759700; c=relaxed/simple;
+	bh=Lwh49xgm8E8hyfnJwvscG8id7WBz9JOebvAR2zKXZl8=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=ms+qsnfbTVu9ezSOq+uodJyDOokbvGTSRW7ZYrAjasvvKAWaXZWXjTgyojtZBqdYZ0scqacxtg7Ji8e6OE5l0IUldBXeDnyMDi5O+M5AP2UpS3OBzMCVtcPi41h2St/3sTU6RQveDPa+8cKfboOmKXafqYjX1ReuDKGKgbZX5lA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--abarnas.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=ZtwqiL6t; arc=none smtp.client-ip=209.85.221.73
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--abarnas.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="GlG6Nmqh"
-Received: by mail-wm1-f73.google.com with SMTP id 5b1f17b1804b1-45a1ac1bf0dso3706995e9.0
-        for <linux-staging@lists.linux.dev>; Thu, 21 Aug 2025 00:01:35 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="ZtwqiL6t"
+Received: by mail-wr1-f73.google.com with SMTP id ffacd0b85a97d-3b9edf80ddcso242854f8f.3
+        for <linux-staging@lists.linux.dev>; Thu, 21 Aug 2025 00:01:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1755759694; x=1756364494; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:from:subject:message-id
-         :mime-version:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=GIUE2PmBqOrrYO7GAV3V+fHhCJGdLaC9xCv0zLUGcNE=;
-        b=GlG6Nmqhv8lNPP3193R112d2xGV+841kRklS32pukg2EsfOJh4t26n7rx2ummtTWDE
-         r8kuimOXMdVYAMa73bXDYsPOZdFIexq3nUT32TAXZjeWg6dUg/u1OF6oJIRmJNTpa/BA
-         s6Wq5IsHhXqw8YLUcF2WGcfW4ENFb/qwZ0gOPvNITDmiP8rLZB2VzjD354AgKP6X+bIR
-         F7I5Sz0MhlkG7YFDNTwgUwIXC7u7SKJbjVAgKK6w3jJwsnQvTFrUb8sNpwMZv1EEwsuQ
-         5KluFsSh+CgZlNd3dtbvZXVNvAhaj1yuk1IgIGnRwaQB1s9IRIOInITME6E9pQ+jZHTR
-         HaVg==
+        d=google.com; s=20230601; t=1755759696; x=1756364496; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:from:subject:message-id:references
+         :mime-version:in-reply-to:date:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=rWHak7BTTuUjCdYO75xAv1rLY7D54sU+2w+NwPKTwUE=;
+        b=ZtwqiL6txpDXPmUc9NONMjjmKhZNYlCzHftAyQM/SBM03KJswxaAqZsU3PWBEtjvKw
+         tyPYmPPfHutQ8Mo8Fuwv8jZeHLAVnVP8JHdaXnbVBP2wigaGfRIHBQHeEv1ssbbWsSxR
+         wMXdXp17V7gRJCtO3DqJexAnwbC7WbcVtOwMreOyjq5UHqLbSjxlGtRzH3ZgnNMmgFya
+         6nLJ1EOzNEp+axOjUB9C7iz8ct35Nek1U8+bCSV0YlPWWIGl0SxFLKyNm9rEFQMRqddM
+         pIzaA0e0zDatHO5OYwPfFf049okiVll8JgS1Or0MrqCAtvWEXiyYUs76OKmrrHxp80G8
+         Tr0Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755759694; x=1756364494;
-        h=content-transfer-encoding:cc:to:from:subject:message-id
-         :mime-version:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=GIUE2PmBqOrrYO7GAV3V+fHhCJGdLaC9xCv0zLUGcNE=;
-        b=I3/MGVFnE/ADr5yxPSvqQb1mLPO1bP9JfZJYiw3/zFuycTvqrpc4U6XlnEQZ1lmKRh
-         rc+rcoHF30hT/efusyoOUZRjJHswcDNwnAE37uIXCPnjMVyFEDrL/L3xFYY84+N+NN25
-         93ekcG+HaubP0MEHMj1//BU7E8GOrKFFWup8620Fy6Jb18+O3erB0oBplMknpfJKQ2EE
-         la6wy97vtc4TSQBAsjnHaMcpZEcwy+YwTarGmvgxqroo2+dYdmcMGhQ8nXAHeeqwd5xm
-         nO02TmxFk/oQ/O8XdnIFOJeqD387zSv2+4x7cJ8d2Tmz+ONF3Awa1AN8TcBfH315sA+L
-         mOpg==
-X-Forwarded-Encrypted: i=1; AJvYcCVvUgnr2TCBjiOXEkF2a0VZeIF4RyXQ87Y2wGWcgV12O0fl0nx4PJ6F77YR3i7fYW3CHMLOTn03gClCv+XS@lists.linux.dev
-X-Gm-Message-State: AOJu0YwG02pyQz6orUg8s+zDWuHNHJe5H3ln3K/EthCADqJQ1IKXKxTD
-	m+yinjRoHk/Xn83A+zlwWkFy7sOx4OHd3wdfwRH//ZmNvRetrlP6vZ1rocfSufeqw33ogIgB4F5
-	BUxRZ1SMPSA==
-X-Google-Smtp-Source: AGHT+IGlH2xw1DoBwNhaE0zN8l2SvWcW/Lug5/2eb+mUXE7rWPWReBJndxbSGekbGMY8ZvWt/3V02e08ioCL
-X-Received: from wmbee17.prod.google.com ([2002:a05:600c:6411:b0:459:6a64:4582])
- (user=abarnas job=prod-delivery.src-stubby-dispatcher) by 2002:a05:600c:c0d2:20b0:459:dd1d:2ee0
- with SMTP id 5b1f17b1804b1-45b4d70e0f1mr6209805e9.0.1755759694320; Thu, 21
- Aug 2025 00:01:34 -0700 (PDT)
-Date: Thu, 21 Aug 2025 07:01:28 +0000
+        d=1e100.net; s=20230601; t=1755759696; x=1756364496;
+        h=content-transfer-encoding:cc:to:from:subject:message-id:references
+         :mime-version:in-reply-to:date:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=rWHak7BTTuUjCdYO75xAv1rLY7D54sU+2w+NwPKTwUE=;
+        b=jiobcAVoSM4cQfxnnSvTGA3ZJpqW4tUlSlEZ3z5T9llojFLUTd2rQSMFprSJK7/hnB
+         hHphggnTQKt/8fbcBGG9dJBUtm1H+Kcb06uZzN1E/POtFs6bkoTzVMbMlltIBGT8Zxo6
+         LG0u/VE1LN72O9ouFQkMGSJi44Ww+DgIgLveGJkLCl2wSsK3cAvLyRYhCzxiPTLmyNiZ
+         SGqdLh3QcZ61Fxe2Qk/aIF4Ul+O7Mnz9UeNv+NpchwgKo8/9rdgX7cNLvAomtYOlyPK+
+         rl7wy7Fw/uOyvP0f5j9+VEx7l6dhxI+DbXsJJ/p2gkAzNzIptMXaMyBsXMC1mOXSuc/a
+         qcgA==
+X-Forwarded-Encrypted: i=1; AJvYcCXvbLwr48BXf6WZWzUM8VmzRulAAbk3yD8GPwKJ2E+fPVPfmwCzUnahkxr+69xM5fDJLo60+iGt8zAzhAq/@lists.linux.dev
+X-Gm-Message-State: AOJu0Yy5p7Qf4oELKyw0rTfDgPND2G8FCVGuV7jBtJeDh3BR9f/uGllv
+	GSg7H91X8eWff6fE38t07jP18e9ZUvgWg7FWxbkZVxhZeIIj2OJtXqeoiMm+YsoCKrWylqUnO8i
+	4Ct93JhW2cw==
+X-Google-Smtp-Source: AGHT+IF7hlrAjiNuM/KEHKAFY8yyo63CcT8LWrl4yHVQAKYWdCNBYFgKuNHYzShQe6cb3WgyW1zJUwj7YKrw
+X-Received: from wrbdk16.prod.google.com ([2002:a05:6000:b50:b0:3b7:d75e:c4a7])
+ (user=abarnas job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6000:250e:b0:3b8:d1a4:bab9
+ with SMTP id ffacd0b85a97d-3c497369e98mr1055445f8f.45.1755759696323; Thu, 21
+ Aug 2025 00:01:36 -0700 (PDT)
+Date: Thu, 21 Aug 2025 07:01:29 +0000
+In-Reply-To: <20250821070130.2581766-1-abarnas@google.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 Mime-Version: 1.0
+References: <20250821070130.2581766-1-abarnas@google.com>
 X-Mailer: git-send-email 2.51.0.rc2.233.g662b1ed5c5-goog
-Message-ID: <20250821070130.2581766-1-abarnas@google.com>
-Subject: [PATCH v2 1/3] staging: media: atomisp: Remove unnecessary inline
- declaration in gdc.c
+Message-ID: <20250821070130.2581766-2-abarnas@google.com>
+Subject: [PATCH v2 2/3] staging: media: atomisp: Whitespaces style cleanup in gdc.c
 From: "=?UTF-8?q?Adrian=20Barna=C5=9B?=" <abarnas@google.com>
 To: Hans de Goede <hansg@kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
 	Sakari Ailus <sakari.ailus@linux.intel.com>, Andy Shevchenko <andy@kernel.org>, 
@@ -70,54 +73,69 @@ Cc: "=?UTF-8?q?Adrian=20Barna=C5=9B?=" <abarnas@google.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Get rid of gdc_reg_store() forward declaration because it brings no value
+Clean up coding style whitespace issues
+in drivers/staging/media/atomisp/pci/hive_isp_css_common/host/gdc.c
+
+Fixes include:
+ - removal of unnecessary line breaks
+ - correcting spacing around operators
+ - correcting spaces between types and names
 
 Signed-off-by: Adrian Barna=C5=9B <abarnas@google.com>
 ---
- .../pci/hive_isp_css_common/host/gdc.c        | 24 ++++---------------
- 1 file changed, 5 insertions(+), 19 deletions(-)
+ .../pci/hive_isp_css_common/host/gdc.c        | 21 +++++++------------
+ 1 file changed, 8 insertions(+), 13 deletions(-)
 
 diff --git a/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/gdc=
 .c b/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/gdc.c
-index 8bb78b4d7c677..bfda3cd13306e 100644
+index bfda3cd13306e..bd44410729bb4 100644
 --- a/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/gdc.c
 +++ b/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/gdc.c
-@@ -11,13 +11,11 @@
-=20
- #include "assert_support.h"
-=20
--/*
-- * Local function declarations
-- */
--static inline void gdc_reg_store(
+@@ -24,9 +24,7 @@ static inline void gdc_reg_store(const gdc_ID_t ID, const=
+ unsigned int reg,
+ /*
+  * Exported function implementations
+  */
+-void gdc_lut_store(
 -    const gdc_ID_t		ID,
--    const unsigned int	reg,
--    const hrt_data		value);
-+static inline void gdc_reg_store(const gdc_ID_t ID, const unsigned int reg=
-,
-+				 const hrt_data value)
-+{
-+	ia_css_device_store_uint32(GDC_BASE[ID] + reg * sizeof(hrt_data), value);
-+}
+-    const int			data[4][HRT_GDC_N])
++void gdc_lut_store(const gdc_ID_t ID, const int data[4][HRT_GDC_N])
+ {
+ 	unsigned int i, lut_offset =3D HRT_GDC_LUT_IDX;
 =20
- #ifndef __INLINE_GDC__
- #include "gdc_private.h"
-@@ -92,15 +90,3 @@ int gdc_get_unity(
- 	(void)ID;
- 	return (int)(1UL << HRT_GDC_FRAC_BITS);
+@@ -34,15 +32,13 @@ void gdc_lut_store(
+ 	assert(HRT_GDC_LUT_COEFF_OFFSET <=3D (4 * sizeof(hrt_data)));
+=20
+ 	for (i =3D 0; i < HRT_GDC_N; i++) {
+-		hrt_data	entry_0 =3D data[0][i] & HRT_GDC_BCI_COEF_MASK;
+-		hrt_data	entry_1 =3D data[1][i] & HRT_GDC_BCI_COEF_MASK;
+-		hrt_data	entry_2 =3D data[2][i] & HRT_GDC_BCI_COEF_MASK;
+-		hrt_data	entry_3 =3D data[3][i] & HRT_GDC_BCI_COEF_MASK;
++		hrt_data entry_0 =3D data[0][i] & HRT_GDC_BCI_COEF_MASK;
++		hrt_data entry_1 =3D data[1][i] & HRT_GDC_BCI_COEF_MASK;
++		hrt_data entry_2 =3D data[2][i] & HRT_GDC_BCI_COEF_MASK;
++		hrt_data entry_3 =3D data[3][i] & HRT_GDC_BCI_COEF_MASK;
+=20
+-		hrt_data	word_0 =3D entry_0 |
+-				     (entry_1 << HRT_GDC_LUT_COEFF_OFFSET);
+-		hrt_data	word_1 =3D entry_2 |
+-				     (entry_3 << HRT_GDC_LUT_COEFF_OFFSET);
++		hrt_data word_0 =3D entry_0 | (entry_1 << HRT_GDC_LUT_COEFF_OFFSET);
++		hrt_data word_1 =3D entry_2 | (entry_3 << HRT_GDC_LUT_COEFF_OFFSET);
+=20
+ 		gdc_reg_store(ID, lut_offset++, word_0);
+ 		gdc_reg_store(ID, lut_offset++, word_1);
+@@ -83,8 +79,7 @@ void gdc_lut_convert_to_isp_format(const int in_lut[4][HR=
+T_GDC_N],
+ 	}
  }
--
--/*
-- * Local function implementations
-- */
--static inline void gdc_reg_store(
--    const gdc_ID_t		ID,
--    const unsigned int	reg,
--    const hrt_data		value)
--{
--	ia_css_device_store_uint32(GDC_BASE[ID] + reg * sizeof(hrt_data), value);
--	return;
--}
+=20
+-int gdc_get_unity(
+-    const gdc_ID_t		ID)
++int gdc_get_unity(const gdc_ID_t ID)
+ {
+ 	assert(ID < N_GDC_ID);
+ 	(void)ID;
 --=20
 2.51.0.rc2.233.g662b1ed5c5-goog
 
