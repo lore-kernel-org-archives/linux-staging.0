@@ -1,63 +1,63 @@
-Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
+Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3FCC3074A9
-	for <linux-staging@lists.linux.dev>; Fri, 22 Aug 2025 13:55:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3781307AE1
+	for <linux-staging@lists.linux.dev>; Fri, 22 Aug 2025 13:55:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755870920; cv=none; b=XfIO/JCnCTLzVFUv98X2ncY5E5URu2ILDSWwcjSQ8l6fpicxvRA5JK2fy6iisj40DR+mxcByWJyd0EV5rozmiyDiRmx2kV4t6cVqVnARN49P+HxRiRYXCuVpFf3XivA6Dj6fTJ00LEg5UVvcWJpFhA3vdbS2NbX/4VV89vSFftI=
+	t=1755870921; cv=none; b=YXDIF1EySngP+zJxvD1pX28LnWeYjdi0MrzgMS5fZPxtjHwc8LSL6Tk4wrHwhLfHVutKN/BSlReQ8Fb+XV4rygvm+eh95P85IImc05cYq8zgFVr8yp4IT/s2YEhr+G0AWw0yCBn3GEeosPFq5uMp8jirED5UMluYvu+y8UVsu78=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755870920; c=relaxed/simple;
-	bh=IpB9cvK5kSt7dw+GGmoQNb8wx+qNNv0Enrmgu4f1kkU=;
+	s=arc-20240116; t=1755870921; c=relaxed/simple;
+	bh=jbGeJDfBrQsrI6K552vuZyIVAy3M3w0dBEW/sZSdp+4=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=I/ZvmXZEzTBFq8Ebs94BR2ReXvZn4YAyoeC5VPM6JAx92fanZutZQ6JNefWdHdnLgvd00OqA7VNsfgzCYvHi4z5jcwTnCGPm91nkPeEC4foErUT7VbG8uALUFEUZkD0TbLa1FxvTxyuexgUBU7ZaRF5ZgKTT3ZdrtoSqlFUhMcc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ce/zShzd; arc=none smtp.client-ip=209.85.218.49
+	 MIME-Version; b=QpbJU+aA0p7CSnQTgOTBjlk3I8vxcdhyKy6ps+1cnsCU9g1gDX/jSUGqeUhTztld/pJpqdFykD7wfi1S3idklinyt55iS+kbxScKVvEYKifI1oDgKvccuJB6D34YWs0xalrD0OKy/j3KCM56V9hXNM8nLL2TzTmkL+dGclsuHvM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FGsvqkyj; arc=none smtp.client-ip=209.85.218.46
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ce/zShzd"
-Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-afcb6856dfbso383994266b.1
-        for <linux-staging@lists.linux.dev>; Fri, 22 Aug 2025 06:55:17 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FGsvqkyj"
+Received: by mail-ej1-f46.google.com with SMTP id a640c23a62f3a-afcb731caaaso315245966b.0
+        for <linux-staging@lists.linux.dev>; Fri, 22 Aug 2025 06:55:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1755870916; x=1756475716; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1755870917; x=1756475717; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=vhtnvBKwGmstz40ZlcV+VAZTltaTKGtbvDCCJ8E5i60=;
-        b=ce/zShzd1TYmOt6GhBixkaJCd0sgneQ39gdJljieFOgtrX1SHrZPdjhrLid+DnOiDZ
-         lOV5YAbgEqvJJrC99lf+8nWdaJcLqj+sZgIQWb+wijBTuPDdTonlkkRtkQQG3f8l4d7t
-         r/VUG5qe7rURfg3T6I7QP3FrVMklxOMhmASCO0t/5qr5F+L2SZSUBq4GsIpJWW8M0pqP
-         vdvp6se68QHBGSj4ia3B1meW7JiLbBdvAbu2GMq/3vxwsS2FsMCvoaUqXMvdwEywiRvm
-         ld8k3eBU4ihgFHL3WjYGFOSURIiBYDc8a7fjlLYIPdM9shZuFxJG+5AOEFrBBYD0BzOV
-         EDNA==
+        bh=io7wDwBQXXAz1NvC/Ow1c011ouqTM7JuaW9NsL/t1R4=;
+        b=FGsvqkyj74u2PqMGtX96TOqN+LMsWuHmnTpiFJ4R7/oOdwgwEcTVCodbsWvx/dzjXj
+         t60KXCqLKG50jklaomq7KqLX9A/99XGmbb6UPEc4qibXQpJxIXvxwM9QHfDymxiHb8Bl
+         qVQOekgVegNc+E8KXj3RFGIZJ08l1ph29w4H7TxHh45cN17ZpQgAcnIYvF6ORoXhxxpt
+         wHzYuL/fdpj7/UtbRkrIlnMp0FkI37vuL9mhBtc9TQ8JS3l6h5JIdDdoYN4p3sLR+nOK
+         LHnKUNQLWxLjiNCMQ3z85ItNqIXoPPKtOvz8Aq2YtbmwVRp+a8QmA61tGxKTxILeLNrx
+         K3hg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755870916; x=1756475716;
+        d=1e100.net; s=20230601; t=1755870917; x=1756475717;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=vhtnvBKwGmstz40ZlcV+VAZTltaTKGtbvDCCJ8E5i60=;
-        b=p+vLbhQhuDDCXIQPg1bQFs3HqOme8zzkax6Dw/Emf8Br0XTQWD26K8+4dc5kToO7GV
-         tp9Af7Ic2a4/bT/eEmRFLNdSmQ18HOr7Afnis18EA2kU2ZNDFTgK+EVyebB4+cCH/ZxL
-         r4quI+v4cEcrIgb0CBgLjNnyfklRZz1KbWd93KU4oeBBCdxfGUxU6ztDt6I6oSnGqJRB
-         xPdf5iiGXi6sJ5GqRxbFRtq55+Gy9fPWEHI7p+T1/p14jNfiDRSV6JSxRXW7cM9J4d9C
-         AxUeJHcFYTpmvUkuhYY81NgoKkaTGwbG/4ABHvq3mNvIAAmOwvpS+nQ/pINMc+1O+7c/
-         W3qA==
-X-Forwarded-Encrypted: i=1; AJvYcCWqOYmDXayR/c1YPO0oC6fKflqUmlLcAlmALzj+rCBvA5tkk5QHjEO9XgC+aAZXmI4/0APyys5jaAtENcIS@lists.linux.dev
-X-Gm-Message-State: AOJu0YwjGMxhE70QD21i7+OHVCbtVkGXHYnDHWMNAvuJOHo1k2f9eOKS
-	CErZWicQ8zbLTpjSy6+WBlQm2RhJp9XrZOMzr9OHz0DXlbnLHFy75L7i
-X-Gm-Gg: ASbGncvxNd9Ta5O4AcwN920U1wiTTFr/0KQLlmTZWnZrXS0+qpUt3PBS3l2104PfI5+
-	Ta/egCYPYSTAlwPltpZ7m15CwT+jj0aLxF/uw6538cKQahIQ4zefPtTgU14zSeTZCHDsW3KDZt1
-	zNUYjU9kJzLgNcwcWMaQpUA7Nh6530c9YBDkzgGlydyI0XgBt7Lnae1y1rN8FWxlBArX2hHWAi8
-	JQX8m3gkqiAGpOFQqMS8Y4kuhWE/cnG48Yg4yiQL+I7Hc+iPOWbyVVltVKAZvpxP8u5h6MQAc+j
-	B6BHXIfGCvp/ZrId7d11Vk1YCt9xEzcXQafALDFQhABF9O8jHXyiihENXYMGTu4wPVQj7EkTlv1
-	iRLU5QjK6vxFVgDbH2ULuW2u45Q==
-X-Google-Smtp-Source: AGHT+IHT7+T8WawmQGKLOfrCxwkolKFWqCzlOiIQiq3BB7UaJMLgc8Dx0GdNjecGWbrJC7emLM3BWQ==
-X-Received: by 2002:a17:907:98a:b0:ae0:e1ed:d1a0 with SMTP id a640c23a62f3a-afe29018bbamr297028266b.8.1755870915954;
-        Fri, 22 Aug 2025 06:55:15 -0700 (PDT)
+        bh=io7wDwBQXXAz1NvC/Ow1c011ouqTM7JuaW9NsL/t1R4=;
+        b=CDabXyTT8R5ygmt2BAfUEFNCF7toFgbLZV+tIWEJQWDtNuO4g3gAGq9xE3U8KSEbUE
+         gJWS/bdQDvOwWErKiEgMtf2DgkpcT7tnEujY6ZpjLQfDAHFU2mn2m5jtjxBA+P2iDc17
+         AqtBHaeEwOe1ymEKr2LtKfegcAG+Qyq4+6XY+9+q3HSGV6xoXv0Qp8T4gaD7FGywinVi
+         cihM9br4j/R/RMS4DUbL44UtOl7E20uy7uE7mmZJDa05D/7+rPVHEI9bEijdmff8vlfK
+         vjX8ZYs+zs1dQXuKzZw0RDnZk5yvFKljIwfDQdgt58L9eLWem5Ca5bcjQiafaDJaaRTf
+         FUSg==
+X-Forwarded-Encrypted: i=1; AJvYcCWwqRnOYc5BcxmzMZmAmYCB0Oovr2XDaUDe0dUMsKVfoXbqrn+BqmQ3TuONRdqidsW67ieEH18jFfVXPr4z@lists.linux.dev
+X-Gm-Message-State: AOJu0YxTBWwEsKBK0+XsDbdNM1SqhmZbgMpHYSFoBSVdP6qkoKt+6gUf
+	VjGNaY1ZezgZS4iOtGlIuo021S7hoy6SBYEr/ketNZqeP6SD2pJZALWZ
+X-Gm-Gg: ASbGncs7xqKd3Xk0vwG6wpvk9cOBH/sykszsx7NPDgnWGx/PRchf73x47WBvxC+enZG
+	H+xRurz4YHgsIBSJ+A+yKz0NhTBT+hYaGFlugnwyIOtI3M+ca+2nCZinvmq5xnyCCzVmKAp8GA1
+	RGvSMuE5BXHTJg+10Twvn3/SF3YjhOq7luGBigamVONN5I65Mm/t4OTPKrMRtEedkMlpowvb2O0
+	lfvAbgQHMA7MPsniT3IX6MhnXeaVpokrCBgedHq/uEhfEO7MP7hcoH8hLgxJiwifEiIpzAjjYeW
+	uMqxI5hn9ZceciV5vlRvX/V9dkpI1MG3ldpE4NVZdSD2MgJ0jBQJOeu9qd2ASn+4FuPKNLT3lvE
+	qngk0lFr9G3LahWY6SRddFCeKVQ==
+X-Google-Smtp-Source: AGHT+IE/FeGYUCVLqZ8N8wPz7Bukf3xdRWQw9cOc2U+3j+L9NlTp/lL6x6ME19mu4AvsOfWSEcnPuA==
+X-Received: by 2002:a17:907:7204:b0:afa:2775:58b6 with SMTP id a640c23a62f3a-afe28fc1a87mr296664866b.17.1755870917050;
+        Fri, 22 Aug 2025 06:55:17 -0700 (PDT)
 Received: from tumbleweed ([95.90.184.246])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-afded307138sm612353866b.45.2025.08.22.06.55.15
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-afded307138sm612353866b.45.2025.08.22.06.55.16
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 22 Aug 2025 06:55:15 -0700 (PDT)
+        Fri, 22 Aug 2025 06:55:16 -0700 (PDT)
 From: Michael Straube <straube.linux@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: hdegoede@redhat.com,
@@ -65,9 +65,9 @@ Cc: hdegoede@redhat.com,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Michael Straube <straube.linux@gmail.com>
-Subject: [PATCH 09/13] staging: rtl8723bs: rename rtw_os_alloc_msdu_pkt
-Date: Fri, 22 Aug 2025 15:54:14 +0200
-Message-ID: <20250822135418.118115-10-straube.linux@gmail.com>
+Subject: [PATCH 10/13] staging: rtl8723bs: move rtw_os_recv_indicate_pkt to rtw_recv.c
+Date: Fri, 22 Aug 2025 15:54:15 +0200
+Message-ID: <20250822135418.118115-11-straube.linux@gmail.com>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20250822135418.118115-1-straube.linux@gmail.com>
 References: <20250822135418.118115-1-straube.linux@gmail.com>
@@ -79,37 +79,139 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Rename rtw_os_alloc_msdu_pkt to rtw_alloc_msdu_pkt as the _os_
-indicates operating system dependent code which is unnecessary
-for in-tree linux kernel code.
+Move the function rtw_os_recv_indicate_pkt from os_dep/recv_linux.c to
+core/rtw_recv.c to reduce code in the os_dep directory.
 
 Signed-off-by: Michael Straube <straube.linux@gmail.com>
 ---
- drivers/staging/rtl8723bs/core/rtw_recv.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/staging/rtl8723bs/core/rtw_recv.c     | 47 +++++++++++++++++++
+ .../staging/rtl8723bs/include/recv_osdep.h    |  2 -
+ drivers/staging/rtl8723bs/os_dep/recv_linux.c | 45 ------------------
+ 3 files changed, 47 insertions(+), 47 deletions(-)
 
 diff --git a/drivers/staging/rtl8723bs/core/rtw_recv.c b/drivers/staging/rtl8723bs/core/rtw_recv.c
-index 4947099d8595..a8b388822719 100644
+index a8b388822719..924a0c415a1e 100644
 --- a/drivers/staging/rtl8723bs/core/rtw_recv.c
 +++ b/drivers/staging/rtl8723bs/core/rtw_recv.c
-@@ -1622,7 +1622,7 @@ static signed int wlanhdr_to_ethhdr(union recv_frame *precvframe)
- 	return _SUCCESS;
+@@ -1662,6 +1662,53 @@ static struct sk_buff *rtw_alloc_msdu_pkt(union recv_frame *prframe, u16 nSubfra
+ 	return sub_skb;
  }
  
--static struct sk_buff *rtw_os_alloc_msdu_pkt(union recv_frame *prframe, u16 nSubframe_Length, u8 *pdata)
-+static struct sk_buff *rtw_alloc_msdu_pkt(union recv_frame *prframe, u16 nSubframe_Length, u8 *pdata)
++static void rtw_os_recv_indicate_pkt(struct adapter *padapter, struct sk_buff *pkt, struct rx_pkt_attrib *pattrib)
++{
++	struct mlme_priv *pmlmepriv = &padapter->mlmepriv;
++
++	/* Indicate the packets to upper layer */
++	if (pkt) {
++		if (check_fwstate(pmlmepriv, WIFI_AP_STATE) == true) {
++			struct sk_buff *pskb2 = NULL;
++			struct sta_info *psta = NULL;
++			struct sta_priv *pstapriv = &padapter->stapriv;
++			int bmcast = is_multicast_ether_addr(pattrib->dst);
++
++			if (memcmp(pattrib->dst, myid(&padapter->eeprompriv), ETH_ALEN)) {
++				if (bmcast) {
++					psta = rtw_get_bcmc_stainfo(padapter);
++					pskb2 = skb_clone(pkt, GFP_ATOMIC);
++				} else {
++					psta = rtw_get_stainfo(pstapriv, pattrib->dst);
++				}
++
++				if (psta) {
++					struct net_device *pnetdev = (struct net_device *)padapter->pnetdev;
++					/* skb->ip_summed = CHECKSUM_NONE; */
++					pkt->dev = pnetdev;
++					skb_set_queue_mapping(pkt, rtw_recv_select_queue(pkt));
++
++					_rtw_xmit_entry(pkt, pnetdev);
++
++					if (bmcast && pskb2)
++						pkt = pskb2;
++					else
++						return;
++				}
++			} else {
++				/*  to APself */
++			}
++		}
++
++		pkt->protocol = eth_type_trans(pkt, padapter->pnetdev);
++		pkt->dev = padapter->pnetdev;
++
++		pkt->ip_summed = CHECKSUM_NONE;
++
++		rtw_netif_rx(padapter->pnetdev, pkt);
++	}
++}
++
+ static int amsdu_to_msdu(struct adapter *padapter, union recv_frame *prframe)
  {
- 	u16 eth_type;
- 	struct sk_buff *sub_skb;
-@@ -1691,7 +1691,7 @@ static int amsdu_to_msdu(struct adapter *padapter, union recv_frame *prframe)
- 		if (a_len < ETH_HLEN + nSubframe_Length)
- 			break;
+ 	int	a_len, padding_len;
+diff --git a/drivers/staging/rtl8723bs/include/recv_osdep.h b/drivers/staging/rtl8723bs/include/recv_osdep.h
+index 1e332ea63207..20ce25132700 100644
+--- a/drivers/staging/rtl8723bs/include/recv_osdep.h
++++ b/drivers/staging/rtl8723bs/include/recv_osdep.h
+@@ -18,6 +18,4 @@ extern void rtw_recv_returnpacket(struct net_device *cnxt, struct sk_buff *pretu
+ int	rtw_init_recv_priv(struct recv_priv *precvpriv, struct adapter *padapter);
+ void rtw_free_recv_priv(struct recv_priv *precvpriv);
  
--		sub_pkt = rtw_os_alloc_msdu_pkt(prframe, nSubframe_Length, pdata);
-+		sub_pkt = rtw_alloc_msdu_pkt(prframe, nSubframe_Length, pdata);
- 		if (!sub_pkt)
- 			break;
+-void rtw_os_recv_indicate_pkt(struct adapter *padapter, struct sk_buff *pkt, struct rx_pkt_attrib *pattrib);
+-
+ #endif /*  */
+diff --git a/drivers/staging/rtl8723bs/os_dep/recv_linux.c b/drivers/staging/rtl8723bs/os_dep/recv_linux.c
+index 4d3a42f6f9ad..193725cc60bc 100644
+--- a/drivers/staging/rtl8723bs/os_dep/recv_linux.c
++++ b/drivers/staging/rtl8723bs/os_dep/recv_linux.c
+@@ -9,49 +9,4 @@
+ #include <net/cfg80211.h>
+ #include <linux/unaligned.h>
  
+-void rtw_os_recv_indicate_pkt(struct adapter *padapter, struct sk_buff *pkt, struct rx_pkt_attrib *pattrib)
+-{
+-	struct mlme_priv *pmlmepriv = &padapter->mlmepriv;
+ 
+-	/* Indicate the packets to upper layer */
+-	if (pkt) {
+-		if (check_fwstate(pmlmepriv, WIFI_AP_STATE) == true) {
+-			struct sk_buff *pskb2 = NULL;
+-			struct sta_info *psta = NULL;
+-			struct sta_priv *pstapriv = &padapter->stapriv;
+-			int bmcast = is_multicast_ether_addr(pattrib->dst);
+-
+-			if (memcmp(pattrib->dst, myid(&padapter->eeprompriv), ETH_ALEN)) {
+-				if (bmcast) {
+-					psta = rtw_get_bcmc_stainfo(padapter);
+-					pskb2 = skb_clone(pkt, GFP_ATOMIC);
+-				} else {
+-					psta = rtw_get_stainfo(pstapriv, pattrib->dst);
+-				}
+-
+-				if (psta) {
+-					struct net_device *pnetdev = (struct net_device *)padapter->pnetdev;
+-					/* skb->ip_summed = CHECKSUM_NONE; */
+-					pkt->dev = pnetdev;
+-					skb_set_queue_mapping(pkt, rtw_recv_select_queue(pkt));
+-
+-					_rtw_xmit_entry(pkt, pnetdev);
+-
+-					if (bmcast && pskb2)
+-						pkt = pskb2;
+-					else
+-						return;
+-				}
+-			} else {
+-				/*  to APself */
+-			}
+-		}
+-
+-		pkt->protocol = eth_type_trans(pkt, padapter->pnetdev);
+-		pkt->dev = padapter->pnetdev;
+-
+-		pkt->ip_summed = CHECKSUM_NONE;
+-
+-		rtw_netif_rx(padapter->pnetdev, pkt);
+-	}
+-}
 -- 
 2.51.0
 
