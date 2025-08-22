@@ -1,63 +1,63 @@
-Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
+Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30F363054E5
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C813C3093AD
 	for <linux-staging@lists.linux.dev>; Fri, 22 Aug 2025 13:55:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.45
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755870922; cv=none; b=t4cTlnrD2VFZwdtGticHRn8z8AwmCG8ypkDyoKgNeMWE+cpXkjj1IZEl9PSSi062kmzgfE6SHghHuuX1k0TwGzFCRLawuIbM+5v+DnE370LV+PYcQzTNW+8Pzia5+wufzLicaeMjD95BrD/ki98YEr/im/ffm1ZMu6qsFKZzBpI=
+	t=1755870922; cv=none; b=fLy4IWOE8rUIMlc93ozlTMFFFhocRmh0DdSuoyY5YbdMb4SdCjIkJHajR80oFCiM9B68bga4gmOx8kb7euIBUm/z3xmCsTIhd7XL8l2u8ytsri3965ZaPWZhyKgsoul5QqdoEb1oTTSbOh+cQze30lDKN+yXxq816+TvTej4Hz4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1755870922; c=relaxed/simple;
-	bh=sVdC2hU/SSPlglTMWz1ueCPAtY4Ily5J6k4KXXBlx5Y=;
+	bh=iMxJ6lRTsZ/+ONdW6aaFlSyS67Ejco0VfoBbud1ISW8=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=ogNwsz+K9CCrpGO+yisXKXDybUbDpHEXGXEo3Q7f/hjFvDhfoxImTEzp0s93iap3OuruP8rNIWKkswUHrsqXsowJHMAW5z0jUtBfu6Y3BvkVrMrCGLibNWIdYzX6tt9feRLYGWHYgZMqKbzWbtr1WoWgsqUx03VQupWxTh+bNdo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XX+WxwaQ; arc=none smtp.client-ip=209.85.208.45
+	 MIME-Version; b=H52Abu4knKua1jn7TfFXCk31rKmJBang0UOU5QDekeRNev//ktJPphE9LysjfBHdVy2OFUWuLYqlVxJOv63JRIsunxmvB5ysJxM7KRPPng4fazGPkhwmECkshzfedbhFIhC/W388O335oArWemkv5pukImUsc7u6IH2e9TY195s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HH9GgOUB; arc=none smtp.client-ip=209.85.218.48
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XX+WxwaQ"
-Received: by mail-ed1-f45.google.com with SMTP id 4fb4d7f45d1cf-6188b6f7f15so2695295a12.2
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HH9GgOUB"
+Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-afcb7ae6ed0so317567966b.3
         for <linux-staging@lists.linux.dev>; Fri, 22 Aug 2025 06:55:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20230601; t=1755870918; x=1756475718; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=gv9g6cDQmujFG1oPRSFe6TPkH+3laec1tY9I5AIeBsE=;
-        b=XX+WxwaQUGHUA8pCzXNeiABQM7K3rB+F+r0uVCosag7YWrRaIC22R1puEWaOCVBf0O
-         r/Joog+oS2yzm2lyuX81lu7Ax48Lw2eP/iMEcM1/LlVwbXXKsSIjHFxfj/FNh0u7i3nA
-         IS9Df8GURpG5jEysBKGnNs/uO6z6Yb9PZPS52z4V/V0ZhIiyG8y+/t+uRXrf7GmWT6xQ
-         jgwM3xTSd003a9kP/oXDRfD0633Os7YVrRG/Wo169agkFg+4kSbUz3VtqMxJcN9CjKcx
-         maRVp49AtfLYXGcMWyxY2g1z9NmUPdB6btptsb8JGMEMsDIUwJbyG3Lc2ttKwfVSJNx4
-         Y5Ow==
+        bh=izOus1pkUT/TrM+qzEvtIeTOKYw7pk9oz7PKskT0MOs=;
+        b=HH9GgOUBbMr7uFSlovV5mxvf3tQ+FQzMkyUQKNLBZ5qEr5CttyvN3l2I7bolQC3Foa
+         aafUoGLZqGtq0lM5lYHmQsy9pg2T60nCB9mlEujpb2/fYZt7Ojt/3X3BRmznt5Kdj+ol
+         LqMcvjTSqczfZXWGN/N3WBhhCPLTwO9osaSVIZkJ5NQ/BMWtsMDCEI9ydmbEL2AeRaAw
+         ai01R9KurSXyewbpe4wr/PNsv8S7DsHpKsY3Dfz0Rw1V0JaL8llwV7sxu9uZm/HE4pRH
+         FVYBFEmZl9/AxS/qQo6In25xe/+qUM9S+Z6liw8Cbm21CdGURP2YoyHOX598qonZ0WNE
+         xEjg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20230601; t=1755870918; x=1756475718;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=gv9g6cDQmujFG1oPRSFe6TPkH+3laec1tY9I5AIeBsE=;
-        b=gCOMKln8KDdcTiBSUNxsPBiqsfSXo8Rpv5/DSxhWiYaeo0qAGTroW+M5cEmJ2eUICl
-         LjvX7Hhq3NQ+z02fhqmmz52S5fnHc6cBCWrmEAZQBXT5srfap5K4rOfdSarptJCt50Mh
-         BzIKajpusTmYlYPNuqcff4Gdpyb8eCy8l0IidbQhi/vienqhTpJ4tpJ0Oqj3zkuAwWeq
-         mez+MfS5ESedHvS6OOoMDOF8tFRaLc9VaJo2RYEJB/L67a5J/9IMV4p5JSpaAcQjGOnV
-         Okuf5mvn3WyT0vDYPSjjrjrTEIj9WQpPGOfgHlQNHegJXaIuv7teHrwAGbIBMhou+TiF
-         09VA==
-X-Forwarded-Encrypted: i=1; AJvYcCVUJQEFpav8StY0Cy7odifzso91Y99mOzkjWoWN92C/hAnnr6XeORIJKGmoRXYu9NOh7I1krpgw/ywG25PV@lists.linux.dev
-X-Gm-Message-State: AOJu0YzLIAMOKKS+Rln0AQA4HaBkv3Q6Ke0pGMqIA+6JPb2vo5jZdrAz
-	eALM+m44M4panydwDSUUfJbl40ubmft4j0dTcF7pOFS7jFCLyBdyiKmp
-X-Gm-Gg: ASbGncv3sM57yNz5Jz7/z69vhiLehfT4IP+SCAix2ZdhKY0nuaE0OyYNkF+xxA1/odv
-	nviq3hZBntybED1CT/01KNXIg8wBjjLGhdE9dbIQR8rVhYLOrkr1ibkZMuDQiB9xa17LrhnwuXu
-	FqLDCMkvg4K54djOLptop9FxesivXmNFghf8R6VCYNc7m9cB8mHxloclNh0bghE5FLRlj0MO5Py
-	MV8d8na5NbQCy4Mk7Ws/twdb/7jjXVrpANaUC077966q+M62IJeFusGZuiqGXcD11OjQLHOMY/E
-	eQDXfPr1SqAgFNu/XghjnsewOUNfGCRLJZVoN6qxvP3aVWPMln9jDL0bqIALmZjX9UAU6gqR7i4
-	0YmI/8c88WkAuU0V73HsLK058q46rtMKxh4jv
-X-Google-Smtp-Source: AGHT+IGMrws2TvXqG52SlSp4a/tgZdhmkILCp0HBmaLsjoehzHc+bZRbjj7jqXlS+zcy5swwEVRl8g==
-X-Received: by 2002:a17:907:7246:b0:afd:eb4f:d5d1 with SMTP id a640c23a62f3a-afe29742ad7mr246391666b.65.1755870918342;
-        Fri, 22 Aug 2025 06:55:18 -0700 (PDT)
+        bh=izOus1pkUT/TrM+qzEvtIeTOKYw7pk9oz7PKskT0MOs=;
+        b=Z40mWu/R+NfW0L0tR1ivbhQI9k4L6enVF3yay+mQO5f0qekNi+K0IrgH/J86tUrtkk
+         L2g2s7rCNhcMN/5+QX3pAF3n6DQRfpYf4caOIS2Cd5+tzkizcgML7KEC1terw6cK8Fz7
+         YULo1bKQaBQdUqmZC3OAaGGA5m6P0SjLgFEnJp1Zt+v3e8ZCyaOZvCo89qHocMqDCZXk
+         1V26xZs9aIkQPMa1PkZfaDVfhx6K4C0Gq0npOMComa649bXWAFvwvtSTntpEw2WD6Lxf
+         nnSuwcGYu6+2SDmPBLLFlWGsNCn/zYaSAm5ALY9Ok48sgtkbh00hK7sWUpW4RUD4oQ1i
+         P4pQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVYQBcweYI99zIAWcKplGTdKRB6MQD1/6ek4Yw1VolxqmadOC0QBd8GWv1oydtxtfAhC7wcHclWBJuKaODV@lists.linux.dev
+X-Gm-Message-State: AOJu0Yz5QRRIoplvHTdR7Hsugwn2PD9Mn8e3Zbvei/48yYM16G1BIcwL
+	XIaNM9hR4zTiwpkE9f2Lq548VdCe0M5FmTbACFR+IsMZU6jUNxLGPbKoZhwegQ==
+X-Gm-Gg: ASbGnctqOXc0FVZihX9dLmwIXSuH3kciuTe2Itq8CcwYYZPtRVS3RDTKp4H4oFMWbE7
+	lYRto2F23nrkKixdedw0rHWuwsuMkKz93oruA2RhtKptTP3aOXZPoT834Je+b5CQsIjp48Ar2dg
+	AbnGluojw7e4s0VChb0cv/9bK+pKLCGBe5yteS6EfGzoq7B81O1XZbE1y0Pg8G0iGq1rKRp8w0w
+	UOLtdo7aJNOCpCQuR/2uckwUdntD/O0av0zv7h7i5LZsUi8c1hH/hGZCZLMNsxjbZPyxjHaZDC8
+	vbwZq0GTIg7iJNE2LZFZFjazIIjgDLRAf5TJoRepKnaxuEb3ivX/xm/sqVazRkWWTObziBvzyWV
+	N+02oRI1KHAXbuMARizIVtIh0c/g+QyuhFxLr
+X-Google-Smtp-Source: AGHT+IGzOWE/MUzoEMMp5es42MONAAnkQmOqcY/iO34lssMR7iWmGBNBPijyi/3L6YIXM2hQwObTAw==
+X-Received: by 2002:a17:906:d54f:b0:afc:a330:e423 with SMTP id a640c23a62f3a-afe29041e9emr249651166b.42.1755870917696;
+        Fri, 22 Aug 2025 06:55:17 -0700 (PDT)
 Received: from tumbleweed ([95.90.184.246])
         by smtp.gmail.com with ESMTPSA id a640c23a62f3a-afded307138sm612353866b.45.2025.08.22.06.55.17
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 22 Aug 2025 06:55:18 -0700 (PDT)
+        Fri, 22 Aug 2025 06:55:17 -0700 (PDT)
 From: Michael Straube <straube.linux@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: hdegoede@redhat.com,
@@ -65,9 +65,9 @@ Cc: hdegoede@redhat.com,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Michael Straube <straube.linux@gmail.com>
-Subject: [PATCH 12/13] staging: rtl8723bs: remove os_dep/recv_linux.c
-Date: Fri, 22 Aug 2025 15:54:17 +0200
-Message-ID: <20250822135418.118115-13-straube.linux@gmail.com>
+Subject: [PATCH 11/13] staging: rtl8723bs: rename rtw_os_recv_indicate_pkt
+Date: Fri, 22 Aug 2025 15:54:16 +0200
+Message-ID: <20250822135418.118115-12-straube.linux@gmail.com>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20250822135418.118115-1-straube.linux@gmail.com>
 References: <20250822135418.118115-1-straube.linux@gmail.com>
@@ -79,46 +79,46 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-After previous patches the file os_dep/recv_linux.c is empty now and we
-can remove it.
+Rename rtw_os_recv_indicate_pkt to rtw_recv_indicate_pkt as the _os_
+indicates operating system dependent code which is unnecessary for
+in-tree linux kernel code.
 
 Signed-off-by: Michael Straube <straube.linux@gmail.com>
 ---
- drivers/staging/rtl8723bs/Makefile            |  1 -
- drivers/staging/rtl8723bs/os_dep/recv_linux.c | 12 ------------
- 2 files changed, 13 deletions(-)
- delete mode 100644 drivers/staging/rtl8723bs/os_dep/recv_linux.c
+ drivers/staging/rtl8723bs/core/rtw_recv.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/staging/rtl8723bs/Makefile b/drivers/staging/rtl8723bs/Makefile
-index 19c0525ec3e0..1768b8123f03 100644
---- a/drivers/staging/rtl8723bs/Makefile
-+++ b/drivers/staging/rtl8723bs/Makefile
-@@ -50,7 +50,6 @@ r8723bs-y = \
- 		os_dep/ioctl_cfg80211.o \
- 		os_dep/osdep_service.o \
- 		os_dep/os_intfs.o \
--		os_dep/recv_linux.o \
- 		os_dep/sdio_intf.o \
- 		os_dep/sdio_ops_linux.o \
- 		os_dep/wifi_regd.o \
-diff --git a/drivers/staging/rtl8723bs/os_dep/recv_linux.c b/drivers/staging/rtl8723bs/os_dep/recv_linux.c
-deleted file mode 100644
-index 193725cc60bc..000000000000
---- a/drivers/staging/rtl8723bs/os_dep/recv_linux.c
-+++ /dev/null
-@@ -1,12 +0,0 @@
--// SPDX-License-Identifier: GPL-2.0
--/******************************************************************************
-- *
-- * Copyright(c) 2007 - 2011 Realtek Corporation. All rights reserved.
-- *
-- ******************************************************************************/
--#include <drv_types.h>
--#include <linux/jiffies.h>
--#include <net/cfg80211.h>
--#include <linux/unaligned.h>
--
--
+diff --git a/drivers/staging/rtl8723bs/core/rtw_recv.c b/drivers/staging/rtl8723bs/core/rtw_recv.c
+index 924a0c415a1e..e893cb6fa273 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_recv.c
++++ b/drivers/staging/rtl8723bs/core/rtw_recv.c
+@@ -1662,7 +1662,7 @@ static struct sk_buff *rtw_alloc_msdu_pkt(union recv_frame *prframe, u16 nSubfra
+ 	return sub_skb;
+ }
+ 
+-static void rtw_os_recv_indicate_pkt(struct adapter *padapter, struct sk_buff *pkt, struct rx_pkt_attrib *pattrib)
++static void rtw_recv_indicate_pkt(struct adapter *padapter, struct sk_buff *pkt, struct rx_pkt_attrib *pattrib)
+ {
+ 	struct mlme_priv *pmlmepriv = &padapter->mlmepriv;
+ 
+@@ -1771,7 +1771,7 @@ static int amsdu_to_msdu(struct adapter *padapter, union recv_frame *prframe)
+ 
+ 		/* Indicate the packets to upper layer */
+ 		if (sub_pkt)
+-			rtw_os_recv_indicate_pkt(padapter, sub_pkt, &prframe->u.hdr.attrib);
++			rtw_recv_indicate_pkt(padapter, sub_pkt, &prframe->u.hdr.attrib);
+ 	}
+ 
+ 	prframe->u.hdr.len = 0;
+@@ -1890,7 +1890,7 @@ static int rtw_recv_indicatepkt(struct adapter *padapter, union recv_frame *prec
+ 
+ 	skb->len = precv_frame->u.hdr.len;
+ 
+-	rtw_os_recv_indicate_pkt(padapter, skb, pattrib);
++	rtw_recv_indicate_pkt(padapter, skb, pattrib);
+ 
+ 	/* pointers to NULL before rtw_free_recvframe() */
+ 	precv_frame->u.hdr.pkt = NULL;
 -- 
 2.51.0
 
