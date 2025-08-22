@@ -1,149 +1,96 @@
-Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC44530AABC
-	for <linux-staging@lists.linux.dev>; Fri, 22 Aug 2025 13:55:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 610AB3043AB;
+	Fri, 22 Aug 2025 13:59:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755870923; cv=none; b=Miim3REYywUf5qnLu1SP7GNL4pAt/NFj5KIcE6sRlEiFQMDIRvcQMoK8VbEVbh55bQETHU6T43pCGH5E9j3hNa9/qzPSWdktbRHvSPzof6hH8u7LdxO5PR1nJeAnZxkuBxw1DhEfxdVsDyuBVTtcNiiu2WrxTt0/Y/T7lq2F7XQ=
+	t=1755871188; cv=none; b=Q8Wla9+wN4yi8x7+/nvPYY9nCUPaddDJx7ztJHCdYtR4/fyhEzgqabJ/idwNF/VtplfPtNEeOmvv7yr8+s9fAsqfvS3AAol1VhnwO+TpMkKugJ5ddPpjW+LfMN7zwTolNRbfWnyKsUBZL3KBGYZHSbuWeAXOw/QBNFfViyBUaUs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755870923; c=relaxed/simple;
-	bh=bAWWYr7G0wEavsSSEbN4ZfueckmKJWlFmmKXRgGMffA=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=WfB6oj7gOzmtEjoKIUYyvWoGTsxFuLUpbnjK6+P1iRLPXYQ+RiFbN5sWRXztUD+6vBvOlVwBAh8vZfep8T7WPHJhw4nxKNiCEavqI//58bqZero8TIixjayUE2nxFPFILj2Na5IPPDHA087NAq6xnHoW6otSJMYZ65y03Xid2FM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Pqiqfvg/; arc=none smtp.client-ip=209.85.218.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1755871188; c=relaxed/simple;
+	bh=vF6UXEx1CvSqyULo0+SKbfNfqLebuAIYDBy0BZCSBqw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=k+rmtxJFvs6oc7ZRLjks/h4zkisjdNVXlyOTeQxfgiAqwwV1YQWztNHYsG5o0BW+Z3YVdHGZlNyttSNOfzu7TBT1UcnIJsX6ssMV8gJi6NemyvH29+3GP4pbWsQJPWBikpJOqmenLzr5S8HL1TLkeVLEJ8r59vT7WfTeAkrNTKI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Oql5owlm; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Pqiqfvg/"
-Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-afcb7a0550cso351443766b.2
-        for <linux-staging@lists.linux.dev>; Fri, 22 Aug 2025 06:55:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1755870919; x=1756475719; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=MriLCdOSPXFFmX+bYG2sehrfu/eciyiJysfVnIX8JBY=;
-        b=Pqiqfvg/nAhNQLzPKPB5Xm47SBvgFv+P06qvp/yKv66fpITrGivqVTop79Qf177v5o
-         Xgo9WIAGAwQMAdc9X4kypj18n53ptSUuR6Ii4b8YZ3QYRcjyORV3WWOf95l6p9G/uQTP
-         N8brqYZabLA1T/3gbFXc0rNM/GTCbPT1KxC7iizM+g3xh9IAFXG8ARwIYTw8KesAWjzZ
-         K2OBrslBvgljakO8f6SiW9Fe7QAslKFx1oCyoev2NthHJYpdFj3wR/0as0Wk53Uli0Hi
-         7WlJRqjaoKOK167wgENOvvBBI8dmhexp0qvsdZqheyzHjoPT4RlLwCS+FWJOjVo6s4KR
-         /ARg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755870919; x=1756475719;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=MriLCdOSPXFFmX+bYG2sehrfu/eciyiJysfVnIX8JBY=;
-        b=dzLxwEL7iJ6ko0E/BDRaWGwJ95CumvVAi6v/AaY9XVj5nRBZoDK49tcaeptGl8Hq9+
-         EhpB53+q1e9J5EQZbGw8GN0PtK9EVbfnamZMOEmNRytO/6whkTRZMLMsyjYazdevuTge
-         4cTKwUSw/o0+aANQkoA0TfjOBz/v+JcrWhKvCieAbs+nKTeT7O8EfGmAZnMqWJHVpmTI
-         KiqJVAORznmS9iRldumo7+AYhzQiXwUyEE4ozHceAc1sxOJJrLWV3V1nXU+s2WsyfJpI
-         EXn2oXG7hjAJPRQU17Bq9dcTXink246bGyOD5x+t+fBDdNn3Y0HBhASEpTHWUCQz6aLm
-         hU+w==
-X-Forwarded-Encrypted: i=1; AJvYcCX5ulDn9Mpzu6qMWejueJDWxPHHsKOoN60fwUhXmi9GwT6J/L0GtuwNSrJKi9uZdszrXUNOhMegoik2Zxc1@lists.linux.dev
-X-Gm-Message-State: AOJu0YxgZMzyIOhSCxkpbn4IG3XcDjOQjOg8v8wOkz/jaUK1T7bRIROV
-	0+e0B7r/6gYSyUmN2u7XaVHgR6g+dSFLr3CxJpgdfahTayVeFDPAJ4JB
-X-Gm-Gg: ASbGncvR5zF4O6Z0af8uqGC+7YRwowOW6SDerdONQ+xtDtOhaaMBYLV6DFxTTH/PV7t
-	OihWHEgGZOx9xksHEA4UX05O69TBOTu+nDiJNlUvMN637x9yGNDl+5whRyy9P0TxgidX2YUhG/+
-	JrjOtv9g0ephtP6sRkQEY3JWFiRMFPBrVdqX4kx5wOiJhMTBXX1u2/rexNP/Z6ToBdCauVN8kM+
-	ZFV4rHg7YtcL2vevKBmhE40TpVpvVJZx2zwtSNPKuO994k1fHd3WJyK0rBJehMzPg70Jb7nG6ao
-	mBinejmYp6FefiUNlnEvZI2XdQD7tfIhvLPfxK7pmoqJoNlnmWgA2ocQAtgq/jjQa01tZq8aqcc
-	9JOdToAZsRkO27bYO3mp3+29klQ==
-X-Google-Smtp-Source: AGHT+IHIpHoFlT4DekRBl5w9SoEW/KPa+BrtCmGRAFzA38cXn3uIrIP9U3qCMOfb7i/PwhdId5s+yw==
-X-Received: by 2002:a17:907:3f07:b0:ae3:f2a0:459f with SMTP id a640c23a62f3a-afe295a456amr305665066b.54.1755870918977;
-        Fri, 22 Aug 2025 06:55:18 -0700 (PDT)
-Received: from tumbleweed ([95.90.184.246])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-afded307138sm612353866b.45.2025.08.22.06.55.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 22 Aug 2025 06:55:18 -0700 (PDT)
-From: Michael Straube <straube.linux@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: hdegoede@redhat.com,
-	Larry.Finger@lwfinger.net,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Michael Straube <straube.linux@gmail.com>
-Subject: [PATCH 13/13] staging: rtl8723bs: remove include/recv_osdep.h
-Date: Fri, 22 Aug 2025 15:54:18 +0200
-Message-ID: <20250822135418.118115-14-straube.linux@gmail.com>
-X-Mailer: git-send-email 2.51.0
-In-Reply-To: <20250822135418.118115-1-straube.linux@gmail.com>
-References: <20250822135418.118115-1-straube.linux@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Oql5owlm"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 60790C4CEED;
+	Fri, 22 Aug 2025 13:59:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1755871187;
+	bh=vF6UXEx1CvSqyULo0+SKbfNfqLebuAIYDBy0BZCSBqw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Oql5owlmcyx+BtwqvAi5GNGg9qm9vBnVSEn2f0jRS26a3SeZj0JBsp/LnJVG4zlS6
+	 cV0IHBQXod3IyCSnjpNp52TnugZ0Ae/TxQIHeIplpjtOs16hCMfKO4SuD+ZWO0wxdk
+	 M2jtnZRCZ1KPeMFE+g3u7ZUdhtm4/KQwwvB7gn8AFpb/ccYscIMCfgCVt5w+7MyjXL
+	 rWWB0No9Hij2ezNybwvWiU05oWck6fGhUR0MQCuk5vDAXgetXpgcYVzepFC4mN17ol
+	 A+8tKbYl3umXuDh6elee9tD+PTZ6h+dmmGAjseozWjwYll97fZtAIfeNV0sXYRM7vg
+	 924cqC0pf792g==
+Date: Fri, 22 Aug 2025 08:59:46 -0500
+From: Rob Herring <robh@kernel.org>
+To: Svyatoslav Ryhel <clamor95@gmail.com>
+Cc: Thierry Reding <thierry.reding@gmail.com>,
+	Thierry Reding <treding@nvidia.com>,
+	Mikko Perttunen <mperttunen@nvidia.com>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Sowjanya Komatineni <skomatineni@nvidia.com>,
+	Luca Ceresoli <luca.ceresoli@bootlin.com>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Peter De Schrijver <pdeschrijver@nvidia.com>,
+	Prashant Gaikwad <pgaikwad@nvidia.com>,
+	Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Dmitry Osipenko <digetx@gmail.com>,
+	Charan Pedumuru <charan.pedumuru@gmail.com>,
+	linux-media@vger.kernel.org, linux-tegra@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org,
+	linux-staging@lists.linux.dev
+Subject: Re: [PATCH v1 02/19] dt-bindings: clock: tegra20: Add IDs for CSI
+ PAD clocks
+Message-ID: <20250822135946.GA3492270-robh@kernel.org>
+References: <20250819121631.84280-1-clamor95@gmail.com>
+ <20250819121631.84280-3-clamor95@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250819121631.84280-3-clamor95@gmail.com>
 
-Move still needed function prototypes defined in the recv_osdep.h header
-to rtw_recv.h and remove the now obsolete recv_osdep.h.
+On Tue, Aug 19, 2025 at 03:16:14PM +0300, Svyatoslav Ryhel wrote:
+> Tegra30 has CSI PAD clock enable bits embedded into PLLD/PLLD2 registers.
+> Add ids for these clocks.
+> 
+> Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
+> ---
+>  include/dt-bindings/clock/tegra30-car.h | 4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
+> 
+> diff --git a/include/dt-bindings/clock/tegra30-car.h b/include/dt-bindings/clock/tegra30-car.h
+> index f193663e6f28..14b83e90a0fc 100644
+> --- a/include/dt-bindings/clock/tegra30-car.h
+> +++ b/include/dt-bindings/clock/tegra30-car.h
+> @@ -271,6 +271,8 @@
+>  #define TEGRA30_CLK_AUDIO3_MUX 306
+>  #define TEGRA30_CLK_AUDIO4_MUX 307
+>  #define TEGRA30_CLK_SPDIF_MUX 308
+> -#define TEGRA30_CLK_CLK_MAX 309
+> +#define TEGRA30_CLK_CSIA_PAD 309
+> +#define TEGRA30_CLK_CSIB_PAD 310
+> +#define TEGRA30_CLK_CLK_MAX 311
 
-Signed-off-by: Michael Straube <straube.linux@gmail.com>
----
- drivers/staging/rtl8723bs/include/drv_types.h |  1 -
- .../staging/rtl8723bs/include/recv_osdep.h    | 21 -------------------
- drivers/staging/rtl8723bs/include/rtw_recv.h  |  4 ++++
- 3 files changed, 4 insertions(+), 22 deletions(-)
- delete mode 100644 drivers/staging/rtl8723bs/include/recv_osdep.h
+Please drop the MAX. This header is ABI and if a define can change, then 
+it's not ABI.
 
-diff --git a/drivers/staging/rtl8723bs/include/drv_types.h b/drivers/staging/rtl8723bs/include/drv_types.h
-index f1c16ddacc83..dd9018aa4ee5 100644
---- a/drivers/staging/rtl8723bs/include/drv_types.h
-+++ b/drivers/staging/rtl8723bs/include/drv_types.h
-@@ -33,7 +33,6 @@
- #include <xmit_osdep.h>
- #include <rtw_recv.h>
- 
--#include <recv_osdep.h>
- #include <rtw_efuse.h>
- #include <hal_intf.h>
- #include <hal_com.h>
-diff --git a/drivers/staging/rtl8723bs/include/recv_osdep.h b/drivers/staging/rtl8723bs/include/recv_osdep.h
-deleted file mode 100644
-index 20ce25132700..000000000000
---- a/drivers/staging/rtl8723bs/include/recv_osdep.h
-+++ /dev/null
-@@ -1,21 +0,0 @@
--/* SPDX-License-Identifier: GPL-2.0 */
--/******************************************************************************
-- *
-- * Copyright(c) 2007 - 2011 Realtek Corporation. All rights reserved.
-- *
-- ******************************************************************************/
--#ifndef __RECV_OSDEP_H_
--#define __RECV_OSDEP_H_
--
--
--extern signed int _rtw_init_recv_priv(struct recv_priv *precvpriv, struct adapter *padapter);
--extern void _rtw_free_recv_priv(struct recv_priv *precvpriv);
--
--
--extern s32  rtw_recv_entry(union recv_frame *precv_frame);
--extern void rtw_recv_returnpacket(struct net_device *cnxt, struct sk_buff *preturnedpkt);
--
--int	rtw_init_recv_priv(struct recv_priv *precvpriv, struct adapter *padapter);
--void rtw_free_recv_priv(struct recv_priv *precvpriv);
--
--#endif /*  */
-diff --git a/drivers/staging/rtl8723bs/include/rtw_recv.h b/drivers/staging/rtl8723bs/include/rtw_recv.h
-index aa9f9d5ecd01..8e45871f07f0 100644
---- a/drivers/staging/rtl8723bs/include/rtw_recv.h
-+++ b/drivers/staging/rtl8723bs/include/rtw_recv.h
-@@ -342,6 +342,10 @@ struct recv_buf *rtw_dequeue_recvbuf(struct __queue *queue);
- 
- void rtw_reordering_ctrl_timeout_handler(struct timer_list *t);
- 
-+signed int _rtw_init_recv_priv(struct recv_priv *precvpriv, struct adapter *padapter);
-+void _rtw_free_recv_priv(struct recv_priv *precvpriv);
-+s32  rtw_recv_entry(union recv_frame *precv_frame);
-+
- static inline u8 *get_rxmem(union recv_frame *precvframe)
- {
- 	/* always return rx_head... */
--- 
-2.51.0
-
+Rob
