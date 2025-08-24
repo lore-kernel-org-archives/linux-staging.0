@@ -1,63 +1,63 @@
-Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
+Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA19926058D
-	for <linux-staging@lists.linux.dev>; Sun, 24 Aug 2025 09:58:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54B2F2641E3
+	for <linux-staging@lists.linux.dev>; Sun, 24 Aug 2025 09:58:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756029521; cv=none; b=DyBXSaR4vW9j0jjpPhSDum5TS+v+hRrK8meyACjpqz66J9hiXhS0EROw415G1EFuV9Vi0VwiWvy/mmDkMVwpZjq8afhxRa5XZoPvm009nAo7/WwBWoV1QzJhlSDpEw3K71IeQCUXxntXVfG51HPjr3P0fwCd4WuxKrmK+72jp5Q=
+	t=1756029522; cv=none; b=C8FqIfh4UBve8ZO6nRUimTyOO7ktP+9ZridzmLy5VVKLOySuhJ1g2E0P+JJrJhi1laa2x6nDF7k+QqdpMKH0G5Sd+g29siaV1xya6df3JtNjw0xUWqRZXkvqwE5leqv0SnODiikaXtrDP2CaHX9mY+IhKk9v8C9QagcZ1pygrXI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756029521; c=relaxed/simple;
-	bh=9vKO6y/q0kB3TamnCzON4DvVOC9PmEnOciXyI0pj7zk=;
+	s=arc-20240116; t=1756029522; c=relaxed/simple;
+	bh=ldbo9YYAOT7pxAUaEDrlbL+4YuIsDyCnu0vvNTDKWvc=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=dZSlrMy5lA434Byj7xE70cXemOaYjFA//YcS5pYkslhxpjwpDtdl0o62VKByMaqTf78Xjz22ACpA9YpEkfd/WuTcN8JkZQKYPKrOApsGT3Aa9JTDq7PVhMIjKFyJDSpnLj4r/HgJzqaN9Wwuazqlf+ehwtpY7ljsbsPU58Juaos=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kLTynTSX; arc=none smtp.client-ip=209.85.218.41
+	 MIME-Version; b=ajIT9Z8jLnYA4zxA4Y8R0V0+z7CWuEwrFkjpj9ZGf1lVUQmH8PpUz5ImM5g/poZtoHDYszw9dh0rHU66qibOiDv6I1HXxTJ5kMxRlQ2uJw64a9ntJ9cnVJVbbVBiprua89yFl3AQGa845i5EyH6ii9Y5sX8XhcL95Co04VoaoWQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cKwKL1E5; arc=none smtp.client-ip=209.85.218.48
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kLTynTSX"
-Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-afcb78f5df4so586926466b.1
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cKwKL1E5"
+Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-afcb72d51dcso462204866b.0
         for <linux-staging@lists.linux.dev>; Sun, 24 Aug 2025 02:58:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20230601; t=1756029518; x=1756634318; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=wZKX5iGNtzUg18kwP/R5sStYV/khRElhDeGAve6BvqI=;
-        b=kLTynTSXXPYXXMo1YloqKXVUfhfZ/cllVuRA2Q5/GtAb+74nn2/hVic2/aqyfJy1EN
-         c2uDJMtGB9fgNMjjwFvAxrKrhS8TwnRApYjLnvcEykfZZfSCNHsPV6tHNDuY00/AadAt
-         i2/RZECHbTYeSxBd2Zv7orM9Gk7DsSQKGW0WJZjaaRzHw0KYIqWzfNpcMJeohU3HUZof
-         FAcGwVutg4wWo4T2aVcJprIyZbg/nwFvO4LhM+vRHlCtVBGWGvVLm2kjv6CRciym21Wy
-         44yBaaG6CnZc6RV97Mc0v7/zmFeblpot0dRAjqUrLPmENVJ/CEusaD0VSHyaUDu5aEg+
-         2WCA==
+        bh=1fGiG7/VSnTA1owBp74Wd5IB4bdDfmXxntCUjoYB1M8=;
+        b=cKwKL1E5jiwHkXf5EJGx25ki2VASuteQSVngTkMWBxw37V654gwD/oBFp57v1d5g7z
+         asccqhLNk/VDjt98qI+J9ASHwcLS0yTzbBuneme2ZgjQP2+QypkQt34HNV8p/8VyVYqC
+         wXcNw1Yg53lxu7e/oBTjrcKTQXEEAsacBTMkNe3igP6YmsCZkaMJEEwOqKKEjQ03j7zb
+         D/e7svLJebBZ7LNOFBBBUt1vi5Fd13e0f7KsQ8v+ZTUCJsAHySBa7I9dFY7nRovv2VYn
+         OzKgpdoc4+oWWorxflg3SRL5Tl38FE4WaEQMKndgo1rT+oSa06iOUYkEcmexHZihrF45
+         1JpQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20230601; t=1756029518; x=1756634318;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=wZKX5iGNtzUg18kwP/R5sStYV/khRElhDeGAve6BvqI=;
-        b=rGVvkGWozcoWhogBITar+gFsJPBOmj/+ATPPiT76rfn1Z30KORuU+5BNfg0RZe3u6f
-         paqnE1McHczV3aGSkX8xYzzmpT3qVFYu1tmk244rAgDV6n9pRskHtEEBEnSMG/48YS/3
-         5Cr47SVsjk59Zt0ix/phPIzAaL32tgO3S+SC/Cxfdguz0TXhCizz3uz0WbGVAlyBVyYd
-         iAEXgKnZgDCKmQVwvBtnal7D+0JUlWAbqCoKSkZ7PJ/7rHFKAvHyr1twtyEa+Djm8c2J
-         VsppSN15RSMdM8dIrd+VS0cjAx8fQ3fG2A+QALpFRbIucMt96AK07f8oJHs2JBlIuunJ
-         fzAw==
-X-Forwarded-Encrypted: i=1; AJvYcCXw/RoBr1GLRy04esLFjpx1187+Eshax5cfvwrGIRDNvozVrbjRVqU1FFnQgqKXGK1nZd6Srajw1o/+47QU@lists.linux.dev
-X-Gm-Message-State: AOJu0YwB6dc9wAclF1C3J11KCOGsB68QylZDEvitkuQgKFi/Q6FkAUuu
-	vH4+HGImWJ6GqFLOtUtk+ApY8NtNPFIsuWs36BAUKI5Mi+D4hcA4+qOR
-X-Gm-Gg: ASbGnct9t/JVO1sYaRKYzz54JL+1Kb1jjn5tfA7BwPADc2Ug3tqSxCo7AIv+6O1/u3y
-	B0GNiBtiCxvWjOVwVZBACB7H/j0+8mcONvAICm06Kq61KGhsoguNxEwFsfWsHRFHVPcZ1tR14vi
-	ul1wBTbrj3/qm11eKqtspXJI7gQcQjB6VrJDNLl2b/qfP7Kz6fdJXAmiOU477uMaCsb4On+7uaV
-	KK0wH1v5Pd8Coyx6vFr9/Y7wCF7WnQmfOVQtt7aKPT/9t9jYVB32N2TkwN6Ai01oQc9lz5DjVhO
-	0fd39UNxgf28mIKkgA2GLWX4CO3tCHKvVHjAradPBrTdPy+mCUDif50dvd2t6t6zq1Phtki8qog
-	B5CcvKGkYMduzKhWVBDzEAGbwfA==
-X-Google-Smtp-Source: AGHT+IElT045z23ULaqJLlbU6nriQbkGsElcteR0wlVYWXnPAJOezIwza8EGMC5PaY11b8LoP6Xbhg==
-X-Received: by 2002:a17:907:6d27:b0:afd:d9e4:5a4b with SMTP id a640c23a62f3a-afe296bce93mr854042666b.63.1756029517762;
-        Sun, 24 Aug 2025 02:58:37 -0700 (PDT)
+        bh=1fGiG7/VSnTA1owBp74Wd5IB4bdDfmXxntCUjoYB1M8=;
+        b=LIlQvzsN4Jl/Pwhs46tvj6PZz5czZt0VVUjG1gJdTeoFNSBQIG0DNLKu5rXA57XfBi
+         WTv+aomvAIjfOdcF5+rRmNHtA+mpVCu3v2jvNI/slc75hTYPbEKHtgtk2D4D/vbKLgZ5
+         ZlsyKeQ5RyHpD8gFEmVG3eJdQZlg3XTHFFFkjbvxJSmv8N9RzQOm0BBAA6ORbuI0Lutw
+         PUzQnrTQEMpwzZ8vMLIpUpv4ZHTApkzEEDkyaifurN+BdUZopCI3dxFaPlum2j+aDeM2
+         xFvBj8J/2ePE9GXCUjR4UF/5Br1x4ak9EI+0wYW4AoboO53HikoMSYrw/EXVugWMEUfF
+         R91A==
+X-Forwarded-Encrypted: i=1; AJvYcCXl8Dnp4ErOFq1xRX/F0PfN6xAdA9GnVYlM2lGPBiKmsaZgV/iXsVRlCSyhmm/5YthHm8VEGtK+lKUu86nC@lists.linux.dev
+X-Gm-Message-State: AOJu0Yxu2pdlcCffko08Ua8Yl0C2esHYh1MFo8J47WR38Ztjkd+wRFTL
+	ao+q/Qc5nWcGpoEB0LZbd7dmDzgHq2foLR5InY2Vmw9YpVL1LEael2Pu
+X-Gm-Gg: ASbGncsfSn2OGOYXwEaX5jz2Oaed7k7ygwaVVC3fhAZdgxhXgoAVeaaiTaUUCRc4xNh
+	v6GGEmXd57JVe5yGcvelE5Ge6kKlRZmmog3JN0gE4kKbLfWlYUO/SMwj6RAKBGVxgzKaEjacJ/T
+	44oD81FhRwheh8wCDZAGVvNoPy7F3nsPvnIBlkWL9bZaNxzE8Bkarnt4S99rzHw6AawR1KVAOd9
+	sJh6P/B1Ho28hbtQ+73MXCC72UY4LnGH2+PiBT0lpoMemuX4fEDFgXG1XveHfMY4EklrkMOw5t/
+	ZFiFf4USDmJopmhY65sQUEZQS/QBhu7/yuO3zcbboS4mpLAC0QPevvHOmTozA+KeQI3M/lnitkh
+	9A8y4cHf1OqjFa7PF1sxoY7gGuA==
+X-Google-Smtp-Source: AGHT+IEChKPlkeYc+u70DNblLlkC7GNSA1YYbKn+4HtbpIDoAJGxZs5hUdLvvGsztjC+LEpHLFdh4A==
+X-Received: by 2002:a17:907:80c:b0:afd:d94b:830e with SMTP id a640c23a62f3a-afe29513a3amr629745866b.63.1756029518387;
+        Sun, 24 Aug 2025 02:58:38 -0700 (PDT)
 Received: from tumbleweed ([95.90.184.246])
         by smtp.gmail.com with ESMTPSA id a640c23a62f3a-afe79fba62dsm41314766b.100.2025.08.24.02.58.37
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 24 Aug 2025 02:58:37 -0700 (PDT)
+        Sun, 24 Aug 2025 02:58:38 -0700 (PDT)
 From: Michael Straube <straube.linux@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: hdegoede@redhat.com,
@@ -65,9 +65,9 @@ Cc: hdegoede@redhat.com,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Michael Straube <straube.linux@gmail.com>
-Subject: [PATCH 1/4] staging: rtl8723bs: remove wrapper Efuse_PowerSwitch
-Date: Sun, 24 Aug 2025 11:58:27 +0200
-Message-ID: <20250824095830.79233-2-straube.linux@gmail.com>
+Subject: [PATCH 2/4] staging: rtl8723bs: remove bWrite from Hal_EfusePowerSwitch
+Date: Sun, 24 Aug 2025 11:58:28 +0200
+Message-ID: <20250824095830.79233-3-straube.linux@gmail.com>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20250824095830.79233-1-straube.linux@gmail.com>
 References: <20250824095830.79233-1-straube.linux@gmail.com>
@@ -79,100 +79,110 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The function Efuse_PowerSwitch is just a wrapper around
-Hal_EfusePowerSwitch. Remove the wrapper and use Hal_EfusePowerSwitch
-directly.
+The function Hal_EfusePowerSwitch is always called with bWrite set to
+false. Remove the pWrite parameter and reomve resulting dead code to reduce
+code complexity.
 
 Signed-off-by: Michael Straube <straube.linux@gmail.com>
 ---
- drivers/staging/rtl8723bs/core/rtw_efuse.c    | 31 ++-----------------
- .../staging/rtl8723bs/hal/rtl8723b_hal_init.c |  4 +--
- drivers/staging/rtl8723bs/include/rtw_efuse.h |  2 --
- 3 files changed, 4 insertions(+), 33 deletions(-)
+ drivers/staging/rtl8723bs/core/rtw_efuse.c    |  4 +--
+ .../staging/rtl8723bs/hal/rtl8723b_hal_init.c | 25 +++----------------
+ drivers/staging/rtl8723bs/include/hal_intf.h  |  2 +-
+ 3 files changed, 6 insertions(+), 25 deletions(-)
 
 diff --git a/drivers/staging/rtl8723bs/core/rtw_efuse.c b/drivers/staging/rtl8723bs/core/rtw_efuse.c
-index e39032b45c35..f0c705ccdbdc 100644
+index f0c705ccdbdc..d5c53b614f61 100644
 --- a/drivers/staging/rtl8723bs/core/rtw_efuse.c
 +++ b/drivers/staging/rtl8723bs/core/rtw_efuse.c
-@@ -29,33 +29,6 @@ u8 fakeBTEfuseModifiedMap[EFUSE_BT_MAX_MAP_LEN] = {0};
- #define REG_EFUSE_CTRL		0x0030
- #define EFUSE_CTRL			REG_EFUSE_CTRL		/*  E-Fuse Control. */
- 
--/*-----------------------------------------------------------------------------
-- * Function:	Efuse_PowerSwitch
-- *
-- * Overview:	When we want to enable write operation, we should change to
-- *			pwr on state. When we stop write, we should switch to 500k mode
-- *			and disable LDO 2.5V.
-- *
-- * Input:       NONE
-- *
-- * Output:      NONE
-- *
-- * Return:      NONE
-- *
-- * Revised History:
-- * When			Who		Remark
-- * 11/17/2008	MHC		Create Version 0.
-- *
-- */
--void
--Efuse_PowerSwitch(
--struct adapter *padapter,
--u8 bWrite,
--u8 PwrState)
--{
--	Hal_EfusePowerSwitch(padapter, bWrite, PwrState);
--}
--
- /*  11/16/2008 MH Add description. Get current efuse area enabled word!!. */
- u8
- Efuse_CalculateWordCnts(u8 word_en)
-@@ -191,13 +164,13 @@ static void Efuse_ReadAllMap(struct adapter *padapter, u8 efuseType, u8 *Efuse)
+@@ -164,13 +164,13 @@ static void Efuse_ReadAllMap(struct adapter *padapter, u8 efuseType, u8 *Efuse)
  {
  	u16 mapLen = 0;
  
--	Efuse_PowerSwitch(padapter, false, true);
-+	Hal_EfusePowerSwitch(padapter, false, true);
+-	Hal_EfusePowerSwitch(padapter, false, true);
++	Hal_EfusePowerSwitch(padapter, true);
  
  	Hal_GetEfuseDefinition(padapter, efuseType, TYPE_EFUSE_MAP_LEN, (void *)&mapLen);
  
  	Hal_ReadEFuse(padapter, efuseType, 0, mapLen, Efuse);
  
--	Efuse_PowerSwitch(padapter, false, false);
-+	Hal_EfusePowerSwitch(padapter, false, false);
+-	Hal_EfusePowerSwitch(padapter, false, false);
++	Hal_EfusePowerSwitch(padapter, false);
  }
  
  /*-----------------------------------------------------------------------------
 diff --git a/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c b/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
-index 94492743ea34..66ba3bcd22e4 100644
+index 66ba3bcd22e4..36680ecb5897 100644
 --- a/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
 +++ b/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
-@@ -1474,9 +1474,9 @@ void Hal_EfuseParsePackageType_8723B(
+@@ -568,8 +568,6 @@ void Hal_GetEfuseDefinition(
+ 	}
+ }
+ 
+-#define VOLTAGE_V25		0x03
+-
+ /*  */
+ /* 	The following is for compile ok */
+ /* 	That should be merged with the original in the future */
+@@ -578,7 +576,7 @@ void Hal_GetEfuseDefinition(
+ #define REG_EFUSE_ACCESS_8723			0x00CF	/*  Efuse access protection for RTL8723 */
+ 
+ void Hal_EfusePowerSwitch(
+-	struct adapter *padapter, u8 bWrite, u8 PwrState
++	struct adapter *padapter, u8 PwrState
+ )
+ {
+ 	u8 tempval;
+@@ -626,25 +624,8 @@ void Hal_EfusePowerSwitch(
+ 			tmpV16 |= (LOADER_CLK_EN | ANA8M);
+ 			rtw_write16(padapter, REG_SYS_CLKR, tmpV16);
+ 		}
+-
+-		if (bWrite) {
+-			/*  Enable LDO 2.5V before read/write action */
+-			tempval = rtw_read8(padapter, EFUSE_TEST+3);
+-			tempval &= 0x0F;
+-			tempval |= (VOLTAGE_V25 << 4);
+-			rtw_write8(padapter, EFUSE_TEST+3, (tempval | 0x80));
+-
+-			/* rtw_write8(padapter, REG_EFUSE_ACCESS, EFUSE_ACCESS_ON); */
+-		}
+ 	} else {
+ 		rtw_write8(padapter, REG_EFUSE_ACCESS, EFUSE_ACCESS_OFF);
+-
+-		if (bWrite) {
+-			/*  Disable LDO 2.5V after read/write action */
+-			tempval = rtw_read8(padapter, EFUSE_TEST+3);
+-			rtw_write8(padapter, EFUSE_TEST+3, (tempval & 0x7F));
+-		}
+-
+ 	}
+ }
+ 
+@@ -1474,9 +1455,9 @@ void Hal_EfuseParsePackageType_8723B(
  	u8 package;
  	u8 efuseContent;
  
--	Efuse_PowerSwitch(padapter, false, true);
-+	Hal_EfusePowerSwitch(padapter, false, true);
+-	Hal_EfusePowerSwitch(padapter, false, true);
++	Hal_EfusePowerSwitch(padapter, true);
  	efuse_OneByteRead(padapter, 0x1FB, &efuseContent);
--	Efuse_PowerSwitch(padapter, false, false);
-+	Hal_EfusePowerSwitch(padapter, false, false);
+-	Hal_EfusePowerSwitch(padapter, false, false);
++	Hal_EfusePowerSwitch(padapter, false);
  
  	package = efuseContent & 0x7;
  	switch (package) {
-diff --git a/drivers/staging/rtl8723bs/include/rtw_efuse.h b/drivers/staging/rtl8723bs/include/rtw_efuse.h
-index 5251ecc855d7..904369705ed7 100644
---- a/drivers/staging/rtl8723bs/include/rtw_efuse.h
-+++ b/drivers/staging/rtl8723bs/include/rtw_efuse.h
-@@ -93,8 +93,6 @@ extern u8 fakeBTEfuseModifiedMap[];
- u8 Efuse_CalculateWordCnts(u8 word_en);
- u8 efuse_OneByteRead(struct adapter *padapter, u16 addr, u8 *data);
- 
--void Efuse_PowerSwitch(struct adapter *padapter, u8 bWrite, u8  PwrState);
--
- u8 EFUSE_Read1Byte(struct adapter *padapter, u16 Address);
- void EFUSE_ShadowMapUpdate(struct adapter *padapter, u8 efuseType);
- void EFUSE_ShadowRead(struct adapter *padapter, u8 Type, u16 Offset, u32 *Value);
+diff --git a/drivers/staging/rtl8723bs/include/hal_intf.h b/drivers/staging/rtl8723bs/include/hal_intf.h
+index 4fe48cccb889..2fa2382ad5f3 100644
+--- a/drivers/staging/rtl8723bs/include/hal_intf.h
++++ b/drivers/staging/rtl8723bs/include/hal_intf.h
+@@ -265,7 +265,7 @@ u8 GetHalDefVar8723BSDIO(struct adapter *Adapter, enum hal_def_variable eVariabl
+ u8 SetHalDefVar8723BSDIO(struct adapter *Adapter, enum hal_def_variable eVariable, void *pValue);
+ void UpdateHalRAMask8723B(struct adapter *padapter, u32 mac_id, u8 rssi_level);
+ void rtl8723b_SetBeaconRelatedRegisters(struct adapter *padapter);
+-void Hal_EfusePowerSwitch(struct adapter *padapter, u8 bWrite, u8 PwrState);
++void Hal_EfusePowerSwitch(struct adapter *padapter, u8 PwrState);
+ void Hal_ReadEFuse(struct adapter *padapter, u8 efuseType, u16 _offset,
+ 		   u16 _size_byte, u8 *pbuf);
+ void Hal_GetEfuseDefinition(struct adapter *padapter, u8 efuseType, u8 type,
 -- 
 2.51.0
 
