@@ -1,52 +1,66 @@
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
+Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44E8A2A1BB
-	for <linux-staging@lists.linux.dev>; Sun, 24 Aug 2025 18:37:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E4B3225761
+	for <linux-staging@lists.linux.dev>; Sun, 24 Aug 2025 19:04:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756060628; cv=none; b=diFNDTJ0BKHVoLBEdaYhuVkzbPVSRXcBYjXRZO/F1e3jR+cQnlEvf1CAVVTAOV6pzLeJJ9zx1thRdTflw9+/2IU+eAQastvSgp/3HYYNwNSjX1prC3CqRgENpp4qT8CtW5p6A/siL9P6F9bPiSEDJN1l5okcNUW8JK2eY0ycLzc=
+	t=1756062293; cv=none; b=BOdwMMmZy4CTKmApJ/rLFPNwxcEopjEMK2ZP8wEgvj8NeOdqtY92q+IfebV2ZOH8kN7c2OtbGxOUtrOEzBfjCyGksJCP8SVeLPNMy5FN5Uf6aGYLS8gzEtgIOcNmbwPm2doPpByBUMhZkHodKMvdw4lwG6yJx5P+NH5kUQ3mzrs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756060628; c=relaxed/simple;
-	bh=uTjvRcDBxADJ/2p8uUisfNnwNgbfvhjss0+ioDY099s=;
-	h=Message-ID:Date:MIME-Version:To:Cc:References:Subject:From:
-	 In-Reply-To:Content-Type; b=QcpgJ0hj1SCZNygvfVaq5eXe212cGBFIQx1LVq68Wq/UxuCDi2fOZfE6WkH8OAcnJ/jfL3Thu/VBJM8hzkK3pCmrY4LduB6ssldtAzBFgccWh2S3HuUGFs2+CHUdl8lTIyqmQgbo3EdkN31so51V5t73rYuC50fys7zhWI4KDBA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=dietpi.com; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=dietpi.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-3c79f0a5c5fso814945f8f.1
-        for <linux-staging@lists.linux.dev>; Sun, 24 Aug 2025 11:37:06 -0700 (PDT)
+	s=arc-20240116; t=1756062293; c=relaxed/simple;
+	bh=UP+AYol+DY8UTEmT5RaSgfZsggShtTb7514fxVj9jCY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=cy12Y/rar2A76nOJhrTYJamJlqfXrX10kPXPVILNvNwG4FmLpqnA02eRNyA+IVQgRgtkgB43HnuYjbWE87Ycb2onswvPcBwsBOWWFOQ3KnnwlfDRo+88GGwPzgQX222iOMeApbsycpwqD4b97IOhBiUud8M9XdoPPQkPVPWhPxM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=WWYN5bT/; arc=none smtp.client-ip=209.85.167.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="WWYN5bT/"
+Received: by mail-lf1-f43.google.com with SMTP id 2adb3069b0e04-55ce5095c90so347781e87.0
+        for <linux-staging@lists.linux.dev>; Sun, 24 Aug 2025 12:04:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1756062288; x=1756667088; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
+         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=6yqEEUlIDSc/+3KFB8fDmfBaOKciQCNwulQzIyyj/3k=;
+        b=WWYN5bT/a8E2VT5vJ1JYLabSrgah/0BeZ4SUlYgXKkU91BZZbWf5vBfj4zEu9GbGm4
+         sBBDQr9HFv+lN1ftpdQbq/h3+OKrZbF+5+zn6ODT/qdagIV1xl6lD5mhF6Qmsch729DL
+         5svQUF25TQ8UNK2qmykUwWcEcDURxON7kVImwM+YBA9lt901TEzQkXee6DOAjPTf1iAT
+         kXo30z7uTjyMhlMsVqHuTL/sXVClmTSViMVZYX2SJ78ezKuWC4VNXrKX3mc3vAaKVIuK
+         T5A3ySK0O5uXIVU8O/LTNnxQW2lTiT5jLTXS/ghWa0AOKQlccvWlaAbpR7D3yy9L/Vo/
+         pvKw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756060624; x=1756665424;
-        h=content-transfer-encoding:in-reply-to:from:content-language:subject
-         :references:cc:to:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=cJNInCKotokpg08dFdCyoptfoiTsDxT23ewwFqVxTWc=;
-        b=CkiJZGNIGgUpHR7ZQ+OKaETqE0osPKK4mArz7YczY4pYPRDp90aZVUQtOhQkyjD789
-         at4iFP16pnUu8o6YeeEVhGqYHt84YmbctVQWI2HVxaVgineuAVpPUyDlz+qtIzuGBkdE
-         WuktPbcRDYPTIv6tDfUwu8vibq39mBhYvOyXXl+fsljOm3iWdOdcKzT429kdADXCxAZo
-         zIiYX372djXE4QKFalC5s0yzgvvsAE+0p1OdxNSRIGfy3t7wP1G7JKFCG3QLk/6QevoO
-         E2ZG+eQaBzMLGGJn4ETPXgRNLQqMHoYroPSxS+Lpc5MnBscICeuZhVF+zf4jqockvRXZ
-         uIqw==
-X-Forwarded-Encrypted: i=1; AJvYcCUUMKEkX9NnYOkia6PX0aqUHj9Lex2QGMngppBpx28naptnCqNYJcsdVuDURGCrWXu0HGu4e4IWM9yT71/S@lists.linux.dev
-X-Gm-Message-State: AOJu0YzgmsmZ4H6SHu19mXBsSli147EaOPniBUB5rvGaA7evNoHfWW3r
-	ESi3yxqkL2yg1QinOUZ5LrVy9Cff6p5PvONCc1DVhhZ/xPDTirIErys4
-X-Gm-Gg: ASbGncvuxcrTA5nMJLGfDuSGItprwDHGDNCpOP9UORE/gN0CaOaLMKMFY+mAAiAXL1T
-	AoxvN04De/F+/byEmqSpeHBxpdo97UtoL/feHVPkTTcGil6nXLUEajyqV4H+ui4In+oAiIgJMqy
-	45tZA/gIciTgbuzV1BJFPhd+xt85BAoyEm3E4xoiljIKUiB53vd5fEHfSkMyPWlKsiDKqjFGNSD
-	mkfmnAhhevzCni3w1Sr9ODtwGQAvgJiBEN3Rs9QbfIH/jo1HZ4IMo0l+uCEJfhtQ1ca4Mr8IlBb
-	td0cG1P2AnwDSFpMq/VFygFeQ/ZOvVwBCLSOibYjUVeZdYEomoz3VZup+fMeaGZuK8UiRCLaINJ
-	ddQXBBkYAjRPjgpPjy5RwykWopX6q2SOz9gZ+QJc2wSLgRWAP3Ivjk6E1pzQPT0lb/IbLrvA4VB
-	HxXZbR0vkxLaBnoOaJJc2pi9BdTFy1wKn9WftE1n6ITxRbz1hLfr/vN9FJ
-X-Google-Smtp-Source: AGHT+IH5j0UvIS82bjhhqeCU8DCDhmiIbkeoK5enM/feDWHI+hOlE37X2eJAFtCPWPCGzoWvQE05+g==
-X-Received: by 2002:a05:6000:2089:b0:3c4:4e8:2539 with SMTP id ffacd0b85a97d-3c5dae0572dmr7290484f8f.14.1756060624369;
-        Sun, 24 Aug 2025 11:37:04 -0700 (PDT)
-Received: from ?IPV6:2003:e0:6f2b:f231:547b:d9c0:96ec:4a8d? (p200300e06f2bf231547bd9c096ec4a8d.dip0.t-ipconnect.de. [2003:e0:6f2b:f231:547b:d9c0:96ec:4a8d])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3c70e4ba390sm8680981f8f.12.2025.08.24.11.37.03
+        d=1e100.net; s=20230601; t=1756062288; x=1756667088;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
+         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=6yqEEUlIDSc/+3KFB8fDmfBaOKciQCNwulQzIyyj/3k=;
+        b=fCKQ30e0pTFkDam7UUNcf7m92lMGRsK+0xzVh7Uttfv71jmnldvevtmhDhPBtYRtCx
+         1vDQXcf9+dipfq4IQ2YSbjed8NC+9lyPpYRfFT7h3VL7ZSf7OPsOxmux4qlA5mwUZYZl
+         /vJYpBCLmD3Vm2VmfcEKsMe0jaHUs8uG1TD9yA6u6M4gM7I19LdMCqj8S0YcuHzKvWBv
+         tbUwoX1BEN+JycnG2dCofXKxwEqv+KhO0WIk12SzNrWwxjgnAPRjyuaq/Yu4suG7sKuH
+         THM0WBbHDKv83c4vpIswiNBv498uMD4buFSqNwttg1HjQku+LsFWjTKwI2RaVpxM9BYS
+         6bBw==
+X-Forwarded-Encrypted: i=1; AJvYcCW9H6JiYTJPkdnMpPjI9ZDuS8HCKtjG29NfMLJ6C0JcZAUdO0vmwbeZTe5Ku0a1FxNptEwMa3neKw25f9n9@lists.linux.dev
+X-Gm-Message-State: AOJu0YwF5RXcfZ2yiW6QqrrA+rSzUbQImE1bCd6sXKaQP/IZky+rj6wv
+	D2PJ7g2BXJ7ERLMlF/yuBLXx5KACxPU6XNlPEZSX9hgA9LDvFBncpGf1Bx19uo8jyAc=
+X-Gm-Gg: ASbGncsCXYWhOz48XrUXJa0b5lvOes9evat1Nhy5D8NsSSlqkDLd+b80vmQKEE9PygV
+	KS/cFZVWwLvxL4SR5LNiW6yxYr4UuqV5/DGCM0z924DLRy7t2TjSgOiXUX/9ZtDLcirOlUQ8iHr
+	emTr4y4Izkm+tCP9Yhb8VF31cP+TaXOFpVwrfG6lDO8q+2gi1btKCLknPh7OtB8eGs14Aj1Mfyu
+	O8o7o/8BBZ21i7AIa7WLDVdeSu/eNncKBK99uaHL+8Igf3IwZUhgb1zmCwZIBjSD1OVXqBYa5Fd
+	GNWnfbeKvOQwSKRo8D8OITWhVVb45gQTp+mlM1/+b8oMMhGBHcopEcxXnDYPglqR/MeJFD8FTzZ
+	FsNRFtbc8IHY9p5zqf8d4AczT7EDvVMlGm9CVFRzq5/bcrHk0dDKEvoGFwB8VmvmW75l5OcVpr2
+	N8
+X-Google-Smtp-Source: AGHT+IFyrm2w79r4qu/FnmHu4qBJdoxQ8tpCUb7HA7mtPlKxjeyzi9xJQ9J7AuBmZ4uek0zzq2ON9Q==
+X-Received: by 2002:a05:6512:a85:b0:553:24b4:6492 with SMTP id 2adb3069b0e04-55f0cd6ef0bmr1246189e87.5.1756062288277;
+        Sun, 24 Aug 2025 12:04:48 -0700 (PDT)
+Received: from [192.168.1.100] (88-112-128-43.elisa-laajakaista.fi. [88.112.128.43])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-55f35c8bb4esm1204996e87.75.2025.08.24.12.04.45
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 24 Aug 2025 11:37:03 -0700 (PDT)
-Message-ID: <dafff4b4-f022-453e-935f-6d79c4c57292@dietpi.com>
-Date: Sun, 24 Aug 2025 20:37:03 +0200
+        Sun, 24 Aug 2025 12:04:47 -0700 (PDT)
+Message-ID: <fb733991-857c-4a5b-ba20-d8bd557a4339@linaro.org>
+Date: Sun, 24 Aug 2025 22:04:45 +0300
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -54,57 +68,108 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-To: wahrenst@gmx.net
-Cc: arnd@arndb.de, bcm-kernel-feedback-list@broadcom.com,
- dan.carpenter@linaro.org, florian.fainelli@broadcom.com,
- gregkh@linuxfoundation.org, kernel-list@raspberrypi.com,
- kieran.bingham@ideasonboard.com, laurent.pinchart@ideasonboard.com,
- linux-arm-kernel@lists.infradead.org, linux-staging@lists.linux.dev,
- mcanal@igalia.com
-References: <0c2840c2-241c-4f98-9518-6a3676286823@gmx.net>
-Subject: Re: [PATCH 4/5] staging: vchiq_arm: Create keep-alive thread during
- probe
-Content-Language: en-GB, de-DE
-From: MichaIng <micha@dietpi.com>
-In-Reply-To: <0c2840c2-241c-4f98-9518-6a3676286823@gmx.net>
+Subject: Re: [PATCH 19/65] media: camss: Replace .open() file operation with
+ v4l2_fh_open()
+To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Devarsh Thakkar
+ <devarsht@ti.com>, Benoit Parrot <bparrot@ti.com>,
+ Hans Verkuil <hverkuil@kernel.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Hans de Goede <hansg@kernel.org>,
+ Parthiban Veerasooran <parthiban.veerasooran@microchip.com>,
+ Christian Gromm <christian.gromm@microchip.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Alex Shi
+ <alexs@kernel.org>, Yanteng Si <si.yanteng@linux.dev>,
+ Jonathan Corbet <corbet@lwn.net>, Tomasz Figa <tfiga@chromium.org>,
+ Marek Szyprowski <m.szyprowski@samsung.com>,
+ Andy Walls <awalls@md.metrocast.net>,
+ Michael Tretter <m.tretter@pengutronix.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Bin Liu <bin.liu@mediatek.com>, Matthias Brugger <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Dmitry Osipenko <digetx@gmail.com>, Thierry Reding
+ <thierry.reding@gmail.com>, Jonathan Hunter <jonathanh@nvidia.com>,
+ Mirela Rabulea <mirela.rabulea@nxp.com>, Shawn Guo <shawnguo@kernel.org>,
+ Sascha Hauer <s.hauer@pengutronix.de>, Fabio Estevam <festevam@gmail.com>,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Michal Simek <michal.simek@amd.com>, Ming Qian <ming.qian@nxp.com>,
+ Zhou Peng <eagle.zhou@nxp.com>, Xavier Roumegue
+ <xavier.roumegue@oss.nxp.com>, Philipp Zabel <p.zabel@pengutronix.de>,
+ Vikash Garodia <quic_vgarodia@quicinc.com>,
+ Dikshita Agarwal <quic_dikshita@quicinc.com>,
+ Abhinav Kumar <abhinav.kumar@linux.dev>,
+ Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+ Sylwester Nawrocki <sylvester.nawrocki@gmail.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
+ Samuel Holland <samuel@sholland.org>,
+ Daniel Almeida <daniel.almeida@collabora.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>,
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+ Minghsiu Tsai <minghsiu.tsai@mediatek.com>,
+ Houlong Wei <houlong.wei@mediatek.com>,
+ Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+ Tiffany Lin <tiffany.lin@mediatek.com>,
+ Yunfei Dong <yunfei.dong@mediatek.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Magnus Damm <magnus.damm@gmail.com>,
+ Mikhail Ulyanov <mikhail.ulyanov@cogentembedded.com>,
+ Jacob Chen <jacob-chen@iotwrt.com>, Heiko Stuebner <heiko@sntech.de>,
+ Detlev Casanova <detlev.casanova@collabora.com>,
+ Krzysztof Kozlowski <krzk@kernel.org>,
+ Sylwester Nawrocki <s.nawrocki@samsung.com>,
+ =?UTF-8?Q?=C5=81ukasz_Stelmach?= <l.stelmach@samsung.com>,
+ Andrzej Pietrasiewicz <andrzejtp2010@gmail.com>,
+ Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Fabien Dessenne <fabien.dessenne@foss.st.com>,
+ Jean-Christophe Trotin <jean-christophe.trotin@foss.st.com>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Steve Longerbeam <slongerbeam@gmail.com>, Maxime Ripard
+ <mripard@kernel.org>, Paul Kocialkowski <paulk@sys-base.io>,
+ =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+ Robert Foss <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>,
+ Corentin Labbe <clabbe@baylibre.com>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-staging@lists.linux.dev, linux-doc@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
+ linux-tegra@vger.kernel.org, imx@lists.linux.dev,
+ linux-renesas-soc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ linux-samsung-soc@vger.kernel.org, linux-sunxi@lists.linux.dev,
+ linux-usb@vger.kernel.org, linux-amlogic@lists.infradead.org,
+ linux-rockchip@lists.infradead.org,
+ linux-stm32@st-md-mailman.stormreply.com, mjpeg-users@lists.sourceforge.net
+References: <20250802-media-private-data-v1-0-eb140ddd6a9d@ideasonboard.com>
+ <20250802-media-private-data-v1-19-eb140ddd6a9d@ideasonboard.com>
+From: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
+In-Reply-To: <20250802-media-private-data-v1-19-eb140ddd6a9d@ideasonboard.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
- > Okay, after disabling all VCHIQ users including VCHIQ_CDEV and 
-enabling DETECT_HUNG_TASK, i was able to reproduce it.
+Hi Jacopo, Laurent,
 
- > I will try to fix that.
+thank you for the nice clean-up.
 
-Hi Stefan,
+On 8/2/25 12:22, Jacopo Mondi wrote:
+> From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> 
+> The custom video_open() function in the camss driver open-codes the
+> v4l2_fh_open() helper, with an additional mutex that protects the whole
+> function. Given that the function does not modify any data guarded by
+> the lock, there's no need for using the mutex and the function can be
+> replaced by v4l2_fh_open().
+> 
+> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
 
-is there any progress in this regards, or a way we can help? Would it 
-make sense to share the issue to the RPi Ltd. downstream repository?
-https://github.com/raspberrypi/linux
-
-We ship images with downstream RPi Ltd. kernel packages, but with 
-non-GUI/server setups and low memory usage in mind, we disable/blacklist 
-camera and GPU related kernel modules by default, and reduce the 
-dedicated GPU memory to the minimal 16 MiB, so that our users report as 
-well these errors every few minutes on their main console, until GUI, 
-video codec, or camera features are enabled.
-
-I am thinking about letting one kernel module load by default which 
-releases the hanging task. But the majority of systems are headless, and 
-really don't require any of those. Reducing the console log level or 
-muting hung task timeout messages would be another workaround, but that 
-could mute important messages as well.
-
-Just in case someone else is in the same situation: I found the VC CMA 
-driver "vc_sm_cma" module to be the lightest way of releasing the 
-waiting task. Other than the camera/video modules, it does not pull in a 
-large stack of dependency modules. With less than 32 MiB GPU memory 
-(where the cut-down firmware is used automatically), it fails to 
-initialise, but releases the vchiq-keep thread regardless. Its size is 
-also tiny compared to the Broadcom camera/video drivers.
+Tested-by: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
+Reviewed-by: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
 
 -- 
-Best regards,
-
-Micha (aka MichaIng)
-DietPi project lead
-
+Best wishes,
+Vladimir
