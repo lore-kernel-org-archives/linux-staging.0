@@ -1,100 +1,135 @@
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55EB313D521
-	for <linux-staging@lists.linux.dev>; Sun, 24 Aug 2025 20:14:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 604B8130A73
+	for <linux-staging@lists.linux.dev>; Mon, 25 Aug 2025 07:25:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756066488; cv=none; b=CQH5JCBr2QvJdQ3Rn0trjX596mNa1UIseDp+0bi/iaElJ9vsk7FDdvBHyAZtIX/A368Eh0z0yT1mQU8/ysosIEL7Wj1LR9NDaqugp0ajSm8V2XmSpolfb5SdfW0LO55rkzBb5W6jbUUzB11O3zLSK1qgmOS9Ex8IViSiEyVO8yQ=
+	t=1756106723; cv=none; b=uXuBre18aS2wLq5NSJDNX2xGooKJ6fkmbM0R2zDKtgxaC17XfT/uC4Uv6MrjqUbE8lyGfmguWzPx/3SVDVdVbIZVgjIxJU6f9oIryJjxeqEfnkgus4z3jWqM7yXWkMwjx8FuEWU/R4ozHke9LWzlQFs7CEvxOXN4YSRY/RFk5AE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756066488; c=relaxed/simple;
-	bh=QA3gp3C8Tmg6/ZhibaeSLgfFuxniRbAl5rV1xmdXl34=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=kOIeyBC5dDHZ2JJO2nu8LuBx1UjAKhvt2Yze5srOWM6PgpKtPe1gRlu9FTfO096/41d2tf3CZRTa/hPmJM4fuh0NjfenIlBMdNxShI8u9t/z8vPqTe1xvJmciAOM779zAdvR1E8FB5GDeOTb1e1DdVlG10aVBbJHT/F4r5kubVU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=dietpi.com; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=dietpi.com
+	s=arc-20240116; t=1756106723; c=relaxed/simple;
+	bh=C1Jwe7SEYGbaPWwABKag0qTiskJafE866UuIeQ2vBhc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=qKG7IdO0Pc1OXZqAfKN3yE3jUZxJM74eJkDfZjxPl75RjayKMYfFlSpZ1YVWK35TqZD+QYSqX+ts4TvGyebb77qopHH8cY9Ohnrrut+Z4K/FOZoj5cKi5jeQyCXtu4JEiuGPraq0k3iRSDlKR9IptZ2YjROW47yzCItoLfZc/gY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fY+ZQrwY; arc=none smtp.client-ip=209.85.218.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-45b618e067eso138215e9.1
-        for <linux-staging@lists.linux.dev>; Sun, 24 Aug 2025 13:14:46 -0700 (PDT)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fY+ZQrwY"
+Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-afcb7a8dd3dso596168066b.3
+        for <linux-staging@lists.linux.dev>; Mon, 25 Aug 2025 00:25:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1756106720; x=1756711520; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=eXwmDm0jwcdMF+1aml2jZ/twWNGaZ36CwgVMBAiyBUk=;
+        b=fY+ZQrwY00W6F7yJTCo7m1jINkw1JYk4Ga6LgwKblw/Ae+aBd3HthsAFF4xNZM8ik6
+         Qynx2POYAYkaHDeVs1bR6PToBIYGgLzwEHIazUWQcejts8BilGMNAf8mueqWpLzeGEk2
+         GWinl47wfiUxW4b/MWQlIp44p3+3c2dz+VY0/RU+r0gR0aXrZzypVh/EWZWlYGZ4ZQbD
+         1sE2x/MjeWceyEJWFMrHqYYc9eM/c7a6fLBODKjIJW9RiAuTkOubo9Bs5zFkBvVMYXb6
+         VWH8Gh3/NWerTVZuhs8Ij/INy4dKOOzwXEHojwE3lT/unyli/vMZqv/2+MKeG2bjnfpp
+         TprA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756066484; x=1756671284;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=UKTlnh4Q+KFGQxB1IpD8bcbVivdqkUNyppHsT6Wp7Mg=;
-        b=bWjlOgT/9CsfXIdrc0/EDhZ5de+OQEqc/y2yv4iJzteY6ZPOY8dMABZjGDsAyAZW9r
-         jnoWY9ik0cW9nLtAuzDKS7HhH5amWPSrSqH5UPhoHxZNvtjNnNO3v9lAuKzXXXdTt3ie
-         IiixP8fJMgyzyCKC27wTegWcFEy4BK6hKw+qd2bh9GD0SIdwRzhB3RN4ROBaWXyu3DhF
-         /Sc9xbajVcFLozMyPzbdSsQFAnA7U16ZRHU2IX2WZG0V8alBpl9z17LPZVhO/6eUdEbp
-         VT+6FCF1e/egcqq5Nl/ab+MM3o5uGSimH6OyC3ovlPnT7i86hucjXgdS6mKDuzfiIplg
-         AmdQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVfqnXH5xNGaKHfJoJzpNvFP6ob6G8s/EXo+bundXqWsNHWcGLg5FacLgTz7X4PLGIBrHYgYpncrVj1nR0y@lists.linux.dev
-X-Gm-Message-State: AOJu0YzZRCnoPSaYjvw1WAXl07cZRsCe6KdK1bv0+15ZH2odq+e6S6NI
-	jAbsUT4Ag4dbhVf6iG659c4lLSGx4gNoRTPIGUkBQ8Znw+6IPI7cj2Hb
-X-Gm-Gg: ASbGncuOWFtBznLKPtfWAsCLlTGOYxDAyLu5X4j2Al5xrNZmPzETqKru059nX8sHm9B
-	HNLLnBxCiWXhi9M2IIR6xjWWzD9H5QvucNORDj8s2OI6XT22P2fUsQ9W6OqM3DPHF3/lVO2QzRq
-	x/AaBcyQ6qpO52siXIM4sQr3xENbdEYhvaa+4zKIdQ0GWDKO49kHnNPW6sl1AemUXt+SedupbJJ
-	GkpO9fyzDoCVFnFVS4wMwbrUJPbbUr4e3gpdlaBeP8uaB8x2XMaJLPqDPq3fhUIT1LAZs7vaxd+
-	00hRKYOCKNmwVVpuWyv+6WzE9KOZxSAxEOh8cfglL0J7u9lboqXlK03Z/gTDbjI3hmR2UvtsUn0
-	jxev7dlLc2q2OWkltfarzHWedgVTzPV/9H+Dt1UsD5WI8HVWdBdqqjCGybZSPdtdvowVMuQRcj/
-	shyvjKKWlJ2OL80KWLOSgObyNWQLpOb0WAbsaJVziig2+NCTcynJwAaroM
-X-Google-Smtp-Source: AGHT+IGixne2CzhYsvhc1VjQmKs+mUxsx4fbWpFtf9KIUi0pdE5NkMGXTLYvUUMdJaxWALm+fOflTg==
-X-Received: by 2002:adf:f7d2:0:b0:3c5:921a:f440 with SMTP id ffacd0b85a97d-3c5922a3763mr7540475f8f.12.1756066484512;
-        Sun, 24 Aug 2025 13:14:44 -0700 (PDT)
-Received: from ?IPV6:2003:e0:6f2b:f231:547b:d9c0:96ec:4a8d? (p200300e06f2bf231547bd9c096ec4a8d.dip0.t-ipconnect.de. [2003:e0:6f2b:f231:547b:d9c0:96ec:4a8d])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3c711211cc8sm8563940f8f.36.2025.08.24.13.14.42
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 24 Aug 2025 13:14:43 -0700 (PDT)
-Message-ID: <ec4697e7-7afa-4b24-a5ae-cdf103aaae50@dietpi.com>
-Date: Sun, 24 Aug 2025 22:14:42 +0200
+        d=1e100.net; s=20230601; t=1756106720; x=1756711520;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=eXwmDm0jwcdMF+1aml2jZ/twWNGaZ36CwgVMBAiyBUk=;
+        b=OutRmehQyTKaD+cfsih/Embqpxiklca82llDzyL8Zy4KOyBOmGHUcj2Y0AkBMGUre6
+         WWNJUB0J8dXEGkGFpweXXPwX9j1QcMXRCJXffmw2JwxXEQ77Z/eUSTC3NVm5fBi8okmM
+         VXIWK6j9Brrx1k9zEO+7MyWx7lfuOUZU7gd3eeFN5q9ZTz9C7YFSpkq2c/cuksU4TgNE
+         snK5KawT21r7NFiPrfgDjiNLRnJYrmgFT5deF41YtNAEKYrmEITdOI40N7hmFwjlqjaO
+         a8ycdTlmWi73OxWomm/GX2sqIvF7F9iQSVQ5SLjVEGuD+jiXLfQ9uiKBscOo3eO+eB+C
+         Xvrg==
+X-Forwarded-Encrypted: i=1; AJvYcCUF/FygHFcthZfxNnQB/w2QVN3+LmoEFDDWoUxklgmxbtlV3WOn46jvPTHtSb1EFmLn9wvgYPu0JL91neWr@lists.linux.dev
+X-Gm-Message-State: AOJu0YwjS4fPN7XEM2aWZoYf3e7I5vU9IRNL4BvRkyn09HmurXX7daq2
+	ytP2Pr77kGJ0VkVPHiiFAG0caRXiLVDty2B+it6rvaTgemfcoE99fpY2IX8gKJyG5ZNSQkmbf57
+	s1Di4MGE0GGLJjQdpd1keHO/H3vCXKzI=
+X-Gm-Gg: ASbGncuaH0TU9rIFJzas18LtXhATbaaXUHxNAvyn7j0FZH4eCq4IQX1H4mY4ND7sp3w
+	Hne/JUjuTvHqPffZf9x9pRbtxGG9WS2ga+yzhZ3LCs0TIKuEPsB4fkXn1yQ+1HerD3dEVaiolFe
+	ZwqZ7efMVKYH4Sls3DkvkjwJ92T18XmRxOfoP0FBJVvjeK0xVH9BHlmy0+m89SvHtNpJCuMjbbD
+	H4bBlg=
+X-Google-Smtp-Source: AGHT+IFAfstrjNTSy+zxUMo9sweg9FrlyPV/a/zIOtTyu6FO3SUdw/jRQMtzpvd3QDf5fW4qRv6zh2RmmNddFiGIiSk=
+X-Received: by 2002:a17:906:4ec3:b0:afe:74a3:f76d with SMTP id
+ a640c23a62f3a-afe74a3fda1mr281251366b.16.1756106719408; Mon, 25 Aug 2025
+ 00:25:19 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 4/5] staging: vchiq_arm: Create keep-alive thread during
- probe
-To: Stefan Wahren <wahrenst@gmx.net>
-Cc: arnd@arndb.de, bcm-kernel-feedback-list@broadcom.com,
- dan.carpenter@linaro.org, florian.fainelli@broadcom.com,
- gregkh@linuxfoundation.org, kernel-list@raspberrypi.com,
- kieran.bingham@ideasonboard.com, laurent.pinchart@ideasonboard.com,
- linux-arm-kernel@lists.infradead.org, linux-staging@lists.linux.dev,
- mcanal@igalia.com
-References: <0c2840c2-241c-4f98-9518-6a3676286823@gmx.net>
- <dafff4b4-f022-453e-935f-6d79c4c57292@dietpi.com>
- <8e51d9c4-512a-4b98-8ef7-e08a259cbf07@gmx.net>
-Content-Language: en-GB, de-DE
-From: MichaIng <micha@dietpi.com>
-In-Reply-To: <8e51d9c4-512a-4b98-8ef7-e08a259cbf07@gmx.net>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20250824150656.2387516-1-chelsyratnawat2001@gmail.com>
+In-Reply-To: <20250824150656.2387516-1-chelsyratnawat2001@gmail.com>
+From: Andy Shevchenko <andy.shevchenko@gmail.com>
+Date: Mon, 25 Aug 2025 10:24:43 +0300
+X-Gm-Features: Ac12FXyUVFfIPQSqjxdn30gGhlenP2UYN6P40UQcEy83nkbUBa4f1SQpLMPrS4Y
+Message-ID: <CAHp75VeskiXhCYZZjOVYn=_d9Uo51RyXu=5s2yt-5FTWi1FSGQ@mail.gmail.com>
+Subject: Re: [PATCH] staging: media: Use string choices helpers
+To: Chelsy Ratnawat <chelsyratnawat2001@gmail.com>
+Cc: andy@kernel.org, hansg@kernel.org, mchehab@kernel.org, 
+	sakari.ailus@linux.intel.com, gregkh@linuxfoundation.org, 
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+	linux-staging@lists.linux.dev, tian.shu.qiu@intel.com, bingbu.cao@intel.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Stefan,
+On Sun, Aug 24, 2025 at 6:07=E2=80=AFPM Chelsy Ratnawat
+<chelsyratnawat2001@gmail.com> wrote:
+>
+> Use string_choices.h helpers instead of hard-coded strings.
 
-Am 24.08.2025 um 21:58 schrieb Stefan Wahren:
-> Hi Micha,
-> 
-> this issue has been fixed in mainline/stable by reverting the commit in 
-> July. So downstream should have received the fix, too.
-> 
-> Best regards
-thanks for the info, I should have checked upstream logs. For 
-completeness I am linking them here:
-- 
-https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git/commit?id=ebe0b2e
-- 
-https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git/commit?id=228af5a5
+>  drivers/staging/media/atomisp/pci/atomisp_compat_css20.c     | 3 ++-
+>  drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c    | 5 +++--
+>  drivers/staging/media/atomisp/pci/atomisp_v4l2.c             | 5 +++--
+>  .../staging/media/atomisp/pci/runtime/binary/src/binary.c    | 3 ++-
+>  drivers/staging/media/atomisp/pci/sh_css.c                   | 3 ++-
+>  drivers/staging/media/ipu3/ipu3-css.c                        | 3 ++-
+>  drivers/staging/media/ipu3/ipu3-v4l2.c                       | 5 +++--
 
-And on Linux 6.12 branch:
-- 
-https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git/commit?h=linux-6.12.y&id=ff62859
+Split to two patches =E2=80=94 one per driver.
 
-Hence next downstream build will contain it.
+...
 
-Best regards,
 
-Micha (aka MichaIng)
-DietPi project lead
+>  #include <linux/platform_device.h>
+>  #include "../../include/linux/atomisp_platform.h"
+>  #include "../../include/linux/atomisp_gmin_platform.h"
+> +#include <linux/string_choices.h>
+
+Please, move this to be in the group of the generic headers, i.e. in
+_this_ case it's expected to be
+
+  #include <linux/platform_device.h>
+  #include <linux/string_choices.h>
+  #include "../../include/linux/atomisp_platform.h"
+  #include "../../include/linux/atomisp_gmin_platform.h"
+
+...
+
+> --- a/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
+> +++ b/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
+> @@ -17,6 +17,7 @@
+>  #include <linux/interrupt.h>
+>  #include <linux/bits.h>
+>  #include <media/v4l2-fwnode.h>
+> +#include <linux/string_choices.h>
+
+Ditto.
+
+...
+
+> --- a/drivers/staging/media/atomisp/pci/sh_css.c
+> +++ b/drivers/staging/media/atomisp/pci/sh_css.c
+> @@ -8,6 +8,7 @@
+>  #include <linux/mm.h>
+>  #include <linux/slab.h>
+>  #include <linux/vmalloc.h>
+> +#include <linux/string_choices.h>
+
+Prevent the order.
+
+--
+With Best Regards,
+Andy Shevchenko
