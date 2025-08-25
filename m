@@ -1,85 +1,87 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87DF822154F
-	for <linux-staging@lists.linux.dev>; Mon, 25 Aug 2025 10:36:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B526393DCA
+	for <linux-staging@lists.linux.dev>; Mon, 25 Aug 2025 12:28:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756118188; cv=none; b=fgpN3NgGMlkSjAPVh+/fic4ZCmZg67A5RZ2l0mRjuojY3q3Z7+VWR0McYXHMDEJfxISFMiIuDHG+WcLE42Xg0OjVbJyptY/IQ2Ubrnnxjj0aimSjh3sMp7Jwv+Zs5opNFCRE/6XVQA/Xchz7BHWw8mrPHfiabOkWA4W0cSK2030=
+	t=1756124922; cv=none; b=GYKQvLughGUe7xmWQ0hjaNhk9/3cX83Te8bxQM18PQ3/x1Bw5zGhMVvoC6YaWzaTATQVkG7kOIFUmbN9HnOsKeTJwDktJR98ajNObHScyiHTDEbxCEaGVg/t7YGKv8kjY6dfufzXgxYwMAP8bLG623ZIkIuZ0ASRkUx0O+tFzoE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756118188; c=relaxed/simple;
-	bh=tPV8emKO54WfdRV7rXvn90sSh9KG+074fwqXuhOJdwY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=X+kD11VAbLt3H9W5jmsArbgnYB39gJnIaBG1BV5mzRrT2CPoj7qA0FFVEgKLUrbVr+XfXjfp2gHTkya60tWShznqk/TqC4VT1cRB6ANyHOED3TSJWk7WdkXjwMAlaPduyOKx98WyP8B4VKdG89LaOY5oaSYLwwXdwnip4BbbIcg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=epdFf+gR; arc=none smtp.client-ip=192.198.163.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1756124922; c=relaxed/simple;
+	bh=4Lk7NoEo7FPFpb4K/8g11ONHGWOBy/M5/m86pO9dRsU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=HMinGohn7wqfeX3dMbHgSF6dVP2kDRNzLbQvxLte0g4Rwv1S2B3vxZ1/aGir2tTObBSH71t22cVqWcjYX3TgFu8tdMOfUwcZ+gm3j9OCxJe/Ay2rpWvsKIVUhYDUh3IArFxu3oDYJGJ7cR8pgEBQsd6L4Umf+23vqmz3NAPPq+U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UdbCo/ow; arc=none smtp.client-ip=209.85.218.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="epdFf+gR"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1756118186; x=1787654186;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=tPV8emKO54WfdRV7rXvn90sSh9KG+074fwqXuhOJdwY=;
-  b=epdFf+gRp8paUVaam2ZFmdW+6heDSrck05fdrIzxGXRkBwVJfK5DtKah
-   iUMnXrI0nMBhBrltXyHwcijMZuy/wvBApBHIfxTgZqUmk9K6a8j0PD3/X
-   YgY1yYeP1TY9ms4myrjbpttpTQQtE+s5OcsaCUDL1sQQleEDFGhak8Wbk
-   m8hPp98n+dsCnZF1Bd1kQAIi/j3GzGK4X3OYlE3+Y5e03DuWHLN7UXXIa
-   sV1FKiBLUqhZn/7LMdNSVqBdmZWj+WF2Xte6XejnY4ndfpUf/z+Dmzqrp
-   z+w1lk+rn/qfKPZOqAVXlUWltO3tR+AeI2DiaoFofA8QU/2ron3MAP96j
-   w==;
-X-CSE-ConnectionGUID: 2Yr67EtTS6W6K0At3bTbtg==
-X-CSE-MsgGUID: qcSDBkjATeKxxxe35BNnUA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11532"; a="60957215"
-X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
-   d="scan'208";a="60957215"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Aug 2025 03:36:25 -0700
-X-CSE-ConnectionGUID: 7L7O9Q3OSxeOP2l83cT/OQ==
-X-CSE-MsgGUID: Cqtelp5gRwmimpv8yMrhTA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
-   d="scan'208";a="169456697"
-Received: from vpanait-mobl.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.245.7])
-  by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Aug 2025 03:36:23 -0700
-Received: from kekkonen.localdomain (localhost [IPv6:::1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id 964121203CE;
-	Mon, 25 Aug 2025 13:36:20 +0300 (EEST)
-Date: Mon, 25 Aug 2025 13:36:20 +0300
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Chelsy Ratnawat <chelsyratnawat2001@gmail.com>
-Cc: mchehab@kernel.org, bingbu.cao@intel.com, tian.shu.qiu@intel.com,
-	gregkh@linuxfoundation.org, linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev
-Subject: Re: [PATCH v2] media: ipu3: Use string choices helpers
-Message-ID: <aKw8pBNOJ7-4bAHR@kekkonen.localdomain>
-References: <20250825102104.961139-1-chelsyratnawat2001@gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UdbCo/ow"
+Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-afcb731ca8eso680824766b.0
+        for <linux-staging@lists.linux.dev>; Mon, 25 Aug 2025 05:28:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1756124920; x=1756729720; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=4Lk7NoEo7FPFpb4K/8g11ONHGWOBy/M5/m86pO9dRsU=;
+        b=UdbCo/owZgMjdOTiCcliWJMDNanbMZcf2booByae1mv0VLu9QNaA0e3L+AZKrlS2+a
+         eSDVneq0/yMzrxn7pL/Kv3DJK2wZ+bXkaoTCv9JKnVRNUeXD3sk4gkWtfACo6/ke+b0b
+         C6roZhpJKcgLkjup/CKmpCcwklfAyekt719Wrh7uFgyAvYd3cBcWG78nUP7GNiCjRfvN
+         GVEnz5V1ucRI2f2spg6bdxbTZ6vb1lEj+Q23AbU6BUejysIOA+Et365UnVxff+rC5EfB
+         YjXbemuw4tu2wjvaPcoYY6HTIIP1TyMK7mvmj4gQoQxHV9modpnTiXsHcJssFqWTauu0
+         2BSA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1756124920; x=1756729720;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=4Lk7NoEo7FPFpb4K/8g11ONHGWOBy/M5/m86pO9dRsU=;
+        b=j1J+sWEcE1KaY97iZcfVmMP5TqNo1Acy0JlnfD09cGdkWYD7eNzYqUIPDowMoqV0XA
+         eQax1uau4Jer9UuNG2L7KDwlkqxS+XblLuTQLWchhiMMPxP9jl/mAgHrLSX1oxId05Zs
+         3n71G9JHZ30Y0tU9oyDYW7WUqiCEBJg2rUygqihgfD+WlrDQGWcz2A5er9kP+Z7GfvYG
+         BjeEISHQIBd4a9bwiqqGRbi6fwJvPS2xfNYUbj9Bv+OWl3xk3zkkroGwFjD0+uQXagST
+         rzfP1DliESdtGFYk5FxecgoXAGy3Rn4k2vD3sLeXM+g79bMm4BFgZfsn4RLgYB/osy+R
+         1WGg==
+X-Forwarded-Encrypted: i=1; AJvYcCWTwYe82mHsJqLFUgKspzRovEKuywbqwKHBUo/LSAhVrmrF85vqCh3rF922Yf+q70fzP3BwvQ5SCapIE1s2@lists.linux.dev
+X-Gm-Message-State: AOJu0Yy+ik8kHU1iNEG0cftjp1oi9wCRn7y8mWWUREEQqijh7iQwrQHc
+	5rEZjeWtAb9hhAhwWFxzqrbpuhge3/K3SgBrthhjrr757kFgHNbRAEyWys+ZzWBKdnh4Qx9StQi
+	buhf4Bgeza3H4afoE2FKm+/KnmYVL4XY=
+X-Gm-Gg: ASbGncsiqXnxsJKjsR+1WUJ+PM11lDGJpc4B17rggiRQ5sIKGjXziPKOvcXBexrKl1w
+	LxrKQxM9a8dvgTDxzf7K8u3+H57iH3TmRIRmw4nt5RZvfnFSV4Q0rq0PZg1s2pWhb+jlYZUuvN5
+	gSWucrJDKwzFnALn4c0yOSOBpH/eWFX7iSiQVJd3igjDRSCm+73fVRkTNtt5b8Jdi4f0rNF5zKj
+	JqltjPwCA==
+X-Google-Smtp-Source: AGHT+IERnL55xCKZRXy1X8l4fOupr66TO4qOx1FUypqB9hww5LZNEmyNeZy2VYLMnVLvQkoSA2f8e77OAuUIJKypfkk=
+X-Received: by 2002:a17:907:1c1a:b0:ae0:da2f:dcf3 with SMTP id
+ a640c23a62f3a-afe29615646mr971179866b.59.1756124919511; Mon, 25 Aug 2025
+ 05:28:39 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250825102104.961139-1-chelsyratnawat2001@gmail.com>
+References: <20250825101515.953993-1-chelsyratnawat2001@gmail.com>
+In-Reply-To: <20250825101515.953993-1-chelsyratnawat2001@gmail.com>
+From: Andy Shevchenko <andy.shevchenko@gmail.com>
+Date: Mon, 25 Aug 2025 15:28:03 +0300
+X-Gm-Features: Ac12FXwDuMLoSewvb7LjGv4A-zke8mMbHcj5k5vh_asaK9ynJpHY2pt33pTiH-Y
+Message-ID: <CAHp75VfRFjC+zmp8VcaGQgmjzRdV=XP-ULM629MuxcS=RhQwFw@mail.gmail.com>
+Subject: Re: [PATCH v2] media: atomisp: Use string choices helpers
+To: Chelsy Ratnawat <chelsyratnawat2001@gmail.com>
+Cc: andy@kernel.org, hansg@kernel.or, mchehab@kernel.org, 
+	sakari.ailus@linux.intel.com, gregkh@linuxfoundation.org, 
+	linux-media@vger.kernel.org, linux-staging@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Chelsy,
+On Mon, Aug 25, 2025 at 1:15=E2=80=AFPM Chelsy Ratnawat
+<chelsyratnawat2001@gmail.com> wrote:
+>
+> Use string_choices.h helpers instead of hard-coded strings.
 
-On Mon, Aug 25, 2025 at 03:21:04AM -0700, Chelsy Ratnawat wrote:
-> Use string_choices.h helpers instead of hard-coded strings
-> 
-> Signed-off-by: Chelsy Ratnawat <chelsyratnawat2001@gmail.com>
+LGTM,
+Reviewed-by:Andy Shevchenko <andy@kernel.org>
 
-Thanks for the patch.
-
-The patch is fine but a similar patch
-(<20250804-ipu3-string-choices-v1-1-506834a013b5@gmail.com>) has been
-already submitted by Nai-Chen Cheng and that is merged.
-
--- 
-Kind regards,
-
-Sakari Ailus
+--=20
+With Best Regards,
+Andy Shevchenko
