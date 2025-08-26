@@ -1,57 +1,57 @@
-Received: from mail-wr1-f73.google.com (mail-wr1-f73.google.com [209.85.221.73])
+Received: from mail-wr1-f74.google.com (mail-wr1-f74.google.com [209.85.221.74])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7FA23090E2
-	for <linux-staging@lists.linux.dev>; Tue, 26 Aug 2025 10:44:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.73
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35FA531CA74
+	for <linux-staging@lists.linux.dev>; Tue, 26 Aug 2025 10:44:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.74
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756205063; cv=none; b=OyG9e58Zh8atDsBs8wigfu50SqFWfNM2ITVSEcTnMZ5IRaKQBlAmN9sKCRetvY3uRyEjmPrStusEJpKEyg12saWmK4cfMgE7bc4WiIlHHIFfdIggzRhP7pLe0OMJ/TqrK8egemN5NfBpcWS0WnY23sQ2wwFJAq58Qp9ytPQiNGI=
+	t=1756205065; cv=none; b=kCDGsKd2nkZedx9qyPHKCXLKAvzt5FYj0pryMOFv6jIoW+Qe0PqZar9a9hddxuY1yEkYlCMqNeYn15E3Iu2kmwDMACKYfnUGzhSrdahUiosQrK5PuQwQg49hh1+vwOwXH7UVx/EluD41DYiZhUeNKPRZHFQ8Nuc8xqbedC8FVQQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756205063; c=relaxed/simple;
-	bh=liM9eRKLATT3ZL6VnM5QKUJlcWgIUIaeqGhZKRX+jhM=;
+	s=arc-20240116; t=1756205065; c=relaxed/simple;
+	bh=c8wF0BfUS/6aLlK2OzhDdVaTt4p9jK7w1ki1OorSBVc=;
 	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=Qu9OjuUM5G+N7C7yeGLrPGCSO+v4VdAWjOoU9y1n0aVgn9GHYy4dgZDNo5EN1qgmTv9wtyuc8gSJD97ipO7xG8wm7fejse5oV4UkbQLXreOXBX/+MujrmNQkImi7HvpCRIZIkikIlXFdQrnWmqojYdrjK4DefsYlLLX51uLZllo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--abarnas.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=pZRRC0+4; arc=none smtp.client-ip=209.85.221.73
+	 To:Cc:Content-Type; b=ZEn5CGwMWlKu1Fu3pQ6aED0w00AY7xoIt8zbU6E2Lj/TPh8AeNeFBTYPCqhfaZxNLux4pVK7XLV51PXE6v6xQAliPWu1P9XCjWfiycIG+ikrx5Z2VwNin1CPOPKORS7dwJm6t7vUrYe2Bwbb6P8olJBCYV0SWIoUHYiF2gnUPHA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--abarnas.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=1oZz9dj7; arc=none smtp.client-ip=209.85.221.74
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--abarnas.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="pZRRC0+4"
-Received: by mail-wr1-f73.google.com with SMTP id ffacd0b85a97d-3c8406fb5e1so2110146f8f.3
-        for <linux-staging@lists.linux.dev>; Tue, 26 Aug 2025 03:44:20 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="1oZz9dj7"
+Received: by mail-wr1-f74.google.com with SMTP id ffacd0b85a97d-3c79f0a6084so1024838f8f.0
+        for <linux-staging@lists.linux.dev>; Tue, 26 Aug 2025 03:44:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1756205059; x=1756809859; darn=lists.linux.dev;
+        d=google.com; s=20230601; t=1756205060; x=1756809860; darn=lists.linux.dev;
         h=content-transfer-encoding:cc:to:from:subject:message-id:references
          :mime-version:in-reply-to:date:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=nvqjc2Uq6UYs7NC0gnmnCXS5SKb+rIIaJ71OyXlnaBw=;
-        b=pZRRC0+4DIL1sMn+zImISnAZp4jBNYX0r4ZK1xq8TrZQvDC9x25NeYZvII+SO8d74H
-         tzRK+t7GvKKGUVzmPP0oMQcj5mQv4Lkq1rf2+g2mmrqOYclXmCgixDZ+BVeMAu/8m46B
-         5veC1/EatzG6TaHgsdHsvFcFRUQywxSWzlULmLTnxHu3CfgL5CLe0DZPLycLqkipl6O9
-         AA9/bho+eoKUta4MlV67UEWmdAJMllnQVBRtLVC2zFUbYwJvvRLpkXZPsYhVLGTRWocE
-         w3KdcT5P6NnEZXLgjaJTzs3FmVigmT+WCkD3LIGvWqPQPhIb78eGWR+oLpNhXzAcFlO6
-         M1MA==
+        bh=nM+IWDSwhMGMT/7iluC0nDBG6i5pCWyvwSlxidh1Uow=;
+        b=1oZz9dj7QagOpX4erLT+eDOTv1CXEr2nVv3A0bv/yRk4mF0yLdd80Ap5x5v79K0lGt
+         Rigb2pEj3HIEfwVq4rm+YxCF44dzy+r58aW1hzBk5mLfXwqkFeS4TPHMEw2xBHhUgbXS
+         3NiIH+ndjkeqP2QCNsZ8ThynvyhjpAFbp9BIgMf9/n2Ia9qp1FtrQjjay+cX0FmCX4JA
+         oP4tXPdcaamJQRFDHrmmfspMMNQNdZLuDrC5mj7U2iAajQo2gI8WcMBTbWoD0o8rKj/m
+         oBynokYHCsiQb2wKyAsskPSVvrKsFlfwEdiXvnj0B8hBQJR/qRp43h98q+7f8hmxEzv8
+         SJxQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756205059; x=1756809859;
+        d=1e100.net; s=20230601; t=1756205060; x=1756809860;
         h=content-transfer-encoding:cc:to:from:subject:message-id:references
          :mime-version:in-reply-to:date:x-gm-message-state:from:to:cc:subject
          :date:message-id:reply-to;
-        bh=nvqjc2Uq6UYs7NC0gnmnCXS5SKb+rIIaJ71OyXlnaBw=;
-        b=mm83jNrsAnP1vbWzgQvVHbbH4EUUMMPbOig835w5lS0mYkT3AnhHwNyyBo33H1AiUK
-         GYBCI4KKX1BxMjG3OxTX7lTxm0iEWayO1NGJWfhRq80xq90cZkQ1yT0Lt9rRm0rDJD1k
-         /MuaB6nV2zCKNs0FYz8kA9tjSVSnOtMmXQ8VNQrDwQNZr3D/Ydube6LPyLofPaFPhdpt
-         ELiJOHy20Sg4+iCLe3fqfxE847oBiRc/qVucpL76WnM+GOxmJmni2xsRcu2yZqwCE5Mg
-         ZkOu0DRRldC6UkgPlLWFtRoaEP5SIeyCokawsTkhs5VI3VYFz1xNqg/KNI/mnlJ0npoC
-         O/IQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXnjlMJeddDByykP92qDs254F7lyIwM0StQnlclayidsqXgQ1T6WkLEWYJoWWsCoclGsop4F5LRyHqZujWP@lists.linux.dev
-X-Gm-Message-State: AOJu0YwQGFNM3bMLxFH1QIEVuGMpM0xvw5meFHNZ2qQmr5HKy/fPwhWG
-	iR9afxLJQLaKsgZonq+8Sm//0aLMDtrztWfSemnHounDYqKIKy9gdfyNbHJTCQEKjaOf+tmLOrj
-	Qr8QS/GFylg==
-X-Google-Smtp-Source: AGHT+IEhZCUA8cK1zdDsXe3cxZ2YP7l606fJk1sqWUVX0WU+Z/FGkAc6dryPpWOYOCYdSBOdJF7CAF7nuruD
-X-Received: from wmti4.prod.google.com ([2002:a05:600c:8b84:b0:459:8c48:6c34])
- (user=abarnas job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6000:1446:b0:3c7:f0fb:838
- with SMTP id ffacd0b85a97d-3c7f0fb0c8cmr6695304f8f.17.1756205059144; Tue, 26
- Aug 2025 03:44:19 -0700 (PDT)
-Date: Tue, 26 Aug 2025 10:44:13 +0000
+        bh=nM+IWDSwhMGMT/7iluC0nDBG6i5pCWyvwSlxidh1Uow=;
+        b=eN9pXraxSJ5ymQcdnsRTWdRF14XJPoxnOKSA+bA5YsVEVFIBxjTbQNnAde39fysX0e
+         cmadd51sqd1P5NDUFT9sjKUHL5C4YL+p0klhXC3U2kWkCfXtRfPtcZmMoPrVF1i32gRU
+         bDD+CORlV/pNEt7qnWH2lmXoXnEpvfggsvcM63esx+UwEPV1kiixYb9+6JIRKtAT7MUx
+         UEJ0LHDSgYcWrqQBqpN73zxQckLkXEV0EfoGCFfGRcnDFw5SKv8pes3kYG5KgTEqezBe
+         ZtYg0rdQ/ZAlEXzHbkEQgkMILB2Afd4sYyiLxglHm303nBCw9B19vT8LJdYc6LPJbVdz
+         cGJw==
+X-Forwarded-Encrypted: i=1; AJvYcCUZMUJn1y0j1Uv3xxu+Wgy20UpbzCvtq2qDykHhv8kZbMAdMpCuGQUnX6y3xdzgbNH1Yurj3ZDN/9/wYzqd@lists.linux.dev
+X-Gm-Message-State: AOJu0YxKKXS9A8puVu7EbyOtoM9DrXcrKq4pNryL2mcmkPBM+mHEUu3+
+	EjZ0WyAqh3AV20pfrTtKMrUjt3+3tI46FFj7Hu/zhLgTngjEWk9rTtbxxfDKBBoAXRvIDYwXnOJ
+	8O8LIB9Acfw==
+X-Google-Smtp-Source: AGHT+IE1isPqF3++tJxagglaM72pafo0v2GIR5ZXviNWn5jETxcZB9Bf30btiNLYv/qeI2TYJF0Bs8H6mUbH
+X-Received: from wmbjh6.prod.google.com ([2002:a05:600c:a086:b0:45b:520a:6656])
+ (user=abarnas job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6000:2c04:b0:3c9:469d:c092
+ with SMTP id ffacd0b85a97d-3c9469dc2b7mr5563201f8f.16.1756205060524; Tue, 26
+ Aug 2025 03:44:20 -0700 (PDT)
+Date: Tue, 26 Aug 2025 10:44:14 +0000
 In-Reply-To: <20250826104414.2817514-1-abarnas@google.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -61,8 +61,8 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 Mime-Version: 1.0
 References: <20250826104414.2817514-1-abarnas@google.com>
 X-Mailer: git-send-email 2.51.0.261.g7ce5a0a67e-goog
-Message-ID: <20250826104414.2817514-3-abarnas@google.com>
-Subject: [PATCH 3/4] staging: media: atomisp: Remove returns from end of void functions
+Message-ID: <20250826104414.2817514-4-abarnas@google.com>
+Subject: [PATCH 4/4] staging: media: atomisp: Whitespaces style fixes
 From: "=?UTF-8?q?Adrian=20Barna=C5=9B?=" <abarnas@google.com>
 To: Hans de Goede <hansg@kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
 	Sakari Ailus <sakari.ailus@linux.intel.com>, Andy Shevchenko <andy@kernel.org>, 
@@ -73,49 +73,865 @@ Cc: "=?UTF-8?q?Adrian=20Barna=C5=9B?=" <abarnas@google.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Fix checkpatch.pl warning on useless returns on the end of void functions.
+Whitespaces cleanup only for fifo_monitor.c file. Adjust line breaks,
+trim indents to opening parenthesis and replace tab with spaces when
+necessary.
 
 Signed-off-by: Adrian Barna=C5=9B <abarnas@google.com>
 ---
- .../atomisp/pci/hive_isp_css_common/host/fifo_monitor.c      | 5 -----
- 1 file changed, 5 deletions(-)
+ .../hive_isp_css_common/host/fifo_monitor.c   | 760 +++++++++---------
+ 1 file changed, 398 insertions(+), 362 deletions(-)
 
 diff --git a/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/fif=
 o_monitor.c b/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/fi=
 fo_monitor.c
-index 76762fc0929cc..3caef0f4eb217 100644
+index 3caef0f4eb217..5506da9bc7460 100644
 --- a/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/fifo_monit=
 or.c
 +++ b/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/fifo_monit=
 or.c
-@@ -499,8 +499,6 @@ void fifo_channel_get_state(const fifo_monitor_ID_t ID,
- 		assert(0);
+@@ -58,442 +58,478 @@ void fifo_channel_get_state(const fifo_monitor_ID_t I=
+D,
+=20
+ 	switch (channel_id) {
+ 	case FIFO_CHANNEL_ISP0_TO_SP0:
+-		state->src_valid   =3D fifo_monitor_status_valid(ID,
+-				     HIVE_GP_REGS_ISP_STREAM_STAT_IDX,
+-				     ISP_STR_MON_PORT_SND_SP); /* ISP_STR_MON_PORT_ISP2SP */
+-		state->fifo_accept =3D fifo_monitor_status_accept(ID,
+-				     HIVE_GP_REGS_ISP_STREAM_STAT_IDX,
+-				     ISP_STR_MON_PORT_SND_SP);
+-		state->fifo_valid  =3D fifo_monitor_status_valid(ID,
+-				     HIVE_GP_REGS_SP_STREAM_STAT_IDX,
+-				     SP_STR_MON_PORT_RCV_ISP); /* ISP_STR_MON_PORT_SP2ISP */
+-		state->sink_accept =3D fifo_monitor_status_accept(ID,
+-				     HIVE_GP_REGS_SP_STREAM_STAT_IDX,
+-				     SP_STR_MON_PORT_RCV_ISP);
++		state->src_valid =3D
++		    fifo_monitor_status_valid(ID, HIVE_GP_REGS_ISP_STREAM_STAT_IDX,
++					      ISP_STR_MON_PORT_SND_SP);
++					      /* ISP_STR_MON_PORT_ISP2SP */
++		state->fifo_accept =3D
++		    fifo_monitor_status_accept(ID, HIVE_GP_REGS_ISP_STREAM_STAT_IDX,
++					       ISP_STR_MON_PORT_SND_SP);
++		state->fifo_valid =3D
++		    fifo_monitor_status_valid(ID, HIVE_GP_REGS_SP_STREAM_STAT_IDX,
++					      SP_STR_MON_PORT_RCV_ISP);
++					      /* ISP_STR_MON_PORT_SP2ISP */
++		state->sink_accept =3D
++		    fifo_monitor_status_accept(ID, HIVE_GP_REGS_SP_STREAM_STAT_IDX,
++					       SP_STR_MON_PORT_RCV_ISP);
  		break;
- 	}
--
--	return;
- }
+ 	case FIFO_CHANNEL_SP0_TO_ISP0:
+-		state->src_valid   =3D fifo_monitor_status_valid(ID,
+-				     HIVE_GP_REGS_SP_STREAM_STAT_IDX,
+-				     SP_STR_MON_PORT_SND_ISP); /* ISP_STR_MON_PORT_SP2ISP */
+-		state->fifo_accept =3D fifo_monitor_status_accept(ID,
+-				     HIVE_GP_REGS_SP_STREAM_STAT_IDX,
+-				     SP_STR_MON_PORT_SND_ISP);
+-		state->fifo_valid  =3D fifo_monitor_status_valid(ID,
+-				     HIVE_GP_REGS_ISP_STREAM_STAT_IDX,
+-				     ISP_STR_MON_PORT_RCV_SP); /* ISP_STR_MON_PORT_ISP2SP */
+-		state->sink_accept =3D fifo_monitor_status_accept(ID,
+-				     HIVE_GP_REGS_ISP_STREAM_STAT_IDX,
+-				     ISP_STR_MON_PORT_RCV_SP);
++		state->src_valid =3D
++		    fifo_monitor_status_valid(ID, HIVE_GP_REGS_SP_STREAM_STAT_IDX,
++					      SP_STR_MON_PORT_SND_ISP);
++					      /* ISP_STR_MON_PORT_SP2ISP */
++		state->fifo_accept =3D
++		    fifo_monitor_status_accept(ID, HIVE_GP_REGS_SP_STREAM_STAT_IDX,
++					       SP_STR_MON_PORT_SND_ISP);
++		state->fifo_valid =3D
++		    fifo_monitor_status_valid(ID, HIVE_GP_REGS_ISP_STREAM_STAT_IDX,
++					      ISP_STR_MON_PORT_RCV_SP);
++					      /* ISP_STR_MON_PORT_ISP2SP */
++		state->sink_accept =3D
++		    fifo_monitor_status_accept(ID, HIVE_GP_REGS_ISP_STREAM_STAT_IDX,
++					       ISP_STR_MON_PORT_RCV_SP);
+ 		break;
+ 	case FIFO_CHANNEL_ISP0_TO_IF0:
+-		state->src_valid   =3D fifo_monitor_status_valid(ID,
+-				     HIVE_GP_REGS_ISP_STREAM_STAT_IDX,
+-				     ISP_STR_MON_PORT_SND_PIF_A); /* ISP_STR_MON_PORT_ISP2PIFA */
+-		state->fifo_accept =3D fifo_monitor_status_accept(ID,
+-				     HIVE_GP_REGS_ISP_STREAM_STAT_IDX,
+-				     ISP_STR_MON_PORT_SND_PIF_A);
+-		state->fifo_valid  =3D fifo_monitor_status_valid(ID,
+-				     HIVE_GP_REGS_MOD_STREAM_STAT_IDX,
+-				     MOD_STR_MON_PORT_RCV_PIF_A); /* MOD_STR_MON_PORT_CELLS2PIFA */
+-		state->sink_accept =3D fifo_monitor_status_accept(ID,
+-				     HIVE_GP_REGS_MOD_STREAM_STAT_IDX,
+-				     MOD_STR_MON_PORT_RCV_PIF_A);
++		state->src_valid =3D
++		    fifo_monitor_status_valid(ID, HIVE_GP_REGS_ISP_STREAM_STAT_IDX,
++					      ISP_STR_MON_PORT_SND_PIF_A);
++					      /* ISP_STR_MON_PORT_ISP2PIFA */
++		state->fifo_accept =3D
++		    fifo_monitor_status_accept(ID, HIVE_GP_REGS_ISP_STREAM_STAT_IDX,
++					       ISP_STR_MON_PORT_SND_PIF_A);
++		state->fifo_valid =3D
++		    fifo_monitor_status_valid(ID, HIVE_GP_REGS_MOD_STREAM_STAT_IDX,
++					      MOD_STR_MON_PORT_RCV_PIF_A);
++					      /* MOD_STR_MON_PORT_CELLS2PIFA */
++		state->sink_accept =3D
++		    fifo_monitor_status_accept(ID, HIVE_GP_REGS_MOD_STREAM_STAT_IDX,
++					       MOD_STR_MON_PORT_RCV_PIF_A);
+ 		break;
+ 	case FIFO_CHANNEL_IF0_TO_ISP0:
+-		state->src_valid   =3D fifo_monitor_status_valid(ID,
+-				     HIVE_GP_REGS_MOD_STREAM_STAT_IDX,
+-				     MOD_STR_MON_PORT_SND_PIF_A); /* MOD_STR_MON_PORT_PIFA2CELLS */
+-		state->fifo_accept =3D fifo_monitor_status_accept(ID,
+-				     HIVE_GP_REGS_MOD_STREAM_STAT_IDX,
+-				     MOD_STR_MON_PORT_SND_PIF_A);
+-		state->fifo_valid  =3D fifo_monitor_status_valid(ID,
+-				     HIVE_GP_REGS_ISP_STREAM_STAT_IDX,
+-				     ISP_STR_MON_PORT_RCV_PIF_A); /* ISP_STR_MON_PORT_PIFA2ISP */
+-		state->sink_accept =3D fifo_monitor_status_accept(ID,
+-				     HIVE_GP_REGS_ISP_STREAM_STAT_IDX,
+-				     ISP_STR_MON_PORT_RCV_PIF_A);
++		state->src_valid =3D
++		    fifo_monitor_status_valid(ID, HIVE_GP_REGS_MOD_STREAM_STAT_IDX,
++					      MOD_STR_MON_PORT_SND_PIF_A);
++					      /* MOD_STR_MON_PORT_PIFA2CELLS */
++		state->fifo_accept =3D
++		    fifo_monitor_status_accept(ID, HIVE_GP_REGS_MOD_STREAM_STAT_IDX,
++					       MOD_STR_MON_PORT_SND_PIF_A);
++		state->fifo_valid =3D
++		    fifo_monitor_status_valid(ID, HIVE_GP_REGS_ISP_STREAM_STAT_IDX,
++					      ISP_STR_MON_PORT_RCV_PIF_A);
++					      /* ISP_STR_MON_PORT_PIFA2ISP */
++		state->sink_accept =3D
++		    fifo_monitor_status_accept(ID, HIVE_GP_REGS_ISP_STREAM_STAT_IDX,
++					       ISP_STR_MON_PORT_RCV_PIF_A);
+ 		break;
+ 	case FIFO_CHANNEL_ISP0_TO_IF1:
+-		state->src_valid   =3D fifo_monitor_status_valid(ID,
+-				     HIVE_GP_REGS_ISP_STREAM_STAT_IDX,
+-				     ISP_STR_MON_PORT_SND_PIF_B); /* ISP_STR_MON_PORT_ISP2PIFA */
+-		state->fifo_accept =3D fifo_monitor_status_accept(ID,
+-				     HIVE_GP_REGS_ISP_STREAM_STAT_IDX,
+-				     ISP_STR_MON_PORT_SND_PIF_B);
+-		state->fifo_valid  =3D fifo_monitor_status_valid(ID,
+-				     HIVE_GP_REGS_MOD_STREAM_STAT_IDX,
+-				     MOD_STR_MON_PORT_RCV_PIF_B); /* MOD_STR_MON_PORT_CELLS2PIFB */
+-		state->sink_accept =3D fifo_monitor_status_accept(ID,
+-				     HIVE_GP_REGS_MOD_STREAM_STAT_IDX,
+-				     MOD_STR_MON_PORT_RCV_PIF_B);
++		state->src_valid =3D
++		    fifo_monitor_status_valid(ID, HIVE_GP_REGS_ISP_STREAM_STAT_IDX,
++					      ISP_STR_MON_PORT_SND_PIF_B);
++					      /* ISP_STR_MON_PORT_ISP2PIFA */
++		state->fifo_accept =3D
++		    fifo_monitor_status_accept(ID, HIVE_GP_REGS_ISP_STREAM_STAT_IDX,
++					       ISP_STR_MON_PORT_SND_PIF_B);
++		state->fifo_valid =3D
++		    fifo_monitor_status_valid(ID, HIVE_GP_REGS_MOD_STREAM_STAT_IDX,
++					      MOD_STR_MON_PORT_RCV_PIF_B);
++					      /* MOD_STR_MON_PORT_CELLS2PIFB */
++		state->sink_accept =3D
++		    fifo_monitor_status_accept(ID, HIVE_GP_REGS_MOD_STREAM_STAT_IDX,
++					       MOD_STR_MON_PORT_RCV_PIF_B);
+ 		break;
+ 	case FIFO_CHANNEL_IF1_TO_ISP0:
+-		state->src_valid   =3D fifo_monitor_status_valid(ID,
+-				     HIVE_GP_REGS_MOD_STREAM_STAT_IDX,
+-				     MOD_STR_MON_PORT_SND_PIF_B); /* MOD_STR_MON_PORT_PIFB2CELLS */
+-		state->fifo_accept =3D fifo_monitor_status_accept(ID,
+-				     HIVE_GP_REGS_MOD_STREAM_STAT_IDX,
+-				     MOD_STR_MON_PORT_SND_PIF_B);
+-		state->fifo_valid  =3D fifo_monitor_status_valid(ID,
+-				     HIVE_GP_REGS_ISP_STREAM_STAT_IDX,
+-				     ISP_STR_MON_PORT_RCV_PIF_B); /* ISP_STR_MON_PORT_PIFB2ISP */
+-		state->sink_accept =3D fifo_monitor_status_accept(ID,
+-				     HIVE_GP_REGS_ISP_STREAM_STAT_IDX,
+-				     ISP_STR_MON_PORT_RCV_PIF_B);
++		state->src_valid =3D
++		    fifo_monitor_status_valid(ID, HIVE_GP_REGS_MOD_STREAM_STAT_IDX,
++					      MOD_STR_MON_PORT_SND_PIF_B);
++					      /* MOD_STR_MON_PORT_PIFB2CELLS */
++		state->fifo_accept =3D
++		    fifo_monitor_status_accept(ID, HIVE_GP_REGS_MOD_STREAM_STAT_IDX,
++					       MOD_STR_MON_PORT_SND_PIF_B);
++		state->fifo_valid =3D
++		    fifo_monitor_status_valid(ID, HIVE_GP_REGS_ISP_STREAM_STAT_IDX,
++					      ISP_STR_MON_PORT_RCV_PIF_B);
++					      /* ISP_STR_MON_PORT_PIFB2ISP */
++		state->sink_accept =3D
++		    fifo_monitor_status_accept(ID, HIVE_GP_REGS_ISP_STREAM_STAT_IDX,
++					       ISP_STR_MON_PORT_RCV_PIF_B);
+ 		break;
+ 	case FIFO_CHANNEL_ISP0_TO_DMA0:
+-		state->src_valid   =3D fifo_monitor_status_valid(ID,
+-				     HIVE_GP_REGS_ISP_STREAM_STAT_IDX,
+-				     ISP_STR_MON_PORT_SND_DMA); /* ISP_STR_MON_PORT_ISP2DMA */
+-		state->fifo_accept =3D fifo_monitor_status_accept(ID,
+-				     HIVE_GP_REGS_ISP_STREAM_STAT_IDX,
+-				     ISP_STR_MON_PORT_SND_DMA);
+-		state->fifo_valid  =3D fifo_monitor_status_valid(ID,
+-				     HIVE_GP_REGS_MOD_STREAM_STAT_IDX,
+-				     MOD_STR_MON_PORT_RCV_DMA_FR_ISP); /* MOD_STR_MON_PORT_ISP2DMA */
+-		state->sink_accept =3D fifo_monitor_status_accept(ID,
+-				     HIVE_GP_REGS_MOD_STREAM_STAT_IDX,
+-				     MOD_STR_MON_PORT_RCV_DMA_FR_ISP);
++		state->src_valid =3D
++		    fifo_monitor_status_valid(ID, HIVE_GP_REGS_ISP_STREAM_STAT_IDX,
++					      ISP_STR_MON_PORT_SND_DMA);
++					      /* ISP_STR_MON_PORT_ISP2DMA */
++		state->fifo_accept =3D
++		    fifo_monitor_status_accept(ID, HIVE_GP_REGS_ISP_STREAM_STAT_IDX,
++					       ISP_STR_MON_PORT_SND_DMA);
++		state->fifo_valid =3D
++		    fifo_monitor_status_valid(ID, HIVE_GP_REGS_MOD_STREAM_STAT_IDX,
++					      MOD_STR_MON_PORT_RCV_DMA_FR_ISP);
++					      /* MOD_STR_MON_PORT_ISP2DMA */
++		state->sink_accept =3D
++		    fifo_monitor_status_accept(ID, HIVE_GP_REGS_MOD_STREAM_STAT_IDX,
++					       MOD_STR_MON_PORT_RCV_DMA_FR_ISP);
+ 		break;
+ 	case FIFO_CHANNEL_DMA0_TO_ISP0:
+-		state->src_valid   =3D fifo_monitor_status_valid(ID,
+-				     HIVE_GP_REGS_MOD_STREAM_STAT_IDX,
+-				     MOD_STR_MON_PORT_SND_DMA2ISP); /* MOD_STR_MON_PORT_DMA2ISP */
+-		state->fifo_accept =3D fifo_monitor_status_accept(ID,
+-				     HIVE_GP_REGS_MOD_STREAM_STAT_IDX,
+-				     MOD_STR_MON_PORT_SND_DMA2ISP);
+-		state->fifo_valid  =3D fifo_monitor_status_valid(ID,
+-				     HIVE_GP_REGS_ISP_STREAM_STAT_IDX,
+-				     ISP_STR_MON_PORT_RCV_DMA); /* ISP_STR_MON_PORT_DMA2ISP */
+-		state->sink_accept =3D fifo_monitor_status_accept(ID,
+-				     HIVE_GP_REGS_ISP_STREAM_STAT_IDX,
+-				     ISP_STR_MON_PORT_RCV_DMA);
++		state->src_valid =3D
++		    fifo_monitor_status_valid(ID, HIVE_GP_REGS_MOD_STREAM_STAT_IDX,
++					      MOD_STR_MON_PORT_SND_DMA2ISP);
++					      /* MOD_STR_MON_PORT_DMA2ISP */
++		state->fifo_accept =3D
++		    fifo_monitor_status_accept(ID, HIVE_GP_REGS_MOD_STREAM_STAT_IDX,
++					       MOD_STR_MON_PORT_SND_DMA2ISP);
++		state->fifo_valid =3D
++		    fifo_monitor_status_valid(ID, HIVE_GP_REGS_ISP_STREAM_STAT_IDX,
++					      ISP_STR_MON_PORT_RCV_DMA);
++					      /* ISP_STR_MON_PORT_DMA2ISP */
++		state->sink_accept =3D
++		    fifo_monitor_status_accept(ID, HIVE_GP_REGS_ISP_STREAM_STAT_IDX,
++					       ISP_STR_MON_PORT_RCV_DMA);
+ 		break;
+ 	case FIFO_CHANNEL_ISP0_TO_GDC0:
+-		state->src_valid   =3D fifo_monitor_status_valid(ID,
+-				     HIVE_GP_REGS_ISP_STREAM_STAT_IDX,
+-				     ISP_STR_MON_PORT_SND_GDC); /* ISP_STR_MON_PORT_ISP2GDC1 */
+-		state->fifo_accept =3D fifo_monitor_status_accept(ID,
+-				     HIVE_GP_REGS_ISP_STREAM_STAT_IDX,
+-				     ISP_STR_MON_PORT_SND_GDC);
+-		state->fifo_valid  =3D fifo_monitor_status_valid(ID,
+-				     HIVE_GP_REGS_MOD_STREAM_STAT_IDX,
+-				     MOD_STR_MON_PORT_RCV_GDC); /* MOD_STR_MON_PORT_CELLS2GDC1 */
+-		state->sink_accept =3D fifo_monitor_status_accept(ID,
+-				     HIVE_GP_REGS_MOD_STREAM_STAT_IDX,
+-				     MOD_STR_MON_PORT_RCV_GDC);
++		state->src_valid =3D
++		    fifo_monitor_status_valid(ID, HIVE_GP_REGS_ISP_STREAM_STAT_IDX,
++					      ISP_STR_MON_PORT_SND_GDC);
++					      /* ISP_STR_MON_PORT_ISP2GDC1 */
++		state->fifo_accept =3D
++		    fifo_monitor_status_accept(ID, HIVE_GP_REGS_ISP_STREAM_STAT_IDX,
++					       ISP_STR_MON_PORT_SND_GDC);
++		state->fifo_valid =3D
++		    fifo_monitor_status_valid(ID, HIVE_GP_REGS_MOD_STREAM_STAT_IDX,
++					      MOD_STR_MON_PORT_RCV_GDC);
++					      /* MOD_STR_MON_PORT_CELLS2GDC1 */
++		state->sink_accept =3D
++		    fifo_monitor_status_accept(ID, HIVE_GP_REGS_MOD_STREAM_STAT_IDX,
++					       MOD_STR_MON_PORT_RCV_GDC);
+ 		break;
+ 	case FIFO_CHANNEL_GDC0_TO_ISP0:
+-		state->fifo_valid  =3D fifo_monitor_status_valid(ID,
+-				     HIVE_GP_REGS_MOD_STREAM_STAT_IDX,
+-				     MOD_STR_MON_PORT_SND_GDC); /* MOD_STR_MON_PORT_GDC12CELLS */
+-		state->sink_accept =3D fifo_monitor_status_accept(ID,
+-				     HIVE_GP_REGS_MOD_STREAM_STAT_IDX,
+-				     MOD_STR_MON_PORT_SND_GDC);
+-		state->src_valid   =3D fifo_monitor_status_valid(ID,
+-				     HIVE_GP_REGS_ISP_STREAM_STAT_IDX,
+-				     ISP_STR_MON_PORT_RCV_GDC); /* ISP_STR_MON_PORT_GDC12ISP */
+-		state->fifo_accept =3D fifo_monitor_status_accept(ID,
+-				     HIVE_GP_REGS_ISP_STREAM_STAT_IDX,
+-				     ISP_STR_MON_PORT_RCV_GDC);
++		state->fifo_valid =3D
++		    fifo_monitor_status_valid(ID, HIVE_GP_REGS_MOD_STREAM_STAT_IDX,
++					      MOD_STR_MON_PORT_SND_GDC);
++					      /* MOD_STR_MON_PORT_GDC12CELLS */
++		state->sink_accept =3D
++		    fifo_monitor_status_accept(ID, HIVE_GP_REGS_MOD_STREAM_STAT_IDX,
++					       MOD_STR_MON_PORT_SND_GDC);
++		state->src_valid =3D
++		    fifo_monitor_status_valid(ID, HIVE_GP_REGS_ISP_STREAM_STAT_IDX,
++					      ISP_STR_MON_PORT_RCV_GDC);
++					      /* ISP_STR_MON_PORT_GDC12ISP */
++		state->fifo_accept =3D
++		    fifo_monitor_status_accept(ID, HIVE_GP_REGS_ISP_STREAM_STAT_IDX,
++					       ISP_STR_MON_PORT_RCV_GDC);
+ 		break;
+ 	case FIFO_CHANNEL_ISP0_TO_GDC1:
+-		state->src_valid   =3D fifo_monitor_status_valid(ID,
+-				     HIVE_GP_REGS_ISP_STREAM_STAT_IDX,
+-				     ISP_STR_MON_PORT_ISP2GDC2);
+-		state->fifo_accept =3D fifo_monitor_status_accept(ID,
+-				     HIVE_GP_REGS_ISP_STREAM_STAT_IDX,
+-				     ISP_STR_MON_PORT_ISP2GDC2);
+-		state->fifo_valid  =3D fifo_monitor_status_valid(ID,
+-				     HIVE_GP_REGS_MOD_STREAM_STAT_IDX,
+-				     MOD_STR_MON_PORT_CELLS2GDC2);
+-		state->sink_accept =3D fifo_monitor_status_accept(ID,
+-				     HIVE_GP_REGS_MOD_STREAM_STAT_IDX,
+-				     MOD_STR_MON_PORT_CELLS2GDC2);
++		state->src_valid =3D
++		    fifo_monitor_status_valid(ID, HIVE_GP_REGS_ISP_STREAM_STAT_IDX,
++					      ISP_STR_MON_PORT_ISP2GDC2);
++		state->fifo_accept =3D
++		    fifo_monitor_status_accept(ID, HIVE_GP_REGS_ISP_STREAM_STAT_IDX,
++					       ISP_STR_MON_PORT_ISP2GDC2);
++		state->fifo_valid =3D
++		    fifo_monitor_status_valid(ID, HIVE_GP_REGS_MOD_STREAM_STAT_IDX,
++					      MOD_STR_MON_PORT_CELLS2GDC2);
++		state->sink_accept =3D
++		    fifo_monitor_status_accept(ID, HIVE_GP_REGS_MOD_STREAM_STAT_IDX,
++					       MOD_STR_MON_PORT_CELLS2GDC2);
+ 		break;
+ 	case FIFO_CHANNEL_GDC1_TO_ISP0:
+-		state->fifo_valid  =3D fifo_monitor_status_valid(ID,
+-				     HIVE_GP_REGS_MOD_STREAM_STAT_IDX,
+-				     MOD_STR_MON_PORT_GDC22CELLS);
+-		state->sink_accept =3D fifo_monitor_status_accept(ID,
+-				     HIVE_GP_REGS_MOD_STREAM_STAT_IDX,
+-				     MOD_STR_MON_PORT_GDC22CELLS);
+-		state->src_valid   =3D fifo_monitor_status_valid(ID,
+-				     HIVE_GP_REGS_ISP_STREAM_STAT_IDX,
+-				     ISP_STR_MON_PORT_GDC22ISP);
+-		state->fifo_accept =3D fifo_monitor_status_accept(ID,
+-				     HIVE_GP_REGS_ISP_STREAM_STAT_IDX,
+-				     ISP_STR_MON_PORT_GDC22ISP);
++		state->fifo_valid =3D
++		    fifo_monitor_status_valid(ID, HIVE_GP_REGS_MOD_STREAM_STAT_IDX,
++					      MOD_STR_MON_PORT_GDC22CELLS);
++		state->sink_accept =3D
++		    fifo_monitor_status_accept(ID, HIVE_GP_REGS_MOD_STREAM_STAT_IDX,
++					       MOD_STR_MON_PORT_GDC22CELLS);
++		state->src_valid =3D
++		    fifo_monitor_status_valid(ID, HIVE_GP_REGS_ISP_STREAM_STAT_IDX,
++					      ISP_STR_MON_PORT_GDC22ISP);
++		state->fifo_accept =3D
++		    fifo_monitor_status_accept(ID, HIVE_GP_REGS_ISP_STREAM_STAT_IDX,
++					       ISP_STR_MON_PORT_GDC22ISP);
+ 		break;
+ 	case FIFO_CHANNEL_ISP0_TO_HOST0:
+-		state->src_valid   =3D fifo_monitor_status_valid(ID,
+-				     HIVE_GP_REGS_ISP_STREAM_STAT_IDX,
+-				     ISP_STR_MON_PORT_SND_GPD); /* ISP_STR_MON_PORT_ISP2GPD */
+-		state->fifo_accept =3D fifo_monitor_status_accept(ID,
+-				     HIVE_GP_REGS_ISP_STREAM_STAT_IDX,
+-				     ISP_STR_MON_PORT_SND_GPD);
++		state->src_valid =3D
++		    fifo_monitor_status_valid(ID, HIVE_GP_REGS_ISP_STREAM_STAT_IDX,
++					      ISP_STR_MON_PORT_SND_GPD);
++					      /* ISP_STR_MON_PORT_ISP2GPD */
++		state->fifo_accept =3D
++		    fifo_monitor_status_accept(ID, HIVE_GP_REGS_ISP_STREAM_STAT_IDX,
++					       ISP_STR_MON_PORT_SND_GPD);
+ 		{
+-			hrt_data	value =3D ia_css_device_load_uint32(0x0000000000380014ULL);
++			hrt_data value =3D ia_css_device_load_uint32(0x0000000000380014ULL);
 =20
- void fifo_switch_get_state(const fifo_monitor_ID_t ID, const fifo_switch_t=
- switch_id,
-@@ -519,8 +517,6 @@ void fifo_switch_get_state(const fifo_monitor_ID_t ID, =
-const fifo_switch_t switc
- 	state->is_none =3D (data =3D=3D HIVE_ISP_CSS_STREAM_SWITCH_NONE);
- 	state->is_sp =3D (data =3D=3D HIVE_ISP_CSS_STREAM_SWITCH_SP);
- 	state->is_isp =3D (data =3D=3D HIVE_ISP_CSS_STREAM_SWITCH_ISP);
--
--	return;
- }
+ 			state->fifo_valid  =3D !_hrt_get_bit(value, 0);
+ 			state->sink_accept =3D false; /* no monitor connected */
+ 		}
+ 		break;
+-	case FIFO_CHANNEL_HOST0_TO_ISP0: {
+-		hrt_data	value =3D ia_css_device_load_uint32(0x000000000038001CULL);
++	case FIFO_CHANNEL_HOST0_TO_ISP0:
++		{
++			hrt_data value =3D ia_css_device_load_uint32(0x000000000038001CULL);
 =20
- void fifo_monitor_get_state(const fifo_monitor_ID_t ID, fifo_monitor_state=
-_t *state)
-@@ -540,5 +536,4 @@ void fifo_monitor_get_state(const fifo_monitor_ID_t ID,=
- fifo_monitor_state_t *st
- 		fifo_switch_get_state(ID, sw_id,
- 				      &state->fifo_switches[sw_id]);
- 	}
--	return;
- }
+-		state->fifo_valid  =3D false; /* no monitor connected */
+-		state->sink_accept =3D !_hrt_get_bit(value, 0);
+-	}
+-	state->src_valid   =3D fifo_monitor_status_valid(ID,
+-			     HIVE_GP_REGS_ISP_STREAM_STAT_IDX,
+-				     ISP_STR_MON_PORT_RCV_GPD); /* ISP_STR_MON_PORT_FA2ISP */
+-	state->fifo_accept =3D fifo_monitor_status_accept(ID,
+-			     HIVE_GP_REGS_ISP_STREAM_STAT_IDX,
+-			     ISP_STR_MON_PORT_RCV_GPD);
++			state->fifo_valid  =3D false; /* no monitor connected */
++			state->sink_accept =3D !_hrt_get_bit(value, 0);
++		}
++		state->src_valid =3D
++		    fifo_monitor_status_valid(ID, HIVE_GP_REGS_ISP_STREAM_STAT_IDX,
++					      ISP_STR_MON_PORT_RCV_GPD);
++					      /* ISP_STR_MON_PORT_FA2ISP */
++		state->fifo_accept =3D
++		    fifo_monitor_status_accept(ID, HIVE_GP_REGS_ISP_STREAM_STAT_IDX,
++					       ISP_STR_MON_PORT_RCV_GPD);
+ 	break;
+ 	case FIFO_CHANNEL_SP0_TO_IF0:
+-		state->src_valid   =3D fifo_monitor_status_valid(ID,
+-				     HIVE_GP_REGS_SP_STREAM_STAT_IDX,
+-				     SP_STR_MON_PORT_SND_PIF_A); /* SP_STR_MON_PORT_SP2PIFA */
+-		state->fifo_accept =3D fifo_monitor_status_accept(ID,
+-				     HIVE_GP_REGS_SP_STREAM_STAT_IDX,
+-				     SP_STR_MON_PORT_SND_PIF_A);
+-		state->fifo_valid  =3D fifo_monitor_status_valid(ID,
+-				     HIVE_GP_REGS_MOD_STREAM_STAT_IDX,
+-				     MOD_STR_MON_PORT_RCV_PIF_A); /* MOD_STR_MON_PORT_CELLS2PIFA */
+-		state->sink_accept =3D fifo_monitor_status_accept(ID,
+-				     HIVE_GP_REGS_MOD_STREAM_STAT_IDX,
+-				     MOD_STR_MON_PORT_RCV_PIF_A);
++		state->src_valid =3D
++		    fifo_monitor_status_valid(ID, HIVE_GP_REGS_SP_STREAM_STAT_IDX,
++					      SP_STR_MON_PORT_SND_PIF_A);
++					      /* SP_STR_MON_PORT_SP2PIFA */
++		state->fifo_accept =3D
++		    fifo_monitor_status_accept(ID, HIVE_GP_REGS_SP_STREAM_STAT_IDX,
++					       SP_STR_MON_PORT_SND_PIF_A);
++		state->fifo_valid =3D
++		    fifo_monitor_status_valid(ID, HIVE_GP_REGS_MOD_STREAM_STAT_IDX,
++					      MOD_STR_MON_PORT_RCV_PIF_A);
++					      /* MOD_STR_MON_PORT_CELLS2PIFA */
++		state->sink_accept =3D
++		    fifo_monitor_status_accept(ID, HIVE_GP_REGS_MOD_STREAM_STAT_IDX,
++					       MOD_STR_MON_PORT_RCV_PIF_A);
+ 		break;
+ 	case FIFO_CHANNEL_IF0_TO_SP0:
+-		state->src_valid   =3D fifo_monitor_status_valid(ID,
+-				     HIVE_GP_REGS_MOD_STREAM_STAT_IDX,
+-				     MOD_STR_MON_PORT_SND_PIF_A); /* MOD_STR_MON_PORT_PIFA2CELLS */
+-		state->fifo_accept =3D fifo_monitor_status_accept(ID,
+-				     HIVE_GP_REGS_MOD_STREAM_STAT_IDX,
+-				     MOD_STR_MON_PORT_SND_PIF_A);
+-		state->fifo_valid  =3D fifo_monitor_status_valid(ID,
+-				     HIVE_GP_REGS_SP_STREAM_STAT_IDX,
+-				     SP_STR_MON_PORT_RCV_PIF_A); /* SP_STR_MON_PORT_PIFA2SP */
+-		state->sink_accept =3D fifo_monitor_status_accept(ID,
+-				     HIVE_GP_REGS_SP_STREAM_STAT_IDX,
+-				     SP_STR_MON_PORT_RCV_PIF_A);
++		state->src_valid =3D
++		    fifo_monitor_status_valid(ID, HIVE_GP_REGS_MOD_STREAM_STAT_IDX,
++					      MOD_STR_MON_PORT_SND_PIF_A);
++					      /* MOD_STR_MON_PORT_PIFA2CELLS */
++		state->fifo_accept =3D
++		    fifo_monitor_status_accept(ID, HIVE_GP_REGS_MOD_STREAM_STAT_IDX,
++					       MOD_STR_MON_PORT_SND_PIF_A);
++		state->fifo_valid =3D
++		    fifo_monitor_status_valid(ID, HIVE_GP_REGS_SP_STREAM_STAT_IDX,
++					      SP_STR_MON_PORT_RCV_PIF_A);
++					      /* SP_STR_MON_PORT_PIFA2SP */
++		state->sink_accept =3D
++		    fifo_monitor_status_accept(ID, HIVE_GP_REGS_SP_STREAM_STAT_IDX,
++					       SP_STR_MON_PORT_RCV_PIF_A);
+ 		break;
+ 	case FIFO_CHANNEL_SP0_TO_IF1:
+-		state->src_valid   =3D fifo_monitor_status_valid(ID,
+-				     HIVE_GP_REGS_SP_STREAM_STAT_IDX,
+-				     SP_STR_MON_PORT_SND_PIF_B); /* SP_STR_MON_PORT_SP2PIFB */
+-		state->fifo_accept =3D fifo_monitor_status_accept(ID,
+-				     HIVE_GP_REGS_SP_STREAM_STAT_IDX,
+-				     SP_STR_MON_PORT_SND_PIF_B);
+-		state->fifo_valid  =3D fifo_monitor_status_valid(ID,
+-				     HIVE_GP_REGS_MOD_STREAM_STAT_IDX,
+-				     MOD_STR_MON_PORT_RCV_PIF_B); /* MOD_STR_MON_PORT_CELLS2PIFB */
+-		state->sink_accept =3D fifo_monitor_status_accept(ID,
+-				     HIVE_GP_REGS_MOD_STREAM_STAT_IDX,
+-				     MOD_STR_MON_PORT_RCV_PIF_B);
++		state->src_valid =3D
++		    fifo_monitor_status_valid(ID, HIVE_GP_REGS_SP_STREAM_STAT_IDX,
++					      SP_STR_MON_PORT_SND_PIF_B);
++					      /* SP_STR_MON_PORT_SP2PIFB */
++		state->fifo_accept =3D
++		    fifo_monitor_status_accept(ID, HIVE_GP_REGS_SP_STREAM_STAT_IDX,
++					       SP_STR_MON_PORT_SND_PIF_B);
++		state->fifo_valid =3D
++		    fifo_monitor_status_valid(ID, HIVE_GP_REGS_MOD_STREAM_STAT_IDX,
++					      MOD_STR_MON_PORT_RCV_PIF_B);
++					      /* MOD_STR_MON_PORT_CELLS2PIFB */
++		state->sink_accept =3D
++		    fifo_monitor_status_accept(ID, HIVE_GP_REGS_MOD_STREAM_STAT_IDX,
++					       MOD_STR_MON_PORT_RCV_PIF_B);
+ 		break;
+ 	case FIFO_CHANNEL_IF1_TO_SP0:
+-		state->src_valid   =3D fifo_monitor_status_valid(ID,
+-				     HIVE_GP_REGS_MOD_STREAM_STAT_IDX,
+-				     MOD_STR_MON_PORT_SND_PIF_B); /* MOD_STR_MON_PORT_PIFB2CELLS */
+-		state->fifo_accept =3D fifo_monitor_status_accept(ID,
+-				     HIVE_GP_REGS_MOD_STREAM_STAT_IDX,
+-				     MOD_STR_MON_PORT_SND_PIF_B);
+-		state->fifo_valid  =3D fifo_monitor_status_valid(ID,
+-				     HIVE_GP_REGS_SP_STREAM_STAT_IDX,
+-				     ISP_STR_MON_PORT_RCV_PIF_B); /* SP_STR_MON_PORT_PIFB2SP */
+-		state->sink_accept =3D fifo_monitor_status_accept(ID,
+-				     HIVE_GP_REGS_SP_STREAM_STAT_IDX,
+-				     ISP_STR_MON_PORT_RCV_PIF_B);
++		state->src_valid =3D
++		    fifo_monitor_status_valid(ID, HIVE_GP_REGS_MOD_STREAM_STAT_IDX,
++					      MOD_STR_MON_PORT_SND_PIF_B);
++					      /* MOD_STR_MON_PORT_PIFB2CELLS */
++		state->fifo_accept =3D
++		    fifo_monitor_status_accept(ID, HIVE_GP_REGS_MOD_STREAM_STAT_IDX,
++					       MOD_STR_MON_PORT_SND_PIF_B);
++		state->fifo_valid =3D
++		    fifo_monitor_status_valid(ID, HIVE_GP_REGS_SP_STREAM_STAT_IDX,
++					      ISP_STR_MON_PORT_RCV_PIF_B);
++					      /* SP_STR_MON_PORT_PIFB2SP */
++		state->sink_accept =3D
++		    fifo_monitor_status_accept(ID, HIVE_GP_REGS_SP_STREAM_STAT_IDX,
++					       ISP_STR_MON_PORT_RCV_PIF_B);
+ 		break;
+ 	case FIFO_CHANNEL_SP0_TO_IF2:
+-		state->src_valid   =3D fifo_monitor_status_valid(ID,
+-				     HIVE_GP_REGS_SP_STREAM_STAT_IDX,
+-				     SP_STR_MON_PORT_SND_SIF); /* SP_STR_MON_PORT_SP2SIF */
+-		state->fifo_accept =3D fifo_monitor_status_accept(ID,
+-				     HIVE_GP_REGS_SP_STREAM_STAT_IDX,
+-				     SP_STR_MON_PORT_SND_SIF);
+-		state->fifo_valid  =3D fifo_monitor_status_valid(ID,
+-				     HIVE_GP_REGS_MOD_STREAM_STAT_IDX,
+-				     MOD_STR_MON_PORT_RCV_SIF); /* MOD_STR_MON_PORT_SP2SIF */
+-		state->sink_accept =3D fifo_monitor_status_accept(ID,
+-				     HIVE_GP_REGS_MOD_STREAM_STAT_IDX,
+-				     MOD_STR_MON_PORT_RCV_SIF);
++		state->src_valid =3D
++		    fifo_monitor_status_valid(ID, HIVE_GP_REGS_SP_STREAM_STAT_IDX,
++					      SP_STR_MON_PORT_SND_SIF); /* SP_STR_MON_PORT_SP2SIF */
++		state->fifo_accept =3D
++		    fifo_monitor_status_accept(ID, HIVE_GP_REGS_SP_STREAM_STAT_IDX,
++					       SP_STR_MON_PORT_SND_SIF);
++		state->fifo_valid =3D
++		    fifo_monitor_status_valid(ID, HIVE_GP_REGS_MOD_STREAM_STAT_IDX,
++					      MOD_STR_MON_PORT_RCV_SIF);
++					      /* MOD_STR_MON_PORT_SP2SIF */
++		state->sink_accept =3D
++		    fifo_monitor_status_accept(ID, HIVE_GP_REGS_MOD_STREAM_STAT_IDX,
++					       MOD_STR_MON_PORT_RCV_SIF);
+ 		break;
+ 	case FIFO_CHANNEL_IF2_TO_SP0:
+-		state->src_valid   =3D fifo_monitor_status_valid(ID,
+-				     HIVE_GP_REGS_MOD_STREAM_STAT_IDX,
+-				     MOD_STR_MON_PORT_SND_SIF); /* MOD_STR_MON_PORT_SIF2SP */
+-		state->fifo_accept =3D fifo_monitor_status_accept(ID,
+-				     HIVE_GP_REGS_MOD_STREAM_STAT_IDX,
+-				     MOD_STR_MON_PORT_SND_SIF);
+-		state->fifo_valid  =3D fifo_monitor_status_valid(ID,
+-				     HIVE_GP_REGS_SP_STREAM_STAT_IDX,
+-				     SP_STR_MON_PORT_RCV_SIF); /* SP_STR_MON_PORT_SIF2SP */
+-		state->sink_accept =3D fifo_monitor_status_accept(ID,
+-				     HIVE_GP_REGS_SP_STREAM_STAT_IDX,
+-				     SP_STR_MON_PORT_RCV_SIF);
++		state->src_valid =3D
++		    fifo_monitor_status_valid(ID, HIVE_GP_REGS_MOD_STREAM_STAT_IDX,
++					      MOD_STR_MON_PORT_SND_SIF);
++					      /* MOD_STR_MON_PORT_SIF2SP */
++		state->fifo_accept =3D
++		    fifo_monitor_status_accept(ID, HIVE_GP_REGS_MOD_STREAM_STAT_IDX,
++					       MOD_STR_MON_PORT_SND_SIF);
++		state->fifo_valid =3D
++		    fifo_monitor_status_valid(ID, HIVE_GP_REGS_SP_STREAM_STAT_IDX,
++					      SP_STR_MON_PORT_RCV_SIF); /* SP_STR_MON_PORT_SIF2SP */
++		state->sink_accept =3D
++		    fifo_monitor_status_accept(ID, HIVE_GP_REGS_SP_STREAM_STAT_IDX,
++					       SP_STR_MON_PORT_RCV_SIF);
+ 		break;
+ 	case FIFO_CHANNEL_SP0_TO_DMA0:
+-		state->src_valid   =3D fifo_monitor_status_valid(ID,
+-				     HIVE_GP_REGS_SP_STREAM_STAT_IDX,
+-				     SP_STR_MON_PORT_SND_DMA); /* SP_STR_MON_PORT_SP2DMA */
+-		state->fifo_accept =3D fifo_monitor_status_accept(ID,
+-				     HIVE_GP_REGS_SP_STREAM_STAT_IDX,
+-				     SP_STR_MON_PORT_SND_DMA);
+-		state->fifo_valid  =3D fifo_monitor_status_valid(ID,
+-				     HIVE_GP_REGS_MOD_STREAM_STAT_IDX,
+-				     MOD_STR_MON_PORT_RCV_DMA_FR_SP); /* MOD_STR_MON_PORT_SP2DMA */
+-		state->sink_accept =3D fifo_monitor_status_accept(ID,
+-				     HIVE_GP_REGS_MOD_STREAM_STAT_IDX,
+-				     MOD_STR_MON_PORT_RCV_DMA_FR_SP);
++		state->src_valid =3D
++		    fifo_monitor_status_valid(ID, HIVE_GP_REGS_SP_STREAM_STAT_IDX,
++					      SP_STR_MON_PORT_SND_DMA); /* SP_STR_MON_PORT_SP2DMA */
++		state->fifo_accept =3D
++		    fifo_monitor_status_accept(ID, HIVE_GP_REGS_SP_STREAM_STAT_IDX,
++					       SP_STR_MON_PORT_SND_DMA);
++		state->fifo_valid =3D
++		    fifo_monitor_status_valid(ID, HIVE_GP_REGS_MOD_STREAM_STAT_IDX,
++					      MOD_STR_MON_PORT_RCV_DMA_FR_SP);
++					      /* MOD_STR_MON_PORT_SP2DMA */
++		state->sink_accept =3D
++		    fifo_monitor_status_accept(ID, HIVE_GP_REGS_MOD_STREAM_STAT_IDX,
++					       MOD_STR_MON_PORT_RCV_DMA_FR_SP);
+ 		break;
+ 	case FIFO_CHANNEL_DMA0_TO_SP0:
+-		state->src_valid   =3D fifo_monitor_status_valid(ID,
+-				     HIVE_GP_REGS_MOD_STREAM_STAT_IDX,
+-				     MOD_STR_MON_PORT_SND_DMA2SP); /* MOD_STR_MON_PORT_DMA2SP */
+-		state->fifo_accept =3D fifo_monitor_status_accept(ID,
+-				     HIVE_GP_REGS_MOD_STREAM_STAT_IDX,
+-				     MOD_STR_MON_PORT_SND_DMA2SP);
+-		state->fifo_valid  =3D fifo_monitor_status_valid(ID,
+-				     HIVE_GP_REGS_SP_STREAM_STAT_IDX,
+-				     SP_STR_MON_PORT_RCV_DMA); /* SP_STR_MON_PORT_DMA2SP */
+-		state->sink_accept =3D fifo_monitor_status_accept(ID,
+-				     HIVE_GP_REGS_SP_STREAM_STAT_IDX,
+-				     SP_STR_MON_PORT_RCV_DMA);
++		state->src_valid =3D
++		    fifo_monitor_status_valid(ID, HIVE_GP_REGS_MOD_STREAM_STAT_IDX,
++					      MOD_STR_MON_PORT_SND_DMA2SP);
++					      /* MOD_STR_MON_PORT_DMA2SP */
++		state->fifo_accept =3D
++		    fifo_monitor_status_accept(ID, HIVE_GP_REGS_MOD_STREAM_STAT_IDX,
++					       MOD_STR_MON_PORT_SND_DMA2SP);
++		state->fifo_valid =3D
++		    fifo_monitor_status_valid(ID, HIVE_GP_REGS_SP_STREAM_STAT_IDX,
++					      SP_STR_MON_PORT_RCV_DMA); /* SP_STR_MON_PORT_DMA2SP */
++		state->sink_accept =3D
++		    fifo_monitor_status_accept(ID, HIVE_GP_REGS_SP_STREAM_STAT_IDX,
++					       SP_STR_MON_PORT_RCV_DMA);
+ 		break;
+ 	case FIFO_CHANNEL_SP0_TO_GDC0:
+-		state->src_valid   =3D fifo_monitor_status_valid(ID,
+-				     HIVE_GP_REGS_SP_STREAM_STAT_B_IDX,
+-				     SP_STR_MON_PORT_B_SP2GDC1);
+-		state->fifo_accept =3D fifo_monitor_status_accept(ID,
+-				     HIVE_GP_REGS_SP_STREAM_STAT_B_IDX,
+-				     SP_STR_MON_PORT_B_SP2GDC1);
+-		state->fifo_valid  =3D fifo_monitor_status_valid(ID,
+-				     HIVE_GP_REGS_MOD_STREAM_STAT_IDX,
+-				     MOD_STR_MON_PORT_CELLS2GDC1);
+-		state->sink_accept =3D fifo_monitor_status_accept(ID,
+-				     HIVE_GP_REGS_MOD_STREAM_STAT_IDX,
+-				     MOD_STR_MON_PORT_CELLS2GDC1);
++		state->src_valid =3D
++		     fifo_monitor_status_valid(ID, HIVE_GP_REGS_SP_STREAM_STAT_B_IDX,
++					       SP_STR_MON_PORT_B_SP2GDC1);
++		state->fifo_accept =3D
++		    fifo_monitor_status_accept(ID, HIVE_GP_REGS_SP_STREAM_STAT_B_IDX,
++					       SP_STR_MON_PORT_B_SP2GDC1);
++		state->fifo_valid =3D
++		    fifo_monitor_status_valid(ID, HIVE_GP_REGS_MOD_STREAM_STAT_IDX,
++					      MOD_STR_MON_PORT_CELLS2GDC1);
++		state->sink_accept =3D
++		    fifo_monitor_status_accept(ID, HIVE_GP_REGS_MOD_STREAM_STAT_IDX,
++					       MOD_STR_MON_PORT_CELLS2GDC1);
+ 		break;
+ 	case FIFO_CHANNEL_GDC0_TO_SP0:
+-		state->fifo_valid  =3D fifo_monitor_status_valid(ID,
+-				     HIVE_GP_REGS_MOD_STREAM_STAT_IDX,
+-				     MOD_STR_MON_PORT_GDC12CELLS);
+-		state->sink_accept =3D fifo_monitor_status_accept(ID,
+-				     HIVE_GP_REGS_MOD_STREAM_STAT_IDX,
+-				     MOD_STR_MON_PORT_GDC12CELLS);
+-		state->src_valid   =3D fifo_monitor_status_valid(ID,
+-				     HIVE_GP_REGS_SP_STREAM_STAT_B_IDX,
+-				     SP_STR_MON_PORT_B_GDC12SP);
+-		state->fifo_accept =3D fifo_monitor_status_accept(ID,
+-				     HIVE_GP_REGS_SP_STREAM_STAT_B_IDX,
+-				     SP_STR_MON_PORT_B_GDC12SP);
++		state->fifo_valid =3D
++		    fifo_monitor_status_valid(ID, HIVE_GP_REGS_MOD_STREAM_STAT_IDX,
++					      MOD_STR_MON_PORT_GDC12CELLS);
++		state->sink_accept =3D
++		    fifo_monitor_status_accept(ID, HIVE_GP_REGS_MOD_STREAM_STAT_IDX,
++					       MOD_STR_MON_PORT_GDC12CELLS);
++		state->src_valid =3D
++		    fifo_monitor_status_valid(ID, HIVE_GP_REGS_SP_STREAM_STAT_B_IDX,
++					      SP_STR_MON_PORT_B_GDC12SP);
++		state->fifo_accept =3D
++		    fifo_monitor_status_accept(ID, HIVE_GP_REGS_SP_STREAM_STAT_B_IDX,
++					       SP_STR_MON_PORT_B_GDC12SP);
+ 		break;
+ 	case FIFO_CHANNEL_SP0_TO_GDC1:
+-		state->src_valid   =3D fifo_monitor_status_valid(ID,
+-				     HIVE_GP_REGS_SP_STREAM_STAT_B_IDX,
+-				     SP_STR_MON_PORT_B_SP2GDC2);
+-		state->fifo_accept =3D fifo_monitor_status_accept(ID,
+-				     HIVE_GP_REGS_SP_STREAM_STAT_B_IDX,
+-				     SP_STR_MON_PORT_B_SP2GDC2);
+-		state->fifo_valid  =3D fifo_monitor_status_valid(ID,
+-				     HIVE_GP_REGS_MOD_STREAM_STAT_IDX,
+-				     MOD_STR_MON_PORT_CELLS2GDC2);
+-		state->sink_accept =3D fifo_monitor_status_accept(ID,
+-				     HIVE_GP_REGS_MOD_STREAM_STAT_IDX,
+-				     MOD_STR_MON_PORT_CELLS2GDC2);
++		state->src_valid =3D
++		    fifo_monitor_status_valid(ID, HIVE_GP_REGS_SP_STREAM_STAT_B_IDX,
++					      SP_STR_MON_PORT_B_SP2GDC2);
++		state->fifo_accept =3D
++		    fifo_monitor_status_accept(ID, HIVE_GP_REGS_SP_STREAM_STAT_B_IDX,
++					       SP_STR_MON_PORT_B_SP2GDC2);
++		state->fifo_valid =3D
++		    fifo_monitor_status_valid(ID, HIVE_GP_REGS_MOD_STREAM_STAT_IDX,
++					      MOD_STR_MON_PORT_CELLS2GDC2);
++		state->sink_accept =3D
++		    fifo_monitor_status_accept(ID, HIVE_GP_REGS_MOD_STREAM_STAT_IDX,
++					       MOD_STR_MON_PORT_CELLS2GDC2);
+ 		break;
+ 	case FIFO_CHANNEL_GDC1_TO_SP0:
+-		state->fifo_valid  =3D fifo_monitor_status_valid(ID,
+-				     HIVE_GP_REGS_MOD_STREAM_STAT_IDX,
+-				     MOD_STR_MON_PORT_GDC22CELLS);
+-		state->sink_accept =3D fifo_monitor_status_accept(ID,
+-				     HIVE_GP_REGS_MOD_STREAM_STAT_IDX,
+-				     MOD_STR_MON_PORT_GDC22CELLS);
+-		state->src_valid   =3D fifo_monitor_status_valid(ID,
+-				     HIVE_GP_REGS_SP_STREAM_STAT_B_IDX,
+-				     SP_STR_MON_PORT_B_GDC22SP);
+-		state->fifo_accept =3D fifo_monitor_status_accept(ID,
+-				     HIVE_GP_REGS_SP_STREAM_STAT_B_IDX,
+-				     SP_STR_MON_PORT_B_GDC22SP);
++		state->fifo_valid =3D
++		    fifo_monitor_status_valid(ID, HIVE_GP_REGS_MOD_STREAM_STAT_IDX,
++					      MOD_STR_MON_PORT_GDC22CELLS);
++		state->sink_accept =3D
++		    fifo_monitor_status_accept(ID, HIVE_GP_REGS_MOD_STREAM_STAT_IDX,
++					       MOD_STR_MON_PORT_GDC22CELLS);
++		state->src_valid =3D
++		    fifo_monitor_status_valid(ID, HIVE_GP_REGS_SP_STREAM_STAT_B_IDX,
++					      SP_STR_MON_PORT_B_GDC22SP);
++		state->fifo_accept =3D
++		    fifo_monitor_status_accept(ID, HIVE_GP_REGS_SP_STREAM_STAT_B_IDX,
++					       SP_STR_MON_PORT_B_GDC22SP);
+ 		break;
+ 	case FIFO_CHANNEL_SP0_TO_HOST0:
+-		state->src_valid   =3D fifo_monitor_status_valid(ID,
+-				     HIVE_GP_REGS_SP_STREAM_STAT_IDX,
+-				     SP_STR_MON_PORT_SND_GPD); /* SP_STR_MON_PORT_SP2GPD */
+-		state->fifo_accept =3D fifo_monitor_status_accept(ID,
+-				     HIVE_GP_REGS_SP_STREAM_STAT_IDX,
+-				     SP_STR_MON_PORT_SND_GPD);
++		state->src_valid =3D
++		    fifo_monitor_status_valid(ID, HIVE_GP_REGS_SP_STREAM_STAT_IDX,
++					      SP_STR_MON_PORT_SND_GPD); /* SP_STR_MON_PORT_SP2GPD */
++		state->fifo_accept =3D
++		    fifo_monitor_status_accept(ID, HIVE_GP_REGS_SP_STREAM_STAT_IDX,
++					       SP_STR_MON_PORT_SND_GPD);
+ 		{
+-			hrt_data	value =3D ia_css_device_load_uint32(0x0000000000380010ULL);
++			hrt_data value =3D ia_css_device_load_uint32(0x0000000000380010ULL);
+=20
+ 			state->fifo_valid  =3D !_hrt_get_bit(value, 0);
+ 			state->sink_accept =3D false; /* no monitor connected */
+ 		}
+ 		break;
+-	case FIFO_CHANNEL_HOST0_TO_SP0: {
+-		hrt_data	value =3D ia_css_device_load_uint32(0x0000000000380018ULL);
++	case FIFO_CHANNEL_HOST0_TO_SP0:
++		{
++			hrt_data value =3D ia_css_device_load_uint32(0x0000000000380018ULL);
+=20
+-		state->fifo_valid  =3D false; /* no monitor connected */
+-		state->sink_accept =3D !_hrt_get_bit(value, 0);
+-	}
+-	state->src_valid   =3D fifo_monitor_status_valid(ID,
+-			     HIVE_GP_REGS_SP_STREAM_STAT_IDX,
+-				     SP_STR_MON_PORT_RCV_GPD); /* SP_STR_MON_PORT_FA2SP */
+-	state->fifo_accept =3D fifo_monitor_status_accept(ID,
+-			     HIVE_GP_REGS_SP_STREAM_STAT_IDX,
+-			     SP_STR_MON_PORT_RCV_GPD);
++			state->fifo_valid =3D false; /* no monitor connected */
++			state->sink_accept =3D !_hrt_get_bit(value, 0);
++		}
++		state->src_valid =3D
++		    fifo_monitor_status_valid(ID, HIVE_GP_REGS_SP_STREAM_STAT_IDX,
++					      SP_STR_MON_PORT_RCV_GPD); /* SP_STR_MON_PORT_FA2SP */
++		state->fifo_accept =3D
++		    fifo_monitor_status_accept(ID, HIVE_GP_REGS_SP_STREAM_STAT_IDX,
++					       SP_STR_MON_PORT_RCV_GPD);
+ 	break;
+ 	case FIFO_CHANNEL_SP0_TO_STREAM2MEM0:
+-		state->src_valid   =3D fifo_monitor_status_valid(ID,
+-				     HIVE_GP_REGS_SP_STREAM_STAT_IDX,
+-				     SP_STR_MON_PORT_SND_MC); /* SP_STR_MON_PORT_SP2MC */
+-		state->fifo_accept =3D fifo_monitor_status_accept(ID,
+-				     HIVE_GP_REGS_SP_STREAM_STAT_IDX,
+-				     SP_STR_MON_PORT_SND_MC);
+-		state->fifo_valid  =3D fifo_monitor_status_valid(ID,
+-				     HIVE_GP_REGS_MOD_STREAM_STAT_IDX,
+-				     MOD_STR_MON_PORT_RCV_MC); /* MOD_STR_MON_PORT_SP2MC */
+-		state->sink_accept =3D fifo_monitor_status_accept(ID,
+-				     HIVE_GP_REGS_MOD_STREAM_STAT_IDX,
+-				     MOD_STR_MON_PORT_RCV_MC);
++		state->src_valid =3D
++		    fifo_monitor_status_valid(ID, HIVE_GP_REGS_SP_STREAM_STAT_IDX,
++					      SP_STR_MON_PORT_SND_MC); /* SP_STR_MON_PORT_SP2MC */
++		state->fifo_accept =3D
++		    fifo_monitor_status_accept(ID, HIVE_GP_REGS_SP_STREAM_STAT_IDX,
++					       SP_STR_MON_PORT_SND_MC);
++		state->fifo_valid =3D
++		    fifo_monitor_status_valid(ID, HIVE_GP_REGS_MOD_STREAM_STAT_IDX,
++					      MOD_STR_MON_PORT_RCV_MC); /* MOD_STR_MON_PORT_SP2MC */
++		state->sink_accept =3D
++		    fifo_monitor_status_accept(ID, HIVE_GP_REGS_MOD_STREAM_STAT_IDX,
++					       MOD_STR_MON_PORT_RCV_MC);
+ 		break;
+ 	case FIFO_CHANNEL_STREAM2MEM0_TO_SP0:
+-		state->fifo_valid  =3D fifo_monitor_status_valid(ID,
+-				     HIVE_GP_REGS_MOD_STREAM_STAT_IDX,
+-				     MOD_STR_MON_PORT_SND_MC); /* SP_STR_MON_PORT_MC2SP */
+-		state->sink_accept =3D fifo_monitor_status_accept(ID,
+-				     HIVE_GP_REGS_MOD_STREAM_STAT_IDX,
+-				     MOD_STR_MON_PORT_SND_MC);
+-		state->src_valid   =3D fifo_monitor_status_valid(ID,
+-				     HIVE_GP_REGS_SP_STREAM_STAT_IDX,
+-				     SP_STR_MON_PORT_RCV_MC); /* MOD_STR_MON_PORT_MC2SP */
+-		state->fifo_accept =3D fifo_monitor_status_accept(ID,
+-				     HIVE_GP_REGS_SP_STREAM_STAT_IDX,
+-				     SP_STR_MON_PORT_RCV_MC);
++		state->fifo_valid =3D
++		    fifo_monitor_status_valid(ID, HIVE_GP_REGS_MOD_STREAM_STAT_IDX,
++					      MOD_STR_MON_PORT_SND_MC); /* SP_STR_MON_PORT_MC2SP */
++		state->sink_accept =3D
++		    fifo_monitor_status_accept(ID, HIVE_GP_REGS_MOD_STREAM_STAT_IDX,
++					       MOD_STR_MON_PORT_SND_MC);
++		state->src_valid =3D
++		    fifo_monitor_status_valid(ID, HIVE_GP_REGS_SP_STREAM_STAT_IDX,
++					      SP_STR_MON_PORT_RCV_MC); /* MOD_STR_MON_PORT_MC2SP */
++		state->fifo_accept =3D
++		    fifo_monitor_status_accept(ID, HIVE_GP_REGS_SP_STREAM_STAT_IDX,
++					       SP_STR_MON_PORT_RCV_MC);
+ 		break;
+ 	case FIFO_CHANNEL_SP0_TO_INPUT_SYSTEM0:
+-		state->src_valid   =3D fifo_monitor_status_valid(ID,
+-				     HIVE_GP_REGS_SP_STREAM_STAT_IDX,
+-				     SP_STR_MON_PORT_SP2ISYS);
+-		state->fifo_accept =3D fifo_monitor_status_accept(ID,
+-				     HIVE_GP_REGS_SP_STREAM_STAT_IDX,
+-				     SP_STR_MON_PORT_SP2ISYS);
+-		state->fifo_valid  =3D false;
++		state->src_valid =3D
++		    fifo_monitor_status_valid(ID, HIVE_GP_REGS_SP_STREAM_STAT_IDX,
++					      SP_STR_MON_PORT_SP2ISYS);
++		state->fifo_accept =3D
++		    fifo_monitor_status_accept(ID, HIVE_GP_REGS_SP_STREAM_STAT_IDX,
++					       SP_STR_MON_PORT_SP2ISYS);
++		state->fifo_valid =3D false;
+ 		state->sink_accept =3D false;
+ 		break;
+ 	case FIFO_CHANNEL_INPUT_SYSTEM0_TO_SP0:
+-		state->fifo_valid  =3D false;
++		state->fifo_valid =3D false;
+ 		state->sink_accept =3D false;
+-		state->src_valid   =3D fifo_monitor_status_valid(ID,
+-				     HIVE_GP_REGS_SP_STREAM_STAT_IDX,
+-				     SP_STR_MON_PORT_ISYS2SP);
+-		state->fifo_accept =3D fifo_monitor_status_accept(ID,
+-				     HIVE_GP_REGS_SP_STREAM_STAT_IDX,
+-				     SP_STR_MON_PORT_ISYS2SP);
++		state->src_valid =3D
++		    fifo_monitor_status_valid(ID, HIVE_GP_REGS_SP_STREAM_STAT_IDX,
++					      SP_STR_MON_PORT_ISYS2SP);
++		state->fifo_accept =3D
++		    fifo_monitor_status_accept(ID, HIVE_GP_REGS_SP_STREAM_STAT_IDX,
++					       SP_STR_MON_PORT_ISYS2SP);
+ 		break;
+ 	default:
+ 		assert(0);
 --=20
 2.51.0.261.g7ce5a0a67e-goog
 
