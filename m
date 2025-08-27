@@ -1,32 +1,32 @@
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7AEED1DFE22
-	for <linux-staging@lists.linux.dev>; Wed, 27 Aug 2025 12:46:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2E36301010
+	for <linux-staging@lists.linux.dev>; Wed, 27 Aug 2025 12:48:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756298784; cv=none; b=lKzJWEpDahTQqIIaMhu+2tpHBcb6tQM+kxRGn9EbaQqFApKnfp83zPOYvzbiFn3gDqyZ4arHx+DHp6zg8SXP1ujFei152k7MIW08se2QV3Gm9FRltySow57MkCsEoMH8jfIQWWofN/6VwkyMTE03N4ahaLzZYSelQ56bFUl5llU=
+	t=1756298910; cv=none; b=YvXkNpCntYZhiEmLhiaXu/f6ZGiXUCLIFszMaWYJGnvU+qSaKz/yo7/AeAsJJ8OuOZnLJkg4YgyaPr6Ubo1bmCaDKqrsyAG5MmS3l/THsDcW8vhi1vZuZESNheNLTU4083iHx5x7Za+eIT7QbMW0zjbr+VA57/RrjYYicuJw5OA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756298784; c=relaxed/simple;
-	bh=nnSCxw1iZ1Q7cRVjXpqsgv65+CCdynSW8nKFaPIbcp0=;
+	s=arc-20240116; t=1756298910; c=relaxed/simple;
+	bh=e5mQpwMdmJzV0x5VzHrH/u+0doQo9DSdnKqJBUqGllE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Cn2wQdPIpTSd9kaUKTSTfl8e4HIgYoab9BPpefWErx3SRIILz7T204+k7C8zPoejVGoZzxLTa/PICBZYYSNvdrPIbrnJUN0lwdG+1nHtFTcGJfSMKTHOKFhf7RwGondMmxBdIklGcPCdQZT5SUGEG/OGIYfrJWU1KIhDW8Wr4CU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=DEPAr+pG; arc=none smtp.client-ip=213.167.242.64
+	 Content-Type:Content-Disposition:In-Reply-To; b=JmzYEMagerVDiL1hFVOGtlDJ1iaqneCTCpWIKiw2j/DQPfcCh9TKBdGu59Q/IegdAN88WV3L37G+vy90u2vN0WH4LGhaXgof8V/JQ/ZWU4qxxOxm44jrUSh9i7ooat6/giuhN4y/RlqT3jMOFm1WurdcmFLil9kRQHuVfrtiMtU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=uT7LdAvY; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="DEPAr+pG"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="uT7LdAvY"
 Received: from pendragon.ideasonboard.com (unknown [213.244.170.152])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 7EAE12093;
-	Wed, 27 Aug 2025 14:45:16 +0200 (CEST)
+	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 5A2572093;
+	Wed, 27 Aug 2025 14:47:22 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1756298716;
-	bh=nnSCxw1iZ1Q7cRVjXpqsgv65+CCdynSW8nKFaPIbcp0=;
+	s=mail; t=1756298842;
+	bh=e5mQpwMdmJzV0x5VzHrH/u+0doQo9DSdnKqJBUqGllE=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=DEPAr+pGbD0maywrSdDOecgUU2QsS5iWefrUOxYnPfRKZzQXF55DXNttn04Twsdk0
-	 GTujJ1IYF9BCcvnU3P3u5KS7XVlCB3BOL+6PDc3o6JyO4azTKeCC4hW1rpz2pVuppa
-	 Oi+0eQ5WdBrOvAiapimJEvpqtNmNsA3y3jGycXeo=
-Date: Wed, 27 Aug 2025 14:45:57 +0200
+	b=uT7LdAvYUb28rsFJuYBrrAA85xLXirLV6ro2puzhkbTv7rQ4efpTFn1oXLQLw7kBW
+	 KtuHFsmuV8HizrLY3VrcXmYcHDC3fEPyp7PN4uEcit36sQnvEHARpkVIKNJNwqdGLL
+	 Pb9pDUSfN7JV0dhR6SpvWDwAOTDblsmqdbu6XzE4=
+Date: Wed, 27 Aug 2025 14:48:03 +0200
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: Jai Luthra <jai.luthra@ideasonboard.com>
 Cc: Florian Fainelli <florian.fainelli@broadcom.com>,
@@ -38,10 +38,10 @@ Cc: Florian Fainelli <florian.fainelli@broadcom.com>,
 	linux-kernel@vger.kernel.org, kernel-list@raspberrypi.com,
 	Stefan Wahren <wahrenst@gmx.net>,
 	Dave Stevenson <dave.stevenson@raspberrypi.com>
-Subject: Re: [PATCH 2/5] staging: vc04_services: Cleanup formatting TODO entry
-Message-ID: <20250827124557.GG5650@pendragon.ideasonboard.com>
+Subject: Re: [PATCH 4/5] media: staging: Drop bcm2835-camera driver
+Message-ID: <20250827124803.GH5650@pendragon.ideasonboard.com>
 References: <20250827-vchiq-destage-v1-0-5052a0d81c42@ideasonboard.com>
- <20250827-vchiq-destage-v1-2-5052a0d81c42@ideasonboard.com>
+ <20250827-vchiq-destage-v1-4-5052a0d81c42@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -50,40 +50,33 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20250827-vchiq-destage-v1-2-5052a0d81c42@ideasonboard.com>
+In-Reply-To: <20250827-vchiq-destage-v1-4-5052a0d81c42@ideasonboard.com>
 
-On Wed, Aug 27, 2025 at 11:54:09AM +0530, Jai Luthra wrote:
-> The code indentation for the vchiq interface driver is not so bad
-> anymore [1], so drop it from the TODO.
+Hi Jai,
+
+Thank you for the patch.
+
+On Wed, Aug 27, 2025 at 11:54:11AM +0530, Jai Luthra wrote:
+> The bcm2835-camera driver is replaced by the V4L2 bcm2835-unicam driver
+> that is already upstream. So drop it from staging.
 > 
-> Link: https://lore.kernel.org/all/20241013112128.397249-1-umang.jain@ideasonboard.com/ [1]
-
-Adding '[1]' at the end doesn't seem to be standard practice and may
-break automatic parsing. I'd drop that and reword the commit message
-accordingly.
-
+> This also simplifies destaging of VCHIQ MMAL, by reducing the users of
+> the MMAL API (this driver is one of them).
+> 
 > Signed-off-by: Jai Luthra <jai.luthra@ideasonboard.com>
 
 Acked-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
 > ---
->  drivers/staging/vc04_services/interface/TODO | 6 ------
->  1 file changed, 6 deletions(-)
-> 
-> diff --git a/drivers/staging/vc04_services/interface/TODO b/drivers/staging/vc04_services/interface/TODO
-> index f6f24600aa86240fba77169f62f3e657e42727c3..6e5f27db88ba8e533ee1fabc3091771d8efe66a2 100644
-> --- a/drivers/staging/vc04_services/interface/TODO
-> +++ b/drivers/staging/vc04_services/interface/TODO
-> @@ -20,9 +20,3 @@ some of the ones we want:
->  
->  A short top-down description of this driver's architecture (function of
->  kthreads, userspace, limitations) could be very helpful for reviewers.
-> -
-> -* Reformat core code with more sane indentations
-> -
-> -The code follows the 80 characters limitation yet tends to go 3 or 4 levels of
-> -indentation deep making it very unpleasant to read. This is specially relevant
-> -in the character driver ioctl code and in the core thread functions.
+>  drivers/staging/vc04_services/Kconfig              |    2 -
+>  drivers/staging/vc04_services/Makefile             |    1 -
+>  .../staging/vc04_services/bcm2835-camera/Kconfig   |   13 -
+>  .../staging/vc04_services/bcm2835-camera/Makefile  |    6 -
+>  drivers/staging/vc04_services/bcm2835-camera/TODO  |   17 -
+>  .../vc04_services/bcm2835-camera/bcm2835-camera.c  | 2012 --------------------
+>  .../vc04_services/bcm2835-camera/bcm2835-camera.h  |  142 --
+>  .../vc04_services/bcm2835-camera/controls.c        | 1399 --------------
+>  8 files changed, 3592 deletions(-)
 
 -- 
 Regards,
