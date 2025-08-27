@@ -1,197 +1,108 @@
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FBB52BE05B
-	for <linux-staging@lists.linux.dev>; Wed, 27 Aug 2025 06:25:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69103223DD5
+	for <linux-staging@lists.linux.dev>; Wed, 27 Aug 2025 07:15:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756275958; cv=none; b=ZbxMPPITfK8J0fk9zB522m/eWO5Fy7wURHamfcXmZ136I0EMs+VjHp0jJ66KJmD2oBkRqDAbKEI/zCrh5TVeD8sla1e82PAFuPG6pz6DScXWUf1B6MJIpssFKTu8FVm8oKSfzhnjHztEjlE8K0A9x06Sg9MVRJPtA1xJsBT4O74=
+	t=1756278942; cv=none; b=pWHx6m1wTEcYlb7+uRPl/kidRml/dQjsBNp/nbAzkQtzVU2qRlkUnzfZBcClWcn1QU2w07loFgQuNF14qLg6NMBI+39IBt56h0VPogJTh6/7jCQt5qzTP01YSWY5f+qnzZLafsCt9M3X1zZyhqLWlESSPx7SeT0/Z54SwLU46Wo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756275958; c=relaxed/simple;
-	bh=cbo7llanDE5LHGG6DHoyS/LY5b862RclitNiMZVMu2Q=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=h4GACQ73/gn35iLae7gR5FzTaCoJ+HNeSVxvm6UN7OzF4ijptZUs8sQvQLIZdH0Wqqwt+nClAWy9kicqmj5J3zCRb8IrTwMVOroSNlSxCecWzHsJzj84qwezecDxXsvtJlAMG6BFoSrHrYFiPazR4FTMMmnJPq1uUUu3fnQSXo4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=jhBOgG2Q; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+	s=arc-20240116; t=1756278942; c=relaxed/simple;
+	bh=eJUdkWuojsgRcPJQERC9HoSP+HFyVytDvOc649sWpJU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=HUgPT+l9+eJtrcB6C3AuV5Zn4iKN4yuWXk4PWe/Snovfb5H6j5BCzaL4uzaTzBAI7TMT9YAX40jrOSs3H/19ZA9ZDjpVsCF8fKjrCVVqplE7NRpxqAbp7AQzB3djf9gC5G4+RIB+BHdtlCOwd+VY45PG9BbOUE0nyV3TbMUxFHA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=jULbaoCx; arc=none smtp.client-ip=209.85.221.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="jhBOgG2Q"
-Received: from mail.ideasonboard.com (unknown [223.190.80.94])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id C978F300E;
-	Wed, 27 Aug 2025 08:24:51 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1756275892;
-	bh=cbo7llanDE5LHGG6DHoyS/LY5b862RclitNiMZVMu2Q=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=jhBOgG2Qa8MPoMf3SqT6KR8ZmFV8+zJVEQ0mQFimqZ7W+4apR5QPabPyxt7MOqX4T
-	 KRCBu8N8qTBh+Cc5pHzdamGH/W8TJZxtaGvSK0GOcG/GLCBidUf27slZri84dVoYk9
-	 O3vyKgLSL8LYiW3M/Y3e+WEKM9yTTecUjUkeqj48=
-From: Jai Luthra <jai.luthra@ideasonboard.com>
-Date: Wed, 27 Aug 2025 11:54:12 +0530
-Subject: [PATCH 5/5] platform/broadcom: Destage VCHIQ MMAL driver
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="jULbaoCx"
+Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-3c380aa1ad0so3367277f8f.3
+        for <linux-staging@lists.linux.dev>; Wed, 27 Aug 2025 00:15:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1756278939; x=1756883739; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=hlLv4S/UPFBuBEfiiKihhCuycUkTi3/tZ4pnK9d2kGk=;
+        b=jULbaoCxy/x6Xxl4bgmkXXPP50YRPAKFlstR2Dw9F6CkcV6h1X4EqvQ0IQTvanjIYq
+         mDdC/5Fpc2O+WDvv2gLIWdKaWJpSKrb/JIQFLl7tObmX/xRfEJBC74UuteHLH+x1QhsE
+         F8y6Vo0dn6B5F1k9ju7+JZ4aQ0UidqpA5P9E5OMBc5L6Vt3+E36WPyXci4AMaLL53WFb
+         oPN4Fpfq3ZWYMTYDhIPJojG36HtVlf9PXDpOyCZVsA7WYX3X4HU3t29y6dkFZ82pJSXO
+         p2wGaB8yfNGzIOv2jtjMKhFQKX57fE88qBtDH3yBVd77Eae5wZA5aUBA/mhDJGFgJLFw
+         Z4pw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1756278939; x=1756883739;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=hlLv4S/UPFBuBEfiiKihhCuycUkTi3/tZ4pnK9d2kGk=;
+        b=wBWLKdqrLVFNms71Ou9zQcVg0Osl1kjguxRO7CjowACBBV2wrV7kBR54bd663ZZZMx
+         cUivu5vL/ye7iGP4wvN/4Oa1b+WdzE22cA8zVsS/bz5IPSWbaF/DSbzVi6zkrd2WcQPt
+         L5oJtcN62zgac9t7B5Ibghge5MybRI5IVo8R86zWW2GlIsic4hBfpHF5paigxmx2dBzo
+         Rq1gAI8Ht0fj6kqMd1uRrb8XlFiQ//ONEaHtBOR9nNo4//qPXfVU6RcMf8vJkwLJXYK8
+         wwUa14N01f7OdaFm72RKMjJl5AnDvx199YdsoXbfWFlWXZYvxmvxPjj9CujdkOmxP4Pz
+         G9Rw==
+X-Forwarded-Encrypted: i=1; AJvYcCWmKeAE03OwZ7Rj1SgVn3NUMtbNukIEdwbqk94q5I8RtizE2o2V+hxla0p19TDYpGBvR+Pz7TdxGVjbjgcY@lists.linux.dev
+X-Gm-Message-State: AOJu0Yydkw5BIUp+vZS3NMmYTZD2KzAOzA9DEZJ/xHaiucuKrowqCzmo
+	+5s3Ay2WcidGdpsoavZwKupmiofMTWS/T4O+DwiEhWTAs9TX1Pf0dUJVcmi81pYBRug=
+X-Gm-Gg: ASbGncsrvKfU2d0j2DZeNleRGzVIiAZPWs7MwaZbF8uibTX7pYeXStUmh0F43zEABkF
+	4XMvND2xh9FsDVUR0vJTcI4H/hqJMBPonaMyx1+ve5fAY6b4UmVDqqI+uyfohOexdnumsYBjM79
+	i8xNOJSt29WYRF8onprKG1NZA/49Xqt46wuhOh5L4BTcbkf7yKNQW0PKQNxTnZe0zU+FUbGpJZw
+	4cApnu8Yk+X2Q3IiAUQ3R6KQogg/fxF4GEZwdnpmMHe5XOLkTKPgDrkd9e6uetuAzw3PETrXjkL
+	RINnX3lO6ezk2keE7WJu9YSLtuj0VOpAqvQTy35S1GT5Itt72opUTWRQgRFSYHTAwOsNXufi7HF
+	AOnrxBya3Kl6J6etX1mGI9Kbp4zM=
+X-Google-Smtp-Source: AGHT+IHGLQK+/bIqO0EGakdV6TeJY1UPjMkYcLkAtbFxpvXgRAwvr0BTLtLlmQ9ZA9cZOdmyT34Qdw==
+X-Received: by 2002:a05:6000:2304:b0:3ca:ad45:6363 with SMTP id ffacd0b85a97d-3caad456a18mr5084286f8f.17.1756278938614;
+        Wed, 27 Aug 2025 00:15:38 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-45b6b1cdf05sm14123395e9.1.2025.08.27.00.15.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 27 Aug 2025 00:15:37 -0700 (PDT)
+Date: Wed, 27 Aug 2025 10:15:33 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Osama Abdelkader <osama.abdelkader@gmail.com>
+Cc: gregkh@linuxfoundation.org, dpenkler@gmail.com,
+	matchstick@neverthere.org, arnd@arndb.de,
+	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
+Subject: Re: [PATCH] staging: gpib: simplify and fix get_data_lines
+Message-ID: <aK6wlcLBN1HclMpl@stanley.mountain>
+References: <20250826220502.210485-1-osama.abdelkader@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250827-vchiq-destage-v1-5-5052a0d81c42@ideasonboard.com>
-References: <20250827-vchiq-destage-v1-0-5052a0d81c42@ideasonboard.com>
-In-Reply-To: <20250827-vchiq-destage-v1-0-5052a0d81c42@ideasonboard.com>
-To: Florian Fainelli <florian.fainelli@broadcom.com>, 
- Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>
-Cc: linux-rpi-kernel@lists.infradead.org, 
- linux-arm-kernel@lists.infradead.org, linux-staging@lists.linux.dev, 
- linux-kernel@vger.kernel.org, kernel-list@raspberrypi.com, 
- Stefan Wahren <wahrenst@gmx.net>, 
- Dave Stevenson <dave.stevenson@raspberrypi.com>, 
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
- Jai Luthra <jai.luthra@ideasonboard.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=6730;
- i=jai.luthra@ideasonboard.com; h=from:subject:message-id;
- bh=cbo7llanDE5LHGG6DHoyS/LY5b862RclitNiMZVMu2Q=;
- b=owEBbQKS/ZANAwAKAUPekfkkmnFFAcsmYgBorqSd/7nD8vgl1r3/5VYyYJFkndddKs9fbEgwy
- k8w+IQz1MGJAjMEAAEKAB0WIQRN4NgY5dV16NRar8VD3pH5JJpxRQUCaK6knQAKCRBD3pH5JJpx
- RWqMEACnM9Ho6g9QM4F5OYBVA2dV3VhyS1IL3RckZCw2K7xa9IEs9YDn8baG64HhI+Vdjv48bex
- fBtfivW82AeskhKNZLeGSAo2Q4V6CVNQ6IcaJRG+zjHl/9EkXgMgm+2t7S2R/PsvxMqx5D2RZbn
- WzuZY3j8HVfDr94eHH8eWNZYkipDtqgh1fj4i6zVpuPKjtyfm8xHY+x9bfRCpwmI/t/LnZ55Cj1
- oBfuvRY+n00LAUQSRp/qgLttaS+qgKk1EMlfILSo+ydDSyxXHUOvQOpOI+gTHIeMw/8Yg2BYXsQ
- r2EFg3vsMX2AbliCBLW83cD1S9YqEdMgObSdeRUXhGQpsrtKlWXi22pwDcFBdLDjK9hobC+QM6U
- /vN/kKMrA2k9cDUS0WF3spemTpYzgehS7NL/d7yES8qu45u1b0zxGaH6+8m3e330PiYAH1G4py4
- +Q1j6fZlIeEpLZYK8RWlf3ldaaKvCAoLHEtYE6ur8uDx9nXcKGrv/3OHYl/vTEbvpvSMKk/NT9F
- LqfaHcz7rqBTju9WQo3xEhzVmZ59HJHptiTtY5ljpH+fqk2w405NqW8mDsx8rhFPpb7sDhGbo0/
- kEVVe+60XP3wodftE0XU8x7Mw2Hd2LCKfO+DkFgfHZg78HzKs1zX5kaoF2uJZvrSlvB8kOQnzFX
- iyj1ys/Z7kOwxTw==
-X-Developer-Key: i=jai.luthra@ideasonboard.com; a=openpgp;
- fpr=4DE0D818E5D575E8D45AAFC543DE91F9249A7145
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250826220502.210485-1-osama.abdelkader@gmail.com>
 
-Destage the VCHIQ MMAL driver to drivers/platform/broadcom.
+On Wed, Aug 27, 2025 at 12:05:02AM +0200, Osama Abdelkader wrote:
+> The function `get_data_lines()` in gpib_bitbang.c currently reads 8
+> GPIO descriptors individually and combines them into a byte.
+> This has two issues:
+> 
+>   * `gpiod_get_value()` returns an `int` which may be negative on
+>     error. Assigning it directly into a `u8` may propagate unexpected
+>     values. Masking ensures only the LSB is used.
 
-Signed-off-by: Jai Luthra <jai.luthra@ideasonboard.com>
----
- MAINTAINERS                                                             | 2 +-
- drivers/platform/broadcom/Kconfig                                       | 2 ++
- drivers/platform/broadcom/Makefile                                      | 1 +
- drivers/{staging/vc04_services => platform/broadcom}/vchiq-mmal/Kconfig | 0
- .../{staging/vc04_services => platform/broadcom}/vchiq-mmal/Makefile    | 0
- .../vc04_services => platform/broadcom}/vchiq-mmal/mmal-common.h        | 0
- .../vc04_services => platform/broadcom}/vchiq-mmal/mmal-encodings.h     | 0
- .../vc04_services => platform/broadcom}/vchiq-mmal/mmal-msg-common.h    | 0
- .../vc04_services => platform/broadcom}/vchiq-mmal/mmal-msg-format.h    | 0
- .../vc04_services => platform/broadcom}/vchiq-mmal/mmal-msg-port.h      | 0
- .../{staging/vc04_services => platform/broadcom}/vchiq-mmal/mmal-msg.h  | 0
- .../vc04_services => platform/broadcom}/vchiq-mmal/mmal-parameters.h    | 0
- .../vc04_services => platform/broadcom}/vchiq-mmal/mmal-vchiq.c         | 0
- .../vc04_services => platform/broadcom}/vchiq-mmal/mmal-vchiq.h         | 0
- drivers/staging/vc04_services/Kconfig                                   | 2 --
- drivers/staging/vc04_services/Makefile                                  | 1 -
- 16 files changed, 4 insertions(+), 4 deletions(-)
+Using the last bit in an error code is not really "error handling"...
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index f39f326a88d7332906ecdd1d9d90cc6848ba3205..5a554add28a65dd42c5d08e01ecbf14c771e9925 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -4753,7 +4753,7 @@ S:	Maintained
- T:	git https://github.com/broadcom/stblinux.git
- F:	Documentation/devicetree/bindings/pci/brcm,stb-pcie.yaml
- F:	drivers/pci/controller/pcie-brcmstb.c
--F:	drivers/platform/broadcom/vchiq-interface
-+F:	drivers/platform/broadcom/vchiq-*
- F:	drivers/staging/vc04_services
- F:	include/linux/vchiq
- N:	bcm2711
-diff --git a/drivers/platform/broadcom/Kconfig b/drivers/platform/broadcom/Kconfig
-index 7dec1ca85d6c56bdb21a9cb170c1d0cdf7587e63..606f3f19774989cbb41d2a207a10a32edd420622 100644
---- a/drivers/platform/broadcom/Kconfig
-+++ b/drivers/platform/broadcom/Kconfig
-@@ -33,5 +33,7 @@ config VCHIQ_CDEV
- 
- 		If not sure, set this to 'Y'.
- 
-+source "drivers/platform/broadcom/vchiq-mmal/Kconfig"
-+
- endif
- 
-diff --git a/drivers/platform/broadcom/Makefile b/drivers/platform/broadcom/Makefile
-index a807571c59a47bb418cbb1dfcc389219d0d0ff22..2a7c9511e5d8bbe11c05680eea016ef40796b648 100644
---- a/drivers/platform/broadcom/Makefile
-+++ b/drivers/platform/broadcom/Makefile
-@@ -12,3 +12,4 @@ ifdef CONFIG_VCHIQ_CDEV
- vchiq-objs += vchiq-interface/vchiq_dev.o
- endif
- 
-+obj-$(CONFIG_BCM2835_VCHIQ_MMAL)	+= vchiq-mmal/
-diff --git a/drivers/staging/vc04_services/vchiq-mmal/Kconfig b/drivers/platform/broadcom/vchiq-mmal/Kconfig
-similarity index 100%
-rename from drivers/staging/vc04_services/vchiq-mmal/Kconfig
-rename to drivers/platform/broadcom/vchiq-mmal/Kconfig
-diff --git a/drivers/staging/vc04_services/vchiq-mmal/Makefile b/drivers/platform/broadcom/vchiq-mmal/Makefile
-similarity index 100%
-rename from drivers/staging/vc04_services/vchiq-mmal/Makefile
-rename to drivers/platform/broadcom/vchiq-mmal/Makefile
-diff --git a/drivers/staging/vc04_services/vchiq-mmal/mmal-common.h b/drivers/platform/broadcom/vchiq-mmal/mmal-common.h
-similarity index 100%
-rename from drivers/staging/vc04_services/vchiq-mmal/mmal-common.h
-rename to drivers/platform/broadcom/vchiq-mmal/mmal-common.h
-diff --git a/drivers/staging/vc04_services/vchiq-mmal/mmal-encodings.h b/drivers/platform/broadcom/vchiq-mmal/mmal-encodings.h
-similarity index 100%
-rename from drivers/staging/vc04_services/vchiq-mmal/mmal-encodings.h
-rename to drivers/platform/broadcom/vchiq-mmal/mmal-encodings.h
-diff --git a/drivers/staging/vc04_services/vchiq-mmal/mmal-msg-common.h b/drivers/platform/broadcom/vchiq-mmal/mmal-msg-common.h
-similarity index 100%
-rename from drivers/staging/vc04_services/vchiq-mmal/mmal-msg-common.h
-rename to drivers/platform/broadcom/vchiq-mmal/mmal-msg-common.h
-diff --git a/drivers/staging/vc04_services/vchiq-mmal/mmal-msg-format.h b/drivers/platform/broadcom/vchiq-mmal/mmal-msg-format.h
-similarity index 100%
-rename from drivers/staging/vc04_services/vchiq-mmal/mmal-msg-format.h
-rename to drivers/platform/broadcom/vchiq-mmal/mmal-msg-format.h
-diff --git a/drivers/staging/vc04_services/vchiq-mmal/mmal-msg-port.h b/drivers/platform/broadcom/vchiq-mmal/mmal-msg-port.h
-similarity index 100%
-rename from drivers/staging/vc04_services/vchiq-mmal/mmal-msg-port.h
-rename to drivers/platform/broadcom/vchiq-mmal/mmal-msg-port.h
-diff --git a/drivers/staging/vc04_services/vchiq-mmal/mmal-msg.h b/drivers/platform/broadcom/vchiq-mmal/mmal-msg.h
-similarity index 100%
-rename from drivers/staging/vc04_services/vchiq-mmal/mmal-msg.h
-rename to drivers/platform/broadcom/vchiq-mmal/mmal-msg.h
-diff --git a/drivers/staging/vc04_services/vchiq-mmal/mmal-parameters.h b/drivers/platform/broadcom/vchiq-mmal/mmal-parameters.h
-similarity index 100%
-rename from drivers/staging/vc04_services/vchiq-mmal/mmal-parameters.h
-rename to drivers/platform/broadcom/vchiq-mmal/mmal-parameters.h
-diff --git a/drivers/staging/vc04_services/vchiq-mmal/mmal-vchiq.c b/drivers/platform/broadcom/vchiq-mmal/mmal-vchiq.c
-similarity index 100%
-rename from drivers/staging/vc04_services/vchiq-mmal/mmal-vchiq.c
-rename to drivers/platform/broadcom/vchiq-mmal/mmal-vchiq.c
-diff --git a/drivers/staging/vc04_services/vchiq-mmal/mmal-vchiq.h b/drivers/platform/broadcom/vchiq-mmal/mmal-vchiq.h
-similarity index 100%
-rename from drivers/staging/vc04_services/vchiq-mmal/mmal-vchiq.h
-rename to drivers/platform/broadcom/vchiq-mmal/mmal-vchiq.h
-diff --git a/drivers/staging/vc04_services/Kconfig b/drivers/staging/vc04_services/Kconfig
-index 23b5e3dde11447064d084ea5a6d36b8041dceb08..65116b171e88bec7b7f453b17b33478c967b66cf 100644
---- a/drivers/staging/vc04_services/Kconfig
-+++ b/drivers/staging/vc04_services/Kconfig
-@@ -13,7 +13,5 @@ if BCM_VIDEOCORE
- 
- source "drivers/staging/vc04_services/bcm2835-audio/Kconfig"
- 
--source "drivers/staging/vc04_services/vchiq-mmal/Kconfig"
--
- endif
- 
-diff --git a/drivers/staging/vc04_services/Makefile b/drivers/staging/vc04_services/Makefile
-index 7a716a5c781530b673027b9f82ec94ebfd615f8a..ba15ec663af0fabaf0060456fc997deb5e5e0533 100644
---- a/drivers/staging/vc04_services/Makefile
-+++ b/drivers/staging/vc04_services/Makefile
-@@ -1,4 +1,3 @@
- # SPDX-License-Identifier: GPL-2.0
- obj-$(CONFIG_SND_BCM2835)		+= bcm2835-audio/
--obj-$(CONFIG_BCM2835_VCHIQ_MMAL)	+= vchiq-mmal/
- 
+What you could do instead would be something like:
 
--- 
-2.50.1
+	int ret;
+
+	for (i = 0; i < 8; i++) {
+		ret |= (gpiod_get_value(lines[i]) & 1) << i;
+		if (ret < 0) {
+			pr_err("something failed\n");
+			return -EINVAL;
+		}
+	}
+
+	return ~ret;
+
+Which might also not be correct, but it's probably closer to being okay.
+
+regards,
+dan carpenter
 
