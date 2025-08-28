@@ -1,205 +1,314 @@
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.19])
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com (mail-dm6nam12on2062.outbound.protection.outlook.com [40.107.243.62])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BEF11CAB3
-	for <linux-staging@lists.linux.dev>; Thu, 28 Aug 2025 06:20:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.19
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756362011; cv=none; b=gFnBUw3/QI9FFj3rtyacS/78vumDGL6HcKNv4pVkC9X9QEgTl5qsA4UlyA39Vp4rTKQ3mPjjujnhH26HVrT02ym6bo+246LNb2aszBOraiGGiM/IVpL7EU5s+m/gKHtaQtogu+rQgWdyMBLpGcKIK0hX3e5Rd/Bsoy9SoJmMTp4=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756362011; c=relaxed/simple;
-	bh=hK6XqJkQNDAhlvyTtlVGL4OJEynPtpkf9TGBGdV6LPE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=lOQjhoxOkS8CUJ7cSFPMnXcqaN7jd8gcsVzNP/3JpV4Uvemnu0nEOj3D5d9+gQE+wAvMb2WP2GdWt438WNeWB8XVqXJFRFwLUh3v24/AoBiOJno5/pF+axnK3vIu4QbnfoSiYubw6cUteHnfwojZj54f/fCHungbtcIIbHn7/dQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.net; spf=pass smtp.mailfrom=gmx.net; dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b=pKPtG23O; arc=none smtp.client-ip=212.227.15.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A286283C90
+	for <linux-staging@lists.linux.dev>; Thu, 28 Aug 2025 08:13:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.243.62
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1756368812; cv=fail; b=Y+xjdNwwk0XPDflVtfHwssIlypkGla5FbWsJAzyo1qM39lP3M3HAwbSO3baEEoXwy9idtJlwTnwpcylvDiYN2Jm87oI7FL6ki3NpGC3rocbVWi8TO/pAg1xD5SS4noEs17hUW4HXUhZFpS8VZU0QcSgAuisVIwypMYz7LeFp6fA=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1756368812; c=relaxed/simple;
+	bh=VpsjFqP/IhmL+TNYkEhW7AboWA7MSAtYMKxN7FqC5Xk=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=gHpr9Lxq4If6WVARDeccT9oxWRPAYtYsxlOJ7zmK/iFJNZxTx8yf7PfvaL8cbNv4BIXtoVmQ7K++0+hEtYX565K1VWT1OTEcDPkE3xIm1aIs5sEr2DMmrzxBrTpUr5vO4boF6n0ZYpUzILc8hTcRuABJw+Yp180kriN17WemaxE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=krGevMH+; arc=fail smtp.client-ip=40.107.243.62
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b="pKPtG23O"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.net;
-	s=s31663417; t=1756361992; x=1756966792; i=wahrenst@gmx.net;
-	bh=hK6XqJkQNDAhlvyTtlVGL4OJEynPtpkf9TGBGdV6LPE=;
-	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
-	 References:From:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding:cc:content-transfer-encoding:
-	 content-type:date:from:message-id:mime-version:reply-to:subject:
-	 to;
-	b=pKPtG23O2MNC1qzrthmSWjVows5y2HfCmXVBpURiX4rMuuYiQihfYLGliZnkHL+n
-	 ux3EC4wvqD762zzIIDxssrn2Y+bXCjgTqaNZQsSeYpGs3h9i/2EYHns5vZ8puJLEI
-	 9tkY3m0ya1H3k4Qwl8aM7I2UPKGxYzsitT6pyw+1FwrHUulIWv6jb47wQrangsBDY
-	 nPVcUGwq4vA0VD9kOx6qxCxSpHh6IEHMGpHALDYiaipg1AeB7G/xSDn1OYNXDlw8I
-	 N/x915hJZmm3L64LmKDUqNPvR5mlBX0jvswSdaJcaX08/3m98J0zPqvSBNzWWVZKc
-	 sH7PsDB29ItbzKEJHw==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from [192.168.1.105] ([79.235.128.112]) by mail.gmx.net (mrgmx004
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1MvsIv-1uXmZz1nOx-00qp2o; Thu, 28
- Aug 2025 08:19:52 +0200
-Message-ID: <c35ab51a-e9df-48f5-bc18-889980098d08@gmx.net>
-Date: Thu, 28 Aug 2025 08:19:47 +0200
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="krGevMH+"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=GnPYvQjLKyz462aMSLpNHapKQixMJ2+TMYwCF0quYnhWHlaP8ABROwxxWsQAnDTUPToIwD7Y4/TdEfEMW+t+lTvA06EQ+5wpV8bQI/6nePwBZYBUfAQahDh9YAOxD5tFZD4MRRsK8iWqyLNgIlVx1cIixyfiW0fUIozHXYRehTcHA8E1GfJboXSL9S/fRbrf4AknJC170Z9NgfZ7NcCSo8ahuveiZVYQeRG0lYSPEMo2Uo9ZLeIwdaXNRG09fG8E/68nuy2+ntOlt2Va7SecxOaPbIWtffmCZ2kUHVRzXD0JedzPtqcMHsLTV6HTCEOISZEP/5aM15J/8doAxM94zg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=GkDcyyb39tqBuQBSS5VcQK846GjQqUxQuFa8BIaE3Dg=;
+ b=yKfJ2EQzPTbHsyOUuQtRNcid6J34/9N5vYFJGDFMnFtXVC+YNR46DXzUoFdzVDvfb/n16577/f5k5AAoSpttKQSGY+BfbcTw+Wr3u8OGNgxMt6p617/cFxb+twQEhwRJkH9jDF+ktppEgUOdyyRdKVvylVWvzBAMLJUiwutteasDf6lxvwWZpencGubt4fNCTBPgUkjugJAhPtgJXHx4Kurzm0Nn7+SWTDKPV+YiDXNo11/9pqc0+q2jHfRRPd9zleYhLgy56Nb0bLBpVbVZpAsybvBbgrITm1MFtktyCwvjMF8QLKpKROhfpi6ADTaUr0GZHtpJoe/yCrS4s1Y8oA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=GkDcyyb39tqBuQBSS5VcQK846GjQqUxQuFa8BIaE3Dg=;
+ b=krGevMH+QhmY5nKqER+sNwJd/iCZY5pTHcguNNiswLf+1J3MiPTn6qPrygiTQ2xHZ3Vrb7cenxT940wlZs/l/XvgM4LApCBX7Dso8OZ18nb3P5CrYWQvk7uhsgKbkTrD0RmAn3MVqidKU955CsitZDC2bKQfGhT7mYZ5J35k252roCllxzDYOcpnis8kIAmU9s+rzYWnb72cwK0WpDNOmfGpVejCWePQdBYcpx6hDp56OPRKySa2v8ecM1UHAja2d6+O8TWJSuaci6HwB/9SRR/ISHDhS8bF5Ca22/WQZ5uT9SxkF4EF5Ae3iFBnNS1lYLMMQw7+FVauvRJOVSS8iA==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from DM4PR12MB6494.namprd12.prod.outlook.com (2603:10b6:8:ba::19) by
+ IA1PR12MB6604.namprd12.prod.outlook.com (2603:10b6:208:3a0::7) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9052.21; Thu, 28 Aug 2025 08:13:26 +0000
+Received: from DM4PR12MB6494.namprd12.prod.outlook.com
+ ([fe80::346b:2daf:d648:2e11]) by DM4PR12MB6494.namprd12.prod.outlook.com
+ ([fe80::346b:2daf:d648:2e11%6]) with mapi id 15.20.9052.019; Thu, 28 Aug 2025
+ 08:13:25 +0000
+From: Mikko Perttunen <mperttunen@nvidia.com>
+To: Svyatoslav Ryhel <clamor95@gmail.com>
+Cc: Thierry Reding <thierry.reding@gmail.com>,
+ Thierry Reding <treding@nvidia.com>, Jonathan Hunter <jonathanh@nvidia.com>,
+ Sowjanya Komatineni <skomatineni@nvidia.com>,
+ Luca Ceresoli <luca.ceresoli@bootlin.com>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Peter De Schrijver <pdeschrijver@nvidia.com>,
+ Prashant Gaikwad <pgaikwad@nvidia.com>,
+ Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Dmitry Osipenko <digetx@gmail.com>,
+ Charan Pedumuru <charan.pedumuru@gmail.com>, linux-media@vger.kernel.org,
+ linux-tegra@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-clk@vger.kernel.org, linux-staging@lists.linux.dev
+Subject:
+ Re: [PATCH v1 01/19] clk: tegra: init CSUS clock for Tegra20 and Tegra30
+Date: Thu, 28 Aug 2025 17:13:22 +0900
+Message-ID: <1797126.QkHrqEjB74@senjougahara>
+In-Reply-To:
+ <CAPVz0n0kCBAh7W0R766A_dXbcM3E=EoSXemuc0_rOm+Qch-a+Q@mail.gmail.com>
+References:
+ <20250819121631.84280-1-clamor95@gmail.com>
+ <14287352.RDIVbhacDa@senjougahara>
+ <CAPVz0n0kCBAh7W0R766A_dXbcM3E=EoSXemuc0_rOm+Qch-a+Q@mail.gmail.com>
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+X-ClientProxiedBy: TYCP286CA0070.JPNP286.PROD.OUTLOOK.COM
+ (2603:1096:400:31a::14) To DM4PR12MB6494.namprd12.prod.outlook.com
+ (2603:10b6:8:ba::19)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/5] include: linux: Destage VCHIQ interface headers
-To: Florian Fainelli <florian.fainelli@broadcom.com>,
- Umang Jain <uajain@igalia.com>, Jai Luthra <jai.luthra@ideasonboard.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Broadcom internal kernel review list
- <bcm-kernel-feedback-list@broadcom.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Ray Jui
- <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
- linux-rpi-kernel@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
- kernel-list@raspberrypi.com, Dave Stevenson <dave.stevenson@raspberrypi.com>
-References: <20250827-vchiq-destage-v1-0-5052a0d81c42@ideasonboard.com>
- <20250827-vchiq-destage-v1-1-5052a0d81c42@ideasonboard.com>
- <20250827124016.GF5650@pendragon.ideasonboard.com>
- <we7tl65ijs44ae2zxfejmvnml3ls2pkfhcp2fqsmvec2eqevwm@yb45fs7nnf5s>
- <8ed6519a-6e45-4793-b11b-7b63c1703d6e@gmx.net>
- <910dae68-0545-46fa-b41f-8e4fb32ed649@broadcom.com>
-Content-Language: en-US
-From: Stefan Wahren <wahrenst@gmx.net>
-Autocrypt: addr=wahrenst@gmx.net; keydata=
- xjMEZ1dOJBYJKwYBBAHaRw8BAQdA7H2MMG3q8FV7kAPko5vOAeaa4UA1I0hMgga1j5iYTTvN
- IFN0ZWZhbiBXYWhyZW4gPHdhaHJlbnN0QGdteC5uZXQ+wo8EExYIADcWIQT3FXg+ApsOhPDN
- NNFuwvLLwiAwigUCZ1dOJAUJB4TOAAIbAwQLCQgHBRUICQoLBRYCAwEAAAoJEG7C8svCIDCK
- JQ4BAP4Y9uuHAxbAhHSQf6UZ+hl5BDznsZVBJvH8cZe2dSZ6AQCNgoc1Lxw1tvPscuC1Jd1C
- TZomrGfQI47OiiJ3vGktBc44BGdXTiQSCisGAQQBl1UBBQEBB0B5M0B2E2XxySUQhU6emMYx
- f5QR/BrEK0hs3bLT6Hb9WgMBCAfCfgQYFggAJhYhBPcVeD4Cmw6E8M000W7C8svCIDCKBQJn
- V04kBQkHhM4AAhsMAAoJEG7C8svCIDCKJxoA/i+kqD5bphZEucrJHw77ujnOQbiKY2rLb0pE
- aHMQoiECAQDVbj827W1Yai/0XEABIr8Ci6a+/qZ8Vz6MZzL5GJosAA==
-In-Reply-To: <910dae68-0545-46fa-b41f-8e4fb32ed649@broadcom.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:Y6dZyjpRpNIoL/rKyV9W1dCh4kK3Fr5DRQ9Unqmfd8VJ6I9iVCM
- 7Anr/zIXHXZA+Ywytu51yk/oVYd5/a6PdjZxf8D4lE00tTfvamA3Kzi6jI0nH+dn3QGuPYo
- xvPFCy53DW1K/hi9ZN1njRCdjx4qCvjL9uH9vDrUrp9y7i8EJnrpphasUR5QKOp5g0gN8Dy
- 9LlYxoL4KW+X6ydkWF5JA==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:rAdP4rXadtQ=;3zfS0URxGLiDDvnWLiBr0ioEON9
- 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
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM4PR12MB6494:EE_|IA1PR12MB6604:EE_
+X-MS-Office365-Filtering-Correlation-Id: 248a41c4-328d-4a12-fcbe-08dde60ac338
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|7416014|366016|376014|1800799024|10070799003|7053199007;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?ajJNdkFIUGF6WjZPeWRJcVVQT1hoaFhDcVVOdDRwQll4Umo3dmg0RTJDUTJF?=
+ =?utf-8?B?YXNNVzRpQXFzV2hjdy9sTWhPTjRHNkRYOVkvaGRUbUZ5eE5takZYd2QvWGVl?=
+ =?utf-8?B?bDM2eXJMbWtiRHFvVHNibnB0dytKMlVnTm44TEFBaWFJVnE4UUk0WTl6VFRw?=
+ =?utf-8?B?WlM2L3FoOU9TM2VvUFM3eUJqWTZLNkdZLzRwSmg3UC9VcmRrbU02dkRXb1Fn?=
+ =?utf-8?B?b0owL1ljdExmRCt6dzU4TXhSTFh1WitIYklKRVEvUzlyams1RWN2SlltaWs5?=
+ =?utf-8?B?b1lKdW9kRFdydXRweGpNY2ZhbFE1MmNYNGtaUnUvbzZiNHpFNnF2aGxnR1V3?=
+ =?utf-8?B?NGl3dU9ybkZOU3E1VWt4UXRiWkxPNC9sekpUd0gvUlVoVGxJRk1NNmNhY1lV?=
+ =?utf-8?B?bFpjR2t6T3RXdk04aUk3YVgyMzRiTld4S2lZVVJJSXZxZ29MZ28zbUlUZk5m?=
+ =?utf-8?B?dHM5bVlYQTdOV3hhejdLMWFhNlo2bW1mQTQ3U25IczN3K0dCeHZtVS9OZG9S?=
+ =?utf-8?B?NTVHVmJXQzZaN1d2UEd2N3BjTEN6Qk1qTUYxa1o1cFYyUXdqcDEza2hCRG1u?=
+ =?utf-8?B?VnZiZDE5aGpIUmkvVk5RK1pmSk02LzBQUklUUnljaU83eDVvbG5zcVRYTGJa?=
+ =?utf-8?B?c3loWmJIQklteStpN1VNck05MU1xVmp6Z2tkUU9zd3F1SlJYRUtodWNvc0py?=
+ =?utf-8?B?MkxDeEpSdFVmaGNsckFCSDl5ckpEaEd3V1RxMnFBcWVJRkVmeklIdXdKZldJ?=
+ =?utf-8?B?enM2WmM2WGgrb3hyZ2pxVXNBaWNaVTdlVzNCaVV4Ri9UckZDNUxxUmUvaU9a?=
+ =?utf-8?B?YzBGRmRnd3BjeTlocVhSQ1NPZXVvV0dqYnluVVE2NC9URjg4WHNQK1RIMG5r?=
+ =?utf-8?B?TWE0ODB3UFB4eldqQXJBbjRQVWtZcHF4ZEJqanF1ZTVpOTA1Ty9YU1FFc0pi?=
+ =?utf-8?B?WElIT3k4NEF1RXVUK1ZzUXpocjIvdzFJdDdTeFRQb09pbjN0MkJLRW9DcSto?=
+ =?utf-8?B?blFpOHM2UjRqQ0lwdmsvQ3NBaDRRMVY3WWVZNmF4cDVkQTBnQzdiQ0lsVVJy?=
+ =?utf-8?B?aDFKejlXa1ErWnRnWWRDZVB0YUVlUkh1eXN2Q2ZjUFlJeHF0OC9aY1R0S1JO?=
+ =?utf-8?B?NS9DMnVuWjlLcnVhWmJvN2pCdTJvT09PRnBKYmlSeWprc0RUMVNqaHR2ZHpQ?=
+ =?utf-8?B?U0VWZXVzSXdhWXMwVzFxbnR3bEZRQ3c5N3VZd2djLytqNDJCc3VpVXNOaGYy?=
+ =?utf-8?B?WVVTUUdkZmJCclFSbnpPZlFWZy80V0NDdTdIY21yV2ltVDlySmZmRDNIeUpz?=
+ =?utf-8?B?VXR3amJxay9idWplVmFYbDRWZFR0R2llRlhtck5uUDNKWFRYQ21tbEgyVlFW?=
+ =?utf-8?B?bXQ3eTIyWjZsWVp3R1g3WWdwdEk0dDYwYTAzTWVlT05CZUxhYW1xWTFnVXNC?=
+ =?utf-8?B?aUtyU3hUQ1c0N2phbjhxbjN6SmV2VzBMVUs5a1dsTjFSVFF4TE9jaE0ySkR6?=
+ =?utf-8?B?OFNSRkpnR0RTd2dMK01CVUJ6T01vcnBpRUptZWJYcTVtY1kyUW4zU0x1RzBG?=
+ =?utf-8?B?RVZTUkkyVUp3OXZYSWVYN0VPSTZydDFZWmZiWVFnZFdVNVN0NzVzeDk2aWlj?=
+ =?utf-8?B?WlJ2SUUrY09nMEh2dlRrNFdKQkZKcEdUVS9WbjZLd0JlY1dIVHoweEJsWXli?=
+ =?utf-8?B?Z2pFaUpxaUl6ZGV4OEhrVDZLb2JockhxQ3FyQXlzS3dpR2lBZVhjZDE1UlFk?=
+ =?utf-8?B?dURYVXZseERqM3RuOHF1MkNGQ3lWVzU4cWZNQzF0d0xQZG1za0RSV2JGYkJW?=
+ =?utf-8?B?ZTVoYW12SG90MWRKL3lucVhVSldseWJKRWlpcW50Zkt5VzdWY29BejQ2Zjcz?=
+ =?utf-8?B?Q1pEUi9DbytNbjl0YmE4R3FqdGI5NmpHOTYzV3JCK1lQSys1elNsZ0FFVk85?=
+ =?utf-8?Q?XhL/Ptwm5gE=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR12MB6494.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(366016)(376014)(1800799024)(10070799003)(7053199007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?dnJkR2RKbktkb0NkZkpDV2hENlBLdkw2b3RrN1U4WHJXeDFWM25tL0ZnUStv?=
+ =?utf-8?B?bHR2a05kYWJuTWVwelF2clAyR3RwRE9PLyt3aVFIVytLaTQ2Vnd3bDdJS2xD?=
+ =?utf-8?B?ZFl2bzZlR3pYZnVZdUo1cWlUcnE2Wk5zTE1qN2w1TE1GWWc3UTdibWxSZTM0?=
+ =?utf-8?B?ZlNKSG0xbWlvWTRkdkdwV29lVzVxTWszY2xBUXZPSVRqd0xTdVB6ek1RMFRm?=
+ =?utf-8?B?bjJCWlVCMDFwZnBETW1ycG81ZCtZeDNzSWhEOWJYVHNyZ1UvU3dGa29JL0py?=
+ =?utf-8?B?dGplMWQ1ZmVsTDFVZm9ZN0xlS0pZeGljYVZjYXRUSmNOSlhKdU90cmwzTnNB?=
+ =?utf-8?B?QVorZzF2TDJjV1dDMnp0WHZaSEtIT0loa21HaC9kYStKYW4vS0l3dU1RN3FD?=
+ =?utf-8?B?TjhTa2RpczdaYmdscURrcXZHSUFXMEN0NU9xUlFNdEJnQWFWenQrdW1tT05S?=
+ =?utf-8?B?QkV1VXYwMWR6emRTakh4N1RXWStZWUxVTGdiSExrS1BFY0x4eSthNU9ZcWl4?=
+ =?utf-8?B?L1lFWFFQYm13TU9QajFsNkhEV3haYVByVVFBM0NLS0x4V2dRa1J5T0lhblU4?=
+ =?utf-8?B?b3dGMFpVclVnQ3J5WDFBeENZM0NNUVZ1anl2WHE1Zmk0ZVlCTWZaaG1oMEsr?=
+ =?utf-8?B?dnZmKzhGRTd3WnhtZVhSaWVsZ2N5UHFOWFI5QjlTSndvajROS2ZIYlRMUFZE?=
+ =?utf-8?B?ZGE4dVhaVlJ2TnBKbDJvd2F0bDZOTHVxdVVkNEJ2S1ppUzlabDV4MXFubE1R?=
+ =?utf-8?B?ZlFVQVpDRUg0NmQyNk1NTlllUU9ZNyt5RWJjMUZXUklESmN2YzlwandYZWNK?=
+ =?utf-8?B?VkJvSEU1VHJBcHA5MjJIQnVXUHJIV3J5WlhpcHNzeUFPYWhJRUpEbkUxZ09o?=
+ =?utf-8?B?bFJaL0lLNnhtWDl0L0lKM042dVNkV201RTVOaVAydTZJcVRFV0hwQ1NTMjlu?=
+ =?utf-8?B?dnpKMzVYaXk1ZG9zYU1heDRnQmRLdXdtSXlkSXlzTXdMY051cG9sSkEySitT?=
+ =?utf-8?B?bmdLMVp5eUFUbHFHOStuOGFVVHBtN2pldW1yNGs1STlpVVcwa0o3dHY4Z3Vj?=
+ =?utf-8?B?MEtDaXJZdmNyNE9uaGlIVmVSR3Z5WElja0FDdllzVDJkRk5Tb0dTUG1FaXRF?=
+ =?utf-8?B?YkdIODg4MnR3UHNMMUF0VDIycmFSWFB0LzkwcFJmK09vdll1d3F2WlN3NkRJ?=
+ =?utf-8?B?K1VTSDB3M28xSTBzWFlRbDVsWjdaeEVCbWlaeWVmNmM3WUJta2RVeEF3cUpi?=
+ =?utf-8?B?WFlqZEk4bGNuOUZiNWYxbkcxMHRuVUduOFpUTkpGeGVWaVF3Q0x3Kyt3WGZ6?=
+ =?utf-8?B?ayt1SmxTZm40UHc1bUp2YVBwZGR4RFIxNXI1RHJRenBMUllkWkN3TUlnL1Qw?=
+ =?utf-8?B?SEh6YmpidjR3Nm9NQ3hFVlhRU1A3Z2dlalVTSG84MXFkcmVPRUZyc3VsRXdq?=
+ =?utf-8?B?elZoU2tzRVYvYWtVRm4xdnQvdkc5UWNuMDBkQ2c5cFhYeUZBaFZGaktEbTQ5?=
+ =?utf-8?B?aCtXWVFGV3REMzlOOWpYNFR2TFM4Qll1Z1ZRcFprVU9TTWlaYlEwTXdPUXdk?=
+ =?utf-8?B?NVhMYkR2WW5BUnRBUWErWGtJYytnZXNwa3ZvaTRGZ2dQK3lrcWV5Witqb1FC?=
+ =?utf-8?B?Z3Fwd1VUNHRCREg3aVhHd3BmWGx0RVcrbGdWbVgyYXRHNjIrRTkxdEZRcjNh?=
+ =?utf-8?B?Um1VT2FQaEQ2NmNuVXF3aUFvWnlaWTF0NUxublk3NVlxak9HNWd5YXVpUjNl?=
+ =?utf-8?B?cGJzRHh3L2FmSUg5dW8wMGhvaFgvSFFxc0JCb3k2MjZBb2N6eFpkd0wrd1pT?=
+ =?utf-8?B?b2ZESG1FQmwvemNoQ2JyemJwazU3OU8zZ3VEUEoycDRldVhvVDZLWHZoVG1B?=
+ =?utf-8?B?QnVvSDBEeDVOMUhvbDJ6RmRUNG9QeEJSQUpJMXRzUFpKOS9vSm03V0FPcnhJ?=
+ =?utf-8?B?aExpUjJJR2JkTDlRK0F4OXVRamxRdWxaZUQ3ZzBBRkdZNmlBREg1V3BXdmpl?=
+ =?utf-8?B?RERlYlBaOTQrYmZwYi9GYXQ1YzVVcCtTMXJnams5emxRbkFXWkdWNUZzdHpU?=
+ =?utf-8?B?YTlPTWMydzhOWWpGMGVlUCtUS2xmY3FRMDI0a1Z6Q3RRV0xLeWdScElXSmk3?=
+ =?utf-8?B?b2VlbWY2WFIyd05mSHRCYno3aTNOTXBEU0NCdklzN1BJSzZJL3ljeDcrK0hG?=
+ =?utf-8?B?NFVyY2NMa2t4YzI1aXNNZTQ5b2Mwc1EweU1iZW8wL1QrWkw3aUQwa2pESWZp?=
+ =?utf-8?B?TnJJeHBzMVg3V0xSNGY4VGZHUDdnPT0=?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 248a41c4-328d-4a12-fcbe-08dde60ac338
+X-MS-Exchange-CrossTenant-AuthSource: DM4PR12MB6494.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Aug 2025 08:13:25.8433
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: cfTljlGZhcNcN+go+bhYLlRcYAnuFCMlYff87eIGWYOH+WPftf9m1jpceExb+las7EuEdlDS8zqghaNBxg7g7g==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB6604
 
-Hi Florian,
-
-Am 28.08.25 um 04:17 schrieb Florian Fainelli:
->
->
-> On 8/27/2025 12:05 PM, Stefan Wahren wrote:
->> Hi,
->>
->> Am 27.08.25 um 16:33 schrieb Umang Jain:
->>> On Wed, Aug 27, 2025 at 02:40:16PM +0200, Laurent Pinchart wrote:
->>>> Hi Jai,
->>>>
->>>> Thank you for the patch.
->>>>
->>>> On Wed, Aug 27, 2025 at 11:54:08AM +0530, Jai Luthra wrote:
->>>>> From: Umang Jain <umang.jain@ideasonboard.com>
->>>>>
->>>>> Move the VCHIQ headers from drivers/staging/vc04_services/include to
->>>>> include/linux/vchiq
->>>>>
->>>>> This is done so that they can be shared between the VCHIQ interface
->>>>> (which is going to be de-staged in a subsequent commit from staging)
->>>>> and the VCHIQ drivers left in the staging/vc04_services (namely
->>>>> bcm2835-audio, bcm2835-camera).
->>>>>
->>>>> The include/linux/vchiq/ provides a central location to serve both
->>>>> of these areas.
->>>> Lots of SoC-specific headers are stored in include/linux/soc/$vendor/=
-.
->>>> This would be include/linux/soc/bcm/vchiq/ in this case. I'm also fin=
+On Wednesday, August 27, 2025 7:45=E2=80=AFPM Svyatoslav Ryhel wrote:
+> =D1=81=D1=80, 27 =D1=81=D0=B5=D1=80=D0=BF. 2025=E2=80=AF=D1=80. =D0=BE 13=
+:36 Mikko Perttunen <mperttunen@nvidia.com> =D0=BF=D0=B8=D1=88=D0=B5:
+> > On Wednesday, August 27, 2025 1:32=E2=80=AFPM Svyatoslav wrote:
+> > > 27 =D1=81=D0=B5=D1=80=D0=BF=D0=BD=D1=8F 2025=E2=80=AF=D1=80. 07:09:45=
+ GMT+03:00, Mikko Perttunen
+> >=20
+> > <mperttunen@nvidia.com> =D0=BF=D0=B8=D1=88=D0=B5:
+> > > >On Tuesday, August 19, 2025 9:16=E2=80=AFPM Svyatoslav Ryhel wrote:
+> > > >> CSUS clock is required to be enabled on camera device configuratio=
+n
+> > > >> or
+> > > >> else camera module refuses to initiate properly.
+> > > >>=20
+> > > >> Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
+> > > >> ---
+> > > >>=20
+> > > >>  drivers/clk/tegra/clk-tegra20.c | 1 +
+> > > >>  drivers/clk/tegra/clk-tegra30.c | 1 +
+> > > >>  2 files changed, 2 insertions(+)
+> > > >>=20
+> > > >> diff --git a/drivers/clk/tegra/clk-tegra20.c
+> > > >> b/drivers/clk/tegra/clk-tegra20.c index 551ef0cf0c9a..42f8150c6110
+> > > >> 100644
+> > > >> --- a/drivers/clk/tegra/clk-tegra20.c
+> > > >> +++ b/drivers/clk/tegra/clk-tegra20.c
+> > > >> @@ -1043,6 +1043,7 @@ static struct tegra_clk_init_table init_tabl=
+e[]
+> > > >> =3D {
+> > > >>=20
+> > > >>    { TEGRA20_CLK_GR3D, TEGRA20_CLK_PLL_C, 300000000, 0 },
+> > > >>    { TEGRA20_CLK_VDE, TEGRA20_CLK_PLL_C, 300000000, 0 },
+> > > >>    { TEGRA20_CLK_PWM, TEGRA20_CLK_PLL_P, 48000000, 0 },
+> > > >>=20
+> > > >> +  { TEGRA20_CLK_CSUS, TEGRA20_CLK_CLK_MAX, 6000000, 1 },
+> > > >>=20
+> > > >>    /* must be the last entry */
+> > > >>    { TEGRA20_CLK_CLK_MAX, TEGRA20_CLK_CLK_MAX, 0, 0 },
+> > > >> =20
+> > > >>  };
+> > > >>=20
+> > > >> diff --git a/drivers/clk/tegra/clk-tegra30.c
+> > > >> b/drivers/clk/tegra/clk-tegra30.c index 82a8cb9545eb..70e85e2949e0
+> > > >> 100644
+> > > >> --- a/drivers/clk/tegra/clk-tegra30.c
+> > > >> +++ b/drivers/clk/tegra/clk-tegra30.c
+> > > >> @@ -1237,6 +1237,7 @@ static struct tegra_clk_init_table init_tabl=
+e[]
+> > > >> =3D {
+> > > >>=20
+> > > >>    { TEGRA30_CLK_HDA, TEGRA30_CLK_PLL_P, 102000000, 0 },
+> > > >>    { TEGRA30_CLK_HDA2CODEC_2X, TEGRA30_CLK_PLL_P, 48000000, 0 },
+> > > >>    { TEGRA30_CLK_PWM, TEGRA30_CLK_PLL_P, 48000000, 0 },
+> > > >>=20
+> > > >> +  { TEGRA30_CLK_CSUS, TEGRA30_CLK_CLK_MAX, 6000000, 1 },
+> > > >>=20
+> > > >>    /* must be the last entry */
+> > > >>    { TEGRA30_CLK_CLK_MAX, TEGRA30_CLK_CLK_MAX, 0, 0 },
+> > > >> =20
+> > > >>  };
+> > > >
+> > > >I looked into what this clock does and it seems to be a gate for the
+> > > >CSUS
+> > > >pin, which provides an output clock for camera sensors (VI MCLK).
+> > > >Default
+> > > >source seems to be PLLC_OUT1. It would be good to note that on the
+> > > >commit
+> > > >message, as I can't find any documentation about the CSUS clock
+> > > >elsewhere.
+> > > >
+> > > >What is the 6MHz rate based on?
+> > >=20
+> > > 6mhz is the statistic value which I was not able to alter while testi=
+ng.
+> > > I
+> > > have tried 12mhz and 24mhz too but it remained 6mhz, so I left it 6mh=
+z.
+> > >=20
+> > > >Since this seems to be a clock consumed by the sensor, it seems to m=
 e
->>>> with include/linux/vchiq/ but other people may have a preference.
->>> I agree with this point and I might have missed to notice the
->>> include/linux/soc earlier. That's seems a better location to me since
->>> it's actually broadcom-specific.
->> I would expect that headers and source would be more related.
->>
->> For example:
->>
->> include/linux/soc/bcm
->>
->> drivers/soc/bcm/
->
-> This is not Broadcom code, it is Raspberry Pi AFAICT, therefore, just=20
-> like drivers/firmware/raspberrypi.c, we would need some namespacing=20
-> here that reflects that, ideally.
-The VCHIQ code originally comes from Broadcom, but the current=20
-implementation has been adapted and tested for Raspberry Pi. I'm not=20
-against a Raspberry Pi specific namespace.
+> > > >that
+> > > >rather than making it always on, we could point to it in the sensor'=
+s
+> > > >device tree entry.
+> > >=20
+> > > Sensor device tree uses vi_sensor as clocks source and sensor drivers
+> > > don't
+> > > support multiple linked clocks.
+> >=20
+> > AIUI vi_sensor is an internal clock so the sensor cannot be receiving i=
+t
+> > directly. Perhaps the sensor is actually connected to csus, and the rea=
+son
+> > we need to enable it is to allow the vi_sensor clock to pass through th=
+e
+> > csus gate?
+> >=20
+> > That leaves the question of why the csus pad would be muxed to vi_senso=
+r
+> > by
+> > default, but perhaps there's an explanation for that.
+>=20
+> From downstream T30 sources csus and vi_sensor are always called in
+> pair (6MHz csus and 24MHz for vi_sensor), naturally I assumed that
+> latter is used as camera reference clock since most sensors has
+> reference clock around 24 MHz
 
-Should this also apply to the DT bindings?
+It's possible that the csus pad is still outputting 24MHz. The pinmux optio=
+ns=20
+for the csus pad are various clocks, so it would seem logical that the cloc=
+k=20
+source for the pad is one of those clocks. However, on the clock framework=
+=20
+side, the csus clock is just a gate. What I'm confused about is that since =
+on=20
+the clock framework side the parent of csus is currently set to clk_m, I do=
+n't=20
+know why setting the rate of csus would affect the output of the pad, given=
+=20
+clk_m is not one of the options for the pinmux.
 
-Documentation/devicetree/bindings/soc/bcm/brcm,bcm2835-vchiq.yaml
+It's be good to verify the register value for the csus pinmux to see where =
+it=20
+thinks the clock is coming from, and then check how that matches with what =
+we=20
+are seeing.
 
-Best regards
+>=20
+> > > >Cheers,
+> > > >Mikko
+
+
+
 
