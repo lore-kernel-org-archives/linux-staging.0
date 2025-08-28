@@ -1,41 +1,81 @@
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.15])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yb1-f227.google.com (mail-yb1-f227.google.com [209.85.219.227])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DA81EEBB
-	for <linux-staging@lists.linux.dev>; Wed, 27 Aug 2025 19:18:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1074F248883
+	for <linux-staging@lists.linux.dev>; Thu, 28 Aug 2025 02:17:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.227
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756322313; cv=none; b=PUZuw86e9y0FodqXXS2SX2apw8995WQTdTkA4NQd+SmEBCPMSOtBFWbwUzmTOBDdcwFq+vIEfzhcroN1FZZ1CDXUhGchqi57RlqENq3/UHKmpiVeEziiQFXl0QBD07Qmf0z10aagWNPGdvD8XIhSkJMmOGepyMxMgayOY/IoKEE=
+	t=1756347451; cv=none; b=c0gGlZUFC9tRbY2pU3nwkg0R/obndgCgoucIXM4ZSyY5Hq//oqhiKzbN38OlpIeF6pvgUvUHn73GJnDRToO6qx6iL3y3E/9njNBGAD/OeUCve0q2K3tvR0vAzhXG7Z8QmOYDEEjZEvPyD0NVqU+ZfToeBFxm/oWWcmwsw5k4uvA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756322313; c=relaxed/simple;
-	bh=p3EvGsYPSdUdmdUvkl5MeS24W2C/G0WFbApxFo5/qOc=;
+	s=arc-20240116; t=1756347451; c=relaxed/simple;
+	bh=N9vnL96LHzTSI8yQopxfDh1YR87Qvfz2R3K9FkZdD+M=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=fsu3oW38L3B7IIU3hENucx47w5uxrD/vy7P0lgYLuO7brj3zgvsCIxtbtKCa8I1UeJOMeZtEuEuRa/kjEgPpTL3oCtwhC9s3gA4i3qBNemmyfilegabTjjRkqSuaZco1e5O2SoFY5aRXwC8I/93/gjPe3Lm1zPujiMe2MNESupg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.net; spf=pass smtp.mailfrom=gmx.net; dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b=lmwOYKh+; arc=none smtp.client-ip=212.227.15.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.net
+	 In-Reply-To:Content-Type; b=TXkrGwqFiuQFLoo/7dXTdwtWgJ204NsCBMtOFl+1EVYc9HYTqRkUpLQqN6tuNr0Rl9sBZgwFBQEZ6spTHDi/pQV8Y76D0QxV/A4hMy+3lgrQ0e4NVQlq8uvDkph63gL/sFSa/q2PG/mQz1ynNVZct1MHgHcXlUeaPP7EfOd9LzY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=broadcom.com; spf=fail smtp.mailfrom=broadcom.com; dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b=PUkjGNrb; arc=none smtp.client-ip=209.85.219.227
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=broadcom.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=broadcom.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b="lmwOYKh+"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.net;
-	s=s31663417; t=1756322303; x=1756927103; i=wahrenst@gmx.net;
-	bh=p3EvGsYPSdUdmdUvkl5MeS24W2C/G0WFbApxFo5/qOc=;
-	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
-	 References:From:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding:cc:content-transfer-encoding:
-	 content-type:date:from:message-id:mime-version:reply-to:subject:
-	 to;
-	b=lmwOYKh+jaeslL9BQl/2uQyPz+sBPCNHDGk/hwpAzE/cmDc/hncT6+7CmeMIqwjH
-	 995lw0rcWetNpdvdhhXAqXqKZYjYlhKkTAND4MEXykVdN4npk2hZfLjsu5r3O/QN4
-	 XBe//YltRu4W9GOF+mYCs3LrrDoaNYjtNPIklr3Qv4c9ur2MhAuCJhztuRfBLJtcE
-	 X81Vf/nPXUfvNWDnXA2SR5Gnm+25RLbrb6e5lTXgqV5TrZmY9kSwfSRjOhd1xm0XY
-	 /MYMC4NQmFKM7DhNtLfFINnVP+fQecI6iSR1iRTQ9aDkpaazqB6jFqfAKLYCjDV1w
-	 UT3aqrLiuPUq4V8azA==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from [192.168.1.105] ([79.235.128.112]) by mail.gmx.net (mrgmx004
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1M9Wuk-1uudRb0zwK-005RGB; Wed, 27
- Aug 2025 21:18:23 +0200
-Message-ID: <731ead88-8dc9-4032-86f5-7a2dd5044b22@gmx.net>
-Date: Wed, 27 Aug 2025 21:18:22 +0200
+	dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b="PUkjGNrb"
+Received: by mail-yb1-f227.google.com with SMTP id 3f1490d57ef6-e97021a3695so169332276.3
+        for <linux-staging@lists.linux.dev>; Wed, 27 Aug 2025 19:17:28 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1756347448; x=1756952248;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:dkim-signature:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=prg3sotdOQOd9SAT1I4QjPjY9bIuPacP6Im3454z7xg=;
+        b=L4wHMelNGwnPoQRTGakgMWoLfkpNLJlmEZTej0l8sZZsgMSaQgy8GXN34UMPtG560Q
+         eYK2TrwWGQp9TCNIhHr/2f949H6+DOy+eW15u1wH1XHzh9u+vjxMLkiY8jY4HbN+MM0L
+         VjmxQKJ++xE1ks6/nLyeYdKv/aZXpFtpHAB4L4BWJu/uzYpmswNhQPtFRiqqLpnXu6zh
+         Wt2RSFtJ7HP5NHich1Z2ASHRWhx5d4bJ3VXpvs24DBdLD2RfWL4H29BBAO3IQPu93oF3
+         eKv/dnpUWuqunqTQlHxW2+4DIgh1nvZa6BbzT3x6+QksTODdrwBCvZikFPlSqNqwvrJn
+         K+Tg==
+X-Forwarded-Encrypted: i=1; AJvYcCWj8THYnXoikzDZVN2/Fbi7njrDrtJpWNEXTNyVekX5kTgueEjpiYeCgj88Rzv59pH1EEG0hrm/UqjdQYjs@lists.linux.dev
+X-Gm-Message-State: AOJu0YxKKXnvdh4qdG7R9QR3gbeqkMsh15pberXMVilVuBJ+u0ZCkgT1
+	+x3a7RObf/uU1cPazZRy42E7rguWl1Oks3+5W+ahrCfkirpVRm/yHt0h4Ydxh+wWPZOmv9Ry63t
+	BbSwJiJDiAs5HKD0AT5oKy6V/psttooX1TRmDKlXgKyY+Z7FkYAir8gkFxK1MfsWeMY12Xi8I+Q
+	LDaaKuXHBFJYwgYTqPBKPF+MU7IJ802d45BGMlDfL1eL2yZSxHsit0w7Sy61TJc8+medPvZG5gM
+	eaFo0GB96ahazWsRMb8I7GHGQ==
+X-Gm-Gg: ASbGnctMcBmqjhPQ4uthZo05aK6hw0ZvWXTWe0/bfkkDrEQf2pGg8z5BeDiV0hVgohY
+	F/hfgstk4Kj5VLpppySnHdqI4gT30dRfIgxQhisNHS41TMfpGHtVRbJ6h9qYePLcdv9C6gXPEDI
+	1UbnoVM2/Qmjy+EvpKcnexVF15l5P6VxciR1VOG1KuOQgiN9Smtw6XXmzDVvP1QfJoTv5JNLKql
+	FsfwNsRQbcGAoAinfFn5LryL44fwX8eIObKFnhmwtxEYCpVnPQDFp4aLj2sJq+L2vqfey38T9m3
+	owzC1ng1BmbOvDHRtGVI6NpNjOaMX2YypcFShTzHFfeOQqkUcykDshW1sULVCjC24Az4qKTa9om
+	xNcNor7m4fClP4xclr+E5DpdJ68L9Zgkc0UnWf900e/+vw3CgWCiwKEcVHUNMR9pBX1mTgUcLVz
+	QLnNWK
+X-Google-Smtp-Source: AGHT+IEJs6bIkUH4CO2J0ciu/KHdgirZyrZT66qiRaYXc+oDg9B8lasz2eKYnX80jc1EULz7266+oWxjTMmb
+X-Received: by 2002:a05:6902:6b13:b0:e90:62f9:b1be with SMTP id 3f1490d57ef6-e951c33337cmr23586580276.22.1756347447606;
+        Wed, 27 Aug 2025 19:17:27 -0700 (PDT)
+Received: from smtp-us-east1-p01-i01-si01.dlp.protect.broadcom.com (address-144-49-247-11.dlp.protect.broadcom.com. [144.49.247.11])
+        by smtp-relay.gmail.com with ESMTPS id 00721157ae682-7212e900d20sm3672997b3.20.2025.08.27.19.17.27
+        for <linux-staging@lists.linux.dev>
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Wed, 27 Aug 2025 19:17:27 -0700 (PDT)
+X-Relaying-Domain: broadcom.com
+X-CFilter-Loop: Reflected
+Received: by mail-pf1-f200.google.com with SMTP id d2e1a72fcca58-77053dd5eecso656916b3a.3
+        for <linux-staging@lists.linux.dev>; Wed, 27 Aug 2025 19:17:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=broadcom.com; s=google; t=1756347446; x=1756952246; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=prg3sotdOQOd9SAT1I4QjPjY9bIuPacP6Im3454z7xg=;
+        b=PUkjGNrbeM2DwWtW2dibE7onTBmAX8RFn/Yw7n3mrw4aEJEwsFVHh3QYrAoTiphL2v
+         8pvxDR4VpYsJuNNixgewNjSfByYsb9L/IdPX9p9nTr7BMC9p+N78kMrj1+tTmzsJO4sH
+         FR8l+Jv0EEbgGaz8UFHuUCIlNvxiebermsIas=
+X-Forwarded-Encrypted: i=1; AJvYcCXWJ9pJJE+Oqu81TfsbIi9QBm3l7Dd8m/S5p6Gc+vHQW4MVVD8lOnaduISEZ7Ojhshm1YxqX34eN4fADH8U@lists.linux.dev
+X-Received: by 2002:a05:6a00:190e:b0:758:66a2:981f with SMTP id d2e1a72fcca58-7702fa0590emr29938716b3a.12.1756347446337;
+        Wed, 27 Aug 2025 19:17:26 -0700 (PDT)
+X-Received: by 2002:a05:6a00:190e:b0:758:66a2:981f with SMTP id d2e1a72fcca58-7702fa0590emr29938690b3a.12.1756347445858;
+        Wed, 27 Aug 2025 19:17:25 -0700 (PDT)
+Received: from [192.168.1.3] (ip68-4-215-93.oc.oc.cox.net. [68.4.215.93])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-771ebabeeffsm8361867b3a.30.2025.08.27.19.17.24
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 27 Aug 2025 19:17:25 -0700 (PDT)
+Message-ID: <910dae68-0545-46fa-b41f-8e4fb32ed649@broadcom.com>
+Date: Wed, 27 Aug 2025 19:17:23 -0700
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -43,122 +83,102 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 4/5] media: staging: Drop bcm2835-camera driver
-To: Jai Luthra <jai.luthra@ideasonboard.com>,
- Florian Fainelli <florian.fainelli@broadcom.com>,
- Broadcom internal kernel review list
+Subject: Re: [PATCH 1/5] include: linux: Destage VCHIQ interface headers
+To: Stefan Wahren <wahrenst@gmx.net>, Umang Jain <uajain@igalia.com>,
+ Jai Luthra <jai.luthra@ideasonboard.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Broadcom internal kernel review list
  <bcm-kernel-feedback-list@broadcom.com>,
  Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Ray Jui
- <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>
-Cc: linux-rpi-kernel@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org, kernel-list@raspberrypi.com,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+ <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
+ linux-rpi-kernel@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+ linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+ kernel-list@raspberrypi.com, Dave Stevenson <dave.stevenson@raspberrypi.com>
 References: <20250827-vchiq-destage-v1-0-5052a0d81c42@ideasonboard.com>
- <20250827-vchiq-destage-v1-4-5052a0d81c42@ideasonboard.com>
+ <20250827-vchiq-destage-v1-1-5052a0d81c42@ideasonboard.com>
+ <20250827124016.GF5650@pendragon.ideasonboard.com>
+ <we7tl65ijs44ae2zxfejmvnml3ls2pkfhcp2fqsmvec2eqevwm@yb45fs7nnf5s>
+ <8ed6519a-6e45-4793-b11b-7b63c1703d6e@gmx.net>
 Content-Language: en-US
-From: Stefan Wahren <wahrenst@gmx.net>
-Autocrypt: addr=wahrenst@gmx.net; keydata=
- xjMEZ1dOJBYJKwYBBAHaRw8BAQdA7H2MMG3q8FV7kAPko5vOAeaa4UA1I0hMgga1j5iYTTvN
- IFN0ZWZhbiBXYWhyZW4gPHdhaHJlbnN0QGdteC5uZXQ+wo8EExYIADcWIQT3FXg+ApsOhPDN
- NNFuwvLLwiAwigUCZ1dOJAUJB4TOAAIbAwQLCQgHBRUICQoLBRYCAwEAAAoJEG7C8svCIDCK
- JQ4BAP4Y9uuHAxbAhHSQf6UZ+hl5BDznsZVBJvH8cZe2dSZ6AQCNgoc1Lxw1tvPscuC1Jd1C
- TZomrGfQI47OiiJ3vGktBc44BGdXTiQSCisGAQQBl1UBBQEBB0B5M0B2E2XxySUQhU6emMYx
- f5QR/BrEK0hs3bLT6Hb9WgMBCAfCfgQYFggAJhYhBPcVeD4Cmw6E8M000W7C8svCIDCKBQJn
- V04kBQkHhM4AAhsMAAoJEG7C8svCIDCKJxoA/i+kqD5bphZEucrJHw77ujnOQbiKY2rLb0pE
- aHMQoiECAQDVbj827W1Yai/0XEABIr8Ci6a+/qZ8Vz6MZzL5GJosAA==
-In-Reply-To: <20250827-vchiq-destage-v1-4-5052a0d81c42@ideasonboard.com>
+From: Florian Fainelli <florian.fainelli@broadcom.com>
+Autocrypt: addr=florian.fainelli@broadcom.com; keydata=
+ xsBNBFPAG8ABCAC3EO02urEwipgbUNJ1r6oI2Vr/+uE389lSEShN2PmL3MVnzhViSAtrYxeT
+ M0Txqn1tOWoIc4QUl6Ggqf5KP6FoRkCrgMMTnUAINsINYXK+3OLe7HjP10h2jDRX4Ajs4Ghs
+ JrZOBru6rH0YrgAhr6O5gG7NE1jhly+EsOa2MpwOiXO4DE/YKZGuVe6Bh87WqmILs9KvnNrQ
+ PcycQnYKTVpqE95d4M824M5cuRB6D1GrYovCsjA9uxo22kPdOoQRAu5gBBn3AdtALFyQj9DQ
+ KQuc39/i/Kt6XLZ/RsBc6qLs+p+JnEuPJngTSfWvzGjpx0nkwCMi4yBb+xk7Hki4kEslABEB
+ AAHNMEZsb3JpYW4gRmFpbmVsbGkgPGZsb3JpYW4uZmFpbmVsbGlAYnJvYWRjb20uY29tPsLB
+ IQQQAQgAywUCZWl41AUJI+Jo+hcKAAG/SMv+fS3xUQWa0NryPuoRGjsA3SAUAAAAAAAWAAFr
+ ZXktdXNhZ2UtbWFza0BwZ3AuY29tjDAUgAAAAAAgAAdwcmVmZXJyZWQtZW1haWwtZW5jb2Rp
+ bmdAcGdwLmNvbXBncG1pbWUICwkIBwMCAQoFF4AAAAAZGGxkYXA6Ly9rZXlzLmJyb2FkY29t
+ Lm5ldAUbAwAAAAMWAgEFHgEAAAAEFQgJChYhBNXZKpfnkVze1+R8aIExtcQpvGagAAoJEIEx
+ tcQpvGagWPEH/2l0DNr9QkTwJUxOoP9wgHfmVhqc0ZlDsBFv91I3BbhGKI5UATbipKNqG13Z
+ TsBrJHcrnCqnTRS+8n9/myOF0ng2A4YT0EJnayzHugXm+hrkO5O9UEPJ8a+0553VqyoFhHqA
+ zjxj8fUu1px5cbb4R9G4UAySqyeLLeqnYLCKb4+GklGSBGsLMYvLmIDNYlkhMdnnzsSUAS61
+ WJYW6jjnzMwuKJ0ZHv7xZvSHyhIsFRiYiEs44kiYjbUUMcXor/uLEuTIazGrE3MahuGdjpT2
+ IOjoMiTsbMc0yfhHp6G/2E769oDXMVxCCbMVpA+LUtVIQEA+8Zr6mX0Yk4nDS7OiBlvOwE0E
+ U8AbwQEIAKxr71oqe+0+MYCc7WafWEcpQHFUwvYLcdBoOnmJPxDwDRpvU5LhqSPvk/yJdh9k
+ 4xUDQu3rm1qIW2I9Puk5n/Jz/lZsqGw8T13DKyu8eMcvaA/irm9lX9El27DPHy/0qsxmxVmU
+ pu9y9S+BmaMb2CM9IuyxMWEl9ruWFS2jAWh/R8CrdnL6+zLk60R7XGzmSJqF09vYNlJ6Bdbs
+ MWDXkYWWP5Ub1ZJGNJQ4qT7g8IN0qXxzLQsmz6tbgLMEHYBGx80bBF8AkdThd6SLhreCN7Uh
+ IR/5NXGqotAZao2xlDpJLuOMQtoH9WVNuuxQQZHVd8if+yp6yRJ5DAmIUt5CCPcAEQEAAcLB
+ gQQYAQIBKwUCU8AbwgUbDAAAAMBdIAQZAQgABgUCU8AbwQAKCRCTYAaomC8PVQ0VCACWk3n+
+ obFABEp5Rg6Qvspi9kWXcwCcfZV41OIYWhXMoc57ssjCand5noZi8bKg0bxw4qsg+9cNgZ3P
+ N/DFWcNKcAT3Z2/4fTnJqdJS//YcEhlr8uGs+ZWFcqAPbteFCM4dGDRruo69IrHfyyQGx16s
+ CcFlrN8vD066RKevFepb/ml7eYEdN5SRALyEdQMKeCSf3mectdoECEqdF/MWpfWIYQ1hEfdm
+ C2Kztm+h3Nkt9ZQLqc3wsPJZmbD9T0c9Rphfypgw/SfTf2/CHoYVkKqwUIzI59itl5Lze+R5
+ wDByhWHx2Ud2R7SudmT9XK1e0x7W7a5z11Q6vrzuED5nQvkhAAoJEIExtcQpvGagugcIAJd5
+ EYe6KM6Y6RvI6TvHp+QgbU5dxvjqSiSvam0Ms3QrLidCtantcGT2Wz/2PlbZqkoJxMQc40rb
+ fXa4xQSvJYj0GWpadrDJUvUu3LEsunDCxdWrmbmwGRKqZraV2oG7YEddmDqOe0Xm/NxeSobc
+ MIlnaE6V0U8f5zNHB7Y46yJjjYT/Ds1TJo3pvwevDWPvv6rdBeV07D9s43frUS6xYd1uFxHC
+ 7dZYWJjZmyUf5evr1W1gCgwLXG0PEi9n3qmz1lelQ8lSocmvxBKtMbX/OKhAfuP/iIwnTsww
+ 95A2SaPiQZA51NywV8OFgsN0ITl2PlZ4Tp9hHERDe6nQCsNI/Us=
+In-Reply-To: <8ed6519a-6e45-4793-b11b-7b63c1703d6e@gmx.net>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:gTcoHCCObZRkqK/JpRFi0rryokVUd+KN8KXxriapbHC2RDIBV+j
- +ppKyOSjwlZEH1oVjzRPCVXSRWYrLoxD1G6fF1ToLYfTc8wMjtyLQKxrGTZ1zT80K8UAj5K
- t47YfjgwErJoRKA5lxHtelq+cR3asKtfvfG93h/83yBKCV7Xxu06OsHqNTbeLoJVfX0ZgJG
- L98L6qgTl2u9cPozPY08Q==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:nh196u5nQ+4=;R+t4t7R8lar4fn+yFD2oshBNQjP
- 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
- g+pSLnr8BEccb3nBF58nAN9m0gDf
+Content-Transfer-Encoding: 7bit
+X-DetectorID-Processed: b00c1d49-9d2e-4205-b15f-d015386d3d5e
 
-Hi Jai,
 
-Am 27.08.25 um 08:24 schrieb Jai Luthra:
-> The bcm2835-camera driver is replaced by the V4L2 bcm2835-unicam driver
-> that is already upstream. So drop it from staging.
-AFAIK the old Raspberry Pi Camera V1 isn't supported by V4L2=20
-bcm2835-unicam. Personally i'm fine with this, but this must be clear in=
-=20
-the commit message.Did you already talked to distributions like Redhat &=
-=20
-OpenSuSE about this step?
-> This also simplifies destaging of VCHIQ MMAL, by reducing the users of
-> the MMAL API (this driver is one of them).
-AFAIU this drops the only one user of VCHIQ MMAL. So please explain, why=
-=20
-we still need this API and how this should be tested?
 
-Best regards
+On 8/27/2025 12:05 PM, Stefan Wahren wrote:
+> Hi,
+> 
+> Am 27.08.25 um 16:33 schrieb Umang Jain:
+>> On Wed, Aug 27, 2025 at 02:40:16PM +0200, Laurent Pinchart wrote:
+>>> Hi Jai,
+>>>
+>>> Thank you for the patch.
+>>>
+>>> On Wed, Aug 27, 2025 at 11:54:08AM +0530, Jai Luthra wrote:
+>>>> From: Umang Jain <umang.jain@ideasonboard.com>
+>>>>
+>>>> Move the VCHIQ headers from drivers/staging/vc04_services/include to
+>>>> include/linux/vchiq
+>>>>
+>>>> This is done so that they can be shared between the VCHIQ interface
+>>>> (which is going to be de-staged in a subsequent commit from staging)
+>>>> and the VCHIQ drivers left in the staging/vc04_services (namely
+>>>> bcm2835-audio, bcm2835-camera).
+>>>>
+>>>> The include/linux/vchiq/ provides a central location to serve both
+>>>> of these areas.
+>>> Lots of SoC-specific headers are stored in include/linux/soc/$vendor/.
+>>> This would be include/linux/soc/bcm/vchiq/ in this case. I'm also fine
+>>> with include/linux/vchiq/ but other people may have a preference.
+>> I agree with this point and I might have missed to notice the
+>> include/linux/soc earlier. That's seems a better location to me since
+>> it's actually broadcom-specific.
+> I would expect that headers and source would be more related.
+> 
+> For example:
+> 
+> include/linux/soc/bcm
+> 
+> drivers/soc/bcm/
+
+This is not Broadcom code, it is Raspberry Pi AFAICT, therefore, just 
+like drivers/firmware/raspberrypi.c, we would need some namespacing here 
+that reflects that, ideally.
+-- 
+Florian
+
