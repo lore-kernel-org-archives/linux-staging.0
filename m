@@ -1,380 +1,174 @@
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
+Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF6502475D0
-	for <linux-staging@lists.linux.dev>; Fri, 29 Aug 2025 07:05:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 764D5266A7
+	for <linux-staging@lists.linux.dev>; Fri, 29 Aug 2025 14:34:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756451161; cv=none; b=TFN4DOYVYHGPV+UQqFHrrfRTFo3b87sF5vNqkN4c88BaUOiHy1/jHT/ZvY4K4Mu8SAI0rrTvcUfyNe8RoOz1FF4zFcDlScp7xeZXfs8N9DUG90PjzxqEKE1IEdKsU2fSrBB6D+p48oDYUuFVR1h7XKQSRph9bVjHVJSygzI7S1U=
+	t=1756478050; cv=none; b=eGkq1XNbsuIZJKajkfgIrR/7HhIVkcuMunl4KGhSQqYnf8ycHg0/KZ30Ej5jeuD3Ib3crJo+RQVfUv5b3F+zWXKxwFBI+TYoW1FmWqOycK3rIWytomGRaI9nPj+Tqu329qcuGVKAkICLeo0lwv4zQ3qGpn8zpDSD9kKCr5KwxP0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756451161; c=relaxed/simple;
-	bh=Iy0Q1ffYYzROk+/I1cQS7lA/RBL+ahZiy6+kbWYKh1k=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=EE0L4b0liD/e1beZTQVIfPdGfEdirHP8MUTfz6NeeNeifI5Sk6ehMyqEWzopKvuSPinvpba1mQcgecEz9lCZmH/Q0zXPrDn9vu292oi/r8dxOr5+LU6jMbfDBo8eUcDzE3ipS3Kgk9M/SmXUuDy0ySt5YF2+a3QHYN9FJ3OGcXY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Uy+J7rwY; arc=none smtp.client-ip=209.85.221.45
+	s=arc-20240116; t=1756478050; c=relaxed/simple;
+	bh=XKIrrIe9nGe1E0/X50h2LcnP+IV6WWYC8Zg+naL6ieY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=eUev4o+pOZTmXUgYMdfq8mvHWu314CFFrQiRkSajSCueIcpoqK9P9KXNmnPjyCfO9GVPhWnxccYmPDQW4dqNWzEWZwtbJQPfYUaO2mnQQ8mGK/djwLXwwp5BXoMMMYbljaOWYGaEx+Akbh0rmqtA2XtzJY9XjUHb72UpZsULxtI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AnyS38VU; arc=none smtp.client-ip=209.85.208.46
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Uy+J7rwY"
-Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-3d0dd9c9381so149879f8f.1
-        for <linux-staging@lists.linux.dev>; Fri, 29 Aug 2025 00:05:58 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AnyS38VU"
+Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-61cb9f6dbe7so3923425a12.0
+        for <linux-staging@lists.linux.dev>; Fri, 29 Aug 2025 07:34:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1756451157; x=1757055957; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=wNEPTqZi/7bPFbDHtLTOaaHKFKd0cf7LdGjAAfOz8EE=;
-        b=Uy+J7rwY9AIYXwGCvxIi0M8n2NZygPBmKm+I8GVQVDNzzlBQCP+7yo9nikZ9s4vvSN
-         v3nPQGNMFRwlpIAUKa2sBgLZYj62RkojhOwXPUJlatbqqpabr3PrzuumHyPVWcWjDPVi
-         m1emOJNxXJx6G3kdDE1P/R8qOZ80SdhuF53LcN60vgH73LyI3w0689enSn08/t7qFaCV
-         XnWRFE1NAbpyfUZUqriKiOFd/6vYdCSUkNCgy26tTa+gI4/Yq6wTL4lt9z/bbKWnmxaF
-         z73eoLqP5g6CC5Ny+JLIUKOJL9DE/fWU/w3/Enk46mOpb0IpqUhnN4a1JjeZx/p+MC+6
-         Lt4A==
+        d=gmail.com; s=20230601; t=1756478047; x=1757082847; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=qdRTZcrZww+pyy3+CoQE7C811BJbMEHRMW/x3zTJzwk=;
+        b=AnyS38VUSNz6sc/nEm27BH+9Afaa/CKlH/XDLgbIrCsCxv8h61MdGbNeGE7i5sVJ1D
+         KO6DWocAa28AoDbCc3qBKtzc1tn9W87bzIPPyxGl9spVsubEAsUaZq9R6dXGy6tx4k53
+         0TdhIrs1Wn4uHXaVXDKkWISFrjsZ0HvUcyKq5OLHmD1FnWAGEW1X9G6skkwWOoSElcHq
+         JY50d3dzASWUH8G3+2ZxgVMaS/WakjFUfFtP8STs/K4Hdmvzdq0qOKXD5HiAwGzuh3V7
+         Ec5oQSzUGszYouEwHfZjFpKgo23tXrltzsOgw4YBP6zhYr9MrfyaNnNgSplAhZy33ivl
+         0q3A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756451157; x=1757055957;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=wNEPTqZi/7bPFbDHtLTOaaHKFKd0cf7LdGjAAfOz8EE=;
-        b=LOcM/plTFmfDMD+WR3tBC2S1zIzYcUvGwhoJ4x9SrSbonPO3vLRv4l2zCS8FqXqPA6
-         gD9vKujUrGRhWE9yyb7U29zT+mxWfxPr9Xlhe8UdoCizTxYjwqc/SKwob40G/VzusFBj
-         GHI/4iBcUns+mHvLOR1nogS0hkR4mfoSRwRi5U+vpA3Uz4J2kk1Pms1A4JjGdDSM0zxa
-         VWQeCXW0R4t6vcUYhDlj7JwTnsZyRm6V3Ith23PeaniUQGoU0ihCKFHhz6wHxAnDk1m5
-         nNxQYYO3E9YUg9+EgXDQb/3EdD3TfLvh0tvmekYO6Ynx3zaR3+h/wMa/mO1xOMu8isGi
-         jXVQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVMfzHB1YUCSsj2zTzAgu5eWGUdCzqP7olb/LlP6Jxf7JNaCbqsWkyFwGI+JYfPzZ+1gjyOuUUnrHHxO+el@lists.linux.dev
-X-Gm-Message-State: AOJu0YwOQVQqzfRYV0PUFSRBCCGF4oq8PlwGEZjAZMgGnVqXCAlthNAv
-	Hfj1bPqUBdIOiMtYPfyWuOVsxTRpv1rLe8QoZ0NO6Viawn3zQggdgIwim/I+NoruJqxWLooBe4t
-	9ZMAehQng2o7iTpMbOciLMoU8BDdUBamlrw==
-X-Gm-Gg: ASbGncv+ELHrVUlP/grtcoJBb1K9/yZTGj0fsAb61YRfGr3dvkMY3pXZX6TN0l0J5ih
-	LF+wnBe/+7ctWr5tfPe3jLq3rK3JzsxjcO/lEstSxIE+YL3jtUVEp7sZfePE2OSx/xvaQTDeTos
-	CpxHnIBQlJPqBs7HHBoWNqZwBkOSeF69fcxmL7wUl9/o13l40kyFcyVCN9uOeexAVMwYkr8uBdb
-	NPEu6rr8A8yXP7f9Cs=
-X-Google-Smtp-Source: AGHT+IGXvbXOcj19XnruUNyzz7sCZJtBcE1ugNlGUJcQ+lWmHZNXEX7dQgfWsT/2E2qiYE74RzUuAZOyfwAf0jx0+GY=
-X-Received: by 2002:a05:6000:22c2:b0:3c8:acd2:75d9 with SMTP id
- ffacd0b85a97d-3c8acd2812emr16190955f8f.40.1756451156619; Fri, 29 Aug 2025
- 00:05:56 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1756478047; x=1757082847;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=qdRTZcrZww+pyy3+CoQE7C811BJbMEHRMW/x3zTJzwk=;
+        b=TSHXXQfKMbVgtWiiBrr2wVAz8t3osWprkAOqRCjBL7royYJ0baITcBwfAJVMjrFZrd
+         5mqO8BEh8S9tTTIz8CQg6W6XZ5KjotwMAHAoee3IfWNsRzS0d7FhiCvRrgraHV5ZOAzw
+         tmZo6Ls4zNgWxMKrcwAyXLi/yDMm2xE/MdBEHff2VeXNKnlU9qCaAP3qR/pBWsbs24Rz
+         bVCsJTT16XJ4OMaBlpBDHnmBfZM7+di0yKEchycLW/22yQr02fhLLDYz/JVTZjTAwcFJ
+         8kiHb1JAsL6nQExOlP8Ys95t8ULOcBBSWYDuCk1d/vwzbYQtt1A7jz696uKxH4AGJ8Hf
+         Bzjw==
+X-Forwarded-Encrypted: i=1; AJvYcCWZQTVTJqA2vEAWjAJxQtToIPYdQs7EkPKL4MkP5egzJ7oD+xgn2YyOPmjvW/Ynh9wuhGZHUnr5rOxrpuL1@lists.linux.dev
+X-Gm-Message-State: AOJu0Yyb41o7GCJf+2jo+bd+rdCo5H9++/fcTXtkFcewyGOHbhe8a5IR
+	aiVB6A63R1yyS5s+j00BedadjIuRtYStMvoAvAkfN58OA3rmMYZsun1YvvrkVTcK0MY=
+X-Gm-Gg: ASbGncvM5EgzZ9oE/ZiwX6hynVfXd0zVU5WhgxpFvgaJazPLe2pEBRusjH7xZ3j8GDl
+	jCq0TumKfrDJ1DuohwJ6jar5VnpBGtD6qG00fKZEfYCx1w8FOCQMtcsfzfk7odd72e9o1F7mns6
+	NRxVzgZEVoiFsJqyfztieatPu8QtSlTjs/9ZhHe5nsAk69GJ/W9qvWJei9mVa27RRkW9VIPa/XQ
+	avC3rxanjd9QRBnb/ZNIbXcjCXp8do6axf5IbWtS448sluIlRhjzXcM+SuVOJKbWdhYqmKsI0NS
+	4bOYAMlWM+fy0J4V26+CT4J7ErmRmHMKWHfwnKOlQLJQEL0kwdTyMVVnb7lQ1NjFH9VNhJboxPQ
+	zUK3rFr/JdpaCdy2oJrSwW8404B8rU+UXpVbE4m+9HkVN995Fg5r1lKXCooS6/ZjG0mMx2CYGcR
+	XE5s/4NLv0lPlAjk7nh6E8ojlNsvV77yTwpqXjQBlei/wbN3m7DfgHQkMjNIeWL6mOA1A=
+X-Google-Smtp-Source: AGHT+IFnI4qIfIyTXxPYEiHj0W+DPBn29+qh0m+qBGjJFk3GexO1LJNC3hqeoodfOeTei1uAARroxw==
+X-Received: by 2002:a05:6402:2745:b0:618:1835:24ad with SMTP id 4fb4d7f45d1cf-61c1b449c05mr22852723a12.3.1756478046562;
+        Fri, 29 Aug 2025 07:34:06 -0700 (PDT)
+Received: from ?IPV6:2a02:908:1b0:afe0:7f20:afeb:8c24:8d02? ([2a02:908:1b0:afe0:7f20:afeb:8c24:8d02])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-61cfc4bbc07sm1897283a12.30.2025.08.29.07.34.05
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 29 Aug 2025 07:34:06 -0700 (PDT)
+Message-ID: <20ed561b-aba1-432c-9fdc-103e724852d9@gmail.com>
+Date: Fri, 29 Aug 2025 16:34:05 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250819121631.84280-1-clamor95@gmail.com> <2263218.C4sosBPzcN@senjougahara>
- <CAPVz0n3AvQaFrpeyUODpqOwkxxinjWgMQTgqvD4hAZvdqprVdA@mail.gmail.com> <18894880.sWSEgdgrri@senjougahara>
-In-Reply-To: <18894880.sWSEgdgrri@senjougahara>
-From: Svyatoslav Ryhel <clamor95@gmail.com>
-Date: Fri, 29 Aug 2025 10:05:45 +0300
-X-Gm-Features: Ac12FXzmilSrHiJWScmOpCjw2MVssM9bFAGoeDiBX7hXsR-oymkUtqcsKAMUCRQ
-Message-ID: <CAPVz0n2A+dR2Rvwf-S_OpgAKE1BVwVnD2nLw=s-z=7W_A_+yKw@mail.gmail.com>
-Subject: Re: [PATCH v1 01/19] clk: tegra: init CSUS clock for Tegra20 and Tegra30
-To: Mikko Perttunen <mperttunen@nvidia.com>
-Cc: Thierry Reding <thierry.reding@gmail.com>, Thierry Reding <treding@nvidia.com>, 
-	Jonathan Hunter <jonathanh@nvidia.com>, Sowjanya Komatineni <skomatineni@nvidia.com>, 
-	Luca Ceresoli <luca.ceresoli@bootlin.com>, David Airlie <airlied@gmail.com>, 
-	Simona Vetter <simona@ffwll.ch>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Peter De Schrijver <pdeschrijver@nvidia.com>, Prashant Gaikwad <pgaikwad@nvidia.com>, 
-	Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Dmitry Osipenko <digetx@gmail.com>, Charan Pedumuru <charan.pedumuru@gmail.com>, 
-	linux-media@vger.kernel.org, linux-tegra@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org, 
-	linux-staging@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] staging: gpib: simplify and fix get_data_lines
+To: Dave Penkler <dpenkler@gmail.com>,
+ Dan Carpenter <dan.carpenter@linaro.org>
+Cc: gregkh@linuxfoundation.org, matchstick@neverthere.org, arnd@arndb.de,
+ linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev,
+ marcello.carla@gmx.com
+References: <20250827113858.17265-1-osama.abdelkader@gmail.com>
+ <aK73HPDKu6rqg9Ya@stanley.mountain> <aK8SGpevZsGM5CCF@egonzo>
+Content-Language: en-US
+From: Osama Abdelkader <osama.abdelkader@gmail.com>
+In-Reply-To: <aK8SGpevZsGM5CCF@egonzo>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-=D0=BF=D1=82, 29 =D1=81=D0=B5=D1=80=D0=BF. 2025=E2=80=AF=D1=80. =D0=BE 03:3=
-0 Mikko Perttunen <mperttunen@nvidia.com> =D0=BF=D0=B8=D1=88=D0=B5:
->
-> On Thursday, August 28, 2025 7:23=E2=80=AFPM Svyatoslav Ryhel wrote:
-> > =D1=87=D1=82, 28 =D1=81=D0=B5=D1=80=D0=BF. 2025=E2=80=AF=D1=80. =D0=BE =
-13:15 Mikko Perttunen <mperttunen@nvidia.com> =D0=BF=D0=B8=D1=88=D0=B5:
-> > > On Thursday, August 28, 2025 5:28=E2=80=AFPM Svyatoslav Ryhel wrote:
-> > > > =D1=87=D1=82, 28 =D1=81=D0=B5=D1=80=D0=BF. 2025=E2=80=AF=D1=80. =D0=
-=BE 11:13 Mikko Perttunen <mperttunen@nvidia.com>
-> =D0=BF=D0=B8=D1=88=D0=B5:
-> > > > > On Wednesday, August 27, 2025 7:45=E2=80=AFPM Svyatoslav Ryhel wr=
-ote:
-> > > > > > =D1=81=D1=80, 27 =D1=81=D0=B5=D1=80=D0=BF. 2025=E2=80=AF=D1=80.=
- =D0=BE 13:36 Mikko Perttunen <mperttunen@nvidia.com>
-> > >
-> > > =D0=BF=D0=B8=D1=88=D0=B5:
-> > > > > > > On Wednesday, August 27, 2025 1:32=E2=80=AFPM Svyatoslav wrot=
-e:
-> > > > > > > > 27 =D1=81=D0=B5=D1=80=D0=BF=D0=BD=D1=8F 2025=E2=80=AF=D1=80=
-. 07:09:45 GMT+03:00, Mikko Perttunen
-> > > > > > >
-> > > > > > > <mperttunen@nvidia.com> =D0=BF=D0=B8=D1=88=D0=B5:
-> > > > > > > > >On Tuesday, August 19, 2025 9:16=E2=80=AFPM Svyatoslav Ryh=
-el wrote:
-> > > > > > > > >> CSUS clock is required to be enabled on camera device
-> > > > > > > > >> configuration
-> > > > > > > > >> or
-> > > > > > > > >> else camera module refuses to initiate properly.
-> > > > > > > > >>
-> > > > > > > > >> Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
-> > > > > > > > >> ---
-> > > > > > > > >>
-> > > > > > > > >>  drivers/clk/tegra/clk-tegra20.c | 1 +
-> > > > > > > > >>  drivers/clk/tegra/clk-tegra30.c | 1 +
-> > > > > > > > >>  2 files changed, 2 insertions(+)
-> > > > > > > > >>
-> > > > > > > > >> diff --git a/drivers/clk/tegra/clk-tegra20.c
-> > > > > > > > >> b/drivers/clk/tegra/clk-tegra20.c index
-> > > > > > > > >> 551ef0cf0c9a..42f8150c6110
-> > > > > > > > >> 100644
-> > > > > > > > >> --- a/drivers/clk/tegra/clk-tegra20.c
-> > > > > > > > >> +++ b/drivers/clk/tegra/clk-tegra20.c
-> > > > > > > > >> @@ -1043,6 +1043,7 @@ static struct tegra_clk_init_table
-> > > > > > > > >> init_table[]
-> > > > > > > > >> =3D {
-> > > > > > > > >>
-> > > > > > > > >>    { TEGRA20_CLK_GR3D, TEGRA20_CLK_PLL_C, 300000000, 0 }=
-,
-> > > > > > > > >>    { TEGRA20_CLK_VDE, TEGRA20_CLK_PLL_C, 300000000, 0 },
-> > > > > > > > >>    { TEGRA20_CLK_PWM, TEGRA20_CLK_PLL_P, 48000000, 0 },
-> > > > > > > > >>
-> > > > > > > > >> +  { TEGRA20_CLK_CSUS, TEGRA20_CLK_CLK_MAX, 6000000, 1 }=
-,
-> > > > > > > > >>
-> > > > > > > > >>    /* must be the last entry */
-> > > > > > > > >>    { TEGRA20_CLK_CLK_MAX, TEGRA20_CLK_CLK_MAX, 0, 0 },
-> > > > > > > > >>
-> > > > > > > > >>  };
-> > > > > > > > >>
-> > > > > > > > >> diff --git a/drivers/clk/tegra/clk-tegra30.c
-> > > > > > > > >> b/drivers/clk/tegra/clk-tegra30.c index
-> > > > > > > > >> 82a8cb9545eb..70e85e2949e0
-> > > > > > > > >> 100644
-> > > > > > > > >> --- a/drivers/clk/tegra/clk-tegra30.c
-> > > > > > > > >> +++ b/drivers/clk/tegra/clk-tegra30.c
-> > > > > > > > >> @@ -1237,6 +1237,7 @@ static struct tegra_clk_init_table
-> > > > > > > > >> init_table[]
-> > > > > > > > >> =3D {
-> > > > > > > > >>
-> > > > > > > > >>    { TEGRA30_CLK_HDA, TEGRA30_CLK_PLL_P, 102000000, 0 },
-> > > > > > > > >>    { TEGRA30_CLK_HDA2CODEC_2X, TEGRA30_CLK_PLL_P, 480000=
-00, 0
-> > > > > > > > >>    },
-> > > > > > > > >>    { TEGRA30_CLK_PWM, TEGRA30_CLK_PLL_P, 48000000, 0 },
-> > > > > > > > >>
-> > > > > > > > >> +  { TEGRA30_CLK_CSUS, TEGRA30_CLK_CLK_MAX, 6000000, 1 }=
-,
-> > > > > > > > >>
-> > > > > > > > >>    /* must be the last entry */
-> > > > > > > > >>    { TEGRA30_CLK_CLK_MAX, TEGRA30_CLK_CLK_MAX, 0, 0 },
-> > > > > > > > >>
-> > > > > > > > >>  };
-> > > > > > > > >
-> > > > > > > > >I looked into what this clock does and it seems to be a ga=
-te
-> > > > > > > > >for
-> > > > > > > > >the
-> > > > > > > > >CSUS
-> > > > > > > > >pin, which provides an output clock for camera sensors (VI
-> > > > > > > > >MCLK).
-> > > > > > > > >Default
-> > > > > > > > >source seems to be PLLC_OUT1. It would be good to note tha=
-t on
-> > > > > > > > >the
-> > > > > > > > >commit
-> > > > > > > > >message, as I can't find any documentation about the CSUS =
-clock
-> > > > > > > > >elsewhere.
-> > > > > > > > >
-> > > > > > > > >What is the 6MHz rate based on?
-> > > > > > > >
-> > > > > > > > 6mhz is the statistic value which I was not able to alter w=
-hile
-> > > > > > > > testing.
-> > > > > > > > I
-> > > > > > > > have tried 12mhz and 24mhz too but it remained 6mhz, so I l=
-eft
-> > > > > > > > it
-> > > > > > > > 6mhz.
-> > > > > > > >
-> > > > > > > > >Since this seems to be a clock consumed by the sensor, it =
-seems
-> > > > > > > > >to
-> > > > > > > > >me
-> > > > > > > > >that
-> > > > > > > > >rather than making it always on, we could point to it in t=
-he
-> > > > > > > > >sensor's
-> > > > > > > > >device tree entry.
-> > > > > > > >
-> > > > > > > > Sensor device tree uses vi_sensor as clocks source and sens=
-or
-> > > > > > > > drivers
-> > > > > > > > don't
-> > > > > > > > support multiple linked clocks.
-> > > > > > >
-> > > > > > > AIUI vi_sensor is an internal clock so the sensor cannot be
-> > > > > > > receiving
-> > > > > > > it
-> > > > > > > directly. Perhaps the sensor is actually connected to csus, a=
-nd
-> > > > > > > the
-> > > > > > > reason
-> > > > > > > we need to enable it is to allow the vi_sensor clock to pass
-> > > > > > > through
-> > > > > > > the
-> > > > > > > csus gate?
-> > > > > > >
-> > > > > > > That leaves the question of why the csus pad would be muxed t=
-o
-> > > > > > > vi_sensor
-> > > > > > > by
-> > > > > > > default, but perhaps there's an explanation for that.
-> > > > > >
-> > > > > > From downstream T30 sources csus and vi_sensor are always calle=
-d in
-> > > > > > pair (6MHz csus and 24MHz for vi_sensor), naturally I assumed t=
-hat
-> > > > > > latter is used as camera reference clock since most sensors has
-> > > > > > reference clock around 24 MHz
-> > > > >
-> > > > > It's possible that the csus pad is still outputting 24MHz. The pi=
-nmux
-> > > > > options for the csus pad are various clocks, so it would seem log=
-ical
-> > > > > that the clock source for the pad is one of those clocks. However=
-, on
-> > > > > the
-> > > > > clock framework side, the csus clock is just a gate. What I'm con=
-fused
-> > > > > about is that since on the clock framework side the parent of csu=
-s is
-> > > > > currently set to clk_m, I don't know why setting the rate of csus
-> > > > > would
-> > > > > affect the output of the pad, given clk_m is not one of the optio=
-ns
-> > > > > for
-> > > > > the pinmux.
-> > > > >
-> > > > > It's be good to verify the register value for the csus pinmux to =
-see
-> > > > > where
-> > > > > it thinks the clock is coming from, and then check how that match=
-es
-> > > > > with
-> > > > > what we are seeing.
-> > > >
-> > > > TRM does not provide such data, it has only register address with
-> > > > layout for it as a plain pad control, that register has only DRVDN,
-> > > > DRVUP, SLWR and SLWF and I don't see a way to decode clock value or
-> > > > parent or anything similar. If you give me a method I will calculat=
-e
-> > > > those values.
-> > >
-> > > I notice that on Tegra20, there is a mux pingroup called 'csus', whic=
-h has
-> > > the mux options PLLC_OUT1, PLLP_OUT2, PLLP_OUT3, and VI_SENSOR_CLK (b=
-ased
-> > > on upstream pinctrl-tegra20.c). The TRM also says 'Enable clock to SU=
-S
-> > > pad.' about the CSUS (or SUS) clock.
-> > >
-> > > On Tegra30, however, which I guess you refer to, I guess mux pingroup=
-s are
-> > > gone and each pin has its own mux (again looking at upstream pinctrl-
-> > > tegra30.c). vi_mclk_pt1 is now its own mux with the options VI, VI_AL=
-T1,
-> > > VI_ALT2, VI_ALT3. The drive group for this pin is still called csus, =
-so by
-> > > that name it only has the drive settings as you mention.
-> > >
-> > > Are you testing on Tegra20, Tegra30, or both?
-> >
-> > I am testing on Tegra30 since I did not have compatible Tegra20 device
-> > (with supported camera).
-> >
-> > > I've looked at some Tegra30 schematics, and they show a signal called
-> > > VI_MCLK being routed to CSI cameras.
-> > >
-> > > > Another theory is that maybe csus is used for VIP cameras only and
-> > > > vi_sensor is used for CSI cameras, but they both have to be on in
-> > > > order to work correctly. Csus was removed from Tegra114 along with
-> > > > VIP, might not be a coincidence. Moreover, T124 uses vi_sensor as
-> > > > camera mclk source.
-> > >
-> > > I see the CSUS clock still on Tegra124 based on the upstream kernel. =
-There
-> > > is also a CAM_MCLK pin. It seems Tegra30 has both VI_MCLK and CAM_MCL=
-K
-> > > pins, which both can output the clock. After Tegra30 there is only
-> > > CAM_MCLK.
-> > >
-> > > Looking at L4T r21, in tegra12_clocks.c, it defines the clocks mclk a=
-nd
-> > > mclk2.>
-> > > There is a comment on mclk saying:
-> > >                        .clk_num =3D 92, /* csus */
-> > >
-> > > whereas mclk2 is vim2_clk. These clocks are indeed defined as gates, =
-with
-> > > vi_sensor / vi_sensor2 as parent, set_rate being passed onto the pare=
-nt.
-> > >
-> > > All of that wasn't very coherently written, but to summarize my thoug=
-hts:
-> > >
-> > > On Tegra30, we have
-> > > - Pins vi_mclk and cam_mclk. Both can only source from (vi_)mclk whic=
-h
-> > > also
-> > > goes by name csus. The mclk/csus clock is a clock gate with vi_sensor=
- as
-> > > parent.
-> > > On Tegra114 and later,
-> > > - Same situation, but vi_mclk is gone, so instead we have cam_mclk
-> > > (possibly multiple with associated mclkN and vi_sensorN clocks)
-> > > On Tegra20,
-> > > - The vi_mclk pin has a variety of mux options, one of which is
-> > > VI_SENSOR_CLK. I expect this to correspond to the same behavior as la=
-ter
-> > > chips, i.e. sources from the csus(/mclk) clock, which sources from
-> > > vi_sensor.
-> >
-> > While this is all quite interesting, how to configure this properly?
->
-> Fix the csus clock's parent to be vi_sensor. Point the sensor's device tr=
-ee
-> clock entry to csus. The sensor's clk_enable should then ungate csus and
-> clk_set_rate should flow to vi_sensor to set the rate appropriately. In t=
-he
-> board device tree pinctrl section, set the vi_mclk pin's function to VI
-> (should be default on Tegra30, but best to be explicit).
->
-> I think that should do it, but it's all theoretical of course :)
->
 
-Ok, seems to work correctly. I will add same setup to Tegra114 since
-camera is not operational without same CSUS gate if you don't mind.
+On 8/27/25 4:11 PM, Dave Penkler wrote:
+> On Wed, Aug 27, 2025 at 03:16:28PM +0300, Dan Carpenter wrote:
+>> On Wed, Aug 27, 2025 at 01:38:57PM +0200, Osama Abdelkader wrote:
+>>> The function `get_data_lines()` in gpib_bitbang.c currently reads 8
+>>> GPIO descriptors individually and combines them into a byte.
+>>> This has two issues:
+>>>
+>>>   * `gpiod_get_value()` returns an `int` which may be negative on
+>>>     error. Assigning it directly into a `u8` may propagate unexpected
+>>>     values. Masking ensures only the LSB is used.
+>> This part isn't really true any more.
+>>
+>>>   * The code is repetitive and harder to extend.
+>>>
+>>> Fix this by introducing a local array of GPIO descriptors and looping
+>>> over them, while masking the return value to its least significant bit.
+>> There really isn't any need to mask now that we're checking for
+>> negatives.
+>>
+>>> This reduces duplication, makes the code more maintainable, and avoids
+>>> possible data corruption from negative `gpiod_get_value()` returns.
+>>>
+>>> Signed-off-by: Osama Abdelkader <osama.abdelkader@gmail.com>
+>>> ---
+>>> v2:
+>>> Just print the gpio pin error and leave the bit as zero
+>>> ---
+>>>  drivers/staging/gpib/gpio/gpib_bitbang.c | 28 ++++++++++++++----------
+>>>  1 file changed, 17 insertions(+), 11 deletions(-)
+>>>
+>>> diff --git a/drivers/staging/gpib/gpio/gpib_bitbang.c b/drivers/staging/gpib/gpio/gpib_bitbang.c
+>>> index 17884810fd69..f4ca59c007dd 100644
+>>> --- a/drivers/staging/gpib/gpio/gpib_bitbang.c
+>>> +++ b/drivers/staging/gpib/gpio/gpib_bitbang.c
+>>> @@ -1403,17 +1403,23 @@ static void set_data_lines(u8 byte)
+>>>  
+>>>  static u8 get_data_lines(void)
+>>>  {
+>>> -	u8 ret;
+>>> -
+>>> -	ret = gpiod_get_value(D01);
+>>> -	ret |= gpiod_get_value(D02) << 1;
+>>> -	ret |= gpiod_get_value(D03) << 2;
+>>> -	ret |= gpiod_get_value(D04) << 3;
+>>> -	ret |= gpiod_get_value(D05) << 4;
+>>> -	ret |= gpiod_get_value(D06) << 5;
+>>> -	ret |= gpiod_get_value(D07) << 6;
+>>> -	ret |= gpiod_get_value(D08) << 7;
+>>> -	return ~ret;
+>>> +	struct gpio_desc *lines[8] = {
+>>> +		D01, D02, D03, D04, D05, D06, D07, D08
+>>> +	};
+>>> +
+>> Delete this blank line.
+>>
+>>> +	u8 val = 0;
+>>> +	int ret, i;
+>>> +
+>>> +	for (i = 0; i < 8; i++) {
+>>> +		ret = gpiod_get_value(lines[i]);
+>>> +		if (ret < 0) {
+>>> +			pr_err("get GPIO pin %d error: %d\n", i, ret);
+>>> +			continue;
+>>> +		}
+>>> +		val |= (ret & 1) << i;
+>> Delete the mask.
+>>
+>> (I wavered on whether I should comment on the nit picky things I've
+>> said in this email, but in the end it was the out of date commit
+>> message which pushed me over the edge.  I would have ignored the
+>> other things otherwise).
+>>
+>> regards,
+>> dan carpenter
+>>
+>>
+> This patch seems unnecessary.
+> The code will never be extended.
 
-> >
-> > > > Here is a fragment of Tegra124 clock tree (dumped from Mi pad 1)
-> > > >
-> > > >          pll_p                                 on     13  x34
-> > > >          408000000
-> > > >
-> > > > vi_sensor2                       $ off    0   3.0      136000000 mc=
-lk2
-> > > >
-> > > >                    $ off    0            136000000 vi_sensor
-> > > >
-> > > >         $ off    0   3.0      136000000 mclk                       =
-   $
-> > > >         off
-> > > >
-> > > >    0            136000000
-> > > >
-> > > > > > > > >Cheers,
-> > > > > > > > >Mikko
->
->
->
->
+But using for loop is more readable than writing 8 similar lines, or?
+
+> In the unlikely case of errors it will produce a huge streams of console spam.
+> It negatively impacts performance:  114209 bytes/sec vs 118274 bytes/sec.
+
+We can remove that error message to not impact the performance, but storing errors even unlikely cases
+as gpio data is a bug, or?
+
+> regards,
+> -Dave
