@@ -1,129 +1,104 @@
-Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F43218EFD1
-	for <linux-staging@lists.linux.dev>; Fri, 29 Aug 2025 04:09:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB2AB1DE8B3
+	for <linux-staging@lists.linux.dev>; Fri, 29 Aug 2025 05:14:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756440573; cv=none; b=n617wfljdC0a/YVpXHn1h4b9f4arOkmtpRjrEYG4t36Q8p57zODAfQ1EGvgbN7WJ+oy5DYeTJuInlwQ4ht3fLx4j4swrpCcHLG4rz18r7nn899au1tRf46p/m0C9AQSRrjO5nStxq8ak3iRkxCEI/ZzUH5iY+JF22X7DvqAuPE4=
+	t=1756444462; cv=none; b=bd83/q6S1hq9heEZVulxFlapxzPsRZ+aCOKzWXYfB25aF1hJPTvTwGGotYBlT7FIVdvKosPnghrSOjWfH5REauof3ipHmMDScRNTU0QSiFB+r6IwcEQoqG2b+qx1aggH26iHPzWHCTG9kzOS5XjBFCduTPVsEnNpFj30jCv5cRs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756440573; c=relaxed/simple;
-	bh=VbLWMAa6acx5ejY6TBhR+uSr38oNnrdZTUIbkKIB8Cc=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=NMUCLzm0pGKtWUCx9bikAa6dyuCbzk/qfutFGin6db5G65YZUIXuYSlxaLpLJzw0UyVNeK+teOT0FyOEODbg894hEv1K/NZNmNkEvq6K1ZizS6jzO4MBwzkJWkWaQXAk0KgnSBkthUw2ZRH/4HX0PNE6RsHBgA/TE/6qMI6wUBQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RIm6XMLD; arc=none smtp.client-ip=209.85.216.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1756444462; c=relaxed/simple;
+	bh=XvxzWgF0tVpSBEanJzBrM6B3ZbAaP+LtEnf7mGHux6c=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=HNR+raXWa1pPNvrvcMkqzf7YxoVpdHbuFLyw6ugdayhdqFBhTivFTVWGx1CWNUzJfCbZm9f/EUh1oaKu2i4OiaCfbgy2c7j14S64u1ZBp0R8o4QM2Eg5VQXRDgtPJ4dypj+u1EKQcE9BiTPlm3Ma3Sjwbsb3jLY+EhheAuAIs6s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=iQ97VKUB; arc=none smtp.client-ip=209.85.221.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RIm6XMLD"
-Received: by mail-pj1-f41.google.com with SMTP id 98e67ed59e1d1-323267872f3so1548840a91.1
-        for <linux-staging@lists.linux.dev>; Thu, 28 Aug 2025 21:09:32 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="iQ97VKUB"
+Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-3d0dd9c9229so52218f8f.1
+        for <linux-staging@lists.linux.dev>; Thu, 28 Aug 2025 22:14:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1756440572; x=1757045372; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=juXpC95OIbgk5mWrCIY1LfWzcgsNmpuy8GKzhajuZfs=;
-        b=RIm6XMLDXV6pFHKLP12GQX6cJt5tbYEZvG9ODIKQc51gjEMoeJnbqQJ/EG4Mgbbk/g
-         Say5xBGRa2KJVMllYbgA3CrIGE9cie9kAEAsM6SHmNI2NQ4dvf6x4bMq8IABae5OWViZ
-         gS+mMxO6aOgKo9VBu0CG1Iv8rsg5Q02i6t2vHcl2xoEz5Np1ntQQkK6B7IDxnV5sYsqm
-         J3vMbNYvylr+fj+T0SbdR4PRe5rwfdCDL1e1hfsUCs+EKsdOKHMHsV9OU+IgCj7ucicU
-         oEEGVrMUoxEuIQSENrZDeJLbcKqrbkTupNpi3C4+AuOAuTH76l1Li0kbD8y4SZtkIDcQ
-         hadw==
+        d=linaro.org; s=google; t=1756444459; x=1757049259; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=c7UODCIXZhdTmzt7aUneD9LIvgM+jweZ/BcMDAqopHc=;
+        b=iQ97VKUBYvKiPeTMomtz9s4K22OfgMKeDhQqJrda1WMsA8Hq84rRLviN9t2jvUaN1z
+         VfwB175wpaDOribz1Cjv41E+vb/qmwQO25F4HgrHQXhjTvxSsJmqXoV2D7mhAsuATDkM
+         G6lLsrjhulbfruSE4Wp/9YGxXAF1ZqChaFOuMMMdaS+ckPdUZqFtmYAi35dbN8iaCUL7
+         uJKz9xX2BJGmIyuwyasn9WD8GwZhe3aoFljiOCTyAnA6MI9QsAqbAij6tyIhunIAVPGK
+         RelukvJ68fXn3Sw+NKA8QKErVuDoP1YQmO9uaMVPyi4ZaaQQdZrrbSXIlLXjMj7gWJEp
+         uQ2w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756440572; x=1757045372;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=juXpC95OIbgk5mWrCIY1LfWzcgsNmpuy8GKzhajuZfs=;
-        b=aeB/nA70bL1meUhaRsRvjGayUIPRj/Vd1hNeRiK62cC1wBdz99UCvab5Wc01ct67fZ
-         Vqm1xgBDS9/cfHg0XVhUsl5B14EIV7kkeUQy4dIBxJscDZjp97rgw4/h4O3DDcBD0WsJ
-         NKHpyp7wePy0ydfN5ynwS7Z9jZ6uYBEiIFd1MgGF3Nj8UrHEEqot49fvFSczXr+UIMXZ
-         OOFJ51qxzFPf1AIVitA50Xb+YERND4L3IYWbhN7GwFGHNBCYbZWqeApcvKf3ilgrWQfR
-         EgJZC9vdzwXYx8Xi+Dfefm883/hzoOvN6x9y9nLi21ThLcf9pDepU7LABio9Tm5YILCY
-         CTAw==
-X-Gm-Message-State: AOJu0YxcLwxyXupRwSM2tS00wt5aHkTLMuXD1C3JAjMo87HyxVF19nrY
-	gM1Udysm9LmEne75SzjAaMhMi/rArC3NLgppQnHaa43W45VwqvOZy5uW
-X-Gm-Gg: ASbGncu7lMNQCGYVxN/YQ8ck2Ic+gRfZbYySSm5nw8OiqyW4ISlxRk7qoxl/P2/v70X
-	Li4M3T/GTsIn4nNwoRXB5y8j41TIGPLr6wQudZ9090+2uh9if9YUO/389KhHdTBZe7TTbV0xY3v
-	haeqeIyxMTz06rqfwbXySobSPkGgLZQwE+fBCUrKECsD3pSUGC8J/3WjPa2rS8kMwR278RO1lIL
-	yECoBcR/FIrinlZnb1k9YJGBS5X9DGKlJdVqgNX3oxVKOn5673I5jtP8sGZyVK/o4/FjIHBZ6do
-	fGZi1u/fl0rtG8ZCB6t99QXj8V8PpitklfXTA1WJMX1YtE+njdbXKIneZWylvHNfv022VR50iO0
-	9WuLmiuFcPLOCB14fRpgs/Lbm3XoUIp22vLm0hugx+/FascFmJXCEvh9ZbrBZhWZ6HzHyj8Dm48
-	FXKU0jBKPYMQ==
-X-Google-Smtp-Source: AGHT+IFzHL+8UdK9pyO62SKNANe8HY66WeLJkmilzlfwe3cWnaNsk52b08SVRY/6E17QYYmZpA/hsw==
-X-Received: by 2002:a17:90a:d403:b0:327:add2:4f31 with SMTP id 98e67ed59e1d1-327add25000mr7600321a91.33.1756440571635;
-        Thu, 28 Aug 2025 21:09:31 -0700 (PDT)
-Received: from yingche.. (111-255-98-191.dynamic-ip.hinet.net. [111.255.98.191])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3276f5921b5sm6771888a91.7.2025.08.28.21.09.29
+        d=1e100.net; s=20230601; t=1756444459; x=1757049259;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=c7UODCIXZhdTmzt7aUneD9LIvgM+jweZ/BcMDAqopHc=;
+        b=QnGy3/7VmKghBCZW7gZ8lMC2vd324oOWyXQyfQr8MjllDL2HaY8CjO66ZMjVPdibfk
+         p9xZofMciRMwVFuj+7gjjFWOU1z5ALUY+adKEmk8n1P3lOMPgfbbLY1Xuaic1alsYbZL
+         vGM+niQbZ0dLjTwlH3U9u1N+ZSnUkYK/NgASURKZfTXwj2+ZJMEpKsf9R0zURSRbHn7O
+         hw6I+uabtvNIbQxhq9TqxJ+jruKfvE6i7p43We8VXaD46mtX2Dfw/o4wUShnabx3Ed1h
+         OcLk2sQOtIzOJXMv+IDyWIGxLWqrbyioDNB3UH4IEnwrONjDuRzrAcbrSB6hEQYcH0kZ
+         Qweg==
+X-Forwarded-Encrypted: i=1; AJvYcCWjpX9MORMioC6bNNjwOupVUWmAAwjGAzxz5VYq37zfG7SgBoMe2JD05yQe2Tb3bV2oU1ynb1R1JqQbcs00@lists.linux.dev
+X-Gm-Message-State: AOJu0Yym6NXexPGVrkYI9zz/Jx6ew6Ij0YTBhGt7GuGReG/H/ytiHgip
+	swHwvyNKO1OGH+OutN88pq9v8gSYd5bIroN60tjQZchjx3K6Z6xSTNxbIbrpUS9kVygqtF8LxWR
+	8cL29
+X-Gm-Gg: ASbGncuQwjBQ0r5mA3ybXD2SId39jkUWE93EN4FdTZefehcaEtLBBQUD1FATOX6jsl/
+	5vs2BGKeYA2Dy1moYx8uRZYSBmJjZgBiTuYVioy/IroTBd86S8v532CxfKn7fI1zp4SoHEnJAkP
+	2byMTLLARIPpJOpTPlWwqBcqP5e1VJNBdbdOOddf3PHMTQIN3E5JdHiabHDrTyT7HpZJmaMOXrp
+	Pcdxae21YvmbIdOMDUS2Ja23ptkaBDKrjh8kBhS09pEKdK1rUeUIXX0ub8QKHztG1Toqbu7s2uc
+	ljOOr7Um6dd+zE26ScxJ1Ctvyu/zfjPWN1IL6Tz/XHGTst94HHCs42R477C6+Pva3r22dq/I7sG
+	36I6m0yJ9vstx5Cd9PIq42ZsBOzE=
+X-Google-Smtp-Source: AGHT+IH5pdSjboysPCn2XrxwCkBFPtLeBzZ4Q5yRET3A1gZcifDhgAPI9FpftrUsQJLw/YseU2kF2Q==
+X-Received: by 2002:a05:600c:45ce:b0:459:dba8:bb7b with SMTP id 5b1f17b1804b1-45b517ad7ebmr226210555e9.13.1756444458949;
+        Thu, 28 Aug 2025 22:14:18 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-45b6f0d32a2sm111769355e9.9.2025.08.28.22.14.17
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 28 Aug 2025 21:09:31 -0700 (PDT)
-From: yingche <zxcv2569763104@gmail.com>
-To: dan.carpenter@linaro.org,
-	gregkh@linuxfoundation.org
-Cc: linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	yingche <zxcv2569763104@gmail.com>
-Subject: [PATCH v2] staging: rtl8723bs: fix fortify warnings by using struct_group
-Date: Fri, 29 Aug 2025 12:09:06 +0800
-Message-ID: <20250829040906.895221-1-zxcv2569763104@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20250828094537.884046-1-zxcv2569763104@gmail.com>
+        Thu, 28 Aug 2025 22:14:18 -0700 (PDT)
+Date: Fri, 29 Aug 2025 08:14:14 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: yingche <zxcv2569763104@gmail.com>
+Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] staging: rtl8723bs: fix fortify warnings by using
+ struct_group
+Message-ID: <aLE3JgL4WQW2BA5k@stanley.mountain>
 References: <20250828094537.884046-1-zxcv2569763104@gmail.com>
+ <20250829040906.895221-1-zxcv2569763104@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250829040906.895221-1-zxcv2569763104@gmail.com>
 
-Fix fortify_memcpy_chk warnings in rtw_BIP_verify() and
-rtw_mgmt_xmitframe_coalesce() functions by using struct_group
-to access consecutive address fields.
+On Fri, Aug 29, 2025 at 12:09:06PM +0800, yingche wrote:
+> Fix fortify_memcpy_chk warnings in rtw_BIP_verify() and
+> rtw_mgmt_xmitframe_coalesce() functions by using struct_group
+> to access consecutive address fields.
+> 
+> Changed memcpy calls to use &hdr->addrs instead of hdr->addr1
+> when copying 18 bytes (addr1 + addr2 + addr3).
+> 
+> This resolves 'detected read beyond size of field' warnings
+> by using the proper struct_group mechanism as suggested by
+> the compiler.
+> 
+> Signed-off-by: yingche <zxcv2569763104@gmail.com>
+> 
+> ---
+> v2: Use sizeof() instead of magic number 18 (Dan Carpenter)
 
-Changed memcpy calls to use &hdr->addrs instead of hdr->addr1
-when copying 18 bytes (addr1 + addr2 + addr3).
+Thanks!
 
-This resolves 'detected read beyond size of field' warnings
-by using the proper struct_group mechanism as suggested by
-the compiler.
+Reviewed-by: Dan Carpenter <dan.carpenter@linaro.org>
 
-Signed-off-by: yingche <zxcv2569763104@gmail.com>
-
----
-v2: Use sizeof() instead of magic number 18 (Dan Carpenter)
----
- drivers/staging/rtl8723bs/core/rtw_security.c | 2 +-
- drivers/staging/rtl8723bs/core/rtw_xmit.c     | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/staging/rtl8723bs/core/rtw_security.c b/drivers/staging/rtl8723bs/core/rtw_security.c
-index 8367fd15c6b1..3d99d045f4b6 100644
---- a/drivers/staging/rtl8723bs/core/rtw_security.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_security.c
-@@ -1363,7 +1363,7 @@ u32 rtw_BIP_verify(struct adapter *padapter, u8 *precvframe)
- 		ClearPwrMgt(BIP_AAD);
- 		ClearMData(BIP_AAD);
- 		/* conscruct AAD, copy address 1 to address 3 */
--		memcpy(BIP_AAD+2, pwlanhdr->addr1, 18);
-+		memcpy(BIP_AAD + 2, &pwlanhdr->addrs, sizeof(pwlanhdr->addrs));
- 
- 		if (omac1_aes_128(padapter->securitypriv.dot11wBIPKey[padapter->securitypriv.dot11wBIPKeyid].skey
- 			, BIP_AAD, ori_len, mic))
-diff --git a/drivers/staging/rtl8723bs/core/rtw_xmit.c b/drivers/staging/rtl8723bs/core/rtw_xmit.c
-index 8c6841f078b4..21690857fd62 100644
---- a/drivers/staging/rtl8723bs/core/rtw_xmit.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_xmit.c
-@@ -1209,7 +1209,7 @@ s32 rtw_mgmt_xmitframe_coalesce(struct adapter *padapter, struct sk_buff *pkt, s
- 		ClearPwrMgt(BIP_AAD);
- 		ClearMData(BIP_AAD);
- 		/* conscruct AAD, copy address 1 to address 3 */
--		memcpy(BIP_AAD+2, pwlanhdr->addr1, 18);
-+		memcpy(BIP_AAD + 2, &pwlanhdr->addrs, sizeof(pwlanhdr->addrs));
- 		/* copy management fram body */
- 		memcpy(BIP_AAD+BIP_AAD_SIZE, MGMT_body, frame_body_len);
- 		/* calculate mic */
--- 
-2.43.0
+regards,
+dan carpenter
 
