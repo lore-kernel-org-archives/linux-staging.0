@@ -1,107 +1,106 @@
-Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB8F31EEA49
-	for <linux-staging@lists.linux.dev>; Fri, 29 Aug 2025 21:07:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2980A2D29B7
+	for <linux-staging@lists.linux.dev>; Sat, 30 Aug 2025 17:39:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756501622; cv=none; b=N+yHIh1leXtLyMCWQb3eY3/LzoEwVV1WOy8tNE9zxIsjh854pQfoh0xufs/NAAZIhiRhFQUKEAsPizIbcQAGTSSxH2hRUhNsJ+arHTv+jpbXlgw2aTPx7dznVQL+tgWM8BgJpLECjD9XkeT4neELxZUpKf2231MGRiBnmIFvx+Y=
+	t=1756575542; cv=none; b=OrDma4gEB6I6xWOqk9ab63lKEwFAbxGi5s6P6tEmbERH64lDS718Y75C92KX6NTv5sn6ouY0L28YJ7Pq6KvnOlhFQw8auErQN3li9lvlQ0nb3Aa91jkMmIbeT3YXvQGwX2kBmm6JrplOzSNiWbRXxiAz4/hHesL6mKMH9cifat8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756501622; c=relaxed/simple;
-	bh=/0rai2byvDOWFH1XZaEpAVgSAWVS2LnNItZ7xlZkr94=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=H39HFx5YrAQ6U5hAVOpxrG5FiW0HPs9ch3QOorUQeQThM2+nMRE6FqGyKxhCTXeR1V2G1q80gQ8jjT+R8M/e7s8lu7CIbdpzcuEsNvAL8fq9vCst3rJcLeFxgJJpm6K2pm39dW1iavXfwZ4yxcOT0ruLxdfzgEVoYpHV5+d1faI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=aXKCKEWh; arc=none smtp.client-ip=209.85.218.48
+	s=arc-20240116; t=1756575542; c=relaxed/simple;
+	bh=XUFaq11L06NRQuF5veBS9YFaeK3iZLILO+qa6z0KLig=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=L8v2I5WZA4SPx1uS2WoIxBC+3JcmI4JmVQ6wyaxRdSd6mRJfxoCeHodAw89+D1OYuwsb92CNEvcZeXq/qprCo369YQcCyGEOjfHiu5uAyPqwVFgIVtjgOfPuarycLCGnFjQrXMR+oT/1aQSbJPZj12BCovaT4aR++LjgmGJYfGs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=msoj1k+O; arc=none smtp.client-ip=209.85.214.176
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aXKCKEWh"
-Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-afec56519c8so431894466b.2
-        for <linux-staging@lists.linux.dev>; Fri, 29 Aug 2025 14:07:00 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="msoj1k+O"
+Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-248e01cd834so7379585ad.0
+        for <linux-staging@lists.linux.dev>; Sat, 30 Aug 2025 10:39:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1756501619; x=1757106419; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=FNcEdygy0CWacLJjTJErfBlVOBzD7yOoe643gT3i8mM=;
-        b=aXKCKEWhUSJ7bZ5SKbtVX8hoWOn2cQv3pPpcVxNcZpc2UtOfWghAv/qI5MVruYjmpH
-         hq8sjvrKJc+8rsNHq9WLvD2awBRqGMwmAOfiNbYKoc8uoQnjCRP2C420VroHvLf7T79w
-         Dban4HTJnbam2OCHVgzlwWAk70enOsBLGA/iUSaiZXvhzEAhd1XxEAHJ0DuCANXNnSDE
-         mEex7r75YMuJSrccHQh/BJp6265CrdFzUaCfSxDbxc4tC6itGAoz71Rns/u9FZy80xhJ
-         gc6q29XVkG94V43V2eTKwzcQSUrYskVVdmOeuMgslFskn+aTpfeMLk42objbmh/CXcRD
-         rqhQ==
+        d=gmail.com; s=20230601; t=1756575540; x=1757180340; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=pd3QAgaI6xLn3TSraR7jO04+lJz847xBQQfmdUU8S+4=;
+        b=msoj1k+OkO1yj5v9W+OV2lg/9Z8DktkZ7znEyIk6bTO/ucFEb3QpEiOlcdl9TG33EO
+         mE3msz/9eMEjvWhR/IAXLMIjWe3i30xRkgrGUfAURqk3q1EzSxZQdeTevph/IHbhgFIZ
+         wY/0OGxCtMpUe2me3QC9j5IBuZBFnU3VVVExOek464hZX1oYP57kSn//9/gJOF9aFbik
+         DYIb7oxSF6f3qwNjHubImgQmXGdJ9YPsVHxZ925/q8k4S+SQ7Rw5H6R1Mnpps1O1Zz7J
+         DFRGZx/DZAsYFr0bR1rXRjqJP3MLHco8Z+E8ZBXjKnSXCcOZg04ktKY8M1GlOePsKurY
+         qw8g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756501619; x=1757106419;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=FNcEdygy0CWacLJjTJErfBlVOBzD7yOoe643gT3i8mM=;
-        b=kpycnOE3QXcOSeN3AN5vOOvJg2CPHb8JTKchM3+4gTgevzWCbn236JxQRgbWlmf/bZ
-         DMOt9Vqh/A3q4xEgeRhAoAMkO65vCbMnYCNTrRGwvsd/7Ohom9emFRma41EfA8thIgO/
-         kcg4wgRXMIgxDV4QgD2I6k16AwTzasJdx1GOyWBp6OHl3XKOQbdpQ0JK9scvUF8jUpRb
-         M4bivdoeaTNUVAswlzOhFXonkx8vm/9ScT9wN88Ab3PqLScpRkcEu9aKIOrTHPm0sfko
-         RBu3Cm6rENbgJoPg/rWfX3VvLt76Jlq5WIuOLAHR2+JlpoUPqtp7nGdbJfRkjfGFKcjT
-         Xtqg==
-X-Forwarded-Encrypted: i=1; AJvYcCWuL7JXB3241TFFqU3Xg2DXYVDBi4bwO6P5xxm8X1I5s84p9hHlaBnTXYJ6/dJBBVK1M2Iz1Ixsg59n9H4h@lists.linux.dev
-X-Gm-Message-State: AOJu0YwVkaqmRcBLvv0GehrHuSm8GbmVfGsTK4A4bw1Mn4kvCRXKRWgd
-	FnMr9K+WPx+iqob53/ut0KYCoPs/3tYLQRShoT+tAXCB1CGpDbB+2LickuQtwp1B
-X-Gm-Gg: ASbGncuNmq/uBlgony1eaKV5aI6FheS9BqUFpIHPD/IuVBTlJHMPJEAQZ0i++VHVZi4
-	YUt9r5ogIeL5uiagbnCY2E29smF6j8D7MtsIS/kAG7/cRKChjawrTCXBeWbUzAZmXB+5m0nqy4I
-	zhF1vjbFdhlnwXVabdbVBO0JD2r4MFsJ3i4ZRBFYdvh4HthHgKQ8gu6yRFeyI5tMSdRY5Ib6Qeh
-	F97rWEuocBFCSc/RWIHbisFhfSwa3bZLQ2YKD1eXdb19id9yoW7k9uqICghq3bY865qLvlfg4Mx
-	PB/iaf+yA67eO6Xy1EUzZ7jX1861sN/0AK/KFE9Lw0k6bOOUi26emuPQWy9JC7Dlcn+WhVAqbtl
-	IG/J+Q+uJ3e3bWl70huSnhxqrPEpSyWidK1UdBigFQi7TOIPM6Cqs5P01rBY5sHzbnlx5YMU=
-X-Google-Smtp-Source: AGHT+IGgWe0FyC8zcZgJTdl4Svw1qbqKmDGcyAwEXcA5/m/jHxsg4BlSThvn4DEk2IG6pnEQxtDyGg==
-X-Received: by 2002:a17:907:86a3:b0:afe:d3b2:8b2c with SMTP id a640c23a62f3a-b01d979e9b2mr1094866b.52.1756501619010;
-        Fri, 29 Aug 2025 14:06:59 -0700 (PDT)
-Received: from kernel-710 (p5793502e.dip0.t-ipconnect.de. [87.147.80.46])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-aff104fcdd5sm146505566b.55.2025.08.29.14.06.58
+        d=1e100.net; s=20230601; t=1756575540; x=1757180340;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=pd3QAgaI6xLn3TSraR7jO04+lJz847xBQQfmdUU8S+4=;
+        b=C/k0UQFDu9gLWtVoHKqTKEinqAAUE9N3SVN3PGnzRBDIH9GjZHzdmk++CkJ55DrR0w
+         6/y2pjz98mRTZgvdbmOFmmBihcZj3WO0n+h4FR3MSfRpl74nrCsz14zs6ErTZvOscURv
+         d+C1O5+HoiTa9aA1VHtWYeEhJ+8g00SLYnpgoE1CIx9YCV8jmPdsLRKhnLMsl0qjVlT7
+         ccK5AF55vVFWmMYCHqImffIq6DbzK+AE874jXm2ljIGCurA2+H6Lx84EOm45cfnzHW4J
+         3bgRQ/Q9MwxjVEMzqsoVImnxBgviN3WtEDXDHAxme2YjlumV2GCv4MG0PbyGibyWkbFQ
+         naEw==
+X-Forwarded-Encrypted: i=1; AJvYcCVemOCSql7bD7P8W3gzZ9NBFZeBmsuLUGv0nQ6nyVL+Lv25X9MgTskSfbmiONJ50/fUacBxtma2FRTiRhIY@lists.linux.dev
+X-Gm-Message-State: AOJu0YyzgvjJMXeWjCF8GGwYWCiHiKMznYWg0uwwmQWSRg+LafHShaXP
+	xvQQ2Sb/0/AXLB0Kq1wBnHl8gToHGR2GUlesqQ+jjg2wsqkGjr7a3t68
+X-Gm-Gg: ASbGncscEOozqdi4w+EJY1s5M3qDZj4bXt3Ruug7qOHwQ92XkhyFMb3wliqPYkNoIkN
+	rdZg52CVXuptJd6mejr5RQpKWK6aDeIHdhBbSfZm6VIx5FffIgGyBmf+ghzl+LLHHeqy1l+s3XF
+	u7MOb4Y4kyNzz/UtiNWyfkiDSchVRdR9q5H5lS2Vv/LH4sbIil3NcnjlGUcCHTigWgatNXnAwec
+	bifyHeA0xaw6miEChsrZne08Mo/7TkEEF1oHxMJYf5Qp6irkU+IUnkHaIvY6rjCfW6BqZo0FvgN
+	ONMrq/oH+CLDpaYzSBlgPGjyzn7PvA/QsWgMv4QXRlNSdzZ9EWoSJoRNsWrI0zCmItQ2tXZgpPK
+	OWlVS9f/3JKSa11TjO3DIA2NwKBnEu/AR6UnwoQgAYw==
+X-Google-Smtp-Source: AGHT+IGXSHsujaSl2ROKONAWQE6+Ygosv4F3z5UVve5pQ4wzulH1rYWqg7jKwQSm4YJbOk69qQJB0w==
+X-Received: by 2002:a17:90b:4b87:b0:324:f79c:2dd2 with SMTP id 98e67ed59e1d1-327e666e931mr5142096a91.8.1756575540232;
+        Sat, 30 Aug 2025 10:39:00 -0700 (PDT)
+Received: from raspberrypi.flets-east.jp ([2400:4050:d860:9700:eabe:57a8:cf74:875e])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b4cd28ad39csm5154525a12.27.2025.08.30.10.38.56
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 29 Aug 2025 14:06:58 -0700 (PDT)
-Date: Fri, 29 Aug 2025 23:06:57 +0200
-From: philipp hortmann <philipp.g.hortmann@gmail.com>
-To: Michael Straube <straube.linux@gmail.com>
-Cc: gregkh@linuxfoundation.org, hdegoede@redhat.com,
-	Larry.Finger@lwfinger.net, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 0/4] staging: rtl8723bs: more efuse cleanups
-Message-ID: <aLIWccuFa_gHqcaL@kernel-710>
-References: <20250824095830.79233-1-straube.linux@gmail.com>
+        Sat, 30 Aug 2025 10:38:59 -0700 (PDT)
+From: Masaharu Noguchi <nogunix@gmail.com>
+To: gregkh@linuxfoundation.org,
+	linux-staging@lists.linux.dev
+Cc: vaibhav.sr@gmail.com,
+	mgreer@animalcreek.com,
+	johan@kernel.org,
+	elder@kernel.org,
+	greybus-dev@lists.linaro.org,
+	florian.fainelli@broadcom.com,
+	rjui@broadcom.com,
+	sbranden@broadcom.com,
+	bcm-kernel-feedback-list@broadcom.com,
+	dave.stevenson@raspberrypi.com,
+	laurent.pinchart@ideasonboard.com,
+	hverkuil@kernel.org,
+	linux-rpi-kernel@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	Masaharu Noguchi <nogunix@gmail.com>
+Subject: [PATCH 0/2] staging: fix W=1 format-truncation warnings
+Date: Sun, 31 Aug 2025 02:38:48 +0900
+Message-Id: <20250830173850.323897-1-nogunix@gmail.com>
+X-Mailer: git-send-email 2.39.5
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250824095830.79233-1-straube.linux@gmail.com>
+Content-Transfer-Encoding: 8bit
 
-On Sun, Aug 24, 2025 at 11:58:26AM +0200, Michael Straube wrote:
-> This series removes some more efuse related dead code on top of
-> [PATCH 00/14] staging: rtl8723bs: clean up efuse related code
-> 
-> Patch 4/4 removes an empty function I stumbled upon while working
-> on the other patches.
-> 
-> All patches have been compile-tested only due to lack of hardware.
-> 
-> Michael Straube (4):
->   staging: rtl8723bs: remove wrapper Efuse_PowerSwitch
->   staging: rtl8723bs: remove bWrite from Hal_EfusePowerSwitch
->   staging: rtl8723bs: remove REG_EFUSE_ACCESS_8723 and
->     EFUSE_ACCESS_ON_8723
->   staging: rtl8723bs: Hal_EfuseParseAntennaDiversity_8723B is empty
-> 
->  drivers/staging/rtl8723bs/core/rtw_efuse.c    | 31 +-------------
->  .../staging/rtl8723bs/hal/rtl8723b_hal_init.c | 42 ++-----------------
->  drivers/staging/rtl8723bs/hal/sdio_halinit.c  |  1 -
->  drivers/staging/rtl8723bs/include/hal_intf.h  |  2 +-
->  .../staging/rtl8723bs/include/rtl8723b_hal.h  |  2 -
->  drivers/staging/rtl8723bs/include/rtw_efuse.h |  2 -
->  6 files changed, 7 insertions(+), 73 deletions(-)
-> 
-> -- 
-> 2.51.0
->
+    - This series fixes -Wformat-truncation warnings in staging drivers found with W=1 builds:
+    - greybus: prefix device id to widget/control names safely
+    - vc04_services/bcm2835-camera: compose V4L2 bus_info safely
+    Both changes use scnprintf() for the prefix and strscpy() for the remainder. No functional change
+    intended.
 
-Tested-by: Philipp Hortmann <philipp.g.hortmann@gmail.com> # Trendbook Next 14
+Masaharu Noguchi (2):
+  staging: greybus: audio_topology: avoid -Wformat-truncation
+  staging: vc04_services: bcm2835-camera: avoid -Wformat-truncation
+
+ drivers/staging/greybus/audio_topology.c              | 11 ++++++-----
+ .../vc04_services/bcm2835-camera/bcm2835-camera.c     |  5 +++--
+ 2 files changed, 9 insertions(+), 7 deletions(-)
+
+-- 
+2.39.5
+
