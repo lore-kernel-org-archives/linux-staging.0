@@ -1,125 +1,122 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 810D62690E7;
-	Mon,  1 Sep 2025 19:46:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41C80260563
+	for <linux-staging@lists.linux.dev>; Mon,  1 Sep 2025 19:47:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756756010; cv=none; b=lWt4pkUfOuH2SC08cMT87mapG70DivMTwsQUpWAzit2NMDzXcSMcVkgZC/mTlhLkx7pkT2llpxMBVMQwq3dlhuypEKUf2+xnh7UOjaWPbYwDvD7Jjks+9vs3CAt/wZJ7W3tsXI6uBHpJPjrzQ+ZfyvumIUOkh35rLvj2kYz2LE8=
+	t=1756756050; cv=none; b=D+tH/aGm2laJFHlnKqX+zsRhwGFgpZAbxezvKpDCy7o5TqOPk99nNtBd+T30F+96F60I7+N/YNd9sNArjLodC+hnF3BkjtuW9rAtc6iqujyFYQdjRNuqM/qGelVLxhxzggFdfimtNSry663GOZf99clzgQbdaN3PCBxQ/oS5aSU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756756010; c=relaxed/simple;
-	bh=ryLKVNWHHNr99ui3supYs3n7AEHkdw+L0ecBy0DtCNo=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=HwtNDY/cfk5ii3pu6p9lSzligyer/g1uR9xi1QdtB89o4ZhkqFhFIE6FpLVBiT9/Amn16zPr6djyI+mcJn1fP3zJTu5p2Lhp58d4gg79fJnqzpT4zWFxXTMRVJ0mtQSNr9heQKF7/aOTZGcjGhOhUad6DzyX2L2j0H2Q++3qLMA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tnpZQOAD; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1756756050; c=relaxed/simple;
+	bh=RcgZq6hquKpfqYbIn+6sTfO1bsT384AJr49qfHk1DIM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ilrIFbM0zNxWYRMBxHSbqrGrcWX0h6u2bAd/dYxMN2cFiMarZMhf+Jzy9VQthDIUbCNjFb6U4l8qzaWDNmXV3pEPQKpuWa2cm96aOMFVLb4jMkZkRb8Yi/tOBoZIOdncXlmVRfRXqxEUHGW1x4pGHv/l75b1p9JBEQFwV/umabc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=U5Ihc7lo; arc=none smtp.client-ip=209.85.128.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tnpZQOAD"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AFB61C4CEF0;
-	Mon,  1 Sep 2025 19:46:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1756756010;
-	bh=ryLKVNWHHNr99ui3supYs3n7AEHkdw+L0ecBy0DtCNo=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=tnpZQOADOfFuqatEL9arhjzFqUnaI8SnD2BQS8K7II/uVlfhOgH6pVaKpT+m6eMKs
-	 OFq/UZvfOdyGVkXmOin84sqtKEwzdRl5DwY5gVJzk5URFNkK5qVAsnwibn2B1tgXv1
-	 md+Z4IGfNRw4uas0u/F25H4ATP9thnlpm/U2KHaDf1C1ZUtqSyCo41qxFVaC+LeEzr
-	 3AEFTDAC4gc97owBvU7oGu++J0Kyy0YARy4KitvFNpNtAN4qcX/S1yxrspLbvelQbH
-	 9+dQYsx8jmLTmKHQwU3/wRmHoJdZ+KKGNcvjAatk1SgmbJFxFeTKoR2vlIUIlkmJ0k
-	 HTdr2YG8jXvSA==
-Date: Mon, 1 Sep 2025 20:46:40 +0100
-From: Jonathan Cameron <jic23@kernel.org>
-To: David Lechner <dlechner@baylibre.com>
-Cc: Mohammad Amin Hosseini <moahmmad.hosseinii@gmail.com>,
- linux-iio@vger.kernel.org, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org, gregkh@linuxfoundation.org, lars@metafoo.de,
- Michael.Hennerich@analog.com, nuno.sa@analog.com, andy@kernel.org,
- sonic.zhang@analog.com, vapier@gentoo.org, dan.carpenter@linaro.org
-Subject: Re: [PATCH v4] staging: iio: adc: ad7816: fix race condition in SPI
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="U5Ihc7lo"
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-45b869d35a0so14376195e9.1
+        for <linux-staging@lists.linux.dev>; Mon, 01 Sep 2025 12:47:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1756756046; x=1757360846; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=JSndmNKgJlks386GK4b6RRkFbD+zX0itT5uudAAwxDU=;
+        b=U5Ihc7lo/jSM4lfD4ZkIlG13KSQjIelb//i5k/g7q1ULBbx4kZ9D+KczowvyJxoWfn
+         zBTh91ngkT/J463mPmawzOhj2JVQXz31jvshi7JjKVC83hpUEYRgY8X+fzwqqbbGC89w
+         5hMSnjiMe0NbDjl3yDtJCGP5PE9cu67M93inK4oocM2RL2649x0wDOi9cWNf5zJcFtXI
+         k3Zl5v8mFZ0VRK8iY2Rr/LgdSeZbVbCwA3a/3zTjB5RQzFr5qjHf0nd+uYSfKZ/x7ewu
+         0A6EB9n3z0T2QiJ2kbiP8nhYO6oW1+f2FvUF3SwKoXxiXrR+JeIXhPrPetOZbNWpfk2U
+         Ph7g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1756756046; x=1757360846;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=JSndmNKgJlks386GK4b6RRkFbD+zX0itT5uudAAwxDU=;
+        b=t5yCJt2CZpfwvIZn+ag531vAmuiyWn13UMOxOB70F00cxxB7fD8Bw90a6oqnS9sZZo
+         nZOuWrnbRj+wtBz+66i5ibvCApRYvbiqXf3qUtzBmUVmAhpIQvl+QzpRgjD9+Mt0DWlw
+         UzRrb0kewdRT/JkwcWYIbHJAHOnSHji9oZPwxjx/wET/7KuUJp4+r79bGWVDVpus12wa
+         v/t4a7mdcinJL+2i+jyeNL08mFXpvF6L3QjmaGC+eG0y6wqJHttHQN7b8c7KSXjR36rV
+         WJx4VO5TkQsgKxGY+/19OZsL+LDbvcNEJ5nnASMM9oYdb9h1pyzoY0+ibAls8xYoQhwa
+         mH9g==
+X-Forwarded-Encrypted: i=1; AJvYcCVdZ7QX5ywuTk9w2MTeCNiGm01SK8m21hNwMNXgQGdkrJWqbw56W7Y2Y/NhOOYxg6Ygr5kKUkVsuyH3rrcS@lists.linux.dev
+X-Gm-Message-State: AOJu0Yz39eh1yzkAGEigsZobAxWikuXsrQ45TGCT+ukjWF9+bDHE6vCe
+	Ytx4s16VnLpbAL6/Z6qF8B/OpL82/SaGJOhX6YXrklUdD4jR26ZAhkKFm3am7zbKIqE=
+X-Gm-Gg: ASbGnctRAp4h4pwuqEH2o7GZHQni61lCw/Sn2O8JbZMwSH8h+lKX3LapUbSrJJoNHIS
+	XuzftEQBZxnnfnHf0G/GHwSg0mZXaEblNQScOmXpr8N1iHIsy4ItnGYK1trHYfCpKrWqKiYaURA
+	L41M35OM7WHA5RuC7ABdc9SvGAT8Fk+mOBjXznGQ9LEYOApp3rGPleozK6LD+e+JalSGon6SuqX
+	+LJ7iPzx6CV8Hef6m70SJS2vUUWP9PK4ffYeR45Q05YzpHs+KB5dSwbCE/zJUTEoS3V01iugsQY
+	HL7xRddFD6appFNc4+sQWxMeoqBKJQG58+DMo1nWPGCgAup8BpwUqpfOZ0qLjZEn26NCi5O99AI
+	kAKDCZvNOfTunCVThiefGSEl1AOo=
+X-Google-Smtp-Source: AGHT+IF9XFzQaT4OzJqcXj3L72JEO/FSHcvHo14utxyiHAVTrzPdiXGjm/HvwtINoBkZqKmFN9Prrg==
+X-Received: by 2002:a05:600c:c491:b0:45b:7a03:8d7e with SMTP id 5b1f17b1804b1-45b85587defmr63827345e9.21.1756756046448;
+        Mon, 01 Sep 2025 12:47:26 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-45b96d2a6b3sm1825785e9.10.2025.09.01.12.47.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 01 Sep 2025 12:47:25 -0700 (PDT)
+Date: Mon, 1 Sep 2025 22:47:22 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Mohammad Amin Hosseini <moahmmad.hosseinii@gmail.com>
+Cc: linux-iio@vger.kernel.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org, gregkh@linuxfoundation.org,
+	jic23@kernel.org, lars@metafoo.de, Michael.Hennerich@analog.com,
+	dlechner@baylibre.com, nuno.sa@analog.com, andy@kernel.org,
+	sonic.zhang@analog.com, vapier@gentoo.org
+Subject: Re: [PATCH v5] staging: iio: adc: ad7816: fix race condition in SPI
  operations
-Message-ID: <20250901204640.3cee61bc@jic23-huawei>
-In-Reply-To: <51042a87-0233-4748-b3c0-b167d3a4fa06@baylibre.com>
-References: <20250901160310.399-1-moahmmad.hosseinii@gmail.com>
-	<51042a87-0233-4748-b3c0-b167d3a4fa06@baylibre.com>
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.50; x86_64-pc-linux-gnu)
+Message-ID: <aLX4SmvqBjJrS3FS@stanley.mountain>
+References: <20250901194043.20366-1-moahmmad.hosseinii@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250901194043.20366-1-moahmmad.hosseinii@gmail.com>
 
-On Mon, 1 Sep 2025 12:00:44 -0500
-David Lechner <dlechner@baylibre.com> wrote:
-
-> On 9/1/25 11:03 AM, Mohammad Amin Hosseini wrote:
-> > The ad7816 driver lacks proper synchronization around SPI operations
-> > and device state access. Concurrent access from multiple threads can
-> > lead to data corruption and inconsistent device state.
-> > 
-> > The driver performs sequences of GPIO pin manipulations followed by
-> > SPI transactions without any locking. Device state variables (mode,
-> > channel_id, oti_data) are also accessed without synchronization.
-> > 
-> > This bug was found through manual code review using static analysis
-> > techniques. The review focused on identifying unsynchronized access
-> > patterns to shared resources. Key indicators were:
-> > - GPIO pin state changes followed by SPI operations without atomicity
-> > - Shared state variables accessed from multiple sysfs entry points
-> > - No mutex or spinlock protection around sections
-> > - Potential for interleaved execution in multi-threaded environments
-> > 
-> > The review methodology involved tracing data flow paths and identifying
-> > points where concurrent access could corrupt device state or SPI
-> > communication sequences.
-> > 
-> > Add io_lock mutex to protect:
-> > - SPI transactions and GPIO sequences in read/write functions
-> > - Device state variables in sysfs show/store functions
-> > - Concurrent access to chip configuration
-> > 
-> > This prevents race conditions when multiple processes access the device
-> > simultaneously through sysfs attributes or device file operations.
-> > 
-> > Fixes: 7924425db04a ("staging: iio: adc: new driver for AD7816 devices")
-> > 
-> > Signed-off-by: Mohammad Amin Hosseini <moahmmad.hosseinii@gmail.com>
-> > 
-> > ---
-> > Changes in v4:
-> > - Added locking to reader functions (show_mode, show_channel, show_oti)
-> > - Fixed incomplete reader/writer synchronization that could still race
-> > - Ensured all device state access is properly synchronized
-> > - Replace sprintf() with sysfs_emit() in all sysfs show functions
-> > - Use sysfs_streq() instead of strcmp() for proper input parsing
-> > - Implement locked/unlocked SPI function variants to prevent deadlock
-> > - Use channel snapshot to ensure atomic read operations
-> > - Fix sizeof() usage in spi_read to be more explicit (sizeof(buf))
-> > - Make oti write operations atomic (SPI write + shadow update under lock)
-> > - Fix race condition in ad7816_set_oti() by taking channel_id snapshot under lock
-> > - Fix return type consistency (ssize_t vs int) in show functions
-> > - Use chip->id instead of string comparison for channel validation
-> > - Add explicit cast for narrowing assignment
-> > - Add default case for unknown chip ID validation
-> > - Use cansleep GPIO variants in sleepable context
-> > - Improve lock documentation for protected resources
-> > ---  
+On Mon, Sep 01, 2025 at 11:10:43PM +0330, Mohammad Amin Hosseini wrote:
+> The ad7816 driver lacks proper synchronization around SPI operations
+> and device state access. Concurrent access from multiple threads can
+> lead to data corruption and inconsistent device state.
 > 
-> This is way to much to do in a single patch. Also, given that this
-> part is obsolete [1] and this driver is in staging, is it really
-> worth all of this effort to fix it up?
+> The driver performs sequences of GPIO pin manipulations followed by
+> SPI transactions without any locking. Device state variables (mode,
+> channel_id, oti_data) are also accessed without synchronization.
 > 
-> [1]: https://www.analog.com/en/products/ad7816.html
-
-Sadly not obsolete (or at least not all of the supported parts).
-I checked these out the other day - the ad7817 is a production part.
-
-Biggest issue here is slow down!  Too may versions, without
-time for thorough review before another one turns up.  Aim for
-at least a few days, or a 1 week between versions.
-
-Jonathan
-
+> This bug was found through manual code review using static analysis
+> techniques. The review focused on identifying unsynchronized access
+> patterns to shared resources. Key indicators were:
+> - GPIO pin state changes followed by SPI operations without atomicity
+> - Shared state variables accessed from multiple sysfs entry points
+> - No mutex or spinlock protection around sections
+> - Potential for interleaved execution in multi-threaded environments
 > 
+> The review methodology involved tracing data flow paths and identifying
+> points where concurrent access could corrupt device state or SPI
+> communication sequences.
+> 
+> Add io_lock mutex to protect:
+> - SPI transactions and GPIO sequences in read/write functions
+> - Device state variables in sysfs show/store functions
+> - Concurrent access to chip configuration
+> 
+> This prevents race conditions when multiple processes access the device
+> simultaneously through sysfs attributes or device file operations.
+> 
+> Fixes: 7924425db04a ("staging: iio: adc: new driver for AD7816 devices")
+> 
+> Signed-off-by: Mohammad Amin Hosseini <moahmmad.hosseinii@gmail.com>
+> 
+
+I've asked you to wait a day between resends and Jonathan asked you to
+wait for "a few days"...  It really is a headache to review the same
+patch over and over in the same day.
+
+regards,
+dan carpenter
 
