@@ -1,91 +1,142 @@
-Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
+Received: from mail-pg1-f181.google.com (mail-pg1-f181.google.com [209.85.215.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07E2D338F4C
-	for <linux-staging@lists.linux.dev>; Mon,  1 Sep 2025 12:42:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 334072EE61F
+	for <linux-staging@lists.linux.dev>; Mon,  1 Sep 2025 12:47:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756730530; cv=none; b=gtkqcoyzRAH6Xbr5NNetnZ3J5YjibSfAYuh90PaciAZUwUML0e03e8jEIaH9l5oC4CeApu2GsTjNUFRaWxerzfm5fvLwP0u9jF9TkQJqfwHHsUpl0yrMGE22pwZwW7sebfvjwTfLYDzkj2SDT2I/wxEfsY7rIr2zSbPQLMub/wo=
+	t=1756730821; cv=none; b=r/o0QI65IoNkZRm5snknfOmSx7HmQePHRFRaxDAH6O33mhttqcDV1ZGP+QoT3u+7lr1hjLCp0WvGoErjgo8oGu8z9fsc3X3jNM2gbXLWt59aYw2pSLOiLx1+aJdMWIBoUotRDRp9kBbxLnjj6nSMhpeorjvWLB59hbPcQaHscJo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756730530; c=relaxed/simple;
-	bh=gOY5Dw0yIneTkFl1rkItoGut8jnz7U2o1MHv+e5ti3A=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HQ5EBHBsaIg1J5HBzez4KwTq6WI8F36FRmFO6TexRrULEXjAwdFKU8fifSQEMjfMw7G/AzUYgL/v8Y5eaQ+raeySsSKLvp/rXCDCSXK981DMpxrA30lEieqoq9fziMnNVM3Q1cpcuhK1R/xIO7NveNneA0t0HfFks0qa80OmEF0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=m+FRkYN8; arc=none smtp.client-ip=209.85.216.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1756730821; c=relaxed/simple;
+	bh=wvRHqi3dScj15IsjLi+ATrCVMUE7d9PpbVx2eGPnx4I=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=jpXUJycJDM+yK/pgYq/fk5w9h/zUwouK7kSQTTSoU+Emh+ewL7wokU0wgYil9iK7a3qlxocA1yJ9mrys8udcjEAJIwGgWE0AAQ9nbCK5BbuxXLemAOxFJeN673T7ujKgSVvSUvJg2mavIXXJ2dzLPi+3WNcuWHYHSLid6sGxCZo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=1y5LXAwb; arc=none smtp.client-ip=209.85.215.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="m+FRkYN8"
-Received: by mail-pj1-f45.google.com with SMTP id 98e67ed59e1d1-324e2c12f43so534729a91.3
-        for <linux-staging@lists.linux.dev>; Mon, 01 Sep 2025 05:42:08 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="1y5LXAwb"
+Received: by mail-pg1-f181.google.com with SMTP id 41be03b00d2f7-b4d1e7d5036so1844628a12.1
+        for <linux-staging@lists.linux.dev>; Mon, 01 Sep 2025 05:47:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1756730528; x=1757335328; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=gOY5Dw0yIneTkFl1rkItoGut8jnz7U2o1MHv+e5ti3A=;
-        b=m+FRkYN8a2SF1yVF8AHG5uAtEyOm8BJDQE/ARjYlvfwEzCXEAgCi5x4QHP5JLMeIqv
-         hOAENyoPZTHReCuYc2FF794jkmjmXrQ6LEojrLWRLhoXimTTprYqx/Xv5giz5fq860e3
-         jHbyk8sueqefk78MJvTwOXPkWQ2PHAbTCEhKG3QxcRpGrTTRLAgUqFalBdrvfJLMZEdV
-         cJw1AMGxVYPCR8EmwdYRQVdwos4/VOmYR1BsWVMrBur6gq0Jq0jl4Ga371eia8xraElv
-         C0Cqd/GT2UQWLgy61u+G1OWGAr9pG12SO454udmCjO+bxDbr4Fme832x6r1AkB+SVzuq
-         dcBA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756730528; x=1757335328;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+        d=google.com; s=20230601; t=1756730819; x=1757335619; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=gOY5Dw0yIneTkFl1rkItoGut8jnz7U2o1MHv+e5ti3A=;
-        b=FsOkokws4FuSVkon6dhmALtLttMWHJF2KyAmZIQgURXG15nD/QAOnZCfR3jTS2L1VZ
-         9oQ7WfInW1Yx9kZVARDfWDR9H1bpvglvxVHT40LMHriCM8dzTp9oMtu6RCOerVnhEz99
-         8zHrnEj5RHu7TlusNOzu3B0+V+aUClcSyZx3JrzJwJKcbMWgZKPRGuNHH1bSUB0CGkHm
-         g6mG1oUSEm6zAtKOpAlrGq3Inp5rYuQ1kX3G4sbXT4p7kRoskKzaKHWH6KhnlzeKSAvF
-         X0B4VnRQ8JpUtaojJbcjYf8xNxuAnWiJtLDK+kYtXHzjcF7+vjfext3XxboUXD69mJk3
-         p8nw==
-X-Forwarded-Encrypted: i=1; AJvYcCUo4LNJg/zvRwn7YWviNTsUwTokYlHWRz902XFCe1Qr6guYwSAVx756eGyAT7UzG6ZL7Pew7GuyEvHrU72m@lists.linux.dev
-X-Gm-Message-State: AOJu0YwzOFfbu7gmICraT2v7wRbJWBHBFdyEkXedRXyj4AXZnaQbMNfB
-	aoIkVuHm04YT9jAdipMicum7jHpyjRbUOnQUkSxA38k5J9FNC/njE4Ye
-X-Gm-Gg: ASbGncvmZChv8NRaL25HeOQ7Jgpfqtg+tbk4XfXbDq1m0m/cpM0OiTQlPJLk5q6a6lS
-	e5GPoX1fK4klSQwhhpOa6ycXPEj/s2X2c5RcCkBSTXchtPcxRUkdtpEEThx53nvArk+DDcBbcNn
-	suDxZ36KxbUkhjovqgOkmn2DbibHqZ02cbF1NGcOpViD49Z4tk0jH7DUnaxbfM4mocwh17fa5Zp
-	ilcbqIyp7YzzHGgCMQ8paFMtD7H2TefDeFYuP8dw97ppofD6ok+AoQh21UWDeYOfsv3K1Kv6IRY
-	uOQ/WpizdMrzElJ0X9ipPRjLUlMyGUTE5h3EQ9FxIxnPQTXqZkzUGi1r/X/4hKo1mvhaR8Y2p97
-	NaoTZnQZl7aVPT+J+
-X-Google-Smtp-Source: AGHT+IHUn0SC6xICje1UUoFTPSuAjVvF3tBb8TKjXdcRcJR9Br1XsPEsEJrd5UjL8hvq4o4e6MFvaA==
-X-Received: by 2002:a17:90b:4c4a:b0:327:e781:3d37 with SMTP id 98e67ed59e1d1-327f5be1809mr8219063a91.6.1756730528211;
-        Mon, 01 Sep 2025 05:42:08 -0700 (PDT)
-Received: from fedora ([2400:4050:d860:9700:8e8a:52de:86af:cfe3])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3276fce0c5dsm16686640a91.21.2025.09.01.05.42.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 01 Sep 2025 05:42:07 -0700 (PDT)
-Date: Mon, 1 Sep 2025 21:42:00 +0900
-From: Masaharu Noguchi <nogunix@gmail.com>
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
-	vaibhav.sr@gmail.com, mgreer@animalcreek.com, johan@kernel.org,
-	elder@kernel.org, greybus-dev@lists.linaro.org,
-	florian.fainelli@broadcom.com, rjui@broadcom.com,
-	sbranden@broadcom.com, bcm-kernel-feedback-list@broadcom.com,
-	dave.stevenson@raspberrypi.com, laurent.pinchart@ideasonboard.com,
-	hverkuil@kernel.org, linux-rpi-kernel@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/2] staging: greybus: audio_topology: avoid
- -Wformat-truncation
-Message-ID: <aLWUmF2fDUyerjps@fedora>
-References: <20250830173850.323897-1-nogunix@gmail.com>
- <20250830173850.323897-2-nogunix@gmail.com>
- <aLWEm2sQpmoNYLAC@stanley.mountain>
+        bh=/7y07yor/pAlX2cJEQqvfRVMWVvqV9hnsGNfw0TS32c=;
+        b=1y5LXAwbMU+C4fVsIXvuqlGY8/B+tqqWM3iFUahId4GA7uo8qEvo0Kg/4cYNqM6GTw
+         RjlAi4SbZNfvhmD9soEPN19lGlJcFNTa3elsHR69tq0JnPpce3djgj8BoljqgNPZLmt0
+         1XyOqchjz6P1PGwRhWpknjYU+5oHyh/j0EE4U3320P40eTtN+GcCml3oHgfZqCL41x4c
+         7GCP9S3yVRuXgUxp+33BwDW5mOJ8VEcpZGnUvFFre7fPVm1rP7sojk5px8dcC4bqdlpt
+         vChZs46VZtkRerPQq1qMrjyUKOfXfg++l8BY3jHtVgl7nIxZtt3wZZF7K2ZzysMMHo+h
+         Evxw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1756730819; x=1757335619;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=/7y07yor/pAlX2cJEQqvfRVMWVvqV9hnsGNfw0TS32c=;
+        b=gpNilr+yTrS3iDmzy5+W2VYKDzPflar28Az6n/e8rFJ4yldL6gFTcykktxECeT1mRU
+         ZjPIrSnHvzuVp0yC5Iol8UodadkDTo/PKA4+0BBAtNjkStjUFtmqEUPZ32SrwIOX1XzR
+         p++Doj0E/jHa8G5hrIEPADsfmmR9JLypNNJsyoV9vyoHjLXrW+JwLS4nHUuh4uU/BwaQ
+         PMPTgAxGksNSxqd2L74Fn4rctuinU/747dK8/4csIrfP6MAZVAljT4/BSStpReVelKe0
+         +XtTxiR0G5zdyFoxtV+0QmPrbXWgj9DKdh/68HqKRCFmI/9/oZGswAD5GWQRdiaKvVfx
+         06ig==
+X-Forwarded-Encrypted: i=1; AJvYcCUoSD/6S12LKae6l0Qirqtt7/g0Lj7afxLbElA7OB+1fDoKg8+Xp7w7o7htCs66saTQyiLhxGQ7if6hPbjM@lists.linux.dev
+X-Gm-Message-State: AOJu0YxR8afBe5IS6+IINUAQ8hpKa7wdHZwR2IYgMHvz3zqvGb/Rwcwp
+	qhEsWvNbD9nw8pSPQObhSYk+RXeBIM3GrEO/goGIyFnWCG/J4d3snAVrT1vitDlcFloLGC+kxRf
+	ESEAGydvJzN9KsBwcEF9oIuGYRNTDaetCcyybTK2a
+X-Gm-Gg: ASbGncsyTQI2yAbjzOj2O4P7XiF2d2UPqhsAfCpD9+Wc5nw4PWd2Ff3GjF8q21/AgrV
+	5FQJSep8RF6QmFQuvNJ/EklakWYvLw2yF+70W3ZRyGg7es6KmvJPKZuF/sl/6jl0H5qa2UbvQmZ
+	Uz6iHKiNZFIgEdT902SZfOdRF6b+2KvZub2nJgMTdGfHzSf+kKyINrSTMRwboy3sZP4cXduGJ7Z
+	U552uj8MSM1Eo5um6FyncpXuy7oinu95NESI7r4l/D2msUk2pcvlw==
+X-Google-Smtp-Source: AGHT+IHzcBc4YYJpeDDugGdalUGLmOoVhyxPLPgnjb0HlKXSlALfB0fjTWzTMuWcnleuXqTacq9sgKTJ1OxjVOmND00=
+X-Received: by 2002:a17:903:4b0d:b0:24a:aedb:1915 with SMTP id
+ d9443c01a7336-24aaedb1b81mr55675215ad.9.1756730819298; Mon, 01 Sep 2025
+ 05:46:59 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <aLWEm2sQpmoNYLAC@stanley.mountain>
+References: <20250901091050.1935505-1-abarnas@google.com> <20250901091050.1935505-3-abarnas@google.com>
+ <aLWQSAX1ZKg6IiTb@smile.fi.intel.com>
+In-Reply-To: <aLWQSAX1ZKg6IiTb@smile.fi.intel.com>
+From: =?UTF-8?Q?Adrian_Barna=C5=9B?= <abarnas@google.com>
+Date: Mon, 1 Sep 2025 14:46:47 +0200
+X-Gm-Features: Ac12FXyc3n7Z0qCXdSTjDfMBIr2AbkPj7jLdgKKqBvKbDUlmPSbbyJWBW9Lvlfk
+Message-ID: <CAATBrPHpLnsWb-Ua0z2Nmv7To_yXeosoV8+nGzcWfGUVPFq1Xg@mail.gmail.com>
+Subject: Re: [PATCH 2/2] staging:media: atomisp: Whitespaces cleanup in vmem.c
+To: Andy Shevchenko <andriy.shevchenko@intel.com>
+Cc: Hans de Goede <hansg@kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	Sakari Ailus <sakari.ailus@linux.intel.com>, Andy Shevchenko <andy@kernel.org>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Dan Carpenter <dan.carpenter@linaro.org>, 
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-staging@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Thanks for the detailed explanation. I understand your point regarding W=1 warnings and string truncation.
-Based on this, I will drop the previous patch and leave the code as is.
+On Mon, Sep 1, 2025 at 2:23=E2=80=AFPM Andy Shevchenko
+<andriy.shevchenko@intel.com> wrote:
+>
+> On Mon, Sep 01, 2025 at 09:10:50AM +0000, Adrian Barna=C5=9B wrote:
+> > Whitespaces cleanup to conform with kernel style and improve readabilit=
+y.
+>
+> Strange...
 
-Best regards,
-Masaharu Noguchi
+You mean the commit description? Should I reword it?
+
+> >  /* subword bits move like this:         MSB[____xxxx____]LSB -> MSB[00=
+000000xxxx]LSB */
+> > -static inline unsigned long long
+> > -subword(unsigned long long w, unsigned int start, unsigned int end)
+> > +static inline unsigned long long subword(unsigned long long w, unsigne=
+d int start,
+> > +                                      unsigned int end)
+> >  {
+> >       return (w & (((1ULL << (end - 1)) - 1) << 1 | 1)) >> start;
+> >  }
+> >
+> >  /* inverse subword bits move like this: MSB[xxxx____xxxx]LSB -> MSB[xx=
+xx0000xxxx]LSB */
+> > -static inline unsigned long long
+> > -inv_subword(unsigned long long w, unsigned int start, unsigned int end=
+)
+> > +static inline unsigned long long inv_subword(unsigned long long w, uns=
+igned int start,
+> > +                                          unsigned int end)
+> >  {
+> >       return w & (~(((1ULL << (end - 1)) - 1) << 1 | 1) | ((1ULL << sta=
+rt) - 1));
+> >  }
+>
+> These two were just "fixed according to the kernel coding style" and here
+> again. This is odd.
+>
+> Note, the style after the first patch is okay. I dunno what's wrong with =
+it.
+
+Those were not violate the kernel code style indeed, but it looks more
+consistent this way for me.
+Should I revert those?
+
+> ...
+>
+> > -void isp_vmem_load(
+> > -    const isp_ID_t           ID,
+> > -    const t_vmem_elem        *from,
+> > -    t_vmem_elem              *to,
+> > -    unsigned int elems) /* In t_vmem_elem */
+> > +void isp_vmem_load(const isp_ID_t ID, const t_vmem_elem *from, t_vmem_=
+elem *to,
+> > +                unsigned int elems) /* In t_vmem_elem */
+>
+> Please, (re)move trailing comments somewhere else.
+
+Those comments are also in header so in my opinion we could get rid of
+them here.
+
+Thank you for a review
+Adrian Barna=C5=9B
