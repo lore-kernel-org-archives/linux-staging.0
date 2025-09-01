@@ -1,153 +1,105 @@
-Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 516072EF64D
-	for <linux-staging@lists.linux.dev>; Mon,  1 Sep 2025 13:27:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA4BF2D593A
+	for <linux-staging@lists.linux.dev>; Mon,  1 Sep 2025 15:38:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756733252; cv=none; b=f0bLW+q/1puoaCh1al9AnkGGUnhccpLo8VUHmdrwABCzuFTR4zz9W/0XZGAkb7xY2xY5nSo4xF6gvUBeDdGnN/YyFG9pqkPTzhu0wIgXNN+xeHlcnCYBSmTGe+HRlIsip8mvNO5JWPJrEcBmSlE2zKSqGXQ/vKqbHwb5o+8K/A4=
+	t=1756741086; cv=none; b=oVFrwnNeDB4rgejuY42BDlP4lsG5tzpipd8w90I145sk7WsgZ5PSg4SHbfrT29so0dxoXyBG9CNwo6QU/yjXkpslEgW2cOyRf/REJEPjCQ8uQ3GqkHETJ0Jbzdlq5RqvVFtgiBKgGaFRsMr7/MrUiPT7+YYe91V/MTP8Dx/eBL8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756733252; c=relaxed/simple;
-	bh=fNzrzBOmUfUkL+rdi+LGLcpV5MZwfFh11U0nDpLmcf4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=sqC0MgAfybO1unQsVnmbuOVnoLQYLAreiTNzLrzZuV1nc5GU573qYkzwguFClFor6twUiW8w4lax+XlfhUx63W5WHBDAyl1FedrQlnAZE4lhAaYiKHRuHYejlz/xEZ0LkD01o3i44SoqBy0Yx8Rsftts9Piepoy1NqSSJnyM1a0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=PuwRvW/0; arc=none smtp.client-ip=209.85.214.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1756741086; c=relaxed/simple;
+	bh=xLwC9q9C9piqBIiWcm/FI7iHfg5eM70lwU0qNuVUS04=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=tHfXRLaKxv0TvBDXVbZauEtlK9RAHoqz9jHmj/jwCl+ZhzJVtvwimK0syS5ccLDaNugXs4Nz1YENdi14ujc/LiIgJ0Zw1G/0HuTc1/+aLAEkJX73FjhBE/3Xjwv3NZuCzE6A8InV0TWs3TXPJxczoxVFZKlHsPsKcOUpjHTCsZ8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mssBd6K8; arc=none smtp.client-ip=198.175.65.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="PuwRvW/0"
-Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-24aafd1c2a1so13603995ad.3
-        for <linux-staging@lists.linux.dev>; Mon, 01 Sep 2025 06:27:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1756733250; x=1757338050; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=jV51K7A1stp0fFZW7EXTK5PI5DR7Ti0Q40zH30E1jgU=;
-        b=PuwRvW/01Nhe/wqEQCZPOACpmliZrYDvJbpK9dAkWE9aE2dRheAprAjHNXG7WsrJkw
-         Ve5F3l7W9entGADj5hUmoB+Vz+odKkQtT98viQLJJN25dlSffECtHXxfcxMjI+fkXwPx
-         IzGCI8/STe4oDeOdOvDmHLBoiaZzQT4csL0FOpTIqm00jfjfD4l+bS6/iYq7exHuu2jl
-         EtmJugQoE/assRaYHI8WDji6IwL8VRfRJCUJXPua9EqJhS3fSN1L4jS3M7Hyx8ZxgdvI
-         WazrW9edsxkRW++3BjuQe/CXbQuD3p+YnaxprSnvn0lgdX0JqvYctaKz+HUxi4uiq++A
-         bRAg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756733250; x=1757338050;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=jV51K7A1stp0fFZW7EXTK5PI5DR7Ti0Q40zH30E1jgU=;
-        b=t88QpWKsGy0F0neEY/ROEagN/WQN41EZa5YvxfB0rptuUTnmDeZSQjOdRVEe29jIS+
-         clyZj2PQU0wzfWMKj7tyhndOg1O9LfuiA0kBMdzlLNIioipGSAMAeJhKHbM1ZMKvUxWQ
-         fINzAyMMeOiNFe+HKMIufxnL36RPq6kxHrY2DeYbbN1LW8FB1aP26jQD4rAXPbPV7Vm3
-         jevnVFezqKmP34ao7iOy5+Uz4nFkURXjza+yXWb36Y49kCenJVRnkKdhpqgsKo9w2shp
-         EDglECuNk0twY3ktkMiGruKukyzNFtnJbM+bMbYAqkLfy0cP9Hl8VHHI2J40ZlLU3NPg
-         /SOg==
-X-Forwarded-Encrypted: i=1; AJvYcCW3LareHHQ7pAbf2lFKQ7eHdDT9Xw1ieDXpGXQWfiYNqLMf8fu2Ltp6+H0YY3JoqjbmErpN51pBTwT854c4@lists.linux.dev
-X-Gm-Message-State: AOJu0YzHVZe8/LxkGi05XdL3vJcU4ynLQEJbxw2EFQhmOd61pd56SVHG
-	auofswRbXYAHvgL2g/gvJzrSmXlc2dzn0gfSTxBzCGeO1O2NBKPLKDc1Zrr7TeZRRFLBqCR10hi
-	Gw25cRztNAyOu1YBfb9fkmyy3UToO0MfzolrcjGEb
-X-Gm-Gg: ASbGncuwTZwGRGRkNOlBvYwcenyu6AG6QhKLm9W7bbNa3kSswiMwOzozSdkfdaJKlcv
-	vCvWl5s1/NoKD++AybSarzL7nF5tyI1M2IOwhil+ZrmXyfxDojQ3+GyBHXR0QgnDr3vFCk9ovbV
-	AMEL+xneyfXuqCfoWLq2u1hBuGVSdBe71nj50fzdSIcJKyAmXKp+qBmiFMsRPSKI9cv3WCgykJj
-	6xyfIlPKO7l51QpIT/VeeNWI9g12XChAjAhOZ3h3sUvRFOQEzh5t7IaWKN9rwtq
-X-Google-Smtp-Source: AGHT+IE69FGO0OzzXMwhaoMRS2q4IeFD8qIfXTVJo75C49xHY1FRbDwJQDcNEfx9CtcjyMh4JkjZAHZ3bTFwzj9tY+A=
-X-Received: by 2002:a17:903:3c45:b0:248:f762:865b with SMTP id
- d9443c01a7336-24944b196e1mr101515255ad.28.1756733250370; Mon, 01 Sep 2025
- 06:27:30 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mssBd6K8"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1756741085; x=1788277085;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=xLwC9q9C9piqBIiWcm/FI7iHfg5eM70lwU0qNuVUS04=;
+  b=mssBd6K8qjFXIrSldOzIv7DkkyKERPyi9kW8Fyw/WhZ13ou2dglG3zeC
+   ho3Z6WeVak7b8+6w02/iFE3eNEoA1GSlhxItAxvGWLc4+nCRSU770D9Si
+   L2s8llu9OqiqxClBWJYxo2fAS98R/pYixZdO27mJAx/wLHH1SF3qLjiiP
+   kmYdGmnfm4sSUpin+QRZPmErZ0FRD1RUebfkyflljcR6rqxZ61hdEnpLr
+   glNScICvi9hO5LCaQbEbvpU6xMKu68Iv5YqSMssTKV1w4z0sN6PnnfsVB
+   KBytG8RSLtivLk55AwFBM9nCnM9PqeOeip01Xl7JxlWTNN4RHiBvXZuhV
+   Q==;
+X-CSE-ConnectionGUID: hCfzcNG1SUe0ksFCzt1e/w==
+X-CSE-MsgGUID: 8xe3z8+ST5y32cpUPto+Ow==
+X-IronPort-AV: E=McAfee;i="6800,10657,11540"; a="76448129"
+X-IronPort-AV: E=Sophos;i="6.18,225,1751266800"; 
+   d="scan'208";a="76448129"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Sep 2025 08:38:04 -0700
+X-CSE-ConnectionGUID: mjKxYjsKTXKcOyjO45+Hdw==
+X-CSE-MsgGUID: ajlsGzpvTLmzXbZgXg8X+A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.18,225,1751266800"; 
+   d="scan'208";a="194697266"
+Received: from smile.fi.intel.com ([10.237.72.52])
+  by fmviesa002.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Sep 2025 08:38:02 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.98.2)
+	(envelope-from <andriy.shevchenko@intel.com>)
+	id 1ut6bX-0000000ASWv-0Mqm;
+	Mon, 01 Sep 2025 18:37:59 +0300
+Date: Mon, 1 Sep 2025 18:37:58 +0300
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: Adrian =?utf-8?Q?Barna=C5=9B?= <abarnas@google.com>
+Cc: Hans de Goede <hansg@kernel.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Andy Shevchenko <andy@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Dan Carpenter <dan.carpenter@linaro.org>,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev
+Subject: Re: [PATCH 2/2] staging:media: atomisp: Whitespaces cleanup in vmem.c
+Message-ID: <aLW91kNOfi1ab6D3@smile.fi.intel.com>
+References: <20250901091050.1935505-1-abarnas@google.com>
+ <20250901091050.1935505-3-abarnas@google.com>
+ <aLWQSAX1ZKg6IiTb@smile.fi.intel.com>
+ <CAATBrPHpLnsWb-Ua0z2Nmv7To_yXeosoV8+nGzcWfGUVPFq1Xg@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250901091050.1935505-1-abarnas@google.com> <20250901091050.1935505-2-abarnas@google.com>
- <aLWS9QsvmzZW4Bak@smile.fi.intel.com>
-In-Reply-To: <aLWS9QsvmzZW4Bak@smile.fi.intel.com>
-From: =?UTF-8?Q?Adrian_Barna=C5=9B?= <abarnas@google.com>
-Date: Mon, 1 Sep 2025 15:27:19 +0200
-X-Gm-Features: Ac12FXzx9PEJF0qZBZJFJPWNQrrMGW9HgVOcnLKTWsob1RafNAi2Th3uDaSy3dU
-Message-ID: <CAATBrPFnSnxwzBQTOdbt0h=epXW7G5Rj8Sr_erKKzUzCH6xC5g@mail.gmail.com>
-Subject: Re: [PATCH 1/2] staging: media: atomisp: Remove typedefs for basic
- types in vmem.c
-To: Andy Shevchenko <andriy.shevchenko@intel.com>
-Cc: Hans de Goede <hansg@kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	Sakari Ailus <sakari.ailus@linux.intel.com>, Andy Shevchenko <andy@kernel.org>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Dan Carpenter <dan.carpenter@linaro.org>, 
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-staging@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAATBrPHpLnsWb-Ua0z2Nmv7To_yXeosoV8+nGzcWfGUVPFq1Xg@mail.gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On Mon, Sep 1, 2025 at 2:35=E2=80=AFPM Andy Shevchenko
-<andriy.shevchenko@intel.com> wrote:
->
-> On Mon, Sep 01, 2025 at 09:10:49AM +0000, Adrian Barna=C5=9B wrote:
-> > Cleared typedefs hiding unsigned long long type, to align with
-> > kernel coding style.
->
-> ...
->
-> > -static inline hive_uedge
-> > -subword(hive_uedge w, unsigned int start, unsigned int end)
-> > +static inline unsigned long long
-> > +subword(unsigned long long w, unsigned int start, unsigned int end)
-> >  {
-> >       return (w & (((1ULL << (end - 1)) - 1) << 1 | 1)) >> start;
-> >  }
-> >
-> >  /* inverse subword bits move like this: MSB[xxxx____xxxx]LSB -> MSB[xx=
-xx0000xxxx]LSB */
-> > -static inline hive_uedge
-> > -inv_subword(hive_uedge w, unsigned int start, unsigned int end)
-> > +static inline unsigned long long
-> > +inv_subword(unsigned long long w, unsigned int start, unsigned int end=
-)
-> >  {
-> >       return w & (~(((1ULL << (end - 1)) - 1) << 1 | 1) | ((1ULL << sta=
-rt) - 1));
-> >  }
->
-> Also consider to simplify the above (in a separate change).
->
-> static inline unsigned long long
-> subword(unsigned long long w, unsigned int start, unsigned int end)
-> {
->         return (w & GENMASK_ULL(end, 0)) >> start;
-> }
->
-> static inline unsigned long long
-> inv_subword(unsigned long long w, unsigned int start, unsigned int end)
-> {
->         return w & (~GENMASK_ULL(end, 0) | GENMASK_ULL(start, 0));
-> }
->
-> ...if I'm not mistaken, so double check all these.
->
-> At least in my case the end =3D=3D 64 is not allowed while it seems the o=
-riginal
-> code allows it to be equal to the end =3D=3D 63 case. Needs testing anywa=
-y...
+On Mon, Sep 01, 2025 at 02:46:47PM +0200, Adrian Barnaś wrote:
+> On Mon, Sep 1, 2025 at 2:23 PM Andy Shevchenko
+> <andriy.shevchenko@intel.com> wrote:
+> > On Mon, Sep 01, 2025 at 09:10:50AM +0000, Adrian Barnaś wrote:
+> > > Whitespaces cleanup to conform with kernel style and improve readability.
 
-Those functions works odd:
-when (end =3D 8, start =3D 0) it affects bits 0...7
+> > Strange...
+> 
+> You mean the commit description? Should I reword it?
 
-This should make the same results, will check twice if i not missed
-anything and post v2:
+No, the case I explained below.
 
-static inline unsigned long long _subword(unsigned long long w,
-unsigned int start,
-unsigned int end)
-{
-return (w & GENMASK_ULL(end-1, 0)) >> start;
-}
+> > Note, the style after the first patch is okay. I dunno what's wrong with it.
+> 
+> Those were not violate the kernel code style indeed, but it looks more
+> consistent this way for me.
+> Should I revert those?
 
-static inline unsigned long long _inv_subword(unsigned long long w,
-unsigned int start,
-unsigned int end)
-{
-return w & (~GENMASK_ULL(end-1, start));
-}
+If you are talking about the second patch changes in the same functions, yes,
+please, keep them untouched _after_ the patch 1.
+
+-- 
+With Best Regards,
+Andy Shevchenko
 
 
-Thank you for a review
-Adrian Barna=C5=9B
