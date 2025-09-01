@@ -1,110 +1,139 @@
-Received: from mail-yb1-f173.google.com (mail-yb1-f173.google.com [209.85.219.173])
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 319702F8BE7
-	for <linux-staging@lists.linux.dev>; Mon,  1 Sep 2025 10:59:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6253319C546
+	for <linux-staging@lists.linux.dev>; Mon,  1 Sep 2025 11:33:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756724379; cv=none; b=Jv79Q7W6Pm//+XtlLOrzUsoWEJ4SCnx84OGaAK30DqmmL5VFDSthqcrcak/GUqH3+2P7/Nm+Fdhnqa9EitKhveaOHp1b5FssWA8l0yTvpa/pNReXVlvy5laruTpPJhNSPIeHHzFYNGJikQkz3reEOmmbcIRhUVmuw6j7h9TB7tk=
+	t=1756726435; cv=none; b=CPSch63XKlUEDfhtVAQCZFT/0uPIx2WhG4WnbtceLs0wJE9zhu78WAVvAV4ZnwQ6qanvdhvM5jRjGBv4kfXZVeN3CX7suurxeoUpbsAh78j/ltuIBqv+TmwAfBsK7wqwtO+qvh/bjyLIzwv0BSL9wyRxXwWYUr+thJtmiCkJlY8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756724379; c=relaxed/simple;
-	bh=CL4PHcoykLMbZZNjSNvXFDOWdnWPySZb6ACVQlOfyvU=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=VVU7tj42wmim9F0FOaW8chSE8qNtjbBFqeGbowWD3ELVt0TqN1DsRbzojSduUm+PGU47Y+bQXmnlhgI0QXKSs0OZUVIFXNpAeN3dVnR7JsQCH30VGQ0GsWmQGDh/YXZD1XfN34aZETfaMhIBbOYGgE7g3rVPfkSZez7hFYFfDv8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=raspberrypi.com; spf=pass smtp.mailfrom=raspberrypi.com; dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b=Va4JndSr; arc=none smtp.client-ip=209.85.219.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=raspberrypi.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=raspberrypi.com
+	s=arc-20240116; t=1756726435; c=relaxed/simple;
+	bh=NLO1dCIv2EF5Y/31u0lOX1YkMwC+8fc1J9seaeU96G4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=fgqpViT79quZdiqdfT7YDaYzfMvTwhnCL7BkV/ELF9owOW0HuBqawyfF5Q6MgILOkMDciYNku0huGCLc6g6awB/ZeYSX7gxLxtEFEqxX8n3o0/RmSk5fdIbonYlGwVZcyIawyAqzpIvQS+gIDGwdWe772prKPC4yxBnJlY/GO0E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=qt7Qwe5y; arc=none smtp.client-ip=209.85.128.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b="Va4JndSr"
-Received: by mail-yb1-f173.google.com with SMTP id 3f1490d57ef6-e96e5535fcdso4752243276.1
-        for <linux-staging@lists.linux.dev>; Mon, 01 Sep 2025 03:59:37 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="qt7Qwe5y"
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-45b83ae1734so14878765e9.0
+        for <linux-staging@lists.linux.dev>; Mon, 01 Sep 2025 04:33:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=raspberrypi.com; s=google; t=1756724377; x=1757329177; darn=lists.linux.dev;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=EJinoXYbXnzNjHDgh/TK+DIXPD7XvP744ic5UKGRCZE=;
-        b=Va4JndSrg/v/eTPtOaVxNimPWl1c/XY3/PQawAHN8r6UlyEr5yUg1eZ7jMkVVL+sl+
-         bXnfaC9X06eSQiy9APGo4TJMkA3JPkYbPbKYloHNuGR4gdNkRXBS4ktAmnw5IpAq4nvX
-         KHphQmC1MqRoTIB5FIOhViJwiA5j5s0Vof3YPmAStqbjEpMaQGMsGY2prJTIeghdBizm
-         Xlcc6CLKMR+laFotC5d8rKk1CQiJXkVXT+KEch+n7Kx+9XqwSrHCBuDHmFjkvKcwpGS1
-         hdv2r9qkVK1bBHNsOfdkNVNnNtaBoX24Mbi2gN8K8eY0WqUKTQKrMNsWhhQrO/x3eX9D
-         /jRw==
+        d=linaro.org; s=google; t=1756726432; x=1757331232; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=EaGLia0ZyDDZwtKndRyXXNbGsxcdHRQLopkYwbNyjyQ=;
+        b=qt7Qwe5yp0BR5uydc3vjbstpVnmBUeFJWrfE3FcBDe3y0GMgZYbeoaLbBOw2l2URYV
+         oos0ci68GekQDeoTQ4ch3jqTysiD3a8VMNLsAapPHNnBhEbJDxjaduovYGLSCF9rRnL6
+         YRT2DKuBOOEXYDng2lknzF0zYugM4VeddFcq4SQZ2Q0nqFmYUSBK3QS5IzoevPQzNVZn
+         Coxm0/ZYwoHdKxbNpc26XQpBEM9MI742dkUGqipuGwQbdZEYs0IPiXBMp4RWYRIjRlv7
+         lvTl63s0H5Elqns9wmh2USOpWCrbPLiL9IS0Yf46v/Z6KvzqxSNCA3zLa2rdqgaj2Uga
+         2K8Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756724377; x=1757329177;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=EJinoXYbXnzNjHDgh/TK+DIXPD7XvP744ic5UKGRCZE=;
-        b=UAo5U9HdeRuyEeGI7RhmtVcvipje0Uhz1/AOQGK3OFKP9Vkl871HKGV2+4Y67nZQ0o
-         QR07VaoRHh/MhQvaVGMnR39goBcyCmTRLAiMu49HshOcgaNSnD8ad9Tj7oh5kZOLB4FL
-         LsQ/h32PsiVDyGZaDzLZVyIbnQPmdwDfK2orjO43iL+WFyDCArn73g6T8TFAI6m9TSGe
-         aVo9NZLMS1M61GxNHEwpG75lHOYZa9Pu70Fzm0FcRrY2pOQn/v2CTMaW7OxZ53lRi8fs
-         u3ovqS9RalvgxYc0d6JB9KUahJq8wVTuoyuaBEBV4+H2NKVE88x6KOfFEXRmowHalxGL
-         2Svg==
-X-Forwarded-Encrypted: i=1; AJvYcCU96iJGgBpTweku2CJxHUxoGDq14dgpkYAJZXXdJk2y+i5W8qwRc38FB6tdDFoMMZG/k7++rnl4SH+hH599@lists.linux.dev
-X-Gm-Message-State: AOJu0YwI+7gzNLcyacMYZQUlUatnFC282SvOU51ZRFtJrtWQgQ3fv4lz
-	/6GzBbiXmnqtXgKcfw6ZalvUaA5DL+MIR/UGdVjJTir8DsUCIMRe8+YP9o9WLn2EpsgSqYXFasX
-	ekcpvMoEk4ZOzuK8tdMyHsoP6Wsobkk3ljxXZhrqTOw==
-X-Gm-Gg: ASbGncvO/zL/B/1BByV+KKkoDNbLNqokilkT3KR9BqIKRDHiKxmkKGLDm9xPp5tZBPc
-	Oc5/MrUoKfHHXnsFMLDCgM9gY73HwqCAxo8w0rnskojNXePOKEOPjSWbCM55k15uIbFry0VjVXP
-	H7xT2UFxUlu9dt5/xGGSvPTzIiPSVaWR8/vmOqY2aiOq9ssf9lv44+W5qp+Ri8lhIQ0cxCEsddq
-	LqRMeMVgN5ycMPKWGuc1paDym6kYY0Mep4gbcaC3ZjKoV9iHA==
-X-Google-Smtp-Source: AGHT+IG3E5X8rSS4MCzpFL4c7/+B+nTiuZn7QkYnuaa8FdJ3F1U3keZEV+jrL6NCLwW8aPKh0SfR0DXjN6ikye0mpJc=
-X-Received: by 2002:a05:690c:338f:b0:71c:3e81:cca2 with SMTP id
- 00721157ae682-72276337a67mr91487627b3.1.1756724376904; Mon, 01 Sep 2025
- 03:59:36 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1756726432; x=1757331232;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=EaGLia0ZyDDZwtKndRyXXNbGsxcdHRQLopkYwbNyjyQ=;
+        b=faBoCN5KTPizCE7EnoSNEF6RVR6/pPYD+SvEtZ++b8CcGTGJjVIMy9AWgFuvHp/q0+
+         9MEcceAeTR1TS8vVGmlsnt3lzXgM8/pv8aXZBUos3eOOlJBFnbohzabO4AEVlzsdnxqb
+         h+ouLDIb+T24VUnv383i7LmKbv71Zb3VS6j3pJJJJdJoJWmggo44E8L+yVTC+at0qSwt
+         VMZFX6+hk4EZY7liCSvl+Mk9dmY/H0zIpFELqxSsR4ANUfaowhJlL0GM2Pa40zf7CP6j
+         ckcEieJPsiXg9Le0rsdA9hXxnRvshCm/o4+DNNjtTy8wB8iOXRIB7F0WNEcirpEpL82C
+         SvRg==
+X-Forwarded-Encrypted: i=1; AJvYcCW/DFoeOZ9g+R5v215aLw3TON+Gj8Pn4aBJN1+IO5i0gZxmW9UHiM3bcbMl0MOab+z856T8ComTcDK3t/1o@lists.linux.dev
+X-Gm-Message-State: AOJu0YzRyensaMwJpP/kb0qJ8u3c2N/PJlHqtn2wUAsfrrVdzbqruzGG
+	BlU1yk6+kDmA3jG6pi0b5LrYwlTpSdNi3sVd4sHIM6hdSCXiIyAh4gsU+3dB7LFpVns=
+X-Gm-Gg: ASbGncvJg/unoCy6Me2JjdUAKTV8glremjdzS5k5mNFE/mU42yzciMH+u/ZsYvaan4f
+	Zw/nGD1Z76UT9ttZ0yyQ/KGZNfCA/inPm4K2TGh84NLJjciFLSCW+Tt22HnzYXPiY/Cc02asYRQ
+	sRVMoyfKW2L8blp/XZL6/oYK201kZK8yq2OqigmscD0bbuPZRtp7lB2O6xLKNla4w3j749Wu03k
+	6dZKuUMrGje2qqJRKuNUnWCQeu77KQeIbQ598OpH9dLh8pfGIolZYhO30F5Uj3sPZuRili8NRNy
+	+iW14CZuV9gLpsR6GMiZpvAqXwFJVf7VGeg9E4ZFGflz1agL1ZN0JYYtJwluccBheAZ29UTFVa+
+	xXaBuU1peL0qrYN+k6Ptw266i9CWAPB4f26kRJQ==
+X-Google-Smtp-Source: AGHT+IHlZsFA6bO5PL525W9kRFa10Ed6TtJv6bjUkL/ZCgjzMq2fAWcbrEpWZ54ZlAQ/b0gIQUe8sg==
+X-Received: by 2002:a05:600c:a0a:b0:456:1824:4808 with SMTP id 5b1f17b1804b1-45b855aeb67mr56578155e9.32.1756726431637;
+        Mon, 01 Sep 2025 04:33:51 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-45b66f2041fsm141251905e9.5.2025.09.01.04.33.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 01 Sep 2025 04:33:50 -0700 (PDT)
+Date: Mon, 1 Sep 2025 14:33:47 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Masaharu Noguchi <nogunix@gmail.com>
+Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
+	vaibhav.sr@gmail.com, mgreer@animalcreek.com, johan@kernel.org,
+	elder@kernel.org, greybus-dev@lists.linaro.org,
+	florian.fainelli@broadcom.com, rjui@broadcom.com,
+	sbranden@broadcom.com, bcm-kernel-feedback-list@broadcom.com,
+	dave.stevenson@raspberrypi.com, laurent.pinchart@ideasonboard.com,
+	hverkuil@kernel.org, linux-rpi-kernel@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/2] staging: greybus: audio_topology: avoid
+ -Wformat-truncation
+Message-ID: <aLWEm2sQpmoNYLAC@stanley.mountain>
+References: <20250830173850.323897-1-nogunix@gmail.com>
+ <20250830173850.323897-2-nogunix@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250827-vchiq-destage-v1-0-5052a0d81c42@ideasonboard.com>
- <20250827-vchiq-destage-v1-4-5052a0d81c42@ideasonboard.com> <731ead88-8dc9-4032-86f5-7a2dd5044b22@gmx.net>
-In-Reply-To: <731ead88-8dc9-4032-86f5-7a2dd5044b22@gmx.net>
-From: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Date: Mon, 1 Sep 2025 11:59:22 +0100
-X-Gm-Features: Ac12FXx_JRISJwP0UMdGitDY4fzYmnwpQn6tyyu_Q6GUhjhAClChc8Uz64aD8Lo
-Message-ID: <CAPY8ntDz9duSU_TcqE5CPYYCmSTnvm=RgwG56qQ0xe07uzWFLA@mail.gmail.com>
-Subject: Re: [PATCH 4/5] media: staging: Drop bcm2835-camera driver
-To: Stefan Wahren <wahrenst@gmx.net>
-Cc: Jai Luthra <jai.luthra@ideasonboard.com>, 
-	Florian Fainelli <florian.fainelli@broadcom.com>, 
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Ray Jui <rjui@broadcom.com>, 
-	Scott Branden <sbranden@broadcom.com>, linux-rpi-kernel@lists.infradead.org, 
-	linux-arm-kernel@lists.infradead.org, linux-staging@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, kernel-list@raspberrypi.com, 
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250830173850.323897-2-nogunix@gmail.com>
 
-Hi Stefan
+On Sun, Aug 31, 2025 at 02:38:49AM +0900, Masaharu Noguchi wrote:
+>     - Fix -Wformat-truncation when prefixing device id to widget/control
+>       names.
+>     - Write the prefix with scnprintf() and copy the remainder with
+>       strscpy().
+>     - This avoids potential truncation and satisfies W=1 builds in
+>       drivers/staging/greybus.
+> 
+> Signed-off-by: Masaharu Noguchi <nogunix@gmail.com>
+> ---
+>  drivers/staging/greybus/audio_topology.c | 11 ++++++-----
+>  1 file changed, 6 insertions(+), 5 deletions(-)
+> 
+> diff --git a/drivers/staging/greybus/audio_topology.c b/drivers/staging/greybus/audio_topology.c
+> index 6ca938dca4fd..5bf8b5e29dd8 100644
+> --- a/drivers/staging/greybus/audio_topology.c
+> +++ b/drivers/staging/greybus/audio_topology.c
+> @@ -1013,7 +1013,7 @@ static int gbaudio_tplg_create_widget(struct gbaudio_module_info *module,
+>  				      struct snd_soc_dapm_widget *dw,
+>  				      struct gb_audio_widget *w, int *w_size)
+>  {
+> -	int i, ret, csize;
+> +	int i, ret, csize, n;
+>  	struct snd_kcontrol_new *widget_kctls;
+>  	struct gb_audio_control *curr;
+>  	struct gbaudio_control *control, *_control;
+> @@ -1087,7 +1087,8 @@ static int gbaudio_tplg_create_widget(struct gbaudio_module_info *module,
+>  
+>  	/* Prefix dev_id to widget control_name */
+>  	strscpy(temp_name, w->name, sizeof(temp_name));
+> -	snprintf(w->name, sizeof(w->name), "GB %d %s", module->dev_id, temp_name);
+> +	n = scnprintf(w->name, sizeof(w->name), "GB %d ", module->dev_id);
+> +	strscpy(w->name + n, temp_name, sizeof(w->name) - n);
 
-On Wed, 27 Aug 2025 at 20:18, Stefan Wahren <wahrenst@gmx.net> wrote:
->
-> Hi Jai,
->
-> Am 27.08.25 um 08:24 schrieb Jai Luthra:
-> > The bcm2835-camera driver is replaced by the V4L2 bcm2835-unicam driver
-> > that is already upstream. So drop it from staging.
-> AFAIK the old Raspberry Pi Camera V1 isn't supported by V4L2
-> bcm2835-unicam.
+The strscpy() doesn't make sense.  If the string doesn't fit then you
+can't *force* it to fit with strscpy().  :P
 
-The Pi v1 camera is Omnivision's OV5647.
-There is a driver in drivers/media/i2c/ov5647.c, and that is supported
-on the Pi via libcamera.
+Here we're taking a buffer w->name and adding a prefix at the beginning
+of the exact same buffer.  Obviously the result is going to be larger.
+The W=1 warning doesn't add any new information...
 
-It does look like we have a number of downstream patches to that
-driver that I ought to upstream - always something to do.
+I feel like these W=1 warnings about string truncation are rarely useful.
+These limits are not normally thought out that deeply.  Poeople just say,
+"This is probably something like a company name.  Let's say that a
+company name is probably 48 characters long."  But really very few company
+names are that long.  It's just a rough estimate.
 
-  Dave
+And really it's not the worst thing if these strings are truncated.  Kernel
+messages are mostly error messages.  We'll still be able to debug the crash
+even if the last couple characters in a really long name are chopped off.
 
-> Personally i'm fine with this, but this must be clear in
-> the commit message.Did you already talked to distributions like Redhat &
-> OpenSuSE about this step?
-> > This also simplifies destaging of VCHIQ MMAL, by reducing the users of
-> > the MMAL API (this driver is one of them).
-> AFAIU this drops the only one user of VCHIQ MMAL. So please explain, why
-> we still need this API and how this should be tested?
->
-> Best regards
+regards,
+dan carpenter
+
