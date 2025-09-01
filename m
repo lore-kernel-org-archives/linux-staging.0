@@ -1,73 +1,73 @@
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F1D72FB985
-	for <linux-staging@lists.linux.dev>; Mon,  1 Sep 2025 10:23:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33FE33081A9
+	for <linux-staging@lists.linux.dev>; Mon,  1 Sep 2025 10:25:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756722227; cv=none; b=nNSqbAxgZKn+oib/TcrCDPONV9KYbnIY+gayT55Y79vM+ulCFzvXa2S8xGi83gb5kFZvH9YUINcjuuniy7VelKK0DWXzsJnTtCc26cD7ZNzmO2A+HL8c/9za24kl3OsO5sTBcs6zFTRkyDocnG9mnF4MMqRSFL1WF5ZhRNFheUs=
+	t=1756722302; cv=none; b=JsdooPZNHzDXCwWXfeC2WVVuPZ/deX1FkKNO80w8bzis/ZESNgGpDTioIkRj8sIyzbKS1fZ++puWtuxK63PisJdl/5G2pqD7tR9lKRVdK/JRIlI6Iwwk7KxoUP/Lk5qoGkXBLABhKt31HtDASr6s3VaVvcc6RQ6MT8ZwuDw1k/c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756722227; c=relaxed/simple;
-	bh=iN7KWIHWLryomzRy86DkhEHpxBZtcIx3XkEBd/1FjSw=;
+	s=arc-20240116; t=1756722302; c=relaxed/simple;
+	bh=3G7Ld1qpychcmtTgTNSsdZQiAfnbhqLqy04YO6fvdYc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=uN7ilEPgvnou6alHRxxuGL32VgwopqPECAVtbHB/4eJogDSqhWgmtdLWVLfVp1A25lwizVtl2nAkASROY8b1UykBkYuaT9cm28OD2PQw9SXh0Y6NQDjNqw6p1/umVCrUdexi0l08x9tJ+iM3lz+gWmoHPNd3GcZ4jGpyUQzbpGg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=gGjFHVOS; arc=none smtp.client-ip=209.85.221.47
+	 Content-Type:Content-Disposition:In-Reply-To; b=tKZ542T1I64oMTHwfthAtLW+rlDk8sG+HheRTTaS/K3p9/x0AJfFuH/OB1FD0ZZS4HfdLDEUvvVcgr+kIueuSPSZ8AW6oghvcn4XQCD+rvcF5KYVojxQ4V7smoBSRE/BVJcQ7nX+dWE/DTYByHMFEZoaSHfqCkTwroASgD8x+MI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=xKllEnRJ; arc=none smtp.client-ip=209.85.221.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="gGjFHVOS"
-Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-3cdc54cabb1so1702760f8f.0
-        for <linux-staging@lists.linux.dev>; Mon, 01 Sep 2025 03:23:45 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="xKllEnRJ"
+Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-3cf48ec9fa4so2061958f8f.0
+        for <linux-staging@lists.linux.dev>; Mon, 01 Sep 2025 03:25:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1756722224; x=1757327024; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1756722299; x=1757327099; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=FupNSd4N71G5RaqRUXbWr5mmoLboe7U184QjCzCsDcw=;
-        b=gGjFHVOS16aImnJ77ydVuUvSDjNIgH6gMr3Uf9UH6QvdZbwJVBa6NySgkkzMwmc8i2
-         cA60BpcMQBQMSxaKprw4EkmzsSM0B16ta928x3H+LsGV8ChdGOwcRLsou6Uots0o5FLj
-         86x6UMPJ15D5QDvwerYtxEuD5+gbw+/atgaNEtEhhyWa6v/I3eDUZ3cK4ndHxi53T7x0
-         2HNtJ7d+CFiv3MFrUMdjxY3JrUPT+z/xOik9ytFFdiuV8LvRhj7xylVLYjTzfDzMvUXi
-         fIEpL0S4y+ykMcqzpyjMzbKyAvmY/bNSGa01vLq444ZGO/G7eU1ieplE4LI1egqrJ2O2
-         vtOA==
+        bh=3G7Ld1qpychcmtTgTNSsdZQiAfnbhqLqy04YO6fvdYc=;
+        b=xKllEnRJj6jJMQNas0Of2RiSfAMNWRq0Estq8br6cnyaZCV3Hd/Y7Tfg6EPZnZXuGI
+         MXfnr8pFgH2pDWwEYdNFcRLwcw4rQMH9JEBKHD930Nmm6HLBbCpG/WeRNvQqTDJLq+NH
+         98n31vpKicK+cDIqPSiFaExGIVMeJwWlvccxelDkSz/OfMB24m3/HYXS48qkvJltvC3N
+         64qVWf2n1Mmbquj+2nM8dbJ5fr/CmM/R3YJRLPc1lqZ5oe4GC293gkmPgZA4LPsxIoUy
+         MuzU/JyrsL2uOD9ReBmGA2bt2qwEZ5P0Nlf0csfr4+RAFuX9wy2neRHCzb8iSZSps+gi
+         ThEw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756722224; x=1757327024;
+        d=1e100.net; s=20230601; t=1756722299; x=1757327099;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=FupNSd4N71G5RaqRUXbWr5mmoLboe7U184QjCzCsDcw=;
-        b=DYfzvqhY3h2vlNT70Cb/3Yl5p02hYKzYK5tCESrSuLc4nun4uol9YSHHMCrSzg4ES7
-         pIOGpgB06SC/TENeaZklzyLJCYswAvvjM8XjyQ7bBuFRiXB16doVlfNjoQi3ZFvWeayF
-         /aVK2dy+iIxBYRrGWQPxlVPPfp/aIZk754VQXJ054y9qbJ46cwGoM1S3Lahn7gpBLvs7
-         KhL+xiJrNOvscBn00Ugiv3ETJh10ZSiFt2CZCXsyopTeCe73jz2P22uMyXr9d74lzDG2
-         gS3q84oiJPoS8O7WQ+4hj2lca4EzZXV1IIEcLxqruaxoONakYUiIFW5o3Hj8s+2h2DqL
-         FcJw==
-X-Forwarded-Encrypted: i=1; AJvYcCW2f7/pArpQdCkFijHjJkl7+Ej/Tjgz9zMxHelZR26p3fACo3eFb+RZRPOYz3e7p4lxIvjPUjSSiAU619PA@lists.linux.dev
-X-Gm-Message-State: AOJu0YxwsMvTgJZN1KVG1h9HOiV196OGjkDXY5rprO0K2bR7WO0zL2lI
-	dGW/rMra/yWt/qumJmiQ6HEFYh6Z1bmt/RU2ouI08ai+1RZQXzHfmrbNyFeuYl23WAQ=
-X-Gm-Gg: ASbGnctDliILmJFN5P/TQVmkvUUUCTyNHkyziogShUmdrZjL6XxwSbRRvYOedePNY8M
-	3EAe83gwNIdLBcF6kErh4FRzdKVlax6kjQNRXCBXqPEyaik+zn/1olLYtqmEI0X46ahmLxh1hxN
-	kaMQ4H4wIayp1yWKzuUuBL8dAQs1AI2MFhSGsXTEZf8yv6w1uDLr2Xwvu/2Cs/l3uV2oA16wE+a
-	s7ctXK6fLptPbru1cS+rQFwp0A96oArAhOSdN1kmJyJm3nbiXUx7AhR5k6ABdcvoKqMfI36qR+9
-	ieB+61A7/csVOXBQ7xH0CICcOCW8EyXLpaUsNO7Jl8FzNsPOJrpCtQTGOIW6M418RzAUwP3i0g+
-	jeEe0Lxg+GY+A1kbCKqNaTyDeSmI=
-X-Google-Smtp-Source: AGHT+IEv84aTwWbs3yO63r/JRI24Eo/yePwO1sRQK5IAZ7R3Bl3405JKkyTVYcyfa6amc+95TrXJqw==
-X-Received: by 2002:a05:6000:65b:b0:3d4:a64:6754 with SMTP id ffacd0b85a97d-3d40a646bc2mr3954157f8f.62.1756722224384;
-        Mon, 01 Sep 2025 03:23:44 -0700 (PDT)
+        bh=3G7Ld1qpychcmtTgTNSsdZQiAfnbhqLqy04YO6fvdYc=;
+        b=Co6GSIWrX6+KHvHAPqCOXcLd++qzmE7Bwv3bD0RxI0Y2I743cimZO4npf+QKB0Dpid
+         Sg4rlubwNzrzc6LFcGYF3qAGROpzhxyn1oAPwak2KCTmBNRpN5qb17Tjv+k9ea/kk7Z6
+         Z5nLno/LW2FgCVKu34ghc1T1V/FVeTrF0kRoR+Jwx7zofLmCwlN6KcvvoxyxhRnFnWQC
+         aApS+zia+Pc668gvNvxqoLXmSZylwKlW64EsWOSECapnLXFYOMnDgWc1CkAeV9OkiXee
+         MpjGseAuS/U7G1i3kxpGIje63XAgheAH3KGnFLa3NY0q/Pafn2cM1/wwttoRy3yo1CVm
+         iFog==
+X-Forwarded-Encrypted: i=1; AJvYcCWrlL06A6GZ6ArMjk3Ar6GxZuUIZphDg15TPGbb/JFKSGC/zhTpjB9iustONC3SLkyVdvf2Tw+dGwP/bJds@lists.linux.dev
+X-Gm-Message-State: AOJu0Yyc3bnbK5RhAPWdBBmwuw0Z47yOvJxAEaBrq9y2xZpH+eziH/z9
+	uV1QimGvv1qdvC9pw04Hk4rbDfrZSLiVKfbmn+6vJiXfwm9+J8JJ5IR03OHu3mSrrqs=
+X-Gm-Gg: ASbGncvXfJfrhcqYUt81Vf0eM7rBdaDHO7AYL5k8gFn1jR5OvGt793YCpDnIBEi0JKK
+	exROWzJuBvBTvH47XFdVuNFao73GTsvM8CfD4llF45ZvJCgTZIaV6CUjzK2KPhzI0Ho8MTm2Mdb
+	4yIAjrX+D8sXA8GxtmgW5EKlC8Trp89/CWMrbfjEfBcs608XKVikNG0WlqenzFW06fGIPhshHm6
+	UjwgrXUzXFfUC0BYTnihLHmpcdFgFS0OTbLdAhRLg89CeIxMOIi/OrP/wM893M1D8fdwtKVEgJ5
+	FT/t9Gir90bBKUJ0FoV62bf3zWMQaUYd7Y2Vk/TzEX7FQX7UYxswptUydX7UoIei+NOgbonQShb
+	qLhQ4zrnoAevPuEALIDGAIsJxCa8U02PcqOBayg==
+X-Google-Smtp-Source: AGHT+IEec6vgPDcCrTDqOTyHepBVzBKIfJKmIoOvk/faBhoaRvzUBEt6+Jlp+ejld3jTxV+5QEbZEg==
+X-Received: by 2002:a05:6000:1ace:b0:3c4:497f:ecd0 with SMTP id ffacd0b85a97d-3d1de4ba70dmr4550881f8f.31.1756722299510;
+        Mon, 01 Sep 2025 03:24:59 -0700 (PDT)
 Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-45b7e7d141esm155678035e9.2.2025.09.01.03.23.42
+        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-3cf275d2717sm14784721f8f.15.2025.09.01.03.24.58
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 01 Sep 2025 03:23:43 -0700 (PDT)
-Date: Mon, 1 Sep 2025 13:23:40 +0300
+        Mon, 01 Sep 2025 03:24:58 -0700 (PDT)
+Date: Mon, 1 Sep 2025 13:24:55 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
 To: Mohammad Amin Hosseini <moahmmad.hosseinii@gmail.com>
 Cc: linux-iio@vger.kernel.org, linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org, gregkh@linuxfoundation.org,
 	jic23@kernel.org, lars@metafoo.de, Michael.Hennerich@analog.com,
 	dlechner@baylibre.com, nuno.sa@analog.com, andy@kernel.org
-Subject: Re: [PATCH v2] staging: iio: adc: ad7816: add mutex to serialize
+Subject: Re: [PATCH v3] staging: iio: adc: ad7816: add mutex to serialize
  SPI/GPIO operations
-Message-ID: <aLV0LBxD0KIHPSmo@stanley.mountain>
-References: <20250901065445.8787-1-moahmmad.hosseinii@gmail.com>
+Message-ID: <aLV0d9sLbVRZdozH@stanley.mountain>
+References: <20250901073750.22687-1-moahmmad.hosseinii@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -76,64 +76,11 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250901065445.8787-1-moahmmad.hosseinii@gmail.com>
+In-Reply-To: <20250901073750.22687-1-moahmmad.hosseinii@gmail.com>
 
-On Mon, Sep 01, 2025 at 10:24:45AM +0330, Mohammad Amin Hosseini wrote:
-> From: mohammad amin hosseini <moahmmad.hosseinii@gmail.com>
-> 
-> The ad7816 driver was accessing SPI and GPIO lines without
-> synchronization, which could lead to race conditions when accessed
-> concurrently from multiple contexts. This might result in corrupted
-> readings or inconsistent GPIO states.
-> 
-> Introduce an io_lock mutex in the driver structure to serialize:
-> - SPI transactions in ad7816_spi_read() and ad7816_spi_write()
-> - GPIO pin toggling sequences
-> - Updates to device state via sysfs store functions (mode, channel, oti)
-> 
-> The mutex ensures proper mutual exclusion and prevents race
-> conditions under concurrent access.
-> 
-
-The commit message says "might result", which basically implies this
-is from reviewing the code and that we don't have a stack trace?  Is
-that correct?
-
-Are you using some kind of static checker to find racy code?  What
-kind of heuristic is it using to find buggy code?
-
-> Changes in v2:
-> - Fixed mismatch between From: and Signed-off-by lines
-> 
-> Signed-off-by: mohammad amin hosseini <moahmmad.hosseinii@gmail.com>
-
-Please add a Fixes tag.
-
-> @@ -200,7 +204,9 @@ static ssize_t ad7816_store_channel(struct device *dev,
->  		return -EINVAL;
->  	}
->  
-> +	mutex_lock(&chip->io_lock);
->  	chip->channel_id = data;
-> +	mutex_unlock(&chip->io_lock);
->  
->  	return len;
->  }
-> @@ -322,7 +328,9 @@ static inline ssize_t ad7816_set_oti(struct device *dev,
->  	if (ret)
->  		return -EIO;
->  
-> +	mutex_lock(&chip->io_lock);
->  	chip->oti_data[chip->channel_id] = data;
-> +	mutex_unlock(&chip->io_lock);
->  
->  	return len;
->  }
-
-I'm not really knowledgeable to review the others, if they are
-required or how the locking is supposed to work.  But these aren't
-correct because we're only locking around the writers and not the
-readers so it could still race.
+Please wait a day between resends to allow everyone to review the patch.
+Same comments apply as to v2.
 
 regards,
 dan carpenter
+
