@@ -1,74 +1,40 @@
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41C80260563
-	for <linux-staging@lists.linux.dev>; Mon,  1 Sep 2025 19:47:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9676541C62;
+	Mon,  1 Sep 2025 20:01:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756756050; cv=none; b=D+tH/aGm2laJFHlnKqX+zsRhwGFgpZAbxezvKpDCy7o5TqOPk99nNtBd+T30F+96F60I7+N/YNd9sNArjLodC+hnF3BkjtuW9rAtc6iqujyFYQdjRNuqM/qGelVLxhxzggFdfimtNSry663GOZf99clzgQbdaN3PCBxQ/oS5aSU=
+	t=1756756893; cv=none; b=qLjQDs6W3nglpw9bkGvdXlqe6yUDWeft9XeXnNjth4XoqQe3JYQbSUwYZCFwmoDY2vfncJ0r788oxQ5gl8DRaZMraYAGz1df7/Gww6jDlHdEO236F5P6t1XCBhBlCblqbEEnnwirAvMPXjupUz/bb0/Q6uilMG/4ICtP+V6jxF8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756756050; c=relaxed/simple;
-	bh=RcgZq6hquKpfqYbIn+6sTfO1bsT384AJr49qfHk1DIM=;
+	s=arc-20240116; t=1756756893; c=relaxed/simple;
+	bh=VRtuR5jwtMjmkf89hHU6v6T8VPdE+c8Qg/l+jnNwDSI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ilrIFbM0zNxWYRMBxHSbqrGrcWX0h6u2bAd/dYxMN2cFiMarZMhf+Jzy9VQthDIUbCNjFb6U4l8qzaWDNmXV3pEPQKpuWa2cm96aOMFVLb4jMkZkRb8Yi/tOBoZIOdncXlmVRfRXqxEUHGW1x4pGHv/l75b1p9JBEQFwV/umabc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=U5Ihc7lo; arc=none smtp.client-ip=209.85.128.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Type:Content-Disposition:In-Reply-To; b=T8XMop5+GwTNgbrLh/BFGxESt5FWv2lc6145RGgHGShZgby1lXrVrYo3IDIo/j65VRUsn4LRLhAs3kHTHEsCEG8N6/lUcJiwphbducaVEDfFU9oEwQ+xGjZYoiJRvK5tv4ioiljOsQy+AEqDXGEEkJ1TiQ/sL02t5y2vHxkQ5mk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=Fs/2yd/N; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="U5Ihc7lo"
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-45b869d35a0so14376195e9.1
-        for <linux-staging@lists.linux.dev>; Mon, 01 Sep 2025 12:47:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1756756046; x=1757360846; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=JSndmNKgJlks386GK4b6RRkFbD+zX0itT5uudAAwxDU=;
-        b=U5Ihc7lo/jSM4lfD4ZkIlG13KSQjIelb//i5k/g7q1ULBbx4kZ9D+KczowvyJxoWfn
-         zBTh91ngkT/J463mPmawzOhj2JVQXz31jvshi7JjKVC83hpUEYRgY8X+fzwqqbbGC89w
-         5hMSnjiMe0NbDjl3yDtJCGP5PE9cu67M93inK4oocM2RL2649x0wDOi9cWNf5zJcFtXI
-         k3Zl5v8mFZ0VRK8iY2Rr/LgdSeZbVbCwA3a/3zTjB5RQzFr5qjHf0nd+uYSfKZ/x7ewu
-         0A6EB9n3z0T2QiJ2kbiP8nhYO6oW1+f2FvUF3SwKoXxiXrR+JeIXhPrPetOZbNWpfk2U
-         Ph7g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756756046; x=1757360846;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=JSndmNKgJlks386GK4b6RRkFbD+zX0itT5uudAAwxDU=;
-        b=t5yCJt2CZpfwvIZn+ag531vAmuiyWn13UMOxOB70F00cxxB7fD8Bw90a6oqnS9sZZo
-         nZOuWrnbRj+wtBz+66i5ibvCApRYvbiqXf3qUtzBmUVmAhpIQvl+QzpRgjD9+Mt0DWlw
-         UzRrb0kewdRT/JkwcWYIbHJAHOnSHji9oZPwxjx/wET/7KuUJp4+r79bGWVDVpus12wa
-         v/t4a7mdcinJL+2i+jyeNL08mFXpvF6L3QjmaGC+eG0y6wqJHttHQN7b8c7KSXjR36rV
-         WJx4VO5TkQsgKxGY+/19OZsL+LDbvcNEJ5nnASMM9oYdb9h1pyzoY0+ibAls8xYoQhwa
-         mH9g==
-X-Forwarded-Encrypted: i=1; AJvYcCVdZ7QX5ywuTk9w2MTeCNiGm01SK8m21hNwMNXgQGdkrJWqbw56W7Y2Y/NhOOYxg6Ygr5kKUkVsuyH3rrcS@lists.linux.dev
-X-Gm-Message-State: AOJu0Yz39eh1yzkAGEigsZobAxWikuXsrQ45TGCT+ukjWF9+bDHE6vCe
-	Ytx4s16VnLpbAL6/Z6qF8B/OpL82/SaGJOhX6YXrklUdD4jR26ZAhkKFm3am7zbKIqE=
-X-Gm-Gg: ASbGnctRAp4h4pwuqEH2o7GZHQni61lCw/Sn2O8JbZMwSH8h+lKX3LapUbSrJJoNHIS
-	XuzftEQBZxnnfnHf0G/GHwSg0mZXaEblNQScOmXpr8N1iHIsy4ItnGYK1trHYfCpKrWqKiYaURA
-	L41M35OM7WHA5RuC7ABdc9SvGAT8Fk+mOBjXznGQ9LEYOApp3rGPleozK6LD+e+JalSGon6SuqX
-	+LJ7iPzx6CV8Hef6m70SJS2vUUWP9PK4ffYeR45Q05YzpHs+KB5dSwbCE/zJUTEoS3V01iugsQY
-	HL7xRddFD6appFNc4+sQWxMeoqBKJQG58+DMo1nWPGCgAup8BpwUqpfOZ0qLjZEn26NCi5O99AI
-	kAKDCZvNOfTunCVThiefGSEl1AOo=
-X-Google-Smtp-Source: AGHT+IF9XFzQaT4OzJqcXj3L72JEO/FSHcvHo14utxyiHAVTrzPdiXGjm/HvwtINoBkZqKmFN9Prrg==
-X-Received: by 2002:a05:600c:c491:b0:45b:7a03:8d7e with SMTP id 5b1f17b1804b1-45b85587defmr63827345e9.21.1756756046448;
-        Mon, 01 Sep 2025 12:47:26 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-45b96d2a6b3sm1825785e9.10.2025.09.01.12.47.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 01 Sep 2025 12:47:25 -0700 (PDT)
-Date: Mon, 1 Sep 2025 22:47:22 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="Fs/2yd/N"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AA6E8C4CEF0;
+	Mon,  1 Sep 2025 20:01:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1756756893;
+	bh=VRtuR5jwtMjmkf89hHU6v6T8VPdE+c8Qg/l+jnNwDSI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Fs/2yd/NKzgpeL642FAW5Ispn7TMipLzdMwRt9Lu7hV5AbvkLqLIeWtmbzYd5mfgJ
+	 Pt2BmoI7OGwn+0bNtkdBhqeOIuqczogT6bkN+gIKwKUDQHhiP2gPFW86cPSnUmZuvp
+	 VL9KeXMA1rzHdrAmvZZILPC3fK5To7zpmFRY0pps=
+Date: Mon, 1 Sep 2025 22:01:29 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
 To: Mohammad Amin Hosseini <moahmmad.hosseinii@gmail.com>
 Cc: linux-iio@vger.kernel.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org, gregkh@linuxfoundation.org,
-	jic23@kernel.org, lars@metafoo.de, Michael.Hennerich@analog.com,
-	dlechner@baylibre.com, nuno.sa@analog.com, andy@kernel.org,
-	sonic.zhang@analog.com, vapier@gentoo.org
-Subject: Re: [PATCH v5] staging: iio: adc: ad7816: fix race condition in SPI
+	linux-kernel@vger.kernel.org, jic23@kernel.org, lars@metafoo.de,
+	Michael.Hennerich@analog.com, dlechner@baylibre.com,
+	nuno.sa@analog.com, andy@kernel.org, sonic.zhang@analog.com,
+	vapier@gentoo.org, dan.carpenter@linaro.org
+Subject: Re: [PATCH v4] staging: iio: adc: ad7816: fix race condition in SPI
  operations
-Message-ID: <aLX4SmvqBjJrS3FS@stanley.mountain>
-References: <20250901194043.20366-1-moahmmad.hosseinii@gmail.com>
+Message-ID: <2025090110-dipper-sulfate-36cc@gregkh>
+References: <20250901160310.399-1-moahmmad.hosseinii@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -77,9 +43,9 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250901194043.20366-1-moahmmad.hosseinii@gmail.com>
+In-Reply-To: <20250901160310.399-1-moahmmad.hosseinii@gmail.com>
 
-On Mon, Sep 01, 2025 at 11:10:43PM +0330, Mohammad Amin Hosseini wrote:
+On Mon, Sep 01, 2025 at 07:33:10PM +0330, Mohammad Amin Hosseini wrote:
 > The ad7816 driver lacks proper synchronization around SPI operations
 > and device state access. Concurrent access from multiple threads can
 > lead to data corruption and inconsistent device state.
@@ -112,11 +78,62 @@ On Mon, Sep 01, 2025 at 11:10:43PM +0330, Mohammad Amin Hosseini wrote:
 > 
 > Signed-off-by: Mohammad Amin Hosseini <moahmmad.hosseinii@gmail.com>
 > 
+> ---
+> Changes in v4:
+> - Added locking to reader functions (show_mode, show_channel, show_oti)
+> - Fixed incomplete reader/writer synchronization that could still race
+> - Ensured all device state access is properly synchronized
+> - Replace sprintf() with sysfs_emit() in all sysfs show functions
+> - Use sysfs_streq() instead of strcmp() for proper input parsing
+> - Implement locked/unlocked SPI function variants to prevent deadlock
+> - Use channel snapshot to ensure atomic read operations
+> - Fix sizeof() usage in spi_read to be more explicit (sizeof(buf))
+> - Make oti write operations atomic (SPI write + shadow update under lock)
+> - Fix race condition in ad7816_set_oti() by taking channel_id snapshot under lock
+> - Fix return type consistency (ssize_t vs int) in show functions
+> - Use chip->id instead of string comparison for channel validation
+> - Add explicit cast for narrowing assignment
+> - Add default case for unknown chip ID validation
+> - Use cansleep GPIO variants in sleepable context
+> - Improve lock documentation for protected resources
+> ---
+>  drivers/staging/iio/adc/ad7816.c | 210 ++++++++++++++++++++-----------
+>  1 file changed, 138 insertions(+), 72 deletions(-)
 
-I've asked you to wait a day between resends and Jonathan asked you to
-wait for "a few days"...  It really is a headache to review the same
-patch over and over in the same day.
+Hi,
 
-regards,
-dan carpenter
+This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
+a patch that has triggered this response.  He used to manually respond
+to these common problems, but in order to save his sanity (he kept
+writing the same thing over and over, yet to different people), I was
+created.  Hopefully you will not take offence and will fix the problem
+in your patch and resubmit it so that it can be accepted into the Linux
+kernel tree.
 
+You are receiving this message because of the following common error(s)
+as indicated below:
+
+- Your patch did many different things all at once, making it difficult
+  to review.  All Linux kernel patches need to only do one thing at a
+  time.  If you need to do multiple things (such as clean up all coding
+  style issues in a file/driver), do it in a sequence of patches, each
+  one doing only one thing.  This will make it easier to review the
+  patches to ensure that they are correct, and to help alleviate any
+  merge issues that larger patches can cause.
+
+- You have marked a patch with a "Fixes:" tag for a commit that is in an
+  older released kernel, yet you do not have a cc: stable line in the
+  signed-off-by area at all, which means that the patch will not be
+  applied to any older kernel releases.  To properly fix this, please
+  follow the documented rules in the
+  Documentation/process/stable-kernel-rules.rst file for how to resolve
+  this.
+
+If you wish to discuss this problem further, or you have questions about
+how to resolve this issue, please feel free to respond to this email and
+Greg will reply once he has dug out from the pending patches received
+from other developers.
+
+thanks,
+
+greg k-h's patch email bot
