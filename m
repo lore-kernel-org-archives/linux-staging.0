@@ -1,103 +1,153 @@
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAD20175D53
-	for <linux-staging@lists.linux.dev>; Mon,  1 Sep 2025 13:08:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 516072EF64D
+	for <linux-staging@lists.linux.dev>; Mon,  1 Sep 2025 13:27:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756732111; cv=none; b=QUjOmFc5Mq/cyXsGNPpgctlCcAcZspcW6yqxCMXV3GkaR8yCm9JmI9uf7pOv1C9jhpz9104+DTVhgL78H/FXq6uvR2hdzIAqFN808FR8lg/KFC9OaTm/hjFj4auxlukp0Q8CFIfP4/H0Qhz7xsoz+1UpvaYnSmQqbYflraoN7oA=
+	t=1756733252; cv=none; b=f0bLW+q/1puoaCh1al9AnkGGUnhccpLo8VUHmdrwABCzuFTR4zz9W/0XZGAkb7xY2xY5nSo4xF6gvUBeDdGnN/YyFG9pqkPTzhu0wIgXNN+xeHlcnCYBSmTGe+HRlIsip8mvNO5JWPJrEcBmSlE2zKSqGXQ/vKqbHwb5o+8K/A4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756732111; c=relaxed/simple;
-	bh=Gd3KXw1QQlS7MLd0apcsH+QWeJY2pnkwbuUIF6wyLYg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HgfNdXeL8nm41Qd28dybLbJ1Qw5xAuF4Wmx4UG5LmChX/smvF/BsbDHnU5YPkgA9wiyptNCA4sXlbNWSih7khEJ/Jp22zUgwP1MQHWX/ZN+yuaARtg6j7g7J3cyFb3FKyYSE8oolo2x1/LFGrCQvItqtw9NjleDQ/FjJTpg77oM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=ax1pe9XW; arc=none smtp.client-ip=209.85.221.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1756733252; c=relaxed/simple;
+	bh=fNzrzBOmUfUkL+rdi+LGLcpV5MZwfFh11U0nDpLmcf4=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=sqC0MgAfybO1unQsVnmbuOVnoLQYLAreiTNzLrzZuV1nc5GU573qYkzwguFClFor6twUiW8w4lax+XlfhUx63W5WHBDAyl1FedrQlnAZE4lhAaYiKHRuHYejlz/xEZ0LkD01o3i44SoqBy0Yx8Rsftts9Piepoy1NqSSJnyM1a0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=PuwRvW/0; arc=none smtp.client-ip=209.85.214.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ax1pe9XW"
-Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-3d19699240dso1499348f8f.1
-        for <linux-staging@lists.linux.dev>; Mon, 01 Sep 2025 06:08:28 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="PuwRvW/0"
+Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-24aafd1c2a1so13603995ad.3
+        for <linux-staging@lists.linux.dev>; Mon, 01 Sep 2025 06:27:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1756732107; x=1757336907; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=DaBqxA3nVfiucrNs4TUyEScLqswLf3VZ8Gyi43Fij2o=;
-        b=ax1pe9XW1PQ5/ShCXUuOF/2ZX2Uw44LOXP21IzEjUudhKMu3+oQL6usKZHyo4isovP
-         NjLP15wFrfaIHL2/rcNZjms2oNp/lvjmgf/7fBsqeXi5OnwsnlIwjHsmr1xWwfbvLQJu
-         8TNMIk0JYTV6H+rFD42xmwQGkGlhh0v+kbCdDPFlQrNyffOCYDMEpFfoOeqkvkDQY5d/
-         8Vxtj3qroaxsEXKfge9ya6a3GF9aVNK2yociR6lHjSaeZZDqZnPcUiQ06M6Up0XCizJF
-         liI3HsarcnCCCggDc9f5ABbuq+3/gctw/yMzc+983+k7w5h6zigocM+zZi0A97ZO3ALJ
-         UbcQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756732107; x=1757336907;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+        d=google.com; s=20230601; t=1756733250; x=1757338050; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=DaBqxA3nVfiucrNs4TUyEScLqswLf3VZ8Gyi43Fij2o=;
-        b=R/KOwIfh+faSVEkXDz6qM751j/QfavKnlDo3VHyEixtIbyTCmq24OqYS8e+x/mVKYJ
-         17g+Pslc52eWcarOo4a7E0HzsKWfhJAo5t/ZrL6/A2soT0Ujpr0++OwpqNaopq4wSVJf
-         4Hd63PYd9DzRbaBKKoAI/YIP/mfIa3kmjgXzUUAJB7sX1W0X08yQL9EqejEYgwrLFKA1
-         K4ZqjVcgX9FRFv4u44D11L/LUgzcyozTwM65+kn8mYSUw50Fgq7hElkEtpPf3C/DUnlZ
-         +DFaGpLh/e0E0XxK5b7cs+xX2irITtKe/jY+4C0d2O1+Uay3ZW4EZXn8JZpOnUeKWSbB
-         94qw==
-X-Forwarded-Encrypted: i=1; AJvYcCUSHjjI8QQN1imKxyjaDBHvFTcM36l1PA9autmqSmra72sTZRHexOYd31OXl5QFq0b+I7MKdaswT5PAxXbF@lists.linux.dev
-X-Gm-Message-State: AOJu0YzvnI4ERiLyWFeEXc39Ps5YQAY5ru/a36BSNpw+9LmDLtuL1Q8r
-	qgNQEWI1bT4hXCYoPJDAKzd1o7X+rjKDOi3RsnvRJmFPp8pQXUH2GT6URNGtD4MFmes=
-X-Gm-Gg: ASbGncv5xdo4++1bAz/2OK2nTuGoOhNCcuNycYjVKszx4GEtec+SiHrFmOyabIhrINZ
-	jXQdBVXX0blOh8wmat4k1qkyohEDL7wY61d3QUF3NncczWJU5ox69mX9JEDokIZR9UvTJG+HVK1
-	ATZIO/soNDhQDhrD8F8Kae1RKxVxLEdDg6GBLWF+L3soQdM0VxAXpBYI6RWnvn7JD30pZecP+Aq
-	vRzjW4RIRbYwG8tOrz5biofT+2qBAz9kWx4O3z0cSSZ0vQALxVkvvyhYMNGE/H1rPCmMHNAVUk4
-	tU471OTKcBPjapdktydx57NxEyEJb1VCfOShjipSBym1BKUXDBIrNP8bnMFzrGLa9Oq1dw4JfLs
-	/pO78uZkYJw4Ah4sMzoGp4xXUI17Z/gNu7EPTbg==
-X-Google-Smtp-Source: AGHT+IHoO22NHnLmGCEAuykdmrXfYz5c61cYkp/gae0iHULEguoVzXfknO0ldVQ3ZbksBt1rycB8NA==
-X-Received: by 2002:a05:6000:26d3:b0:3c8:2667:4e25 with SMTP id ffacd0b85a97d-3d1b26d6cd7mr7464741f8f.31.1756732106826;
-        Mon, 01 Sep 2025 06:08:26 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-3cf33add294sm16137899f8f.29.2025.09.01.06.08.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 01 Sep 2025 06:08:26 -0700 (PDT)
-Date: Mon, 1 Sep 2025 16:08:22 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Mohammad Amin Hosseini <moahmmad.hosseinii@gmail.com>
-Cc: linux-iio@vger.kernel.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org, gregkh@linuxfoundation.org,
-	jic23@kernel.org, lars@metafoo.de, Michael.Hennerich@analog.com,
-	dlechner@baylibre.com, nuno.sa@analog.com, andy@kernel.org
-Subject: Re: [PATCH v2] staging: iio: adc: ad7816: add mutex to serialize
- SPI/GPIO operations
-Message-ID: <aLWaxoBLEVWlfzN7@stanley.mountain>
-References: <20250901065445.8787-1-moahmmad.hosseinii@gmail.com>
+        bh=jV51K7A1stp0fFZW7EXTK5PI5DR7Ti0Q40zH30E1jgU=;
+        b=PuwRvW/01Nhe/wqEQCZPOACpmliZrYDvJbpK9dAkWE9aE2dRheAprAjHNXG7WsrJkw
+         Ve5F3l7W9entGADj5hUmoB+Vz+odKkQtT98viQLJJN25dlSffECtHXxfcxMjI+fkXwPx
+         IzGCI8/STe4oDeOdOvDmHLBoiaZzQT4csL0FOpTIqm00jfjfD4l+bS6/iYq7exHuu2jl
+         EtmJugQoE/assRaYHI8WDji6IwL8VRfRJCUJXPua9EqJhS3fSN1L4jS3M7Hyx8ZxgdvI
+         WazrW9edsxkRW++3BjuQe/CXbQuD3p+YnaxprSnvn0lgdX0JqvYctaKz+HUxi4uiq++A
+         bRAg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1756733250; x=1757338050;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=jV51K7A1stp0fFZW7EXTK5PI5DR7Ti0Q40zH30E1jgU=;
+        b=t88QpWKsGy0F0neEY/ROEagN/WQN41EZa5YvxfB0rptuUTnmDeZSQjOdRVEe29jIS+
+         clyZj2PQU0wzfWMKj7tyhndOg1O9LfuiA0kBMdzlLNIioipGSAMAeJhKHbM1ZMKvUxWQ
+         fINzAyMMeOiNFe+HKMIufxnL36RPq6kxHrY2DeYbbN1LW8FB1aP26jQD4rAXPbPV7Vm3
+         jevnVFezqKmP34ao7iOy5+Uz4nFkURXjza+yXWb36Y49kCenJVRnkKdhpqgsKo9w2shp
+         EDglECuNk0twY3ktkMiGruKukyzNFtnJbM+bMbYAqkLfy0cP9Hl8VHHI2J40ZlLU3NPg
+         /SOg==
+X-Forwarded-Encrypted: i=1; AJvYcCW3LareHHQ7pAbf2lFKQ7eHdDT9Xw1ieDXpGXQWfiYNqLMf8fu2Ltp6+H0YY3JoqjbmErpN51pBTwT854c4@lists.linux.dev
+X-Gm-Message-State: AOJu0YzHVZe8/LxkGi05XdL3vJcU4ynLQEJbxw2EFQhmOd61pd56SVHG
+	auofswRbXYAHvgL2g/gvJzrSmXlc2dzn0gfSTxBzCGeO1O2NBKPLKDc1Zrr7TeZRRFLBqCR10hi
+	Gw25cRztNAyOu1YBfb9fkmyy3UToO0MfzolrcjGEb
+X-Gm-Gg: ASbGncuwTZwGRGRkNOlBvYwcenyu6AG6QhKLm9W7bbNa3kSswiMwOzozSdkfdaJKlcv
+	vCvWl5s1/NoKD++AybSarzL7nF5tyI1M2IOwhil+ZrmXyfxDojQ3+GyBHXR0QgnDr3vFCk9ovbV
+	AMEL+xneyfXuqCfoWLq2u1hBuGVSdBe71nj50fzdSIcJKyAmXKp+qBmiFMsRPSKI9cv3WCgykJj
+	6xyfIlPKO7l51QpIT/VeeNWI9g12XChAjAhOZ3h3sUvRFOQEzh5t7IaWKN9rwtq
+X-Google-Smtp-Source: AGHT+IE69FGO0OzzXMwhaoMRS2q4IeFD8qIfXTVJo75C49xHY1FRbDwJQDcNEfx9CtcjyMh4JkjZAHZ3bTFwzj9tY+A=
+X-Received: by 2002:a17:903:3c45:b0:248:f762:865b with SMTP id
+ d9443c01a7336-24944b196e1mr101515255ad.28.1756733250370; Mon, 01 Sep 2025
+ 06:27:30 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250901065445.8787-1-moahmmad.hosseinii@gmail.com>
+References: <20250901091050.1935505-1-abarnas@google.com> <20250901091050.1935505-2-abarnas@google.com>
+ <aLWS9QsvmzZW4Bak@smile.fi.intel.com>
+In-Reply-To: <aLWS9QsvmzZW4Bak@smile.fi.intel.com>
+From: =?UTF-8?Q?Adrian_Barna=C5=9B?= <abarnas@google.com>
+Date: Mon, 1 Sep 2025 15:27:19 +0200
+X-Gm-Features: Ac12FXzx9PEJF0qZBZJFJPWNQrrMGW9HgVOcnLKTWsob1RafNAi2Th3uDaSy3dU
+Message-ID: <CAATBrPFnSnxwzBQTOdbt0h=epXW7G5Rj8Sr_erKKzUzCH6xC5g@mail.gmail.com>
+Subject: Re: [PATCH 1/2] staging: media: atomisp: Remove typedefs for basic
+ types in vmem.c
+To: Andy Shevchenko <andriy.shevchenko@intel.com>
+Cc: Hans de Goede <hansg@kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	Sakari Ailus <sakari.ailus@linux.intel.com>, Andy Shevchenko <andy@kernel.org>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Dan Carpenter <dan.carpenter@linaro.org>, 
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-staging@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, Sep 01, 2025 at 10:24:45AM +0330, Mohammad Amin Hosseini wrote:
-> @@ -200,7 +204,9 @@ static ssize_t ad7816_store_channel(struct device *dev,
->  		return -EINVAL;
->  	}
->  
-> +	mutex_lock(&chip->io_lock);
->  	chip->channel_id = data;
-> +	mutex_unlock(&chip->io_lock);
->  
->  	return len;
->  }
+On Mon, Sep 1, 2025 at 2:35=E2=80=AFPM Andy Shevchenko
+<andriy.shevchenko@intel.com> wrote:
+>
+> On Mon, Sep 01, 2025 at 09:10:49AM +0000, Adrian Barna=C5=9B wrote:
+> > Cleared typedefs hiding unsigned long long type, to align with
+> > kernel coding style.
+>
+> ...
+>
+> > -static inline hive_uedge
+> > -subword(hive_uedge w, unsigned int start, unsigned int end)
+> > +static inline unsigned long long
+> > +subword(unsigned long long w, unsigned int start, unsigned int end)
+> >  {
+> >       return (w & (((1ULL << (end - 1)) - 1) << 1 | 1)) >> start;
+> >  }
+> >
+> >  /* inverse subword bits move like this: MSB[xxxx____xxxx]LSB -> MSB[xx=
+xx0000xxxx]LSB */
+> > -static inline hive_uedge
+> > -inv_subword(hive_uedge w, unsigned int start, unsigned int end)
+> > +static inline unsigned long long
+> > +inv_subword(unsigned long long w, unsigned int start, unsigned int end=
+)
+> >  {
+> >       return w & (~(((1ULL << (end - 1)) - 1) << 1 | 1) | ((1ULL << sta=
+rt) - 1));
+> >  }
+>
+> Also consider to simplify the above (in a separate change).
+>
+> static inline unsigned long long
+> subword(unsigned long long w, unsigned int start, unsigned int end)
+> {
+>         return (w & GENMASK_ULL(end, 0)) >> start;
+> }
+>
+> static inline unsigned long long
+> inv_subword(unsigned long long w, unsigned int start, unsigned int end)
+> {
+>         return w & (~GENMASK_ULL(end, 0) | GENMASK_ULL(start, 0));
+> }
+>
+> ...if I'm not mistaken, so double check all these.
+>
+> At least in my case the end =3D=3D 64 is not allowed while it seems the o=
+riginal
+> code allows it to be equal to the end =3D=3D 63 case. Needs testing anywa=
+y...
 
-Unrelated, but what is the point of setting chip->channel_id to
-AD7816_CS_MASK?  The only time where that is used is in
-ad7816_spi_read() when we do:
+Those functions works odd:
+when (end =3D 8, start =3D 0) it affects bits 0...7
 
-	ret = spi_write(spi_dev, &chip->channel_id, sizeof(chip->channel_id));
+This should make the same results, will check twice if i not missed
+anything and post v2:
 
-So it's something in the hardware spec, I guess, but it isn't
-documented.
+static inline unsigned long long _subword(unsigned long long w,
+unsigned int start,
+unsigned int end)
+{
+return (w & GENMASK_ULL(end-1, 0)) >> start;
+}
 
-regards,
-dan carpenter
+static inline unsigned long long _inv_subword(unsigned long long w,
+unsigned int start,
+unsigned int end)
+{
+return w & (~GENMASK_ULL(end-1, start));
+}
+
+
+Thank you for a review
+Adrian Barna=C5=9B
