@@ -1,220 +1,84 @@
-Received: from mail-pg1-f177.google.com (mail-pg1-f177.google.com [209.85.215.177])
+Received: from mail-wm1-f74.google.com (mail-wm1-f74.google.com [209.85.128.74])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7DCF1DE4F1
-	for <linux-staging@lists.linux.dev>; Mon,  1 Sep 2025 07:38:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 495EB272E42
+	for <linux-staging@lists.linux.dev>; Mon,  1 Sep 2025 09:10:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.74
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756712284; cv=none; b=Nr3+rQWuIpFg0xS2UK87T+kGrDWeR+rP7KSh/P2Ri3V+mmjGV0MCNKYudowKdWB6y3EqpCnzaD5T7WLlol++S/1rQ9KDfp5ksu1QVJUszJosjbYew2zq1tJ0xQSql4RHX0R6Hb2YohCjlBS+FX0e4Y6NkgYS1qPK8NmuQDYII7M=
+	t=1756717858; cv=none; b=K2U5lv6bLWH2UbaEUMkh7T66PNqrxRiJG1TtGYdPmYq40ioUGqJ3akBL1AX2jPyflzPlI/zUNnZ81zzX985/c7N+iaRwKLxopUDJJb6qNaexclpdL375WiD4REUkI78V5iPtntQVcxlHEacs/dV8lJ3PwJxmjWr1Bi2Pp82cugg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756712284; c=relaxed/simple;
-	bh=jAfgCrmovXTASeSG0seHoaOGT+mdDgAHBM64F+u2jtE=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=fZfKkcJatu3c+AN7RoqYhh0T2RqL9jHhGE652Ms4awlwGzMWTXt3b7RZ82rQ9NVu4d5aqA6TwNwjAYpfYJF8DmGnyb54BC6otsWaYTnO/dvMzS03MiPX/t/nE+x1U02FYgWUxv6nnFuCEp6iJO8YdSvxavS/s1wKh/uQIF08Jk0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=V8LoL3Gl; arc=none smtp.client-ip=209.85.215.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1756717858; c=relaxed/simple;
+	bh=ACP8MZnAlAb5InMjYQgm922aUo2YjOy4WzsnXNakYg4=;
+	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=cJbX7g/F2EpQR79WE6umNx1U7KrUkbTTpBe357NHB9RM4nkyLmAsnGp7XWRPZ8/mfO/lqQsagIBexDPhwDPdN5MNs+geXkq9Ma3nvBbC2qEdY6UOBGzk/mYe46Iqudx5pLyCCdDRywpIkkbiiwDA8L9RnKjd/ReUarnshzihFFo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--abarnas.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=3fP9Ysx1; arc=none smtp.client-ip=209.85.128.74
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--abarnas.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="V8LoL3Gl"
-Received: by mail-pg1-f177.google.com with SMTP id 41be03b00d2f7-b4df220483fso1416782a12.2
-        for <linux-staging@lists.linux.dev>; Mon, 01 Sep 2025 00:38:02 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="3fP9Ysx1"
+Received: by mail-wm1-f74.google.com with SMTP id 5b1f17b1804b1-45b467f5173so40174635e9.3
+        for <linux-staging@lists.linux.dev>; Mon, 01 Sep 2025 02:10:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1756712282; x=1757317082; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=QlS6s9xBoj0Gsoj15IeDcSfwqpbtZrjtwfLutLxFrM0=;
-        b=V8LoL3GlV/vCww7SiP77PcIzQ41bq6mrdXFW90Nold3T/0409mxOLO2EmaL64K3xGP
-         RpcGo/kC7POgDal/wJkmFacefmuIbAWUkQ45gK5Gxg/aNx1aD712W+gs4CNExXNk4CDX
-         pHLBT3x+99OMjk1MrfHTr5w9yMEAcwcNzOl6+bXqoA2ZmjEtuV/LsEcQ/iTWM9na3sFx
-         00M8di1+Ql8gPjcLNE4XIqlB+Ia5FlW0n59Dv5XV6TQ5j96W8tfYfwM1jtUvhj/sAc8K
-         rS0r5VeO+ZtBCVu5eyDkKwyp4RNVuYSNnO3EpRkVVEajJAAsjaM0CGNIi1ztj51isDkr
-         omnQ==
+        d=google.com; s=20230601; t=1756717856; x=1757322656; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:from:subject:message-id
+         :mime-version:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=hDxtfYjlB+z7OHUF4dwiWALUYeYYqi6hQFXH7mpSg+o=;
+        b=3fP9Ysx1htgqxfpOBk/9KVaAHmv3p+wNTV3mxra5ksn592xOBYzeL/wXKuNHZwIAcT
+         I3tN3Gr6pxDByzji4k+JkQr/xcN57MZteG4ueT5wngkCjqqA6vXQgQtq/RlJdLPRblre
+         imuUOw9Ops1fmvkDQJmsY4re1R8G4fft+iBGbQEQ9+waO+oRlWSHVj/LhLTee1oHzAi9
+         YrupuicllJ8mYkq+ed/FUpp38bZyNSqYNoMcuMLsREhnq9q3LBIPrh09XoaIxBBhd8bG
+         ZJXO+tyBJ8yPiW/VrfQ/H+WnsguvmdDpH8FmSAxRI1KoaxZhg9YIf2MCJ+q/dBsT/XE+
+         dL1w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756712282; x=1757317082;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=QlS6s9xBoj0Gsoj15IeDcSfwqpbtZrjtwfLutLxFrM0=;
-        b=LDcRReLVUe4jgstd9kMEl+LsECaOdjlbvwqcYsFb9ea+4OuRT2kN2LvOOigzieUmOh
-         VO53lKRAe9mZ0V38hbU4R0yoTzLEnvJAB8/4uU5fOvdQbxXqhioOCy4HdHlDflpCyvw3
-         KetMcnfLjWFq/L2mKkkisHguvNLial+8rFH4LPw6nNwkygT3bGkArmFUtEfqA6Fwnir0
-         lUizWsHZ5Z4TM6QVIsULpAUfKhNgtHVdUnP6SC/9Sx4ok/yMy1a2LAOBAPAXePOzqXfB
-         9tl/vWcRNFEpRTG/s+oyfJCZJdhOF3dPvSAKsZuM1+/SMQ4pky4zxaWB75H9JePu2GIK
-         GQIA==
-X-Forwarded-Encrypted: i=1; AJvYcCUgmRyiV9HRnJQJctxm7WW8Tzu9mtckP600jWHUM3K27ddqDOE6/1C+jFzQEjRNpDIn6H0Vo+wNoDIsHiAl@lists.linux.dev
-X-Gm-Message-State: AOJu0YzmLgfLZVAsCiqh5S2UDqJ61ZsWl1AYXXfVJ3FIjYH1UuYXZEd4
-	PWqp0xl3YDAbCiqCZrkrMsfPjg4Wa6/NNRVa+SZZZoIjjFdf6TnFdFys
-X-Gm-Gg: ASbGncuBNoTswiFl+5IfxfWidAHIBAAlO0tLtM6coBEMy8fgji0rs55qUZbCVo07Kr1
-	TsHHRfMIk5sDSjRqOZAh2eHAvcCKWofGsc0tYCSMiqhecYEJDrWFMtHTErFRdFwXxtfw7S3cZiG
-	57OFJstqirSzNT/e+hVV2aMuNLJDLRngJ95Rhrko3fHjLfNUnWJGVRL1lseVQfgy8L0UbGEBrAx
-	Iz5idM3kSJmj7E+nD/gdt02+JvI9W9/PNoDFyP1oomhLT0C5cSsSs7fUgQkoicJS5I61G1MWg/t
-	rIiuffuCGgh325CoLkwApoVoFKibjBWtpbzsbSnOxsqfyVH0OmyeKFOExB3BzAZTemRv8cpxrF/
-	1wGvLSs1D8svpnxHRT1lLP+qRCkIRYbdtjlBqUuoeczRuKh0Mbbs=
-X-Google-Smtp-Source: AGHT+IFBa9YIxUxfvPklfq7ICZ6Mprmrrg84pYsUW/IV/7FZKdeJpVxqGnCn7Cgi5itSIo9WzCI4Zw==
-X-Received: by 2002:a17:903:1211:b0:246:ceda:ebeb with SMTP id d9443c01a7336-24944aa2848mr85094795ad.33.1756712282012;
-        Mon, 01 Sep 2025 00:38:02 -0700 (PDT)
-Received: from localhost ([77.111.118.146])
-        by smtp.gmail.com with UTF8SMTPSA id 41be03b00d2f7-b4de04a9ea7sm6489148a12.16.2025.09.01.00.38.00
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 01 Sep 2025 00:38:01 -0700 (PDT)
-From: Mohammad Amin Hosseini <moahmmad.hosseinii@gmail.com>
-To: linux-iio@vger.kernel.org,
-	linux-staging@lists.linux.dev
-Cc: linux-kernel@vger.kernel.org,
-	gregkh@linuxfoundation.org,
-	jic23@kernel.org,
-	lars@metafoo.de,
-	Michael.Hennerich@analog.com,
-	dlechner@baylibre.com,
-	nuno.sa@analog.com,
-	andy@kernel.org,
-	Mohammad Amin Hosseini <moahmmad.hosseinii@gmail.com>
-Subject: [PATCH v3] staging: iio: adc: ad7816: add mutex to serialize SPI/GPIO operations
-Date: Mon,  1 Sep 2025 11:07:50 +0330
-Message-ID: <20250901073750.22687-1-moahmmad.hosseinii@gmail.com>
-X-Mailer: git-send-email 2.51.0
+        d=1e100.net; s=20230601; t=1756717856; x=1757322656;
+        h=content-transfer-encoding:cc:to:from:subject:message-id
+         :mime-version:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=hDxtfYjlB+z7OHUF4dwiWALUYeYYqi6hQFXH7mpSg+o=;
+        b=Bojb2MOByuQ3symfNhm7MpmZxGnpaqH3mB0KrmrecAg8Dj+iFkcB55MEeteJuhND7i
+         B6gRv/9JvbX3FjR+YFcGhxbSUz1+6Vf3yJmgkRobNNDBgRriQ5LyRy5BJ/YPSeCnlEPI
+         kuo6Vi3GIT6NxY/cZ+2MJ2yOZ/bjlTalptcWpH5hDpOsDqW9vmrgqBjq4dErCyZWBTKc
+         95+FL7qx5/1DjSznGoCvRefOZuAcVaWKiS+vjlhtNuuNq9HFSXUIP09k0uf70Q8Qh0Ny
+         PwfChdOtNgf0vl2ei4g3UINrhc3MxwVFQIYDyCdHpCdFyjGOhEHGLt6UtHI/RVaXcTl0
+         Ldlg==
+X-Forwarded-Encrypted: i=1; AJvYcCUUg//CvJouFrGUI9CZkVDPYYT79dnidT2APlRbJwvQYNksc7GLaTD66gzhzwLEN/2sInf6X0Oc8xz6gs6r@lists.linux.dev
+X-Gm-Message-State: AOJu0Yyinsh+9kuNitecapd3YNY/zpvP1kIPGN/azs6OYZGDy9pQ92J1
+	WavGuzHhu2VmNYMWacndMkNHlQkYpXxa4CUZPIZCV8gh05/Ncs1v5A3BbGah91gYiuZdqE8PhM/
+	9JlGje+YfGQ==
+X-Google-Smtp-Source: AGHT+IGOfALiy9m2ZadFM7Lqo/znox4/GCfzOHB+U0RHpZwPYSarW0J3a2cBE64h5xyOJH4bR9NboaXjLbqI
+X-Received: from wmbez7.prod.google.com ([2002:a05:600c:83c7:b0:459:10dd:2e55])
+ (user=abarnas job=prod-delivery.src-stubby-dispatcher) by 2002:a05:600c:3b9a:b0:45b:629b:dc1e
+ with SMTP id 5b1f17b1804b1-45b88525cf2mr46556505e9.1.1756717855565; Mon, 01
+ Sep 2025 02:10:55 -0700 (PDT)
+Date: Mon,  1 Sep 2025 09:10:48 +0000
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.51.0.318.gd7df087d1a-goog
+Message-ID: <20250901091050.1935505-1-abarnas@google.com>
+Subject: [PATCH 0/2] staging: media: atomisp: Style fixes for vmem.c
+From: "=?UTF-8?q?Adrian=20Barna=C5=9B?=" <abarnas@google.com>
+To: Hans de Goede <hansg@kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	Sakari Ailus <sakari.ailus@linux.intel.com>, Andy Shevchenko <andy@kernel.org>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Dan Carpenter <dan.carpenter@linaro.org>, 
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-staging@lists.linux.dev
+Cc: "=?UTF-8?q?Adrian=20Barna=C5=9B?=" <abarnas@google.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-The ad7816 driver was accessing SPI and GPIO lines without
-synchronization, which could lead to race conditions when accessed
-concurrently from multiple contexts. This might result in corrupted
-readings or inconsistent GPIO states.
+Style fixes for pci/hive/isp/css/common/host/vmem.c. First patch
+triggers check issues in checkpatch.pl that are fixed in the second one.
 
-Introduce an io_lock mutex in the driver structure to serialize:
-- SPI transactions in ad7816_spi_read() and ad7816_spi_write()
-- GPIO pin toggling sequences
-- Updates to device state via sysfs store functions (mode, channel, oti)
+Adrian Barna=C5=9B (2):
+  staging: media: atomisp: Remove typedefs for basic types in vmem.c
+  staging:media: atomisp: Whitespaces cleanup in vmem.c
 
-The mutex ensures proper mutual exclusion and prevents race
-conditions under concurrent access.
+ .../pci/hive_isp_css_common/host/vmem.c       | 111 ++++++------------
+ 1 file changed, 36 insertions(+), 75 deletions(-)
 
-Signed-off-by: Mohammad Amin Hosseini <moahmmad.hosseinii@gmail.com>
-
----
-Changes in v3:
-- Restore proper capitalization in From:/Signed-off-by lines
-- Move v2 changelog below the --- line
-
-Changes in v2:
-- Fixed mismatch between From: and Signed-off-by lines
-- Verified style compliance with checkpatch.pl
----
- drivers/staging/iio/adc/ad7816.c | 29 +++++++++++++++++++----------
- 1 file changed, 19 insertions(+), 10 deletions(-)
-
-diff --git a/drivers/staging/iio/adc/ad7816.c b/drivers/staging/iio/adc/ad7816.c
-index 4774df778de9..06567d048a6d 100644
---- a/drivers/staging/iio/adc/ad7816.c
-+++ b/drivers/staging/iio/adc/ad7816.c
-@@ -50,6 +50,7 @@ struct ad7816_chip_info {
- 	u8  oti_data[AD7816_CS_MAX + 1];
- 	u8  channel_id;	/* 0 always be temperature */
- 	u8  mode;
-+	struct mutex io_lock;	/* Protects SPI transactions and GPIO toggling */
- };
- 
- enum ad7816_type {
-@@ -67,13 +68,13 @@ static int ad7816_spi_read(struct ad7816_chip_info *chip, u16 *data)
- 	int ret;
- 	__be16 buf;
- 
-+	mutex_lock(&chip->io_lock);
-+
- 	gpiod_set_value(chip->rdwr_pin, 1);
- 	gpiod_set_value(chip->rdwr_pin, 0);
- 	ret = spi_write(spi_dev, &chip->channel_id, sizeof(chip->channel_id));
--	if (ret < 0) {
--		dev_err(&spi_dev->dev, "SPI channel setting error\n");
--		return ret;
--	}
-+	if (ret < 0)
-+		goto unlock;
- 	gpiod_set_value(chip->rdwr_pin, 1);
- 
- 	if (chip->mode == AD7816_PD) { /* operating mode 2 */
-@@ -92,13 +93,13 @@ static int ad7816_spi_read(struct ad7816_chip_info *chip, u16 *data)
- 	gpiod_set_value(chip->rdwr_pin, 0);
- 	gpiod_set_value(chip->rdwr_pin, 1);
- 	ret = spi_read(spi_dev, &buf, sizeof(*data));
--	if (ret < 0) {
--		dev_err(&spi_dev->dev, "SPI data read error\n");
--		return ret;
--	}
-+	if (ret < 0)
-+		goto unlock;
- 
- 	*data = be16_to_cpu(buf);
- 
-+unlock:
-+	mutex_unlock(&chip->io_lock);
- 	return ret;
- }
- 
-@@ -107,12 +108,13 @@ static int ad7816_spi_write(struct ad7816_chip_info *chip, u8 data)
- 	struct spi_device *spi_dev = chip->spi_dev;
- 	int ret;
- 
-+	mutex_lock(&chip->io_lock);
-+
- 	gpiod_set_value(chip->rdwr_pin, 1);
- 	gpiod_set_value(chip->rdwr_pin, 0);
- 	ret = spi_write(spi_dev, &data, sizeof(data));
--	if (ret < 0)
--		dev_err(&spi_dev->dev, "SPI oti data write error\n");
- 
-+	mutex_unlock(&chip->io_lock);
- 	return ret;
- }
- 
-@@ -136,6 +138,7 @@ static ssize_t ad7816_store_mode(struct device *dev,
- 	struct iio_dev *indio_dev = dev_to_iio_dev(dev);
- 	struct ad7816_chip_info *chip = iio_priv(indio_dev);
- 
-+	mutex_lock(&chip->io_lock);
- 	if (strcmp(buf, "full") == 0) {
- 		gpiod_set_value(chip->rdwr_pin, 1);
- 		chip->mode = AD7816_FULL;
-@@ -143,6 +146,7 @@ static ssize_t ad7816_store_mode(struct device *dev,
- 		gpiod_set_value(chip->rdwr_pin, 0);
- 		chip->mode = AD7816_PD;
- 	}
-+	mutex_unlock(&chip->io_lock);
- 
- 	return len;
- }
-@@ -200,7 +204,9 @@ static ssize_t ad7816_store_channel(struct device *dev,
- 		return -EINVAL;
- 	}
- 
-+	mutex_lock(&chip->io_lock);
- 	chip->channel_id = data;
-+	mutex_unlock(&chip->io_lock);
- 
- 	return len;
- }
-@@ -322,7 +328,9 @@ static inline ssize_t ad7816_set_oti(struct device *dev,
- 	if (ret)
- 		return -EIO;
- 
-+	mutex_lock(&chip->io_lock);
- 	chip->oti_data[chip->channel_id] = data;
-+	mutex_unlock(&chip->io_lock);
- 
- 	return len;
- }
-@@ -363,6 +371,7 @@ static int ad7816_probe(struct spi_device *spi_dev)
- 	dev_set_drvdata(&spi_dev->dev, indio_dev);
- 
- 	chip->spi_dev = spi_dev;
-+	mutex_init(&chip->io_lock);
- 	for (i = 0; i <= AD7816_CS_MAX; i++)
- 		chip->oti_data[i] = 203;
- 
--- 
-2.43.0
+--=20
+2.51.0.318.gd7df087d1a-goog
 
