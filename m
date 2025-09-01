@@ -1,75 +1,73 @@
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC0DD2EE268
-	for <linux-staging@lists.linux.dev>; Mon,  1 Sep 2025 09:38:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F1D72FB985
+	for <linux-staging@lists.linux.dev>; Mon,  1 Sep 2025 10:23:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756719492; cv=none; b=ByVvVDee0lQGZlbPqUqZ1/BjUiSHl2xXhehBVLpnVhtHwPlURIBUDWE+u6o7sEu62excdMqmOgeZ6iMSOKOBjqdX0utAm3olCjo8IoYLtp97FLEiH4OqS+n+h91cC89jYz24oZh4plkYx7n7fGvFwuBmvCOTp1O0I2uaoBEDSPQ=
+	t=1756722227; cv=none; b=nNSqbAxgZKn+oib/TcrCDPONV9KYbnIY+gayT55Y79vM+ulCFzvXa2S8xGi83gb5kFZvH9YUINcjuuniy7VelKK0DWXzsJnTtCc26cD7ZNzmO2A+HL8c/9za24kl3OsO5sTBcs6zFTRkyDocnG9mnF4MMqRSFL1WF5ZhRNFheUs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756719492; c=relaxed/simple;
-	bh=PoWmp6BTuJf52NGuYT9JTcAkjotRrjBMjDMhdQU+LDk=;
+	s=arc-20240116; t=1756722227; c=relaxed/simple;
+	bh=iN7KWIHWLryomzRy86DkhEHpxBZtcIx3XkEBd/1FjSw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XrLTDZ6VpoTVvrPu+02XwVubJaduCxCYJ4k2ZSLPzTRuEMUb9HOThfkVzRlYPFpSbbNsuv28Ud9w788R2o31UFFsZA+Fn+JdHohsbKFyUsLixKPSG8oQofY8b/CF1PcQL9ChXqP9ZMHtTsUar4OFhHgVKcizEnT+kDYF0pOUU8Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Unp2+TUq; arc=none smtp.client-ip=209.85.221.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=uN7ilEPgvnou6alHRxxuGL32VgwopqPECAVtbHB/4eJogDSqhWgmtdLWVLfVp1A25lwizVtl2nAkASROY8b1UykBkYuaT9cm28OD2PQw9SXh0Y6NQDjNqw6p1/umVCrUdexi0l08x9tJ+iM3lz+gWmoHPNd3GcZ4jGpyUQzbpGg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=gGjFHVOS; arc=none smtp.client-ip=209.85.221.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Unp2+TUq"
-Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-3d3fa21a77fso840665f8f.3
-        for <linux-staging@lists.linux.dev>; Mon, 01 Sep 2025 02:38:10 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="gGjFHVOS"
+Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-3cdc54cabb1so1702760f8f.0
+        for <linux-staging@lists.linux.dev>; Mon, 01 Sep 2025 03:23:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1756719489; x=1757324289; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1756722224; x=1757327024; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=Pzu1kAbdXkRLJdQeBmyDCvvHq0+JzBfy9qWh/xcbHzY=;
-        b=Unp2+TUqIS34sB3p1K1nE806Qu8PWQwxW5zKZGaGxclMtRENNE8wv7iXsyihfJfu7N
-         XMrhMAlEARSd3Apzx4Vf0SY0TD0zSE+kJGyIZXXmK7ZJ7h287KpCd8g5zys30NqAQ0/a
-         NOkDtxTsGUSi9ORQ+OgO0Ytx0l6LMRjmWXCYqceJKg/MH2+dR+7RX1vKZw9P0rbz3JdI
-         9WgAkAOudoO/A6KSn8c1+KwzojuwEa14lh5Cvz758QP4FNGJnJBSOMnnleuBVmOt2F8B
-         23C7FViRebMfZ6hqjC+HwA4HCTHcVEEyCyqAKpMwLMWd6GVhegqW2dfat1ddyXY1yToU
-         m9Dw==
+        bh=FupNSd4N71G5RaqRUXbWr5mmoLboe7U184QjCzCsDcw=;
+        b=gGjFHVOS16aImnJ77ydVuUvSDjNIgH6gMr3Uf9UH6QvdZbwJVBa6NySgkkzMwmc8i2
+         cA60BpcMQBQMSxaKprw4EkmzsSM0B16ta928x3H+LsGV8ChdGOwcRLsou6Uots0o5FLj
+         86x6UMPJ15D5QDvwerYtxEuD5+gbw+/atgaNEtEhhyWa6v/I3eDUZ3cK4ndHxi53T7x0
+         2HNtJ7d+CFiv3MFrUMdjxY3JrUPT+z/xOik9ytFFdiuV8LvRhj7xylVLYjTzfDzMvUXi
+         fIEpL0S4y+ykMcqzpyjMzbKyAvmY/bNSGa01vLq444ZGO/G7eU1ieplE4LI1egqrJ2O2
+         vtOA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756719489; x=1757324289;
+        d=1e100.net; s=20230601; t=1756722224; x=1757327024;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Pzu1kAbdXkRLJdQeBmyDCvvHq0+JzBfy9qWh/xcbHzY=;
-        b=vR9r0JYlPGV2bMDc5j/RKhbb36visW8y262Xe6I46tvmrSD+gbQkLjIy6+/iNyfLVe
-         6v0CyM/lTX66GpOghmjPuQQ0uaXfFpSJMRDYCoMgFSpnDj1jzyur/HdmISYGDnlJjSqQ
-         LuGgTT0pgxU78Ge+GHo8aU5/LEe4LPGWU4qt6TjYgtJjf1u4fFAssSzS1tdMh1pg2Wfs
-         4vkQrWFEnZXUYkac5Rk+Ov04WSjAjtks7Rx0eWBj9aMPUFgVGzIknlhZNcYMPyx8zJ7f
-         QTM2lx3dEr+f6BSDjN5PGtJH1LCF0nTNwnZLrsDPQK2zDD+k7pZDMU7TRuLsHfFYO/Ti
-         pRkg==
-X-Forwarded-Encrypted: i=1; AJvYcCV1PobkUFV3HDyrJ4gNxn878AcLRoQnKcaAHFExrm2axOWqgRIt2ftlOHqbRvXg9jz8BqQErwRK3NxRtRyM@lists.linux.dev
-X-Gm-Message-State: AOJu0Yxzj/NJrAsupdANNo2/QfEqiq6b+MCtJRXAfgcHCu7k2r+oG4EH
-	D+WEswMzyaWD/3jdEyAu109g4H3DYMSGdatDydsy7EUT7MVxbt+cTF96
-X-Gm-Gg: ASbGncs9HLTpTuM2w65rhYwuuvN+ZFCzqPkXzMKFfrfl3KIndAjuMeKKb7MhMtEI0XZ
-	tX2G6rgOM3GMt3pkx9AegrWVjMAn8yA+xM0bcaLRk8ETAwPckF5OpuMVwh5xgjR9sJAgSKqZnN+
-	BDzjN9i8YhfFkfDuQPBaPc0oFCXu4g7kaMJU+V0+OlwdDsAFWkWPMpFFbDe9nbou2NFJA1xFRT7
-	Z8HIo3sPmVzr9mqNv+nz3D9U0Pxanbvcgvr0ys6e3HN51daJTHFn+rsY6cyutdUnATFtzX92fAc
-	9IxZfkm0N4/cG378N6/TNs1aW6Bg12oEFnL7ZoXaJOqcOc5L4GK1s/8YnB4WVkRvxW42mLc6B7K
-	VrsHK1P5HrJej+mV6R9cEUZqekblA40tp6YxZq602IJzwNhpu
-X-Google-Smtp-Source: AGHT+IF2TZk7fxatgeUxLw/qv7wlqnSjQwQXJdLzdyRAIZVXdjblMD2gLpYR4LPKSoJ9LYijZ/AY7g==
-X-Received: by 2002:a05:6000:1a8c:b0:3cd:96bb:b948 with SMTP id ffacd0b85a97d-3d1df15a131mr5335377f8f.47.1756719488910;
-        Mon, 01 Sep 2025 02:38:08 -0700 (PDT)
-Received: from egonzo (82-64-73-52.subs.proxad.net. [82.64.73.52])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3cf33add294sm15218970f8f.29.2025.09.01.02.38.07
+        bh=FupNSd4N71G5RaqRUXbWr5mmoLboe7U184QjCzCsDcw=;
+        b=DYfzvqhY3h2vlNT70Cb/3Yl5p02hYKzYK5tCESrSuLc4nun4uol9YSHHMCrSzg4ES7
+         pIOGpgB06SC/TENeaZklzyLJCYswAvvjM8XjyQ7bBuFRiXB16doVlfNjoQi3ZFvWeayF
+         /aVK2dy+iIxBYRrGWQPxlVPPfp/aIZk754VQXJ054y9qbJ46cwGoM1S3Lahn7gpBLvs7
+         KhL+xiJrNOvscBn00Ugiv3ETJh10ZSiFt2CZCXsyopTeCe73jz2P22uMyXr9d74lzDG2
+         gS3q84oiJPoS8O7WQ+4hj2lca4EzZXV1IIEcLxqruaxoONakYUiIFW5o3Hj8s+2h2DqL
+         FcJw==
+X-Forwarded-Encrypted: i=1; AJvYcCW2f7/pArpQdCkFijHjJkl7+Ej/Tjgz9zMxHelZR26p3fACo3eFb+RZRPOYz3e7p4lxIvjPUjSSiAU619PA@lists.linux.dev
+X-Gm-Message-State: AOJu0YxwsMvTgJZN1KVG1h9HOiV196OGjkDXY5rprO0K2bR7WO0zL2lI
+	dGW/rMra/yWt/qumJmiQ6HEFYh6Z1bmt/RU2ouI08ai+1RZQXzHfmrbNyFeuYl23WAQ=
+X-Gm-Gg: ASbGnctDliILmJFN5P/TQVmkvUUUCTyNHkyziogShUmdrZjL6XxwSbRRvYOedePNY8M
+	3EAe83gwNIdLBcF6kErh4FRzdKVlax6kjQNRXCBXqPEyaik+zn/1olLYtqmEI0X46ahmLxh1hxN
+	kaMQ4H4wIayp1yWKzuUuBL8dAQs1AI2MFhSGsXTEZf8yv6w1uDLr2Xwvu/2Cs/l3uV2oA16wE+a
+	s7ctXK6fLptPbru1cS+rQFwp0A96oArAhOSdN1kmJyJm3nbiXUx7AhR5k6ABdcvoKqMfI36qR+9
+	ieB+61A7/csVOXBQ7xH0CICcOCW8EyXLpaUsNO7Jl8FzNsPOJrpCtQTGOIW6M418RzAUwP3i0g+
+	jeEe0Lxg+GY+A1kbCKqNaTyDeSmI=
+X-Google-Smtp-Source: AGHT+IEv84aTwWbs3yO63r/JRI24Eo/yePwO1sRQK5IAZ7R3Bl3405JKkyTVYcyfa6amc+95TrXJqw==
+X-Received: by 2002:a05:6000:65b:b0:3d4:a64:6754 with SMTP id ffacd0b85a97d-3d40a646bc2mr3954157f8f.62.1756722224384;
+        Mon, 01 Sep 2025 03:23:44 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-45b7e7d141esm155678035e9.2.2025.09.01.03.23.42
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 01 Sep 2025 02:38:07 -0700 (PDT)
-Date: Mon, 1 Sep 2025 11:38:05 +0200
-From: Dave Penkler <dpenkler@gmail.com>
-To: Osama Abdelkader <osama.abdelkader@gmail.com>
-Cc: Dan Carpenter <dan.carpenter@linaro.org>, gregkh@linuxfoundation.org,
-	matchstick@neverthere.org, arnd@arndb.de,
-	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev,
-	marcello.carla@gmx.com
-Subject: Re: [PATCH v2] staging: gpib: simplify and fix get_data_lines
-Message-ID: <aLVpfRLyri4K_WFK@egonzo>
-References: <20250827113858.17265-1-osama.abdelkader@gmail.com>
- <aK73HPDKu6rqg9Ya@stanley.mountain>
- <aK8SGpevZsGM5CCF@egonzo>
- <20ed561b-aba1-432c-9fdc-103e724852d9@gmail.com>
+        Mon, 01 Sep 2025 03:23:43 -0700 (PDT)
+Date: Mon, 1 Sep 2025 13:23:40 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Mohammad Amin Hosseini <moahmmad.hosseinii@gmail.com>
+Cc: linux-iio@vger.kernel.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org, gregkh@linuxfoundation.org,
+	jic23@kernel.org, lars@metafoo.de, Michael.Hennerich@analog.com,
+	dlechner@baylibre.com, nuno.sa@analog.com, andy@kernel.org
+Subject: Re: [PATCH v2] staging: iio: adc: ad7816: add mutex to serialize
+ SPI/GPIO operations
+Message-ID: <aLV0LBxD0KIHPSmo@stanley.mountain>
+References: <20250901065445.8787-1-moahmmad.hosseinii@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -78,128 +76,64 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20ed561b-aba1-432c-9fdc-103e724852d9@gmail.com>
+In-Reply-To: <20250901065445.8787-1-moahmmad.hosseinii@gmail.com>
 
-On Fri, Aug 29, 2025 at 04:34:05PM +0200, Osama Abdelkader wrote:
+On Mon, Sep 01, 2025 at 10:24:45AM +0330, Mohammad Amin Hosseini wrote:
+> From: mohammad amin hosseini <moahmmad.hosseinii@gmail.com>
 > 
-> On 8/27/25 4:11 PM, Dave Penkler wrote:
-> > On Wed, Aug 27, 2025 at 03:16:28PM +0300, Dan Carpenter wrote:
-> >> On Wed, Aug 27, 2025 at 01:38:57PM +0200, Osama Abdelkader wrote:
-> >>> The function `get_data_lines()` in gpib_bitbang.c currently reads 8
-> >>> GPIO descriptors individually and combines them into a byte.
-> >>> This has two issues:
-> >>>
-> >>>   * `gpiod_get_value()` returns an `int` which may be negative on
-> >>>     error. Assigning it directly into a `u8` may propagate unexpected
-> >>>     values. Masking ensures only the LSB is used.
-> >> This part isn't really true any more.
-> >>
-> >>>   * The code is repetitive and harder to extend.
-> >>>
-> >>> Fix this by introducing a local array of GPIO descriptors and looping
-> >>> over them, while masking the return value to its least significant bit.
-> >> There really isn't any need to mask now that we're checking for
-> >> negatives.
-> >>
-> >>> This reduces duplication, makes the code more maintainable, and avoids
-> >>> possible data corruption from negative `gpiod_get_value()` returns.
-> >>>
-> >>> Signed-off-by: Osama Abdelkader <osama.abdelkader@gmail.com>
-> >>> ---
-> >>> v2:
-> >>> Just print the gpio pin error and leave the bit as zero
-> >>> ---
-> >>>  drivers/staging/gpib/gpio/gpib_bitbang.c | 28 ++++++++++++++----------
-> >>>  1 file changed, 17 insertions(+), 11 deletions(-)
-> >>>
-> >>> diff --git a/drivers/staging/gpib/gpio/gpib_bitbang.c b/drivers/staging/gpib/gpio/gpib_bitbang.c
-> >>> index 17884810fd69..f4ca59c007dd 100644
-> >>> --- a/drivers/staging/gpib/gpio/gpib_bitbang.c
-> >>> +++ b/drivers/staging/gpib/gpio/gpib_bitbang.c
-> >>> @@ -1403,17 +1403,23 @@ static void set_data_lines(u8 byte)
-> >>>  
-> >>>  static u8 get_data_lines(void)
-> >>>  {
-> >>> -	u8 ret;
-> >>> -
-> >>> -	ret = gpiod_get_value(D01);
-> >>> -	ret |= gpiod_get_value(D02) << 1;
-> >>> -	ret |= gpiod_get_value(D03) << 2;
-> >>> -	ret |= gpiod_get_value(D04) << 3;
-> >>> -	ret |= gpiod_get_value(D05) << 4;
-> >>> -	ret |= gpiod_get_value(D06) << 5;
-> >>> -	ret |= gpiod_get_value(D07) << 6;
-> >>> -	ret |= gpiod_get_value(D08) << 7;
-> >>> -	return ~ret;
-> >>> +	struct gpio_desc *lines[8] = {
-> >>> +		D01, D02, D03, D04, D05, D06, D07, D08
-> >>> +	};
-> >>> +
-> >> Delete this blank line.
-> >>
-> >>> +	u8 val = 0;
-> >>> +	int ret, i;
-> >>> +
-> >>> +	for (i = 0; i < 8; i++) {
-> >>> +		ret = gpiod_get_value(lines[i]);
-> >>> +		if (ret < 0) {
-> >>> +			pr_err("get GPIO pin %d error: %d\n", i, ret);
-> >>> +			continue;
-> >>> +		}
-> >>> +		val |= (ret & 1) << i;
-> >> Delete the mask.
-> >>
-> >> (I wavered on whether I should comment on the nit picky things I've
-> >> said in this email, but in the end it was the out of date commit
-> >> message which pushed me over the edge.  I would have ignored the
-> >> other things otherwise).
-> >>
-> >> regards,
-> >> dan carpenter
-> >>
-> >>
-> > This patch seems unnecessary.
-> > The code will never be extended.
+> The ad7816 driver was accessing SPI and GPIO lines without
+> synchronization, which could lead to race conditions when accessed
+> concurrently from multiple contexts. This might result in corrupted
+> readings or inconsistent GPIO states.
 > 
-> But using for loop is more readable than writing 8 similar lines, or?
+> Introduce an io_lock mutex in the driver structure to serialize:
+> - SPI transactions in ad7816_spi_read() and ad7816_spi_write()
+> - GPIO pin toggling sequences
+> - Updates to device state via sysfs store functions (mode, channel, oti)
 > 
-> > In the unlikely case of errors it will produce a huge streams of console spam.
-> > It negatively impacts performance:  114209 bytes/sec vs 118274 bytes/sec.
+> The mutex ensures proper mutual exclusion and prevents race
+> conditions under concurrent access.
 > 
-> We can remove that error message to not impact the performance, but storing errors even unlikely cases
-> as gpio data is a bug, or?
 
-Hi again,
-Even with the following code, eliminating the error test, the
-performance is still negatively impacted: 114865 vs 118274 bytes/sec.
+The commit message says "might result", which basically implies this
+is from reviewing the code and that we don't have a stack trace?  Is
+that correct?
 
-static u8 get_data_lines(void)
-{
-  struct gpio_desc *lines[8] = {D01, D02, D03, D04, D05, D06, D07, D08}; 
-  u8 val = 0;
-  int i;
+Are you using some kind of static checker to find racy code?  What
+kind of heuristic is it using to find buggy code?
 
-  for (i = 0; i < 8; i++)
-             val |= gpiod_get_value(lines[i]) << i;
-   return ~val;
-}
+> Changes in v2:
+> - Fixed mismatch between From: and Signed-off-by lines
+> 
+> Signed-off-by: mohammad amin hosseini <moahmmad.hosseinii@gmail.com>
 
-Variable shifts are just slower than hardcoded shifts. Most of the
-delay for GPIB reads and writes comes from the relatively long
-interrupt latency on the pi's (> 2 usecs). There are 2 interrupts per
-byte read. Even so the loop implementation causes a noticeable
-degradation in performance which we want to avoid.
+Please add a Fixes tag.
 
-Regarding testing for error returns:
-We won't get ENODEV since on the raspberry pi the gpios are
-implemented on the SoC so cannot "disappear" once allocated.
+> @@ -200,7 +204,9 @@ static ssize_t ad7816_store_channel(struct device *dev,
+>  		return -EINVAL;
+>  	}
+>  
+> +	mutex_lock(&chip->io_lock);
+>  	chip->channel_id = data;
+> +	mutex_unlock(&chip->io_lock);
+>  
+>  	return len;
+>  }
+> @@ -322,7 +328,9 @@ static inline ssize_t ad7816_set_oti(struct device *dev,
+>  	if (ret)
+>  		return -EIO;
+>  
+> +	mutex_lock(&chip->io_lock);
+>  	chip->oti_data[chip->channel_id] = data;
+> +	mutex_unlock(&chip->io_lock);
+>  
+>  	return len;
+>  }
 
-In the case of a direction bug (which we don't have) the gpiod subsystem
-will emit a warning.
+I'm not really knowledgeable to review the others, if they are
+required or how the locking is supposed to work.  But these aren't
+correct because we're only locking around the writers and not the
+readers so it could still race.
 
-Further it is not worth checking for error returns on the
-gpiod_get/set_value calls with the bcma_gpio_get/set_value
-implementations since the latter do not return negative values.
-
-
-
+regards,
+dan carpenter
