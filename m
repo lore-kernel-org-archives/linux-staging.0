@@ -1,90 +1,121 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85F6D276038
-	for <linux-staging@lists.linux.dev>; Mon,  1 Sep 2025 12:11:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37A8614A4F0
+	for <linux-staging@lists.linux.dev>; Mon,  1 Sep 2025 12:23:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756728693; cv=none; b=KnDOjKPm0YoJW7+dwC/i2Nera8Yh6oyE1YEKa1u4jOVq7PuiQ6liv/ExNCufW7J2XK+pdeK5dwq8tnMgc9NnlFFZEgs9UhPU3Jj9x4gsT0/T0n27Co4+HE6M2H4VrEtzRGbjMfbg7UmKfM2x6AMHoWWsP5SUGNXoMwFCP+KS1Kg=
+	t=1756729424; cv=none; b=dUpHZ9V9CGUCeRxEfGckkJxfTq/zHHLKiQlNBiw9MmwZExSwFN88Xhk2JmsvXXTxZJPDdBtLwBFUVYXRG77ukDnCUpuo36ciBV2psQFnWcjvSy1H17VbH8thUFhQQoYolJLSw3xv7M/SdJiilnou0UlYaguZ9Qp8MsI78fZaBv8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756728693; c=relaxed/simple;
-	bh=/C/aW5THE62pm00uxDi72V+HNmlVGDqPZz9wwAE3x40=;
+	s=arc-20240116; t=1756729424; c=relaxed/simple;
+	bh=yFvygwLcFHD/6voobz7w19DKMbhyHW4ucdxxudzbGrY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=k+VWERShbtDYUejIdtBqO3w6uyeKZUs1OCoV1unijj0GUyg0v7g+3dQG2HKy/hPMt3SM0BF7AZO8NpwkyzKzLjlvC7Rk0EGzTnrMdCI5uyJBFR+cPR4CcnHojPjAMauOeqFFzhdJRWPKWNOm0X+3MeWC02iUJWSSZYGffDb2EDY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=D2WsIwII; arc=none smtp.client-ip=192.198.163.19
+	 Content-Type:Content-Disposition:In-Reply-To; b=mVgU4NhRJ4GF0jZBT2Xa+qu1YPK04fT78QXO7W9QplAicya/7Dg+xyay/n63TZ5tGyD5mztDwJuogpOBeTHL0gNvzKEpZwffORusJcftjQb9tJ9HIYLkU/w+gCp48JjQCTuo4vrcGl8Ymmxi/n3wHYz33yRPh9TipW+1Wi2V9hk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dSR281yj; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="D2WsIwII"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dSR281yj"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1756728692; x=1788264692;
+  t=1756729423; x=1788265423;
   h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=/C/aW5THE62pm00uxDi72V+HNmlVGDqPZz9wwAE3x40=;
-  b=D2WsIwIIX+FqqnurxrfVK1PB6NgB9omrIrCgRzBwy2Ml3Ucl2LjfDCax
-   RbAoN0CSTE/nvAB3Pzse3GuVamrDTYAULKGGtcqe8RTOrx0ZJMzSfYJMJ
-   O/q6seEHw8werFp6F17d6aognDpcyaL+PgmNLUD9LrIxFC5EcOpT4fe1M
-   4mr/nICe6NCq/Io1e4dWmKZp2rkOVmfxGmsL/M/bSgmKaPGiyytNHsZ8C
-   mnqedgpw98L1u3/vNVUf8r/RRN9c5ne46LGKZv+c+y8ApKgOqRvcvngJn
-   kB6715+YUN/Ogxkp/J7QEGtNmCpfL+/Aw/HlQMWn42WJSIx8gVSr8oZvx
-   g==;
-X-CSE-ConnectionGUID: fxh9HsmSTTCkGv2zS6cKkQ==
-X-CSE-MsgGUID: 7miDNkB6T8Cf21pa18wJ4Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11539"; a="58013960"
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=yFvygwLcFHD/6voobz7w19DKMbhyHW4ucdxxudzbGrY=;
+  b=dSR281yjGwO9IIMuvSP+oWG7fYX9yM4aLi6t4vvfXENCjgoyOPZeFYnD
+   pGLkyz3gaHDkL3lnWG/RLnNvjtdg05NVVKdxfPj48j66fjW1NVAWBQjia
+   oUCzg+DDmv4+vWit6Wj49SLXeJvHBMg0V6gBlqJcEk3rHwmIIK2F0aXZm
+   Eoh6bnNLY6frCbjq0WRBA8vWiQg01FhWluWtDeSfVW5YYrgGs5Gil6u56
+   miMJkoOCiTFN7AXk+LaTJefpcqcMk4shWR/qWZTdLyQBJpBK3HR/nGP/7
+   eVuK3uo2Jr+oUvGbs72bHxQ8fJAgz3MWloNtLTdXh0rKjqviggye66BVW
+   A==;
+X-CSE-ConnectionGUID: N00CkTa2TV+6eF43KyEQEw==
+X-CSE-MsgGUID: wZyHyOpIQyuOpOzzR7gMlA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11539"; a="58015131"
 X-IronPort-AV: E=Sophos;i="6.18,225,1751266800"; 
-   d="scan'208";a="58013960"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Sep 2025 05:11:32 -0700
-X-CSE-ConnectionGUID: tnqWfgWNTUqOPqBMfU6fmA==
-X-CSE-MsgGUID: DDOyonw9RPu7n9l/LqTk1w==
+   d="scan'208";a="58015131"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Sep 2025 05:23:42 -0700
+X-CSE-ConnectionGUID: 9/SLPQv+SsK1HHL9nQ0C4A==
+X-CSE-MsgGUID: okCmQ48NTMaIcDN+xu+6HA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,225,1751266800"; 
-   d="scan'208";a="176248340"
+   d="scan'208";a="170565473"
 Received: from smile.fi.intel.com ([10.237.72.52])
-  by fmviesa004.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Sep 2025 05:11:29 -0700
+  by orviesa009.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Sep 2025 05:23:40 -0700
 Received: from andy by smile.fi.intel.com with local (Exim 4.98.2)
 	(envelope-from <andriy.shevchenko@intel.com>)
-	id 1ut3Ne-0000000APLS-2b0Q;
-	Mon, 01 Sep 2025 15:11:26 +0300
-Date: Mon, 1 Sep 2025 15:11:26 +0300
+	id 1ut3ZR-0000000APUw-0Sga;
+	Mon, 01 Sep 2025 15:23:37 +0300
+Date: Mon, 1 Sep 2025 15:23:36 +0300
 From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: Mohammad Amin Hosseini <moahmmad.hosseinii@gmail.com>
-Cc: linux-iio@vger.kernel.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org, gregkh@linuxfoundation.org,
-	jic23@kernel.org, lars@metafoo.de, Michael.Hennerich@analog.com,
-	dlechner@baylibre.com, nuno.sa@analog.com, andy@kernel.org
-Subject: Re: [PATCH v3] staging: iio: adc: ad7816: add mutex to serialize
- SPI/GPIO operations
-Message-ID: <aLWNbm5rNf8GRxwt@smile.fi.intel.com>
-References: <20250901073750.22687-1-moahmmad.hosseinii@gmail.com>
+To: Adrian =?utf-8?Q?Barna=C5=9B?= <abarnas@google.com>
+Cc: Hans de Goede <hansg@kernel.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Andy Shevchenko <andy@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Dan Carpenter <dan.carpenter@linaro.org>,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev
+Subject: Re: [PATCH 2/2] staging:media: atomisp: Whitespaces cleanup in vmem.c
+Message-ID: <aLWQSAX1ZKg6IiTb@smile.fi.intel.com>
+References: <20250901091050.1935505-1-abarnas@google.com>
+ <20250901091050.1935505-3-abarnas@google.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20250901073750.22687-1-moahmmad.hosseinii@gmail.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250901091050.1935505-3-abarnas@google.com>
 Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
  krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On Mon, Sep 01, 2025 at 11:07:50AM +0330, Mohammad Amin Hosseini wrote:
-> The ad7816 driver was accessing SPI and GPIO lines without
-> synchronization, which could lead to race conditions when accessed
-> concurrently from multiple contexts. This might result in corrupted
-> readings or inconsistent GPIO states.
-> 
-> Introduce an io_lock mutex in the driver structure to serialize:
-> - SPI transactions in ad7816_spi_read() and ad7816_spi_write()
-> - GPIO pin toggling sequences
-> - Updates to device state via sysfs store functions (mode, channel, oti)
-> 
-> The mutex ensures proper mutual exclusion and prevents race
-> conditions under concurrent access.
+On Mon, Sep 01, 2025 at 09:10:50AM +0000, Adrian Barnaś wrote:
+> Whitespaces cleanup to conform with kernel style and improve readability.
 
-Why not using cleanup.h and guard()() / scoped_guard()?
+Strange...
+
+...
+
+>  /* subword bits move like this:         MSB[____xxxx____]LSB -> MSB[00000000xxxx]LSB */
+> -static inline unsigned long long
+> -subword(unsigned long long w, unsigned int start, unsigned int end)
+> +static inline unsigned long long subword(unsigned long long w, unsigned int start,
+> +					 unsigned int end)
+>  {
+>  	return (w & (((1ULL << (end - 1)) - 1) << 1 | 1)) >> start;
+>  }
+>  
+>  /* inverse subword bits move like this: MSB[xxxx____xxxx]LSB -> MSB[xxxx0000xxxx]LSB */
+> -static inline unsigned long long
+> -inv_subword(unsigned long long w, unsigned int start, unsigned int end)
+> +static inline unsigned long long inv_subword(unsigned long long w, unsigned int start,
+> +					     unsigned int end)
+>  {
+>  	return w & (~(((1ULL << (end - 1)) - 1) << 1 | 1) | ((1ULL << start) - 1));
+>  }
+
+These two were just "fixed according to the kernel coding style" and here
+again. This is odd.
+
+Note, the style after the first patch is okay. I dunno what's wrong with it.
+
+...
+
+> -void isp_vmem_load(
+> -    const isp_ID_t		ID,
+> -    const t_vmem_elem	*from,
+> -    t_vmem_elem		*to,
+> -    unsigned int elems) /* In t_vmem_elem */
+> +void isp_vmem_load(const isp_ID_t ID, const t_vmem_elem *from, t_vmem_elem *to,
+> +		   unsigned int elems) /* In t_vmem_elem */
+
+Please, (re)move trailing comments somewhere else.
 
 -- 
 With Best Regards,
