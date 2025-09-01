@@ -1,65 +1,79 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 221A330DEC3
-	for <linux-staging@lists.linux.dev>; Mon,  1 Sep 2025 12:40:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07E2D338F4C
+	for <linux-staging@lists.linux.dev>; Mon,  1 Sep 2025 12:42:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756730422; cv=none; b=WQL9WI2rFybxMNbSqpHX124fVKGviVMscuOGxNUMz+T1nf2Qz3uzSmJAYyMvpmWZ+Ba6EHvubC8QWls/BKEO/v5hySO6y0guBbzVIXjVjfj7ST815RR6f+jN/rqyAwaVFBr+kSo0vt8kEqSj2+QtcuqBvDIwGosAtXbNrDIzge0=
+	t=1756730530; cv=none; b=gtkqcoyzRAH6Xbr5NNetnZ3J5YjibSfAYuh90PaciAZUwUML0e03e8jEIaH9l5oC4CeApu2GsTjNUFRaWxerzfm5fvLwP0u9jF9TkQJqfwHHsUpl0yrMGE22pwZwW7sebfvjwTfLYDzkj2SDT2I/wxEfsY7rIr2zSbPQLMub/wo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756730422; c=relaxed/simple;
-	bh=iHVwYYDGvjOtI0TQC7+2tMUE3vkDRGUDM0rFnrg98KU=;
+	s=arc-20240116; t=1756730530; c=relaxed/simple;
+	bh=gOY5Dw0yIneTkFl1rkItoGut8jnz7U2o1MHv+e5ti3A=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Xkz1sImslogPN6DPtQ9s06F5WKpCMtA2LyiVxY4Y5NWW/64/Eh2mO9+xAyzuKRMCZdR638MTtqyeZJ+tJ6Jv+YZ3JhZ33pZXKdnWGiw4r6r/JdgYYQX12DX61y0UMwgpWAoSxBL9I7hm/sF4QHfGdO9RcdYg1TroBT+v87KEFBE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HPc8FlCu; arc=none smtp.client-ip=198.175.65.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=HQ5EBHBsaIg1J5HBzez4KwTq6WI8F36FRmFO6TexRrULEXjAwdFKU8fifSQEMjfMw7G/AzUYgL/v8Y5eaQ+raeySsSKLvp/rXCDCSXK981DMpxrA30lEieqoq9fziMnNVM3Q1cpcuhK1R/xIO7NveNneA0t0HfFks0qa80OmEF0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=m+FRkYN8; arc=none smtp.client-ip=209.85.216.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HPc8FlCu"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1756730422; x=1788266422;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=iHVwYYDGvjOtI0TQC7+2tMUE3vkDRGUDM0rFnrg98KU=;
-  b=HPc8FlCuOqo+f2KMUC31VD4STyczxGc+FCJfbhORocjnBeveV9pcSgFR
-   g3cYn9wAZTBs5b2vuAek32S4ZGpJfIEASkr9JKjFeD99xDX6Qw9z9qAvg
-   tSy5NEa2EiwnIEMxHgM4oq7WGX6Bs03SXlygZYvdYyhznPGJ+LLEZH2nb
-   0DKIz9PtnwcSdQqsFnRu0dvg75pR7C+o1m2uUdYTonWrxolUipV1jU7dK
-   GAkAYJkCtFp1KMqD+pYgjWJ8MOorALw/tuBOpBINfbRQHbb4SduG9idqC
-   AQw+a/S/PZ4SA/TPCqxz1D9r/3pxj2mVBSO6YoDlG1VdceWF6kkmmIsFM
-   A==;
-X-CSE-ConnectionGUID: iGLXZf8ISsmselwr/XQLkQ==
-X-CSE-MsgGUID: iq0gLabqQLua3UwS6AVapg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="59053433"
-X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
-   d="scan'208";a="59053433"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Sep 2025 05:40:21 -0700
-X-CSE-ConnectionGUID: jwgKaUbIT2Wk1SrJkXlkUA==
-X-CSE-MsgGUID: +Rn7N2NaRya37zlyjY8TKg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,225,1751266800"; 
-   d="scan'208";a="170566630"
-Received: from smile.fi.intel.com ([10.237.72.52])
-  by orviesa009.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Sep 2025 05:40:17 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.98.2)
-	(envelope-from <andriy.shevchenko@intel.com>)
-	id 1ut3pW-0000000APgo-1Cv6;
-	Mon, 01 Sep 2025 15:40:14 +0300
-Date: Mon, 1 Sep 2025 15:40:13 +0300
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="m+FRkYN8"
+Received: by mail-pj1-f45.google.com with SMTP id 98e67ed59e1d1-324e2c12f43so534729a91.3
+        for <linux-staging@lists.linux.dev>; Mon, 01 Sep 2025 05:42:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1756730528; x=1757335328; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=gOY5Dw0yIneTkFl1rkItoGut8jnz7U2o1MHv+e5ti3A=;
+        b=m+FRkYN8a2SF1yVF8AHG5uAtEyOm8BJDQE/ARjYlvfwEzCXEAgCi5x4QHP5JLMeIqv
+         hOAENyoPZTHReCuYc2FF794jkmjmXrQ6LEojrLWRLhoXimTTprYqx/Xv5giz5fq860e3
+         jHbyk8sueqefk78MJvTwOXPkWQ2PHAbTCEhKG3QxcRpGrTTRLAgUqFalBdrvfJLMZEdV
+         cJw1AMGxVYPCR8EmwdYRQVdwos4/VOmYR1BsWVMrBur6gq0Jq0jl4Ga371eia8xraElv
+         C0Cqd/GT2UQWLgy61u+G1OWGAr9pG12SO454udmCjO+bxDbr4Fme832x6r1AkB+SVzuq
+         dcBA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1756730528; x=1757335328;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=gOY5Dw0yIneTkFl1rkItoGut8jnz7U2o1MHv+e5ti3A=;
+        b=FsOkokws4FuSVkon6dhmALtLttMWHJF2KyAmZIQgURXG15nD/QAOnZCfR3jTS2L1VZ
+         9oQ7WfInW1Yx9kZVARDfWDR9H1bpvglvxVHT40LMHriCM8dzTp9oMtu6RCOerVnhEz99
+         8zHrnEj5RHu7TlusNOzu3B0+V+aUClcSyZx3JrzJwJKcbMWgZKPRGuNHH1bSUB0CGkHm
+         g6mG1oUSEm6zAtKOpAlrGq3Inp5rYuQ1kX3G4sbXT4p7kRoskKzaKHWH6KhnlzeKSAvF
+         X0B4VnRQ8JpUtaojJbcjYf8xNxuAnWiJtLDK+kYtXHzjcF7+vjfext3XxboUXD69mJk3
+         p8nw==
+X-Forwarded-Encrypted: i=1; AJvYcCUo4LNJg/zvRwn7YWviNTsUwTokYlHWRz902XFCe1Qr6guYwSAVx756eGyAT7UzG6ZL7Pew7GuyEvHrU72m@lists.linux.dev
+X-Gm-Message-State: AOJu0YwzOFfbu7gmICraT2v7wRbJWBHBFdyEkXedRXyj4AXZnaQbMNfB
+	aoIkVuHm04YT9jAdipMicum7jHpyjRbUOnQUkSxA38k5J9FNC/njE4Ye
+X-Gm-Gg: ASbGncvmZChv8NRaL25HeOQ7Jgpfqtg+tbk4XfXbDq1m0m/cpM0OiTQlPJLk5q6a6lS
+	e5GPoX1fK4klSQwhhpOa6ycXPEj/s2X2c5RcCkBSTXchtPcxRUkdtpEEThx53nvArk+DDcBbcNn
+	suDxZ36KxbUkhjovqgOkmn2DbibHqZ02cbF1NGcOpViD49Z4tk0jH7DUnaxbfM4mocwh17fa5Zp
+	ilcbqIyp7YzzHGgCMQ8paFMtD7H2TefDeFYuP8dw97ppofD6ok+AoQh21UWDeYOfsv3K1Kv6IRY
+	uOQ/WpizdMrzElJ0X9ipPRjLUlMyGUTE5h3EQ9FxIxnPQTXqZkzUGi1r/X/4hKo1mvhaR8Y2p97
+	NaoTZnQZl7aVPT+J+
+X-Google-Smtp-Source: AGHT+IHUn0SC6xICje1UUoFTPSuAjVvF3tBb8TKjXdcRcJR9Br1XsPEsEJrd5UjL8hvq4o4e6MFvaA==
+X-Received: by 2002:a17:90b:4c4a:b0:327:e781:3d37 with SMTP id 98e67ed59e1d1-327f5be1809mr8219063a91.6.1756730528211;
+        Mon, 01 Sep 2025 05:42:08 -0700 (PDT)
+Received: from fedora ([2400:4050:d860:9700:8e8a:52de:86af:cfe3])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3276fce0c5dsm16686640a91.21.2025.09.01.05.42.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 01 Sep 2025 05:42:07 -0700 (PDT)
+Date: Mon, 1 Sep 2025 21:42:00 +0900
+From: Masaharu Noguchi <nogunix@gmail.com>
 To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: Mohammad Amin Hosseini <moahmmad.hosseinii@gmail.com>,
-	linux-iio@vger.kernel.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org, gregkh@linuxfoundation.org,
-	jic23@kernel.org, lars@metafoo.de, Michael.Hennerich@analog.com,
-	dlechner@baylibre.com, nuno.sa@analog.com, andy@kernel.org
-Subject: Re: [PATCH v2] staging: iio: adc: ad7816: add mutex to serialize
- SPI/GPIO operations
-Message-ID: <aLWULUIcYEz3N-Rx@smile.fi.intel.com>
-References: <20250901065445.8787-1-moahmmad.hosseinii@gmail.com>
- <aLV0LBxD0KIHPSmo@stanley.mountain>
+Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
+	vaibhav.sr@gmail.com, mgreer@animalcreek.com, johan@kernel.org,
+	elder@kernel.org, greybus-dev@lists.linaro.org,
+	florian.fainelli@broadcom.com, rjui@broadcom.com,
+	sbranden@broadcom.com, bcm-kernel-feedback-list@broadcom.com,
+	dave.stevenson@raspberrypi.com, laurent.pinchart@ideasonboard.com,
+	hverkuil@kernel.org, linux-rpi-kernel@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/2] staging: greybus: audio_topology: avoid
+ -Wformat-truncation
+Message-ID: <aLWUmF2fDUyerjps@fedora>
+References: <20250830173850.323897-1-nogunix@gmail.com>
+ <20250830173850.323897-2-nogunix@gmail.com>
+ <aLWEm2sQpmoNYLAC@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -68,48 +82,10 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <aLV0LBxD0KIHPSmo@stanley.mountain>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+In-Reply-To: <aLWEm2sQpmoNYLAC@stanley.mountain>
 
-On Mon, Sep 01, 2025 at 01:23:40PM +0300, Dan Carpenter wrote:
-> On Mon, Sep 01, 2025 at 10:24:45AM +0330, Mohammad Amin Hosseini wrote:
-> > From: mohammad amin hosseini <moahmmad.hosseinii@gmail.com>
-> > 
-> > The ad7816 driver was accessing SPI and GPIO lines without
-> > synchronization, which could lead to race conditions when accessed
-> > concurrently from multiple contexts. This might result in corrupted
-> > readings or inconsistent GPIO states.
-> > 
-> > Introduce an io_lock mutex in the driver structure to serialize:
-> > - SPI transactions in ad7816_spi_read() and ad7816_spi_write()
-> > - GPIO pin toggling sequences
-> > - Updates to device state via sysfs store functions (mode, channel, oti)
-> > 
-> > The mutex ensures proper mutual exclusion and prevents race
-> > conditions under concurrent access.
+Thanks for the detailed explanation. I understand your point regarding W=1 warnings and string truncation.
+Based on this, I will drop the previous patch and leave the code as is.
 
-...
-
-> > +	mutex_lock(&chip->io_lock);
-> >  	chip->channel_id = data;
-> > +	mutex_unlock(&chip->io_lock);
-
-> > +	mutex_lock(&chip->io_lock);
-> >  	chip->oti_data[chip->channel_id] = data;
-> > +	mutex_unlock(&chip->io_lock);
-
-> I'm not really knowledgeable to review the others, if they are
-> required or how the locking is supposed to work.  But these aren't
-> correct because we're only locking around the writers and not the
-> readers so it could still race.
-
-Readers are in spi_write(), or what do you imply by this comment?
-I.o.w. I do not see the issue with the idea of locking and how it's
-done (I haven't checked all of the details, though).
-
--- 
-With Best Regards,
-Andy Shevchenko
-
-
+Best regards,
+Masaharu Noguchi
