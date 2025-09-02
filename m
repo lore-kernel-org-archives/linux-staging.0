@@ -1,116 +1,113 @@
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+Received: from mail-pg1-f176.google.com (mail-pg1-f176.google.com [209.85.215.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2CE52EDD75
-	for <linux-staging@lists.linux.dev>; Tue,  2 Sep 2025 10:12:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C65E2BCF46
+	for <linux-staging@lists.linux.dev>; Tue,  2 Sep 2025 13:11:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756807965; cv=none; b=me+ljbYKIKateTHakfCPiGtC5TuS0+ZHotJ4LERBGRr408GTwWbDJWMfAgml+V5dHHtnQ6TAeL3re3aQ93D1qPqsFTZNsdhnhLxpPdg20NFIso7SRC61HktfZT27cgIW0lNOOxIhIF6ne8POZcCoOk5Qsjkq1n68OkyUcL5s+FY=
+	t=1756818669; cv=none; b=oyBr1UXPg/qMMfeB6sEnnGpLnrWBNEOlr06h3QPJbaDzgOJzluzYyFEU6dq5HZCysNbFljk/pNlx+YElGQVER8sA5QKKapzbfRbcYGBWUkCmhOqYog0umr+reAadfGcD6jyWQKqRbygXie8Y03v8krp+YX8IlkfpAQY1WZMF/JQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756807965; c=relaxed/simple;
-	bh=SjEO5Mf8trw66bSMBZcBAX0fSI45BCBQMiqBnD5W/yU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=d/Cm9o3SxPBQWK8MwtaKudbZhf8hQtqDyN4OUVy90QRNkiCqTWefdGmZgydWCdbSizMJ/s9q20et06bK/P/J/GUhT6E7D/WW1VK4KSMRQ5YvTi0w1iMHQk+DgI4DyB9HZ2pwNqhM3ZzJI/cMA/ngIRE2vPAMIkbYwhAUO0OnzYg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=VVHs03tL; arc=none smtp.client-ip=209.85.128.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1756818669; c=relaxed/simple;
+	bh=a6+7H71onDG4ZfaCBC69FB5SY12ev/7tff0d25FMAG8=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=kQbZz1hndvO2nFmPn3pOJtScM08o8vNeyIZMWCVKrT7EWFzBkHgef4XF1sExN5qbcH+Su4Bav8+n0Z4C49KTIzDVYu/nedn7lovhKMKcaE0/oLLle8M9jGBCteQkTHPzMwq6G6ptZcAonT7Rn6iVpE/Ra4tOi/X49X8nrXS8lCY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=iGri272x; arc=none smtp.client-ip=209.85.215.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="VVHs03tL"
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-45b7d87b90fso34887025e9.0
-        for <linux-staging@lists.linux.dev>; Tue, 02 Sep 2025 03:12:43 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="iGri272x"
+Received: by mail-pg1-f176.google.com with SMTP id 41be03b00d2f7-b49cf1d4f6fso3697486a12.3
+        for <linux-staging@lists.linux.dev>; Tue, 02 Sep 2025 06:11:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1756807962; x=1757412762; darn=lists.linux.dev;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=JnYStx1tmY335G9wa9Z21vYW/Hu/c3l+9Jg6zw7X6p4=;
-        b=VVHs03tLaGlTQ9cFHl6XsPUqprQMxw4Ad2pkn8lfFVDuzwqaYoj87b3yzYyw24tKWc
-         a11CO6H+tb4tI+CRwCJ4GXGUZb8bh0r8353o1aasbx1lRxYyOqMmHZxIp0GELaX1U4xr
-         4VsTzW3HrfqMt+PEYyCVq65FAaETxf+nucR+fBp5Gis8GZUTuc6KksU9RSaSQN7QSFj4
-         PkkLu2Ge4I8mVgz64K2Fzxgzuhm18lmsENWZeN4F0jBn7pUMCGsDWjqNf+iSCGzea5sL
-         nrB1NIGI15gUtLLyTSD6uuCCs2rKz6Sl3OuHiTkZVV93Xwi0MoZZpdNKSI1n0xIfHX87
-         YRfg==
+        d=google.com; s=20230601; t=1756818667; x=1757423467; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Rm8LYWgbBbSoxzsUxJyqmS94JWyK2thOVWLaY84JeS8=;
+        b=iGri272xt+uadoZ+yMQbNObnMHqJk6eU/q1ehAIFG3SiINoxiHHLaoW7d8eHwoxu5e
+         00zONYnqjshqTYBwfUMSj27pYoY8GJKpfALnszdp/SK0AR0Y5hCDn9evM45LhkEo6/3L
+         eyQHvRSfXl0nMODzf/HI4D6dMgDLRorSpMYIddfKtbZxI4tKP2Ol0y6Rx+XRX3sDpdxo
+         Qa2Zba6xRG59izAmgf8qdLCQl8Ax5zesgUOG59PfN99cP90VJsDv91UIw9zlcxKv927X
+         C75gowuSbGp6XPQpGb9KX2f90SDcvQaBNJ4GXpwiuEd2NssdEuz56BmldcehcWahjQy/
+         zF7g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756807962; x=1757412762;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=JnYStx1tmY335G9wa9Z21vYW/Hu/c3l+9Jg6zw7X6p4=;
-        b=EJEl9ENfbRhjbsoy8Hf+xgwmeuyp7SgBtVw8IZg7xO3OuSx2vXm3gOgpYgnvvkQGtX
-         nwe9ssgFP0p12jZ1/V6Z6F9366zdprxqmgP6PxC3HxA9vBZrc23CCuhXnLVZT9njBLnC
-         v7DQ9f+LVO8yWoShaq8XYlQ1sHSnooq//62f0TgoRSwhdfHxaT9hYoaevZb8yg7Ug6VB
-         rE1wG4ATowiNfLbbW1i5kSF8RBBXQjMf7+EmHD30bxKZ5XNbL6ti/fWOXARpb3H9JzKO
-         P/ivevRidesIST20r0QScxIUx2sDynZ2za09GShNYH0J0w67gdBz9LpaPRhvwXrTNjJG
-         vHaA==
-X-Forwarded-Encrypted: i=1; AJvYcCVzJxP+8SynnBbSq44EHCAACx/8LjDPPWkT8AYiXdGGOYOYAfLp4dEoMF1foTBFbTAvrCFI8m7JiW9yRChs@lists.linux.dev
-X-Gm-Message-State: AOJu0YyOTREFU7dKvkdGZ488pql7u8bnfDms45Ug2lPgXsLVBRsTyP4x
-	6upTd0UP+aissqeqI0h/FJo+W6uYplNS614mHMihcxvzS4yMkAOEHNj/VciPCerbdn4=
-X-Gm-Gg: ASbGnctCdn22laSyugPqFUTTiGNn+vfEJS/4YwPfBOvLv4oLYFUfB0WNjsoNB5Q6kZu
-	Mbp9kdDTfzcg3IOtHipLJNxyog3jbkjQlzwTqV3WVzMAeeSFuEH+3oIoGQ0EG/iGJoJxUsU9zw5
-	q0ryeyxVEbNQ61pE6zXrpKRaH7lpGtt3xI23KRihf5r42GUUSvrhMACUZfPemR2bLi25GmMPD/A
-	s7cXC8nGn5rRnswzucwWSW5NzjX7cj5/29qvZuqaYIKq4rEwvt4pjTdp/BUHVFFr/Y1PWHAldio
-	4xEF1kb+wuFaCnSonA1SUhSJeoNZPXoEYFBXctC4XDkIcSb4PXLP8JqNgUKsuy9raMi3bGRnuFj
-	VkQ1tXQCs+CEEGu0PU2Q5BYPpl4Y+kVhm51I9cw==
-X-Google-Smtp-Source: AGHT+IHG6eBfdtTOEZxcXAbASopPkY4+xwB16XZCz9dFBdFmkVcioRx8F/ATKlllEq5D5xx6npvGpg==
-X-Received: by 2002:a05:600c:1f96:b0:45b:7510:4042 with SMTP id 5b1f17b1804b1-45b84c65642mr105053935e9.17.1756807961803;
-        Tue, 02 Sep 2025 03:12:41 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-45b73c52735sm254121465e9.22.2025.09.02.03.12.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 02 Sep 2025 03:12:41 -0700 (PDT)
-Date: Tue, 2 Sep 2025 13:12:37 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Andy Shevchenko <andriy.shevchenko@intel.com>
-Cc: Adrian =?utf-8?Q?Barna=C5=9B?= <abarnas@google.com>,
-	Hans de Goede <hansg@kernel.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Andy Shevchenko <andy@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev
-Subject: Re: [RFC] staging: media: atomisp: Simplyfy masking bit logic
-Message-ID: <aLbDFcaqzJtZUdCB@stanley.mountain>
-References: <20250902073841.2338568-1-abarnas@google.com>
- <aLaypTjukJJloGuL@stanley.mountain>
- <aLa-1GPJDxpX-soG@smile.fi.intel.com>
+        d=1e100.net; s=20230601; t=1756818667; x=1757423467;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Rm8LYWgbBbSoxzsUxJyqmS94JWyK2thOVWLaY84JeS8=;
+        b=usj2n8mpfx7GPfnnz5fTRV/K/3MNDeggJlupVGhlgtotqu4kq9APWujZmuYmvNfskM
+         um3xbL2KoAcvQnGBzdE4RNe+Wfa8/DHTuKgoCHQwniYJotebV7BqKrWL87GcmA3Moojn
+         NlWImwYozztOgKPvta3vmWeazue0JU5/0R5t94MEbO6AwjIU6fWA45iQmrs9r81WLjqM
+         8MZi3gRWdhwurRqmnV164BBJ5Ds9oxrYnuZwC/YZEzbu8OkSRr0zQgOXpQwQlHLciavD
+         Hs0dQLjjSxknuaz6WqH7Xu+AqfSxaTXxmlfYAzGVIO9hQD1vz772aT/Qj6vj0z7g51vN
+         m6NQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWe+/Bvms8RsQPqXewLICaQw6cuZqfWEi6LtLnw4IUNUCfZSyAmrBmr4qO+OJMFNkdtLOD509YxBIUIfhsG@lists.linux.dev
+X-Gm-Message-State: AOJu0YwgYBGMgJMnuBVNDi7+zhFnYWhQOuscHJLn4jlBiWjtqP6+cqUN
+	N/i0Y38x0Ka6d70tOngy/z4wLuF5a/OTamHfpj54c/PiiCEYkPKke2bmrtCQ2WvE3MHSwbcsER0
+	LhuUR6tJg6KJ3SOc4PGa25WKOs64vSDrwV5vdCzXY
+X-Gm-Gg: ASbGncsLbnoAI6yHcTpFF528HpANvkY9MValO7agzmDNusY826U7+0fYcicCrEnpigy
+	LnIdkXa8K1msfIwp8+PlHwVk3/ebM5nZB6VP+Tsrr9SXbPZfemUMkmKMIeQ1BuAgJChmBWdz0rs
+	j8/KeIikrlg9zHRR5MZRKPIeTKXXC8l8DxVWdmM6AcLgcfuxiNsdazaN5t/sabr6Q24GkuYgD2I
+	eFpLmZ8EiEDNWFJaq0iRqqy1/Opbj9OUF4w
+X-Google-Smtp-Source: AGHT+IEajt5n7miuhpVNgaVc7Q6fAs6vdDGW7Ft6PJ5otEsVyTncI7dUQga6YoFZNasinGVO2qLjbv1bEw5pg8a7acU=
+X-Received: by 2002:a17:902:ce03:b0:248:cd0b:3454 with SMTP id
+ d9443c01a7336-24944873445mr133817985ad.9.1756818667376; Tue, 02 Sep 2025
+ 06:11:07 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <aLa-1GPJDxpX-soG@smile.fi.intel.com>
+References: <20250902073841.2338568-1-abarnas@google.com> <aLaypTjukJJloGuL@stanley.mountain>
+In-Reply-To: <aLaypTjukJJloGuL@stanley.mountain>
+From: =?UTF-8?Q?Adrian_Barna=C5=9B?= <abarnas@google.com>
+Date: Tue, 2 Sep 2025 15:10:55 +0200
+X-Gm-Features: Ac12FXwTsBas7UmElXIeqiXIRz_1zSROWnkOhZSndPGsKtOskJgJVh0CaFvpYhg
+Message-ID: <CAATBrPEsea2GfK26W5eg4ZFm=hJLO1pLNax85vvXZ8hb=iGaFQ@mail.gmail.com>
+Subject: Re: [RFC] staging: media: atomisp: Simplyfy masking bit logic
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: Hans de Goede <hansg@kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	Sakari Ailus <sakari.ailus@linux.intel.com>, Andy Shevchenko <andy@kernel.org>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-media@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, Sep 02, 2025 at 12:54:28PM +0300, Andy Shevchenko wrote:
-> On Tue, Sep 02, 2025 at 12:02:29PM +0300, Dan Carpenter wrote:
-> > On Tue, Sep 02, 2025 at 07:38:40AM +0000, Adrian Barnaś wrote:
-> 
-> ...
-> 
-> > >  static inline hive_uedge
-> > >  inv_subword(hive_uedge w, unsigned int start, unsigned int end)
-> > >  {
-> > > -	return w & (~(((1ULL << (end - 1)) - 1) << 1 | 1) | ((1ULL << start) - 1));
-> > > +	return w & (~__GENMASK_ULL(end-1, start));
-> > >  }
-> > 
-> > nit: white space.  Add spaces.  Remove parentheses.
-> > 
-> > These are supposed to be opposites, right?  Subword and inverse Subword.
-> > You could dress them up to make them look more opposite.
-> > 
-> > 	return (w & __GENMASK_ULL(end - 1, start)) >> start;
-> > 	return w & ~__GENMASK_ULL(end - 1, start);
-> 
+> These are supposed to be opposites, right?  Subword and inverse Subword.
+> You could dress them up to make them look more opposite.
+
+In fact this name is misleading as well. For me it should be named
+`clear_subword()`. It is zero-ing the "subword" provided with low and
+high bit boundary (start, end), to be then easily replaced with binary
+or operation.
+And this operation is not an inverse of extracting a subword using the
+subword function.
+
 > The problem is (and actually with the (end-1, start) above that it might
-> generate a really bad code on some CPUs, so I really, really prefer the way
+> generate a really bad code on some CPUs, so I really, really prefer the w=
+ay
 > when _at least_ one of the parameters is constant.
 
-Ah.  Okay.  That makes sense.  Thanks.
+It would be  easier to create a bitmask sing GENMASK_ULL and just
+reverse it but if it is not safe, this is what looks fine for me and
+works the same as previous function:
 
-regards,
-dan carpenter
+// Added a helper to create a mask
+static inline unsigned long long subword_bitmask(unsigned int start,
+unsigned int end)
+{
+        return GENMASK_ULL(end - 1 , 0) & ~(GENMASK_ULL(start, 0) >> 1);
+}
+
+/* inverse subword bits move like this: MSB[xxxx____xxxx]LSB ->
+MSB[xxxx0000xxxx]LSB */
+static inline unsigned long long
+clear_subword(unsigned long long w, unsigned int start, unsigned int end)
+{
+        return w & ~subword_bitmask(start, end);
+}
+
+Best regards
+Adrian Barna=C5=9B
