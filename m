@@ -1,64 +1,67 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E9BE2E612D
-	for <linux-staging@lists.linux.dev>; Tue,  2 Sep 2025 09:42:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EBF323BCEE
+	for <linux-staging@lists.linux.dev>; Tue,  2 Sep 2025 09:54:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756806136; cv=none; b=Mf/od9UHUUcrzNfzN813N+PcFOXQ60JWNl7GrV8aM/wLnEFpBbVFll8V2MU2of8BVGDcIBhZ4qgJkT5tcDLwCbDDBWfBoe/moUM+i73a6+xgjnw4RKGkfFpM7IJI6AHanDELVeIrhv6zfvph3kBpQS3Y9ln7/xGw/n0PomG6Ofk=
+	t=1756806878; cv=none; b=h3zvszNSKVk8Bbb10MJ/tv0E7SNC7+cAyXH8Y9uudhQ+zhRsVQ5t8i+/CumAutHjz7ZgK6L8vvfdAtvnG18ce/8nnybtppoJINs6fo34Wcc4jC5ij9C0bRSXLh66dJ9IXQ3l5X38PSbSLYsyftaGqN0Nb8Tg8Uc1DLLP6iIs/8A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756806136; c=relaxed/simple;
-	bh=0r3Kbl66SOPlH3J9OpigscsrmnOrTPBzkofO/1BNk4E=;
+	s=arc-20240116; t=1756806878; c=relaxed/simple;
+	bh=mrWYcJsYgFEREkPfiWU5na3mwUt9On8OWsszpHczC6w=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=f1Y9b52BcXj0IPGQbamOIsNbNkUjomr2s5Plx0EsL5eUgeMaJOY71onIyCNP+8Z6Fbn0tNcZwxXkkX+J8oteI5TdOnmBbiQv7GOrk90Mxhu9n5BJaGJd3i+RDWUkgHSsJ3jqLf7QrRwbY5B9lbFAp8idsAgMtxfPkZG7heRguwc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TUGh9MOP; arc=none smtp.client-ip=198.175.65.14
+	 Content-Type:Content-Disposition:In-Reply-To; b=rjQBUcVoBDwukurCENZEIO//dkMMUhPZnRr2G7DJsxbBrL2SANcA4i+lBB+kiXvgK7Mi7mHEYbAzKrZV/jkYiVbPiDJR3WpeICcuWHm/AgkjdjGeMJnE3Slkj82wr1Qn7wPKzU/G1U6DdGUGDLlzM47msZTsTwNFRK/qNOQ8Wkg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OkPXHxox; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TUGh9MOP"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OkPXHxox"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1756806135; x=1788342135;
+  t=1756806877; x=1788342877;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:content-transfer-encoding:in-reply-to;
-  bh=0r3Kbl66SOPlH3J9OpigscsrmnOrTPBzkofO/1BNk4E=;
-  b=TUGh9MOP440WK0Ql2JALw5iCI4a5VnOJJcFy2MnzOCuOCvCnfePz/b3C
-   QlCiZfCnw7sZZr8eLyzV9EsBy4fgyrzmm5raODHP7Lx7zyLCYei8bVffk
-   +nT/nIB2LTRgzgdhB6865DMvIePcAvp3+3XGFEm8WMUwgtbfHPM2PGaC0
-   NPvbsfShthoWfPLWStjfWp5vijWpUXHYX9U/+52pbAo0BftCsaK1HIdQQ
-   tNxrmePKkolrrRJJ5lQcSEtmsp2LILrHj7hoUHze4XCdy+TbZbaYu45QI
-   mnxYlV8UjBzNkJa/THgMsNNAzPX3mNSvFSPkGxz7ENXCIa0QIPE2hz2gd
-   Q==;
-X-CSE-ConnectionGUID: 4Z1wT65YTMOXbzSNvgqgMQ==
-X-CSE-MsgGUID: MqeEZH+rRm27HGfq2ck2jw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="62900819"
-X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
-   d="scan'208";a="62900819"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Sep 2025 02:42:14 -0700
-X-CSE-ConnectionGUID: G1gZxVEnTV+SPbaUE/+9hA==
-X-CSE-MsgGUID: 4Vml7+MWTBO0NclOcEoSFQ==
+  bh=mrWYcJsYgFEREkPfiWU5na3mwUt9On8OWsszpHczC6w=;
+  b=OkPXHxoxtQXVWSpdzTPJb0XP2+Uc7BvaHnf2xyOuMNlcS6fJSKskLBi/
+   CSIMxeuYLyFL7QgH80cjLNep7vSZrxFW9i89lYwUAs+TtPwdmEJcqFIP+
+   6V1st+DKHdlTjzc3a6sCLXGRBmGK9KANU3pG5m844+Q2ZCZCnGUVwlC7H
+   d3N6VYO30dtHzlMSDk35Fpr4JPYVGkz85O2xbh6tuf9Bt0cTPLQ1MR338
+   /Pe5iLH48DGjDw3LdxL7RmSdLLoIZEOlbp8asI1y2g3PWOSVT7sb20b3z
+   XKKNRm1Q3tWHaeu5r2I6NqQcekgglFeAFwg7DNf6+Y6VMM1OkGmdHMHYZ
+   A==;
+X-CSE-ConnectionGUID: q8BwFAYaSgasQHv8kT6B0w==
+X-CSE-MsgGUID: 2kk8rgjYRF+Vb3qeS5ACCQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11540"; a="58277747"
+X-IronPort-AV: E=Sophos;i="6.18,230,1751266800"; 
+   d="scan'208";a="58277747"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Sep 2025 02:54:34 -0700
+X-CSE-ConnectionGUID: aNRjji1wSgaKIaQvhq8ozA==
+X-CSE-MsgGUID: nE4xiCayQya9ygb9wMscpw==
 X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.18,230,1751266800"; 
+   d="scan'208";a="176507746"
 Received: from smile.fi.intel.com ([10.237.72.52])
-  by fmviesa003.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Sep 2025 02:42:12 -0700
+  by fmviesa004.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Sep 2025 02:54:31 -0700
 Received: from andy by smile.fi.intel.com with local (Exim 4.98.2)
 	(envelope-from <andriy.shevchenko@intel.com>)
-	id 1utNWj-0000000Aeom-1t4L;
-	Tue, 02 Sep 2025 12:42:09 +0300
-Date: Tue, 2 Sep 2025 12:42:09 +0300
+	id 1utNie-0000000AeyC-2MIl;
+	Tue, 02 Sep 2025 12:54:28 +0300
+Date: Tue, 2 Sep 2025 12:54:28 +0300
 From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: Adrian =?utf-8?Q?Barna=C5=9B?= <abarnas@google.com>
-Cc: Hans de Goede <hansg@kernel.org>,
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: Adrian =?utf-8?Q?Barna=C5=9B?= <abarnas@google.com>,
+	Hans de Goede <hansg@kernel.org>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Sakari Ailus <sakari.ailus@linux.intel.com>,
 	Andy Shevchenko <andy@kernel.org>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Dan Carpenter <dan.carpenter@linaro.org>,
 	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
 	linux-staging@lists.linux.dev
 Subject: Re: [RFC] staging: media: atomisp: Simplyfy masking bit logic
-Message-ID: <aLa78SILWdVG9AJj@smile.fi.intel.com>
+Message-ID: <aLa-1GPJDxpX-soG@smile.fi.intel.com>
 References: <20250902073841.2338568-1-abarnas@google.com>
+ <aLaypTjukJJloGuL@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -68,48 +71,39 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250902073841.2338568-1-abarnas@google.com>
+In-Reply-To: <aLaypTjukJJloGuL@stanley.mountain>
 Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
  krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On Tue, Sep 02, 2025 at 07:38:40AM +0000, Adrian Barnaś wrote:
-> Simplified masking logic in pci/hive_isp_css_common/host/vmem.c.
+On Tue, Sep 02, 2025 at 12:02:29PM +0300, Dan Carpenter wrote:
+> On Tue, Sep 02, 2025 at 07:38:40AM +0000, Adrian Barnaś wrote:
 
 ...
 
-> ---
+> >  static inline hive_uedge
+> >  inv_subword(hive_uedge w, unsigned int start, unsigned int end)
+> >  {
+> > -	return w & (~(((1ULL << (end - 1)) - 1) << 1 | 1) | ((1ULL << start) - 1));
+> > +	return w & (~__GENMASK_ULL(end-1, start));
+> >  }
 > 
-> I have tested this change on whole range of *valid* inputs, and it gives
-> the same results as before, but this function seems to be little
-> counter-intuitive as far as start is a (bit index) but end is
-> (bit index + 1).
+> nit: white space.  Add spaces.  Remove parentheses.
+> 
+> These are supposed to be opposites, right?  Subword and inverse Subword.
+> You could dress them up to make them look more opposite.
+> 
+> 	return (w & __GENMASK_ULL(end - 1, start)) >> start;
+> 	return w & ~__GENMASK_ULL(end - 1, start);
 
-We can't change it without changing the callers at the same time.
-So, better to change just helpers and later on, if working, change
-the semantics of the parameter.
+The problem is (and actually with the (end-1, start) above that it might
+generate a really bad code on some CPUs, so I really, really prefer the way
+when _at least_ one of the parameters is constant.
+That said, using
 
-> ---
+	GENMASK_ULL(end - 1, 0)
 
-...
-
->  subword(hive_uedge w, unsigned int start, unsigned int end)
->  {
-> -	return (w & (((1ULL << (end - 1)) - 1) << 1 | 1)) >> start;
-> +	return (w & __GENMASK_ULL(end-1, 0)) >> start;
-
-Why __ variant?
-
->  }
-
-...
-
->  inv_subword(hive_uedge w, unsigned int start, unsigned int end)
->  {
-> -	return w & (~(((1ULL << (end - 1)) - 1) << 1 | 1) | ((1ULL << start) - 1));
-> +	return w & (~__GENMASK_ULL(end-1, start));
->  }
-
-Ditto.
+in both cases makes also them look more similar (and opposition comes on how
+start is being used).
 
 -- 
 With Best Regards,
