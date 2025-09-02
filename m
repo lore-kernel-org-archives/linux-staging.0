@@ -1,113 +1,89 @@
-Received: from mail-pg1-f176.google.com (mail-pg1-f176.google.com [209.85.215.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C65E2BCF46
-	for <linux-staging@lists.linux.dev>; Tue,  2 Sep 2025 13:11:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66FEC2D3ED1
+	for <linux-staging@lists.linux.dev>; Tue,  2 Sep 2025 15:31:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756818669; cv=none; b=oyBr1UXPg/qMMfeB6sEnnGpLnrWBNEOlr06h3QPJbaDzgOJzluzYyFEU6dq5HZCysNbFljk/pNlx+YElGQVER8sA5QKKapzbfRbcYGBWUkCmhOqYog0umr+reAadfGcD6jyWQKqRbygXie8Y03v8krp+YX8IlkfpAQY1WZMF/JQ=
+	t=1756827112; cv=none; b=jWyfqNwaqwqNrc74+x5pqbNib2a0B5IODUMUozs8EzHDCk0RgqH/Jxca9NF4IqeqHYszcP5WxInHM297Q2knGzut+ynhLVIQUgs0cTYXIMvrHHqeXXyIRJe36teGec3XUi73pdzbmWlPcgpmYrJ2tAuEBJ/HyNgBFMTicgBj5ho=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756818669; c=relaxed/simple;
-	bh=a6+7H71onDG4ZfaCBC69FB5SY12ev/7tff0d25FMAG8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=kQbZz1hndvO2nFmPn3pOJtScM08o8vNeyIZMWCVKrT7EWFzBkHgef4XF1sExN5qbcH+Su4Bav8+n0Z4C49KTIzDVYu/nedn7lovhKMKcaE0/oLLle8M9jGBCteQkTHPzMwq6G6ptZcAonT7Rn6iVpE/Ra4tOi/X49X8nrXS8lCY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=iGri272x; arc=none smtp.client-ip=209.85.215.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1756827112; c=relaxed/simple;
+	bh=8NZMZNjbtp245s6IL9uaQhkZ2sXfxrtlX8J5YKgAfj4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=TH1rB1LqnAesuub1WRX3tKLewUep3iy4J/36micwcqmNMJAWoh8fK4/2YdMMAMig9km92JvRJ2izW4PZE4dqcj5A0TVbo/qtObnOaDVgWNTV+CMgbZFl7Sp0Wcf3oAb8QYX1Txs9PufQcwK5gcXTK29FyAnfbkfQHv8k0CX6o88=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aw9jMbfM; arc=none smtp.client-ip=198.175.65.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="iGri272x"
-Received: by mail-pg1-f176.google.com with SMTP id 41be03b00d2f7-b49cf1d4f6fso3697486a12.3
-        for <linux-staging@lists.linux.dev>; Tue, 02 Sep 2025 06:11:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1756818667; x=1757423467; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Rm8LYWgbBbSoxzsUxJyqmS94JWyK2thOVWLaY84JeS8=;
-        b=iGri272xt+uadoZ+yMQbNObnMHqJk6eU/q1ehAIFG3SiINoxiHHLaoW7d8eHwoxu5e
-         00zONYnqjshqTYBwfUMSj27pYoY8GJKpfALnszdp/SK0AR0Y5hCDn9evM45LhkEo6/3L
-         eyQHvRSfXl0nMODzf/HI4D6dMgDLRorSpMYIddfKtbZxI4tKP2Ol0y6Rx+XRX3sDpdxo
-         Qa2Zba6xRG59izAmgf8qdLCQl8Ax5zesgUOG59PfN99cP90VJsDv91UIw9zlcxKv927X
-         C75gowuSbGp6XPQpGb9KX2f90SDcvQaBNJ4GXpwiuEd2NssdEuz56BmldcehcWahjQy/
-         zF7g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756818667; x=1757423467;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Rm8LYWgbBbSoxzsUxJyqmS94JWyK2thOVWLaY84JeS8=;
-        b=usj2n8mpfx7GPfnnz5fTRV/K/3MNDeggJlupVGhlgtotqu4kq9APWujZmuYmvNfskM
-         um3xbL2KoAcvQnGBzdE4RNe+Wfa8/DHTuKgoCHQwniYJotebV7BqKrWL87GcmA3Moojn
-         NlWImwYozztOgKPvta3vmWeazue0JU5/0R5t94MEbO6AwjIU6fWA45iQmrs9r81WLjqM
-         8MZi3gRWdhwurRqmnV164BBJ5Ds9oxrYnuZwC/YZEzbu8OkSRr0zQgOXpQwQlHLciavD
-         Hs0dQLjjSxknuaz6WqH7Xu+AqfSxaTXxmlfYAzGVIO9hQD1vz772aT/Qj6vj0z7g51vN
-         m6NQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWe+/Bvms8RsQPqXewLICaQw6cuZqfWEi6LtLnw4IUNUCfZSyAmrBmr4qO+OJMFNkdtLOD509YxBIUIfhsG@lists.linux.dev
-X-Gm-Message-State: AOJu0YwgYBGMgJMnuBVNDi7+zhFnYWhQOuscHJLn4jlBiWjtqP6+cqUN
-	N/i0Y38x0Ka6d70tOngy/z4wLuF5a/OTamHfpj54c/PiiCEYkPKke2bmrtCQ2WvE3MHSwbcsER0
-	LhuUR6tJg6KJ3SOc4PGa25WKOs64vSDrwV5vdCzXY
-X-Gm-Gg: ASbGncsLbnoAI6yHcTpFF528HpANvkY9MValO7agzmDNusY826U7+0fYcicCrEnpigy
-	LnIdkXa8K1msfIwp8+PlHwVk3/ebM5nZB6VP+Tsrr9SXbPZfemUMkmKMIeQ1BuAgJChmBWdz0rs
-	j8/KeIikrlg9zHRR5MZRKPIeTKXXC8l8DxVWdmM6AcLgcfuxiNsdazaN5t/sabr6Q24GkuYgD2I
-	eFpLmZ8EiEDNWFJaq0iRqqy1/Opbj9OUF4w
-X-Google-Smtp-Source: AGHT+IEajt5n7miuhpVNgaVc7Q6fAs6vdDGW7Ft6PJ5otEsVyTncI7dUQga6YoFZNasinGVO2qLjbv1bEw5pg8a7acU=
-X-Received: by 2002:a17:902:ce03:b0:248:cd0b:3454 with SMTP id
- d9443c01a7336-24944873445mr133817985ad.9.1756818667376; Tue, 02 Sep 2025
- 06:11:07 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aw9jMbfM"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1756827112; x=1788363112;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=8NZMZNjbtp245s6IL9uaQhkZ2sXfxrtlX8J5YKgAfj4=;
+  b=aw9jMbfMhCgVuCvrjKlaGRjqGtDzEJs9v7viDJ8gL0mdgUescS+v46Mv
+   ga1ZkJ6YCKm70O/tcR8ByLel9/rXQ37oUyxybX7kNOwzP6wruUbbzsqxf
+   +nOEhXU/sRrfhmaebohlQTebwOAkopf1mXU3aMV6HR7PCTjKqg2rEMfFx
+   ew6O6nmJWj67FDqEwHDxJ1VFPVz3HofbjOHI6Ol+FJCviXH+EG8Y8K1X0
+   dKWn2hk3vXVfUEB/ejVQRTALqobCSddpPKI0UYpzGkjKy+kKB+ZpJVO8B
+   gUFLOKcVRrtoN2FFgLKTBEyS1V+5n6gElUT7jRUOr2GRl0PrADdkuPaIb
+   A==;
+X-CSE-ConnectionGUID: +hNamzKfTyS7T59iLe0p7g==
+X-CSE-MsgGUID: 1Lv7gJgoS52WSD006pJw1w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11541"; a="58806208"
+X-IronPort-AV: E=Sophos;i="6.18,230,1751266800"; 
+   d="scan'208";a="58806208"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Sep 2025 08:31:51 -0700
+X-CSE-ConnectionGUID: x3UzqLZLRTWYlXAH3ggxIA==
+X-CSE-MsgGUID: azBEhj9BQ8iE8iD7rTEZhw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.18,230,1751266800"; 
+   d="scan'208";a="170865090"
+Received: from smile.fi.intel.com ([10.237.72.52])
+  by orviesa009.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Sep 2025 08:31:48 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.98.2)
+	(envelope-from <andriy.shevchenko@intel.com>)
+	id 1utSz3-0000000AjQp-3NKC;
+	Tue, 02 Sep 2025 18:31:45 +0300
+Date: Tue, 2 Sep 2025 18:31:45 +0300
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: Adrian =?utf-8?Q?Barna=C5=9B?= <abarnas@google.com>
+Cc: Hans de Goede <hansg@kernel.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Andy Shevchenko <andy@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Dan Carpenter <dan.carpenter@linaro.org>,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev
+Subject: Re: [PATCH v2 3/3] staging: media: atomisp: Remove trailing comments
+Message-ID: <aLcN4c-tj5uPIaze@smile.fi.intel.com>
+References: <20250902071847.2330409-1-abarnas@google.com>
+ <20250902071847.2330409-4-abarnas@google.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250902073841.2338568-1-abarnas@google.com> <aLaypTjukJJloGuL@stanley.mountain>
-In-Reply-To: <aLaypTjukJJloGuL@stanley.mountain>
-From: =?UTF-8?Q?Adrian_Barna=C5=9B?= <abarnas@google.com>
-Date: Tue, 2 Sep 2025 15:10:55 +0200
-X-Gm-Features: Ac12FXwTsBas7UmElXIeqiXIRz_1zSROWnkOhZSndPGsKtOskJgJVh0CaFvpYhg
-Message-ID: <CAATBrPEsea2GfK26W5eg4ZFm=hJLO1pLNax85vvXZ8hb=iGaFQ@mail.gmail.com>
-Subject: Re: [RFC] staging: media: atomisp: Simplyfy masking bit logic
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: Hans de Goede <hansg@kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	Sakari Ailus <sakari.ailus@linux.intel.com>, Andy Shevchenko <andy@kernel.org>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-media@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250902071847.2330409-4-abarnas@google.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-> These are supposed to be opposites, right?  Subword and inverse Subword.
-> You could dress them up to make them look more opposite.
+On Tue, Sep 02, 2025 at 07:18:47AM +0000, Adrian Barnaś wrote:
+> Remove trailing comments in pci/hive_isp_css_common/host/vmem.c.
 
-In fact this name is misleading as well. For me it should be named
-`clear_subword()`. It is zero-ing the "subword" provided with low and
-high bit boundary (start, end), to be then easily replaced with binary
-or operation.
-And this operation is not an inverse of extracting a subword using the
-subword function.
+To avoid churn this should be patch 2 in a new series before current patch 2.
 
-> The problem is (and actually with the (end-1, start) above that it might
-> generate a really bad code on some CPUs, so I really, really prefer the w=
-ay
-> when _at least_ one of the parameters is constant.
+Otherwise the entire series LGTM.
 
-It would be  easier to create a bitmask sing GENMASK_ULL and just
-reverse it but if it is not safe, this is what looks fine for me and
-works the same as previous function:
+-- 
+With Best Regards,
+Andy Shevchenko
 
-// Added a helper to create a mask
-static inline unsigned long long subword_bitmask(unsigned int start,
-unsigned int end)
-{
-        return GENMASK_ULL(end - 1 , 0) & ~(GENMASK_ULL(start, 0) >> 1);
-}
 
-/* inverse subword bits move like this: MSB[xxxx____xxxx]LSB ->
-MSB[xxxx0000xxxx]LSB */
-static inline unsigned long long
-clear_subword(unsigned long long w, unsigned int start, unsigned int end)
-{
-        return w & ~subword_bitmask(start, end);
-}
-
-Best regards
-Adrian Barna=C5=9B
