@@ -1,57 +1,57 @@
-Received: from mail-wm1-f73.google.com (mail-wm1-f73.google.com [209.85.128.73])
+Received: from mail-ed1-f74.google.com (mail-ed1-f74.google.com [209.85.208.74])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE70926E703
-	for <linux-staging@lists.linux.dev>; Tue,  2 Sep 2025 07:19:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.73
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3DF52E6CCE
+	for <linux-staging@lists.linux.dev>; Tue,  2 Sep 2025 07:19:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.74
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756797563; cv=none; b=Rx1IKwdpXzlvZlrmImm2V6NxRCtgfkgqFPz2GhQwqRXHzITSYyOi0gmmmFy5yJ6HDc8fNSrH2sBsfdOytYfZX5bfR23ejHPgWfAgHDrq5sQHsirpHv1rV/G5w94571jYO6QdsHC+eWnA2Un5cmm1rrlDNWccBDQ8WZyyW9So5r8=
+	t=1756797565; cv=none; b=UtIFhieqbwkl5mgz1Ln4p7+sQsjYgpfKWtO4KLPz0EMLOOE5flwW/60W7TMXTumfep514BGUnW1O9hO23/3bbp/K6xtTRJkn08+6xrKmjDRu5EsUtvG8QxyngAowKmDRBekoQNbkVyhtw4pMgzYw6q9WgFJSBLHBViOqNp9pe7Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756797563; c=relaxed/simple;
-	bh=YTfRT7nZucuC+rOqT8u2JhzeMS4C8wWEnl7OQP5jGSg=;
+	s=arc-20240116; t=1756797565; c=relaxed/simple;
+	bh=740BcyIhKfKfRRxyo0ai5JUQmNTeZhlHh8EQv6Fx4lY=;
 	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=KCh/5kQXyc97yMvvlraT9odgc0BTl9kr9lEjgeGGcxzDNez7qH4t02VCdU2IJ0TBbglchoqkqbFo2g+2hZcisC0Q2eN52U65cu4lLceamweEudlSMngoj3I1CU5xwWfge2068OAXF/+05oi/ne/6lkE4w4iuVFh/DdOo6aJEPdM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--abarnas.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=ejTw0EsW; arc=none smtp.client-ip=209.85.128.73
+	 To:Cc:Content-Type; b=hGdJJ2KsluIrPZkNXVX+/DNW9B1U5OccYfjNmw2prl2yCM8/lqlj1T4XVW6BonxY7BUUyZUpCk6AI6lOA34z/gdXtYAJn7nqtYUw2L7WrxdfMe0N298kcQKNN6PSbhfwVNpowrNYcjT3+0SV1dvKq8lpCMO4/1jAifXYEcCFDeM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--abarnas.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=MG6GrJer; arc=none smtp.client-ip=209.85.208.74
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--abarnas.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="ejTw0EsW"
-Received: by mail-wm1-f73.google.com with SMTP id 5b1f17b1804b1-45b920a0c89so4047185e9.2
-        for <linux-staging@lists.linux.dev>; Tue, 02 Sep 2025 00:19:21 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="MG6GrJer"
+Received: by mail-ed1-f74.google.com with SMTP id 4fb4d7f45d1cf-61e9dd3aac8so2267239a12.3
+        for <linux-staging@lists.linux.dev>; Tue, 02 Sep 2025 00:19:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1756797560; x=1757402360; darn=lists.linux.dev;
+        d=google.com; s=20230601; t=1756797561; x=1757402361; darn=lists.linux.dev;
         h=content-transfer-encoding:cc:to:from:subject:message-id:references
          :mime-version:in-reply-to:date:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=K1NlE9a+9Bxy62hv5W1CTcG6yDEPlaJidN+buC/iKCU=;
-        b=ejTw0EsWfXcXMO9qQiKP3Ae96FdeqeRWUqrDDsMYMr5Hb3vvlvn+Mo8MDslyKKppDP
-         KydtKlFRIxjMuBlXnj9kCbYs458scFpVi72xu2MCiPMwr/fnxFJaW6YZmF+L7bNnNUzJ
-         mu3ZNZNrEEUFXOYvq2siieJTjfClPx69aKYmbD6VCy/Blw7nU1RukpGUu/4i4tBXkQI0
-         uTOXqvt3kCXfQgCQKtynz+i8CNKko2wgKveorLGje+Oe7v8401sDpzMRroF8xMcM8aFA
-         +CrwRTnpczsAzrn3T7EGbygT+hp+HWv2rJBS2plHW91gwLnwjsdW1kDfLIs6rgiIueFm
-         jsCg==
+        bh=W/K4EAZLbBVfhRbNqsGgmHLXOOZw/G+x8hknE2VHBmo=;
+        b=MG6GrJerPu4lJpa1HUpki1H5atUZ1UCN7HsOEjPivlcliYOeo0+AblCyChb6sIfCS7
+         Nc0pJAuiSCysKGmZXNltsK88YpzRXRtqdBhXA+9hLAtDmzawJvV0WSqBWt+BMlMPdJF1
+         US2RRqwSmV8/i+iQriQvoIkWtMd8Nq9gE5uV3fK9NGHn3a7J8MdQR2mvN9+8qDouBRdX
+         +e912LDCpygcb+M3DlRzJF20OiVvXLt52gCYhnBFJqkfBmScCOTgoMYZN7BEdLBSyBeB
+         HVL3etX16Uw1f1ZHKHPDawIG95JgTc47pb4rcLoy629ZORrYvGla6UmjVzgvZ/o2rkOJ
+         0LHA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756797560; x=1757402360;
+        d=1e100.net; s=20230601; t=1756797561; x=1757402361;
         h=content-transfer-encoding:cc:to:from:subject:message-id:references
          :mime-version:in-reply-to:date:x-gm-message-state:from:to:cc:subject
          :date:message-id:reply-to;
-        bh=K1NlE9a+9Bxy62hv5W1CTcG6yDEPlaJidN+buC/iKCU=;
-        b=Yy79XYJOb163peC9LvoyWlyJ+u77e7fGWWGcFrVHaOS92V4AHIbwEal8PP0XCBERaW
-         ofq1eLJtWLp4KGcryJ5jiJDpLCxFcx5K7uk6N3TwyIKa61kKBaxtmWdarHF9zj8uEg11
-         bPFsC/+ACW5y+87DAke//xnQQMO40y94w1rKhNFEokwR/x8UJNo8ztttoGRfERGOiNyf
-         79P3fQio02a0T6tg9+T7+1CB09ofbnah4IH3Bx7H+RytS8u5TPApgBcxMo4iFe51VMDf
-         0Zw+kMQjhWPOKIgXEqlWvJ+NUbjomxPKLaZSUMI0jbZMdBOG9zntgFjRW0WkzSTk+iqU
-         m+Eg==
-X-Forwarded-Encrypted: i=1; AJvYcCXs7KAxhKHKfdN5hqacVCTObnQzIEDd3kuZyQaYXjMLgNXZAnETzTwO6s5ueBlb28GIwqZWhS2qhKo3zioI@lists.linux.dev
-X-Gm-Message-State: AOJu0YyIcJE1gr5rAQOLD4+FVI7MY/ADD35lz2V6cApgeDC5whHaPX/I
-	S29qoDeFzkWgFaRpSZAWnSSFYHO6OAhUPbv5+m6MxjEc4jaHs99ZuIo7Pg2nxzoNCAIuonWzSKY
-	izOiSo+jWAA==
-X-Google-Smtp-Source: AGHT+IF9+pEVGxeluwE6Cu/shEOucLgY1/21K2rB/PuNxx8VUUO6XEcsQ8Es/nbAGtAXGwUqiHT7PGj6FScm
-X-Received: from wmsr1.prod.google.com ([2002:a05:600c:8b01:b0:45b:8501:3c72])
- (user=abarnas job=prod-delivery.src-stubby-dispatcher) by 2002:a05:600c:418c:b0:45b:72a6:4861
- with SMTP id 5b1f17b1804b1-45b855fa346mr64547185e9.24.1756797560190; Tue, 02
- Sep 2025 00:19:20 -0700 (PDT)
-Date: Tue,  2 Sep 2025 07:18:46 +0000
+        bh=W/K4EAZLbBVfhRbNqsGgmHLXOOZw/G+x8hknE2VHBmo=;
+        b=hYQ7p7kNxAKXv89opkHSIWVbUOJ3g0PeGk2GElLMd/am2pwIck9Ur9cuDqprj1bim5
+         Sx+aOZgnNq/J+pQxlAHNi3oyncQrKb/d+gmhhE1LNsubs9U5lg+lDIeOfok9HTbVM0iO
+         TaJPvrFD4D6ImT8HUvgYqiHvzlYsl3HqofKvgXj1A89dZOy8gSyXvbn/+HuvNuM6rm5O
+         kb9iLmqS6qvVJDOfHFSDMMA964lwIBEm1jqYh154aJitJMc5rUAxSHFbpG2ubdxnMgib
+         gsfqfFEhIFm30CeXoMGs6PzvZVHQp+uXx+1mGypetrd1O2hTTWIge5ToWsg5Mq1jjgyE
+         KJ7Q==
+X-Forwarded-Encrypted: i=1; AJvYcCXhQ1kqTUtdmIuXDBXNP+OCTeAEjt5PNmpEzMHTWy74OKmT/NF19ydMe85aYrQlodZ82Xa+ne0bJnwGGay6@lists.linux.dev
+X-Gm-Message-State: AOJu0YzCutOGcoWKYjtPrXd/3hKWLw7z3K3ONgpR33X0toTkd6+leQFK
+	K6Vie+QUGfb14BMNwJ6ay6vvNFoci5sZ2RFxgUUOc/7FCZlTcDxfya4Mmo9zxwzWc0pmkIuak7f
+	dXqBR6vP8Pw==
+X-Google-Smtp-Source: AGHT+IHu2RMCHU3NLYzXEdHLc3fvO1cupuIIfSxhMcWwMgEIP0sFksi/5BBq6DCJB2k0Nf4r8SmzBphWIWRX
+X-Received: from edbfi13.prod.google.com ([2002:a05:6402:550d:b0:61c:5514:9cb7])
+ (user=abarnas job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6402:90a:b0:61c:e9b5:74af
+ with SMTP id 4fb4d7f45d1cf-61d270e811amr9136642a12.36.1756797561020; Tue, 02
+ Sep 2025 00:19:21 -0700 (PDT)
+Date: Tue,  2 Sep 2025 07:18:47 +0000
 In-Reply-To: <20250902071847.2330409-1-abarnas@google.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -61,8 +61,8 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 Mime-Version: 1.0
 References: <20250902071847.2330409-1-abarnas@google.com>
 X-Mailer: git-send-email 2.51.0.318.gd7df087d1a-goog
-Message-ID: <20250902071847.2330409-3-abarnas@google.com>
-Subject: [PATCH v2 2/3] staging: media: atomisp: Whitespaces cleanup in vmem.c
+Message-ID: <20250902071847.2330409-4-abarnas@google.com>
+Subject: [PATCH v2 3/3] staging: media: atomisp: Remove trailing comments
 From: "=?UTF-8?q?Adrian=20Barna=C5=9B?=" <abarnas@google.com>
 To: Hans de Goede <hansg@kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
 	Sakari Ailus <sakari.ailus@linux.intel.com>, Andy Shevchenko <andy@kernel.org>, 
@@ -73,208 +73,61 @@ Cc: "=?UTF-8?q?Adrian=20Barna=C5=9B?=" <abarnas@google.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Whitespaces cleanup to conform with kernel style and improve readability.
+Remove trailing comments in pci/hive_isp_css_common/host/vmem.c.
 
 Signed-off-by: Adrian Barna=C5=9B <abarnas@google.com>
 ---
- .../pci/hive_isp_css_common/host/vmem.c       | 83 +++++--------------
- 1 file changed, 23 insertions(+), 60 deletions(-)
+ .../media/atomisp/pci/hive_isp_css_common/host/vmem.c     | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/vme=
 m.c b/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/vmem.c
-index fd640e100591..aa67638a09a5 100644
+index aa67638a09a5..547cc480c105 100644
 --- a/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/vmem.c
 +++ b/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/vmem.c
-@@ -13,7 +13,6 @@
- #endif
- #include "assert_support.h"
-=20
--
- /* Copied from SDK: sim_semantics.c */
-=20
- /* subword bits move like this:         MSB[____xxxx____]LSB -> MSB[000000=
-00xxxx]LSB */
-@@ -35,13 +34,8 @@ inv_subword(unsigned long long w, unsigned int start, un=
-signed int end)
- #define move_upper_bits(target, target_bit, src, src_bit) move_subword(tar=
-get, target_bit, src, src_bit, uedge_bits)
- #define move_word(target, target_bit, src) move_subword(target, target_bit=
-, src, 0, uedge_bits)
-=20
--static void
--move_subword(
--    unsigned long long *target,
--    unsigned int target_bit,
--    unsigned long long src,
--    unsigned int src_start,
--    unsigned int src_end)
-+static void move_subword(unsigned long long *target, unsigned int target_b=
-it,
-+			 unsigned long long src, unsigned int src_start, unsigned int src_end)
- {
- 	unsigned int start_elem =3D target_bit / uedge_bits;
- 	unsigned int start_bit  =3D target_bit % uedge_bits;
-@@ -51,7 +45,8 @@ move_subword(
-=20
- 	if (subword_width + start_bit > uedge_bits) { /* overlap */
- 		unsigned long long old_val1;
--		unsigned long long old_val0 =3D inv_subword(target[start_elem], start_bi=
-t, uedge_bits);
-+		unsigned long long old_val0 =3D inv_subword(target[start_elem],
-+							  start_bit, uedge_bits);
-=20
- 		target[start_elem] =3D old_val0 | (src_subword << start_bit);
- 		old_val1 =3D inv_subword(target[start_elem + 1], 0,
-@@ -59,18 +54,14 @@ move_subword(
- 		target[start_elem + 1] =3D old_val1 | (src_subword >> (uedge_bits - star=
-t_bit));
- 	} else {
- 		unsigned long long old_val =3D inv_subword(target[start_elem], start_bit=
-,
--						 start_bit + subword_width);
-+							 start_bit + subword_width);
-=20
- 		target[start_elem] =3D old_val | (src_subword << start_bit);
- 	}
+@@ -161,7 +161,7 @@ static void store_vector(const isp_ID_t ID, t_vmem_elem=
+ *to, const t_vmem_elem *
  }
 =20
--static void
--hive_sim_wide_unpack(
--    unsigned long long *vector,
--    unsigned long long *elem,
--    hive_uint elem_bits,
--    hive_uint index)
-+static void hive_sim_wide_unpack(unsigned long long *vector, unsigned long=
- long *elem,
-+				 hive_uint elem_bits, hive_uint index)
- {
- 	/* pointers into wide_type: */
- 	unsigned int start_elem =3D (elem_bits * index) / uedge_bits;
-@@ -99,12 +90,8 @@ hive_sim_wide_unpack(
- 	}
- }
-=20
--static void
--hive_sim_wide_pack(
--    unsigned long long *vector,
--    unsigned long long *elem,
--    hive_uint elem_bits,
--    hive_uint index)
-+static void hive_sim_wide_pack(unsigned long long *vector, unsigned long l=
-ong *elem,
-+			       hive_uint elem_bits, hive_uint index)
- {
- 	/* pointers into wide_type: */
- 	unsigned int start_elem =3D (elem_bits * index) / uedge_bits;
-@@ -128,10 +115,7 @@ hive_sim_wide_pack(
- 	}
- }
-=20
--static void load_vector(
--    const isp_ID_t		ID,
--    t_vmem_elem		*to,
--    const t_vmem_elem	*from)
-+static void load_vector(const isp_ID_t ID, t_vmem_elem *to, const t_vmem_e=
-lem *from)
- {
- 	unsigned int i;
- 	unsigned long long *data;
-@@ -154,10 +138,7 @@ static void load_vector(
- 	udelay(1); /* Spend at least 1 cycles per vector */
- }
-=20
--static void store_vector(
--    const isp_ID_t		ID,
--    t_vmem_elem		*to,
--    const t_vmem_elem	*from)
-+static void store_vector(const isp_ID_t ID, t_vmem_elem *to, const t_vmem_=
-elem *from)
- {
- 	unsigned int i;
- 	unsigned int size =3D sizeof(short) * ISP_NWAY;
-@@ -166,9 +147,9 @@ static void store_vector(
- 	//load_vector (&v[1][0], &to[ISP_NWAY]); /* Fetch the next vector, since =
-it will be overwritten. */
- 	unsigned long long *data =3D (unsigned long long *)v;
-=20
--	for (i =3D 0; i < ISP_NWAY; i++) {
-+	for (i =3D 0; i < ISP_NWAY; i++)
- 		hive_sim_wide_pack(data, (unsigned long long *)&from[i], ISP_VEC_ELEMBIT=
-S, i);
--	}
-+
- 	assert(ISP_BAMEM_BASE[ID] !=3D (hrt_address) - 1);
- #if !defined(HRT_MEMORY_ACCESS)
- 	ia_css_device_store(ISP_BAMEM_BASE[ID] + (unsigned long)to, &v, size);
-@@ -179,11 +160,8 @@ static void store_vector(
- 	udelay(1); /* Spend at least 1 cycles per vector */
- }
-=20
--void isp_vmem_load(
--    const isp_ID_t		ID,
--    const t_vmem_elem	*from,
--    t_vmem_elem		*to,
--    unsigned int elems) /* In t_vmem_elem */
-+void isp_vmem_load(const isp_ID_t ID, const t_vmem_elem *from, t_vmem_elem=
+ void isp_vmem_load(const isp_ID_t ID, const t_vmem_elem *from, t_vmem_elem=
  *to,
-+		   unsigned int elems) /* In t_vmem_elem */
+-		   unsigned int elems) /* In t_vmem_elem */
++		   unsigned int elems)
  {
  	unsigned int c;
  	const t_vmem_elem *vp =3D from;
-@@ -197,11 +175,8 @@ void isp_vmem_load(
- 	}
+@@ -176,7 +176,7 @@ void isp_vmem_load(const isp_ID_t ID, const t_vmem_elem=
+ *from, t_vmem_elem *to,
  }
 =20
--void isp_vmem_store(
--    const isp_ID_t		ID,
--    t_vmem_elem		*to,
--    const t_vmem_elem	*from,
--    unsigned int elems) /* In t_vmem_elem */
-+void isp_vmem_store(const isp_ID_t ID, t_vmem_elem *to, const t_vmem_elem =
+ void isp_vmem_store(const isp_ID_t ID, t_vmem_elem *to, const t_vmem_elem =
 *from,
-+		    unsigned int elems) /* In t_vmem_elem */
+-		    unsigned int elems) /* In t_vmem_elem */
++		    unsigned int elems)
  {
  	unsigned int c;
  	t_vmem_elem *vp =3D to;
-@@ -215,15 +190,9 @@ void isp_vmem_store(
- 	}
- }
+@@ -192,7 +192,7 @@ void isp_vmem_store(const isp_ID_t ID, t_vmem_elem *to,=
+ const t_vmem_elem *from,
 =20
--void isp_vmem_2d_load(
--    const isp_ID_t		ID,
--    const t_vmem_elem	*from,
--    t_vmem_elem		*to,
--    unsigned int height,
--    unsigned int width,
--    unsigned int stride_to,  /* In t_vmem_elem */
--
--    unsigned stride_from /* In t_vmem_elem */)
-+void isp_vmem_2d_load(const isp_ID_t ID, const t_vmem_elem *from, t_vmem_e=
+ void isp_vmem_2d_load(const isp_ID_t ID, const t_vmem_elem *from, t_vmem_e=
 lem *to,
-+		      unsigned int height, unsigned int width,
-+		      unsigned int stride_to, unsigned int stride_from) /* In t_vmem_ele=
+ 		      unsigned int height, unsigned int width,
+-		      unsigned int stride_to, unsigned int stride_from) /* In t_vmem_ele=
 m */
++		      unsigned int stride_to, unsigned int stride_from)
  {
  	unsigned int h;
 =20
-@@ -244,15 +213,9 @@ void isp_vmem_2d_load(
- 	}
- }
+@@ -215,7 +215,7 @@ void isp_vmem_2d_load(const isp_ID_t ID, const t_vmem_e=
+lem *from, t_vmem_elem *t
 =20
--void isp_vmem_2d_store(
--    const isp_ID_t		ID,
--    t_vmem_elem		*to,
--    const t_vmem_elem	*from,
--    unsigned int height,
--    unsigned int width,
--    unsigned int stride_to,  /* In t_vmem_elem */
--
--    unsigned stride_from /* In t_vmem_elem */)
-+void isp_vmem_2d_store(const isp_ID_t ID, t_vmem_elem *to, const t_vmem_el=
+ void isp_vmem_2d_store(const isp_ID_t ID, t_vmem_elem *to, const t_vmem_el=
 em *from,
-+		       unsigned int height, unsigned int width,
-+		       unsigned int stride_to, unsigned int stride_from) /* In t_vmem_el=
+ 		       unsigned int height, unsigned int width,
+-		       unsigned int stride_to, unsigned int stride_from) /* In t_vmem_el=
 em */
++		       unsigned int stride_to, unsigned int stride_from)
  {
  	unsigned int h;
 =20
