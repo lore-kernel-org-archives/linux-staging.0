@@ -1,98 +1,89 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0BB82F3C0A
-	for <linux-staging@lists.linux.dev>; Wed,  3 Sep 2025 11:07:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDAFF3081C3
+	for <linux-staging@lists.linux.dev>; Wed,  3 Sep 2025 13:41:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756897668; cv=none; b=WlermTuKefV3s8mG+xTVhjCPy7vvnWCJCN2mc9wNtGj4SgpkuoRu1MrXzGczNhQatq8/hvH8vLWH9zQR9UeVzC0wF8aWRQTq8qn0FLmvSA/joAfdbZ5MVq5QVxLhIH73PGktuPDQtzP4TFUXkTx2O2xHFSJTEeOfPqcBesHMVnE=
+	t=1756906865; cv=none; b=GlrXYtAuC550tXAT7ShzQRxrVD+BGgL1b0nGSPy/vMGQnZfrfxBc4sBu/HdbSHzQCySky+38aPb0qdomNl2lBbKlRISbyT+kxlC7klMRUi964eS99ObfvquV2W872RJrZVHNMYYVJFnqYW8IR1WSRaZZKg7nExnwyeOiZ107t9Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756897668; c=relaxed/simple;
-	bh=Rn4oGXhbcrYs2K3Dha2QKPcBreQzKeMaMsXQQ1ZcJxE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ggM+QWgtS9rRzlUcDXhgpCacaw1iAyfzN4L1Rmio5OAEB+A8zOxiaqa4hyWVfZV1wcvLA6fraKLxdyF9a8rdwPlZEzgY3WliXB039QSq1nmY988lgKJdKWvtaMx3YvBvrpvqqTOoOwRHhVY2hQsrMpjnZyML/PBcTb8zrbu5ikA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fSymEeh6; arc=none smtp.client-ip=192.198.163.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1756906865; c=relaxed/simple;
+	bh=K/9dAyFF/P+rSML/+SeNcZwvlUM5MmpiClNT/7DQIXQ=;
+	h=Content-Type:MIME-Version:In-Reply-To:References:Subject:From:Cc:
+	 To:Date:Message-ID; b=J+6lreAOVR5OOB2JAQofP1npmCa9pFW4PplkgKI2hadyuWy020qquMP1W3asJaB6yb9DvS15BJbmH7Ch21RKXq0y186InLZmbf22u7OkVluifQ/C7temO4pJcyRwCEjF+jnUPOa/3JBzIgJdwHaWZMMbj434t5xqbkDE1oTsUb8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=N0tq5TFE; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fSymEeh6"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1756897667; x=1788433667;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=Rn4oGXhbcrYs2K3Dha2QKPcBreQzKeMaMsXQQ1ZcJxE=;
-  b=fSymEeh6q9+yomzEK00V2A2STE5xeVawpr7uRBXcsIVj0fmw7XcSmRyw
-   lPZm+1CMKPdWcIE3uLktyr31riA4aPPnBNgON4Dq4d0CMefYJuRaVrnCG
-   rHLzzFVfz7wYIjSzLd6KoHU1Ph36fizd+yWijxpE/+ZNdwRrat4sLNqZg
-   QVpmtFZwQvoxe2oxYczpaHm0blB6lET6NmUv8bgYoYl2JmdXPFnbgiU3M
-   +5kGHAXwKb8qYNTSfim5ZioFjErIT+gFauuUwgrOKYhrTjtnH7c72+0l/
-   JO3pNDsBdBzXjUw7gY+a5fagBqMc9fCErqe/A/TjiGvMrQr1/hKHjoJ8g
-   Q==;
-X-CSE-ConnectionGUID: tspYbKe8Svi2mVqQOS5n0g==
-X-CSE-MsgGUID: 0ajFCGsCTnam3qTecuQFdA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11541"; a="69819900"
-X-IronPort-AV: E=Sophos;i="6.18,235,1751266800"; 
-   d="scan'208";a="69819900"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Sep 2025 04:07:46 -0700
-X-CSE-ConnectionGUID: pJpnTF79Qe2LcM4SPRGO/Q==
-X-CSE-MsgGUID: uPX+WvPSRCe46Fqk+1Cs9A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,235,1751266800"; 
-   d="scan'208";a="171129834"
-Received: from smile.fi.intel.com ([10.237.72.52])
-  by orviesa009.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Sep 2025 04:07:44 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.98.2)
-	(envelope-from <andriy.shevchenko@intel.com>)
-	id 1utlL2-0000000Axra-1OMv;
-	Wed, 03 Sep 2025 14:07:40 +0300
-Date: Wed, 3 Sep 2025 14:07:40 +0300
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: Adrian =?utf-8?Q?Barna=C5=9B?= <abarnas@google.com>
-Cc: Hans de Goede <hansg@kernel.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Andy Shevchenko <andy@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Dan Carpenter <dan.carpenter@linaro.org>,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev
-Subject: Re: [RFC PATCH v2 0/2] staging: media: atomisp: Refactor bit logic
- helpers in vmem.c
-Message-ID: <aLghfGH1ATFQT-9P@smile.fi.intel.com>
-References: <20250903092754.2751556-1-abarnas@google.com>
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="N0tq5TFE"
+Received: from mail.ideasonboard.com (unknown [IPv6:2401:4900:1c69:480e:e039:1d0b:c5ff:a9e2])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 33B7D83D;
+	Wed,  3 Sep 2025 15:39:52 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1756906792;
+	bh=K/9dAyFF/P+rSML/+SeNcZwvlUM5MmpiClNT/7DQIXQ=;
+	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+	b=N0tq5TFEyFNEPAEWuQykFLtPtYKWwkIk7GdD6zDzio5OcB4Q61rd9DzuNVntZGLCm
+	 saS90oxafBg89QQmQ7ldOuP1fPOj99B68c5gIKWAx8fdaIT0O9rl4P1HvhWBqKxo1A
+	 qJtFV01IqAFswxeh6z1HOBHiL38eALSBaFLczvC4=
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250903092754.2751556-1-abarnas@google.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <731ead88-8dc9-4032-86f5-7a2dd5044b22@gmx.net>
+References: <20250827-vchiq-destage-v1-0-5052a0d81c42@ideasonboard.com> <20250827-vchiq-destage-v1-4-5052a0d81c42@ideasonboard.com> <731ead88-8dc9-4032-86f5-7a2dd5044b22@gmx.net>
+Subject: Re: [PATCH 4/5] media: staging: Drop bcm2835-camera driver
+From: Jai Luthra <jai.luthra@ideasonboard.com>
+Cc: linux-rpi-kernel@lists.infradead.org, linux-arm-kernel@lists.infradead.org, linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, kernel-list@raspberrypi.com, Dave Stevenson <dave.stevenson@raspberrypi.com>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, Florian Fainelli <florian.fainelli@broadcom.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>, Stefan Wahren <wahrenst@gmx.net>
+Date: Wed, 03 Sep 2025 19:10:55 +0530
+Message-ID: <175690685574.8095.13306600513284108529@freya>
+User-Agent: alot/0.12.dev28+gd2c823fe
 
-On Wed, Sep 03, 2025 at 09:27:52AM +0000, Adrian Barnaś wrote:
-> Refactor proposition for bit operation in vmem.c.
-> * Previous name for function "inv_subword()" for me is not telling what
-> function acctualy does - it clears bit specified by subword, so renamed
-> to clear_subword()
-> * Added a helper to create a proper bitmask for a subword, without using
-> GENMASK(end-1, start) which was claimed to be unsafe
-> * Simplified subword() and clear_subword() to be more readable.
-> 
-> Continuation of https://lore.kernel.org/linux-staging/20250902073841.2338568-1-abarnas@google.com/ 
+Hi Stefan,
 
-Thanks for the effort, but I think it's just a tip of the iceberg.
-What we really need is to completely rewrite hive_sim_wide_unpack()
-and hive_sim_wide_pack(). If we want to preserve arbitrary bit numbers
-we ought to use bitmap API rather than that custom approach.
+Quoting Stefan Wahren (2025-08-28 00:48:22)
+> Hi Jai,
+>=20
+> Am 27.08.25 um 08:24 schrieb Jai Luthra:
+> > The bcm2835-camera driver is replaced by the V4L2 bcm2835-unicam driver
+> > that is already upstream. So drop it from staging.
+> AFAIK the old Raspberry Pi Camera V1 isn't supported by V4L2=20
+> bcm2835-unicam. Personally i'm fine with this, but this must be clear in =
 
--- 
-With Best Regards,
-Andy Shevchenko
+> the commit message.Did you already talked to distributions like Redhat & =
 
+> OpenSuSE about this step?
 
+As Dave mentioned, the OV5647 should work with V4L2. I don't have a sensor
+with me, but I can order one and try to get it working with the upstream
+kernel separate from this series.
+
+I did test the V2 camera module (IMX219) with my series applied on top of
+upstream kernel, and capture worked fine with bcm2835-unicam, so I don't
+believe V1 camera module should be an issue.
+
+> > This also simplifies destaging of VCHIQ MMAL, by reducing the users of
+> > the MMAL API (this driver is one of them).
+> AFAIU this drops the only one user of VCHIQ MMAL. So please explain, why =
+
+> we still need this API and how this should be tested?
+
+The bcm2835-isp and bcm2835-codec are other users, which are currently only
+present in the downstream Pi kernel [1].
+
+I plan to upstream the ISP driver as a subsequent series (that was the main
+motivation for this series), thus keeping the MMAL API still here.
+
+[1] https://github.com/search?q=3Drepo%3Araspberrypi%2Flinux%20%23include%2=
+0%22..%2Fvchiq-mmal%2F&type=3Dcode
+
+>=20
+> Best regards
+
+Thanks,
+    Jai
