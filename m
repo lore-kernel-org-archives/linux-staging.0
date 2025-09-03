@@ -1,89 +1,93 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f73.google.com (mail-ej1-f73.google.com [209.85.218.73])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66FEC2D3ED1
-	for <linux-staging@lists.linux.dev>; Tue,  2 Sep 2025 15:31:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D8142F0C7A
+	for <linux-staging@lists.linux.dev>; Wed,  3 Sep 2025 09:28:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.73
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756827112; cv=none; b=jWyfqNwaqwqNrc74+x5pqbNib2a0B5IODUMUozs8EzHDCk0RgqH/Jxca9NF4IqeqHYszcP5WxInHM297Q2knGzut+ynhLVIQUgs0cTYXIMvrHHqeXXyIRJe36teGec3XUi73pdzbmWlPcgpmYrJ2tAuEBJ/HyNgBFMTicgBj5ho=
+	t=1756891687; cv=none; b=LTCkYHMS7Kple6Bz/pnrhKpnKeZ+NfjLMAtHbDq7g/KDyc8qvWydJEUIhltMDNcuHQAnyTfF9oCdZuPDtTVKazm9W6FvzfYFM+sIG7XB4tfbha/6OfSTudlKlCI+sjFr1713s5I4zju9BsthIF0ssTHYpF0axIBzJHY+yDktJ2U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756827112; c=relaxed/simple;
-	bh=8NZMZNjbtp245s6IL9uaQhkZ2sXfxrtlX8J5YKgAfj4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=TH1rB1LqnAesuub1WRX3tKLewUep3iy4J/36micwcqmNMJAWoh8fK4/2YdMMAMig9km92JvRJ2izW4PZE4dqcj5A0TVbo/qtObnOaDVgWNTV+CMgbZFl7Sp0Wcf3oAb8QYX1Txs9PufQcwK5gcXTK29FyAnfbkfQHv8k0CX6o88=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aw9jMbfM; arc=none smtp.client-ip=198.175.65.20
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1756891687; c=relaxed/simple;
+	bh=RDTKu9h7P2J8owWSAM18mx6quxofHLD1wpX6bUaKLbQ=;
+	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=X2QNw5OfkbCFxhqlklbq2DuAlV9k4ZV7npUPc0yEs4u6MRSed+N9Zuyg7v9hMZZaxaKfjsUl2c9fuyGP2zvenpKvmW0Xev9XkT1r+LqC0AruV1OQ2YPNthg7IJ3fuQj4nZYhMiDthYdxnWteLlbBkbaLo5UlwSpVDn53GxNFva8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--abarnas.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=RIqhT7S4; arc=none smtp.client-ip=209.85.218.73
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--abarnas.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aw9jMbfM"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1756827112; x=1788363112;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=8NZMZNjbtp245s6IL9uaQhkZ2sXfxrtlX8J5YKgAfj4=;
-  b=aw9jMbfMhCgVuCvrjKlaGRjqGtDzEJs9v7viDJ8gL0mdgUescS+v46Mv
-   ga1ZkJ6YCKm70O/tcR8ByLel9/rXQ37oUyxybX7kNOwzP6wruUbbzsqxf
-   +nOEhXU/sRrfhmaebohlQTebwOAkopf1mXU3aMV6HR7PCTjKqg2rEMfFx
-   ew6O6nmJWj67FDqEwHDxJ1VFPVz3HofbjOHI6Ol+FJCviXH+EG8Y8K1X0
-   dKWn2hk3vXVfUEB/ejVQRTALqobCSddpPKI0UYpzGkjKy+kKB+ZpJVO8B
-   gUFLOKcVRrtoN2FFgLKTBEyS1V+5n6gElUT7jRUOr2GRl0PrADdkuPaIb
-   A==;
-X-CSE-ConnectionGUID: +hNamzKfTyS7T59iLe0p7g==
-X-CSE-MsgGUID: 1Lv7gJgoS52WSD006pJw1w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11541"; a="58806208"
-X-IronPort-AV: E=Sophos;i="6.18,230,1751266800"; 
-   d="scan'208";a="58806208"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Sep 2025 08:31:51 -0700
-X-CSE-ConnectionGUID: x3UzqLZLRTWYlXAH3ggxIA==
-X-CSE-MsgGUID: azBEhj9BQ8iE8iD7rTEZhw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,230,1751266800"; 
-   d="scan'208";a="170865090"
-Received: from smile.fi.intel.com ([10.237.72.52])
-  by orviesa009.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Sep 2025 08:31:48 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.98.2)
-	(envelope-from <andriy.shevchenko@intel.com>)
-	id 1utSz3-0000000AjQp-3NKC;
-	Tue, 02 Sep 2025 18:31:45 +0300
-Date: Tue, 2 Sep 2025 18:31:45 +0300
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: Adrian =?utf-8?Q?Barna=C5=9B?= <abarnas@google.com>
-Cc: Hans de Goede <hansg@kernel.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Andy Shevchenko <andy@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Dan Carpenter <dan.carpenter@linaro.org>,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev
-Subject: Re: [PATCH v2 3/3] staging: media: atomisp: Remove trailing comments
-Message-ID: <aLcN4c-tj5uPIaze@smile.fi.intel.com>
-References: <20250902071847.2330409-1-abarnas@google.com>
- <20250902071847.2330409-4-abarnas@google.com>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="RIqhT7S4"
+Received: by mail-ej1-f73.google.com with SMTP id a640c23a62f3a-b042eb3ac03so193205266b.2
+        for <linux-staging@lists.linux.dev>; Wed, 03 Sep 2025 02:28:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1756891684; x=1757496484; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:from:subject:message-id
+         :mime-version:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=TiPNCvnjapcrlxfeGYfsAXzGtFUSy9Sla5QKQ86OmtE=;
+        b=RIqhT7S4Ds0aWklh5nN82Cj0xXhvXUazGP0JuxLh0C3ZGbE2mvho1G+Ac7UijMMgry
+         1yzXSr00gS/2tnz7Mx7t4D/FMBiPwZgLdln+DnE9A9+NvypIWToBJwSYix6vBNKEJzol
+         tYxWnQtv/ePyFKvbtDlQNkh4L0ZolvndAP97wZLoB5CVYvzyR4ELJUGevyJ7C7NDQTHB
+         w6JsIrGOwS3VkeDc8O/B//G8k9dHaceY7wMQs1TIhhL+VmFsyOKgf+Jcny3F0ZTHZXDk
+         JR2+yEXm+/5r2PyYOculRgvAFvte8+dIty7feAjxWzjMD7MNciTVdOhw/5VNeLsbN+ym
+         4VzQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1756891684; x=1757496484;
+        h=content-transfer-encoding:cc:to:from:subject:message-id
+         :mime-version:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=TiPNCvnjapcrlxfeGYfsAXzGtFUSy9Sla5QKQ86OmtE=;
+        b=bUHVytGiZxQdeo8nWSUltzSpYQcRwX959XRfDZUTmzI0v71cQQW15arZMLfvGFGbD9
+         O11ozFQcxFYL+O2I8CXXwP0IGIgVRxiUcZWh+RoEoJ1GL/37k1mZXANufl3OvDvvDq3L
+         No9uQtA+ediUqnUQRaRH/aHkJnPbRTjXAPnTkMgDHlQZzTYKpYl1pUBoH7kKFjp52G9x
+         rmtC+hLj39gAIiJ73f+U8ZUd51UCZbNX3icc1y+avwNrf0/4CV/tfa+XucC6MtmwAb9/
+         8FnUpn75DJp+JEa9jnwt6ZNzOA2SyKJBTxLBIebiLwfuNxlcNKKNEhAqHsX4nPfIe2Xr
+         1thg==
+X-Forwarded-Encrypted: i=1; AJvYcCWyFZLoixvgYVWX+YpibGiyImvy1PK9g5g8eKsPPyhNoE7HGBnsdLyTyMcpgPQOK9xeVTI7w2y/wGh70eaU@lists.linux.dev
+X-Gm-Message-State: AOJu0Yy0hBCuD+XPmrE0eoS/3GUKR9ffU6G9v8NxJi1hkXrJ9DavGZu4
+	ytZ9RSVtV0blD0jDLuw1vv14XdmGpTuI26PArkCNYcuXzfInKSkpcWq/2LRQP35tXguyLZcpsmm
+	+ALnNM9xpjQ==
+X-Google-Smtp-Source: AGHT+IFH5XwKUXYHk/3S5VJI7dgKyWD/UZ8O7WJTKCucvA63LhSVX1nX4l6gGeMpjYHCtQk+b/SuYYxHvsCs
+X-Received: from ejclj9.prod.google.com ([2002:a17:907:1889:b0:b04:54de:8bcb])
+ (user=abarnas job=prod-delivery.src-stubby-dispatcher) by 2002:a17:907:9494:b0:afc:a18f:65e9
+ with SMTP id a640c23a62f3a-b01d8c9018fmr1590592566b.27.1756891684064; Wed, 03
+ Sep 2025 02:28:04 -0700 (PDT)
+Date: Wed,  3 Sep 2025 09:27:52 +0000
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250902071847.2330409-4-abarnas@google.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.51.0.355.g5224444f11-goog
+Message-ID: <20250903092754.2751556-1-abarnas@google.com>
+Subject: [RFC PATCH v2 0/2] staging: media: atomisp: Refactor bit logic
+ helpers in vmem.c
+From: "=?UTF-8?q?Adrian=20Barna=C5=9B?=" <abarnas@google.com>
+To: Hans de Goede <hansg@kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	Sakari Ailus <sakari.ailus@linux.intel.com>, Andy Shevchenko <andy@kernel.org>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Dan Carpenter <dan.carpenter@linaro.org>, 
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-staging@lists.linux.dev
+Cc: "=?UTF-8?q?Adrian=20Barna=C5=9B?=" <abarnas@google.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, Sep 02, 2025 at 07:18:47AM +0000, Adrian Barnaś wrote:
-> Remove trailing comments in pci/hive_isp_css_common/host/vmem.c.
+Refactor proposition for bit operation in vmem.c.
+* Previous name for function "inv_subword()" for me is not telling what
+function acctualy does - it clears bit specified by subword, so renamed
+to clear_subword()
+* Added a helper to create a proper bitmask for a subword, without using
+GENMASK(end-1, start) which was claimed to be unsafe
+* Simplified subword() and clear_subword() to be more readable.
 
-To avoid churn this should be patch 2 in a new series before current patch 2.
+Continuation of https://lore.kernel.org/linux-staging/20250902073841.233856=
+8-1-abarnas@google.com/=20
 
-Otherwise the entire series LGTM.
+Adrian Barna=C5=9B (2):
+  staging: media: atomisp: Change name to better follow its behavior
+  staging: media: atomisp: Simplify logic in vmem.c
 
--- 
-With Best Regards,
-Andy Shevchenko
+ .../pci/hive_isp_css_common/host/vmem.c       | 19 ++++++++++++-------
+ 1 file changed, 12 insertions(+), 7 deletions(-)
 
+--=20
+2.51.0.355.g5224444f11-goog
 
