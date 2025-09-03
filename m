@@ -1,41 +1,81 @@
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.22])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f226.google.com (mail-qt1-f226.google.com [209.85.160.226])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8A1A20408A
-	for <linux-staging@lists.linux.dev>; Wed,  3 Sep 2025 15:03:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.22
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A14CC2C026C
+	for <linux-staging@lists.linux.dev>; Wed,  3 Sep 2025 16:13:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.226
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756911835; cv=none; b=NwI8CVyf3g6CcjPIRagFepEhMYY5qNKpAdB4LZnsqVorGO/aYaVuq6YtgiuHKMtx+0wTcB3Etrs5JhBVjqhyX4VRxh9dUr4sB6O3xebEWr594w2AgL5Y/if104RyTC85v/nWndDcuYLDLIhf6L3iw5OIPaVyW/PFq+YXlF1lTdg=
+	t=1756915992; cv=none; b=JbXDRFcYAlzCVUz0EAjhz2g5UUKX3daElbmxjUQeu0bhMhNxEArpIEnzdLOe1FfipF7LrSqOKhdO1dh1xNnZP/VSYO89WrYrh1fzEYxPjIdjuMCZg6CPaXq0bcnkQ3WB4Yfb7YHs0FFrc9E330TFiS4N4toOQYs05RMN8iusLQY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756911835; c=relaxed/simple;
-	bh=NnuAHSBDbfi4EOChbt4AksdYqmsgZxMbH5odBKKwj7c=;
+	s=arc-20240116; t=1756915992; c=relaxed/simple;
+	bh=kGmTG3xESfJxkZa9QWeAUJDAz2j2d5fIPK20Qgq5vFU=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=NGxwtzTmhn9gFqKr1zQt3RDrwr1f6PfIqk28oMeajdKr3V3lUT3RDf7lNkk0SLXDVL3GIUW7WaTxDg3i/vN4e79S9HLOayYUpqJofgjlb+WEdn2yBZR6cxKmEabLQEEdghXT5LtV5pvd+GfADaLFHPlMrmjahosSw3qZoqP7BI0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.net; spf=pass smtp.mailfrom=gmx.net; dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b=Hbsmqkx6; arc=none smtp.client-ip=212.227.17.22
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.net
+	 In-Reply-To:Content-Type; b=Hy2r86AucMQX+u3+nBmB7OFQcGm5KsQ9Ff82xX3/xQDzZw7o9cS4FLf7zg4uAG+Z71s1NnjMpjVj8BXJ5wpetMtGZeJHkmaPwSs5aXN9HaZuyJMq+h7SZHeMVX+For0EMZzkZ20QH8xq/aOL1W0s27So6hfdcPsB5m0bRXQnhWs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=broadcom.com; spf=fail smtp.mailfrom=broadcom.com; dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b=Oaq+luov; arc=none smtp.client-ip=209.85.160.226
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=broadcom.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=broadcom.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b="Hbsmqkx6"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.net;
-	s=s31663417; t=1756911824; x=1757516624; i=wahrenst@gmx.net;
-	bh=lJfr59Plj3fSfvw6i7jJR5SedS5G6ug0wiaaH4W9uCg=;
-	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
-	 References:From:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding:cc:content-transfer-encoding:
-	 content-type:date:from:message-id:mime-version:reply-to:subject:
-	 to;
-	b=Hbsmqkx6L5Ghj3Lc5eiYcmHX4tg8p83VqLFBwes8EgPOVEw5m4Jppet0pUneFQLj
-	 Qp3LwxqEvviLdrJgTXHepWhk20yLhaB9R4VZD3dtLOsk3ggpHywLCr3bQ8PcZuOad
-	 dWR6ihlSOFFaoT4saBzDuVva2+Nzqi7jtxMgn83B0aah3xVwz0WLU6DEmUkJ5pzkF
-	 T/M/bnIUp9eNSEwr242ypgrTB4SZlCIaDNHllubJADh1awKOlUbn5F0yIxpOBNs6o
-	 i45k6KVpzUWmAYNPkxI75BbMhq2/ifxsvXLrGd2lNpVXc6xi2TMGAjgC/JDw/lQsj
-	 VI/WVvthXgqXBJPB0w==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from [192.168.1.105] ([79.235.128.112]) by mail.gmx.net (mrgmx104
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1MIdif-1ui1K92bNV-00Gpcn; Wed, 03
- Sep 2025 17:03:44 +0200
-Message-ID: <02213561-7a72-474a-be83-98d5ba575f0c@gmx.net>
-Date: Wed, 3 Sep 2025 17:03:43 +0200
+	dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b="Oaq+luov"
+Received: by mail-qt1-f226.google.com with SMTP id d75a77b69052e-4b3384f552dso907021cf.2
+        for <linux-staging@lists.linux.dev>; Wed, 03 Sep 2025 09:13:10 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1756915989; x=1757520789;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:dkim-signature:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=QksT58lJYyQue7qfj5sBxd5t1SOILKVGpmQ75/i+2ow=;
+        b=i340NWz+fSqv8soPLYcSwoaJVDvOZUpap2LYqdkMB1uwTN7Pe45SIjC/uBT3AarSQB
+         zSuvegSU+B+kIR3YHb3lRvb4UbWHrNP+oUJ5t23sirWINuea5xPXlNEqnQBABz5cxuoc
+         RV+5qDtlkqT+lK5I1qzwImcruc8HGlwOEn89+s1LowNwj4KaDZaxcCVXEbYPeHJqRmQX
+         cLThQi4KMNEXXTRtgkokP7JFjkeHjW0NUkjkWcq5ZvKwCSuGm54veWZRlazfNdjaZMlw
+         P6EIen3PFwyoMmBz9vpIq1EW2I21qQYJUgFtrCjhhfQ61hzzKXfG9iDXbZvXSMpeAOXo
+         hDyw==
+X-Forwarded-Encrypted: i=1; AJvYcCVJhvxJHLOEggvobon5HSVWnc6JKM/X8N8/AneJncw5POStFxnRXjfX076sxoV+L5132sD3nUzY1aZ9MKGJ@lists.linux.dev
+X-Gm-Message-State: AOJu0Yy3QXcVoyssxyZ8EPoNffz/likJTH6Nizp+/U0K+noLblaDjDgS
+	Bh8VjycTDYH78Zps/hqDlwbw3pzu6eT6sRT97nxmgiHSRxNeekXqpTuSv3KbHC1KK5DEmIoKAVz
+	SAyDFLkIaBwgQl+vdZl2RedCsUUsiYJRCg8OsKGI/7x1Azrz+nVLxrZFXHQoeVK4AQKbYotvN6T
+	v06tsdxqt6RqQxhvS04nKSXwVTRZ1hNmg6yR0zLw6gbnCMneqpOKKUSf3IX0v3InKVLqfvIGLnA
+	8JLtKIkA8fUj0AwZ7IbGLJvzQ==
+X-Gm-Gg: ASbGnct+ejUvUFdyGdI8qU57m8pPJpKQPV/p8Vfqvzfnrwo0YA0BvyWdjAzIsBwRfvV
+	ZGLKHp85D3ZPUuTNMkBMq+tDKiwBCIYMDaQ1GrRzvUtEeOhnP9dJXDVggBG5nV/0Aw5+K5AmG+p
+	mW2DphK5ZtivCKnfDdroD6+Oupa+8jDgd3RjculPxHiO663ZmG486fnTpq7Fe3DxVixNXVQowP8
+	/4iU6uGKIhIEk5nAPI3Axdj1T9TBc73LvXUEDhESW76hkXEfGAvy0gsHZdBZl7+LqS2OjCvSdEs
+	PZJGVHa5KOgT6AukYtgNvGYBhaGUWkYPEZCIlNuL3O7GFMIrAoolgGCMvOv6ZbSyel1bwaM2qF/
+	VsQlx/3SZusZYfSk9VQYUXG85uyHNO38XEmA3PLh80kvq+OuEJbdlor4vUH9m8xCcSOcsgJ1dY1
+	EV2Ee0Dl4=
+X-Google-Smtp-Source: AGHT+IG2i43SPYxsGOQokGYRLaYkR/Yet+twY4QsNyF49EO7Snr40ZvJL59inaWfxN3mOwFAx9gGQMthNWTs
+X-Received: by 2002:a05:622a:4d97:b0:4b0:f059:74a0 with SMTP id d75a77b69052e-4b31da22583mr236763401cf.38.1756915989378;
+        Wed, 03 Sep 2025 09:13:09 -0700 (PDT)
+Received: from smtp-us-east1-p01-i01-si01.dlp.protect.broadcom.com (address-144-49-247-120.dlp.protect.broadcom.com. [144.49.247.120])
+        by smtp-relay.gmail.com with ESMTPS id af79cd13be357-80aa9bb2204sm7861585a.4.2025.09.03.09.13.09
+        for <linux-staging@lists.linux.dev>
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Wed, 03 Sep 2025 09:13:09 -0700 (PDT)
+X-Relaying-Domain: broadcom.com
+X-CFilter-Loop: Reflected
+Received: by mail-qv1-f71.google.com with SMTP id 6a1803df08f44-722396b54a1so23731166d6.1
+        for <linux-staging@lists.linux.dev>; Wed, 03 Sep 2025 09:13:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=broadcom.com; s=google; t=1756915989; x=1757520789; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=QksT58lJYyQue7qfj5sBxd5t1SOILKVGpmQ75/i+2ow=;
+        b=Oaq+luovKpDGY2H7o1fFanAjRzZsNN2u4yFpq5zz0cee3bvwUaors3Ae3fAjHbE91I
+         ZuJs3QhXWUJPco8IWz8Y6RAcPvAy6gSevmpc9kAiWGLGnVgECxAUNTz2i5DMsCFofNPt
+         UkcogFhU8iGEQ1pBy7OnSkeFzLmou93iVU+Yo=
+X-Forwarded-Encrypted: i=1; AJvYcCVIB1kEVGVOUbYaZO1tJ160zbXxkQFLOTIWoJ2S86bcefouDyManc/AoqKgVGGwVJqiIeFqaswWz8tscKJO@lists.linux.dev
+X-Received: by 2002:a05:6214:3018:b0:70d:ae3c:b712 with SMTP id 6a1803df08f44-70fac78f732mr169448346d6.26.1756915988544;
+        Wed, 03 Sep 2025 09:13:08 -0700 (PDT)
+X-Received: by 2002:a05:6214:3018:b0:70d:ae3c:b712 with SMTP id 6a1803df08f44-70fac78f732mr169447226d6.26.1756915987413;
+        Wed, 03 Sep 2025 09:13:07 -0700 (PDT)
+Received: from [10.67.48.245] ([192.19.223.252])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-720b644f2c9sm31043936d6.63.2025.09.03.09.13.02
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 03 Sep 2025 09:13:05 -0700 (PDT)
+Message-ID: <b266c39c-ae53-48dd-8fb9-0e05efca33d4@broadcom.com>
+Date: Wed, 3 Sep 2025 09:13:00 -0700
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -44,18 +84,16 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH 1/5] include: linux: Destage VCHIQ interface headers
-To: Jai Luthra <jai.luthra@ideasonboard.com>,
- Florian Fainelli <florian.fainelli@broadcom.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Umang Jain <uajain@igalia.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>
+To: Stefan Wahren <wahrenst@gmx.net>, Umang Jain <uajain@igalia.com>,
+ Jai Luthra <jai.luthra@ideasonboard.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Cc: Broadcom internal kernel review list
  <bcm-kernel-feedback-list@broadcom.com>,
  Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Ray Jui
  <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
  linux-rpi-kernel@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
  linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
- kernel-list@raspberrypi.com
+ kernel-list@raspberrypi.com, Dave Stevenson <dave.stevenson@raspberrypi.com>
 References: <20250827-vchiq-destage-v1-0-5052a0d81c42@ideasonboard.com>
  <20250827-vchiq-destage-v1-1-5052a0d81c42@ideasonboard.com>
  <20250827124016.GF5650@pendragon.ideasonboard.com>
@@ -63,156 +101,100 @@ References: <20250827-vchiq-destage-v1-0-5052a0d81c42@ideasonboard.com>
  <8ed6519a-6e45-4793-b11b-7b63c1703d6e@gmx.net>
  <910dae68-0545-46fa-b41f-8e4fb32ed649@broadcom.com>
  <c35ab51a-e9df-48f5-bc18-889980098d08@gmx.net>
- <175690728665.8095.6551736878574350999@freya>
 Content-Language: en-US
-From: Stefan Wahren <wahrenst@gmx.net>
-Autocrypt: addr=wahrenst@gmx.net; keydata=
- xjMEZ1dOJBYJKwYBBAHaRw8BAQdA7H2MMG3q8FV7kAPko5vOAeaa4UA1I0hMgga1j5iYTTvN
- IFN0ZWZhbiBXYWhyZW4gPHdhaHJlbnN0QGdteC5uZXQ+wo8EExYIADcWIQT3FXg+ApsOhPDN
- NNFuwvLLwiAwigUCZ1dOJAUJB4TOAAIbAwQLCQgHBRUICQoLBRYCAwEAAAoJEG7C8svCIDCK
- JQ4BAP4Y9uuHAxbAhHSQf6UZ+hl5BDznsZVBJvH8cZe2dSZ6AQCNgoc1Lxw1tvPscuC1Jd1C
- TZomrGfQI47OiiJ3vGktBc44BGdXTiQSCisGAQQBl1UBBQEBB0B5M0B2E2XxySUQhU6emMYx
- f5QR/BrEK0hs3bLT6Hb9WgMBCAfCfgQYFggAJhYhBPcVeD4Cmw6E8M000W7C8svCIDCKBQJn
- V04kBQkHhM4AAhsMAAoJEG7C8svCIDCKJxoA/i+kqD5bphZEucrJHw77ujnOQbiKY2rLb0pE
- aHMQoiECAQDVbj827W1Yai/0XEABIr8Ci6a+/qZ8Vz6MZzL5GJosAA==
-In-Reply-To: <175690728665.8095.6551736878574350999@freya>
+From: Florian Fainelli <florian.fainelli@broadcom.com>
+Autocrypt: addr=florian.fainelli@broadcom.com; keydata=
+ xsBNBFPAG8ABCAC3EO02urEwipgbUNJ1r6oI2Vr/+uE389lSEShN2PmL3MVnzhViSAtrYxeT
+ M0Txqn1tOWoIc4QUl6Ggqf5KP6FoRkCrgMMTnUAINsINYXK+3OLe7HjP10h2jDRX4Ajs4Ghs
+ JrZOBru6rH0YrgAhr6O5gG7NE1jhly+EsOa2MpwOiXO4DE/YKZGuVe6Bh87WqmILs9KvnNrQ
+ PcycQnYKTVpqE95d4M824M5cuRB6D1GrYovCsjA9uxo22kPdOoQRAu5gBBn3AdtALFyQj9DQ
+ KQuc39/i/Kt6XLZ/RsBc6qLs+p+JnEuPJngTSfWvzGjpx0nkwCMi4yBb+xk7Hki4kEslABEB
+ AAHNMEZsb3JpYW4gRmFpbmVsbGkgPGZsb3JpYW4uZmFpbmVsbGlAYnJvYWRjb20uY29tPsLB
+ IQQQAQgAywUCZWl41AUJI+Jo+hcKAAG/SMv+fS3xUQWa0NryPuoRGjsA3SAUAAAAAAAWAAFr
+ ZXktdXNhZ2UtbWFza0BwZ3AuY29tjDAUgAAAAAAgAAdwcmVmZXJyZWQtZW1haWwtZW5jb2Rp
+ bmdAcGdwLmNvbXBncG1pbWUICwkIBwMCAQoFF4AAAAAZGGxkYXA6Ly9rZXlzLmJyb2FkY29t
+ Lm5ldAUbAwAAAAMWAgEFHgEAAAAEFQgJChYhBNXZKpfnkVze1+R8aIExtcQpvGagAAoJEIEx
+ tcQpvGagWPEH/2l0DNr9QkTwJUxOoP9wgHfmVhqc0ZlDsBFv91I3BbhGKI5UATbipKNqG13Z
+ TsBrJHcrnCqnTRS+8n9/myOF0ng2A4YT0EJnayzHugXm+hrkO5O9UEPJ8a+0553VqyoFhHqA
+ zjxj8fUu1px5cbb4R9G4UAySqyeLLeqnYLCKb4+GklGSBGsLMYvLmIDNYlkhMdnnzsSUAS61
+ WJYW6jjnzMwuKJ0ZHv7xZvSHyhIsFRiYiEs44kiYjbUUMcXor/uLEuTIazGrE3MahuGdjpT2
+ IOjoMiTsbMc0yfhHp6G/2E769oDXMVxCCbMVpA+LUtVIQEA+8Zr6mX0Yk4nDS7OiBlvOwE0E
+ U8AbwQEIAKxr71oqe+0+MYCc7WafWEcpQHFUwvYLcdBoOnmJPxDwDRpvU5LhqSPvk/yJdh9k
+ 4xUDQu3rm1qIW2I9Puk5n/Jz/lZsqGw8T13DKyu8eMcvaA/irm9lX9El27DPHy/0qsxmxVmU
+ pu9y9S+BmaMb2CM9IuyxMWEl9ruWFS2jAWh/R8CrdnL6+zLk60R7XGzmSJqF09vYNlJ6Bdbs
+ MWDXkYWWP5Ub1ZJGNJQ4qT7g8IN0qXxzLQsmz6tbgLMEHYBGx80bBF8AkdThd6SLhreCN7Uh
+ IR/5NXGqotAZao2xlDpJLuOMQtoH9WVNuuxQQZHVd8if+yp6yRJ5DAmIUt5CCPcAEQEAAcLB
+ gQQYAQIBKwUCU8AbwgUbDAAAAMBdIAQZAQgABgUCU8AbwQAKCRCTYAaomC8PVQ0VCACWk3n+
+ obFABEp5Rg6Qvspi9kWXcwCcfZV41OIYWhXMoc57ssjCand5noZi8bKg0bxw4qsg+9cNgZ3P
+ N/DFWcNKcAT3Z2/4fTnJqdJS//YcEhlr8uGs+ZWFcqAPbteFCM4dGDRruo69IrHfyyQGx16s
+ CcFlrN8vD066RKevFepb/ml7eYEdN5SRALyEdQMKeCSf3mectdoECEqdF/MWpfWIYQ1hEfdm
+ C2Kztm+h3Nkt9ZQLqc3wsPJZmbD9T0c9Rphfypgw/SfTf2/CHoYVkKqwUIzI59itl5Lze+R5
+ wDByhWHx2Ud2R7SudmT9XK1e0x7W7a5z11Q6vrzuED5nQvkhAAoJEIExtcQpvGagugcIAJd5
+ EYe6KM6Y6RvI6TvHp+QgbU5dxvjqSiSvam0Ms3QrLidCtantcGT2Wz/2PlbZqkoJxMQc40rb
+ fXa4xQSvJYj0GWpadrDJUvUu3LEsunDCxdWrmbmwGRKqZraV2oG7YEddmDqOe0Xm/NxeSobc
+ MIlnaE6V0U8f5zNHB7Y46yJjjYT/Ds1TJo3pvwevDWPvv6rdBeV07D9s43frUS6xYd1uFxHC
+ 7dZYWJjZmyUf5evr1W1gCgwLXG0PEi9n3qmz1lelQ8lSocmvxBKtMbX/OKhAfuP/iIwnTsww
+ 95A2SaPiQZA51NywV8OFgsN0ITl2PlZ4Tp9hHERDe6nQCsNI/Us=
+In-Reply-To: <c35ab51a-e9df-48f5-bc18-889980098d08@gmx.net>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Provags-ID: V03:K1:6ukBoBSNdFuw3egMUEVefY0V9LJ/LcGd+wfUTfkiFhN/1SczkYh
- 7rrZc01W6EYEjquy93uTLQlLx1wFSjEuh2fEcFZ0zprZ5YoxyoG2802H7EUkGLxbBuy9I//
- pt0a/tSs+F3vqG2mGwsAJ0pJEwqBrh+BnpXZD2epToul0JKEV86aAMKPVyHPwuVhezdNZBP
- h3h2Eom7DRCxEmjZ7k2Og==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:8kP8xmbzu94=;vroUPObP0qKtZp/u31HyF8SASym
- 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
+X-DetectorID-Processed: b00c1d49-9d2e-4205-b15f-d015386d3d5e
 
-Am 03.09.25 um 15:48 schrieb Jai Luthra:
-> Hi Florian, Stefan,
->
-> Quoting Stefan Wahren (2025-08-28 11:49:47)
->> Hi Florian,
+On 8/27/25 23:19, Stefan Wahren wrote:
+> Hi Florian,
+> 
+> Am 28.08.25 um 04:17 schrieb Florian Fainelli:
 >>
->> Am 28.08.25 um 04:17 schrieb Florian Fainelli:
+>>
+>> On 8/27/2025 12:05 PM, Stefan Wahren wrote:
+>>> Hi,
 >>>
->>> On 8/27/2025 12:05 PM, Stefan Wahren wrote:
->>>> Hi,
->>>>
->>>> Am 27.08.25 um 16:33 schrieb Umang Jain:
->>>>> On Wed, Aug 27, 2025 at 02:40:16PM +0200, Laurent Pinchart wrote:
->>>>>> Hi Jai,
+>>> Am 27.08.25 um 16:33 schrieb Umang Jain:
+>>>> On Wed, Aug 27, 2025 at 02:40:16PM +0200, Laurent Pinchart wrote:
+>>>>> Hi Jai,
+>>>>>
+>>>>> Thank you for the patch.
+>>>>>
+>>>>> On Wed, Aug 27, 2025 at 11:54:08AM +0530, Jai Luthra wrote:
+>>>>>> From: Umang Jain <umang.jain@ideasonboard.com>
 >>>>>>
->>>>>> Thank you for the patch.
+>>>>>> Move the VCHIQ headers from drivers/staging/vc04_services/include to
+>>>>>> include/linux/vchiq
 >>>>>>
->>>>>> On Wed, Aug 27, 2025 at 11:54:08AM +0530, Jai Luthra wrote:
->>>>>>> From: Umang Jain <umang.jain@ideasonboard.com>
->>>>>>>
->>>>>>> Move the VCHIQ headers from drivers/staging/vc04_services/include to
->>>>>>> include/linux/vchiq
->>>>>>>
->>>>>>> This is done so that they can be shared between the VCHIQ interface
->>>>>>> (which is going to be de-staged in a subsequent commit from staging)
->>>>>>> and the VCHIQ drivers left in the staging/vc04_services (namely
->>>>>>> bcm2835-audio, bcm2835-camera).
->>>>>>>
->>>>>>> The include/linux/vchiq/ provides a central location to serve both
->>>>>>> of these areas.
->>>>>> Lots of SoC-specific headers are stored in include/linux/soc/$vendor/.
->>>>>> This would be include/linux/soc/bcm/vchiq/ in this case. I'm also fine
->>>>>> with include/linux/vchiq/ but other people may have a preference.
->>>>> I agree with this point and I might have missed to notice the
->>>>> include/linux/soc earlier. That's seems a better location to me since
->>>>> it's actually broadcom-specific.
->>>> I would expect that headers and source would be more related.
->>>>
->>>> For example:
->>>>
->>>> include/linux/soc/bcm
->>>>
->>>> drivers/soc/bcm/
->>> This is not Broadcom code, it is Raspberry Pi AFAICT, therefore, just
->>> like drivers/firmware/raspberrypi.c, we would need some namespacing
->>> here that reflects that, ideally.
->> The VCHIQ code originally comes from Broadcom, but the current
->> implementation has been adapted and tested for Raspberry Pi. I'm not
->> against a Raspberry Pi specific namespace.
-> Thanks for the suggestions. For v2 I'll use:
->
-> include/linux/soc/raspberrypi
-> drivers/soc/raspberrypi
-I'm fine with this.
->
->> Should this also apply to the DT bindings?
+>>>>>> This is done so that they can be shared between the VCHIQ interface
+>>>>>> (which is going to be de-staged in a subsequent commit from staging)
+>>>>>> and the VCHIQ drivers left in the staging/vc04_services (namely
+>>>>>> bcm2835-audio, bcm2835-camera).
+>>>>>>
+>>>>>> The include/linux/vchiq/ provides a central location to serve both
+>>>>>> of these areas.
+>>>>> Lots of SoC-specific headers are stored in include/linux/soc/$vendor/.
+>>>>> This would be include/linux/soc/bcm/vchiq/ in this case. I'm also fine
+>>>>> with include/linux/vchiq/ but other people may have a preference.
+>>>> I agree with this point and I might have missed to notice the
+>>>> include/linux/soc earlier. That's seems a better location to me since
+>>>> it's actually broadcom-specific.
+>>> I would expect that headers and source would be more related.
+>>>
+>>> For example:
+>>>
+>>> include/linux/soc/bcm
+>>>
+>>> drivers/soc/bcm/
 >>
->> Documentation/devicetree/bindings/soc/bcm/brcm,bcm2835-vchiq.yaml
->>
->> Best regards
->>
-> Thanks,
->      Jai
+>> This is not Broadcom code, it is Raspberry Pi AFAICT, therefore, just 
+>> like drivers/firmware/raspberrypi.c, we would need some namespacing 
+>> here that reflects that, ideally.
+> The VCHIQ code originally comes from Broadcom, but the current 
+> implementation has been adapted and tested for Raspberry Pi. I'm not 
+> against a Raspberry Pi specific namespace.
 
+OK, that's a fair point, but it's not applicable to any other Broadcom 
+SoC, more on that below.
+
+> 
+> Should this also apply to the DT bindings?
+
+Ideally yes.
+-- 
+Florian
