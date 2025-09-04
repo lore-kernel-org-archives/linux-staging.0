@@ -1,70 +1,70 @@
-Received: from mail-qv1-f48.google.com (mail-qv1-f48.google.com [209.85.219.48])
+Received: from mail-qv1-f44.google.com (mail-qv1-f44.google.com [209.85.219.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3EB6A215F48
-	for <linux-staging@lists.linux.dev>; Thu,  4 Sep 2025 02:15:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22E251F5423
+	for <linux-staging@lists.linux.dev>; Thu,  4 Sep 2025 02:15:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756952117; cv=none; b=rpFnDoDp288UFyUlV8qcWC2fHNcthYzyX6AgoX9Oxej/RBJgcqLS6yUE8BNH1LjUYAgvRrIwZHdrs7cNP6vN186CPlJ5CTDCF9bOfi5biZ+2MBaCAPSoMadCUPlNkxWdJEW7KBebDqXkl0BkN/59GqbTBembcqpTkFVNko0TwKA=
+	t=1756952118; cv=none; b=mkB2m7VaYd9MW2//NX+kVns6xJSWwwO3Y0Owt2/elxkKg9WhDpkKKRLSdUWXCfsUbLhdHRclr32N/G8xTEV3lK8sFOcCBQBCHZYJiDQl+kkp7U/icBcmbH9DEsdTeJZGQ8Qd6g+0UH7CRjVjIahiHeZFDlw4aXuVhy+5taQiUZ0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756952117; c=relaxed/simple;
-	bh=WvsYf4htlmaRnQimGmB6zOdcA6l8TLaYGHRCyCVqilw=;
+	s=arc-20240116; t=1756952118; c=relaxed/simple;
+	bh=8er5g/JdtGmDLwAxnKtTLLBjMA31RvembXwPpxkN0eY=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=W5erPSuB2JhwFFsClL4QOPjfTRkgqqgm0NT84/GAx93eTfXHJl/n2bxngdttG5BtjOb43XR99kR/S0I6loOk+IfJ0jSh3lKmAv8PJuYou23A/8bYdp6Ol1tEssWjRW5WCCnSBCd2FyqCPI0HnLbzAVyE6b7D1ds6XovlTH5NJk8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EX0SOB+C; arc=none smtp.client-ip=209.85.219.48
+	 MIME-Version; b=T1ntsjmThUdv6bx9CBQdkaTTxV424o8LGoWGIAHw/PK24Bl6D76Wbmn4L3Pc4vKnvHII1uc59PxY0DB01/Qyo+iTaBVACx2LSj0qbL0vEBmf9pAz46GBB4T+02zis23iD6HFXdmmjfRZIaOhP2iTcE3lUP5mj5rxjX3pJZfWiMk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YGrWHCfz; arc=none smtp.client-ip=209.85.219.44
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EX0SOB+C"
-Received: by mail-qv1-f48.google.com with SMTP id 6a1803df08f44-722e079fa1aso5480166d6.3
-        for <linux-staging@lists.linux.dev>; Wed, 03 Sep 2025 19:15:12 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YGrWHCfz"
+Received: by mail-qv1-f44.google.com with SMTP id 6a1803df08f44-724e9a1812bso4755126d6.0
+        for <linux-staging@lists.linux.dev>; Wed, 03 Sep 2025 19:15:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1756952112; x=1757556912; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1756952114; x=1757556914; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=FgytSi7eWruZ4IgCQ9+woJWiBKve9B/1Gpbx5IGpnoY=;
-        b=EX0SOB+CUopSg9Es35KFHRzrnIPGKqDBojeOpuqtQgp3mfNGe5xO2/5YwUnw26ZnDd
-         ab/LD1EUgJvpzRmo+1928Ug33bbnWveLxQNrGVWNLUKjpqvBfNX49/MW+IcjPmcgrR7q
-         iBlrLTfyMXsFo2/cabiLX1kziUANVS9rEaG3+Y4B8ZksfAlY9laCvA09eBj9cQgbEG9r
-         kIRbIay7upuPFCJ3sNw6+pKMCPaq3ZF2diLAnCLX0bbbTpmNjAEX40GWrYZgITcZL/d6
-         l4qBeh9CJ7kwwy4afeh2zE6m1kFl3oxUnrc3eZpoOTMwR3+ZMOADHVLctFYprUPDADnB
-         ClCw==
+        bh=vNzQSvDGcgGcsxPnJpDh3vO9RZGdTNfhmCnJqVlYiLo=;
+        b=YGrWHCfzSdi9u7bL/Ocs1jHiaRuAyTk91sOCf3pdud6SuD4k4vJmkmX+fIOMB/9LF6
+         GYoFvocBuq68nzkKVg5NBUYJ3VFGcqYO+dI+z8Y2R7u2WEHvU2vRzoSmpy+40A/x/7Qr
+         A85mo6DRdAtvr/YvuO7Z9sMAk/2D3YvmY72XQYwy1vzaumcyCgzoFQvbBgOY+uctIYvb
+         QYptDV7Ei5Wgl7B4n7E9xoi4c+at+xqqlRoQzd/QeMSUjoXk/Aaaj1EwhIOQNRYrPLRT
+         uNInTni2rLPpFOXm8yjyN8bUhpzkt149GpDXKE61ZrLLzImIzZDs8cP0SyH5t6tXFYw9
+         FOFQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756952112; x=1757556912;
+        d=1e100.net; s=20230601; t=1756952114; x=1757556914;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=FgytSi7eWruZ4IgCQ9+woJWiBKve9B/1Gpbx5IGpnoY=;
-        b=SjU/rZywDYJKy7dQedq5sl9niL8DOyjb05jxeXc7y0t8sCvRWeWAQLMxENFophPFHi
-         xBRyPHJKIZosGkLuKhodP7Q06PdKqKdwOrLL4dYO3MIUVWAJGP4xffReYMhycS+g2oKW
-         2adtQRjym0G2gVKBi93kqAzXBMwz52kq4JdZSFg1kQ+PvN/s8QRSTSINUBNHxcAzIEVh
-         f6OeGNlZ9Ll2N9iE0E9FnjPjAR+eDkNkA8GL68rVdewWpp/IJh30VE9DbZKC6cki/4Q5
-         BityaDgWNFxrUi0tEKw55uKsebfdr8d0UzYbH8TTHQesPntqi2vzlSI/tnTvC4lAi7xF
-         2fhQ==
-X-Gm-Message-State: AOJu0Yz964sR1x9V+S5AcAygUb1pRkcxil0wj4e1W8BbrPmBjSUHNpB+
-	cK+b3aZPQo2UChgEqvZco7kR371dPWyD0rBLji3afZ1M5kOGGpX8L+ePSyUdXw==
-X-Gm-Gg: ASbGncsZ63LMDdUWKmxZ4I2b+sBlnFzRl726sHIsntEAVEeSzDyQdSeZ94p032fq893
-	ZDfiEKkApwO3y0qa2gKhElutBjxrAIm6uJUS5mv56hmBwAjZeRgt0tBsi+VAPhT2aqaYHstyodQ
-	s20HqKsOZdf1Cu7yRABNiuJa1zEpqXIpaqVUPF9CjXqU/zCqbadIyazmy/Qtlb6bCwPt9W5pt8J
-	TAB87bgnd+aa5UudH+7ZYJCkG7AywRF3xQkDgTL4o7IB0RT+AZPalMXuSbTQ5dRutlB6+NiiRtN
-	OsrPzR4mhdbK6UWCQ3OEEaMQdKquMTkiaRwQLjY3JKvHQtcwmeN0D+s8ldpOkQ1B2tCmmuJBvBX
-	IiZh0B5E6YW2UZ+RYlksfoa6StMKD/Hr/Qf9fFkeSkZNCWq3wSQ8=
-X-Google-Smtp-Source: AGHT+IH7XVMZzkg1jb98CxCDa1Hsqg+aNrQL0tORQU6Tn6SKAs7whG+6Fq5+0Mn0Xl6S5DwLgMBR5A==
-X-Received: by 2002:a05:6214:1ccf:b0:70d:fa79:baf0 with SMTP id 6a1803df08f44-70fac88e924mr217252246d6.38.1756952111913;
-        Wed, 03 Sep 2025 19:15:11 -0700 (PDT)
+        bh=vNzQSvDGcgGcsxPnJpDh3vO9RZGdTNfhmCnJqVlYiLo=;
+        b=xJJXIElVpQrS+Vyz0ZpOdiucjaFl4CG1flJKIQvHWoypVahKBOIAOrVYP9jLPzybBv
+         uMGDyvcAk4msItb6By/14A9frIQBdwG1Ka5Xi+3MVCyb+AJ4FNcUuZH7/cP6+l69VQC0
+         6SUsJXUpDOVC4XN7rwDhNjUUJkIELJkzAal8ibPN1ThNYF6WDgstDCWctnOIKwzEdMNI
+         sySMPEI/LniASv7L3H3y7MS2z9k7y+YzozXAY8b0zwG6uUkYi4Ik+cwwsWF/bUXVk/c+
+         6Sa2iXg4uyp7/cFAKuM0xMr3QBsuHWb5qy5Thh6c1mmqeGbpXhq+dAZ3GyH5pCv6BMU9
+         UW3Q==
+X-Gm-Message-State: AOJu0Yz0Fw0NRG2g+xSvCcST+/f6HAydnRSrpPboJ3VMeKE6Gr9ViodY
+	Jh9FVdOPj3VjSJ9120kkGWRKdQ8xasB5WK3UaZstNzrPifTw10uy1ujH
+X-Gm-Gg: ASbGncvQnhVdk1Y5HzwnZ1/TGUlS0xwUpvgqFqdubu9Kzypuv+PWePQ7sLDE9/A3yjw
+	SAMQuziRZSIRL/wgmY8LWFASmV0ZOBnKwE5gJEJ8V3j7w9MPAtRF32e4LQoYr1rcqFkawgRL3pJ
+	hmdc864N3GBAavOzNHokKyFaqArL0SwB2Z/LnnyoopgTZwkW/WJvCIkffq0dj8HvKHaesx6dxyZ
+	ku+7A/Z2/4njsSLE5Ce4KPBlsJy96UjcWKacZ/XwDd2hUn714gKKVVxhCYYIoGE2Ird5hOauhAw
+	N0ksJNzSK3nzpssxMd60MTPrKGm5sjvBALwM2XGYYh0ciijKVDoXxDJgOtjCfXdKpi999zpQs5B
+	ZzAEc8p1BFhi+9k/ZYk1YVjRoh1DTaW7atqKD2HVm8i5epO4jsjU=
+X-Google-Smtp-Source: AGHT+IHo7xXjUVODo9Ez10j7toTQhtdvMKS4OhVCgEvCdMIv8BCF0VAwky/AFMCNc4z/W12P3DF9sw==
+X-Received: by 2002:ad4:5c63:0:b0:716:9f19:88f7 with SMTP id 6a1803df08f44-7169f199f20mr209931666d6.4.1756952113683;
+        Wed, 03 Sep 2025 19:15:13 -0700 (PDT)
 Received: from linux-kernel-dev-start.. ([159.203.26.228])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-720ad2cb78csm37714076d6.19.2025.09.03.19.15.11
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-720ad2cb78csm37714076d6.19.2025.09.03.19.15.12
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 03 Sep 2025 19:15:11 -0700 (PDT)
+        Wed, 03 Sep 2025 19:15:13 -0700 (PDT)
 From: Vivek BalachandharTN <vivek.balachandhar@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Vivek BalachandharTN <vivek.balachandhar@gmail.com>
-Subject: [PATCH v2 07/16] staging: rtl8723bs: adding asterisks in multi-line block comments
-Date: Thu,  4 Sep 2025 02:14:39 +0000
-Message-Id: <20250904021448.216461-8-vivek.balachandhar@gmail.com>
+Subject: [PATCH v2 09/16] staging: rtl8723bs: fix excessive indentation in nested if statement
+Date: Thu,  4 Sep 2025 02:14:41 +0000
+Message-Id: <20250904021448.216461-10-vivek.balachandhar@gmail.com>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250904021448.216461-1-vivek.balachandhar@gmail.com>
 References: <20250904021448.216461-1-vivek.balachandhar@gmail.com>
@@ -76,91 +76,31 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Format multi-line block comments with leading asterisks
-
-Add leading asterisks (*) on each line of multi-line block comments,
-in accordance with kernel coding style. This improves consistency
-and readability of the comments.
+Adjust indentation in a nested if-statement to match kernel coding
+style and improve readability.
 
 No functional changes.
 
 Signed-off-by: Vivek BalachandharTN <vivek.balachandhar@gmail.com>
 ---
- drivers/staging/rtl8723bs/core/rtw_mlme.c | 33 ++++++++++++-----------
- 1 file changed, 17 insertions(+), 16 deletions(-)
+ drivers/staging/rtl8723bs/core/rtw_mlme.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme.c b/drivers/staging/rtl8723bs/core/rtw_mlme.c
-index 19bf6bb360f9..ab626c88e7dd 100644
+index d05ff073af2d..a2b1e34765ac 100644
 --- a/drivers/staging/rtl8723bs/core/rtw_mlme.c
 +++ b/drivers/staging/rtl8723bs/core/rtw_mlme.c
-@@ -217,10 +217,10 @@ void _rtw_free_network_nolock(struct	mlme_priv *pmlmepriv, struct wlan_network *
- }
+@@ -1254,8 +1254,8 @@ void rtw_joinbss_event_prehandle(struct adapter *adapter, u8 *pbuf)
  
- /*
--	return the wlan_network with the matching addr
--
--	Shall be called under atomic context... to avoid possible racing condition...
--*/
-+ *	return the wlan_network with the matching addr
-+ *
-+ *	Shall be called under atomic context... to avoid possible racing condition...
-+ */
- struct wlan_network *_rtw_find_network(struct __queue *scanned_queue, u8 *addr)
- {
- 	struct list_head	*phead, *plist;
-@@ -322,10 +322,10 @@ void rtw_free_network_nolock(struct adapter *padapter, struct wlan_network *pnet
- }
+ 					ptarget_wlan = rtw_find_network(&pmlmepriv->scanned_queue, pnetwork->network.mac_address);
+ 					if (check_fwstate(pmlmepriv, WIFI_STATION_STATE) == true) {
+-						if (ptarget_wlan)
+-							ptarget_wlan->fixed = true;
++					    if (ptarget_wlan)
++						ptarget_wlan->fixed = true;
+ 					}
+ 				}
  
- /*
--	return the wlan_network with the matching addr
--
--	Shall be called under atomic context... to avoid possible racing condition...
--*/
-+ *	return the wlan_network with the matching addr
-+ *
-+ *	Shall be called under atomic context... to avoid possible racing condition...
-+ */
- struct	wlan_network *rtw_find_network(struct __queue *scanned_queue, u8 *addr)
- {
- 	struct	wlan_network *pnetwork = _rtw_find_network(scanned_queue, addr);
-@@ -489,8 +489,8 @@ static void update_current_network(struct adapter *adapter, struct wlan_bssid_ex
- }
- 
- /*
--Caller must hold pmlmepriv->lock first.
--*/
-+ * Caller must hold pmlmepriv->lock first.
-+ */
- void rtw_update_scanned_network(struct adapter *adapter, struct wlan_bssid_ex *target)
- {
- 	struct list_head	*plist, *phead;
-@@ -523,7 +523,8 @@ void rtw_update_scanned_network(struct adapter *adapter, struct wlan_bssid_ex *t
- 	}
- 
- 	/* If we didn't find a match, then get a new network slot to initialize
--	 * with this beacon's information */
-+	 * with this beacon's information
-+	 */
- 	if (!target_find) {
- 		if (list_empty(&pmlmepriv->free_bss_pool.queue)) {
- 			/* If there are no more slots, expire the oldest */
-@@ -1891,11 +1892,11 @@ static int rtw_check_join_candidate(struct mlme_priv *mlme
- }
- 
- /*
--Calling context:
--The caller of the sub-routine will be in critical section...
--The caller must hold the following spinlock
--pmlmepriv->lock
--*/
-+ * Calling context:
-+ * The caller of the sub-routine will be in critical section...
-+ * The caller must hold the following spinlock
-+ * pmlmepriv->lock
-+ */
- 
- int rtw_select_and_join_from_scanned_queue(struct mlme_priv *pmlmepriv)
- {
 -- 
 2.39.5
 
