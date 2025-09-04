@@ -1,141 +1,92 @@
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8069A29E11C
-	for <linux-staging@lists.linux.dev>; Thu,  4 Sep 2025 07:42:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED1431F4168
+	for <linux-staging@lists.linux.dev>; Thu,  4 Sep 2025 07:48:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756971778; cv=none; b=eWgxNKiPbfwlMBxFXtxUwnhHztWZelHHrWkNFLgcgUGAO1IaAroVOUcs3InNRXq4NcfUhwBsKAqvgmmcBjf639rfs1sBJE4YuPRcJgdlxVS28+scl2MGcgOL+zNs13v55juj4DqOwrgS1GjgrknivkTlfpKD8bRIXIyXRyNe5Ko=
+	t=1756972098; cv=none; b=nitfYS3d3SarAfNRw0+2rxR9dYQH5bUfVyRlY8+O6W4X+DYVS0fpEfPs/A2KQxDfwCj9Snh7UeNrahrPGWRjkElILSRb8BzA3QRRRs4jU328tzgMfICdx76HQfcac/AMtjRUoUIPMZBee40mOcOr1JajfI8tFcn5qs+8FqV5t2o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756971778; c=relaxed/simple;
-	bh=ZaFZpuefFgzZpMrXGV6OywiSg0kF8Ybw36uYEX7yPQY=;
+	s=arc-20240116; t=1756972098; c=relaxed/simple;
+	bh=ZC+WVshZrhZh5+K/oAuQIuFO1mXnL5Mq5cuBTwheGb4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GtCTaonSh+hdy/Ab8i9sLHGeWFRfUSqyAg+jegrlkk9t/kgqHtCktKE5ulcF6KaEx59JKYgLZ3iM5iJGbpHZZCuWvaRx5eLMKRdwez587vkTorTt6piwprffScUrveqXgVej/FYqDAj+yRdpapIW41wdCDvyZ1AhiGiiaq1BlC0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Z8eDdYEX; arc=none smtp.client-ip=209.85.128.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Type:Content-Disposition:In-Reply-To; b=BhRAIiQbxC+gjgug/3c+OMTYpftDgnkETu1Rxyl2p9FvEaQTvXRAW4E/t4ux+xlx29M2Hc2sFZ971MSfixW3AIVnxidV2Omnk2VEFjV38iHXm6m/ZHt/9F5Fy32YAwoPsung6qvIXNroSPthx3wcfyrsZ92EJHjB7AazXydhuOA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LNimzS4L; arc=none smtp.client-ip=192.198.163.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Z8eDdYEX"
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-45b7d87b90fso5666075e9.0
-        for <linux-staging@lists.linux.dev>; Thu, 04 Sep 2025 00:42:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1756971775; x=1757576575; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=PE1WEm0x+xTSY0iMhqlk9K01ZY7gt87ogAjaJwXEInI=;
-        b=Z8eDdYEXkEUuoWFM2Z/CBXa5x0I3GVUlcDQN5lzTPksKykm35EujC3afj415LggAbM
-         gV51wxG2I47Rv8EQsbMuZsHIz7K6WRVlNy4WEFTeLtHKS4dX3s4GRtY3ZsE9i+jUTE/2
-         Pnq75bVkmTfJiLDZvsR1XQcOmKQZ6/plrpICvtKT8sqi/EodPSkaJrbXSPDI7/sEOt9q
-         8ybmYiBPYm5/AGsRJp44uulzdh1GF9oz4gwH+lP32sT9vqkrc0zp655b9u3STeZKGmnJ
-         eFAOWNIEl2PjQr7VwuNGK3OHU/4yBRMirUY4rkxFfLDl/zh3b+HYGK7wE+YVkD6Uix56
-         otzA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756971775; x=1757576575;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=PE1WEm0x+xTSY0iMhqlk9K01ZY7gt87ogAjaJwXEInI=;
-        b=u10wLEjuDKN9tO5kURsr+FRBKnkzB4WqAPlB4HQmaTglX7fGKpqsaFfB1HLwfbAgSd
-         Nw/kzXxxkzSB1Y8CAmurNDcmqXvrby/AFbwFbCntzpNpTbTKdQNNTIM7UFyU6qa5izf6
-         JQgGZEajQYY+Cmihek9PVLglwQ+4jXMr/NkaDJ6M4d7pKgPooesRhPIhARaMBfvAoMVe
-         4d69wwff/yb//DLHzdJcyd3G1orFjKZ2uPzUbxz2HCgpY7GcgcRyXdzMtq8b8vo1+fq1
-         SRA7/hwrmAGISTszDL64Bw2Z6LL6JcBNohrLPEE647tZ5Je1CnuzKnz7nrcAPa3+HPGT
-         dp2A==
-X-Forwarded-Encrypted: i=1; AJvYcCUlKHqu3bs5xJUyGZGrKpeIHQcl7Gvr5TBp6BjRsr/Xu5BLgq1D+eICCsqWDYy8jLBkwOtAAOcnG/pOS79v@lists.linux.dev
-X-Gm-Message-State: AOJu0YzJvusHF9eFo6HB7GUrlVCG0oc48In5YH45iMmzOjCRu40bW30l
-	Mq4jLe9g9fAHOplnzLlxhurP/soDV9uOBtwZ7Xgd58omplqNLltSSS5uwoKmbwq/JXE=
-X-Gm-Gg: ASbGncu6R1177vJouaFL9A2+9yU0fFtcVrkUEx7PtCCYCsh3fOzYEpPUXxR4sc1ik+o
-	EX+4axR2HaDi3AILy14x7bAxAEC9Uc/yLgfCAc/yDS0KUGghJKcsKhQZd6NvyyqrA5tVuDNAx72
-	+u4fq5OS8Xe+EvmngqC69o4dB4Bjx0JYiH27yUXoN0PTPuKmJi8xES2J0ZFZtmRCBj+1+bwtu2A
-	+hx379EYN84dZeQ1edp2FCxjTKGH2VColAR/S5MoM5XoylUbkft/HFwbm27gCZXNMVhZr8QhOFu
-	heK8j2vu7CnxWjQ6zDhI+mQoxdqCvUwp3Lxexz6H2WbBpyBXOePEZZrhNNeFkdczfzxP7/aZXbM
-	s288E0dghkODhoBJmd82ZeojvkaQuTuWy35gLutGQbvJKgsea
-X-Google-Smtp-Source: AGHT+IFqEKV1dOU6AtGVeQbAA7dRuZZOzzWKEs0hUSqjXwiB8fUJpq/jUJLWO3K7o6PoM/UBdUvBIg==
-X-Received: by 2002:a05:600c:a419:b0:45b:9b9f:88cb with SMTP id 5b1f17b1804b1-45b9b9f8af4mr43283525e9.16.1756971774749;
-        Thu, 04 Sep 2025 00:42:54 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-45c6faad9cfsm82663845e9.0.2025.09.04.00.42.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 04 Sep 2025 00:42:54 -0700 (PDT)
-Date: Thu, 4 Sep 2025 10:42:50 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Vivek BalachandharTN <vivek.balachandhar@gmail.com>
-Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 12/16] staging: rtl8723bs: remove unnecessary braces
- for single statement blocks
-Message-ID: <aLlC-raf6UksVFlC@stanley.mountain>
-References: <20250904021448.216461-1-vivek.balachandhar@gmail.com>
- <20250904021448.216461-13-vivek.balachandhar@gmail.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LNimzS4L"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1756972097; x=1788508097;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=ZC+WVshZrhZh5+K/oAuQIuFO1mXnL5Mq5cuBTwheGb4=;
+  b=LNimzS4LGelXG3l2SKFZJ9JMGfwm3uA1AdFnGIYuFlXV/TZmu6l5FASW
+   fAx1feP3JNvqgpV8osMmkGkWJcqAmYy3X0mQAlk/lRyshuxcsGyCnXtA5
+   6ctZxuC7fvToPzfY9+dqC7GIYls6zviTR6hK6QeecB2t+M1CunbYBXct/
+   1vKWcRlerz7NS14dpxetMKSWWRA4ri4ckGn4YiN/XJ/eufykyBk38Yiuf
+   NI98JlTZouWO8JjQrGUutMePoCE0a3XYP7G0Yc9dwsc6ze2i/eokCtFnW
+   puW0d3A2ee40B03+zTt4zI27onJB2CKhTO327FdEgV754QiOay8nm618d
+   w==;
+X-CSE-ConnectionGUID: HeT6CtcqRjOIEGqCZlDPTw==
+X-CSE-MsgGUID: PJj6xmmPTzG1yqhM+rnJTA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11542"; a="59243163"
+X-IronPort-AV: E=Sophos;i="6.18,237,1751266800"; 
+   d="scan'208";a="59243163"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Sep 2025 00:48:16 -0700
+X-CSE-ConnectionGUID: noDkDOW7T+KfV0sx0rwuKA==
+X-CSE-MsgGUID: 8XsIk3l/SGGFYWt7Q5CUUA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.18,237,1751266800"; 
+   d="scan'208";a="171934358"
+Received: from smile.fi.intel.com ([10.237.72.52])
+  by orviesa008.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Sep 2025 00:48:13 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.98.2)
+	(envelope-from <andriy.shevchenko@intel.com>)
+	id 1uu4hW-0000000BCYb-0xMg;
+	Thu, 04 Sep 2025 10:48:10 +0300
+Date: Thu, 4 Sep 2025 10:48:09 +0300
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: Adrian =?utf-8?Q?Barna=C5=9B?= <abarnas@google.com>
+Cc: Hans de Goede <hansg@kernel.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Andy Shevchenko <andy@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Dan Carpenter <dan.carpenter@linaro.org>,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev
+Subject: Re: [RFC PATCH v2 1/2] staging: media: atomisp: Change name to
+ better follow its behavior
+Message-ID: <aLlEOYZqT07r6G_V@smile.fi.intel.com>
+References: <20250903092754.2751556-1-abarnas@google.com>
+ <20250903092754.2751556-2-abarnas@google.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20250904021448.216461-13-vivek.balachandhar@gmail.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250903092754.2751556-2-abarnas@google.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On Thu, Sep 04, 2025 at 02:14:44AM +0000, Vivek BalachandharTN wrote:
-> Drop braces around conditional blocks that contain only a single
-> statement, as required by kernel coding style. This enhances clarity
-> and reduces visual clutter.
-> 
-> No functional changes.
-> 
-> Signed-off-by: Vivek BalachandharTN <vivek.balachandhar@gmail.com>
-> ---
->  drivers/staging/rtl8723bs/core/rtw_mlme.c | 6 ++----
->  1 file changed, 2 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme.c b/drivers/staging/rtl8723bs/core/rtw_mlme.c
-> index ef9057456768..27be46c11b65 100644
-> --- a/drivers/staging/rtl8723bs/core/rtw_mlme.c
-> +++ b/drivers/staging/rtl8723bs/core/rtw_mlme.c
-> @@ -514,9 +514,8 @@ void rtw_update_scanned_network(struct adapter *adapter, struct wlan_bssid_ex *t
->  			break;
->  		}
->  
-> -		if (rtw_roam_flags(adapter)) {
-> +		if (rtw_roam_flags(adapter))
->  			/* TODO: don't select network in the same ess as oldest if it's new enough*/
-> -		}
+On Wed, Sep 03, 2025 at 09:27:53AM +0000, Adrian Barnaś wrote:
+> Change name to clearly states what function does.
 
-Heh.  No.
+The Subject and the body of the commit message should be more specific.
 
->  
->  		if (!oldest || time_after(oldest->last_scanned, pnetwork->last_scanned))
->  			oldest = pnetwork;
-> @@ -2546,9 +2545,8 @@ void rtw_update_ht_cap(struct adapter *padapter, u8 *pie, uint ie_len, u8 channe
->  	len = 0;
->  	p = rtw_get_ie(pie + sizeof(struct ndis_802_11_fix_ie), WLAN_EID_HT_OPERATION, &len,
->  		       ie_len - sizeof(struct ndis_802_11_fix_ie));
-> -	if (p && len > 0) {
-> +	if (p && len > 0)
->  		/* todo: */
-> -	}
+Missing blank line.
 
-Also no.  Also heh.  You've introduced a bug.  Smatch does find this
-sort of bug btw.
+> Signed-off-by: Adrian Barnaś <abarnas@google.com>
 
-$ ~/smatch/released/smatch_scripts/kchecker --spammy drivers/staging/rtl8723bs/core/rtw_mlme.c
-  SYNC    include/config/auto.conf
-  HOSTCC  scripts/basic/fixdep
-  HOSTCC  scripts/basic/fixdep
-  CHECK   scripts/mod/empty.c
-  CALL    scripts/checksyscalls.sh
-  DESCEND objtool
-  INSTALL libsubcmd_headers
-  CC [M]  drivers/staging/rtl8723bs/core/rtw_mlme.o
-  CHECK   drivers/staging/rtl8723bs/core/rtw_mlme.c
-drivers/staging/rtl8723bs/core/rtw_mlme.c:843 find_network() error: we previously assumed 'pwlan' could be null (see line 838)
-drivers/staging/rtl8723bs/core/rtw_mlme.c:2413 rtw_restructure_ht_ie() warn: odd binop '0x1c & 0x0'
-drivers/staging/rtl8723bs/core/rtw_mlme.c:2467 rtw_update_ht_cap() warn: if statement not indented
-$
+-- 
+With Best Regards,
+Andy Shevchenko
 
-It's always a good idea to add a kchecker to your QC process.
-
-regards,
-dan carpenter
 
