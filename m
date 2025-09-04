@@ -1,108 +1,115 @@
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 662CC2A1D1
-	for <linux-staging@lists.linux.dev>; Thu,  4 Sep 2025 08:04:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 173FE2FC030
+	for <linux-staging@lists.linux.dev>; Thu,  4 Sep 2025 11:43:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756973082; cv=none; b=cB1D9JGf001L5ZqW3YE4zOAYK83acfhGqBtBkiv2XfI3q4tY/nrvklJVPo70q1WM9nji+inThn30BvC1NEQfSd7xaeoH/ffAVymP78jd2yAUNo6KPGkpO/m5tSZ8bMJFSI4fixWqzc1Dp0Kp0ykTaJFlcohgEElrWee/wPLM5zU=
+	t=1756986209; cv=none; b=snNZXX+DbSEvxEB4ZxBnKWjCK5WILi/hp4DpWyfKVjZAoJRG/waENxPKGfB9D5BDkGmLALMcFsQQ5CNqQifkI+my3ZB9yHyfaozp+qz4iAOX8cu87RO0wlFnzP1gYeUKLsRlazHveG9hhMOE/yF1OZ20LaL75AMpQai7cgtIw4Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756973082; c=relaxed/simple;
-	bh=R0F4LxX8JeRbwSchRubd0jiTtwG2dsiQbgH91N64AuI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MiyEAmTngQ/3hXQZmOD+WNWsYEJif/QEZ6RYzrAkwCYy2OGnP/KvF0ObemsRlN6DD1sbjIzDdxcuquFklvTiLUIMhCylkl8JnS4BsB3MGqIxlxcVy7WFHzGC+Sh7D2IWii/R+elPdXM7T6gpJX1NzoddNUUXiSsFiY+JdjSSI9Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=fYFHChyp; arc=none smtp.client-ip=209.85.221.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1756986209; c=relaxed/simple;
+	bh=muiz7naDGEkZ3ifHiHEdACkPE3MonaLd2fMm6LWbdcg=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 Cc:Content-Type; b=KCyiTB4bMH3ulHWwT/83aKNaVwoHCrqS0sLDH2RnEWFZviHQTljCNSdC1qMHrVN3OhzLN47Shjb9B2zOAFiEGj/BkzCXl5MXkBYV5rBxntu1Oo+wXzxE6oYIED1lLFDNUcRdhYcDEU01hZIp5zefn7kcT2r21VCji9Y6GzD1ST4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=FWYVj+8b; arc=none smtp.client-ip=209.85.214.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="fYFHChyp"
-Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-3df2f4aedc7so420594f8f.2
-        for <linux-staging@lists.linux.dev>; Thu, 04 Sep 2025 01:04:39 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="FWYVj+8b"
+Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-24cdbeca71eso1622925ad.2
+        for <linux-staging@lists.linux.dev>; Thu, 04 Sep 2025 04:43:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1756973078; x=1757577878; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=NMQgTSi+TMSWhdqJbfwjnB9XNjiX9Q7epetailYd/f0=;
-        b=fYFHChypgIogwyJSAHkI0/8D4//LkC9ABHDZ9T4kNiqqTm4kS99eqnbTNnqGbWAUpn
-         8bC0gdjgsK5aLO7zXLnEMU2IL7YvMUFwJ3zGNhDurKeK/amomo2DPoqw3Uu7lQ/eQzyw
-         clrvLbNhAFI+1npvI9aUxxq9s7vxHWWyVtYiYzK8gsGrPjb0C8qu92LeGbUPqadulfC3
-         12X/jxBTIYEyehTvwXaPS0YtS0/comAcKNJCnfdvPSqra5JHQZ/GFxkIIOm4FBt7NG4S
-         VCO3cJOW/9XH561pJVBVxi0xBnmeOkYp0k4w+vSRKYxbxG3rGU5mmg+93Mcar+D8Hrrd
-         M72A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756973078; x=1757577878;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+        d=google.com; s=20230601; t=1756986207; x=1757591007; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=NMQgTSi+TMSWhdqJbfwjnB9XNjiX9Q7epetailYd/f0=;
-        b=B0pOPqjwYZPuU2o1AsI4U/ueOrvk6LRo5tkQ1Nxv6xwZ5xzUrCTmUjGRJag/nkmb32
-         79jybnUndfGQBjDdIU7TCGfixfQIiJi3/xWtpWI/yZDuLxtHV1qNnp2OM1Hi6YyBZahi
-         0cC1xP5rZmTidD21SOJRR+XakveEkNQpCuXr40m7Tu1gyX6RRPIKtPhVpxjYnSpAeCI9
-         1nQ8ODfS3tGMxD6J+UllkYupBl58FpLazkmiwDcEr9l8OjjSDP3WpKjj8tzuAfcUozLa
-         T+ZVaGJQrkN1NMFI8QHWt60GV+kWZuiqWrUuxZQHjSn5P5XthNeelNrGTlHK5XjyOyca
-         q/ew==
-X-Forwarded-Encrypted: i=1; AJvYcCXRu0n2gIyWwX0IcEnyreAjWF3NgzsEuYedxRa3RnYgPwHC21Y+C4OWvHSqAus57CE3cBTzDCtAWSzI3vza@lists.linux.dev
-X-Gm-Message-State: AOJu0Yy21gDurBcDxawdYe6D2o3D73y1YrotzGvOg7WoNViyE8Vq8lZj
-	E3PTNWbfiAq10qTxxzMMzVI2FJghCUJ787QJrOwz3cvIAeUctNMUwl5uKXxmzaGYDs8=
-X-Gm-Gg: ASbGncvvcU800kUjcwdmevhuCyOrA8ZrQUeARxQg4mGnZuXnF7LO6XnbTFd7avdRGt+
-	rssseEkYJHk8qIod3/4K9F1XkSHC/rur8x+LwhhoW6Oi5msrG2E7zo1HBCG/VM7XLMwovqZatAY
-	/n5wZjQ+VCJRRHareBFM57G6AQti2soSVN0PxDILdl6PZ2VPvZedUfTY5r1DjkJ/HG/upE2Zm+z
-	h0LE7E1U1fU9tvshuXuC5OYLW1kTD1zOsePJ/SaofzsOV9GJDppGSSlrvjNH0Yoh84onFQgOhE1
-	kts+ldCRLq1MnBkbLrF8SJ+PrXL4VAaHjae1xKv2niBX9PLjcDZNUFqtFmhFCHJ8FntgPLp0muN
-	46wUKIo9PYwFyY1ptluaMl196loU=
-X-Google-Smtp-Source: AGHT+IGCbRet6mDjv8hEUzW+n1WN7HfErihvQ0mwTKDBWlJ8UG8XGONqSLDPD72SdxeMgb9oxxEkRA==
-X-Received: by 2002:a5d:5d02:0:b0:3d5:55c9:f218 with SMTP id ffacd0b85a97d-3d555c9f834mr9936116f8f.2.1756973077662;
-        Thu, 04 Sep 2025 01:04:37 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-3d6cf485eb7sm16503365f8f.3.2025.09.04.01.04.36
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 04 Sep 2025 01:04:37 -0700 (PDT)
-Date: Thu, 4 Sep 2025 11:04:34 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Vivek BalachandharTN <vivek.balachandhar@gmail.com>
-Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 09/16] staging: rtl8723bs: fix excessive indentation
- in nested if statement
-Message-ID: <aLlIEspZ2wLRnCru@stanley.mountain>
-References: <20250904021448.216461-1-vivek.balachandhar@gmail.com>
- <20250904021448.216461-10-vivek.balachandhar@gmail.com>
+        bh=muiz7naDGEkZ3ifHiHEdACkPE3MonaLd2fMm6LWbdcg=;
+        b=FWYVj+8bx2jlmgrcQU/OxtadAhlITGWGi35pJK693pS1Ve4lb+CY+Q/xi7OY1n4afS
+         5z0TcSuzNdBgjCrusG/hFt8TgNJFox960ckxSH3mbOwZAKteYp6y4XNz54S4NvPDCezd
+         uqk/HLmDDtgl/VWGPiV54Tppba/lxR+diyhED1BIXl/PDNX0B/D1VwGbZdEBWbVHUyf8
+         shQHLpjLh/+/knsS6qyu+HM0w1OcKQll4a9Un5+8HWFNbOZLl+S6YpKaOGPg/ZlnbIWR
+         AycY5TUetobBhmyVal4aPC8+e0E2m2cwRn9cV2rvPX5thslzZ4PJFPtKHYqmTGJBQrly
+         5buQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1756986207; x=1757591007;
+        h=content-transfer-encoding:cc:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=muiz7naDGEkZ3ifHiHEdACkPE3MonaLd2fMm6LWbdcg=;
+        b=kk442olp2hTk6lbViNjCgZufgP4kYCKa+m1iaLwUe5XOFvfK+JAedAakfCMD56VyVD
+         xk5G7bPlrBqowMSa14SnuNYfixFKCT8AVFNHtILvRZy2ra7yZyZ3bJTLZ8I2Yhq1X1I0
+         4H/PrjFBEhQoTlt7/21IY6+Nd4OqKaJaVZW26vulaQODe9FqzNkjOxSy1EC+Jtj/wdQV
+         0OtiLUK+4lDJyeFxp2ITreDnFdJ7qtH6VjZX6bf330EUP4B6Ian4emKMBFk9DP58RlS6
+         z7RjdwccdQAL0ktg5bLB2yhLBKGcwbVSrWQ/VbEGo4lEua4lGW/zRBUQUXcfIx6qG8z1
+         LBiA==
+X-Forwarded-Encrypted: i=1; AJvYcCWKG89BaixogvZu0Jp5B4CFKqnuokjPEz0FMpJ0kzbtiYpSii33CHVhzjt1JIop1l+QIe9UcJCXfXXsAaxa@lists.linux.dev
+X-Gm-Message-State: AOJu0Yz1UtP6q/0s97RgpvT+x+0vUWuczoFTrwH5EjxeG5IK3QLWlSft
+	McVgIBr5HCCepbr0aU/RKZ6RpS4+tRg++0V+QH/IVynmRpSXdRn+aXgzPG27K40YVi9DHMvsDte
+	9XjxMNcehzMV3n0MPFsAA3xsLLPh0kR4ocDjCGYzX
+X-Gm-Gg: ASbGncucUNCLQoB8CCoz6U2cuaJCyqo/CfXK4NoiGfjbOvkeDxMdboIhN3PBN5KuVvJ
+	fE6hMgDBclsVJauQ3c1puw2EDtW9JbAZTe/nnt9WniNR364SmzemGd+a797Mx8ZsZAOkbBU5ZTU
+	s3wiXx9WUz03PhgP1VsvUX9WfQZQK4PFlmu78Ea18QAXN/N1oms/2lERvD80s2WuprX9SclzKtK
+	2h9EIpBTMT0rqA7d8uq3WMgwe8nnzwAmlHAH/Zi6LHT3idiVFXZ
+X-Received: by 2002:a17:903:2a8b:b0:248:fc2d:3a25 with SMTP id
+ d9443c01a7336-24944b0da8fmt258366945ad.38.1756986207111; Thu, 04 Sep 2025
+ 04:43:27 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250904021448.216461-10-vivek.balachandhar@gmail.com>
+References: <20250903092754.2751556-1-abarnas@google.com> <20250903092754.2751556-2-abarnas@google.com>
+ <aLlEOYZqT07r6G_V@smile.fi.intel.com>
+In-Reply-To: <aLlEOYZqT07r6G_V@smile.fi.intel.com>
+From: =?UTF-8?Q?Adrian_Barna=C5=9B?= <abarnas@google.com>
+Date: Thu, 4 Sep 2025 13:43:15 +0200
+X-Gm-Features: Ac12FXxEQX8Crqr8PV1pxbSjW9Mcxxq96iJ-CqMFMybLuuhBwuzyFNki_Fu1js8
+Message-ID: <CAATBrPEMuoVQwCqycrZ14PsNH4u+Di+eycAofObb=8kS9dpvfQ@mail.gmail.com>
+Subject: Re: [RFC PATCH v2 1/2] staging: media: atomisp: Change name to better
+ follow its behavior
+Cc: Hans de Goede <hansg@kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	Sakari Ailus <sakari.ailus@linux.intel.com>, Andy Shevchenko <andy@kernel.org>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Dan Carpenter <dan.carpenter@linaro.org>, 
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-staging@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, Sep 04, 2025 at 02:14:41AM +0000, Vivek BalachandharTN wrote:
-> Adjust indentation in a nested if-statement to match kernel coding
-> style and improve readability.
-> 
-> No functional changes.
-> 
-> Signed-off-by: Vivek BalachandharTN <vivek.balachandhar@gmail.com>
-> ---
->  drivers/staging/rtl8723bs/core/rtw_mlme.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme.c b/drivers/staging/rtl8723bs/core/rtw_mlme.c
-> index d05ff073af2d..a2b1e34765ac 100644
-> --- a/drivers/staging/rtl8723bs/core/rtw_mlme.c
-> +++ b/drivers/staging/rtl8723bs/core/rtw_mlme.c
-> @@ -1254,8 +1254,8 @@ void rtw_joinbss_event_prehandle(struct adapter *adapter, u8 *pbuf)
->  
->  					ptarget_wlan = rtw_find_network(&pmlmepriv->scanned_queue, pnetwork->network.mac_address);
->  					if (check_fwstate(pmlmepriv, WIFI_STATION_STATE) == true) {
-> -						if (ptarget_wlan)
-> -							ptarget_wlan->fixed = true;
-> +					    if (ptarget_wlan)
-> +						ptarget_wlan->fixed = true;
+Hi Andy
 
-Wait, what?  We're moving from tabs to 4 space indents?
+Regardless commit message, is the change OK and can post it as a
+patch, or similarly to second patch it is not worth the effort as it
+will be refactored at some point?
 
-regards,
-dan carpenter
+> Change name to clearly states what function does.
+Proposed description:
 
+staging: media: atomisp: Rename `inv_subword()` to `clear_subword()`
+
+Function `inv_subword()` does not inverse bits or subword and neither is
+inverse operation for `subword()` function. It is used to clear target bits=
+ of
+move_subword operation (specified by start and end-1 indexes). Name
+`clear_subword()` explains the function behavior better.
+
+Best Regards
+Adrian Barna=C5=9B
+
+On Thu, Sep 4, 2025 at 9:48=E2=80=AFAM Andy Shevchenko
+<andriy.shevchenko@intel.com> wrote:
+>
+> On Wed, Sep 03, 2025 at 09:27:53AM +0000, Adrian Barna=C5=9B wrote:
+> > Change name to clearly states what function does.
+>
+> The Subject and the body of the commit message should be more specific.
+>
+> Missing blank line.
+>
+> > Signed-off-by: Adrian Barna=C5=9B <abarnas@google.com>
+>
+> --
+> With Best Regards,
+> Andy Shevchenko
+>
+>
