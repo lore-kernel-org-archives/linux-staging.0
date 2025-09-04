@@ -1,94 +1,141 @@
-Received: from mail-qv1-f50.google.com (mail-qv1-f50.google.com [209.85.219.50])
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DC6C1F872D
-	for <linux-staging@lists.linux.dev>; Thu,  4 Sep 2025 02:38:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8069A29E11C
+	for <linux-staging@lists.linux.dev>; Thu,  4 Sep 2025 07:42:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756953511; cv=none; b=I6sPJ1z+SN3ttnwM/IfI97nXJh3qVPK2i5e6fb/XDFz43X5MwutosLgXeWbs0g3FzerZBe9GVcxKw7+iXalCfK9gtaUjiuDhcbLgIN6SufTObr9GS43zzX0vjabYtQkQovRKbys8NB3Yza3GYbc787wINJmIn5l0LYr+iyU79/s=
+	t=1756971778; cv=none; b=eWgxNKiPbfwlMBxFXtxUwnhHztWZelHHrWkNFLgcgUGAO1IaAroVOUcs3InNRXq4NcfUhwBsKAqvgmmcBjf639rfs1sBJE4YuPRcJgdlxVS28+scl2MGcgOL+zNs13v55juj4DqOwrgS1GjgrknivkTlfpKD8bRIXIyXRyNe5Ko=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756953511; c=relaxed/simple;
-	bh=gt/1ux9jF+HA7NGZH4b8I8x6guW0hIucfUmZRaX8Lnw=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=ILTM96QY5qRFRsfTSrZa/Z1+6q5L6QlvXkFNvnLRaXwfaP+AG627HRPwCBZGc7Z1VETSeyh/LVn5UnYXR9pTdvPT1cuim/MLN5jgMEXtdTd/I7UOhbusH/u7sHHDnlYH1GB/d4t8s8MZHvcQfvsIV9SeMsFChSesCe9ckT+GD/c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DILWBbTX; arc=none smtp.client-ip=209.85.219.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1756971778; c=relaxed/simple;
+	bh=ZaFZpuefFgzZpMrXGV6OywiSg0kF8Ybw36uYEX7yPQY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=GtCTaonSh+hdy/Ab8i9sLHGeWFRfUSqyAg+jegrlkk9t/kgqHtCktKE5ulcF6KaEx59JKYgLZ3iM5iJGbpHZZCuWvaRx5eLMKRdwez587vkTorTt6piwprffScUrveqXgVej/FYqDAj+yRdpapIW41wdCDvyZ1AhiGiiaq1BlC0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Z8eDdYEX; arc=none smtp.client-ip=209.85.128.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DILWBbTX"
-Received: by mail-qv1-f50.google.com with SMTP id 6a1803df08f44-726549f8161so4594826d6.0
-        for <linux-staging@lists.linux.dev>; Wed, 03 Sep 2025 19:38:30 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Z8eDdYEX"
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-45b7d87b90fso5666075e9.0
+        for <linux-staging@lists.linux.dev>; Thu, 04 Sep 2025 00:42:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1756953509; x=1757558309; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=gt/1ux9jF+HA7NGZH4b8I8x6guW0hIucfUmZRaX8Lnw=;
-        b=DILWBbTXyhKBA4dTRTNKewgpbT7nUsVCwRPHkx1wZVNPUIjkLv2efEbXo1D5OiTgpS
-         IuTp0C0ZHWHnn8ao4wyk7GVfiV3uQc3NerpNux/UOJ3cCq5lyw7T9KuOisL20nG7hwdQ
-         +uryLS8eSstAMsoZlowrIMk+Vsv5HZrBL0lImoeUrw6bvhIWaBLDESfebrZhA0btae20
-         5+EGlhyhsyiMHLoox4J4Irc4i4b/Sg28wo5ZKe919NpZG4lChYWFXkhHfEmJF+JNbEti
-         nzCUjM2Drrjrvqyw1dkgbh0qATBmekK5aSw7ZRTi7BSefJjZ2FtAD+fmMe9mKLR7xe3c
-         b81A==
+        d=linaro.org; s=google; t=1756971775; x=1757576575; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=PE1WEm0x+xTSY0iMhqlk9K01ZY7gt87ogAjaJwXEInI=;
+        b=Z8eDdYEXkEUuoWFM2Z/CBXa5x0I3GVUlcDQN5lzTPksKykm35EujC3afj415LggAbM
+         gV51wxG2I47Rv8EQsbMuZsHIz7K6WRVlNy4WEFTeLtHKS4dX3s4GRtY3ZsE9i+jUTE/2
+         Pnq75bVkmTfJiLDZvsR1XQcOmKQZ6/plrpICvtKT8sqi/EodPSkaJrbXSPDI7/sEOt9q
+         8ybmYiBPYm5/AGsRJp44uulzdh1GF9oz4gwH+lP32sT9vqkrc0zp655b9u3STeZKGmnJ
+         eFAOWNIEl2PjQr7VwuNGK3OHU/4yBRMirUY4rkxFfLDl/zh3b+HYGK7wE+YVkD6Uix56
+         otzA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756953509; x=1757558309;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=gt/1ux9jF+HA7NGZH4b8I8x6guW0hIucfUmZRaX8Lnw=;
-        b=gWx3drS4Ep6nJOoFL2UNbxk2qo8EiAp5vn0i8EMDKckCokI4hrfIuSRLTC7UWM9PME
-         yTscddtMDSgHHQI82imjwYUjv5uxVplYNND3j18WN82l3g72VJZ2WR6exbRVMi4npS1d
-         JwYpdz+pQacqUZd703ZeOxfN6KteO1udbtW7GnSYAJwbtqzmltVnrpzP/RHkzA8Y88eE
-         Iq7u9dN0jOoVFTNXoz2sD9sYY8ZY1F/kemNsS6wgoDwys55AaRlUfQJJGTNS7rCO1i66
-         lW8c5/6wtWPOFHpUfA//J2Kjy0jXKLej54RLucEV9MJ1+glEn1zGz/ggrMoZp7cNLRNV
-         i65Q==
-X-Forwarded-Encrypted: i=1; AJvYcCWZ5VGvDsFS6dW2e9mjNPAFk8WDR+S5l/KL3ZPry7gH4raKtcstwZHWq8CWJDyLQGbc3+tA48g0Un9wFwQy@lists.linux.dev
-X-Gm-Message-State: AOJu0YwbNLyDAB81HwkP+h4XsoPWjlYt2BXKsZSreLo/6BxQLDd4/m/P
-	iSPWfS86dX0RxQpA0WGv17hwFCjnt7oU48KdP9mRssJYc3B1zk/9IeUj
-X-Gm-Gg: ASbGncv7V8+mHjM5JJHA0obnhnZVKAnYqpZUAf5Xek9sqN21eSBWHU6l9p/a4xTh2su
-	iQ3QFES1EF+SgBsvRvuO187UI0RkNZWDYNiXnYU7K21sh4caZ7E+gGvGa4Vv7Y1K/jJogoIRiyk
-	wUDnW6zgjVxjxxIBS+LIPzkFwanIAqDpijAnIjiLgSMRaTu9MECS8Iy0eRqSmkaUZrmU//flHqG
-	t05vzCqwoBLq8d9diShcEsikMbo5g6EeaBGaQzwvwt0gKh3Jy9V+S3HIJVhfoKg2iKdv7rZQoPj
-	jhzJGlpUVG94ktHUzwDmd37wuKJ7WUjjmwB3AvTYdHGj2ypo8frrUmiECu8Xn7G9pIFqb7//R7b
-	tm0MEcA0zuGxCjYRIOdcMtzeEc92GxXFpnTF7na2q9Ue7XixXc9B6pczu6SIifw==
-X-Google-Smtp-Source: AGHT+IEUP5RyMi1VOlfV+ceyjVn2nI/9lfMvjpM6uk2kMPvXZW8k4AHW6Lneo77FQNkYuZR/4O7Riw==
-X-Received: by 2002:a05:6214:2629:b0:724:271a:9750 with SMTP id 6a1803df08f44-724271a9f49mr54076586d6.12.1756953509374;
-        Wed, 03 Sep 2025 19:38:29 -0700 (PDT)
-Received: from linux-kernel-dev-start.. ([159.203.26.228])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-720add668bdsm38209776d6.33.2025.09.03.19.38.28
+        d=1e100.net; s=20230601; t=1756971775; x=1757576575;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=PE1WEm0x+xTSY0iMhqlk9K01ZY7gt87ogAjaJwXEInI=;
+        b=u10wLEjuDKN9tO5kURsr+FRBKnkzB4WqAPlB4HQmaTglX7fGKpqsaFfB1HLwfbAgSd
+         Nw/kzXxxkzSB1Y8CAmurNDcmqXvrby/AFbwFbCntzpNpTbTKdQNNTIM7UFyU6qa5izf6
+         JQgGZEajQYY+Cmihek9PVLglwQ+4jXMr/NkaDJ6M4d7pKgPooesRhPIhARaMBfvAoMVe
+         4d69wwff/yb//DLHzdJcyd3G1orFjKZ2uPzUbxz2HCgpY7GcgcRyXdzMtq8b8vo1+fq1
+         SRA7/hwrmAGISTszDL64Bw2Z6LL6JcBNohrLPEE647tZ5Je1CnuzKnz7nrcAPa3+HPGT
+         dp2A==
+X-Forwarded-Encrypted: i=1; AJvYcCUlKHqu3bs5xJUyGZGrKpeIHQcl7Gvr5TBp6BjRsr/Xu5BLgq1D+eICCsqWDYy8jLBkwOtAAOcnG/pOS79v@lists.linux.dev
+X-Gm-Message-State: AOJu0YzJvusHF9eFo6HB7GUrlVCG0oc48In5YH45iMmzOjCRu40bW30l
+	Mq4jLe9g9fAHOplnzLlxhurP/soDV9uOBtwZ7Xgd58omplqNLltSSS5uwoKmbwq/JXE=
+X-Gm-Gg: ASbGncu6R1177vJouaFL9A2+9yU0fFtcVrkUEx7PtCCYCsh3fOzYEpPUXxR4sc1ik+o
+	EX+4axR2HaDi3AILy14x7bAxAEC9Uc/yLgfCAc/yDS0KUGghJKcsKhQZd6NvyyqrA5tVuDNAx72
+	+u4fq5OS8Xe+EvmngqC69o4dB4Bjx0JYiH27yUXoN0PTPuKmJi8xES2J0ZFZtmRCBj+1+bwtu2A
+	+hx379EYN84dZeQ1edp2FCxjTKGH2VColAR/S5MoM5XoylUbkft/HFwbm27gCZXNMVhZr8QhOFu
+	heK8j2vu7CnxWjQ6zDhI+mQoxdqCvUwp3Lxexz6H2WbBpyBXOePEZZrhNNeFkdczfzxP7/aZXbM
+	s288E0dghkODhoBJmd82ZeojvkaQuTuWy35gLutGQbvJKgsea
+X-Google-Smtp-Source: AGHT+IFqEKV1dOU6AtGVeQbAA7dRuZZOzzWKEs0hUSqjXwiB8fUJpq/jUJLWO3K7o6PoM/UBdUvBIg==
+X-Received: by 2002:a05:600c:a419:b0:45b:9b9f:88cb with SMTP id 5b1f17b1804b1-45b9b9f8af4mr43283525e9.16.1756971774749;
+        Thu, 04 Sep 2025 00:42:54 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-45c6faad9cfsm82663845e9.0.2025.09.04.00.42.53
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 03 Sep 2025 19:38:29 -0700 (PDT)
-From: Vivek BalachandharTN <vivek.balachandhar@gmail.com>
-To: vivek.balachandhar@gmail.com
-Cc: gregkh@linuxfoundation.org,
-	linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev
-Subject: =?UTF-8?q?Re=3A=20=5BPATCH=200/16=5D=20staging=3A=20rtl8723bs=3A=20style=20cleanups=20=E2=80=94=20please=20ignore=20v1=3B=20see=20v2?=
-Date: Thu,  4 Sep 2025 02:38:16 +0000
-Message-Id: <20250904023816.216762-1-vivek.balachandhar@gmail.com>
-X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20250904012529.215521-1-vivek.balachandhar@gmail.com>
-References: <20250904012529.215521-1-vivek.balachandhar@gmail.com>
+        Thu, 04 Sep 2025 00:42:54 -0700 (PDT)
+Date: Thu, 4 Sep 2025 10:42:50 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Vivek BalachandharTN <vivek.balachandhar@gmail.com>
+Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 12/16] staging: rtl8723bs: remove unnecessary braces
+ for single statement blocks
+Message-ID: <aLlC-raf6UksVFlC@stanley.mountain>
+References: <20250904021448.216461-1-vivek.balachandhar@gmail.com>
+ <20250904021448.216461-13-vivek.balachandhar@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250904021448.216461-13-vivek.balachandhar@gmail.com>
 
-Hi Greg and linux-staging folks,
+On Thu, Sep 04, 2025 at 02:14:44AM +0000, Vivek BalachandharTN wrote:
+> Drop braces around conditional blocks that contain only a single
+> statement, as required by kernel coding style. This enhances clarity
+> and reduces visual clutter.
+> 
+> No functional changes.
+> 
+> Signed-off-by: Vivek BalachandharTN <vivek.balachandhar@gmail.com>
+> ---
+>  drivers/staging/rtl8723bs/core/rtw_mlme.c | 6 ++----
+>  1 file changed, 2 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme.c b/drivers/staging/rtl8723bs/core/rtw_mlme.c
+> index ef9057456768..27be46c11b65 100644
+> --- a/drivers/staging/rtl8723bs/core/rtw_mlme.c
+> +++ b/drivers/staging/rtl8723bs/core/rtw_mlme.c
+> @@ -514,9 +514,8 @@ void rtw_update_scanned_network(struct adapter *adapter, struct wlan_bssid_ex *t
+>  			break;
+>  		}
+>  
+> -		if (rtw_roam_flags(adapter)) {
+> +		if (rtw_roam_flags(adapter))
+>  			/* TODO: don't select network in the same ess as oldest if it's new enough*/
+> -		}
 
-Please ignore my first series — I accidentally sent patches 11–16 in a
-separate batch so they threaded under 10/16 instead of the cover letter.
+Heh.  No.
 
-I’ve re-sent the series properly as v2 (same content, correct threading).
-You can find it here on lore:
-https://lore.kernel.org/all/20250904021448.216461-1-vivek.balachandhar@gmail.com/
+>  
+>  		if (!oldest || time_after(oldest->last_scanned, pnetwork->last_scanned))
+>  			oldest = pnetwork;
+> @@ -2546,9 +2545,8 @@ void rtw_update_ht_cap(struct adapter *padapter, u8 *pie, uint ie_len, u8 channe
+>  	len = 0;
+>  	p = rtw_get_ie(pie + sizeof(struct ndis_802_11_fix_ie), WLAN_EID_HT_OPERATION, &len,
+>  		       ie_len - sizeof(struct ndis_802_11_fix_ie));
+> -	if (p && len > 0) {
+> +	if (p && len > 0)
+>  		/* todo: */
+> -	}
 
-Apologies for the noise, and thank you for your time.
+Also no.  Also heh.  You've introduced a bug.  Smatch does find this
+sort of bug btw.
 
-Thanks,
-Vivek BalachandharTN
+$ ~/smatch/released/smatch_scripts/kchecker --spammy drivers/staging/rtl8723bs/core/rtw_mlme.c
+  SYNC    include/config/auto.conf
+  HOSTCC  scripts/basic/fixdep
+  HOSTCC  scripts/basic/fixdep
+  CHECK   scripts/mod/empty.c
+  CALL    scripts/checksyscalls.sh
+  DESCEND objtool
+  INSTALL libsubcmd_headers
+  CC [M]  drivers/staging/rtl8723bs/core/rtw_mlme.o
+  CHECK   drivers/staging/rtl8723bs/core/rtw_mlme.c
+drivers/staging/rtl8723bs/core/rtw_mlme.c:843 find_network() error: we previously assumed 'pwlan' could be null (see line 838)
+drivers/staging/rtl8723bs/core/rtw_mlme.c:2413 rtw_restructure_ht_ie() warn: odd binop '0x1c & 0x0'
+drivers/staging/rtl8723bs/core/rtw_mlme.c:2467 rtw_update_ht_cap() warn: if statement not indented
+$
+
+It's always a good idea to add a kchecker to your QC process.
+
+regards,
+dan carpenter
 
