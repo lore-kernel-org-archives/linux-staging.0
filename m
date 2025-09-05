@@ -1,115 +1,150 @@
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
+Received: from mail-qt1-f173.google.com (mail-qt1-f173.google.com [209.85.160.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 173FE2FC030
-	for <linux-staging@lists.linux.dev>; Thu,  4 Sep 2025 11:43:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A16B289376
+	for <linux-staging@lists.linux.dev>; Fri,  5 Sep 2025 06:25:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756986209; cv=none; b=snNZXX+DbSEvxEB4ZxBnKWjCK5WILi/hp4DpWyfKVjZAoJRG/waENxPKGfB9D5BDkGmLALMcFsQQ5CNqQifkI+my3ZB9yHyfaozp+qz4iAOX8cu87RO0wlFnzP1gYeUKLsRlazHveG9hhMOE/yF1OZ20LaL75AMpQai7cgtIw4Q=
+	t=1757053522; cv=none; b=bZXl5bREUOYzzx9wRSqO2+b4tj1uSRbogh3E79WlMYPWVci0Uq8c9nm1KT7NaPizlJDw8oLfp2pWpDF8zwL4Iqty8I2MKkQtuyBRqqOgcH088q0QH4aDhxwaIuXGBLhJ7LuhmeW1K3GNsFtR1ka23tgVnIffuBqJcrvwkoJj5rQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756986209; c=relaxed/simple;
-	bh=muiz7naDGEkZ3ifHiHEdACkPE3MonaLd2fMm6LWbdcg=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 Cc:Content-Type; b=KCyiTB4bMH3ulHWwT/83aKNaVwoHCrqS0sLDH2RnEWFZviHQTljCNSdC1qMHrVN3OhzLN47Shjb9B2zOAFiEGj/BkzCXl5MXkBYV5rBxntu1Oo+wXzxE6oYIED1lLFDNUcRdhYcDEU01hZIp5zefn7kcT2r21VCji9Y6GzD1ST4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=FWYVj+8b; arc=none smtp.client-ip=209.85.214.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1757053522; c=relaxed/simple;
+	bh=pXiEurxJInwPTgKXSaoKEHpVj6fkheqnUI0rAD/5J6c=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=DeukmHPn+gOOBsqsTuQdMLc2FpftUHPZ5y2J8gD8zCGdQk+DL8/RGUZo/WpELgUGHIAYfbs6LlwfkgLasOz6ZgVErh8h/Ixkg8vHvau65cQiwm9kb8JRcSkglzyu71ELEcwSxpGlJihW56VVsI8syQdeD1ZhwrE2r3KHO/uYMq8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=G/g4/8Aa; arc=none smtp.client-ip=209.85.160.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="FWYVj+8b"
-Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-24cdbeca71eso1622925ad.2
-        for <linux-staging@lists.linux.dev>; Thu, 04 Sep 2025 04:43:27 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="G/g4/8Aa"
+Received: by mail-qt1-f173.google.com with SMTP id d75a77b69052e-4b3289ed834so22340701cf.1
+        for <linux-staging@lists.linux.dev>; Thu, 04 Sep 2025 23:25:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1756986207; x=1757591007; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=muiz7naDGEkZ3ifHiHEdACkPE3MonaLd2fMm6LWbdcg=;
-        b=FWYVj+8bx2jlmgrcQU/OxtadAhlITGWGi35pJK693pS1Ve4lb+CY+Q/xi7OY1n4afS
-         5z0TcSuzNdBgjCrusG/hFt8TgNJFox960ckxSH3mbOwZAKteYp6y4XNz54S4NvPDCezd
-         uqk/HLmDDtgl/VWGPiV54Tppba/lxR+diyhED1BIXl/PDNX0B/D1VwGbZdEBWbVHUyf8
-         shQHLpjLh/+/knsS6qyu+HM0w1OcKQll4a9Un5+8HWFNbOZLl+S6YpKaOGPg/ZlnbIWR
-         AycY5TUetobBhmyVal4aPC8+e0E2m2cwRn9cV2rvPX5thslzZ4PJFPtKHYqmTGJBQrly
-         5buQ==
+        d=gmail.com; s=20230601; t=1757053519; x=1757658319; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=scuGHcf88Dp2LC+axjs+lbFAA0MMlzm0w1U6Wth8yZ4=;
+        b=G/g4/8AaCb361VlRJmnLDYdt6ErxNprutAGB7d9Ua2HzEKtmykGNbkfabKkZAQk1bx
+         y1oEujBuMjKy+/gj39LxBTkj7Ibg4nd9N2yz/DEpCGofLlfSveF3NzHGOdpWzO4gSby+
+         Y08VhXJjs/1t50Lk9Gl5en6uY2/yYGP1h9ofK6yPIN8u1sAHoXl7pF6G5t6TZ3LRB69B
+         9IqKkjth7uhwwoWYixCXziXvSLys35GI81mFOMaC6mjQMG9Jwc/iXC2rn8boY+6Ij24l
+         Ly9dPSpXh3HNE6WrGTm7WLKVpOhiYXtSh3rXfoyPgYfGAIUHOABF8Lr5dagu+IOSJRhP
+         2xyg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756986207; x=1757591007;
-        h=content-transfer-encoding:cc:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=muiz7naDGEkZ3ifHiHEdACkPE3MonaLd2fMm6LWbdcg=;
-        b=kk442olp2hTk6lbViNjCgZufgP4kYCKa+m1iaLwUe5XOFvfK+JAedAakfCMD56VyVD
-         xk5G7bPlrBqowMSa14SnuNYfixFKCT8AVFNHtILvRZy2ra7yZyZ3bJTLZ8I2Yhq1X1I0
-         4H/PrjFBEhQoTlt7/21IY6+Nd4OqKaJaVZW26vulaQODe9FqzNkjOxSy1EC+Jtj/wdQV
-         0OtiLUK+4lDJyeFxp2ITreDnFdJ7qtH6VjZX6bf330EUP4B6Ian4emKMBFk9DP58RlS6
-         z7RjdwccdQAL0ktg5bLB2yhLBKGcwbVSrWQ/VbEGo4lEua4lGW/zRBUQUXcfIx6qG8z1
-         LBiA==
-X-Forwarded-Encrypted: i=1; AJvYcCWKG89BaixogvZu0Jp5B4CFKqnuokjPEz0FMpJ0kzbtiYpSii33CHVhzjt1JIop1l+QIe9UcJCXfXXsAaxa@lists.linux.dev
-X-Gm-Message-State: AOJu0Yz1UtP6q/0s97RgpvT+x+0vUWuczoFTrwH5EjxeG5IK3QLWlSft
-	McVgIBr5HCCepbr0aU/RKZ6RpS4+tRg++0V+QH/IVynmRpSXdRn+aXgzPG27K40YVi9DHMvsDte
-	9XjxMNcehzMV3n0MPFsAA3xsLLPh0kR4ocDjCGYzX
-X-Gm-Gg: ASbGncucUNCLQoB8CCoz6U2cuaJCyqo/CfXK4NoiGfjbOvkeDxMdboIhN3PBN5KuVvJ
-	fE6hMgDBclsVJauQ3c1puw2EDtW9JbAZTe/nnt9WniNR364SmzemGd+a797Mx8ZsZAOkbBU5ZTU
-	s3wiXx9WUz03PhgP1VsvUX9WfQZQK4PFlmu78Ea18QAXN/N1oms/2lERvD80s2WuprX9SclzKtK
-	2h9EIpBTMT0rqA7d8uq3WMgwe8nnzwAmlHAH/Zi6LHT3idiVFXZ
-X-Received: by 2002:a17:903:2a8b:b0:248:fc2d:3a25 with SMTP id
- d9443c01a7336-24944b0da8fmt258366945ad.38.1756986207111; Thu, 04 Sep 2025
- 04:43:27 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1757053519; x=1757658319;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=scuGHcf88Dp2LC+axjs+lbFAA0MMlzm0w1U6Wth8yZ4=;
+        b=N2rtQ3G0STem3PwzUgvzS94b+4JFq1+OtRGGR1q+j4a8XfQlAXHenYopw+cQFCQYNb
+         uKaotv32e0iWkQHMceohc9fXpM053zDbdNj7N0qOTAr3uT7EJiAB8mJXMmHYcycnUJ0a
+         KO8LHIZZfO5QidRnloa1yJ++Ig0XLnGoD44awV66kylOBR/xFEmfDJSnwSU8EVIoVJYd
+         naELbO8YxPb2Cjx37jmnhdk8Hiz+MG0rZr+NF3VgxMzwZQI1L6FpM/Jv/72e3ynTXvb4
+         ea6rjk7slmLc4bAWxN+Q6uFK+98BRRD+TR/Y7T2SbpDJ+hrOtZj65s4d0Q4pI9VzB95x
+         u3kw==
+X-Forwarded-Encrypted: i=1; AJvYcCX3DIX+u96C5F+KUt6HSZ+moHBeeKOoiPOKOKWauRcPbd84NM3x0aAhLiwTHVraNrZ+AAjgRmVcIptXJTXO@lists.linux.dev
+X-Gm-Message-State: AOJu0YxIz4hUjvhwohFVP9EWnv9C2uz5fuPm+bCh+MzpiVErluTr0vtu
+	PJ7SoHQqUyS1z7xDF6Ta+J9yx/7YoxvOk0pv7QV2rnZJnvbqA8Y9BOY0
+X-Gm-Gg: ASbGncuFycOqsXsuWvmvcx8bD7s9nqtb/0ggjrO7xRmHhkVt534nDAklZGUxkqoMUQf
+	2T3OobB3gkuGUwL6n3SyoE7TzMW1foYw5oE88Df40tVxU1rh8g5ItdvkLewu18T+XWtwi2mehnl
+	ybqkiP41imbw4kUSuw2YyGOx+c4Zfzl4hu1mvc2xDlXlFsTWdorc/10/PTf6rs3yftFs54K4Kqd
+	clP7VS3FocEsoh+oOsDwrmJ5k0faGchWHbsv7OooIiEQ24yeMmnYS1gZUoQ7gonSJwUmYpbXEkf
+	5RvVIlznREhVIqVT5/S+QjBUUtxeZ7ZPHsVEdBhaetmwMVSNa1H9vPLI8rwWXY5jiscuZTU1jYg
+	Uu7OL1AP+IH2NzqbnAmFsS9TLutUPOi6usWUzVkmDcwZIdN6S/Q==
+X-Google-Smtp-Source: AGHT+IGHT7RRVezlBF9H/kxnO3Lrh2y5UUZCr9j4hDVHEPRyyuEUSn3lz/GNt3xvHP6dzamWD4w2Lw==
+X-Received: by 2002:ac8:5914:0:b0:4b2:cfa8:7403 with SMTP id d75a77b69052e-4b31da239e0mr295192411cf.51.1757053519146;
+        Thu, 04 Sep 2025 23:25:19 -0700 (PDT)
+Received: from [192.168.0.155] ([170.10.253.128])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-4b48f670a1bsm40344641cf.20.2025.09.04.23.25.18
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 04 Sep 2025 23:25:18 -0700 (PDT)
+Message-ID: <59c70b2c-5dd5-4b57-9b74-9ae3c7401f0b@gmail.com>
+Date: Fri, 5 Sep 2025 02:25:17 -0400
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250903092754.2751556-1-abarnas@google.com> <20250903092754.2751556-2-abarnas@google.com>
- <aLlEOYZqT07r6G_V@smile.fi.intel.com>
-In-Reply-To: <aLlEOYZqT07r6G_V@smile.fi.intel.com>
-From: =?UTF-8?Q?Adrian_Barna=C5=9B?= <abarnas@google.com>
-Date: Thu, 4 Sep 2025 13:43:15 +0200
-X-Gm-Features: Ac12FXxEQX8Crqr8PV1pxbSjW9Mcxxq96iJ-CqMFMybLuuhBwuzyFNki_Fu1js8
-Message-ID: <CAATBrPEMuoVQwCqycrZ14PsNH4u+Di+eycAofObb=8kS9dpvfQ@mail.gmail.com>
-Subject: Re: [RFC PATCH v2 1/2] staging: media: atomisp: Change name to better
- follow its behavior
-Cc: Hans de Goede <hansg@kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	Sakari Ailus <sakari.ailus@linux.intel.com>, Andy Shevchenko <andy@kernel.org>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Dan Carpenter <dan.carpenter@linaro.org>, 
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-staging@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 12/16] staging: rtl8723bs: remove unnecessary braces
+ for single statement blocks
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+References: <20250904021448.216461-1-vivek.balachandhar@gmail.com>
+ <20250904021448.216461-13-vivek.balachandhar@gmail.com>
+ <aLlC-raf6UksVFlC@stanley.mountain>
+Content-Language: en-CA
+From: Vivek BalachandharTN <vivek.balachandhar@gmail.com>
+In-Reply-To: <aLlC-raf6UksVFlC@stanley.mountain>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi Andy
+Will fix this. Thanks for pointing this, Dan.
 
-Regardless commit message, is the change OK and can post it as a
-patch, or similarly to second patch it is not worth the effort as it
-will be refactored at some point?
+Best,
 
-> Change name to clearly states what function does.
-Proposed description:
+Vivek
 
-staging: media: atomisp: Rename `inv_subword()` to `clear_subword()`
-
-Function `inv_subword()` does not inverse bits or subword and neither is
-inverse operation for `subword()` function. It is used to clear target bits=
- of
-move_subword operation (specified by start and end-1 indexes). Name
-`clear_subword()` explains the function behavior better.
-
-Best Regards
-Adrian Barna=C5=9B
-
-On Thu, Sep 4, 2025 at 9:48=E2=80=AFAM Andy Shevchenko
-<andriy.shevchenko@intel.com> wrote:
+On 2025-09-04 3:42 a.m., Dan Carpenter wrote:
+> On Thu, Sep 04, 2025 at 02:14:44AM +0000, Vivek BalachandharTN wrote:
+>> Drop braces around conditional blocks that contain only a single
+>> statement, as required by kernel coding style. This enhances clarity
+>> and reduces visual clutter.
+>>
+>> No functional changes.
+>>
+>> Signed-off-by: Vivek BalachandharTN <vivek.balachandhar@gmail.com>
+>> ---
+>>   drivers/staging/rtl8723bs/core/rtw_mlme.c | 6 ++----
+>>   1 file changed, 2 insertions(+), 4 deletions(-)
+>>
+>> diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme.c b/drivers/staging/rtl8723bs/core/rtw_mlme.c
+>> index ef9057456768..27be46c11b65 100644
+>> --- a/drivers/staging/rtl8723bs/core/rtw_mlme.c
+>> +++ b/drivers/staging/rtl8723bs/core/rtw_mlme.c
+>> @@ -514,9 +514,8 @@ void rtw_update_scanned_network(struct adapter *adapter, struct wlan_bssid_ex *t
+>>   			break;
+>>   		}
+>>   
+>> -		if (rtw_roam_flags(adapter)) {
+>> +		if (rtw_roam_flags(adapter))
+>>   			/* TODO: don't select network in the same ess as oldest if it's new enough*/
+>> -		}
+> Heh.  No.
 >
-> On Wed, Sep 03, 2025 at 09:27:53AM +0000, Adrian Barna=C5=9B wrote:
-> > Change name to clearly states what function does.
+>>   
+>>   		if (!oldest || time_after(oldest->last_scanned, pnetwork->last_scanned))
+>>   			oldest = pnetwork;
+>> @@ -2546,9 +2545,8 @@ void rtw_update_ht_cap(struct adapter *padapter, u8 *pie, uint ie_len, u8 channe
+>>   	len = 0;
+>>   	p = rtw_get_ie(pie + sizeof(struct ndis_802_11_fix_ie), WLAN_EID_HT_OPERATION, &len,
+>>   		       ie_len - sizeof(struct ndis_802_11_fix_ie));
+>> -	if (p && len > 0) {
+>> +	if (p && len > 0)
+>>   		/* todo: */
+>> -	}
+> Also no.  Also heh.  You've introduced a bug.  Smatch does find this
+> sort of bug btw.
 >
-> The Subject and the body of the commit message should be more specific.
+> $ ~/smatch/released/smatch_scripts/kchecker --spammy drivers/staging/rtl8723bs/core/rtw_mlme.c
+>    SYNC    include/config/auto.conf
+>    HOSTCC  scripts/basic/fixdep
+>    HOSTCC  scripts/basic/fixdep
+>    CHECK   scripts/mod/empty.c
+>    CALL    scripts/checksyscalls.sh
+>    DESCEND objtool
+>    INSTALL libsubcmd_headers
+>    CC [M]  drivers/staging/rtl8723bs/core/rtw_mlme.o
+>    CHECK   drivers/staging/rtl8723bs/core/rtw_mlme.c
+> drivers/staging/rtl8723bs/core/rtw_mlme.c:843 find_network() error: we previously assumed 'pwlan' could be null (see line 838)
+> drivers/staging/rtl8723bs/core/rtw_mlme.c:2413 rtw_restructure_ht_ie() warn: odd binop '0x1c & 0x0'
+> drivers/staging/rtl8723bs/core/rtw_mlme.c:2467 rtw_update_ht_cap() warn: if statement not indented
+> $
 >
-> Missing blank line.
+> It's always a good idea to add a kchecker to your QC process.
 >
-> > Signed-off-by: Adrian Barna=C5=9B <abarnas@google.com>
->
-> --
-> With Best Regards,
-> Andy Shevchenko
->
+> regards,
+> dan carpenter
 >
