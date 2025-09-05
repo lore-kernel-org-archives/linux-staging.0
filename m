@@ -1,90 +1,112 @@
-Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net [217.70.183.196])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6289296BB7
-	for <linux-staging@lists.linux.dev>; Fri,  5 Sep 2025 16:08:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.196
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93120306B1F
+	for <linux-staging@lists.linux.dev>; Fri,  5 Sep 2025 16:11:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757088535; cv=none; b=fXD35N7idZHxUl9SWMsSrLgw9KapZWlKKKt/tenLXMr+9j8silc7zB4ZsD8FDIIatYR7cnDze2ZrQP+CgQl/R87y2Pt9v08H1jg1IjDv+lryiuVlWWuWV/+9d+F3/8QFOGN/SHblQrtclw5CNuev6F70SWGegL5d4ZQ4ZQ/OT7U=
+	t=1757088682; cv=none; b=GZ+zHw0myNK5EmBCo7zPSQQMnVkZNdiZc2R3C8WtN7KOY9ptb10XLwduWbXpTzPB2VYBwzB8VB3CXJa2/n8+ZdPxmVVyO0Cvq63jKCvvAL9wmIn44f96pybWDm2PxI0XP9otS+QfjdgbMDjQWx0xK4tAPxfvbOHoEpSGNYEzxZ8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757088535; c=relaxed/simple;
-	bh=nPpJvasC2DK5ppa7wvwPL+vx2OAKPNgu3EpBElhr7gk=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=ODjIMoXWXZQBUM+fzDrWLfXiEXaq59Fq8KQOhAx97GnaxpADWa0CyUgqz5HIWxPd5CjC0Kits9idKYmBUr4d+zraFFUhj9dBbjfEC3GAPQ7jRm08Y8YyS9lqrQlNg1Pvn8x99ffbOW/9Pyp2eRyQjh4SPJxvScK3GqiEHS0/xic=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=bmOIF4uE; arc=none smtp.client-ip=217.70.183.196
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1757088682; c=relaxed/simple;
+	bh=AfRVaKjiP1EmsioqgdJeE1b+4oCBXAacMNkvC2Ja/Po=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=S+skeeng86t6kEbXEpMOGQsG8SQ0KMCPieCBBT1Whk8jGcyA3uC+L5SlVX5B/H9ZG7rUWoSybPJF7cBQtYI/TUakBIblUtREVRDWALxxi49JLjDz707hjGM5YQaWWXWqiWVCm/HBW4t95M43QYoEQZ9uK1v6tvrEv6dP0d6I+OE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dGllx3w5; arc=none smtp.client-ip=209.85.221.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="bmOIF4uE"
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 435AF443A8;
-	Fri,  5 Sep 2025 16:08:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1757088524;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=3xrhMd6Y01ZfU4qwF2AV9SLKzPf3ah/kgRKLRN4Qdg4=;
-	b=bmOIF4uEDhyQ/gSY3E2IpE7paLD0TvkAsnDqEqGGHUPiaVH93qBa3+mE+uHEHjLVoP3mTS
-	R9XX7nWq7gK2TwhDeIu4QVt9/atjJQ32FrjNpDEaRLupTex62eLBo6hzazrn8xXjcIYyNO
-	KDrb+Diz08Sz6xZ0joY1XtHa/TLlG4snKWvdl+zTOIWN+gSS7o/X/ec6PxZOLu4ahaWNBw
-	ZragYU8GmhblUNoK2VR1qdGZxoCSN+X17FaF8sI4+HNR+13ast3HVQUcnclPE3q+xnL3cK
-	6JnB+tcrcBLx2a6x4R09k8g2JvV5f/bqc+oTumZNQIXBeUm5XB7sb3Pqt+qOug==
-Date: Fri, 5 Sep 2025 18:08:37 +0200
-From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-To: Svyatoslav Ryhel <clamor95@gmail.com>
-Cc: Thierry Reding <thierry.reding@gmail.com>, Thierry Reding
- <treding@nvidia.com>, Mikko Perttunen <mperttunen@nvidia.com>, Jonathan
- Hunter <jonathanh@nvidia.com>, Sowjanya Komatineni
- <skomatineni@nvidia.com>, David Airlie <airlied@gmail.com>, Simona Vetter
- <simona@ffwll.ch>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann
- <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>, Krzysztof Kozlowski
- <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Peter De
- Schrijver <pdeschrijver@nvidia.com>, Prashant Gaikwad
- <pgaikwad@nvidia.com>, Michael Turquette <mturquette@baylibre.com>, Stephen
- Boyd <sboyd@kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, Greg
- Kroah-Hartman <gregkh@linuxfoundation.org>, Dmitry Osipenko
- <digetx@gmail.com>, Charan Pedumuru <charan.pedumuru@gmail.com>,
- linux-media@vger.kernel.org, linux-tegra@vger.kernel.org,
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org,
- linux-staging@lists.linux.dev
-Subject: Re: [PATCH v1 13/19] staging: media: tegra-video: tegra20: set VI
- HW revision
-Message-ID: <20250905180837.35547304@booty>
-In-Reply-To: <20250819121631.84280-14-clamor95@gmail.com>
-References: <20250819121631.84280-1-clamor95@gmail.com>
-	<20250819121631.84280-14-clamor95@gmail.com>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dGllx3w5"
+Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-3df3be0e098so1274930f8f.1
+        for <linux-staging@lists.linux.dev>; Fri, 05 Sep 2025 09:11:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1757088679; x=1757693479; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=AfRVaKjiP1EmsioqgdJeE1b+4oCBXAacMNkvC2Ja/Po=;
+        b=dGllx3w5XRIaVezeTIIK9qVAHdZhkwDxtPblDwYzH3gZWcA+yWWB69HYEpCBLXeU++
+         C2uM3CsKmuDoJglRWDt+gjV/wA9OoP6qWo9iaZpaxsW46WIa7sImNAxwmuJ1r40DyyZb
+         DD+wvPbPivWZGwkv0Gwq2Fz6kGdbmNDmYI5ouBPJeSIz6Jgm5sAYjlVQpj1Q9KXMDPgm
+         daIOR5/D1jk2PVPdjgWVPo2PZqUOKMcXdkvGBUZ3/X9DlpW2VF1kWqg1kMIYCouZ/0Lv
+         hy3PUF3QkA/lhpAbORP9aunIWH1FlBqEpjhlK8HF73R6RcEtJAQLRl9wcyC1y4/aQ+oL
+         8HGA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1757088679; x=1757693479;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=AfRVaKjiP1EmsioqgdJeE1b+4oCBXAacMNkvC2Ja/Po=;
+        b=h7hUDHtrvBkOI6Esknm6A60vvVPGAvL8FE0KYRWlE2z6wixESMVMNo5/z1aFdjX2vj
+         CB+B4zI+7DzseFbzoOouqCWkkmKPwHBVmrawlu1LxvbLnGn27Ymq5ts0Y0Y9kr9FWjiD
+         yMgJm/MeBntDeaV1oj0cYdVkuKkMaRcPrm/k/FvnVCpEzKgKSrmhJ8PXlLCoh2vQGrgo
+         653jVeOHnS6nT+jQsb6fW7OPv1e8fbHzaraxlVGEoi/2S6PlHVqqBektpwzQDTOKvWiZ
+         GbiQTfM8qsc89tzP7C34lx75XYXPlN8QLRiv22U1F8XJAb4YDXDVoU/08+0KZvlSskzW
+         XnRA==
+X-Forwarded-Encrypted: i=1; AJvYcCXUJqMl6xNCc1AVfK9hJ6fvNCLMV8e2hbw5n2FzvXw/XqN4mKQn10AbgaGkJlaaexIg6V7LBXR/2CR0Af0x@lists.linux.dev
+X-Gm-Message-State: AOJu0Yx6YSpC0dKWhtn4CpmOzzboeoLEeO2x4T6tgMt/OFtcYTtqA9qT
+	fTz/U4lXfyUHgLOYGv98Pej53mW8kc5PJvrSxraSHbF8X4xpF2fvIcrG0SdYdByBynazMTyI8E3
+	jktKiWv9jybj8yOoiYPvuTz0HvRPqB54=
+X-Gm-Gg: ASbGncuC0NN+gInK4gNtcwQPC5V6cOjtr3hPz/q7Hf6gqEIoiX/6pCoWtG7nDyb1DlV
+	1wDqPKz/zooGeBnz7Mvx9TfH4UWI2EBUwkJVzmaNcU8Jz4ekcXMBEDulFbtIXB+x11lPb+jcXxT
+	xtE/rJIaZzvt12jSGbV+LKPM+G0QY9fAUwhkU5Y1LkkRmoE4rPVRkpxuZlXg3qujXgy47RcYrYp
+	iJN0OUk8DRA5VA2KYphWc5YGVkQ4w==
+X-Google-Smtp-Source: AGHT+IH51v+ciKEEvcas7KruyEl9MpeeesNqdypPE/z9vKPInzfIea4uW80byqjYo8CWqBN/jvW/WkCZ27XkQSvaQPQ=
+X-Received: by 2002:a05:6000:2f87:b0:3d4:d572:b8eb with SMTP id
+ ffacd0b85a97d-3d4d5820387mr17089464f8f.45.1757088678552; Fri, 05 Sep 2025
+ 09:11:18 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-GND-State: clean
-X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdeggdelfeefucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvvefukfgjfhhoofggtgfgsehtjeeftdertddvnecuhfhrohhmpefnuhgtrgcuvegvrhgvshholhhiuceolhhutggrrdgtvghrvghsohhlihessghoohhtlhhinhdrtghomheqnecuggftrfgrthhtvghrnhepgeehffejffekudfhkeeklefgjeeuheekffelheejgfeijeehieelkedttdfhjedtnecuffhomhgrihhnpegsohhothhlihhnrdgtohhmnecukfhppedvrgdtvdemieejtdemvddtvddtmegvrgdtudemsggvgedumeelhegvjeemfeegfeemledufegvnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepvdgrtddvmeeijedtmedvtddvtdemvggrtddumegsvgegudemleehvgejmeefgeefmeeludefvgdphhgvlhhopegsohhothihpdhmrghilhhfrhhomheplhhutggrrdgtvghrvghsohhlihessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepvdelpdhrtghpthhtoheptghlrghmohhrleehsehgmhgrihhlrdgtohhmpdhrtghpthhtohepthhhihgvrhhrhidrrhgvughinhhgsehgmhgrihhlrdgtohhmpdhrtghpthhtohepthhrvgguihhnghesnhhvihguihgrrdgtohhmpdhrt
- ghpthhtohepmhhpvghrthhtuhhnvghnsehnvhhiughirgdrtghomhdprhgtphhtthhopehjohhnrghthhgrnhhhsehnvhhiughirgdrtghomhdprhgtphhtthhopehskhhomhgrthhinhgvnhhisehnvhhiughirgdrtghomhdprhgtphhtthhopegrihhrlhhivggusehgmhgrihhlrdgtohhmpdhrtghpthhtohepshhimhhonhgrsehffhiflhhlrdgthh
-X-GND-Sasl: luca.ceresoli@bootlin.com
+References: <20250819121631.84280-1-clamor95@gmail.com> <20250819121631.84280-14-clamor95@gmail.com>
+ <20250905180837.35547304@booty>
+In-Reply-To: <20250905180837.35547304@booty>
+From: Svyatoslav Ryhel <clamor95@gmail.com>
+Date: Fri, 5 Sep 2025 19:11:06 +0300
+X-Gm-Features: Ac12FXzeydZMbzruj0x2TMb09dNVozbOPlP5vr1tYKJLv-xNj-t8FjVS8o5nQcs
+Message-ID: <CAPVz0n2m4U-7G14Jhnsm41qsj0FVo39bdJ=f8kAm=+uxZyM0xw@mail.gmail.com>
+Subject: Re: [PATCH v1 13/19] staging: media: tegra-video: tegra20: set VI HW revision
+To: Luca Ceresoli <luca.ceresoli@bootlin.com>
+Cc: Thierry Reding <thierry.reding@gmail.com>, Thierry Reding <treding@nvidia.com>, 
+	Mikko Perttunen <mperttunen@nvidia.com>, Jonathan Hunter <jonathanh@nvidia.com>, 
+	Sowjanya Komatineni <skomatineni@nvidia.com>, David Airlie <airlied@gmail.com>, 
+	Simona Vetter <simona@ffwll.ch>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+	Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Peter De Schrijver <pdeschrijver@nvidia.com>, Prashant Gaikwad <pgaikwad@nvidia.com>, 
+	Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Dmitry Osipenko <digetx@gmail.com>, Charan Pedumuru <charan.pedumuru@gmail.com>, 
+	linux-media@vger.kernel.org, linux-tegra@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org, 
+	linux-staging@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, 19 Aug 2025 15:16:25 +0300
-Svyatoslav Ryhel <clamor95@gmail.com> wrote:
+=D0=BF=D1=82, 5 =D0=B2=D0=B5=D1=80. 2025=E2=80=AF=D1=80. =D0=BE 19:08 Luca =
+Ceresoli <luca.ceresoli@bootlin.com> =D0=BF=D0=B8=D1=88=D0=B5:
+>
+> On Tue, 19 Aug 2025 15:16:25 +0300
+> Svyatoslav Ryhel <clamor95@gmail.com> wrote:
+>
+> > Tegra20, Tegra30 and Tegra114 have VI revision 1.
+>
+> Why? You should mention the reason in the commit message.
+>
 
-> Tegra20, Tegra30 and Tegra114 have VI revision 1.
+Because TRM states that Tegra20, Tegra30 and Tegra114 have VI revision
+1, Tegra124 has VI revision 2 and Tegra210 has VI revision 3 (which is
+set in tegra210.c btw).
 
-Why? You should mention the reason in the commit message.
-
-But I don't see hw_revision used in the series, so unless I missed
-something you should drop this patch.
-
-Luca
-
--- 
-Luca Ceresoli, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+> But I don't see hw_revision used in the series, so unless I missed
+> something you should drop this patch.
+>
+> Luca
+>
+> --
+> Luca Ceresoli, Bootlin
+> Embedded Linux and Kernel engineering
+> https://bootlin.com
