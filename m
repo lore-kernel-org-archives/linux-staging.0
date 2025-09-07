@@ -1,112 +1,165 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88EA825B1C5;
-	Sat,  6 Sep 2025 19:17:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 378372139CE
+	for <linux-staging@lists.linux.dev>; Sun,  7 Sep 2025 08:58:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757186268; cv=none; b=QLAZwZzc8XTNWwtB00FZAIBlcFA6ZFLOL3WKCo/u1yQz5sZUZUUVBM2rfSxJhr+fu9P8be/BhAjJPxSdSakI6U1UalJfhVBzDZUfDTHEzjaqjnYrDskIFq2gdPvDHjdEbZjmvnGg526heDwY46peQbe996zB9rULxAQ6p58J+eM=
+	t=1757235485; cv=none; b=rhIbH8vkmDymAw/rVuggRmToYyzV47Ll0c2l3hhqy45Iqwo+1tIQ8aBBqVlm+z0OIrdGY4oWCRLhQ4ReM95S+aJl8AFUIl6+eHZV8/TvUTlx/CAHqzQsGhQBSdo2Xrdpi5iNptf9kvmOKzE9EpF/A2MA3sgd0p6JA3ElEeXpb+A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757186268; c=relaxed/simple;
-	bh=PKtVETpt3iAueUyOAHaFirlCACUUZHxID9Y/hmP47vQ=;
-	h=Date:Content-Type:MIME-Version:From:Cc:To:In-Reply-To:References:
-	 Message-Id:Subject; b=kFtM5W8XU4lMmyp4ADCVVaQya+ze6TJWx7I4iWKdBe3G25i8CaYbLbcrK9thdfq6+3JiyDK276yj//aDJW7ZD40fCC3MwRFQOo2uz3spdnQZ0khgSQtqmaGEpEJ+YgAabWuFibbtBLWKms2dHFazVUZb0SkVEDcWzUoMTYjrrtE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PRmMeziJ; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1757235485; c=relaxed/simple;
+	bh=m/UHy/ZLrHUE5XV08ED24MSjRUavmbTkg1b809+RU8k=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=UwYnYSmLISM8fpuLOcbg6r8924trO9OfgBFP1m4JMytep+ccqIPlMKoapbNY5Flm/DxdEFv+o/b08fbgY8v8EesvE9gd3DAcv/DQYusUNAeGe0+Ea2DqFFUM7raSPHkaYdc1MelcgIwJvr0f85WouZA4/BFlE0UsaPr7jedrGBA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=T19QGUw7; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PRmMeziJ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 35C21C4CEE7;
-	Sat,  6 Sep 2025 19:17:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1757186268;
-	bh=PKtVETpt3iAueUyOAHaFirlCACUUZHxID9Y/hmP47vQ=;
-	h=Date:From:Cc:To:In-Reply-To:References:Subject:From;
-	b=PRmMeziJu1HlJ53s8cvAtqN3495uZxs/Jtw+3b/wl/tpByw8ltRq0GtkKT5oNdf+C
-	 TAPPZz4RcsGIf/NRUAbhLQ1RSKhHGo5C/s6RGcWQE/PKHndd2wjq1zei3fsjuYZt5+
-	 /FxHE04rv5z6gL73pOHTaHTdlXmCUpjihD9LfZFQMUecsAMq/3zSKISSdOJQxTCN3f
-	 4Gw5xhCv7blWlgh30jQ+SKks6wMMmRv7JcZkwuBNy6dCHZBlWltomYuPA1N4Xy687k
-	 lv4lhcd9mWTWgfRbJ0jk8MKkaJeRUwkodnUSY+8hO/LuGvKxnmLYLtAH8FJfzD1M7P
-	 mYZfDluqIseqQ==
-Date: Sat, 06 Sep 2025 14:17:47 -0500
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="T19QGUw7"
+Received: from mail.ideasonboard.com (unknown [IPv6:2401:4900:1c67:84a2:d86d:fcf7:24b4:e467])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id B734E156F;
+	Sun,  7 Sep 2025 10:56:41 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1757235402;
+	bh=m/UHy/ZLrHUE5XV08ED24MSjRUavmbTkg1b809+RU8k=;
+	h=From:Subject:Date:To:Cc:From;
+	b=T19QGUw7UlW8ym1Uk9jeflpbJ0wV7oLmLHJUIzjZRlPsvJzRSrXVRownXT4OLqJKL
+	 5VKcb90+Iz7cJEizdLWAYG7H2VzBJJnUIQeggBj8OEFS5SoSTYfidFIQjGjhVZMDHF
+	 g5haGaLtnYQlnfpMNzY8ptJ+nDkhB9/nlRa+qhMg=
+From: Jai Luthra <jai.luthra@ideasonboard.com>
+Subject: [PATCH v2 0/5] staging: Destage VCHIQ interface and MMAL
+Date: Sun, 07 Sep 2025 14:26:20 +0530
+Message-Id: <20250907-vchiq-destage-v2-0-6884505dca78@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-From: "Rob Herring (Arm)" <robh@kernel.org>
-Cc: Conor Dooley <conor+dt@kernel.org>, 
- Charan Pedumuru <charan.pedumuru@gmail.com>, 
- =?utf-8?q?Jonas_Schw=C3=B6bel?= <jonasschwoebel@yahoo.de>, 
- Thierry Reding <thierry.reding@gmail.com>, David Airlie <airlied@gmail.com>, 
- Thierry Reding <treding@nvidia.com>, linux-clk@vger.kernel.org, 
- linux-media@vger.kernel.org, linux-staging@lists.linux.dev, 
- Maxime Ripard <mripard@kernel.org>, 
- Michael Turquette <mturquette@baylibre.com>, 
- Dmitry Osipenko <digetx@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Sowjanya Komatineni <skomatineni@nvidia.com>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Mauro Carvalho Chehab <mchehab@kernel.org>, 
- Prashant Gaikwad <pgaikwad@nvidia.com>, linux-tegra@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, 
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIALRIvWgC/3WMMQ4CIRBFr7KZWgygyGrlPcwWyIwyhaCwIZoNd
+ xe3t3z/570FCmWmAqdhgUyVC6fYQW8G8MHFOwnGzqClNnLUVlQf+CWQyuz6uTsiKTpYYyxCd56
+ Zbvxee5epc+Ayp/xZ81X91n+lqoQURhrtJI7K7/WZkVxJ8Zpcxq1PD5haa1/q7yECsQAAAA==
+X-Change-ID: 20250827-vchiq-destage-39de1e67557d
+To: Florian Fainelli <florian.fainelli@broadcom.com>, 
+ Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, 
  Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Luca Ceresoli <luca.ceresoli@bootlin.com>, 
- Mikko Perttunen <mperttunen@nvidia.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Thomas Zimmermann <tzimmermann@suse.de>, 
- Jonathan Hunter <jonathanh@nvidia.com>, Stephen Boyd <sboyd@kernel.org>, 
- linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
-To: Svyatoslav Ryhel <clamor95@gmail.com>
-In-Reply-To: <20250906135345.241229-5-clamor95@gmail.com>
-References: <20250906135345.241229-1-clamor95@gmail.com>
- <20250906135345.241229-5-clamor95@gmail.com>
-Message-Id: <175718505408.1618397.11958757465445078243.robh@kernel.org>
-Subject: Re: [PATCH v2 04/23] dt-bindings: display: tegra: document Tegra30
- VI and VIP
+ Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>
+Cc: linux-rpi-kernel@lists.infradead.org, 
+ linux-arm-kernel@lists.infradead.org, linux-staging@lists.linux.dev, 
+ linux-kernel@vger.kernel.org, kernel-list@raspberrypi.com, 
+ Stefan Wahren <wahrenst@gmx.net>, 
+ Dave Stevenson <dave.stevenson@raspberrypi.com>, 
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+ Jai Luthra <jai.luthra@ideasonboard.com>, 
+ Umang Jain <umang.jain@ideasonboard.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4287;
+ i=jai.luthra@ideasonboard.com; h=from:subject:message-id;
+ bh=m/UHy/ZLrHUE5XV08ED24MSjRUavmbTkg1b809+RU8k=;
+ b=owEBbQKS/ZANAwAKAUPekfkkmnFFAcsmYgBovUkFefTa9sxVPoan3sf14F8HxeMoyHhT0YFvN
+ ZNF5857Q7CJAjMEAAEKAB0WIQRN4NgY5dV16NRar8VD3pH5JJpxRQUCaL1JBQAKCRBD3pH5JJpx
+ RSPeEACPrBHdgfZT6tFgQOYwtqOzPQREVps+92zZIoOJ5pvGZsE+8wS9apRuYO8XIZEiht51P0s
+ hrBKXuCekn7r+x/KU2Fuawuozr2aGCRbMPa74OxPl1ZdUr0IK7nWRPdy4x4hbHPMtgga3eCUq7F
+ YJBHpg0TFd0blqFj1FkCt1pjQXN7Ub0gTZsEw/HkJa38L8tDgE2XkekBSfOnpPN9zn+BYZpMViu
+ Z/PQ7bGEQMbMZBGlK6rC4g2RJgsJ+gAocqqhcAlzjXkixWYa1ouGZUP3qM2uMxSaFjdXl7jngOT
+ 1UxDsAbwri7V25/MRKw6W8vviM58qcwfPJ2a7/9tDFDVmrY9XCXUaaqMjj181H5VB95wsb1UggE
+ nYuzdtoE63DrVBe3kVbcr37bHsP38NwGyqoZLQS2yW0RKfArRFcJkf/UhHuwJJ/fYuBdzdyoisC
+ xMywOqdw1mGmzReqRUTk697u4AwhW+F3qQB/b7T2gjfp604EUA8Mj6LWawkKvMlPEETPIDflHMX
+ os4F96CvdxVMNz0F+MA3Rmeu3kWnhkrXMYmMA57Bi8WYLoGtebPRiJJlJp3Hh6cx5iQl62rMnAm
+ CvRwxkadfqTFrwZ2DUZR0F6Zk5U8uE44znnHT9/gdkRy89PSWF1H9S248eV2u3HrTRclZxVko3o
+ zJKf4eV9h/AVoCg==
+X-Developer-Key: i=jai.luthra@ideasonboard.com; a=openpgp;
+ fpr=4DE0D818E5D575E8D45AAFC543DE91F9249A7145
 
+Hi,
 
-On Sat, 06 Sep 2025 16:53:25 +0300, Svyatoslav Ryhel wrote:
-> Existing Parallel VI interface schema for Tegra20 is fully compatible with
-> Tegra30; hence, lets reuse it by setting fallback for Tegra30.
-> 
-> Adjust existing VI schema to reflect that Tegra20 VI is compatible with
-> Tegra30 by setting a fallback for Tegra30. Additionally, switch to using
-> an enum instead of list of const.
-> 
-> Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
-> ---
->  .../display/tegra/nvidia,tegra20-vi.yaml      | 19 ++++++++++++-------
->  .../display/tegra/nvidia,tegra20-vip.yaml     |  9 +++++++--
->  2 files changed, 19 insertions(+), 9 deletions(-)
-> 
+The goal of this series is to begin the destaging and upstreaming
+process for various Raspberry Pi peripherals that currently interact
+with the firmware using the VCHIQ interface present in the staging tree.
 
-My bot found errors running 'make dt_binding_check' on your patch:
+While destaging the interface to drivers/platform/raspberrypi, also move
+the VCHIQ memory abstraction layer (MMAL) driver. Secondly, drop the
+bcm2835-camera driver, as the bcm2835-unicam driver using V4L2 framework
+is the recommended way to capture from CSI sensors on this platform.
 
-yamllint warnings/errors:
+The bcm2835-audio driver is left as-is in the staging tree, as I am not
+an expert on ALSA. Volunteers are welcome :)
 
-dtschema/dtc warnings/errors:
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-vip.yaml: properties:compatible: 'anyOf' conditional failed, one must be fixed:
-	'one0f' is not one of ['$ref', 'additionalItems', 'additionalProperties', 'allOf', 'anyOf', 'const', 'contains', 'default', 'dependencies', 'dependentRequired', 'dependentSchemas', 'deprecated', 'description', 'else', 'enum', 'exclusiveMaximum', 'exclusiveMinimum', 'items', 'if', 'minItems', 'minimum', 'maxItems', 'maximum', 'multipleOf', 'not', 'oneOf', 'pattern', 'patternProperties', 'properties', 'required', 'then', 'typeSize', 'unevaluatedProperties', 'uniqueItems']
-	'type' was expected
-	from schema $id: http://devicetree.org/meta-schemas/keywords.yaml#
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-vip.yaml: properties:compatible: Additional properties are not allowed ('one0f' was unexpected)
-	from schema $id: http://devicetree.org/meta-schemas/string-array.yaml#
+In (a) subsequent series, I will upstream the following components that
+use VCHIQ interface:
+- vc-sm-cma driver
+- bcm2835-isp driver
 
-doc reference errors (make refcheckdocs):
+Thanks,
+	Jai
 
-See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20250906135345.241229-5-clamor95@gmail.com
+Signed-off-by: Jai Luthra <jai.luthra@ideasonboard.com>
+---
+Changes in v2:
+- Destage to drivers/platform/raspberrypi instead
+- Move BCM_VIDECORE menuconfig definition to the new directory's Kconfig
+  along with BCM2835_VCHIQ and VCHIQ_CDEV
+- Link to v1: https://lore.kernel.org/r/20250827-vchiq-destage-v1-0-5052a0d81c42@ideasonboard.com
 
-The base for the series is generally the latest rc1. A different dependency
-should be noted in *this* patch.
+---
+Jai Luthra (4):
+      staging: vc04_services: Cleanup VCHIQ TODO entries
+      platform/broadcom: Destage VCHIQ interface
+      media: staging: Drop bcm2835-camera driver
+      platform/broadcom: Destage VCHIQ MMAL driver
 
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
+Umang Jain (1):
+      include: linux: Destage VCHIQ interface headers
 
-pip3 install dtschema --upgrade
+ MAINTAINERS                                        |    2 +
+ drivers/platform/Kconfig                           |    2 +
+ drivers/platform/Makefile                          |    1 +
+ drivers/platform/raspberrypi/Kconfig               |   52 +
+ drivers/platform/raspberrypi/Makefile              |   15 +
+ .../raspberrypi/vchiq-interface}/TESTING           |    0
+ drivers/platform/raspberrypi/vchiq-interface/TODO  |    4 +
+ .../raspberrypi/vchiq-interface}/vchiq_arm.c       |    9 +-
+ .../raspberrypi/vchiq-interface}/vchiq_bus.c       |    4 +-
+ .../raspberrypi/vchiq-interface}/vchiq_core.c      |    4 +-
+ .../raspberrypi/vchiq-interface}/vchiq_debugfs.c   |    6 +-
+ .../raspberrypi/vchiq-interface}/vchiq_dev.c       |    7 +-
+ .../raspberrypi/vchiq-interface}/vchiq_ioctl.h     |    3 +-
+ .../raspberrypi}/vchiq-mmal/Kconfig                |    0
+ .../raspberrypi}/vchiq-mmal/Makefile               |    0
+ .../raspberrypi}/vchiq-mmal/mmal-common.h          |    0
+ .../raspberrypi}/vchiq-mmal/mmal-encodings.h       |    0
+ .../raspberrypi}/vchiq-mmal/mmal-msg-common.h      |    0
+ .../raspberrypi}/vchiq-mmal/mmal-msg-format.h      |    0
+ .../raspberrypi}/vchiq-mmal/mmal-msg-port.h        |    0
+ .../raspberrypi}/vchiq-mmal/mmal-msg.h             |    0
+ .../raspberrypi}/vchiq-mmal/mmal-parameters.h      |    0
+ .../raspberrypi}/vchiq-mmal/mmal-vchiq.c           |    5 +-
+ .../raspberrypi}/vchiq-mmal/mmal-vchiq.h           |    0
+ drivers/staging/vc04_services/Kconfig              |   49 -
+ drivers/staging/vc04_services/Makefile             |   14 -
+ .../vc04_services/bcm2835-audio/bcm2835-vchiq.c    |    5 +-
+ .../staging/vc04_services/bcm2835-audio/bcm2835.c  |    3 +-
+ .../staging/vc04_services/bcm2835-audio/bcm2835.h  |    3 +-
+ .../staging/vc04_services/bcm2835-camera/Kconfig   |   13 -
+ .../staging/vc04_services/bcm2835-camera/Makefile  |    6 -
+ drivers/staging/vc04_services/bcm2835-camera/TODO  |   17 -
+ .../vc04_services/bcm2835-camera/bcm2835-camera.c  | 2011 --------------------
+ .../vc04_services/bcm2835-camera/bcm2835-camera.h  |  142 --
+ .../vc04_services/bcm2835-camera/controls.c        | 1399 --------------
+ drivers/staging/vc04_services/interface/TODO       |   28 -
+ .../include => include}/linux/raspberrypi/vchiq.h  |    0
+ .../linux/raspberrypi}/vchiq_arm.h                 |    0
+ .../linux/raspberrypi}/vchiq_bus.h                 |    0
+ .../linux/raspberrypi}/vchiq_cfg.h                 |    0
+ .../linux/raspberrypi}/vchiq_core.h                |    2 +-
+ .../linux/raspberrypi}/vchiq_debugfs.h             |    0
+ 42 files changed, 103 insertions(+), 3703 deletions(-)
+---
+base-commit: 8f5ae30d69d7543eee0d70083daf4de8fe15d585
+change-id: 20250827-vchiq-destage-39de1e67557d
 
-Please check and re-submit after running the above command yourself. Note
-that DT_SCHEMA_FILES can be set to your schema file to speed up checking
-your schema. However, it must be unset to test all examples with your schema.
+Best regards,
+-- 
+Jai Luthra <jai.luthra@ideasonboard.com>
 
