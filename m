@@ -1,167 +1,212 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 989072848BE;
-	Sun,  7 Sep 2025 18:25:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 695FB20B22
+	for <linux-staging@lists.linux.dev>; Mon,  8 Sep 2025 04:19:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757269552; cv=none; b=jJjIyNi8zIhzsUaC/h1iGVmVMvZC28zycV6vc4p80tDv7M2TWnyDxwTv8CNbeZUqzsjBAC9lbOXWjm01sxDeJjBQSte6MdmXAB556wQXGKbCRhQwMpLdvNp1nba/Jxew+jk1GeF9llf63M1/fReKOrydEA1fycyZYJFabVAsDKA=
+	t=1757305164; cv=none; b=BVjbB+fBnIt4KDk46qtil/DOo1pXcMiOtkR83ym6tHc3qPaocu+HgJnKbaczcfrHS+1EpNvYRr046I/iorJzHATWLPN7pv7oI/6hVwP5PzsmIMnuPJS8o22sz5eBlb0OJpji2HPx1oVXT6z/45YUziJKb4INlCgijw61iWLG1ZA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757269552; c=relaxed/simple;
-	bh=+sPc4sDK0wQ3cmQOVkoJCkycDz+H3zqsPZnLmuVLGP0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=gJH/OGAgqGHFrkUdeLvL1pmQTducuP0a1Y6Y0fQ5gycaBPGVop4VtbsQfdzmeZDmdQoJIdARBO+XKqFoZGFdouw9S7Ulw6anmqmT+bgIlSnKcv9zsklAuQpCnpP2Mb9T5oF40rYzqhjtw9+U/KBIYTyN1WpNo3CUX0COWUe6HJY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZFSTt8Wz; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1757305164; c=relaxed/simple;
+	bh=/jDIWK7i1bkbhteZhSWWZQoiGd9c1D9oHm8aowMZKQs=;
+	h=Content-Type:MIME-Version:In-Reply-To:References:Subject:From:Cc:
+	 To:Date:Message-ID; b=gJK4+4tX5ti3/wV7GqEoYnskAeX2Psq33O4OnpVLjbBn4Fzz6nGBwQH2wW9fpPOIg7OcbEYFzi4g2agwNVYF/EXxoiOaw3mj6/ShfEffgXQYjLP/DDPae/c2+7FEJYBC1T0WVNOtrHhYj5e8dvAJPNhbw252z2RfWPB0VtxCnNQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=KIwHQu87; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZFSTt8Wz"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EA2ABC4CEF0;
-	Sun,  7 Sep 2025 18:25:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1757269551;
-	bh=+sPc4sDK0wQ3cmQOVkoJCkycDz+H3zqsPZnLmuVLGP0=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=ZFSTt8WzBlU+uDrfxX7pbDbhYtk1O+2qUpgrIi4l2CNZmuIceUTKRQnvYHAkdHc+b
-	 L7GcHRr0bhRYiEnqbS5cTcfhWii6UYrdf9C5VjlD5lCmlCnmsleEOwwp4/P8C+2bOV
-	 TrajnyZaNT5/9ZTadAqZ0IQJkd1dHt3VI40EyRfpgkJpB4csIhxnV9twM4jBVOlWgM
-	 0MPtFYDwUDmC7YwH1ZMWzA/GwFTiIEMU8XIJ33Fcag6v66i8aJ4Vq/4ommEmxPT6eO
-	 tl+PZqGY5RxsvMQpoL/SxJu+QS06GSpPh34281hNk60GrU7YmGNn2efN+ZSffPPU3F
-	 N5f0hH7C0KN2A==
-Message-ID: <d4b0a933-a623-4a67-8898-d7c35604bb16@kernel.org>
-Date: Sun, 7 Sep 2025 20:25:42 +0200
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="KIwHQu87"
+Received: from mail.ideasonboard.com (unknown [223.190.86.44])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 15649596;
+	Mon,  8 Sep 2025 06:18:05 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1757305086;
+	bh=/jDIWK7i1bkbhteZhSWWZQoiGd9c1D9oHm8aowMZKQs=;
+	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+	b=KIwHQu87tkytX4QAfTXQG65ys8jzqvsky4JMDCf1MsVUeTzX+EveGlueSFAPkO+Z9
+	 YYf8loivxA4+msF6a2SBb/IG3myckK7LRGO+yGINw3TbJ0JUwQHhWMninpgaAPhSDH
+	 HI+9ecTX4XLjoduTpr+6KAFosE6iGeljPbSQ3vxc=
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 02/23] dt-bindings: clock: tegra30: Add IDs for CSI pad
- clocks
-To: Svyatoslav Ryhel <clamor95@gmail.com>
-Cc: Thierry Reding <thierry.reding@gmail.com>,
- Thierry Reding <treding@nvidia.com>, Mikko Perttunen
- <mperttunen@nvidia.com>, Jonathan Hunter <jonathanh@nvidia.com>,
- Sowjanya Komatineni <skomatineni@nvidia.com>,
- Luca Ceresoli <luca.ceresoli@bootlin.com>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Prashant Gaikwad <pgaikwad@nvidia.com>,
- Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
- <sboyd@kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Dmitry Osipenko <digetx@gmail.com>, =?UTF-8?Q?Jonas_Schw=C3=B6bel?=
- <jonasschwoebel@yahoo.de>, Charan Pedumuru <charan.pedumuru@gmail.com>,
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-media@vger.kernel.org, linux-clk@vger.kernel.org,
- linux-staging@lists.linux.dev
-References: <20250906135345.241229-1-clamor95@gmail.com>
- <20250906135345.241229-3-clamor95@gmail.com>
- <20250907-arboreal-aquatic-gopher-686643@kuoka>
- <CAPVz0n0obwSFDup2n9R9SQNsOZw1Dm0G=2ifv=D7zyw=89+uYQ@mail.gmail.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <CAPVz0n0obwSFDup2n9R9SQNsOZw1Dm0G=2ifv=D7zyw=89+uYQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20250907-vchiq-destage-v2-5-6884505dca78@ideasonboard.com>
+References: <20250907-vchiq-destage-v2-0-6884505dca78@ideasonboard.com> <20250907-vchiq-destage-v2-5-6884505dca78@ideasonboard.com>
+Subject: Re: [PATCH v2 5/5] platform/broadcom: Destage VCHIQ MMAL driver
+From: Jai Luthra <jai.luthra@ideasonboard.com>
+Cc: linux-rpi-kernel@lists.infradead.org, linux-arm-kernel@lists.infradead.org, linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, kernel-list@raspberrypi.com, Stefan Wahren <wahrenst@gmx.net>, Dave Stevenson <dave.stevenson@raspberrypi.com>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, Florian Fainelli <florian.fainelli@broadcom.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>
+Date: Mon, 08 Sep 2025 09:49:03 +0530
+Message-ID: <175730514393.8095.11390976339304146285@freya>
+User-Agent: alot/0.12.dev28+gd2c823fe
 
-On 07/09/2025 11:43, Svyatoslav Ryhel wrote:
-> нд, 7 вер. 2025 р. о 12:34 Krzysztof Kozlowski <krzk@kernel.org> пише:
->>
->> On Sat, Sep 06, 2025 at 04:53:23PM +0300, Svyatoslav Ryhel wrote:
->>> Tegra30 has CSI pad clock enable bits embedded into PLLD/PLLD2 registers.
->>> Add ids for these clocks. Additionally, move TEGRA30_CLK_CLK_MAX into
->>> clk-tegra30 source.
->>>
->>> Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
->>> ---
->>>  drivers/clk/tegra/clk-tegra30.c         | 1 +
->>>  include/dt-bindings/clock/tegra30-car.h | 3 ++-
->>>  2 files changed, 3 insertions(+), 1 deletion(-)
->>>
->>> diff --git a/drivers/clk/tegra/clk-tegra30.c b/drivers/clk/tegra/clk-tegra30.c
->>> index ca367184e185..ca738bc64615 100644
->>> --- a/drivers/clk/tegra/clk-tegra30.c
->>> +++ b/drivers/clk/tegra/clk-tegra30.c
->>> @@ -53,6 +53,7 @@
->>>  #define SYSTEM_CLK_RATE 0x030
->>>
->>>  #define TEGRA30_CLK_PERIPH_BANKS     5
->>> +#define TEGRA30_CLK_CLK_MAX          311
->>
->> Unused define drop.
->>
-> 
-> Specify, your comment is not clear.
-> 
->> Also, don't mix bindings and drivers. You cannot create such
->> dependencies.
-> 
-> I literally did what you told me to do! TEGRA30_CLK_CLK_MAX was
-> removed from binding, but it is used by the driver, so how you propose
+Quoting Jai Luthra (2025-09-07 14:26:25)
+> Destage the VCHIQ MMAL driver to drivers/platform/broadcom.
 
+s/broadcom/raspberrypi in the commit description and title as well
 
-I missed that you remove here old CLK_MAX... well, you did it quite
-different than all other cases leading to driver-binding dependency.
-Really, I thought you will just fix it immediately after my feedback and
-then new bindings come later, just like we did for every other SoC.
+Will fix in next version
 
-> to handle this without redefining TEGRA30_CLK_CLK_MAX and breaking
-> build with missing TEGRA30_CLK_CLK_MAX?
-There is really no problem there and if you put here at least some
-effort you would see how everyone else did it - add define to the driver
-in cleanup series, month ago or so and then change bindings.
-
-Fine to do it that way
-
-Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-
-
-
-Best regards,
-Krzysztof
+>=20
+> Signed-off-by: Jai Luthra <jai.luthra@ideasonboard.com>
+> ---
+>  MAINTAINERS                                                             =
+| 2 +-
+>  drivers/platform/raspberrypi/Kconfig                                    =
+| 2 ++
+>  drivers/platform/raspberrypi/Makefile                                   =
+| 1 +
+>  .../{staging/vc04_services =3D> platform/raspberrypi}/vchiq-mmal/Kconfig=
+  | 0
+>  .../{staging/vc04_services =3D> platform/raspberrypi}/vchiq-mmal/Makefil=
+e | 0
+>  .../vc04_services =3D> platform/raspberrypi}/vchiq-mmal/mmal-common.h   =
+  | 0
+>  .../vc04_services =3D> platform/raspberrypi}/vchiq-mmal/mmal-encodings.h=
+  | 0
+>  .../vc04_services =3D> platform/raspberrypi}/vchiq-mmal/mmal-msg-common.=
+h | 0
+>  .../vc04_services =3D> platform/raspberrypi}/vchiq-mmal/mmal-msg-format.=
+h | 0
+>  .../vc04_services =3D> platform/raspberrypi}/vchiq-mmal/mmal-msg-port.h =
+  | 0
+>  .../vc04_services =3D> platform/raspberrypi}/vchiq-mmal/mmal-msg.h      =
+  | 0
+>  .../vc04_services =3D> platform/raspberrypi}/vchiq-mmal/mmal-parameters.=
+h | 0
+>  .../vc04_services =3D> platform/raspberrypi}/vchiq-mmal/mmal-vchiq.c    =
+  | 0
+>  .../vc04_services =3D> platform/raspberrypi}/vchiq-mmal/mmal-vchiq.h    =
+  | 0
+>  drivers/staging/vc04_services/Kconfig                                   =
+| 2 --
+>  drivers/staging/vc04_services/Makefile                                  =
+| 1 -
+>  16 files changed, 4 insertions(+), 4 deletions(-)
+>=20
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index fc74a9e2e5a47b8c82cf68ef7c1fe3d37e2fe89b..856a2a489afbc95780769a708=
+540444aa5aa983a 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -4753,7 +4753,7 @@ S:        Maintained
+>  T:     git https://github.com/broadcom/stblinux.git
+>  F:     Documentation/devicetree/bindings/pci/brcm,stb-pcie.yaml
+>  F:     drivers/pci/controller/pcie-brcmstb.c
+> -F:     drivers/platform/raspberrypi/vchiq-interface
+> +F:     drivers/platform/raspberrypi/vchiq-*
+>  F:     drivers/staging/vc04_services
+>  F:     include/linux/raspberrypi/vchiq*
+>  N:     bcm2711
+> diff --git a/drivers/platform/raspberrypi/Kconfig b/drivers/platform/rasp=
+berrypi/Kconfig
+> index 9085e7464ec348fce5ec9f41a9019ab12eee964b..2c928440a47c08e4d452fe838=
+fe4105c608995a4 100644
+> --- a/drivers/platform/raspberrypi/Kconfig
+> +++ b/drivers/platform/raspberrypi/Kconfig
+> @@ -47,4 +47,6 @@ config VCHIQ_CDEV
+> =20
+>  endif
+> =20
+> +source "drivers/platform/raspberrypi/vchiq-mmal/Kconfig"
+> +
+>  endif
+> diff --git a/drivers/platform/raspberrypi/Makefile b/drivers/platform/ras=
+pberrypi/Makefile
+> index a807571c59a47bb418cbb1dfcc389219d0d0ff22..2a7c9511e5d8bbe11c05680ee=
+a016ef40796b648 100644
+> --- a/drivers/platform/raspberrypi/Makefile
+> +++ b/drivers/platform/raspberrypi/Makefile
+> @@ -12,3 +12,4 @@ ifdef CONFIG_VCHIQ_CDEV
+>  vchiq-objs +=3D vchiq-interface/vchiq_dev.o
+>  endif
+> =20
+> +obj-$(CONFIG_BCM2835_VCHIQ_MMAL)       +=3D vchiq-mmal/
+> diff --git a/drivers/staging/vc04_services/vchiq-mmal/Kconfig b/drivers/p=
+latform/raspberrypi/vchiq-mmal/Kconfig
+> similarity index 100%
+> rename from drivers/staging/vc04_services/vchiq-mmal/Kconfig
+> rename to drivers/platform/raspberrypi/vchiq-mmal/Kconfig
+> diff --git a/drivers/staging/vc04_services/vchiq-mmal/Makefile b/drivers/=
+platform/raspberrypi/vchiq-mmal/Makefile
+> similarity index 100%
+> rename from drivers/staging/vc04_services/vchiq-mmal/Makefile
+> rename to drivers/platform/raspberrypi/vchiq-mmal/Makefile
+> diff --git a/drivers/staging/vc04_services/vchiq-mmal/mmal-common.h b/dri=
+vers/platform/raspberrypi/vchiq-mmal/mmal-common.h
+> similarity index 100%
+> rename from drivers/staging/vc04_services/vchiq-mmal/mmal-common.h
+> rename to drivers/platform/raspberrypi/vchiq-mmal/mmal-common.h
+> diff --git a/drivers/staging/vc04_services/vchiq-mmal/mmal-encodings.h b/=
+drivers/platform/raspberrypi/vchiq-mmal/mmal-encodings.h
+> similarity index 100%
+> rename from drivers/staging/vc04_services/vchiq-mmal/mmal-encodings.h
+> rename to drivers/platform/raspberrypi/vchiq-mmal/mmal-encodings.h
+> diff --git a/drivers/staging/vc04_services/vchiq-mmal/mmal-msg-common.h b=
+/drivers/platform/raspberrypi/vchiq-mmal/mmal-msg-common.h
+> similarity index 100%
+> rename from drivers/staging/vc04_services/vchiq-mmal/mmal-msg-common.h
+> rename to drivers/platform/raspberrypi/vchiq-mmal/mmal-msg-common.h
+> diff --git a/drivers/staging/vc04_services/vchiq-mmal/mmal-msg-format.h b=
+/drivers/platform/raspberrypi/vchiq-mmal/mmal-msg-format.h
+> similarity index 100%
+> rename from drivers/staging/vc04_services/vchiq-mmal/mmal-msg-format.h
+> rename to drivers/platform/raspberrypi/vchiq-mmal/mmal-msg-format.h
+> diff --git a/drivers/staging/vc04_services/vchiq-mmal/mmal-msg-port.h b/d=
+rivers/platform/raspberrypi/vchiq-mmal/mmal-msg-port.h
+> similarity index 100%
+> rename from drivers/staging/vc04_services/vchiq-mmal/mmal-msg-port.h
+> rename to drivers/platform/raspberrypi/vchiq-mmal/mmal-msg-port.h
+> diff --git a/drivers/staging/vc04_services/vchiq-mmal/mmal-msg.h b/driver=
+s/platform/raspberrypi/vchiq-mmal/mmal-msg.h
+> similarity index 100%
+> rename from drivers/staging/vc04_services/vchiq-mmal/mmal-msg.h
+> rename to drivers/platform/raspberrypi/vchiq-mmal/mmal-msg.h
+> diff --git a/drivers/staging/vc04_services/vchiq-mmal/mmal-parameters.h b=
+/drivers/platform/raspberrypi/vchiq-mmal/mmal-parameters.h
+> similarity index 100%
+> rename from drivers/staging/vc04_services/vchiq-mmal/mmal-parameters.h
+> rename to drivers/platform/raspberrypi/vchiq-mmal/mmal-parameters.h
+> diff --git a/drivers/staging/vc04_services/vchiq-mmal/mmal-vchiq.c b/driv=
+ers/platform/raspberrypi/vchiq-mmal/mmal-vchiq.c
+> similarity index 100%
+> rename from drivers/staging/vc04_services/vchiq-mmal/mmal-vchiq.c
+> rename to drivers/platform/raspberrypi/vchiq-mmal/mmal-vchiq.c
+> diff --git a/drivers/staging/vc04_services/vchiq-mmal/mmal-vchiq.h b/driv=
+ers/platform/raspberrypi/vchiq-mmal/mmal-vchiq.h
+> similarity index 100%
+> rename from drivers/staging/vc04_services/vchiq-mmal/mmal-vchiq.h
+> rename to drivers/platform/raspberrypi/vchiq-mmal/mmal-vchiq.h
+> diff --git a/drivers/staging/vc04_services/Kconfig b/drivers/staging/vc04=
+_services/Kconfig
+> index b9e6f369f54c3af6225f181e08ac14e3de044062..2f6d1aaffdb2c1f11ec27e0fb=
+8050fef56e6a875 100644
+> --- a/drivers/staging/vc04_services/Kconfig
+> +++ b/drivers/staging/vc04_services/Kconfig
+> @@ -3,7 +3,5 @@ if BCM_VIDEOCORE
+> =20
+>  source "drivers/staging/vc04_services/bcm2835-audio/Kconfig"
+> =20
+> -source "drivers/staging/vc04_services/vchiq-mmal/Kconfig"
+> -
+>  endif
+> =20
+> diff --git a/drivers/staging/vc04_services/Makefile b/drivers/staging/vc0=
+4_services/Makefile
+> index 7a716a5c781530b673027b9f82ec94ebfd615f8a..ba15ec663af0fabaf0060456f=
+c997deb5e5e0533 100644
+> --- a/drivers/staging/vc04_services/Makefile
+> +++ b/drivers/staging/vc04_services/Makefile
+> @@ -1,4 +1,3 @@
+>  # SPDX-License-Identifier: GPL-2.0
+>  obj-$(CONFIG_SND_BCM2835)              +=3D bcm2835-audio/
+> -obj-$(CONFIG_BCM2835_VCHIQ_MMAL)       +=3D vchiq-mmal/
+> =20
+>=20
+> --=20
+> 2.50.1
+>
