@@ -1,85 +1,97 @@
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from www3141.sakura.ne.jp (www3141.sakura.ne.jp [49.212.207.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 126A01E5B64
-	for <linux-staging@lists.linux.dev>; Mon,  8 Sep 2025 13:35:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757338554; cv=none; b=Yx+atDCFb3w9nDiqBjLxcv1DnaH5RphFMCaQ++meh8LQCBmSglRk2sirzRBuH+Ba85p30NXzlP6tI4nS9d3Su4UbYiEzbQXGTHsXS/o3Qab2hFkci6EjWkUni0GH+6QgHuLSnPl+a66qLhfPTOpWRtkyFSGTxYsfcvoRyN1iNp0=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757338554; c=relaxed/simple;
-	bh=QlTLqNc89PFy/lYlep+bGSoF2OH8UGwJuVCbEjw9SEs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=clX9roSaWRHI2N627XUG8ewgOQ0I3CEaBaJkzb6D77O4eGMY6lYSxZvSYwnOBTtC8Dh8DgopDTqCkKlpLDStxHxSJosDd2u1kOeWPAWv07IEl62xReRJ/DbkigFsik15Tsrq70ew7z3na/pK/C2gNIOvX/a77eVlCbz8uM/I8hw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=cnOvDi8f; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6962215853B;
+	Mon,  8 Sep 2025 14:47:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=49.212.207.181
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1757342825; cv=pass; b=WxajCA2zVh8u4V2LrczMo91UZr7vP3VMRowet2J3HtdLtjP+IkVMbPt4U7/HrPCURxIPegw+NtwKZD1LCQ4saLKCiURG7q+QjEhwQrq9uOvLYLIJWFQ/WjCpNwax35Hd/RzLmb8/GVZ9JgtsKZLIXikVLWHfd6FKLQgekVBneSk=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1757342825; c=relaxed/simple;
+	bh=x7crhV08VPBnsufEovoxAY4NKlFOuXVLkS5Eme/gQ/g=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=GcxTN/+1jeK1nogHRK+5lLClBzclYZyEhvWaTe7nKJbJOE/2IPfmi9rFz0YQN1LSZd+/dLFxNr0s6ouJmw+ObFpmyaolJxyl1+i4afbYCr4jhysP3SWDdNIybHysXbUJS50UmhNW8g4tfsejDgntgywbQOwFlr0xt61iL1qrMiY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redadmin.org; spf=pass smtp.mailfrom=redadmin.org; dkim=pass (1024-bit key) header.d=redadmin.org header.i=@redadmin.org header.b=Za5epwye; arc=pass smtp.client-ip=49.212.207.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redadmin.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redadmin.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="cnOvDi8f"
-Received: from pendragon.ideasonboard.com (85-76-134-76-nat.elisa-mobile.fi [85.76.134.76])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 6184499F;
-	Mon,  8 Sep 2025 15:34:37 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1757338478;
-	bh=QlTLqNc89PFy/lYlep+bGSoF2OH8UGwJuVCbEjw9SEs=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=cnOvDi8fmOn4iFEW/0psuE1Hvib/uu/MIpR99Ok+ntP+dESabK64/nYulQ29GaTVO
-	 eLBiUgS92dxt8O8F3Ind4Y/H0NZWkTTjz4F04V8tnyd7PqFzIAa7K0mduG65MfbRrS
-	 lKz01QWIlnQtxUez1GfFxr9ua9SIEt4pkhxRMh1Y=
-Date: Mon, 8 Sep 2025 15:35:27 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Jai Luthra <jai.luthra@ideasonboard.com>
-Cc: Dan Carpenter <dan.carpenter@linaro.org>,
-	Florian Fainelli <florian.fainelli@broadcom.com>,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
-	linux-rpi-kernel@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org, kernel-list@raspberrypi.com,
-	Stefan Wahren <wahrenst@gmx.net>,
-	Dave Stevenson <dave.stevenson@raspberrypi.com>,
-	Umang Jain <umang.jain@ideasonboard.com>
-Subject: Re: [PATCH v2 0/5] staging: Destage VCHIQ interface and MMAL
-Message-ID: <20250908133527.GE26062@pendragon.ideasonboard.com>
-References: <20250907-vchiq-destage-v2-0-6884505dca78@ideasonboard.com>
- <aL5uKTiEYZP68xLd@stanley.mountain>
- <175733014607.8095.7451233410776368088@freya>
+	dkim=pass (1024-bit key) header.d=redadmin.org header.i=@redadmin.org header.b="Za5epwye"
+Received: from www.redadmin.org (ag129037.ppp.asahi-net.or.jp [157.107.129.37])
+	(authenticated bits=0)
+	by www3141.sakura.ne.jp (8.16.1/8.16.1) with ESMTPSA id 588EknhB011754
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
+	Mon, 8 Sep 2025 23:46:49 +0900 (JST)
+	(envelope-from weibu@redadmin.org)
+Received: from localhost (localhost [127.0.0.1])
+	by www.redadmin.org (Postfix) with ESMTP id E28D010A2494C;
+	Mon,  8 Sep 2025 23:46:48 +0900 (JST)
+X-Virus-Scanned: amavis at redadmin.org
+Received: from www.redadmin.org ([127.0.0.1])
+ by localhost (redadmin.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id ILztLWlsm_1U; Mon,  8 Sep 2025 23:46:45 +0900 (JST)
+Received: by www.redadmin.org (Postfix, from userid 1000)
+	id D7C1B109C12BC; Mon,  8 Sep 2025 23:46:44 +0900 (JST)
+Authentication-Results: www.redadmin.org; arc=none smtp.remote-ip=127.0.0.1
+ARC-Seal: i=1; a=rsa-sha256; d=redadmin.org; s=20231208space; t=1757342804;
+	cv=none; b=Yb9mTTu88UZWXCuHIlyiwA3tdVkIFgWZLQ/YzTiETPh6rfVMWh58taLLENPzHhZYRPQlvalCl9zQlww9Xhw+tKDZHxGo+GzElpGmFpj9i0ut8v8OlMyMmS0MzYpnCNcP385yzJeZ3aPaIdmXgK8E8C5QCE1zT4cdmSYSErgXEy8=
+ARC-Message-Signature: i=1; a=rsa-sha256; d=redadmin.org; s=20231208space;
+	t=1757342804; c=relaxed/relaxed;
+	bh=FB9DSy76R+KkspwmLdy7aTmCl+PBGT6k/7lmJ25wzDA=;
+	h=DKIM-Filter:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:
+	 X-Mailer:MIME-Version:Content-Transfer-Encoding; b=je1Y28R+zXs6SPTTPvaL9BgUu912JZNxjG3h8XglfKzKLxJpTmU75hktrqRRwQ+NMcjowUhE3sYwwlK60dqoyPGL7o0h6Y+o5VMLPIJqdMX0ppTZ2dK+S/hPKwqv0BczvY5Km7afXhDJCtbat5yjeVNJUXHfHLNCwC2RxhVtc70=
+ARC-Authentication-Results: i=1; www.redadmin.org
+DKIM-Filter: OpenDKIM Filter v2.11.0 www.redadmin.org D7C1B109C12BC
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redadmin.org;
+	s=20231208space; t=1757342804;
+	bh=FB9DSy76R+KkspwmLdy7aTmCl+PBGT6k/7lmJ25wzDA=;
+	h=From:To:Cc:Subject:Date:From;
+	b=Za5epwyegoMrSgbwNd00vRQaDHhvn0a7o1yxicxzP78N2WtArhHoyPl3WVHGxpozr
+	 Va0ykpVdssLVdvL5G4Yv3HXIsqpC0CqVxa7e99jGsicliUZTkX92fxZCCG/LSkK0a7
+	 yCDSmKbJw92HtuRkBJvHxMrFI3rVV0FGAUzCyMvI=
+From: Akiyoshi Kurita <weibu@redadmin.org>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Philipp Hortmann <philipp.g.hortmann@gmail.com>,
+        linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Cc: Akiyoshi Kurita <weibu@redadmin.org>
+Subject: [PATCH] staging: rtl8723bs: fix coding style in hal_com_phycfg.c
+Date: Mon,  8 Sep 2025 23:46:41 +0900
+Message-ID: <20250908144641.39518-1-weibu@redadmin.org>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <175733014607.8095.7451233410776368088@freya>
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, Sep 08, 2025 at 04:45:46PM +0530, Jai Luthra wrote:
-> Quoting Dan Carpenter (2025-09-08 11:18:25)
-> > It's really hard to review the code when it's just sigle line like
-> > this:
-> > 
-> > >  .../raspberrypi/vchiq-interface}/vchiq_arm.c       |    9 +-
-> > 
-> > It's also a head ache to do a cat -n filename and then copy and paste
-> > it into an email message...  I thought there was a trick to make the
-> > diff show up in the email?
-> > 
-> 
-> I am not sure how to configure b4 to give the full file path instead of
-> shortening it after the first file in a list.
-> 
-> Does git-format-patch already have some option? I can use that to ease
-> reviews till b4 adds support for this feature.
+The function definition for phy_StoreTxPowerByRateBase() did not
+follow the kernel coding style.
 
---stat=-1 should help. I don't know if -1 happens to work or is the
-official way to remove the limit. --stat=65535 should be big enough too
-:-)
+Move the closing parenthesis to the same line as the argument to fix
+the style issue reported by checkpatch.pl.
 
-> Or did I misunderstand your problem?
+Signed-off-by: Akiyoshi Kurita <weibu@redadmin.org>
+---
+ drivers/staging/rtl8723bs/hal/hal_com_phycfg.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
--- 
-Regards,
+diff --git a/drivers/staging/rtl8723bs/hal/hal_com_phycfg.c b/drivers/stagi=
+ng/rtl8723bs/hal/hal_com_phycfg.c
+index d5649e7d8f99..f137ec747ab3 100644
+--- a/drivers/staging/rtl8723bs/hal/hal_com_phycfg.c
++++ b/drivers/staging/rtl8723bs/hal/hal_com_phycfg.c
+@@ -60,9 +60,7 @@ phy_SetTxPowerByRateBase(struct adapter *Adapter, u8 RfPa=
+th,
+ }
+=20
+ static void
+-phy_StoreTxPowerByRateBase(
+-struct adapter *padapter
+-	)
++phy_StoreTxPowerByRateBase(struct adapter *padapter)
+ {
+ 	u8 path, base;
+=20
+--=20
+2.47.3
 
-Laurent Pinchart
