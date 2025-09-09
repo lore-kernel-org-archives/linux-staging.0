@@ -1,162 +1,84 @@
-Received: from www.redadmin.org (ag129037.ppp.asahi-net.or.jp [157.107.129.37])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7DAC3128AB
-	for <linux-staging@lists.linux.dev>; Mon,  8 Sep 2025 17:29:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=157.107.129.37
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757352584; cv=pass; b=hkhzzGTVy8j3kS+MJ5y7BVeDtzrWylIByCCLW9i26Q4XwLEmeabSDkjtKDRQQ3NXybeNRAYw6zM1wLB/+DfsImeB5Efpy8oTAX9DlMxJ0+KtDkx/Vhbd2ghd4Z5EBCNbHDDJEXyUt/jW8lfxQI4ybi9HFd9L8CCwCZsUbloJIhw=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757352584; c=relaxed/simple;
-	bh=Outa1seiw0Jw/DitDf8MCsEt0I6mlxIUZg/kSOj2Lgo=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=B0QVEPpyMOexJ/rcxrvS5yCRFf6cH4ouk+ZRGwj4Yvphki0ZqW2HD83tSgz6qJPa9tB5pajAqpU2AHhmTQFgCj60qxP2JSrc+g94Xp/+jzrzPt49nbNHoMpyC2Rkr9mstYXyyxxg0yQvckIYoez/LDaPOoooPdEbNOJzeuGYEIM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redadmin.org; spf=pass smtp.mailfrom=redadmin.org; dkim=pass (1024-bit key) header.d=redadmin.org header.i=@redadmin.org header.b=JFafQsHn; arc=pass smtp.client-ip=157.107.129.37
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redadmin.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redadmin.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1AF2317A5BE;
+	Tue,  9 Sep 2025 00:49:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1757378980; cv=none; b=Aicfk04SuAnK5/JT7D1SdB4xEw9eKGXmvctcJ5tNVcP68G/RXN2aGrf2Z4JUL4LvBQwUaqYMZXXpLhQuLwmgM5zSNrzt+Dwjyzs6hjarp1EZauJCeIffWd5vNekhUW+Ur4NP+R+7AZQ6whfUm/xYdt0muKh+qGpz9+xLFm9Uv8s=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1757378980; c=relaxed/simple;
+	bh=LQdIjGA0RNJfpAshsgQiaTl641ej9IcHvJemsA2HaVc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Du1ByzObNKYgNJjUJsZB6HJCns1UL0waQWuNtw6ZXh56ayE3tJ7GdwWaAjEkjtQhHFx/S0q2ecvb5u/bvO0c37+SGzB5fEw7DK1erwWYTxgIjXsTVWAx+eAp5E9L5Z8V6f69YdwfGpepbJVrJICAD35lVxrP4+qvoSzxj6PoOz0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DEjAnFvV; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redadmin.org header.i=@redadmin.org header.b="JFafQsHn"
-Received: from localhost (localhost [127.0.0.1])
-	by www.redadmin.org (Postfix) with ESMTP id 43E8410A2494C;
-	Tue,  9 Sep 2025 02:29:32 +0900 (JST)
-X-Virus-Scanned: amavis at redadmin.org
-Received: from www.redadmin.org ([127.0.0.1])
- by localhost (redadmin.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id 3E_pwIbrZ-_9; Tue,  9 Sep 2025 02:29:28 +0900 (JST)
-Received: by www.redadmin.org (Postfix, from userid 1000)
-	id 05F82109C12BC; Tue,  9 Sep 2025 02:29:28 +0900 (JST)
-Authentication-Results: www.redadmin.org; arc=none smtp.remote-ip=127.0.0.1
-ARC-Seal: i=1; a=rsa-sha256; d=redadmin.org; s=20231208space; t=1757352568;
-	cv=none; b=PkYTCWDybOf3qs1W9yS56T1cN2qfFqS+TGULKDec90fwvLobCu2tkdeQKAEviFZwsZwQ7gqQr1ur4m4h5Clfs9Z66+OmahsiHD7/VdEjYY/c2KMsJnLiDpAWDOpO1clZEKFv/iSaX9JYEcEH1sbK6e9ZkJ8IOt7PaykVvvEWN3E=
-ARC-Message-Signature: i=1; a=rsa-sha256; d=redadmin.org; s=20231208space;
-	t=1757352568; c=relaxed/relaxed;
-	bh=kZxHrX2DwqiQCCEPyMM3pu+6SFKHCaFNVhDazdiwPQY=;
-	h=DKIM-Filter:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:
-	 X-Mailer:MIME-Version:Content-Transfer-Encoding; b=JDDUtGhOoQvmv+aytVcnRX/3gcIcuv0J0VyhrOL9ntyzOX4HpFp7FUKu82qIsFAPk9Br8TIHUGwIrr6C0YfyvzDSbXiehGcRG9CCYToyNjoH6CnUSA2eUlpLn20k9tRESqXqcaOvRiRLxJbWvMSyEZJJxeZbZG96bqRSggdSsmk=
-ARC-Authentication-Results: i=1; www.redadmin.org
-DKIM-Filter: OpenDKIM Filter v2.11.0 www.redadmin.org 05F82109C12BC
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redadmin.org;
-	s=20231208space; t=1757352568;
-	bh=kZxHrX2DwqiQCCEPyMM3pu+6SFKHCaFNVhDazdiwPQY=;
-	h=From:To:Cc:Subject:Date:From;
-	b=JFafQsHnZs01hvH5YhcGRXgryP6HnBY+Kg0vzVYuSn26SiKQwpVyNioPy9gV1Mu6e
-	 jYj2YTHUccLIXvxtl14qv2sEfuVej2mysacUA9ePaI5ukfT4g99/u5Vg3+lqEvRFhw
-	 UqR1nJ7LcSVQJN80TV6zF1l/CcY3F3tuZQy/TPWs=
-From: Akiyoshi Kurita <weibu@redadmin.org>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Philipp Hortmann <philipp.g.hortmann@gmail.com>,
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DEjAnFvV"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C5BB6C4CEF1;
+	Tue,  9 Sep 2025 00:49:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1757378980;
+	bh=LQdIjGA0RNJfpAshsgQiaTl641ej9IcHvJemsA2HaVc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=DEjAnFvVJV70t+cqG1zPZc4VDEw9jZdRlv2CZ/TQ7EMJDgLhMY9aOixn3O9fXn3pg
+	 rxycI98+T+nYtMg+ZZcx+/AystCGSWx24HU1WlQb1tgtlPEKHxiJTq97+cTueyysPI
+	 5I3TZeQ/YUoGGJP1cjGO9re3wn7pcxjoJijO/4W9AHJRT0IstYHGHVStUDW/F7L70Y
+	 43Htj9vxSPdhFgAvtbCuER+ORqS0ywMiOsa3qtsUeVpIUkf0FdGXvEmzSGJzCY7dro
+	 l7qzALqD3DkbHZFA9YC/b+vjGjpxZNOzYK9HOs7QRkFsqNV4e5bF9+o3MNWAmvHhaL
+	 J3UbkZ9LK/L5g==
+Date: Mon, 8 Sep 2025 19:49:39 -0500
+From: "Rob Herring (Arm)" <robh@kernel.org>
+To: Svyatoslav Ryhel <clamor95@gmail.com>
+Cc: Thierry Reding <thierry.reding@gmail.com>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
 	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Cc: Akiyoshi Kurita <weibu@redadmin.org>
-Subject: [PATCH v2] staging: rtl8723bs: fix function definition style in hal_com_phycfg.c
-Date: Tue,  9 Sep 2025 02:29:25 +0900
-Message-ID: <20250908172925.58312-1-weibu@redadmin.org>
-X-Mailer: git-send-email 2.47.3
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	linux-tegra@vger.kernel.org, Prashant Gaikwad <pgaikwad@nvidia.com>,
+	linux-kernel@vger.kernel.org,
+	Mikko Perttunen <mperttunen@nvidia.com>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Charan Pedumuru <charan.pedumuru@gmail.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Michael Turquette <mturquette@baylibre.com>,
+	linux-clk@vger.kernel.org, Simona Vetter <simona@ffwll.ch>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Dmitry Osipenko <digetx@gmail.com>, Stephen Boyd <sboyd@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	David Airlie <airlied@gmail.com>, devicetree@vger.kernel.org,
+	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	Thierry Reding <treding@nvidia.com>,
+	Sowjanya Komatineni <skomatineni@nvidia.com>,
+	Luca Ceresoli <luca.ceresoli@bootlin.com>,
+	Jonas =?iso-8859-1?Q?Schw=F6bel?= <jonasschwoebel@yahoo.de>
+Subject: Re: [PATCH v2 12/23] dt-bindings: display: tegra: move
+ avdd-dsi-csi-supply from VI to CSI
+Message-ID: <175737897848.2324392.4970104076561451474.robh@kernel.org>
+References: <20250906135345.241229-1-clamor95@gmail.com>
+ <20250906135345.241229-13-clamor95@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250906135345.241229-13-clamor95@gmail.com>
 
-Several function definitions in this file did not follow the kernel
-coding style, spreading arguments across multiple lines.
 
-As requested by Dan Carpenter, fix all instances to place the function
-parameters and the closing parenthesis on the same line as the function
-name, improving readability and conforming to style guidelines.
+On Sat, 06 Sep 2025 16:53:33 +0300, Svyatoslav Ryhel wrote:
+> The avdd-dsi-csi-supply is CSI power supply, it has nothing to do with VI,
+> like same supply is used with DSI and has nothing to do with DC. Move it
+> to correct place.
+> 
+> Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
+> ---
+>  .../devicetree/bindings/display/tegra/nvidia,tegra20-vi.yaml   | 3 ---
+>  .../devicetree/bindings/display/tegra/nvidia,tegra210-csi.yaml | 3 +++
+>  2 files changed, 3 insertions(+), 3 deletions(-)
+> 
 
-Signed-off-by: Akiyoshi Kurita <weibu@redadmin.org>
----
- .../staging/rtl8723bs/hal/hal_com_phycfg.c    | 33 ++++---------------
- 1 file changed, 6 insertions(+), 27 deletions(-)
-
-diff --git a/drivers/staging/rtl8723bs/hal/hal_com_phycfg.c b/drivers/stagi=
-ng/rtl8723bs/hal/hal_com_phycfg.c
-index 75ed731bbb14..fa987a797b16 100644
---- a/drivers/staging/rtl8723bs/hal/hal_com_phycfg.c
-+++ b/drivers/staging/rtl8723bs/hal/hal_com_phycfg.c
-@@ -61,8 +61,6 @@ phy_SetTxPowerByRateBase(struct adapter *Adapter, u8 RfPa=
-th,
-=20
- static void
- phy_StoreTxPowerByRateBase(struct adapter *padapter)
--{
--	u8 path, base;
-=20
- 	for (path =3D RF_PATH_A; path <=3D RF_PATH_B; ++path) {
- 		base =3D PHY_GetTxPowerByRate(padapter, path, MGN_11M);
-@@ -80,9 +78,7 @@ u8 PHY_GetRateSectionIndexOfTxPowerByRate(struct adapter =
-*padapter, u32 RegAddr,
- u8 PHY_GetRateSectionIndexOfTxPowerByRate(struct adapter *padapter, u32 Re=
-gAddr, u32 BitMask)
- u8 PHY_GetRateSectionIndexOfTxPowerByRate(struct adapter *padapter, u32 Re=
-gAddr, u32 BitMask)
- 	struct dm_odm_t *pDM_Odm =3D &pHalData->odmpriv;
--	u8	index =3D 0;
--
--	if (pDM_Odm->PhyRegPgVersion =3D=3D 0) {
-+u8 PHY_GetRateSectionIndexOfTxPowerByRate(struct adapter *padapter, u32 Re=
-gAddr, u32 BitMask)
- 		switch (RegAddr) {
- 		case rTxAGC_A_Rate18_06:
- 			index =3D 0;
-@@ -137,16 +133,8 @@ void PHY_GetRateValuesOfTxPowerByRate(struct adapter *=
-padapter, u32 RegAddr, u32
-=20
-         switch (RegAddr) {
-         case rTxAGC_A_Rate18_06:
--        case rTxAGC_B_Rate18_06:
--                RateIndex[0] =3D PHY_GetRateIndexOfTxPowerByRate(MGN_6M);
--                RateIndex[1] =3D PHY_GetRateIndexOfTxPowerByRate(MGN_9M);
--                RateIndex[2] =3D PHY_GetRateIndexOfTxPowerByRate(MGN_12M);
--                RateIndex[3] =3D PHY_GetRateIndexOfTxPowerByRate(MGN_18M);
--                for (i =3D 0; i < 4; ++i)
--                        PwrByRateVal[i] =3D (s8)(((Value >> (i * 8 + 4)) &=
- 0xF) * 10 +
--                                               ((Value >> (i * 8)) & 0xF));
--                *RateNum =3D 4;
--                break;
-+void
-+PHY_GetRateValuesOfTxPowerByRate(struct adapter *padapter, u32 RegAddr, u3=
-2 BitMask, u32 Value, u8 *RateIndex, s8 *PwrByRateVal, u8 *RateNum)
-=20
-         /* add the rest of cases here ... */
-=20
-@@ -425,10 +413,8 @@ void PHY_SetTxPowerIndexByRateSection(
- static void phy_ConvertTxPowerByRateInDbmToRelativeValues(struct adapter *=
-padapter) 					     ARRAY_SIZE(cckRates));
-=20
- 	} else if (RateSection =3D=3D OFDM) {
--		u8 ofdmRates[]  =3D {MGN_6M, MGN_9M, MGN_12M, MGN_18M, MGN_24M, MGN_36M,=
- MGN_48M, MGN_54M}; 		PHY_SetTxPowerIndexByRateArray(padapter, RFPath,
--					       pHalData->CurrentChannelBW,
--					       Channel, ofdmRates,
--					       ARRAY_SIZE(ofdmRates));
-+static void
-+phy_ConvertTxPowerByRateInDbmToRelativeValues(struct adapter *padapter)
-=20
- 	} else if (RateSection =3D=3D HT_MCS0_MCS7) {
- 		u8 htRates1T[]  =3D {MGN_MCS0, MGN_MCS1, MGN_MCS2, MGN_MCS3, MGN_MCS4, M=
-GN_MCS5, MGN_MCS6, MGN_MCS7};
-@@ -498,14 +484,7 @@ u8 PHY_GetTxPowerIndexBase(struct adapter *padapter, u=
-8 RFPath, u8 Rate, enum ch
- 	case MGN_5_5M:
- 		index =3D 2;
- 		break;
--	case MGN_11M:
--		index =3D 3;
--		break;
--	case MGN_6M:
--		index =3D 4;
--		break;
--	case MGN_9M:
--		index =3D 5;
-+u8 PHY_GetTxPowerIndexBase(struct adapter *padapter, u8 RFPath, u8 Rate, e=
-num channel_width BandWidth, u8 Channel)
- 		break;
- 	case MGN_12M:
- 		index =3D 6;
---=20
-2.47.3
+Acked-by: Rob Herring (Arm) <robh@kernel.org>
 
