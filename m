@@ -1,103 +1,78 @@
-Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B48FD1DA4E
-	for <linux-staging@lists.linux.dev>; Tue,  9 Sep 2025 04:17:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4AD43EEA6;
+	Tue,  9 Sep 2025 04:43:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757391440; cv=none; b=I3jvt37NzlhLXkC3/alT4d27XQ6m5kGr8nxipFIJGfqRHg0SDkedDOhGwSzqwdTbdcezxdq6hywdgtn7nHBTyNMHYZAly+wBICfH4LkoPrZm3L0IGmZGnmuO/aqPB6rbE823ae/3E8bSOIjEJn+vCEnWW9e/mSWAeXnqKNFVMh4=
+	t=1757393026; cv=none; b=fY+18cw9vpCxooIxSWhcGsbbePLVH6s+KA8OG5OvZO2/g9Q0C8YaVVJdp1ZXK0oMErktmE6kGc0Xxbgl0EvxzjOYnEBMBUD0BpD1C87WkBS1ECe9A+PwdMtQ6KPfYbuua30lyS1fugNLWhVoRvo57PcniTYBu7GKJ7a1QzLZ/gU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757391440; c=relaxed/simple;
-	bh=WzfDYZ1/295BDSpNZdAsFTCdD4z1X2KS9R3h2y1gY2M=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=G5E+J+C3DWtMulLzHdsU7ZRS9H2UB0/UnaahZAUDDJzM0cJgW4M8RqMou18jGVTLYLY1EwdGwLtJXCz79SnEFZ02J/8AVlRQOHVgeXPQDtWbNAxsG1xgAH3Q3neyoZRmFOxIInF4mugPuKdZSCndwhiDB2gLUlnwGhZhjmlWy/I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jghul4Bh; arc=none smtp.client-ip=209.85.216.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1757393026; c=relaxed/simple;
+	bh=vK25CFkbQggNpHTev09//TCQa5dfJ8dUIU6Hdi5RXEE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=A1QxnhuSVplom9xZ/+5rle3fMPj08DQ46XUMkGPux2SE/SHsjcTSnfDR8lnmtH9pk9SP0QoTSHhiAu+VN0m+wtQNvakVwNjXPYVGFZClv1o9IN9EZ2id3Xl8JLlgEZnoBT1ahOvl08upz/A+Cxvj/INtGG/87ZGxKq+l3UeVUJA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=shGAxe/o; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jghul4Bh"
-Received: by mail-pj1-f43.google.com with SMTP id 98e67ed59e1d1-329e1c8e079so4395119a91.2
-        for <linux-staging@lists.linux.dev>; Mon, 08 Sep 2025 21:17:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1757391438; x=1757996238; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=Ez6ws/owLuMN5VyJ05mQBNBzD0cyX1jnOdsu5qx93Ps=;
-        b=jghul4Bh29SPCCGag7c2EYjiXjHC7YXEEVHlNGsH9N17cPV1qppwHtWGRYXFptR5tG
-         hh5NyMtw5vcU9jftLUYTr/p8OL8eyRQ3tLPNiePI+7/9aphzAPvReR7sU+/T3SQANZ04
-         Vre/jlydwj+VzO77aQO9VpES4YmaOw+J5ktM+feA2fRPMKWqbjgYM6SvaVoLCMtuaxj0
-         bygiXIzLhFpuOMNE8oiB/CXsFs/4/eOkugX0W6SlQqfAwF3xQejzZyCRPvuSkkgKdgCJ
-         Z9pz2R3I7wg/D9PU7obuKJ2e4/1kDsdh6Wx0w56WEg+DrwRq1k1ZUOv0R3VRwIGiUq7i
-         XFgA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757391438; x=1757996238;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Ez6ws/owLuMN5VyJ05mQBNBzD0cyX1jnOdsu5qx93Ps=;
-        b=SdqihsvpcJqhpoVf1KRnW6NqcCM2yBRbGz9I8BTFwZXkuk7ZnSo+PkznAmb0WkkNSX
-         iBx5oGZkLqSctmQPbti3x8TjsfTDbLDraopJbQ6NkI9f+Hd2YcUI7AS2W/UxaP2l32rc
-         h/qadOjEglSVF+dE3H9OAaCxw4qs1NP8toJHfpZ8cHebmIuBywOMQkqA1/SY+/N0O9GL
-         CPAEwCBTT3z3kutBF7Xm+AtJkOIld3EgqjRXq5WiuHlyyBSNyP6lSNDsF88ui00We95z
-         +MTa/fsR9UmNpj6WHq5PGpVmTNfuNszxb1KSFn4TFf5jeRdGRaVPzZYQv1vGC41mBZeN
-         xztA==
-X-Forwarded-Encrypted: i=1; AJvYcCVU2PshVVpN2a0DatMW2M1/m1BE4+eayTPG+8KOgH6Wv+Y63ejSwauYMAZT0rS3Uows3sLKnT9JSoVC+NGk@lists.linux.dev
-X-Gm-Message-State: AOJu0YzkZggvwC4elPruWC6kjKGRNuy+Ss/mAIwH1fkY6Atc7TC+YNMd
-	TI838jI9wa3XPMlyRn6kZCNSwUVURbrgA9SLsEbF7+De1l2+AGkgOnbl
-X-Gm-Gg: ASbGnctL6wfn4mNpo4IeGxOYUG3s2A7d0s+Udt3Z4ZBds/TU8T90lsp84V1j1KGKsjJ
-	ZltmxEGjffItS4Zv3qfZEITXw6zzfPMv9INrsBtPoHV/7LhbrxZ3Ty4BGazNiK481Fm0u3Zv2os
-	lL8II+96ttwDnSNYxzlXYZw2UgbSHpCASXRpEYV/E7QtuRffGpFULDUvY9pjFBu03wJbRF9tpdc
-	dI+MJiWJfa4/ttrld1/IxMO4OrNnbULJSONGz+ADpMtC7S0Az8ud1Nm2d59DZgLHaiI2syoWvSN
-	cv8dZnO72LgR9/JqtcqwAMRqHHbac89O2w+U+4nQeyQy3jsFWPymeHUHRq3rL3guJ95mEb4YeIx
-	dVvuVXdhkUiJOTzspB3s5/eCcchXt+DA+cVyE5g39
-X-Google-Smtp-Source: AGHT+IGzK1092pVJREpJAKVPiRzEhUau1GpXgrcz1XiLkQShk6Jw+e+QnC7Tw1XkjiDyvKNRr8g40A==
-X-Received: by 2002:a17:90b:3904:b0:32b:6132:5f94 with SMTP id 98e67ed59e1d1-32d43f95d02mr14142423a91.21.1757391437861;
-        Mon, 08 Sep 2025 21:17:17 -0700 (PDT)
-Received: from localhost ([2409:408d:3e07:67a0:20a1:b9c9:f581:f3be])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-774660e488esm562919b3a.2.2025.09.08.21.17.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 08 Sep 2025 21:17:17 -0700 (PDT)
-From: Gopi <ggopijeganathan@gmail.com>
-To: 
-Cc: ggopijeganathan@gmail.com,
-	Dave Penkler <dpenkler@gmail.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Michael Rubin <matchstick@neverthere.org>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Dan Carpenter <dan.carpenter@linaro.org>,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] staging: gpib: Declare processor directive as CONFIG_TNT4882
-Date: Tue,  9 Sep 2025 09:46:54 +0530
-Message-Id: <20250909041707.3001-1-ggopijeganathan@gmail.com>
-X-Mailer: git-send-email 2.25.1
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="shGAxe/o"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4B7B3C4CEF4;
+	Tue,  9 Sep 2025 04:43:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1757393025;
+	bh=vK25CFkbQggNpHTev09//TCQa5dfJ8dUIU6Hdi5RXEE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=shGAxe/ogayq9KvyhjpyByd0bpPsqa27IikvQmMgyD1rBoTO1RsXVwgAfGDrOx/Bc
+	 SA4fnZxAEmeKhyBmFFVFBJSyCFJ3A6JXgWb+1MGlJPPd6ZkLcKO0k4p9Uli/C4VyKc
+	 +mQGZS5G0u9/nEk0Qq6pAA/j0szXr0zpxyOz3owg=
+Date: Tue, 9 Sep 2025 06:43:38 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Akiyoshi Kurita <weibu@redadmin.org>
+Cc: Philipp Hortmann <philipp.g.hortmann@gmail.com>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: rtl8723bs: rtw_efuse.h: simplify copyright
+ banner
+Message-ID: <2025090917-tribute-dividers-abd6@gregkh>
+References: <20250909035804.129904-1-weibu@redadmin.org>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250909035804.129904-1-weibu@redadmin.org>
 
-Warning massage found by checkpatch.pl script.
+On Tue, Sep 09, 2025 at 12:58:04PM +0900, Akiyoshi Kurita wrote:
+> Replace the banner-style copyright comment with a single-line comment.
+> No functional changes.
+> 
+> Signed-off-by: Akiyoshi Kurita <weibu@redadmin.org>
+> ---
+>  drivers/staging/rtl8723bs/include/rtw_efuse.h | 9 +++------
+>  1 file changed, 3 insertions(+), 6 deletions(-)
+> 
+> diff --git a/drivers/staging/rtl8723bs/include/rtw_efuse.h b/drivers/staging/rtl8723bs/include/rtw_efuse.h
+> index 669565fa1c69..d791e35db769 100644
+> --- a/drivers/staging/rtl8723bs/include/rtw_efuse.h
+> +++ b/drivers/staging/rtl8723bs/include/rtw_efuse.h
+> @@ -1,9 +1,6 @@
+>  /* SPDX-License-Identifier: GPL-2.0 */
+> -/******************************************************************************
+> - *
+> - * Copyright(c) 2007 - 2011 Realtek Corporation. All rights reserved.
+> - *
+> - ******************************************************************************/
+> +/* Copyright(c) 2007 - 2011 Realtek Corporation. All rights reserved. */
+> +
+>  #ifndef __RTW_EFUSE_H__
+>  #define __RTW_EFUSE_H__
+>  
+> @@ -95,7 +92,7 @@ void EFUSE_GetEfuseDefinition(struct adapter *padapter, u8 efuseType, u8 type, v
+>  u8 efuse_OneByteRead(struct adapter *padapter, u16 addr, u8 *data, bool	 bPseudoTest);
+>  u8 efuse_OneByteWrite(struct adapter *padapter, u16 addr, u8 data, bool	 bPseudoTest);
+>  
+> -void Efuse_PowerSwitch(struct adapter *padapter, u8 bWrite, u8  PwrState);
+> +void Efuse_PowerSwitch(struct adapter *padapter, u8 bWrite, u8 PwrState);
 
-Signed-off-by: Gopi <ggopijeganathan@gmail.com>
----
- drivers/staging/gpib/tnt4882/tnt4882_gpib.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/staging/gpib/tnt4882/tnt4882_gpib.c b/drivers/staging/gpib/tnt4882/tnt4882_gpib.c
-index a17b69e34986..918a4cebbc6c 100644
---- a/drivers/staging/gpib/tnt4882/tnt4882_gpib.c
-+++ b/drivers/staging/gpib/tnt4882/tnt4882_gpib.c
-@@ -1369,7 +1369,7 @@ static struct pci_driver tnt4882_pci_driver = {
- 	.probe = &tnt4882_pci_probe
- };
- 
--#if 0
-+#ifdef CONFIG_TNT4882
- /* unused, will be needed when the driver is turned into a pnp_driver */
- static const struct pnp_device_id tnt4882_pnp_table[] = {
- 	{.id = "NICC601"},
--- 
-2.25.1
+This doesn't look like a copyright banner change :(
 
