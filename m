@@ -1,93 +1,156 @@
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 319CB236435
-	for <linux-staging@lists.linux.dev>; Tue,  9 Sep 2025 07:54:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A49A43191C3
+	for <linux-staging@lists.linux.dev>; Tue,  9 Sep 2025 10:13:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.85.4
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757404500; cv=none; b=R4iECarG6qA2B3K8agQVO+Z0+RyCUhieIBu8WfMNaDlimve6mErfZqS55WNtshiLqONfTCvsFGB8DFX/KW3DzlbNEQ3vrr0JSTOEOff3ghRrOnIqlktGUQ8uqxnhu+YkpG7S9qR8Tz1j4firTMPyyCaQ/Xk4PVrsSL218hpNsKY=
+	t=1757412826; cv=none; b=LLXFchl1k+pmVNwPociw6h+pZavjOtyOVbjhGQzy84mEsLLQSLUv7RPgG6OtG/IwARYUIIn/nHZeHrNloa34mEck48HGV108rQW2BftSKu50o5xlUBjcqMxO//2pmH36tY1b/dGDFEaw/vsfLBOu71KFhA1cTXI7vhh2xBbpnFU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757404500; c=relaxed/simple;
-	bh=bPYYoqftfSKsz0hlk498WcRINtzXQZnNUseNh+Begto=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=u8lVg5EZq5U5Q7WlH1jseaNZyNh4u20TezXvMOnrKjlWvqjLSL+Ma1UiWL/ytnfVs5G8qa9Pb4cxEQV2PtOCvatdf2zgUGSrc8YBfMNzzvUUb4VNldpbTB/gEMzNLKfwJ7Qe236KM/u0GrFXAIwXcO7jD0PJ2CEEETCjqKGjsWY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=VvC0MdPr; arc=none smtp.client-ip=209.85.221.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1757412826; c=relaxed/simple;
+	bh=mcfC+h1eStW2uUhSrWJrqUQ4K9R4hrohvIKBqKE5M9I=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=nnsRqbrivAauEiv+rlZOQ9Okm/6iDHm/CEnrPz+umh1jjw5Iio/MsXUhx0lRn79rn5X/xU6fibn+jQiqkbwF5u/g+44LIV4rR2LwE0ykO0NmmtgpX12JbgnW2Mdbtvs2jwfhL10siXZxg5MeV/ZHBWBwInI3mzfRXIBPQxLSEDs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=TSlW3BhB; arc=none smtp.client-ip=185.246.85.4
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="VvC0MdPr"
-Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-3e5190bca95so1812336f8f.0
-        for <linux-staging@lists.linux.dev>; Tue, 09 Sep 2025 00:54:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1757404497; x=1758009297; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=t5sZUHke1cOrNWY6qZMJoyROLt4T1nD+uxD+OwzRsAo=;
-        b=VvC0MdPrg7z6VYENqIN2WjSL0iCETulDqJi+7n/jsewmlBJOlfpByBAojns3g97kur
-         6EVuR2Gpe3Y0FO++r8l2WDNneK7UcZwu6/TG8eVklooeiXI5nstr1xOJiUEGgxA2fR1Y
-         9AdBB/Pmrgo2mI4RAd9nY9Nr32EMtheKVmP0di40hD3qKZ6AHRosboWGCeGiE8YN3I54
-         SyLJpVAG6rYZ2Mfp7F8cZL45wvORi3B8hVFZ7074bReBD5Cu2hwQr9rEpFXfGg05SH2w
-         mJIr5nWFc8Xfi4s+AjMmr+MuLhNmrgmSZeXT3SYFNxdK2Cos0V7pQM3iNEDWLFfyAdC5
-         Nlyg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757404497; x=1758009297;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=t5sZUHke1cOrNWY6qZMJoyROLt4T1nD+uxD+OwzRsAo=;
-        b=OIAa8/F/o9M7/aFmTs92J71NcKsj92sN0XT1YLMfF6BRNLKBKiB0hOKY40EVBSO8c+
-         G5HuKoKBaY5zcvodOiH4cjFUXE0ZOKd3ORXXbvjJhO/4ztBV8UavIwe+6Lye5DWa6N43
-         Otn+1QuZECEIba7E9fKg5S120yLQpa3gk0pcLkamoJuO+7fNaJ/6Ps1Eecnc18F6B14I
-         KD6hJsGsZgBAQw412YrKb6k7PT3WfPqLM03eSezBa6NsW/vEE83ElcToDF4JC+qLwKWI
-         h+gwP4bQyQMVdyimNPtjGSAwRhHt7RQOpLEy+3e/tzG/G87xzOXgWUj+SidwV8EgcYzD
-         64RA==
-X-Forwarded-Encrypted: i=1; AJvYcCXFsGr8nj80eZVDst/oPk+sq1QyAsAkNu88PJJy2JgxiqpcBRXdJzyJX2JCjEJekQgSdnQf1OYmcx7Z8+L5@lists.linux.dev
-X-Gm-Message-State: AOJu0YyyKz5bKaVhKw7eSX+VLMbnT0akZnxZ2x6zPLdH5xFBIIpmapak
-	fgoGmqtkm/js5EZsUD1SL4C2p70MW6DHMZGIjYyW6oJcCikS0SEU5ClWr1UfsylO5dFaIATQO1H
-	XdBsM
-X-Gm-Gg: ASbGncsaRXm3TKhXjg5d8MO5fqn0/Gkfyoq0fIxxzr9cRRiXrI1IPrMkHfpKj4nxloC
-	T/zupcamWdnOA70MI/fSjXvax3NzLana4ynZnRpKe9tq9Uyxzxkft/K6boFLq59ooaF4Yd6lRc3
-	xh57pjeDA/3mvuaHBgRqWNLdqBiScTYCnQc0HTHyn0z+HiFGNIlwfxI0B6dW7uLAuAZKGgIN3xl
-	B39RIBPiLc3SKfSFiOSkYHPBdrlpEwkJyfenxHRUPS6yEDY/Xe3ujlIuAm5tz/n8MD3mgm5nRlD
-	Teg2tuwDAo/SWu6NTdXs5y2VA1LvUDLhj21tGVCyNRjmSwaoey0pEcexi1dnLZc4YHQZqaHiIYx
-	ygVedeZTd+TRt+bXgWpr4sDHuGzE4wBm1VQlh5g==
-X-Google-Smtp-Source: AGHT+IFMrL+qpqVZLHtIpk0NAIPagB6TkPEvQUOKqRDE9Ox6P//HG3+ZZPicp7UNZIR5zh9FPOH4xQ==
-X-Received: by 2002:a05:6000:144a:b0:3d1:61f0:d253 with SMTP id ffacd0b85a97d-3e64cc61000mr8735700f8f.60.1757404497452;
-        Tue, 09 Sep 2025 00:54:57 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-45deff68b43sm5564215e9.2.2025.09.09.00.54.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 09 Sep 2025 00:54:57 -0700 (PDT)
-Date: Tue, 9 Sep 2025 10:54:53 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Yiming Qian <qianym1996@gmail.com>
-Cc: gregkh@linuxfoundation.org, linux-fbdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev,
-	sudipm.mukherjee@gmail.com, teddy.wang@siliconmotion.com
-Subject: Re: [PATCH v2 0/2] fix coding style issues in sm750.h
-Message-ID: <aL_dTVlN13Q2nYX0@stanley.mountain>
-References: <aL5tjv_2YkvHPs5C@stanley.mountain>
- <20250909060130.12919-1-qianym1996@gmail.com>
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="TSlW3BhB"
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-03.galae.net (Postfix) with ESMTPS id EAD754E40C65;
+	Tue,  9 Sep 2025 10:13:41 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id BD17360630;
+	Tue,  9 Sep 2025 10:13:41 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 73E5D102F2894;
+	Tue,  9 Sep 2025 12:13:21 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1757412820; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=ncdmf1jhLSIzFX+n3bWuOq0zu5sbccap6rdFTbTyrp4=;
+	b=TSlW3BhBfGVHzv475bNiMhL8Bw8Af3XCJJTHeL2j78xMN8yMp46G3obLq8qYawvTQ+Z8O/
+	6qzCYGbzQEw4iyUDCgRjdPeepGT+ksqfZ2l0FwtHikXZcix/OsxLr1Rg2wLHg70jilqdlO
+	5rOAmGcIyiz4VYuU36vecgaQ+lvkfX6ApdRXwREj2aFFzfdOT/hW+BQpe7H5mYrYGSZ4Zq
+	XPvT/PKdMkxw+20IuhZprIRd1cmd0Z2uv5nhGSHYthrbUJSf7ZAShC9QKaNQuN9f15CKBm
+	6ArHqVKmlB6kCpf8WrEEY45YAgcNExhUyH1uqIBIWMCLEuQUzndLSoe7/1Px1w==
+Date: Tue, 9 Sep 2025 12:13:17 +0200
+From: Luca Ceresoli <luca.ceresoli@bootlin.com>
+To: Svyatoslav Ryhel <clamor95@gmail.com>
+Cc: Thierry Reding <thierry.reding@gmail.com>, Thierry Reding
+ <treding@nvidia.com>, Mikko Perttunen <mperttunen@nvidia.com>, Jonathan
+ Hunter <jonathanh@nvidia.com>, Sowjanya Komatineni
+ <skomatineni@nvidia.com>, David Airlie <airlied@gmail.com>, Simona Vetter
+ <simona@ffwll.ch>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann
+ <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>, Krzysztof Kozlowski
+ <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Peter De
+ Schrijver <pdeschrijver@nvidia.com>, Prashant Gaikwad
+ <pgaikwad@nvidia.com>, Michael Turquette <mturquette@baylibre.com>, Stephen
+ Boyd <sboyd@kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, Greg
+ Kroah-Hartman <gregkh@linuxfoundation.org>, Dmitry Osipenko
+ <digetx@gmail.com>, Charan Pedumuru <charan.pedumuru@gmail.com>,
+ linux-media@vger.kernel.org, linux-tegra@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org,
+ linux-staging@lists.linux.dev
+Subject: Re: [PATCH v1 09/19] staging: media: tegra-video: vi: add flip
+ controls only if no source controls are provided
+Message-ID: <20250909121317.6f34e2f3@booty>
+In-Reply-To: <CAPVz0n0_DJh9M-h5a0bcBA8b6_7vzgOYSktGxAhFzuVncoJhmw@mail.gmail.com>
+References: <20250819121631.84280-1-clamor95@gmail.com>
+	<20250819121631.84280-10-clamor95@gmail.com>
+	<20250905175915.2d7e02a7@booty>
+	<CAPVz0n0_DJh9M-h5a0bcBA8b6_7vzgOYSktGxAhFzuVncoJhmw@mail.gmail.com>
+Organization: Bootlin
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250909060130.12919-1-qianym1996@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Last-TLS-Session-Version: TLSv1.3
 
-On Tue, Sep 09, 2025 at 02:01:28PM +0800, Yiming Qian wrote:
-> Fix volatile and camelCase issues in coding style:
-> 
-> changes in v2:
-> - Split single patch into two separate patches as suggested
-> 
+Hello Svyatoslav,
 
-Thanks!
+On Fri, 5 Sep 2025 19:05:16 +0300
+Svyatoslav Ryhel <clamor95@gmail.com> wrote:
 
-Reviewed-by: Dan Carpenter <dan.carpenter@linaro.org>
+> =D0=BF=D1=82, 5 =D0=B2=D0=B5=D1=80. 2025=E2=80=AF=D1=80. =D0=BE 18:59 Luc=
+a Ceresoli <luca.ceresoli@bootlin.com> =D0=BF=D0=B8=D1=88=D0=B5:
+> >
+> > Hello Svyatoslav,
+> >
+> > On Tue, 19 Aug 2025 15:16:21 +0300
+> > Svyatoslav Ryhel <clamor95@gmail.com> wrote:
+> > =20
+> > > Add HFLIP and VFLIP from SoC only if camera sensor does not provide t=
+hose
+> > > controls.
+> > >
+> > > Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
+> > > ---
+> > >  drivers/staging/media/tegra-video/vi.c | 9 ++++++---
+> > >  1 file changed, 6 insertions(+), 3 deletions(-)
+> > >
+> > > diff --git a/drivers/staging/media/tegra-video/vi.c b/drivers/staging=
+/media/tegra-video/vi.c
+> > > index 4f67adc395ac..61b65a2c1436 100644
+> > > --- a/drivers/staging/media/tegra-video/vi.c
+> > > +++ b/drivers/staging/media/tegra-video/vi.c
+> > > @@ -961,6 +961,7 @@ static int tegra_channel_setup_ctrl_handler(struc=
+t tegra_vi_channel *chan)
+> > >       }
+> > >  #else
+> > >       struct v4l2_subdev *subdev;
+> > > +     struct v4l2_ctrl *hflip, *vflip;
+> > >
+> > >       /* custom control */
+> > >       v4l2_ctrl_new_custom(&chan->ctrl_handler, &syncpt_timeout_ctrl,=
+ NULL);
+> > > @@ -986,11 +987,13 @@ static int tegra_channel_setup_ctrl_handler(str=
+uct tegra_vi_channel *chan)
+> > >               return ret;
+> > >       }
+> > >
+> > > -     if (chan->vi->soc->has_h_v_flip) {
+> > > +     hflip =3D v4l2_ctrl_find(subdev->ctrl_handler, V4L2_CID_HFLIP);
+> > > +     if (chan->vi->soc->has_h_v_flip && !hflip)
+> > >               v4l2_ctrl_new_std(&chan->ctrl_handler, &vi_ctrl_ops, V4=
+L2_CID_HFLIP, 0, 1, 1, 0);
+> > > -             v4l2_ctrl_new_std(&chan->ctrl_handler, &vi_ctrl_ops, V4=
+L2_CID_VFLIP, 0, 1, 1, 0);
+> > > -     }
+> > >
+> > > +     vflip =3D v4l2_ctrl_find(subdev->ctrl_handler, V4L2_CID_VFLIP);
+> > > +     if (chan->vi->soc->has_h_v_flip && !vflip)
+> > > +             v4l2_ctrl_new_std(&chan->ctrl_handler, &vi_ctrl_ops, V4=
+L2_CID_VFLIP, 0, 1, 1, 0); =20
+> >
+> > Based on my understanding of V4L2, this should not be done.
+> > AFAIK subdevs should expose what the hardware block can do,
+> > independently from other subdevs. It is up to userspace (e.g.
+> > libcamera) to use the most appropriate control when there are redundant
+> > ones.
+> > =20
+>=20
+> This driver is video-centric, interactions are done via /dev/videoX
+> not subdevices like media-centric derivers do. Conversion is possible
+> but it is not scope of this patchset and in case such conversion takes
+> place, one who will do that, will definitely know what to do.
+> Video-centric drivers expose all controls within single video device
+> and it cannot hold duplicates of controls, this causes error. So this
+> solution exposes camera flip controls and if camera has none, SoC
+> controls are exposed.
 
-regards,
-dan carpenter
+Sorry, forgot to think in the past. :-)
+Thanks for the clarification, it makes sense now!
+
+Luca
+
+--=20
+Luca Ceresoli, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
