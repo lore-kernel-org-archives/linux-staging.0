@@ -1,128 +1,102 @@
-Received: from www.redadmin.org (ag129037.ppp.asahi-net.or.jp [157.107.129.37])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 757133597A
-	for <linux-staging@lists.linux.dev>; Tue,  9 Sep 2025 05:36:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=157.107.129.37
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757396167; cv=pass; b=oc+ChHy+/if17hfDuoDFqNvkW81WLfB5Dkox905lkwbVNkFX/+WRum88lhdUyvUZuf/adsH0wufoCEYouLC5gexW+nVGEoXTzqhBaguqKLjp9Gq0Oxbltifxr/Ky4mbwKOaO22VO3hKklP2Vd2mEO67jWixDmWnHR1dt56fn1iA=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757396167; c=relaxed/simple;
-	bh=hqF+nTI2qsoTph3y5+X0NPupecETl+Kl1t6FzuGP3yc=;
-	h=MIME-Version:Date:From:To:Cc:Subject:In-Reply-To:References:
-	 Message-ID:Content-Type; b=vA8AWpfWFvrhui2wCHPIAQTygbA1ntH5X4IjKHOwUVWhP1zqw8nrqX/4HhoJrecoe6BWO03mr6RyppxkfwZykbDOjojpbm8bvtkKVtq2BDTIIj7mgUdSV5UKPj/TouI3dWpH9BmZ8Cu+MkQItoe3cTdzhMvozwkvr9Y8t9SU9dA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redadmin.org; spf=pass smtp.mailfrom=redadmin.org; dkim=pass (1024-bit key) header.d=redadmin.org header.i=@redadmin.org header.b=rT9w5P0J; arc=pass smtp.client-ip=157.107.129.37
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redadmin.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redadmin.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C02B922756A
+	for <linux-staging@lists.linux.dev>; Tue,  9 Sep 2025 06:03:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.42
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1757397786; cv=none; b=Ux3M5hcXRppVeRxaM17gSWLLH0J3sLsupy8Yv5Q5I6e6zDGA/kBf19ygE+Rb6pIldzZz+pZZ29x/q2rbaNTz8dfQc4CJHGagXvAZzXnEuFA1/jFgSFFjkCV0sKsNYtLJEtUz5/lFv8kM3oJt9CvofLl1OUtaxULpJFhfbBS7KC8=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1757397786; c=relaxed/simple;
+	bh=1mv0aNBNacoR8Z3k1QWoVR0SCJGhdYSQQ+8O3o2QeEQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=pnHnt3iPMPCX6V3M7nVYtK10aYWi8nzfqHoyZ2mvskEYH6fiDcvJyFvMxJ2v/fJCEybKpSCglvoOoRdKgAEqBiUBdYPA7w0yvciaSKaigGvGo2E6NqbaSt1QEqlk47bxMjoZ1NXaw2cQICL646L0U262CtWslWIWsv5Jz9W6U/A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HtRtLETp; arc=none smtp.client-ip=209.85.216.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redadmin.org header.i=@redadmin.org header.b="rT9w5P0J"
-Received: from localhost (localhost [127.0.0.1])
-	by www.redadmin.org (Postfix) with ESMTP id E497B10A2494E;
-	Tue,  9 Sep 2025 14:36:03 +0900 (JST)
-X-Virus-Scanned: amavis at redadmin.org
-Received: from www.redadmin.org ([127.0.0.1])
- by localhost (redadmin.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id MqA_TB_5KTOK; Tue,  9 Sep 2025 14:36:00 +0900 (JST)
-Received: from webmail.redadmin.org (redadmin.org [192.168.11.50])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-256) server-digest SHA256)
-	(Client did not present a certificate)
-	(Authenticated sender: weibu@redadmin.org)
-	by www.redadmin.org (Postfix) with ESMTPSA id ADC1610A2494C;
-	Tue,  9 Sep 2025 14:36:00 +0900 (JST)
-DMARC-Filter: OpenDMARC Filter v1.4.2 www.redadmin.org ADC1610A2494C
-Authentication-Results: www.redadmin.org; arc=none smtp.remote-ip=192.168.11.50
-ARC-Seal: i=1; a=rsa-sha256; d=redadmin.org; s=20231208space; t=1757396160;
-	cv=none; b=OakdlDd8eSlpFf3mVhV/CVbXRmVY8S8lJiwoFo76t2LXoEKvCEsTB761t/kPtmLRzwri54GRu0U4ujNNrPpDmLCfMyf7WU9eURPO1Mg1+qFFyFcMEmKqxufTiAm6U76tx9n7R8gQOIRUl/sOO6u15G+tMdnGfLtgiUtX6BYASd4=
-ARC-Message-Signature: i=1; a=rsa-sha256; d=redadmin.org; s=20231208space;
-	t=1757396160; c=relaxed/relaxed;
-	bh=z0UvudrzHbTC1zF9TFR5boSXeqo8L7QbwJaDwPvBEqk=;
-	h=DKIM-Filter:DKIM-Signature:MIME-Version:Date:From:To:Cc:Subject:
-	 In-Reply-To:References:Message-ID:X-Sender:Content-Type:
-	 Content-Transfer-Encoding; b=s0FvvJB3013Q2gfiBdzbYRX1zrDCwsq/IoRNLRyZjBOFX1EoPRMJ/oe4bmM7USGlXlB+BJZk6d/y8m6vqkmC5hT+3B/vUEE9BOP7Nu3KhILk2mM3bPHo3m5erOqVbhs8GZXW8HWYqT2ZH8+S+etwdWFNNYUw568GCtyqEFUpcPI=
-ARC-Authentication-Results: i=1; www.redadmin.org
-DKIM-Filter: OpenDKIM Filter v2.11.0 www.redadmin.org ADC1610A2494C
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redadmin.org;
-	s=20231208space; t=1757396160;
-	bh=z0UvudrzHbTC1zF9TFR5boSXeqo8L7QbwJaDwPvBEqk=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=rT9w5P0JNYaJ5yIm6ZyvGxQykgMbfWdqyM3TAu5i0XZkpslOIcKbMEKW1RczhuyxR
-	 PjozzT9k7r09j66SeQ5tAZQuXNccqWUC9HRAhIg6+OQcQfmVhP+v0oqt5fZkX/ZSig
-	 YP89jATvQkL+vme216gJ23x3VPGfH8833DDDw90g=
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HtRtLETp"
+Received: by mail-pj1-f42.google.com with SMTP id 98e67ed59e1d1-32d9f725f68so768270a91.1
+        for <linux-staging@lists.linux.dev>; Mon, 08 Sep 2025 23:03:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1757397784; x=1758002584; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=FMTAsIx4EXrT2ijx0IpLSYA8rxhXY+w0cxt7phZoGjs=;
+        b=HtRtLETpgKr4TGHr5hVsqYZgo6+q8+HhmevLoTIMt7Ivpm6eec8M168Z7nFORLxg6Z
+         plQJtK9BbuLZ81uI65VhNWnMBHkvKprOoOwkh5zS+3tX5eBmQm0IiyZm7fT6S5nABdMS
+         jmZr7VELuEZrHP5XPIUdGVS/L9rD88ydfEBHuxj9tuvXgXVuCNwoSCWIVYIwt2neTEzQ
+         k6OQ62lQxItvwTaWZip2NS965+IMPCtZ49u5AkGEIW4BQbONFvLf/4e1FhHEPgDtjhwv
+         OK8x7THBSOwGZgv8DBul4Vh489nJYeS99y07E9hCJux21uTWMITDTaRQ/8x7oJcecdXX
+         9vfA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1757397784; x=1758002584;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=FMTAsIx4EXrT2ijx0IpLSYA8rxhXY+w0cxt7phZoGjs=;
+        b=vBMOtucqa/O0JUn0ogH9EZdY8tGRbHXZt6ykSPX9nTnwg6AkJp/vfItqqKc2kdfvf4
+         I3U8wNUMD164gelK4GmKqQHBnQFdQ9RImf4z+TZUzRj7KJ0FBO/INuXERpb4eE09Mle7
+         3G05JH/82zdlohEx2vGEujtKRI1NvRFK5JoQdVzsJygIjjHQriryDRuOUnDmoMG5R0GS
+         DK8j1/YLC5TXsKUvjKk2tfLOW8G+yjogtVmq7c2vhuUF+4Jxrrb0M2aFe7iSyvNUP0eK
+         UKg5SKeQXVJeXWBPyLpwFzKEy5B5jx7aA02GhJ6TyUYG3Sg1WbZIlc3F1x4NXoG9klUf
+         fnzA==
+X-Forwarded-Encrypted: i=1; AJvYcCXMvFP+9jGhYkoWR0p63o0TTn2DxEHWvsaVx63XXI57xtxeotxcP0g2aTjZ7v+ESAGZ2Od/S1CyklITQJrn@lists.linux.dev
+X-Gm-Message-State: AOJu0Yy1POGT3tkvSnTmbCtD9baZvECPm7frIuv/y5hwfS0/HtIcYyHH
+	aHNVgEb8raIGUpZv1PSfSaKuwIlXqXPuZHHbLkN+H/vwUnfnY2LwwYe5
+X-Gm-Gg: ASbGnctZLfiWQNl4gdFkPpu0b/P5vSPynx24UsO7CFKNmCZ3vUZC4eTEo+EJXLZESk0
+	xYnqG5qzmuGMY4+nhl090AxTNsFYpqXFq31nTSujSIANt/MUW1JK4rxK6prB16CJ/BNrMzFIo0p
+	LFpWSo57aCUIene3UoAhIb+FPNMl4QH0IU5HyFoM6qkDloHFUcgLiE8LJmOo/A7X9HSOKX5rBL5
+	KJo7YHgekcD1JPscao78fwMyznkgOGQHzSNK1PYQtahOEzfVyqm0YsFqvyY3TY1rUv2hlw5wkqS
+	3AxN0eeSphjkHgEkhtm4Hd+vwvLTi6EMu/aApbhh/4IBh9UaXolvqYD998r1xKyqm42wi2wiQ8b
+	U9NQ54qBmfiDclAVK9NXIx+6x7kMI9rODDXAnTGNXxfkIr1D3Kn4sz+aNGyGVKiyHn69KFLFIHD
+	4qXstBKeoLi392
+X-Google-Smtp-Source: AGHT+IFJBO3xDoLj4DlYD8W4yc5VM+vGGJ5bvgBXCAj3dFstVJS+RDiOm5nuaXCn8SgmgAj0jpnn2Q==
+X-Received: by 2002:a17:90b:3fcb:b0:32b:bac7:5a41 with SMTP id 98e67ed59e1d1-32d43f8e8a7mr14198668a91.37.1757397783936;
+        Mon, 08 Sep 2025 23:03:03 -0700 (PDT)
+Received: from klmny09 (n058152109064.netvigator.com. [58.152.109.64])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-32d69bd489csm6938561a91.17.2025.09.08.23.03.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 08 Sep 2025 23:03:03 -0700 (PDT)
+From: Yiming Qian <qianym1996@gmail.com>
+To: dan.carpenter@linaro.org
+Cc: gregkh@linuxfoundation.org,
+	linux-fbdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	qianym1996@gmail.com,
+	sudipm.mukherjee@gmail.com,
+	teddy.wang@siliconmotion.com
+Subject: [PATCH v2 0/2] fix coding style issues in sm750.h
+Date: Tue,  9 Sep 2025 14:01:28 +0800
+Message-ID: <20250909060130.12919-1-qianym1996@gmail.com>
+X-Mailer: git-send-email 2.51.0
+In-Reply-To: <aL5tjv_2YkvHPs5C@stanley.mountain>
+References: <aL5tjv_2YkvHPs5C@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Date: Tue, 09 Sep 2025 14:36:00 +0900
-From: weibu@redadmin.org
-To: Greg KH <gregkh@linuxfoundation.org>
-Cc: Philipp Hortmann <philipp.g.hortmann@gmail.com>,
- linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: rtl8723bs: rtw_efuse.h: simplify copyright
- banner
-In-Reply-To: <2025090917-tribute-dividers-abd6@gregkh>
-References: <20250909035804.129904-1-weibu@redadmin.org>
- <2025090917-tribute-dividers-abd6@gregkh>
-Message-ID: <7cba51d1668a9efaacd59b1bb64e32b3@redadmin.org>
-X-Sender: weibu@redadmin.org
-Content-Type: text/plain; charset=UTF-8;
- format=flowed
 Content-Transfer-Encoding: 8bit
 
-Hi Greg,
+Fix volatile and camelCase issues in coding style:
 
-Thanks for your feedback. You were right — I had mixed two changes in 
-one patch.
-I’ve now split them and resent as v2:
-   [PATCH v2 1/2] simplify copyright banner
-   [PATCH v2 2/2] fix double space in PwrState parameter
+changes in v2:
+- Split single patch into two separate patches as suggested
 
-Sorry for the noise, and thank you for your review.
 
-Best regards,
-Akiyoshi Kurita
+Yiming Qian (2):
+  staging: sm750fb: remove unnecessary volatile qualifiers
+  staging: sm750fb: rename snake case variables
 
-On 2025-09-09 13:43, Greg KH wrote:
-> On Tue, Sep 09, 2025 at 12:58:04PM +0900, Akiyoshi Kurita wrote:
->> Replace the banner-style copyright comment with a single-line comment.
->> No functional changes.
->> 
->> Signed-off-by: Akiyoshi Kurita <weibu@redadmin.org>
->> ---
->>  drivers/staging/rtl8723bs/include/rtw_efuse.h | 9 +++------
->>  1 file changed, 3 insertions(+), 6 deletions(-)
->> 
->> diff --git a/drivers/staging/rtl8723bs/include/rtw_efuse.h 
->> b/drivers/staging/rtl8723bs/include/rtw_efuse.h
->> index 669565fa1c69..d791e35db769 100644
->> --- a/drivers/staging/rtl8723bs/include/rtw_efuse.h
->> +++ b/drivers/staging/rtl8723bs/include/rtw_efuse.h
->> @@ -1,9 +1,6 @@
->>  /* SPDX-License-Identifier: GPL-2.0 */
->> -/******************************************************************************
->> - *
->> - * Copyright(c) 2007 - 2011 Realtek Corporation. All rights reserved.
->> - *
->> - 
->> ******************************************************************************/
->> +/* Copyright(c) 2007 - 2011 Realtek Corporation. All rights reserved. 
->> */
->> +
->>  #ifndef __RTW_EFUSE_H__
->>  #define __RTW_EFUSE_H__
->> 
->> @@ -95,7 +92,7 @@ void EFUSE_GetEfuseDefinition(struct adapter 
->> *padapter, u8 efuseType, u8 type, v
->>  u8 efuse_OneByteRead(struct adapter *padapter, u16 addr, u8 *data, 
->> bool	 bPseudoTest);
->>  u8 efuse_OneByteWrite(struct adapter *padapter, u16 addr, u8 data, 
->> bool	 bPseudoTest);
->> 
->> -void Efuse_PowerSwitch(struct adapter *padapter, u8 bWrite, u8  
->> PwrState);
->> +void Efuse_PowerSwitch(struct adapter *padapter, u8 bWrite, u8 
->> PwrState);
-> 
-> This doesn't look like a copyright banner change :(
+ drivers/staging/sm750fb/sm750.h       | 6 +++---
+ drivers/staging/sm750fb/sm750_accel.c | 6 +++---
+ drivers/staging/sm750fb/sm750_hw.c    | 4 ++--
+ 3 files changed, 8 insertions(+), 8 deletions(-)
+
+-- 
+2.51.0
+
