@@ -1,152 +1,95 @@
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from www.redadmin.org (ag129037.ppp.asahi-net.or.jp [157.107.129.37])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2F441FFC7B
-	for <linux-staging@lists.linux.dev>; Tue,  9 Sep 2025 05:00:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.52
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757394019; cv=none; b=oRximAkmE68qyDuzGeSXvxhCg1I0mXZSvi1QY9tKojt6R5yNcKjk9oWiRIa1luFgNeLaONWAzsDS7+sznSRzqi5JMzSz7W/8fA1X1lSXUZLJGlMlMEP4ofFpvbZgmG9dll5cXK7DYpyg9mU7z/C/HdeFtqMGkpHuflrE2Nx8m7A=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757394019; c=relaxed/simple;
-	bh=3XIAo2qpHvA4WmYscSECteBG0QYxRHh63STV9gp+gFY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=J8LRlXch2HnVVlNkGMURdi0wvNV9J86CI6EBnRIGGLQ/fdIgBZtYbS0aQSrc+I97EpqVR6/mrrLC1vftcp01MtFFSVGYrxkTMumysTMviU2TNHTTLhMCW9J6Xk7GlXOwyGNC67czJ+6scH2NviKVizuQdLveQJ6x7MJgwdp03oA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EFm35aol; arc=none smtp.client-ip=209.85.221.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A10031A262A
+	for <linux-staging@lists.linux.dev>; Tue,  9 Sep 2025 05:33:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=157.107.129.37
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1757396022; cv=pass; b=FA7xpem7NEDEJfmH8HvX1b3kUc5Ayw+UKHMkRTbVqx5QixEEcE7/3MeBX7NiA/mUkGkMhOz/UANR0rkavExMvi8xbiUjnrHLVX8f0VllVYWxtd319rewhwZI4aK9nWHbIIb0u06R5nzxIUH/f3DQcWBvTxibWT/0CKpLoOHUwXc=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1757396022; c=relaxed/simple;
+	bh=g2YjWgnEDAPDkMVwhEAlivpVT9esL8m9WJFfyOpzF5w=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=a7Zc5MISjjhVRxrtM6wT5WaBeMmqjBGXosPQmcnbm95tv5kqaBGF4bms/VXTURvkSwqaN4xvoLr3ECdfUpEGhPJqzSOitugyn9fu0ukRwXQwfhqg4I28bumKzp0U4VHaNyKyLi0Mqz4k+nxYxd37K/2T8NbYxJ8nkhPk8A0JqKQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redadmin.org; spf=pass smtp.mailfrom=redadmin.org; dkim=pass (1024-bit key) header.d=redadmin.org header.i=@redadmin.org header.b=UBOE+4tL; arc=pass smtp.client-ip=157.107.129.37
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redadmin.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redadmin.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EFm35aol"
-Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-3e249a4d605so4096501f8f.3
-        for <linux-staging@lists.linux.dev>; Mon, 08 Sep 2025 22:00:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1757394016; x=1757998816; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=JvWoQumFNTmdVD16AHMfCOQayYv4kB4ZtuuQ9k6C1e0=;
-        b=EFm35aolbNld2NzE7cgQgfC/ertMNgDzXE96OzieQCnXQ7lxRnmkD8GOGCJykWekhb
-         GQhuYxYzTlSgeiSZnODzU8rYw/JPhFz/ozaDn928lCmLcTEHgJastrorgZ4V/A3utTry
-         OhBpyjhQm6GPP3lDpKDj6jrPjkm7TaXImq63ULyYvBQ4xi25vZ60Vd5bgl046wCzC5uF
-         4TUwXgLeOxlNGj18gqx3Myo59M7udvW3BsRc/WQNKqjQGWZtaaqNg68qCH2YIOO5FJ3f
-         VLJDamyK6v1nifASXl3j1/TSaiesPDWWgkq9ma2ercDJMS9GehEJeo1H4psdtsYGOSt0
-         4OkA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757394016; x=1757998816;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=JvWoQumFNTmdVD16AHMfCOQayYv4kB4ZtuuQ9k6C1e0=;
-        b=KPN0mss3uoOYsdK9jkqdzgJk0xacqNL7XZlML3g9jW2aYkoDXoJMjnr26MLrLssT/R
-         HX5v+9F+D/gUzxa7xYuznj4eBOdLN7n574sLmxOrssSIW2mFZcxMV1oyog/Gb5b+0lGe
-         oSzj4HJ63Fi4tmwJJdg6FsXbSCle9Ly6KcwH0L1i/8HbmbSpnRs0QeMlVg8uWZLf1uec
-         jA3+2U/zayyWcAuKaZyOvSNCRgEteGANdVIXtowPg+sxoCjYfef+ZUJh+612QZ4bUtuJ
-         xQW+dp+FQT+d3v8FbRt1KULT86pWC3etDNAc+rwcX3gLL/VL85FkX9VOWLQuX6eY+gC2
-         N/CA==
-X-Forwarded-Encrypted: i=1; AJvYcCXc+S3s3IcaWd/AMWSpgy9WOMAPJ9VszunvgZJegx0sIwME8FLNhNYu5E4wXTaYJPvo/mqwQlUGZ0bSzfOq@lists.linux.dev
-X-Gm-Message-State: AOJu0Yzd9/btUzxNzC4g+bF3iucpPp3LLd3cB5hNC/UozCe1R3kQXKfS
-	XwVgNcnWSZ7XxMq4wWwNwg6e4w+JS1RK1R70a119fFSKSHg36bo98pImDgJkwq5brI8ux0qmq+d
-	PiKHWjx2P/coF4a7z8Mu/Xmy2Q5AQ/5g=
-X-Gm-Gg: ASbGncsC6veL2JFwPTEfzA6xYW/RSXhn2rtjRPnpnApjwaS7CTOC2nhcyU9q4n7bsLU
-	ZvfNAmOJesGM3VHVoF9hibEIkFwwI7T4ZhMldpir8fReQmFG8MJF68JWFI0tT3iJiDzA9BUVcVC
-	rYkb7EDHUCXctqmCWKwVjT7TOgh47Np8SiTKPD7RuRbY4VsxngCVZ5oyURdZ20C5a7qyBGWqK2l
-	SqkOSwOEsfvx3ARsyg=
-X-Google-Smtp-Source: AGHT+IG2zjYHyHxDrSFyGdWaycUP0DnV1hIepEsmw6nSgmsn9ogr9jjPFRCaYQPTy+roxHGLBD5nuBqHvVP9q4sOQgU=
-X-Received: by 2002:a05:6000:26ce:b0:3cb:3ca5:870b with SMTP id
- ffacd0b85a97d-3e64c1c2b58mr9289210f8f.44.1757394015848; Mon, 08 Sep 2025
- 22:00:15 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=redadmin.org header.i=@redadmin.org header.b="UBOE+4tL"
+Received: from localhost (localhost [127.0.0.1])
+	by www.redadmin.org (Postfix) with ESMTP id BF59610A2494E;
+	Tue,  9 Sep 2025 14:33:37 +0900 (JST)
+X-Virus-Scanned: amavis at redadmin.org
+Received: from www.redadmin.org ([127.0.0.1])
+ by localhost (redadmin.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id Ps_dpWxw7Eid; Tue,  9 Sep 2025 14:33:34 +0900 (JST)
+Received: by www.redadmin.org (Postfix, from userid 1000)
+	id 0DAF410A2494C; Tue,  9 Sep 2025 14:33:34 +0900 (JST)
+Authentication-Results: www.redadmin.org; arc=none smtp.remote-ip=127.0.0.1
+ARC-Seal: i=1; a=rsa-sha256; d=redadmin.org; s=20231208space; t=1757396014;
+	cv=none; b=gCdd91+ilEOnEXShT963uhex8KXSpsJyjauFH3K3UI6u/JPuz7q0gCBiVzsSrRzwWRcOubFekBAdyJU2KRUmDL0GUkNPp1En6gXEy4Bm324m/2+/VoXCrLmvTjkyadLjipjJc90/SIj9o1RCsKCnyNMbRJ72WnMqkBrgWQwExA4=
+ARC-Message-Signature: i=1; a=rsa-sha256; d=redadmin.org; s=20231208space;
+	t=1757396014; c=relaxed/relaxed;
+	bh=g2YjWgnEDAPDkMVwhEAlivpVT9esL8m9WJFfyOpzF5w=;
+	h=DKIM-Filter:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:
+	 X-Mailer:In-Reply-To:References:MIME-Version:
+	 Content-Transfer-Encoding; b=jLRGhG/b7ZLx5iW+7mREeyvSZzWe8mxTDyxH0i3NU75QCcekaQzMKU3JdlchsQDckWFtiUx1bS30/WKF+o9SJLTRd4t3GRmbdW+9fvHooHY0nR4uZbYnUbe9ZcENNsfaI9vFezneP4rcb5sN1/X93EiEVvx+ZExd+MNdEcxzrEI=
+ARC-Authentication-Results: i=1; www.redadmin.org
+DKIM-Filter: OpenDKIM Filter v2.11.0 www.redadmin.org 0DAF410A2494C
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redadmin.org;
+	s=20231208space; t=1757396014;
+	bh=g2YjWgnEDAPDkMVwhEAlivpVT9esL8m9WJFfyOpzF5w=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=UBOE+4tL1XoMi8E61VVOvY2/zJSk2KvbptRWJUlZ4aZp8FABVwU+29cFIFWOYjrlb
+	 WVMK1BhWJjUqEd1ip4IxKCMkG+ZbBCsFW48TOsVEctiS5qvParY0ZlgHOO/zc+qvc/
+	 vxhgAtPD2oBpGHyh64+eBBz270tOAubUYrwyzpbA=
+From: Akiyoshi Kurita <weibu@redadmin.org>
+To: gregkh@linuxfoundation.org,
+	Philipp Hortmann <philipp.g.hortmann@gmail.com>
+Cc: linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Akiyoshi Kurita <weibu@redadmin.org>
+Subject: [PATCH v2 1/2] staging: rtl8723bs: rtw_efuse.h: simplify copyright banner
+Date: Tue,  9 Sep 2025 14:33:26 +0900
+Message-ID: <20250909053327.140763-1-weibu@redadmin.org>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <20250909035804.129904-1-weibu@redadmin.org>
+References: <20250909035804.129904-1-weibu@redadmin.org>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250906135345.241229-1-clamor95@gmail.com> <20250906135345.241229-13-clamor95@gmail.com>
- <20250909005729.GA2330015-robh@kernel.org>
-In-Reply-To: <20250909005729.GA2330015-robh@kernel.org>
-From: Svyatoslav Ryhel <clamor95@gmail.com>
-Date: Tue, 9 Sep 2025 08:00:04 +0300
-X-Gm-Features: AS18NWBubeuZYVIrBS9Y3gvos_QkcU48-UEb6DN0-0PA-mnw9dcMiO5insdn20M
-Message-ID: <CAPVz0n0PhzjsJSKp9P7amG36V+E_dLFXAgJqtTPx4cfH0m5BXQ@mail.gmail.com>
-Subject: Re: [PATCH v2 12/23] dt-bindings: display: tegra: move
- avdd-dsi-csi-supply from VI to CSI
-To: Rob Herring <robh@kernel.org>
-Cc: Thierry Reding <thierry.reding@gmail.com>, Thierry Reding <treding@nvidia.com>, 
-	Mikko Perttunen <mperttunen@nvidia.com>, Jonathan Hunter <jonathanh@nvidia.com>, 
-	Sowjanya Komatineni <skomatineni@nvidia.com>, Luca Ceresoli <luca.ceresoli@bootlin.com>, 
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Prashant Gaikwad <pgaikwad@nvidia.com>, 
-	Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Dmitry Osipenko <digetx@gmail.com>, =?UTF-8?Q?Jonas_Schw=C3=B6bel?= <jonasschwoebel@yahoo.de>, 
-	Charan Pedumuru <charan.pedumuru@gmail.com>, dri-devel@lists.freedesktop.org, 
-	devicetree@vger.kernel.org, linux-tegra@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
-	linux-clk@vger.kernel.org, linux-staging@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-=D0=B2=D1=82, 9 =D0=B2=D0=B5=D1=80. 2025=E2=80=AF=D1=80. =D0=BE 03:57 Rob H=
-erring <robh@kernel.org> =D0=BF=D0=B8=D1=88=D0=B5:
->
-> On Sat, Sep 06, 2025 at 04:53:33PM +0300, Svyatoslav Ryhel wrote:
-> > The avdd-dsi-csi-supply is CSI power supply, it has nothing to do with =
-VI,
-> > like same supply is used with DSI and has nothing to do with DC. Move i=
-t
-> > to correct place.
-> >
-> > Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
-> > ---
-> >  .../devicetree/bindings/display/tegra/nvidia,tegra20-vi.yaml   | 3 ---
-> >  .../devicetree/bindings/display/tegra/nvidia,tegra210-csi.yaml | 3 +++
-> >  2 files changed, 3 insertions(+), 3 deletions(-)
-> >
-> > diff --git a/Documentation/devicetree/bindings/display/tegra/nvidia,teg=
-ra20-vi.yaml b/Documentation/devicetree/bindings/display/tegra/nvidia,tegra=
-20-vi.yaml
-> > index dd67d4162884..bb138277d5e8 100644
-> > --- a/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-vi=
-.yaml
-> > +++ b/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-vi=
-.yaml
-> > @@ -75,9 +75,6 @@ properties:
-> >    ranges:
-> >      maxItems: 1
-> >
-> > -  avdd-dsi-csi-supply:
-> > -    description: DSI/CSI power supply. Must supply 1.2 V.
-> > -
-> >    vip:
-> >      $ref: /schemas/display/tegra/nvidia,tegra20-vip.yaml
-> >
-> > diff --git a/Documentation/devicetree/bindings/display/tegra/nvidia,teg=
-ra210-csi.yaml b/Documentation/devicetree/bindings/display/tegra/nvidia,teg=
-ra210-csi.yaml
-> > index fa07a40d1004..37f6129c9c92 100644
-> > --- a/Documentation/devicetree/bindings/display/tegra/nvidia,tegra210-c=
-si.yaml
-> > +++ b/Documentation/devicetree/bindings/display/tegra/nvidia,tegra210-c=
-si.yaml
-> > @@ -37,6 +37,9 @@ properties:
-> >        - const: cile
-> >        - const: csi_tpg
-> >
-> > +  avdd-dsi-csi-supply:
-> > +    description: DSI/CSI power supply. Must supply 1.2 V.
->
-> On further thought, why does this have 'dsi' in the name at all. If it
-> happens to be the same supply for DSI and CSI, that's an SoC integration
-> detail. The name here should be local to the module. Perhaps
-> 'avdd-supply' is enough? Fine to rename it as you are breaking the ABI
-> moving it anyways.
->
+Replace the banner-style copyright comment with a single-line comment.
+No functional changes.
 
-Not only this supply is common for DSI and CSI, on all schematics I
-have seem so far input for this supply on CSI block is always called
-avdd-dsi-csi and supply is named accordingly. This patch aims not to
-rename supply, which has correct naming IMHO, but to place it in
-correct place - CSI, not VI as it is ATM.
+Signed-off-by: Akiyoshi Kurita <weibu@redadmin.org>
+---
+ drivers/staging/rtl8723bs/include/rtw_efuse.h | 7 ++-----
+ 1 file changed, 2 insertions(+), 5 deletions(-)
 
-> Rob
+diff --git a/drivers/staging/rtl8723bs/include/rtw_efuse.h b/drivers/stagin=
+g/rtl8723bs/include/rtw_efuse.h
+index 669565fa1c69..ac7d6ef454c3 100644
+--- a/drivers/staging/rtl8723bs/include/rtw_efuse.h
++++ b/drivers/staging/rtl8723bs/include/rtw_efuse.h
+@@ -1,9 +1,6 @@
+ /* SPDX-License-Identifier: GPL-2.0 */
+-/*************************************************************************=
+*****
+- *
+- * Copyright(c) 2007 - 2011 Realtek Corporation. All rights reserved.
+- *
+- *************************************************************************=
+*****/
++/* Copyright(c) 2007 - 2011 Realtek Corporation. All rights reserved. */
++
+ #ifndef __RTW_EFUSE_H__
+ #define __RTW_EFUSE_H__
+=20
+--=20
+2.47.3
+
