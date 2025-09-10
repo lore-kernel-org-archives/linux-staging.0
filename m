@@ -1,177 +1,107 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57273235341;
-	Wed, 10 Sep 2025 02:13:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C177246788
+	for <linux-staging@lists.linux.dev>; Wed, 10 Sep 2025 06:52:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757470414; cv=none; b=Yrg+KxFbbSUEEODQfC4crE9PxNo6WVuX2dYcKwUXK3scdwpK1GPoh2GkF7UYZ2d25UC0Sr4TLlRWDhblaNwIawP7u5s3qLE8rIL35OJXw4dqz6o86lVdUc4e6qCjw6CJgdQequeTYrC/uf7s41na8PRhmKGVxYIvoqPtvlRwmus=
+	t=1757487168; cv=none; b=sLn0VwOF2IovQgiyDCzLTki1hH+5Py4vjOTT7q7mtiU1WP2YxMISr2w999mn7w8I0R78Z0CQWNdHQz8ht/HPtldEaWE0fseRhq02KPIsvkIoa4X9oRJmVgj6+dc8cPYZCjP4Q2pal76G4tUOz03kVaowO8qGhJhLDM8E3g2Jryo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757470414; c=relaxed/simple;
-	bh=Q3rmZLXX3SIGu/Pup57T8RwwkJTVjjAk7jOAL3jEL20=;
+	s=arc-20240116; t=1757487168; c=relaxed/simple;
+	bh=Xbxzbd9N/J4R8JD9GiiHN7QemzWWqNtVAcebecs6kMo=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nDxyzy0DLROclgXlMsxHB82zslMibKDYiEGX7cJL2lejFSzGXS+6O+3IUl7L5g5h07fIw1HQrxoGVBoyXMX6HgMV05Nm9NeTm4KZFJnA69OUIHGKCTroIrtFvP75pJTB8Vt5dVMrQxH9aOQAhQWllD++xnPS3wVGgovstSVvxFE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aUtcd9a5; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=OW4GA04T9cqGtsmMaowyS4OdAtCwnyRj7/0hOMmGbK0EkybW+/VQ0A98ibnq35/6kFsbIEbg6s8PPnLOP05k8oCN4thlcNAjcJH4wx79/RBTMEqFf3/dvvPn9cka/9FimnHO6HAq4AJmfty12OEAkgkaV008/gLCkdKlO2gtox8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ezNvTq1t; arc=none smtp.client-ip=192.198.163.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aUtcd9a5"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AE929C4CEF4;
-	Wed, 10 Sep 2025 02:13:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1757470413;
-	bh=Q3rmZLXX3SIGu/Pup57T8RwwkJTVjjAk7jOAL3jEL20=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=aUtcd9a5ISSFiCbzvGVXizCsC7nCkVgqvXE7UB3SlXM2vp56AxVqHhPFQG9iZnNIx
-	 tGjUcRmJWcrfCetRGe+rjavrpvk1plVgOBwtiWHa3UddcwNaJyyGy13sNQa5XoDyvd
-	 4mEPsQaeftQBel2Fe6Q4zJWD6lrNL3KKBym1fNygnbj8mg5De+8Mmj/FfA0Q9+Fa6l
-	 5BjkDEVmKnZ67h1IX/6eBI86CGS270r6G5gjtqEHHVbNaN89KeuvdB5C/DvxKLUaRt
-	 qqs7ffj8qSVOklihhYyUrPPE3cTH4ZQ5P2W7Yyi8e6AvlIY1pjCzm/KYZNPL5igqMl
-	 bitRNKicLQhEQ==
-Date: Tue, 9 Sep 2025 21:13:32 -0500
-From: Rob Herring <robh@kernel.org>
-To: Svyatoslav Ryhel <clamor95@gmail.com>
-Cc: Thierry Reding <thierry.reding@gmail.com>,
-	Thierry Reding <treding@nvidia.com>,
-	Mikko Perttunen <mperttunen@nvidia.com>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	Sowjanya Komatineni <skomatineni@nvidia.com>,
-	Luca Ceresoli <luca.ceresoli@bootlin.com>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Prashant Gaikwad <pgaikwad@nvidia.com>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>,
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ezNvTq1t"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1757487167; x=1789023167;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Xbxzbd9N/J4R8JD9GiiHN7QemzWWqNtVAcebecs6kMo=;
+  b=ezNvTq1tO5XqYhDZlDjPmYguvYxgjfCw3cpMG/gxQot8zN/WCRC5eba9
+   YIdLH69dpEPtOnZ9DG0++mzBs/TvkhtpZ4sD0CMByffacD1bVmebLkBwz
+   OgapBoyIdWnWq85fLN/Xx7Rca3BeZAvOty2SvqdPyq080omW4MolxGf8X
+   QhFM0dxLrRMTfQnP2VBP7ZJGl+9rSEta0kYyoCxp5ZK+3lJN/h2zJwwaW
+   zsOszKL2Ee6aNQHnB/H0t6PG/DOZMbpnmdStuvDyXkLVNLrI79htlSDrh
+   Pgmgh3n0wsSitnNKqGkKYvhnx4TX6lUhbUysE6B3Y0p1lJ19HFlZzX7UI
+   w==;
+X-CSE-ConnectionGUID: j+bYAGOVRWavzkqwyg2UAQ==
+X-CSE-MsgGUID: asYfnkXcTDudqHhi8c5a2Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11548"; a="59009248"
+X-IronPort-AV: E=Sophos;i="6.18,253,1751266800"; 
+   d="scan'208";a="59009248"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Sep 2025 23:52:46 -0700
+X-CSE-ConnectionGUID: hrfBlALWRS+/KWf7YVGKMw==
+X-CSE-MsgGUID: S5OAHpV4SDW3E4KxEva7sQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.18,253,1751266800"; 
+   d="scan'208";a="177579067"
+Received: from klitkey1-mobl1.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.245.14])
+  by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Sep 2025 23:52:42 -0700
+Received: from kekkonen.localdomain (localhost [IPv6:::1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id 932A71201B4;
+	Wed, 10 Sep 2025 09:52:38 +0300 (EEST)
+Date: Wed, 10 Sep 2025 09:52:38 +0300
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Cosmin Tanislav <demonsingur@gmail.com>
+Cc: Cosmin Tanislav <cosmin.tanislav@analog.com>,
+	Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Niklas =?iso-8859-1?Q?S=F6derlund?= <niklas.soderlund@ragnatech.se>,
+	Julien Massot <julien.massot@collabora.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Dmitry Osipenko <digetx@gmail.com>,
-	Jonas =?iso-8859-1?Q?Schw=F6bel?= <jonasschwoebel@yahoo.de>,
-	Charan Pedumuru <charan.pedumuru@gmail.com>,
-	dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
-	linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org, linux-clk@vger.kernel.org,
-	linux-staging@lists.linux.dev
-Subject: Re: [PATCH v2 21/23] dt-bindings: display: tegra: document Tegra20
- and Tegra30 CSI
-Message-ID: <20250910021332.GA3634809-robh@kernel.org>
-References: <20250906135345.241229-1-clamor95@gmail.com>
- <20250906135345.241229-22-clamor95@gmail.com>
- <20250909162600.GA3311232-robh@kernel.org>
- <CAPVz0n2Hafvnk4BBXfhWLWCfTg336DLOr=xN9vKBGc2xEWYrMw@mail.gmail.com>
+	Linus Walleij <linus.walleij@linaro.org>,
+	linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-staging@lists.linux.dev, linux-gpio@vger.kernel.org
+Subject: Re: [PATCH v7 00/24] media: i2c: add Maxim GMSL2/3 serializer and
+ deserializer drivers
+Message-ID: <aMEgNtjcy1-NuBds@kekkonen.localdomain>
+References: <20250718152500.2656391-1-demonsingur@gmail.com>
+ <aLBqxQQsnY3ZK4eT@kekkonen.localdomain>
+ <d558ede0-5838-4a69-b25d-cafaa3b6cc97@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAPVz0n2Hafvnk4BBXfhWLWCfTg336DLOr=xN9vKBGc2xEWYrMw@mail.gmail.com>
+In-Reply-To: <d558ede0-5838-4a69-b25d-cafaa3b6cc97@gmail.com>
 
-On Tue, Sep 09, 2025 at 07:39:02PM +0300, Svyatoslav Ryhel wrote:
-> вт, 9 вер. 2025 р. о 19:26 Rob Herring <robh@kernel.org> пише:
-> >
-> > On Sat, Sep 06, 2025 at 04:53:42PM +0300, Svyatoslav Ryhel wrote:
-> > > Document CSI HW block found in Tegra20 and Tegra30 SoC.
-> > >
-> > > Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
-> > > ---
-> > >  .../display/tegra/nvidia,tegra20-csi.yaml     | 104 ++++++++++++++++
-> > >  .../display/tegra/nvidia,tegra30-csi.yaml     | 115 ++++++++++++++++++
-> > >  2 files changed, 219 insertions(+)
-> > >  create mode 100644 Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-csi.yaml
-> > >  create mode 100644 Documentation/devicetree/bindings/display/tegra/nvidia,tegra30-csi.yaml
-> > >
-> > > diff --git a/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-csi.yaml b/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-csi.yaml
-> > > new file mode 100644
-> > > index 000000000000..1a2858a5893c
-> > > --- /dev/null
-> > > +++ b/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-csi.yaml
-> > > @@ -0,0 +1,104 @@
-> > > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> > > +%YAML 1.2
-> > > +---
-> > > +$id: http://devicetree.org/schemas/display/tegra/nvidia,tegra20-csi.yaml#
-> > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > > +
-> > > +title: NVIDIA Tegra20 CSI controller
-> > > +
-> > > +maintainers:
-> > > +  - Svyatoslav Ryhel <clamor95@gmail.com>
-> > > +
-> > > +properties:
-> > > +  compatible:
-> > > +    enum:
-> > > +      - nvidia,tegra20-csi
-> > > +
-> > > +  reg:
-> > > +    maxItems: 1
-> > > +
-> > > +  clocks:
-> > > +    maxItems: 1
-> > > +
-> > > +  avdd-dsi-csi-supply:
-> > > +    description: DSI/CSI power supply. Must supply 1.2 V.
-> > > +
-> > > +  power-domains:
-> > > +    maxItems: 1
-> > > +
-> > > +  "#nvidia,mipi-calibrate-cells":
-> > > +    description: The number of cells in a MIPI calibration specifier.
-> > > +      Should be 1. The single cell specifies an id of the pads that
-> > > +      need to be calibrated for a given device.
-> > > +    $ref: /schemas/types.yaml#/definitions/uint32
-> > > +    const: 1
-> >
-> > This property goes in the provider. Is the parent node the provider? You
-> > don't really need any of it if it's all one block.
-> >
+Hi Cosmin,
+
+On Thu, Sep 04, 2025 at 10:52:09AM +0300, Cosmin Tanislav wrote:
+> Hi Sakari.
 > 
-> Yes parent node is provides and channel is one of receivers, other one
-> is DSI node.
+> I recently left Analog Devices but I will continue to try upstreaming
+> this driver. After the upstreaming is done we can switch the
+> maintainer status to someone else.
 
-Please make that clear in the descriptions somewhere.
+Ack, thank you.
 
 > 
-> > > +
-> > > +  "#address-cells":
-> > > +    const: 1
-> > > +
-> > > +  "#size-cells":
-> > > +    const: 0
-> > > +
-> > > +patternProperties:
-> > > +  "^channel@[0-1]$":
-> > > +    type: object
-> > > +    description: channel 0 represents CSI-A and 1 represents CSI-B
-> > > +    additionalProperties: false
-> > > +
-> > > +    properties:
-> > > +      reg:
-> > > +        maxItems: 1
-> >
-> > Instead:
-> >
-> > maximum: 1
-> >
-> >
-> > > +
-> > > +      nvidia,mipi-calibrate:
-> > > +        description: Should contain a phandle and a specifier specifying
-> > > +          which pads are used by this DSI output and need to be
-> > > +          calibrated. 0 is for CSI-A, 1 is for CSI-B, 2 is for DSI.
-> > > +        $ref: /schemas/types.yaml#/definitions/phandle-array
-> >
-> > Is DSI applicable here?
-> >
+> Here's the output for the commands you asked, provided by my
+> ex-coworker. It's for MAX96716 + 2xMAX96717 + 2x IMX219.
 > 
-> It is because CSI is calibration provider. I can move it up into
-> #nvidia,mipi-calibrate-cells which may be more appropriate place.
+> Do we need to fix anything based on the compliance tests?
 
-Yes, as the provider defines the meaning of the cells (and they are 
-opaque to the consumer).
+Looking at the errors, it looks like some fixing is needed, possibly also
+on v4l2-compliance side.
 
-Rob
+Regarding GMSL, are the image width, height or mbus code used for anything
+by the serialiser or deserialiser drivers?
+
+-- 
+Kind regards,
+
+Sakari Ailus
