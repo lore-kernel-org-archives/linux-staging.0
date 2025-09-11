@@ -1,137 +1,88 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from www.redadmin.org (ag129037.ppp.asahi-net.or.jp [157.107.129.37])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6904322DDA
-	for <linux-staging@lists.linux.dev>; Wed, 10 Sep 2025 14:43:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757515402; cv=none; b=ELugViCmzL3Z2yYfL5mBohggLxibNVDk5Lz+vn1s11dDM8mUUjMYVv0oV2+3SL+yI+Y884Lwc9yfLNfdNjVXTI7PS1/Ci2Kyx7hKmgxC08IMQH0+foPkLhRW4VerIUrn4rDKIJTOrzYsxa6tMxqP9hSohOJ/Y7qNrhfhRziQAVc=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757515402; c=relaxed/simple;
-	bh=ZbY2B6yVl12t9+vakyT6Odcj14A3coWtEtGibMgyy5g=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CsBAfdhcYuw8Eyg27ZtQIy8+r58JYa87rlr0ufEhrFVP3JCIpSqFIv2PcWkcLJDNcf2HfkIvwXSu3Ak/Ei8Q5vYeQE1WXY+2Lg2+sohPnTclPtxk14ciUcCzXnf9CAaAHxTUjyacVxsxgecfPiPe5W/t2wAOULZU6TQaIpOikww=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Nsu5RZn5; arc=none smtp.client-ip=198.175.65.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6294530C367
+	for <linux-staging@lists.linux.dev>; Thu, 11 Sep 2025 15:02:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=157.107.129.37
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1757602946; cv=pass; b=cLebh/CMfcdC83q5StnePJvdfxu88BlJQaCdcmb1SBm4iJAQZHxiSoIOerkLIYwmvc6rrWy9H5LsTczoM5yQFugSnspjgqrttTkqSoQ/iEyWyXVkrYNIvvFA80uL3UHs1XGyncabFAoUJ4WTf9fshgHjQYRHOMUgKy+Ii9kbDmg=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1757602946; c=relaxed/simple;
+	bh=K125TaLnE6rH67QMq7lrta9dH3MpE6K5G4fcAmjnpSA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=iHrS9qjERhpSRjSgEd2DcISDKUPgQz8P/UB2ZCBA+TQm37XreVeLhxPD3/h++9P/CLuXfBdBw4c8V9yhza9Ax2XvFf4bcFU8C1hV9VHYy3ROZCyff3QMzj5wyFdqdN8gkpAfykdAXIb50Caka1IjX3ZlO1baykDjZuj2v4tTzmc=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redadmin.org; spf=pass smtp.mailfrom=redadmin.org; dkim=pass (1024-bit key) header.d=redadmin.org header.i=@redadmin.org header.b=K1m6Yb+O; arc=pass smtp.client-ip=157.107.129.37
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redadmin.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redadmin.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Nsu5RZn5"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1757515401; x=1789051401;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=ZbY2B6yVl12t9+vakyT6Odcj14A3coWtEtGibMgyy5g=;
-  b=Nsu5RZn5hHjOBNld2cgU2q+C2uJm0GlxMYLAHRM+jYW7Re70pow0RhLy
-   bdibm1LTMgfz8Fx6TfD88N8DxLRTvnT07HZmLbop50jCYr0SMVMKrfDuY
-   0mQQl2cf/yE8p+Yr9wUTeswxdIJjjA7oMVFR9R34i+Z+3h7jpot0xc2Hx
-   wUiLBOhgK/c0/d7ZVYeBr67QpXiKQvFr8OZBA69jsTuc7m0vQU6BJFFZe
-   TlDNFDwpOQi2Z5G8B7b+FhvrMb6Qy2GL5JygwO/Eh1ycyvMr4tp8Nb4mP
-   aMMwn0rC2vx8ui7ZiWu+/wl6EzapVc3w7nDZC+8w3f4j9GHL7xReEyu5u
-   Q==;
-X-CSE-ConnectionGUID: 4s/1t/0mStm1PI74GPJPPg==
-X-CSE-MsgGUID: aThdj2phQQKisbGSBn5nIg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11549"; a="71248274"
-X-IronPort-AV: E=Sophos;i="6.18,254,1751266800"; 
-   d="scan'208";a="71248274"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Sep 2025 07:43:21 -0700
-X-CSE-ConnectionGUID: 8xOG4fZsS/Wlx1q+FywMXA==
-X-CSE-MsgGUID: uILFlauiRmePsJvk6TcztA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,254,1751266800"; 
-   d="scan'208";a="177742939"
-Received: from ettammin-mobl2.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.245.108])
-  by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Sep 2025 07:43:16 -0700
-Received: from kekkonen.localdomain (localhost [IPv6:::1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id F09371201B4;
-	Wed, 10 Sep 2025 17:43:12 +0300 (EEST)
-Date: Wed, 10 Sep 2025 17:43:12 +0300
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Cosmin Tanislav <demonsingur@gmail.com>
-Cc: Cosmin Tanislav <cosmin.tanislav@analog.com>,
-	Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Niklas =?iso-8859-1?Q?S=F6derlund?= <niklas.soderlund@ragnatech.se>,
-	Julien Massot <julien.massot@collabora.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-staging@lists.linux.dev, linux-gpio@vger.kernel.org
-Subject: Re: [PATCH v7 00/24] media: i2c: add Maxim GMSL2/3 serializer and
- deserializer drivers
-Message-ID: <aMGOgHzwig8NvxT-@kekkonen.localdomain>
-References: <20250718152500.2656391-1-demonsingur@gmail.com>
- <aLBqxQQsnY3ZK4eT@kekkonen.localdomain>
- <d558ede0-5838-4a69-b25d-cafaa3b6cc97@gmail.com>
- <aMEgNtjcy1-NuBds@kekkonen.localdomain>
- <1b79e467-1d39-457f-a488-0f3eb9e14efc@gmail.com>
+	dkim=pass (1024-bit key) header.d=redadmin.org header.i=@redadmin.org header.b="K1m6Yb+O"
+Received: from localhost (localhost [127.0.0.1])
+	by www.redadmin.org (Postfix) with ESMTP id EFDAB109F7118;
+	Fri, 12 Sep 2025 00:02:15 +0900 (JST)
+X-Virus-Scanned: amavis at redadmin.org
+Received: from www.redadmin.org ([127.0.0.1])
+ by localhost (redadmin.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id XwsIxLSDaWFh; Fri, 12 Sep 2025 00:02:12 +0900 (JST)
+Received: by www.redadmin.org (Postfix, from userid 1000)
+	id 0CAEB109EFAC6; Fri, 12 Sep 2025 00:02:12 +0900 (JST)
+Authentication-Results: www.redadmin.org; arc=none smtp.remote-ip=127.0.0.1
+ARC-Seal: i=1; a=rsa-sha256; d=redadmin.org; s=20231208space; t=1757602932;
+	cv=none; b=Mr3QCbW64naX6jNDyArEWO/7KF3Cg19w/7R7hovUM/8nE6zgHuj2caqllD4VwXZbd3D3bvSNp8qZ7sgkoCsJb0w4aXAOipw/K0scPiFaTTnROcWplBY7it44jd4CINbg4ToPQiXm+gpgymH0dANoKntMmoEUuGpCsWCfS476vjI=
+ARC-Message-Signature: i=1; a=rsa-sha256; d=redadmin.org; s=20231208space;
+	t=1757602932; c=relaxed/relaxed;
+	bh=5Aqnque0KihRjNKJ4iJ+xBotv0bYet0eDs7kStCnndg=;
+	h=DKIM-Filter:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:
+	 X-Mailer:MIME-Version:Content-Type:Content-Transfer-Encoding; b=ZEhbl2wnmYGe84OC3lqjnYD4vqGEWM/KUwXfhSsMiLRKqloADrFcA+vB8q59vCkAj4uYBi8frb14bQio259LFjbHN47sv2yJ04zNjSZRJyslWshuZKUTZDJ5tNo7CoX2HhVvt4A1FrfG5rRJh9QtuDGKFft8wnlQjdS9JyMctr4=
+ARC-Authentication-Results: i=1; www.redadmin.org
+DKIM-Filter: OpenDKIM Filter v2.11.0 www.redadmin.org 0CAEB109EFAC6
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redadmin.org;
+	s=20231208space; t=1757602932;
+	bh=5Aqnque0KihRjNKJ4iJ+xBotv0bYet0eDs7kStCnndg=;
+	h=From:To:Cc:Subject:Date:From;
+	b=K1m6Yb+ON91T/Hltn03sjqj029wIYB7TOoUEBuLoj/4Ho9+uVuWBDDZKbR/VGMVHj
+	 H1F50Qq7zPGxAtglmFotKso7ncSkRJuLpE3P4N1lICTQnJhjIlR8Zgcy+h0aNVWl/R
+	 j4so7jhXpLP19JaMT32gh8t4hRtulBrfczm2R+GA=
+From: Akiyoshi Kurita <weibu@redadmin.org>
+To: gregkh@linuxfoundation.org
+Cc: linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Akiyoshi Kurita <weibu@redadmin.org>
+Subject: [PATCH] staging: rtl8723bs: fix typo in comment
+Date: Fri, 12 Sep 2025 00:02:07 +0900
+Message-ID: <20250911150207.602285-1-weibu@redadmin.org>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1b79e467-1d39-457f-a488-0f3eb9e14efc@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-Hi Cosmin,
+Fix a spelling mistake in hal_pwr_seq.c:
+  - 'configurtions' =E2=86=92 'configurations'
 
-On Wed, Sep 10, 2025 at 01:48:29PM +0300, Cosmin Tanislav wrote:
-> 
-> 
-> On 9/10/25 9:52 AM, Sakari Ailus wrote:
-> > Hi Cosmin,
-> > 
-> > On Thu, Sep 04, 2025 at 10:52:09AM +0300, Cosmin Tanislav wrote:
-> > > Hi Sakari.
-> > > 
-> > > I recently left Analog Devices but I will continue to try upstreaming
-> > > this driver. After the upstreaming is done we can switch the
-> > > maintainer status to someone else.
-> > 
-> > Ack, thank you.
-> > 
-> > > 
-> > > Here's the output for the commands you asked, provided by my
-> > > ex-coworker. It's for MAX96716 + 2xMAX96717 + 2x IMX219.
-> > > 
-> > > Do we need to fix anything based on the compliance tests?
-> > 
-> > Looking at the errors, it looks like some fixing is needed, possibly also
-> > on v4l2-compliance side.
-> > 
-> 
-> I'll take a closer look at the failures whenever I get the time.
-> 
-> > Regarding GMSL, are the image width, height or mbus code used for anything
-> > by the serialiser or deserialiser drivers?
-> > 
-> 
-> No, not really. All the information needed by the GMSL drivers is
-> provided through get_frame_desc() ops, and there's no fallback for the
-> data type, so the stream format is not involved at all, but as far as I
-> remember it's necessary to be set properly for the media pipeline to
-> pass validation.
+No functional change.
 
-In earlier iterations of multi-stream support we've had link validation dig
-this information up from the closest sub-device that supported get_fmt pad
-op but that also made the assumption there would be no stream branching
-taking place, which is not the case anymore.
+Signed-off-by: Akiyoshi Kurita <weibu@redadmin.org>
+---
+ drivers/staging/rtl8723bs/hal/hal_pwr_seq.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-I guess the most simple way to address this indeed would be to add the
-formats to the streams, even if the driver doesn't need them. Also for
-backwards compatiblity related reasons they are probably necessary -- the
-older max9671* drivers did support them, too.
+diff --git a/drivers/staging/rtl8723bs/hal/hal_pwr_seq.c b/drivers/staging/=
+rtl8723bs/hal/hal_pwr_seq.c
+index 2438931ca51b..fba67a7c069c 100644
+--- a/drivers/staging/rtl8723bs/hal/hal_pwr_seq.c
++++ b/drivers/staging/rtl8723bs/hal/hal_pwr_seq.c
+@@ -8,7 +8,7 @@
+ /*
+ *
+ This file includes all kinds of Power Action event for RTL8723B
+-and corresponding hardware configurations which are released from HW SD.
++and corresponding hardware configurtions which are released from HW SD.
+=20
+ Major Change History:
+ 	When       Who               What
+--=20
+2.47.3
 
-This would also address (most of?) the v4l2-compliance issues.
-
--- 
-Kind regards,
-
-Sakari Ailus
