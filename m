@@ -1,87 +1,51 @@
-Received: from www3141.sakura.ne.jp (www3141.sakura.ne.jp [49.212.207.181])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED4801D90AD;
-	Fri, 12 Sep 2025 02:28:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=49.212.207.181
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757644123; cv=pass; b=teq8/xfL3Zkbqqs7/A5o1k3+1ViSaOhN5//+78sYskfKBI/JxqDAghx4PzZ18Nf0s/a6ryO1tm9cLcRyB2mtJ2NYQsarlB8FamEtWSJqvU4cS/H3i1TiNBH+Bw6ePhB1XMvRxZQbaX+3amiA/nVP0nSqZWoAVC94DVPRfX/e+7Q=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757644123; c=relaxed/simple;
-	bh=g/uXEYH9ERO80RCXnIRCR4SGEtRcXAB85AgRzR57RtY=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=dDh+XuP3LnFpdfLhOWbI/FpCLyt5StmTbkShtBUipUrJCs1z0L6QtXYxZ2IQEtjpTTzo2cYpPIf9izMj2SiitEcxV/ByJQw9xPfg+cDtXe6kUnmfk66nnQgEWxEXb222wp2PJVLMoDIq6yfTO4INDwXGULTBZd3uCQkx7BkmUWc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redadmin.org; spf=pass smtp.mailfrom=redadmin.org; dkim=pass (1024-bit key) header.d=redadmin.org header.i=@redadmin.org header.b=VyRrvgNs; arc=pass smtp.client-ip=49.212.207.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redadmin.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redadmin.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0199B4207A;
+	Fri, 12 Sep 2025 05:32:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1757655165; cv=none; b=QdpypUqKrY04F+81ntRiPRQ4a0yCQs0JkvVbgDd3iqhFJuALTnrIlvIUs3HSqSXClp+QWYaN0XGNyJrvPMRSddyMulawZQj3veYXKPTWXxWfliGjJE/v+9fq8ISVJriozcK576h/zy6zEPsveZHXNbDxYnQUae+MIjcDcyvgNbI=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1757655165; c=relaxed/simple;
+	bh=jeT4qR8rIecDQlfC59jCyIYr83mRqkyal9fi9JFmstw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=kV3lSRu39efU7T3Kb9t7oUAK/bQ3izObL8TIoBgKNGjya7pZQkzX4Mq26FtBCEcMLeIfCIWeMYT/EjoEJHVdTicYa5yDJZ16QMU2vs4x11eG3ltyhnWVXUAo3cor1ByV2hQhF36mYPPozg+FEV94oI2r55LX7NPcbzwgwujlXQU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=mH2y70wU; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redadmin.org header.i=@redadmin.org header.b="VyRrvgNs"
-Received: from www.redadmin.org (ag129037.ppp.asahi-net.or.jp [157.107.129.37])
-	(authenticated bits=0)
-	by www3141.sakura.ne.jp (8.16.1/8.16.1) with ESMTPSA id 58C2SY3f086931
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
-	Fri, 12 Sep 2025 11:28:34 +0900 (JST)
-	(envelope-from weibu@redadmin.org)
-Received: from localhost (localhost [127.0.0.1])
-	by www.redadmin.org (Postfix) with ESMTP id D3BDC109F7118;
-	Fri, 12 Sep 2025 11:28:33 +0900 (JST)
-X-Virus-Scanned: amavis at redadmin.org
-Received: from www.redadmin.org ([127.0.0.1])
- by localhost (redadmin.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id J5Il4MAUspaZ; Fri, 12 Sep 2025 11:28:29 +0900 (JST)
-Received: by www.redadmin.org (Postfix, from userid 1000)
-	id 808DA109EFAC6; Fri, 12 Sep 2025 11:28:29 +0900 (JST)
-Authentication-Results: www.redadmin.org; arc=none smtp.remote-ip=127.0.0.1
-ARC-Seal: i=1; a=rsa-sha256; d=redadmin.org; s=20231208space; t=1757644109;
-	cv=none; b=rX6dzv0emRKeFM9TuN8o7zue9d88TytieiKvt1hzosHFCh1dZ8W3SjDH6xQ4pKA5jv71eQ/UCjQu1A4h10NNXNZ49S5RRt+nxMPLj2eUnGfYdKOKHZhAaYfXhMZeUV7HL0FF5OcK2kP0Szs7GUeiIVzCiaDUUBzQBYW9QjwiK8c=
-ARC-Message-Signature: i=1; a=rsa-sha256; d=redadmin.org; s=20231208space;
-	t=1757644109; c=relaxed/relaxed;
-	bh=ymB1SH1P2od9SZcdZN1Bzow9DzmfR+PmftBIx0Rmqik=;
-	h=DKIM-Filter:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:
-	 X-Mailer:MIME-Version:Content-Transfer-Encoding; b=BLwEIH/YAXxcS65/2Aae1L7uJynRg4gp3tv2QGERr29kg53F9MGqd3dvJW8Aqm0Co+gwhG3cxFSBXcnibT7FA9lthJeq5Ccg0/UZK5NyS06Vhf6rN57zidoNYMoLj3yXnJyEFBgSfWRCknxYBOODOlVDqDqRmnr3qBa/L9T3DO8=
-ARC-Authentication-Results: i=1; www.redadmin.org
-DKIM-Filter: OpenDKIM Filter v2.11.0 www.redadmin.org 808DA109EFAC6
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redadmin.org;
-	s=20231208space; t=1757644109;
-	bh=ymB1SH1P2od9SZcdZN1Bzow9DzmfR+PmftBIx0Rmqik=;
-	h=From:To:Cc:Subject:Date:From;
-	b=VyRrvgNstCUN/6c/3xEJntMkeOhqJbrRHAYHTlbHQyuyksXf+SFz3vvXkLBIzerUA
-	 gs9nNFH5B6LRfeAjIuDB4EjR9HI59PfZdUoNGJXMD62hprF4tVCmL64KRfj0aPXees
-	 T95NtmCBVTnQa5FbQy6Xiift5ehl6oxnDl74iIOE=
-From: Akiyoshi Kurita <weibu@redadmin.org>
-To: gregkh@linuxfoundation.org
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="mH2y70wU"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2C8FAC4CEF4;
+	Fri, 12 Sep 2025 05:32:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1757655164;
+	bh=jeT4qR8rIecDQlfC59jCyIYr83mRqkyal9fi9JFmstw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=mH2y70wUUulUe8WhRFMj+Pxezigo7Q4HBV/ofcB748Kcryitz2YpXMHru0asRNkwZ
+	 JeT9Wh+wfx19Qg3RSsLoMGY+wbv9pwyT+VttKt873Nuotzornaasc47XH4LVeWEtWL
+	 dUX00wum9ds5XJ6aGkpBrS0v/nJoUBkRAEgYgo2I=
+Date: Fri, 12 Sep 2025 07:32:39 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Akiyoshi Kurita <weibu@redadmin.org>
 Cc: dan.carpenter@linaro.org, linux-staging@lists.linux.dev,
-        linux-kernel@vger.kernel.org, Akiyoshi Kurita <weibu@redadmin.org>
-Subject: [PATCH v2] staging: rtl8723bs: fix typo in comment
-Date: Fri, 12 Sep 2025 11:28:26 +0900
-Message-ID: <20250912022827.676169-1-weibu@redadmin.org>
-X-Mailer: git-send-email 2.47.3
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] staging: rtl8723bs: fix typo in comment
+Message-ID: <2025091223-dispatch-angriness-7516@gregkh>
+References: <20250912022827.676169-1-weibu@redadmin.org>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250912022827.676169-1-weibu@redadmin.org>
 
-Signed-off-by: Akiyoshi Kurita <weibu@redadmin.org>
----
- drivers/staging/rtl8723bs/hal/hal_pwr_seq.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On Fri, Sep 12, 2025 at 11:28:26AM +0900, Akiyoshi Kurita wrote:
+> Signed-off-by: Akiyoshi Kurita <weibu@redadmin.org>
 
-diff --git a/drivers/staging/rtl8723bs/hal/hal_pwr_seq.c b/drivers/staging/=
-rtl8723bs/hal/hal_pwr_seq.c
-index 2438931ca51b..fba67a7c069c 100644
---- a/drivers/staging/rtl8723bs/hal/hal_pwr_seq.c
-+++ b/drivers/staging/rtl8723bs/hal/hal_pwr_seq.c
-@@ -8,7 +8,7 @@
- /*
- *
- This file includes all kinds of Power Action event for RTL8723B
--and corresponding hardware configurtions which are released from HW SD.
-+and corresponding hardware configurations which are released from HW SD.
-=20
- Major Change History:
- 	When       Who               What
---=20
-2.47.3
+Sorry, but I can't take patches without any changelog at all.
 
+thanks,
+
+greg k-h
