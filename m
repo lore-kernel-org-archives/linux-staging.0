@@ -1,110 +1,87 @@
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from www3141.sakura.ne.jp (www3141.sakura.ne.jp [49.212.207.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33D23219A8A
-	for <linux-staging@lists.linux.dev>; Thu, 11 Sep 2025 18:52:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757616732; cv=none; b=MvSoUadqMMrKKH7o2PxNNJT2YCgxr8Mr+J9VPi8J3SzMeZLBLnehedXtdcwQChp0cfSRq1JuznAkVRt7zPh06J8RJqStIKs5QPcIEgIkgR0uCsJf7U78S/1j3u23E/aVWhpn1FiN0/25MulLYQD1HkRVsJtCeKM7Nl1tW9zHHX8=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757616732; c=relaxed/simple;
-	bh=rXd/6eNnkgwcu1obGsgNivj+t82h/1UPQb10m9TrnYI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dMn7tZTB/ur9lDODoQVRlg1JQ88fl1jKdXczAN8Z1KSqrzek3FQ7va+JrMhfgWYG3di6OPPw8ANhdgauoAmit5Bj/+13WeId0sHQgMstKG84xWOPQrVxZDGRdJtpZVymonVUYL8Xl2XylipDnnes+O4PU1iTCF1BenjlpAOnzyQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=UKRz0toc; arc=none smtp.client-ip=209.85.128.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED4801D90AD;
+	Fri, 12 Sep 2025 02:28:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=49.212.207.181
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1757644123; cv=pass; b=teq8/xfL3Zkbqqs7/A5o1k3+1ViSaOhN5//+78sYskfKBI/JxqDAghx4PzZ18Nf0s/a6ryO1tm9cLcRyB2mtJ2NYQsarlB8FamEtWSJqvU4cS/H3i1TiNBH+Bw6ePhB1XMvRxZQbaX+3amiA/nVP0nSqZWoAVC94DVPRfX/e+7Q=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1757644123; c=relaxed/simple;
+	bh=g/uXEYH9ERO80RCXnIRCR4SGEtRcXAB85AgRzR57RtY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=dDh+XuP3LnFpdfLhOWbI/FpCLyt5StmTbkShtBUipUrJCs1z0L6QtXYxZ2IQEtjpTTzo2cYpPIf9izMj2SiitEcxV/ByJQw9xPfg+cDtXe6kUnmfk66nnQgEWxEXb222wp2PJVLMoDIq6yfTO4INDwXGULTBZd3uCQkx7BkmUWc=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redadmin.org; spf=pass smtp.mailfrom=redadmin.org; dkim=pass (1024-bit key) header.d=redadmin.org header.i=@redadmin.org header.b=VyRrvgNs; arc=pass smtp.client-ip=49.212.207.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redadmin.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redadmin.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="UKRz0toc"
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-45b4d89217aso8202865e9.2
-        for <linux-staging@lists.linux.dev>; Thu, 11 Sep 2025 11:52:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1757616728; x=1758221528; darn=lists.linux.dev;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=/qPRJJ/6GDpv3hVxWcXnPmSZ8FtyUTqpKhwovBWsMd0=;
-        b=UKRz0toc+8hUH1hSa7Gxc6CUHBD8YDeGnx+a+e+LIXdpQ7bERCRqFc9yzId5pEbiYZ
-         GpwqPDJpKPiOP+82u/oXOfFeJHI4HA3T4hoqHttXknKtxKasy/OtG6oJ41IO3H14UTZk
-         yQwtkYrziPEA6B7niQncC74UQHBk53I8v5vsFNIx/dRCIEiaBUh9MIW3NBDC6HHzbYkm
-         ThQ7iK1gmKsIKGhSjGUTWO9PIgSApddxyMzxD4z9l9+zDekjsphPTw6AQIbTN29iDKlC
-         6cvVCV1RqrHTsrm7Ric6+r7pp+baSGaVJ7wi2iCA8UCKo51hUNEICvZalyZctVkHvtNX
-         FFVA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757616728; x=1758221528;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=/qPRJJ/6GDpv3hVxWcXnPmSZ8FtyUTqpKhwovBWsMd0=;
-        b=XEzdld/e/NFS6Bqy5KuzO420koVK40c1wjMnfZc36UaP/H+d+GyA/pCCzbLS+ovom8
-         G0Ev537Mo//GwxXcV0JR+0U1wCxpk5xNiPzxiZebMUwEB/iq27x8OHSg1Vz5pOegHCsj
-         phvGKb7iiUvzlcrlHQUnilsL153NTsE3G/MubK/WPrNCc1B18RdMrFlbWtwQPV89fJq1
-         x8rcpqciB8reaMblGRD5ghDiY/CYEYZr87S5ipgQ2Y1u+TieZLYzis5YdB+a/uwaLCzn
-         JEo7agxa5adqAoA7BzDbGMvP3ebhfZpoYQ9mGKGeYRGNup6hcGUCcuE4Ir1jr1vOoPPn
-         8Kcw==
-X-Forwarded-Encrypted: i=1; AJvYcCVrfFXl4+cpazjZNyrsGXa2HiEZXBaPalqGy2rNhvInih8nCgfpKvlCmZKoUR5rW23Y50V+kncT5w31JQlx@lists.linux.dev
-X-Gm-Message-State: AOJu0YypRar9z1lBc5QmgSA0dXIWQum6/AM23hIR+LX0+YT1PxwForCD
-	Y4ORdj+iyxnNSh9ZFEp2v0os8jRP4srkZzyct4BQ5EZ8LvCb9Oacd284LT5GTGWxmRM=
-X-Gm-Gg: ASbGnctM9sM8DlQxSf83+AfvJEAkWEF2jYsqQeIvY+gAQuWCsChy4WGO9+83FaewNnD
-	boExILOGhEpWxfNX5yn6eTSo9dQCuYjmouioEYF9w7oocMA31VY3kS0d9CFEfA6/I53Yl3ohTKw
-	2TG8s28LCDWpY4gr1G1W4VG0Q+QW+nO1CwLIOC+eS+Y8qx0F8Q5nnyFEUUCzSP8UQ1jHzNMyv+Q
-	abOGhwNERwwMl5X9QFlQWwvGgkPNpk+H35vYOfMuj7pQNdSH9NiiWtBuCqSENydbrFzi36WibTN
-	1jY1Th1ZjSOUx5hxXKP/hkFgPI43PgjIa4wL5TkPetCMUUOPQ85C7EMstu2BHI2N2mV/l+CqF2G
-	KQaQmmHPWuiZ24eQ3m+AYpXlrSZ0=
-X-Google-Smtp-Source: AGHT+IGbe0i5zX7GrPZfXxtP9KwFOHD5VEyjXbbI2e/fygTlh6S6/f6eSWgbH0sRjrbQGsV2TsTPvQ==
-X-Received: by 2002:a05:600c:19d1:b0:45d:98be:ee8f with SMTP id 5b1f17b1804b1-45f212609f5mr4155545e9.26.1757616728466;
-        Thu, 11 Sep 2025 11:52:08 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-3e7607e2d43sm3441866f8f.59.2025.09.11.11.52.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 11 Sep 2025 11:52:08 -0700 (PDT)
-Date: Thu, 11 Sep 2025 21:52:04 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Akiyoshi Kurita <weibu@redadmin.org>
-Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: rtl8723bs: fix typo in comment
-Message-ID: <aMMaVOSQx_8zftnp@stanley.mountain>
-References: <20250911150207.602285-1-weibu@redadmin.org>
+	dkim=pass (1024-bit key) header.d=redadmin.org header.i=@redadmin.org header.b="VyRrvgNs"
+Received: from www.redadmin.org (ag129037.ppp.asahi-net.or.jp [157.107.129.37])
+	(authenticated bits=0)
+	by www3141.sakura.ne.jp (8.16.1/8.16.1) with ESMTPSA id 58C2SY3f086931
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
+	Fri, 12 Sep 2025 11:28:34 +0900 (JST)
+	(envelope-from weibu@redadmin.org)
+Received: from localhost (localhost [127.0.0.1])
+	by www.redadmin.org (Postfix) with ESMTP id D3BDC109F7118;
+	Fri, 12 Sep 2025 11:28:33 +0900 (JST)
+X-Virus-Scanned: amavis at redadmin.org
+Received: from www.redadmin.org ([127.0.0.1])
+ by localhost (redadmin.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id J5Il4MAUspaZ; Fri, 12 Sep 2025 11:28:29 +0900 (JST)
+Received: by www.redadmin.org (Postfix, from userid 1000)
+	id 808DA109EFAC6; Fri, 12 Sep 2025 11:28:29 +0900 (JST)
+Authentication-Results: www.redadmin.org; arc=none smtp.remote-ip=127.0.0.1
+ARC-Seal: i=1; a=rsa-sha256; d=redadmin.org; s=20231208space; t=1757644109;
+	cv=none; b=rX6dzv0emRKeFM9TuN8o7zue9d88TytieiKvt1hzosHFCh1dZ8W3SjDH6xQ4pKA5jv71eQ/UCjQu1A4h10NNXNZ49S5RRt+nxMPLj2eUnGfYdKOKHZhAaYfXhMZeUV7HL0FF5OcK2kP0Szs7GUeiIVzCiaDUUBzQBYW9QjwiK8c=
+ARC-Message-Signature: i=1; a=rsa-sha256; d=redadmin.org; s=20231208space;
+	t=1757644109; c=relaxed/relaxed;
+	bh=ymB1SH1P2od9SZcdZN1Bzow9DzmfR+PmftBIx0Rmqik=;
+	h=DKIM-Filter:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:
+	 X-Mailer:MIME-Version:Content-Transfer-Encoding; b=BLwEIH/YAXxcS65/2Aae1L7uJynRg4gp3tv2QGERr29kg53F9MGqd3dvJW8Aqm0Co+gwhG3cxFSBXcnibT7FA9lthJeq5Ccg0/UZK5NyS06Vhf6rN57zidoNYMoLj3yXnJyEFBgSfWRCknxYBOODOlVDqDqRmnr3qBa/L9T3DO8=
+ARC-Authentication-Results: i=1; www.redadmin.org
+DKIM-Filter: OpenDKIM Filter v2.11.0 www.redadmin.org 808DA109EFAC6
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redadmin.org;
+	s=20231208space; t=1757644109;
+	bh=ymB1SH1P2od9SZcdZN1Bzow9DzmfR+PmftBIx0Rmqik=;
+	h=From:To:Cc:Subject:Date:From;
+	b=VyRrvgNstCUN/6c/3xEJntMkeOhqJbrRHAYHTlbHQyuyksXf+SFz3vvXkLBIzerUA
+	 gs9nNFH5B6LRfeAjIuDB4EjR9HI59PfZdUoNGJXMD62hprF4tVCmL64KRfj0aPXees
+	 T95NtmCBVTnQa5FbQy6Xiift5ehl6oxnDl74iIOE=
+From: Akiyoshi Kurita <weibu@redadmin.org>
+To: gregkh@linuxfoundation.org
+Cc: dan.carpenter@linaro.org, linux-staging@lists.linux.dev,
+        linux-kernel@vger.kernel.org, Akiyoshi Kurita <weibu@redadmin.org>
+Subject: [PATCH v2] staging: rtl8723bs: fix typo in comment
+Date: Fri, 12 Sep 2025 11:28:26 +0900
+Message-ID: <20250912022827.676169-1-weibu@redadmin.org>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250911150207.602285-1-weibu@redadmin.org>
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, Sep 12, 2025 at 12:02:07AM +0900, Akiyoshi Kurita wrote:
-> Fix a spelling mistake in hal_pwr_seq.c:
->   - 'configurtions' → 'configurations'
-> 
-> No functional change.
+Signed-off-by: Akiyoshi Kurita <weibu@redadmin.org>
+---
+ drivers/staging/rtl8723bs/hal/hal_pwr_seq.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-This part isn't required.  It's obvious.
+diff --git a/drivers/staging/rtl8723bs/hal/hal_pwr_seq.c b/drivers/staging/=
+rtl8723bs/hal/hal_pwr_seq.c
+index 2438931ca51b..fba67a7c069c 100644
+--- a/drivers/staging/rtl8723bs/hal/hal_pwr_seq.c
++++ b/drivers/staging/rtl8723bs/hal/hal_pwr_seq.c
+@@ -8,7 +8,7 @@
+ /*
+ *
+ This file includes all kinds of Power Action event for RTL8723B
+-and corresponding hardware configurtions which are released from HW SD.
++and corresponding hardware configurations which are released from HW SD.
+=20
+ Major Change History:
+ 	When       Who               What
+--=20
+2.47.3
 
-> 
-> Signed-off-by: Akiyoshi Kurita <weibu@redadmin.org>
-> ---
->  drivers/staging/rtl8723bs/hal/hal_pwr_seq.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/staging/rtl8723bs/hal/hal_pwr_seq.c b/drivers/staging/rtl8723bs/hal/hal_pwr_seq.c
-> index 2438931ca51b..fba67a7c069c 100644
-> --- a/drivers/staging/rtl8723bs/hal/hal_pwr_seq.c
-> +++ b/drivers/staging/rtl8723bs/hal/hal_pwr_seq.c
-> @@ -8,7 +8,7 @@
->  /*
->  *
->  This file includes all kinds of Power Action event for RTL8723B
-> -and corresponding hardware configurations which are released from HW SD.
-> +and corresponding hardware configurtions which are released from HW SD.
-
-I don't know how you did it, but you somehow reversed this patch.
-The - lines in a patch are the old lines and the + lines are the new
-lines.
-
-regards,
-dan carpenter
