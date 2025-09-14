@@ -1,59 +1,99 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from www.redadmin.org (ag129037.ppp.asahi-net.or.jp [157.107.129.37])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0145C29CE1;
-	Sun, 14 Sep 2025 15:09:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757862551; cv=none; b=tJfFI41Y13LkWCg8N8lZe1t0tqOkhdTya9ip2eolqMb9swzYaGUcrtdxCBxlUZwUJ671JCIT+Ypk/9wTz/QzIdZidHL91/U7vMfl9JoWVLE6d77LnQftmXWgE0u3+ogVlnVvF1YCZWKmMPycq3YX+6UHTtcPCKt+SqW5z+R8Yxs=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757862551; c=relaxed/simple;
-	bh=b7XeC1cMpBks3HlDxqDTcUhiVwQftxcOd/FabFBh73w=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ux40pX/M3Qm8V7MAjy6ZC1+q7ecYy50wGiNP3r/6Tr9LXfwuWYJOQhEfR1WqV3og5tFnYbuF6Z/h9HOddEeLm4RQFU32PeFvHvgxS/8uLN8jbe+DULUfag8oKwGu+IyWzTpNWTgsvn5/IrAhaOpcUWjO5GGlcm6tDK3WITmqYkA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=PqXld1dp; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5A0627978C
+	for <linux-staging@lists.linux.dev>; Sun, 14 Sep 2025 15:29:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=157.107.129.37
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1757863756; cv=pass; b=oQhufjom5sDP9vjyciY3JRwtzMHnaifUYeuTCLha0Clbhu7OkezrF6smfzEjicFeN65KZ7QsX8j2faX6TPYoMoXYxyo19yU5Tq/qSKtaDN21+kMduExcnkaftwon4zXKd4dag9g02g+SQQq6ZpJi1oaGrguiDNg/1ZjRipmTQt8=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1757863756; c=relaxed/simple;
+	bh=3IbcCx+AzyrNphEQIcDTAkdn1N1em1rTzkiZ6HKjbc8=;
+	h=MIME-Version:Date:From:To:Cc:Subject:In-Reply-To:References:
+	 Message-ID:Content-Type; b=V+OkdntgubN5SUZ7qX+HgoFTKpnIXm6TY4xnBwz5OgCBuTZqw+TnbT6TZ8wvHi3h8hx6AHt+IYSohDhQUJAL8HU1G3u+ylLWb+oTzBuTM0bsYAg2StDUTpd0cit0oMtTn8X/RbJqj5YSKLZBKBhlMlWjh8W6vhYvlg4xY9J+qwk=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redadmin.org; spf=pass smtp.mailfrom=redadmin.org; dkim=pass (1024-bit key) header.d=redadmin.org header.i=@redadmin.org header.b=Dd4hd1d7; arc=pass smtp.client-ip=157.107.129.37
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redadmin.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redadmin.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="PqXld1dp"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2BDF5C4CEF0;
-	Sun, 14 Sep 2025 15:09:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1757862550;
-	bh=b7XeC1cMpBks3HlDxqDTcUhiVwQftxcOd/FabFBh73w=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=PqXld1dpD9yvrn19KwFz8UWaFIsq7BEU7YBFm0cO8ulmLP1MF+RX3w2aXqriSSmxa
-	 mpVf3265XSDxz2YEfEaRhyIU7WbaxjBZAq1sxpjuhCfMj2EUJOQIWyWwYQEhAh+iNS
-	 GDAk2aqGTVNqzhlfafDauH5SPXUU1r5uUmdgeGvs=
-Date: Sun, 14 Sep 2025 17:09:07 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Akiyoshi Kurita <weibu@redadmin.org>
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: rtl8723bs: rtw_efuse.h: Fix prototype whitespace
-Message-ID: <2025091454-popular-overall-9864@gregkh>
-References: <20250913112458.910059-1-weibu@redadmin.org>
+	dkim=pass (1024-bit key) header.d=redadmin.org header.i=@redadmin.org header.b="Dd4hd1d7"
+Received: from localhost (localhost [127.0.0.1])
+	by www.redadmin.org (Postfix) with ESMTP id AA0F110B40B64;
+	Mon, 15 Sep 2025 00:29:04 +0900 (JST)
+X-Virus-Scanned: amavis at redadmin.org
+Received: from www.redadmin.org ([127.0.0.1])
+ by localhost (redadmin.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id KDMaOXrOWeDG; Mon, 15 Sep 2025 00:29:01 +0900 (JST)
+Received: from webmail.redadmin.org (redadmin.org [192.168.11.50])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-256) server-digest SHA256)
+	(Client did not present a certificate)
+	(Authenticated sender: weibu@redadmin.org)
+	by www.redadmin.org (Postfix) with ESMTPSA id 0EC30109D55C3;
+	Mon, 15 Sep 2025 00:29:01 +0900 (JST)
+DMARC-Filter: OpenDMARC Filter v1.4.2 www.redadmin.org 0EC30109D55C3
+Authentication-Results: www.redadmin.org; arc=none smtp.remote-ip=192.168.11.50
+ARC-Seal: i=1; a=rsa-sha256; d=redadmin.org; s=20231208space; t=1757863741;
+	cv=none; b=eG7Am4rUAHxQanyz5AOdYQFhTRe1HEoGQvkv6cJVzpNyk3dSwao0HsCBJsrk53BmDbbTV2BT8Xv/PrM59D5SGiHAyU7BrQk/LEp/4kKfjTGiXmeRaB6ZgS1lfBjyKRnEpbDK6AnpIAsa6cIG0S9agg5r5l3A5k7BUqWNAmCJEHY=
+ARC-Message-Signature: i=1; a=rsa-sha256; d=redadmin.org; s=20231208space;
+	t=1757863741; c=relaxed/relaxed;
+	bh=IG/wxvFjZ4KF1WA6DzU9Avkd2drHlzCGrrowgiuJ+yg=;
+	h=DKIM-Filter:DKIM-Signature:MIME-Version:Date:From:To:Cc:Subject:
+	 In-Reply-To:References:Message-ID:X-Sender:Content-Type:
+	 Content-Transfer-Encoding; b=OLyGn81QNDE5TGf+3wQr3dF5CwJSSZKu2ryECmODDCfkR8O91iQPJUWa9BKYqVh04iZTJcGqc00RJNTwla0obimUdDJahC201BLMEzrdfvRI8I7Y7Ar3JLoPQgsTBLJahiGtYyiA1o2zu1Jo8hrW4i3mjcwCd19f3A2eK4CF8ZE=
+ARC-Authentication-Results: i=1; www.redadmin.org
+DKIM-Filter: OpenDKIM Filter v2.11.0 www.redadmin.org 0EC30109D55C3
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redadmin.org;
+	s=20231208space; t=1757863741;
+	bh=IG/wxvFjZ4KF1WA6DzU9Avkd2drHlzCGrrowgiuJ+yg=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=Dd4hd1d7YN090V777FZrg+E09AWr2lywkVZq8Z6rDNl9rsxTZM5xhrlb6GOGWWcUr
+	 Q6zuO+u5yRAikJj/I6R/tttQfacvbG7QMBVG74oHm3jbrCe9Y1IZK2gjc//x3fB0bq
+	 2D+TwVnT1Af03BUrt82E9VGbPIIcxOZm+uIPBzu8=
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250913112458.910059-1-weibu@redadmin.org>
+Date: Mon, 15 Sep 2025 00:29:00 +0900
+From: weibu@redadmin.org
+To: Greg KH <gregkh@linuxfoundation.org>
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: rtl8723bs: rtw_efuse.h: Fix prototype whitespace
+In-Reply-To: <2025091454-popular-overall-9864@gregkh>
+References: <20250913112458.910059-1-weibu@redadmin.org>
+ <2025091454-popular-overall-9864@gregkh>
+Message-ID: <1d0fdc3bde254057539b7e8506d0c211@redadmin.org>
+X-Sender: weibu@redadmin.org
+Content-Type: text/plain; charset=UTF-8;
+ format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Sat, Sep 13, 2025 at 08:24:58PM +0900, Akiyoshi Kurita wrote:
-> Several function prototypes in rtw_efuse.h contained extra spaces
-> between the type and variable name of the last argument.
+Hi Greg,
+
+Thanks for the heads-up. That patch was generated against linux-next
+(next-2025-09-12). I’ll rebase it onto your staging.git 
+`staging-testing`
+branch and resend it as v2.
+
+Thanks,
+Akiyoshi
+
+2025-09-15 00:09 に Greg KH さんは書きました:
+> On Sat, Sep 13, 2025 at 08:24:58PM +0900, Akiyoshi Kurita wrote:
+>> Several function prototypes in rtw_efuse.h contained extra spaces
+>> between the type and variable name of the last argument.
+>> 
+>> Remove these spaces to conform to the kernel coding style.
+>> No functional change is intended.
+>> 
+>> Signed-off-by: Akiyoshi Kurita <weibu@redadmin.org>
+>> ---
+>>  drivers/staging/rtl8723bs/include/rtw_efuse.h | 6 +++---
+>>  1 file changed, 3 insertions(+), 3 deletions(-)
 > 
-> Remove these spaces to conform to the kernel coding style.
-> No functional change is intended.
+> This does not apply to my current tree, what did you make it against?
 > 
-> Signed-off-by: Akiyoshi Kurita <weibu@redadmin.org>
-> ---
->  drivers/staging/rtl8723bs/include/rtw_efuse.h | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
-
-This does not apply to my current tree, what did you make it against?
-
-thanks,
-
-greg k-h
+> thanks,
+> 
+> greg k-h
