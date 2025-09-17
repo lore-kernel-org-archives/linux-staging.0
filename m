@@ -1,68 +1,121 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from www3141.sakura.ne.jp (www3141.sakura.ne.jp [49.212.207.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0439D261B6E;
-	Wed, 17 Sep 2025 05:52:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758088326; cv=none; b=jXDMlkeZtIwmPtNwtGQsmQa2A1KNXhzmLG4aBRb1YchPZiJrrrRo4QAYVVTSSrteVHYbKufKfI0RSJN5zhs/EIdCsphszT3PmflnqtTlB10L8HlziqrNDwmLW7pUZ7Moi0kiXAqHTj6vH3d2569wo25mj5wEH8sf6kiDYubEGZI=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758088326; c=relaxed/simple;
-	bh=jouXAy/5BYCdlnpG5KBWN8vAz7fpfB9HCntWrw0afkE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jgVmhvnaKSITh9TINqUFMGNlOCG61J5cpB1WNT1HmJCClbpi5DhSXdpSX4Q/ACfUWYYHgo3X8Rz/Dx6k7cg3oPI07y0MV+r8fzQLqzdWAO06MgEuLGIM/n5GUuhD7/l8JcUDR6JUgTFL/qIiGymG7J5fNbtgivuo+PxUSBTPTC8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=c00guJfH; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EEAB51EFFB4;
+	Wed, 17 Sep 2025 06:23:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=49.212.207.181
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1758090216; cv=pass; b=kNgMP8IsadTI03R946GYgRz0uIkZGcyyFcfcHGX9t1vG3mwDzF3Vtw3jg4rhK4TuewEWIU5GLQFCwEmBt7WCYM85Mkn0dc4UBDuIsUhbCugaE3u3NVtjNRaLWibaa/c05PoiEvCdTc1nkbFh7OKqklkk9xVUFk1Ku6CSTGzodMw=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1758090216; c=relaxed/simple;
+	bh=ndBxuU9IcHR03Y9HLWlRv5Q/Odxh43haWkbb9IzLfeY=;
+	h=MIME-Version:Date:From:To:Cc:Subject:In-Reply-To:References:
+	 Message-ID:Content-Type; b=IzybP6DdpfO5DcojYF4O6DCqZsTeiBcvQ/cXIFyq3xZbiv7uHQctFebRfmJ1puaRul7tLbm2OvaJjB0uuDl4JljOZ+izMCfVEl86m8747NZxyfvB1w5F6Z2srCPBO8YxxpEGyqp34O3N4byvYvWumdQs0hnkZSO9iwA8zxRJt5A=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redadmin.org; spf=pass smtp.mailfrom=redadmin.org; dkim=pass (1024-bit key) header.d=redadmin.org header.i=@redadmin.org header.b=e/co/shn; arc=pass smtp.client-ip=49.212.207.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redadmin.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redadmin.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="c00guJfH"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1D5F5C4CEF0;
-	Wed, 17 Sep 2025 05:52:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1758088325;
-	bh=jouXAy/5BYCdlnpG5KBWN8vAz7fpfB9HCntWrw0afkE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=c00guJfHT4MS0TVRdiXkoj72AYqSdQfRFXREW9yvc3zx9epc8faCD4ekJl7gHevsn
-	 EL5AZnI6Uq2fgQs3Y2ERoQByu55gwkDPWBQZH1W+NML8uaGs4AaG+DLwz9/cg0JMOJ
-	 vn9y+yq/iawSTAxkZuueYmzd+fwKBnt5m3yakZOk=
-Date: Wed, 17 Sep 2025 07:52:01 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Akiyoshi Kurita <weibu@redadmin.org>
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: rtl8723bs: xmit: fix grammar in comment
-Message-ID: <2025091705-murky-sage-465f@gregkh>
-References: <20250917053944.1447050-1-weibu@redadmin.org>
+	dkim=pass (1024-bit key) header.d=redadmin.org header.i=@redadmin.org header.b="e/co/shn"
+Received: from www.redadmin.org (ag129037.ppp.asahi-net.or.jp [157.107.129.37])
+	(authenticated bits=0)
+	by www3141.sakura.ne.jp (8.16.1/8.16.1) with ESMTPSA id 58H6NMfx025691
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
+	Wed, 17 Sep 2025 15:23:22 +0900 (JST)
+	(envelope-from weibu@redadmin.org)
+Received: from localhost (localhost [127.0.0.1])
+	by www.redadmin.org (Postfix) with ESMTP id 4F71110004001;
+	Wed, 17 Sep 2025 15:23:22 +0900 (JST)
+X-Virus-Scanned: amavis at redadmin.org
+Received: from www.redadmin.org ([127.0.0.1])
+ by localhost (redadmin.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id ztiYt9BY-MHE; Wed, 17 Sep 2025 15:23:18 +0900 (JST)
+Received: from webmail.redadmin.org (redadmin.org [192.168.11.50])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-256) server-digest SHA256)
+	(Client did not present a certificate)
+	(Authenticated sender: weibu@redadmin.org)
+	by www.redadmin.org (Postfix) with ESMTPSA id 96231107E4935;
+	Wed, 17 Sep 2025 15:23:18 +0900 (JST)
+DMARC-Filter: OpenDMARC Filter v1.4.2 www.redadmin.org 96231107E4935
+Authentication-Results: www.redadmin.org; arc=none smtp.remote-ip=192.168.11.50
+ARC-Seal: i=1; a=rsa-sha256; d=redadmin.org; s=20231208space; t=1758090198;
+	cv=none; b=nU7vdU827dz4WRutJl1Fcc76g5R2AIFAlqEV8LBw2Il0DgVsS75jG/efa3XfwDgZutI3BydJ8x6885Lsfqc42o0YDuzOUlskw6wqPJYKFU+MMf7j7p4PS7Vo14jsY7/GzdsZUt3LHgKpY9BHI1u9MK7LQTw0BMg/r2z8wYJc+tA=
+ARC-Message-Signature: i=1; a=rsa-sha256; d=redadmin.org; s=20231208space;
+	t=1758090198; c=relaxed/relaxed;
+	bh=+GrXQLi8JzGKGwFdNWSSKJ/huT3Qx+bd/EKJ8GlEDP8=;
+	h=DKIM-Filter:DKIM-Signature:MIME-Version:Date:From:To:Cc:Subject:
+	 In-Reply-To:References:Message-ID:X-Sender:Content-Type:
+	 Content-Transfer-Encoding; b=R02eEnmMdTyavA3U2OlCiVvva7LWCKK7hg0u9P1l56KXRR/FddKRj0Qhn3H2XPsJBqMTlOlzfwXzO/TNmJUBU8Zu/NUcdLIudbXFGAOPQZ+dQrboyt8mxs1lhx547YNTNSx7S5Kk+MTOAF8+KpxE9NRqw+Mrzc6G72wE80u6c7k=
+ARC-Authentication-Results: i=1; www.redadmin.org
+DKIM-Filter: OpenDKIM Filter v2.11.0 www.redadmin.org 96231107E4935
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redadmin.org;
+	s=20231208space; t=1758090198;
+	bh=+GrXQLi8JzGKGwFdNWSSKJ/huT3Qx+bd/EKJ8GlEDP8=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=e/co/shnraooVzUmuPLKj24bJBFUpp+YqM3kdie0zem5Q6Ce2wpS9KFFAco5sQEgj
+	 d69dm0FrAylIA30O9V//lPapsPLPRQrZkRfHP7/OydNNpZOhMP3nb9+bAb6+OJsrVY
+	 MI3x7fBslA5E5fssylJwVZ75v+vt1vlWBEXQdlGg=
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250917053944.1447050-1-weibu@redadmin.org>
+Date: Wed, 17 Sep 2025 15:23:18 +0900
+From: weibu@redadmin.org
+To: Greg KH <gregkh@linuxfoundation.org>
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: rtl8723bs: xmit: fix grammar in comment
+In-Reply-To: <2025091705-murky-sage-465f@gregkh>
+References: <20250917053944.1447050-1-weibu@redadmin.org>
+ <2025091705-murky-sage-465f@gregkh>
+Message-ID: <2a4eef3ad872c923be7b0070056b5a8b@redadmin.org>
+X-Sender: weibu@redadmin.org
+Content-Type: text/plain; charset=UTF-8;
+ format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Wed, Sep 17, 2025 at 02:39:44PM +0900, Akiyoshi Kurita wrote:
-> Fix 'number of page' -> 'number of pages' in a comment.
+Thanks, Greg.
+
+Sorry for the off-list reply; resending to the lists.
+You're right about the extra space; I dropped it. To avoid the "number 
+of"
+confusion I rephrased the sentence to "Total page count is not 
+available, so
+update current FIFO status." Sent as v2.
+
+Best,
+Akiyoshi
+
+2025-09-17 14:52 に Greg KH さんは書きました:
+> On Wed, Sep 17, 2025 at 02:39:44PM +0900, Akiyoshi Kurita wrote:
+>> Fix 'number of page' -> 'number of pages' in a comment.
+>> 
+>> Signed-off-by: Akiyoshi Kurita <weibu@redadmin.org>
+>> ---
+>>  drivers/staging/rtl8723bs/hal/rtl8723bs_xmit.c | 2 +-
+>>  1 file changed, 1 insertion(+), 1 deletion(-)
+>> 
+>> diff --git a/drivers/staging/rtl8723bs/hal/rtl8723bs_xmit.c 
+>> b/drivers/staging/rtl8723bs/hal/rtl8723bs_xmit.c
+>> index 842e19b53421..7ba8981f4652 100644
+>> --- a/drivers/staging/rtl8723bs/hal/rtl8723bs_xmit.c
+>> +++ b/drivers/staging/rtl8723bs/hal/rtl8723bs_xmit.c
+>> @@ -76,7 +76,7 @@ static s32 rtl8723_dequeue_writeport(struct adapter 
+>> *padapter)
+>>  	/*  check if hardware tx fifo page is enough */
+>>  	if (!rtw_hal_sdio_query_tx_freepage(pri_padapter, PageIdx, 
+>> pxmitbuf->pg_num)) {
+>>  		if (!bUpdatePageNum) {
+>> -			/*  Total number of page is NOT available, so update current FIFO 
+>> status */
+>> +			/*  Total number of pages is NOT available, so update current FIFO 
+>> status */
 > 
-> Signed-off-by: Akiyoshi Kurita <weibu@redadmin.org>
-> ---
->  drivers/staging/rtl8723bs/hal/rtl8723bs_xmit.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+> As "pages" is now plural, shouldn't "is" become "are"?
 > 
-> diff --git a/drivers/staging/rtl8723bs/hal/rtl8723bs_xmit.c b/drivers/staging/rtl8723bs/hal/rtl8723bs_xmit.c
-> index 842e19b53421..7ba8981f4652 100644
-> --- a/drivers/staging/rtl8723bs/hal/rtl8723bs_xmit.c
-> +++ b/drivers/staging/rtl8723bs/hal/rtl8723bs_xmit.c
-> @@ -76,7 +76,7 @@ static s32 rtl8723_dequeue_writeport(struct adapter *padapter)
->  	/*  check if hardware tx fifo page is enough */
->  	if (!rtw_hal_sdio_query_tx_freepage(pri_padapter, PageIdx, pxmitbuf->pg_num)) {
->  		if (!bUpdatePageNum) {
-> -			/*  Total number of page is NOT available, so update current FIFO status */
-> +			/*  Total number of pages is NOT available, so update current FIFO status */
-
-As "pages" is now plural, shouldn't "is" become "are"?
-
-Also, you can drop the extra leading space in the comment.
-
-thanks,
-
-greg "english grammer is rough" k-h
+> Also, you can drop the extra leading space in the comment.
+> 
+> thanks,
+> 
+> greg "english grammer is rough" k-h
