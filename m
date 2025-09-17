@@ -1,88 +1,68 @@
-Received: from www.redadmin.org (ag129037.ppp.asahi-net.or.jp [157.107.129.37])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE930266EE7
-	for <linux-staging@lists.linux.dev>; Wed, 17 Sep 2025 05:39:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=157.107.129.37
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758087596; cv=pass; b=Wi3sObNab2yyGhXmYiNJYSTlSW/g3Q/wgLiKHPEMjbT11jpVdaEyf080OPKTzVC3YArWysl4ASSYr+G8t/40hPfUhsrOQIQvtaEgq6ELYech51zyds0+tf1QnlsW0rARlMLJiDedu/ag11rbtk6F6aMKTJxVyBenz4UdDY1mDrM=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758087596; c=relaxed/simple;
-	bh=wA4Sdy5qAeGVci/6dh+BdP/LbgKn7EJKYYT40aWauus=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=i60lkn71nIYf/mHkQe+HxotIiZvGiykR8Y1+hn1Q2VaydbQS84t4CJvonDuhPlp666GB3jHNJZL5iEWrnyshIrEluiiZFDnHoDRFS6WsWOv//Ff91tnIzOlzYlP5l65dnsQfd88/l9Pa8+ujJQ52Lbc7F6U3IgXDBjoRf8i3CqQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redadmin.org; spf=pass smtp.mailfrom=redadmin.org; dkim=pass (1024-bit key) header.d=redadmin.org header.i=@redadmin.org header.b=LlbmYB8z; arc=pass smtp.client-ip=157.107.129.37
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redadmin.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redadmin.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0439D261B6E;
+	Wed, 17 Sep 2025 05:52:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1758088326; cv=none; b=jXDMlkeZtIwmPtNwtGQsmQa2A1KNXhzmLG4aBRb1YchPZiJrrrRo4QAYVVTSSrteVHYbKufKfI0RSJN5zhs/EIdCsphszT3PmflnqtTlB10L8HlziqrNDwmLW7pUZ7Moi0kiXAqHTj6vH3d2569wo25mj5wEH8sf6kiDYubEGZI=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1758088326; c=relaxed/simple;
+	bh=jouXAy/5BYCdlnpG5KBWN8vAz7fpfB9HCntWrw0afkE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=jgVmhvnaKSITh9TINqUFMGNlOCG61J5cpB1WNT1HmJCClbpi5DhSXdpSX4Q/ACfUWYYHgo3X8Rz/Dx6k7cg3oPI07y0MV+r8fzQLqzdWAO06MgEuLGIM/n5GUuhD7/l8JcUDR6JUgTFL/qIiGymG7J5fNbtgivuo+PxUSBTPTC8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=c00guJfH; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redadmin.org header.i=@redadmin.org header.b="LlbmYB8z"
-Received: from localhost (localhost [127.0.0.1])
-	by www.redadmin.org (Postfix) with ESMTP id B36DE11EE222B;
-	Wed, 17 Sep 2025 14:39:50 +0900 (JST)
-X-Virus-Scanned: amavis at redadmin.org
-Received: from www.redadmin.org ([127.0.0.1])
- by localhost (redadmin.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id 5nZaNkphslS6; Wed, 17 Sep 2025 14:39:47 +0900 (JST)
-Received: by www.redadmin.org (Postfix, from userid 1000)
-	id 57EA6102D055C; Wed, 17 Sep 2025 14:39:47 +0900 (JST)
-Authentication-Results: www.redadmin.org; arc=none smtp.remote-ip=127.0.0.1
-ARC-Seal: i=1; a=rsa-sha256; d=redadmin.org; s=20231208space; t=1758087587;
-	cv=none; b=ZNUq/N61qmIYpt8EczuTncPxJSXZ+y0npSGNq4MGb52Ukzb31v2aOUlNr1pI4Jteead03P0IXMawvN9DtRN3bbtEuViV4HHKsUOrWYfCUHnIHAj1oNta+Rwg5aSeyfRZ2CwWdhoJqUA18uOrzkJNK31T0n9IGpYb8M/979Os6tA=
-ARC-Message-Signature: i=1; a=rsa-sha256; d=redadmin.org; s=20231208space;
-	t=1758087587; c=relaxed/relaxed;
-	bh=gOOHUG76rF/OweQcl97emjPlv07dmVrCW2sdCuTxTUY=;
-	h=DKIM-Filter:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:
-	 X-Mailer:MIME-Version:Content-Transfer-Encoding; b=p9P6zWoVgl9I6rX+8iGVoWazZAzgyC94aNXse/B07XZ8UTxeHgxDBPeraErKjGPJzAJcTLXLqT331GconylRo73ndm0vQK6gl62atYjYr4KqOF06vbMn02D39ElNQyLX55D1uiWyWAbsHoJdIIVjxV2ya2daxBc5Yt74XdhtUDM=
-ARC-Authentication-Results: i=1; www.redadmin.org
-DKIM-Filter: OpenDKIM Filter v2.11.0 www.redadmin.org 57EA6102D055C
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redadmin.org;
-	s=20231208space; t=1758087587;
-	bh=gOOHUG76rF/OweQcl97emjPlv07dmVrCW2sdCuTxTUY=;
-	h=From:To:Cc:Subject:Date:From;
-	b=LlbmYB8zWRznfXUR2ijx3tPIU+rPrLD6BR48kGFxd6yXKQfNTwpqOlkdOvhcEI6If
-	 6QuiA2itvf/PTbosAE+0xDlg2qUuoAkIqX0EG0l6OC+D58KvwY+fWdDDOoaHFbiyYj
-	 dVfKNaUs64QFkJM9Odyh17OeO2BeWqZivc2uJbrU=
-From: Akiyoshi Kurita <weibu@redadmin.org>
-To: gregkh@linuxfoundation.org
-Cc: linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Akiyoshi Kurita <weibu@redadmin.org>
-Subject: [PATCH] staging: rtl8723bs: xmit: fix grammar in comment
-Date: Wed, 17 Sep 2025 14:39:44 +0900
-Message-ID: <20250917053944.1447050-1-weibu@redadmin.org>
-X-Mailer: git-send-email 2.47.3
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="c00guJfH"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1D5F5C4CEF0;
+	Wed, 17 Sep 2025 05:52:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1758088325;
+	bh=jouXAy/5BYCdlnpG5KBWN8vAz7fpfB9HCntWrw0afkE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=c00guJfHT4MS0TVRdiXkoj72AYqSdQfRFXREW9yvc3zx9epc8faCD4ekJl7gHevsn
+	 EL5AZnI6Uq2fgQs3Y2ERoQByu55gwkDPWBQZH1W+NML8uaGs4AaG+DLwz9/cg0JMOJ
+	 vn9y+yq/iawSTAxkZuueYmzd+fwKBnt5m3yakZOk=
+Date: Wed, 17 Sep 2025 07:52:01 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Akiyoshi Kurita <weibu@redadmin.org>
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: rtl8723bs: xmit: fix grammar in comment
+Message-ID: <2025091705-murky-sage-465f@gregkh>
+References: <20250917053944.1447050-1-weibu@redadmin.org>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250917053944.1447050-1-weibu@redadmin.org>
 
-Fix 'number of page' -> 'number of pages' in a comment.
+On Wed, Sep 17, 2025 at 02:39:44PM +0900, Akiyoshi Kurita wrote:
+> Fix 'number of page' -> 'number of pages' in a comment.
+> 
+> Signed-off-by: Akiyoshi Kurita <weibu@redadmin.org>
+> ---
+>  drivers/staging/rtl8723bs/hal/rtl8723bs_xmit.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/staging/rtl8723bs/hal/rtl8723bs_xmit.c b/drivers/staging/rtl8723bs/hal/rtl8723bs_xmit.c
+> index 842e19b53421..7ba8981f4652 100644
+> --- a/drivers/staging/rtl8723bs/hal/rtl8723bs_xmit.c
+> +++ b/drivers/staging/rtl8723bs/hal/rtl8723bs_xmit.c
+> @@ -76,7 +76,7 @@ static s32 rtl8723_dequeue_writeport(struct adapter *padapter)
+>  	/*  check if hardware tx fifo page is enough */
+>  	if (!rtw_hal_sdio_query_tx_freepage(pri_padapter, PageIdx, pxmitbuf->pg_num)) {
+>  		if (!bUpdatePageNum) {
+> -			/*  Total number of page is NOT available, so update current FIFO status */
+> +			/*  Total number of pages is NOT available, so update current FIFO status */
 
-Signed-off-by: Akiyoshi Kurita <weibu@redadmin.org>
----
- drivers/staging/rtl8723bs/hal/rtl8723bs_xmit.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+As "pages" is now plural, shouldn't "is" become "are"?
 
-diff --git a/drivers/staging/rtl8723bs/hal/rtl8723bs_xmit.c b/drivers/stagi=
-ng/rtl8723bs/hal/rtl8723bs_xmit.c
-index 842e19b53421..7ba8981f4652 100644
---- a/drivers/staging/rtl8723bs/hal/rtl8723bs_xmit.c
-+++ b/drivers/staging/rtl8723bs/hal/rtl8723bs_xmit.c
-@@ -76,7 +76,7 @@ static s32 rtl8723_dequeue_writeport(struct adapter *pada=
-pter)
- 	/*  check if hardware tx fifo page is enough */
- 	if (!rtw_hal_sdio_query_tx_freepage(pri_padapter, PageIdx, pxmitbuf->pg_n=
-um)) {
- 		if (!bUpdatePageNum) {
--			/*  Total number of page is NOT available, so update current FIFO statu=
-s */
-+			/*  Total number of pages is NOT available, so update current FIFO stat=
-us */
- 			HalQueryTxBufferStatus8723BSdio(padapter);
- 			bUpdatePageNum =3D true;
- 			goto query_free_page;
---=20
-2.47.3
+Also, you can drop the extra leading space in the comment.
 
+thanks,
+
+greg "english grammer is rough" k-h
