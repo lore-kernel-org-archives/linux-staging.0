@@ -1,98 +1,203 @@
-Received: from www3141.sakura.ne.jp (www3141.sakura.ne.jp [49.212.207.181])
+Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC9C1189;
-	Wed, 17 Sep 2025 06:37:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=49.212.207.181
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758091062; cv=pass; b=EvKgD9ejCwKZc49KuXXYLzUfXtz0rKlgo2dX9j+DlBLulyNQydgxbL8j2klyPxa6fviDOFZ+aTqbNjwQSg5wPTQIJIY5+ip0I3a5axpt6f6QpenNNXYXt0wZDC10p5liiA0fbhbaOBHrcnd+B9MiTGGgS5GIVtkPJnTaXhr7uuU=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758091062; c=relaxed/simple;
-	bh=suNJLgxs1Aga2VnqAJwYuN0Hk8US+a2j/HyVhdxbo0Q=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=ZMqMW9yn35pWEbgDhNuD315DgdIgsX+M11CxlspctZOaoTfI6L5urievbhJFkKc9yCc5RpMEPdcX8zWTRXLWFtEYt0QogHc0ZsV0buATiCAMZI2IE2koWXOv/bTdg6VSFRO3S5BsdvJml08WEOQLmRlMBBdxVEdwWetvMkIAl58=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redadmin.org; spf=pass smtp.mailfrom=redadmin.org; dkim=pass (1024-bit key) header.d=redadmin.org header.i=@redadmin.org header.b=UyTcXbFH; arc=pass smtp.client-ip=49.212.207.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redadmin.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redadmin.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BC802FFFBD
+	for <linux-staging@lists.linux.dev>; Wed, 17 Sep 2025 07:25:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.171.202.116
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1758093933; cv=none; b=siKmf0WbJfVhPtPYKzNGu8IzblCSgTs0yjL/lcZRyGvizvSioikkeR0SpV3+o+OUJALT765jXrv6ZiVWY5fLtoBeWLdopfWrJIwXFetOzjSNhgELY2a0GIjYGvXrkGetG2D1jEuDokCnw1lhjkYzVndc+sVTUzmnClBZeeKbrk4=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1758093933; c=relaxed/simple;
+	bh=K05yOHkQJxqh+1NnuwPgO9RURX/RB+Vt4f5T83pIFBE=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=o/zqTCA9b605wzu8RMGt+SU962dsJOKyjqmANchoEaXBCrLtaWUPRKRqTRzUC9zN92rmP1XkFg4wB0euxC0jhPBHVVnLHrQMxeiTXlwx3qwus0OaQPhZxVj6zZgGCKmf4pPucRKG1yKzR0cLxWXkLvyH3v8g/sicZIXR9lXnIgA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=jrv27L5J; arc=none smtp.client-ip=185.171.202.116
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redadmin.org header.i=@redadmin.org header.b="UyTcXbFH"
-Received: from www.redadmin.org (ag129037.ppp.asahi-net.or.jp [157.107.129.37])
-	(authenticated bits=0)
-	by www3141.sakura.ne.jp (8.16.1/8.16.1) with ESMTPSA id 58H6bZts044422
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
-	Wed, 17 Sep 2025 15:37:35 +0900 (JST)
-	(envelope-from weibu@redadmin.org)
-Received: from localhost (localhost [127.0.0.1])
-	by www.redadmin.org (Postfix) with ESMTP id 3142811EE222B;
-	Wed, 17 Sep 2025 15:37:35 +0900 (JST)
-X-Virus-Scanned: amavis at redadmin.org
-Received: from www.redadmin.org ([127.0.0.1])
- by localhost (redadmin.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id eP2FJUJkU9mv; Wed, 17 Sep 2025 15:37:31 +0900 (JST)
-Received: by www.redadmin.org (Postfix, from userid 1000)
-	id 1C9C2107E4935; Wed, 17 Sep 2025 15:37:31 +0900 (JST)
-Authentication-Results: www.redadmin.org; arc=none smtp.remote-ip=127.0.0.1
-ARC-Seal: i=1; a=rsa-sha256; d=redadmin.org; s=20231208space; t=1758091051;
-	cv=none; b=wFfO8JnMO5A7V7UqxdjBiEOdlZ6Rc/DoXf6QPs7KclpFAFw6ue+0PSxaTS1cttmKBSjgl5pJHfj7zkePPqifz1+Y2T0m8GT8FvuxAQ9wl2sYd/qvV6Q+6mv8sDOHr+nCub+sBPQbbsVZ8WX3NE1s0lE/8MPHuuvhrmjmJKEs7Ho=
-ARC-Message-Signature: i=1; a=rsa-sha256; d=redadmin.org; s=20231208space;
-	t=1758091051; c=relaxed/relaxed;
-	bh=ifPPiiJZLFEWER+QcyX5IQBJUn6lVsWKBasonFmOjPc=;
-	h=DKIM-Filter:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:
-	 X-Mailer:In-Reply-To:References:MIME-Version:
-	 Content-Transfer-Encoding; b=mZGl+oxlWKnz8fV2tOywSRpm0sJYtCM8xP8pRjS7kFRVq8hgP+9AY0EyQOAizCqD08nL5GBWc0KdyH3vbqIDa3aQ76DvJCzZ0gyGAyohKPnyMxNOZj5Kpq2UxUcKxOTXpXOgrThHmUfkn2qp7tp6p09R8d0uJZa8uLmStXyS4PY=
-ARC-Authentication-Results: i=1; www.redadmin.org
-DKIM-Filter: OpenDKIM Filter v2.11.0 www.redadmin.org 1C9C2107E4935
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redadmin.org;
-	s=20231208space; t=1758091051;
-	bh=ifPPiiJZLFEWER+QcyX5IQBJUn6lVsWKBasonFmOjPc=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=UyTcXbFHGZAFTDe6wxc9IDqmbXd7onkqBngEDOkWlDqFU2a8qvVxftZrPwXMbqId2
-	 un85UQkpt3ng3G+3+DREyszwhlOKqdP9x00QgeUQ209vG8ZnIpz5J82jFCWryToT+o
-	 mO+VjZDv2FXpDK07uRnh9O1hj5pc2v5UBdfEOyY4=
-From: Akiyoshi Kurita <weibu@redadmin.org>
-To: gregkh@linuxfoundation.org
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-        Akiyoshi Kurita <weibu@redadmin.org>
-Subject: [PATCH v2] staging: rtl8723bs: xmit: rephrase comment and drop extra space
-Date: Wed, 17 Sep 2025 15:37:29 +0900
-Message-ID: <20250917063729.1450525-1-weibu@redadmin.org>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20250917053944.1447050-1-weibu@redadmin.org>
-References: <20250917053944.1447050-1-weibu@redadmin.org>
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="jrv27L5J"
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-04.galae.net (Postfix) with ESMTPS id 87B8FC8F473;
+	Wed, 17 Sep 2025 07:25:07 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id D65826063E;
+	Wed, 17 Sep 2025 07:25:23 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id DC40D102F179E;
+	Wed, 17 Sep 2025 09:25:09 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1758093922; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=GZJ8sPcO3Cf+QQuAdpx3fIteLOXORrAouzZNLpZWsvA=;
+	b=jrv27L5Jlz6dFN0ujcqzXwnK9gIQ1V0dU4tBuCf7OAqdaZnjc+2nbXry5EnSBiMZaAbLom
+	wVs2Vf2NuaQszYM42A4SDHQ05Sj1/hMzk3EaNUmjjfUauDW/2rzgXhkgINxRtunslVub4l
+	DPzS0A9pFPlibNVRTWdiauuPeWqDO8rAQhXtCdkSCKYboxRBUz4WJcwwWjO/q8aR8Vd71Z
+	iTbiTGCmU+bnx+SqevI3I5XDZuMrB+uaOd8hLDjJbkoeiC9bGLBpk7ygAhXsTFp9rFBDK9
+	2lY9ODIJng2lK1cHK/jbGHlwJhwpLbaydfsVka6ga0llgK4aNRWk+xlAU2QRrA==
+Date: Wed, 17 Sep 2025 09:25:06 +0200
+From: Luca Ceresoli <luca.ceresoli@bootlin.com>
+To: Svyatoslav Ryhel <clamor95@gmail.com>
+Cc: Thierry Reding <thierry.reding@gmail.com>, Thierry Reding
+ <treding@nvidia.com>, Mikko Perttunen <mperttunen@nvidia.com>, Jonathan
+ Hunter <jonathanh@nvidia.com>, Sowjanya Komatineni
+ <skomatineni@nvidia.com>, David Airlie <airlied@gmail.com>, Simona Vetter
+ <simona@ffwll.ch>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann
+ <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>, Krzysztof Kozlowski
+ <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Prashant Gaikwad
+ <pgaikwad@nvidia.com>, Michael Turquette <mturquette@baylibre.com>, Stephen
+ Boyd <sboyd@kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, Greg
+ Kroah-Hartman <gregkh@linuxfoundation.org>, Dmitry Osipenko
+ <digetx@gmail.com>, Jonas =?UTF-8?B?U2Nod8O2YmVs?=
+ <jonasschwoebel@yahoo.de>, Charan Pedumuru <charan.pedumuru@gmail.com>,
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org, linux-clk@vger.kernel.org,
+ linux-staging@lists.linux.dev
+Subject: Re: [PATCH v2 11/23] staging: media: tegra-video: csi: add a check
+ to tegra_channel_get_remote_csi_subdev
+Message-ID: <20250917092506.311c314c@booty>
+In-Reply-To: <CAPVz0n1Nvun5yBf_i3NB=kDmLfNFRjbFt1uTUW-hpLbp-h0g4w@mail.gmail.com>
+References: <20250906135345.241229-1-clamor95@gmail.com>
+	<20250906135345.241229-12-clamor95@gmail.com>
+	<20250916180418.3fa270a9@booty>
+	<CAPVz0n1Nvun5yBf_i3NB=kDmLfNFRjbFt1uTUW-hpLbp-h0g4w@mail.gmail.com>
+Organization: Bootlin
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
+X-Last-TLS-Session-Version: TLSv1.3
 
-Rephrase the comment to avoid the "number of" construction and remove
-an extra leading space.
+Hello Svyatoslav,
 
-Suggested-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Signed-off-by: Akiyoshi Kurita <weibu@redadmin.org>
----
- drivers/staging/rtl8723bs/hal/rtl8723bs_xmit.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On Tue, 16 Sep 2025 19:24:52 +0300
+Svyatoslav Ryhel <clamor95@gmail.com> wrote:
 
-diff --git a/drivers/staging/rtl8723bs/hal/rtl8723bs_xmit.c b/drivers/stagi=
-ng/rtl8723bs/hal/rtl8723bs_xmit.c
-index 842e19b53421..abb6fdfe7e1f 100644
---- a/drivers/staging/rtl8723bs/hal/rtl8723bs_xmit.c
-+++ b/drivers/staging/rtl8723bs/hal/rtl8723bs_xmit.c
-@@ -76,7 +76,7 @@ static s32 rtl8723_dequeue_writeport(struct adapter *pada=
-pter)
- 	/*  check if hardware tx fifo page is enough */
- 	if (!rtw_hal_sdio_query_tx_freepage(pri_padapter, PageIdx, pxmitbuf->pg_n=
-um)) {
- 		if (!bUpdatePageNum) {
--			/*  Total number of page is NOT available, so update current FIFO statu=
-s */
-+			/* Total page count is not available, so update current FIFO status */
- 			HalQueryTxBufferStatus8723BSdio(padapter);
- 			bUpdatePageNum =3D true;
- 			goto query_free_page;
+> =D0=B2=D1=82, 16 =D0=B2=D0=B5=D1=80. 2025=E2=80=AF=D1=80. =D0=BE 19:04 Lu=
+ca Ceresoli <luca.ceresoli@bootlin.com> =D0=BF=D0=B8=D1=88=D0=B5:
+> >
+> > Hello Svyatoslav,
+> >
+> > On Sat,  6 Sep 2025 16:53:32 +0300
+> > Svyatoslav Ryhel <clamor95@gmail.com> wrote:
+> > =20
+> > > By default tegra_channel_get_remote_csi_subdev returns next device in=
+ pipe
+> > > assuming it is CSI but in case of Tegra20 and Tegra30 it can also be =
+VIP
+> > > or even HOST. Lets check if returned device is actually CSI by compar=
+ing
+> > > subdevice operations. =20
+> >
+> > This is just for extra safety, or is there a real case where the lack
+> > of this check creates some issues in your use case?
+> > =20
+> > > --- a/drivers/staging/media/tegra-video/csi.c
+> > > +++ b/drivers/staging/media/tegra-video/csi.c
+> > > @@ -445,6 +445,22 @@ static const struct v4l2_subdev_ops tegra_csi_op=
+s =3D {
+> > >       .pad    =3D &tegra_csi_pad_ops,
+> > >  };
+> > >
+> > > +struct v4l2_subdev *tegra_channel_get_remote_csi_subdev(struct tegra=
+_vi_channel *chan)
+> > > +{
+> > > +     struct media_pad *pad;
+> > > +     struct v4l2_subdev *subdev;
+> > > +
+> > > +     pad =3D media_pad_remote_pad_first(&chan->pad);
+> > > +     if (!pad)
+> > > +             return NULL;
+> > > +
+> > > +     subdev =3D media_entity_to_v4l2_subdev(pad->entity);
+> > > +     if (!subdev)
+> > > +             return NULL;
+> > > +
+> > > +     return subdev->ops =3D=3D &tegra_csi_ops ? subdev : NULL;
+> > > +} =20
+> >
+> > I tested your series on a Tegra20 with a parallel camera, so using the
+> > VIP for parallel input.
+> >
+> > The added check on subdev->ops breaks probing the video device:
+> >
+> >   tegra-vi 54080000.vi: failed to setup channel controls: -19
+> >   tegra-vi 54080000.vi: failed to register channel 0 notifier: -19
+> >
+> > This is because tegra20_chan_capture_kthread_start() is also calling
+> > tegra_channel_get_remote_csi_subdev(), but when using VIP subdev->ops
+> > points to tegra_vip_ops, not tegra_csi_ops.
+> > =20
+>=20
+> Your assumption is wrong. 'tegra_channel_get_remote_csi_subdev' is
+> designed to get next device which is expected to be CSI, NOT VIP
+> (obviously, Tegra210 has no VIP). It seems that VIP implementation did
+> not take into account that CSI even exists.
+
+IIRC it's rather the initial VI implementation was meant to be open to
+supporting both VIP and CSI but some CSI assumptions sneaked in. Which
+is somewhat unavoidable if only CSI could be tested, isn't it? So I had
+to change some when adding VIP (trying hard myself to not break CSI and
+T210).
+
+>  -19 errors are due to
+> tegra_vi_graph_notify_complete not able to get next media device in
+> the line. Correct approach would be to add similar helper for VIP and
+> check if next device is VIP.
+
+I think it's almost correct.
+
+tegra_channel_get_remote_csi_subdev() is called:
+ * in vi.c, where it is expeted to return either a CSI or VIP subdev
+ * in tegra210.c, which apparently supports CSI only=20
+   (I don't know whether the hardware has parallel input)
+ * in tegra20.c [added by patch 23 in this series] where only a CSI
+   subdev is wanted
+
+Based on that,  you're right that we need two functions, but they
+should be:
+
+ 1. one to return the remote subdev, be it CSI or VIP
+    a. perhaps called tegra_channel_get_remote_subdev()
+    b. perhaps in vi.c
+    c. not checking subdev->ops (or checking for csi||vip)
+ 2. one to return the remote subdev, only if it is CSI
+    a. perhaps called tegra_channel_get_remote_csi_subdev()
+    b. perhaps in csi.c
+    c. checking subdev->ops =3D=3D tegra_csi_ops
+
+The function in mainline as of now complies with 2a, 1b, 1c, so it is a
+hybrid.
+
+In other words, what I propose is:
+
+ * rename the current tegra_channel_get_remote_csi_subdev()
+   to remove the "_csi" infix, so the name reflects what it does
+   - optionally add the check for (csi||vip)
+ * add tegra_channel_get_remote_csi_subdev() for where a CSI-only
+   subdev is needed: that's exactly the function you are adding to csi.c
+   in this patch
+
+Does it look correct?
+
+> Since I have no devices with VIP support
+> I could not test this properly.
+
+Of course, no problem. I can test it (but I cannot test CSI).
+
+> I can add this in next iteration if
+> you are willing to test.
+
+Yes, please do, thanks.
+
+Luca
+
 --=20
-2.47.3
-
+Luca Ceresoli, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
