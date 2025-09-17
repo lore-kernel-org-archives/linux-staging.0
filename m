@@ -1,90 +1,95 @@
-Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
+Received: from www3141.sakura.ne.jp (www3141.sakura.ne.jp [49.212.207.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C826A304BBF
-	for <linux-staging@lists.linux.dev>; Wed, 17 Sep 2025 07:53:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.85.4
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758095586; cv=none; b=mn175iEfyQAPazlsjxrUSmpHpNW5KmLBGYoXq4KB68twWPXXbSEAVZGU3CjexUefCgTpcRM3gcd5QFEPIwbtradIBNiOalRgSL8l9M3qKp1h0NGQK5MTXUv3kPMu2y9/rfcagrKWQ+4WkZYkLBPdcSJmbwwYLosoGPkgYqlT/I8=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758095586; c=relaxed/simple;
-	bh=9W3ZNXyDSab2h/WE9GpRxxCXjsp0I+y9eeJur86V7FM=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=tdMglejHoBDMqyIL/NITxY8fSUAVRdq/glMMkQo/rgvlotG8gkS1g4Rdp+le9xC0LVkUFmOJhoJ6kqMdmmmp0/BS6jNTVBy/iACRh5Au8k72tBEa/Y2FFKnZhtcoDtcQorC9JHQ8XNGjq6Ok4CHhApLpfgED9asnRctcJFZLy/U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=F7ucMnm7; arc=none smtp.client-ip=185.246.85.4
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AA732FBDEA;
+	Wed, 17 Sep 2025 12:18:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=49.212.207.181
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1758111490; cv=pass; b=qYO1CLug5h9n52ensj8nUdWgAEo1Xpd4pHTFP/BoxRZyhhgXC2WqmpzBB3Y2q6leShuwTf3BVOSNRQ6mGV5ssVwcqHb5EZjhT78MdvlWSb8/ONSK1NfYXRUZLx562VRfta7dPus8jevKiR5xcqeZ3qApEd4IQezUmRKIT7hHaEI=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1758111490; c=relaxed/simple;
+	bh=B17GYg5auTAkWVCdRWKpLbr4OlUwuYKWU0Iqp+RY+fw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=fhUEW992jVA8KEaNOPoP/L/QlPZTgLySp5aPy5opYEAIY/vv35OHGoev0AlJTM6UKlIFQMekLVsAT73WyjLQbr4YhQ8h7VlgATCOEDT7Kp0DYo9PET1N6tB/42fDRWEDjhhh1GowW3qW/LmjPbUxeG4ob83XeCD7iEmZi2VUKqQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redadmin.org; spf=pass smtp.mailfrom=redadmin.org; dkim=pass (1024-bit key) header.d=redadmin.org header.i=@redadmin.org header.b=rMprJkSN; arc=pass smtp.client-ip=49.212.207.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redadmin.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redadmin.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="F7ucMnm7"
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-03.galae.net (Postfix) with ESMTPS id 13BE44E40CAF;
-	Wed, 17 Sep 2025 07:53:03 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id D3A5C6063E;
-	Wed, 17 Sep 2025 07:53:02 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 0BBEA102F1727;
-	Wed, 17 Sep 2025 09:52:56 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1758095581; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=emFT8+nJVyi2W/wfZKpSHjD2VZR95mKcyCGwHzrsAO0=;
-	b=F7ucMnm7DgTCjhoYBlR05retA2wRdJvHzwF3VeCIIp9pzfaDv0hqdu7xjUFNlFR/32cwYY
-	TTH3ZPd30dMISSPqnCizrgYbV6aG8WU3tYY7I8IN1a8sKd0nFX61uCFHafxDtPgRpJqjDw
-	/aX2SUIlk6CZS18XbDwxSCiuG9M5r80NcHsZ9isMwOgjxpDvZ/uZo+nnDZRiP1C5Ic1kW/
-	y/UJR9EXgBM+eWbUAa2wKzynDuDjMZMfXOpRCIvFmjWoJUWTH415wMM4U/jerYuHjXLwZ8
-	zvKF6L+PrDOQ8m+VvTfgnf8yJSNMsowqsYRycyZuf9JQ9iAsPxB7NX03zuIe+w==
-Date: Wed, 17 Sep 2025 09:52:55 +0200
-From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-To: Svyatoslav Ryhel <clamor95@gmail.com>
-Cc: Thierry Reding <thierry.reding@gmail.com>, Thierry Reding
- <treding@nvidia.com>, Mikko Perttunen <mperttunen@nvidia.com>, Jonathan
- Hunter <jonathanh@nvidia.com>, Sowjanya Komatineni
- <skomatineni@nvidia.com>, David Airlie <airlied@gmail.com>, Simona Vetter
- <simona@ffwll.ch>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann
- <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>, Krzysztof Kozlowski
- <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Prashant Gaikwad
- <pgaikwad@nvidia.com>, Michael Turquette <mturquette@baylibre.com>, Stephen
- Boyd <sboyd@kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, Greg
- Kroah-Hartman <gregkh@linuxfoundation.org>, Dmitry Osipenko
- <digetx@gmail.com>, Jonas =?UTF-8?B?U2Nod8O2YmVs?=
- <jonasschwoebel@yahoo.de>, Charan Pedumuru <charan.pedumuru@gmail.com>,
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-media@vger.kernel.org, linux-clk@vger.kernel.org,
- linux-staging@lists.linux.dev
-Subject: Re: [PATCH v2 05/23] staging: media: tegra-video: expand VI and VIP
- support to Tegra30
-Message-ID: <20250917095255.2710c266@booty>
-In-Reply-To: <20250906135345.241229-6-clamor95@gmail.com>
-References: <20250906135345.241229-1-clamor95@gmail.com>
-	<20250906135345.241229-6-clamor95@gmail.com>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
+	dkim=pass (1024-bit key) header.d=redadmin.org header.i=@redadmin.org header.b="rMprJkSN"
+Received: from www.redadmin.org (ag129037.ppp.asahi-net.or.jp [157.107.129.37])
+	(authenticated bits=0)
+	by www3141.sakura.ne.jp (8.16.1/8.16.1) with ESMTPSA id 58HCI2QP002008
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
+	Wed, 17 Sep 2025 21:18:02 +0900 (JST)
+	(envelope-from weibu@redadmin.org)
+Received: from localhost (localhost [127.0.0.1])
+	by www.redadmin.org (Postfix) with ESMTP id 4C36C12418486;
+	Wed, 17 Sep 2025 21:18:02 +0900 (JST)
+X-Virus-Scanned: amavis at redadmin.org
+Received: from www.redadmin.org ([127.0.0.1])
+ by localhost (redadmin.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id VUG1dTMA0amh; Wed, 17 Sep 2025 21:17:59 +0900 (JST)
+Received: by www.redadmin.org (Postfix, from userid 1000)
+	id D81A111EE222B; Wed, 17 Sep 2025 21:17:58 +0900 (JST)
+Authentication-Results: www.redadmin.org; arc=none smtp.remote-ip=127.0.0.1
+ARC-Seal: i=1; a=rsa-sha256; d=redadmin.org; s=20231208space; t=1758111478;
+	cv=none; b=q+pzCNB2uJ8qPtF/tfDmunzkS0Hm+VSPTpzjh/lsoQfaimhD8rMl3SltubQtXetlb41F2H/+ymrTu/ZwTz0jHa8jzTU+ykB2aDWFj0vdye+YTEPAETYvfBz4FNyjvWCkKOrbuDSq0UGsl3IHw85OiCiUAhC6Df+li582oReTsEg=
+ARC-Message-Signature: i=1; a=rsa-sha256; d=redadmin.org; s=20231208space;
+	t=1758111478; c=relaxed/relaxed;
+	bh=mrFS2WeE2DuciHDNhnemsvIlsB4vcsFJDQytVFcwjBA=;
+	h=DKIM-Filter:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:
+	 X-Mailer:MIME-Version:Content-Transfer-Encoding; b=a/9MQsLb1ve5CaiCnPyoQcdJ7t3EmhtIuU1PIgIzzz7DN8dPy8YZWTWZAPpMFGAjYz71NTuoXVlA9Uup4+eZ8XkwFOXFYuis5YPShMk6D43x21nrVPthNopLtls8qYwPUjscdoPJ3EK2DqZ/HJLhWRKyhWhuyfxumQjjwxtuEf0=
+ARC-Authentication-Results: i=1; www.redadmin.org
+DKIM-Filter: OpenDKIM Filter v2.11.0 www.redadmin.org D81A111EE222B
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redadmin.org;
+	s=20231208space; t=1758111478;
+	bh=mrFS2WeE2DuciHDNhnemsvIlsB4vcsFJDQytVFcwjBA=;
+	h=From:To:Cc:Subject:Date:From;
+	b=rMprJkSNXwfixvI/KvYPuDWU2ThRdcup0NF8SckFeJCMLa5mzWAjxW3FzDHnBHKei
+	 Qr52qZxw3wQA8u5n/hME7Z5VPB1Ji2Fy3r9QACrfu7gBWR2XKEL3nsQgeV7Z1vsa74
+	 gUjOROxaABAkXbuZzB+lJTvytQf8JZUyxr+mzBEo=
+From: Akiyoshi Kurita <weibu@redadmin.org>
+To: gregkh@linuxfoundation.org
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+        Akiyoshi Kurita <weibu@redadmin.org>
+Subject: [PATCH] staging: rtl8723bs: sdio: clarify OQT free page comment
+Date: Wed, 17 Sep 2025 21:17:54 +0900
+Message-ID: <20250917121754.1465051-1-weibu@redadmin.org>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Last-TLS-Session-Version: TLSv1.3
+Content-Transfer-Encoding: quoted-printable
 
-Hello Svyatoslav,
+Clarify the comment above HalQueryTxBufferStatus8723BSdio() to use
+"TX OQT free page count" wording consistent with SDIO_REG_OQT_FREE_PG.
 
-On Sat,  6 Sep 2025 16:53:26 +0300
-Svyatoslav Ryhel <clamor95@gmail.com> wrote:
+Signed-off-by: Akiyoshi Kurita <weibu@redadmin.org>
+---
+ drivers/staging/rtl8723bs/hal/sdio_ops.c | 5 +----
+ 1 file changed, 1 insertion(+), 4 deletions(-)
 
-> Existing VI and VIP implementation for Tegra20 is fully compatible with
-> Tegra30.
-> 
-> Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
+diff --git a/drivers/staging/rtl8723bs/hal/sdio_ops.c b/drivers/staging/rtl=
+8723bs/hal/sdio_ops.c
+index 8736c124f857..0ee50b4a1149 100644
+--- a/drivers/staging/rtl8723bs/hal/sdio_ops.c
++++ b/drivers/staging/rtl8723bs/hal/sdio_ops.c
+@@ -997,10 +997,7 @@ u8 HalQueryTxBufferStatus8723BSdio(struct adapter *ada=
+pter)
+ 	return true;
+ }
+=20
+-/*  */
+-/*	Description: */
+-/*		Query SDIO Local register to get the current number of TX OQT Free Spa=
+ce. */
+-/*  */
++/* Read the TX OQT free page count from the SDIO local register. */
+ void HalQueryTxOQTBufferStatus8723BSdio(struct adapter *adapter)
+ {
+ 	struct hal_com_data *haldata =3D GET_HAL_DATA(adapter);
+--=20
+2.47.3
 
-Tested-by: Luca Ceresoli <luca.ceresoli@bootlin.com> # Tegra20 VIP
-Reviewed-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
-
--- 
-Luca Ceresoli, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
