@@ -1,112 +1,88 @@
-Received: from ksmg01.maxima.ru (ksmg01.maxima.ru [81.200.124.38])
+Received: from www.redadmin.org (ag129037.ppp.asahi-net.or.jp [157.107.129.37])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35BFC1E7C27
-	for <linux-staging@lists.linux.dev>; Wed, 17 Sep 2025 00:43:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=81.200.124.38
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758069785; cv=none; b=JoKasxLN19DHxI4UBi+QtN4G2S/W2Yhq6iKHQOKw2U1ef9+VNG/wNfNTeCqtrSi5ruCh+KdZoaDpmu/12k3L2zx7piaMEJORLI07GMHqT7pD1JjmWlCBHFQIYy7OkjGEeuAox42Gjw4hOzRLIrX327ivAKGPwOWof3HZD5s7A80=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758069785; c=relaxed/simple;
-	bh=SXkL13a8iG6GEI5p2NO+RC35HdW6nueOrqs/a8naP5k=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=lLuxWw26ZEMtEGbNz0ePlDorPOY3gyPKQXIz3cG1Xg/AtkmJHqA937EFO0993dtIwHsWcOewqb4Vu1A2vFjT6PfmxixB5+LDdyJ4ITfFMCRe0R3H63re7YibNJVEjVWAzT1hoMd/9EpvlZl6NVAUpf0ys6pevohdPf2qbYCxnUg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mt-integration.ru; spf=pass smtp.mailfrom=mt-integration.ru; dkim=pass (2048-bit key) header.d=mt-integration.ru header.i=@mt-integration.ru header.b=bRQrpbyn; arc=none smtp.client-ip=81.200.124.38
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mt-integration.ru
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mt-integration.ru
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE930266EE7
+	for <linux-staging@lists.linux.dev>; Wed, 17 Sep 2025 05:39:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=157.107.129.37
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1758087596; cv=pass; b=Wi3sObNab2yyGhXmYiNJYSTlSW/g3Q/wgLiKHPEMjbT11jpVdaEyf080OPKTzVC3YArWysl4ASSYr+G8t/40hPfUhsrOQIQvtaEgq6ELYech51zyds0+tf1QnlsW0rARlMLJiDedu/ag11rbtk6F6aMKTJxVyBenz4UdDY1mDrM=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1758087596; c=relaxed/simple;
+	bh=wA4Sdy5qAeGVci/6dh+BdP/LbgKn7EJKYYT40aWauus=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=i60lkn71nIYf/mHkQe+HxotIiZvGiykR8Y1+hn1Q2VaydbQS84t4CJvonDuhPlp666GB3jHNJZL5iEWrnyshIrEluiiZFDnHoDRFS6WsWOv//Ff91tnIzOlzYlP5l65dnsQfd88/l9Pa8+ujJQ52Lbc7F6U3IgXDBjoRf8i3CqQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redadmin.org; spf=pass smtp.mailfrom=redadmin.org; dkim=pass (1024-bit key) header.d=redadmin.org header.i=@redadmin.org header.b=LlbmYB8z; arc=pass smtp.client-ip=157.107.129.37
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redadmin.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redadmin.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mt-integration.ru header.i=@mt-integration.ru header.b="bRQrpbyn"
-Received: from ksmg01.maxima.ru (localhost [127.0.0.1])
-	by ksmg01.maxima.ru (Postfix) with ESMTP id D77C1C007A;
-	Wed, 17 Sep 2025 03:43:00 +0300 (MSK)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ksmg01.maxima.ru D77C1C007A
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mt-integration.ru;
-	s=sl; t=1758069780; bh=mMy7o1VKxSYYmV008tZxBY5ChzQiqbztmhJuX5eQfvU=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type:From;
-	b=bRQrpbynxPG53Z7IHFd5LNs7TU7qMhRnu2bxAIP/K8dyD6u8p+WPKvXqLAg99wYsj
-	 yYR3pbeAoR49CTzfglEVL69Ig6NCos/6CRFlvTfoqnLMunWzZDphmXkirUSEAJ/i1V
-	 fuCiZvyqK6rSfJmPxmKzJ22Wd2/R878MmJV+mmkfMJOsk9uWxf9MUFxaUm8LASsQPR
-	 FFlaVhvOHZr9VtCK+/0thCCBiMu5CwR1enkpJEKYQ9fL8fGKyc+I+2I+UgbDrAhpAk
-	 GQlii6JK/Hkk3Gg72wWnJPQ3bHjrz/icY0BslHUShqOYZy7sdKfLgqNClee3Avq5Br
-	 qlM4cEqC360Mw==
-Received: from ksmg01.maxima.ru (autodiscover.maxima.ru [81.200.124.61])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(Client did not present a certificate)
-	by ksmg01.maxima.ru (Postfix) with ESMTPS;
-	Wed, 17 Sep 2025 03:43:00 +0300 (MSK)
-Received: from db126-1-abramov-14-d-mosos.mti-lab.com (172.25.20.118) by
- mmail-p-exch01.mt.ru (81.200.124.61) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.25; Wed, 17 Sep 2025 03:42:59 +0300
-From: Ivan Abramov <i.abramov@mt-integration.ru>
-To: Andy Shevchenko <andy@kernel.org>
-CC: Ivan Abramov <i.abramov@mt-integration.ru>, Hans de Goede
-	<hansg@kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, Sakari Ailus
-	<sakari.ailus@linux.intel.com>, Greg Kroah-Hartman
-	<gregkh@linuxfoundation.org>, Colin Ian King <colin.i.king@gmail.com>, Alan
- Cox <alan@linux.intel.com>, <linux-media@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <linux-staging@lists.linux.dev>,
-	<lvc-project@linuxtesting.org>
-Subject: [PATCH v2 1/1] media: atomisp: Avoid memory leaks in ia_css_pipe_create_cas_scaler_desc_single_output()
-Date: Wed, 17 Sep 2025 03:42:36 +0300
-Message-ID: <20250917004240.506794-1-i.abramov@mt-integration.ru>
-X-Mailer: git-send-email 2.39.5
+	dkim=pass (1024-bit key) header.d=redadmin.org header.i=@redadmin.org header.b="LlbmYB8z"
+Received: from localhost (localhost [127.0.0.1])
+	by www.redadmin.org (Postfix) with ESMTP id B36DE11EE222B;
+	Wed, 17 Sep 2025 14:39:50 +0900 (JST)
+X-Virus-Scanned: amavis at redadmin.org
+Received: from www.redadmin.org ([127.0.0.1])
+ by localhost (redadmin.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id 5nZaNkphslS6; Wed, 17 Sep 2025 14:39:47 +0900 (JST)
+Received: by www.redadmin.org (Postfix, from userid 1000)
+	id 57EA6102D055C; Wed, 17 Sep 2025 14:39:47 +0900 (JST)
+Authentication-Results: www.redadmin.org; arc=none smtp.remote-ip=127.0.0.1
+ARC-Seal: i=1; a=rsa-sha256; d=redadmin.org; s=20231208space; t=1758087587;
+	cv=none; b=ZNUq/N61qmIYpt8EczuTncPxJSXZ+y0npSGNq4MGb52Ukzb31v2aOUlNr1pI4Jteead03P0IXMawvN9DtRN3bbtEuViV4HHKsUOrWYfCUHnIHAj1oNta+Rwg5aSeyfRZ2CwWdhoJqUA18uOrzkJNK31T0n9IGpYb8M/979Os6tA=
+ARC-Message-Signature: i=1; a=rsa-sha256; d=redadmin.org; s=20231208space;
+	t=1758087587; c=relaxed/relaxed;
+	bh=gOOHUG76rF/OweQcl97emjPlv07dmVrCW2sdCuTxTUY=;
+	h=DKIM-Filter:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:
+	 X-Mailer:MIME-Version:Content-Transfer-Encoding; b=p9P6zWoVgl9I6rX+8iGVoWazZAzgyC94aNXse/B07XZ8UTxeHgxDBPeraErKjGPJzAJcTLXLqT331GconylRo73ndm0vQK6gl62atYjYr4KqOF06vbMn02D39ElNQyLX55D1uiWyWAbsHoJdIIVjxV2ya2daxBc5Yt74XdhtUDM=
+ARC-Authentication-Results: i=1; www.redadmin.org
+DKIM-Filter: OpenDKIM Filter v2.11.0 www.redadmin.org 57EA6102D055C
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redadmin.org;
+	s=20231208space; t=1758087587;
+	bh=gOOHUG76rF/OweQcl97emjPlv07dmVrCW2sdCuTxTUY=;
+	h=From:To:Cc:Subject:Date:From;
+	b=LlbmYB8zWRznfXUR2ijx3tPIU+rPrLD6BR48kGFxd6yXKQfNTwpqOlkdOvhcEI6If
+	 6QuiA2itvf/PTbosAE+0xDlg2qUuoAkIqX0EG0l6OC+D58KvwY+fWdDDOoaHFbiyYj
+	 dVfKNaUs64QFkJM9Odyh17OeO2BeWqZivc2uJbrU=
+From: Akiyoshi Kurita <weibu@redadmin.org>
+To: gregkh@linuxfoundation.org
+Cc: linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Akiyoshi Kurita <weibu@redadmin.org>
+Subject: [PATCH] staging: rtl8723bs: xmit: fix grammar in comment
+Date: Wed, 17 Sep 2025 14:39:44 +0900
+Message-ID: <20250917053944.1447050-1-weibu@redadmin.org>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: mmail-p-exch02.mt.ru (81.200.124.62) To
- mmail-p-exch01.mt.ru (81.200.124.61)
-X-KSMG-AntiPhishing: NotDetected
-X-KSMG-AntiSpam-Auth: dmarc=none header.from=mt-integration.ru;spf=none smtp.mailfrom=mt-integration.ru;dkim=none
-X-KSMG-AntiSpam-Envelope-From: i.abramov@mt-integration.ru
-X-KSMG-AntiSpam-Info: LuaCore: 66 0.3.66 fc5dda3b6b70d34b3701db39319eece2aeb510fb, {rep_avail}, {Tracking_uf_ne_domains}, {Tracking_from_domain_doesnt_match_to}, mt-integration.ru:7.1.1;d41d8cd98f00b204e9800998ecf8427e.com:7.1.1;81.200.124.61:7.1.2;ksmg01.maxima.ru:7.1.1;127.0.0.199:7.1.2, FromAlignment: s, ApMailHostAddress: 81.200.124.61
-X-KSMG-AntiSpam-Interceptor-Info: scan successful
-X-KSMG-AntiSpam-Lua-Profiles: 196326 [Sep 16 2025]
-X-KSMG-AntiSpam-Method: none
-X-KSMG-AntiSpam-Rate: 0
-X-KSMG-AntiSpam-Status: not_detected
-X-KSMG-AntiSpam-Version: 6.1.1.11
-X-KSMG-AntiVirus: Kaspersky Secure Mail Gateway, version 2.1.1.8310, bases: 2025/09/16 21:49:00 #27824829
-X-KSMG-AntiVirus-Status: NotDetected, skipped
-X-KSMG-LinksScanning: NotDetected
-X-KSMG-Message-Action: skipped
-X-KSMG-Rule-ID: 7
+Content-Transfer-Encoding: quoted-printable
 
-If any of the memory allocations for descr struct members fail, goto ERR is
-executed, and none of the previously allocated memory is freed, which leads
-to leaking memory.
+Fix 'number of page' -> 'number of pages' in a comment.
 
-Fix this by freeing memory at the end of the function in case of an
-non-NULL err.
-
-Found by Linux Verification Center (linuxtesting.org) with SVACE.
-
-Fixes: a49d25364dfb ("staging/atomisp: Add support for the Intel IPU v2")
-Signed-off-by: Ivan Abramov <i.abramov@mt-integration.ru>
+Signed-off-by: Akiyoshi Kurita <weibu@redadmin.org>
 ---
-v2: Fix code formatting.
- drivers/staging/media/atomisp/pci/sh_css.c | 4 ++++
- 1 file changed, 4 insertions(+)
+ drivers/staging/rtl8723bs/hal/rtl8723bs_xmit.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/staging/media/atomisp/pci/sh_css.c b/drivers/staging/media/atomisp/pci/sh_css.c
-index 73bd87f43a8c..d50bc81a59dc 100644
---- a/drivers/staging/media/atomisp/pci/sh_css.c
-+++ b/drivers/staging/media/atomisp/pci/sh_css.c
-@@ -5907,6 +5907,10 @@ static int ia_css_pipe_create_cas_scaler_desc_single_output(
- 	ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE,
- 			    "ia_css_pipe_create_cas_scaler_desc() leave, err=%d\n",
- 			    err);
-+
-+	if (err)
-+		ia_css_pipe_destroy_cas_scaler_desc(descr);
-+
- 	return err;
- }
- 
--- 
-2.39.5
+diff --git a/drivers/staging/rtl8723bs/hal/rtl8723bs_xmit.c b/drivers/stagi=
+ng/rtl8723bs/hal/rtl8723bs_xmit.c
+index 842e19b53421..7ba8981f4652 100644
+--- a/drivers/staging/rtl8723bs/hal/rtl8723bs_xmit.c
++++ b/drivers/staging/rtl8723bs/hal/rtl8723bs_xmit.c
+@@ -76,7 +76,7 @@ static s32 rtl8723_dequeue_writeport(struct adapter *pada=
+pter)
+ 	/*  check if hardware tx fifo page is enough */
+ 	if (!rtw_hal_sdio_query_tx_freepage(pri_padapter, PageIdx, pxmitbuf->pg_n=
+um)) {
+ 		if (!bUpdatePageNum) {
+-			/*  Total number of page is NOT available, so update current FIFO statu=
+s */
++			/*  Total number of pages is NOT available, so update current FIFO stat=
+us */
+ 			HalQueryTxBufferStatus8723BSdio(padapter);
+ 			bUpdatePageNum =3D true;
+ 			goto query_free_page;
+--=20
+2.47.3
 
