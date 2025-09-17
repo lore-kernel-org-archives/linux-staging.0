@@ -1,54 +1,54 @@
-Received: from ksmg01.maxima.ru (ksmg01.mt-integration.ru [81.200.124.38])
+Received: from ksmg01.maxima.ru (ksmg01.maxima.ru [81.200.124.38])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A85E8126BF7
-	for <linux-staging@lists.linux.dev>; Wed, 17 Sep 2025 00:31:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35BFC1E7C27
+	for <linux-staging@lists.linux.dev>; Wed, 17 Sep 2025 00:43:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=81.200.124.38
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758069067; cv=none; b=WlSQHUhWzzP2tmmlx8Jbg+dEJU9nCudtd7mIZRSxDDTf0IWdxgocnGIkZwUimXvNELWmagMjay9DHQlzub1UbwOpSokv3FWYej639bwxNrWffLzkVAf2NVE0747lnw9OF8AnvG6dtIl2sLJ7clL4zBcBeOx1TSSkvDFNmgJ0eHs=
+	t=1758069785; cv=none; b=JoKasxLN19DHxI4UBi+QtN4G2S/W2Yhq6iKHQOKw2U1ef9+VNG/wNfNTeCqtrSi5ruCh+KdZoaDpmu/12k3L2zx7piaMEJORLI07GMHqT7pD1JjmWlCBHFQIYy7OkjGEeuAox42Gjw4hOzRLIrX327ivAKGPwOWof3HZD5s7A80=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758069067; c=relaxed/simple;
-	bh=jKMrePTVtH3GK5CWeu04sQVpD6lryLOx7JYCpiq1V1Y=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=fUWRKOGLH8Er03GDzBS9+442yT6+74vBa5/4ijJJaL0VkF1V7hIAnOPTarb/3eR0lTGQimaFxX6G5egB+W23m2umQCj/YVYMpg++GIja748nVgG+/bGml1I2vLScnUzg96qhVqxK4wBUNWSgy+wCxO+1uLya3Po1+4az5uW+nzQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mt-integration.ru; spf=pass smtp.mailfrom=mt-integration.ru; dkim=pass (2048-bit key) header.d=mt-integration.ru header.i=@mt-integration.ru header.b=lxzQHwsR; arc=none smtp.client-ip=81.200.124.38
+	s=arc-20240116; t=1758069785; c=relaxed/simple;
+	bh=SXkL13a8iG6GEI5p2NO+RC35HdW6nueOrqs/a8naP5k=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=lLuxWw26ZEMtEGbNz0ePlDorPOY3gyPKQXIz3cG1Xg/AtkmJHqA937EFO0993dtIwHsWcOewqb4Vu1A2vFjT6PfmxixB5+LDdyJ4ITfFMCRe0R3H63re7YibNJVEjVWAzT1hoMd/9EpvlZl6NVAUpf0ys6pevohdPf2qbYCxnUg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mt-integration.ru; spf=pass smtp.mailfrom=mt-integration.ru; dkim=pass (2048-bit key) header.d=mt-integration.ru header.i=@mt-integration.ru header.b=bRQrpbyn; arc=none smtp.client-ip=81.200.124.38
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mt-integration.ru
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mt-integration.ru
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mt-integration.ru header.i=@mt-integration.ru header.b="lxzQHwsR"
+	dkim=pass (2048-bit key) header.d=mt-integration.ru header.i=@mt-integration.ru header.b="bRQrpbyn"
 Received: from ksmg01.maxima.ru (localhost [127.0.0.1])
-	by ksmg01.maxima.ru (Postfix) with ESMTP id 8B5EDC007A;
-	Wed, 17 Sep 2025 03:30:53 +0300 (MSK)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ksmg01.maxima.ru 8B5EDC007A
+	by ksmg01.maxima.ru (Postfix) with ESMTP id D77C1C007A;
+	Wed, 17 Sep 2025 03:43:00 +0300 (MSK)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ksmg01.maxima.ru D77C1C007A
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mt-integration.ru;
-	s=sl; t=1758069053; bh=q3FMmTN5hXMh2C/vbItSLhglx0g/rmCHO6yb27iSL2w=;
+	s=sl; t=1758069780; bh=mMy7o1VKxSYYmV008tZxBY5ChzQiqbztmhJuX5eQfvU=;
 	h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type:From;
-	b=lxzQHwsRMKVDhSzymQ1FelwfAX60PBlp7g38nKSrG3rk5PXjmby6opbidk26tULMW
-	 W+8ClSukFbxob6dWYc+iSJ7XMhU4p0VxU1L4jHPFt/YIXkBH/v5iq8C6YI+4nDNg0G
-	 5JunyfRMcM2f/yQ2ViKNOrLzxfPbPTUP5nzM7RYRybs/XbdsdE3bR37DXjaPhCQ1jO
-	 yJPtaiDX7ldFTHGL6iq28s+hQkOvdAZX1K3aecN1eO51F7YZNcu2ct1qDmapAUHPv6
-	 vYGsDDBFmRHLSCxqK6OHqVZMTd0qr7bA1hFWQ0wLpi02+s0NvWzrY1RaaUjKEOW5+k
-	 LoJyS9krCEWiw==
-Received: from ksmg01.maxima.ru (mail.maxima.ru [81.200.124.61])
+	b=bRQrpbynxPG53Z7IHFd5LNs7TU7qMhRnu2bxAIP/K8dyD6u8p+WPKvXqLAg99wYsj
+	 yYR3pbeAoR49CTzfglEVL69Ig6NCos/6CRFlvTfoqnLMunWzZDphmXkirUSEAJ/i1V
+	 fuCiZvyqK6rSfJmPxmKzJ22Wd2/R878MmJV+mmkfMJOsk9uWxf9MUFxaUm8LASsQPR
+	 FFlaVhvOHZr9VtCK+/0thCCBiMu5CwR1enkpJEKYQ9fL8fGKyc+I+2I+UgbDrAhpAk
+	 GQlii6JK/Hkk3Gg72wWnJPQ3bHjrz/icY0BslHUShqOYZy7sdKfLgqNClee3Avq5Br
+	 qlM4cEqC360Mw==
+Received: from ksmg01.maxima.ru (autodiscover.maxima.ru [81.200.124.61])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(Client did not present a certificate)
 	by ksmg01.maxima.ru (Postfix) with ESMTPS;
-	Wed, 17 Sep 2025 03:30:53 +0300 (MSK)
+	Wed, 17 Sep 2025 03:43:00 +0300 (MSK)
 Received: from db126-1-abramov-14-d-mosos.mti-lab.com (172.25.20.118) by
  mmail-p-exch01.mt.ru (81.200.124.61) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.25; Wed, 17 Sep 2025 03:30:52 +0300
+ 15.2.1544.25; Wed, 17 Sep 2025 03:42:59 +0300
 From: Ivan Abramov <i.abramov@mt-integration.ru>
 To: Andy Shevchenko <andy@kernel.org>
 CC: Ivan Abramov <i.abramov@mt-integration.ru>, Hans de Goede
 	<hansg@kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, Sakari Ailus
 	<sakari.ailus@linux.intel.com>, Greg Kroah-Hartman
 	<gregkh@linuxfoundation.org>, Colin Ian King <colin.i.king@gmail.com>, Alan
- Cox <alan@linux.intel.com>, <linux-kernel@vger.kernel.org>,
-	<linux-media@vger.kernel.org>, <linux-staging@lists.linux.dev>,
+ Cox <alan@linux.intel.com>, <linux-media@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <linux-staging@lists.linux.dev>,
 	<lvc-project@linuxtesting.org>
-Subject: [PATCH 1/1] media: atomisp: Avoid memory leaks in ia_css_pipe_create_cas_scaler_desc_single_output()
-Date: Wed, 17 Sep 2025 03:29:29 +0300
-Message-ID: <20250917002933.506138-1-i.abramov@mt-integration.ru>
+Subject: [PATCH v2 1/1] media: atomisp: Avoid memory leaks in ia_css_pipe_create_cas_scaler_desc_single_output()
+Date: Wed, 17 Sep 2025 03:42:36 +0300
+Message-ID: <20250917004240.506794-1-i.abramov@mt-integration.ru>
 X-Mailer: git-send-email 2.39.5
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -88,6 +88,7 @@ Found by Linux Verification Center (linuxtesting.org) with SVACE.
 Fixes: a49d25364dfb ("staging/atomisp: Add support for the Intel IPU v2")
 Signed-off-by: Ivan Abramov <i.abramov@mt-integration.ru>
 ---
+v2: Fix code formatting.
  drivers/staging/media/atomisp/pci/sh_css.c | 4 ++++
  1 file changed, 4 insertions(+)
 
@@ -100,8 +101,8 @@ index 73bd87f43a8c..d50bc81a59dc 100644
  			    "ia_css_pipe_create_cas_scaler_desc() leave, err=%d\n",
  			    err);
 +
-+        if (err)
-+                ia_css_pipe_destroy_cas_scaler_desc(descr);
++	if (err)
++		ia_css_pipe_destroy_cas_scaler_desc(descr);
 +
  	return err;
  }
