@@ -1,59 +1,58 @@
-Received: from www3141.sakura.ne.jp (www3141.sakura.ne.jp [49.212.207.181])
+Received: from www.redadmin.org (ag129037.ppp.asahi-net.or.jp [157.107.129.37])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E02D18A6CF;
-	Wed, 17 Sep 2025 12:42:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=49.212.207.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B901226B2DB
+	for <linux-staging@lists.linux.dev>; Thu, 18 Sep 2025 11:56:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=157.107.129.37
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758112956; cv=pass; b=lgJlXOsAUkYdTYt8xbd0vtAwT2DIrLfKWfwo84Jva+JtUyK/7FMwoRa1wssv1k6hvufO5PbHQZCjqzkdx0Dz3xygOUAWf/VlRynKLryZihprmBmES77PrNUugA/YpKP30wlAwnlVU9wlVxJ3cQ4wh3/DqFaOzLKXbwN81loTAI0=
+	t=1758196598; cv=pass; b=lvp8U6Shgj5gcSGD2uQ/ky4mW92v7wUDSEzdBWeg/wx2Ht9rMdQpPEWjLGm/wlIcQ66aqNpyFqrY5Id73+WpycEMqiCtRFzs/po6J+9PMuJcxUH5o5DYVDKC6D+jTkd2CVNawStoHNpcoghDMypI++TkGD2cNjkpBsVx6LiKvgw=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758112956; c=relaxed/simple;
-	bh=B17GYg5auTAkWVCdRWKpLbr4OlUwuYKWU0Iqp+RY+fw=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=GXe8Jd/1xHB4dbz7L0v9dZzMvre7gGmY58KESDUEXJ0lKFNE9GI3o2M8cLEMVoC+bQGKq4Sp0IY8leEhboDYspHUcOfbQ1XrnXR5X+7+Q2JeeFBOGWStqMZun4kyPOSi9CvBSouQgTIlKRye36A9Ht+t6A6lwxZTovXLYnqv3VI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redadmin.org; spf=pass smtp.mailfrom=redadmin.org; dkim=pass (1024-bit key) header.d=redadmin.org header.i=@redadmin.org header.b=jWyBzGQN; arc=pass smtp.client-ip=49.212.207.181
+	s=arc-20240116; t=1758196598; c=relaxed/simple;
+	bh=kg3XCXyfzhc13IbD0TYL8vZvFqv7GPplWQmajnMl670=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=PfNGIZYoBnEB4DxS0gkABKb09IQiGMgjR6fFtsi6eZJ+/HZarglwlG95tlT4JLUSzb1zjadjKxtISHV6nVQCoCs5JwHfuZK3Lfmow5PfXlUusiMqkg+YKljCvOm6s/pf0QkgrAiuSHmUjo84AFqsN3/GrpPS+0toDnrmi6uCtdw=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redadmin.org; spf=pass smtp.mailfrom=redadmin.org; dkim=pass (1024-bit key) header.d=redadmin.org header.i=@redadmin.org header.b=QZ5gpNZs; arc=pass smtp.client-ip=157.107.129.37
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redadmin.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redadmin.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redadmin.org header.i=@redadmin.org header.b="jWyBzGQN"
-Received: from www.redadmin.org (ag129037.ppp.asahi-net.or.jp [157.107.129.37])
-	(authenticated bits=0)
-	by www3141.sakura.ne.jp (8.16.1/8.16.1) with ESMTPSA id 58HCgSGf035281
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
-	Wed, 17 Sep 2025 21:42:29 +0900 (JST)
-	(envelope-from weibu@redadmin.org)
+	dkim=pass (1024-bit key) header.d=redadmin.org header.i=@redadmin.org header.b="QZ5gpNZs"
 Received: from localhost (localhost [127.0.0.1])
-	by www.redadmin.org (Postfix) with ESMTP id 5F1431241848A;
-	Wed, 17 Sep 2025 21:42:28 +0900 (JST)
+	by www.redadmin.org (Postfix) with ESMTP id E8C0510A25223;
+	Thu, 18 Sep 2025 20:56:26 +0900 (JST)
 X-Virus-Scanned: amavis at redadmin.org
 Received: from www.redadmin.org ([127.0.0.1])
  by localhost (redadmin.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id 8bgp2gKtn_2l; Wed, 17 Sep 2025 21:42:24 +0900 (JST)
+ id 2MY4fi8Sklhc; Thu, 18 Sep 2025 20:56:22 +0900 (JST)
 Received: by www.redadmin.org (Postfix, from userid 1000)
-	id 8C97112418488; Wed, 17 Sep 2025 21:42:24 +0900 (JST)
+	id AE99C10A2521F; Thu, 18 Sep 2025 20:56:22 +0900 (JST)
 Authentication-Results: www.redadmin.org; arc=none smtp.remote-ip=127.0.0.1
-ARC-Seal: i=1; a=rsa-sha256; d=redadmin.org; s=20231208space; t=1758112944;
-	cv=none; b=DJVIadfV7JAJRQyTl9BGBGLTXr2xRkbp70Sjv/QdjJKr3ObmIwmyMwQ1Y9UMeUX+Rh1lSElxRlD1t6LN0bPEESr01/PgIZfMRhbB/uDchS6NRC/Md6t7feJhW4++6+2ZgfHpGopuaMqxchbIeSJnckvo9IuEnMJGMCsH0Sr6Y7k=
+ARC-Seal: i=1; a=rsa-sha256; d=redadmin.org; s=20231208space; t=1758196582;
+	cv=none; b=ehhqe+hjFhqsaMTS8tz5pXL5wO9Bwsq/fzdnEMk6JCHyYUYLbdjsJoRI9OdFGndNjQf2x6HSRBmfFmXqMWJ22hr7MEsaiTbT5brvVMtr4ykzj+g8FJTAK5LDo6BnSsJE0kJ3tG6YVfs7rRqRMD9YJWet+UGOLiGCDbxi61ZzGJY=
 ARC-Message-Signature: i=1; a=rsa-sha256; d=redadmin.org; s=20231208space;
-	t=1758112944; c=relaxed/relaxed;
-	bh=mrFS2WeE2DuciHDNhnemsvIlsB4vcsFJDQytVFcwjBA=;
+	t=1758196582; c=relaxed/relaxed;
+	bh=z4mj2+FYZp/bjZ1cbGcCbQXVFR3CSFUwvkhaQ3JRy9E=;
 	h=DKIM-Filter:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:
-	 X-Mailer:MIME-Version:Content-Transfer-Encoding; b=vizSkB+UPdxYlq2Xq69odT+bZYIp1sId56S6xJvqWrBARvTJMIjqNubEaDkEjWT95tifsq+yETz1UcIW9MGk4FJ7GCXhMaoB6Ni6M5XOJQiHtbta3tVq5VNtGQQO/6M2ByujeT0ZHpQl9sD51paEVZY0gWJfPymzSvFgEyaPTMU=
+	 X-Mailer:MIME-Version:Content-Transfer-Encoding; b=CWcmOQJGTrjgULdhGI5zjlu34r3T8cCsB6bKs4nrj3kSTDModNsr5RTxM9r5Svi0maj9LyL2Eszy182Too8GtkG30gIJiPPchSxp9+7VBUxES6RIOIA4w4y3uGrS8imfc/ANQh8RCOHHF09iW0QdmX7mkV35WzFBpd9KaJ4GVDQ=
 ARC-Authentication-Results: i=1; www.redadmin.org
-DKIM-Filter: OpenDKIM Filter v2.11.0 www.redadmin.org 8C97112418488
+DKIM-Filter: OpenDKIM Filter v2.11.0 www.redadmin.org AE99C10A2521F
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redadmin.org;
-	s=20231208space; t=1758112944;
-	bh=mrFS2WeE2DuciHDNhnemsvIlsB4vcsFJDQytVFcwjBA=;
+	s=20231208space; t=1758196582;
+	bh=z4mj2+FYZp/bjZ1cbGcCbQXVFR3CSFUwvkhaQ3JRy9E=;
 	h=From:To:Cc:Subject:Date:From;
-	b=jWyBzGQN4bQa3RLaF2YUyg936cp0D/7zJB2HrOs175vLZDQMhermiFJIVYZpsmKPM
-	 /4d2+D58oXK4QgpB8Fj8FdYxdWfIPvO2Ka+tUtexWiBBR2z/QwSJ9W9Muw/Na7OMqw
-	 Pz6JYYtGOqlbPuoVpg+bnjBfRRgUWu3QHPsKO6/Y=
+	b=QZ5gpNZsa0DU8wjs4DJxQ1n0+YgxExItu1P93HXdqEVf8msXK9Mra733Mv3kkwyIC
+	 OgYjS4sHYdPugA8w4+gUucEnpbvIsn6bvNIshPVHZ2lWedVr9lRLuamMYr4tT+kgET
+	 A4Fq54E6XvlREAzztnq4dFxrmgHyv6bcLeUSYpso=
 From: Akiyoshi Kurita <weibu@redadmin.org>
-To: gregkh@linuxfoundation.org
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-        Akiyoshi Kurita <weibu@redadmin.org>
-Subject: [PATCH] staging: rtl8723bs: sdio: clarify OQT free page comment
-Date: Wed, 17 Sep 2025 21:42:21 +0900
-Message-ID: <20250917124221.1466298-1-weibu@redadmin.org>
+To: linux-staging@lists.linux.dev
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Florian Fainelli <florian.fainelli@broadcom.com>,
+	bcm-kernel-feedback-list@broadcom.com,
+	linux-rpi-kernel@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	Akiyoshi Kurita <weibu@redadmin.org>
+Subject: [PATCH] staging: vc04_services: mmal: fix typo in comment
+Date: Thu, 18 Sep 2025 20:56:19 +0900
+Message-ID: <20250918115619.1616818-1-weibu@redadmin.org>
 X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -63,33 +62,29 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-Clarify the comment above HalQueryTxBufferStatus8723BSdio() to use
-"TX OQT free page count" wording consistent with SDIO_REG_OQT_FREE_PG.
+Correct a misspelling in a comment ("recived" -> "received").
+
+No functional change.
 
 Signed-off-by: Akiyoshi Kurita <weibu@redadmin.org>
 ---
- drivers/staging/rtl8723bs/hal/sdio_ops.c | 5 +----
- 1 file changed, 1 insertion(+), 4 deletions(-)
+ drivers/staging/vc04_services/vchiq-mmal/mmal-msg.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/staging/rtl8723bs/hal/sdio_ops.c b/drivers/staging/rtl=
-8723bs/hal/sdio_ops.c
-index 8736c124f857..0ee50b4a1149 100644
---- a/drivers/staging/rtl8723bs/hal/sdio_ops.c
-+++ b/drivers/staging/rtl8723bs/hal/sdio_ops.c
-@@ -997,10 +997,7 @@ u8 HalQueryTxBufferStatus8723BSdio(struct adapter *ada=
-pter)
- 	return true;
- }
+diff --git a/drivers/staging/vc04_services/vchiq-mmal/mmal-msg.h b/drivers/=
+staging/vc04_services/vchiq-mmal/mmal-msg.h
+index 471413248a14..1889494425eb 100644
+--- a/drivers/staging/vc04_services/vchiq-mmal/mmal-msg.h
++++ b/drivers/staging/vc04_services/vchiq-mmal/mmal-msg.h
+@@ -13,7 +13,7 @@
 =20
--/*  */
--/*	Description: */
--/*		Query SDIO Local register to get the current number of TX OQT Free Spa=
-ce. */
--/*  */
-+/* Read the TX OQT free page count from the SDIO local register. */
- void HalQueryTxOQTBufferStatus8723BSdio(struct adapter *adapter)
- {
- 	struct hal_com_data *haldata =3D GET_HAL_DATA(adapter);
+ /*
+  * all the data structures which serialise the MMAL protocol. note
+- * these are directly mapped onto the recived message data.
++ * these are directly mapped onto the received message data.
+  *
+  * BEWARE: They seem to *assume* pointers are u32 and that there is no
+  * structure padding!
 --=20
 2.47.3
 
