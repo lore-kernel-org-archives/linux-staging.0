@@ -1,53 +1,53 @@
-Received: from fra-out-008.esa.eu-central-1.outbound.mail-perimeter.amazon.com (fra-out-008.esa.eu-central-1.outbound.mail-perimeter.amazon.com [35.158.23.94])
+Received: from fra-out-005.esa.eu-central-1.outbound.mail-perimeter.amazon.com (fra-out-005.esa.eu-central-1.outbound.mail-perimeter.amazon.com [63.176.194.123])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 559D8307AC4
-	for <linux-staging@lists.linux.dev>; Fri, 19 Sep 2025 10:24:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=35.158.23.94
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF52E22CBF1
+	for <linux-staging@lists.linux.dev>; Fri, 19 Sep 2025 10:25:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=63.176.194.123
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758277466; cv=none; b=XVWnr2gP6xk/CR+y3KFbPtb6qdzVbW6cTHlYZByyHN6boQnHmzi8C+Wd8L0UGutK//crmrTJTRz5mFzexKlzqwirqLx/S5CbxYQJzBCp0KEHL7sK3T9xTtYVyLBsLdwNxyYetC9Il5bZ+WTcLavkpNHFC/xFOmWrY9GaDy7sEtY=
+	t=1758277506; cv=none; b=AdMQBH4g1xkt50N0VC8zcUlsvLz7LzF+z2X9zHMN5Bayr+yd/2TJYO5Xlf8Ezrp7YG0/+tD1a+e3AHssNVLYDzVtTCspH2GT0S6pqrFgE3c52bH0wCVGW9c6y4W6sxJcyQI02oWHbJE8Stja76S6hnEQTBP4gJQb1wVO1kpNEY0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758277466; c=relaxed/simple;
-	bh=OMdwAX0D4RWxyOV+A/UOqWcXqJeRVU0cG+oVZfFnsG4=;
+	s=arc-20240116; t=1758277506; c=relaxed/simple;
+	bh=c8CkUW1Wymk66rGG5tsvWtIDgSEWGpXx8+69cD8zAvI=;
 	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=iXoX0iQXgRNqtXZQwCl8ygHM4OkecvujIOM3ubuGxcYElaQxQNGTfas6YYxzYGuv1pF7WVlikS2iBqv1hLh8Y1cifPqzDlte+ZTupbnCwHMq73f4fwnvJqA81HQcmkEGJaGRpQpsrq9wRL5eJHxA/daf3VwEF4AsvQl9XBzKuTU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com; spf=pass smtp.mailfrom=amazon.com; dkim=pass (2048-bit key) header.d=amazon.com header.i=@amazon.com header.b=VKyu1eSp; arc=none smtp.client-ip=35.158.23.94
+	 MIME-Version:Content-Type; b=G65pyFFOdQW01BAVsqqfYU8+oSqzRdtbosQUHa0b7BC0uKpWG0akV4pid2cUypCMMTe2HQmltCQyQWuYEOGCRz5MEvDbv0mNpClVXokmH1a4bWxE9deYPha1zS5QXZI19N2FRBeyoNSdfJeTulWL8H2iC+Xg7FGWU37iNOOSE5U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com; spf=pass smtp.mailfrom=amazon.com; dkim=pass (2048-bit key) header.d=amazon.com header.i=@amazon.com header.b=dfmUzvAc; arc=none smtp.client-ip=63.176.194.123
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazon.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=amazon.com header.i=@amazon.com header.b="VKyu1eSp"
+	dkim=pass (2048-bit key) header.d=amazon.com header.i=@amazon.com header.b="dfmUzvAc"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
   d=amazon.com; i=@amazon.com; q=dns/txt; s=amazoncorp2;
-  t=1758277464; x=1789813464;
+  t=1758277504; x=1789813504;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=Up26bfkjgG7bBpXTUDNOne3Gaz9xL27H6G5Ic5zP1jo=;
-  b=VKyu1eSp6PIFIEIDHbRkeA5t0A2XFC8OX8RJqkyc+J8NGunqxHT7WHru
-   bSRo3xtZUP3zO3LPS6DdIzV/2WSWilO+vaJhmcX3u+X5F4iiZ2AwojvMe
-   ZEFcD1OQ3xuSMgiNUCC3tVOQPz3vrRX0I4DWVT44JbNj/9F1/T0j+OY+L
-   r20wGkKxADNcNnBf6P5Os5epmbZXfKz5Y3fWPVKaCjuxSLIYcYo2EaTjz
-   pehK2MHY6+0aJO0+A6mgdQvsvQGm4fuiLLX8quGd7ZYBgFQdaIRG96g/b
-   xWogetWrZ+mntDuvxDCFv7cfBBkaKG8wsipthFg6ksMZD2hWw82c5RVCl
-   w==;
-X-CSE-ConnectionGUID: VfUMBUH0R+udyi3y5h9lpA==
-X-CSE-MsgGUID: fEXY14+oTR2Ji22+/AcC7g==
+  bh=jvk2RBzXwrA99Hwxay/jSQlk3gLjsVti9lJHvH/pTPQ=;
+  b=dfmUzvAcDJzv0R6BIgqB5qQLBVIs9iomSXUvB9yJcmdqdt+MLyPQjJ68
+   fWcf3KVYNmrvgQArTxZRpFwqqo45Id9lVARa70EiEW7DN0zZcNkfI2xSt
+   rdYsx5vdEtta7EjEmqx+PffkUvd5hpPKv8yjSr1MsAgQFnC1qKG2M+nSm
+   eNfavR64W6epcY+mA1r6EYdwYbJQBWlS0jMRqSLvYJLENwFM4sh0W8fj+
+   0inXJV8FXmLl3EMam5RlrVDv1O8Y8TP+3/hxLGKiBotKjVlcfiblIhPK0
+   UOSxNhEjvnckzlQhZdkO2uXB0+hasdRjMI7r0cmayy/VdqoXoPIFCwalk
+   g==;
+X-CSE-ConnectionGUID: KANou9z1RuCe6Vq68KMQTw==
+X-CSE-MsgGUID: TbLofDk1S/CNyVlnEY1GAw==
 X-IronPort-AV: E=Sophos;i="6.18,277,1751241600"; 
-   d="scan'208";a="2371767"
+   d="scan'208";a="2369395"
 Received: from ip-10-6-6-97.eu-central-1.compute.internal (HELO smtpout.naws.eu-central-1.prod.farcaster.email.amazon.dev) ([10.6.6.97])
-  by internal-fra-out-008.esa.eu-central-1.outbound.mail-perimeter.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Sep 2025 10:24:22 +0000
-Received: from EX19MTAEUA002.ant.amazon.com [54.240.197.232:21608]
- by smtpin.naws.eu-central-1.prod.farcaster.email.amazon.dev [10.0.8.212:2525] with esmtp (Farcaster)
- id 504dbbff-7d1b-49bf-9922-7914909fe636; Fri, 19 Sep 2025 10:24:22 +0000 (UTC)
-X-Farcaster-Flow-ID: 504dbbff-7d1b-49bf-9922-7914909fe636
+  by internal-fra-out-005.esa.eu-central-1.outbound.mail-perimeter.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Sep 2025 10:25:03 +0000
+Received: from EX19MTAEUA001.ant.amazon.com [54.240.197.233:30717]
+ by smtpin.naws.eu-central-1.prod.farcaster.email.amazon.dev [10.0.30.197:2525] with esmtp (Farcaster)
+ id 083ec295-c61b-4097-9a92-62dae0cb35b4; Fri, 19 Sep 2025 10:25:02 +0000 (UTC)
+X-Farcaster-Flow-ID: 083ec295-c61b-4097-9a92-62dae0cb35b4
 Received: from EX19D018EUA004.ant.amazon.com (10.252.50.85) by
- EX19MTAEUA002.ant.amazon.com (10.252.50.126) with Microsoft SMTP Server
+ EX19MTAEUA001.ant.amazon.com (10.252.50.192) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.20;
- Fri, 19 Sep 2025 10:24:18 +0000
+ Fri, 19 Sep 2025 10:25:02 +0000
 Received: from dev-dsk-farbere-1a-46ecabed.eu-west-1.amazon.com
  (172.19.116.181) by EX19D018EUA004.ant.amazon.com (10.252.50.85) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.20; Fri, 19 Sep 2025
- 10:23:50 +0000
+ 10:24:33 +0000
 From: Eliav Farber <farbere@amazon.com>
 To: <linux@armlinux.org.uk>, <jdike@addtoit.com>, <richard@nod.at>,
 	<anton.ivanov@cambridgegreys.com>, <dave.hansen@linux.intel.com>,
@@ -94,11 +94,12 @@ To: <linux@armlinux.org.uk>, <jdike@addtoit.com>, <richard@nod.at>,
 	<linux-mm@kvack.org>, <netfilter-devel@vger.kernel.org>,
 	<coreteam@netfilter.org>, <tipc-discussion@lists.sourceforge.net>,
 	<stable@vger.kernel.org>
-CC: <jonnyc@amazon.com>, Christoph Hellwig <hch@infradead.org>, Linus Torvalds
-	<torvalds@linux-foundation.org>
-Subject: [PATCH 11/27 5.10.y] minmax: relax check to allow comparison between unsigned arguments and signed constants
-Date: Fri, 19 Sep 2025 10:17:11 +0000
-Message-ID: <20250919101727.16152-12-farbere@amazon.com>
+CC: <jonnyc@amazon.com>, Linus Torvalds <torvalds@linux-foundation.org>,
+	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, David Laight
+	<David.Laight@aculab.com>
+Subject: [PATCH 12/27 5.10.y] minmax: avoid overly complicated constant expressions in VM code
+Date: Fri, 19 Sep 2025 10:17:12 +0000
+Message-ID: <20250919101727.16152-13-farbere@amazon.com>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <20250919101727.16152-1-farbere@amazon.com>
 References: <20250919101727.16152-1-farbere@amazon.com>
@@ -110,78 +111,68 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-ClientProxiedBy: EX19D032UWA003.ant.amazon.com (10.13.139.37) To
+X-ClientProxiedBy: EX19D035UWB004.ant.amazon.com (10.13.138.104) To
  EX19D018EUA004.ant.amazon.com (10.252.50.85)
 
-From: David Laight <David.Laight@ACULAB.COM>
+From: Linus Torvalds <torvalds@linux-foundation.org>
 
-[ Upstream commit 867046cc7027703f60a46339ffde91a1970f2901 ]
+[ Upstream commit 3a7e02c040b130b5545e4b115aada7bacd80a2b6 ]
 
-Allow (for example) min(unsigned_var, 20).
+The minmax infrastructure is overkill for simple constants, and can
+cause huge expansions because those simple constants are then used by
+other things.
 
-The opposite min(signed_var, 20u) is still errored.
+For example, 'pageblock_order' is a core VM constant, but because it was
+implemented using 'min_t()' and all the type-checking that involves, it
+actually expanded to something like 2.5kB of preprocessor noise.
 
-Since a comparison between signed and unsigned never makes the unsigned
-value negative it is only necessary to adjust the __types_ok() test.
+And when that simple constant was then used inside other expansions:
 
-Link: https://lkml.kernel.org/r/633b64e2f39e46bb8234809c5595b8c7@AcuMS.aculab.com
-Signed-off-by: David Laight <david.laight@aculab.com>
-Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: Christoph Hellwig <hch@infradead.org>
-Cc: Jason A. Donenfeld <Jason@zx2c4.com>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: Matthew Wilcox (Oracle) <willy@infradead.org>
-Signed-off-by: Andrew Morton <akpm@linux-foundation.org>
+  #define pageblock_nr_pages      (1UL << pageblock_order)
+  #define pageblock_start_pfn(pfn)  ALIGN_DOWN((pfn), pageblock_nr_pages)
+
+and we then use that inside a 'max()' macro:
+
+	case ISOLATE_SUCCESS:
+		update_cached = false;
+		last_migrated_pfn = max(cc->zone->zone_start_pfn,
+			pageblock_start_pfn(cc->migrate_pfn - 1));
+
+the end result was that one statement expanding to 253kB in size.
+
+There are probably other cases of this, but this one case certainly
+stood out.
+
+I've added 'MIN_T()' and 'MAX_T()' macros for this kind of "core simple
+constant with specific type" use.  These macros skip the type checking,
+and as such need to be very sparingly used only for obvious cases that
+have active issues like this.
+
+Reported-by: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+Link: https://lore.kernel.org/all/36aa2cad-1db1-4abf-8dd2-fb20484aabc3@lucifer.local/
+Cc: David Laight <David.Laight@aculab.com>
+Signed-off-by: Linus Torvalds <torvalds@linux-foundation.org>
 Signed-off-by: Eliav Farber <farbere@amazon.com>
 ---
- include/linux/minmax.h | 24 +++++++++++++++++-------
- 1 file changed, 17 insertions(+), 7 deletions(-)
+ include/linux/minmax.h | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
 diff --git a/include/linux/minmax.h b/include/linux/minmax.h
-index 842c1db62ffe..2ec559284a9f 100644
+index 2ec559284a9f..a7ef65f78933 100644
 --- a/include/linux/minmax.h
 +++ b/include/linux/minmax.h
-@@ -10,13 +10,18 @@
- /*
-  * min()/max()/clamp() macros must accomplish three things:
-  *
-- * - avoid multiple evaluations of the arguments (so side-effects like
-+ * - Avoid multiple evaluations of the arguments (so side-effects like
-  *   "x++" happen only once) when non-constant.
-- * - perform signed v unsigned type-checking (to generate compile
-- *   errors instead of nasty runtime surprises).
-- * - retain result as a constant expressions when called with only
-+ * - Retain result as a constant expressions when called with only
-  *   constant expressions (to avoid tripping VLA warnings in stack
-  *   allocation usage).
-+ * - Perform signed v unsigned type-checking (to generate compile
-+ *   errors instead of nasty runtime surprises).
-+ * - Unsigned char/short are always promoted to signed int and can be
-+ *   compared against signed or unsigned arguments.
-+ * - Unsigned arguments can be compared against non-negative signed constants.
-+ * - Comparison of a signed argument against an unsigned constant fails
-+ *   even if the constant is below __INT_MAX__ and could be cast to int.
-  */
- #define __typecheck(x, y) \
- 	(!!(sizeof((typeof(x) *)1 == (typeof(y) *)1)))
-@@ -26,9 +31,14 @@
- 	__builtin_choose_expr(__is_constexpr(is_signed_type(typeof(x))),	\
- 		is_signed_type(typeof(x)), 0)
+@@ -270,4 +270,11 @@ static inline bool in_range32(u32 val, u32 start, u32 len)
+ #define swap(a, b) \
+ 	do { typeof(a) __tmp = (a); (a) = (b); (b) = __tmp; } while (0)
  
--#define __types_ok(x, y) 			\
--	(__is_signed(x) == __is_signed(y) ||	\
--		__is_signed((x) + 0) == __is_signed((y) + 0))
-+/* True for a non-negative signed int constant */
-+#define __is_noneg_int(x)	\
-+	(__builtin_choose_expr(__is_constexpr(x) && __is_signed(x), x, -1) >= 0)
++/*
++ * Use these carefully: no type checking, and uses the arguments
++ * multiple times. Use for obvious constants only.
++ */
++#define MIN_T(type,a,b) __cmp(min,(type)(a),(type)(b))
++#define MAX_T(type,a,b) __cmp(max,(type)(a),(type)(b))
 +
-+#define __types_ok(x, y) 					\
-+	(__is_signed(x) == __is_signed(y) ||			\
-+		__is_signed((x) + 0) == __is_signed((y) + 0) ||	\
-+		__is_noneg_int(x) || __is_noneg_int(y))
- 
- #define __cmp_op_min <
- #define __cmp_op_max >
+ #endif	/* _LINUX_MINMAX_H */
 -- 
 2.47.3
 
