@@ -1,312 +1,233 @@
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from cstnet.cn (smtp84.cstnet.cn [159.226.251.84])
+	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7C5E2F549B
-	for <linux-staging@lists.linux.dev>; Mon, 22 Sep 2025 07:36:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE57018A6A5
+	for <linux-staging@lists.linux.dev>; Mon, 22 Sep 2025 08:45:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.84
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758526618; cv=none; b=IsBUTXWenRZxVffwb0Ix/H7RbgdtsqZn0bX8YfjVt9xsAg/zglXPU40kHLnxdwZhebalC12kgnIV9QcKKF7ttQ/qSfpvK25Hc3u+uSlqZ3v2V2ouNjKW5RPYYj8tP4NYVgaf6HcairQCsB1xjCcqbP/0LFaLoeRhU/gxMLMdUl8=
+	t=1758530734; cv=none; b=q9mH1SPFCzj2vYIMZld7MSumTGr6iR1y6XJ4IZZ736VZx7ZIWTCl6nfhsl7N8OM3DqfeQ21Wmth0qnvBybTjV+TkU46WFL9Vu2J4X6PLKmvQaJic776vyLVtN7JojYsEnrD8/JdgedsrZRE0jN45ujMV+XHrWP7QjZxcR4Patkk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758526618; c=relaxed/simple;
-	bh=aOyTQYZuDWlPt0S+jrgAOD98xMe9oFqP1/5VVHR8G98=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=JWpdcQkikejVonLmce0fxnvr3D5xA1FfLJ6/vmpnOTSwW09q4Uhx1PXu89NC5JOyYSqPL61mCK0EPVNMhch14NzBMrrFlJsGoiykqsF+a38xvITv2Fyp4+VgJMhVDG3mrhkzFfq7EbG1jyruK6385EkYI8yhJT9Clh+Ws9OfZQc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QIho4Swh; arc=none smtp.client-ip=209.85.221.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QIho4Swh"
-Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-3fa528f127fso556601f8f.1
-        for <linux-staging@lists.linux.dev>; Mon, 22 Sep 2025 00:36:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1758526614; x=1759131414; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=SQTiutALUjkpQjQ6uKKs077crH4fXFWsk2vBwe4NujY=;
-        b=QIho4SwhSe4DwERKw3RJLuKqpE5NPz6RqLWruLUby0fqQcW9WQX8nTp+IZWNbitdfm
-         qLqeazP8zaZslNyn1B6UC05/NghV6HyodpP9HfvcL1/fHe7/vzKOihlcuoDFc5tQcUYS
-         nrdXe7tD6AWK+SvPcVLLs5b83lU5QrIIAjyntqCQQyy3kyPk5dC6XG20q3hwVg3ZJ+Wt
-         pTkPdO+gsBJpU4mfk+19oNJpewAxCIn0y/8Tht+OLYyTSk8WhXub+LQYLBwHRZRWWpTe
-         lb1MZkJ5WG64BEBNPvR4Q0+7Wu6eTmea+pPIliIfGEMEtzbze7Gd5BUIEDjW0qPFbKh3
-         7MJw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758526614; x=1759131414;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=SQTiutALUjkpQjQ6uKKs077crH4fXFWsk2vBwe4NujY=;
-        b=ZL6XzAQqSoOtF27GjsswMB4d2/qETSLCG1uNbKLgy6MfRdO1ITR9jXAQ7mY0jrxUbV
-         im2sjkFiNScnobWYCcCAg9SurhEmRFw2+k+V/CH/7xBmqqidZWrK3LzdOkLvk7sXMFIq
-         0GblfqcieZHzA4WL7KqHykY5Dw+0vKTq6XAcEgHV23DlwsbqYj6klqxUEbVqiVA2JoeQ
-         2hqq3OMUYVDy431c9aArPh8JVJ1NpDqQEOegW8V3g9hYLot+qk2n2M3HoM5HnXePYLkN
-         bkaYIiDyUFTk7ofYCBEvsmFd2kbq5D6Yj1xeQKElc0s8hDZfXZN1TSGpsE6T4RrOhEtB
-         /zEQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXZTurZgCwWeOyYB9v929zYrJSx85RiGr4PvJkQiKxJlYthSCbpopcCoNka8kOf23D8/8AuKr52kSosQkaq@lists.linux.dev
-X-Gm-Message-State: AOJu0YyR5JT/youer7859uKwyIop48k/Cz7/Rc+g8aeIJshKbEF6HxJt
-	Qq3oQWHiQmo9qxF94CzJVfUoLPrV1aEDYY35wBzMQVyyHS22DRjyhs4fW4tByZa8uX7q/VphbRb
-	rD5MQ3mDxMBBcGOAKQax+U61VkbwCwGE=
-X-Gm-Gg: ASbGncsb/tcTEUbiO600spirFhBl5sM0xH9GprxD9ss7kK4/oq/CwNwDx3BFr80TDH2
-	wzVp0BCX9IZSuoqC3WETaOTvCi4Zw/51CW+Aj8krAe8n3a2YlRuAUvFau0EePPzgtWrCyRVvRYn
-	DeFUYtb9YP0Sx3uT6WNbsgRDG24G/qMQCB05NsCC61M/PA1PqKc5GkAr1eftFCnxq4SPkQ5D+gM
-	bqsoE5e
-X-Google-Smtp-Source: AGHT+IG2SLbXARRu0t168HLsZz/v53XcB1wJ8Ft52VtbeB5V4oYB8nfGA5hMzmF2UiZq9koPPs+A0RRL4rJK+tjvmts=
-X-Received: by 2002:a5d:5f87:0:b0:3ec:42f9:953e with SMTP id
- ffacd0b85a97d-3edd43b5c0dmr15773738f8f.7.1758526613972; Mon, 22 Sep 2025
- 00:36:53 -0700 (PDT)
+	s=arc-20240116; t=1758530734; c=relaxed/simple;
+	bh=vbKdgEGj+Nr6AxwJ+6W6+x69mUP+qFpAekN5T6aTStY=;
+	h=From:To:Cc:Subject:Date:Message-Id; b=HqXeauPZUIhOiH563mli6DBmjBmGv3tWGd7V1syICl0dcnlZ+iOY5oFsWx2ekGXkuIGfFezPugKGuLZX7kXdfoCGVO/NUadcr81mXB8tQcz5OlApLM8o5X5dVpKhx+tbrYFHVfMZDT5jrXq99JB4Se0bMBkuouLdgbIgYuRUOts=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass smtp.mailfrom=iscas.ac.cn; arc=none smtp.client-ip=159.226.251.84
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
+Received: from localhost.localdomain (unknown [202.112.113.212])
+	by APP-05 (Coremail) with SMTP id zQCowADniBKZDNFovBhHBA--.4477S2;
+	Mon, 22 Sep 2025 16:45:22 +0800 (CST)
+From: Ma Ke <make24@iscas.ac.cn>
+To: dpenkler@gmail.com,
+	gregkh@linuxfoundation.org,
+	matchstick@neverthere.org,
+	dominik.karol.piatkowski@protonmail.com,
+	arnd@arndb.de,
+	nichen@iscas.ac.cn,
+	paul.retourne@orange.fr,
+	dan.carpenter@linaro.org
+Cc: linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	akpm@linux-foundation.org,
+	Ma Ke <make24@iscas.ac.cn>,
+	stable@vger.kernel.org
+Subject: [PATCH v2] staging: gpib: Fix device reference leak in fmh_gpib driver
+Date: Mon, 22 Sep 2025 16:45:12 +0800
+Message-Id: <20250922084512.9174-1-make24@iscas.ac.cn>
+X-Mailer: git-send-email 2.17.1
+X-CM-TRANSID:zQCowADniBKZDNFovBhHBA--.4477S2
+X-Coremail-Antispam: 1UD129KBjvJXoWxtFW8Xw1xAFW8WF4kAw4UCFg_yoW7uw17pa
+	yxWa15KrW8twnaqF43Jw1UXFsYyw42y345uw47C343A3ZYvrWjyF4kKa4a9ryrtrWkJr45
+	trWjgr409FWDZaDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUPj14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+	1l84ACjcxK6xIIjxv20xvE14v26ryj6F1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26F4j
+	6r4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AKxVW0oV
+	Cq3wAac4AC62xK8xCEY4vEwIxC4wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC
+	0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUGVWUXwAv7VC2z280aVAFwI0_Jr0_Gr
+	1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IE
+	rcIFxwACI402YVCY1x02628vn2kIc2xKxwCY1x0262kKe7AKxVWUtVW8ZwCY02Avz4vE14
+	v_GFyl42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AK
+	xVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrx
+	kI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v2
+	6r4j6F4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8Jw
+	CI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjfUYv38UUUU
+	U
+X-CM-SenderInfo: ppdnvj2u6l2u1dvotugofq/
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-References: <20250906135345.241229-1-clamor95@gmail.com> <4198615.hdfAi7Kttb@senjougahara>
- <CAPVz0n0TPKa2cVXZdUEAWWHquGeqzj=p-9cXx79jc6RwXLkkGg@mail.gmail.com> <3074302.Sgy9Pd6rRy@senjougahara>
-In-Reply-To: <3074302.Sgy9Pd6rRy@senjougahara>
-From: Svyatoslav Ryhel <clamor95@gmail.com>
-Date: Mon, 22 Sep 2025 10:36:42 +0300
-X-Gm-Features: AS18NWCN3qDh6Art7Go1S1L6w234Yc5WBRcSNsroEE7Na7Xcr_-CeAzzooRElaI
-Message-ID: <CAPVz0n1ozJ13MB4eFMAJzESe8iQ7SKjMApZCLFAZ_eubCFs0tg@mail.gmail.com>
-Subject: Re: [PATCH v2 16/23] staging: media: tegra-video: tegra20: simplify
- format align calculations
-To: Mikko Perttunen <mperttunen@nvidia.com>
-Cc: Thierry Reding <thierry.reding@gmail.com>, Thierry Reding <treding@nvidia.com>, 
-	Jonathan Hunter <jonathanh@nvidia.com>, Sowjanya Komatineni <skomatineni@nvidia.com>, 
-	Luca Ceresoli <luca.ceresoli@bootlin.com>, David Airlie <airlied@gmail.com>, 
-	Simona Vetter <simona@ffwll.ch>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Prashant Gaikwad <pgaikwad@nvidia.com>, Michael Turquette <mturquette@baylibre.com>, 
-	Stephen Boyd <sboyd@kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Dmitry Osipenko <digetx@gmail.com>, 
-	=?UTF-8?Q?Jonas_Schw=C3=B6bel?= <jonasschwoebel@yahoo.de>, 
-	Charan Pedumuru <charan.pedumuru@gmail.com>, dri-devel@lists.freedesktop.org, 
-	devicetree@vger.kernel.org, linux-tegra@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
-	linux-clk@vger.kernel.org, linux-staging@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-=D0=BF=D0=BD, 22 =D0=B2=D0=B5=D1=80. 2025=E2=80=AF=D1=80. =D0=BE 10:27 Mikk=
-o Perttunen <mperttunen@nvidia.com> =D0=BF=D0=B8=D1=88=D0=B5:
->
-> On Monday, September 22, 2025 3:30=E2=80=AFPM Svyatoslav Ryhel wrote:
-> > =D0=BF=D0=BD, 22 =D0=B2=D0=B5=D1=80. 2025=E2=80=AF=D1=80. =D0=BE 09:23 =
-Mikko Perttunen <mperttunen@nvidia.com> =D0=BF=D0=B8=D1=88=D0=B5:
-> > >
-> > > On Monday, September 22, 2025 2:13=E2=80=AFPM Svyatoslav Ryhel wrote:
-> > > > =D0=BF=D0=BD, 22 =D0=B2=D0=B5=D1=80. 2025=E2=80=AF=D1=80. =D0=BE 07=
-:44 Mikko Perttunen <mperttunen@nvidia.com> =D0=BF=D0=B8=D1=88=D0=B5:
-> > > > >
-> > > > > On Saturday, September 6, 2025 10:53=E2=80=AFPM Svyatoslav Ryhel =
-wrote:
-> > > > > > Simplify format align calculations by slightly modifying suppor=
-ted formats
-> > > > > > structure.
-> > > > > >
-> > > > > > Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
-> > > > > > ---
-> > > > > >  drivers/staging/media/tegra-video/tegra20.c | 41 ++++++++-----=
---------
-> > > > > >  1 file changed, 16 insertions(+), 25 deletions(-)
-> > > > > >
-> > > > > > diff --git a/drivers/staging/media/tegra-video/tegra20.c b/driv=
-ers/staging/media/tegra-video/tegra20.c
-> > > > > > index 6e0b3b728623..781c4e8ec856 100644
-> > > > > > --- a/drivers/staging/media/tegra-video/tegra20.c
-> > > > > > +++ b/drivers/staging/media/tegra-video/tegra20.c
-> > > > > > @@ -280,20 +280,8 @@ static void tegra20_fmt_align(struct v4l2_=
-pix_format *pix, unsigned int bpp)
-> > > > > >       pix->width  =3D clamp(pix->width,  TEGRA20_MIN_WIDTH,  TE=
-GRA20_MAX_WIDTH);
-> > > > > >       pix->height =3D clamp(pix->height, TEGRA20_MIN_HEIGHT, TE=
-GRA20_MAX_HEIGHT);
-> > > > > >
-> > > > > > -     switch (pix->pixelformat) {
-> > > > > > -     case V4L2_PIX_FMT_UYVY:
-> > > > > > -     case V4L2_PIX_FMT_VYUY:
-> > > > > > -     case V4L2_PIX_FMT_YUYV:
-> > > > > > -     case V4L2_PIX_FMT_YVYU:
-> > > > > > -             pix->bytesperline =3D roundup(pix->width, 2) * 2;
-> > > > > > -             pix->sizeimage =3D roundup(pix->width, 2) * 2 * p=
-ix->height;
-> > > > > > -             break;
-> > > > > > -     case V4L2_PIX_FMT_YUV420:
-> > > > > > -     case V4L2_PIX_FMT_YVU420:
-> > > > > > -             pix->bytesperline =3D roundup(pix->width, 8);
-> > > > > > -             pix->sizeimage =3D roundup(pix->width, 8) * pix->=
-height * 3 / 2;
-> > > > > > -             break;
-> > > > > > -     }
-> > > > > > +     pix->bytesperline =3D DIV_ROUND_UP(pix->width * bpp, 8);
-> > > > >
-> > > > > Assuming the bpp is coming from the format table below, this chan=
-ges the value of bytesperline for planar formats. With this it'll be (width=
- * 12) / 8 i.e. width * 3/2, which doesn't sound right.
-> > > > >
-> > > >
-> > > > Downstream uses soc_mbus_bytes_per_line for this calculation which =
-was
-> > > > deprecated some time ago, here is a fragment
-> > > >
-> > > > s32 soc_mbus_bytes_per_line(u32 width, const struct soc_mbus_pixelf=
-mt *mf)
-> > > > {
-> > > >  if (mf->fourcc =3D=3D V4L2_PIX_FMT_JPEG)
-> > > >  return 0;
-> > > >
-> > > >  if (mf->layout !=3D SOC_MBUS_LAYOUT_PACKED)
-> > > >  return width * mf->bits_per_sample / 8;
-> > > >
-> > > >  switch (mf->packing) {
-> > > >  case SOC_MBUS_PACKING_NONE:
-> > > >   return width * mf->bits_per_sample / 8;
-> > > >  case SOC_MBUS_PACKING_2X8_PADHI:
-> > > >  case SOC_MBUS_PACKING_2X8_PADLO:
-> > > >  case SOC_MBUS_PACKING_EXTEND16:
-> > > >   return width * 2;
-> > > >  case SOC_MBUS_PACKING_1_5X8:
-> > > >   return width * 3 / 2;
-> > > >  case SOC_MBUS_PACKING_VARIABLE:
-> > > >   return 0;
-> > > >  }
-> > > >    return -EINVAL;
-> > > > }
-> > > >
-> > > > V4L2_PIX_FMT_YUV420 and V4L2_PIX_FMT_YVU420 are classified as
-> > > > SOC_MBUS_PACKING_1_5X8 hence we get width * 3/2
-> > >
-> > > Googling this brings up the entry
-> > >
-> > > {
-> > >         .code =3D V4L2_MBUS_FMT_YUYV8_1_5X8,
-> > >         .fmt =3D {
-> > >                 .fourcc                 =3D V4L2_PIX_FMT_YUV420,
-> > >                 .name                   =3D "YUYV 4:2:0",
-> > >                 .bits_per_sample                =3D 8,
-> > >                 .packing                        =3D SOC_MBUS_PACKING_=
-1_5X8,
-> > >                 .order                  =3D SOC_MBUS_ORDER_LE,
-> > >                 .layout                 =3D SOC_MBUS_LAYOUT_PACKED,
-> > >         },
-> > > }
-> > >
-> > > which matches that you're describing. It doesn't make sense to me, si=
-nce it at the same time specifies PIX_FMT_YUV420 (which is planar with 3 pl=
-anes, as documented by include/uapi/linux/videodev2.h), and LAYOUT_PACKED
-> > >
-> > > /**
-> > >  * enum soc_mbus_layout - planes layout in memory
-> > >  * @SOC_MBUS_LAYOUT_PACKED:             color components packed
-> > >  * @SOC_MBUS_LAYOUT_PLANAR_2Y_U_V:      YUV components stored in 3 pl=
-anes (4:2:2)
-> > >  * @SOC_MBUS_LAYOUT_PLANAR_2Y_C:        YUV components stored in a lu=
-ma and a
-> > >  *                                      chroma plane (C plane is half=
- the size
-> > >  *                                      of Y plane)
-> > >  * @SOC_MBUS_LAYOUT_PLANAR_Y_C:         YUV components stored in a lu=
-ma and a
-> > >  *                                      chroma plane (C plane is the =
-same size
-> > >  *                                      as Y plane)
-> > >  */
-> > > enum soc_mbus_layout {
-> > >         SOC_MBUS_LAYOUT_PACKED =3D 0,
-> > >         SOC_MBUS_LAYOUT_PLANAR_2Y_U_V,
-> > >         SOC_MBUS_LAYOUT_PLANAR_2Y_C,
-> > >         SOC_MBUS_LAYOUT_PLANAR_Y_C,
-> > > };
-> > >
-> > > i.e. non-planar. The code in the driver is handling it as three plane=
-s as well, with addresses VB0_BASE_ADDRESS/VB0_BASE_ADDRESS_U/VB0_BASE_ADDR=
-ESS_V. Since the planes are separate, there should be no need to have more =
-than 'width' samples per line.
-> > >
-> >
-> > I did not invent this, I have just simplified this calculation from
-> > downstream, output values remain same. I have no cameras which can
-> > output V4L2_PIX_FMT_YUV420 or V4L2_PIX_FMT_YVU420 so I cannot test if
-> > this works either. Other YUV and RAW formats were tested on real HW
-> > and work perfectly fine.
->
-> My understanding from the code was, that the MEDIA_BUS_FMT_ formats liste=
-d in the video format table refer to the input formats from the camera, and=
- the V4L2_PIX_FMT_ formats to output formats from VI. Hence VI could input =
-UYVY8_2X8 and write to memory in YUV420. The code dealing with V4L2_PIX_FMT=
-_ values seems to be related to the output to memory. Is it possible to tes=
-t this (your camera -> VI converts to YUV420) or am I mistaken?
->
+The fmh_gpib driver contains a device reference count leak in
+fmh_gpib_attach_impl() where driver_find_device() increases the
+reference count of the device by get_device() when matching but this
+reference is not properly decreased. Add put_device() in
+fmh_gpib_attach_impl() and add put_device() in fmh_gpib_detach(),
+which ensures that the reference count of the device is correctly
+managed.
 
-Camera I am testing with has no YUV420 options available and from what
-I can tell there is no way to force VI to output in YUV420 unless
-camera supports it. Any format manipulations should requite hooking up
-ISP, or am I missing smth?
+Found by code review.
 
-> It's certainly possible that the current code is functional -- if bytespe=
-rline is set to a too large value and that information flows to userspace, =
-it could still read the buffer. It would just waste memory.
->
-> >
-> > > >
-> > > > > > +     pix->sizeimage =3D pix->bytesperline * pix->height;
-> > > > > >  }
-> > > > > >
-> > > > > >  /*
-> > > > > > @@ -576,20 +564,23 @@ static const struct tegra_vi_ops tegra20_=
-vi_ops =3D {
-> > > > > >       .vi_stop_streaming =3D tegra20_vi_stop_streaming,
-> > > > > >  };
-> > > > > >
-> > > > > > -#define TEGRA20_VIDEO_FMT(MBUS_CODE, BPP, FOURCC)    \
-> > > > > > -{                                                    \
-> > > > > > -     .code    =3D MEDIA_BUS_FMT_##MBUS_CODE,           \
-> > > > > > -     .bpp     =3D BPP,                                 \
-> > > > > > -     .fourcc  =3D V4L2_PIX_FMT_##FOURCC,               \
-> > > > > > +#define TEGRA20_VIDEO_FMT(DATA_TYPE, BIT_WIDTH, MBUS_CODE, BPP=
-, FOURCC)      \
-> > > > > > +{                                                             =
-       \
-> > > > > > +     .img_dt         =3D TEGRA_IMAGE_DT_##DATA_TYPE,          =
-         \
-> > > > > > +     .bit_width      =3D BIT_WIDTH,                           =
-         \
-> > > > > > +     .code           =3D MEDIA_BUS_FMT_##MBUS_CODE,           =
-         \
-> > > > > > +     .bpp            =3D BPP,                                 =
-         \
-> > > > > > +     .fourcc         =3D V4L2_PIX_FMT_##FOURCC,               =
-         \
-> > > > > >  }
-> > > > > >
-> > > > > >  static const struct tegra_video_format tegra20_video_formats[]=
- =3D {
-> > > > > > -     TEGRA20_VIDEO_FMT(UYVY8_2X8, 2, UYVY),
-> > > > > > -     TEGRA20_VIDEO_FMT(VYUY8_2X8, 2, VYUY),
-> > > > > > -     TEGRA20_VIDEO_FMT(YUYV8_2X8, 2, YUYV),
-> > > > > > -     TEGRA20_VIDEO_FMT(YVYU8_2X8, 2, YVYU),
-> > > > > > -     TEGRA20_VIDEO_FMT(UYVY8_2X8, 1, YUV420),
-> > > > > > -     TEGRA20_VIDEO_FMT(UYVY8_2X8, 1, YVU420),
-> > > > > > +     /* YUV422 */
-> > > > > > +     TEGRA20_VIDEO_FMT(YUV422_8, 16, UYVY8_2X8, 16, UYVY),
-> > > > > > +     TEGRA20_VIDEO_FMT(YUV422_8, 16, VYUY8_2X8, 16, VYUY),
-> > > > > > +     TEGRA20_VIDEO_FMT(YUV422_8, 16, YUYV8_2X8, 16, YUYV),
-> > > > > > +     TEGRA20_VIDEO_FMT(YUV422_8, 16, YVYU8_2X8, 16, YVYU),
-> > > > > > +     TEGRA20_VIDEO_FMT(YUV422_8, 16, UYVY8_2X8, 12, YUV420),
-> > > > > > +     TEGRA20_VIDEO_FMT(YUV422_8, 16, UYVY8_2X8, 12, YVU420),
-> > > > > >  };
-> > > > > >
-> > > > > >  const struct tegra_vi_soc tegra20_vi_soc =3D {
-> > > > > >
-> > > > >
-> > > > >
-> > > > >
-> > > > >
-> > >
-> > >
-> > >
-> > >
->
->
->
->
+Cc: stable@vger.kernel.org
+Fixes: 8e4841a0888c ("staging: gpib: Add Frank Mori Hess FPGA PCI GPIB driver")
+Signed-off-by: Ma Ke <make24@iscas.ac.cn>
+---
+Changes in v2:
+- modified the free operations as suggestions. Thanks for dan carpenter's instructions.
+---
+ drivers/staging/gpib/fmh_gpib/fmh_gpib.c | 66 +++++++++++++++++++-----
+ 1 file changed, 54 insertions(+), 12 deletions(-)
+
+diff --git a/drivers/staging/gpib/fmh_gpib/fmh_gpib.c b/drivers/staging/gpib/fmh_gpib/fmh_gpib.c
+index 4138f3d2bae7..f5be24b44238 100644
+--- a/drivers/staging/gpib/fmh_gpib/fmh_gpib.c
++++ b/drivers/staging/gpib/fmh_gpib/fmh_gpib.c
+@@ -1396,7 +1396,7 @@ static int fmh_gpib_attach_impl(struct gpib_board *board, const struct gpib_boar
+ 
+ 	retval = fmh_gpib_generic_attach(board);
+ 	if (retval)
+-		return retval;
++		goto err_put_device;
+ 
+ 	e_priv = board->private_data;
+ 	nec_priv = &e_priv->nec7210_priv;
+@@ -1404,14 +1404,16 @@ static int fmh_gpib_attach_impl(struct gpib_board *board, const struct gpib_boar
+ 	res = platform_get_resource_byname(pdev, IORESOURCE_MEM, "gpib_control_status");
+ 	if (!res) {
+ 		dev_err(board->dev, "Unable to locate mmio resource\n");
+-		return -ENODEV;
++		retval = -ENODEV;
++		goto err_generic_detach;
+ 	}
+ 
+ 	if (request_mem_region(res->start,
+ 			       resource_size(res),
+ 			       pdev->name) == NULL) {
+ 		dev_err(board->dev, "cannot claim registers\n");
+-		return -ENXIO;
++		retval = -ENXIO;
++		goto err_generic_detach;
+ 	}
+ 	e_priv->gpib_iomem_res = res;
+ 
+@@ -1419,7 +1421,8 @@ static int fmh_gpib_attach_impl(struct gpib_board *board, const struct gpib_boar
+ 				     resource_size(e_priv->gpib_iomem_res));
+ 	if (!nec_priv->mmiobase) {
+ 		dev_err(board->dev, "Could not map I/O memory\n");
+-		return -ENOMEM;
++		retval = -ENOMEM;
++		goto err_release_mmio_region;
+ 	}
+ 	dev_dbg(board->dev, "iobase %pr remapped to %p\n",
+ 		e_priv->gpib_iomem_res, nec_priv->mmiobase);
+@@ -1427,34 +1430,41 @@ static int fmh_gpib_attach_impl(struct gpib_board *board, const struct gpib_boar
+ 	res = platform_get_resource_byname(pdev, IORESOURCE_MEM, "dma_fifos");
+ 	if (!res) {
+ 		dev_err(board->dev, "Unable to locate mmio resource for gpib dma port\n");
+-		return -ENODEV;
++		retval = -ENODEV;
++		goto err_iounmap_mmio;
+ 	}
+ 	if (request_mem_region(res->start,
+ 			       resource_size(res),
+ 			       pdev->name) == NULL) {
+ 		dev_err(board->dev, "cannot claim registers\n");
+-		return -ENXIO;
++		retval = -ENXIO;
++		goto err_iounmap_mmio;
+ 	}
+ 	e_priv->dma_port_res = res;
++
+ 	e_priv->fifo_base = ioremap(e_priv->dma_port_res->start,
+ 				    resource_size(e_priv->dma_port_res));
+ 	if (!e_priv->fifo_base) {
+ 		dev_err(board->dev, "Could not map I/O memory for fifos\n");
+-		return -ENOMEM;
++		retval = -ENOMEM;
++		goto err_release_dma_region;
+ 	}
+ 	dev_dbg(board->dev, "dma fifos 0x%lx remapped to %p, length=%ld\n",
+ 		(unsigned long)e_priv->dma_port_res->start, e_priv->fifo_base,
+ 		(unsigned long)resource_size(e_priv->dma_port_res));
+ 
+ 	irq = platform_get_irq(pdev, 0);
+-	if (irq < 0)
+-		return -EBUSY;
++	if (irq < 0) {
++		retval = -EBUSY;
++		goto err_iounmap_fifo;
++	}
++
+ 	retval = request_irq(irq, fmh_gpib_interrupt, IRQF_SHARED, pdev->name, board);
+ 	if (retval) {
+ 		dev_err(board->dev,
+ 			"cannot register interrupt handler err=%d\n",
+ 			retval);
+-		return retval;
++		goto err_iounmap_fifo;
+ 	}
+ 	e_priv->irq = irq;
+ 
+@@ -1462,9 +1472,11 @@ static int fmh_gpib_attach_impl(struct gpib_board *board, const struct gpib_boar
+ 		e_priv->dma_channel = dma_request_slave_channel(board->dev, "rxtx");
+ 		if (!e_priv->dma_channel) {
+ 			dev_err(board->dev, "failed to acquire dma channel \"rxtx\".\n");
+-			return -EIO;
++			retval = -EIO;
++			goto err_free_irq;
+ 		}
+ 	}
++
+ 	/*
+ 	 * in the future we might want to know the half-fifo size
+ 	 * (dma_burst_length) even when not using dma, so go ahead an
+@@ -1473,7 +1485,32 @@ static int fmh_gpib_attach_impl(struct gpib_board *board, const struct gpib_boar
+ 	e_priv->dma_burst_length = fifos_read(e_priv, FIFO_MAX_BURST_LENGTH_REG) &
+ 		fifo_max_burst_length_mask;
+ 
+-	return fmh_gpib_init(e_priv, board, handshake_mode);
++	retval = fmh_gpib_init(e_priv, board, handshake_mode);
++	if (retval)
++		goto err_release_dma;
++
++	return 0;
++
++err_release_dma:
++	if (acquire_dma && e_priv->dma_channel)
++		dma_release_channel(e_priv->dma_channel);
++err_free_irq:
++	free_irq(irq, board);
++err_iounmap_fifo:
++	iounmap(e_priv->fifo_base);
++err_release_dma_region:
++	release_mem_region(e_priv->dma_port_res->start,
++			   resource_size(e_priv->dma_port_res));
++err_iounmap_mmio:
++	iounmap(nec_priv->mmiobase);
++err_release_mmio_region:
++	release_mem_region(e_priv->gpib_iomem_res->start,
++			   resource_size(e_priv->gpib_iomem_res));
++err_generic_detach:
++	fmh_gpib_generic_detach(board);
++err_put_device:
++	put_device(board->dev);
++	return retval;
+ }
+ 
+ int fmh_gpib_attach_holdoff_all(struct gpib_board *board, const struct gpib_board_config *config)
+@@ -1517,6 +1554,11 @@ void fmh_gpib_detach(struct gpib_board *board)
+ 					   resource_size(e_priv->gpib_iomem_res));
+ 	}
+ 	fmh_gpib_generic_detach(board);
++
++	if (board->dev) {
++		put_device(board->dev);
++		board->dev = NULL;
++	}
+ }
+ 
+ static int fmh_gpib_pci_attach_impl(struct gpib_board *board,
+-- 
+2.17.1
+
