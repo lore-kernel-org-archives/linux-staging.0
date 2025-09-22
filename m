@@ -1,227 +1,254 @@
-Received: from SN4PR0501CU005.outbound.protection.outlook.com (mail-southcentralusazon11011031.outbound.protection.outlook.com [40.93.194.31])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B24082517AC
-	for <linux-staging@lists.linux.dev>; Mon, 22 Sep 2025 06:24:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.194.31
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758522252; cv=fail; b=SCiaSxK/s+3V71wsO1O+VIhIzPBeTJfHa/ZX4POUmRIxawyMP1hGmYbJm31oh0TxRAHntxXEjF4D9vx4kJIjHI6QXudOmd8//ulVGyvx3C8aXUBwZgx72OmexiZUnC1xKkhNDYLjng3jJ0HKFRMElypRql1rfafVbJFqGW07Ci0=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758522252; c=relaxed/simple;
-	bh=VcxAXadmhQUUwlaoACxVtGw6M48OhnC/hXB+8d1GaEE=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=IENrbUMTQ25+OzLzRTX0p/Orlsnaxxvt68+OmyCQ2K1NTW0f7Uv0RDC7yuMRv63y6N5DjpgdoETXF/6aF451t9xQhuItzc6HpdvAO1UL/bsIBDZsNNEPlUvX4nft1U4oZlFjtIbXfPstRfD/V0DIWpvh+z3w5ydbEuhk3AaUtnU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=fdq31dF3; arc=fail smtp.client-ip=40.93.194.31
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4EC22BB1D
+	for <linux-staging@lists.linux.dev>; Mon, 22 Sep 2025 06:28:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.48
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1758522539; cv=none; b=OS+eorHfNczROlj187ysy7vqsvlMebQ6y/dlbEUbeZZpOqD1p9aPRwEaLd0QqpkrVOcoN2CPNOzCj3djqQHE9oiYwAStdlzE782T5NUq9tx17ANOpWF+cFNvmQ1MmJ+hyQagddTZ4fyaC4Xy5i0Cb5tVZLlQ7lmsdW2aj4Qpsbs=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1758522539; c=relaxed/simple;
+	bh=jS7CeHrv/AeGZdOQ/WoM0enjwVnBDM2WkTpACOOaB8g=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=c5Aes+a29nXJgfX+kl4CvnsErs0okwWnlKZXaDYZbbie8yILQc/MAC1k3wYNYv7Z5L5J/LX1se/0+X86lPVLOsjzVSbiP8o6G+7+4R8BNZx7RMq9NHv0Ky09ysVYmF2VHj3TMFti1qhFEe7g1Q9ncYYiq696X8P9FhfxVabQKmw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=h26u/l5c; arc=none smtp.client-ip=209.85.221.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="fdq31dF3"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=S2LAHG+cFa9K1lHYcOHs6/OX2WTJZm2z7mYJcyOtNvYGzr/6Hsn5CbKEwSHRwh1N32y5KkATMsuy7TEpgBUpgJF78uowyuCPRdqaiaMDkfNgPPdLC9Z6JlsKHu7xDZGegu9pVhb7zfhmoGnHu/JTx9uvSO7ntrBDFjJRSR0kPhTbBcV5mjU8OhXK7R0Y/8hhq26yZ8D873VsJPiczYdKNwbwOdXko2ZipgINeUD7U1LJ0Ve8b6CEjXgRP/iG9j7AwJ9g08sPvGQJobUPIDSIcOke0QnHYc3cbySfUt2k4pXHxobbjjvHaYsi8y0zB6kSF2uTxVylZQxgbehADF8g+Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=bg+2vwqo696TUPQHOUVyrcU6E+9SikgKZtT3GZxAohk=;
- b=CFkkosj2ZWvBKi2tT2dzmbbBIm+/uDeq5VYJRLB+o3uRMn6vfKr9eG4B84l5y9cCdPClGpqAfHhCITLPlm7ikHpdPByGKhgoblj6R3USdTK48NWvjV9Lxtbw6gOFor9cDjsPSEK4O2Zvml4J6aggB07dlPSdXTVaT3NKcoYsEV0/1PPO5/91qdQaVC6qYLVk4eCF3rLyjToTzvP8QEh/nixauE0FV+4NGqkMb/YVtf8+cFFSPQvLK66vxomCfzZflAqep4LJu6g/YxC+Hx20jCBgcIpg8zSMqiQJkUTPuIxt3+7jrZ/CG+wuUPVL/3HTtmuL9hvx7Ie0zuFD2E9Zfg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=bg+2vwqo696TUPQHOUVyrcU6E+9SikgKZtT3GZxAohk=;
- b=fdq31dF3cuV62eafHUPth6JtzoCYT6DdHKdE+m1hxOfMl4Kj4niR+R71IM+d/nw4DbM6f+0jhwSNuI/MSrdEjFox+POHYqVJU3nIA10tGYb/Ir4/tkFuLMjs1B8wm000+VuquVyE6tGaWMFW+mF3SPc8/ni2NBKQ+RUAVtTmHJn6/zGiEhvnV9rzpS/Tj22+nOkUlL/gN37JBN50XewP0+KSo6uSMHl+RMOuzUGEuXqRxkLGu2EZeNdTGU5uMkY5lywRVxazZqogp6/QfdMhLo0UgqLOgKyex60l2vPklvnr8alvhWcFEbrbbC5N+3R5Ulgny1fH1B9WiG4jneLt/w==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from DM4PR12MB6494.namprd12.prod.outlook.com (2603:10b6:8:ba::19) by
- DM4PR12MB6086.namprd12.prod.outlook.com (2603:10b6:8:b2::16) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9137.20; Mon, 22 Sep 2025 06:24:07 +0000
-Received: from DM4PR12MB6494.namprd12.prod.outlook.com
- ([fe80::346b:2daf:d648:2e11]) by DM4PR12MB6494.namprd12.prod.outlook.com
- ([fe80::346b:2daf:d648:2e11%6]) with mapi id 15.20.9137.018; Mon, 22 Sep 2025
- 06:24:07 +0000
-From: Mikko Perttunen <mperttunen@nvidia.com>
-To: Svyatoslav Ryhel <clamor95@gmail.com>
-Cc: Thierry Reding <thierry.reding@gmail.com>,
- Thierry Reding <treding@nvidia.com>, Jonathan Hunter <jonathanh@nvidia.com>,
- Sowjanya Komatineni <skomatineni@nvidia.com>,
- Luca Ceresoli <luca.ceresoli@bootlin.com>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Prashant Gaikwad <pgaikwad@nvidia.com>,
- Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Dmitry Osipenko <digetx@gmail.com>,
- Jonas =?UTF-8?B?U2Nod8O2YmVs?= <jonasschwoebel@yahoo.de>,
- Charan Pedumuru <charan.pedumuru@gmail.com>, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org, linux-tegra@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
- linux-clk@vger.kernel.org, linux-staging@lists.linux.dev
-Subject:
- Re: [PATCH v2 18/23] staging: media: tegra-video: tegra20: increase maximum
- VI clock frequency
-Date: Mon, 22 Sep 2025 15:23:58 +0900
-Message-ID: <39551204.XM6RcZxFsP@senjougahara>
-In-Reply-To:
- <CAPVz0n2AjRPMuZbLAnc=9TriPHDLOFok+Qz3zoSpQSKX1R=cqg@mail.gmail.com>
-References:
- <20250906135345.241229-1-clamor95@gmail.com>
- <2331830.3VsfAaAtOV@senjougahara>
- <CAPVz0n2AjRPMuZbLAnc=9TriPHDLOFok+Qz3zoSpQSKX1R=cqg@mail.gmail.com>
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="utf-8"
-X-ClientProxiedBy: TYCP301CA0024.JPNP301.PROD.OUTLOOK.COM
- (2603:1096:400:381::14) To DM4PR12MB6494.namprd12.prod.outlook.com
- (2603:10b6:8:ba::19)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="h26u/l5c"
+Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-3fc36b99e92so414686f8f.0
+        for <linux-staging@lists.linux.dev>; Sun, 21 Sep 2025 23:28:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1758522536; x=1759127336; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=7ZLlyj1lrTQJXPVDMgRBgvEm8gNKaL9UfywhFXowTYg=;
+        b=h26u/l5ci3t9AYG9QiD/errIbqOgeaSjuZ9PyARAwC/Ek1CSwPi4IHrkLi+Gkdypin
+         W1DZbjPsEKyyFNcKpiCnCeron0wV8GQBCla+AFkB2xMiBNsyyVZyplinFSONDzMVtcPj
+         /1FvaJkmPctjmcbC26rWw2CkJLrr6p/e5axSbrkySo3lYbE/zKKWC+o7VIu7oM8SrGU6
+         hPyz+R2nwwl1aOVCMt0bKqKlsX97t7RopPaWAY/r4BvX3p0+jYF+Yw78oZrbx5XxWVLA
+         JKB2wx+IMEh1cp8CEMcGoonyJhNZZ+i+lZn8kt4G7WXGs7ywXLYNXb9pv5M+iwNS+8i9
+         jnSA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1758522536; x=1759127336;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=7ZLlyj1lrTQJXPVDMgRBgvEm8gNKaL9UfywhFXowTYg=;
+        b=f6+Xyo2DKx/yC+os3C0gpfANxE56WIqS+8icsf2wyE9hh4gQzAcg5xVjLlLsFKpcp9
+         FlFoh6GpbHB33Z3R/Lv8tMLByo6VrhE55UnFTcDcFoZdQTzGLltbABMzJiUcfdC5fBe8
+         pwyWUjaSPCAbUTLZYQw2Z1OsIS18natvZ0f/LFy/tkJtUV+Wo33QX1q99OzAboN15lbN
+         sT3Z17Xt2bdPxT4nxY5ILham/Tgfl/GZsUGT+rMpPF0nwc6Q41+C69kYH+gFAuewd0Ii
+         B2Wno8VaWmjS8bKRuK5dysm1Ub4i3Oov8piwIjiQo5pugfn/gsAaz3VM3u86DFBvqkwr
+         KPXQ==
+X-Forwarded-Encrypted: i=1; AJvYcCU33C9+5t5kmfOt9arIBjn5MSN4uq42WiHd75r35Udekys3VPleHb6fof58dHWGhoAejee2+VNvjPEQKpx2@lists.linux.dev
+X-Gm-Message-State: AOJu0YyuHVdMTH64gqVrQFPpVyo5rN9HrArTCydtZmrvuAXdUfw3p1Qo
+	4RYm0SxQE7C3BjwsT/F8XYmicTc+D8ZDQUi02f7Bd4YnFPn8uiIGOk1mwPDIwPCdKIA=
+X-Gm-Gg: ASbGncuiL/8nzTPExkekhQyFUqTmFflkmC4h0jm4VrAsT9oVRvAAtI0fyXBRD5ykA4G
+	8Lw95s9ogZnNb5iNfhIoN4epy9vIc7dPDOJZrk6QJexO8oUnYb9FAxss+silBx7iOYlx2PL/tZ7
+	7W9ApVnaiok4Fb6QSjKT0FbQMV5/MLYuyk6WPL9jiQI3YBZlsXXLDBeuprXVDn3PWumJlRuBXRw
+	bVs+PaMoNR+j/BoLnholjevStoMvuIjGjv3U+grJjMDwPOoDDLvEQycLoYrVfq33rXfx6sZx08O
+	/l2j1m//1eZT3fPJdK6wC4KTqGenGrModkHoNJ4OHEFoB80VY2PBOjZfSP7Lgi4pD7JsN0Orpzp
+	SSPFMTpYRajbpKhxM+5t+GU7WIVYZ
+X-Google-Smtp-Source: AGHT+IEi7y+wmyoeJmcLrzMj7JBQYxtJq3v3U/Csxfuh3DcOz0vyeFncb6QmMd0G2jzMcncIY5GShg==
+X-Received: by 2002:a05:6000:248a:b0:3df:22a3:d240 with SMTP id ffacd0b85a97d-3edd43ac9ebmr12498231f8f.4.1758522536140;
+        Sun, 21 Sep 2025 23:28:56 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-464f0aac3fdsm183666865e9.1.2025.09.21.23.28.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 21 Sep 2025 23:28:55 -0700 (PDT)
+Date: Mon, 22 Sep 2025 09:28:52 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Ma Ke <make24@iscas.ac.cn>
+Cc: dpenkler@gmail.com, gregkh@linuxfoundation.org,
+	matchstick@neverthere.org, dominik.karol.piatkowski@protonmail.com,
+	arnd@arndb.de, nichen@iscas.ac.cn, paul.retourne@orange.fr,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	akpm@linux-foundation.org, stable@vger.kernel.org
+Subject: Re: [PATCH] staging: gpib: Fix device reference leak in fmh_gpib
+ driver
+Message-ID: <aNDspDsgj5I5KGLe@stanley.mountain>
+References: <20250922023831.21343-1-make24@iscas.ac.cn>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM4PR12MB6494:EE_|DM4PR12MB6086:EE_
-X-MS-Office365-Filtering-Correlation-Id: 6b7cbd18-bb13-42dd-d858-08ddf9a0a2b3
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|7416014|376014|1800799024|10070799003|366016|7053199007;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?WVFvbm9YWHZQNk1RQkVwMTJxeGgzdTdqcUVyUWswa29NRzVFNzRhVWJQeTJN?=
- =?utf-8?B?VXVHcFVRb01GZHRmVmlSbUlvNUNubWdlQ0pxYmxIdnJJbmxOa2QwdmkvRDAw?=
- =?utf-8?B?NDRoQmZQQXB4OUptR1pOMlJrbEwySTlBY3pvdHNlbGtQUGxvTUJ4bXJOTTVM?=
- =?utf-8?B?b24wbTdhTUN0S1NZR0picmQ4aWFlUzRlZmZWcmxXRXhCSVRYZzdiZXNQQ0o3?=
- =?utf-8?B?dnQ2eGo0SmtXZld6WHp1aTRoK21UTk9vTGNFeUppaE1HY0l2OWhKTVlid2ph?=
- =?utf-8?B?cklJZ29LS05UeVE2WmlLbExvL0pBamQ1THE3aGlCTVRmRFNBOFZFanlFNFBO?=
- =?utf-8?B?bmp0NzZ6ZDYxVDFWL2pRTmN2dWxKMjUzNk9VOE9wRTN6Z3ZSZU9PZ0NrQmZC?=
- =?utf-8?B?MmxtbCtMTEp6OUJHM0hrZVFFODJ1aFovWVlKWDZtN1loNG5jSnVKOVEzUFg3?=
- =?utf-8?B?WklQYTkzUVlOOC90Mkg5T1k4SnBmMGRBeUVOek0yVVBQQmxaWkNGQk9Zb0g3?=
- =?utf-8?B?d0FRcWlDUjgxcXpKYlNDdEhXSFhqYnlaUTRLMGI0Wnh5M3F0RENLWS9nZU1E?=
- =?utf-8?B?VXRDREdZbXFCL0ZuRDdrb3BLV0c4aGVVZ1JGbjVFL09kd1F0NUQ2Z1I5ZHpC?=
- =?utf-8?B?ZXNlOHhUVWpjbVpkRTJRNjdUcmp3d1Rnekg2cDRjTVBLcXFTUWE0Z25XMEtH?=
- =?utf-8?B?QjdXK3lIdElDRkJpYytBRHVYUFRjQ3FsajVrZ1psaUJsTkMvanFFM0o1eGFu?=
- =?utf-8?B?VW41amJmL3VMaUZXUjA4ajdMa0NIdVRpK25aekEzVlRGcitjT2ppaVZoREtU?=
- =?utf-8?B?MjczK013MUU1WTNYUkpvMm5OVWJUQ2FvZHFldVZ3OVl6V0xWdVNqTXRKZTFE?=
- =?utf-8?B?d25qOTBPS2dzci8wYlVueC9mM0tpNHJsczN3US9RNkU4cUQ2WWdjQmZwMGYz?=
- =?utf-8?B?dFNFMlRoYWlTendmNGxYcGt1bjlDNTc3b1VhWFpSMXRzOUFyVzdocXlnYXYr?=
- =?utf-8?B?N1pQU1M3TU9lc2hzWG5ZNmhFU0JBdEtkM3hNSVkzeWxqTU5VTXhUNmR4S1du?=
- =?utf-8?B?OS90Vi9wdUJhcjd3MnBaQ1BkVEZXV1hOMHdzeXRsN2QweWpUUXEzVGxTN2VK?=
- =?utf-8?B?cVA5YUNiOE92NU8vRysrQlN6bzhHc1orWDB6RDNoWExKZUpmQnlYT1c0bk1n?=
- =?utf-8?B?em1jZ3ZxSExra1Fxb3FreDAvZmQ3MWVnQmI1ZEVBQm52SjNuS215RUdQSEdp?=
- =?utf-8?B?WFZZUWJnK08vNXlYRTVDejdZVjVCVW9zMXl0VmZUa0kzdGw4ZXBIekRFaHA1?=
- =?utf-8?B?aDhzbVM5Z1BzcEJ2QnFJRGx0UVI3cWdmNTdjdERib1pVc0NxN2c5dzdtUW5Q?=
- =?utf-8?B?UmgxeEtUZ1NWZUNtbmtRMTdHL25jbzU5TFg3alE3Q1BTbDRPdGkxY1Zra0VZ?=
- =?utf-8?B?c1FlNHNUUmo2TU1aV0U0T2VMQnFuRU4xWHpudTFpdGJWSGtJcG1Fakl6aUJa?=
- =?utf-8?B?emloaGFqdERja0YwamxMVHZoUmFSQ2FWb0d6VFZnMlFYVUhTSy8ySENBaExm?=
- =?utf-8?B?V1JPOXJZOFArbUNxRnJEYVVvV1B0cEg3Wm5FaldyTUxxUjdwNXo3OWNZSDFT?=
- =?utf-8?B?ZnNheUdXS0dicURrNllFbW1RQUhOa2xoTEFYNFphVUN3OThoVjJXVXJ1UVgx?=
- =?utf-8?B?Z2hYWG9wS1RONTAzMG1kOXY3UEx5REZTdHVXNm9pOWFqWXRwM2VtNTNDTVc3?=
- =?utf-8?B?WmFmck54KzI4T1haWm9oNE52S2JOTVpyUVNMQVNQKzFUb2lia1hsT2M2WGpN?=
- =?utf-8?B?aHRwSVNLZkZ6SWM3OC9wS2lhb3VyNUV6NnptblZmWnBxYWFoaythbWd2NDJT?=
- =?utf-8?B?dk9qdExYcS8xU3NPeEpOeG5JR2luNFZmVW1iMUZCbEZWeFVNb1RDKy9oQjRY?=
- =?utf-8?Q?KiS4AlmLzuQ=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR12MB6494.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(1800799024)(10070799003)(366016)(7053199007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?OUlsTEJXZHBUSzBMcU5McFhLNDNYYUdEZHdhTjV6TjN3K1FicHVPa1ZxWHlK?=
- =?utf-8?B?dDJWblRJdjhwbmttMnd0SEtUc2FyV1djK2FyZWRsa3pxUW12YVpxemRtWlJr?=
- =?utf-8?B?bzdKa2g4dFVSN1M3dWVOdnBwUmNNMk40Y21FTzlENFdublkvZlloZko0TkRQ?=
- =?utf-8?B?eCtlK1NCK3pEd2ROeE5SbTJnaUhGRFNveHdFZEtOZlp4NnVFVWhvcis4WU1a?=
- =?utf-8?B?aElkN2hQeUR4MUJPbDVpcy9POUVQUyt6ODRLT3hlK1NCb2FNdE1JdjBqR3lJ?=
- =?utf-8?B?ZkM0K2o3cWRCamx6c1NFdHdIRjVaTWZabzAvMUNkMGVBZ2lYd01hL3NhL0tl?=
- =?utf-8?B?T2N2d0JKZGtyYkFOUEtOMGVpUkxia3NQVG9YUUJxbkFGUFdKNkxwUzBUNW44?=
- =?utf-8?B?aFltTk9UUXpXUXgxWU1LamVaZjdZaERma1ExUjhIRERsM1lRK1JmWDFoMk5Q?=
- =?utf-8?B?ZW9jNlIzbXlydUhnL2dFNFVyenJpUWRES05oaDB5RnYvZVJOVGd4ZmVzR2N4?=
- =?utf-8?B?ZGVGVVk4eURLZFFua1JYb2lLNm5nVFYyc0FTWTlRL0N6TWN5eExXcUErVUMy?=
- =?utf-8?B?dGdOcnhzNHlzNlBJcFlwZVVZN1BqNWNhUnlyTlVpcDlyM3VoZ25SaXllcjFx?=
- =?utf-8?B?WnlsRTdralFYNE9JMTdnTEZjRFlsVWpWT0xtM3Ivb3JMazcyblloUFlTYkpO?=
- =?utf-8?B?WUtJMWxaV1FEU1RieFpMaGdNUXZzZWdzTEJPcjR2OFZBV010bFZwR01ucnBH?=
- =?utf-8?B?Q3NHQUp4MWlGSDhibk8rczIzZzA4UGtzempJMEVJWWFPdmZPQzFXOVJVUlV3?=
- =?utf-8?B?WC9UTkM5bEt1OUZsZ1QzS1hqWWMwMy9JeGVwRWE2L25YSDhlOXJsb01IK3pu?=
- =?utf-8?B?S3VxVXlHejh3ZllEalp4YTB5OXNHd0YrWFBrMVByN1U3TjN6dGptSkk3UHpB?=
- =?utf-8?B?cFdTWU03cmtXV0gvSEhWZHNTbXc1NXFWdU9ZVzFIZXhGTjhPUnNJWlNMSkxT?=
- =?utf-8?B?b1AxRzNJc2l3MVNBNCt3WkhFZk1VbCt5SENtdEFVYU81R1JqWmZINE5GL0dE?=
- =?utf-8?B?TDRtRWJ3RGI3STU3L2xCNFRkUmYwcTdLMWtwT21vTTFVdXZlNUgvT1g5VlY4?=
- =?utf-8?B?VENtbUxvQW1qL2M4eGFaQ1BNc05LTGNmSXNwNElGUUtjMDVFdWVKOUYrK1JQ?=
- =?utf-8?B?Zm5oL3RYSGo1VTFTSHRXUENOY0M0RzIvNGkxTldYaE9pcHlFSytZNUVHUzBI?=
- =?utf-8?B?SzFvaFM5SldaQXNRSUEzMDlxcFFFZEd5ODlXQkVzbkplTE95K01SdlEzRmp4?=
- =?utf-8?B?VFRTaXAwcGhDWnR2ZXpxL0dZek5zTmRFeVdFbnZuVjQxSEpldDlMWlAzYkxa?=
- =?utf-8?B?SFJ3MXlYR2twbTF5VGY0WVVYMnFQUjhQVm5FNGduc3hGVW94YWZYUzFNdXQv?=
- =?utf-8?B?MlVjS05tL1FQREZyTXlKdGhyWDJCelVrWEUrTUptRDVrN1FPUjhGZkJFWEgv?=
- =?utf-8?B?MEdBaE9XajBodTZXOUtLTEdLa3NiSXB0dHNaOXA1UjYwODVPc3NyVHFtTHQw?=
- =?utf-8?B?aTRsYmVaZFJPY29pWkhlK0UrT1MwK3hoTmVoSTdWMVROODlpdEhiRlZSWjhG?=
- =?utf-8?B?dkFmeWY5L3VVbSthMm5GMHJhVXFvVzI4eFhjQjlrVUtFa1NaL29MUDluUmdW?=
- =?utf-8?B?Qy9wd2h5dnl4c1F5QU54V0s5cERGeDFNd3REMFBGV1lOaW5SNlJYbDJhNTZi?=
- =?utf-8?B?YndEbHBCY25BempJTmg5NUxWNDkzWDJBbFBtVStvUTBFNm0zWEVmZUFQUU1a?=
- =?utf-8?B?bGxRUnNXaUlFQ3FnM1BiS1k5Q0luWVl0OEtwQWJUWWpDbGRtdCt4eEVxbVBi?=
- =?utf-8?B?QVBDU3JaRVVkQkMzdys0YlI5emhqK0laNEZZc2hYZENHYnlsb2M4NEJwYlhY?=
- =?utf-8?B?djh4ZjUrQUsxR0xmRm51Qkc4MEppT21hLy9xZFJsS0FnSHdlN1NNMXg0UnlW?=
- =?utf-8?B?QWVpQnNzRkdyL1ZpREc1Nkk4UmRGa0dJSWc3LzdDZlRHTmdIWXNlMVJBSXp1?=
- =?utf-8?B?OVViblE2ZGtpeHJ2Mnc5MU5SRkUvNHl6S1ZqTzFqVUtKWEZIQzl6K21Za0V5?=
- =?utf-8?B?TitPUHBZWjVibzlvcmdKdDdrRmxuZGc1WjBTeFJzY2ZVQ2pIaUwzclFqRyta?=
- =?utf-8?B?clkxcFc0SlNOVXRIOGUzNHVWQ2RLUVJZcHJtem1lRm5KeHN3OU1ZWlpBd0dN?=
- =?utf-8?B?ZlZmczQ4dGR4YURSMHBQT2NmOVRBPT0=?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6b7cbd18-bb13-42dd-d858-08ddf9a0a2b3
-X-MS-Exchange-CrossTenant-AuthSource: DM4PR12MB6494.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Sep 2025 06:24:07.7655
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: gWPrZDBkVDKwrIcLqr+08/laWjh2wyTnEMwzHEZZRjJgAGFjON1scgW3V1scqLkgUxqMJuqAgDBDOX7rqJfC/g==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB6086
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250922023831.21343-1-make24@iscas.ac.cn>
 
-On Monday, September 22, 2025 1:58=E2=80=AFPM Svyatoslav Ryhel wrote:
-> =D0=BF=D0=BD, 22 =D0=B2=D0=B5=D1=80. 2025=E2=80=AF=D1=80. =D0=BE 07:54 Mi=
-kko Perttunen <mperttunen@nvidia.com> =D0=BF=D0=B8=D1=88=D0=B5:
-> >
-> > On Saturday, September 6, 2025 10:53=E2=80=AFPM Svyatoslav Ryhel wrote:
-> > > Increase maximum VI clock frequency to 450MHz to allow correct work w=
-ith
-> > > high resolution camera sensors.
-> > >
-> > > Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
-> > > ---
-> > >  drivers/staging/media/tegra-video/tegra20.c | 2 +-
-> > >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > >
-> > > diff --git a/drivers/staging/media/tegra-video/tegra20.c b/drivers/st=
-aging/media/tegra-video/tegra20.c
-> > > index e0da496bb50f..3c5bafebfcd8 100644
-> > > --- a/drivers/staging/media/tegra-video/tegra20.c
-> > > +++ b/drivers/staging/media/tegra-video/tegra20.c
-> > > @@ -590,7 +590,7 @@ const struct tegra_vi_soc tegra20_vi_soc =3D {
-> > >       .ops =3D &tegra20_vi_ops,
-> > >       .hw_revision =3D 1,
-> > >       .vi_max_channels =3D 2, /* TEGRA_VI_OUT_1 and TEGRA_VI_OUT_2 */
-> > > -     .vi_max_clk_hz =3D 150000000,
-> > > +     .vi_max_clk_hz =3D 450000000,
-> > >       .has_h_v_flip =3D true,
-> > >  };
-> > >
-> > >
-> >
-> > Where does the 450MHz come from? Instead of hardcoding this value for e=
-ach SoC, could we just clk_set_rate(ULONG_MAX) like e.g. the vic driver doe=
-s, or does that get a too high rate?
-> >
->=20
-> This values comes from downstream 3.1 tegra30 sources and setting it
-> higher breaks VI, I have tried. If it is set lower (150MHz as it was)
-> it breaks VI for cameras with resolution higher then 2MP
->=20
-> >
+On Mon, Sep 22, 2025 at 10:38:31AM +0800, Ma Ke wrote:
+> The fmh_gpib driver contains a device reference count leak in
+> fmh_gpib_attach_impl() where driver_find_device() increases the
+> reference count of the device by get_device() when matching but this
+> reference is not properly decreased. Add put_device() in
+> fmh_gpib_attach_impl() and add put_device() in fmh_gpib_detach(),
+> which ensures that the reference count of the device is correctly
+> managed.
+> 
+> Found by code review.
+> 
+> Cc: stable@vger.kernel.org
+> Fixes: 8e4841a0888c ("staging: gpib: Add Frank Mori Hess FPGA PCI GPIB driver")
+> Signed-off-by: Ma Ke <make24@iscas.ac.cn>
+> ---
+>  drivers/staging/gpib/fmh_gpib/fmh_gpib.c | 23 +++++++++++++++++++++--
+>  1 file changed, 21 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/staging/gpib/fmh_gpib/fmh_gpib.c b/drivers/staging/gpib/fmh_gpib/fmh_gpib.c
+> index 4138f3d2bae7..245c8fe87eaa 100644
+> --- a/drivers/staging/gpib/fmh_gpib/fmh_gpib.c
+> +++ b/drivers/staging/gpib/fmh_gpib/fmh_gpib.c
+> @@ -1395,14 +1395,17 @@ static int fmh_gpib_attach_impl(struct gpib_board *board, const struct gpib_boar
+>  	pdev = to_platform_device(board->dev);
+>  
+>  	retval = fmh_gpib_generic_attach(board);
+> -	if (retval)
+> +	if (retval) {
+> +		put_device(board->dev);
+>  		return retval;
 
-Ok, very good.
+Do this with an unwind goto.
 
-Reviewed-by: Mikko Perttunen <mperttunen@nvidia.com>
+	if (reval)
+		goto put_dev;
 
+	...
 
+	retval = fmh_gpib_init(...);  /* this bug wasn't fixed btw */
+	if (retval)
+		goto put_dev;
+
+	return 0;
+
+put_dev:
+	put_device(board->dev);
+	return retval;
+
+Actually, this function needs a bunch of other frees as well.  See
+my blog for more details:
+
+https://staticthinking.wordpress.com/2022/04/28/free-the-last-thing-style/
+
+> +	}
+>  
+>  	e_priv = board->private_data;
+>  	nec_priv = &e_priv->nec7210_priv;
+>  
+>  	res = platform_get_resource_byname(pdev, IORESOURCE_MEM, "gpib_control_status");
+>  	if (!res) {
+> +		put_device(board->dev);
+>  		dev_err(board->dev, "Unable to locate mmio resource\n");
+>  		return -ENODEV;
+>  	}
+> @@ -1410,6 +1413,7 @@ static int fmh_gpib_attach_impl(struct gpib_board *board, const struct gpib_boar
+>  	if (request_mem_region(res->start,
+>  			       resource_size(res),
+>  			       pdev->name) == NULL) {
+> +		put_device(board->dev);
+>  		dev_err(board->dev, "cannot claim registers\n");
+>  		return -ENXIO;
+>  	}
+
+request_mem_region() needs a release_region().
+
+> @@ -1418,6 +1422,7 @@ static int fmh_gpib_attach_impl(struct gpib_board *board, const struct gpib_boar
+>  	nec_priv->mmiobase = ioremap(e_priv->gpib_iomem_res->start,
+>  				     resource_size(e_priv->gpib_iomem_res));
+>  	if (!nec_priv->mmiobase) {
+> +		put_device(board->dev);
+>  		dev_err(board->dev, "Could not map I/O memory\n");
+>  		return -ENOMEM;
+>  	}
+
+ioremap() needs an iounmap();
+
+> @@ -1426,12 +1431,14 @@ static int fmh_gpib_attach_impl(struct gpib_board *board, const struct gpib_boar
+>  
+>  	res = platform_get_resource_byname(pdev, IORESOURCE_MEM, "dma_fifos");
+>  	if (!res) {
+> +		put_device(board->dev);
+>  		dev_err(board->dev, "Unable to locate mmio resource for gpib dma port\n");
+>  		return -ENODEV;
+>  	}
+>  	if (request_mem_region(res->start,
+>  			       resource_size(res),
+>  			       pdev->name) == NULL) {
+> +		put_device(board->dev);
+>  		dev_err(board->dev, "cannot claim registers\n");
+>  		return -ENXIO;
+>  	}
+
+release_region()
+
+> @@ -1439,6 +1446,7 @@ static int fmh_gpib_attach_impl(struct gpib_board *board, const struct gpib_boar
+>  	e_priv->fifo_base = ioremap(e_priv->dma_port_res->start,
+>  				    resource_size(e_priv->dma_port_res));
+>  	if (!e_priv->fifo_base) {
+> +		put_device(board->dev);
+>  		dev_err(board->dev, "Could not map I/O memory for fifos\n");
+>  		return -ENOMEM;
+>  	}
+
+iounmap();
+
+> @@ -1447,10 +1455,14 @@ static int fmh_gpib_attach_impl(struct gpib_board *board, const struct gpib_boar
+>  		(unsigned long)resource_size(e_priv->dma_port_res));
+>  
+>  	irq = platform_get_irq(pdev, 0);
+> -	if (irq < 0)
+> +	if (irq < 0) {
+> +		put_device(board->dev);
+>  		return -EBUSY;
+> +	}
+> +
+>  	retval = request_irq(irq, fmh_gpib_interrupt, IRQF_SHARED, pdev->name, board);
+>  	if (retval) {
+> +		put_device(board->dev);
+>  		dev_err(board->dev,
+>  			"cannot register interrupt handler err=%d\n",
+>  			retval);
+
+request_irq() needs a release_irq()
+
+> @@ -1461,6 +1473,7 @@ static int fmh_gpib_attach_impl(struct gpib_board *board, const struct gpib_boar
+>  	if (acquire_dma) {
+>  		e_priv->dma_channel = dma_request_slave_channel(board->dev, "rxtx");
+>  		if (!e_priv->dma_channel) {
+> +			put_device(board->dev);
+>  			dev_err(board->dev, "failed to acquire dma channel \"rxtx\".\n");
+>  			return -EIO;
+>  		}
+
+This needs a free too.  There may be other things outside of what I
+can see in this email.
+
+> @@ -1517,6 +1530,12 @@ void fmh_gpib_detach(struct gpib_board *board)
+>  					   resource_size(e_priv->gpib_iomem_res));
+>  	}
+>  	fmh_gpib_generic_detach(board);
+> +
+> +	if (board->dev) {
+> +		dev_set_drvdata(board->dev, NULL);
+> +		put_device(board->dev);
+> +		board->dev = NULL;
+
+I explain this in my blog, that the free function should be a cut
+and paste of the cleanup.  So this stuff isn't done in the cleanup
+so one or the other of these is not correct.
+
+The question is should this be done in one patch or several patches?
+Adding cleanup to one function is generally considered One Thing
+in terms of One Thing Per Path.  If we were going to backport bits
+of cleanup to different stable kernels then we would want to break
+it up into the easiest way for backporting.  But realistically we're
+not going to do that here because this doesn't affect real life
+users generally.  It's just from review.  It's not a security patch.
+And this is staging as well so the standards for backports are not
+necessarily as strict.  (Staging drivers are often really really bad).
+
+regards,
+dan carpenter
 
