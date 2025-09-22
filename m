@@ -1,208 +1,141 @@
-Received: from fra-out-002.esa.eu-central-1.outbound.mail-perimeter.amazon.com (fra-out-002.esa.eu-central-1.outbound.mail-perimeter.amazon.com [3.65.3.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AB0D14C5B0
-	for <linux-staging@lists.linux.dev>; Mon, 22 Sep 2025 10:45:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=3.65.3.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADFA5305E14
+	for <linux-staging@lists.linux.dev>; Mon, 22 Sep 2025 11:28:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758537942; cv=none; b=vBwPWQK/ieiXuWQ3dms1b9ehm9E3eZD9LRkc0cyF2CQpUw51EuTZDwbghdfsJl2Giucho1sVyO2Z5l+uO2DRydLWjBD8sI8NJgjvEGlp5diFF7TzsDJAMCtvdOUazADQvBHBf0t/5wjWHs2Kv18UKmnZbNPnzUhlhrWEq7+C/Hk=
+	t=1758540531; cv=none; b=WJIFxjT1kFnLj1eJRxC5g/a+VTSJFCqWneinoM/faIJ5tA+0S5nBP/fIvYGl+S2OpOfaS2Pe26o2FUPxKt73QYt9nckXwmHC6VxuK+ih7ypPkUFJZu5DyKsAaq5TxgY8GHOoeeylG565GF54pTzYQ/Db1VCZ5WAMIBNqfB48vSY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758537942; c=relaxed/simple;
-	bh=pwDlNzth5nMROXqz5kAkkxuxkWM/ATKQc6A9J9A4BoY=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=jI3vEg4dfoG8ziDsKfKcrPcA3UdpggrJJkGtkqiSgYK8M9v6OtewLJeGtOB+NsPIhF8mO6SsZrluPbjtpYWtrW2tgkRsmAYfOl4K4uVs3djkbDfVYL7TyVYI+j1NAmhdFGXKZDzQuVeFq0PuUOOhHm6JhIRkd8hkfM5ojxcMC7M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com; spf=pass smtp.mailfrom=amazon.com; dkim=pass (2048-bit key) header.d=amazon.com header.i=@amazon.com header.b=IMvdEOaM; arc=none smtp.client-ip=3.65.3.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazon.com
+	s=arc-20240116; t=1758540531; c=relaxed/simple;
+	bh=3FWccC0wBYnZhQF9LERuXtOSWdEQxrAed3E09vmEwMQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=CtcO4YBHFa/nMj+6fF9EItTM/1PR3pdAxK86fE8Q9U5Qs0LOyrCkg48o+Tm0XBgOoLpVdsQA7tbTc/u13g10MlNEoXdwzr9AvKXMVGj3J0ge+UvuYWJJt/4mcwNci0ohZWFxeiuv5s6garRRhsKCKCRfPtUhQVdoYKumba7aad8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=zoHAgyzw; arc=none smtp.client-ip=209.85.221.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=amazon.com header.i=@amazon.com header.b="IMvdEOaM"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="zoHAgyzw"
+Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-3ecde0be34eso2657275f8f.1
+        for <linux-staging@lists.linux.dev>; Mon, 22 Sep 2025 04:28:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazoncorp2;
-  t=1758537940; x=1790073940;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=jHPTQZFCaC0QVf/rAslU2rF+GKEtXGi5htBMXx8M8BI=;
-  b=IMvdEOaMe0FP+IRiNewRyRaabx48iIkR6MASuvWpSUyJRCz4No1zsMj3
-   JJkx18PvOX4VxXtT7+b/z+LHjF4zoySj64sfRjKGuYAYCqZG5hejOE9YA
-   qQQlCJiQNG/xRUtkvVoeVq8NS7PNXApOfYn82/PzS4izkM+75VP4Om2LH
-   qMW0Ohj/UlUx5cqki//gorCp/4bnAhxNPQnnc/PkoX3Ann3pMdXYB6N4i
-   CQ8JRm8d78O41hqV4swQq0KdQj4zidPRvKsqbCobiE9s6b4Zoz1mUNqaO
-   EGo/8/s2hD32Nbtg5CNo7SsAufXeENVgMkX/8b9vziSIfI+feCNVcgScO
-   Q==;
-X-CSE-ConnectionGUID: 6hOHCxAKSfC6e+p5CvVdZw==
-X-CSE-MsgGUID: YBSxBrJDRxalvxjSB5/Ebw==
-X-IronPort-AV: E=Sophos;i="6.18,285,1751241600"; 
-   d="scan'208";a="2482713"
-Received: from ip-10-6-3-216.eu-central-1.compute.internal (HELO smtpout.naws.eu-central-1.prod.farcaster.email.amazon.dev) ([10.6.3.216])
-  by internal-fra-out-002.esa.eu-central-1.outbound.mail-perimeter.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Sep 2025 10:45:38 +0000
-Received: from EX19MTAEUB002.ant.amazon.com [54.240.197.232:29409]
- by smtpin.naws.eu-central-1.prod.farcaster.email.amazon.dev [10.0.10.226:2525] with esmtp (Farcaster)
- id f47c06f5-2d15-4c95-af11-de6ff2958513; Mon, 22 Sep 2025 10:45:38 +0000 (UTC)
-X-Farcaster-Flow-ID: f47c06f5-2d15-4c95-af11-de6ff2958513
-Received: from EX19D018EUA004.ant.amazon.com (10.252.50.85) by
- EX19MTAEUB002.ant.amazon.com (10.252.51.79) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.20;
- Mon, 22 Sep 2025 10:45:38 +0000
-Received: from EX19D018EUA004.ant.amazon.com (10.252.50.85) by
- EX19D018EUA004.ant.amazon.com (10.252.50.85) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.20;
- Mon, 22 Sep 2025 10:45:37 +0000
-Received: from EX19D018EUA004.ant.amazon.com ([fe80::e53:84f8:3456:a97d]) by
- EX19D018EUA004.ant.amazon.com ([fe80::e53:84f8:3456:a97d%3]) with mapi id
- 15.02.2562.020; Mon, 22 Sep 2025 10:45:37 +0000
-From: "Farber, Eliav" <farbere@amazon.com>
-To: Greg KH <gregkh@linuxfoundation.org>
-CC: "linux@armlinux.org.uk" <linux@armlinux.org.uk>, "jdike@addtoit.com"
-	<jdike@addtoit.com>, "richard@nod.at" <richard@nod.at>,
-	"anton.ivanov@cambridgegreys.com" <anton.ivanov@cambridgegreys.com>,
-	"dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
-	"luto@kernel.org" <luto@kernel.org>, "peterz@infradead.org"
-	<peterz@infradead.org>, "tglx@linutronix.de" <tglx@linutronix.de>,
-	"mingo@redhat.com" <mingo@redhat.com>, "bp@alien8.de" <bp@alien8.de>,
-	"x86@kernel.org" <x86@kernel.org>, "hpa@zytor.com" <hpa@zytor.com>,
-	"tony.luck@intel.com" <tony.luck@intel.com>, "qiuxu.zhuo@intel.com"
-	<qiuxu.zhuo@intel.com>, "mchehab@kernel.org" <mchehab@kernel.org>,
-	"james.morse@arm.com" <james.morse@arm.com>, "rric@kernel.org"
-	<rric@kernel.org>, "harry.wentland@amd.com" <harry.wentland@amd.com>,
-	"sunpeng.li@amd.com" <sunpeng.li@amd.com>, "alexander.deucher@amd.com"
-	<alexander.deucher@amd.com>, "christian.koenig@amd.com"
-	<christian.koenig@amd.com>, "airlied@linux.ie" <airlied@linux.ie>,
-	"daniel@ffwll.ch" <daniel@ffwll.ch>, "evan.quan@amd.com" <evan.quan@amd.com>,
-	"james.qian.wang@arm.com" <james.qian.wang@arm.com>, "liviu.dudau@arm.com"
-	<liviu.dudau@arm.com>, "mihail.atanassov@arm.com" <mihail.atanassov@arm.com>,
-	"brian.starkey@arm.com" <brian.starkey@arm.com>,
-	"maarten.lankhorst@linux.intel.com" <maarten.lankhorst@linux.intel.com>,
-	"mripard@kernel.org" <mripard@kernel.org>, "tzimmermann@suse.de"
-	<tzimmermann@suse.de>, "robdclark@gmail.com" <robdclark@gmail.com>,
-	"sean@poorly.run" <sean@poorly.run>, "jdelvare@suse.com" <jdelvare@suse.com>,
-	"linux@roeck-us.net" <linux@roeck-us.net>, "fery@cypress.com"
-	<fery@cypress.com>, "dmitry.torokhov@gmail.com" <dmitry.torokhov@gmail.com>,
-	"agk@redhat.com" <agk@redhat.com>, "snitzer@redhat.com" <snitzer@redhat.com>,
-	"dm-devel@redhat.com" <dm-devel@redhat.com>, "rajur@chelsio.com"
-	<rajur@chelsio.com>, "davem@davemloft.net" <davem@davemloft.net>,
-	"kuba@kernel.org" <kuba@kernel.org>, "peppe.cavallaro@st.com"
-	<peppe.cavallaro@st.com>, "alexandre.torgue@st.com"
-	<alexandre.torgue@st.com>, "joabreu@synopsys.com" <joabreu@synopsys.com>,
-	"mcoquelin.stm32@gmail.com" <mcoquelin.stm32@gmail.com>, "malattia@linux.it"
-	<malattia@linux.it>, "hdegoede@redhat.com" <hdegoede@redhat.com>,
-	"mgross@linux.intel.com" <mgross@linux.intel.com>,
-	"intel-linux-scu@intel.com" <intel-linux-scu@intel.com>,
-	"artur.paszkiewicz@intel.com" <artur.paszkiewicz@intel.com>,
-	"jejb@linux.ibm.com" <jejb@linux.ibm.com>, "martin.petersen@oracle.com"
-	<martin.petersen@oracle.com>, "sakari.ailus@linux.intel.com"
-	<sakari.ailus@linux.intel.com>, "clm@fb.com" <clm@fb.com>,
-	"josef@toxicpanda.com" <josef@toxicpanda.com>, "dsterba@suse.com"
-	<dsterba@suse.com>, "jack@suse.com" <jack@suse.com>, "tytso@mit.edu"
-	<tytso@mit.edu>, "adilger.kernel@dilger.ca" <adilger.kernel@dilger.ca>,
-	"dushistov@mail.ru" <dushistov@mail.ru>, "luc.vanoostenryck@gmail.com"
-	<luc.vanoostenryck@gmail.com>, "rostedt@goodmis.org" <rostedt@goodmis.org>,
-	"pmladek@suse.com" <pmladek@suse.com>, "sergey.senozhatsky@gmail.com"
-	<sergey.senozhatsky@gmail.com>, "andriy.shevchenko@linux.intel.com"
-	<andriy.shevchenko@linux.intel.com>, "linux@rasmusvillemoes.dk"
-	<linux@rasmusvillemoes.dk>, "minchan@kernel.org" <minchan@kernel.org>,
-	"ngupta@vflare.org" <ngupta@vflare.org>, "akpm@linux-foundation.org"
-	<akpm@linux-foundation.org>, "kuznet@ms2.inr.ac.ru" <kuznet@ms2.inr.ac.ru>,
-	"yoshfuji@linux-ipv6.org" <yoshfuji@linux-ipv6.org>, "pablo@netfilter.org"
-	<pablo@netfilter.org>, "kadlec@netfilter.org" <kadlec@netfilter.org>,
-	"fw@strlen.de" <fw@strlen.de>, "jmaloy@redhat.com" <jmaloy@redhat.com>,
-	"ying.xue@windriver.com" <ying.xue@windriver.com>, "willy@infradead.org"
-	<willy@infradead.org>, "sashal@kernel.org" <sashal@kernel.org>,
-	"ruanjinjie@huawei.com" <ruanjinjie@huawei.com>, "David.Laight@aculab.com"
-	<David.Laight@aculab.com>, "herve.codina@bootlin.com"
-	<herve.codina@bootlin.com>, "Jason@zx2c4.com" <Jason@zx2c4.com>,
-	"bvanassche@acm.org" <bvanassche@acm.org>, "keescook@chromium.org"
-	<keescook@chromium.org>, "linux-arm-kernel@lists.infradead.org"
-	<linux-arm-kernel@lists.infradead.org>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>, "linux-um@lists.infradead.org"
-	<linux-um@lists.infradead.org>, "linux-edac@vger.kernel.org"
-	<linux-edac@vger.kernel.org>, "amd-gfx@lists.freedesktop.org"
-	<amd-gfx@lists.freedesktop.org>, "dri-devel@lists.freedesktop.org"
-	<dri-devel@lists.freedesktop.org>, "linux-arm-msm@vger.kernel.org"
-	<linux-arm-msm@vger.kernel.org>, "freedreno@lists.freedesktop.org"
-	<freedreno@lists.freedesktop.org>, "linux-hwmon@vger.kernel.org"
-	<linux-hwmon@vger.kernel.org>, "linux-input@vger.kernel.org"
-	<linux-input@vger.kernel.org>, "linux-media@vger.kernel.org"
-	<linux-media@vger.kernel.org>, "netdev@vger.kernel.org"
-	<netdev@vger.kernel.org>, "linux-stm32@st-md-mailman.stormreply.com"
-	<linux-stm32@st-md-mailman.stormreply.com>,
-	"platform-driver-x86@vger.kernel.org" <platform-driver-x86@vger.kernel.org>,
-	"linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>,
-	"linux-staging@lists.linux.dev" <linux-staging@lists.linux.dev>,
-	"linux-btrfs@vger.kernel.org" <linux-btrfs@vger.kernel.org>,
-	"linux-ext4@vger.kernel.org" <linux-ext4@vger.kernel.org>,
-	"linux-sparse@vger.kernel.org" <linux-sparse@vger.kernel.org>,
-	"linux-mm@kvack.org" <linux-mm@kvack.org>, "netfilter-devel@vger.kernel.org"
-	<netfilter-devel@vger.kernel.org>, "coreteam@netfilter.org"
-	<coreteam@netfilter.org>, "tipc-discussion@lists.sourceforge.net"
-	<tipc-discussion@lists.sourceforge.net>, "stable@vger.kernel.org"
-	<stable@vger.kernel.org>, "Chocron, Jonathan" <jonnyc@amazon.com>
-Subject: RE: [PATCH 00/27 5.10.y] Backport minmax.h updates from v6.17-rc6
-Thread-Topic: [PATCH 00/27 5.10.y] Backport minmax.h updates from v6.17-rc6
-Thread-Index: AQHcK64HHJftfGNvN0Cy23wGYTG5SQ==
-Date: Mon, 22 Sep 2025 10:45:37 +0000
-Message-ID: <df8d65b372864d149035eb1f016f08ae@amazon.com>
-References: <20250919101727.16152-1-farbere@amazon.com>
- <2025092136-unelected-skirt-d91d@gregkh>
- <4f497306c58240a88c0bb001786c3ad2@amazon.com>
- <2025092203-untreated-sloppily-23b5@gregkh>
-In-Reply-To: <2025092203-untreated-sloppily-23b5@gregkh>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+        d=linaro.org; s=google; t=1758540528; x=1759145328; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=sjU7ecr6qYWC8I2dcd/G+p4fmR13pHtJbJz7aga8+1A=;
+        b=zoHAgyzwQdY1lEeR9AIxPsc0vLpRSqSQjzOjerYxZfZqFx57DZRvdC3l1h63veKOIf
+         DhmR6hGkK16ZD9UwWmeNUlAzk6hsLY6QG50BKnVYAiwLtSa/Zo57lfL04zUlucwuNeJE
+         p6v1Kz2tpiLhTtTXdI2Q1Rjt+a6l6fGX87NrpGikaK3XeLEew4rxm83bV2DrzzqnHNv0
+         f6RGsDecr5JMg6iKjmuZr0u5D1zMOetjWkv3fsALGmlABUGL0ul1OyOODzpUBpuiEyGu
+         VOgKJYS8j0/eqjGvowlBXXtkRx0cLJoUY8TUzbWrayN12JLbrtPSagT9labbWlt2LD4I
+         7kOQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1758540528; x=1759145328;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=sjU7ecr6qYWC8I2dcd/G+p4fmR13pHtJbJz7aga8+1A=;
+        b=bjyKrY8TZIkRPMNP3BJnM1ZykioAwpl5ggwadMbrf+zSv+qh8/w9ecK1euBXJme+Bp
+         dbJ7/RLiR/bTitxSWow273ElOOmLyUh5En/TEXRoJ7dRpL+RxzlzgUZ7CNUfkL5/pc4o
+         eCaxdGTrtJn3vEkHzCw456cb6E4uewlN8/55bwPr8NJ30K4DeMzZrSxToHbX1SQBdJWO
+         M8JSet84PDwbOLbczmbk0Ba8g5lGn+0iKXZLXk4Oa0CycInWuoVjye2xobmaEtRy78NV
+         ILwHKuwfWWjq4115r9Thg5QOUAm08AkQ1lztJsEm8YQedP8iTEQQKnXNx4WZwgNPhB3E
+         APhQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUVlcFbKjHnHqnMDJYLFiZQO3/9Xq/PsCV7Ber+FZbsZJB1DFa1d1vkV8TTWixy2ZlCMkB9Wof25GPmvbgL@lists.linux.dev
+X-Gm-Message-State: AOJu0YzzBNSHeyzDKGnciaRnXMjYEjNtO9IgCSIgrmaLlbyNkFk57CaX
+	SqRimZw+rzryqIbteJ9N8qPs+3Xg9I1gdrBuqmCXtoWDF+3/xthgYtFWC8XihpVG/4M=
+X-Gm-Gg: ASbGncs3xz2GTUPZ+kx+dADLaM/1GpcWYoffWyZi3lbyFED64yPONxIyLSeYsiuPlpA
+	vAmHu+6Mbh9LYJyyn51yLCBcd2NvzgAuzwAjYylZnqwcRRvNzZqRXuzEQb18SNwphJMrtK+knvj
+	iQom0QrSwrhm10RwEJZxDHA1eciGrZWkUm9E+g2O8nqtskvqk1CGup3RU7fNDXvSfXwWeRDAcZZ
+	yG/HmPCAM6ao6UD12NaxOZ3HxlC/XVwaFEayfFXj2ww4SSKRgPGRsWirROMMI1dYy16IYkkbmE9
+	lo78Qz6LWWFvCLMnsnON6h1s3gIKrMPMtJ0jHo/aI8VbG1OLPAJuD9a11lvNPMZZFNJsi1a/JTN
+	kraNau4SM+FluobuiJHm5ccvZDsec
+X-Google-Smtp-Source: AGHT+IH4MVTTvJNffVVHP3rQfdQ1+Yz3bv5wsjwPbeG+w6rdZ8vSfpmXOdmU+Yfl/Cq/S4gBo7/gWA==
+X-Received: by 2002:a05:6000:400f:b0:3fd:7388:28a with SMTP id ffacd0b85a97d-3fd73880634mr2585927f8f.8.1758540527943;
+        Mon, 22 Sep 2025 04:28:47 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-46e15d1610fsm15388905e9.7.2025.09.22.04.28.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 22 Sep 2025 04:28:47 -0700 (PDT)
+Date: Mon, 22 Sep 2025 14:28:44 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Ma Ke <make24@iscas.ac.cn>
+Cc: dpenkler@gmail.com, gregkh@linuxfoundation.org,
+	matchstick@neverthere.org, dominik.karol.piatkowski@protonmail.com,
+	arnd@arndb.de, nichen@iscas.ac.cn, paul.retourne@orange.fr,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	akpm@linux-foundation.org, stable@vger.kernel.org
+Subject: Re: [PATCH v2] staging: gpib: Fix device reference leak in fmh_gpib
+ driver
+Message-ID: <aNEy7LsnKa50Pq3c@stanley.mountain>
+References: <20250922084512.9174-1-make24@iscas.ac.cn>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250922084512.9174-1-make24@iscas.ac.cn>
 
-> On Sun, Sep 21, 2025 at 09:37:02PM +0000, Farber, Eliav wrote:
-> > > On Fri, Sep 19, 2025 at 10:17:00AM +0000, Eliav Farber wrote:
-> > > > This series includes a total of 27 patches, to align minmax.h of=20
-> > > > v5.15.y with v6.17-rc6.
-> > > >
-> > > > The set consists of 24 commits that directly update minmax.h:
-> > > > 1) 92d23c6e9415 ("overflow, tracing: Define the is_signed_type() ma=
-cro
-> > > >    once")
-> > >
-> > > But this isn't in 5.15.y, so how is this syncing things up?
-> > >
-> > > I'm all for this, but I got confused here, at the first commit :)
-> >
-> > It's a typo.
-> > It should be 5.10.y and not 5.15.y.
-> >
-> > > Some of these are also only in newer kernels, which, as you know, is=
-=20
-> > > generally a bad thing (i.e. I can't take patches only for older
-> > > kernels.)
-> > >
-> > > I want these changes, as they are great, but can you perhaps provide=
-=20
-> > > patch series for newer kernels first so that I can then take these?
-> >
-> > So you'd first like first to align 6.16 with 6.17, then 6.15 with=20
-> > 6.16, then 6.12 with 6.15, then 6.6 with 6.12, and so on until we=20
-> > eventually align 5.10 and even 5.4?
->
-> Yes please!
+On Mon, Sep 22, 2025 at 04:45:12PM +0800, Ma Ke wrote:
+> The fmh_gpib driver contains a device reference count leak in
+> fmh_gpib_attach_impl() where driver_find_device() increases the
+> reference count of the device by get_device() when matching but this
+> reference is not properly decreased. Add put_device() in
+> fmh_gpib_attach_impl() and add put_device() in fmh_gpib_detach(),
+> which ensures that the reference count of the device is correctly
+> managed.
+> 
+> Found by code review.
+> 
+> Cc: stable@vger.kernel.org
+> Fixes: 8e4841a0888c ("staging: gpib: Add Frank Mori Hess FPGA PCI GPIB driver")
+> Signed-off-by: Ma Ke <make24@iscas.ac.cn>
+> ---
+> Changes in v2:
+> - modified the free operations as suggestions. Thanks for dan carpenter's instructions.
+> ---
 
-Stable 6.16.8 didn't require any changs.
+Actually, it turns out that this isn't the right approach.  Sorry.
+This will introduce double frees.
 
-I pulled the changes for 6.12.48:
-https://lore.kernel.org/stable/20250922103123.14538-1-farbere@amazon.com/T/=
-#t
-and 6.6.107:
-https://lore.kernel.org/stable/20250922103241.16213-1-farbere@amazon.com/T/=
-#t
+The caller looks like this:
 
-Once approved, I'll continue with other longterm branches.
+drivers/staging/gpib/common/iblib.c
+   204  int ibonline(struct gpib_board *board)
+   205  {
+   206          int retval;
+   207  
+   208          if (board->online)
+   209                  return -EBUSY;
+   210          if (!board->interface)
+   211                  return -ENODEV;
+   212          retval = gpib_allocate_board(board);
+   213          if (retval < 0)
+   214                  return retval;
+   215  
+   216          board->dev = NULL;
+   217          board->local_ppoll_mode = 0;
+   218          retval = board->interface->attach(board, &board->config);
+   219          if (retval < 0) {
+   220                  board->interface->detach(board);
 
----
-Regards, Eliav
+   So if the attach() fails, we call ->detach() which works.
 
+   221                  return retval;
+   222          }
+
+It's weird because the fmh_gpib_pci_detach() function does have a
+put_device() in it:
+
+	if (board->dev)
+		pci_dev_put(to_pci_dev(board->dev));
+                ^^^^^^^^^^^
+
+The detach functions are really similar...
+
+regards,
+dan carpenter
 
