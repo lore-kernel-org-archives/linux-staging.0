@@ -1,254 +1,285 @@
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4EC22BB1D
-	for <linux-staging@lists.linux.dev>; Mon, 22 Sep 2025 06:28:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2E5821D596
+	for <linux-staging@lists.linux.dev>; Mon, 22 Sep 2025 06:31:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758522539; cv=none; b=OS+eorHfNczROlj187ysy7vqsvlMebQ6y/dlbEUbeZZpOqD1p9aPRwEaLd0QqpkrVOcoN2CPNOzCj3djqQHE9oiYwAStdlzE782T5NUq9tx17ANOpWF+cFNvmQ1MmJ+hyQagddTZ4fyaC4Xy5i0Cb5tVZLlQ7lmsdW2aj4Qpsbs=
+	t=1758522662; cv=none; b=ozSVzyQOVcsIlSa665eY9Nozr/Y16t7YCPAQCG9m6dEFP03/rxBHHlQwou0QuKjnXGdTzs1pSC1wgJaY5U5Cr0cJN7XZrDW9jWFq+nwaM4ctiVtgjIGY7ED+E4AaEP+01IEvW6QYPnz1V/+Mia7H1xGEht9aZlir1/K1oZxMijA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758522539; c=relaxed/simple;
-	bh=jS7CeHrv/AeGZdOQ/WoM0enjwVnBDM2WkTpACOOaB8g=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=c5Aes+a29nXJgfX+kl4CvnsErs0okwWnlKZXaDYZbbie8yILQc/MAC1k3wYNYv7Z5L5J/LX1se/0+X86lPVLOsjzVSbiP8o6G+7+4R8BNZx7RMq9NHv0Ky09ysVYmF2VHj3TMFti1qhFEe7g1Q9ncYYiq696X8P9FhfxVabQKmw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=h26u/l5c; arc=none smtp.client-ip=209.85.221.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1758522662; c=relaxed/simple;
+	bh=5OhwGux6ou9g6/LIEcHhMB74OG5Iog4JQZsaPDeECSU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=siDwLOSah7I0/XIApNYslWzKc7oZeEUX01lRKOwwfrvQz11WytAx4K2H7/t6YlEg1lGXvd/5EgpuzMHSweCE+4/kGimG4IbrwpKF6Cp8giAzQonwmd66ozZbouGAp2o/ParvVjkpj1/AkN7wdyvGm/KADT8QMB+5DajJCVjtFO4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=N0zJ3y8N; arc=none smtp.client-ip=209.85.128.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="h26u/l5c"
-Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-3fc36b99e92so414686f8f.0
-        for <linux-staging@lists.linux.dev>; Sun, 21 Sep 2025 23:28:57 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="N0zJ3y8N"
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-45ddc7d5731so26103055e9.1
+        for <linux-staging@lists.linux.dev>; Sun, 21 Sep 2025 23:31:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1758522536; x=1759127336; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=7ZLlyj1lrTQJXPVDMgRBgvEm8gNKaL9UfywhFXowTYg=;
-        b=h26u/l5ci3t9AYG9QiD/errIbqOgeaSjuZ9PyARAwC/Ek1CSwPi4IHrkLi+Gkdypin
-         W1DZbjPsEKyyFNcKpiCnCeron0wV8GQBCla+AFkB2xMiBNsyyVZyplinFSONDzMVtcPj
-         /1FvaJkmPctjmcbC26rWw2CkJLrr6p/e5axSbrkySo3lYbE/zKKWC+o7VIu7oM8SrGU6
-         hPyz+R2nwwl1aOVCMt0bKqKlsX97t7RopPaWAY/r4BvX3p0+jYF+Yw78oZrbx5XxWVLA
-         JKB2wx+IMEh1cp8CEMcGoonyJhNZZ+i+lZn8kt4G7WXGs7ywXLYNXb9pv5M+iwNS+8i9
-         jnSA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758522536; x=1759127336;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1758522659; x=1759127459; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=7ZLlyj1lrTQJXPVDMgRBgvEm8gNKaL9UfywhFXowTYg=;
-        b=f6+Xyo2DKx/yC+os3C0gpfANxE56WIqS+8icsf2wyE9hh4gQzAcg5xVjLlLsFKpcp9
-         FlFoh6GpbHB33Z3R/Lv8tMLByo6VrhE55UnFTcDcFoZdQTzGLltbABMzJiUcfdC5fBe8
-         pwyWUjaSPCAbUTLZYQw2Z1OsIS18natvZ0f/LFy/tkJtUV+Wo33QX1q99OzAboN15lbN
-         sT3Z17Xt2bdPxT4nxY5ILham/Tgfl/GZsUGT+rMpPF0nwc6Q41+C69kYH+gFAuewd0Ii
-         B2Wno8VaWmjS8bKRuK5dysm1Ub4i3Oov8piwIjiQo5pugfn/gsAaz3VM3u86DFBvqkwr
-         KPXQ==
-X-Forwarded-Encrypted: i=1; AJvYcCU33C9+5t5kmfOt9arIBjn5MSN4uq42WiHd75r35Udekys3VPleHb6fof58dHWGhoAejee2+VNvjPEQKpx2@lists.linux.dev
-X-Gm-Message-State: AOJu0YyuHVdMTH64gqVrQFPpVyo5rN9HrArTCydtZmrvuAXdUfw3p1Qo
-	4RYm0SxQE7C3BjwsT/F8XYmicTc+D8ZDQUi02f7Bd4YnFPn8uiIGOk1mwPDIwPCdKIA=
-X-Gm-Gg: ASbGncuiL/8nzTPExkekhQyFUqTmFflkmC4h0jm4VrAsT9oVRvAAtI0fyXBRD5ykA4G
-	8Lw95s9ogZnNb5iNfhIoN4epy9vIc7dPDOJZrk6QJexO8oUnYb9FAxss+silBx7iOYlx2PL/tZ7
-	7W9ApVnaiok4Fb6QSjKT0FbQMV5/MLYuyk6WPL9jiQI3YBZlsXXLDBeuprXVDn3PWumJlRuBXRw
-	bVs+PaMoNR+j/BoLnholjevStoMvuIjGjv3U+grJjMDwPOoDDLvEQycLoYrVfq33rXfx6sZx08O
-	/l2j1m//1eZT3fPJdK6wC4KTqGenGrModkHoNJ4OHEFoB80VY2PBOjZfSP7Lgi4pD7JsN0Orpzp
-	SSPFMTpYRajbpKhxM+5t+GU7WIVYZ
-X-Google-Smtp-Source: AGHT+IEi7y+wmyoeJmcLrzMj7JBQYxtJq3v3U/Csxfuh3DcOz0vyeFncb6QmMd0G2jzMcncIY5GShg==
-X-Received: by 2002:a05:6000:248a:b0:3df:22a3:d240 with SMTP id ffacd0b85a97d-3edd43ac9ebmr12498231f8f.4.1758522536140;
-        Sun, 21 Sep 2025 23:28:56 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-464f0aac3fdsm183666865e9.1.2025.09.21.23.28.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 21 Sep 2025 23:28:55 -0700 (PDT)
-Date: Mon, 22 Sep 2025 09:28:52 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Ma Ke <make24@iscas.ac.cn>
-Cc: dpenkler@gmail.com, gregkh@linuxfoundation.org,
-	matchstick@neverthere.org, dominik.karol.piatkowski@protonmail.com,
-	arnd@arndb.de, nichen@iscas.ac.cn, paul.retourne@orange.fr,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-	akpm@linux-foundation.org, stable@vger.kernel.org
-Subject: Re: [PATCH] staging: gpib: Fix device reference leak in fmh_gpib
- driver
-Message-ID: <aNDspDsgj5I5KGLe@stanley.mountain>
-References: <20250922023831.21343-1-make24@iscas.ac.cn>
+        bh=JBI7ozwg7DTSQ24O2TuFL4d84hmFpnF5vS3hSbCRd3Q=;
+        b=N0zJ3y8NxPuk1xngtI5p1QYM7DmxriJMU+RgQ5o1Ux2qlA1jg9f2NV73uVCDm3yOjR
+         4LGQsjizLKCH3JUWFJ2Sc2moiqDEgDSlA394c6PJZJp8WfjwQohT8PJh1vZZwJxBQLim
+         kNZ8aOQRfnUpnVeR8xnMMEeGBQjV4viR7GrDm1SRbUJB6RgwobhdKe9KFDoGV9mqNjvP
+         DvdnI0LqAF16iLAs+4op9aEt56KfudWVQ/De1l4eTBK/zJtcdjwHgIzoWVR+1Ei7LCI9
+         s/j4qyzdF258UZX3/t1KSdhhXwnCmLo1edlB3p0HKJoa61LghnoKEh+S56vCp3HASXGf
+         EJTg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1758522659; x=1759127459;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=JBI7ozwg7DTSQ24O2TuFL4d84hmFpnF5vS3hSbCRd3Q=;
+        b=LWLKlSWO1sYgKkOpzJWdTmirUJoP+FseK+wv3alPIfVx1OmB5kWHokDau7p4c3ohfp
+         ImAOxrpvQOAl08prtQQ5JvChmtTa808koUD7DrlmgkTyK/GX/ty303ol2tSQwNb0P+qY
+         e96L0nEfnU7OnXkhbsFCKC5IP4bWlU/4KCEOFyP9GN9GjvdIwZMaRKG5oDQJCQowU1aO
+         3hMpGTpqubr+4O5PajZcRT0GlIAHfvJjcw9iJZLrhKhjp00USiM+k3EmSvUCuJou29Oj
+         G0gKZIrmRHUlZQO9tBDGc0HMZTWCqKjGO1jFUo5Xu+ofAaccBuNDXPcrw5IQ7fIEkEM8
+         raeA==
+X-Forwarded-Encrypted: i=1; AJvYcCWZN4Al5uk3BP7/edj0mp9by0zQLHbyOkRngtgfZw6ENO5YkHTTrGJYdsvcdhNclPEkb4GGONKH9DHDMrPs@lists.linux.dev
+X-Gm-Message-State: AOJu0Yx0VksZUCnYVBdf6gMWRbkQRfqJ9Y28xrp0f5A4hJXC8sxO8ydt
+	6TtoA6b4x+j5WHm2fhLHHTZTIU6auToCjpJ7kiY3fw8nYUsFTm1ddaA1go7eU9LKgK4K5rQXGcz
+	VXsEqUo3BDJh62n3/x5/EQgaaAOG6h7E=
+X-Gm-Gg: ASbGncuyu898H5YB8S/fzXLVx1k+jEP3cJibXyEPhsjDQpuKfLGsYJpjJ14PSpS9Fcp
+	lTIQ4P5rYI6sITI5N97h0eqzRpsYHv4R7f3XTZMfgX3h1DqRQ7Qf94zGTroy8VqmvSJ1rj23tax
+	9ogudzHYuOY0R0QzRBXr5t0zCJNUdM+K/7ppJVL2iOAeeRTBma49udVdypXmq6m2geRviJhYLuA
+	SWGlWs8
+X-Google-Smtp-Source: AGHT+IEgRyr03+K3nP1v4RFDAaB2T/dukNJX/7fSxSDXqoenOtbaJwHE6abGnYzKvIAOsR+BBjFG+VRT8nGt6XTXdf4=
+X-Received: by 2002:a05:600c:1554:b0:45d:f7ca:4f07 with SMTP id
+ 5b1f17b1804b1-467efb04520mr94891755e9.18.1758522658794; Sun, 21 Sep 2025
+ 23:30:58 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250922023831.21343-1-make24@iscas.ac.cn>
+References: <20250906135345.241229-1-clamor95@gmail.com> <25240767.ouqheUzb2q@senjougahara>
+ <CAPVz0n1Tur0YY7yOYAyUFvyTxie4OteyzGhzv487L+aA-YY+wQ@mail.gmail.com> <4198615.hdfAi7Kttb@senjougahara>
+In-Reply-To: <4198615.hdfAi7Kttb@senjougahara>
+From: Svyatoslav Ryhel <clamor95@gmail.com>
+Date: Mon, 22 Sep 2025 09:30:47 +0300
+X-Gm-Features: AS18NWDVc75UgxzKXU9wjmggqvC2LNOMRXXeLZ6ybXXuZrOg-NHyYp0QsvZuWLs
+Message-ID: <CAPVz0n0TPKa2cVXZdUEAWWHquGeqzj=p-9cXx79jc6RwXLkkGg@mail.gmail.com>
+Subject: Re: [PATCH v2 16/23] staging: media: tegra-video: tegra20: simplify
+ format align calculations
+To: Mikko Perttunen <mperttunen@nvidia.com>
+Cc: Thierry Reding <thierry.reding@gmail.com>, Thierry Reding <treding@nvidia.com>, 
+	Jonathan Hunter <jonathanh@nvidia.com>, Sowjanya Komatineni <skomatineni@nvidia.com>, 
+	Luca Ceresoli <luca.ceresoli@bootlin.com>, David Airlie <airlied@gmail.com>, 
+	Simona Vetter <simona@ffwll.ch>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+	Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Prashant Gaikwad <pgaikwad@nvidia.com>, Michael Turquette <mturquette@baylibre.com>, 
+	Stephen Boyd <sboyd@kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Dmitry Osipenko <digetx@gmail.com>, 
+	=?UTF-8?Q?Jonas_Schw=C3=B6bel?= <jonasschwoebel@yahoo.de>, 
+	Charan Pedumuru <charan.pedumuru@gmail.com>, dri-devel@lists.freedesktop.org, 
+	devicetree@vger.kernel.org, linux-tegra@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+	linux-clk@vger.kernel.org, linux-staging@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, Sep 22, 2025 at 10:38:31AM +0800, Ma Ke wrote:
-> The fmh_gpib driver contains a device reference count leak in
-> fmh_gpib_attach_impl() where driver_find_device() increases the
-> reference count of the device by get_device() when matching but this
-> reference is not properly decreased. Add put_device() in
-> fmh_gpib_attach_impl() and add put_device() in fmh_gpib_detach(),
-> which ensures that the reference count of the device is correctly
-> managed.
-> 
-> Found by code review.
-> 
-> Cc: stable@vger.kernel.org
-> Fixes: 8e4841a0888c ("staging: gpib: Add Frank Mori Hess FPGA PCI GPIB driver")
-> Signed-off-by: Ma Ke <make24@iscas.ac.cn>
-> ---
->  drivers/staging/gpib/fmh_gpib/fmh_gpib.c | 23 +++++++++++++++++++++--
->  1 file changed, 21 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/staging/gpib/fmh_gpib/fmh_gpib.c b/drivers/staging/gpib/fmh_gpib/fmh_gpib.c
-> index 4138f3d2bae7..245c8fe87eaa 100644
-> --- a/drivers/staging/gpib/fmh_gpib/fmh_gpib.c
-> +++ b/drivers/staging/gpib/fmh_gpib/fmh_gpib.c
-> @@ -1395,14 +1395,17 @@ static int fmh_gpib_attach_impl(struct gpib_board *board, const struct gpib_boar
->  	pdev = to_platform_device(board->dev);
->  
->  	retval = fmh_gpib_generic_attach(board);
-> -	if (retval)
-> +	if (retval) {
-> +		put_device(board->dev);
->  		return retval;
+=D0=BF=D0=BD, 22 =D0=B2=D0=B5=D1=80. 2025=E2=80=AF=D1=80. =D0=BE 09:23 Mikk=
+o Perttunen <mperttunen@nvidia.com> =D0=BF=D0=B8=D1=88=D0=B5:
+>
+> On Monday, September 22, 2025 2:13=E2=80=AFPM Svyatoslav Ryhel wrote:
+> > =D0=BF=D0=BD, 22 =D0=B2=D0=B5=D1=80. 2025=E2=80=AF=D1=80. =D0=BE 07:44 =
+Mikko Perttunen <mperttunen@nvidia.com> =D0=BF=D0=B8=D1=88=D0=B5:
+> > >
+> > > On Saturday, September 6, 2025 10:53=E2=80=AFPM Svyatoslav Ryhel wrot=
+e:
+> > > > Simplify format align calculations by slightly modifying supported =
+formats
+> > > > structure.
+> > > >
+> > > > Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
+> > > > ---
+> > > >  drivers/staging/media/tegra-video/tegra20.c | 41 ++++++++---------=
+----
+> > > >  1 file changed, 16 insertions(+), 25 deletions(-)
+> > > >
+> > > > diff --git a/drivers/staging/media/tegra-video/tegra20.c b/drivers/=
+staging/media/tegra-video/tegra20.c
+> > > > index 6e0b3b728623..781c4e8ec856 100644
+> > > > --- a/drivers/staging/media/tegra-video/tegra20.c
+> > > > +++ b/drivers/staging/media/tegra-video/tegra20.c
+> > > > @@ -280,20 +280,8 @@ static void tegra20_fmt_align(struct v4l2_pix_=
+format *pix, unsigned int bpp)
+> > > >       pix->width  =3D clamp(pix->width,  TEGRA20_MIN_WIDTH,  TEGRA2=
+0_MAX_WIDTH);
+> > > >       pix->height =3D clamp(pix->height, TEGRA20_MIN_HEIGHT, TEGRA2=
+0_MAX_HEIGHT);
+> > > >
+> > > > -     switch (pix->pixelformat) {
+> > > > -     case V4L2_PIX_FMT_UYVY:
+> > > > -     case V4L2_PIX_FMT_VYUY:
+> > > > -     case V4L2_PIX_FMT_YUYV:
+> > > > -     case V4L2_PIX_FMT_YVYU:
+> > > > -             pix->bytesperline =3D roundup(pix->width, 2) * 2;
+> > > > -             pix->sizeimage =3D roundup(pix->width, 2) * 2 * pix->=
+height;
+> > > > -             break;
+> > > > -     case V4L2_PIX_FMT_YUV420:
+> > > > -     case V4L2_PIX_FMT_YVU420:
+> > > > -             pix->bytesperline =3D roundup(pix->width, 8);
+> > > > -             pix->sizeimage =3D roundup(pix->width, 8) * pix->heig=
+ht * 3 / 2;
+> > > > -             break;
+> > > > -     }
+> > > > +     pix->bytesperline =3D DIV_ROUND_UP(pix->width * bpp, 8);
+> > >
+> > > Assuming the bpp is coming from the format table below, this changes =
+the value of bytesperline for planar formats. With this it'll be (width * 1=
+2) / 8 i.e. width * 3/2, which doesn't sound right.
+> > >
+> >
+> > Downstream uses soc_mbus_bytes_per_line for this calculation which was
+> > deprecated some time ago, here is a fragment
+> >
+> > s32 soc_mbus_bytes_per_line(u32 width, const struct soc_mbus_pixelfmt *=
+mf)
+> > {
+> >  if (mf->fourcc =3D=3D V4L2_PIX_FMT_JPEG)
+> >  return 0;
+> >
+> >  if (mf->layout !=3D SOC_MBUS_LAYOUT_PACKED)
+> >  return width * mf->bits_per_sample / 8;
+> >
+> >  switch (mf->packing) {
+> >  case SOC_MBUS_PACKING_NONE:
+> >   return width * mf->bits_per_sample / 8;
+> >  case SOC_MBUS_PACKING_2X8_PADHI:
+> >  case SOC_MBUS_PACKING_2X8_PADLO:
+> >  case SOC_MBUS_PACKING_EXTEND16:
+> >   return width * 2;
+> >  case SOC_MBUS_PACKING_1_5X8:
+> >   return width * 3 / 2;
+> >  case SOC_MBUS_PACKING_VARIABLE:
+> >   return 0;
+> >  }
+> >    return -EINVAL;
+> > }
+> >
+> > V4L2_PIX_FMT_YUV420 and V4L2_PIX_FMT_YVU420 are classified as
+> > SOC_MBUS_PACKING_1_5X8 hence we get width * 3/2
+>
+> Googling this brings up the entry
+>
+> {
+>         .code =3D V4L2_MBUS_FMT_YUYV8_1_5X8,
+>         .fmt =3D {
+>                 .fourcc                 =3D V4L2_PIX_FMT_YUV420,
+>                 .name                   =3D "YUYV 4:2:0",
+>                 .bits_per_sample                =3D 8,
+>                 .packing                        =3D SOC_MBUS_PACKING_1_5X=
+8,
+>                 .order                  =3D SOC_MBUS_ORDER_LE,
+>                 .layout                 =3D SOC_MBUS_LAYOUT_PACKED,
+>         },
+> }
+>
+> which matches that you're describing. It doesn't make sense to me, since =
+it at the same time specifies PIX_FMT_YUV420 (which is planar with 3 planes=
+, as documented by include/uapi/linux/videodev2.h), and LAYOUT_PACKED
+>
+> /**
+>  * enum soc_mbus_layout - planes layout in memory
+>  * @SOC_MBUS_LAYOUT_PACKED:             color components packed
+>  * @SOC_MBUS_LAYOUT_PLANAR_2Y_U_V:      YUV components stored in 3 planes=
+ (4:2:2)
+>  * @SOC_MBUS_LAYOUT_PLANAR_2Y_C:        YUV components stored in a luma a=
+nd a
+>  *                                      chroma plane (C plane is half the=
+ size
+>  *                                      of Y plane)
+>  * @SOC_MBUS_LAYOUT_PLANAR_Y_C:         YUV components stored in a luma a=
+nd a
+>  *                                      chroma plane (C plane is the same=
+ size
+>  *                                      as Y plane)
+>  */
+> enum soc_mbus_layout {
+>         SOC_MBUS_LAYOUT_PACKED =3D 0,
+>         SOC_MBUS_LAYOUT_PLANAR_2Y_U_V,
+>         SOC_MBUS_LAYOUT_PLANAR_2Y_C,
+>         SOC_MBUS_LAYOUT_PLANAR_Y_C,
+> };
+>
+> i.e. non-planar. The code in the driver is handling it as three planes as=
+ well, with addresses VB0_BASE_ADDRESS/VB0_BASE_ADDRESS_U/VB0_BASE_ADDRESS_=
+V. Since the planes are separate, there should be no need to have more than=
+ 'width' samples per line.
+>
 
-Do this with an unwind goto.
+I did not invent this, I have just simplified this calculation from
+downstream, output values remain same. I have no cameras which can
+output V4L2_PIX_FMT_YUV420 or V4L2_PIX_FMT_YVU420 so I cannot test if
+this works either. Other YUV and RAW formats were tested on real HW
+and work perfectly fine.
 
-	if (reval)
-		goto put_dev;
-
-	...
-
-	retval = fmh_gpib_init(...);  /* this bug wasn't fixed btw */
-	if (retval)
-		goto put_dev;
-
-	return 0;
-
-put_dev:
-	put_device(board->dev);
-	return retval;
-
-Actually, this function needs a bunch of other frees as well.  See
-my blog for more details:
-
-https://staticthinking.wordpress.com/2022/04/28/free-the-last-thing-style/
-
-> +	}
->  
->  	e_priv = board->private_data;
->  	nec_priv = &e_priv->nec7210_priv;
->  
->  	res = platform_get_resource_byname(pdev, IORESOURCE_MEM, "gpib_control_status");
->  	if (!res) {
-> +		put_device(board->dev);
->  		dev_err(board->dev, "Unable to locate mmio resource\n");
->  		return -ENODEV;
->  	}
-> @@ -1410,6 +1413,7 @@ static int fmh_gpib_attach_impl(struct gpib_board *board, const struct gpib_boar
->  	if (request_mem_region(res->start,
->  			       resource_size(res),
->  			       pdev->name) == NULL) {
-> +		put_device(board->dev);
->  		dev_err(board->dev, "cannot claim registers\n");
->  		return -ENXIO;
->  	}
-
-request_mem_region() needs a release_region().
-
-> @@ -1418,6 +1422,7 @@ static int fmh_gpib_attach_impl(struct gpib_board *board, const struct gpib_boar
->  	nec_priv->mmiobase = ioremap(e_priv->gpib_iomem_res->start,
->  				     resource_size(e_priv->gpib_iomem_res));
->  	if (!nec_priv->mmiobase) {
-> +		put_device(board->dev);
->  		dev_err(board->dev, "Could not map I/O memory\n");
->  		return -ENOMEM;
->  	}
-
-ioremap() needs an iounmap();
-
-> @@ -1426,12 +1431,14 @@ static int fmh_gpib_attach_impl(struct gpib_board *board, const struct gpib_boar
->  
->  	res = platform_get_resource_byname(pdev, IORESOURCE_MEM, "dma_fifos");
->  	if (!res) {
-> +		put_device(board->dev);
->  		dev_err(board->dev, "Unable to locate mmio resource for gpib dma port\n");
->  		return -ENODEV;
->  	}
->  	if (request_mem_region(res->start,
->  			       resource_size(res),
->  			       pdev->name) == NULL) {
-> +		put_device(board->dev);
->  		dev_err(board->dev, "cannot claim registers\n");
->  		return -ENXIO;
->  	}
-
-release_region()
-
-> @@ -1439,6 +1446,7 @@ static int fmh_gpib_attach_impl(struct gpib_board *board, const struct gpib_boar
->  	e_priv->fifo_base = ioremap(e_priv->dma_port_res->start,
->  				    resource_size(e_priv->dma_port_res));
->  	if (!e_priv->fifo_base) {
-> +		put_device(board->dev);
->  		dev_err(board->dev, "Could not map I/O memory for fifos\n");
->  		return -ENOMEM;
->  	}
-
-iounmap();
-
-> @@ -1447,10 +1455,14 @@ static int fmh_gpib_attach_impl(struct gpib_board *board, const struct gpib_boar
->  		(unsigned long)resource_size(e_priv->dma_port_res));
->  
->  	irq = platform_get_irq(pdev, 0);
-> -	if (irq < 0)
-> +	if (irq < 0) {
-> +		put_device(board->dev);
->  		return -EBUSY;
-> +	}
-> +
->  	retval = request_irq(irq, fmh_gpib_interrupt, IRQF_SHARED, pdev->name, board);
->  	if (retval) {
-> +		put_device(board->dev);
->  		dev_err(board->dev,
->  			"cannot register interrupt handler err=%d\n",
->  			retval);
-
-request_irq() needs a release_irq()
-
-> @@ -1461,6 +1473,7 @@ static int fmh_gpib_attach_impl(struct gpib_board *board, const struct gpib_boar
->  	if (acquire_dma) {
->  		e_priv->dma_channel = dma_request_slave_channel(board->dev, "rxtx");
->  		if (!e_priv->dma_channel) {
-> +			put_device(board->dev);
->  			dev_err(board->dev, "failed to acquire dma channel \"rxtx\".\n");
->  			return -EIO;
->  		}
-
-This needs a free too.  There may be other things outside of what I
-can see in this email.
-
-> @@ -1517,6 +1530,12 @@ void fmh_gpib_detach(struct gpib_board *board)
->  					   resource_size(e_priv->gpib_iomem_res));
->  	}
->  	fmh_gpib_generic_detach(board);
-> +
-> +	if (board->dev) {
-> +		dev_set_drvdata(board->dev, NULL);
-> +		put_device(board->dev);
-> +		board->dev = NULL;
-
-I explain this in my blog, that the free function should be a cut
-and paste of the cleanup.  So this stuff isn't done in the cleanup
-so one or the other of these is not correct.
-
-The question is should this be done in one patch or several patches?
-Adding cleanup to one function is generally considered One Thing
-in terms of One Thing Per Path.  If we were going to backport bits
-of cleanup to different stable kernels then we would want to break
-it up into the easiest way for backporting.  But realistically we're
-not going to do that here because this doesn't affect real life
-users generally.  It's just from review.  It's not a security patch.
-And this is staging as well so the standards for backports are not
-necessarily as strict.  (Staging drivers are often really really bad).
-
-regards,
-dan carpenter
-
+> >
+> > > > +     pix->sizeimage =3D pix->bytesperline * pix->height;
+> > > >  }
+> > > >
+> > > >  /*
+> > > > @@ -576,20 +564,23 @@ static const struct tegra_vi_ops tegra20_vi_o=
+ps =3D {
+> > > >       .vi_stop_streaming =3D tegra20_vi_stop_streaming,
+> > > >  };
+> > > >
+> > > > -#define TEGRA20_VIDEO_FMT(MBUS_CODE, BPP, FOURCC)    \
+> > > > -{                                                    \
+> > > > -     .code    =3D MEDIA_BUS_FMT_##MBUS_CODE,           \
+> > > > -     .bpp     =3D BPP,                                 \
+> > > > -     .fourcc  =3D V4L2_PIX_FMT_##FOURCC,               \
+> > > > +#define TEGRA20_VIDEO_FMT(DATA_TYPE, BIT_WIDTH, MBUS_CODE, BPP, FO=
+URCC)      \
+> > > > +{                                                                 =
+   \
+> > > > +     .img_dt         =3D TEGRA_IMAGE_DT_##DATA_TYPE,              =
+     \
+> > > > +     .bit_width      =3D BIT_WIDTH,                               =
+     \
+> > > > +     .code           =3D MEDIA_BUS_FMT_##MBUS_CODE,               =
+     \
+> > > > +     .bpp            =3D BPP,                                     =
+     \
+> > > > +     .fourcc         =3D V4L2_PIX_FMT_##FOURCC,                   =
+     \
+> > > >  }
+> > > >
+> > > >  static const struct tegra_video_format tegra20_video_formats[] =3D=
+ {
+> > > > -     TEGRA20_VIDEO_FMT(UYVY8_2X8, 2, UYVY),
+> > > > -     TEGRA20_VIDEO_FMT(VYUY8_2X8, 2, VYUY),
+> > > > -     TEGRA20_VIDEO_FMT(YUYV8_2X8, 2, YUYV),
+> > > > -     TEGRA20_VIDEO_FMT(YVYU8_2X8, 2, YVYU),
+> > > > -     TEGRA20_VIDEO_FMT(UYVY8_2X8, 1, YUV420),
+> > > > -     TEGRA20_VIDEO_FMT(UYVY8_2X8, 1, YVU420),
+> > > > +     /* YUV422 */
+> > > > +     TEGRA20_VIDEO_FMT(YUV422_8, 16, UYVY8_2X8, 16, UYVY),
+> > > > +     TEGRA20_VIDEO_FMT(YUV422_8, 16, VYUY8_2X8, 16, VYUY),
+> > > > +     TEGRA20_VIDEO_FMT(YUV422_8, 16, YUYV8_2X8, 16, YUYV),
+> > > > +     TEGRA20_VIDEO_FMT(YUV422_8, 16, YVYU8_2X8, 16, YVYU),
+> > > > +     TEGRA20_VIDEO_FMT(YUV422_8, 16, UYVY8_2X8, 12, YUV420),
+> > > > +     TEGRA20_VIDEO_FMT(YUV422_8, 16, UYVY8_2X8, 12, YVU420),
+> > > >  };
+> > > >
+> > > >  const struct tegra_vi_soc tegra20_vi_soc =3D {
+> > > >
+> > >
+> > >
+> > >
+> > >
+>
+>
+>
+>
