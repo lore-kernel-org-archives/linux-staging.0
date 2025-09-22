@@ -1,179 +1,99 @@
-Received: from cstnet.cn (smtp81.cstnet.cn [159.226.251.81])
-	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+Received: from mail-yw1-f173.google.com (mail-yw1-f173.google.com [209.85.128.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77BBB149C7B
-	for <linux-staging@lists.linux.dev>; Mon, 22 Sep 2025 02:39:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.81
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF4BA20E6
+	for <linux-staging@lists.linux.dev>; Mon, 22 Sep 2025 03:49:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758508753; cv=none; b=Qcz/epXrryfHmt9aeQ7GD023jpgShisvwtOxWJR+3lltS4Y65/5DiY7GZ8X/LqyxVl2SYSp3ZJqN913anuXAR9vlhooxAB5JtM0fJtyUsGNrBUPp57gqkGlDB6/ie4XyMNho5J7K6MeFwr9zZxBAKLJSStf7k0NRC/sSS3D646w=
+	t=1758512967; cv=none; b=MZHwCfmuu3+Md5/EYnewgZe9/Rop24y4yYUooA2B9M9XdQtIMbahWXa/uBYv9kxB3ttinJCYnR7ko0RuWXKW3e1NjeHCKSNut3AObOPlcD69H8kWkq4XVc+VmqW/jX8EPavgJod2oa8yYtvTy8clqrYa4ngfSA48mwVaM703jhg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758508753; c=relaxed/simple;
-	bh=2njLDJiojIEQxOF+htkPknhP0qErdIkYtULif4SAAOQ=;
-	h=From:To:Cc:Subject:Date:Message-Id; b=ZK6ifqpXQ75/FO1aDBxfpu36R7r5pAKDGacL5wUSB2qamBxfq97k6hKj6q1+y1PiuaYlxg0DxXYOW2QdsO+LvPvoj4cn6qcsdVHYfO9QYGTYoRs4J8tMQIl9S/m4RFvhnaATsDpzgaOnNbbz+O6HzTgo4m4L2cbjbGrq++xjb0A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass smtp.mailfrom=iscas.ac.cn; arc=none smtp.client-ip=159.226.251.81
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
-Received: from localhost.localdomain (unknown [202.112.113.212])
-	by APP-03 (Coremail) with SMTP id rQCowAB3x4GpttBoZbgtBA--.19549S2;
-	Mon, 22 Sep 2025 10:38:56 +0800 (CST)
-From: Ma Ke <make24@iscas.ac.cn>
-To: dpenkler@gmail.com,
-	gregkh@linuxfoundation.org,
-	matchstick@neverthere.org,
-	dominik.karol.piatkowski@protonmail.com,
-	arnd@arndb.de,
-	nichen@iscas.ac.cn,
-	paul.retourne@orange.fr
+	s=arc-20240116; t=1758512967; c=relaxed/simple;
+	bh=R4BpydptfYN3o2mCLvyEh4whce1vNzMChCA1I6SaaVk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=PdG1j/A9D9h7jyclxAtPrk0FnIpEqiJEn/kIdj3Hnet9CVfObbRIVefoiO5dWL2bfOSWZf17et0P4R8H6BfutAId3OH9jKFpoYWGa9A/48zepHa+UiFeH+exQd4I/7U5BjdRnTpzDSkHdJYVbQjhfrh06yKyAbiNmAJlNsQSNec=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AT4nmt+R; arc=none smtp.client-ip=209.85.128.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AT4nmt+R"
+Received: by mail-yw1-f173.google.com with SMTP id 00721157ae682-72ce9790acdso36949707b3.0
+        for <linux-staging@lists.linux.dev>; Sun, 21 Sep 2025 20:49:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1758512965; x=1759117765; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=cajskub3yInyko2vwCPecgvg5vw2BSZfivHDY0rM55c=;
+        b=AT4nmt+Ro3wzTA8PPGMSDKEeYyQbH7WXMlD8sy9bkuVgCEZ/FbBFSL1LXvm9KFlz0q
+         tcea2T7RQ+BD/DHigDgwdnsUbUGqTkni/AZ55HG7mv2xuuFfTETdmjAqZcXYFgarzkmz
+         5gKSyORuZlnaPVPpb17edub6Xc1DRqF61JKhAiCMLL5crT79rsNPwt1iSU1PzAYxaafk
+         qawUwEXUhchWsaTlsXfgbwUcuIFgQMky9TSIsK9vEGIJsrMwj6gyji7C20Nb4syo45MW
+         3dHyY2V4UDfeHT/WE8mzx4WBL504o3WKTXmuTDYhLxepieR1neLxxMG332AUqvdIQzuH
+         V8qA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1758512965; x=1759117765;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=cajskub3yInyko2vwCPecgvg5vw2BSZfivHDY0rM55c=;
+        b=i4WC3WN8Ytr9E7HmvjRlgade1gcJFKWGnE7BVwQnTt263XQqKhMolEMILqjUzaClL4
+         OGdvACGrrqkimzL0rKD1b5xAFsIxiDq73EqNCdSXiS1l/9G6M0IaZbqM/1HNrp0G7B1P
+         jyx7BG7BNMFji7YHOdZzNjcUkpH5c/3bIY5B8vY4OiI+8emaWO3DHZxExI4X4hgpgFY8
+         y4yXpaeqcieQOY2QOs6JejL1zB7cN9SoevvEVmwq6mQ9Y+UFTaUm+46aiHJloVYysb+i
+         oRC/q+zXtxPdvm96xEuSw7o/6LLW5dnuFds1KqCllP1oaneL6zlQWrXhJGONgcC+CcH0
+         ZSVg==
+X-Gm-Message-State: AOJu0YznJXiAhmSG8QxV4nkHZ9aFXeijnNoPOI6DajZJY66vLhq2AKZN
+	U2cXp4rQrvOXScZuGeYWRo9YYO3w2celGJziGeFsBTMEBQPBnoO14gmH
+X-Gm-Gg: ASbGncvfUQFyMwJmEXjUuAR0sUbl8KejCVSXc0a5Ts3xpd0Q4+6xodc9H+CoGhS2/al
+	YUXkesWdvsHJiCu9ZEiZ5GX2M09JJPIqpEaW6TEAaj9LeMloG4btZW/JBDdxACv4wOUl4ykkJUt
+	0S5x40OoJrof/IRBQnvdyMuWyo0wtE+vxjVLVPRHx9MJFmMUm8v6yMpoDbqAviZor5o2SM25DN7
+	QZMkhEOTdQJS5fdrBuRIGwPXJGVyxK5fiDecMY66Nl6Lgd11RpvNu7dN31gOANvpgYap2llwskf
+	FNQRYkOZzoFdg+3pX/fwnzoKqBWoiMwDP6tVuT1CiHjT7CYvBVNH6O+3H/4FlXNbWYi8ZuXt/ij
+	LQD3C9gbcyVCd6SOzR6BvW5BKxR+VhCRfs+nMUbvuV/VgiiZ2Q6OFErM0GRL9q8qxnPyhvK1yHx
+	lj5bmABYagzc1zmcFG4bpYsR4t57yUvQ==
+X-Google-Smtp-Source: AGHT+IFvwkZzRYDO7G+CXHfhWGsoGmYJo6wv7xcxwSLMHGrtECzDTRnVvaHYE3sdgSu0oNVFnmnaIA==
+X-Received: by 2002:a05:690c:e07:b0:739:7377:fda6 with SMTP id 00721157ae682-73d3ef2d908mr99924287b3.42.1758512964928;
+        Sun, 21 Sep 2025 20:49:24 -0700 (PDT)
+Received: from ubuntu (host-101-28.flgauca.gainesville.fl.us.clients.pavlovmedia.net. [153.33.101.28])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-74da0e03500sm6675897b3.15.2025.09.21.20.49.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 21 Sep 2025 20:49:24 -0700 (PDT)
+From: Jaiden Magnan <jaiden.linux@gmail.com>
+To: hansg@kernel.org
 Cc: linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	akpm@linux-foundation.org,
-	Ma Ke <make24@iscas.ac.cn>,
-	stable@vger.kernel.org
-Subject: [PATCH] staging: gpib: Fix device reference leak in fmh_gpib driver
-Date: Mon, 22 Sep 2025 10:38:31 +0800
-Message-Id: <20250922023831.21343-1-make24@iscas.ac.cn>
-X-Mailer: git-send-email 2.17.1
-X-CM-TRANSID:rQCowAB3x4GpttBoZbgtBA--.19549S2
-X-Coremail-Antispam: 1UD129KBjvJXoWxWF4fCr1UuF1kKrWkAF1UZFb_yoWrCF1Upa
-	17Xa1rKry0vrnaqF45Xr1UZFsayw4IyayYvw17C343Aa95Zry0ya1DW34ayryrAFykJr15
-	trW09r40gFWkZF7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUPF14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
-	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
-	1l84ACjcxK6xIIjxv20xvE14v26ryj6F1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26F4j
-	6r4UJwA2z4x0Y4vEx4A2jsIE14v26r4UJVWxJr1l84ACjcxK6I8E87Iv6xkF7I0E14v26F
-	4UJVW0owAac4AC62xK8xCEY4vEwIxC4wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40E
-	FcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr
-	0_Gr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8v
-	x2IErcIFxwACI402YVCY1x02628vn2kIc2xKxwCY1x0262kKe7AKxVWUtVW8ZwCY02Avz4
-	vE14v_Gr1l42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG
-	67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MI
-	IYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E
-	14v26r4j6F4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJV
-	W8JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjfUOTmh
-	UUUUU
-X-CM-SenderInfo: ppdnvj2u6l2u1dvotugofq/
+	linux-media@vger.kernel.org,
+	Jaiden Magnan <jaiden.linux@gmail.com>
+Subject: [PATCH] Staging: media: binary: fixed a brace coding style issue
+Date: Mon, 22 Sep 2025 03:49:08 +0000
+Message-ID: <20250922034908.17918-1-jaiden.linux@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-The fmh_gpib driver contains a device reference count leak in
-fmh_gpib_attach_impl() where driver_find_device() increases the
-reference count of the device by get_device() when matching but this
-reference is not properly decreased. Add put_device() in
-fmh_gpib_attach_impl() and add put_device() in fmh_gpib_detach(),
-which ensures that the reference count of the device is correctly
-managed.
+Fixed a coding style issue.
 
-Found by code review.
-
-Cc: stable@vger.kernel.org
-Fixes: 8e4841a0888c ("staging: gpib: Add Frank Mori Hess FPGA PCI GPIB driver")
-Signed-off-by: Ma Ke <make24@iscas.ac.cn>
+Signed-off-by: Jaiden Magnan <jaiden.linux@gmail.com>
 ---
- drivers/staging/gpib/fmh_gpib/fmh_gpib.c | 23 +++++++++++++++++++++--
- 1 file changed, 21 insertions(+), 2 deletions(-)
+ drivers/staging/media/atomisp/pci/runtime/binary/src/binary.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/staging/gpib/fmh_gpib/fmh_gpib.c b/drivers/staging/gpib/fmh_gpib/fmh_gpib.c
-index 4138f3d2bae7..245c8fe87eaa 100644
---- a/drivers/staging/gpib/fmh_gpib/fmh_gpib.c
-+++ b/drivers/staging/gpib/fmh_gpib/fmh_gpib.c
-@@ -1395,14 +1395,17 @@ static int fmh_gpib_attach_impl(struct gpib_board *board, const struct gpib_boar
- 	pdev = to_platform_device(board->dev);
- 
- 	retval = fmh_gpib_generic_attach(board);
--	if (retval)
-+	if (retval) {
-+		put_device(board->dev);
- 		return retval;
-+	}
- 
- 	e_priv = board->private_data;
- 	nec_priv = &e_priv->nec7210_priv;
- 
- 	res = platform_get_resource_byname(pdev, IORESOURCE_MEM, "gpib_control_status");
- 	if (!res) {
-+		put_device(board->dev);
- 		dev_err(board->dev, "Unable to locate mmio resource\n");
- 		return -ENODEV;
- 	}
-@@ -1410,6 +1413,7 @@ static int fmh_gpib_attach_impl(struct gpib_board *board, const struct gpib_boar
- 	if (request_mem_region(res->start,
- 			       resource_size(res),
- 			       pdev->name) == NULL) {
-+		put_device(board->dev);
- 		dev_err(board->dev, "cannot claim registers\n");
- 		return -ENXIO;
- 	}
-@@ -1418,6 +1422,7 @@ static int fmh_gpib_attach_impl(struct gpib_board *board, const struct gpib_boar
- 	nec_priv->mmiobase = ioremap(e_priv->gpib_iomem_res->start,
- 				     resource_size(e_priv->gpib_iomem_res));
- 	if (!nec_priv->mmiobase) {
-+		put_device(board->dev);
- 		dev_err(board->dev, "Could not map I/O memory\n");
- 		return -ENOMEM;
- 	}
-@@ -1426,12 +1431,14 @@ static int fmh_gpib_attach_impl(struct gpib_board *board, const struct gpib_boar
- 
- 	res = platform_get_resource_byname(pdev, IORESOURCE_MEM, "dma_fifos");
- 	if (!res) {
-+		put_device(board->dev);
- 		dev_err(board->dev, "Unable to locate mmio resource for gpib dma port\n");
- 		return -ENODEV;
- 	}
- 	if (request_mem_region(res->start,
- 			       resource_size(res),
- 			       pdev->name) == NULL) {
-+		put_device(board->dev);
- 		dev_err(board->dev, "cannot claim registers\n");
- 		return -ENXIO;
- 	}
-@@ -1439,6 +1446,7 @@ static int fmh_gpib_attach_impl(struct gpib_board *board, const struct gpib_boar
- 	e_priv->fifo_base = ioremap(e_priv->dma_port_res->start,
- 				    resource_size(e_priv->dma_port_res));
- 	if (!e_priv->fifo_base) {
-+		put_device(board->dev);
- 		dev_err(board->dev, "Could not map I/O memory for fifos\n");
- 		return -ENOMEM;
- 	}
-@@ -1447,10 +1455,14 @@ static int fmh_gpib_attach_impl(struct gpib_board *board, const struct gpib_boar
- 		(unsigned long)resource_size(e_priv->dma_port_res));
- 
- 	irq = platform_get_irq(pdev, 0);
--	if (irq < 0)
-+	if (irq < 0) {
-+		put_device(board->dev);
- 		return -EBUSY;
-+	}
-+
- 	retval = request_irq(irq, fmh_gpib_interrupt, IRQF_SHARED, pdev->name, board);
- 	if (retval) {
-+		put_device(board->dev);
- 		dev_err(board->dev,
- 			"cannot register interrupt handler err=%d\n",
- 			retval);
-@@ -1461,6 +1473,7 @@ static int fmh_gpib_attach_impl(struct gpib_board *board, const struct gpib_boar
- 	if (acquire_dma) {
- 		e_priv->dma_channel = dma_request_slave_channel(board->dev, "rxtx");
- 		if (!e_priv->dma_channel) {
-+			put_device(board->dev);
- 			dev_err(board->dev, "failed to acquire dma channel \"rxtx\".\n");
- 			return -EIO;
- 		}
-@@ -1517,6 +1530,12 @@ void fmh_gpib_detach(struct gpib_board *board)
- 					   resource_size(e_priv->gpib_iomem_res));
- 	}
- 	fmh_gpib_generic_detach(board);
-+
-+	if (board->dev) {
-+		dev_set_drvdata(board->dev, NULL);
-+		put_device(board->dev);
-+		board->dev = NULL;
-+	}
+diff --git a/drivers/staging/media/atomisp/pci/runtime/binary/src/binary.c b/drivers/staging/media/atomisp/pci/runtime/binary/src/binary.c
+index af93ca96747c..2264db62c818 100644
+--- a/drivers/staging/media/atomisp/pci/runtime/binary/src/binary.c
++++ b/drivers/staging/media/atomisp/pci/runtime/binary/src/binary.c
+@@ -498,7 +498,8 @@ ia_css_binary_init_infos(void) {
  }
  
- static int fmh_gpib_pci_attach_impl(struct gpib_board *board,
+ int
+-ia_css_binary_uninit(void) {
++ia_css_binary_uninit(void)
++{
+ 	unsigned int i;
+ 	struct ia_css_binary_xinfo *b;
+ 
 -- 
-2.17.1
+2.43.0
 
