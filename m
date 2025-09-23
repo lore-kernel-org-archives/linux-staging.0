@@ -1,75 +1,100 @@
-Received: from mail-108-mta217.mxroute.com (mail-108-mta217.mxroute.com [136.175.108.217])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from cstnet.cn (smtp81.cstnet.cn [159.226.251.81])
+	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95939302155
-	for <linux-staging@lists.linux.dev>; Mon, 22 Sep 2025 15:49:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=136.175.108.217
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6111023A98E
+	for <linux-staging@lists.linux.dev>; Tue, 23 Sep 2025 01:36:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.81
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758556152; cv=none; b=op2nRPUkEoew13UJny3ykUdkqsMcsuYQA6cgwSCAUeq50TfQJ2Kn2Za6+K4hYMJhFRsYjEBNNupXfFvqlbHBWIPQ6pE0E2PiISEkEq+J/UmK7ZleWTxhcG2jH3K3kyaZSwxvw63GjjpQnT0xTr36R8wOAdgbroOoOdSx2sCmxM0=
+	t=1758591418; cv=none; b=NE6cv8XdiZRp2xY98vIzMkQevkrC61CycvJNicAAEng66pvGHTIYkYtBUmemYAXRz+bWe/GJOy0RAKu7k3vz6rK5IKqjNqVe8pxwJHmXcyvEsDyNLXObXk2Y62fUpsr/8QsWL7eWU5wYqMTvtK+YG2SWneDsnLtBoh8idgs6iDA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758556152; c=relaxed/simple;
-	bh=iIGvux50TESzjj1eoSoBdxqakhNVSI5qpVupMzfxtlg=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=TdxGqv5qRxYJCu2MDzpmuHrMg1wti0ySFPcRqQT6ZpMBtzne1coRkzQ39QIegozzNqRFsdLLBm2CoxlvSZv+6beVWNY6tgBkX4wheYFGFEk/l0tAwslqyhPp+Im8r8sw7M42RsWOPohVJ54ecBvBg/evld+sal6+GM2tmH/K2To=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=josie.lol; spf=pass smtp.mailfrom=josie.lol; dkim=pass (2048-bit key) header.d=josie.lol header.i=@josie.lol header.b=kEPjzzsL; arc=none smtp.client-ip=136.175.108.217
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=josie.lol
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=josie.lol
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=josie.lol header.i=@josie.lol header.b="kEPjzzsL"
-Received: from filter006.mxroute.com ([136.175.111.3] filter006.mxroute.com)
- (Authenticated sender: mN4UYu2MZsgR)
- by mail-108-mta217.mxroute.com (ZoneMTA) with ESMTPSA id 1997218931c000c244.002
- for <linux-staging@lists.linux.dev>
- (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384);
- Mon, 22 Sep 2025 15:43:57 +0000
-X-Zone-Loop: 3fa6b7bfe82c6178fe7b504b3ff0e39237abea199e2b
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=josie.lol;
-	s=x; h=Content-Transfer-Encoding:MIME-Version:Date:Subject:Cc:To:From:Sender:
-	Reply-To:Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:
-	List-Id:List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:
-	List-Archive; bh=NL5DazgC+1XFrc/1zvLChWWjytvo0Wn05gD//cJKMlg=; b=kEPjzzsLnI4H
-	MEZeVVJQ5OcyoWHHB9eaOmt0tqbq+GrEmJo2TA7QKs4d3YAY2bhSvOo/ph7UYPhG3A7El6qxEhor4
-	E5myxq+dlD9Jj7LbQ8dqwTZ9IiYZHW8Z2AGgJ2cjER7XgNlQkvwc+94MWgvzCLFPQViYmJUw2luB5
-	o4ZMFONtLcDRpACwfdcmEb33f+R2lSw3T2cMQ/HqLmgMdjNTBEGMXQT9v9TYK6eEjlKzlYAG9lbdX
-	tHq8VnYxdTGXecOkDnvbCe8BIzOfRSV2RFdLS5afVwncRSZFg9ZccKY+5KAtYzDj4b4XqlWuim8Yb
-	/ppSiyN98iHyi9qfShQQuw==;
-From: Josephine Pfeiffer <hi@josie.lol>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+	s=arc-20240116; t=1758591418; c=relaxed/simple;
+	bh=h72PRuXb+5YDJqBFUXpma8t7W0H7b3KGo9y9VyMi1b4=;
+	h=From:To:Cc:Subject:Date:Message-Id; b=up1NXzufborOWs/UtpAJLQcSOoshGC8vSLK+VwoOt0oPnjbFOTHpucvO7oK82bJsUCUTf2grF4UwRg/LCNJA8sbjmhJkgPRsh1W2X+YUKr3pz5MzxSa0hCITBXi9TPrEV4+rY2crICa01Klvdhh3UNz2IEbWbe78e+FKV1a1OgY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass smtp.mailfrom=iscas.ac.cn; arc=none smtp.client-ip=159.226.251.81
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
+Received: from localhost.localdomain (unknown [202.112.113.212])
+	by APP-03 (Coremail) with SMTP id rQCowADH24WE+dFoYA9aBA--.14812S2;
+	Tue, 23 Sep 2025 09:36:14 +0800 (CST)
+From: Ma Ke <make24@iscas.ac.cn>
+To: dpenkler@gmail.com,
+	gregkh@linuxfoundation.org,
+	matchstick@neverthere.org,
+	dominik.karol.piatkowski@protonmail.com,
+	arnd@arndb.de,
+	paul.retourne@orange.fr,
+	dan.carpenter@linaro.org
 Cc: linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] staging: rtl8723bs: Add missing MODULE_DESCRIPTION()
-Date: Mon, 22 Sep 2025 17:43:44 +0200
-Message-ID: <20250922154344.641438-1-hi@josie.lol>
+	linux-kernel@vger.kernel.org,
+	akpm@linux-foundation.org,
+	Ma Ke <make24@iscas.ac.cn>,
+	stable@vger.kernel.org
+Subject: [PATCH v3] staging: gpib: Fix device reference leak in fmh_gpib driver
+Date: Tue, 23 Sep 2025 09:36:03 +0800
+Message-Id: <20250923013603.30012-1-make24@iscas.ac.cn>
+X-Mailer: git-send-email 2.17.1
+X-CM-TRANSID:rQCowADH24WE+dFoYA9aBA--.14812S2
+X-Coremail-Antispam: 1UD129KBjvJXoW7KF4UWw17KF4rAw1rJr1xAFb_yoW8GFWUpF
+	4rW3WUGryUurs3WF4UX34DZFWYka1Iyryruw18A345XFs5ZrySgF1qgrW5J3s0yrZ7Jr1j
+	yF1fGw1vgFWDZaDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUPY14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+	1l84ACjcxK6xIIjxv20xvE14v26r4j6ryUM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
+	6F4UM28EF7xvwVC2z280aVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gr
+	1j6F4UJwAac4AC62xK8xCEY4vEwIxC4wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40E
+	FcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr
+	0_Gr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8v
+	x2IErcIFxwACI402YVCY1x02628vn2kIc2xKxwCY1x0262kKe7AKxVWUtVW8ZwCY02Avz4
+	vE14v_KwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E
+	14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIx
+	kGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAF
+	wI0_Gr0_Cr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r
+	4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x0JUmQ6LU
+	UUUU=
+X-CM-SenderInfo: ppdnvj2u6l2u1dvotugofq/
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Authenticated-Id: hi@josie.lol
 
-Add missing MODULE_DESCRIPTION() macro to the RTL8723BS SDIO
-interface driver to fix the modpost warning.
+The fmh_gpib driver contains a device reference count leak in
+fmh_gpib_attach_impl() where driver_find_device() increases the
+reference count of the device by get_device() when matching but this
+reference is not properly decreased. Add put_device() in
+fmh_gpib_detach(), which ensures that the reference count of the
+device is correctly managed.
 
-Fixes modpost warning:
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/rtl8723bs/r8723bs.o
+Found by code review.
 
-Signed-off-by: Josephine Pfeiffer <hi@josie.lol>
+Cc: stable@vger.kernel.org
+Fixes: 8e4841a0888c ("staging: gpib: Add Frank Mori Hess FPGA PCI GPIB driver")
+Signed-off-by: Ma Ke <make24@iscas.ac.cn>
 ---
- drivers/staging/rtl8723bs/os_dep/sdio_intf.c | 2 ++
- 1 file changed, 2 insertions(+)
+Changes in v3:
+- deleted the redundant put_device() to avoid double free as suggestions;
+Changes in v2:
+- modified the free operations as suggestions. Thanks for dan carpenter's instructions.
+---
+ drivers/staging/gpib/fmh_gpib/fmh_gpib.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/drivers/staging/rtl8723bs/os_dep/sdio_intf.c b/drivers/staging/rtl8723bs/os_dep/sdio_intf.c
-index f3caaa857c86..1d0239eef114 100644
---- a/drivers/staging/rtl8723bs/os_dep/sdio_intf.c
-+++ b/drivers/staging/rtl8723bs/os_dep/sdio_intf.c
-@@ -490,3 +490,5 @@ static void __exit rtw_drv_halt(void)
- 	sdio_unregister_driver(&rtl8723bs_sdio_driver);
- }
- module_exit(rtw_drv_halt);
+diff --git a/drivers/staging/gpib/fmh_gpib/fmh_gpib.c b/drivers/staging/gpib/fmh_gpib/fmh_gpib.c
+index 4138f3d2bae7..efce01b39b9b 100644
+--- a/drivers/staging/gpib/fmh_gpib/fmh_gpib.c
++++ b/drivers/staging/gpib/fmh_gpib/fmh_gpib.c
+@@ -1517,6 +1517,11 @@ void fmh_gpib_detach(struct gpib_board *board)
+ 					   resource_size(e_priv->gpib_iomem_res));
+ 	}
+ 	fmh_gpib_generic_detach(board);
 +
-+MODULE_DESCRIPTION("Realtek RTL8723BS SDIO WiFi driver");
++	if (board->dev) {
++		put_device(board->dev);
++		board->dev = NULL;
++	}
+ }
+ 
+ static int fmh_gpib_pci_attach_impl(struct gpib_board *board,
 -- 
-2.51.0
+2.17.1
 
