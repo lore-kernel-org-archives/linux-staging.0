@@ -1,93 +1,103 @@
-Received: from www3141.sakura.ne.jp (www3141.sakura.ne.jp [49.212.207.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 863D01C84BD
-	for <linux-staging@lists.linux.dev>; Tue, 23 Sep 2025 04:36:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=49.212.207.181
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758602214; cv=pass; b=OHamtY/xQWLtz0o0ayZsEBPt3tf+KBReZSFFhn2Mmig4ZlPIWb5lD1SEOQBL2H7YGQ514EY8CmgriEMfcfX6MpY6cxYJ/T/5rsgQEmNchhsJZ5DIf6haUme9mrsrBGWI1Z14w25RkXBdFe0QQ3pjrpZOtgPfG4Mdk1NOVB+r20g=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758602214; c=relaxed/simple;
-	bh=++iGC/Kh5THrVxaenEQgGxJow1H/yDBR3Z/hzYbntr4=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=lZfwqdqrIiqajv1EV16aCFYBIt900ZLOegxEPMECeyA8HnpOg5jTMiCFgCCA9A7blm0EtEF5QjS70ijqCHaS/aiEYsEOsZHYrT48mG3Hp4ufeevkRgzajlprmbILIJPVHmXsJdGG5wvpGVzKKAqUI6+OAt7mLJ7pNoDn0Zc4epo=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redadmin.org; spf=pass smtp.mailfrom=redadmin.org; dkim=pass (1024-bit key) header.d=redadmin.org header.i=@redadmin.org header.b=ekGGZHVC; arc=pass smtp.client-ip=49.212.207.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redadmin.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redadmin.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1007C30E836
+	for <linux-staging@lists.linux.dev>; Tue, 23 Sep 2025 05:43:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.47
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1758606222; cv=none; b=XMCU1RYJ/PzTDEMbWKew14rUyI5hR44jGQ7zthLz7/V4tPT7+7TUqAWUOa3AIwnCsthna9+RdZKWWWSKhX5jPNWzW6lIQWx+ehdd+thUtj2Z9CUE8Vy/sHlfH/CTM19kSHNUcFR65EZ7c1fjKSQbwZ8aUewT1q58MjIKkG1PVdE=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1758606222; c=relaxed/simple;
+	bh=dVn9dbz/kO0mpv3IScTeJpkZ1v06TqC3yVwrf6YJ8Uo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=YCFCLj6lMIIGUj+tCFrTlRdeESEscs1LOGetfc8/2+TIOdZtcjz90HZkdpjbFlJspS/5IMazeV9FGTsoEd5DECDWClz9hjBDrDpfbYSPYZ+7OrCp4X+EtCyWs1ob40gh+AriyTpayCsRqlgVdrUgxrj6E1potfMzOOnl/tIT+Gs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=xc++tOQs; arc=none smtp.client-ip=209.85.221.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redadmin.org header.i=@redadmin.org header.b="ekGGZHVC"
-Received: from www.redadmin.org (ag129037.ppp.asahi-net.or.jp [157.107.129.37])
-	(authenticated bits=0)
-	by www3141.sakura.ne.jp (8.16.1/8.16.1) with ESMTPSA id 58N4aNN0016609
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
-	Tue, 23 Sep 2025 13:36:23 +0900 (JST)
-	(envelope-from weibu@redadmin.org)
-Received: from localhost (localhost [127.0.0.1])
-	by www.redadmin.org (Postfix) with ESMTP id CC745109F2883;
-	Tue, 23 Sep 2025 13:36:22 +0900 (JST)
-X-Virus-Scanned: amavis at redadmin.org
-Received: from www.redadmin.org ([127.0.0.1])
- by localhost (redadmin.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id JOh9L4ODFgNc; Tue, 23 Sep 2025 13:36:19 +0900 (JST)
-Received: by www.redadmin.org (Postfix, from userid 1000)
-	id 40990109F2880; Tue, 23 Sep 2025 13:36:19 +0900 (JST)
-Authentication-Results: www.redadmin.org; arc=none smtp.remote-ip=127.0.0.1
-ARC-Seal: i=1; a=rsa-sha256; d=redadmin.org; s=20231208space; t=1758602179;
-	cv=none; b=n4MR4BFzG131PEG7Ii1qN6ZqugPa1V9Ts3sawdaBeVgDSxDiqLnSWDSuJWockjfVx8CbZTSrwd78fHF4tht/hy6rwhGtBugISd57OKbobhhEOnRmV4EGEjf+hwPVzHIuvIa3dw6On3oCpDEbzP+KmzKxFw0L9N5Xr4gsi9l2wAw=
-ARC-Message-Signature: i=1; a=rsa-sha256; d=redadmin.org; s=20231208space;
-	t=1758602179; c=relaxed/relaxed;
-	bh=4jUpXLsZEzhN5gdqyk2XnkNOz6aiPTxrRsZKrxphp9U=;
-	h=DKIM-Filter:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:
-	 X-Mailer:MIME-Version:Content-Type:Content-Transfer-Encoding; b=IAi5lMDVPrK3NvBa7LfhFkEvng7GYk7gK+dTHquqnST5l2ngfAMzSg7ePJnbx7HejSdwMJkeeAp5s32YoSNR8fP3PqSva7cMa9D7C8EFgBFVNFhWnrZvOIoXrrZNZ2CsbAh/Omlz6LWLfo5u8wmjMMQ6bjqArKdvrNvlsrP58HI=
-ARC-Authentication-Results: i=1; www.redadmin.org
-DKIM-Filter: OpenDKIM Filter v2.11.0 www.redadmin.org 40990109F2880
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redadmin.org;
-	s=20231208space; t=1758602179;
-	bh=4jUpXLsZEzhN5gdqyk2XnkNOz6aiPTxrRsZKrxphp9U=;
-	h=From:To:Cc:Subject:Date:From;
-	b=ekGGZHVCEOVLGzvfSe4vNeRbhPS8YS/YQn6R9YiTn/ML0uT3wUBpml4XjwXTHltIz
-	 t6S/syNS2zoExvTaeVyCHhPPJjcKAthMiXYsBXvq7WYnTn3PF/KcDbmMiA8IiAR2WW
-	 HE3ShBQ6glsxQmfY3+DzHhCPFp+0LCvmXF5NiCRc=
-From: Akiyoshi Kurita <weibu@redadmin.org>
-To: gregkh@linuxfoundation.org
-Cc: florian.fainelli@broadcom.com, bcm-kernel-feedback-list@broadcom.com,
-        umang.jain@ideasonboard.com, linux-rpi-kernel@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org, linux-staging@lists.linux.dev,
-        linux-kernel@vger.kernel.org, Akiyoshi Kurita <weibu@redadmin.org>
-Subject: [PATCH] staging: vc04_services: mmal-vchiq: fix typo in comment
-Date: Tue, 23 Sep 2025 13:36:17 +0900
-Message-ID: <20250923043617.2482243-1-weibu@redadmin.org>
-X-Mailer: git-send-email 2.47.3
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="xc++tOQs"
+Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-3ee12807d97so4409012f8f.0
+        for <linux-staging@lists.linux.dev>; Mon, 22 Sep 2025 22:43:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1758606217; x=1759211017; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=NCXbeilKuthgziM3kejQj1ZvDe5vwkeMiKIsYl7n/j4=;
+        b=xc++tOQs//6s5+UOnLEi4jc6g0icyp5k37W13pGbUEOjfEQxhGUP6xB21j5ZpiZYzC
+         y2eXARtUZTPvURamccc7EaL8+cLzujQlo5cylyUTLHEafnHXb7i2Slg/DApERhJKas0/
+         WYL38Hov6OHkbQ5d96SIUsY1sqNiBoPUYqNU6Agblb+OgklbnNsdVCFEp79MNLr0qFjQ
+         cSGD89HfSSv9SfW1v5bIfdYdTfEGXqVlElBoJwt+52DgbJDPYfBKz55UqBUb0UFKUV1o
+         71k9z7KF69VWg0isqCGEs98qVZSpTGBIAVdLkqFDMzbhGz/wJTFiIDTGyON7u1TcfSKk
+         d7tg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1758606217; x=1759211017;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=NCXbeilKuthgziM3kejQj1ZvDe5vwkeMiKIsYl7n/j4=;
+        b=EeJ68R4JfNI4yihA2yGrfV91KDSVOmQR4sSLTEg5Io0kVSrO0Yq8Oq+wPXP8iRiT95
+         mlc8eg3dYhW4zynkw52fOf0PWT/iMYSjO35BIdi40omZnESVrtkp0obcqaLpuojHOKuU
+         ocxc7LkriT9AE+X6Gw5vXdN7OPzkqKgJdp4mM40MmbmcvmPvaSJATBz7xoY/eOz7W9qk
+         ySoLLN8TmEC+YRXQWg/ySQ+YMt7eRie5O3HrMimlWCK1MRw+iDAHAoKSaSG6dkcGac70
+         XdWyA0doiUWEtjg0QX907MBk6LwzCocDa2PM13OirpwL2mQ3WRVos9O3dw8zzjdcnisd
+         QUOA==
+X-Forwarded-Encrypted: i=1; AJvYcCViOjgVvR74dlOnJfQT+MXHpc7l58zAtmXJ8j/mcfTX8Rc+iTHcmtmIS50QnWMbE8rRBTgIyNGkDTogT5Jp@lists.linux.dev
+X-Gm-Message-State: AOJu0YytATzuO//pRw0dwZo7H+zjSxdZA56wE3cV9OD8xGZqdRYrTAIf
+	fBO2Mh1vS/co9eDQDfnXyqkBlKBa9uyoUgW6B4iQbXbUa7Nl/p5pKDsdCia8y/1E/I8=
+X-Gm-Gg: ASbGncsVKxNlRqp0zmRCv050fHGHyOjPohqLubz/5DS59wUEcKD8EKydCRCQj/DyrPR
+	UQjVp/Xghn1mXzRd42Fb7LhMM2PzR/fY09ltnAMdVsD9l5wbOnVOh9zP5iUuc5hBJ7b6H8og269
+	QuiR3uUHxmlClgO2CzeHpT96TfnmwlxHC87BTiNhkRQWje7ahnhqw1iJ5un3rwpJ07paA3a+6Rx
+	6ywzm5wy2HdTRNxVJXu5BTX93BFT6rExtCZLiHDRDyacSbTTjfutlGi2up/2SDzaCTb7tgiA4wX
+	5guSL26v9qSgx0PKS/IK7kiFz+pA5MTreVdEIWTGAMm3u2Gux2RcoAwRCf1/udaNUM58kWFIRQz
+	7FZC7VYtRruLjI21Bf3tnta2fg63J
+X-Google-Smtp-Source: AGHT+IEM+qI+wkll4yXIDQPALD07c0wXIM5SX3N4XVyP9UljJExIym/bakqlIutoRVJPQNlIn4+xlg==
+X-Received: by 2002:a05:6000:288d:b0:3f9:141:540c with SMTP id ffacd0b85a97d-405ca959d6bmr651083f8f.40.1758606217290;
+        Mon, 22 Sep 2025 22:43:37 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-3ee07407ccasm22469588f8f.15.2025.09.22.22.43.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 22 Sep 2025 22:43:36 -0700 (PDT)
+Date: Tue, 23 Sep 2025 08:43:33 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Ma Ke <make24@iscas.ac.cn>
+Cc: dpenkler@gmail.com, gregkh@linuxfoundation.org,
+	matchstick@neverthere.org, dominik.karol.piatkowski@protonmail.com,
+	arnd@arndb.de, paul.retourne@orange.fr,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	akpm@linux-foundation.org, stable@vger.kernel.org
+Subject: Re: [PATCH v3] staging: gpib: Fix device reference leak in fmh_gpib
+ driver
+Message-ID: <aNIzhU6m8zgxk-Li@stanley.mountain>
+References: <20250923013603.30012-1-make24@iscas.ac.cn>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250923013603.30012-1-make24@iscas.ac.cn>
 
-servie =E2=86=92 service
+On Tue, Sep 23, 2025 at 09:36:03AM +0800, Ma Ke wrote:
+> The fmh_gpib driver contains a device reference count leak in
+> fmh_gpib_attach_impl() where driver_find_device() increases the
+> reference count of the device by get_device() when matching but this
+> reference is not properly decreased. Add put_device() in
+> fmh_gpib_detach(), which ensures that the reference count of the
+> device is correctly managed.
+> 
+> Found by code review.
+> 
+> Cc: stable@vger.kernel.org
+> Fixes: 8e4841a0888c ("staging: gpib: Add Frank Mori Hess FPGA PCI GPIB driver")
+> Signed-off-by: Ma Ke <make24@iscas.ac.cn>
+> ---
 
-Signed-off-by: Akiyoshi Kurita <weibu@redadmin.org>
----
- drivers/staging/vc04_services/vchiq-mmal/mmal-vchiq.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Thanks!
 
-diff --git a/drivers/staging/vc04_services/vchiq-mmal/mmal-vchiq.c b/driver=
-s/staging/vc04_services/vchiq-mmal/mmal-vchiq.c
-index 3fe482bd2793..c2b5a37915f2 100644
---- a/drivers/staging/vc04_services/vchiq-mmal/mmal-vchiq.c
-+++ b/drivers/staging/vc04_services/vchiq-mmal/mmal-vchiq.c
-@@ -326,7 +326,7 @@ static int bulk_receive(struct vchiq_mmal_instance *ins=
-tance,
- 		 * committed a buffer_to_host operation to the mmal
- 		 * port without the buffer to back it up (underflow
- 		 * handling) and there is no obvious way to deal with
--		 * this - how is the mmal servie going to react when
-+		 * this - how is the mmal service going to react when
- 		 * we fail to do the xfer and reschedule a buffer when
- 		 * it arrives? perhaps a starved flag to indicate a
- 		 * waiting bulk receive?
---=20
-2.47.3
+Reviewed-by: Dan Carpenter <dan.carpenter@linaro.org>
+
+regards,
+dan carpenter
 
