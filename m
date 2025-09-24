@@ -1,393 +1,224 @@
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fra-out-011.esa.eu-central-1.outbound.mail-perimeter.amazon.com (fra-out-011.esa.eu-central-1.outbound.mail-perimeter.amazon.com [52.28.197.132])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAC612D8DD9
-	for <linux-staging@lists.linux.dev>; Wed, 24 Sep 2025 10:24:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A8EA258EF3;
+	Wed, 24 Sep 2025 20:24:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=52.28.197.132
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758709471; cv=none; b=oGa8xNalcI2JnWSb/I4LKYIzq9CKHLzDs6f/pJ+wYUqlqBkEKjKIx0Mnbp/HU692e+9kZ6fDUgGiDackZo2PQzcq2g9BD/SwWG7E+Hsuvr6uFc8O8GGToahHXeKHpbiOiiImRo+NizloXZN4KcpN9WlaCod3akksgkCrcDqja5I=
+	t=1758745454; cv=none; b=aQErDprDhDTxS7iSfLj9Dm5TWJhco3L2lOEzfUKmoIyh6pMcq5y1LDeBun2CpB56CaNNjjByGCYpPRJOkUWTv9VarJY2SUrvAdfUVVBBQv7TyX90me6qMCrXe3HcLh3GHReX8eeeVWzJcY5sJ4NDB67eQdul2uNd3GV18N6j0zw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758709471; c=relaxed/simple;
-	bh=i5LHq117p+4hrpkADwkBaxhJZmGT9lfX9VFZYYyAOKc=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=pnFqgHduoKKRDv/5eJnYa0XPSFFsCwANPRl3YRu+N1YnXsRfOxih0eeuY8pgVk2K/UtZ1X+o2fZMM1pmWYrHKrwTqncmh4kb3jmicOub63IPCTiC3GttV+iEm/Mxd1smSTlxqcOAH+xEkZzGWXfxviwn652ix81iz51721YuSCU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=G/73f4Lw; arc=none smtp.client-ip=209.85.128.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1758745454; c=relaxed/simple;
+	bh=bJ2FSaaKMPkQa5IN2Pe/chyVzGb8Ref4DvUThRMU4z0=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type; b=s5au0gLasZKKjx5PACyWxKSh1QBtcQUeejnl3YI/GsHIgJuncvCeIo1nF+gq1arH0yj9662SWIc+VdUppkLJwfZrB/BrqaypGMtwCjXgx4rcPC8QOoK2OlxOQq98iZizuSWXUjAA9HGSlvUROhuRfYUaJvRH7EYEcJUcPt2xEYs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com; spf=pass smtp.mailfrom=amazon.com; dkim=pass (2048-bit key) header.d=amazon.com header.i=@amazon.com header.b=iKl7Yx0j; arc=none smtp.client-ip=52.28.197.132
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazon.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="G/73f4Lw"
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-46e2826d5c6so7254935e9.1
-        for <linux-staging@lists.linux.dev>; Wed, 24 Sep 2025 03:24:24 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=amazon.com header.i=@amazon.com header.b="iKl7Yx0j"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1758709463; x=1759314263; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=gretcwQnpDGCPakc5QSs/CMgn/W8WOTF+w/mEf//2Ng=;
-        b=G/73f4LwyepBzSY1Qr0LnEBrWfW4Ar18K+TOYyWI9HVkFaE5bPiXVIBUHu3lZvhNT1
-         T5oc+k9sAD5tlqrzWxKPvLy2AN3PbPqe1PI0GQKcbc7DSyUneUr1PASYF+llNgrOJnzv
-         HKT5SlgZLwQM23+yXWvoTEc5PqDa+uo+yOVuqbizcCxMcord7SsvU+xe0XWtHgZ+KdJ4
-         SGTulz7c8W/dmfSdOf3mBhPQOWmxN+yXCrB+XWQPB3uu2Wszwn7C4EIOzE/4hi+D4Kcb
-         ROfGaT94LgV+ola0jZaYWxjiBzBxoY7/RFOAfGjL0YvKLdMtRkGAsHxUOprYJx03PjAr
-         sX2g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758709463; x=1759314263;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=gretcwQnpDGCPakc5QSs/CMgn/W8WOTF+w/mEf//2Ng=;
-        b=C/Vhe7/xM11DyjqxSKeGQHpi44y3X3eTaGfAlfafksWKegEG6+HyiErSbfOAqE5nlX
-         d+YrHdJzzPU4BbU/hMizUSHiSM/g9XEo+I3jHlkQU7XZJeAb272tGkFPC/NjQziLSOzn
-         0Iwv4N1eH5CmaZheGIu5KMi2Q2t9mwPz1IrbC0DaQx0DmukJSiwvTT2sZy5jKv2nNceY
-         D7eYgUKAm3xHEIPetkqL2Z15tzUQfoeK7COQoRvGDr1LdbBxcdIFD3An3Ut3M9YdRli/
-         whxLEQ3bylnK0vGPPHYHowI533B/0GwFKUgReURLbGB/M/oUZnPY2M0ig4Rx4dk6Khb8
-         iztQ==
-X-Forwarded-Encrypted: i=1; AJvYcCU0w1nS8q5AaRq23BLqkOrRaBcVTznN/TY00rqd+1Nz3HTKq97h1NRRO6JF/2XdbBF8Th/csArBFpoQMZz3@lists.linux.dev
-X-Gm-Message-State: AOJu0YwwRv9xt6JpLn/lWEwhAW8YuWbLhjxYgX66Oi/+qDT4KcYqMEao
-	7iEIY1Rcdd4bfNYHdVQT9YxcFnQeILjMjL9xbMVnx2xdMNRdkWt/+UsAMh93EGJixJ06kEMENHS
-	33GSV4vo2p9SqxQpLHu/WTDZQ0mfKYZs=
-X-Gm-Gg: ASbGncsPiTtrJYHO8GvJWY/XPS+fE1F4VE8WM66czWIiCvqP/raw+OoY+EHJew1DWEe
-	NlgqllnpGkSaH4ppx5LZszeuuOt/ouTbi6IfH0syxVigNiMN5tMHWu47vZjdBTc326YVNkpYSlC
-	zMO3523Nwgrdng9+CWo/mcMfR0I60JSVsCgMAWCF/wpIJX0d4MWIw9s6ASdun69Evo2SP8+ifpq
-	jjYPw/u
-X-Google-Smtp-Source: AGHT+IHjFfiQ0vFg6GDDmmZaYrl4EZIptvfqVeJXSPQCbu5XhQPmz0hwGG4YWWtv2EPc4iQc6+UXclQNcq+eGjUcSaw=
-X-Received: by 2002:a05:600c:1d25:b0:46e:1a14:a81b with SMTP id
- 5b1f17b1804b1-46e1dace319mr69712765e9.36.1758709462784; Wed, 24 Sep 2025
- 03:24:22 -0700 (PDT)
+  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazoncorp2;
+  t=1758745452; x=1790281452;
+  h=from:to:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=KzVc5pQt1xJae1laTHwFTkgfsVttwXUFIKNqt4L9XFg=;
+  b=iKl7Yx0j8trtbJHYCUBM26/WGsW6y0WFt3RtbrEyyz8KfTRBQVXiIl9m
+   QDcIXTFdt+XkiqzNhNri8NDhwVSO1mohXIhvOLCpXn1BQtvsqATwhkaWB
+   ctvfLoDRxjZfm2a4VUbalZeN50ecubOJWB161l3dZceAVQoIT22+1icP5
+   09ramX30wmj9yw2mFtVwzdZo/8Nw2kKptzZNiDWZkMwroepFdis3m5AKx
+   ODJx+YTZQ0j+Mj6C0E/CCCSB0vfSQvN7zrHtwjTRI80aTjdysJ/nrWrgf
+   oqnv5p/olt45hBErGgq9cdD8h3C5H4lZ/NNKQ04Z/JypwZKVrzXwkvJ+G
+   g==;
+X-CSE-ConnectionGUID: +bpb7ezGQtmV8E8VA8qXRA==
+X-CSE-MsgGUID: SFde7s01RFKi6zh/6W6ZSQ==
+X-IronPort-AV: E=Sophos;i="6.18,291,1751241600"; 
+   d="scan'208";a="2525915"
+Received: from ip-10-6-11-83.eu-central-1.compute.internal (HELO smtpout.naws.eu-central-1.prod.farcaster.email.amazon.dev) ([10.6.11.83])
+  by internal-fra-out-011.esa.eu-central-1.outbound.mail-perimeter.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Sep 2025 20:24:01 +0000
+Received: from EX19MTAEUB002.ant.amazon.com [54.240.197.232:12397]
+ by smtpin.naws.eu-central-1.prod.farcaster.email.amazon.dev [10.0.5.254:2525] with esmtp (Farcaster)
+ id d8c58b1d-ca7d-4c1f-a53d-72dcf5ba6a6f; Wed, 24 Sep 2025 20:24:01 +0000 (UTC)
+X-Farcaster-Flow-ID: d8c58b1d-ca7d-4c1f-a53d-72dcf5ba6a6f
+Received: from EX19D018EUA004.ant.amazon.com (10.252.50.85) by
+ EX19MTAEUB002.ant.amazon.com (10.252.51.59) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.20;
+ Wed, 24 Sep 2025 20:24:00 +0000
+Received: from dev-dsk-farbere-1a-46ecabed.eu-west-1.amazon.com
+ (172.19.116.181) by EX19D018EUA004.ant.amazon.com (10.252.50.85) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.20; Wed, 24 Sep 2025
+ 20:23:26 +0000
+From: Eliav Farber <farbere@amazon.com>
+To: <linux@armlinux.org.uk>, <richard@nod.at>,
+	<anton.ivanov@cambridgegreys.com>, <johannes@sipsolutions.net>,
+	<dave.hansen@linux.intel.com>, <luto@kernel.org>, <peterz@infradead.org>,
+	<tglx@linutronix.de>, <mingo@redhat.com>, <bp@alien8.de>, <x86@kernel.org>,
+	<hpa@zytor.com>, <tony.luck@intel.com>, <qiuxu.zhuo@intel.com>,
+	<mchehab@kernel.org>, <james.morse@arm.com>, <rric@kernel.org>,
+	<harry.wentland@amd.com>, <sunpeng.li@amd.com>, <Rodrigo.Siqueira@amd.com>,
+	<alexander.deucher@amd.com>, <christian.koenig@amd.com>,
+	<Xinhui.Pan@amd.com>, <airlied@gmail.com>, <daniel@ffwll.ch>,
+	<evan.quan@amd.com>, <james.qian.wang@arm.com>, <liviu.dudau@arm.com>,
+	<mihail.atanassov@arm.com>, <brian.starkey@arm.com>,
+	<maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>,
+	<tzimmermann@suse.de>, <robdclark@gmail.com>, <quic_abhinavk@quicinc.com>,
+	<dmitry.baryshkov@linaro.org>, <sean@poorly.run>, <jdelvare@suse.com>,
+	<linux@roeck-us.net>, <linus.walleij@linaro.org>,
+	<dmitry.torokhov@gmail.com>, <maz@kernel.org>, <wens@csie.org>,
+	<jernej.skrabec@gmail.com>, <samuel@sholland.org>, <agk@redhat.com>,
+	<snitzer@kernel.org>, <dm-devel@redhat.com>, <rajur@chelsio.com>,
+	<davem@davemloft.net>, <edumazet@google.com>, <kuba@kernel.org>,
+	<pabeni@redhat.com>, <peppe.cavallaro@st.com>,
+	<alexandre.torgue@foss.st.com>, <joabreu@synopsys.com>,
+	<mcoquelin.stm32@gmail.com>, <krzysztof.kozlowski@linaro.org>,
+	<malattia@linux.it>, <hdegoede@redhat.com>, <markgross@kernel.org>,
+	<artur.paszkiewicz@intel.com>, <jejb@linux.ibm.com>,
+	<martin.petersen@oracle.com>, <sakari.ailus@linux.intel.com>,
+	<gregkh@linuxfoundation.org>, <fei1.li@intel.com>, <clm@fb.com>,
+	<josef@toxicpanda.com>, <dsterba@suse.com>, <jack@suse.com>, <tytso@mit.edu>,
+	<adilger.kernel@dilger.ca>, <dushistov@mail.ru>,
+	<luc.vanoostenryck@gmail.com>, <rostedt@goodmis.org>, <mhiramat@kernel.org>,
+	<pmladek@suse.com>, <senozhatsky@chromium.org>,
+	<andriy.shevchenko@linux.intel.com>, <linux@rasmusvillemoes.dk>,
+	<minchan@kernel.org>, <ngupta@vflare.org>, <akpm@linux-foundation.org>,
+	<yoshfuji@linux-ipv6.org>, <dsahern@kernel.org>, <pablo@netfilter.org>,
+	<kadlec@netfilter.org>, <fw@strlen.de>, <jmaloy@redhat.com>,
+	<ying.xue@windriver.com>, <andrii@kernel.org>, <mykolal@fb.com>,
+	<ast@kernel.org>, <daniel@iogearbox.net>, <martin.lau@linux.dev>,
+	<song@kernel.org>, <yhs@fb.com>, <john.fastabend@gmail.com>,
+	<kpsingh@kernel.org>, <sdf@google.com>, <haoluo@google.com>,
+	<jolsa@kernel.org>, <shuah@kernel.org>, <keescook@chromium.org>,
+	<wad@chromium.org>, <willy@infradead.org>, <farbere@amazon.com>,
+	<sashal@kernel.org>, <ruanjinjie@huawei.com>, <quic_akhilpo@quicinc.com>,
+	<David.Laight@ACULAB.COM>, <herve.codina@bootlin.com>,
+	<linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
+	<linux-um@lists.infradead.org>, <linux-edac@vger.kernel.org>,
+	<amd-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
+	<linux-arm-msm@vger.kernel.org>, <freedreno@lists.freedesktop.org>,
+	<linux-hwmon@vger.kernel.org>, <linux-input@vger.kernel.org>,
+	<linux-sunxi@lists.linux.dev>, <linux-media@vger.kernel.org>,
+	<netdev@vger.kernel.org>, <linux-stm32@st-md-mailman.stormreply.com>,
+	<platform-driver-x86@vger.kernel.org>, <linux-scsi@vger.kernel.org>,
+	<linux-staging@lists.linux.dev>, <linux-btrfs@vger.kernel.org>,
+	<linux-ext4@vger.kernel.org>, <linux-sparse@vger.kernel.org>,
+	<linux-mm@kvack.org>, <netfilter-devel@vger.kernel.org>,
+	<coreteam@netfilter.org>, <tipc-discussion@lists.sourceforge.net>,
+	<bpf@vger.kernel.org>, <linux-kselftest@vger.kernel.org>,
+	<stable@vger.kernel.org>
+Subject: [PATCH 00/19 v6.1.y] Backport minmax.h updates from v6.17-rc7
+Date: Wed, 24 Sep 2025 20:23:01 +0000
+Message-ID: <20250924202320.32333-1-farbere@amazon.com>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250906135345.241229-1-clamor95@gmail.com> <CAPVz0n2iRVBf0+BwdV6Le2FhY8xERqbtsyeff26Dh44mKsTy6A@mail.gmail.com>
- <CAPVz0n1YDdM+EtuO72CNqVE0opJLt5KfONNGenuSKO678mfc4Q@mail.gmail.com> <16036554.JCcGWNJJiE@senjougahara>
-In-Reply-To: <16036554.JCcGWNJJiE@senjougahara>
-From: Svyatoslav Ryhel <clamor95@gmail.com>
-Date: Wed, 24 Sep 2025 13:24:11 +0300
-X-Gm-Features: AS18NWBbjZsnZ9m5cz51nVTPHxnoDTX2--cXA-awWwC7Lpn9huoFN8H21FzrPo8
-Message-ID: <CAPVz0n0HmYAF8=1q6jQCuWn0pmcwqAzNTNfPh0kvJ_BiLByP1Q@mail.gmail.com>
-Subject: Re: [PATCH v2 16/23] staging: media: tegra-video: tegra20: simplify
- format align calculations
-To: Mikko Perttunen <mperttunen@nvidia.com>
-Cc: Thierry Reding <thierry.reding@gmail.com>, Thierry Reding <treding@nvidia.com>, 
-	Jonathan Hunter <jonathanh@nvidia.com>, Sowjanya Komatineni <skomatineni@nvidia.com>, 
-	Luca Ceresoli <luca.ceresoli@bootlin.com>, David Airlie <airlied@gmail.com>, 
-	Simona Vetter <simona@ffwll.ch>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Prashant Gaikwad <pgaikwad@nvidia.com>, Michael Turquette <mturquette@baylibre.com>, 
-	Stephen Boyd <sboyd@kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Dmitry Osipenko <digetx@gmail.com>, 
-	=?UTF-8?Q?Jonas_Schw=C3=B6bel?= <jonasschwoebel@yahoo.de>, 
-	Charan Pedumuru <charan.pedumuru@gmail.com>, dri-devel@lists.freedesktop.org, 
-	devicetree@vger.kernel.org, linux-tegra@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
-	linux-clk@vger.kernel.org, linux-staging@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: EX19D043UWC004.ant.amazon.com (10.13.139.206) To
+ EX19D018EUA004.ant.amazon.com (10.252.50.85)
 
-=D1=81=D1=80, 24 =D0=B2=D0=B5=D1=80. 2025=E2=80=AF=D1=80. =D0=BE 07:47 Mikk=
-o Perttunen <mperttunen@nvidia.com> =D0=BF=D0=B8=D1=88=D0=B5:
->
-> On Tuesday, September 23, 2025 3:50=E2=80=AFPM Svyatoslav Ryhel wrote:
-> > =D0=B2=D1=82, 23 =D0=B2=D0=B5=D1=80. 2025=E2=80=AF=D1=80. =D0=BE 09:11 =
-Svyatoslav Ryhel <clamor95@gmail.com> =D0=BF=D0=B8=D1=88=D0=B5:
-> > >
-> > > =D0=B2=D1=82, 23 =D0=B2=D0=B5=D1=80. 2025=E2=80=AF=D1=80. =D0=BE 09:0=
-4 Mikko Perttunen <mperttunen@nvidia.com> =D0=BF=D0=B8=D1=88=D0=B5:
-> > > >
-> > > > On Monday, September 22, 2025 4:36=E2=80=AFPM Svyatoslav Ryhel wrot=
-e:
-> > > > > =D0=BF=D0=BD, 22 =D0=B2=D0=B5=D1=80. 2025=E2=80=AF=D1=80. =D0=BE =
-10:27 Mikko Perttunen <mperttunen@nvidia.com> =D0=BF=D0=B8=D1=88=D0=B5:
-> > > > > >
-> > > > > > On Monday, September 22, 2025 3:30=E2=80=AFPM Svyatoslav Ryhel =
-wrote:
-> > > > > > > =D0=BF=D0=BD, 22 =D0=B2=D0=B5=D1=80. 2025=E2=80=AF=D1=80. =D0=
-=BE 09:23 Mikko Perttunen <mperttunen@nvidia.com> =D0=BF=D0=B8=D1=88=D0=B5:
-> > > > > > > >
-> > > > > > > > On Monday, September 22, 2025 2:13=E2=80=AFPM Svyatoslav Ry=
-hel wrote:
-> > > > > > > > > =D0=BF=D0=BD, 22 =D0=B2=D0=B5=D1=80. 2025=E2=80=AF=D1=80.=
- =D0=BE 07:44 Mikko Perttunen <mperttunen@nvidia.com> =D0=BF=D0=B8=D1=88=D0=
-=B5:
-> > > > > > > > > >
-> > > > > > > > > > On Saturday, September 6, 2025 10:53=E2=80=AFPM Svyatos=
-lav Ryhel wrote:
-> > > > > > > > > > > Simplify format align calculations by slightly modify=
-ing supported formats
-> > > > > > > > > > > structure.
-> > > > > > > > > > >
-> > > > > > > > > > > Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
-> > > > > > > > > > > ---
-> > > > > > > > > > >  drivers/staging/media/tegra-video/tegra20.c | 41 +++=
-+++++-------------
-> > > > > > > > > > >  1 file changed, 16 insertions(+), 25 deletions(-)
-> > > > > > > > > > >
-> > > > > > > > > > > diff --git a/drivers/staging/media/tegra-video/tegra2=
-0.c b/drivers/staging/media/tegra-video/tegra20.c
-> > > > > > > > > > > index 6e0b3b728623..781c4e8ec856 100644
-> > > > > > > > > > > --- a/drivers/staging/media/tegra-video/tegra20.c
-> > > > > > > > > > > +++ b/drivers/staging/media/tegra-video/tegra20.c
-> > > > > > > > > > > @@ -280,20 +280,8 @@ static void tegra20_fmt_align(st=
-ruct v4l2_pix_format *pix, unsigned int bpp)
-> > > > > > > > > > >       pix->width  =3D clamp(pix->width,  TEGRA20_MIN_=
-WIDTH,  TEGRA20_MAX_WIDTH);
-> > > > > > > > > > >       pix->height =3D clamp(pix->height, TEGRA20_MIN_=
-HEIGHT, TEGRA20_MAX_HEIGHT);
-> > > > > > > > > > >
-> > > > > > > > > > > -     switch (pix->pixelformat) {
-> > > > > > > > > > > -     case V4L2_PIX_FMT_UYVY:
-> > > > > > > > > > > -     case V4L2_PIX_FMT_VYUY:
-> > > > > > > > > > > -     case V4L2_PIX_FMT_YUYV:
-> > > > > > > > > > > -     case V4L2_PIX_FMT_YVYU:
-> > > > > > > > > > > -             pix->bytesperline =3D roundup(pix->widt=
-h, 2) * 2;
-> > > > > > > > > > > -             pix->sizeimage =3D roundup(pix->width, =
-2) * 2 * pix->height;
-> > > > > > > > > > > -             break;
-> > > > > > > > > > > -     case V4L2_PIX_FMT_YUV420:
-> > > > > > > > > > > -     case V4L2_PIX_FMT_YVU420:
-> > > > > > > > > > > -             pix->bytesperline =3D roundup(pix->widt=
-h, 8);
-> > > > > > > > > > > -             pix->sizeimage =3D roundup(pix->width, =
-8) * pix->height * 3 / 2;
-> > > > > > > > > > > -             break;
-> > > > > > > > > > > -     }
-> > > > > > > > > > > +     pix->bytesperline =3D DIV_ROUND_UP(pix->width *=
- bpp, 8);
-> > > > > > > > > >
-> > > > > > > > > > Assuming the bpp is coming from the format table below,=
- this changes the value of bytesperline for planar formats. With this it'll=
- be (width * 12) / 8 i.e. width * 3/2, which doesn't sound right.
-> > > > > > > > > >
-> > > > > > > > >
-> > > > > > > > > Downstream uses soc_mbus_bytes_per_line for this calculat=
-ion which was
-> > > > > > > > > deprecated some time ago, here is a fragment
-> > > > > > > > >
-> > > > > > > > > s32 soc_mbus_bytes_per_line(u32 width, const struct soc_m=
-bus_pixelfmt *mf)
-> > > > > > > > > {
-> > > > > > > > >  if (mf->fourcc =3D=3D V4L2_PIX_FMT_JPEG)
-> > > > > > > > >  return 0;
-> > > > > > > > >
-> > > > > > > > >  if (mf->layout !=3D SOC_MBUS_LAYOUT_PACKED)
-> > > > > > > > >  return width * mf->bits_per_sample / 8;
-> > > > > > > > >
-> > > > > > > > >  switch (mf->packing) {
-> > > > > > > > >  case SOC_MBUS_PACKING_NONE:
-> > > > > > > > >   return width * mf->bits_per_sample / 8;
-> > > > > > > > >  case SOC_MBUS_PACKING_2X8_PADHI:
-> > > > > > > > >  case SOC_MBUS_PACKING_2X8_PADLO:
-> > > > > > > > >  case SOC_MBUS_PACKING_EXTEND16:
-> > > > > > > > >   return width * 2;
-> > > > > > > > >  case SOC_MBUS_PACKING_1_5X8:
-> > > > > > > > >   return width * 3 / 2;
-> > > > > > > > >  case SOC_MBUS_PACKING_VARIABLE:
-> > > > > > > > >   return 0;
-> > > > > > > > >  }
-> > > > > > > > >    return -EINVAL;
-> > > > > > > > > }
-> > > > > > > > >
-> > > > > > > > > V4L2_PIX_FMT_YUV420 and V4L2_PIX_FMT_YVU420 are classifie=
-d as
-> > > > > > > > > SOC_MBUS_PACKING_1_5X8 hence we get width * 3/2
-> > > > > > > >
-> > > > > > > > Googling this brings up the entry
-> > > > > > > >
-> > > > > > > > {
-> > > > > > > >         .code =3D V4L2_MBUS_FMT_YUYV8_1_5X8,
-> > > > > > > >         .fmt =3D {
-> > > > > > > >                 .fourcc                 =3D V4L2_PIX_FMT_YU=
-V420,
-> > > > > > > >                 .name                   =3D "YUYV 4:2:0",
-> > > > > > > >                 .bits_per_sample                =3D 8,
-> > > > > > > >                 .packing                        =3D SOC_MBU=
-S_PACKING_1_5X8,
-> > > > > > > >                 .order                  =3D SOC_MBUS_ORDER_=
-LE,
-> > > > > > > >                 .layout                 =3D SOC_MBUS_LAYOUT=
-_PACKED,
-> > > > > > > >         },
-> > > > > > > > }
-> > > > > > > >
-> > > > > > > > which matches that you're describing. It doesn't make sense=
- to me, since it at the same time specifies PIX_FMT_YUV420 (which is planar=
- with 3 planes, as documented by include/uapi/linux/videodev2.h), and LAYOU=
-T_PACKED
-> > > > > > > >
-> > > > > > > > /**
-> > > > > > > >  * enum soc_mbus_layout - planes layout in memory
-> > > > > > > >  * @SOC_MBUS_LAYOUT_PACKED:             color components pa=
-cked
-> > > > > > > >  * @SOC_MBUS_LAYOUT_PLANAR_2Y_U_V:      YUV components stor=
-ed in 3 planes (4:2:2)
-> > > > > > > >  * @SOC_MBUS_LAYOUT_PLANAR_2Y_C:        YUV components stor=
-ed in a luma and a
-> > > > > > > >  *                                      chroma plane (C pla=
-ne is half the size
-> > > > > > > >  *                                      of Y plane)
-> > > > > > > >  * @SOC_MBUS_LAYOUT_PLANAR_Y_C:         YUV components stor=
-ed in a luma and a
-> > > > > > > >  *                                      chroma plane (C pla=
-ne is the same size
-> > > > > > > >  *                                      as Y plane)
-> > > > > > > >  */
-> > > > > > > > enum soc_mbus_layout {
-> > > > > > > >         SOC_MBUS_LAYOUT_PACKED =3D 0,
-> > > > > > > >         SOC_MBUS_LAYOUT_PLANAR_2Y_U_V,
-> > > > > > > >         SOC_MBUS_LAYOUT_PLANAR_2Y_C,
-> > > > > > > >         SOC_MBUS_LAYOUT_PLANAR_Y_C,
-> > > > > > > > };
-> > > > > > > >
-> > > > > > > > i.e. non-planar. The code in the driver is handling it as t=
-hree planes as well, with addresses VB0_BASE_ADDRESS/VB0_BASE_ADDRESS_U/VB0=
-_BASE_ADDRESS_V. Since the planes are separate, there should be no need to =
-have more than 'width' samples per line.
-> > > > > > > >
-> > > > > > >
-> > > > > > > I did not invent this, I have just simplified this calculatio=
-n from
-> > > > > > > downstream, output values remain same. I have no cameras whic=
-h can
-> > > > > > > output V4L2_PIX_FMT_YUV420 or V4L2_PIX_FMT_YVU420 so I cannot=
- test if
-> > > > > > > this works either. Other YUV and RAW formats were tested on r=
-eal HW
-> > > > > > > and work perfectly fine.
-> > > > > >
-> > > > > > My understanding from the code was, that the MEDIA_BUS_FMT_ for=
-mats listed in the video format table refer to the input formats from the c=
-amera, and the V4L2_PIX_FMT_ formats to output formats from VI. Hence VI co=
-uld input UYVY8_2X8 and write to memory in YUV420. The code dealing with V4=
-L2_PIX_FMT_ values seems to be related to the output to memory. Is it possi=
-ble to test this (your camera -> VI converts to YUV420) or am I mistaken?
-> > > > > >
-> > > > >
-> > > > > Camera I am testing with has no YUV420 options available and from=
- what
-> > > > > I can tell there is no way to force VI to output in YUV420 unless
-> > > > > camera supports it. Any format manipulations should requite hooki=
-ng up
-> > > > > ISP, or am I missing smth?
-> > > >
-> > > > From a quick look at the spec it looks to me like for YUV422 packed=
- input formats specifically, VI should be able to convert to YUV420. If tha=
-t were not the case, e.g. 'TEGRA20_VIDEO_FMT(YUV422_8, 16, UYVY8_2X8, 12, Y=
-UV420),' would not make sense anyway as it's talking about both YUV422 pack=
-ed input data and then also YUV420.
-> > > >
-> > >
-> > > After additional checking you are correct, VI should be able to
-> > > perform YUV442 to YUV440. One of the reasons why VI is not exposing
-> > > YUV440 may be video-centric nature of the driver, so that it exposes
-> > > only formats supported by camera and VI. I will double check which
-> > > formats video device exposes. What should I test exactly?
-> > >
->
-> If you are able to test, I would like to see the following (with YUV422 i=
-nput camera, VI set to output YUV420)
-> (1) Output image is correct
-> (2) Check output image bytes per line (e.g. with a hex editor)
-> (3) If output image bytes per line is 3/2 * width, try changing it to 1 *=
- width and repeating test
->
+This series backports 19 patches to update minmax.h in the 6.1.y branch,
+aligning it with v6.17-rc7.
 
-1 * width is enough, 3/2 * width has just end of memory dump filled
-with zeroes. I assume downstream is wrong in this aspect. Additionally
-I was able to address YUV422 > YUV420 conversion. Existing YUV entries
-have YUV 2X8 media bus formats which are not used by my camera, my
-camera uses only YUV 1X16 media bus formats. So by adding those YU12
-format appeared.
+The ultimate goal is to synchronize all longterm branches so that they
+include the full set of minmax.h changes.
 
->
-> > Alternatively, since code that I propose matches in output with one
-> > that was before, changes can be applied and revised once there will be
-> > such need. Especially, since YUV422 and RAW8/10 work fine and were
-> > tested. I am not sure there will be many use cases which deliberately
-> > target YUV420.
-> >
->
-> Yeah, since it's a pre-existing issue, that makes sense. However, I'd sti=
-ll add a comment to the bytes per line calculation with a reference to the =
-downstream code it's based on, and that it produces an unexpected 3/2 * wid=
-th for YUV420.
->
+Previous work to update 6.12.48:
+https://lore.kernel.org/stable/20250922103123.14538-1-farbere@amazon.com/T/#t
+and 6.6.107:
+https://lore.kernel.org/stable/20250922103241.16213-1-farbere@amazon.com/T/#t
 
-I assume since I am applying expected and correct value, no additional
-comments would be required within code, but I will add a note to
-commit description.
+The key motivation is to bring in commit d03eba99f5bf ("minmax: allow
+min()/max()/clamp() if the arguments have the same signedness"), which
+is missing in older kernels.
 
-> Mikko
->
-> > > > >
-> > > > > > It's certainly possible that the current code is functional -- =
-if bytesperline is set to a too large value and that information flows to u=
-serspace, it could still read the buffer. It would just waste memory.
-> > > > > >
-> > > > > > >
-> > > > > > > > >
-> > > > > > > > > > > +     pix->sizeimage =3D pix->bytesperline * pix->hei=
-ght;
-> > > > > > > > > > >  }
-> > > > > > > > > > >
-> > > > > > > > > > >  /*
-> > > > > > > > > > > @@ -576,20 +564,23 @@ static const struct tegra_vi_op=
-s tegra20_vi_ops =3D {
-> > > > > > > > > > >       .vi_stop_streaming =3D tegra20_vi_stop_streamin=
-g,
-> > > > > > > > > > >  };
-> > > > > > > > > > >
-> > > > > > > > > > > -#define TEGRA20_VIDEO_FMT(MBUS_CODE, BPP, FOURCC)   =
- \
-> > > > > > > > > > > -{                                                   =
- \
-> > > > > > > > > > > -     .code    =3D MEDIA_BUS_FMT_##MBUS_CODE,        =
-   \
-> > > > > > > > > > > -     .bpp     =3D BPP,                              =
-   \
-> > > > > > > > > > > -     .fourcc  =3D V4L2_PIX_FMT_##FOURCC,            =
-   \
-> > > > > > > > > > > +#define TEGRA20_VIDEO_FMT(DATA_TYPE, BIT_WIDTH, MBUS=
-_CODE, BPP, FOURCC)      \
-> > > > > > > > > > > +{                                                   =
-                 \
-> > > > > > > > > > > +     .img_dt         =3D TEGRA_IMAGE_DT_##DATA_TYPE,=
-                   \
-> > > > > > > > > > > +     .bit_width      =3D BIT_WIDTH,                 =
-                   \
-> > > > > > > > > > > +     .code           =3D MEDIA_BUS_FMT_##MBUS_CODE, =
-                   \
-> > > > > > > > > > > +     .bpp            =3D BPP,                       =
-                   \
-> > > > > > > > > > > +     .fourcc         =3D V4L2_PIX_FMT_##FOURCC,     =
-                   \
-> > > > > > > > > > >  }
-> > > > > > > > > > >
-> > > > > > > > > > >  static const struct tegra_video_format tegra20_video=
-_formats[] =3D {
-> > > > > > > > > > > -     TEGRA20_VIDEO_FMT(UYVY8_2X8, 2, UYVY),
-> > > > > > > > > > > -     TEGRA20_VIDEO_FMT(VYUY8_2X8, 2, VYUY),
-> > > > > > > > > > > -     TEGRA20_VIDEO_FMT(YUYV8_2X8, 2, YUYV),
-> > > > > > > > > > > -     TEGRA20_VIDEO_FMT(YVYU8_2X8, 2, YVYU),
-> > > > > > > > > > > -     TEGRA20_VIDEO_FMT(UYVY8_2X8, 1, YUV420),
-> > > > > > > > > > > -     TEGRA20_VIDEO_FMT(UYVY8_2X8, 1, YVU420),
-> > > > > > > > > > > +     /* YUV422 */
-> > > > > > > > > > > +     TEGRA20_VIDEO_FMT(YUV422_8, 16, UYVY8_2X8, 16, =
-UYVY),
-> > > > > > > > > > > +     TEGRA20_VIDEO_FMT(YUV422_8, 16, VYUY8_2X8, 16, =
-VYUY),
-> > > > > > > > > > > +     TEGRA20_VIDEO_FMT(YUV422_8, 16, YUYV8_2X8, 16, =
-YUYV),
-> > > > > > > > > > > +     TEGRA20_VIDEO_FMT(YUV422_8, 16, YVYU8_2X8, 16, =
-YVYU),
-> > > > > > > > > > > +     TEGRA20_VIDEO_FMT(YUV422_8, 16, UYVY8_2X8, 12, =
-YUV420),
-> > > > > > > > > > > +     TEGRA20_VIDEO_FMT(YUV422_8, 16, UYVY8_2X8, 12, =
-YVU420),
-> > > > > > > > > > >  };
-> > > > > > > > > > >
-> > > > > > > > > > >  const struct tegra_vi_soc tegra20_vi_soc =3D {
-> > > > > > > > > > >
+In mainline, this change enables min()/max()/clamp() to accept mixed
+argument types, provided both have the same signedness. Without it,
+backported patches that use these forms may trigger compiler warnings,
+which escalate to build failures when -Werror is enabled.
+
+Andy Shevchenko (1):
+  minmax: deduplicate __unconst_integer_typeof()
+
+David Laight (8):
+  minmax: fix indentation of __cmp_once() and __clamp_once()
+  minmax.h: add whitespace around operators and after commas
+  minmax.h: update some comments
+  minmax.h: reduce the #define expansion of min(), max() and clamp()
+  minmax.h: use BUILD_BUG_ON_MSG() for the lo < hi test in clamp()
+  minmax.h: move all the clamp() definitions after the min/max() ones
+  minmax.h: simplify the variants of clamp()
+  minmax.h: remove some #defines that are only expanded once
+
+Herve Codina (1):
+  minmax: Introduce {min,max}_array()
+
+Linus Torvalds (8):
+  minmax: avoid overly complicated constant expressions in VM code
+  minmax: simplify and clarify min_t()/max_t() implementation
+  minmax: make generic MIN() and MAX() macros available everywhere
+  minmax: add a few more MIN_T/MAX_T users
+  minmax: simplify min()/max()/clamp() implementation
+  minmax: don't use max() in situations that want a C constant
+    expression
+  minmax: improve macro expansion and type checking
+  minmax: fix up min3() and max3() too
+
+Matthew Wilcox (Oracle) (1):
+  minmax: add in_range() macro
+
+ arch/arm/mm/pageattr.c                        |   6 +-
+ arch/um/drivers/mconsole_user.c               |   2 +
+ arch/x86/mm/pgtable.c                         |   2 +-
+ drivers/edac/sb_edac.c                        |   4 +-
+ drivers/edac/skx_common.h                     |   1 -
+ .../drm/amd/display/modules/hdcp/hdcp_ddc.c   |   2 +
+ .../drm/amd/pm/powerplay/hwmgr/ppevvmath.h    |  14 +-
+ drivers/gpu/drm/amd/pm/swsmu/smu_cmn.c        |   2 +-
+ .../drm/arm/display/include/malidp_utils.h    |   2 +-
+ .../display/komeda/komeda_pipeline_state.c    |  24 +-
+ drivers/gpu/drm/drm_color_mgmt.c              |   2 +-
+ drivers/gpu/drm/msm/adreno/a6xx_gmu.c         |   6 -
+ drivers/gpu/drm/radeon/evergreen_cs.c         |   2 +
+ drivers/hwmon/adt7475.c                       |  24 +-
+ drivers/input/touchscreen/cyttsp4_core.c      |   2 +-
+ drivers/irqchip/irq-sun6i-r.c                 |   2 +-
+ drivers/md/dm-integrity.c                     |   2 +-
+ drivers/media/dvb-frontends/stv0367_priv.h    |   3 +
+ .../net/ethernet/chelsio/cxgb3/cxgb3_main.c   |  18 +-
+ .../net/ethernet/stmicro/stmmac/stmmac_main.c |   2 +-
+ drivers/net/fjes/fjes_main.c                  |   4 +-
+ drivers/nfc/pn544/i2c.c                       |   2 -
+ drivers/platform/x86/sony-laptop.c            |   1 -
+ drivers/scsi/isci/init.c                      |   6 +-
+ .../pci/hive_isp_css_include/math_support.h   |   5 -
+ drivers/virt/acrn/ioreq.c                     |   4 +-
+ fs/btrfs/misc.h                               |   2 -
+ fs/btrfs/tree-checker.c                       |   2 +-
+ fs/ext2/balloc.c                              |   2 -
+ fs/ext4/ext4.h                                |   2 -
+ fs/ufs/util.h                                 |   6 -
+ include/linux/compiler.h                      |   9 +
+ include/linux/minmax.h                        | 264 +++++++++++++-----
+ include/linux/pageblock-flags.h               |   2 +-
+ kernel/trace/preemptirq_delay_test.c          |   2 -
+ lib/btree.c                                   |   1 -
+ lib/decompress_unlzma.c                       |   2 +
+ lib/logic_pio.c                               |   3 -
+ lib/vsprintf.c                                |   2 +-
+ mm/zsmalloc.c                                 |   1 -
+ net/ipv4/proc.c                               |   2 +-
+ net/ipv6/proc.c                               |   2 +-
+ net/netfilter/nf_nat_core.c                   |   6 +-
+ net/tipc/core.h                               |   2 +-
+ net/tipc/link.c                               |  10 +-
+ .../selftests/bpf/progs/get_branch_snapshot.c |   4 +-
+ tools/testing/selftests/seccomp/seccomp_bpf.c |   2 +
+ tools/testing/selftests/vm/mremap_test.c      |   2 +
+ 48 files changed, 290 insertions(+), 184 deletions(-)
+
+-- 
+2.47.3
+
