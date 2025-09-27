@@ -1,289 +1,277 @@
-Received: from DB3PR0202CU003.outbound.protection.outlook.com (mail-northeuropeazon11010050.outbound.protection.outlook.com [52.101.84.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3038A1A314D;
-	Thu, 25 Sep 2025 16:09:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.84.50
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758816549; cv=fail; b=dIjzaOCdz00prKGK8Xq49O96lAuP69dZyIxC+5TNB5ds14MS7zLhkVkeLumyDn6BznbKw5JVBYZqj2u1rwGgO10aKsQbOnpfA8PLvS9Suf+shP0tUfJ/pFUzZADd3uCZK7T4r3zA5LAZur5sV8SInn+M4R/DmXrFTV1ag8Znc9Q=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758816549; c=relaxed/simple;
-	bh=Bcll15jk2IaLkAXvqFgP1MC6K2I/BtHG4nCDRpGA1lc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=MrCPOpzvqzbs4oFW89xwpdihGZkDsxsMFgeyhGHoEtCpKjYmjZdyhlSW7QW8t0IpG62PbbgXg+c7qVx4E9LiwcG05/PpzpCadAY6r+b4okt2cXIQRB4xPFI5r6zoyFy2KYzuQ5lRVtC/FbU7PZO/iDwvIh2gk7Zq9Z7zUKy5P6c=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=YXQT20cQ; arc=fail smtp.client-ip=52.101.84.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93EBF230BF6
+	for <linux-staging@lists.linux.dev>; Sat, 27 Sep 2025 18:27:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.47
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1758997647; cv=none; b=nQ3E/iJRjMfqVwW98x2JN5z8apjn5boV1khiTmFZmnWPT/QOLtjiLNyeEUx3rjzXuaEKesqLs+TiBes7CAeRf2x+bjIXCVug6rs9Rx8JxfvO1l0+PehJisAy5F6e68qgXrpMG4tJsJzXRmUp0Otq/X7eEzg3Gk4Jf5p3Njk/97Y=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1758997647; c=relaxed/simple;
+	bh=I22T7JxiFABAm/e5gFk5aHy470m2ilmu3HjJetim2g0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=hqpBTb3RWiQhbRPLfjv/JtUqxTlJLld/Iq8wzspO/GrKq5kYz9qIcN/FW0I9dfw/xqLEtPpgz8UP717ZbS8t07s9MWLeMmbzfO/+7Yw5QgwgYdOErG20+RIp/54IDFJCrXaokX4GTkR7VLd8juT7T5nVwO2bMauZWVccxACKyD8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=G7I4Pqpb; arc=none smtp.client-ip=209.85.208.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="YXQT20cQ"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=hP6a+oWEcVfdPIsL0+J7VcXtMEG8SnSXFbRZtcX3Bdjr4rK9gtMNCRa85ciGl9HmZq0jE9Du5Sy6MeaPqI1X+XjlhhTOoaPTid4UeOXjA2NRR3SZZwKgBK7Dtzp2E7VEauIzH/d+rerBhpGigll9PH8+6OnnoUcpr9WWQtr3LNPv1q2NU5wwcgWutwNwaLLjLkeWOxpWef/TV8IH0w1y9iP8IKCOwMAfcnkISfVE5diHkf0AvObcdHD7Ut1Ev7NVYUrVYYOT2nTiMNjFVwH78HaJOuxe7GIQhsp25l/ZsONvagCcQR1KpMJkKjwzjFD0sTkvotVpAcQOMOUrHEszsg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=QQ2q15VpJLLjtHLdUl39VRiYwTQLeM4uOKWOiZeOGPU=;
- b=h+TW0ia5wBaIqR5I9GUqVP4+2gEAbpTtjAbYdEDhSkNubL7x9UIImTVcP7gwuDyEBYtYpx2ltNDxL8ZxVUsomP3O6YLOfJ+77t/y2YGofdwbTFgb70kAbcJez/0DoBIGkWmePYIvyfBiw2Cc3VNu94gu/JBrY4pmYJK45KnNqKZrxYBIVNZcq1eggRWvUfhiXr4/BXJyXNnxIWP4Lp+XvEmzcB86D0RtkX20WR0rxkz0ayTvVmp0uV+K5gcmQzAqVNk/NeVFSHdkZn4Ig4lH/IqTS17gURdu61Vv4ONwZX/KgiboX/1G0w+AI1DP4Ze/PeN60Eh5XTdcIs30S2jTQQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=QQ2q15VpJLLjtHLdUl39VRiYwTQLeM4uOKWOiZeOGPU=;
- b=YXQT20cQqZeSiT4TIXnau8QuEvp/xh/PA8zKooVJ6gR01DEi98YBjhv9EgbYOgaTmQkX0nLt2d+copXZ05pcjsay/QL+8tzzv3Tn3cLx/urT8miPSDwv4UOkliZngOLGDVlqNfWw5VIMqT3U3U1x+dgbNvFvr8lb3SOyP1SQSDgiGlWTWcIrjAGlsjYMs6Pa0MdQRg7N/s5JsZvuTF49MwhZLk9pcWO7y45ep6xHUkwkS8kFkSSgcFMWciQMso8IP+KwFX2txhjJzUd7LYg7DQs0SWmb13mpRv2zffVqIasCz8q50E3/x08wTCtk8fwUvH8fjguqPAeVhWDL4K1VgQ==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-Received: from PAXSPRMB0053.eurprd04.prod.outlook.com (2603:10a6:102:23f::21)
- by PAXPR04MB8490.eurprd04.prod.outlook.com (2603:10a6:102:1de::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9160.10; Thu, 25 Sep
- 2025 16:09:04 +0000
-Received: from PAXSPRMB0053.eurprd04.prod.outlook.com
- ([fe80::504f:2a06:4579:5f15]) by PAXSPRMB0053.eurprd04.prod.outlook.com
- ([fe80::504f:2a06:4579:5f15%6]) with mapi id 15.20.9160.008; Thu, 25 Sep 2025
- 16:09:04 +0000
-Date: Thu, 25 Sep 2025 12:08:54 -0400
-From: Frank Li <Frank.li@nxp.com>
-To: Rui Miguel Silva <rmfrfs@gmail.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Martin Kepplinger <martink@posteo.de>,
-	Purism Kernel Team <kernel@puri.sm>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Eugen Hristev <eugen.hristev@linaro.org>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>, Peng Fan <peng.fan@nxp.com>,
-	Alice Yuan <alice.yuan@nxp.com>, Vinod Koul <vkoul@kernel.org>,
-	Kishon Vijay Abraham I <kishon@kernel.org>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Steve Longerbeam <slongerbeam@gmail.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, imx@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org, linux-phy@lists.infradead.org,
-	linux-staging@lists.linux.dev, Luis Oliveira <lolivei@synopsys.com>
-Subject: Re: [PATCH v3 00/31] media: add imx93 mipi/controller csi support
-Message-ID: <aNVpFuCAcr9CCPNU@lizhi-Precision-Tower-5810>
-References: <20250821-95_cam-v3-0-c9286fbb34b9@nxp.com>
- <aMLvhdJRGHM+8yIH@lizhi-Precision-Tower-5810>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <aMLvhdJRGHM+8yIH@lizhi-Precision-Tower-5810>
-X-ClientProxiedBy: PH7PR02CA0012.namprd02.prod.outlook.com
- (2603:10b6:510:33d::12) To PAXSPRMB0053.eurprd04.prod.outlook.com
- (2603:10a6:102:23f::21)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="G7I4Pqpb"
+Received: by mail-ed1-f47.google.com with SMTP id 4fb4d7f45d1cf-634b774f135so3241266a12.2
+        for <linux-staging@lists.linux.dev>; Sat, 27 Sep 2025 11:27:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1758997644; x=1759602444; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=yQWdFOHyXRj2qTgoQajJtgXcEgv1h3O33kn6+NXzhhk=;
+        b=G7I4PqpbrTJ27E9inYI4gTE79h6j8deHN0zSsFa9kDuKFEvJ+2wwS3DT+zdCG/OUqw
+         bDWlvVyFhLLcVWYatHsXcKF+RjUrCihqI2ZosRDG+9CZ1PyT0C/9LwYAUG+JIF0uaNXb
+         zMUtEnM/SeM/4AAsEJWyxFwFBvV28RfktUT0HTvAQLbgYDZRnbrEhYEckOU4HGySseGc
+         RQCcfkJnm8At9EBxjFS3EAzYPTnvQenHczGxo3trSJPCvT84BR5W1rXy53HlnunlJmpm
+         jWC276ah7n2gjNYyzn04+K0YkKzFivSgMPtJfhzDB330rZumj9L1zX6KYZ3TQkFG7eyz
+         TaeQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1758997644; x=1759602444;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=yQWdFOHyXRj2qTgoQajJtgXcEgv1h3O33kn6+NXzhhk=;
+        b=OT/ETpPVdW/kJsF7J0Wu+bTcpG8h30D6R21YU2wP9SrYu//EgNbE6oPg4PRd0dUZrJ
+         +6VKVUyqYVoYMN8Mktl57cXCZS7uQ1uR5eeXljy1P7pfxuNiIbdpjsCCVRzkYa/hGSbQ
+         48wRFfsojS0BfziGzix6CgaVO4wPLloKE3EG9VzWEi052v3AFKTcbJnxbNoO81I/fTxu
+         PKOdDPtHfCBFDuU5DR/Q6pbsyHcVcJabXbzj6rlHTg6EEGV6Hnpr5JMC0IZyuIArzI6b
+         ep5JYXoljVgowKJl7csA94f1Mp+WrfnRP0XEb2BCOjCOe6pIz3Zu9Q76aeuKqpooScKC
+         6qcQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWSpWDgh93wx/m9PVqpeMZMrLk/MsLuOoVlr5nCOdf7WTI9n61bOBQ16VPc8N3lV5u4A/pYvtuIT2ZMXiGx@lists.linux.dev
+X-Gm-Message-State: AOJu0YyT+hSF4xruJ9YEARJ98YfuINEaH2x+vLg5DalGDCCTffOUFFOQ
+	E3WrEu74jCTfFjMgxSp4RZmo/SA/JD61jZTlJSZuygLYXNP/XNaufLCQ
+X-Gm-Gg: ASbGnctfSpwTZuIw1lyipFOyp+ENALgG4llJNqHPz9B10nXzg78063bVgr1gK76iyjM
+	Q4UVgKzffinNJcFv0PKc/XBKvX1oy33tMoADmOEwGCjR4yIfUeYEv7gAlbuoryiAPESutOVTs+d
+	PjXrUqfPdgdflohhfH7Be4QB3hZNZ8vklrX0ydQ28XaXBf7qqiOaAn7PqWVZvsL+95/7E1XA/ee
+	Ton7aJYG3pmK5jACsh7eTSrYrfOSEtnMbbNL4bf6tTXg7IDvF2UMVItLL6e7tbxkvg9pdVf9YSG
+	1fQoTFjs6we2HG4n1qMbPk64Odcla6h2QGDCoBGH8S2zvedFc1R3Bpp/nzE7wW7POKJMeADUu6d
+	tq6qb/8Rs91fch+X7UGOBAVpl9m8LawmtIe/hQDh+jWJhw+xBBz4+nA5nsG2ewP2S6195O9fJZy
+	2j
+X-Google-Smtp-Source: AGHT+IHzU+aiH3IO9AF5z3S6/qnurfmF3lWjYZ8bVEdWvmfo2izIybdRVaH4K3G/J1amzl+E705jog==
+X-Received: by 2002:a05:6402:13d2:b0:634:ab36:3c74 with SMTP id 4fb4d7f45d1cf-634ab363ee7mr8188743a12.9.1758997643660;
+        Sat, 27 Sep 2025 11:27:23 -0700 (PDT)
+Received: from tumbleweed (ip-77-25-33-35.web.vodafone.de. [77.25.33.35])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-634bf4a5351sm2691010a12.43.2025.09.27.11.27.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 27 Sep 2025 11:27:23 -0700 (PDT)
+From: Michael Straube <straube.linux@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: hdegoede@redhat.com,
+	Larry.Finger@lwfinger.net,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Michael Straube <straube.linux@gmail.com>
+Subject: [PATCH] staging: rtl8723bs: rtw_hal_set_def_var is not used
+Date: Sat, 27 Sep 2025 20:27:00 +0200
+Message-ID: <20250927182700.184174-1-straube.linux@gmail.com>
+X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PAXSPRMB0053:EE_|PAXPR04MB8490:EE_
-X-MS-Office365-Filtering-Correlation-Id: 5e32957f-dd95-4fc8-2a14-08ddfc4dd8db
-X-LD-Processed: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
- BCL:0;ARA:13230040|52116014|7416014|19092799006|1800799024|366016|376014|38350700014|921020;
-X-Microsoft-Antispam-Message-Info:
- =?us-ascii?Q?cSugv1w1FS2zck7NZV3/IiUVDVo+4i25iMWj6PQ25O04vcdr/cxg5lxE8dvy?=
- =?us-ascii?Q?OenKEHEGbjoMQGLSuND6Q4Hs7nCRXHmaYt5GmnejXCatE8fgVjiZZrIm4Vd9?=
- =?us-ascii?Q?DJTtTZNZbGK+LPsIBP0QHW2K7ww8lYpVrOxUnr5P+mVcSUQGCGu+YNlZ1eHP?=
- =?us-ascii?Q?Q7Gh8LziXcaUrgjcTlTbiYigLtzA6x9pWyq4FCMP7QcsP7dPMgrrz7KhU8RP?=
- =?us-ascii?Q?W0FjdBsiHZZq6Up6Cxm4cdLmNjO77YCazwDvPRiwgYT4ppwHrvlcxMqqGs/k?=
- =?us-ascii?Q?xAWByxaCpRvcBGXtiWIsIRbWVIJft+qQkPK7xVbGNks+igvnADek3+sHdyRj?=
- =?us-ascii?Q?JeSOkUiwHMOA25DIWTRFXgm/DssXy2RGMwkEFgVsYV5bk0UJGXSEyLzcmgBC?=
- =?us-ascii?Q?U2z4zmvngr3H5yni+UvXZ7KRntkVLmWC/Fccl16ennpGbCZoc+SSLQUWHcL8?=
- =?us-ascii?Q?69Rf8Yz+nHCr+8ZWLYkSLtZXCec2jR2C8G3UFkgkS4NLWjj/TvX52JKBRZcg?=
- =?us-ascii?Q?yFFq+HcxXQouk7CGWTnwDghPIhS/OA5ERliGXNDhg4oRSa37sva28Et8N4Ov?=
- =?us-ascii?Q?LFVM08aKOL+nHiUzG+OXAYkk3NZgS5P/Dh4gze9KOKQkeAWuQMIaw7GFHp5z?=
- =?us-ascii?Q?HyU7wtxsg45ntoXPOcjwLE2+qbz0u/Cbz4PyRK+xu1Y0Ym9JTMCuVISpAZv0?=
- =?us-ascii?Q?v7Q3x/SkpivoPkOivdWvT3ryfKQp7LAlGG50xLffXDfaa41sQu+XfBBORMze?=
- =?us-ascii?Q?fCdMO4cbNN23eKTCpG3Tx6WgzbioqzmjqjZQr4no/EyJJrH/63VvZOoQmP8p?=
- =?us-ascii?Q?5Ioyb2U/g96DnjsVkM92zA9zQ3SOTD+FzpmyPtaOiZ0BQ+Pl1BhRLzFXQvs/?=
- =?us-ascii?Q?TyHXSA49EpfB9YPAlxUpZzaYpuURTCU2ZJ53nt2JDHXO4y+Xl/Clksfj7+KQ?=
- =?us-ascii?Q?UdTtGVi+CVrcm1K4oXNA6+Tc52WXsLsVP+/MnCDmn+9EedEcYwf6rhEauEdf?=
- =?us-ascii?Q?hvs+QT9g5VtNNcJ6VzSR3TO198iarAXaSfLtUltE3t99UwdzynOrYcvy9UKi?=
- =?us-ascii?Q?BMX8FDbcGlFKR0jwfvaHR/+UtCRnOr3Z0h33H6XfKQCHCiH3NUtXu0JQySD7?=
- =?us-ascii?Q?gq7g3aHKTIj4ynWp2IfpOlcFO93sWdTeUqIu9WDzdSsG2MrT1jrJwiPqAiGo?=
- =?us-ascii?Q?IcZVXwuNpTBS4kTBa6SkSRpZrWnyIlufoVp8R5CHJaAhNSN/aKsSPr2Aen+e?=
- =?us-ascii?Q?FCoTB62QPEXAX3K2Qm9t97sfQCdN7o9mhSpyar6Vu4JPr13DXqlq9EbopZ2D?=
- =?us-ascii?Q?e25k4MndZh2QNR8O1o4nsliLFh8ltLbPUHmpi3cg86q+AlTe1AVZn48Htleq?=
- =?us-ascii?Q?oJN1RGv2bXg+b9dUolWmfDX4+NQLXa+FFA/I48tyFaByW1US7wxJ54Npjn0P?=
- =?us-ascii?Q?bVbVBeabgI2EH1GxRjpPAV3ruf0Jn3dD?=
-X-Forefront-Antispam-Report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXSPRMB0053.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(52116014)(7416014)(19092799006)(1800799024)(366016)(376014)(38350700014)(921020);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
- =?us-ascii?Q?JqniFAIIde5OASFiCQ8PMD1HQDMC0lbKbvoOoHu1zJRmKgHrUQPFEADuPMbD?=
- =?us-ascii?Q?XqH+iKCMDbt/5Ztpb5cw3HUMvoVaTAO698y8+hm0zBFH4v5A2ZEHSZVWDdMV?=
- =?us-ascii?Q?jyDNRyxpT7eIqx94MuA1Hl3TcUum9s2z0bL7zVailBUIGawMty3KlVLJZNHN?=
- =?us-ascii?Q?v7FWrBQ9/z90bPhwUwexceLzDIunidqWrVseTM+J9bcaZFcLGe1Qv3NbWvYl?=
- =?us-ascii?Q?v7DlVN+0ew+FvL2qh/Dj0MjxsFAL02TxK1p5JISWy1iPbd2Jx8J3zue4gUk+?=
- =?us-ascii?Q?vX2iEr5alluq1EgRQfeT9m6DYLBYVvJoD20GrQDQW1Hg89tQbzyFt1rrPCvm?=
- =?us-ascii?Q?oEvf2tywIIq9S/zNJ7Xc/VF7mFLg/XVxI/fG/OJP3eRXO56If36OqvpTebvt?=
- =?us-ascii?Q?P/SuGcGPsuw+yZrm0gHRlebYc9Ye2z8jpqdAAxe7MYE1t1hVcCaDyAlhTWZ0?=
- =?us-ascii?Q?DKYifFx3UI+bwyHVJ83xqM4zAZV/HYzpII4mfWxIH1A+04pQlFLo7AXt1HRZ?=
- =?us-ascii?Q?LKFq+Cz4030w4PtUpWp7N99NnRWn9B5T66/v3GiYgDaMvOx19pm85VPoK9q5?=
- =?us-ascii?Q?va1Dv9Mb7uR1SL6kLtLXGEyP1btqG6SBQ6M6dmM79pH0Q5HGjunGlsWkgdQA?=
- =?us-ascii?Q?h2NsSP7u8v/xBNLTF6elwJCPadOMjb/Unz+R+gTCwmqUoO7wnESq+vMe7zaQ?=
- =?us-ascii?Q?7lx5RaktP6KouNs4TyS1sv5+BDvo4bkFrX6fD2xKN6/fr1ByknwKNJUmCka7?=
- =?us-ascii?Q?nMXMC+o+RRBlK1mFu9C8jZhiBVwTLR8JZGCck3hx63gIyzYTZjucm0V8vPL+?=
- =?us-ascii?Q?3SqkG4tMqgMTD0q9HxsiSjGvnxxEDxcH9k+0ygqaDj/BCXmCWerJprbOkRr4?=
- =?us-ascii?Q?veWD7paVxSThwZHF3rawGaKu22Twt/lQZg3xyczYo/DmIvc6pshLLpdvIJSf?=
- =?us-ascii?Q?7FOp8Jcyi7BZSCrV/frObLo+WZp6Gi/my65+h8l4u+DKdVJhoBaswOgAEZqt?=
- =?us-ascii?Q?GPFi23RVEdIP8ny1adhd6kDw3vAupId/SrcJ6cBT8a/qR3gXrWg1mMnbkbTb?=
- =?us-ascii?Q?hn9iRKTh3XSkM6IGylVjl6A0Nzg4M5vcHWxYYXGxcMAWB6dC8pa8xzfnl8RP?=
- =?us-ascii?Q?mXGCInvwo0PTTg09p5GK14EMH4xeBY2kjskWZ/bpLKcDbFwrYkzRCfSuaRkE?=
- =?us-ascii?Q?cfBaNT2eNlVzm7obJnsb37E6McQRICOi/VQ9NL3PxM44O+1qMmaSS9i8d7Ab?=
- =?us-ascii?Q?S+foA9GJypl/LBrPGg5PEJRwcwzyLP+jRGBtSL6SS8a0obTexlvgvUWhFgLp?=
- =?us-ascii?Q?TH6WmgCygjJJEbg5gMVe8djRhmCauB7oZNvutf3d3zYsQtjkCOxZQgO6/nda?=
- =?us-ascii?Q?9N0HSSVqEuXum5XTsPUABjU8xnfcgsndGtzOwcqGZuqTpVrNu/28+c4bw85U?=
- =?us-ascii?Q?eSi/Nq1Ruhm+SlR7ozRprVvqGklAUluzHO9wwqy+QRjWkyFc2t49WPk/5eFj?=
- =?us-ascii?Q?W323DpZdp7fzTsQ2KSWVpNc7JRWyk4OGX1pZtV2chPXBk0AGqWuBwXLoRfQ1?=
- =?us-ascii?Q?sp8u4Rash2P7gJmtnSBKwXXHH8eOucqqIs7/nLF5?=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5e32957f-dd95-4fc8-2a14-08ddfc4dd8db
-X-MS-Exchange-CrossTenant-AuthSource: PAXSPRMB0053.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Sep 2025 16:09:04.1162
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 2E6zN+toeu8gzbR3c6ORqdXqPytG5udOfAD2y962hc34iRhTRXYQehzacBBr+YjJx7XpmuygaOnm9yKagBQRgQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAXPR04MB8490
+Content-Transfer-Encoding: 8bit
 
-On Thu, Sep 11, 2025 at 11:49:25AM -0400, Frank Li wrote:
-> On Thu, Aug 21, 2025 at 04:15:35PM -0400, Frank Li wrote:
-> > Totally rewrite CSI part driver compared to V1.
->
-> Laurent Pinchart:
->
-> 	can you help review these patches? especial first two patches
->
-> media: v4l2-common: Add helper function v4l_get_required_align_by_bpp()
-> media: v4l2-common: Add helper function media_bus_fmt_to_csi2_(bpp|dt)()
->
-> After that, I can start do more code clean up work.
->
-> 	all of "media: staging: media: imx6-mipi-csi2 *" are trivial cleanup
-> patches.
+The function rtw_hal_set_def_var is not used. Remove the function and
+resulting dead code.
 
-Laurent Pinchart and Rui Miguel Silva
+Signed-off-by: Michael Straube <straube.linux@gmail.com>
+---
+ drivers/staging/rtl8723bs/hal/hal_com.c       | 65 -------------------
+ drivers/staging/rtl8723bs/hal/hal_intf.c      |  5 --
+ .../staging/rtl8723bs/hal/rtl8723b_hal_init.c | 16 -----
+ drivers/staging/rtl8723bs/hal/sdio_halinit.c  |  9 ---
+ drivers/staging/rtl8723bs/include/hal_com.h   |  2 -
+ drivers/staging/rtl8723bs/include/hal_intf.h  |  2 -
+ .../staging/rtl8723bs/include/rtl8723b_hal.h  |  2 -
+ 7 files changed, 101 deletions(-)
 
-	Do you have chance check these? especially first two patches,
+diff --git a/drivers/staging/rtl8723bs/hal/hal_com.c b/drivers/staging/rtl8723bs/hal/hal_com.c
+index 07e9d3423651..70b5b289f9cb 100644
+--- a/drivers/staging/rtl8723bs/hal/hal_com.c
++++ b/drivers/staging/rtl8723bs/hal/hal_com.c
+@@ -663,71 +663,6 @@ void GetHwReg(struct adapter *adapter, u8 variable, u8 *val)
+ 	}
+ }
+ 
+-
+-
+-
+-u8 SetHalDefVar(
+-	struct adapter *adapter, enum hal_def_variable variable, void *value
+-)
+-{
+-	struct hal_com_data *hal_data = GET_HAL_DATA(adapter);
+-	struct dm_odm_t *odm = &(hal_data->odmpriv);
+-	u8 bResult = _SUCCESS;
+-
+-	switch (variable) {
+-	case HW_DEF_ODM_DBG_FLAG:
+-		ODM_CmnInfoUpdate(odm, ODM_CMNINFO_DBG_COMP, *((u64 *)value));
+-		break;
+-	case HW_DEF_ODM_DBG_LEVEL:
+-		ODM_CmnInfoUpdate(odm, ODM_CMNINFO_DBG_LEVEL, *((u32 *)value));
+-		break;
+-	case HAL_DEF_DBG_DM_FUNC:
+-	{
+-		u8 dm_func = *((u8 *)value);
+-		struct dm_priv *dm = &hal_data->dmpriv;
+-
+-		if (dm_func == 0) { /* disable all dynamic func */
+-			odm->SupportAbility = DYNAMIC_FUNC_DISABLE;
+-		} else if (dm_func == 1) {/* disable DIG */
+-			odm->SupportAbility  &= (~DYNAMIC_BB_DIG);
+-		} else if (dm_func == 2) {/* disable High power */
+-			odm->SupportAbility  &= (~DYNAMIC_BB_DYNAMIC_TXPWR);
+-		} else if (dm_func == 3) {/* disable tx power tracking */
+-			odm->SupportAbility  &= (~DYNAMIC_RF_CALIBRATION);
+-		} else if (dm_func == 4) {/* disable BT coexistence */
+-			dm->DMFlag &= (~DYNAMIC_FUNC_BT);
+-		} else if (dm_func == 5) {/* disable antenna diversity */
+-			odm->SupportAbility  &= (~DYNAMIC_BB_ANT_DIV);
+-		} else if (dm_func == 6) {/* turn on all dynamic func */
+-			if (!(odm->SupportAbility  & DYNAMIC_BB_DIG)) {
+-				struct dig_t	*pDigTable = &odm->DM_DigTable;
+-				pDigTable->CurIGValue = rtw_read8(adapter, 0xc50);
+-			}
+-			dm->DMFlag |= DYNAMIC_FUNC_BT;
+-			odm->SupportAbility = DYNAMIC_ALL_FUNC_ENABLE;
+-		}
+-	}
+-		break;
+-	case HAL_DEF_DBG_DUMP_RXPKT:
+-		hal_data->bDumpRxPkt = *((u8 *)value);
+-		break;
+-	case HAL_DEF_DBG_DUMP_TXPKT:
+-		hal_data->bDumpTxPkt = *((u8 *)value);
+-		break;
+-	case HAL_DEF_ANT_DETECT:
+-		hal_data->AntDetection = *((u8 *)value);
+-		break;
+-	default:
+-		netdev_dbg(adapter->pnetdev,
+-			   "%s: [WARNING] HAL_DEF_VARIABLE(%d) not defined!\n",
+-			   __func__, variable);
+-		bResult = _FAIL;
+-		break;
+-	}
+-
+-	return bResult;
+-}
+-
+ u8 GetHalDefVar(
+ 	struct adapter *adapter, enum hal_def_variable variable, void *value
+ )
+diff --git a/drivers/staging/rtl8723bs/hal/hal_intf.c b/drivers/staging/rtl8723bs/hal/hal_intf.c
+index 961b0563951d..462553d296ff 100644
+--- a/drivers/staging/rtl8723bs/hal/hal_intf.c
++++ b/drivers/staging/rtl8723bs/hal/hal_intf.c
+@@ -115,11 +115,6 @@ void rtw_hal_set_hwreg_with_buf(struct adapter *padapter, u8 variable, u8 *pbuf,
+ 	SetHwRegWithBuf8723B(padapter, variable, pbuf, len);
+ }
+ 
+-u8 rtw_hal_set_def_var(struct adapter *padapter, enum hal_def_variable eVariable, void *pValue)
+-{
+-	return SetHalDefVar8723BSDIO(padapter, eVariable, pValue);
+-}
+-
+ u8 rtw_hal_get_def_var(struct adapter *padapter, enum hal_def_variable eVariable, void *pValue)
+ {
+ 	return GetHalDefVar8723BSDIO(padapter, eVariable, pValue);
+diff --git a/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c b/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
+index 18244adad9e0..57c83f332e74 100644
+--- a/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
++++ b/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
+@@ -2839,22 +2839,6 @@ void GetHwReg8723B(struct adapter *padapter, u8 variable, u8 *val)
+ 	}
+ }
+ 
+-/* Description:
+- *	Change default setting of specified variable.
+- */
+-u8 SetHalDefVar8723B(struct adapter *padapter, enum hal_def_variable variable, void *pval)
+-{
+-	u8 bResult = _SUCCESS;
+-
+-	switch (variable) {
+-	default:
+-		bResult = SetHalDefVar(padapter, variable, pval);
+-		break;
+-	}
+-
+-	return bResult;
+-}
+-
+ /* Description:
+  *	Query setting of specified variable.
+  */
+diff --git a/drivers/staging/rtl8723bs/hal/sdio_halinit.c b/drivers/staging/rtl8723bs/hal/sdio_halinit.c
+index 7fcb874d0eb3..6f1f726d1630 100644
+--- a/drivers/staging/rtl8723bs/hal/sdio_halinit.c
++++ b/drivers/staging/rtl8723bs/hal/sdio_halinit.c
+@@ -1236,12 +1236,3 @@ u8 GetHalDefVar8723BSDIO(
+ 
+ 	return bResult;
+ }
+-
+-/*  */
+-/* 	Description: */
+-/* 		Change default setting of specified variable. */
+-/*  */
+-u8 SetHalDefVar8723BSDIO(struct adapter *Adapter, enum hal_def_variable eVariable, void *pValue)
+-{
+-	return SetHalDefVar8723B(Adapter, eVariable, pValue);
+-}
+diff --git a/drivers/staging/rtl8723bs/include/hal_com.h b/drivers/staging/rtl8723bs/include/hal_com.h
+index 7ea9ee2b3975..74d6c892c401 100644
+--- a/drivers/staging/rtl8723bs/include/hal_com.h
++++ b/drivers/staging/rtl8723bs/include/hal_com.h
+@@ -138,8 +138,6 @@ void SetHwReg(struct adapter *padapter, u8 variable, u8 *val);
+ void GetHwReg(struct adapter *padapter, u8 variable, u8 *val);
+ void rtw_hal_check_rxfifo_full(struct adapter *adapter);
+ 
+-u8 SetHalDefVar(struct adapter *adapter, enum hal_def_variable variable,
+-		void *value);
+ u8 GetHalDefVar(struct adapter *adapter, enum hal_def_variable variable,
+ 		void *value);
+ 
+diff --git a/drivers/staging/rtl8723bs/include/hal_intf.h b/drivers/staging/rtl8723bs/include/hal_intf.h
+index 2fa2382ad5f3..82b60899129d 100644
+--- a/drivers/staging/rtl8723bs/include/hal_intf.h
++++ b/drivers/staging/rtl8723bs/include/hal_intf.h
+@@ -199,7 +199,6 @@ void rtw_hal_chip_configure(struct adapter *padapter);
+ void rtw_hal_read_chip_info(struct adapter *padapter);
+ void rtw_hal_read_chip_version(struct adapter *padapter);
+ 
+-u8 rtw_hal_set_def_var(struct adapter *padapter, enum hal_def_variable eVariable, void *pValue);
+ u8 rtw_hal_get_def_var(struct adapter *padapter, enum hal_def_variable eVariable, void *pValue);
+ 
+ void rtw_hal_set_odm_var(struct adapter *padapter, enum hal_odm_variable eVariable, void *pValue1, bool bSet);
+@@ -262,7 +261,6 @@ void SetHwReg8723BS(struct adapter *padapter, u8 variable, u8 *val);
+ void GetHwReg8723BS(struct adapter *padapter, u8 variable, u8 *val);
+ void SetHwRegWithBuf8723B(struct adapter *padapter, u8 variable, u8 *pbuf, int len);
+ u8 GetHalDefVar8723BSDIO(struct adapter *Adapter, enum hal_def_variable eVariable, void *pValue);
+-u8 SetHalDefVar8723BSDIO(struct adapter *Adapter, enum hal_def_variable eVariable, void *pValue);
+ void UpdateHalRAMask8723B(struct adapter *padapter, u32 mac_id, u8 rssi_level);
+ void rtl8723b_SetBeaconRelatedRegisters(struct adapter *padapter);
+ void Hal_EfusePowerSwitch(struct adapter *padapter, u8 PwrState);
+diff --git a/drivers/staging/rtl8723bs/include/rtl8723b_hal.h b/drivers/staging/rtl8723bs/include/rtl8723b_hal.h
+index 2ed1fc8549ec..06e0a549fa9d 100644
+--- a/drivers/staging/rtl8723bs/include/rtl8723b_hal.h
++++ b/drivers/staging/rtl8723bs/include/rtl8723b_hal.h
+@@ -223,8 +223,6 @@ void C2HPacketHandler_8723B(struct adapter *padapter, u8 *pbuffer, u16 length);
+ 
+ void SetHwReg8723B(struct adapter *padapter, u8 variable, u8 *val);
+ void GetHwReg8723B(struct adapter *padapter, u8 variable, u8 *val);
+-u8 SetHalDefVar8723B(struct adapter *padapter, enum hal_def_variable variable,
+-		     void *pval);
+ u8 GetHalDefVar8723B(struct adapter *padapter, enum hal_def_variable variable,
+ 		     void *pval);
+ 
+-- 
+2.51.0
 
-media: v4l2-common: Add helper function v4l_get_required_align_by_bpp()
-media: v4l2-common: Add helper function media_bus_fmt_to_csi2_(bpp|dt)()
-
-	After that, I can start do more code clean up work.
-
-best regards
-Frank Li
-
->
-> Frank
->
-> >
-> > This only includes CSI related patches.
-> >
-> > DTS part: see https://lore.kernel.org/imx/20250701-95_cam-v1-6-c5172bab387b@nxp.com/
-> > PHY part: see https://lore.kernel.org/imx/20250701-95_cam-v1-4-c5172bab387b@nxp.com/
-> > AP1302 part: see https://lore.kernel.org/imx/20250701-95_cam-v1-7-c5172bab387b@nxp.com/
-> > 	upstream: https://lore.kernel.org/imx/20250623-ap1302-v3-0-c9ca5b791494@nxp.com/
-> >
-> > First 3 patches add some common helper function to simple code and remove
-> > duplicated code in difference CSI2 drivers.
-> >
-> > Clean up stage imx6 old version csi2 driver, and prepare create common
-> > dw csi2 library for difference IP version.
-> >
-> > Move stage driver under driver/media/synosis.
-> >
-> > Create simple platform driver for common dw csi2 use case.
-> >
-> > TODO:
-> > 	1. create bus, to probe phy driver under "test_if" interface for
-> > specific phys under CSI2.
-> > 	2. support to combine phy, (which connect to both dw CSI and DSI's
-> > test_if). Need use DSI's test_if to config combo phy to switch to RX mode.
-> > and also need config RX part's phy register by use CSI's testif.
-> > 	3. move other vendor's csi driver to use this common DWC CSI
-> > library.
-> >
-> > Signed-off-by: Frank Li <Frank.Li@nxp.com>
-> > ---
-> > Changes in v3:
-> > - update binding doc
-> > - combine two add helper function's patch to one. and use media_bus_fmt_info
-> > data structure.
-> > - Link to v2: https://lore.kernel.org/r/20250808-95_cam-v2-0-4b29fa6919a7@nxp.com
-> >
-> > Changes in v2:
-> > - totally rewrite, see above section
-> > - Link to v1: https://lore.kernel.org/r/20250701-95_cam-v1-0-c5172bab387b@nxp.com
-> >
-> > ---
-> > Eugen Hristev (1):
-> >       dt-bindings: media: add DW MIPI CSI-2 Host support
-> >
-> > Frank Li (30):
-> >       media: v4l2-common: Add helper function v4l_get_required_align_by_bpp()
-> >       media: v4l2-common: Add helper function media_bus_fmt_to_csi2_(bpp|dt)()
-> >       media: staging: media: imx6-mipi-csi2: replace space with tab for alignment
-> >       media: staging: media: imx6-mipi-csi2: use devm_add_action_or_reset() to simplify code
-> >       media: staging: media: imx6-mipi-csi2: use devm_clk_bulk_get_all() to fetch clocks
-> >       media: staging: media: imx6-mipi-csi2: use devm_mutex_init() to simplify code
-> >       media: staging: media: imx6-mipi-csi2: use guard() to simplify code
-> >       media: staging: media: imx6-mipi-csi2: use register structure to match hardware
-> >       media: staging: media: imx6-mipi-csi2: use devm_platform_ioremap_resource() simplify code
-> >       media: staging: media: imx6-mipi-csi2: move probe part to imx6-csi2.c
-> >       media: staging: media: imx6-mipi-csi2: move sd imx6's specific initialization into imx6-sci2.c
-> >       media: staging: media: imx6-mipi-csi2: move csi2ipu_gasket_init() to imx6-csi2.c
-> >       media: staging: media: imx6-mipi-csi2: move number pad macro define into imx6-csi2.c
-> >       media: staging: media: imx6-mipi-csi2: move dphy init part to imx6-csi2.c
-> >       media: staging: media: imx6-mipi-csi2: use runtime_pm frame to control clks
-> >       media: synopsys: move imx6-mipi-csi2.c to synopsys/mipi-csi2.c
-> >       media: synopsys: csi2: Remove deprecated s_stream and use v4l2_subdev_pad_ops
-> >       media: synopsys: csi2: Add phy interface support
-> >       media: synopsys: csi2: Add basic v150* version register
-> >       media: synopsys: csi2: Add irq support to record error count
-> >       media: synopsys: csi2: Handle alignment requirement for width
-> >       media: synopsys: csi2: Add register prefix to register field definitions
-> >       media: synopsys: csi2: Add need_dphy_reset in config
-> >       media: synopsys: csi2: Add default simple dw_csi2_subdev_init_state
-> >       media: synopsys: csi2: Add v150 lane stop state register bit define
-> >       media: synopsys: csi2: use standard v4l2_subdev_get_fmt() function
-> >       media: synopsys: csi2: Add customize get_frame_desc() callback
-> >       media: synopsys: csi2: Add Image Pixel Interface (IPI) support for v150
-> >       media: synopsys: csi2: Remove source pad connected check at dw_csi2_enable_streams()
-> >       media: synopsys: csi2: Add simple synopsys platform driver
-> >
-> >  .../bindings/media/snps,dw-mipi-csi2-v150.yaml     |  151 +++
-> >  MAINTAINERS                                        |    1 +
-> >  drivers/media/platform/synopsys/Kconfig            |   20 +
-> >  drivers/media/platform/synopsys/Makefile           |    3 +
-> >  drivers/media/platform/synopsys/mipi-csi2-simple.c |   75 ++
-> >  drivers/media/platform/synopsys/mipi-csi2.c        | 1260 ++++++++++++++++++++
-> >  drivers/media/v4l2-core/v4l2-common.c              |  149 +++
-> >  drivers/staging/media/imx/Kconfig                  |    1 +
-> >  drivers/staging/media/imx/Makefile                 |    2 +-
-> >  drivers/staging/media/imx/imx6-csi2.c              |  181 +++
-> >  drivers/staging/media/imx/imx6-mipi-csi2.c         |  846 -------------
-> >  include/media/dw-mipi-csi2.h                       |  120 ++
-> >  include/media/mipi-csi2.h                          |   30 +
-> >  include/media/v4l2-common.h                        |   30 +
-> >  14 files changed, 2022 insertions(+), 847 deletions(-)
-> > ---
-> > base-commit: ad0a162e543964443feec3a6a9395a64fe6c35c9
-> > change-id: 20250606-95_cam-b74c094ad1fb
-> >
-> > Best regards,
-> > --
-> > Frank Li <Frank.Li@nxp.com>
-> >
