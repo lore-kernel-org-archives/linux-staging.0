@@ -1,71 +1,71 @@
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47DF62D4813
-	for <linux-staging@lists.linux.dev>; Sun, 28 Sep 2025 11:34:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32F0B2DEA76
+	for <linux-staging@lists.linux.dev>; Sun, 28 Sep 2025 11:34:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759059251; cv=none; b=uVWgWQCqPQUEyqdoEQAUX+XO6WBurXRNDjSKpvrTInabQaiNPMlD0jYYvw5fpRs0RpmKwOYleS6nTmZp9iKzQzU1Yq72HCTuXLy/LxTSen0RRcOo+NFO2OFGgfzF9ceVprGQllgoXxskt4Ni27x8I1zZIYmCj+Cr4dix8Si5xBU=
+	t=1759059253; cv=none; b=UkwhIQ5gnmvohf8X7bTaJjyG0UHmV07SFDBLGXFQYqfYkksEEJFjq1+n0wVTIw4+rJiWjWw5etVDiuOLFAYbA7VbMHTGUtf2UKJazLPfqwq2VOXrI2+TGIQgTkUCkdGhy0x7Q4oCdUniItP6RNFE0V4aDosKbQ0J1IAY9cclCX4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759059251; c=relaxed/simple;
-	bh=tScS/pS4Gn6GgvGk1K/xKhHsVgSJ6DREItv+LKn3W0c=;
+	s=arc-20240116; t=1759059253; c=relaxed/simple;
+	bh=8ddmUCo0RkiFpMjJDEU/SY+VKBZq9Ul1pKd0v1NhVgU=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=f0cwnQpDUzpNoq1jOmI59+KpF6z87n4LkleYa0N/p9fthTRHmzEdv223/3xb9W/Yrsh4uRFRLmah4BkL8slR+NvkVSAFK4dJF7Fa9TbHZMZ+WMd0TTEy6a4hCevfNLp0K9hASuoowGCCJ24jGCoTC3mnBVukUZjBt/+hVjkflbc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mGUsjBH3; arc=none smtp.client-ip=209.85.128.45
+	 MIME-Version; b=tQsCZveWe0YWLw3wXUBaWFyPETsapuMG8m1BJ8dbqcjm7+0lTeWN04tPK1SQ5oRKFeI5bkefJ54fIm5KzSuY5z5jEB1asPuPw8+OfKgBVSIauJjaQGdU2jbbzgm6rS+ikK++uk0qO6uZT7nl89FJ0ubKPZoPUa8KKwrBQM1Oghg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NhLwf0zi; arc=none smtp.client-ip=209.85.221.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mGUsjBH3"
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-46e42deffa8so22785775e9.0
-        for <linux-staging@lists.linux.dev>; Sun, 28 Sep 2025 04:34:09 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NhLwf0zi"
+Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-41174604d88so1767720f8f.2
+        for <linux-staging@lists.linux.dev>; Sun, 28 Sep 2025 04:34:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1759059247; x=1759664047; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1759059250; x=1759664050; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=mnvGAr8iYkB0Wv3fJqUIRennMUMlOyLME/4zACe/66Y=;
-        b=mGUsjBH3zRv0XIx4fsHqT23FyqVCH4vnB5Km4+N+mHEzXGSSzu//ukr42MQDQ0rlfc
-         OcF7vYiRZ+Q43myCK2CUd2ChpgDeQ/TeQFhOokN5tkz0KOvWnZM0j7iCG+XTlZ3qnU/C
-         pwojCJAoe14Rv4uO19ro9rRwPAMSpPbG9rj6thzReAEFCJXgqjrC5I11highAK3Gm7AE
-         ajq/HVRwXPOzl7olM5jZ7IOm299tt1i3yx5E68ctd1mMAVwWiAgnWIjJMNFNjS+UENCO
-         z4BFyykEBYHC4F2mUTBQem0mM45MZsK1Zkv7IYdyvGObrWL2vVL+fqrhh1+4Vqb6FsNo
-         UrCg==
+        bh=A/brZK5qlrYAwJveH864FfVdXR8sYuWmR704zUR8n1o=;
+        b=NhLwf0zi3gOIFO+d16HY0rqj0T7xFp6RCj3c0L+SMufsf4WtUPC4jjweyopj9S8HBy
+         jTjrcZ7TQvUspQRyrfJGDa/m2owBdQDFhhk0ha44CzK+w/Xq2XnYox/9QIbhAD55CN7e
+         +pFZQX1EDBlDaqEmjo6j/mzbbZWEq6eGazwb9snsmeTaszRnrza1U/wHIwA92btouf1j
+         za16TW3ownEREvL5Qy0/poRTKXb7F84YJF0GtEc35w3T9fvBChwaxYPTP522xXpNW5lc
+         b9gSOgbrYYn9bb9THmVXtTSnOtOYj1B86dQrpbcQX4mLjS3ST+a6EUN57zmGEgPBeLXB
+         3Kvg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759059248; x=1759664048;
+        d=1e100.net; s=20230601; t=1759059250; x=1759664050;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=mnvGAr8iYkB0Wv3fJqUIRennMUMlOyLME/4zACe/66Y=;
-        b=LsPEexpGSiRmhFgaHvPvkoyB06H3X1arRPlWoA+CtxVTgZVN9OvGIixC16bn5k64AC
-         /hAm8kQPYx0j6dlweAK/D1MD4MXOAlUJgwudQPjyishWJ84DZshvUHY07qt1+FqTWQUs
-         S4Hj9tflRAKqdqgVXjl8RR7AXxDj3+e648hOEFWP+7tmb30olNOwhPrbFWNJSbsGj/wn
-         w+jH16QyMQwJu5htZofE+2e+8gYnN7noYXFwUBqkeEpf9XpPcm0XJCT+mV6ILeh5lVdf
-         1gDTuyBTw6YNdfJVYFlcSSQDUj+7oXPENe8Fakqf2pkpy/HVUtXQQOF1xUSj6ExGS1R0
-         gn4g==
-X-Forwarded-Encrypted: i=1; AJvYcCXSKVQm5QOctjELHaaBmTvbuloUDrVgFgTMTXnlYxpigGdQKlHsDxbj9CU32eJcNVfsXjJiD2riJN9eWVPn@lists.linux.dev
-X-Gm-Message-State: AOJu0YxUx2f2lVpVqLy8pYmf+hqFbxk0DDUwgR29KP6z0zoWH3Pw04je
-	zNDFE+uxBJpU+7W317Mlf6WVwUGQ0i5Tj2n5Skjkzm8Njd4qGVaekBdC+Hx04d9L
-X-Gm-Gg: ASbGncukTr6A1rIIw3zWdfoOg1JCUCZdhceaF3+PtmPFgkG+the9NDDl8HhFmWS3NVX
-	iFzBMG8Xnqa5WSqLZylCqb5Usj7hN13JBZBldHbQ71OnVrwOyeHn9yjYA7yKCBXIvGUoCoAItMZ
-	YqLCKdUYBlX55SQMEdr5xtDGzuSbH8B6Ykzoqlc6Sg1rg957JVxfMp8SoKP5jYbxAJKcjNYjgjh
-	xsozHmGhQ0WsPYWyDm7NO7tDE2G53P0JzlTh0qRaMTLk25kx6QORH2D1Vq421ZIaMZeKnJR/AOi
-	mDaCHNpTlTnb+wUnlhyvP7KPXHG/N3SmOSBfENZ9rlijvx0IWgd7uglIaUlffqRxwz58VoR9K5/
-	9jR5P/f7RnkeiLJSlomhtUSwLoh0TNj545ospRQ==
-X-Google-Smtp-Source: AGHT+IGSoXJrQGjjbAQu+dFDiNaJeIvSNFQV3ZRIFhhtFQ94nnIsQBfhQk5TjF/wR6Cbv80f4vA5Hg==
-X-Received: by 2002:a05:600c:489a:b0:45d:dc9b:e85f with SMTP id 5b1f17b1804b1-46e329aedecmr83219135e9.2.1759059247234;
-        Sun, 28 Sep 2025 04:34:07 -0700 (PDT)
+        bh=A/brZK5qlrYAwJveH864FfVdXR8sYuWmR704zUR8n1o=;
+        b=HRWjJ/o2DX77U2o4wqWLE3QntoeF1Aegk1pyt/WEq1DDCKY13SXy1bNGekZg6IXjjm
+         riEyeaYETws6VEVoCFVTMlf+p1hp7FZz4Y2LLcpGe5RD0G1iGdXOkLtxHeVcndlkV9Ih
+         lLh2en2Ew/7qMm/DEQdL+SXWt3Vc+Xaym9M9XENH63wnn/5J9VZA1T5Bx1v27Skuxaam
+         8ZfL55wpPlOwuW6yJ9q/tAR3COeOM12P51DNYdlmIpSrzjXDHntH3boAcwtgJ2DZD2zm
+         0kQZmROhtXJi7EGpd02KDvo5RlHDPwHZQ3hmYtAc2KEjd9aiFI2Z5+0vzaBjCP0u9efb
+         Uyzg==
+X-Forwarded-Encrypted: i=1; AJvYcCWwtScj5S3HYce5itH82uLEliqcUvzyk+3Yw7I582syOCNX1NWUaMmF5aKeROOY87b1nEu6X26aUJx6vj2a@lists.linux.dev
+X-Gm-Message-State: AOJu0YxAlkUf7aYzYZpLLb/OWjpLS8oKLejUMLzMT4WHuV+vszFcICCT
+	tQBdeFGndwZaTpx+JGzn4GWr1wsr+ShFdQmFlUNyWZYE8yqmECBEC8qc
+X-Gm-Gg: ASbGncvuFtWR6kE37Bf9GGf7HTbaEpeapNvJyd/vIgds8ENHyeYFAp7AOi2izqW5yLe
+	iV2hUHSur7btbVXVJ/fevSBXjULixdBut4FoU/p4aj5hCYGYTmh3pijDxprrYF75hkXoc1DcJ38
+	jEp8CMfQskguPK22NAasI77swXJNoWcK9SVedLFN4PeCi+betjFYt2RMLo5Wj0GN23R5YoJtE+c
+	D0Z0mqISU5RVlfM46vMgulnO4kMU/3Fi5qTpnUsciCMgMDCnjfzNPyA8fmOmk7n0WuArZ/tI3qU
+	Jc+YyxsQRRrBetnmluWGiX40jpTWxSBzIx+gviQmZZjLbIc5SsKIeqfw0leVyg721YTUTdUw1Ul
+	LLB88VO4eZeKmByskq1ywVXWqtFFYAtB081fCcFEoI10VFvE4
+X-Google-Smtp-Source: AGHT+IGiPWTYWAyv8Lm3Tcc9D4kIBKkJOKajbBpkfo6tPA7baawIt7o7+KctTbkc52CFMBbP2N2Vtg==
+X-Received: by 2002:a05:6000:4313:b0:3fd:eb15:772 with SMTP id ffacd0b85a97d-40e44777382mr9306072f8f.9.1759059250377;
+        Sun, 28 Sep 2025 04:34:10 -0700 (PDT)
 Received: from egonzo (82-64-73-52.subs.proxad.net. [82.64.73.52])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-46e2a996c03sm187074365e9.3.2025.09.28.04.34.06
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-46e2a996c03sm187074365e9.3.2025.09.28.04.34.08
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 28 Sep 2025 04:34:06 -0700 (PDT)
+        Sun, 28 Sep 2025 04:34:08 -0700 (PDT)
 From: Dave Penkler <dpenkler@gmail.com>
 To: gregkh@linuxfoundation.org,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
 Cc: Dave Penkler <dpenkler@gmail.com>
-Subject: [PATCH 1/2] staging: gpib: Fix sending clear and trigger events
-Date: Sun, 28 Sep 2025 13:33:58 +0200
-Message-ID: <20250928113359.6197-2-dpenkler@gmail.com>
+Subject: [PATCH 2/2] staging: gpib: Return -EINTR on device clear
+Date: Sun, 28 Sep 2025 13:33:59 +0200
+Message-ID: <20250928113359.6197-3-dpenkler@gmail.com>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20250928113359.6197-1-dpenkler@gmail.com>
 References: <20250928113359.6197-1-dpenkler@gmail.com>
@@ -77,47 +77,38 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This driver was not sending device clear or trigger events when the
-board entered the DCAS or DTAS state respectively in device mode.
+When the ATN (Attention) line is asserted during a read we get a
+NIUSB_ATN_STATE_ERROR during a read. For the controller to send a
+device clear it asserts ATN. Normally this is an error but in the case
+of a device clear it should be regarded as an interrupt.
 
-DCAS is the Device Clear Active State which is entered on receiving a
-selective device clear message (SDC) or universal device clear message
-(DCL) from the controller in charge.
+Return -EINTR when the Device Clear Active State (DCAS) is entered
+else signal an error with dev_dbg with status instead of just dev_err.
 
-DTAS is the Device Trigger Active State which is entered on receiving
-a group execute trigger (GET) message from the controller.
-
-In order for an application, implementing a particular device, to
-detect when one of these states is entered the driver needs to send
-the appropriate event.
-
-Send the appropriate gpib_event when DCAS or DTAS is set in the
-reported status word. This sets the DCAS or DTAS bits in the board's
-status word which can be monitored by the application.
-
-Fixes: 4e127de14fa7 ("staging: gpib: Add National Instruments USB GPIB driver")
-Tested-by: Dave Penkler <dpenkler@gmail.com>
 Signed-off-by: Dave Penkler <dpenkler@gmail.com>
 ---
- drivers/staging/gpib/ni_usb/ni_usb_gpib.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+ drivers/staging/gpib/ni_usb/ni_usb_gpib.c | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/staging/gpib/ni_usb/ni_usb_gpib.c b/drivers/staging/gpib/ni_usb/ni_usb_gpib.c
-index 4dec87d12687..ea44a766fda2 100644
+index ea44a766fda2..1f8412de9fa3 100644
 --- a/drivers/staging/gpib/ni_usb/ni_usb_gpib.c
 +++ b/drivers/staging/gpib/ni_usb/ni_usb_gpib.c
-@@ -327,7 +327,10 @@ static void ni_usb_soft_update_status(struct gpib_board *board, unsigned int ni_
- 	board->status &= ~clear_mask;
- 	board->status &= ~ni_usb_ibsta_mask;
- 	board->status |= ni_usb_ibsta & ni_usb_ibsta_mask;
--	// FIXME should generate events on DTAS and DCAS
-+	if (ni_usb_ibsta & DCAS)
-+		push_gpib_event(board, EVENT_DEV_CLR);
-+	if (ni_usb_ibsta & DTAS)
-+		push_gpib_event(board, EVENT_DEV_TRG);
- 
- 	spin_lock_irqsave(&board->spinlock, flags);
- /* remove set status bits from monitored set why ?***/
+@@ -697,8 +697,12 @@ static int ni_usb_read(struct gpib_board *board, u8 *buffer, size_t length,
+ 		 */
+ 		break;
+ 	case NIUSB_ATN_STATE_ERROR:
+-		retval = -EIO;
+-		dev_err(&usb_dev->dev, "read when ATN set\n");
++		if (status.ibsta & DCAS) {
++			retval = -EINTR;
++		} else {
++			retval = -EIO;
++			dev_dbg(&usb_dev->dev, "read when ATN set stat: 0x%06x\n", status.ibsta);
++		}
+ 		break;
+ 	case NIUSB_ADDRESSING_ERROR:
+ 		retval = -EIO;
 -- 
 2.51.0
 
