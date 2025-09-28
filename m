@@ -1,72 +1,69 @@
-Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93EBF230BF6
-	for <linux-staging@lists.linux.dev>; Sat, 27 Sep 2025 18:27:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FAC41D7984
+	for <linux-staging@lists.linux.dev>; Sun, 28 Sep 2025 09:18:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758997647; cv=none; b=nQ3E/iJRjMfqVwW98x2JN5z8apjn5boV1khiTmFZmnWPT/QOLtjiLNyeEUx3rjzXuaEKesqLs+TiBes7CAeRf2x+bjIXCVug6rs9Rx8JxfvO1l0+PehJisAy5F6e68qgXrpMG4tJsJzXRmUp0Otq/X7eEzg3Gk4Jf5p3Njk/97Y=
+	t=1759051108; cv=none; b=lgvqSt/yF4Ry0zE14gZLb3sM2nXCIndFQq5WUexy2saJDhnXMXgBi6stSSF4Ad6L7tIeCu43gINCxcAUwd02P0z/Q1FJA4XX7z0CmhMHKQ59SiFCfF9X/pg2IPG/5SxCoIHyMIWFIS7by1tyOI+/nXb+Iqy20XaPFAD3e3puQpI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758997647; c=relaxed/simple;
-	bh=I22T7JxiFABAm/e5gFk5aHy470m2ilmu3HjJetim2g0=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=hqpBTb3RWiQhbRPLfjv/JtUqxTlJLld/Iq8wzspO/GrKq5kYz9qIcN/FW0I9dfw/xqLEtPpgz8UP717ZbS8t07s9MWLeMmbzfO/+7Yw5QgwgYdOErG20+RIp/54IDFJCrXaokX4GTkR7VLd8juT7T5nVwO2bMauZWVccxACKyD8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=G7I4Pqpb; arc=none smtp.client-ip=209.85.208.47
+	s=arc-20240116; t=1759051108; c=relaxed/simple;
+	bh=ofqEcQ9NXDQgEKIfDsHRwO/RRELrot1TTFph5IPeXGI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=cHFHvSAk6lXEEA3vD/R3ykEvxFDgv8TOAziCoROn+6MK0gc281aNp35nnDKdfaTDm9b/adIIN9BSF/HquEhfcBSO5zCBFaOrF8Nn84N3h/C6k2K9v15hKfQUtRvAHoQRnhSg+0sHl9aonFCEX/ICcYVCCkJr3gSEJxHPbI7V8Kw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jdYsbnyw; arc=none smtp.client-ip=209.85.221.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="G7I4Pqpb"
-Received: by mail-ed1-f47.google.com with SMTP id 4fb4d7f45d1cf-634b774f135so3241266a12.2
-        for <linux-staging@lists.linux.dev>; Sat, 27 Sep 2025 11:27:25 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jdYsbnyw"
+Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-3fa528f127fso2737319f8f.1
+        for <linux-staging@lists.linux.dev>; Sun, 28 Sep 2025 02:18:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1758997644; x=1759602444; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1759051105; x=1759655905; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=yQWdFOHyXRj2qTgoQajJtgXcEgv1h3O33kn6+NXzhhk=;
-        b=G7I4PqpbrTJ27E9inYI4gTE79h6j8deHN0zSsFa9kDuKFEvJ+2wwS3DT+zdCG/OUqw
-         bDWlvVyFhLLcVWYatHsXcKF+RjUrCihqI2ZosRDG+9CZ1PyT0C/9LwYAUG+JIF0uaNXb
-         zMUtEnM/SeM/4AAsEJWyxFwFBvV28RfktUT0HTvAQLbgYDZRnbrEhYEckOU4HGySseGc
-         RQCcfkJnm8At9EBxjFS3EAzYPTnvQenHczGxo3trSJPCvT84BR5W1rXy53HlnunlJmpm
-         jWC276ah7n2gjNYyzn04+K0YkKzFivSgMPtJfhzDB330rZumj9L1zX6KYZ3TQkFG7eyz
-         TaeQ==
+        bh=QBCINZFXBb6AVWDqgr+Mk+Uw/H22zFl0IVt/zipxIk8=;
+        b=jdYsbnywUUCEPNDqbV1fwRsIEqazjwXK6LMKM/ngCAGiQ8YpukdmSTFvt6A6WGmZfm
+         h0QMTsd0WGepWCyIGZ6XXcpCM9lNOf6hgx12Yqj2XmWgRXKQhO23BJidK0A1b38dFeSl
+         ZVDeB1wgZm+MxMA2mWmaaKnTu5jx+nbrv8LNgdQUFf7cXNhlOHQvZ4HR1z8RwQwwE4a+
+         9DTyUxizomlM/e+sd2YpVwWoi3lyNx5i3Ss/ZHEIuVNUFTbFF4Yext/OT2duTtpjlpAR
+         /QH9mwIs+a01pJfPzVqGBZKP6QJLQEOnYasJcvv8BIc1mbfxNolOixMNKVyAW+hprHzL
+         EGDg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758997644; x=1759602444;
+        d=1e100.net; s=20230601; t=1759051105; x=1759655905;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=yQWdFOHyXRj2qTgoQajJtgXcEgv1h3O33kn6+NXzhhk=;
-        b=OT/ETpPVdW/kJsF7J0Wu+bTcpG8h30D6R21YU2wP9SrYu//EgNbE6oPg4PRd0dUZrJ
-         +6VKVUyqYVoYMN8Mktl57cXCZS7uQ1uR5eeXljy1P7pfxuNiIbdpjsCCVRzkYa/hGSbQ
-         48wRFfsojS0BfziGzix6CgaVO4wPLloKE3EG9VzWEi052v3AFKTcbJnxbNoO81I/fTxu
-         PKOdDPtHfCBFDuU5DR/Q6pbsyHcVcJabXbzj6rlHTg6EEGV6Hnpr5JMC0IZyuIArzI6b
-         ep5JYXoljVgowKJl7csA94f1Mp+WrfnRP0XEb2BCOjCOe6pIz3Zu9Q76aeuKqpooScKC
-         6qcQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWSpWDgh93wx/m9PVqpeMZMrLk/MsLuOoVlr5nCOdf7WTI9n61bOBQ16VPc8N3lV5u4A/pYvtuIT2ZMXiGx@lists.linux.dev
-X-Gm-Message-State: AOJu0YyT+hSF4xruJ9YEARJ98YfuINEaH2x+vLg5DalGDCCTffOUFFOQ
-	E3WrEu74jCTfFjMgxSp4RZmo/SA/JD61jZTlJSZuygLYXNP/XNaufLCQ
-X-Gm-Gg: ASbGnctfSpwTZuIw1lyipFOyp+ENALgG4llJNqHPz9B10nXzg78063bVgr1gK76iyjM
-	Q4UVgKzffinNJcFv0PKc/XBKvX1oy33tMoADmOEwGCjR4yIfUeYEv7gAlbuoryiAPESutOVTs+d
-	PjXrUqfPdgdflohhfH7Be4QB3hZNZ8vklrX0ydQ28XaXBf7qqiOaAn7PqWVZvsL+95/7E1XA/ee
-	Ton7aJYG3pmK5jACsh7eTSrYrfOSEtnMbbNL4bf6tTXg7IDvF2UMVItLL6e7tbxkvg9pdVf9YSG
-	1fQoTFjs6we2HG4n1qMbPk64Odcla6h2QGDCoBGH8S2zvedFc1R3Bpp/nzE7wW7POKJMeADUu6d
-	tq6qb/8Rs91fch+X7UGOBAVpl9m8LawmtIe/hQDh+jWJhw+xBBz4+nA5nsG2ewP2S6195O9fJZy
-	2j
-X-Google-Smtp-Source: AGHT+IHzU+aiH3IO9AF5z3S6/qnurfmF3lWjYZ8bVEdWvmfo2izIybdRVaH4K3G/J1amzl+E705jog==
-X-Received: by 2002:a05:6402:13d2:b0:634:ab36:3c74 with SMTP id 4fb4d7f45d1cf-634ab363ee7mr8188743a12.9.1758997643660;
-        Sat, 27 Sep 2025 11:27:23 -0700 (PDT)
-Received: from tumbleweed (ip-77-25-33-35.web.vodafone.de. [77.25.33.35])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-634bf4a5351sm2691010a12.43.2025.09.27.11.27.20
+        bh=QBCINZFXBb6AVWDqgr+Mk+Uw/H22zFl0IVt/zipxIk8=;
+        b=YgVW+Cq/jKEUuE0Q6Vr2gAXIF17vpxeA7UhQQrwKpsDPLm9weyz07c3hyxiKk6TeBz
+         mLjtWGE5597yc7f772vpYnmvIGB7bWE1akGeR8ak3gpyQfj2r97sAtmMJic3T3T3EzKZ
+         AX4TbP6bSQ/pjmpZ96DGEE4QhF/dbOQxotCA03+6tJKhrtqE7OqpdTgL8MfVd6n4GLze
+         TFI7y2JSQ9JSoNDcAA1xDUe7Xo7UmeFpA+UAlMgYgYYTettTOU7p7B4+S35CeGxOLOeP
+         saR2BrVOXsjoq9aYdD8PVvuOFeW/5n8Js24ZiuY/j76dKzAlUVkRE0QjrU5G5bN3fzUV
+         LJqA==
+X-Forwarded-Encrypted: i=1; AJvYcCWtI2jjRRq0H2P1DwbAikYjxwYBd1x4fsLzLUocO98Xav/5C9lv44sevEtA6MF/xQBLiGzcbjaOWnDJHh3i@lists.linux.dev
+X-Gm-Message-State: AOJu0YyIsED6XeCEKLHmsXu2SsYJ9fF3hueKfK/JphZLZnQfh0oSPpJB
+	W858GNZIuyLc66AbHE1NCsP5hj/BfUqgiGXzkawEOyawXBd/acqKvSir
+X-Gm-Gg: ASbGncuXcPLaNXyR9rNpWpZ5rkmLcYFEdCSW9fDLDUQykD3E6POn7B09ge7Aj7qN3Q/
+	CDFmCJs7M8gAytxQk+NGB3s/V+Qnw/cOZIvPw6MegSEtxjjC0jgql2I9SIsiKG8dxa5MJ1jAdbS
+	EIVTZwwtcaXu54r5Sj047Iurf2aLROrvTmJJ156AUZY+mrYmQ+MQdLlajXfjd2AxvRhSiuTvm3H
+	dDv5reBh/J/+rZcGymVy+d4NtqjirvbJwFO1F/jYnrqpS65nr8cSnJ8neaXHugD46B1Bj4rvODB
+	BeZRulIBI3wNFGTyYSvsEV0XWluNP39xet5feDtse92w+ENQXLyTRLzFE2vLC7qhZac73CCztoM
+	VQ8p7G01uaxWWBugt89nJ0v9T43JBD6pWzhHP7xzYjJ7rpBwF
+X-Google-Smtp-Source: AGHT+IErP8ERPQgt2nHabO2vaauhPtQUS3TOjxY7+8HVednMIgZMbS0DXgA80j05eErJB8vH8T+2WA==
+X-Received: by 2002:a05:6000:1acc:b0:3fa:ebaf:4c53 with SMTP id ffacd0b85a97d-418077a5f34mr4553981f8f.29.1759051105153;
+        Sun, 28 Sep 2025 02:18:25 -0700 (PDT)
+Received: from egonzo (82-64-73-52.subs.proxad.net. [82.64.73.52])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-40fc7e2bf35sm13859710f8f.53.2025.09.28.02.18.23
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 27 Sep 2025 11:27:23 -0700 (PDT)
-From: Michael Straube <straube.linux@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: hdegoede@redhat.com,
-	Larry.Finger@lwfinger.net,
+        Sun, 28 Sep 2025 02:18:24 -0700 (PDT)
+From: Dave Penkler <dpenkler@gmail.com>
+To: gregkh@linuxfoundation.org,
 	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Michael Straube <straube.linux@gmail.com>
-Subject: [PATCH] staging: rtl8723bs: rtw_hal_set_def_var is not used
-Date: Sat, 27 Sep 2025 20:27:00 +0200
-Message-ID: <20250927182700.184174-1-straube.linux@gmail.com>
+	linux-kernel@vger.kernel.org
+Cc: Dave Penkler <dpenkler@gmail.com>
+Subject: [PATCH] staging: gpib: Fix no EOI on 1 and 2 byte writes
+Date: Sun, 28 Sep 2025 11:18:18 +0200
+Message-ID: <20250928091818.4243-1-dpenkler@gmail.com>
 X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -76,202 +73,75 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The function rtw_hal_set_def_var is not used. Remove the function and
-resulting dead code.
+EOI (End Or Identify) is a hardware line on the GPIB bus that can be
+asserted with the last byte of a message to indicate the end of the
+transfer to the receiving device.
 
-Signed-off-by: Michael Straube <straube.linux@gmail.com>
+In this driver, a write with send_eoi true is done in 3 parts:
+  Send first byte directly
+  Send remaining but 1 bytes using the fifo
+  Send the last byte directly with EOI asserted
+
+The first byte in a write is always sent by writing to the tms9914
+chip directly to setup for the subsequent fifo transfer.  We were not
+checking for a 1 byte write with send_eoi true resulting in EOI not
+being asserted. Since the fifo transfer was not executed
+(fifotransfersize == 0) the retval in the test after the fifo transfer
+code was still 1 from the preceding direct write. This caused it to
+return without executing the final direct write which would have sent
+an unsollicited extra byte.
+
+For a 2 byte message the first byte was sent directly. But since the
+fifo transfer was not executed (fifotransfersize == 1) and the retval
+in the test after the fifo transfer code was still 1 from the
+preceding first byte write it returned before the final direct byte
+write with send_eoi true. The second byte was then sent as a separate
+1 byte write to complete the 2 byte write count again without EOI
+being asserted as above.
+
+Only send the first byte directly if more than 1 byte is to be
+transferred with send_eoi true.
+
+Also check for retval < 0 for the error return in case the fifo code
+is not used (1 or 2 byte message with send_eoi true).
+
+Fixes: 09a4655ee1eb ("staging: gpib: Add HP/Agilent/Keysight 8235xx PCI GPIB driver")
+Tested-by: Dave Penkler <dpenkler@gmail.com>
+Signed-off-by: Dave Penkler <dpenkler@gmail.com>
 ---
- drivers/staging/rtl8723bs/hal/hal_com.c       | 65 -------------------
- drivers/staging/rtl8723bs/hal/hal_intf.c      |  5 --
- .../staging/rtl8723bs/hal/rtl8723b_hal_init.c | 16 -----
- drivers/staging/rtl8723bs/hal/sdio_halinit.c  |  9 ---
- drivers/staging/rtl8723bs/include/hal_com.h   |  2 -
- drivers/staging/rtl8723bs/include/hal_intf.h  |  2 -
- .../staging/rtl8723bs/include/rtl8723b_hal.h  |  2 -
- 7 files changed, 101 deletions(-)
+ drivers/staging/gpib/agilent_82350b/agilent_82350b.c | 12 +++++++-----
+ 1 file changed, 7 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/staging/rtl8723bs/hal/hal_com.c b/drivers/staging/rtl8723bs/hal/hal_com.c
-index 07e9d3423651..70b5b289f9cb 100644
---- a/drivers/staging/rtl8723bs/hal/hal_com.c
-+++ b/drivers/staging/rtl8723bs/hal/hal_com.c
-@@ -663,71 +663,6 @@ void GetHwReg(struct adapter *adapter, u8 variable, u8 *val)
+diff --git a/drivers/staging/gpib/agilent_82350b/agilent_82350b.c b/drivers/staging/gpib/agilent_82350b/agilent_82350b.c
+index 94bbb3b6576d..01a5bb43cd2d 100644
+--- a/drivers/staging/gpib/agilent_82350b/agilent_82350b.c
++++ b/drivers/staging/gpib/agilent_82350b/agilent_82350b.c
+@@ -182,10 +182,12 @@ static int agilent_82350b_accel_write(struct gpib_board *board, u8 *buffer,
+ 		return retval;
+ #endif
+ 
+-	retval = agilent_82350b_write(board, buffer, 1, 0, &num_bytes);
+-	*bytes_written += num_bytes;
+-	if (retval < 0)
+-		return retval;
++	if (fifotransferlength > 0) {
++		retval = agilent_82350b_write(board, buffer, 1, 0, &num_bytes);
++		*bytes_written += num_bytes;
++		if (retval < 0)
++			return retval;
++	}
+ 
+ 	write_byte(tms_priv, tms_priv->imr0_bits & ~HR_BOIE, IMR0);
+ 	for (i = 1; i < fifotransferlength;) {
+@@ -217,7 +219,7 @@ static int agilent_82350b_accel_write(struct gpib_board *board, u8 *buffer,
+ 			break;
  	}
- }
+ 	write_byte(tms_priv, tms_priv->imr0_bits, IMR0);
+-	if (retval)
++	if (retval < 0)
+ 		return retval;
  
--
--
--
--u8 SetHalDefVar(
--	struct adapter *adapter, enum hal_def_variable variable, void *value
--)
--{
--	struct hal_com_data *hal_data = GET_HAL_DATA(adapter);
--	struct dm_odm_t *odm = &(hal_data->odmpriv);
--	u8 bResult = _SUCCESS;
--
--	switch (variable) {
--	case HW_DEF_ODM_DBG_FLAG:
--		ODM_CmnInfoUpdate(odm, ODM_CMNINFO_DBG_COMP, *((u64 *)value));
--		break;
--	case HW_DEF_ODM_DBG_LEVEL:
--		ODM_CmnInfoUpdate(odm, ODM_CMNINFO_DBG_LEVEL, *((u32 *)value));
--		break;
--	case HAL_DEF_DBG_DM_FUNC:
--	{
--		u8 dm_func = *((u8 *)value);
--		struct dm_priv *dm = &hal_data->dmpriv;
--
--		if (dm_func == 0) { /* disable all dynamic func */
--			odm->SupportAbility = DYNAMIC_FUNC_DISABLE;
--		} else if (dm_func == 1) {/* disable DIG */
--			odm->SupportAbility  &= (~DYNAMIC_BB_DIG);
--		} else if (dm_func == 2) {/* disable High power */
--			odm->SupportAbility  &= (~DYNAMIC_BB_DYNAMIC_TXPWR);
--		} else if (dm_func == 3) {/* disable tx power tracking */
--			odm->SupportAbility  &= (~DYNAMIC_RF_CALIBRATION);
--		} else if (dm_func == 4) {/* disable BT coexistence */
--			dm->DMFlag &= (~DYNAMIC_FUNC_BT);
--		} else if (dm_func == 5) {/* disable antenna diversity */
--			odm->SupportAbility  &= (~DYNAMIC_BB_ANT_DIV);
--		} else if (dm_func == 6) {/* turn on all dynamic func */
--			if (!(odm->SupportAbility  & DYNAMIC_BB_DIG)) {
--				struct dig_t	*pDigTable = &odm->DM_DigTable;
--				pDigTable->CurIGValue = rtw_read8(adapter, 0xc50);
--			}
--			dm->DMFlag |= DYNAMIC_FUNC_BT;
--			odm->SupportAbility = DYNAMIC_ALL_FUNC_ENABLE;
--		}
--	}
--		break;
--	case HAL_DEF_DBG_DUMP_RXPKT:
--		hal_data->bDumpRxPkt = *((u8 *)value);
--		break;
--	case HAL_DEF_DBG_DUMP_TXPKT:
--		hal_data->bDumpTxPkt = *((u8 *)value);
--		break;
--	case HAL_DEF_ANT_DETECT:
--		hal_data->AntDetection = *((u8 *)value);
--		break;
--	default:
--		netdev_dbg(adapter->pnetdev,
--			   "%s: [WARNING] HAL_DEF_VARIABLE(%d) not defined!\n",
--			   __func__, variable);
--		bResult = _FAIL;
--		break;
--	}
--
--	return bResult;
--}
--
- u8 GetHalDefVar(
- 	struct adapter *adapter, enum hal_def_variable variable, void *value
- )
-diff --git a/drivers/staging/rtl8723bs/hal/hal_intf.c b/drivers/staging/rtl8723bs/hal/hal_intf.c
-index 961b0563951d..462553d296ff 100644
---- a/drivers/staging/rtl8723bs/hal/hal_intf.c
-+++ b/drivers/staging/rtl8723bs/hal/hal_intf.c
-@@ -115,11 +115,6 @@ void rtw_hal_set_hwreg_with_buf(struct adapter *padapter, u8 variable, u8 *pbuf,
- 	SetHwRegWithBuf8723B(padapter, variable, pbuf, len);
- }
- 
--u8 rtw_hal_set_def_var(struct adapter *padapter, enum hal_def_variable eVariable, void *pValue)
--{
--	return SetHalDefVar8723BSDIO(padapter, eVariable, pValue);
--}
--
- u8 rtw_hal_get_def_var(struct adapter *padapter, enum hal_def_variable eVariable, void *pValue)
- {
- 	return GetHalDefVar8723BSDIO(padapter, eVariable, pValue);
-diff --git a/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c b/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
-index 18244adad9e0..57c83f332e74 100644
---- a/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
-+++ b/drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c
-@@ -2839,22 +2839,6 @@ void GetHwReg8723B(struct adapter *padapter, u8 variable, u8 *val)
- 	}
- }
- 
--/* Description:
-- *	Change default setting of specified variable.
-- */
--u8 SetHalDefVar8723B(struct adapter *padapter, enum hal_def_variable variable, void *pval)
--{
--	u8 bResult = _SUCCESS;
--
--	switch (variable) {
--	default:
--		bResult = SetHalDefVar(padapter, variable, pval);
--		break;
--	}
--
--	return bResult;
--}
--
- /* Description:
-  *	Query setting of specified variable.
-  */
-diff --git a/drivers/staging/rtl8723bs/hal/sdio_halinit.c b/drivers/staging/rtl8723bs/hal/sdio_halinit.c
-index 7fcb874d0eb3..6f1f726d1630 100644
---- a/drivers/staging/rtl8723bs/hal/sdio_halinit.c
-+++ b/drivers/staging/rtl8723bs/hal/sdio_halinit.c
-@@ -1236,12 +1236,3 @@ u8 GetHalDefVar8723BSDIO(
- 
- 	return bResult;
- }
--
--/*  */
--/* 	Description: */
--/* 		Change default setting of specified variable. */
--/*  */
--u8 SetHalDefVar8723BSDIO(struct adapter *Adapter, enum hal_def_variable eVariable, void *pValue)
--{
--	return SetHalDefVar8723B(Adapter, eVariable, pValue);
--}
-diff --git a/drivers/staging/rtl8723bs/include/hal_com.h b/drivers/staging/rtl8723bs/include/hal_com.h
-index 7ea9ee2b3975..74d6c892c401 100644
---- a/drivers/staging/rtl8723bs/include/hal_com.h
-+++ b/drivers/staging/rtl8723bs/include/hal_com.h
-@@ -138,8 +138,6 @@ void SetHwReg(struct adapter *padapter, u8 variable, u8 *val);
- void GetHwReg(struct adapter *padapter, u8 variable, u8 *val);
- void rtw_hal_check_rxfifo_full(struct adapter *adapter);
- 
--u8 SetHalDefVar(struct adapter *adapter, enum hal_def_variable variable,
--		void *value);
- u8 GetHalDefVar(struct adapter *adapter, enum hal_def_variable variable,
- 		void *value);
- 
-diff --git a/drivers/staging/rtl8723bs/include/hal_intf.h b/drivers/staging/rtl8723bs/include/hal_intf.h
-index 2fa2382ad5f3..82b60899129d 100644
---- a/drivers/staging/rtl8723bs/include/hal_intf.h
-+++ b/drivers/staging/rtl8723bs/include/hal_intf.h
-@@ -199,7 +199,6 @@ void rtw_hal_chip_configure(struct adapter *padapter);
- void rtw_hal_read_chip_info(struct adapter *padapter);
- void rtw_hal_read_chip_version(struct adapter *padapter);
- 
--u8 rtw_hal_set_def_var(struct adapter *padapter, enum hal_def_variable eVariable, void *pValue);
- u8 rtw_hal_get_def_var(struct adapter *padapter, enum hal_def_variable eVariable, void *pValue);
- 
- void rtw_hal_set_odm_var(struct adapter *padapter, enum hal_odm_variable eVariable, void *pValue1, bool bSet);
-@@ -262,7 +261,6 @@ void SetHwReg8723BS(struct adapter *padapter, u8 variable, u8 *val);
- void GetHwReg8723BS(struct adapter *padapter, u8 variable, u8 *val);
- void SetHwRegWithBuf8723B(struct adapter *padapter, u8 variable, u8 *pbuf, int len);
- u8 GetHalDefVar8723BSDIO(struct adapter *Adapter, enum hal_def_variable eVariable, void *pValue);
--u8 SetHalDefVar8723BSDIO(struct adapter *Adapter, enum hal_def_variable eVariable, void *pValue);
- void UpdateHalRAMask8723B(struct adapter *padapter, u32 mac_id, u8 rssi_level);
- void rtl8723b_SetBeaconRelatedRegisters(struct adapter *padapter);
- void Hal_EfusePowerSwitch(struct adapter *padapter, u8 PwrState);
-diff --git a/drivers/staging/rtl8723bs/include/rtl8723b_hal.h b/drivers/staging/rtl8723bs/include/rtl8723b_hal.h
-index 2ed1fc8549ec..06e0a549fa9d 100644
---- a/drivers/staging/rtl8723bs/include/rtl8723b_hal.h
-+++ b/drivers/staging/rtl8723bs/include/rtl8723b_hal.h
-@@ -223,8 +223,6 @@ void C2HPacketHandler_8723B(struct adapter *padapter, u8 *pbuffer, u16 length);
- 
- void SetHwReg8723B(struct adapter *padapter, u8 variable, u8 *val);
- void GetHwReg8723B(struct adapter *padapter, u8 variable, u8 *val);
--u8 SetHalDefVar8723B(struct adapter *padapter, enum hal_def_variable variable,
--		     void *pval);
- u8 GetHalDefVar8723B(struct adapter *padapter, enum hal_def_variable variable,
- 		     void *pval);
- 
+ 	if (send_eoi) {
 -- 
 2.51.0
 
