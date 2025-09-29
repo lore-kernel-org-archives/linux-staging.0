@@ -1,59 +1,59 @@
 Received: from fra-out-005.esa.eu-central-1.outbound.mail-perimeter.amazon.com (fra-out-005.esa.eu-central-1.outbound.mail-perimeter.amazon.com [63.176.194.123])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4ACE930C104;
-	Mon, 29 Sep 2025 17:22:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70519223DD4;
+	Mon, 29 Sep 2025 18:39:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=63.176.194.123
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759166534; cv=none; b=UEdlFzGcHg8TOgldu2vzsDSveaoCcaNyiBsPrb3cDXlVBVllpbv/ldYtjfmLgnMgAqZKHJGFl20q4tG4lU2zkHFi1740dmqDSm2ZOuBehJ5DsnsRx4zYkVW6pdLdsyVkJJtiFgVS60oSmEvTZN2kH4HwvVMnYcVUl4f8EJxN5ag=
+	t=1759171149; cv=none; b=oqEv/Wajflq99HrBbV69Z5fM4EK84cDTQ/3UPOmtwX/nW8/vJnoX4A5tYNqPatfRglh3peTffzn2e5FH7EKqKfEGYpDf2fbWhlRwuE/m4NXk7n2wKaZ5MCg+AwqD7HR0i65iV2tzTrhBwWQkg+rhiL+TeLSnhtRnOWp88FS9x8Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759166534; c=relaxed/simple;
-	bh=rPvAb70eX+xtNxLsT31tJqXSjUME1o5yfKSfCT5CPok=;
+	s=arc-20240116; t=1759171149; c=relaxed/simple;
+	bh=vJ7eD2nV/4N7AIUA9/+6epf2vjH4s0akBoFco89HihE=;
 	h=Subject:From:To:CC:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=RCOTUWM9Rcri3u2VI9GFIPIf8j3DSX4UpCpvQgIfPwcN/fusM09crDRauxaHzr2pp4lQT6M5y0QElMPV0V4OvwJ2Z+phpSAaY9V4OpwsvxMpc1dlUWkHgywFdckkjeWHZfmRY4Ye4503QKnkd6e6dVZgFUQ5Cjp4BFlZbKi+AoU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com; spf=pass smtp.mailfrom=amazon.com; dkim=pass (2048-bit key) header.d=amazon.com header.i=@amazon.com header.b=hlC1bmAP; arc=none smtp.client-ip=63.176.194.123
+	 Content-Type:MIME-Version; b=QApM4c6XRQvLzXrkDm6rfZedKV1BYHCmN16Sgy/gNtMUIRNDI/vKos3V/sDZMVgLu+brnPE/yjP0i2iITkZ8iNxBsrFs9dL2PeNLrHHHklF0RZwFrBZjRPWl81zWiPfExBhqySg68KBIaoRHaQske8FpGzaKsImdy+Poxcuyxpw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com; spf=pass smtp.mailfrom=amazon.com; dkim=pass (2048-bit key) header.d=amazon.com header.i=@amazon.com header.b=GqCLF3WT; arc=none smtp.client-ip=63.176.194.123
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazon.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=amazon.com header.i=@amazon.com header.b="hlC1bmAP"
+	dkim=pass (2048-bit key) header.d=amazon.com header.i=@amazon.com header.b="GqCLF3WT"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
   d=amazon.com; i=@amazon.com; q=dns/txt; s=amazoncorp2;
-  t=1759166532; x=1790702532;
+  t=1759171147; x=1790707147;
   h=from:to:cc:date:message-id:references:in-reply-to:
    content-transfer-encoding:mime-version:subject;
-  bh=gKvaxmrs9uqyIGzbajJ1O5Hd1/ndu7xAtdLZV5bBh5k=;
-  b=hlC1bmAPHk6t8ey/CQdZUq0TvsAOPMbkCQRdvtutr6l1tDC0Niq24dws
-   Gvh3UGSNXXYHPhdSGkP0tYxB+B4pbrLvOfg7lXiiWLbQmJxx/6XH9nj32
-   283Sxz/pafiKoSfKAXkqeELngBdIkuD+JJ2Kf/FXpwQTFdUpsGwTvglZ2
-   Ot8XOYVWXuYqcBbcsXjcYEv6fbVqPSXsQSqg+7AWbTwMWzG/yKHxI3U8C
-   gyMy6fWu1XyV2O3NmFoS4ajjrqS7kVl0PgCmDhsMczhsFNbUKVCTRQRU0
-   SNHSYwsZB2LhaY6yW+uQFvM8ouik/brgyw1iDZnPNBxCFFfwn8epEhjtY
-   w==;
-X-CSE-ConnectionGUID: IafcEd3hQO6oGZOiLnLKqg==
-X-CSE-MsgGUID: Itl7dVAmRv28mSSF4DAfeA==
+  bh=vJ7eD2nV/4N7AIUA9/+6epf2vjH4s0akBoFco89HihE=;
+  b=GqCLF3WTdg7/ZtZSFELSD7oYx8VpW98D3go/tfy1sLn0f8XM8KfSUuGp
+   ldn52XMkV+17oW4ni2ikZft6zL+iJciGREwhpkyczEZUlXT3NgtY8Nd5s
+   jiCxPY0NT0ccAcKNp6O1F0lZNmWxx/5gtSqA4u3vEzjftac0YM/eqUYc6
+   i1Y8jexfkZUMLLWDL5NTqG3B7qdoglGiJxCqykGqj0FU0wVtKdJwWJk9Y
+   ohV+7p51iI3/8tKuWnKWzIsadZJLqMIyAD/9Zcwk8g0HUYvi3mfzsLx6R
+   wd8NZfV9mnv6drfS587PXJUJANpCNXLIi3wTXc7PvlFzleGCcQKGdjBYJ
+   A==;
+X-CSE-ConnectionGUID: EC85rEzURZ+CERFt3YJdKA==
+X-CSE-MsgGUID: tnl/cymrQVqCkLCX53HUhQ==
 X-IronPort-AV: E=Sophos;i="6.18,302,1751241600"; 
-   d="scan'208";a="2841710"
+   d="scan'208";a="2844874"
 Subject: RE: [PATCH 07/19 v6.1.y] minmax: make generic MIN() and MAX() macros
  available everywhere
 Thread-Topic: [PATCH 07/19 v6.1.y] minmax: make generic MIN() and MAX() macros available
  everywhere
 Received: from ip-10-6-6-97.eu-central-1.compute.internal (HELO smtpout.naws.eu-central-1.prod.farcaster.email.amazon.dev) ([10.6.6.97])
-  by internal-fra-out-005.esa.eu-central-1.outbound.mail-perimeter.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Sep 2025 17:22:02 +0000
-Received: from EX19MTAEUA002.ant.amazon.com [54.240.197.232:7433]
+  by internal-fra-out-005.esa.eu-central-1.outbound.mail-perimeter.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Sep 2025 18:39:02 +0000
+Received: from EX19MTAEUB002.ant.amazon.com [54.240.197.232:4036]
  by smtpin.naws.eu-central-1.prod.farcaster.email.amazon.dev [10.0.19.222:2525] with esmtp (Farcaster)
- id 39c95fb2-68e2-4279-8b5a-834631637cab; Mon, 29 Sep 2025 17:22:01 +0000 (UTC)
-X-Farcaster-Flow-ID: 39c95fb2-68e2-4279-8b5a-834631637cab
+ id a320107e-9e0a-4760-b3dc-26c5d986714d; Mon, 29 Sep 2025 18:39:01 +0000 (UTC)
+X-Farcaster-Flow-ID: a320107e-9e0a-4760-b3dc-26c5d986714d
 Received: from EX19D018EUA004.ant.amazon.com (10.252.50.85) by
- EX19MTAEUA002.ant.amazon.com (10.252.50.126) with Microsoft SMTP Server
+ EX19MTAEUB002.ant.amazon.com (10.252.51.59) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.20;
- Mon, 29 Sep 2025 17:21:59 +0000
+ Mon, 29 Sep 2025 18:39:00 +0000
 Received: from EX19D018EUA004.ant.amazon.com (10.252.50.85) by
  EX19D018EUA004.ant.amazon.com (10.252.50.85) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.20;
- Mon, 29 Sep 2025 17:21:59 +0000
+ Mon, 29 Sep 2025 18:39:00 +0000
 Received: from EX19D018EUA004.ant.amazon.com ([fe80::e53:84f8:3456:a97d]) by
  EX19D018EUA004.ant.amazon.com ([fe80::e53:84f8:3456:a97d%3]) with mapi id
- 15.02.2562.020; Mon, 29 Sep 2025 17:21:59 +0000
+ 15.02.2562.020; Mon, 29 Sep 2025 18:39:00 +0000
 From: "Farber, Eliav" <farbere@amazon.com>
 To: Greg KH <gregkh@linuxfoundation.org>
 CC: "linux@armlinux.org.uk" <linux@armlinux.org.uk>, "richard@nod.at"
@@ -162,15 +162,13 @@ CC: "linux@armlinux.org.uk" <linux@armlinux.org.uk>, "richard@nod.at"
 	<linux-kselftest@vger.kernel.org>, "stable@vger.kernel.org"
 	<stable@vger.kernel.org>, Linus Torvalds <torvalds@linux-foundation.org>,
 	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
-Thread-Index: AQHcLZHEroQ9W2lH4EW9XJumD1KlZrSqNL0AgAAM8ACAAAMmgIAAKtlA
-Date: Mon, 29 Sep 2025 17:21:58 +0000
-Message-ID: <e754fed7d53040fb92e1ef9b64c64f6e@amazon.com>
+Thread-Index: AQHcLZHEroQ9W2lH4EW9XJumD1KlZrSqNL0AgABQRkA=
+Date: Mon, 29 Sep 2025 18:39:00 +0000
+Message-ID: <f32d53131d0a4b61a7be4862c7a7f237@amazon.com>
 References: <20250924202320.32333-1-farbere@amazon.com>
  <20250924202320.32333-8-farbere@amazon.com>
  <2025092923-stove-rule-a00f@gregkh>
- <85a995bb59474300aa3d5f973d279a13@amazon.com>
- <2025092955-module-landfall-ed45@gregkh>
-In-Reply-To: <2025092955-module-landfall-ed45@gregkh>
+In-Reply-To: <2025092923-stove-rule-a00f@gregkh>
 Accept-Language: en-US
 Content-Language: en-US
 X-MS-Has-Attach:
@@ -184,30 +182,18 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 
-> On Mon, Sep 29, 2025 at 02:39:26PM +0000, Farber, Eliav wrote:
-> > > On Wed, Sep 24, 2025 at 08:23:08PM +0000, Eliav Farber wrote:
-> > > > From: Linus Torvalds <torvalds@linux-foundation.org>
-> > > >
-> > > > [ Upstream commit 1a251f52cfdc417c84411a056bc142cbd77baef4 ]
-> > >
-> > > <snip>
-> > >
-> > > As this didn't go into 6.6.y yet, I'll stop here on this series for n=
-ow.
-> > > Please fix up for newer kernels first and then resend these.
-> >
-> > For 6.6.y I backported 15 commits:
-> > https://lore.kernel.org/stable/20250922103241.16213-1-farbere@amazon.co=
-m/T/#t
-> >
-> > Why weren't all of them picked?
+On Wed, Sep 24, 2025 at 08:23:08PM +0000, Eliav Farber wrote:
+> From: Linus Torvalds <torvalds@linux-foundation.org>
 >
-> Because one of them broke the build, as I wrote a week ago here:
->         https://lore.kernel.org/all/2025092209-owl-whisking-03e3@gregkh/
+> [ Upstream commit 1a251f52cfdc417c84411a056bc142cbd77baef4 ]
 
-Fixed:
-https://lore.kernel.org/stable/20250929171733.20671-1-farbere@amazon.com/T/=
-#t
+<snip>
+
+As this didn't go into 6.6.y yet, I'll stop here on this series for now.
+Please fix up for newer kernels first and then resend these.
+
+The fix for 6.6.y was applied also on 6.1.y:
+https://lore.kernel.org/stable/20250929183358.18982-1-farbere@amazon.com/
 
 ---
-Thanks, Eliav
+Regards, Eliav
