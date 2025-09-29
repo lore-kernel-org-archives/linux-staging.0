@@ -1,106 +1,71 @@
-Received: from mail-qk1-f178.google.com (mail-qk1-f178.google.com [209.85.222.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19B632C3266
-	for <linux-staging@lists.linux.dev>; Mon, 29 Sep 2025 06:51:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 119242BF000;
+	Mon, 29 Sep 2025 06:58:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759128663; cv=none; b=rQ4PQg4dOv+8xkww/Rg1B4dcRtUQUHXBUTQanRfhnOKGXHBc7M8UsVuY62fR+io9lizMqNizOuP4+BCTJuWCjJdrNqmlHmWhrQcP3yEvj0FwUgFyBrbmhqZVXp2+L/EBi5rgXgTHCEltlfmFK6zMkyMdDZgqOLHvSTWb7YQHix0=
+	t=1759129098; cv=none; b=Rwf+azpgPYLgXFJ8IaHuKFRZL0S6uTH0k43wiH0+eBYnO5HZq4lnYlVjnefix0icQC4j9fEINyOCYPsoZhp+Qeel7Oh+4D/dCpryOCxVIykvC4TCnBs4TMheteiFg9JHql3QklSZYFnqF4a9i94q4/wHauAJ8wMiwBHH25zbjRc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759128663; c=relaxed/simple;
-	bh=j41yExCsKaaUjcSIHJe6r3UBHZsX2oLK1/XLveL5/Uc=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=EPa1ETEoOLB57J5GGuL9C/1mDkf0wxVtONIlYm+IYGThBTFXR74i1Q5BCRwRx4O+j9c1OEuL1ArCBwPLIKQgYjo57IuNDwRWO3cQKPMSnRITDchsb1QhPHEjciVupmNA+gLjk9I6ZMBXwux00i7PZjO61Mdy5Fib+YqZ6MnjF8o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bVcXMKMP; arc=none smtp.client-ip=209.85.222.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1759129098; c=relaxed/simple;
+	bh=UhH2n8XuCOOM8KPxIWXZg6GnG8E37tiWR5u8VO5rNHI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=tyDdubgWxeH/VWieIMMlhMOHBhaUP/nD8LjSD4MU2aX5QQ8BZGZxQFGbv60W1IBs4aq/iaOQccS3ym19Q0JAu5rN1449YqdsMBOg2ILrMWwV58/9XUhm1lx8FD1sKufnZd1BtVWQ1HlM8p+iqU8Ba7/rMS38R/XAwHTNNF9z+lY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=YBp8aoW+; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bVcXMKMP"
-Received: by mail-qk1-f178.google.com with SMTP id af79cd13be357-856328df6e1so424104885a.0
-        for <linux-staging@lists.linux.dev>; Sun, 28 Sep 2025 23:51:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1759128661; x=1759733461; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=5PyA5YFgx0PLE3LSarm56xsDTtWVM1hBOP7X/Svx67I=;
-        b=bVcXMKMPLrg9/LHnXfUexJOaR2Ll5Ypr4pZRoSkX8rRl/VofgGxfIHYUEh9rDy4Lat
-         ZfgVNL+LlmgXGCZu5Xyj++ONUjtkvGBMrwp+Uwz4ZPTCUS537vSFJQ7xI9tLO7H5j+p+
-         QmTxnRF3aUbyTDV77XQtI6cL2lP4gDJRFsqn1iT4ef+WTTTFaTGg9SLlt9r+qLGIBuPh
-         a/VnzYuefHUn6Y5M3Fy5v92y3mOy521rNJgtqWGgVPTjcA5EuE40uSImYStWoOL5fkWt
-         Y6xUxnw0niFCt2Jlhh/+8Yj8hmixV8IVe2SlhyWE8+p9CmC8LOqJzUyLEGFeiorbscF2
-         Y5LA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759128661; x=1759733461;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=5PyA5YFgx0PLE3LSarm56xsDTtWVM1hBOP7X/Svx67I=;
-        b=GpeHBqbJwPmq0suFvxQ9lUNw+9pWopir9NnkNihF7Y6DRB4BSQObgIYFHjOV5Sr+Eu
-         rjt9r2wVgds2A3FSVKF3te5Dc0QVR5rdjip6E4FS3PbUnmIErfTeTbCFz6cYN591/0bd
-         Bd4hNfxIGTG7DSHjVjnmDK+jUPO0UwBzJ6f+PAI2qiazw1t0VGctSHlIiiXgJiUnanMX
-         xF7gtEKhB6irWdDoV3u3EeUNC5KNGTVeRkuWGNBGpFWBuDT4QHC5/bexvOlRdmS0ypV+
-         VWEfO6kNvXHplhO8wVznlOz8lJ6gn1kTqZ2a4Ev1pUgV25YpkXtRX48tDLvb8lWRs4+e
-         VduA==
-X-Gm-Message-State: AOJu0YylgJLNMs+PVzmmb5qPB4mL5WlJnjJFLSBfQhJERyxQrSjBSbcJ
-	yyFyqdvPKJIr59fN3VhXw3eLKE1jkN4yeyr5LzocOWjesIXuxTX7/PSh
-X-Gm-Gg: ASbGnctMPdQI+AzB3zW6qwUi9lLIMCdJVcIMftv17NqqdHsgJyfC1hu2TGtCw4YNK5L
-	/THtgW/sUZ0fzkiAso1i9PomM4oPvQSGtzklYLMqFnsC7MDHi4arQSIKTVwGRnfxtkGQw62LPgt
-	Y42fye/Y2T+8vwtcrJO8tokwfEBeDXpzAvDaQJiVU/7Wx1XO4PZBNs/aQsUuzHtfOCkV8sandQx
-	caI7HM/0Xgwwe/s1PgQvn+w8CNXMY0fz+GinfC+KeyF9/I4vu7d0XFkWLXsC6Q2cBczYuz/AajV
-	TyuVSgAfidoYvwgYpgzC4YEl5TdXYTtKZD1/faYhpPynbFGWtGyEnpCTrGsN5/2PwStyzJ0wjKQ
-	uJrbKiDrlfWhpyBQ8b1sBlTOwW2g8pLml5b7w6hhk6O5Un7OoKLM=
-X-Google-Smtp-Source: AGHT+IGVZ+6+uYWljd9/v1KclebPlFys/+ZUCb3LCNXleY/oBGrohXf0aFyBGBAY1P3g3+Pj/SY/3A==
-X-Received: by 2002:a05:620a:a498:b0:85d:aabb:47cf with SMTP id af79cd13be357-85daabb5028mr1185750585a.9.1759128661026;
-        Sun, 28 Sep 2025 23:51:01 -0700 (PDT)
-Received: from linux-kernel-dev-start.. ([159.203.26.228])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-4db10874bb9sm69517671cf.24.2025.09.28.23.51.00
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 28 Sep 2025 23:51:00 -0700 (PDT)
-From: Vivek BalachandharTN <vivek.balachandhar@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	vivek.balachandhar@gmail.com
-Subject: [PATCH v3 15/15] staging: rtl8723bs: merge nested if conditions for clarity and tab problems
-Date: Mon, 29 Sep 2025 06:50:00 +0000
-Message-Id: <20250929065000.1010848-16-vivek.balachandhar@gmail.com>
-X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20250929065000.1010848-1-vivek.balachandhar@gmail.com>
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="YBp8aoW+"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1086BC4CEF4;
+	Mon, 29 Sep 2025 06:58:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1759129097;
+	bh=UhH2n8XuCOOM8KPxIWXZg6GnG8E37tiWR5u8VO5rNHI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=YBp8aoW+1mEfL/Jvl03q2y8wKmuUABNXW8mb+8Pem5rvwV+R7JkRwHcw34ErEWGCB
+	 mB8r4YW6AeXThbAMNcO4+BcB+UGideh3XEtI9Rw86V1S6BnyQXxKa0EZp9FoA0GsdJ
+	 GiSy65+1/NREEqUzzuDi1IQAhkTh6/3b8AZossTo=
+Date: Mon, 29 Sep 2025 08:58:14 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Vivek BalachandharTN <vivek.balachandhar@gmail.com>
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 04/15] staging: rtl8723bs: align asterisk in block
+ comment to fix formatting
+Message-ID: <2025092953-depravity-oasis-93cb@gregkh>
 References: <20250929065000.1010848-1-vivek.balachandhar@gmail.com>
+ <20250929065000.1010848-5-vivek.balachandhar@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250929065000.1010848-5-vivek.balachandhar@gmail.com>
 
-Combine nested if conditions for clarity and fix tab indentation in one
-place to match kernel coding style.
+On Mon, Sep 29, 2025 at 06:49:49AM +0000, Vivek BalachandharTN wrote:
+> Align the leading asterisks in a multi-line block comment to maintain
+> consistent formatting and improve readability,in accordance with kernel
+> coding style guidelines. No functional changes.
+> 
+> Signed-off-by: Vivek BalachandharTN <vivek.balachandhar@gmail.com>
+> ---
+>  drivers/staging/rtl8723bs/core/rtw_mlme.c | 40 +++++++++++------------
+>  1 file changed, 20 insertions(+), 20 deletions(-)
+> 
+> diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme.c b/drivers/staging/rtl8723bs/core/rtw_mlme.c
+> index 3eeea832dcb6..cd41f713a52e 100644
+> --- a/drivers/staging/rtl8723bs/core/rtw_mlme.c
+> +++ b/drivers/staging/rtl8723bs/core/rtw_mlme.c
+> @@ -869,8 +869,8 @@ static void find_network(struct adapter *adapter)
+>  }
+>  
+>  /*
+> -*rtw_free_assoc_resources: the caller has to lock pmlmepriv->lock
+> -*/
+> + *rtw_free_assoc_resources: the caller has to lock pmlmepriv->lock
 
-No functional changes.
+Shouldn't you also have a space after the '*' and before the 'r'?
 
-Signed-off-by: Vivek BalachandharTN <vivek.balachandhar@gmail.com>
----
- drivers/staging/rtl8723bs/core/rtw_mlme.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+thanks,
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme.c b/drivers/staging/rtl8723bs/core/rtw_mlme.c
-index d9483594afdd..56fa51a7774b 100644
---- a/drivers/staging/rtl8723bs/core/rtw_mlme.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_mlme.c
-@@ -1254,8 +1254,8 @@ void rtw_joinbss_event_prehandle(struct adapter *adapter, u8 *pbuf)
- 						rtw_free_stainfo(adapter,  pcur_sta);
- 
- 					ptarget_wlan = rtw_find_network(&pmlmepriv->scanned_queue, pnetwork->network.mac_address);
--					if (check_fwstate(pmlmepriv, WIFI_STATION_STATE) == true) {
--					    if (ptarget_wlan)
-+					if (check_fwstate(pmlmepriv, WIFI_STATION_STATE) == true &&
-+					    ptarget_wlan) {
- 						ptarget_wlan->fixed = true;
- 					}
- 				}
--- 
-2.39.5
-
+greg k-h
