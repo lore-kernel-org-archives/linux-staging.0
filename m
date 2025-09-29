@@ -1,70 +1,70 @@
 Received: from mail-qt1-f171.google.com (mail-qt1-f171.google.com [209.85.160.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A20862BEFE4
-	for <linux-staging@lists.linux.dev>; Mon, 29 Sep 2025 06:50:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D7222C1586
+	for <linux-staging@lists.linux.dev>; Mon, 29 Sep 2025 06:50:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759128649; cv=none; b=Lp8v4CQ8YQNDM3bsAwpszlU4BLEIkQozp59FjwFNMb5OPkZdKWCGL+qxlUCJE4MJS3t1DwjMWDPikmNAXqp9XCRlYZ1fPztuhe9x8dIJcnj2qd/yvai2Q5paoyD53SwSBpE23COZeq5zKxAQjB5NChsjZs7zKG9GKsYug9j4aQM=
+	t=1759128651; cv=none; b=jp3bGzV0waZ95YmHWVtbibHlu3wkgAbGiUXfOPmliFW6DwFXwQOtj1aIrVMR3PMsCVsPpGeruRcKW1qPiNhw675/pQTdv7eX7jmSpqWpc9PB5/S69/4YUjfdN3zU4qOO3CiL0pEmSALUutMyJGYQ2ui5q7UshfzzUeTCvygIxSY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759128649; c=relaxed/simple;
-	bh=ZIDFMuE4M5pN3hNXaXhKSfNWI42Rb3epwAfW5TFj8CA=;
+	s=arc-20240116; t=1759128651; c=relaxed/simple;
+	bh=8er5g/JdtGmDLwAxnKtTLLBjMA31RvembXwPpxkN0eY=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=cSU1trNI66sMwGAcfavHDjGCNQoNu8sy3wyPqA9s+tiG8Fl8GWnVquIpg3MdG/JgQTSdtTrl4wYhmOQuf3BPdF773kI7Kqqp9fYkJDsjmQx7ZQDLz7y9rX7MywHf8NHRT97cXiOm1Ui7dWm1t2AROiWNLdw62M1o3jxSAhtoWXY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=c59iEPuZ; arc=none smtp.client-ip=209.85.160.171
+	 MIME-Version; b=gfDN884eP0NoHIj5X1hZ6zuFvzcc5MOkqusA2EGFOPVCIFP0ft7xrqiHEO5DtzRKWju6/b1dNkgzaC/T5SPImd1b01mBsFvt44Dtey5nU7WkEpJPKfUO5pKozAHBSB0zWgRhaVFDNOTaV00DuzRon4KmY5H9wPC0srhSsUORLcs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AnKKvv0N; arc=none smtp.client-ip=209.85.160.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="c59iEPuZ"
-Received: by mail-qt1-f171.google.com with SMTP id d75a77b69052e-4de659d5a06so17488871cf.3
-        for <linux-staging@lists.linux.dev>; Sun, 28 Sep 2025 23:50:47 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AnKKvv0N"
+Received: by mail-qt1-f171.google.com with SMTP id d75a77b69052e-4df0467b510so23571451cf.3
+        for <linux-staging@lists.linux.dev>; Sun, 28 Sep 2025 23:50:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1759128646; x=1759733446; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1759128648; x=1759733448; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=75NYRUjzu7V9uiI556WCEEmql3MK5Ygx3IijVaMkk7Y=;
-        b=c59iEPuZfWx3hxNf9xPd3KGZEFVC4AYRr90idqNqlBg4UQqWQf2WT8zXttXvpZKuXr
-         8n07JcFBkHrinP5LHj+ilpX0daRfXPy4tBYvYtf2ZMx3cqe1+bDUU4nBUjhwBLHwVclY
-         DkroPmKJTI+GRSiaoH7Wwc4Rcj5kx8o68ACW+5/Q1rxZxRBtyApdWDY7PnXAf2gkAgCK
-         qYvc+KCOBJfWzXSf6NykvUb/ETHVdud/Wi1+SUGT82gFHrzdP3D31IpYHCJYKL+AWr79
-         L2RTffRLWXEM8P3yX8Re+HW83O/FfirICd5LzutM6VACTO9kkgNkR4VLZwV7M5JzENGd
-         YoCA==
+        bh=vNzQSvDGcgGcsxPnJpDh3vO9RZGdTNfhmCnJqVlYiLo=;
+        b=AnKKvv0NeAgPkhEpwCxFimH4UesV69GfbdeL65dBWuRySzwUQChj7YMI8qTUI0HU5U
+         w8H+jedk4vvEnBKzYMqeeGAhFzxEUdNBHggnSUSNI+rGAF8O9SKmqBu1zx7bPXmFOUTp
+         iZtB88koolNj0UuLTa1XLOKofx0oOQv1yC39VEGOIQkz/8zu5Dm5QMNyo3TaGaOm1hZH
+         BfzWunRIwj4LuzS2Pg4vEwN10lvJ2MctInk0qAFI+1Y2QVpkYtSqARliZWe4zcXwDPLF
+         OW3lUzMMVqqDK8wdpgJYIYyRpvxGD632ozI/mEojwPRuqojBA/Z9ZeslXCDvXNP4fY0P
+         AoTw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759128646; x=1759733446;
+        d=1e100.net; s=20230601; t=1759128648; x=1759733448;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=75NYRUjzu7V9uiI556WCEEmql3MK5Ygx3IijVaMkk7Y=;
-        b=EiGrWhDwxF0o2Y0ARdDqiEvo/59xZCMet5ehdMGBXEbRwpKeZt2J3Dl53GwuRgA818
-         UYY7nOmKdC9qm6Oa4VGkQRUYzlLHONo7FCukCIOZMWlQ/YRgBsLyii337Ha/ukQYgajv
-         xwNUOiSf3OYLAQynVMFg2kkRTo6tmPbB55VHodeH68drjehViV3ZcxnKDiU+k7jONlQT
-         fewpIFhYwK4xJg6e6O/r37NRW852O0tR4u8DeUpN12rOgm5BXMEtX8SYDcBlbMOgVB2V
-         zesLHfcxt//F+EeLN43pEfWVp5eAuWMw9yoXMbYzA4z1h+dyV6j3OzWQNmRUnPoQ7Euq
-         T/bA==
-X-Gm-Message-State: AOJu0YxAn4ZNjUO0NUkUaGD2kMJ56LcmpfpdoAl99Jcf+cMxRTxoL3c3
-	KAuC8jQqqXoWwjYijE4Q7+60lejAjsDfP/tSO5wbvSipRUsIJ0mFoYtC
-X-Gm-Gg: ASbGncuL5Pio42QDIkzqUMVydqUH+BoQCpZ2fJrTFNkm7W2qEeGRKnSvDmJIay75tno
-	RUaYtAiN8IKKiWPfSXFv74/5S5f7O5LgBGcLh7NbqD/VLkFKTDeT+WdEGMzxGsSc72oHtgV3OtN
-	MAXs/Ylb+huSGD/+G5gQpYWBuW7tnZw7liA7hyRtISO0k+vJu/Tr+6JQ/enAb7lXxpq34RmqAT9
-	rUFTI35R94KZA3LyT83yNLDBmWn8mEPqkJjS0p3+J70A8gRytDS/JI9uxiIgMXGItnF8qcoJR8D
-	9mh9n21shQxHvGOvkfWlYKUhtyhR1D8VvCAU5oP6kuTBr9yAZgdHbgxWFEaRxHUdRfNcWUu4z1c
-	iJk3lB7MI/7su6b1vkO+3Ne+XUGZX8A3cr0NMZWiykfUfzxrSDltQoDa92wwH8zixPqtNZr8t
-X-Google-Smtp-Source: AGHT+IETBXJT9TSZrRNQtwiykHOuZOUkMcuhaG49sOTr4axYPf3sExOFa2JBQHhSe896Y/AgSfSP4A==
-X-Received: by 2002:a05:622a:480b:b0:4b7:aff5:e8c2 with SMTP id d75a77b69052e-4da4bbe4440mr188684981cf.58.1759128646578;
-        Sun, 28 Sep 2025 23:50:46 -0700 (PDT)
+        bh=vNzQSvDGcgGcsxPnJpDh3vO9RZGdTNfhmCnJqVlYiLo=;
+        b=A2PHx8yAwZ/02ubiF7KkhhqFluPcU3hSEJlABkoJKpzRzqRKmpkkpiGVT+hqbkxump
+         b/py/WDcDeWzHajZR5Ui+UnxV0nF3Gw6qp+Cx7Fulo+nNYDIMHf/0WTy0jbfHheNewrq
+         PkeaYOm/ZaPztYwRIDeTO99gNaE4ACBqETwfU0NjRjSfFuhHHVOlhHPMhJRYztF1gR3l
+         OulWp3jRPmst92uz/+HOQ53ATcLGTJ+xuFVRYEr+fj6EC2iU0SbaVAu76lB+T0kmxNUq
+         02N4vVsxtsFE4hLVVe1J+s0/EY5DI15WknkZ42Kt6YTERLzRSaRWAQXmaE7edxDrgqAH
+         lifA==
+X-Gm-Message-State: AOJu0YzdnDIaAxV6lQTxlk10PBj+Ny00rRzpkg9tkDZ/S1MIZi0g3BE3
+	hO1ieEa7VsDoq71of8X1PR79nCzIZgeme62LbdExQpbkxgBIv17Oevtb
+X-Gm-Gg: ASbGnctZDzrcH5G7sX6NGnblGEd32vIKAmEHughd+ELqA/hf9mJ1KAFdBT8uE6gm5/Q
+	hJbn6wc/asCgUM9xu/tuW5amuAHcf0ZC4WzQ4mmyDrdBdEjXtf39lnvN2cgLWJ+xs3IA1cLNSSJ
+	qk3pogTXsO1sfe+ddGPFUgmClgiSD2hmcJ5nYUf5v4nmgJjoW364B9YeQ1pGKDKCTEUWk2jKLBx
+	S6DvGrjpIElrd4+8Ir1YElo87uvuX943tgydwLGSIBQgtZPo+gERd4py8IeOkqQA+jT6z1paeAN
+	J2LTldAljxCULECeAX/zhCshfXv/JmCT8BWK5YJbS8+CaQFWB0Z5kDAGocz23PtFTF35CMIV5I5
+	Q1FDsW7/W2qFjOc6WCYOyDcQ9TcpA6J0Ujchm/bjxShqZdgAONFDWejpVxD+uVw==
+X-Google-Smtp-Source: AGHT+IHJDdHmmS3a9PUHcJC4ws7x1A1sX+MEycaSbINCX8m8jxAVL3NxscjrVx7k3N22CtTBeQLfiA==
+X-Received: by 2002:ac8:5856:0:b0:4b6:2be2:e816 with SMTP id d75a77b69052e-4da4735508amr200457451cf.8.1759128648449;
+        Sun, 28 Sep 2025 23:50:48 -0700 (PDT)
 Received: from linux-kernel-dev-start.. ([159.203.26.228])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-4db10874bb9sm69517671cf.24.2025.09.28.23.50.45
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-4db10874bb9sm69517671cf.24.2025.09.28.23.50.47
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 28 Sep 2025 23:50:45 -0700 (PDT)
+        Sun, 28 Sep 2025 23:50:48 -0700 (PDT)
 From: Vivek BalachandharTN <vivek.balachandhar@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	vivek.balachandhar@gmail.com
-Subject: [PATCH v3 08/15] staging: rtl8723bs: remove space before semicolon
-Date: Mon, 29 Sep 2025 06:49:53 +0000
-Message-Id: <20250929065000.1010848-9-vivek.balachandhar@gmail.com>
+Subject: [PATCH v3 09/15] staging: rtl8723bs: fix excessive indentation in nested if statement
+Date: Mon, 29 Sep 2025 06:49:54 +0000
+Message-Id: <20250929065000.1010848-10-vivek.balachandhar@gmail.com>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250929065000.1010848-1-vivek.balachandhar@gmail.com>
 References: <20250929065000.1010848-1-vivek.balachandhar@gmail.com>
@@ -76,30 +76,30 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Remove unnecessary space before semicolon
-
-Drop the extra space before a semicolon to comply with kernel
-coding style. This change affects a single line.
+Adjust indentation in a nested if-statement to match kernel coding
+style and improve readability.
 
 No functional changes.
 
 Signed-off-by: Vivek BalachandharTN <vivek.balachandhar@gmail.com>
 ---
- drivers/staging/rtl8723bs/core/rtw_mlme.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/staging/rtl8723bs/core/rtw_mlme.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme.c b/drivers/staging/rtl8723bs/core/rtw_mlme.c
-index ab626c88e7dd..d05ff073af2d 100644
+index d05ff073af2d..a2b1e34765ac 100644
 --- a/drivers/staging/rtl8723bs/core/rtw_mlme.c
 +++ b/drivers/staging/rtl8723bs/core/rtw_mlme.c
-@@ -2236,7 +2236,7 @@ void rtw_update_registrypriv_dev_network(struct adapter *adapter)
- 	struct	wlan_network	*cur_network = &adapter->mlmepriv.cur_network;
+@@ -1254,8 +1254,8 @@ void rtw_joinbss_event_prehandle(struct adapter *adapter, u8 *pbuf)
  
- 	/*  adhoc no 802.1x */
--	pdev_network->privacy = (psecuritypriv->dot11PrivacyAlgrthm > 0 ? 1 : 0) ;
-+	pdev_network->privacy = (psecuritypriv->dot11PrivacyAlgrthm > 0 ? 1 : 0);
- 
- 	pdev_network->rssi = 0;
+ 					ptarget_wlan = rtw_find_network(&pmlmepriv->scanned_queue, pnetwork->network.mac_address);
+ 					if (check_fwstate(pmlmepriv, WIFI_STATION_STATE) == true) {
+-						if (ptarget_wlan)
+-							ptarget_wlan->fixed = true;
++					    if (ptarget_wlan)
++						ptarget_wlan->fixed = true;
+ 					}
+ 				}
  
 -- 
 2.39.5
