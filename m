@@ -1,53 +1,53 @@
-Received: from fra-out-014.esa.eu-central-1.outbound.mail-perimeter.amazon.com (fra-out-014.esa.eu-central-1.outbound.mail-perimeter.amazon.com [18.199.210.3])
+Received: from fra-out-010.esa.eu-central-1.outbound.mail-perimeter.amazon.com (fra-out-010.esa.eu-central-1.outbound.mail-perimeter.amazon.com [63.178.143.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1AD493C465;
-	Thu,  2 Oct 2025 20:51:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=18.199.210.3
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4EF12C0283;
+	Thu,  2 Oct 2025 20:52:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=63.178.143.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759438286; cv=none; b=jmNoIr6gJ6DVF7mhEnIb2LeX9ZC5yACb8tsWxEVAHdVlmMYuAbT3940ygERcAbGBdnpLIh4LjYkNZv0f4f6g2B6qjR8V5ST68MACWkNPM9fIU44eEiae+FACHKnOz+8vICf2LNtJD4rvZ6Hd9pHjGKxwdBJLBU/7qLAGSKS1OxY=
+	t=1759438328; cv=none; b=iipHIdLttH/V3SqvvgcQHxfHZMlumfa4k+dZWQ/uNiv8kVfujeIY4PsZ0/tXL9xTs2tnFQUUPy3XQhnCFyD36Ceyk40XyRtwg7Lt1mPXHKIKRsnLsOqVNcku6nmElrp7M7d341rUlqefEQX4uthE2jZToF3Q57Xx87VX0D5Td9M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759438286; c=relaxed/simple;
-	bh=hQZcuAbQPNvHUE3/gqCusMwEyDrlK1/KaUX6l5nLiYg=;
+	s=arc-20240116; t=1759438328; c=relaxed/simple;
+	bh=wA1nJ3QlaQqYd9o1TYCQjqnzPvYIQDvqBsgaZ7ZLopQ=;
 	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=IJYGeqB5IA3ZSo0oPpTIskNQIYI7AEntR8xc0EA/G5cjSaDqzGJpZsYggLog6cVdLqP8MEHWfbz/g3gXYeMjsLpFARIERYOYfg2e0hdlt1hxRMRMx1TMeIbJMeIcA6hf8xoItyM+k4qF3vg82OdELyP+6Y7ZZnBxmFePfK/b8lU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com; spf=pass smtp.mailfrom=amazon.com; dkim=pass (2048-bit key) header.d=amazon.com header.i=@amazon.com header.b=eg0iRrAg; arc=none smtp.client-ip=18.199.210.3
+	 MIME-Version:Content-Type; b=RifZZPFnFImU3F8FpWWnKRxUD9rCHL59vZelWaNKySUBYf3Tbzufu78BIV1Kz2uZ6Y4GWf+++xgS9y1IGrGixJehR66P3nhMfH8Wpn219Zd9Rj23r1UI73Y1RO0Jnri8yfgbWd1f3NCRRMcSeKMFmsFHZrPUltAmL8bN5INw7Bs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com; spf=pass smtp.mailfrom=amazon.com; dkim=pass (2048-bit key) header.d=amazon.com header.i=@amazon.com header.b=pyEO7Ylv; arc=none smtp.client-ip=63.178.143.178
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazon.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=amazon.com header.i=@amazon.com header.b="eg0iRrAg"
+	dkim=pass (2048-bit key) header.d=amazon.com header.i=@amazon.com header.b="pyEO7Ylv"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
   d=amazon.com; i=@amazon.com; q=dns/txt; s=amazoncorp2;
-  t=1759438284; x=1790974284;
+  t=1759438327; x=1790974327;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=Kfmf1eR86DneIECHGSH+H/6X5m8V4vbHJIyEvg3W2cA=;
-  b=eg0iRrAgtRnykMlZxSmWH++U3PgV2ckCJygxN+rkdOY3Nu6jDYmB5PHv
-   JUK+FaMGnHCpSjvKiXRqtrxg297/mWt6QIWbsQsGif+sKKLh7zMYozBY6
-   5n1p/hsDHtsa3OJX7O0daMeqnV2dB4yo5cMCIAtaMWhKTOtEtWePQqtap
-   Gs4p+kaK4PO30ObNh6UoO8antno09pl7jxTJQN6mP0OQZOOyW7qVCKQP9
-   fdFusgRJ9M8l7Vt914nCpgVLewhm4fhusWLQWT0hKvVQHLaHMfaYt5wCw
-   RwFcu9k7km85cX1kXmg7IbhQIzA3YWn7jox0vEwDO+aRmfPnESTrrEYva
+  bh=teLsaTNUBK6Nro2wtPnSOzbrxENlIlr+X2oFjCDnk/w=;
+  b=pyEO7YlvZ2Ep9fKHoimyTdNhIHgTMctRG22MO5gRvAYHRYOEzjO36FyU
+   qQXtTbCGteurnX98s/MPGq6+muMlI2JiNzwknWrod66uHeCgm4fjRHKcA
+   zuIE8wY4Ij9PkiGWTqz0V36g/AqARulr3k+GIv+3LfpGKvabcsB7qhXC6
+   gGzbjk6bwL3xpnN7KV8Zucb/1jbOfL5h6+vfSaBatUBeYToPdtfgTQ6OJ
+   6QcWzOE1284EcrvLqyCEv+c2lHfO/piORYfewXEHfyZAr9HDUbohi8k1S
+   UUzfgEKBjt72e5t/G51/2M0M67Qh2BardY0Eyu25lD9VS+bPh3SsCP2Cp
    A==;
-X-CSE-ConnectionGUID: fuZiH7GlTiasjdrbMXEjyQ==
-X-CSE-MsgGUID: w/Ti8JpuRhui0hZeF8ofOA==
+X-CSE-ConnectionGUID: LiiP98nuRPetjjRJiVlisw==
+X-CSE-MsgGUID: ltUlqHuPSt+4mXMkmRlCXA==
 X-IronPort-AV: E=Sophos;i="6.18,310,1751241600"; 
-   d="scan'208";a="2924542"
+   d="scan'208";a="2922370"
 Received: from ip-10-6-6-97.eu-central-1.compute.internal (HELO smtpout.naws.eu-central-1.prod.farcaster.email.amazon.dev) ([10.6.6.97])
-  by internal-fra-out-014.esa.eu-central-1.outbound.mail-perimeter.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Oct 2025 20:51:22 +0000
-Received: from EX19MTAEUB002.ant.amazon.com [54.240.197.232:22272]
- by smtpin.naws.eu-central-1.prod.farcaster.email.amazon.dev [10.0.21.15:2525] with esmtp (Farcaster)
- id 0f5f4ae1-b71e-4459-81c9-b639781bf383; Thu, 2 Oct 2025 20:51:22 +0000 (UTC)
-X-Farcaster-Flow-ID: 0f5f4ae1-b71e-4459-81c9-b639781bf383
+  by internal-fra-out-010.esa.eu-central-1.outbound.mail-perimeter.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Oct 2025 20:52:04 +0000
+Received: from EX19MTAEUB001.ant.amazon.com [54.240.197.226:27524]
+ by smtpin.naws.eu-central-1.prod.farcaster.email.amazon.dev [10.0.22.27:2525] with esmtp (Farcaster)
+ id d799511a-7212-48df-909a-6ceac3f44b2d; Thu, 2 Oct 2025 20:52:04 +0000 (UTC)
+X-Farcaster-Flow-ID: d799511a-7212-48df-909a-6ceac3f44b2d
 Received: from EX19D018EUA004.ant.amazon.com (10.252.50.85) by
- EX19MTAEUB002.ant.amazon.com (10.252.51.59) with Microsoft SMTP Server
+ EX19MTAEUB001.ant.amazon.com (10.252.51.28) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.20;
- Thu, 2 Oct 2025 20:51:17 +0000
+ Thu, 2 Oct 2025 20:51:57 +0000
 Received: from dev-dsk-farbere-1a-46ecabed.eu-west-1.amazon.com
  (172.19.116.181) by EX19D018EUA004.ant.amazon.com (10.252.50.85) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.20; Thu, 2 Oct 2025
- 20:50:51 +0000
+ 20:51:32 +0000
 From: Eliav Farber <farbere@amazon.com>
 To: <gregkh@linuxfoundation.org>, <jdike@addtoit.com>, <richard@nod.at>,
 	<anton.ivanov@cambridgegreys.com>, <dave.hansen@linux.intel.com>,
@@ -91,9 +91,9 @@ To: <gregkh@linuxfoundation.org>, <jdike@addtoit.com>, <richard@nod.at>,
 	<linux-kselftest@vger.kernel.org>, <stable@vger.kernel.org>
 CC: Linus Torvalds <torvalds@linux-foundation.org>, David Laight
 	<David.Laight@aculab.com>, Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
-Subject: [PATCH 07/19 5.15.y] minmax: add a few more MIN_T/MAX_T users
-Date: Thu, 2 Oct 2025 20:47:21 +0000
-Message-ID: <20251002204733.35652-8-farbere@amazon.com>
+Subject: [PATCH 08/19 5.15.y] minmax: simplify and clarify min_t()/max_t() implementation
+Date: Thu, 2 Oct 2025 20:47:22 +0000
+Message-ID: <20251002204733.35652-9-farbere@amazon.com>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <20251002204733.35652-1-farbere@amazon.com>
 References: <20251002204733.35652-1-farbere@amazon.com>
@@ -105,156 +105,78 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-ClientProxiedBy: EX19D035UWA001.ant.amazon.com (10.13.139.101) To
+X-ClientProxiedBy: EX19D045UWC001.ant.amazon.com (10.13.139.223) To
  EX19D018EUA004.ant.amazon.com (10.252.50.85)
 
 From: Linus Torvalds <torvalds@linux-foundation.org>
 
-commit 4477b39c32fdc03363affef4b11d48391e6dc9ff upstream.
+commit 017fa3e89187848fd056af757769c9e66ac3e93d upstream.
 
-Commit 3a7e02c040b1 ("minmax: avoid overly complicated constant
-expressions in VM code") added the simpler MIN_T/MAX_T macros in order
-to avoid some excessive expansion from the rather complicated regular
-min/max macros.
+This simplifies the min_t() and max_t() macros by no longer making them
+work in the context of a C constant expression.
 
-The complexity of those macros stems from two issues:
+That means that you can no longer use them for static initializers or
+for array sizes in type definitions, but there were only a couple of
+such uses, and all of them were converted (famous last words) to use
+MIN_T/MAX_T instead.
 
- (a) trying to use them in situations that require a C constant
-     expression (in static initializers and for array sizes)
-
- (b) the type sanity checking
-
-and MIN_T/MAX_T avoids both of these issues.
-
-Now, in the whole (long) discussion about all this, it was pointed out
-that the whole type sanity checking is entirely unnecessary for
-min_t/max_t which get a fixed type that the comparison is done in.
-
-But that still leaves min_t/max_t unnecessarily complicated due to
-worries about the C constant expression case.
-
-However, it turns out that there really aren't very many cases that use
-min_t/max_t for this, and we can just force-convert those.
-
-This does exactly that.
-
-Which in turn will then allow for much simpler implementations of
-min_t()/max_t().  All the usual "macros in all upper case will evaluate
-the arguments multiple times" rules apply.
-
-We should do all the same things for the regular min/max() vs MIN/MAX()
-cases, but that has the added complexity of various drivers defining
-their own local versions of MIN/MAX, so that needs another level of
-fixes first.
-
-Link: https://lore.kernel.org/all/b47fad1d0cf8449886ad148f8c013dae@AcuMS.aculab.com/
 Cc: David Laight <David.Laight@aculab.com>
 Cc: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
 Signed-off-by: Linus Torvalds <torvalds@linux-foundation.org>
 Signed-off-by: Eliav Farber <farbere@amazon.com>
 ---
- arch/x86/mm/pgtable.c                             | 2 +-
- drivers/edac/sb_edac.c                            | 4 ++--
- drivers/gpu/drm/drm_color_mgmt.c                  | 2 +-
- drivers/md/dm-integrity.c                         | 2 +-
- drivers/net/ethernet/stmicro/stmmac/stmmac_main.c | 2 +-
- net/ipv4/proc.c                                   | 2 +-
- net/ipv6/proc.c                                   | 2 +-
- 7 files changed, 8 insertions(+), 8 deletions(-)
+ include/linux/minmax.h | 19 +++++++++++--------
+ 1 file changed, 11 insertions(+), 8 deletions(-)
 
-diff --git a/arch/x86/mm/pgtable.c b/arch/x86/mm/pgtable.c
-index 3481b35cb4ec..e649161eb6fc 100644
---- a/arch/x86/mm/pgtable.c
-+++ b/arch/x86/mm/pgtable.c
-@@ -107,7 +107,7 @@ static inline void pgd_list_del(pgd_t *pgd)
- #define UNSHARED_PTRS_PER_PGD				\
- 	(SHARED_KERNEL_PMD ? KERNEL_PGD_BOUNDARY : PTRS_PER_PGD)
- #define MAX_UNSHARED_PTRS_PER_PGD			\
--	max_t(size_t, KERNEL_PGD_BOUNDARY, PTRS_PER_PGD)
-+	MAX_T(size_t, KERNEL_PGD_BOUNDARY, PTRS_PER_PGD)
+diff --git a/include/linux/minmax.h b/include/linux/minmax.h
+index 2a40d3550f28..fc384714da45 100644
+--- a/include/linux/minmax.h
++++ b/include/linux/minmax.h
+@@ -45,17 +45,20 @@
  
+ #define __cmp(op, x, y)	((x) __cmp_op_##op (y) ? (x) : (y))
  
- static void pgd_set_mm(pgd_t *pgd, struct mm_struct *mm)
-diff --git a/drivers/edac/sb_edac.c b/drivers/edac/sb_edac.c
-index 1522d4aa2ca6..714020e7405a 100644
---- a/drivers/edac/sb_edac.c
-+++ b/drivers/edac/sb_edac.c
-@@ -109,8 +109,8 @@ static const u32 knl_interleave_list[] = {
- 	0x104, 0x10c, 0x114, 0x11c,   /* 20-23 */
- };
- #define MAX_INTERLEAVE							\
--	(max_t(unsigned int, ARRAY_SIZE(sbridge_interleave_list),	\
--	       max_t(unsigned int, ARRAY_SIZE(ibridge_interleave_list),	\
-+	(MAX_T(unsigned int, ARRAY_SIZE(sbridge_interleave_list),	\
-+	       MAX_T(unsigned int, ARRAY_SIZE(ibridge_interleave_list),	\
- 		     ARRAY_SIZE(knl_interleave_list))))
+-#define __cmp_once(op, x, y, unique_x, unique_y) ({	\
+-	typeof(x) unique_x = (x);			\
+-	typeof(y) unique_y = (y);			\
++#define __cmp_once_unique(op, type, x, y, ux, uy) \
++	({ type ux = (x); type uy = (y); __cmp(op, ux, uy); })
++
++#define __cmp_once(op, type, x, y) \
++	__cmp_once_unique(op, type, x, y, __UNIQUE_ID(x_), __UNIQUE_ID(y_))
++
++#define __careful_cmp_once(op, x, y) ({			\
+ 	static_assert(__types_ok(x, y),			\
+ 		#op "(" #x ", " #y ") signedness error, fix types or consider u" #op "() before " #op "_t()"); \
+-	__cmp(op, unique_x, unique_y); })
++	__cmp_once(op, __auto_type, x, y); })
  
- struct interleave_pkg {
-diff --git a/drivers/gpu/drm/drm_color_mgmt.c b/drivers/gpu/drm/drm_color_mgmt.c
-index bb14f488c8f6..1ff572d8744e 100644
---- a/drivers/gpu/drm/drm_color_mgmt.c
-+++ b/drivers/gpu/drm/drm_color_mgmt.c
-@@ -528,7 +528,7 @@ int drm_plane_create_color_properties(struct drm_plane *plane,
- {
- 	struct drm_device *dev = plane->dev;
- 	struct drm_property *prop;
--	struct drm_prop_enum_list enum_list[max_t(int, DRM_COLOR_ENCODING_MAX,
-+	struct drm_prop_enum_list enum_list[MAX_T(int, DRM_COLOR_ENCODING_MAX,
- 						       DRM_COLOR_RANGE_MAX)];
- 	int i, len;
+ #define __careful_cmp(op, x, y)					\
+ 	__builtin_choose_expr(__is_constexpr((x) - (y)),	\
+-		__cmp(op, x, y),				\
+-		__cmp_once(op, x, y, __UNIQUE_ID(__x), __UNIQUE_ID(__y)))
++		__cmp(op, x, y), __careful_cmp_once(op, x, y))
  
-diff --git a/drivers/md/dm-integrity.c b/drivers/md/dm-integrity.c
-index e9d553eea9cd..8e2b00536c3e 100644
---- a/drivers/md/dm-integrity.c
-+++ b/drivers/md/dm-integrity.c
-@@ -2536,7 +2536,7 @@ static void do_journal_write(struct dm_integrity_c *ic, unsigned write_start,
- 				    unlikely(from_replay) &&
- #endif
- 				    ic->internal_hash) {
--					char test_tag[max_t(size_t, HASH_MAX_DIGESTSIZE, MAX_TAG_SIZE)];
-+					char test_tag[MAX_T(size_t, HASH_MAX_DIGESTSIZE, MAX_TAG_SIZE)];
+ #define __clamp(val, lo, hi)	\
+ 	((val) >= (hi) ? (hi) : ((val) <= (lo) ? (lo) : (val)))
+@@ -158,7 +161,7 @@
+  * @x: first value
+  * @y: second value
+  */
+-#define min_t(type, x, y)	__careful_cmp(min, (type)(x), (type)(y))
++#define min_t(type, x, y) __cmp_once(min, type, x, y)
  
- 					integrity_sector_checksum(ic, sec + ((l - j) << ic->sb->log2_sectors_per_block),
- 								  (char *)access_journal_data(ic, i, l), test_tag);
-diff --git a/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c b/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
-index 2478caeec763..21cc8cd9e023 100644
---- a/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
-+++ b/drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
-@@ -2805,7 +2805,7 @@ static void stmmac_dma_interrupt(struct stmmac_priv *priv)
- 	u32 channels_to_check = tx_channel_count > rx_channel_count ?
- 				tx_channel_count : rx_channel_count;
- 	u32 chan;
--	int status[max_t(u32, MTL_MAX_TX_QUEUES, MTL_MAX_RX_QUEUES)];
-+	int status[MAX_T(u32, MTL_MAX_TX_QUEUES, MTL_MAX_RX_QUEUES)];
- 
- 	/* Make sure we never check beyond our status buffer. */
- 	if (WARN_ON_ONCE(channels_to_check > ARRAY_SIZE(status)))
-diff --git a/net/ipv4/proc.c b/net/ipv4/proc.c
-index 4b9280a3b673..d849f61b7519 100644
---- a/net/ipv4/proc.c
-+++ b/net/ipv4/proc.c
-@@ -43,7 +43,7 @@
- #include <net/sock.h>
- #include <net/raw.h>
- 
--#define TCPUDP_MIB_MAX max_t(u32, UDP_MIB_MAX, TCP_MIB_MAX)
-+#define TCPUDP_MIB_MAX MAX_T(u32, UDP_MIB_MAX, TCP_MIB_MAX)
+ /**
+  * max_t - return maximum of two values, using the specified type
+@@ -166,7 +169,7 @@
+  * @x: first value
+  * @y: second value
+  */
+-#define max_t(type, x, y)	__careful_cmp(max, (type)(x), (type)(y))
++#define max_t(type, x, y) __cmp_once(max, type, x, y)
  
  /*
-  *	Report socket allocation statistics [mea@utu.fi]
-diff --git a/net/ipv6/proc.c b/net/ipv6/proc.c
-index d6306aa46bb1..e07c43bd5cb0 100644
---- a/net/ipv6/proc.c
-+++ b/net/ipv6/proc.c
-@@ -27,7 +27,7 @@
- #include <net/ipv6.h>
- 
- #define MAX4(a, b, c, d) \
--	max_t(u32, max_t(u32, a, b), max_t(u32, c, d))
-+	MAX_T(u32, MAX_T(u32, a, b), MAX_T(u32, c, d))
- #define SNMP_MIB_MAX MAX4(UDP_MIB_MAX, TCP_MIB_MAX, \
- 			IPSTATS_MIB_MAX, ICMP_MIB_MAX)
- 
+  * Do not check the array parameter using __must_be_array().
 -- 
 2.47.3
 
