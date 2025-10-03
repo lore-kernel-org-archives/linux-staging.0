@@ -1,111 +1,207 @@
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fra-out-004.esa.eu-central-1.outbound.mail-perimeter.amazon.com (fra-out-004.esa.eu-central-1.outbound.mail-perimeter.amazon.com [3.74.81.189])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 818E21F582E
-	for <linux-staging@lists.linux.dev>; Fri,  3 Oct 2025 07:10:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF815522F;
+	Fri,  3 Oct 2025 13:00:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=3.74.81.189
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759475436; cv=none; b=FvEbA9+cb4P33D8egCNF/S/oavR46NyDfmx3pslNdc665tR6cBh+BN/Ws1jaXbdJneXYykYK7dZCM57F1gOoee7TuaLKVV7yZMoDIaQzLQX9woOLrSx4KeNcUj0ayBMEuMuVWA474eOOGhB2zrqT3pyeM2o8kYpqT2qFl/RWhJ4=
+	t=1759496451; cv=none; b=TZM0FIUVFT7qPKjj9YkLVy2lkxSqAFhEYeOAQCbMES3GFpjQWZoatGTMgXrlR4zT+Y9WT+TSlrxZU9PFZnrA6HntHTeyecYgM82SpB4tPlJrZJp/2s8ls7HrKY1j7a7U2GLon1KVz6r9oFHAzWOMtP2dLOCwmsZFjv0A5KhgJjQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759475436; c=relaxed/simple;
-	bh=tsd6LCwVXoBWfeuPShaVDWTPYeYbCB/+fp3ZoHm+AEs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MyhYwVIcV+LqjuW1bersN123Oe/qQRYVZC8+ag0zEzINlnS8CVX3Rr8iB/sZMqbzbRHJfDGruuP5Ox4LPdXWG4VyhJuLYFVR34GdNQERBvzAT8P9QUfquaOs7bdvuNrrixfAY9cLwm5Ao/d62rPlJM1QY3CA00+2/GD56+9xn8k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=lZWE6Ua9; arc=none smtp.client-ip=209.85.128.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1759496451; c=relaxed/simple;
+	bh=vl0VJ/0k37Si4BXKmHIzjYJy8v1mm8IG/5Szq7Z1lIg=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type; b=iThgOXXJ1LXVkZgT8YXTr1zaDTQonH1LyuoBQB3OjVDKFuZOVpe82d4qJE7yOaBzx3KCMnTBX9NctxZHVqs8dFt2S6VdN3krGDQYGkO4+6DOWD16PXnVqSFa7DesYrOZtGBDvScbd9R6uAfVVB5Glfiy4+BcdT4FOXuAFAxi+Go=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com; spf=pass smtp.mailfrom=amazon.com; dkim=pass (2048-bit key) header.d=amazon.com header.i=@amazon.com header.b=o+/SzsKS; arc=none smtp.client-ip=3.74.81.189
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazon.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="lZWE6Ua9"
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-46e6c8bc46eso10779965e9.3
-        for <linux-staging@lists.linux.dev>; Fri, 03 Oct 2025 00:10:34 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=amazon.com header.i=@amazon.com header.b="o+/SzsKS"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1759475433; x=1760080233; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=4KPy/MaUI1T6LJVDJjF2ILhSPnvDqNZYew/YLG6etAQ=;
-        b=lZWE6Ua9/LI+NsGKoW+nl4NIQZiz54tiRttLVecM1ut30xfYkInudulwTOr9DVzbSX
-         QLIEzm/fptzX2c6x+ZGw/05SU7zgEr1IseLVjpufCZlHRuvBmMQiP3U7qeAXQ3JQtCxX
-         VP17mqUdclWBzA8kfbNOmWxAovkKDyebkNt4+1vkIQZcVCzsjtFPP71sDkS2RuQnQlwh
-         1c0FaI0kf5adtZejxCzRPvlJ4RTv7uSx1LvvFLYY3vBdRKeDQBq5wkGtykRsq1jLo9wT
-         ZfUwGh6hpuIywm0QekGvUWVjlJV2WeQHlIFM7dOnpnK32SvNHEJuclIEsGVIPYrv4zR0
-         X4Ww==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759475433; x=1760080233;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=4KPy/MaUI1T6LJVDJjF2ILhSPnvDqNZYew/YLG6etAQ=;
-        b=KqrcRgOcb/wVb1y88TIQy63OaWt9fBxkVsfKFMlIrnoGLX7/ze/V7X5Nixjvr+kWRn
-         9aaNTIG3k51bkmJ4qf0hMdWFG8VF2NQJNBxWC7qjkM5oaWE+cLZtMlTDg78an7NvbbXg
-         W+5Wz2nCYQpIuqvcBEBwIJwJtbEJ2Gh+4OUWuL2DeqNF8/897soZirVWxMvHx9cpwhX2
-         RTaTverimB319RXhYHLA8VT+L7qXCN1YG5ujk46v6sGhpgJOp23vtxPyfq8mGn/FoQ4g
-         mRBUlVnQVe4Mvl3Or+F8yj7Ga3oQTEuSx/R3VwPcR7ljuWTCLtfkVMwsCsVOaTj/JB4+
-         g18A==
-X-Forwarded-Encrypted: i=1; AJvYcCXsineWJ0rxMH6tzOClGuuA0NSSxtDzLNmHq2rK4ss6fQtEUDyx8l5k1H5oQl3GEZbhd/uCu+/XjpTr2X/x@lists.linux.dev
-X-Gm-Message-State: AOJu0YzTR4vduw+skXoowEEqQeQmYwF7tHki9siaSfA7EjZDFzoI2e5/
-	gw+FmzeGoUi8yXvmHrmsaGcO2b3GodjiHuARxkm2zezK+az9lvLVIvShCg0cQuSKbfcshf8rMrN
-	93BRJ
-X-Gm-Gg: ASbGncuNCaDF9QYLCc9eLYopTvF3Q46+ok2oR1lXhuPFsDKP9Vn96f17Eo9I7T6Zo1c
-	NLQ3L8TEvfPGwTpzXpK5hv96JO3SdkyqFkck3DdTuVc9TkiaKxO4/biRDFugTtNhJYRkZkiIP7W
-	lhAqmN1DJgoc/QxRh1F3nUPGK2fnVeYJH0Fh+OQz1bLHD4+D4OzDFAFyCGccZgWkvTUph9BK79G
-	51F9+FSHpctj+JCA32SzXACwtaQFPzkpifxI4XisLOHwQzz5h0GDD/r08N0zWK0Mcr5E87sg+iC
-	y1XPfcEepRwqyXyGmKFHYj0Zvw8OGDxVor04EyKTozXDvfRvyfNtz7HwgwwJLClfGePl9LY9V0i
-	UBnL/DgIiv51/Vr7Tu4TOYfH6bXJ+Yt2m0b7KIg75F81ldsCW0XbRJiueTDCi9V7Z3Fk=
-X-Google-Smtp-Source: AGHT+IGrprpeaPN2zsG3GLeeDlcPWzpaZct4FH883LRsib2xD+eagd//CjbhareJG/Mp7u+BFhq4lA==
-X-Received: by 2002:a05:600c:354e:b0:46d:996b:826a with SMTP id 5b1f17b1804b1-46e7115d49dmr13480395e9.36.1759475432701;
-        Fri, 03 Oct 2025 00:10:32 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-4255d8ab8b0sm6653233f8f.18.2025.10.03.00.10.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 03 Oct 2025 00:10:31 -0700 (PDT)
-Date: Fri, 3 Oct 2025 10:10:27 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Vivek BalachandharTN <vivek.balachandhar@gmail.com>
-Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 15/16] staging: rtl8723bs: merge nested if conditions
- for clarity and tab problems
-Message-ID: <aN924wqH--MgGEak@stanley.mountain>
-References: <20251002172304.1083601-1-vivek.balachandhar@gmail.com>
- <20251002172304.1083601-16-vivek.balachandhar@gmail.com>
+  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazoncorp2;
+  t=1759496449; x=1791032449;
+  h=from:to:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=DpRzthrnz6JTHsOC4O+aqLHWM/bhaI69F/+S/FagesY=;
+  b=o+/SzsKSPAm4GqkPuHofS+x6rZ+xsDRlkK7OyPIQ4Efjh0PeoKE5rFua
+   jL9lVXkeiOqrEMx7lAfJsxzKuqoDt0OVKURCC9nZwxTFxx7y+ESm5Uz9j
+   hzqENRclcSvlhN2u5ruyu1ftC+MLVV3l4etxDdRk4QsKjSZeG5YHPN5rx
+   kXoxXdKN0qo6rR+zjAt8d52H3eQq9OChTMZxXZB2pmCiZ3+W/deufdhYj
+   FG0oJd2wJBlN9agMdOS9CTfGEXGlxpu6s6Q+d0d9fgMefB16GrUvKV8eg
+   lXaEFyTYRgEcDyPjTutlsB/QV80OIDqSvRS4M6NnD23q0BXA9Qs0kXtd8
+   Q==;
+X-CSE-ConnectionGUID: aBCG9PMxQNqBMtPRKr77WA==
+X-CSE-MsgGUID: pZYBUhUbSjiqEaIzSZznhg==
+X-IronPort-AV: E=Sophos;i="6.18,312,1751241600"; 
+   d="scan'208";a="3062608"
+Received: from ip-10-6-6-97.eu-central-1.compute.internal (HELO smtpout.naws.eu-central-1.prod.farcaster.email.amazon.dev) ([10.6.6.97])
+  by internal-fra-out-004.esa.eu-central-1.outbound.mail-perimeter.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Oct 2025 13:00:38 +0000
+Received: from EX19MTAEUB002.ant.amazon.com [54.240.197.232:5201]
+ by smtpin.naws.eu-central-1.prod.farcaster.email.amazon.dev [10.0.1.16:2525] with esmtp (Farcaster)
+ id 102aa012-5090-4986-8c7d-754292fc7b11; Fri, 3 Oct 2025 13:00:38 +0000 (UTC)
+X-Farcaster-Flow-ID: 102aa012-5090-4986-8c7d-754292fc7b11
+Received: from EX19D018EUA004.ant.amazon.com (10.252.50.85) by
+ EX19MTAEUB002.ant.amazon.com (10.252.51.59) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.20;
+ Fri, 3 Oct 2025 13:00:38 +0000
+Received: from dev-dsk-farbere-1a-46ecabed.eu-west-1.amazon.com
+ (172.19.116.181) by EX19D018EUA004.ant.amazon.com (10.252.50.85) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.20; Fri, 3 Oct 2025
+ 13:00:13 +0000
+From: Eliav Farber <farbere@amazon.com>
+To: <gregkh@linuxfoundation.org>, <jdike@addtoit.com>, <richard@nod.at>,
+	<anton.ivanov@cambridgegreys.com>, <dave.hansen@linux.intel.com>,
+	<luto@kernel.org>, <peterz@infradead.org>, <tglx@linutronix.de>,
+	<mingo@redhat.com>, <bp@alien8.de>, <x86@kernel.org>, <hpa@zytor.com>,
+	<tony.luck@intel.com>, <qiuxu.zhuo@intel.com>, <james.morse@arm.com>,
+	<rric@kernel.org>, <airlied@linux.ie>, <daniel@ffwll.ch>,
+	<maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>,
+	<tzimmermann@suse.de>, <robdclark@gmail.com>, <sean@poorly.run>,
+	<jdelvare@suse.com>, <linux@roeck-us.net>, <linus.walleij@linaro.org>,
+	<dmitry.torokhov@gmail.com>, <maz@kernel.org>, <wens@csie.org>,
+	<jernej.skrabec@gmail.com>, <agk@redhat.com>, <snitzer@redhat.com>,
+	<dm-devel@redhat.com>, <davem@davemloft.net>, <kuba@kernel.org>,
+	<mcoquelin.stm32@gmail.com>, <krzysztof.kozlowski@canonical.com>,
+	<malattia@linux.it>, <hdegoede@redhat.com>, <mgross@linux.intel.com>,
+	<jejb@linux.ibm.com>, <martin.petersen@oracle.com>,
+	<sakari.ailus@linux.intel.com>, <clm@fb.com>, <josef@toxicpanda.com>,
+	<dsterba@suse.com>, <jack@suse.com>, <tytso@mit.edu>,
+	<adilger.kernel@dilger.ca>, <dushistov@mail.ru>,
+	<luc.vanoostenryck@gmail.com>, <rostedt@goodmis.org>, <pmladek@suse.com>,
+	<senozhatsky@chromium.org>, <andriy.shevchenko@linux.intel.com>,
+	<linux@rasmusvillemoes.dk>, <minchan@kernel.org>, <ngupta@vflare.org>,
+	<akpm@linux-foundation.org>, <yoshfuji@linux-ipv6.org>, <dsahern@kernel.org>,
+	<pablo@netfilter.org>, <kadlec@netfilter.org>, <fw@strlen.de>,
+	<jmaloy@redhat.com>, <ying.xue@windriver.com>, <shuah@kernel.org>,
+	<willy@infradead.org>, <farbere@amazon.com>, <sashal@kernel.org>,
+	<quic_akhilpo@quicinc.com>, <ruanjinjie@huawei.com>,
+	<David.Laight@ACULAB.COM>, <herve.codina@bootlin.com>,
+	<linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
+	<linux-um@lists.infradead.org>, <linux-edac@vger.kernel.org>,
+	<amd-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
+	<linux-arm-msm@vger.kernel.org>, <freedreno@lists.freedesktop.org>,
+	<linux-hwmon@vger.kernel.org>, <linux-input@vger.kernel.org>,
+	<linux-sunxi@lists.linux.dev>, <linux-media@vger.kernel.org>,
+	<netdev@vger.kernel.org>, <linux-stm32@st-md-mailman.stormreply.com>,
+	<platform-driver-x86@vger.kernel.org>, <linux-scsi@vger.kernel.org>,
+	<linux-staging@lists.linux.dev>, <linux-btrfs@vger.kernel.org>,
+	<linux-ext4@vger.kernel.org>, <linux-sparse@vger.kernel.org>,
+	<linux-mm@kvack.org>, <netfilter-devel@vger.kernel.org>,
+	<coreteam@netfilter.org>, <tipc-discussion@lists.sourceforge.net>,
+	<linux-kselftest@vger.kernel.org>, <stable@vger.kernel.org>
+Subject: [PATCH v2 00/19 5.15.y] Backport minmax.h updates from v6.17-rc7
+Date: Fri, 3 Oct 2025 12:59:47 +0000
+Message-ID: <20251003130006.41681-1-farbere@amazon.com>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251002172304.1083601-16-vivek.balachandhar@gmail.com>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: EX19D032UWA002.ant.amazon.com (10.13.139.81) To
+ EX19D018EUA004.ant.amazon.com (10.252.50.85)
 
-On Thu, Oct 02, 2025 at 05:23:03PM +0000, Vivek BalachandharTN wrote:
-> Combine nested if conditions for clarity and fix tab indentation in one
-> place to match kernel coding style.
-> 
-> No functional changes.
-> 
-> Signed-off-by: Vivek BalachandharTN <vivek.balachandhar@gmail.com>
-> ---
->  drivers/staging/rtl8723bs/core/rtw_mlme.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme.c b/drivers/staging/rtl8723bs/core/rtw_mlme.c
-> index aa842905a467..f17b16fe8819 100644
-> --- a/drivers/staging/rtl8723bs/core/rtw_mlme.c
-> +++ b/drivers/staging/rtl8723bs/core/rtw_mlme.c
-> @@ -1254,8 +1254,8 @@ void rtw_joinbss_event_prehandle(struct adapter *adapter, u8 *pbuf)
->  						rtw_free_stainfo(adapter,  pcur_sta);
->  
->  					ptarget_wlan = rtw_find_network(&pmlmepriv->scanned_queue, pnetwork->network.mac_address);
-> -					if (check_fwstate(pmlmepriv, WIFI_STATION_STATE) == true) {
-> -					    if (ptarget_wlan)
-> +					if (check_fwstate(pmlmepriv, WIFI_STATION_STATE) == true &&
-> +					    ptarget_wlan) {
->  						ptarget_wlan->fixed = true;
->  					}
+This series backports 19 patches to update minmax.h in the 5.15.y branch,
+aligning it with v6.17-rc7.
 
-Delete the curly braces as well.
+The ultimate goal is to synchronize all longterm branches so that they
+include the full set of minmax.h changes (6.12.y and 6.6.y were already
+backported by me and are now aligned, 6.1.y is in progress).
 
-regards,
-dan carpenter
+The key motivation is to bring in commit d03eba99f5bf ("minmax: allow
+min()/max()/clamp() if the arguments have the same signedness"), which
+is missing in kernel 5.10.y.
+
+In mainline, this change enables min()/max()/clamp() to accept mixed
+argument types, provided both have the same signedness. Without it,
+backported patches that use these forms may trigger compiler warnings,
+which escalate to build failures when -Werror is enabled.
+
+Changes in v2:
+- Fix the order of patches 6 - 10 according to order in mainline branch.
+- Use same style of [ Upstream commit <HASH> ] in all patches.
+
+Andy Shevchenko (1):
+  minmax: deduplicate __unconst_integer_typeof()
+
+David Laight (8):
+  minmax: fix indentation of __cmp_once() and __clamp_once()
+  minmax.h: add whitespace around operators and after commas
+  minmax.h: update some comments
+  minmax.h: reduce the #define expansion of min(), max() and clamp()
+  minmax.h: use BUILD_BUG_ON_MSG() for the lo < hi test in clamp()
+  minmax.h: move all the clamp() definitions after the min/max() ones
+  minmax.h: simplify the variants of clamp()
+  minmax.h: remove some #defines that are only expanded once
+
+Herve Codina (1):
+  minmax: Introduce {min,max}_array()
+
+Linus Torvalds (8):
+  minmax: avoid overly complicated constant expressions in VM code
+  minmax: add a few more MIN_T/MAX_T users
+  minmax: simplify and clarify min_t()/max_t() implementation
+  minmax: make generic MIN() and MAX() macros available everywhere
+  minmax: don't use max() in situations that want a C constant
+    expression
+  minmax: simplify min()/max()/clamp() implementation
+  minmax: improve macro expansion and type checking
+  minmax: fix up min3() and max3() too
+
+Matthew Wilcox (Oracle) (1):
+  minmax: add in_range() macro
+
+ arch/arm/mm/pageattr.c                        |   6 +-
+ arch/um/drivers/mconsole_user.c               |   2 +
+ arch/x86/mm/pgtable.c                         |   2 +-
+ drivers/edac/sb_edac.c                        |   4 +-
+ drivers/edac/skx_common.h                     |   1 -
+ drivers/gpu/drm/amd/amdgpu/amdgpu.h           |   2 +
+ .../drm/amd/display/modules/hdcp/hdcp_ddc.c   |   2 +
+ .../drm/amd/pm/powerplay/hwmgr/ppevvmath.h    |  14 +-
+ .../amd/pm/swsmu/smu11/sienna_cichlid_ppt.c   |   2 +
+ .../drm/arm/display/include/malidp_utils.h    |   2 +-
+ .../display/komeda/komeda_pipeline_state.c    |  24 +-
+ drivers/gpu/drm/drm_color_mgmt.c              |   2 +-
+ drivers/gpu/drm/msm/adreno/a6xx_gmu.c         |   6 -
+ drivers/gpu/drm/radeon/evergreen_cs.c         |   2 +
+ drivers/hwmon/adt7475.c                       |  24 +-
+ drivers/input/touchscreen/cyttsp4_core.c      |   2 +-
+ drivers/irqchip/irq-sun6i-r.c                 |   2 +-
+ drivers/md/dm-integrity.c                     |   4 +-
+ drivers/media/dvb-frontends/stv0367_priv.h    |   3 +
+ .../net/ethernet/chelsio/cxgb3/cxgb3_main.c   |  18 +-
+ .../net/ethernet/stmicro/stmmac/stmmac_main.c |   2 +-
+ drivers/net/fjes/fjes_main.c                  |   4 +-
+ drivers/nfc/pn544/i2c.c                       |   2 -
+ drivers/platform/x86/sony-laptop.c            |   1 -
+ drivers/scsi/isci/init.c                      |   6 +-
+ .../pci/hive_isp_css_include/math_support.h   |   5 -
+ drivers/virt/acrn/ioreq.c                     |   4 +-
+ fs/btrfs/misc.h                               |   2 -
+ fs/btrfs/tree-checker.c                       |   2 +-
+ fs/ext2/balloc.c                              |   2 -
+ fs/ext4/ext4.h                                |   2 -
+ fs/ufs/util.h                                 |   6 -
+ include/linux/compiler.h                      |   9 +
+ include/linux/minmax.h                        | 264 +++++++++++++-----
+ kernel/trace/preemptirq_delay_test.c          |   2 -
+ lib/btree.c                                   |   1 -
+ lib/decompress_unlzma.c                       |   2 +
+ lib/logic_pio.c                               |   3 -
+ lib/vsprintf.c                                |   2 +-
+ lib/zstd/zstd_internal.h                      |   2 -
+ mm/zsmalloc.c                                 |   1 -
+ net/ipv4/proc.c                               |   2 +-
+ net/ipv6/proc.c                               |   2 +-
+ net/netfilter/nf_nat_core.c                   |   6 +-
+ net/tipc/core.h                               |   2 +-
+ net/tipc/link.c                               |  10 +-
+ tools/testing/selftests/vm/mremap_test.c      |   2 +
+ 47 files changed, 289 insertions(+), 183 deletions(-)
+
+-- 
+2.47.3
 
