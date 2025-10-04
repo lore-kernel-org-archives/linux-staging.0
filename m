@@ -1,115 +1,63 @@
-Received: from forward205d.mail.yandex.net (forward205d.mail.yandex.net [178.154.239.216])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFC6819F13F
-	for <linux-staging@lists.linux.dev>; Sat,  4 Oct 2025 20:55:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.154.239.216
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBA202472B1;
+	Sat,  4 Oct 2025 23:41:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759611319; cv=none; b=YWnCnb1rjjjBwnyHThXNC3/2U1VskUgYWWZR/T4lSI2y39xyrM9hJqp1v/LBmNe2FPQ8k9V7LtoBkgD8rYUzWJMXwtSKQ9PTJemJBIQgvwyVUymPF10nfRyXifACBoJgov/DHSTu/vTFkbcW1ZtkYP1rHpP7CkcYZP3gNVhXzl0=
+	t=1759621304; cv=none; b=D1ZkkCYfDzK4XmZiH8qeHEgrsKQFigPotIcksKLI0Xhk0LdKSsWxKI76T9pi49l5AMQVLPj7Go4t1NNvkSh2Xx8JXkltVJEg+KpTbrbkTg5+QmTLc6JvunFLYw9ceVFuHRd3HcdLDLoRpTJ1d3szPQfQ0zwg+LqiYvGbyVY/Us0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759611319; c=relaxed/simple;
-	bh=XunCZV2PWmEJivEDLw4jsSvbKlqnhJ5osN9+mZbKpDQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=PTPmUHwhW5IpZCMayM1yMm1w1yAwUqhJr9O2utmUmxMz6o1C99MjTGP/1SJuFmQAj6a+FTfY5CPXgV7IBwYRPOsLX+K6/CcnmtdHNG3xBDbXmSuHl7X1OKk6AyrPWzpuLjixIcKTqe71vhs2zGvTgBu74Z0jHKhpSwwtbIiKkfw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sezginduran.net; spf=pass smtp.mailfrom=sezginduran.net; dkim=pass (1024-bit key) header.d=sezginduran.net header.i=@sezginduran.net header.b=EBz9ocGM; arc=none smtp.client-ip=178.154.239.216
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sezginduran.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sezginduran.net
+	s=arc-20240116; t=1759621304; c=relaxed/simple;
+	bh=AslO7f3g61R/R/cWIZ22fBpPjqZXgxvYKzxMeKhpstw=;
+	h=Subject:From:In-Reply-To:References:Message-Id:Date:To:Cc; b=qKJ2eNKUpE6TtddvxN7b6g1b00E2ne+AU0iRQk20kYOBnenNQberM4pco4+PDoxSYJwIOuQEFZM6/2nfr7nIaPtaFBEaMRmCvZUb53QtbgYHY1KxvaSw48Q/9R7xzlUq+2JxKafWRTF6ax5RoriDMQvYy+Ha1Tz4nhkpzH7ySck=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HRPyZgZc; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=sezginduran.net header.i=@sezginduran.net header.b="EBz9ocGM"
-Received: from forward100d.mail.yandex.net (forward100d.mail.yandex.net [IPv6:2a02:6b8:c41:1300:1:45:d181:d100])
-	by forward205d.mail.yandex.net (Yandex) with ESMTPS id A7BF282250
-	for <linux-staging@lists.linux.dev>; Sat, 04 Oct 2025 23:49:35 +0300 (MSK)
-Received: from mail-nwsmtp-smtp-production-main-80.klg.yp-c.yandex.net (mail-nwsmtp-smtp-production-main-80.klg.yp-c.yandex.net [IPv6:2a02:6b8:c43:4985:0:640:840f:0])
-	by forward100d.mail.yandex.net (Yandex) with ESMTPS id 2BC6FC0033;
-	Sat, 04 Oct 2025 23:49:28 +0300 (MSK)
-Received: by mail-nwsmtp-smtp-production-main-80.klg.yp-c.yandex.net (smtp/Yandex) with ESMTPSA id NnpTQIPLHqM0-yA8pSY4G;
-	Sat, 04 Oct 2025 23:49:27 +0300
-X-Yandex-Fwd: 1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sezginduran.net;
-	s=mail; t=1759610967;
-	bh=P3tHAywGzzW94VXJ7Fsyl9O4UHti9Z7NcwrXELExkcA=;
-	h=Message-ID:Date:Cc:Subject:To:From;
-	b=EBz9ocGM6Mj9NhVNCZDiqkGwLWaaRME6mP3d+TVrY1schcSm+kozE4ZuG2wJ6GguF
-	 8xAg0BepUi4T0wNfMLFVbGb/6jizTp6CKeOBnB9qcHeURQ9/AycqpvUVn5LXoGDpCs
-	 Uesg5o3cuBWr9RJHOd47lgU6CnJGs8c8fmstT/j8=
-Authentication-Results: mail-nwsmtp-smtp-production-main-80.klg.yp-c.yandex.net; dkim=pass header.i=@sezginduran.net
-From: Ahmet Sezgin Duran <ahmet@sezginduran.net>
-To: sudipm.mukherjee@gmail.com,
-	teddy.wang@siliconmotion.com,
-	gregkh@linuxfoundation.org
-Cc: linux-fbdev@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Ahmet Sezgin Duran <ahmet@sezginduran.net>
-Subject: [PATCH RESEND] staging: sm750fb: rename camel case identifiers
-Date: Sat,  4 Oct 2025 20:48:34 +0000
-Message-ID: <20251004204834.3983-1-ahmet@sezginduran.net>
-X-Mailer: git-send-email 2.47.3
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HRPyZgZc"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BF627C4CEF1;
+	Sat,  4 Oct 2025 23:41:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1759621304;
+	bh=AslO7f3g61R/R/cWIZ22fBpPjqZXgxvYKzxMeKhpstw=;
+	h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
+	b=HRPyZgZcuWTh4zD7a5qYU3FKkFqMzexDQbZ4jeEOPg0sCXd6GEQffRgQ6t/Mj0OOe
+	 iMQnKMBt4PifxZ2bf9K1MAs7iwhI1Kbq1DUzLlVZj77uTBLUNgT7B9psaExguyn9p5
+	 2Ua6N5SL83UAoiI3DDyNEuoxFDp23lo9gkw/a5ceLZNxLUn30gBOd1PKY2LURZRMlx
+	 06jtfLv+A9NGbQ+idxURe77F/VLRGtgskd+YbCQPnTQEwVGJQImNqo4qZrzgwPzr1R
+	 HtoM44DQmEPV36DEaA0r8g1Bl2URt93IkxlX0JLtjep5cD8rmmxC4QilUHOO4+7MJT
+	 w1SsrJOxJNk8Q==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id ADC1F39D0C1A;
+	Sat,  4 Oct 2025 23:41:36 +0000 (UTC)
+Subject: Re: [GIT PULL] Staging driver updates for 6.18-rc1
+From: pr-tracker-bot@kernel.org
+In-Reply-To: <aOEpP3nLOrQAKh6C@kroah.com>
+References: <aOEpP3nLOrQAKh6C@kroah.com>
+X-PR-Tracked-List-Id: <linux-staging.lists.linux.dev>
+X-PR-Tracked-Message-Id: <aOEpP3nLOrQAKh6C@kroah.com>
+X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git tags/staging-6.18-rc1
+X-PR-Tracked-Commit-Id: b76029bdd71054b17f62740fe9617d6b2ea601c3
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: 59697e061f6aec86d5738cd4752e16520f1d60dc
+Message-Id: <175962129545.472872.10479861593516558497.pr-tracker-bot@kernel.org>
+Date: Sat, 04 Oct 2025 23:41:35 +0000
+To: Greg KH <gregkh@linuxfoundation.org>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>, Andrew Morton <akpm@linux-foundation.org>, Stephen Rothwell <sfr@canb.auug.org.au>, linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-Rename two identifiers from camel case to snake case, in order to follow
-kernel coding style.
+The pull request you sent on Sat, 4 Oct 2025 16:03:43 +0200:
 
-Changes:
+> git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git tags/staging-6.18-rc1
 
-- Local variable `deCtrl` to `de_ctrl`
-- Function `deGetTransparency` to `de_get_transparency`
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/59697e061f6aec86d5738cd4752e16520f1d60dc
 
-Signed-off-by: Ahmet Sezgin Duran <ahmet@sezginduran.net>
----
- drivers/staging/sm750fb/sm750_accel.c | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+Thank you!
 
-diff --git a/drivers/staging/sm750fb/sm750_accel.c b/drivers/staging/sm750fb/sm750_accel.c
-index b07c1aa68621..046b9282b24a 100644
---- a/drivers/staging/sm750fb/sm750_accel.c
-+++ b/drivers/staging/sm750fb/sm750_accel.c
-@@ -89,7 +89,7 @@ int sm750_hw_fillrect(struct lynx_accel *accel,
- 		      u32 x, u32 y, u32 width, u32 height,
- 		      u32 color, u32 rop)
- {
--	u32 deCtrl;
-+	u32 de_ctrl;
- 
- 	if (accel->de_wait() != 0) {
- 		/*
-@@ -121,11 +121,11 @@ int sm750_hw_fillrect(struct lynx_accel *accel,
- 		  ((width << DE_DIMENSION_X_SHIFT) & DE_DIMENSION_X_MASK) |
- 		  (height & DE_DIMENSION_Y_ET_MASK)); /* dpr8 */
- 
--	deCtrl = DE_CONTROL_STATUS | DE_CONTROL_LAST_PIXEL |
-+	de_ctrl = DE_CONTROL_STATUS | DE_CONTROL_LAST_PIXEL |
- 		DE_CONTROL_COMMAND_RECTANGLE_FILL | DE_CONTROL_ROP_SELECT |
- 		(rop & DE_CONTROL_ROP_MASK); /* dpr0xc */
- 
--	write_dpr(accel, DE_CONTROL, deCtrl);
-+	write_dpr(accel, DE_CONTROL, de_ctrl);
- 	return 0;
- }
- 
-@@ -284,7 +284,7 @@ int sm750_hw_copyarea(struct lynx_accel *accel,
- 	return 0;
- }
- 
--static unsigned int deGetTransparency(struct lynx_accel *accel)
-+static unsigned int de_get_transparency(struct lynx_accel *accel)
- {
- 	unsigned int de_ctrl;
- 
-@@ -391,7 +391,7 @@ int sm750_hw_imageblit(struct lynx_accel *accel, const char *pSrcbuf,
- 		DE_CONTROL_ROP_SELECT | DE_CONTROL_COMMAND_HOST_WRITE |
- 		DE_CONTROL_HOST | DE_CONTROL_STATUS;
- 
--	write_dpr(accel, DE_CONTROL, de_ctrl | deGetTransparency(accel));
-+	write_dpr(accel, DE_CONTROL, de_ctrl | de_get_transparency(accel));
- 
- 	/* Write MONO data (line by line) to 2D Engine data port */
- 	for (i = 0; i < height; i++) {
 -- 
-2.47.3
-
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/prtracker.html
