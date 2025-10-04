@@ -1,111 +1,238 @@
-Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A902246BD7
-	for <linux-staging@lists.linux.dev>; Sat,  4 Oct 2025 10:10:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 155BF15E5BB;
+	Sat,  4 Oct 2025 14:03:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759572649; cv=none; b=j2UNOUvkl7hdU3V9ziGYxaUxVT1G2yjXOTQ/LT6In2VNpZnmb6gYthSAhWBShm4VKxC8MF8feJVEwarV3NvwlvDOFECPjaTKzjh0Jm8npPFjFpsH4kWW+w2rdPWSow714bE+TwbL4gwFmxIXgE9LpAlmJPDFPeS+vEwcy20AfHo=
+	t=1759586626; cv=none; b=ff70vqyQPp3trauX73VL3O1IEfabZpnJZcuTEwImLkk9oBv4GqB6aIgoSdfq0OgsJPNUKi/1FwGyP6k9/Jy77BgczN/Q9GJZIwrL511r11vUsgXmUM1Ol5lLalQGmk5rZVu1NaRefF8cJB9xmu2HSeGEcnaamY64P5KpZOi6LgE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759572649; c=relaxed/simple;
-	bh=qPwDC5nuZkzu0IGOT3SooZBzDPmuTwFRd6vD7umpYgM=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=kbp2QPlPOFqD0ABDWbn3eJqu3GvHh3SgGNh9C8JihVMrYe6aIseYymoJ74DwPeQ90pbJMQfYWPdofuUklMVCXjjzx6Hp1+rnUqiamX3qHVKRJ+zaQBuHkUf1QJOlzgFuj0KOV3HA+PvYk81tTOCzuyb8GTr7z64dEvS9SDOlqOM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=M0e5hBM/; arc=none smtp.client-ip=209.85.208.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1759586626; c=relaxed/simple;
+	bh=3kBk0kJ5x/4TZQqZhETvagnPX7mifvyfG210Q+2n4iQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=k/newXZnAE6uppW6js3dJNx2a8giooSAw4qLF7H3HsBZ7HeilqKDsZ/bM9YNGH5AhhVBlgs6IvhlVQw8Df68YqXHjamQXK6tsw+NXzb6uTUIIu3ouDSt1daAh/mGxh7fJeyrAKbz8Zpa19H+sSbGXbIvJuIR25Svuak2NIgdNXo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=AwHczAbD; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="M0e5hBM/"
-Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-63963066fb0so1358126a12.3
-        for <linux-staging@lists.linux.dev>; Sat, 04 Oct 2025 03:10:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1759572645; x=1760177445; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=tFV0Rbv7UxWT395pItSgd0J0HOojkalhaGP8JovflMo=;
-        b=M0e5hBM/96WKqZdx1tEiFl5x2z6ztyviBK9YVm5BOwj7YDmC3MFS9UoppVxQXygwOO
-         UEUVF/o+OftBdlx6dqsMgZ0G2cIm+jipPpxNPO5QhlkGpFPIJd07o0N3GPcxIco/68qb
-         ep99VYoAdot+fOKUWGJUJ2UnEskn1A0BccRdJ8MJkGTtW1u3p0szRIh2l7nG1QQd7HkY
-         efniR/LY6BoeiSW31AY+013pVokyW0CMf3/zz51uynu/zqT0NSevgFDlog/kF84CwWuG
-         xAerWB5Ls+dOjhsMziEhW2PpQKiz8QJQlZ++5SB8XIPLgy08DhQiCd7gapPclU4J0yEz
-         Lvdw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759572645; x=1760177445;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=tFV0Rbv7UxWT395pItSgd0J0HOojkalhaGP8JovflMo=;
-        b=lQ53O6JTWvXdNArAwBu8PuWtPR2y1XUfu9FLl3FJ/1yY887TOg8wELkF/OLzsoflXJ
-         zRBvwC3DcgFV+HFEfoMgcBML9b2kVBYjXyPQCrB6toU34eI5adPoj2Gc5YBZP9kymR0r
-         G1aJqjfIJEd/ENSCij4Drti4Supr4FfcYhXnPkT93Xq5VHbvzhhmNnF69hS47T6v7ZIw
-         5OX0zDHnloJFO0I+qpJtMnkTAOi0o/UJ0fN5a0Us2Q7K6AJW3LqX45ytUO1P4d0VQiJC
-         QIje8ml485IxloKzuIpoEb8pSueFjk5bGtw+vwOjUMXfg+ZoINe5pwbY/hO6IAdiOkkI
-         ROxA==
-X-Forwarded-Encrypted: i=1; AJvYcCVj1c1pCvwjF5oRariJyrtRFoP56iliDr2g7Ij0aarDG9fDDveDJ0cDo9DPzkFQxURP12JlSrbFeoDHf3ZW@lists.linux.dev
-X-Gm-Message-State: AOJu0YzXmrusiTjMahfet0faQ8JhkCBRanZqezNjK9FZ5FMe3N+UUJWa
-	miv9MndA3IEkoVX5TUYdqKHNJusVz61lQk7/zg7TL3nm6EMkrcbVyy569e9T2w==
-X-Gm-Gg: ASbGncsL/Vmc9OrXFRq9thQ4dQzIQrL2NczsmgHZiQXNpaU3PF4uewCmz7mkWxO+FrO
-	2Gw2OK5R3+NknELG0vUXcFSEQCcUuqk25a/z5muou6/777cHH7jkL1zc2FP/rAuTYmrx7WxFZet
-	gWPkcxlJq6Cd2o8TsWqt+Wt4Z+O7GhzcDxzzCLsDlq/1w99IAmAZzCyG5ZyVleQINY31Wlia0QD
-	l3UNGDtJy8FXGRngQn8CKvVQcJlNPZr13Hz1Tb1T1BYPK54SMC6RDdHFH4H2VfXHu+tfdb4ii2S
-	tMVxrY9aT5fPAkfUppL8US25KjwFXftNuHOg3g3xss4zBBq/hRM3IU+F1olLffmYZBK/GQHPiJM
-	7RRsNTZsiCRFWHetO43np1tLjYKVdKKE9oqNpzKJ0ki+gCyTaLIRS8Z/Ic9va5eUZh6dATIi0qt
-	fBdjw=
-X-Google-Smtp-Source: AGHT+IH0c2naAO4lXwzQkD+k6vPjbzkl1A28iEcQHuUM0hgRbQTGs6OFsIxPmvxUYAU7ofKDgf4KkQ==
-X-Received: by 2002:a17:907:3e13:b0:b33:a2ef:c7 with SMTP id a640c23a62f3a-b49c42769bcmr750600366b.55.1759572645170;
-        Sat, 04 Oct 2025 03:10:45 -0700 (PDT)
-Received: from tumbleweed (ip-77-25-33-35.web.vodafone.de. [77.25.33.35])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b48652a9f5dsm650069666b.11.2025.10.04.03.10.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 04 Oct 2025 03:10:44 -0700 (PDT)
-From: Michael Straube <straube.linux@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: hdegoede@redhat.com,
-	Larry.Finger@lwfinger.net,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Michael Straube <straube.linux@gmail.com>
-Subject: [PATCH] staging: rtl8723bs: fall back to random mac address
-Date: Sat,  4 Oct 2025 12:10:36 +0200
-Message-ID: <20251004101036.673834-1-straube.linux@gmail.com>
-X-Mailer: git-send-email 2.51.0
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="AwHczAbD"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 805B0C4CEF1;
+	Sat,  4 Oct 2025 14:03:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1759586625;
+	bh=3kBk0kJ5x/4TZQqZhETvagnPX7mifvyfG210Q+2n4iQ=;
+	h=Date:From:To:Cc:Subject:From;
+	b=AwHczAbD8h69CQZIk26isWHMixrbeBn7RpyZYmPkeo05ORmGKHmtTLRSMBTlRwoIL
+	 +CTlGTjRY5Z1MRN8XmYjemJpb0wlLxrKQuPwX3i+qG8WWdB4164diFWOE0Ek8BAB/y
+	 /raM5ZjLZMP8VBuS5sPnknt3z7jibFz/mFI1Xtcc=
+Date: Sat, 4 Oct 2025 16:03:43 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Linus Torvalds <torvalds@linux-foundation.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Stephen Rothwell <sfr@canb.auug.org.au>
+Cc: linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
+Subject: [GIT PULL] Staging driver updates for 6.18-rc1
+Message-ID: <aOEpP3nLOrQAKh6C@kroah.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Use a random mac address if we cannot load it from the efuses.
+The following changes since commit 8f5ae30d69d7543eee0d70083daf4de8fe15d585:
 
-Do not use a constant mac address as fallback. This may create conflicts
-if we have several rtl8723bs devices on the network.
+  Linux 6.17-rc1 (2025-08-10 19:41:16 +0300)
 
-Signed-off-by: Michael Straube <straube.linux@gmail.com>
----
- drivers/staging/rtl8723bs/hal/sdio_halinit.c | 6 +-----
- 1 file changed, 1 insertion(+), 5 deletions(-)
+are available in the Git repository at:
 
-diff --git a/drivers/staging/rtl8723bs/hal/sdio_halinit.c b/drivers/staging/rtl8723bs/hal/sdio_halinit.c
-index 6f1f726d1630..4e81ef53dc47 100644
---- a/drivers/staging/rtl8723bs/hal/sdio_halinit.c
-+++ b/drivers/staging/rtl8723bs/hal/sdio_halinit.c
-@@ -1014,14 +1014,10 @@ static void Hal_EfuseParseMACAddr_8723BS(
- 	struct adapter *padapter, u8 *hwinfo, bool AutoLoadFail
- )
- {
--	u16 i;
--	u8 sMacAddr[6] = {0x00, 0xE0, 0x4C, 0xb7, 0x23, 0x00};
- 	struct eeprom_priv *pEEPROM = GET_EEPROM_EFUSE_PRIV(padapter);
- 
- 	if (AutoLoadFail) {
--/* 		sMacAddr[5] = (u8)GetRandomNumber(1, 254); */
--		for (i = 0; i < 6; i++)
--			pEEPROM->mac_addr[i] = sMacAddr[i];
-+		eth_random_addr(pEEPROM->mac_addr);
- 	} else {
- 		/* Read Permanent MAC address */
- 		memcpy(pEEPROM->mac_addr, &hwinfo[EEPROM_MAC_ADDR_8723BS], ETH_ALEN);
--- 
-2.51.0
+  git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git tags/staging-6.18-rc1
 
+for you to fetch changes up to b76029bdd71054b17f62740fe9617d6b2ea601c3:
+
+  staging: rtl8723bs: xmit: rephrase comment and drop extra space (2025-09-17 12:15:33 +0200)
+
+----------------------------------------------------------------
+Staging driver changes for 6.18-rc1
+
+Here is the "big" set of staging driver changes for 6.18-rc1.  Nothing
+really exciting in here they pretty much consist of:
+  - minor coding style changes and cleanups
+  - some api layer removals where not needed
+
+Overall a quiet development cycle.
+
+All have been in linux-next for a while with no reported issues.
+
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+
+----------------------------------------------------------------
+Ahmet Sezgin Duran (1):
+      staging: sm750fb: rename camel case variable
+
+Akiyoshi Kurita (4):
+      staging: rtl8723bs: rtw_efuse.h: simplify copyright banner
+      staging: rtl8723bs: fix typo in comment
+      staging: rtl8723bs: hal: put return type and function name on one line
+      staging: rtl8723bs: xmit: rephrase comment and drop extra space
+
+Ali Nasrolahi (1):
+      staging: rtl8723bs: fix comment formatting in basic_types.h
+
+Bruce Qin (1):
+      staging: rtl8723bs: fix if-statement alignment and line continuation in rtw_ap.c
+
+Jannik Rehkemper (1):
+      staging: rtl8723bs: fix checkpatch spaces preferred around that
+
+Len Bao (1):
+      staging: octeon: Use 'u64' instead of 'uint64_t' in union cvmx_pip_wqe_word2
+
+Liao Yuanhong (1):
+      staging: gpib: tnt4882: Remove redundant header files
+
+Luke Yang (1):
+      staging: gpib: tidy-up comments
+
+Michael Straube (42):
+      staging: rtl8723bs: remove wrapper rtw_os_indicate_scan_done
+      staging: rtl8723bs: move init_mlme_ext_timer to core/rtw_mlme_ext.c
+      staging: rtl8723bs: move rtw_init_mlme_timer to core/rtw_mlme.c
+      staging: rtl8723bs: remove wrapper init_addba_retry_timer
+      staging: rtl8723bs: merge rtw_os_indicate_connect into rtw_indicate_connect
+      staging: rtl8723bs: merge rtw_os_indicate_disconnect into rtw_indicate_disconnect
+      staging: rtl8723bs: move rtw_report_sec_ie to core/rtw_mlme.c
+      staging: rtl8723bs: move rtw_reset_securitypriv to core/rtw_mlme.c
+      staging: rtl8723bs: use crypto_xor_cpy
+      staging: rtl8723bs: remove unnecessary forward declarations
+      staging: rtl8723bs: remove bPseudoTest from EFUSE_ShadowMapUpdate
+      staging: rtl8723bs: make Efuse_ReadAllMap static
+      staging: rtl8723bs: remove bPseudoTest from Efuse_ReadAllMap
+      staging: rtl8723bs: remove wrapper efuse_ReadEFuse
+      staging: rtl8723bs: remove bPseudoTest from Hal_ReadEFuse
+      staging: rtl8723bs: remove bPseudoTest from hal_ReadEFuse_WiFi
+      staging: rtl8723bs: remove bPseudoTest from hal_ReadEFuse_BT
+      staging: rtl8723bs: remove wrapper EFUSE_GetEfuseDefinition
+      staging: rtl8723bs: remove bPseudoTest from Hal_GetEfuseDefinition
+      staging: rtl8723bs: remove Hal_EfuseGetCurrentSize
+      staging: rtl8723bs: remove bPseudoTest from hal_EfuseSwitchToBank
+      staging: rtl8723bs: clean up variable initializations
+      staging: rtl8723bs: remove bPseudoTest from efuse_OneByteRead
+      staging: rtl8723bs: remove efuse_OneByteWrite
+      staging: rtl8723bs: remove wrapper rtw_init_recv_timer
+      staging: rtl8723bs: move rtw_recv_indicatepkt to rtw_recv.c
+      staging: rtl8723bs: move rtw_handle_tkip_mic_err to rtw_recv.c
+      staging: rtl8723bs: merge rtw_os_free_recvframe into rtw_recv.c
+      staging: rtl8723bs: merge rtw_os_recv_resource_alloc into rtw_recv.c
+      staging: rtl8723bs: merge rtw_os_recv_resource_free into rtw_recv.c
+      staging: rtl8723bs: merge rtw_os_recvbuf_resource_free into rtl8723bs_recv.c
+      staging: rtl8723bs: move rtw_os_alloc_msdu_pkt to rtw_recv.c
+      staging: rtl8723bs: rename rtw_os_alloc_msdu_pkt
+      staging: rtl8723bs: move rtw_os_recv_indicate_pkt to rtw_recv.c
+      staging: rtl8723bs: rename rtw_os_recv_indicate_pkt
+      staging: rtl8723bs: remove os_dep/recv_linux.c
+      staging: rtl8723bs: remove include/recv_osdep.h
+      staging: rtl8723bs: remove wrapper Efuse_PowerSwitch
+      staging: rtl8723bs: remove bWrite from Hal_EfusePowerSwitch
+      staging: rtl8723bs: remove REG_EFUSE_ACCESS_8723 and EFUSE_ACCESS_ON_8723
+      staging: rtl8723bs: Hal_EfuseParseAntennaDiversity_8723B is empty
+      staging: rtl8723bs: remove unused tables
+
+Mohammed GUERMOUD (1):
+      staging: octeon: Clean up dead code in ethernet-tx.c
+
+Nino Zhang (1):
+      staging: rtl8723bs: fix coding style issues in core/rtw_mlme.c
+
+Ovidiu Panait (2):
+      staging: axis-fifo: remove unnecessary dev_set_drvdata() calls
+      staging: axis-fifo: use unique identifiers in device names
+
+Qianfeng Rong (1):
+      staging: gpib: use int type to store negative error codes
+
+Yiming Qian (2):
+      staging: sm750fb: remove unnecessary volatile qualifiers
+      staging: sm750fb: rename snake case variables
+
+Yuri Martins (1):
+      staging: vc04_services/vchiq-mmal: fix typos in comments
+
+Zhuoheng Li (1):
+      staging: rtl8723bs: fix space-before-tab warnings
+
+yingche (1):
+      staging: rtl8723bs: fix fortify warnings by using struct_group
+
+ drivers/staging/axis-fifo/axis-fifo.c              |  37 ++-
+ .../staging/gpib/agilent_82357a/agilent_82357a.c   |  18 +-
+ .../staging/gpib/agilent_82357a/agilent_82357a.h   |  10 +-
+ drivers/staging/gpib/cb7210/cb7210.h               |   4 +-
+ drivers/staging/gpib/cec/cec_gpib.c                |   2 +-
+ drivers/staging/gpib/common/gpib_os.c              |   2 +-
+ drivers/staging/gpib/common/iblib.c                |   2 +-
+ drivers/staging/gpib/eastwood/fluke_gpib.c         |   2 +-
+ drivers/staging/gpib/fmh_gpib/fmh_gpib.c           |   2 +-
+ drivers/staging/gpib/gpio/gpib_bitbang.c           |  16 +-
+ drivers/staging/gpib/hp_82341/hp_82341.c           |  12 +-
+ drivers/staging/gpib/hp_82341/hp_82341.h           |  40 +--
+ drivers/staging/gpib/include/amccs5933.h           |   4 +-
+ drivers/staging/gpib/include/gpib_types.h          |   3 +-
+ drivers/staging/gpib/include/nec7210.h             |  26 +-
+ drivers/staging/gpib/include/nec7210_registers.h   |   4 +-
+ drivers/staging/gpib/include/plx9050.h             |   8 +-
+ drivers/staging/gpib/include/tms9914.h             |  90 ++---
+ drivers/staging/gpib/include/tnt4882_registers.h   |  22 +-
+ drivers/staging/gpib/ines/ines.h                   |  12 +-
+ drivers/staging/gpib/ines/ines_gpib.c              |   4 +-
+ drivers/staging/gpib/nec7210/nec7210.c             |   6 +-
+ drivers/staging/gpib/ni_usb/ni_usb_gpib.c          |  10 +-
+ drivers/staging/gpib/ni_usb/ni_usb_gpib.h          |  10 +-
+ drivers/staging/gpib/pc2/pc2_gpib.c                |   4 +-
+ drivers/staging/gpib/tms9914/tms9914.c             |  10 +-
+ drivers/staging/gpib/tnt4882/mite.h                |  10 +-
+ drivers/staging/gpib/tnt4882/tnt4882_gpib.c        |   5 +-
+ drivers/staging/octeon/ethernet-tx.c               |  40 ---
+ drivers/staging/octeon/octeon-stubs.h              | 136 ++++----
+ drivers/staging/rtl8723bs/Makefile                 |   2 -
+ drivers/staging/rtl8723bs/core/rtw_ap.c            |   8 +-
+ drivers/staging/rtl8723bs/core/rtw_efuse.c         | 169 +---------
+ drivers/staging/rtl8723bs/core/rtw_mlme.c          | 231 +++++++++----
+ drivers/staging/rtl8723bs/core/rtw_mlme_ext.c      | 130 ++++----
+ drivers/staging/rtl8723bs/core/rtw_pwrctrl.c       |  10 +-
+ drivers/staging/rtl8723bs/core/rtw_recv.c          | 194 ++++++++++-
+ drivers/staging/rtl8723bs/core/rtw_security.c      |  78 +----
+ drivers/staging/rtl8723bs/core/rtw_sta_mgt.c       |   6 +-
+ drivers/staging/rtl8723bs/core/rtw_wlan_util.c     |  60 ++--
+ drivers/staging/rtl8723bs/core/rtw_xmit.c          |   2 +-
+ drivers/staging/rtl8723bs/hal/hal_com_phycfg.c     |   5 +-
+ drivers/staging/rtl8723bs/hal/hal_pwr_seq.c        |   2 +-
+ drivers/staging/rtl8723bs/hal/odm.c                | 152 ---------
+ drivers/staging/rtl8723bs/hal/odm.h                |   6 -
+ drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c  | 368 +++------------------
+ drivers/staging/rtl8723bs/hal/rtl8723bs_recv.c     |   6 +-
+ drivers/staging/rtl8723bs/hal/rtl8723bs_xmit.c     |   2 +-
+ drivers/staging/rtl8723bs/hal/sdio_halinit.c       |   1 -
+ drivers/staging/rtl8723bs/include/basic_types.h    |  41 +--
+ drivers/staging/rtl8723bs/include/drv_types.h      |   2 -
+ drivers/staging/rtl8723bs/include/hal_intf.h       |   7 +-
+ drivers/staging/rtl8723bs/include/mlme_osdep.h     |  19 --
+ drivers/staging/rtl8723bs/include/recv_osdep.h     |  40 ---
+ drivers/staging/rtl8723bs/include/rtl8723b_hal.h   |   2 -
+ drivers/staging/rtl8723bs/include/rtw_efuse.h      |  15 +-
+ drivers/staging/rtl8723bs/include/rtw_mlme.h       |   1 +
+ drivers/staging/rtl8723bs/include/rtw_mlme_ext.h   |   2 -
+ drivers/staging/rtl8723bs/include/rtw_recv.h       |   4 +
+ drivers/staging/rtl8723bs/os_dep/mlme_linux.c      | 179 ----------
+ drivers/staging/rtl8723bs/os_dep/recv_linux.c      | 225 -------------
+ drivers/staging/sm750fb/sm750.h                    |   6 +-
+ drivers/staging/sm750fb/sm750_accel.c              |   8 +-
+ drivers/staging/sm750fb/sm750_hw.c                 |   4 +-
+ .../staging/vc04_services/vchiq-mmal/mmal-msg.h    |   2 +-
+ .../staging/vc04_services/vchiq-mmal/mmal-vchiq.c  |   2 +-
+ .../staging/vc04_services/vchiq-mmal/mmal-vchiq.h  |   2 +-
+ 67 files changed, 858 insertions(+), 1686 deletions(-)
+ delete mode 100644 drivers/staging/rtl8723bs/include/mlme_osdep.h
+ delete mode 100644 drivers/staging/rtl8723bs/include/recv_osdep.h
+ delete mode 100644 drivers/staging/rtl8723bs/os_dep/mlme_linux.c
+ delete mode 100644 drivers/staging/rtl8723bs/os_dep/recv_linux.c
