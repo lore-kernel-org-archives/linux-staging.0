@@ -1,70 +1,70 @@
-Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
+Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1AFB72877D4
-	for <linux-staging@lists.linux.dev>; Sun,  5 Oct 2025 16:00:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3958028AAEE
+	for <linux-staging@lists.linux.dev>; Sun,  5 Oct 2025 16:00:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759680022; cv=none; b=pESpSVFrqhYAelzfkqZeW+7kYJMAWxmbSHXOckiySwNJPKwHic3+/IvDMC/0qQK6epXsDZLUaLehCm6vYul4hPBr6Vp0jkGXSxXGlv5zr8/uWklHbRHWUNegK4E6c45EkEekmx1L4m+YqDvKEDM0RV4GF8SPcylfjjGw2qyHXU8=
+	t=1759680026; cv=none; b=jMXZ3eShtSPLIBmvWffqqmQuKpZk0aI35GNE+iz2174yFbuRAfFB/baUEZjc/XQMw+1ZZ0pBOlqcwYgj7AXkcg/fI0JiBqXG7KYkfDeR+xPX/xBTMbHxw0K4pzi/jOlp18cq3Ozlmo8nPSwYNoQagAqqRl7jQp/4sRtnRQZKI/s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759680022; c=relaxed/simple;
-	bh=KtXar7DZM0l2+GL7nQOIJKmMTbYu5UycVXVuLeg1o74=;
+	s=arc-20240116; t=1759680026; c=relaxed/simple;
+	bh=TrDcUfuHZ7TJREmIthB+j55m+yVeaMzeFTZqozHwAPI=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=r+ahvB2VeSGgrPfGgLuKFEjnozwWn4S6wVbeZsR1xwmOgw3DkWo1EGJSqzV9gw/qXT1FZPZdIPUWGwgmZD5GTOAmpGvzCLJt4V6wgBWF3GwTuG+vRqvyI1ZS1t7dKmULxfmvp+NrRnOJU2/n3U0UBm+3wKMdSXOlQ/AlYB3217E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Os/WQ9LO; arc=none smtp.client-ip=209.85.210.175
+	 MIME-Version; b=tm+FJznGW5SeBz3+0wT81jcCz4TSah1/1l3jpXAhzngFXH/FU3mwFtBv4nQkxXWYrMKngNkKztngRJuzRV3WCJythmPvp045ePaewyWgtFj9lrT35YCq1p2vTRsCQhKw0Wz139u+h+FqZ5BY3mcR1IsXqDbU67IMJbFB/Do6rYk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=garAdIM1; arc=none smtp.client-ip=209.85.210.176
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Os/WQ9LO"
-Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-782023ca359so3873490b3a.2
-        for <linux-staging@lists.linux.dev>; Sun, 05 Oct 2025 09:00:20 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="garAdIM1"
+Received: by mail-pf1-f176.google.com with SMTP id d2e1a72fcca58-781206cce18so3314093b3a.0
+        for <linux-staging@lists.linux.dev>; Sun, 05 Oct 2025 09:00:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1759680020; x=1760284820; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1759680024; x=1760284824; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=aNEHIKGjr5cFoCF/LF+uK+ZZb0/rQaBUls4FLPZu7hw=;
-        b=Os/WQ9LO/1FMPc2BXCAbMSkvvqXO2klOkGQzk/l3HlQYMfTDugSH0zvz5uA2bm4HUl
-         gL9Q1nzZdbwOgNkE0M6LLYwOrYSbsXLwZ2L4Iiin8jZrDTOP4gdqjupNGzKlzK9mWEom
-         ZE/BnPty7WBdtmnrT8ST8mP19P0nuw6l3ictEoW9sVChEVtbnyufjtFZIU1GQqpS29N/
-         MyyrzILTpIXRzgjvq8nWy73FOvjRFzHQHVFOZ+wajh1WNcJp1qYds90ovF7irQCi+91f
-         7GMmNdK3J1dcndK8PP2n3RdEb+uCocNvXCUiU8virmo12zUsx1oY62prKQxkD5qq+5Wr
-         UoTg==
+        bh=5CWusk2svzGl3MUuAZ2TzWoJhJSyuzuzfCNyygDsyss=;
+        b=garAdIM1F9f74pWqe5cToq85cBE+9Dp2v2qvRPFDM85UxLS/42+TyOdz3j/OMb6IPk
+         ie9hAfJnRi/9YahED+WdV9PI+4ujRzUuAFcHN5m8tlQsIBPw3Y5Xta5mGRE74MgqiG2x
+         I0lcG1gI9S/bMPwFO4+heWBmh3idr4rzxG9gYuRQ5FluTQM/h2W+phGwfmkcdaUD2GXw
+         dI+hfb0376EvPlrWW0hjNZxaQNzJgdV48+Yjfcc3tJpT+7YuErwy6f57yUv9ofFHmQGG
+         +xLQssCK8qdowwiq8xFhtBkm0PUkQyVoueZ+pPbiDV+QNDTnPFF9UP0IWWCM3jrQc7RB
+         208g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759680020; x=1760284820;
+        d=1e100.net; s=20230601; t=1759680024; x=1760284824;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=aNEHIKGjr5cFoCF/LF+uK+ZZb0/rQaBUls4FLPZu7hw=;
-        b=kfsL1Gsr8GFhZoeBVJzotyMyqkOaRlI/GnAiUlQhomNqsye7bXlKIRjJfyvGWqqt0J
-         nZdE8LjnEff/gqbwhk+WzTPIMjczbbPbaCDjSo70qmqYQY5KTVrolsRi1TBTQHO2XhmR
-         pwj3VA5fG5+v0gAjfwLAElmtCg426e8OwgXXNAKH7yyF26CH6A5espI3bR+8YBohBURU
-         nYK2l8WtqvdeGanv+XL5caesH1QoaarUHWH+ZQqY2qzrlY4vRQLNNkenAgnRHEQ0n7Kv
-         WsbV54RX2KRv4Zfw73xXukw3tGQ27feXnLO0cgKO/oZr9nfZDYCWTkNRp8kpmpyyT4jm
-         76cg==
-X-Gm-Message-State: AOJu0YzjM7gv7TYD/9Q/3wUgpMjG/vNZPsakzHk5RTy7YcPF2IfAwl4d
-	/Zz2xp8mwNKU7NfQgMm7JI74P2P32iVDvIZRN0eE/UkMQRZRtMDGNujsNKI1/1RpM/M=
-X-Gm-Gg: ASbGncss5065cFcNSzff9MOEmjIjVVccB7WphHvypneZuZFTUvgqIp/N/QLUC3xlANw
-	A+KUgJkHFDrdYInl+bUNm2FptLgX2+70y2hmV00amqDFPzfz5XsACqWl9Yy6G7ja7i0ZyhMTFNm
-	NKQDIFbLKMHpaLvyWJhui3jfa4pvs2jOwpKxseFm1lex0Hf+0vfYNBwzMvyNPGwxnL4T+pn1/Ek
-	uGTfi8U8QJ1jB4FfgN4Wub8FzIy7XAgy5umVXCL6YyVwJVF2jRzZpY1iUErUGGXm7xOVrgaDeYh
-	z96N/U1DPmIEnYKygpq3a/ZQ8FXXzVoB+gZvcGiFEkbv5bPb1QhBdm3FVpD1Efg7DGM5239Vcoe
-	eT663+P6GDNCrFPm32yZmn4SaZuKQUwxR4NdK/kj2TM8Om8c2wRK1AoVIC2Ih
-X-Google-Smtp-Source: AGHT+IFbMORClUNlmsaxwc+iSakePmH0AYcYLMYlHYqIgx//Yq0c6ae7Wsjba298dMnFASZdc0YnMQ==
-X-Received: by 2002:a05:6a00:23d5:b0:782:5ca1:e1c with SMTP id d2e1a72fcca58-78c98cb698fmr11694812b3a.21.1759680020289;
-        Sun, 05 Oct 2025 09:00:20 -0700 (PDT)
+        bh=5CWusk2svzGl3MUuAZ2TzWoJhJSyuzuzfCNyygDsyss=;
+        b=KjEUQORphEgdwoulWBfd47pV7ul5T905T/kCCp8Cfo3XQZS/PROzJjG8ugSUygYOix
+         5wdNWwYxwDo/S2p9exW/9iaY4h4B2dAnMADkgYh/UALDwwoR+ByELVztB41AcUqz1Y/+
+         JjRQWfoWROjcA6tMQQlrU3pfUxOMeQESeovk3Dogew0QWKWsGGs2q68/Ov0J7tLGorhz
+         /0JzT3mYj/h9yUhaBZCBxYwwE0bhg6WqCqpRFNYk2CNBXgSa2GpgDajLiL1LwVadKGL/
+         vIIKNirxNeXn4VsTRkNJruuy0qjr711V1Rpw+om+M7L64dn2T8Ul7NQsdXK0FlwgqBzH
+         A/Tw==
+X-Gm-Message-State: AOJu0YxoFJliF5VsrEAds5mzvu1Bv6AaJz8qQIbX8CPvdTP6qcjMceEf
+	J0Fn0z+Wxe/B5BEWCDNpzLfAfNB6bxrG2VvWVdUkV798OIXCMO5gmiOx
+X-Gm-Gg: ASbGncvd2A0Jfpt9rpA9buAqbsyRyawrj7hiRzrpuYs/E2tLYAZbnWZAVgHh1CueH0B
+	K9KGHihS1Sf7egFpJVHbxHaX7f1ILQoUpBWC5sFXlyMmlLcMxOPcgGC7Jm436KMDMnEmTUcWd6n
+	xWrgkpKquNDGymXcHOreneBBboBlxOxhDhwutSd6yoO8hRzoo/q8ZxrQWsTfoSquHpXOoA+Ij9z
+	AQjp+hHulnjTSU1Ey3lfYOESvcrbrdMO7Y94WSYMJSsnI0+HPgFtd7NeOwidM7awEqiMMbrmIuB
+	lF+gIAEyz85zSBYood6VvgT7GYzn19nsJeM2duz1fZDaxCjNoPqVsWhIkuO9glA+lo2zYN1lbUA
+	U2EtT2S5SqSCcH50heBE9jk28OghlZVQntrYhl1sJz0TrM7+E9J5arjpM8/XR2K/rYTjWYVo=
+X-Google-Smtp-Source: AGHT+IGti/fd7mYfrNkxUVPAt+tdSYP7b25JCGnGraje9G92rstBWJc6SnI6rUiJFqb45UzxbxRacw==
+X-Received: by 2002:a05:6a00:3c8c:b0:77e:d2f7:f307 with SMTP id d2e1a72fcca58-78c992116c7mr11208147b3a.9.1759680024483;
+        Sun, 05 Oct 2025 09:00:24 -0700 (PDT)
 Received: from Deathstar.anonymous ([172.56.42.228])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-78b01fb3d95sm10145241b3a.32.2025.10.05.09.00.18
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-78b01fb3d95sm10145241b3a.32.2025.10.05.09.00.22
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 05 Oct 2025 09:00:19 -0700 (PDT)
+        Sun, 05 Oct 2025 09:00:23 -0700 (PDT)
 From: Rohan Tripathi <trohan2000@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Rohan Tripathi <trohan2000@gmail.com>
-Subject: [PATCH 2/4] staging: rtl8723bs: split long comments in rtw_ap.c
-Date: Sun,  5 Oct 2025 11:59:18 -0400
-Message-ID: <20251005155920.381334-3-trohan2000@gmail.com>
+Subject: [PATCH 3/4] staging: rtl8723bs: remove unnecessary blank lines in rtw_ap.c
+Date: Sun,  5 Oct 2025 11:59:19 -0400
+Message-ID: <20251005155920.381334-4-trohan2000@gmail.com>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <20251005155920.381334-1-trohan2000@gmail.com>
 References: <20251005155920.381334-1-trohan2000@gmail.com>
@@ -76,65 +76,44 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This patch splits overly long comments that exceeded 100 characters
-into multiple shorter lines, following kernel coding style guidelines.
+This patch removes superfluous blank lines and adds missing ones where
+appropriate to improve readability and match kernel coding style.
 
 This is a coding style cleanup only. No functional changes.
 
 Signed-off-by: Rohan Tripathi <trohan2000@gmail.com>
 ---
- drivers/staging/rtl8723bs/core/rtw_ap.c | 17 +++++++++++++----
- 1 file changed, 13 insertions(+), 4 deletions(-)
+ drivers/staging/rtl8723bs/core/rtw_ap.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
 diff --git a/drivers/staging/rtl8723bs/core/rtw_ap.c b/drivers/staging/rtl8723bs/core/rtw_ap.c
-index 93ab0015ca89..2c906c1137bf 100644
+index 2c906c1137bf..dddb02c0f683 100644
 --- a/drivers/staging/rtl8723bs/core/rtw_ap.c
 +++ b/drivers/staging/rtl8723bs/core/rtw_ap.c
-@@ -391,7 +391,9 @@ void update_bmc_sta(struct adapter *padapter)
+@@ -438,7 +438,6 @@ void update_bmc_sta(struct adapter *padapter)
+ 		spin_lock_bh(&psta->lock);
+ 		psta->state = _FW_LINKED;
+ 		spin_unlock_bh(&psta->lock);
+-
+ 	}
+ }
  
- 		memset((void *)&psta->sta_stats, 0, sizeof(struct stainfo_stats));
+@@ -1240,7 +1239,6 @@ void rtw_acl_remove_sta(struct adapter *padapter, u8 *addr)
+ 	}
  
--		/* psta->dot118021XPrivacy = _NO_PRIVACY_;//!!! remove it, because it has been set before this. */
-+		/* psta->dot118021XPrivacy = _NO_PRIVACY_;
-+		 * remove it, because it has been set before this.
-+		 */
+ 	spin_unlock_bh(&pacl_node_q->lock);
+-
+ }
  
- 		/* prepare for add_RATid */
- 		supportRateNum = rtw_get_rateset_len((u8 *)&pcur_network->supported_rates);
-@@ -655,7 +657,10 @@ void start_bss_network(struct adapter *padapter)
- 	cur_ch_offset = HAL_PRIME_CHNL_OFFSET_DONT_CARE;
- 
- 	/* check if there is wps ie, */
--	/* if there is wpsie in beacon, the hostapd will update beacon twice when stating hostapd, */
-+	/* if there is wpsie in beacon,
-+	 *the hostapd will update beacon
-+	 *twice when stating hostapd,
-+	 */
- 	/* and at first time the security ie (RSN/WPA IE) will not include in beacon. */
- 	if (!rtw_get_wps_ie(pnetwork->ies + _FIXED_IE_LENGTH_,
- 			    pnetwork->ie_length - _FIXED_IE_LENGTH_, NULL, NULL))
-@@ -835,7 +840,10 @@ int rtw_check_beacon_data(struct adapter *padapter, u8 *pbuf,  int len)
- 	memcpy(pbss_network->mac_address, myid(&padapter->eeprompriv), ETH_ALEN);
- 
- 	/* beacon interval */
--	p = rtw_get_beacon_interval_from_ie(ie);/* ie + 8;	8: TimeStamp, 2: Beacon Interval 2:Capability */
-+	p = rtw_get_beacon_interval_from_ie(ie);
-+	/* ie + 8;
-+	 * 8: TimeStamp, 2: Beacon Interval 2:Capability
-+	 */
- 	/* pbss_network->configuration.beacon_period = le16_to_cpu(*(unsigned short*)p); */
- 	pbss_network->configuration.beacon_period = get_unaligned_le16(p);
- 
-@@ -1127,7 +1135,8 @@ int rtw_check_beacon_data(struct adapter *padapter, u8 *pbuf,  int len)
- 	/*  update AP's sta info */
- 	update_ap_info(padapter, psta);
- 
--	psta->state |= WIFI_AP_STATE;		/* Aries, add, fix bug of flush_cam_entry at STOP AP mode , 0724 */
-+	psta->state |= WIFI_AP_STATE;
-+	/* Aries, add, fix bug of flush_cam_entry at STOP AP mode , 0724 */
- 	rtw_indicate_connect(padapter);
- 
- 	pmlmepriv->cur_network.join_res = true;/* for check if already set beacon */
+ u8 rtw_ap_set_pairwise_key(struct adapter *padapter, struct sta_info *psta)
+@@ -1974,6 +1972,7 @@ void ap_sta_info_defer_update(struct adapter *padapter, struct sta_info *psta)
+ 		add_RATid(padapter, psta, 0);/* DM_RATR_STA_INIT */
+ 	}
+ }
++
+ /* restore hw setting from sw data structures */
+ void rtw_ap_restore_network(struct adapter *padapter)
+ {
 -- 
 2.50.1
 
