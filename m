@@ -1,70 +1,69 @@
-Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E39A726F2AA
-	for <linux-staging@lists.linux.dev>; Mon,  6 Oct 2025 12:18:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E9767080D
+	for <linux-staging@lists.linux.dev>; Mon,  6 Oct 2025 12:25:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759753121; cv=none; b=HacUkp+AlN7J4Lruor+lv/lg+C6XsAhvfP+m13Tma3e0BhBM+oIERoCEuN5dvC04haxJI4Cj9+P9hOBPfWMJxp9T3iEtjueb2f2SUgEB6iCb2/hCEcdpdwBeuEfm8L9QGo2lK43wdAhMJEd1kzAgcSccg9uz2hbKHA9dI5INkKI=
+	t=1759753534; cv=none; b=eOw39kRNURuzHVIAlXPNHol1rFCaKXYCyqFxG3XOpw0LRSS8Jyh/SJQKJ4ol/KBzSlz69N8ORp3LOE2+VSRLlvEX6VBSuxO6q4vJY2JzOdtgnYpZk47ApnXppEKxKmBa9Qy1U8te2T0zmD6lBPNFCrwgYBvRHuyMl2GNp5Q+cos=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759753121; c=relaxed/simple;
-	bh=KsehnIz3zhaIRQ7nBGds+hNWCCyU0OXicbw+mHAQcbw=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=JqHWNW6s/Um9/Qm+4oxC0LgS9+8xrJ5sUcWM2QZ7EKukqciu4fv79fXRlqVMBHlY5bUaVJ0iivXzX6i1skKfyUULchMlH7yZUpB/yzMpKHmfCyxFK00xM3cOR4UmtVRSzm3SsIxGiHHDnn0cacLVvWv7goKAfh2pBpbEV2TIFu4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fC/1IoyV; arc=none smtp.client-ip=209.85.210.172
+	s=arc-20240116; t=1759753534; c=relaxed/simple;
+	bh=kGnUJMNjHO71kFp4EtWKGHp2JB8jldGLhc9l8su+EgI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Y/ad9aK4zeO5vMvYlMvlz9+WcVRpvdh+txoB0ftnhO0z55W6w2GWoxQ5v9TXWQUEVlVckgcrGm/GkVtzXAMzFGUnMShoD5PaBzeyHI8oN/lRBrVhDtSzE+SCJHltyr6H9yz36lkHoLbBLHZTtd2xw3lLzZ/mrPYtMvZj7KUkuL8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RpDERf1e; arc=none smtp.client-ip=209.85.214.176
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fC/1IoyV"
-Received: by mail-pf1-f172.google.com with SMTP id d2e1a72fcca58-78af9ebe337so3158939b3a.1
-        for <linux-staging@lists.linux.dev>; Mon, 06 Oct 2025 05:18:39 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RpDERf1e"
+Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-27eec33b737so65494535ad.1
+        for <linux-staging@lists.linux.dev>; Mon, 06 Oct 2025 05:25:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1759753119; x=1760357919; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1759753532; x=1760358332; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=4JqL1nlgUvZ4Y+a9ncnNqpy2LNfdBYiZdaCXYGPWAqA=;
-        b=fC/1IoyVcd6cietRrK313AeGkO0bDdn7vx5uhKG/RlR+qjNtPWqFO1C1sEJskGqh1m
-         gXLoe4FP3BCPOYQtb/v1jfmiULGjpNuG0kuLmpFVN+C7/tVpKegMqozXPPr6kvt4yK3O
-         FSRu7gwNfG+D1pHAV9WK325TXrjUh3Gv/b797xLxH68hPmqpTg2AatUeTdvPilm17GUN
-         lh4pJf4aoAI3ExQ9vzOV6O8B5/G9zUEKzm96/7onTqStOkQdwLNWCEAbh2tMH3EMCBnC
-         UrlaOhYJoJcseueYuPWRtKMMwUHvCZKv5OVvDkLxSLPPMhsbCP4gaCRRc1t4e+Dutjsf
-         BcHA==
+        bh=g1VoA28QAB1LaO/0AKqL4O/Y2EiakdoSDbts9AjpHeQ=;
+        b=RpDERf1eAy6jtI+ZYn1GnoBu9XDpx8UoexSrC1DV9qmKbioHcSXlW78Nz958O8LHdd
+         8sIxi9MIC1RfWXxSkw+PqPCEl4ZziY57dPANFE0Tfm2+O+SnTdl5js20SIR5GMgIl9l6
+         i1Lo1NoG81micm3q+SRHXM+QGDhmm0M6rN6o2WbR9x4p3g256tkjyQsLGXilwMoufRC3
+         epwZ6Qo1RmG5+uOj502cmxE90/h/RNt/JY82sDvN8m9VY9exLMvJoDJxyXWZnZm7FbXR
+         qJfrJkKv71Mqrp3E4YzCUOOvfzQz+I05UOYEotcK1lRDZbscaCuRAxWADZZlN+P/lchu
+         Birg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759753119; x=1760357919;
+        d=1e100.net; s=20230601; t=1759753532; x=1760358332;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=4JqL1nlgUvZ4Y+a9ncnNqpy2LNfdBYiZdaCXYGPWAqA=;
-        b=sm1thrOS6feS7nmA6g0BIYs8tH70bU+vo/W7aIDnVX8rLx6ZKKGvRDNWBLKW8+O/AE
-         83y4Fw8+JfkkjZicfqUMtOeIMHBJS0un/TaA5nwIPyXG+Rf7LTsfJb9ktZHFf7WP/fBw
-         5Rz3cBKu5k0rwMny1AKJVLDP4zlmPmcs8aMpfmAVhpXBxImRmjK0updxVM5ngLEUnllR
-         a/7+8b075Pp5sEz+kQ7BcCui0kmDj4SZ9PvJa6PJk2vyMXZw+mjy1oHA0i7OxhYhXUtr
-         YcEwBeF/tf4dZ2Wj3BNG6lS5Zx7ErwlMv/+NkIsXPByQCkjsMOquFl3hXWSc7quER/Ke
-         Zk1A==
-X-Forwarded-Encrypted: i=1; AJvYcCVeg9AW9jsJUqBBAOnpQZdbXNIFOMHDSpGMYbWgy0gBZjo5fT+FufXJSivbEdgrZFPliHH1MXjMmpUjs++7@lists.linux.dev
-X-Gm-Message-State: AOJu0YyKo1PSeWttuivF5yjjE4il7FW4/FlWs5EqqB5HtgbT9cXluN7b
-	qhYjhI9xYKDj7FpyeC/NixeEeVV7/QNeJkjFT8a/fQOCERFwvx37uMXO
-X-Gm-Gg: ASbGncvOdB4rVDnfRBW/3FuWRtbO/deWmoa5J/DAERPDvr7SKX3miYOxtSeT5oUtnZI
-	Nf9aVfhsOEwl7FrPwG7fIL9IrID/qdSvTLmRmSClLSl5Kt0MA+3GgC0VZCtmSCjlJDQIM4csvR3
-	xLtByyemTNtn5uvlk+29D2sMW9BzhJC3PUzHGz0FgXFQL18vTtILqs5b7/t5TmdWH3dXagD+eqx
-	EHasqjfNToYIT3F2EEz5N5ObCQjjdo9HNngI1dRtlrTpFGlcDHlrmdR5JP61eV7W7j/n9ifelgk
-	qgbZENSkPW7Psh/LI2J0AO19xoMV+0oC/nY92UrukuCDIorYMn3IKzQWLmkOGA8VSesq/uwbIhT
-	+c4AnjKkRnLeiAFfQkqyF0p3/cLelgb2s33y5ifN65senQ6zvso9KYXfoRegq3ERyBS+mrS+jE8
-	Fe84TNW4mxdBghypw=
-X-Google-Smtp-Source: AGHT+IEJlwikdDfuEqvB89md8pAfVXWDudGqoNcbE2zkbJKF7mMx2bYqTgGXO9agoUxrYeU07eF8fg==
-X-Received: by 2002:a05:6a00:2349:b0:781:52f:f13c with SMTP id d2e1a72fcca58-78c98dd92a4mr13864940b3a.25.1759753119149;
-        Mon, 06 Oct 2025 05:18:39 -0700 (PDT)
+        bh=g1VoA28QAB1LaO/0AKqL4O/Y2EiakdoSDbts9AjpHeQ=;
+        b=f/EmewehjwVcM/uEBzqvd8uBJ2oqfP4eFLakz3MlcEAnf1lTuzio9dqSIqSyo0GqEV
+         KW5fDRJlPKQzokV0le7VsInfJ7THMXMXJUJ52YKRhJuD3fNiZ35yKXPxIuL3afY/Y8rV
+         gZ/sUzUw9CzXItoYZavakAJ+pT2J6tZgkKurJf3wD/WN1Wor8eZhcdC91kpywdgu6/F0
+         bRp8YVcVtvaRYoRvG0O66ce1I1DFfz92G8vSyUDqgBoah6teRUkE+VrNxMAM5fanKpys
+         EAulgVKrbjPe9upDCnbXH0EyhfhHkpS9T9vLFql6eSXMNCjc6AuZeRDDrIjf+jiBClqP
+         FiEg==
+X-Forwarded-Encrypted: i=1; AJvYcCWMLxh8U9NpZ56oIQVroRQKt0CiY6d2Kaw7moKkzyEpDtCQ2JhbvC6oACJ1fko9BHi51DWx1TrT8S9ltall@lists.linux.dev
+X-Gm-Message-State: AOJu0Yxlu0EKuSwLRfqi8iZUar5VuMs4464m/y5bTODhmkbWUzweRnwA
+	lhk2fNZ4/mGLHoi7kcCX+24UY1yZ9EKyhiA/pyhtdkgN61s+iQbcZ4QE
+X-Gm-Gg: ASbGncudQ+i+wedOgT2gvhAdSnbgEBU325tBEFA5Roq8xREuaspdbc08uLhU1L5c0Ox
+	KT6ZwEt0PWOqPk11TwNtaIr1tOCAS5942pzIHYBzjlfIPxUiKtzt36nnGBp13hz3/MiAa8vmowU
+	HQiQ0lYV3W1qGopDAtgXt1xXeb4ZeCpWrGeymlW78pZihwq/ejZahnOzGz6HTw5w8a77xCuIXlA
+	GAStj22u4ER0gPwP6O0kJSoz+QcgdPXetCBcV9X/tkh6PG3Gwt4df9Wz4Q8GXfjgAIMEJidFX1q
+	dhfyc8726HozxACQbd/jQeL0fhwnOcoMDw2pY7zwCCmO+WsZAi/aSpq0UW6HUkeJrgtZ2jpY0Wh
+	H0dVazpfYNFR2TDKnzDq7lvYMv/RtIWL7rs/zgOukU/WouiBa9Fz+lQFI1cDFeXvohjPTFw==
+X-Google-Smtp-Source: AGHT+IE2fxagLBcV89KYI+/k7E4e/L0HbfHVoGRjzzCu/Trvn+QFvvsXy3CuD2dSestm6zz0PIeoAQ==
+X-Received: by 2002:a17:903:1b03:b0:269:d978:7ec0 with SMTP id d9443c01a7336-28e9a62ffb0mr162012545ad.28.1759753532584;
+        Mon, 06 Oct 2025 05:25:32 -0700 (PDT)
 Received: from localhost.localdomain ([2804:14d:4c64:81ec:fa6f:67e6:9404:f1b2])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-78b0206e809sm12540612b3a.71.2025.10.06.05.18.36
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-28e8d1d1c5csm131201565ad.101.2025.10.06.05.25.30
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 Oct 2025 05:18:38 -0700 (PDT)
+        Mon, 06 Oct 2025 05:25:32 -0700 (PDT)
 From: Rodrigo Gobbi <rodrigo.gobbi.7@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: ~lkcamp/patches@lists.sr.ht,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH] staging: rtl8723bs: Remove commented ifdef CONFIG_WAPI_SUPPORT
-Date: Mon,  6 Oct 2025 09:15:41 -0300
-Message-ID: <20251006121825.8114-1-rodrigo.gobbi.7@gmail.com>
+Subject: [PATCH] staging: rtl8723bs: Remove unsupported PALTFORM_OS_WINCE ifdef
+Date: Mon,  6 Oct 2025 09:23:19 -0300
+Message-ID: <20251006122524.9442-1-rodrigo.gobbi.7@gmail.com>
 X-Mailer: git-send-email 2.48.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -74,42 +73,30 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Remove ifdef CONFIG_WAPI_SUPPORT comment from rtw_ieee80211 since there
-is no way to enable or use it. Also, there is no documentation about the
-purpose of that config.
+Despite the typo at PALTFORM_OS_WINCE, its a reference to OS Win CE,
+which definitely is not applicable here, so clean it up any mention to it.
 
 Signed-off-by: Rodrigo Gobbi <rodrigo.gobbi.7@gmail.com>
 ---
-I guess this stands for "Wireless Authentication and Privacy Infrastructure",
-but that config is not used anywhere inside rtl8723bs driver. It was first added
-at 2017 [1] in the same way, so there is no harm to remove it.
-Tks and regards.
+ drivers/staging/rtl8723bs/include/rtw_mlme.h | 4 ----
+ 1 file changed, 4 deletions(-)
 
-[1] https://github.com/torvalds/linux/commit/554c0a3abf216c991c5ebddcdb2c08689ecd290b#diff-2f54b83e0bd9062cc10a53a0a6ac9193744cfb4cad1bca851127012003a6a816
----
- drivers/staging/rtl8723bs/core/rtw_ieee80211.c | 2 --
- 1 file changed, 2 deletions(-)
-
-diff --git a/drivers/staging/rtl8723bs/core/rtw_ieee80211.c b/drivers/staging/rtl8723bs/core/rtw_ieee80211.c
-index 53d4c113b19c..027b2dd0a4b9 100644
---- a/drivers/staging/rtl8723bs/core/rtw_ieee80211.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_ieee80211.c
-@@ -560,7 +560,6 @@ int rtw_parse_wpa2_ie(u8 *rsn_ie, int rsn_ie_len, int *group_cipher, int *pairwi
- 	return ret;
- }
+diff --git a/drivers/staging/rtl8723bs/include/rtw_mlme.h b/drivers/staging/rtl8723bs/include/rtw_mlme.h
+index 4c15d0194d4f..2a128568c6df 100644
+--- a/drivers/staging/rtl8723bs/include/rtw_mlme.h
++++ b/drivers/staging/rtl8723bs/include/rtw_mlme.h
+@@ -18,11 +18,7 @@
  
--/* ifdef CONFIG_WAPI_SUPPORT */
- int rtw_get_wapi_ie(u8 *in_ie, uint in_len, u8 *wapi_ie, u16 *wapi_len)
- {
- 	int len = 0;
-@@ -600,7 +599,6 @@ int rtw_get_wapi_ie(u8 *in_ie, uint in_len, u8 *wapi_ie, u16 *wapi_len)
+ #define		SCANNING_TIMEOUT	8000
  
- 	return len;
- }
--/* endif */
+-#ifdef PALTFORM_OS_WINCE
+-#define	SCANQUEUE_LIFETIME 12000000 /*  unit:us */
+-#else
+ #define	SCANQUEUE_LIFETIME 20000 /*  20sec, unit:msec */
+-#endif
  
- void rtw_get_sec_ie(u8 *in_ie, uint in_len, u8 *rsn_ie, u16 *rsn_len, u8 *wpa_ie, u16 *wpa_len)
- {
+ #define WIFI_NULL_STATE		0x00000000
+ #define WIFI_ASOC_STATE		0x00000001		/*  Under Linked state... */
 -- 
 2.48.1
 
