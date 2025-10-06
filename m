@@ -1,102 +1,144 @@
-Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E9767080D
-	for <linux-staging@lists.linux.dev>; Mon,  6 Oct 2025 12:25:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1A54186284
+	for <linux-staging@lists.linux.dev>; Mon,  6 Oct 2025 18:55:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.85.4
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759753534; cv=none; b=eOw39kRNURuzHVIAlXPNHol1rFCaKXYCyqFxG3XOpw0LRSS8Jyh/SJQKJ4ol/KBzSlz69N8ORp3LOE2+VSRLlvEX6VBSuxO6q4vJY2JzOdtgnYpZk47ApnXppEKxKmBa9Qy1U8te2T0zmD6lBPNFCrwgYBvRHuyMl2GNp5Q+cos=
+	t=1759776909; cv=none; b=movYaW7wphjXsn5uW0XGp+6UjA9usFP3y9W4atSCRDFxvKzz7QkwIDdQ/onxz/KnKzYpy1ocYAN+s7gZEYXX4GZqF9fk0xz6n53IEfEnfmBg42db0GJQH7hkq1Pz0reQtjZLJcB6Iy+qt2yOMm0Dc5F+vHeox91OOx7u6yzVTOU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759753534; c=relaxed/simple;
-	bh=kGnUJMNjHO71kFp4EtWKGHp2JB8jldGLhc9l8su+EgI=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Y/ad9aK4zeO5vMvYlMvlz9+WcVRpvdh+txoB0ftnhO0z55W6w2GWoxQ5v9TXWQUEVlVckgcrGm/GkVtzXAMzFGUnMShoD5PaBzeyHI8oN/lRBrVhDtSzE+SCJHltyr6H9yz36lkHoLbBLHZTtd2xw3lLzZ/mrPYtMvZj7KUkuL8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RpDERf1e; arc=none smtp.client-ip=209.85.214.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1759776909; c=relaxed/simple;
+	bh=zATYGJ5s94ipPbFwAl7MAY7cDQkGbW0aMQw7dvwOS7Y=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
+	 References:In-Reply-To; b=YvEvpKcCjaUzRsay34QZ/2J72vorXeZMWNQQwhjhhgA1vziCj01UNa8I4M8EXJaVdqQwB27/8o5MDx1yvrwRs8n8DHj2eRB468qWgCpxvoCS5is7igF3M52tBBA0vO6Pl8wDaSKdqCTNDfIfah3VRMwBf9cko0ZElD/Wx+X1x0I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=SLuhxf/3; arc=none smtp.client-ip=185.246.85.4
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RpDERf1e"
-Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-27eec33b737so65494535ad.1
-        for <linux-staging@lists.linux.dev>; Mon, 06 Oct 2025 05:25:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1759753532; x=1760358332; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=g1VoA28QAB1LaO/0AKqL4O/Y2EiakdoSDbts9AjpHeQ=;
-        b=RpDERf1eAy6jtI+ZYn1GnoBu9XDpx8UoexSrC1DV9qmKbioHcSXlW78Nz958O8LHdd
-         8sIxi9MIC1RfWXxSkw+PqPCEl4ZziY57dPANFE0Tfm2+O+SnTdl5js20SIR5GMgIl9l6
-         i1Lo1NoG81micm3q+SRHXM+QGDhmm0M6rN6o2WbR9x4p3g256tkjyQsLGXilwMoufRC3
-         epwZ6Qo1RmG5+uOj502cmxE90/h/RNt/JY82sDvN8m9VY9exLMvJoDJxyXWZnZm7FbXR
-         qJfrJkKv71Mqrp3E4YzCUOOvfzQz+I05UOYEotcK1lRDZbscaCuRAxWADZZlN+P/lchu
-         Birg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759753532; x=1760358332;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=g1VoA28QAB1LaO/0AKqL4O/Y2EiakdoSDbts9AjpHeQ=;
-        b=f/EmewehjwVcM/uEBzqvd8uBJ2oqfP4eFLakz3MlcEAnf1lTuzio9dqSIqSyo0GqEV
-         KW5fDRJlPKQzokV0le7VsInfJ7THMXMXJUJ52YKRhJuD3fNiZ35yKXPxIuL3afY/Y8rV
-         gZ/sUzUw9CzXItoYZavakAJ+pT2J6tZgkKurJf3wD/WN1Wor8eZhcdC91kpywdgu6/F0
-         bRp8YVcVtvaRYoRvG0O66ce1I1DFfz92G8vSyUDqgBoah6teRUkE+VrNxMAM5fanKpys
-         EAulgVKrbjPe9upDCnbXH0EyhfhHkpS9T9vLFql6eSXMNCjc6AuZeRDDrIjf+jiBClqP
-         FiEg==
-X-Forwarded-Encrypted: i=1; AJvYcCWMLxh8U9NpZ56oIQVroRQKt0CiY6d2Kaw7moKkzyEpDtCQ2JhbvC6oACJ1fko9BHi51DWx1TrT8S9ltall@lists.linux.dev
-X-Gm-Message-State: AOJu0Yxlu0EKuSwLRfqi8iZUar5VuMs4464m/y5bTODhmkbWUzweRnwA
-	lhk2fNZ4/mGLHoi7kcCX+24UY1yZ9EKyhiA/pyhtdkgN61s+iQbcZ4QE
-X-Gm-Gg: ASbGncudQ+i+wedOgT2gvhAdSnbgEBU325tBEFA5Roq8xREuaspdbc08uLhU1L5c0Ox
-	KT6ZwEt0PWOqPk11TwNtaIr1tOCAS5942pzIHYBzjlfIPxUiKtzt36nnGBp13hz3/MiAa8vmowU
-	HQiQ0lYV3W1qGopDAtgXt1xXeb4ZeCpWrGeymlW78pZihwq/ejZahnOzGz6HTw5w8a77xCuIXlA
-	GAStj22u4ER0gPwP6O0kJSoz+QcgdPXetCBcV9X/tkh6PG3Gwt4df9Wz4Q8GXfjgAIMEJidFX1q
-	dhfyc8726HozxACQbd/jQeL0fhwnOcoMDw2pY7zwCCmO+WsZAi/aSpq0UW6HUkeJrgtZ2jpY0Wh
-	H0dVazpfYNFR2TDKnzDq7lvYMv/RtIWL7rs/zgOukU/WouiBa9Fz+lQFI1cDFeXvohjPTFw==
-X-Google-Smtp-Source: AGHT+IE2fxagLBcV89KYI+/k7E4e/L0HbfHVoGRjzzCu/Trvn+QFvvsXy3CuD2dSestm6zz0PIeoAQ==
-X-Received: by 2002:a17:903:1b03:b0:269:d978:7ec0 with SMTP id d9443c01a7336-28e9a62ffb0mr162012545ad.28.1759753532584;
-        Mon, 06 Oct 2025 05:25:32 -0700 (PDT)
-Received: from localhost.localdomain ([2804:14d:4c64:81ec:fa6f:67e6:9404:f1b2])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-28e8d1d1c5csm131201565ad.101.2025.10.06.05.25.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 Oct 2025 05:25:32 -0700 (PDT)
-From: Rodrigo Gobbi <rodrigo.gobbi.7@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: ~lkcamp/patches@lists.sr.ht,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] staging: rtl8723bs: Remove unsupported PALTFORM_OS_WINCE ifdef
-Date: Mon,  6 Oct 2025 09:23:19 -0300
-Message-ID: <20251006122524.9442-1-rodrigo.gobbi.7@gmail.com>
-X-Mailer: git-send-email 2.48.1
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="SLuhxf/3"
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-03.galae.net (Postfix) with ESMTPS id 930624E40F2C;
+	Mon,  6 Oct 2025 18:54:59 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 60899606B7;
+	Mon,  6 Oct 2025 18:54:59 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 1C559102F2116;
+	Mon,  6 Oct 2025 20:54:39 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1759776897; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=KEzW3jit24CmXPxdwBbp7La6xIwBqgbqQZqEtvxRu/Q=;
+	b=SLuhxf/3XYFe9lSvtSeMg9+E9K5RRLzpeO6V1c2rDu+XPhBiz9+8CC4HkyDTDVE/k20H6P
+	mUw0uLt/vC1lUh/ptOhnnN8s02feywmxLly41Gn7Beb+CryrbBeU3h6VkynVX2v4t9fRTi
+	3e48jHMLpg2HeiMGvVWTkIi2YToLzMywVXpG6Nf0uFRKXHRhrrdGVLCUdyhBhRH9oBlmX/
+	HUg29WHlMfpvRBX/GpCd0eFB4Avn/1q/OnnDDz2h46/KHmYKXa2ljekJVxfmHKCqTPGgsj
+	sU9xl8XMOy8Q5/T9K6xwDjAlgwkSW3O8LqIiudrODya8XLUfODnncHp1fGWUZw==
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Mon, 06 Oct 2025 20:54:38 +0200
+Message-Id: <DDBGU9ELXIAW.1RLHSNOPVR9B3@bootlin.com>
+Cc: "David Airlie" <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>,
+ "Maarten Lankhorst" <maarten.lankhorst@linux.intel.com>, "Maxime Ripard"
+ <mripard@kernel.org>, "Thomas Zimmermann" <tzimmermann@suse.de>, "Rob
+ Herring" <robh@kernel.org>, "Krzysztof Kozlowski" <krzk+dt@kernel.org>,
+ "Conor Dooley" <conor+dt@kernel.org>, "Thierry Reding"
+ <thierry.reding@gmail.com>, "Jonathan Hunter" <jonathanh@nvidia.com>,
+ "Sowjanya Komatineni" <skomatineni@nvidia.com>, "Prashant Gaikwad"
+ <pgaikwad@nvidia.com>, "Michael Turquette" <mturquette@baylibre.com>,
+ "Stephen Boyd" <sboyd@kernel.org>, "Linus Walleij"
+ <linus.walleij@linaro.org>, "Mauro Carvalho Chehab" <mchehab@kernel.org>,
+ "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
+ =?utf-8?q?Jonas_Schw=C3=B6bel?= <jonasschwoebel@yahoo.de>, "Dmitry
+ Osipenko" <digetx@gmail.com>, "Charan Pedumuru"
+ <charan.pedumuru@gmail.com>, "Diogo Ivo" <diogo.ivo@tecnico.ulisboa.pt>,
+ "Aaron Kling" <webgeek1234@gmail.com>, "Arnd Bergmann" <arnd@arndb.de>,
+ <dri-devel@lists.freedesktop.org>, <devicetree@vger.kernel.org>,
+ <linux-tegra@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+ <linux-media@vger.kernel.org>, <linux-clk@vger.kernel.org>,
+ <linux-gpio@vger.kernel.org>, <linux-staging@lists.linux.dev>
+Subject: Re: [PATCH v3 15/22] staging: media: tegra-video: tegra20: simplify
+ format align calculations
+From: "Luca Ceresoli" <luca.ceresoli@bootlin.com>
+To: "Svyatoslav Ryhel" <clamor95@gmail.com>, "Mikko Perttunen"
+ <mperttunen@nvidia.com>
+X-Mailer: aerc 0.20.1
+References: <20250925151648.79510-1-clamor95@gmail.com>
+ <3665995.U7HbjWM52l@senjougahara>
+ <CAPVz0n3CrVufs8vbw8XnYuwoZoQ2Xsi3V4HimgT0=4RQySzvaw@mail.gmail.com>
+ <3862885.G96rZvMJ2N@senjougahara>
+ <CAPVz0n2shn41h4z4PoMdtCXzj+96ak69TCqt7Ag5qpqdWi6UWA@mail.gmail.com>
+In-Reply-To: <CAPVz0n2shn41h4z4PoMdtCXzj+96ak69TCqt7Ag5qpqdWi6UWA@mail.gmail.com>
+X-Last-TLS-Session-Version: TLSv1.3
 
-Despite the typo at PALTFORM_OS_WINCE, its a reference to OS Win CE,
-which definitely is not applicable here, so clean it up any mention to it.
+Hello Svyatoslav,
 
-Signed-off-by: Rodrigo Gobbi <rodrigo.gobbi.7@gmail.com>
----
- drivers/staging/rtl8723bs/include/rtw_mlme.h | 4 ----
- 1 file changed, 4 deletions(-)
+On Thu Oct 2, 2025 at 8:20 AM CEST, Svyatoslav Ryhel wrote:
+>> > > > 12 represents amount of bits used per pixel, 8 for Y plane, 2 for =
+U
+>> > > > plane and 2 for V plane, total is 12. "but explainable with a comm=
+ent
+>> > > > and improve-able later" why then we cannot use 12 with a comment? =
+this
+>> > > > is all arbitrary. Downstream is not wrong from this perspective, y=
+ou
+>> > > > don't take into account that YUV420 is planar and it uses 3 planes=
+ a
+>> > > > whole Y plane and 1/4 of U and V which in total results in wigth +=
+ 2 *
+>> > > > 1/4 width which is width * 3/2
+>> > >
+>> > > Yes -- but AIUI, the only thing the bpp value is used for the bytesp=
+erline calculation. When we add the special case for planar formats, which =
+doesn't use the bpp value, then the value 12 is never used anywhere. We sho=
+uld at least have a comment saying it is unused. (At that point, we could j=
+ust hardcode the bpp values in the fmt_align function -- but I don't mind e=
+ither way.)
+>> > >
+>> > https://ffmpeg.org/pipermail/ffmpeg-user/2023-June/056488.html
+>>
+>> I understand very well that for YUV420, each pixel has 12 bits of color =
+information. But how many bits of color information each pixel has is not u=
+seful in the context of this driver. The number of bytes per line is not re=
+lated to how many bits of color information each pixel has for planar forma=
+ts.
+>
+> No, it has direct impact. This is how buffer size / image size is
+> calculated since we place each plane consecutive. And bytes per line
+> is used specifically in image size calculation. This is common part
+> with non-planar formats. Then since Tegra provides a dedicated
+> channels/buffers for each plane, configuration of planar format
+> includes an additional step with calculation for each plane.
 
-diff --git a/drivers/staging/rtl8723bs/include/rtw_mlme.h b/drivers/staging/rtl8723bs/include/rtw_mlme.h
-index 4c15d0194d4f..2a128568c6df 100644
---- a/drivers/staging/rtl8723bs/include/rtw_mlme.h
-+++ b/drivers/staging/rtl8723bs/include/rtw_mlme.h
-@@ -18,11 +18,7 @@
- 
- #define		SCANNING_TIMEOUT	8000
- 
--#ifdef PALTFORM_OS_WINCE
--#define	SCANQUEUE_LIFETIME 12000000 /*  unit:us */
--#else
- #define	SCANQUEUE_LIFETIME 20000 /*  20sec, unit:msec */
--#endif
- 
- #define WIFI_NULL_STATE		0x00000000
- #define WIFI_ASOC_STATE		0x00000001		/*  Under Linked state... */
--- 
-2.48.1
+Sorry, I haven't followed the discussion in detail, but I tested you series
+on Tegra20 VIP and capture does not work, with a SIGSEGV in
+gstreamer. Bisecting pointed to this as the first commit where the issue
+happens.
 
+I compared the input and output values of tegra20_fmt_align() at this
+commit and at the previous one, and this is the result:
+
+                       before this patch     with this patch
+  At function entry:
+  bpp                        1                     12
+  pix->width                 640                   640
+  pix->height                480                   480
+  		          =20
+  On return:       =20
+  pix->bytesperline          640                   960
+  pix->sizeimage             460800                460800
+
+I hope these info will help.
+
+Best regards,
+Luca
+
+--
+Luca Ceresoli, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
