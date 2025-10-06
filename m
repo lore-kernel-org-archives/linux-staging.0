@@ -1,172 +1,139 @@
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5842334BA22
-	for <linux-staging@lists.linux.dev>; Mon,  6 Oct 2025 09:41:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F8D4259C83;
+	Mon,  6 Oct 2025 10:47:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759743692; cv=none; b=T4KtiS3YsbHAG9sxGeP542CsmtnNp8EHW0KT/MtvtROkfN4fKITocwzGcpaiwBUfTakx9rRoBsqDi8JVLTiKXSM9vVIlcGa/i35eFdcvkdcrrr8YBXO7zsKemW5C5TuRJnb88OhnSpLODR8TG+cdPqSTqtLFncyncyBxLmi8kQY=
+	t=1759747669; cv=none; b=tml4xtVwYWs7mwKu465pxaD9M1wNYmsIhsvhYxtQe8J4IYyauWoIwFyBOajIomUKRi+FbYs4heASeBAJovYd3/4qXOaToPNs2uKLWlmDGAxuudifybv/pb6Jz16G0BR61jbzOUzpKpUlXQcLdtryVBvskiTo1m9DbqRTPnXAq0k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759743692; c=relaxed/simple;
-	bh=RWpmJwgLuM2FIonYsAJTiC7gB8HKm6Y3f9332Ma3b94=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=e7mp3GCRxg+ct/mRePHiMuHAP5MQj2YqqQuyOroyhWlufypXd5AaIO+Eaecto20ydYGIGqOYS/D07nkqc2eGsyshp4lW7eYAYcaYuI5Bz/TN7ouaQUKDD9PW8b318KmaO6WGoiGRHpch4yUMlWl0aHiPKZleFMDzb+YTfd14XBk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QUQe74lu; arc=none smtp.client-ip=209.85.214.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1759747669; c=relaxed/simple;
+	bh=FX1Lzu7+bvM9e8qmukvbO1hpPMzmlxgfp1qFo7AK/EQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=miDG5M6zH2nR+N4KhMGspZyicQXFTmDEh9ybswXjTlXN3HR+mLrxpPwebHxHysiiOqDHjMS/H8EKFHhQdNj4df9F7p4DBzVyfAygw1GCUL1GC9xovSEVk5dzcfGjbrAE8tYY2km5ucrFKZ8EY44tph7O1wcpbAS0IbE7mE7jP10=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=E597mMN/; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QUQe74lu"
-Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-271d1305ad7so70954325ad.2
-        for <linux-staging@lists.linux.dev>; Mon, 06 Oct 2025 02:41:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1759743691; x=1760348491; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=tDWMO78/Sngggr60GZi/HLcWQ6AuAiwa+2vlLjX9o2g=;
-        b=QUQe74lu4ThpHBm3TQqUtOM9u1wQZPqdhU9kMB17eJ0aAlkjD25npjtcWjCk2wbzTl
-         6q76XTCk5Q+mNqQD5Kk2aCgqz6Qk6QyYP3pDr6wuM+Luhkj54NW3LbXe7ULzQWIqfxE5
-         MEt8JZFdDXiT3G75OR0oUYfJV87LvpcHpqVBvMkzTQfa+LmHZcfBXYkInllKYdviJcxx
-         8GY0x/6JFajzuR0OD0c2AJbja6xJiZcoVQK7Zbi5m9BFUoaJujSqR9g+TTcOq7lOXfMl
-         OiQrNgM7w/HLSPXcC6uoamBn3iV/Xm6T3FP8aYuCrBIRWvjRDxXh5NwqsFmeYRPivaFH
-         SzNg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759743691; x=1760348491;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=tDWMO78/Sngggr60GZi/HLcWQ6AuAiwa+2vlLjX9o2g=;
-        b=GUNhBEa0Fw4hoc9HaErSignfVg2WczM+bHAFiIyCX/s5PSRTjZOcLjKuveWfIaWcoy
-         IYwV/w0nZ1T3yibywDF12eQlV2SQpOitQ2m1a+tS7sJw0R2gsWBQSekhULTc+247gTOL
-         6+CwwDi8RRaRzPjMKv5Dd3Eu+Oru7yvOlCpuy2HjSu9lFYxQj35rsdq7oWDss4C4YMQW
-         XszpwwWxw0H5AHfwvivv9k8L2rNvNcTk4F+zjAYyFeDDeTBzyaOezBKDnC7NsmA88sj1
-         Uat5kmezKUXu7ZB22nUGnL8iBIkeouukTaXqM5HM2eiCrmCBuY0JR+hjgs8LETG5Y1j5
-         QiCA==
-X-Forwarded-Encrypted: i=1; AJvYcCVvKZBUUQpf1T6vsuArsHYGrEzp/JxAaFKt3CFeCToXihCt1T74JsWyxD/61NEcxbaEqhKB0ZR7sRA5qcAw@lists.linux.dev
-X-Gm-Message-State: AOJu0YwunOkl91xmgVIxcHvJaYhia7R0npiKb12Q/I73Pi+EgBMkUWf2
-	UEPwmzSEh/V/PDrwT6WxyqUqejnMuTCfanP5K0kGtKioxKcBfSsyhKpN
-X-Gm-Gg: ASbGncs0OJESF32gACeuvu7WAiBupRaliOmOh7MzrtlcjSs9teNufAHhbkDtFO15hKu
-	Fl+eVs5PEDCxYoFNwR30BgkB9Qhsti9zbZWy5nSJPG2THP/j/Nu37o37t+ZqOQiZh7jJYPhW9VX
-	op03KgGuXKAbTrApIQ8tf74G5ojJaU6PfXpSlivqf55G9uUCkrPsNje8a7L1LNh206yaFXmcffw
-	6ZVp1lopo8I+GmpX/vD8pgrxszsv3bNfpQCR07zUcCwTlmjKsujNeXxIgFEhR4YFxNuNArsMyEt
-	nrlcCvMBRGYwRT24eBIEUW3senF5hVjq0jqZYKQWimPxck9tN025vc/Cy+ZlUrmk1hKLm4stLsm
-	jTETolLghPA8aRO305MdKeA67m1pyMju73J85KUBXp/uySdSD
-X-Google-Smtp-Source: AGHT+IGVuyWx946HsYOHhKNOFxC/pycX88y2x4j3++pl8lUJfoEyLqORuWilWGcjs9C38G+O9ca/Uw==
-X-Received: by 2002:a17:903:1a86:b0:268:b8a:5a26 with SMTP id d9443c01a7336-28e9a6b19e2mr157755655ad.54.1759743690647;
-        Mon, 06 Oct 2025 02:41:30 -0700 (PDT)
-Received: from ASUS ([119.63.139.7])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b609be239c5sm11325778a12.19.2025.10.06.02.41.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 Oct 2025 02:41:29 -0700 (PDT)
-From: Taimoor Zaeem <taimoorzaeem@gmail.com>
-To: jic23@kernel.org,
-	gregkh@linuxfoundation.org
-Cc: linux-iio@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	Taimoor Zaeem <taimoorzaeem@gmail.com>
-Subject: [PATCH 2/2] staging: iio: ad9832: move struct ad9832_platform_data to ad9832.c
-Date: Mon,  6 Oct 2025 14:40:25 +0500
-Message-ID: <20251006094025.259440-3-taimoorzaeem@gmail.com>
-X-Mailer: git-send-email 2.51.0
-In-Reply-To: <20251006094025.259440-1-taimoorzaeem@gmail.com>
-References: <20251006094025.259440-1-taimoorzaeem@gmail.com>
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="E597mMN/"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8FDD7C4CEF5;
+	Mon,  6 Oct 2025 10:47:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1759747669;
+	bh=FX1Lzu7+bvM9e8qmukvbO1hpPMzmlxgfp1qFo7AK/EQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=E597mMN/x7YVkjNX1Bc0G8W7GHt89kk8u2seksXgi5q2H3Gw9DqBry/MoIgd7Hl/f
+	 QcuYuZ/DwxfZxXg04LwRoNwgtiAl8T7SsOstK7UXK8SyqkUmffohAckrwzORjzcTe+
+	 /i/1SV3Pn0pttPu3dXePy8Hlmyjuwx9fL801o6Qw=
+Date: Mon, 6 Oct 2025 12:47:45 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Eliav Farber <farbere@amazon.com>
+Cc: jdike@addtoit.com, richard@nod.at, anton.ivanov@cambridgegreys.com,
+	dave.hansen@linux.intel.com, luto@kernel.org, peterz@infradead.org,
+	tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, x86@kernel.org,
+	hpa@zytor.com, tony.luck@intel.com, qiuxu.zhuo@intel.com,
+	james.morse@arm.com, rric@kernel.org, airlied@linux.ie,
+	daniel@ffwll.ch, maarten.lankhorst@linux.intel.com,
+	mripard@kernel.org, tzimmermann@suse.de, robdclark@gmail.com,
+	sean@poorly.run, jdelvare@suse.com, linux@roeck-us.net,
+	linus.walleij@linaro.org, dmitry.torokhov@gmail.com, maz@kernel.org,
+	wens@csie.org, jernej.skrabec@gmail.com, agk@redhat.com,
+	snitzer@redhat.com, dm-devel@redhat.com, davem@davemloft.net,
+	kuba@kernel.org, mcoquelin.stm32@gmail.com,
+	krzysztof.kozlowski@canonical.com, malattia@linux.it,
+	hdegoede@redhat.com, mgross@linux.intel.com, jejb@linux.ibm.com,
+	martin.petersen@oracle.com, sakari.ailus@linux.intel.com,
+	clm@fb.com, josef@toxicpanda.com, dsterba@suse.com, jack@suse.com,
+	tytso@mit.edu, adilger.kernel@dilger.ca, dushistov@mail.ru,
+	luc.vanoostenryck@gmail.com, rostedt@goodmis.org, pmladek@suse.com,
+	senozhatsky@chromium.org, andriy.shevchenko@linux.intel.com,
+	linux@rasmusvillemoes.dk, minchan@kernel.org, ngupta@vflare.org,
+	akpm@linux-foundation.org, yoshfuji@linux-ipv6.org,
+	dsahern@kernel.org, pablo@netfilter.org, kadlec@netfilter.org,
+	fw@strlen.de, jmaloy@redhat.com, ying.xue@windriver.com,
+	shuah@kernel.org, willy@infradead.org, sashal@kernel.org,
+	quic_akhilpo@quicinc.com, ruanjinjie@huawei.com,
+	David.Laight@aculab.com, herve.codina@bootlin.com,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	linux-um@lists.infradead.org, linux-edac@vger.kernel.org,
+	amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+	linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
+	linux-hwmon@vger.kernel.org, linux-input@vger.kernel.org,
+	linux-sunxi@lists.linux.dev, linux-media@vger.kernel.org,
+	netdev@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com,
+	platform-driver-x86@vger.kernel.org, linux-scsi@vger.kernel.org,
+	linux-staging@lists.linux.dev, linux-btrfs@vger.kernel.org,
+	linux-ext4@vger.kernel.org, linux-sparse@vger.kernel.org,
+	linux-mm@kvack.org, netfilter-devel@vger.kernel.org,
+	coreteam@netfilter.org, tipc-discussion@lists.sourceforge.net,
+	linux-kselftest@vger.kernel.org, stable@vger.kernel.org,
+	Linus Torvalds <torvalds@linux-foundation.org>,
+	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+Subject: Re: [PATCH v2 07/19 5.15.y] minmax: simplify and clarify
+ min_t()/max_t() implementation
+Message-ID: <2025100648-capable-register-101b@gregkh>
+References: <20251003130006.41681-1-farbere@amazon.com>
+ <20251003130006.41681-8-farbere@amazon.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20251003130006.41681-8-farbere@amazon.com>
 
-The struct ad9832_platform_data is only used in ad9832.c
-so it moved there instead. With this change, the ad9832.h
-file becomes empty, so we can remove it.
+On Fri, Oct 03, 2025 at 12:59:54PM +0000, Eliav Farber wrote:
+> From: Linus Torvalds <torvalds@linux-foundation.org>
+> 
+> [ Upstream commit 017fa3e89187848fd056af757769c9e66ac3e93d ]
+> 
+> This simplifies the min_t() and max_t() macros by no longer making them
+> work in the context of a C constant expression.
+> 
+> That means that you can no longer use them for static initializers or
+> for array sizes in type definitions, but there were only a couple of
+> such uses, and all of them were converted (famous last words) to use
+> MIN_T/MAX_T instead.
+> 
+> Cc: David Laight <David.Laight@aculab.com>
+> Cc: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+> Signed-off-by: Linus Torvalds <torvalds@linux-foundation.org>
+> Signed-off-by: Eliav Farber <farbere@amazon.com>
 
-Signed-off-by: Taimoor Zaeem <taimoorzaeem@gmail.com>
----
- drivers/staging/iio/frequency/ad9832.c | 21 ++++++++++++++--
- drivers/staging/iio/frequency/ad9832.h | 33 --------------------------
- 2 files changed, 19 insertions(+), 35 deletions(-)
- delete mode 100644 drivers/staging/iio/frequency/ad9832.h
+Eliav, your testing infrastructure needs some work, this patch breaks
+the build on this kernel tree:
 
-diff --git a/drivers/staging/iio/frequency/ad9832.c b/drivers/staging/iio/frequency/ad9832.c
-index 49388da5a684..0517858bc5da 100644
---- a/drivers/staging/iio/frequency/ad9832.c
-+++ b/drivers/staging/iio/frequency/ad9832.c
-@@ -23,8 +23,6 @@
- #include <linux/iio/iio.h>
- #include <linux/iio/sysfs.h>
- 
--#include "ad9832.h"
--
- #include "dds.h"
- 
- /* Registers */
-@@ -117,6 +115,25 @@ struct ad9832_state {
- 	} __aligned(IIO_DMA_MINALIGN);
- };
- 
-+/**
-+ * struct ad9832_platform_data - platform specific information
-+ * @freq0:		power up freq0 tuning word in Hz
-+ * @freq1:		power up freq1 tuning word in Hz
-+ * @phase0:		power up phase0 value [0..4095] correlates with 0..2PI
-+ * @phase1:		power up phase1 value [0..4095] correlates with 0..2PI
-+ * @phase2:		power up phase2 value [0..4095] correlates with 0..2PI
-+ * @phase3:		power up phase3 value [0..4095] correlates with 0..2PI
-+ */
-+
-+struct ad9832_platform_data {
-+	unsigned long		freq0;
-+	unsigned long		freq1;
-+	unsigned short		phase0;
-+	unsigned short		phase1;
-+	unsigned short		phase2;
-+	unsigned short		phase3;
-+};
-+
- static unsigned long ad9832_calc_freqreg(unsigned long mclk, unsigned long fout)
- {
- 	unsigned long long freqreg = (u64)fout *
-diff --git a/drivers/staging/iio/frequency/ad9832.h b/drivers/staging/iio/frequency/ad9832.h
-deleted file mode 100644
-index d0d840edb8d2..000000000000
---- a/drivers/staging/iio/frequency/ad9832.h
-+++ /dev/null
-@@ -1,33 +0,0 @@
--/* SPDX-License-Identifier: GPL-2.0+ */
--/*
-- * AD9832 SPI DDS driver
-- *
-- * Copyright 2011 Analog Devices Inc.
-- */
--#ifndef IIO_DDS_AD9832_H_
--#define IIO_DDS_AD9832_H_
--
--/*
-- * TODO: struct ad9832_platform_data needs to go into include/linux/iio
-- */
--
--/**
-- * struct ad9832_platform_data - platform specific information
-- * @freq0:		power up freq0 tuning word in Hz
-- * @freq1:		power up freq1 tuning word in Hz
-- * @phase0:		power up phase0 value [0..4095] correlates with 0..2PI
-- * @phase1:		power up phase1 value [0..4095] correlates with 0..2PI
-- * @phase2:		power up phase2 value [0..4095] correlates with 0..2PI
-- * @phase3:		power up phase3 value [0..4095] correlates with 0..2PI
-- */
--
--struct ad9832_platform_data {
--	unsigned long		freq0;
--	unsigned long		freq1;
--	unsigned short		phase0;
--	unsigned short		phase1;
--	unsigned short		phase2;
--	unsigned short		phase3;
--};
--
--#endif /* IIO_DDS_AD9832_H_ */
--- 
-2.51.0
+In file included from ./include/linux/kernel.h:16,
+                 from ./include/linux/list.h:9,
+                 from ./include/linux/wait.h:7,
+                 from ./include/linux/wait_bit.h:8,
+                 from ./include/linux/fs.h:6,
+                 from fs/erofs/internal.h:10,
+                 from fs/erofs/zdata.h:9,
+                 from fs/erofs/zdata.c:6:
+fs/erofs/zdata.c: In function ‘z_erofs_decompress_pcluster’:
+fs/erofs/zdata.h:185:61: error: ISO C90 forbids variable length array ‘pages_onstack’ [-Werror=vla]
+  185 |         min_t(unsigned int, THREAD_SIZE / 8 / sizeof(struct page *), 96U)
+      |                                                             ^~~~
+./include/linux/minmax.h:49:23: note: in definition of macro ‘__cmp_once_unique’
+   49 |         ({ type ux = (x); type uy = (y); __cmp(op, ux, uy); })
+      |                       ^
+./include/linux/minmax.h:164:27: note: in expansion of macro ‘__cmp_once’
+  164 | #define min_t(type, x, y) __cmp_once(min, type, x, y)
+      |                           ^~~~~~~~~~
+fs/erofs/zdata.h:185:9: note: in expansion of macro ‘min_t’
+  185 |         min_t(unsigned int, THREAD_SIZE / 8 / sizeof(struct page *), 96U)
+      |         ^~~~~
+fs/erofs/zdata.c:847:36: note: in expansion of macro ‘Z_EROFS_VMAP_ONSTACK_PAGES’
+  847 |         struct page *pages_onstack[Z_EROFS_VMAP_ONSTACK_PAGES];
+      |                                    ^~~~~~~~~~~~~~~~~~~~~~~~~~
+cc1: all warnings being treated as errors
 
+
+I'll drop this whole series, please do a bit more testing before sending
+out a new version.
+
+thanks,
+
+greg k-h
