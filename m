@@ -1,122 +1,94 @@
-Received: from mail-qk1-f181.google.com (mail-qk1-f181.google.com [209.85.222.181])
+Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EEC1D243371
-	for <linux-staging@lists.linux.dev>; Mon,  6 Oct 2025 07:42:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 129931F7098
+	for <linux-staging@lists.linux.dev>; Mon,  6 Oct 2025 09:41:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759736536; cv=none; b=AfiRHpfcxK4fIRrXpphv9nSHh+Gtx/Hp5pfd4cxT/eyaOSSUNUnOmXZuqxwP9Mss5ib1qoG+X45ZJ5aN8ivNO4rcRp/zRlDIoL/5pfgPpk6pXy03iveeAaUZm77UGAaAM+8CFZ5TYjlEdlgsQRvXNBfTUnDvCuyt8LaVaRSRsFM=
+	t=1759743663; cv=none; b=oVQqwHcRnemxN/NekCrLvPTkJpiwGowGdHHhKDgYcjX+aC5Q0jhjrzZI6Oh+nH+NtuRxCxj1GRigIO7p5nhV3SVOb3BgY8BYM2P1At6jmEt4L/jGOCEnwSuS+9GC7UruQ9Gx3HnEOjreUimFePPes9HA8aMJBRs+HkcKDWu38D8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759736536; c=relaxed/simple;
-	bh=EA5+YhSBaUfXwzSIShV4NvNIreufT+oeSm4z7v1HRHc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=SjYRQwPn9rjcp4/onFTfw2hEI/q1cyrQz5EZ9A6HZcFl6jMO4Q1+gmpzPgeP1Gly9eVbsktf7r56JdY5YPn377hjWq3Gf1uw9jKSZu4IdqcM+SgiS+R0nqk0+XtJuSyIahAXgLo5UrDSCnD7I1q75raF9iI83hoGD6FOAWSt2eM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VQLWT2qR; arc=none smtp.client-ip=209.85.222.181
+	s=arc-20240116; t=1759743663; c=relaxed/simple;
+	bh=Z2qL2G+4Pt/JBQNoW9f3BZJBj8XLBewwJbcA7Rq3T+E=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=SDbn7s4JkP9bJqyB0/4pLt9/eljzlIGcfkmQVVO76FYsSbe9eQeTJ3BReqyXOjjznSjWwU3ZmlnmEe3XaRaDsfKlylBQf3G8yJVqgPym1xp/YuDwUV/L2hdH6E9sxKnbwNL5+lY5lxqWCma/gLhWxABbQi0vV+dAHFvuFmJez1s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IGp97+If; arc=none smtp.client-ip=209.85.210.170
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VQLWT2qR"
-Received: by mail-qk1-f181.google.com with SMTP id af79cd13be357-84827ef386aso316553685a.0
-        for <linux-staging@lists.linux.dev>; Mon, 06 Oct 2025 00:42:14 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IGp97+If"
+Received: by mail-pf1-f170.google.com with SMTP id d2e1a72fcca58-76e4fc419a9so4254121b3a.0
+        for <linux-staging@lists.linux.dev>; Mon, 06 Oct 2025 02:41:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1759736534; x=1760341334; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=woSAl7bOD989vqWds0TwLp0ZQWrpdmLNuruAIWeB26k=;
-        b=VQLWT2qR0ayQKlrm5KKlxvwaujAuNVq1QRlyHNhPZdaHcPaWjrGYqKielNTM+xtdIQ
-         SBdCv+WRzDniXFDR9BKku1GwTCy67wHISzl8DJA4wkjwwEsMwMDpb8jnnT9QCC8n7Ye6
-         mGOVce/VOaQjh5GULsmT3NiD2r+yBmYRa5gY3g4J1lp5uEVIM4j+xlS7B3UnUmKAHf61
-         aqf5+6y8467VRLKPXtD9t58A5uPDjHVi7Nss6rFfiYCk6xnVstFAmXXbtu10DI5gjp6+
-         Ibmmh6LMlFM1LCPjOINOvRhSPpZ8yWWOE/85xwbPoSbn38PcMp2AOwu5v3AwHfMy9kzC
-         bsJw==
+        d=gmail.com; s=20230601; t=1759743661; x=1760348461; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=RAUwicTxdfaUf8jTb+YjaOImEhUo4muFZmK2662yA8M=;
+        b=IGp97+Ifz2+snoL8Y12AfM677lLudeOCEGl9cdpoJLuP/WAYYO7wF629JOtjQuAmw6
+         XuU30rM4xW1uwEInXBv7jA99vSXRuquJeIzNdwwy6iOt0gtxXK8nRs1N/g8/xpknSfzJ
+         Y37I/0HXP+VRXZqwHXH5vLlNgr+0BW7R15leMiRWhHcBp/DNbAi56SGH2nh6Fk7skSpp
+         W4ChuXWNriJsEHKnnh6yLZkY8tRWOBHoWllRQrhCxJWEtcDUx4Jn7mZ4lruHomgd540z
+         Twt/uRl+5k9SHSmYjTWdjggMHvgwcd8H31ant65Vz0cBNVoe/qjdeM8cwzW7L/fgLji0
+         GNLg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759736534; x=1760341334;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=woSAl7bOD989vqWds0TwLp0ZQWrpdmLNuruAIWeB26k=;
-        b=BLjpYPniWqQZxEVUuRthEthUyo9HESvJQV5RqHocvBS9tJzfYZ1qp2BuzZPLY9JGUy
-         j+2p8oZc63X6SiOgMpA7okpNryP5PG8A6T6BanQmIzPrXgJ8Xdt0AI3QvzhSo0erWnB1
-         DqOaIP+9g8zOcnSo7Zj6EeUN6rvRE1PSPEYOO+VYkwC0ZEwjeyrZcZgwySGAMUHi6Rp+
-         yZW2r7qELSEXG4YKz71TQADH+HfZU50hUN8G5WCl6RKW6YZ7xfLkb6mXQtJcP/6mAdr4
-         VQCRHsqjhFLictJw5BxEqSRUfyoKYDvQy711ZFzY7LScLovkfArgiw5ZD2vpbRWSOQtj
-         YdLg==
-X-Forwarded-Encrypted: i=1; AJvYcCWvmSEge7Rp5WTY0Ke7CKfySQZcFlsMjlvlnROa4eYZhcEvTbu6rx6z/avCOiFfl2wU8bz7WaNfApSl1g26@lists.linux.dev
-X-Gm-Message-State: AOJu0Yw02hPlrCft4JYk/NphkRUpf7ACB+k6zL3zGlSgCoOq5GQuwV1B
-	a8COfJHVG3gtY7XoExA0ZYJ6xOaWhJ64MQ6J8TU/XQHltqHlLFHg85OP
-X-Gm-Gg: ASbGncsZfCHV9p0XD/L3zac9FL2a92uc6/7xGAwbR/IbaKl2sS2pO5ZY05EDDwg+FOc
-	QR+TWjffSVb9CvNyCXcUam6+6wJe7YsC+MMCdfyqtpT3000UCiDldYIxcgQd11gJiRJmUfpqtTh
-	/M0U6dAOh1Mwo1reu797Xk84l7A6ZGfZuFkab0QQjYIw/kqcyCoiZyabwTkrrOKHFeBFcPILpUS
-	oI4rNtL4XrAxOI8OiSgAHuaQIxJwGRiGm+EasLBmRzFNHQPuQC7+CbIJPg6yGjKkixeGSOdFQSn
-	gx3ZGSf7CtdZLHpjhU18M7LhJw4+8SzfTlWLIdYgLknSlKjGCr87KmGBzRYzbAndTyMBR3bkRhm
-	1DIsDR672sN6J9asCX1l7n21ReIWCERINZmWnrmane5LhWziJtkPOKI10LJlgyxAmVzB0IL+VIZ
-	cDgzX7wpfB
-X-Google-Smtp-Source: AGHT+IGahQ0lLmXwP/YYcAaECZTnIW//G/p0RYMK/3NcjxNtZ8EfYRA09/3KlKfRwYwYYu0VLM0KWA==
-X-Received: by 2002:a05:620a:1706:b0:84b:63e8:f04f with SMTP id af79cd13be357-87a3410d4b6mr1493227185a.31.1759736533757;
-        Mon, 06 Oct 2025 00:42:13 -0700 (PDT)
-Received: from [192.168.0.155] ([170.10.253.128])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-87771129f10sm1171502085a.9.2025.10.06.00.42.12
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 06 Oct 2025 00:42:13 -0700 (PDT)
-Message-ID: <1a50635f-4525-41dd-8d96-eeee5d25d526@gmail.com>
-Date: Mon, 6 Oct 2025 03:42:12 -0400
+        d=1e100.net; s=20230601; t=1759743661; x=1760348461;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=RAUwicTxdfaUf8jTb+YjaOImEhUo4muFZmK2662yA8M=;
+        b=sy+m6vBjPPnGhsDaLXLVqcs8XsCfGj23uFk2UaejhgFcDohjw1XLL7zPtS+PP8Hw9Q
+         Bx5l/BqGCw4BKinvUmmY+xvKpFwaat7hcOb1MPJIrhI2TXpY4BSAr9fdVPY+0WN2ETn8
+         kcYuFGIKrhZWZNurNIoP/aapDqR7V5MPvEeNstVMOjx5VGfLHiO3Rn1IuYccHJv3W97K
+         RRQA3WgBc48R+eCpnuhTOA2ohCT4opzfGZZVCZyhJuBhOpz+fk1P+38YDBQYQaXDyl5I
+         0GY8lSRocUKP8fXVlESIchOa3wMatFFAWGF2p62/4uQwGcaeof9w7V/DUV4IJuchh0bH
+         rqkQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXklbSblVZWGD7hz98zWdxm4MibrN5gUSmly4g+cz9wEwevO35v9GQcmqC+ZTbbaSDt7ZszJaCwOdGc0Abg@lists.linux.dev
+X-Gm-Message-State: AOJu0Yzxs146ddwGzKnQRDF4D1TKoKmQ6PT7uUtre1+PCQL3hngz5C2J
+	e+sEQxpge4KGMvJPn54P4UTpjupTcXKaQj0mew250Fw1n8BGq2EatWbw
+X-Gm-Gg: ASbGncuXOSzRBoDAYy8v8wggOqmULKsAcNueYNOXejljlSiAXbyDs+yB8c1LqWyBJV/
+	EGFC9YVAZutUA/CIj+6oYNUCSGlD4lXVZHGdAxWbOy5zq5xycZ1lWSLByjvKNGC4O0fI4gh+6Od
+	E3QoFILzs+JdnjqSFO1Vpdw60CHskKqPktNysw9N3BbC1WL0C1hub+zPVbX65V4K5K+7quidX4S
+	TElXdnQiSalymKuyPKDHSySZPPIW+WD4QM0KQHxTHTHVoQieo2moXVF0BBebrw0n13gmcs3aVyh
+	ZhEjPoRxOpf+EQYJEBAQWgfypNktpnaQ70FJ8JM3t1LmjQKRLkOHs9VbKD6qSKX8qdMA8FsThma
+	nF0XfKLOuDBzt6ER7rWyV2n3AuvqT2+tnpdobYDYUoMExfaMO
+X-Google-Smtp-Source: AGHT+IEsX7CrV0iVNGjA8nFm/M9lXva7xfdJR4uVQ4bFTbEaIpEB6yg/z+Eg6Y82ptLaz0Aib51+2A==
+X-Received: by 2002:a05:6a20:939e:b0:2d9:c2:5ce4 with SMTP id adf61e73a8af0-32b61dee96dmr15699402637.7.1759743661363;
+        Mon, 06 Oct 2025 02:41:01 -0700 (PDT)
+Received: from ASUS ([119.63.139.7])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b609be239c5sm11325778a12.19.2025.10.06.02.40.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 06 Oct 2025 02:41:00 -0700 (PDT)
+From: Taimoor Zaeem <taimoorzaeem@gmail.com>
+To: jic23@kernel.org,
+	gregkh@linuxfoundation.org
+Cc: linux-iio@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	Taimoor Zaeem <taimoorzaeem@gmail.com>
+Subject: [PATCH 0/2] Remove ad9832.h and ad9834.h header files in drivers/staging/iio/frequency
+Date: Mon,  6 Oct 2025 14:40:23 +0500
+Message-ID: <20251006094025.259440-1-taimoorzaeem@gmail.com>
+X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 15/16] staging: rtl8723bs: merge nested if conditions
- for clarity and tab problems
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org
-References: <20251002172304.1083601-1-vivek.balachandhar@gmail.com>
- <20251002172304.1083601-16-vivek.balachandhar@gmail.com>
- <aN924wqH--MgGEak@stanley.mountain>
-Content-Language: en-CA
-From: Vivek BalachandharTN <vivek.balachandhar@gmail.com>
-In-Reply-To: <aN924wqH--MgGEak@stanley.mountain>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-Ack. I will do the changes after the merge window. Thanks for the 
-review, Dan.
+This patch series removes ad9832.h and ad9834.h header files.
 
-Best,
+PATCH 1/2: staging: iio: ad9834: remove empty ad9834.h file
+PATCH 2/2: staging: iio: ad9832: move struct ad9832_platform_data to ad9832.c
 
-Vivek
+Signed-off-by: Taimoor Zaeem <taimoorzaeem@gmail.com>
 
-On 2025-10-03 3:10 a.m., Dan Carpenter wrote:
-> On Thu, Oct 02, 2025 at 05:23:03PM +0000, Vivek BalachandharTN wrote:
->> Combine nested if conditions for clarity and fix tab indentation in one
->> place to match kernel coding style.
->>
->> No functional changes.
->>
->> Signed-off-by: Vivek BalachandharTN <vivek.balachandhar@gmail.com>
->> ---
->>   drivers/staging/rtl8723bs/core/rtw_mlme.c | 4 ++--
->>   1 file changed, 2 insertions(+), 2 deletions(-)
->>
->> diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme.c b/drivers/staging/rtl8723bs/core/rtw_mlme.c
->> index aa842905a467..f17b16fe8819 100644
->> --- a/drivers/staging/rtl8723bs/core/rtw_mlme.c
->> +++ b/drivers/staging/rtl8723bs/core/rtw_mlme.c
->> @@ -1254,8 +1254,8 @@ void rtw_joinbss_event_prehandle(struct adapter *adapter, u8 *pbuf)
->>   						rtw_free_stainfo(adapter,  pcur_sta);
->>   
->>   					ptarget_wlan = rtw_find_network(&pmlmepriv->scanned_queue, pnetwork->network.mac_address);
->> -					if (check_fwstate(pmlmepriv, WIFI_STATION_STATE) == true) {
->> -					    if (ptarget_wlan)
->> +					if (check_fwstate(pmlmepriv, WIFI_STATION_STATE) == true &&
->> +					    ptarget_wlan) {
->>   						ptarget_wlan->fixed = true;
->>   					}
-> Delete the curly braces as well.
->
-> regards,
-> dan carpenter
->
+ drivers/staging/iio/frequency/ad9832.c | 21 ++++++++++++++--
+ drivers/staging/iio/frequency/ad9832.h | 33 --------------------------
+ drivers/staging/iio/frequency/ad9834.c |  3 +--
+ drivers/staging/iio/frequency/ad9834.h | 10 --------
+ 4 files changed, 20 insertions(+), 47 deletions(-)
+ delete mode 100644 drivers/staging/iio/frequency/ad9832.h
+ delete mode 100644 drivers/staging/iio/frequency/ad9834.h
+
+-- 
+2.51.0
+
