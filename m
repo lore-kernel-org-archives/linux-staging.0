@@ -1,127 +1,122 @@
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+Received: from mail-qk1-f181.google.com (mail-qk1-f181.google.com [209.85.222.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DE92F510
-	for <linux-staging@lists.linux.dev>; Mon,  6 Oct 2025 07:30:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EEC1D243371
+	for <linux-staging@lists.linux.dev>; Mon,  6 Oct 2025 07:42:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759735847; cv=none; b=hnDHfS7HxLtxgWexTOXH7wwHACQV3KXz/gq1o+rCSxAPEcN8lEppkKbiYR01i8dpnnznoTbcVNCuf5+HsbCdGQVwMH4zeM/5yMWUS4Gld0EXFQOyr6EqZ+d8U0JvMAhZG3e7Eu+o35Vs16IUqz7nfmBqVMc+QBHacHx9sMQCM2w=
+	t=1759736536; cv=none; b=AfiRHpfcxK4fIRrXpphv9nSHh+Gtx/Hp5pfd4cxT/eyaOSSUNUnOmXZuqxwP9Mss5ib1qoG+X45ZJ5aN8ivNO4rcRp/zRlDIoL/5pfgPpk6pXy03iveeAaUZm77UGAaAM+8CFZ5TYjlEdlgsQRvXNBfTUnDvCuyt8LaVaRSRsFM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759735847; c=relaxed/simple;
-	bh=TBDr1JkUT7j9KA90UWXW3NvfyrgaBEzv+GFyFGVZBkM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=EEoOJPQwSZgucf6HPh+N++LMg7B/0zlFW/LBg7sbA1Yr5khrUFoBt0ZPI1mp4GO9GRp/Z2pQ6+lGnbJ8MoS1HXs14qvr9zNCQXtyUAW2MuUrFTsIe2K6Mkso9Y/K9xCeam5nnbPwNIJhjYLrIPfsde9qY0SMGtkENrnWKBFwmiA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Qv0nccmW; arc=none smtp.client-ip=209.85.128.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1759736536; c=relaxed/simple;
+	bh=EA5+YhSBaUfXwzSIShV4NvNIreufT+oeSm4z7v1HRHc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=SjYRQwPn9rjcp4/onFTfw2hEI/q1cyrQz5EZ9A6HZcFl6jMO4Q1+gmpzPgeP1Gly9eVbsktf7r56JdY5YPn377hjWq3Gf1uw9jKSZu4IdqcM+SgiS+R0nqk0+XtJuSyIahAXgLo5UrDSCnD7I1q75raF9iI83hoGD6FOAWSt2eM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VQLWT2qR; arc=none smtp.client-ip=209.85.222.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Qv0nccmW"
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-46b303f7469so28372055e9.1
-        for <linux-staging@lists.linux.dev>; Mon, 06 Oct 2025 00:30:45 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VQLWT2qR"
+Received: by mail-qk1-f181.google.com with SMTP id af79cd13be357-84827ef386aso316553685a.0
+        for <linux-staging@lists.linux.dev>; Mon, 06 Oct 2025 00:42:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1759735844; x=1760340644; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=W8kZL0MExGW8cJG6gQr/1Hyxz1bR5ca3a5nlWTrYorQ=;
-        b=Qv0nccmWrYjvMKB+NNqOADeXuBaAk2RZPyvIONp3QL130bQBMLyFG1JXLrOV0UGehz
-         eGpcRz/UpYaC51MnUsIXA4xKn4g0wSmrUlEXsK0WLBtMRcMgrKW4GCoK96LmYcwn75ov
-         1BUPEO4PhOnC5CVSsZqE9lnNpgV4jc2rgBuKnlHO4mSVpivAYMEj8IMYW/XRU/ipegRl
-         U1glNn6AyFCscHvL6/lcwD+EfRVM/CaVe2MSaVeib4VC6rkOjHYppIHz8VUG7GzsxpDq
-         UZ/u56gkphW9l2rlVTKBoWA6qajLs1iKWChPy56TR4Le8T9Kc7UrORc8JjD6SPwPfdLZ
-         ohxw==
+        d=gmail.com; s=20230601; t=1759736534; x=1760341334; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=woSAl7bOD989vqWds0TwLp0ZQWrpdmLNuruAIWeB26k=;
+        b=VQLWT2qR0ayQKlrm5KKlxvwaujAuNVq1QRlyHNhPZdaHcPaWjrGYqKielNTM+xtdIQ
+         SBdCv+WRzDniXFDR9BKku1GwTCy67wHISzl8DJA4wkjwwEsMwMDpb8jnnT9QCC8n7Ye6
+         mGOVce/VOaQjh5GULsmT3NiD2r+yBmYRa5gY3g4J1lp5uEVIM4j+xlS7B3UnUmKAHf61
+         aqf5+6y8467VRLKPXtD9t58A5uPDjHVi7Nss6rFfiYCk6xnVstFAmXXbtu10DI5gjp6+
+         Ibmmh6LMlFM1LCPjOINOvRhSPpZ8yWWOE/85xwbPoSbn38PcMp2AOwu5v3AwHfMy9kzC
+         bsJw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759735844; x=1760340644;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=W8kZL0MExGW8cJG6gQr/1Hyxz1bR5ca3a5nlWTrYorQ=;
-        b=bir1s3eaKnG0A7YdW9HrJ5XIjl9p1QmP2uzttJgTqOgkIGU3vsRWRe1zUowsOHZ/tn
-         bH9a9HFDnUuoChmSP0gtOG4/9b2LN9oGFPelHHQ6UI0Uzke7mhop7mmELAs4VXi/0PfZ
-         yWKZAuDMfzpslWcUFQ1pi0Ei3abFbtYYFJpM2IHLlOk4GPU2Vd5je7+bqy9QWWIYIjKN
-         1HnArfvzyCJBA4oNfQ/Dohr9QTSyoFEk1XG4gzNNyXJ7Tmu4mw6k+tt758xy1brCIkLT
-         W3U+mkaHW92odrSjhunJ/LOzuHDX2ZrA1ZCc6UnHwL7suGJAmJWA1BJ3x06IWLl1RRyL
-         ArfA==
-X-Forwarded-Encrypted: i=1; AJvYcCV6tJ3AmFieZh1yuPinSv7qhM2EztcnbFNWJXx6Ihn1WJeHvGkqzovFeQHo9b3kITkrg0mhgJFN/1rZ4tim@lists.linux.dev
-X-Gm-Message-State: AOJu0YyWsi8D9amVIPnVwK9bbgZZZC6G/mDWlf77Eil4/9ByqgmgILXv
-	QEBinHOPp4fWlp3iNQqWTSxVHx1MRRtfX9sXojEqvGl8IUFbwbWf1l2MYAu27+fk92w=
-X-Gm-Gg: ASbGncss09sFRlvDUfMNWxTaNxOdE7zCbYL+J5S6PKQNKHRXm3I/9Vr38ethFxObl3k
-	mIVFy63ulu6Ift8f0GLM6yjbvpBbomGZZnriQeoAGcQmat1J5ELLgnAf0SlGf1JvZLK9LxQrsNp
-	sl2BFPYkmw9ZF70dskuP3373EL0K/WRNQI3gJ8eCiE1b8aNkqn/70cv0nxtWEvxe6LKNfOaVay2
-	gzPL/54oLz/A7CPkP1dSTvA+9/7+8fkRBIxBqUEicB2QJ0U0YFt2ZKEUzQUXhzHrJe+zvsNSneF
-	Co8ZLq6BCqbMa87Ew3ULtfCdTEhx3vASwYuQEzRhMSmRS+AWQPNyynsuL+0qi125vavz9pnEiZ2
-	nGl7Pd6URT3/iLMgR8zKuEXz0yN60HZjBbWXn0jbUB4aSpbWgfg2Y9GTy
-X-Google-Smtp-Source: AGHT+IHlOl2o7J8oMg7owJ/UrBP+e3/x+xwXFkznLTXKMFB0/ZI65WuJDoEuRKi+Em58b6h4EIYQ3g==
-X-Received: by 2002:a05:600c:8b42:b0:46d:3a07:73cd with SMTP id 5b1f17b1804b1-46e7113f6f4mr71678405e9.23.1759735843524;
-        Mon, 06 Oct 2025 00:30:43 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-46e72374ac5sm161158365e9.18.2025.10.06.00.30.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 Oct 2025 00:30:42 -0700 (PDT)
-Date: Mon, 6 Oct 2025 10:30:38 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Rohan Tripathi <trohan2000@gmail.com>
-Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 3/4] staging: rtl8723bs: remove unnecessary blank lines
- in rtw_ap.c
-Message-ID: <aONwHi09P9VDTd3G@stanley.mountain>
-References: <20251005155920.381334-1-trohan2000@gmail.com>
- <20251005155920.381334-4-trohan2000@gmail.com>
+        d=1e100.net; s=20230601; t=1759736534; x=1760341334;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=woSAl7bOD989vqWds0TwLp0ZQWrpdmLNuruAIWeB26k=;
+        b=BLjpYPniWqQZxEVUuRthEthUyo9HESvJQV5RqHocvBS9tJzfYZ1qp2BuzZPLY9JGUy
+         j+2p8oZc63X6SiOgMpA7okpNryP5PG8A6T6BanQmIzPrXgJ8Xdt0AI3QvzhSo0erWnB1
+         DqOaIP+9g8zOcnSo7Zj6EeUN6rvRE1PSPEYOO+VYkwC0ZEwjeyrZcZgwySGAMUHi6Rp+
+         yZW2r7qELSEXG4YKz71TQADH+HfZU50hUN8G5WCl6RKW6YZ7xfLkb6mXQtJcP/6mAdr4
+         VQCRHsqjhFLictJw5BxEqSRUfyoKYDvQy711ZFzY7LScLovkfArgiw5ZD2vpbRWSOQtj
+         YdLg==
+X-Forwarded-Encrypted: i=1; AJvYcCWvmSEge7Rp5WTY0Ke7CKfySQZcFlsMjlvlnROa4eYZhcEvTbu6rx6z/avCOiFfl2wU8bz7WaNfApSl1g26@lists.linux.dev
+X-Gm-Message-State: AOJu0Yw02hPlrCft4JYk/NphkRUpf7ACB+k6zL3zGlSgCoOq5GQuwV1B
+	a8COfJHVG3gtY7XoExA0ZYJ6xOaWhJ64MQ6J8TU/XQHltqHlLFHg85OP
+X-Gm-Gg: ASbGncsZfCHV9p0XD/L3zac9FL2a92uc6/7xGAwbR/IbaKl2sS2pO5ZY05EDDwg+FOc
+	QR+TWjffSVb9CvNyCXcUam6+6wJe7YsC+MMCdfyqtpT3000UCiDldYIxcgQd11gJiRJmUfpqtTh
+	/M0U6dAOh1Mwo1reu797Xk84l7A6ZGfZuFkab0QQjYIw/kqcyCoiZyabwTkrrOKHFeBFcPILpUS
+	oI4rNtL4XrAxOI8OiSgAHuaQIxJwGRiGm+EasLBmRzFNHQPuQC7+CbIJPg6yGjKkixeGSOdFQSn
+	gx3ZGSf7CtdZLHpjhU18M7LhJw4+8SzfTlWLIdYgLknSlKjGCr87KmGBzRYzbAndTyMBR3bkRhm
+	1DIsDR672sN6J9asCX1l7n21ReIWCERINZmWnrmane5LhWziJtkPOKI10LJlgyxAmVzB0IL+VIZ
+	cDgzX7wpfB
+X-Google-Smtp-Source: AGHT+IGahQ0lLmXwP/YYcAaECZTnIW//G/p0RYMK/3NcjxNtZ8EfYRA09/3KlKfRwYwYYu0VLM0KWA==
+X-Received: by 2002:a05:620a:1706:b0:84b:63e8:f04f with SMTP id af79cd13be357-87a3410d4b6mr1493227185a.31.1759736533757;
+        Mon, 06 Oct 2025 00:42:13 -0700 (PDT)
+Received: from [192.168.0.155] ([170.10.253.128])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-87771129f10sm1171502085a.9.2025.10.06.00.42.12
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 06 Oct 2025 00:42:13 -0700 (PDT)
+Message-ID: <1a50635f-4525-41dd-8d96-eeee5d25d526@gmail.com>
+Date: Mon, 6 Oct 2025 03:42:12 -0400
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251005155920.381334-4-trohan2000@gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 15/16] staging: rtl8723bs: merge nested if conditions
+ for clarity and tab problems
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+References: <20251002172304.1083601-1-vivek.balachandhar@gmail.com>
+ <20251002172304.1083601-16-vivek.balachandhar@gmail.com>
+ <aN924wqH--MgGEak@stanley.mountain>
+Content-Language: en-CA
+From: Vivek BalachandharTN <vivek.balachandhar@gmail.com>
+In-Reply-To: <aN924wqH--MgGEak@stanley.mountain>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Sun, Oct 05, 2025 at 11:59:19AM -0400, Rohan Tripathi wrote:
-> This patch removes superfluous blank lines and adds missing ones where
-> appropriate to improve readability and match kernel coding style.
-> 
-> This is a coding style cleanup only. No functional changes.
-> 
-> Signed-off-by: Rohan Tripathi <trohan2000@gmail.com>
-> ---
->  drivers/staging/rtl8723bs/core/rtw_ap.c | 3 +--
->  1 file changed, 1 insertion(+), 2 deletions(-)
-> 
-> diff --git a/drivers/staging/rtl8723bs/core/rtw_ap.c b/drivers/staging/rtl8723bs/core/rtw_ap.c
-> index 2c906c1137bf..dddb02c0f683 100644
-> --- a/drivers/staging/rtl8723bs/core/rtw_ap.c
-> +++ b/drivers/staging/rtl8723bs/core/rtw_ap.c
-> @@ -438,7 +438,6 @@ void update_bmc_sta(struct adapter *padapter)
->  		spin_lock_bh(&psta->lock);
->  		psta->state = _FW_LINKED;
->  		spin_unlock_bh(&psta->lock);
-> -
->  	}
->  }
->  
-> @@ -1240,7 +1239,6 @@ void rtw_acl_remove_sta(struct adapter *padapter, u8 *addr)
->  	}
->  
->  	spin_unlock_bh(&pacl_node_q->lock);
-> -
->  }
->  
->  u8 rtw_ap_set_pairwise_key(struct adapter *padapter, struct sta_info *psta)
-> @@ -1974,6 +1972,7 @@ void ap_sta_info_defer_update(struct adapter *padapter, struct sta_info *psta)
->  		add_RATid(padapter, psta, 0);/* DM_RATR_STA_INIT */
->  	}
->  }
-> +
+Ack. I will do the changes after the merge window. Thanks for the 
+review, Dan.
 
-This is adding a blank line, not removing.
+Best,
 
-regards,
-dan carpenter
+Vivek
 
->  /* restore hw setting from sw data structures */
->  void rtw_ap_restore_network(struct adapter *padapter)
->  {
-> -- 
-> 2.50.1
-> 
+On 2025-10-03 3:10 a.m., Dan Carpenter wrote:
+> On Thu, Oct 02, 2025 at 05:23:03PM +0000, Vivek BalachandharTN wrote:
+>> Combine nested if conditions for clarity and fix tab indentation in one
+>> place to match kernel coding style.
+>>
+>> No functional changes.
+>>
+>> Signed-off-by: Vivek BalachandharTN <vivek.balachandhar@gmail.com>
+>> ---
+>>   drivers/staging/rtl8723bs/core/rtw_mlme.c | 4 ++--
+>>   1 file changed, 2 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme.c b/drivers/staging/rtl8723bs/core/rtw_mlme.c
+>> index aa842905a467..f17b16fe8819 100644
+>> --- a/drivers/staging/rtl8723bs/core/rtw_mlme.c
+>> +++ b/drivers/staging/rtl8723bs/core/rtw_mlme.c
+>> @@ -1254,8 +1254,8 @@ void rtw_joinbss_event_prehandle(struct adapter *adapter, u8 *pbuf)
+>>   						rtw_free_stainfo(adapter,  pcur_sta);
+>>   
+>>   					ptarget_wlan = rtw_find_network(&pmlmepriv->scanned_queue, pnetwork->network.mac_address);
+>> -					if (check_fwstate(pmlmepriv, WIFI_STATION_STATE) == true) {
+>> -					    if (ptarget_wlan)
+>> +					if (check_fwstate(pmlmepriv, WIFI_STATION_STATE) == true &&
+>> +					    ptarget_wlan) {
+>>   						ptarget_wlan->fixed = true;
+>>   					}
+> Delete the curly braces as well.
+>
+> regards,
+> dan carpenter
+>
