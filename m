@@ -1,72 +1,72 @@
-Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 500F134BA22
-	for <linux-staging@lists.linux.dev>; Mon,  6 Oct 2025 09:41:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5842334BA22
+	for <linux-staging@lists.linux.dev>; Mon,  6 Oct 2025 09:41:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759743680; cv=none; b=gnEMe0CN5VQObcNLAx0HIYs6FCIS/LZI4ZlOaocAzdXYE0XjZusa60vX25ZTXZMq9wfkWdFMyacsMCqABTVaYhR+DHmwYNwCO6ycTp93cYn55ZG8i8hQNeVO7Jn/1jzGjjtEB4kFuiX3zMgI+B9nUHS8Vfx5Ny1b75HTUgPspEQ=
+	t=1759743692; cv=none; b=T4KtiS3YsbHAG9sxGeP542CsmtnNp8EHW0KT/MtvtROkfN4fKITocwzGcpaiwBUfTakx9rRoBsqDi8JVLTiKXSM9vVIlcGa/i35eFdcvkdcrrr8YBXO7zsKemW5C5TuRJnb88OhnSpLODR8TG+cdPqSTqtLFncyncyBxLmi8kQY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759743680; c=relaxed/simple;
-	bh=24sZmUViPfdoTKlBu2+lcVKxGUTmmLWmXX2XY780LyM=;
+	s=arc-20240116; t=1759743692; c=relaxed/simple;
+	bh=RWpmJwgLuM2FIonYsAJTiC7gB8HKm6Y3f9332Ma3b94=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=R9X3ev9wpZfrUSzJ7PqmkheoF8wsDdmM5l7QUWP3brgdHggON5J7O0yhdZqXjm4xKeiUOPKwfrCECs1EzoaE1f+FfAjA5dM9eWIrpNQmAwOAJVrKSp/iUWcYQNQbqSULLIoDWnbjUhFOt5A4xnuYLu7azhzRFxRnzyf8PB3ejOg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Kj89/jsD; arc=none smtp.client-ip=209.85.210.179
+	 MIME-Version; b=e7mp3GCRxg+ct/mRePHiMuHAP5MQj2YqqQuyOroyhWlufypXd5AaIO+Eaecto20ydYGIGqOYS/D07nkqc2eGsyshp4lW7eYAYcaYuI5Bz/TN7ouaQUKDD9PW8b318KmaO6WGoiGRHpch4yUMlWl0aHiPKZleFMDzb+YTfd14XBk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QUQe74lu; arc=none smtp.client-ip=209.85.214.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Kj89/jsD"
-Received: by mail-pf1-f179.google.com with SMTP id d2e1a72fcca58-791c287c10dso77175b3a.1
-        for <linux-staging@lists.linux.dev>; Mon, 06 Oct 2025 02:41:19 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QUQe74lu"
+Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-271d1305ad7so70954325ad.2
+        for <linux-staging@lists.linux.dev>; Mon, 06 Oct 2025 02:41:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1759743678; x=1760348478; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1759743691; x=1760348491; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=E4g2Dt/TcqCZ9Q+bj74Qh0XyQkDPrwX2+n2zSBd62o0=;
-        b=Kj89/jsDpHBp8uSphBdRWE567C/ZoKyUtyoB2DMoB26ZdgFWekVrOBuhEubQ5E+0z5
-         tNcloJXyjK3e58ffi0IToXA3q724f6LbTpzrLvBp4Jy78zo3WBYy+O8usj/ikaN1lNl6
-         /AYxQsowyLGO9KS3ZzkYvs/gAraHrt+AllPfkxVTX0Iz5dWzVV24PHE6lwB+e2n49g2N
-         xuMrBmTKGh7cY2N7DFIDZUtalgVYv5Dm7aVRfCNGiJZ+1Ud/rPuG2bNMTHLt0BvsHYWV
-         zIyP45C/Zuh3w8bo7CNQti3lEFEJeJKXTdSaOW/2xsraspFYNUYuXGn7ta9jzgElLGr1
-         qhIA==
+        bh=tDWMO78/Sngggr60GZi/HLcWQ6AuAiwa+2vlLjX9o2g=;
+        b=QUQe74lu4ThpHBm3TQqUtOM9u1wQZPqdhU9kMB17eJ0aAlkjD25npjtcWjCk2wbzTl
+         6q76XTCk5Q+mNqQD5Kk2aCgqz6Qk6QyYP3pDr6wuM+Luhkj54NW3LbXe7ULzQWIqfxE5
+         MEt8JZFdDXiT3G75OR0oUYfJV87LvpcHpqVBvMkzTQfa+LmHZcfBXYkInllKYdviJcxx
+         8GY0x/6JFajzuR0OD0c2AJbja6xJiZcoVQK7Zbi5m9BFUoaJujSqR9g+TTcOq7lOXfMl
+         OiQrNgM7w/HLSPXcC6uoamBn3iV/Xm6T3FP8aYuCrBIRWvjRDxXh5NwqsFmeYRPivaFH
+         SzNg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759743678; x=1760348478;
+        d=1e100.net; s=20230601; t=1759743691; x=1760348491;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=E4g2Dt/TcqCZ9Q+bj74Qh0XyQkDPrwX2+n2zSBd62o0=;
-        b=ck0rUqEVaGmsUzCxKAyAbJrANoUulVc/eii7vqoxteGdGmpEgnwgWxdy1w+LYUT4aC
-         bu2CHxD6/minBYYKV1IqIemvizzTOm/AUYc4In24ean6a5tedDjhUIzqacEYOKQDo5Nf
-         UCYubGpmPS4xYtIRVG2X+UZk78iY3o/RVHZEsR3SD9PegraVo+zj6OGoZHTHB4d401h6
-         cPKC4hIBF8NSSx9WyDWAwkVx7yLd7NcePBS5UOT0rXlv3y2Z9RdzWgpYKLq6A9ZxlXDQ
-         6k4ptH7V6Wk0DlvgxzrT68Ala4ubkKn+ganCugO5Xc7Vte37qgK4Y7sGCN5Rw+Ol/YTu
-         XlAw==
-X-Forwarded-Encrypted: i=1; AJvYcCW5r/v9PzmSc51UTrs+v9LQmlcdlfaS4eBhOfY6FlD1LaAiZuUwLc3MwLxeilwBKBx6eI2D/NATPgG8d+gz@lists.linux.dev
-X-Gm-Message-State: AOJu0YymkFA4dTw0Da0TKargOD9ftoNd5T+PF6qdt+6G/w4QIk87kzvR
-	WvrQbvUloYxirQkddoc7fgMvDMcxf6EuJX+TaaxXOCCVr5os/sPvzXiW
-X-Gm-Gg: ASbGncsJveVCYAceMCfIH/a/4kQGwYMmMSb1uHxM2NN9RR8Xb2Ue1c5/x2CFNTI4849
-	WMY/dbFTihUzx/GDmqAoF0D93Jn0S1E373bGI9Ss6XOMM9zwifhRXvq3FyeC2S8Mtd6ibQqIeFj
-	vvI2h7DSqcKItCpiI/YWLe8ScsH9JZ0siQKeBexz57p7a768wnFgtqyGKbP0ZGXzbm9jRlVM61+
-	9tDV5cafq73xWa/3KsJkpktV1Xv5KJ9v9C42RKHqxaq1FvHXmQWM4Eoce9ZSPpQ6V0jt7Am9M1b
-	RAez6lDb2t006d+WszuoIngkrv2Z0smpnSLWzsZNyedS1qgm/9gcS84PxskMB1pC+eUlEwB+txU
-	ZuP+Gg4Vrjueh/IGNeKjcrlVbBeYaES2CRzfpjQ==
-X-Google-Smtp-Source: AGHT+IHgfM9EDZrwpjiaW1k4I95OIZfCiOHLduIpkcRPiYnJMWY4Fkb+eSQxUHRYkT1ib759moqT4g==
-X-Received: by 2002:a05:6300:218e:b0:2d9:4afc:e1cf with SMTP id adf61e73a8af0-32b620ea86dmr14590976637.47.1759743678561;
-        Mon, 06 Oct 2025 02:41:18 -0700 (PDT)
+        bh=tDWMO78/Sngggr60GZi/HLcWQ6AuAiwa+2vlLjX9o2g=;
+        b=GUNhBEa0Fw4hoc9HaErSignfVg2WczM+bHAFiIyCX/s5PSRTjZOcLjKuveWfIaWcoy
+         IYwV/w0nZ1T3yibywDF12eQlV2SQpOitQ2m1a+tS7sJw0R2gsWBQSekhULTc+247gTOL
+         6+CwwDi8RRaRzPjMKv5Dd3Eu+Oru7yvOlCpuy2HjSu9lFYxQj35rsdq7oWDss4C4YMQW
+         XszpwwWxw0H5AHfwvivv9k8L2rNvNcTk4F+zjAYyFeDDeTBzyaOezBKDnC7NsmA88sj1
+         Uat5kmezKUXu7ZB22nUGnL8iBIkeouukTaXqM5HM2eiCrmCBuY0JR+hjgs8LETG5Y1j5
+         QiCA==
+X-Forwarded-Encrypted: i=1; AJvYcCVvKZBUUQpf1T6vsuArsHYGrEzp/JxAaFKt3CFeCToXihCt1T74JsWyxD/61NEcxbaEqhKB0ZR7sRA5qcAw@lists.linux.dev
+X-Gm-Message-State: AOJu0YwunOkl91xmgVIxcHvJaYhia7R0npiKb12Q/I73Pi+EgBMkUWf2
+	UEPwmzSEh/V/PDrwT6WxyqUqejnMuTCfanP5K0kGtKioxKcBfSsyhKpN
+X-Gm-Gg: ASbGncs0OJESF32gACeuvu7WAiBupRaliOmOh7MzrtlcjSs9teNufAHhbkDtFO15hKu
+	Fl+eVs5PEDCxYoFNwR30BgkB9Qhsti9zbZWy5nSJPG2THP/j/Nu37o37t+ZqOQiZh7jJYPhW9VX
+	op03KgGuXKAbTrApIQ8tf74G5ojJaU6PfXpSlivqf55G9uUCkrPsNje8a7L1LNh206yaFXmcffw
+	6ZVp1lopo8I+GmpX/vD8pgrxszsv3bNfpQCR07zUcCwTlmjKsujNeXxIgFEhR4YFxNuNArsMyEt
+	nrlcCvMBRGYwRT24eBIEUW3senF5hVjq0jqZYKQWimPxck9tN025vc/Cy+ZlUrmk1hKLm4stLsm
+	jTETolLghPA8aRO305MdKeA67m1pyMju73J85KUBXp/uySdSD
+X-Google-Smtp-Source: AGHT+IGVuyWx946HsYOHhKNOFxC/pycX88y2x4j3++pl8lUJfoEyLqORuWilWGcjs9C38G+O9ca/Uw==
+X-Received: by 2002:a17:903:1a86:b0:268:b8a:5a26 with SMTP id d9443c01a7336-28e9a6b19e2mr157755655ad.54.1759743690647;
+        Mon, 06 Oct 2025 02:41:30 -0700 (PDT)
 Received: from ASUS ([119.63.139.7])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b609be239c5sm11325778a12.19.2025.10.06.02.41.13
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b609be239c5sm11325778a12.19.2025.10.06.02.41.25
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 Oct 2025 02:41:17 -0700 (PDT)
+        Mon, 06 Oct 2025 02:41:29 -0700 (PDT)
 From: Taimoor Zaeem <taimoorzaeem@gmail.com>
 To: jic23@kernel.org,
 	gregkh@linuxfoundation.org
 Cc: linux-iio@vger.kernel.org,
 	linux-staging@lists.linux.dev,
 	Taimoor Zaeem <taimoorzaeem@gmail.com>
-Subject: [PATCH 1/2] staging: iio: ad9834: remove empty ad9834.h file
-Date: Mon,  6 Oct 2025 14:40:24 +0500
-Message-ID: <20251006094025.259440-2-taimoorzaeem@gmail.com>
+Subject: [PATCH 2/2] staging: iio: ad9832: move struct ad9832_platform_data to ad9832.c
+Date: Mon,  6 Oct 2025 14:40:25 +0500
+Message-ID: <20251006094025.259440-3-taimoorzaeem@gmail.com>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20251006094025.259440-1-taimoorzaeem@gmail.com>
 References: <20251006094025.259440-1-taimoorzaeem@gmail.com>
@@ -78,47 +78,95 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Remove drivers/staging/iio/frequency/ad9834.h header file
-because it contains nothing except the include guards.
+The struct ad9832_platform_data is only used in ad9832.c
+so it moved there instead. With this change, the ad9832.h
+file becomes empty, so we can remove it.
 
 Signed-off-by: Taimoor Zaeem <taimoorzaeem@gmail.com>
 ---
- drivers/staging/iio/frequency/ad9834.c |  3 +--
- drivers/staging/iio/frequency/ad9834.h | 10 ----------
- 2 files changed, 1 insertion(+), 12 deletions(-)
- delete mode 100644 drivers/staging/iio/frequency/ad9834.h
+ drivers/staging/iio/frequency/ad9832.c | 21 ++++++++++++++--
+ drivers/staging/iio/frequency/ad9832.h | 33 --------------------------
+ 2 files changed, 19 insertions(+), 35 deletions(-)
+ delete mode 100644 drivers/staging/iio/frequency/ad9832.h
 
-diff --git a/drivers/staging/iio/frequency/ad9834.c b/drivers/staging/iio/frequency/ad9834.c
-index 0038eb234d40..d339d5e8e043 100644
---- a/drivers/staging/iio/frequency/ad9834.c
-+++ b/drivers/staging/iio/frequency/ad9834.c
-@@ -21,9 +21,8 @@
- 
+diff --git a/drivers/staging/iio/frequency/ad9832.c b/drivers/staging/iio/frequency/ad9832.c
+index 49388da5a684..0517858bc5da 100644
+--- a/drivers/staging/iio/frequency/ad9832.c
++++ b/drivers/staging/iio/frequency/ad9832.c
+@@ -23,8 +23,6 @@
  #include <linux/iio/iio.h>
  #include <linux/iio/sysfs.h>
--#include "dds.h"
  
--#include "ad9834.h"
-+#include "dds.h"
+-#include "ad9832.h"
+-
+ #include "dds.h"
  
  /* Registers */
+@@ -117,6 +115,25 @@ struct ad9832_state {
+ 	} __aligned(IIO_DMA_MINALIGN);
+ };
  
-diff --git a/drivers/staging/iio/frequency/ad9834.h b/drivers/staging/iio/frequency/ad9834.h
++/**
++ * struct ad9832_platform_data - platform specific information
++ * @freq0:		power up freq0 tuning word in Hz
++ * @freq1:		power up freq1 tuning word in Hz
++ * @phase0:		power up phase0 value [0..4095] correlates with 0..2PI
++ * @phase1:		power up phase1 value [0..4095] correlates with 0..2PI
++ * @phase2:		power up phase2 value [0..4095] correlates with 0..2PI
++ * @phase3:		power up phase3 value [0..4095] correlates with 0..2PI
++ */
++
++struct ad9832_platform_data {
++	unsigned long		freq0;
++	unsigned long		freq1;
++	unsigned short		phase0;
++	unsigned short		phase1;
++	unsigned short		phase2;
++	unsigned short		phase3;
++};
++
+ static unsigned long ad9832_calc_freqreg(unsigned long mclk, unsigned long fout)
+ {
+ 	unsigned long long freqreg = (u64)fout *
+diff --git a/drivers/staging/iio/frequency/ad9832.h b/drivers/staging/iio/frequency/ad9832.h
 deleted file mode 100644
-index 521943aa0e61..000000000000
---- a/drivers/staging/iio/frequency/ad9834.h
+index d0d840edb8d2..000000000000
+--- a/drivers/staging/iio/frequency/ad9832.h
 +++ /dev/null
-@@ -1,10 +0,0 @@
--/* SPDX-License-Identifier: GPL-2.0 */
+@@ -1,33 +0,0 @@
+-/* SPDX-License-Identifier: GPL-2.0+ */
 -/*
-- * AD9833/AD9834/AD9837/AD9838 SPI DDS driver
+- * AD9832 SPI DDS driver
 - *
-- * Copyright 2010-2011 Analog Devices Inc.
+- * Copyright 2011 Analog Devices Inc.
 - */
--#ifndef IIO_DDS_AD9834_H_
--#define IIO_DDS_AD9834_H_
+-#ifndef IIO_DDS_AD9832_H_
+-#define IIO_DDS_AD9832_H_
 -
--#endif /* IIO_DDS_AD9834_H_ */
+-/*
+- * TODO: struct ad9832_platform_data needs to go into include/linux/iio
+- */
+-
+-/**
+- * struct ad9832_platform_data - platform specific information
+- * @freq0:		power up freq0 tuning word in Hz
+- * @freq1:		power up freq1 tuning word in Hz
+- * @phase0:		power up phase0 value [0..4095] correlates with 0..2PI
+- * @phase1:		power up phase1 value [0..4095] correlates with 0..2PI
+- * @phase2:		power up phase2 value [0..4095] correlates with 0..2PI
+- * @phase3:		power up phase3 value [0..4095] correlates with 0..2PI
+- */
+-
+-struct ad9832_platform_data {
+-	unsigned long		freq0;
+-	unsigned long		freq1;
+-	unsigned short		phase0;
+-	unsigned short		phase1;
+-	unsigned short		phase2;
+-	unsigned short		phase3;
+-};
+-
+-#endif /* IIO_DDS_AD9832_H_ */
 -- 
 2.51.0
 
