@@ -1,195 +1,109 @@
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
+Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F8531A9F8D
-	for <linux-staging@lists.linux.dev>; Tue,  7 Oct 2025 05:13:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC101192D68
+	for <linux-staging@lists.linux.dev>; Tue,  7 Oct 2025 09:13:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759814005; cv=none; b=U6w5+mByoR3OSoEmFUA1m0ZCizEwq0PLhTnbdXtslGjZe9qtIvF6nQ105JN4VpOSWvJHLqYujcfWxHpVjietcMu/ZJ7LoF+cFdLvEbmKIrE/MBqQE54YAV7vDASdEd3lJStbVLKvC0AVD8XgvhaT3QPvW+up6+60kT2SnT9KpBI=
+	t=1759828409; cv=none; b=l2Dy/0ASQoUKWFUiuBrbgdDChUARZJ35Gjt99RVHOV++cYoT/oLIRwDg0Nj5iiGMP+lkcXXwairdL/SB1YepIYJsZmC2BJkIF1+PpRFFp/N4E4YQ/OWnD6cxMf/wxA0j2yjuZaZ0MqFQAjq5+imNYXaOC0wLPT4Q+XVgZVQv9Do=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759814005; c=relaxed/simple;
-	bh=L5xoEIflpBS7wooM7axyy2VDNqgfrX6E93X+/MuiZN0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=h3FFUWkCY5BVIy7A3ukGVSUTWziiHOi+pDnWNLgvFrUr1mUge+dmIXxWFkmajKhQf7uswkJmu7zj0cEY6o2mAs52IZRLHIc/4IDZgyhe8jcuuT6YYEdCBeye9rZmEIBV3op3A5SfCR1+3PWabOcDBAEhFdnI55ig1g3F1xtU/Vw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CPGRJEZW; arc=none smtp.client-ip=209.85.221.53
+	s=arc-20240116; t=1759828409; c=relaxed/simple;
+	bh=lAVDGc2LK84Ub0jbxmUjMOcpfOBmY3qrd6eZ2zJcTWA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=mOqss0CzdKytZ6gZmoFGo1M5bJIwNLzsBnNTphE5nd7/U1SKNclk5EoLsKsStzstAXmA5f0PzEhx1fipcdGqQ/X0zqcSaFFgKRlMtP/mIg6B4zH2V2Yr70FSq7KZBzDbC94vb5Rt6oAPezb8h0n/lvElJwmTquC7tUZ4IHesXJc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NGZ28EKo; arc=none smtp.client-ip=209.85.210.170
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CPGRJEZW"
-Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-3ecde0be34eso3511054f8f.1
-        for <linux-staging@lists.linux.dev>; Mon, 06 Oct 2025 22:13:22 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NGZ28EKo"
+Received: by mail-pf1-f170.google.com with SMTP id d2e1a72fcca58-7811a02316bso4208212b3a.3
+        for <linux-staging@lists.linux.dev>; Tue, 07 Oct 2025 02:13:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1759814001; x=1760418801; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=1pS3XDiQK8f8eyTQX//zdVzSc4GWTW1yqVKROF9NUcQ=;
-        b=CPGRJEZW+jWT+VuI/j7u4RqQIdCMdEstFSldYVkd+zY4iSgJSUymROORFdV7RFk2NQ
-         VT2N5V3G/Jbe88NcGnt7xKSC3FQK5axv4AeXVmV9/smJoWU8ez/zWz8vLKI7QwC6E9Kj
-         VS2pK0Pt9ZtfM4UCuXzvgxnAOiku5AvX7t+slRpy40ZtKjfUxjrfySMvrGZXtHICHxA+
-         cI0iirhU2o7Tu9tObC7mNZvedXTBCmkntWx5OMAep1rWy0nZN0HzGVgiwOH0TDScc61F
-         xyh3CXh0j1cYueh8u/o0XD46AU1QRLv5279PD1iLlTOabldVlFE8OiE2c8AbOPy/B/y4
-         bMNA==
+        d=gmail.com; s=20230601; t=1759828407; x=1760433207; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=XJtapFc34rZOz8eU7l/AxCg1WyZd+AeqhYHeXbqdkZQ=;
+        b=NGZ28EKol6i68JbWnafLfTX2m+DW5nFVV6utuGFOHAZVDCYIg9sRakn+CMhYB1k1Uj
+         98mbtR3lwyljRWxSKO4Jn8lFaBuho/swc2JyORRjyxXHgoI8kVdkMEAcbEnLU8RAJ+qp
+         VwlRycRS8EIuiV9eYiwzAxGc7WUhjJSQFjcFk4fqFgk6Ppus4Z3ES+45tMmierXx08oD
+         aVateiSb9U0aSjg3Bg1rPUrgF6jIbt7rh4fSFBlXqoyS1ABwvBOy6yxr90eJx9jfqJJj
+         VVLhdm9U+p8fTdXYLgJWLVQ/ur+yy6GxyhCrL/tlsUMKQGrc+bzyUivAf6KExt/owfyJ
+         Lx+w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759814001; x=1760418801;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=1pS3XDiQK8f8eyTQX//zdVzSc4GWTW1yqVKROF9NUcQ=;
-        b=KqlK5lTQhfqDJZMuFZFVj9kaX1QpD7xILYltn3I2CypkX35MDFfpodvjTpSBzr+v54
-         LZepC/jBdFvsSTb5Ter8pXDKt4jiRbUmcVL7nypruAmhhyclHY/+3pIK85IZ17ABPdBM
-         NNy2APXrCVWPiFlc0DQwFvMhgXkQxVhvw2Otk9sSurVTIO7fnQn/8W4B6t27lbkGuaVT
-         QpKanvgskmq1ug/mUiboTlOAc/s7xLAV1mPxYDl24sH5DUpvPn1ji9lldOC+rbuyDAGJ
-         vcrJzoON2ljfu9dttfgCQyhBBfuD/NjTKXZ6mPaaOQ/GqqKhO0Abzb8kl1N+7Sxq2c0v
-         PCuA==
-X-Forwarded-Encrypted: i=1; AJvYcCVbrvSC1n4Qhpkr3pvjX/XDj2kShSyWcad+haQ14LMzd66aEDp7TLBO+cYPxoj9gBMs+Zy4+PX0u7VnRcXZ@lists.linux.dev
-X-Gm-Message-State: AOJu0YwGdQ0ZEES27G9LtMWmOsv9PFnCZuMbScaW9pG+UtZUh1vyqASH
-	CUWQtoRGYo6DxLZNes6e4jB86H2b2bar8wJfnRwtACE7VWg9EI9SrW0kRtoaqj+dXKhTfiLyOxD
-	ubtaSk7ROthxLRgiVtrmlzpThzUEzGwU=
-X-Gm-Gg: ASbGncsJxbreJDTB6YcjQYxosC/Jbi+y9SJFrquMBQrNpQnDdqqwNsuDEl09T8eRLRd
-	CZGmtp8q2fzooutANZq88bQ+seV//Ehbvl0oh0S832c7u0pE4BIjBXDYbkrVbSNogD01Yjddk+J
-	76Mqaa8tSfwrt+LSRxK5QSZ/2rfASMmcl+mfXsTS6kKa3i2/oRuRC+SyBXXjcq/uWNUW7L23lMi
-	BvbZiCRpTvBPBSN2y6BsZiWKdJA1TEn
-X-Google-Smtp-Source: AGHT+IGV0xtcmM1zsg2OwGtKvJdRiIXrdxpv8K4QHttJAzVgt0D6HfXUccFjYZoOM3q6VTY6zRPYzZjolHquEvhvO7E=
-X-Received: by 2002:a05:6000:26d1:b0:3ec:db87:ff53 with SMTP id
- ffacd0b85a97d-425829bf154mr1325418f8f.12.1759814001232; Mon, 06 Oct 2025
- 22:13:21 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1759828407; x=1760433207;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=XJtapFc34rZOz8eU7l/AxCg1WyZd+AeqhYHeXbqdkZQ=;
+        b=w77aEcptuTaIo7z7ESngwO3fXeWn+ujmWne1A/+ZDntEIuiNrT/0zOejTh2LBOQecC
+         JKJO3SrUdnegh8JgMLiPWXGVB1UMGvh2RE0hEOaFcfh8BV1YJKLsgMPy/zo3BXnPrCW5
+         qdoLAEGRxidvzHizAd26t4Z+aJwYGKfmkUvN3i5qkRsHR0xff1ujwVwlPnuCrEkpec4r
+         pMWiOanEMQWmvYcD41A445vSEtl1AoEiHiULedwZ2ZV946Ks9qEXYwRuOku14/MZ5LAO
+         UUnMUD9RVVAvGjPz3RMO0zBkGX7s2JrjhH2Kheex/lyQG76WIuyNd+YBUu49vssC9nrE
+         1d7A==
+X-Gm-Message-State: AOJu0YwHRXxy2riDtqFiGzyILECozluC6d0dcqa8x69zzbmbD2GL65SF
+	YuwY6E5SJg1t28fJyV4+oinHo4eGX98/rDNCIUD8cnx6OR7YnYufhx1PtCSGRtvlTW0=
+X-Gm-Gg: ASbGnctZTnpEEO/EExy5kvQYPYiLbHFEodEMwVmbd2imco9mtD6XavyIK/rUkLxvnJk
+	XrojP2aguBlk0yuvjw9sd0w37rWED1OcnS2adB9JEXPJc+J+A1vbhnktJkS5peOw6Qzm78VMDCJ
+	GDImZGYAs3zh5Bp98EQzTipotf660rAIC//BvP+4pO65ucDQKbfOQxYP1GUn74VF5ABG2fTqwd5
+	hUSORnXTvTi9MQw7jrLJ072Ah5ldqru8Vm5qzAaCyiTCbK2UTS1r5/QC/5DS6+s+sazVGvTNx7Q
+	Q2KP+NbypV1gz1y2pc0/OwGlqxAQTTx4/+bckRJsfBHP/T13DeH7fyWfEB2Wv6ximl0kMsz5Y4k
+	5juJEPBjKXFgd5OBNX+d6RUvPP2JXkhPKVqkYnrdlAilgjvNtwi23GWgdcCBl
+X-Google-Smtp-Source: AGHT+IGsCw2HiJs9AwDg2O1EQNO5zOmV3sAvt2f8shsaRr+S4pyGyvmsnnhDJznLDazcP2/9Ze2ZgQ==
+X-Received: by 2002:a05:6a00:39a3:b0:781:1a9f:aeeb with SMTP id d2e1a72fcca58-78c98d2e6aemr20785655b3a.1.1759828406742;
+        Tue, 07 Oct 2025 02:13:26 -0700 (PDT)
+Received: from Deathstar.anonymous ([172.56.42.228])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-78b01f9cda9sm14941784b3a.13.2025.10.07.02.13.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 07 Oct 2025 02:13:26 -0700 (PDT)
+From: Rohan Tripathi <trohan2000@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Rohan Tripathi <trohan2000@gmail.com>
+Subject: [PATCH v3 1/6] staging: rtl8723bs: remove unnecessary blank lines in rtw_ap.c
+Date: Tue,  7 Oct 2025 05:12:58 -0400
+Message-ID: <20251007091303.491115-1-trohan2000@gmail.com>
+X-Mailer: git-send-email 2.50.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250925151648.79510-1-clamor95@gmail.com> <20250925151648.79510-21-clamor95@gmail.com>
- <20251002015244.GA2836647-robh@kernel.org> <CAPVz0n1By+akzp0t+GfF9nRzZ27NwYEikXxQ+=M=W2NEGpLNFw@mail.gmail.com>
- <20251006203148.GA523657-robh@kernel.org>
-In-Reply-To: <20251006203148.GA523657-robh@kernel.org>
-From: Svyatoslav Ryhel <clamor95@gmail.com>
-Date: Tue, 7 Oct 2025 08:13:10 +0300
-X-Gm-Features: AS18NWDkvx6agTucL7VNWr7MeuduCABFIlrIhwhvyaKckkFjZfLI9EvskSqNc_g
-Message-ID: <CAPVz0n3CZTa8eV=gsJdpQ=yQ9sFbVd_vHAEpESP=Y6pE1=cLUw@mail.gmail.com>
-Subject: Re: [PATCH v3 20/22] dt-bindings: display: tegra: document Tegra20
- and Tegra30 CSI
-To: Rob Herring <robh@kernel.org>
-Cc: David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Thierry Reding <thierry.reding@gmail.com>, 
-	Jonathan Hunter <jonathanh@nvidia.com>, Sowjanya Komatineni <skomatineni@nvidia.com>, 
-	Luca Ceresoli <luca.ceresoli@bootlin.com>, Prashant Gaikwad <pgaikwad@nvidia.com>, 
-	Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
-	Mikko Perttunen <mperttunen@nvidia.com>, Linus Walleij <linus.walleij@linaro.org>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	=?UTF-8?Q?Jonas_Schw=C3=B6bel?= <jonasschwoebel@yahoo.de>, 
-	Dmitry Osipenko <digetx@gmail.com>, Charan Pedumuru <charan.pedumuru@gmail.com>, 
-	Diogo Ivo <diogo.ivo@tecnico.ulisboa.pt>, Aaron Kling <webgeek1234@gmail.com>, 
-	Arnd Bergmann <arnd@arndb.de>, dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
-	linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-media@vger.kernel.org, linux-clk@vger.kernel.org, 
-	linux-gpio@vger.kernel.org, linux-staging@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-=D0=BF=D0=BD, 6 =D0=B6=D0=BE=D0=B2=D1=82. 2025=E2=80=AF=D1=80. =D0=BE 23:31=
- Rob Herring <robh@kernel.org> =D0=BF=D0=B8=D1=88=D0=B5:
->
-> On Thu, Oct 02, 2025 at 08:14:22AM +0300, Svyatoslav Ryhel wrote:
-> > =D1=87=D1=82, 2 =D0=B6=D0=BE=D0=B2=D1=82. 2025=E2=80=AF=D1=80. =D0=BE 0=
-4:52 Rob Herring <robh@kernel.org> =D0=BF=D0=B8=D1=88=D0=B5:
-> > >
-> > > On Thu, Sep 25, 2025 at 06:16:46PM +0300, Svyatoslav Ryhel wrote:
-> > > > Document CSI HW block found in Tegra20 and Tegra30 SoC.
-> > > >
-> > > > Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
-> > > > ---
-> > > >  .../display/tegra/nvidia,tegra20-csi.yaml     | 135 ++++++++++++++=
-++++
-> > > >  1 file changed, 135 insertions(+)
-> > > >  create mode 100644 Documentation/devicetree/bindings/display/tegra=
-/nvidia,tegra20-csi.yaml
-> > > >
-> > > > diff --git a/Documentation/devicetree/bindings/display/tegra/nvidia=
-,tegra20-csi.yaml b/Documentation/devicetree/bindings/display/tegra/nvidia,=
-tegra20-csi.yaml
-> > > > new file mode 100644
-> > > > index 000000000000..817b3097846b
-> > > > --- /dev/null
-> > > > +++ b/Documentation/devicetree/bindings/display/tegra/nvidia,tegra2=
-0-csi.yaml
-> > > > @@ -0,0 +1,135 @@
-> > > > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> > > > +%YAML 1.2
-> > > > +---
-> > > > +$id: http://devicetree.org/schemas/display/tegra/nvidia,tegra20-cs=
-i.yaml#
-> > > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > > > +
-> > > > +title: NVIDIA Tegra20 CSI controller
-> > > > +
-> > > > +maintainers:
-> > > > +  - Svyatoslav Ryhel <clamor95@gmail.com>
-> > > > +
-> > > > +properties:
-> > > > +  compatible:
-> > > > +    enum:
-> > > > +      - nvidia,tegra20-csi
-> > > > +      - nvidia,tegra30-csi
-> > > > +
-> > > > +  reg:
-> > > > +    maxItems: 1
-> > > > +
-> > > > +  clocks: true
-> > > > +  clock-names: true
-> > > > +
-> > > > +  avdd-dsi-csi-supply:
-> > > > +    description: DSI/CSI power supply. Must supply 1.2 V.
-> > > > +
-> > > > +  power-domains:
-> > > > +    maxItems: 1
-> > > > +
-> > > > +  "#nvidia,mipi-calibrate-cells":
-> > > > +    description:
-> > > > +      The number of cells in a MIPI calibration specifier. Should =
-be 1.
-> > > > +      The single cell specifies an id of the pad that need to be
-> > > > +      calibrated for a given device. Valid pad ids for receiver wo=
-uld be
-> > > > +      0 for CSI-A; 1 for CSI-B; 2 for DSI-A and 3 for DSI-B.
-> > > > +    $ref: /schemas/types.yaml#/definitions/uint32
-> > > > +    const: 1
-> > >
-> > > Sorry I didn't bring this up before, but is this ever not 1? If it is
-> > > fixed, then you don't really need the property. I prefer it just be
-> > > fixed rather than getting a bunch of vendor specific #foo-cells.
-> > >
-> >
-> > This is not an introduction of property, such property already exists
-> > in Documentation/devicetree/bindings/display/tegra/nvidia,tegra114-mipi=
-.yaml
-> > and is used in multiple device trees. As I have told before, in case
-> > of Tegra30 and Tegra20 CSI block combines mipi calibration function
-> > and CSI function, in Tegra114+ mipi calibration got a dedicated
-> > hardware block which is already supported. This property here is used
-> > to align with mipi-calibration logic used by Tegra114+
->
-> Okay.
->
-> You will have to continue to tell me again if my past questions are not
-> addressed in the commit message. A review only last week was 100+
-> patches ago. Don't expect I'll remember nor go re-read prior versions.
->
+This patch removes superfluous blank lines where appropriate to improve readability and match kernel coding style.
 
-That is not a problem, I did not meant to offend you. I will add info
-into commit message.
+This is a coding style cleanup only. No functional changes.
 
-> Ideally, we don't define the type of a property more than once. So this
-> should really first be moved to its own shared schema that's referenced
-> here and in the original user. Then it is perfectly clear reading the
-> patches that this is not a new property.
->
+Signed-off-by: Rohan Tripathi <trohan2000@gmail.com>
+---
+v3: blank line removal only in this patch
+v2: previously had an added blank line too
+---
+ drivers/staging/rtl8723bs/core/rtw_ap.c | 2 --
+ 1 file changed, 2 deletions(-)
 
-I am not sure that creating a dedicated shared schema for a single
-properly which is used by 2 schemas worth it, though, if it is
-preferred, may the refactoring be done in followups later?
+diff --git a/drivers/staging/rtl8723bs/core/rtw_ap.c b/drivers/staging/rtl8723bs/core/rtw_ap.c
+index 0908f2234f67..373718cbd6b9 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_ap.c
++++ b/drivers/staging/rtl8723bs/core/rtw_ap.c
+@@ -436,7 +436,6 @@ void update_bmc_sta(struct adapter *padapter)
+ 		spin_lock_bh(&psta->lock);
+ 		psta->state = _FW_LINKED;
+ 		spin_unlock_bh(&psta->lock);
+-
+ 	}
+ }
+ 
+@@ -1252,7 +1251,6 @@ void rtw_acl_remove_sta(struct adapter *padapter, u8 *addr)
+ 	}
+ 
+ 	spin_unlock_bh(&pacl_node_q->lock);
+-
+ }
+ 
+ u8 rtw_ap_set_pairwise_key(struct adapter *padapter, struct sta_info *psta)
+-- 
+2.50.1
 
-> Rob
