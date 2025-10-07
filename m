@@ -1,75 +1,165 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33D7D288529;
-	Tue,  7 Oct 2025 13:09:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 687E12E6CD6
+	for <linux-staging@lists.linux.dev>; Tue,  7 Oct 2025 16:02:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759842541; cv=none; b=sM3SxpDnKlxZDxeztbwt6iWDpPHG/qB7NfMqGfOPeaVntBvGLTfJTE1yx01BSPIpcSzNe22BaHGl+OJyR3FNwlYy2WgboJZtE00+V7MbZ+qcLkUPbruXHyKkGVbWvHMH08Z0AqFf3XOj1evZ7lcSX7vnw5C3odkeB3giq2sdyLE=
+	t=1759852977; cv=none; b=TcgYJSk3QVXOOJrjGp6b1tcWnTC1uHvnCe01imoGLv9SuvS/VSpG2whF9bvGcdCtR4Vv7any6fqGfx1g5gYv23uveed31LwYw+wZpWptsQBUrdYgqL0jGM5q/2ty/e0zWOyh4Wklwgbks9LiaWchMw+HbQIOh1hxpvZnq13x3w4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759842541; c=relaxed/simple;
-	bh=dnXJrhA1Du/5HdpoGQzTQcx+O1dHLx0aLKCzq5hkRIw=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=dCWran0GMEdw4n3ZIDjOjHfng26QIiUNBK9+sL359V3E1PWAwP8yqKCngT6FoiSOE9qmAQ3l+UKQp7T1jY0MbUPm4AI3aQWd8H2cD3zDqdQ5st2v9HWhdLn/MHJSgKhpIaL1wjY8H+aJcinewNr1R4yKP4fRjDynPCPZ1Yvh4L4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=lTGdHFT4; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1759852977; c=relaxed/simple;
+	bh=SCnV/SabJq2ovGK98h5wOYxzXudBJL5PJVppHhdQK9c=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=CcQnymHW6jfQ2kKluIhJNyhoBfaDxuRGg0HcXKQhEcqwjs+cIN/4rqnHbTZ+I9vm3zEGbIDmQYOb3c4Jqq4dLauP9gxs3B0PXbaAuS1MevW3CrjCV5cl1MYswn4kYOoaX9dETJWaSVL/0jA6S42iDnVHC33DJRmuTamq7uNR8vU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gpeUEQjH; arc=none smtp.client-ip=209.85.221.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="lTGdHFT4"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4C38DC4CEF1;
-	Tue,  7 Oct 2025 13:09:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1759842540;
-	bh=dnXJrhA1Du/5HdpoGQzTQcx+O1dHLx0aLKCzq5hkRIw=;
-	h=Date:From:To:Cc:Subject:From;
-	b=lTGdHFT4zaeGiG2J+Oo8pvjlmQQKl2llvQcgtuevRSFcINtjQTef8OnU/NfDri0sq
-	 Fy7h5yleV5k0i9koGkawdGEnIBU7OezNwc1vRkIlBA6csIZLxSGvg9XKddujk2vbr2
-	 T6VZZEL7KM8bbfCUPxOmGVJ4JOIzT7Mc0ofvCJKs=
-Date: Tue, 7 Oct 2025 15:08:57 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Linus Torvalds <torvalds@linux-foundation.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Stephen Rothwell <sfr@canb.auug.org.au>
-Cc: linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
-Subject: [GIT PULL] Staging driver fixes for 6.18-rc1
-Message-ID: <aOUQ6d4me_xFTEwJ@kroah.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gpeUEQjH"
+Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-3ee64bc6b90so3798972f8f.0
+        for <linux-staging@lists.linux.dev>; Tue, 07 Oct 2025 09:02:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1759852974; x=1760457774; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=n4PmXw+t4eyfqIclsgOdvNmiteqEthYNwo+QzRmYvOU=;
+        b=gpeUEQjHnCUlSNkynWnSxtu5V8Ek9J7xZ6D5CLxhIMw0JL5kOEHwwXMxDGL9kXs0lz
+         W3BevXEQ0zrq1IkYGe7gjyn72Z/TLI45a5pEJL93uEk5vZ0JvTB/Bg5pE3/ptF+NydDn
+         Ip3qMJJn0s1fWEVPsW0LF2WdV0STEbn+KKsoP4MaGk0FJRR9wkYXx9er/OCMk8xGWUWg
+         TEldtfJ2AsjrpSN6sKTWDQ+RW+mIlnbaulMGriRzKtFGX7i5NxIuCY7LN/P93+SdKEOo
+         BmiLn3ikhYTB5SOe+eV9dAmnhpuXbVJDEwlGW1wMxn7y/sLlZkGJ4/mLn7BihjtnuWiy
+         vwWQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1759852974; x=1760457774;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=n4PmXw+t4eyfqIclsgOdvNmiteqEthYNwo+QzRmYvOU=;
+        b=jljiZ9NJsvqfqEPb6XarnnpfsGyQVWqe2YqHdgo17C8RnjOxLm8H4Tdhr0yBxqxwo5
+         xw6eN8iZQat7krMCnf8muzNkEKqMqPK1WicrKif5UPDLAT11x3XSngfO2kDXXan8Ah28
+         N9CgeA++39GxivXWkMFTRvkz2MLNnVGWWKBOIFiHfjyDwv21ut5dBu3ag18+ngHUKvQC
+         IIei/YgcljRHjo11xrCK00Ngyf8wgsqlzIKsUoCoLbJ/xt9WSjLRMwUq6rfeeb8RhPsG
+         Rd3zU6FyNMERDsahCJjC+5GW+LIpSEhS5UY7gkLBzY1G61KH8qeNVagf3sN3AwP1FnhB
+         YtFw==
+X-Forwarded-Encrypted: i=1; AJvYcCUY/VBtnvR6CmBT+rniCI3JaGNUbU1vtk+IqzHqPLayTKU4cj5XWQay7al7sSptbgGCVauK7ezYhSRpXxZU@lists.linux.dev
+X-Gm-Message-State: AOJu0YxFNWq1Z/An8P8rfJqVuGRUZqET0x1FXV5y0erACu/by0NDsTrL
+	16ni6cfdb8AGMOXIu5+2pjzItdOqgjjkKReaMlsKX9jw/TzXzOk8MeLgABcEMRYQfIaMiM1Aqs4
+	7N2oIpAPms5TuYdopWHyUjhwSFLRb1mo=
+X-Gm-Gg: ASbGncudr1TgpVI1N9aBP8Cbbnqfy3Lw0QD+pY91PhU9jotKEXV2RRJy1HXHzq+fAng
+	uFSm+x0+xAWjatInICn6XdjiEBX1Y9krj8vaRz1NjD9UC7RVeK9CcCr0LL7Y0fS8K0bkBjrmW5h
+	+u1uXZjSKwGlBzrD/hFo5BjP6ZLRCeU3S7F73ddGYcTkgCsy6CFaVTVYzoeLwuhFdG8JXb+rl71
+	GuuGR7n9ftDI3Wh9wFz/uvYmnCRf0Xy
+X-Google-Smtp-Source: AGHT+IHPiGma+g9SGHGjEWg4n/9lGyovmyEGrAEuRu7FYqeClC1xj+DQW9WgaUsZaZ919iLvptfJi5Wpw0gBngpF0QA=
+X-Received: by 2002:a05:6000:26cc:b0:3ec:d740:a72b with SMTP id
+ ffacd0b85a97d-425671bf3e0mr10964826f8f.42.1759852973374; Tue, 07 Oct 2025
+ 09:02:53 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <20250925151648.79510-1-clamor95@gmail.com> <3665995.U7HbjWM52l@senjougahara>
+ <CAPVz0n3CrVufs8vbw8XnYuwoZoQ2Xsi3V4HimgT0=4RQySzvaw@mail.gmail.com>
+ <3862885.G96rZvMJ2N@senjougahara> <CAPVz0n2shn41h4z4PoMdtCXzj+96ak69TCqt7Ag5qpqdWi6UWA@mail.gmail.com>
+ <DDBGU9ELXIAW.1RLHSNOPVR9B3@bootlin.com>
+In-Reply-To: <DDBGU9ELXIAW.1RLHSNOPVR9B3@bootlin.com>
+From: Svyatoslav Ryhel <clamor95@gmail.com>
+Date: Tue, 7 Oct 2025 19:02:41 +0300
+X-Gm-Features: AS18NWB8Gbllc1ZtoSEL2LuStkUA7Ll89S2q913cljwsgWixJe1BcsNEJhM9egs
+Message-ID: <CAPVz0n3EB-tw0af+O4acmbvXNHkH62t5v3r3O0nedLs_XJ39PA@mail.gmail.com>
+Subject: Re: [PATCH v3 15/22] staging: media: tegra-video: tegra20: simplify
+ format align calculations
+To: Luca Ceresoli <luca.ceresoli@bootlin.com>
+Cc: Mikko Perttunen <mperttunen@nvidia.com>, David Airlie <airlied@gmail.com>, 
+	Simona Vetter <simona@ffwll.ch>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+	Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Thierry Reding <thierry.reding@gmail.com>, Jonathan Hunter <jonathanh@nvidia.com>, 
+	Sowjanya Komatineni <skomatineni@nvidia.com>, Prashant Gaikwad <pgaikwad@nvidia.com>, 
+	Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
+	Linus Walleij <linus.walleij@linaro.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, =?UTF-8?Q?Jonas_Schw=C3=B6bel?= <jonasschwoebel@yahoo.de>, 
+	Dmitry Osipenko <digetx@gmail.com>, Charan Pedumuru <charan.pedumuru@gmail.com>, 
+	Diogo Ivo <diogo.ivo@tecnico.ulisboa.pt>, Aaron Kling <webgeek1234@gmail.com>, 
+	Arnd Bergmann <arnd@arndb.de>, dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
+	linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-media@vger.kernel.org, linux-clk@vger.kernel.org, 
+	linux-gpio@vger.kernel.org, linux-staging@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-The following changes since commit 8f5ae30d69d7543eee0d70083daf4de8fe15d585:
+=D0=BF=D0=BD, 6 =D0=B6=D0=BE=D0=B2=D1=82. 2025=E2=80=AF=D1=80. =D0=BE 21:55=
+ Luca Ceresoli <luca.ceresoli@bootlin.com> =D0=BF=D0=B8=D1=88=D0=B5:
+>
+> Hello Svyatoslav,
+>
+> On Thu Oct 2, 2025 at 8:20 AM CEST, Svyatoslav Ryhel wrote:
+> >> > > > 12 represents amount of bits used per pixel, 8 for Y plane, 2 fo=
+r U
+> >> > > > plane and 2 for V plane, total is 12. "but explainable with a co=
+mment
+> >> > > > and improve-able later" why then we cannot use 12 with a comment=
+? this
+> >> > > > is all arbitrary. Downstream is not wrong from this perspective,=
+ you
+> >> > > > don't take into account that YUV420 is planar and it uses 3 plan=
+es a
+> >> > > > whole Y plane and 1/4 of U and V which in total results in wigth=
+ + 2 *
+> >> > > > 1/4 width which is width * 3/2
+> >> > >
+> >> > > Yes -- but AIUI, the only thing the bpp value is used for the byte=
+sperline calculation. When we add the special case for planar formats, whic=
+h doesn't use the bpp value, then the value 12 is never used anywhere. We s=
+hould at least have a comment saying it is unused. (At that point, we could=
+ just hardcode the bpp values in the fmt_align function -- but I don't mind=
+ either way.)
+> >> > >
+> >> > https://ffmpeg.org/pipermail/ffmpeg-user/2023-June/056488.html
+> >>
+> >> I understand very well that for YUV420, each pixel has 12 bits of colo=
+r information. But how many bits of color information each pixel has is not=
+ useful in the context of this driver. The number of bytes per line is not =
+related to how many bits of color information each pixel has for planar for=
+mats.
+> >
+> > No, it has direct impact. This is how buffer size / image size is
+> > calculated since we place each plane consecutive. And bytes per line
+> > is used specifically in image size calculation. This is common part
+> > with non-planar formats. Then since Tegra provides a dedicated
+> > channels/buffers for each plane, configuration of planar format
+> > includes an additional step with calculation for each plane.
+>
+> Sorry, I haven't followed the discussion in detail, but I tested you seri=
+es
+> on Tegra20 VIP and capture does not work, with a SIGSEGV in
+> gstreamer. Bisecting pointed to this as the first commit where the issue
+> happens.
+>
+> I compared the input and output values of tegra20_fmt_align() at this
+> commit and at the previous one, and this is the result:
+>
+>                        before this patch     with this patch
+>   At function entry:
+>   bpp                        1                     12
+>   pix->width                 640                   640
+>   pix->height                480                   480
+>
+>   On return:
+>   pix->bytesperline          640                   960
+>   pix->sizeimage             460800                460800
+>
+> I hope these info will help.
 
-  Linux 6.17-rc1 (2025-08-10 19:41:16 +0300)
+Which command did you use? I have tested with ffmpeg and
+yuv422/yuv420p and it worked perfectly fine.
 
-are available in the Git repository at:
-
-  git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git tags/staging-6.18-rc1-2
-
-for you to fetch changes up to 82a051e2553b9e297cba82a975d9c538b882c79e:
-
-  staging: axis-fifo: flush RX FIFO on read errors (2025-09-12 16:21:46 +0200)
-
-----------------------------------------------------------------
-Staging driver fixes for 6.18-rc1
-
-Here are some staging driver fixes that missed 6.17-final due to my
-travel schedule.  They fix a number of reported issues in the axis-fifo
-driver, one of which was just independently discovered by someone else
-today so someone is looking at this code.
-
-All of these fixes have been in linux-next for many weeks with no
-reported issues.
-
-Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-
-----------------------------------------------------------------
-Ovidiu Panait (3):
-      staging: axis-fifo: fix maximum TX packet length check
-      staging: axis-fifo: fix TX handling on copy_from_user() failure
-      staging: axis-fifo: flush RX FIFO on read errors
-
- drivers/staging/axis-fifo/axis-fifo.c | 68 ++++++++++++++++-------------------
- 1 file changed, 31 insertions(+), 37 deletions(-)
+> Best regards,
+> Luca
+>
+> --
+> Luca Ceresoli, Bootlin
+> Embedded Linux and Kernel engineering
+> https://bootlin.com
