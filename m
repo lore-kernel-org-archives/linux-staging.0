@@ -1,39 +1,43 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C6262EC560;
-	Wed,  8 Oct 2025 10:35:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 501EE183CA6;
+	Wed,  8 Oct 2025 10:38:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759919716; cv=none; b=kG57F1Icpf/emf2lNf7mKtlkgIFaC8qFWtZVRPaFZADzqyvLEkHZmAJ8Bd6sNnllSPVlgbz5XCdw0+t08AnhMVDizGmWBoYQjZhTRhxeGf8oyDTEt6+MP2bM90q35lBQlGYDbyyPpIwd9As+kv3zspEUqFlc1Sg+D4oHTu1I9iw=
+	t=1759919886; cv=none; b=V0yq9gT16KkzFLVENpxbccECS6IyO31pb2xweXh72hZZoPVI8xfT3jyKZdBvO05jTFad6bOgHndhQqQyyjtWZzkQ0/vs7cVbaoA0M7k1vO2lYKSyltU8IzbtA2iuu0SYSsvXvuOC6sHYRSMggWhYTR7ZGGwokUNcc97kBhmKkhM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759919716; c=relaxed/simple;
-	bh=eKipOXTHrNc1OdTzh4pva+hG4+Mk7E/fhYSndKp8ZVg=;
+	s=arc-20240116; t=1759919886; c=relaxed/simple;
+	bh=Ny8qsYWzCWkwa/+eWir34ici8htTmjY5B0egy+XBGDo=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=J7vVCdjgAjeSPpi56KVECKxzSVpXyBn236tXSlyAkWV7pYKcN7yLqHf0Ax8WCaVKTH7B0wIB0DiEXAGMdxJ5x6RrB3aAP+cC+qYHAi5iwndbgexAJWxUSJNpMYzGVtZgvUzne369C+i7uur0ubGsUrBZSKbtKrOEWzY2pdhsQY4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=iEF8aMoA; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZTGddlz5oAtTfthjb9STMMJC7kmW0iW2gGBGfOgJPJJ5c75o6Ge7XNmVsluSX27f1aUVEu420BmxabPVQARPdcfcVKeLkB+sBa3xNcMqFbDLJWiZb5K32dtzJcHyIe5kEnLZbjaxLZ26Qc1ABUtcjP+wPz0D28f8DbT4Y+eOIqI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=l/XOLhjk; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="iEF8aMoA"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 371AFC4CEF4;
-	Wed,  8 Oct 2025 10:35:15 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="l/XOLhjk"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3E5F7C4CEF4;
+	Wed,  8 Oct 2025 10:38:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1759919715;
-	bh=eKipOXTHrNc1OdTzh4pva+hG4+Mk7E/fhYSndKp8ZVg=;
+	s=korg; t=1759919885;
+	bh=Ny8qsYWzCWkwa/+eWir34ici8htTmjY5B0egy+XBGDo=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=iEF8aMoAGKSXq9PA6uDiSbiVL9GUW+JI/18n9rDm5UoPFo/wRKHKw35CIpzyMNZQU
-	 Fuwfu0TOC7rq9+zvdP71OvM+64XU/Y0geh7yIGGaY0vhc3CFRN25lXybYxpCbviyYf
-	 EYW8TpTTS0boSeo1AUOP+ZjFx2tgN8eLQf0pUnvI=
-Date: Wed, 8 Oct 2025 12:35:12 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Akiyoshi Kurita <weibu@redadmin.org>
-Cc: linux-staging@lists.linux.dev,
-	Florian Fainelli <florian.fainelli@broadcom.com>,
-	bcm-kernel-feedback-list@broadcom.com,
-	linux-rpi-kernel@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: vc04_services: mmal: fix typo in comment
-Message-ID: <2025100805-early-shindig-fc85@gregkh>
-References: <20250918115619.1616818-1-weibu@redadmin.org>
+	b=l/XOLhjkbT0d+ioqN56mJE9JiRHx8HvR9dQjM192Dg6iwwVSyZNzxGXXZrHsjqowF
+	 ku9+myVIGXIbWom33BzDIR1f4V9YP1l+EQFHUFVZUQzfyUDV3NTRrBC4j+/WLdZpRT
+	 xlxPdDB1xpBgrVdCg25aQNnSkVk2zG4dygQAM+kY=
+Date: Wed, 8 Oct 2025 12:38:02 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Ankit@web.codeaurora.org, Bhalani@web.codeaurora.org,
+	er.ankitbhalani@gmail.com
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	abrahamadekunle50@gmail.com, julia.lawall@inria.fr,
+	viro@zeniv.linux.org.uk, dan.carpenter@linaro.org,
+	zhaochenguang@kylinos.cn, straube.linux@gmail.com, mingo@kernel.org,
+	tglx@linutronix.de, philipp.g.hortmann@gmail.com,
+	vivek.balachandhar@gmail.com, rodrigo.gobbi.7@gmail.com,
+	hansg@kernel.org, nathan@kernel.org
+Subject: Re: [PATCH] staging: rtl8723bs: fix block comment style to match
+ kernel coding guidline
+Message-ID: <2025100823-outshine-evaluate-3be1@gregkh>
+References: <20251001134433.16513-1-er.ankitbhalani@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -42,33 +46,66 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250918115619.1616818-1-weibu@redadmin.org>
+In-Reply-To: <20251001134433.16513-1-er.ankitbhalani@gmail.com>
 
-On Thu, Sep 18, 2025 at 08:56:19PM +0900, Akiyoshi Kurita wrote:
-> Correct a misspelling in a comment ("recived" -> "received").
+On Wed, Oct 01, 2025 at 07:14:33PM +0530, Ankit@web.codeaurora.org wrote:
+> From: Ankit Bhalani <er.ankitbhalani@gmail.com>
 > 
-> No functional change.
+> Update block comments to follow the Linux kernel coding style
+> recommendations. This include:
 > 
-> Signed-off-by: Akiyoshi Kurita <weibu@redadmin.org>
+>  - Ensuring proper formatting and alignment for multi-line
+>    comments.
+> 
+> Signed-off-by: Ankit Bhalani <er.ankitbhalani@gmail.com>
 > ---
->  drivers/staging/vc04_services/vchiq-mmal/mmal-msg.h | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  .../staging/rtl8723bs/core/rtw_ieee80211.c    |  26 +++--
+>  drivers/staging/rtl8723bs/core/rtw_io.c       |  48 ++++-----
+>  drivers/staging/rtl8723bs/core/rtw_mlme.c     |  75 ++++++-------
+>  drivers/staging/rtl8723bs/core/rtw_mlme_ext.c | 102 ++++++++++--------
+>  drivers/staging/rtl8723bs/core/rtw_pwrctrl.c  |  10 +-
+>  drivers/staging/rtl8723bs/core/rtw_security.c |  87 +++++++--------
+>  .../staging/rtl8723bs/core/rtw_wlan_util.c    |   6 +-
+>  7 files changed, 186 insertions(+), 168 deletions(-)
 > 
-> diff --git a/drivers/staging/vc04_services/vchiq-mmal/mmal-msg.h b/drivers/staging/vc04_services/vchiq-mmal/mmal-msg.h
-> index 471413248a14..1889494425eb 100644
-> --- a/drivers/staging/vc04_services/vchiq-mmal/mmal-msg.h
-> +++ b/drivers/staging/vc04_services/vchiq-mmal/mmal-msg.h
-> @@ -13,7 +13,7 @@
+> diff --git a/drivers/staging/rtl8723bs/core/rtw_ieee80211.c b/drivers/staging/rtl8723bs/core/rtw_ieee80211.c
+> index 53d4c113b19c..c31e64600c0a 100644
+> --- a/drivers/staging/rtl8723bs/core/rtw_ieee80211.c
+> +++ b/drivers/staging/rtl8723bs/core/rtw_ieee80211.c
+> @@ -132,9 +132,11 @@ u8 *rtw_set_ie(u8 *pbuf,
+>  	return pbuf + len + 2;
+>  }
 >  
->  /*
->   * all the data structures which serialise the MMAL protocol. note
-> - * these are directly mapped onto the recived message data.
-> + * these are directly mapped onto the received message data.
->   *
->   * BEWARE: They seem to *assume* pointers are u32 and that there is no
->   * structure padding!
-> -- 
-> 2.47.3
-> 
+> -/*----------------------------------------------------------------------------
+> -index: the information element id index, limit is the limit for search
+> ------------------------------------------------------------------------------*/
+> +/*
+> + * ----------------------------------------------------------------------------
+> + * index: the information element id index, limit is the limit for search
+> + * ----------------------------------------------------------------------------
+> + */
+>  u8 *rtw_get_ie(u8 *pbuf, signed int index, signed int *len, signed int limit)
 
-Already sent by someone else before you, sorry :(
+This is an odd format for a function comment.  Can you make this look
+more "correct"?  All you are describing here is 2 of the variables and
+not what the function does at all.
+
+>  /*
+> -* Increase and check if the continual_io_error of this @param dvobjprive is larger than MAX_CONTINUAL_IO_ERR
+> -* @return true:
+> -* @return false:
+> -*/
+> + * Increase and check if the continual_io_error of this @param dvobjprive is larger than MAX_CONTINUAL_IO_ERR
+> + * @return true:
+> + * @return false:
+
+What does these last 2 lines mean?
+
+Again, if you are going to comment a function, let's use the documented
+way to do so.
+
+Same with other changes in this patch.
+
+thanks,
+
+greg k-h
