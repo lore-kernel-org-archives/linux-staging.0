@@ -1,310 +1,132 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F5B04A06;
-	Wed,  8 Oct 2025 21:22:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D01025DAFF
+	for <linux-staging@lists.linux.dev>; Thu,  9 Oct 2025 05:12:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759958573; cv=none; b=rb5JacrUgowqdzpI8M/ozm+HdEP61GnbWcCe9oeoTFdq1vZvYxEGCS6v2q0tkC9yv25zmt6gPpqH9hQCDwrLJUuhcv8uKXCIMT9URJg8CrTmVAPaQ4z7HAmO8c+j8pXPVy7QOcyCQfvxHKG20dS+jxhpO93OKjoi6DhNgaS4LnQ=
+	t=1759986746; cv=none; b=B9lekzDu6dFcIiVhNhwz81nR7hzyNApCE10bNScUtMMGe/OktjNThdSxVydilcuW/+SLRf+AI2U9HcRC+EoTH33InBxz4SvJHpPYmwM6+qG8iDkkJWIkYeXYLALWYFxmzEZbF6yRa85gcOWDsColNZpgE9DlPDL1DBozEhYve64=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759958573; c=relaxed/simple;
-	bh=sOcycTE/foc4/tAc4gOrV9tZDXRBT7DUDt7ayt+7Ris=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YbL/hVdFZ4a0fl13DWB5sLf0GyGcESseLnBhdLMRggLHlSix2QMUtGKBeMzW0/eoaBMkW4exVpj0ePIFy6F0Z39Wb8NPu5pyzPzg4bl/v5DZ4SeiWgMkfaSmzNPDYR14X2PVl2HHo5JTPvs1y0PPTI/ruh8cxeIQEIxxBBMNSTk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aVUTLXxW; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1759986746; c=relaxed/simple;
+	bh=g69ct24MmjxArPvb4htIE2j+DUcuAxYXbKaKt9nNwNo=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=J22c/Z2NJWU4kJD/MOl6cHFm0zvzba45lpe+sH6vtXBntB9ZFLhrC3vNOWEvbmmJ79JEWyplBVqXeYaAOtNOetyHKwFXL4eYjzW0DByt1PXJPcWYl3Pr5L95EYCI0CMQClXG2IlvZIn582sxz4lnmUdUO3RoSs0BRajquDWiWLc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mc1+tvlE; arc=none smtp.client-ip=209.85.221.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aVUTLXxW"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3D60BC4CEE7;
-	Wed,  8 Oct 2025 21:22:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1759958573;
-	bh=sOcycTE/foc4/tAc4gOrV9tZDXRBT7DUDt7ayt+7Ris=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=aVUTLXxWBoYM0/HW7KulNWhVQ5C7mB1Gqyqtqr/HQdQ1i+2hjgMjBAYEdpoJsaH+r
-	 zYkg4PHbCmxMDiBZPpVAoqHIKnS+WDjrGArjes3Dj0dwcCx9eM/jWACMc0rMDHBZox
-	 BGZJ4F1ysu6wMBkolk+pT/zbz/NTd7EzXdWEt19OsvluqIOoZaLzppDOWsgDsU+u7F
-	 oiz63lbePsa4CkbOlSDg3spbBhmYwAZ2OWOgTjm/Cun5cZ+CZwjbIOS9IhISdC2t8V
-	 d9aqR4hIL7TwFjuKNGv2Ff3JDWDvmIno2Q+P6elJXLmPL/VKEJdZva/TS+fIQGIWQN
-	 2RVJ62Ft1/fYw==
-Date: Wed, 8 Oct 2025 22:22:45 +0100
-From: Conor Dooley <conor@kernel.org>
-To: Svyatoslav Ryhel <clamor95@gmail.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	Sowjanya Komatineni <skomatineni@nvidia.com>,
-	Luca Ceresoli <luca.ceresoli@bootlin.com>,
-	Prashant Gaikwad <pgaikwad@nvidia.com>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>,
-	Mikko Perttunen <mperttunen@nvidia.com>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Jonas =?iso-8859-1?Q?Schw=F6bel?= <jonasschwoebel@yahoo.de>,
-	Dmitry Osipenko <digetx@gmail.com>,
-	Charan Pedumuru <charan.pedumuru@gmail.com>,
-	Diogo Ivo <diogo.ivo@tecnico.ulisboa.pt>,
-	Aaron Kling <webgeek1234@gmail.com>, Arnd Bergmann <arnd@arndb.de>,
-	dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
-	linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org, linux-clk@vger.kernel.org,
-	linux-gpio@vger.kernel.org, linux-staging@lists.linux.dev
-Subject: Re: [PATCH v4 22/24] dt-bindings: display: tegra: document Tegra20
- and Tegra30 CSI
-Message-ID: <20251008-broaden-antennae-02de66094ad3@spud>
-References: <20251008073046.23231-1-clamor95@gmail.com>
- <20251008073046.23231-23-clamor95@gmail.com>
- <20251008-canopener-marsupial-a92355b656ef@spud>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mc1+tvlE"
+Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-4060b4b1200so602643f8f.3
+        for <linux-staging@lists.linux.dev>; Wed, 08 Oct 2025 22:12:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1759986743; x=1760591543; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=MAc4vwDFuA0RvRFYPmaQPlYUcz1xA/Dd48r7PtXPvic=;
+        b=mc1+tvlEt+fY2njlO/Iz8dvHnYOlWdtPYoITylo/trZuMQdiODHGf4M5S1zdiZ/THC
+         Y6STnZ3b5qzRR7COyGSBbpYQEg9d486QrLA+ZpzAp7bkX/LsK/xuBr1gOyJNuGkZgya4
+         rQDzy2tjIv+CJMzAHKSrqC8A5UR5Sf+8P+23wtrJJ3OHLnUIzwgw8d43eDqlCFl4dF72
+         pZpJtbii1v0TkKDzJxs0bdS20I2Sm8mmUm+ZkbWwc6zrWoSpiSu6M43CknRznL++Lvnx
+         68TUq9MU+6vHMVA6HlRYgq7QoOqcVUxApPEA724VkE3T4qOJQ0mDnmDexFTwAkkClEy0
+         KOzg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1759986743; x=1760591543;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=MAc4vwDFuA0RvRFYPmaQPlYUcz1xA/Dd48r7PtXPvic=;
+        b=lDY/DvKY5uCKptaBdmyRaHB3IdVx3yZERIjkcSfBqpaqXMu67YIegLJOrseWGfkAkO
+         u8ou8zqx7d+wmluCWeQE2TyGQE+3eOPGofTMFxiXF0muQL4BRE+6zrdjzy53t9T/j8rd
+         yt88i2KMQYD2ACeJasQnmCh7ODfNSzPhhE4CdQTyZo0zeNDv2xZWP5A8n/mXJsO8BhDQ
+         mT/ZQQcDiEItLSZLEdw+FoJ16emmf84sr0PxcOTqVeN2ipaAtep5pTFY72JEMgZ2o+oh
+         VpDuGpD1vWWT1H9VaxWt7NEUXvigyM0vs88LIWALHsk4WjKtHByJsWyCSARVyFxFlhM3
+         d4Fg==
+X-Forwarded-Encrypted: i=1; AJvYcCUBagrKBIsxg5wENfnJ5bjVoGILw4dVqcrwDyKIPtrW8Sluo9fK5+ghxbJUDwDMYkn5+qAEIJpXIQ7eu3Od@lists.linux.dev
+X-Gm-Message-State: AOJu0Yw/GoQysKltKoKAVVT4KqkCALQzAR9mOaL1i9yv2Svpds8RFQek
+	nTR8qAxNWz5QxJc8tpdGzgYsDDTTeNFnWbP/Y3oKUwCaxE2iYbxJkqO3Iv3G85KasBX4dNQD9fg
+	wDZp/ymHrOKxOYzW7YLGy4sOiWX8IrOE=
+X-Gm-Gg: ASbGncuSWdmpWuo8W6xP6BwslDLznkd8DjWTSvDgr1k/3qFnObFx9T+gk6hUUhosMoc
+	ZvtOp4vn7A8H7NIC5HBW11zGJ/Tme4lDjbwk1vMCM/7UZ8Il9mJlqJU5wF2qpQl19Cl/ivLnQ6w
+	rt5UYXQBbxFMb2kp5R36Xnn9lkDl5W6NJZh/OLRxRkn6rYl3fcI/WsErPL1oSZhSIy3BMiwpJ09
+	xF59USy8mz90yR9DMgWjJJgRT9ot9Ic
+X-Google-Smtp-Source: AGHT+IHEqPFGpsLkjdTJExInkzeCUrYeoBDzsTotN3s9CHFAoYRfgbeWdXnEHXE7zwgYrarYKck5hazoT/ajbub9quM=
+X-Received: by 2002:a05:6000:1a85:b0:3eb:60a6:3167 with SMTP id
+ ffacd0b85a97d-4266e8f7f02mr3364005f8f.32.1759986742670; Wed, 08 Oct 2025
+ 22:12:22 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="RwPRYaE9Gdjg3a7O"
-Content-Disposition: inline
-In-Reply-To: <20251008-canopener-marsupial-a92355b656ef@spud>
-
-
---RwPRYaE9Gdjg3a7O
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <20251008073046.23231-1-clamor95@gmail.com> <20251008073046.23231-12-clamor95@gmail.com>
+ <20251008-craving-composite-81aa70b6e882@spud>
+In-Reply-To: <20251008-craving-composite-81aa70b6e882@spud>
+From: Svyatoslav Ryhel <clamor95@gmail.com>
+Date: Thu, 9 Oct 2025 08:12:11 +0300
+X-Gm-Features: AS18NWCooDACEZg9v1dc4kKxxOAalz7xHeMkJMNqgQiJE_XE0BU4PgbUW_JYKFI
+Message-ID: <CAPVz0n1OEA=WHTzBtVBLQ=6vTAwG_uP1tC3Vbrb67wZDUtyVYA@mail.gmail.com>
+Subject: Re: [PATCH v4 11/24] dt-bindings: display: tegra: document Tegra132
+ MIPI calibration device
+To: Conor Dooley <conor@kernel.org>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Thierry Reding <thierry.reding@gmail.com>, Jonathan Hunter <jonathanh@nvidia.com>, 
+	Sowjanya Komatineni <skomatineni@nvidia.com>, Luca Ceresoli <luca.ceresoli@bootlin.com>, 
+	Prashant Gaikwad <pgaikwad@nvidia.com>, Michael Turquette <mturquette@baylibre.com>, 
+	Stephen Boyd <sboyd@kernel.org>, Mikko Perttunen <mperttunen@nvidia.com>, 
+	Linus Walleij <linus.walleij@linaro.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, =?UTF-8?Q?Jonas_Schw=C3=B6bel?= <jonasschwoebel@yahoo.de>, 
+	Dmitry Osipenko <digetx@gmail.com>, Charan Pedumuru <charan.pedumuru@gmail.com>, 
+	Diogo Ivo <diogo.ivo@tecnico.ulisboa.pt>, Aaron Kling <webgeek1234@gmail.com>, 
+	Arnd Bergmann <arnd@arndb.de>, dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
+	linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-media@vger.kernel.org, linux-clk@vger.kernel.org, 
+	linux-gpio@vger.kernel.org, linux-staging@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Oct 08, 2025 at 10:21:06PM +0100, Conor Dooley wrote:
-> On Wed, Oct 08, 2025 at 10:30:44AM +0300, Svyatoslav Ryhel wrote:
-> > Document CSI HW block found in Tegra20 and Tegra30 SoC.
-> >=20
-> > The #nvidia,mipi-calibrate-cells is not an introduction of property, su=
-ch
-> > property already exists in nvidia,tegra114-mipi.yaml and is used in
-> > multiple device trees. In case of Tegra30 and Tegra20 CSI block combines
-> > mipi calibration function and CSI function, in Tegra114+ mipi calibrati=
-on
-> > got a dedicated hardware block which is already supported. This property
-> > here is used to align with mipi-calibration logic used by Tegra114+.
-> >=20
+=D1=87=D1=82, 9 =D0=B6=D0=BE=D0=B2=D1=82. 2025=E2=80=AF=D1=80. =D0=BE 00:14=
+ Conor Dooley <conor@kernel.org> =D0=BF=D0=B8=D1=88=D0=B5:
+>
+> On Wed, Oct 08, 2025 at 10:30:33AM +0300, Svyatoslav Ryhel wrote:
+> > Document MIPI calibration device found in Tegra132.
+>
+> Could you explain why a fallback is not suitable? The patchset is really
+> too big for me to trivially check that the change is correct.
+
+First of all, this compatible already exists in Linux kernel, I have
+just documented it to satisfy warnings. Secondly, each Tegra SoC
+generation has unique set of registers which should be configured.
+They all differ, hence fallback is not suitable here.
+
+> With an explanation,
+> Acked-by: Conor Dooley <conor.dooley@microchip.com>
+>
+> >
 > > Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
 > > ---
-> >  .../display/tegra/nvidia,tegra20-csi.yaml     | 135 ++++++++++++++++++
-> >  1 file changed, 135 insertions(+)
-> >  create mode 100644 Documentation/devicetree/bindings/display/tegra/nvi=
-dia,tegra20-csi.yaml
-> >=20
+> >  .../devicetree/bindings/display/tegra/nvidia,tegra114-mipi.yaml  | 1 +
+> >  1 file changed, 1 insertion(+)
+> >
 > > diff --git a/Documentation/devicetree/bindings/display/tegra/nvidia,teg=
-ra20-csi.yaml b/Documentation/devicetree/bindings/display/tegra/nvidia,tegr=
-a20-csi.yaml
-> > new file mode 100644
-> > index 000000000000..817b3097846b
-> > --- /dev/null
-> > +++ b/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-cs=
-i.yaml
-> > @@ -0,0 +1,135 @@
-> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> > +%YAML 1.2
-> > +---
-> > +$id: http://devicetree.org/schemas/display/tegra/nvidia,tegra20-csi.ya=
-ml#
-> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > +
-> > +title: NVIDIA Tegra20 CSI controller
-> > +
-> > +maintainers:
-> > +  - Svyatoslav Ryhel <clamor95@gmail.com>
-> > +
-> > +properties:
-> > +  compatible:
-> > +    enum:
-> > +      - nvidia,tegra20-csi
-> > +      - nvidia,tegra30-csi
-> > +
-> > +  reg:
-> > +    maxItems: 1
-> > +
-> > +  clocks: true
-> > +  clock-names: true
-> > +
-> > +  avdd-dsi-csi-supply:
-> > +    description: DSI/CSI power supply. Must supply 1.2 V.
-> > +
-> > +  power-domains:
-> > +    maxItems: 1
-> > +
-> > +  "#nvidia,mipi-calibrate-cells":
-> > +    description:
-> > +      The number of cells in a MIPI calibration specifier. Should be 1.
-> > +      The single cell specifies an id of the pad that need to be
-> > +      calibrated for a given device. Valid pad ids for receiver would =
-be
-> > +      0 for CSI-A; 1 for CSI-B; 2 for DSI-A and 3 for DSI-B.
-> > +    $ref: /schemas/types.yaml#/definitions/uint32
-> > +    const: 1
-> > +
-> > +  "#address-cells":
-> > +    const: 1
-> > +
-> > +  "#size-cells":
-> > +    const: 0
-> > +
-> > +patternProperties:
-> > +  "^channel@[0-1]$":
-> > +    type: object
-> > +    description: channel 0 represents CSI-A and 1 represents CSI-B
-> > +    additionalProperties: false
-> > +
-> > +    properties:
-> > +      reg:
-> > +        maximum: 1
-> > +
-> > +      nvidia,mipi-calibrate:
-> > +        description: Should contain a phandle and a specifier specifyi=
-ng
-> > +          which pad is used by this CSI channel and needs to be calibr=
-ated.
-> > +        $ref: /schemas/types.yaml#/definitions/phandle-array
-> > +
-> > +      "#address-cells":
-> > +        const: 1
-> > +
-> > +      "#size-cells":
-> > +        const: 0
-> > +
-> > +      port@0:
-> > +        $ref: /schemas/graph.yaml#/$defs/port-base
-> > +        unevaluatedProperties: false
-> > +        description: port receiving the video stream from the sensor
-> > +
-> > +        properties:
-> > +          endpoint:
-> > +            $ref: /schemas/media/video-interfaces.yaml#
-> > +            unevaluatedProperties: false
-> > +
-> > +            required:
-> > +              - data-lanes
-> > +
-> > +      port@1:
-> > +        $ref: /schemas/graph.yaml#/properties/port
-> > +        description: port sending the video stream to the VI
-> > +
-> > +    required:
-> > +      - reg
-> > +      - "#address-cells"
-> > +      - "#size-cells"
-> > +      - port@0
-> > +      - port@1
-> > +
-> > +allOf:
-> > +  - if:
-> > +      properties:
-> > +        compatible:
-> > +          contains:
-> > +            enum:
-> > +              - nvidia,tegra20-csi
-> > +    then:
-> > +      properties:
-> > +        clocks:
-> > +          items:
-> > +            - description: module clock
-> > +
-> > +        clock-names: false
-> > +
-> > +  - if:
-> > +      properties:
-> > +        compatible:
-> > +          contains:
-> > +            enum:
-> > +              - nvidia,tegra30-csi
-> > +    then:
-> > +      properties:
-> > +        clocks:
-> > +          items:
-> > +            - description: module clock
-> > +            - description: PAD A clock
-> > +            - description: PAD B clock
-> > +
-> > +        clock-names:
-> > +          items:
-> > +            - const: csi
-> > +            - const: csia-pad
-> > +            - const: csib-pad
->=20
-> This clocks section seems like it could get simpler. Since the clock
-> descriptions are shared, and tegra20 has no clock-names, you could just
-> move the detail of the properties out to where you have the ": true"
-> stuff (we prefer that properties are defined outside of if/then/else
-> blocks) and just restrict them here. For tegra20 that'd be
->=20
-> if:
->   properties:
->     compatible:
->       contains:
->         enum:
->           - nvidia,tegra20-csi
-> then:
->   properties:
->     clocks:
->       maxItems: 1
->=20
->     clock-names: false
->=20
-> (although it could easily be maxItems: 1 ?)
-> and for tegra30
->=20
-> if:
->   properties:
->     compatible:
->       contains:
->         enum:
->           - nvidia,tegra30-csi
-> then:
->   properties:
->     clocks:
->       minItems: 3
->=20
->     clock-names:
->       maxItems: 3
->=20
-> Of course you'd then have to add minItems: 1 and maxItems: 3 to the
-> extracted definitions.
-
-Oh, also: if you want clock-names to ever actually be usable, you have
-to require it. Otherwise a driver must be written to handle it not being
-there.
-
-> > +additionalProperties: false
-> > +
-> > +required:
-> > +  - compatible
-> > +  - reg
-> > +  - clocks
-> > +  - power-domains
-> > +  - "#address-cells"
-> > +  - "#size-cells"
-> > +
-> > +# see nvidia,tegra20-vi.yaml for an example
-> > --=20
+ra114-mipi.yaml b/Documentation/devicetree/bindings/display/tegra/nvidia,te=
+gra114-mipi.yaml
+> > index 193ddb105283..9a500f52f01d 100644
+> > --- a/Documentation/devicetree/bindings/display/tegra/nvidia,tegra114-m=
+ipi.yaml
+> > +++ b/Documentation/devicetree/bindings/display/tegra/nvidia,tegra114-m=
+ipi.yaml
+> > @@ -18,6 +18,7 @@ properties:
+> >      enum:
+> >        - nvidia,tegra114-mipi
+> >        - nvidia,tegra124-mipi
+> > +      - nvidia,tegra132-mipi
+> >        - nvidia,tegra210-mipi
+> >        - nvidia,tegra186-mipi
+> >
+> > --
 > > 2.48.1
-> >=20
-
-
-
---RwPRYaE9Gdjg3a7O
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCaObWJQAKCRB4tDGHoIJi
-0rdMAP0bO7fuCRBzgXRuU9adBFwpVmla4J/0SDMk3NczvgKdfQD/XkdtkeingVqx
-rtKfHJ5Y7NcgOigGl5g3m0wmDawYkQg=
-=/lHa
------END PGP SIGNATURE-----
-
---RwPRYaE9Gdjg3a7O--
+> >
