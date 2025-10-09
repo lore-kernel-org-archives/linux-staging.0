@@ -1,365 +1,281 @@
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C2B225D53C
-	for <linux-staging@lists.linux.dev>; Thu,  9 Oct 2025 05:35:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCF6C241CB7;
+	Thu,  9 Oct 2025 11:11:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759988138; cv=none; b=pphTXLTrzdk50f4m/Oh/HhL/ukf9s09dSKhDbRF0syQrZKwiF/5x0VYXBR3BfCfOhsPdtp/o++ecPqH/ST8uBufxLd9XAzepRaa/wRHRVGoHlbt00PqOvLotX2uSE0e0q303BPTNmxYOdcvhf/rO7/RhL3SSHq5ZBrCK92kOVuE=
+	t=1760008315; cv=none; b=Xoa7zld9e0v/UqC6lzYMCKY1Wxfvt8iFS6jeJIBPd9cQkmU0ClUj2GBUYyNjLi1odGxiab6Clxed0j3xSSoALnzzGrTxNJGF6EMB7SsA1e+bIHYhy+ZyqCnnLpCtFAVBcRgiInIM/d+Qz1TxLGQUV0Gc2M2GKJmdG6itYP7YmgM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759988138; c=relaxed/simple;
-	bh=BTgTHwCRBA2rpvydRjKgExKMcfvUeqSUe1HHihN2Z4g=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=T5YsteC4Ibmt0Uz3ZzndqmnGDyyIB14QLAY/InlrfaH/4UhB/rjZqF82sPRcCBeZdw0J0s45gPruPuS6PYh5tZAMCEhSncX1cFZt73qn1sMPAdk1sKKwZP4eB1UZgujTInGPdwGbhxFc77enAsPTWLzHBNpvogqinkqz+68yJH0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Iwzd4B/j; arc=none smtp.client-ip=209.85.221.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1760008315; c=relaxed/simple;
+	bh=hHz8YdtHioPSOVwHRJYVN90dGjplXI5Vmj7Mglb6IE8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=bLTnQrAZeG/+kbU10fdIEI5MuzTwpAkWZ5Xl9vr+b8mTPaH8Ruj6Ew57qPu74mrhRKcT+x+7UebE5nRUTaH3K2mHZs7Pi4jSdmjfmGf5ZLKChzZh1QvbzRtSfQ4JLnckC5n9SXgtOLGcM7Yb1UpAPB2BsDEY9XwLl3nsGnoSP4k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=Pyv/kJxz; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Iwzd4B/j"
-Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-421851bcb25so251067f8f.2
-        for <linux-staging@lists.linux.dev>; Wed, 08 Oct 2025 22:35:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1759988134; x=1760592934; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=wojdy8oISaReFb3V/aujCr+dYfQppmzTEbdq6Sq+uyc=;
-        b=Iwzd4B/jPinoUcLYtT8e4xqIV331P7ybSes7W8oqio60z1K/AYLVO39x3iNtIMc5Vn
-         HQtynaG4Qvytg+m72EHD5sd6IDSh1dUmYeC815IgNDL32BPjPZGVOP4KyVQpAfhuFsrh
-         LxMM5iejgImg+t60mMKL0SFtGpxY43Lmedprc7oeWXzAgCHaURj2RKeB9WFUj1TjGhT/
-         R9sxnD6f9nmep3UZbuFiDVac0oJZWMnXy6Uvh6q05bO/kuspjHljWOJRczTtFa+fFKmv
-         Fyd4z4b2Mad2J/pDYjJKdV6w/TuMnM5EaxhTtxstFMpN7j/VLFqWKX4Cm4i4Hts2WXSe
-         LF8Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759988134; x=1760592934;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=wojdy8oISaReFb3V/aujCr+dYfQppmzTEbdq6Sq+uyc=;
-        b=gIJTxy+IGwWjGxwuiRLWU2mMKd4YgtTA/ianBn3fb1Ip33ijLi1cs2gYnlaE8BJhd4
-         Mg4kTo1jQjGVmqXAJ3x9FoByn+fm6v+uyPTo9r5fej08wHCv2Z/cJSgQz3RLfAUMOp/7
-         pKBzr89Tn4x18NA7T/4YwdBc9UhH+FSSmngayIIbNnzCEuHxdzVM8epsdt5Q8A+3k/Yn
-         /asvRqGTTzdWItET5YtHzekEwg15I5As4i8KszN+DFNv/qOk59EnDTFOJvgOzlw9gj6w
-         U8GNC1WDfleoknK+fJw1RgCqU73xzhCNYXVjHr+Z4l2l5YqLYoGD48lrQHC3AcrioeBw
-         xW3A==
-X-Forwarded-Encrypted: i=1; AJvYcCXo2oZTzJnBsP7TBqwdCSjWnNi4IaJeAKwFQIqQ4Fg2DXG3gFpfDbO/Shdjl9U+IM/SMCa1STAnTVhqkX/c@lists.linux.dev
-X-Gm-Message-State: AOJu0YwVhUBApQ6B+FHqGa70Z6jkrjzEnUxw3UP6En08EX0R/pIMu4eu
-	IAKbKwcv5axISxYQAgCb06K6Jrl+bcsjWaQfZFuKR6x8+aHw+txDofOqcwnzC97FQkAFbAE/aWs
-	20KBGmkOUhjCZJFw0jOc542ame/rc/Gg=
-X-Gm-Gg: ASbGnctb5pnItQwZwS5CLN1SXyJr28FdadhkTq9sUnqWYsd3QKWsYLLTY3aDRZovmJV
-	o8JzJQP/3cIEs7BOzFHcaT1f9tBVLqRIjRPHWSAK8sxqHWDgrovamsZr0/dHlC7JTvFjgogr9l2
-	KiXHGj+VQ11onALu8WL8/5GUBKTPo/tbXKP9xBmHzpgPPPR+6wbkc8v//sMAz+dpTDdB831vkAe
-	zvFxWD95nttx6O/Y9lPiY6DOtlc9yxRk1oLO/rNX6A=
-X-Google-Smtp-Source: AGHT+IGSKa0WWY8sQb7NirdhuUY9zlBVWAF8olfr4D2aOoKgmjKIIKXTBxs4oAP40QHdR3v89s2ItSY5dd09ZKpNd5w=
-X-Received: by 2002:a05:6000:186c:b0:3ed:e1d8:bd68 with SMTP id
- ffacd0b85a97d-42666ac6107mr3102943f8f.7.1759988134193; Wed, 08 Oct 2025
- 22:35:34 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="Pyv/kJxz"
+Received: from pendragon.ideasonboard.com (82-203-166-19.bb.dnainternet.fi [82.203.166.19])
+	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 84018965;
+	Thu,  9 Oct 2025 13:10:15 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1760008215;
+	bh=hHz8YdtHioPSOVwHRJYVN90dGjplXI5Vmj7Mglb6IE8=;
+	h=From:To:Cc:Subject:Date:From;
+	b=Pyv/kJxz95Ui53C0pDU9sxoFjf0lXr36X+jpVrdRnVmSfnPYQ8mf0E0TIyJV+asyy
+	 ViTKOlbKiqc6JELvOZGMspBZH6b9tDA6c1El3DncWGcXlFPkxa74Wtl7fIGKjfUI2r
+	 G8W3cga/15Td3/GqHNkAkIF7JVNtktCe9D7DMPcU=
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: linux-media@vger.kernel.org,
+	imx@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org,
+	linux-rockchip@lists.infradead.org,
+	linux-staging@lists.linux.dev,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-sunxi@lists.linux.dev
+Cc: Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+	Andrzej Pietrasiewicz <andrzejtp2010@gmail.com>,
+	Bin Liu <bin.liu@mediatek.com>,
+	Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+	Hans Verkuil <hverkuil@kernel.org>,
+	Jacob Chen <jacob-chen@iotwrt.com>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Jiasheng Jiang <jiashengjiangcool@gmail.com>,
+	Matthew Majewski <mattwmajewski@gmail.com>,
+	Mirela Rabulea <mirela.rabulea@nxp.com>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Steve Longerbeam <slongerbeam@gmail.com>,
+	=?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>,
+	Xavier Roumegue <xavier.roumegue@oss.nxp.com>
+Subject: [PATCH] media: v4l2-mem2mem: Don't copy frame flags for frame-based devices
+Date: Thu,  9 Oct 2025 14:11:43 +0300
+Message-ID: <20251009111143.9137-1-laurent.pinchart@ideasonboard.com>
+X-Mailer: git-send-email 2.49.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20251008073046.23231-1-clamor95@gmail.com> <20251008073046.23231-23-clamor95@gmail.com>
- <20251008-canopener-marsupial-a92355b656ef@spud> <20251008-broaden-antennae-02de66094ad3@spud>
-In-Reply-To: <20251008-broaden-antennae-02de66094ad3@spud>
-From: Svyatoslav Ryhel <clamor95@gmail.com>
-Date: Thu, 9 Oct 2025 08:35:22 +0300
-X-Gm-Features: AS18NWAoEWc39K5OD4GIBOR3Awt1LVDq6NQUxGEQwh6PoTXJKtyEajbgSJmBgBo
-Message-ID: <CAPVz0n1NYL+t-KC1FwHYXuQ0C483ay3g8zP4SmBKVC2rh=x4Bg@mail.gmail.com>
-Subject: Re: [PATCH v4 22/24] dt-bindings: display: tegra: document Tegra20
- and Tegra30 CSI
-To: Conor Dooley <conor@kernel.org>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Thierry Reding <thierry.reding@gmail.com>, Jonathan Hunter <jonathanh@nvidia.com>, 
-	Sowjanya Komatineni <skomatineni@nvidia.com>, Luca Ceresoli <luca.ceresoli@bootlin.com>, 
-	Prashant Gaikwad <pgaikwad@nvidia.com>, Michael Turquette <mturquette@baylibre.com>, 
-	Stephen Boyd <sboyd@kernel.org>, Mikko Perttunen <mperttunen@nvidia.com>, 
-	Linus Walleij <linus.walleij@linaro.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, =?UTF-8?Q?Jonas_Schw=C3=B6bel?= <jonasschwoebel@yahoo.de>, 
-	Dmitry Osipenko <digetx@gmail.com>, Charan Pedumuru <charan.pedumuru@gmail.com>, 
-	Diogo Ivo <diogo.ivo@tecnico.ulisboa.pt>, Aaron Kling <webgeek1234@gmail.com>, 
-	Arnd Bergmann <arnd@arndb.de>, dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
-	linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-media@vger.kernel.org, linux-clk@vger.kernel.org, 
-	linux-gpio@vger.kernel.org, linux-staging@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-=D1=87=D1=82, 9 =D0=B6=D0=BE=D0=B2=D1=82. 2025=E2=80=AF=D1=80. =D0=BE 00:22=
- Conor Dooley <conor@kernel.org> =D0=BF=D0=B8=D1=88=D0=B5:
->
-> On Wed, Oct 08, 2025 at 10:21:06PM +0100, Conor Dooley wrote:
-> > On Wed, Oct 08, 2025 at 10:30:44AM +0300, Svyatoslav Ryhel wrote:
-> > > Document CSI HW block found in Tegra20 and Tegra30 SoC.
-> > >
-> > > The #nvidia,mipi-calibrate-cells is not an introduction of property, =
-such
-> > > property already exists in nvidia,tegra114-mipi.yaml and is used in
-> > > multiple device trees. In case of Tegra30 and Tegra20 CSI block combi=
-nes
-> > > mipi calibration function and CSI function, in Tegra114+ mipi calibra=
-tion
-> > > got a dedicated hardware block which is already supported. This prope=
-rty
-> > > here is used to align with mipi-calibration logic used by Tegra114+.
-> > >
-> > > Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
-> > > ---
-> > >  .../display/tegra/nvidia,tegra20-csi.yaml     | 135 ++++++++++++++++=
-++
-> > >  1 file changed, 135 insertions(+)
-> > >  create mode 100644 Documentation/devicetree/bindings/display/tegra/n=
-vidia,tegra20-csi.yaml
-> > >
-> > > diff --git a/Documentation/devicetree/bindings/display/tegra/nvidia,t=
-egra20-csi.yaml b/Documentation/devicetree/bindings/display/tegra/nvidia,te=
-gra20-csi.yaml
-> > > new file mode 100644
-> > > index 000000000000..817b3097846b
-> > > --- /dev/null
-> > > +++ b/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-=
-csi.yaml
-> > > @@ -0,0 +1,135 @@
-> > > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> > > +%YAML 1.2
-> > > +---
-> > > +$id: http://devicetree.org/schemas/display/tegra/nvidia,tegra20-csi.=
-yaml#
-> > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > > +
-> > > +title: NVIDIA Tegra20 CSI controller
-> > > +
-> > > +maintainers:
-> > > +  - Svyatoslav Ryhel <clamor95@gmail.com>
-> > > +
-> > > +properties:
-> > > +  compatible:
-> > > +    enum:
-> > > +      - nvidia,tegra20-csi
-> > > +      - nvidia,tegra30-csi
-> > > +
-> > > +  reg:
-> > > +    maxItems: 1
-> > > +
-> > > +  clocks: true
-> > > +  clock-names: true
-> > > +
-> > > +  avdd-dsi-csi-supply:
-> > > +    description: DSI/CSI power supply. Must supply 1.2 V.
-> > > +
-> > > +  power-domains:
-> > > +    maxItems: 1
-> > > +
-> > > +  "#nvidia,mipi-calibrate-cells":
-> > > +    description:
-> > > +      The number of cells in a MIPI calibration specifier. Should be=
- 1.
-> > > +      The single cell specifies an id of the pad that need to be
-> > > +      calibrated for a given device. Valid pad ids for receiver woul=
-d be
-> > > +      0 for CSI-A; 1 for CSI-B; 2 for DSI-A and 3 for DSI-B.
-> > > +    $ref: /schemas/types.yaml#/definitions/uint32
-> > > +    const: 1
-> > > +
-> > > +  "#address-cells":
-> > > +    const: 1
-> > > +
-> > > +  "#size-cells":
-> > > +    const: 0
-> > > +
-> > > +patternProperties:
-> > > +  "^channel@[0-1]$":
-> > > +    type: object
-> > > +    description: channel 0 represents CSI-A and 1 represents CSI-B
-> > > +    additionalProperties: false
-> > > +
-> > > +    properties:
-> > > +      reg:
-> > > +        maximum: 1
-> > > +
-> > > +      nvidia,mipi-calibrate:
-> > > +        description: Should contain a phandle and a specifier specif=
-ying
-> > > +          which pad is used by this CSI channel and needs to be cali=
-brated.
-> > > +        $ref: /schemas/types.yaml#/definitions/phandle-array
-> > > +
-> > > +      "#address-cells":
-> > > +        const: 1
-> > > +
-> > > +      "#size-cells":
-> > > +        const: 0
-> > > +
-> > > +      port@0:
-> > > +        $ref: /schemas/graph.yaml#/$defs/port-base
-> > > +        unevaluatedProperties: false
-> > > +        description: port receiving the video stream from the sensor
-> > > +
-> > > +        properties:
-> > > +          endpoint:
-> > > +            $ref: /schemas/media/video-interfaces.yaml#
-> > > +            unevaluatedProperties: false
-> > > +
-> > > +            required:
-> > > +              - data-lanes
-> > > +
-> > > +      port@1:
-> > > +        $ref: /schemas/graph.yaml#/properties/port
-> > > +        description: port sending the video stream to the VI
-> > > +
-> > > +    required:
-> > > +      - reg
-> > > +      - "#address-cells"
-> > > +      - "#size-cells"
-> > > +      - port@0
-> > > +      - port@1
-> > > +
-> > > +allOf:
-> > > +  - if:
-> > > +      properties:
-> > > +        compatible:
-> > > +          contains:
-> > > +            enum:
-> > > +              - nvidia,tegra20-csi
-> > > +    then:
-> > > +      properties:
-> > > +        clocks:
-> > > +          items:
-> > > +            - description: module clock
-> > > +
-> > > +        clock-names: false
-> > > +
-> > > +  - if:
-> > > +      properties:
-> > > +        compatible:
-> > > +          contains:
-> > > +            enum:
-> > > +              - nvidia,tegra30-csi
-> > > +    then:
-> > > +      properties:
-> > > +        clocks:
-> > > +          items:
-> > > +            - description: module clock
-> > > +            - description: PAD A clock
-> > > +            - description: PAD B clock
-> > > +
-> > > +        clock-names:
-> > > +          items:
-> > > +            - const: csi
-> > > +            - const: csia-pad
-> > > +            - const: csib-pad
-> >
-> > This clocks section seems like it could get simpler. Since the clock
-> > descriptions are shared, and tegra20 has no clock-names, you could just
-> > move the detail of the properties out to where you have the ": true"
-> > stuff (we prefer that properties are defined outside of if/then/else
-> > blocks) and just restrict them here. For tegra20 that'd be
-> >
-> > if:
-> >   properties:
-> >     compatible:
-> >       contains:
-> >         enum:
-> >           - nvidia,tegra20-csi
-> > then:
-> >   properties:
-> >     clocks:
-> >       maxItems: 1
-> >
-> >     clock-names: false
-> >
-> > (although it could easily be maxItems: 1 ?)
-> > and for tegra30
-> >
-> > if:
-> >   properties:
-> >     compatible:
-> >       contains:
-> >         enum:
-> >           - nvidia,tegra30-csi
-> > then:
-> >   properties:
-> >     clocks:
-> >       minItems: 3
-> >
-> >     clock-names:
-> >       maxItems: 3
-> >
-> > Of course you'd then have to add minItems: 1 and maxItems: 3 to the
-> > extracted definitions.
+The v4l2_m2m_buf_copy_metadata() function takes a boolean
+copy_frame_flags argument. When true, it causes the function to copy the
+V4L2_BUF_FLAG_KEYFRAME, V4L2_BUF_FLAG_BFRAME and V4L2_BUF_FLAG_PFRAME
+flags from the output buffer to the capture buffer.
 
-What do you mean by your last statement? Add minItems: 1 and maxItems:
-3 like this?
+Many frame-based M2M drivers (e.g. for JPEG encoders, scalers,
+dewarpers, 2D blenders, ...) set the argument to true, while the frame
+flags are not applicable to those drivers as they have no concept of
+key, B or P frames. Set the argument to false to avoid further
+cargo-cult mistakes.
 
-This does to common properties
-  clocks:
-    minItems: 1
-    maxItems: 3
-    items:
-      - description: module clock
-      - description: PAD A clock
-      - description: PAD B clock
+Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+---
+ drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c     | 4 ++--
+ drivers/media/platform/mediatek/jpeg/mtk_jpeg_dec_hw.c   | 4 ++--
+ drivers/media/platform/mediatek/jpeg/mtk_jpeg_enc_hw.c   | 4 ++--
+ drivers/media/platform/mediatek/mdp3/mtk-mdp3-m2m.c      | 2 +-
+ drivers/media/platform/nxp/dw100/dw100.c                 | 2 +-
+ drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c           | 2 +-
+ drivers/media/platform/rockchip/rga/rga.c                | 2 +-
+ drivers/media/platform/st/stm32/dma2d/dma2d.c            | 2 +-
+ drivers/media/platform/sunxi/sun8i-di/sun8i-di.c         | 2 +-
+ drivers/media/platform/sunxi/sun8i-rotate/sun8i_rotate.c | 2 +-
+ drivers/media/test-drivers/vim2m.c                       | 2 +-
+ drivers/staging/media/imx/imx-media-csc-scaler.c         | 2 +-
+ 12 files changed, 15 insertions(+), 15 deletions(-)
 
-  clock-names:
-    minItems: 1
-    maxItems: 3
-    items:
-      - const: csi
-      - const: csia-pad
-      - const: csib-pad
+diff --git a/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c b/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c
+index 35c70ec3ad2c..6bd5036430dc 100644
+--- a/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c
++++ b/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c
+@@ -1619,7 +1619,7 @@ static void mtk_jpegenc_worker(struct work_struct *work)
+ 	if (!dst_buf)
+ 		goto getbuf_fail;
+ 
+-	v4l2_m2m_buf_copy_metadata(src_buf, dst_buf, true);
++	v4l2_m2m_buf_copy_metadata(src_buf, dst_buf, false);
+ 
+ 	mtk_jpegenc_set_hw_param(ctx, hw_id, src_buf, dst_buf);
+ 	ret = pm_runtime_get_sync(comp_jpeg[hw_id]->dev);
+@@ -1715,7 +1715,7 @@ static void mtk_jpegdec_worker(struct work_struct *work)
+ 	if (!dst_buf)
+ 		goto getbuf_fail;
+ 
+-	v4l2_m2m_buf_copy_metadata(src_buf, dst_buf, true);
++	v4l2_m2m_buf_copy_metadata(src_buf, dst_buf, false);
+ 	jpeg_src_buf = mtk_jpeg_vb2_to_srcbuf(&src_buf->vb2_buf);
+ 	jpeg_dst_buf = mtk_jpeg_vb2_to_srcbuf(&dst_buf->vb2_buf);
+ 
+diff --git a/drivers/media/platform/mediatek/jpeg/mtk_jpeg_dec_hw.c b/drivers/media/platform/mediatek/jpeg/mtk_jpeg_dec_hw.c
+index e78e1d11093c..556865100872 100644
+--- a/drivers/media/platform/mediatek/jpeg/mtk_jpeg_dec_hw.c
++++ b/drivers/media/platform/mediatek/jpeg/mtk_jpeg_dec_hw.c
+@@ -530,7 +530,7 @@ static void mtk_jpegdec_timeout_work(struct work_struct *work)
+ 
+ 	src_buf = cjpeg->hw_param.src_buffer;
+ 	dst_buf = cjpeg->hw_param.dst_buffer;
+-	v4l2_m2m_buf_copy_metadata(src_buf, dst_buf, true);
++	v4l2_m2m_buf_copy_metadata(src_buf, dst_buf, false);
+ 
+ 	mtk_jpeg_dec_reset(cjpeg->reg_base);
+ 	clk_disable_unprepare(cjpeg->jdec_clk.clks->clk);
+@@ -560,7 +560,7 @@ static irqreturn_t mtk_jpegdec_hw_irq_handler(int irq, void *priv)
+ 	ctx = jpeg->hw_param.curr_ctx;
+ 	src_buf = jpeg->hw_param.src_buffer;
+ 	dst_buf = jpeg->hw_param.dst_buffer;
+-	v4l2_m2m_buf_copy_metadata(src_buf, dst_buf, true);
++	v4l2_m2m_buf_copy_metadata(src_buf, dst_buf, false);
+ 
+ 	irq_status = mtk_jpeg_dec_get_int_status(jpeg->reg_base);
+ 	dec_irq_ret = mtk_jpeg_dec_enum_result(irq_status);
+diff --git a/drivers/media/platform/mediatek/jpeg/mtk_jpeg_enc_hw.c b/drivers/media/platform/mediatek/jpeg/mtk_jpeg_enc_hw.c
+index 9ab27aee302a..4c8427b3c384 100644
+--- a/drivers/media/platform/mediatek/jpeg/mtk_jpeg_enc_hw.c
++++ b/drivers/media/platform/mediatek/jpeg/mtk_jpeg_enc_hw.c
+@@ -261,7 +261,7 @@ static void mtk_jpegenc_timeout_work(struct work_struct *work)
+ 
+ 	src_buf = cjpeg->hw_param.src_buffer;
+ 	dst_buf = cjpeg->hw_param.dst_buffer;
+-	v4l2_m2m_buf_copy_metadata(src_buf, dst_buf, true);
++	v4l2_m2m_buf_copy_metadata(src_buf, dst_buf, false);
+ 
+ 	mtk_jpeg_enc_reset(cjpeg->reg_base);
+ 	clk_disable_unprepare(cjpeg->venc_clk.clks->clk);
+@@ -289,7 +289,7 @@ static irqreturn_t mtk_jpegenc_hw_irq_handler(int irq, void *priv)
+ 	ctx = jpeg->hw_param.curr_ctx;
+ 	src_buf = jpeg->hw_param.src_buffer;
+ 	dst_buf = jpeg->hw_param.dst_buffer;
+-	v4l2_m2m_buf_copy_metadata(src_buf, dst_buf, true);
++	v4l2_m2m_buf_copy_metadata(src_buf, dst_buf, false);
+ 
+ 	irq_status = readl(jpeg->reg_base + JPEG_ENC_INT_STS) &
+ 		JPEG_ENC_INT_STATUS_MASK_ALLIRQ;
+diff --git a/drivers/media/platform/mediatek/mdp3/mtk-mdp3-m2m.c b/drivers/media/platform/mediatek/mdp3/mtk-mdp3-m2m.c
+index 59ce5cce0698..dba46a69c6be 100644
+--- a/drivers/media/platform/mediatek/mdp3/mtk-mdp3-m2m.c
++++ b/drivers/media/platform/mediatek/mdp3/mtk-mdp3-m2m.c
+@@ -51,7 +51,7 @@ static void mdp_m2m_process_done(void *priv, int vb_state)
+ 	ctx->curr_param.frame_no = ctx->frame_count[MDP_M2M_SRC];
+ 	src_vbuf->sequence = ctx->frame_count[MDP_M2M_SRC]++;
+ 	dst_vbuf->sequence = ctx->frame_count[MDP_M2M_DST]++;
+-	v4l2_m2m_buf_copy_metadata(src_vbuf, dst_vbuf, true);
++	v4l2_m2m_buf_copy_metadata(src_vbuf, dst_vbuf, false);
+ 
+ 	v4l2_m2m_buf_done(src_vbuf, vb_state);
+ 	v4l2_m2m_buf_done(dst_vbuf, vb_state);
+diff --git a/drivers/media/platform/nxp/dw100/dw100.c b/drivers/media/platform/nxp/dw100/dw100.c
+index 7a0ee44d9e1f..b73302d54635 100644
+--- a/drivers/media/platform/nxp/dw100/dw100.c
++++ b/drivers/media/platform/nxp/dw100/dw100.c
+@@ -1483,7 +1483,7 @@ static void dw100_start(struct dw100_ctx *ctx, struct vb2_v4l2_buffer *in_vb,
+ 				V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE),
+ 		in_vb->sequence, out_vb->sequence);
+ 
+-	v4l2_m2m_buf_copy_metadata(in_vb, out_vb, true);
++	v4l2_m2m_buf_copy_metadata(in_vb, out_vb, false);
+ 
+ 	/* Now, let's deal with hardware ... */
+ 	dw100_hw_master_bus_disable(dw_dev);
+diff --git a/drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c b/drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c
+index 37e0670f98c5..e1dda1e834e4 100644
+--- a/drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c
++++ b/drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c
+@@ -1537,7 +1537,7 @@ static void mxc_jpeg_device_run(void *priv)
+ 	src_buf->sequence = q_data_out->sequence++;
+ 	dst_buf->sequence = q_data_cap->sequence++;
+ 
+-	v4l2_m2m_buf_copy_metadata(src_buf, dst_buf, true);
++	v4l2_m2m_buf_copy_metadata(src_buf, dst_buf, false);
+ 
+ 	jpeg_src_buf = vb2_to_mxc_buf(&src_buf->vb2_buf);
+ 	if (q_data_cap->fmt->mem_planes != dst_buf->vb2_buf.num_planes) {
+diff --git a/drivers/media/platform/rockchip/rga/rga.c b/drivers/media/platform/rockchip/rga/rga.c
+index 48b88da59da0..075b684fb178 100644
+--- a/drivers/media/platform/rockchip/rga/rga.c
++++ b/drivers/media/platform/rockchip/rga/rga.c
+@@ -75,7 +75,7 @@ static irqreturn_t rga_isr(int irq, void *prv)
+ 		WARN_ON(!src);
+ 		WARN_ON(!dst);
+ 
+-		v4l2_m2m_buf_copy_metadata(src, dst, true);
++		v4l2_m2m_buf_copy_metadata(src, dst, false);
+ 
+ 		dst->sequence = ctx->csequence++;
+ 
+diff --git a/drivers/media/platform/st/stm32/dma2d/dma2d.c b/drivers/media/platform/st/stm32/dma2d/dma2d.c
+index 643913adc1f3..4184bdb96e6d 100644
+--- a/drivers/media/platform/st/stm32/dma2d/dma2d.c
++++ b/drivers/media/platform/st/stm32/dma2d/dma2d.c
+@@ -483,7 +483,7 @@ static void device_run(void *prv)
+ 
+ 	src->sequence = frm_out->sequence++;
+ 	dst->sequence = frm_cap->sequence++;
+-	v4l2_m2m_buf_copy_metadata(src, dst, true);
++	v4l2_m2m_buf_copy_metadata(src, dst, false);
+ 
+ 	if (clk_enable(dev->gate))
+ 		goto end;
+diff --git a/drivers/media/platform/sunxi/sun8i-di/sun8i-di.c b/drivers/media/platform/sunxi/sun8i-di/sun8i-di.c
+index 3e7f2df70408..11a6c7f5212e 100644
+--- a/drivers/media/platform/sunxi/sun8i-di/sun8i-di.c
++++ b/drivers/media/platform/sunxi/sun8i-di/sun8i-di.c
+@@ -71,7 +71,7 @@ static void deinterlace_device_run(void *priv)
+ 	src = v4l2_m2m_next_src_buf(ctx->fh.m2m_ctx);
+ 	dst = v4l2_m2m_next_dst_buf(ctx->fh.m2m_ctx);
+ 
+-	v4l2_m2m_buf_copy_metadata(src, dst, true);
++	v4l2_m2m_buf_copy_metadata(src, dst, false);
+ 
+ 	deinterlace_write(dev, DEINTERLACE_MOD_ENABLE,
+ 			  DEINTERLACE_MOD_ENABLE_EN);
+diff --git a/drivers/media/platform/sunxi/sun8i-rotate/sun8i_rotate.c b/drivers/media/platform/sunxi/sun8i-rotate/sun8i_rotate.c
+index abd10b218aa1..f6e2f11a20dd 100644
+--- a/drivers/media/platform/sunxi/sun8i-rotate/sun8i_rotate.c
++++ b/drivers/media/platform/sunxi/sun8i-rotate/sun8i_rotate.c
+@@ -70,7 +70,7 @@ static void rotate_device_run(void *priv)
+ 	src = v4l2_m2m_next_src_buf(ctx->fh.m2m_ctx);
+ 	dst = v4l2_m2m_next_dst_buf(ctx->fh.m2m_ctx);
+ 
+-	v4l2_m2m_buf_copy_metadata(src, dst, true);
++	v4l2_m2m_buf_copy_metadata(src, dst, false);
+ 
+ 	val = ROTATE_GLB_CTL_MODE(ROTATE_MODE_COPY_ROTATE);
+ 	if (ctx->hflip)
+diff --git a/drivers/media/test-drivers/vim2m.c b/drivers/media/test-drivers/vim2m.c
+index dc82830a35a5..3e8476165721 100644
+--- a/drivers/media/test-drivers/vim2m.c
++++ b/drivers/media/test-drivers/vim2m.c
+@@ -482,7 +482,7 @@ static int device_process(struct vim2m_ctx *ctx,
+ 
+ 	out_vb->sequence = q_data_out->sequence++;
+ 	in_vb->sequence = q_data_in->sequence++;
+-	v4l2_m2m_buf_copy_metadata(in_vb, out_vb, true);
++	v4l2_m2m_buf_copy_metadata(in_vb, out_vb, false);
+ 
+ 	if (ctx->mode & MEM2MEM_VFLIP) {
+ 		start = height - 1;
+diff --git a/drivers/staging/media/imx/imx-media-csc-scaler.c b/drivers/staging/media/imx/imx-media-csc-scaler.c
+index 19fd31cb9bb0..770ba3fbaba2 100644
+--- a/drivers/staging/media/imx/imx-media-csc-scaler.c
++++ b/drivers/staging/media/imx/imx-media-csc-scaler.c
+@@ -96,7 +96,7 @@ static void ipu_ic_pp_complete(struct ipu_image_convert_run *run, void *_ctx)
+ 	src_buf = v4l2_m2m_src_buf_remove(ctx->fh.m2m_ctx);
+ 	dst_buf = v4l2_m2m_dst_buf_remove(ctx->fh.m2m_ctx);
+ 
+-	v4l2_m2m_buf_copy_metadata(src_buf, dst_buf, true);
++	v4l2_m2m_buf_copy_metadata(src_buf, dst_buf, false);
+ 
+ 	src_buf->sequence = ctx->sequence++;
+ 	dst_buf->sequence = src_buf->sequence;
 
-This goes to conditional
- if:
-   properties:
-     compatible:
-       contains:
-         enum:
-           - nvidia,tegra20-csi
- then:
-   properties:
-     clocks:
-       maxItems: 1
+base-commit: e5f0a698b34ed76002dc5cff3804a61c80233a7a
+-- 
+Regards,
 
-     clock-names: false
+Laurent Pinchart
 
- if:
-   properties:
-     compatible:
-       contains:
-         enum:
-           - nvidia,tegra30-csi
- then:
-   properties:
-     clocks:
-       minItems: 3
-
-     clock-names:
-       maxItems: 3
-
->
-> Oh, also: if you want clock-names to ever actually be usable, you have
-> to require it. Otherwise a driver must be written to handle it not being
-> there.
->
-
-Yes, driver takes this into account and handles it.
-
-> > > +additionalProperties: false
-> > > +
-> > > +required:
-> > > +  - compatible
-> > > +  - reg
-> > > +  - clocks
-> > > +  - power-domains
-> > > +  - "#address-cells"
-> > > +  - "#size-cells"
-> > > +
-> > > +# see nvidia,tegra20-vi.yaml for an example
-> > > --
-> > > 2.48.1
-> > >
->
->
