@@ -1,114 +1,103 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com [209.85.167.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26F071F0995;
-	Mon, 13 Oct 2025 08:39:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96E992EC08B
+	for <linux-staging@lists.linux.dev>; Mon, 13 Oct 2025 13:12:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760344774; cv=none; b=jg+Ek4jEFlz+IFDc3EIuSK0Xv5ceWYGOnWkn2u55lfUS6rylsGcbTGOG76SSNGm7IR3uA1qHJbaNGKoTt66oXDSzg1tpPnqS3375psHPqr3lqqClmeV99nBc00sVh2IuYtjizwKspjtaJsYMBrTEJ56UhqdDV5MTVFFxfep7INw=
+	t=1760361156; cv=none; b=pJwjqT2AyzvnHMeZkjU7matx1/XtfjJwJUX9UREUYPeSyh5TdEGV7SLYf4DPu+1aOvpV3gzT7mSl5q+k6IolWrf8/jHeonWW9qgu7rIMlprFPbMtFHJEfqRGpvHGrqDmJDEIEkjBsZvEX9x0R3SU8iHpfwTiIzOBDnXYer+uVhs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760344774; c=relaxed/simple;
-	bh=uGsmLipNOJ8CQkC9V/7LJR4mpWEl2Gz5gcM6sSDEr00=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Vu9yFiO0OyrM+FE6+QYfo2xtpMTkLThuhj9K5CEU3I3Fhaw51BDDFfMdc8PeZzlfZEM34ve7HksWTEDrTLdfuncXqSF9c+9eh1cTiPR1ODYS7PrhuDs57XvPhuHhW2WO83fc7htn87rmGDsoHIVGwpCAcG6yuLGI+wlPaS2rAwQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=XkuoK0C6; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1760361156; c=relaxed/simple;
+	bh=cx8c00vvcYciQmbGZm3+AuToOvX/AiPHnZpUc62RD4E=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=ePtVE8XOJunh2TrJ5c6VVkAxWZhFFTlFqp6RCZSDlh80iy11YZsPmSTEvHL9eFgq9l1dooyGolwHtqFiTBNAIM7voVurOPLsTt49DfUshm2KmbXjM4dgd3muqNIesREa97RdfHIbyIsR0tyiVxP5RESydn7W+tg6ANiKJBRrXZg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=ZV9PiwDf; arc=none smtp.client-ip=209.85.167.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="XkuoK0C6"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 97AEDC4CEE7;
-	Mon, 13 Oct 2025 08:39:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1760344774;
-	bh=uGsmLipNOJ8CQkC9V/7LJR4mpWEl2Gz5gcM6sSDEr00=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=XkuoK0C6m1qf/0/9aPQDVitlFm2+93xbOnb+qhm1QMXabVJd3W8TrYvhFIa3YQ2bO
-	 ih/RWhAvgcvRu91Y+Akny8JenMBhs2kpvgnBCcv0bM4ZNN73oPC9Rzrp2AND8dDzFZ
-	 Nn55EDz+uEsCap5IBxEhgb6psTk3W8tbXe23Snw4=
-Date: Mon, 13 Oct 2025 10:39:31 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Rodrigo Gobbi <rodrigo.gobbi.7@gmail.com>
-Cc: ~lkcamp/patches@lists.sr.ht, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: rtl8723bs: remove todo/note and duplicated
- EFUSE_CTRL macro
-Message-ID: <2025101309-stalemate-hangout-e134@gregkh>
-References: <20251010185456.26754-1-rodrigo.gobbi.7@gmail.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ZV9PiwDf"
+Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-57e36125e8aso732794e87.2
+        for <linux-staging@lists.linux.dev>; Mon, 13 Oct 2025 06:12:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1760361152; x=1760965952; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=cx8c00vvcYciQmbGZm3+AuToOvX/AiPHnZpUc62RD4E=;
+        b=ZV9PiwDfM2oulyf15aRAVIFq0xoSEbUHNxVPNuG7Faie0pJ9qeF2w9jhvecicINmux
+         oxKb6PZsrTbMWvcSw+s0d9vWZ2OuNhxcBgQOIQGDGiFAFDMW83ry0g1CssbT/1j2Zeyd
+         diu6e5PNVV1vYG+RuNT8Jk4Zk9BHoycyTp3Cc5Hwx1ZIEZ8unmAjbArMTXqa8MrhYnps
+         0OBEE9ftNoGUqchIOWp/z+cakzViEpDqPewvqTfjVqDFNT2v4W1swlPBmOg0Wea7FgjC
+         e7J0MOvMQQ4e+zbpjM5dixkicn2mtbp+AqeDlo0z0iCz0gLe0GsiNw5hi9XtSVMmw80r
+         q8zw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1760361152; x=1760965952;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=cx8c00vvcYciQmbGZm3+AuToOvX/AiPHnZpUc62RD4E=;
+        b=sM64u+EAs9Oae5yT/boLRIWYl76B7HGyVp88Kr/vkIGEQrT/49dMRcVeLc97qAcjUq
+         vpYM0KLM2IA7RTs/mvxhHBT0ZWogURq34fokoD4oHaFTjDgDD1UhDRF3WvWVFQNvUxc6
+         i4t2QtgH3PSB1vnSR4MohL3qoujVG1r6Hb0YZAFPAlMInCdhtlCNV5jgoZ7AbkonmJdE
+         bBuZHp4sqp/8Jzum2vS2P+yNnGCdRQYWPca8wF7ymCy8KKN7YDZGHR9JZf8CIevMsA2N
+         VZgttKVOwXbddhL7fSk0FfguBRugdDYibi03fArzqwrrZIvcQuE3JBh88jRkkYNxQ5ep
+         REkA==
+X-Forwarded-Encrypted: i=1; AJvYcCVIGKh3vdeYaNCGmCibL+IxLSeplpbTHOE0gzmprlG0DHqN0BNdymgsq3dfCKsGoHBmCitrD/BSkDEKUwzv@lists.linux.dev
+X-Gm-Message-State: AOJu0YwfMopO1zMQfq5CFf8/9e1SUqwTRvFekPC+p2mwwE+AKzjQFDj6
+	06yhc8uakAq8veJvi+pg3+ZV02GhWZbYURBTU4WpSVpPct5BmTiFOjwCbGgUn9kD2h9ThwPnrHx
+	a/RK3ZtDoeeuO3ghhmG8Kl/+8CzXTk0wDueLoIy59ZA==
+X-Gm-Gg: ASbGncu2SBvo2OjGryPIvbHsVOFjkVxo66MbwU2sughIJF/7ju+pXUIEiceVjnCTxjy
+	NuxbQk9eyK+L4/kKU48u5la/FQLxlZr/Dw5XUUf8Q8hMURkZUooZRbOBDOzIWhavB8kSp9KRYva
+	AECP853ENvZ7iEkPwq3CoKNxo9KuxmNMJzO9lUPok7u607SVm+5sLRE/5Uex6AKq8//qdq0VgMy
+	mKZLdhZnsZ7ZWYB5IAo8lDpxz+/c+YGUo9mHfDU
+X-Google-Smtp-Source: AGHT+IFy7QQZzDisxgLU7RQiHqmGLbp9GU/ko5TeFOP01cdLTHtzWG4syZZ8PgjrdKymxne7+Wg23WBWjWeGpiwOdDo=
+X-Received: by 2002:a05:651c:4394:20b0:376:45a3:27c4 with SMTP id
+ 38308e7fff4ca-37645a32d2dmr19705401fa.5.1760361151675; Mon, 13 Oct 2025
+ 06:12:31 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251010185456.26754-1-rodrigo.gobbi.7@gmail.com>
+References: <20251008073046.23231-1-clamor95@gmail.com> <20251008073046.23231-2-clamor95@gmail.com>
+In-Reply-To: <20251008073046.23231-2-clamor95@gmail.com>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Mon, 13 Oct 2025 15:12:20 +0200
+X-Gm-Features: AS18NWB0Tr61DfHtPSZqpJT6vjMUO75ud5f5_b3M4zNOdVsqYQjTLusmQxbBsw4
+Message-ID: <CACRpkda3o55N2m=H+RA2p0r598KBLv6bbbin76Uu5Sy44qCLig@mail.gmail.com>
+Subject: Re: [PATCH v4 01/24] pinctrl: tegra20: register csus_mux clock
+To: Svyatoslav Ryhel <clamor95@gmail.com>, Thierry Reding <thierry.reding@gmail.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Jonathan Hunter <jonathanh@nvidia.com>, Sowjanya Komatineni <skomatineni@nvidia.com>, 
+	Luca Ceresoli <luca.ceresoli@bootlin.com>, Prashant Gaikwad <pgaikwad@nvidia.com>, 
+	Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
+	Mikko Perttunen <mperttunen@nvidia.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, =?UTF-8?Q?Jonas_Schw=C3=B6bel?= <jonasschwoebel@yahoo.de>, 
+	Dmitry Osipenko <digetx@gmail.com>, Charan Pedumuru <charan.pedumuru@gmail.com>, 
+	Diogo Ivo <diogo.ivo@tecnico.ulisboa.pt>, Aaron Kling <webgeek1234@gmail.com>, 
+	Arnd Bergmann <arnd@arndb.de>, dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
+	linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-media@vger.kernel.org, linux-clk@vger.kernel.org, 
+	linux-gpio@vger.kernel.org, linux-staging@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, Oct 10, 2025 at 03:49:12PM -0300, Rodrigo Gobbi wrote:
-> The usage of EFUSE_xxx and MSR macros are already in place, so the note
-> and todo about that can be removed. Also, there was a duplication of the
-> definition of EFUSE_CTRL macro in two places, keep the one at the .h file.
-> 
-> Signed-off-by: Rodrigo Gobbi <rodrigo.gobbi.7@gmail.com>
-> ---
-> At drivers/staging/rtl8723bs/include/hal_com_reg.h file, there is the following note/TODO:
-> 
-> /*  TODO: use these definition when using REG_xxx naming rule. */
-> /*  NOTE: DO NOT Remove these definition. Use later. */
-> 
-> #define EFUSE_CTRL				REG_EFUSE_CTRL		/*  E-Fuse Control. */
-> #define EFUSE_TEST				REG_EFUSE_TEST		/*  E-Fuse Test. */
-> #define MSR						(REG_CR + 2)		/*  Media Status register */
-> 
-> I guess the idea was to standardize those macros rather using the REG_xxx_yyy ones.
-> In fact, when searching for a missusage of that, there is none, only a duplicated redefinition
-> of EFUSE_CTRL at drivers/staging/rtl8723bs/core/rtw_efuse.c.
-> 
-> If my interpretation is correct about that comment, I`m think we can remove the
-> note/TODO since it`s very old. Also, I`m removing the duplicated define, since
-> the hal_com_reg.h is already included at rtw_efuse.c.
-> 
-> Tks and regards.
-> ---
->  drivers/staging/rtl8723bs/core/rtw_efuse.c      | 3 ---
->  drivers/staging/rtl8723bs/include/hal_com_reg.h | 4 ----
->  2 files changed, 7 deletions(-)
-> 
-> diff --git a/drivers/staging/rtl8723bs/core/rtw_efuse.c b/drivers/staging/rtl8723bs/core/rtw_efuse.c
-> index 208373113a62..6391932e214b 100644
-> --- a/drivers/staging/rtl8723bs/core/rtw_efuse.c
-> +++ b/drivers/staging/rtl8723bs/core/rtw_efuse.c
-> @@ -26,9 +26,6 @@ u8 fakeBTEfuseContent[EFUSE_MAX_BT_BANK][EFUSE_MAX_HW_SIZE];
->  u8 fakeBTEfuseInitMap[EFUSE_BT_MAX_MAP_LEN] = {0};
->  u8 fakeBTEfuseModifiedMap[EFUSE_BT_MAX_MAP_LEN] = {0};
->  
-> -#define REG_EFUSE_CTRL		0x0030
-> -#define EFUSE_CTRL			REG_EFUSE_CTRL		/*  E-Fuse Control. */
-> -
->  static bool
->  Efuse_Read1ByteFromFakeContent(u16 Offset, u8 *Value)
->  {
-> diff --git a/drivers/staging/rtl8723bs/include/hal_com_reg.h b/drivers/staging/rtl8723bs/include/hal_com_reg.h
-> index 9a02ae69d7a4..cf5c15dc2bfd 100644
-> --- a/drivers/staging/rtl8723bs/include/hal_com_reg.h
-> +++ b/drivers/staging/rtl8723bs/include/hal_com_reg.h
-> @@ -189,10 +189,6 @@
->  /* 	Redifine 8192C register definition for compatibility */
->  /*  */
->  /*  */
-> -
-> -/*  TODO: use these definition when using REG_xxx naming rule. */
-> -/*  NOTE: DO NOT Remove these definition. Use later. */
-> -
->  #define EFUSE_CTRL				REG_EFUSE_CTRL		/*  E-Fuse Control. */
->  #define EFUSE_TEST				REG_EFUSE_TEST		/*  E-Fuse Test. */
->  #define MSR						(REG_CR + 2)		/*  Media Status register */
-> -- 
-> 2.48.1
-> 
+On Wed, Oct 8, 2025 at 9:31=E2=80=AFAM Svyatoslav Ryhel <clamor95@gmail.com=
+> wrote:
 
-Does not apply to my tree at all :(
+> Add csus_mux for further use as the csus clock parent, similar to how the
+> cdev1 and cdev2 muxes are utilized. Additionally, constify the cdev paren=
+t
+> name lists to resolve checkpatch warnings.
+>
+> Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
 
-Can you rebase against the next linux-next release and resend?
+This patch looks like it can be applied independently from the rest,
+can I get a review from Thierry or someone else at nVidia so I
+can just apply it?
 
-thanks,
-
-greg k-h
+Yours,
+Linus Walleij
