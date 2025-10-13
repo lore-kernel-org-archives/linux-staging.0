@@ -1,101 +1,114 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10B45280004;
-	Sun, 12 Oct 2025 14:18:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26F071F0995;
+	Mon, 13 Oct 2025 08:39:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760278683; cv=none; b=lyOVx/QFZAxGnoSyC8o9AccVouQru/i+pu9htcNomqWnbBvYA4tMOOVQtdKhfgev2Iiahgamh4az5AybhZFcS/nR0vG3RWcvLY+vEMJisnfmeYwM4ZkeFVhZNg6LVJSbAUStwqpk33GnInpVNKVHAUyIaPz18UH7K57/VShb1hU=
+	t=1760344774; cv=none; b=jg+Ek4jEFlz+IFDc3EIuSK0Xv5ceWYGOnWkn2u55lfUS6rylsGcbTGOG76SSNGm7IR3uA1qHJbaNGKoTt66oXDSzg1tpPnqS3375psHPqr3lqqClmeV99nBc00sVh2IuYtjizwKspjtaJsYMBrTEJ56UhqdDV5MTVFFxfep7INw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760278683; c=relaxed/simple;
-	bh=lTPc8GO3wB6QyCOvObtK7gyvDMugmgilzvtPy9ig7Jg=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=ijT7oj2G+PyEgN93CgREU+Rie7z97Enz90d/WpFdDciRu5TOvPju7onqB+h1IJtf9BEMrbDxFgdqElQeEBiMHpymQ7/QGp46OgZlBOxlrUgPVM/Yljb8P4VIiGnH67LCu0ANlY7ngg2nMa3II3FbFHC3T72KJFij6SUGZsMve0A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gANNQYle; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1760344774; c=relaxed/simple;
+	bh=uGsmLipNOJ8CQkC9V/7LJR4mpWEl2Gz5gcM6sSDEr00=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Vu9yFiO0OyrM+FE6+QYfo2xtpMTkLThuhj9K5CEU3I3Fhaw51BDDFfMdc8PeZzlfZEM34ve7HksWTEDrTLdfuncXqSF9c+9eh1cTiPR1ODYS7PrhuDs57XvPhuHhW2WO83fc7htn87rmGDsoHIVGwpCAcG6yuLGI+wlPaS2rAwQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=XkuoK0C6; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gANNQYle"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 22D53C4CEFE;
-	Sun, 12 Oct 2025 14:18:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1760278682;
-	bh=lTPc8GO3wB6QyCOvObtK7gyvDMugmgilzvtPy9ig7Jg=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=gANNQYleH9+m072pA7KzYGtHfJOR1bnZbsJGErKwNjjR+fDruuw2/IvlZuncYOIi/
-	 ipNnryl8Ls8pY1920yS1nAQOIXk9yxpmUnEbBTANVDOJm47dz8+4SEhH3ZkIrwx/6m
-	 Uu2sz7cWL4UE/1Bg85NvPmSOUO3ckcOEA0rBELURuHC8lIQb7CGQNAgp2k4Md2NbkM
-	 di3F0K9RUqD2SB3JAr89Ej03hej5Mn94BW1yOWO1Ao+1WfHRsiJo0xqBPfDfBet2sY
-	 BVlMNhZriIJCtX0i8PzSsx45HqPgWHQM1OsqirCDlEQEqmzqbLdsnry2O4Flr1M2GK
-	 joUyaEG8U71hg==
-Date: Sun, 12 Oct 2025 15:17:55 +0100
-From: Jonathan Cameron <jic23@kernel.org>
-To: Taimoor Zaeem <taimoorzaeem@gmail.com>
-Cc: gregkh@linuxfoundation.org, linux-iio@vger.kernel.org,
- linux-staging@lists.linux.dev
-Subject: Re: [PATCH 1/2] staging: iio: ad9834: remove empty ad9834.h file
-Message-ID: <20251012151755.24db56ea@jic23-huawei>
-In-Reply-To: <20251006094025.259440-2-taimoorzaeem@gmail.com>
-References: <20251006094025.259440-1-taimoorzaeem@gmail.com>
-	<20251006094025.259440-2-taimoorzaeem@gmail.com>
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-pc-linux-gnu)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="XkuoK0C6"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 97AEDC4CEE7;
+	Mon, 13 Oct 2025 08:39:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1760344774;
+	bh=uGsmLipNOJ8CQkC9V/7LJR4mpWEl2Gz5gcM6sSDEr00=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=XkuoK0C6m1qf/0/9aPQDVitlFm2+93xbOnb+qhm1QMXabVJd3W8TrYvhFIa3YQ2bO
+	 ih/RWhAvgcvRu91Y+Akny8JenMBhs2kpvgnBCcv0bM4ZNN73oPC9Rzrp2AND8dDzFZ
+	 Nn55EDz+uEsCap5IBxEhgb6psTk3W8tbXe23Snw4=
+Date: Mon, 13 Oct 2025 10:39:31 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Rodrigo Gobbi <rodrigo.gobbi.7@gmail.com>
+Cc: ~lkcamp/patches@lists.sr.ht, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: rtl8723bs: remove todo/note and duplicated
+ EFUSE_CTRL macro
+Message-ID: <2025101309-stalemate-hangout-e134@gregkh>
+References: <20251010185456.26754-1-rodrigo.gobbi.7@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251010185456.26754-1-rodrigo.gobbi.7@gmail.com>
 
-On Mon,  6 Oct 2025 14:40:24 +0500
-Taimoor Zaeem <taimoorzaeem@gmail.com> wrote:
-
-> Remove drivers/staging/iio/frequency/ad9834.h header file
-> because it contains nothing except the include guards.
+On Fri, Oct 10, 2025 at 03:49:12PM -0300, Rodrigo Gobbi wrote:
+> The usage of EFUSE_xxx and MSR macros are already in place, so the note
+> and todo about that can be removed. Also, there was a duplication of the
+> definition of EFUSE_CTRL macro in two places, keep the one at the .h file.
 > 
-Odd!  I guess left over after some other cleanup at somepoint.
-
-Applied.
-
-Thanks for cleaning this up.
-
-Jonathan
-
-> Signed-off-by: Taimoor Zaeem <taimoorzaeem@gmail.com>
+> Signed-off-by: Rodrigo Gobbi <rodrigo.gobbi.7@gmail.com>
 > ---
->  drivers/staging/iio/frequency/ad9834.c |  3 +--
->  drivers/staging/iio/frequency/ad9834.h | 10 ----------
->  2 files changed, 1 insertion(+), 12 deletions(-)
->  delete mode 100644 drivers/staging/iio/frequency/ad9834.h
+> At drivers/staging/rtl8723bs/include/hal_com_reg.h file, there is the following note/TODO:
 > 
-> diff --git a/drivers/staging/iio/frequency/ad9834.c b/drivers/staging/iio/frequency/ad9834.c
-> index 0038eb234d40..d339d5e8e043 100644
-> --- a/drivers/staging/iio/frequency/ad9834.c
-> +++ b/drivers/staging/iio/frequency/ad9834.c
-> @@ -21,9 +21,8 @@
+> /*  TODO: use these definition when using REG_xxx naming rule. */
+> /*  NOTE: DO NOT Remove these definition. Use later. */
+> 
+> #define EFUSE_CTRL				REG_EFUSE_CTRL		/*  E-Fuse Control. */
+> #define EFUSE_TEST				REG_EFUSE_TEST		/*  E-Fuse Test. */
+> #define MSR						(REG_CR + 2)		/*  Media Status register */
+> 
+> I guess the idea was to standardize those macros rather using the REG_xxx_yyy ones.
+> In fact, when searching for a missusage of that, there is none, only a duplicated redefinition
+> of EFUSE_CTRL at drivers/staging/rtl8723bs/core/rtw_efuse.c.
+> 
+> If my interpretation is correct about that comment, I`m think we can remove the
+> note/TODO since it`s very old. Also, I`m removing the duplicated define, since
+> the hal_com_reg.h is already included at rtw_efuse.c.
+> 
+> Tks and regards.
+> ---
+>  drivers/staging/rtl8723bs/core/rtw_efuse.c      | 3 ---
+>  drivers/staging/rtl8723bs/include/hal_com_reg.h | 4 ----
+>  2 files changed, 7 deletions(-)
+> 
+> diff --git a/drivers/staging/rtl8723bs/core/rtw_efuse.c b/drivers/staging/rtl8723bs/core/rtw_efuse.c
+> index 208373113a62..6391932e214b 100644
+> --- a/drivers/staging/rtl8723bs/core/rtw_efuse.c
+> +++ b/drivers/staging/rtl8723bs/core/rtw_efuse.c
+> @@ -26,9 +26,6 @@ u8 fakeBTEfuseContent[EFUSE_MAX_BT_BANK][EFUSE_MAX_HW_SIZE];
+>  u8 fakeBTEfuseInitMap[EFUSE_BT_MAX_MAP_LEN] = {0};
+>  u8 fakeBTEfuseModifiedMap[EFUSE_BT_MAX_MAP_LEN] = {0};
 >  
->  #include <linux/iio/iio.h>
->  #include <linux/iio/sysfs.h>
-> -#include "dds.h"
->  
-> -#include "ad9834.h"
-> +#include "dds.h"
->  
->  /* Registers */
->  
-> diff --git a/drivers/staging/iio/frequency/ad9834.h b/drivers/staging/iio/frequency/ad9834.h
-> deleted file mode 100644
-> index 521943aa0e61..000000000000
-> --- a/drivers/staging/iio/frequency/ad9834.h
-> +++ /dev/null
-> @@ -1,10 +0,0 @@
-> -/* SPDX-License-Identifier: GPL-2.0 */
-> -/*
-> - * AD9833/AD9834/AD9837/AD9838 SPI DDS driver
-> - *
-> - * Copyright 2010-2011 Analog Devices Inc.
-> - */
-> -#ifndef IIO_DDS_AD9834_H_
-> -#define IIO_DDS_AD9834_H_
+> -#define REG_EFUSE_CTRL		0x0030
+> -#define EFUSE_CTRL			REG_EFUSE_CTRL		/*  E-Fuse Control. */
 > -
-> -#endif /* IIO_DDS_AD9834_H_ */
+>  static bool
+>  Efuse_Read1ByteFromFakeContent(u16 Offset, u8 *Value)
+>  {
+> diff --git a/drivers/staging/rtl8723bs/include/hal_com_reg.h b/drivers/staging/rtl8723bs/include/hal_com_reg.h
+> index 9a02ae69d7a4..cf5c15dc2bfd 100644
+> --- a/drivers/staging/rtl8723bs/include/hal_com_reg.h
+> +++ b/drivers/staging/rtl8723bs/include/hal_com_reg.h
+> @@ -189,10 +189,6 @@
+>  /* 	Redifine 8192C register definition for compatibility */
+>  /*  */
+>  /*  */
+> -
+> -/*  TODO: use these definition when using REG_xxx naming rule. */
+> -/*  NOTE: DO NOT Remove these definition. Use later. */
+> -
+>  #define EFUSE_CTRL				REG_EFUSE_CTRL		/*  E-Fuse Control. */
+>  #define EFUSE_TEST				REG_EFUSE_TEST		/*  E-Fuse Test. */
+>  #define MSR						(REG_CR + 2)		/*  Media Status register */
+> -- 
+> 2.48.1
+> 
 
+Does not apply to my tree at all :(
+
+Can you rebase against the next linux-next release and resend?
+
+thanks,
+
+greg k-h
