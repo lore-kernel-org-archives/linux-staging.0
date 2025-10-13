@@ -1,64 +1,64 @@
 Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com [209.85.167.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57F2B2798F0
-	for <linux-staging@lists.linux.dev>; Mon, 13 Oct 2025 14:14:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56AB9277C8D
+	for <linux-staging@lists.linux.dev>; Mon, 13 Oct 2025 14:14:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760364899; cv=none; b=Xjx1ZGcbPL2jmkArA3jzSGL+y0qJYqF/JPfByusCmEF7Aj11cfCEpNSUeNhY8zlJ8zDe0O8H2Du3LX4xryqgTgk6h/pJeMO2vB8yVYZtKftH9mMt3dwklQi/1Lz8RQrE0sOsgzQmDjX3nPjcgoBZGJxJPTbqCVQf3BI5YFm2skQ=
+	t=1760364900; cv=none; b=E3tZIHWTB0OJsofZPRQlefB8dsRRQkOvm7fu3rl7X/YQlMJmbKoiogFjzkA75SnLuZwPnPZqzZGUUeZOUbPOsbONPM+o+AjU7Nx9cNxyiJ9dCJuMnkOTT5L8Q650O16qWOHVab8CK8mkL4iUo/ZJDdJk7nQNjd14EchP/tQ3O0Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760364899; c=relaxed/simple;
-	bh=EWbKp6zVXKla0AyI4Ib0EFYpCMHe2Dydv7j+omIlI14=;
+	s=arc-20240116; t=1760364900; c=relaxed/simple;
+	bh=XGq0AYT0RAu45DkehU73efZ+CKhGLsp22KsMW3sZ7KM=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=hIMx5PlDVi1QHRh4HssvcI90RhoibiomatJAeJRwQdXncUCaTYPViuHy/xAAnp4VzGizLvRqja1JVyEncQSP1W0SpgvokgrgUMekiHx+2SGw8X0Fu2IPMWVUkDxfLyfFN/bLh0GLsh2CEZfw3tjb5FMtUto697Vxe5evQqJV3nI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=gpSPBRyR; arc=none smtp.client-ip=209.85.167.52
+	 In-Reply-To:To:Cc; b=JznF1W38hCqaBMJ9mCxgckBga/jWmkoEM9H0rIAcy3T37QTt9q67j/fvv/jIOr4BMmNbb+Fc+dcvohMMS+X84rh6yQ5A6w96jQIPArgIeYKUNC0RLHlBNZAMx6Y2ZDZ9Fho1SOodIA0LlFGtVZSXCBYQNODSkzK8i3sd7CdHL7E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=L62cP/W4; arc=none smtp.client-ip=209.85.167.52
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="gpSPBRyR"
-Received: by mail-lf1-f52.google.com with SMTP id 2adb3069b0e04-57ea78e0618so4953155e87.0
-        for <linux-staging@lists.linux.dev>; Mon, 13 Oct 2025 07:14:54 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="L62cP/W4"
+Received: by mail-lf1-f52.google.com with SMTP id 2adb3069b0e04-58affa66f2bso4585012e87.1
+        for <linux-staging@lists.linux.dev>; Mon, 13 Oct 2025 07:14:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google; t=1760364892; x=1760969692; darn=lists.linux.dev;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=oDkvCYuJbKI5HTEwyE65VkdYWfgRYyc1U+blXUUQVgU=;
-        b=gpSPBRyRL+5WKunlcHKyUDCXtWot545Z2LgI9WjYDeka7HuTn7nrxlqD3b6mztJaCR
-         sWcCcALk9FJegYdYQ/dQOvEqH8zxYscBFnZjEslnqZTR75E03UWDPQbEAKEI35+499dS
-         bSHRnhY+dHT83FYB//Gqt3Qy17yOa1DIyyQUc=
+        bh=cw6YFePVdJ/w0HUJNx+YTiAEhWK3QpB9xmEBqnhTSDQ=;
+        b=L62cP/W4cTzig7fHObGSHDZw3bZqFfRyAvLIZqdz/T/6A+tvE0ioV+3TP7P23xZ08y
+         etwcE1xKnJ7rRreAdrgx9IuuK6cmfb2vtfyEOpD+5UlIvLkBzosBHhlNp4W94Q8D7Tf5
+         SkW0Eo5izxbYM4Qe887JDlsdv5dN4RMq2v0W0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20230601; t=1760364892; x=1760969692;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=oDkvCYuJbKI5HTEwyE65VkdYWfgRYyc1U+blXUUQVgU=;
-        b=DhNC0Vf51BjZO4q7HWMEr4EsW9rX1YIV57yblUyoM770gUoWLWieMqJI+6dMo4I1ex
-         39K4Gy2cb3g3hni+fqH3NFs+1J1RwYFQtU/UMYjs74s6H6VU0oosYJPUtz4ZJRC/EPe8
-         Phk1SyuJ5h0SEXNFr4ZG4kAzPOrwIlxTFMZfW28t640goBrvyoDFu3vBjROBMBvQmKn9
-         MpsubEi/OF9UU8eOsD5NOMFLPGLNpzmKA203BYw+hooOgOQauTBdxlr1Z4d2zHIw+Dwf
-         /YzyFeo4KY/kgd2+t/jKEXs13UeqsLAqIe1CxcMVURIaDSX28sApi74ZL1NuYoO8j+a9
-         cPLg==
-X-Forwarded-Encrypted: i=1; AJvYcCXM+PDjGKcCCK+ZESlwTFCodL8ymUWBPNxBYGQL8GCWyIn+tzMOEP5+4tkvZ2vuDJ4fE2ihV0gmP3gi50NC@lists.linux.dev
-X-Gm-Message-State: AOJu0Yz9OLamBEWUTCbmJe8cm+hHNFj88gmMBXTCDAgIAl+usU53b438
-	gKxU8qxPK+0E/R3xfdh6FpfjWKK3leHFdoGce/TmnBQ0qW5G+QzKC5T9hHrIWs40cg==
-X-Gm-Gg: ASbGncvmSzIyyBfNUxInBF5vAzK62SLwSze0F2INLsizwv11Kv5LuZ21vv8WqFW5Wtb
-	ZBCWUfprLTVnYftt9QYcsT7OJL1LEj4t7k1DAtcFQEFvGsTwk0yiqeIqjhL9FTb73DnAtEfHtJk
-	pUsEBnZXALCCLvJyq1yA17XIYZuOqagVawhEEljo2njOsYJXigzspHcp24ZAI1XzUNuJSILpGV2
-	dpWImtfK34Wt+rx/SFo4tZ+Eq14qbJSwE38+HGnYvBqiSNIKCNf2+ZGN5FEQfqOtO7eUkYrOW0h
-	nbBGh6KzL66BvOiXNbhMVDDD4fz4qpg0vck1kjCocyCP5Qjg8FBy4PfpiU7U66ewwg8JQxW+KZn
-	yiSyw9N6V3HcXIRbn++ewsEyU1EjZ7JUj+TpYQMtGYF33tQNzPgvyPDU6r97uySbdreWoAX7+m8
-	/WwhMhZd1zidSmw9yWMA==
-X-Google-Smtp-Source: AGHT+IERp0UGzsms3m0FKqLtDNsdKrYzy/yeu64vwUTfcVOJBQFfqT4aKP9avdaubkT+3l9KavisJQ==
-X-Received: by 2002:a05:6512:6192:b0:579:f4b3:bc3c with SMTP id 2adb3069b0e04-5906de86e2fmr5500248e87.55.1760364892337;
-        Mon, 13 Oct 2025 07:14:52 -0700 (PDT)
+        bh=cw6YFePVdJ/w0HUJNx+YTiAEhWK3QpB9xmEBqnhTSDQ=;
+        b=iJMQenfs8MITOOd7ARpt0758iOTVXCqdq8dnlFgn2RWz7R+NgEzpCiVpQSp6jv4BB3
+         TACjchr+CjlCV7PGuorMUz/Jwv793cljiMf8B+jpJOECuklJetY4+G9DcmCmM/6LddPw
+         iWWw/xYGHv0yGSmkQ+M7WSgqKqIYiL4qTt1w6aVkSm4h3m2xeGiQA7RdDvIwWl94nqBq
+         V/R6FjN6NbKaoc+wWdibmeflkpFQToxuOcJdoMKQpF7hzTg6yH/vaVriVR6wSdinobIf
+         ZMDL1pJnrRy4eaI/2c4EZvOSeUW1MgIJjZ/L0u9UecbnQUjohnCvcV/tkIXsXNIgsKQT
+         gerw==
+X-Forwarded-Encrypted: i=1; AJvYcCV7id4CZN055PRgx40p0Ge2dbd1eDUjNK6+ANW8koAeadp7Pmakcz/0WnViX3VWd3PITz7ZTlYqWBF5FRbS@lists.linux.dev
+X-Gm-Message-State: AOJu0YzZ+CZseF9I6ZeeF20EQuPEWYpYrwpDEsShq9dXmJWVzJFOPEwG
+	HMRpJQ+vswV4XzC3zpF9CqcmsMe1xNUZfxUHLd5Ig7/bFOIXlbceHWMaQgYoEs+8dw==
+X-Gm-Gg: ASbGncsaxBEbG43OhDX4wCAw0Jp8UGVwWQ2KdQS0Qt9vtXwt4E5QA61sVLM8pwQ6D4u
+	gnbCpRCWPnsnPcYWgleKLOysBbwX/SV6fug/ahro+RsD4MAeFoGNNrA1BQUU7ptiSU5Ihc2AUzt
+	qGolSrgXd7p6JO0YpDjZZgeYBXOmSv8/WYHmlfkvc1sF+S+qKcODUxSSCX8Ts2OuNSJn5jyTqxl
+	GfMGwa4OzL4rDlUnuuBHKgOgF7HpyU4/BLp+kVywc/9KF6VMGonNNqqU5LGhhoHFkYtj1fV3uCI
+	MMaanzKpn82DfYlFKs3wM2aIOe/APIKnfeGzRUM5nE6hIaC0DyuN0BSVC3i/aL2qc53m3zQVTDm
+	nhqIEE9kCK/IUX6D+pFKSa2ZFmfUhWamsuMJ/vY/L/brblcCRMgz89Z9hCEpB91D6OtjtW23/2p
+	f9dRte65LREG2BUazxyQ==
+X-Google-Smtp-Source: AGHT+IEKVe60oXFEuaV/5sAfkl2vR8IvNhsEsPje9O6F0QVcXOQ4CmYWAzNOjArzbT4yXoFh7KUNeA==
+X-Received: by 2002:a05:6512:2309:b0:57a:baaa:394 with SMTP id 2adb3069b0e04-5906dd51898mr4676162e87.27.1760364891849;
+        Mon, 13 Oct 2025 07:14:51 -0700 (PDT)
 Received: from ribalda.c.googlers.com (56.213.88.34.bc.googleusercontent.com. [34.88.213.56])
         by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-590881e4e58sm4165256e87.25.2025.10.13.07.14.51
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 13 Oct 2025 07:14:52 -0700 (PDT)
+        Mon, 13 Oct 2025 07:14:51 -0700 (PDT)
 From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Mon, 13 Oct 2025 14:14:44 +0000
-Subject: [PATCH 04/32] media: adv7842: Use %pe format specifier
+Date: Mon, 13 Oct 2025 14:14:43 +0000
+Subject: [PATCH 03/32] media: mn88443x: Use %pe format specifier
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -67,7 +67,7 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20251013-ptr_err-v1-4-2c5efbd82952@chromium.org>
+Message-Id: <20251013-ptr_err-v1-3-2c5efbd82952@chromium.org>
 References: <20251013-ptr_err-v1-0-2c5efbd82952@chromium.org>
 In-Reply-To: <20251013-ptr_err-v1-0-2c5efbd82952@chromium.org>
 To: Linus Walleij <linus.walleij@linaro.org>, 
@@ -120,26 +120,37 @@ a symbolic error name (eg. -EINVAL) and it makes the code simpler by
 omitting PTR_ERR()
 
 This patch fixes this cocci report:
-./i2c/adv7842.c:3470:16-23: WARNING: Consider using %pe to print PTR_ERR()
+./dvb-frontends/mn88443x.c:698:3-10: WARNING: Consider using %pe to print PTR_ERR()
+./dvb-frontends/mn88443x.c:713:3-10: WARNING: Consider using %pe to print PTR_ERR()
 
 Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
 ---
- drivers/media/i2c/adv7842.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/media/dvb-frontends/mn88443x.c | 7 +++----
+ 1 file changed, 3 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/media/i2c/adv7842.c b/drivers/media/i2c/adv7842.c
-index 9780082db8415a3d65860666d0dce8399f57e4e3..a35077178a0950090369e17b4aaf9904da041a00 100644
---- a/drivers/media/i2c/adv7842.c
-+++ b/drivers/media/i2c/adv7842.c
-@@ -3466,8 +3466,8 @@ static struct i2c_client *adv7842_dummy_client(struct v4l2_subdev *sd, const cha
+diff --git a/drivers/media/dvb-frontends/mn88443x.c b/drivers/media/dvb-frontends/mn88443x.c
+index 7a58f53ab9996031e319711a21b1a8f1c13abed4..818c4e67364c7c6ec2bfc17f21e2cac360f6bfb3 100644
+--- a/drivers/media/dvb-frontends/mn88443x.c
++++ b/drivers/media/dvb-frontends/mn88443x.c
+@@ -694,8 +694,7 @@ static int mn88443x_probe(struct i2c_client *client)
  
- 	cp = i2c_new_dummy_device(client->adapter, io_read(sd, io_reg) >> 1);
- 	if (IS_ERR(cp)) {
--		v4l2_err(sd, "register %s on i2c addr 0x%x failed with %ld\n",
--			 desc, addr, PTR_ERR(cp));
-+		v4l2_err(sd, "register %s on i2c addr 0x%x failed with %pe\n",
-+			 desc, addr, cp);
- 		cp = NULL;
+ 	chip->mclk = devm_clk_get(dev, "mclk");
+ 	if (IS_ERR(chip->mclk) && !conf) {
+-		dev_err(dev, "Failed to request mclk: %ld\n",
+-			PTR_ERR(chip->mclk));
++		dev_err(dev, "Failed to request mclk: %pe\n", chip->mclk);
+ 		return PTR_ERR(chip->mclk);
+ 	}
+ 
+@@ -709,8 +708,8 @@ static int mn88443x_probe(struct i2c_client *client)
+ 	chip->reset_gpio = devm_gpiod_get_optional(dev, "reset",
+ 						   GPIOD_OUT_HIGH);
+ 	if (IS_ERR(chip->reset_gpio)) {
+-		dev_err(dev, "Failed to request reset_gpio: %ld\n",
+-			PTR_ERR(chip->reset_gpio));
++		dev_err(dev, "Failed to request reset_gpio: %pe\n",
++			chip->reset_gpio);
+ 		return PTR_ERR(chip->reset_gpio);
  	}
  
 
