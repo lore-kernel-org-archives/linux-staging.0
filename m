@@ -1,164 +1,370 @@
-Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com [209.85.167.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from PA4PR04CU001.outbound.protection.outlook.com (mail-francecentralazon11013044.outbound.protection.outlook.com [40.107.162.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 946FF22257E
-	for <linux-staging@lists.linux.dev>; Mon, 13 Oct 2025 15:51:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.53
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760370664; cv=none; b=CT1o+ZVdJsgJqn49jB0MUGnx5ucY5tjx8kRy5xQ/tbgmeXik12Jm6T61OWv4DbIw4X6pQFms2l4Qo9BxiG2m2FVrDxnVBfghvxlLB6RywYYSlFQKHak7pOetu7gEVu29dtboqtkUEp4RoKwHH9RdA86XLfjjM5B5m4Nv1gYl6Y4=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760370664; c=relaxed/simple;
-	bh=cAB0kIpqj20tM7yHpaFoe3xcfA2AB5cxFaYcvZmpAuc=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=qn5p42gFx304p6WRZExVhvxvuNOq7X1SFxB5SOCS5cIq52oTQ6yv0Qea4N0T14Mz1U+IqhrAztBqQ0T//Fu8psneVRAYgnjpXPoc9oPfwgek2B7Uds2Bnl0XQaWPUQC7zoVfSdfxo8woZmLmZsQJLTILgJMnWBg3NwkeLYkC0WU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=Boq+zGAO; arc=none smtp.client-ip=209.85.167.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53162309F12
+	for <linux-staging@lists.linux.dev>; Mon, 13 Oct 2025 15:53:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.162.44
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1760370831; cv=fail; b=XsRzTvNbzGE4y+yArNfkGGKbjzb22kCQSo4EzQgtCIt9Dtu8jEsz53E1gCbRNGun7ZqH5SJ07G0mSsiNlFhQywMn1xAFwXQGZjBX5WLbps413TqUEPzLJBpZ+KEIo+5g01490WBjsjI/UC4vx27kjwZskSmEIentaLavI6+eRqc=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1760370831; c=relaxed/simple;
+	bh=C9mkc0n5SrYTVe7Bqdzec+ulRE1gVFtdnw6Rb+YHz88=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=trjYvDvnh1FR4TGIygzTgXmLMuZTvgmGp/cUrK4hvFL3T8qgRet7BCMu1ovr1VZDHOvARH0gOLQHOQXGe5b/VRiclUlmqWGbSCNgNvt1+T1x4EXtGron84WnRPYcQ4Wlgn6HDTbstIqHBwwXhHGOgM8NMXIMv6z0Aqie11Abf6o=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=e2jGZahp; arc=fail smtp.client-ip=40.107.162.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="Boq+zGAO"
-Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-59093250a7bso2916790e87.3
-        for <linux-staging@lists.linux.dev>; Mon, 13 Oct 2025 08:51:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1760370661; x=1760975461; darn=lists.linux.dev;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=LK0kBaNkf30iNo8Y7sNwo/F78yA794Ns47GaxpHfRwE=;
-        b=Boq+zGAOz5J2t7b/9Ag0ko/V8aCTfg1UeJzEmlpm6jMKu3S7OG/kqZ5c1wbzFnZ9vx
-         +iqj4m6G/Y8vgB0Rf/zoH2QC7QrSVuAK45KHBQMXNQXx+wyscFlcb6Mh8Dq9SGbbyJpX
-         A4OMpeiBLSjOGjJQmyOVpa/ulxl10WN2d5vco=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760370661; x=1760975461;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=LK0kBaNkf30iNo8Y7sNwo/F78yA794Ns47GaxpHfRwE=;
-        b=sdXtYfaQOUm/xslcsJ+oIbJGwHzdpOlQYMHt7Hlco4ZvNuSsL1kjC3Qy1ATtykiX/h
-         5OnH2VEe6RWVIF8GlOW8xsQCDxLR3+tL4exvmK2Wxia4dR4u4QF/EeJrD0CxVL4E3gxZ
-         tga8sRj4VR5bAJMsBVZl/1rZF+0b9pZtwfkcztI3Nv7Opkp1ekAfmQ62mUaq3YPTa+xg
-         XAwlEdJx5/8JGy4EqnJmBwqxFZb9z9ahHfcLw+TGyT8NSlRyUIjJ2sW5gVVPgcI6JHr6
-         WhCHOTIER8+/pdOyiZGApLjvXII30WDi88Mj/vGQ/0SeDsCLrWYnojZXVwITBpN4e9Hw
-         ocSw==
-X-Forwarded-Encrypted: i=1; AJvYcCVweNhaIJ6Vl+Lm7YxbJKSdpGf5PAbTSnmREeNh53pT1mCpLsAJL0QWoz4IPZLpakfBh+WFe2eUKqSkQ0pA@lists.linux.dev
-X-Gm-Message-State: AOJu0YzydXFGAJOYyVlH+sy1O3c6ajflI2CuDu4Jehx8b9NHQKmCxLuV
-	jKYgK8e5j8YxJxw8vmky/KV32GZ8YK6DyhK7aTadIM3cr/27as88ntiZcwpgEdlS/EvCHUZMX7M
-	3UEpOkA==
-X-Gm-Gg: ASbGncud5x3y92fF0x3G4o+T89+cvtS1F0QQ55q90t6yHN5Ty+jbbHqFYwLVFjJ/mur
-	McSfUNPFZQ8rancLpFZMUucazhLQGl3xZ1DsUQMQapbGgNkct/oxbn/rLXV3kj2E9RbhTznsLKV
-	OGribPC8RjfOQId8E0V2jriA5FHgpFerxaxihVDANFEGbTFBA9W1DSYUmDft73SGY791Ro3f/aG
-	tFozsuQXzprJMU84pM++iqd+v9BPzz6jQX8bihbPLKLGmlc8GaFpk2qVc1TqP6cvvi+RpFlecNI
-	J6pKutazdoE3CDVUmX26kO8WQezuxd2945cU9fZ9pY4jGVKUZWQATGnBK/MxTr7EwaCqKvLglhF
-	IlVGLOjiiqsQU95VzsSHiEcGgiaZkjC3xQ/YuE9CcHNm80pDYYldEIdIAo/vurG+DBZLRTj4NR8
-	k0fxT2fplj6+C/vw==
-X-Google-Smtp-Source: AGHT+IEcPeV7QpFo4ceOFwCxpLYdLMamUxZWlgyCds5/V4HqTJv5XoGC8eD2fqcyw6cxipG2UDthqw==
-X-Received: by 2002:a05:6512:3e27:b0:55f:6db5:748d with SMTP id 2adb3069b0e04-5906db0d3e3mr6328790e87.4.1760370660571;
-        Mon, 13 Oct 2025 08:51:00 -0700 (PDT)
-Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com. [209.85.167.44])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-59088584921sm4254324e87.125.2025.10.13.08.50.58
-        for <linux-staging@lists.linux.dev>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 13 Oct 2025 08:50:59 -0700 (PDT)
-Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-57bd04f2e84so4783315e87.1
-        for <linux-staging@lists.linux.dev>; Mon, 13 Oct 2025 08:50:58 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCWbJyx+4iAJGvCxHZEgJAHHKf4KJk14hFfKrIwRMhEMrIrf/3OOxfG0JvWM5ztYzbo5VT6N23jT8JN7h6AX@lists.linux.dev
-X-Received: by 2002:a05:6512:1095:b0:58b:75:8fbc with SMTP id
- 2adb3069b0e04-5906dd8ef00mr6030162e87.50.1760370658194; Mon, 13 Oct 2025
- 08:50:58 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="e2jGZahp"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Swle5RTNYcnx8lVU+26rf0kk5aQJZdGGzvAcfTxM6EMm+5/34IouT0Tdyb2/0LG0uESb4UAWbXUJibvbuH6ox5hXoh7bndei4SL2pPVRzw/6RXuOgGP+OWgDZ/mgQnJCIqmO9NTuV1MFk1+yLWz29lz7RARYYRYcYdrznQ1uY64LCxP/RRbDQaMOf2JaCJFndj8JCatQMfcvZAgz2TqCdZ4y8x/eBFszHMW02hTAZYmzInY0SFBTZyM6bHlsU30Dd25DVGkgZnpdJK4Z3YvmL0wRcw1ZbLS25yeloK5Lp6RnRZYf7bRIH5qO+BU239E8eA6XH6pz1yE+fKOuBWuvTQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=BbPbfc0aVm5bNp2C/i2ms303pAKpS70GwpEy5Rz9+xY=;
+ b=NyfeNzJCyQDcu2KOAelYIUhauzNmVzPq783WbOwKDnGByI66FOFGHufOVeebKrDedYMRZcj2L5vjRh83S94Pj7tGNald4vM7k5o9HjuzlIrNZB4K8ayCtv9tgPfycxYmgRjZa4hrGEMhYi/qbXtMm1Bn4eQ6ugCDy6lse5rpuDGeQGMH4s3LfP88Nad3wwkVTaNaJjQFnMER+vEASaaGPTaIetYAfO27GUv5eeTTknBonBycypatlOBmwyg4CD9clY7N/6tG2SH9tK7Jhp6sXgtD3aRPRDLE4GKJMIkF1DT+WMlSEyg48dzViFfucx3l2M2ld52suWtQc2tr9J68Ew==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=BbPbfc0aVm5bNp2C/i2ms303pAKpS70GwpEy5Rz9+xY=;
+ b=e2jGZahp1J26ryF5c7YKiBAXm2S3uuNNwB7MdIR9gjhCTc/cwTYMcWLBO8HRoZDfWddwhQspiNtEnj9b3pHg1RVp2Wt5ghxDGHL+rhXuhDtWz4rNjQVUyTd9yqXt9eGuh8/83gvyT+P4S3WUCjX5BgUCFNX99hAUQqEhBRkslyPUpWU2STxthb2qLlbIeqGYw5nCB39xOHdxgWhA0WJljn6K/uFbQLhw/RAL0yBMqhqlgNXP3BZA63MI9vFJ8YKLj/ke3puoFEe9VoehxqW9u8536b65phKclqZCG3oieQxW3psugvOgMldWIGVDSWzsndAoH3Hhuv/MjEDVAHnESQ==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+Received: from AS4PR04MB9621.eurprd04.prod.outlook.com (2603:10a6:20b:4ff::22)
+ by DU2PR04MB8583.eurprd04.prod.outlook.com (2603:10a6:10:2da::8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9203.12; Mon, 13 Oct
+ 2025 15:53:45 +0000
+Received: from AS4PR04MB9621.eurprd04.prod.outlook.com
+ ([fe80::a84d:82bf:a9ff:171e]) by AS4PR04MB9621.eurprd04.prod.outlook.com
+ ([fe80::a84d:82bf:a9ff:171e%4]) with mapi id 15.20.9203.009; Mon, 13 Oct 2025
+ 15:53:45 +0000
+Date: Mon, 13 Oct 2025 11:53:32 -0400
+From: Frank Li <Frank.li@nxp.com>
+To: Svyatoslav Ryhel <clamor95@gmail.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Sowjanya Komatineni <skomatineni@nvidia.com>,
+	Luca Ceresoli <luca.ceresoli@bootlin.com>,
+	Prashant Gaikwad <pgaikwad@nvidia.com>,
+	Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>,
+	Mikko Perttunen <mperttunen@nvidia.com>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Jonas =?iso-8859-1?Q?Schw=F6bel?= <jonasschwoebel@yahoo.de>,
+	Dmitry Osipenko <digetx@gmail.com>,
+	Charan Pedumuru <charan.pedumuru@gmail.com>,
+	Diogo Ivo <diogo.ivo@tecnico.ulisboa.pt>,
+	Aaron Kling <webgeek1234@gmail.com>, Arnd Bergmann <arnd@arndb.de>,
+	dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+	linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org, linux-clk@vger.kernel.org,
+	linux-gpio@vger.kernel.org, linux-staging@lists.linux.dev
+Subject: Re: [PATCH v4 22/24] dt-bindings: display: tegra: document Tegra20
+ and Tegra30 CSI
+Message-ID: <aO0gfGn+F6iQBaP/@lizhi-Precision-Tower-5810>
+References: <20251008073046.23231-1-clamor95@gmail.com>
+ <20251008073046.23231-23-clamor95@gmail.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251008073046.23231-23-clamor95@gmail.com>
+X-ClientProxiedBy: PH7PR03CA0004.namprd03.prod.outlook.com
+ (2603:10b6:510:339::30) To AS4PR04MB9621.eurprd04.prod.outlook.com
+ (2603:10a6:20b:4ff::22)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20251013-ptr_err-v1-0-2c5efbd82952@chromium.org>
- <20251013-ptr_err-v1-1-2c5efbd82952@chromium.org> <aO0cXYeGLwwDABP6@lizhi-Precision-Tower-5810>
-In-Reply-To: <aO0cXYeGLwwDABP6@lizhi-Precision-Tower-5810>
-From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Mon, 13 Oct 2025 17:50:44 +0200
-X-Gmail-Original-Message-ID: <CANiDSCtxnR-ydCquhH1=g-XwZ9DN=eeJNxRBOGiqufS_DMYzUg@mail.gmail.com>
-X-Gm-Features: AS18NWAjEedfD0tRDHHy9p2HIYCpNxcTQpn_Xf2f0oNW4TLvTJ881tcLSkxWDmQ
-Message-ID: <CANiDSCtxnR-ydCquhH1=g-XwZ9DN=eeJNxRBOGiqufS_DMYzUg@mail.gmail.com>
-Subject: Re: [PATCH 01/32] Input: cyttsp5 - Use %pe format specifier
-To: Frank Li <Frank.li@nxp.com>
-Cc: Linus Walleij <linus.walleij@linaro.org>, Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Hans Verkuil <hverkuil@kernel.org>, 
-	Sakari Ailus <sakari.ailus@linux.intel.com>, =?UTF-8?Q?Krzysztof_Ha=C5=82asa?= <khalasa@piap.pl>, 
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, Leon Luo <leonl@leopardimaging.com>, 
-	Kieran Bingham <kieran.bingham@ideasonboard.com>, Jacopo Mondi <jacopo+renesas@jmondi.org>, 
-	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>, 
-	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>, 
-	=?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>, 
-	Julien Massot <julien.massot@collabora.com>, Jacopo Mondi <jacopo@jmondi.org>, 
-	Daniel Scally <djrscally@gmail.com>, Dave Stevenson <dave.stevenson@raspberrypi.com>, 
-	Benjamin Mugnier <benjamin.mugnier@foss.st.com>, 
-	Sylvain Petinot <sylvain.petinot@foss.st.com>, Yong Zhi <yong.zhi@intel.com>, 
-	Bingbu Cao <bingbu.cao@intel.com>, Tianshu Qiu <tian.shu.qiu@intel.com>, 
-	Tiffany Lin <tiffany.lin@mediatek.com>, Andrew-CT Chen <andrew-ct.chen@mediatek.com>, 
-	Yunfei Dong <yunfei.dong@mediatek.com>, Matthias Brugger <matthias.bgg@gmail.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
-	Rui Miguel Silva <rmfrfs@gmail.com>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
-	Martin Kepplinger <martink@posteo.de>, Purism Kernel Team <kernel@puri.sm>, Shawn Guo <shawnguo@kernel.org>, 
-	Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
-	Fabio Estevam <festevam@gmail.com>, Dafna Hirschfeld <dafna@fastmail.com>, 
-	Heiko Stuebner <heiko@sntech.de>, Sylwester Nawrocki <s.nawrocki@samsung.com>, 
-	Krzysztof Kozlowski <krzk@kernel.org>, Alim Akhtar <alim.akhtar@samsung.com>, 
-	Yemike Abhilash Chandra <y-abhilashchandra@ti.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	linux-input@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-mediatek@lists.infradead.org, imx@lists.linux.dev, 
-	linux-renesas-soc@vger.kernel.org, linux-rockchip@lists.infradead.org, 
-	linux-samsung-soc@vger.kernel.org, linux-staging@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: AS4PR04MB9621:EE_|DU2PR04MB8583:EE_
+X-MS-Office365-Filtering-Correlation-Id: 4401d476-0d78-40a7-a706-08de0a70b08e
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|1800799024|366016|19092799006|52116014|7416014|376014|7053199007|38350700014;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?kiCEUJAbPH+Dts8qcAuLgBl8IVLJcrUYEuL0FZ6v1mLGBwLdWN9PV94xEeRf?=
+ =?us-ascii?Q?aYUNSEo6oUxKifOXZOTWvKGJ+QVQYbBnUcOyQbkjRy7yFj4KR3/k7rUdqu+U?=
+ =?us-ascii?Q?HjY//ksmpzQVhx278uDinsUYolbdFSAeCU0GxzKxrUS9O1swfvUpHqTVNb+Z?=
+ =?us-ascii?Q?4X0YZLXYX7e42/oG2SUGxI3k22d2NPlvrk+j+/YfZFY8RVBAFFgeDA9AahsW?=
+ =?us-ascii?Q?qDm9MMHi3CZ8JbAuZscw1AKz9oxuvKlkUAtCEIrcTyce/5Q6kxaoEjhkmJh8?=
+ =?us-ascii?Q?aJt00+k6c/Loyjq8GnsQAZu5MhDUlz937KjcG3sx44knJgqUQlkkzm/2Colr?=
+ =?us-ascii?Q?UG7Ng7A3AUjIVuRkM+w9zI977nzEeKS9XfG59fR+552FfGtQxWzYkpwP1fJd?=
+ =?us-ascii?Q?1+t0yDZvleE3Mm5i0GYO0LPDstlxURbpGF1RxTx4cwchAVltGv1fRhvwUgfy?=
+ =?us-ascii?Q?25WA9oMK5+4azNkBvHu2pyaeCF9dBrskHr+tCVDbVQovTpZ6q5XgvCBjjArE?=
+ =?us-ascii?Q?JtOSv+8o0TK3vsCxHj2npDAhfJ5XVcyoGonCBxrsGMartjNa3noBuKpIhdDY?=
+ =?us-ascii?Q?fZKQ1JJRQC2aF3u6A5MkR3OJx6VtxjOMzDogDuzdGHFvud/DnVeDIcxJLxSo?=
+ =?us-ascii?Q?AxwT05lB9agv3IbgE7adAt9JmRX/r1k9T6bayq7jQUunbjqmhXFUE5Pjcv26?=
+ =?us-ascii?Q?+ScQfkEJM4Dld2aJVmdChCBhh5R6yHe6bf/vTbGQouIElpwhubGTsUemuAyt?=
+ =?us-ascii?Q?S2l1aKjsoyGa5NCVbO7LuZr25npKlFwKlZiJqYhhAdKnDeeHSfi8h4VzgCPk?=
+ =?us-ascii?Q?4rWhmZzNmKixIZOdk6E+Yzg6tcRuWzfwcYylu+2V6IRQD+9fhhh+OlbbwgSk?=
+ =?us-ascii?Q?PmpSrDcoFO+qrBnn4Ese6ShdowJhddw0rN7TnfqXVEJxae3wIOujO6j0h4AH?=
+ =?us-ascii?Q?6eSrbXpldFxwA/HbS68KrnAawZJbq/dsu+n/n5ycHycbDTidzRKbAXket7LG?=
+ =?us-ascii?Q?L2e+WdLdABpFQURg5uqvyaS+AsS4PiRGT3DI58udtoSEdRHvOEOvIpA/4w0g?=
+ =?us-ascii?Q?DN7VtuWoON32hSvNScexYnKWXmeNmwov8iByoEfuuMgsm9rffyJZ1GnTOtej?=
+ =?us-ascii?Q?wjb5IKjD+wb3RgN4VoPCFzqjATHmSD3ckPuS83DCjYPsqM4Ziv9Qb/6IXKSr?=
+ =?us-ascii?Q?AaPjC62VKPskYgxChEbESkSwIt1aLXOb/PtWeWhIl/SoiI7c6mf9l1Zbd9FP?=
+ =?us-ascii?Q?SR/Y4aDTB8cJtKOCzR2sW7EyxpqOQDFAvdF1XFi6SdK5ogtSXdz0tiFLIwtL?=
+ =?us-ascii?Q?pb5Ar8UuXHr1uysFYe2jAh3UNgeR+ZT5c3gMz6+pCWIce2KHEce4ua5IdQsg?=
+ =?us-ascii?Q?+fZhJU4tEnKGdNLz2QN8FDtVV/SManKZaGNTrt4DEHatCl+argEkQxwRdQbL?=
+ =?us-ascii?Q?tOLgqYLel97Z5QHhIH4b9g08l1POjsW/cWKvSGzfOUPiirkcpDzDZw=3D=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS4PR04MB9621.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(19092799006)(52116014)(7416014)(376014)(7053199007)(38350700014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?P+jiQ+UtGH3Au+oSlTgBkXxXW8q+jaRrfhJN0UNWRaqydhu7xpYRL5NYnigF?=
+ =?us-ascii?Q?5ZHp24N/DeBXqTh8dtPyROEIIlosIc3F4UQIF4oVDEQeN6JxcdkVeMXFg49d?=
+ =?us-ascii?Q?PpsG2hx+UpEOhF6EuNON/76jK9owMHSqmR4+auhMtpPMiHzVnN5yur52DieR?=
+ =?us-ascii?Q?+rrJtJ9YI9kYmevu1xyDUltUnWzNDlsrSyjaGWaozKQws8xOD7a7G6NnqasC?=
+ =?us-ascii?Q?WBbJmwCfow+sL2wBVjcGp+IDmqyFA5NSkdq2hb7K8IdjrEKKMIL+DVVVnp4l?=
+ =?us-ascii?Q?J3wpc3PzCX31+wdYpbndhx4SVwum8datzGXLqrnvWO1ZK2TbtoWpiDHxHs0Z?=
+ =?us-ascii?Q?geTrmY1W2V3bBRmxBkstvL6xqfk8XtjWclhRx9ZCRaUSBqiayj/XcWp8IQMg?=
+ =?us-ascii?Q?gCKC+ayZ3yVxKA3Qq7fABZQsIay0Ww+WxzEFQnMQtG2Qc73f0rKMokqgaFmy?=
+ =?us-ascii?Q?QAhRaHWOhDAmCCyNv/MZ2Glzw3vQzy3kNOIv6ULBsWULIr1YPe+CCuXb92wz?=
+ =?us-ascii?Q?R6objkLzqihlDu4fGh39qX4jCjUp040QkPfNNDsfBuIkqwjJ95cIgO7RHAg5?=
+ =?us-ascii?Q?whq0GsTuNHy1FbiybiX3/yZlmzQOp8Zu0dNfh0+bsPs/VUyryUcsrg/Z0xs3?=
+ =?us-ascii?Q?ktPNI1DZuRbaWsx3cyOut6EvWavBuOHPzLrwKhbZDvEENb2uLedP9qsdamVA?=
+ =?us-ascii?Q?04UzMey/07v9y18R59mJRMII8KV+wznXicLLCGAozLieA/EKGqAbywkZpur2?=
+ =?us-ascii?Q?C6NRP4nS0iobGJ5v9SiHkWnyH2BPMOp4cd8Z5RZvQlPFb1eaDCjMLzneTbKw?=
+ =?us-ascii?Q?uUJhsnaEdg3aXLeMNDHM/Sa1xrrhpSGVXyvUXIsdyHEJDUPdqJGLyCu/9+/T?=
+ =?us-ascii?Q?pHZ2eKbfw9nMqc5pywH2dDJz1A2C8OEGa2Pzbq5WxUA2O6ojHWNtQtzIznUb?=
+ =?us-ascii?Q?4w1LOq3L4sL5HZtcId+QVg0pDkQ3TdC51omf28bm22JjW2Tfn1gYWcu+ElTq?=
+ =?us-ascii?Q?BSkHnMRgB32BjgL+LMShtPbY8kavXqIYMmU7dP/CZx8fbSxz+dLZ7kjBJd6j?=
+ =?us-ascii?Q?QN3LXN/lUWPSwkCx4XSuspTUiG+Ot9d97LSW2rg3IWBC9ggqp2Cyid7SdKyX?=
+ =?us-ascii?Q?z6SugOP2zxKb3hY+LU/D1gAkTYb4xZlgkyLTehQy4EI2/sYQKns1PQkHw+mM?=
+ =?us-ascii?Q?CM8bvr1A3B7Ux2THuVNI6hu7SIJMPhjGBP6DtzxNUizl5fFr3wewN6bq85Vi?=
+ =?us-ascii?Q?JjR/1EvtFFUn0zh9sfGfrKEp0dEQazU5EwSWtAAyi7Djhg6oFWeVJ/Z78z9e?=
+ =?us-ascii?Q?DOKn/VvxzCvbYiCooCxXc/UWqQ9Z0pV1Ma9fT4N7UvVzIX0w7Gq65d4RFsHG?=
+ =?us-ascii?Q?NJCOqtuydhA4I5kkZLi7nyXGFZQcsnINBlcVenRt3Hu7bgjLu9BsG6ADi1uV?=
+ =?us-ascii?Q?PIhKUgyAWr2FTpDdi2OB3a8wlMyXnD2hK6+bON21WqjwntDs62HmvjNbIcae?=
+ =?us-ascii?Q?RMSWuibum0FxHppLjYhL+TzO/GIJ7uTo76Ww5Qp2T7iyyeYD0Wiz8nNDGMAU?=
+ =?us-ascii?Q?GyU98H1QGGy0P6qjA2TYWJVsEZoyXBg9ksZ67zxW?=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4401d476-0d78-40a7-a706-08de0a70b08e
+X-MS-Exchange-CrossTenant-AuthSource: AS4PR04MB9621.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Oct 2025 15:53:44.9843
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: JlBjdPSydaaxZDWVN0UGYiTC0xfL+XC6dyPwtZ4+FFxo58EHRbk8CuAQN9F8naQJrSovkk8WCPVn/Xg9Q7QYfg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU2PR04MB8583
 
-Hi Frank
-
-On Mon, 13 Oct 2025 at 17:36, Frank Li <Frank.li@nxp.com> wrote:
+On Wed, Oct 08, 2025 at 10:30:44AM +0300, Svyatoslav Ryhel wrote:
+> Document CSI HW block found in Tegra20 and Tegra30 SoC.
 >
-> On Mon, Oct 13, 2025 at 02:14:41PM +0000, Ricardo Ribalda wrote:
-> > The %pe format specifier is designed to print error pointers. It prints
-> > a symbolic error name (eg. -EINVAL) and it makes the code simpler by
-> > omitting PTR_ERR()
-> >
-> > This patch fixes this cocci report:
-> > ./cyttsp5.c:927:3-10: WARNING: Consider using %pe to print PTR_ERR()
-> >
-> > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
-> > ---
-> >  drivers/input/touchscreen/cyttsp5.c | 4 ++--
-> >  1 file changed, 2 insertions(+), 2 deletions(-)
+> The #nvidia,mipi-calibrate-cells is not an introduction of property, such
+> property already exists in nvidia,tegra114-mipi.yaml and is used in
+> multiple device trees. In case of Tegra30 and Tegra20 CSI block combines
+> mipi calibration function and CSI function, in Tegra114+ mipi calibration
+> got a dedicated hardware block which is already supported. This property
+> here is used to align with mipi-calibration logic used by Tegra114+.
 >
-> Suppose it will go though input subsystem intead of media.
-> Need post seperated at difference thread?
-
-Indeed, it belongs to input. if there is a v2 I will move it to a
-different thread.
-
-Thanks!
-
+> Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
+> ---
+>  .../display/tegra/nvidia,tegra20-csi.yaml     | 135 ++++++++++++++++++
+>  1 file changed, 135 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-csi.yaml
 >
-> Frank
+> diff --git a/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-csi.yaml b/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-csi.yaml
+> new file mode 100644
+> index 000000000000..817b3097846b
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-csi.yaml
+> @@ -0,0 +1,135 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/display/tegra/nvidia,tegra20-csi.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: NVIDIA Tegra20 CSI controller
+> +
+> +maintainers:
+> +  - Svyatoslav Ryhel <clamor95@gmail.com>
+> +
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - nvidia,tegra20-csi
+> +      - nvidia,tegra30-csi
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  clocks: true
+
+Need limit how many clocks needs
+
+clocks:
+  maxItems: <?>
+
+> +  clock-names: true
+
+Need provide exact list, I saw you provide list at if branch, but here
+need provide numbers limitations.
+
+clock-names:
+  maxItems: 3
+  minItems: 1
+
+> +
+> +  avdd-dsi-csi-supply:
+> +    description: DSI/CSI power supply. Must supply 1.2 V.
+> +
+> +  power-domains:
+> +    maxItems: 1
+> +
+> +  "#nvidia,mipi-calibrate-cells":
+> +    description:
+> +      The number of cells in a MIPI calibration specifier. Should be 1.
+> +      The single cell specifies an id of the pad that need to be
+> +      calibrated for a given device. Valid pad ids for receiver would be
+> +      0 for CSI-A; 1 for CSI-B; 2 for DSI-A and 3 for DSI-B.
+> +    $ref: /schemas/types.yaml#/definitions/uint32
+> +    const: 1
+> +
+> +  "#address-cells":
+> +    const: 1
+> +
+> +  "#size-cells":
+> +    const: 0
+> +
+> +patternProperties:
+> +  "^channel@[0-1]$":
+> +    type: object
+> +    description: channel 0 represents CSI-A and 1 represents CSI-B
+> +    additionalProperties: false
+> +
+> +    properties:
+> +      reg:
+> +        maximum: 1
+> +
+> +      nvidia,mipi-calibrate:
+> +        description: Should contain a phandle and a specifier specifying
+> +          which pad is used by this CSI channel and needs to be calibrated.
+> +        $ref: /schemas/types.yaml#/definitions/phandle-array
+> +
+> +      "#address-cells":
+> +        const: 1
+> +
+> +      "#size-cells":
+> +        const: 0
+> +
+> +      port@0:
+> +        $ref: /schemas/graph.yaml#/$defs/port-base
+> +        unevaluatedProperties: false
+> +        description: port receiving the video stream from the sensor
+> +
+> +        properties:
+> +          endpoint:
+> +            $ref: /schemas/media/video-interfaces.yaml#
+> +            unevaluatedProperties: false
+> +
+> +            required:
+> +              - data-lanes
+> +
+> +      port@1:
+> +        $ref: /schemas/graph.yaml#/properties/port
+> +        description: port sending the video stream to the VI
+
+The other systems looks, put port@<n> under ports.
+
+ports {
+  port@0
+  ...
+  port@1
+  ...
+}
+
+
+> +
+> +    required:
+> +      - reg
+> +      - "#address-cells"
+> +      - "#size-cells"
+> +      - port@0
+> +      - port@1
+> +
+> +allOf:
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          contains:
+> +            enum:
+> +              - nvidia,tegra20-csi
+> +    then:
+> +      properties:
+> +        clocks:
+> +          items:
+> +            - description: module clock
+> +
+> +        clock-names: false
+> +
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          contains:
+> +            enum:
+> +              - nvidia,tegra30-csi
+> +    then:
+> +      properties:
+> +        clocks:
+> +          items:
+> +            - description: module clock
+> +            - description: PAD A clock
+> +            - description: PAD B clock
+> +
+> +        clock-names:
+> +          items:
+> +            - const: csi
+> +            - const: csia-pad
+> +            - const: csib-pad
+
+This is new binding
+
+at top
+
+clock-names
+  items:
+    - const: csi
+    - const: csia-pad
+    - const: csib-pad
+  minItems: 1
+
+
+here, just limit number
+
+  clock-names:
+    minItems: 3
+
+Frank
+> +
+> +additionalProperties: false
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - clocks
+> +  - power-domains
+> +  - "#address-cells"
+> +  - "#size-cells"
+> +
+> +# see nvidia,tegra20-vi.yaml for an example
+> --
+> 2.48.1
 >
-> >
-> > diff --git a/drivers/input/touchscreen/cyttsp5.c b/drivers/input/touchscreen/cyttsp5.c
-> > index 071b7c9bf566eb0b58e302a941ec085be1eb5683..47f4271395a69b8350f9be7266b57fe11d442ee3 100644
-> > --- a/drivers/input/touchscreen/cyttsp5.c
-> > +++ b/drivers/input/touchscreen/cyttsp5.c
-> > @@ -923,8 +923,8 @@ static int cyttsp5_i2c_probe(struct i2c_client *client)
-> >
-> >       regmap = devm_regmap_init_i2c(client, &config);
-> >       if (IS_ERR(regmap)) {
-> > -             dev_err(&client->dev, "regmap allocation failed: %ld\n",
-> > -                     PTR_ERR(regmap));
-> > +             dev_err(&client->dev, "regmap allocation failed: %pe\n",
-> > +                     regmap);
-> >               return PTR_ERR(regmap);
-> >       }
-> >
-> >
-> > --
-> > 2.51.0.760.g7b8bcc2412-goog
-> >
-
-
-
--- 
-Ricardo Ribalda
