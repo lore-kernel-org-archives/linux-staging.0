@@ -1,172 +1,385 @@
-Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9CC330C603
-	for <linux-staging@lists.linux.dev>; Mon, 13 Oct 2025 16:03:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66968211F
+	for <linux-staging@lists.linux.dev>; Mon, 13 Oct 2025 22:45:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760371396; cv=none; b=YldXQwAdrHVzhoFyvcSZIkJjeDf/MWuuLqVuoj/gri14MPFDEAYVxx/y3Eq75hyzxC+w4cwNnq+vp1NtDkNjDxC3ySMp6g5yqCF1jtxb1Hgz+KTpyd6UcJwXM3NXpNy4W45ESdOsPYbg6HsTeu3wMw+VW91yuvb3849U+wgcYM8=
+	t=1760395555; cv=none; b=QXuqP1f5dmR0G2wv/uTlNDdC3Apgqna4X4/iAR7xorlB/xBKLZX/pU0mLMTkekVcB6ZQRGepBY3uo0NZl+xHjrHWaNFcT6e6Gn/a5c4/DSJMnadnzFAbfVW51QmyRl8s+a2ajd5sKiKwzSo4n30QDQkkb28rARS+7u9el0A90Ew=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760371396; c=relaxed/simple;
-	bh=7pmScWeJxb/SA9LfgnIE+RSHfO7kt+ZDsVcv07zsRtU=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=uVghoMn8678O2weJMNTPF0NWdkDkyryC8OcXpVh6n9SutzlFIZB4TTxQYWKVLXASJR0GDv6GBJm20IKbgMCH/E2rLPS+G8swDhnux9ZR/MsNLUBcGE5iExf4S3LVomr/BEYEh4lp7m7S7CmkNfGr4DPJAHowUeIsLSr8nqUPHiQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=H4g7xaE3; arc=none smtp.client-ip=209.85.208.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	s=arc-20240116; t=1760395555; c=relaxed/simple;
+	bh=s+cTaBWTRDjPjcFMe3RvmWxNHr8AfIUjpqzv0AL7Lao=;
+	h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=IOkcQH3dE37Nf0P4YpQqDz1XZxv6FoKD8BBL5/Alj0/Ewm0VQBU+Foebhn/3705XFUcbZLPdTry2d7HR8UJjAMEjKeMsz1wLwLM5oDPZODN4S+cmUWewzBKdUoWHffCUkjbuSrLuzkBbSMLpXZD6EMltkHLbey5IZn4/JfGaMxA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WYPMSYc4; arc=none smtp.client-ip=209.85.128.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="H4g7xaE3"
-Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-63bad3cd668so1772705a12.3
-        for <linux-staging@lists.linux.dev>; Mon, 13 Oct 2025 09:03:11 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WYPMSYc4"
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-46e504975dbso27613455e9.1
+        for <linux-staging@lists.linux.dev>; Mon, 13 Oct 2025 15:45:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1760371390; x=1760976190; darn=lists.linux.dev;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=85zW8eAa0UUuhYK13qFSD0pz0Cqd0sUrz3cG+0d4BSc=;
-        b=H4g7xaE3fPkRAEwMy1Q4IVELppOvrIAQKP7DU4Z/Et15Pjb/wH0x6QpDPolJRAhF05
-         MLP+0Dv675buwZJ5Ct31MVkMh2f3FNCGm96gyWiDRBjd0Ji4eXkkummNJbvHKuNUnjrr
-         6DAIhZC9EG/kkCIN0pL5cSq3psFTGPKjZDs+Y=
+        d=gmail.com; s=20230601; t=1760395552; x=1761000352; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=VbdDBDcY2xvlnlZbqQQm+AeL3Y4hgQFO9QkB/T0NiAk=;
+        b=WYPMSYc4LNOsJcSm729GC2Td3KdcSpCGzOk9tUuspI8/K3nJ7bBGruBiKKD9OHjbqu
+         8G8fTJYE8LxZW72T4k/edkyj0UWwMqKSA34QaLzrSizKjEOYXdC8lY4nEnQu6r1hBzrw
+         inHMQUMTspHrJzwDEXR5Xr0C//3vLuDlc0tNPkxebiPSH3/vEDSw4T6r8R2TKA3iWXWB
+         hGUKkaBFRDH8reU8TMpEtRD/LMdosVKPHD+Xc55WPRUaJLzeTaTIQlNK3GRGRK3KA+1b
+         9/JtBI+ECzWXqYIB30TvrVyxzK8lRYopd1UgWaNJInZYPTQlBOIy7aUVDE71Cl2M1X+6
+         Vrzw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760371390; x=1760976190;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=85zW8eAa0UUuhYK13qFSD0pz0Cqd0sUrz3cG+0d4BSc=;
-        b=Zx1Tb1BKIgWnjyc3SEVPO3IjoTxc4ZJzBRzEASW/xACsUQXuUD8Ff/Aol54ZiNsbIo
-         tVJGy+Jv0GCODdYDcUy9kk70lpjm7iEOitqMuPmzYkOEdmM6Fp1wUw+zx0/XPbjb6e+j
-         tktZM+tSFBU02x0hg1Ov/Dj/xPbV8YECbXhtetisHyd+xdA8MZAQ8MJuPFgVJC10MQwL
-         mzqG3+UqqDHWzuYEPas/0pjSkkhrCP6Sxmuiu3I2L3/tnfRvJ8qaGFvipfkNnSrtJbke
-         /ioGFOTng0AspFp32hMS6g83lmFY5+K+rlhC6SGsNxLeSaj+Dtw3I71sueWuxJGMy9xs
-         /RuA==
-X-Forwarded-Encrypted: i=1; AJvYcCWVmhAnP3bU9IFFD12TnIrtEh9XArAPlscKdRH8iY5B/j3guxVDBeTSb40EZjxUmfbbP8ZcNsOvcEdleSTk@lists.linux.dev
-X-Gm-Message-State: AOJu0YxGC5imrCBGvCVbYTg9wiNXczj9JZ6VzxnBMZgQ15Vp1trH7l6s
-	xlbfESr/qkKQ+9UKCwDGCb5TH0jhUaaO8M6kYm/I5XCJtRg9C9MoDhUaKwe9EzTMSDbESbU4dch
-	c8unsAU3D
-X-Gm-Gg: ASbGncufNBqJhxsNnChIljvHJy7YU05MD4ixaezhAswvqLtqgdDHksKwqBm+LbbSglp
-	WxObDbhOrtHiBtofIuscg+IzY32Z8pRoQyBgCG8E8Yex2gexiOyGanrVNZurLD0Ahihn6Thx6jR
-	Z1zlCfK/Qi+RB7u9H90o4uakzCuMGxMdMoHiF0WbJup4gXdN6YUBhIlxveZ45wkn3BRA2Za7gdU
-	oeaHJR5KVf23tvK7tYFZhK8jhhOVlkV7W+Rovm7eMkX9qs1Km81Bue0ekSFyGTzRRRdzr18YVRY
-	vjPQRtYYx6MGAvw9f/PvA5WjyRzB2tgh92ozx7Skd3b2SCc/tQr7gmhwIaVSISzl4FZImq3FdKm
-	3O0BcBQojKcVO3t5OU3bQ/Zwnhfd+u46DnYualUcegchrMwySmokGwRqf7QvG5yy1mnOBTU2Y/E
-	+bRTEp9HrMdWj64w==
-X-Google-Smtp-Source: AGHT+IF89i4F9ocDvTyoWAHunBiJ+ha5em1touHNgUXJbI/e1P1UzLfhrg59crcYeeNAj8jfh8F2Rw==
-X-Received: by 2002:aa7:c54d:0:b0:639:7781:ea20 with SMTP id 4fb4d7f45d1cf-639d5b807bfmr13504108a12.11.1760371389207;
-        Mon, 13 Oct 2025 09:03:09 -0700 (PDT)
-Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com. [209.85.218.54])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-63a5c134141sm9121184a12.34.2025.10.13.09.03.08
-        for <linux-staging@lists.linux.dev>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 13 Oct 2025 09:03:09 -0700 (PDT)
-Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-b40f11a1027so785549766b.2
-        for <linux-staging@lists.linux.dev>; Mon, 13 Oct 2025 09:03:08 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCULY0TEElxnmwuu1gj6IiXxLpaYWBJfqPzMjFAnpvXc3/L0K8mwfvzOzOLBxt8JYicn4nVmcBGxm5xw7X89@lists.linux.dev
-X-Received: by 2002:ac2:4c50:0:b0:55f:4ac2:a58c with SMTP id
- 2adb3069b0e04-5906dc0ff30mr6173104e87.22.1760370964286; Mon, 13 Oct 2025
- 08:56:04 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1760395552; x=1761000352;
+        h=content-disposition:mime-version:message-id:subject:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=VbdDBDcY2xvlnlZbqQQm+AeL3Y4hgQFO9QkB/T0NiAk=;
+        b=j2lD0gbUDV1gq7M2920mjIACJWbtNUYUMTsEapnhzt8o0XBCO9htWsXtNZiI0OanTp
+         hHy40kE3oXO2nMoUiSscFehzwX9NTemlEd5WQ3/HobUuJZHy280UdwDTx3K2VNdcj3qx
+         5ORv6MJGo70izmKQxwFtReEgnHSa1X6CkSsOP40AtuX4kdpM5ufmexWUcnOEGCh6VDu8
+         Ikt22fihqKjDJmENZVM0Gec/c0A8SuuX/THzZBVJThXf8QI5aXE1Kde1SicYwgLwC3Bz
+         MYT30JdihO9iI8LBnI1t1VQ1/rnV9MAE9qpUApSNhVmVlR8uTVjTLdwj/dWTv3yGSGsy
+         RbGA==
+X-Forwarded-Encrypted: i=1; AJvYcCUjlb1yESYL4NF3Fnp1S/Y9mAg4PRh0I3XIWO2goJYHn6E75X4Xg9GF2o5aEk3/J0od1ia/Ol0RKuQf6HFr@lists.linux.dev
+X-Gm-Message-State: AOJu0Yw52BNDAzA2NgiScftz2DT1q+6IDpoxBkVkGfJTkCSwYE3c05fi
+	blHQWuM2rR6Ot9MoVR7uhHYCaIL9ffzOcQ4qqeHaGJ17txAMv+xiocnszMZuIBOB
+X-Gm-Gg: ASbGncsyYVX+70xr8c9KuVHEPdzXkxpuoXhVYwjW3ew45Jaa60tSXkBS9gulatuMNSB
+	kwGE5sIize77tOO5anRIhGg7QZMab2wCQllR8MPdey7IVMjrpodLZLR2+D6U62w9/y3VKwUcBWq
+	eAjxwbrO+SMOOURS0fvYbfWvBey0H1JnZacktpo2SiAqZw6Jb2laqbUD0D6r0yrunPAyP8YEMlx
+	/HdCtHd8sMLSimb8DNgMyT3jWpPa69QRRpAiKOg2/LD66i2hROFsVokHBBbummpoJK9Skhvt67V
+	gy1+t6I3K326eOyCKBjdqSP4sypg7bmxdNtxJ5KFGGrmxYMXpEqbRepcugW4QPTCMUt0NFhTj27
+	fWfQ5urppBBQBDcL8MikpvDM2PIFFRzoX2etNi0R86jVB5/rU9lNlhjmgR4oD7i/ZytC2wMJgpW
+	8lW1lk9pHFUGOn
+X-Google-Smtp-Source: AGHT+IFqbTc8TAbIO7Pt+JoBn6j3eF5AuK7khdfY2tHDIoCY3Yrdy8EvjCTM/KpLguB/J1O016ZDDQ==
+X-Received: by 2002:a05:600c:4690:b0:46e:3dc2:ebac with SMTP id 5b1f17b1804b1-46fa9afbb62mr145998685e9.27.1760395551540;
+        Mon, 13 Oct 2025 15:45:51 -0700 (PDT)
+Received: from michalis-linux (adsl-75.176.58.251.tellas.gr. [176.58.251.75])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-46fb49c4027sm204157245e9.17.2025.10.13.15.45.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 13 Oct 2025 15:45:51 -0700 (PDT)
+Date: Tue, 14 Oct 2025 01:45:49 +0300
+From: Michail Tatas <michail.tatas@gmail.com>
+To: dpenkler@gmail.com, gregkh@linuxfoundation.org,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	outreachy@lists.linux.dev
+Subject: staging: gpib: convert comments from // to /* */
+Message-ID: <aO2BHZzs3EsMTo3n@michalis-linux>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20251013-ptr_err-v1-0-2c5efbd82952@chromium.org>
- <20251013-ptr_err-v1-10-2c5efbd82952@chromium.org> <176036780330.559803.287308146210017676@ping.linuxembedded.co.uk>
-In-Reply-To: <176036780330.559803.287308146210017676@ping.linuxembedded.co.uk>
-From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Mon, 13 Oct 2025 17:55:51 +0200
-X-Gmail-Original-Message-ID: <CANiDSCsuPkdz0=U2b_mNh4TWTNztAd9qEwJaiMRdGy1sf3UEbA@mail.gmail.com>
-X-Gm-Features: AS18NWCmgLaH0rMvCIhheSPVtWPGKkpbEBd_aB_kzUyM4RaB_yHSiy8sRs-muw0
-Message-ID: <CANiDSCsuPkdz0=U2b_mNh4TWTNztAd9qEwJaiMRdGy1sf3UEbA@mail.gmail.com>
-Subject: Re: [PATCH 10/32] media: i2c: imx335: Use %pe format specifier
-To: Kieran Bingham <kieran.bingham@ideasonboard.com>
-Cc: Alim Akhtar <alim.akhtar@samsung.com>, Andrew-CT Chen <andrew-ct.chen@mediatek.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
-	Benjamin Mugnier <benjamin.mugnier@foss.st.com>, Bingbu Cao <bingbu.cao@intel.com>, 
-	Dafna Hirschfeld <dafna@fastmail.com>, Daniel Scally <djrscally@gmail.com>, 
-	Dave Stevenson <dave.stevenson@raspberrypi.com>, 
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>, Fabio Estevam <festevam@gmail.com>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Hans Verkuil <hverkuil@kernel.org>, 
-	Heiko Stuebner <heiko@sntech.de>, Jacopo Mondi <jacopo+renesas@jmondi.org>, 
-	Jacopo Mondi <jacopo@jmondi.org>, Julien Massot <julien.massot@collabora.com>, 
-	=?UTF-8?Q?Krzysztof_Ha=C5=82asa?= <khalasa@piap.pl>, 
-	Krzysztof Kozlowski <krzk@kernel.org>, 
-	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>, 
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Leon Luo <leonl@leopardimaging.com>, 
-	Linus Walleij <linus.walleij@linaro.org>, Matthias Brugger <matthias.bgg@gmail.com>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	=?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>, 
-	Pengutronix Kernel Team <kernel@pengutronix.de>, Purism Kernel Team <kernel@puri.sm>, 
-	Rui Miguel Silva <rmfrfs@gmail.com>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
-	Sascha Hauer <s.hauer@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>, 
-	Sylvain Petinot <sylvain.petinot@foss.st.com>, Sylwester Nawrocki <s.nawrocki@samsung.com>, 
-	Tianshu Qiu <tian.shu.qiu@intel.com>, Tiffany Lin <tiffany.lin@mediatek.com>, 
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, 
-	Yemike Abhilash Chandra <y-abhilashchandra@ti.com>, Yong Zhi <yong.zhi@intel.com>, 
-	Yunfei Dong <yunfei.dong@mediatek.com>, linux-input@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
-	imx@lists.linux.dev, linux-renesas-soc@vger.kernel.org, 
-	linux-rockchip@lists.infradead.org, linux-samsung-soc@vger.kernel.org, 
-	linux-staging@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Hi Kieran
+This patch converts some comments from // -> /* */ to make everything consistent as suggested
+in the TODO file in drivers/staging/gpib/TODO
 
-On Mon, 13 Oct 2025 at 17:03, Kieran Bingham
-<kieran.bingham@ideasonboard.com> wrote:
->
-> Quoting Ricardo Ribalda (2025-10-13 15:14:50)
-> > The %pe format specifier is designed to print error pointers. It prints
-> > a symbolic error name (eg. -EINVAL) and it makes the code simpler by
-> > omitting PTR_ERR().
-> >
-> > This patch fixes this cocci report:
-> > ./i2c/imx335.c:1013:3-10: WARNING: Consider using %pe to print PTR_ERR()
->
-> Ohhh nice. Is this new ? First I've come across it.
+This patch only updates part of the driver to keep a reasonable patch size. Further conversions
+will be submitted in follow-up patches if this is accepted.
 
-It is actually from 2019:
-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=57f5677e535ba24b8926a7125be2ef8d7f09323c
+Signed-off-by: Michail Tatas <michail.tatas@gmail.com>
+---
+ .../gpib/agilent_82357a/agilent_82357a.c      | 70 +++++++++----------
+ .../gpib/agilent_82357a/agilent_82357a.h      | 18 ++---
+ 2 files changed, 44 insertions(+), 44 deletions(-)
 
-I just learned about it because there is a new check in coccinelle :).
-
-It is pretty cool, but you need to be careful to check IS_ERR(ptr)
-before doing the printk, otherwise %pe will print the pointer value.
-
-Regards!
-
->
->
->
-> > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
-> > ---
-> >  drivers/media/i2c/imx335.c | 4 ++--
-> >  1 file changed, 2 insertions(+), 2 deletions(-)
-> >
-> > diff --git a/drivers/media/i2c/imx335.c b/drivers/media/i2c/imx335.c
-> > index c043df2f15fb25b3a56422092f99a1fd9a508fa9..71ed9a0d84a252ee362621c4d38001508fb86d28 100644
-> > --- a/drivers/media/i2c/imx335.c
-> > +++ b/drivers/media/i2c/imx335.c
-> > @@ -1009,8 +1009,8 @@ static int imx335_parse_hw_config(struct imx335 *imx335)
-> >         imx335->reset_gpio = devm_gpiod_get_optional(imx335->dev, "reset",
-> >                                                      GPIOD_OUT_HIGH);
-> >         if (IS_ERR(imx335->reset_gpio)) {
-> > -               dev_err(imx335->dev, "failed to get reset gpio %ld\n",
-> > -                       PTR_ERR(imx335->reset_gpio));
-> > +               dev_err(imx335->dev, "failed to get reset gpio %pe\n",
-> > +                       imx335->reset_gpio);
->
-> Reviewed-by: Kieran Bingham <kieran.bingham@ideasonboard.com>
->
-> >                 return PTR_ERR(imx335->reset_gpio);
-> >         }
-> >
-> >
-> > --
-> > 2.51.0.760.g7b8bcc2412-goog
-> >
-
-
-
+diff --git a/drivers/staging/gpib/agilent_82357a/agilent_82357a.c b/drivers/staging/gpib/agilent_82357a/agilent_82357a.c
+index 77c8e549b208..23d9dbbed807 100644
+--- a/drivers/staging/gpib/agilent_82357a/agilent_82357a.c
++++ b/drivers/staging/gpib/agilent_82357a/agilent_82357a.c
+@@ -420,7 +420,7 @@ static int agilent_82357a_abort(struct agilent_82357a_priv *a_priv, int flush)
+ 	return retval;
+ }
+ 
+-// interface functions
++/* interface functions */
+ int agilent_82357a_command(struct gpib_board *board, u8 *buffer, size_t length,
+ 			   size_t *bytes_written);
+ 
+@@ -449,8 +449,8 @@ static int agilent_82357a_read(struct gpib_board *board, u8 *buffer, size_t leng
+ 	if (!out_data)
+ 		return -ENOMEM;
+ 	out_data[i++] = DATA_PIPE_CMD_READ;
+-	out_data[i++] = 0;	// primary address when ARF_NO_ADDR is not set
+-	out_data[i++] = 0;	// secondary address when ARF_NO_ADDR is not set
++	out_data[i++] = 0;	/* primary address when ARF_NO_ADDR is not set */
++	out_data[i++] = 0;	/* secondary address when ARF_NO_ADDR is not set */
+ 	out_data[i] = ARF_NO_ADDRESS | ARF_END_ON_EOI;
+ 	if (a_priv->eos_mode & REOS)
+ 		out_data[i] |= ARF_END_ON_EOS_CHAR;
+@@ -532,7 +532,7 @@ static int agilent_82357a_read(struct gpib_board *board, u8 *buffer, size_t leng
+ 	 */
+ 	agilent_82357a_take_control_internal(board, 0);
+ 
+-	// FIXME check trailing flags for error
++	/* FIXME check trailing flags for error */
+ 	return retval;
+ }
+ 
+@@ -563,8 +563,8 @@ static ssize_t agilent_82357a_generic_write(struct gpib_board *board,
+ 	if (!out_data)
+ 		return -ENOMEM;
+ 	out_data[i++] = DATA_PIPE_CMD_WRITE;
+-	out_data[i++] = 0; // primary address when AWF_NO_ADDRESS is not set
+-	out_data[i++] = 0; // secondary address when AWF_NO_ADDRESS is not set
++	out_data[i++] = 0; /* primary address when AWF_NO_ADDRESS is not set */
++	out_data[i++] = 0; /* secondary address when AWF_NO_ADDRESS is not set */
+ 	out_data[i] = AWF_NO_ADDRESS | AWF_NO_FAST_TALKER_FIRST_BYTE;
+ 	if (send_commands)
+ 		out_data[i] |= AWF_ATN | AWF_NO_FAST_TALKER;
+@@ -628,11 +628,11 @@ static ssize_t agilent_82357a_generic_write(struct gpib_board *board,
+ 		bsr = read_reg.value;
+ 		dev_dbg(&usb_dev->dev, "write aborted bsr 0x%x\n", bsr);
+ 
+-		if (send_commands) {/* check for no listeners */
++		if (send_commands) { /* check for no listeners */
+ 			if ((bsr & BSR_ATN_BIT) && !(bsr & (BSR_NDAC_BIT | BSR_NRFD_BIT))) {
+ 				dev_dbg(&usb_dev->dev, "No listener on command\n");
+ 				clear_bit(TIMO_NUM, &board->status);
+-				return -ENOTCONN; // no listener on bus
++				return -ENOTCONN; /* no listener on bus */
+ 			}
+ 		} else {
+ 			read_reg.address = ADSR;
+@@ -726,7 +726,7 @@ static int agilent_82357a_take_control(struct gpib_board *board, int synchronous
+ 		return -ETIMEDOUT;
+ 
+ 	agilent_82357a_take_control_internal(board, synchronous);
+-	// busy wait until ATN is asserted
++	/* busy wait until ATN is asserted */
+ 	for (i = 0; i < timeout; ++i) {
+ 		agilent_82357a_update_status(board, 0);
+ 		if (test_bit(ATN_NUM, &board->status))
+@@ -795,7 +795,7 @@ static void agilent_82357a_interface_clear(struct gpib_board *board, int assert)
+ 	int retval;
+ 
+ 	if (!a_priv->bus_interface)
+-		return; // -ENODEV;
++		return; /* -ENODEV; */
+ 
+ 	usb_dev = interface_to_usbdev(a_priv->bus_interface);
+ 	write.address = AUXCR;
+@@ -817,7 +817,7 @@ static void agilent_82357a_remote_enable(struct gpib_board *board, int enable)
+ 	int retval;
+ 
+ 	if (!a_priv->bus_interface)
+-		return; //-ENODEV;
++		return; /* -ENODEV; */
+ 
+ 	usb_dev = interface_to_usbdev(a_priv->bus_interface);
+ 	write.address = AUXCR;
+@@ -828,7 +828,7 @@ static void agilent_82357a_remote_enable(struct gpib_board *board, int enable)
+ 	if (retval)
+ 		dev_err(&usb_dev->dev, "write_registers() returned error\n");
+ 	a_priv->ren_state = enable;
+-	return;// 0;
++	return; /* 0; */
+ }
+ 
+ static int agilent_82357a_enable_eos(struct gpib_board *board, u8 eos_byte,
+@@ -876,22 +876,22 @@ static unsigned int agilent_82357a_update_status(struct gpib_board *board,
+ 			dev_err(&usb_dev->dev, "read_registers() returned error\n");
+ 		return board->status;
+ 	}
+-	// check for remote/local
++	/* check for remote/local */
+ 	if (address_status.value & HR_REM)
+ 		set_bit(REM_NUM, &board->status);
+ 	else
+ 		clear_bit(REM_NUM, &board->status);
+-	// check for lockout
++	/* check for lockout */
+ 	if (address_status.value & HR_LLO)
+ 		set_bit(LOK_NUM, &board->status);
+ 	else
+ 		clear_bit(LOK_NUM, &board->status);
+-	// check for ATN
++	/* check for ATN */
+ 	if (address_status.value & HR_ATN)
+ 		set_bit(ATN_NUM, &board->status);
+ 	else
+ 		clear_bit(ATN_NUM, &board->status);
+-	// check for talker/listener addressed
++	/* check for talker/listener addressed */
+ 	if (address_status.value & HR_TA)
+ 		set_bit(TACS_NUM, &board->status);
+ 	else
+@@ -926,7 +926,7 @@ static int agilent_82357a_primary_address(struct gpib_board *board, unsigned int
+ 	if (!a_priv->bus_interface)
+ 		return -ENODEV;
+ 	usb_dev = interface_to_usbdev(a_priv->bus_interface);
+-	// put primary address in address0
++	/* put primary address in address0 */
+ 	write.address = ADR;
+ 	write.value = address & ADDRESS_MASK;
+ 	retval = agilent_82357a_write_registers(a_priv, &write, 1);
+@@ -956,7 +956,7 @@ static int agilent_82357a_parallel_poll(struct gpib_board *board, u8 *result)
+ 	if (!a_priv->bus_interface)
+ 		return -ENODEV;
+ 	usb_dev = interface_to_usbdev(a_priv->bus_interface);
+-	// execute parallel poll
++	/* execute parallel poll */
+ 	writes[0].address = AUXCR;
+ 	writes[0].value = AUX_CS | AUX_RPP;
+ 	writes[1].address = HW_CONTROL;
+@@ -966,7 +966,7 @@ static int agilent_82357a_parallel_poll(struct gpib_board *board, u8 *result)
+ 		dev_err(&usb_dev->dev, "write_registers() returned error\n");
+ 		return retval;
+ 	}
+-	udelay(2);	// silly, since usb write will take way longer
++	udelay(2);	/* silly, since usb write will take way longer */
+ 	read.address = CPTR;
+ 	retval = agilent_82357a_read_registers(a_priv, &read, 1, 1);
+ 	if (retval) {
+@@ -974,7 +974,7 @@ static int agilent_82357a_parallel_poll(struct gpib_board *board, u8 *result)
+ 		return retval;
+ 	}
+ 	*result = read.value;
+-	// clear parallel poll state
++	/* clear parallel poll state */
+ 	writes[0].address = HW_CONTROL;
+ 	writes[0].value = a_priv->hw_control_bits | NOT_PARALLEL_POLL;
+ 	writes[1].address = AUXCR;
+@@ -989,32 +989,32 @@ static int agilent_82357a_parallel_poll(struct gpib_board *board, u8 *result)
+ 
+ static void agilent_82357a_parallel_poll_configure(struct gpib_board *board, u8 config)
+ {
+-	// board can only be system controller
+-	return;// 0;
++	/* board can only be system controller */
++	return; /* 0; */
+ }
+ 
+ static void agilent_82357a_parallel_poll_response(struct gpib_board *board, int ist)
+ {
+-	// board can only be system controller
+-	return;// 0;
++	/* board can only be system controller */
++	return; /* 0; */
+ }
+ 
+ static void agilent_82357a_serial_poll_response(struct gpib_board *board, u8 status)
+ {
+-	// board can only be system controller
+-	return;// 0;
++	/* board can only be system controller */
++	return; /* 0; */
+ }
+ 
+ static u8 agilent_82357a_serial_poll_status(struct gpib_board *board)
+ {
+-	// board can only be system controller
++	/* board can only be system controller */
+ 	return 0;
+ }
+ 
+ static void agilent_82357a_return_to_local(struct gpib_board *board)
+ {
+-	// board can only be system controller
+-	return;// 0;
++	/* board can only be system controller */
++	return; /* 0; */
+ }
+ 
+ static int agilent_82357a_line_status(const struct gpib_board *board)
+@@ -1269,7 +1269,7 @@ static int agilent_82357a_init(struct gpib_board *board)
+ 	writes[14].value = HR_BOIE | HR_BIIE;
+ 	writes[15].address = IMR1;
+ 	writes[15].value = HR_SRQIE;
+-	// turn off reset state
++	/* turn off reset state */
+ 	writes[16].address = AUXCR;
+ 	writes[16].value = AUX_CHIP_RESET;
+ 	writes[17].address = LED_CONTROL;
+@@ -1387,7 +1387,7 @@ static int agilent_82357a_go_idle(struct gpib_board *board)
+ 	struct agilent_82357a_register_pairlet writes[0x20];
+ 	int retval;
+ 
+-	// turn on tms9914 reset state
++	/* turn on tms9914 reset state */
+ 	writes[0].address = AUXCR;
+ 	writes[0].value = AUX_CS | AUX_CHIP_RESET;
+ 	a_priv->hw_control_bits &= ~NOT_TI_RESET;
+@@ -1461,7 +1461,7 @@ static struct gpib_interface agilent_82357a_gpib_interface = {
+ 	.skip_check_for_command_acceptors = 1
+ };
+ 
+-// Table with the USB-devices: just now only testing IDs
++/* Table with the USB-devices: just now only testing IDs */
+ static struct usb_device_id agilent_82357a_driver_device_table[] = {
+ 	{USB_DEVICE(USB_VENDOR_ID_AGILENT, USB_DEVICE_ID_AGILENT_82357A)},
+ 	{USB_DEVICE(USB_VENDOR_ID_AGILENT, USB_DEVICE_ID_AGILENT_82357B)},
+@@ -1626,15 +1626,15 @@ static int agilent_82357a_driver_resume(struct usb_interface *interface)
+ 			mutex_unlock(&agilent_82357a_hotplug_lock);
+ 			return retval;
+ 		}
+-		// set/unset system controller
++		/* set/unset system controller */
+ 		retval = agilent_82357a_request_system_control(board, board->master);
+-		// toggle ifc if master
++		/* toggle ifc if master */
+ 		if (board->master) {
+ 			agilent_82357a_interface_clear(board, 1);
+ 			usleep_range(200, 250);
+ 			agilent_82357a_interface_clear(board, 0);
+ 		}
+-		// assert/unassert REN
++		/* assert/unassert REN */
+ 		agilent_82357a_remote_enable(board, a_priv->ren_state);
+ 
+ 		dev_dbg(&usb_dev->dev,
+diff --git a/drivers/staging/gpib/agilent_82357a/agilent_82357a.h b/drivers/staging/gpib/agilent_82357a/agilent_82357a.h
+index 33ac558e5552..0f76b56c2a7f 100644
+--- a/drivers/staging/gpib/agilent_82357a/agilent_82357a.h
++++ b/drivers/staging/gpib/agilent_82357a/agilent_82357a.h
+@@ -19,9 +19,9 @@ enum usb_vendor_ids {
+ 
+ enum usb_device_ids {
+ 	USB_DEVICE_ID_AGILENT_82357A = 0x0107,
+-	USB_DEVICE_ID_AGILENT_82357A_PREINIT = 0x0007,	// device id before firmware is loaded
+-	USB_DEVICE_ID_AGILENT_82357B = 0x0718,		// device id before firmware is loaded
+-	USB_DEVICE_ID_AGILENT_82357B_PREINIT = 0x0518,	// device id before firmware is loaded
++	USB_DEVICE_ID_AGILENT_82357A_PREINIT = 0x0007,	/* device id before firmware is loaded */
++	USB_DEVICE_ID_AGILENT_82357B = 0x0718,		    /* device id before firmware is loaded */
++	USB_DEVICE_ID_AGILENT_82357B_PREINIT = 0x0518,	/* device id before firmware is loaded */
+ };
+ 
+ enum endpoint_addresses {
+@@ -119,7 +119,7 @@ struct agilent_82357a_urb_ctx {
+ 	unsigned timed_out : 1;
+ };
+ 
+-// struct which defines local data for each 82357 device
++/* struct which defines local data for each 82357 device */
+ struct agilent_82357a_priv {
+ 	struct usb_interface *bus_interface;
+ 	unsigned short eos_char;
+@@ -129,10 +129,10 @@ struct agilent_82357a_priv {
+ 	struct urb *bulk_urb;
+ 	struct urb *interrupt_urb;
+ 	u8 *interrupt_buffer;
+-	struct mutex bulk_transfer_lock;	// bulk transfer lock
+-	struct mutex bulk_alloc_lock;		// bulk transfer allocation lock
+-	struct mutex interrupt_alloc_lock;	// interrupt allocation lock
+-	struct mutex control_alloc_lock;	// control message allocation lock
++	struct mutex bulk_transfer_lock;	/* bulk transfer lock */
++	struct mutex bulk_alloc_lock;		/* bulk transfer allocation lock */
++	struct mutex interrupt_alloc_lock;	/* interrupt allocation lock */
++	struct mutex control_alloc_lock;	/* control message allocation lock */
+ 	struct timer_list bulk_timer;
+ 	struct agilent_82357a_urb_ctx context;
+ 	unsigned int bulk_out_endpoint;
+@@ -171,7 +171,7 @@ enum led_control_bits {
+ };
+ 
+ enum reset_to_powerup_bits {
+-	RESET_SPACEBALL = 0x1,	// wait 2 millisec after sending
++	RESET_SPACEBALL = 0x1,	/* wait 2 millisec after sending */
+ };
+ 
+ enum protocol_control_bits {
 -- 
-Ricardo Ribalda
+2.43.0
+
