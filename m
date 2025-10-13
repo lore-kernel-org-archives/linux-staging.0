@@ -1,64 +1,64 @@
 Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com [209.85.167.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08A4F279DB3
-	for <linux-staging@lists.linux.dev>; Mon, 13 Oct 2025 14:15:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7616C30AAAF
+	for <linux-staging@lists.linux.dev>; Mon, 13 Oct 2025 14:15:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760364922; cv=none; b=Wh/Q0i6HeL+k2GUSF2EDjeQL/2EDcTpSpOmxV4eZZHDvmMJLC/UT7aXx/u0FLV0CURc5cYiyiRtsGg1koKVun5d+2IWUoMnMLfenERJ4LYMJR3S5Vpvl9CVlf2BL0ffgozd9V/b9GfFD31UAhEEXj5xRqzHWBr4VfXEubdLOeUc=
+	t=1760364929; cv=none; b=BEed0MydCGQ5MNpRZIixvK3eL5nIJz1sIz1+P6b7ox9Mtbo+xyPac30zGW0mgFEjYY4gqE6wL4q0hprlUC/3M1Xnnh8M4MobJNIkR5AxhgOUlBK8pCKf+AKZ3THfrNBoJ68zijAXYcGaJzSYmFCvWgWvPYyEqnwP5Do5jq5Dlbk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760364922; c=relaxed/simple;
-	bh=c9Kb2b0T3BLAmckMzo48k+Ue6UmlyuOLb1cyxCq4tlI=;
+	s=arc-20240116; t=1760364929; c=relaxed/simple;
+	bh=13OLz3ayUSOskJ/koG5Yo/gq8bsy35PH0jrjBKE+QnI=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=IHrI/7q9alSMeleUBJj3JHSh4l6X2xb8U3eGUgJyjgCxFlhhzb3lMnJayK5LYIa9Uicnu9mWSwEnTWX95+4wnyCPwwUKrvlvCLqP9iURpE1MLVc50O3qD3SESkZZt1rfpPV7VprbefC6lcExiU9NO3JqWe5tjBDlBC4WWnQ26X4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=Zw01FyRk; arc=none smtp.client-ip=209.85.167.54
+	 In-Reply-To:To:Cc; b=Zp1L1bIhWigKpncmfBdrh+NcwWeV7ewbbxrxGDR/z2d2BrOCxjvR7VLgka5pxlGzaGxFaPiWiO6mPDb4V0q+/DxLsgo0nSNNMDGa+ELi3ex5pk8E2vPJ9TyTQsCy+W033PC/1Gut0fksj0S6y7Soa2AW+CkB6yvV5CiBRWXj26M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=QkcKyJXl; arc=none smtp.client-ip=209.85.167.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="Zw01FyRk"
-Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-57a292a3a4bso5390509e87.3
-        for <linux-staging@lists.linux.dev>; Mon, 13 Oct 2025 07:15:10 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="QkcKyJXl"
+Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-578ecc56235so3649858e87.0
+        for <linux-staging@lists.linux.dev>; Mon, 13 Oct 2025 07:15:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google; t=1760364907; x=1760969707; darn=lists.linux.dev;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=Smwvmk+cDkyGjYaS177QmxkSssvQt/cgmiOzwIecscI=;
-        b=Zw01FyRk3JMx2ezfu8rT6cyUz2+BIiSc7/XHkiaeI1DIMDQR8s+FY550xKGVfShSra
-         qhIc1DA+7oP13bRpfcdLJjZQlPMwx/E8iA3lRnYMAWUgZOTaiMqcHF9wfe4+ESMINCIw
-         qWHSDZS6feIoLDwis7ZKGiy7qCr7gYUenlcP4=
+        bh=5P2qDb2fF8LDzF+Q7SobVA0m4pVGtYbfI8YlHA3qkzo=;
+        b=QkcKyJXlBJ+vV7DDC2ZgbXwny+Cv26cvtE9N47nhgN+Bz5UmPuEODDi+xQ2DlOxNu8
+         vKsuGfSjnrki+4DkgILo05sGomuQSkOxPskLoVgKSPFQmmy580i4kqWPg497JKXTrCl7
+         cVwy+KtK2biNHI79WcPq6Govd3OvrzfaBsMkw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20230601; t=1760364907; x=1760969707;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=Smwvmk+cDkyGjYaS177QmxkSssvQt/cgmiOzwIecscI=;
-        b=i/8XzK8wEe7G6mSR+MfxXYkgH5y9KutlYwfl0kehQ3CkZutm2TweSUEJK03eze00hL
-         5wmk/yuuDAJ4bx+YVBAdS/ZPgWSX8PSiAwxUGZn9WHvi4789GdeMYfNb6B5uCWtW8Qi3
-         AWu0CIDjqsptf/WzblFkvOBbeiQ6zUaKGsUC/fyl8ylSlOw8gN3eW6LM3HybkJZ2T4ef
-         OJcC26YnzpcXadd9X2Xn+zU+KDoZTj7IfBl8BJa4QpKDUmmISRhgBE6Gamo8soCQgj2A
-         pcwcwNmmkUjopWAUOgjCVm7fdjLaPzBoQk1LWh0ZGvF6ndEy4GVWEpFKasw7LJoN8i6b
-         Yk6Q==
-X-Forwarded-Encrypted: i=1; AJvYcCWry0MFxlfWPpIIWBbyWq8P5drXDybs5prgKLrNpnJopRPyVBdxRI+tCyioZZpGdarLwQu4V6yRxKKl7fGo@lists.linux.dev
-X-Gm-Message-State: AOJu0YyKTZ9osRJNDsj5GQiOU3x9WMRA0uYpQOmnZkUCKQPW1V3auXXu
-	nV+e9rmwriEjC7+2z700C3cS4JeU/JrQg7bpVU30PoEgEzUbdP+25lGMgj9xmt6XkQ==
-X-Gm-Gg: ASbGncs5Ui8B+9AxFZmgJylRSr5yYH0NCl95G8RYFI5z5OIRG+a3uKt7Zfae/yLFopM
-	eanb6WxI0R1gN+ZpQlxHSx9arZU2HztYPnx9mkA+e8s7y03QpUy0uySjHqgFGEml2iHO1LYWFy5
-	ugTHXTUVozhIK7WBdUT6foKibclHOfqKHbGbgDe0AaGMrtY6xRpA1g7IlgCmxE+hsPHRQiyu4NP
-	hW2Kl8mmsztDTY2ieLwIXrKQZIAUWcAHMS0M8gvw9ggqn1nghGv3jWGAGFGyqmK51KeWltst2V1
-	z0NStmBSm2x6pidX34vzsuBWCQ/riL2jO86pt/N458AxkcfaridCz6qvixCt2gOrFauDAlSWuyc
-	N8c+Qw9uzzQMdyIpwvvC34bvnCTdMpbEcU7QtP91OxASLgl6ZnVoR2BFh6xRW+Wo/+EyivsBeVO
-	hds01xPniAH6BcsZIUHA==
-X-Google-Smtp-Source: AGHT+IG0XyykaxSpAJZEJBiMkxB//rHuKsliNYYIqdi4qrxeJQYdIviCb9iwNXvzzJnUAUziWI3Chw==
-X-Received: by 2002:a05:6512:ea9:b0:585:bc5e:237c with SMTP id 2adb3069b0e04-5906dafca4dmr5906081e87.49.1760364906745;
-        Mon, 13 Oct 2025 07:15:06 -0700 (PDT)
+        bh=5P2qDb2fF8LDzF+Q7SobVA0m4pVGtYbfI8YlHA3qkzo=;
+        b=hKhT7Ptx6d5tcA2pKIFMBNwFEoX4SNTo1cOd20nZvOkGXCRypf3/ZI8EIQaYQygQLH
+         YoxONgpWOsQBLoMadesD3u2s/uCLSxq7cC7qMeKCYo53NzYddnkn68npLAD1C4Jt3LKN
+         8FqnnOh4x2h2l1BYZ6sflewhY8O6ubT2xLZa9ch+KpO4h6ezXKI5VBN4oWdSYhRbasBv
+         Eph0PwcidP0PotynJFs2QZiVvBsli8ww8BEpDk6G+OfJQVA922oMXDdQrSvGQr5UBsEr
+         aIv7B1gzA9p4/NeLDuhAxADrdCPUZLNbbOwpKlHMHCq5vKOIqTdVpHFyE2VVP1k7ga0/
+         1EYA==
+X-Forwarded-Encrypted: i=1; AJvYcCU0TYwNv03OMjc1fgWzQ2DzNQ4iQLiBwnAlHI5qdEzL7OmWe5eh9N4fzK/VisSqCcthZw5qs07lY66DvvQb@lists.linux.dev
+X-Gm-Message-State: AOJu0YzM1JHLzgH94U1vUapUX63dAiyyi8/nRyiO6nghSkoZDm4SqFo4
+	+5T41fm2d0bO8ajmS4mOGM0bT0SAUv+l+H9cKxGOvCZ8+f5Tq1L0ytgT72DtdWScVA==
+X-Gm-Gg: ASbGnctc9rzZGfImrZ0KvqlPUNU05Dg/BRSfRykkgED876D4iJH6PA8F+mReP0aZBAT
+	CbsR2WOlyDV3NvntFOrAB4ITyHLrI8NhPpbpL3GPe2AxKg524gNSLnxR0HUnSSZ/tLlaoZ4PphB
+	N3kgT/q0WiFgHf2G+rniNOLe0IcVlbF1Iy2wtCYm8D3EM8ThDB/kZCNGQHfnXptVM0A/b3bpouP
+	BPIvuMWUabzR+RtPcvqpNkCfGnaq9h+PYE7yiWEin9fu18VSoS6JTQ0it4eamaRwjHkLAejE8iO
+	L0zA1vTi16FWvQmfmVTca1WVL3Pzik5Y29+yIY08L1fe5aBvt5cnAd0QQO3A4bbQI3gKLIWA6yx
+	acvTr/Fd17YRp4ZLIZ+0bM6DQRG1VcbvT/+A5xKiWRIM6Nna3U807AGpNCueQ1EgSq4Cp4XY34M
+	uaGQkWEyIdwWCWMoZ5Ng==
+X-Google-Smtp-Source: AGHT+IEQsTtyBvH7wA40gxhWBW3oPtbImGl+YQPk0oKm5qusk9oOE9kCkc6erWew+lMrb0jYwU0vow==
+X-Received: by 2002:a05:6512:b19:b0:579:8bbb:d61b with SMTP id 2adb3069b0e04-5906dae8e6amr5727710e87.46.1760364907237;
+        Mon, 13 Oct 2025 07:15:07 -0700 (PDT)
 Received: from ribalda.c.googlers.com (56.213.88.34.bc.googleusercontent.com. [34.88.213.56])
         by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-590881e4e58sm4165256e87.25.2025.10.13.07.15.06
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Mon, 13 Oct 2025 07:15:06 -0700 (PDT)
 From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Mon, 13 Oct 2025 14:15:09 +0000
-Subject: [PATCH 29/32] media: samsung: exynos4-is: Use %pe format specifier
+Date: Mon, 13 Oct 2025 14:15:10 +0000
+Subject: [PATCH 30/32] media: ti: cal Use %pe format specifier
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -67,7 +67,7 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20251013-ptr_err-v1-29-2c5efbd82952@chromium.org>
+Message-Id: <20251013-ptr_err-v1-30-2c5efbd82952@chromium.org>
 References: <20251013-ptr_err-v1-0-2c5efbd82952@chromium.org>
 In-Reply-To: <20251013-ptr_err-v1-0-2c5efbd82952@chromium.org>
 To: Linus Walleij <linus.walleij@linaro.org>, 
@@ -120,28 +120,27 @@ a symbolic error name (eg. -EINVAL) and it makes the code simpler by
 omitting PTR_ERR().
 
 This patch fixes this cocci report:
-./platform/samsung/exynos4-is/media-dev.c:1337:16-23: WARNING: Consider using %pe to print PTR_ERR()
+./platform/ti/cal/cal.c:1111:3-10: WARNING: Consider using %pe to print PTR_ERR()
 
 Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
 ---
- drivers/media/platform/samsung/exynos4-is/media-dev.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/media/platform/ti/cal/cal.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/drivers/media/platform/samsung/exynos4-is/media-dev.c b/drivers/media/platform/samsung/exynos4-is/media-dev.c
-index c781853586fd21996105c050e587bf8079cfc095..d6f7601de597e3d3517ef9195d728deb578e74f1 100644
---- a/drivers/media/platform/samsung/exynos4-is/media-dev.c
-+++ b/drivers/media/platform/samsung/exynos4-is/media-dev.c
-@@ -1333,8 +1333,8 @@ static int fimc_md_register_clk_provider(struct fimc_md *fmd)
+diff --git a/drivers/media/platform/ti/cal/cal.c b/drivers/media/platform/ti/cal/cal.c
+index b644ed890412104887ce3ec32b5024a02a9676c8..3e25ce0c3c3bdce3434d19c416481bd8d8b838f5 100644
+--- a/drivers/media/platform/ti/cal/cal.c
++++ b/drivers/media/platform/ti/cal/cal.c
+@@ -1107,8 +1107,7 @@ static int cal_init_camerarx_regmap(struct cal_dev *cal)
+ 		return 0;
+ 	}
  
- 		cp->clks[i] = clk_register(NULL, &camclk->hw);
- 		if (IS_ERR(cp->clks[i])) {
--			dev_err(dev, "failed to register clock: %s (%ld)\n",
--					init.name, PTR_ERR(cp->clks[i]));
-+			dev_err(dev, "failed to register clock: %s (%pe)\n",
-+				init.name, cp->clks[i]);
- 			ret = PTR_ERR(cp->clks[i]);
- 			goto err;
- 		}
+-	dev_warn(cal->dev, "failed to get ti,camerrx-control: %ld\n",
+-		 PTR_ERR(syscon));
++	dev_warn(cal->dev, "failed to get ti,camerrx-control: %pe\n", syscon);
+ 
+ 	/*
+ 	 * Backward DTS compatibility. If syscon entry is not present then
 
 -- 
 2.51.0.760.g7b8bcc2412-goog
