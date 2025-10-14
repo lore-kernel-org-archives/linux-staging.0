@@ -1,131 +1,101 @@
-Received: from mail-qk1-f179.google.com (mail-qk1-f179.google.com [209.85.222.179])
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B377B313E2D
-	for <linux-staging@lists.linux.dev>; Tue, 14 Oct 2025 13:42:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 587EA18A6B0
+	for <linux-staging@lists.linux.dev>; Tue, 14 Oct 2025 13:53:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760449355; cv=none; b=p127eSMivG2c7YjKgnUan8muGrn6GGCcZWaV4sJIsiOt2Hw9+HC+S3THYCn/sER8BzHyBkJSoTCmwR6/68Ehsve1/A2VLNPd/vz7BrONx0TpJ0MG85yLjZqafYHXTrfnLLLZW12c2ufSU778O6E2nLESNI3VgDlTbJtSYXhXyoM=
+	t=1760449990; cv=none; b=eJ6ZGxGKNHnxcJKCgslRh+gbTWfLY5eZ+YzXb4gX+J8S5cTrNLcX6G2mpJ9Dv9mLu6hp6WTgF76vztnEHCeXjTF681Y+Tk/D/mQvkLh//oXNdemBmbYIIS9IHlxw3jO6oXsXeYprzH6Km1yKcQFtdQgKxyx2ML7BJGahwTOVqdw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760449355; c=relaxed/simple;
-	bh=yOyz6IvWmi24PN0ZdlL2ETRoY7+x5Y4h3rMkLIMCeic=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=MGoDSrJB4tK4yMU4dvv83H1t+7qAQp004nu0hHsbBbf/sEIsz8cMxv47vASVeQiJYsowbUZFhe3nCY9DV7IAiAHX0tZUkhzm4U21yNWbEvmkqomBjhqaE/62lMrS97clNU/k9nZ0BnPayvsk6BEBkCklaiLjvP4dE3DzZUh/W78=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=D3kPsIdo; arc=none smtp.client-ip=209.85.222.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1760449990; c=relaxed/simple;
+	bh=IElxN4QNGTGIaRmLgByL0OIhhUz5m3vPuXMGPnxLbRU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=tWghI6vk7lhAGTZCrlIlyAlB2bzr4w89wFv6icg72b9cb9ypeR19IKlReY5TBG+vMFbr3zHK7Kni1oWK0+nPk07k4rdKLIirTp60b1SBIeV/v1IFV26v3USrsqqFsEqRwFh1ylk+KLKuhsdgeIQadeqIBWCL4ycSC+Om1SVJ6KE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=T0zyDPcq; arc=none smtp.client-ip=209.85.128.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="D3kPsIdo"
-Received: by mail-qk1-f179.google.com with SMTP id af79cd13be357-8599c274188so640556685a.1
-        for <linux-staging@lists.linux.dev>; Tue, 14 Oct 2025 06:42:33 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="T0zyDPcq"
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-46e33b260b9so43392745e9.2
+        for <linux-staging@lists.linux.dev>; Tue, 14 Oct 2025 06:53:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1760449352; x=1761054152; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=j01C3ZF4H0h3fr2NXxsvLtO/yyM1N0PB3fovVaXYGQE=;
-        b=D3kPsIdoF2bhTrKCb5UqAKfKIEkt6RN/iRwcO4z3HIPpOppgYkMvH9d4Z4vUxRL9PW
-         N4+S/kCL/SwqBi5O73zqS8ns98H1QiztqJ7g0P5JOJGMovsAHiHzj4fdn5bQpWU+D6RK
-         GYxvfY7AG9w/t8+dW8i/sGLjTs+YR3CJAo+RaoIE089ZUhi4hufw23hwrtnz0ZAH6W1/
-         EwEKsZ4HLkgGj9US5959Na+4tOVr6sQ/w5agzNGZNIsqGcKWV4WYe/rbw+EjiZ8midkL
-         Uwh54cIk57c0cIS7rdqdxgWYhXIqnPD8VxVKx+CFPAsoE8g1YdkBNukBV8GRbG5xNt3g
-         KPlw==
+        d=linaro.org; s=google; t=1760449986; x=1761054786; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=vYLX/V/IYNpEsTQWc+fcqDgIUy63VyLnT/A3MBhbEHY=;
+        b=T0zyDPcq1P7FLVdoG/XKw0+zcpGYJKJlC/Qs2rE5A7UlW7ksaDACJpU/cwxa/kqy8Q
+         CU9tjjz65NA45hGOQE7H9jwIYhOaNjLtUIelAOdaIlTP8HmCGaDpSu534LZCbKdoJP0H
+         s8p0CVk7FPzYVS28DMQoQEYPSNTBz25k4iBQLUxTyBkPWophCUKPKKRhzgqDPEj082NU
+         eq3yOVQ2LLzx3aHUxg3L+oOCFZfYWTYESx08CsdQZczCuQ7iLabKYaV0De5AVoVbBL+A
+         cAe6okQ6eklUBsFPOYgCaXyvlzZeJNQZwWnppReQ/0P+9PzL+BMRY5NRF8oMS9XauZKi
+         ut/Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760449352; x=1761054152;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=j01C3ZF4H0h3fr2NXxsvLtO/yyM1N0PB3fovVaXYGQE=;
-        b=F1q/VvI1JDpy+LaFTI4xJDEWPBQWt9VrBlprm7dX+f0Oysxq+2tBdbZ60Yx02na1JT
-         EMOVTdSIS7noIukMfVlYkbUVT5oTcfka8ZRSZ1WbY5IR4C+jJbXLzVnZmIlVmhdVFIP1
-         PiPTD+nznvpTSpHC3YCTWVMXwaVnESytCvwSxYkitplq4lkevmviugP4sCgVAt6Hg08x
-         4iFnv17Ez6SpbOEPA6WhyYkdN+x1nFOAt+kKnaP8xRNqK2zG6gHoXViNeiHjl6uoWmCu
-         n1WWZ0F3k0sHfLntuAxSKgv4la4s61qLhH/yEVpvDKfz8bFcD/286R+b1RbYcVT4XWTk
-         vrKQ==
-X-Forwarded-Encrypted: i=1; AJvYcCULKMfNtvU4eUFBcpZg+F7sXnMlIXrDBoKXBz63AKvNdqNXWpaCnjFH5eAGj95R6cM/kAdDeMnL9bUChUCI@lists.linux.dev
-X-Gm-Message-State: AOJu0YwJcnL86Vge0h5oTfGBfmGNk8OgGXf2ianGt6oD6/EW2Ww1Hlge
-	BisA/7BaJTEt9EpYpdTrT3GbVy+azd1P7/X8Wf9y88Vrg4aXW4gbsoIZ
-X-Gm-Gg: ASbGnctp5DpQkFB6SPpc1DuK8PLtd1D+pTSFGpE6gJtdGpKKRLZtB6dtNr5pwtEoH9p
-	bE7lxJQ3aamjM7FwroQ73uiBPlW3fyO9zOKzaJ6RenbcFRNbL1a2VSHkSToNdG8CFXDIzNiuQJ7
-	e5ccAtE9K8ZFci+BSymMMQmmQG0XZgyKsTJBz6KgB75GCtk/q/A/HD+7xOuq964qznQbnAaEkaV
-	IqbFSpwvm8/Ieat2MVGxx+BuiqSHq8jsgpn3WDaLgWCrWmSKXDC2EBbNElsJqyvdegREHT9hno8
-	1SL+kXk5lLNKdFmsgP/4T3+7UkyhupQzJEAFT+PBdjE5ZfyvNRNeuE5m8uA2AST66EikoqWT6b0
-	ZZinbRL4e75XY5Gu7ivQW6+Tp36HWV82BuAv3Jcxzw/2UcK+bUes5/tjggkYBeqJDYV9/3barar
-	2lLJVHFUYy
-X-Google-Smtp-Source: AGHT+IEwlgpPG3uvjmGvQT2i4/p6+LKOyxSTea/Iia58pq2hmmM8J3zLPgs3I36OerMcczFeKPK/uw==
-X-Received: by 2002:a05:620a:c4d:b0:84b:97c2:4f27 with SMTP id af79cd13be357-883529b5d5cmr3367221385a.4.1760449352485;
-        Tue, 14 Oct 2025 06:42:32 -0700 (PDT)
-Received: from kernel-internship-machine.. ([143.110.209.46])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-884a2272670sm1214768585a.42.2025.10.14.06.42.30
+        d=1e100.net; s=20230601; t=1760449986; x=1761054786;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=vYLX/V/IYNpEsTQWc+fcqDgIUy63VyLnT/A3MBhbEHY=;
+        b=d+eO/w+kfF5JJtFOy/DomkCh0RL96txl+jDo2kr0WhYSfTIB1dbpr0H1mnrfCIyS3x
+         AkSxEvEI6I5Sq/MLAr297yh5+3Xtmcdfx99Q60s97ZqCqDaRI020XB9fiFdpd4S7JjRO
+         lgEbszUzwOiKocc6ttRJZMu84z5V7yNhjTJ5ab4wW3qvzmY1UJHuIpvNs5AtNhtPafL8
+         TJtd2PkXKmVkXSpqqTdmLfUxsQqnlmiohHjOjlJOocNag0tu31+mxMA/QxgUMDglbt+Z
+         1YpUgEW/DHjodCns3ye9dWyT5x+1v4lJlhvvgjaPXkN7KCZZvH2Z/MUT+EDSmOS129pW
+         qr5g==
+X-Forwarded-Encrypted: i=1; AJvYcCXRaFJA/rlPVWoxZ/i5CsHfONarDZ8ds9xYI+0aaYV4CWuq3/414hWyLQ5AQMlycHwhSqzXy03YQk6M4Rjb@lists.linux.dev
+X-Gm-Message-State: AOJu0YwgDsaW+C4L2O9fC/P9YAquOF6o6QllwjhPl1um6sQF5lVnTzHW
+	suY+nhdiDIMdXEsq0BLKk/Ek6blLgZTptdZl4RJfAYvEoaWpyDsi/55Hw9tbPtbS9Ck=
+X-Gm-Gg: ASbGnctRY5akjV5xbt9BE/lRtuSZmIEg2VyateV/gJhfwgyRuZCQgAGfPBBxP0XSHPP
+	J9w/JMCNds/LKowhxADS6CwkpINJQ8m/5ciWrT8r1/LJintMMUNIvccE5+mBbM7gsKvpqfco4kF
+	56WR6Ymg6wWG8IenIvWofLzLSCamy7kKBKXp5y/6BRsXP1J74SazMOKVB/bYoCLpHvWW7GbfjG9
+	H/WtPVaIY+UTmVpCDGQNTsa5PJKLfIqUpJTezWsDAepT1SXfinETHBfz7vVADPtF1hS82rvSOCk
+	/rcmI6BStiOOoYovqOC6VwC0pkf2CpPkSB3ppoVUdn9iMPT7kTnxdjfHrdthG/ly3kM7GUU/UbT
+	HuP4L5GB86FTOhgNTdcA/6gVLECXguUOZFmjkAyUqJsoZJn36CfE+GFLKgpJWaA==
+X-Google-Smtp-Source: AGHT+IFcYBoVH6SZ1b0n1fUVs59heTV+uMc9my9gJaVg1Bkdl7LM1WLOakMGVQ2yKdbkJej4zbdLaA==
+X-Received: by 2002:a05:600c:4ed4:b0:45d:5c71:769a with SMTP id 5b1f17b1804b1-46fa9b08be6mr157473195e9.26.1760449986537;
+        Tue, 14 Oct 2025 06:53:06 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-46fb483c7e0sm244106135e9.7.2025.10.14.06.53.05
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 14 Oct 2025 06:42:31 -0700 (PDT)
-From: Vivek BalachandharTN <vivek.balachandhar@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: johan@kernel.org,
-	elder@kernel.org,
-	schopin@ubuntu.com,
-	me@abhy.me,
-	greybus-dev@lists.linaro.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Vivek BalachandharTN <vivek.balachandhar@gmail.com>
-Subject: [PATCH] staging: greybus: documentation: replace strncpy() with strscpy_pad()
-Date: Tue, 14 Oct 2025 13:41:48 +0000
-Message-Id: <20251014134148.2597178-1-vivek.balachandhar@gmail.com>
-X-Mailer: git-send-email 2.34.1
+        Tue, 14 Oct 2025 06:53:06 -0700 (PDT)
+Date: Tue, 14 Oct 2025 16:53:02 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Vivek BalachandharTN <vivek.balachandhar@gmail.com>
+Cc: gregkh@linuxfoundation.org, johan@kernel.org, elder@kernel.org,
+	schopin@ubuntu.com, me@abhy.me, greybus-dev@lists.linaro.org,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: greybus: documentation: replace strncpy() with
+ strscpy_pad()
+Message-ID: <aO5VvrKTswmfO-n9@stanley.mountain>
+References: <20251014134148.2597178-1-vivek.balachandhar@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251014134148.2597178-1-vivek.balachandhar@gmail.com>
 
-strncpy() does not guarantee NUL-termination and is deprecated for
-NUL-terminated strings. Replace it with strscpy_pad(), which guarantees
-NUL-termination and zero-pads the remaining bytes, matching the fixed-size
-firmware tag semantics.
+On Tue, Oct 14, 2025 at 01:41:48PM +0000, Vivek BalachandharTN wrote:
+> strncpy() does not guarantee NUL-termination and is deprecated for
+> NUL-terminated strings. Replace it with strscpy_pad(), which guarantees
+> NUL-termination and zero-pads the remaining bytes, matching the fixed-size
+> firmware tag semantics.
+> 
+> Signed-off-by: Vivek BalachandharTN <vivek.balachandhar@gmail.com>
+> ---
+>  .../greybus/Documentation/firmware/firmware.c        | 12 ++++++------
+>  1 file changed, 6 insertions(+), 6 deletions(-)
+> 
+> diff --git a/drivers/staging/greybus/Documentation/firmware/firmware.c b/drivers/staging/greybus/Documentation/firmware/firmware.c
+> index 3b35ef6d4adb..deac8584841b 100644
+> --- a/drivers/staging/greybus/Documentation/firmware/firmware.c
+> +++ b/drivers/staging/greybus/Documentation/firmware/firmware.c
 
-Signed-off-by: Vivek BalachandharTN <vivek.balachandhar@gmail.com>
----
- .../greybus/Documentation/firmware/firmware.c        | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+This is sample user space code so the strscpy_pad() isn't available.  It
+will break the compile.
 
-diff --git a/drivers/staging/greybus/Documentation/firmware/firmware.c b/drivers/staging/greybus/Documentation/firmware/firmware.c
-index 3b35ef6d4adb..deac8584841b 100644
---- a/drivers/staging/greybus/Documentation/firmware/firmware.c
-+++ b/drivers/staging/greybus/Documentation/firmware/firmware.c
-@@ -63,8 +63,8 @@ static int update_intf_firmware(int fd)
- 	intf_load.major = 0;
- 	intf_load.minor = 0;
- 
--	strncpy((char *)&intf_load.firmware_tag, firmware_tag,
--		GB_FIRMWARE_U_TAG_MAX_SIZE);
-+	strscpy_pad((char *)&intf_load.firmware_tag, firmware_tag,
-+		    GB_FIRMWARE_U_TAG_MAX_SIZE);
- 
- 	ret = ioctl(fd, FW_MGMT_IOC_INTF_LOAD_AND_VALIDATE, &intf_load);
- 	if (ret < 0) {
-@@ -101,8 +101,8 @@ static int update_backend_firmware(int fd)
- 	/* Get Backend Firmware Version */
- 	printf("Getting Backend Firmware Version\n");
- 
--	strncpy((char *)&backend_fw_info.firmware_tag, firmware_tag,
--		GB_FIRMWARE_U_TAG_MAX_SIZE);
-+	strscpy_pad((char *)&backend_fw_info.firmware_tag, firmware_tag,
-+		    GB_FIRMWARE_U_TAG_MAX_SIZE);
- 
- retry_fw_version:
- 	ret = ioctl(fd, FW_MGMT_IOC_GET_BACKEND_FW, &backend_fw_info);
-@@ -129,8 +129,8 @@ static int update_backend_firmware(int fd)
- 	/* Try Backend Firmware Update over Unipro */
- 	printf("Updating Backend Firmware\n");
- 
--	strncpy((char *)&backend_update.firmware_tag, firmware_tag,
--		GB_FIRMWARE_U_TAG_MAX_SIZE);
-+	strscpy_pad((char *)&backend_update.firmware_tag, firmware_tag,
-+		    GB_FIRMWARE_U_TAG_MAX_SIZE);
- 
- retry_fw_update:
- 	backend_update.status = 0;
--- 
-2.34.1
+regards,
+dan carpenter
 
