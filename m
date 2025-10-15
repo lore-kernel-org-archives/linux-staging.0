@@ -1,65 +1,33 @@
-Received: from mail-qk1-f182.google.com (mail-qk1-f182.google.com [209.85.222.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BEE41188596
-	for <linux-staging@lists.linux.dev>; Tue, 14 Oct 2025 23:53:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2930292B4B;
+	Wed, 15 Oct 2025 08:02:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760485991; cv=none; b=E/mpqdLDbRwHg05ggDfm+nP1REVGRzVHX5OIidmlzPpm5ptfbJSVX4wl8l3WSyBieeLcljZIeAT8r3pmGcrTw+fbnZvqUrryOSfjG8Oz0l5Lb8u9sfJC1koPQTDjsTWxF+jg7dhQm8xK/Q7PXfOMYUmEH4plR3zVcd+MVZMJNZA=
+	t=1760515364; cv=none; b=EFjxGtxtHxUtGkoh+FD7nPmO0hS3CtLYIKyh2cRkI+Li3i0heem4cfWg8PDhoL1lMkzMhz3Kn6P2GYL73GGZNdnoj1XlVQJa3WRIJy0sUlVNskPHfwYHblusLgiPiR7BzNGOf4h8WZ3/l/kgMu+uAi4NvjFGvNOuIqfbdvWm0Cc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760485991; c=relaxed/simple;
-	bh=bXKfCGcteRtbKltdpijmFSV2FYgT1rZYsZg4DPoKs9I=;
+	s=arc-20240116; t=1760515364; c=relaxed/simple;
+	bh=GXdSIq5iw3ZqrU8QMk6N8jf6eMJLMbNXSh7eZkTME/s=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Oc5Nrz/S5gXmNft3YO+9Au0ZYRsTgROkUDThXeiCkZyj3noKViEe9/T7n/7zXTaaWjv3+M3KoB2GLBK0kjCR3BBeHZZt1um9/fTFWbM4FrPQ0oVX9anjF/DTP0dIMZxIl+nBpsGNhrupuKsebxnZQ0HBERo9uXR4rBOG7vYv41Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cvfoHpqi; arc=none smtp.client-ip=209.85.222.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 In-Reply-To:Content-Type; b=gBJ3YkuikcbxQImOsqpgvRmwEaWBDVIQ74eHh9j3pE0BitI1ar8ycWceZBm9qx9b55IkRb7MZALhKTM9kNZ/JZBOhPSAN27bJyUI78Yo+CDApvGeijieF0x+jEcijbDAf9mF0ZRGW+S3Xo+FwmyGSj5p9UC3MdQKCChQkyiEmIw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dtlVrVun; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cvfoHpqi"
-Received: by mail-qk1-f182.google.com with SMTP id af79cd13be357-88e51cf965dso1614085a.2
-        for <linux-staging@lists.linux.dev>; Tue, 14 Oct 2025 16:53:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1760485988; x=1761090788; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=ob1OnhaB8yNlYIjqAs5ylAnnzR5hzBaZ/c2ZonR81NM=;
-        b=cvfoHpqip09GkHfsLas1UQqH731VOQqNadHRwbU0cN8QDsZ8ZgQZhBIVVEvAmG60it
-         UaYUFQp7o2jU9q1K+tDYwE/s2OTbLYmq/Ae2RXt/7Pn02R2U3n84ApmTcGCIZbpVojdg
-         gcEEf28xjNBMBljMGkW7nb8aqYT3QWSwAZB47KzW0Hy+drUCJ5TGCHIXiU/QnEAYSZ/T
-         JkgJULkAk9eBtnxNphl0TqxzcqlFwWQB9P/ssv0x1cUtB1mhiBbz4pSvl7OfizeS5Gb7
-         M0dB12Xy3GT82C7H4vkvvbvGO9tGiTFYobheT8v94z71RtxwbXOjhrxAlU+YD7c2UbvP
-         +xGw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760485988; x=1761090788;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ob1OnhaB8yNlYIjqAs5ylAnnzR5hzBaZ/c2ZonR81NM=;
-        b=VSdZQKK1QCw+KObsot40J0irHP9NN9s70sl+69pruZd2GjAxqVzxlq8k0sDH7N3lot
-         Q6pBAhG7uTrv+4a6v7LyeDVh5UmzqRwJjb6gn0DgSw0u3GpBbkOITx4jBTvO6cLKAxZo
-         8/IFtkUcsnSp7tBbrxl1AkvdfFarISFs5jq79ACThNGWbseVbLuAzEGYUSmJ4Q/rYJ4e
-         7X4NJaCx9iqpEtbjthaBKSDV+j/KnJJW6FvBpUhaTaXjt38YmogI8o5e18VTmmVtJLLd
-         8j9JVASyZ1fUGHtxT3JlzFXWGy7BtW+2HyTzG2S9rH5urgQqZGCwIhSI4XqxEt7LsLlZ
-         bgAA==
-X-Forwarded-Encrypted: i=1; AJvYcCVcHl4cvCbVu/iZ9nBazBpcONR0rCXDiadcIDj7UXenpn5ei5SGOnCnpF6VqszenaISdbULvIUtxqcXDLxJ@lists.linux.dev
-X-Gm-Message-State: AOJu0YyD7Ya6/WxWMB5GSNYKtsMIxBdg9qM3m7T3TqW/PoyRubLnNPXS
-	22x0fzc0dxCppIgVMESirpo7OEAqfYTsKtJkH/QRvhKegDLeJBxmctwm
-X-Gm-Gg: ASbGncsod3v2EXlhY0I2RtMc0QxpZ4SRGVAkA3BRhtdKihqoB1RCpE6FAgw2xHfRhOM
-	CkW6+vbYAZU4gOG0Yvk7slj+u6QknIszXdx46vwkslhWNzv5kxiVtTHwWVHwi/jlym5BoWUkOZb
-	70MohCiBg/nxVgK8VVTy8KkLMJPenbEXsafkqOqDza2IorlgSwSSU8ei2jMlwA4Aaf0cJs5V9Vf
-	+/2BRzDxXkIZO75//YB97gH7XUr//zl9nPL/jpVsSblw608MNhL4d9F0wOJv3WJs6V6J59USXZ+
-	/EEh5XgGknNudOzPly/OBpewQPLSEre16LoKBSrWIt/IRpniB/BLghAuBE51zSekbRKM2qtWhFZ
-	SiqCT9ghmv6fInlHDUx2pjOV+NmJcs5ZOYHS2YlcaPtQ74HeXrjaK8vN3qcbjgVO5fXk4
-X-Google-Smtp-Source: AGHT+IHqzXmUGwko+aYtEh2ILwYIMC3c/wyMbPVlj1R55EMnuDNxOjiiifOG9dp6+prvXd8kQnjCfQ==
-X-Received: by 2002:a05:620a:44c1:b0:85d:3c32:c404 with SMTP id af79cd13be357-88353464330mr3229717785a.85.1760485988310;
-        Tue, 14 Oct 2025 16:53:08 -0700 (PDT)
-Received: from [192.168.0.155] ([170.10.253.128])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-884a2273e9dsm1286214585a.47.2025.10.14.16.53.06
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 14 Oct 2025 16:53:07 -0700 (PDT)
-Message-ID: <451b7aaf-86d0-4a0d-9578-b76c3a7886d5@gmail.com>
-Date: Tue, 14 Oct 2025 19:53:05 -0400
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dtlVrVun"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AD468C4CEF8;
+	Wed, 15 Oct 2025 08:02:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1760515363;
+	bh=GXdSIq5iw3ZqrU8QMk6N8jf6eMJLMbNXSh7eZkTME/s=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=dtlVrVunpIl12FBsJIXRaT26DGtfPd5Qtb5LFc6vYKONhaDjmgrZHOYcIp3oiolCW
+	 NDwL5jSF4vZBrpzj30HjqadB88/mnkbeOAZCSht2+QjCXL9yW487pkL0uQtnSaln4J
+	 xg1lH6ZZDOWxoy6upi8HxFWmLdzhRx9Kn5BEQbJ7KMNvaXCW5seiQ27+QwHJ7okVRj
+	 XuAOVQP1aCgE8aEIxW5Gmy+HJ5qacejx2lVkhIPSRAyk293hl+E6uNYl4Z4iQjnIB8
+	 yvUfcEiBSj2kpTKppq8gdLM+p7fK32Kfh7oMuXFDPKfrxD/3UXtyave1ziFXkkFXsp
+	 BkOAlg28t4TxQ==
+Message-ID: <a4cf7a4a-f833-487d-9861-a6957f25e7e0@kernel.org>
+Date: Wed, 15 Oct 2025 10:02:37 +0200
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -67,55 +35,305 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] staging: greybus: documentation: replace strncpy() with
- strscpy_pad()
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: gregkh@linuxfoundation.org, johan@kernel.org, elder@kernel.org,
- schopin@ubuntu.com, me@abhy.me, greybus-dev@lists.linaro.org,
- linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-References: <20251014134148.2597178-1-vivek.balachandhar@gmail.com>
- <aO5VvrKTswmfO-n9@stanley.mountain>
- <8918310c-d0aa-4e02-b9d4-9aac98b0a48f@gmail.com>
- <aO5a9izAISpCDJrc@stanley.mountain>
- <8f550b4e-2b7e-4266-be92-bb724265949f@gmail.com>
- <aO6EyUVO9EOYfzV4@stanley.mountain>
-Content-Language: en-CA
-From: Vivek BalachandharTN <vivek.balachandhar@gmail.com>
-In-Reply-To: <aO6EyUVO9EOYfzV4@stanley.mountain>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Subject: Re: [PATCH] media: v4l2-mem2mem: Don't copy frame flags for
+ frame-based devices
+To: Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ linux-media@vger.kernel.org, imx@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
+ linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
+ linux-stm32@st-md-mailman.stormreply.com, linux-sunxi@lists.linux.dev
+Cc: Andrzej Pietrasiewicz <andrzejtp2010@gmail.com>,
+ Bin Liu <bin.liu@mediatek.com>,
+ Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+ Hans Verkuil <hverkuil@kernel.org>, Jacob Chen <jacob-chen@iotwrt.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Jiasheng Jiang <jiashengjiangcool@gmail.com>,
+ Matthew Majewski <mattwmajewski@gmail.com>,
+ Mirela Rabulea <mirela.rabulea@nxp.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>,
+ Philipp Zabel <p.zabel@pengutronix.de>,
+ Shuah Khan <skhan@linuxfoundation.org>,
+ Steve Longerbeam <slongerbeam@gmail.com>,
+ =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>,
+ Xavier Roumegue <xavier.roumegue@oss.nxp.com>
+References: <20251009111143.9137-1-laurent.pinchart@ideasonboard.com>
+ <45a3e39fb87fc4e32626dfaa277a314bce5f4f68.camel@collabora.com>
+From: Hans Verkuil <hverkuil+cisco@kernel.org>
+Content-Language: en-US
+In-Reply-To: <45a3e39fb87fc4e32626dfaa277a314bce5f4f68.camel@collabora.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Hi Dan,
-
-Thanks for clarifying. That makes sense — since the struct starts
-zeroed and the last byte remains untouched, the current code is
-already safe. I’ll drop this patch.
-
-Appreciate the quick guidance.
-
-Best
-Vivek
-
-On 2025-10-14 1:13 p.m., Dan Carpenter wrote:
-> On Tue, Oct 14, 2025 at 12:10:50PM -0400, Vivek BalachandharTN wrote:
->> Hi Dan,
+On 10/9/25 15:04, Nicolas Dufresne wrote:
+> Hi,
+> 
+> Le jeudi 09 octobre 2025 à 14:11 +0300, Laurent Pinchart a écrit :
+>> The v4l2_m2m_buf_copy_metadata() function takes a boolean
+>> copy_frame_flags argument. When true, it causes the function to copy the
+>> V4L2_BUF_FLAG_KEYFRAME, V4L2_BUF_FLAG_BFRAME and V4L2_BUF_FLAG_PFRAME
+>> flags from the output buffer to the capture buffer.
 >>
->> Thanks again—confirmed the structs are zero-initialized before the copy.
+>> Many frame-based M2M drivers (e.g. for JPEG encoders, scalers,
+>> dewarpers, 2D blenders, ...) set the argument to true, while the frame
+>> flags are not applicable to those drivers as they have no concept of
+>> key, B or P frames. Set the argument to false to avoid further
+>> cargo-cult mistakes.
+> 
+> There is no use cases in any upstream driver for copying them over (even in
+> Tegra 20 decoder driver). KEY/P/B are properties of bitstream buffer in some
+> formats. Once decoded, this is no longer a property of the video frame and
+> should be discarded. So even decoder supporting that feature should not copy
+> them over.
+
+I agree. I think I thought at the time that it could be useful to know if
+an uncompressed frame was decoded from a I/P/B compressed frame, and to
+preserve that information if that same uncompressed frame was passed through
+another M2M device (e.g. a scaler).
+
+But looking back at the documentation it is clear that these flags are meant
+for compressed frames, so copying them makes no sense.
+
+Regards,
+
+	Hans
+
+> 
+> I'd remove the boolean completely to be fair, this is always inappropriate to
+> set this to true. I'd be fine doing it in two steps, but then the list should be
+> completed, see below:
+> 
 >>
->> Would a minimal fix that guarantees NUL-termination be acceptable, e.g.:
+>> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+>> ---
+>>  drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c     | 4 ++--
+>>  drivers/media/platform/mediatek/jpeg/mtk_jpeg_dec_hw.c   | 4 ++--
+>>  drivers/media/platform/mediatek/jpeg/mtk_jpeg_enc_hw.c   | 4 ++--
+>>  drivers/media/platform/mediatek/mdp3/mtk-mdp3-m2m.c      | 2 +-
+>>  drivers/media/platform/nxp/dw100/dw100.c                 | 2 +-
+>>  drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c           | 2 +-
+>>  drivers/media/platform/rockchip/rga/rga.c                | 2 +-
+>>  drivers/media/platform/st/stm32/dma2d/dma2d.c            | 2 +-
+>>  drivers/media/platform/sunxi/sun8i-di/sun8i-di.c         | 2 +-
+>>  drivers/media/platform/sunxi/sun8i-rotate/sun8i_rotate.c | 2 +-
+>>  drivers/media/test-drivers/vim2m.c                       | 2 +-
+>>  drivers/staging/media/imx/imx-media-csc-scaler.c         | 2 +-
+> 
+> Missing:
+> 
+> - drivers/media/platform/amphion/vdec.c
+> - drivers/media/platform/mediatek/vcodec/decoder/vdec/*
+> - drivers/media/platform/nvidia/tegra-vde/h264.c
+> - drivers/media/platform/rockchip/rkvdec/rkvdec.c
+> - drivers/media/platform/verisilicon/hantro_drv.c
+> - drivers/staging/media/sunxi/cedrus/cedrus_dec.c
+> 
+> cheers,
+> Nicolas
+> 
+>>  12 files changed, 15 insertions(+), 15 deletions(-)
 >>
->> strncpy((char *)&intf_load.firmware_tag, firmware_tag,
->>          GB_FIRMWARE_U_TAG_MAX_SIZE - 1);
->> ((char *)&intf_load.firmware_tag)[GB_FIRMWARE_U_TAG_MAX_SIZE - 1] = '\0';
+>> diff --git a/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c
+>> b/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c
+>> index 35c70ec3ad2c..6bd5036430dc 100644
+>> --- a/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c
+>> +++ b/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c
+>> @@ -1619,7 +1619,7 @@ static void mtk_jpegenc_worker(struct work_struct *work)
+>>  	if (!dst_buf)
+>>  		goto getbuf_fail;
+>>  
+>> -	v4l2_m2m_buf_copy_metadata(src_buf, dst_buf, true);
+>> +	v4l2_m2m_buf_copy_metadata(src_buf, dst_buf, false);
+>>  
+>>  	mtk_jpegenc_set_hw_param(ctx, hw_id, src_buf, dst_buf);
+>>  	ret = pm_runtime_get_sync(comp_jpeg[hw_id]->dev);
+>> @@ -1715,7 +1715,7 @@ static void mtk_jpegdec_worker(struct work_struct *work)
+>>  	if (!dst_buf)
+>>  		goto getbuf_fail;
+>>  
+>> -	v4l2_m2m_buf_copy_metadata(src_buf, dst_buf, true);
+>> +	v4l2_m2m_buf_copy_metadata(src_buf, dst_buf, false);
+>>  	jpeg_src_buf = mtk_jpeg_vb2_to_srcbuf(&src_buf->vb2_buf);
+>>  	jpeg_dst_buf = mtk_jpeg_vb2_to_srcbuf(&dst_buf->vb2_buf);
+>>  
+>> diff --git a/drivers/media/platform/mediatek/jpeg/mtk_jpeg_dec_hw.c
+>> b/drivers/media/platform/mediatek/jpeg/mtk_jpeg_dec_hw.c
+>> index e78e1d11093c..556865100872 100644
+>> --- a/drivers/media/platform/mediatek/jpeg/mtk_jpeg_dec_hw.c
+>> +++ b/drivers/media/platform/mediatek/jpeg/mtk_jpeg_dec_hw.c
+>> @@ -530,7 +530,7 @@ static void mtk_jpegdec_timeout_work(struct work_struct
+>> *work)
+>>  
+>>  	src_buf = cjpeg->hw_param.src_buffer;
+>>  	dst_buf = cjpeg->hw_param.dst_buffer;
+>> -	v4l2_m2m_buf_copy_metadata(src_buf, dst_buf, true);
+>> +	v4l2_m2m_buf_copy_metadata(src_buf, dst_buf, false);
+>>  
+>>  	mtk_jpeg_dec_reset(cjpeg->reg_base);
+>>  	clk_disable_unprepare(cjpeg->jdec_clk.clks->clk);
+>> @@ -560,7 +560,7 @@ static irqreturn_t mtk_jpegdec_hw_irq_handler(int irq,
+>> void *priv)
+>>  	ctx = jpeg->hw_param.curr_ctx;
+>>  	src_buf = jpeg->hw_param.src_buffer;
+>>  	dst_buf = jpeg->hw_param.dst_buffer;
+>> -	v4l2_m2m_buf_copy_metadata(src_buf, dst_buf, true);
+>> +	v4l2_m2m_buf_copy_metadata(src_buf, dst_buf, false);
+>>  
+>>  	irq_status = mtk_jpeg_dec_get_int_status(jpeg->reg_base);
+>>  	dec_irq_ret = mtk_jpeg_dec_enum_result(irq_status);
+>> diff --git a/drivers/media/platform/mediatek/jpeg/mtk_jpeg_enc_hw.c
+>> b/drivers/media/platform/mediatek/jpeg/mtk_jpeg_enc_hw.c
+>> index 9ab27aee302a..4c8427b3c384 100644
+>> --- a/drivers/media/platform/mediatek/jpeg/mtk_jpeg_enc_hw.c
+>> +++ b/drivers/media/platform/mediatek/jpeg/mtk_jpeg_enc_hw.c
+>> @@ -261,7 +261,7 @@ static void mtk_jpegenc_timeout_work(struct work_struct
+>> *work)
+>>  
+>>  	src_buf = cjpeg->hw_param.src_buffer;
+>>  	dst_buf = cjpeg->hw_param.dst_buffer;
+>> -	v4l2_m2m_buf_copy_metadata(src_buf, dst_buf, true);
+>> +	v4l2_m2m_buf_copy_metadata(src_buf, dst_buf, false);
+>>  
+>>  	mtk_jpeg_enc_reset(cjpeg->reg_base);
+>>  	clk_disable_unprepare(cjpeg->venc_clk.clks->clk);
+>> @@ -289,7 +289,7 @@ static irqreturn_t mtk_jpegenc_hw_irq_handler(int irq,
+>> void *priv)
+>>  	ctx = jpeg->hw_param.curr_ctx;
+>>  	src_buf = jpeg->hw_param.src_buffer;
+>>  	dst_buf = jpeg->hw_param.dst_buffer;
+>> -	v4l2_m2m_buf_copy_metadata(src_buf, dst_buf, true);
+>> +	v4l2_m2m_buf_copy_metadata(src_buf, dst_buf, false);
+>>  
+>>  	irq_status = readl(jpeg->reg_base + JPEG_ENC_INT_STS) &
+>>  		JPEG_ENC_INT_STATUS_MASK_ALLIRQ;
+>> diff --git a/drivers/media/platform/mediatek/mdp3/mtk-mdp3-m2m.c
+>> b/drivers/media/platform/mediatek/mdp3/mtk-mdp3-m2m.c
+>> index 59ce5cce0698..dba46a69c6be 100644
+>> --- a/drivers/media/platform/mediatek/mdp3/mtk-mdp3-m2m.c
+>> +++ b/drivers/media/platform/mediatek/mdp3/mtk-mdp3-m2m.c
+>> @@ -51,7 +51,7 @@ static void mdp_m2m_process_done(void *priv, int vb_state)
+>>  	ctx->curr_param.frame_no = ctx->frame_count[MDP_M2M_SRC];
+>>  	src_vbuf->sequence = ctx->frame_count[MDP_M2M_SRC]++;
+>>  	dst_vbuf->sequence = ctx->frame_count[MDP_M2M_DST]++;
+>> -	v4l2_m2m_buf_copy_metadata(src_vbuf, dst_vbuf, true);
+>> +	v4l2_m2m_buf_copy_metadata(src_vbuf, dst_vbuf, false);
+>>  
+>>  	v4l2_m2m_buf_done(src_vbuf, vb_state);
+>>  	v4l2_m2m_buf_done(dst_vbuf, vb_state);
+>> diff --git a/drivers/media/platform/nxp/dw100/dw100.c
+>> b/drivers/media/platform/nxp/dw100/dw100.c
+>> index 7a0ee44d9e1f..b73302d54635 100644
+>> --- a/drivers/media/platform/nxp/dw100/dw100.c
+>> +++ b/drivers/media/platform/nxp/dw100/dw100.c
+>> @@ -1483,7 +1483,7 @@ static void dw100_start(struct dw100_ctx *ctx, struct
+>> vb2_v4l2_buffer *in_vb,
+>>  				V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE),
+>>  		in_vb->sequence, out_vb->sequence);
+>>  
+>> -	v4l2_m2m_buf_copy_metadata(in_vb, out_vb, true);
+>> +	v4l2_m2m_buf_copy_metadata(in_vb, out_vb, false);
+>>  
+>>  	/* Now, let's deal with hardware ... */
+>>  	dw100_hw_master_bus_disable(dw_dev);
+>> diff --git a/drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c
+>> b/drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c
+>> index 37e0670f98c5..e1dda1e834e4 100644
+>> --- a/drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c
+>> +++ b/drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c
+>> @@ -1537,7 +1537,7 @@ static void mxc_jpeg_device_run(void *priv)
+>>  	src_buf->sequence = q_data_out->sequence++;
+>>  	dst_buf->sequence = q_data_cap->sequence++;
+>>  
+>> -	v4l2_m2m_buf_copy_metadata(src_buf, dst_buf, true);
+>> +	v4l2_m2m_buf_copy_metadata(src_buf, dst_buf, false);
+>>  
+>>  	jpeg_src_buf = vb2_to_mxc_buf(&src_buf->vb2_buf);
+>>  	if (q_data_cap->fmt->mem_planes != dst_buf->vb2_buf.num_planes) {
+>> diff --git a/drivers/media/platform/rockchip/rga/rga.c
+>> b/drivers/media/platform/rockchip/rga/rga.c
+>> index 48b88da59da0..075b684fb178 100644
+>> --- a/drivers/media/platform/rockchip/rga/rga.c
+>> +++ b/drivers/media/platform/rockchip/rga/rga.c
+>> @@ -75,7 +75,7 @@ static irqreturn_t rga_isr(int irq, void *prv)
+>>  		WARN_ON(!src);
+>>  		WARN_ON(!dst);
+>>  
+>> -		v4l2_m2m_buf_copy_metadata(src, dst, true);
+>> +		v4l2_m2m_buf_copy_metadata(src, dst, false);
+>>  
+>>  		dst->sequence = ctx->csequence++;
+>>  
+>> diff --git a/drivers/media/platform/st/stm32/dma2d/dma2d.c
+>> b/drivers/media/platform/st/stm32/dma2d/dma2d.c
+>> index 643913adc1f3..4184bdb96e6d 100644
+>> --- a/drivers/media/platform/st/stm32/dma2d/dma2d.c
+>> +++ b/drivers/media/platform/st/stm32/dma2d/dma2d.c
+>> @@ -483,7 +483,7 @@ static void device_run(void *prv)
+>>  
+>>  	src->sequence = frm_out->sequence++;
+>>  	dst->sequence = frm_cap->sequence++;
+>> -	v4l2_m2m_buf_copy_metadata(src, dst, true);
+>> +	v4l2_m2m_buf_copy_metadata(src, dst, false);
+>>  
+>>  	if (clk_enable(dev->gate))
+>>  		goto end;
+>> diff --git a/drivers/media/platform/sunxi/sun8i-di/sun8i-di.c
+>> b/drivers/media/platform/sunxi/sun8i-di/sun8i-di.c
+>> index 3e7f2df70408..11a6c7f5212e 100644
+>> --- a/drivers/media/platform/sunxi/sun8i-di/sun8i-di.c
+>> +++ b/drivers/media/platform/sunxi/sun8i-di/sun8i-di.c
+>> @@ -71,7 +71,7 @@ static void deinterlace_device_run(void *priv)
+>>  	src = v4l2_m2m_next_src_buf(ctx->fh.m2m_ctx);
+>>  	dst = v4l2_m2m_next_dst_buf(ctx->fh.m2m_ctx);
+>>  
+>> -	v4l2_m2m_buf_copy_metadata(src, dst, true);
+>> +	v4l2_m2m_buf_copy_metadata(src, dst, false);
+>>  
+>>  	deinterlace_write(dev, DEINTERLACE_MOD_ENABLE,
+>>  			  DEINTERLACE_MOD_ENABLE_EN);
+>> diff --git a/drivers/media/platform/sunxi/sun8i-rotate/sun8i_rotate.c
+>> b/drivers/media/platform/sunxi/sun8i-rotate/sun8i_rotate.c
+>> index abd10b218aa1..f6e2f11a20dd 100644
+>> --- a/drivers/media/platform/sunxi/sun8i-rotate/sun8i_rotate.c
+>> +++ b/drivers/media/platform/sunxi/sun8i-rotate/sun8i_rotate.c
+>> @@ -70,7 +70,7 @@ static void rotate_device_run(void *priv)
+>>  	src = v4l2_m2m_next_src_buf(ctx->fh.m2m_ctx);
+>>  	dst = v4l2_m2m_next_dst_buf(ctx->fh.m2m_ctx);
+>>  
+>> -	v4l2_m2m_buf_copy_metadata(src, dst, true);
+>> +	v4l2_m2m_buf_copy_metadata(src, dst, false);
+>>  
+>>  	val = ROTATE_GLB_CTL_MODE(ROTATE_MODE_COPY_ROTATE);
+>>  	if (ctx->hflip)
+>> diff --git a/drivers/media/test-drivers/vim2m.c b/drivers/media/test-
+>> drivers/vim2m.c
+>> index dc82830a35a5..3e8476165721 100644
+>> --- a/drivers/media/test-drivers/vim2m.c
+>> +++ b/drivers/media/test-drivers/vim2m.c
+>> @@ -482,7 +482,7 @@ static int device_process(struct vim2m_ctx *ctx,
+>>  
+>>  	out_vb->sequence = q_data_out->sequence++;
+>>  	in_vb->sequence = q_data_in->sequence++;
+>> -	v4l2_m2m_buf_copy_metadata(in_vb, out_vb, true);
+>> +	v4l2_m2m_buf_copy_metadata(in_vb, out_vb, false);
+>>  
+>>  	if (ctx->mode & MEM2MEM_VFLIP) {
+>>  		start = height - 1;
+>> diff --git a/drivers/staging/media/imx/imx-media-csc-scaler.c
+>> b/drivers/staging/media/imx/imx-media-csc-scaler.c
+>> index 19fd31cb9bb0..770ba3fbaba2 100644
+>> --- a/drivers/staging/media/imx/imx-media-csc-scaler.c
+>> +++ b/drivers/staging/media/imx/imx-media-csc-scaler.c
+>> @@ -96,7 +96,7 @@ static void ipu_ic_pp_complete(struct ipu_image_convert_run
+>> *run, void *_ctx)
+>>  	src_buf = v4l2_m2m_src_buf_remove(ctx->fh.m2m_ctx);
+>>  	dst_buf = v4l2_m2m_dst_buf_remove(ctx->fh.m2m_ctx);
+>>  
+>> -	v4l2_m2m_buf_copy_metadata(src_buf, dst_buf, true);
+>> +	v4l2_m2m_buf_copy_metadata(src_buf, dst_buf, false);
+>>  
+>>  	src_buf->sequence = ctx->sequence++;
+>>  	dst_buf->sequence = src_buf->sequence;
 >>
->> I can respin as v2 with the same change applied to the other two
->> firmware_tag
->> fields.
-> Sorry, I should have explained this at the start...  The struct is
-> initialized to zero.  The strncpy() copies at most
-> "GB_FIRMWARE_U_TAG_MAX_SIZE - 1" characters, meaning we never copy
-> anything to the last character which stays as zero.
->
-> regards,
-> dan carpenter
->
+>> base-commit: e5f0a698b34ed76002dc5cff3804a61c80233a7a
+
