@@ -1,70 +1,104 @@
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB4A41E49F
-	for <linux-staging@lists.linux.dev>; Thu, 16 Oct 2025 17:54:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41F622D9494;
+	Thu, 16 Oct 2025 19:22:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760637246; cv=none; b=VrxxgsmrWjBNQiBmvjJ6WMZ2QH/+JODKVgSxeAUFb93+zWxkfVBDYcNKgGwAUfi+nD3MD/+Fn3nx+4MADZW/PQzK3O9zdwjGqD5ZFAIPd0FODXGCiPSARO0Brx4dengvLaohQAhp08h3F26tIpfP0j280Zy1awKSzo4ymUzZ7Uk=
+	t=1760642541; cv=none; b=XjsXCYL+XlSAKJTOCccg+r9ti6QeFSLfT68dqgecWB+8mMdbBBjORdqLnV0hvWv3HirSLJVdQt3LZsf289SzGUvETlCJozUuh66QBywjyQPG8qllNjgHm3WG/YS8LDSlXDvk6/awfi9NEk80QV0UgS7MTz3fVpVWEk9Rbwap81M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760637246; c=relaxed/simple;
-	bh=FawIploMumH7dBn0ZStlxgmLztRwZU29KjYsEIrpdPQ=;
+	s=arc-20240116; t=1760642541; c=relaxed/simple;
+	bh=70CHvEmZWEz+900ZJiNa3jXRD54PcFWARg2uD+iSNUs=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Ybdb+mik0dxvG7M/kIYyrf1CjBLH81ock6NS27SmknelRfrgJLEW1yDE6N3wa0g0YN+kXvGT8Ex6gt7sifh2oVVhSsKfu1GGuBNUus4O420P6Tvv3QV28mcRXFUoDq8fcl/cJkXvm5QX3rnt9kUxk2Z6m5j+I0a4NzYTPBGv4g0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=KvVrhRy/; arc=none smtp.client-ip=209.85.128.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Type:Content-Disposition:In-Reply-To; b=Wat4w0P0k4iNkD5v0dn0YLbYf2ZY5gH1Jq+8GBB95eJTfJylb3W00lQACxmiZb4upiyaAg0ybbrEhL6YnXDFBnGRael6PKkI0QW57gx+yJFCMszQAT0Phco0gKof0Z/xgLHl+XxLKDY4bA3EFQPnN8dVO7vGaka9urRA6uC3VIo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cyb8JVmt; arc=none smtp.client-ip=192.198.163.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="KvVrhRy/"
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-47112edf9f7so5664555e9.0
-        for <linux-staging@lists.linux.dev>; Thu, 16 Oct 2025 10:54:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1760637243; x=1761242043; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=re0k7Bmlzr6n+pTscGoh09v3TuZJXJlXBph6ofVeFQI=;
-        b=KvVrhRy/uFTpkm06AeJyGSq/8VnFahKmnPWXyzJACpRvfq31WD5knUBk6W/7IptB7z
-         Bk9h3Oz5aKTCWT9XbounGULm3DZUqFthrT3zUbxI+VgcHBL9ZtYY69JxMnwFRtaGuwcl
-         mLKipkEIMAqIYd9ZTc1Hvby8ywpeja78H3iTBSft71zL94eEm4f89MCqg5+4W12BNZkY
-         1a8DxbAbkZGCKQ6kzAwO5g8G7COFPpGSvZBa0Z1yZKuxEh4TlD8jg4GR8bfP4z3zFkqS
-         4RPPsUsEy2h/LN5sBMpn7OFAOrrFU66Poe8jd29lZuC/IjTNdQOC6kuVttfRHRZXHdE0
-         oMxw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760637243; x=1761242043;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=re0k7Bmlzr6n+pTscGoh09v3TuZJXJlXBph6ofVeFQI=;
-        b=OnxkI26SkoUJ/mzZ3K4UwWQOO9JbHhC5XHeB3otoEmsom7iHM3qyjm+YniJCjsR4AV
-         ZNfWq4tgbHTok1K8Arjxps6JImJWFMGkfGEam1jo5XWsQfain6+jZIsIk+UbiaTvpWqR
-         ksVDVjrH3xJgPnU2IoMWg3g3ISVhb9wF6ezVQZYJsoJ5j/qXHsh9LK0QANAC4+iATrVq
-         /+rsLKAvGo7OFVq161AUN1yY7hMtb1+XpxsXTQANUM8Q61sX/s30nUHjc0qxRq3d3qLO
-         eunq/ADIJnQOHbkHKDF+cMBpzqKUDFqX5mEohyIxZvaWD+i2kkskK/i13E2HAIWj7KlN
-         Qaiw==
-X-Forwarded-Encrypted: i=1; AJvYcCXX3Nk0D6Yi9lddaflIrUuDFWm8l/PCj1zksOdUFeHTm0Xx6owY254To4nH86Xw3IC7HVdlw4DOLZbyUVw6@lists.linux.dev
-X-Gm-Message-State: AOJu0YwESfgzmRndwb0/Wfg0vegwwBGLio4xnLDnRNNi3wt1WeokQ89D
-	b245hdOQjD4GT5+VMi4lPtcNIYo6n+/xHUv1Ecjj1AYWq0uwy25KsnH+TkUxkM5dgEo=
-X-Gm-Gg: ASbGncsr5AJ98uvufuuAV1nN12GxeQmbbWvj36wmN4AaWEGIB8f7C0sdkYmO2VxXNvL
-	2fYDwOhFsP6EP82HJtW5MspRrtDExTXktYnnOIt1LaqTdJuZGN5S6X8yWT/DlpgtYiBOFFFkGyz
-	GVAtgmesAMVI9FQHtjd7uOuB4pGnTUtiFKpwtwkNvYwbInEw8X2RJ3z4BHi0xg01FJ4HTjQOlJ2
-	aX0ZcIg7AP/WIE0f2q2TUcgGkLqL5aH6PBGIfixT1EQlluxhseTpuJY+97Iloc98aJ3SvE8OdMp
-	0pwKFYJcKst7tTBTCworblbnhfi65YsIbpb1S39CHLVtQW07V/Sql7fgHXCXz0Tz3gWgyzV0PBb
-	VSRj92AFpn/s6q3KxtkagpzA8KlG922s3XbF/j1wHgy4gTeD8rsGd2Q7fwHmPNw4tNx01HDY17y
-	AsSapiApiONB+HrNjr
-X-Google-Smtp-Source: AGHT+IF01qmGH8q+UOWkfTYTBBwfxd74efJeD0G55QsMn7HKQuxNWlH/tncuqzY9GwEgFvSx2x9/Tg==
-X-Received: by 2002:a05:600c:540d:b0:45c:b53f:ad9 with SMTP id 5b1f17b1804b1-4711791d215mr7993025e9.33.1760637242866;
-        Thu, 16 Oct 2025 10:54:02 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-471144b5d48sm39763405e9.9.2025.10.16.10.54.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 16 Oct 2025 10:54:02 -0700 (PDT)
-Date: Thu, 16 Oct 2025 20:53:57 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Emre Cecanpunar <emreleno@gmail.com>
-Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev
-Subject: Re: [PATCH] staging: nvec: remove NVEC_PS2_DEBUG and dead debug macro
-Message-ID: <aPExNS9yUUkBJSjq@stanley.mountain>
-References: <20251016145324.13537-1-emreleno@gmail.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cyb8JVmt"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1760642540; x=1792178540;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=70CHvEmZWEz+900ZJiNa3jXRD54PcFWARg2uD+iSNUs=;
+  b=cyb8JVmt3NwaLYDvAzzimo0CrYhYUeWK2u6MRT4kPN50LWLjSB1u2qFz
+   P7WdllRxJgUTqE+5JqCMUt34g/0teawQEl1KD2aJJG42USV4Y0zK/5//5
+   +RHNszWMaeQtRPfuH4S3jg1tKrn3Xausxb8y2453XxI0QUQvXjqZxNfS9
+   XtSVkb4IGBuayOZuNAi221oy6K3/LkZ+P7I8yt7WDVYfhA7eXJxKr8YDb
+   h2+wZS1ZexTbLEJi8UphPhbxJq1EHa/xkVy8tLgmhHqdETOz7SVucf1om
+   5kI9BIN6cIP8EpqQRMj/5b6YCaj81gIzvRCAugMm1yrOOV+YhqK9olOSM
+   A==;
+X-CSE-ConnectionGUID: D2kWI8CHRzS8wxs0PzLTMw==
+X-CSE-MsgGUID: LKbEFl9PTViuufQ6qr9uZw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11584"; a="66714832"
+X-IronPort-AV: E=Sophos;i="6.19,234,1754982000"; 
+   d="scan'208";a="66714832"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Oct 2025 12:22:19 -0700
+X-CSE-ConnectionGUID: bRDS3vRKR4SjOvpt8TyPXQ==
+X-CSE-MsgGUID: 6oARni81RACAlb0elSOKpQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,234,1754982000"; 
+   d="scan'208";a="187816556"
+Received: from klitkey1-mobl1.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.244.31])
+  by fmviesa004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Oct 2025 12:22:09 -0700
+Received: from kekkonen.localdomain (localhost [IPv6:::1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id 936D312023C;
+	Thu, 16 Oct 2025 22:22:06 +0300 (EEST)
+Date: Thu, 16 Oct 2025 22:22:06 +0300
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Ricardo Ribalda <ribalda@chromium.org>
+Cc: Linus Walleij <linus.walleij@linaro.org>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Hans Verkuil <hverkuil@kernel.org>,
+	Krzysztof =?utf-8?Q?Ha=C5=82asa?= <khalasa@piap.pl>,
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+	Leon Luo <leonl@leopardimaging.com>,
+	Kieran Bingham <kieran.bingham@ideasonboard.com>,
+	Jacopo Mondi <jacopo+renesas@jmondi.org>,
+	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+	Niklas =?iso-8859-1?Q?S=F6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
+	Julien Massot <julien.massot@collabora.com>,
+	Jacopo Mondi <jacopo@jmondi.org>,
+	Daniel Scally <djrscally@gmail.com>,
+	Dave Stevenson <dave.stevenson@raspberrypi.com>,
+	Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
+	Sylvain Petinot <sylvain.petinot@foss.st.com>,
+	Yong Zhi <yong.zhi@intel.com>, Bingbu Cao <bingbu.cao@intel.com>,
+	Tianshu Qiu <tian.shu.qiu@intel.com>,
+	Tiffany Lin <tiffany.lin@mediatek.com>,
+	Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+	Yunfei Dong <yunfei.dong@mediatek.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Rui Miguel Silva <rmfrfs@gmail.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Martin Kepplinger <martink@posteo.de>,
+	Purism Kernel Team <kernel@puri.sm>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	Dafna Hirschfeld <dafna@fastmail.com>,
+	Heiko Stuebner <heiko@sntech.de>,
+	Sylwester Nawrocki <s.nawrocki@samsung.com>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Alim Akhtar <alim.akhtar@samsung.com>,
+	Yemike Abhilash Chandra <y-abhilashchandra@ti.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org, imx@lists.linux.dev,
+	linux-renesas-soc@vger.kernel.org,
+	linux-rockchip@lists.infradead.org,
+	linux-samsung-soc@vger.kernel.org, linux-staging@lists.linux.dev
+Subject: Re: [PATCH 00/32] media: Use %pe format specifier
+Message-ID: <aPFF3n-e7pAUDH5x@kekkonen.localdomain>
+References: <20251013-ptr_err-v1-0-2c5efbd82952@chromium.org>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -73,34 +107,25 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251016145324.13537-1-emreleno@gmail.com>
+In-Reply-To: <20251013-ptr_err-v1-0-2c5efbd82952@chromium.org>
 
-On Thu, Oct 16, 2025 at 05:53:24PM +0300, Emre Cecanpunar wrote:
-> @@ -70,18 +62,15 @@ static int nvec_ps2_notifier(struct notifier_block *nb,
->  	case NVEC_PS2_EVT:
->  		for (i = 0; i < msg[1]; i++)
->  			serio_interrupt(ps2_dev.ser_dev, msg[2 + i], 0);
-> -		NVEC_PHD("ps/2 mouse event: ", &msg[2], msg[1]);
->  		return NOTIFY_STOP;
->  
->  	case NVEC_PS2:
->  		if (msg[2] == 1) {
->  			for (i = 0; i < (msg[1] - 2); i++)
->  				serio_interrupt(ps2_dev.ser_dev, msg[i + 4], 0);
-> -			NVEC_PHD("ps/2 mouse reply: ", &msg[4], msg[1] - 2);
->  		}
->  
->  		else if (msg[1] != 2) /* !ack */
-> -			NVEC_PHD("unhandled mouse event: ", msg, msg[1] + 2);
+Hi Ricardo,
 
-This will introduce a bug.
-
-regards,
-dan carpenter
-
->  		return NOTIFY_STOP;
->  	}
->  
-> -- 
-> 2.51.0
+On Mon, Oct 13, 2025 at 02:14:40PM +0000, Ricardo Ribalda wrote:
+> The %pe format specifier is designed to print error pointers. It prints
+> a symbolic error name (eg. -EINVAL) and it makes the code simpler by
+> omitting PTR_ERR().
 > 
+> The recently introduced test scripts/coccinelle/misc/ptr_err_to_pe.cocci
+> checks that we use %pe. Let's make it happy.
+> 
+> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+
+Thanks for the set.
+
+Acked-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+
+-- 
+Kind regards,
+
+Sakari Ailus
