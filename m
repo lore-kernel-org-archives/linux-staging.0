@@ -1,35 +1,35 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0AE5246BB8;
-	Fri, 17 Oct 2025 08:16:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45980246BB8;
+	Fri, 17 Oct 2025 08:16:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760688981; cv=none; b=rsbgYX1uaWWXgw4zll9PnoJHbwjYO5OaAf8gRflEMR2IZ5m76YnyEQkTP9PQbV7YhKxk8Ji/58SyteQXJyZsWfzB20dDrD21XG1GsitM+ly9tspdLwy/cHjnPk2JkFuNU38u8jThF2z0FXNcQIdSg6F29qiNnujNVgry4xBZqqE=
+	t=1760688983; cv=none; b=cSVYT9znz9ZflyeNg4iVpxtIvG/4UhyB6/X9SrjASbzKGQz0Gespn5TdGlvTAgacS4KRLWKXaJQVO+ZAqvgcuav7S/ySYfOLt9pnMYcr8t+m9Ldv4XpzGu06LZOXvtnPyBt0MElmWgBuuiFqSO7xbe9YfOwzlyfWnQhA4Hk9Wr0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760688981; c=relaxed/simple;
-	bh=KGscHLo4lmwttty+FbyKIhMbZVDGdMbkHROcEjxJKR4=;
+	s=arc-20240116; t=1760688983; c=relaxed/simple;
+	bh=esjZ5c3IUl4375FObJ47mVUZDlqGA9IJyPO9/OsyVAo=;
 	h=Subject:To:Cc:From:Date:In-Reply-To:Message-ID:MIME-Version:
-	 Content-Type; b=QJbhDtqGvwa2rTe+84BF3GKUWRcjCPPMllCYoyUX2r78PNBARpZukW37lpFLiDl32E4wenwQZCv46/0SCVeT7FNaXsv/70/OiU/jralxIo6AkXMQjkQyvHDJRvWuQucpRLxb9tPBNdRiLUwOI/8Wlm0xHLGMB8m8d8WeswxVgoE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=Ljnhb1SV; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type; b=uu1UcRYidG5F/cdT8h+GbbMLwR4/8H0G25hrQ58YHV3mjb7ljfLTbwNx2u6iTNBv/W8OffCNjjuvHpyzFYM5oYuQfsObNktPe+gOCh1eWa5lVhYlbk+utZGElxmUDi5YRrnR/Szrb9eWqUZd0YRBZwOHMriIHlDRQWwD0msl5c0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=eFU5zW51; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="Ljnhb1SV"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B98EFC4CEFE;
-	Fri, 17 Oct 2025 08:16:19 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="eFU5zW51"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9750CC4CEFE;
+	Fri, 17 Oct 2025 08:16:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1760688980;
-	bh=KGscHLo4lmwttty+FbyKIhMbZVDGdMbkHROcEjxJKR4=;
+	s=korg; t=1760688983;
+	bh=esjZ5c3IUl4375FObJ47mVUZDlqGA9IJyPO9/OsyVAo=;
 	h=Subject:To:Cc:From:Date:In-Reply-To:From;
-	b=Ljnhb1SV3+uNrpurZLUI7wIbg8U95WGLdT+ziKWmAFefAX0AEi/bTB9q+xQWuLXSj
-	 RIqHN6IABcpRyHupKXDSqp3U6LsD0mI0JK6Jqxelvm3YK52yddKOjIH75HrkcNw7kM
-	 /rikgip+gGkoylbYO7BA6JNw3nHTSjYC8AY9HWgI=
-Subject: Patch "minmax: don't use max() in situations that want a C constant expression" has been added to the 5.15-stable tree
-To: David.Laight@ACULAB.COM,David.Laight@aculab.com,adilger.kernel@dilger.ca,agk@redhat.com,airlied@linux.ie,akpm@linux-foundation.org,amd-gfx@lists.freedesktop.org,andriy.shevchenko@linux.intel.com,anton.ivanov@cambridgegreys.com,bp@alien8.de,clm@fb.com,coreteam@netfilter.org,daniel@ffwll.ch,dave.hansen@linux.intel.com,davem@davemloft.net,dm-devel@redhat.com,dmitry.torokhov@gmail.com,dri-devel@lists.freedesktop.org,dsahern@kernel.org,dsterba@suse.com,dushistov@mail.ru,farbere@amazon.com,freedreno@lists.freedesktop.org,fw@strlen.de,gregkh@linuxfoundation.org,hdegoede@redhat.com,herve.codina@bootlin.com,hpa@zytor.com,jack@suse.com,james.morse@arm.com,jdelvare@suse.com,jdike@addtoit.com,jejb@linux.ibm.com,jernej.skrabec@gmail.com,jmaloy@redhat.com,josef@toxicpanda.com,kadlec@netfilter.org,krzysztof.kozlowski@canonical.com,kuba@kernel.org,linus.walleij@linaro.org,linux-arm-kernel@lists.infradead.org,linux-mm@kvack.org,linux-staging@lists.linux.dev,linux-stm32@st-md-mailman.stormreply.com,linux-sunxi@lists.linux.dev,linux-um@lists.infradead.org,linux@rasmusvillemoes.dk,linux@roeck-us.net,lorenzo.stoakes@oracle.com,luc.vanoostenryck@gmail.com,luto@kernel.org,maarten.lankhorst@linux.intel.com,malattia@linux.it,martin.petersen@oracle.com,maz@kernel.org,mcoquelin.stm32@gmail.com,mgross@linux.intel.com,minchan@kernel.org,mingo@redhat.com,mripard@kernel.org,ngupta@vflare.org,pablo@netfilter.org,peterz@infradead.org,pmladek@suse.com,qiuxu.zhuo@intel.com,quic_akhilpo@quicinc.com,richard@nod.at,robdclark@gmail.com,rostedt@goodmis.org,rric@kernel.org,ruanjinjie@huawei.com,sakari.ailus@linux.intel.com,sashal@kernel.org,sean@poorly.run,senozhatsky@chromium.org,shuah@kernel.org,snitzer@redhat.com,tglx@linutronix.de,tipc-discussion@lists.sourceforge.net,tony.luck@intel.com,torvalds@linux-foundation.org,tytso@mit.edu,tzimmermann@suse.de,wens@csie.org,willy@infradead.org,x86@kernel.org,ying.xue@windriver.com,yoshfuji@linux-ipv6.org
+	b=eFU5zW51H8GlFuj3Q/QUy0tmyG1EuuKTzitri78rXVhmw3lYFNKJWmnjmWnhWKo94
+	 Hy7c1vHt3j3dpdJNDY2xnoLrT0yTl+ztJBovPwzauyD5RAX9BMQBUrEx8fgNuV0FGP
+	 DzlgI57Rpvl06doQb6YCE+HdJq+9WvTQL/VXO0uk=
+Subject: Patch "minmax: improve macro expansion and type checking" has been added to the 5.15-stable tree
+To: David.Laight@ACULAB.COM,David.Laight@aculab.com,adilger.kernel@dilger.ca,agk@redhat.com,airlied@linux.ie,akpm@linux-foundation.org,amd-gfx@lists.freedesktop.org,andriy.shevchenko@linux.intel.com,anton.ivanov@cambridgegreys.com,arnd@kernel.org,bp@alien8.de,clm@fb.com,coreteam@netfilter.org,daniel@ffwll.ch,dave.hansen@linux.intel.com,davem@davemloft.net,dm-devel@redhat.com,dmitry.torokhov@gmail.com,dri-devel@lists.freedesktop.org,dsahern@kernel.org,dsterba@suse.com,dushistov@mail.ru,farbere@amazon.com,freedreno@lists.freedesktop.org,fw@strlen.de,gregkh@linuxfoundation.org,hdegoede@redhat.com,herve.codina@bootlin.com,hpa@zytor.com,jack@suse.com,james.morse@arm.com,jdelvare@suse.com,jdike@addtoit.com,jejb@linux.ibm.com,jernej.skrabec@gmail.com,jmaloy@redhat.com,josef@toxicpanda.com,kadlec@netfilter.org,krzysztof.kozlowski@canonical.com,kuba@kernel.org,linus.walleij@linaro.org,linux-arm-kernel@lists.infradead.org,linux-mm@kvack.org,linux-staging@lists.linux.dev,linux-stm32@st-md-mailman.stormreply.com,linux-sunxi@lists.linux.dev,linux-um@lists.infradead.org,linux@rasmusvillemoes.dk,linux@roeck-us.net,lorenzo.stoakes@oracle.com,luc.vanoostenryck@gmail.com,luto@kernel.org,maarten.lankhorst@linux.intel.com,malattia@linux.it,martin.petersen@oracle.com,maz@kernel.org,mcoquelin.stm32@gmail.com,mgross@linux.intel.com,minchan@kernel.org,mingo@redhat.com,mripard@kernel.org,ngupta@vflare.org,pablo@netfilter.org,peterz@infradead.org,pmladek@suse.com,qiuxu.zhuo@intel.com,quic_akhilpo@quicinc.com,richard@nod.at,robdclark@gmail.com,rostedt@goodmis.org,rric@kernel.org,ruanjinjie@huawei.com,sakari.ailus@linux.intel.com,sashal@kernel.org,sean@poorly.run,senozhatsky@chromium.org,shuah@kernel.org,snitzer@redhat.com,tglx@linutronix.de,tipc-discussion@lists.sourceforge.net,tony.luck@intel.com,torvalds@linux-foundation.org,tytso@mit.edu,tzimmermann@suse.de,wens@csie.org,willy@infradead.org,x86@kernel.org,ying.xue@windriver.com,yoshfuji@linux-ipv6.org
 Cc: <stable-commits@vger.kernel.org>
 From: <gregkh@linuxfoundation.org>
-Date: Fri, 17 Oct 2025 10:16:14 +0200
-In-Reply-To: <20251008152946.29285-10-farbere@amazon.com>
-Message-ID: <2025101714-woozy-dolly-87b8@gregkh>
+Date: Fri, 17 Oct 2025 10:16:15 +0200
+In-Reply-To: <20251008152946.29285-12-farbere@amazon.com>
+Message-ID: <2025101715-condone-trump-9dde@gregkh>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -44,106 +44,221 @@ X-Patchwork-Hint: ignore
 
 This is a note to let you know that I've just added the patch titled
 
-    minmax: don't use max() in situations that want a C constant expression
+    minmax: improve macro expansion and type checking
 
 to the 5.15-stable tree which can be found at:
     http://www.kernel.org/git/?p=linux/kernel/git/stable/stable-queue.git;a=summary
 
 The filename of the patch is:
-     minmax-don-t-use-max-in-situations-that-want-a-c-constant-expression.patch
+     minmax-improve-macro-expansion-and-type-checking.patch
 and it can be found in the queue-5.15 subdirectory.
 
 If you, or anyone else, feels it should not be added to the stable tree,
 please let <stable@vger.kernel.org> know about it.
 
 
-From prvs=36971892a=farbere@amazon.com Wed Oct  8 17:32:28 2025
+From prvs=36971892a=farbere@amazon.com Wed Oct  8 17:33:00 2025
 From: Eliav Farber <farbere@amazon.com>
-Date: Wed, 8 Oct 2025 15:29:34 +0000
-Subject: minmax: don't use max() in situations that want a C constant expression
+Date: Wed, 8 Oct 2025 15:29:36 +0000
+Subject: minmax: improve macro expansion and type checking
 To: <gregkh@linuxfoundation.org>, <jdike@addtoit.com>, <richard@nod.at>, <anton.ivanov@cambridgegreys.com>, <dave.hansen@linux.intel.com>, <luto@kernel.org>, <peterz@infradead.org>, <tglx@linutronix.de>, <mingo@redhat.com>, <bp@alien8.de>, <x86@kernel.org>, <hpa@zytor.com>, <tony.luck@intel.com>, <qiuxu.zhuo@intel.com>, <james.morse@arm.com>, <rric@kernel.org>, <airlied@linux.ie>, <daniel@ffwll.ch>, <maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>, <tzimmermann@suse.de>, <robdclark@gmail.com>, <sean@poorly.run>, <jdelvare@suse.com>, <linux@roeck-us.net>, <linus.walleij@linaro.org>, <dmitry.torokhov@gmail.com>, <maz@kernel.org>, <wens@csie.org>, <jernej.skrabec@gmail.com>, <agk@redhat.com>, <snitzer@redhat.com>, <dm-devel@redhat.com>, <davem@davemloft.net>, <kuba@kernel.org>, <mcoquelin.stm32@gmail.com>, <krzysztof.kozlowski@canonical.com>, <malattia@linux.it>, <hdegoede@redhat.com>, <mgross@linux.intel.com>, <jejb@linux.ibm.com>, <martin.petersen@oracle.com>, <sakari.ailus@linux.intel.com>, <clm@fb.com>, <josef@toxicpanda.com>, <dsterba@suse.com>, <jack@suse.com>, <tytso@mit.edu>, <adilger.kernel@dilger.ca>, <dushistov@mail.ru>, <luc.vanoostenryck@gmail.com>, <rostedt@goodmis.org>, <pmladek@suse.com>, <senozhatsky@chromium.org>, <andriy.shevchenko@linux.intel.com>, <linux@rasmusvillemoes.dk>, <minchan@kernel.org>, <ngupta@vflare.org>, <akpm@linux-foundation.org>, <yoshfuji@linux-ipv6.org>, <dsahern@kernel.org>, <pablo@netfilter.org>, <kadlec@netfilter.org>, <fw@strlen.de>, <jmaloy@redhat.com>, <ying.xue@windriver.com>, <shuah@kernel.org>, <willy@infradead.org>, <farbere@amazon.com>, <sashal@kernel.org>, <quic_akhilpo@quicinc.com>, <ruanjinjie@huawei.com>, <David.Laight@ACULAB.COM>, <herve.codina@bootlin.com>, <linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>, <linux-um@lists.infradead.org>, <linux-edac@vger.kernel.org>, <amd-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>, <linux-arm-msm@vger.kernel.org>, <freedreno@lists.freedesktop.org>, <linux-hwmon@vger.kernel.org>, <linux-input@vger.kernel.org>, <linux-sunxi@lists.linux.dev>, <linux-media@vger.kernel.org>, <netdev@vger.kernel.org>, <linux-stm32@st-md-mailman.stormreply.com>, <platform-driver-x86@vger.kernel.org>, <linux-scsi@vger.kernel.org>, <linux-staging@lists.linux.dev>, <linux-btrfs@vger.kernel.org>, <linux-ext4@vger.kernel.org>, <linux-sparse@vger.kernel.org>, <linux-mm@kvack.org>, <netfilter-devel@vger.kernel.org>, <coreteam@netfilter.org>, <tipc-discussion@lists.sourceforge.net>, <linux-kselftest@vger.kernel.org>, <stable@vger.kernel.org>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>, David Laight <David.Laight@aculab.com>, Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
-Message-ID: <20251008152946.29285-10-farbere@amazon.com>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>, Arnd Bergmann <arnd@kernel.org>, David Laight <David.Laight@aculab.com>, Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+Message-ID: <20251008152946.29285-12-farbere@amazon.com>
 
 From: Linus Torvalds <torvalds@linux-foundation.org>
 
-[ Upstream commit cb04e8b1d2f24c4c2c92f7b7529031fc35a16fed ]
+[ Upstream commit 22f5468731491e53356ba7c028f0fdea20b18e2c ]
 
-We only had a couple of array[] declarations, and changing them to just
-use 'MAX()' instead of 'max()' fixes the issue.
+This clarifies the rules for min()/max()/clamp() type checking and makes
+them a much more efficient macro expansion.
 
-This will allow us to simplify our min/max macros enormously, since they
-can now unconditionally use temporary variables to avoid using the
-argument values multiple times.
+In particular, we now look at the type and range of the inputs to see
+whether they work together, generating a mask of acceptable comparisons,
+and then just verifying that the inputs have a shared case:
 
+ - an expression with a signed type can be used for
+    (1) signed comparisons
+    (2) unsigned comparisons if it is statically known to have a
+        non-negative value
+
+ - an expression with an unsigned type can be used for
+    (3) unsigned comparison
+    (4) signed comparisons if the type is smaller than 'int' and thus
+        the C integer promotion rules will make it signed anyway
+
+Here rule (1) and (3) are obvious, and rule (2) is important in order to
+allow obvious trivial constants to be used together with unsigned
+values.
+
+Rule (4) is not necessarily a good idea, but matches what we used to do,
+and we have extant cases of this situation in the kernel.  Notably with
+bcachefs having an expression like
+
+	min(bch2_bucket_sectors_dirty(a), ca->mi.bucket_size)
+
+where bch2_bucket_sectors_dirty() returns an 's64', and
+'ca->mi.bucket_size' is of type 'u16'.
+
+Technically that bcachefs comparison is clearly sensible on a C type
+level, because the 'u16' will go through the normal C integer promotion,
+and become 'int', and then we're comparing two signed values and
+everything looks sane.
+
+However, it's not entirely clear that a 'min(s64,u16)' operation makes a
+lot of conceptual sense, and it's possible that we will remove rule (4).
+After all, the _reason_ we have these complicated type checks is exactly
+that the C type promotion rules are not very intuitive.
+
+But at least for now the rule is in place for backwards compatibility.
+
+Also note that rule (2) existed before, but is hugely relaxed by this
+commit.  It used to be true only for the simplest compile-time
+non-negative integer constants.  The new macro model will allow cases
+where the compiler can trivially see that an expression is non-negative
+even if it isn't necessarily a constant.
+
+For example, the amdgpu driver does
+
+	min_t(size_t, sizeof(fru_info->serial), pia[addr] & 0x3F));
+
+because our old 'min()' macro would see that 'pia[addr] & 0x3F' is of
+type 'int' and clearly not a C constant expression, so doing a 'min()'
+with a 'size_t' is a signedness violation.
+
+Our new 'min()' macro still sees that 'pia[addr] & 0x3F' is of type
+'int', but is smart enough to also see that it is clearly non-negative,
+and thus would allow that case without any complaints.
+
+Cc: Arnd Bergmann <arnd@kernel.org>
 Cc: David Laight <David.Laight@aculab.com>
 Cc: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
 Signed-off-by: Linus Torvalds <torvalds@linux-foundation.org>
 Signed-off-by: Eliav Farber <farbere@amazon.com>
 Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 ---
- drivers/input/touchscreen/cyttsp4_core.c |    2 +-
- drivers/irqchip/irq-sun6i-r.c            |    2 +-
- drivers/md/dm-integrity.c                |    2 +-
- fs/btrfs/tree-checker.c                  |    2 +-
- lib/vsprintf.c                           |    2 +-
- 5 files changed, 5 insertions(+), 5 deletions(-)
+ include/linux/compiler.h |    9 +++++
+ include/linux/minmax.h   |   78 ++++++++++++++++++++++++++++++++++++-----------
+ 2 files changed, 70 insertions(+), 17 deletions(-)
 
---- a/drivers/input/touchscreen/cyttsp4_core.c
-+++ b/drivers/input/touchscreen/cyttsp4_core.c
-@@ -871,7 +871,7 @@ static void cyttsp4_get_mt_touches(struc
- 	struct cyttsp4_touch tch;
- 	int sig;
- 	int i, j, t = 0;
--	int ids[max(CY_TMA1036_MAX_TCH, CY_TMA4XX_MAX_TCH)];
-+	int ids[MAX(CY_TMA1036_MAX_TCH, CY_TMA4XX_MAX_TCH)];
+--- a/include/linux/compiler.h
++++ b/include/linux/compiler.h
+@@ -259,6 +259,15 @@ static inline void *offset_to_ptr(const
+ #define is_signed_type(type) (((type)(-1)) < (__force type)1)
  
- 	memset(ids, 0, si->si_ofs.tch_abs[CY_TCH_T].max * sizeof(int));
- 	for (i = 0; i < num_cur_tch; i++) {
---- a/drivers/irqchip/irq-sun6i-r.c
-+++ b/drivers/irqchip/irq-sun6i-r.c
-@@ -268,7 +268,7 @@ static const struct irq_domain_ops sun6i
+ /*
++ * Useful shorthand for "is this condition known at compile-time?"
++ *
++ * Note that the condition may involve non-constant values,
++ * but the compiler may know enough about the details of the
++ * values to determine that the condition is statically true.
++ */
++#define statically_true(x) (__builtin_constant_p(x) && (x))
++
++/*
+  * This is needed in functions which generate the stack canary, see
+  * arch/x86/kernel/smpboot.c::start_secondary() for an example.
+  */
+--- a/include/linux/minmax.h
++++ b/include/linux/minmax.h
+@@ -26,19 +26,63 @@
+ #define __typecheck(x, y) \
+ 	(!!(sizeof((typeof(x) *)1 == (typeof(y) *)1)))
  
- static int sun6i_r_intc_suspend(void)
- {
--	u32 buf[BITS_TO_U32(max(SUN6I_NR_TOP_LEVEL_IRQS, SUN6I_NR_MUX_BITS))];
-+	u32 buf[BITS_TO_U32(MAX(SUN6I_NR_TOP_LEVEL_IRQS, SUN6I_NR_MUX_BITS))];
- 	int i;
+-/* is_signed_type() isn't a constexpr for pointer types */
+-#define __is_signed(x) 								\
+-	__builtin_choose_expr(__is_constexpr(is_signed_type(typeof(x))),	\
+-		is_signed_type(typeof(x)), 0)
+-
+-/* True for a non-negative signed int constant */
+-#define __is_noneg_int(x)	\
+-	(__builtin_choose_expr(__is_constexpr(x) && __is_signed(x), x, -1) >= 0)
+-
+-#define __types_ok(x, y, ux, uy) 				\
+-	(__is_signed(ux) == __is_signed(uy) ||			\
+-	 __is_signed((ux) + 0) == __is_signed((uy) + 0) ||	\
+-	 __is_noneg_int(x) || __is_noneg_int(y))
++/*
++ * __sign_use for integer expressions:
++ *   bit #0 set if ok for unsigned comparisons
++ *   bit #1 set if ok for signed comparisons
++ *
++ * In particular, statically non-negative signed integer
++ * expressions are ok for both.
++ *
++ * NOTE! Unsigned types smaller than 'int' are implicitly
++ * converted to 'int' in expressions, and are accepted for
++ * signed conversions for now. This is debatable.
++ *
++ * Note that 'x' is the original expression, and 'ux' is
++ * the unique variable that contains the value.
++ *
++ * We use 'ux' for pure type checking, and 'x' for when
++ * we need to look at the value (but without evaluating
++ * it for side effects! Careful to only ever evaluate it
++ * with sizeof() or __builtin_constant_p() etc).
++ *
++ * Pointers end up being checked by the normal C type
++ * rules at the actual comparison, and these expressions
++ * only need to be careful to not cause warnings for
++ * pointer use.
++ */
++#define __signed_type_use(x,ux) (2+__is_nonneg(x,ux))
++#define __unsigned_type_use(x,ux) (1+2*(sizeof(ux)<4))
++#define __sign_use(x,ux) (is_signed_type(typeof(ux))? \
++	__signed_type_use(x,ux):__unsigned_type_use(x,ux))
++
++/*
++ * To avoid warnings about casting pointers to integers
++ * of different sizes, we need that special sign type.
++ *
++ * On 64-bit we can just always use 'long', since any
++ * integer or pointer type can just be cast to that.
++ *
++ * This does not work for 128-bit signed integers since
++ * the cast would truncate them, but we do not use s128
++ * types in the kernel (we do use 'u128', but they will
++ * be handled by the !is_signed_type() case).
++ *
++ * NOTE! The cast is there only to avoid any warnings
++ * from when values that aren't signed integer types.
++ */
++#ifdef CONFIG_64BIT
++  #define __signed_type(ux) long
++#else
++  #define __signed_type(ux) typeof(__builtin_choose_expr(sizeof(ux)>4,1LL,1L))
++#endif
++#define __is_nonneg(x,ux) statically_true((__signed_type(ux))(x)>=0)
++
++#define __types_ok(x,y,ux,uy) \
++	(__sign_use(x,ux) & __sign_use(y,uy))
++
++#define __types_ok3(x,y,z,ux,uy,uz) \
++	(__sign_use(x,ux) & __sign_use(y,uy) & __sign_use(z,uz))
  
- 	/* Wake IRQs are enabled during system sleep and shutdown. */
---- a/drivers/md/dm-integrity.c
-+++ b/drivers/md/dm-integrity.c
-@@ -1705,7 +1705,7 @@ static void integrity_metadata(struct wo
- 		struct bio *bio = dm_bio_from_per_bio_data(dio, sizeof(struct dm_integrity_io));
- 		char *checksums;
- 		unsigned extra_space = unlikely(digest_size > ic->tag_size) ? digest_size - ic->tag_size : 0;
--		char checksums_onstack[max((size_t)HASH_MAX_DIGESTSIZE, MAX_TAG_SIZE)];
-+		char checksums_onstack[MAX(HASH_MAX_DIGESTSIZE, MAX_TAG_SIZE)];
- 		sector_t sector;
- 		unsigned sectors_to_process;
+ #define __cmp_op_min <
+ #define __cmp_op_max >
+@@ -53,8 +97,8 @@
  
---- a/fs/btrfs/tree-checker.c
-+++ b/fs/btrfs/tree-checker.c
-@@ -608,7 +608,7 @@ static int check_dir_item(struct extent_
- 		 */
- 		if (key->type == BTRFS_DIR_ITEM_KEY ||
- 		    key->type == BTRFS_XATTR_ITEM_KEY) {
--			char namebuf[max(BTRFS_NAME_LEN, XATTR_NAME_MAX)];
-+			char namebuf[MAX(BTRFS_NAME_LEN, XATTR_NAME_MAX)];
+ #define __careful_cmp_once(op, x, y, ux, uy) ({		\
+ 	__auto_type ux = (x); __auto_type uy = (y);	\
+-	static_assert(__types_ok(x, y, ux, uy),		\
+-		#op "(" #x ", " #y ") signedness error, fix types or consider u" #op "() before " #op "_t()"); \
++	BUILD_BUG_ON_MSG(!__types_ok(x,y,ux,uy),	\
++		#op"("#x", "#y") signedness error");	\
+ 	__cmp(op, ux, uy); })
  
- 			read_extent_buffer(leaf, namebuf,
- 					(unsigned long)(di + 1), name_len);
---- a/lib/vsprintf.c
-+++ b/lib/vsprintf.c
-@@ -1100,7 +1100,7 @@ char *resource_string(char *buf, char *e
- #define FLAG_BUF_SIZE		(2 * sizeof(res->flags))
- #define DECODED_BUF_SIZE	sizeof("[mem - 64bit pref window disabled]")
- #define RAW_BUF_SIZE		sizeof("[mem - flags 0x]")
--	char sym[max(2*RSRC_BUF_SIZE + DECODED_BUF_SIZE,
-+	char sym[MAX(2*RSRC_BUF_SIZE + DECODED_BUF_SIZE,
- 		     2*RSRC_BUF_SIZE + FLAG_BUF_SIZE + RAW_BUF_SIZE)];
+ #define __careful_cmp(op, x, y) \
+@@ -70,8 +114,8 @@
+ 	static_assert(__builtin_choose_expr(__is_constexpr((lo) > (hi)), 	\
+ 			(lo) <= (hi), true),					\
+ 		"clamp() low limit " #lo " greater than high limit " #hi);	\
+-	static_assert(__types_ok(uval, lo, uval, ulo), "clamp() 'lo' signedness error");	\
+-	static_assert(__types_ok(uval, hi, uval, uhi), "clamp() 'hi' signedness error");	\
++	BUILD_BUG_ON_MSG(!__types_ok3(val,lo,hi,uval,ulo,uhi),			\
++		"clamp("#val", "#lo", "#hi") signedness error");		\
+ 	__clamp(uval, ulo, uhi); })
  
- 	char *p = sym, *pend = sym + sizeof(sym);
+ #define __careful_clamp(val, lo, hi) \
 
 
 Patches currently in stable-queue which might be from farbere@amazon.com are
