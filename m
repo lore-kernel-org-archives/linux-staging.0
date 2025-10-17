@@ -1,35 +1,35 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1ED6E2F6906;
-	Fri, 17 Oct 2025 13:49:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F26CB34F49B;
+	Fri, 17 Oct 2025 13:49:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760708946; cv=none; b=iCUGSFsjvqicBd90e6eoQg5o5CrM8pZLGw9AAOlvq9LsZQkkXddz1NJc8F59Hire8P/qJBbaIrPeiUA7FBrPLc6WIKvCuO04GW+J++dLEsDqeZg4BDaptUctUisAbPxMNMEdGplHFZu2QhasVssErZNwAr6hLRRJdgP93xz+2RQ=
+	t=1760708950; cv=none; b=BA2LH7QjEiRFbh/2A9kpRueSTiL27Kbsr4WJv+sEe6arAiaksYHbW8rnYOsLgYIewZEkIq5KR7qvG94G8PR96HkKGfRLptOaLKl/n5dlnOtcX7h9zeLUmYMCqT/H/KzNLIgNrCmFQXez+arlqKJtXVgVVwRXS4tpd7S01eAS9mI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760708946; c=relaxed/simple;
-	bh=lNulQj6Pf71EV1G9N3rtKDxmU4z4cUa0H7/cVUNj/bI=;
+	s=arc-20240116; t=1760708950; c=relaxed/simple;
+	bh=tVTvontwEkFnFaSP/Yd1+iVEaBo4mmfNXkjW+7MHkWU=;
 	h=Subject:To:Cc:From:Date:In-Reply-To:Message-ID:MIME-Version:
-	 Content-Type; b=l7dx+z4oRRGNfi1mZb0wXmunL4XuA+9C6PDTj79W5loEVLPOOIxayXyCD3lclWrN+WjixnKZIo92RKL4IaW+4QMdJogJd7bP+LFda6/GQ+oDzVooSCCIS2ar3vC2I0CAWesCUJDily8hj1v6O29zcARogEqvJRP6EBwMJQ+EaLE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=UsZdQ3N3; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type; b=AEyJVfQ3uHPkbl9H0bZTKNgF0BNbAkBX6G0NfAmcFm/fe13n4LyLSfonIIdjU8vt9hEmcum+N+EHxYnsrDD+60QN+3daY6GAFgc1BtYUUizfZwiR/iV68JgWxCLOXgdSmFJqRK5ZmJy5SQ0J2paxRFnrdJSk5LkcLpdNwaZqc/M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=2GmGpWKa; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="UsZdQ3N3"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C38DDC16AAE;
-	Fri, 17 Oct 2025 13:49:04 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="2GmGpWKa"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 57CBEC116B1;
+	Fri, 17 Oct 2025 13:49:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1760708946;
-	bh=lNulQj6Pf71EV1G9N3rtKDxmU4z4cUa0H7/cVUNj/bI=;
+	s=korg; t=1760708949;
+	bh=tVTvontwEkFnFaSP/Yd1+iVEaBo4mmfNXkjW+7MHkWU=;
 	h=Subject:To:Cc:From:Date:In-Reply-To:From;
-	b=UsZdQ3N3g1HA9IRop9e0zSxN4roBsUzfuXh2lOF7Ls0u+zs8T+DbQ/PIbdvi3tAUB
-	 QmRlkdqorz+9DT4OB5ssGlIv1gvHCWHSThGhzuH1HTR44BAshXSkft+F4USe5TvZ1M
-	 r5d8OpcowDu70hyNjetpCQQo/K2qgth9vKzGMuhU=
-Subject: Patch "minmax: clamp more efficiently by avoiding extra comparison" has been added to the 5.10-stable tree
-To: David.Laight@ACULAB.COM,Jason@zx2c4.com,adilger.kernel@dilger.ca,agk@redhat.com,airlied@linux.ie,akpm@linux-foundation.org,alexander.deucher@amd.com,alexandre.torgue@st.com,amd-gfx@lists.freedesktop.org,andriy.shevchenko@linux.intel.com,anton.ivanov@cambridgegreys.com,artur.paszkiewicz@intel.com,bp@alien8.de,brian.starkey@arm.com,bvanassche@acm.org,chao@kernel.org,christian.koenig@amd.com,clm@fb.com,coreteam@netfilter.org,daniel@ffwll.ch,dave.hansen@linux.intel.com,davem@davemloft.net,dm-devel@redhat.com,dmitry.torokhov@gmail.com,dri-devel@lists.freedesktop.org,dsterba@suse.com,dushistov@mail.ru,evan.quan@amd.com,farbere@amazon.com,fery@cypress.com,freedreno@lists.freedesktop.org,fw@strlen.de,gregkh@linuxfoundation.org,harry.wentland@amd.com,hdegoede@redhat.com,herve.codina@bootlin.com,hpa@zytor.com,intel-linux-scu@intel.com,jack@suse.com,james.morse@arm.com,james.qian.wang@arm.com,jdelvare@suse.com,jdike@addtoit.com,jejb@linux.ibm.com,jmaloy@redhat.com,joabreu@synopsys.com,josef@toxicpanda.com,kadlec@netfilter.org,kbusch@kernel.org,keescook@chromium.org,kuba@kernel.org,kuznet@ms2.inr.ac.ru,linux-arm-kernel@lists.infradead.org,linux-erofs@lists.ozlabs.org,linux-mm@kvack.org,linux-staging@lists.linux.dev,linux-stm32@st-md-mailman.stormreply.com,linux-um@lists.infradead.org,linux@armlinux.org.uk,linux@rasmusvillemoes.dk,linux@roeck-us.net,liviu.dudau@arm.com,luc.vanoostenryck@gmail.com,luto@kernel.org,maarten.lankhorst@linux.intel.com,malattia@linux.it,martin.petersen@oracle.com,mchehab@kernel.org,mcoquelin.stm32@gmail.com,mgross@linux.intel.com,mihail.atanassov@arm.com,minchan@kernel.org,mingo@redhat.com,mripard@kernel.org,nathan@kernel.org,ndesaulniers@google.com,ngupta@vflare.org,pablo@netfilter.org,peppe.cavallaro@st.com,peterz@infradead.org,pmladek@suse.com,qiuxu.zhuo@intel.com,rajur@chelsio.com,richard@nod.at,robdclark@gmail.com,rostedt@goodmis.org,rric@kernel.org,ruanjinjie@huawei.com,sakari.ailus@linux.intel.com,sashal@kernel.org,sean@poorly.run,sergey.senozhatsky@gmail.com,snitzer@redhat.com,sunpeng.li@amd.com,tglx@linutronix.de,tipc-discussion@lists.sourceforge.net,tony.luck@intel.com,tytso@mit.edu,tzimmermann@suse.de,willy@infradead.org,x86@kernel.org,xiang@kernel.org,ying.xue@windriver.com,yoshfuji@linux-ipv6.org
+	b=2GmGpWKaqj/TN7DoK7ta/xAO7I1YRna6yYzc3iy3XjOLB2hT9uJ3ImcSAXQamVbBz
+	 gBSVRKLog00GGi8y38I3rNXrLd83rOf3KpXiLIOhIGD4iBUDIvP+hBf5g2UE68sm0J
+	 NnghUJUow81W4vtjLN66ctS2fcIshMbdy0oqztKU=
+Subject: Patch "minmax: fix up min3() and max3() too" has been added to the 5.10-stable tree
+To: David.Laight@ACULAB.COM,David.Laight@aculab.com,Jason@zx2c4.com,adilger.kernel@dilger.ca,agk@redhat.com,airlied@linux.ie,akpm@linux-foundation.org,alexander.deucher@amd.com,alexandre.torgue@st.com,amd-gfx@lists.freedesktop.org,andriy.shevchenko@linux.intel.com,anton.ivanov@cambridgegreys.com,arnd@kernel.org,artur.paszkiewicz@intel.com,bp@alien8.de,brian.starkey@arm.com,bvanassche@acm.org,chao@kernel.org,christian.koenig@amd.com,clm@fb.com,coreteam@netfilter.org,daniel@ffwll.ch,dave.hansen@linux.intel.com,davem@davemloft.net,dm-devel@redhat.com,dmitry.torokhov@gmail.com,dri-devel@lists.freedesktop.org,dsterba@suse.com,dushistov@mail.ru,evan.quan@amd.com,farbere@amazon.com,fery@cypress.com,freedreno@lists.freedesktop.org,fw@strlen.de,gregkh@linuxfoundation.org,harry.wentland@amd.com,hdegoede@redhat.com,herve.codina@bootlin.com,hpa@zytor.com,intel-linux-scu@intel.com,jack@suse.com,james.morse@arm.com,james.qian.wang@arm.com,jdelvare@suse.com,jdike@addtoit.com,jejb@linux.ibm.com,jmaloy@redhat.com,joabreu@synopsys.com,josef@toxicpanda.com,kadlec@netfilter.org,kbusch@kernel.org,keescook@chromium.org,kuba@kernel.org,kuznet@ms2.inr.ac.ru,linux-arm-kernel@lists.infradead.org,linux-erofs@lists.ozlabs.org,linux-mm@kvack.org,linux-staging@lists.linux.dev,linux-stm32@st-md-mailman.stormreply.com,linux-um@lists.infradead.org,linux@armlinux.org.uk,linux@rasmusvillemoes.dk,linux@roeck-us.net,liviu.dudau@arm.com,luc.vanoostenryck@gmail.com,luto@kernel.org,maarten.lankhorst@linux.intel.com,malattia@linux.it,martin.petersen@oracle.com,mchehab@kernel.org,mcoquelin.stm32@gmail.com,mgross@linux.intel.com,mihail.atanassov@arm.com,minchan@kernel.org,mingo@redhat.com,mripard@kernel.org,nathan@kernel.org,ndesaulniers@google.com,ngupta@vflare.org,pablo@netfilter.org,peppe.cavallaro@st.com,peterz@infradead.org,pmladek@suse.com,qiuxu.zhuo@intel.com,rajur@chelsio.com,richard@nod.at,robdclark@gmail.com,rostedt@goodmis.org,rric@kernel.org,ruanjinjie@huawei.com,sakari.ailus@linux.intel.com,sashal@kernel.org,sean@poorly.run,sergey.senozhatsky@gmail.com,snitzer@redhat.com,sunpeng.li@amd.com,tglx@linutronix.de,tipc-discussion@lists.sourceforge.net,tony.luck@intel.com,torvalds@linux-foundation.org,tytso@mit.edu,tzimmermann@suse.de,willy@infradead.org,x86@kernel.org,xiang@kernel.org,ying.xue@windriver.com,yoshfuji@linux-ipv6.org
 Cc: <stable-commits@vger.kernel.org>
 From: <gregkh@linuxfoundation.org>
-Date: Fri, 17 Oct 2025 15:48:29 +0200
-In-Reply-To: <20251017090519.46992-5-farbere@amazon.com>
-Message-ID: <2025101729-giddiness-scrubbed-89be@gregkh>
+Date: Fri, 17 Oct 2025 15:48:30 +0200
+In-Reply-To: <20251017090519.46992-21-farbere@amazon.com>
+Message-ID: <2025101730-wannabe-kilowatt-1f94@gregkh>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -44,203 +44,98 @@ X-Patchwork-Hint: ignore
 
 This is a note to let you know that I've just added the patch titled
 
-    minmax: clamp more efficiently by avoiding extra comparison
+    minmax: fix up min3() and max3() too
 
 to the 5.10-stable tree which can be found at:
     http://www.kernel.org/git/?p=linux/kernel/git/stable/stable-queue.git;a=summary
 
 The filename of the patch is:
-     minmax-clamp-more-efficiently-by-avoiding-extra-comparison.patch
+     minmax-fix-up-min3-and-max3-too.patch
 and it can be found in the queue-5.10 subdirectory.
 
 If you, or anyone else, feels it should not be added to the stable tree,
 please let <stable@vger.kernel.org> know about it.
 
 
-From prvs=378230090=farbere@amazon.com Fri Oct 17 11:07:07 2025
+From prvs=378230090=farbere@amazon.com Fri Oct 17 11:12:01 2025
 From: Eliav Farber <farbere@amazon.com>
-Date: Fri, 17 Oct 2025 09:04:56 +0000
-Subject: minmax: clamp more efficiently by avoiding extra comparison
+Date: Fri, 17 Oct 2025 09:05:12 +0000
+Subject: minmax: fix up min3() and max3() too
 To: <gregkh@linuxfoundation.org>, <stable@vger.kernel.org>, <linux@armlinux.org.uk>, <jdike@addtoit.com>, <richard@nod.at>, <anton.ivanov@cambridgegreys.com>, <dave.hansen@linux.intel.com>, <luto@kernel.org>, <peterz@infradead.org>, <tglx@linutronix.de>, <mingo@redhat.com>, <bp@alien8.de>, <x86@kernel.org>, <hpa@zytor.com>, <tony.luck@intel.com>, <qiuxu.zhuo@intel.com>, <mchehab@kernel.org>, <james.morse@arm.com>, <rric@kernel.org>, <harry.wentland@amd.com>, <sunpeng.li@amd.com>, <alexander.deucher@amd.com>, <christian.koenig@amd.com>, <airlied@linux.ie>, <daniel@ffwll.ch>, <evan.quan@amd.com>, <james.qian.wang@arm.com>, <liviu.dudau@arm.com>, <mihail.atanassov@arm.com>, <brian.starkey@arm.com>, <maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>, <tzimmermann@suse.de>, <robdclark@gmail.com>, <sean@poorly.run>, <jdelvare@suse.com>, <linux@roeck-us.net>, <fery@cypress.com>, <dmitry.torokhov@gmail.com>, <agk@redhat.com>, <snitzer@redhat.com>, <dm-devel@redhat.com>, <rajur@chelsio.com>, <davem@davemloft.net>, <kuba@kernel.org>, <peppe.cavallaro@st.com>, <alexandre.torgue@st.com>, <joabreu@synopsys.com>, <mcoquelin.stm32@gmail.com>, <malattia@linux.it>, <hdegoede@redhat.com>, <mgross@linux.intel.com>, <intel-linux-scu@intel.com>, <artur.paszkiewicz@intel.com>, <jejb@linux.ibm.com>, <martin.petersen@oracle.com>, <sakari.ailus@linux.intel.com>, <clm@fb.com>, <josef@toxicpanda.com>, <dsterba@suse.com>, <xiang@kernel.org>, <chao@kernel.org>, <jack@suse.com>, <tytso@mit.edu>, <adilger.kernel@dilger.ca>, <dushistov@mail.ru>, <luc.vanoostenryck@gmail.com>, <rostedt@goodmis.org>, <pmladek@suse.com>, <sergey.senozhatsky@gmail.com>, <andriy.shevchenko@linux.intel.com>, <linux@rasmusvillemoes.dk>, <minchan@kernel.org>, <ngupta@vflare.org>, <akpm@linux-foundation.org>, <kuznet@ms2.inr.ac.ru>, <yoshfuji@linux-ipv6.org>, <pablo@netfilter.org>, <kadlec@netfilter.org>, <fw@strlen.de>, <jmaloy@redhat.com>, <ying.xue@windriver.com>, <willy@infradead.org>, <farbere@amazon.com>, <sashal@kernel.org>, <ruanjinjie@huawei.com>, <David.Laight@ACULAB.COM>, <herve.codina@bootlin.com>, <Jason@zx2c4.com>, <keescook@chromium.org>, <kbusch@kernel.org>, <nathan@kernel.org>, <bvanassche@acm.org>, <ndesaulniers@google.com>, <linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>, <linux-um@lists.infradead.org>, <linux-edac@vger.kernel.org>, <amd-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>, <linux-arm-msm@vger.kernel.org>, <freedreno@lists.freedesktop.org>, <linux-hwmon@vger.kernel.org>, <linux-input@vger.kernel.org>, <linux-media@vger.kernel.org>, <netdev@vger.kernel.org>, <linux-stm32@st-md-mailman.stormreply.com>, <platform-driver-x86@vger.kernel.org>, <linux-scsi@vger.kernel.org>, <linux-staging@lists.linux.dev>, <linux-btrfs@vger.kernel.org>, <linux-erofs@lists.ozlabs.org>, <linux-ext4@vger.kernel.org>, <linux-sparse@vger.kernel.org>, <linux-mm@kvack.org>, <netfilter-devel@vger.kernel.org>, <coreteam@netfilter.org>, <tipc-discussion@lists.sourceforge.net>
-Message-ID: <20251017090519.46992-5-farbere@amazon.com>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>, David Laight <David.Laight@aculab.com>, Arnd Bergmann <arnd@kernel.org>
+Message-ID: <20251017090519.46992-21-farbere@amazon.com>
 
-From: "Jason A. Donenfeld" <Jason@zx2c4.com>
+From: Linus Torvalds <torvalds@linux-foundation.org>
 
-[ Upstream commit 2122e2a4efc2cd139474079e11939b6e07adfacd ]
+[ Upstream commit 21b136cc63d2a9ddd60d4699552b69c214b32964 ]
 
-Currently the clamp algorithm does:
+David Laight pointed out that we should deal with the min3() and max3()
+mess too, which still does excessive expansion.
 
-    if (val > hi)
-        val = hi;
-    if (val < lo)
-        val = lo;
+And our current macros are actually rather broken.
 
-But since hi > lo by definition, this can be made more efficient with:
+In particular, the macros did this:
 
-    if (val > hi)
-        val = hi;
-    else if (val < lo)
-        val = lo;
+  #define min3(x, y, z) min((typeof(x))min(x, y), z)
+  #define max3(x, y, z) max((typeof(x))max(x, y), z)
 
-So fix up the clamp and clamp_t functions to do this, adding the same
-argument checking as for min and min_t.
+and that not only is a nested expansion of possibly very complex
+arguments with all that involves, the typing with that "typeof()" cast
+is completely wrong.
 
-For simple cases, code generation on x86_64 and aarch64 stay about the
-same:
+For example, imagine what happens in max3() if 'x' happens to be a
+'unsigned char', but 'y' and 'z' are 'unsigned long'.  The types are
+compatible, and there's no warning - but the result is just random
+garbage.
 
-    before:
-            cmp     edi, edx
-            mov     eax, esi
-            cmova   edi, edx
-            cmp     edi, esi
-            cmovnb  eax, edi
-            ret
-    after:
-            cmp     edi, esi
-            mov     eax, edx
-            cmovnb  esi, edi
-            cmp     edi, edx
-            cmovb   eax, esi
-            ret
+No, I don't think we've ever hit that issue in practice, but since we
+now have sane infrastructure for doing this right, let's just use it.
+It fixes any excessive expansion, and also avoids these kinds of broken
+type issues.
 
-    before:
-            cmp     w0, w2
-            csel    w8, w0, w2, lo
-            cmp     w8, w1
-            csel    w0, w8, w1, hi
-            ret
-    after:
-            cmp     w0, w1
-            csel    w8, w0, w1, hi
-            cmp     w0, w2
-            csel    w0, w8, w2, lo
-            ret
-
-On MIPS64, however, code generation improves, by removing arithmetic in
-the second branch:
-
-    before:
-            sltu    $3,$6,$4
-            bne     $3,$0,.L2
-            move    $2,$6
-
-            move    $2,$4
-    .L2:
-            sltu    $3,$2,$5
-            bnel    $3,$0,.L7
-            move    $2,$5
-
-    .L7:
-            jr      $31
-            nop
-    after:
-            sltu    $3,$4,$6
-            beq     $3,$0,.L13
-            move    $2,$6
-
-            sltu    $3,$4,$5
-            bne     $3,$0,.L12
-            move    $2,$4
-
-    .L13:
-            jr      $31
-            nop
-
-    .L12:
-            jr      $31
-            move    $2,$5
-
-For more complex cases with surrounding code, the effects are a bit
-more complicated. For example, consider this simplified version of
-timestamp_truncate() from fs/inode.c on x86_64:
-
-    struct timespec64 timestamp_truncate(struct timespec64 t, struct inode *inode)
-    {
-        struct super_block *sb = inode->i_sb;
-        unsigned int gran = sb->s_time_gran;
-
-        t.tv_sec = clamp(t.tv_sec, sb->s_time_min, sb->s_time_max);
-        if (t.tv_sec == sb->s_time_max || t.tv_sec == sb->s_time_min)
-            t.tv_nsec = 0;
-        return t;
-    }
-
-    before:
-            mov     r8, rdx
-            mov     rdx, rsi
-            mov     rcx, QWORD PTR [r8]
-            mov     rax, QWORD PTR [rcx+8]
-            mov     rcx, QWORD PTR [rcx+16]
-            cmp     rax, rdi
-            mov     r8, rcx
-            cmovge  rdi, rax
-            cmp     rdi, rcx
-            cmovle  r8, rdi
-            cmp     rax, r8
-            je      .L4
-            cmp     rdi, rcx
-            jge     .L4
-            mov     rax, r8
-            ret
-    .L4:
-            xor     edx, edx
-            mov     rax, r8
-            ret
-
-    after:
-            mov     rax, QWORD PTR [rdx]
-            mov     rdx, QWORD PTR [rax+8]
-            mov     rax, QWORD PTR [rax+16]
-            cmp     rax, rdi
-            jg      .L6
-            mov     r8, rax
-            xor     edx, edx
-    .L2:
-            mov     rax, r8
-            ret
-    .L6:
-            cmp     rdx, rdi
-            mov     r8, rdi
-            cmovge  r8, rdx
-            cmp     rax, r8
-            je      .L4
-            xor     eax, eax
-            cmp     rdx, rdi
-            cmovl   rax, rsi
-            mov     rdx, rax
-            mov     rax, r8
-            ret
-    .L4:
-            xor     edx, edx
-            jmp     .L2
-
-In this case, we actually gain a branch, unfortunately, because the
-compiler's replacement axioms no longer as cleanly apply.
-
-So all and all, this change is a bit of a mixed bag.
-
-Link: https://lkml.kernel.org/r/20220926133435.1333846-2-Jason@zx2c4.com
-Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
-Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: Kees Cook <keescook@chromium.org>
-Signed-off-by: Andrew Morton <akpm@linux-foundation.org>
+Requested-by: David Laight <David.Laight@aculab.com>
+Acked-by: Arnd Bergmann <arnd@kernel.org>
+Signed-off-by: Linus Torvalds <torvalds@linux-foundation.org>
 Signed-off-by: Eliav Farber <farbere@amazon.com>
 Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 ---
- include/linux/minmax.h |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ include/linux/minmax.h |   12 ++++++++++--
+ 1 file changed, 10 insertions(+), 2 deletions(-)
 
 --- a/include/linux/minmax.h
 +++ b/include/linux/minmax.h
-@@ -38,7 +38,7 @@
- 		__cmp_once(x, y, __UNIQUE_ID(__x), __UNIQUE_ID(__y), op))
+@@ -152,13 +152,20 @@
+ #define umax(x, y)	\
+ 	__careful_cmp(max, (x) + 0u + 0ul + 0ull, (y) + 0u + 0ul + 0ull)
  
- #define __clamp(val, lo, hi)	\
--	__cmp(__cmp(val, lo, >), hi, <)
-+	((val) >= (hi) ? (hi) : ((val) <= (lo) ? (lo) : (val)))
++#define __careful_op3(op, x, y, z, ux, uy, uz) ({			\
++	__auto_type ux = (x); __auto_type uy = (y);__auto_type uz = (z);\
++	BUILD_BUG_ON_MSG(!__types_ok3(x,y,z,ux,uy,uz),			\
++		#op"3("#x", "#y", "#z") signedness error");		\
++	__cmp(op, ux, __cmp(op, uy, uz)); })
++
+ /**
+  * min3 - return minimum of three values
+  * @x: first value
+  * @y: second value
+  * @z: third value
+  */
+-#define min3(x, y, z) min((typeof(x))min(x, y), z)
++#define min3(x, y, z) \
++	__careful_op3(min, x, y, z, __UNIQUE_ID(x_), __UNIQUE_ID(y_), __UNIQUE_ID(z_))
  
- #define __clamp_once(val, lo, hi, unique_val, unique_lo, unique_hi) ({	\
- 		typeof(val) unique_val = (val);				\
+ /**
+  * max3 - return maximum of three values
+@@ -166,7 +173,8 @@
+  * @y: second value
+  * @z: third value
+  */
+-#define max3(x, y, z) max((typeof(x))max(x, y), z)
++#define max3(x, y, z) \
++	__careful_op3(max, x, y, z, __UNIQUE_ID(x_), __UNIQUE_ID(y_), __UNIQUE_ID(z_))
+ 
+ /**
+  * min_not_zero - return the minimum that is _not_ zero, unless both are zero
 
 
 Patches currently in stable-queue which might be from farbere@amazon.com are
