@@ -1,35 +1,35 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20D2D34F49B;
-	Fri, 17 Oct 2025 13:49:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E595F2F6906;
+	Fri, 17 Oct 2025 13:49:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760708961; cv=none; b=KRlCgyeOQtZo2VKsvKCBzMox5u3ogRkeMlGrFEHG+mnVjUgYfmvuNchMJwKrz003ZspzZBYwyUwPIwTByA+9TBezAKTljWuTi5p/E6i6sEkXThW4DdMco2+fsnkNALwf88nt5qXYg4p55GdV7OruzyfywE6SZEBuWSHq+O8Xh18=
+	t=1760708965; cv=none; b=pJzmsaDRRjYwl2iqnkaqdR5I9cxXRC1MGVwYRtyT8HQ9+l3Vu/KXg5feKLxEkbSIv//3YSE8w4RPG3uKUdG1AFbRIZ3uFZLPGzHX9ZLtpntcTgl4ADa4SbgFpf40XSBx7No2p40Ou8652M3qtJJnYnx8CZnUOtzoFg4rcGhgaP8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760708961; c=relaxed/simple;
-	bh=BUcx/NkbYyvc5Qtn1O8K7X3e9yzc64amBlkf0+b9Whg=;
+	s=arc-20240116; t=1760708965; c=relaxed/simple;
+	bh=bOsqCp8TMdOOxRouPL0v40Hpip8fec6qVLcR2bbUelE=;
 	h=Subject:To:Cc:From:Date:In-Reply-To:Message-ID:MIME-Version:
-	 Content-Type; b=NO6Gxf/Fv+f49dh7peJalwZn9CJDC/+b4HN/CqBNZeATEspnitNN0/SDaAgAVH7x354MIziSCjvnymdB8vehi6CjInLTw17x+79gAsdPvYU9gG6Pv89RidlWs1uCsCvc/w/nka7S2ik1Yt6JzHNBj3fYAgpNmZtmvc8ggd7YqzI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=aHMO088W; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type; b=sm0jU6sk56BWRsUAxvCyfjs3ET0qb3r5dI/bze/4LjvspoDrvV2KgyNURdC7tdxCAp+oPa/qIBO/dkownqFAwQ+x935a6fqrD1kWbBnXWYSlj/vFatrNzUkJZiH9i0FR4NbR5A6XiDz1+vbI0irkRxfR4h+yOuaXnaPMVzXgE6c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=o4k3XMRM; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="aHMO088W"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D5C41C116B1;
-	Fri, 17 Oct 2025 13:49:19 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="o4k3XMRM"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 50C2BC4CEFE;
+	Fri, 17 Oct 2025 13:49:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1760708961;
-	bh=BUcx/NkbYyvc5Qtn1O8K7X3e9yzc64amBlkf0+b9Whg=;
+	s=korg; t=1760708964;
+	bh=bOsqCp8TMdOOxRouPL0v40Hpip8fec6qVLcR2bbUelE=;
 	h=Subject:To:Cc:From:Date:In-Reply-To:From;
-	b=aHMO088Wjk56ZAlB3nbFbMSg8+vq1qb10SuU0dfqsZxNYH4SYDTpDwTupjBlfm6Rh
-	 ifbX4aGHNpxaPFwLaxwtdiff+1xvo3kmicMbbb+VbXoH+hnTfL6c7iJXDW4KLAjSqY
-	 hld0cnQetScWqCzBX2etwWrroIm3mXQtPUH3EVJc=
-Subject: Patch "minmax: fix indentation of __cmp_once() and __clamp_once()" has been added to the 5.10-stable tree
+	b=o4k3XMRMySS2bKlqoV5SYd19Rsib6i/gvPhcFvbMlaAzI0b8Ur4SEdnbSg0TTymYk
+	 7bZujYKA9rw/H+XOS7UeBCG5/fHRAoMaVtstXu7OxOiugdHb8sdEdHOr3Yzdf61Qxg
+	 eAoznRU3mkFGJ+bSUXEP0+1exj0r0qj4oT+FGlvo=
+Subject: Patch "minmax: relax check to allow comparison between unsigned arguments and signed constants" has been added to the 5.10-stable tree
 To: David.Laight@ACULAB.COM,Jason@zx2c4.com,adilger.kernel@dilger.ca,agk@redhat.com,airlied@linux.ie,akpm@linux-foundation.org,alexander.deucher@amd.com,alexandre.torgue@st.com,amd-gfx@lists.freedesktop.org,andriy.shevchenko@linux.intel.com,anton.ivanov@cambridgegreys.com,artur.paszkiewicz@intel.com,bp@alien8.de,brian.starkey@arm.com,bvanassche@acm.org,chao@kernel.org,christian.koenig@amd.com,clm@fb.com,coreteam@netfilter.org,daniel@ffwll.ch,dave.hansen@linux.intel.com,davem@davemloft.net,david.laight@aculab.com,dm-devel@redhat.com,dmitry.torokhov@gmail.com,dri-devel@lists.freedesktop.org,dsterba@suse.com,dushistov@mail.ru,evan.quan@amd.com,farbere@amazon.com,fery@cypress.com,freedreno@lists.freedesktop.org,fw@strlen.de,gregkh@linuxfoundation.org,harry.wentland@amd.com,hch@infradead.org,hdegoede@redhat.com,herve.codina@bootlin.com,hpa@zytor.com,intel-linux-scu@intel.com,jack@suse.com,james.morse@arm.com,james.qian.wang@arm.com,jdelvare@suse.com,jdike@addtoit.com,jejb@linux.ibm.com,jmaloy@redhat.com,joabreu@synopsys.com,josef@toxicpanda.com,kadlec@netfilter.org,kbusch@kernel.org,keescook@chromium.org,kuba@kernel.org,kuznet@ms2.inr.ac.ru,linux-arm-kernel@lists.infradead.org,linux-erofs@lists.ozlabs.org,linux-mm@kvack.org,linux-staging@lists.linux.dev,linux-stm32@st-md-mailman.stormreply.com,linux-um@lists.infradead.org,linux@armlinux.org.uk,linux@rasmusvillemoes.dk,linux@roeck-us.net,liviu.dudau@arm.com,luc.vanoostenryck@gmail.com,luto@kernel.org,maarten.lankhorst@linux.intel.com,malattia@linux.it,martin.petersen@oracle.com,mchehab@kernel.org,mcoquelin.stm32@gmail.com,mgross@linux.intel.com,mihail.atanassov@arm.com,minchan@kernel.org,mingo@redhat.com,mripard@kernel.org,nathan@kernel.org,ndesaulniers@google.com,ngupta@vflare.org,pablo@netfilter.org,peppe.cavallaro@st.com,peterz@infradead.org,pmladek@suse.com,qiuxu.zhuo@intel.com,rajur@chelsio.com,richard@nod.at,robdclark@gmail.com,rostedt@goodmis.org,rric@kernel.org,ruanjinjie@huawei.com,sakari.ailus@linux.intel.com,sashal@kernel.org,sean@poorly.run,sergey.senozhatsky@gmail.com,snitzer@redhat.com,sunpeng.li@amd.com,tglx@linutronix.de,tipc-discussion@lists.sourceforge.net,tony.luck@intel.com,torvalds@linux-foundation.org,tytso@mit.edu,tzimmermann@suse.de,willy@infradead.org,x86@kernel.org,xiang@kernel.org,ying.xue@windriver.com,yoshfuji@linux-ipv6.org
 Cc: <stable-commits@vger.kernel.org>
 From: <gregkh@linuxfoundation.org>
-Date: Fri, 17 Oct 2025 15:48:30 +0200
-In-Reply-To: <20251017090519.46992-11-farbere@amazon.com>
-Message-ID: <2025101730-dizzy-onscreen-9320@gregkh>
+Date: Fri, 17 Oct 2025 15:48:31 +0200
+In-Reply-To: <20251017090519.46992-13-farbere@amazon.com>
+Message-ID: <2025101731-bulldog-eastcoast-8e47@gregkh>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -44,34 +44,39 @@ X-Patchwork-Hint: ignore
 
 This is a note to let you know that I've just added the patch titled
 
-    minmax: fix indentation of __cmp_once() and __clamp_once()
+    minmax: relax check to allow comparison between unsigned arguments and signed constants
 
 to the 5.10-stable tree which can be found at:
     http://www.kernel.org/git/?p=linux/kernel/git/stable/stable-queue.git;a=summary
 
 The filename of the patch is:
-     minmax-fix-indentation-of-__cmp_once-and-__clamp_once.patch
+     minmax-relax-check-to-allow-comparison-between-unsigned-arguments-and-signed-constants.patch
 and it can be found in the queue-5.10 subdirectory.
 
 If you, or anyone else, feels it should not be added to the stable tree,
 please let <stable@vger.kernel.org> know about it.
 
 
-From prvs=378230090=farbere@amazon.com Fri Oct 17 11:08:55 2025
+From prvs=378230090=farbere@amazon.com Fri Oct 17 11:09:53 2025
 From: Eliav Farber <farbere@amazon.com>
-Date: Fri, 17 Oct 2025 09:05:02 +0000
-Subject: minmax: fix indentation of __cmp_once() and __clamp_once()
+Date: Fri, 17 Oct 2025 09:05:04 +0000
+Subject: minmax: relax check to allow comparison between unsigned arguments and signed constants
 To: <gregkh@linuxfoundation.org>, <stable@vger.kernel.org>, <linux@armlinux.org.uk>, <jdike@addtoit.com>, <richard@nod.at>, <anton.ivanov@cambridgegreys.com>, <dave.hansen@linux.intel.com>, <luto@kernel.org>, <peterz@infradead.org>, <tglx@linutronix.de>, <mingo@redhat.com>, <bp@alien8.de>, <x86@kernel.org>, <hpa@zytor.com>, <tony.luck@intel.com>, <qiuxu.zhuo@intel.com>, <mchehab@kernel.org>, <james.morse@arm.com>, <rric@kernel.org>, <harry.wentland@amd.com>, <sunpeng.li@amd.com>, <alexander.deucher@amd.com>, <christian.koenig@amd.com>, <airlied@linux.ie>, <daniel@ffwll.ch>, <evan.quan@amd.com>, <james.qian.wang@arm.com>, <liviu.dudau@arm.com>, <mihail.atanassov@arm.com>, <brian.starkey@arm.com>, <maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>, <tzimmermann@suse.de>, <robdclark@gmail.com>, <sean@poorly.run>, <jdelvare@suse.com>, <linux@roeck-us.net>, <fery@cypress.com>, <dmitry.torokhov@gmail.com>, <agk@redhat.com>, <snitzer@redhat.com>, <dm-devel@redhat.com>, <rajur@chelsio.com>, <davem@davemloft.net>, <kuba@kernel.org>, <peppe.cavallaro@st.com>, <alexandre.torgue@st.com>, <joabreu@synopsys.com>, <mcoquelin.stm32@gmail.com>, <malattia@linux.it>, <hdegoede@redhat.com>, <mgross@linux.intel.com>, <intel-linux-scu@intel.com>, <artur.paszkiewicz@intel.com>, <jejb@linux.ibm.com>, <martin.petersen@oracle.com>, <sakari.ailus@linux.intel.com>, <clm@fb.com>, <josef@toxicpanda.com>, <dsterba@suse.com>, <xiang@kernel.org>, <chao@kernel.org>, <jack@suse.com>, <tytso@mit.edu>, <adilger.kernel@dilger.ca>, <dushistov@mail.ru>, <luc.vanoostenryck@gmail.com>, <rostedt@goodmis.org>, <pmladek@suse.com>, <sergey.senozhatsky@gmail.com>, <andriy.shevchenko@linux.intel.com>, <linux@rasmusvillemoes.dk>, <minchan@kernel.org>, <ngupta@vflare.org>, <akpm@linux-foundation.org>, <kuznet@ms2.inr.ac.ru>, <yoshfuji@linux-ipv6.org>, <pablo@netfilter.org>, <kadlec@netfilter.org>, <fw@strlen.de>, <jmaloy@redhat.com>, <ying.xue@windriver.com>, <willy@infradead.org>, <farbere@amazon.com>, <sashal@kernel.org>, <ruanjinjie@huawei.com>, <David.Laight@ACULAB.COM>, <herve.codina@bootlin.com>, <Jason@zx2c4.com>, <keescook@chromium.org>, <kbusch@kernel.org>, <nathan@kernel.org>, <bvanassche@acm.org>, <ndesaulniers@google.com>, <linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>, <linux-um@lists.infradead.org>, <linux-edac@vger.kernel.org>, <amd-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>, <linux-arm-msm@vger.kernel.org>, <freedreno@lists.freedesktop.org>, <linux-hwmon@vger.kernel.org>, <linux-input@vger.kernel.org>, <linux-media@vger.kernel.org>, <netdev@vger.kernel.org>, <linux-stm32@st-md-mailman.stormreply.com>, <platform-driver-x86@vger.kernel.org>, <linux-scsi@vger.kernel.org>, <linux-staging@lists.linux.dev>, <linux-btrfs@vger.kernel.org>, <linux-erofs@lists.ozlabs.org>, <linux-ext4@vger.kernel.org>, <linux-sparse@vger.kernel.org>, <linux-mm@kvack.org>, <netfilter-devel@vger.kernel.org>, <coreteam@netfilter.org>, <tipc-discussion@lists.sourceforge.net>
 Cc: Christoph Hellwig <hch@infradead.org>, Linus Torvalds <torvalds@linux-foundation.org>
-Message-ID: <20251017090519.46992-11-farbere@amazon.com>
+Message-ID: <20251017090519.46992-13-farbere@amazon.com>
 
 From: David Laight <David.Laight@ACULAB.COM>
 
-[ Upstream commit f4b84b2ff851f01d0fac619eadef47eb41648534 ]
+[ Upstream commit 867046cc7027703f60a46339ffde91a1970f2901 ]
 
-Remove the extra indentation and align continuation markers.
+Allow (for example) min(unsigned_var, 20).
 
-Link: https://lkml.kernel.org/r/bed41317a05c498ea0209eafbcab45a5@AcuMS.aculab.com
+The opposite min(signed_var, 20u) is still errored.
+
+Since a comparison between signed and unsigned never makes the unsigned
+value negative it is only necessary to adjust the __types_ok() test.
+
+Link: https://lkml.kernel.org/r/633b64e2f39e46bb8234809c5595b8c7@AcuMS.aculab.com
 Signed-off-by: David Laight <david.laight@aculab.com>
 Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 Cc: Christoph Hellwig <hch@infradead.org>
@@ -82,55 +87,52 @@ Signed-off-by: Andrew Morton <akpm@linux-foundation.org>
 Signed-off-by: Eliav Farber <farbere@amazon.com>
 Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 ---
- include/linux/minmax.h |   30 +++++++++++++++---------------
- 1 file changed, 15 insertions(+), 15 deletions(-)
+ include/linux/minmax.h |   24 +++++++++++++++++-------
+ 1 file changed, 17 insertions(+), 7 deletions(-)
 
 --- a/include/linux/minmax.h
 +++ b/include/linux/minmax.h
-@@ -35,11 +35,11 @@
- #define __cmp(op, x, y)	((x) __cmp_op_##op (y) ? (x) : (y))
+@@ -10,13 +10,18 @@
+ /*
+  * min()/max()/clamp() macros must accomplish three things:
+  *
+- * - avoid multiple evaluations of the arguments (so side-effects like
++ * - Avoid multiple evaluations of the arguments (so side-effects like
+  *   "x++" happen only once) when non-constant.
+- * - perform signed v unsigned type-checking (to generate compile
+- *   errors instead of nasty runtime surprises).
+- * - retain result as a constant expressions when called with only
++ * - Retain result as a constant expressions when called with only
+  *   constant expressions (to avoid tripping VLA warnings in stack
+  *   allocation usage).
++ * - Perform signed v unsigned type-checking (to generate compile
++ *   errors instead of nasty runtime surprises).
++ * - Unsigned char/short are always promoted to signed int and can be
++ *   compared against signed or unsigned arguments.
++ * - Unsigned arguments can be compared against non-negative signed constants.
++ * - Comparison of a signed argument against an unsigned constant fails
++ *   even if the constant is below __INT_MAX__ and could be cast to int.
+  */
+ #define __typecheck(x, y) \
+ 	(!!(sizeof((typeof(x) *)1 == (typeof(y) *)1)))
+@@ -26,9 +31,14 @@
+ 	__builtin_choose_expr(__is_constexpr(is_signed_type(typeof(x))),	\
+ 		is_signed_type(typeof(x)), 0)
  
- #define __cmp_once(op, x, y, unique_x, unique_y) ({	\
--		typeof(x) unique_x = (x);		\
--		typeof(y) unique_y = (y);		\
--		static_assert(__types_ok(x, y),		\
--			#op "(" #x ", " #y ") signedness error, fix types or consider u" #op "() before " #op "_t()"); \
--		__cmp(op, unique_x, unique_y); })
-+	typeof(x) unique_x = (x);			\
-+	typeof(y) unique_y = (y);			\
-+	static_assert(__types_ok(x, y),			\
-+		#op "(" #x ", " #y ") signedness error, fix types or consider u" #op "() before " #op "_t()"); \
-+	__cmp(op, unique_x, unique_y); })
+-#define __types_ok(x, y) 			\
+-	(__is_signed(x) == __is_signed(y) ||	\
+-		__is_signed((x) + 0) == __is_signed((y) + 0))
++/* True for a non-negative signed int constant */
++#define __is_noneg_int(x)	\
++	(__builtin_choose_expr(__is_constexpr(x) && __is_signed(x), x, -1) >= 0)
++
++#define __types_ok(x, y) 					\
++	(__is_signed(x) == __is_signed(y) ||			\
++		__is_signed((x) + 0) == __is_signed((y) + 0) ||	\
++		__is_noneg_int(x) || __is_noneg_int(y))
  
- #define __careful_cmp(op, x, y)					\
- 	__builtin_choose_expr(__is_constexpr((x) - (y)),	\
-@@ -49,16 +49,16 @@
- #define __clamp(val, lo, hi)	\
- 	((val) >= (hi) ? (hi) : ((val) <= (lo) ? (lo) : (val)))
- 
--#define __clamp_once(val, lo, hi, unique_val, unique_lo, unique_hi) ({	\
--		typeof(val) unique_val = (val);				\
--		typeof(lo) unique_lo = (lo);				\
--		typeof(hi) unique_hi = (hi);				\
--		static_assert(__builtin_choose_expr(__is_constexpr((lo) > (hi)), 	\
--				(lo) <= (hi), true),					\
--			"clamp() low limit " #lo " greater than high limit " #hi);	\
--		static_assert(__types_ok(val, lo), "clamp() 'lo' signedness error");	\
--		static_assert(__types_ok(val, hi), "clamp() 'hi' signedness error");	\
--		__clamp(unique_val, unique_lo, unique_hi); })
-+#define __clamp_once(val, lo, hi, unique_val, unique_lo, unique_hi) ({		\
-+	typeof(val) unique_val = (val);						\
-+	typeof(lo) unique_lo = (lo);						\
-+	typeof(hi) unique_hi = (hi);						\
-+	static_assert(__builtin_choose_expr(__is_constexpr((lo) > (hi)), 	\
-+			(lo) <= (hi), true),					\
-+		"clamp() low limit " #lo " greater than high limit " #hi);	\
-+	static_assert(__types_ok(val, lo), "clamp() 'lo' signedness error");	\
-+	static_assert(__types_ok(val, hi), "clamp() 'hi' signedness error");	\
-+	__clamp(unique_val, unique_lo, unique_hi); })
- 
- #define __careful_clamp(val, lo, hi) ({					\
- 	__builtin_choose_expr(__is_constexpr((val) - (lo) + (hi)),	\
+ #define __cmp_op_min <
+ #define __cmp_op_max >
 
 
 Patches currently in stable-queue which might be from farbere@amazon.com are
