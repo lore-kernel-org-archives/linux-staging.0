@@ -1,116 +1,134 @@
-Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com [209.85.210.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF9F418C011
-	for <linux-staging@lists.linux.dev>; Fri, 17 Oct 2025 05:18:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28005265292;
+	Fri, 17 Oct 2025 08:05:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760678325; cv=none; b=dtCMjrluIhZHfce3IvcXWM6A8887tSqUUb/AH8xQa7UIpaBA6Ql0UvZUsqDtyfPp/mYsTJ0J9coCSMJ8YHNsuaPPSmlrggaJ/vMzEdPBN4xdrtHJ7X/XimZQ43g1SUHvjxOiyxMEJ4DnWlNyP100dqK1APhE22TGWK1bqjwnpko=
+	t=1760688346; cv=none; b=kQ955Ubk+gkKuKmScgSVS06drGjcbdQY44PoNqB4lszbowh1DwqIpWCso/BQT/g85jdbre4D710lMr3by9RzB+fud9Qvv522EzhiIFgA7INOfGL+lShcSehy7liQ52ldwGl89LR6eVOQ0cpXWTPEYCf3IsPXLrHy+Sxa/zQAC2g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760678325; c=relaxed/simple;
-	bh=qG5HMa66bXcs8gT8hnOihrhSdB9Nf9qJM+cXeN/bESE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qBn2axnA6Jisvi7tuQD70j/nhX1hC6L/dilFS68pnullnb2Q6qEWX6Q7n01MYFgT57SEQhmZslrVLu6rutnqkWKTbuRHNjK6k9jDrcnWob2YhWBi4X/W2O4CaAfhbJmsunsEzfOq6wwg4TrJSkZNHsA50/cgKk+kOSOB5XFjQFE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Gmw9KLpW; arc=none smtp.client-ip=209.85.210.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1760688346; c=relaxed/simple;
+	bh=jQhy/ox3fIOhCY7knzkIZUyacLZTGHWrr3u52zYJAkI=;
+	h=Subject:To:Cc:From:Date:In-Reply-To:Message-ID:MIME-Version:
+	 Content-Type; b=jtQlsKW4HflgBGSB3svF4gKwWoOx1LtJUhoT+aqOhZ8Li73ukEq+SQvSVCD1gzeF9nU/8BiZjDqOj09t8ZYbu5x8o4QglzfJRODyqJlZ0oxQgxCCYYcZD6pMdUaFCNvdUy6IaN1TAM+YgkmH8T4V7MeByZxfSBzJC1U/civ8mBQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=jfsQ3+mn; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Gmw9KLpW"
-Received: by mail-pf1-f177.google.com with SMTP id d2e1a72fcca58-796f9a8a088so1529095b3a.1
-        for <linux-staging@lists.linux.dev>; Thu, 16 Oct 2025 22:18:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1760678323; x=1761283123; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=l6S63uReOFquePjk+el+IDhyWrHQTPL8Zy49l1W17no=;
-        b=Gmw9KLpWsjzPPmt9Ya0cgJ6caKFxcS6GEqib1/9x2FtgSNf5pXxQQdcM85HDLxtEy5
-         0dkn87yXbt1Diav9hIbVGvuFgCCoufqFL6/W/FyTJP4u1OJ9dP1/iMhONH66JIjf3HP5
-         FovXHUcbb8SjuRr2IIAdY150uT13dk2Zral/edD3cdZw+nNq6mcEppZv8cz4nl/cTuEx
-         +MXZ04rLC6Brraj4tn3N9JKW1Nj8z9qFVQ38PtDXZMrH0LgWgpog+KFEFqTiTZ0QqzMK
-         xe2H8+IUkrYluJywBl9XCjOcViOvxMr091LUBK8nvXPBagXhh8Pv+RFLzi3LelYr3/Qa
-         qleA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760678323; x=1761283123;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=l6S63uReOFquePjk+el+IDhyWrHQTPL8Zy49l1W17no=;
-        b=YmGLun/HvLOLyUhMX/k2/vwW9Ly/ve5HFM2v8Hy97utZ87LnkRJdxLT3WVW/brPl7d
-         2HX6C0R+RcPTcpIp/QquTxUj5MAC4EC/bQAKma6zVvGpbKDKiel8N5AAqVFIXjHpEviC
-         8K5FU2PsB3/SrWtlcUXuBZKhul63rWX2O9bTNu6H4PLW2MSXYF3oQ9pDNGLthIAUNgQL
-         hWr2fefNuJQsg8weBTAJE+hrHfWXho/5zW7PaXh/k3leYQpH8f8oHDB1M38ni8PIZvcj
-         cKxIV0VUPVGG4seLLT7nfXNWpuioVDMw9u7UD2iO0nGm0WCzVzfjXW2E48VwXsLGg6OQ
-         W7tw==
-X-Forwarded-Encrypted: i=1; AJvYcCUkqwHE6Z2fw1PaS4Y7sJ8pO5mjW0DwhAX4Qkd7eHJ0oCWOwhBsV2OgFcbOHlIarQG4toRekU0SrqeYAgIw@lists.linux.dev
-X-Gm-Message-State: AOJu0Yyd/VU09OOcx2MwAsR5FlIdKcYVRYHPcvmfV4AALckPncRQzUtr
-	CDeBA8QLn4OYlivuX5yx92aLcq8qRGXwi4Yj/BDBOwWpmnDMqtpux1pu
-X-Gm-Gg: ASbGncuL/aOKWG9QDAf1FXO3UM5IuPpvK+SLqzS40JnkKVUSQs3Kq/sJNe8JAOzX75l
-	XPDTzyw7fDtU8p5jaxolWbOHDhRB1Ijbqzt/HYRqhDxpDlUwP30SQomehHAsj84nRpd4WejUvnC
-	aDTfDJizUrLd0LXrTPoqnX2ZXpMyuObhWcyqM2KK8YH+g53TJ0tGqfBIUGP2xGPbZvy9RrtqwQg
-	M5R/rNIx9ognEJyXrqPBb4P9mJPOZPTECkiwVr+tkiMfYnxHIBOzrjVcpNHdBsdyqr+7DQL3Av5
-	OyFYH4EFOScgCq8/npOtI+LLI+GYa6ubHaqH8xUDAcGUN8LjH4oN1Vc4QBfu5GJjJ0vFlXFY151
-	i6vXk24AdCDVJjmszIQN/Jt0/zlQbGURRLRw3U/c/xrjpswUCxv4A3/MeAzxnmCV0dUNejAHrvT
-	nX4zNZnITq5q9Su/fKB6yVjwO21kaCkBlcPsOpSrojtz0m8CJTwxQ=
-X-Google-Smtp-Source: AGHT+IEoZYavaM7njBnG3D3Z+hduFKNotyz+5aU6kPX8BleR1uI1Sy5GSDkuztm0nYl05g784spRlg==
-X-Received: by 2002:a05:6a20:9185:b0:32d:b946:dd20 with SMTP id adf61e73a8af0-334a8566437mr3249260637.24.1760678322944;
-        Thu, 16 Oct 2025 22:18:42 -0700 (PDT)
-Received: from google.com ([2a00:79e0:2ebe:8:df8a:9eba:d1a8:6b39])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7992d993853sm24177361b3a.74.2025.10.16.22.18.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 16 Oct 2025 22:18:42 -0700 (PDT)
-Date: Thu, 16 Oct 2025 22:18:38 -0700
-From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Ricardo Ribalda <ribalda@chromium.org>
-Cc: Linus Walleij <linus.walleij@linaro.org>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Hans Verkuil <hverkuil@kernel.org>, 
-	Sakari Ailus <sakari.ailus@linux.intel.com>, Krzysztof =?utf-8?Q?Ha=C5=82asa?= <khalasa@piap.pl>, 
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, Leon Luo <leonl@leopardimaging.com>, 
-	Kieran Bingham <kieran.bingham@ideasonboard.com>, Jacopo Mondi <jacopo+renesas@jmondi.org>, 
-	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>, Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>, 
-	Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>, Julien Massot <julien.massot@collabora.com>, 
-	Jacopo Mondi <jacopo@jmondi.org>, Daniel Scally <djrscally@gmail.com>, 
-	Dave Stevenson <dave.stevenson@raspberrypi.com>, Benjamin Mugnier <benjamin.mugnier@foss.st.com>, 
-	Sylvain Petinot <sylvain.petinot@foss.st.com>, Yong Zhi <yong.zhi@intel.com>, Bingbu Cao <bingbu.cao@intel.com>, 
-	Tianshu Qiu <tian.shu.qiu@intel.com>, Tiffany Lin <tiffany.lin@mediatek.com>, 
-	Andrew-CT Chen <andrew-ct.chen@mediatek.com>, Yunfei Dong <yunfei.dong@mediatek.com>, 
-	Matthias Brugger <matthias.bgg@gmail.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Rui Miguel Silva <rmfrfs@gmail.com>, 
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Martin Kepplinger <martink@posteo.de>, 
-	Purism Kernel Team <kernel@puri.sm>, Shawn Guo <shawnguo@kernel.org>, 
-	Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
-	Fabio Estevam <festevam@gmail.com>, Dafna Hirschfeld <dafna@fastmail.com>, 
-	Heiko Stuebner <heiko@sntech.de>, Sylwester Nawrocki <s.nawrocki@samsung.com>, 
-	Krzysztof Kozlowski <krzk@kernel.org>, Alim Akhtar <alim.akhtar@samsung.com>, 
-	Yemike Abhilash Chandra <y-abhilashchandra@ti.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	linux-input@vger.kernel.org, linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, imx@lists.linux.dev, 
-	linux-renesas-soc@vger.kernel.org, linux-rockchip@lists.infradead.org, 
-	linux-samsung-soc@vger.kernel.org, linux-staging@lists.linux.dev
-Subject: Re: [PATCH 01/32] Input: cyttsp5 - Use %pe format specifier
-Message-ID: <xirb6664gow5ldjy7xihkz2wooidbm4bsyl7qrm2uosdybdki7@mqkdqzeznx6h>
-References: <20251013-ptr_err-v1-0-2c5efbd82952@chromium.org>
- <20251013-ptr_err-v1-1-2c5efbd82952@chromium.org>
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="jfsQ3+mn"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 34845C4CEE7;
+	Fri, 17 Oct 2025 08:05:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1760688345;
+	bh=jQhy/ox3fIOhCY7knzkIZUyacLZTGHWrr3u52zYJAkI=;
+	h=Subject:To:Cc:From:Date:In-Reply-To:From;
+	b=jfsQ3+mnT/1hXaKowyNh4ESs5gv7XWT4llLVtqMbxf719r6AbXjDWmR8zBVavKXTr
+	 DspwYEGBxW2V4PZWTnFyaExmgP7lqPD2tc7Ax5IkWv9QpHXRROMLLI3Ym8cvq16VYc
+	 dXU+JcHgFA2fnbNWSnt0GfCEyA/6Q/jr15A9yGug=
+Subject: Patch "minmax: avoid overly complicated constant expressions in VM code" has been added to the 5.15-stable tree
+To: David.Laight@ACULAB.COM,David.Laight@aculab.com,adilger.kernel@dilger.ca,agk@redhat.com,airlied@linux.ie,akpm@linux-foundation.org,amd-gfx@lists.freedesktop.org,andriy.shevchenko@linux.intel.com,anton.ivanov@cambridgegreys.com,bp@alien8.de,clm@fb.com,coreteam@netfilter.org,daniel@ffwll.ch,dave.hansen@linux.intel.com,davem@davemloft.net,dm-devel@redhat.com,dmitry.torokhov@gmail.com,dri-devel@lists.freedesktop.org,dsahern@kernel.org,dsterba@suse.com,dushistov@mail.ru,farbere@amazon.com,freedreno@lists.freedesktop.org,fw@strlen.de,gregkh@linuxfoundation.org,hdegoede@redhat.com,herve.codina@bootlin.com,hpa@zytor.com,jack@suse.com,james.morse@arm.com,jdelvare@suse.com,jdike@addtoit.com,jejb@linux.ibm.com,jernej.skrabec@gmail.com,jmaloy@redhat.com,josef@toxicpanda.com,kadlec@netfilter.org,krzysztof.kozlowski@canonical.com,kuba@kernel.org,linus.walleij@linaro.org,linux-arm-kernel@lists.infradead.org,linux-mm@kvack.org,linux-staging@lists.linux.dev,linux-stm32@st-md-mailman.stormreply.com,linux-sunxi@lists.linux.dev,linux-um@lists.infradead.org,linux@rasmusvillemoes.dk,linux@roeck-us.net,lorenzo.stoakes@oracle.com,luc.vanoostenryck@gmail.com,luto@kernel.org,maarten.lankhorst@linux.intel.com,malattia@linux.it,martin.petersen@oracle.com,maz@kernel.org,mcoquelin.stm32@gmail.com,mgross@linux.intel.com,minchan@kernel.org,mingo@redhat.com,mripard@kernel.org,ngupta@vflare.org,pablo@netfilter.org,peterz@infradead.org,pmladek@suse.com,qiuxu.zhuo@intel.com,quic_akhilpo@quicinc.com,richard@nod.at,robdclark@gmail.com,rostedt@goodmis.org,rric@kernel.org,ruanjinjie@huawei.com,sakari.ailus@linux.intel.com,sashal@kernel.org,sean@poorly.run,senozhatsky@chromium.org,shuah@kernel.org,snitzer@redhat.com,tglx@linutronix.de,tipc-discussion@lists.sourceforge.net,tony.luck@intel.com,torvalds@linux-foundation.org,tytso@mit.edu,tzimmermann@suse.de,wens@csie.org,willy@infradead.org,x86@kernel.org,ying.xue@windriver.com,yoshfuji@linux-ipv6.org
+Cc: <stable-commits@vger.kernel.org>
+From: <gregkh@linuxfoundation.org>
+Date: Fri, 17 Oct 2025 10:05:09 +0200
+In-Reply-To: <20251008152946.29285-6-farbere@amazon.com>
+Message-ID: <2025101709-handcart-hunger-c414@gregkh>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251013-ptr_err-v1-1-2c5efbd82952@chromium.org>
+Content-Type: text/plain; charset=ANSI_X3.4-1968
+Content-Transfer-Encoding: 8bit
+X-stable: commit
+X-Patchwork-Hint: ignore 
 
-On Mon, Oct 13, 2025 at 02:14:41PM +0000, Ricardo Ribalda wrote:
-> The %pe format specifier is designed to print error pointers. It prints
-> a symbolic error name (eg. -EINVAL) and it makes the code simpler by
-> omitting PTR_ERR()
-> 
-> This patch fixes this cocci report:
-> ./cyttsp5.c:927:3-10: WARNING: Consider using %pe to print PTR_ERR()
-> 
-> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
 
-Applied, thank you.
+This is a note to let you know that I've just added the patch titled
 
--- 
-Dmitry
+    minmax: avoid overly complicated constant expressions in VM code
+
+to the 5.15-stable tree which can be found at:
+    http://www.kernel.org/git/?p=linux/kernel/git/stable/stable-queue.git;a=summary
+
+The filename of the patch is:
+     minmax-avoid-overly-complicated-constant-expressions-in-vm-code.patch
+and it can be found in the queue-5.15 subdirectory.
+
+If you, or anyone else, feels it should not be added to the stable tree,
+please let <stable@vger.kernel.org> know about it.
+
+
+From linux-staging+bounces-34820-greg=kroah.com@lists.linux.dev Wed Oct  8 17:33:38 2025
+From: Eliav Farber <farbere@amazon.com>
+Date: Wed, 8 Oct 2025 15:29:30 +0000
+Subject: minmax: avoid overly complicated constant expressions in VM code
+To: <gregkh@linuxfoundation.org>, <jdike@addtoit.com>, <richard@nod.at>, <anton.ivanov@cambridgegreys.com>, <dave.hansen@linux.intel.com>, <luto@kernel.org>, <peterz@infradead.org>, <tglx@linutronix.de>, <mingo@redhat.com>, <bp@alien8.de>, <x86@kernel.org>, <hpa@zytor.com>, <tony.luck@intel.com>, <qiuxu.zhuo@intel.com>, <james.morse@arm.com>, <rric@kernel.org>, <airlied@linux.ie>, <daniel@ffwll.ch>, <maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>, <tzimmermann@suse.de>, <robdclark@gmail.com>, <sean@poorly.run>, <jdelvare@suse.com>, <linux@roeck-us.net>, <linus.walleij@linaro.org>, <dmitry.torokhov@gmail.com>, <maz@kernel.org>, <wens@csie.org>, <jernej.skrabec@gmail.com>, <agk@redhat.com>, <snitzer@redhat.com>, <dm-devel@redhat.com>, <davem@davemloft.net>, <kuba@kernel.org>, <mcoquelin.stm32@gmail.com>, <krzysztof.kozlowski@canonical.com>, <malattia@linux.it>, <hdegoede@redhat.com>, <mgross@linux.intel.com>, <jejb@linux.ibm.com>, <martin.petersen@oracle.com>, <sakari.ailus@linux.intel.com>, <clm@fb.com>, <josef@toxicpanda.com>, <dsterba@suse.com>, <jack@suse.com>, <tytso@mit.edu>, <adilger.kernel@dilger.ca>, <dushistov@mail.ru>, <luc.vanoostenryck@gmail.com>, <rostedt@goodmis.org>, <pmladek@suse.com>, <senozhatsky@chromium.org>, <andriy.shevchenko@linux.intel.com>, <linux@rasmusvillemoes.dk>, <minchan@kernel.org>, <ngupta@vflare.org>, <akpm@linux-foundation.org>, <yoshfuji@linux-ipv6.org>, <dsahern@kernel.org>, <pablo@netfilter.org>, <kadlec@netfilter.org>, <fw@strlen.de>, <jmaloy@redhat.com>, <ying.xue@windriver.com>, <shuah@kernel.org>, <willy@infradead.org>, <farbere@amazon.com>, <sashal@kernel.org>, <quic_akhilpo@quicinc.com>, <ruanjinjie@huawei.com>, <David.Laight@ACULAB.COM>, <herve.codina@bootlin.com>, <linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>, <linux-um@lists.infradead.org>, <linux-edac@vger.kernel.org>, <amd-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>, <linux-arm-msm@vger.kernel.org>, <freedreno@lists.freedesktop.org>, <linux-hwmon@vger.kernel.org>, <linux-input@vger.kernel.org>, <linux-sunxi@lists.linux.dev>, <linux-media@vger.kernel.org>, <netdev@vger.kernel.org>, <linux-stm32@st-md-mailman.stormreply.com>, <platform-driver-x86@vger.kernel.org>, <linux-scsi@vger.kernel.org>, <linux-staging@lists.linux.dev>, <linux-btrfs@vger.kernel.org>, <linux-ext4@vger.kernel.org>, <linux-sparse@vger.kernel.org>, <linux-mm@kvack.org>, <netfilter-devel@vger.kernel.org>, <coreteam@netfilter.org>, <tipc-discussion@lists.sourceforge.net>, <linux-kselftest@vger.kernel.org>, <stable@vger.kernel.org>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>, Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, David Laight <David.Laight@aculab.com>
+Message-ID: <20251008152946.29285-6-farbere@amazon.com>
+
+From: Linus Torvalds <torvalds@linux-foundation.org>
+
+[ Upstream commit 3a7e02c040b130b5545e4b115aada7bacd80a2b6 ]
+
+The minmax infrastructure is overkill for simple constants, and can
+cause huge expansions because those simple constants are then used by
+other things.
+
+For example, 'pageblock_order' is a core VM constant, but because it was
+implemented using 'min_t()' and all the type-checking that involves, it
+actually expanded to something like 2.5kB of preprocessor noise.
+
+And when that simple constant was then used inside other expansions:
+
+  #define pageblock_nr_pages      (1UL << pageblock_order)
+  #define pageblock_start_pfn(pfn)  ALIGN_DOWN((pfn), pageblock_nr_pages)
+
+and we then use that inside a 'max()' macro:
+
+	case ISOLATE_SUCCESS:
+		update_cached = false;
+		last_migrated_pfn = max(cc->zone->zone_start_pfn,
+			pageblock_start_pfn(cc->migrate_pfn - 1));
+
+the end result was that one statement expanding to 253kB in size.
+
+There are probably other cases of this, but this one case certainly
+stood out.
+
+I've added 'MIN_T()' and 'MAX_T()' macros for this kind of "core simple
+constant with specific type" use.  These macros skip the type checking,
+and as such need to be very sparingly used only for obvious cases that
+have active issues like this.
+
+Reported-by: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+Link: https://lore.kernel.org/all/36aa2cad-1db1-4abf-8dd2-fb20484aabc3@lucifer.local/
+Cc: David Laight <David.Laight@aculab.com>
+Signed-off-by: Linus Torvalds <torvalds@linux-foundation.org>
+Signed-off-by: Eliav Farber <farbere@amazon.com>
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+---
+ include/linux/minmax.h |    7 +++++++
+ 1 file changed, 7 insertions(+)
+
+--- a/include/linux/minmax.h
++++ b/include/linux/minmax.h
+@@ -270,4 +270,11 @@ static inline bool in_range32(u32 val, u
+ #define swap(a, b) \
+ 	do { typeof(a) __tmp = (a); (a) = (b); (b) = __tmp; } while (0)
+ 
++/*
++ * Use these carefully: no type checking, and uses the arguments
++ * multiple times. Use for obvious constants only.
++ */
++#define MIN_T(type,a,b) __cmp(min,(type)(a),(type)(b))
++#define MAX_T(type,a,b) __cmp(max,(type)(a),(type)(b))
++
+ #endif	/* _LINUX_MINMAX_H */
+
+
+Patches currently in stable-queue which might be from farbere@amazon.com are
+
+queue-5.15/minmax-fix-indentation-of-__cmp_once-and-__clamp_once.patch
+queue-5.15/minmax-add-in_range-macro.patch
+queue-5.15/minmax-deduplicate-__unconst_integer_typeof.patch
+queue-5.15/minmax-avoid-overly-complicated-constant-expressions-in-vm-code.patch
+queue-5.15/minmax-introduce-min-max-_array.patch
