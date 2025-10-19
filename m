@@ -1,128 +1,196 @@
-Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3E6D2773E3
-	for <linux-staging@lists.linux.dev>; Sun, 19 Oct 2025 09:51:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50394A41;
+	Sun, 19 Oct 2025 12:37:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760867476; cv=none; b=gsNA3Slpx48Y0O6T62+UdwX/E23p3DiJXm1dVBH/Q9wmC2neAOFt8i/yHFedUYkoaNiseUzYSJE6IMxnf1sHuD77McmhhYDsXGdHNlzURD3rbKOhjtUjft2lqVcq9hcX4itBQqgkovTeynpLQ3nOoa/hY2gyB3DACl12F5miCa8=
+	t=1760877464; cv=none; b=feJOt1BBmQqr2VY8wbDIPztP47tXjDLCWkWHS7/NMB3pmNCBvT658W3J/QGk1dPzseCInMqyQNp0Xysq1AQNg3Cr2WSRZEafVP3zPkMbG6pmG2k4BfvzER7LhLCVrcxaS8oAa+Q3YBPqLZMwikSUA3ap4ju1hh37vYLJOeP0iXg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760867476; c=relaxed/simple;
-	bh=kBMvgP0actkbeMJcb3zto/YkqkPQV2eIq1jIx2LqT/g=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=YBo5iUClSqfDzQLAbUNgM7rH1XODAxh5EGPxg+Jln6cQW+pOGZ3pAkFqLRbH6LfcIRYgVsJ6kPRr4m7bhzuqSHhHDzSXNQAmJV40BJk/1hZ1zdiGGkql+llvAjBiOlVYieadrrqSHwtDUG4RbDwVTsulRLGDU1i7yvVXOdw2KNE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fC2PdDsg; arc=none smtp.client-ip=209.85.218.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1760877464; c=relaxed/simple;
+	bh=dgzA9LsGuiP/mYejoGwFkpon4M45cMihfvBvR4qrSRg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=GZR6F4dTdA5UvN2irZqmWrvNZu7D5STaimlzgp1izDXP/XYymavfECXsTK5d+c3uL88e/OPlv1nvlBZVB2x/wF46J5qKJ5tPsgBPhbHumb7E8pA+kbkWa/cIQLot0G0lfF5TP72aSc++lJ5kEFm4/eMMi19Dhck2Uq02n/DFKfY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=mr7tZ637; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fC2PdDsg"
-Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-b40884aeaf4so69037466b.0
-        for <linux-staging@lists.linux.dev>; Sun, 19 Oct 2025 02:51:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1760867472; x=1761472272; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=cl3Qt/sYm31WN4rF5OOHYkEFgm7/83Ra3YhhSXU60e4=;
-        b=fC2PdDsg+XOQPnK+wUOG+sGz6SYNR2Q36JCswnTrEaX4i7o0zWyx3pzYVIKXolWqTM
-         7pyrBEmq8ch1Oc795BipTM3W+a1IvzNWUwabj0vU+SeSnqQZUfZx1kdj0nX4fucLRn45
-         yZWMxg6G1riE3AMP+xvc0B2Z2jW/aM56k4TEOFue0o/JbaDge6ZEkPH3qm32Fx/0CsrH
-         I191vqdhOaSL1s29MK8FOlDmvPBQqBYP23TPA+c6N5CAQN001p/tDvRdxHRtsk1QokmQ
-         a48TbLBnKnHZis9I0X1bGdDprxl/FME6vJ86rypxQTJyda3+dS0xXbv5J2m+CkjvAvHJ
-         LzGg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760867472; x=1761472272;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=cl3Qt/sYm31WN4rF5OOHYkEFgm7/83Ra3YhhSXU60e4=;
-        b=qJJjSGoGU4uJPZeh7Lak4UUaXqawvvUBnKvmksYYQ6UMZV3gILrWvN+oWWgbl3SurW
-         RNtoeiWV0RWltGiKOMa0T6Xy1yslNLGELC+olfjj56Zd7CFToOp8mG/zi+OHccTXxS/u
-         SyS7ThKSWmyBxtvb0kKZiO0ahSVoVQ6VWMrraZFkJjB00ujUZIYY1FGHBK9GMF8o0dPr
-         BqrTD1MM9UuoHL/ZNEKWqw6sy37rbqVDLB87uviB3WVKogNaLlQYfF0EaZT26GCqC3+Y
-         H+B/5kpUbdNWmHUQPLJs0cXUL6gDtQy2GWlBIHD+8Dc6NuV/14wLDID9VOF24NA/6dHh
-         fT3w==
-X-Gm-Message-State: AOJu0YwzSYFONhaQ78NZlvGBDNySa10Vm0gQee9eQXp7iGQnB+gJGFkO
-	CxIM/bSvhWD3wZGonJR84aoo0fvetCnIfhF3gvHD8vmdQebC6jyVbpwQ
-X-Gm-Gg: ASbGncvy4rdOhY0UrDfql0rnCK45mqlDnJgFrMlKPdDallBOu4GDPyNKUTP49BEHVve
-	npCPlv1tQecRd9vikYvyu09J65nWoxwrVqZv2821iIaNzQ3X8aR6KYy//0G/nWrRsGKwifv+E/B
-	FBCfWpiU131NBXXSD05Kj7rniAT2BXASrf2leboS146s220+1dU4/hbKCBTVqsTiT9i+CukU7dt
-	BrWbVvwzTTRwKlUJXS7kOnh4RAQ/TAiu1OvD8grLiL57aBbs/K9SLDcazTq8zIy8l64Y1HwnMr6
-	GQG25kHFgYQTUw+8qQ38yrqtKCKVecXG0OHsfV4bYevCRWHEfgUf87VTmKcrLwas60C0TpJlHET
-	V6gjVm/nUDbj2IkHOOssokVJ/DRru39kbtiUrsZ5n09ZdX7NkoD2Bdr3TtVOK/hZSoY9ocnqhKE
-	NdkBHKA4GC/Etbqu80eTWj/yA/e+fVpHhK3viF9qVX/SePv6vKjzM6tw==
-X-Google-Smtp-Source: AGHT+IHUpP4DLSY233dfczm/oVDqJEO0ht2lmdlvw9y+CTCknrdIKTcl2u2GgLkWGZWgGlg2n8NvEA==
-X-Received: by 2002:a17:907:9708:b0:b04:2d89:5d3a with SMTP id a640c23a62f3a-b6475505d94mr601951366b.7.1760867471789;
-        Sun, 19 Oct 2025 02:51:11 -0700 (PDT)
-Received: from fridge ([176.216.135.252])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b65e7da25d4sm467365466b.9.2025.10.19.02.51.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 19 Oct 2025 02:51:11 -0700 (PDT)
-From: Emre Cecanpunar <emreleno@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: linux-staging@lists.linux.dev,
-	Emre Cecanpunar <emreleno@gmail.com>
-Subject: [PATCH v2] staging: nvec: remove NVEC_PS2_DEBUG and dead debug macro
-Date: Sun, 19 Oct 2025 12:50:57 +0300
-Message-ID: <20251019095057.5684-1-emreleno@gmail.com>
-X-Mailer: git-send-email 2.51.1.dirty
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="mr7tZ637"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 54864C4CEE7;
+	Sun, 19 Oct 2025 12:37:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1760877463;
+	bh=dgzA9LsGuiP/mYejoGwFkpon4M45cMihfvBvR4qrSRg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=mr7tZ637v1WDh2Nr8sg19/xoeGzZL3RvlnXfYUykPJk+G6zQteton6Oo+u5wVdnxN
+	 ZBC8QPSBVC5hJfXNWgutJHN6QRJ4bxeGe2+hYWxIp2brHCNu/KXcKMeG5P43CM4Fjg
+	 vDPDOANq6idL2020QoIIUuWRPKXTuhm7Nf2n5Cxw=
+Date: Sun, 19 Oct 2025 14:37:40 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: "Farber, Eliav" <farbere@amazon.com>
+Cc: "stable@vger.kernel.org" <stable@vger.kernel.org>,
+	"linux@armlinux.org.uk" <linux@armlinux.org.uk>,
+	"jdike@addtoit.com" <jdike@addtoit.com>,
+	"richard@nod.at" <richard@nod.at>,
+	"anton.ivanov@cambridgegreys.com" <anton.ivanov@cambridgegreys.com>,
+	"dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
+	"luto@kernel.org" <luto@kernel.org>,
+	"peterz@infradead.org" <peterz@infradead.org>,
+	"tglx@linutronix.de" <tglx@linutronix.de>,
+	"mingo@redhat.com" <mingo@redhat.com>,
+	"bp@alien8.de" <bp@alien8.de>, "x86@kernel.org" <x86@kernel.org>,
+	"hpa@zytor.com" <hpa@zytor.com>,
+	"tony.luck@intel.com" <tony.luck@intel.com>,
+	"qiuxu.zhuo@intel.com" <qiuxu.zhuo@intel.com>,
+	"mchehab@kernel.org" <mchehab@kernel.org>,
+	"james.morse@arm.com" <james.morse@arm.com>,
+	"rric@kernel.org" <rric@kernel.org>,
+	"harry.wentland@amd.com" <harry.wentland@amd.com>,
+	"sunpeng.li@amd.com" <sunpeng.li@amd.com>,
+	"alexander.deucher@amd.com" <alexander.deucher@amd.com>,
+	"christian.koenig@amd.com" <christian.koenig@amd.com>,
+	"airlied@linux.ie" <airlied@linux.ie>,
+	"daniel@ffwll.ch" <daniel@ffwll.ch>,
+	"evan.quan@amd.com" <evan.quan@amd.com>,
+	"james.qian.wang@arm.com" <james.qian.wang@arm.com>,
+	"liviu.dudau@arm.com" <liviu.dudau@arm.com>,
+	"mihail.atanassov@arm.com" <mihail.atanassov@arm.com>,
+	"brian.starkey@arm.com" <brian.starkey@arm.com>,
+	"maarten.lankhorst@linux.intel.com" <maarten.lankhorst@linux.intel.com>,
+	"mripard@kernel.org" <mripard@kernel.org>,
+	"tzimmermann@suse.de" <tzimmermann@suse.de>,
+	"robdclark@gmail.com" <robdclark@gmail.com>,
+	"sean@poorly.run" <sean@poorly.run>,
+	"jdelvare@suse.com" <jdelvare@suse.com>,
+	"linux@roeck-us.net" <linux@roeck-us.net>,
+	"fery@cypress.com" <fery@cypress.com>,
+	"dmitry.torokhov@gmail.com" <dmitry.torokhov@gmail.com>,
+	"agk@redhat.com" <agk@redhat.com>,
+	"snitzer@redhat.com" <snitzer@redhat.com>,
+	"dm-devel@redhat.com" <dm-devel@redhat.com>,
+	"rajur@chelsio.com" <rajur@chelsio.com>,
+	"davem@davemloft.net" <davem@davemloft.net>,
+	"kuba@kernel.org" <kuba@kernel.org>,
+	"peppe.cavallaro@st.com" <peppe.cavallaro@st.com>,
+	"alexandre.torgue@st.com" <alexandre.torgue@st.com>,
+	"joabreu@synopsys.com" <joabreu@synopsys.com>,
+	"mcoquelin.stm32@gmail.com" <mcoquelin.stm32@gmail.com>,
+	"malattia@linux.it" <malattia@linux.it>,
+	"hdegoede@redhat.com" <hdegoede@redhat.com>,
+	"mgross@linux.intel.com" <mgross@linux.intel.com>,
+	"intel-linux-scu@intel.com" <intel-linux-scu@intel.com>,
+	"artur.paszkiewicz@intel.com" <artur.paszkiewicz@intel.com>,
+	"jejb@linux.ibm.com" <jejb@linux.ibm.com>,
+	"martin.petersen@oracle.com" <martin.petersen@oracle.com>,
+	"sakari.ailus@linux.intel.com" <sakari.ailus@linux.intel.com>,
+	"clm@fb.com" <clm@fb.com>,
+	"josef@toxicpanda.com" <josef@toxicpanda.com>,
+	"dsterba@suse.com" <dsterba@suse.com>,
+	"xiang@kernel.org" <xiang@kernel.org>,
+	"chao@kernel.org" <chao@kernel.org>,
+	"jack@suse.com" <jack@suse.com>, "tytso@mit.edu" <tytso@mit.edu>,
+	"adilger.kernel@dilger.ca" <adilger.kernel@dilger.ca>,
+	"dushistov@mail.ru" <dushistov@mail.ru>,
+	"luc.vanoostenryck@gmail.com" <luc.vanoostenryck@gmail.com>,
+	"rostedt@goodmis.org" <rostedt@goodmis.org>,
+	"pmladek@suse.com" <pmladek@suse.com>,
+	"sergey.senozhatsky@gmail.com" <sergey.senozhatsky@gmail.com>,
+	"andriy.shevchenko@linux.intel.com" <andriy.shevchenko@linux.intel.com>,
+	"linux@rasmusvillemoes.dk" <linux@rasmusvillemoes.dk>,
+	"minchan@kernel.org" <minchan@kernel.org>,
+	"ngupta@vflare.org" <ngupta@vflare.org>,
+	"akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+	"kuznet@ms2.inr.ac.ru" <kuznet@ms2.inr.ac.ru>,
+	"yoshfuji@linux-ipv6.org" <yoshfuji@linux-ipv6.org>,
+	"pablo@netfilter.org" <pablo@netfilter.org>,
+	"kadlec@netfilter.org" <kadlec@netfilter.org>,
+	"fw@strlen.de" <fw@strlen.de>,
+	"jmaloy@redhat.com" <jmaloy@redhat.com>,
+	"ying.xue@windriver.com" <ying.xue@windriver.com>,
+	"willy@infradead.org" <willy@infradead.org>,
+	"sashal@kernel.org" <sashal@kernel.org>,
+	"ruanjinjie@huawei.com" <ruanjinjie@huawei.com>,
+	"David.Laight@aculab.com" <David.Laight@aculab.com>,
+	"herve.codina@bootlin.com" <herve.codina@bootlin.com>,
+	"Jason@zx2c4.com" <Jason@zx2c4.com>,
+	"keescook@chromium.org" <keescook@chromium.org>,
+	"kbusch@kernel.org" <kbusch@kernel.org>,
+	"nathan@kernel.org" <nathan@kernel.org>,
+	"bvanassche@acm.org" <bvanassche@acm.org>,
+	"ndesaulniers@google.com" <ndesaulniers@google.com>,
+	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"linux-um@lists.infradead.org" <linux-um@lists.infradead.org>,
+	"linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>,
+	"amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
+	"dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+	"linux-arm-msm@vger.kernel.org" <linux-arm-msm@vger.kernel.org>,
+	"freedreno@lists.freedesktop.org" <freedreno@lists.freedesktop.org>,
+	"linux-hwmon@vger.kernel.org" <linux-hwmon@vger.kernel.org>,
+	"linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
+	"linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+	"netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+	"linux-stm32@st-md-mailman.stormreply.com" <linux-stm32@st-md-mailman.stormreply.com>,
+	"platform-driver-x86@vger.kernel.org" <platform-driver-x86@vger.kernel.org>,
+	"linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>,
+	"linux-staging@lists.linux.dev" <linux-staging@lists.linux.dev>,
+	"linux-btrfs@vger.kernel.org" <linux-btrfs@vger.kernel.org>,
+	"linux-erofs@lists.ozlabs.org" <linux-erofs@lists.ozlabs.org>,
+	"linux-ext4@vger.kernel.org" <linux-ext4@vger.kernel.org>,
+	"linux-sparse@vger.kernel.org" <linux-sparse@vger.kernel.org>,
+	"linux-mm@kvack.org" <linux-mm@kvack.org>,
+	"netfilter-devel@vger.kernel.org" <netfilter-devel@vger.kernel.org>,
+	"coreteam@netfilter.org" <coreteam@netfilter.org>,
+	"tipc-discussion@lists.sourceforge.net" <tipc-discussion@lists.sourceforge.net>
+Subject: Re: [PATCH v2 00/27 5.10.y] Backport minmax.h updates from v6.17-rc7
+Message-ID: <2025101929-curator-poplar-7460@gregkh>
+References: <20251017090519.46992-1-farbere@amazon.com>
+ <2025101704-rumble-chatroom-60b5@gregkh>
+ <CH0PR18MB5433BB2E99395D2AC8B0E0FBC6F7A@CH0PR18MB5433.namprd18.prod.outlook.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <CH0PR18MB5433BB2E99395D2AC8B0E0FBC6F7A@CH0PR18MB5433.namprd18.prod.outlook.com>
 
-The NVEC_PS2_DEBUG macro and NVEC_PHD() are unused and only add clutter.
-Remove them completely.
+On Sat, Oct 18, 2025 at 08:07:32PM +0000, Farber, Eliav wrote:
+> > On Fri, Oct 17, 2025 at 09:04:52AM +0000, Eliav Farber wrote:
+> > > This series backports 27 patches to update minmax.h in the 5.10.y
+> > > branch, aligning it with v6.17-rc7.
+> > >
+> > > The ultimate goal is to synchronize all long-term branches so that they
+> > > include the full set of minmax.h changes.
+> > >
+> > > - 6.12.y has already been backported; the changes are included in
+> > >   v6.12.49.
+> > > - 6.6.y has already been backported; the changes are included in
+> > >   v6.6.109.
+> > > - 6.1.y has already been backported; the changes are currently in the
+> > >   6.1-stable tree.
+> > > - 5.15.y has already been backported; the changes are currently in the
+> > >   5.15-stable tree.
+> >
+> > With this series applied, on an arm64 server, building 'allmodconfig', I
+> > get the following build error.
+> >
+> > Oddly I don't see it on my x86 server, perhaps due to different compiler
+> > versions?
+> >
+> > Any ideas?
+> 
+> This mainline commit is missing:
+> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/drivers/net/wireless/ralink/rt2x00/rt2800lib.c?h=v6.18-rc1&id=66063033f77e10b985258126a97573f84bb8d3b4
+> 
+> This fix already exists in 5.15.y:
+> https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git/commit/drivers/net/wireless/ralink/rt2x00/rt2800lib.c?h=v5.15.194&id=2d3cef3d7a5df260a14a6679c4aca0c97e570ee5
+> …but is missing in 5.10.y.
+> 
+> I now backported it to 5.10.y here:
+> https://lore.kernel.org/stable/20251018195945.18825-1-farbere@amazon.com/T/#u
 
-Suggested-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Thanks,I've queued that up now.
 
-Signed-off-by: Emre Cecanpunar <emreleno@gmail.com>
----
-v1 -> v2:
- Remove the unused `else if (msg[1] != 2)` block that referenced NVEC_PHD()
-
- drivers/staging/nvec/nvec_ps2.c | 12 ------------
- 1 file changed, 12 deletions(-)
-
-diff --git a/drivers/staging/nvec/nvec_ps2.c b/drivers/staging/nvec/nvec_ps2.c
-index 575233fa1677..2db57795ea2f 100644
---- a/drivers/staging/nvec/nvec_ps2.c
-+++ b/drivers/staging/nvec/nvec_ps2.c
-@@ -23,14 +23,6 @@
- #define DISABLE_MOUSE	0xf5
- #define PSMOUSE_RST	0xff
- 
--#ifdef NVEC_PS2_DEBUG
--#define NVEC_PHD(str, buf, len) \
--	print_hex_dump(KERN_DEBUG, str, DUMP_PREFIX_NONE, \
--			16, 1, buf, len, false)
--#else
--#define NVEC_PHD(str, buf, len) do { } while (0)
--#endif
--
- enum ps2_subcmds {
- 	SEND_COMMAND = 1,
- 	RECEIVE_N,
-@@ -70,18 +62,14 @@ static int nvec_ps2_notifier(struct notifier_block *nb,
- 	case NVEC_PS2_EVT:
- 		for (i = 0; i < msg[1]; i++)
- 			serio_interrupt(ps2_dev.ser_dev, msg[2 + i], 0);
--		NVEC_PHD("ps/2 mouse event: ", &msg[2], msg[1]);
- 		return NOTIFY_STOP;
- 
- 	case NVEC_PS2:
- 		if (msg[2] == 1) {
- 			for (i = 0; i < (msg[1] - 2); i++)
- 				serio_interrupt(ps2_dev.ser_dev, msg[i + 4], 0);
--			NVEC_PHD("ps/2 mouse reply: ", &msg[4], msg[1] - 2);
- 		}
- 
--		else if (msg[1] != 2) /* !ack */
--			NVEC_PHD("unhandled mouse event: ", msg, msg[1] + 2);
- 		return NOTIFY_STOP;
- 	}
- 
--- 
-2.51.1.dirty
-
+greg k-h
