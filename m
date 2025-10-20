@@ -1,140 +1,106 @@
-Received: from forwardcorp1d.mail.yandex.net (forwardcorp1d.mail.yandex.net [178.154.239.200])
+Received: from h8.fbrelay.privateemail.com (h8.fbrelay.privateemail.com [162.0.218.231])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 761812D838F
-	for <linux-staging@lists.linux.dev>; Mon, 20 Oct 2025 06:33:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.154.239.200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14EAA1EA7F4
+	for <linux-staging@lists.linux.dev>; Mon, 20 Oct 2025 19:26:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=162.0.218.231
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760942010; cv=none; b=g5pGcA3Bytgr2pSudlsn4lKLneYEIRa+CeNaB4qxhnZycBxxdLMAyKXu3sn/e4ddWNXkiNnU3/XQnrsYvgwibxFiimyH7gtkjZyPN6QL7+NIZZreNNoeiPP0Rm0bMVBREw1h+OKYe7UxjSYOmzJQbPoPh97Kc9Opdkt0vcPu2Yc=
+	t=1760988383; cv=none; b=iGes53ggsfIaSHONdD0rsX8i3XRLqwSN1s81PlITRF54SUncvs2Sc5XOYhL6qAXiEhWfLJbSPqel8cMed1HhhrrXuISRChacOmkQjZBIGc4VEQM1Lg1VbDsnfxZrY/XtcNbYhrYlVVyttaKrxD63GMOb8FY5w2QLSX3HenX50Uw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760942010; c=relaxed/simple;
-	bh=FEzwsFOvy/v03ZLbtJebqy/hxjdZUwkW0eHimLl/uoE=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=fkzKmTVkVjsOSZ/tdAdVkPkHZVj5oo/2wxlqrpEKjCkNWMnUjWuUk30OcVQrSlJwFT9GHVJSQbeVkdraIj2beqxLexvR5we0iL6EChkGtuPFXgDndWOXNVuRLO40m+cZkoIUuYUTC5ZBMWM96Ae+LB8YKIR1seuOPTwQE2dVb+I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=yandex-team.ru; spf=pass smtp.mailfrom=yandex-team.ru; dkim=pass (1024-bit key) header.d=yandex-team.ru header.i=@yandex-team.ru header.b=ueHfJGWH; arc=none smtp.client-ip=178.154.239.200
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=yandex-team.ru
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=yandex-team.ru
+	s=arc-20240116; t=1760988383; c=relaxed/simple;
+	bh=nrgRgNHCDk2InzSXMS2FndXavGmVtBMyfPdak7dPxU8=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=Pwl3P6mtAz4E1mHL2VuPyKYqt1X+IKV31o08AcVl4J7pq1fFT0uxeHj6XLhEjjNb7rrBhObLKD1jNqav8QWmUTp7CHU+yWyvEHOQF456031neXtuvJXSbg/yH/jnuGxiv1lIpZ1UJVTuR1MAcKeRB4a4tQFNYJw+AbX9hQjMnFM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=lukowski.dev; spf=pass smtp.mailfrom=lukowski.dev; dkim=pass (2048-bit key) header.d=lukowski.dev header.i=@lukowski.dev header.b=fsZmiJ/X; arc=none smtp.client-ip=162.0.218.231
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=lukowski.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lukowski.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=yandex-team.ru header.i=@yandex-team.ru header.b="ueHfJGWH"
-Received: from mail-nwsmtp-smtp-corp-main-80.iva.yp-c.yandex.net (mail-nwsmtp-smtp-corp-main-80.iva.yp-c.yandex.net [IPv6:2a02:6b8:c0c:9297:0:640:61e7:0])
-	by forwardcorp1d.mail.yandex.net (Yandex) with ESMTPS id E04B8807EF;
-	Mon, 20 Oct 2025 09:31:26 +0300 (MSK)
-Received: from i111667286.ld.yandex.ru (unknown [2a02:6bf:8080:980::1:37])
-	by mail-nwsmtp-smtp-corp-main-80.iva.yp-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id MVO5mf3Ft8c0-jVpMFkLv;
-	Mon, 20 Oct 2025 09:31:25 +0300
-X-Yandex-Fwd: 1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
-	s=default; t=1760941885;
-	bh=nQTyHQD6nvJXJ6KJs/5NsdeNIuMnINOnwCKFZIX+qw8=;
-	h=Message-ID:Date:Cc:Subject:To:From;
-	b=ueHfJGWH4XWJPqU6rRlON860DNELB0YS/LlZaMALjNi0SaooMCjZb6k7XmoeZdEbY
-	 N4Kr5A5W6miwSNB5E5NBvc0AlquMNyPBhu5ZQ8fdREhGtRTIJbglJ3RjALkyEG7vSg
-	 mvND1cPmSy6kFhM6VreCjH1VRmUEo6cfuGJpmDJQ=
-Authentication-Results: mail-nwsmtp-smtp-corp-main-80.iva.yp-c.yandex.net; dkim=pass header.i=@yandex-team.ru
-From: Andrey Troshin <drtrosh@yandex-team.ru>
-To: lvc-patches@linuxtesting.org,
-	stable@vger.kernel.org,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Andrey Troshin <drtrosh@yandex-team.ru>,
-	Ian Abbott <abbotti@mev.co.uk>,
-	H Hartley Sweeten <hsweeten@visionengravers.com>,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	lvc-project@linuxtesting.org
-Subject: [PATCH 5.10] comedi: Make insn_rw_emulate_bits() do insn->n samples
-Date: Mon, 20 Oct 2025 09:31:22 +0300
-Message-ID: <20251020063122.2007-1-drtrosh@yandex-team.ru>
-X-Mailer: git-send-email 2.51.0.windows.2
+	dkim=pass (2048-bit key) header.d=lukowski.dev header.i=@lukowski.dev header.b="fsZmiJ/X"
+Received: from MTA-10-3.privateemail.com (mta-10.privateemail.com [198.54.118.218])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
+	(No client certificate requested)
+	by h7.fbrelay.privateemail.com (Postfix) with ESMTPSA id 4cr4sB5lgsz2xJG
+	for <linux-staging@lists.linux.dev>; Mon, 20 Oct 2025 15:15:58 -0400 (EDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=lukowski.dev;
+	s=default; t=1760987751;
+	bh=nrgRgNHCDk2InzSXMS2FndXavGmVtBMyfPdak7dPxU8=;
+	h=From:Date:Subject:To:Cc:From;
+	b=fsZmiJ/XedZgMdFLTAho3wpjBWEeK4tvba9rx2fXhRJRtdXi5bYdq2gL1Z9tqyPyV
+	 0rlAgETTT13G+Ycz21NWQAP3SzN9oz4Xs1GyHiDj957okFciL6QkUN6gIQwTQb+oFS
+	 rto5cGulzzqj3b4rk8Y3vz2wWZ2lP1Wd1EVx4O3eVWuHsVjmfyxtYxIio+7kzzxdNa
+	 SdlINBWlnmZwr0x+91N9MCIeMruCXANqQEf7iYNNc92RVoudEheyguZkabkBEHP0sQ
+	 G8Usmu3iOtsKpz6Iq2Y02DOzGZpR0iTXT3DNMwOKSWB4HYZ7rQ1qZW+HkBzzOrwsU1
+	 XnjcyJtkrtfjQ==
+Received: from mta-10.privateemail.com (localhost [127.0.0.1])
+	by mta-10.privateemail.com (Postfix) with ESMTP id 4cr4s26mHXz3hhVD;
+	Mon, 20 Oct 2025 15:15:50 -0400 (EDT)
+Received: from 1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.ip6.arpa (unknown [150.228.61.196])
+	by mta-10.privateemail.com (Postfix) with ESMTPA;
+	Mon, 20 Oct 2025 15:15:42 -0400 (EDT)
+From: Olle Lukowski <olle@lukowski.dev>
+Date: Mon, 20 Oct 2025 22:15:36 +0300
+Subject: [PATCH] staging: fbtft: fb_ra8875: replace udelay with
+ usleep_range
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20251020-staging-fbtft-ra8875-usleep-v1-1-9592dd390c13@lukowski.dev>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/x3MwQqEIBAA0F+JOe+AWWb0K8serEYbCAvHjSD69
+ 6Tju7wLhBKTwFBdkOhg4S0W1J8KpsXFQMhzMWilTa20QskucAzox+wzJtf31uBfVqIdrW1UR86
+ 0zWShDHsiz+e7f3/3/QCE9POSbQAAAA==
+X-Change-ID: 20251020-staging-fbtft-ra8875-usleep-77306ea543c7
+To: Andy Shevchenko <andy@kernel.org>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org, 
+ linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, 
+ Olle Lukowski <olle@lukowski.dev>
+X-Mailer: b4 0.14.3
+X-Virus-Scanned: ClamAV using ClamSMTP
 
-From: Ian Abbott <abbotti@mev.co.uk>
+Replace udelay(100) calls with usleep_range(100, 200) to allow the
+scheduler to yield instead of busy-waiting. This is the preferred API for
+sleep durations above 10 microseconds.
 
-commit 7afba9221f70d4cbce0f417c558879cba0eb5e66 upstream.
-
-The `insn_rw_emulate_bits()` function is used as a default handler for
-`INSN_READ` instructions for subdevices that have a handler for
-`INSN_BITS` but not for `INSN_READ`.  Similarly, it is used as a default
-handler for `INSN_WRITE` instructions for subdevices that have a handler
-for `INSN_BITS` but not for `INSN_WRITE`. It works by emulating the
-`INSN_READ` or `INSN_WRITE` instruction handling with a constructed
-`INSN_BITS` instruction.  However, `INSN_READ` and `INSN_WRITE`
-instructions are supposed to be able read or write multiple samples,
-indicated by the `insn->n` value, but `insn_rw_emulate_bits()` currently
-only handles a single sample.  For `INSN_READ`, the comedi core will
-copy `insn->n` samples back to user-space.  (That triggered KASAN
-kernel-infoleak errors when `insn->n` was greater than 1, but that is
-being fixed more generally elsewhere in the comedi core.)
-
-Make `insn_rw_emulate_bits()` either handle `insn->n` samples, or return
-an error, to conform to the general expectation for `INSN_READ` and
-`INSN_WRITE` handlers.
-
-Fixes: ed9eccbe8970 ("Staging: add comedi core")
-Cc: stable <stable@kernel.org> # 5.13+
-Signed-off-by: Ian Abbott <abbotti@mev.co.uk>
-Link: https://lore.kernel.org/r/20250725141034.87297-1-abbotti@mev.co.uk
-Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-[Andrey Troshin: backport fix from drivers/comedi/drivers.c to drivers/staging/comedi/drivers.c.]
-Signed-off-by: Andrey Troshin <drtrosh@yandex-team.ru>
+Signed-off-by: Olle Lukowski <olle@lukowski.dev>
 ---
-Backport fix for CVE-2025-39686
-Link: https://nvd.nist.gov/vuln/detail/CVE-2025-39686
+This patch replaces udelay() with usleep_range() in fb_ra8875.
 ---
- drivers/staging/comedi/drivers.c | 23 ++++++++++++-----------
- 1 file changed, 12 insertions(+), 11 deletions(-)
+ drivers/staging/fbtft/fb_ra8875.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/staging/comedi/drivers.c b/drivers/staging/comedi/drivers.c
-index fd098e62a308..816225d1e1a4 100644
---- a/drivers/staging/comedi/drivers.c
-+++ b/drivers/staging/comedi/drivers.c
-@@ -620,11 +620,9 @@ static int insn_rw_emulate_bits(struct comedi_device *dev,
- 	unsigned int chan = CR_CHAN(insn->chanspec);
- 	unsigned int base_chan = (chan < 32) ? 0 : chan;
- 	unsigned int _data[2];
-+	unsigned int i;
- 	int ret;
- 
--	if (insn->n == 0)
--		return 0;
--
- 	memset(_data, 0, sizeof(_data));
- 	memset(&_insn, 0, sizeof(_insn));
- 	_insn.insn = INSN_BITS;
-@@ -635,18 +633,21 @@ static int insn_rw_emulate_bits(struct comedi_device *dev,
- 	if (insn->insn == INSN_WRITE) {
- 		if (!(s->subdev_flags & SDF_WRITABLE))
- 			return -EINVAL;
--		_data[0] = 1U << (chan - base_chan);		     /* mask */
--		_data[1] = data[0] ? (1U << (chan - base_chan)) : 0; /* bits */
-+		_data[0] = 1U << (chan - base_chan);		/* mask */
+diff --git a/drivers/staging/fbtft/fb_ra8875.c b/drivers/staging/fbtft/fb_ra8875.c
+index 0ab1de664..d2400bb44 100644
+--- a/drivers/staging/fbtft/fb_ra8875.c
++++ b/drivers/staging/fbtft/fb_ra8875.c
+@@ -210,7 +210,7 @@ static void write_reg8_bus8(struct fbtft_par *par, int len, ...)
  	}
-+	for (i = 0; i < insn->n; i++) {
-+		if (insn->insn == INSN_WRITE)
-+			_data[1] = data[i] ? _data[0] : 0;	/* bits */
+ 	len--;
  
--	ret = s->insn_bits(dev, s, &_insn, _data);
--	if (ret < 0)
--		return ret;
-+		ret = s->insn_bits(dev, s, &_insn, _data);
-+		if (ret < 0)
-+			return ret;
+-	udelay(100);
++	usleep_range(100, 200);
  
--	if (insn->insn == INSN_READ)
--		data[0] = (_data[1] >> (chan - base_chan)) & 1;
-+		if (insn->insn == INSN_READ)
-+			data[i] = (_data[1] >> (chan - base_chan)) & 1;
-+	}
+ 	if (len) {
+ 		buf = (u8 *)par->buf;
+@@ -231,7 +231,7 @@ static void write_reg8_bus8(struct fbtft_par *par, int len, ...)
  
--	return 1;
-+	return insn->n;
+ 	/* restore user spi-speed */
+ 	par->fbtftops.write = fbtft_write_spi;
+-	udelay(100);
++	usleep_range(100, 200);
  }
  
- static int __comedi_device_postconfig_async(struct comedi_device *dev,
+ static int write_vmem16_bus8(struct fbtft_par *par, size_t offset, size_t len)
+
+---
+base-commit: 211ddde0823f1442e4ad052a2f30f050145ccada
+change-id: 20251020-staging-fbtft-ra8875-usleep-77306ea543c7
+
+Best regards,
 -- 
-2.34.1
+Olle Lukowski <olle@lukowski.dev>
 
