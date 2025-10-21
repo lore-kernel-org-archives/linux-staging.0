@@ -1,41 +1,41 @@
 Received: from MTA-10-3.privateemail.com (mta-10-3.privateemail.com [198.54.127.62])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 724F4334C33
-	for <linux-staging@lists.linux.dev>; Tue, 21 Oct 2025 13:10:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B233336ED9
+	for <linux-staging@lists.linux.dev>; Tue, 21 Oct 2025 13:10:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.54.127.62
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761052214; cv=none; b=OiTHjQ5Yz2nWEiGXS+YLWmecRp7xGfASMlwYjIAM+2f9GbYoPGI9cHQNJQeAdkIm9fohxPvdtE3gVrYnf9Gkj7CMnK84EsSniWjvWVFDYhslAk0mrRec6FHZDVzANQuqI0Dm3WS9H4rA1Fniq318PXd/DNNrUSNsMkh/YYifKD8=
+	t=1761052222; cv=none; b=IoyKU7E3KqgHGn2dTJQc6nMKDn5rM53vWl6HRGZMCcqyzMY9xNhdL/ZNeEr0XbRa6JBD+VoneFDkF7Vtjfn4oOFUg07Zn/YeciPwGB49nhTSAL8MytiNzhXeMCrjbOLNuxm450y/EC79Bg3fV995f/2xWgSvok1imWIEnqnBFjI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761052214; c=relaxed/simple;
-	bh=zMYcIjcZ5Qko2lWukNtIxUtnji9kjjaAHKDaJMAjepw=;
+	s=arc-20240116; t=1761052222; c=relaxed/simple;
+	bh=0VbGGm8QuRymx9t8Ko40ckdaZaN3jnugWP1LiWeKIgU=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=i4ZrTkaenDnPVG/zipm1MHo1CJy5eCuP+QPeK9KOx7LoIkUwIfR1oJK4srg0CqlW6kRS8AWKadl+pjThT0bUa0HYAzrZCVEM+TBhHzTsvJz65KnQH2N8+iao29GngR8+jZ1TsVvS+Bf56NnRHIv3dgBnOyvIHB4AOxOCRA9fNGA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=lukowski.dev; spf=pass smtp.mailfrom=lukowski.dev; dkim=pass (2048-bit key) header.d=lukowski.dev header.i=@lukowski.dev header.b=aFIoQ+sP; arc=none smtp.client-ip=198.54.127.62
+	 In-Reply-To:To:Cc; b=VJPBC7etyhfiLnZn74lUk/bhOP4d8RP+vQUIv598SlZRLJqgA15mpEhliftg8TZPvCU5ZD16d9gUUEk+tMNf8a9Gx3fAGk0C4UWRhlpaoCsNK2lXyKSpnvN4i8VS7pcsgGKIoM5D5DRZvX9yl4iPTtT1bYk25A7lBPIE4xlkb3Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=lukowski.dev; spf=pass smtp.mailfrom=lukowski.dev; dkim=pass (2048-bit key) header.d=lukowski.dev header.i=@lukowski.dev header.b=YsYpiveu; arc=none smtp.client-ip=198.54.127.62
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=lukowski.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lukowski.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lukowski.dev header.i=@lukowski.dev header.b="aFIoQ+sP"
+	dkim=pass (2048-bit key) header.d=lukowski.dev header.i=@lukowski.dev header.b="YsYpiveu"
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=lukowski.dev;
-	s=default; t=1761052211;
-	bh=zMYcIjcZ5Qko2lWukNtIxUtnji9kjjaAHKDaJMAjepw=;
+	s=default; t=1761052219;
+	bh=0VbGGm8QuRymx9t8Ko40ckdaZaN3jnugWP1LiWeKIgU=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=aFIoQ+sPTXKjmQJogO267nHC9rTAvjifSRiogPQJL/iARjT/cndO6CLC0AxtkSyRq
-	 YUjl7wVmMozVDXWCaCJaP/WE47x71IdVAciK0AUYg9JVoCJ/CA54/jRIfdOYRATZSV
-	 8RPI9jL8HudF3PWFUl5+qmdpjKMgiEMawOEGnk5PXpO/pEcd7qZ4VNFDdje15/tDvp
-	 ba1zf70Gn4sg8KUKBjq6l7GVSR4gk7WocVc07vFejUDNLAqq/D3hvApl0exwww+64+
-	 BQlq0N1xra6yRUfj7t4sYubAs9/AAG5ZEZ3k2BzOEvErXQyGYKB1nE/TjG6+FONdTh
-	 PvI9IyuGNmwxA==
+	b=YsYpiveu3TLD14TqakeAEKL2jsZ8tmhq+YTGHfwwPzQYPaoAgsDKAfG0OwS/R78QG
+	 lV5Nk1wERZb4Zy1vycgndlgUvgRAzNIc61N3wWgYokXnDBjwcrOrHVTxWIsreJ/RF/
+	 EjB3fAYPbHR/CUg57KFb+4pJNNf5pJZj+edajUATpWgYKQkFQdwNIvVBoAdjJ6+rBa
+	 1/ezSFbHySRe00dfqHr7GZ/r5CPAMHy3gf4cPWUcVfWGJ2O1Doexqyvvpmx48V2vZW
+	 3+ejbBy8yPHqGkwNitwpY77HXyHZdq7+VtSgcdk1rjD+BpsJdKm/VN//c8iCpPv63B
+	 h25/jbUUwR6dA==
 Received: from mta-10.privateemail.com (localhost [127.0.0.1])
-	by mta-10.privateemail.com (Postfix) with ESMTP id 4crXhg2q46z3hhV0;
-	Tue, 21 Oct 2025 09:10:11 -0400 (EDT)
+	by mta-10.privateemail.com (Postfix) with ESMTP id 4crXhq5fkSz3hhV9;
+	Tue, 21 Oct 2025 09:10:19 -0400 (EDT)
 Received: from 1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.ip6.arpa (unknown [150.228.61.72])
 	by mta-10.privateemail.com (Postfix) with ESMTPA;
-	Tue, 21 Oct 2025 09:10:02 -0400 (EDT)
+	Tue, 21 Oct 2025 09:10:11 -0400 (EDT)
 From: Olle Lukowski <olle@lukowski.dev>
-Date: Tue, 21 Oct 2025 16:09:29 +0300
-Subject: [PATCH v2 2/3] staging: most: dim2: replace BUG_ON() with proper
- checks and error returns
+Date: Tue, 21 Oct 2025 16:09:30 +0300
+Subject: [PATCH v2 3/3] staging: most: video: replace BUG_ON() with proper
+ check
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -44,7 +44,7 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20251021-staging-most-warn-v2-2-cd51e1e717f6@lukowski.dev>
+Message-Id: <20251021-staging-most-warn-v2-3-cd51e1e717f6@lukowski.dev>
 References: <20251021-staging-most-warn-v2-0-cd51e1e717f6@lukowski.dev>
 In-Reply-To: <20251021-staging-most-warn-v2-0-cd51e1e717f6@lukowski.dev>
 To: Parthiban Veerasooran <parthiban.veerasooran@microchip.com>, 
@@ -55,88 +55,28 @@ Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
 X-Mailer: b4 0.14.3
 X-Virus-Scanned: ClamAV using ClamSMTP
 
-Replace BUG_ON() calls with proper checks to prevent unnecessary kernel
-panics. Return appropriate error codes (-EINVAL or -EFAULT) instead of
-crashing the system.
+Replace a BUG_ON() call with a proper check to prevent an unnecessary
+kernel panic.
 
 Signed-off-by: Olle Lukowski <olle@lukowski.dev>
 ---
- drivers/staging/most/dim2/dim2.c | 27 +++++++++++++++++++--------
- 1 file changed, 19 insertions(+), 8 deletions(-)
+ drivers/staging/most/video/video.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/staging/most/dim2/dim2.c b/drivers/staging/most/dim2/dim2.c
-index dad2abe6c..d0832704b 100644
---- a/drivers/staging/most/dim2/dim2.c
-+++ b/drivers/staging/most/dim2/dim2.c
-@@ -166,8 +166,10 @@ static int try_start_dim_transfer(struct hdm_channel *hdm_ch)
- 	unsigned long flags;
- 	struct dim_ch_state st;
+diff --git a/drivers/staging/most/video/video.c b/drivers/staging/most/video/video.c
+index 32f71d9a9..3a7ee2791 100644
+--- a/drivers/staging/most/video/video.c
++++ b/drivers/staging/most/video/video.c
+@@ -575,7 +575,8 @@ static void __exit comp_exit(void)
  
--	BUG_ON(!hdm_ch);
--	BUG_ON(!hdm_ch->is_initialized);
-+	if (!hdm_ch)
-+		return -EINVAL;
-+	if (!hdm_ch->is_initialized)
-+		return -EINVAL;
+ 	most_deregister_configfs_subsys(&comp);
+ 	most_deregister_component(&comp);
+-	BUG_ON(!list_empty(&video_devices));
++	if (!list_empty(&video_devices))
++		pr_err("video_devices list not empty during exit\n");
+ }
  
- 	spin_lock_irqsave(&dim_lock, flags);
- 	if (list_empty(head)) {
-@@ -188,7 +190,11 @@ static int try_start_dim_transfer(struct hdm_channel *hdm_ch)
- 		return -EAGAIN;
- 	}
- 
--	BUG_ON(mbo->bus_address == 0);
-+	if (mbo->bus_address == 0) {
-+		spin_unlock_irqrestore(&dim_lock, flags);
-+		return -EFAULT;
-+	}
-+
- 	if (!dim_enqueue_buffer(&hdm_ch->ch, mbo->bus_address, buf_size)) {
- 		list_del(head->next);
- 		spin_unlock_irqrestore(&dim_lock, flags);
-@@ -269,8 +275,10 @@ static void service_done_flag(struct dim2_hdm *dev, int ch_idx)
- 	unsigned long flags;
- 	u8 *data;
- 
--	BUG_ON(!hdm_ch);
--	BUG_ON(!hdm_ch->is_initialized);
-+	if (!hdm_ch)
-+		return;
-+	if (!hdm_ch->is_initialized)
-+		return;
- 
- 	spin_lock_irqsave(&dim_lock, flags);
- 
-@@ -455,7 +463,8 @@ static int configure_channel(struct most_interface *most_iface, int ch_idx,
- 	int const ch_addr = ch_idx * 2 + 2;
- 	struct hdm_channel *const hdm_ch = dev->hch + ch_idx;
- 
--	BUG_ON(ch_idx < 0 || ch_idx >= DMA_CHANNELS);
-+	if (ch_idx < 0 || ch_idx >= DMA_CHANNELS)
-+		return -EINVAL;
- 
- 	if (hdm_ch->is_initialized)
- 		return -EPERM;
-@@ -567,7 +576,8 @@ static int enqueue(struct most_interface *most_iface, int ch_idx,
- 	struct hdm_channel *hdm_ch = dev->hch + ch_idx;
- 	unsigned long flags;
- 
--	BUG_ON(ch_idx < 0 || ch_idx >= DMA_CHANNELS);
-+	if (ch_idx < 0 || ch_idx >= DMA_CHANNELS)
-+		return -EINVAL;
- 
- 	if (!hdm_ch->is_initialized)
- 		return -EPERM;
-@@ -643,7 +653,8 @@ static int poison_channel(struct most_interface *most_iface, int ch_idx)
- 	u8 hal_ret;
- 	int ret = 0;
- 
--	BUG_ON(ch_idx < 0 || ch_idx >= DMA_CHANNELS);
-+	if (ch_idx < 0 || ch_idx >= DMA_CHANNELS)
-+		return -EINVAL;
- 
- 	if (!hdm_ch->is_initialized)
- 		return -EPERM;
+ module_init(comp_init);
 
 -- 
 2.51.1
