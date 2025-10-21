@@ -1,83 +1,175 @@
-Received: from MTA-10-3.privateemail.com (mta-10-3.privateemail.com [198.54.127.62])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B233336ED9
-	for <linux-staging@lists.linux.dev>; Tue, 21 Oct 2025 13:10:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.54.127.62
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF18333CEB1
+	for <linux-staging@lists.linux.dev>; Tue, 21 Oct 2025 14:38:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761052222; cv=none; b=IoyKU7E3KqgHGn2dTJQc6nMKDn5rM53vWl6HRGZMCcqyzMY9xNhdL/ZNeEr0XbRa6JBD+VoneFDkF7Vtjfn4oOFUg07Zn/YeciPwGB49nhTSAL8MytiNzhXeMCrjbOLNuxm450y/EC79Bg3fV995f/2xWgSvok1imWIEnqnBFjI=
+	t=1761057491; cv=none; b=Bdk1eXIHQi2bvPnvpSdkGvJWIfr4U3hnnDQ16KyMfE5X9WnOj16nX3AUCsNEXDcQLdKUxBGo0amUqrfI40jmxIFU84DrCYfD/DkqNl2hI04dzUpSO0MDvzfPVqRepbarOGSK5CQLdI7HdizMQa9q+euvjZ9XLkJwHFTiKTx8Yac=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761052222; c=relaxed/simple;
-	bh=0VbGGm8QuRymx9t8Ko40ckdaZaN3jnugWP1LiWeKIgU=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=VJPBC7etyhfiLnZn74lUk/bhOP4d8RP+vQUIv598SlZRLJqgA15mpEhliftg8TZPvCU5ZD16d9gUUEk+tMNf8a9Gx3fAGk0C4UWRhlpaoCsNK2lXyKSpnvN4i8VS7pcsgGKIoM5D5DRZvX9yl4iPTtT1bYk25A7lBPIE4xlkb3Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=lukowski.dev; spf=pass smtp.mailfrom=lukowski.dev; dkim=pass (2048-bit key) header.d=lukowski.dev header.i=@lukowski.dev header.b=YsYpiveu; arc=none smtp.client-ip=198.54.127.62
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=lukowski.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lukowski.dev
+	s=arc-20240116; t=1761057491; c=relaxed/simple;
+	bh=zijp3llFywVfpT9QYqAwWosPxjDdQf1YzfRMKsjJITo=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=g9CDga8FPIguHWyMU2i1rywnnR2oUp8lbcL1mXaAcEdpwLGQAI+D99DL16hcFwitoJ0vrkeSPAqeB+6ElR0xHUXfCvGt3Vv3aZQKCG/JkFLDkae09GHCW7o2JEUgSi9T6RVeDqUguICBC9XFaDl/3rko9LftE1xBHu8CvTasTmo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KAV+PJad; arc=none smtp.client-ip=209.85.214.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lukowski.dev header.i=@lukowski.dev header.b="YsYpiveu"
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=lukowski.dev;
-	s=default; t=1761052219;
-	bh=0VbGGm8QuRymx9t8Ko40ckdaZaN3jnugWP1LiWeKIgU=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=YsYpiveu3TLD14TqakeAEKL2jsZ8tmhq+YTGHfwwPzQYPaoAgsDKAfG0OwS/R78QG
-	 lV5Nk1wERZb4Zy1vycgndlgUvgRAzNIc61N3wWgYokXnDBjwcrOrHVTxWIsreJ/RF/
-	 EjB3fAYPbHR/CUg57KFb+4pJNNf5pJZj+edajUATpWgYKQkFQdwNIvVBoAdjJ6+rBa
-	 1/ezSFbHySRe00dfqHr7GZ/r5CPAMHy3gf4cPWUcVfWGJ2O1Doexqyvvpmx48V2vZW
-	 3+ejbBy8yPHqGkwNitwpY77HXyHZdq7+VtSgcdk1rjD+BpsJdKm/VN//c8iCpPv63B
-	 h25/jbUUwR6dA==
-Received: from mta-10.privateemail.com (localhost [127.0.0.1])
-	by mta-10.privateemail.com (Postfix) with ESMTP id 4crXhq5fkSz3hhV9;
-	Tue, 21 Oct 2025 09:10:19 -0400 (EDT)
-Received: from 1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.ip6.arpa (unknown [150.228.61.72])
-	by mta-10.privateemail.com (Postfix) with ESMTPA;
-	Tue, 21 Oct 2025 09:10:11 -0400 (EDT)
-From: Olle Lukowski <olle@lukowski.dev>
-Date: Tue, 21 Oct 2025 16:09:30 +0300
-Subject: [PATCH v2 3/3] staging: most: video: replace BUG_ON() with proper
- check
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KAV+PJad"
+Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-290aaff555eso55076475ad.2
+        for <linux-staging@lists.linux.dev>; Tue, 21 Oct 2025 07:38:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1761057489; x=1761662289; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=UKiewusGPdfvLoc26P5wfhNDeucWP0PGPLulc8zKMzw=;
+        b=KAV+PJad4k48yqNCTg9xLPfXlXq98L+d/6B5nNxUpPeSEYY17xwxLF769/H6zu37J5
+         xS4G3FhLg3e0ly7TZtr3LmB08Qj53pFI6Fz+EoICuWBBtPoJgwCQyvsPT0o4kuWWCsFB
+         e2corDdQAKS0R6nEFLtU1KeGDj5har6Yhc+r1UMyKy/j8yp4GLi4bY5bO0pb/jTOwZRz
+         L/67fiQ1augxjpsi39TULM27RWagkU+v1wvxcCHra06BlzvvVpfDhoRp/Z9uOAnJWiw3
+         HumXnYNi+UzY6H38G6cQHnH1c5DitoCEsugPSVCw+XGirlsYZ05ee8lPY7m1WLhTw50I
+         Sbpw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1761057489; x=1761662289;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=UKiewusGPdfvLoc26P5wfhNDeucWP0PGPLulc8zKMzw=;
+        b=vo5YN3RdaE7gJHFApZ07fOBgSAARc8kZh7P3U/S3cjS39cY/Ps2dqLe8Hcd2PKF51P
+         WPOTETU5+eokGhpjGGRUBCYREuHs50eMwTPTpCf3t9a5TxQTaoVLkSBy6kOekOT0ZMma
+         hNvnTtXL8lLIvLTwIydTqiITvRj9dDVB3Yw9VfazwYXHP4SxWhKdaRtU+hPqrVfvJFOM
+         rtrVCf7/+wFMk72iGb7Oi3DZ5xQJ8mD45EL8BR84mSNWJzIIGdgKxGAiFLhKj5384N7j
+         Elc60Y/HWtr8q6O+Bc8iwqBwVKiIHU7AtAkTjTEg3mDblqefV08Juv7PCO2iPaL3PoCK
+         cNgw==
+X-Gm-Message-State: AOJu0Yx+hnCNtThVqpBTpMjvPlTDbrr5NPsRi/YmPGtUfeE5etV2joRY
+	6qK81fqzkRFAdhDxiEBKURweN5aGx60VIxdyzNc7PrgN0UCsK3dVbv/0
+X-Gm-Gg: ASbGnctz1q1iU6zXsMYdSTTI4C34mwYdtW+xvvc23MI9HVIuBEdw36l4mENXOlLAmGT
+	tYas86r52oN+36ZQ/EDWyPh/oUqkSQDVxbhKy4ToA9uSJjAGkJoAi65TivwmPfWNUvCzjcv6V0X
+	uI+K7vzdHwcyBhw3wWbtnGJp9w4ffpEoQhBOxkgRR4BVe1Z98tynN161TyhGSLVXbyDL9xXw9VX
+	hn7ossPfg8qI9qVO5D4ISvfZal1eg7B3ARFicZtN+Q2NNIlw71HrpFoM/Q2zpptmo0ZUrQiYnk4
+	RXKN7p/1d/vv5o8PsoIVN2Y+/xL8bxIJG/Upo8/p2V3vMY9VAwXUUL9CHGXVQFWlu3ND8HFDO6m
+	JHLIsgvmrXfr0hZ2ZdsKg/Npv9L11mPkLUzGIfQho5E6u2iZEpHv84Fq8b0QTyjPKJ8hLN4cnKJ
+	53UpnY29KNIKsbdEXa8YwbF0DmRcJ7fvnn
+X-Google-Smtp-Source: AGHT+IEAWIf+CaPqoBesaJEFem/As0pZDf8BVCP9EBp2Myjg1sGwMyqnBAdPVf6U1o+b5r1Y//GycQ==
+X-Received: by 2002:a17:902:f70b:b0:283:c950:a76f with SMTP id d9443c01a7336-290cc2f91d2mr223574455ad.43.1761057488793;
+        Tue, 21 Oct 2025 07:38:08 -0700 (PDT)
+Received: from localhost.localdomain ([38.134.138.172])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-29246fd7e61sm111187215ad.35.2025.10.21.07.38.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 21 Oct 2025 07:38:08 -0700 (PDT)
+From: Dharanitharan R <dharanitharan725@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: linux-staging@lists.linux.dev,
+	dharanitharan27 <dharanitharanr05@gmail.com>,
+	Dharanitharan R <dharanitharan725@gmail.com>
+Subject: [PATCH] staging: rtl8723bs: use ether_addr_copy() and simplify NULL checks
+Date: Tue, 21 Oct 2025 14:37:39 +0000
+Message-ID: <20251021143739.35948-1-dharanitharan725@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20251021-staging-most-warn-v2-3-cd51e1e717f6@lukowski.dev>
-References: <20251021-staging-most-warn-v2-0-cd51e1e717f6@lukowski.dev>
-In-Reply-To: <20251021-staging-most-warn-v2-0-cd51e1e717f6@lukowski.dev>
-To: Parthiban Veerasooran <parthiban.veerasooran@microchip.com>, 
- Christian Gromm <christian.gromm@microchip.com>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, 
- Olle Lukowski <olle@lukowski.dev>
-X-Mailer: b4 0.14.3
-X-Virus-Scanned: ClamAV using ClamSMTP
+Content-Transfer-Encoding: 8bit
 
-Replace a BUG_ON() call with a proper check to prevent an unnecessary
-kernel panic.
+From: dharanitharan27 <dharanitharanr05@gmail.com>
 
-Signed-off-by: Olle Lukowski <olle@lukowski.dev>
+This patch addresses multiple checkpatch warnings and coding-style issues in rtl8723bs:
+
+- Lines 120, 212, 215, 249, 255, 256, 261, 262, 263: Replaced memcpy() with ether_addr_copy() for MAC/Ether address copies, following kernel best practices.
+
+These changes improve code clarity, align with Linux kernel style guidelines, and fix checkpatch.pl warnings.
+
+Tested by compiling the module successfully with:
+    make M=drivers/staging/rtl8723bs
+
+Signed-off-by: Dharanitharan R <dharanitharan725@gmail.com>
+Signed-off-by: dharanitharan27 <dharanitharanr05@gmail.com>
 ---
- drivers/staging/most/video/video.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ drivers/staging/rtl8723bs/hal/rtl8723b_cmd.c | 33 ++++++++++----------
+ 1 file changed, 17 insertions(+), 16 deletions(-)
 
-diff --git a/drivers/staging/most/video/video.c b/drivers/staging/most/video/video.c
-index 32f71d9a9..3a7ee2791 100644
---- a/drivers/staging/most/video/video.c
-+++ b/drivers/staging/most/video/video.c
-@@ -575,7 +575,8 @@ static void __exit comp_exit(void)
+diff --git a/drivers/staging/rtl8723bs/hal/rtl8723b_cmd.c b/drivers/staging/rtl8723bs/hal/rtl8723b_cmd.c
+index 63c4ebe9df12..af6cdda8238d 100644
+--- a/drivers/staging/rtl8723bs/hal/rtl8723b_cmd.c
++++ b/drivers/staging/rtl8723bs/hal/rtl8723b_cmd.c
+@@ -7,6 +7,7 @@
  
- 	most_deregister_configfs_subsys(&comp);
- 	most_deregister_component(&comp);
--	BUG_ON(!list_empty(&video_devices));
-+	if (!list_empty(&video_devices))
-+		pr_err("video_devices list not empty during exit\n");
+ #include <drv_types.h>
+ #include <rtl8723b_hal.h>
++#include <linux/etherdevice.h>
+ #include "hal_com_h2c.h"
+ 
+ #define MAX_H2C_BOX_NUMS	4
+@@ -117,8 +118,8 @@ static void ConstructBeacon(struct adapter *padapter, u8 *pframe, u32 *pLength)
+ 	*(fctrl) = 0;
+ 
+ 	eth_broadcast_addr(pwlanhdr->addr1);
+-	memcpy(pwlanhdr->addr2, myid(&(padapter->eeprompriv)), ETH_ALEN);
+-	memcpy(pwlanhdr->addr3, get_my_bssid(cur_network), ETH_ALEN);
++	ether_addr_copy(pwlanhdr->addr2, myid(&(padapter->eeprompriv)));
++	ether_addr_copy(pwlanhdr->addr3, get_my_bssid(cur_network));
+ 
+ 	SetSeqNum(pwlanhdr, 0/*pmlmeext->mgnt_seq*/);
+ 	/* pmlmeext->mgnt_seq++; */
+@@ -209,10 +210,10 @@ static void ConstructPSPoll(struct adapter *padapter, u8 *pframe, u32 *pLength)
+ 	SetDuration(pframe, (pmlmeinfo->aid | 0xc000));
+ 
+ 	/*  BSSID. */
+-	memcpy(pwlanhdr->addr1, get_my_bssid(&(pmlmeinfo->network)), ETH_ALEN);
++	ether_addr_copy(pwlanhdr->addr1, get_my_bssid(&(pmlmeinfo->network)));
+ 
+ 	/*  TA. */
+-	memcpy(pwlanhdr->addr2, myid(&(padapter->eeprompriv)), ETH_ALEN);
++	ether_addr_copy(pwlanhdr->addr2, myid(&(padapter->eeprompriv)));
+ 
+ 	*pLength = 16;
  }
+@@ -246,21 +247,21 @@ static void ConstructNullFunctionData(
+ 	switch (cur_network->network.infrastructure_mode) {
+ 	case Ndis802_11Infrastructure:
+ 		SetToDs(fctrl);
+-		memcpy(pwlanhdr->addr1, get_my_bssid(&(pmlmeinfo->network)), ETH_ALEN);
+-		memcpy(pwlanhdr->addr2, myid(&(padapter->eeprompriv)), ETH_ALEN);
+-		memcpy(pwlanhdr->addr3, StaAddr, ETH_ALEN);
++		ether_addr_copy(pwlanhdr->addr1, get_my_bssid(&(pmlmeinfo->network)));
++		ether_addr_copy(pwlanhdr->addr2, myid(&(padapter->eeprompriv)));
++		ether_addr_copy(pwlanhdr->addr3, StaAddr);
+ 		break;
+ 	case Ndis802_11APMode:
+ 		SetFrDs(fctrl);
+-		memcpy(pwlanhdr->addr1, StaAddr, ETH_ALEN);
+-		memcpy(pwlanhdr->addr2, get_my_bssid(&(pmlmeinfo->network)), ETH_ALEN);
+-		memcpy(pwlanhdr->addr3, myid(&(padapter->eeprompriv)), ETH_ALEN);
++		ether_addr_copy(pwlanhdr->addr1, StaAddr);
++		ether_addr_copy(pwlanhdr->addr2, get_my_bssid(&(pmlmeinfo->network)));
++		ether_addr_copy(pwlanhdr->addr3, myid(&(padapter->eeprompriv)));
+ 		break;
+ 	case Ndis802_11IBSS:
+ 	default:
+-		memcpy(pwlanhdr->addr1, StaAddr, ETH_ALEN);
+-		memcpy(pwlanhdr->addr2, myid(&(padapter->eeprompriv)), ETH_ALEN);
+-		memcpy(pwlanhdr->addr3, get_my_bssid(&(pmlmeinfo->network)), ETH_ALEN);
++		ether_addr_copy(pwlanhdr->addr1, StaAddr);
++		ether_addr_copy(pwlanhdr->addr2, myid(&(padapter->eeprompriv)));
++		ether_addr_copy(pwlanhdr->addr3, get_my_bssid(&(pmlmeinfo->network)));
+ 		break;
+ 	}
  
- module_init(comp_init);
-
+@@ -765,9 +766,9 @@ static void ConstructBtNullFunctionData(
+ 		SetPwrMgt(fctrl);
+ 
+ 	SetFrDs(fctrl);
+-	memcpy(pwlanhdr->addr1, StaAddr, ETH_ALEN);
+-	memcpy(pwlanhdr->addr2, myid(&padapter->eeprompriv), ETH_ALEN);
+-	memcpy(pwlanhdr->addr3, myid(&padapter->eeprompriv), ETH_ALEN);
++	ether_addr_copy(pwlanhdr->addr1, StaAddr);
++	ether_addr_copy(pwlanhdr->addr2, myid(&padapter->eeprompriv));
++	ether_addr_copy(pwlanhdr->addr3, myid(&padapter->eeprompriv));
+ 
+ 	SetDuration(pwlanhdr, 0);
+ 	SetSeqNum(pwlanhdr, 0);
 -- 
-2.51.1
+2.43.0
 
