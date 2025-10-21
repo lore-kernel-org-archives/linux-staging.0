@@ -1,39 +1,39 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6088C3446CF;
-	Tue, 21 Oct 2025 16:02:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A0CA330D3D;
+	Tue, 21 Oct 2025 16:02:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761062543; cv=none; b=shLBjYcZITkclAYFyJrYifziijDTjnPFWFVJhad/jLIbc07T+MXrctHSd9D07I0WbQ8W99oJL5q/Hclp8+NiVLGzdZwEysRIKNmMiDWK94nIRJLr9wUGo4tUXVgFc8Rps/YnyqiKkVe4zf/QL7TYkuUQ+xF1+SF1yQbEwsk7kDE=
+	t=1761062573; cv=none; b=TZSf7jkTgpvVVHhkWnWOj0kKm4mrfI2JOdQ3GYbd8TB37pQ1drXVRqGCf49ozBI+2M3De9k3FHrD0uKivQYC19Bqp6BOTjiNvjSpscu15M/EgffRTH9ZSq2yAFMHwHb92zq6wdTg4/D7DTpgLEnO9bURw2csJEoHSjvGHTiBKKo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761062543; c=relaxed/simple;
-	bh=P+RznSpBWRdr/Wlu6he4/KMoMQItfGKiQ752hnJNb/c=;
+	s=arc-20240116; t=1761062573; c=relaxed/simple;
+	bh=RN+xlzuSwV5Gi4/RsAUYxVegWRCsuaR+Gqa7ha8Fuho=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Ol1PKTuybHW3P+kWxXKdhcnasu7W7cZKnSkxAsQfy4vgYNYonj3eGW10m7BfTb03P0u8ZccOeGIqQVrxKETOyCPe33setU9enjmWDyFg3vfX3ZL1git14KFncfSBZTjRCAqPz19G9O486ntzlhrw2rbqRx4gsBl7qwwmtuFlobE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=DbD6kg6h; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=ua5pMB8AqjdweNSghVzDlyS7hu+a3jtgQKxguC6kRCPbp5xZ8i/KABF1xbu1W6tPk/SRSdofYocYKY0rZWFYft+mDTwJ/L32p9+ra7RZV72niMhfC3bvcatLmhFEcsuDQv6p4mVDZqMGDCSUscaTzkWCP1pbyRfDOlwAeXFgLoE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=re3yaQ7F; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="DbD6kg6h"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 808A3C4CEF1;
-	Tue, 21 Oct 2025 16:02:22 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="re3yaQ7F"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 88D46C4CEF5;
+	Tue, 21 Oct 2025 16:02:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1761062542;
-	bh=P+RznSpBWRdr/Wlu6he4/KMoMQItfGKiQ752hnJNb/c=;
+	s=korg; t=1761062572;
+	bh=RN+xlzuSwV5Gi4/RsAUYxVegWRCsuaR+Gqa7ha8Fuho=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=DbD6kg6hLcoZvgzNxQtrDdlbOIKwnHfHmXS5Pb9WiJ6mow4aewkOuCtKt5H/ioUXj
-	 zFsKXt/8imt+95CY4ejCDvu9VxV1X2sV4dJAu7/LgYl7txsfKgLg7y5+7N+S26j4P9
-	 flh+VX/arOuNFNdql8GgZ/dgjx6jLvl77/SK3FRE=
-Date: Tue, 21 Oct 2025 18:02:20 +0200
+	b=re3yaQ7FXhbwlwEfaTIdmRra46d2G+MHFnpiwvWDg1YKmshp5Gh2571N9b8hxrEbF
+	 oSwzfCh8BUjjX/QqiwjS5XI9wVB7LlIWF8pxbotDLp2Tzz/AvEe7w0SzavaH2uCWbs
+	 j4CMJAQahl/9fXUr0Q2m/lkK4aSJXcJQKzdqaFwQ=
+Date: Tue, 21 Oct 2025 18:02:50 +0200
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To: Olle Lukowski <olle@lukowski.dev>
 Cc: Parthiban Veerasooran <parthiban.veerasooran@microchip.com>,
 	Christian Gromm <christian.gromm@microchip.com>,
 	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 2/3] staging: most: dim2: replace BUG_ON() with proper
- checks and error returns
-Message-ID: <2025102108-smartness-rework-238c@gregkh>
+Subject: Re: [PATCH v2 3/3] staging: most: video: replace BUG_ON() with
+ proper check
+Message-ID: <2025102127-polio-opossum-f40b@gregkh>
 References: <20251021-staging-most-warn-v2-0-cd51e1e717f6@lukowski.dev>
- <20251021-staging-most-warn-v2-2-cd51e1e717f6@lukowski.dev>
+ <20251021-staging-most-warn-v2-3-cd51e1e717f6@lukowski.dev>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -42,55 +42,30 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251021-staging-most-warn-v2-2-cd51e1e717f6@lukowski.dev>
+In-Reply-To: <20251021-staging-most-warn-v2-3-cd51e1e717f6@lukowski.dev>
 
-On Tue, Oct 21, 2025 at 04:09:29PM +0300, Olle Lukowski wrote:
-> Replace BUG_ON() calls with proper checks to prevent unnecessary kernel
-> panics. Return appropriate error codes (-EINVAL or -EFAULT) instead of
-> crashing the system.
+On Tue, Oct 21, 2025 at 04:09:30PM +0300, Olle Lukowski wrote:
+> Replace a BUG_ON() call with a proper check to prevent an unnecessary
+> kernel panic.
 > 
 > Signed-off-by: Olle Lukowski <olle@lukowski.dev>
 > ---
->  drivers/staging/most/dim2/dim2.c | 27 +++++++++++++++++++--------
->  1 file changed, 19 insertions(+), 8 deletions(-)
+>  drivers/staging/most/video/video.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
 > 
-> diff --git a/drivers/staging/most/dim2/dim2.c b/drivers/staging/most/dim2/dim2.c
-> index dad2abe6c..d0832704b 100644
-> --- a/drivers/staging/most/dim2/dim2.c
-> +++ b/drivers/staging/most/dim2/dim2.c
-> @@ -166,8 +166,10 @@ static int try_start_dim_transfer(struct hdm_channel *hdm_ch)
->  	unsigned long flags;
->  	struct dim_ch_state st;
+> diff --git a/drivers/staging/most/video/video.c b/drivers/staging/most/video/video.c
+> index 32f71d9a9..3a7ee2791 100644
+> --- a/drivers/staging/most/video/video.c
+> +++ b/drivers/staging/most/video/video.c
+> @@ -575,7 +575,8 @@ static void __exit comp_exit(void)
 >  
-> -	BUG_ON(!hdm_ch);
-> -	BUG_ON(!hdm_ch->is_initialized);
-> +	if (!hdm_ch)
-> +		return -EINVAL;
-> +	if (!hdm_ch->is_initialized)
-> +		return -EINVAL;
+>  	most_deregister_configfs_subsys(&comp);
+>  	most_deregister_component(&comp);
+> -	BUG_ON(!list_empty(&video_devices));
+> +	if (!list_empty(&video_devices))
+> +		pr_err("video_devices list not empty during exit\n");
 
-Can these things ever actually happen?  In looking at the code, I don't
-see how that could be, do you?
-
-Let's not check for things that are impossible to ever hit.
-
-Same with the other changes in this series, please verify that these are
-actually possible to happen.  If not, then just remove the check.
-
->  	spin_lock_irqsave(&dim_lock, flags);
->  	if (list_empty(head)) {
-> @@ -188,7 +190,11 @@ static int try_start_dim_transfer(struct hdm_channel *hdm_ch)
->  		return -EAGAIN;
->  	}
->  
-> -	BUG_ON(mbo->bus_address == 0);
-> +	if (mbo->bus_address == 0) {
-> +		spin_unlock_irqrestore(&dim_lock, flags);
-> +		return -EFAULT;
-
-You need to do more than just that here :(
-
-Please be very careful on error paths to properly clean up everything.
+Is this possible to ever have happen?
 
 thanks,
 
