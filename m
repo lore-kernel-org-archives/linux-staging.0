@@ -1,82 +1,80 @@
-Received: from MTA-08-4.privateemail.com (mta-08-4.privateemail.com [198.54.122.147])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB93032E741
-	for <linux-staging@lists.linux.dev>; Tue, 21 Oct 2025 12:17:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.54.122.147
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BEA681624DF;
+	Tue, 21 Oct 2025 12:24:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761049060; cv=none; b=kV7V5JYkEbTVselZ9jSmVwS29cMicYaqEmebZrJ4av7Uk+krtA7zoiPGgBiytQg67Ic7wAaE8FLjhwznnjslSVZ0JUoa2fWBzGECXTf/2BJBECxFKSwGyaip5TC2B/YBHDvJQxeccDE++dnvALDclbx2CCvHMgLkk0HRmW/dJPA=
+	t=1761049490; cv=none; b=uFVo3Sv3uyg2tC/4Slw7vkeqlr5gp63XSukzaCd2fWhACu4e4AvkHCcPP0YydJRk0mhdf/T5Jh9Up5WuyClWrM67mo03/43oiNtLdYTdEOBms9l9ULy80R5qBG0nMPDJuPhfi2IaLuOOuTt6o/GJSAbrv07tYgnFCmJ7aeF5UMA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761049060; c=relaxed/simple;
-	bh=EQ2mAkbfUcR1AbZvzRKx7HHNMZ/kBLbls2HmoypncFU=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=EtpXAFXl+n46mMzgFhpJA4vHe/eNW5gAfoI14AuzSgDPF3L7BpnnSkyuJYqfmtmHXi9rW7cWXJJvJYS8h7PLTTd1RtWXZvQcbjb76mCcsvk4gyt/aJxoAnQZcl4wrztxyl92E0ssaMHRrmGNsZ3jaU4Bp3rHd+qlhkus0eOTnZU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=lukowski.dev; spf=pass smtp.mailfrom=lukowski.dev; dkim=pass (2048-bit key) header.d=lukowski.dev header.i=@lukowski.dev header.b=LqyQMGdK; arc=none smtp.client-ip=198.54.122.147
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=lukowski.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lukowski.dev
+	s=arc-20240116; t=1761049490; c=relaxed/simple;
+	bh=WTwCxXhyf3l6LHnurbDVNOc2H94EiEBW7MvtPFkctKI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Nb2tSXzQiLtlWYv9WRr966cXswaEAYhk0MTayZChn/vRd9HVIw4iZQAKiNOpUtfmyGOJbpRB+uYjXhzlGjlWdHtaVVjiYYlQptHwrLthtxWawy8syODEG1FbvqYYBmIFgb7U8L5nW/0RQubHrY8LVbeUEwi/NxefULHDYu24owY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=V+24LYlZ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lukowski.dev header.i=@lukowski.dev header.b="LqyQMGdK"
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=lukowski.dev;
-	s=default; t=1761049053;
-	bh=EQ2mAkbfUcR1AbZvzRKx7HHNMZ/kBLbls2HmoypncFU=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=LqyQMGdKz6c84oIYELA+k5M6blxFQ64M3+/kzI/+mTvf1NlbLrQbW5T1iaom48Qf3
-	 4BHBgSf2wuSqISCHTUqeJwBr7CFtnycib+Xk4V3s/IR0bDHtp+lQGaNFdNrnAm0vQX
-	 vHWojL92vSQ1MgBjFHhSCdzG1gd1L6vSd4BAvit8Dzf3zw8dkQY9MCIcCby8VxoM7R
-	 ANK7jz6HR7RzTwK0IA82a8ket/7qdM024QL4OBDe+f5VnzhSRrsNzIR9GHvBqq/jFn
-	 XvzQhpLrdogAupRZVhH9TcjrjK+eMNvsSysKLztKvZrL99V9TKg1qe37g0P13dTBFP
-	 KhjHk1pyqxEgg==
-Received: from mta-08.privateemail.com (localhost [127.0.0.1])
-	by mta-08.privateemail.com (Postfix) with ESMTP id 4crWWx5KJ2z3hhTc;
-	Tue, 21 Oct 2025 08:17:33 -0400 (EDT)
-Received: from 1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.ip6.arpa (unknown [150.228.61.72])
-	by mta-08.privateemail.com (Postfix) with ESMTPA;
-	Tue, 21 Oct 2025 08:17:25 -0400 (EDT)
-From: Olle Lukowski <olle@lukowski.dev>
-Date: Tue, 21 Oct 2025 15:16:29 +0300
-Subject: [PATCH 3/3] staging: most: video: replace BUG_ON() with
- WARN_ON_ONCE()
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="V+24LYlZ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E7393C4CEF1;
+	Tue, 21 Oct 2025 12:24:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1761049490;
+	bh=WTwCxXhyf3l6LHnurbDVNOc2H94EiEBW7MvtPFkctKI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=V+24LYlZPV06a4J85K5fAD/qI7DbdEKC3xQf1BUZG1qbco28dYO/tLSm7Q8g144Vi
+	 ldK38HrQR9hrPzB5pZv3wrMcwZmVfnXx4lb3g1wXH3maNBveyfiTatayzaXUuir/+A
+	 9MB89714EsWvM2qC4EmTaibD9FII3NZvXvZGA1Ro=
+Date: Tue, 21 Oct 2025 14:24:47 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Olle Lukowski <olle@lukowski.dev>
+Cc: Parthiban Veerasooran <parthiban.veerasooran@microchip.com>,
+	Christian Gromm <christian.gromm@microchip.com>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/3] staging: most: i2c: replace BUG_ON() with
+ WARN_ON_ONCE() and return error
+Message-ID: <2025102130-siberian-rut-3a96@gregkh>
+References: <20251021-staging-most-warn-v1-0-4cdd3745bbdc@lukowski.dev>
+ <20251021-staging-most-warn-v1-1-4cdd3745bbdc@lukowski.dev>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20251021-staging-most-warn-v1-3-4cdd3745bbdc@lukowski.dev>
-References: <20251021-staging-most-warn-v1-0-4cdd3745bbdc@lukowski.dev>
-In-Reply-To: <20251021-staging-most-warn-v1-0-4cdd3745bbdc@lukowski.dev>
-To: Parthiban Veerasooran <parthiban.veerasooran@microchip.com>, 
- Christian Gromm <christian.gromm@microchip.com>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, 
- Olle Lukowski <olle@lukowski.dev>
-X-Mailer: b4 0.14.3
-X-Virus-Scanned: ClamAV using ClamSMTP
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251021-staging-most-warn-v1-1-4cdd3745bbdc@lukowski.dev>
 
-Replace a BUG_ON() call with WARN_ON_ONCE() to prevent an unnecessary
-kernel panic.
+On Tue, Oct 21, 2025 at 03:16:27PM +0300, Olle Lukowski wrote:
+> Replace BUG_ON() checks for invalid channel indices with WARN_ON_ONCE()
+> and return -EINVAL to avoid crashing the kernel unnecessarily.
+> 
+> Signed-off-by: Olle Lukowski <olle@lukowski.dev>
+> ---
+>  drivers/staging/most/i2c/i2c.c | 9 ++++++---
+>  1 file changed, 6 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/staging/most/i2c/i2c.c b/drivers/staging/most/i2c/i2c.c
+> index 184b2dd11..b9267c3fc 100644
+> --- a/drivers/staging/most/i2c/i2c.c
+> +++ b/drivers/staging/most/i2c/i2c.c
+> @@ -71,7 +71,8 @@ static int configure_channel(struct most_interface *most_iface,
+>  	struct hdm_i2c *dev = to_hdm(most_iface);
+>  	unsigned int delay, pr;
+>  
+> -	BUG_ON(ch_idx < 0 || ch_idx >= NUM_CHANNELS);
+> +	if (WARN_ON_ONCE(ch_idx < 0 || ch_idx >= NUM_CHANNELS))
+> +		return -EINVAL;
 
-Signed-off-by: Olle Lukowski <olle@lukowski.dev>
----
- drivers/staging/most/video/video.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+If this is something that can actually ever happen, this change really
+doesn't do anything well.  Many systems (i.e. the HUGE majority of Linux
+instances in the world, billions) are running with panic-on-warn set, so
+that means this will still reboot the box.
 
-diff --git a/drivers/staging/most/video/video.c b/drivers/staging/most/video/video.c
-index 32f71d9a9..3a622bd59 100644
---- a/drivers/staging/most/video/video.c
-+++ b/drivers/staging/most/video/video.c
-@@ -575,7 +575,7 @@ static void __exit comp_exit(void)
- 
- 	most_deregister_configfs_subsys(&comp);
- 	most_deregister_component(&comp);
--	BUG_ON(!list_empty(&video_devices));
-+	WARN_ON_ONCE(!list_empty(&video_devices));
- }
- 
- module_init(comp_init);
+So please, just properly handle the issue and return an error and do not
+panic the system.
 
--- 
-2.51.1
+Same for the other patches in this series.
 
+thanks,
+
+greg k-h
