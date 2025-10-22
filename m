@@ -1,63 +1,63 @@
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 336FE34F262
-	for <linux-staging@lists.linux.dev>; Wed, 22 Oct 2025 14:21:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF1C234F253
+	for <linux-staging@lists.linux.dev>; Wed, 22 Oct 2025 14:21:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761142921; cv=none; b=ArLS1Xjk09Hd2QlqezmcN5/OiTGLq8tA6w9CxMNGNXOvY5cL6FoCxIK01wG9+vADTE7g+QDm8Y276alW6lM9EjDST1XEsPbQjVTIWLG8nUAIzs4BwgmbYDtvRJT5rEWe2rumElWEt0hi748gDpocYiSFYZU6e00Atfk0IztzieQ=
+	t=1761142923; cv=none; b=Sqcr2i3rCPx6eKQEG//ajWhgABIihPl/SZX20hveMOzCJbffyAk72y+MIGvXWi+j78ydjNF3iSIL3CqskmFbhJmCd65EC8aa8IFQeOwuYVAWxyCZVRwwmka32j7/39mHlOlwA51CeG1R8Fgauw3zUhhViB41DUykzS4OQI8gH6w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761142921; c=relaxed/simple;
-	bh=C7vJ1F7cTRJlUjfw/9ZIDrW99S3GCg1Ni6T3HWcAFl4=;
+	s=arc-20240116; t=1761142923; c=relaxed/simple;
+	bh=LMNj3RJtvSAolKc/cNyymmQWeXKMjtcs4eYn8DUf4jQ=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=MkXCOmjM7C+jnVyGUMsNnSql/iWMP0De3WxWGPDO6SvfOgevkVFzP/sYdlwI/WNNfxDy3umAGllBND4sOygTFEDkHpdlvFmCdcx1q74C4Vd3Q3fhf05jBkf+6PKGlyJtG9NI98+CyJ/TQfCdC6yob74Iq/Wd3LGAm+4BQgMq2B4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ne2nBSo4; arc=none smtp.client-ip=209.85.221.53
+	 MIME-Version; b=hvkE0JAbthGopqrnfofZDGqoHTf8CcJgkfJYohZGDrtOiSYOSmkR4NSUXqIm57g2VYZPpSYu5CSKsWuyBDgxWhDQxI94MA5D5t1249ftcb4EtnPessdcAfU5Qf7j/+3Ix7Kkc9LE6dT8tvWyevCzGn4YkJsN99p3FLJezrPwnMM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Coo91kPN; arc=none smtp.client-ip=209.85.221.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ne2nBSo4"
-Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-3ee15b5435bso6525413f8f.0
-        for <linux-staging@lists.linux.dev>; Wed, 22 Oct 2025 07:21:56 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Coo91kPN"
+Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-3ee12807d97so6410865f8f.0
+        for <linux-staging@lists.linux.dev>; Wed, 22 Oct 2025 07:21:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1761142912; x=1761747712; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1761142915; x=1761747715; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=wWzzLwH6jgxXjmQF82SSMCUND+xg2EriGxgvFhDvOZc=;
-        b=ne2nBSo4V8lUxPTv1nb4h8EanYzn81ZdOSsm7SNeKx3EZmd8bxSAl42R/B/MuFS1uf
-         PwVXgjBZ5qx27tgzaRIAA1hGSNT6SoEzIOAF1F+zOSB5zxJrRaQSQkm/9HGnMTbuUqyF
-         +hdd2qHMuQiXlsIHwQOd2dtmPM5nNUOI5yI5DfTBCzIFpLWZ3nX7PZLPCk/Z/wrIlv+O
-         fOaUnwYFcLbWTpuBhtqipYVNvyFKKuCFqc1TM/QKO8iNIAcMhX2xTg40ZpAOLgSOuqNt
-         ra+MielIynCCp5A/uW5nNxazAHzspcvC3ppET9TuWYd1QYZqJ0w5hKjItx39Dw+l05RN
-         XU2w==
+        bh=kNqGqTCCsfPGbDV/XUSDGT/efKZfdWLbKEq+jQy+Hag=;
+        b=Coo91kPNOfuZOE8FYi/BsgHI7kdmBcU0yKyNpUvR/JZd0o7OLRhGXo/Zaqkniu1Y0j
+         OVwuyr4RoVDw5ilkJSJClHmybNE6iOytyUz8MAtAaJik2kPSzh+Hv6r4VyktaF+iNoEi
+         lM9l8btcbcdnYm/lIe98G4uhwaTlK/UhKKNeF1cNM5n6ZItR0sJizHE0u3iwJ9jfuFS1
+         SS/dW3OjCT1k12uvS/VT35oOS8/v7Gl+fsat4Jo5lf+g9HNzIVAz5zxnakJMxRD031Hv
+         secdK/y5YguSIAUfnYsXTPDeai02KJxMG7SUnC7ubDdtY+XzphkycZDyfjv6AFWztmP7
+         109A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761142912; x=1761747712;
+        d=1e100.net; s=20230601; t=1761142915; x=1761747715;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=wWzzLwH6jgxXjmQF82SSMCUND+xg2EriGxgvFhDvOZc=;
-        b=I9+GCfJQKboIdVjAyPjYV7BhOatM2djXjS9AghRr34i1a/G5MV702iiB2PtjgIC8zo
-         5SXmc+td6USrxbBO563w+iYty7lUtqne7JHWHriurRuWzGJrOmhOmzIRtgDJDE/PswVQ
-         aHg6cHKUCF2pyYA7u/unhxU3BonjK3dm9ijyqdpac34K+uj89vKKSV0shmZiS01z/hw+
-         nwxXNJBKHMLjp13khqGWR2p/+zqRZ7gYqs/+p2veRMmBWAedusUDp7WvxOAGuJxccO0f
-         BC3wIhrMtUctPP3uOXXdTiCJmpdExt4nnvm5BdDBkHR6Ow7tBTcUkmTHxXUdJYbQphMf
-         Y0mg==
-X-Forwarded-Encrypted: i=1; AJvYcCUEZ52xi9ZFWpqge7yv75MMBLeiUj1vm4UY4SvlwbqaROegwN2MvxDQM7aHQThpxlhepe4AEgFtfP1Hjepy@lists.linux.dev
-X-Gm-Message-State: AOJu0YzpxPWRJEAx7qdFeT9fdsyOqiTK5wgybkn4xEhtNJL/RmBlRLCe
-	lj7JK8deLKR9k9ISvrPNe2540J2SO0rTPxZZOmyf1vIST2MVz2pIvSaL
-X-Gm-Gg: ASbGncuG/RM/3rleL6BuZ5F0D4gZsGSVmv25r8uiVNkriO9qYzuu9JbPd9O55DU6SQz
-	iNvMkntrHfUL8Cl+3vB6GujSCBEzK33Ek/JDh/1mVPEjMFW/CCNkS6GwLrJdkESCiXM6jyfTIJz
-	CIck8Mteh7Fcx3pBX1GalexJylnhlTy1tREKS7f3c20FKcJiLk9KbwyXVp5ML5qDc8Av+93aJm9
-	cOMIN56wcDJKniYIcKkCjCtv7PZ9S7FuQk/kRZdkiiQEw/qh5l6uMPbTCN9xmuYxbDZs3/o//Yj
-	PGjyqrVNBlAVGZ4rKqx3YB5Alxs+3VVAJaQSTzBUI09i+l9KbTggVbe362bAjxuLCwOzjHJCMVh
-	uLrt2G5+NG45xIqgZrxSyIJ2UbyYPfumEapdoXuDdWcHnCwaKwaULVJUY0TF0qPnMUMI=
-X-Google-Smtp-Source: AGHT+IFxEX5dT11epaReQydShPRaD3ap7YNMoGZ00ekJglzcEJYx4BxQ7S6YQXgiTMxPpQinmI9SWQ==
-X-Received: by 2002:a05:6000:2087:b0:427:921:8985 with SMTP id ffacd0b85a97d-42709218a51mr12660456f8f.40.1761142911810;
-        Wed, 22 Oct 2025 07:21:51 -0700 (PDT)
+        bh=kNqGqTCCsfPGbDV/XUSDGT/efKZfdWLbKEq+jQy+Hag=;
+        b=Bii/hsUiaTdZxlIk9xYg2ZQnDBWqsHjviTzbvhoQqftJN1FfN8yDEAGZG/LTRUdPcZ
+         YxVGnosol16BH67fAtdrEnrMQ1fpoZDekOfnO1751RPq2lGhMKxQ42d/FvVORh+Gx87Q
+         HI1zT4IjLylShnSfZ2aLyp5r5L05/nffoNcOVamWAQp2xEAo8nWcV0smOCZwhFqLDcPc
+         XrJm2dt81Ny7pShFLqxxIPujPPxhOvkysCSHf2vALyZQOuUVz0vuPu9BgSPiurS0TnG5
+         M64lwzWpyTiQHw1VFeoHpSC99Mj/zx8aK4lB9yKj2+Ge4vTBTHbo6lOvhl1JlTzKq9wq
+         wiqg==
+X-Forwarded-Encrypted: i=1; AJvYcCX4EmouKdi3UYHvzuduVONv4mR3XUz7JUaai7MKXxx5laKN8OAUL2tZmh8eaQJWSNYaBi+7C8Gm0vogP+gx@lists.linux.dev
+X-Gm-Message-State: AOJu0Yz2qeW0PTfQsnSs5XNauBKXcd1J965O5iW9GmhUCRU6oz8NAGBU
+	2yNDGHpbB274Cd0Gn4JQAZXCgtsVc+NyLFs4hHmvBX9klfcfMs9wS9G6
+X-Gm-Gg: ASbGncslxlGzTrn1SjF8ZqTYJ5AXoMc2JY1CGxaqHEJRd6kMPXounUD4/gdUvdKwOHR
+	wAIbwvSjx3BATea0OUx2LZOb5eCsNhd8XEetYvYp5xfpr79qo3KS8BFyY15foZd0L0JfkuB/mIE
+	zhF73fG18UH1rC7PVwMzYhQj0IflhlTYqaHV2Ll1vlRJ/nuWGx4Nf3RP69xwY020rR06sVD59rJ
+	HfI1y5wiJyJbkJyP13n9doNn7efBg7nfD1Ztecj6yW9+YJX2j2AZYrP3HR1vNnuyIWnX+Ncs01r
+	OquDBcJ9Omr4DQ/ESQAWWMLeWMFFt5GmWqBrcpoWIyaDegCCkhwjZUN/D7KsPiYcQVgMmLYcKMv
+	S6Vord1QJZxyAnMHBf4LdiRxO88JgRazyW4mJ9SrnVP7bJbReMW0uiwcEbsLbAaNmQ+4=
+X-Google-Smtp-Source: AGHT+IFX0XnrlT4GW6rKQFEmK1orh25Up0PxK9L9DQEcm8KVBweiXSL9uA4QjEkF/hiMIpTbvZ0SpQ==
+X-Received: by 2002:a5d:64c4:0:b0:426:d51c:4d71 with SMTP id ffacd0b85a97d-42704d44253mr11937579f8f.8.1761142915306;
+        Wed, 22 Oct 2025 07:21:55 -0700 (PDT)
 Received: from xeon.. ([188.163.112.61])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-427ea5b3d4csm24803518f8f.19.2025.10.22.07.21.50
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-427ea5b3d4csm24803518f8f.19.2025.10.22.07.21.53
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 22 Oct 2025 07:21:51 -0700 (PDT)
+        Wed, 22 Oct 2025 07:21:54 -0700 (PDT)
 From: Svyatoslav Ryhel <clamor95@gmail.com>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
 	Maxime Ripard <mripard@kernel.org>,
@@ -91,9 +91,9 @@ Cc: dri-devel@lists.freedesktop.org,
 	linux-media@vger.kernel.org,
 	linux-clk@vger.kernel.org,
 	linux-staging@lists.linux.dev
-Subject: [PATCH v5 16/23] staging: media: tegra-video: tegra20: adjust format align calculations
-Date: Wed, 22 Oct 2025 17:20:44 +0300
-Message-ID: <20251022142051.70400-17-clamor95@gmail.com>
+Subject: [PATCH v5 18/23] staging: media: tegra-video: tegra20: increase maximum VI clock frequency
+Date: Wed, 22 Oct 2025 17:20:46 +0300
+Message-ID: <20251022142051.70400-19-clamor95@gmail.com>
 X-Mailer: git-send-email 2.48.1
 In-Reply-To: <20251022142051.70400-1-clamor95@gmail.com>
 References: <20251022142051.70400-1-clamor95@gmail.com>
@@ -105,81 +105,28 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Expand supported formats structure with data_type and bit_width fields
-required for CSI support. Adjust tegra20_fmt_align by factoring out common
-bytesperline and sizeimage calculation logic shared by supported planar
-and non-planar formats and leaving planar-related correction under a
-switch.
+Increase maximum VI clock frequency to 450MHz to allow correct work with
+high resolution camera sensors.
 
 Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
 Reviewed-by: Mikko Perttunen <mperttunen@nvidia.com>
 ---
- drivers/staging/media/tegra-video/tegra20.c | 39 ++++++++++-----------
- 1 file changed, 19 insertions(+), 20 deletions(-)
+ drivers/staging/media/tegra-video/tegra20.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/drivers/staging/media/tegra-video/tegra20.c b/drivers/staging/media/tegra-video/tegra20.c
-index 7c3ff843235d..ffaaa2bb8269 100644
+index 93105ed57ca7..149386a15176 100644
 --- a/drivers/staging/media/tegra-video/tegra20.c
 +++ b/drivers/staging/media/tegra-video/tegra20.c
-@@ -280,18 +280,13 @@ static void tegra20_fmt_align(struct v4l2_pix_format *pix, unsigned int bpp)
- 	pix->width  = clamp(pix->width,  TEGRA20_MIN_WIDTH,  TEGRA20_MAX_WIDTH);
- 	pix->height = clamp(pix->height, TEGRA20_MIN_HEIGHT, TEGRA20_MAX_HEIGHT);
- 
-+	pix->bytesperline = roundup(pix->width, 8) * bpp;
-+	pix->sizeimage = pix->bytesperline * pix->height;
-+
- 	switch (pix->pixelformat) {
--	case V4L2_PIX_FMT_UYVY:
--	case V4L2_PIX_FMT_VYUY:
--	case V4L2_PIX_FMT_YUYV:
--	case V4L2_PIX_FMT_YVYU:
--		pix->bytesperline = roundup(pix->width, 2) * 2;
--		pix->sizeimage = roundup(pix->width, 2) * 2 * pix->height;
--		break;
- 	case V4L2_PIX_FMT_YUV420:
- 	case V4L2_PIX_FMT_YVU420:
--		pix->bytesperline = roundup(pix->width, 8);
--		pix->sizeimage = roundup(pix->width, 8) * pix->height * 3 / 2;
-+		pix->sizeimage = pix->sizeimage * 3 / 2;
- 		break;
- 	}
- }
-@@ -576,20 +571,24 @@ static const struct tegra_vi_ops tegra20_vi_ops = {
- 	.vi_stop_streaming = tegra20_vi_stop_streaming,
+@@ -598,7 +598,7 @@ const struct tegra_vi_soc tegra20_vi_soc = {
+ 	.ops = &tegra20_vi_ops,
+ 	.hw_revision = 1,
+ 	.vi_max_channels = 2, /* TEGRA_VI_OUT_1 and TEGRA_VI_OUT_2 */
+-	.vi_max_clk_hz = 150000000,
++	.vi_max_clk_hz = 450000000,
+ 	.has_h_v_flip = true,
  };
  
--#define TEGRA20_VIDEO_FMT(MBUS_CODE, BPP, FOURCC)	\
--{							\
--	.code    = MEDIA_BUS_FMT_##MBUS_CODE,		\
--	.bpp     = BPP,					\
--	.fourcc  = V4L2_PIX_FMT_##FOURCC,		\
-+#define TEGRA20_VIDEO_FMT(DATA_TYPE, BIT_WIDTH, MBUS_CODE, BPP, FOURCC)	\
-+{									\
-+	.img_dt		= TEGRA_IMAGE_DT_##DATA_TYPE,			\
-+	.bit_width	= BIT_WIDTH,					\
-+	.code		= MEDIA_BUS_FMT_##MBUS_CODE,			\
-+	.bpp		= BPP,						\
-+	.fourcc		= V4L2_PIX_FMT_##FOURCC,			\
- }
- 
- static const struct tegra_video_format tegra20_video_formats[] = {
--	TEGRA20_VIDEO_FMT(UYVY8_2X8, 2, UYVY),
--	TEGRA20_VIDEO_FMT(VYUY8_2X8, 2, VYUY),
--	TEGRA20_VIDEO_FMT(YUYV8_2X8, 2, YUYV),
--	TEGRA20_VIDEO_FMT(YVYU8_2X8, 2, YVYU),
--	TEGRA20_VIDEO_FMT(UYVY8_2X8, 1, YUV420),
--	TEGRA20_VIDEO_FMT(UYVY8_2X8, 1, YVU420),
-+	/* YUV422 */
-+	TEGRA20_VIDEO_FMT(YUV422_8, 16, UYVY8_2X8, 2, UYVY),
-+	TEGRA20_VIDEO_FMT(YUV422_8, 16, VYUY8_2X8, 2, VYUY),
-+	TEGRA20_VIDEO_FMT(YUV422_8, 16, YUYV8_2X8, 2, YUYV),
-+	TEGRA20_VIDEO_FMT(YUV422_8, 16, YVYU8_2X8, 2, YVYU),
-+	/* YUV420P */
-+	TEGRA20_VIDEO_FMT(YUV422_8, 16, UYVY8_2X8, 1, YUV420),
-+	TEGRA20_VIDEO_FMT(YUV422_8, 16, UYVY8_2X8, 1, YVU420),
- };
- 
- const struct tegra_vi_soc tegra20_vi_soc = {
 -- 
 2.48.1
 
