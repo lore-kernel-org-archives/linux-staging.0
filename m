@@ -1,172 +1,266 @@
-Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E4FD34E74A
-	for <linux-staging@lists.linux.dev>; Wed, 22 Oct 2025 14:26:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71E3734845B
+	for <linux-staging@lists.linux.dev>; Wed, 22 Oct 2025 14:49:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761143203; cv=none; b=PB4yn2hs5JCS4q4JOIMXDLow9Q2e5yGPrK+Qg4p7kr6ILmGGV3D1t+YBhgnMt4poxgAE9tY92xJI1iH8KugdvpdJJGagUladJLgrjhje3vm+J05+wuIo9CxXMjku0LwwHqTbTkqPfTJUncGQtH0duJah5p7o5FCuK9dqEASzQSA=
+	t=1761144582; cv=none; b=tuQrUOWtARx0LafVvI6Yduqf/mCHQb2PYwu6BTi/PzMTldocWaYjQ3OOon1dSavbr5gA/7+o128VND2+nORjvxhJfLnERrqzyG2kDhSEjK7XDL/AZqM3RO6TjoJtMBiXAPTdgLC7AixGhdDLXTuiZIkiRi7KXVVoo0f3K8ZohA4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761143203; c=relaxed/simple;
-	bh=0yDEVFPlpDrDY4lSgYlw+L+esP2rwCt9Zxk6fxftYBc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=NgUlcm0Lv7S81uv/Rh2o8WqKrqJqbMfX0JSux4smpwyvTBpnCImT/6X4OJvTyWzvShsyIvdr+PcxL5OxkeKTFztfLyNxHX76k/qv/wwC97jl0RDJc9Nhiw1ptWLwU0jof9t0lfkxMbT/TuUOGJinzdIu1ejASoAAiH0UFP/EKjY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=beagleboard.org; spf=fail smtp.mailfrom=beagleboard.org; dkim=pass (2048-bit key) header.d=beagleboard-org.20230601.gappssmtp.com header.i=@beagleboard-org.20230601.gappssmtp.com header.b=3Z8daWoU; arc=none smtp.client-ip=209.85.216.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=beagleboard.org
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=beagleboard.org
+	s=arc-20240116; t=1761144582; c=relaxed/simple;
+	bh=UxRv2Dj1eWAwuBaqoEAma5UyiLaBLfeYj5gZy8jzJSM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=LbgfLuhWHkg7dZ0miIonSX/mqJt3duo4BPm3dnmABAqUEYD5E4PjuhWyET/CXjSga4pl8dHulfMLERaz94kuj8vFfqiwbKra8IClF3NuvMwwc1Bsnpyrah4cJvXhI/N3TPlaMcQD2DtGTu0avkoXvF6VHkaqeP461LqEJv+GGUU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ysa2NYlK; arc=none smtp.client-ip=209.85.128.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=beagleboard-org.20230601.gappssmtp.com header.i=@beagleboard-org.20230601.gappssmtp.com header.b="3Z8daWoU"
-Received: by mail-pj1-f47.google.com with SMTP id 98e67ed59e1d1-33e27cda4d7so863162a91.0
-        for <linux-staging@lists.linux.dev>; Wed, 22 Oct 2025 07:26:41 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ysa2NYlK"
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-4711f156326so55202535e9.1
+        for <linux-staging@lists.linux.dev>; Wed, 22 Oct 2025 07:49:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=beagleboard-org.20230601.gappssmtp.com; s=20230601; t=1761143201; x=1761748001; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=0HRFxOWUnlei3NJ6xug5QBfMRbuNH1+R/j9zw+bSO+A=;
-        b=3Z8daWoUX+w0/DBIbC/DT+f39nJlm4kD6XGJ/myOCStvLoIz0zUdKaSH2Xuzl15nX8
-         1Zn03Sb1HJiu8ZNjk3xKk11ol8B/sYVqBB+6WuVUE51bfeao2AnMgGjfTp7g7wrmALxe
-         yqzSJdS/0f0RnTQcKBg/d2eQKwIkVxXKpp2E3i/ONhMlKZQKXl4VtzMzjthF68YEwurB
-         AvKtn13XSO9MhLVG4ZkmQaZdGWj8pt6ksv5Yz8jZR9Wa1S3r21DCN76vGZ7LVrnkwmtE
-         vr7Rt0PzhVcRCdU+L9Q+LX5U7L+ld18WSLF+zHj2mQz3RVNOEf57ibrJraXRKD8NrIWN
-         gcjQ==
+        d=gmail.com; s=20230601; t=1761144579; x=1761749379; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=OeVW7KIs34xjHHALn+sD+JnpOfHDngShiO+k3xh4Ufc=;
+        b=Ysa2NYlKe5lMXK+KtY7cYyHiFDyX+LL/spRNWlS5gvkRNFMvBXNoBQM+Z1YX0lssmc
+         ZSkXkQMi2KjvFVSID2PCJN2ovuDs2Oq+OI27Em7JQC5Z3HGtSqgbLxUoTH2/t1fYxNK1
+         y5758MS4Ke2K/HVairPQQXia1ikZNZDV4UcQ4BHkETBaUFhYjCdKiANTYPPZsXxJ6d4O
+         gaMwOQbm77FSIV+u9onwrCOh3dgOt4HHSxugMfZrShsfJfdAAzuNzHmg57tG+b3wIiMV
+         j68xwqx3omN9ZlRG6BHd1azzcdjFt/uR0Pshams0KxUudzOW3C+s/xir/SGtwx1C2J3y
+         XyHw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761143201; x=1761748001;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=0HRFxOWUnlei3NJ6xug5QBfMRbuNH1+R/j9zw+bSO+A=;
-        b=kO1TvwEJqkAPU2CSAB1LSwDQ5dbvydwwwaZFIxZ2l8bXm+hD3jK/C+S8RzfuDo1Gvm
-         5OV5kVH7AXJ0ZOgBegOGjWmkI14mVaA5W4dPcUN3xQ/Mft65uGQ2K/yuUpIl/DZXW6jJ
-         SgwvkFpHQHcaik/xk0zQAxOE0+oxMJIbUTSuVwUYyiIV2ZosyqNZunKZ07R0uPbyvJc0
-         SPktBtX1LyK8JOnmF/1Q6jQ55YlysQMzxosA8TZ3hfeKI3BnadRYu7zvBys+5j9z//o9
-         0yXEXEW1XR4gJgRWS7ZxQ11vxR23uQ08nJbqUuVH+cOfXsHzVhQrC6ihtIz6yDRzhh6d
-         O+DQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVlJH2pCYf3OGS9NBpDtn47MkAF5Wl/F3ozRa4vhSIFx9j7Q9IL8+ZHN+Xti881E4r2dEd6xiyJrXJfbHnT@lists.linux.dev
-X-Gm-Message-State: AOJu0Yx2TkkmBTMpwxBgCqeZu3tIeye9updJvQG7ZH3Ys0gNajrUEb6e
-	BcbAMptrqJLmf6CE2zMJqVbDfaEdlUceOtjGF5mEIPuIGRkEOlHyU/gD1qz1I+9VcA==
-X-Gm-Gg: ASbGnctprmeL80QDh0l0lwlPLt0xuw0FLJEw8Iyh3UcYG5dDTfJ228NM7ZfZBiHEK+w
-	1BXUg3sLnVKIf7iXw6tpd+yyEgqYMCl78VEguHcf7LGwFngtblIpETGBat6Wu75XsnAwFKG3s6S
-	QHTt3nXAE0vDkIuHffQAUX7XzBtSS8yWaWsGk3NS7gaIF/cp30zyo0bQfkkPvssXeGxD9QXsFaH
-	X/e6JnY2IZILJiQrGndo6+OS0gq4NSc+baNQQyczAgQmbZ/w12tqo/lIUukWmVGU5XYZMT0LQcw
-	U0r0f5ij6LoEaO+4Ea2SBwVRVb+Ut9gfA0Yfz6oBrB/0AwONmas3gU9cTCWsZIF+w/MwywEkDB7
-	2CbdGqGCrAHqqPKIorpNoolE//KmNMJCIZwPyDY3GamAgFbO6+oyuQ2uQ9w/vWiCJqCm7e+XNhB
-	nYE+U+vueZDm9DPdrC6IQad2zCkA3KbaGcG93Xy0yAXs/zIZpnKnLbqQ==
-X-Google-Smtp-Source: AGHT+IFkuD3hlsYA6IEyDaofmb8SoGz5+EWzDF7yLSMdSUeC0iJHJl4cWk4F6gODzG9q9yM9CWSZRg==
-X-Received: by 2002:a17:90b:3812:b0:32e:15e9:2cbc with SMTP id 98e67ed59e1d1-33e905eec80mr2139523a91.5.1761143201070;
-        Wed, 22 Oct 2025 07:26:41 -0700 (PDT)
-Received: from ?IPV6:2401:4900:8898:a21f:edff:5244:379d:6d28? ([2401:4900:8898:a21f:edff:5244:379d:6d28])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-33e223c7e19sm2746875a91.3.2025.10.22.07.26.37
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 22 Oct 2025 07:26:40 -0700 (PDT)
-Message-ID: <4d87a2ef-4cc1-4774-8716-e4a3f7f346cb@beagleboard.org>
-Date: Wed, 22 Oct 2025 19:56:35 +0530
+        d=1e100.net; s=20230601; t=1761144579; x=1761749379;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=OeVW7KIs34xjHHALn+sD+JnpOfHDngShiO+k3xh4Ufc=;
+        b=Xs24IDf7FCF2VktQk7QERzJv3Ft43sKfvXBlaokzI8POvMV59KKvkmSNACS/lY1KOk
+         McotkPfnXSXhW4nfwdAlbq0mFKNdSb3kde30cPSmAQSluCISDKqwF011VhlFTl92CfgI
+         w52vae2dWNsTD2w0uecHjd/IghOiFDr+0T+VXNvn+/ruR5uUBBqjgjMu6BlVLMBt7wx3
+         4IMOwOn9bO/gh3kvBccuk1y8HKqVrPnh5WlcLGyw2Zh8IEMqv4ND73lR/eigYfASZArh
+         f4YRFaVRhKEgJ4jW00SarnJsPnOL6/ZLwxc6UoyKlREF8rpLfKdv5gOmnpfMKEahMiPx
+         49cw==
+X-Forwarded-Encrypted: i=1; AJvYcCVumXehuSICwpZYiz8ibISTFXSdgRF9iBTyDsI7tOQx9PzSX9b9OuDWJvuH2V7aQ+Faibf1TwU1jLoHajvN@lists.linux.dev
+X-Gm-Message-State: AOJu0YwLH6yyURf1hfJ3iWUc1vxb3pSGO+DpAtrkn4gondBNT5YEf+cd
+	tKZELv5xnxU66tNceiYf2ntcPTN2ANDoxYB1LS47LqKpZihlq+rZPQUh
+X-Gm-Gg: ASbGncsnzJIc5OWNSxKQGR1tVWySZZk1feH2eSFaUTwREnkPRJTYYrL3P8lKpUnamnv
+	xnDzhAZv/8x6Zi2dXhFxjhq/zJB0znFZUARE9BQTDW80AiQznOzYGvGni3Fu+PCPb/xCp+fYXKF
+	SUIQhaqomdrQFSAQtj0dUkLxfpS5OU16gf+2mLIaVxL2yLU0ixg3c6raAB/CD+vlXYkXgwl2uki
+	NveJwdcIBakzU4v19uQ8rcmPdPWD5iaTMSeQQI/LoMrEOf393DUUcKDhDN1Nvt7NN4i27Yx78ET
+	5ZcY70OdkHHamR7evhJ8xucA3OG8Cfylzxr0KlEwM1XG35eBdM3Gq1cTskfWkTiJ96BiLG6sswx
+	kNAnCw+iCmGc0ETs3oNI4eI1cIuouKxjtt/UoeBRrtWJncReaa3/syuKET2F9lJp9nEhv5wpIJy
+	+fXA==
+X-Google-Smtp-Source: AGHT+IHr6Ob93t9v00uJwuP7yAAMfu4kGsf18j4jl3QNK0VUxssU6icvlb5KeKOe4fTOZz3h10i/+g==
+X-Received: by 2002:a05:600c:3e0b:b0:459:db7b:988e with SMTP id 5b1f17b1804b1-471178a3faamr101708965e9.13.1761144578447;
+        Wed, 22 Oct 2025 07:49:38 -0700 (PDT)
+Received: from xeon.. ([188.163.112.61])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-475c427f77bsm49956525e9.3.2025.10.22.07.49.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 22 Oct 2025 07:49:37 -0700 (PDT)
+From: Svyatoslav Ryhel <clamor95@gmail.com>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>,
+	Simona Vetter <simona@ffwll.ch>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Sowjanya Komatineni <skomatineni@nvidia.com>,
+	Luca Ceresoli <luca.ceresoli@bootlin.com>,
+	Prashant Gaikwad <pgaikwad@nvidia.com>,
+	Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>,
+	Mikko Perttunen <mperttunen@nvidia.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Svyatoslav Ryhel <clamor95@gmail.com>,
+	=?UTF-8?q?Jonas=20Schw=C3=B6bel?= <jonasschwoebel@yahoo.de>,
+	Dmitry Osipenko <digetx@gmail.com>,
+	Charan Pedumuru <charan.pedumuru@gmail.com>,
+	Diogo Ivo <diogo.ivo@tecnico.ulisboa.pt>,
+	Aaron Kling <webgeek1234@gmail.com>,
+	Arnd Bergmann <arnd@arndb.de>
+Cc: dri-devel@lists.freedesktop.org,
+	devicetree@vger.kernel.org,
+	linux-tegra@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org,
+	linux-clk@vger.kernel.org,
+	linux-staging@lists.linux.dev
+Subject: [PATCH v5 21/23] dt-bindings: display: tegra: document Tegra20 and Tegra30 CSI
+Date: Wed, 22 Oct 2025 17:49:28 +0300
+Message-ID: <20251022144930.73272-1-clamor95@gmail.com>
+X-Mailer: git-send-email 2.48.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] staging: greybus: fw-download: Fix find firmware req
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: Jason Kridner <jkridner@beagleboard.org>,
- Deepak Khatri <lorforlinux@beagleboard.org>,
- Robert Nelson <robertcnelson@beagleboard.org>, Dhruva Gole <d-gole@ti.com>,
- Viresh Kumar <vireshk@kernel.org>, Johan Hovold <johan@kernel.org>,
- Alex Elder <elder@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org
-References: <20251022-gb-fw-v1-1-183b18500cd5@beagleboard.org>
- <aPjIJw3ahPxnDE5Q@stanley.mountain>
- <81d8d424-ad21-490a-b071-e1b3b3564e2c@beagleboard.org>
- <aPjl7G7fmvqtgww1@stanley.mountain>
-Content-Language: en-US
-From: Ayush Singh <ayush@beagleboard.org>
-In-Reply-To: <aPjl7G7fmvqtgww1@stanley.mountain>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 10/22/25 7:40 PM, Dan Carpenter wrote:
+Document CSI HW block found in Tegra20 and Tegra30 SoC.
 
-> On Wed, Oct 22, 2025 at 07:22:49PM +0530, Ayush Singh wrote:
->> On 10/22/25 5:33 PM, Dan Carpenter wrote:
->>> On Wed, Oct 22, 2025 at 12:57:57PM +0530, Ayush Singh wrote:
->>>> diff --git a/drivers/staging/greybus/fw-download.c b/drivers/staging/greybus/fw-download.c
->>>> index 9a09bd3af79ba0dcf7efa683f4e86246bcd473a5..06f1be8f3121e29551ea8416d5ee2666339b2fe3 100644
->>>> --- a/drivers/staging/greybus/fw-download.c
->>>> +++ b/drivers/staging/greybus/fw-download.c
->>>> @@ -159,7 +159,7 @@ static int exceeds_release_timeout(struct fw_request *fw_req)
->>>>    /* This returns path of the firmware blob on the disk */
->>>>    static struct fw_request *find_firmware(struct fw_download *fw_download,
->>>> -					const char *tag)
->>>> +					const char *tag, const char *format)
->>>>    {
->>>>    	struct gb_interface *intf = fw_download->connection->bundle->intf;
->>>>    	struct fw_request *fw_req;
->>>> @@ -178,10 +178,17 @@ static struct fw_request *find_firmware(struct fw_download *fw_download,
->>>>    	}
->>>>    	fw_req->firmware_id = ret;
->>>> -	snprintf(fw_req->name, sizeof(fw_req->name),
->>>> -		 FW_NAME_PREFIX "%08x_%08x_%08x_%08x_%s.tftf",
->>>> -		 intf->ddbl1_manufacturer_id, intf->ddbl1_product_id,
->>>> -		 intf->vendor_id, intf->product_id, tag);
->>>> +	if (strnlen(format, GB_FIRMWARE_FORMAT_MAX_SIZE) == 0) {
->>> Change this to:
->>>
->>> 	if (format[0] == '\0') {
->>>
->>> In the caller, the assumption that format is at least
->>> GB_FIRMWARE_FORMAT_MAX_SIZE makes sense but in this function it
->>> doesn't make sense.
->> Ok, will do in the next version.
->>
->>>> +		snprintf(fw_req->name, sizeof(fw_req->name),
->>>> +			 FW_NAME_PREFIX "%08x_%08x_%08x_%08x_%s",
->>>> +			 intf->ddbl1_manufacturer_id, intf->ddbl1_product_id,
->>>> +			 intf->vendor_id, intf->product_id, tag);
->>>> +	} else {
->>>> +		snprintf(fw_req->name, sizeof(fw_req->name),
->>>> +			 FW_NAME_PREFIX "%08x_%08x_%08x_%08x_%s.%s",
->>>> +			 intf->ddbl1_manufacturer_id, intf->ddbl1_product_id,
->>>> +			 intf->vendor_id, intf->product_id, tag, format);
->>>> +	}
->>>>    	dev_info(fw_download->parent, "Requested firmware package '%s'\n",
->>>>    		 fw_req->name);
->>>> @@ -225,7 +232,7 @@ static int fw_download_find_firmware(struct gb_operation *op)
->>>>    	struct gb_fw_download_find_firmware_request *request;
->>>>    	struct gb_fw_download_find_firmware_response *response;
->>>>    	struct fw_request *fw_req;
->>>> -	const char *tag;
->>>> +	const char *tag, *format;
->>>>    	if (op->request->payload_size != sizeof(*request)) {
->>>>    		dev_err(fw_download->parent,
->>> We have changed the sizeof(*request) but we haven't changed
->>> ->payload_size so how can this ever be true?  Did you test this change?
->>
->> The request originates in greybus node. The payload size here is calculate
->> from the greybus message header. It is not a hard coded value. So as long as
->> the node sets it correctly, it will work fine.
-> I guess, how was this working for other people then?  It seems like a
-> behavior change.
+The #nvidia,mipi-calibrate-cells is not an introduction of property, such
+property already exists in nvidia,tegra114-mipi.yaml and is used in
+multiple device trees. In case of Tegra30 and Tegra20 CSI block combines
+mipi calibration function and CSI function, in Tegra114+ mipi calibration
+got a dedicated hardware block which is already supported. This property
+here is used to align with mipi-calibration logic used by Tegra114+.
 
+Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
+---
+ .../display/tegra/nvidia,tegra20-csi.yaml     | 138 ++++++++++++++++++
+ 1 file changed, 138 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-csi.yaml
 
-Well, it is technically a breaking change, if any device was already 
-using fw download protocol. With that said, I have no idea who is using 
-greybus right now. And since the changes are in staging drivers, it 
-probably is fine.
-
-I don't really know if the spec came first or linux implementation. But 
-one of them is currently incorrect.
-
-Just to clarify, greybus-for-zephyr is not the original or source of 
-truth implementation of greybus. I just found the inconsistency between 
-what the spec says, and what Linux kernel implements and thought that 
-spec should probably have higher priority.
-
-
-Best Regards,
-
-Ayush Singh
+diff --git a/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-csi.yaml b/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-csi.yaml
+new file mode 100644
+index 000000000000..a1aea9590769
+--- /dev/null
++++ b/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-csi.yaml
+@@ -0,0 +1,138 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/display/tegra/nvidia,tegra20-csi.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: NVIDIA Tegra20 CSI controller
++
++maintainers:
++  - Svyatoslav Ryhel <clamor95@gmail.com>
++
++properties:
++  compatible:
++    enum:
++      - nvidia,tegra20-csi
++      - nvidia,tegra30-csi
++
++  reg:
++    maxItems: 1
++
++  clocks:
++    minItems: 1
++    items:
++      - description: module clock
++      - description: PAD A clock
++      - description: PAD B clock
++
++  clock-names:
++    items:
++      - const: csi
++      - const: csia-pad
++      - const: csib-pad
++
++  avdd-dsi-csi-supply:
++    description: DSI/CSI power supply. Must supply 1.2 V.
++
++  power-domains:
++    maxItems: 1
++
++  "#nvidia,mipi-calibrate-cells":
++    description:
++      The number of cells in a MIPI calibration specifier. Should be 1.
++      The single cell specifies an id of the pad that need to be
++      calibrated for a given device. Valid pad ids for receiver would be
++      0 for CSI-A; 1 for CSI-B; 2 for DSI-A and 3 for DSI-B.
++    $ref: /schemas/types.yaml#/definitions/uint32
++    const: 1
++
++  "#address-cells":
++    const: 1
++
++  "#size-cells":
++    const: 0
++
++patternProperties:
++  "^channel@[0-1]$":
++    type: object
++    description: channel 0 represents CSI-A and 1 represents CSI-B
++    additionalProperties: false
++
++    properties:
++      reg:
++        maximum: 1
++
++      nvidia,mipi-calibrate:
++        description: Should contain a phandle and a specifier specifying
++          which pad is used by this CSI channel and needs to be calibrated.
++        $ref: /schemas/types.yaml#/definitions/phandle-array
++
++      "#address-cells":
++        const: 1
++
++      "#size-cells":
++        const: 0
++
++      port@0:
++        $ref: /schemas/graph.yaml#/$defs/port-base
++        unevaluatedProperties: false
++        description: port receiving the video stream from the sensor
++
++        properties:
++          endpoint:
++            $ref: /schemas/media/video-interfaces.yaml#
++            unevaluatedProperties: false
++
++            required:
++              - data-lanes
++
++      port@1:
++        $ref: /schemas/graph.yaml#/properties/port
++        description: port sending the video stream to the VI
++
++    required:
++      - reg
++      - "#address-cells"
++      - "#size-cells"
++      - port@0
++      - port@1
++
++allOf:
++  - if:
++      properties:
++        compatible:
++          contains:
++            enum:
++              - nvidia,tegra20-csi
++    then:
++      properties:
++        clocks:
++          maxItems: 1
++
++        clock-names: false
++
++  - if:
++      properties:
++        compatible:
++          contains:
++            enum:
++              - nvidia,tegra30-csi
++    then:
++      properties:
++        clocks:
++          minItems: 3
++
++        clock-names:
++          minItems: 3
++
++additionalProperties: false
++
++required:
++  - compatible
++  - reg
++  - clocks
++  - power-domains
++  - "#address-cells"
++  - "#size-cells"
++
++# see nvidia,tegra20-vi.yaml for an example
+-- 
+2.48.1
 
