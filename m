@@ -1,256 +1,172 @@
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CD68350D68
-	for <linux-staging@lists.linux.dev>; Wed, 22 Oct 2025 14:22:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E4FD34E74A
+	for <linux-staging@lists.linux.dev>; Wed, 22 Oct 2025 14:26:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761142926; cv=none; b=WsXR5P/A9hVrn+sKeKipbkp+F/FO65r8NpkTxMogXxUECSlqAsdqnGky3a7TvIsXQEb4L+XU1jdo7bCLBlI9WZhZuidCSs80PEruFj09pHzqxGZ7emODQC5Pm5YBqOqii/iLW64h2zkXp4u7nJVQdUBX7znG5xwPJUmEmoDw0co=
+	t=1761143203; cv=none; b=PB4yn2hs5JCS4q4JOIMXDLow9Q2e5yGPrK+Qg4p7kr6ILmGGV3D1t+YBhgnMt4poxgAE9tY92xJI1iH8KugdvpdJJGagUladJLgrjhje3vm+J05+wuIo9CxXMjku0LwwHqTbTkqPfTJUncGQtH0duJah5p7o5FCuK9dqEASzQSA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761142926; c=relaxed/simple;
-	bh=HgP9VExlthvNBigzlv7uekYUM102sO9tWVmQkT6CmuA=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=spfIU/l9JRglgrPzKu1n3+CvAROn8D7/Guuwl6XfCwxNtM0o3C4W/acWq8NyKEtc23MdFDuzZ8Yjy3s9BCdtV/CJeDpl87YPRpeAc8UXF42IHBS3Q5O8Bt3BnSC1W7sMQTVYMDERhr62pJgbHRowQI1nnmbc6B43w60HYPfsmTE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Vo+oMcDf; arc=none smtp.client-ip=209.85.221.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1761143203; c=relaxed/simple;
+	bh=0yDEVFPlpDrDY4lSgYlw+L+esP2rwCt9Zxk6fxftYBc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=NgUlcm0Lv7S81uv/Rh2o8WqKrqJqbMfX0JSux4smpwyvTBpnCImT/6X4OJvTyWzvShsyIvdr+PcxL5OxkeKTFztfLyNxHX76k/qv/wwC97jl0RDJc9Nhiw1ptWLwU0jof9t0lfkxMbT/TuUOGJinzdIu1ejASoAAiH0UFP/EKjY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=beagleboard.org; spf=fail smtp.mailfrom=beagleboard.org; dkim=pass (2048-bit key) header.d=beagleboard-org.20230601.gappssmtp.com header.i=@beagleboard-org.20230601.gappssmtp.com header.b=3Z8daWoU; arc=none smtp.client-ip=209.85.216.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=beagleboard.org
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=beagleboard.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Vo+oMcDf"
-Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-3ece0e4c5faso6788309f8f.1
-        for <linux-staging@lists.linux.dev>; Wed, 22 Oct 2025 07:22:00 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=beagleboard-org.20230601.gappssmtp.com header.i=@beagleboard-org.20230601.gappssmtp.com header.b="3Z8daWoU"
+Received: by mail-pj1-f47.google.com with SMTP id 98e67ed59e1d1-33e27cda4d7so863162a91.0
+        for <linux-staging@lists.linux.dev>; Wed, 22 Oct 2025 07:26:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1761142917; x=1761747717; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Z9Z7JUaghezQ8iAuA7uRKlyBeeVsFfzYhFmFiduOSBE=;
-        b=Vo+oMcDfkMWGT5TVKhcJwRqwrv4L8SD6lHIX9D+Afoga0+SjjJUQJVMUY20lmPR63t
-         8tC+4/ArqtfMxHAyogBlRFvn4s5ifDM5r1iooqE5hsDVEM3q5QwneGpK7qOzHLF/SSBu
-         3rkiiL4TYA4gStAxjatOpMo89oRxJXSsPueed31RKNExDrsxaEC8ZD3b6MG1xcrDoAly
-         3mThe0EvAs+X8VOeYIZR9InYDj3IDBDxd+N6t3Ipgn9ZECj/gb3JmgO3DMndFMNBgieg
-         XcQACf56jt2QR302cEg9SL2gjHiqLVa1FgY0I5XcJuxpMhPLCToaE9WaOZbEjEYkeD45
-         3Ssg==
+        d=beagleboard-org.20230601.gappssmtp.com; s=20230601; t=1761143201; x=1761748001; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=0HRFxOWUnlei3NJ6xug5QBfMRbuNH1+R/j9zw+bSO+A=;
+        b=3Z8daWoUX+w0/DBIbC/DT+f39nJlm4kD6XGJ/myOCStvLoIz0zUdKaSH2Xuzl15nX8
+         1Zn03Sb1HJiu8ZNjk3xKk11ol8B/sYVqBB+6WuVUE51bfeao2AnMgGjfTp7g7wrmALxe
+         yqzSJdS/0f0RnTQcKBg/d2eQKwIkVxXKpp2E3i/ONhMlKZQKXl4VtzMzjthF68YEwurB
+         AvKtn13XSO9MhLVG4ZkmQaZdGWj8pt6ksv5Yz8jZR9Wa1S3r21DCN76vGZ7LVrnkwmtE
+         vr7Rt0PzhVcRCdU+L9Q+LX5U7L+ld18WSLF+zHj2mQz3RVNOEf57ibrJraXRKD8NrIWN
+         gcjQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761142917; x=1761747717;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Z9Z7JUaghezQ8iAuA7uRKlyBeeVsFfzYhFmFiduOSBE=;
-        b=on2g7IXlpxahw5WPKhJmHw6LbTZF6lm00I8SSLVJlUnlnjcglQ5fwAm+9MR9Fk9c9C
-         f1g6bRefzQsmlpojHXT+jfANV+Fi3E4sBmadsXFGBpEHCCpcG/cgTatE7AkLAD+Dwgv5
-         nBmRg0xLqqT5r/AISw3xbY5VtA4D//WzrJcoAhNaxTOO/90M8JnQTWvvpQ0Wa8oC2jFr
-         C8RDc50mkZ8b41EYHY0TbqlywF5wdtt+MRKy4OrU/f20BsaSuXrRXMCypPjWqklcmGLi
-         l9cU3XG4AnWCVhuyd9+oJs0h+TAY2OVTz1v/X0BYjG2wQSfmfhZX7+vvYVIi+WutYNER
-         ACeQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWAenDhdFpTZhCtcUYdHmuDk8u0UnydQ+EaYfTU375ZthvN+anmiCIb4akrGpuWlv5IIAhk9S0+QeWXkOrM@lists.linux.dev
-X-Gm-Message-State: AOJu0Yw6lx9OiTWL8F+pw+cqlJlDQk+gFoUB9i3CdqS7VLc8dDYXQnQC
-	cFC2DWFqiu5ICz9oJcuuYuMAP2ndgPROrlJ2C7Re5BVEHvPYPBu6E1iu
-X-Gm-Gg: ASbGncvZmpVs5Iy6Fu5ENvE/ukwN2+YoKDm4I355aBIZHv3ohsslaW0pfMRCpcmkhR3
-	9BXOo449TFrOPiqex0IHFN73emFqdscSr47xR0cgD55pxwJKwAdP5c8o/nicHUPSku3oqLXZjWO
-	5OIAsCAKhLNBbeft3VI1RLd6MemEqTPI8/cDiFGfOq35kRs7zDyTMnggYsPhmdXKbpgLtEWu/Kj
-	TWvDI8UAieq9h+F07lBglkJ/YL+EoshteoZXuhBuM5HB6ViXGJAoDpamLl8wMdEQwBU2QCZdXhg
-	VDAwG6a6lveGqV8aGkRE3FwgE6ILiCcevkD23XVdaPknIPRUnKFDzCKWJidoBHEqCozD3mA2MuR
-	vjHLdnTh8pnm3Lj5nfIBNk642Hax7AMSZ6fGURQOjCcoKmtv9IP2DykgWWZT+i0ezOFQ=
-X-Google-Smtp-Source: AGHT+IHmpX8C5GwwN840U1BRTmU2Ck9ZgwySDSvkE0UdWgQieuzkLZOsrvn9s/zYLJBdiD8e4LeWyQ==
-X-Received: by 2002:a05:6000:1ac5:b0:3ee:141a:ede5 with SMTP id ffacd0b85a97d-42704dc6d3cmr12760428f8f.57.1761142917015;
-        Wed, 22 Oct 2025 07:21:57 -0700 (PDT)
-Received: from xeon.. ([188.163.112.61])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-427ea5b3d4csm24803518f8f.19.2025.10.22.07.21.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 22 Oct 2025 07:21:56 -0700 (PDT)
-From: Svyatoslav Ryhel <clamor95@gmail.com>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>,
-	Simona Vetter <simona@ffwll.ch>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	Sowjanya Komatineni <skomatineni@nvidia.com>,
-	Luca Ceresoli <luca.ceresoli@bootlin.com>,
-	Prashant Gaikwad <pgaikwad@nvidia.com>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>,
-	Mikko Perttunen <mperttunen@nvidia.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Svyatoslav Ryhel <clamor95@gmail.com>,
-	=?UTF-8?q?Jonas=20Schw=C3=B6bel?= <jonasschwoebel@yahoo.de>,
-	Dmitry Osipenko <digetx@gmail.com>,
-	Charan Pedumuru <charan.pedumuru@gmail.com>,
-	Diogo Ivo <diogo.ivo@tecnico.ulisboa.pt>,
-	Aaron Kling <webgeek1234@gmail.com>,
-	Arnd Bergmann <arnd@arndb.de>
-Cc: dri-devel@lists.freedesktop.org,
-	devicetree@vger.kernel.org,
-	linux-tegra@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org,
-	linux-clk@vger.kernel.org,
-	linux-staging@lists.linux.dev
-Subject: [PATCH v5 19/23] staging: media: tegra-video: tegra20: expand format support with RAW8/10 and YUV422/YUV420p 1X16
-Date: Wed, 22 Oct 2025 17:20:47 +0300
-Message-ID: <20251022142051.70400-20-clamor95@gmail.com>
-X-Mailer: git-send-email 2.48.1
-In-Reply-To: <20251022142051.70400-1-clamor95@gmail.com>
-References: <20251022142051.70400-1-clamor95@gmail.com>
+        d=1e100.net; s=20230601; t=1761143201; x=1761748001;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=0HRFxOWUnlei3NJ6xug5QBfMRbuNH1+R/j9zw+bSO+A=;
+        b=kO1TvwEJqkAPU2CSAB1LSwDQ5dbvydwwwaZFIxZ2l8bXm+hD3jK/C+S8RzfuDo1Gvm
+         5OV5kVH7AXJ0ZOgBegOGjWmkI14mVaA5W4dPcUN3xQ/Mft65uGQ2K/yuUpIl/DZXW6jJ
+         SgwvkFpHQHcaik/xk0zQAxOE0+oxMJIbUTSuVwUYyiIV2ZosyqNZunKZ07R0uPbyvJc0
+         SPktBtX1LyK8JOnmF/1Q6jQ55YlysQMzxosA8TZ3hfeKI3BnadRYu7zvBys+5j9z//o9
+         0yXEXEW1XR4gJgRWS7ZxQ11vxR23uQ08nJbqUuVH+cOfXsHzVhQrC6ihtIz6yDRzhh6d
+         O+DQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVlJH2pCYf3OGS9NBpDtn47MkAF5Wl/F3ozRa4vhSIFx9j7Q9IL8+ZHN+Xti881E4r2dEd6xiyJrXJfbHnT@lists.linux.dev
+X-Gm-Message-State: AOJu0Yx2TkkmBTMpwxBgCqeZu3tIeye9updJvQG7ZH3Ys0gNajrUEb6e
+	BcbAMptrqJLmf6CE2zMJqVbDfaEdlUceOtjGF5mEIPuIGRkEOlHyU/gD1qz1I+9VcA==
+X-Gm-Gg: ASbGnctprmeL80QDh0l0lwlPLt0xuw0FLJEw8Iyh3UcYG5dDTfJ228NM7ZfZBiHEK+w
+	1BXUg3sLnVKIf7iXw6tpd+yyEgqYMCl78VEguHcf7LGwFngtblIpETGBat6Wu75XsnAwFKG3s6S
+	QHTt3nXAE0vDkIuHffQAUX7XzBtSS8yWaWsGk3NS7gaIF/cp30zyo0bQfkkPvssXeGxD9QXsFaH
+	X/e6JnY2IZILJiQrGndo6+OS0gq4NSc+baNQQyczAgQmbZ/w12tqo/lIUukWmVGU5XYZMT0LQcw
+	U0r0f5ij6LoEaO+4Ea2SBwVRVb+Ut9gfA0Yfz6oBrB/0AwONmas3gU9cTCWsZIF+w/MwywEkDB7
+	2CbdGqGCrAHqqPKIorpNoolE//KmNMJCIZwPyDY3GamAgFbO6+oyuQ2uQ9w/vWiCJqCm7e+XNhB
+	nYE+U+vueZDm9DPdrC6IQad2zCkA3KbaGcG93Xy0yAXs/zIZpnKnLbqQ==
+X-Google-Smtp-Source: AGHT+IFkuD3hlsYA6IEyDaofmb8SoGz5+EWzDF7yLSMdSUeC0iJHJl4cWk4F6gODzG9q9yM9CWSZRg==
+X-Received: by 2002:a17:90b:3812:b0:32e:15e9:2cbc with SMTP id 98e67ed59e1d1-33e905eec80mr2139523a91.5.1761143201070;
+        Wed, 22 Oct 2025 07:26:41 -0700 (PDT)
+Received: from ?IPV6:2401:4900:8898:a21f:edff:5244:379d:6d28? ([2401:4900:8898:a21f:edff:5244:379d:6d28])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-33e223c7e19sm2746875a91.3.2025.10.22.07.26.37
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 22 Oct 2025 07:26:40 -0700 (PDT)
+Message-ID: <4d87a2ef-4cc1-4774-8716-e4a3f7f346cb@beagleboard.org>
+Date: Wed, 22 Oct 2025 19:56:35 +0530
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] staging: greybus: fw-download: Fix find firmware req
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: Jason Kridner <jkridner@beagleboard.org>,
+ Deepak Khatri <lorforlinux@beagleboard.org>,
+ Robert Nelson <robertcnelson@beagleboard.org>, Dhruva Gole <d-gole@ti.com>,
+ Viresh Kumar <vireshk@kernel.org>, Johan Hovold <johan@kernel.org>,
+ Alex Elder <elder@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+References: <20251022-gb-fw-v1-1-183b18500cd5@beagleboard.org>
+ <aPjIJw3ahPxnDE5Q@stanley.mountain>
+ <81d8d424-ad21-490a-b071-e1b3b3564e2c@beagleboard.org>
+ <aPjl7G7fmvqtgww1@stanley.mountain>
+Content-Language: en-US
+From: Ayush Singh <ayush@beagleboard.org>
+In-Reply-To: <aPjl7G7fmvqtgww1@stanley.mountain>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Add support for Bayer formats (RAW8 and RAW10) and YUV422/420p 1X16
-versions of existing YUV422/YUV420p 2X8.
+On 10/22/25 7:40 PM, Dan Carpenter wrote:
 
-Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
-Reviewed-by: Mikko Perttunen <mperttunen@nvidia.com>
----
- drivers/staging/media/tegra-video/tegra20.c | 74 ++++++++++++++++++++-
- 1 file changed, 71 insertions(+), 3 deletions(-)
+> On Wed, Oct 22, 2025 at 07:22:49PM +0530, Ayush Singh wrote:
+>> On 10/22/25 5:33 PM, Dan Carpenter wrote:
+>>> On Wed, Oct 22, 2025 at 12:57:57PM +0530, Ayush Singh wrote:
+>>>> diff --git a/drivers/staging/greybus/fw-download.c b/drivers/staging/greybus/fw-download.c
+>>>> index 9a09bd3af79ba0dcf7efa683f4e86246bcd473a5..06f1be8f3121e29551ea8416d5ee2666339b2fe3 100644
+>>>> --- a/drivers/staging/greybus/fw-download.c
+>>>> +++ b/drivers/staging/greybus/fw-download.c
+>>>> @@ -159,7 +159,7 @@ static int exceeds_release_timeout(struct fw_request *fw_req)
+>>>>    /* This returns path of the firmware blob on the disk */
+>>>>    static struct fw_request *find_firmware(struct fw_download *fw_download,
+>>>> -					const char *tag)
+>>>> +					const char *tag, const char *format)
+>>>>    {
+>>>>    	struct gb_interface *intf = fw_download->connection->bundle->intf;
+>>>>    	struct fw_request *fw_req;
+>>>> @@ -178,10 +178,17 @@ static struct fw_request *find_firmware(struct fw_download *fw_download,
+>>>>    	}
+>>>>    	fw_req->firmware_id = ret;
+>>>> -	snprintf(fw_req->name, sizeof(fw_req->name),
+>>>> -		 FW_NAME_PREFIX "%08x_%08x_%08x_%08x_%s.tftf",
+>>>> -		 intf->ddbl1_manufacturer_id, intf->ddbl1_product_id,
+>>>> -		 intf->vendor_id, intf->product_id, tag);
+>>>> +	if (strnlen(format, GB_FIRMWARE_FORMAT_MAX_SIZE) == 0) {
+>>> Change this to:
+>>>
+>>> 	if (format[0] == '\0') {
+>>>
+>>> In the caller, the assumption that format is at least
+>>> GB_FIRMWARE_FORMAT_MAX_SIZE makes sense but in this function it
+>>> doesn't make sense.
+>> Ok, will do in the next version.
+>>
+>>>> +		snprintf(fw_req->name, sizeof(fw_req->name),
+>>>> +			 FW_NAME_PREFIX "%08x_%08x_%08x_%08x_%s",
+>>>> +			 intf->ddbl1_manufacturer_id, intf->ddbl1_product_id,
+>>>> +			 intf->vendor_id, intf->product_id, tag);
+>>>> +	} else {
+>>>> +		snprintf(fw_req->name, sizeof(fw_req->name),
+>>>> +			 FW_NAME_PREFIX "%08x_%08x_%08x_%08x_%s.%s",
+>>>> +			 intf->ddbl1_manufacturer_id, intf->ddbl1_product_id,
+>>>> +			 intf->vendor_id, intf->product_id, tag, format);
+>>>> +	}
+>>>>    	dev_info(fw_download->parent, "Requested firmware package '%s'\n",
+>>>>    		 fw_req->name);
+>>>> @@ -225,7 +232,7 @@ static int fw_download_find_firmware(struct gb_operation *op)
+>>>>    	struct gb_fw_download_find_firmware_request *request;
+>>>>    	struct gb_fw_download_find_firmware_response *response;
+>>>>    	struct fw_request *fw_req;
+>>>> -	const char *tag;
+>>>> +	const char *tag, *format;
+>>>>    	if (op->request->payload_size != sizeof(*request)) {
+>>>>    		dev_err(fw_download->parent,
+>>> We have changed the sizeof(*request) but we haven't changed
+>>> ->payload_size so how can this ever be true?  Did you test this change?
+>>
+>> The request originates in greybus node. The payload size here is calculate
+>> from the greybus message header. It is not a hard coded value. So as long as
+>> the node sets it correctly, it will work fine.
+> I guess, how was this working for other people then?  It seems like a
+> behavior change.
 
-diff --git a/drivers/staging/media/tegra-video/tegra20.c b/drivers/staging/media/tegra-video/tegra20.c
-index 149386a15176..0457209b789a 100644
---- a/drivers/staging/media/tegra-video/tegra20.c
-+++ b/drivers/staging/media/tegra-video/tegra20.c
-@@ -187,6 +187,18 @@ static void tegra20_vi_get_input_formats(struct tegra_vi_channel *chan,
- 	case MEDIA_BUS_FMT_YVYU8_2X8:
- 		(*yuv_input_format) = VI_INPUT_YUV_INPUT_FORMAT_YVYU;
- 		break;
-+	/* RAW8 */
-+	case MEDIA_BUS_FMT_SBGGR8_1X8:
-+	case MEDIA_BUS_FMT_SGBRG8_1X8:
-+	case MEDIA_BUS_FMT_SGRBG8_1X8:
-+	case MEDIA_BUS_FMT_SRGGB8_1X8:
-+	/* RAW10 */
-+	case MEDIA_BUS_FMT_SBGGR10_1X10:
-+	case MEDIA_BUS_FMT_SGBRG10_1X10:
-+	case MEDIA_BUS_FMT_SGRBG10_1X10:
-+	case MEDIA_BUS_FMT_SRGGB10_1X10:
-+		(*main_input_format) = VI_INPUT_INPUT_FORMAT_BAYER;
-+		break;
- 	}
- }
- 
-@@ -221,6 +233,18 @@ static void tegra20_vi_get_output_formats(struct tegra_vi_channel *chan,
- 	case V4L2_PIX_FMT_YVU420:
- 		(*main_output_format) = VI_OUTPUT_OUTPUT_FORMAT_YUV420PLANAR;
- 		break;
-+	/* RAW8 */
-+	case V4L2_PIX_FMT_SBGGR8:
-+	case V4L2_PIX_FMT_SGBRG8:
-+	case V4L2_PIX_FMT_SGRBG8:
-+	case V4L2_PIX_FMT_SRGGB8:
-+	/* RAW10 */
-+	case V4L2_PIX_FMT_SBGGR10:
-+	case V4L2_PIX_FMT_SGBRG10:
-+	case V4L2_PIX_FMT_SGRBG10:
-+	case V4L2_PIX_FMT_SRGGB10:
-+		(*main_output_format) = VI_OUTPUT_OUTPUT_FORMAT_VIP_BAYER_DIRECT;
-+		break;
- 	}
- }
- 
-@@ -308,6 +332,16 @@ static void tegra20_channel_queue_setup(struct tegra_vi_channel *chan)
- 	case V4L2_PIX_FMT_VYUY:
- 	case V4L2_PIX_FMT_YUYV:
- 	case V4L2_PIX_FMT_YVYU:
-+	/* RAW8 */
-+	case V4L2_PIX_FMT_SRGGB8:
-+	case V4L2_PIX_FMT_SGRBG8:
-+	case V4L2_PIX_FMT_SGBRG8:
-+	case V4L2_PIX_FMT_SBGGR8:
-+	/* RAW10 */
-+	case V4L2_PIX_FMT_SRGGB10:
-+	case V4L2_PIX_FMT_SGRBG10:
-+	case V4L2_PIX_FMT_SGBRG10:
-+	case V4L2_PIX_FMT_SBGGR10:
- 		if (chan->vflip)
- 			chan->start_offset += stride * (height - 1);
- 		if (chan->hflip)
-@@ -373,6 +407,19 @@ static void tegra20_channel_vi_buffer_setup(struct tegra_vi_channel *chan,
- 		tegra20_vi_write(chan, TEGRA_VI_VB0_BASE_ADDRESS(TEGRA_VI_OUT_1),  base);
- 		tegra20_vi_write(chan, TEGRA_VI_VB0_START_ADDRESS(TEGRA_VI_OUT_1), base + chan->start_offset);
- 		break;
-+	/* RAW8 */
-+	case V4L2_PIX_FMT_SRGGB8:
-+	case V4L2_PIX_FMT_SGRBG8:
-+	case V4L2_PIX_FMT_SGBRG8:
-+	case V4L2_PIX_FMT_SBGGR8:
-+	/* RAW10 */
-+	case V4L2_PIX_FMT_SRGGB10:
-+	case V4L2_PIX_FMT_SGRBG10:
-+	case V4L2_PIX_FMT_SGBRG10:
-+	case V4L2_PIX_FMT_SBGGR10:
-+		tegra20_vi_write(chan, TEGRA_VI_VB0_BASE_ADDRESS(TEGRA_VI_OUT_2),  base);
-+		tegra20_vi_write(chan, TEGRA_VI_VB0_START_ADDRESS(TEGRA_VI_OUT_2), base + chan->start_offset);
-+		break;
- 	}
- }
- 
-@@ -454,12 +501,15 @@ static int tegra20_chan_capture_kthread_start(void *data)
- static void tegra20_camera_capture_setup(struct tegra_vi_channel *chan)
- {
- 	u32 output_fourcc = chan->format.pixelformat;
-+	u32 data_type = chan->fmtinfo->img_dt;
- 	int width  = chan->format.width;
- 	int height = chan->format.height;
- 	int stride_l = chan->format.bytesperline;
- 	int stride_c = (output_fourcc == V4L2_PIX_FMT_YUV420 ||
- 			output_fourcc == V4L2_PIX_FMT_YVU420) ? 1 : 0;
--	enum tegra_vi_out output_channel = TEGRA_VI_OUT_1;
-+	enum tegra_vi_out output_channel = (data_type == TEGRA_IMAGE_DT_RAW8 ||
-+					    data_type == TEGRA_IMAGE_DT_RAW10) ?
-+					    TEGRA_VI_OUT_2 : TEGRA_VI_OUT_1;
- 	int main_output_format;
- 	int yuv_output_format;
- 
-@@ -586,9 +636,25 @@ static const struct tegra_video_format tegra20_video_formats[] = {
- 	TEGRA20_VIDEO_FMT(YUV422_8, 16, VYUY8_2X8, 2, VYUY),
- 	TEGRA20_VIDEO_FMT(YUV422_8, 16, YUYV8_2X8, 2, YUYV),
- 	TEGRA20_VIDEO_FMT(YUV422_8, 16, YVYU8_2X8, 2, YVYU),
-+	TEGRA20_VIDEO_FMT(YUV422_8, 16, UYVY8_1X16, 2, UYVY),
-+	TEGRA20_VIDEO_FMT(YUV422_8, 16, VYUY8_1X16, 2, VYUY),
-+	TEGRA20_VIDEO_FMT(YUV422_8, 16, YUYV8_1X16, 2, YUYV),
-+	TEGRA20_VIDEO_FMT(YUV422_8, 16, YVYU8_1X16, 2, YVYU),
- 	/* YUV420P */
- 	TEGRA20_VIDEO_FMT(YUV422_8, 16, UYVY8_2X8, 1, YUV420),
- 	TEGRA20_VIDEO_FMT(YUV422_8, 16, UYVY8_2X8, 1, YVU420),
-+	TEGRA20_VIDEO_FMT(YUV422_8, 16, UYVY8_1X16, 1, YUV420),
-+	TEGRA20_VIDEO_FMT(YUV422_8, 16, UYVY8_1X16, 1, YVU420),
-+	/* RAW 8 */
-+	TEGRA20_VIDEO_FMT(RAW8, 8, SRGGB8_1X8, 2, SRGGB8),
-+	TEGRA20_VIDEO_FMT(RAW8, 8, SGRBG8_1X8, 2, SGRBG8),
-+	TEGRA20_VIDEO_FMT(RAW8, 8, SGBRG8_1X8, 2, SGBRG8),
-+	TEGRA20_VIDEO_FMT(RAW8, 8, SBGGR8_1X8, 2, SBGGR8),
-+	/* RAW 10 */
-+	TEGRA20_VIDEO_FMT(RAW10, 10, SRGGB10_1X10, 2, SRGGB10),
-+	TEGRA20_VIDEO_FMT(RAW10, 10, SGRBG10_1X10, 2, SGRBG10),
-+	TEGRA20_VIDEO_FMT(RAW10, 10, SGBRG10_1X10, 2, SGBRG10),
-+	TEGRA20_VIDEO_FMT(RAW10, 10, SBGGR10_1X10, 2, SBGGR10),
- };
- 
- const struct tegra_vi_soc tegra20_vi_soc = {
-@@ -615,10 +681,12 @@ const struct tegra_vi_soc tegra20_vi_soc = {
- static int tegra20_vip_start_streaming(struct tegra_vip_channel *vip_chan)
- {
- 	struct tegra_vi_channel *vi_chan = v4l2_get_subdev_hostdata(&vip_chan->subdev);
-+	u32 data_type = vi_chan->fmtinfo->img_dt;
- 	int width  = vi_chan->format.width;
- 	int height = vi_chan->format.height;
--	enum tegra_vi_out output_channel = TEGRA_VI_OUT_1;
--
-+	enum tegra_vi_out output_channel = (data_type == TEGRA_IMAGE_DT_RAW8 ||
-+					    data_type == TEGRA_IMAGE_DT_RAW10) ?
-+					    TEGRA_VI_OUT_2 : TEGRA_VI_OUT_1;
- 	unsigned int main_input_format;
- 	unsigned int yuv_input_format;
- 
--- 
-2.48.1
+
+Well, it is technically a breaking change, if any device was already 
+using fw download protocol. With that said, I have no idea who is using 
+greybus right now. And since the changes are in staging drivers, it 
+probably is fine.
+
+I don't really know if the spec came first or linux implementation. But 
+one of them is currently incorrect.
+
+Just to clarify, greybus-for-zephyr is not the original or source of 
+truth implementation of greybus. I just found the inconsistency between 
+what the spec says, and what Linux kernel implements and thought that 
+spec should probably have higher priority.
+
+
+Best Regards,
+
+Ayush Singh
 
