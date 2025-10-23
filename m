@@ -1,36 +1,39 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 340EF2D9ECD
-	for <linux-staging@lists.linux.dev>; Thu, 23 Oct 2025 09:57:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C82CD30ACF3;
+	Thu, 23 Oct 2025 09:58:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761213448; cv=none; b=Jd7G9pwfMQnIoD3s8AMiQoTrb8X+eReEDxJ4eWWhv/f5TobVem7erU5aq5gdWhaiprOHe8rnKb96tP/BxQeHk7wgjB+ZR6bIprio54B25uXeWXtjCkOfTtwg+6I5/kkyDwIvE3XgpKWq2DKYYcofgyaBPWDJkGa/gsb6wXaqC+E=
+	t=1761213520; cv=none; b=OeirTVlOiJ1uKbjLJ8i3UtBI2sf5DrXIy4O5w002WpaaKLr47Hk+dvO6PZSYSsjEuZP+ZgIdRe//Xn5yk3TVdpO3YRvh0nSmzyR7ucNGMsaAFrVN5/GwPTSH/GtEk68YBqGCkkFeSWN54WQOiQRfszpqfaJZw9GNLYb4BpfQtrA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761213448; c=relaxed/simple;
-	bh=t5tIUiuiwyp/I16reeYwzAyGxJmOwPnhLLfC0dqajIw=;
+	s=arc-20240116; t=1761213520; c=relaxed/simple;
+	bh=C1e5zMU2FxmuvcmBblTzBCIpoY3f39ZeA/FwDmoe7+c=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=M6md1UPIOpeUKxapijllCe6xjOKETfiQv/gAodjemnh71iRSJ2fW4vrmxib2zwxS78hKAdq0CGPQ5+ZlYSPCXkywg2BdA1BqIb5c1dMzjtTTxWmCKsmcUiuSQ6E+HtYzJlEp2fLSTxCq6kL4zdW+ciju0oM2uco8NGfZMojF3xs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=fiARi96u; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=GXmu7Ri7X8U8rsZH9Idx+5sxpJ1ADRqEJq9GNban5b6Ek1nHq11pAFVa8KUECMN78fXu5NoL+oGvKCR4imKFbQFosu5d+i2p5pFlUeiTm/6DFrIlRLDsEJJzz5mA1BbohkLp9AlLZvkrlwr8VmMDk9c79p9b8uMQR3O866WLC94=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=MxclM3C+; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="fiARi96u"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6BF6AC4CEE7;
-	Thu, 23 Oct 2025 09:57:27 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="MxclM3C+"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D377DC4CEE7;
+	Thu, 23 Oct 2025 09:58:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1761213447;
-	bh=t5tIUiuiwyp/I16reeYwzAyGxJmOwPnhLLfC0dqajIw=;
+	s=korg; t=1761213517;
+	bh=C1e5zMU2FxmuvcmBblTzBCIpoY3f39ZeA/FwDmoe7+c=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=fiARi96uN8yxXuDPS31z3MYDDLbIcRFjQ2v58zenLcNYu7KnTsIXgj9QcdfRwNAhy
-	 SLRD9kPU2FkvFuJV8d1tIGGMBkDgW3YUUB4VYJzEqN7IQc7guHJFAHfcaVIQXd9F75
-	 FOGkCBJbeneipaGOBVNzkf1uw4A9p0zegYcWzsKc=
-Date: Thu, 23 Oct 2025 11:57:24 +0200
+	b=MxclM3C+eb976gcoy28ohvAY9D6iqxv37gFlY9HgupWQEDwbsodVm3N+Bxu1CS6bD
+	 T79v1OGju+bWuqy9ws8w++a/xYUcB8poHaCVmzQvoestMBM+XnDLdhZhWcs0v9zOyM
+	 a3qSkvPvued4lg1YyAPKJ6LakUTZMGDNswpCpni8=
+Date: Thu, 23 Oct 2025 11:58:34 +0200
 From: Greg KH <gregkh@linuxfoundation.org>
-To: Dharanitharan R <dharanitharan725@gmail.com>
-Cc: linux-staging@lists.linux.dev
-Subject: Re: [PATCH v4] staging: rtl8723bs: use ether_addr_copy() and
- simplify NULL checks
-Message-ID: <2025102338-sandbank-croak-5f1d@gregkh>
-References: <20251023093052.1822-1-dharanitharan725@gmail.com>
+To: Fokaz Chakma <fokazmchakma4427@gmail.com>
+Cc: dpenkler@gmail.com, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: gpib/pc2: convert explanatory comments to /*
+ ... */ style
+Message-ID: <2025102341-playmate-angling-bdb5@gregkh>
+References: <20251014200727.206103-1-fokazmchakma4427@gmail.com>
+ <2025102227-resisting-sudden-7f3d@gregkh>
+ <CAMa_khZMv-8jmUf1wqhund_rWQ5Nkoox1mqUsHaHmVvS6PJwCQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -39,33 +42,30 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251023093052.1822-1-dharanitharan725@gmail.com>
+In-Reply-To: <CAMa_khZMv-8jmUf1wqhund_rWQ5Nkoox1mqUsHaHmVvS6PJwCQ@mail.gmail.com>
 
-On Thu, Oct 23, 2025 at 09:30:52AM +0000, Dharanitharan R wrote:
-> This patch replaces multiple memcpy() calls with ether_addr_copy()
-> for copying MAC/Ethernet addresses in rtl8723bs.
+A: http://en.wikipedia.org/wiki/Top_post
+Q: Were do I find info about this thing called top-posting?
+A: Because it messes up the order in which people normally read text.
+Q: Why is top-posting such a bad thing?
+A: Top-posting.
+Q: What is the most annoying thing in e-mail?
 
-Take a look at the documentation for the kernel on how to write good
-changelog text.  It's usually the hardest part of writing a patch.  It
-says to not do things that say "this patch" and the like.
+A: No.
+Q: Should I include quotations after my reply?
 
-Also, your Subject doesn't make sense, there is no NULL checks happening
-here.
+http://daringfireball.net/2007/07/on_top
 
-> 
-> These changes improve code clarity, align with Linux kernel best
-> practices, and fix checkpatch.pl warnings.
+Also, HTML email caused this to be rejected by the server :(
 
-What warning is being handled?
+On Wed, Oct 22, 2025 at 06:48:21PM +0530, Fokaz Chakma wrote:
+> The coding style guide in Documentation/process/coding-style.rst indicated
+> that single-line // comments should be converted to /* ... */ style when
+> describing  code or data.
 
-> 
-> Tested by compiling the module successfully with:
->     make M=drivers/staging/rtl8723bs
-
-That doesn't always work, better to use:
-	make drivers/staging/rtl8723bs/
-
-Also, that is always implied, and shouldn't be needed here :)
+Yes, that's good, but we have learned to live with // comments for
+simple one line comments now, so there's no real need to change this
+driver for just that.
 
 thanks,
 
