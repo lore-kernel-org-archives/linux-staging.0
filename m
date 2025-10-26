@@ -1,93 +1,104 @@
-Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DCF41F12F8
-	for <linux-staging@lists.linux.dev>; Sat, 25 Oct 2025 19:37:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC6F01A9FB8
+	for <linux-staging@lists.linux.dev>; Sun, 26 Oct 2025 08:33:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761421026; cv=none; b=NYssLCBz01yFvvTQJI4RpIeAKtyHEtjD1h1kDdWMtth32wqylZtN+WsQiiQCcdBEMoKgpBl7AiOJRLvbA1zyARMF3XebqDxoGyuFmtD1IWGpa77b3oUAxn3X6n5UZq87x1jEHP2nrsE5Tq3zdyzsjs+34UcjiHDqyvl4onGf2ns=
+	t=1761467608; cv=none; b=p9fm1vbxQi31/UjvSKDUbOW15S46rI9eWsTC1TsX5sLI//1qsApWT1Lsix6KZk2M8WFY3RE2rF6YV1YbVCm38Afyoa4LFCldUS23RajFBonIExYajKALp2xF/1BNvYPN1GCA0h3eiqZjBWxE3Uj0l1gdDmDrIBBxhM+q0F+qsk0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761421026; c=relaxed/simple;
-	bh=+crvZClNQQCnwm3zZNAYgqCzKPrb9KlK5KyZOWEfDsQ=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=uNtrvt4GkcPFUXyvHZu8OrS2wveX98IhOUJO5dSS1Ctdmnw8lJXCn/WhXUmTE8A1cx4uiBc2hdg03C7PN2wWLvt8QE1XT24A3FuWgd2TdPqo9iqx8g2pzwt0l7ClnNgokMIxo01CqaRtQBLlMMViP0bynzJYGxlf32p4Igie4Ck=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QJEzzC+u; arc=none smtp.client-ip=209.85.218.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1761467608; c=relaxed/simple;
+	bh=pKOalrzGwUSDSFJYcAc+eiZNmXxTjSeJsTeYfrJsUag=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=WmWg+jNkmQqlrp+GReDfTLQ2EgX6FLIexl5vlzLe8X3DREbasqmh7GfRM60tGq9mwiuYSD8+zdky2WXe1FzmwXSImR9VqWdbqZ0EgQ2SlDPWtf6pNIDYpiAgPYQfyzMoEOhVePXk99D/NGb8A2cqxSrmTITN9fst1Um6dPBN9zE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=cnhYY5Ln; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QJEzzC+u"
-Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-b6d855ca585so181720566b.0
-        for <linux-staging@lists.linux.dev>; Sat, 25 Oct 2025 12:37:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1761421023; x=1762025823; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=xv9RNCJUU4L4prMpvQIr5fUfZjPP6iuDGaE4hqx6zyQ=;
-        b=QJEzzC+uSRMUIP2ndDkARjsU+k8oAfiMk223ZdO+QcFoPq5dE/MyMxnOc6Bq95o3hl
-         oP0Wi44a+2BdTAYWl1WwfUYy3gU6inafhDm8a+yB2oMeaeOTnDERQU/aQRsG2AdG2lfC
-         DAtkW+fOX+v3EDP5kE8rnH+WOzT2UoukcFfQP5+S4OuFR/wgZLWTAO1DhP0sh1y+e+8N
-         2hHJJi/xf4u0JMF4/cDPXfyhqnADLxjEwa2FzI9LUlh1b457Ii4xSaxn7EuobhGh+xcx
-         6xMSARE3bBPobA9MiUUxnOlJMRBue/mgekiDTPZoAUK8g1L2oMWbLVTJ7eAjOSAbj+b8
-         crRQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761421023; x=1762025823;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=xv9RNCJUU4L4prMpvQIr5fUfZjPP6iuDGaE4hqx6zyQ=;
-        b=kegedHeZZkaXqQ6dYsj+b9hhOns/cqqNMCzFzqaMlv0IDdXwhiQRnfASIlQud8Z6Zw
-         0rrtUzBsBV0A5GNRLWY2Rfbg7UeJ0t15N1Jr0bK/h6rhRCAVO/CmMVw+lzuGCtJ33CRY
-         SwuIn1UDwlnHMf9W3xhxz9zpGadUoRTfTC6uKwYYVew3Jl7wqaz4Cl1hGQWHYS8Kt00M
-         4zPM6R1zYcedwZGGW7i9P20jDVwQPJ0iA42tAj53j7hhhFHc9K8j1zP3XLCgilzyd3Jc
-         8qXmrjZ8f4nzaUNZfQ6b3oP9CdY2d27nVB1HeW004tpih7kimaFkYCxt4oMAq1IVp8IU
-         ps2Q==
-X-Gm-Message-State: AOJu0YyGKc2HPMD2SU5tOpR71ocrQ2LwiL+M+o21TspqozI3J3BtDHCC
-	V9PngrDmdifzfnUrcSWJmaN9JhTjaim6gRupaQinlj3BHS4whaPfXE1YSwvJLw==
-X-Gm-Gg: ASbGncvOQFXaqUGJMSRv/3JrZzIrKccpolXz5/XxWEFelFRAT3n9BZBgXWyNCzOenEZ
-	YQ1fscqIXqV89iQjvSpTf2T8UCtLJ3KkiwLt4Hkk2T3tyuN9B/XDuoRUwd5Z4GT1XKWkRBpg262
-	3w9PWbrIVF+IYo4u1XGZSobgV9Bucgyct8TvSkPm4d90Ncn8frPrkdGZhnQlQ213+D3JKVzrG88
-	qvfBSPCTdyGkRp/s21O5qS7e5N/1oD1EKbSykHYQ7qjUTA7Aeu4wLQBPFBwsB6/axaVJpu5aaKz
-	7B+b7CZrUP38WkY6+LmDfPrhql25iqV/aqHZlX0Yo1aw5FfSpp4aMZI3K30cDf4yvQqwHbEmVuO
-	4XHzA9pQ8R+0g9rg1HZdw7d3Yhgc10/3d7+C3Vxsk6W99z9T/hqt6Wq+w1uHl90E1yNNxluNn3x
-	pHV6B8XSWkykZIGe0usRL1rGR6a7hWKHfiYg==
-X-Google-Smtp-Source: AGHT+IGp8VJ8f96q0Hl3WFVWGbJu7gFgn0/t1dBgHLjvjsWRAg44ndpqTl5nwDeXHqlFzkx2hAoKcA==
-X-Received: by 2002:a17:906:f589:b0:b04:61aa:6adc with SMTP id a640c23a62f3a-b647195b6c9mr3543269666b.7.1761421023130;
-        Sat, 25 Oct 2025 12:37:03 -0700 (PDT)
-Received: from localhost ([2a02:810d:bb0b:f200:16b9:a443:7d2f:9581])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b6d8548eda6sm270706166b.75.2025.10.25.12.37.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 25 Oct 2025 12:37:02 -0700 (PDT)
-From: rafiqul713 <rafiqul713@gmail.com>
-To: linux-staging@lists.linux.dev
-Cc: rafiqul713 <rafiqul713@gmail.com>
-Subject: [PATCH] staging: rtl8723bs: replace rtw_sprintf with scnprintf
-Date: Sat, 25 Oct 2025 21:36:58 +0200
-Message-Id: <20251025193658.175399-1-rafiqul713@gmail.com>
-X-Mailer: git-send-email 2.34.1
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="cnhYY5Ln"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B1091C4CEE7;
+	Sun, 26 Oct 2025 08:33:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1761467608;
+	bh=pKOalrzGwUSDSFJYcAc+eiZNmXxTjSeJsTeYfrJsUag=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=cnhYY5LnylkKDROLbgh+6g9DOx4/y8fxRqramiE3tKCm1NKERJkRfrHm1wUHuEVi+
+	 Ex8t5vsczTWsZ2UV6lopRsqmSAVUoHQ1J2WPVmQRiYb6NYQcC8GzjoIlxfngvMxBHS
+	 F2Z0Rpncpb+vNPsmy1N5c2VCJb0/CajR74ZGBCPc=
+Date: Sun, 26 Oct 2025 09:33:19 +0100
+From: Greg KH <gregkh@linuxfoundation.org>
+To: rafiqul713 <rafiqul713@gmail.com>
+Cc: linux-staging@lists.linux.dev
+Subject: Re: [PATCH] staging: rtl8723bs: replace rtw_sprintf with scnprintf
+Message-ID: <2025102649-dreamboat-dominoes-52a3@gregkh>
+References: <20251025193658.175399-1-rafiqul713@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251025193658.175399-1-rafiqul713@gmail.com>
 
-Signed-off-by: rafiqul713 <rafiqul713@gmail.com>
----
- drivers/staging/rtl8723bs/include/osdep_service.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On Sat, Oct 25, 2025 at 09:36:58PM +0200, rafiqul713 wrote:
+> Signed-off-by: rafiqul713 <rafiqul713@gmail.com>
+> ---
+>  drivers/staging/rtl8723bs/include/osdep_service.h | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/staging/rtl8723bs/include/osdep_service.h b/drivers/staging/rtl8723bs/include/osdep_service.h
+> index 8b1634f4091e..019792d0595a 100644
+> --- a/drivers/staging/rtl8723bs/include/osdep_service.h
+> +++ b/drivers/staging/rtl8723bs/include/osdep_service.h
+> @@ -119,6 +119,6 @@ struct rtw_cbuf *rtw_cbuf_alloc(u32 size);
+>  /*
+>   * Write formatted output to sized buffer
+>   */
+> -#define rtw_sprintf(buf, size, format, arg...)	snprintf(buf, size, format, ##arg)
+> +#define rtw_sprintf(buf, size, fmt, ...) scnprintf(buf, size, fmt, ##__VA_ARGS__)
+>  
+>  #endif
+> -- 
+> 2.34.1
+> 
+> 
 
-diff --git a/drivers/staging/rtl8723bs/include/osdep_service.h b/drivers/staging/rtl8723bs/include/osdep_service.h
-index 8b1634f4091e..019792d0595a 100644
---- a/drivers/staging/rtl8723bs/include/osdep_service.h
-+++ b/drivers/staging/rtl8723bs/include/osdep_service.h
-@@ -119,6 +119,6 @@ struct rtw_cbuf *rtw_cbuf_alloc(u32 size);
- /*
-  * Write formatted output to sized buffer
-  */
--#define rtw_sprintf(buf, size, format, arg...)	snprintf(buf, size, format, ##arg)
-+#define rtw_sprintf(buf, size, fmt, ...) scnprintf(buf, size, fmt, ##__VA_ARGS__)
- 
- #endif
--- 
-2.34.1
+Hi,
 
+This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
+a patch that has triggered this response.  He used to manually respond
+to these common problems, but in order to save his sanity (he kept
+writing the same thing over and over, yet to different people), I was
+created.  Hopefully you will not take offence and will fix the problem
+in your patch and resubmit it so that it can be accepted into the Linux
+kernel tree.
+
+You are receiving this message because of the following common error(s)
+as indicated below:
+
+- You did not specify a description of why the patch is needed, or
+  possibly, any description at all, in the email body.  Please read the
+  section entitled "The canonical patch format" in the kernel file,
+  Documentation/process/submitting-patches.rst for what is needed in
+  order to properly describe the change.
+
+- You did not write a descriptive Subject: for the patch, allowing Greg,
+  and everyone else, to know what this patch is all about.  Please read
+  the section entitled "The canonical patch format" in the kernel file,
+  Documentation/process/submitting-patches.rst for what a proper
+  Subject: line should look like.
+
+- It looks like you did not use your "real" name for the patch on either
+  the Signed-off-by: line, or the From: line (both of which have to
+  match).  Please read the kernel file,
+  Documentation/process/submitting-patches.rst for how to do this
+  correctly.
+
+If you wish to discuss this problem further, or you have questions about
+how to resolve this issue, please feel free to respond to this email and
+Greg will reply once he has dug out from the pending patches received
+from other developers.
+
+thanks,
+
+greg k-h's patch email bot
