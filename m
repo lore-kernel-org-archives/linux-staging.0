@@ -1,81 +1,63 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8692B244670;
-	Sun, 26 Oct 2025 14:00:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B73B72605;
+	Sun, 26 Oct 2025 17:37:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761487204; cv=none; b=L0HOrTYOHksZzLssgs61hOGgxS7cG1BZqTjkApkQf4Xz52B9DGZLQpqSf52v/zBfGz4V1AOiDuYKhrUP6GOx64UMYzJvHMgkVrOG5GKskH3Dyo911+QxbVKC5sz+r9plwtW3XcLChst+HhfloLE6epY9pPJ4xRST9oHLrhV+N4s=
+	t=1761500281; cv=none; b=NOJLXq5Nq+iaqqnrWbAHabT1DqL4uGIqhsOxkPEk5BZvjfF+4ZFls3qxkiYE3/ISGwwIEw1ToihdtIYRvWnVd8CsiAp3x9KC2px9hn6Fs2aKQTgqH/8eZHOSPUGsXCya0i46e96Hc39csA6f9LDR+IDoGDKQ1e85XWiRPpc3P/0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761487204; c=relaxed/simple;
-	bh=WXcZkA9rS9kSCjP0N3fQylh7T68NkGsLkURGcr8nqjs=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=RxKcNel/O1wvTicTlrGV/P0iNQWKZOamkJOD9Hk0L36ekHkyQz/SDZWOpiSeqy/5yVm+vKNVkZT00PZRcxVFNhtMOwgpciNwOZ2hOavq8YoRPUjg0QblLd1BUjBeR2pi6sR9YZvbbymVozc2xZIzH7wTGnzZOIdi8b6D6Y3WZS4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=LprZfe6a; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1761500281; c=relaxed/simple;
+	bh=4ae7mxLabP0oPbjtaOFBL7CYieSMl+YDOxtR5JHi5b0=;
+	h=Subject:From:In-Reply-To:References:Message-Id:Date:To:Cc; b=KlaI6rfVToFB8wnzt3Ohj5dv09PbCNkW4uFTjjYSqs+EF6axGzFLI68wKWrpB3iNb5cUeXA2lGGTiICEqFjXuwscbh57sed6jMQx4gRqKOgzH0IfHdQi/Lbeq7a7+LW/vXP4Mi8mGR2Py3cpz3gXeoSYgkrNWkAF8VjrRNML5uc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IALnPnPG; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="LprZfe6a"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BF375C4CEE7;
-	Sun, 26 Oct 2025 14:00:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1761487204;
-	bh=WXcZkA9rS9kSCjP0N3fQylh7T68NkGsLkURGcr8nqjs=;
-	h=Date:From:To:Cc:Subject:From;
-	b=LprZfe6akDcqpOszpTqQK3fZ9R2DsZP/YtgOxuMnuMpApQBK3IpYlultqUAxbWit4
-	 bbrAm5er49UITByipoXU0n9utUazQye/E9uvInQCju6RnoEyZsvCP0ve/HAjTANR1T
-	 zY78/OpuxkV5cz60cXZun+RUhTvoA7r9+HzRkSgc=
-Date: Sun, 26 Oct 2025 14:59:59 +0100
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Linus Torvalds <torvalds@linux-foundation.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Stephen Rothwell <sfr@canb.auug.org.au>
-Cc: linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
-Subject: [GIT PULL] Staging driver fixes for 6.18-rc3
-Message-ID: <aP4pX6-QYmlmM27h@kroah.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IALnPnPG"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BCCBEC4CEE7;
+	Sun, 26 Oct 2025 17:37:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1761500279;
+	bh=4ae7mxLabP0oPbjtaOFBL7CYieSMl+YDOxtR5JHi5b0=;
+	h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
+	b=IALnPnPGRCo1qJjsW4/Pu4HVmVM7v4RkQu6Mp33Da7mCWJzagXHYB3B8rbUS5STpn
+	 fQPYRUE78EhF1WzDoU9buFES0FOZrrWaBg7Px/igo4UYUg47ZfhsKO4j+i4n78StVS
+	 XIt6zc4nFxXcrwb29NO8Zsfp0Eou92nOSfJNuEYZb6vwNK6jhm/GszZe9SF05aC+Ps
+	 yGrb+yqFgpTGQzza+UGFI3QAbFz2ZG2mRVlE5Ua6UKuvEBoHFDeFGhkxK+YhTCzW8R
+	 ptwTUIXb/DHLciG1FnPWRURsEj6RnoXRZXSFOMhcfu6yGKQzWIC+cR4yWdWMrXfqy1
+	 JyT+bvxwuYqSA==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id ADDCD380AA7F;
+	Sun, 26 Oct 2025 17:37:39 +0000 (UTC)
+Subject: Re: [GIT PULL] Staging driver fixes for 6.18-rc3
+From: pr-tracker-bot@kernel.org
+In-Reply-To: <aP4pX6-QYmlmM27h@kroah.com>
+References: <aP4pX6-QYmlmM27h@kroah.com>
+X-PR-Tracked-List-Id: <linux-staging.lists.linux.dev>
+X-PR-Tracked-Message-Id: <aP4pX6-QYmlmM27h@kroah.com>
+X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git tags/staging-6.18-rc3
+X-PR-Tracked-Commit-Id: b1aabb8ef09b4cf0cc0c92ca9dfd19482f3192c1
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: 40282418e17e194fe70478025387cf89f8cfaf8e
+Message-Id: <176150025823.300159.7769329660523366457.pr-tracker-bot@kernel.org>
+Date: Sun, 26 Oct 2025 17:37:38 +0000
+To: Greg KH <gregkh@linuxfoundation.org>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>, Andrew Morton <akpm@linux-foundation.org>, Stephen Rothwell <sfr@canb.auug.org.au>, linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
 
-The following changes since commit 3a8660878839faadb4f1a6dd72c3179c1df56787:
+The pull request you sent on Sun, 26 Oct 2025 14:59:59 +0100:
 
-  Linux 6.18-rc1 (2025-10-12 13:42:36 -0700)
+> git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git tags/staging-6.18-rc3
 
-are available in the Git repository at:
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/40282418e17e194fe70478025387cf89f8cfaf8e
 
-  git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git tags/staging-6.18-rc3
+Thank you!
 
-for you to fetch changes up to b1aabb8ef09b4cf0cc0c92ca9dfd19482f3192c1:
-
-  staging: gpib: Fix device reference leak in fmh_gpib driver (2025-10-13 10:55:03 +0200)
-
-----------------------------------------------------------------
-staging driver fixes for 6.18-rc3
-
-Here are some small staging driver fixes for the gpib subsystem to
-resolve some reported issues.  Included in here are:
-  - memory leak fixes
-  - error code fixes
-  - proper protocol fixes
-
-All of these have been in linux-next for almost 2 weeks now with no
-reported issues.
-
-Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-
-----------------------------------------------------------------
-Dave Penkler (3):
-      staging: gpib: Fix no EOI on 1 and 2 byte writes
-      staging: gpib: Fix sending clear and trigger events
-      staging: gpib: Return -EINTR on device clear
-
-Ma Ke (1):
-      staging: gpib: Fix device reference leak in fmh_gpib driver
-
- drivers/staging/gpib/agilent_82350b/agilent_82350b.c | 12 +++++++-----
- drivers/staging/gpib/fmh_gpib/fmh_gpib.c             |  5 +++++
- drivers/staging/gpib/ni_usb/ni_usb_gpib.c            | 13 ++++++++++---
- 3 files changed, 22 insertions(+), 8 deletions(-)
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/prtracker.html
