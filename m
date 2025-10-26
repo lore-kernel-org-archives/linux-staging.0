@@ -1,63 +1,89 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B73B72605;
-	Sun, 26 Oct 2025 17:37:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24A6D48CFC;
+	Sun, 26 Oct 2025 22:24:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761500281; cv=none; b=NOJLXq5Nq+iaqqnrWbAHabT1DqL4uGIqhsOxkPEk5BZvjfF+4ZFls3qxkiYE3/ISGwwIEw1ToihdtIYRvWnVd8CsiAp3x9KC2px9hn6Fs2aKQTgqH/8eZHOSPUGsXCya0i46e96Hc39csA6f9LDR+IDoGDKQ1e85XWiRPpc3P/0=
+	t=1761517459; cv=none; b=KI8+aw5gU9LLxeSfrpHnUtwCD2wthHdJczB+3cuXYowru3npdAip7noo4BAz87SvROwYn0nrkt0RwwF54HyNNyrRmH26+8b+9qkrrjQVxr4C22jOvdMIhAYSbd+FtjrKpsGVO2HRAnpLD61beOBIrNz/H0RNxeyCVMj5g/HgoIc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761500281; c=relaxed/simple;
-	bh=4ae7mxLabP0oPbjtaOFBL7CYieSMl+YDOxtR5JHi5b0=;
-	h=Subject:From:In-Reply-To:References:Message-Id:Date:To:Cc; b=KlaI6rfVToFB8wnzt3Ohj5dv09PbCNkW4uFTjjYSqs+EF6axGzFLI68wKWrpB3iNb5cUeXA2lGGTiICEqFjXuwscbh57sed6jMQx4gRqKOgzH0IfHdQi/Lbeq7a7+LW/vXP4Mi8mGR2Py3cpz3gXeoSYgkrNWkAF8VjrRNML5uc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IALnPnPG; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1761517459; c=relaxed/simple;
+	bh=wqfmqPUYrqaRfBk+poDFpcrAq8e0x45EHLFsjGjVWiU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=aHr1zruGlW8aUEbqO1NeRDgDRA5FbOC02bolRypxUTNLW4+IPjmYOpbaqxUX3wQgt7TpFJl6subQm5w5dY6217g1QIku3Ljq4AT/8o95Dn43WoA7rp8hbAK4hdG1UAfqpVOgzAnCtT6jks/pY2bvTZpcIPl+CzKwvo6dUFtAGQE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NVU2GwNf; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IALnPnPG"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BCCBEC4CEE7;
-	Sun, 26 Oct 2025 17:37:59 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NVU2GwNf"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 44B8EC4CEE7;
+	Sun, 26 Oct 2025 22:24:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1761500279;
-	bh=4ae7mxLabP0oPbjtaOFBL7CYieSMl+YDOxtR5JHi5b0=;
-	h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
-	b=IALnPnPGRCo1qJjsW4/Pu4HVmVM7v4RkQu6Mp33Da7mCWJzagXHYB3B8rbUS5STpn
-	 fQPYRUE78EhF1WzDoU9buFES0FOZrrWaBg7Px/igo4UYUg47ZfhsKO4j+i4n78StVS
-	 XIt6zc4nFxXcrwb29NO8Zsfp0Eou92nOSfJNuEYZb6vwNK6jhm/GszZe9SF05aC+Ps
-	 yGrb+yqFgpTGQzza+UGFI3QAbFz2ZG2mRVlE5Ua6UKuvEBoHFDeFGhkxK+YhTCzW8R
-	 ptwTUIXb/DHLciG1FnPWRURsEj6RnoXRZXSFOMhcfu6yGKQzWIC+cR4yWdWMrXfqy1
-	 JyT+bvxwuYqSA==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id ADDCD380AA7F;
-	Sun, 26 Oct 2025 17:37:39 +0000 (UTC)
-Subject: Re: [GIT PULL] Staging driver fixes for 6.18-rc3
-From: pr-tracker-bot@kernel.org
-In-Reply-To: <aP4pX6-QYmlmM27h@kroah.com>
-References: <aP4pX6-QYmlmM27h@kroah.com>
-X-PR-Tracked-List-Id: <linux-staging.lists.linux.dev>
-X-PR-Tracked-Message-Id: <aP4pX6-QYmlmM27h@kroah.com>
-X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git tags/staging-6.18-rc3
-X-PR-Tracked-Commit-Id: b1aabb8ef09b4cf0cc0c92ca9dfd19482f3192c1
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: 40282418e17e194fe70478025387cf89f8cfaf8e
-Message-Id: <176150025823.300159.7769329660523366457.pr-tracker-bot@kernel.org>
-Date: Sun, 26 Oct 2025 17:37:38 +0000
-To: Greg KH <gregkh@linuxfoundation.org>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>, Andrew Morton <akpm@linux-foundation.org>, Stephen Rothwell <sfr@canb.auug.org.au>, linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
+	s=k20201202; t=1761517458;
+	bh=wqfmqPUYrqaRfBk+poDFpcrAq8e0x45EHLFsjGjVWiU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=NVU2GwNfwtpx6wq6fJoFqVxektGKFDqprTLRqK+JcoZhnNmRQOwGSocBBNOPG3vTT
+	 81Z3JqDVJdPT4zAxd4RYatkBjpj1wpCqiQL1Rn96e/JWPTDs4o87LztNG8XNWi9jnP
+	 fRmenZlr9UI4z20bq4qbXEJpgQyySlAoEOrIR96Tl4c8Dqro03eHVatK771aa42f25
+	 klcYgzV/pv/C/DB7flPJM/stVHiCeNWugqRjMESyhlzRlJpgnx+2/0FfT1Yo6u0F6X
+	 KVCRG1mGSsasXw8BNa6IRATUkusP7e9W3RB+5jgszjawGRCtUxSRNf+4imwJR/X30o
+	 5hKdFern7DJxA==
+Date: Sun, 26 Oct 2025 17:24:16 -0500
+From: "Rob Herring (Arm)" <robh@kernel.org>
+To: Svyatoslav Ryhel <clamor95@gmail.com>
+Cc: Sowjanya Komatineni <skomatineni@nvidia.com>,
+	Jonas =?iso-8859-1?Q?Schw=F6bel?= <jonasschwoebel@yahoo.de>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Diogo Ivo <diogo.ivo@tecnico.ulisboa.pt>,
+	Luca Ceresoli <luca.ceresoli@bootlin.com>,
+	Dmitry Osipenko <digetx@gmail.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Stephen Boyd <sboyd@kernel.org>,
+	Michael Turquette <mturquette@baylibre.com>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Arnd Bergmann <arnd@arndb.de>, dri-devel@lists.freedesktop.org,
+	linux-staging@lists.linux.dev, linux-tegra@vger.kernel.org,
+	Conor Dooley <conor+dt@kernel.org>, linux-kernel@vger.kernel.org,
+	linux-clk@vger.kernel.org, Aaron Kling <webgeek1234@gmail.com>,
+	Mikko Perttunen <mperttunen@nvidia.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	linux-media@vger.kernel.org, David Airlie <airlied@gmail.com>,
+	Charan Pedumuru <charan.pedumuru@gmail.com>,
+	Simona Vetter <simona@ffwll.ch>,
+	Prashant Gaikwad <pgaikwad@nvidia.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Maxime Ripard <mripard@kernel.org>, devicetree@vger.kernel.org,
+	Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH v5 21/23] dt-bindings: display: tegra: document Tegra20
+ and Tegra30 CSI
+Message-ID: <176151745413.3041982.13183037303437786159.robh@kernel.org>
+References: <20251022144930.73272-1-clamor95@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251022144930.73272-1-clamor95@gmail.com>
 
-The pull request you sent on Sun, 26 Oct 2025 14:59:59 +0100:
 
-> git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git tags/staging-6.18-rc3
+On Wed, 22 Oct 2025 17:49:28 +0300, Svyatoslav Ryhel wrote:
+> Document CSI HW block found in Tegra20 and Tegra30 SoC.
+> 
+> The #nvidia,mipi-calibrate-cells is not an introduction of property, such
+> property already exists in nvidia,tegra114-mipi.yaml and is used in
+> multiple device trees. In case of Tegra30 and Tegra20 CSI block combines
+> mipi calibration function and CSI function, in Tegra114+ mipi calibration
+> got a dedicated hardware block which is already supported. This property
+> here is used to align with mipi-calibration logic used by Tegra114+.
+> 
+> Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
+> ---
+>  .../display/tegra/nvidia,tegra20-csi.yaml     | 138 ++++++++++++++++++
+>  1 file changed, 138 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-csi.yaml
+> 
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/40282418e17e194fe70478025387cf89f8cfaf8e
+Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
 
-Thank you!
-
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
