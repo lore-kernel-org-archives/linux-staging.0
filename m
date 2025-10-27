@@ -1,226 +1,98 @@
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 689F6212572;
-	Mon, 27 Oct 2025 02:20:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECAD12DF706
+	for <linux-staging@lists.linux.dev>; Mon, 27 Oct 2025 07:52:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761531631; cv=none; b=r+ajkE7rLIXa99xEYjM46ObWrrtUT0LuIE/HDoBv498lo5hvujAMQIrlOeIjI9lCsWAOSbAHKN64SoowZ14mcnTElOueCaLK2vofNrdVD4PxEwXmnwnSfOtd3lS+6jauPJHoxlPMNrwR50RcUyLmNy15c0pc4vNz7ez0KarU50Q=
+	t=1761551535; cv=none; b=QeeGaJ7xZJvyKnZxW4BqGfwKHm/iK7kvxRLVlOK96DTzfWIGmVUbRUbTrSjCTXAeTHtdQfixXMUUUMEkV1LfI/ZUSjJeLCminIQouNWHGjzoC0ykRUB3HXCx/bwB2t3Bkh9sdlOm/hncq6jlg7nlVetz0KSw6V8SQqU3U/4YkNQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761531631; c=relaxed/simple;
-	bh=0CPmrnJL35JfeSwF9I2tzAzFRtMEjte+93fbLG7UNU0=;
+	s=arc-20240116; t=1761551535; c=relaxed/simple;
+	bh=xARuhyPIRke3rhckohYdHv5cD9XQNF2eI+BizsNELX0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GpDpiQi6SXzBzneD/Lyzb8m+mYfJnixTkm/3SCBgpcWSisIz9Siqlac05l1oeuG44CA/2sHJlBdxlsq5SmJwIXJVs2jRk3hrc3zUcztZq4H3jSbW8WPZRrAu9wcEt+3HE2yGm0Bm6y3io9/72mad4a2EikRYpRjJGSVdqCn9GuA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=O+hjqnVX; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=sfRz2lKP0xWXBCUxnSgm4Ac5Uc1NT4jIygVfXJWS8721gafFqTXMyb2qt8b0sm7b0Aig10LcJtDksGKBypv8xY384CwswpGHpovmbugMj+x8RbLmOYEVUsdn0YWWutF39rTzftjVvzWBt04FBUw61dGk16TshqUp+roXzGBjz8k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=b3rusViL; arc=none smtp.client-ip=209.85.221.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="O+hjqnVX"
-Received: from pendragon.ideasonboard.com (82-203-161-16.bb.dnainternet.fi [82.203.161.16])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 61680236;
-	Mon, 27 Oct 2025 03:18:37 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1761531517;
-	bh=0CPmrnJL35JfeSwF9I2tzAzFRtMEjte+93fbLG7UNU0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=O+hjqnVXDi8L+biq5hrxrkwgQ7iKXFsSi2wbLCLPUZ6/HtkYFWa3AS1AvSksK1ldJ
-	 f7HZcdQYnaDiNFVUc68KRRLeQ5ifXosnR1K0icoUFGQYIOqG9xYuz/NIcUYPTJhLdz
-	 eV7XunXdJF65K/cWOBRNefdvLPo/1oKm4mYxTPT8=
-Date: Mon, 27 Oct 2025 04:20:10 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Frank Li <Frank.Li@nxp.com>
-Cc: Rui Miguel Silva <rmfrfs@gmail.com>,
-	Martin Kepplinger <martink@posteo.de>,
-	Purism Kernel Team <kernel@puri.sm>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Eugen Hristev <eugen.hristev@linaro.org>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>, Peng Fan <peng.fan@nxp.com>,
-	Alice Yuan <alice.yuan@nxp.com>, Vinod Koul <vkoul@kernel.org>,
-	Kishon Vijay Abraham I <kishon@kernel.org>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Steve Longerbeam <slongerbeam@gmail.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, imx@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org, linux-phy@lists.infradead.org,
-	linux-staging@lists.linux.dev
-Subject: Re: [PATCH v3 12/31] media: staging: media: imx6-mipi-csi2: move sd
- imx6's specific initialization into imx6-sci2.c
-Message-ID: <20251027022010.GW13023@pendragon.ideasonboard.com>
-References: <20250821-95_cam-v3-0-c9286fbb34b9@nxp.com>
- <20250821-95_cam-v3-12-c9286fbb34b9@nxp.com>
- <20251027014448.GV13023@pendragon.ideasonboard.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="b3rusViL"
+Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-4298a028de6so2587181f8f.0
+        for <linux-staging@lists.linux.dev>; Mon, 27 Oct 2025 00:52:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1761551532; x=1762156332; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=QGOKd31PYRnntFCFErcUyPDzIrnZkmh3gA+2JnhMC+g=;
+        b=b3rusViLC97dXicLamD3PctgXSXQBz7RRPDCsDqotB6VmQcEcmt5oTQxZs0mxHgSg2
+         zROAroiMv2GViARecrHtrPa+G/KkZGq81eeWZGVdwiD/MMnMtR8SZaqV1Hv4G9uM3C1q
+         PkR6M3rcxElkMaDn50I4d/JmQg0Fou5x/eXNCjNPMTozlkaraKm2zPakS6w3RmrXNtHN
+         SD0AytbHUtKSIQm8HDHFgD0eWPrJQl/3Dlb9RwmB5zi0/3dHpIp1rKeTJ39gxny6ByqK
+         mrHyJ1nR6AlcQ1AXwnbjWWq/iiiYfXMPNTIAOeHsYOL1U3jrA98bKJ3LOnJV7EF7QXgf
+         guFQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1761551532; x=1762156332;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=QGOKd31PYRnntFCFErcUyPDzIrnZkmh3gA+2JnhMC+g=;
+        b=Ue9LFdrAffws16FEztLJGTzryJXZu6JN+8TnLJTczJLlcJH/9ua29QPlMZvSduVsMW
+         8Epi6s6gv8ZZ8WmuMyrEBH72WOwpmM1fdtCRQSjiaMNwpOX9aYuyBrh+cJtPSVnYHSUl
+         38Oc+pEXNigE+30FpSpSKd0g8L4i9VAkD0585xDXpTVboU/JIFuN6I9+1iMZn+vWo++c
+         eo6McORVP/XZXPIOwJ65f79U6mfAGmNCjXWYeINd+fwWdeaMPWbnrS1mCM1amyyGpdry
+         MJ+5Vm+lJf5BBAVPgbrp64hMSoBp6+TlghnfyYFZamD8OQwT3WdgtOm6kEG/5RnAW1vg
+         gWwg==
+X-Gm-Message-State: AOJu0YyTlzC3TbxKwtEYvZ5gM8Q6homLwnwHnedv5V5/GmPdP2FdgfQQ
+	ZGxQDPYqfmas2SzDMxTW+eOBnMDijwNxEoCFD8k7d5iUbVPTawcDDLerKyT+kz84/TY=
+X-Gm-Gg: ASbGnctiJ1ipNlB31zYNTYBy1c7PYPFjZ1WvwZhHNGq+5OwwOYox9dhBUSShMbjQtjP
+	j7AqUhoV30hAapRCclfa1NkXLe7tSB+GWwr4nvLJMk/mYa3FYjCZGsKxckJkEx6865GcGJW7bj+
+	0ICuO30guXSUj+whIoHHE1/MFqoCfwYp9RemG+8l7ziotRqwPnbGuGzY6nGpbGVdpe+ChPP8uM8
+	SAF8MzqBNgh4N1hmMzYgh5WNGZtPpHn4FuJMVujbu2WVJ+zbuahbbImK/E4GodOtcLCmZ3mENWy
+	yp0hwuSLZTXfk98bHIPUxxf6BWoIOqN8ozgRETRMVqjHu5+fbW5+3c1s22WO3x168xTUS2qTy5o
+	YqvE5/HoWngXykaZH2yJcluvVKsqyg5F620yjD2iMz6gyivKGfE0pvMoOO+DndXerMY04JAgggj
+	fnqhYjXw==
+X-Google-Smtp-Source: AGHT+IHj//a28j27eulcomMDykn15hI8xgFauJac/knqe/kX+h/1vrrLcOFsQsWxOJgUoXQY3GqbDA==
+X-Received: by 2002:a05:6000:2512:b0:428:56c5:b305 with SMTP id ffacd0b85a97d-4298f50e774mr8798468f8f.6.1761551532171;
+        Mon, 27 Oct 2025 00:52:12 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-429952cbb20sm12670944f8f.18.2025.10.27.00.52.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 27 Oct 2025 00:52:11 -0700 (PDT)
+Date: Mon, 27 Oct 2025 10:52:08 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: rafiqul713 <rafiqul713@gmail.com>
+Cc: linux-staging@lists.linux.dev
+Subject: Re: [PATCH] staging: rtl8723bs: replace rtw_sprintf with scnprintf
+Message-ID: <aP8kqDbRu7s_gHPn@stanley.mountain>
+References: <20251025193658.175399-1-rafiqul713@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251027014448.GV13023@pendragon.ideasonboard.com>
+In-Reply-To: <20251025193658.175399-1-rafiqul713@gmail.com>
 
-On Mon, Oct 27, 2025 at 03:44:49AM +0200, Laurent Pinchart wrote:
-> On Thu, Aug 21, 2025 at 04:15:47PM -0400, Frank Li wrote:
-> > Move imx6's specific sd's owner, name, csi2_internal_ops, grp_id into
+On Sat, Oct 25, 2025 at 09:36:58PM +0200, rafiqul713 wrote:
+> Signed-off-by: rafiqul713 <rafiqul713@gmail.com>
+> ---
+>  drivers/staging/rtl8723bs/include/osdep_service.h | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> grp_id needs to go. It's specific to the i.MX6 IPUv3 framework, and is
-> the main part hindering splitting the CSI-2 receiver driver from the
-> rest of the code.
-> 
-> > imx6-sci2.c.
-> > 
-> > Signed-off-by: Frank Li <Frank.Li@nxp.com>
-> > ---
-> >  drivers/staging/media/imx/imx6-csi2.c      | 23 +++++++++++++++++++++++
-> >  drivers/staging/media/imx/imx6-mipi-csi2.c | 29 ++++++-----------------------
-> >  include/media/dw-mipi-csi2.h               |  4 ++++
-> >  3 files changed, 33 insertions(+), 23 deletions(-)
-> > 
-> > diff --git a/drivers/staging/media/imx/imx6-csi2.c b/drivers/staging/media/imx/imx6-csi2.c
-> > index 72eff685fad99b3def46cf2866565191b7de9a8b..66274d8d73b67b35682bb82a9eb745bb24da7ae4 100644
-> > --- a/drivers/staging/media/imx/imx6-csi2.c
-> > +++ b/drivers/staging/media/imx/imx6-csi2.c
-> > @@ -19,6 +19,29 @@ struct imx6_csi2 {
-> >  	struct dw_mipi_csi2_dev dw;
-> >  };
-> >  
-> > +static int csi2_registered(struct v4l2_subdev *sd)
-> > +{
-> > +	struct dw_mipi_csi2_dev *csi2 = sd_to_dw_mipi_csi2_dev(sd);
-> > +
-> > +	/* set a default mbus format  */
-> > +	return imx_media_init_mbus_fmt(&csi2->format_mbus,
-> > +				      IMX_MEDIA_DEF_PIX_WIDTH,
-> > +				      IMX_MEDIA_DEF_PIX_HEIGHT, 0,
-> > +				      V4L2_FIELD_NONE, NULL);
-> > +}
-> > +
-> > +static const struct v4l2_subdev_internal_ops csi2_internal_ops = {
-> > +	.init_state = imx_media_init_state,
-> > +	.registered = csi2_registered,
+> diff --git a/drivers/staging/rtl8723bs/include/osdep_service.h b/drivers/staging/rtl8723bs/include/osdep_service.h
+> index 8b1634f4091e..019792d0595a 100644
+> --- a/drivers/staging/rtl8723bs/include/osdep_service.h
+> +++ b/drivers/staging/rtl8723bs/include/osdep_service.h
+> @@ -119,6 +119,6 @@ struct rtw_cbuf *rtw_cbuf_alloc(u32 size);
+>  /*
+>   * Write formatted output to sized buffer
+>   */
+> -#define rtw_sprintf(buf, size, format, arg...)	snprintf(buf, size, format, ##arg)
+> +#define rtw_sprintf(buf, size, fmt, ...) scnprintf(buf, size, fmt, ##__VA_ARGS__)
 
-Also, these two operations should be handled by the new driver. The imx6
-media framework has a set of helper functions to handle initialization
-of formats, with data structures shared between drivers. It's fine
-duplicating some of the code, with a copy of the required data in the
-new driver. It will be a good opportunity to both avoid historical
-mistake with the new code (for instance, imx_media_init_state() should
-really not be implemented as a wrapper around get subdev get_fmt
-operation), and to remove code from the shared helpers that is
-CSI-2-specific, if any.
+Just delete rtw_sprintf() and fix the callers to use scnprintf() instead.
 
-> > +};
-> > +
-> > +static const struct dw_mipi_csi2_config imx6_config = {
-> > +	.module = THIS_MODULE,
-> > +	.name = "imx6-mipi-csi2",
-> > +	.internal_ops = &csi2_internal_ops,
-> > +	.grp_id = IMX_MEDIA_GRP_ID_CSI2,
-> > +};
-> > +
-> >  static int csi2_probe(struct platform_device *pdev)
-> >  {
-> >  	struct imx6_csi2 *csi2;
-> > diff --git a/drivers/staging/media/imx/imx6-mipi-csi2.c b/drivers/staging/media/imx/imx6-mipi-csi2.c
-> > index b5911a37972be868e10c115ada1910fa04b2765c..ff06a739b957b305625d145c04c06999d0c13cae 100644
-> > --- a/drivers/staging/media/imx/imx6-mipi-csi2.c
-> > +++ b/drivers/staging/media/imx/imx6-mipi-csi2.c
-> > @@ -15,11 +15,11 @@
-> >  #include <linux/platform_device.h>
-> >  #include <media/dw-mipi-csi2.h>
-> >  #include <media/v4l2-common.h>
-> > +#include <media/v4l2-ctrls.h>
-> >  #include <media/v4l2-device.h>
-> >  #include <media/v4l2-fwnode.h>
-> >  #include <media/v4l2-mc.h>
-> >  #include <media/v4l2-subdev.h>
-> > -#include "imx-media.h"
-> >  
-> >  /*
-> >   * The default maximum bit-rate per lane in Mbps, if the
-> > @@ -44,8 +44,6 @@ struct dw_csi2_regs {
-> >  	u32	phy_tst_ctrl1;
-> >  };
-> >  
-> > -#define DEVICE_NAME "imx6-mipi-csi2"
-> > -
-> >  /* Help check wrong access unexisted register at difference IP version */
-> >  #define DW_REG_EXIST		0x80000000
-> >  #define DW_REG(x)		(DW_REG_EXIST | (x))
-> > @@ -544,17 +542,6 @@ static int csi2_set_fmt(struct v4l2_subdev *sd,
-> >  	return 0;
-> >  }
-> >  
-> > -static int csi2_registered(struct v4l2_subdev *sd)
-> > -{
-> > -	struct dw_mipi_csi2_dev *csi2 = sd_to_dev(sd);
-> > -
-> > -	/* set a default mbus format  */
-> > -	return imx_media_init_mbus_fmt(&csi2->format_mbus,
-> > -				      IMX_MEDIA_DEF_PIX_WIDTH,
-> > -				      IMX_MEDIA_DEF_PIX_HEIGHT, 0,
-> > -				      V4L2_FIELD_NONE, NULL);
-> > -}
-> > -
-> >  /* --------------- CORE OPS --------------- */
-> >  
-> >  static int csi2_log_status(struct v4l2_subdev *sd)
-> > @@ -605,11 +592,6 @@ static const struct v4l2_subdev_ops csi2_subdev_ops = {
-> >  	.pad = &csi2_pad_ops,
-> >  };
-> >  
-> > -static const struct v4l2_subdev_internal_ops csi2_internal_ops = {
-> > -	.init_state = imx_media_init_state,
-> > -	.registered = csi2_registered,
-> > -};
-> > -
-> >  static int csi2_notify_bound(struct v4l2_async_notifier *notifier,
-> >  			     struct v4l2_subdev *sd,
-> >  			     struct v4l2_async_connection *asd)
-> > @@ -709,14 +691,15 @@ int dw_mipi_csi2_init(struct platform_device *pdev, struct dw_mipi_csi2_dev *csi
-> >  	csi2->regs = &dw_csi2_v0;
-> >  	v4l2_subdev_init(&csi2->sd, &csi2_subdev_ops);
-> >  	v4l2_set_subdevdata(&csi2->sd, &pdev->dev);
-> > -	csi2->sd.internal_ops = &csi2_internal_ops;
-> >  	csi2->sd.entity.ops = &csi2_entity_ops;
-> >  	csi2->sd.dev = &pdev->dev;
-> > -	csi2->sd.owner = THIS_MODULE;
-> >  	csi2->sd.flags = V4L2_SUBDEV_FL_HAS_DEVNODE;
-> > -	strscpy(csi2->sd.name, DEVICE_NAME, sizeof(csi2->sd.name));
-> >  	csi2->sd.entity.function = MEDIA_ENT_F_VID_IF_BRIDGE;
-> > -	csi2->sd.grp_id = IMX_MEDIA_GRP_ID_CSI2;
-> > +
-> > +	csi2->sd.owner = config->module;
-> > +	strscpy(csi2->sd.name, config->name, sizeof(csi2->sd.name));
-> > +	csi2->sd.internal_ops = config->internal_ops;
-> > +	csi2->sd.grp_id = config->grp_id;
-> >  
-> >  	for (i = 0; i < CSI2_NUM_PADS; i++) {
-> >  		csi2->pad[i].flags = (i == CSI2_SINK_PAD) ?
-> > diff --git a/include/media/dw-mipi-csi2.h b/include/media/dw-mipi-csi2.h
-> > index 4e656f09c81db9dc9f232ed061f70803a5478c85..dfd25e23ea93fd53b064471b6a9557ef9c070fe7 100644
-> > --- a/include/media/dw-mipi-csi2.h
-> > +++ b/include/media/dw-mipi-csi2.h
-> > @@ -10,6 +10,10 @@
-> >  #include <media/v4l2-subdev.h>
-> >  
-> >  struct dw_mipi_csi2_config {
-> > +	struct module *module;
-> > +	const char *name;
-> > +	int grp_id;
-> > +	const struct v4l2_subdev_internal_ops *internal_ops;
-> >  };
-> >  
-> >  /*
+regards,
+dan carpenter
 
--- 
-Regards,
-
-Laurent Pinchart
