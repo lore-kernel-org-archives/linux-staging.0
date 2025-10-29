@@ -1,132 +1,174 @@
-Received: from forwardcorp1d.mail.yandex.net (forwardcorp1d.mail.yandex.net [178.154.239.200])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8ABF288C27
-	for <linux-staging@lists.linux.dev>; Wed, 29 Oct 2025 14:29:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.154.239.200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE3313043D1;
+	Wed, 29 Oct 2025 15:47:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761748180; cv=none; b=ikTHSMH/P6TuE2ts+54cE4YP1a2oMr7EYBMrfQ8Ai8X2EKcmT4rgs0pMrkO7SoF0rVu3h7cjHmCYxszdHJ58KoKvMftml1UsiWFxFiWRE8OF1fLYby5MzoMxlB6dPXAp5cKrpACKI6fwhrb6vg+URtdeQxH9kXZgrW5smQRHAAM=
+	t=1761752858; cv=none; b=WJqsRd9j6N3mLvz+Z1/dwj2PKv5y/y/SukTW6+HaO7yZdYR/3Dn2Yp3NKjvySaeyXRYKi3INcbRfAQi96Q5WsnNVGwb8b0k6c9A9s0gqkm5vhm8/a3vtMuIQJq9ufq+YK+jLPNFD1ME7DfsNMbfMjWon9NzTtBmSXz9n38xcMHo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761748180; c=relaxed/simple;
-	bh=jg/ovLgz3EOXIEtZvkh+fveBNnZFlK45tsqBfD6gDeA=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=rTlWJ0jPR+D1DzreFgRANVlnb34fKN1WvApLw4aunkMKykKpmn9+mhnv/o+++Hz4K8OAhDS71EhtLDbn+L3Wv1C8SSQLdCSAZFkZKG0zBjmw66jvRJSjMILH08ADZw1fE0Kt/VPZsxTxjh6V2ijpyU+qW7EFTGw10GdGnOelM6U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=yandex-team.ru; spf=pass smtp.mailfrom=yandex-team.ru; dkim=pass (1024-bit key) header.d=yandex-team.ru header.i=@yandex-team.ru header.b=fcyk+sIB; arc=none smtp.client-ip=178.154.239.200
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=yandex-team.ru
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=yandex-team.ru
+	s=arc-20240116; t=1761752858; c=relaxed/simple;
+	bh=1RxTURaC5/3lKAY9GwnYfHnLdtM97jiWEo2uWYSN4+U=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Amu63UaTwh2gfp1aLnlopx6FUFMqNVknZSg69YLO6JkSf6ZtGQfQQINM21q3w5cqGOvrsDt90tLqj80aUl2K+511urqh6DW+IHPA0jZU5CAtugZM4vCBJoiWg6HTfQoP2MxmUN2LtUg+mWf1hITVsnfcaAfaZOZcxlKdeoKd/HI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hG7zicuh; arc=none smtp.client-ip=198.175.65.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=yandex-team.ru header.i=@yandex-team.ru header.b="fcyk+sIB"
-Received: from mail-nwsmtp-smtp-corp-main-68.klg.yp-c.yandex.net (mail-nwsmtp-smtp-corp-main-68.klg.yp-c.yandex.net [IPv6:2a02:6b8:c42:94a9:0:640:a3fa:0])
-	by forwardcorp1d.mail.yandex.net (Yandex) with ESMTPS id E762580E53;
-	Wed, 29 Oct 2025 17:27:43 +0300 (MSK)
-Received: from i111667286.ld.yandex.ru (unknown [2a02:6bf:8080:1::1:14])
-	by mail-nwsmtp-smtp-corp-main-68.klg.yp-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id dRfxG40FsqM0-u0JuPnWI;
-	Wed, 29 Oct 2025 17:27:43 +0300
-X-Yandex-Fwd: 1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
-	s=default; t=1761748063;
-	bh=tkNRNGM6QgcG/1RrtK8H4Mh+KSp8yIPTIxCraSSOdrA=;
-	h=Message-ID:Date:Cc:Subject:To:From;
-	b=fcyk+sIBHEkDaS+hVJlVITu6bwypJ6QRwNOpU3Br8RjjnUMfAX5D338jsLM6bvkAC
-	 K7WQwbeIAb5/yLj84Ii7Pk086fGpq8TcV7WHYH8Ddmkv8MLKyuqnBraKpyMqwx5+4t
-	 PcMiFqrXynKNwlQtECuTGvjCArg7Cyc3R1fV1Mls=
-Authentication-Results: mail-nwsmtp-smtp-corp-main-68.klg.yp-c.yandex.net; dkim=pass header.i=@yandex-team.ru
-From: Andrey Troshin <drtrosh@yandex-team.ru>
-To: stable@vger.kernel.org,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Andrey Troshin <drtrosh@yandex-team.ru>,
-	Ian Abbott <abbotti@mev.co.uk>,
-	H Hartley Sweeten <hsweeten@visionengravers.com>,
-	Jens Axboe <axboe@kernel.dk>,
-	Jann Horn <jannh@google.com>,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	lvc-project@linuxtesting.org
-Subject: [PATCH 5.10] comedi: Fix use of uninitialized memory in do_insn_ioctl() and do_insnlist_ioctl()
-Date: Wed, 29 Oct 2025 17:27:39 +0300
-Message-ID: <20251029142739.2108-1-drtrosh@yandex-team.ru>
-X-Mailer: git-send-email 2.51.0.windows.2
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hG7zicuh"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1761752857; x=1793288857;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=1RxTURaC5/3lKAY9GwnYfHnLdtM97jiWEo2uWYSN4+U=;
+  b=hG7zicuhVkRFJBf2OHTcrrHFQZPSzfEMdQSDDw07ycVbLpLu3RFPb9X2
+   /2ste9fO/C8q5+32ZkFXNPBsZuRuAFfEUvdUZ91UdayAfYELm1PT8s4zw
+   9ZPkXoeE7+KEQF9b/qNDrBrmu1oErHOeLDofwgDSIOhSnmCu1W7T2Q279
+   07YYlqfJOmYzVvvpel0RpS1uofFUJEBbkAHsZ6zMc1Gi09ufR/ctU3ed0
+   qqeLFlV12qeObEMz6x/KNq4K2O5AcRxH9r2qVI1Zx0mqv0r0OCucw12f7
+   sH+oEqUph4AzanjLIqQlgsxRm89395K/ntA/LKtvY369bKelWcPfwR5Kp
+   Q==;
+X-CSE-ConnectionGUID: x+X0imFkQCC5+OJnMXc8AA==
+X-CSE-MsgGUID: QC2gBCnASaycrRtBPGqpBw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11597"; a="64028194"
+X-IronPort-AV: E=Sophos;i="6.19,264,1754982000"; 
+   d="scan'208";a="64028194"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Oct 2025 08:47:36 -0700
+X-CSE-ConnectionGUID: m47uE1yzSyqYMdfnjfQHGw==
+X-CSE-MsgGUID: JBZgz1C/SUuiy/znPKHOqw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,264,1754982000"; 
+   d="scan'208";a="186049178"
+Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
+  by fmviesa008.fm.intel.com with ESMTP; 29 Oct 2025 08:47:33 -0700
+Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1vE8OX-000Kk5-0g;
+	Wed, 29 Oct 2025 15:47:29 +0000
+Date: Wed, 29 Oct 2025 23:46:32 +0800
+From: kernel test robot <lkp@intel.com>
+To: Cristian Del Gobbo <cristiandelgobbo87@gmail.com>,
+	sudip.mukherjee@gmail.com
+Cc: oe-kbuild-all@lists.linux.dev, teddy.wang@siliconmotion.com,
+	gregkh@linuxfoundation.org, linux-fbdev@vger.kernel.org,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Cristian Del Gobbo <cristiandelgobbo87@gmail.com>,
+	Dan Carpenter <error27@gmail.com>
+Subject: Re: [PATCH v2] staging: sm750fb: style fixes: align call and split
+ chained assignment
+Message-ID: <202510292220.5YKTkjfH-lkp@intel.com>
+References: <20251029022002.5812-1-cristiandelgobbo87@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251029022002.5812-1-cristiandelgobbo87@gmail.com>
 
-From: Ian Abbott <abbotti@mev.co.uk>
+Hi Cristian,
 
-commit 3cd212e895ca2d58963fdc6422502b10dd3966bb upstream.
+kernel test robot noticed the following build errors:
 
-syzbot reports a KMSAN kernel-infoleak in `do_insn_ioctl()`.  A kernel
-buffer is allocated to hold `insn->n` samples (each of which is an
-`unsigned int`).  For some instruction types, `insn->n` samples are
-copied back to user-space, unless an error code is being returned.  The
-problem is that not all the instruction handlers that need to return
-data to userspace fill in the whole `insn->n` samples, so that there is
-an information leak.  There is a similar syzbot report for
-`do_insnlist_ioctl()`, although it does not have a reproducer for it at
-the time of writing.
+[auto build test ERROR on staging/staging-testing]
 
-One culprit is `insn_rw_emulate_bits()` which is used as the handler for
-`INSN_READ` or `INSN_WRITE` instructions for subdevices that do not have
-a specific handler for that instruction, but do have an `INSN_BITS`
-handler.  For `INSN_READ` it only fills in at most 1 sample, so if
-`insn->n` is greater than 1, the remaining `insn->n - 1` samples copied
-to userspace will be uninitialized kernel data.
+url:    https://github.com/intel-lab-lkp/linux/commits/Cristian-Del-Gobbo/staging-sm750fb-style-fixes-align-call-and-split-chained-assignment/20251029-102311
+base:   staging/staging-testing
+patch link:    https://lore.kernel.org/r/20251029022002.5812-1-cristiandelgobbo87%40gmail.com
+patch subject: [PATCH v2] staging: sm750fb: style fixes: align call and split chained assignment
+config: sparc-randconfig-001-20251029 (https://download.01.org/0day-ci/archive/20251029/202510292220.5YKTkjfH-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251029/202510292220.5YKTkjfH-lkp@intel.com/reproduce)
 
-Another culprit is `vm80xx_ai_insn_read()` in the "vm80xx" driver.  It
-never returns an error, even if it fails to fill the buffer.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510292220.5YKTkjfH-lkp@intel.com/
 
-Fix it in `do_insn_ioctl()` and `do_insnlist_ioctl()` by making sure
-that uninitialized parts of the allocated buffer are zeroed before
-handling each instruction.
+All errors (new ones prefixed by >>):
 
-Thanks to Arnaud Lecomte for their fix to `do_insn_ioctl()`.  That fix
-replaced the call to `kmalloc_array()` with `kcalloc()`, but it is not
-always necessary to clear the whole buffer.
+   drivers/staging/sm750fb/sm750.c: In function 'lynxfb_ops_setcolreg':
+   drivers/staging/sm750fb/sm750.c:541:3: error: expected expression before 'int'
+      int y = (red * 77 + green * 151 + blue * 28) >> 8;
+      ^~~
+   drivers/staging/sm750fb/sm750.c:540:2: warning: this 'if' clause does not guard... [-Wmisleading-indentation]
+     if (info->var.grayscale)
+     ^~
+   drivers/staging/sm750fb/sm750.c:543:3: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the 'if'
+      red = y;
+      ^~~
+>> drivers/staging/sm750fb/sm750.c:543:9: error: 'y' undeclared (first use in this function)
+      red = y;
+            ^
+   drivers/staging/sm750fb/sm750.c:543:9: note: each undeclared identifier is reported only once for each function it appears in
 
-Fixes: ed9eccbe8970 ("Staging: add comedi core")
-Reported-by: syzbot+a5e45f768aab5892da5d@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=a5e45f768aab5892da5d
-Reported-by: syzbot+fb4362a104d45ab09cf9@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=fb4362a104d45ab09cf9
-Cc: stable <stable@kernel.org> # 5.13+
-Cc: Arnaud Lecomte <contact@arnaud-lcm.com>
-Signed-off-by: Ian Abbott <abbotti@mev.co.uk>
-Link: https://lore.kernel.org/r/20250725125324.80276-1-abbotti@mev.co.uk
-Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-[Andrey Troshin: backport fix from drivers/comedi/comedi_fops.c to drivers/staging/comedi/comedi_fops.c]
-Signed-off-by: Andrey Troshin <drtrosh@yandex-team.ru>
----
-Backport fix for CVE-2025-39684
-Link: https://nvd.nist.gov/vuln/detail/CVE-2025-39684
----
- drivers/staging/comedi/comedi_fops.c | 5 +++++
- 1 file changed, 5 insertions(+)
 
-diff --git a/drivers/staging/comedi/comedi_fops.c b/drivers/staging/comedi/comedi_fops.c
-index 854b8bdc57a1..0af6e4a2fad9 100644
---- a/drivers/staging/comedi/comedi_fops.c
-+++ b/drivers/staging/comedi/comedi_fops.c
-@@ -1582,6 +1582,9 @@ static int do_insnlist_ioctl(struct comedi_device *dev,
- 				memset(&data[n], 0, (MIN_SAMPLES - n) *
- 						    sizeof(unsigned int));
- 			}
-+		} else {
-+			memset(data, 0, max_t(unsigned int, n, MIN_SAMPLES) *
-+					sizeof(unsigned int));
- 		}
- 		ret = parse_insn(dev, insns + i, data, file);
- 		if (ret < 0)
-@@ -1665,6 +1668,8 @@ static int do_insn_ioctl(struct comedi_device *dev,
- 			memset(&data[insn->n], 0,
- 			       (MIN_SAMPLES - insn->n) * sizeof(unsigned int));
- 		}
-+	} else {
-+		memset(data, 0, n_data * sizeof(unsigned int));
- 	}
- 	ret = parse_insn(dev, insn, data, file);
- 	if (ret < 0)
+vim +/y +543 drivers/staging/sm750fb/sm750.c
+
+   517	
+   518	static int lynxfb_ops_setcolreg(unsigned int regno,
+   519					unsigned int red,
+   520					unsigned int green,
+   521					unsigned int blue,
+   522					unsigned int transp,
+   523					struct fb_info *info)
+   524	{
+   525		struct lynxfb_par *par;
+   526		struct lynxfb_crtc *crtc;
+   527		struct fb_var_screeninfo *var;
+   528		int ret;
+   529	
+   530		par = info->par;
+   531		crtc = &par->crtc;
+   532		var = &info->var;
+   533		ret = 0;
+   534	
+   535		if (regno > 256) {
+   536			pr_err("regno = %d\n", regno);
+   537			return -EINVAL;
+   538		}
+   539	
+   540		if (info->var.grayscale)
+   541			int y = (red * 77 + green * 151 + blue * 28) >> 8;
+   542	
+ > 543			red = y;
+   544			green = y;
+   545			blue = y;
+   546	
+   547		if (var->bits_per_pixel == 8 &&
+   548		    info->fix.visual == FB_VISUAL_PSEUDOCOLOR) {
+   549			red >>= 8;
+   550			green >>= 8;
+   551			blue >>= 8;
+   552			ret = hw_sm750_set_col_reg(crtc, regno, red, green, blue);
+   553			goto exit;
+   554		}
+   555	
+   556		if (info->fix.visual == FB_VISUAL_TRUECOLOR && regno < 256) {
+   557			u32 val;
+   558	
+   559			if (var->bits_per_pixel == 16 ||
+   560			    var->bits_per_pixel == 32 ||
+   561			    var->bits_per_pixel == 24) {
+   562				val = chan_to_field(red, &var->red);
+   563				val |= chan_to_field(green, &var->green);
+   564				val |= chan_to_field(blue, &var->blue);
+   565				par->pseudo_palette[regno] = val;
+   566				goto exit;
+   567			}
+   568		}
+   569	
+   570		ret = -EINVAL;
+   571	
+   572	exit:
+   573		return ret;
+   574	}
+   575	
+
 -- 
-2.34.1
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
