@@ -1,97 +1,126 @@
-Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oa1-f42.google.com (mail-oa1-f42.google.com [209.85.160.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1742934D4CB
-	for <linux-staging@lists.linux.dev>; Tue, 28 Oct 2025 17:59:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.171.202.116
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AAC423D7CF
+	for <linux-staging@lists.linux.dev>; Wed, 29 Oct 2025 02:14:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761674392; cv=none; b=BN5V7yBPgOM88Wlhi/dUgb2n2Hux2CfXL4izuXTB0bUBWgvvNEtnoKqCBzvcuXzsRwd4Sd/uT65FunE1H6W6XkuL6BY01wgZ8YcqzW5/SMsiWD6NcYIQ5D+DM31StFCqLpFNaDu9ikduMF+kytUI8OFPytc3hAAnVRGxWMwvc5A=
+	t=1761704101; cv=none; b=QNUYU0eirSlK9qFyw+lYvZE/kG8Y7fY/clGjXdRMGPOoJwEmGbGwzPFy/YbtxxvaxmG+/Kuoabj8/rQuq3pnTMC0W24nv3gkhxwdbf9tvDKOLTvBL1eQ4c/OSRNuMeHv0uv7WtOz4k7Ly2pWCiUD/BhAeAJKSgeUf4+JH+LEk3c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761674392; c=relaxed/simple;
-	bh=5NrAtnDMjFJ5Ghvd4YzRYA7Yl9j9ybNfKvOu24MzvDY=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
-	 References:In-Reply-To; b=q+hxq7JEXmVIqqmNQQt0GkEeI1Gd+A7+kxYsVOPtRm7qSopQsO77LXeGtApfG5rD5cJQ7t/7Kp5KTVSOTdNslVgD8/XLSin+dllzseN+65jU8dEo+KsDlsyzQmNiVSTCi8N6KHKo69nyytfB8Rrx+Vyslf0HwI5kkxBkPGVQmO0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=DWsbCydV; arc=none smtp.client-ip=185.171.202.116
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1761704101; c=relaxed/simple;
+	bh=12I7O+T/BB5vXrNWDf+G6+4oR7EW0ESEut/5OnczsIY=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=cPieJbL9vnCvqeEaKuwV8R9pnxEwkiFL+IOSlcRe0ymTg3+C58qsG12gjtK4oKeFdw/U7GwYzxzPeGb3A29QJfIFeKQo3fvASz1fWy+7bZSE95ZDHtzFo9uRudbEP69CzUVD2DyWKeIoKBnOqGZ9iKACCrNHeuTirKws7r//ZEo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XKdMJfYO; arc=none smtp.client-ip=209.85.160.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="DWsbCydV"
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-04.galae.net (Postfix) with ESMTPS id E66B2C0BEA8;
-	Tue, 28 Oct 2025 17:59:26 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 317B860692;
-	Tue, 28 Oct 2025 17:59:47 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 5BF2A102F12E3;
-	Tue, 28 Oct 2025 18:59:37 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1761674385; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=5NrAtnDMjFJ5Ghvd4YzRYA7Yl9j9ybNfKvOu24MzvDY=;
-	b=DWsbCydV//xvHJDzeBuKG+WnZG/edBwN8WM2T9lhTpTinwkZ0dIA2UZjyoX14KfXZp5A+L
-	6yMwepOhql+aaE6JDeDrZ0EkwWn+ZxHeml10mbFfmmD13E+s8mjiqKcU0M97nBX73UzWLN
-	BChe1d7SvfH6cinPba30dyagwWao6+OzFRhWx8huv/FYdeRLnV7o86wnuvqYDKG0YYWn+4
-	QGMv7SyPDnzCpT0vivKdNDoa7R7uZ/QonZ1SmGW0IbNzV67hjVN/wI/KjhEd7tWvm7OIpW
-	hFqkFFciyjrLYjfMEBIhI9DaTrqZqLbBT4CR+3wepCvI3BKcXwIXPJWwlyH2Yw==
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XKdMJfYO"
+Received: by mail-oa1-f42.google.com with SMTP id 586e51a60fabf-3c9991e6ad1so380111fac.0
+        for <linux-staging@lists.linux.dev>; Tue, 28 Oct 2025 19:14:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1761704099; x=1762308899; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=FHoGag4qYuBHkU394iiXcv5SpnjOGE5n7s42K/stQF0=;
+        b=XKdMJfYONnVhquLk31s6tY0Wxue2hA58DTpJvmvVAe+lCY2Rk9UDgwx/5k+6NZxDAW
+         4j4Yy5JsEqCskJ9TYBavw3uxLG6PRSZc+wDXs7YJF8iDpMoDxrujC1DbRoNhNoOspAg/
+         Dr06kcgaOfvhhaUykfXVdPhUjZ/XGOc1cVWVp9Q087GU+hKnStsPIuSe5WfTkEe5zDpw
+         2H9vu3y+UxVs9AUBOVZ+dFvMg9iaoomPPacirLEj3sRb+5mwYSVp/L90TbmY8ijf59Ek
+         UjUR12vtclSmAzqlIDiDDU+0tUPUOj4/uB0exUnPZNErIOlsX6cZB1iyDAqEyDqBd8pu
+         PsaQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1761704099; x=1762308899;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=FHoGag4qYuBHkU394iiXcv5SpnjOGE5n7s42K/stQF0=;
+        b=t7WS0rkto+wiwU7DmcbYUp2VoeGHh7iIwNSDrIEpY7sAA4NZB/17FN40wxgwk4bjK6
+         D7ADAzEFhswjxFzjFuGicmUkRB/tCR9tyDW/f8h+QSTniP8qymO/M8o1guZNfCgqQmbn
+         EVNhzeSjlW+bVhqzqeHhiVOb7MdVm8176Da+/7/uZ1f2NQevnuAvXWpYqnjrrrNwVNSG
+         TjMb/jV71RD9qB2n0cTA5Qgj21cyP7xrhilI7R/a8l/UhQOy6I4YaKk+pbm7lO3KuNMo
+         RsnSNIoRjdCcfFKFj3kC7jVSfeBDc8GFpP+041nC9hm7UDs+naCFgCpqm51BPCPHX7hS
+         W1oA==
+X-Forwarded-Encrypted: i=1; AJvYcCWBjjV2FDFim3Dd9jqh4fY8RmT+Q4l0RQ2XZg0PFli2fMycQZzf4kPDgFZASzIPIO1D4OKfUwKqDtXz8k5E@lists.linux.dev
+X-Gm-Message-State: AOJu0Yyry7+L/AITb6FcmvXp6393mgq4SuztGJ4SgVX6GDVlwehOSUkZ
+	cpvr6bdI0ioB8wRIAuzqfM0JOeMKrr48D8dut6XO/hFjg53KFQXdeht4
+X-Gm-Gg: ASbGnctPd8JSOhhbmtOKPNt5eXxwFB5S7Oh7Tviac7wcZzThtqyZL37I63tJonm+tPl
+	lUyoathTzfyahSQXRtWtU/CP/CKv78tCQNkgkw8W2n5goYr8ujH2X9TACcdltuz9u7pfz1w+hKL
+	LS05l+PlyAZ3HDRBSzKSvgqE6LpCpAC0Lu498yPtZyFw/Mzw3AlYjLP/l/w+XosX7o0IBr26FdH
+	QF4in0LZ0C/7EFg08oL0V04xA6IymOCA1sSe7b3FUhJ/ZHoF16puVKShTbPwl0KFYmSzg3J/YJh
+	aJFgdIzUbY08QhQDnWVBwZnwztF3B2S9o/SU82DlmLHSdeABHdbGVzyOgw5Ut251w6u35Mr2M5n
+	KlKkhun6Rtox5aKtXqpaxj6x6FJvi013QBibQDK1eR9iQXqrAxKL9R9ijqs+JElyNgG7kDylpcM
+	CizDHlOVG+Fetn+sdfoOctyXnE3UrSFviA
+X-Google-Smtp-Source: AGHT+IGfgTz8g+xqtQI6DArhNfNdTHyjQWmRw2+ZzPnzomIZgLnkO3eFgWsHbdYW5iK7yEBnpMbcNw==
+X-Received: by 2002:a05:6870:e99f:b0:3d2:3429:b243 with SMTP id 586e51a60fabf-3d5e7264ca5mr2344497fac.16.1761704098667;
+        Tue, 28 Oct 2025 19:14:58 -0700 (PDT)
+Received: from localhost.localdomain ([104.247.98.2])
+        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-3d1e27123d5sm4190377fac.7.2025.10.28.19.14.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 28 Oct 2025 19:14:57 -0700 (PDT)
+From: Cristian Del Gobbo <cristiandelgobbo87@gmail.com>
+To: sudip.mukherjee@gmail.com
+Cc: teddy.wang@siliconmotion.com,
+	gregkh@linuxfoundation.org,
+	linux-fbdev@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Cristian Del Gobbo <cristiandelgobbo87@gmail.com>,
+	Dan Carpenter <dan.carpenter@oracle.com>
+Subject: [PATCH v2] staging: sm750fb: style fixes: align call and split chained assignment
+Date: Wed, 29 Oct 2025 03:14:49 +0100
+Message-Id: <20251029021449.5420-1-cristiandelgobbo87@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Tue, 28 Oct 2025 18:59:36 +0100
-Message-Id: <DDU5G3UHOYM7.2WNR6PPEK6ST1@bootlin.com>
-Cc: <dri-devel@lists.freedesktop.org>, <devicetree@vger.kernel.org>,
- <linux-tegra@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
- <linux-media@vger.kernel.org>, <linux-clk@vger.kernel.org>,
- <linux-staging@lists.linux.dev>
-Subject: Re: [PATCH v5 00/23] tegra-video: add CSI support for Tegra20 and
- Tegra30
-From: "Luca Ceresoli" <luca.ceresoli@bootlin.com>
-To: "Svyatoslav Ryhel" <clamor95@gmail.com>, "Maarten Lankhorst"
- <maarten.lankhorst@linux.intel.com>, "Maxime Ripard" <mripard@kernel.org>,
- "Thomas Zimmermann" <tzimmermann@suse.de>, "David Airlie"
- <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>, "Rob Herring"
- <robh@kernel.org>, "Krzysztof Kozlowski" <krzk+dt@kernel.org>, "Conor
- Dooley" <conor+dt@kernel.org>, "Thierry Reding" <thierry.reding@gmail.com>,
- "Jonathan Hunter" <jonathanh@nvidia.com>, "Sowjanya Komatineni"
- <skomatineni@nvidia.com>, "Prashant Gaikwad" <pgaikwad@nvidia.com>,
- "Michael Turquette" <mturquette@baylibre.com>, "Stephen Boyd"
- <sboyd@kernel.org>, "Mikko Perttunen" <mperttunen@nvidia.com>, "Mauro
- Carvalho Chehab" <mchehab@kernel.org>, "Greg Kroah-Hartman"
- <gregkh@linuxfoundation.org>, =?utf-8?q?Jonas_Schw=C3=B6bel?=
- <jonasschwoebel@yahoo.de>, "Dmitry Osipenko" <digetx@gmail.com>, "Charan
- Pedumuru" <charan.pedumuru@gmail.com>, "Diogo Ivo"
- <diogo.ivo@tecnico.ulisboa.pt>, "Aaron Kling" <webgeek1234@gmail.com>,
- "Arnd Bergmann" <arnd@arndb.de>
-X-Mailer: aerc 0.20.1
-References: <20251022142051.70400-1-clamor95@gmail.com>
-In-Reply-To: <20251022142051.70400-1-clamor95@gmail.com>
-X-Last-TLS-Session-Version: TLSv1.3
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-Hello Svyatoslav,
+- Drop previous change that made g_fbmode[] elements const (broke build).
+- Align the continued arguments of sm750_hw_cursor_set_size() with the
+  opening parenthesis.
+- Replace a chained assignment of red/green/blue with a temporary
+  variable to satisfy checkpatch and improve readability.
 
-On Wed Oct 22, 2025 at 4:20 PM CEST, Svyatoslav Ryhel wrote:
-> Add support for MIPI CSI device found in Tegra20 and Tegra30 SoC along
-> with a set of changes required for that.
+No functional change intended.
 
-Whole v5 series (including patches 21-23):
-Tested-by: Luca Ceresoli <luca.ceresoli@bootlin.com> # tegra20, parallel ca=
-mera
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-As you seem to have issues with sending a long series over e-mail, I may
-suggest looking at b4 [0] for the future. It automates many boring and
-repetitive tasks in handling a patch series, and also offers a way to send
-e-mails when an SMTP server is problematic e.g. due to limitations in
-e-mails per hour.
+Signed-off-by: Cristian Del Gobbo <cristiandelgobbo87@gmail.com>
+---
+ drivers/staging/sm750fb/sm750.c | 10 +++++++---
+ 1 file changed, 7 insertions(+), 3 deletions(-)
 
-[0] https://b4.docs.kernel.org
+diff --git a/drivers/staging/sm750fb/sm750.c b/drivers/staging/sm750fb/sm750.c
+index 3659af7e519d..94a99af4320e 100644
+--- a/drivers/staging/sm750fb/sm750.c
++++ b/drivers/staging/sm750fb/sm750.c
+@@ -121,8 +121,8 @@ static int lynxfb_ops_cursor(struct fb_info *info, struct fb_cursor *fbcursor)
+ 	sm750_hw_cursor_disable(cursor);
+ 	if (fbcursor->set & FB_CUR_SETSIZE)
+ 		sm750_hw_cursor_set_size(cursor,
+-					fbcursor->image.width,
+-					fbcursor->image.height);
++					 fbcursor->image.width,
++					 fbcursor->image.height);
+ 
+ 	if (fbcursor->set & FB_CUR_SETPOS)
+ 		sm750_hw_cursor_set_pos(cursor,
+@@ -538,7 +538,11 @@ static int lynxfb_ops_setcolreg(unsigned int regno,
+ 	}
+ 
+ 	if (info->var.grayscale)
+-		red = green = blue = (red * 77 + green * 151 + blue * 28) >> 8;
++		int y = (red * 77 + green * 151 + blue * 28) >> 8;
++
++		red = y;
++		green = y;
++		blue = y;
+ 
+ 	if (var->bits_per_pixel == 8 &&
+ 	    info->fix.visual == FB_VISUAL_PSEUDOCOLOR) {
+-- 
+2.34.1
 
-Luca
-
---
-Luca Ceresoli, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
