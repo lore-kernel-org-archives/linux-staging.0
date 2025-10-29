@@ -1,126 +1,141 @@
-Received: from mail-oi1-f179.google.com (mail-oi1-f179.google.com [209.85.167.179])
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34EC4227B9F
-	for <linux-staging@lists.linux.dev>; Wed, 29 Oct 2025 02:21:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1296954652
+	for <linux-staging@lists.linux.dev>; Wed, 29 Oct 2025 05:29:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761704494; cv=none; b=gBJKJaOBylVFKoeH2L2VWqAQluCV6tfFbXRUjXt/qxBzCosYqR8qZx+q4VLDsOZlmNc5+jFVR+kdAwFH92Q8c6OTq6+y28GvaYREY2czP+lRL219qzFdnO/YUPVedrv/tRdhUzoCQS25TMN+7RGJW407f4Y8+Kr6U0x6ejH8e7E=
+	t=1761715793; cv=none; b=YxTcfFu0hJiNbNl5fDLl1RYxfm41D3eLyMmqx7Q22QXGjmMgM+73qqTQYgMtCXu7PyWy6XsdjbZco967rH9TnDd3aqHY/nPN5363WXyPdfIfS1N6my48Ah5ZWj39DBS7V7k6ZzSEHMe5un9AjqwR3Ucs6F5G3vq1sPV/5YRGKgw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761704494; c=relaxed/simple;
-	bh=dbwZvu9hhIyVuqMTWNgr+/TO7f8rMnKkqOT/atxJsyw=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=ZCM3KmJM8KXVkpDPUmAbXsHQ7TamzeV2+tVPFV+/xptHsX+56W7SIpnG9y4TRPH5YW6mzUuJtXOfzv2sS5U9wRMFu1OdMPD+/QfhkOGttzbNG/uDwfQG+WeSmq/6gbfJEEoPrdfcvSfeSmBiw69LCs9WgE+Sl3/YddnSkLhr7R8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dJvC6LZf; arc=none smtp.client-ip=209.85.167.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1761715793; c=relaxed/simple;
+	bh=08/mzPYxSm/1nDpxNMmjbrtO5PkDhUO1zOysCCv/okI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=mGsR1lTsODqd8+BmsVzZ1RnZJWAzLWXDszIg0Dj49UzJguYdp0CziG+csXaXhuzSm3s692UgmzZwtC52U3MLqn8uaCOFj/oC6N4kV2v/8mr8s7O1n294iPMVzf+L+MGyQYQLj9egWh0wiXZzmh6YHQbxs2ThhVpNTPja6hZrq2Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=jDHV9MJM; arc=none smtp.client-ip=209.85.128.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dJvC6LZf"
-Received: by mail-oi1-f179.google.com with SMTP id 5614622812f47-44dbaff4117so307578b6e.0
-        for <linux-staging@lists.linux.dev>; Tue, 28 Oct 2025 19:21:33 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="jDHV9MJM"
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-470ffbf2150so3114515e9.1
+        for <linux-staging@lists.linux.dev>; Tue, 28 Oct 2025 22:29:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1761704492; x=1762309292; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=cynnkWYdpDtStoLe2q3qh9uk2uD/o/JQhJvnV67pO8E=;
-        b=dJvC6LZfHbTw27KRqszdR32YQjur0Uwtab9Hi6EFH7ZIZDDht/2G+WI9LbcDMtGafJ
-         npda+Z81hEEEI8h0xKr8J0xJQdxADusuJkzPjjLB0UJRQ/LjN8FEoPf3OXRy8lqG72CY
-         7QBkhKqLRn8iwJoU3zBDTEPx+mX9goXBxP2+XFF7tQJccAafnrOGOO4z7+YA1PJXKJ9S
-         n4jvROFCXL2ZGQAy5PA/1zxDn9Q5DBzPxNrkGsTenLXdxuIpJm9x/FlCb399wTPJ+PMP
-         MGHrTNN16+P0kdYTMiVy8ZXYECeuFk/DMHjufH9NFbZOzxhuv0wuL1frb2SJwzAQ4fra
-         aD4Q==
+        d=linaro.org; s=google; t=1761715789; x=1762320589; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=pHaGH2NXIUYjcvzs9hO31NRTn0XjtT+KRdHL3PUBxU8=;
+        b=jDHV9MJMFF0jvdWOGFUauo+b4X3HMDPDFSgajUI2h17rcPmyQXvYLC5J0QKoEj8VAQ
+         aUv5CK5aI70+O06Nx0qhvl6YEnrXfVy60B15xgeb7zhAo8CS4XbhEREthi0AOdIxE+0N
+         mKCpZvnFr0TarMBLiIZznP3ubjdDlxIyijVOT0salLtgKkMu415cLdCUB6zT2JHO/Knf
+         c81ZI9W/r/0F8Yy7QjBnIoCRUlEyrEBWg38X6NMhaUd38LvXh5aV78H8qo6PQ8DZQ8Pm
+         JJ/BLG7dMcixO88czZpoHB11lBDGiQ2c7sTE6z+2lINzqqdugFRU9RBtdGMFVGOsMqmK
+         Cjdw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761704492; x=1762309292;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=cynnkWYdpDtStoLe2q3qh9uk2uD/o/JQhJvnV67pO8E=;
-        b=tJHdP+UF2gCpqJDk7HMZNFXLRiexe7c/qVnEQhd8BompKPCZp4xV2caHFah6yDunvZ
-         VmgGVsEzKnosFxM+5mpvxd3TQbH7BHCzT8S0mHgAuRmZsCtM4fAaWFiXaNQxaYF3xerZ
-         ewDxSlRZDTZcK83S7bz2YoM7PobYci5c1JKKviEhuqyATk8UfPur3wMmZ5IuX15jFPYT
-         cSBkNnSbcXuspF739AbLXI1iUncSl7cKUK+SsQG4BYW7Tvyu4StLyDWLyuquSBlmYXYH
-         k33FEOvEWpSryj0x37/wFCCSBQNphxoY2UETyKUYshjoNminlGVKOSg5bcJRS1kimXhu
-         l3Fg==
-X-Forwarded-Encrypted: i=1; AJvYcCUJ8ZU0xTlajzw7SPE3vxIHPmViWFfoa7Bb+MJmiQEabDAJYEmIO03JkUUA1PhzzGQ4A0x8hi5m6jKMyghK@lists.linux.dev
-X-Gm-Message-State: AOJu0Yy9dF/ELDkA4FMN0+CK1FRTaJ9RufiC4COtck3Rgc+aCQuMl99l
-	G63voxF/VVtYPRlxpiDshBnacCJauyKMJWdaSwXEg0NUUslwGTIaz9CA
-X-Gm-Gg: ASbGncv+bBA8qR0pCqXBqckQRP9svRFeJ6zi44PZLAwNffYOKb/7y4TCG/4/FFv5VM0
-	Xb5Jf5q0nnRq21rTPYikQonqNG5TL3F/3/Z+QsbQ861+09D+EW2yAdEaBHVmKCPu9SeE5niGmRW
-	yItAMx0SlmepT4XT10a/GLkfKxEbCA/cW7ZU1heVEWpwLo475nF22oPLeS3x8YevMdwmT1lbn4S
-	UHcAZgxBmSO5noMYs1OxScuUZDgE6AGCt6Vqk5ptSD0Gx0rio5OX9yz1ohTX+6T31Xwf8H/Jvor
-	+hT3UWO0OwKdXEy7aU7T4FMx4t12v5RJYJ96bKi1cAhZduw2Bj2B5pQ6aqxWMNDJMpvlBGvnucy
-	fhymc9SqJhkVzWSk9xbFsS68xu9LHJaDdkeNsp5UDsw4RtufWkKBAXSmTxSL/AhDu+qolEpSWjH
-	5DndB29MYnXHIiM/P+VLEvlXPxhKPeDcnj5i7MKC8AnF0=
-X-Google-Smtp-Source: AGHT+IEbzvH4doyoZTsME/vt7Aop2SgS9zRyrPlNBrd6OpJTwf4P0pZiGzx+zwlfugi8jpvZSSIqBg==
-X-Received: by 2002:a05:6808:3191:b0:44d:a5cd:e803 with SMTP id 5614622812f47-44f6c79f9fdmr2633390b6e.20.1761704492254;
-        Tue, 28 Oct 2025 19:21:32 -0700 (PDT)
-Received: from localhost.localdomain ([104.247.98.2])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-7c5302203d2sm3775042a34.32.2025.10.28.19.21.29
+        d=1e100.net; s=20230601; t=1761715789; x=1762320589;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=pHaGH2NXIUYjcvzs9hO31NRTn0XjtT+KRdHL3PUBxU8=;
+        b=G+5V6y2fcfeHr2r+A5x/2OVZlytFoD33UuUAgRsRrMIWix398XRUvVuyfIquzaCRGR
+         0GwlVl186QykLVxOx6Rq1nPrek4D9xOd87Ad3fuF/b1VXBeXvzHvIkoPydlp56x34oE5
+         oHf2OJE6BljG9tvatfZpPuaJWqyt7JVERMpE5SePRXZ9WoTijBHvaIM6ZJwvPMHz4SFb
+         6qISYG8iArK8oxvAS9e5dfGsxQkBPfI1esxxkfitiaip28yhKP5YTJpGhxlkb8BpS87Z
+         7yRrzz6PhJCcGNp2RGJJrM2sKJjHeCgDdI+sdhp/cmmG0Xbyh2zhQjQ/pKAu3InZwd5s
+         u68w==
+X-Forwarded-Encrypted: i=1; AJvYcCW/4r7Te6ejCTBpYiAjH3JOy5biY7ZVmsiVrAg6y/Q19zN0a/ZwwFI8aCm/1v1mV+isoTS/bymvUnuOVDIn@lists.linux.dev
+X-Gm-Message-State: AOJu0YyYYPprTQ66QZLGIFtG0fQpfz11dJSduUFPC7LJZbejAHHpFBbQ
+	w+0sZnkJ7nIovLEMS8kcHvQI/FB1wWQ0DXn0Sk9C/Lk8BDt9gOzMMNvMEbfLx63cMgM=
+X-Gm-Gg: ASbGncvX8VfGSleTGipNGQetEdhEvIlUXhuumnWjrPYzQe3G6aOD7Zqhl1QuyB6VqUL
+	VBwIfkFM9pBTrCkED/T4MthwmqtZyT7GniSxaZzMRNd/xFTKLVE//71/8d7Zga2dDEbSaFXe9ET
+	TpOcraTJQ77n3AxXNOuEySXYx+XKgaFxIcg7EXZPiKPQpbBM5D9QDPMc1ib6MNQR5Qbqg2KsF2w
+	BEa2tJwQ988980oJwMZqHCbcA3FJGt2bqgaB7TUmBMJ0TxT2E1ztFjX5VWdLircW+pRXdIPUTyd
+	jVUuYGTB60xjaUJoMxE5YYOqKH8SmziysNhKMNsQwxO2402dNNvmoQK4znV+bPx78Qy9NwupIyH
+	jjJtNvVq1KjZCCwfqNaAu29orRP64VuRJZMIIkDRqvoNeofs88u1CeDChBBxnJ71n9nP1pvhJF4
+	zdsTIyQuzHLAOtJtft
+X-Google-Smtp-Source: AGHT+IHG2WznNN/Rizk/zJNzOf90BpJVy0QqUr8IDk1RCx9tIDyYps0DxYX9Z8QZNUQwV5GlDx1Ltw==
+X-Received: by 2002:a05:600c:58d7:b0:46f:b42e:e363 with SMTP id 5b1f17b1804b1-477181c334emr32548945e9.20.1761715789186;
+        Tue, 28 Oct 2025 22:29:49 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-4771e3c878fsm28225995e9.17.2025.10.28.22.29.48
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 28 Oct 2025 19:21:30 -0700 (PDT)
-From: Cristian Del Gobbo <cristiandelgobbo87@gmail.com>
-To: sudip.mukherjee@gmail.com
-Cc: teddy.wang@siliconmotion.com,
-	gregkh@linuxfoundation.org,
-	linux-fbdev@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Cristian Del Gobbo <cristiandelgobbo87@gmail.com>,
-	Dan Carpenter <dan.carpenter@linaro.org>
-Subject: [PATCH v2] staging: sm750fb: style fixes: align call and split chained assignment
-Date: Wed, 29 Oct 2025 03:21:23 +0100
-Message-Id: <20251029022123.5829-1-cristiandelgobbo87@gmail.com>
-X-Mailer: git-send-email 2.34.1
+        Tue, 28 Oct 2025 22:29:48 -0700 (PDT)
+Date: Wed, 29 Oct 2025 08:29:44 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Cristian Del Gobbo <cristiandelgobbo87@gmail.com>
+Cc: sudip.mukherjee@gmail.com, teddy.wang@siliconmotion.com,
+	gregkh@linuxfoundation.org, linux-fbdev@vger.kernel.org,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] staging: sm750fb: style fixes: align call and split
+ chained assignment
+Message-ID: <aQGmSIinidUQnHT4@stanley.mountain>
+References: <20251029022123.5829-1-cristiandelgobbo87@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251029022123.5829-1-cristiandelgobbo87@gmail.com>
 
-- Drop previous change that made g_fbmode[] elements const (broke build).
-- Align the continued arguments of sm750_hw_cursor_set_size() with the
-  opening parenthesis.
-- Replace a chained assignment of red/green/blue with a temporary
-  variable to satisfy checkpatch and improve readability.
+This patch was really confusing because I had no idea what I reported.
+Just remove my reported by tag...
 
-No functional change intended.
+This is not a v2 patch, it's a whole new patch.  Don't call it a v2.
 
-Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+On Wed, Oct 29, 2025 at 03:21:23AM +0100, Cristian Del Gobbo wrote:
+> - Drop previous change that made g_fbmode[] elements const (broke build).
 
-Signed-off-by: Cristian Del Gobbo <cristiandelgobbo87@gmail.com>
----
- drivers/staging/sm750fb/sm750.c | 10 +++++++---
- 1 file changed, 7 insertions(+), 3 deletions(-)
+But if it were a v2, this isn't the right way to send a v2.  In a v2 this
+would go under the --- cut off line.
 
-diff --git a/drivers/staging/sm750fb/sm750.c b/drivers/staging/sm750fb/sm750.c
-index 3659af7e519d..94a99af4320e 100644
---- a/drivers/staging/sm750fb/sm750.c
-+++ b/drivers/staging/sm750fb/sm750.c
-@@ -121,8 +121,8 @@ static int lynxfb_ops_cursor(struct fb_info *info, struct fb_cursor *fbcursor)
- 	sm750_hw_cursor_disable(cursor);
- 	if (fbcursor->set & FB_CUR_SETSIZE)
- 		sm750_hw_cursor_set_size(cursor,
--					fbcursor->image.width,
--					fbcursor->image.height);
-+					 fbcursor->image.width,
-+					 fbcursor->image.height);
- 
- 	if (fbcursor->set & FB_CUR_SETPOS)
- 		sm750_hw_cursor_set_pos(cursor,
-@@ -538,7 +538,11 @@ static int lynxfb_ops_setcolreg(unsigned int regno,
- 	}
- 
- 	if (info->var.grayscale)
--		red = green = blue = (red * 77 + green * 151 + blue * 28) >> 8;
-+		int y = (red * 77 + green * 151 + blue * 28) >> 8;
-+
-+		red = y;
-+		green = y;
-+		blue = y;
- 
- 	if (var->bits_per_pixel == 8 &&
- 	    info->fix.visual == FB_VISUAL_PSEUDOCOLOR) {
--- 
-2.34.1
+https://staticthinking.wordpress.com/2022/07/27/how-to-send-a-v2-patch/
+
+> - Align the continued arguments of sm750_hw_cursor_set_size() with the
+>   opening parenthesis.
+> - Replace a chained assignment of red/green/blue with a temporary
+>   variable to satisfy checkpatch and improve readability.
+
+These are unrelated changes.  Do them as separate patches.
+
+> 
+> No functional change intended.
+> 
+> Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+> 
+> Signed-off-by: Cristian Del Gobbo <cristiandelgobbo87@gmail.com>
+
+Also run your patch through checkpatch.pl.
+
+> ---
+>  drivers/staging/sm750fb/sm750.c | 10 +++++++---
+>  1 file changed, 7 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/staging/sm750fb/sm750.c b/drivers/staging/sm750fb/sm750.c
+> index 3659af7e519d..94a99af4320e 100644
+> --- a/drivers/staging/sm750fb/sm750.c
+> +++ b/drivers/staging/sm750fb/sm750.c
+> @@ -121,8 +121,8 @@ static int lynxfb_ops_cursor(struct fb_info *info, struct fb_cursor *fbcursor)
+>  	sm750_hw_cursor_disable(cursor);
+>  	if (fbcursor->set & FB_CUR_SETSIZE)
+>  		sm750_hw_cursor_set_size(cursor,
+> -					fbcursor->image.width,
+> -					fbcursor->image.height);
+> +					 fbcursor->image.width,
+> +					 fbcursor->image.height);
+>  
+>  	if (fbcursor->set & FB_CUR_SETPOS)
+>  		sm750_hw_cursor_set_pos(cursor,
+> @@ -538,7 +538,11 @@ static int lynxfb_ops_setcolreg(unsigned int regno,
+>  	}
+>  
+>  	if (info->var.grayscale)
+> -		red = green = blue = (red * 77 + green * 151 + blue * 28) >> 8;
+> +		int y = (red * 77 + green * 151 + blue * 28) >> 8;
+
+y is a strange variable name.  It has nothing to do with the y axis.
+
+regards,
+dan carpenter
+
 
