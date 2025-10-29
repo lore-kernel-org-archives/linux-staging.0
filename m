@@ -1,141 +1,505 @@
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1296954652
-	for <linux-staging@lists.linux.dev>; Wed, 29 Oct 2025 05:29:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51CAB3126C7;
+	Wed, 29 Oct 2025 09:35:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761715793; cv=none; b=YxTcfFu0hJiNbNl5fDLl1RYxfm41D3eLyMmqx7Q22QXGjmMgM+73qqTQYgMtCXu7PyWy6XsdjbZco967rH9TnDd3aqHY/nPN5363WXyPdfIfS1N6my48Ah5ZWj39DBS7V7k6ZzSEHMe5un9AjqwR3Ucs6F5G3vq1sPV/5YRGKgw=
+	t=1761730546; cv=none; b=T/YZdQ9YehhWZDaMKP7gqvMK5cO5an0UULkMO/b9OCnMSB3jgXxVULyn4RAKU9+qCgT2c97zA35dmP6Ke6YaXJwzsn4tJNvXtOpBxkTzANXHx7UYEcSz1QUXzdlmaWP+28RMrr5VTv3wuGxRcw69dcqMAJ2Q1Mh6zTSXdR1vd74=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761715793; c=relaxed/simple;
-	bh=08/mzPYxSm/1nDpxNMmjbrtO5PkDhUO1zOysCCv/okI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mGsR1lTsODqd8+BmsVzZ1RnZJWAzLWXDszIg0Dj49UzJguYdp0CziG+csXaXhuzSm3s692UgmzZwtC52U3MLqn8uaCOFj/oC6N4kV2v/8mr8s7O1n294iPMVzf+L+MGyQYQLj9egWh0wiXZzmh6YHQbxs2ThhVpNTPja6hZrq2Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=jDHV9MJM; arc=none smtp.client-ip=209.85.128.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1761730546; c=relaxed/simple;
+	bh=+sv/ym/3oMt2t6wvCh16Q69GZeefPvHRR5JklW56Y3Q=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=f/6zciTE72kBHqU7+wIcs8FjnIoAdK0vRoi4IgOAW/4YXWQkN2qVY4L02DViLR3ovzEz7sADgSmcmLalN6HJRBwV4Mks29i49bJxJbgK/mXQO+YBBp1zHHqV+yKqq4GBE6Pj1sUkDoVB21DOYT0G9QXQsliaAYMBBsQ43IANnOI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VYT2eAHz; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="jDHV9MJM"
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-470ffbf2150so3114515e9.1
-        for <linux-staging@lists.linux.dev>; Tue, 28 Oct 2025 22:29:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1761715789; x=1762320589; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=pHaGH2NXIUYjcvzs9hO31NRTn0XjtT+KRdHL3PUBxU8=;
-        b=jDHV9MJMFF0jvdWOGFUauo+b4X3HMDPDFSgajUI2h17rcPmyQXvYLC5J0QKoEj8VAQ
-         aUv5CK5aI70+O06Nx0qhvl6YEnrXfVy60B15xgeb7zhAo8CS4XbhEREthi0AOdIxE+0N
-         mKCpZvnFr0TarMBLiIZznP3ubjdDlxIyijVOT0salLtgKkMu415cLdCUB6zT2JHO/Knf
-         c81ZI9W/r/0F8Yy7QjBnIoCRUlEyrEBWg38X6NMhaUd38LvXh5aV78H8qo6PQ8DZQ8Pm
-         JJ/BLG7dMcixO88czZpoHB11lBDGiQ2c7sTE6z+2lINzqqdugFRU9RBtdGMFVGOsMqmK
-         Cjdw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761715789; x=1762320589;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=pHaGH2NXIUYjcvzs9hO31NRTn0XjtT+KRdHL3PUBxU8=;
-        b=G+5V6y2fcfeHr2r+A5x/2OVZlytFoD33UuUAgRsRrMIWix398XRUvVuyfIquzaCRGR
-         0GwlVl186QykLVxOx6Rq1nPrek4D9xOd87Ad3fuF/b1VXBeXvzHvIkoPydlp56x34oE5
-         oHf2OJE6BljG9tvatfZpPuaJWqyt7JVERMpE5SePRXZ9WoTijBHvaIM6ZJwvPMHz4SFb
-         6qISYG8iArK8oxvAS9e5dfGsxQkBPfI1esxxkfitiaip28yhKP5YTJpGhxlkb8BpS87Z
-         7yRrzz6PhJCcGNp2RGJJrM2sKJjHeCgDdI+sdhp/cmmG0Xbyh2zhQjQ/pKAu3InZwd5s
-         u68w==
-X-Forwarded-Encrypted: i=1; AJvYcCW/4r7Te6ejCTBpYiAjH3JOy5biY7ZVmsiVrAg6y/Q19zN0a/ZwwFI8aCm/1v1mV+isoTS/bymvUnuOVDIn@lists.linux.dev
-X-Gm-Message-State: AOJu0YyYYPprTQ66QZLGIFtG0fQpfz11dJSduUFPC7LJZbejAHHpFBbQ
-	w+0sZnkJ7nIovLEMS8kcHvQI/FB1wWQ0DXn0Sk9C/Lk8BDt9gOzMMNvMEbfLx63cMgM=
-X-Gm-Gg: ASbGncvX8VfGSleTGipNGQetEdhEvIlUXhuumnWjrPYzQe3G6aOD7Zqhl1QuyB6VqUL
-	VBwIfkFM9pBTrCkED/T4MthwmqtZyT7GniSxaZzMRNd/xFTKLVE//71/8d7Zga2dDEbSaFXe9ET
-	TpOcraTJQ77n3AxXNOuEySXYx+XKgaFxIcg7EXZPiKPQpbBM5D9QDPMc1ib6MNQR5Qbqg2KsF2w
-	BEa2tJwQ988980oJwMZqHCbcA3FJGt2bqgaB7TUmBMJ0TxT2E1ztFjX5VWdLircW+pRXdIPUTyd
-	jVUuYGTB60xjaUJoMxE5YYOqKH8SmziysNhKMNsQwxO2402dNNvmoQK4znV+bPx78Qy9NwupIyH
-	jjJtNvVq1KjZCCwfqNaAu29orRP64VuRJZMIIkDRqvoNeofs88u1CeDChBBxnJ71n9nP1pvhJF4
-	zdsTIyQuzHLAOtJtft
-X-Google-Smtp-Source: AGHT+IHG2WznNN/Rizk/zJNzOf90BpJVy0QqUr8IDk1RCx9tIDyYps0DxYX9Z8QZNUQwV5GlDx1Ltw==
-X-Received: by 2002:a05:600c:58d7:b0:46f:b42e:e363 with SMTP id 5b1f17b1804b1-477181c334emr32548945e9.20.1761715789186;
-        Tue, 28 Oct 2025 22:29:49 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-4771e3c878fsm28225995e9.17.2025.10.28.22.29.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 28 Oct 2025 22:29:48 -0700 (PDT)
-Date: Wed, 29 Oct 2025 08:29:44 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Cristian Del Gobbo <cristiandelgobbo87@gmail.com>
-Cc: sudip.mukherjee@gmail.com, teddy.wang@siliconmotion.com,
-	gregkh@linuxfoundation.org, linux-fbdev@vger.kernel.org,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] staging: sm750fb: style fixes: align call and split
- chained assignment
-Message-ID: <aQGmSIinidUQnHT4@stanley.mountain>
-References: <20251029022123.5829-1-cristiandelgobbo87@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VYT2eAHz"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 72FEEC4CEF7;
+	Wed, 29 Oct 2025 09:35:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1761730545;
+	bh=+sv/ym/3oMt2t6wvCh16Q69GZeefPvHRR5JklW56Y3Q=;
+	h=From:To:Cc:Subject:Date:From;
+	b=VYT2eAHz5OdTrUXOC8mofrl7yrgw9knGDcGpU+FGL0ckXGu5P6nih7bKyjP01ANPa
+	 DObb8eBiBJnKSmCUudf0apXoErsbdFszYgMt6clFTuIRkF+M2LQ863SbZ9ILd2oBb4
+	 MQqvEisQ3f9MaMwll6+TKyGRIeT69TJCgyqVPPTDK8Xd0EjU2WSNb/XwbD+8Y9zr+N
+	 u26DifRsKxitSV6HBrx+cWk3fSWILjnWiDc8B2JhoxJIXAjyfSRWPp5F26TF3tcxed
+	 h0NlBg67HgTecPZ5XLhzb57JKIOf9kLIfuQv9LEO+5Sgs5dI3iVbk7butKH259r5fJ
+	 RsXpK8xUEa1xA==
+Received: from johan by xi.lan with local (Exim 4.98.2)
+	(envelope-from <johan@kernel.org>)
+	id 1vE2at-000000007d6-36tu;
+	Wed, 29 Oct 2025 10:35:51 +0100
+From: Johan Hovold <johan@kernel.org>
+To: Parthiban Veerasooran <parthiban.veerasooran@microchip.com>,
+	Christian Gromm <christian.gromm@microchip.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Johan Hovold <johan@kernel.org>
+Subject: [PATCH] staging: most: remove broken i2c driver
+Date: Wed, 29 Oct 2025 10:34:42 +0100
+Message-ID: <20251029093442.29256-1-johan@kernel.org>
+X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251029022123.5829-1-cristiandelgobbo87@gmail.com>
+Content-Transfer-Encoding: 8bit
 
-This patch was really confusing because I had no idea what I reported.
-Just remove my reported by tag...
+The MOST I2C driver has been completely broken for five years without
+anyone noticing so remove the driver from staging.
 
-This is not a v2 patch, it's a whole new patch.  Don't call it a v2.
+Specifically, commit 723de0f9171e ("staging: most: remove device from
+interface structure") started requiring drivers to set the interface
+device pointer before registration, but the I2C driver was never updated
+which results in a NULL pointer dereference if anyone ever tries to
+probe it.
 
-On Wed, Oct 29, 2025 at 03:21:23AM +0100, Cristian Del Gobbo wrote:
-> - Drop previous change that made g_fbmode[] elements const (broke build).
+Fixes: 723de0f9171e ("staging: most: remove device from interface structure")
+Cc: Christian Gromm <christian.gromm@microchip.com>
+Signed-off-by: Johan Hovold <johan@kernel.org>
+---
+ drivers/staging/most/Kconfig      |   2 -
+ drivers/staging/most/Makefile     |   1 -
+ drivers/staging/most/i2c/Kconfig  |  13 --
+ drivers/staging/most/i2c/Makefile |   4 -
+ drivers/staging/most/i2c/i2c.c    | 374 ------------------------------
+ 5 files changed, 394 deletions(-)
+ delete mode 100644 drivers/staging/most/i2c/Kconfig
+ delete mode 100644 drivers/staging/most/i2c/Makefile
+ delete mode 100644 drivers/staging/most/i2c/i2c.c
 
-But if it were a v2, this isn't the right way to send a v2.  In a v2 this
-would go under the --- cut off line.
-
-https://staticthinking.wordpress.com/2022/07/27/how-to-send-a-v2-patch/
-
-> - Align the continued arguments of sm750_hw_cursor_set_size() with the
->   opening parenthesis.
-> - Replace a chained assignment of red/green/blue with a temporary
->   variable to satisfy checkpatch and improve readability.
-
-These are unrelated changes.  Do them as separate patches.
-
-> 
-> No functional change intended.
-> 
-> Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-> 
-> Signed-off-by: Cristian Del Gobbo <cristiandelgobbo87@gmail.com>
-
-Also run your patch through checkpatch.pl.
-
-> ---
->  drivers/staging/sm750fb/sm750.c | 10 +++++++---
->  1 file changed, 7 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/staging/sm750fb/sm750.c b/drivers/staging/sm750fb/sm750.c
-> index 3659af7e519d..94a99af4320e 100644
-> --- a/drivers/staging/sm750fb/sm750.c
-> +++ b/drivers/staging/sm750fb/sm750.c
-> @@ -121,8 +121,8 @@ static int lynxfb_ops_cursor(struct fb_info *info, struct fb_cursor *fbcursor)
->  	sm750_hw_cursor_disable(cursor);
->  	if (fbcursor->set & FB_CUR_SETSIZE)
->  		sm750_hw_cursor_set_size(cursor,
-> -					fbcursor->image.width,
-> -					fbcursor->image.height);
-> +					 fbcursor->image.width,
-> +					 fbcursor->image.height);
->  
->  	if (fbcursor->set & FB_CUR_SETPOS)
->  		sm750_hw_cursor_set_pos(cursor,
-> @@ -538,7 +538,11 @@ static int lynxfb_ops_setcolreg(unsigned int regno,
->  	}
->  
->  	if (info->var.grayscale)
-> -		red = green = blue = (red * 77 + green * 151 + blue * 28) >> 8;
-> +		int y = (red * 77 + green * 151 + blue * 28) >> 8;
-
-y is a strange variable name.  It has nothing to do with the y axis.
-
-regards,
-dan carpenter
-
+diff --git a/drivers/staging/most/Kconfig b/drivers/staging/most/Kconfig
+index 6f420cbcdcff..e89658df6f12 100644
+--- a/drivers/staging/most/Kconfig
++++ b/drivers/staging/most/Kconfig
+@@ -24,6 +24,4 @@ source "drivers/staging/most/video/Kconfig"
+ 
+ source "drivers/staging/most/dim2/Kconfig"
+ 
+-source "drivers/staging/most/i2c/Kconfig"
+-
+ endif
+diff --git a/drivers/staging/most/Makefile b/drivers/staging/most/Makefile
+index 8b3fc5a7af51..e45084df7803 100644
+--- a/drivers/staging/most/Makefile
++++ b/drivers/staging/most/Makefile
+@@ -3,4 +3,3 @@
+ obj-$(CONFIG_MOST_NET)	+= net/
+ obj-$(CONFIG_MOST_VIDEO)	+= video/
+ obj-$(CONFIG_MOST_DIM2)	+= dim2/
+-obj-$(CONFIG_MOST_I2C)	+= i2c/
+diff --git a/drivers/staging/most/i2c/Kconfig b/drivers/staging/most/i2c/Kconfig
+deleted file mode 100644
+index ff64283cbad1..000000000000
+--- a/drivers/staging/most/i2c/Kconfig
++++ /dev/null
+@@ -1,13 +0,0 @@
+-# SPDX-License-Identifier: GPL-2.0
+-#
+-# MOST I2C configuration
+-#
+-
+-config MOST_I2C
+-	tristate "I2C"
+-	depends on I2C
+-	help
+-	  Say Y here if you want to connect via I2C to network transceiver.
+-
+-	  To compile this driver as a module, choose M here: the
+-	  module will be called most_i2c.
+diff --git a/drivers/staging/most/i2c/Makefile b/drivers/staging/most/i2c/Makefile
+deleted file mode 100644
+index 71099dd0f85b..000000000000
+--- a/drivers/staging/most/i2c/Makefile
++++ /dev/null
+@@ -1,4 +0,0 @@
+-# SPDX-License-Identifier: GPL-2.0
+-obj-$(CONFIG_MOST_I2C) += most_i2c.o
+-
+-most_i2c-objs := i2c.o
+diff --git a/drivers/staging/most/i2c/i2c.c b/drivers/staging/most/i2c/i2c.c
+deleted file mode 100644
+index 184b2dd11fc3..000000000000
+--- a/drivers/staging/most/i2c/i2c.c
++++ /dev/null
+@@ -1,374 +0,0 @@
+-// SPDX-License-Identifier: GPL-2.0
+-/*
+- * i2c.c - Hardware Dependent Module for I2C Interface
+- *
+- * Copyright (C) 2013-2015, Microchip Technology Germany II GmbH & Co. KG
+- */
+-
+-#define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
+-
+-#include <linux/init.h>
+-#include <linux/module.h>
+-#include <linux/slab.h>
+-#include <linux/i2c.h>
+-#include <linux/interrupt.h>
+-#include <linux/err.h>
+-#include <linux/most.h>
+-
+-enum { CH_RX, CH_TX, NUM_CHANNELS };
+-
+-#define MAX_BUFFERS_CONTROL 32
+-#define MAX_BUF_SIZE_CONTROL 256
+-
+-/**
+- * list_first_mbo - get the first mbo from a list
+- * @ptr:	the list head to take the mbo from.
+- */
+-#define list_first_mbo(ptr) \
+-	list_first_entry(ptr, struct mbo, list)
+-
+-static unsigned int polling_rate;
+-module_param(polling_rate, uint, 0644);
+-MODULE_PARM_DESC(polling_rate, "Polling rate [Hz]. Default = 0 (use IRQ)");
+-
+-struct hdm_i2c {
+-	struct most_interface most_iface;
+-	struct most_channel_capability capabilities[NUM_CHANNELS];
+-	struct i2c_client *client;
+-	struct rx {
+-		struct delayed_work dwork;
+-		struct list_head list;
+-		bool int_disabled;
+-		unsigned int delay;
+-	} rx;
+-	char name[64];
+-};
+-
+-static inline struct hdm_i2c *to_hdm(struct most_interface *iface)
+-{
+-	return container_of(iface, struct hdm_i2c, most_iface);
+-}
+-
+-static irqreturn_t most_irq_handler(int, void *);
+-static void pending_rx_work(struct work_struct *);
+-
+-/**
+- * configure_channel - called from MOST core to configure a channel
+- * @most_iface: interface the channel belongs to
+- * @ch_idx: channel to be configured
+- * @channel_config: structure that holds the configuration information
+- *
+- * Return 0 on success, negative on failure.
+- *
+- * Receives configuration information from MOST core and initialize the
+- * corresponding channel.
+- */
+-static int configure_channel(struct most_interface *most_iface,
+-			     int ch_idx,
+-			     struct most_channel_config *channel_config)
+-{
+-	int ret;
+-	struct hdm_i2c *dev = to_hdm(most_iface);
+-	unsigned int delay, pr;
+-
+-	BUG_ON(ch_idx < 0 || ch_idx >= NUM_CHANNELS);
+-
+-	if (channel_config->data_type != MOST_CH_CONTROL) {
+-		pr_err("bad data type for channel %d\n", ch_idx);
+-		return -EPERM;
+-	}
+-
+-	if (channel_config->direction != dev->capabilities[ch_idx].direction) {
+-		pr_err("bad direction for channel %d\n", ch_idx);
+-		return -EPERM;
+-	}
+-
+-	if (channel_config->direction == MOST_CH_RX) {
+-		if (!polling_rate) {
+-			if (dev->client->irq <= 0) {
+-				pr_err("bad irq: %d\n", dev->client->irq);
+-				return -ENOENT;
+-			}
+-			dev->rx.int_disabled = false;
+-			ret = request_irq(dev->client->irq, most_irq_handler, 0,
+-					  dev->client->name, dev);
+-			if (ret) {
+-				pr_err("request_irq(%d) failed: %d\n",
+-				       dev->client->irq, ret);
+-				return ret;
+-			}
+-		} else {
+-			delay = msecs_to_jiffies(MSEC_PER_SEC / polling_rate);
+-			dev->rx.delay = delay ? delay : 1;
+-			pr = MSEC_PER_SEC / jiffies_to_msecs(dev->rx.delay);
+-			pr_info("polling rate is %u Hz\n", pr);
+-		}
+-	}
+-
+-	return 0;
+-}
+-
+-/**
+- * enqueue - called from MOST core to enqueue a buffer for data transfer
+- * @most_iface: intended interface
+- * @ch_idx: ID of the channel the buffer is intended for
+- * @mbo: pointer to the buffer object
+- *
+- * Return 0 on success, negative on failure.
+- *
+- * Transmit the data over I2C if it is a "write" request or push the buffer into
+- * list if it is an "read" request
+- */
+-static int enqueue(struct most_interface *most_iface,
+-		   int ch_idx, struct mbo *mbo)
+-{
+-	struct hdm_i2c *dev = to_hdm(most_iface);
+-	int ret;
+-
+-	BUG_ON(ch_idx < 0 || ch_idx >= NUM_CHANNELS);
+-
+-	if (ch_idx == CH_RX) {
+-		/* RX */
+-		if (!polling_rate)
+-			disable_irq(dev->client->irq);
+-		cancel_delayed_work_sync(&dev->rx.dwork);
+-		list_add_tail(&mbo->list, &dev->rx.list);
+-		if (dev->rx.int_disabled || polling_rate)
+-			pending_rx_work(&dev->rx.dwork.work);
+-		if (!polling_rate)
+-			enable_irq(dev->client->irq);
+-	} else {
+-		/* TX */
+-		ret = i2c_master_send(dev->client, mbo->virt_address,
+-				      mbo->buffer_length);
+-		if (ret <= 0) {
+-			mbo->processed_length = 0;
+-			mbo->status = MBO_E_INVAL;
+-		} else {
+-			mbo->processed_length = mbo->buffer_length;
+-			mbo->status = MBO_SUCCESS;
+-		}
+-		mbo->complete(mbo);
+-	}
+-
+-	return 0;
+-}
+-
+-/**
+- * poison_channel - called from MOST core to poison buffers of a channel
+- * @most_iface: pointer to the interface the channel to be poisoned belongs to
+- * @ch_idx: corresponding channel ID
+- *
+- * Return 0 on success, negative on failure.
+- *
+- * If channel direction is RX, complete the buffers in list with
+- * status MBO_E_CLOSE
+- */
+-static int poison_channel(struct most_interface *most_iface,
+-			  int ch_idx)
+-{
+-	struct hdm_i2c *dev = to_hdm(most_iface);
+-	struct mbo *mbo;
+-
+-	BUG_ON(ch_idx < 0 || ch_idx >= NUM_CHANNELS);
+-
+-	if (ch_idx == CH_RX) {
+-		if (!polling_rate)
+-			free_irq(dev->client->irq, dev);
+-		cancel_delayed_work_sync(&dev->rx.dwork);
+-
+-		while (!list_empty(&dev->rx.list)) {
+-			mbo = list_first_mbo(&dev->rx.list);
+-			list_del(&mbo->list);
+-
+-			mbo->processed_length = 0;
+-			mbo->status = MBO_E_CLOSE;
+-			mbo->complete(mbo);
+-		}
+-	}
+-
+-	return 0;
+-}
+-
+-static void do_rx_work(struct hdm_i2c *dev)
+-{
+-	struct mbo *mbo;
+-	unsigned char msg[MAX_BUF_SIZE_CONTROL];
+-	int ret;
+-	u16 pml, data_size;
+-
+-	/* Read PML (2 bytes) */
+-	ret = i2c_master_recv(dev->client, msg, 2);
+-	if (ret <= 0) {
+-		pr_err("Failed to receive PML\n");
+-		return;
+-	}
+-
+-	pml = (msg[0] << 8) | msg[1];
+-	if (!pml)
+-		return;
+-
+-	data_size = pml + 2;
+-
+-	/* Read the whole message, including PML */
+-	ret = i2c_master_recv(dev->client, msg, data_size);
+-	if (ret <= 0) {
+-		pr_err("Failed to receive a Port Message\n");
+-		return;
+-	}
+-
+-	mbo = list_first_mbo(&dev->rx.list);
+-	list_del(&mbo->list);
+-
+-	mbo->processed_length = min(data_size, mbo->buffer_length);
+-	memcpy(mbo->virt_address, msg, mbo->processed_length);
+-	mbo->status = MBO_SUCCESS;
+-	mbo->complete(mbo);
+-}
+-
+-/**
+- * pending_rx_work - Read pending messages through I2C
+- * @work: definition of this work item
+- *
+- * Invoked by the Interrupt Service Routine, most_irq_handler()
+- */
+-static void pending_rx_work(struct work_struct *work)
+-{
+-	struct hdm_i2c *dev = container_of(work, struct hdm_i2c, rx.dwork.work);
+-
+-	if (list_empty(&dev->rx.list))
+-		return;
+-
+-	do_rx_work(dev);
+-
+-	if (polling_rate) {
+-		schedule_delayed_work(&dev->rx.dwork, dev->rx.delay);
+-	} else {
+-		dev->rx.int_disabled = false;
+-		enable_irq(dev->client->irq);
+-	}
+-}
+-
+-/*
+- * most_irq_handler - Interrupt Service Routine
+- * @irq: irq number
+- * @_dev: private data
+- *
+- * Schedules a delayed work
+- *
+- * By default the interrupt line behavior is Active Low. Once an interrupt is
+- * generated by the device, until driver clears the interrupt (by reading
+- * the PMP message), device keeps the interrupt line in low state. Since i2c
+- * read is done in work queue, the interrupt line must be disabled temporarily
+- * to avoid ISR being called repeatedly. Re-enable the interrupt in workqueue,
+- * after reading the message.
+- *
+- * Note: If we use the interrupt line in Falling edge mode, there is a
+- * possibility to miss interrupts when ISR is getting executed.
+- *
+- */
+-static irqreturn_t most_irq_handler(int irq, void *_dev)
+-{
+-	struct hdm_i2c *dev = _dev;
+-
+-	disable_irq_nosync(irq);
+-	dev->rx.int_disabled = true;
+-	schedule_delayed_work(&dev->rx.dwork, 0);
+-
+-	return IRQ_HANDLED;
+-}
+-
+-/*
+- * i2c_probe - i2c probe handler
+- * @client: i2c client device structure
+- * @id: i2c client device id
+- *
+- * Return 0 on success, negative on failure.
+- *
+- * Register the i2c client device as a MOST interface
+- */
+-static int i2c_probe(struct i2c_client *client)
+-{
+-	struct hdm_i2c *dev;
+-	int ret, i;
+-
+-	dev = kzalloc(sizeof(*dev), GFP_KERNEL);
+-	if (!dev)
+-		return -ENOMEM;
+-
+-	/* ID format: i2c-<bus>-<address> */
+-	snprintf(dev->name, sizeof(dev->name), "i2c-%d-%04x",
+-		 client->adapter->nr, client->addr);
+-
+-	for (i = 0; i < NUM_CHANNELS; i++) {
+-		dev->capabilities[i].data_type = MOST_CH_CONTROL;
+-		dev->capabilities[i].num_buffers_packet = MAX_BUFFERS_CONTROL;
+-		dev->capabilities[i].buffer_size_packet = MAX_BUF_SIZE_CONTROL;
+-	}
+-	dev->capabilities[CH_RX].direction = MOST_CH_RX;
+-	dev->capabilities[CH_RX].name_suffix = "rx";
+-	dev->capabilities[CH_TX].direction = MOST_CH_TX;
+-	dev->capabilities[CH_TX].name_suffix = "tx";
+-
+-	dev->most_iface.interface = ITYPE_I2C;
+-	dev->most_iface.description = dev->name;
+-	dev->most_iface.num_channels = NUM_CHANNELS;
+-	dev->most_iface.channel_vector = dev->capabilities;
+-	dev->most_iface.configure = configure_channel;
+-	dev->most_iface.enqueue = enqueue;
+-	dev->most_iface.poison_channel = poison_channel;
+-
+-	INIT_LIST_HEAD(&dev->rx.list);
+-
+-	INIT_DELAYED_WORK(&dev->rx.dwork, pending_rx_work);
+-
+-	dev->client = client;
+-	i2c_set_clientdata(client, dev);
+-
+-	ret = most_register_interface(&dev->most_iface);
+-	if (ret) {
+-		pr_err("Failed to register i2c as a MOST interface\n");
+-		kfree(dev);
+-		return ret;
+-	}
+-
+-	return 0;
+-}
+-
+-/*
+- * i2c_remove - i2c remove handler
+- * @client: i2c client device structure
+- *
+- * Return 0 on success.
+- *
+- * Unregister the i2c client device as a MOST interface
+- */
+-static void i2c_remove(struct i2c_client *client)
+-{
+-	struct hdm_i2c *dev = i2c_get_clientdata(client);
+-
+-	most_deregister_interface(&dev->most_iface);
+-	kfree(dev);
+-}
+-
+-static const struct i2c_device_id i2c_id[] = {
+-	{ "most_i2c" },
+-	{ } /* Terminating entry */
+-};
+-
+-MODULE_DEVICE_TABLE(i2c, i2c_id);
+-
+-static struct i2c_driver i2c_driver = {
+-	.driver = {
+-		.name = "hdm_i2c",
+-	},
+-	.probe = i2c_probe,
+-	.remove = i2c_remove,
+-	.id_table = i2c_id,
+-};
+-
+-module_i2c_driver(i2c_driver);
+-
+-MODULE_AUTHOR("Andrey Shvetsov <andrey.shvetsov@k2l.de>");
+-MODULE_DESCRIPTION("I2C Hardware Dependent Module");
+-MODULE_LICENSE("GPL");
+-- 
+2.51.0
 
