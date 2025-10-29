@@ -1,184 +1,126 @@
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1296733B95B
-	for <linux-staging@lists.linux.dev>; Wed, 29 Oct 2025 10:31:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12A403375C5
+	for <linux-staging@lists.linux.dev>; Wed, 29 Oct 2025 12:10:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761733903; cv=none; b=GLuw3A4WgKO4CnnHimmO6ThpwqtWBCqrO1Ayvcr760k5LIJ5DNLxUJEKtVNU029+DarsxqU04bmzgS9gbFCIDviCM0Ttogc+IHlMCNYmzMMaGPEBB81PxNikegJzDr9bCJxRpgq6f/vK95DxUNTwpr7q3lsbJ4+r3aGXYCiJeJQ=
+	t=1761739840; cv=none; b=i2omPiY/qNwhbONLOnwcQ3+KEf1WX2z1HgY6K9zJu6RqMs+tSv1/hqwfWcV5TJC0HKGeGdeOh1qbSGq0tdLuJ3y24h+wmiONAo+464+ZiAFjmpyGV5bVfhZTTiMonuq6WGp+dzPcZLMSyWcJ8EXQVjAwfdfrnH7tecSH+7BNFQs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761733903; c=relaxed/simple;
-	bh=N30ftlmAx1I5/6/9Ryv55Ts8pOKVaDrgM1/5L8YtCQU=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=iUjXEdnHnY9H6vY4qoQq2lFmOzTlAfsOZeNtTBm6CkR43r/4BY1JEXJT36oA6aHKGEi9/c0OhECoSaRoo2iWwlrs9Q+oULwg7XjYUbIg/IgSCwEMqtzJFpjzRGvO7XxPK35ynlkVZ5hENQ4ZdvWTi/rI7zYGsY1VMwTNrK4+J4E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=Y2VIWWsI; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+	s=arc-20240116; t=1761739840; c=relaxed/simple;
+	bh=nmmmsqfKVAJAISlF0v0aoOiHV4ihW5X2wUL2HaVO778=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=XCoOcJ8nfG9/c8IvpIysCJtiuTNIM5tLkZoKC0YZOoEvUbnkohSKSkL4PHwho40N3/l15bHlTVps4fZb3vnK6XC+INhBwHKbdD/GUZGMR8lHsu1BMkKmctDcyO6dfnBpPpMtusK+b9Pg/Wp1WolGGViYKke1dE+kFjrT1zacB/8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=PGllS+TX; arc=none smtp.client-ip=209.85.128.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="Y2VIWWsI"
-Received: from mail.ideasonboard.com (unknown [IPv6:2401:4900:1c69:314e:ee86:ae6e:30:9d13])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 38C7911DD;
-	Wed, 29 Oct 2025 11:29:51 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1761733791;
-	bh=N30ftlmAx1I5/6/9Ryv55Ts8pOKVaDrgM1/5L8YtCQU=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=Y2VIWWsI7sJLDxnfJ36EiJ5YTvx+ax9vKBUZhWOyjAs7QfBoA/iU88F9p68Fl+FXx
-	 szo8UKWaQgstx8ARq+NEcIJ/ZmMMtuPqZrgR6tGNEduLWCwpUFGdM9Ev+xEGnqlccR
-	 jWqjlZL670V8bUKXG+g5Cp5nfRluTd+NfzdgR0hM=
-From: Jai Luthra <jai.luthra@ideasonboard.com>
-Date: Wed, 29 Oct 2025 16:00:11 +0530
-Subject: [PATCH v3 7/7] platform/raspberrypi: Destage VCHIQ MMAL driver
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="PGllS+TX"
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-475dab5a5acso27443975e9.0
+        for <linux-staging@lists.linux.dev>; Wed, 29 Oct 2025 05:10:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1761739837; x=1762344637; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=d9+YREs/dwvkAURlYBalhERi7T5HA8/ejvJOwTN6088=;
+        b=PGllS+TXztR41JiRamJOzP8CC7BFnJfe0V65XayF0HKcVcvItTi0gLooB97nNQnJhe
+         L6eGovPZsonY4vmdut39RuJPjKlcyl3tDcQdw7PvLpp0ZuVTQwgYELpIoeoQIf/zAzqD
+         Wz47j1020VizqwF2BmrmTXFT7fJhJ8OCgN4dVCFdRGP96cYDBGA9xhXZS8pk878aD1n5
+         zCtn/YcwkjLWMgdOoBZ1Yvl3iRHVXKntnBJPqIGwP/Zan9b1uwuk/W+CHQal1J5tWUKh
+         D+jK4CLq1gV3SL0CHzcU1s56XQ9NOpiKiAxelprxGjbHudOZVCqNbcltZ9m5tI5GKb/q
+         6Exg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1761739837; x=1762344637;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=d9+YREs/dwvkAURlYBalhERi7T5HA8/ejvJOwTN6088=;
+        b=jx9xQ96T+Lp9f1n1ocrh3idM8LpZGJ8fl4BCRqdxIU2rTHub96Akzn5YaXs7IbfB0v
+         wYg5xfu14yecJclAGM7xFxmHdtD6qj4RXmsgMz5bHpKy7nbOI5TbL9CNNNVYEhkldMAy
+         aEY5bLkOVjv2h5zvQMnmNMWf1k5P4scBwN37vXXOBZoqAY6UZp74WDtBqAC70R84KvqA
+         +fr8OhveeiQrYfqk5Qk86c2n3RJ/XZGupgQYBrDxb5bpIngcjsQXdFwptwb4400vKOry
+         1sb2ms2hIugbAmqiBQFHJSjL4koKAHnApBH+jjksVg6AR94ZWwPs/cO8eNMSF9+NiIlX
+         sjaw==
+X-Forwarded-Encrypted: i=1; AJvYcCX/itrjK1RlrxSupWe1meicAbM/8ZMewrAHEw2H+8oiqRCwDcvLqBMPAfxFsBb8qAOnRsoZxPGSwU2qbl7a@lists.linux.dev
+X-Gm-Message-State: AOJu0YxdEcjm9X8JUOR/q7tBCnU0JLHxtIPx0PGEWPxhFA0I/FkUqKw0
+	7EHK3Tshb11oYM8uhZ/TtH11BF2vYqku9/vAKfoyGaaICuqgDwLlhNP//f1FI4ri3rQ=
+X-Gm-Gg: ASbGncu4D32Le6+oIMQcgkMke82pelNZkTWc3WUIaJwg2pdXrUon/2NrQVtu9unW9If
+	iIINZN+F6lgxoZ4+7/cGLKKbTEpVXvp2v6wBeU6aDdhiezk3sfHtZPu99zscxUDGKdSdJaNWuxT
+	fliGn0V9ypDm/DumdYJTknznGgBzZT/K20RrL3gySyFGmh4AkvxgNv2IaZYfcZL2u5dzm/2k8ku
+	2Q/gg8rI9/3Mlr03U1oOrgn6e2cEDOusx2uSBctIq3Ne4BqbrrNT5VhrQhmnJHkU4ekcCvFH0vI
+	okdNFHmwH+1jXIioJ40GZ2DEn40WpjVGXpUDYyCQtXC7Wbe6kMqvuZp1/6+kToLPWQQ+FPgVPLR
+	543OQRVxhNKssOiQJiY1vqi2rrcNM7jEI4H22fu17HrMSvES75xIBsA6XxLd/v6cu3eOpl8Bciz
+	F+5xYQ4+KklExMc+/7
+X-Google-Smtp-Source: AGHT+IGIDloDBN8XL8rmy10flsio+t482MTy1ZQ7mnd0IkV1PLp8bTgCqmolXedNqKzaaInabxjXJw==
+X-Received: by 2002:a05:600c:528b:b0:456:1b6f:c888 with SMTP id 5b1f17b1804b1-4771e3937a8mr26462945e9.23.1761739837097;
+        Wed, 29 Oct 2025 05:10:37 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-4771e3b68fesm44788135e9.13.2025.10.29.05.10.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 29 Oct 2025 05:10:36 -0700 (PDT)
+Date: Wed, 29 Oct 2025 15:10:32 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Jai Luthra <jai.luthra@ideasonboard.com>
+Cc: Florian Fainelli <florian.fainelli@broadcom.com>,
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
+	linux-rpi-kernel@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org, kernel-list@raspberrypi.com,
+	Stefan Wahren <wahrenst@gmx.net>,
+	Dave Stevenson <dave.stevenson@raspberrypi.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Kieran Bingham <kieran.bingham@ideasonboard.com>,
+	Phil Elwell <phil@raspberrypi.com>, Umang Jain <uajain@igalia.com>
+Subject: Re: [PATCH v3 0/7] staging: Destage VCHIQ interface and MMAL
+Message-ID: <aQIEOJUHdVMriz7S@stanley.mountain>
+References: <20251029-vchiq-destage-v3-0-da8d6c83c2c5@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20251029-vchiq-destage-v3-7-da8d6c83c2c5@ideasonboard.com>
-References: <20251029-vchiq-destage-v3-0-da8d6c83c2c5@ideasonboard.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 In-Reply-To: <20251029-vchiq-destage-v3-0-da8d6c83c2c5@ideasonboard.com>
-To: Florian Fainelli <florian.fainelli@broadcom.com>, 
- Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>
-Cc: linux-rpi-kernel@lists.infradead.org, 
- linux-arm-kernel@lists.infradead.org, linux-staging@lists.linux.dev, 
- linux-kernel@vger.kernel.org, kernel-list@raspberrypi.com, 
- Stefan Wahren <wahrenst@gmx.net>, 
- Dave Stevenson <dave.stevenson@raspberrypi.com>, 
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
- Kieran Bingham <kieran.bingham@ideasonboard.com>, 
- Phil Elwell <phil@raspberrypi.com>, Umang Jain <uajain@igalia.com>, 
- Jai Luthra <jai.luthra@ideasonboard.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=6383;
- i=jai.luthra@ideasonboard.com; h=from:subject:message-id;
- bh=N30ftlmAx1I5/6/9Ryv55Ts8pOKVaDrgM1/5L8YtCQU=;
- b=owEBbQKS/ZANAwAKAUPekfkkmnFFAcsmYgBpAezfdcmhGxF4IkMt7thEvaEatpWskgSvpiyM8
- 9BQeYKR/0yJAjMEAAEKAB0WIQRN4NgY5dV16NRar8VD3pH5JJpxRQUCaQHs3wAKCRBD3pH5JJpx
- RW60D/0R6Pi0NI1/Hlf4BO8wEJRDBzZGyV7frW821v60L5MRx8NqnNOV0kWOFPWmrnHLlRC9ZNt
- /q/yalu8XgsNaTNOh+KSXdFfxkNAklLQsSoAPuX/SsB5FKZUisZqaHpwDrVEY0sWa/pZJ7buFPn
- /VEfLWtOXxkywOk6yC0Dlh1ehDynO7MW15pSgBNVlb2U/sUeYD8Bg9s3zQTHCsux8ZSn05o88yG
- kF8LSJh3121zeHI0NHMON5JPe3RFx/9ypBTqhJXD4jnrjCkMHHh+TQTIP0ei5jlS9SvCho4zYMr
- jxDBvFKDdQslT5ZtZVfN77ydAgjCkWR3hgPjLRuvmWNoBwu7qE+PckDgF99XE2SWRMzufHAjnq8
- Mp0jBEjy5rjBcY8DsBjIF9thUUbyi5ednZsCpDOcwwl8rCazHdbOi0fE6YYje83z4zB2JbaBayG
- WngNUYBZ+gv0oF7kZSfY1m1RMT5uqce8/hx9AwTbW0GHanB9iMdKsUAcvVh5Apim/UgOJ/lUpPQ
- PhqpooMChTH1hU4LlBN60SUHkgqVs7BKRNhZzvPAHczmBh57ARqJwIZOsHqKxcVqYw1xNEIYUs2
- uKdr8OLIvwGe5iPTU9n+ZVUZdzrvK0guWJ9uuuxWAs4J/iy1XnXLaimBwSXUHYpPwmpWgJ6AfZz
- yzsX4iVC7B8EQng==
-X-Developer-Key: i=jai.luthra@ideasonboard.com; a=openpgp;
- fpr=4DE0D818E5D575E8D45AAFC543DE91F9249A7145
 
-Destage the VCHIQ MMAL driver to drivers/platform/raspberrypi.
+I did a review of some Smatch warnings.  These aren't published because
+they generate too many false positives.  Only number 3 and number 7
+are actual issues the rest are style nit-picks.
 
-Signed-off-by: Jai Luthra <jai.luthra@ideasonboard.com>
----
- drivers/platform/raspberrypi/Kconfig                                                 | 2 ++
- drivers/platform/raspberrypi/Makefile                                                | 1 +
- drivers/{staging/vc04_services => platform/raspberrypi}/vchiq-mmal/Kconfig           | 0
- drivers/{staging/vc04_services => platform/raspberrypi}/vchiq-mmal/Makefile          | 0
- drivers/{staging/vc04_services => platform/raspberrypi}/vchiq-mmal/mmal-common.h     | 0
- drivers/{staging/vc04_services => platform/raspberrypi}/vchiq-mmal/mmal-encodings.h  | 0
- drivers/{staging/vc04_services => platform/raspberrypi}/vchiq-mmal/mmal-msg-common.h | 0
- drivers/{staging/vc04_services => platform/raspberrypi}/vchiq-mmal/mmal-msg-format.h | 0
- drivers/{staging/vc04_services => platform/raspberrypi}/vchiq-mmal/mmal-msg-port.h   | 0
- drivers/{staging/vc04_services => platform/raspberrypi}/vchiq-mmal/mmal-msg.h        | 0
- drivers/{staging/vc04_services => platform/raspberrypi}/vchiq-mmal/mmal-parameters.h | 0
- drivers/{staging/vc04_services => platform/raspberrypi}/vchiq-mmal/mmal-vchiq.c      | 0
- drivers/{staging/vc04_services => platform/raspberrypi}/vchiq-mmal/mmal-vchiq.h      | 0
- drivers/staging/vc04_services/Kconfig                                                | 2 --
- drivers/staging/vc04_services/Makefile                                               | 1 -
- 15 files changed, 3 insertions(+), 3 deletions(-)
+1. drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c:2728 vchiq_add_service_internal() info: returning a literal zero is cleaner
+s/return service;/return NULL;/
 
-diff --git a/drivers/platform/raspberrypi/Kconfig b/drivers/platform/raspberrypi/Kconfig
-index 9085e7464ec348fce5ec9f41a9019ab12eee964b..2c928440a47c08e4d452fe838fe4105c608995a4 100644
---- a/drivers/platform/raspberrypi/Kconfig
-+++ b/drivers/platform/raspberrypi/Kconfig
-@@ -47,4 +47,6 @@ config VCHIQ_CDEV
- 
- endif
- 
-+source "drivers/platform/raspberrypi/vchiq-mmal/Kconfig"
-+
- endif
-diff --git a/drivers/platform/raspberrypi/Makefile b/drivers/platform/raspberrypi/Makefile
-index a807571c59a47bb418cbb1dfcc389219d0d0ff22..2a7c9511e5d8bbe11c05680eea016ef40796b648 100644
---- a/drivers/platform/raspberrypi/Makefile
-+++ b/drivers/platform/raspberrypi/Makefile
-@@ -12,3 +12,4 @@ ifdef CONFIG_VCHIQ_CDEV
- vchiq-objs += vchiq-interface/vchiq_dev.o
- endif
- 
-+obj-$(CONFIG_BCM2835_VCHIQ_MMAL)	+= vchiq-mmal/
-diff --git a/drivers/staging/vc04_services/vchiq-mmal/Kconfig b/drivers/platform/raspberrypi/vchiq-mmal/Kconfig
-similarity index 100%
-rename from drivers/staging/vc04_services/vchiq-mmal/Kconfig
-rename to drivers/platform/raspberrypi/vchiq-mmal/Kconfig
-diff --git a/drivers/staging/vc04_services/vchiq-mmal/Makefile b/drivers/platform/raspberrypi/vchiq-mmal/Makefile
-similarity index 100%
-rename from drivers/staging/vc04_services/vchiq-mmal/Makefile
-rename to drivers/platform/raspberrypi/vchiq-mmal/Makefile
-diff --git a/drivers/staging/vc04_services/vchiq-mmal/mmal-common.h b/drivers/platform/raspberrypi/vchiq-mmal/mmal-common.h
-similarity index 100%
-rename from drivers/staging/vc04_services/vchiq-mmal/mmal-common.h
-rename to drivers/platform/raspberrypi/vchiq-mmal/mmal-common.h
-diff --git a/drivers/staging/vc04_services/vchiq-mmal/mmal-encodings.h b/drivers/platform/raspberrypi/vchiq-mmal/mmal-encodings.h
-similarity index 100%
-rename from drivers/staging/vc04_services/vchiq-mmal/mmal-encodings.h
-rename to drivers/platform/raspberrypi/vchiq-mmal/mmal-encodings.h
-diff --git a/drivers/staging/vc04_services/vchiq-mmal/mmal-msg-common.h b/drivers/platform/raspberrypi/vchiq-mmal/mmal-msg-common.h
-similarity index 100%
-rename from drivers/staging/vc04_services/vchiq-mmal/mmal-msg-common.h
-rename to drivers/platform/raspberrypi/vchiq-mmal/mmal-msg-common.h
-diff --git a/drivers/staging/vc04_services/vchiq-mmal/mmal-msg-format.h b/drivers/platform/raspberrypi/vchiq-mmal/mmal-msg-format.h
-similarity index 100%
-rename from drivers/staging/vc04_services/vchiq-mmal/mmal-msg-format.h
-rename to drivers/platform/raspberrypi/vchiq-mmal/mmal-msg-format.h
-diff --git a/drivers/staging/vc04_services/vchiq-mmal/mmal-msg-port.h b/drivers/platform/raspberrypi/vchiq-mmal/mmal-msg-port.h
-similarity index 100%
-rename from drivers/staging/vc04_services/vchiq-mmal/mmal-msg-port.h
-rename to drivers/platform/raspberrypi/vchiq-mmal/mmal-msg-port.h
-diff --git a/drivers/staging/vc04_services/vchiq-mmal/mmal-msg.h b/drivers/platform/raspberrypi/vchiq-mmal/mmal-msg.h
-similarity index 100%
-rename from drivers/staging/vc04_services/vchiq-mmal/mmal-msg.h
-rename to drivers/platform/raspberrypi/vchiq-mmal/mmal-msg.h
-diff --git a/drivers/staging/vc04_services/vchiq-mmal/mmal-parameters.h b/drivers/platform/raspberrypi/vchiq-mmal/mmal-parameters.h
-similarity index 100%
-rename from drivers/staging/vc04_services/vchiq-mmal/mmal-parameters.h
-rename to drivers/platform/raspberrypi/vchiq-mmal/mmal-parameters.h
-diff --git a/drivers/staging/vc04_services/vchiq-mmal/mmal-vchiq.c b/drivers/platform/raspberrypi/vchiq-mmal/mmal-vchiq.c
-similarity index 100%
-rename from drivers/staging/vc04_services/vchiq-mmal/mmal-vchiq.c
-rename to drivers/platform/raspberrypi/vchiq-mmal/mmal-vchiq.c
-diff --git a/drivers/staging/vc04_services/vchiq-mmal/mmal-vchiq.h b/drivers/platform/raspberrypi/vchiq-mmal/mmal-vchiq.h
-similarity index 100%
-rename from drivers/staging/vc04_services/vchiq-mmal/mmal-vchiq.h
-rename to drivers/platform/raspberrypi/vchiq-mmal/mmal-vchiq.h
-diff --git a/drivers/staging/vc04_services/Kconfig b/drivers/staging/vc04_services/Kconfig
-index b9e6f369f54c3af6225f181e08ac14e3de044062..2f6d1aaffdb2c1f11ec27e0fb8050fef56e6a875 100644
---- a/drivers/staging/vc04_services/Kconfig
-+++ b/drivers/staging/vc04_services/Kconfig
-@@ -3,7 +3,5 @@ if BCM_VIDEOCORE
- 
- source "drivers/staging/vc04_services/bcm2835-audio/Kconfig"
- 
--source "drivers/staging/vc04_services/vchiq-mmal/Kconfig"
--
- endif
- 
-diff --git a/drivers/staging/vc04_services/Makefile b/drivers/staging/vc04_services/Makefile
-index 7a716a5c781530b673027b9f82ec94ebfd615f8a..ba15ec663af0fabaf0060456fc997deb5e5e0533 100644
---- a/drivers/staging/vc04_services/Makefile
-+++ b/drivers/staging/vc04_services/Makefile
-@@ -1,4 +1,3 @@
- # SPDX-License-Identifier: GPL-2.0
- obj-$(CONFIG_SND_BCM2835)		+= bcm2835-audio/
--obj-$(CONFIG_BCM2835_VCHIQ_MMAL)	+= vchiq-mmal/
- 
+2. drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c:408 vchiq_shutdown() info: returning a literal zero is cleaner
+Delete the "ret" variable.
 
--- 
-2.51.0
+3. drivers/staging/vc04_services/bcm2835-camera/controls.c:198 ctrl_set_iso() warn: array off by one? 'iso_values[ctrl->val]'
+There seems to be a mixup between iso_qmenu[] and iso_values[].  The one
+is only used for ARRAY_SIZE() and the other is never checked for
+ARRAY_SIZE().
 
+4. drivers/staging/vc04_services/bcm2835-camera/bcm2835-camera.c:337 buffer_cb() warn: can 'buf' even be NULL?
+Delete the NULL check.
+
+5. drivers/staging/vc04_services/bcm2835-camera/bcm2835-camera.c:513 start_streaming() pedantic: propagate return from 'enable_camera' instead of returning '-EINVAL'
+-       if (enable_camera(dev) < 0) {
++       ret = enable_camera(dev);
++       if (ret) {
+                v4l2_err(&dev->v4l2_dev, "Failed to enable camera\n");
+-               return -EINVAL;
++               return ret;
+        }
+6. drivers/staging/vc04_services/bcm2835-camera/bcm2835-camera.c:576 start_streaming() pedantic: propagate return from 'disable_camera' instead of returning '-EINVAL'
+Same.
+
+7. drivers/staging/vc04_services/bcm2835-camera/bcm2835-camera.c:881 vidioc_querycap() error: uninitialized symbol 'major'.
+   drivers/staging/vc04_services/bcm2835-camera/bcm2835-camera.c:881 vidioc_querycap() error: uninitialized symbol 'minor'.
+No error checking on vchiq_mmal_version()
+
+8. drivers/staging/vc04_services/bcm2835-camera/bcm2835-camera.c:1276 mmal_setup_components() info: returning a literal zero is cleaner
+s/return ret;/return 0;/
+
+regards,
+dan carpenter
