@@ -1,108 +1,180 @@
-Received: from forwardcorp1b.mail.yandex.net (forwardcorp1b.mail.yandex.net [178.154.239.136])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 581CA354714
-	for <linux-staging@lists.linux.dev>; Wed, 29 Oct 2025 12:25:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.154.239.136
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B311A286422;
+	Wed, 29 Oct 2025 12:49:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761740737; cv=none; b=UR0okLVUaXNuBknwH6n1ESed4rjUZINwuEBjGkPbzW1qV9JSkjZ1E/hgyQXhJhKFY04tdlSMhxf3zf3NiVJO+R5UmpRdsljeurBUpxuf3Rh6FASZt6mBatams+VCyxLqy4CqZMYGHCn1fQ21Z7aLqN9rwo5QKNz39ElB4mr/m2E=
+	t=1761742175; cv=none; b=P+394L0MtaG/jPEgHI+l6nHHo05/tpOPh6FveguhbYHePMViu6vKVlSdCQh+hTlSVrT6uuCX7QoDhG670R7YoUySHVQp2dsS40Lfe+CWBwX3uwvqvGoKXklc9foF1pw5kX17vzqVOwSw+RJyqKNK0XMvfrIFsCPv36SbGRNLovg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761740737; c=relaxed/simple;
-	bh=/+D8e3w7keuyHVljmO9v+nZYyyvmPGewctw3TwK4ofE=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=VICvuSiCE0kDEWZZxL/C+mKuI9WvJZ/Ch1ikEMfgFGLE0gP8KohZKZigCAGOkszlwpBn6aiAPPgqStNys7sc4ypFogdzySCcrz5zNot9NOj3IMxqj522DoSglL9rJT74rwyg4Wtfon4fkhgkUCdR73t5HeHyqWbTESx5VxZQPVU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=yandex-team.ru; spf=pass smtp.mailfrom=yandex-team.ru; dkim=pass (1024-bit key) header.d=yandex-team.ru header.i=@yandex-team.ru header.b=vYWRpJ+4; arc=none smtp.client-ip=178.154.239.136
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=yandex-team.ru
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=yandex-team.ru
+	s=arc-20240116; t=1761742175; c=relaxed/simple;
+	bh=HhgfBkD9obpAIcb9cqabm6VDny1KY5DjLfeLlwP3zn8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=UWIJHkv0gASkz0YS44g7yostl9yYqF4KjOEvddgPagnM7OVfXMdIGrhL0dsCpRRHgbVOkSxodjI9zS4mMuytqeQopMAT53VuySXJpvC1aZE4o7h7aeJfYUfx2brdUiPTYHRWUfq+fqx727DewNj7LR1aVY4cGR22MupU8JTCagk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bmTioTu3; arc=none smtp.client-ip=192.198.163.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=yandex-team.ru header.i=@yandex-team.ru header.b="vYWRpJ+4"
-Received: from mail-nwsmtp-smtp-corp-main-80.iva.yp-c.yandex.net (mail-nwsmtp-smtp-corp-main-80.iva.yp-c.yandex.net [IPv6:2a02:6b8:c0c:7888:0:640:a8fd:0])
-	by forwardcorp1b.mail.yandex.net (Yandex) with ESMTPS id 2C11280DF4;
-	Wed, 29 Oct 2025 15:25:29 +0300 (MSK)
-Received: from i111667286.ld.yandex.ru (unknown [2a02:6bf:8080:2::1:3d])
-	by mail-nwsmtp-smtp-corp-main-80.iva.yp-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id PPdUA30G0Cg0-ZuFDoAIf;
-	Wed, 29 Oct 2025 15:25:28 +0300
-X-Yandex-Fwd: 1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
-	s=default; t=1761740728;
-	bh=1fQKQ83XfcLNxwtPZTJ+LlUequJp8085Dk/31B/lnGQ=;
-	h=Message-ID:Date:Cc:Subject:To:From;
-	b=vYWRpJ+4vy8S0VLwqkSFBm4h+wJ1vAGn/Di0QtEcBvEv70EOyOQzbHKgp1PcRBxxz
-	 9HtV7PZ+M41O5m+HJDo/5J9PFcPPYEMXnPAQmYgWRA+aCqnSdb6P3PvhWcOj6WB50S
-	 HePfX8FaWzIvxI6jH4aj+hRRJ0Yq/dtK+3UAqQGw=
-Authentication-Results: mail-nwsmtp-smtp-corp-main-80.iva.yp-c.yandex.net; dkim=pass header.i=@yandex-team.ru
-From: Andrey Troshin <drtrosh@yandex-team.ru>
-To: stable@vger.kernel.org,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Andrey Troshin <drtrosh@yandex-team.ru>,
-	Ian Abbott <abbotti@mev.co.uk>,
-	H Hartley Sweeten <hsweeten@visionengravers.com>,
-	linux-staging@lists.linux.dev,
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bmTioTu3"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1761742174; x=1793278174;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=HhgfBkD9obpAIcb9cqabm6VDny1KY5DjLfeLlwP3zn8=;
+  b=bmTioTu3OxQGoMVjzCVKBbsokpJJ93WaH+mHHIeN/alTIUGdYX9MW6ds
+   6yqg1UjcjLyN6rzwHjE5D+IfHgcNhdD3BloE3AvayMWkosbMiJ7Z1vVaM
+   XBQ2vHgsxUDiZpPX1DYDczvKQB58tSolfB+Zj6JuUL2uuwtroVNQ080CJ
+   mJa9azoIyMXpOGGFcY00QMNmAGAUUTl4U5nf7BGB5N9jXa5yBgjHlFLMY
+   P8GUKt+R/muccdHUR4fRVvh2a0xnH1nwnJT/W3lP5J/eAVB37/RY30vI4
+   4yCJYAJcxacwFLfhETQ+/UY6x+V2L6IPC8yC99qpotOanzCkFvtjMhr5I
+   g==;
+X-CSE-ConnectionGUID: xkmcfim2Rk2ACRzCj//lFA==
+X-CSE-MsgGUID: V80IN9rhSGCqDIc4sK78fg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11596"; a="63068004"
+X-IronPort-AV: E=Sophos;i="6.19,263,1754982000"; 
+   d="scan'208";a="63068004"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Oct 2025 05:49:32 -0700
+X-CSE-ConnectionGUID: BTudI+XZSJ6yLF1pYV4s4g==
+X-CSE-MsgGUID: aMahW1C5SBuCuOV8RwHDrA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,263,1754982000"; 
+   d="scan'208";a="185353090"
+Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
+  by fmviesa007.fm.intel.com with ESMTP; 29 Oct 2025 05:49:29 -0700
+Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1vE5cF-000KbL-0J;
+	Wed, 29 Oct 2025 12:49:27 +0000
+Date: Wed, 29 Oct 2025 20:49:04 +0800
+From: kernel test robot <lkp@intel.com>
+To: Cristian Del Gobbo <cristiandelgobbo87@gmail.com>,
+	sudip.mukherjee@gmail.com
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	teddy.wang@siliconmotion.com, gregkh@linuxfoundation.org,
+	linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
-	lvc-project@linuxtesting.org
-Subject: [PATCH 5.10] comedi: pcl726: Prevent invalid irq number
-Date: Wed, 29 Oct 2025 15:25:25 +0300
-Message-ID: <20251029122525.2078-1-drtrosh@yandex-team.ru>
-X-Mailer: git-send-email 2.51.0.windows.2
+	Cristian Del Gobbo <cristiandelgobbo87@gmail.com>,
+	Dan Carpenter <error27@gmail.com>
+Subject: Re: [PATCH v2] staging: sm750fb: style fixes: align call and split
+ chained assignment
+Message-ID: <202510292010.GP8WnOne-lkp@intel.com>
+References: <20251029022002.5812-1-cristiandelgobbo87@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251029022002.5812-1-cristiandelgobbo87@gmail.com>
 
-From: Edward Adam Davis <eadavis@qq.com>
+Hi Cristian,
 
-commit 96cb948408b3adb69df7e451ba7da9d21f814d00 upstream.
+kernel test robot noticed the following build errors:
 
-The reproducer passed in an irq number(0x80008000) that was too large,
-which triggered the oob.
+[auto build test ERROR on staging/staging-testing]
 
-Added an interrupt number check to prevent users from passing in an irq
-number that was too large.
+url:    https://github.com/intel-lab-lkp/linux/commits/Cristian-Del-Gobbo/staging-sm750fb-style-fixes-align-call-and-split-chained-assignment/20251029-102311
+base:   staging/staging-testing
+patch link:    https://lore.kernel.org/r/20251029022002.5812-1-cristiandelgobbo87%40gmail.com
+patch subject: [PATCH v2] staging: sm750fb: style fixes: align call and split chained assignment
+config: powerpc64-randconfig-002-20251029 (https://download.01.org/0day-ci/archive/20251029/202510292010.GP8WnOne-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project d1c086e82af239b245fe8d7832f2753436634990)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251029/202510292010.GP8WnOne-lkp@intel.com/reproduce)
 
-If `it->options[1]` is 31, then `1 << it->options[1]` is still invalid
-because it shifts a 1-bit into the sign bit (which is UB in C).
-Possible solutions include reducing the upper bound on the
-`it->options[1]` value to 30 or lower, or using `1U << it->options[1]`.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202510292010.GP8WnOne-lkp@intel.com/
 
-The old code would just not attempt to request the IRQ if the
-`options[1]` value were invalid.  And it would still configure the
-device without interrupts even if the call to `request_irq` returned an
-error.  So it would be better to combine this test with the test below.
+All errors (new ones prefixed by >>):
 
-Fixes: fff46207245c ("staging: comedi: pcl726: enable the interrupt support code")
-Cc: stable <stable@kernel.org> # 5.13+
-Reported-by: syzbot+5cd373521edd68bebcb3@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=5cd373521edd68bebcb3
-Tested-by: syzbot+5cd373521edd68bebcb3@syzkaller.appspotmail.com
-Signed-off-by: Edward Adam Davis <eadavis@qq.com>
-Reviewed-by: Ian Abbott <abbotti@mev.co.uk>
-Link: https://lore.kernel.org/r/tencent_3C66983CC1369E962436264A50759176BF09@qq.com
-Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-[Andrey Troshin: backport fix from drivers/comedi/drivers/pcl726.c to drivers/staging/comedi/drivers/pcl726.c]
-Signed-off-by: Andrey Troshin <drtrosh@yandex-team.ru>
----
-Backport fix for CVE-2025-39685
-Link: https://nvd.nist.gov/vuln/detail/CVE-2025-39685
----
- drivers/staging/comedi/drivers/pcl726.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+   drivers/staging/sm750fb/sm750.c:541:3: error: expected expression
+     541 |                 int y = (red * 77 + green * 151 + blue * 28) >> 8;
+         |                 ^
+   drivers/staging/sm750fb/sm750.c:543:3: warning: misleading indentation; statement is not part of the previous 'if' [-Wmisleading-indentation]
+     543 |                 red = y;
+         |                 ^
+   drivers/staging/sm750fb/sm750.c:540:2: note: previous statement is here
+     540 |         if (info->var.grayscale)
+         |         ^
+>> drivers/staging/sm750fb/sm750.c:543:9: error: use of undeclared identifier 'y'
+     543 |                 red = y;
+         |                       ^
+   drivers/staging/sm750fb/sm750.c:544:11: error: use of undeclared identifier 'y'
+     544 |                 green = y;
+         |                         ^
+   drivers/staging/sm750fb/sm750.c:545:10: error: use of undeclared identifier 'y'
+     545 |                 blue = y;
+         |                        ^
+   1 warning and 4 errors generated.
 
-diff --git a/drivers/staging/comedi/drivers/pcl726.c b/drivers/staging/comedi/drivers/pcl726.c
-index 64eb649c9813..f26d7f07d749 100644
---- a/drivers/staging/comedi/drivers/pcl726.c
-+++ b/drivers/staging/comedi/drivers/pcl726.c
-@@ -327,7 +327,8 @@ static int pcl726_attach(struct comedi_device *dev,
- 	 * Hook up the external trigger source interrupt only if the
- 	 * user config option is valid and the board supports interrupts.
- 	 */
--	if (it->options[1] && (board->irq_mask & (1 << it->options[1]))) {
-+	if (it->options[1] > 0 && it->options[1] < 16 &&
-+	    (board->irq_mask & (1U << it->options[1]))) {
- 		ret = request_irq(it->options[1], pcl726_interrupt, 0,
- 				  dev->board_name, dev);
- 		if (ret == 0) {
+
+vim +/y +543 drivers/staging/sm750fb/sm750.c
+
+   517	
+   518	static int lynxfb_ops_setcolreg(unsigned int regno,
+   519					unsigned int red,
+   520					unsigned int green,
+   521					unsigned int blue,
+   522					unsigned int transp,
+   523					struct fb_info *info)
+   524	{
+   525		struct lynxfb_par *par;
+   526		struct lynxfb_crtc *crtc;
+   527		struct fb_var_screeninfo *var;
+   528		int ret;
+   529	
+   530		par = info->par;
+   531		crtc = &par->crtc;
+   532		var = &info->var;
+   533		ret = 0;
+   534	
+   535		if (regno > 256) {
+   536			pr_err("regno = %d\n", regno);
+   537			return -EINVAL;
+   538		}
+   539	
+   540		if (info->var.grayscale)
+   541			int y = (red * 77 + green * 151 + blue * 28) >> 8;
+   542	
+ > 543			red = y;
+   544			green = y;
+   545			blue = y;
+   546	
+   547		if (var->bits_per_pixel == 8 &&
+   548		    info->fix.visual == FB_VISUAL_PSEUDOCOLOR) {
+   549			red >>= 8;
+   550			green >>= 8;
+   551			blue >>= 8;
+   552			ret = hw_sm750_set_col_reg(crtc, regno, red, green, blue);
+   553			goto exit;
+   554		}
+   555	
+   556		if (info->fix.visual == FB_VISUAL_TRUECOLOR && regno < 256) {
+   557			u32 val;
+   558	
+   559			if (var->bits_per_pixel == 16 ||
+   560			    var->bits_per_pixel == 32 ||
+   561			    var->bits_per_pixel == 24) {
+   562				val = chan_to_field(red, &var->red);
+   563				val |= chan_to_field(green, &var->green);
+   564				val |= chan_to_field(blue, &var->blue);
+   565				par->pseudo_palette[regno] = val;
+   566				goto exit;
+   567			}
+   568		}
+   569	
+   570		ret = -EINVAL;
+   571	
+   572	exit:
+   573		return ret;
+   574	}
+   575	
+
 -- 
-2.34.1
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
