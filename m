@@ -1,117 +1,128 @@
-Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
+Received: from mail-pg1-f170.google.com (mail-pg1-f170.google.com [209.85.215.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 991751096F
-	for <linux-staging@lists.linux.dev>; Sat,  1 Nov 2025 20:16:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F28B253F2B
+	for <linux-staging@lists.linux.dev>; Sat,  1 Nov 2025 23:55:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762028194; cv=none; b=gprrTODMy9p6IlknvBc854WqSIa1wXEeZPxVcVk7Lyo2BFryD6oONJZGhhNURwdU5AqcCO2bwIa1gzw1UPty3/a4XFHQ8i+mtZ34qTXaRy6X45tnfqWfkiA3qThXwA1SI/WvkqfzvFJCUYZZh8dXIF6LOTmRQljmh9N0dauvAfo=
+	t=1762041331; cv=none; b=O0lcFILHafdsWvzF48wbYKT4kOGmWqW3N8973VmN024imvvq0Y8UhtdM8XokH/zsJ+j/eTb1ZlJqi8U7mZ5N7IM9fETtTOLrPECHcP6hBF14owEUPU59jkgH4vR5/Ff0KMqwTqFKIRyOOOqnR/8J+gITAtNuTMMRZQDQX+OVL2E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762028194; c=relaxed/simple;
-	bh=NgY32jHrmDxujixjfxxUJsAupyyE1/qxQpZzA9u0gaU=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=cCp63A0RQWvHBvoXGo8ztqTunnZHlKZ340jqMolVav575NSROmHL398lCNvjdBgxt3kwNnySwOmIusVDUjvRZu74c2SelKg7IYCaSxPONPFOnUqJJdmiR0QWv3FVcYxB6V/fhochJl/1YWvED7eGUk01Z75wxEcxDEChRmTHYZc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lFRZq5ZV; arc=none smtp.client-ip=209.85.218.42
+	s=arc-20240116; t=1762041331; c=relaxed/simple;
+	bh=tZnELm08j7of0Xfv0WmU01hVCDM6ZuupveTtZqvPt5E=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=YSxDPrSCfrh3ArnaemFK4RqpBorctSPODQ2lE9S6Lob3hu0FmLC4EAyZeXqp20icnvJFu6pDpsWAQnTUwN/5M6gIB23qZ1zeTqcdpM0a71GdAZYSkDL3t+BJ2csMrpI2biPSUJvTy1VjN6WqZL3C21ecGsjQJy3vk0zx2IRikBY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CXwntRLo; arc=none smtp.client-ip=209.85.215.170
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lFRZq5ZV"
-Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-b704db3686cso702441466b.3
-        for <linux-staging@lists.linux.dev>; Sat, 01 Nov 2025 13:16:32 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CXwntRLo"
+Received: by mail-pg1-f170.google.com with SMTP id 41be03b00d2f7-b98a619f020so436101a12.2
+        for <linux-staging@lists.linux.dev>; Sat, 01 Nov 2025 16:55:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1762028191; x=1762632991; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=UY8fhAykEF/ZiZ4HL8RaS16ulFJ7StXJeVUPVb78F9I=;
-        b=lFRZq5ZVSphAl6CkEreLtYcLTMBAv3/GNeVgnpPXHWJf/3yDLPB+RlakjqdKt9ljKI
-         bBT/91xZa5L9snsYP709B0E51+VjM5zVmAV56K8veTnUrKY+UsaV0SA+i1Bc42nLyAVN
-         Y16L1Kk0aolnUZz0W24qAQkuqcISFfadywPRc2RAgs8jlyYSzBOfghROQQ8Puc1WFhXY
-         jXqU2XrOBDnkrzZP1lqbaWCi6LnyLYR2J3e88eDcikmwQV8okBg2NoAfrIFHyYpZVMhe
-         FpY7VnLBycO/tG90kc1UQn8UYTrG0Jdn7oiEINmfW390WYsnVsqkqNKG7CS0LtD5uuuo
-         v0QA==
+        d=gmail.com; s=20230601; t=1762041330; x=1762646130; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=W4d9NbVLbZ71yjIsFOR25rdS14CzByZ0HAq9jJrJxxc=;
+        b=CXwntRLoyuosnCCVnY/tMGpBR0uWygXpgm9QWtEZedf1anh0BqJgWgOJ1u56NHILd9
+         6pQ7T+wP8qOWE1RdbuhIjO2j2yf0hBI889LY0ySNTGt/qY51QIm0VOV66KYzPFncS7f3
+         PL3ewm2egkiX78y7POm+QCTPTGiVjme+13eV9vO49julDFmhVMRB4rLBtQQz2IkESoAm
+         ZLXttqsvLiI0tC1k5t4tYADu7WtPbQ4bAKbR+BODbMCpgupyISoyRa2Tun7to9NmVgwd
+         q/rRAUPh14GA5ic3YnBDEo+iWHTfW1tcvsR8Mum66TIoo9lCpaxlR4xY0na2QLBq6xUO
+         y28g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762028191; x=1762632991;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=UY8fhAykEF/ZiZ4HL8RaS16ulFJ7StXJeVUPVb78F9I=;
-        b=Zi3/isiOo9wJX8MVUEJYgIT98Oytv2k2p2a1JI2HczvUZb6LLhhShnW1vaq/D9j3Eb
-         eZeYR5y6KntcA19x5bu2LLHUHmwhkVSOLK3XQihDPcylVZ4BsrBLegAgAt3Odt3v9MWJ
-         bZrgywxPJtFyAEznlrk/y42+ujMJvvOL9oYUC17VpyDJXii9gLPeL3bUnSk061gIiHsg
-         C6CivTsSDt6+T4YOh5vTQX/EvBlVV+byYYK3ZfbSAmA0jvJWlu1xMJafy1fk3Z0RoJ9R
-         vLXwGPa8xdpdxokIcGKkhZV7xWRhP75ZISukvNq99Ws9V7cGE7vpSPQOAZ+6xuSfxGlz
-         afQA==
-X-Forwarded-Encrypted: i=1; AJvYcCVpx2X02EIYK5o6GOzqlDDdDCT6iVWmqB115Dor5N0kBTv/RcnyIpGNGJuNiJIT3FeaT8KPu3lqE3hNbsXv@lists.linux.dev
-X-Gm-Message-State: AOJu0Yxv/BU88QxtjAPfPH64n7wC3jVm0AGyzruwTlIUe+Z4y2g3XIk5
-	1m44H9mrYAPbdeZgNtfpIC/qoJbkZJ0/pM3odJ+9BJqFiUBBTKeBtCOc
-X-Gm-Gg: ASbGnctddgBCpFbLg7idW7g6BTBOYgnGxDTRCyeq6554gM8sVFeTKOG1URMh0ro1+D9
-	KJn8UJYc2ZT2TctXiSD4fN3Z9/kVk9k+6JkTQntOmsSf0TwjpCCk7tq+291B0u2HQQ0IIzJnErU
-	t2LfG6XX8C3IeUpwwUZccQhvEnD9s1oB5GXrysEAafwfT5pqOYG5Lk+2BQN9KzYXpFJuuU4EWqq
-	oYpEGsQo+YS/mhxJzftoZre4zfGm/wTAfGQvcd5i4VcHGlxN3gpOGO4hUGniaR3kRMUXgSSRzRm
-	v4LFif31g4mODijoc6G+/SEAYAEjEiG7XpaO1tarWIkXtTh7X2JMGuoOLpWE5AW4MC19YOuT6g1
-	u5rxN97bjAjOLJL/C9vhOdlzC63iHhTgAww4zMthg3jj5oxBNbLEI6naNfWiOsdYarRhKjTWUqW
-	5uzP8FDoizGTZDjX9qUrzHnfi8f5s82Z+JHQ==
-X-Google-Smtp-Source: AGHT+IGB7pHaBILf2c3NpKvf8sojA4NRxzvgG1R2KvX/z/p98Y0bkh17Ok5v5PO2TCOEk6VdJjPVag==
-X-Received: by 2002:a17:907:972a:b0:b41:2fd0:2dd4 with SMTP id a640c23a62f3a-b70708738f7mr755907566b.61.1762028190523;
-        Sat, 01 Nov 2025 13:16:30 -0700 (PDT)
-Received: from localhost ([2a02:810d:bb0b:f200:c13a:3288:7fab:6ade])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b7077975cfesm539241466b.4.2025.11.01.13.16.29
+        d=1e100.net; s=20230601; t=1762041330; x=1762646130;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=W4d9NbVLbZ71yjIsFOR25rdS14CzByZ0HAq9jJrJxxc=;
+        b=jQlsJ5tRaRoFa1ITIeUdUJI5NbRCnFmSOHc/RIm9pK833giGpVz41ybX0ktkRKLjNZ
+         TaVLHbAPwGpHfmBdb1RKveLFV1OpisgZkpz1Z2FdU4JwMbz6y37XPZC2MrZ74YXBkPw7
+         dshZ4NjXv2WjEdJpWLPJ6WkXiBxO6nOXK2GEjJxSMrIwBLBgE8U5K0/dsUOBMxPI3ml8
+         e4VhyNidOmEjoI+cHkE9BoEyIJbyh0WHhLGPam3zSVU0RpnZciAJFp1MltGcZ2/xMCvf
+         SY0dQ7OULjOmAIPNyjjjrhib2sWgmOKTl7gC9dBFYJ2FuqO3uV/rgBnJOcfrV5thZGYg
+         5xVA==
+X-Forwarded-Encrypted: i=1; AJvYcCVpFo/rgpNEWW0SB8rC0nrqmgrRGgfYhZxjeOfwjha9Zw6pyqgCB/7e3iZjwr0nIz71ddm0tohVyrBx2V5T@lists.linux.dev
+X-Gm-Message-State: AOJu0YzheRdpLBcPsoOULtxyhIJzwVR18eqj+h1Z9+ADoPGdIZlEwIa+
+	CtRSinM6SWymf0DHJbOV7nS4s2GNcQwxWv65mIdL8V68tGpRbiDtp5Dg/9z+8xuJiSM=
+X-Gm-Gg: ASbGnctu4KYVtpBFVEgEgwXKt3udydwFAwhpKK5oDmKgZHTU0fboDwkrpQZbfCqMJ7D
+	QxKf53GWVUZ+cS3BHQuvXku1J+DL20Lz0kEwoKmRa7mB8RfJbN78/Pw0g8+GRxJ9P4VgOVpBCX4
+	dosBB5r0PGCnvEOu8IN2cPNQc1SyXmyUnhh4tSOhX1mQgUlMa3pvQhrsb4B+YeJRz13dL8U3HDC
+	AbXboo0q+7EvNW8XQESSXhmNxe88nIYjXkEUMv4+oRnIBlhQej4zKrkNr6kML1GbPNi7pvosC5p
+	jCH7WP753O+Ng6trCvJNDH6JEz9nqGjkrrjI5lgQgLRodbW8/ma9BJyMnlyJWITuGZ1NNCoWTVk
+	zyFobAzOUSlCSd8I55s6iVse5+wFZ7fV7Fetcai9xb/NonrSOFpdLXDZqrMArRaqA7/oMm8+F5X
+	pr
+X-Google-Smtp-Source: AGHT+IGRpA4EWSge9FEynJVlD/uzoZDN7jjxeaAWcd0tXEWkjk8DFuvwHJ/1T+lQA11kadREYpegYw==
+X-Received: by 2002:a17:903:2f8f:b0:295:19e:487b with SMTP id d9443c01a7336-2951a39060cmr108779475ad.5.1762041329538;
+        Sat, 01 Nov 2025 16:55:29 -0700 (PDT)
+Received: from archie.me ([210.87.74.117])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-295424bcc39sm49189165ad.17.2025.11.01.16.55.28
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 01 Nov 2025 13:16:30 -0700 (PDT)
-From: rafiqul713 <rafiqul713@gmail.com>
-To: netdev@vger.kernel.org
-Cc: gregkh@linuxfoundation.org,
-	linux-staging@lists.linux.dev,
-	rafiqul713 <rafiqul713@gmail.com>
-Subject: [PATCH] [PATCH] staging: rtl8723bs: use ether_addr_equal in rtw_ap.c
-Date: Sat,  1 Nov 2025 21:16:23 +0100
-Message-Id: <20251101201623.185575-1-rafiqul713@gmail.com>
-X-Mailer: git-send-email 2.34.1
+        Sat, 01 Nov 2025 16:55:28 -0700 (PDT)
+Received: by archie.me (Postfix, from userid 1000)
+	id DB5154206924; Sun, 02 Nov 2025 06:55:26 +0700 (WIB)
+Date: Sun, 2 Nov 2025 06:55:26 +0700
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	Linux Documentation <linux-doc@vger.kernel.org>,
+	Linux Staging Drivers <linux-staging@lists.linux.dev>,
+	Jonathan Corbet <corbet@lwn.net>, Akira Yokosawa <akiyks@gmail.com>
+Subject: Re: [PATCH] staging: Pull in staging drivers docs into documentation
+ tree
+Message-ID: <aQad7uZ-rxCKs07Q@archie.me>
+References: <20251101124053.62544-1-bagasdotme@gmail.com>
+ <2025110115-nineteen-diner-186e@gregkh>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="t5NhrSJKm/+QMYFc"
+Content-Disposition: inline
+In-Reply-To: <2025110115-nineteen-diner-186e@gregkh>
 
-Replace memcmp() with ether_addr_equal() for MAC address comparison.
-This is the preferred and more readable method in network code.
 
-Signed-off-by: rafiqul713 <rafiqul713@gmail.com>
----
- drivers/staging/rtl8723bs/core/rtw_ap.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+--t5NhrSJKm/+QMYFc
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_ap.c b/drivers/staging/rtl8723bs/core/rtw_ap.c
-index 0908f2234f67..7cfd4088ce8e 100644
---- a/drivers/staging/rtl8723bs/core/rtw_ap.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_ap.c
-@@ -6,6 +6,7 @@
-  ******************************************************************************/
- 
- #include <drv_types.h>
-+#include <linux/etherdevice.h>
- #include <linux/unaligned.h>
- 
- void init_mlme_ap_info(struct adapter *padapter)
-@@ -1185,7 +1186,7 @@ int rtw_acl_add_sta(struct adapter *padapter, u8 *addr)
- 	list_for_each(plist, phead) {
- 		paclnode = list_entry(plist, struct rtw_wlan_acl_node, list);
- 
--		if (!memcmp(paclnode->addr, addr, ETH_ALEN)) {
-+		if (ether_addr_equal(paclnode->addr, addr)) {
- 			if (paclnode->valid == true) {
- 				added = true;
- 				break;
-@@ -1238,7 +1239,7 @@ void rtw_acl_remove_sta(struct adapter *padapter, u8 *addr)
- 		paclnode = list_entry(plist, struct rtw_wlan_acl_node, list);
- 
- 		if (
--			!memcmp(paclnode->addr, addr, ETH_ALEN) ||
-+			ether_addr_equal(paclnode->addr, addr) ||
- 			is_broadcast_ether_addr(addr)
- 		) {
- 			if (paclnode->valid) {
--- 
-2.34.1
+On Sat, Nov 01, 2025 at 03:24:51PM +0100, Greg Kroah-Hartman wrote:
+> On Sat, Nov 01, 2025 at 07:40:53PM +0700, Bagas Sanjaya wrote:
+> > Some staging drivers have documentation that are spread out in
+> > drivers/staging/*/Documentation/. Pull them into kernel docs tree by
+> > using the same technique as in 1e9ddbb2cd346e ("docs: Pull LKMM
+> > documentation into dev-tools book"): wrapping them with kernel-include::
+> > directive as literal include.
+> >=20
+> > Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
+>=20
+> No, please do not do this.  staging drivers are "self contained" and do
+> not spread out into the rest of the kernel.  If/when the driver moves
+> out of staging, then it can be included in the normal kernel
+> documentation builds and the rest of the stuff (i.e. include/ locations
+> and the like.)
+>=20
+> So leave them alone.  Documentation does not need to be built for
+> staging drivers, there are much bigger things that need to be done for
+> them instead.
 
+OK, thanks!
+
+--=20
+An old man doll... just what I always wanted! - Clara
+
+--t5NhrSJKm/+QMYFc
+Content-Type: application/pgp-signature; name=signature.asc
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCaQad7gAKCRD2uYlJVVFO
+o7RhAQC0xzjwMgYiLreuKLkmTjcmM51HZTpIv8zjWVHi3f6mUQD+NPHKZvvycT38
+Na4hPtfWLiY/vsvsW1I/rzyMKGKusAY=
+=KA70
+-----END PGP SIGNATURE-----
+
+--t5NhrSJKm/+QMYFc--
