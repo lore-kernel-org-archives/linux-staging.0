@@ -1,100 +1,117 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67B041DE8B5
-	for <linux-staging@lists.linux.dev>; Sat,  1 Nov 2025 19:02:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 991751096F
+	for <linux-staging@lists.linux.dev>; Sat,  1 Nov 2025 20:16:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762023725; cv=none; b=R/tANjAwUdWuvdeO7KzZtzJE0cxjMaFrhne6wAFU9liYyOnX6SyGViNfkJrUVEcVjevhDSJTWr3UR2jSnrnvwG3f96eQ2KtolFWiKlVtEBArCHWr5H0m+i10cHWuRiDJmK25wDzW/QP/Q9lBFeUFv6b+1J92vTpoUt2u/mKXPP4=
+	t=1762028194; cv=none; b=gprrTODMy9p6IlknvBc854WqSIa1wXEeZPxVcVk7Lyo2BFryD6oONJZGhhNURwdU5AqcCO2bwIa1gzw1UPty3/a4XFHQ8i+mtZ34qTXaRy6X45tnfqWfkiA3qThXwA1SI/WvkqfzvFJCUYZZh8dXIF6LOTmRQljmh9N0dauvAfo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762023725; c=relaxed/simple;
-	bh=rgVRPfRE463EkoKVmaTb6EgbAu1gnlWvnpajCNRdBfs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Vw8W0wIWQeKfbOpP/IRY1l4guS/YSc1hm+QeOHhmQpKPq/Z9BopLMrRe6EyoXL4ND2kx4gPqStx1zi4aDaWPv0U9iL5eP9juBvDg/gjui997zdO/942Q7/rvowLjm/pA817H99Ng/PGNYRi3d2tGE5max2WovCgfL67lcadp7I0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=zjd75V2A; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1762028194; c=relaxed/simple;
+	bh=NgY32jHrmDxujixjfxxUJsAupyyE1/qxQpZzA9u0gaU=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=cCp63A0RQWvHBvoXGo8ztqTunnZHlKZ340jqMolVav575NSROmHL398lCNvjdBgxt3kwNnySwOmIusVDUjvRZu74c2SelKg7IYCaSxPONPFOnUqJJdmiR0QWv3FVcYxB6V/fhochJl/1YWvED7eGUk01Z75wxEcxDEChRmTHYZc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lFRZq5ZV; arc=none smtp.client-ip=209.85.218.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="zjd75V2A"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 47F34C4CEF1;
-	Sat,  1 Nov 2025 19:02:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1762023724;
-	bh=rgVRPfRE463EkoKVmaTb6EgbAu1gnlWvnpajCNRdBfs=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=zjd75V2AQcbmLcnlGXPG8p4y9KnWoDkZu6q+tTUoWg9dD2ls9VYesFw3HpBm3bXbp
-	 lkqhDjfn2U3G2uVruzYPiCxaR3BT1jJ1RPfguwQCXQAkNAiyduUswlRbzEM5nFAUGC
-	 oNgDFxljpMC8czy1NSwCMwl9PjOSsAe4l7mbpOns=
-Date: Sat, 1 Nov 2025 20:02:01 +0100
-From: Greg KH <gregkh@linuxfoundation.org>
-To: rafiqul713 <rafiqul713@gmail.com>
-Cc: linux-staging@lists.linux.dev
-Subject: Re: [PATCH] staging: rtl8723bs: remove unused rtw_sprintf macro
-Message-ID: <2025110145-fleshed-stargazer-01ed@gregkh>
-References: <20251101184149.51077-1-rafiqul713@gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lFRZq5ZV"
+Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-b704db3686cso702441466b.3
+        for <linux-staging@lists.linux.dev>; Sat, 01 Nov 2025 13:16:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1762028191; x=1762632991; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=UY8fhAykEF/ZiZ4HL8RaS16ulFJ7StXJeVUPVb78F9I=;
+        b=lFRZq5ZVSphAl6CkEreLtYcLTMBAv3/GNeVgnpPXHWJf/3yDLPB+RlakjqdKt9ljKI
+         bBT/91xZa5L9snsYP709B0E51+VjM5zVmAV56K8veTnUrKY+UsaV0SA+i1Bc42nLyAVN
+         Y16L1Kk0aolnUZz0W24qAQkuqcISFfadywPRc2RAgs8jlyYSzBOfghROQQ8Puc1WFhXY
+         jXqU2XrOBDnkrzZP1lqbaWCi6LnyLYR2J3e88eDcikmwQV8okBg2NoAfrIFHyYpZVMhe
+         FpY7VnLBycO/tG90kc1UQn8UYTrG0Jdn7oiEINmfW390WYsnVsqkqNKG7CS0LtD5uuuo
+         v0QA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1762028191; x=1762632991;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=UY8fhAykEF/ZiZ4HL8RaS16ulFJ7StXJeVUPVb78F9I=;
+        b=Zi3/isiOo9wJX8MVUEJYgIT98Oytv2k2p2a1JI2HczvUZb6LLhhShnW1vaq/D9j3Eb
+         eZeYR5y6KntcA19x5bu2LLHUHmwhkVSOLK3XQihDPcylVZ4BsrBLegAgAt3Odt3v9MWJ
+         bZrgywxPJtFyAEznlrk/y42+ujMJvvOL9oYUC17VpyDJXii9gLPeL3bUnSk061gIiHsg
+         C6CivTsSDt6+T4YOh5vTQX/EvBlVV+byYYK3ZfbSAmA0jvJWlu1xMJafy1fk3Z0RoJ9R
+         vLXwGPa8xdpdxokIcGKkhZV7xWRhP75ZISukvNq99Ws9V7cGE7vpSPQOAZ+6xuSfxGlz
+         afQA==
+X-Forwarded-Encrypted: i=1; AJvYcCVpx2X02EIYK5o6GOzqlDDdDCT6iVWmqB115Dor5N0kBTv/RcnyIpGNGJuNiJIT3FeaT8KPu3lqE3hNbsXv@lists.linux.dev
+X-Gm-Message-State: AOJu0Yxv/BU88QxtjAPfPH64n7wC3jVm0AGyzruwTlIUe+Z4y2g3XIk5
+	1m44H9mrYAPbdeZgNtfpIC/qoJbkZJ0/pM3odJ+9BJqFiUBBTKeBtCOc
+X-Gm-Gg: ASbGnctddgBCpFbLg7idW7g6BTBOYgnGxDTRCyeq6554gM8sVFeTKOG1URMh0ro1+D9
+	KJn8UJYc2ZT2TctXiSD4fN3Z9/kVk9k+6JkTQntOmsSf0TwjpCCk7tq+291B0u2HQQ0IIzJnErU
+	t2LfG6XX8C3IeUpwwUZccQhvEnD9s1oB5GXrysEAafwfT5pqOYG5Lk+2BQN9KzYXpFJuuU4EWqq
+	oYpEGsQo+YS/mhxJzftoZre4zfGm/wTAfGQvcd5i4VcHGlxN3gpOGO4hUGniaR3kRMUXgSSRzRm
+	v4LFif31g4mODijoc6G+/SEAYAEjEiG7XpaO1tarWIkXtTh7X2JMGuoOLpWE5AW4MC19YOuT6g1
+	u5rxN97bjAjOLJL/C9vhOdlzC63iHhTgAww4zMthg3jj5oxBNbLEI6naNfWiOsdYarRhKjTWUqW
+	5uzP8FDoizGTZDjX9qUrzHnfi8f5s82Z+JHQ==
+X-Google-Smtp-Source: AGHT+IGB7pHaBILf2c3NpKvf8sojA4NRxzvgG1R2KvX/z/p98Y0bkh17Ok5v5PO2TCOEk6VdJjPVag==
+X-Received: by 2002:a17:907:972a:b0:b41:2fd0:2dd4 with SMTP id a640c23a62f3a-b70708738f7mr755907566b.61.1762028190523;
+        Sat, 01 Nov 2025 13:16:30 -0700 (PDT)
+Received: from localhost ([2a02:810d:bb0b:f200:c13a:3288:7fab:6ade])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b7077975cfesm539241466b.4.2025.11.01.13.16.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 01 Nov 2025 13:16:30 -0700 (PDT)
+From: rafiqul713 <rafiqul713@gmail.com>
+To: netdev@vger.kernel.org
+Cc: gregkh@linuxfoundation.org,
+	linux-staging@lists.linux.dev,
+	rafiqul713 <rafiqul713@gmail.com>
+Subject: [PATCH] [PATCH] staging: rtl8723bs: use ether_addr_equal in rtw_ap.c
+Date: Sat,  1 Nov 2025 21:16:23 +0100
+Message-Id: <20251101201623.185575-1-rafiqul713@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251101184149.51077-1-rafiqul713@gmail.com>
+Content-Transfer-Encoding: 8bit
 
-On Sat, Nov 01, 2025 at 07:41:49PM +0100, rafiqul713 wrote:
-> From: Rafiqul Islam <rafiqul713@gmail.com>
-> 
-> The rtw_sprintf macro is defined in osdep_service.h but has no callers
-> in the driver. Remove the dead code.
-> 
-> Signed-off-by: Rafiqul Islam <rafiqul713@gmail.com>
-> ---
->  drivers/staging/rtl8723bs/include/osdep_service.h | 6 ------
->  1 file changed, 6 deletions(-)
-> 
-> diff --git a/drivers/staging/rtl8723bs/include/osdep_service.h b/drivers/staging/rtl8723bs/include/osdep_service.h
-> index 8b1634f4091e..12369ee2ce1d 100644
-> --- a/drivers/staging/rtl8723bs/include/osdep_service.h
-> +++ b/drivers/staging/rtl8723bs/include/osdep_service.h
-> @@ -115,10 +115,4 @@ bool rtw_cbuf_push(struct rtw_cbuf *cbuf, void *buf);
->  void *rtw_cbuf_pop(struct rtw_cbuf *cbuf);
->  struct rtw_cbuf *rtw_cbuf_alloc(u32 size);
->  
-> -/*  String handler */
-> -/*
-> - * Write formatted output to sized buffer
-> - */
-> -#define rtw_sprintf(buf, size, format, arg...)	snprintf(buf, size, format, ##arg)
-> -
->  #endif
-> -- 
-> 2.34.1
-> 
-> 
+Replace memcmp() with ether_addr_equal() for MAC address comparison.
+This is the preferred and more readable method in network code.
 
-Hi,
+Signed-off-by: rafiqul713 <rafiqul713@gmail.com>
+---
+ drivers/staging/rtl8723bs/core/rtw_ap.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
-a patch that has triggered this response.  He used to manually respond
-to these common problems, but in order to save his sanity (he kept
-writing the same thing over and over, yet to different people), I was
-created.  Hopefully you will not take offence and will fix the problem
-in your patch and resubmit it so that it can be accepted into the Linux
-kernel tree.
+diff --git a/drivers/staging/rtl8723bs/core/rtw_ap.c b/drivers/staging/rtl8723bs/core/rtw_ap.c
+index 0908f2234f67..7cfd4088ce8e 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_ap.c
++++ b/drivers/staging/rtl8723bs/core/rtw_ap.c
+@@ -6,6 +6,7 @@
+  ******************************************************************************/
+ 
+ #include <drv_types.h>
++#include <linux/etherdevice.h>
+ #include <linux/unaligned.h>
+ 
+ void init_mlme_ap_info(struct adapter *padapter)
+@@ -1185,7 +1186,7 @@ int rtw_acl_add_sta(struct adapter *padapter, u8 *addr)
+ 	list_for_each(plist, phead) {
+ 		paclnode = list_entry(plist, struct rtw_wlan_acl_node, list);
+ 
+-		if (!memcmp(paclnode->addr, addr, ETH_ALEN)) {
++		if (ether_addr_equal(paclnode->addr, addr)) {
+ 			if (paclnode->valid == true) {
+ 				added = true;
+ 				break;
+@@ -1238,7 +1239,7 @@ void rtw_acl_remove_sta(struct adapter *padapter, u8 *addr)
+ 		paclnode = list_entry(plist, struct rtw_wlan_acl_node, list);
+ 
+ 		if (
+-			!memcmp(paclnode->addr, addr, ETH_ALEN) ||
++			ether_addr_equal(paclnode->addr, addr) ||
+ 			is_broadcast_ether_addr(addr)
+ 		) {
+ 			if (paclnode->valid) {
+-- 
+2.34.1
 
-You are receiving this message because of the following common error(s)
-as indicated below:
-
-- This looks like a new version of a previously submitted patch, but you
-  did not list below the --- line any changes from the previous version.
-  Please read the section entitled "The canonical patch format" in the
-  kernel file, Documentation/process/submitting-patches.rst for what
-  needs to be done here to properly describe this.
-
-If you wish to discuss this problem further, or you have questions about
-how to resolve this issue, please feel free to respond to this email and
-Greg will reply once he has dug out from the pending patches received
-from other developers.
-
-thanks,
-
-greg k-h's patch email bot
