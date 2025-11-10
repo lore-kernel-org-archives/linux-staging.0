@@ -1,42 +1,42 @@
-Received: from mail-4316.protonmail.ch (mail-4316.protonmail.ch [185.70.43.16])
+Received: from mail-10629.protonmail.ch (mail-10629.protonmail.ch [79.135.106.29])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FC7C22F16E
-	for <linux-staging@lists.linux.dev>; Mon, 10 Nov 2025 19:49:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.70.43.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE1DD22F16E
+	for <linux-staging@lists.linux.dev>; Mon, 10 Nov 2025 19:50:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=79.135.106.29
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762804195; cv=none; b=S1274ATeJajprKo/mXaWSFQB/0HohjAS9t5OuJo8ZNuBTDf3E4zBNQv3v9BXYvG4TAxnJUUfCmKSTtw4klQZgxyDRR/LGd5Ruo0RNva/fzywAIQac7ipTx0xrm8RkL0t5gbIAe2ynVjfGqK5Hzf/fvJeWIC9feXm7SbUc3pd+Ys=
+	t=1762804236; cv=none; b=Gg1ZPCDXi4aiW/ip2iQ3ottkQ7G3JaV8BGgpi6CV0w4t+zyUkLrNENxAkxDuMPH1qlKkvP708jnsjZlo1O1KIt1LGSWI4qg6oc8yiKt9hq7fJfiiRFLUPzZf985DRSeTGRgFfwcHTgvnDW5Fyj1Zg8dkOIGCCU20vP6qKexGQ7U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762804195; c=relaxed/simple;
-	bh=kwI1ysU7OoOAYwjztLjWKYg+hv4i/B2igL/e3SbTj6g=;
+	s=arc-20240116; t=1762804236; c=relaxed/simple;
+	bh=pM+ryh+peS3MW7J36lM3F3DF53GT4/xEBxyaLV7SsEo=;
 	h=Date:To:From:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=fDIsWrAcrIk0Yn9kOvIxC9wTclimhvA9U+PMo6wYHSql/uvHiF1q0oeZS/tH+ftfWFdGSqSdl7G7L0R5HC1NYZA2CzCvWxZ1fXVkyW3YwXBQ3xpFilcnIlS7UUnCZwOqX6WWdUdEkj9O1qZJUjNnAtMBYhfraLm1ov4iz8E+nbk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me; spf=pass smtp.mailfrom=proton.me; dkim=pass (2048-bit key) header.d=proton.me header.i=@proton.me header.b=cSj4BM4d; arc=none smtp.client-ip=185.70.43.16
+	 MIME-Version:Content-Type; b=fpk1xhmS4jcB1F+C2/8YUrPdA7rOMrtelY5mcdsbNUn1xSi4o7paN19kR7BNzBddhC79ijmMtNCxuJ6fsDIX2UMncUP76c3VRHCxC3YB2jlq/zszz7rFGKKLEZmF4xmTmsMqUpo6GBU/tN/kQiMaiL2ZN2a9bXZWyF2ZnRm4FQg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me; spf=pass smtp.mailfrom=proton.me; dkim=pass (2048-bit key) header.d=proton.me header.i=@proton.me header.b=k1PyXYPn; arc=none smtp.client-ip=79.135.106.29
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=proton.me
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=proton.me header.i=@proton.me header.b="cSj4BM4d"
+	dkim=pass (2048-bit key) header.d=proton.me header.i=@proton.me header.b="k1PyXYPn"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=proton.me;
-	s=protonmail; t=1762804191; x=1763063391;
-	bh=fwy2b9N1qenHnH40yBPHy9NN7Uvh+/7mX2jkCge5Mc0=;
+	s=protonmail; t=1762804232; x=1763063432;
+	bh=pM+ryh+peS3MW7J36lM3F3DF53GT4/xEBxyaLV7SsEo=;
 	h=Date:To:From:Subject:Message-ID:In-Reply-To:References:
 	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
 	 Message-ID:BIMI-Selector;
-	b=cSj4BM4drSdxPe0zmKypwCJBFDLdSlGV+v4NTrzaUO7EDktbKEL31MkuQ5sSeekfy
-	 O1MiTgBkewt3NdAVLu13HG2JhkkGv5LOi5fdRzq7ppmS94BvJ/ioNWboLmu7tSY24X
-	 b/bJNJg4cfAlTmeW1jWJYti9St1VRVA9mWQB+ywGVUbc97hMw1dCZpRrfVqCgkW48I
-	 GvmHJuADgrpdSyt3Y1A9l75tMjqUkIWGj7jweG089DSLTWn9oV+GIMVXXp5QDw7nM+
-	 TBOQygKTs7vO10BZ2Xm1JHGdGLQpYBwRN5R2bap3rlAMJ7RNGZVSdTef4FeNLwG8BD
-	 SzVmemQBGBhzA==
-Date: Mon, 10 Nov 2025 19:49:46 +0000
+	b=k1PyXYPnS1hOwIp8tBT4jeX0zVLMYb1xFP6sjB2qVO+oi9YopbuJ8FGoD2FVVxPGI
+	 RvOacKEzeGqGsBygTjg8PYo9ejPHpeksgsmGX2F6kFDYqpR6k+vSuStpIxjTrvYFLF
+	 7FMfdR60pApoRSAjWVSUZZjNIckdT4smNkbFGNOWEwRA+DVLsi37AXR6loyc4JXVvL
+	 kAQYheMfEG7+laJih5N0C+kGQJ9uORqQAV+Ponmy33HJ78cKTsbt+6hQM88KGjnUYC
+	 1vw6Ayo52xykwgprtq+G+y7duPEvEaxI0swr0kfLPEqPiwO7rqy7iwmNFpQoeo80en
+	 GM/9xT7sSzNyg==
+Date: Mon, 10 Nov 2025 19:50:26 +0000
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, Michael Straube <straube.linux@gmail.com>
 From: Bryant Boatright <bryant.boatright@proton.me>
-Subject: [PATCH v2 2/3] staging: rtl8723bs: Rename camel case argument
-Message-ID: <6fa67d3588ac82dadd715bcb9c16d4e79dac506e.1762803720.git.bryant.boatright@proton.me>
+Subject: [PATCH v2 3/3] staging: rtl8723bs: Rename camel case variiable
+Message-ID: <680467c25692e94629734a690e64881279bd4d2b.1762803720.git.bryant.boatright@proton.me>
 In-Reply-To: <cover.1762803720.git.bryant.boatright@proton.me>
 References: <cover.1762803720.git.bryant.boatright@proton.me>
 Feedback-ID: 74848953:user:proton
-X-Pm-Message-ID: 2e0705a150208333325d65ea39b3b221e9b3674b
+X-Pm-Message-ID: cac8bc0eff9b48661c6c9425293f09977afc86e1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -46,85 +46,70 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 
-Adhere to Linux kernel style.
+Adhere to Linux kernel coding style.
 
 Reported by checkpatch:
 
-CHECK: Avoid CamelCase: <bw_40MHz>
+CHECK: Avoid CamelCase: <rateLen>
 
 Signed-off-by: Bryant Boatright <bryant.boatright@proton.me>
 ---
- drivers/staging/rtl8723bs/core/rtw_ieee80211.c | 18 +++++++++---------
- drivers/staging/rtl8723bs/include/ieee80211.h  |  2 +-
- 2 files changed, 10 insertions(+), 10 deletions(-)
+ drivers/staging/rtl8723bs/core/rtw_ieee80211.c | 14 +++++++-------
+ 1 file changed, 7 insertions(+), 7 deletions(-)
 
 diff --git a/drivers/staging/rtl8723bs/core/rtw_ieee80211.c b/drivers/stagi=
 ng/rtl8723bs/core/rtw_ieee80211.c
-index d25fd538305a..f22f8a95f372 100644
+index f22f8a95f372..40220f1ab582 100644
 --- a/drivers/staging/rtl8723bs/core/rtw_ieee80211.c
 +++ b/drivers/staging/rtl8723bs/core/rtw_ieee80211.c
-@@ -1077,26 +1077,26 @@ void rtw_get_bcn_info(struct wlan_network *pnetwork=
-)
- }
-=20
- /* show MCS rate, unit: 100Kbps */
--u16 rtw_mcs_rate(u8 bw_40MHz, u8 short_GI, unsigned char *MCS_rate)
-+u16 rtw_mcs_rate(u8 bw_40_mhz, u8 short_GI, unsigned char *MCS_rate)
+@@ -285,7 +285,7 @@ uint rtw_get_rateset_len(u8 *rateset)
+ int rtw_generate_ie(struct registry_priv *pregistrypriv)
  {
- =09u16 max_rate =3D 0;
+ =09u8 wireless_mode;
+-=09int=09sz =3D 0, rateLen;
++=09int=09sz =3D 0, rate_len;
+ =09struct wlan_bssid_ex *pdev_network =3D &pregistrypriv->dev_network;
+ =09u8 *ie =3D pdev_network->ies;
 =20
- =09if (MCS_rate[0] & BIT(7))
--=09=09max_rate =3D (bw_40MHz) ? ((short_GI)?1500:1350):((short_GI)?722:650=
-);
-+=09=09max_rate =3D (bw_40_mhz) ? ((short_GI)?1500:1350):((short_GI)?722:65=
-0);
- =09else if (MCS_rate[0] & BIT(6))
--=09=09max_rate =3D (bw_40MHz) ? ((short_GI)?1350:1215):((short_GI)?650:585=
-);
-+=09=09max_rate =3D (bw_40_mhz) ? ((short_GI)?1350:1215):((short_GI)?650:58=
-5);
- =09else if (MCS_rate[0] & BIT(5))
--=09=09max_rate =3D (bw_40MHz) ? ((short_GI)?1200:1080):((short_GI)?578:520=
-);
-+=09=09max_rate =3D (bw_40_mhz) ? ((short_GI)?1200:1080):((short_GI)?578:52=
-0);
- =09else if (MCS_rate[0] & BIT(4))
--=09=09max_rate =3D (bw_40MHz) ? ((short_GI)?900:810):((short_GI)?433:390);
-+=09=09max_rate =3D (bw_40_mhz) ? ((short_GI)?900:810):((short_GI)?433:390)=
-;
- =09else if (MCS_rate[0] & BIT(3))
--=09=09max_rate =3D (bw_40MHz) ? ((short_GI)?600:540):((short_GI)?289:260);
-+=09=09max_rate =3D (bw_40_mhz) ? ((short_GI)?600:540):((short_GI)?289:260)=
-;
- =09else if (MCS_rate[0] & BIT(2))
--=09=09max_rate =3D (bw_40MHz) ? ((short_GI)?450:405):((short_GI)?217:195);
-+=09=09max_rate =3D (bw_40_mhz) ? ((short_GI)?450:405):((short_GI)?217:195)=
-;
- =09else if (MCS_rate[0] & BIT(1))
--=09=09max_rate =3D (bw_40MHz) ? ((short_GI)?300:270):((short_GI)?144:130);
-+=09=09max_rate =3D (bw_40_mhz) ? ((short_GI)?300:270):((short_GI)?144:130)=
-;
- =09else if (MCS_rate[0] & BIT(0))
--=09=09max_rate =3D (bw_40MHz) ? ((short_GI)?150:135):((short_GI)?72:65);
-+=09=09max_rate =3D (bw_40_mhz) ? ((short_GI)?150:135):((short_GI)?72:65);
+@@ -320,13 +320,13 @@ int rtw_generate_ie(struct registry_priv *pregistrypr=
+iv)
 =20
- =09return max_rate;
- }
-diff --git a/drivers/staging/rtl8723bs/include/ieee80211.h b/drivers/stagin=
-g/rtl8723bs/include/ieee80211.h
-index f94db820d335..cf0bfe3e19ba 100644
---- a/drivers/staging/rtl8723bs/include/ieee80211.h
-+++ b/drivers/staging/rtl8723bs/include/ieee80211.h
-@@ -781,7 +781,7 @@ void rtw_get_bcn_info(struct wlan_network *pnetwork);
+ =09rtw_set_supported_rate(pdev_network->supported_rates, wireless_mode);
 =20
- void rtw_macaddr_cfg(struct device *dev, u8 *mac_addr);
+-=09rateLen =3D rtw_get_rateset_len(pdev_network->supported_rates);
++=09rate_len =3D rtw_get_rateset_len(pdev_network->supported_rates);
 =20
--u16 rtw_mcs_rate(u8 bw_40MHz, u8 short_GI, unsigned char *MCS_rate);
-+u16 rtw_mcs_rate(u8 bw_40_mhz, u8 short_GI, unsigned char *MCS_rate);
+-=09if (rateLen > 8) {
++=09if (rate_len > 8) {
+ =09=09ie =3D rtw_set_ie(ie, WLAN_EID_SUPP_RATES, 8, pdev_network->supporte=
+d_rates, &sz);
+-=09=09/* ie =3D rtw_set_ie(ie, WLAN_EID_EXT_SUPP_RATES, (rateLen - 8), (pd=
+ev_network->supported_rates + 8), &sz); */
++=09=09/* ie =3D rtw_set_ie(ie, WLAN_EID_EXT_SUPP_RATES, (rate_len - 8), (p=
+dev_network->supported_rates + 8), &sz); */
+ =09} else {
+-=09=09ie =3D rtw_set_ie(ie, WLAN_EID_SUPP_RATES, rateLen, pdev_network->su=
+pported_rates, &sz);
++=09=09ie =3D rtw_set_ie(ie, WLAN_EID_SUPP_RATES, rate_len, pdev_network->s=
+upported_rates, &sz);
+ =09}
 =20
- int rtw_action_frame_parse(const u8 *frame, u32 frame_len, u8 *category, u=
-8 *action);
- const char *action_public_str(u8 action);
+ =09/* DS parameter set */
+@@ -336,8 +336,8 @@ int rtw_generate_ie(struct registry_priv *pregistrypriv=
+)
+=20
+ =09ie =3D rtw_set_ie(ie, WLAN_EID_IBSS_PARAMS, 2, (u8 *)&(pdev_network->co=
+nfiguration.atim_window), &sz);
+=20
+-=09if (rateLen > 8)
+-=09=09ie =3D rtw_set_ie(ie, WLAN_EID_EXT_SUPP_RATES, (rateLen - 8), (pdev_=
+network->supported_rates + 8), &sz);
++=09if (rate_len > 8)
++=09=09ie =3D rtw_set_ie(ie, WLAN_EID_EXT_SUPP_RATES, (rate_len - 8), (pdev=
+_network->supported_rates + 8), &sz);
+=20
+ =09/* HT Cap. */
+ =09if ((pregistrypriv->wireless_mode & WIRELESS_11_24N) &&
 --=20
 2.43.0
 
