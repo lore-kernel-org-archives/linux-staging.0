@@ -1,16 +1,16 @@
 Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0458A2E8B83
-	for <linux-staging@lists.linux.dev>; Mon, 10 Nov 2025 08:23:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0ED822F7440
+	for <linux-staging@lists.linux.dev>; Mon, 10 Nov 2025 08:27:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762763009; cv=none; b=RFPjBNcRMA1wnf0fj91qBZCv55OCK9xniwv40mVjbXYvkKeHqzhwtxiVTp0slfjeCJMwF733ltbwWSA4OpzAcV7gyDni3kPBn9mWfo8cUQL1IbAfi8hjukmiTSQzNhwBIezo/EQyDxcH76fbqymNj7rszDV22Uv8taWSQrC64GE=
+	t=1762763252; cv=none; b=UoxX6LDFgrZv9S7Pml1avSCUe13aCHm3wsEnaKoUt6QXoa1aV3oDJPG/ySdhR7U8oX73mip2bU7mrFqkQTvopg/2LqUwsaI4HV6Dsbf9lhTUf9NrSrgUrbnJH+1dUdBLFyeL2cMs25DwCGE08LLlLlLxuZUUQ9M2gVZbWzaqrZg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762763009; c=relaxed/simple;
-	bh=df094fQFKVW5CYPMljAhSh/S5b+6dOd3Q81MPy5kS9s=;
+	s=arc-20240116; t=1762763252; c=relaxed/simple;
+	bh=1pCml4h8G2RzejcPO09IpeB8HRIK4qZx7GIqLp3Rmc4=;
 	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=VHmSCnmPnJ0EQ2Ssxnx7HgmV+HUSqRvOUYQi8f26D8KXHkEuruaPlu0uJjE+jP/tvHai+yqdXZQ8VFKOWF7iDK556fguobQeqfJJ/VGeAgcsgtu8CcXKXasm57cS4eu7VQvQgMw2ZP5bP97Yx6cGa+5R2wuvMWabicHMyE9vTKA=
+	 Content-Type:MIME-Version; b=t6DA+Ge5Nww91UDrndchZthsOc6FyLurZOc9OIrp0KUjpaRHxBUCYSZeu7bh9k3QnNJmxYF/5L4mMuivJF0QD7ZaNGnqB3uvs4l0bU+fvSDbnQAD0NDwQ4eMFFIwbayQUY3ga+9fBfesSIbaGzfZhnUwN16rDZLzKw9yfIrgPms=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
@@ -18,20 +18,20 @@ Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
 	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
 	(Exim 4.92)
 	(envelope-from <p.zabel@pengutronix.de>)
-	id 1vINBI-0005qH-VN; Mon, 10 Nov 2025 09:23:20 +0100
+	id 1vINFB-0006EL-PQ; Mon, 10 Nov 2025 09:27:21 +0100
 Received: from lupine.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::4e] helo=lupine)
 	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
 	(Exim 4.96)
 	(envelope-from <p.zabel@pengutronix.de>)
-	id 1vINBI-007zQD-23;
-	Mon, 10 Nov 2025 09:23:20 +0100
+	id 1vINFB-007zQY-0g;
+	Mon, 10 Nov 2025 09:27:21 +0100
 Received: from pza by lupine with local (Exim 4.98.2)
 	(envelope-from <p.zabel@pengutronix.de>)
-	id 1vINBI-00000000449-2GKK;
-	Mon, 10 Nov 2025 09:23:20 +0100
-Message-ID: <213e291cfcce29969fe6addd35c6c633289a5270.camel@pengutronix.de>
-Subject: Re: [PATCH 4/6] media: staging: media: imx6-mipi-csi2: use
- devm_mutex_init() to simplify code
+	id 1vINFB-00000000472-0YzL;
+	Mon, 10 Nov 2025 09:27:21 +0100
+Message-ID: <90e5e430743eaca4b21097c64c42dd4f579bc48b.camel@pengutronix.de>
+Subject: Re: [PATCH 5/6] media: staging: media: imx6-mipi-csi2: use guard()
+ to simplify code
 From: Philipp Zabel <p.zabel@pengutronix.de>
 To: Frank Li <Frank.Li@nxp.com>, Steve Longerbeam <slongerbeam@gmail.com>, 
  Mauro Carvalho Chehab	 <mchehab@kernel.org>, Greg Kroah-Hartman
@@ -41,10 +41,10 @@ To: Frank Li <Frank.Li@nxp.com>, Steve Longerbeam <slongerbeam@gmail.com>,
 Cc: imx@lists.linux.dev, linux-media@vger.kernel.org, 
 	linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
 	linux-kernel@vger.kernel.org
-Date: Mon, 10 Nov 2025 09:23:20 +0100
-In-Reply-To: <20251107-stage-csi2-cleanup-v1-4-5d42535243ac@nxp.com>
+Date: Mon, 10 Nov 2025 09:27:21 +0100
+In-Reply-To: <20251107-stage-csi2-cleanup-v1-5-5d42535243ac@nxp.com>
 References: <20251107-stage-csi2-cleanup-v1-0-5d42535243ac@nxp.com>
-	 <20251107-stage-csi2-cleanup-v1-4-5d42535243ac@nxp.com>
+	 <20251107-stage-csi2-cleanup-v1-5-5d42535243ac@nxp.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 User-Agent: Evolution 3.56.1-1+deb13u1 
@@ -60,13 +60,72 @@ X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expand
 X-PTX-Original-Recipient: linux-staging@lists.linux.dev
 
 On Fr, 2025-11-07 at 15:44 -0500, Frank Li wrote:
-> Use devm_mutex_init() to simplify the code. No functional change.
+> Use guard() to simplify mutex locking. No functional change.
 >=20
 > Signed-off-by: Frank Li <Frank.Li@nxp.com>
+> ---
+>  drivers/staging/media/imx/imx6-mipi-csi2.c | 54 +++++++++++-------------=
+------
+>  1 file changed, 19 insertions(+), 35 deletions(-)
+>=20
+> diff --git a/drivers/staging/media/imx/imx6-mipi-csi2.c b/drivers/staging=
+/media/imx/imx6-mipi-csi2.c
+> index f8d0b3b8b250774af51f2aba731e639131aceff9..54e9491d3428686288a5bc9bb=
+58a5a0a25aca696 100644
+> --- a/drivers/staging/media/imx/imx6-mipi-csi2.c
+> +++ b/drivers/staging/media/imx/imx6-mipi-csi2.c
+> @@ -413,21 +413,17 @@ static int csi2_s_stream(struct v4l2_subdev *sd, in=
+t enable)
+>  	struct csi2_dev *csi2 =3D sd_to_dev(sd);
+>  	int i, ret =3D 0;
+> =20
+> -	mutex_lock(&csi2->lock);
+> +	guard(mutex)(&csi2->lock);
+> =20
+> -	if (!csi2->src_sd) {
+> -		ret =3D -EPIPE;
+> -		goto out;
+> -	}
+> +	if (!csi2->src_sd)
+> +		return -EPIPE;
+> =20
+>  	for (i =3D 0; i < CSI2_NUM_SRC_PADS; i++) {
+>  		if (csi2->sink_linked[i])
+>  			break;
+>  	}
+> -	if (i >=3D CSI2_NUM_SRC_PADS) {
+> -		ret =3D -EPIPE;
+> -		goto out;
+> -	}
+> +	if (i >=3D CSI2_NUM_SRC_PADS)
+> +		return -EPIPE;
+> =20
+>  	/*
+>  	 * enable/disable streaming only if stream_count is
+> @@ -442,14 +438,12 @@ static int csi2_s_stream(struct v4l2_subdev *sd, in=
+t enable)
+>  	else
+>  		csi2_stop(csi2);
+>  	if (ret)
+> -		goto out;
+> +		return ret;
+> =20
+>  update_count:
+>  	csi2->stream_count +=3D enable ? 1 : -1;
+>  	if (csi2->stream_count < 0)
+>  		csi2->stream_count =3D 0;
+> -out:
+> -	mutex_unlock(&csi2->lock);
+>  	return ret;
 
-Reviewed-by: Philipp Zabel <p.zabel@pengutronix.de>
+This is mixing goto and cleanup in the same function, which the scope-
+based cleanup helpers documentation suggests shouldn't be done.
 
-Although I think this should come before patches 2 and 3.
+In this case I see no problem because we only jump to update_count from
+under the lock, but since issues with gotos around automatic cleanup
+are easy to miss, I think it would be better to also turn the
+update_count jump into a conditional block.
+
 
 regards
 Philipp
