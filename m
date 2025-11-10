@@ -1,72 +1,72 @@
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5378307AE1
-	for <linux-staging@lists.linux.dev>; Mon, 10 Nov 2025 10:25:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1ACFF3064A0
+	for <linux-staging@lists.linux.dev>; Mon, 10 Nov 2025 10:25:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762770324; cv=none; b=D1qKZ40++f7o65xZqnU65wizwoU9Ogy4a8jOZfqNDLWiiyam5HP1No2bKGRW38xQipgvdfw1YKRtKvbET1DhVHkDC4kEsvIz+kuwsacUMVAa3XRaB4HSORYi5WO2SkiKNQXw/dMVPygcEJk04amiXwrPCUvD/2+A78DkDASgQjU=
+	t=1762770324; cv=none; b=mmbWKndxzVyxPxobQdmwfJ4il93kCTcbDoFOs9iQZcsiCVYvOxEAWq9e6SHbuxEvJhmiwdvTd/wmLWnJkQWdN6mziLGXsN+f6wdgc7aa7Jhs+FSg+ii0uP4IUsctHx1qafsFf4b1vWv25XtoEfsecAq1yP0F8KFNZyUa4qx+7Ik=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1762770324; c=relaxed/simple;
-	bh=DgA+YQZ2PXtKWbfJH1XR71F2ykLEULNrwbgH40vjVnA=;
+	bh=IOMKATf4WlRptW6Eh2eCnd2gEghdfx2vgXIU4gGtjTA=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=NfcPi45oAWhJpvu/v2M0AVcWskxrYSymW+SmbWyF/gE9tUwNKTwzhMCt/Xs6RaYxHBcKax7TLY2Kot/U6Hv4w1TKU3rUH2UA7IqLX7w8EuRRPqJE/21WdlP3n1eMjxOM++yRXlpaouR7NgQTayywAlVCCDO7x4uTuBnex77Bfl0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Y57PNJY6; arc=none smtp.client-ip=209.85.128.46
+	 MIME-Version; b=l1RbEoiN07SMrA/vQ0RjckXDzsEglFk6qXpQED7wD22j9rm92KmEK7SUtb20VkLHJRrfr3U6DVl2JBKM6nBFkuUaZ4uf5ne1FwtWF4wESUJlMpXj2PB5YkLDK9HvBUYbZxjMgdtqbujTwvvI/koA2y/y61MFTOhME6IK1UmEEKg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JB5TcrNr; arc=none smtp.client-ip=209.85.128.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Y57PNJY6"
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-4775ae77516so33858155e9.1
-        for <linux-staging@lists.linux.dev>; Mon, 10 Nov 2025 02:25:21 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JB5TcrNr"
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-47778b23f64so6218575e9.0
+        for <linux-staging@lists.linux.dev>; Mon, 10 Nov 2025 02:25:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1762770320; x=1763375120; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1762770321; x=1763375121; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=2Q6cLMd5HkJMSjJpe28rjQcWfQMB7GUBaFpYg6qXkBE=;
-        b=Y57PNJY6UT0kkCXhrxYbG6zaVA3t8hOfE36OdceFrRehod6GIchMI7DMmrdmy7LREU
-         bkX0TMURI0Zu+HoOIjpL7bA35nvNd1MXUitKEzjQ5GdltnSRrwSNf1J8tAHyakJ7L6P4
-         SG47+0a1C3mf1DTsj35iI0H2NB/on6oBp0biq0OOjVdsdnrLa0CZwm4SnC0ABe7Rz3SL
-         MlrQ9RTJj7GG5j9L80RDJtTsrC7RwxS47AoxPTpoy3qwtvgCT0K533iFWj3l5QShV+kg
-         354fDUutzfzJ2F6YhthAV3/E13diO3v0cmd5+ZyutxezZ9Wm26nh27Xs8ln5oPp4BtyU
-         q7KA==
+        bh=PFSFlISYEwJhzl0uBpsUYIAL1eAWoNbR9f/0OF3g05Y=;
+        b=JB5TcrNrtDtB7qG+HVN1XUQU18oFsQlc/4WWJD6ZTigYFOQ/HqB7BylknwP5gw/+az
+         8zYGbCWeS4M8X12Uo4bhllDJQqt2hfA29poRGTL8yGNRkCsikUo/SvScr3scHTn9ZzT1
+         seThmUzRqJ0LY/4GF5TPfoAJGETuTtaJgXTxK+RLveXkI2k3WE8AnVbdisaOPe6xlPNz
+         B8tYE/dM1RMh2Q9jBYIrVGHtq0OBeKiQGzLPtgfE4yrJySgCE8x1Q+gwrhyCFDJJL/0i
+         K3LIv2ryzjQxx1zZawq99bMBbFoT0M2Hah2aKl42U4TRhh/YB8Iu0TKVsplM2m3gUaTR
+         OzSg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762770320; x=1763375120;
+        d=1e100.net; s=20230601; t=1762770321; x=1763375121;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=2Q6cLMd5HkJMSjJpe28rjQcWfQMB7GUBaFpYg6qXkBE=;
-        b=popUjnE/eVctaKL1cSwxdevC+oDCVMVHS5wYwKgcaiYHeTmpIqffpzG0UVq/FwK7Hp
-         Wl8vvs08HQGj96vWwMVVjpdGZ+hoVWFbyPR6L0VPgS2DPix+I6BzaoYMrCKA/i/K9JNI
-         485AgDrSR/LETbZsOvrPi92w4AVJqEaaMBw1aKyWZ361YKpClPY1ru7SvV47eOQMIecS
-         18N1mPEBy3Za2bhw3IqdyNXybTex+BRdVegnieVFyfW+YaHkhGNsSsBNVuMWVHWWjfQi
-         xvHDYo5S6QSyTNn1hpnzJvnLPKx7yxqNJXvDIP8xdNUmLlIlT1Th8UFux5T2Z9smexM7
-         nquw==
-X-Forwarded-Encrypted: i=1; AJvYcCWew5Q1Pdq+LyyZz+mgNPK+mK/g/i4gLpFL+TaMzEgnftFO7NGoOOgKUdoAPd9+ABbnySGgeRIRIpNQD34B@lists.linux.dev
-X-Gm-Message-State: AOJu0YyXBcLyIUsHNsulMj+bTWL4blTQkJKHNGuQJl2MwPYObh0AReHW
-	MP5ChudQN+2sl803uE1cA1p2pViE7l7rRUXC4nb2uOVEy6NHvCEBIaW4
-X-Gm-Gg: ASbGncvjcdS4ArTprnXCGVaFurcPN9XP8RjXl0HiaqLAjTn+fOfUbaEwSPVhA56LYwG
-	OvADM5pYZpcZGy1ofWcyjQvdu0o1ylwN+hc3BbcXNk2WccGf4+eXtx1RryGs5h3xeYOyssfG9sc
-	E+xS1l3z+uGM7AbJOEe8Dim3J3iG1N7m+YfcDuK0LXVeCfegdMePNf/W0LfmcOI61alYuAIUX01
-	vO7XsfbBjORYaIdbIh2SNFMd3AqhIT19pZk9os0mpzR5tX0IwgVZYYPppB4977zxXXopZq+Bzk0
-	OfN/oqmLZ2p/P8lT6YcAFHvZOQTYDxollnNDN7rS9i4F+nOzpv6LcPiJ1mnIjKG8hmhsfabXqI1
-	Rcc0CiCYJYQGarqXxJzNrYSSWSpUgpIRt1HHUyvTfmMT1rbm84+qnCVsJYoPDKnYUoLh5D75wcJ
-	vxKAHC0g8qpgQV3UNwfU80ni24psg=
-X-Google-Smtp-Source: AGHT+IEPmVXfG8iep1LXV3JrYQl/ln16zPfrpGAOurbePOD3z7RijiLpRk26CpWCIM4FytWvWOm4Ew==
-X-Received: by 2002:a05:600c:b86:b0:471:131f:85b7 with SMTP id 5b1f17b1804b1-47773236f9cmr64888705e9.15.1762770319920;
-        Mon, 10 Nov 2025 02:25:19 -0800 (PST)
+        bh=PFSFlISYEwJhzl0uBpsUYIAL1eAWoNbR9f/0OF3g05Y=;
+        b=C+Ow+9i3utLg8qbE9zMV0gjvquh3e0QDBB7srJvEGPZz2ztLVxZHnqauEoD1P2Odd3
+         A2a9YApUqe3hH9Xas/zbR9LVqLHPulJwM016KCQ1H9eyu9Wo7AedwBGswIM7VQkBvMFz
+         qkYmaDmkcR3uOl9V3lW3WXG8muoU54jQZ4JIp+Ki3/5w4rQSYzUZU/Cv3In0QujLBYdm
+         7bAskhT7ggifGZFlhGRlzSgy6hA0PfEWPcQP8vGH0wXLIkfqLpWwu4x/bLNORvtgg6PG
+         gO0++6+TitseM6We60qhuZq3DgzR5AbZikmN7+TtdhPDJuYIJvkgMhaAQ6gqKcXtVI11
+         QlAA==
+X-Forwarded-Encrypted: i=1; AJvYcCWptrBEw2cRxLbFUyegTxF5yuUy4WFREvV7b50YtW6WhP3jiRyr8DC1VIic2AsxtPv3TZC1Cytn29m3JAbl@lists.linux.dev
+X-Gm-Message-State: AOJu0Yz+HKt/5m1/huJsPhaYoa6E0lelilD+gxD5IGY9i6ELv8cCqSVo
+	591IXxR0/dGuQIeWQZ+swBwnFo5OYrC/1EgJwcSdp0KAhWPtXxnaS6ecaRvlLJ3U
+X-Gm-Gg: ASbGnctZ87eMqvATUVoRpBoLsG0pbJB8FYEm5zLQHhwJ4EXk+/kucBdZekVyjV+Pg2h
+	Pun8l2UqANIOiAoIk6+L64WK9hyQV0tsAC/h4vJljWSJiK7Mv3Bw5MuK6RSi1tEAMxS9YQMlLLm
+	9hi2cojvQiHdxSNprTJpJ/N2cOkQoSGbb07Q9ztRkruiz4gDe+V1aXneAqAtj4NhQadj+vHVEcg
+	FyhJzqPKZOqDSnzLQX6h5WYNfpjNkNO5cExtOytm01sTgjlownfKhOmFJ9M8sWhe3cvmkwk5BQB
+	sVZE1EDwPMwxyD1c/tVTrE5ruWq+tzeN7NtODqcp+XgrQO/Cw+bQAjp9Ikq5W3pyoSA+eqRg3K6
+	+9NkkMLcYfdH59iZjLnu5tEIStDBmnS9iIH3qwuAwp5BA3buwUQC9EQc+ypLUpetKbzW95gcMod
+	VtRiuWL7bnECq39sbQ9/Umbm4uKrM=
+X-Google-Smtp-Source: AGHT+IENGoi+2Lljzvtl1dUUzsqoI4mfqoY8VewVD7RbWHS3meOUSd3hc/m0a9FFVRJX0mFwtOhZLg==
+X-Received: by 2002:a05:600c:3b0f:b0:477:582e:7a81 with SMTP id 5b1f17b1804b1-47773236f61mr67331675e9.4.1762770321259;
+        Mon, 10 Nov 2025 02:25:21 -0800 (PST)
 Received: from egonzo (82-64-73-52.subs.proxad.net. [82.64.73.52])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4777a96e7f8sm67326715e9.13.2025.11.10.02.25.19
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4777a96e7f8sm67326715e9.13.2025.11.10.02.25.20
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 10 Nov 2025 02:25:19 -0800 (PST)
+        Mon, 10 Nov 2025 02:25:21 -0800 (PST)
 From: Dave Penkler <dpenkler@gmail.com>
 To: gregkh@linuxfoundation.org,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
 Cc: Dave Penkler <dpenkler@gmail.com>
-Subject: [PATCH 03/11] staging: gpib: Remove gpib/uapi from search path
-Date: Mon, 10 Nov 2025 11:24:59 +0100
-Message-ID: <20251110102507.1445-4-dpenkler@gmail.com>
+Subject: [PATCH 04/11] staging: gpib: Change file path for uapi headers
+Date: Mon, 10 Nov 2025 11:25:00 +0100
+Message-ID: <20251110102507.1445-5-dpenkler@gmail.com>
 X-Mailer: git-send-email 2.51.2
 In-Reply-To: <20251110102507.1445-1-dpenkler@gmail.com>
 References: <20251110102507.1445-1-dpenkler@gmail.com>
@@ -78,28 +78,45 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The gpib/uapi header files are being moved to include/uapi/linux
-as part of the gpib destaging process. The latter directory is
-automatically searched when building the drivers.
+As part of the gpib destaging process the gpib/uapi header files will be
+moved to the standard kernel uapi directory include/uapi/linux
 
-Remove gpib/uapi from the header file search path in subdir-ccflags
+Change the include file path in the code for these files accordingly.
 
 Signed-off-by: Dave Penkler <dpenkler@gmail.com>
 ---
- drivers/staging/gpib/Makefile | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/staging/gpib/include/gpibP.h      | 4 ++--
+ drivers/staging/gpib/include/gpib_types.h | 2 +-
+ 2 files changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/staging/gpib/Makefile b/drivers/staging/gpib/Makefile
-index d0e88f5c0844..2d44fed2a743 100644
---- a/drivers/staging/gpib/Makefile
-+++ b/drivers/staging/gpib/Makefile
-@@ -1,5 +1,5 @@
+diff --git a/drivers/staging/gpib/include/gpibP.h b/drivers/staging/gpib/include/gpibP.h
+index 1b27f37e0ba0..e3938ada3e0d 100644
+--- a/drivers/staging/gpib/include/gpibP.h
++++ b/drivers/staging/gpib/include/gpibP.h
+@@ -12,8 +12,8 @@
+ #include "gpib_types.h"
+ #include "gpib_proto.h"
+ #include "gpib_cmd.h"
+-#include "gpib.h"
+-#include "gpib_ioctl.h"
++#include <linux/gpib.h>
++#include <linux/gpib_ioctl.h>
  
--subdir-ccflags-y += -I$(src)/include -I$(src)/uapi
-+subdir-ccflags-y += -I$(src)/include
+ #include <linux/fs.h>
+ #include <linux/interrupt.h>
+diff --git a/drivers/staging/gpib/include/gpib_types.h b/drivers/staging/gpib/include/gpib_types.h
+index 998abb379749..5a0978ae27e7 100644
+--- a/drivers/staging/gpib/include/gpib_types.h
++++ b/drivers/staging/gpib/include/gpib_types.h
+@@ -8,7 +8,7 @@
+ #define _GPIB_TYPES_H
  
- obj-$(CONFIG_GPIB_AGILENT_82350B) += agilent_82350b/
- obj-$(CONFIG_GPIB_AGILENT_82357A) += agilent_82357a/
+ #ifdef __KERNEL__
+-#include "gpib.h"
++#include <linux/gpib.h>
+ #include <linux/atomic.h>
+ #include <linux/device.h>
+ #include <linux/mutex.h>
 -- 
 2.51.2
 
