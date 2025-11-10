@@ -1,50 +1,50 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3EB9533F37B
-	for <linux-staging@lists.linux.dev>; Mon, 10 Nov 2025 18:48:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4383F342CB2
+	for <linux-staging@lists.linux.dev>; Mon, 10 Nov 2025 18:48:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762800488; cv=none; b=Fth0RjT5tj6OHEfbJbGJmKiClkx+wpM7K6c8Iio+TRTBZKbvECKb3Ke+KX0pefBl1C0bOj4q9qKv8OZavvQ2v4w6FvnCatxd6TFAxktIPNyTaBKIUpTDisObhd/ziXRTcE3FOVBjE7R7P+R4/tb/Y9+nuItLyllJu6xUhTodLEA=
+	t=1762800490; cv=none; b=EmdS2+HOOtY6Zhy7VLLOglyLps7UlLCJ1ZhbTfufUlWDlpFtawI0oiIz3o77dMgh3wed6Bf8KXGVYD8wTh5zJ9P5hOKMVBOQcgp540deCiH69YoT4rRsXCkxvH53CL3OpAZ4aOKjOu48x8MfeSXY+bDDr0JegERUhGhTOBlxS/A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762800488; c=relaxed/simple;
-	bh=/jrYLjDfZzQMPUrwgBXX7noMOw5eDva5SlIg2j2SoEQ=;
+	s=arc-20240116; t=1762800490; c=relaxed/simple;
+	bh=QGRUCvRhLj/TwbX4dQMKGketmqckWUD9lEEl/Hr0Xm0=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=X/w4ZGOiEB2Td02sudSAELEetX5VlouJTON5TUbmN9xOQFVzYUoJRT3yLahnlR2NmmxT9elS9qEKV6nOCSeQSWPtVnldS/AWBZkAirMWej/AL4Pg0Sav5gtm9tvB3LOO3WNJ4aloLEk06StBX8AZgJXBN4RoCaoV2r6+1IKj6EY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=J2MSzmBF; arc=none smtp.client-ip=198.175.65.11
+	 MIME-Version; b=Z85egqg4zFLH+1u6XK51bbnBcEOtucUyFONypSAc7IVk9jwadicrcBgCLDKRk8W1JniQI0rjil31UB2JFSeERkYaRYYp8eohzLfbUwg43DeFLeS/eGWuuIZw2MLCyf1ay/LrwxXCL4vRrTgai2DyTO+RHsce370ZVyv3c0pNiC0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QrD8nQIY; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="J2MSzmBF"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QrD8nQIY"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1762800486; x=1794336486;
+  t=1762800488; x=1794336488;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=/jrYLjDfZzQMPUrwgBXX7noMOw5eDva5SlIg2j2SoEQ=;
-  b=J2MSzmBFm1Zrc5fR+fVcO1sDoYkPfR8y4ao8OnGwFy4TeRIkkZs2YPay
-   jk+mEfCmHmB/RzczBOG7i2j6/qIJW2w48LVTVOK8aJKLmThbRS+0Kg0ym
-   SSOxpL6PH+uFATV32r0okGWmMP9/ma1k9L8TDTtwhY3A/MG6/178Nqih7
-   ZU8QQ0xAFlLVryQTVK4r3S+Ku1W+OZj6Ck13HrmqCd5cjlLfMJprSME8p
-   3Qw/RGCHsvQQhaT6tk05b6cUTmguSU7egzHsG/vJgmFwbwXacrhN85nH5
-   h+zZgzf+Cau5XlNTHO7ds99qBvWMPtf+OSFBpBquh8utqzXvTWO18brCI
+  bh=QGRUCvRhLj/TwbX4dQMKGketmqckWUD9lEEl/Hr0Xm0=;
+  b=QrD8nQIYrnDtdaaSaHWIyzrAH7HPg1HwbEPI8pokhWniu6TmTRoU14KG
+   Y+Q7dQzOnvzu1zj4tz6E53GZmCu8X/mi3t6nx1QjPI8jPY3AyKHkufz7x
+   YXvRDpP1XMQSMfRlJST7jxHAVsmF8cuBi534SU+IRfdNnaLHh84xEjEYF
+   zB7KRjLUQvJk9BgQ+Zq/D+cTeHT+/P2JEUEnx7coPBk4LIZpUIM2ynozq
+   75qRSvya+lTZLfM5fiy088idTIgalEo9U9Lr1QEVFk5xGCuIj/R6LqscR
+   BCytYfSSzGOamjua6sAgutC3xZOudwS2HnXzAWzOHmO/9dlM5Xl03fMuz
    g==;
-X-CSE-ConnectionGUID: /DqxeJMwSXGexTaDmRbxmQ==
-X-CSE-MsgGUID: onI0TJ4VTVWz4+ff3ujTwA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11609"; a="75150058"
+X-CSE-ConnectionGUID: 8jWzs9/nQgC6h5A5tA6tFA==
+X-CSE-MsgGUID: EGNpmvqBSU6uoXS8LqPopA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11609"; a="65013846"
 X-IronPort-AV: E=Sophos;i="6.19,294,1754982000"; 
-   d="scan'208";a="75150058"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2025 10:48:06 -0800
-X-CSE-ConnectionGUID: tQxkWAukTcCWsmo5RGoj9w==
-X-CSE-MsgGUID: 5oUCymEZTJWvji6oAMQPvQ==
+   d="scan'208";a="65013846"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2025 10:48:07 -0800
+X-CSE-ConnectionGUID: nY+7EE6iTdmlvdOdF/MRgA==
+X-CSE-MsgGUID: ur4itLZhTBu7r9UEfABuHA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,294,1754982000"; 
-   d="scan'208";a="188985837"
+   d="scan'208";a="219402036"
 Received: from black.igk.intel.com ([10.91.253.5])
-  by fmviesa008.fm.intel.com with ESMTP; 10 Nov 2025 10:47:57 -0800
+  by orviesa002.jf.intel.com with ESMTP; 10 Nov 2025 10:47:58 -0800
 Received: by black.igk.intel.com (Postfix, from userid 1003)
-	id 6B742A7; Mon, 10 Nov 2025 19:47:29 +0100 (CET)
+	id 78395A9; Mon, 10 Nov 2025 19:47:29 +0100 (CET)
 From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 To: Corey Minyard <corey@minyard.net>,
 	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
@@ -142,9 +142,9 @@ Cc: Rasmus Villemoes <linux@rasmusvillemoes.dk>,
 	Andrew Morton <akpm@linux-foundation.org>,
 	Jaroslav Kysela <perex@perex.cz>,
 	Takashi Iwai <tiwai@suse.com>
-Subject: [PATCH v1 18/23] pps: Switch to use %ptSp
-Date: Mon, 10 Nov 2025 19:40:37 +0100
-Message-ID: <20251110184727.666591-19-andriy.shevchenko@linux.intel.com>
+Subject: [PATCH v1 20/23] s390/dasd: Switch to use %ptSp
+Date: Mon, 10 Nov 2025 19:40:39 +0100
+Message-ID: <20251110184727.666591-21-andriy.shevchenko@linux.intel.com>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <20251110184727.666591-1-andriy.shevchenko@linux.intel.com>
 References: <20251110184727.666591-1-andriy.shevchenko@linux.intel.com>
@@ -161,38 +161,23 @@ struct timespec64 in human readable format.
 
 Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 ---
- drivers/pps/generators/pps_gen_parport.c | 3 +--
- drivers/pps/kapi.c                       | 3 +--
- 2 files changed, 2 insertions(+), 4 deletions(-)
+ drivers/s390/block/dasd.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/drivers/pps/generators/pps_gen_parport.c b/drivers/pps/generators/pps_gen_parport.c
-index f5eeb4dd01ad..05bbf8d30ef1 100644
---- a/drivers/pps/generators/pps_gen_parport.c
-+++ b/drivers/pps/generators/pps_gen_parport.c
-@@ -80,8 +80,7 @@ static enum hrtimer_restart hrtimer_event(struct hrtimer *timer)
- 	/* check if we are late */
- 	if (expire_time.tv_sec != ts1.tv_sec || ts1.tv_nsec > lim) {
- 		local_irq_restore(flags);
--		pr_err("we are late this time %lld.%09ld\n",
--				(s64)ts1.tv_sec, ts1.tv_nsec);
-+		pr_err("we are late this time %ptSp\n", &ts1);
- 		goto done;
- 	}
- 
-diff --git a/drivers/pps/kapi.c b/drivers/pps/kapi.c
-index e9389876229e..6985c34de2ce 100644
---- a/drivers/pps/kapi.c
-+++ b/drivers/pps/kapi.c
-@@ -163,8 +163,7 @@ void pps_event(struct pps_device *pps, struct pps_event_time *ts, int event,
- 	/* check event type */
- 	BUG_ON((event & (PPS_CAPTUREASSERT | PPS_CAPTURECLEAR)) == 0);
- 
--	dev_dbg(&pps->dev, "PPS event at %lld.%09ld\n",
--			(s64)ts->ts_real.tv_sec, ts->ts_real.tv_nsec);
-+	dev_dbg(&pps->dev, "PPS event at %ptSp\n", &ts->ts_real);
- 
- 	timespec_to_pps_ktime(&ts_real, ts->ts_real);
- 
+diff --git a/drivers/s390/block/dasd.c b/drivers/s390/block/dasd.c
+index 7765e40f7cea..97dcc70f669e 100644
+--- a/drivers/s390/block/dasd.c
++++ b/drivers/s390/block/dasd.c
+@@ -974,8 +974,7 @@ static void dasd_stats_array(struct seq_file *m, unsigned int *array)
+ static void dasd_stats_seq_print(struct seq_file *m,
+ 				 struct dasd_profile_info *data)
+ {
+-	seq_printf(m, "start_time %lld.%09ld\n",
+-		   (s64)data->starttod.tv_sec, data->starttod.tv_nsec);
++	seq_printf(m, "start_time %ptSp\n", &data->starttod);
+ 	seq_printf(m, "total_requests %u\n", data->dasd_io_reqs);
+ 	seq_printf(m, "total_sectors %u\n", data->dasd_io_sects);
+ 	seq_printf(m, "total_pav %u\n", data->dasd_io_alias);
 -- 
 2.50.1
 
