@@ -1,72 +1,72 @@
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1ACFF3064A0
-	for <linux-staging@lists.linux.dev>; Mon, 10 Nov 2025 10:25:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E19B930BB91
+	for <linux-staging@lists.linux.dev>; Mon, 10 Nov 2025 10:25:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762770324; cv=none; b=mmbWKndxzVyxPxobQdmwfJ4il93kCTcbDoFOs9iQZcsiCVYvOxEAWq9e6SHbuxEvJhmiwdvTd/wmLWnJkQWdN6mziLGXsN+f6wdgc7aa7Jhs+FSg+ii0uP4IUsctHx1qafsFf4b1vWv25XtoEfsecAq1yP0F8KFNZyUa4qx+7Ik=
+	t=1762770327; cv=none; b=KK+R4XQxm5ut5Pd+kmmQBiXT9agUo5wl9r/WbIsMh87sn7OUAF3TSKXUoahKBRB36OMR2/Tn474iWf9UWS4d6LhfJxo2JiMcXUgfDbLrfgXvjfzJ3SheFOivCGgMoS0TrZSsgCkj2grE/CEkbInemSE6lgWQGvTHOEA3zySJs7w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762770324; c=relaxed/simple;
-	bh=IOMKATf4WlRptW6Eh2eCnd2gEghdfx2vgXIU4gGtjTA=;
+	s=arc-20240116; t=1762770327; c=relaxed/simple;
+	bh=8lQxcKvouaei16FqYGY0RR8AerBRZPOQndfjxzjaGZw=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=l1RbEoiN07SMrA/vQ0RjckXDzsEglFk6qXpQED7wD22j9rm92KmEK7SUtb20VkLHJRrfr3U6DVl2JBKM6nBFkuUaZ4uf5ne1FwtWF4wESUJlMpXj2PB5YkLDK9HvBUYbZxjMgdtqbujTwvvI/koA2y/y61MFTOhME6IK1UmEEKg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JB5TcrNr; arc=none smtp.client-ip=209.85.128.54
+	 MIME-Version; b=e9Rym69dxfQtSbAAQtCtUedMIfoJ6EGlzLt8nxG/5FLBlcvDpocbck7KXosT5dZiCDD4bLcW4RKXDqOuNIMcdHFjcDCqUrsa48/lsD+6oiSAQ/2cynXDMdK2e/Kg4o1ary0boQAsvtIAzYan5rPaMjFgAKk/Pmtqh9IoxFFcjRs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JA/YIkCk; arc=none smtp.client-ip=209.85.128.50
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JB5TcrNr"
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-47778b23f64so6218575e9.0
-        for <linux-staging@lists.linux.dev>; Mon, 10 Nov 2025 02:25:22 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JA/YIkCk"
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-477770019e4so17698825e9.3
+        for <linux-staging@lists.linux.dev>; Mon, 10 Nov 2025 02:25:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1762770321; x=1763375121; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1762770324; x=1763375124; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=PFSFlISYEwJhzl0uBpsUYIAL1eAWoNbR9f/0OF3g05Y=;
-        b=JB5TcrNrtDtB7qG+HVN1XUQU18oFsQlc/4WWJD6ZTigYFOQ/HqB7BylknwP5gw/+az
-         8zYGbCWeS4M8X12Uo4bhllDJQqt2hfA29poRGTL8yGNRkCsikUo/SvScr3scHTn9ZzT1
-         seThmUzRqJ0LY/4GF5TPfoAJGETuTtaJgXTxK+RLveXkI2k3WE8AnVbdisaOPe6xlPNz
-         B8tYE/dM1RMh2Q9jBYIrVGHtq0OBeKiQGzLPtgfE4yrJySgCE8x1Q+gwrhyCFDJJL/0i
-         K3LIv2ryzjQxx1zZawq99bMBbFoT0M2Hah2aKl42U4TRhh/YB8Iu0TKVsplM2m3gUaTR
-         OzSg==
+        bh=1iqFxV3svYobU0TK9f8Y5DAj+U7MQujkDDouJLinQ98=;
+        b=JA/YIkCkd58NZiS/cW6kaji3D0JgvMos9nGPM3P7qz09MF1RitgfGqEU0sYdhvfdJe
+         LUbtq5pqVpZ4C8YpUoWLkcZ+w8tdiPnETgRVrVHnrK3w0T7bIB/oslW/tn/EGhkhkSIg
+         2tjGF9hmXTURxhWEJagt3wt1AK9lQBcK/CZUYN6wp/qr2m8ZS/VC+0p14ZrBKAzeA2jx
+         FbHGsxi6I7ERPV5Y1/51e0/5HTh21ngoiRkhK4nJ4I4N4HoCgbC+r/2T+wCcDFvVytpm
+         jon/zy/VuBR212tLXDmwCQ2EOaLNldHSyHDqPzK2hDCie38klIX1jysjek0OzMdIdSG+
+         rA1Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762770321; x=1763375121;
+        d=1e100.net; s=20230601; t=1762770324; x=1763375124;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=PFSFlISYEwJhzl0uBpsUYIAL1eAWoNbR9f/0OF3g05Y=;
-        b=C+Ow+9i3utLg8qbE9zMV0gjvquh3e0QDBB7srJvEGPZz2ztLVxZHnqauEoD1P2Odd3
-         A2a9YApUqe3hH9Xas/zbR9LVqLHPulJwM016KCQ1H9eyu9Wo7AedwBGswIM7VQkBvMFz
-         qkYmaDmkcR3uOl9V3lW3WXG8muoU54jQZ4JIp+Ki3/5w4rQSYzUZU/Cv3In0QujLBYdm
-         7bAskhT7ggifGZFlhGRlzSgy6hA0PfEWPcQP8vGH0wXLIkfqLpWwu4x/bLNORvtgg6PG
-         gO0++6+TitseM6We60qhuZq3DgzR5AbZikmN7+TtdhPDJuYIJvkgMhaAQ6gqKcXtVI11
-         QlAA==
-X-Forwarded-Encrypted: i=1; AJvYcCWptrBEw2cRxLbFUyegTxF5yuUy4WFREvV7b50YtW6WhP3jiRyr8DC1VIic2AsxtPv3TZC1Cytn29m3JAbl@lists.linux.dev
-X-Gm-Message-State: AOJu0Yz+HKt/5m1/huJsPhaYoa6E0lelilD+gxD5IGY9i6ELv8cCqSVo
-	591IXxR0/dGuQIeWQZ+swBwnFo5OYrC/1EgJwcSdp0KAhWPtXxnaS6ecaRvlLJ3U
-X-Gm-Gg: ASbGnctZ87eMqvATUVoRpBoLsG0pbJB8FYEm5zLQHhwJ4EXk+/kucBdZekVyjV+Pg2h
-	Pun8l2UqANIOiAoIk6+L64WK9hyQV0tsAC/h4vJljWSJiK7Mv3Bw5MuK6RSi1tEAMxS9YQMlLLm
-	9hi2cojvQiHdxSNprTJpJ/N2cOkQoSGbb07Q9ztRkruiz4gDe+V1aXneAqAtj4NhQadj+vHVEcg
-	FyhJzqPKZOqDSnzLQX6h5WYNfpjNkNO5cExtOytm01sTgjlownfKhOmFJ9M8sWhe3cvmkwk5BQB
-	sVZE1EDwPMwxyD1c/tVTrE5ruWq+tzeN7NtODqcp+XgrQO/Cw+bQAjp9Ikq5W3pyoSA+eqRg3K6
-	+9NkkMLcYfdH59iZjLnu5tEIStDBmnS9iIH3qwuAwp5BA3buwUQC9EQc+ypLUpetKbzW95gcMod
-	VtRiuWL7bnECq39sbQ9/Umbm4uKrM=
-X-Google-Smtp-Source: AGHT+IENGoi+2Lljzvtl1dUUzsqoI4mfqoY8VewVD7RbWHS3meOUSd3hc/m0a9FFVRJX0mFwtOhZLg==
-X-Received: by 2002:a05:600c:3b0f:b0:477:582e:7a81 with SMTP id 5b1f17b1804b1-47773236f61mr67331675e9.4.1762770321259;
-        Mon, 10 Nov 2025 02:25:21 -0800 (PST)
+        bh=1iqFxV3svYobU0TK9f8Y5DAj+U7MQujkDDouJLinQ98=;
+        b=MuAwDqDrTZfr8o5K8OYRyz2abun+RXfVGPP8b9oTqOae6Ax2Oxbzd4NKSIt7biS9Dh
+         cDedRZgt/Ol9sRPxQMFV69uB2TUa0ozF4FnvkBev5uEDNJ6eqYVpWQAwbEiEZTi/cT3N
+         wMs9ZH2LOi4qAGkJRP0NUvZKDW+R1h2vOtjC92mwUaItBj0OVlI8zQ8KdemN4oXEHjEd
+         J9wYbPVIpLkxuD+Q9HXUtJutGCRvUHfzaQ360/dsDcP8pmJySAUMq800QIT77pVFzAtW
+         k3GZxKAri9Ja64xfACjztA4y/1BpfeexeEkJhRYyuczY2mKtc8WHnGbrJ7ZbvtkoW5+V
+         VQWw==
+X-Forwarded-Encrypted: i=1; AJvYcCWRvIi3Q80fsFcDoHLQ5CUQUBxhoKg61we9P+mpfckMvzHWf2avw4mwelsC7HMIAosgAiLdQJYoR3tQdl+G@lists.linux.dev
+X-Gm-Message-State: AOJu0Yy6+gE8riiZk5WO84RufI4vNgzwuRS7wKom4Nb0au+qCJadDJYt
+	+pwsOEeVALhnjCy8O5KxrbgJVhWvjOLSUD4X7WlJ0Fox4Rf1MOtH6FCDpfcMfday
+X-Gm-Gg: ASbGncvBj+V7syvgOw4FQEQUzdHVUFE3LZEkNiAV/+0YHnlO8jJ0Dboja61ZD/SM1IL
+	GvT4a5bQ89ER7H0SjF7wFYABjPgtcSAs7u46gxsLb15eDK0NIwAXH/TBrtdZQqgbW3KxmSeGzFq
+	kGPgOY+3TTWyWS0UtaJXuax9Rd7HZITib81aJq94x+K2VehdSlo17d0tLO4s+SoEO5VmLRb2eUO
+	oXsm46NO/9CpavGv2V38ACjJ9UP/cYL8yKd84IQlyu8XoKvEWLeN7IGvVjuNE2otb6slDP7vDAZ
+	I6ziQbY7xwrZ5uoWZyApK7sCCKtU5VHWdlQrSvo32OhVs7F6EuMcVksVbospqPyP1vepPcmZZnQ
+	0OOCRlEyyey6OsTuhlU0ONO6Ni/zkTMBF6Ffkv1pNyRG4PgTYQG/CyMQzcT0J1LfIW6/FOwahrz
+	37kARhe0zeuaD0lsDgacjb8zquKls=
+X-Google-Smtp-Source: AGHT+IEovL52sPcrk0L/fm9pL8qE9L2wC+LWVPWdlPGj2ws0AjCVdIuLEVdInh8JsskX8jb99cc9NA==
+X-Received: by 2002:a05:600c:c4b7:b0:475:e09c:960e with SMTP id 5b1f17b1804b1-4777327b254mr82401535e9.32.1762770322510;
+        Mon, 10 Nov 2025 02:25:22 -0800 (PST)
 Received: from egonzo (82-64-73-52.subs.proxad.net. [82.64.73.52])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4777a96e7f8sm67326715e9.13.2025.11.10.02.25.20
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4777a96e7f8sm67326715e9.13.2025.11.10.02.25.22
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 10 Nov 2025 02:25:21 -0800 (PST)
+        Mon, 10 Nov 2025 02:25:22 -0800 (PST)
 From: Dave Penkler <dpenkler@gmail.com>
 To: gregkh@linuxfoundation.org,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
 Cc: Dave Penkler <dpenkler@gmail.com>
-Subject: [PATCH 04/11] staging: gpib: Change file path for uapi headers
-Date: Mon, 10 Nov 2025 11:25:00 +0100
-Message-ID: <20251110102507.1445-5-dpenkler@gmail.com>
+Subject: [PATCH 05/11] staging: gpib: Update TODO file
+Date: Mon, 10 Nov 2025 11:25:01 +0100
+Message-ID: <20251110102507.1445-6-dpenkler@gmail.com>
 X-Mailer: git-send-email 2.51.2
 In-Reply-To: <20251110102507.1445-1-dpenkler@gmail.com>
 References: <20251110102507.1445-1-dpenkler@gmail.com>
@@ -78,45 +78,39 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-As part of the gpib destaging process the gpib/uapi header files will be
-moved to the standard kernel uapi directory include/uapi/linux
-
-Change the include file path in the code for these files accordingly.
+The comments have now been fixed so remove the item about
+comments from the TODO file.
 
 Signed-off-by: Dave Penkler <dpenkler@gmail.com>
 ---
- drivers/staging/gpib/include/gpibP.h      | 4 ++--
- drivers/staging/gpib/include/gpib_types.h | 2 +-
- 2 files changed, 3 insertions(+), 3 deletions(-)
+ drivers/staging/gpib/TODO | 14 --------------
+ 1 file changed, 14 deletions(-)
 
-diff --git a/drivers/staging/gpib/include/gpibP.h b/drivers/staging/gpib/include/gpibP.h
-index 1b27f37e0ba0..e3938ada3e0d 100644
---- a/drivers/staging/gpib/include/gpibP.h
-+++ b/drivers/staging/gpib/include/gpibP.h
-@@ -12,8 +12,8 @@
- #include "gpib_types.h"
- #include "gpib_proto.h"
- #include "gpib_cmd.h"
--#include "gpib.h"
--#include "gpib_ioctl.h"
-+#include <linux/gpib.h>
-+#include <linux/gpib_ioctl.h>
- 
- #include <linux/fs.h>
- #include <linux/interrupt.h>
-diff --git a/drivers/staging/gpib/include/gpib_types.h b/drivers/staging/gpib/include/gpib_types.h
-index 998abb379749..5a0978ae27e7 100644
---- a/drivers/staging/gpib/include/gpib_types.h
-+++ b/drivers/staging/gpib/include/gpib_types.h
-@@ -8,7 +8,7 @@
- #define _GPIB_TYPES_H
- 
- #ifdef __KERNEL__
--#include "gpib.h"
-+#include <linux/gpib.h>
- #include <linux/atomic.h>
- #include <linux/device.h>
- #include <linux/mutex.h>
+diff --git a/drivers/staging/gpib/TODO b/drivers/staging/gpib/TODO
+index ab41a7f9ca5b..ac07dd90b4ef 100644
+--- a/drivers/staging/gpib/TODO
++++ b/drivers/staging/gpib/TODO
+@@ -4,20 +4,6 @@ TODO:
+     CHECK:ALLOC_SIZEOF_STRUCT: Prefer kmalloc(sizeof(*board->private_data)...) over kmalloc(sizeof(struct xxx_priv)...)
+     ./gpio/gpib_bitbang.c:50: ERROR:COMPLEX_MACRO: Macros with complex values should be enclosed in parenthese
+   This warning will be addressed later:  WARNING:UNDOCUMENTED_DT_STRING: DT compatible string
+-- tidy-up comments:
+-  - there are some "//comments" and "// comments" scattered around
+-  - sometimes they are misaligned
+-  - sometimes "// comments" are interleaved with "/* comments */"
+-  - multiline comments should start with initial almost-blank line:
+-    /*
+-     * Good
+-     * multiline
+-     * comment
+-     */
+-    /* Bad
+-     * multiline
+-     * comment
+-     */
+ - resolve XXX notes where possible
+ - fix FIXME notes
+ - clean-up commented-out code
 -- 
 2.51.2
 
