@@ -1,100 +1,256 @@
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54ABE2EB86C
-	for <linux-staging@lists.linux.dev>; Mon, 10 Nov 2025 08:32:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 832EB305E24
+	for <linux-staging@lists.linux.dev>; Mon, 10 Nov 2025 10:25:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762763567; cv=none; b=bUCkrKiGyjou3Yp99x3DtAI8eEiSMU15ImOROYS6iA2qEiV3e2PhclnK9582TKuiWjCKrWIKNXm0MfFsic8mfXnbVhuJm2pthXFJbzoN4FniQ04n4VFgUKp/NTCdgQpAY3Ny8mmbZ4jVkvNGa2cLHuKrCHGJVUWgWLtm98wt7Jw=
+	t=1762770319; cv=none; b=AgK6ZRfC9DTmbNKPGthAeeZWz1paF92H/8EcmMm05Mv/0zxoUXZGpwvtPx5rw+nxVP4kbL4e8BVB+j8R5BbeFoqD5QVc5bilsP61NnTKwPPpeGwMsSgjVW9jN1v6Y207s0fbCkAoAdqIyYp4I4aXF4EFqHQPh0jXCyHzt9/AHvU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762763567; c=relaxed/simple;
-	bh=Kk1WJL5OvO8Dk0a049qkF4L/FOOdQuOXnHdfhx4ehaw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CiJQqPeJMMIMChsz00RY8aAmaAEhiOAdu1CtCcEyhFmfK9rHbGPKkhcpaSQ7KtE1hXxSbXTeftUOEbhBIqMiDhRuUXVUKEKEtDcrUNvZgpJSmollf4nJW+ECLGi7z9UXJZ/+RpL3FRRUDuIKQLbF39QpxRun9kJdvVdNFXaSo7k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PVtjJBrR; arc=none smtp.client-ip=209.85.128.49
+	s=arc-20240116; t=1762770319; c=relaxed/simple;
+	bh=aLD2D0olzp2rcAztgjBQdCgFN8e3WMLIVjImKI04C2g=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=sm5geErfVjSSgl4X1W9GROe9sCzmvUC8etPLAC1QSWVumdegdOnREnNqagrZupqwh1HQUkJt7P8dSgTyz6PeNlONes2EoPY0JMAwAO8w7PY1F3pHkJ0o+rIxD2reVc2gB4NSWc3OGoSkhfL+u1yPMUjHUpUg2DcswR7vfYyE8Kk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BdFeFIsP; arc=none smtp.client-ip=209.85.128.47
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PVtjJBrR"
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-47755de027eso18368805e9.0
-        for <linux-staging@lists.linux.dev>; Mon, 10 Nov 2025 00:32:44 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BdFeFIsP"
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-4710022571cso27579385e9.3
+        for <linux-staging@lists.linux.dev>; Mon, 10 Nov 2025 02:25:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1762763563; x=1763368363; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=/w7B3riPQ5vl5Qmlqum2iiqORAdpBKrl5g+Ab18w8+4=;
-        b=PVtjJBrRBm4uoT4sApP0u/jlaLUpV3zITTLkat0h655oM9C/ywE/RqzonPR3yPk4G6
-         euNRKkJiPoIn9wEZ1eyYEHkpyai7+JfM/DxIc4Uhx0YPQ1kEZ6OSahKkupvv6haOvYaG
-         yEh9ZBFASl8XtsXC414NFn5LxISH5xQshVZRcD1kDCFeGTqgPHFJMtmvB46a0Q/tEnwb
-         Hf0CrG9yG7FHF4+vpJPSPrFjiOZdOgS4c5kRhYITMSmiewKBDeW+CSlmoUBGCwE5gWyI
-         pvTpxdkO09baRxantHJ3NYYic9hsvWdy0H8DYeWW8vqzeCz9lnfBSvark0mO4agH+Wjg
-         1B+w==
+        d=gmail.com; s=20230601; t=1762770316; x=1763375116; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=jBA4uwpmBl+qsqpl8AZmHXAXU6/+um7JaHGAPG/1dCA=;
+        b=BdFeFIsPbnCfJJF5W5C19d/Lpb0iOMklid7L39Q4cNqf/osrrSaDP/9XtOrngDlA+A
+         TJWMHBda4FjkqXf06MhG/bGr3gXqi1E4D2cKJZ5+KJJoIpQkWtcIA3VfPGkRVdTKOcXP
+         wxLPLidzP/ZVZL5Q0o3LHx1TW/gM/layf+dqgVt5Ydj8DQDPYjyoLHNj9zixZXunkUAZ
+         5r4PGnPodLKtuzOQTyVeN92Onti+A2I4t+TXnb8AgRDXcy0o6RI3aYOEZGcNqQ72ZdgE
+         8AoxXJBdqZJf+CLQwQz4Bbp6DSyCPMgpsNdZcw2GCjlYW7baPDO3kgaZ02Y8FBBfpfmn
+         /pww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762763563; x=1763368363;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=/w7B3riPQ5vl5Qmlqum2iiqORAdpBKrl5g+Ab18w8+4=;
-        b=YM2Lpz8jmIebgPo2N0zJnFuN+aYBzEqcFb521Vk3NMpBBwc7b2pPjWHYkgak7vj9F+
-         IOCgGuT4lQ/Pco9nPqDkk7qlH3mE6V2u6R2ydIxdTCY8ZarJ1OdqaeKpBGUvaBYe6SfB
-         ftRpFg1qft4kBzyvWibHV8PACSDm790iA4aMy+R+7WXGzjOh47k8jaAIgDKwWms/Y+y+
-         M3J5vML6Gtk5RA+6ShPrN6o6GonFlDl8pcsjQ9zKXCpp7zF6nFyh712kJHWGb9c4dQs9
-         SNgivISsML9xER4wO7VMMDxMnsN0ZFzwIZX7vwHojylOZaDLuLgJkXegpZyNPRyBgTbo
-         6rXA==
-X-Forwarded-Encrypted: i=1; AJvYcCWlgsnxweHzFEqAl8I/ofLQtkth9PGSAQMClL6DkwfkFu29DlmfiytfV0mEiZ1Hf8kHbRhd993lvkLIO8NQ@lists.linux.dev
-X-Gm-Message-State: AOJu0YyW7Luqb+JsOmBn1kgs2+Ha35JXBVvbZk4SiXKuzrJsKVgxTJQp
-	OMtpZj9ffnwJYz5C00815EYAZogKakCvPm7uQIC7k3W29qPFiOJB5cFI
-X-Gm-Gg: ASbGnctQDL1TJradOiW5cxcyLZt0MgBzN+xz7IIhA81XWVQmHi7v2rEUe+n9W1j8FCq
-	UhFuJIdWqhWrNdBRb67TSKn10HkJTGeXpK5yql0PQhkdiVyT/ssOnbq/MNoMGpT7F6ruSOUA+6O
-	3e1vkLx/baPff4ItRlkOx9Tej3uJjkzySwRZx6zLVnlwYFL0yafsdmmJYodkJBZ321R5PH7Iif9
-	8GFj8VUUrZyS7KZXnbEVFgszqc2qIkdwecN5zQD/F1w2/wMs5fwBQvf+yaS+hqlXQ1qQieGmp+r
-	u0vm4qUOa9lDTUFvdwdxyBG3EyG+kwBSoamz/NhD4L/6GLFXtStRadENkdI/FylBLVv9+0BxzvJ
-	S8bLpFCGj5sHRn4j1DaeI7uOtE822xgXddBvjfYnaTj5wTIlEwv3d6WWWhlVrfOgIb7ECnD+uUV
-	XMQng6WGfKK8v5iGtU
-X-Google-Smtp-Source: AGHT+IGhuQxvdIPqXmeyml0g9xi1//VxE7hSufLSKRdx3skhW6foVF8bcmEFQM/y9SQegjaQJUtq6w==
-X-Received: by 2002:a05:600c:4ecc:b0:477:28c1:26ce with SMTP id 5b1f17b1804b1-47773224fd3mr68310335e9.7.1762763562445;
-        Mon, 10 Nov 2025 00:32:42 -0800 (PST)
+        d=1e100.net; s=20230601; t=1762770316; x=1763375116;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=jBA4uwpmBl+qsqpl8AZmHXAXU6/+um7JaHGAPG/1dCA=;
+        b=nlpo2vheZOYk6537ID/yj4AJ2hyveSt4CJJgOMNROuZKFMFMrULDrSHh02euvuMnxm
+         mO4SqRjxvBOvaOf3fTy2+Qe7sZjQDdvZSUaB7k0D5T8tLmson6GyeBKOoIWEV6CtdjfV
+         fVc00Yz9R/t3YMBa2kA6syhcle4TYirSZciFXwJCCh0tl56UiwvcwU12Tn0LDDxdv2Hc
+         Co40oDnghohiuoN2pDE8PHlZUuHDa2fpk6mZW5PoHqctAYYXfrbXBh7SXAvwZeKE5i8V
+         c4L9fH+P8lpqok/vrQAXvo2EwC14NXWfXrsP1mosMA/N1+3iw+Ze2PBFC5EUGnXG2DuS
+         7PZg==
+X-Forwarded-Encrypted: i=1; AJvYcCWSjaZj/WKjC6HzTEtb9L+PSsZTbwhkoIRYcWaciT88tNqkvQ79ujE6pfTgmxupXq8qmtSLDbPNiMF/Tvs+@lists.linux.dev
+X-Gm-Message-State: AOJu0Ywhscq8SF3PBHa/LyX4bhRyDzJLRqzFIVmCB7JgQc/0VOSiXxqZ
+	8lLb1lPqwILeM0mBo4t0JR5ARnKwYdO/+s9PqspYj25GVmbeeBZbEncR
+X-Gm-Gg: ASbGncvmv7i3nWXsu6Dsb9kRxCW3jS6eyGtM1Qv7wF5rGuaLwHA2pmCHR9Y1ST+17Fn
+	PTOxBS1UXm+PZ5zzyz3BFSR4yWfdPfW7N9pB2UfdbVTtZkUevK95KZgw/PXCaUzqmgblQLIqr5W
+	kwfLnJslpBUtqIkuZqJ7VlWTBmxtoMkeDMVgjYEcys3/rIzi0ELxzC14Rxkz2L+cPluwunfnGxy
+	s6b5mAujB6u+j4Mp1HPDveaZZXaOG01XNHIC80pmv8wlfxt1FL6/CfyVWqqGvRIJTIYUbAWV9sx
+	Hk57Wjzv8uzOzF98/dt4Yd/FggGsGTQJAwdHYjw4gGOlcRJX7WD1nVc9zt5A6QOkvBlvmmMuW8L
+	B78Jok+uomf+eud8V9n7PH2JPU6eZepYTAIQtrsDUy9KloyyaQtjoVWBTHjGEK/2SDo/o6okKiP
+	52W1XgV9m8F5k9+NpWW3cd72NGR1E=
+X-Google-Smtp-Source: AGHT+IE9THz4YepjyBGe60Hg4foeS5X3azorWVxFKMDWSHbOw5ZEtzUTUpwVySzL5HQNWgw0Gj+nEQ==
+X-Received: by 2002:a05:600c:190d:b0:477:79c7:8994 with SMTP id 5b1f17b1804b1-47779c78b39mr42351535e9.30.1762770315492;
+        Mon, 10 Nov 2025 02:25:15 -0800 (PST)
 Received: from egonzo (82-64-73-52.subs.proxad.net. [82.64.73.52])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-42abe62bf40sm20385624f8f.9.2025.11.10.00.32.41
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4777a96e7f8sm67326715e9.13.2025.11.10.02.25.15
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 10 Nov 2025 00:32:42 -0800 (PST)
-Date: Mon, 10 Nov 2025 09:32:40 +0100
+        Mon, 10 Nov 2025 02:25:15 -0800 (PST)
 From: Dave Penkler <dpenkler@gmail.com>
-To: Greg KH <gregkh@linuxfoundation.org>
-Cc: Michail Tatas <michail.tatas@gmail.com>, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org, outreachy@lists.linux.dev
-Subject: Re: [PATCH] staging: gpib: converted // to /**/ comments
-Message-ID: <aRGjKOJmbiFYua24@egonzo>
-References: <aRDo9UtYTwcoFCFm@michalis-linux>
- <2025111014-arguable-antelope-1d9b@gregkh>
+To: gregkh@linuxfoundation.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Cc: Dave Penkler <dpenkler@gmail.com>
+Subject: [PATCH 00/11]  staging: gpib: Destage gpib drivers
+Date: Mon, 10 Nov 2025 11:24:56 +0100
+Message-ID: <20251110102507.1445-1-dpenkler@gmail.com>
+X-Mailer: git-send-email 2.51.2
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <2025111014-arguable-antelope-1d9b@gregkh>
+Content-Transfer-Encoding: 8bit
 
-On Mon, Nov 10, 2025 at 09:56:00AM +0900, Greg KH wrote:
-> On Sun, Nov 09, 2025 at 09:18:13PM +0200, Michail Tatas wrote:
-> > This patch converts comments from // to /**/ to make them
-> > consistent across the file as suggested by the TODO file in
-> > drivers/staging/gpib/todo
-> > 
-> > Signed-off-by: Michail Tatas <michail.tatas@gmail.com>
-> 
-> That todo file is a bit out of date, we now allow single-line //
-> comments, so this really isn't needed, unless the maintainer wants me to
-> take it?
->
+This patch series is for moving the gpib drivers out of the staging area.
 
-No, I am fine with the // comments.
-I have a patch for the TODO in the pipeline.
-cheers,
--dave
+As many changes as possible (patches 1-7) are done in the staging area
+to prepare for the move out of the staging area. Patches 8-11 do the move
+and enable gpib in Kconfig and Makefile in the main drivers directory.
 
-> thanks,
-> 
-> greg k-h
+The MAINTAINER file will need to be updated when these patches
+have been applied.
+
+Patch 1: Remove the gpib option from the staging Kconfig menu
+Patch 2: Remove the build rule for gpib from staging Makefile
+Patch 3: Remove the gpib/uapi directory from include search path
+Patch 4: In the code change the uapi include file paths to <linux/xxx.h>
+Patch 5: Remove comment item in TODO file
+Patch 6: Delete the word Linux from gpib Kconfig option title
+Patch 7: Add SPDX syscall note to uapi gpib headers
+Patch 8: Move the common gpib/uapi headers to include/uapi/linux
+Patch 9: Move the gpib tree out of staging
+Patch 10: Add gpib Kconfig option to the main drivers Kconfig menu
+Patch 11: Add gpib build rule to main drivers Makefile
+
+
+Dave Penkler (11):
+  staging: Remove gpib Kconfig option from staging
+  staging: Remove build of gpib drivers from Makefile
+  staging: gpib: Remove gpib/uapi from search path
+  staging: gpib: Change file path for uapi headers
+  staging: gpib: Update TODO file
+  staging: gpib: Change gpib Kconfig option title
+  staging: gpib: Fix SPDX license for gpib headers
+  uapi: linux: Add common gpib interface headers
+  gpib: Move gpib drivers out of staging
+  gpib: Add gpib Kconfig option
+  gpib: Add build rule for gpib to Makefile
+
+ drivers/Kconfig                                    |  2 ++
+ drivers/Makefile                                   |  1 +
+ drivers/{staging => }/gpib/Kconfig                 |  2 +-
+ drivers/{staging => }/gpib/Makefile                |  2 +-
+ drivers/{staging => }/gpib/TODO                    | 14 --------------
+ drivers/{staging => }/gpib/agilent_82350b/Makefile |  0
+ .../gpib/agilent_82350b/agilent_82350b.c           |  0
+ .../gpib/agilent_82350b/agilent_82350b.h           |  0
+ drivers/{staging => }/gpib/agilent_82357a/Makefile |  0
+ .../gpib/agilent_82357a/agilent_82357a.c           |  0
+ .../gpib/agilent_82357a/agilent_82357a.h           |  0
+ drivers/{staging => }/gpib/cb7210/Makefile         |  0
+ drivers/{staging => }/gpib/cb7210/cb7210.c         |  0
+ drivers/{staging => }/gpib/cb7210/cb7210.h         |  0
+ drivers/{staging => }/gpib/cec/Makefile            |  0
+ drivers/{staging => }/gpib/cec/cec.h               |  0
+ drivers/{staging => }/gpib/cec/cec_gpib.c          |  0
+ drivers/{staging => }/gpib/common/Makefile         |  0
+ drivers/{staging => }/gpib/common/gpib_os.c        |  0
+ drivers/{staging => }/gpib/common/iblib.c          |  0
+ drivers/{staging => }/gpib/common/ibsys.h          |  0
+ drivers/{staging => }/gpib/eastwood/Makefile       |  0
+ drivers/{staging => }/gpib/eastwood/fluke_gpib.c   |  0
+ drivers/{staging => }/gpib/eastwood/fluke_gpib.h   |  0
+ drivers/{staging => }/gpib/fmh_gpib/Makefile       |  0
+ drivers/{staging => }/gpib/fmh_gpib/fmh_gpib.c     |  0
+ drivers/{staging => }/gpib/fmh_gpib/fmh_gpib.h     |  0
+ drivers/{staging => }/gpib/gpio/Makefile           |  0
+ drivers/{staging => }/gpib/gpio/gpib_bitbang.c     |  0
+ drivers/{staging => }/gpib/hp_82335/Makefile       |  0
+ drivers/{staging => }/gpib/hp_82335/hp82335.c      |  0
+ drivers/{staging => }/gpib/hp_82335/hp82335.h      |  0
+ drivers/{staging => }/gpib/hp_82341/Makefile       |  0
+ drivers/{staging => }/gpib/hp_82341/hp_82341.c     |  0
+ drivers/{staging => }/gpib/hp_82341/hp_82341.h     |  0
+ drivers/{staging => }/gpib/include/amcc5920.h      |  0
+ drivers/{staging => }/gpib/include/amccs5933.h     |  0
+ drivers/{staging => }/gpib/include/gpibP.h         |  4 ++--
+ drivers/{staging => }/gpib/include/gpib_cmd.h      |  0
+ drivers/{staging => }/gpib/include/gpib_pci_ids.h  |  0
+ drivers/{staging => }/gpib/include/gpib_proto.h    |  0
+ .../gpib/include/gpib_state_machines.h             |  0
+ drivers/{staging => }/gpib/include/gpib_types.h    |  2 +-
+ drivers/{staging => }/gpib/include/nec7210.h       |  0
+ .../{staging => }/gpib/include/nec7210_registers.h |  0
+ drivers/{staging => }/gpib/include/plx9050.h       |  0
+ drivers/{staging => }/gpib/include/quancom_pci.h   |  0
+ drivers/{staging => }/gpib/include/tms9914.h       |  0
+ .../{staging => }/gpib/include/tnt4882_registers.h |  0
+ drivers/{staging => }/gpib/ines/Makefile           |  0
+ drivers/{staging => }/gpib/ines/ines.h             |  0
+ drivers/{staging => }/gpib/ines/ines_gpib.c        |  0
+ drivers/{staging => }/gpib/lpvo_usb_gpib/Makefile  |  0
+ .../gpib/lpvo_usb_gpib/lpvo_usb_gpib.c             |  0
+ drivers/{staging => }/gpib/nec7210/Makefile        |  0
+ drivers/{staging => }/gpib/nec7210/board.h         |  0
+ drivers/{staging => }/gpib/nec7210/nec7210.c       |  0
+ drivers/{staging => }/gpib/ni_usb/Makefile         |  0
+ drivers/{staging => }/gpib/ni_usb/ni_usb_gpib.c    |  0
+ drivers/{staging => }/gpib/ni_usb/ni_usb_gpib.h    |  0
+ drivers/{staging => }/gpib/pc2/Makefile            |  0
+ drivers/{staging => }/gpib/pc2/pc2_gpib.c          |  0
+ drivers/{staging => }/gpib/tms9914/Makefile        |  0
+ drivers/{staging => }/gpib/tms9914/tms9914.c       |  0
+ drivers/{staging => }/gpib/tnt4882/Makefile        |  0
+ drivers/{staging => }/gpib/tnt4882/mite.c          |  0
+ drivers/{staging => }/gpib/tnt4882/mite.h          |  0
+ drivers/{staging => }/gpib/tnt4882/tnt4882_gpib.c  |  0
+ drivers/staging/Kconfig                            |  2 --
+ drivers/staging/Makefile                           |  1 -
+ .../gpib/uapi => include/uapi/linux}/gpib.h        |  2 +-
+ .../gpib/uapi => include/uapi/linux}/gpib_ioctl.h  |  2 +-
+ 72 files changed, 10 insertions(+), 24 deletions(-)
+ rename drivers/{staging => }/gpib/Kconfig (99%)
+ rename drivers/{staging => }/gpib/Makefile (92%)
+ rename drivers/{staging => }/gpib/TODO (56%)
+ rename drivers/{staging => }/gpib/agilent_82350b/Makefile (100%)
+ rename drivers/{staging => }/gpib/agilent_82350b/agilent_82350b.c (100%)
+ rename drivers/{staging => }/gpib/agilent_82350b/agilent_82350b.h (100%)
+ rename drivers/{staging => }/gpib/agilent_82357a/Makefile (100%)
+ rename drivers/{staging => }/gpib/agilent_82357a/agilent_82357a.c (100%)
+ rename drivers/{staging => }/gpib/agilent_82357a/agilent_82357a.h (100%)
+ rename drivers/{staging => }/gpib/cb7210/Makefile (100%)
+ rename drivers/{staging => }/gpib/cb7210/cb7210.c (100%)
+ rename drivers/{staging => }/gpib/cb7210/cb7210.h (100%)
+ rename drivers/{staging => }/gpib/cec/Makefile (100%)
+ rename drivers/{staging => }/gpib/cec/cec.h (100%)
+ rename drivers/{staging => }/gpib/cec/cec_gpib.c (100%)
+ rename drivers/{staging => }/gpib/common/Makefile (100%)
+ rename drivers/{staging => }/gpib/common/gpib_os.c (100%)
+ rename drivers/{staging => }/gpib/common/iblib.c (100%)
+ rename drivers/{staging => }/gpib/common/ibsys.h (100%)
+ rename drivers/{staging => }/gpib/eastwood/Makefile (100%)
+ rename drivers/{staging => }/gpib/eastwood/fluke_gpib.c (100%)
+ rename drivers/{staging => }/gpib/eastwood/fluke_gpib.h (100%)
+ rename drivers/{staging => }/gpib/fmh_gpib/Makefile (100%)
+ rename drivers/{staging => }/gpib/fmh_gpib/fmh_gpib.c (100%)
+ rename drivers/{staging => }/gpib/fmh_gpib/fmh_gpib.h (100%)
+ rename drivers/{staging => }/gpib/gpio/Makefile (100%)
+ rename drivers/{staging => }/gpib/gpio/gpib_bitbang.c (100%)
+ rename drivers/{staging => }/gpib/hp_82335/Makefile (100%)
+ rename drivers/{staging => }/gpib/hp_82335/hp82335.c (100%)
+ rename drivers/{staging => }/gpib/hp_82335/hp82335.h (100%)
+ rename drivers/{staging => }/gpib/hp_82341/Makefile (100%)
+ rename drivers/{staging => }/gpib/hp_82341/hp_82341.c (100%)
+ rename drivers/{staging => }/gpib/hp_82341/hp_82341.h (100%)
+ rename drivers/{staging => }/gpib/include/amcc5920.h (100%)
+ rename drivers/{staging => }/gpib/include/amccs5933.h (100%)
+ rename drivers/{staging => }/gpib/include/gpibP.h (96%)
+ rename drivers/{staging => }/gpib/include/gpib_cmd.h (100%)
+ rename drivers/{staging => }/gpib/include/gpib_pci_ids.h (100%)
+ rename drivers/{staging => }/gpib/include/gpib_proto.h (100%)
+ rename drivers/{staging => }/gpib/include/gpib_state_machines.h (100%)
+ rename drivers/{staging => }/gpib/include/gpib_types.h (99%)
+ rename drivers/{staging => }/gpib/include/nec7210.h (100%)
+ rename drivers/{staging => }/gpib/include/nec7210_registers.h (100%)
+ rename drivers/{staging => }/gpib/include/plx9050.h (100%)
+ rename drivers/{staging => }/gpib/include/quancom_pci.h (100%)
+ rename drivers/{staging => }/gpib/include/tms9914.h (100%)
+ rename drivers/{staging => }/gpib/include/tnt4882_registers.h (100%)
+ rename drivers/{staging => }/gpib/ines/Makefile (100%)
+ rename drivers/{staging => }/gpib/ines/ines.h (100%)
+ rename drivers/{staging => }/gpib/ines/ines_gpib.c (100%)
+ rename drivers/{staging => }/gpib/lpvo_usb_gpib/Makefile (100%)
+ rename drivers/{staging => }/gpib/lpvo_usb_gpib/lpvo_usb_gpib.c (100%)
+ rename drivers/{staging => }/gpib/nec7210/Makefile (100%)
+ rename drivers/{staging => }/gpib/nec7210/board.h (100%)
+ rename drivers/{staging => }/gpib/nec7210/nec7210.c (100%)
+ rename drivers/{staging => }/gpib/ni_usb/Makefile (100%)
+ rename drivers/{staging => }/gpib/ni_usb/ni_usb_gpib.c (100%)
+ rename drivers/{staging => }/gpib/ni_usb/ni_usb_gpib.h (100%)
+ rename drivers/{staging => }/gpib/pc2/Makefile (100%)
+ rename drivers/{staging => }/gpib/pc2/pc2_gpib.c (100%)
+ rename drivers/{staging => }/gpib/tms9914/Makefile (100%)
+ rename drivers/{staging => }/gpib/tms9914/tms9914.c (100%)
+ rename drivers/{staging => }/gpib/tnt4882/Makefile (100%)
+ rename drivers/{staging => }/gpib/tnt4882/mite.c (100%)
+ rename drivers/{staging => }/gpib/tnt4882/mite.h (100%)
+ rename drivers/{staging => }/gpib/tnt4882/tnt4882_gpib.c (100%)
+ rename {drivers/staging/gpib/uapi => include/uapi/linux}/gpib.h (97%)
+ rename {drivers/staging/gpib/uapi => include/uapi/linux}/gpib_ioctl.h (98%)
+
+-- 
+2.51.2
+
