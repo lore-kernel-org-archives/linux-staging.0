@@ -1,73 +1,73 @@
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF0792F4A19
-	for <linux-staging@lists.linux.dev>; Tue, 11 Nov 2025 09:45:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C321622A1D4
+	for <linux-staging@lists.linux.dev>; Tue, 11 Nov 2025 09:45:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762854339; cv=none; b=YucbHzzrkkfN0+GCKnm8Mq4lrNyHH2jRUbHuCdR3UtJ6QWB4CQcKn2LCB+Ly+NG6/DqbLdPStFOhgwfwL48pjLr3/UB501trcUT988vEAbCp4ZA42USmtb6hOpSKJFCsbFiOPZY6xnpD23ASkErOoHPfLUOsDWNxVDuDaaecm4Y=
+	t=1762854340; cv=none; b=lt7ysNurvoeCKIlVbNsWvLfSByIiiXWxeiKiTaO02xAhQakwPPT3/y6w/WL7GtAs3ho/OABqVgO4Rd/0SptAVnokewzKeFYZtooJnsiper/HdImqMm2WF1AdcR7W4Y7Pjz2tdyfGQIn6rs0oq7e5IP2PgY6QfvNUju0xhUvzeoM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762854339; c=relaxed/simple;
-	bh=+XnCO9qejTe4ztQ5le1uNUFmPXCcBG6FCCQyy4ErpsY=;
+	s=arc-20240116; t=1762854340; c=relaxed/simple;
+	bh=gPYWZCrFWH5A95MUItopTio1Dv+bF3Yimo8m+Fu0LPU=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=iJcToeVPch2hh/gCGm3g+h7VTJGgT/xp5WXR9imH0O3GrT848vtd4vfAtbeaCPk0m8DRwSI9gOhldavDH632KvnYr3Q/L9uNn2llMgxZVMjOGR6iafcQuqCabaEtzaLMxkpPeC7ruW9PlYWl9ykXbDhygmvxpPqhTgqdAUh27fc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Pt575eXf; arc=none smtp.client-ip=209.85.128.54
+	 MIME-Version; b=YoqfIy14ksPuo2egRo6jb9Am8HOAqYFHCH8hBV+cSLUfboTgnr4207wQPH4m2B/bHjmynxNLLGw2yJUB8eLLJ2wk51HWZrsL1IFrxO9vCLt1UyJizQYP/lPKu7hGiQTvYda/dXlE31iSRQ3psfO15tenfTw6VRxGaloA1yLVI0k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=O2E/wM2d; arc=none smtp.client-ip=209.85.221.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Pt575eXf"
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-477775d3728so23036535e9.2
-        for <linux-staging@lists.linux.dev>; Tue, 11 Nov 2025 01:45:37 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="O2E/wM2d"
+Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-42b3669ca3dso1073929f8f.0
+        for <linux-staging@lists.linux.dev>; Tue, 11 Nov 2025 01:45:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1762854336; x=1763459136; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1762854337; x=1763459137; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=CCSGnpbgz0bliYKvoZoaZD9Q232D8JPebeahtnpVkpQ=;
-        b=Pt575eXf9k8JijaEWMwDcZwxhICI9SLWeVQR9KTHUrDvhtNe0+xDbTeK+s9d+eWZYp
-         E8UYdQy1dQCTyzYW9p7BvIcrihzBG+9edD7STCEgxSYns/3boxoRVl0MqKp4XJWtQH4B
-         FAaGDQ6IZW3DH26Hl2dpIhzxIQ6+i5Vzz2/9umDdV/N4nuJ3m4r3weQI3fyfSnUf3QP8
-         B7plKqRB8AczOd8owWD2mON0CjsjT89iermUGlrDCp9weP9qFHyGoj9AY1L7/2Rru1a4
-         EUibUjvtucLHg3RGfIU+liwlmNBx4idGelqKIkIsscUb66zeAVMKvO1bpQ9pPsestkXp
-         7Gcg==
+        bh=DDWEaabtponRDh5izzcawYcKRcbqPl2YaKoP5YJjm8U=;
+        b=O2E/wM2dZTlkD+odfydTuHUY82k1RlnD+eMXhea9T1vUHH1Xw94QuupzY3cAHzVX2M
+         y8ql6TXCSPixTE4qDT/ILpMz+8XqzZl6OEbk/GnFzlmx6leeuW3XptWvhweqMhvTHJSL
+         C/rIX0ePFn+SLLIvuSlo2X9kD/APkzGotm1nVKaO086zNJxu6cVOh/NxwfDDJ32iQx5e
+         pChZCRVEfRPfA52PO9Aw2Buz491MkH8PZ5hIhkv+58KQ5SZletn2kaXTy2MKCeE3uHFS
+         Nq7DoE7tVi1VNkeb0YPcCP0Y1qspSAgrAaziWsV+vG59Lu+1kR0YnorjntJdmvV97NS+
+         qL8w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762854336; x=1763459136;
+        d=1e100.net; s=20230601; t=1762854337; x=1763459137;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=CCSGnpbgz0bliYKvoZoaZD9Q232D8JPebeahtnpVkpQ=;
-        b=E0itIvq5MolFm3xn7yqRxOzqmHasyJFwDlb9tPR4Df6vjZpgx4R2qYYUiLPvVTEY5T
-         syJo+XbEdTBqXL6kt3sCM4bTASuXRx0i2A/k4Xey4giazIN0dRB2kPStbGeHcAN560PS
-         acyys7dGET1cnfzl4Un0UHlio7iIoTMW5Bw91Cq9YLpiKIs58CYIlPE8CEA+S3ToB6vo
-         lLyB8DYrsRLCmNDwGhEm9KeZ+KwGvM6etz4Yut5PbUrj7AxQUCev/FcufqRKYvse6IO0
-         NjxfkjJvhnufZng4DVJ7e8NkbaXSVPWMOIaP/phQGRVR+1X2lWOl7gyJta3Syk17AnfW
-         xyVg==
-X-Forwarded-Encrypted: i=1; AJvYcCV5guLt7vhk7CtQZh7qlVMdkgC8JrWSSQxgLnxM6iGtX/dWT1bb00czYuKN7GB4cU8HlNoIHZBoTmF4Itfk@lists.linux.dev
-X-Gm-Message-State: AOJu0YwLcNIg3aZBqO0K6EfugkQsTCJqZcE0pWnRAzC5os/DyMLn66Gp
-	8LDNQ1uI3ZU6CUmCZrdH/JzLa+Rn5W7yJk1C/dEssCwEdowpsbnsbFSX
-X-Gm-Gg: ASbGncu4r1JWV1IV1gueaHfNogTx3L1YpAMPJjR+xuXpU1g2mL1OURP6DN9UNrGZTrD
-	Pa6KabtAgwgCWHNrsZQZVuA9JnOyHBdImcLzMUL0BDcpB93GKTSt94PfTZJVL4yq+K5eyjH7PlY
-	IPS+U/y54VUJJsKSNG8iDyW4wabO/Ve79GxHFke2Rd1vL3gM1x4Tv5ppoxua9vsj6IqYhn7/4pa
-	fFA/LWe91raTtZBVE8ZQIyU3m6BlYjZbYmMCpCX1fTk/67SexbWYEiU2a412PoQ+bUDpGxsclaL
-	/EMuVqTl1mmiZHiEGXRxJA0EVsQOT3y5Rz3fmc/+TgN/oaQz0WJHue1LZhnpXgbnOAG/8JN+QoQ
-	j4bi6Pn5pzYic6r3A/rm56a9VhAwADnqiZHvD9SIF8cfnvQo9Qy8etOelFW1SdSc4uX+pW+9coK
-	eJ+CGe+l4ft+uFx/pUDt6nMHaNiWk=
-X-Google-Smtp-Source: AGHT+IFMwBYwj8RzHSh4woU0eevledo4c8hN1mPiW76L581g+wR11bGflC1/9eoKimvmIw7JWJyzbA==
-X-Received: by 2002:a05:600c:1d1c:b0:471:115e:624b with SMTP id 5b1f17b1804b1-4777323ec6dmr96147085e9.17.1762854335978;
-        Tue, 11 Nov 2025 01:45:35 -0800 (PST)
+        bh=DDWEaabtponRDh5izzcawYcKRcbqPl2YaKoP5YJjm8U=;
+        b=Xz8AFa/16d/zKhHW71IH7mOvqdRzBFBv21iNlssqfVUYvseI1lhnUiBFRPIPFvB7kh
+         oxe/rrinzuIGO2ukeZxuaoPosFnnHh7T3LTqQKIpcTs+kRlyv6owWUJQlz+MShPtzF54
+         inQnNId17rZAOIfl57KIjj2eRfaROEFCvIF6AG7xcwNSSIdccFZJdZCtmU/WC+qJBnSf
+         Nhor9Bc7+phN7yloqGxUxQd/72lkBUK7/UsidJSbDmDWUB8Iibn/OiCQx33symShsxZk
+         j/VJ6akHSbLJc4bCy3bNmEn2lGwDg/JGPItFu4s/EJsLQoWXSIx75/YlRhmhqLSgKSiI
+         GsKA==
+X-Forwarded-Encrypted: i=1; AJvYcCXploHnpa82XnEZz1mpQz9mpWVXVRL52lk5yFpKaU0NOmTZ9ZtmkCmOxDLqAtqLjOGWHnpJr0Or4gsH7cxW@lists.linux.dev
+X-Gm-Message-State: AOJu0YxvubZ5vvLwc6MTsp/bxz73Ke9ySi1AKUDq8up4TlN0zbQs1JGG
+	TObLBGEQoUclLambrayY0WI5/TUBOZ+GjkdUkVurOX61gi+y9UcZ7oHJ
+X-Gm-Gg: ASbGncstrwUHMxfk4a47j8ZxLn7M1QtBnmvij8RpnAkY/uDY2iraalgapVVuUjVGOFT
+	fY3OIPBGgn8NVQkPDw49wDAXBScNbfnZ0RbvpcFlE6FSDRFCLqdLts7pvGtLSrKWmfUS1mmZCiF
+	7+/tbAWprbLb5lg9F0mJAbm1LX7wD0iLhuYmZy6ZLeEE3AbBuDDI/CpGP3zCeqXOYV7BRNkBLKv
+	qoBCPi5sfE47FYPU89s3JuAKflbMAi31DJTZh6ShMEfESt2fHzQtQUbyL5gTtYyZmkAfdb2KNYm
+	H3LuCyIcIXxSQFTLLb+eQCO2Ik7Q72t668g+oY7NQ4K4qqrxwbLzTWz83gKfJi8YpeNoXBeo5BW
+	Gqrh5w1qN1auYbn1ruC8+GfZdXn4RynQJ+LAgYfUsJRtOe8AntfPGzz92DJnNvzwVOovl3GXEGw
+	BwoPJRSUJLOsFzC7/OVSn6ailCmew=
+X-Google-Smtp-Source: AGHT+IExuH+PVoLExRQBwIKsEjtrfazluW8ziX/dmQroSwi+F/XKMEr1tAorQ3AKtLmRG7bYHA7BUg==
+X-Received: by 2002:a05:600c:4fd5:b0:475:da13:2568 with SMTP id 5b1f17b1804b1-47773286448mr91686425e9.25.1762854337066;
+        Tue, 11 Nov 2025 01:45:37 -0800 (PST)
 Received: from egonzo (82-64-73-52.subs.proxad.net. [82.64.73.52])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4775cd45466sm359537865e9.0.2025.11.11.01.45.35
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4775cd45466sm359537865e9.0.2025.11.11.01.45.36
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 11 Nov 2025 01:45:35 -0800 (PST)
+        Tue, 11 Nov 2025 01:45:36 -0800 (PST)
 From: Dave Penkler <dpenkler@gmail.com>
 To: gregkh@linuxfoundation.org,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
 Cc: johan@kernel.org,
 	Dave Penkler <dpenkler@gmail.com>
-Subject: [PATCH V2 06/10] staging: gpib: Fix SPDX license for gpib headers
-Date: Tue, 11 Nov 2025 10:45:08 +0100
-Message-ID: <20251111094512.6411-7-dpenkler@gmail.com>
+Subject: [PATCH V2 07/10] uapi: linux: Add common gpib interface headers
+Date: Tue, 11 Nov 2025 10:45:09 +0100
+Message-ID: <20251111094512.6411-8-dpenkler@gmail.com>
 X-Mailer: git-send-email 2.51.2
 In-Reply-To: <20251111094512.6411-1-dpenkler@gmail.com>
 References: <20251111094512.6411-1-dpenkler@gmail.com>
@@ -79,36 +79,27 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-As part destaging the gpib drivers we need to add the
-WITH Linux-syscall-note to the SPDX license in the gpib
-common includes as these will be part of the kernel headers.
+The gpib user space library needs these include files in order
+to communicate with the drivers. Copies of these includes were
+previously used to build the user space library. Post destaging
+they can use the includes from the kernel headers.
 
 Signed-off-by: Dave Penkler <dpenkler@gmail.com>
 ---
- drivers/staging/gpib/uapi/gpib.h       | 2 +-
- drivers/staging/gpib/uapi/gpib_ioctl.h | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ {drivers/staging/gpib/uapi => include/uapi/linux}/gpib.h       | 0
+ {drivers/staging/gpib/uapi => include/uapi/linux}/gpib_ioctl.h | 0
+ 2 files changed, 0 insertions(+), 0 deletions(-)
+ rename {drivers/staging/gpib/uapi => include/uapi/linux}/gpib.h (100%)
+ rename {drivers/staging/gpib/uapi => include/uapi/linux}/gpib_ioctl.h (100%)
 
-diff --git a/drivers/staging/gpib/uapi/gpib.h b/drivers/staging/gpib/uapi/gpib.h
-index ddf82a4d989f..2a7f5eeb9777 100644
---- a/drivers/staging/gpib/uapi/gpib.h
-+++ b/drivers/staging/gpib/uapi/gpib.h
-@@ -1,4 +1,4 @@
--/* SPDX-License-Identifier: GPL-2.0 */
-+/* SPDX-License-Identifier: GPL-2.0 WITH Linux-syscall-note */
- 
- /***************************************************************************
-  *    copyright		   : (C) 2002 by Frank Mori Hess
-diff --git a/drivers/staging/gpib/uapi/gpib_ioctl.h b/drivers/staging/gpib/uapi/gpib_ioctl.h
-index 55bf5e55507a..50bb6e251e45 100644
---- a/drivers/staging/gpib/uapi/gpib_ioctl.h
-+++ b/drivers/staging/gpib/uapi/gpib_ioctl.h
-@@ -1,4 +1,4 @@
--/* SPDX-License-Identifier: GPL-2.0 */
-+/* SPDX-License-Identifier: GPL-2.0 WITH Linux-syscall-note */
- 
- /***************************************************************************
-  *    copyright            : (C) 2002 by Frank Mori Hess
+diff --git a/drivers/staging/gpib/uapi/gpib.h b/include/uapi/linux/gpib.h
+similarity index 100%
+rename from drivers/staging/gpib/uapi/gpib.h
+rename to include/uapi/linux/gpib.h
+diff --git a/drivers/staging/gpib/uapi/gpib_ioctl.h b/include/uapi/linux/gpib_ioctl.h
+similarity index 100%
+rename from drivers/staging/gpib/uapi/gpib_ioctl.h
+rename to include/uapi/linux/gpib_ioctl.h
 -- 
 2.51.2
 
