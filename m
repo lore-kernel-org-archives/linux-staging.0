@@ -1,50 +1,50 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBEF63606F8
-	for <linux-staging@lists.linux.dev>; Tue, 11 Nov 2025 12:28:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 265B8361DCA
+	for <linux-staging@lists.linux.dev>; Tue, 11 Nov 2025 12:28:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762864096; cv=none; b=SRCMXmootpdBLtxA/9YCkjUrMrJCB9SA6Xxo8Rv9PAkDdjhwco4jk77nc9idENG+DeXQVwTBP9ncEYGvhTiwrabiVM4gN6oLKTUhKvt+z3O+j9hjqfztNVWh998F2cW6FWsgXyX6Csh8l4tQwn+E/jcIxd8UeUydMKnAqvjue1c=
+	t=1762864097; cv=none; b=Y+FbcLOp2PhTaCRQJQVihdui5azR6GNSBMMUjRdmFCA6dvFzsO2mjJe9z32Xje0dYePlyFSSgwbZlcClKm6j3+Ucd40QwbK+bw+Kf/Ta4ZgERtulDORRoXcuKBe79/XSnxM0EZ7/PYlonlUeoS7jZhPNimD6wLHwbKxKNHV0jJw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762864096; c=relaxed/simple;
-	bh=B1Xtrhk2cx5QcGIp4Q5mjR0I0BttlAUvRoFGFQemARM=;
+	s=arc-20240116; t=1762864097; c=relaxed/simple;
+	bh=OtFs4nYXEH1ThWKykhpKfwgYG7osOn2qi/Z49bIrWUw=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=qa7GUyH0zAZGTx0Z8uZZHj+4IedrZasnpvfTUsY5tFY5Y5hcY1qFIHszYTXxQ04TrW13CZbA+r4zR/F+JFmjmtcKuIRnyzU0zkHO6U5zoNGmTpECh8WOqtFk2c2xVUjg4StH9JwlODHdqfs8OoX1eU+a+vUQduD/qzTqwbzoj0Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VQPiCNPE; arc=none smtp.client-ip=192.198.163.8
+	 MIME-Version; b=WAn2mB19k2eAZpGB6b5ShBHJ8l8vEktDss8hryoIYt6m/PGGqB5omsl2oKs0DASXfqyxxRYyUSL5t20SPmJ4YF3xH2pHlobvdE31vDSGuVg12P0EifyKjBbPpkmc7L9sIxbHKduyOv50GH0O5s/EDdTEQcc7zmQktjWhW+1w7y8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BxplZdZv; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VQPiCNPE"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BxplZdZv"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1762864094; x=1794400094;
+  t=1762864095; x=1794400095;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=B1Xtrhk2cx5QcGIp4Q5mjR0I0BttlAUvRoFGFQemARM=;
-  b=VQPiCNPEjGUZk9T9Mg9oa3D07VzFe3DgKckolmxIxj0QIq+UwULuyRCL
-   B0TH+ZQCFKcfYHi65Uan2l0ua0EkeCs/MciARI0Z2ILI/R0gtnA5MzeJW
-   pPnIuZlf4LUz3UpjDm7VTpHDb6hg1diYLgYAl8zTCMKAWrpmxF1gOOXHe
-   OXhUlco6/XJL2P3DLRiITWbkHMpF8gzRQELkvceQQIl6LvGSnVEe3Sfhj
-   O8gJbJzItdWNkAfRbM6H+LyNQ1x3+3GztJhHQ94RWFOXqTfieJmtucaB6
-   v1niG+A5urDtAS41NgbWGJjNxX7hNRDw0iIwbKFtyP6wD2XQQwsWaO8TS
+  bh=OtFs4nYXEH1ThWKykhpKfwgYG7osOn2qi/Z49bIrWUw=;
+  b=BxplZdZvWMzGBO2NyYMyQXkWGpJfvIgjUmIM9sll6u0sqMqdOyDFovaD
+   q1ELLP8b8gG//8roTfkPnraqWL4W8zNCogo8AvjxA2Twm74nXiyUuQEeu
+   w2WaUDslLky/pZTpp0c458a+MkaAFGL9Cqilg6j0UhYGlCB7TfQ5OT+Y3
+   UIKKctPUUllkZDXdqczfsZv0trUHx//D9LN+OpaOC6ItJoRRcWWd6OTru
+   FPXdZogvUNisuWKgxFHG1vbsI8EpoF6xI3b6j00kyFaBwWAvpgNOr2uhu
+   I4tcvf6gowG3NR+aZHB10rf/lg2AotXFyXKDDQRZ4f4KUcv9s8P/9onZQ
    w==;
-X-CSE-ConnectionGUID: 0OkpS4/vRsaykyiCiGcmuQ==
-X-CSE-MsgGUID: jIxU7gIcTS2w7uoOY1Xx6Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11609"; a="82553303"
+X-CSE-ConnectionGUID: /SZ3tdsmS7iJ3niLgJECaw==
+X-CSE-MsgGUID: gZiaMOSERhOGEiiNs7JfEw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11609"; a="75607205"
 X-IronPort-AV: E=Sophos;i="6.19,296,1754982000"; 
-   d="scan'208";a="82553303"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Nov 2025 04:28:13 -0800
-X-CSE-ConnectionGUID: y4Tf/TFLRkqAmpqOMEXvxA==
-X-CSE-MsgGUID: qwHa3zDTS9aAI/J+tsN1Nw==
+   d="scan'208";a="75607205"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Nov 2025 04:28:13 -0800
+X-CSE-ConnectionGUID: tMUh47YlR0iztmLUL7ZOeg==
+X-CSE-MsgGUID: n8CanOcvRy2xvoMOm6Z2iA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,296,1754982000"; 
-   d="scan'208";a="212343338"
+   d="scan'208";a="188592937"
 Received: from black.igk.intel.com ([10.91.253.5])
-  by fmviesa002.fm.intel.com with ESMTP; 11 Nov 2025 04:28:05 -0800
+  by fmviesa007.fm.intel.com with ESMTP; 11 Nov 2025 04:28:05 -0800
 Received: by black.igk.intel.com (Postfix, from userid 1003)
-	id 57FF3AA; Tue, 11 Nov 2025 13:27:38 +0100 (CET)
+	id 5E57DAB; Tue, 11 Nov 2025 13:27:38 +0100 (CET)
 From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 To: Corey Minyard <corey@minyard.net>,
 	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
@@ -138,9 +138,9 @@ Cc: Rasmus Villemoes <linux@rasmusvillemoes.dk>,
 	Masami Hiramatsu <mhiramat@kernel.org>,
 	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
 	Andrew Morton <akpm@linux-foundation.org>
-Subject: [PATCH v2 20/21] scsi: snic: Switch to use %ptSp
-Date: Tue, 11 Nov 2025 13:20:20 +0100
-Message-ID: <20251111122735.880607-21-andriy.shevchenko@linux.intel.com>
+Subject: [PATCH v2 21/21] tracing: Switch to use %ptSp
+Date: Tue, 11 Nov 2025 13:20:21 +0100
+Message-ID: <20251111122735.880607-22-andriy.shevchenko@linux.intel.com>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <20251111122735.880607-1-andriy.shevchenko@linux.intel.com>
 References: <20251111122735.880607-1-andriy.shevchenko@linux.intel.com>
@@ -155,56 +155,32 @@ Content-Transfer-Encoding: 8bit
 Use %ptSp instead of open coded variants to print content of
 struct timespec64 in human readable format.
 
+Acked-by: Steven Rostedt (Google) <rostedt@goodmis.org>
 Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 ---
- drivers/scsi/snic/snic_debugfs.c | 10 ++++------
- drivers/scsi/snic/snic_trc.c     |  5 ++---
- 2 files changed, 6 insertions(+), 9 deletions(-)
+ kernel/trace/trace_output.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/scsi/snic/snic_debugfs.c b/drivers/scsi/snic/snic_debugfs.c
-index 9dd975b36b5b..edf3e5ef28a6 100644
---- a/drivers/scsi/snic/snic_debugfs.c
-+++ b/drivers/scsi/snic/snic_debugfs.c
-@@ -282,8 +282,8 @@ snic_stats_show(struct seq_file *sfp, void *data)
- 	jiffies_to_timespec64(stats->misc.last_ack_time, &last_ack_tms);
+diff --git a/kernel/trace/trace_output.c b/kernel/trace/trace_output.c
+index ebbab3e9622b..cc2d3306bb60 100644
+--- a/kernel/trace/trace_output.c
++++ b/kernel/trace/trace_output.c
+@@ -1490,12 +1490,12 @@ trace_hwlat_print(struct trace_iterator *iter, int flags,
  
- 	seq_printf(sfp,
--		   "Last ISR Time               : %llu (%8llu.%09lu)\n"
--		   "Last Ack Time               : %llu (%8llu.%09lu)\n"
-+		   "Last ISR Time               : %llu (%ptSp)\n"
-+		   "Last Ack Time               : %llu (%ptSp)\n"
- 		   "Ack ISRs                    : %llu\n"
- 		   "IO Cmpl ISRs                : %llu\n"
- 		   "Err Notify ISRs             : %llu\n"
-@@ -298,10 +298,8 @@ snic_stats_show(struct seq_file *sfp, void *data)
- 		   "Queue Ramp Down             : %lld\n"
- 		   "Queue Last Queue Depth      : %lld\n"
- 		   "Target Not Ready            : %lld\n",
--		   (u64) stats->misc.last_isr_time,
--		   last_isr_tms.tv_sec, last_isr_tms.tv_nsec,
--		   (u64)stats->misc.last_ack_time,
--		   last_ack_tms.tv_sec, last_ack_tms.tv_nsec,
-+		   (u64) stats->misc.last_isr_time, &last_isr_tms,
-+		   (u64) stats->misc.last_ack_time, &last_ack_tms,
- 		   (u64) atomic64_read(&stats->misc.ack_isr_cnt),
- 		   (u64) atomic64_read(&stats->misc.cmpl_isr_cnt),
- 		   (u64) atomic64_read(&stats->misc.errnotify_isr_cnt),
-diff --git a/drivers/scsi/snic/snic_trc.c b/drivers/scsi/snic/snic_trc.c
-index c2e5ab7e976c..6bad1ea9a6a7 100644
---- a/drivers/scsi/snic/snic_trc.c
-+++ b/drivers/scsi/snic/snic_trc.c
-@@ -56,9 +56,8 @@ snic_fmt_trc_data(struct snic_trc_data *td, char *buf, int buf_sz)
- 	jiffies_to_timespec64(td->ts, &tmspec);
+ 	trace_assign_type(field, entry);
  
- 	len += snprintf(buf, buf_sz,
--			"%llu.%09lu %-25s %3d %4x %16llx %16llx %16llx %16llx %16llx\n",
--			tmspec.tv_sec,
--			tmspec.tv_nsec,
-+			"%ptSp %-25s %3d %4x %16llx %16llx %16llx %16llx %16llx\n",
-+			&tmspec,
- 			td->fn,
- 			td->hno,
- 			td->tag,
+-	trace_seq_printf(s, "#%-5u inner/outer(us): %4llu/%-5llu ts:%lld.%09ld count:%d",
++	trace_seq_printf(s, "#%-5u inner/outer(us): %4llu/%-5llu ts:%ptSp count:%d",
+ 			 field->seqnum,
+ 			 field->duration,
+ 			 field->outer_duration,
+-			 (long long)field->timestamp.tv_sec,
+-			 field->timestamp.tv_nsec, field->count);
++			 &field->timestamp,
++			 field->count);
+ 
+ 	if (field->nmi_count) {
+ 		/*
 -- 
 2.50.1
 
