@@ -1,237 +1,212 @@
-Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from DU2PR03CU002.outbound.protection.outlook.com (mail-northeuropeazon11011034.outbound.protection.outlook.com [52.101.65.34])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 549AC355810
-	for <linux-staging@lists.linux.dev>; Tue, 11 Nov 2025 15:03:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.44
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762873442; cv=none; b=u3AiowZyyV2Ef6T+n7Qef4R3B9wUBZxL6ljxaGHeRAdzanFh2x96YAH32YjDjoIofr+ORJWQZqUEoRpU8KWWAyIz0cIzjGenS6pK8U/aUWfLvgKdaA7vzZponc1QGteTIcNDH+OE6uHMVRyXLYfV/t6tceKxF1JHtaCWAwqcSXo=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762873442; c=relaxed/simple;
-	bh=ftiPYvx9c/Uo7f5Ce7Yzxcg1QUwJlxqYP2TiKTcKQ1Y=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=A/zriGEJ01B7NGwACfDo/Ty3Jm1uPLcEB20zWl68TlISi+ptAzW4Ot9Bm1qpTU5ldz/AWKQ4ZUROv7eKJxtIFmyqvZ61XuPw9WGT8jYaBN6zL54RIYrLZB8Vl633FtoriEEE2FKCfbVcn8N8pqvDA2n++Fc8KkYBC1SdbiI+oXI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=g77YIzMC; arc=none smtp.client-ip=209.85.218.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7649F326945;
+	Tue, 11 Nov 2025 21:42:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.65.34
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1762897359; cv=fail; b=IHhIwFzpbmsIGcBg7fhIHkaEHIC5YMz4YmrjxEZXDmLCA3phy4F55NFUgYKLATRjaJEBCJFqh40vw5qkRDhHsoJ5ChkclPvpyyUWA58MKWKNNPM9Iowl5ZwgfC2FsEQLoTO77B18dhxpbMkndnCiSnHOVf+W5BGO1gABv5Hl/Xc=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1762897359; c=relaxed/simple;
+	bh=I9MBNqgBZy+soBq+lAFBlpa4tZWN4rh8+W2Ykll91e8=;
+	h=From:Subject:Date:Message-Id:Content-Type:To:Cc:MIME-Version; b=ZFxmfdwFem2c3qBHfNmFV8y2HoTM8v1Vc3l0YFgOaOqUhod9LUTeDPQKh1MLWnix2W/jvW53JsIVPr1CvYOUOKqzkdFKep+f/J+jVdptCIgxr/kwQqorBGgVKb/JmfjrjpReQ8VPe+Qnm8CgKpTDoLca9n0l/+n+FsQRajUxhTA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=ZsIQNNE5; arc=fail smtp.client-ip=52.101.65.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="g77YIzMC"
-Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-b710601e659so680489366b.1
-        for <linux-staging@lists.linux.dev>; Tue, 11 Nov 2025 07:03:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1762873437; x=1763478237; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=wi+5dbYm5JIgaP/t7Nx547fFCD450JcmYNBqfgVm42E=;
-        b=g77YIzMCn2ycMwigd/UVVldTN7v6CvvdcsmjIo0x93+wjxJ7VGg4N5ZSOOpyaiM5OK
-         Q5TRyg+J+hQ0pPvb8/3zNere/l6CSTCATaW7brw0nhpPSeuzgIIy9pY1Zfica41926VZ
-         j6ZP7vZojT7uMpYR9XdgzXeM1Dwv0ZgpeGQq71hBTmmiHJiRRZKXvsLlzR/LfiEmeFmd
-         2CvTSpKtWqEgzQP+oiWlwWtpDZrI/jhGVDDKlKHX3koWbjhPnjM0P+mMYxKhpxEhScQ1
-         bgFWgPCuPyXKx02IstxvbKu2KNAdvWF9ofqnXeMxPIZcI7fWIK+YYUUboS0g+CZvcsML
-         d2Xg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1762873437; x=1763478237;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=wi+5dbYm5JIgaP/t7Nx547fFCD450JcmYNBqfgVm42E=;
-        b=SUEjKiSrpkz56nW901faS3DAOWbg41mrdPI+6KkckYoKdPrlA98h0Dq5S2lNBYWkz3
-         ZtenZ6sDZJaJ3IiJP/UlQ7UI+P4i1zvp0tcOHs7AQDWiev8Qv1gXd20CBICcYLbQvpPx
-         7yirpoT6lnJbUdQnbA8Uh6wf8PMMDNIXE1ePKRRpGVXlw8GZh6PmzrtuZ80r7UObLWHm
-         EDPSiI0/JQIHq/97lkqQ9S2zXeCP33UcmzEoINw2jlR52h1oYfZXIJfGVHLmG2/b5Uvl
-         9Q76Lqc84LgibmFg14EYUNyTKqxIbFskeWnSHKf8XnczUIabxzNXSH+VWLGQJhsiB2UR
-         XIEw==
-X-Forwarded-Encrypted: i=1; AJvYcCUp2OoloBTPjmrYuUO9FxOxPigATV231uFaX+RIJxLIxL5jpknQIkKhPIDzV8uZofiK1CCZV/i0BJTXf+B5@lists.linux.dev
-X-Gm-Message-State: AOJu0YxiicRG1lVYnr93BlXXh952oU+kDQzZ2j8LdJApfO3ZDc8iAytb
-	i7105Jt1OYrDEbfLBsPhwcBv42QyG8Ayrt7IUHBc0uBeqXWcDBaQ2p53smtzRqTwEhA=
-X-Gm-Gg: ASbGncuV98G60ryN9TQAxRlTZSXQTE26fWM1rH2vHxEmTMysjXuDo+Gqox7Xd74V1P9
-	XpAK3jjSxMfy/Q8bwY9r3A6ZjbUutFBWTv37ktsjmGlK542xX3cccWcVkEuQdEz+49cET3bPepq
-	Glh9XJEwt8BKk05dHl+3JG6Wr5p+VelsuglvD/hdkxOW4h6MyE303Jb7eK8+PRC8Izzm10Byes3
-	diQvE2PffAY33+akdmQtbXm/n0VCsLu5U4H038azruba815AkAtCdZycP4S2Msu1aNjd2K4Wpyd
-	hj5/rVTvuceUTWCPBbTOBWFm44LTcCUHC3WaWyv0hwGVKUg+CSQEkWbhpDYay9RT7cbB5g1VHNq
-	nd0Hfh9mlYPHQ00gX1f283S7fyEyntn+y1UDTmBodvG0EavbLcxH7wdXurBizXSIgvfmwe0ZKgD
-	FH4glilBP3AY8/kIy1Tw==
-X-Google-Smtp-Source: AGHT+IGWUxoIalLG5xLZllX+zCkekRXIo7e3xykwl2APS2wZQPGHNLqastwX+dw6XlJnfwm9Fe+bGg==
-X-Received: by 2002:a17:906:f590:b0:b71:cec2:d54 with SMTP id a640c23a62f3a-b72e04e4ebemr1306841566b.57.1762873437355;
-        Tue, 11 Nov 2025 07:03:57 -0800 (PST)
-Received: from pathway (nat2.prg.suse.com. [195.250.132.146])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b72bdbc9656sm1374243166b.7.2025.11.11.07.03.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 11 Nov 2025 07:03:56 -0800 (PST)
-Date: Tue, 11 Nov 2025 16:03:53 +0100
-From: Petr Mladek <pmladek@suse.com>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: Corey Minyard <corey@minyard.net>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-	"Dr. David Alan Gilbert" <linux@treblig.org>,
-	Alex Deucher <alexander.deucher@amd.com>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
-	Rob Clark <robin.clark@oss.qualcomm.com>,
-	Matthew Brost <matthew.brost@intel.com>,
-	Ulf Hansson <ulf.hansson@linaro.org>,
-	Vitaly Lifshits <vitaly.lifshits@intel.com>,
-	Manivannan Sadhasivam <mani@kernel.org>,
-	Niklas Cassel <cassel@kernel.org>, Calvin Owens <calvin@wbinvd.org>,
-	Vadim Fedorenko <vadim.fedorenko@linux.dev>,
-	Sagi Maimon <maimon.sagi@gmail.com>,
-	"Martin K. Petersen" <martin.petersen@oracle.com>,
-	Karan Tilak Kumar <kartilak@cisco.com>,
-	Hans Verkuil <hverkuil+cisco@kernel.org>,
-	Casey Schaufler <casey@schaufler-ca.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Viacheslav Dubeyko <Slava.Dubeyko@ibm.com>,
-	Max Kellermann <max.kellermann@ionos.com>,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	openipmi-developer@lists.sourceforge.net,
-	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	linaro-mm-sig@lists.linaro.org, amd-gfx@lists.freedesktop.org,
-	linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
-	intel-xe@lists.freedesktop.org, linux-mmc@vger.kernel.org,
-	netdev@vger.kernel.org, intel-wired-lan@lists.osuosl.org,
-	linux-pci@vger.kernel.org, linux-s390@vger.kernel.org,
-	linux-scsi@vger.kernel.org, linux-staging@lists.linux.dev,
-	ceph-devel@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
-	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-	Sergey Senozhatsky <senozhatsky@chromium.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	Gustavo Padovan <gustavo@padovan.org>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Dmitry Baryshkov <lumag@kernel.org>,
-	Abhinav Kumar <abhinav.kumar@linux.dev>,
-	Jessica Zhang <jesszhan0024@gmail.com>, Sean Paul <sean@poorly.run>,
-	Marijn Suijten <marijn.suijten@somainline.org>,
-	Konrad Dybcio <konradybcio@kernel.org>,
-	Lucas De Marchi <lucas.demarchi@intel.com>,
-	Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
-	Rodrigo Vivi <rodrigo.vivi@intel.com>,
-	Vladimir Oltean <olteanv@gmail.com>, Andrew Lunn <andrew@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Tony Nguyen <anthony.l.nguyen@intel.com>,
-	Przemek Kitszel <przemyslaw.kitszel@intel.com>,
-	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
-	Kishon Vijay Abraham I <kishon@kernel.org>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Rodolfo Giometti <giometti@enneenne.com>,
-	Richard Cochran <richardcochran@gmail.com>,
-	Jonathan Lemon <jonathan.lemon@gmail.com>,
-	Stefan Haberland <sth@linux.ibm.com>,
-	Jan Hoeppner <hoeppner@linux.ibm.com>,
-	Heiko Carstens <hca@linux.ibm.com>,
-	Vasily Gorbik <gor@linux.ibm.com>,
-	Alexander Gordeev <agordeev@linux.ibm.com>,
-	Christian Borntraeger <borntraeger@linux.ibm.com>,
-	Sven Schnelle <svens@linux.ibm.com>,
-	Satish Kharat <satishkh@cisco.com>,
-	Sesidhar Baddela <sebaddel@cisco.com>,
-	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Xiubo Li <xiubli@redhat.com>, Ilya Dryomov <idryomov@gmail.com>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	Andrew Morton <akpm@linux-foundation.org>
-Subject: Re: [PATCH v2 01/21] lib/vsprintf: Add specifier for printing struct
- timespec64
-Message-ID: <aRNQWc8O2y94zoj8@pathway>
-References: <20251111122735.880607-1-andriy.shevchenko@linux.intel.com>
- <20251111122735.880607-2-andriy.shevchenko@linux.intel.com>
+	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="ZsIQNNE5"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=iZlbn/W05sv5VZD7GGKDxxf1nz5N93BynWCXEHaheNJrMD0HoW7B/peFx4v4mm0C7CCL9K2hdd4wBxMoI7aQ0SSzTfJBlfsC/MukVxDp7mWLZURu8ok+icMBm5rLnaX5ynRbljS502ByCOPhU/0hQJowtT7wSCxgqFZMDYnDUp81lgLPUZxNN5LodZZ2qfdwCXPtwUUNm1FZ6I0vb4D13xQjrjv8oWF6Rsm63MR6WWzDvpBDgS+qqW28e57fNVYG0D0UvNf+IJfGmwEThbTR4Hpx2fq8198ztRAxoeD/iN2kfnnGOVC4Q7UoqJg8RwHNleoTkuSXeavgZKvJXNFxlA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=F0Yy+rcl7EN7d6Ym/61hr9Xpygj+GMSeiyBJKC009Zg=;
+ b=alDh7XrvKmZYEA9ljAjLT7ytwrGq9GB02NFx5biB8rf0ewgjfoWW4qsytKv1OLk/e4MHHQAi+CHPR+x0m0Rwxvxfxq/i1jhAu+W6sL5z8XFijogGn3ZnNlCugVRn9OVHyhuWuIf6XJX7AyZIww3Lb5BSEjWX1ecJXlv3uyvD68KGmxjnCGUsFtPp+8Geeh3AwRYOcv9f2C/Lrhi8qDY1+D6F3MUyJGgxqukflU1X5z6bHfXx5EKj8lsHHLXT8T2iWXRZY+jnhqIM1SJt6zCheFF7TWQW0ewZMeh/UdSH09BICKnjg1fQ4b713Pe9UaumMy2enSJcJ+NRIDt5C1/HIA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=F0Yy+rcl7EN7d6Ym/61hr9Xpygj+GMSeiyBJKC009Zg=;
+ b=ZsIQNNE5XvRysJUV4HdC3m3Uap8GVPJ0gX64Czhtz3Kz8KiJkB1gjCuuJh+VXP6d0eIetmKkTTdoVR6IlFcqs6tnwUo+o3nor/ocZ911oQif9SIZIVNENZR+6f/c9nBPUm3bEiZCwPGABOpLu3PeVmlCTzuo+g9aPZK3n5ckRuRqOozT1THqw4HJmb2lEq5nOOK5+4Cw95a0ZzcIxlmQ3Xxb5E3YnYHkDMU1/IuhXOrDkYFzUlFsaSM/2g6izCIydgs9Guwgvdagv0dAnu7fY4HyBZi0/BRdXdlwLnnx0BOUAc1C0bPz7Q89O9dOkPdYWwGABjteFL/t7j1UfLKB4A==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+Received: from DB9PR04MB9626.eurprd04.prod.outlook.com (2603:10a6:10:309::18)
+ by AM7PR04MB6853.eurprd04.prod.outlook.com (2603:10a6:20b:107::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9298.12; Tue, 11 Nov
+ 2025 21:42:34 +0000
+Received: from DB9PR04MB9626.eurprd04.prod.outlook.com
+ ([fe80::55ef:fa41:b021:b5dd]) by DB9PR04MB9626.eurprd04.prod.outlook.com
+ ([fe80::55ef:fa41:b021:b5dd%4]) with mapi id 15.20.9298.015; Tue, 11 Nov 2025
+ 21:42:34 +0000
+From: Frank Li <Frank.Li@nxp.com>
+Subject: [PATCH v2 0/5] media: staging: media: imx6-mipi-csi2: trivial
+ cleanup to prepare convert to common dw mipi csi2
+Date: Tue, 11 Nov 2025 16:42:12 -0500
+Message-Id: <20251111-stage-csi2-cleanup-v2-0-371bb951776f@nxp.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIALStE2kC/22NwQ7CIBAFf6XZsxiWlmI8+R+mBwRqN1FKoJKah
+ n8Xm3jzOJO8eRskF8klODcbRJcp0ewriEMDZtL+7hjZyiC4kIi8Z2nRVZpEgpmH0/4VWG9vqFC
+ OFk8K6jBEN9K6R69D5YnSMsf3/pHxa3859S+XkXEmbSdkK0XXanPxazia+QlDKeUDvxM0wbIAA
+ AA=
+X-Change-ID: 20251106-stage-csi2-cleanup-6db1715fd187
+To: Steve Longerbeam <slongerbeam@gmail.com>, 
+ Philipp Zabel <p.zabel@pengutronix.de>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
+ Pengutronix Kernel Team <kernel@pengutronix.de>, 
+ Fabio Estevam <festevam@gmail.com>
+Cc: imx@lists.linux.dev, linux-media@vger.kernel.org, 
+ linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+ linux-kernel@vger.kernel.org, Frank Li <Frank.Li@nxp.com>, 
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1762897350; l=1453;
+ i=Frank.Li@nxp.com; s=20240130; h=from:subject:message-id;
+ bh=I9MBNqgBZy+soBq+lAFBlpa4tZWN4rh8+W2Ykll91e8=;
+ b=/3oY8Lw1+a2JErHBhAMq9/P1M0Nh+7hrWzHO/bxdn7vwD/tfhA5pREY3mWTCb9ICttC7oA2Z2
+ AzlvgxxHf2bAsuzwZ3U8OVQ9RTcZCLXhDgmHQleA/oJ2c+jkbY71UFs
+X-Developer-Key: i=Frank.Li@nxp.com; a=ed25519;
+ pk=I0L1sDUfPxpAkRvPKy7MdauTuSENRq+DnA+G4qcS94Q=
+X-ClientProxiedBy: BY3PR05CA0044.namprd05.prod.outlook.com
+ (2603:10b6:a03:39b::19) To DB9PR04MB9626.eurprd04.prod.outlook.com
+ (2603:10a6:10:309::18)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251111122735.880607-2-andriy.shevchenko@linux.intel.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DB9PR04MB9626:EE_|AM7PR04MB6853:EE_
+X-MS-Office365-Filtering-Correlation-Id: 18ba5c98-21bf-4249-99f1-08de216b3939
+X-LD-Processed: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+ BCL:0;ARA:13230040|19092799006|7416014|376014|52116014|1800799024|366016|38350700014;
+X-Microsoft-Antispam-Message-Info:
+ =?utf-8?B?UVBWUjJGNEJOeHl4MW5TVURoV1NuUnRZNFNna1pYQy9Zb0E5K0lrTG5OUnNh?=
+ =?utf-8?B?czhSK2xETzVCRTFIYWgzS1JYNjN0REJTWVN1WGR2ZFFxZnNWNnRIZ3poTXcw?=
+ =?utf-8?B?SGVwb1ZIWjd5MjBxR05hcnk3c2RseWRUMXVFVGZGcjF3N1hhbzVETzgzdUJJ?=
+ =?utf-8?B?OWl1bkRJbEJSSmNZUEhnTzZPMTRHLy9jREl4OFNwelhBMjhSWmhjTlNUemdK?=
+ =?utf-8?B?K21MK0Jma0YrOXRiN3FNVDU1S21EcW1Ga09FY01tNndYZExnNm51TW8zYzlm?=
+ =?utf-8?B?d2tTK1p2cTd4YVVrNVVwQnZRN05FL0JRcStXZVllSWY3YzN6TzgvS0tQN1hn?=
+ =?utf-8?B?OVNXSXRzWkJVaUpuTk5BNlgyd0xGMXRWTFdmK01STnlkcVMrM21xUXZmRjcx?=
+ =?utf-8?B?TVZiak1RQTVja3d3dU9UU0lSNXVkWmprOVEzQ29xUVJZTXVJdld1R25OUXZo?=
+ =?utf-8?B?bzBTRjJvanFIdnBvRkxuRXRMK1g1TDd5cjAzYzZnWmp1Tk5wUkx4Q29QRExX?=
+ =?utf-8?B?ZDcxaWpuQllodEg3VE94bFoxZ25rWWdBM2Rac09mTUhacSs1aWZ1ZU0vSGt6?=
+ =?utf-8?B?K1JBaEh4aG9xd25ScDRlNGJnRVZPV3NXSW8vSWZERDRYcEwyU08xdzRvNHF4?=
+ =?utf-8?B?U1pnb2U1YkxNaE54RTRyZmEvS2RZUGVISmVnRitCS3Nld0NmMHlZUVdMSWVq?=
+ =?utf-8?B?bW5mcEFLOERhVEVRbFhiQnpoTk1wRmVwOXJybnZ0Znc3dTRBUEkwcTJZTXVj?=
+ =?utf-8?B?Mm1kQSs2TGFSdW13dG8xUlkvVGVuTE9Ib3QvanAwdjdocERZdXdxSDl1OGJj?=
+ =?utf-8?B?RDNhM2lXVEcxdnpkc2tablVnbDk1d0pmaUVsWERFSklXWnpRY2dyZWZMRXdQ?=
+ =?utf-8?B?ZEpUeHExbGNSbmYvY3JrbEVST1ROcnlBaCtIN2RaandCZ1c1dnpqcGNxMVBD?=
+ =?utf-8?B?bklReXV1R1BRcEhvaDNpRUFhOXpoYWVKdHhIV0IvajhPcW5OSXhYajhNWEpJ?=
+ =?utf-8?B?WHBKNlhsdXZISlF5cG9QWnk1Z1pYMWc4MXlrQ25SckF0UkZNSURlMXBTUXhZ?=
+ =?utf-8?B?M3dYaHdOaTQyYkEzWnhCZWFUZnRXMkQvWHNEWm1XOXRqakxHMW9BOFpmNG9y?=
+ =?utf-8?B?M21wejNoQjkxaUUxRjhQV3hHeDNKQnNYWS9aL0JXbE5wVWNzUFpMWTFiQklD?=
+ =?utf-8?B?OEdEOVVnTlRCeTh1bW0wQW1GeTl1bnNDM2p5WTZVTXJPZlJ0dDE5WUZublM1?=
+ =?utf-8?B?V3hZNmF4NEVYU0N0NDE4dDA5RGcxUitwTzFKVGl0Zi9ZUzQweXFxMzA1dXE3?=
+ =?utf-8?B?Mk5LbjNlTGdCTjJPeTNnOWN6NmNHUXo5ei81d21pSnF5UHpGYXlkOUNsR2RN?=
+ =?utf-8?B?SFNJL012TDNHcGRWVjJtYVZ5SG1UZHFIVHI5eTBib0U3c0QzOWhDdlZwSG5O?=
+ =?utf-8?B?VjVFVVNCSlpyVGZaWmN0VEM4cHFESkpNUGZYb0trZVA0dnNWdU5Cbkh0emxt?=
+ =?utf-8?B?ZUpWWVUranU5MWhielZJZGlUZVE5Q0J6TjNNd0FvUkJDMzc1TFd0UkY0dVBJ?=
+ =?utf-8?B?LzhHalVPMENlcFVKTUpES3BhZmJvWnEwMUhCdWdlRytKeXY4UXB0ckZFa3M0?=
+ =?utf-8?B?TEk3TFU3eE4ybUZGN0s4S1NrS2ZrZXkrbU1SR0VzSXdtT0xEYndYWVdSSXZG?=
+ =?utf-8?B?Zi9hRWIyenJBdEVCMjFTaFF4bzEzejlxL3I0Nmh5bUxJejhTUndaeXZZeDMw?=
+ =?utf-8?B?bk1LdXU1b3RDWnU3bC9HN0F0Mm5ENHRKc0pjM0g1Y3VYMWdzazkwUVFFUmpq?=
+ =?utf-8?B?MnZSRW14RkJUM0ZTTVhlM0R4eU9hbS9oRkU5NHViNFZ1UldCcW1TU0M5Zm9a?=
+ =?utf-8?B?WVlpZ3d3WkhGaWpmaDVpQXJLdmdZZjJRdjBPTlo5WEZnbHhFa21pbjJXeGhE?=
+ =?utf-8?B?M0FqMEsyUGNGY3Q5b0dyYlRWVHhERjh4dXQ4Y0doSHpUcGdUVzlEU1FscUhm?=
+ =?utf-8?B?d2J1LzBPVWk4SW9Ta2FRY3V0V1JzZFpjNzhkcnMrd1ljdVFDOUJUcGd4YjA5?=
+ =?utf-8?Q?Pyq8ze?=
+X-Forefront-Antispam-Report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB9PR04MB9626.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(19092799006)(7416014)(376014)(52116014)(1800799024)(366016)(38350700014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+ =?utf-8?B?Mm96UDBNQWt2UGtFNHhnY0c2WFZTV3U2em83OWxlU2poYjdqM3BqWlJuQzlD?=
+ =?utf-8?B?QXJkam1DdGZ5RnJFVzZLL3pLc2UvTHNXU2djS2MxTTRWTXlOU2JhUG56dFFm?=
+ =?utf-8?B?dHFYOXA4OUJKdlozUUZGTGtsaDZHUnpVejIyZFNuY0MvOTFFNlJWM0ZBb3pI?=
+ =?utf-8?B?Tm0wQzhLN24yeCtnWjB3dnBNb05kY1FrLzJHSkY0TmdGZUNTSmQ2enowejNm?=
+ =?utf-8?B?Q3lNcUJHQ2VQWDJhUnlMZXJwa0ptMnJ0SWZaQ01Ca1pocVgxdEVheGhSL0Rq?=
+ =?utf-8?B?aXVUekFXMFMwZFFHK3pIOWZDeW1wT3JXNGVIZG94VnlQMVlCTy9rYnJaK1Ri?=
+ =?utf-8?B?Yjk0ODJNTWtwck8rQk9Na01ORVNaWElIMUdGVWRUNUR5d3FjY2FkVmRNejRm?=
+ =?utf-8?B?NTh5bmRZNmVMYXd1QnZSZDdEUS9hRFY0WU1OM3V2Qm9PWlJhcFI0RE4wRkhs?=
+ =?utf-8?B?L0o2bHM0eEFBaURpNkNnSGFEcXBLSWE2ak9USHhablRlbmRodnBUU2U0Tld1?=
+ =?utf-8?B?N0kzek4vNWM4OHFUdXM5ZWU3dmY3MUwyL3VvN2liTGRSYTFRV3d3UElubmM2?=
+ =?utf-8?B?citsZGVHVC9UbGVPcy9wOG5tN3hiRnZERzM5aVdCd1Q2OGRnRktuazduV2Ey?=
+ =?utf-8?B?bTBoUDRKNjFiRnJMWGZuUnNsaks1STlwcW1NZXlPTHVlcDlKdUdIUTRzVk1B?=
+ =?utf-8?B?V041UGFlN2JXcnhYcnNobk9XZklLVDYybm9MajFaakhnNkx3WWxObFFsV0lp?=
+ =?utf-8?B?S3FjVU1RZlJtWTZ1ay9VRmFxcFR1OTNPSUFWN3dRRGVTeTlEbnR0UkhyWERh?=
+ =?utf-8?B?Q0cwYnBtZjVPZktTMlRYVHZZT3JYazlhUlczWWhjZENhakNxVTdrSXpkVTJI?=
+ =?utf-8?B?dXJFQVZJVEw4OG9KUkl5cytmUVFGdzBLR1dOOU0zU2RhbnZxSlpqY3JyWjlO?=
+ =?utf-8?B?UWRMSW1oeXpVUXBTWjV5NXgvcDJHNHd2NzU1KzNmSCtUMGhQRnUrLy9yZ0Rk?=
+ =?utf-8?B?NmEyS1lENm1vbUdKQWl0anJyWkNXZVlTVHc2azg0RHdPU3FBd0l3STZraVBD?=
+ =?utf-8?B?K0g4STcxaVBDQnNRK2lvaEJOaWlQdjdrR3h0eHgrVnFYNW1GY3dHeFdMa2hH?=
+ =?utf-8?B?aDl1eDJrOVQ1OXVMZXNkVXdEZXFPOUVLY2dsckpETXVZS1BJcXhzemdGR2lZ?=
+ =?utf-8?B?RVhTcHJZdTIwSitucm85dllRVmdRVTF3dzFpUFJheE54d0MwWTZBTUIwRWR6?=
+ =?utf-8?B?Vy9McFpaSUsvZ3I0YVg4UGF5MElCR0JmdzZVQXNSb2JjRG1rOUNBSkhtRU0w?=
+ =?utf-8?B?OW81ZmVlWVdLMDVDK0I2YnhyQjBHWkpVOGFiNGVKMDdQdDV1VFR0eTZRdUs2?=
+ =?utf-8?B?M3lIN0VEMll0eWE4cFpONFhhTkdaeDVXS1dYQm1RYy83NytlM2VwRmtYUVps?=
+ =?utf-8?B?Z0cvcmpZZ2RLajNkZStvbXZ2YmdUSUZUcFFUVWh4WmI4K09xZE82REJrQTcr?=
+ =?utf-8?B?MHFQNGVvSktzdUZUU1VXV0JicWdFNFJoblI0UldwTFVRTDUxOG1nTTgvT3BZ?=
+ =?utf-8?B?SzhvSDJJdkxQdkhTbWpHZHZWU0Z3czNPYlIxdFZJY1p3ZTFJcHc4eDI0VldI?=
+ =?utf-8?B?eENlVTRDcW1XamNBWEtkanpIdHdNTEk0cUJvNzAxWC95MmM2VXJjalRjb0cw?=
+ =?utf-8?B?MmR4THdabXAyNnU4d002blZIVy90UllPWk04djlhK1lQT2JnOXNKSnJvM2NM?=
+ =?utf-8?B?S0J2ajNzNTlCMDNVRllYaGV3Q2JwcU9VV3ZQcmhaNUdHYnN3Y0pWVi9KSDd0?=
+ =?utf-8?B?b2tyNVEzYWF6dlMrci9EaFhoNjgvbSs4Ukszcml5V3M5QzZ3QXlIY1JYeGRC?=
+ =?utf-8?B?OGh4VTNzUit3Z2pzWU1hVmdYa2orZ1hGZEdVbXI1Z2paMGpGZXp1Y0RzZVVU?=
+ =?utf-8?B?eXFqVkV6TUwyN0IrZDJDNkErditVb3pCVmhQV0hwTWYxUXZET3lnL1l0WElN?=
+ =?utf-8?B?QzFGRGZaV0VqWHJ3NGNyL2lhcVBjTUJ4VllIa3BmdlBUaEJOQXdPUjNHdzVZ?=
+ =?utf-8?B?L1A4ejVrMzVMUWY5ZERlQ0NxbS9aa2pVSC9ib2dxMWg1c3pBVDg2R3dvTGJh?=
+ =?utf-8?Q?uMJIkll2BCJqUaW8GBzKlD3jY?=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 18ba5c98-21bf-4249-99f1-08de216b3939
+X-MS-Exchange-CrossTenant-AuthSource: DB9PR04MB9626.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Nov 2025 21:42:34.1007
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: VsY0uK3n/+A/J7jCDT75nOV9naRXehQG5YSR+cOa+3UCELeFsVo4458na0jd6ToB2i5tMKPu4BzckkuUqYUOmQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR04MB6853
 
-On Tue 2025-11-11 13:20:01, Andy Shevchenko wrote:
-> A handful drivers want to print a content of the struct timespec64
-> in a format of %lld:%09ld. In order to make their lives easier, add
-> the respecting specifier directly to the printf() implementation.
-> 
-> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> ---
->  Documentation/core-api/printk-formats.rst | 11 ++++++++--
->  lib/tests/printf_kunit.c                  |  4 ++++
->  lib/vsprintf.c                            | 25 +++++++++++++++++++++++
->  3 files changed, 38 insertions(+), 2 deletions(-)
-> 
-> diff --git a/Documentation/core-api/printk-formats.rst b/Documentation/core-api/printk-formats.rst
-> index 7f2f11b48286..c0b1b6089307 100644
-> --- a/Documentation/core-api/printk-formats.rst
-> +++ b/Documentation/core-api/printk-formats.rst
-> @@ -547,11 +547,13 @@ Time and date
->  	%pt[RT]s		YYYY-mm-dd HH:MM:SS
->  	%pt[RT]d		YYYY-mm-dd
->  	%pt[RT]t		HH:MM:SS
-> -	%pt[RT][dt][r][s]
-> +	%ptSp			<seconds>.<nanoseconds>
+Previous https://lore.kernel.org/imx/20250821-95_cam-v3-0-c9286fbb34b9@nxp.com/
+There are too much patches (32) in above thread.
 
-I know that that there was no good choice. But I am curious.
-Does the 'p' stands for some particular word, for example, "plain" ?
+Just extract first 6 cleanup patches to review easily. The overall road
+map see above 32 patch serise.
 
-I do not want to start bike shedding but I think about
-using 'n' as "number".
+Signed-off-by: Frank Li <Frank.Li@nxp.com>
+---
+Changes in v2:
+- collect review by tags
+- drop media: staging: media: imx6-mipi-csi2: use devm_add_action_or_reset() to simplify code
+  need more time to understand nf_unregister() and subdev_unregister()'s relationship.
+- detail change see each patch's change log
+- move devm_mutex_init() patch to second one
+- Link to v1: https://lore.kernel.org/r/20251107-stage-csi2-cleanup-v1-0-5d42535243ac@nxp.com
 
-> +	%pt[RST][dt][r][s]
->  
->  For printing date and time as represented by::
->  
-> -	R  struct rtc_time structure
-> +	R  content of struct rtc_time
-> +	S  content of struct timespec64
->  	T  time64_t type
->  
->  in human readable format.
-> @@ -563,6 +565,11 @@ The %pt[RT]s (space) will override ISO 8601 separator by using ' ' (space)
->  instead of 'T' (Capital T) between date and time. It won't have any effect
->  when date or time is omitted.
->  
-> +The %ptSp is equivalent to %lld.%09ld for the content of the struct timespec64.
-> +When the other specifiers are given, it becomes the respective equivalent of
-> +%ptT[dt][r][s].%09ld. In other words, the seconds are being printed in
-> +the human readable format followed by a dot and nanoseconds.
-> +
->  Passed by reference.
->  
->  struct clk
-> diff --git a/lib/vsprintf.c b/lib/vsprintf.c
-> index 3f99834fd788..fdd06e8957a3 100644
-> --- a/lib/vsprintf.c
-> +++ b/lib/vsprintf.c
-> @@ -2464,6 +2488,7 @@ early_param("no_hash_pointers", no_hash_pointers_enable);
->   * - 'g' For block_device name (gendisk + partition number)
->   * - 't[RT][dt][r][s]' For time and date as represented by:
+---
+Frank Li (5):
+      media: staging: media: imx6-mipi-csi2: replace spaces with tabs for alignment
+      media: staging: media: imx6-mipi-csi2: use devm_mutex_init() to simplify code
+      media: staging: media: imx6-mipi-csi2: use devm_clk_bulk_get_all() to fetch clocks
+      media: staging: media: imx6-mipi-csi2: use guard() to simplify code
+      media: staging: media: imx6-mipi-csi2: use devm_platform_ioremap_resource() simplify code
 
-We should add 'S' here as well:
+ drivers/staging/media/imx/imx6-mipi-csi2.c | 209 +++++++++++------------------
+ 1 file changed, 80 insertions(+), 129 deletions(-)
+---
+base-commit: df5d79720b152e7ff058f11ed7e88d5b5c8d2a0c
+change-id: 20251106-stage-csi2-cleanup-6db1715fd187
 
-   * - 't[RST][dt][r][s]' For time and date as represented by:
+Best regards,
+--
+Frank Li <Frank.Li@nxp.com>
 
-That said, I am not sure about the optional '[p]'. We could
-either do:
-
-   * - 't[RST][p][dt][r][s]' For time and date as represented by:
-
-or
-
-   * - 'tSp'	For time represented by struct timespec64 printed
-		as seconds.nanoseconds
-   * - 't[RST][dt][r][s]' For time and date as represented by:
-
->   *      R    struct rtc_time
-> + *      S    struct timespec64
->   *      T    time64_t
->   * - 'C' For a clock, it prints the name (Common Clock Framework) or address
->   *       (legacy clock framework) of the clock
-
-Otherwise, it looks good.
-
-Best Regards,
-Petr
