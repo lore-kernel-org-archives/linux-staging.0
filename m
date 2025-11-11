@@ -1,36 +1,68 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oa1-f68.google.com (mail-oa1-f68.google.com [209.85.160.68])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E51717D6;
-	Tue, 11 Nov 2025 00:11:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0138C30648C
+	for <linux-staging@lists.linux.dev>; Tue, 11 Nov 2025 01:17:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.68
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762819899; cv=none; b=ASJdmkX7niKebNSKI514wIr6iBDkQ8iDvFTXsvF4o5TIBIRYKfJHPWVEzG/yqkH/zq4iS98kR+DKK0CvcNV3tud4RXXwZi9wUeD5rGFrGrQ4bTDf1m4Tf1vaSlFnEEnPxOsFygXGTX2UKZRve7kWe+notf6fEKoUEA4zcPXtvpk=
+	t=1762823866; cv=none; b=qyLe4nmlwiTJSLMC/djTQ3XYq5CYAlKawW9mQEQw5XO3/9CtRVW36aFBxwsnEQUYBpt5mT5GbiM1dR5cuxMehcdKaVT2L48BhQKprW8zEd0Ve1/mSsc7xpNWrT/v22mm1YKjdT44kpGB6KnS7RtwSi2OPOzt0SmwS6HKWmJcC0c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762819899; c=relaxed/simple;
-	bh=UJb6mXnrZynjLpPgHUrW0+nPkNlnIA1ohpPmrhdt5kI=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=TXi8Wi80fCmXlZBuZvb0nZMteS9+QsWmfuYmjnr4Uaw9mTPoHTY+tI6IGmLxwvbN2OMLB0jjrp9TSMqyQcA7NX+uFT87J3VjN/pMiZxUD+MM8rKlpZes74FZsQ8BdKXuc26o6865gLNYIoKantNk/7vFYRcyysFOvW+GZ8zggz0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RQNhfVxW; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1762823866; c=relaxed/simple;
+	bh=/awKTS4VkDV7YyuY2XqMrgn1/FWXuaIp1CGhvSR3qsg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=YI6l9m1sDbedQg3nGWIUOR9bvWk4YRBA/9e/wn8nbsd0IvN3Ctz8tsrfgv5GFi+1Uo0tj3EzGh7iE65JXDOjoSktDn6V/dBstUa6RggUesCNUmhU4nNI15i+psa5kWqubnRYXXYtgYL/64WhQUXXeWoWCFgKbeCVD4/E5bEA/wg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=minyard.net; spf=none smtp.mailfrom=minyard.net; dkim=pass (2048-bit key) header.d=minyard-net.20230601.gappssmtp.com header.i=@minyard-net.20230601.gappssmtp.com header.b=I0RkmiS2; arc=none smtp.client-ip=209.85.160.68
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=minyard.net
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=minyard.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RQNhfVxW"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DE3B5C113D0;
-	Tue, 11 Nov 2025 00:11:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1762819899;
-	bh=UJb6mXnrZynjLpPgHUrW0+nPkNlnIA1ohpPmrhdt5kI=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:From;
-	b=RQNhfVxWS3kSkUZ3/Yn/h0BmXL51tmLd+96fcvkdQVv1vGLPiWTHRkycOoEeo86n+
-	 AomTbI2OwWKrh916BvopP2FmTFRSTMpM+ffKgocFApMJHdp1EKgU6X5hO4qa0osljw
-	 17UC1rMSI+vUK4hzsEvsvxu9BntOhbPUYi/m0034GgTDaN8qQYvPNZ+teI5+B2ybWa
-	 HwOKozmrkxff/CrJtzPPwDnYAm5CuGW9jLgaRZXE1tGy7RFW1GXxjP1lsvTw64BiD6
-	 3+AvpY4WKIjmTgnbEp1K+YKbfLbuPtZz53Jb09WBB7saLr4xY2Ybz2RWqug2curgjQ
-	 RYENRwzTM6ubQ==
-Date: Mon, 10 Nov 2025 18:11:37 -0600
-From: Bjorn Helgaas <helgaas@kernel.org>
+	dkim=pass (2048-bit key) header.d=minyard-net.20230601.gappssmtp.com header.i=@minyard-net.20230601.gappssmtp.com header.b="I0RkmiS2"
+Received: by mail-oa1-f68.google.com with SMTP id 586e51a60fabf-3d47192e99bso257766fac.0
+        for <linux-staging@lists.linux.dev>; Mon, 10 Nov 2025 17:17:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=minyard-net.20230601.gappssmtp.com; s=20230601; t=1762823863; x=1763428663; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:reply-to
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=IjPKo3ybe4fdml1XQE+jQ3G55BcDMlVXlR9cl8yZWH4=;
+        b=I0RkmiS2+TQPJbxeDbzOpNsPP7y5F6OZtpKvZVocI5spjNMGeVg7AvU6WHFbqiC5DS
+         JNGk7QM8aqtNSflHfjYCHsRpCsmZyTSoeY1Aiw0nHcJ//KhPlPeqcFMkUikPILhNMnCp
+         kAF8NbfpxFwAb/lEXPh4lq+MT+qpjj8UhR+bdpSwZ0patEnFgsd1qyUqn6QHpAmM8vAZ
+         U121Y9ookT/y2M71ARAhyhoc2G6g1/u03eR0Jd1fH875uKD6jly9H14U1ZIlyeyyhOr+
+         K56S9f5UUiYH/7s+VoqkWOI1QXPUpuezDr1RoGDkuYIm2lzmy1N711GjLcNyvqB8QRsi
+         pQ4w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1762823863; x=1763428663;
+        h=in-reply-to:content-disposition:mime-version:references:reply-to
+         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=IjPKo3ybe4fdml1XQE+jQ3G55BcDMlVXlR9cl8yZWH4=;
+        b=ekUuLhtgiP1jSrPI+rre+GVYqiiLubDhsJzqdja5HNldsZg04DCrQRFc1Td5iM5t9c
+         jGbgyn38olDiynElGGoFH0aeoLLTmSnazdYZu4UglPm/5ATbfgU6Ty49tPc1wrllF3Dy
+         C2+t60S23CfsniDtbA8K6dHO+oNpk2seFUyCt+L4VI36C9K8Ol1ZqdM+ONbS0/BkQqjp
+         wwhZ7rpqQnBqFfL/x26AfgP3Gj/pgoC1wCNC6LT/gmm3mWq9z3iGka5kWOncqn9DrTYE
+         s5EZwnm7R2i+Zpc8pBK73rc1H/O0J7LOL+kwDQdsduT+Prar81OEFG6QVZfrxVfFF3oJ
+         Drww==
+X-Forwarded-Encrypted: i=1; AJvYcCVO+4srYCAPOcM78kkzRVDGb4z61nTJucubQ1YSenAZNgi2T1YYN2Zcgoz8d4A0E9kKXQs0NiYcb3RuYaym@lists.linux.dev
+X-Gm-Message-State: AOJu0YyCXu/VylrXmp8lAEMWFsGFGf98PUJjljOdq58wbvggO/B0Hr/C
+	AjThjOUJ7uQWxtzDZYf5JBfP203lPh+E5xxQUn36iXvvxEIvjkrem0MUvV4Xj9MMNF4=
+X-Gm-Gg: ASbGncvXHzcrieDA2dKCvIzb3rznDFIokVTmEtE6+W7tCHiouJnUPoQnEcLQEiUAv1s
+	GkyDlAfUmYpFCegVUbVb11o0Etjw5ZsbrsGXEbQ7WpAyHfQEfbOIVMUo+5n4c841DWUVI/TtMPF
+	RElq0ff1RWlzFVbx446hBf4AvQLvD8Je2xsC+uWIp6/WEgj1WfaKzrUA2R1etuIJuW2NGVeSvZO
+	KTeaKMuGuYROTZL5OYwaTsg4EUvtyg9DfcozgO3dZzEWPo7A8OIDZUiVMxIXvWlz4TjG2OWpUwk
+	VcUjGd/wr5s0lHYxN0xXVyIsbU0XGeQS1Owna19wkkW08inZ7oTidOF6EPDC7sAEKSv2RzGAN3M
+	pdMic6zEwBJ/KCfn7jVQT0BBjd+oBH95mQDUqE1pGGG7BjpqyknxUChHwgI+vjuXdYddup3T+cQ
+	MSl9W4v98aeKuwRA==
+X-Google-Smtp-Source: AGHT+IHYqlJ/DqUior2uObKb688W9mKskJnwhdBfDC1sLOPoqWKjn2HRpxRv5pN7HFxTPVj3Axvofg==
+X-Received: by 2002:a05:6870:46a8:b0:3e1:d34:4283 with SMTP id 586e51a60fabf-3e815aaa2a3mr850172fac.19.1762823862970;
+        Mon, 10 Nov 2025 17:17:42 -0800 (PST)
+Received: from mail.minyard.net ([2001:470:b8f6:1b:b4e9:19a3:cdaf:7174])
+        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-3e7d6f7a27dsm4076840fac.0.2025.11.10.17.17.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 10 Nov 2025 17:17:41 -0800 (PST)
+Date: Mon, 10 Nov 2025 19:17:35 -0600
+From: Corey Minyard <corey@minyard.net>
 To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: Corey Minyard <corey@minyard.net>,
-	Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+Cc: Christian K??nig <christian.koenig@amd.com>,
 	"Dr. David Alan Gilbert" <linux@treblig.org>,
 	Alex Deucher <alexander.deucher@amd.com>,
 	Thomas Zimmermann <tzimmermann@suse.de>,
@@ -76,7 +108,7 @@ Cc: Corey Minyard <corey@minyard.net>,
 	Marijn Suijten <marijn.suijten@somainline.org>,
 	Konrad Dybcio <konradybcio@kernel.org>,
 	Lucas De Marchi <lucas.demarchi@intel.com>,
-	Thomas =?utf-8?Q?Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+	Thomas Hellstr??m <thomas.hellstrom@linux.intel.com>,
 	Rodrigo Vivi <rodrigo.vivi@intel.com>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Vladimir Oltean <olteanv@gmail.com>, Andrew Lunn <andrew@lunn.ch>,
@@ -85,7 +117,7 @@ Cc: Corey Minyard <corey@minyard.net>,
 	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
 	Tony Nguyen <anthony.l.nguyen@intel.com>,
 	Przemek Kitszel <przemyslaw.kitszel@intel.com>,
-	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
+	Krzysztof Wilczy??ski <kwilczynski@kernel.org>,
 	Kishon Vijay Abraham I <kishon@kernel.org>,
 	Bjorn Helgaas <bhelgaas@google.com>,
 	Rodolfo Giometti <giometti@enneenne.com>,
@@ -108,8 +140,11 @@ Cc: Corey Minyard <corey@minyard.net>,
 	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
 	Andrew Morton <akpm@linux-foundation.org>,
 	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
-Subject: Re: [PATCH v1 17/23] PCI: epf-test: Switch to use %ptSp
-Message-ID: <20251111001137.GA2145521@bhelgaas>
+Subject: Re: [PATCH v1 12/23] ipmi: Switch to use %ptSp
+Message-ID: <aRKOr2hyoqTnh85-@mail.minyard.net>
+Reply-To: corey@minyard.net
+References: <20251110184727.666591-1-andriy.shevchenko@linux.intel.com>
+ <20251110184727.666591-13-andriy.shevchenko@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -118,36 +153,54 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251110184727.666591-18-andriy.shevchenko@linux.intel.com>
+In-Reply-To: <20251110184727.666591-13-andriy.shevchenko@linux.intel.com>
 
-On Mon, Nov 10, 2025 at 07:40:36PM +0100, Andy Shevchenko wrote:
+On Mon, Nov 10, 2025 at 07:40:31PM +0100, Andy Shevchenko wrote:
 > Use %ptSp instead of open coded variants to print content of
 > struct timespec64 in human readable format.
 > 
 > Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 
-Acked-by: Bjorn Helgaas <bhelgaas@google.com>
+Quite a bit neater, yes.
+
+Acked-by: Corey Minyard <cminyard@mvista.com>
 
 > ---
->  drivers/pci/endpoint/functions/pci-epf-test.c | 5 ++---
->  1 file changed, 2 insertions(+), 3 deletions(-)
+>  drivers/char/ipmi/ipmi_si_intf.c | 3 +--
+>  drivers/char/ipmi/ipmi_ssif.c    | 6 ++----
+>  2 files changed, 3 insertions(+), 6 deletions(-)
 > 
-> diff --git a/drivers/pci/endpoint/functions/pci-epf-test.c b/drivers/pci/endpoint/functions/pci-epf-test.c
-> index b05e8db575c3..debd235253c5 100644
-> --- a/drivers/pci/endpoint/functions/pci-epf-test.c
-> +++ b/drivers/pci/endpoint/functions/pci-epf-test.c
-> @@ -331,9 +331,8 @@ static void pci_epf_test_print_rate(struct pci_epf_test *epf_test,
->  		rate = div64_u64(size * NSEC_PER_SEC, ns * 1000);
+> diff --git a/drivers/char/ipmi/ipmi_si_intf.c b/drivers/char/ipmi/ipmi_si_intf.c
+> index 70e55f5ff85e..5459ffdde8dc 100644
+> --- a/drivers/char/ipmi/ipmi_si_intf.c
+> +++ b/drivers/char/ipmi/ipmi_si_intf.c
+> @@ -275,8 +275,7 @@ void debug_timestamp(struct smi_info *smi_info, char *msg)
+>  	struct timespec64 t;
 >  
->  	dev_info(&epf_test->epf->dev,
-> -		 "%s => Size: %llu B, DMA: %s, Time: %llu.%09u s, Rate: %llu KB/s\n",
-> -		 op, size, dma ? "YES" : "NO",
-> -		 (u64)ts.tv_sec, (u32)ts.tv_nsec, rate);
-> +		 "%s => Size: %llu B, DMA: %s, Time: %ptSp s, Rate: %llu KB/s\n",
-> +		 op, size, dma ? "YES" : "NO", &ts, rate);
+>  	ktime_get_ts64(&t);
+> -	dev_dbg(smi_info->io.dev, "**%s: %lld.%9.9ld\n",
+> -		msg, t.tv_sec, t.tv_nsec);
+> +	dev_dbg(smi_info->io.dev, "**%s: %ptSp\n", msg, &t);
 >  }
+>  #else
+>  #define debug_timestamp(smi_info, x)
+> diff --git a/drivers/char/ipmi/ipmi_ssif.c b/drivers/char/ipmi/ipmi_ssif.c
+> index 1b63f7d2fcda..ef1582a029f4 100644
+> --- a/drivers/char/ipmi/ipmi_ssif.c
+> +++ b/drivers/char/ipmi/ipmi_ssif.c
+> @@ -1083,10 +1083,8 @@ static int sender(void *send_info, struct ipmi_smi_msg *msg)
+>  		struct timespec64 t;
 >  
->  static void pci_epf_test_copy(struct pci_epf_test *epf_test,
+>  		ktime_get_real_ts64(&t);
+> -		dev_dbg(&ssif_info->client->dev,
+> -			"**Enqueue %02x %02x: %lld.%6.6ld\n",
+> -			msg->data[0], msg->data[1],
+> -			(long long)t.tv_sec, (long)t.tv_nsec / NSEC_PER_USEC);
+> +		dev_dbg(&ssif_info->client->dev, "**Enqueue %02x %02x: %ptSp\n",
+> +			msg->data[0], msg->data[1], &t);
+>  	}
+>  	return IPMI_CC_NO_ERROR;
+>  }
 > -- 
 > 2.50.1
 > 
