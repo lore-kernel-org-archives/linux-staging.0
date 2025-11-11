@@ -1,50 +1,50 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21B2435A141
-	for <linux-staging@lists.linux.dev>; Tue, 11 Nov 2025 12:27:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2429935A923
+	for <linux-staging@lists.linux.dev>; Tue, 11 Nov 2025 12:27:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762864079; cv=none; b=KPzywM6UL5CyBQ69ZcU505rb8BuceL2W19QqWWWIkbhEIsAYcpwNpN3Ro77tyd5X68VYohKnjGsysFZu+j+r/Ps3g5K88T1nbfMjmhnLMsap3+ZiZ3FAzSvkRIPRfa5O26XSb2fKckpHJjJZbKve/Qm54D63KRG/BvnYmkF0sFE=
+	t=1762864079; cv=none; b=DV9iLGtxt4aPWb4twCo+dXsHaTtHHKnd9EFps3lHHCEFEa5Ur6rcFUorMoVt1ZernudIuMryiCrnKAeJtwylQFHfyjwbh6e1o9XnuM5otOba3vXGoePj4qlxKoSv45m58JaHJ7K0cFIDDyfD8sqIwKKNQnLUljQCQgzUCWtGYgo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1762864079; c=relaxed/simple;
-	bh=7NmptH2LCRnhyIJyupG4avq6FRBgd39PfdnreF6zDIE=;
+	bh=EAZPhqK1RMT/qk5MrCQgSpebw1/0a3p3ZrELaAc3EQY=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=FlNDsNaaeuwMQqpxPOKpQnF+lJCRUl5f8m5FGChnpbASBgnJnZwiUGUwqL16VeyrIqyDGPFAUeYxxrMbGNxbVnSz1T7AN02YvWhBmNiJOLrzoW4kLskOb+RTnoOR3AIre8SE1NWYtyWdDEdYxyXYnC1A7oUSrbM9JMlKkmhZ8EE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=B+F3/468; arc=none smtp.client-ip=192.198.163.9
+	 MIME-Version; b=d9WBL/BBCuhKzGDAqEPNY6QdO0RkH7yvcM9aIK5pwgkhDpBetlZB2xDCLCzre1Rs4l7dCUPDtY1rbNo/iiDfps+COE/ZjVgvb5xFel2iXO83rcUYZDw2vK1Ie1FB6p00tU9kLaeLfhIcEOE4f3kEIv99ow2mDCVCnkns0BtY/RM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aFTW6WX3; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="B+F3/468"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aFTW6WX3"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1762864078; x=1794400078;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=7NmptH2LCRnhyIJyupG4avq6FRBgd39PfdnreF6zDIE=;
-  b=B+F3/4689vFTbmZkpn+9FZhXvl6SrCPIJaeFZWWqEPuPhxcnMv49PeOd
-   eHNCGordNTLtIfaln4bACVmWmiiZMpcpGS5wyyBdDhKUmLrYtUZbgi+4F
-   xhuClaI/KO+k4tRDK1Dx2pRB6ZJAeVCYh4dyVGqTxdvoMM2FEbY192R2/
-   J9SZ1CMXSh8bPXBbsj10YMkOSdfDxh7fZ41L2ewnUA9BU0Eocn4v6Kunc
-   0er329X141wFVITm0e6VgCgxJI99/dzQpoDeepjnV95m5xCtSlMhAc274
-   6b9uDgPCVM5cBSzF7Z4TWehZ5dLjQwt0wjJMIG0h9jf6Po9DrAhlbRVXN
-   A==;
-X-CSE-ConnectionGUID: LFk05zXpSyG06Y7HruZbFg==
-X-CSE-MsgGUID: NQzq7C10Rb2N0sFdqQQ7OQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11609"; a="75606877"
+  bh=EAZPhqK1RMT/qk5MrCQgSpebw1/0a3p3ZrELaAc3EQY=;
+  b=aFTW6WX3Y+R7rEN/RSnGPib8+/q3SRQUooWF0p6NRo/ydgoR01PzMQYf
+   FG1m7LgeXouJBSJYy9iacb6A1DXq4xxBGtEnZppOU4OhBmpqUhhyJkpHH
+   9or4AsOzdzMY1ebB0tsvTXQHR1s6KkV60pCJLrXSOOQe/05AzZ22oWViv
+   Hx1XbVrKUJ4/Ch7JJoP+tJzxf3dV2madXJXFBJk2CgVwViw+2vmjYYDMc
+   Rxg0TyQoca1QqsDx+90AKFYWc1WaRpdNZiQcontsvwauZkD+1+833Lgzr
+   L6R4piWFOhAAZAMmpzmYvFUhVgmlHy1dxBx4Nyk/F0XPctUg5YpnYWNoE
+   w==;
+X-CSE-ConnectionGUID: QqTkz8z/T8iBbnbNwtQP8A==
+X-CSE-MsgGUID: 8atgjk3CR42UAJ7bmnAIDg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11609"; a="82552971"
 X-IronPort-AV: E=Sophos;i="6.19,296,1754982000"; 
-   d="scan'208";a="75606877"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Nov 2025 04:27:56 -0800
-X-CSE-ConnectionGUID: 2mA0XXKwRcyvJwy0xrWdNg==
-X-CSE-MsgGUID: XLws0vWwRP+2xdWEpmA1HQ==
+   d="scan'208";a="82552971"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Nov 2025 04:27:56 -0800
+X-CSE-ConnectionGUID: Zn0AdvczRVOldKWv1Tt+SQ==
+X-CSE-MsgGUID: DQ9az50KRrCwju9FrTfLVQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,296,1754982000"; 
-   d="scan'208";a="188592907"
+   d="scan'208";a="212343298"
 Received: from black.igk.intel.com ([10.91.253.5])
-  by fmviesa007.fm.intel.com with ESMTP; 11 Nov 2025 04:27:49 -0800
+  by fmviesa002.fm.intel.com with ESMTP; 11 Nov 2025 04:27:49 -0800
 Received: by black.igk.intel.com (Postfix, from userid 1003)
-	id E57149A; Tue, 11 Nov 2025 13:27:37 +0100 (CET)
+	id EBC3D9B; Tue, 11 Nov 2025 13:27:37 +0100 (CET)
 From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 To: Corey Minyard <corey@minyard.net>,
 	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
@@ -138,9 +138,9 @@ Cc: Rasmus Villemoes <linux@rasmusvillemoes.dk>,
 	Masami Hiramatsu <mhiramat@kernel.org>,
 	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
 	Andrew Morton <akpm@linux-foundation.org>
-Subject: [PATCH v2 04/21] dma-buf: Switch to use %ptSp
-Date: Tue, 11 Nov 2025 13:20:04 +0100
-Message-ID: <20251111122735.880607-5-andriy.shevchenko@linux.intel.com>
+Subject: [PATCH v2 05/21] drm/amdgpu: Switch to use %ptSp
+Date: Tue, 11 Nov 2025 13:20:05 +0100
+Message-ID: <20251111122735.880607-6-andriy.shevchenko@linux.intel.com>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <20251111122735.880607-1-andriy.shevchenko@linux.intel.com>
 References: <20251111122735.880607-1-andriy.shevchenko@linux.intel.com>
@@ -150,31 +150,30 @@ List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
 Use %ptSp instead of open coded variants to print content of
 struct timespec64 in human readable format.
 
-Reviewed-by: Christian König <christian.koenig@amd.com>
 Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 ---
- drivers/dma-buf/sync_debug.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/amd/amdgpu/amdgpu_dev_coredump.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/drivers/dma-buf/sync_debug.c b/drivers/dma-buf/sync_debug.c
-index 67cd69551e42..9e5d662cd4e8 100644
---- a/drivers/dma-buf/sync_debug.c
-+++ b/drivers/dma-buf/sync_debug.c
-@@ -59,7 +59,7 @@ static void sync_print_fence(struct seq_file *s,
- 		struct timespec64 ts64 =
- 			ktime_to_timespec64(fence->timestamp);
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_dev_coredump.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_dev_coredump.c
+index 8a026bc9ea44..4e2fe6674db8 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_dev_coredump.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_dev_coredump.c
+@@ -217,8 +217,7 @@ amdgpu_devcoredump_read(char *buffer, loff_t offset, size_t count,
+ 	drm_printf(&p, "version: " AMDGPU_COREDUMP_VERSION "\n");
+ 	drm_printf(&p, "kernel: " UTS_RELEASE "\n");
+ 	drm_printf(&p, "module: " KBUILD_MODNAME "\n");
+-	drm_printf(&p, "time: %lld.%09ld\n", coredump->reset_time.tv_sec,
+-		   coredump->reset_time.tv_nsec);
++	drm_printf(&p, "time: %ptSp\n", &coredump->reset_time);
  
--		seq_printf(s, "@%lld.%09ld", (s64)ts64.tv_sec, ts64.tv_nsec);
-+		seq_printf(s, "@%ptSp", &ts64);
- 	}
- 
- 	seq_printf(s, ": %lld", fence->seqno);
+ 	if (coredump->reset_task_info.task.pid)
+ 		drm_printf(&p, "process_name: %s PID: %d\n",
 -- 
 2.50.1
 
