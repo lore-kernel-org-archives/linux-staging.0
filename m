@@ -1,50 +1,50 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 387FF3246F3
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37772328276
 	for <linux-staging@lists.linux.dev>; Tue, 11 Nov 2025 12:28:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762864091; cv=none; b=Tya2IvGgmYmq0OPZkGJqFjhzA8pAn5T1UoSt229VB85x6hUMmnhmSQqsMb3EQ6+z/6ruoMVOXTEzKGcO0ov6xI1/3g7wxDusvE1nvIAL4UPBZkzUcsnKTn1EAO9gLxJ+Y7ciC58eQLnLbvyA64/pNdboJuQ8cficfa+a15kkB+A=
+	t=1762864091; cv=none; b=AE63IDq1j4MeudH+Hs6PToEQtBEb6j0GsIsBxzURcKLmVp65zXxlT/Ku0BZ8fKUz/9mhGDNv67t4k66ETIiMp/ZOmXKFy0E7wEGrl2bY1L9udSpWrvHWldyg1Le9Ni85s7iIS4SlFsVCCAgsaR8LHZumRcDDLtqOKqEWZ80ptUA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1762864091; c=relaxed/simple;
-	bh=e8WeGxOtZtcbZrMvs9n+wJZzGptxfxh9oxsAvrP2sMQ=;
+	bh=9P5AC3KVHcn4TcLoSKblVZwstZQ28owfF1NSWgu0v6M=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=SCSfBkXXV10TAYLJZALxeAvoc5VMAcIQ6ZMtktUm8lxJbmc6EmBb31/2JhzRfX5G9QuDNQuTSmFYwA1YD+B0ArsUyqBukywrp9JLHDTqUurebl+aRUDWIE3qMtiPnwpwBgec74fFC2cJgoD81Lg2N9H+Q6iGsqOgR7rP6NvFpHE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=A5paQwNW; arc=none smtp.client-ip=192.198.163.9
+	 MIME-Version; b=L+J+al05vu3UPIryCcTxklhhCNE7n5l/lx9CgVhPQaBCbXM4ilOEgnn/mLaJzQFNTF7/pPeCiH4puVProWQ1y6tsMkfjt12qp+jx6BbxUrUI5yUzMAfosQCH2lNLIgUl0hGAQs9ht8KpOrepihJVgAJbPO0lB0GJznK/7TSRthw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ecaWCVpV; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="A5paQwNW"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ecaWCVpV"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1762864089; x=1794400089;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=e8WeGxOtZtcbZrMvs9n+wJZzGptxfxh9oxsAvrP2sMQ=;
-  b=A5paQwNWReAskPRn26+Zb2zPBO+NmbnUbDvS5/Mk5CsW95ogQ6H8znqV
-   HTyxXryDf9DD8CE8YQzvO9qf8Qb61DsEE7Wuwc5aOIllfYzPu29HjaR6U
-   Uc+g8n7GXyfyQ891iLRu52zMRJ1G3IoMogZ1bxYQqZkKV751wRPgATnWt
-   79eHdfHMP1qmf+P8pSuRbLejofb6zzDZGurD9s6RE1TznsKAH7amtTeoQ
-   Jnm0m/YTMJUTNR2rMkGLJBLPst7ovkzHrBldGzTalUIXqaRegsp5ij3Tk
-   xUw9g0W59CjhKV/VtDALSHD3jd0/1lyIX8e/i3cVLfDPHjagSIgLFyWu7
-   g==;
-X-CSE-ConnectionGUID: ShIIppL4TFGcjtKOPOYV+Q==
-X-CSE-MsgGUID: Uka/JY37RACivHnUsBST1Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11609"; a="75607039"
+  bh=9P5AC3KVHcn4TcLoSKblVZwstZQ28owfF1NSWgu0v6M=;
+  b=ecaWCVpV22qSZEO538a857auV+iefr496pIwBvjXDRd2OEiyDDLe7IT4
+   nhwEuHJxBOVrxQIuqul6Isu7xdn9ZyOV1wmnxu9WsIcNA4FOL4rIRDex/
+   SlcZL7DqbQ969In0yFLZS+UbDNJECGBohFsMCvHD1igFMyqz/MUSchW/0
+   rn1WwcysVEAWu7J669UOXsLzz0VIHcH9eYNUWUqpknlHaG+vC0ZjdnPzg
+   8wuVSzobijhZSktFXR6JSanR6rUUyVNp5dit10Wk8H5/pYfhgxThWoXuh
+   JW7Rjr75I5CRdgS4yh5+pGhVOOJB5KIolQJFPZW6c4XvcE6LWGaBAsJx/
+   w==;
+X-CSE-ConnectionGUID: x5fpskI7Rcmhu8Ey7TVcWg==
+X-CSE-MsgGUID: J1VfKseJS4GZAvIiSzv0AQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11609"; a="82553194"
 X-IronPort-AV: E=Sophos;i="6.19,296,1754982000"; 
-   d="scan'208";a="75607039"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Nov 2025 04:28:06 -0800
-X-CSE-ConnectionGUID: YHDSoTq9Rr+aZdtO+8m67w==
-X-CSE-MsgGUID: KCI6LE1SS0+Hf144PvkzVA==
+   d="scan'208";a="82553194"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Nov 2025 04:28:06 -0800
+X-CSE-ConnectionGUID: C4sha4TYQL6Ra9K6KrIJ/w==
+X-CSE-MsgGUID: nOZ6GvmYRmiuO92CznfCzw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,296,1754982000"; 
-   d="scan'208";a="188592922"
+   d="scan'208";a="212343329"
 Received: from black.igk.intel.com ([10.91.253.5])
-  by fmviesa007.fm.intel.com with ESMTP; 11 Nov 2025 04:27:58 -0800
+  by fmviesa002.fm.intel.com with ESMTP; 11 Nov 2025 04:27:59 -0800
 Received: by black.igk.intel.com (Postfix, from userid 1003)
-	id 30E48A4; Tue, 11 Nov 2025 13:27:38 +0100 (CET)
+	id 3E4F2A6; Tue, 11 Nov 2025 13:27:38 +0100 (CET)
 From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 To: Corey Minyard <corey@minyard.net>,
 	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
@@ -138,9 +138,9 @@ Cc: Rasmus Villemoes <linux@rasmusvillemoes.dk>,
 	Masami Hiramatsu <mhiramat@kernel.org>,
 	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
 	Andrew Morton <akpm@linux-foundation.org>
-Subject: [PATCH v2 14/21] net: dsa: sja1105: Switch to use %ptSp
-Date: Tue, 11 Nov 2025 13:20:14 +0100
-Message-ID: <20251111122735.880607-15-andriy.shevchenko@linux.intel.com>
+Subject: [PATCH v2 16/21] pps: Switch to use %ptSp
+Date: Tue, 11 Nov 2025 13:20:16 +0100
+Message-ID: <20251111122735.880607-17-andriy.shevchenko@linux.intel.com>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <20251111122735.880607-1-andriy.shevchenko@linux.intel.com>
 References: <20251111122735.880607-1-andriy.shevchenko@linux.intel.com>
@@ -155,36 +155,40 @@ Content-Transfer-Encoding: 8bit
 Use %ptSp instead of open coded variants to print content of
 struct timespec64 in human readable format.
 
+Acked-by: Rodolfo Giometti <giometti@enneenne.com>
 Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 ---
- drivers/net/dsa/sja1105/sja1105_tas.c | 8 +++-----
- 1 file changed, 3 insertions(+), 5 deletions(-)
+ drivers/pps/generators/pps_gen_parport.c | 3 +--
+ drivers/pps/kapi.c                       | 3 +--
+ 2 files changed, 2 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/net/dsa/sja1105/sja1105_tas.c b/drivers/net/dsa/sja1105/sja1105_tas.c
-index d7818710bc02..d5949d2c3e71 100644
---- a/drivers/net/dsa/sja1105/sja1105_tas.c
-+++ b/drivers/net/dsa/sja1105/sja1105_tas.c
-@@ -775,9 +775,8 @@ static void sja1105_tas_state_machine(struct work_struct *work)
- 		base_time_ts = ns_to_timespec64(base_time);
- 		now_ts = ns_to_timespec64(now);
+diff --git a/drivers/pps/generators/pps_gen_parport.c b/drivers/pps/generators/pps_gen_parport.c
+index f5eeb4dd01ad..05bbf8d30ef1 100644
+--- a/drivers/pps/generators/pps_gen_parport.c
++++ b/drivers/pps/generators/pps_gen_parport.c
+@@ -80,8 +80,7 @@ static enum hrtimer_restart hrtimer_event(struct hrtimer *timer)
+ 	/* check if we are late */
+ 	if (expire_time.tv_sec != ts1.tv_sec || ts1.tv_nsec > lim) {
+ 		local_irq_restore(flags);
+-		pr_err("we are late this time %lld.%09ld\n",
+-				(s64)ts1.tv_sec, ts1.tv_nsec);
++		pr_err("we are late this time %ptSp\n", &ts1);
+ 		goto done;
+ 	}
  
--		dev_dbg(ds->dev, "OPER base time %lld.%09ld (now %lld.%09ld)\n",
--			base_time_ts.tv_sec, base_time_ts.tv_nsec,
--			now_ts.tv_sec, now_ts.tv_nsec);
-+		dev_dbg(ds->dev, "OPER base time %ptSp (now %ptSp)\n",
-+			&base_time_ts, &now_ts);
+diff --git a/drivers/pps/kapi.c b/drivers/pps/kapi.c
+index e9389876229e..6985c34de2ce 100644
+--- a/drivers/pps/kapi.c
++++ b/drivers/pps/kapi.c
+@@ -163,8 +163,7 @@ void pps_event(struct pps_device *pps, struct pps_event_time *ts, int event,
+ 	/* check event type */
+ 	BUG_ON((event & (PPS_CAPTUREASSERT | PPS_CAPTURECLEAR)) == 0);
  
- 		break;
+-	dev_dbg(&pps->dev, "PPS event at %lld.%09ld\n",
+-			(s64)ts->ts_real.tv_sec, ts->ts_real.tv_nsec);
++	dev_dbg(&pps->dev, "PPS event at %ptSp\n", &ts->ts_real);
  
-@@ -798,8 +797,7 @@ static void sja1105_tas_state_machine(struct work_struct *work)
- 		if (now < tas_data->oper_base_time) {
- 			/* TAS has not started yet */
- 			diff = ns_to_timespec64(tas_data->oper_base_time - now);
--			dev_dbg(ds->dev, "time to start: [%lld.%09ld]",
--				diff.tv_sec, diff.tv_nsec);
-+			dev_dbg(ds->dev, "time to start: [%ptSp]", &diff);
- 			break;
- 		}
+ 	timespec_to_pps_ktime(&ts_real, ts->ts_real);
  
 -- 
 2.50.1
