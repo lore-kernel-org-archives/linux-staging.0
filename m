@@ -1,50 +1,50 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2429935A923
-	for <linux-staging@lists.linux.dev>; Tue, 11 Nov 2025 12:27:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D578358D37
+	for <linux-staging@lists.linux.dev>; Tue, 11 Nov 2025 12:28:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762864079; cv=none; b=DV9iLGtxt4aPWb4twCo+dXsHaTtHHKnd9EFps3lHHCEFEa5Ur6rcFUorMoVt1ZernudIuMryiCrnKAeJtwylQFHfyjwbh6e1o9XnuM5otOba3vXGoePj4qlxKoSv45m58JaHJ7K0cFIDDyfD8sqIwKKNQnLUljQCQgzUCWtGYgo=
+	t=1762864081; cv=none; b=rXrYb9zx6kxEo4lO2FyKYmbEh3tRRAD9jKQuFT+9V26qmT+9PWI9h4JLB6U27lw7+RXtkfgpwBr+CY9gFDGhM9RvU5vEk62tRkU8af2otYzqZQYRE3LfgL2pzbbynRlO758J1NchH2ieiFoAxWTyU8UgTJv6ZqIMebNix7KyzCI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762864079; c=relaxed/simple;
-	bh=EAZPhqK1RMT/qk5MrCQgSpebw1/0a3p3ZrELaAc3EQY=;
+	s=arc-20240116; t=1762864081; c=relaxed/simple;
+	bh=Re9XzxeVgaRpFu9Nr8p7rXjuLRXS6TBbrXT9/XQ7Zd0=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=d9WBL/BBCuhKzGDAqEPNY6QdO0RkH7yvcM9aIK5pwgkhDpBetlZB2xDCLCzre1Rs4l7dCUPDtY1rbNo/iiDfps+COE/ZjVgvb5xFel2iXO83rcUYZDw2vK1Ie1FB6p00tU9kLaeLfhIcEOE4f3kEIv99ow2mDCVCnkns0BtY/RM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aFTW6WX3; arc=none smtp.client-ip=192.198.163.8
+	 MIME-Version; b=BQTO8HPK/3zZW3yzPcH6YFfSRd+wBySevtyHuydlfUZ3jGXyai8v7kk3yhPszEIcNY4KnDsrOTlLfiksQ+qo4ViKZ6TGQo+XRYjfFnIv65dx8poTew6L3LMKbFdUBMd+VsVJFNSDj4rNdFkps90IroHOTXEDdjZDD4wo60tzejA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ShAq/fmW; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aFTW6WX3"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ShAq/fmW"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1762864078; x=1794400078;
+  t=1762864080; x=1794400080;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=EAZPhqK1RMT/qk5MrCQgSpebw1/0a3p3ZrELaAc3EQY=;
-  b=aFTW6WX3Y+R7rEN/RSnGPib8+/q3SRQUooWF0p6NRo/ydgoR01PzMQYf
-   FG1m7LgeXouJBSJYy9iacb6A1DXq4xxBGtEnZppOU4OhBmpqUhhyJkpHH
-   9or4AsOzdzMY1ebB0tsvTXQHR1s6KkV60pCJLrXSOOQe/05AzZ22oWViv
-   Hx1XbVrKUJ4/Ch7JJoP+tJzxf3dV2madXJXFBJk2CgVwViw+2vmjYYDMc
-   Rxg0TyQoca1QqsDx+90AKFYWc1WaRpdNZiQcontsvwauZkD+1+833Lgzr
-   L6R4piWFOhAAZAMmpzmYvFUhVgmlHy1dxBx4Nyk/F0XPctUg5YpnYWNoE
-   w==;
-X-CSE-ConnectionGUID: QqTkz8z/T8iBbnbNwtQP8A==
-X-CSE-MsgGUID: 8atgjk3CR42UAJ7bmnAIDg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11609"; a="82552971"
+  bh=Re9XzxeVgaRpFu9Nr8p7rXjuLRXS6TBbrXT9/XQ7Zd0=;
+  b=ShAq/fmW7PnEDpymYjeR3Ul3mFhEdG36d61jah4hqZvjOnAS+v2FJoUS
+   jO0NEACVxdvqxuFARY0ZvGN1M1SaXD6tv701RBbGYwqKLJEEAIB+/27vY
+   k4H8cZEv1LxFr8GbtvFd7xtLH1Vd58hkL3r4lDU5WEqK0w0zTPt0GNLJY
+   gZ1YwsUPG6qpvg6EJasoVnPETxmLdJtv3gK8pMiv2NJLaJCoEGVi2fsxN
+   0GEpN+MCrHOLor1ZlfA6hQ/BwQW1WvdkU84CiTA4h7nlf05zROjIfM/EX
+   yZqmzHkbT1fGcPYB6u/e94klLcWD6O5rB3/ewg0hsiV8ZopX0vBuq4RYH
+   A==;
+X-CSE-ConnectionGUID: JJVK7EOIT92LBLyx9jb8RQ==
+X-CSE-MsgGUID: /wbDfO02TT+XZLljv5XmBQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11609"; a="82553003"
 X-IronPort-AV: E=Sophos;i="6.19,296,1754982000"; 
-   d="scan'208";a="82552971"
+   d="scan'208";a="82553003"
 Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Nov 2025 04:27:56 -0800
-X-CSE-ConnectionGUID: Zn0AdvczRVOldKWv1Tt+SQ==
-X-CSE-MsgGUID: DQ9az50KRrCwju9FrTfLVQ==
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Nov 2025 04:27:57 -0800
+X-CSE-ConnectionGUID: +vGE22wxRqyUsxAtV1Rd4A==
+X-CSE-MsgGUID: DlcUK5isRVWX1VUmvXRrPw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,296,1754982000"; 
-   d="scan'208";a="212343298"
+   d="scan'208";a="212343300"
 Received: from black.igk.intel.com ([10.91.253.5])
   by fmviesa002.fm.intel.com with ESMTP; 11 Nov 2025 04:27:49 -0800
 Received: by black.igk.intel.com (Postfix, from userid 1003)
-	id EBC3D9B; Tue, 11 Nov 2025 13:27:37 +0100 (CET)
+	id F237E9C; Tue, 11 Nov 2025 13:27:37 +0100 (CET)
 From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 To: Corey Minyard <corey@minyard.net>,
 	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
@@ -138,9 +138,9 @@ Cc: Rasmus Villemoes <linux@rasmusvillemoes.dk>,
 	Masami Hiramatsu <mhiramat@kernel.org>,
 	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
 	Andrew Morton <akpm@linux-foundation.org>
-Subject: [PATCH v2 05/21] drm/amdgpu: Switch to use %ptSp
-Date: Tue, 11 Nov 2025 13:20:05 +0100
-Message-ID: <20251111122735.880607-6-andriy.shevchenko@linux.intel.com>
+Subject: [PATCH v2 06/21] drm/msm: Switch to use %ptSp
+Date: Tue, 11 Nov 2025 13:20:06 +0100
+Message-ID: <20251111122735.880607-7-andriy.shevchenko@linux.intel.com>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <20251111122735.880607-1-andriy.shevchenko@linux.intel.com>
 References: <20251111122735.880607-1-andriy.shevchenko@linux.intel.com>
@@ -157,23 +157,38 @@ struct timespec64 in human readable format.
 
 Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 ---
- drivers/gpu/drm/amd/amdgpu/amdgpu_dev_coredump.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ drivers/gpu/drm/msm/disp/msm_disp_snapshot_util.c | 3 +--
+ drivers/gpu/drm/msm/msm_gpu.c                     | 3 +--
+ 2 files changed, 2 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_dev_coredump.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_dev_coredump.c
-index 8a026bc9ea44..4e2fe6674db8 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_dev_coredump.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_dev_coredump.c
-@@ -217,8 +217,7 @@ amdgpu_devcoredump_read(char *buffer, loff_t offset, size_t count,
- 	drm_printf(&p, "version: " AMDGPU_COREDUMP_VERSION "\n");
+diff --git a/drivers/gpu/drm/msm/disp/msm_disp_snapshot_util.c b/drivers/gpu/drm/msm/disp/msm_disp_snapshot_util.c
+index 071bcdea80f7..19b470968f4d 100644
+--- a/drivers/gpu/drm/msm/disp/msm_disp_snapshot_util.c
++++ b/drivers/gpu/drm/msm/disp/msm_disp_snapshot_util.c
+@@ -82,8 +82,7 @@ void msm_disp_state_print(struct msm_disp_state *state, struct drm_printer *p)
+ 	drm_printf(p, "kernel: " UTS_RELEASE "\n");
+ 	drm_printf(p, "module: " KBUILD_MODNAME "\n");
+ 	drm_printf(p, "dpu devcoredump\n");
+-	drm_printf(p, "time: %lld.%09ld\n",
+-		state->time.tv_sec, state->time.tv_nsec);
++	drm_printf(p, "time: %ptSp\n", &state->time);
+ 
+ 	list_for_each_entry_safe(block, tmp, &state->blocks, node) {
+ 		drm_printf(p, "====================%s================\n", block->name);
+diff --git a/drivers/gpu/drm/msm/msm_gpu.c b/drivers/gpu/drm/msm/msm_gpu.c
+index 17759abc46d7..a4251afe4541 100644
+--- a/drivers/gpu/drm/msm/msm_gpu.c
++++ b/drivers/gpu/drm/msm/msm_gpu.c
+@@ -197,8 +197,7 @@ static ssize_t msm_gpu_devcoredump_read(char *buffer, loff_t offset,
+ 	drm_printf(&p, "---\n");
  	drm_printf(&p, "kernel: " UTS_RELEASE "\n");
  	drm_printf(&p, "module: " KBUILD_MODNAME "\n");
--	drm_printf(&p, "time: %lld.%09ld\n", coredump->reset_time.tv_sec,
--		   coredump->reset_time.tv_nsec);
-+	drm_printf(&p, "time: %ptSp\n", &coredump->reset_time);
- 
- 	if (coredump->reset_task_info.task.pid)
- 		drm_printf(&p, "process_name: %s PID: %d\n",
+-	drm_printf(&p, "time: %lld.%09ld\n",
+-		state->time.tv_sec, state->time.tv_nsec);
++	drm_printf(&p, "time: %ptSp\n", &state->time);
+ 	if (state->comm)
+ 		drm_printf(&p, "comm: %s\n", state->comm);
+ 	if (state->cmd)
 -- 
 2.50.1
 
