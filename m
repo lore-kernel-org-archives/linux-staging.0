@@ -1,50 +1,50 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D578358D37
-	for <linux-staging@lists.linux.dev>; Tue, 11 Nov 2025 12:28:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92DF735A15E
+	for <linux-staging@lists.linux.dev>; Tue, 11 Nov 2025 12:28:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762864081; cv=none; b=rXrYb9zx6kxEo4lO2FyKYmbEh3tRRAD9jKQuFT+9V26qmT+9PWI9h4JLB6U27lw7+RXtkfgpwBr+CY9gFDGhM9RvU5vEk62tRkU8af2otYzqZQYRE3LfgL2pzbbynRlO758J1NchH2ieiFoAxWTyU8UgTJv6ZqIMebNix7KyzCI=
+	t=1762864086; cv=none; b=Hk3Zm0hJkvfgxjKexlvF0zeX9IA4lgtLclHIpaPH3LEtm6jC+SMxio0IuQrlOyO/HE0y0mMa3oOw1p3/SgL7ocZcR/Qa931mqktn27pJ8gJOIn8Hr/mb8KY8NINX2REHEwbwV2pFuvmc1lxD1pFmqb2ZxcTKBiZeXlnj/7FnJVw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762864081; c=relaxed/simple;
-	bh=Re9XzxeVgaRpFu9Nr8p7rXjuLRXS6TBbrXT9/XQ7Zd0=;
+	s=arc-20240116; t=1762864086; c=relaxed/simple;
+	bh=BmDr+9WwyAhMzsfsAApxDHVanVdl5gKra56KPccq0Eg=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=BQTO8HPK/3zZW3yzPcH6YFfSRd+wBySevtyHuydlfUZ3jGXyai8v7kk3yhPszEIcNY4KnDsrOTlLfiksQ+qo4ViKZ6TGQo+XRYjfFnIv65dx8poTew6L3LMKbFdUBMd+VsVJFNSDj4rNdFkps90IroHOTXEDdjZDD4wo60tzejA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ShAq/fmW; arc=none smtp.client-ip=192.198.163.8
+	 MIME-Version; b=L0LvmeShlUCbop1Ij2M79lLE9hh0cX96jh3N5RjUaIG0LISUCOz1jKdiveklV9KBzThUOT/1JpCYLwzBzbTwpF0p/qoPKzlN0fa8IBBFIpusGAN8dlrlzAYYV6Rr+JaQAyrFb/GaTLKRf5gK/HhwlGgtudHiQv4PXwGIjHezqfI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=llVHxoNE; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ShAq/fmW"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="llVHxoNE"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1762864080; x=1794400080;
+  t=1762864085; x=1794400085;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=Re9XzxeVgaRpFu9Nr8p7rXjuLRXS6TBbrXT9/XQ7Zd0=;
-  b=ShAq/fmW7PnEDpymYjeR3Ul3mFhEdG36d61jah4hqZvjOnAS+v2FJoUS
-   jO0NEACVxdvqxuFARY0ZvGN1M1SaXD6tv701RBbGYwqKLJEEAIB+/27vY
-   k4H8cZEv1LxFr8GbtvFd7xtLH1Vd58hkL3r4lDU5WEqK0w0zTPt0GNLJY
-   gZ1YwsUPG6qpvg6EJasoVnPETxmLdJtv3gK8pMiv2NJLaJCoEGVi2fsxN
-   0GEpN+MCrHOLor1ZlfA6hQ/BwQW1WvdkU84CiTA4h7nlf05zROjIfM/EX
-   yZqmzHkbT1fGcPYB6u/e94klLcWD6O5rB3/ewg0hsiV8ZopX0vBuq4RYH
-   A==;
-X-CSE-ConnectionGUID: JJVK7EOIT92LBLyx9jb8RQ==
-X-CSE-MsgGUID: /wbDfO02TT+XZLljv5XmBQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11609"; a="82553003"
+  bh=BmDr+9WwyAhMzsfsAApxDHVanVdl5gKra56KPccq0Eg=;
+  b=llVHxoNESluLOtFu8pqu8RZOuU/9eEJZufPv4oaIk0kpAqlBWs3qDEFr
+   lIXSbtGie9z53nWAiOakt+4wrOWJ7Td2o18zcEMmHLqNpPk62jRkqbRZj
+   ZPGetLQYZIavgNOEdIL9pAGE7tYU6zBXPwdonWMbAnC6cvZD/q+2cQJb6
+   8rctIhgQXwDUpGJA8zpYuWNLuMIySKxqoWxTQft9jxkHcC4l1zwFegRew
+   WeCgvzOjBZGMunVbqOxjrXbi+owQjOoIgNe2Nt4VGT9EmkILgQPhsHYnL
+   nmGiJqYVTjIV+lFpYx0GHFppyaEuUeyO5ZnCStwGyX9PEKyQGpG/Ft92P
+   g==;
+X-CSE-ConnectionGUID: JQx0dZTMRT6e63XxjgJQbw==
+X-CSE-MsgGUID: NVTC1WPnTHyuM5yZvETz2g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11609"; a="75606951"
 X-IronPort-AV: E=Sophos;i="6.19,296,1754982000"; 
-   d="scan'208";a="82553003"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Nov 2025 04:27:57 -0800
-X-CSE-ConnectionGUID: +vGE22wxRqyUsxAtV1Rd4A==
-X-CSE-MsgGUID: DlcUK5isRVWX1VUmvXRrPw==
+   d="scan'208";a="75606951"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Nov 2025 04:28:03 -0800
+X-CSE-ConnectionGUID: yb65GK5dTgmnslAPrRM0gA==
+X-CSE-MsgGUID: J9zlwCCETMGq265hl7+R7Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,296,1754982000"; 
-   d="scan'208";a="212343300"
+   d="scan'208";a="188592913"
 Received: from black.igk.intel.com ([10.91.253.5])
-  by fmviesa002.fm.intel.com with ESMTP; 11 Nov 2025 04:27:49 -0800
+  by fmviesa007.fm.intel.com with ESMTP; 11 Nov 2025 04:27:55 -0800
 Received: by black.igk.intel.com (Postfix, from userid 1003)
-	id F237E9C; Tue, 11 Nov 2025 13:27:37 +0100 (CET)
+	id 0AB809E; Tue, 11 Nov 2025 13:27:38 +0100 (CET)
 From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 To: Corey Minyard <corey@minyard.net>,
 	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
@@ -138,9 +138,9 @@ Cc: Rasmus Villemoes <linux@rasmusvillemoes.dk>,
 	Masami Hiramatsu <mhiramat@kernel.org>,
 	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
 	Andrew Morton <akpm@linux-foundation.org>
-Subject: [PATCH v2 06/21] drm/msm: Switch to use %ptSp
-Date: Tue, 11 Nov 2025 13:20:06 +0100
-Message-ID: <20251111122735.880607-7-andriy.shevchenko@linux.intel.com>
+Subject: [PATCH v2 08/21] drm/xe: Switch to use %ptSp
+Date: Tue, 11 Nov 2025 13:20:08 +0100
+Message-ID: <20251111122735.880607-9-andriy.shevchenko@linux.intel.com>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <20251111122735.880607-1-andriy.shevchenko@linux.intel.com>
 References: <20251111122735.880607-1-andriy.shevchenko@linux.intel.com>
@@ -155,40 +155,28 @@ Content-Transfer-Encoding: 8bit
 Use %ptSp instead of open coded variants to print content of
 struct timespec64 in human readable format.
 
+Acked-by: Lucas De Marchi <lucas.demarchi@intel.com>
 Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 ---
- drivers/gpu/drm/msm/disp/msm_disp_snapshot_util.c | 3 +--
- drivers/gpu/drm/msm/msm_gpu.c                     | 3 +--
- 2 files changed, 2 insertions(+), 4 deletions(-)
+ drivers/gpu/drm/xe/xe_devcoredump.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/msm/disp/msm_disp_snapshot_util.c b/drivers/gpu/drm/msm/disp/msm_disp_snapshot_util.c
-index 071bcdea80f7..19b470968f4d 100644
---- a/drivers/gpu/drm/msm/disp/msm_disp_snapshot_util.c
-+++ b/drivers/gpu/drm/msm/disp/msm_disp_snapshot_util.c
-@@ -82,8 +82,7 @@ void msm_disp_state_print(struct msm_disp_state *state, struct drm_printer *p)
- 	drm_printf(p, "kernel: " UTS_RELEASE "\n");
- 	drm_printf(p, "module: " KBUILD_MODNAME "\n");
- 	drm_printf(p, "dpu devcoredump\n");
--	drm_printf(p, "time: %lld.%09ld\n",
--		state->time.tv_sec, state->time.tv_nsec);
-+	drm_printf(p, "time: %ptSp\n", &state->time);
+diff --git a/drivers/gpu/drm/xe/xe_devcoredump.c b/drivers/gpu/drm/xe/xe_devcoredump.c
+index 203e3038cc81..d444eda65ca6 100644
+--- a/drivers/gpu/drm/xe/xe_devcoredump.c
++++ b/drivers/gpu/drm/xe/xe_devcoredump.c
+@@ -106,9 +106,9 @@ static ssize_t __xe_devcoredump_read(char *buffer, ssize_t count,
+ 	drm_puts(&p, "module: " KBUILD_MODNAME "\n");
  
- 	list_for_each_entry_safe(block, tmp, &state->blocks, node) {
- 		drm_printf(p, "====================%s================\n", block->name);
-diff --git a/drivers/gpu/drm/msm/msm_gpu.c b/drivers/gpu/drm/msm/msm_gpu.c
-index 17759abc46d7..a4251afe4541 100644
---- a/drivers/gpu/drm/msm/msm_gpu.c
-+++ b/drivers/gpu/drm/msm/msm_gpu.c
-@@ -197,8 +197,7 @@ static ssize_t msm_gpu_devcoredump_read(char *buffer, loff_t offset,
- 	drm_printf(&p, "---\n");
- 	drm_printf(&p, "kernel: " UTS_RELEASE "\n");
- 	drm_printf(&p, "module: " KBUILD_MODNAME "\n");
--	drm_printf(&p, "time: %lld.%09ld\n",
--		state->time.tv_sec, state->time.tv_nsec);
-+	drm_printf(&p, "time: %ptSp\n", &state->time);
- 	if (state->comm)
- 		drm_printf(&p, "comm: %s\n", state->comm);
- 	if (state->cmd)
+ 	ts = ktime_to_timespec64(ss->snapshot_time);
+-	drm_printf(&p, "Snapshot time: %lld.%09ld\n", ts.tv_sec, ts.tv_nsec);
++	drm_printf(&p, "Snapshot time: %ptSp\n", &ts);
+ 	ts = ktime_to_timespec64(ss->boot_time);
+-	drm_printf(&p, "Uptime: %lld.%09ld\n", ts.tv_sec, ts.tv_nsec);
++	drm_printf(&p, "Uptime: %ptSp\n", &ts);
+ 	drm_printf(&p, "Process: %s [%d]\n", ss->process_name, ss->pid);
+ 	xe_device_snapshot_print(xe, &p);
+ 
 -- 
 2.50.1
 
