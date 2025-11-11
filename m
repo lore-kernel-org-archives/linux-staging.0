@@ -1,126 +1,129 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oa1-f65.google.com (mail-oa1-f65.google.com [209.85.160.65])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D978D361DA8
-	for <linux-staging@lists.linux.dev>; Tue, 11 Nov 2025 12:28:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1BEF32C938
+	for <linux-staging@lists.linux.dev>; Tue, 11 Nov 2025 14:37:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.65
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762864098; cv=none; b=qvTODKNj58gxxrK8X+kAmhjvnLSAmJRG86k/h4aG0CMlDgoKjZSkyYWsB/Ir3YGd9nrebOlZUl3JqMpwqr4ta9F6Db96X6Be3r3fCqeuZAOaZG8aAmK4UXXUi91vKa39sqlhg8MTFBrOsur3tJmAJwDsBwEfelS9H6rUe90g3Xo=
+	t=1762871853; cv=none; b=AiQvDvtChZNwjLPZJ1lI1ETQUiCPJcZMbxGKT5WO6Qghr0bHE2iluc+xo4tpHsYwh8vU8evojxC41gu7598HoMmuga+ap6nprsPDkLojJtn7IwCzjZPmbf/jz2Ebc2jWXlOWbRc7aD7TORCyOgV5u9FFUA1WBsEm1ZGRL4lRkeg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762864098; c=relaxed/simple;
-	bh=N6ej1S2Oe19sN5Q2t2DX/aJ/MSv694AtxQx/bMLeQmA=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=UA31sTH96G7wkR6IDCrpo6qO9aMI/0zyrLqW9A2bOZ3opVoC6rekZg5I9WESvNiP7HdgVo/lo1PIKoC7FNinSCC2ZjePqCAp0nawgjDTfksSm8LMf0MCH4xrF4WmbwXkgxTyK2bK6hNy1z8xX0MnzGH84vGJW6mLZ6okJnMtabk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hfFJbBRW; arc=none smtp.client-ip=192.198.163.8
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1762871853; c=relaxed/simple;
+	bh=4vsDOO5vSHCFgZxshezv4v4YKIlkh5M/Jf9eZEgWohI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=SgRjKulpraigixTwWFsRaqZknDfBL8DPnJBrAa+YhTrlrnKyqhXCwtRxcFaAqU9LktFSfL7Sv1XytFZtAbinvBIyiNLE4c6+19TmBg+0qOuiJWeggLzyexRKQMpBv2u3+5vvgP+QtalxRsHWTkjALl4RqWP1K+M6dwLMmYBLsSs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=minyard.net; spf=none smtp.mailfrom=minyard.net; dkim=pass (2048-bit key) header.d=minyard-net.20230601.gappssmtp.com header.i=@minyard-net.20230601.gappssmtp.com header.b=GRVMb/7T; arc=none smtp.client-ip=209.85.160.65
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=minyard.net
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=minyard.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hfFJbBRW"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1762864095; x=1794400095;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=N6ej1S2Oe19sN5Q2t2DX/aJ/MSv694AtxQx/bMLeQmA=;
-  b=hfFJbBRWDWfh5mN8N+5U669DUq+1sZhAMYQyKDuBdTwkM63iufgisnsn
-   t0r4CFErf4YGNnj0VLQbEWM/eKvK5oB+4oig2jHH8lrqaDD3BO7u3OWjz
-   zEbwk5+rRZ4i/GPv9NxmeK2d8u5ytoS2jFHMZKwfkl61YlAeZa7Kb4O05
-   oQO9YKX+Fv4mrn9btrwKuCfoQNjpBGV0g4AUDFklqNCiYxcbVwSkXvqLh
-   99T/hFfg0D5dEWAIwyNM58mpuEltWr2/QBItVp4htR1o/dXOV8g1fd4ie
-   klwkyufsOcpa7pHNMrhr/FwGFeoFgcwIC46p9KVC5V9ZzOtesTxP2090u
-   A==;
-X-CSE-ConnectionGUID: F/B0ulD1QCiVzIOpvP6EJg==
-X-CSE-MsgGUID: EODWAVygR0m14SoR6KTKrg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11609"; a="82553282"
-X-IronPort-AV: E=Sophos;i="6.19,296,1754982000"; 
-   d="scan'208";a="82553282"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Nov 2025 04:28:13 -0800
-X-CSE-ConnectionGUID: ZcPImyfHSWW+qsvDKuVEog==
-X-CSE-MsgGUID: OlA2RrkTQCeZxnb5n7rdTQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,296,1754982000"; 
-   d="scan'208";a="212343336"
-Received: from black.igk.intel.com ([10.91.253.5])
-  by fmviesa002.fm.intel.com with ESMTP; 11 Nov 2025 04:28:05 -0800
-Received: by black.igk.intel.com (Postfix, from userid 1003)
-	id 5152DA9; Tue, 11 Nov 2025 13:27:38 +0100 (CET)
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Corey Minyard <corey@minyard.net>,
-	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+	dkim=pass (2048-bit key) header.d=minyard-net.20230601.gappssmtp.com header.i=@minyard-net.20230601.gappssmtp.com header.b="GRVMb/7T"
+Received: by mail-oa1-f65.google.com with SMTP id 586e51a60fabf-3d70c5bb455so1561149fac.1
+        for <linux-staging@lists.linux.dev>; Tue, 11 Nov 2025 06:37:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=minyard-net.20230601.gappssmtp.com; s=20230601; t=1762871850; x=1763476650; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:reply-to
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=sI/Bx88S/ljGSNn+PL5Rjkz6jNPZ9Ne5hLvzfkx+saI=;
+        b=GRVMb/7TtbiM/lzT1WOb18AO9G4aw9p5Bn2Xq1+IgHBdRFoBVjdjEtrEhGZDI1SKae
+         bAjqonOZ1WOdQZ/VY+RclS7/vLkBJSUBygUvniYeczMoM/k9YSue7K97GgZwmNAT0evM
+         kyHm0gPzbgJl4uQBRTt5B1OfKLM0Evrzel0LvMg+LFbmvPn3ThwpXVr9RuoXpC9KxKR6
+         YK6X8s8DBxajkrfiJZaZLyKzJWn8ZoyyjUAiE3dtawafVag4i6I85RaqO+L5xLUdZcl+
+         7RJSyGwJ+WyrIbSBRaukDcCS+lLGD1DosJPA08jyUraOuzvYp7qZhqEk41WdQpUZm6vX
+         nIyg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1762871850; x=1763476650;
+        h=in-reply-to:content-disposition:mime-version:references:reply-to
+         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=sI/Bx88S/ljGSNn+PL5Rjkz6jNPZ9Ne5hLvzfkx+saI=;
+        b=OtOey4lzBOULaGAi+ofuHzaHiWDVE7cdEkMkGeiRVtg37ecFZPRRX2WymmFYCLaCzN
+         bb0TqpBzI8Z+e0moTtgvOWucW26bmMfy7D+Ykat0ghc509wuV1Uc9KOI0jeH+6qL6n9G
+         f0+iAhHLwnyxmOPXdWXefxrWrEHzmaOIX6rxPHjqmXdf3G2g3T7SYfJfaPMZS1OvYC33
+         aGlDMFsvwlEdKprjjgQbdDigzs+u4I4yQc3rgUNEFi+dxlyg6wuw5IEzp7U6NPYPKtss
+         1eSrIqCEWUAlkAyj7cht4oiWA5qwY9jWcQnI29dJ/eRQjUTH+4JDYKadbN8UmR0idXUc
+         KIXg==
+X-Forwarded-Encrypted: i=1; AJvYcCVwctwjfRq9xMWl+TUBHJQX5capU17al5f0+EaHszYJ5kU3ELks/GU7svYCrU2+NgEiS99OXJqVqfl3bq0C@lists.linux.dev
+X-Gm-Message-State: AOJu0Yx7JhlyOR+VET0SFlU/PtCbGdJwUls58dCAWYxNYGIwO/pDey2m
+	0Aani6c9ZG5L4BOP5AClFJbyE7Xt26GxWq1f/3J6ZbNlhaMCyWHiNH2z449u3DDEZBU=
+X-Gm-Gg: ASbGncu/olybitRyqIoZHLS1LbMiBc83Rw5jqmkqT5M+nScICAU4xMQD7k6EyMIh5nz
+	wXc79fnO41Uf+NLDFVFNT7bIkGvsy5Gbs+UlXLZn1xDPeadQQxZoCh+GP2DKgKMmAq1M093HKmz
+	oXw0jmUJaAHD7E0XYjtdiqIABJRm2O9Lw0ruIL4ZX2Pw1Kr1JAJW/+Whr2tQiRfTvcZJfa8LGfA
+	eiylvJHqX7I4GHFo3Pp13Fx+g7v3WgnKaF738Tsjl8DAurd93nPeLhisyvXMqi2XXszMHuTQ0hy
+	qf9yKu309GzDw4T0Q3F01O+aYFjKhoVKCW6xAi888VJAs2nFu1Z2kBOaKpPYkVrnohrQS4xpv//
+	gZ/M/s3AwNaH2LTZ02TUk0nv6AZzpg1JvjIMcqjsNKZPqH3uqLwGi2CdeYLAqTswLO7NU0zihnh
+	1JGFA=
+X-Google-Smtp-Source: AGHT+IFusuA/Ax3anjd0HIltuToxJUS02/udclYoHdoDI29Kk3VNxq4/rhyMyYWudQr5f0WcO3jkBQ==
+X-Received: by 2002:a05:6870:4792:b0:3e7:f4a9:588b with SMTP id 586e51a60fabf-3e7f4a9b0bcmr4110818fac.15.1762871849590;
+        Tue, 11 Nov 2025 06:37:29 -0800 (PST)
+Received: from mail.minyard.net ([2001:470:b8f6:1b:b4e9:19a3:cdaf:7174])
+        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-3e7d6f7a27dsm4861066fac.0.2025.11.11.06.37.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 11 Nov 2025 06:37:29 -0800 (PST)
+Date: Tue, 11 Nov 2025 08:37:24 -0600
+From: Corey Minyard <corey@minyard.net>
+To: Sergey Senozhatsky <senozhatsky@chromium.org>
+Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Christian K??nig <christian.koenig@amd.com>,
 	"Dr. David Alan Gilbert" <linux@treblig.org>,
 	Alex Deucher <alexander.deucher@amd.com>,
 	Thomas Zimmermann <tzimmermann@suse.de>,
 	Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
 	Rob Clark <robin.clark@oss.qualcomm.com>,
 	Matthew Brost <matthew.brost@intel.com>,
+	Hans Verkuil <hverkuil@kernel.org>,
+	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
 	Ulf Hansson <ulf.hansson@linaro.org>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
 	Vitaly Lifshits <vitaly.lifshits@intel.com>,
 	Manivannan Sadhasivam <mani@kernel.org>,
-	Niklas Cassel <cassel@kernel.org>,
-	Calvin Owens <calvin@wbinvd.org>,
-	Vadim Fedorenko <vadim.fedorenko@linux.dev>,
+	Niklas Cassel <cassel@kernel.org>, Calvin Owens <calvin@wbinvd.org>,
 	Sagi Maimon <maimon.sagi@gmail.com>,
 	"Martin K. Petersen" <martin.petersen@oracle.com>,
 	Karan Tilak Kumar <kartilak@cisco.com>,
-	Hans Verkuil <hverkuil+cisco@kernel.org>,
 	Casey Schaufler <casey@schaufler-ca.com>,
 	Steven Rostedt <rostedt@goodmis.org>,
 	Petr Mladek <pmladek@suse.com>,
-	Viacheslav Dubeyko <Slava.Dubeyko@ibm.com>,
 	Max Kellermann <max.kellermann@ionos.com>,
-	linux-doc@vger.kernel.org,
+	Takashi Iwai <tiwai@suse.de>, linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	openipmi-developer@lists.sourceforge.net,
-	linux-media@vger.kernel.org,
-	dri-devel@lists.freedesktop.org,
-	linaro-mm-sig@lists.linaro.org,
-	amd-gfx@lists.freedesktop.org,
-	linux-arm-msm@vger.kernel.org,
-	freedreno@lists.freedesktop.org,
-	intel-xe@lists.freedesktop.org,
-	linux-mmc@vger.kernel.org,
-	netdev@vger.kernel.org,
-	intel-wired-lan@lists.osuosl.org,
-	linux-pci@vger.kernel.org,
-	linux-s390@vger.kernel.org,
-	linux-scsi@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	ceph-devel@vger.kernel.org,
-	linux-trace-kernel@vger.kernel.org
-Cc: Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-	Sergey Senozhatsky <senozhatsky@chromium.org>,
+	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	linaro-mm-sig@lists.linaro.org, amd-gfx@lists.freedesktop.org,
+	linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
+	intel-xe@lists.freedesktop.org, linux-mmc@vger.kernel.org,
+	netdev@vger.kernel.org, intel-wired-lan@lists.osuosl.org,
+	linux-pci@vger.kernel.org, linux-s390@vger.kernel.org,
+	linux-scsi@vger.kernel.org, linux-staging@lists.linux.dev,
+	ceph-devel@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
+	linux-sound@vger.kernel.org,
+	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
 	Jonathan Corbet <corbet@lwn.net>,
 	Sumit Semwal <sumit.semwal@linaro.org>,
 	Gustavo Padovan <gustavo@padovan.org>,
-	David Airlie <airlied@gmail.com>,
-	Simona Vetter <simona@ffwll.ch>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
 	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
 	Maxime Ripard <mripard@kernel.org>,
 	Dmitry Baryshkov <lumag@kernel.org>,
 	Abhinav Kumar <abhinav.kumar@linux.dev>,
-	Jessica Zhang <jesszhan0024@gmail.com>,
-	Sean Paul <sean@poorly.run>,
+	Jessica Zhang <jesszhan0024@gmail.com>, Sean Paul <sean@poorly.run>,
 	Marijn Suijten <marijn.suijten@somainline.org>,
 	Konrad Dybcio <konradybcio@kernel.org>,
 	Lucas De Marchi <lucas.demarchi@intel.com>,
-	=?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+	Thomas Hellstr??m <thomas.hellstrom@linux.intel.com>,
 	Rodrigo Vivi <rodrigo.vivi@intel.com>,
-	Vladimir Oltean <olteanv@gmail.com>,
-	Andrew Lunn <andrew@lunn.ch>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Vladimir Oltean <olteanv@gmail.com>, Andrew Lunn <andrew@lunn.ch>,
 	"David S. Miller" <davem@davemloft.net>,
 	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
 	Tony Nguyen <anthony.l.nguyen@intel.com>,
 	Przemek Kitszel <przemyslaw.kitszel@intel.com>,
-	=?UTF-8?q?Krzysztof=20Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
+	Krzysztof Wilczy??ski <kwilczynski@kernel.org>,
 	Kishon Vijay Abraham I <kishon@kernel.org>,
 	Bjorn Helgaas <bhelgaas@google.com>,
 	Rodolfo Giometti <giometti@enneenne.com>,
-	Richard Cochran <richardcochran@gmail.com>,
 	Jonathan Lemon <jonathan.lemon@gmail.com>,
+	Vadim Fedorenko <vadim.fedorenko@linux.dev>,
+	Richard Cochran <richardcochran@gmail.com>,
 	Stefan Haberland <sth@linux.ibm.com>,
 	Jan Hoeppner <hoeppner@linux.ibm.com>,
 	Heiko Carstens <hca@linux.ibm.com>,
@@ -130,129 +133,44 @@ Cc: Rasmus Villemoes <linux@rasmusvillemoes.dk>,
 	Sven Schnelle <svens@linux.ibm.com>,
 	Satish Kharat <satishkh@cisco.com>,
 	Sesidhar Baddela <sebaddel@cisco.com>,
-	"James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Xiubo Li <xiubli@redhat.com>,
-	Ilya Dryomov <idryomov@gmail.com>,
+	Xiubo Li <xiubli@redhat.com>, Ilya Dryomov <idryomov@gmail.com>,
 	Masami Hiramatsu <mhiramat@kernel.org>,
 	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	Andrew Morton <akpm@linux-foundation.org>
-Subject: [PATCH v2 19/21] scsi: fnic: Switch to use %ptS
-Date: Tue, 11 Nov 2025 13:20:19 +0100
-Message-ID: <20251111122735.880607-20-andriy.shevchenko@linux.intel.com>
-X-Mailer: git-send-email 2.50.1
-In-Reply-To: <20251111122735.880607-1-andriy.shevchenko@linux.intel.com>
-References: <20251111122735.880607-1-andriy.shevchenko@linux.intel.com>
+	Andrew Morton <akpm@linux-foundation.org>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
+Subject: Re: [PATCH v1 12/23] ipmi: Switch to use %ptSp
+Message-ID: <aRNKJIyk2ne39ScE@mail.minyard.net>
+Reply-To: corey@minyard.net
+References: <20251110184727.666591-1-andriy.shevchenko@linux.intel.com>
+ <20251110184727.666591-13-andriy.shevchenko@linux.intel.com>
+ <pvjnjwm25ogu7khrpg5ttxylwnxazwxxb4jpvxhw7ysvqzkkpa@ucekjrrppaqm>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <pvjnjwm25ogu7khrpg5ttxylwnxazwxxb4jpvxhw7ysvqzkkpa@ucekjrrppaqm>
 
-Use %ptS instead of open coded variants to print content of
-struct timespec64 in human readable format.
+On Tue, Nov 11, 2025 at 05:08:25PM +0900, Sergey Senozhatsky wrote:
+> On (25/11/10 19:40), Andy Shevchenko wrote:
+> [..]
+> > +	dev_dbg(smi_info->io.dev, "**%s: %ptSp\n", msg, &t);
+> 
+> Strictly speaking, this is not exactly equivalent to %lld.%9.9ld
+> or %lld.%6.6ld but I don't know if that's of any importance.
+> 
 
-Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
----
- drivers/scsi/fnic/fnic_trace.c | 46 +++++++++++++++-------------------
- 1 file changed, 20 insertions(+), 26 deletions(-)
+Dang it, I'm traveling and used the wrong way to send the previous response.
+Sorry.
 
-diff --git a/drivers/scsi/fnic/fnic_trace.c b/drivers/scsi/fnic/fnic_trace.c
-index cdc6b12b1ec2..f5543bb92ee4 100644
---- a/drivers/scsi/fnic/fnic_trace.c
-+++ b/drivers/scsi/fnic/fnic_trace.c
-@@ -138,9 +138,8 @@ int fnic_get_trace_data(fnic_dbgfs_t *fnic_dbgfs_prt)
- 			 */
- 			len += scnprintf(fnic_dbgfs_prt->buffer + len,
- 				  (trace_max_pages * PAGE_SIZE * 3) - len,
--				  "%16llu.%09lu %-50s %8x %8x %16llx %16llx "
--				  "%16llx %16llx %16llx\n", (u64)val.tv_sec,
--				  val.tv_nsec, str, tbp->host_no, tbp->tag,
-+				  "%ptSp %-50s %8x %8x %16llx %16llx %16llx %16llx %16llx\n",
-+				  &val, str, tbp->host_no, tbp->tag,
- 				  tbp->data[0], tbp->data[1], tbp->data[2],
- 				  tbp->data[3], tbp->data[4]);
- 			rd_idx++;
-@@ -180,9 +179,8 @@ int fnic_get_trace_data(fnic_dbgfs_t *fnic_dbgfs_prt)
- 			 */
- 			len += scnprintf(fnic_dbgfs_prt->buffer + len,
- 				  (trace_max_pages * PAGE_SIZE * 3) - len,
--				  "%16llu.%09lu %-50s %8x %8x %16llx %16llx "
--				  "%16llx %16llx %16llx\n", (u64)val.tv_sec,
--				  val.tv_nsec, str, tbp->host_no, tbp->tag,
-+				  "%ptSp %-50s %8x %8x %16llx %16llx %16llx %16llx %16llx\n",
-+				  &val, str, tbp->host_no, tbp->tag,
- 				  tbp->data[0], tbp->data[1], tbp->data[2],
- 				  tbp->data[3], tbp->data[4]);
- 			rd_idx++;
-@@ -225,20 +223,16 @@ int fnic_get_stats_data(struct stats_debug_info *debug,
- 		"------------------------------------------\n");
- 
- 	len += scnprintf(debug->debug_buffer + len, buf_size - len,
--		"Current time :          [%lld:%ld]\n"
--		"Last stats reset time:  [%lld:%09ld]\n"
--		"Last stats read time:   [%lld:%ld]\n"
--		"delta since last reset: [%lld:%ld]\n"
--		"delta since last read:  [%lld:%ld]\n",
--	(s64)val1.tv_sec, val1.tv_nsec,
--	(s64)stats->stats_timestamps.last_reset_time.tv_sec,
--	stats->stats_timestamps.last_reset_time.tv_nsec,
--	(s64)stats->stats_timestamps.last_read_time.tv_sec,
--	stats->stats_timestamps.last_read_time.tv_nsec,
--	(s64)timespec64_sub(val1, stats->stats_timestamps.last_reset_time).tv_sec,
--	timespec64_sub(val1, stats->stats_timestamps.last_reset_time).tv_nsec,
--	(s64)timespec64_sub(val1, stats->stats_timestamps.last_read_time).tv_sec,
--	timespec64_sub(val1, stats->stats_timestamps.last_read_time).tv_nsec);
-+		"Current time :          [%ptSp]\n"
-+		"Last stats reset time:  [%ptSp]\n"
-+		"Last stats read time:   [%ptSp]\n"
-+		"delta since last reset: [%ptSp]\n"
-+		"delta since last read:  [%ptSp]\n",
-+	&val1,
-+	&stats->stats_timestamps.last_reset_time,
-+	&stats->stats_timestamps.last_read_time,
-+	&timespec64_sub(val1, stats->stats_timestamps.last_reset_time),
-+	&timespec64_sub(val1, stats->stats_timestamps.last_read_time));
- 
- 	stats->stats_timestamps.last_read_time = val1;
- 
-@@ -416,8 +410,8 @@ int fnic_get_stats_data(struct stats_debug_info *debug,
- 	jiffies_to_timespec64(stats->misc_stats.last_ack_time, &val2);
- 
- 	len += scnprintf(debug->debug_buffer + len, buf_size - len,
--		  "Last ISR time: %llu (%8llu.%09lu)\n"
--		  "Last ACK time: %llu (%8llu.%09lu)\n"
-+		  "Last ISR time: %llu (%ptSp)\n"
-+		  "Last ACK time: %llu (%ptSp)\n"
- 		  "Max ISR jiffies: %llu\n"
- 		  "Max ISR time (ms) (0 denotes < 1 ms): %llu\n"
- 		  "Corr. work done: %llu\n"
-@@ -438,9 +432,9 @@ int fnic_get_stats_data(struct stats_debug_info *debug,
- 		 "Number of receive frame errors: %lld\n"
- 		 "Port speed (in Mbps): %lld\n",
- 		  (u64)stats->misc_stats.last_isr_time,
--		  (s64)val1.tv_sec, val1.tv_nsec,
-+		  &val1,
- 		  (u64)stats->misc_stats.last_ack_time,
--		  (s64)val2.tv_sec, val2.tv_nsec,
-+		  &val2,
- 		  (u64)atomic64_read(&stats->misc_stats.max_isr_jiffies),
- 		  (u64)atomic64_read(&stats->misc_stats.max_isr_time_ms),
- 		  (u64)atomic64_read(&stats->misc_stats.corr_work_done),
-@@ -857,8 +851,8 @@ void copy_and_format_trace_data(struct fc_trace_hdr *tdata,
- 	len = *orig_len;
- 
- 	len += scnprintf(fnic_dbgfs_prt->buffer + len, max_size - len,
--			 "%ptTs.%09lu ns%8x       %c%8x\t",
--			 &tdata->time_stamp.tv_sec, tdata->time_stamp.tv_nsec,
-+			 "%ptSs ns%8x       %c%8x\t",
-+			 &tdata->time_stamp,
- 			 tdata->host_no, tdata->frame_type, tdata->frame_len);
- 
- 	fc_trace = (char *)FC_TRACE_ADDRESS(tdata);
--- 
-2.50.1
+Anyway, yes, it's not equivalent, but it's not important.  It's better
+to use a standard output format.  Thanks for pointing this out.
 
+Thanks,
+
+-corey
