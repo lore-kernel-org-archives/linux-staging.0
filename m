@@ -1,50 +1,50 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D8A6313E05
-	for <linux-staging@lists.linux.dev>; Tue, 11 Nov 2025 12:27:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21B2435A141
+	for <linux-staging@lists.linux.dev>; Tue, 11 Nov 2025 12:27:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762864078; cv=none; b=Dt404iUPT3oYRWriNLEc4jHcnlheKGfpMxUPoSxFG5zxTW+i+TAqM3GhlrlZmygAPt09/ckjcZ3d1PRz+bIWemyI13ywpgpPA3dpCftuPQymKoe9nr/o3SCN7P78QDljGkTL8Z+m31zRsOz+PyCYAM0+82zR6aPGQ2ZIS7Tt/Yo=
+	t=1762864079; cv=none; b=KPzywM6UL5CyBQ69ZcU505rb8BuceL2W19QqWWWIkbhEIsAYcpwNpN3Ro77tyd5X68VYohKnjGsysFZu+j+r/Ps3g5K88T1nbfMjmhnLMsap3+ZiZ3FAzSvkRIPRfa5O26XSb2fKckpHJjJZbKve/Qm54D63KRG/BvnYmkF0sFE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762864078; c=relaxed/simple;
-	bh=biAt7h9SZCWEseGnW36hqThT4FR7mM7YTOf8pyCUSJI=;
+	s=arc-20240116; t=1762864079; c=relaxed/simple;
+	bh=7NmptH2LCRnhyIJyupG4avq6FRBgd39PfdnreF6zDIE=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Y5OxZ6CQbR1OO0AYCNOXbzfUAEzeFd6EXrKLarsc1e2c1QwxRm2OiCvee+LV8NJ8auCbDHc+KLy0uLMkmFhO5ebfx1rxhBH8G5+rJW57XX+QP/ooaPJGwXoJ+x36NQqzbh0F1g6szdo9tIRmVnxzGsGx6qaLR0Fb/J1LRV0l/pg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=moEJmN1X; arc=none smtp.client-ip=192.198.163.9
+	 MIME-Version:Content-Type; b=FlNDsNaaeuwMQqpxPOKpQnF+lJCRUl5f8m5FGChnpbASBgnJnZwiUGUwqL16VeyrIqyDGPFAUeYxxrMbGNxbVnSz1T7AN02YvWhBmNiJOLrzoW4kLskOb+RTnoOR3AIre8SE1NWYtyWdDEdYxyXYnC1A7oUSrbM9JMlKkmhZ8EE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=B+F3/468; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="moEJmN1X"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="B+F3/468"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1762864077; x=1794400077;
+  t=1762864078; x=1794400078;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=biAt7h9SZCWEseGnW36hqThT4FR7mM7YTOf8pyCUSJI=;
-  b=moEJmN1XMSi0TLXEMApdXqNfyJJVc7N1VvZSsJRT+xzd39UQDCD5gCJS
-   f5BwVSnRmm9CNuLV393A6TF/Hk2cY0WJgsmZPFhIytfzb4YlUHnrIylLT
-   xSfXyMqH8FkhlOQY0iO4zz8JL81qqNFQ2H0bkxP7N1Pcikee+M1hvvwjq
-   DBNiM9EsHMBDmcCUeAiltH13a7bjOj0g1Hkq5vmXeeci7Df9arO2P3W28
-   /fTzsWGwNl67eduxN9FVU+ux0C00iMRGtkq9kIDc7MaXb0GnT6QgYaYOS
-   8Clux8zhBgC/qa1lNcnTtovcasfXneCpRHHkI+bdi7VD4NC6+O1V/P+Im
-   w==;
-X-CSE-ConnectionGUID: SvkK1M38S02o3Go/FXzMKA==
-X-CSE-MsgGUID: GjOhzZ65SY+KGWeDYb5ydA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11609"; a="75606854"
+  bh=7NmptH2LCRnhyIJyupG4avq6FRBgd39PfdnreF6zDIE=;
+  b=B+F3/4689vFTbmZkpn+9FZhXvl6SrCPIJaeFZWWqEPuPhxcnMv49PeOd
+   eHNCGordNTLtIfaln4bACVmWmiiZMpcpGS5wyyBdDhKUmLrYtUZbgi+4F
+   xhuClaI/KO+k4tRDK1Dx2pRB6ZJAeVCYh4dyVGqTxdvoMM2FEbY192R2/
+   J9SZ1CMXSh8bPXBbsj10YMkOSdfDxh7fZ41L2ewnUA9BU0Eocn4v6Kunc
+   0er329X141wFVITm0e6VgCgxJI99/dzQpoDeepjnV95m5xCtSlMhAc274
+   6b9uDgPCVM5cBSzF7Z4TWehZ5dLjQwt0wjJMIG0h9jf6Po9DrAhlbRVXN
+   A==;
+X-CSE-ConnectionGUID: LFk05zXpSyG06Y7HruZbFg==
+X-CSE-MsgGUID: NQzq7C10Rb2N0sFdqQQ7OQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11609"; a="75606877"
 X-IronPort-AV: E=Sophos;i="6.19,296,1754982000"; 
-   d="scan'208";a="75606854"
+   d="scan'208";a="75606877"
 Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Nov 2025 04:27:55 -0800
-X-CSE-ConnectionGUID: liFe4ozoTXCmNT5tPfSnAQ==
-X-CSE-MsgGUID: gKVH+9KbSESEHGgPJqvBHg==
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Nov 2025 04:27:56 -0800
+X-CSE-ConnectionGUID: 2mA0XXKwRcyvJwy0xrWdNg==
+X-CSE-MsgGUID: XLws0vWwRP+2xdWEpmA1HQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,296,1754982000"; 
-   d="scan'208";a="188592904"
+   d="scan'208";a="188592907"
 Received: from black.igk.intel.com ([10.91.253.5])
-  by fmviesa007.fm.intel.com with ESMTP; 11 Nov 2025 04:27:47 -0800
+  by fmviesa007.fm.intel.com with ESMTP; 11 Nov 2025 04:27:49 -0800
 Received: by black.igk.intel.com (Postfix, from userid 1003)
-	id DEBCD99; Tue, 11 Nov 2025 13:27:37 +0100 (CET)
+	id E57149A; Tue, 11 Nov 2025 13:27:37 +0100 (CET)
 From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 To: Corey Minyard <corey@minyard.net>,
 	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
@@ -138,9 +138,9 @@ Cc: Rasmus Villemoes <linux@rasmusvillemoes.dk>,
 	Masami Hiramatsu <mhiramat@kernel.org>,
 	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
 	Andrew Morton <akpm@linux-foundation.org>
-Subject: [PATCH v2 03/21] libceph: Switch to use %ptSp
-Date: Tue, 11 Nov 2025 13:20:03 +0100
-Message-ID: <20251111122735.880607-4-andriy.shevchenko@linux.intel.com>
+Subject: [PATCH v2 04/21] dma-buf: Switch to use %ptSp
+Date: Tue, 11 Nov 2025 13:20:04 +0100
+Message-ID: <20251111122735.880607-5-andriy.shevchenko@linux.intel.com>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <20251111122735.880607-1-andriy.shevchenko@linux.intel.com>
 References: <20251111122735.880607-1-andriy.shevchenko@linux.intel.com>
@@ -150,41 +150,31 @@ List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
 Use %ptSp instead of open coded variants to print content of
 struct timespec64 in human readable format.
 
-Reviewed-by: Viacheslav Dubeyko <Slava.Dubeyko@ibm.com>
+Reviewed-by: Christian König <christian.koenig@amd.com>
 Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 ---
- net/ceph/messenger_v2.c | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
+ drivers/dma-buf/sync_debug.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/net/ceph/messenger_v2.c b/net/ceph/messenger_v2.c
-index 9e39378eda00..6e676e2d4ba0 100644
---- a/net/ceph/messenger_v2.c
-+++ b/net/ceph/messenger_v2.c
-@@ -1535,8 +1535,7 @@ static int prepare_keepalive2(struct ceph_connection *con)
- 	struct timespec64 now;
+diff --git a/drivers/dma-buf/sync_debug.c b/drivers/dma-buf/sync_debug.c
+index 67cd69551e42..9e5d662cd4e8 100644
+--- a/drivers/dma-buf/sync_debug.c
++++ b/drivers/dma-buf/sync_debug.c
+@@ -59,7 +59,7 @@ static void sync_print_fence(struct seq_file *s,
+ 		struct timespec64 ts64 =
+ 			ktime_to_timespec64(fence->timestamp);
  
- 	ktime_get_real_ts64(&now);
--	dout("%s con %p timestamp %lld.%09ld\n", __func__, con, now.tv_sec,
--	     now.tv_nsec);
-+	dout("%s con %p timestamp %ptSp\n", __func__, con, &now);
+-		seq_printf(s, "@%lld.%09ld", (s64)ts64.tv_sec, ts64.tv_nsec);
++		seq_printf(s, "@%ptSp", &ts64);
+ 	}
  
- 	ceph_encode_timespec64(ts, &now);
- 
-@@ -2729,8 +2728,7 @@ static int process_keepalive2_ack(struct ceph_connection *con,
- 	ceph_decode_need(&p, end, sizeof(struct ceph_timespec), bad);
- 	ceph_decode_timespec64(&con->last_keepalive_ack, p);
- 
--	dout("%s con %p timestamp %lld.%09ld\n", __func__, con,
--	     con->last_keepalive_ack.tv_sec, con->last_keepalive_ack.tv_nsec);
-+	dout("%s con %p timestamp %ptSp\n", __func__, con, &con->last_keepalive_ack);
- 
- 	return 0;
- 
+ 	seq_printf(s, ": %lld", fence->seqno);
 -- 
 2.50.1
 
