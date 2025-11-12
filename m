@@ -1,99 +1,106 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78E68346782;
-	Wed, 12 Nov 2025 17:12:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B49A352959
+	for <linux-staging@lists.linux.dev>; Wed, 12 Nov 2025 19:23:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1762967537; cv=none; b=s4fkI5L53mzTiANso4uaYzFwFOfKyqYiJWrhWMcdN/+oo1f8Q9/IAg+yduV6PAZEjUptT1+pPYGTC+FNT4RrTWEJEPgMH4y7qSZ1Lt+8MJ/O0BH01HWky06ua3eDHPLjexu+Gc3hF+KaVuGY4wnn5jBgSemkJge7hZa9pYmjmv0=
+	t=1762975399; cv=none; b=UgH45cWWCt4MrIMD0j0h/VCSJECOgT1Fmt10gfj5QD9Aq7fZQGPTgNsMyHwk02v/DlxwHxmskdSeAqDaz7TI3sQi/ciqsB/6UOUDWO7i1WnueseMpWNdw4qraZqRbvfYI4JDuJhezCqX5TS3RIhgVqVjtzmRhqq2FDINiSqJPDA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1762967537; c=relaxed/simple;
-	bh=YukZPVsSMnVab1HtGQVhE/F2QYDp/9PgrDqexfzoWaQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XgjXoPnilDquvejbs0/e03Aiy1JI1V+24UkMkE8jjXQmWPlxDy1z2ShCbvDh9BhNNPUsfr5KexbgSyugbsFZHNNmpCaACDzrIRThew9BOS4R8b8Otd/WvHPJdC58QEK928KUmoibyHMNub2HvyTGX9T8Pd22Kzcf8FuqObm0eyY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MBN9GgtH; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1762975399; c=relaxed/simple;
+	bh=hvW5MfhbFDSN99ebzzoa8i+LHa0rM/rFbGQQNSkbOCQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Qg631k4VzNSsHtHXiH5063wekVvuOx5zNY17spu+F/SFrxr2iux+M5J6HXrM9XRej6cDz4EPeWC7uhQdKcVQKaeqd+5DK4OJ6t1FQ44uDcX9A3CmIwhZrqiLsnJgiKdIHLcEGm8kGKehzT0RGa5ekG9eWYQbBE0C/Yqxjuh1xHM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KGYZNJB1; arc=none smtp.client-ip=192.198.163.8
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MBN9GgtH"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0F726C4CEF7;
-	Wed, 12 Nov 2025 17:12:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1762967537;
-	bh=YukZPVsSMnVab1HtGQVhE/F2QYDp/9PgrDqexfzoWaQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=MBN9GgtHWvueGdxNorcET4lT53CJpFAp/Ep1Pl2AF2gn1nUhBH2IYaUSgzp4jS/tU
-	 CQOIWZuN1llaatGRde+ONvc6LVlGERi31qO6hcpuNN3RsqyB3Z/jOYTl5wwWTWgafK
-	 /zpP12uUFBxc9PI1KuYZ0MU/nIVFAOLpbe2g77qRsC/M6bIY1sPy4cuTtlOaPfozD7
-	 oCLA1H/eTsBXteeVbgz2HhtLIJB/7zrv105mvOyVtLD7siMhTHPjJlaxD5JvXM8MQi
-	 YvrGgF2GqD7qVHH2cwZ3ZeXXPtkOwhg5gqY2VLHd1UzAA7TP6fz52EVi7VHjIRhv/j
-	 ubrvQyTeE8iWg==
-Received: from johan by xi.lan with local (Exim 4.98.2)
-	(envelope-from <johan@kernel.org>)
-	id 1vJEOH-000000007h2-2YZP;
-	Wed, 12 Nov 2025 18:12:17 +0100
-Date: Wed, 12 Nov 2025 18:12:17 +0100
-From: Johan Hovold <johan@kernel.org>
-To: Dave Penkler <dpenkler@gmail.com>
-Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KGYZNJB1"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1762975396; x=1794511396;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=hvW5MfhbFDSN99ebzzoa8i+LHa0rM/rFbGQQNSkbOCQ=;
+  b=KGYZNJB1UBqxuc9hnfMN8lMtB9esQYdsZkYx9y/HZSrnfsnY8IYHk0cw
+   v+64cpfJoaQ4YKEqHyA4LwMy+RpQQboAs0WY8rnRNmC0VlgOB6IP7QwXG
+   dUBxNOcF7EUvcrejQZNVVuXA5AYad1FAftxFCUtEJKXA0bCuWExv00kTY
+   /7FW/w2Jl8D8dEX6Hz/iBrez+pv4YjVoSV3jVsqkjBL6VFslNPkUDVdMW
+   PkuiDvg4kG3UmcLHVNJm/3Lg80olvcivnkU+HbeFhr8T/uIboLLgi9Mmn
+   aLIJdoPkTu6R0J7b4KIxh697NQ5xtzni+2ReCD4n8SUR7jnL43bxCakU5
+   g==;
+X-CSE-ConnectionGUID: /od2I7gnRBK9tLsLAUzZwA==
+X-CSE-MsgGUID: tz/tnDLiQQeSmBqOGH02pw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11611"; a="82679554"
+X-IronPort-AV: E=Sophos;i="6.19,300,1754982000"; 
+   d="scan'208";a="82679554"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Nov 2025 11:23:16 -0800
+X-CSE-ConnectionGUID: ln9UcHszSp2t5l0oEMVd5A==
+X-CSE-MsgGUID: gF/zBEGaSbqlZU7D/KDfnA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,300,1754982000"; 
+   d="scan'208";a="189578289"
+Received: from black.igk.intel.com ([10.91.253.5])
+  by fmviesa008.fm.intel.com with ESMTP; 12 Nov 2025 11:23:14 -0800
+Received: by black.igk.intel.com (Postfix, from userid 1003)
+	id DD35095; Wed, 12 Nov 2025 20:23:12 +0100 (CET)
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Abdun Nihaal <abdun.nihaal@gmail.com>,
+	dri-devel@lists.freedesktop.org,
+	linux-fbdev@vger.kernel.org,
+	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH V2 00/10] staging: gpib: Destage gpib drivers
-Message-ID: <aRS_8V5udtngcMhk@hovoldconsulting.com>
-References: <20251111094512.6411-1-dpenkler@gmail.com>
+Cc: Andy Shevchenko <andy@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Jianglei Nie <niejianglei2021@163.com>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Subject: [PATCH v2 1/1] staging: fbtft: core: fix potential memory leak in fbtft_probe_common()
+Date: Wed, 12 Nov 2025 20:22:07 +0100
+Message-ID: <20251112192235.2088654-1-andriy.shevchenko@linux.intel.com>
+X-Mailer: git-send-email 2.50.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251111094512.6411-1-dpenkler@gmail.com>
+Content-Transfer-Encoding: 8bit
 
-On Tue, Nov 11, 2025 at 10:45:02AM +0100, Dave Penkler wrote:
-> This patch series is for moving the gpib drivers out of the staging area.
+From: Jianglei Nie <niejianglei2021@163.com>
 
-Note that I have no idea whether this code is ready to be moved out of
-staging, I'm just commenting on how it is done here.
+fbtft_probe_common() allocates a memory chunk for "info" with
+fbtft_framebuffer_alloc(). When "display->buswidth == 0" is true, the
+function returns without releasing the "info", which will lead to a
+memory leak.
+
+Fix it by calling fbtft_framebuffer_release() when "display->buswidth
+== 0" is true.
+
+Fixes: c296d5f9957c ("staging: fbtft: core support")
+Signed-off-by: Jianglei Nie <niejianglei2021@163.com>
+Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+---
+
+v2: fixed in accordance with Andy's review
+
+ drivers/staging/fbtft/fbtft-core.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/staging/fbtft/fbtft-core.c b/drivers/staging/fbtft/fbtft-core.c
+index 9e7b84071174..8a5ccc8ae0a1 100644
+--- a/drivers/staging/fbtft/fbtft-core.c
++++ b/drivers/staging/fbtft/fbtft-core.c
+@@ -1171,8 +1171,8 @@ int fbtft_probe_common(struct fbtft_display *display,
+ 	par->pdev = pdev;
  
-> As many changes as possible (patches 1-6) are done in the staging area
-> to prepare for the move. Patches 7-10 do the move and complete the destage.
-> 
-> Patch 1: Remove gpib from Kconfig and Makefile in staging
-> Patch 2: Remove the gpib/uapi directory from include search path
-> Patch 3: In the code change the uapi include file paths to <linux/xxx.h>
-> Patch 4: Remove comment item in TODO file
-> Patch 5: Delete the word Linux from gpib Kconfig option title
-> Patch 6: Add SPDX syscall note to uapi gpib headers
-> Patch 7: Move the common gpib/uapi headers to include/uapi/linux
-> Patch 8: Move the gpib tree out of staging
-> Patch 9: Add gpib to Kconfig and Makefile in drivers
-> Patch 10: Update MAINTAINERS for post destage
+ 	if (display->buswidth == 0) {
+-		dev_err(dev, "buswidth is not set\n");
+-		return -EINVAL;
++		ret = dev_err_probe(dev, -EINVAL, "buswidth is not set\n");
++		goto out_release;
+ 	}
+ 
+ 	/* write register functions */
+-- 
+2.50.1
 
-I still think most of these should be squashed into a single patch
-that moves things out of staging.
-
-> Dave Penkler (10):
->   staging: Remove gpib build from staging
->   staging: gpib: Remove gpib/uapi from search path
->   staging: gpib: Change file path for uapi headers
-
->   staging: gpib: Update TODO file
-
-This can be done first before moving.
-
->   staging: gpib: Change gpib Kconfig option title
-
-This too, but it's hardly worth doing in a separate patch so can be
-squashed as well.
-
->   staging: gpib: Fix SPDX license for gpib headers
-
-Can also be done before moving.
-
->   uapi: linux: Add common gpib interface headers
->   gpib: Move gpib drivers out of staging
->   gpib: Add gpib build menu and rule to drivers
->   MAINTAINERS: Update for gpib destage
-
-And then squash the rest into a single patch that can be build tested.
-
-Johan
