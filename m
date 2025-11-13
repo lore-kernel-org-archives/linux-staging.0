@@ -1,50 +1,50 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FAF32F28F6
-	for <linux-staging@lists.linux.dev>; Thu, 13 Nov 2025 15:02:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F2A62F6578
+	for <linux-staging@lists.linux.dev>; Thu, 13 Nov 2025 15:02:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763046169; cv=none; b=YFIJtLG747cihRRbZDJI1AJMMY+uPZ5PrpOiJlWTr08JmhHXcDpMPkTofArJeUtXZ8oQM3H8qwThu9vAj2UNOE2mMFcgHP6orOCoqn2/DcxijJOWszIOaNVIHLhuCAZwJia9WjXREllpyVZuf/iZQaJbk9YYe+GYQAVxXiU3CYA=
+	t=1763046171; cv=none; b=jogX8LL0vA6i7rGiuFCwnREqaohK+vP9EL4nFc4R/LNjKcLDflFINhDigvd5iLA0eplcmhvpwQ1/IC4+X4CpOgRr1UJAAjjwJbnbJLFCvzZeMQ3w/sk6QiV82xQ5yQRmljG40GOmdXVeEyM1JHKsbXPm4s4UOpANXvUZC1UUhG8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763046169; c=relaxed/simple;
-	bh=biAt7h9SZCWEseGnW36hqThT4FR7mM7YTOf8pyCUSJI=;
+	s=arc-20240116; t=1763046171; c=relaxed/simple;
+	bh=jhQAb/y0XW4Cp8ya1S6FBNc1pzeLrYTXe+I39wWdlNQ=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=O/EXZa5Lr44HNh2r9qEewOw/WHoZUImQ4cUenm57c1VZwvn34FYUwvErYdKTwBVIgkqXbMewe1KTj1zl46vuP/EQm0zuUv0MeTWn1nzTnwU17NF0Zt0YwoB0veNW4hn55YaYAYDJShw8t8e9DIfCulUnIwIje6Nv+ElPPvl5E80=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nn72AsH7; arc=none smtp.client-ip=198.175.65.21
+	 MIME-Version; b=AnDwgqK961BS8FTm+LXB3vpK5JruH4qofrQ8LhaILXCAaaxkTLtYHDSfK263kv0xQiBdsPPuThnOrcNJpsTPvEhPjcAC67/arFAZ28FT8NyaVSM0kaIPcqTK+py9z85O6ylskFR0lxzLbbqcg1ONQVSGrwYFyR/oO6tXBXx5854=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IW73onfb; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nn72AsH7"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IW73onfb"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1763046167; x=1794582167;
+  t=1763046169; x=1794582169;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=biAt7h9SZCWEseGnW36hqThT4FR7mM7YTOf8pyCUSJI=;
-  b=nn72AsH7XZ7GjRLD5G8pBUx8veyCejaVb3omHWEeZu1//TNIl0nlyRlm
-   AKgXP+ea7MrC9JrlS3Kum7b/d+hY0LsrVxM4iQ+xXRdeTaPQHpSIs1Mn2
-   ZqdUU1nqGpQhx3JnXW+ddGbzxqFXzxavrb4JvWjo00RH02CK3c+8bsJxc
-   NBAgKr190mF2VKyZKaOKDfYZoMi6r1wkj1gqEug68uejj3DvnfRZCSwsH
-   NEUWf6AEfqYvSJoSot+I9I8sIhVsmatmIwkjFBS4irJ/aikOCt71QEfYT
-   kvjWJZ7U6+tKCoRAIs6TY3rRC0s8i0IjNICpZSuGn+wz2KaoKg8nGKJTr
-   Q==;
-X-CSE-ConnectionGUID: lmh+Og+bTqqlE4kdbphpyQ==
-X-CSE-MsgGUID: HpwR5lsNRd6UufS8OGLakw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="65054161"
+  bh=jhQAb/y0XW4Cp8ya1S6FBNc1pzeLrYTXe+I39wWdlNQ=;
+  b=IW73onfb7sxLuRrqkRSwyc8nQdoCffn/ZoNAAyR8MXS3RRVVjF3JwrpT
+   TLsxDV5qmZLyzK7sNHWpC8vi/aABLxMH3rZz9T4uU41eX6xEhlBogTevq
+   SMsnuId47dG++fqtKhyL6PkfFFICfudKLRGjZ5wxjlSZhpweRWI8oP9Ji
+   a1JidXU7P1D+4OxFxO8GbIgbC27HK5bBn/1+Ry8xmi6RDdRprn+n+oj74
+   5d3bIgAkrmMpJjC+HcWUVb50vog59h96Yih6HM4zNZis9UvI/aovKxH/N
+   dnqmmHa3iqHPuRTlZqnRYDq3o9ZUuwiU5KYuZAOWk9AG/4hrfLgGMx1cs
+   A==;
+X-CSE-ConnectionGUID: u9nJbkkrRkWoo+7wZWo23Q==
+X-CSE-MsgGUID: m1lsJ2LnTZSFt/MjRQVj6Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="65054191"
 X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
-   d="scan'208";a="65054161"
+   d="scan'208";a="65054191"
 Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Nov 2025 07:02:45 -0800
-X-CSE-ConnectionGUID: jZ3ptSFPRHWfj9HYK1+nRA==
-X-CSE-MsgGUID: /JSs45P5SKGGlcIjIShNgw==
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Nov 2025 07:02:46 -0800
+X-CSE-ConnectionGUID: WU/yiIdnT0O1Qw74SR8zbA==
+X-CSE-MsgGUID: zYVOcnDCRgSmt0uZMzxNsw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,302,1754982000"; 
-   d="scan'208";a="220324875"
+   d="scan'208";a="220324902"
 Received: from black.igk.intel.com ([10.91.253.5])
-  by fmviesa001.fm.intel.com with ESMTP; 13 Nov 2025 07:02:31 -0800
+  by fmviesa001.fm.intel.com with ESMTP; 13 Nov 2025 07:02:32 -0800
 Received: by black.igk.intel.com (Postfix, from userid 1003)
-	id 1384599; Thu, 13 Nov 2025 16:02:19 +0100 (CET)
+	id 206FD9B; Thu, 13 Nov 2025 16:02:19 +0100 (CET)
 From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 To: Corey Minyard <corey@minyard.net>,
 	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
@@ -139,9 +139,9 @@ Cc: Rasmus Villemoes <linux@rasmusvillemoes.dk>,
 	Masami Hiramatsu <mhiramat@kernel.org>,
 	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
 	Andrew Morton <akpm@linux-foundation.org>
-Subject: [PATCH v3 03/21] libceph: Switch to use %ptSp
-Date: Thu, 13 Nov 2025 15:32:17 +0100
-Message-ID: <20251113150217.3030010-4-andriy.shevchenko@linux.intel.com>
+Subject: [PATCH v3 05/21] drm/amdgpu: Switch to use %ptSp
+Date: Thu, 13 Nov 2025 15:32:19 +0100
+Message-ID: <20251113150217.3030010-6-andriy.shevchenko@linux.intel.com>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <20251113150217.3030010-1-andriy.shevchenko@linux.intel.com>
 References: <20251113150217.3030010-1-andriy.shevchenko@linux.intel.com>
@@ -156,36 +156,26 @@ Content-Transfer-Encoding: 8bit
 Use %ptSp instead of open coded variants to print content of
 struct timespec64 in human readable format.
 
-Reviewed-by: Viacheslav Dubeyko <Slava.Dubeyko@ibm.com>
+Acked-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 ---
- net/ceph/messenger_v2.c | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
+ drivers/gpu/drm/amd/amdgpu/amdgpu_dev_coredump.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/net/ceph/messenger_v2.c b/net/ceph/messenger_v2.c
-index 9e39378eda00..6e676e2d4ba0 100644
---- a/net/ceph/messenger_v2.c
-+++ b/net/ceph/messenger_v2.c
-@@ -1535,8 +1535,7 @@ static int prepare_keepalive2(struct ceph_connection *con)
- 	struct timespec64 now;
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_dev_coredump.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_dev_coredump.c
+index 8a026bc9ea44..4e2fe6674db8 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_dev_coredump.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_dev_coredump.c
+@@ -217,8 +217,7 @@ amdgpu_devcoredump_read(char *buffer, loff_t offset, size_t count,
+ 	drm_printf(&p, "version: " AMDGPU_COREDUMP_VERSION "\n");
+ 	drm_printf(&p, "kernel: " UTS_RELEASE "\n");
+ 	drm_printf(&p, "module: " KBUILD_MODNAME "\n");
+-	drm_printf(&p, "time: %lld.%09ld\n", coredump->reset_time.tv_sec,
+-		   coredump->reset_time.tv_nsec);
++	drm_printf(&p, "time: %ptSp\n", &coredump->reset_time);
  
- 	ktime_get_real_ts64(&now);
--	dout("%s con %p timestamp %lld.%09ld\n", __func__, con, now.tv_sec,
--	     now.tv_nsec);
-+	dout("%s con %p timestamp %ptSp\n", __func__, con, &now);
- 
- 	ceph_encode_timespec64(ts, &now);
- 
-@@ -2729,8 +2728,7 @@ static int process_keepalive2_ack(struct ceph_connection *con,
- 	ceph_decode_need(&p, end, sizeof(struct ceph_timespec), bad);
- 	ceph_decode_timespec64(&con->last_keepalive_ack, p);
- 
--	dout("%s con %p timestamp %lld.%09ld\n", __func__, con,
--	     con->last_keepalive_ack.tv_sec, con->last_keepalive_ack.tv_nsec);
-+	dout("%s con %p timestamp %ptSp\n", __func__, con, &con->last_keepalive_ack);
- 
- 	return 0;
- 
+ 	if (coredump->reset_task_info.task.pid)
+ 		drm_printf(&p, "process_name: %s PID: %d\n",
 -- 
 2.50.1
 
