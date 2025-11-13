@@ -1,63 +1,150 @@
-Received: from out203-205-221-192.mail.qq.com (out203-205-221-192.mail.qq.com [203.205.221.192])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D83B19ABDE;
-	Thu, 13 Nov 2025 14:12:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.205.221.192
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6D95265CA2
+	for <linux-staging@lists.linux.dev>; Thu, 13 Nov 2025 15:02:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763043131; cv=none; b=ls3cBKFxWskGQR5a+p99vi9CTmkoDXkMasDpTanfF2cDxeVD8g2PMDHGaZxW6j9baZHkMUnl6o6p/NFrhRLYKpHdjLz6fE0FDV9nAeiQTl04QSQKEtQThWa8sXmL8DGUt6Y5cEkZRBbu6eTKmovLbnh4WLVVCj3glCpnaNVJPcY=
+	t=1763046151; cv=none; b=kbxAqfiaGtzqrut/mn5N86F5Xh+MMl2vRce92a46P593ePUzm+QJNnQaM5Hql1dx0cu4oDt1LfpjOYQ+9Lh6sqwYsfkZ40/j4sfPWZdbUS/lxJiXi9A9knqDLfALsa8wAp8xwBIaEEUbdZAdHFnIN4EWdYFv2JH+PSI0UVNNaMg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763043131; c=relaxed/simple;
-	bh=uicbTjW08GHV+LE9Qah/Z8LdXZk2NlBJTPPoi5GJmYQ=;
-	h=Message-ID:From:To:Cc:Subject:Date:MIME-Version; b=Y8EERUHxZXbVQyKrlJRhSM4sBqcAvqt7SVyTASrhcoJZVkxIBQzCc1zIi1H9PbWYE0jwGJlPXqjUmEiE6tAB7E9mzC8/GsaCVePxF0PRWR2qXhfsC0t8gCgan1l+Aln02+G1LWISjYIGd+VNxp7zpviKY3Hc1xu/NksFIr3ZEiM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com; spf=pass smtp.mailfrom=qq.com; dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b=NAvpwFRE; arc=none smtp.client-ip=203.205.221.192
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qq.com
+	s=arc-20240116; t=1763046151; c=relaxed/simple;
+	bh=2B46NT1dSQc4u95Gk/QrFTNjX7VR1jBDUh9ZV8b1ovg=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=JqNnvfiCo8ZCa4eGCGJ0PSpDSVMOLEFB+9ebUNXPPnY+nbBcOMM0TkEbIcqLgEMD5YEt8bjyOPaz1mq8vk9FpTOiXNjf7ywZCcfOmSOhkE3+VHigS97M4rA8JJyIfOWcsA0CHnRS7FXakeyQ2naJG/0vljtTHGXh/nI4iNl+fs8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=K7DLHB1S; arc=none smtp.client-ip=192.198.163.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b="NAvpwFRE"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
-	t=1763043126; bh=HwQ7cfgOaT6UJMocmxGitioR7yygOSm9g+QHTQhru+w=;
-	h=From:To:Cc:Subject:Date;
-	b=NAvpwFREivb78TBSGBMtVMmMzXR3MEe6r8lxz2ndncYUbC6l8dukx/+v0vGgnNp81
-	 FTde6dN1dr5XudvMSrWKE80ef/iN2DzVlWpbJd/Edd3Vvo4vh+i/fJ7snCeF4vX+5k
-	 73kuA8GGYNQh3VhM6BzeTDTTqP+JuXHgLKc8fM7Q=
-Received: from cjz-VMware-Virtual-Platform ([110.176.66.153])
-	by newxmesmtplogicsvrszc41-0.qq.com (NewEsmtp) with SMTP
-	id 303882A8; Thu, 13 Nov 2025 22:12:03 +0800
-X-QQ-mid: xmsmtpt1763043123tane858l4
-Message-ID: <tencent_3725607DD617A567779DEB1BEC7C3B335208@qq.com>
-X-QQ-XMAILINFO: MR/iVh5QLeiexY+Dxh4DYY0FjX8y4vEQiD8aLjqJBYvJQEG6gGJKB5ZCQiqvKM
-	 NWbG3uSYGaC5gQgXk/leQydA7yfbY3P2UnZ5aYrnPBSsYcDHRI0phG9s2zL73t8t1+74uHR/9mfQ
-	 GnaPPNjwMfhpHiqpt0nKlCTMcGQCYxkS4ZQkNcuTDXHTVJ6sTKd2DXSuyigK9Ekqw9qVsiRn/9Sg
-	 SZq3HRBm1w629aUcP/3qxo7kOXNfMraFxYARpgJYTFfkV6/uhHMjFVSTcxBx8lJFhTkIR5HNd2Cq
-	 W5pMt3IQ8NqH43cHOZSCDYsl2UVVvljHlu5rcqw5n9iBaiMPi4iACH+0dqxgx/SDqrzOX6cbDvBc
-	 gz7P1h0eUJ5zdgaf2fIh407IyMNPU16nEwWOHm1NcS5ikD91KSzv18GJpn8rNR25v8SoHT/v+RW4
-	 3kSCSYIxYjKXvwMLx9S4lpibBXcx9BFSsG55A7wF9cTpKiUCJzr0RqGMx/rx7uYZAti3Mdyd/CvE
-	 W0FfqiPztL1cPsKA/rigY3KhJ9WLx1FjF3hNIpUpjAnZVEXcJVJ6BizUhG7oug0WT0mCxw77Py27
-	 aB2L1euYs5AKiP9JkFKOKoGX41azIyecnHA1WG67+IwcegcU6IzbD+rQDWIV6xmspfAC0q+NPUwj
-	 pCyC5K+KOQbdFaMiFTBAG5cd0xx8vT4VRCMI4X50pH9JwOBZ8OZOCUuWRFCKVnTw3ZISiEy0PUGU
-	 7lTeV+hRz3VyAJFupPrtFpZzCc4WmtHpEX5mHtBeNTgFGWNqQk+c2yZVeQ2cqPRzjCmsetbipD7L
-	 EafJ6ib15LwGZP2+tsJys8ks4mbi6fTfUraewIa0gLFfFt6zFcnzmew04+GkhpxIEjX09Lb2/66I
-	 iX9x/ywseEMMUu7JryEirHUaOO5kFtlDPHg4d9hux+NzNQZRQwh3oyo7ZgsySSpe3tngwc7Gp/k6
-	 jYfxoB52Cg3wzkVH0SmjJVSllc1p/lmQNFV/R1H7XVHfGY6jJ+V8PZ4amEVWCveMxKP0BAHacHF0
-	 qcySXxe4F89xCupkXixHlHwl4GTDEqqHzaya4tBQ5u6N5c26Pu24t4DJodUSo=
-X-QQ-XMRINFO: MSVp+SPm3vtS1Vd6Y4Mggwc=
-From: Chang Junzheng <guagua210311@qq.com>
-To: outreachy@lists.linux.dev
-Cc: Vaibhav Agarwal <vaibhav.sr@gmail.com>,
-	Mark Greer <mgreer@animalcreek.com>,
-	Johan Hovold <johan@kernel.org>,
-	Alex Elder <elder@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	greybus-dev@lists.linaro.org,
-	linux-staging@lists.linux.dev,
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="K7DLHB1S"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1763046150; x=1794582150;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=2B46NT1dSQc4u95Gk/QrFTNjX7VR1jBDUh9ZV8b1ovg=;
+  b=K7DLHB1SEzdT5zBcnj4as3kMCzsYGiLeyZKNOchp8teOvWgPhcze3NbB
+   vKoLGuth8tlpzox0hYH/7Ap2OzEtwMx0xr/GkeaS2mrDACaih21G5ECFD
+   ecibKqUJJJr6cCC961Q4pT3zE4nj3jox4sY3u5ixpQdrBXMsqQ0jxUeDc
+   RG67bWLgzFLR2wYKyOG25fRaZb21xL+diR6nMx0TK60W4NFH4HjBf8thR
+   jSBTvJ3aotJDg/pSRL6U/cF2NLpjH8zsWdqIPXUcoUgCCDI2hFXUmiklV
+   XSfLVmZ/3BeOC5gNUcftKbundRE/B22swhDHm0CdGPkI59x/b0mHhazbM
+   w==;
+X-CSE-ConnectionGUID: VKqi3H5+SW+Iv99FJICMHg==
+X-CSE-MsgGUID: Q/IMr8b0TtyGFia7FsV08g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11612"; a="68991450"
+X-IronPort-AV: E=Sophos;i="6.19,302,1754982000"; 
+   d="scan'208";a="68991450"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Nov 2025 07:02:29 -0800
+X-CSE-ConnectionGUID: Vz8xRacFQwaRx7eYs36+8g==
+X-CSE-MsgGUID: H/6qh459QiuQ7G0yqQYVsA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,302,1754982000"; 
+   d="scan'208";a="188810179"
+Received: from black.igk.intel.com ([10.91.253.5])
+  by orviesa010.jf.intel.com with ESMTP; 13 Nov 2025 07:02:19 -0800
+Received: by black.igk.intel.com (Postfix, from userid 1003)
+	id 05CA197; Thu, 13 Nov 2025 16:02:19 +0100 (CET)
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Corey Minyard <corey@minyard.net>,
+	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+	"Dr. David Alan Gilbert" <linux@treblig.org>,
+	Alex Deucher <alexander.deucher@amd.com>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+	Rob Clark <robin.clark@oss.qualcomm.com>,
+	Matthew Brost <matthew.brost@intel.com>,
+	Ulf Hansson <ulf.hansson@linaro.org>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Aleksandr Loktionov <aleksandr.loktionov@intel.com>,
+	Vitaly Lifshits <vitaly.lifshits@intel.com>,
+	Manivannan Sadhasivam <mani@kernel.org>,
+	Niklas Cassel <cassel@kernel.org>,
+	Calvin Owens <calvin@wbinvd.org>,
+	Vadim Fedorenko <vadim.fedorenko@linux.dev>,
+	Sagi Maimon <maimon.sagi@gmail.com>,
+	"Martin K. Petersen" <martin.petersen@oracle.com>,
+	Karan Tilak Kumar <kartilak@cisco.com>,
+	Hans Verkuil <hverkuil+cisco@kernel.org>,
+	Casey Schaufler <casey@schaufler-ca.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Petr Mladek <pmladek@suse.com>,
+	Viacheslav Dubeyko <Slava.Dubeyko@ibm.com>,
+	Max Kellermann <max.kellermann@ionos.com>,
+	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	guagua210311@qq.com,
-	Chang Junzheng <guagua210311@outlook.com>
-Subject: [PATCH v2] staging: greybus: audio_manager_module: make envp array static const
-Date: Thu, 13 Nov 2025 22:12:00 +0800
-X-OQ-MSGID: <20251113141200.3812-1-guagua210311@qq.com>
-X-Mailer: git-send-email 2.43.0
+	openipmi-developer@lists.sourceforge.net,
+	linux-media@vger.kernel.org,
+	dri-devel@lists.freedesktop.org,
+	linaro-mm-sig@lists.linaro.org,
+	amd-gfx@lists.freedesktop.org,
+	linux-arm-msm@vger.kernel.org,
+	freedreno@lists.freedesktop.org,
+	intel-xe@lists.freedesktop.org,
+	linux-mmc@vger.kernel.org,
+	netdev@vger.kernel.org,
+	intel-wired-lan@lists.osuosl.org,
+	linux-pci@vger.kernel.org,
+	linux-s390@vger.kernel.org,
+	linux-scsi@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	ceph-devel@vger.kernel.org,
+	linux-trace-kernel@vger.kernel.org
+Cc: Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+	Sergey Senozhatsky <senozhatsky@chromium.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	Gustavo Padovan <gustavo@padovan.org>,
+	David Airlie <airlied@gmail.com>,
+	Simona Vetter <simona@ffwll.ch>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Dmitry Baryshkov <lumag@kernel.org>,
+	Abhinav Kumar <abhinav.kumar@linux.dev>,
+	Jessica Zhang <jesszhan0024@gmail.com>,
+	Sean Paul <sean@poorly.run>,
+	Marijn Suijten <marijn.suijten@somainline.org>,
+	Konrad Dybcio <konradybcio@kernel.org>,
+	Lucas De Marchi <lucas.demarchi@intel.com>,
+	=?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+	Rodrigo Vivi <rodrigo.vivi@intel.com>,
+	Vladimir Oltean <olteanv@gmail.com>,
+	Andrew Lunn <andrew@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Tony Nguyen <anthony.l.nguyen@intel.com>,
+	Przemek Kitszel <przemyslaw.kitszel@intel.com>,
+	=?UTF-8?q?Krzysztof=20Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
+	Kishon Vijay Abraham I <kishon@kernel.org>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Rodolfo Giometti <giometti@enneenne.com>,
+	Jonathan Lemon <jonathan.lemon@gmail.com>,
+	Richard Cochran <richardcochran@gmail.com>,
+	Stefan Haberland <sth@linux.ibm.com>,
+	Jan Hoeppner <hoeppner@linux.ibm.com>,
+	Heiko Carstens <hca@linux.ibm.com>,
+	Vasily Gorbik <gor@linux.ibm.com>,
+	Alexander Gordeev <agordeev@linux.ibm.com>,
+	Christian Borntraeger <borntraeger@linux.ibm.com>,
+	Sven Schnelle <svens@linux.ibm.com>,
+	Satish Kharat <satishkh@cisco.com>,
+	Sesidhar Baddela <sebaddel@cisco.com>,
+	"James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Xiubo Li <xiubli@redhat.com>,
+	Ilya Dryomov <idryomov@gmail.com>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	Andrew Morton <akpm@linux-foundation.org>
+Subject: [PATCH v3 01/21] lib/vsprintf: Add specifier for printing struct timespec64
+Date: Thu, 13 Nov 2025 15:32:15 +0100
+Message-ID: <20251113150217.3030010-2-andriy.shevchenko@linux.intel.com>
+X-Mailer: git-send-email 2.50.1
+In-Reply-To: <20251113150217.3030010-1-andriy.shevchenko@linux.intel.com>
+References: <20251113150217.3030010-1-andriy.shevchenko@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -66,47 +153,126 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Chang Junzheng <guagua210311@outlook.com>
+A handful drivers want to print a content of the struct timespec64
+in a format of %lld:%09ld. In order to make their lives easier, add
+the respecting specifier directly to the printf() implementation.
 
-Fix checkpatch.pl warning by changing envp array declaration to
-static const char * const. This improves code safety and follows
-kernel coding style recommendations.
-
-Signed-off-by: Chang Junzheng <guagua210311@qq.com>
-Changes in v2:
-- Restored original indentation of array elements
-- Only changed the array declaration as originally intended
+Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 ---
- drivers/staging/greybus/audio_manager_module.c | 16 ++++++++--------
- 1 file changed, 8 insertions(+), 8 deletions(-)
+ Documentation/core-api/printk-formats.rst | 11 +++++++--
+ lib/tests/printf_kunit.c                  |  4 ++++
+ lib/vsprintf.c                            | 28 ++++++++++++++++++++++-
+ 3 files changed, 40 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/staging/greybus/audio_manager_module.c b/drivers/staging/greybus/audio_manager_module.c
-index 4a4dfb42f50f..78013d59fc93 100644
---- a/drivers/staging/greybus/audio_manager_module.c
-+++ b/drivers/staging/greybus/audio_manager_module.c
-@@ -159,14 +159,14 @@ static void send_add_uevent(struct gb_audio_manager_module *module)
- 	char ip_devices_string[64];
- 	char op_devices_string[64];
+diff --git a/Documentation/core-api/printk-formats.rst b/Documentation/core-api/printk-formats.rst
+index 7f2f11b48286..c0b1b6089307 100644
+--- a/Documentation/core-api/printk-formats.rst
++++ b/Documentation/core-api/printk-formats.rst
+@@ -547,11 +547,13 @@ Time and date
+ 	%pt[RT]s		YYYY-mm-dd HH:MM:SS
+ 	%pt[RT]d		YYYY-mm-dd
+ 	%pt[RT]t		HH:MM:SS
+-	%pt[RT][dt][r][s]
++	%ptSp			<seconds>.<nanoseconds>
++	%pt[RST][dt][r][s]
  
--	char *envp[] = {
--		name_string,
--		vid_string,
--		pid_string,
--		intf_id_string,
--		ip_devices_string,
--		op_devices_string,
--		NULL
-+	static const char * const envp[] = {
-+	name_string,
-+	vid_string,
-+	pid_string,
-+	intf_id_string,
-+	ip_devices_string,
-+	op_devices_string,
-+	NULL
+ For printing date and time as represented by::
+ 
+-	R  struct rtc_time structure
++	R  content of struct rtc_time
++	S  content of struct timespec64
+ 	T  time64_t type
+ 
+ in human readable format.
+@@ -563,6 +565,11 @@ The %pt[RT]s (space) will override ISO 8601 separator by using ' ' (space)
+ instead of 'T' (Capital T) between date and time. It won't have any effect
+ when date or time is omitted.
+ 
++The %ptSp is equivalent to %lld.%09ld for the content of the struct timespec64.
++When the other specifiers are given, it becomes the respective equivalent of
++%ptT[dt][r][s].%09ld. In other words, the seconds are being printed in
++the human readable format followed by a dot and nanoseconds.
++
+ Passed by reference.
+ 
+ struct clk
+diff --git a/lib/tests/printf_kunit.c b/lib/tests/printf_kunit.c
+index bc54cca2d7a6..7617e5b8b02c 100644
+--- a/lib/tests/printf_kunit.c
++++ b/lib/tests/printf_kunit.c
+@@ -504,6 +504,7 @@ time_and_date(struct kunit *kunittest)
  	};
+ 	/* 2019-01-04T15:32:23 */
+ 	time64_t t = 1546615943;
++	struct timespec64 ts = { .tv_sec = t, .tv_nsec = 11235813 };
  
- 	snprintf(name_string, 128, "NAME=%s", module->desc.name);
+ 	test("(%pt?)", "%pt", &tm);
+ 	test("2018-11-26T05:35:43", "%ptR", &tm);
+@@ -522,6 +523,9 @@ time_and_date(struct kunit *kunittest)
+ 	test("0119-00-04 15:32:23", "%ptTsr", &t);
+ 	test("15:32:23|2019-01-04", "%ptTts|%ptTds", &t, &t);
+ 	test("15:32:23|0119-00-04", "%ptTtrs|%ptTdrs", &t, &t);
++
++	test("2019-01-04T15:32:23.011235813", "%ptS", &ts);
++	test("1546615943.011235813", "%ptSp", &ts);
+ }
+ 
+ static void
+diff --git a/lib/vsprintf.c b/lib/vsprintf.c
+index 11dbf1023391..51a88b3f5b52 100644
+--- a/lib/vsprintf.c
++++ b/lib/vsprintf.c
+@@ -1983,6 +1983,28 @@ char *time64_str(char *buf, char *end, const time64_t time,
+ 	return rtc_str(buf, end, &rtc_time, spec, fmt);
+ }
+ 
++static noinline_for_stack
++char *timespec64_str(char *buf, char *end, const struct timespec64 *ts,
++		     struct printf_spec spec, const char *fmt)
++{
++	static const struct printf_spec default_dec09_spec = {
++		.base = 10,
++		.field_width = 9,
++		.precision = -1,
++		.flags = ZEROPAD,
++	};
++
++	if (fmt[2] == 'p')
++		buf = number(buf, end, ts->tv_sec, default_dec_spec);
++	else
++		buf = time64_str(buf, end, ts->tv_sec, spec, fmt);
++	if (buf < end)
++		*buf = '.';
++	buf++;
++
++	return number(buf, end, ts->tv_nsec, default_dec09_spec);
++}
++
+ static noinline_for_stack
+ char *time_and_date(char *buf, char *end, void *ptr, struct printf_spec spec,
+ 		    const char *fmt)
+@@ -1993,6 +2015,8 @@ char *time_and_date(char *buf, char *end, void *ptr, struct printf_spec spec,
+ 	switch (fmt[1]) {
+ 	case 'R':
+ 		return rtc_str(buf, end, (const struct rtc_time *)ptr, spec, fmt);
++	case 'S':
++		return timespec64_str(buf, end, (const struct timespec64 *)ptr, spec, fmt);
+ 	case 'T':
+ 		return time64_str(buf, end, *(const time64_t *)ptr, spec, fmt);
+ 	default:
+@@ -2456,9 +2480,11 @@ early_param("no_hash_pointers", no_hash_pointers_enable);
+  * - 'd[234]' For a dentry name (optionally 2-4 last components)
+  * - 'D[234]' Same as 'd' but for a struct file
+  * - 'g' For block_device name (gendisk + partition number)
+- * - 't[RT][dt][r][s]' For time and date as represented by:
++ * - 't[RST][dt][r][s]' For time and date as represented by:
+  *      R    struct rtc_time
++ *      S    struct timespec64
+  *      T    time64_t
++ * - 'tSp' For time represented by struct timespec64 printed as <seconds>.<nanoseconds>
+  * - 'C' For a clock, it prints the name (Common Clock Framework) or address
+  *       (legacy clock framework) of the clock
+  * - 'G' For flags to be printed as a collection of symbolic strings that would
 -- 
-2.43.0
+2.50.1
 
