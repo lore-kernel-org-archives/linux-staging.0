@@ -1,50 +1,50 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FDBC352931
-	for <linux-staging@lists.linux.dev>; Thu, 13 Nov 2025 15:03:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10C743546F5
+	for <linux-staging@lists.linux.dev>; Thu, 13 Nov 2025 15:03:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763046183; cv=none; b=NpQrSX/2cKYfU5N4se2/yCmkAuViLCXYgQpi8Xf7wVVKsxFgqKHX+OElm1bVc7481Ni2WycAhUAAA6NeZGUsUF37Eph3AEsxkqicFjhBMtYc2213dNcZIS14Stlt6Zn74+0lLDaGx37iMZCbF3tXo6rLyfs3885N7aSTCFaLYSE=
+	t=1763046185; cv=none; b=QiowcYtHDusTUNDxfc2348HkGeOKfv/+kXhQJnc/5Yo4fPbBwc5UDN7bgq+3qMS+QMVnltJI/uohZHtGZbY4sYpas7sSw+T34YPjRZblprXvIyEqqlXi4kNRN24FlTEBiZvWRUM4mrb5VXvngpJll4IWCbvYcoBMoKjBrA+zhLo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763046183; c=relaxed/simple;
-	bh=4/irNvWfkjiG7J+zROfpNlDN2UsVekylUnv/Irisaf0=;
+	s=arc-20240116; t=1763046185; c=relaxed/simple;
+	bh=+wzhaFxSnGOIgXfPGWXmMsmYdpSBfK5IjZcpII7NT9c=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=biHM7gL5g8Gpcwsyjym2hNPCFalPflZkjo1eXlOr5gVg3/7B2ZfnM4vIaCB5PvbN7aS0I1OFeCtaxocuUSEz62vOIYzDEWpWps0/pPMGGM1flL9onQ5IYSgISU77BA5Z1ODC0owb0nqBxhd0+jnUSl1I0bEUl+W7gLqy2F5WnK0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DkNhVOxs; arc=none smtp.client-ip=198.175.65.21
+	 MIME-Version; b=Qmd3DCoRWVQyqWoe9Bkx8btB290zyt+Qb1MZZgVGmPpVcD90AI0twjMBX9yK46ffW74fadMjycUk/rbTCa48Qx5z7nEKQai4YUgzkA+AMQ6xu0lPhQVVwJA8eT7GayzS+T1xtjmFKDYGOHCsxHFcuxX4GJzvBEY9uhLHeagzs1I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Yygv49dr; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DkNhVOxs"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Yygv49dr"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1763046182; x=1794582182;
+  t=1763046184; x=1794582184;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=4/irNvWfkjiG7J+zROfpNlDN2UsVekylUnv/Irisaf0=;
-  b=DkNhVOxsChYg9OYxWjF7r5pBuyiWsb53T24zzJOAYhyvvbhlmtxAnYBz
-   8MHAloV0OuQXO0Z9XP4aZrY02v9kIAJElAPxvydXEbdZ0IZI0Syu26Hj5
-   pHiz8JIkY893zByE4PrXaNIM7oQ6DauhgyDHjXLVIRYXDJPFlBIzQqGqg
-   Ocs6RCtymzTeN1v+Hxsyb1uxs+vhrNa18AFvVS9Als+3OS0dctWhOByPw
-   wnPXyiK+QCdEqYkySQ7PKtX2qdjlVbSdEuOCS5QtI+WGTDYDCD393jIsE
-   9GTh7yvBq7ugr+N0sBOlEv6x25y1WQ7c3/ICkUfX1MSaIBGb3kEbsPDAX
+  bh=+wzhaFxSnGOIgXfPGWXmMsmYdpSBfK5IjZcpII7NT9c=;
+  b=Yygv49dr7PBWa+mVbOyy9QETTngJUYC0S1E1/8VjuKOolbO/MSME0B8d
+   r2MMwkFLhjkWLVW5mpK6EE3UA4u1HK0S2Dyo32J/NfqzydcXAdKu1jO39
+   4n8IVZwCW4ElRNpBAcMyHSGn9Ezvy8SfOBgOiLDhX2jIGHJRvdS4PE8uR
+   lkePYEheiYZHsmQj5HmEerMQdg2wtmt0hmLr113pYcjHvGvUy1ictE8vM
+   9EYvGBxnLL9BVwdsxlXP+7rSkbFGNP0vdwRe6I3cOljzQ7ox0T6CKbo6l
+   fOAlEiPSmlsVjkMatD05yZbpAdnySIwmQm+yFHkzfsCGQQUQqbo4kudHv
    Q==;
-X-CSE-ConnectionGUID: VIKl8cuOTLm2GJyQg5LxGQ==
-X-CSE-MsgGUID: fZ8RrJrmSZ2/QfOyMa1DiQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="65054377"
+X-CSE-ConnectionGUID: e9i5tcTWSrG5gwbLfnBlgA==
+X-CSE-MsgGUID: Hhcf+otZTVeRdgfmZFd6NQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="65054402"
 X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
-   d="scan'208";a="65054377"
+   d="scan'208";a="65054402"
 Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Nov 2025 07:02:54 -0800
-X-CSE-ConnectionGUID: su8ZrPJCTtCP5q12FDQ0vA==
-X-CSE-MsgGUID: RvU45Gy6TcG+EGRqWvrdGQ==
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Nov 2025 07:02:55 -0800
+X-CSE-ConnectionGUID: 2CGxfRHHRFSF6KrA3ZFyKA==
+X-CSE-MsgGUID: NKL+10FBQ76Ij4qV5CJgZA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,302,1754982000"; 
-   d="scan'208";a="220325039"
+   d="scan'208";a="220325069"
 Received: from black.igk.intel.com ([10.91.253.5])
-  by fmviesa001.fm.intel.com with ESMTP; 13 Nov 2025 07:02:41 -0800
+  by fmviesa001.fm.intel.com with ESMTP; 13 Nov 2025 07:02:42 -0800
 Received: by black.igk.intel.com (Postfix, from userid 1003)
-	id 3A7EC9F; Thu, 13 Nov 2025 16:02:19 +0100 (CET)
+	id 4DAEBA2; Thu, 13 Nov 2025 16:02:19 +0100 (CET)
 From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 To: Corey Minyard <corey@minyard.net>,
 	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
@@ -139,9 +139,9 @@ Cc: Rasmus Villemoes <linux@rasmusvillemoes.dk>,
 	Masami Hiramatsu <mhiramat@kernel.org>,
 	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
 	Andrew Morton <akpm@linux-foundation.org>
-Subject: [PATCH v3 09/21] e1000e: Switch to use %ptSp
-Date: Thu, 13 Nov 2025 15:32:23 +0100
-Message-ID: <20251113150217.3030010-10-andriy.shevchenko@linux.intel.com>
+Subject: [PATCH v3 12/21] media: av7110: Switch to use %ptSp
+Date: Thu, 13 Nov 2025 15:32:26 +0100
+Message-ID: <20251113150217.3030010-13-andriy.shevchenko@linux.intel.com>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <20251113150217.3030010-1-andriy.shevchenko@linux.intel.com>
 References: <20251113150217.3030010-1-andriy.shevchenko@linux.intel.com>
@@ -156,33 +156,25 @@ Content-Transfer-Encoding: 8bit
 Use %ptSp instead of open coded variants to print content of
 struct timespec64 in human readable format.
 
-Reviewed-by: Aleksandr Loktionov <aleksandr.loktionov@intel.com>
+Acked-by: Hans Verkuil <hverkuil+cisco@kernel.org>
 Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 ---
- drivers/net/ethernet/intel/e1000e/ptp.c | 7 ++-----
- 1 file changed, 2 insertions(+), 5 deletions(-)
+ drivers/staging/media/av7110/av7110.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/net/ethernet/intel/e1000e/ptp.c b/drivers/net/ethernet/intel/e1000e/ptp.c
-index ea3c3eb2ef20..ec39e35f3857 100644
---- a/drivers/net/ethernet/intel/e1000e/ptp.c
-+++ b/drivers/net/ethernet/intel/e1000e/ptp.c
-@@ -229,14 +229,11 @@ static void e1000e_systim_overflow_work(struct work_struct *work)
- 						     systim_overflow_work.work);
- 	struct e1000_hw *hw = &adapter->hw;
+diff --git a/drivers/staging/media/av7110/av7110.c b/drivers/staging/media/av7110/av7110.c
+index bc9a2a40afcb..602342d1174f 100644
+--- a/drivers/staging/media/av7110/av7110.c
++++ b/drivers/staging/media/av7110/av7110.c
+@@ -321,7 +321,7 @@ static inline void print_time(char *s)
  	struct timespec64 ts;
--	u64 ns;
  
- 	/* Update the timecounter */
--	ns = timecounter_read(&adapter->tc);
-+	ts = ns_to_timespec64(timecounter_read(&adapter->tc));
+ 	ktime_get_real_ts64(&ts);
+-	pr_info("%s(): %lld.%09ld\n", s, (s64)ts.tv_sec, ts.tv_nsec);
++	pr_info("%s(): %ptSp\n", s, &ts);
+ #endif
+ }
  
--	ts = ns_to_timespec64(ns);
--	e_dbg("SYSTIM overflow check at %lld.%09lu\n",
--	      (long long) ts.tv_sec, ts.tv_nsec);
-+	e_dbg("SYSTIM overflow check at %ptSp\n", &ts);
- 
- 	schedule_delayed_work(&adapter->systim_overflow_work,
- 			      E1000_SYSTIM_OVERFLOW_PERIOD);
 -- 
 2.50.1
 
