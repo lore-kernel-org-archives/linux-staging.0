@@ -1,50 +1,50 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4E27346781
-	for <linux-staging@lists.linux.dev>; Thu, 13 Nov 2025 15:02:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7361D347BB5
+	for <linux-staging@lists.linux.dev>; Thu, 13 Nov 2025 15:03:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763046181; cv=none; b=QKLVkLR+goGy2j3mTJWnTDwACV0OPYfsq2luPfMe1kdj4dOoqmEjNhXdH7jiYdgCEAf4H9QjrboWLMnGAZ/GkjLFAWn5jWppSP8UnLF/FYjHQe9iHu1JJM45gRHradjGUxYu1PSjp+tAd3Tk1rFrVRKtlTxuvHqTYxKkb1rBZbI=
+	t=1763046182; cv=none; b=fOWu2yFXWz29fcSzabvceUhnnd6gZx/Wm4+EWyLrekTQPfdrnL5xMAtxkHDmz62sLLI56g4b9HyPHqnyFfR6i/MCncvDKIp+A6Sfv4cieiFhGFfmRMPNBGY9wobQInoekRLa6cN9oZSprflDq2nkGsgiEFs60HAcCWK6G1hX4Dg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763046181; c=relaxed/simple;
-	bh=BmDr+9WwyAhMzsfsAApxDHVanVdl5gKra56KPccq0Eg=;
+	s=arc-20240116; t=1763046182; c=relaxed/simple;
+	bh=QGRUCvRhLj/TwbX4dQMKGketmqckWUD9lEEl/Hr0Xm0=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=KSTmJsmMin0Pmr1KlLPAc9vcDIFSiLoE7DHPA3Ke2zgnDILVJEZY6b773wdXEDVuFbemJDAM1qVbpk3s+ErIHNV7uGKP3a9AXqtFB/1zFalzdVZHgPcrzJbvxsgePuNB6AXJGqOWsWuzxpwJAIOTTEhnaY5kYqZOVTxp/FTYYik=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Uin81KZK; arc=none smtp.client-ip=198.175.65.21
+	 MIME-Version; b=WZ+zPLate76lz+pQf+r+SQoQ6OQ4A6pWIw4jAlp52BbW37KVuYGtnmax1IvA2V1jQboQzn4wQNL8JICYmgdy3HLk3uoR6IfuLiBPFQ/AQ3OoOU8RGxf1vpRqGt/Kt0IYNfAx5zySIc3GJnE/1I8dQFE/I7NRJcyOAhS+NHHcFDA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=D8mRZTQM; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Uin81KZK"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="D8mRZTQM"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1763046180; x=1794582180;
+  t=1763046181; x=1794582181;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=BmDr+9WwyAhMzsfsAApxDHVanVdl5gKra56KPccq0Eg=;
-  b=Uin81KZKiwOOJJGvgYfSh4RS/HL5fXQwfd33jQSSFyJ2wQbcafHK/xcB
-   ieHyu8bv9Px7VQkK51HbtSRSwP5nWXCcoal0+ejtfdwbr8ADZll+Ffini
-   I/tffni2MNDvS2NXir2aUZHh9DwA/SYwJSw2BCZw0rqxM4F8qaNt+caKO
-   bngQhIOmNDOb+nogl7PBtrg6cqc8gOxx4lGfrNPSiF3fEUkNXgAihGsMY
-   +Z/4muqd3O1LJXJYm74Q6CLEV23lkCjk8w+UZ60cBtcAd47qCAxsTOcps
-   X0adPUDiyj0+fEDE4hRuddSZDazNcy9tMGXiWO+Ux66gXy6lLbioV4d9x
-   g==;
-X-CSE-ConnectionGUID: PQJbDI8NSx2byOgioAQk/Q==
-X-CSE-MsgGUID: YnZmDIwnSB6HPuQ/BDfi2g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="65054343"
-X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
-   d="scan'208";a="65054343"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Nov 2025 07:02:52 -0800
-X-CSE-ConnectionGUID: i+uk+YmVT6yyR/RJArKjQQ==
-X-CSE-MsgGUID: utD/kA7rTZCozTSdlaQNlw==
+  bh=QGRUCvRhLj/TwbX4dQMKGketmqckWUD9lEEl/Hr0Xm0=;
+  b=D8mRZTQM1ZWGgj4agkipRoDo1FK3IsPGjkTn0j2HgWIcYRFZGZGGMiqx
+   ha54RcIVB6ptmcdZDTWBfCXvuHZ9y6JF+FkNvSnBhwd1aw7NgdeBdlUCJ
+   w+WDeGJ0HHuppRMKe8iUaHHUeyMxxkDymbi9ZsKaPFSJ3Lp9ajBA+8puQ
+   571r950Vi7fSnqk2wPkLQCcfuCIteNDs9+FNtGN3mKUOgQAbwYyZBPQej
+   0d3Ne1slvgJw9itwT8hFle7ukVyYtS+uzrpfO62P9b7YkuDcEZeCp0UTj
+   X6bfGexJT2P8jEFOdOLuTCYAfLEarLahN/tCfFcrGEqihVMSrAWK7//uE
+   A==;
+X-CSE-ConnectionGUID: t+vfjdXDRYeaMVf8s0LWQw==
+X-CSE-MsgGUID: H4sZeXVSRPSzZu9OuzvLIA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11612"; a="68991757"
+X-IronPort-AV: E=Sophos;i="6.19,302,1754982000"; 
+   d="scan'208";a="68991757"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Nov 2025 07:03:00 -0800
+X-CSE-ConnectionGUID: 5CUhbO4uTiu+bkjCSEH4EQ==
+X-CSE-MsgGUID: YAzCFLIJQGOxDYsCfcVI5g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,302,1754982000"; 
-   d="scan'208";a="220325002"
+   d="scan'208";a="188810343"
 Received: from black.igk.intel.com ([10.91.253.5])
-  by fmviesa001.fm.intel.com with ESMTP; 13 Nov 2025 07:02:39 -0800
+  by orviesa010.jf.intel.com with ESMTP; 13 Nov 2025 07:02:50 -0800
 Received: by black.igk.intel.com (Postfix, from userid 1003)
-	id 33C929E; Thu, 13 Nov 2025 16:02:19 +0100 (CET)
+	id 74964A8; Thu, 13 Nov 2025 16:02:19 +0100 (CET)
 From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 To: Corey Minyard <corey@minyard.net>,
 	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
@@ -139,9 +139,9 @@ Cc: Rasmus Villemoes <linux@rasmusvillemoes.dk>,
 	Masami Hiramatsu <mhiramat@kernel.org>,
 	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
 	Andrew Morton <akpm@linux-foundation.org>
-Subject: [PATCH v3 08/21] drm/xe: Switch to use %ptSp
-Date: Thu, 13 Nov 2025 15:32:22 +0100
-Message-ID: <20251113150217.3030010-9-andriy.shevchenko@linux.intel.com>
+Subject: [PATCH v3 18/21] s390/dasd: Switch to use %ptSp
+Date: Thu, 13 Nov 2025 15:32:32 +0100
+Message-ID: <20251113150217.3030010-19-andriy.shevchenko@linux.intel.com>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <20251113150217.3030010-1-andriy.shevchenko@linux.intel.com>
 References: <20251113150217.3030010-1-andriy.shevchenko@linux.intel.com>
@@ -156,28 +156,25 @@ Content-Transfer-Encoding: 8bit
 Use %ptSp instead of open coded variants to print content of
 struct timespec64 in human readable format.
 
-Acked-by: Lucas De Marchi <lucas.demarchi@intel.com>
 Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 ---
- drivers/gpu/drm/xe/xe_devcoredump.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/s390/block/dasd.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/xe/xe_devcoredump.c b/drivers/gpu/drm/xe/xe_devcoredump.c
-index 203e3038cc81..d444eda65ca6 100644
---- a/drivers/gpu/drm/xe/xe_devcoredump.c
-+++ b/drivers/gpu/drm/xe/xe_devcoredump.c
-@@ -106,9 +106,9 @@ static ssize_t __xe_devcoredump_read(char *buffer, ssize_t count,
- 	drm_puts(&p, "module: " KBUILD_MODNAME "\n");
- 
- 	ts = ktime_to_timespec64(ss->snapshot_time);
--	drm_printf(&p, "Snapshot time: %lld.%09ld\n", ts.tv_sec, ts.tv_nsec);
-+	drm_printf(&p, "Snapshot time: %ptSp\n", &ts);
- 	ts = ktime_to_timespec64(ss->boot_time);
--	drm_printf(&p, "Uptime: %lld.%09ld\n", ts.tv_sec, ts.tv_nsec);
-+	drm_printf(&p, "Uptime: %ptSp\n", &ts);
- 	drm_printf(&p, "Process: %s [%d]\n", ss->process_name, ss->pid);
- 	xe_device_snapshot_print(xe, &p);
- 
+diff --git a/drivers/s390/block/dasd.c b/drivers/s390/block/dasd.c
+index 7765e40f7cea..97dcc70f669e 100644
+--- a/drivers/s390/block/dasd.c
++++ b/drivers/s390/block/dasd.c
+@@ -974,8 +974,7 @@ static void dasd_stats_array(struct seq_file *m, unsigned int *array)
+ static void dasd_stats_seq_print(struct seq_file *m,
+ 				 struct dasd_profile_info *data)
+ {
+-	seq_printf(m, "start_time %lld.%09ld\n",
+-		   (s64)data->starttod.tv_sec, data->starttod.tv_nsec);
++	seq_printf(m, "start_time %ptSp\n", &data->starttod);
+ 	seq_printf(m, "total_requests %u\n", data->dasd_io_reqs);
+ 	seq_printf(m, "total_sectors %u\n", data->dasd_io_sects);
+ 	seq_printf(m, "total_pav %u\n", data->dasd_io_alias);
 -- 
 2.50.1
 
