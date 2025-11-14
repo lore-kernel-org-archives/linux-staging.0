@@ -1,83 +1,117 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mail-m155101.qiye.163.com (mail-m155101.qiye.163.com [101.71.155.101])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5D7D1E1A3D;
-	Fri, 14 Nov 2025 08:49:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19C6B30146C
+	for <linux-staging@lists.linux.dev>; Fri, 14 Nov 2025 09:13:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=101.71.155.101
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763110148; cv=none; b=YgY/7ODjRjuQfltuCRB4JvjQdP0v1uA8jKTzhGTNPdptDZRSUFCYVLxszY96x7Py9eClLO9hMshIMdVgun8MGBEcr1fF3AEbVRZl8QBbRf7tBjYQJkZH07DBHkL0WMy6RDCDtSL/Z5POlf8KqdDGeOqKfIY8UYev/sQY0Xy4PGo=
+	t=1763111593; cv=none; b=bahFYZ2ecPNhpv8oIjuy6fKl/UeSS5ZU1XgQDwkBFHrYgeg8irOX46P4Gzst3YBAlTy4UoEyfvUc2thCBsN0lJz6q1mA1sqjXkm1JgZTE3WhZkeV4Lmp68RU/8I7rvuqU3TnI1OBzCWeugfvacQFl4QaquxKpRxY+EK5AIrezIo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763110148; c=relaxed/simple;
-	bh=ITPelNQNiZ4o3E+qqegWmsikYZ13yQfLqLD9ScM52Zs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=TX2GCloB9p72XAfLf6Y0UeBNnCXg/m4j2qTms60GukHwdwKiZbgPdXDbBG78Afy+4P0uEaBYk1fCK9paOkuXLImJl+PkP++NbTQDkFdQHSaptxmLlBIjG1OZZcMuFGMfiurwQHDo0iZqviUmaZcxaQU93n4znWDYcMq5ExvmifM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gJFwwGMS; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1763111593; c=relaxed/simple;
+	bh=RIY07XPyKe5L+ZeyK6GDW5uwco2GOJNBREhd2oMdYSM=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=C2aJm/hhyZpVkfipTfokS42auk3XxP8RChZPRxnBRmBmaoU7VEtyKOKZHM5GZL/qSEELc9dF8xvbr8O+JqAbybX3/2QjShUXqRnd9OhhRPzJkCzCu/GbckhBt4eW9fS/wI+SmygTy2EMXe00/HOeWWtJhF9ZNGm4VrHi3TqVtfU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=seu.edu.cn; spf=pass smtp.mailfrom=seu.edu.cn; dkim=pass (1024-bit key) header.d=seu.edu.cn header.i=@seu.edu.cn header.b=VG3Ln/dr; arc=none smtp.client-ip=101.71.155.101
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=seu.edu.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=seu.edu.cn
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gJFwwGMS"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4579BC4CEF5;
-	Fri, 14 Nov 2025 08:49:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1763110145;
-	bh=ITPelNQNiZ4o3E+qqegWmsikYZ13yQfLqLD9ScM52Zs=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=gJFwwGMS7hdfAkros5S6eY1lBAjjCmzUVL0NqkAOXzOrRC97x8hjwHzoaV3qr9xLJ
-	 KoudHj/8QvTir2+lS6CzSxOYZqdyDlqFi/HpkMl+m5zooJRoL3G80Yh86JVM7b6DVR
-	 puq1S8G1dTLKtpdEeT/VhtXXKH2QhuyqN6mu2PJzommbDG+ZlitnqW9JXeLXFF+jpy
-	 OeRfEh11TiEAIfUyHSy4cdVDbzVEtmb+a5WD1sOcUD++cqX4SmYT3z3TgN5FQ0XTeb
-	 TJG588mOn/tpyRS3gqPxwNFIB+C8G3TRFfWWX8MSsUCIzfE5srF2U97caCmjBN99VK
-	 6lnkZ7pE64ttw==
-Received: from johan by xi.lan with local (Exim 4.98.2)
-	(envelope-from <johan@kernel.org>)
-	id 1vJpUN-000000003T9-0I0u;
-	Fri, 14 Nov 2025 09:49:03 +0100
-Date: Fri, 14 Nov 2025 09:49:03 +0100
-From: Johan Hovold <johan@kernel.org>
-To: Dave Penkler <dpenkler@gmail.com>
-Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH V3 0/6] Destage gpib drivers
-Message-ID: <aRbs_4yzncsoAkB2@hovoldconsulting.com>
-References: <20251113104543.5875-1-dpenkler@gmail.com>
+	dkim=pass (1024-bit key) header.d=seu.edu.cn header.i=@seu.edu.cn header.b="VG3Ln/dr"
+Received: from LAPTOP-N070L597.localdomain (unknown [223.112.146.162])
+	by smtp.qiye.163.com (Hmail) with ESMTP id 2998aa759;
+	Fri, 14 Nov 2025 17:13:00 +0800 (GMT+08:00)
+From: Zilin Guan <zilin@seu.edu.cn>
+To: jonathanh@nvidia.com
+Cc: skomatineni@nvidia.com,
+	mchehab@kernel.org,
+	gregkh@linuxfoundation.org,
+	linux-media@vger.kernel.org,
+	linux-tegra@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	jianhao.xu@seu.edu.cn,
+	Zilin Guan <zilin@seu.edu.cn>
+Subject: [PATCH] media: tegra-video: Fix memory leak in __tegra_channel_try_format()
+Date: Fri, 14 Nov 2025 09:12:57 +0000
+Message-Id: <20251114091257.1616738-1-zilin@seu.edu.cn>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251113104543.5875-1-dpenkler@gmail.com>
+Content-Transfer-Encoding: 8bit
+X-HM-Tid: 0a9a81a3b14503a1kunmddf594931af9e5
+X-HM-MType: 10
+X-HM-Spam-Status: e1kfGhgUHx5ZQUtXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
+	tZV1koWUFITzdXWS1ZQUlXWQ8JGhUIEh9ZQVkZGBhCVh8fTU1JSR8eHklMSFYeHw5VEwETFhoSFy
+	QUDg9ZV1kYEgtZQVlJSUhVSkpJVUpPTVVKTUlZV1kWGg8SFR0UWUFZS1VLVUtVS1kG
+DKIM-Signature: a=rsa-sha256;
+	b=VG3Ln/drpj/G7iSWk9NkqHBaJSeDGnNoErI3r+/ZQ/i4CwelOL+mXsxrERiOm2nYMN78TMPfqNbdaAFjhDeXlRgkKOJFcbrNZiHuxZFiuRILG/CJaQHPwpsDq1s63F3esQWsRJEZtrPy6i+d9H+GFzpCrAcPwDH2zdqTaoiOunI=; s=default; c=relaxed/relaxed; d=seu.edu.cn; v=1;
+	bh=GEFFh+Nwict6VejMdzW7BfYMOeEGIwcjfqJ7sedV6Q4=;
+	h=date:mime-version:subject:message-id:from;
 
-On Thu, Nov 13, 2025 at 11:45:37AM +0100, Dave Penkler wrote:
-> This patch series is for moving the gpib drivers out of the staging area.
-> 
-> As many changes as possible (patches 1-5) are done in the staging area
-> to prepare for the move. Patch 6 does the move and completes the destage.
-> 
-> Patch 1: Remove gpib from Kconfig and Makefile in staging
-> Patch 2: Remove the gpib/uapi directory from include search path
-> Patch 3: In the code change the uapi include file paths to <linux/xxx.h>
-> Patch 4: Remove comment item in TODO file
-> Patch 5: Add SPDX syscall note to uapi gpib headers
-> Patch 6: Complete the destaging of gpib
->       - Move the common gpib/uapi headers to include/uapi/linux
->       - Move the gpib tree out of staging
->       - Delete the word Linux from gpib Kconfig option title
->       - Add gpib to Kconfig and Makefile in drivers
->       - Update MAINTAINERS
-> 
-> Dave Penkler (6):
->   staging: Remove gpib build from staging
->   staging: gpib: Remove gpib/uapi from search path
->   staging: gpib: Change file path for uapi headers
+The state object allocated by __v4l2_subdev_state_alloc() must be freed
+with __v4l2_subdev_state_free() when it is no longer needed.
 
-Sorry if it wasn't clear, but I meant that you should squash also these
-three into the patch moving things out of staging.
+In __tegra_channel_try_format(), two error paths return directly after
+v4l2_subdev_call() fails, without freeing the allocated 'sd_state'
+object. This violates the requirement and causes a memory leak.
 
->   staging: gpib: Update TODO file
->   staging: gpib: Fix SPDX license for gpib headers
->   gpib: Destage gpib
+Fix this by introducing a cleanup label and using goto statements in the
+error paths to ensure that __v4l2_subdev_state_free() is always called
+before the function returns.
 
-So in the end you'd only have these three patches.
+Fixes: 56f64b82356b7 ("media: tegra-video: Use zero crop settings if subdev has no get_selection")
+Fixes: 1ebaeb09830f3 ("media: tegra-video: Add support for external sensor capture")
+Signed-off-by: Zilin Guan <zilin@seu.edu.cn>
+---
+ drivers/staging/media/tegra-video/vi.c | 13 ++++++++-----
+ 1 file changed, 8 insertions(+), 5 deletions(-)
 
-Johan
+diff --git a/drivers/staging/media/tegra-video/vi.c b/drivers/staging/media/tegra-video/vi.c
+index c9276ff76157..14b327afe045 100644
+--- a/drivers/staging/media/tegra-video/vi.c
++++ b/drivers/staging/media/tegra-video/vi.c
+@@ -438,7 +438,7 @@ static int __tegra_channel_try_format(struct tegra_vi_channel *chan,
+ 		.target = V4L2_SEL_TGT_CROP_BOUNDS,
+ 	};
+ 	struct v4l2_rect *try_crop;
+-	int ret;
++	int ret = 0;
+ 
+ 	subdev = tegra_channel_get_remote_source_subdev(chan);
+ 	if (!subdev)
+@@ -482,8 +482,10 @@ static int __tegra_channel_try_format(struct tegra_vi_channel *chan,
+ 		} else {
+ 			ret = v4l2_subdev_call(subdev, pad, get_selection,
+ 					       NULL, &sdsel);
+-			if (ret)
+-				return -EINVAL;
++			if (ret) {
++				ret = -EINVAL;
++				goto out_free;
++			}
+ 
+ 			try_crop->width = sdsel.r.width;
+ 			try_crop->height = sdsel.r.height;
+@@ -495,14 +497,15 @@ static int __tegra_channel_try_format(struct tegra_vi_channel *chan,
+ 
+ 	ret = v4l2_subdev_call(subdev, pad, set_fmt, sd_state, &fmt);
+ 	if (ret < 0)
+-		return ret;
++		goto out_free;
+ 
+ 	v4l2_fill_pix_format(pix, &fmt.format);
+ 	chan->vi->ops->vi_fmt_align(pix, fmtinfo->bpp);
+ 
++out_free:
+ 	__v4l2_subdev_state_free(sd_state);
+ 
+-	return 0;
++	return ret;
+ }
+ 
+ static int tegra_channel_try_format(struct file *file, void *fh,
+-- 
+2.34.1
+
