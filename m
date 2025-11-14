@@ -1,64 +1,65 @@
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B869E1DF75B
-	for <linux-staging@lists.linux.dev>; Fri, 14 Nov 2025 14:56:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6896633122A
+	for <linux-staging@lists.linux.dev>; Fri, 14 Nov 2025 14:57:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763132182; cv=none; b=GnBAjlkVPiKKOCq29qjrZgacRCbGWUrb0Vw76pwPOMZ60kmOQIgku0rDKRrO67srJ+jQ+xUX6dyH37TkdvusD/W9poDQIF0upCRjyk733EjiGmyU1v9CliZdCkMkulIWFw1Q1J+LDHaIVcu1QABl/0foZyJdbRwh6hBOxg0Jhtk=
+	t=1763132281; cv=none; b=Xyf4OpkJdpccyN66CRtl98b4cz2j4/tjieb55aClfLkoB/DHfjePZuhsFi+3wzHn8/Wk2bvZAdDl6vf2ldnWvqc2WgK4RMogKd/zdID/fcF1rwYRJXXOXols4xCWlHmEYLyzNG/vGzl+OzSSud+S4irBMFoy0k1kBitUIaQi/9A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763132182; c=relaxed/simple;
-	bh=8C9FHp7PZ631e2Ybbwogq7Pblu3WU18LYULy9dqpPsE=;
+	s=arc-20240116; t=1763132281; c=relaxed/simple;
+	bh=F1ZCzX89awJADOgTe+k1vSNI5Zu2MhOm6VSE4oz9v3Y=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=j4XIRErJ1xx3U7OdPK1IYpzm3FnA8xeW4a4TykFkpukcfb7XELc3KkLNs5nz19IqnHOkqM+P48wT5f7/nykumf280N4cqPrbgnwsRLHGPr2CnZSJm/cwg6EdLWXVvRuaTaKgVPYCDk4THSv+sHtZjo5RUmV1nBistSCI63IC2k8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=abjKPmzv; arc=none smtp.client-ip=209.85.128.46
+	 Content-Type:Content-Disposition:In-Reply-To; b=FvKKyadHC8vRwI6nt3PZzLf5wlr9mHQSzhx0Qaz50dy7FA3pYktFZsynK6znR+Us4VudCrdqOVbQ07cqu+mvFpu3qdosiON3BUpaBbzsavWfEEOEC6KO0mUMjZTthnaOcD/FGnWFk9r7XJLG30etAbZOgIUCHa1IGGRWDudsi00=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AiP+feHg; arc=none smtp.client-ip=209.85.221.46
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="abjKPmzv"
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-47118259fd8so16042195e9.3
-        for <linux-staging@lists.linux.dev>; Fri, 14 Nov 2025 06:56:20 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AiP+feHg"
+Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-42b3d4d9ca6so1827284f8f.2
+        for <linux-staging@lists.linux.dev>; Fri, 14 Nov 2025 06:57:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1763132179; x=1763736979; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1763132278; x=1763737078; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=s/9mxyG1LVSxOgn1WKCRkmy+qBsoYVMZn7X9oY3XK/o=;
-        b=abjKPmzvEw80N2j2K85ibQ+SpjghNO1fjXgWmgEOLmOS9nLzl7Gp/26VKk5DCX4vsK
-         UlT5l3BqambvS0gll4L6+PwP36q1Q/9ucSEmON07cxju0MIx6RZzOhJXLaZDKWEAM+r1
-         leetNjf2WaZv2tvXvF3EA8dopnAnla/MWLdupM1NhR1wfoXzoykBmmLDreakW0fVT9qQ
-         CScdSzaGgBhqsSy0vtV3UwygI4eZ4p6TkrGdsUGHS9cA8kMtSARzO4IMoy2f+BMulMxP
-         PUuagCYRoYPufWY/bLMGRHMkiE/ic7zZwxoYVvU/P5AqXc8B3O7Kxgb0bUGkSeCrRwsG
-         Ie3g==
+        bh=JGnRuedlsHd0fcZwXKJjRRdg6CbePYJalR5bL55auvo=;
+        b=AiP+feHgRADaEPxZ668pug83amnm+fle/3jmZoCZsgiuoaObPcKFKTsp2uAt18y+tc
+         zsoHjiuwYIuJX6e1JZAkv7yo0V2EU6/rbEXP/2amMuaui/cGJwwaSwG23W8IHTl60s3P
+         xxEpqVUuCIiTvRs2Nt5mv5maumbCD6R7xZIL33uq26hJJkPtJF4uUoWf118eu437J6WN
+         LxRKej2kVCewmEQ1tGewZLsL1qt3gsYDaMPjqBCBLsGXiZxVHiE6Yr3kECzAw/yYvwYk
+         QvQK3AuPONl5ECdG6NTitw4aXO7j19IgiFZHVdHPsRXF2CXii+cMqQOZDL1oWqxs6pFQ
+         vXYQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763132179; x=1763736979;
+        d=1e100.net; s=20230601; t=1763132278; x=1763737078;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=s/9mxyG1LVSxOgn1WKCRkmy+qBsoYVMZn7X9oY3XK/o=;
-        b=U9IqD5FOkU0duKyTgvkiG+VXJC5ZTcZP8OsRmyI3E/pZ99tQ64ceYhNfIyxyQJH5cX
-         6afwoJkBiKKluS6KWPSdSKgdZTCfCEEgUwFddvCZzTFTZJXO7j6R8ufZviGfffy6mEDS
-         SyiLgmuNRduyjsL97Pagz/QWwGNfMgbT1lTEQxHpQOqA/Bi9a0n5kRWlIivq9ST8VNKB
-         5sXVnyOq+txpiZr+IDbk7lkDaEuR3FX8c2BOkAMhItAZS40t2l/fTS1JfOFGRu+uEY2V
-         5FAADAUtKWfoi9P196fwLZc4QppVnE1R13cod0yh3pASD7WUmapeTA6bqcZDuUfKHEsa
-         OM9A==
-X-Forwarded-Encrypted: i=1; AJvYcCXFcljp8LyreiQ1Jm5HAs3AzhRoMkpSzmMSDO8pLbTj0zhA/CG6DoHdNckrt9qyb4L6dSl6MlD1Wbyibu8v@lists.linux.dev
-X-Gm-Message-State: AOJu0Yz81fjOLRLBGMzAlbhXMb64T0te51gkrZaSWNP1RxociZx7653b
-	BFd/D0t+sybLoAJ4p0iwTPsky30ZlYEWSfULr3d/GwZjZH3EGLbSHIOjjfWkHg==
-X-Gm-Gg: ASbGnctH6uucS4/YlfscJMjjpIdtEBMVrxU0eyDjED+5qDvVcqZTq5fRk0kydirgRR6
-	XzW5ZJmCmZkv5kZZK6gcPCh/0oHxRV/UoTlvDM9iRQy/TGkQuy04CwwUXBpq+trkKludDHiEyCy
-	5Wj8WvwniKraqFdJLggi1OH47STwLbbEZxo8d4Lo+aw/nK097IqldSW+JqZMtnEWyjOlQAq/hzr
-	OC0m+xg7ooBCcfuXyuzfKKG8n0fy49+7TQVPuMuyNvPo0Ww7luZvIV9rDLDQ2cefqfEaLtoPtdT
-	jIdw6uz70gMukPz5W2oUdANNrdZk6UUHcLJIh9OGOpHH7oeFRb8wS1sd5LzbTSesH3GVzDqgij3
-	ZYiXjdB5wPxhRdOIU1Yh1t0RktZBOqqrFl4LU7jM3HiPG9SVOa9Ze1dXEpSieqA7FndEw7DZdly
-	FZrwL+shXETSqw7ywRm2KsYJGXR72D/LShXnoyGvyTV9snZf1lYc+fTEhyU99/JbY=
-X-Google-Smtp-Source: AGHT+IHH+QDPwizZAqaXOkEIZoWon24hqYUWks1VOVo0gf4ap+2tE/j3QWY4er5Dp7X0/B6XnzFATw==
-X-Received: by 2002:a05:600c:4753:b0:477:7ab8:aba with SMTP id 5b1f17b1804b1-4778fe5ff23mr34390975e9.1.1763132178710;
-        Fri, 14 Nov 2025 06:56:18 -0800 (PST)
+        bh=JGnRuedlsHd0fcZwXKJjRRdg6CbePYJalR5bL55auvo=;
+        b=e5w87ewnlVu600Cfjy+y9lYCQXrKOZy8VKivMQcaZR0Q7w4Soc/9B4yAteV/X0Q0s8
+         7ycDTplRTHhe6TleZDkYNiUJARSuWlMokDzHDhxsB3RAbqa0QhhZ6mh3eve34Ay6THJd
+         pTEozqMUHiZ1QOhecoTmFM6OXA2yKQgY3rWCyhwtHVrjdK1Z6vRVn/Ct07vHtMMO44AQ
+         VEmxIoTFnO58NJQstTlLDfNgtqgD0v6Ve/Bbfj+ijj6KA3Rd+DyV5oCXDHC06MTD8jso
+         sHl+RDDw6mvWMNXAc8JMq5o44X5Evu85sjk6nZCspI1/T2GoV1dub/6gvNUEKEgd9bYh
+         pQLA==
+X-Forwarded-Encrypted: i=1; AJvYcCVqNct8W8nhhgmZ2nLlYz3k88nYE3o0xNYBXNT3xCqwZzfaLwKNTCpoTUadhkJMYUtTtFJ5Rvoff1/4asay@lists.linux.dev
+X-Gm-Message-State: AOJu0YxScMPP/XjpEjgJ/fhcRreIcHXYF30m5/RbHWKCmj70TZYiXnZI
+	zyubbh4QMF0LuBUCgeVm7hR3+Rpa4cwM3TgFVByvni1YCRuvpKRyducu
+X-Gm-Gg: ASbGncs7K6wIr7lKbkphnTR/vRs4NAx+nPiCoI+tM/6bpLgAbziQLMI73yTVJQJlmV5
+	Nf9fidF8d3LBMQsF25+QpC19vbifz7PUcBLuPgYPHWG8OGUlNR1vb+YFZYJz1OEV2O9o2/2bFFx
+	1cFy9vA96NlWzKLEnt1FlOYTZZ7nz+7Sh7ShpXs6OgGU1IL427La+fB3x69q+4knnncnfKhqWQQ
+	5LAsKEKvXAApdk/ijRphLASJ1s2KAnUHOSspIkqy9rPdwfy6GS/3SFKh8jBG+wIEcLdn7cUQQSd
+	tzn3exgog/6ssXBuDFhuBVZJHYNHYtJAHqlCbs+9DGdNTECXs0XwEJvj3R2aLCd6WENY1oelcLV
+	mHp1vd89/WLHz0UN3LRfbB6DeiNQH8G9PRDnvbca/XBOLT6BWYaRt7SNGugI2jVMBwrGf03b/Wh
+	DbcA3cGxymMAOrH5EN5NtKahdvnNHPYymaN2VbVEKHFW4XAWWvVYfBS0S6MRAGlRkxM3/hJmJxN
+	w==
+X-Google-Smtp-Source: AGHT+IGR+CaGRepCgY9abJOUDZMtJSLpLAxIBXYfl3hSOsk7LXj9GzOPlhHY0Won/RR6QmkpGOV9IA==
+X-Received: by 2002:a05:6000:615:b0:42b:41a6:a670 with SMTP id ffacd0b85a97d-42b59394029mr3665245f8f.54.1763132277621;
+        Fri, 14 Nov 2025 06:57:57 -0800 (PST)
 Received: from orome (p200300e41f274600f22f74fffe1f3a53.dip0.t-ipconnect.de. [2003:e4:1f27:4600:f22f:74ff:fe1f:3a53])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-47787e2b835sm148886025e9.2.2025.11.14.06.56.16
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-42b53f174afsm10192785f8f.33.2025.11.14.06.57.55
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 14 Nov 2025 06:56:17 -0800 (PST)
-Date: Fri, 14 Nov 2025 15:56:15 +0100
+        Fri, 14 Nov 2025 06:57:56 -0800 (PST)
+Date: Fri, 14 Nov 2025 15:57:54 +0100
 From: Thierry Reding <thierry.reding@gmail.com>
 To: Svyatoslav Ryhel <clamor95@gmail.com>
 Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
@@ -75,10 +76,11 @@ Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
 	Arnd Bergmann <arnd@arndb.de>, dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
 	linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
 	linux-clk@vger.kernel.org, linux-staging@lists.linux.dev
-Subject: Re: [PATCH v5 21/23] dt-bindings: display: tegra: document Tegra20
- and Tegra30 CSI
-Message-ID: <cd467v5xu6aaxtllfc5awt6sen6jw3u4vdr35ue3x6e5cao6vz@4kjeiwo63tce>
+Subject: Re: [PATCH v5 22/23] ARM: tegra: add CSI nodes for Tegra20 and
+ Tegra30
+Message-ID: <6ec4sw2c5rs2s4akd55vacveloiyc7ehbhouz2mqs2gy2w7v5d@rqxzhxcgm2ns>
 References: <20251022144930.73272-1-clamor95@gmail.com>
+ <20251022144930.73272-2-clamor95@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -86,58 +88,51 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="tqyqdls54xm3etue"
+	protocol="application/pgp-signature"; boundary="xekcx7ux3cabz2pl"
 Content-Disposition: inline
-In-Reply-To: <20251022144930.73272-1-clamor95@gmail.com>
+In-Reply-To: <20251022144930.73272-2-clamor95@gmail.com>
 
 
---tqyqdls54xm3etue
+--xekcx7ux3cabz2pl
 Content-Type: text/plain; protected-headers=v1; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v5 21/23] dt-bindings: display: tegra: document Tegra20
- and Tegra30 CSI
+Subject: Re: [PATCH v5 22/23] ARM: tegra: add CSI nodes for Tegra20 and
+ Tegra30
 MIME-Version: 1.0
 
-On Wed, Oct 22, 2025 at 05:49:28PM +0300, Svyatoslav Ryhel wrote:
-> Document CSI HW block found in Tegra20 and Tegra30 SoC.
->=20
-> The #nvidia,mipi-calibrate-cells is not an introduction of property, such
-> property already exists in nvidia,tegra114-mipi.yaml and is used in
-> multiple device trees. In case of Tegra30 and Tegra20 CSI block combines
-> mipi calibration function and CSI function, in Tegra114+ mipi calibration
-> got a dedicated hardware block which is already supported. This property
-> here is used to align with mipi-calibration logic used by Tegra114+.
+On Wed, Oct 22, 2025 at 05:49:29PM +0300, Svyatoslav Ryhel wrote:
+> Add CSI node to Tegra20 and Tegra30 device trees.
 >=20
 > Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
+> Reviewed-by: Mikko Perttunen <mperttunen@nvidia.com>
 > ---
->  .../display/tegra/nvidia,tegra20-csi.yaml     | 138 ++++++++++++++++++
->  1 file changed, 138 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/display/tegra/nvidi=
-a,tegra20-csi.yaml
+>  arch/arm/boot/dts/nvidia/tegra20.dtsi | 19 ++++++++++++++++++-
+>  arch/arm/boot/dts/nvidia/tegra30.dtsi | 24 ++++++++++++++++++++++--
+>  2 files changed, 40 insertions(+), 3 deletions(-)
 
 Applied, thanks.
 
 Thierry
 
---tqyqdls54xm3etue
+--xekcx7ux3cabz2pl
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCgAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmkXQw8ACgkQ3SOs138+
-s6Fc0w//YzvvfrnY2oE+gg920G2CSw3rl1e0FAgNvins2Qt8x1QUys+Tr3GyLm3k
-k2TYECD1jsXh6dGN5XWZUxY8m0G+pzXgFqZ8jnLRstWRC0I3Vn+nGsbXBUMpbp0F
-ogRuV3DGK+9Z3eDBahsQulOIQtRMvM9fMO3csuzI/ql+XCVzwjFzD1yjWkwsgl55
-spLXD/YnC2YRd6rB0CbTxKb4CZX7xJm6eFZ0JWAgWdUDemIKLQXEmFIK5ZoqCK/q
-PYn9uuFLeebTTLQF5dCuvSGSjoQY+SrVHBPDRDUqFL5m2PQPIWdVIgWPTrQ5vllZ
-AkED1KPfot8yoPt0lP97nynkWFaC6jp0aSSKGhNiv3gwunwF1Tzf4KMlwtn/NZhl
-jGrwt2CkVE6i0pW2lf6xneM6Kg206eSuCA5Shla69u74LGB0f4+sCfdNfDxg0y4v
-24rrOPlNcFrJduCiGW+wgszu3XiR1Uy/l/UlSV505O44uHTRck16zup+hA6mz9Xv
-s12707JMhxwtvqNUlvHc5pyu6KU7dgOzG4X3ezHKd/o3Zuxun8ZOtqUsWvhlRrrd
-XkLbkt11kNxmCuVgBPxIwLTXSgIDZZxDN641pvWfFUx/sV5QZ8RgObK79ne4d/yC
-BvXV19RCcd0c/aYfIaOn92k74QkOzOgFR2h9HOzDlaxTHEY/hFo=
-=ETS8
+iQIzBAABCgAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmkXQ3EACgkQ3SOs138+
+s6H5FQ/7BNrS2X7EchthFaqJs0Itrm1KN9MujAl7hYVvTbvyozWCOEjKbFN4QX/R
+1+8mcxFJxc5TtgvW16xQ+mePTyN2N7jxL1TxRT7XCZL5Tp14zhdK9zDoQK/1408r
+0dw0xy7PAzn9uj8EYX/dfrKT9rsGy0Nc97UyGoBE0/oTU/XHYAoPev2JyFSCqaHn
+sD4JvD6tliCPcRZkdum6WkajMFarxmgx72sJ5jLhOzzsT7/vcJyb12gVN94OtK6b
+6kASWMvl+1YQPbxWk/iSSBYUwlvoG794KpTPyhEzezvigRJkLO3jSSCzCplJ+K9i
+IVfmJlnaaOONvQZVULWL4Bn4OplAnDBaqi8AUwGa5QjlgEEc81FczmuU4KAj+5Zx
+mIhy2Bd5hMjqvSyKFXiDd+4QlRzNHsC3dacBktMu4EH+KC3DVKMTQ3/+7yyXqcc3
+ne4wp7IJVQ9oEsPxr1e0GKPkDEd4iz10UaDCHZKFvDzEwrOkkN7vzUF4tndq1/Av
++fz4pjf3DCJ7NMc1fs/kBabrbTmHbTqAkIot26EKaLfrogrGlGm/smu32t7CrzWq
+dY17/9eNoHdrPC7o/kncXM3oxYGrh2Bw1OFtF9RL5mLCxSTLOKAkqZZv5zHTLEAg
+MYnh3JVBfN/JUn8Y5x9LTYlIvap2zYy3Rss6uFmNUcMWhjBqhsw=
+=/CC6
 -----END PGP SIGNATURE-----
 
---tqyqdls54xm3etue--
+--xekcx7ux3cabz2pl--
