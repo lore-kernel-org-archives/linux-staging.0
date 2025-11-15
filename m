@@ -1,242 +1,346 @@
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from alln-iport-3.cisco.com (alln-iport-3.cisco.com [173.37.142.90])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C108191F92
-	for <linux-staging@lists.linux.dev>; Sat, 15 Nov 2025 15:19:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.43
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763219987; cv=none; b=EfcfMKs5NiE4WNQqueiTbgLjmQ/yxiZjsLn2Yjs5go1tdR5RblX0tifql654GR+qtctFELldHSRoYlirl7b8CIdEC5v3Z6E4hV0P2uwmA9zCRWEUtGgKlPT98PB3V4OY1gMMx0GgOL53S4gqFuBLweMi5YBFl3QAQ8Qg9xMV2js=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763219987; c=relaxed/simple;
-	bh=pwhk6KUC9aj1bO1CnKCgI1WgBJAeVfM9l/gwJMBdHX8=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=jX+Mc8tPJ9DpQIqZdSQHttkVBxCDuma3Qni3H8V7y0J5d37YoC+JBf0InQ4DvrODk49hKdDm7R84/7fdjCMMOC6nn10ftXk8hVfL2JFnLivLIjw9mmAF22UDftMUy+Pv/n3bYLM7bC9sGNhw0OTfvV6VPeGwoLB2ecL0I4WJquA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=j2R1iPB9; arc=none smtp.client-ip=209.85.221.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58193946C
+	for <linux-staging@lists.linux.dev>; Sat, 15 Nov 2025 20:27:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=173.37.142.90
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1763238456; cv=fail; b=tkbV2Zv8tKxpOlG6Y9Sy9bvFilJJeA5hCT5Z3sYw7KPaLgkwXu3KjHBYYbAmky03RCbWtrW7uVfIHPQTm7TCs3AOSkVzdKbP/qbxkfor0I7v3cYno/Uuxq1iQ7v1IHKoxcr/Ey/c37f9AkFdx/iM44+q7zDKouLARMOwlVIt9w8=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1763238456; c=relaxed/simple;
+	bh=0oTvO4Q6xXLw3PM9HZGWnEQ9SLM1QA+gVBIlLFZprVw=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=kmwU1n5giC0KoCfLc8tN/B6hME0BJzjMmucyAW5tbxEhoDqYV85xzjwtPZEIZbV9MKoiLKKZyZv3c1ypADE3SGQkRBFUVYV+oNNLVvqrVK/tmlmbF9+wsV/XTBn3zgInBBFy7WYDQhNNWL7jJJGzoYCwy/Ard2vnTQn8MQe1o+c=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cisco.com; spf=pass smtp.mailfrom=cisco.com; dkim=pass (2048-bit key) header.d=cisco.com header.i=@cisco.com header.b=ECHcu177; arc=fail smtp.client-ip=173.37.142.90
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cisco.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cisco.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="j2R1iPB9"
-Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-42b3b29153fso1628351f8f.3
-        for <linux-staging@lists.linux.dev>; Sat, 15 Nov 2025 07:19:45 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=cisco.com header.i=@cisco.com header.b="ECHcu177"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1763219984; x=1763824784; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=3fiwCuDBn6bCR36wBmkPpqkRzBcsOHTvfCQX1x7iMNw=;
-        b=j2R1iPB9SxtsHK5uomsgpJ/ufKYKRjMRjz0gk6/g4WiLJLtmo8+J6FTbqWqZu0gmJr
-         TmSaL7CP+6BEcjHX4XWtlYK5kTsbAqISCsMMyYGtJoDJGYSDUPPU7fUWjHv7AOmhLCGI
-         Vs7aSP5MZ7cFXy7HuDDK7cUfznrwBMbLMPMk47IG4XrXtgvoE9hav4ltEXnJzODk0zSl
-         ulbA0bP98N4LiN1C/lK61E1sMLjy/q0UMLCU1MmGXtT3Xxut1TGCaJW079t6IjwKAYDC
-         AyyyilqN5FYvE2ck6lSOnEMo/sjumQS8MPKkJxWmISNPQ8UurlrYvPbea+Fpv5aGoX69
-         A1Xg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763219984; x=1763824784;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=3fiwCuDBn6bCR36wBmkPpqkRzBcsOHTvfCQX1x7iMNw=;
-        b=qVQQ3+A/fpHyLjPhJyP6h3gu77E55lOwfNOTMBxm7RxMMhke4C6kDObXvhlr8xKZu8
-         JntKrl5sGMFUxrTvYgNqaFqS8tg1cyx4lzVAWt7f3mhgrEJCppnAfCTBtTXOgyyXU5Pu
-         uR4oaOBIfkiVkvVlAuIVhYpvPWCe9zbc3AUkaSuavxY+Ln3T87aG/+CtqfRjHD6nkulN
-         DLZxnXpbp0VAG0+4iEEwjrxJjpx+C5nHL3Y63Ggemc6qyJvokdHITEtdi3FhemdFuDi4
-         PIh8YVOfOyfUYGlEs8OX79DJ5IXK/qSBXdibhEi7xqMUftleuexr0PH5o8eCjF9Yx9/h
-         RqPw==
-X-Forwarded-Encrypted: i=1; AJvYcCVSViWo5XYnCjwsrPvCpScWGUtxLG2LjSVNG/ZAxz0wpi8HyG6pOIuaGX7cvZZYLYb2mdb1lvTpcTG6eCHs@lists.linux.dev
-X-Gm-Message-State: AOJu0YwdjgnmAUkk8QM2BHUwQiaFAXzqtREq0Qp4muMGmExlQTXqpMY8
-	SX53tRtoEyg1y1aNhiNBOp2lU6Z0lioSFpaPrX5ulO3rFFmSkJPFga1u
-X-Gm-Gg: ASbGnctAznCngp9JI86JPvCspuGaJDhEzvctvlkDS1zj96jwRRXHkx3Zima2S6l0qWp
-	W/Tx+666vgEvKwcVGxrYQQcWJ8wbCWgvL6R1PbAVtFBuMafAKrqiDN18iKn07g6jRsmnvVRWkU5
-	hNYDs5T6RCnhEer91lMJkyJPhQyga27kzawCJbRjJctzhuxw47mLqKCczueMs1QJHe+Y0pJia1v
-	W4FkxdFGrFlJ2SxskBNXnw5UzsfKJLEb1AremTnbkdRDx1zhwauNV3ttj199NtB7dpr5balsi+o
-	SqYHYvPz+kuZrPda2k0rkI6bFkUuNHal47lvziqRUndjiEJUmkp6pJfrpT/MJzzQSuVmVRu60BL
-	0GuyYNz7q+ICtfJ2SN33lOIJhZGuNA7uK1waCI8LrJQ7bIrUsZirc4KlwhCd1/SMQFxb+dlnUFK
-	OoUBQ=
-X-Google-Smtp-Source: AGHT+IE0WZaMPkQ2gf5Cfbpuz0f0f1hn6sPXTkFITHtyS6NvFcAeITRj13yFAzpQHkMmtxXEeKa0kQ==
-X-Received: by 2002:a05:6000:2010:b0:42b:3c3e:5d53 with SMTP id ffacd0b85a97d-42b5933aff4mr5549415f8f.16.1763219984236;
-        Sat, 15 Nov 2025 07:19:44 -0800 (PST)
-Received: from hamdan-pc.. ([39.34.132.139])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-42b53e982d6sm16665382f8f.21.2025.11.15.07.19.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 15 Nov 2025 07:19:43 -0800 (PST)
-From: Hamdan Khan <hamdankhan212@gmail.com>
-To: hansg@kernel.org,
-	mchehab@kernel.org,
-	sakari.ailus@linux.intel.com,
-	andy@kernel.org,
-	gregkh@linuxfoundation.org,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Cc: Hamdan Khan <hamdankhan212@gmail.com>
-Subject: [PATCH] staging: media: atomisp: Fix typos and comments alignment issue in include/linux/* header files
-Date: Sat, 15 Nov 2025 20:18:40 +0500
-Message-ID: <20251115151840.6366-1-hamdankhan212@gmail.com>
-X-Mailer: git-send-email 2.43.0
+  d=cisco.com; i=@cisco.com; l=2460; q=dns/txt;
+  s=iport01; t=1763238454; x=1764448054;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=MFw/Z1Sf8SjzDqIL5mUOFLjLDVfmbv7DCp/A06Y2PGI=;
+  b=ECHcu177G6w952IZRH9vSSBRAvpS9gGbYWiLoFYAC8MAWZmi2ar7JxSs
+   ouhiQuCi1jgpmH/+Hel6PnHOT/4slV5GO0wkTfwk1zXvzlqzwQpzGASt2
+   I98fLUGGc1QSj9QOPx0vPkReegBPnxS9N/c8elMff/9pFO5La7hU/cb/p
+   CVO19E2JKvvL92GuMAgsMG0RQlLxMnm1yHPKk4nO5GS2CxKa1OwT6R1ZN
+   ES10Je2Kl51YDDSRUxnOUVwCOzRqaVhiQJWOnkFN5k5m7iSX3VpQoSteI
+   /w4BpEktuZ46CSFLHXaq0aEW7IkGt7NG6fVB46I/vvuTXR426p7NaqFXc
+   A==;
+X-CSE-ConnectionGUID: pcHVfPb2S2imutEOGs9dow==
+X-CSE-MsgGUID: E+P49HADRNC4rciH3ASdfw==
+X-IPAS-Result: =?us-ascii?q?A0AuAAB44Rhp/4oQJK1aHAEBAQEBAQcBARIBAQQEAQFAJ?=
+ =?us-ascii?q?YEXBwEBCwGBbVIHghtJiCADhE1fhliCIQOeGoF/DwEBAQ0CUQQBAYUHAoxaA?=
+ =?us-ascii?q?iY0CQ4BAgQBAQEBAwIDAQEBAQEBAQEBAQELAQEFAQEBAgEHBYEOE4ZchloBA?=
+ =?us-ascii?q?QEBAxIVUhACAQgOCi4xJQIEAQ0FCBqFVAMBAqI0AYFAAooreIEBM4EB4CaBS?=
+ =?us-ascii?q?gGIUgGFbjuEPScbgg2BV4IwOD6ERYQTgi8EgiKBDoYnjEyGcVJ4HANZLAFVE?=
+ =?us-ascii?q?xcLBwWBIBAzAyAKNC0CFA0QEg8EFgUtHXAMKBIQHxgTYFRAg0kQDAZoDwaBE?=
+ =?us-ascii?q?hlJAgICBQIrFTqBaAUBHAYcEgIDAQICOlUNgXcCAgSCHH6BbxsPiTWBCQUoA?=
+ =?us-ascii?q?wttPTcGDhsFBIE1BZQeUYIsAYEPgS4OUzCWegGwHwqEHKINF6prmQYiqHQCB?=
+ =?us-ascii?q?AIEBQIQAQEGgWg8gVlwFYMiUhkPji0WkxsBtU54AjoCBwsBAQMJk2cBAQ?=
+IronPort-PHdr: A9a23:H0FB6hd2C4EwX24NZXKvBs1ulGM/gIqcDmcuAtIPkblCdOGk55v9e
+ RCZ7vR2h1iPVoLeuLpIiOvT5rjpQndIoY2Av3YLbIFWWlcbhN8XkQ0tDI/NCUDyIPPwKS1vN
+ M9DT1RiuXq8NCBo
+IronPort-Data: A9a23:8T2IfqudGUY/CFysa6WUaWDpyufnVAFfMUV32f8akzHdYApBsoF/q
+ tZmKWuHO/vfNGbxfI9/aN61pkxV75DQm4dgTFc4pSFhHygSgMeUXt7xwmUckM+xwmwvaGo9s
+ q3yv/GZdJhcokf0/0nrav666yEgiclkf5KkYMbcICd9WAR4fykojBNnioYRj5Vh6TSDK1vlV
+ eja/YuGaTdJ5xYuajhJsvva9Us21BjPkGpwUmIWNKgjUGD2zxH5PLpHTYmtIn3xRJVjH+LSb
+ 47r0LGj82rFyAwmA9Wjn6yTWhVirmn6ZFXmZtJ+AsBOszAazsAA+v9T2Mk0NS+7vw60c+VZk
+ 72hg3AfpTABZcUgkMxFO/VR/roX0aduoNcrKlDn2SCfItGvn3bEm51T4E8K0YIw4u1XP292/
+ 6YjcjEIcwyuoM2tkb68Vbw57igjBJGD0II3s3Vky3TdSP0hW52GG/yM7t5D1zB2jcdLdRrcT
+ 5NGMnw0MlKZPVsWYQd/5JEWxI9EglH8eidEqVacpoI84nPYy0p6172F3N/9JIfQFZQLzhnDz
+ o7A10m6Ok1LFPWz8xyurminh8+UtBj3Vp1HQdVU8dYv2jV/3Fc7DBwQSEv+uuWwhU+4VPpbK
+ lcI4WwqrK4v5AqnQ8eVYvGjiHeAuhhZX59bFPc3rVnUjKHV+A2eQGMDS1atdeAbiSP/fhRzv
+ nehlNLyDjspu7qQIU9xPJ/Pxd9uEUD59VM/WBI=
+IronPort-HdrOrdr: A9a23:kuUZVqC/62Mq3trlHejjsseALOsnbusQ8zAXPh9KOH9om52j9/
+ xGws576fatskduZJhBo7y90KnpewK7yXcH2/hhAV7EZniohILIFvAv0WKM+UybJ8STzJ846U
+ 4kSdkANDSSNyk1sS+Z2njELz9I+rDum87Y55a6854ud3AXV0gK1XYBNu/vKDwMeOAwP+tAKH
+ Pz3LshmxOQPV4sQoCQAH4DU+Lfp9vNuq7HTHc9bSIP2U2ltx/tzKT1PSS5834lPg+nx41MzU
+ H11yjCoomzufCyzRHRk0XJ6Y5NpdfnwtxfQOSRl8k8MFzX+0aVTbUkf4fHkCE+oemp5lpvus
+ LLuQ0cM8N67G6UVn2poCHqxxLr3F8VmjzfIB6j8DneSP7CNXYH4vl69MVkm9zimgwdVeRHoe
+ d2NqSixsNq5F377XzADpPzJmFXfwKP0AkfeKgo/j1iuU90Us4KkWTZl3klS6soDWb07psqH/
+ JpC9yZ7PFKcUmCZ3ScpWV3xsewN05DVStub3Jy8/B96QIm1ExR3g8d3ogSj30A/JUyR91N4P
+ nFKL1hkPVLQtUNZaxwCe8dSY/vY1a9DC7kISaXOxDqBasHM3XCp9r+56g0/vijfNgNwIEpkJ
+ rMXVtEvSo5el7oC8eJwJpXmyq9ClmVTHDo0IVT9pJ5srrzSP7iNjCCUkknl4+6r/AWEqTgKo
+ CO0VJtcojexEfVaPJ0NlfFKutvwFElIbgohuo=
+X-Talos-CUID: 9a23:sM78Mm1CFaq6MVGfnfNBxLxfAssFTHPlxi3reU69FHpEb5KOGFOX5/Yx
+X-Talos-MUID: =?us-ascii?q?9a23=3AfGfiHw8uw52Xh1FTn5NarO2Qf+or2/j/KGkhq7M?=
+ =?us-ascii?q?t59OPNAwrEgyRgiviFw=3D=3D?=
+X-IronPort-Anti-Spam-Filtered: true
+Received: from alln-l-core-01.cisco.com ([173.36.16.138])
+  by alln-iport-3.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 15 Nov 2025 20:27:25 +0000
+Received: from rcdn-opgw-4.cisco.com (rcdn-opgw-4.cisco.com [72.163.7.165])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by alln-l-core-01.cisco.com (Postfix) with ESMTPS id 0A013180001BC
+	for <linux-staging@lists.linux.dev>; Sat, 15 Nov 2025 20:27:25 +0000 (GMT)
+X-CSE-ConnectionGUID: 9IGLtmi+SbWDArDZBSRfYQ==
+X-CSE-MsgGUID: OwvumJ/eRDCics6ueVBrMQ==
+Authentication-Results: rcdn-opgw-4.cisco.com; dkim=pass (signature verified) header.i=@cisco.com
+X-IronPort-AV: E=Sophos;i="6.19,307,1754956800"; 
+   d="scan'208";a="61701058"
+Received: from mail-dm5pr08cu00407.outbound.protection.outlook.com (HELO DM5PR08CU004.outbound.protection.outlook.com) ([40.93.13.103])
+  by rcdn-opgw-4.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 15 Nov 2025 20:27:23 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=y/Zfi6W5LuTTMhUxXAydYPEJj3UhQ/r7u8BdXcIgbkAPXVDgR/f0IlAeGZ4ZbthcdIkoDOQyTtXRRMXX+0xQGGTlAn4kVUhcSjtcSsono/lh9PItyxzjlA5c8AvTJ75yG5gdnNyACHBSOkWBUCfQ4xma5G5OnNkAKaYcymBUnYa7hkvOhtt5GbI07swmSEGQF2J+6X4+BMq19WQ3fNOhUkFr5cq34QZSx70pee6VqP8x3MZvi9oGeoFf8eyqxsOSYU2fWL1Ka2ULZESAzihOOLjEb2W7vnJJYHk30FUp3H3Dd0+dd18SMk+IdkU7u1li8QZwnzgQA/orW6dXQNLlYw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=MFw/Z1Sf8SjzDqIL5mUOFLjLDVfmbv7DCp/A06Y2PGI=;
+ b=ejqVQ290Ii4mWw5iKhsOXD8PBvwwHu8O7BnuT7/J6DKsLxVg0KfJzWz33QUM9JTsFUzE6PDEnzszsnM0pIdnOXc72br0NOy9MsyBDdYZqp46yDbHfUWtnjkw+FQU+s52nWUJhTon5oCWQVGbz+4NcjtTFjOyALWSqdYFY8RkKoavntXken2PlB4pIsNJnjNWVFAYP/l5rpVRD8EpU5o6oGDpOwwfPm4mMmacc9IopIJz2ymCEKxCCVK+/y5pmwaq9DfNUhm8dsb/LwWFvTRCeEzeoxpDdhC87EClZ+DS6dfNnEWkpJc8MqBbvJ3/RiqstVlUC5FCdNlNiJMSKyloCQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=cisco.com; dmarc=pass action=none header.from=cisco.com;
+ dkim=pass header.d=cisco.com; arc=none
+Received: from SJ0PR11MB5896.namprd11.prod.outlook.com (2603:10b6:a03:42c::19)
+ by DS4PPFE70B31BEF.namprd11.prod.outlook.com (2603:10b6:f:fc02::5a) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9320.19; Sat, 15 Nov
+ 2025 20:27:20 +0000
+Received: from SJ0PR11MB5896.namprd11.prod.outlook.com
+ ([fe80::2081:bcd4:cb3e:e2dd]) by SJ0PR11MB5896.namprd11.prod.outlook.com
+ ([fe80::2081:bcd4:cb3e:e2dd%4]) with mapi id 15.20.9320.018; Sat, 15 Nov 2025
+ 20:27:19 +0000
+From: "Karan Tilak Kumar (kartilak)" <kartilak@cisco.com>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Corey Minyard
+	<corey@minyard.net>, =?iso-8859-2?Q?Christian_K=F6nig?=
+	<christian.koenig@amd.com>, "Dr. David Alan Gilbert" <linux@treblig.org>,
+	Alex Deucher <alexander.deucher@amd.com>, Thomas Zimmermann
+	<tzimmermann@suse.de>, Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+	Rob Clark <robin.clark@oss.qualcomm.com>, Matthew Brost
+	<matthew.brost@intel.com>, Ulf Hansson <ulf.hansson@linaro.org>, Aleksandr
+ Loktionov <aleksandr.loktionov@intel.com>, Vitaly Lifshits
+	<vitaly.lifshits@intel.com>, Manivannan Sadhasivam <mani@kernel.org>, Niklas
+ Cassel <cassel@kernel.org>, Calvin Owens <calvin@wbinvd.org>, Vadim Fedorenko
+	<vadim.fedorenko@linux.dev>, Sagi Maimon <maimon.sagi@gmail.com>, "Martin K.
+ Petersen" <martin.petersen@oracle.com>, Hans Verkuil
+	<hverkuil+cisco@kernel.org>, Casey Schaufler <casey@schaufler-ca.com>, Steven
+ Rostedt <rostedt@goodmis.org>, Petr Mladek <pmladek@suse.com>, Viacheslav
+ Dubeyko <Slava.Dubeyko@ibm.com>, Max Kellermann <max.kellermann@ionos.com>,
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"openipmi-developer@lists.sourceforge.net"
+	<openipmi-developer@lists.sourceforge.net>, "linux-media@vger.kernel.org"
+	<linux-media@vger.kernel.org>, "dri-devel@lists.freedesktop.org"
+	<dri-devel@lists.freedesktop.org>, "linaro-mm-sig@lists.linaro.org"
+	<linaro-mm-sig@lists.linaro.org>, "amd-gfx@lists.freedesktop.org"
+	<amd-gfx@lists.freedesktop.org>, "linux-arm-msm@vger.kernel.org"
+	<linux-arm-msm@vger.kernel.org>, "freedreno@lists.freedesktop.org"
+	<freedreno@lists.freedesktop.org>, "intel-xe@lists.freedesktop.org"
+	<intel-xe@lists.freedesktop.org>, "linux-mmc@vger.kernel.org"
+	<linux-mmc@vger.kernel.org>, "netdev@vger.kernel.org"
+	<netdev@vger.kernel.org>, "intel-wired-lan@lists.osuosl.org"
+	<intel-wired-lan@lists.osuosl.org>, "linux-pci@vger.kernel.org"
+	<linux-pci@vger.kernel.org>, "linux-s390@vger.kernel.org"
+	<linux-s390@vger.kernel.org>, "linux-scsi@vger.kernel.org"
+	<linux-scsi@vger.kernel.org>, "linux-staging@lists.linux.dev"
+	<linux-staging@lists.linux.dev>, "ceph-devel@vger.kernel.org"
+	<ceph-devel@vger.kernel.org>, "linux-trace-kernel@vger.kernel.org"
+	<linux-trace-kernel@vger.kernel.org>
+CC: Rasmus Villemoes <linux@rasmusvillemoes.dk>, Sergey Senozhatsky
+	<senozhatsky@chromium.org>, Jonathan Corbet <corbet@lwn.net>, Sumit Semwal
+	<sumit.semwal@linaro.org>, Gustavo Padovan <gustavo@padovan.org>, David
+ Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Maarten
+ Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+	<mripard@kernel.org>, Dmitry Baryshkov <lumag@kernel.org>, Abhinav Kumar
+	<abhinav.kumar@linux.dev>, Jessica Zhang <jesszhan0024@gmail.com>, Sean Paul
+	<sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>, Konrad
+ Dybcio <konradybcio@kernel.org>, Lucas De Marchi <lucas.demarchi@intel.com>,
+	=?iso-8859-2?Q?Thomas_Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
+	Rodrigo Vivi <rodrigo.vivi@intel.com>, Vladimir Oltean <olteanv@gmail.com>,
+	Andrew Lunn <andrew@lunn.ch>, "David S. Miller" <davem@davemloft.net>, Eric
+ Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, "Narsimhulu
+ Musini (nmusini)" <nmusini@cisco.com>, Paolo Abeni <pabeni@redhat.com>, Tony
+ Nguyen <anthony.l.nguyen@intel.com>, Przemek Kitszel
+	<przemyslaw.kitszel@intel.com>, =?iso-8859-2?Q?Krzysztof_Wilczy=F1ski?=
+	<kwilczynski@kernel.org>, Kishon Vijay Abraham I <kishon@kernel.org>, Bjorn
+ Helgaas <bhelgaas@google.com>, Rodolfo Giometti <giometti@enneenne.com>,
+	Jonathan Lemon <jonathan.lemon@gmail.com>, Richard Cochran
+	<richardcochran@gmail.com>, Stefan Haberland <sth@linux.ibm.com>, Jan
+ Hoeppner <hoeppner@linux.ibm.com>, Heiko Carstens <hca@linux.ibm.com>, Vasily
+ Gorbik <gor@linux.ibm.com>, Alexander Gordeev <agordeev@linux.ibm.com>,
+	Christian Borntraeger <borntraeger@linux.ibm.com>, Sven Schnelle
+	<svens@linux.ibm.com>, "Satish Kharat (satishkh)" <satishkh@cisco.com>,
+	"Sesidhar Baddela (sebaddel)" <sebaddel@cisco.com>, "James E.J. Bottomley"
+	<James.Bottomley@HansenPartnership.com>, Mauro Carvalho Chehab
+	<mchehab@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Xiubo
+ Li <xiubli@redhat.com>, Ilya Dryomov <idryomov@gmail.com>, Masami Hiramatsu
+	<mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	Andrew Morton <akpm@linux-foundation.org>, "Gian Carlo Boffa (gcboffa)"
+	<gcboffa@cisco.com>, "Arulprabhu Ponnusamy (arulponn)" <arulponn@cisco.com>
+Subject: RE: [PATCH v3 20/21] scsi: snic: Switch to use %ptSp
+Thread-Topic: [PATCH v3 20/21] scsi: snic: Switch to use %ptSp
+Thread-Index: AQHcVK6i2TuKalB1aEOcW1L+o6TUn7T0MoDA
+Date: Sat, 15 Nov 2025 20:27:19 +0000
+Message-ID:
+ <SJ0PR11MB58960101609D15FB8F6FB5B2C3CBA@SJ0PR11MB5896.namprd11.prod.outlook.com>
+References: <20251113150217.3030010-1-andriy.shevchenko@linux.intel.com>
+ <20251113150217.3030010-21-andriy.shevchenko@linux.intel.com>
+In-Reply-To: <20251113150217.3030010-21-andriy.shevchenko@linux.intel.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: SJ0PR11MB5896:EE_|DS4PPFE70B31BEF:EE_
+x-ms-office365-filtering-correlation-id: 06dc7afe-7be7-41d7-220d-08de24856052
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam:
+ BCL:0;ARA:13230040|7416014|376014|366016|1800799024|921020|38070700021;
+x-microsoft-antispam-message-info:
+ =?iso-8859-2?Q?UTyLHl4BJYTK4mtPS91Sw2Srl0NHvlfMZaTqLxu2rUWxwfXqFudlc+5TWZ?=
+ =?iso-8859-2?Q?BJrEBNZocoITs1OavCRqzXqvbXtC3nyiTs+X6BNCP++7KlQ2g2MJnYpALp?=
+ =?iso-8859-2?Q?Bn5YPtijrc89YM4uqb1zvNiGQUKCmcJm5aV9n2jDlaisDBGoiOEdehli0Z?=
+ =?iso-8859-2?Q?AiBZgIYvmeuLyJ94TRvdhfcWNgAInVk2bzv3iJn+ETi2yjnYFqeJDEsP/c?=
+ =?iso-8859-2?Q?52tSR8uLyZ/cTHCDYdEy2M4TMyDvk7xp0fRxtDf6gySeGMeb9hFUl3m94o?=
+ =?iso-8859-2?Q?9QGxesrQwqKEd/FjIbfevU9AIIu/4425oQt60PEDl2KHxaaeh+AA/kE+If?=
+ =?iso-8859-2?Q?cTIhv+ekBi5Kio8han64MSlNeDN+sR6xKhQ/jxgIlLI9yNDFUyww8nWAm5?=
+ =?iso-8859-2?Q?SxG/facdPQxoPEpca86hn/+obDhPgWbR/ztj7tbF7ANig0cXm/9lKdnZoZ?=
+ =?iso-8859-2?Q?e2S/yQsrsL8JID1eQiuiQr7psiOVeOBrtmr5hP9t6gIIVMZnZvIcwbi1Dc?=
+ =?iso-8859-2?Q?pIvEJrA62KfIEsG0lGAYmYo4C0gZHqFgr7DWsaVfEAJWKIQEw+NVLL06fR?=
+ =?iso-8859-2?Q?kxKmQM6BCA0FLcSlIScOrAAOBXrkQx8CDVbtdiiK6WgcSEAZeGneow5obu?=
+ =?iso-8859-2?Q?DAj3Um0LuFxhd4vwv0VnU/9xHqXWAgIWM8XtzAwyS//bRDdCRnV1M1Ynt3?=
+ =?iso-8859-2?Q?a5G+dYsTHrt3OFCJQcrYObQ6i3mZy/rMEXFoSyhPJXNNEdgWxwoB1HncUE?=
+ =?iso-8859-2?Q?4rYNimG0/N/xCyPNM8ep24M113OR2BqbeCl3DNYllfbQxGN78FCOYN6ZIE?=
+ =?iso-8859-2?Q?phsDl0tQWTOljwdp7051kUzoU0wbE9PpBzs61KFHlB25iEfK2WgEBoV82H?=
+ =?iso-8859-2?Q?C3yaXZ0BCTPUNLjRuQmgvzHU5ng4f8VDQtXXPfR+oYzmwJKohYU9q+EL+t?=
+ =?iso-8859-2?Q?p41Xg0+NxjykvmlvZM0im3m1zsEQ6O7xp9jzLSW3CSy7Ug4BD8U/f3loX6?=
+ =?iso-8859-2?Q?m2dgZ7IV42D8gpPaSgZGxQfxdjuNZF06eztZWNwwtTbG2xJCCy5kJDjABj?=
+ =?iso-8859-2?Q?kprDaZzeCplxAQW8xfkkmstWs5hIltTmdYlLszIG41MjqxWZJZpClawbb1?=
+ =?iso-8859-2?Q?XipTfYbbjUUTJ5AY/cJ94Ocn6B1jSeJph/3BbItNRMvxRi6ONwCwbBDbP+?=
+ =?iso-8859-2?Q?Le6I4IDVHcH5ofHexkpBJuMrroWBuSTjhDDNC3TqJdl72rmfZgLyVoS77N?=
+ =?iso-8859-2?Q?yU/NIXbFlb8l9dK8q5jipLd1/FVk4Pp2P60jy+9m9cVnFbtvQjhXDypzeb?=
+ =?iso-8859-2?Q?Ko1fH/QTTvV8pcNWJXq7fLf1O2d3JWe1yLLsUfK2TmQq0D5l5DpbB890yC?=
+ =?iso-8859-2?Q?BVF/Ar5qTiLG7xggV8j4UXRb++gCvrDvk/yLsnEeOoqoE6pmrgwYAC6qZd?=
+ =?iso-8859-2?Q?7sl4WiSn6wVEF9onXMgQmhjZwpqInrPFVmYPD5v5xlZBo9t8R0x2wBdi0r?=
+ =?iso-8859-2?Q?1cJFwkDZ8sMDxKKKjLHjDI1tR9ldHAmzEmiKNR0GMuTz2ixBFx6wGgLXzl?=
+ =?iso-8859-2?Q?wRoYHekrIzXtWBvjBDW4wBo0MryqgrcAtLVl4aPMAV4isfK9tw=3D=3D?=
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ0PR11MB5896.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(366016)(1800799024)(921020)(38070700021);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?iso-8859-2?Q?mKPbxCR50Zo/kBjFEIBIzbg6Es+ioxMMbEP7y4nJHK5XxBuKmBIhsyNe+c?=
+ =?iso-8859-2?Q?P2PSImE1GXaPLwYEl2o0/N61ZqojPjfvrKsOv95iPU39dTSM2smMfyKa+b?=
+ =?iso-8859-2?Q?yJ4MGTfyQcIrBV8ERN3vhUzyykJsgm9hEjRp0sYKTEOshqL4DV0ZfF0XIg?=
+ =?iso-8859-2?Q?gSDYhrSwytejuBS2OhEKMlIRkHHQ7vytYCaFWfly2CZuaC6WJXN+qiqsDq?=
+ =?iso-8859-2?Q?1wx+Flmo+eU+kxwC2S6ohnAeGzoxOeATpzP8czrMmvNgNv2SUtLjE6cpa6?=
+ =?iso-8859-2?Q?CclM+6tyecZ4BTj7JPQNb+6McoBOVK2q7+LBl8VLvNUQ7Auam18+LneqCQ?=
+ =?iso-8859-2?Q?OdOlDAEMcBPZg8du9cjYXV5ziDfXS8eYRmiGGpRe07zxj+E8FoJ6/CTVMd?=
+ =?iso-8859-2?Q?7Kgi/HmvzryfBpo19AiuIOsdQYexfBhlJrLeDouh2L4yI08/Bbbl/kF8S5?=
+ =?iso-8859-2?Q?+h6QuqJAMGwbkVFi3H1iqPsWXwLhY+gBMTbRuAnRl3CW/Yqzn1g39aa01o?=
+ =?iso-8859-2?Q?cSQBDMI/SLuz65WdsanquiGJtbc/0CizuwL73kKQEb3Npn7di05o36xFWv?=
+ =?iso-8859-2?Q?DEHcIldFhQXWwU2/gi5S2mXbMZmMCcyxEChQZkp0IE5lY0kODGyWfdDf2y?=
+ =?iso-8859-2?Q?bETAGONsgtujjymUy1NAzor3kNZfB5tXwvpdVhrcAXo6LgPM0rFNGD6A58?=
+ =?iso-8859-2?Q?6e/TskoSTgrkkg2uQDl2fzAYuGSIWLRUOariSlHuDDWemN2wBqBA0MUTPl?=
+ =?iso-8859-2?Q?hgWCGKJIeDmhFv0/Y6bb+DT1H8rfdgxFfpEsh0+GSrBLTQhdDNi1t12f6f?=
+ =?iso-8859-2?Q?XvROYBBSf7yzbEeHNW061lBKryfZqrvEHoMQuxPZKog/eOcdils30zwWnx?=
+ =?iso-8859-2?Q?b/g6Qe2gspFfKmOdFOxepWKUsWsbnn8706go1E0uxXQTSvmXBcWwXBiYOd?=
+ =?iso-8859-2?Q?XQcuKAqoZHHqw9Fb33/Qls/MseykH+NwDBNjX8o7TzR42pQKLf0HRYYGmb?=
+ =?iso-8859-2?Q?0TLbowvsUzqn8Lnw42QWD5zzs9U80/mBCiHgHGcw1sFZXpgtC7b35d9BMt?=
+ =?iso-8859-2?Q?zmA+oMzsghS3CdaIpJDV6n6mkI4QAlzbJ3RtlkXKbZ9eyBsA+YLQxaQq7p?=
+ =?iso-8859-2?Q?HlVl87dlyRvwiXVa6gN4AxQQFclSPqONjcJ0ONO8DnDed4HSKwTNi5Ck1a?=
+ =?iso-8859-2?Q?L2SYeW3kbJ41H7lF8WtreIUTJlevxAXf9H3833F5uA/caq+ev/Kf0FdDGK?=
+ =?iso-8859-2?Q?yzS1iLutsB5PRhD1boh2gNU8RNC+6uPW1HLm0zHdUv6O4FqR3bbk/cLXOO?=
+ =?iso-8859-2?Q?11lyG2zvkvia2pfWVROOpk8PgmvBHIHfCsIaDBWk9vXHFIgB+XyRPiaTTS?=
+ =?iso-8859-2?Q?bsGblhc1scXXBJm6wDK24/nRbjFauqXawoxqAO16Jnavr6awCe+E0I5Ryf?=
+ =?iso-8859-2?Q?nqUSFrJWfmemtxmMsGaUrdB9yWH/b6Zh2b4cYt5w+ekjkzVh5jn9WBJH9E?=
+ =?iso-8859-2?Q?Dk9asRPl15WV6Ci7yTnuTI0CQdvVNtek4nLjE5XF2Jr3UX0Z/+U8K7i8QQ?=
+ =?iso-8859-2?Q?yimx4UwBS+uDjiCMwzI1l50RwO5DpDjuoKLQabZf9rzmCxWZaarV19F+IU?=
+ =?iso-8859-2?Q?RR+FiRm8NFYq8q/t4x9gOYsXV9u/TNMndx?=
+Content-Type: text/plain; charset="iso-8859-2"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-OriginatorOrg: cisco.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: SJ0PR11MB5896.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 06dc7afe-7be7-41d7-220d-08de24856052
+X-MS-Exchange-CrossTenant-originalarrivaltime: 15 Nov 2025 20:27:19.8090
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 5ae1af62-9505-4097-a69a-c1553ef7840e
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 6sGSzNOwK5N2JX7LP+uBMy+DCipcCcM2IKRDSemuaKx2VgJ+Cpek7Aeyqj1K9YjSnc1FgC1NdcbLcIoAPUC6Og==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS4PPFE70B31BEF
+X-Outbound-SMTP-Client: 72.163.7.165, rcdn-opgw-4.cisco.com
+X-Outbound-Node: alln-l-core-01.cisco.com
 
-This patch fixes minor comment and code alignment issues in
-atomisp/include/linux/*.h header files. Some of them were warnings
-generated by checkpatch.pl (missing * at the start of the line or */
-present in the same line)
+On Thursday, November 13, 2025 6:33 AM, Andy Shevchenko <andriy.shevchenko@=
+linux.intel.com> wrote:
+>
+> Use %ptSp instead of open coded variants to print content of
+> struct timespec64 in human readable format.
+>
+> Reviewed-by: Martin K. Petersen <martin.petersen@oracle.com>
+> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> ---
+> drivers/scsi/snic/snic_debugfs.c | 10 ++++------
+> drivers/scsi/snic/snic_trc.c     |  5 ++---
+> 2 files changed, 6 insertions(+), 9 deletions(-)
+>
+> diff --git a/drivers/scsi/snic/snic_debugfs.c b/drivers/scsi/snic/snic_de=
+bugfs.c
+> index 9dd975b36b5b..edf3e5ef28a6 100644
+> --- a/drivers/scsi/snic/snic_debugfs.c
+> +++ b/drivers/scsi/snic/snic_debugfs.c
+> @@ -282,8 +282,8 @@ snic_stats_show(struct seq_file *sfp, void *data)
+> jiffies_to_timespec64(stats->misc.last_ack_time, &last_ack_tms);
+>
+> seq_printf(sfp,
+> -                "Last ISR Time               : %llu (%8llu.%09lu)\n"
+> -                "Last Ack Time               : %llu (%8llu.%09lu)\n"
+> +                "Last ISR Time               : %llu (%ptSp)\n"
+> +                "Last Ack Time               : %llu (%ptSp)\n"
+> "Ack ISRs                    : %llu\n"
+> "IO Cmpl ISRs                : %llu\n"
+> "Err Notify ISRs             : %llu\n"
+> @@ -298,10 +298,8 @@ snic_stats_show(struct seq_file *sfp, void *data)
+> "Queue Ramp Down             : %lld\n"
+> "Queue Last Queue Depth      : %lld\n"
+> "Target Not Ready            : %lld\n",
+> -                (u64) stats->misc.last_isr_time,
+> -                last_isr_tms.tv_sec, last_isr_tms.tv_nsec,
+> -                (u64)stats->misc.last_ack_time,
+> -                last_ack_tms.tv_sec, last_ack_tms.tv_nsec,
+> +                (u64) stats->misc.last_isr_time, &last_isr_tms,
+> +                (u64) stats->misc.last_ack_time, &last_ack_tms,
+> (u64) atomic64_read(&stats->misc.ack_isr_cnt),
+> (u64) atomic64_read(&stats->misc.cmpl_isr_cnt),
+> (u64) atomic64_read(&stats->misc.errnotify_isr_cnt),
+> diff --git a/drivers/scsi/snic/snic_trc.c b/drivers/scsi/snic/snic_trc.c
+> index c2e5ab7e976c..6bad1ea9a6a7 100644
+> --- a/drivers/scsi/snic/snic_trc.c
+> +++ b/drivers/scsi/snic/snic_trc.c
+> @@ -56,9 +56,8 @@ snic_fmt_trc_data(struct snic_trc_data *td, char *buf, =
+int buf_sz)
+> jiffies_to_timespec64(td->ts, &tmspec);
+>
+> len +=3D snprintf(buf, buf_sz,
+> -                     "%llu.%09lu %-25s %3d %4x %16llx %16llx %16llx %16l=
+lx %16llx\n",
+> -                     tmspec.tv_sec,
+> -                     tmspec.tv_nsec,
+> +                     "%ptSp %-25s %3d %4x %16llx %16llx %16llx %16llx %1=
+6llx\n",
+> +                     &tmspec,
+> td->fn,
+> td->hno,
+> td->tag,
+> --
+> 2.50.1
+>
+>
 
-The changes are code-style related only and don't affect the
-functionality.
+Thanks for the change, Andy.
 
-Signed-off-by: Hamdan Khan <hamdankhan212@gmail.com>
----
- .../media/atomisp/include/linux/atomisp.h     | 30 +++++++++++--------
- .../include/linux/atomisp_gmin_platform.h     |  7 ++---
- .../atomisp/include/linux/atomisp_platform.h  | 21 +++++++------
- 3 files changed, 32 insertions(+), 26 deletions(-)
+Acked-by: Karan Tilak Kumar <kartilak@cisco.com>
 
-diff --git a/drivers/staging/media/atomisp/include/linux/atomisp.h b/drivers/staging/media/atomisp/include/linux/atomisp.h
-index 3c8fa3f5808d..bce4e5f1bfc7 100644
---- a/drivers/staging/media/atomisp/include/linux/atomisp.h
-+++ b/drivers/staging/media/atomisp/include/linux/atomisp.h
-@@ -146,8 +146,7 @@ struct atomisp_3a_config {
- 	unsigned int ae_y_coef_r;	/* [gain] Weight of R for Y */
- 	unsigned int ae_y_coef_g;	/* [gain] Weight of G for Y */
- 	unsigned int ae_y_coef_b;	/* [gain] Weight of B for Y */
--	unsigned int awb_lg_high_raw;	/* [intensity]
--					   AWB level gate high for raw */
-+	unsigned int awb_lg_high_raw;	/* [intensity] AWB level gate high for raw */
- 	unsigned int awb_lg_low;	/* [intensity] AWB level gate low */
- 	unsigned int awb_lg_high;	/* [intensity] AWB level gate high */
- 	int af_fir1_coef[7];	/* [factor] AF FIR coefficients of fir1 */
-@@ -272,8 +271,10 @@ struct atomisp_wb_config {
- /* Color Space Conversion settings */
- struct atomisp_cc_config {
- 	unsigned int fraction_bits;
--	int matrix[3 * 3];	/* RGB2YUV Color matrix, signed
--				   <13-fraction_bits>.<fraction_bits> */
-+	/* RGB2YUV Color matrix, signed
-+	 * <13-fraction_bits>.<fraction_bits>
-+	 */
-+	int matrix[3 * 3];
- };
- 
- /* De pixel noise configuration */
-@@ -425,10 +426,8 @@ struct atomisp_parameters {
- 	struct atomisp_3a_config   *a3a_config; /* 3A Statistics config */
- 	struct atomisp_xnr_config  *xnr_config; /* eXtra Noise Reduction */
- 	struct atomisp_dz_config   *dz_config;  /* Digital Zoom */
--	struct atomisp_cc_config *yuv2rgb_cc_config; /* Color
--							Correction config */
--	struct atomisp_cc_config *rgb2yuv_cc_config; /* Color
--							Correction config */
-+	struct atomisp_cc_config *yuv2rgb_cc_config; /* Color Correction config */
-+	struct atomisp_cc_config *rgb2yuv_cc_config; /* Color Correction config */
- 	struct atomisp_macc_table  *macc_table;
- 	struct atomisp_gamma_table *gamma_table;
- 	struct atomisp_ctc_table   *ctc_table;
-@@ -538,7 +537,8 @@ struct atomisp_ctc_table {
- 
- /* Parameter for overlay image loading */
- struct atomisp_overlay {
--	/* the frame containing the overlay data The overlay frame width should
-+	/*
-+	 * the frame containing the overlay data The overlay frame width should
- 	 * be the multiples of 2*ISP_VEC_NELEMS. The overlay frame height
- 	 * should be the multiples of 2.
- 	 */
-@@ -562,10 +562,12 @@ struct atomisp_overlay {
- 	/* the blending percent of overlay data for V subpixels */
- 	unsigned char blend_overlay_perc_v;
- 	/* the overlay start x pixel position on output frame It should be the
--	   multiples of 2*ISP_VEC_NELEMS. */
-+	 * multiples of 2*ISP_VEC_NELEMS.
-+	 */
- 	unsigned int overlay_start_x;
- 	/* the overlay start y pixel position on output frame It should be the
--	   multiples of 2. */
-+	 * multiples of 2.
-+	 */
- 	unsigned int overlay_start_y;
- };
- 
-@@ -836,8 +838,10 @@ enum atomisp_burst_capture_options {
- #define V4L2_CID_ATOMISP_LOW_LIGHT \
- 	(V4L2_CID_PRIVATE_BASE + 5)
- 
--/* Camera class:
-- * Exposure, Flash and privacy (indicator) light controls, to be upstreamed */
-+/*
-+ * Camera class:
-+ * Exposure, Flash and privacy (indicator) light controls, to be upstreamed
-+ */
- #define V4L2_CID_CAMERA_LASTP1             (V4L2_CID_CAMERA_CLASS_BASE + 1024)
- 
- #define V4L2_CID_RUN_MODE			(V4L2_CID_CAMERA_LASTP1 + 20)
-diff --git a/drivers/staging/media/atomisp/include/linux/atomisp_gmin_platform.h b/drivers/staging/media/atomisp/include/linux/atomisp_gmin_platform.h
-index 426c5ee4ec18..415b265505c7 100644
---- a/drivers/staging/media/atomisp/include/linux/atomisp_gmin_platform.h
-+++ b/drivers/staging/media/atomisp/include/linux/atomisp_gmin_platform.h
-@@ -15,8 +15,7 @@ int atomisp_gmin_remove_subdev(struct v4l2_subdev *sd);
- int gmin_get_var_int(struct device *dev, bool is_gmin,
- 		     const char *var, int def);
- struct camera_sensor_platform_data *
--gmin_camera_platform_data(
--    struct v4l2_subdev *subdev,
--    enum atomisp_input_format csi_format,
--    enum atomisp_bayer_order csi_bayer);
-+gmin_camera_platform_data(struct v4l2_subdev *subdev,
-+			  enum atomisp_input_format csi_format,
-+			  enum atomisp_bayer_order csi_bayer);
- #endif
-diff --git a/drivers/staging/media/atomisp/include/linux/atomisp_platform.h b/drivers/staging/media/atomisp/include/linux/atomisp_platform.h
-index 6146555fe9cf..2378a21ee961 100644
---- a/drivers/staging/media/atomisp/include/linux/atomisp_platform.h
-+++ b/drivers/staging/media/atomisp/include/linux/atomisp_platform.h
-@@ -72,10 +72,12 @@ enum atomisp_input_format {
- 
- 	/* CSI2-MIPI specific format: YUV data.
- 	 */
--	ATOMISP_INPUT_FORMAT_YUV420_8_SHIFT,  /* YUV420 8-bit (Chroma Shifted
--						 Pixel Sampling) */
--	ATOMISP_INPUT_FORMAT_YUV420_10_SHIFT, /* YUV420 8-bit (Chroma Shifted
--						 Pixel Sampling) */
-+	ATOMISP_INPUT_FORMAT_YUV420_8_SHIFT,   /* YUV420 8-bit (Chroma Shifted
-+						* Pixel Sampling)
-+						*/
-+	ATOMISP_INPUT_FORMAT_YUV420_10_SHIFT,  /* YUV420 10-bit (Chroma Shifted
-+						* Pixel Sampling)
-+						*/
- 
- 	/* CSI2-MIPI specific format: Generic long packet data
- 	 */
-@@ -105,7 +107,7 @@ struct intel_v4l2_subdev_table {
- };
- 
- /*
-- *  Sensor of external ISP can send multiple streams with different mipi data
-+ * Sensor of external ISP can send multiple streams with different mipi data
-  * type in the same virtual channel. This information needs to come from the
-  * sensor or external ISP
-  */
-@@ -119,13 +121,14 @@ struct atomisp_input_stream_info {
- 	enum atomisp_input_stream_id stream;
- 	u8 enable;
- 	/* Sensor driver fills ch_id with the id
--	   of the virtual channel. */
-+	 * of the virtual channel.
-+	 */
- 	u8 ch_id;
- 	/* Tells how many streams in this virtual channel. If 0 ignore rest
--	 * and the input format will be from mipi_info */
-+	 * and the input format will be from mipi_info
-+	 */
- 	u8 isys_configs;
--	/*
--	 * if more isys_configs is more than 0, sensor needs to configure the
-+	/* If isys_configs is more than 0, sensor needs to configure the
- 	 * input format differently. width and height can be 0. If width and
- 	 * height is not zero, then the corresponding data needs to be set
- 	 */
--- 
-2.43.0
-
+Regards,
+Karan
