@@ -1,346 +1,460 @@
-Received: from alln-iport-3.cisco.com (alln-iport-3.cisco.com [173.37.142.90])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58193946C
-	for <linux-staging@lists.linux.dev>; Sat, 15 Nov 2025 20:27:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=173.37.142.90
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763238456; cv=fail; b=tkbV2Zv8tKxpOlG6Y9Sy9bvFilJJeA5hCT5Z3sYw7KPaLgkwXu3KjHBYYbAmky03RCbWtrW7uVfIHPQTm7TCs3AOSkVzdKbP/qbxkfor0I7v3cYno/Uuxq1iQ7v1IHKoxcr/Ey/c37f9AkFdx/iM44+q7zDKouLARMOwlVIt9w8=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763238456; c=relaxed/simple;
-	bh=0oTvO4Q6xXLw3PM9HZGWnEQ9SLM1QA+gVBIlLFZprVw=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=kmwU1n5giC0KoCfLc8tN/B6hME0BJzjMmucyAW5tbxEhoDqYV85xzjwtPZEIZbV9MKoiLKKZyZv3c1ypADE3SGQkRBFUVYV+oNNLVvqrVK/tmlmbF9+wsV/XTBn3zgInBBFy7WYDQhNNWL7jJJGzoYCwy/Ard2vnTQn8MQe1o+c=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cisco.com; spf=pass smtp.mailfrom=cisco.com; dkim=pass (2048-bit key) header.d=cisco.com header.i=@cisco.com header.b=ECHcu177; arc=fail smtp.client-ip=173.37.142.90
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cisco.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cisco.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BF1A27462
+	for <linux-staging@lists.linux.dev>; Sun, 16 Nov 2025 10:16:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.174
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1763288197; cv=none; b=hFkRG0uC8kSObMLrsimerXMRskmcD4729TLp9oE8KxFRRf/BBw9730uZHmTvYRJMMynpSzlyz90HuIQ5LOjIiqHXBZkUFyevyugRxLDJv8iDe8C4bP3l1UC+dp5t0wvrMQdRUB8tRgAN1FF8JeFkF67Vlmgv5XZMH283vNCJSbA=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1763288197; c=relaxed/simple;
+	bh=PX3kbJy6p346aXkX3jWQ088+ubxGjRVNknaGa4EmYg0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=fApuk6VsZp9QrbwaFGEZqp0bxJC4AedyphL1sn9yCFLfv3x9WFsXyI0EKJMA2NkcneTOHBmeCLME0fgLvwk9TPBtN8zvjPfA3txLMwU1Za/hy/UrnXmKignV+aeWNj3CypAhj9zCvMxYmj+0C/J3Mz4D202u8LTO0x4P4j5VGes=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lbxTjony; arc=none smtp.client-ip=209.85.214.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cisco.com header.i=@cisco.com header.b="ECHcu177"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lbxTjony"
+Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-29516a36affso36879245ad.3
+        for <linux-staging@lists.linux.dev>; Sun, 16 Nov 2025 02:16:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=cisco.com; i=@cisco.com; l=2460; q=dns/txt;
-  s=iport01; t=1763238454; x=1764448054;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=MFw/Z1Sf8SjzDqIL5mUOFLjLDVfmbv7DCp/A06Y2PGI=;
-  b=ECHcu177G6w952IZRH9vSSBRAvpS9gGbYWiLoFYAC8MAWZmi2ar7JxSs
-   ouhiQuCi1jgpmH/+Hel6PnHOT/4slV5GO0wkTfwk1zXvzlqzwQpzGASt2
-   I98fLUGGc1QSj9QOPx0vPkReegBPnxS9N/c8elMff/9pFO5La7hU/cb/p
-   CVO19E2JKvvL92GuMAgsMG0RQlLxMnm1yHPKk4nO5GS2CxKa1OwT6R1ZN
-   ES10Je2Kl51YDDSRUxnOUVwCOzRqaVhiQJWOnkFN5k5m7iSX3VpQoSteI
-   /w4BpEktuZ46CSFLHXaq0aEW7IkGt7NG6fVB46I/vvuTXR426p7NaqFXc
-   A==;
-X-CSE-ConnectionGUID: pcHVfPb2S2imutEOGs9dow==
-X-CSE-MsgGUID: E+P49HADRNC4rciH3ASdfw==
-X-IPAS-Result: =?us-ascii?q?A0AuAAB44Rhp/4oQJK1aHAEBAQEBAQcBARIBAQQEAQFAJ?=
- =?us-ascii?q?YEXBwEBCwGBbVIHghtJiCADhE1fhliCIQOeGoF/DwEBAQ0CUQQBAYUHAoxaA?=
- =?us-ascii?q?iY0CQ4BAgQBAQEBAwIDAQEBAQEBAQEBAQELAQEFAQEBAgEHBYEOE4ZchloBA?=
- =?us-ascii?q?QEBAxIVUhACAQgOCi4xJQIEAQ0FCBqFVAMBAqI0AYFAAooreIEBM4EB4CaBS?=
- =?us-ascii?q?gGIUgGFbjuEPScbgg2BV4IwOD6ERYQTgi8EgiKBDoYnjEyGcVJ4HANZLAFVE?=
- =?us-ascii?q?xcLBwWBIBAzAyAKNC0CFA0QEg8EFgUtHXAMKBIQHxgTYFRAg0kQDAZoDwaBE?=
- =?us-ascii?q?hlJAgICBQIrFTqBaAUBHAYcEgIDAQICOlUNgXcCAgSCHH6BbxsPiTWBCQUoA?=
- =?us-ascii?q?wttPTcGDhsFBIE1BZQeUYIsAYEPgS4OUzCWegGwHwqEHKINF6prmQYiqHQCB?=
- =?us-ascii?q?AIEBQIQAQEGgWg8gVlwFYMiUhkPji0WkxsBtU54AjoCBwsBAQMJk2cBAQ?=
-IronPort-PHdr: A9a23:H0FB6hd2C4EwX24NZXKvBs1ulGM/gIqcDmcuAtIPkblCdOGk55v9e
- RCZ7vR2h1iPVoLeuLpIiOvT5rjpQndIoY2Av3YLbIFWWlcbhN8XkQ0tDI/NCUDyIPPwKS1vN
- M9DT1RiuXq8NCBo
-IronPort-Data: A9a23:8T2IfqudGUY/CFysa6WUaWDpyufnVAFfMUV32f8akzHdYApBsoF/q
- tZmKWuHO/vfNGbxfI9/aN61pkxV75DQm4dgTFc4pSFhHygSgMeUXt7xwmUckM+xwmwvaGo9s
- q3yv/GZdJhcokf0/0nrav666yEgiclkf5KkYMbcICd9WAR4fykojBNnioYRj5Vh6TSDK1vlV
- eja/YuGaTdJ5xYuajhJsvva9Us21BjPkGpwUmIWNKgjUGD2zxH5PLpHTYmtIn3xRJVjH+LSb
- 47r0LGj82rFyAwmA9Wjn6yTWhVirmn6ZFXmZtJ+AsBOszAazsAA+v9T2Mk0NS+7vw60c+VZk
- 72hg3AfpTABZcUgkMxFO/VR/roX0aduoNcrKlDn2SCfItGvn3bEm51T4E8K0YIw4u1XP292/
- 6YjcjEIcwyuoM2tkb68Vbw57igjBJGD0II3s3Vky3TdSP0hW52GG/yM7t5D1zB2jcdLdRrcT
- 5NGMnw0MlKZPVsWYQd/5JEWxI9EglH8eidEqVacpoI84nPYy0p6172F3N/9JIfQFZQLzhnDz
- o7A10m6Ok1LFPWz8xyurminh8+UtBj3Vp1HQdVU8dYv2jV/3Fc7DBwQSEv+uuWwhU+4VPpbK
- lcI4WwqrK4v5AqnQ8eVYvGjiHeAuhhZX59bFPc3rVnUjKHV+A2eQGMDS1atdeAbiSP/fhRzv
- nehlNLyDjspu7qQIU9xPJ/Pxd9uEUD59VM/WBI=
-IronPort-HdrOrdr: A9a23:kuUZVqC/62Mq3trlHejjsseALOsnbusQ8zAXPh9KOH9om52j9/
- xGws576fatskduZJhBo7y90KnpewK7yXcH2/hhAV7EZniohILIFvAv0WKM+UybJ8STzJ846U
- 4kSdkANDSSNyk1sS+Z2njELz9I+rDum87Y55a6854ud3AXV0gK1XYBNu/vKDwMeOAwP+tAKH
- Pz3LshmxOQPV4sQoCQAH4DU+Lfp9vNuq7HTHc9bSIP2U2ltx/tzKT1PSS5834lPg+nx41MzU
- H11yjCoomzufCyzRHRk0XJ6Y5NpdfnwtxfQOSRl8k8MFzX+0aVTbUkf4fHkCE+oemp5lpvus
- LLuQ0cM8N67G6UVn2poCHqxxLr3F8VmjzfIB6j8DneSP7CNXYH4vl69MVkm9zimgwdVeRHoe
- d2NqSixsNq5F377XzADpPzJmFXfwKP0AkfeKgo/j1iuU90Us4KkWTZl3klS6soDWb07psqH/
- JpC9yZ7PFKcUmCZ3ScpWV3xsewN05DVStub3Jy8/B96QIm1ExR3g8d3ogSj30A/JUyR91N4P
- nFKL1hkPVLQtUNZaxwCe8dSY/vY1a9DC7kISaXOxDqBasHM3XCp9r+56g0/vijfNgNwIEpkJ
- rMXVtEvSo5el7oC8eJwJpXmyq9ClmVTHDo0IVT9pJ5srrzSP7iNjCCUkknl4+6r/AWEqTgKo
- CO0VJtcojexEfVaPJ0NlfFKutvwFElIbgohuo=
-X-Talos-CUID: 9a23:sM78Mm1CFaq6MVGfnfNBxLxfAssFTHPlxi3reU69FHpEb5KOGFOX5/Yx
-X-Talos-MUID: =?us-ascii?q?9a23=3AfGfiHw8uw52Xh1FTn5NarO2Qf+or2/j/KGkhq7M?=
- =?us-ascii?q?t59OPNAwrEgyRgiviFw=3D=3D?=
-X-IronPort-Anti-Spam-Filtered: true
-Received: from alln-l-core-01.cisco.com ([173.36.16.138])
-  by alln-iport-3.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 15 Nov 2025 20:27:25 +0000
-Received: from rcdn-opgw-4.cisco.com (rcdn-opgw-4.cisco.com [72.163.7.165])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by alln-l-core-01.cisco.com (Postfix) with ESMTPS id 0A013180001BC
-	for <linux-staging@lists.linux.dev>; Sat, 15 Nov 2025 20:27:25 +0000 (GMT)
-X-CSE-ConnectionGUID: 9IGLtmi+SbWDArDZBSRfYQ==
-X-CSE-MsgGUID: OwvumJ/eRDCics6ueVBrMQ==
-Authentication-Results: rcdn-opgw-4.cisco.com; dkim=pass (signature verified) header.i=@cisco.com
-X-IronPort-AV: E=Sophos;i="6.19,307,1754956800"; 
-   d="scan'208";a="61701058"
-Received: from mail-dm5pr08cu00407.outbound.protection.outlook.com (HELO DM5PR08CU004.outbound.protection.outlook.com) ([40.93.13.103])
-  by rcdn-opgw-4.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 15 Nov 2025 20:27:23 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=y/Zfi6W5LuTTMhUxXAydYPEJj3UhQ/r7u8BdXcIgbkAPXVDgR/f0IlAeGZ4ZbthcdIkoDOQyTtXRRMXX+0xQGGTlAn4kVUhcSjtcSsono/lh9PItyxzjlA5c8AvTJ75yG5gdnNyACHBSOkWBUCfQ4xma5G5OnNkAKaYcymBUnYa7hkvOhtt5GbI07swmSEGQF2J+6X4+BMq19WQ3fNOhUkFr5cq34QZSx70pee6VqP8x3MZvi9oGeoFf8eyqxsOSYU2fWL1Ka2ULZESAzihOOLjEb2W7vnJJYHk30FUp3H3Dd0+dd18SMk+IdkU7u1li8QZwnzgQA/orW6dXQNLlYw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=MFw/Z1Sf8SjzDqIL5mUOFLjLDVfmbv7DCp/A06Y2PGI=;
- b=ejqVQ290Ii4mWw5iKhsOXD8PBvwwHu8O7BnuT7/J6DKsLxVg0KfJzWz33QUM9JTsFUzE6PDEnzszsnM0pIdnOXc72br0NOy9MsyBDdYZqp46yDbHfUWtnjkw+FQU+s52nWUJhTon5oCWQVGbz+4NcjtTFjOyALWSqdYFY8RkKoavntXken2PlB4pIsNJnjNWVFAYP/l5rpVRD8EpU5o6oGDpOwwfPm4mMmacc9IopIJz2ymCEKxCCVK+/y5pmwaq9DfNUhm8dsb/LwWFvTRCeEzeoxpDdhC87EClZ+DS6dfNnEWkpJc8MqBbvJ3/RiqstVlUC5FCdNlNiJMSKyloCQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=cisco.com; dmarc=pass action=none header.from=cisco.com;
- dkim=pass header.d=cisco.com; arc=none
-Received: from SJ0PR11MB5896.namprd11.prod.outlook.com (2603:10b6:a03:42c::19)
- by DS4PPFE70B31BEF.namprd11.prod.outlook.com (2603:10b6:f:fc02::5a) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9320.19; Sat, 15 Nov
- 2025 20:27:20 +0000
-Received: from SJ0PR11MB5896.namprd11.prod.outlook.com
- ([fe80::2081:bcd4:cb3e:e2dd]) by SJ0PR11MB5896.namprd11.prod.outlook.com
- ([fe80::2081:bcd4:cb3e:e2dd%4]) with mapi id 15.20.9320.018; Sat, 15 Nov 2025
- 20:27:19 +0000
-From: "Karan Tilak Kumar (kartilak)" <kartilak@cisco.com>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Corey Minyard
-	<corey@minyard.net>, =?iso-8859-2?Q?Christian_K=F6nig?=
-	<christian.koenig@amd.com>, "Dr. David Alan Gilbert" <linux@treblig.org>,
-	Alex Deucher <alexander.deucher@amd.com>, Thomas Zimmermann
-	<tzimmermann@suse.de>, Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
-	Rob Clark <robin.clark@oss.qualcomm.com>, Matthew Brost
-	<matthew.brost@intel.com>, Ulf Hansson <ulf.hansson@linaro.org>, Aleksandr
- Loktionov <aleksandr.loktionov@intel.com>, Vitaly Lifshits
-	<vitaly.lifshits@intel.com>, Manivannan Sadhasivam <mani@kernel.org>, Niklas
- Cassel <cassel@kernel.org>, Calvin Owens <calvin@wbinvd.org>, Vadim Fedorenko
-	<vadim.fedorenko@linux.dev>, Sagi Maimon <maimon.sagi@gmail.com>, "Martin K.
- Petersen" <martin.petersen@oracle.com>, Hans Verkuil
-	<hverkuil+cisco@kernel.org>, Casey Schaufler <casey@schaufler-ca.com>, Steven
- Rostedt <rostedt@goodmis.org>, Petr Mladek <pmladek@suse.com>, Viacheslav
- Dubeyko <Slava.Dubeyko@ibm.com>, Max Kellermann <max.kellermann@ionos.com>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"openipmi-developer@lists.sourceforge.net"
-	<openipmi-developer@lists.sourceforge.net>, "linux-media@vger.kernel.org"
-	<linux-media@vger.kernel.org>, "dri-devel@lists.freedesktop.org"
-	<dri-devel@lists.freedesktop.org>, "linaro-mm-sig@lists.linaro.org"
-	<linaro-mm-sig@lists.linaro.org>, "amd-gfx@lists.freedesktop.org"
-	<amd-gfx@lists.freedesktop.org>, "linux-arm-msm@vger.kernel.org"
-	<linux-arm-msm@vger.kernel.org>, "freedreno@lists.freedesktop.org"
-	<freedreno@lists.freedesktop.org>, "intel-xe@lists.freedesktop.org"
-	<intel-xe@lists.freedesktop.org>, "linux-mmc@vger.kernel.org"
-	<linux-mmc@vger.kernel.org>, "netdev@vger.kernel.org"
-	<netdev@vger.kernel.org>, "intel-wired-lan@lists.osuosl.org"
-	<intel-wired-lan@lists.osuosl.org>, "linux-pci@vger.kernel.org"
-	<linux-pci@vger.kernel.org>, "linux-s390@vger.kernel.org"
-	<linux-s390@vger.kernel.org>, "linux-scsi@vger.kernel.org"
-	<linux-scsi@vger.kernel.org>, "linux-staging@lists.linux.dev"
-	<linux-staging@lists.linux.dev>, "ceph-devel@vger.kernel.org"
-	<ceph-devel@vger.kernel.org>, "linux-trace-kernel@vger.kernel.org"
-	<linux-trace-kernel@vger.kernel.org>
-CC: Rasmus Villemoes <linux@rasmusvillemoes.dk>, Sergey Senozhatsky
-	<senozhatsky@chromium.org>, Jonathan Corbet <corbet@lwn.net>, Sumit Semwal
-	<sumit.semwal@linaro.org>, Gustavo Padovan <gustavo@padovan.org>, David
- Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Maarten
- Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
-	<mripard@kernel.org>, Dmitry Baryshkov <lumag@kernel.org>, Abhinav Kumar
-	<abhinav.kumar@linux.dev>, Jessica Zhang <jesszhan0024@gmail.com>, Sean Paul
-	<sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>, Konrad
- Dybcio <konradybcio@kernel.org>, Lucas De Marchi <lucas.demarchi@intel.com>,
-	=?iso-8859-2?Q?Thomas_Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
-	Rodrigo Vivi <rodrigo.vivi@intel.com>, Vladimir Oltean <olteanv@gmail.com>,
-	Andrew Lunn <andrew@lunn.ch>, "David S. Miller" <davem@davemloft.net>, Eric
- Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, "Narsimhulu
- Musini (nmusini)" <nmusini@cisco.com>, Paolo Abeni <pabeni@redhat.com>, Tony
- Nguyen <anthony.l.nguyen@intel.com>, Przemek Kitszel
-	<przemyslaw.kitszel@intel.com>, =?iso-8859-2?Q?Krzysztof_Wilczy=F1ski?=
-	<kwilczynski@kernel.org>, Kishon Vijay Abraham I <kishon@kernel.org>, Bjorn
- Helgaas <bhelgaas@google.com>, Rodolfo Giometti <giometti@enneenne.com>,
-	Jonathan Lemon <jonathan.lemon@gmail.com>, Richard Cochran
-	<richardcochran@gmail.com>, Stefan Haberland <sth@linux.ibm.com>, Jan
- Hoeppner <hoeppner@linux.ibm.com>, Heiko Carstens <hca@linux.ibm.com>, Vasily
- Gorbik <gor@linux.ibm.com>, Alexander Gordeev <agordeev@linux.ibm.com>,
-	Christian Borntraeger <borntraeger@linux.ibm.com>, Sven Schnelle
-	<svens@linux.ibm.com>, "Satish Kharat (satishkh)" <satishkh@cisco.com>,
-	"Sesidhar Baddela (sebaddel)" <sebaddel@cisco.com>, "James E.J. Bottomley"
-	<James.Bottomley@HansenPartnership.com>, Mauro Carvalho Chehab
-	<mchehab@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Xiubo
- Li <xiubli@redhat.com>, Ilya Dryomov <idryomov@gmail.com>, Masami Hiramatsu
-	<mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	Andrew Morton <akpm@linux-foundation.org>, "Gian Carlo Boffa (gcboffa)"
-	<gcboffa@cisco.com>, "Arulprabhu Ponnusamy (arulponn)" <arulponn@cisco.com>
-Subject: RE: [PATCH v3 20/21] scsi: snic: Switch to use %ptSp
-Thread-Topic: [PATCH v3 20/21] scsi: snic: Switch to use %ptSp
-Thread-Index: AQHcVK6i2TuKalB1aEOcW1L+o6TUn7T0MoDA
-Date: Sat, 15 Nov 2025 20:27:19 +0000
-Message-ID:
- <SJ0PR11MB58960101609D15FB8F6FB5B2C3CBA@SJ0PR11MB5896.namprd11.prod.outlook.com>
-References: <20251113150217.3030010-1-andriy.shevchenko@linux.intel.com>
- <20251113150217.3030010-21-andriy.shevchenko@linux.intel.com>
-In-Reply-To: <20251113150217.3030010-21-andriy.shevchenko@linux.intel.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: SJ0PR11MB5896:EE_|DS4PPFE70B31BEF:EE_
-x-ms-office365-filtering-correlation-id: 06dc7afe-7be7-41d7-220d-08de24856052
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam:
- BCL:0;ARA:13230040|7416014|376014|366016|1800799024|921020|38070700021;
-x-microsoft-antispam-message-info:
- =?iso-8859-2?Q?UTyLHl4BJYTK4mtPS91Sw2Srl0NHvlfMZaTqLxu2rUWxwfXqFudlc+5TWZ?=
- =?iso-8859-2?Q?BJrEBNZocoITs1OavCRqzXqvbXtC3nyiTs+X6BNCP++7KlQ2g2MJnYpALp?=
- =?iso-8859-2?Q?Bn5YPtijrc89YM4uqb1zvNiGQUKCmcJm5aV9n2jDlaisDBGoiOEdehli0Z?=
- =?iso-8859-2?Q?AiBZgIYvmeuLyJ94TRvdhfcWNgAInVk2bzv3iJn+ETi2yjnYFqeJDEsP/c?=
- =?iso-8859-2?Q?52tSR8uLyZ/cTHCDYdEy2M4TMyDvk7xp0fRxtDf6gySeGMeb9hFUl3m94o?=
- =?iso-8859-2?Q?9QGxesrQwqKEd/FjIbfevU9AIIu/4425oQt60PEDl2KHxaaeh+AA/kE+If?=
- =?iso-8859-2?Q?cTIhv+ekBi5Kio8han64MSlNeDN+sR6xKhQ/jxgIlLI9yNDFUyww8nWAm5?=
- =?iso-8859-2?Q?SxG/facdPQxoPEpca86hn/+obDhPgWbR/ztj7tbF7ANig0cXm/9lKdnZoZ?=
- =?iso-8859-2?Q?e2S/yQsrsL8JID1eQiuiQr7psiOVeOBrtmr5hP9t6gIIVMZnZvIcwbi1Dc?=
- =?iso-8859-2?Q?pIvEJrA62KfIEsG0lGAYmYo4C0gZHqFgr7DWsaVfEAJWKIQEw+NVLL06fR?=
- =?iso-8859-2?Q?kxKmQM6BCA0FLcSlIScOrAAOBXrkQx8CDVbtdiiK6WgcSEAZeGneow5obu?=
- =?iso-8859-2?Q?DAj3Um0LuFxhd4vwv0VnU/9xHqXWAgIWM8XtzAwyS//bRDdCRnV1M1Ynt3?=
- =?iso-8859-2?Q?a5G+dYsTHrt3OFCJQcrYObQ6i3mZy/rMEXFoSyhPJXNNEdgWxwoB1HncUE?=
- =?iso-8859-2?Q?4rYNimG0/N/xCyPNM8ep24M113OR2BqbeCl3DNYllfbQxGN78FCOYN6ZIE?=
- =?iso-8859-2?Q?phsDl0tQWTOljwdp7051kUzoU0wbE9PpBzs61KFHlB25iEfK2WgEBoV82H?=
- =?iso-8859-2?Q?C3yaXZ0BCTPUNLjRuQmgvzHU5ng4f8VDQtXXPfR+oYzmwJKohYU9q+EL+t?=
- =?iso-8859-2?Q?p41Xg0+NxjykvmlvZM0im3m1zsEQ6O7xp9jzLSW3CSy7Ug4BD8U/f3loX6?=
- =?iso-8859-2?Q?m2dgZ7IV42D8gpPaSgZGxQfxdjuNZF06eztZWNwwtTbG2xJCCy5kJDjABj?=
- =?iso-8859-2?Q?kprDaZzeCplxAQW8xfkkmstWs5hIltTmdYlLszIG41MjqxWZJZpClawbb1?=
- =?iso-8859-2?Q?XipTfYbbjUUTJ5AY/cJ94Ocn6B1jSeJph/3BbItNRMvxRi6ONwCwbBDbP+?=
- =?iso-8859-2?Q?Le6I4IDVHcH5ofHexkpBJuMrroWBuSTjhDDNC3TqJdl72rmfZgLyVoS77N?=
- =?iso-8859-2?Q?yU/NIXbFlb8l9dK8q5jipLd1/FVk4Pp2P60jy+9m9cVnFbtvQjhXDypzeb?=
- =?iso-8859-2?Q?Ko1fH/QTTvV8pcNWJXq7fLf1O2d3JWe1yLLsUfK2TmQq0D5l5DpbB890yC?=
- =?iso-8859-2?Q?BVF/Ar5qTiLG7xggV8j4UXRb++gCvrDvk/yLsnEeOoqoE6pmrgwYAC6qZd?=
- =?iso-8859-2?Q?7sl4WiSn6wVEF9onXMgQmhjZwpqInrPFVmYPD5v5xlZBo9t8R0x2wBdi0r?=
- =?iso-8859-2?Q?1cJFwkDZ8sMDxKKKjLHjDI1tR9ldHAmzEmiKNR0GMuTz2ixBFx6wGgLXzl?=
- =?iso-8859-2?Q?wRoYHekrIzXtWBvjBDW4wBo0MryqgrcAtLVl4aPMAV4isfK9tw=3D=3D?=
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ0PR11MB5896.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(366016)(1800799024)(921020)(38070700021);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?iso-8859-2?Q?mKPbxCR50Zo/kBjFEIBIzbg6Es+ioxMMbEP7y4nJHK5XxBuKmBIhsyNe+c?=
- =?iso-8859-2?Q?P2PSImE1GXaPLwYEl2o0/N61ZqojPjfvrKsOv95iPU39dTSM2smMfyKa+b?=
- =?iso-8859-2?Q?yJ4MGTfyQcIrBV8ERN3vhUzyykJsgm9hEjRp0sYKTEOshqL4DV0ZfF0XIg?=
- =?iso-8859-2?Q?gSDYhrSwytejuBS2OhEKMlIRkHHQ7vytYCaFWfly2CZuaC6WJXN+qiqsDq?=
- =?iso-8859-2?Q?1wx+Flmo+eU+kxwC2S6ohnAeGzoxOeATpzP8czrMmvNgNv2SUtLjE6cpa6?=
- =?iso-8859-2?Q?CclM+6tyecZ4BTj7JPQNb+6McoBOVK2q7+LBl8VLvNUQ7Auam18+LneqCQ?=
- =?iso-8859-2?Q?OdOlDAEMcBPZg8du9cjYXV5ziDfXS8eYRmiGGpRe07zxj+E8FoJ6/CTVMd?=
- =?iso-8859-2?Q?7Kgi/HmvzryfBpo19AiuIOsdQYexfBhlJrLeDouh2L4yI08/Bbbl/kF8S5?=
- =?iso-8859-2?Q?+h6QuqJAMGwbkVFi3H1iqPsWXwLhY+gBMTbRuAnRl3CW/Yqzn1g39aa01o?=
- =?iso-8859-2?Q?cSQBDMI/SLuz65WdsanquiGJtbc/0CizuwL73kKQEb3Npn7di05o36xFWv?=
- =?iso-8859-2?Q?DEHcIldFhQXWwU2/gi5S2mXbMZmMCcyxEChQZkp0IE5lY0kODGyWfdDf2y?=
- =?iso-8859-2?Q?bETAGONsgtujjymUy1NAzor3kNZfB5tXwvpdVhrcAXo6LgPM0rFNGD6A58?=
- =?iso-8859-2?Q?6e/TskoSTgrkkg2uQDl2fzAYuGSIWLRUOariSlHuDDWemN2wBqBA0MUTPl?=
- =?iso-8859-2?Q?hgWCGKJIeDmhFv0/Y6bb+DT1H8rfdgxFfpEsh0+GSrBLTQhdDNi1t12f6f?=
- =?iso-8859-2?Q?XvROYBBSf7yzbEeHNW061lBKryfZqrvEHoMQuxPZKog/eOcdils30zwWnx?=
- =?iso-8859-2?Q?b/g6Qe2gspFfKmOdFOxepWKUsWsbnn8706go1E0uxXQTSvmXBcWwXBiYOd?=
- =?iso-8859-2?Q?XQcuKAqoZHHqw9Fb33/Qls/MseykH+NwDBNjX8o7TzR42pQKLf0HRYYGmb?=
- =?iso-8859-2?Q?0TLbowvsUzqn8Lnw42QWD5zzs9U80/mBCiHgHGcw1sFZXpgtC7b35d9BMt?=
- =?iso-8859-2?Q?zmA+oMzsghS3CdaIpJDV6n6mkI4QAlzbJ3RtlkXKbZ9eyBsA+YLQxaQq7p?=
- =?iso-8859-2?Q?HlVl87dlyRvwiXVa6gN4AxQQFclSPqONjcJ0ONO8DnDed4HSKwTNi5Ck1a?=
- =?iso-8859-2?Q?L2SYeW3kbJ41H7lF8WtreIUTJlevxAXf9H3833F5uA/caq+ev/Kf0FdDGK?=
- =?iso-8859-2?Q?yzS1iLutsB5PRhD1boh2gNU8RNC+6uPW1HLm0zHdUv6O4FqR3bbk/cLXOO?=
- =?iso-8859-2?Q?11lyG2zvkvia2pfWVROOpk8PgmvBHIHfCsIaDBWk9vXHFIgB+XyRPiaTTS?=
- =?iso-8859-2?Q?bsGblhc1scXXBJm6wDK24/nRbjFauqXawoxqAO16Jnavr6awCe+E0I5Ryf?=
- =?iso-8859-2?Q?nqUSFrJWfmemtxmMsGaUrdB9yWH/b6Zh2b4cYt5w+ekjkzVh5jn9WBJH9E?=
- =?iso-8859-2?Q?Dk9asRPl15WV6Ci7yTnuTI0CQdvVNtek4nLjE5XF2Jr3UX0Z/+U8K7i8QQ?=
- =?iso-8859-2?Q?yimx4UwBS+uDjiCMwzI1l50RwO5DpDjuoKLQabZf9rzmCxWZaarV19F+IU?=
- =?iso-8859-2?Q?RR+FiRm8NFYq8q/t4x9gOYsXV9u/TNMndx?=
-Content-Type: text/plain; charset="iso-8859-2"
-Content-Transfer-Encoding: quoted-printable
+        d=gmail.com; s=20230601; t=1763288195; x=1763892995; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=yjYtpX1lebOskMnzvVTTSI6mb87mpdpqQgcf6GE5d74=;
+        b=lbxTjony07l880CGywO7iPMmmKek41R90UyFIj8/YYRjhTSmN6ofzUFO9c/foMwG9I
+         e8nbrHiJq9ME2t4QWoupjVlt9RnhK9EjT4l1r44Gb5D5ipi/vxacAlppAEQi4pnvIqJi
+         GiwFqC7J6X6nclX0KIPEDNPkgFUdERnjcMlUnnZtXlP3HP7rYlFKNbes9zgQlGMFa/37
+         sAF6+dR/eIP10o7Fv6dLmX0zIz2fHS/wBnDyM71xZkKzEB9NjZstmQLMBJ+Xk69HHJLm
+         vo0rnR3V/6nVifJjrDOPoJ8Z/2Xvi4nvnnRNCJjJ1S86jq2uUOKjMxSZ6NA1T30lwwnj
+         4AoA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1763288195; x=1763892995;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=yjYtpX1lebOskMnzvVTTSI6mb87mpdpqQgcf6GE5d74=;
+        b=rupBmqeTExveE2Oq4zluEYErO+f7G0wf+Kl3baSBeypAVnCzMaFzphqFTUzPP0Gh2p
+         39IKsLKaPgMwI9jDbskyKmrh/DWNrRJYhjzYaqGhn3JgX8xV3S1JK1v45WgSOeU03JP3
+         exOESOHZ+frEUutxW7OwSouICrUoFQ9FKttg4kyfyZmdtobEC9b0dvF0fPBi4Us0RVcP
+         tDkw/UeTnImPB+lUuHQCT7r0/yslJCnjgBkeojqsCOx+McAovg3NAZlz5EmtFh0RBTk5
+         WcEGMiTFxrSJTNKJ2lTD4ls1w2ano8ng142fXbEGtnUHSo7eE3YMMinkIDO96Jfu5Z6/
+         vCLQ==
+X-Forwarded-Encrypted: i=1; AJvYcCW+95OZilRFFL9OEGi+Up8I5QTilyJbbnFLvlrsw7heDZUfgsXOtiRVqjGL/iHH9UD8s/mbTtw0igdo/EKe@lists.linux.dev
+X-Gm-Message-State: AOJu0YzjRgefh70j2u8MtckwajHt5eTEc5JH2L+9Fafe82pdkkTYc/1H
+	47xJZEd8jk63A1fVOdjnN/+PaqOGKNlV5JDlS+f1UMhaBYgBBtKTkvWV
+X-Gm-Gg: ASbGncvBo47W/CAexSMcgItfT/Q4utRImnnqQ9p8azmR0dzFKMu7hH9sY5vyIyskky2
+	fle8jfrOC1/1VFFEa7qJzKR4oBXIFCT6GFVlRFZeNyXKCXJnC+6cedAwhJ49AykeAk6MPWWmTC7
+	sxnaGBOwtQpD66TD0zEaq0Vnp+I+nvswLwlOfGDvt7EBdildud8yifMwMmLPCAdaqQFQYCdkzYf
+	cxX6kJQVLKNQxnbLl2sYl1doQlwUFFz2Dq5s1x3sCdOWozdPLnNsup1fIvSPznwRoeYqczwlls2
+	ZyZ6ED7vXmDloSqvnUuWe2xIDCQv1q3J+sdNGoeI1V4tJcLYAylbRk9s8/GSlPP8vFl+1DKLdOR
+	ebJ6FdVywcWk2hefxOkUZwCOQ5rbwUjBs+T0ORFRItzP1JDtooXv6TfmMWGcP6b5jp9Hnq1Goqv
+	Nvmg1945MsSg==
+X-Google-Smtp-Source: AGHT+IGqHrD4qNPte4meU/bhor0Mrtltf8SSZmdkQKJ9PyLJUmi9/aFa+KU+2AMvmwtV+k1qpEhrrw==
+X-Received: by 2002:a17:902:f712:b0:295:560a:e499 with SMTP id d9443c01a7336-2986a6abdc5mr109347795ad.5.1763288194893;
+        Sun, 16 Nov 2025 02:16:34 -0800 (PST)
+Received: from fedora ([2401:4900:1f33:fd64:ee54:1322:b5b:2b0])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2985c2bf158sm107546815ad.91.2025.11.16.02.16.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 16 Nov 2025 02:16:34 -0800 (PST)
+From: Shi Hao <i.shihao.999@gmail.com>
+To: Michael.Hennerich@analog.com
+Cc: lars@metafoo.de,
+	jic23@kernel.org,
+	dlechner@baylibre.com,
+	nuno.sa@analog.com,
+	andy@kernel.org,
+	gregkh@linuxfoundation.org,
+	linux-iio@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	i.shihao.999@gmail.com
+Subject: [PATCH] staging: iio: adt7316: replace sprintf() with sysfs_emit()
+Date: Sun, 16 Nov 2025 15:46:20 +0530
+Message-ID: <20251116101620.25277-1-i.shihao.999@gmail.com>
+X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-OriginatorOrg: cisco.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SJ0PR11MB5896.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 06dc7afe-7be7-41d7-220d-08de24856052
-X-MS-Exchange-CrossTenant-originalarrivaltime: 15 Nov 2025 20:27:19.8090
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 5ae1af62-9505-4097-a69a-c1553ef7840e
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 6sGSzNOwK5N2JX7LP+uBMy+DCipcCcM2IKRDSemuaKx2VgJ+Cpek7Aeyqj1K9YjSnc1FgC1NdcbLcIoAPUC6Og==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS4PPFE70B31BEF
-X-Outbound-SMTP-Client: 72.163.7.165, rcdn-opgw-4.cisco.com
-X-Outbound-Node: alln-l-core-01.cisco.com
+Content-Transfer-Encoding: 8bit
 
-On Thursday, November 13, 2025 6:33 AM, Andy Shevchenko <andriy.shevchenko@=
-linux.intel.com> wrote:
->
-> Use %ptSp instead of open coded variants to print content of
-> struct timespec64 in human readable format.
->
-> Reviewed-by: Martin K. Petersen <martin.petersen@oracle.com>
-> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> ---
-> drivers/scsi/snic/snic_debugfs.c | 10 ++++------
-> drivers/scsi/snic/snic_trc.c     |  5 ++---
-> 2 files changed, 6 insertions(+), 9 deletions(-)
->
-> diff --git a/drivers/scsi/snic/snic_debugfs.c b/drivers/scsi/snic/snic_de=
-bugfs.c
-> index 9dd975b36b5b..edf3e5ef28a6 100644
-> --- a/drivers/scsi/snic/snic_debugfs.c
-> +++ b/drivers/scsi/snic/snic_debugfs.c
-> @@ -282,8 +282,8 @@ snic_stats_show(struct seq_file *sfp, void *data)
-> jiffies_to_timespec64(stats->misc.last_ack_time, &last_ack_tms);
->
-> seq_printf(sfp,
-> -                "Last ISR Time               : %llu (%8llu.%09lu)\n"
-> -                "Last Ack Time               : %llu (%8llu.%09lu)\n"
-> +                "Last ISR Time               : %llu (%ptSp)\n"
-> +                "Last Ack Time               : %llu (%ptSp)\n"
-> "Ack ISRs                    : %llu\n"
-> "IO Cmpl ISRs                : %llu\n"
-> "Err Notify ISRs             : %llu\n"
-> @@ -298,10 +298,8 @@ snic_stats_show(struct seq_file *sfp, void *data)
-> "Queue Ramp Down             : %lld\n"
-> "Queue Last Queue Depth      : %lld\n"
-> "Target Not Ready            : %lld\n",
-> -                (u64) stats->misc.last_isr_time,
-> -                last_isr_tms.tv_sec, last_isr_tms.tv_nsec,
-> -                (u64)stats->misc.last_ack_time,
-> -                last_ack_tms.tv_sec, last_ack_tms.tv_nsec,
-> +                (u64) stats->misc.last_isr_time, &last_isr_tms,
-> +                (u64) stats->misc.last_ack_time, &last_ack_tms,
-> (u64) atomic64_read(&stats->misc.ack_isr_cnt),
-> (u64) atomic64_read(&stats->misc.cmpl_isr_cnt),
-> (u64) atomic64_read(&stats->misc.errnotify_isr_cnt),
-> diff --git a/drivers/scsi/snic/snic_trc.c b/drivers/scsi/snic/snic_trc.c
-> index c2e5ab7e976c..6bad1ea9a6a7 100644
-> --- a/drivers/scsi/snic/snic_trc.c
-> +++ b/drivers/scsi/snic/snic_trc.c
-> @@ -56,9 +56,8 @@ snic_fmt_trc_data(struct snic_trc_data *td, char *buf, =
-int buf_sz)
-> jiffies_to_timespec64(td->ts, &tmspec);
->
-> len +=3D snprintf(buf, buf_sz,
-> -                     "%llu.%09lu %-25s %3d %4x %16llx %16llx %16llx %16l=
-lx %16llx\n",
-> -                     tmspec.tv_sec,
-> -                     tmspec.tv_nsec,
-> +                     "%ptSp %-25s %3d %4x %16llx %16llx %16llx %16llx %1=
-6llx\n",
-> +                     &tmspec,
-> td->fn,
-> td->hno,
-> td->tag,
-> --
-> 2.50.1
->
->
+Convert several sprintf() calls to sysfs_emit() in the
+sysfs show functions, as it is the preferred helper and
+prevents potential buffer overruns.
 
-Thanks for the change, Andy.
+No functional changes intended.
 
-Acked-by: Karan Tilak Kumar <kartilak@cisco.com>
+Signed-off-by: Shi Hao <i.shihao.999@gmail.com>
+---
+ drivers/staging/iio/addac/adt7316.c | 102 ++++++++++++++--------------
+ 1 file changed, 51 insertions(+), 51 deletions(-)
 
-Regards,
-Karan
+diff --git a/drivers/staging/iio/addac/adt7316.c b/drivers/staging/iio/addac/adt7316.c
+index 16f30c4f1aa0..8a9a8262c2be 100644
+--- a/drivers/staging/iio/addac/adt7316.c
++++ b/drivers/staging/iio/addac/adt7316.c
+@@ -216,7 +216,7 @@ static ssize_t adt7316_show_enabled(struct device *dev,
+ 	struct iio_dev *dev_info = dev_to_iio_dev(dev);
+ 	struct adt7316_chip_info *chip = iio_priv(dev_info);
+
+-	return sprintf(buf, "%d\n", !!(chip->config1 & ADT7316_EN));
++	return sysfs_emit(buf, "%d\n", !!(chip->config1 & ADT7316_EN));
+ }
+
+ static ssize_t _adt7316_store_enabled(struct adt7316_chip_info *chip,
+@@ -274,7 +274,7 @@ static ssize_t adt7316_show_select_ex_temp(struct device *dev,
+ 	if ((chip->id & ID_FAMILY_MASK) != ID_ADT75XX)
+ 		return -EPERM;
+
+-	return sprintf(buf, "%d\n", !!(chip->config1 & ADT7516_SEL_EX_TEMP));
++	return sysfs_emit(buf, "%d\n", !!(chip->config1 & ADT7516_SEL_EX_TEMP));
+ }
+
+ static ssize_t adt7316_store_select_ex_temp(struct device *dev,
+@@ -316,9 +316,9 @@ static ssize_t adt7316_show_mode(struct device *dev,
+ 	struct adt7316_chip_info *chip = iio_priv(dev_info);
+
+ 	if (chip->config2 & ADT7316_AD_SINGLE_CH_MODE)
+-		return sprintf(buf, "single_channel\n");
++		return sysfs_emit(buf, "single_channel\n");
+
+-	return sprintf(buf, "round_robin\n");
++	return sysfs_emit(buf, "round_robin\n");
+ }
+
+ static ssize_t adt7316_store_mode(struct device *dev,
+@@ -353,7 +353,7 @@ static ssize_t adt7316_show_all_modes(struct device *dev,
+ 				      struct device_attribute *attr,
+ 				      char *buf)
+ {
+-	return sprintf(buf, "single_channel\nround_robin\n");
++	return sysfs_emit(buf, "single_channel\nround_robin\n");
+ }
+
+ static IIO_DEVICE_ATTR(all_modes, 0444, adt7316_show_all_modes, NULL, 0);
+@@ -370,29 +370,29 @@ static ssize_t adt7316_show_ad_channel(struct device *dev,
+
+ 	switch (chip->config2 & ADT7516_AD_SINGLE_CH_MASK) {
+ 	case ADT7316_AD_SINGLE_CH_VDD:
+-		return sprintf(buf, "0 - VDD\n");
++		return sysfs_emit(buf, "0 - VDD\n");
+ 	case ADT7316_AD_SINGLE_CH_IN:
+-		return sprintf(buf, "1 - Internal Temperature\n");
++		return sysfs_emit(buf, "1 - Internal Temperature\n");
+ 	case ADT7316_AD_SINGLE_CH_EX:
+ 		if (((chip->id & ID_FAMILY_MASK) == ID_ADT75XX) &&
+ 		    (chip->config1 & ADT7516_SEL_AIN1_2_EX_TEMP_MASK) == 0)
+-			return sprintf(buf, "2 - AIN1\n");
++			return sysfs_emit(buf, "2 - AIN1\n");
+
+-		return sprintf(buf, "2 - External Temperature\n");
++		return sysfs_emit(buf, "2 - External Temperature\n");
+ 	case ADT7516_AD_SINGLE_CH_AIN2:
+ 		if ((chip->config1 & ADT7516_SEL_AIN1_2_EX_TEMP_MASK) == 0)
+-			return sprintf(buf, "3 - AIN2\n");
++			return sysfs_emit(buf, "3 - AIN2\n");
+
+-		return sprintf(buf, "N/A\n");
++		return sysfs_emit(buf, "N/A\n");
+ 	case ADT7516_AD_SINGLE_CH_AIN3:
+ 		if (chip->config1 & ADT7516_SEL_AIN3)
+-			return sprintf(buf, "4 - AIN3\n");
++			return sysfs_emit(buf, "4 - AIN3\n");
+
+-		return sprintf(buf, "N/A\n");
++		return sysfs_emit(buf, "N/A\n");
+ 	case ADT7516_AD_SINGLE_CH_AIN4:
+-		return sprintf(buf, "5 - AIN4\n");
++		return sysfs_emit(buf, "5 - AIN4\n");
+ 	default:
+-		return sprintf(buf, "N/A\n");
++		return sysfs_emit(buf, "N/A\n");
+ 	}
+ }
+
+@@ -453,10 +453,10 @@ static ssize_t adt7316_show_all_ad_channels(struct device *dev,
+ 		return -EPERM;
+
+ 	if ((chip->id & ID_FAMILY_MASK) == ID_ADT75XX)
+-		return sprintf(buf, "0 - VDD\n1 - Internal Temperature\n"
++		return sysfs_emit(buf, "0 - VDD\n1 - Internal Temperature\n"
+ 				"2 - External Temperature or AIN1\n"
+ 				"3 - AIN2\n4 - AIN3\n5 - AIN4\n");
+-	return sprintf(buf, "0 - VDD\n1 - Internal Temperature\n"
++	return sysfs_emit(buf, "0 - VDD\n1 - Internal Temperature\n"
+ 			"2 - External Temperature\n");
+ }
+
+@@ -470,7 +470,7 @@ static ssize_t adt7316_show_disable_averaging(struct device *dev,
+ 	struct iio_dev *dev_info = dev_to_iio_dev(dev);
+ 	struct adt7316_chip_info *chip = iio_priv(dev_info);
+
+-	return sprintf(buf, "%d\n",
++	return sysfs_emit(buf, "%d\n",
+ 		!!(chip->config2 & ADT7316_DISABLE_AVERAGING));
+ }
+
+@@ -509,7 +509,7 @@ static ssize_t adt7316_show_enable_smbus_timeout(struct device *dev,
+ 	struct iio_dev *dev_info = dev_to_iio_dev(dev);
+ 	struct adt7316_chip_info *chip = iio_priv(dev_info);
+
+-	return sprintf(buf, "%d\n",
++	return sysfs_emit(buf, "%d\n",
+ 		!!(chip->config2 & ADT7316_EN_SMBUS_TIMEOUT));
+ }
+
+@@ -548,7 +548,7 @@ static ssize_t adt7316_show_powerdown(struct device *dev,
+ 	struct iio_dev *dev_info = dev_to_iio_dev(dev);
+ 	struct adt7316_chip_info *chip = iio_priv(dev_info);
+
+-	return sprintf(buf, "%d\n", !!(chip->config1 & ADT7316_PD));
++	return sysfs_emit(buf, "%d\n", !!(chip->config1 & ADT7316_PD));
+ }
+
+ static ssize_t adt7316_store_powerdown(struct device *dev,
+@@ -586,7 +586,7 @@ static ssize_t adt7316_show_fast_ad_clock(struct device *dev,
+ 	struct iio_dev *dev_info = dev_to_iio_dev(dev);
+ 	struct adt7316_chip_info *chip = iio_priv(dev_info);
+
+-	return sprintf(buf, "%d\n", !!(chip->config3 & ADT7316_ADCLK_22_5));
++	return sysfs_emit(buf, "%d\n", !!(chip->config3 & ADT7316_ADCLK_22_5));
+ }
+
+ static ssize_t adt7316_store_fast_ad_clock(struct device *dev,
+@@ -626,10 +626,10 @@ static ssize_t adt7316_show_da_high_resolution(struct device *dev,
+
+ 	if (chip->config3 & ADT7316_DA_HIGH_RESOLUTION) {
+ 		if (chip->id != ID_ADT7318 && chip->id != ID_ADT7519)
+-			return sprintf(buf, "1 (10 bits)\n");
++			return sysfs_emit(buf, "1 (10 bits)\n");
+ 	}
+
+-	return sprintf(buf, "0 (8 bits)\n");
++	return sysfs_emit(buf, "0 (8 bits)\n");
+ }
+
+ static ssize_t adt7316_store_da_high_resolution(struct device *dev,
+@@ -673,7 +673,7 @@ static ssize_t adt7316_show_AIN_internal_Vref(struct device *dev,
+ 	if ((chip->id & ID_FAMILY_MASK) != ID_ADT75XX)
+ 		return -EPERM;
+
+-	return sprintf(buf, "%d\n",
++	return sysfs_emit(buf, "%d\n",
+ 		!!(chip->config3 & ADT7516_AIN_IN_VREF));
+ }
+
+@@ -716,7 +716,7 @@ static ssize_t adt7316_show_enable_prop_DACA(struct device *dev,
+ 	struct iio_dev *dev_info = dev_to_iio_dev(dev);
+ 	struct adt7316_chip_info *chip = iio_priv(dev_info);
+
+-	return sprintf(buf, "%d\n",
++	return sysfs_emit(buf, "%d\n",
+ 		!!(chip->config3 & ADT7316_EN_IN_TEMP_PROP_DACA));
+ }
+
+@@ -755,7 +755,7 @@ static ssize_t adt7316_show_enable_prop_DACB(struct device *dev,
+ 	struct iio_dev *dev_info = dev_to_iio_dev(dev);
+ 	struct adt7316_chip_info *chip = iio_priv(dev_info);
+
+-	return sprintf(buf, "%d\n",
++	return sysfs_emit(buf, "%d\n",
+ 		!!(chip->config3 & ADT7316_EN_EX_TEMP_PROP_DACB));
+ }
+
+@@ -794,7 +794,7 @@ static ssize_t adt7316_show_DAC_2Vref_ch_mask(struct device *dev,
+ 	struct iio_dev *dev_info = dev_to_iio_dev(dev);
+ 	struct adt7316_chip_info *chip = iio_priv(dev_info);
+
+-	return sprintf(buf, "0x%x\n",
++	return sysfs_emit(buf, "0x%x\n",
+ 		chip->dac_config & ADT7316_DA_2VREF_CH_MASK);
+ }
+
+@@ -838,20 +838,20 @@ static ssize_t adt7316_show_DAC_update_mode(struct device *dev,
+ 	struct adt7316_chip_info *chip = iio_priv(dev_info);
+
+ 	if (!(chip->config3 & ADT7316_DA_EN_VIA_DAC_LDAC))
+-		return sprintf(buf, "manual\n");
++		return sysfs_emit(buf, "manual\n");
+
+ 	switch (chip->dac_config & ADT7316_DA_EN_MODE_MASK) {
+ 	case ADT7316_DA_EN_MODE_SINGLE:
+-		return sprintf(buf,
++		return sysfs_emit(buf,
+ 			"0 - auto at any MSB DAC writing\n");
+ 	case ADT7316_DA_EN_MODE_AB_CD:
+-		return sprintf(buf,
++		return sysfs_emit(buf,
+ 			"1 - auto at MSB DAC AB and CD writing\n");
+ 	case ADT7316_DA_EN_MODE_ABCD:
+-		return sprintf(buf,
++		return sysfs_emit(buf,
+ 			"2 - auto at MSB DAC ABCD writing\n");
+ 	default: /* ADT7316_DA_EN_MODE_LDAC */
+-		return sprintf(buf, "3 - manual\n");
++		return sysfs_emit(buf, "3 - manual\n");
+ 	}
+ }
+
+@@ -898,11 +898,11 @@ static ssize_t adt7316_show_all_DAC_update_modes(struct device *dev,
+ 	struct adt7316_chip_info *chip = iio_priv(dev_info);
+
+ 	if (chip->config3 & ADT7316_DA_EN_VIA_DAC_LDAC)
+-		return sprintf(buf, "0 - auto at any MSB DAC writing\n"
++		return sysfs_emit(buf, "0 - auto at any MSB DAC writing\n"
+ 				"1 - auto at MSB DAC AB and CD writing\n"
+ 				"2 - auto at MSB DAC ABCD writing\n"
+ 				"3 - manual\n");
+-	return sprintf(buf, "manual\n");
++	return sysfs_emit(buf, "manual\n");
+ }
+
+ static IIO_DEVICE_ATTR(all_DAC_update_modes, 0444,
+@@ -955,7 +955,7 @@ static ssize_t adt7316_show_DA_AB_Vref_bypass(struct device *dev,
+ 	struct iio_dev *dev_info = dev_to_iio_dev(dev);
+ 	struct adt7316_chip_info *chip = iio_priv(dev_info);
+
+-	return sprintf(buf, "%d\n",
++	return sysfs_emit(buf, "%d\n",
+ 		!!(chip->dac_config & ADT7316_VREF_BYPASS_DAC_AB));
+ }
+
+@@ -994,7 +994,7 @@ static ssize_t adt7316_show_DA_CD_Vref_bypass(struct device *dev,
+ 	struct iio_dev *dev_info = dev_to_iio_dev(dev);
+ 	struct adt7316_chip_info *chip = iio_priv(dev_info);
+
+-	return sprintf(buf, "%d\n",
++	return sysfs_emit(buf, "%d\n",
+ 		!!(chip->dac_config & ADT7316_VREF_BYPASS_DAC_CD));
+ }
+
+@@ -1034,10 +1034,10 @@ static ssize_t adt7316_show_DAC_internal_Vref(struct device *dev,
+ 	struct adt7316_chip_info *chip = iio_priv(dev_info);
+
+ 	if ((chip->id & ID_FAMILY_MASK) == ID_ADT75XX)
+-		return sprintf(buf, "0x%x\n",
++		return sysfs_emit(buf, "0x%x\n",
+ 			(chip->ldac_config & ADT7516_DAC_IN_VREF_MASK) >>
+ 			ADT7516_DAC_IN_VREF_OFFSET);
+-	return sprintf(buf, "%d\n",
++	return sysfs_emit(buf, "%d\n",
+ 		       !!(chip->ldac_config & ADT7316_DAC_IN_VREF));
+ }
+
+@@ -1128,7 +1128,7 @@ static ssize_t adt7316_show_ad(struct adt7316_chip_info *chip,
+
+ 		data = msb << ADT7316_T_VALUE_FLOAT_OFFSET;
+ 		data |= (lsb & ADT7316_LSB_VDD_MASK) >> ADT7316_LSB_VDD_OFFSET;
+-		return sprintf(buf, "%d\n", data);
++		return sysfs_emit(buf, "%d\n", data);
+ 	default: /* ex_temp and ain */
+ 		ret = chip->bus.read(chip->bus.client,
+ 			ADT7316_LSB_EX_TEMP_AIN, &lsb);
+@@ -1146,7 +1146,7 @@ static ssize_t adt7316_show_ad(struct adt7316_chip_info *chip,
+ 			(ADT7316_MSB_EX_TEMP - ADT7316_AD_MSB_DATA_BASE))));
+
+ 		if ((chip->id & ID_FAMILY_MASK) == ID_ADT75XX)
+-			return sprintf(buf, "%d\n", data);
++			return sysfs_emit(buf, "%d\n", data);
+
+ 		break;
+ 	}
+@@ -1157,7 +1157,7 @@ static ssize_t adt7316_show_ad(struct adt7316_chip_info *chip,
+ 		sign = '-';
+ 	}
+
+-	return sprintf(buf, "%c%d.%.2d\n", sign,
++	return sysfs_emit(buf, "%c%d.%.2d\n", sign,
+ 		(data >> ADT7316_T_VALUE_FLOAT_OFFSET),
+ 		(data & ADT7316_T_VALUE_FLOAT_MASK) * 25);
+ }
+@@ -1247,7 +1247,7 @@ static ssize_t adt7316_show_temp_offset(struct adt7316_chip_info *chip,
+ 	if (val & 0x80)
+ 		data -= 256;
+
+-	return sprintf(buf, "%d\n", data);
++	return sysfs_emit(buf, "%d\n", data);
+ }
+
+ static ssize_t adt7316_store_temp_offset(struct adt7316_chip_info *chip,
+@@ -1415,7 +1415,7 @@ static ssize_t adt7316_show_DAC(struct adt7316_chip_info *chip,
+ 		data = lsb >> ADT7316_DA_10_BIT_LSB_SHIFT;
+ 	data |= msb << offset;
+
+-	return sprintf(buf, "%d\n", data);
++	return sysfs_emit(buf, "%d\n", data);
+ }
+
+ static ssize_t adt7316_store_DAC(struct adt7316_chip_info *chip,
+@@ -1568,7 +1568,7 @@ static ssize_t adt7316_show_device_id(struct device *dev,
+ 	if (ret)
+ 		return -EIO;
+
+-	return sprintf(buf, "%d\n", id);
++	return sysfs_emit(buf, "%d\n", id);
+ }
+
+ static IIO_DEVICE_ATTR(device_id, 0444, adt7316_show_device_id, NULL, 0);
+@@ -1586,7 +1586,7 @@ static ssize_t adt7316_show_manufactorer_id(struct device *dev,
+ 	if (ret)
+ 		return -EIO;
+
+-	return sprintf(buf, "%d\n", id);
++	return sysfs_emit(buf, "%d\n", id);
+ }
+
+ static IIO_DEVICE_ATTR(manufactorer_id, 0444,
+@@ -1605,7 +1605,7 @@ static ssize_t adt7316_show_device_rev(struct device *dev,
+ 	if (ret)
+ 		return -EIO;
+
+-	return sprintf(buf, "%d\n", rev);
++	return sysfs_emit(buf, "%d\n", rev);
+ }
+
+ static IIO_DEVICE_ATTR(device_rev, 0444, adt7316_show_device_rev, NULL, 0);
+@@ -1624,9 +1624,9 @@ static ssize_t adt7316_show_bus_type(struct device *dev,
+ 		return -EIO;
+
+ 	if (stat)
+-		return sprintf(buf, "spi\n");
++		return sysfs_emit(buf, "spi\n");
+
+-	return sprintf(buf, "i2c\n");
++	return sysfs_emit(buf, "i2c\n");
+ }
+
+ static IIO_DEVICE_ATTR(bus_type, 0444, adt7316_show_bus_type, NULL, 0);
+@@ -1836,7 +1836,7 @@ static ssize_t adt7316_show_int_mask(struct device *dev,
+ 	struct iio_dev *dev_info = dev_to_iio_dev(dev);
+ 	struct adt7316_chip_info *chip = iio_priv(dev_info);
+
+-	return sprintf(buf, "0x%x\n", chip->int_mask);
++	return sysfs_emit(buf, "0x%x\n", chip->int_mask);
+ }
+
+ /*
+@@ -1910,7 +1910,7 @@ static inline ssize_t adt7316_show_ad_bound(struct device *dev,
+ 			data -= 256;
+ 	}
+
+-	return sprintf(buf, "%d\n", data);
++	return sysfs_emit(buf, "%d\n", data);
+ }
+
+ static inline ssize_t adt7316_set_ad_bound(struct device *dev,
+@@ -1961,7 +1961,7 @@ static ssize_t adt7316_show_int_enabled(struct device *dev,
+ 	struct iio_dev *dev_info = dev_to_iio_dev(dev);
+ 	struct adt7316_chip_info *chip = iio_priv(dev_info);
+
+-	return sprintf(buf, "%d\n", !!(chip->config1 & ADT7316_INT_EN));
++	return sysfs_emit(buf, "%d\n", !!(chip->config1 & ADT7316_INT_EN));
+ }
+
+ static ssize_t adt7316_set_int_enabled(struct device *dev,
+--
+2.51.0
+
