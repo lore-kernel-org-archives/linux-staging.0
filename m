@@ -1,62 +1,64 @@
-Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC2292FD1B2
-	for <linux-staging@lists.linux.dev>; Mon, 17 Nov 2025 18:19:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B590F2EC541
+	for <linux-staging@lists.linux.dev>; Mon, 17 Nov 2025 18:19:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763403582; cv=none; b=gRYdDJxCcqfF0ZaF7GmDr76b3miyatCOt8Jic416xV0quWxgNUXdnjZ96pYnVc9XJbMjIYk4+4F8nS1VY4Gz35Aazy6AAj5x3GZagjwzjuNO/z/6mmRosSLSWJ6ri9QPalr+MKxlkDeBsmC4olw24KugIoppyuyAhtUdMSMUYvE=
+	t=1763403599; cv=none; b=qvAwsAt/ePS65ag52Aw86ofwVOjIUikePZcUXIlNjUJDXPPnRWTVSLsQWE7/7q6fxG+lCHPaVXDJxGAN8hA+BXM2MKDK5wgmi3VqzSkrKd8EHLlHhaqiaOp6c9S1ldA1+2dtBKYiN6x3mR+7xFZBNQ2xXhBNMPeZoe9PhUhB4+k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763403582; c=relaxed/simple;
-	bh=h+PI68+jQ+dmIfsQUP+rIdZWQgm13N+lcyrk5B0RA0c=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=s69j9Z7tUbveIwoHGjFaqAhF6yTCQCDM61qGZifhbp8O8ZvnwODSeoHGYOA0mwxGSpeCNtxRsaG2IKTFjg0uhJGhURoqYbRu7sHDkeKyYAzAcTcuIAGo/DU7lacCTbtjEwMx85Hk4308AWJhHJqzPVXE0hgjV5iLVY/HfXDm82o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OXY1N2Jj; arc=none smtp.client-ip=209.85.214.180
+	s=arc-20240116; t=1763403599; c=relaxed/simple;
+	bh=NSR2k6HXZ70oER1MlNPtE73C7wKJHmMzlGXb549/pEU=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=WsV73Z9T5MFeRAw6U62lCmLfOrIEGaqmwshMmg4bwnbEVfvM3jyCM/4bD8YFZOlSA62N8WYgAk4iBRd98d1/aWVixYnE901T3Qou8lm2lZx3T4Ij/j2yQlX29P5fNqPkq4TQe131adepgqKkeNSZbj8M67WdR51L0Rnn7ABSc5k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bOt5euJY; arc=none smtp.client-ip=209.85.214.174
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OXY1N2Jj"
-Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-298456bb53aso51924155ad.0
-        for <linux-staging@lists.linux.dev>; Mon, 17 Nov 2025 10:19:40 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bOt5euJY"
+Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-2957850c63bso47833165ad.0
+        for <linux-staging@lists.linux.dev>; Mon, 17 Nov 2025 10:19:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1763403580; x=1764008380; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=fUOOg5GGpzYO8NO3IORlT4sSo1VnzPUM2UrBOqz/zBU=;
-        b=OXY1N2JjoqZ76/Jvl6dyYE6vW2mgJ3X+36GINLapz1P8/ldJymWobs97VC0DEXxWMq
-         SwIu0H8zhF9JYxcjd0+7JZzWGF2aSh+5pn1B0ubN4F5Z5MyNoGAAhD8rtWrQ3xWu06Zq
-         lBGCgsa4vU/UVZA5QtbsPcxlaYbnMM9K8FCtaFsSGhE9mkIL6SW92JeB0Whh5Lv1A8Jb
-         +lFMVpBnOgEqaDWnMESEe/mJzlvLSTQ+8XvwP6vv5sOUtm8fC3KMQiVbDKR96LGHtgIe
-         jKSOoindn+itpip3t6M/9exEOlD6HoZ5UR5JXGpdUNQ2GnCZW9JLdBKpXEbMdvOBSjvj
-         zBWg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763403580; x=1764008380;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1763403597; x=1764008397; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=fUOOg5GGpzYO8NO3IORlT4sSo1VnzPUM2UrBOqz/zBU=;
-        b=O+X4ijkGVD+bXvxVScEMbMjn8Nvap/+JDbAOh1DPNuDo5r9v0ZoB2pSr++zFdeGDF7
-         ktU6MDoIwVW7z9ZK87/3M0Bc/WiwpyjyvtPJmIBnq6hpCoKJi0pTTxqXczUrN2JL74lC
-         b3T7YTvIn7msRB8sjN8JL7BHKRCG6/xiwW+RT/ZiBG7iDXpWv4zoJrMFQMn59XE9PJ7y
-         zfitm5EcLb+z3Nh/mHk4l0GA3/yM+tu6a+PsyzneGkxh4UjFAFEdQGbyyHaAR/C+S4qz
-         QhZbjOlFNdKvybi5WKJny2l9F5Hzp+zSugJKPPMK+vRYqjnKl8PjaG8U0HEkAzNm5lSY
-         7ksA==
-X-Forwarded-Encrypted: i=1; AJvYcCVtY8qaWcuRXmreaFq9qktZsAVlya/hu36YB3lVAg+74MCoIz8Im5b9q8YqBFFn8sjZf8KlF+8F5nB6JSPO@lists.linux.dev
-X-Gm-Message-State: AOJu0YxN6ck7JanLWRtIQEOMqwq/bieXRNSjbXIB79ErEHXC/xhguGyc
-	y6L1ekRqZfDGgRTlNRkFRvNQyAVBloewBMseubaIYH2xULqSEvcBxwoA
-X-Gm-Gg: ASbGnctsJjptkEb1RPpg61xepOayV04iYDzjazSp2JHf4JrzEkBEaPfdx01UkbpceYY
-	SDzxLBpwaDMnyGwBEeafip4mrz+Ov6ER20tF0coL/9QgCWpMwkjZHwT1udD9U/Px4UyZHwT8q7t
-	aU+bJ9rYIz4jFTCZ/yGKn2LYhXmMdOsgmUe8SuNx/rw/c5YXNMpJZCS+jcQoFHiX+FS+JPftjVu
-	DAi0ye8DNRIYc0gSAryb/fD/ZLy+7ASgKANd/EGRQJxo4Dbqx7gswTCWReWHm8Jfeg0szwUFqgD
-	B2kqOYeWE1u7ZN7juTCVzGk4OWZN1yeg0k+24mGT0fVhPbOiiOXM6Iu/98OCzbrg3krjRT6UFtB
-	m2c00CuvccvrO7Cv+rtrxkIphOgpmjD1ASvej5FokdhGpAiGyt6d+z9lyZOZBVm6vfHmlZ9aKLy
-	cCjD9tTTCAC6OKs5hxLY0Sh3WVfmU6Lbz7Me4RY0Gm03seyIY=
-X-Google-Smtp-Source: AGHT+IGBjDcTPMPHmmSbsyNWObzCORlsuM07yRKYVKXMPdwZOGMYJBb41kCMiHZnlJGfPjcHpqClNw==
-X-Received: by 2002:a17:902:f712:b0:258:f033:3ff9 with SMTP id d9443c01a7336-2986a755ac2mr164015855ad.48.1763403579828;
-        Mon, 17 Nov 2025 10:19:39 -0800 (PST)
+        bh=P+mt7oH0iBZP/o/xZpySfvOUTDFx959ix8tWEjCCAv0=;
+        b=bOt5euJYrM7/6TBUdwDQWIaFeAt9ZuiRGEBr2KLUdThteqBvPoLoS61IDCFYWiRQ+J
+         3sRyEEMEJSEZ3FRrMaTk1mRfbHTJY5uBLegsPTMbVB+K/RGMwdGONhYV9QiuujMqD8SL
+         bWGuslNZg4cmbZznmzeouA9me4HGtK8/G45WShInwQXIxLQDYXVi3DQlCbh8SPjZoJ/C
+         H2b07Y04rrT0JHl/xIfRcKHgpfmGhfTeqPrlGihPa70rpOW957hQAYB8VdGEDUyTDF2r
+         vyPoPQDP3Z+LkchpOef/7z3LXtYZooPzSCaS3cq/00AoSw2WIB+7mzw7e69v8oZaMk4q
+         eTTQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1763403597; x=1764008397;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=P+mt7oH0iBZP/o/xZpySfvOUTDFx959ix8tWEjCCAv0=;
+        b=MYJoX0L6nuXH6iQts6SfOgKfsy83nXPnkb+VpdinpMvLM8DSddTEsFT7lbPgqI6Gry
+         nHwgWX6brls6soLb3s+zJvkc/ybKDGSlKlOJfvo6oMAv807WZHcc5qQozYiWMxfEvII6
+         DH5p1dSAyGT0GxlZmP1167Tq7MAgbIbswFOf2J3nbIFG4J5kW17EgGv8QKN2CuQ+uZ0i
+         jVOaBweabGHgSyNYlO7teL5h1oNb78tuZCP1a/gygSD9CWlm3yIseQv+7gwULeV2QK1A
+         BKjBM+/WCa7QCmfjW5mECGEf159zeZt3mO2DB1yY5jctAHv4hnfWBvZW3vYrp47UyDw3
+         AriA==
+X-Forwarded-Encrypted: i=1; AJvYcCVTlhDtKDEINfd53LkizYG6+RSDNitIoyZ/HnOd1uGXmb2QRZQeHeo6orcqogy6r+f7bYtfBk1I9GABcvJB@lists.linux.dev
+X-Gm-Message-State: AOJu0YzM+J7caXuLpiS/VjdiXQ+OSaVPFwvtm/Idl+lavyIP69H9YcSi
+	YV/RVH+gkMSPSnOHjat/hxEoThYui8iiJLFANmQH/tqsAVhRMDSVkSR9
+X-Gm-Gg: ASbGncvQncMjAUuYaIcRSi9j0iS/8zfnzoEqd8caWX16EtJxGxV7MjFiLLJPHJElbML
+	K8hdXgziFqEwvPTSsrA5ZL1TI6WZg98fN8CBGTXDwR/n6OXDxeS1tYjkT8P16F3FkFImb5oYJzH
+	d2YUmN2sPs7f4ZdNirGtmThSZTyfS8+Gpe4nYfGQsm5u0sbxsbFHyKYg+i9ksmk6Eu2S0PF9egk
+	9Y0qhEGGnxAzpr0KbEL4p1afzUI7OEZXWmg/YF/6LryeZxFULYneTeZhVRtAcHpAwHIL4poRORR
+	vqYR/iP4oMXGOfsCp+tyBEE3idKsb1DaMm38G2BI3nHKvrLJOnKIAjlOAyaf0Y57meFBafiu6a8
+	ROZEb07OXkrb1T8mU5FzMPs7UuNfhLyrHG4+KAZCogjLBygwMdHmCi6hSftPel++0K0Z03Tz4Et
+	J2hnXKoojFFaTz4VOQiqP0fv5zIubuw5WhKpzrFGzuueZS74M=
+X-Google-Smtp-Source: AGHT+IFQ9LBn3ISEXKKMButpenVNHYhuSfDmCD+Hvolo3FcfK5Fs+q11eciFucVUcwxZWnGAUEwCFg==
+X-Received: by 2002:a17:903:37c7:b0:269:b2e5:900d with SMTP id d9443c01a7336-299f54f68a3mr3452835ad.5.1763403596939;
+        Mon, 17 Nov 2025 10:19:56 -0800 (PST)
 Received: from ideapad.tail50fddd.ts.net ([139.5.199.69])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2985c245fa1sm148446705ad.36.2025.11.17.10.19.36
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2985c245fa1sm148446705ad.36.2025.11.17.10.19.53
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 17 Nov 2025 10:19:39 -0800 (PST)
+        Mon, 17 Nov 2025 10:19:56 -0800 (PST)
 From: Ayaan Mirza Baig <ayaanmirzabaig85@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: johan@kernel.org,
@@ -64,10 +66,12 @@ Cc: johan@kernel.org,
 	linux-staging@lists.linux.dev,
 	greybus-dev@lists.linaro.org,
 	Ayaan Mirza Baig <ayaanmirzabaig85@gmail.com>
-Subject: [PATCH 00/13] staging: greybus: cleanup, FIXME removals, and driver correctness fixes
-Date: Mon, 17 Nov 2025 23:48:05 +0530
-Message-ID: <20251117181818.118139-1-ayaanmirzabaig85@gmail.com>
+Subject: [PATCH 01/13] staging: greybus: Remove completed GPIO conversion TODO item
+Date: Mon, 17 Nov 2025 23:48:06 +0530
+Message-ID: <20251117181818.118139-2-ayaanmirzabaig85@gmail.com>
 X-Mailer: git-send-email 2.51.0
+In-Reply-To: <20251117181818.118139-1-ayaanmirzabaig85@gmail.com>
+References: <20251117181818.118139-1-ayaanmirzabaig85@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -76,74 +80,21 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Hi Greg and all,
+Signed-off-by: Ayaan Mirza Baig <ayaanmirzabaig85@gmail.com>
+---
+ drivers/staging/greybus/TODO | 3 ---
+ 1 file changed, 3 deletions(-)
 
-This series performs a set of cleanups, correctness fixes, and
-remaining TODO removals across the Greybus drivers in
-drivers/staging/greybus.
-
-Greybus has existed in staging for a long time, and many FIXMEs,
-outdated comments, and partial implementations had accumulated over the
-years. While reviewing and compile-testing the drivers I found a number of
-places where the comments were obsolete, logic was incomplete, or newer
-subsystem APIs had evolved.
-
-This series addresses those issues without changing any fundamental
-design or architecture. All changes are self-contained, straightforward,
-and focues on improving correctness and maintainability.
-
-The patches include:
-
-  * Removal of obsolete FIXMEs that no longer reflect the current code
-    or hardware behavior.
-  * Correctness fixes in several protocol drivers (UART, RAW, USB,
-    Loopback, Firmware core, Audio).
-  * Small improvements to error handling and shutdown paths.
-  * Cleanup of commented-out or dead code.
-  * Removal of the now-completed GPIO and PWM TODO items.
-  * Removal of the empty Greybus TODO file.
-
-All patches were compile-tested with COMPILE_TEST=y and all Greybus
-options enabled. Runtime smoke testing was performed where possible.
-
-This series does not attempt to graduate Greybus out of staging; these
-changes are preparatory cleanups only.
-
-Thanks for your time and review.
-
-Ayaan Mirza Baig (13):
-  staging: greybus: Remove completed GPIO conversion TODO item
-  staging: greybus: pwm: move activation into pwm apply and remove
-    request()
-  staging: greybus: remove empty TODO file
-  staging: greybus: audio: remove obsolete INPUT_PROP_NO_DUMMY_RELEASE
-    FIXME
-  staging: greybus: audio: remove obsolete FIXME and document topology
-    ownership
-  staging: greybus: bootrom: remove obsolete FIXME about SVC parallel
-    event handling
-  staging: greybus: bootrom: remove obsolete FIXME around firmware
-    filename logging
-  staging: greybus: fw-core: remove obsolete S2 Loader runtime PM FIXME
-  staging: greybus: loopback: remove incorrect FIXME about async wait
-  staging: greybus: raw: handle disconnect while chardev is open
-  staging: greybus: uart: clear unsupported termios bits
-  staging: greybus: usb: validate hub control response length
-  staging: greybus: usb: remove obsolete FIXME about bridged-PHY support
-
- drivers/staging/greybus/TODO           |  5 -----
- drivers/staging/greybus/audio_codec.c  |  7 +------
- drivers/staging/greybus/audio_module.c |  6 ++++--
- drivers/staging/greybus/bootrom.c      | 10 ++--------
- drivers/staging/greybus/fw-core.c      |  4 ++--
- drivers/staging/greybus/loopback.c     |  6 +-----
- drivers/staging/greybus/pwm.c          | 19 +++++++++++--------
- drivers/staging/greybus/raw.c          | 18 ++++++++++++++++--
- drivers/staging/greybus/uart.c         | 10 ++++++++--
- drivers/staging/greybus/usb.c          | 23 ++++++++---------------
- 10 files changed, 53 insertions(+), 55 deletions(-)
- delete mode 100644 drivers/staging/greybus/TODO
-
+diff --git a/drivers/staging/greybus/TODO b/drivers/staging/greybus/TODO
+index 6461e0132fe3..43fb6dc3dff0 100644
+--- a/drivers/staging/greybus/TODO
++++ b/drivers/staging/greybus/TODO
+@@ -1,5 +1,2 @@
+-* Convert all uses of the old GPIO API from <linux/gpio.h> to the
+-  GPIO descriptor API in <linux/gpio/consumer.h> and look up GPIO
+-  lines from device tree or ACPI.
+ * Make pwm.c use the struct pwm_ops::apply instead of ::config, ::set_polarity,
+   ::enable and ::disable.
 -- 
 2.51.0
 
