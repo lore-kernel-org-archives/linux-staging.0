@@ -1,120 +1,177 @@
-Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
+Received: from mail-yx1-f51.google.com (mail-yx1-f51.google.com [74.125.224.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 572FD325723
-	for <linux-staging@lists.linux.dev>; Mon, 17 Nov 2025 09:20:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDAC3248166
+	for <linux-staging@lists.linux.dev>; Mon, 17 Nov 2025 11:01:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763371231; cv=none; b=kwd49FpHrW1EbM1FmezKmh+6erQqh4AQVHXEPhYHeJkmSao5Qk08EHSRS1/frEuGCz8QWtVn5KNLnDf1av3GDLIq2RIjkss4lT6N/Q/hV+2mwVULSK2PofMQ06WwEssewrZd8I4FmoInnMrYZOf7TgIKv0qvGEzvqLlBxjw+5Dk=
+	t=1763377277; cv=none; b=rDYaOeyJ0TPeHldPHY719UnnfUpbf7jhpuI9TM/RW0TJiUeBFf7LmefQnosqVP2BXSZ9YlvyTfEaLmFute5yCwdznAGItK+ShzQ9/32qZg5wz/Q+5Su9Cl+NcKMrLj1Mg2KIh0nG24nvxGMyPah7UDWdHYuxkIOoFtfDky3OeRo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763371231; c=relaxed/simple;
-	bh=a4fTU6UP9CkAxvGqAHOiltAIguNyKbg11FCldTLp0Ug=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=WDShp2yPHm2Jl1/yOXd8tyoSNiBOoIZG7xYqhMmHwuTLm41noka7oQLt2/zjRyC45sKQobV16yhBHtLmHJZPdspEr4hgHqX3vN+uOqfRkx5lYhRcKA2g3DQrCUtNM9n/JzeywVB5ZCPLaBrJfvcoz47lwNneKIWc7O0eKtkt3hc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=X91EIWVb; arc=none smtp.client-ip=209.85.167.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1763377277; c=relaxed/simple;
+	bh=7DAQpoB3R+EJpl7MbBOx5A+ZlzdqP6pGt/EDi4xzIlE=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=tQWGGjt0utb/9eAcIDxy08JFGX/2X6WTvUUlRxruDZtyg9SZsGD6cAf8Gmy5PVSe8EG5yzYNpwHwMcvF8T6o5Pb3Dxn0CElXcbGY0YiZb5n/8irjJHEB7Sz7dx7gNn0fipVuAD8VJzeY+HFtILkWSV9HmcIEi5n2w3bwjpf999s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=HPBV1sCZ; arc=none smtp.client-ip=74.125.224.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="X91EIWVb"
-Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-59425b1f713so178432e87.0
-        for <linux-staging@lists.linux.dev>; Mon, 17 Nov 2025 01:20:28 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="HPBV1sCZ"
+Received: by mail-yx1-f51.google.com with SMTP id 956f58d0204a3-63e393c49f1so3268767d50.0
+        for <linux-staging@lists.linux.dev>; Mon, 17 Nov 2025 03:01:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1763371227; x=1763976027; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=rI0HPPCtyp4yu+reKLrbNPX8mMFxoYwB78qpE37DEzA=;
-        b=X91EIWVbC466jbEekiZeRcN6JF0uLWWWSZBO/eKHGl4jpEOGj2Sdv1LwJ3TcvRnON3
-         Vxe/fqF2CgGuQcAZtfRtiY5FTFU0YelG3G9XUXCkDIqQsgZCO5JPQUDmXtM8IS+wC1dn
-         b24CFfqnDfuktOOLehBxtxmSFKRh11F99uW1MAwIm72UpLYiYve1E4yFMVfsV7hw/ifW
-         iohlhRfGocetDCToIbaG9OWEXLYbCLMMr8U9/nB1V69OltEQSVhzlPAdoWel9zFRy99j
-         xzmGY5wUiVHxQTVe2cn1gONV3ipZTN0jQ+qfo79/SV/earBTYjb8Rk3H91BGc8EZPPTz
-         Vx/Q==
+        d=linaro.org; s=google; t=1763377274; x=1763982074; darn=lists.linux.dev;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=/RSfdrwfxNJQiZz80hQXf9twz6yOQXKrW5ZfA5HxaxE=;
+        b=HPBV1sCZSlsawJ8MYXr4V4mXjRWtHGqg+u5f2siANuHoOy1FgeL7E44SassWwYixMI
+         ZaZgxTbffx2IuLWONyiFNEEzNzwxqGG3fSA2bVO1lJrPQmESLlmoPzll43VWEuWjZZaM
+         yn++HwkAuFzIec1e6tqfF94pSkFAQ6zrO8EvB+GPBwu2Ay7dHYqQy7uhRAXpZW4aGSTY
+         PCaxRyvB0i7vM4taKFuuJkFpXzOFkHU7mShxch9+EV/2vIMx7N+NT98EIObAgin/rs59
+         fHBDlrvdNekfOi5T44Ivb97pac9oc7yFy4LBtSGN2IDb1B0LQViLF3dfuCRXR+k71Vct
+         YjPw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763371227; x=1763976027;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=1e100.net; s=20230601; t=1763377274; x=1763982074;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=rI0HPPCtyp4yu+reKLrbNPX8mMFxoYwB78qpE37DEzA=;
-        b=vaj06uy/daYsxqdfrYEwNRLjFskW1Ra8kxFs86jf2wuY/p59cohOs8Hw/vmuNlhFQG
-         dMgmXMcsxAdS5K16O6DJYv+mNBDXv5Yfa9KYQ3L3zNmkw17lsL4U8PZg29+eljrQj+om
-         ne2Qrrwr0qwFaaDqLoVldQ/xEerJBmFxqsBVoMbwzN3nBfl5bp81DiwCqGsZmmpq8oqk
-         IPnWW3nFU+sviot1EaZFDf5HC4JaJv/HfaKUCzmkbrwVrwIWyVqVbBcgh0dgqHYsRyM5
-         SzS1uwJSAaXIXxaMALXBfe+thOfkkUSJoiRTszy3UA0ZG+Wmopeo4LXYOBZZdjwADWiV
-         IpZQ==
-X-Gm-Message-State: AOJu0Ywdr+8SEUxea5KLomRg7ChOcTqEPUrEi6O+8arwSauAf8m/h1TY
-	jxyG4wulZm/+CwbI2FkdBxgQ8/0Qn9zEMekH73MtONxQAPB4VrngYg8sI6BfXH4hpNTFgw==
-X-Gm-Gg: ASbGncuwwMm7lTLvJ3cVmlsSqlO/MQI5gFxs6Fj8LH7gAKCTcmF2kRlIt88ZLxobxQa
-	55/+kkaUIifgybQy4x5j4ukhRtpUCo1CaGBD01l/Oj/TOv8w8yzhYNYBtW0QAwuOWWRX1YxKvSl
-	6IbBPb2+yNdQvqtQmn6k6ttuAV7i1j2FjJ75SzIVd53guiK2ZgzpFDX+yC8ByJ5Yg6kyh1xzNmJ
-	ST8Hdh8kVtHUhsPLsoCfAej3Nk6vcQ5BEFMuWWrE7h2K7UXb0BV9fjxzUmuAwhO0nUBL4mFY4KY
-	luFpRKzy4rdnTFauob/y8GCdzkIiECSK8KrqFeoM7/6qqFeGO6yjlf57KW4oC4EUk0RiPdRIlWP
-	LDANJgviWRHetATxBPKvLmiUPZyrXoB0dkqndUi9VIfQ/c0XaqkDFTxPfI77WI1USi6QQ2Q1XsM
-	Ru
-X-Google-Smtp-Source: AGHT+IFq3kKYzMuLvm3SBRhlzhFYO0eC7UtndtVPcQK9gTRMA2c/j3bUz2/VXfWYz2KrnKhO1dP6Tg==
-X-Received: by 2002:a05:6512:a96:b0:592:f7b4:e5fb with SMTP id 2adb3069b0e04-595847f35f0mr1849890e87.3.1763371226803;
-        Mon, 17 Nov 2025 01:20:26 -0800 (PST)
-Received: from grimoire ([45.152.181.138])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-59580405afbsm3015583e87.93.2025.11.17.01.20.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 17 Nov 2025 01:20:25 -0800 (PST)
-From: Adam Quandour <adam.quandour@gmail.com>
-To: linux-staging@lists.linux.dev
-Cc: linux-kernel@vger.kernel.org,
-	niharchaithanya@gmail.com,
-	dan.carpenter@linaro.org,
-	matchstick@neverthere.org,
-	gregkh@linuxfoundation.org,
-	dpenkler@gmail.com,
-	adam.quandour@gmail.com
-Subject: [PATCH] staging: gpib: Clean-up commented-out code
-Date: Mon, 17 Nov 2025 12:20:20 +0300
-Message-ID: <20251117092020.8473-1-adam.quandour@gmail.com>
-X-Mailer: git-send-email 2.51.2
+        bh=/RSfdrwfxNJQiZz80hQXf9twz6yOQXKrW5ZfA5HxaxE=;
+        b=n53BZTHKXc4v0vbOhyEiOE75Xj9lfSUHWiAN9qD1FU580CCEhWGJ4LyGXQY0hZMtCN
+         7pt7EGqjt8EEVIWJq5HXdMZixWLxC0FWvSyzyS50uXW2OPzLr4Pipy/N7RKlMG/zDnNS
+         nGpQ5WKyLTIAL/4u90eBscyqrVq/t4Dc4CIT6qyU94zMToOoyoWhe01UuOviiIcqeRxZ
+         7dHkatOsUL32mriYSzhxEsJnAl539xs3TWT6SAUhZ/v0mbkrMhFuAg/UIPdkA+IJVsGk
+         swcl10OVIUNZ8dvpCY4Tr/3k5s8djIBtIu1zVixQG3vNbUC5LMpz44p5HX+DZa7iE23J
+         DCnA==
+X-Forwarded-Encrypted: i=1; AJvYcCV92kqVh4WSB/5cGltl7/u/QfkZ7o43zXUp+OQUG03uoSmQaN7KNNG720s2vyRGBikPbSfR/1p27pjpTi7R@lists.linux.dev
+X-Gm-Message-State: AOJu0YwCIZgrui/+pye4d3DMVldYff+QbLL5RsO3hdlRokNOiP8goD6K
+	6fzBomdplcADg6BQhRtPEZfuGp6O4/ZtJ6r+C1kijCRy92Z0ii/ShgsTY8MtBFDmJMST41SHVHA
+	xvZCzHxuxwlxaEN2hFy3hA+LBHfG/ACvaQRUS1hZabw==
+X-Gm-Gg: ASbGnctAuhBMd/iVEGPjSj5eMoHJQFLor/LNbZBp4nblLOZf0P1+YrAmJc0oVirDl0m
+	7cGCqpLouVLr6d/U+g5JmqgVe0nx1iP5rumhw4gLRPWPd5nRHnh/mQed6FJn/2V9yUReS/CYObR
+	eLOsSq1Lf2bMK3UEwPUsp6ZLKHz8IA6rUnDfrcAsGihig/x42w2o4aLavLJAHY/zArHG0IDILW3
+	2wxLjoI1McO4b+82FH6po83v8aOkP0f2chgSCITx7qsyoo4LprHKizWmO/u+xpBsFrPtGZtkRmG
+	PTjt+c0=
+X-Google-Smtp-Source: AGHT+IEjvegoUIWfi8UaBD0jEKwHtT+y2Cbu5UHhJ+VHUPJu6okR0AoxTFiIq+cxtmlIxdFEnLzs3e2dtieQR/hKIVs=
+X-Received: by 2002:a05:690e:d86:b0:642:84a:7ba4 with SMTP id
+ 956f58d0204a3-642084a7c6bmr1567493d50.85.1763377273901; Mon, 17 Nov 2025
+ 03:01:13 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20251113150217.3030010-1-andriy.shevchenko@linux.intel.com> <20251113150217.3030010-14-andriy.shevchenko@linux.intel.com>
+In-Reply-To: <20251113150217.3030010-14-andriy.shevchenko@linux.intel.com>
+From: Ulf Hansson <ulf.hansson@linaro.org>
+Date: Mon, 17 Nov 2025 12:00:38 +0100
+X-Gm-Features: AWmQ_bk2fwrMGKoLr3e8DW_NORum6cYwB-Ynf9Wgckyt3WUUk5QWFuYE7vXt0wM
+Message-ID: <CAPDyKFotmQyHzBim-8nib-KVvQaQgA_ELbgdC_Q4Y95-GrvRSw@mail.gmail.com>
+Subject: Re: [PATCH v3 13/21] mmc: mmc_test: Switch to use %ptSp
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: Corey Minyard <corey@minyard.net>, =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+	"Dr. David Alan Gilbert" <linux@treblig.org>, Alex Deucher <alexander.deucher@amd.com>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, 
+	Rob Clark <robin.clark@oss.qualcomm.com>, Matthew Brost <matthew.brost@intel.com>, 
+	Aleksandr Loktionov <aleksandr.loktionov@intel.com>, Vitaly Lifshits <vitaly.lifshits@intel.com>, 
+	Manivannan Sadhasivam <mani@kernel.org>, Niklas Cassel <cassel@kernel.org>, Calvin Owens <calvin@wbinvd.org>, 
+	Vadim Fedorenko <vadim.fedorenko@linux.dev>, Sagi Maimon <maimon.sagi@gmail.com>, 
+	"Martin K. Petersen" <martin.petersen@oracle.com>, Karan Tilak Kumar <kartilak@cisco.com>, 
+	Hans Verkuil <hverkuil+cisco@kernel.org>, Casey Schaufler <casey@schaufler-ca.com>, 
+	Steven Rostedt <rostedt@goodmis.org>, Petr Mladek <pmladek@suse.com>, 
+	Viacheslav Dubeyko <Slava.Dubeyko@ibm.com>, Max Kellermann <max.kellermann@ionos.com>, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	openipmi-developer@lists.sourceforge.net, linux-media@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
+	amd-gfx@lists.freedesktop.org, linux-arm-msm@vger.kernel.org, 
+	freedreno@lists.freedesktop.org, intel-xe@lists.freedesktop.org, 
+	linux-mmc@vger.kernel.org, netdev@vger.kernel.org, 
+	intel-wired-lan@lists.osuosl.org, linux-pci@vger.kernel.org, 
+	linux-s390@vger.kernel.org, linux-scsi@vger.kernel.org, 
+	linux-staging@lists.linux.dev, ceph-devel@vger.kernel.org, 
+	linux-trace-kernel@vger.kernel.org, 
+	Rasmus Villemoes <linux@rasmusvillemoes.dk>, Sergey Senozhatsky <senozhatsky@chromium.org>, 
+	Jonathan Corbet <corbet@lwn.net>, Sumit Semwal <sumit.semwal@linaro.org>, 
+	Gustavo Padovan <gustavo@padovan.org>, David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
+	Dmitry Baryshkov <lumag@kernel.org>, Abhinav Kumar <abhinav.kumar@linux.dev>, 
+	Jessica Zhang <jesszhan0024@gmail.com>, Sean Paul <sean@poorly.run>, 
+	Marijn Suijten <marijn.suijten@somainline.org>, Konrad Dybcio <konradybcio@kernel.org>, 
+	Lucas De Marchi <lucas.demarchi@intel.com>, 
+	=?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>, 
+	Rodrigo Vivi <rodrigo.vivi@intel.com>, Vladimir Oltean <olteanv@gmail.com>, Andrew Lunn <andrew@lunn.ch>, 
+	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+	Tony Nguyen <anthony.l.nguyen@intel.com>, Przemek Kitszel <przemyslaw.kitszel@intel.com>, 
+	=?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>, 
+	Kishon Vijay Abraham I <kishon@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>, 
+	Rodolfo Giometti <giometti@enneenne.com>, Jonathan Lemon <jonathan.lemon@gmail.com>, 
+	Richard Cochran <richardcochran@gmail.com>, Stefan Haberland <sth@linux.ibm.com>, 
+	Jan Hoeppner <hoeppner@linux.ibm.com>, Heiko Carstens <hca@linux.ibm.com>, 
+	Vasily Gorbik <gor@linux.ibm.com>, Alexander Gordeev <agordeev@linux.ibm.com>, 
+	Christian Borntraeger <borntraeger@linux.ibm.com>, Sven Schnelle <svens@linux.ibm.com>, 
+	Satish Kharat <satishkh@cisco.com>, Sesidhar Baddela <sebaddel@cisco.com>, 
+	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Xiubo Li <xiubli@redhat.com>, Ilya Dryomov <idryomov@gmail.com>, 
+	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
+	Andrew Morton <akpm@linux-foundation.org>
+Content-Type: text/plain; charset="UTF-8"
 
-Remove unused code.
+On Thu, 13 Nov 2025 at 16:03, Andy Shevchenko
+<andriy.shevchenko@linux.intel.com> wrote:
+>
+> Use %ptSp instead of open coded variants to print content of
+> struct timespec64 in human readable format.
+>
+> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 
-Signed-off-by: Adam Quandour <adam.quandour@gmail.com>
----
- drivers/staging/gpib/cb7210/cb7210.c | 12 ------------
- 1 file changed, 12 deletions(-)
+Acked-by: Ulf Hansson <ulf.hansson@linaro.org>
 
-diff --git a/drivers/staging/gpib/cb7210/cb7210.c b/drivers/staging/gpib/cb7210/cb7210.c
-index 3e2397898a9b..24c61b151071 100644
---- a/drivers/staging/gpib/cb7210/cb7210.c
-+++ b/drivers/staging/gpib/cb7210/cb7210.c
-@@ -1290,26 +1290,14 @@ static void cb_gpib_release(struct pcmcia_device *link)
- 
- static int cb_gpib_suspend(struct pcmcia_device *link)
- {
--	//struct local_info *info = link->priv;
--	//struct struct gpib_board *dev = info->dev;
--
- 	if (link->open)
- 		dev_warn(&link->dev, "Device still open\n");
--	//netif_device_detach(dev);
- 
- 	return 0;
- }
- 
- static int cb_gpib_resume(struct pcmcia_device *link)
- {
--	//struct local_info *info = link->priv;
--	//struct struct gpib_board *dev = info->dev;
--
--	/*if (link->open) {
--	 *	ni_gpib_probe(dev);	/ really?
--	 *	//netif_device_attach(dev);
--	 *
--	 */
- 	return cb_gpib_config(link);
- }
- 
--- 
-2.51.0
+Kind regards
+Uffe
 
+> ---
+>  drivers/mmc/core/mmc_test.c | 20 ++++++++------------
+>  1 file changed, 8 insertions(+), 12 deletions(-)
+>
+> diff --git a/drivers/mmc/core/mmc_test.c b/drivers/mmc/core/mmc_test.c
+> index a74089df4547..01d1e62c2ce7 100644
+> --- a/drivers/mmc/core/mmc_test.c
+> +++ b/drivers/mmc/core/mmc_test.c
+> @@ -586,14 +586,11 @@ static void mmc_test_print_avg_rate(struct mmc_test_card *test, uint64_t bytes,
+>         rate = mmc_test_rate(tot, &ts);
+>         iops = mmc_test_rate(count * 100, &ts); /* I/O ops per sec x 100 */
+>
+> -       pr_info("%s: Transfer of %u x %u sectors (%u x %u%s KiB) took "
+> -                        "%llu.%09u seconds (%u kB/s, %u KiB/s, "
+> -                        "%u.%02u IOPS, sg_len %d)\n",
+> -                        mmc_hostname(test->card->host), count, sectors, count,
+> -                        sectors >> 1, (sectors & 1 ? ".5" : ""),
+> -                        (u64)ts.tv_sec, (u32)ts.tv_nsec,
+> -                        rate / 1000, rate / 1024, iops / 100, iops % 100,
+> -                        test->area.sg_len);
+> +       pr_info("%s: Transfer of %u x %u sectors (%u x %u%s KiB) took %ptSp seconds (%u kB/s, %u KiB/s, %u.%02u IOPS, sg_len %d)\n",
+> +               mmc_hostname(test->card->host), count, sectors, count,
+> +               sectors >> 1, (sectors & 1 ? ".5" : ""), &ts,
+> +               rate / 1000, rate / 1024, iops / 100, iops % 100,
+> +               test->area.sg_len);
+>
+>         mmc_test_save_transfer_result(test, count, sectors, ts, rate, iops);
+>  }
+> @@ -3074,10 +3071,9 @@ static int mtf_test_show(struct seq_file *sf, void *data)
+>                 seq_printf(sf, "Test %d: %d\n", gr->testcase + 1, gr->result);
+>
+>                 list_for_each_entry(tr, &gr->tr_lst, link) {
+> -                       seq_printf(sf, "%u %d %llu.%09u %u %u.%02u\n",
+> -                               tr->count, tr->sectors,
+> -                               (u64)tr->ts.tv_sec, (u32)tr->ts.tv_nsec,
+> -                               tr->rate, tr->iops / 100, tr->iops % 100);
+> +                       seq_printf(sf, "%u %d %ptSp %u %u.%02u\n",
+> +                                  tr->count, tr->sectors, &tr->ts, tr->rate,
+> +                                  tr->iops / 100, tr->iops % 100);
+>                 }
+>         }
+>
+> --
+> 2.50.1
+>
