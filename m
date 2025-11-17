@@ -1,64 +1,64 @@
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7497A301026
-	for <linux-staging@lists.linux.dev>; Mon, 17 Nov 2025 18:20:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B5A03016F7
+	for <linux-staging@lists.linux.dev>; Mon, 17 Nov 2025 18:20:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763403612; cv=none; b=rcpvMfc/Z+IsmzDTNZZV+/wgtdrFDcrQ7qx2E7HDkL05ddIOxPsDGSS545yw3sR1tkSXDcCNGEj3wbyRcigBb+YyABH8Hc24FBTFNP2m1ypyMBeLNkgH5oBXZ42xQuIWThourQWPdJhhxd6c+cFOid+BW5bC5t9o7aSIv4sia3U=
+	t=1763403618; cv=none; b=bSnulUNxyGkreH8tMV2nOZFMyQhdQ6gr4cgbRzQ3jfiq13CM6NUtYSMcxEOeppmlXrvGXaDySYXWSNd6lHK+q0UrLNCTRt2WshuG24adxL770igj25noTNcA/5PSPI3m+kLjfkFXvdZxNy1Zy7uwu4kCfnGvZS8k/d35azCAevA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763403612; c=relaxed/simple;
-	bh=6YfDa3gErDw62xSp7e6B6JQvMTZO5nbRlVohEOmLm/8=;
+	s=arc-20240116; t=1763403618; c=relaxed/simple;
+	bh=0+ctduUDqwhCNGUV5Xl/PxhvvQCZm/bfrWqqsJ7OwH0=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=sCTJgr0BKbKn/46ESq5wKImzMooFdQFBV+kB+aImlVD3poQILrNO4vk3f3Sz7w2Lb5jK7dLmDA7moqoXdBV4/pyFZ7qR30SEvtMLcR4Kw3oY2ZqYay8ENvcfS9cv4XkxCLNk1uTRmND7v9W0X4YAVabx49rr6lGBST/QqLFj8G4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IzdAVvmb; arc=none smtp.client-ip=209.85.214.178
+	 MIME-Version; b=obsypOqmKJYozLQieRtqNp1zBGJw2a1SmrkOYyME+dlesbn53/WnzEGgkYWedFc1E7EeJhMNLugdmhGxwsIY4+KGL9YGYahGIGT2yqUNXvjZ4LRgSXckrVpB0tgnYmotri6GEdOmmxfRNqRYaK6Bnt4tGa9T5HLTihRcLq6DdOY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NW/C7hQ7; arc=none smtp.client-ip=209.85.214.170
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IzdAVvmb"
-Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-297e982506fso55292245ad.2
-        for <linux-staging@lists.linux.dev>; Mon, 17 Nov 2025 10:20:11 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NW/C7hQ7"
+Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-29845b06dd2so52721015ad.2
+        for <linux-staging@lists.linux.dev>; Mon, 17 Nov 2025 10:20:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1763403610; x=1764008410; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1763403613; x=1764008413; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=/zl9EMXpVNyBJNhHhexUPn0nO02fOhckk1ZQIRmn1n8=;
-        b=IzdAVvmblPH735NP3lcoisJ0JEIMB59Tpj8Ksb42/u3IO+y/wRwG8mwN9m96pWwm97
-         lY2+sngCWAwOVyUYAuE8FZa/QqxNuC89ZHQHQHw+H11PlAPaneLQznmd0M09U+jdfXRI
-         QZuEMKRJJj+G+HQUJfHoaYf7MCZHGQL2BRAf3BDieJT0XFVOTFZZjHP3RydoyXanpkFi
-         RvMBicI1POHN/veswLvGAucaHtXVBNK8OrsPaJniq3agZGQiw9DEE7Rxhzs1GC9rAFqW
-         jfW+Vp2mV6rba31N5cMSOj0FaVUn79OCbUogBfGRG6jSc8CuIUUavS6cSki8lw9twp49
-         AgGQ==
+        bh=bucROtgn/STqT4bhqnTMY3oezQn9xyysx1+bUbZKY+4=;
+        b=NW/C7hQ75TrZf3GTSBZGxV5LPwETlRaudipmpr2jOt5TqGHH3o/EeFIn+OUuujM0TV
+         YyGkzBqJriK4PSGgu1YI167VfZuNVPvFOOZVffmW/PcOl1MDRxQNWKvb4xnpX1GS/ne6
+         6s8pqmgqODWT9meg+odSSFpH6K+aMI6YB345p1QLa+vmgg9T0PSS/DIirfsi6UYqwS/c
+         a2ZHqAE4s/w332TW+XgJaQtoIXzP1lhJIMqFShE2y/6ihwBdmk4dws5U6WgVwVJ7HvJG
+         FKMi584gzbNZaXeNpPjM2+yIe5pMbq2ERxquLOfrvqgb3CCJ74Mq9aQI023lMja08X2h
+         Gk9Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763403611; x=1764008411;
+        d=1e100.net; s=20230601; t=1763403613; x=1764008413;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=/zl9EMXpVNyBJNhHhexUPn0nO02fOhckk1ZQIRmn1n8=;
-        b=C3iW36xQ5vKJSZMDqVuTZ5nKqjjQG2Y76jU5uv8NDERxxw3KkdT8fNBfBtBaaaTDCz
-         O/FsjOiVG0yaDyoicOv0TfqJ8WOguU16TnuPJPyjW4wmzgCR9geaPkeDnFkBhtcpMOJu
-         yt/0QwEKOZGrNy3BqI/+su+a9MTtKu1NNWbmgHwLIjFykE6ylndnlvLw4LWkxQw2PJRM
-         rplJ+LiTG1pypTWXDDkN+XkiAfQVnY/r4CAgs6NeaPf957FjthYV55yU1xFb9AhjjzQk
-         2qP5r1C/4k8UXrePDLMxHvNw/Bq+hufNC++ytpYC0tHvHyxJSKTW9BCRTdl8j/vRlRsO
-         1Eow==
-X-Forwarded-Encrypted: i=1; AJvYcCVyRACw1UvsEDc4yjbI2Rs1DifxbB8iAqAP4xMosNzcydJZ05p2JduWloa1haBqoweWQUgzcLHUOzZdDl9f@lists.linux.dev
-X-Gm-Message-State: AOJu0Yx+2OXrkAew2TkhzNy8SusZ3NaF2jku7CNiRuIeTKsOtnJmrJlt
-	MT4hI7m8+po+4zh9schC51QJ9VFvLOsezJJB+IjIT0GOoGOXcaGiU0xCIXOs1Q==
-X-Gm-Gg: ASbGncuWkRHWADM+S1Mpl1nWrdkoyX3LxM+X+6IYFLNU36TRQJVqTZ4j3b0wneuRtSY
-	exbfPkrmnkaqcocVpt+uxEvtsSb5U9ovDaK+VbuAqLRjdyMnzVpDxCCM5hiSZpjMMuU3IeX0VdT
-	7u2F+rFlN3jqHPgvYMWi0VX3KOnqgl+eldd3x8CTrW7Z0R8ndl3aCNlPL0Sj+9EDtATHMhu34C3
-	n1Fsf7EHrQ4ix3JghbVSDCwp8eRowBaIoQ+cct8AvruyNy6CLBbatj90n5oUYpKufQb6Xv9KLMv
-	VGXdRtIeRl6OS8SwFImrcp8fdBEFgFuq2tV8qdDcxlDpTSdlnqFbd4foypefLFjVwAy2khlZwRO
-	o6IFyyGVRtoYqHVEz39Z81+KWc0x+0F9xs6Nucbz3Gxw1SmAJoUUbfiMkSTCwIiFSPP7Sp12B8o
-	UjYizFOAqVFHNu5n0mhtZbmYbn4oIYdPa3yJKgfksf2t+xPVk=
-X-Google-Smtp-Source: AGHT+IGuwynby04MgCea7V3BgAbsj3sQvzf+jr8IFztcIAGNF9QO1r6tdOHmQhyLrO8P5X7tL8cPCg==
-X-Received: by 2002:a17:903:46c4:b0:297:e3f5:4a20 with SMTP id d9443c01a7336-2986a6f540dmr145141315ad.26.1763403610602;
-        Mon, 17 Nov 2025 10:20:10 -0800 (PST)
+        bh=bucROtgn/STqT4bhqnTMY3oezQn9xyysx1+bUbZKY+4=;
+        b=gJQuDJOFwc6NgW74jmbQ//dUO1YBAGScmy0fwA0gQzy4ZHS0mPwiyrkZyl9//RaRos
+         tLpB7DWPb8VluH1+w+29s2EShqGDy0XMOtQyHvO6tnqInRBRt9Gn2P/BsQChMiyCn0Gk
+         kaYqCAyjG9qkXH9veLnkfxNLMi7TzzTzQOvIq4oDQqp+0unkXEvr+1YkMTaRF7MjQh+2
+         L/7cgsOJxeWOC+9hVK5xeMJHfcP1QN3AmqaGcE9SJh88kvVZ80+kKMHTnNZGBeNsWMs1
+         vXDpyffMxWU3I2lMcyJ7scGfeJnAEBqwF01WUOUbtQ1wlbUX5KU+6pE9bUSgm2YJOVLa
+         eNJA==
+X-Forwarded-Encrypted: i=1; AJvYcCWdzHjrxVJzISc/GWTMhccSvuQ3nn5taKNw+v5+DSHmOM7mwMVnbdaEUiK/9OWQOy4Bh6UU+GXgrbU8ksdD@lists.linux.dev
+X-Gm-Message-State: AOJu0YzH2+E29RhoVlXb2xXumzA+9j8T7vBAzGuidBFU/V9zRusEXHvP
+	vSqlOtyqGQJlL4U+FNe8X2I8Shl7RH1ea9lICsVH9KegIrTxFsLz3jXVVW++yA==
+X-Gm-Gg: ASbGncvc7Ix08LFkh8gPYYSe9E2G2mO05SGAag991FwYz5ts3oG3y2AVIVVXQ2OPSNY
+	HbTlJ5l2wssp5xfcYoxiiB/HhHt+Ol7gpS8HdpZWR8C+laxExDq5x+KnjV6YHsaJVUbR5H1qyaW
+	/JX+zLY76ujUZe7PY8RBw5tggcsaQKjDEEE2HLs4zS3u0uMIR31uAtPGCtEYxSz7cK+l2GLuxJv
+	fn+zm/lAcjNQgMCCnyd5mMN0SOKQF9G1KREgoPGfKR0wcZHnBNwwpqKWBmrBgNj1a+8UtLx3dS5
+	Z5jiH4nPdHrmxv/MWqdmNlt/luHDD6/hmUjSXPEcl4axw7Q9SjbXt9nKmG3k4x24bXXLkBnoLlE
+	D02qo42ai46/Iab81PVv1Rj06SzEIWFm9B6a0fjPslgR57bECTjwIlGPJU7HS0m+dG9CtufCfV1
+	FfqmXylChb/1U4TvVlWmblHiTHleBYQv5bwOaI
+X-Google-Smtp-Source: AGHT+IHCG1I57PhkXgVunbfVpDgug6nMnuPc8ABXjNBzSPuu6XEewphO4qTiO29/jfl/HZzvxfMptg==
+X-Received: by 2002:a17:903:3c47:b0:295:6d30:e268 with SMTP id d9443c01a7336-2986a755dfemr152593225ad.59.1763403613432;
+        Mon, 17 Nov 2025 10:20:13 -0800 (PST)
 Received: from ideapad.tail50fddd.ts.net ([139.5.199.69])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2985c245fa1sm148446705ad.36.2025.11.17.10.20.07
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2985c245fa1sm148446705ad.36.2025.11.17.10.20.10
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 17 Nov 2025 10:20:10 -0800 (PST)
+        Mon, 17 Nov 2025 10:20:13 -0800 (PST)
 From: Ayaan Mirza Baig <ayaanmirzabaig85@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: johan@kernel.org,
@@ -66,9 +66,9 @@ Cc: johan@kernel.org,
 	linux-staging@lists.linux.dev,
 	greybus-dev@lists.linaro.org,
 	Ayaan Mirza Baig <ayaanmirzabaig85@gmail.com>
-Subject: [PATCH 05/13] staging: greybus: audio: remove obsolete FIXME and document topology ownership
-Date: Mon, 17 Nov 2025 23:48:10 +0530
-Message-ID: <20251117181818.118139-6-ayaanmirzabaig85@gmail.com>
+Subject: [PATCH 06/13] staging: greybus: bootrom: remove obsolete FIXME about SVC parallel event handling
+Date: Mon, 17 Nov 2025 23:48:11 +0530
+Message-ID: <20251117181818.118139-7-ayaanmirzabaig85@gmail.com>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20251117181818.118139-1-ayaanmirzabaig85@gmail.com>
 References: <20251117181818.118139-1-ayaanmirzabaig85@gmail.com>
@@ -80,34 +80,33 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-gb_audio_gb_get_topology() allocates the topology buffer using kzalloc()
-and transfers ownership to the codec module. The buffer is already freed
-on error via the free_topology label and during disconnect in
-gb_audio_disconnect(). Remove the outdated FIXME and replace it with a
-comment documenting the ownership semantics.
+The MODE_SWITCH_TIMEOUT_MS constant included a FIXME suggesting the timeout
+could be reduced once the SVC core supported parallel event processing.
+Greybus SVC logic is stable today and no such change is planned, and the
+existing timeout has been used reliably for years. Remove the 
+obsolete FIXME and replace it with a descriptive comment.
 
 Signed-off-by: Ayaan Mirza Baig <ayaanmirzabaig85@gmail.com>
 ---
- drivers/staging/greybus/audio_module.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+ drivers/staging/greybus/bootrom.c | 5 +----
+ 1 file changed, 1 insertion(+), 4 deletions(-)
 
-diff --git a/drivers/staging/greybus/audio_module.c b/drivers/staging/greybus/audio_module.c
-index 12c376c477b3..c7deeb99a41c 100644
---- a/drivers/staging/greybus/audio_module.c
-+++ b/drivers/staging/greybus/audio_module.c
-@@ -305,8 +305,10 @@ static int gb_audio_probe(struct gb_bundle *bundle,
- 	gbmodule->dev_id = gbmodule->mgmt_connection->intf->interface_id;
+diff --git a/drivers/staging/greybus/bootrom.c b/drivers/staging/greybus/bootrom.c
+index d4d86b3898de..156212301d58 100644
+--- a/drivers/staging/greybus/bootrom.c
++++ b/drivers/staging/greybus/bootrom.c
+@@ -17,10 +17,7 @@
+ /* Timeout, in jiffies, within which the next request must be received */
+ #define NEXT_REQ_TIMEOUT_MS	1000
  
- 	/*
--	 * FIXME: malloc for topology happens via audio_gb driver
--	 * should be done within codec driver itself
-+	 * The topology buffer is allocated by gb_audio_gb_get_topology()
-+	 * and ownership is transferred to this codec module.
-+	 * The codec is responsible for freeing the returned topology
-+	 * on error and on module removal.
- 	 */
- 	ret = gb_audio_gb_get_topology(gbmodule->mgmt_connection, &topology);
- 	if (ret) {
+-/*
+- * FIXME: Reduce this timeout once svc core handles parallel processing of
+- * events from the SVC, which are handled sequentially today.
+- */
++/* Timeout for mode switching operations, based on current SVC behaviour */
+ #define MODE_SWITCH_TIMEOUT_MS	10000
+ 
+ enum next_request_type {
 -- 
 2.51.0
 
