@@ -1,64 +1,64 @@
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79738301026
-	for <linux-staging@lists.linux.dev>; Mon, 17 Nov 2025 18:20:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79EDC2EC541
+	for <linux-staging@lists.linux.dev>; Mon, 17 Nov 2025 18:20:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763403632; cv=none; b=U86gio5gMOUbpUHwlJ8T5ZhghkrUdlJwzlJJp1NlPGl8pQuCGiP5pBV3bCDz5J0CRsUyWRqP4KclVK06wwctUK0gKxp5rYrk06OL1ijmTjwIcl+24t5C+ibL9spVJF4PAcQkBBSbTWwK0ZepJlwHQEH7Za90RNOq80J9hvV2gPE=
+	t=1763403635; cv=none; b=JFfuz+coKn9NjMY//OiJDfqL6kaqeXb3VyG27O6uVSCj18577GLo7x/PXN3mm8CG4MZsBt3P3a4Y1szJmL0tDHKFqdS0D6hcYsnGErXtugTbbb08z/RnCGO0cTUcZvAjDCpgNpi8yqT2JLZfI0trfJ1pueTPZbEBqJvH+Sx5E2Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763403632; c=relaxed/simple;
-	bh=Iz854n8taKQW2+QRWUMgDn49QSkGXleBZdPpit44i2Q=;
+	s=arc-20240116; t=1763403635; c=relaxed/simple;
+	bh=hL76vXYpQxKNP0SlxinB9oukjdcEksXfF2e3a5aBK9k=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=TXRGg/bk6xKxLYscgUFUiJ3bxJq2+mkI8ZejHps8DQfhvqq9ePF4VDIt7nyWkD08wzUdfL/ADXGQ7+21Svfd+zsO+CObzI462iAiSlliYv9EpXvqdfjy2LISDyZnxOOiX0RpM1TCkliEzyB3+AcOym52AC2qYjOuhrsxNQEbU/o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MJ/aGBUp; arc=none smtp.client-ip=209.85.214.177
+	 MIME-Version; b=EWz6biUTYuudqPPn6a9RAC8WApPWHleeCDGQFJTOs47qRHhK8a42BgKFvWvvX8XINIAnNRz1qhcc39NIscpY3mVB7l/DgQVgEbixeJwBYDAvR9D3hW8NS70t7fppfUa9feBCwdSvDIdpCcM10i0JKwlx/27DOdfTr0yaPROvM+A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fEeCtI/j; arc=none smtp.client-ip=209.85.214.174
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MJ/aGBUp"
-Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-297dc3e299bso45003765ad.1
-        for <linux-staging@lists.linux.dev>; Mon, 17 Nov 2025 10:20:31 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fEeCtI/j"
+Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-297e239baecso51161555ad.1
+        for <linux-staging@lists.linux.dev>; Mon, 17 Nov 2025 10:20:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1763403631; x=1764008431; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1763403634; x=1764008434; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=5zqpFfSTxt6k4olHubnKsjeBvml78pm5/tIXaoImcTM=;
-        b=MJ/aGBUpBVaoJbe+UTka00TXFL1Y42pH5XnozwIbD+LAmJO+7WkJwDuvKADABqeR4G
-         Mhm1SsHR0AF2SRFhR1MgME1UHfnL254SNlNyyoums6Z6sdr10e7lnv+rFkbKw83AewgS
-         5sWBvvuXqdJQqCfX7qIx5ZzuylMjp22IZXq+dl6PKrL73iZkNyqjoPxvBHPpX3DQMRZV
-         Pw5BQ2TBJMuVoOk5lp8GshDYQSBFuoJ93m+IMTNvee0TNEeLrTT/krGjQ326TiuaUmkm
-         nLOvGrFylb4wzSyYptwIJO+Jj7RrNZ3Mr0/5fyrKUXWCbS9apGZFoOGJdlyzypsDzP9N
-         eHSg==
+        bh=JP2wrZeI6D9TXpbQnvPHW7fbQMn9CB3PYna6fF90LSo=;
+        b=fEeCtI/jQq3HeZHaVJ3D3rQBmYEhEEomKX6PrwXwki8D23rU2nZp0kKG7WCMCQ02QP
+         +IVfuEQj78dK4Raw+Df4bhFMjd4m50+ZKFrJL61hy5zyR7BHdM+ce6tlwbcrX9Q5Xjvb
+         hXO+2jNuEK56Ubnj8G/7cdL2Ux6AKAHYAthWh+4afd7y/uPWu4x2zpWhcxp/uEzLm25c
+         mFqC6n8ep4EkRbWvQ7dR4fC2dlIzxDsvuObasAZu8IYPQr/Pyucm8FI/aEkOlIqnyS4p
+         oNFKeoZhjx1LZOI2L4GG/EKjsx5zaDB/IaogVwCJxQ/Fny8wJqlvNB0szbSa4lZSzdRq
+         lvog==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763403631; x=1764008431;
+        d=1e100.net; s=20230601; t=1763403634; x=1764008434;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=5zqpFfSTxt6k4olHubnKsjeBvml78pm5/tIXaoImcTM=;
-        b=Xb8VelJfvxYgEE7DGZx3szYn7stFAMM1kGaN3xAmFr5LDnVqaqAgdaI3DjtgsIOFW4
-         QUkZVdT2PFUXbiLiSqlVdvELgz1eFCtrcfI0SCpCPDpLaDpcHswOE0x86br2U494ZItf
-         fJS7WkI9afu0O0fyOOdMtxulv3Aq5xu5wBvUwZHtW0XjjC4MQt0/oulVzDwOXZ0PE02D
-         O2ckBOFUXr2VCk0WE/cLEwK+I5XkYoHn4xot2wvgAwhxbBKxsIXliMsP6XGAoB+s4jbm
-         HkPkWFCxpJmeCN2lCQOzdn3403DoH9tJTGD9Ub375v8AbM1zOsRNak2ofPUqyIZH+hpE
-         Q5VQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUGB3uQxZoqcozV9Nc8dqUzWsUKxoUhgRxp9XNCkNVSiCTOJzpDUlsIfFTD0UMstmvCLAnMBlOBnVwlMc+B@lists.linux.dev
-X-Gm-Message-State: AOJu0Yy5bVZWsH+0b5kYJuSnw1295HbbH1P1wJqxh2cdOEf05gb61jEA
-	knZxZ1VkeJyhYANkrdNYrNIMyYva2mLIpMhM2yQOEdZm4bwCSI7RQ3y2
-X-Gm-Gg: ASbGncvGLNIpmsuN/bK1XGpSYwXVETn52L6cHLWC/ePdCNNOydwT9EeubUZ2nE4l2tE
-	tFPUps1wsyeKVAnPoB2DHkEAzWoF2PB3InLtcEUeEgCnHK4Wu/Uy86U06lVnZ6nvuTz3/P4YEzj
-	RTE/AEXRLLtwdCukqi3oTuJDOmup3l3t02/bDK/ES5VO2dgKSlM+vb5oI1UBftfeL0lWlHeVP+I
-	qiYCwlQfDUkcDkn61t0eFN9L/oxYnolhd+Kv1kv8yqCFLvRLjdi2Xc4FqMuF3EnG1/aWh+/kyRT
-	QZVs9AZJKl4xZ6LebVNS6YoXzdlw2DeWWgcFqHSJmAKt+KEs9yW9r6sX56B1debU1pGN+f37aX8
-	sne2oYcTZFpU2003zUUgqqNX6RyDWDRNlHjNpYKD0z5vSc7A5UFDxvDiwoEWx7TpLww0fLY+k89
-	H0U0MeImLLMVoCWWyYJzLvvCggvkktSIpQ+VTYBOrYgAAQiHw=
-X-Google-Smtp-Source: AGHT+IEIVPzECjsDHbIbkO/QDUbP3Jsg29my+qlUCT8wwemnsmBxOECXClYGm0ROW93roGU1v+RIWA==
-X-Received: by 2002:a17:903:247:b0:298:efa:511f with SMTP id d9443c01a7336-2986a733395mr151503745ad.39.1763403630739;
-        Mon, 17 Nov 2025 10:20:30 -0800 (PST)
+        bh=JP2wrZeI6D9TXpbQnvPHW7fbQMn9CB3PYna6fF90LSo=;
+        b=UqnpxqQn/AKn/qRaE939lBSKINh+4s+OtuNnfXkznccv7lN8e0Oc8Amxp/y8vgJ48C
+         u6omGXI9hXC4DTh5jHjqm9tDfW6zWIujdY5GykjXWMzHXn3RcRZhdLi7Tx03eWEdbsa0
+         LBuudCqu4xlzRMk4exoGAbUMnvB+BU8y5laR7ZgnydgjKw5RYMBcB8NPD48dypFJdpGo
+         DTuqMYXCpH2U2lXwWR1+ZYk07QxT61c1FbPS+IjkaJ6vjt2+wU+KzS7s1Ic4smnDmXwo
+         Jehize6aK3kWIJkBjG6YDgyJY8nO96cbA5QoUF8OAbuhoE46Sdu7iPbYV7MbjehhTXY+
+         M4Hg==
+X-Forwarded-Encrypted: i=1; AJvYcCWn8oLVTL2lTCYCxaB4Ux+CmohWjG/oTOnoqEx7oRQOG3gPUjOmI8RRX/iXSWaxRSj3nSOa8QhaKvFwjpTt@lists.linux.dev
+X-Gm-Message-State: AOJu0YzeY8yCi1CRNqC7S9fQxBrglDtpbV5f9lIDMn417NZiBFYyTgvh
+	QQRp3+5yFl1aBPl97TwM0mkxyEzbm7QfvcDjvVZnJlnwbBxVzNvQwdSb
+X-Gm-Gg: ASbGncsRnKagrepJhkM3BN3KFN8zx0uMkDINUGQGKi1k1aXeXgIDc47qQJxfYMkJvtp
+	tdaDWrAa84DAz4p58d/YGkeQhNe2cGIDN4UHTRfEn+LK0oKXb/PsvTHFGjLwtCN+k5TLKQI7rAN
+	eTHdDiFzSqcGoI17TxC+DjiaPNLSSCp3uxB4H0a/5lHWJUV0TBqaijQuYCmSXIlseR7JEuKZkGB
+	pyD0a3HIqYpq8/N9QxXWpULCzVLMl0N2yRs4uEfkXqaDqo6tum0Mq7ccbAR4/COENbapikATM7D
+	wlqy/62W6wgt/0EwsSSCfgqQJZgOxCjIujv8P2iMjfUytlXFs/1USKY6mPc21JhT3F+C9rzUwF7
+	UxpWR16/9GM/uEptShQSGQfmHTMgX6qlc42c27r+OaKDeplY3jpo0OgLl7jv3tksOCLh9F4aHtl
+	BGAvjjMyk1ya1PG03AErdhfjLrPGZlsxi+QoR57umSbPGe3d4=
+X-Google-Smtp-Source: AGHT+IGhTPF1sTHa6cqCXg3SnMdIuxMoLuexsuKyRYKG+8XU0Zaj4kyV9wlnF7kX64s4nA48+hQdHw==
+X-Received: by 2002:a17:903:1a28:b0:297:e1f5:190b with SMTP id d9443c01a7336-299f55a1accmr2855585ad.22.1763403633764;
+        Mon, 17 Nov 2025 10:20:33 -0800 (PST)
 Received: from ideapad.tail50fddd.ts.net ([139.5.199.69])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2985c245fa1sm148446705ad.36.2025.11.17.10.20.28
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2985c245fa1sm148446705ad.36.2025.11.17.10.20.31
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 17 Nov 2025 10:20:30 -0800 (PST)
+        Mon, 17 Nov 2025 10:20:33 -0800 (PST)
 From: Ayaan Mirza Baig <ayaanmirzabaig85@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: johan@kernel.org,
@@ -66,9 +66,9 @@ Cc: johan@kernel.org,
 	linux-staging@lists.linux.dev,
 	greybus-dev@lists.linaro.org,
 	Ayaan Mirza Baig <ayaanmirzabaig85@gmail.com>
-Subject: [PATCH 12/13] staging: greybus: usb: validate hub control response length
-Date: Mon, 17 Nov 2025 23:48:17 +0530
-Message-ID: <20251117181818.118139-13-ayaanmirzabaig85@gmail.com>
+Subject: [PATCH 13/13] staging: greybus: usb: remove obsolete FIXME about bridged-PHY support
+Date: Mon, 17 Nov 2025 23:48:18 +0530
+Message-ID: <20251117181818.118139-14-ayaanmirzabaig85@gmail.com>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20251117181818.118139-1-ayaanmirzabaig85@gmail.com>
 References: <20251117181818.118139-1-ayaanmirzabaig85@gmail.com>
@@ -80,34 +80,44 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Clamp hub control wLength to a reasonable maximum before allocating
-the response buffer to avoid oversized allocations and remove the
-FIXME about unspecified lengths.
+The USB bridged-PHY protocol has never been supported by the upstream
+USB core and cannot function. Remove the obsolete FIXME and 
+keep the protocol disabled with a straightforward explanatory comment.
 
 Signed-off-by: Ayaan Mirza Baig <ayaanmirzabaig85@gmail.com>
 ---
- drivers/staging/greybus/usb.c | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
+ drivers/staging/greybus/usb.c | 15 +--------------
+ 1 file changed, 1 insertion(+), 14 deletions(-)
 
 diff --git a/drivers/staging/greybus/usb.c b/drivers/staging/greybus/usb.c
-index 475f24f20cd4..1502641f5dbb 100644
+index 1502641f5dbb..e1c9966ab678 100644
 --- a/drivers/staging/greybus/usb.c
 +++ b/drivers/staging/greybus/usb.c
-@@ -105,7 +105,13 @@ static int hub_control(struct usb_hcd *hcd, u16 typeReq, u16 wValue, u16 wIndex,
- 	size_t response_size;
- 	int ret;
+@@ -194,23 +194,10 @@ static int gb_usb_probe(struct gbphy_device *gbphy_dev,
+ 	if (retval)
+ 		goto exit_connection_destroy;
  
--	/* FIXME: handle unspecified lengths */
-+	/*
-+	 * Clamp wLength to a reasonable maximum to avoid oversized allocations.
-+	 * USB control responses are expected to be small, use 2K as a safe
-+	 * upper bound for the response payload.
-+	 */
-+	if (wLength > 2048)
-+		wLength = 2048;
- 	response_size = sizeof(*response) + wLength;
+-	/*
+-	 * FIXME: The USB bridged-PHY protocol driver depends on changes to
+-	 *        USB core which are not yet upstream.
+-	 *
+-	 *        Disable for now.
+-	 */
+-	if (1) {
++	/* The USB bridged-PHY protocol is not supported by upstream USB core */
+ 		dev_warn(dev, "USB protocol disabled\n");
+ 		retval = -EPROTONOSUPPORT;
+ 		goto exit_connection_disable;
+-	}
+-
+-	retval = usb_add_hcd(hcd, 0, 0);
+-	if (retval)
+-		goto exit_connection_disable;
+-
+-	return 0;
  
- 	operation = gb_operation_create(dev->connection,
+ exit_connection_disable:
+ 	gb_connection_disable(connection);
 -- 
 2.51.0
 
