@@ -1,277 +1,181 @@
-Received: from PA4PR04CU001.outbound.protection.outlook.com (mail-francecentralazon11013041.outbound.protection.outlook.com [40.107.162.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F392335581F;
-	Tue, 18 Nov 2025 17:57:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.162.41
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763488627; cv=fail; b=I+RhCAzSp6nUK0CE2NZr1mhvig3V2yUJyoxrCPIHB+zc8942z4atRI3ZqUVrsDbDk9xTCvSQ9DI0DjalOs+u66UEAskFETL7LPtTWk9YBrPydP3Zm6WTHDQOvX6kX2iBWxPgXQ7t4p1imGg+CEBXSCU05MveNiPTOzh5zzUo5XM=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763488627; c=relaxed/simple;
-	bh=6+tB52baHC3x2Lby9CuRHo4PjuqjxhsuOW6JCTpCL+o=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=tlA2H+F5TbETGUB2ODOn0XA2NajxUwVj9o4RI9CUMtxNqR20p4u9O8qfJEigH2YbFB6M3dqVsLbG6vKqAgC7XBiiF47Kg5h8AbXgyVercvogk6z7i2E07Yco4G5MhaAnj6INXt9goMvdpmxuUqyDZWUfq+PplAOFbprWWA5CrHU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=muTVcPcB; arc=fail smtp.client-ip=40.107.162.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D7D72D8DB5
+	for <linux-staging@lists.linux.dev>; Tue, 18 Nov 2025 18:36:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.178
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1763490973; cv=none; b=Qsi6Fjk8f58rJT5BjDt0B3wGJPLu6eKpdk3AxYq2AaQLwDOiCBU6pTa3pdNcdHtE41jrhRLtkg2ryJu9srts02Hjr6ZOGI+019SqBJsEOF/d05aTgu6hbrU0CfXkoVE4eRz7+rsY9FnuTta010SsH8TbADwvjS7RxWuljE06/Kg=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1763490973; c=relaxed/simple;
+	bh=0W1aoFTm4VFMmK1hkBqJ2zS6FpPE0OxnZd4eurmwFPA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=G/gW92+uNKhn2XnMPWCczt3Os6QKiQvNq/+2E4La03w5/Ij9qYzdmxIgTw7lXhYuWRYNGyJjPKqPl0SMcfHbWwN7tUtq2oGIH5xouOrW2V93X0PT7A2dZDaGfK7xGP6HIhV9v2aJvNsYKttXZ+kxkxyoEwDcMjAJWB7g2XHclWs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bx80cHVq; arc=none smtp.client-ip=209.85.210.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="muTVcPcB"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=IGayamgqDVw99n/wRcUvtjzr6IcpEjOVlQxY7DTPmD4ra913B1zactLkudfdr5YR7nCSEj2ovuQp7Vn9hCc3qtjnoKNZGpxHgKycAA4xoysuW6GhDhuDvKAGbyvZqj9Q/rAbmjl/OSF5h3M95ECG5byf9g+PRghgfXHboFa0eR7YgrfaPRGnSG5CCKla6cy5IhwVRXE3ineUHmbvwAnZOsvBmLMjwo0ixQACbHNOPeqBQ/Ikhd1KX4jlyt7NY4hprn8T10uISnFsrf1fmus3IztrBZKVLbWN+SWu3dHkKYnSLQ6lkgKjm3Vf8QQs8/l4WwiGWFa9IAhW7kMZks8tLA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=9vQuHJaX7BJA2GP0FQnoozugrBhvrlZmEYk1lf/MCXk=;
- b=j7LDn9vzPywOILw7t+Lr0iap1tpvduDf5S17Z566xTHJ6brVM3Xejep/2DNO6dc+5tJGPNs9wrGSYsVl2zDhkvGiyles/jAFE2VJlGIvYfE2BXSgGUuQgrEmhMKUDCfII7FV7khjHOQz4drTFap5R/iSfYEmjRFzgWlzyVvgryAjIt0w1RPzX0s9AJThbeDowGIGq+66IH5XKU95LlGH+8cpr10q/uwwO6abBdofe/JpkytSwRsGuDNKJ3/Q99JO/yyeNuBy73Z9B9uE93DQTd6pZgq5PbtKqd2ZRTHcWJn0oJBbHwKWs2iPT/8G2i6FB8uWS6iJ8WVe6xf3chwuvQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=9vQuHJaX7BJA2GP0FQnoozugrBhvrlZmEYk1lf/MCXk=;
- b=muTVcPcBOQH9pI823tCcHpG8iJN02vy69e4Dqp1UWJVPcFwmMNhst9JA5g4icnHYB8n/WCu212fw3vt1TjFAY1Oh0FKNGTi3NT+xSZxkdsWa06tcUyxhmDhGfJnkUSDAT7LjtRqhpuXvugdsQp2N30ihS9cSSqY4DzA1zRc3rMpZmMPoywqq3NWiIItxBDnWXGH82s8Ge4HYr2GewMijQurtoM3/o7Fxv4r6cSMQQj5Wh1ASWLpP/2XeyFx/nnD62J1QnayugXqa/3GyBYIs9NC63zvBSmuQgEWsr52UAEN9114PH4dUshWNTyudOVXYR4O/Or4ohISNHyBri1qCGA==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-Received: from DB9PR04MB9626.eurprd04.prod.outlook.com (2603:10a6:10:309::18)
- by AS8PR04MB8104.eurprd04.prod.outlook.com (2603:10a6:20b:3b1::8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9320.21; Tue, 18 Nov
- 2025 17:57:00 +0000
-Received: from DB9PR04MB9626.eurprd04.prod.outlook.com
- ([fe80::55ef:fa41:b021:b5dd]) by DB9PR04MB9626.eurprd04.prod.outlook.com
- ([fe80::55ef:fa41:b021:b5dd%4]) with mapi id 15.20.9320.021; Tue, 18 Nov 2025
- 17:57:00 +0000
-Date: Tue, 18 Nov 2025 12:56:50 -0500
-From: Frank Li <Frank.li@nxp.com>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Rui Miguel Silva <rmfrfs@gmail.com>,
-	Martin Kepplinger <martink@posteo.de>,
-	Purism Kernel Team <kernel@puri.sm>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Eugen Hristev <eugen.hristev@linaro.org>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>, Peng Fan <peng.fan@nxp.com>,
-	Alice Yuan <alice.yuan@nxp.com>, Vinod Koul <vkoul@kernel.org>,
-	Kishon Vijay Abraham I <kishon@kernel.org>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Steve Longerbeam <slongerbeam@gmail.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, imx@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org, linux-phy@lists.infradead.org,
-	linux-staging@lists.linux.dev
-Subject: Re: [PATCH v3 02/31] media: v4l2-common: Add helper function
- v4l_get_required_align_by_bpp()
-Message-ID: <aRyzYoCTNJQrlsou@lizhi-Precision-Tower-5810>
-References: <20250821-95_cam-v3-0-c9286fbb34b9@nxp.com>
- <20250821-95_cam-v3-2-c9286fbb34b9@nxp.com>
- <20251027011927.GS13023@pendragon.ideasonboard.com>
- <aP+nf1hpvkafxHrF@lizhi-Precision-Tower-5810>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <aP+nf1hpvkafxHrF@lizhi-Precision-Tower-5810>
-X-ClientProxiedBy: PH8PR15CA0015.namprd15.prod.outlook.com
- (2603:10b6:510:2d2::23) To DB9PR04MB9626.eurprd04.prod.outlook.com
- (2603:10a6:10:309::18)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bx80cHVq"
+Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-7b22ffa2a88so4886971b3a.1
+        for <linux-staging@lists.linux.dev>; Tue, 18 Nov 2025 10:36:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1763490970; x=1764095770; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=79j4iqbcGQ/T4wx0pyL6Ik5PHIuwtyqnErQphNVBlhk=;
+        b=bx80cHVqbzvW7ulu1RMX853eDw7hOous5u/zc932+7/p4TehK5nb81NjXeAJ1jpkzC
+         ZZ1aNF1paGpCI1zZq4tFLzV/W/zjd3AGMa8gZX98tIzD5cHAJSjCPXSk1K6ABGa1YJbz
+         O7RVsAJvaAv9xRzqxdSjOjELLKtcT5h3noC0HdNWIJrzEN2BYdjRRyr1ckFZ+kz88qhp
+         H20f6UFCsj0anzqGGesdtM874WH+fliDpQXXEk0DrhfutKvn7Lc+YpsG3X9KuiQqQrv+
+         riTb1l6Y7+bHDjmgJ2+niRcApmS4IRydY3SXvk6zCUa6xRvrv3vSrjrrd2yG5rZOuQF/
+         lOLQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1763490970; x=1764095770;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=79j4iqbcGQ/T4wx0pyL6Ik5PHIuwtyqnErQphNVBlhk=;
+        b=G1RnlXZX0CKWlH9T1QZJX2WgG8cU8tg988oshMwUkubzWhumkzrPHbOE0R/YPnYBcz
+         CAVBdkIr6UlnHDT2culcKbDVZY61jF1kDansAhqUCTBu/AwSypP6/NQoOt2jdbeioghY
+         6TFzEAr+ulBovWLrf7HdeGMqc6ECVixEE87btk723ekRmcwR0vgnqgvvINswtiBMw823
+         pbPkTRI8PaZ2DJHj3YfVKDImHfFhqxvKlXVm+qQsb7Pu2gY1wLntz538uboWkr8IZoGO
+         Oy96IdOE7Th6ga0CKUfGPCokE7i0d2DjC06sReiKD9Q3eVX41SEBT2J+lN/LRQ8/2uwb
+         PoTA==
+X-Forwarded-Encrypted: i=1; AJvYcCUda8MhXsT6RxYzlMX3mjbHdxhdCIjP3TYuyS5XOQe6QVx/Zpe7jh8CAQeqrvoqK3edbzxVGOZTRloDPnSn@lists.linux.dev
+X-Gm-Message-State: AOJu0Yzyk8H5Y8/NNp/6BiwoSiC9V0pweesxf6cEhIpxoF4z+UTmrAGl
+	aOUlngmk+aJNGYv1jPp6sEHbd371ZZrEJfoXEABtMdXbHYZy0DEClcM8
+X-Gm-Gg: ASbGnctZISuMuzZv7THEZeLEWMGzsU50Ou2eVLeM1bKNRyKrlE8rDLoHhIqUSwll7rt
+	P+Ik7rvHPKZyF4J4Pfy8jk/xT6FmxWRJR4PpxVOWlfTXogprC6f+hxZbiEw8abo6soQFicitJp7
+	a514GJflnjTNv+OkRn2ehS9YKANmJGa0eF6ismim19ScUMr0yRO18hrlQGqG74m6t6xHGYVL7M5
+	6inEIlXNKnQLvNniy7RbRhdMHbrBebs5apN2hGSSO0ooae3AnGy8xzQUmG55TVm5InlWThawI1H
+	07FgikENoTxWtMPoeZztFW+peIVR9STrCODFhgeH4zWFhHxrEDGopmCFN1pmbJxzMeLirRkC+cQ
+	mPIzQPsD7kukt/uTBCgKRd9P7FyZYjWtVJomCcEa2ApRAiepw8yisg80Lf0+KN4d80YKhbhxEpG
+	YBIgWeOg2zP0yq
+X-Google-Smtp-Source: AGHT+IHa4JRGCsbncxOnBeaVQyIlL5r4RDTWOvg7YK3NBAhwiTWYtCH0KppHR0FS1usI8OZ20uFUtQ==
+X-Received: by 2002:a05:6a20:958e:b0:251:43f5:cad4 with SMTP id adf61e73a8af0-35b9fa862f5mr20739767637.10.1763490970504;
+        Tue, 18 Nov 2025 10:36:10 -0800 (PST)
+Received: from ideapad ([139.5.199.64])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-bc36f52361fsm15893241a12.15.2025.11.18.10.36.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 18 Nov 2025 10:36:10 -0800 (PST)
+Date: Wed, 19 Nov 2025 00:06:05 +0530
+From: Ayaan Mirza Baig <ayaanmirzabaig85@gmail.com>
+To: Johan Hovold <johan@kernel.org>
+Cc: gregkh@linuxfoundation.org, elder@kernel.org,
+	linux-staging@lists.linux.dev, greybus-dev@lists.linaro.org
+Subject: Re: [PATCH 00/13] staging: greybus: cleanup, FIXME removals, and
+ driver correctness fixes
+Message-ID: <aRy8lRKzCTNDTc-u@ideapad>
+References: <20251117181818.118139-1-ayaanmirzabaig85@gmail.com>
+ <aRyaoaauQyE78OhX@hovoldconsulting.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DB9PR04MB9626:EE_|AS8PR04MB8104:EE_
-X-MS-Office365-Filtering-Correlation-Id: 02bc0dcd-9de6-48c6-cf19-08de26cbdf23
-X-LD-Processed: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
- BCL:0;ARA:13230040|366016|7416014|376014|52116014|1800799024|19092799006|38350700014;
-X-Microsoft-Antispam-Message-Info:
- =?us-ascii?Q?VNFY0mfwCWEPiieSGVCslXeb7mqhG9p4SXx+CjUZDPKk2kBQ2j5SG0f8WH4S?=
- =?us-ascii?Q?HlmrCoQ0p4u3UimZWiFJR95lonskqypSklddCG4FngL8eFTA1VoCgFP1VDTQ?=
- =?us-ascii?Q?fq7LIsQ/2spgmZoo5w4AwUI7yIXKVPRsrsJfwDLKJijd7A+U52mxbbVRfd+N?=
- =?us-ascii?Q?4EqOPrVGg6LEzGHQgvcMuCi7KnGQqOiiWtR1rMvqEaOqMG23596nfyq4CIFG?=
- =?us-ascii?Q?JQVIr8P+HH01ktI5Ig848cVuvSb0upfuwp9Hw3lLW8O/9y62Fx1gP8/jVdZJ?=
- =?us-ascii?Q?xvcCmQKhFYNoF/O8WpifsL4j9oVf6poYQ11QUljg7up+MMDbH2IDkwIwbhKb?=
- =?us-ascii?Q?b+hxn5DBCe0/fmRaFiAJaOu+6yuwdjfPQojAObh++Jh1QTmq74OI70mRIrG5?=
- =?us-ascii?Q?sVm3aTDOHnEWg25fxTiCpHbMFrGSxySaeFaNXRWuc5ORO3WufiJ60KZ3Cl+u?=
- =?us-ascii?Q?GMvHtoYFrwAFheBw7gIkLjsiPTHcV0IQnA09uArwIZRIdOLLDUD4t5TPZdvp?=
- =?us-ascii?Q?Almotj4tuoUqg7AZn9A8IKpdzqpaDetFWpafmEzhK1idvciXqHavcOEZBUjq?=
- =?us-ascii?Q?juNAudU7tqFUaUOdaJ8Nua++apw9c/XtIHFtP1cPb0JjPRS7NK8kHNPrHqvg?=
- =?us-ascii?Q?D5H7HU3bTYRNHLjAMzNZgPQC8ecNecAivAU0V+RilcTzr0oXb9svasXH/LVz?=
- =?us-ascii?Q?uso4fkzdroJKuFCNl0PbqBjdlRM4WHvO8Q8TPCZ9tytu6Ud0s/oVwEORoWEM?=
- =?us-ascii?Q?Vvj6j1z/7uLRyqoI1fR4nkjE12yXkei3mToj4BOoY1oIfAHCisIXm9E5NiYw?=
- =?us-ascii?Q?Y9DRiC+VZklYQWtfFCz7NCUhu+bifMOBzgZOrKboNe6csjCwceozc0ihoTae?=
- =?us-ascii?Q?YNh4+b0ohg6hB8S2/2k1Z0mQn0pNJrpzRdfeWZ3VibIVJY7Dh88xDWW6a5s1?=
- =?us-ascii?Q?d9B/cXHy0VQi57xY64HHYoPkm/VCgkH+oHdctY3I7Zvvr7ftwV0F86xYdi7j?=
- =?us-ascii?Q?5tH4Li431csaF0s4u3lNvzGHTOnLU5vam0K7wFS08jD0Zo3ty0UqRORFToi9?=
- =?us-ascii?Q?s2UgEB7s4/6ec9UfUK4p3U46bsiVQeM0f2VAYUDRQBkMfy28IwEzKAEoZns3?=
- =?us-ascii?Q?99sU5CLcjsdOx9TO0Hi96FOCiENxrxgAT0ZhPC+vESguTFOcPEOyhQzC5P0w?=
- =?us-ascii?Q?bgiBz6iv455pcGG0OJDP0POthJidcINWodg127aj2NDN72bFuiV+UKqBIcLJ?=
- =?us-ascii?Q?lKiWg8qDWXLGBwbDEsRAUmcxRAsLTk7X9MU0/Ej3AGduR2Pe0qxmmyPvnvvk?=
- =?us-ascii?Q?NWnW14AsMAKfcwuaYp/05UO78lmYZo8w5b+FgkBB6YlEl4j77toq1kdYsSbf?=
- =?us-ascii?Q?sS2xwufY7fVts9ZDBATJbz6+YNapHyaJYov+9lSoaD/1nRaKzkpfWx0R+QqE?=
- =?us-ascii?Q?lgsOMWKMPTXg4etHTGYYDiN+mfDpPR8q5wDZvsL/WhKWDP1UCIizzFjulyiw?=
- =?us-ascii?Q?Omf1orEkdi9iYr3kMcJK2rG/nqkgbu7jKXaIFZpVKY8vRUFM4pOwPLkMDQ?=
- =?us-ascii?Q?=3D=3D?=
-X-Forefront-Antispam-Report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB9PR04MB9626.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(7416014)(376014)(52116014)(1800799024)(19092799006)(38350700014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
- =?us-ascii?Q?gj3f9LvuqSw/cJMLGBj/GgcaGGT4mlv4hboV2HtSiiwlVCDa7I7fc8zxC6nw?=
- =?us-ascii?Q?mFME/W+eEzaCT5as/px0L3GD+FVdKmsAYddO5aoglq0pM9fg0s0Qhx2NA5vR?=
- =?us-ascii?Q?WojW9kPwLU/RWiRgMbRmsPSOGk+sZWUYEvsW1f8AHx/XKbQ3kF7oIhSUyPqb?=
- =?us-ascii?Q?WKyV4u+A4s7qndpWPx0LGQxxIIwUozxSeCAnGtNJh/MS5pcwu0yHQBTgBCp5?=
- =?us-ascii?Q?QIqC3Q8h6opQwnWwKrYNPGXdBG3UBFaT5ZGiWe300vEiiLdcJE4JmXZ28ZNX?=
- =?us-ascii?Q?HWztpYMHJEcOA92OLQeQS+vYjLvFHbBqwa+KCz9bk++pcRyw9nQltD1NGguA?=
- =?us-ascii?Q?Vg1LFCNr7IdfHfTzuBMLNQ2tsX8/6R2DwyPzttMAbCh/74VdYkktZ71jioeX?=
- =?us-ascii?Q?uE6Bl1841+i4yNpxHTM7Z+XaU7nDp8pGQauchummxMqyZkI5oE9HqibkQOyv?=
- =?us-ascii?Q?hfuyfdkxtq9twmFUMUplOANkIQIowhV53PlbRH54gmsIoYnIXhjgOEWXy3Wi?=
- =?us-ascii?Q?zP7mqomGYIfFX469eA3FufKbone1urR95ZWTHZPF7mVtbOxZn49hfMhJTm9J?=
- =?us-ascii?Q?cj8qYyDP1RKQNKzXtb/0KM3rvdaIng/8sNWw4cXOxTwWkX6Bp9V0CNAag5jJ?=
- =?us-ascii?Q?/EBvLqCjx7LQczCTIkrMIgdG4E1kBOnNL28IFTMiVUgJW9XJjgSpd/Bv9c78?=
- =?us-ascii?Q?ixBlsnyILeS5ozLLtIX+rVzLtwDiW3T+1FwsVpFiWRl1b3mGYuohI7mtfzjZ?=
- =?us-ascii?Q?X84r+v6e8lw7KXeiGbQzINPCbbxV0D2GjoxjcEELIeY80drrtYWxqXfWmyX/?=
- =?us-ascii?Q?mCYTOCO9FZ3I8AWIKFkZ3dEq4Z4dCsAgKEtdPoXVvPtsEpGrtcKYL3XLYiYq?=
- =?us-ascii?Q?rtnfCduHhgHI48lgt983hW4JszmhKaalYnw71o9/6xYMyGVE8t5TAIesUJoH?=
- =?us-ascii?Q?AI1R+8spOhVZLr6L4AYyIIXdusJ46t3ipe47ss59hQb+Cbxn3qrvxwrO0ASX?=
- =?us-ascii?Q?28uKq1Po/hFXt+YBqW9ixppSKLPP4FqWn0S+3b7Y8kdH/p1LLoe5RR1h1NUm?=
- =?us-ascii?Q?9dGfHlzjB4cdalDsVpWp84WZQ8mMDIkiaKS7YPxg5e3g0wa8HeibwcldnQwi?=
- =?us-ascii?Q?HuBrXkyQmch6QwSh5EOL9e2Ni4QYfevKfcOq4TylwD39dXju87E9m9D5sj5a?=
- =?us-ascii?Q?qpHfJjOxSkyWETrTqDdDT6V8+5c1IOLGd92N8Af+IsMDbRuIQkDmZuGz1qCD?=
- =?us-ascii?Q?JQx/fQBf+mc+bwJVXT8wA+bQC6Eod9FMqnj+9M/lUCeULTBVnKAEmX9LgLme?=
- =?us-ascii?Q?fxs5dNE70S0WkOxCQZ/iNVDQLwbRpJd+CfYrVEds5zNn+XTiX5C8T+rvtKei?=
- =?us-ascii?Q?aMvlb2hNNmVR1Pi30oWl8JpTA4rVmrGOm8wwRnp2G7m/km7maJWpizw+NpFn?=
- =?us-ascii?Q?Ntt/gjRB3S0BZ+jYMAe3FaJI9UMBvqfTuCVZ42Fr9XrI2ppCR3QBfsMN/9Hd?=
- =?us-ascii?Q?+DEeVuw8dU3nOQeOJgdo76gyH/or2w25FuOF86tg12yYH8Uzxj50RhQGEK7D?=
- =?us-ascii?Q?Ij8dqtT0VNH+dsFcZPqEXw+EehV7MKyIQNhjVKv5?=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 02bc0dcd-9de6-48c6-cf19-08de26cbdf23
-X-MS-Exchange-CrossTenant-AuthSource: DB9PR04MB9626.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Nov 2025 17:57:00.3400
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: JWQ/oFlUbQsO3cEdmqc5Txq4olMGE4QdBgTjAjvrKKA4mlO/6Kqa9abppg+EHsDuHCRzlDOlEoH8tjGHdx47Ew==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR04MB8104
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <aRyaoaauQyE78OhX@hovoldconsulting.com>
 
-On Mon, Oct 27, 2025 at 01:10:23PM -0400, Frank Li wrote:
-> On Mon, Oct 27, 2025 at 03:19:27AM +0200, Laurent Pinchart wrote:
-> > On Thu, Aug 21, 2025 at 04:15:37PM -0400, Frank Li wrote:
-> > > Add helper v4l_get_required_align_by_bpp() to help get width alignment
-> > > requirement. Basic replace below logic and enhance to any 2^[0..31] in
-> > > drivers/media/platform/nxp/imx-mipi-csis.c
-> > >
-> > > mipi_csis_set_fmt(
-> > > {
-> > >         ...
-> > >
-> > >         switch (csis_fmt->width % 8) {
-> > >         case 0:
-> > >                 align = 0;
-> > >                 break;
-> > >         case 4:
-> > >                 align = 1;
-> > >                 break;
-> > >         case 2:
-> > >         case 6:
-> > >                 align = 2;
-> > >                 break;
-> > >         default:
-> > >                 /* 1, 3, 5, 7 */
-> > >                 align = 3;
-> > >                 break;
-> > >         }
-> > > 	...
-> > > }
-> > >
-> > > Signed-off-by: Frank Li <Frank.Li@nxp.com>
-> > > ---
-> > > The same patch will be see at https://lore.kernel.org/imx/20250729-imx8qxp_pcam-v4-2-4dfca4ed2f87@nxp.com/
-> > > dw csi2 patch also this
-> > > ---
-> > >  include/media/v4l2-common.h | 30 ++++++++++++++++++++++++++++++
-> > >  1 file changed, 30 insertions(+)
-> > >
-> > > diff --git a/include/media/v4l2-common.h b/include/media/v4l2-common.h
-> > > index 39dd0c78d70f7b935c2e10f9767646d2cedd3079..0a9da5e8daaddf26903d9ff4bed08b283dcd38b2 100644
-> > > --- a/include/media/v4l2-common.h
-> > > +++ b/include/media/v4l2-common.h
-> > > @@ -704,4 +704,34 @@ static inline bool v4l2_is_quant_valid(__u8 quantization)
-> > >  	       quantization == V4L2_QUANTIZATION_LIM_RANGE;
-> > >  }
-> > >
-> > > +/**
-> > > + * v4l_get_required_align_by_bpp - get align requirement for
-> > > + *	v4l_bound_align_image(). (bpp * width) % (1 << align) have to be 0.
-> > > + *	given number bpp, get width's alignment requirement. For example,
-> > > + *	if align is 3, means require bpp * width must be multiples of 8.
-> > > + *	    bpp     return  width's requirememnt
-> > > + *	    0       0       none
-> > > + *	    1       3       8 (need 3 zero bits)
-> > > + *	    2       2       4
-> > > + *	    3       3       8
-> > > + *	    4       1       2
-> > > + *	    5       3       8
-> > > + *	    6       2       4
-> > > + *	    7       3       8
-> >
-> > This is supposed to be a brief one-line description. The rest of the
-> > documentation goes after the argument.
-> >
-> > Also, have checked the formatting of the generated documentation ?
-> >
-> > > + * @bpp: input bpp
-> >
-> > I have no idea if this is a bits per pixel or bytes per pixel value. I'm
-> > actually not sure what the function is even supposed to do. It feels
-> > it's really a ad-hoc helper, I would like to see it being used in
-> > multiple drivers to see if it makes sense.
->
-> drivers/media/platform/nxp/imx-mipi-csis.c
-> imx_cpi_set_fmt() in
-> https://lore.kernel.org/imx/20250729-imx8qxp_pcam-v4-3-4dfca4ed2f87@nxp.com/
->
-> I am not sure if userspace to pass down a old width to driver, like 1033.
+On Tue, Nov 18, 2025 at 05:11:13PM +0100, Johan Hovold wrote:
+> On Mon, Nov 17, 2025 at 11:48:05PM +0530, Ayaan Mirza Baig wrote:
+> > Hi Greg and all,
+> > 
+> > This series performs a set of cleanups, correctness fixes, and
+> > remaining TODO removals across the Greybus drivers in
+> > drivers/staging/greybus.
+> > 
+> > Greybus has existed in staging for a long time, and many FIXMEs,
+> > outdated comments, and partial implementations had accumulated over the
+> > years.
+> 
+> These haven't accumulated in staging, but during development as the git
+> logs should tell you.
+> 
+> > While reviewing and compile-testing the drivers I found a number of
+> > places where the comments were obsolete, logic was incomplete, or newer
+> > subsystem APIs had evolved.
+> > 
+> > This series addresses those issues without changing any fundamental
+> > design or architecture. All changes are self-contained, straightforward,
+> > and focues on improving correctness and maintainability.
+> > 
+> > The patches include:
+> > 
+> >   * Removal of obsolete FIXMEs that no longer reflect the current code
+> >     or hardware behavior.
+> >   * Correctness fixes in several protocol drivers (UART, RAW, USB,
+> >     Loopback, Firmware core, Audio).
+> >   * Small improvements to error handling and shutdown paths.
+> >   * Cleanup of commented-out or dead code.
+> >   * Removal of the now-completed GPIO and PWM TODO items.
+> >   * Removal of the empty Greybus TODO file.
+> > 
+> > All patches were compile-tested with COMPILE_TEST=y and all Greybus
+> > options enabled. Runtime smoke testing was performed where possible.
+> > 
+> > This series does not attempt to graduate Greybus out of staging; these
+> > changes are preparatory cleanups only.
+> > 
+> > Thanks for your time and review.
+> > 
+> > Ayaan Mirza Baig (13):
+> >   staging: greybus: Remove completed GPIO conversion TODO item
+> >   staging: greybus: pwm: move activation into pwm apply and remove
+> >     request()
+> >   staging: greybus: remove empty TODO file
+> >   staging: greybus: audio: remove obsolete INPUT_PROP_NO_DUMMY_RELEASE
+> >     FIXME
+> >   staging: greybus: audio: remove obsolete FIXME and document topology
+> >     ownership
+> >   staging: greybus: bootrom: remove obsolete FIXME about SVC parallel
+> >     event handling
+> >   staging: greybus: bootrom: remove obsolete FIXME around firmware
+> >     filename logging
+> >   staging: greybus: fw-core: remove obsolete S2 Loader runtime PM FIXME
+> >   staging: greybus: loopback: remove incorrect FIXME about async wait
+> >   staging: greybus: raw: handle disconnect while chardev is open
+> >   staging: greybus: uart: clear unsupported termios bits
+> >   staging: greybus: usb: validate hub control response length
+> >   staging: greybus: usb: remove obsolete FIXME about bridged-PHY support
+> 
+> I only skimmed some of these and there are so many bugs and
+> misunderstandings here that I can only imagine what's lurking in the
+> remaining ones.
+> 
+> The basic misunderstanding seems to be that FIXMEs can and should be
+> removed without addressing the underlying issues.
+> 
+> Johan
 
-Do you agree this change, I can post this patch + imx-mipi-csis.c as
-sperate patches?
+Hi Johan,
 
-dwc csi2 need split more small serise to reduce review efforts.
+Thank you for taking the time to review the series, and thank you for being
+direct about the issues. I want to apologize for the misunderstandings and
+for removing FIXMEs that should not have been touched. That was my mistake,
+and I should have taken more care before modifying areas of the subsystem
+I don't fully understand yet.
 
-Frank
+I also want to be transparent: I'm an undergraduate student who is just
+starting to learn kernel development. I'm very interested in Linux and
+want to contribute seriously, but I clearly approached this series with
+more confidence than understanding, and I am sorry for the noise that caused.
 
->
-> Frank
->
-> >
-> > > + * @align: expected alignment, 2^(align).
-> > > + *
-> > > + * return: required alignment.
-> > > + */
-> > > +static inline u32 v4l_get_required_align_by_bpp(u32 bpp, u32 align)
-> > > +{
-> > > +	int pos;
-> > > +
-> > > +	if (bpp == 0)
-> > > +		return 0;
-> > > +
-> > > +	pos = ffs(bpp) - 1;
-> > > +	return pos > align ? 0 : align - pos;
-> > > +}
-> > > +
-> > >  #endif /* V4L2_COMMON_H_ */
-> > >
-> >
-> > --
-> > Regards,
-> >
-> > Laurent Pinchart
+I'll resend only a very small, focused series once I have properly analysed
+the code. Before I send a v2, I want to make sure I am going in the right direction.
+
+If you have any guidance on how I can improve - in terms of approach,
+review process, or how to evaluate FIXMEs and TODOs correctly - I would
+really appreciate it. I'm trying to learn the right way to contribute and I
+don't want to repeat the same mistakes.
+
+I also want to double-check whether the PWM apply() changes (one of the
+TODO items) were done correctly, also if there are any issues in
+[PATCH 10/13], apart from what Abdun suggested.
+I'm willing to redo the work properly.
+
+Again, apologies for the errors. I appreciate your time and feedback.
+
+Thanks,
+Ayaan
