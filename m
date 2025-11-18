@@ -1,191 +1,92 @@
-Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48E443587C3
-	for <linux-staging@lists.linux.dev>; Tue, 18 Nov 2025 15:24:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.158.5
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F3B935CB74
+	for <linux-staging@lists.linux.dev>; Tue, 18 Nov 2025 15:57:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763479478; cv=none; b=fiR6KE6KOdxGiLIRXHrl8xhdn1zJWCpJ5qDpFiCpI1I6af+oY/GC9eSiikO8JKkwEXaiu+ooncXo9B6BHZNyG+CAp7ehoyoVV1rT8g+O9T6uccExa5yQwDZnBzN6BBYy1PXSDAFrk/O5wdAYaJeqSZKAut6jAchDJMnDgncri+Q=
+	t=1763481476; cv=none; b=b9pBLMXotcqoy4QKY4kpz5/gDe4xHGtUMZrgT6erqZ6YhuOhtbZn2ZQOBaOG6LyfEcfz45qJdXkLgMYgRdcMV8aXsXDQ+vnWt4Lxotr6hr/42hxJknRku5QgIhL4Ujq7GzCDHd/zffHYdWJ5E9TwWmV17gX4Uda4CoHyeEoWy48=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763479478; c=relaxed/simple;
-	bh=b8qR1fNCOUcGmFlXBqf2Jmbglcn0cz6vrnKg5k3I8HY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=o9hHezHn3HsGvEvx/QCiOAbx8CyBtsG3gJDNkZ3vHyt9httylHqJsRKJClJcLxOQxXO4m5lLFRmPeIDzyK5l4pAaEjaVjOxA/D86XU860Xf0wUj9AeWN3+wAq9j31R92GYivroZ6pw+hKRpfPZ9OKdJ2yBOirFsOpD7baYHheVg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=mEE4eUYj; arc=none smtp.client-ip=148.163.158.5
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
+	s=arc-20240116; t=1763481476; c=relaxed/simple;
+	bh=qsav7wQkapHfmZMjbDRPiYo993pEkEK2fWdFmwx4orc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Pl/wCNVg1a7HDLb8GvGeJ60kII+af8KhKHSTFctwBfwSyPBhZfSy+augOS4SMxKwn9AekI5pK7f0TSbzSFlXOhrwaBOS4TdEliyVWk1jZvmE/PBw3ARFNessx/AyD2hEw0nwARB6ZzJIfsnP+wQ1RAlWPvv51vNfK6lbxdmkjiw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Z3jh9I/U; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="mEE4eUYj"
-Received: from pps.filterd (m0360072.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5AI1tqs7028393;
-	Tue, 18 Nov 2025 15:23:17 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pp1; bh=b8qR1f
-	NCOUcGmFlXBqf2Jmbglcn0cz6vrnKg5k3I8HY=; b=mEE4eUYjgklKf8ckwZAhDy
-	SemFjclSHph4OIcNgGIRB33yKEvmDkUgpvf4MsjpE3xo0akxzvjylX58YARmSJ5h
-	c2Ooip5l5xKCeB+ZszFhhCXGu1T0RI/6rBGNycK4VKLDmLOQLbQF8xC71MwsdRpI
-	0oQIclRsJ2BH/z3isyuBtV/G5oGzzxcyO/U8jZGhW63jDjC0GT2rEygs7Nywqf0o
-	LKYkHjV4YQgao5GRKh0XTFLZa5uyctdwxj2IR2IjesWo4ulffbUPV3WfYorlMzp9
-	3UQws93x7ragECUHS6LnyzjaTYBragG1GGke7RSE/IYNqSxXY5az/LqI4/4Qzsew
-	==
-Received: from ppma13.dal12v.mail.ibm.com (dd.9e.1632.ip4.static.sl-reverse.com [50.22.158.221])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4aejmsk7vk-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 18 Nov 2025 15:23:16 +0000 (GMT)
-Received: from pps.filterd (ppma13.dal12v.mail.ibm.com [127.0.0.1])
-	by ppma13.dal12v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 5AICQoFw006967;
-	Tue, 18 Nov 2025 15:23:15 GMT
-Received: from smtprelay05.fra02v.mail.ibm.com ([9.218.2.225])
-	by ppma13.dal12v.mail.ibm.com (PPS) with ESMTPS id 4af62jbj06-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 18 Nov 2025 15:23:15 +0000
-Received: from smtpav02.fra02v.mail.ibm.com (smtpav02.fra02v.mail.ibm.com [10.20.54.101])
-	by smtprelay05.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 5AIFNBfr40042972
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 18 Nov 2025 15:23:12 GMT
-Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id C34CE20040;
-	Tue, 18 Nov 2025 15:23:11 +0000 (GMT)
-Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 9A79420043;
-	Tue, 18 Nov 2025 15:23:10 +0000 (GMT)
-Received: from [9.152.212.246] (unknown [9.152.212.246])
-	by smtpav02.fra02v.mail.ibm.com (Postfix) with ESMTP;
-	Tue, 18 Nov 2025 15:23:10 +0000 (GMT)
-Message-ID: <55871dc5-2467-4558-be5b-0296d478a6d1@linux.ibm.com>
-Date: Tue, 18 Nov 2025 16:23:09 +0100
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Z3jh9I/U"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9BE6DC2BCB4;
+	Tue, 18 Nov 2025 15:57:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1763481475;
+	bh=qsav7wQkapHfmZMjbDRPiYo993pEkEK2fWdFmwx4orc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Z3jh9I/U/hl0xU/MKejd/jCV6WVm/ssnhFbgkaG3iHMwoeIzQT22IemFKFuZk4rbY
+	 6HzTHGwOUuL4Y/zqLwF6DLJKsL7aUlKnEbs435UX4YLmYqPrsOoGee+7Z9q8fRzGNy
+	 lYYgDSw3Nn3yMYiRCOCtFyP+vuPT1tQ2WAOnuZeuG5IjMlujaAW3lGj0lRcbyEvkcM
+	 2F1TK4rlNj84uXWWasjks0gh/8789iOQMFDqZN4NI5ezxCBjWmus1nmd4IZqgaB+92
+	 efoikWQbjWe2Mnl0IR0yQHJDa49Dy2pMROmeknCWbDa4D0ATGaHFz43399mK2gFMPZ
+	 jxOGahXGudTnQ==
+Received: from johan by xi.lan with local (Exim 4.98.2)
+	(envelope-from <johan@kernel.org>)
+	id 1vLO5Z-0000000036L-3lS5;
+	Tue, 18 Nov 2025 16:57:53 +0100
+Date: Tue, 18 Nov 2025 16:57:53 +0100
+From: Johan Hovold <johan@kernel.org>
+To: Ayaan Mirza Baig <ayaanmirzabaig85@gmail.com>
+Cc: gregkh@linuxfoundation.org, elder@kernel.org,
+	linux-staging@lists.linux.dev, greybus-dev@lists.linaro.org
+Subject: Re: [PATCH 11/13] staging: greybus: uart: clear unsupported termios
+ bits
+Message-ID: <aRyXgd_8T3nndXl7@hovoldconsulting.com>
+References: <20251117181818.118139-1-ayaanmirzabaig85@gmail.com>
+ <20251117181818.118139-12-ayaanmirzabaig85@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 18/21] s390/dasd: Switch to use %ptSp
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Corey Minyard <corey@minyard.net>,
-        =?UTF-8?Q?Christian_K=C3=B6nig?=
- <christian.koenig@amd.com>,
-        "Dr. David Alan Gilbert" <linux@treblig.org>,
-        Alex Deucher <alexander.deucher@amd.com>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
-        Rob Clark <robin.clark@oss.qualcomm.com>,
-        Matthew Brost <matthew.brost@intel.com>,
-        Ulf Hansson
- <ulf.hansson@linaro.org>,
-        Aleksandr Loktionov
- <aleksandr.loktionov@intel.com>,
-        Vitaly Lifshits
- <vitaly.lifshits@intel.com>,
-        Manivannan Sadhasivam <mani@kernel.org>,
-        Niklas Cassel <cassel@kernel.org>, Calvin Owens <calvin@wbinvd.org>,
-        Vadim Fedorenko <vadim.fedorenko@linux.dev>,
-        Sagi Maimon <maimon.sagi@gmail.com>,
-        "Martin K. Petersen" <martin.petersen@oracle.com>,
-        Karan Tilak Kumar <kartilak@cisco.com>,
-        Hans Verkuil <hverkuil+cisco@kernel.org>,
-        Casey Schaufler <casey@schaufler-ca.com>,
-        Steven Rostedt <rostedt@goodmis.org>, Petr Mladek <pmladek@suse.com>,
-        Viacheslav Dubeyko <Slava.Dubeyko@ibm.com>,
-        Max Kellermann <max.kellermann@ionos.com>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, openipmi-developer@lists.sourceforge.net,
-        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linaro-mm-sig@lists.linaro.org, amd-gfx@lists.freedesktop.org,
-        linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
-        intel-xe@lists.freedesktop.org, linux-mmc@vger.kernel.org,
-        netdev@vger.kernel.org, intel-wired-lan@lists.osuosl.org,
-        linux-pci@vger.kernel.org, linux-s390@vger.kernel.org,
-        linux-scsi@vger.kernel.org, linux-staging@lists.linux.dev,
-        ceph-devel@vger.kernel.org, linux-trace-kernel@vger.kernel.org
-Cc: Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        Sergey Senozhatsky <senozhatsky@chromium.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Gustavo Padovan <gustavo@padovan.org>,
-        David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Dmitry Baryshkov <lumag@kernel.org>,
-        Abhinav Kumar <abhinav.kumar@linux.dev>,
-        Jessica Zhang <jesszhan0024@gmail.com>, Sean Paul <sean@poorly.run>,
-        Marijn Suijten <marijn.suijten@somainline.org>,
-        Konrad Dybcio <konradybcio@kernel.org>,
-        Lucas De Marchi <lucas.demarchi@intel.com>,
-        =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
-        Rodrigo Vivi <rodrigo.vivi@intel.com>,
-        Vladimir Oltean <olteanv@gmail.com>, Andrew Lunn <andrew@lunn.ch>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Tony Nguyen <anthony.l.nguyen@intel.com>,
-        Przemek Kitszel <przemyslaw.kitszel@intel.com>,
-        =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
-        Kishon Vijay Abraham I <kishon@kernel.org>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Rodolfo Giometti
- <giometti@enneenne.com>,
-        Jonathan Lemon <jonathan.lemon@gmail.com>,
-        Richard Cochran <richardcochran@gmail.com>,
-        Jan Hoeppner <hoeppner@linux.ibm.com>,
-        Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>,
-        Alexander Gordeev
- <agordeev@linux.ibm.com>,
-        Christian Borntraeger <borntraeger@linux.ibm.com>,
-        Sven Schnelle <svens@linux.ibm.com>,
-        Satish Kharat <satishkh@cisco.com>,
-        Sesidhar Baddela <sebaddel@cisco.com>,
-        "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Xiubo Li
- <xiubli@redhat.com>, Ilya Dryomov <idryomov@gmail.com>,
-        Masami Hiramatsu <mhiramat@kernel.org>,
-        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-        Andrew Morton <akpm@linux-foundation.org>
-References: <20251113150217.3030010-1-andriy.shevchenko@linux.intel.com>
- <20251113150217.3030010-19-andriy.shevchenko@linux.intel.com>
-Content-Language: en-US
-From: Stefan Haberland <sth@linux.ibm.com>
-In-Reply-To: <20251113150217.3030010-19-andriy.shevchenko@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: z5vCIuXQoxQhVWpfGoNnS3CQXWBOkQvm
-X-Authority-Analysis: v=2.4 cv=Rv3I7SmK c=1 sm=1 tr=0 ts=691c8f65 cx=c_pps
- a=AfN7/Ok6k8XGzOShvHwTGQ==:117 a=AfN7/Ok6k8XGzOShvHwTGQ==:17
- a=IkcTkHD0fZMA:10 a=6UeiqGixMTsA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=QyXUC8HyAAAA:8 a=VnNF1IyMAAAA:8 a=JNz3O4sEs4oywJvo4n4A:9 a=3ZKOabzyN94A:10
- a=QEXdDO2ut3YA:10 a=UhEZJTgQB8St2RibIkdl:22 a=Z5ABNNGmrOfJ6cZ5bIyy:22
- a=QOGEsqRv6VhmHaoFNykA:22
-X-Proofpoint-GUID: z5vCIuXQoxQhVWpfGoNnS3CQXWBOkQvm
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMTE1MDAzMiBTYWx0ZWRfX7xgDi9VMkHy1
- xY1Kr5CN6JO103EZyDLYmJUVyCiuwKR/4uc3+Lmy/gvg5ECzM4sd6vU0zWqCHklppK8uLUvWjGX
- HwwwwH+Ce8Jw0NQCUNjE3exfborRXuQ4RjSB1HZACxh4RkWbE7BpIzojfb5TKd4SBA0XBh10Euo
- CsCaHasXAGt43yERBXoTQ5hFXFxjF+AK1zNBNgHfBYOInKsNmRYBkGYznwzarJkxLc/UdbEghnq
- kmXAnC8NgaNRASHp2cZtXrz3YttsT408eVXN4mQFU8o8MSMzbwi3Kptdqy/18crsQhyL56cLX4n
- RnZa0fHWW+S36zf2ZHPlGEIVPwtibWxtWTZqXsygWW1T/83Ban6/JWLGXi3iADfuOgd8HUjrRri
- jkkd9Ckpow854pIeK6bG7rGX3zWg/g==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
- definitions=2025-11-18_01,2025-11-18_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 suspectscore=0 clxscore=1011 phishscore=0 priorityscore=1501
- spamscore=0 lowpriorityscore=0 impostorscore=0 adultscore=0 bulkscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2510240000 definitions=main-2511150032
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251117181818.118139-12-ayaanmirzabaig85@gmail.com>
 
-Am 13.11.25 um 15:32 schrieb Andy Shevchenko:
+On Mon, Nov 17, 2025 at 11:48:16PM +0530, Ayaan Mirza Baig wrote:
+> The Greybus UART protocol supports only 8 data bits, no parity, one stop
+> bit, and no hardware flow control.
 
-> Use %ptSp instead of open coded variants to print content of
-> struct timespec64 in human readable format.
->
-> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Where did you get that from? Did you even look at the code you are
+changing?
+
+> Mask out unsupported termios flags
+> before applying settings and force the supported configuration. This
+> removes the old FIXME and aligns the driver with TTY subsystem
+> expectations.
+
+Please just leave the FIXMEs in place since you clearly do no understand
+what you are doing.
+
+> Signed-off-by: Ayaan Mirza Baig <ayaanmirzabaig85@gmail.com>
 > ---
+>  drivers/staging/greybus/uart.c | 10 ++++++++--
+>  1 file changed, 8 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/staging/greybus/uart.c b/drivers/staging/greybus/uart.c
+> index 10df5c37c83e..cc7337bf5088 100644
+> --- a/drivers/staging/greybus/uart.c
+> +++ b/drivers/staging/greybus/uart.c
+> @@ -495,8 +495,14 @@ static void gb_tty_set_termios(struct tty_struct *tty,
+>  
+>  	newline.data_bits = tty_get_char_size(termios->c_cflag);
+>  
+> -	/* FIXME: needs to clear unsupported bits in the termios */
+> -	gb_tty->clocal = ((termios->c_cflag & CLOCAL) != 0);
+> +	/* Mask out unsupported termios flags for Greybus UART */
+> +	termios->c_cflag &= ~(CSIZE | CSTOPB | PARENB | PARODD |
+> +				CRTSCTS | CMSPAR | CBAUD | CBAUDEX);
+> +	termios->c_cflag |= CS8;	/* Force 8 data bits */
+> +	termios->c_cflag &= ~PARENB;	/* No parity */
+> +	termios->c_cflag &= ~CSTOPB;	/* One stop bit */
+> +
+> +	gb_tty->clocal = (termios->c_cflag & CLOCAL);
 
-Thanks, looks good to me.
-
-Acked-by: Stefan Haberland <sth@linux.ibm.com> 
-
-
+Johan
