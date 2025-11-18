@@ -1,95 +1,128 @@
-Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CF6B2FFF91
-	for <linux-staging@lists.linux.dev>; Tue, 18 Nov 2025 07:36:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC96530CD88
+	for <linux-staging@lists.linux.dev>; Tue, 18 Nov 2025 08:17:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763451418; cv=none; b=S/xecUmqwFeNiUO5VZsKgchYuuy1IkqeaGE+0egkrPeM/2SReX7/Iac8ODqzkwhQf6B4ah6kU1AHPC7tyfOneeKV7TSIY9/bS1IgnqLxdlwLi9FE6Fhcdftr03qPLezoXWbfQ4SguGy417AFh4TZ8DXjbb6YQ1dbj0guz7qBUi8=
+	t=1763453849; cv=none; b=Rqtapn7x5QChIz0P/V4Pp+G0sICKv9tlZ63BQ3YfPbjL5IjKD2PdJZ9Mkx8MWkm2RJr3Esp1ZBwePYWRaMFfvC+NBVqzgzDgOHCB/virfwAI1I55mZ32ZeOwbY9phYdz/a/1wLNq7Q2RtsuGuqMRetsQyAfwrgIWHEGlpxVBdAw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763451418; c=relaxed/simple;
-	bh=jGH5/CEEBjQBAhN/KKMYTbcyNf3Uvl2lABRQziep7vk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hEn/eWb7XssvyGw+xTtaMgWfF0o06B6JktpiaCMTKhdgmN7tDXlH11Q6xE3ZzdSvsmp/HJ1BSpj0qNCXJy+0kO9BtECEEdNvHkZ82Ta95gdeWXcfSpg3ZOrwuckNr9UU9JXSCOkyFvOtENP4bufnzWamZtrJ8jOufq6C7n0Iffs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Fdcgz6mo; arc=none smtp.client-ip=209.85.218.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1763453849; c=relaxed/simple;
+	bh=Xbkd0OhYK9CGSu7BYStw60Kktb8UPNtSubpkQmtNXQ4=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=UclFcgIWh7L0JntvmswrmLQm0lJFvWjwF6QXKcuxO0PeGfVcasCT7eC9/NSXw7JpBJPRdelslL5UZUZYAHVLcuS5zUHtcHxWsABgW17U0OGcsk4kEWTAzy6acpf6mq59LXwgLTHZXI/AhOdE+jsIHGEK+gGR2ROI1V6NEkzVqmc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VEsbYMGX; arc=none smtp.client-ip=209.85.128.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Fdcgz6mo"
-Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-b73b24f1784so192897066b.0
-        for <linux-staging@lists.linux.dev>; Mon, 17 Nov 2025 23:36:56 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VEsbYMGX"
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-477632d9326so35170085e9.1
+        for <linux-staging@lists.linux.dev>; Tue, 18 Nov 2025 00:17:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1763451415; x=1764056215; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=rb1AZdrI6VjKLUj+2F+eU7kfRCL6K9PQeZlP12b9JH8=;
-        b=Fdcgz6mofFwnQHLLzN1qhMdayiU+0u1pH6AnpW4x4BydFi+36qNn8DA1LVvmJFjEDI
-         M+925L6DBqBijAPdQy/cnLVbmIi3T9ze8ZttkZBA6DGTv5weoelngRnVAxNTtjKn90s2
-         aaVMVNsM+DY4TmuVy4TNLcb6bIslS9F6wKU7AMFv9teUO5823uEw4KPUFXJHZ2ShyBjg
-         eQVMqBokiW/WPdjXz7RkeoZTENYYra6VRpKxqvJel16ARW64IiejryAwXtB3+E/UjW2a
-         IOnzC/VRLgvVtxAK4dVLqYpl1c70px6GA3GXHdMN8E96OF09MeC4x6iEqyrCaYqIbIh1
-         HIOw==
+        d=gmail.com; s=20230601; t=1763453846; x=1764058646; darn=lists.linux.dev;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=Xbkd0OhYK9CGSu7BYStw60Kktb8UPNtSubpkQmtNXQ4=;
+        b=VEsbYMGXtKuZF/7pYVsZNv6Fv7raUX76gm9JvLe/+A9xgyt9pyfggn5iozwcYMlXDA
+         SpdMRM8Q16rCKGUtmUvWxgWUmFl7viw0Jxp+d2QJ7BnH/EqE4t1yO/+hd2h+UciWClsJ
+         1Eu05Xhg/Rad85/KYYUOoxEYAvpvZnSFDDbRXYspJjpKJHwK8ofF8y3Q0Ksfs4dw7+lp
+         vU1UWPvHNBfmQo1h7dMKsNgbuzJrN5I599YYZZsesjIh+eWsMW9LpOWIXYU0SjTiMZ6T
+         ZJTlmkjPfVYKxo5f8aYJ8+VNTmLFv33e8FHIPm+KwuCwzVzinnJs+YCMeeOgFwAHqRmu
+         JR0w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763451415; x=1764056215;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=rb1AZdrI6VjKLUj+2F+eU7kfRCL6K9PQeZlP12b9JH8=;
-        b=sMmyMLYXJ+2meZ25zrgZQiGrFefZAH3+EBrT2+sCboLfPcSpo5+USX9Q60KHQzn8QT
-         hkbUrSMb248mgM/O00orrd0k4D4OeybQhz3uM3rHIOZwCar9cCwbTzh8Y6cw3r1DTkwg
-         NuqtlNK12LV+YycGeqJ1ketIGX5ghcgvPlLP9HzLcbflUnswcIHGaEb3xX52fWYC+qSv
-         T+RxGHYKbLs0TaIMPjo/0SIQK0o96Kf60eGREcZZRqJeZyjpU10QDn4ZL3w3LI/8pEwt
-         F8UJ9nYUFcICVSKb17tAlnD0XMz/HhJu7Qcy/Tv3iHL6CTjo+QEhpE/35fobAicrst9Y
-         ij4g==
-X-Forwarded-Encrypted: i=1; AJvYcCUKiowObVx7UzjMdhbkC5hlIiHqcKgsWebnKwZSpWiPLI03+zTgclotQeMydFscxbVwCPx5NFDgNGhkITz3@lists.linux.dev
-X-Gm-Message-State: AOJu0YwDejn9sO/AdPwie88rAZHg88LmPFTjy8QkSp/UPVSpMekvdzVI
-	MUmhQxWVSbmZKdf4emKNODeKdLyLLtQ7yn5EeiKYDC2BZK/wBbfnOAPRPbtvRLAYaUA=
-X-Gm-Gg: ASbGncsVB8XPhABfzXnpPrl1lHfXKDWL6vn3pNkhI1PEFi9tYdyDMmhTqBcKA/J4Shu
-	e+7rjT5hk67Tii7V9OywEvbKuHZSi59Aayvu1FkVVVO4/PJ59rF+gp3s1Y9Y9IT03LSfmhTlKj1
-	ZBW364WTcFZK9BCN63JJ0Z6ems7rKhe0+ETijdbxd3mJwLtwkTDQdQvs0EupgidI2uD8GAqpF16
-	7scZSRuW5b6ppqJWp8BBCKb0Abnrtv9TCBWarEab8m/9/5dZoaZOF8+PH5ovoknMgsqvTlh7R2J
-	M41vvPZVMIimn2libKjO51PCY9/TDso0nRuK9m2HBj1UGxNSVBILXCxLI3tCrhy5ds2KVSi1RFw
-	rwi7e61hfVZ4z/iOFiSGLyeDK66O8mrSK9fmzfyR8nHwQuRpQHjqHfoB77ZnHmm6fbhV2h+zyl+
-	/xi7b1BQ==
-X-Google-Smtp-Source: AGHT+IG0FpjWmmxcQYJpVKcXJx06Pdk1OMq8ApJhUZmh+cOAdGtHz/5esIfHPFyf7pTZjPJESFRRRw==
-X-Received: by 2002:a17:907:5ca:b0:b73:2e54:a002 with SMTP id a640c23a62f3a-b75a0a05e00mr294145366b.15.1763451415325;
-        Mon, 17 Nov 2025 23:36:55 -0800 (PST)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id 4fb4d7f45d1cf-6433a497ffdsm12125067a12.21.2025.11.17.23.36.54
+        d=1e100.net; s=20230601; t=1763453846; x=1764058646;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Xbkd0OhYK9CGSu7BYStw60Kktb8UPNtSubpkQmtNXQ4=;
+        b=Z7UdEV4V0cWwSIIWsGwMTodDEKZzY2ORWra42zbheyNHhDrJRgOHLwZgM0jpst3R+c
+         mmozGIttGQPtrxIePH95sdVqDCLKwPxyIQWr0rexnhhW9Y0FpXTDTi0e4dbAz3O8HnU+
+         vQccrSSB85cXmxcM3LKvYnB2Jd/D4iTF0Jm6cgVNpn2Och4opaGdIEJnrVC/ZTiv/v3f
+         U2+8+k2gZHDGe9OuABLa4UGJAmebfXreTbFrVZW9PjK8PiQEsH0Tcv02YuGVWcqF5HSD
+         qdZE30k/YdDE2mmxFLJ7MRKQV4Ef8kQyU4C7R7vAnhD7XhnqEDkzFxVg+lpCRkSdAa3v
+         H7CA==
+X-Forwarded-Encrypted: i=1; AJvYcCXIIBPs9W7JjJwTNKfS+WbnxYlmpCMgIiWF9awlqP7aLD5wpyCNB2jUuRXlbImaRVtsc4CB/FGyiOA78S1R@lists.linux.dev
+X-Gm-Message-State: AOJu0YxbM73OfM5c/bvrxHuY/5+FX7xyo16ooggxcCUY99NB8zJKXhY1
+	slJAmsldPf4H6jr8IG96tVndeC6vgLs/M46ijNmVm8/3K6FxqA9gJgxu
+X-Gm-Gg: ASbGncsEssLDCKPVAAz0BhVc7wjpTxoJlViX4ToK44rlEY/52ACwxMPW3ab2TPGgd1i
+	AtSdxC8vDNKtpSjo5gmCKaTMQnsrvfRyOQd9uUW4MZ8Rk0bPGHEfBT2t6GUdUmrOoeJn8a9Ra/r
+	znvLU3ACLpS5Awg8N4QfV3508pLbjETq85PtrRBud8ONfLCIZpA2VYjwhMDR0eBbMVPOe4QMNtk
+	YT0HXfj7AeFjWJI88IXcx/1agJAT6BvEeBiGaZC3lswhU2wNY9SdfD+AEQL8jsdn6I3dL+NqUS0
+	ZMpI1u6Crk43eJhVaC/QTRWRCGrV5Vgb4s+Ym/qpFKgwEalrwAWILQbOupd8jsOiTPBkltqaW3m
+	OuHqO+Y/djIHKL2MNc4Ocx/QYJh2/I9DLvfB256o23D4ZM5wwJYhhPo4Q+jugIu+/Buvb1q9NzX
+	mNH+c0HbNO2Evn6RTmmfvWIV7wte2TdmWYucHNoFzhrQkwF9vs
+X-Google-Smtp-Source: AGHT+IEQK9M+UEhXUxY/WFeaRZPh0DFjsNVaCKSh+luJ0k+GHsFsMy0/x61VLnd/4XfZ5D3SUwZ4aw==
+X-Received: by 2002:a05:600c:a07:b0:46f:c55a:5a8d with SMTP id 5b1f17b1804b1-4778fe55101mr136563585e9.4.1763453845879;
+        Tue, 18 Nov 2025 00:17:25 -0800 (PST)
+Received: from ?IPv6:2001:818:ea56:d000:94c4:fb0e:28f:2a8d? ([2001:818:ea56:d000:94c4:fb0e:28f:2a8d])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4779920f2cdsm200467775e9.10.2025.11.18.00.17.25
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 17 Nov 2025 23:36:54 -0800 (PST)
-Date: Tue, 18 Nov 2025 10:36:50 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Dharanitharan R <dharanitharan725@gmail.com>
-Cc: johan@kernel.org, elder@kernel.org, gregkh@linuxfoundation.org,
-	greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev
-Subject: Re: [PATCH] staging: greybus: replace strncpy() with strlcpy() in
- firmware test tool
-Message-ID: <aRwiEnEx4gX90eVh@stanley.mountain>
-References: <20251117065003.7453-1-dharanitharan725@gmail.com>
+        Tue, 18 Nov 2025 00:17:25 -0800 (PST)
+Message-ID: <34a55901fe0729145097d287a98746f23eea13d8.camel@gmail.com>
+Subject: Re: [PATCH] staging: iio: adt7316: replace sprintf() with
+ sysfs_emit()
+From: Nuno =?ISO-8859-1?Q?S=E1?= <noname.nuno@gmail.com>
+To: Jonathan Cameron <jic23@kernel.org>, Andy Shevchenko
+	 <andy.shevchenko@gmail.com>
+Cc: Shi Hao <i.shihao.999@gmail.com>, Michael.Hennerich@analog.com, 
+	lars@metafoo.de, dlechner@baylibre.com, nuno.sa@analog.com,
+ andy@kernel.org, 	gregkh@linuxfoundation.org, linux-iio@vger.kernel.org, 
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Date: Tue, 18 Nov 2025 08:18:28 +0000
+In-Reply-To: <20251116152800.4c1849cc@jic23-huawei>
+References: <20251116101620.25277-1-i.shihao.999@gmail.com>
+		<CAHp75VdY7W8EgOfKuxtTALj777aVatxV5dqsxm688JTy=iVW2Q@mail.gmail.com>
+	 <20251116152800.4c1849cc@jic23-huawei>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.2 (3.56.2-2.fc42) 
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251117065003.7453-1-dharanitharan725@gmail.com>
 
-On Mon, Nov 17, 2025 at 06:50:03AM +0000, Dharanitharan R wrote:
-> The sample userspace firmware-management tool uses strncpy() to copy
-> firmware tags. strncpy() does not guarantee null-termination and can
-> leave buffers unterminated. For userspace code, strlcpy() is the
-> recommended safe alternative.
-> 
-> Replace all strncpy() calls with strlcpy().
+On Sun, 2025-11-16 at 15:28 +0000, Jonathan Cameron wrote:
+> On Sun, 16 Nov 2025 13:08:07 +0200
+> Andy Shevchenko <andy.shevchenko@gmail.com> wrote:
+>=20
+> > On Sun, Nov 16, 2025 at 12:16=E2=80=AFPM Shi Hao <i.shihao.999@gmail.co=
+m> wrote:
+> > >=20
+> > > Convert several sprintf() calls to sysfs_emit() in the
+> > > sysfs show functions, as it is the preferred helper and
+> > > prevents potential buffer overruns.
+> > >=20
+> > > No functional changes intended.=C2=A0=20
+> >=20
+> > I briefly looked at it and see no issues,
+> > Reviewed-by: Andy Shevchenko <andy@kernel.org>
+> >=20
+>=20
+> Applied, but I will note that this driver is a long way from suitable
+> for moving out of staging and I would be surprised if more than
+> one or two of the lines changed in this patch make it through the
+> necessary refactors (should anyone actually have another go at
+> doing them).=C2=A0 Anyhow, I still think this is worth taking just to
+> reduce the noise of remaining instances of this.
+>=20
+> I'd have deleted this long ago except I actually have one somewhere
+> and it one of the supported parts was still listed as suitable for
+> new designs when I checked not long ago.
 
-Don't use strlcpy().  Either use strscpy() or strscpy_pad() as
-appropriate.  I wrote a blog about this which may be useful.
+Seems to be now "just" in production. So no longer advised for new designs.=
+ I gave a
+quick look and this is far from being a simple driver. It would require a f=
+air amount
+of work to bring it out of staging. So, are there users relying on staging =
+drivers?
+But I would assume that for staging we are still free to drop support it?
 
-https://staticthinking.wordpress.com/2023/10/30/strcpy-strncpy-strlcpy-and-strscpy/
+>=20
+> ADI folk, I would like to hear if we should just delete this one.
 
-regards,
-dan carpenter
+I guess Michael is the best person to answer this question.
 
+- Nuno S=C3=A1
