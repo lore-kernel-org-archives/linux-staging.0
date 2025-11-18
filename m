@@ -1,73 +1,146 @@
-Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D7D72D8DB5
-	for <linux-staging@lists.linux.dev>; Tue, 18 Nov 2025 18:36:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A37E2E03F1
+	for <linux-staging@lists.linux.dev>; Tue, 18 Nov 2025 18:50:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763490973; cv=none; b=Qsi6Fjk8f58rJT5BjDt0B3wGJPLu6eKpdk3AxYq2AaQLwDOiCBU6pTa3pdNcdHtE41jrhRLtkg2ryJu9srts02Hjr6ZOGI+019SqBJsEOF/d05aTgu6hbrU0CfXkoVE4eRz7+rsY9FnuTta010SsH8TbADwvjS7RxWuljE06/Kg=
+	t=1763491832; cv=none; b=mOFYvVp8+QSIx+QGVhlyPN1aOw6r1i6rpYQV0Lp05t5FnBcp0qs+lgt7f0st3NsRzHVkYDodUMl6Vin+35HUVoMbv+YmmUdxNUUlJ28JiWD43IagXC62FCnskBkNKvh5rvyuGsRRpT8GpPBKbfATf/6HHH2JlQhJHEtPY4/5Wsg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763490973; c=relaxed/simple;
-	bh=0W1aoFTm4VFMmK1hkBqJ2zS6FpPE0OxnZd4eurmwFPA=;
+	s=arc-20240116; t=1763491832; c=relaxed/simple;
+	bh=FHR1vghh3/Ry94P21SXhw8smish6xFij+qwri1zqTjg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=G/gW92+uNKhn2XnMPWCczt3Os6QKiQvNq/+2E4La03w5/Ij9qYzdmxIgTw7lXhYuWRYNGyJjPKqPl0SMcfHbWwN7tUtq2oGIH5xouOrW2V93X0PT7A2dZDaGfK7xGP6HIhV9v2aJvNsYKttXZ+kxkxyoEwDcMjAJWB7g2XHclWs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bx80cHVq; arc=none smtp.client-ip=209.85.210.178
+	 Content-Type:Content-Disposition:In-Reply-To; b=V06RT2flijgOQ33wSUMNqxTU3HQnjETKvKUl3wYxykg242nHeUk0voXxUv4jzuaHGa401Li11gHxPTJXs+zdhuYCT8LU3JLEW9nSoPDapD1VSdbcBtBDWW7lVpC/QPKJVT4RocFEnVb7eywuwSclp4XvIrK2si7v71S0EKortnw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=D9aXsHbV; arc=none smtp.client-ip=209.85.128.47
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bx80cHVq"
-Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-7b22ffa2a88so4886971b3a.1
-        for <linux-staging@lists.linux.dev>; Tue, 18 Nov 2025 10:36:11 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="D9aXsHbV"
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-4779c672e9cso2683075e9.1
+        for <linux-staging@lists.linux.dev>; Tue, 18 Nov 2025 10:50:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1763490970; x=1764095770; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1763491827; x=1764096627; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=79j4iqbcGQ/T4wx0pyL6Ik5PHIuwtyqnErQphNVBlhk=;
-        b=bx80cHVqbzvW7ulu1RMX853eDw7hOous5u/zc932+7/p4TehK5nb81NjXeAJ1jpkzC
-         ZZ1aNF1paGpCI1zZq4tFLzV/W/zjd3AGMa8gZX98tIzD5cHAJSjCPXSk1K6ABGa1YJbz
-         O7RVsAJvaAv9xRzqxdSjOjELLKtcT5h3noC0HdNWIJrzEN2BYdjRRyr1ckFZ+kz88qhp
-         H20f6UFCsj0anzqGGesdtM874WH+fliDpQXXEk0DrhfutKvn7Lc+YpsG3X9KuiQqQrv+
-         riTb1l6Y7+bHDjmgJ2+niRcApmS4IRydY3SXvk6zCUa6xRvrv3vSrjrrd2yG5rZOuQF/
-         lOLQ==
+        bh=/xelqTh0MJxdYizhebw3VTy7C2C4gWnDlrkViLNdgoU=;
+        b=D9aXsHbVSNiDKk+XGDbayCNOlY7rlCXyJGFRdfFNemIOPQsfSV3rgULC15DVrSuQSg
+         ZKkFeyCm+hvN5Mx5VWDV380bjWOPHMb3XiXEK46pd98M3JfjYhWtKXgGsw2md+dJKqFh
+         lNmFCs5NVZNZYXZig3S3EkEVbQ6I0qcPlT6ZjULB2JfJRJjE/jEUe6iMUMvqAH63teMV
+         k3kuDw/mpEsKFFSFZhvYT/hqVEfy5Inb8IMZHqxpd6sjLP6zTeAFnCxPkLVjUF1GW5ow
+         LkCAV+D5eqgzKf9l2HyZRhZgFS57PWQDcl+3bAqMWain3q8pFK3aAN1g4n7ChKp9C9TA
+         0f5g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763490970; x=1764095770;
+        d=1e100.net; s=20230601; t=1763491827; x=1764096627;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=79j4iqbcGQ/T4wx0pyL6Ik5PHIuwtyqnErQphNVBlhk=;
-        b=G1RnlXZX0CKWlH9T1QZJX2WgG8cU8tg988oshMwUkubzWhumkzrPHbOE0R/YPnYBcz
-         CAVBdkIr6UlnHDT2culcKbDVZY61jF1kDansAhqUCTBu/AwSypP6/NQoOt2jdbeioghY
-         6TFzEAr+ulBovWLrf7HdeGMqc6ECVixEE87btk723ekRmcwR0vgnqgvvINswtiBMw823
-         pbPkTRI8PaZ2DJHj3YfVKDImHfFhqxvKlXVm+qQsb7Pu2gY1wLntz538uboWkr8IZoGO
-         Oy96IdOE7Th6ga0CKUfGPCokE7i0d2DjC06sReiKD9Q3eVX41SEBT2J+lN/LRQ8/2uwb
-         PoTA==
-X-Forwarded-Encrypted: i=1; AJvYcCUda8MhXsT6RxYzlMX3mjbHdxhdCIjP3TYuyS5XOQe6QVx/Zpe7jh8CAQeqrvoqK3edbzxVGOZTRloDPnSn@lists.linux.dev
-X-Gm-Message-State: AOJu0Yzyk8H5Y8/NNp/6BiwoSiC9V0pweesxf6cEhIpxoF4z+UTmrAGl
-	aOUlngmk+aJNGYv1jPp6sEHbd371ZZrEJfoXEABtMdXbHYZy0DEClcM8
-X-Gm-Gg: ASbGnctZISuMuzZv7THEZeLEWMGzsU50Ou2eVLeM1bKNRyKrlE8rDLoHhIqUSwll7rt
-	P+Ik7rvHPKZyF4J4Pfy8jk/xT6FmxWRJR4PpxVOWlfTXogprC6f+hxZbiEw8abo6soQFicitJp7
-	a514GJflnjTNv+OkRn2ehS9YKANmJGa0eF6ismim19ScUMr0yRO18hrlQGqG74m6t6xHGYVL7M5
-	6inEIlXNKnQLvNniy7RbRhdMHbrBebs5apN2hGSSO0ooae3AnGy8xzQUmG55TVm5InlWThawI1H
-	07FgikENoTxWtMPoeZztFW+peIVR9STrCODFhgeH4zWFhHxrEDGopmCFN1pmbJxzMeLirRkC+cQ
-	mPIzQPsD7kukt/uTBCgKRd9P7FyZYjWtVJomCcEa2ApRAiepw8yisg80Lf0+KN4d80YKhbhxEpG
-	YBIgWeOg2zP0yq
-X-Google-Smtp-Source: AGHT+IHa4JRGCsbncxOnBeaVQyIlL5r4RDTWOvg7YK3NBAhwiTWYtCH0KppHR0FS1usI8OZ20uFUtQ==
-X-Received: by 2002:a05:6a20:958e:b0:251:43f5:cad4 with SMTP id adf61e73a8af0-35b9fa862f5mr20739767637.10.1763490970504;
-        Tue, 18 Nov 2025 10:36:10 -0800 (PST)
-Received: from ideapad ([139.5.199.64])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-bc36f52361fsm15893241a12.15.2025.11.18.10.36.07
+        bh=/xelqTh0MJxdYizhebw3VTy7C2C4gWnDlrkViLNdgoU=;
+        b=h68SeDQ/6aguHovBV/jyHziXugMPo+gsfE4lWrh5X5jyeOHjxvJ36SiAreheApymw1
+         mEIfKgHni0mNzGZrJ7A7GwW00UqGdUlEOrxK57cz2DZqDqcEZw4Yi4XDLrjR+xJweYrO
+         3tv2O3ZcqdSe6Jd/t4bN/NKXOwzZh7e2DAvoJEhGFNTrM4095NVLVx1Ul8GC6/s2TqAx
+         iH0KMO3iFXe4lZEeZE17XXusujwGx+39Grn5Yx8ESFGUQnS9q4TDOPVZNjcDr7ocp9u7
+         xN76MEGw6Jg4jUmKP+YmrEZCMLUHQ5A2XIWmgjgXjRHX67xNyjXX/3WMbytAu+4nWo1c
+         3SCA==
+X-Forwarded-Encrypted: i=1; AJvYcCVjh5bT6fMEeiAb7i1hYtr1YOVYmdFSCEOpDRI0mEvL/OPLcv+Ev3AknlnyWCtiEWJBNdxTuWkXnjP+FdEs@lists.linux.dev
+X-Gm-Message-State: AOJu0YwmlzG1Udzd8356j54SjifaEW2WOW9/onpTeXzKEyZg8lLK9Rex
+	egch9TbiolI1AgFUFJV1ZHxmRuixiJ92vphiPR54vV3Z/EgixAR0EkVK
+X-Gm-Gg: ASbGnctmQwv1SvZbL7ef7dinb7/ppks36hkPhV+Z9kGixj4BUWWRv65QwihzGpEfIEa
+	uemRdeeofl0HKUZhj7uauix6NJjEsyVdLsw8lc/fxW9Z1tykM3/JWFcG9zoIsJJ3pfre4sLaqzb
+	y2tIy5PUC6jmmK1yEP0ZoP+SqmxX67DD6Qq8gjky9Apq3yH5D7x86w8Z85ak/FJzYS8DHDCtrce
+	ZvqP/EdTbPBlGzLPLGIH47eoa3ES7NFmvYhHz2A9VuA73jWgqKOTEgL0Ws6pZhMDybbn50MqhRz
+	taetiDHCuloj0/3HwSqpeixJZkCPp8IDcv2WbcIsgvpdoFfr478Zkz6aVqeNWLFB1nJLqZa2J0x
+	IchinZUNPfSK7mfEorWpFF5trsx3TC42StjdzQ3jBFAmf/UXaUNcnsrOktNrsEiRxuNE7iItpe5
+	DW14S0sVcKbIan
+X-Google-Smtp-Source: AGHT+IHx6i4VYWR6pSTcXtSoFlN4Y9U/3Z/PI54PVyQA5JnsfbBaJwpdM3LzkIBKtiuh5JtXbYxanA==
+X-Received: by 2002:a05:600c:1547:b0:477:5c70:e14e with SMTP id 5b1f17b1804b1-4778feabadamr87966605e9.5.1763491827278;
+        Tue, 18 Nov 2025 10:50:27 -0800 (PST)
+Received: from skbuf ([2a02:2f04:d106:d600:9ac1:9a91:7d1:a813])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-477a9df99d3sm22110705e9.12.2025.11.18.10.50.19
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 18 Nov 2025 10:36:10 -0800 (PST)
-Date: Wed, 19 Nov 2025 00:06:05 +0530
-From: Ayaan Mirza Baig <ayaanmirzabaig85@gmail.com>
-To: Johan Hovold <johan@kernel.org>
-Cc: gregkh@linuxfoundation.org, elder@kernel.org,
-	linux-staging@lists.linux.dev, greybus-dev@lists.linaro.org
-Subject: Re: [PATCH 00/13] staging: greybus: cleanup, FIXME removals, and
- driver correctness fixes
-Message-ID: <aRy8lRKzCTNDTc-u@ideapad>
-References: <20251117181818.118139-1-ayaanmirzabaig85@gmail.com>
- <aRyaoaauQyE78OhX@hovoldconsulting.com>
+        Tue, 18 Nov 2025 10:50:23 -0800 (PST)
+Date: Tue, 18 Nov 2025 20:50:17 +0200
+From: Vladimir Oltean <olteanv@gmail.com>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: Corey Minyard <corey@minyard.net>,
+	Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+	"Dr. David Alan Gilbert" <linux@treblig.org>,
+	Alex Deucher <alexander.deucher@amd.com>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+	Rob Clark <robin.clark@oss.qualcomm.com>,
+	Matthew Brost <matthew.brost@intel.com>,
+	Ulf Hansson <ulf.hansson@linaro.org>,
+	Aleksandr Loktionov <aleksandr.loktionov@intel.com>,
+	Vitaly Lifshits <vitaly.lifshits@intel.com>,
+	Manivannan Sadhasivam <mani@kernel.org>,
+	Niklas Cassel <cassel@kernel.org>, Calvin Owens <calvin@wbinvd.org>,
+	Vadim Fedorenko <vadim.fedorenko@linux.dev>,
+	Sagi Maimon <maimon.sagi@gmail.com>,
+	"Martin K. Petersen" <martin.petersen@oracle.com>,
+	Karan Tilak Kumar <kartilak@cisco.com>,
+	Hans Verkuil <hverkuil+cisco@kernel.org>,
+	Casey Schaufler <casey@schaufler-ca.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Petr Mladek <pmladek@suse.com>,
+	Viacheslav Dubeyko <Slava.Dubeyko@ibm.com>,
+	Max Kellermann <max.kellermann@ionos.com>,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	openipmi-developer@lists.sourceforge.net,
+	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	linaro-mm-sig@lists.linaro.org, amd-gfx@lists.freedesktop.org,
+	linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
+	intel-xe@lists.freedesktop.org, linux-mmc@vger.kernel.org,
+	netdev@vger.kernel.org, intel-wired-lan@lists.osuosl.org,
+	linux-pci@vger.kernel.org, linux-s390@vger.kernel.org,
+	linux-scsi@vger.kernel.org, linux-staging@lists.linux.dev,
+	ceph-devel@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
+	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+	Sergey Senozhatsky <senozhatsky@chromium.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	Gustavo Padovan <gustavo@padovan.org>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Dmitry Baryshkov <lumag@kernel.org>,
+	Abhinav Kumar <abhinav.kumar@linux.dev>,
+	Jessica Zhang <jesszhan0024@gmail.com>, Sean Paul <sean@poorly.run>,
+	Marijn Suijten <marijn.suijten@somainline.org>,
+	Konrad Dybcio <konradybcio@kernel.org>,
+	Lucas De Marchi <lucas.demarchi@intel.com>,
+	Thomas =?utf-8?Q?Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+	Rodrigo Vivi <rodrigo.vivi@intel.com>, Andrew Lunn <andrew@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Tony Nguyen <anthony.l.nguyen@intel.com>,
+	Przemek Kitszel <przemyslaw.kitszel@intel.com>,
+	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
+	Kishon Vijay Abraham I <kishon@kernel.org>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Rodolfo Giometti <giometti@enneenne.com>,
+	Jonathan Lemon <jonathan.lemon@gmail.com>,
+	Richard Cochran <richardcochran@gmail.com>,
+	Stefan Haberland <sth@linux.ibm.com>,
+	Jan Hoeppner <hoeppner@linux.ibm.com>,
+	Heiko Carstens <hca@linux.ibm.com>,
+	Vasily Gorbik <gor@linux.ibm.com>,
+	Alexander Gordeev <agordeev@linux.ibm.com>,
+	Christian Borntraeger <borntraeger@linux.ibm.com>,
+	Sven Schnelle <svens@linux.ibm.com>,
+	Satish Kharat <satishkh@cisco.com>,
+	Sesidhar Baddela <sebaddel@cisco.com>,
+	"James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Xiubo Li <xiubli@redhat.com>, Ilya Dryomov <idryomov@gmail.com>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	Andrew Morton <akpm@linux-foundation.org>
+Subject: Re: [PATCH v3 14/21] net: dsa: sja1105: Switch to use %ptSp
+Message-ID: <20251118185017.kk7binsumhh27n7x@skbuf>
+References: <20251113150217.3030010-1-andriy.shevchenko@linux.intel.com>
+ <20251113150217.3030010-15-andriy.shevchenko@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -76,106 +149,23 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <aRyaoaauQyE78OhX@hovoldconsulting.com>
+In-Reply-To: <20251113150217.3030010-15-andriy.shevchenko@linux.intel.com>
 
-On Tue, Nov 18, 2025 at 05:11:13PM +0100, Johan Hovold wrote:
-> On Mon, Nov 17, 2025 at 11:48:05PM +0530, Ayaan Mirza Baig wrote:
-> > Hi Greg and all,
-> > 
-> > This series performs a set of cleanups, correctness fixes, and
-> > remaining TODO removals across the Greybus drivers in
-> > drivers/staging/greybus.
-> > 
-> > Greybus has existed in staging for a long time, and many FIXMEs,
-> > outdated comments, and partial implementations had accumulated over the
-> > years.
+Hi Andy,
+
+On Thu, Nov 13, 2025 at 03:32:28PM +0100, Andy Shevchenko wrote:
+> Use %ptSp instead of open coded variants to print content of
+> struct timespec64 in human readable format.
 > 
-> These haven't accumulated in staging, but during development as the git
-> logs should tell you.
-> 
-> > While reviewing and compile-testing the drivers I found a number of
-> > places where the comments were obsolete, logic was incomplete, or newer
-> > subsystem APIs had evolved.
-> > 
-> > This series addresses those issues without changing any fundamental
-> > design or architecture. All changes are self-contained, straightforward,
-> > and focues on improving correctness and maintainability.
-> > 
-> > The patches include:
-> > 
-> >   * Removal of obsolete FIXMEs that no longer reflect the current code
-> >     or hardware behavior.
-> >   * Correctness fixes in several protocol drivers (UART, RAW, USB,
-> >     Loopback, Firmware core, Audio).
-> >   * Small improvements to error handling and shutdown paths.
-> >   * Cleanup of commented-out or dead code.
-> >   * Removal of the now-completed GPIO and PWM TODO items.
-> >   * Removal of the empty Greybus TODO file.
-> > 
-> > All patches were compile-tested with COMPILE_TEST=y and all Greybus
-> > options enabled. Runtime smoke testing was performed where possible.
-> > 
-> > This series does not attempt to graduate Greybus out of staging; these
-> > changes are preparatory cleanups only.
-> > 
-> > Thanks for your time and review.
-> > 
-> > Ayaan Mirza Baig (13):
-> >   staging: greybus: Remove completed GPIO conversion TODO item
-> >   staging: greybus: pwm: move activation into pwm apply and remove
-> >     request()
-> >   staging: greybus: remove empty TODO file
-> >   staging: greybus: audio: remove obsolete INPUT_PROP_NO_DUMMY_RELEASE
-> >     FIXME
-> >   staging: greybus: audio: remove obsolete FIXME and document topology
-> >     ownership
-> >   staging: greybus: bootrom: remove obsolete FIXME about SVC parallel
-> >     event handling
-> >   staging: greybus: bootrom: remove obsolete FIXME around firmware
-> >     filename logging
-> >   staging: greybus: fw-core: remove obsolete S2 Loader runtime PM FIXME
-> >   staging: greybus: loopback: remove incorrect FIXME about async wait
-> >   staging: greybus: raw: handle disconnect while chardev is open
-> >   staging: greybus: uart: clear unsupported termios bits
-> >   staging: greybus: usb: validate hub control response length
-> >   staging: greybus: usb: remove obsolete FIXME about bridged-PHY support
-> 
-> I only skimmed some of these and there are so many bugs and
-> misunderstandings here that I can only imagine what's lurking in the
-> remaining ones.
-> 
-> The basic misunderstanding seems to be that FIXMEs can and should be
-> removed without addressing the underlying issues.
-> 
-> Johan
+> Reviewed-by: Aleksandr Loktionov <aleksandr.loktionov@intel.com>
+> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> ---
 
-Hi Johan,
+Acked-by: Vladimir Oltean <olteanv@gmail.com>
+Tested-by: Vladimir Oltean <olteanv@gmail.com>
 
-Thank you for taking the time to review the series, and thank you for being
-direct about the issues. I want to apologize for the misunderstandings and
-for removing FIXMEs that should not have been touched. That was my mistake,
-and I should have taken more care before modifying areas of the subsystem
-I don't fully understand yet.
+Thanks!
 
-I also want to be transparent: I'm an undergraduate student who is just
-starting to learn kernel development. I'm very interested in Linux and
-want to contribute seriously, but I clearly approached this series with
-more confidence than understanding, and I am sorry for the noise that caused.
-
-I'll resend only a very small, focused series once I have properly analysed
-the code. Before I send a v2, I want to make sure I am going in the right direction.
-
-If you have any guidance on how I can improve - in terms of approach,
-review process, or how to evaluate FIXMEs and TODOs correctly - I would
-really appreciate it. I'm trying to learn the right way to contribute and I
-don't want to repeat the same mistakes.
-
-I also want to double-check whether the PWM apply() changes (one of the
-TODO items) were done correctly, also if there are any issues in
-[PATCH 10/13], apart from what Abdun suggested.
-I'm willing to redo the work properly.
-
-Again, apologies for the errors. I appreciate your time and feedback.
-
-Thanks,
-Ayaan
+This is a rarely modified portion of the SJA1105 driver, and it doesn't
+conflict with other changes that I have planned, so from my PoV there is
+no problem with the patch being picked up via other trees.
