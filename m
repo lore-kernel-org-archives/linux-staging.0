@@ -1,119 +1,258 @@
-Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 554A9248880
-	for <linux-staging@lists.linux.dev>; Tue, 18 Nov 2025 12:11:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2ACFA30E84A
+	for <linux-staging@lists.linux.dev>; Tue, 18 Nov 2025 13:33:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763467865; cv=none; b=lmqhowsroiB7GzbbqQNM5ocpUWqhJ7TSsHTtNEnUphpbI8MZDHI86Kq1LgU8zmIXrDz2dqbN2v6C7NHpJ9K8CWRKwSlstuwUockj3J6+V8gRkTZ8Q2XIAu3G1jSJLz9AUI4Z4xYI/aNIY0MqfOWJxmckEFhJC1T2Lp581hseyws=
+	t=1763472826; cv=none; b=VKdeUiqF7nDfu/Y7JtTfBk0P5GpF70HgzkyIOv5E/eEfoPM4FI1BPbXNEcdC9JbNkojLcDv5j5vUBp1qjcVxpzvUiQYwzghNzTql4bZIasXXrE4i2ZgmDyjNKh7JCKPFDtia54ojdFqQlRLlJIfrRSroa/Tj/i+SJu/MEN3eOyE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763467865; c=relaxed/simple;
-	bh=17XNnwLdMemyuDuOqXGKlJ5O6NnP79UC4YL65XMZBtU=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=eFdD9GWkEEUwmXU7HP96PcO2IAVCF3wzuX0fgvOtk9TFGiTuuuI1UDpJW1ovIdBEX/S4lB63/h3s5S1upcSe3/v86YjS59KWQ6HHK85msZpLxuDyh6bNVVMhK9iM5us9S7tH04Rk6VDBKMF/NKFU0vQ/CbznDVa78yCOGFI/UwU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fk9WkA5P; arc=none smtp.client-ip=209.85.218.50
+	s=arc-20240116; t=1763472826; c=relaxed/simple;
+	bh=76HQ6IQ9QTcfB996hFo9gZ0/AvkFRWwKPMJKe8uqKMQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Z3mzF5/bzij7eeyCGpuATgIkvK6/Tv0hJi1dc5iFbl1/BXMcxCCqbeOc3hPDuAoc5I53zMioHJN28TZ3QaSdoBcDFVyJvsMX/qa7Y3KyGiuJF3vtMtQBVIc32z6aWSBo6cm6niMFhMN+bGjs1s7c7mWyf26bhoLIGKXYqF2EGZ8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hurgdeSb; arc=none smtp.client-ip=209.85.128.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fk9WkA5P"
-Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-b73161849e1so947009866b.2
-        for <linux-staging@lists.linux.dev>; Tue, 18 Nov 2025 04:11:03 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hurgdeSb"
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-4775ae5684fso28225415e9.1
+        for <linux-staging@lists.linux.dev>; Tue, 18 Nov 2025 05:33:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1763467862; x=1764072662; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=S96NTwNKmvexih7lLAZCcVSzdOV9SItIYr/gsU2pZA0=;
-        b=fk9WkA5P6x6YHMh7hvX+aPYZpgjshrfR0gYeFpsFR+kexLt+tQgf8CjTMaG3SbRzlc
-         pj0vjy7ndqGQSDjeoxGEY5ZaBOH3SNBTacV1FafD0tefs0DXBe1XbggODDud+TpsDRdn
-         Q1FQr1InNjCu/b4XH6TbwtnocGo4IsLR88TaYzTYXGtmGUiAOC1b2PpaS1OgFp3vyftV
-         7Ro4/7N8L9CRC9GWhYUdI7WLnjDL+rLirOuzvj/DsaXcH5ykWQk9OBdOeO7Op7fuQvGj
-         +uq9XDU/sqMnJUQJxsyUnuTJxbjt1gBF48u08BTmFgkdb71V783ZM5Eg/YxJbPT+xyLw
-         qUJA==
+        d=gmail.com; s=20230601; t=1763472822; x=1764077622; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=rT/5I+MJsNcyTPa7o6mNFKe3n3t9U4jsZXgzo9O7zSw=;
+        b=hurgdeSbQKeH3JOnRQEYuTIZxp0njSqIUsqs8Aqo2YTHOd00BSvZ2smqJYURAsFaGJ
+         VQXb6eQwB820icnjVaHUuNl1jgETddcQFdCvuPuEgsipQeueR3+QytZ4qqV+uWQCTPKG
+         HDcAZt5KNdL8QWNNS/EvkIlCiz/1UEYFTmOFxv0UQl4FtDrQ3elmMcQTDZE3js4N6BO9
+         Z63PKTF64xRklQQ5Kz2qwOZAZPvSzZCh5VqEO15GU4LLlkuHRfKcGbUy4i77y51aJdvV
+         IiBUAc+e5D0jgN/96i8GMAtIKfHhef/wJ2CzZf03IeQbuOc9RxkZ+l7YrksnwH6r+kn9
+         /hQg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763467862; x=1764072662;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=S96NTwNKmvexih7lLAZCcVSzdOV9SItIYr/gsU2pZA0=;
-        b=vpCqZorJ/PFkG+v2sqCI0j3TUrKlygywbQcHk8Ve7WnZIwTFrM61nsWZ41xS02OI/H
-         zpYJePU+x/Zv0560ki7ZOaHr1IJZ5oTYptCNGvMuxAW0LE4Vq9qd21Pp78xYa+s4Vbt5
-         fSlI72ySuF8BdiHcrOyUCYBsNmksW5Iq6ae3tZ+BgHXjRuMphxU9ZJshmvASlHs7teYc
-         Ilb88OBiJjpiXOAuyiTvsF0sLYTpv4c3fpkgVlgqF6Jtl5M0TkAs29AxSTrXgTIopvlE
-         MjobBfj8iThcc7Uippw0zYD02tKuzeGd272xIGqHcD7uO5m3ZTiP0v5g4iQURvlwsDZQ
-         2e2Q==
-X-Forwarded-Encrypted: i=1; AJvYcCW8WUt2GEByGLKz88uw/JjmJtauvB/oxpJHi5NoyGb7PrVG7TfnDmLPEmY3vKSKdquT8KH+1yol1PkEUDr3@lists.linux.dev
-X-Gm-Message-State: AOJu0Yy3s3QDMaeSBz8b0kpX2JE6xcSmZMahJq/rNYnZq10Izbvv7mHd
-	3u/HlfiPDVOv7UUg6EzFIQRW+35/f7QE7s5yY6Hli7NfjmrpqYv1EA6SYb9u0PYmeYZsEx43QgD
-	gbMd3AGPWGG9v+isWEiGDHcQRP6eLUzc=
-X-Gm-Gg: ASbGnctBXvA8RXqJcS51eAd7NAgZwTvbMcbPTDJ6IslbQlu4q0hVpkC7hVFgkI4yOr9
-	VBFtRC2rXTU84Bg3DDmcZH5flh7JFe22iB4y0MbM1Vc/1e05E3vdO9h8kQlK3P52g6M42h3FJNV
-	Tdfv5xtIpD0lWaUU7LFQ/1GzbAlIhffr1sp7DzIdMeLYuWWBrpQl3HNaUeMLd81D6ETkvyg8xZB
-	BfaWDe90/8k5PYHN3nT+MBij9gmZ04RfsipDDJoAOhcUBg5LlfNCaPc38zBHnFdSzHfkeFxWJNY
-	7SlE5nE+YUAaYH6nugWCISdyG4l2LVfhxwWuvT8PNHqOP1sDGe2XnxVjNP+fo20zcsZDU60=
-X-Google-Smtp-Source: AGHT+IG086oEWZheGOwau+XoF2l2bVGxVG+fm1vm1dIRHk44wbZ5lS3J9QohWdvbh4rKsAG9075DeYIITho2M4cbvx8=
-X-Received: by 2002:a17:907:8dcd:b0:b73:79e9:7d3b with SMTP id
- a640c23a62f3a-b7379e9837cmr1402879066b.25.1763467861752; Tue, 18 Nov 2025
- 04:11:01 -0800 (PST)
+        d=1e100.net; s=20230601; t=1763472822; x=1764077622;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=rT/5I+MJsNcyTPa7o6mNFKe3n3t9U4jsZXgzo9O7zSw=;
+        b=qna707EZJAiffSVPhxozV6HeEHQzgBjMMyA5D2qC0ZZDH5tcgHzaN3BIwKyZmf9nHk
+         1skOM+WExGi6vzVzwBEuXDcToj6BH7iaEgo9XdsOJHxQlqopMf6X0pfLWEdf/M5bMWAG
+         glXbIq5gujUO8fWCoAMUe7VgCjmh9cT7bpgrm+Ev+wMcbfTiR3VxketXCYbLrmUJHKjq
+         LeQHpwlD0nURFkMkpWN10kIN5EWyCYCC8x9oGz8ugIbmlaxuUuMewHlwz6JSc5sbDckX
+         h9r80ayOfZZMLbPW7NVM13Ic+oiapPVRY8wf3CgtyEShQH5b+f+2fUgOg1P+0VqCqgtj
+         TngA==
+X-Gm-Message-State: AOJu0YxYPvj5vzpXakyXG4G+tCD06Ojj+GXFSBI3Ks6VBv5A2zip5P0B
+	ciJtoIbvrezQjRBXS2kwkQ1UUYiJYXCxLFKFWvBIAf2TpmEyJmULSFb4
+X-Gm-Gg: ASbGncsvVro+ivmT/QXg+B+qSQ1/RYdgdI2EtIP4Oq24u6kY117lSiLABoUA5Qzdb6F
+	/OC5ay3tSWy4eImxTefwVxuJ/oRRRQemZzcfAgRIj+r1jigx7vDq0FgdyVfQUNeHXMRQo1DhpzE
+	HPu+sEZ1xuLgWlio5CKUSN1z/0VJFRn9p12b+s5o6fxQiFaBgkK2mz2eGVnDFDmAthyDjSCtCvx
+	o01RO7PyoZ4EFVvMDLxNWr1AQQTxKjZBfihTb1LeSxTBB1j7vPUznprkEUHnVA3ZgWJu65b0I/Q
+	+lG8GcVyZZghw9wVKGyw/0XTREKdH5OuCTbBjhwdHW8Hn/9Hr/TZaBdm4B0o057f5QmNsVbz/oK
+	jqfLwJnVZlkDfF6Yv8xkeH359fe2rwf+k9KvJc+08njSEXRkteByyIBL5f41gIHWohbIbEwec4V
+	79OU+/azII9u328NW6G0IB1AhhxUCnHp1f6LbKs4w=
+X-Google-Smtp-Source: AGHT+IGa9D6vEe3w0eN9Xmv540V7CnSaHBtmp1YN6JdaAUVIfIkdHiPyd0kGBzeKYgO1yTvizFA0pQ==
+X-Received: by 2002:a05:600c:1910:b0:477:9e10:3e63 with SMTP id 5b1f17b1804b1-4779e103efamr82713335e9.35.1763472822234;
+        Tue, 18 Nov 2025 05:33:42 -0800 (PST)
+Received: from DESKTOP-3GD23L5.localdomain ([197.200.14.134])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-47787e2bcf9sm366463285e9.3.2025.11.18.05.33.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 18 Nov 2025 05:33:41 -0800 (PST)
+From: Bachir Benyammi <bachir.benyammi@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	zhaochenguang@kylinos.cn,
+	dan.carpenter@linaro.org,
+	Bachir Benyammi <bachir.benyammi@gmail.com>
+Subject: [PATCH] staging: rtl8723bs: Fix various coding style issues in rtw_io.c
+Date: Tue, 18 Nov 2025 14:33:21 +0100
+Message-ID: <20251118133321.300960-1-bachir.benyammi@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20251116101620.25277-1-i.shihao.999@gmail.com>
- <CAHp75VdY7W8EgOfKuxtTALj777aVatxV5dqsxm688JTy=iVW2Q@mail.gmail.com>
- <20251116152800.4c1849cc@jic23-huawei> <34a55901fe0729145097d287a98746f23eea13d8.camel@gmail.com>
-In-Reply-To: <34a55901fe0729145097d287a98746f23eea13d8.camel@gmail.com>
-From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Tue, 18 Nov 2025 14:10:25 +0200
-X-Gm-Features: AWmQ_bnlFWB8k-p28R4cyez2s9mHpB0Dy7l8qo3cMKv2hx7hvO6Ni9lYDoVRUbg
-Message-ID: <CAHp75VejBvRX=5psgVgGPCsKk7gVgcDUd1q3Gn+4_jyzk=2pEw@mail.gmail.com>
-Subject: Re: [PATCH] staging: iio: adt7316: replace sprintf() with sysfs_emit()
-To: =?UTF-8?B?TnVubyBTw6E=?= <noname.nuno@gmail.com>
-Cc: Jonathan Cameron <jic23@kernel.org>, Shi Hao <i.shihao.999@gmail.com>, 
-	Michael.Hennerich@analog.com, lars@metafoo.de, dlechner@baylibre.com, 
-	nuno.sa@analog.com, andy@kernel.org, gregkh@linuxfoundation.org, 
-	linux-iio@vger.kernel.org, linux-staging@lists.linux.dev, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Tue, Nov 18, 2025 at 10:17=E2=80=AFAM Nuno S=C3=A1 <noname.nuno@gmail.co=
-m> wrote:
-> On Sun, 2025-11-16 at 15:28 +0000, Jonathan Cameron wrote:
-> > On Sun, 16 Nov 2025 13:08:07 +0200
-> > Andy Shevchenko <andy.shevchenko@gmail.com> wrote:
+This patch addresses various coding style warnings reported by
+checkpatch.pl in drivers/staging/rtl8723bs/core/rtw_io.c to
+bring it closer to kernel coding standards.
 
-...
+Specific fixes include:
+* Reducing line lengths to fit within 80 columns.
+* Removing unnecessary blank lines.
+* Removing unnecessary parentheses in conditional statements.
+* Aligning pointer stars ('*') in multi-line comments for readability
 
-> > Applied, but I will note that this driver is a long way from suitable
-> > for moving out of staging and I would be surprised if more than
-> > one or two of the lines changed in this patch make it through the
-> > necessary refactors (should anyone actually have another go at
-> > doing them).  Anyhow, I still think this is worth taking just to
-> > reduce the noise of remaining instances of this.
-> >
-> > I'd have deleted this long ago except I actually have one somewhere
-> > and it one of the supported parts was still listed as suitable for
-> > new designs when I checked not long ago.
->
-> Seems to be now "just" in production. So no longer advised for new design=
-s. I gave a
-> quick look and this is far from being a simple driver. It would require a=
- fair amount
-> of work to bring it out of staging. So, are there users relying on stagin=
-g drivers?
+Signed-off-by: Bachir Benyammi <bachir.benyammi@gmail.com>
+---
+ drivers/staging/rtl8723bs/core/rtw_io.c | 71 +++++++++++++------------
+ 1 file changed, 37 insertions(+), 34 deletions(-)
 
-If there is no choice, yes. For example FBTFT is famous for being used
-by IoT / DIY _a lot_. Currently a bit less since we got tinyDRM
-subsystem with most popular drivers reimplemented there.
+diff --git a/drivers/staging/rtl8723bs/core/rtw_io.c b/drivers/staging/rtl8723bs/core/rtw_io.c
+index 79d543d88278..51a237a6205e 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_io.c
++++ b/drivers/staging/rtl8723bs/core/rtw_io.c
+@@ -5,25 +5,24 @@
+  *
+  ******************************************************************************/
+ /*
+-
+-The purpose of rtw_io.c
+-
+-a. provides the API
+-
+-b. provides the protocol engine
+-
+-c. provides the software interface between caller and the hardware interface
+-
+-
+-Compiler Flag Option:
+-
+-1. CONFIG_SDIO_HCI:
+-    a. USE_SYNC_IRP:  Only sync operations are provided.
+-    b. USE_ASYNC_IRP:Both sync/async operations are provided.
+-
+-jackson@realtek.com.tw
+-
+-*/
++ *
++ * The purpose of rtw_io.c
++ *
++ * a. provides the API
++ *
++ * b. provides the protocol engine
++ *
++ * c. provides the software interface between caller and the hardware interface
++ *
++ * Compiler Flag Option:
++ *
++ * 1. CONFIG_SDIO_HCI:
++ *    a. USE_SYNC_IRP:  Only sync operations are provided.
++ *    b. USE_ASYNC_IRP:Both sync/async operations are provided.
++ *
++ * jackson@realtek.com.tw
++ *
++ */
+ 
+ #include <drv_types.h>
+ 
+@@ -31,7 +30,7 @@ u8 rtw_read8(struct adapter *adapter, u32 addr)
+ {
+ 	/* struct	io_queue	*pio_queue = (struct io_queue *)adapter->pio_queue; */
+ 	struct io_priv *pio_priv = &adapter->iopriv;
+-	struct	intf_hdl		*pintfhdl = &(pio_priv->intf);
++	struct	intf_hdl		*pintfhdl = &pio_priv->intf;
+ 	u8 (*_read8)(struct intf_hdl *pintfhdl, u32 addr);
+ 
+ 	_read8 = pintfhdl->io_ops._read8;
+@@ -43,7 +42,7 @@ u16 rtw_read16(struct adapter *adapter, u32 addr)
+ {
+ 	/* struct	io_queue	*pio_queue = (struct io_queue *)adapter->pio_queue; */
+ 	struct io_priv *pio_priv = &adapter->iopriv;
+-	struct	intf_hdl		*pintfhdl = &(pio_priv->intf);
++	struct	intf_hdl		*pintfhdl = &pio_priv->intf;
+ 	u16 (*_read16)(struct intf_hdl *pintfhdl, u32 addr);
+ 
+ 	_read16 = pintfhdl->io_ops._read16;
+@@ -55,20 +54,19 @@ u32 rtw_read32(struct adapter *adapter, u32 addr)
+ {
+ 	/* struct	io_queue	*pio_queue = (struct io_queue *)adapter->pio_queue; */
+ 	struct io_priv *pio_priv = &adapter->iopriv;
+-	struct	intf_hdl		*pintfhdl = &(pio_priv->intf);
++	struct	intf_hdl		*pintfhdl = &pio_priv->intf;
+ 	u32 (*_read32)(struct intf_hdl *pintfhdl, u32 addr);
+ 
+ 	_read32 = pintfhdl->io_ops._read32;
+ 
+ 	return _read32(pintfhdl, addr);
+-
+ }
+ 
+ int rtw_write8(struct adapter *adapter, u32 addr, u8 val)
+ {
+ 	/* struct	io_queue	*pio_queue = (struct io_queue *)adapter->pio_queue; */
+ 	struct io_priv *pio_priv = &adapter->iopriv;
+-	struct	intf_hdl		*pintfhdl = &(pio_priv->intf);
++	struct	intf_hdl		*pintfhdl = &pio_priv->intf;
+ 	int (*_write8)(struct intf_hdl *pintfhdl, u32 addr, u8 val);
+ 	int ret;
+ 
+@@ -78,11 +76,12 @@ int rtw_write8(struct adapter *adapter, u32 addr, u8 val)
+ 
+ 	return RTW_STATUS_CODE(ret);
+ }
++
+ int rtw_write16(struct adapter *adapter, u32 addr, u16 val)
+ {
+ 	/* struct	io_queue	*pio_queue = (struct io_queue *)adapter->pio_queue; */
+ 	struct io_priv *pio_priv = &adapter->iopriv;
+-	struct	intf_hdl		*pintfhdl = &(pio_priv->intf);
++	struct	intf_hdl		*pintfhdl = &pio_priv->intf;
+ 	int (*_write16)(struct intf_hdl *pintfhdl, u32 addr, u16 val);
+ 	int ret;
+ 
+@@ -91,11 +90,12 @@ int rtw_write16(struct adapter *adapter, u32 addr, u16 val)
+ 	ret = _write16(pintfhdl, addr, val);
+ 	return RTW_STATUS_CODE(ret);
+ }
++
+ int rtw_write32(struct adapter *adapter, u32 addr, u32 val)
+ {
+ 	/* struct	io_queue	*pio_queue = (struct io_queue *)adapter->pio_queue; */
+ 	struct io_priv *pio_priv = &adapter->iopriv;
+-	struct	intf_hdl		*pintfhdl = &(pio_priv->intf);
++	struct	intf_hdl		*pintfhdl = &pio_priv->intf;
+ 	int (*_write32)(struct intf_hdl *pintfhdl, u32 addr, u32 val);
+ 	int ret;
+ 
+@@ -110,14 +110,16 @@ u32 rtw_write_port(struct adapter *adapter, u32 addr, u32 cnt, u8 *pmem)
+ {
+ 	u32 (*_write_port)(struct intf_hdl *pintfhdl, u32 addr, u32 cnt, u8 *pmem);
+ 	struct io_priv *pio_priv = &adapter->iopriv;
+-	struct	intf_hdl		*pintfhdl = &(pio_priv->intf);
++	struct	intf_hdl		*pintfhdl = &pio_priv->intf;
+ 
+ 	_write_port = pintfhdl->io_ops._write_port;
+ 
+ 	return _write_port(pintfhdl, addr, cnt, pmem);
+ }
+ 
+-int rtw_init_io_priv(struct adapter *padapter, void (*set_intf_ops)(struct adapter *padapter, struct _io_ops *pops))
++int rtw_init_io_priv(struct adapter *padapter,
++		     void (*set_intf_ops)(struct adapter *padapter,
++					  struct _io_ops *pops))
+ {
+ 	struct io_priv *piopriv = &padapter->iopriv;
+ 	struct intf_hdl *pintf = &piopriv->intf;
+@@ -135,10 +137,11 @@ int rtw_init_io_priv(struct adapter *padapter, void (*set_intf_ops)(struct adapt
+ }
+ 
+ /*
+-* Increase and check if the continual_io_error of this @param dvobjprive is larger than MAX_CONTINUAL_IO_ERR
+-* @return true:
+-* @return false:
+-*/
++ * Increase and check if the continual_io_error of this @param dvobjprive
++ *  is larger than MAX_CONTINUAL_IO_ERR
++ * @return true:
++ * @return false:
++ */
+ int rtw_inc_and_chk_continual_io_error(struct dvobj_priv *dvobj)
+ {
+ 	int error_count = atomic_inc_return(&dvobj->continual_io_error);
+@@ -150,8 +153,8 @@ int rtw_inc_and_chk_continual_io_error(struct dvobj_priv *dvobj)
+ }
+ 
+ /*
+-* Set the continual_io_error of this @param dvobjprive to 0
+-*/
++ * Set the continual_io_error of this @param dvobjprive to 0
++ */
+ void rtw_reset_continual_io_error(struct dvobj_priv *dvobj)
+ {
+ 	atomic_set(&dvobj->continual_io_error, 0);
+-- 
+2.43.0
 
-> But I would assume that for staging we are still free to drop support it?
-
-At any level, we are still free to drop :-) Just different conditions
-applied. For staging is basically an "effective immediately" case.
-
---=20
-With Best Regards,
-Andy Shevchenko
