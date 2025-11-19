@@ -1,66 +1,51 @@
-Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51AE0347BB6
-	for <linux-staging@lists.linux.dev>; Wed, 19 Nov 2025 10:09:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E67BE2E9EBB
+	for <linux-staging@lists.linux.dev>; Wed, 19 Nov 2025 10:27:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763546968; cv=none; b=sI7F4mHgmjBN2RfEec+o0Stj85r6g2wEqSepX7ODFa2oBCiP3eJg2dIJZtsUlbNIa3xRNE3Gr3zgDrPWiVWWlPQq+iOufEV9OPNi2asmMMPhaTXw+gL68ZdOboH9OYGnoxs2CIBBfbTwYxnebaJDLIV1zxLd+jzoP8UySPm6+7k=
+	t=1763548035; cv=none; b=Vxff6DMyETu2r5UMMZuJR33uCXC++YGDWPTMiordM64LvEl9rsnJmIIrOgkrmMZXUmIKugF/AqKO8hjIpNKHddbh/fYbmoIl8cpwTqUZBZSRSvvfTQcrkmU+JzokHeZYwlwj+qR/6XpMmw3iuokOZ5bw4mwsuXJq0Uhqd9K22E0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763546968; c=relaxed/simple;
-	bh=OJvuqh8SyRe//eizJsEe1K247PQ8bD47X5Q22nudA1U=;
+	s=arc-20240116; t=1763548035; c=relaxed/simple;
+	bh=jmw9bhTP6DqEEo8SaI642JH1s3dFqQGzetmEw8f3+f0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ltg0GgXHs9fzUEgRMb/hYtR7qZEbnZljslpM3YiPsjimJqC//r3qIHj0sF93zoZgdPv8jPkUxcZawdiro7Bn3UMY1rFyw8z9PGubx0IBI0g+xTsvE4z9xLFDPAgr459ptBp7CDA72Dxtc0jaaU1q9Qt+pPwWtm2gCO74L1AE7+4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=DAbNpeU6; arc=none smtp.client-ip=209.85.218.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=XBX4rJJJqsowtM2TSVfpPo2tR/qhCzEQMRSeG+6WAIp2pic5CaxrEoSDk7JE6jJpe1ByO2bplGhWWMVWP1d0azPnzyncUrPzdsW8csE7FdsGU+enbWHl/CHQU6g5b3H9PlcTUjgXUWDXNnQjb2RRSDFsVVXlZ+i7U3ViwSlUjwY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Uub4nHkR; arc=none smtp.client-ip=198.175.65.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="DAbNpeU6"
-Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-b725ead5800so792648766b.1
-        for <linux-staging@lists.linux.dev>; Wed, 19 Nov 2025 02:09:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1763546963; x=1764151763; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=mZmwnZeJsVmH4Emd6Sk7OTkRxBmCW6aXF7g1I/Zjods=;
-        b=DAbNpeU6/dpp6mrF8BUMe8T3H8IJNGgGRExwB3OcnUcONa+0HqyOs1quUFbupWpzzv
-         iXIESrG3gIVyK8lVbzsk6jxpWdf65bsTbdfdwHQbY+1ANh+GsCQSk3ni8q8cdMY3aSV2
-         zfzVd5HG6PYujME5bEVr/0YL66USEY1dxZCasTQxL3bpBOJOO6z+RwYwaBsmlxUR7tlW
-         6ZBOvlQC2IGmoDh2wv+cmZTHfxpMWnRdRl76JbRi/r95LARw/eFBYz5cqR8mRYqkGWhQ
-         UqUfNvswHW8SG6+ZkBmp1GnPm4CBNK0qEWxUPwr97DO5M6yo+zaRYc3yfF1CYJBmGInA
-         /SJQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763546963; x=1764151763;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=mZmwnZeJsVmH4Emd6Sk7OTkRxBmCW6aXF7g1I/Zjods=;
-        b=QRezHUFrTcdm2Xcx5EEEn2slXIsh7OG9kQPuYqF5/tm4vpUY7vJG3ZVAjpYh40TEEx
-         Jgj1Li2rvo2oh9fKkcUZhg+3/SYft5A8bP8h77NSO+WHDASDdA4Fyh0ZOyvXeGXkHE4f
-         ZDT2UMubr8N4GghRZxV2TFSFn6NVmvrXJxOX1VissGzjbZXArWBOBnBc/oMWyug693g9
-         XA80XFU16Ejv6G8oT0x22hvpqtRHqBKQfN+zsBOtip+5Y52d3bSJ5Jbcguh82udcLOz2
-         Qhi9grc1iTNwrk9PeN3cGEsg4TWwbWPHqF2I8cdHHTqTOyXbhek1bVqrAXSOakdX6+WG
-         QQ7Q==
-X-Forwarded-Encrypted: i=1; AJvYcCWzgT1UnOqEcE7fYDoQSL4y/TzPBnxeGn/fA4YRxeR8r/+KxT2gzNpoMxVzwu49rzZ+6Hkn2ojjohlnjkuc@lists.linux.dev
-X-Gm-Message-State: AOJu0Yypkk9lhvjEmASbi0/bokyxNEGrmsKRfIkletGaGbiu4GBGsfhi
-	KsuLroETpJyC2dv/rRPCzToN2qtWQjyhIiTu3BosyaE6LO7i99fffiCflJsDuE1fQHs=
-X-Gm-Gg: ASbGncvhYBwMDTfJBOpnd8S6R5eTxH6aSe9AZX/0K+pSa7Q9yBTRRL+ayOO1i3nXmb4
-	+dbXE4BN+t/QlhPD/3J2SFV+y678t4fwuY1vzFPFn5Fyv/2CbnVmoAAv3+cdlHUCoIIsxmRo1Cc
-	Vp720CLxoiWunEI+/3VJAIoD9oB0NFcJyqste8latUaMjA2e6Zm85CsKJC/rtiLYxOP/2YsgYTB
-	mWt4xsrUqmQ0gNiuMGLOZ77jvh5PX16grHby5CrWAGlr01GrbiocLAU61KSHSx6KwNtbFdiTVzZ
-	PxzisiW+qxZnld/N9d4yGmTDXuMZXdYca+E4uhNh3Ywv6VtnscWIPZKosBpvkk1FohYFIvSYGOQ
-	oC+KPzelXj9sRsOzpflWLiyHlDQrQw8zMlgNcvrCFHYQhkUTCTKcuaf0FYyDp+z9pr6EQr+PGxL
-	/iLWPn67NCLak3OQMFtXk+KsWQ
-X-Google-Smtp-Source: AGHT+IHL60A5nBupA1OyvdeZdvK8rVJqcdAj2UJ8GMSSqilZDEkvpcYDaNSL65+yyn9lVOsemK499g==
-X-Received: by 2002:a17:907:1c81:b0:b72:d2df:641c with SMTP id a640c23a62f3a-b736795d498mr2006941666b.49.1763546963352;
-        Wed, 19 Nov 2025 02:09:23 -0800 (PST)
-Received: from pathway.suse.cz ([176.114.240.130])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b734fda8bc8sm1594056066b.49.2025.11.19.02.09.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 19 Nov 2025 02:09:22 -0800 (PST)
-Date: Wed, 19 Nov 2025 11:08:01 +0100
-From: Petr Mladek <pmladek@suse.com>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Uub4nHkR"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1763548033; x=1795084033;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=jmw9bhTP6DqEEo8SaI642JH1s3dFqQGzetmEw8f3+f0=;
+  b=Uub4nHkRXSC+hnBu27O5tKmxAlldiCxHJ9/XxSy3YnF/Vc4RscCcxarX
+   rHbteFtADMCt0C4+APJzeOtkk5HvpsproH68SzNaqQavzxhVn794hLC8C
+   XTH8DSEkpt2QoDEHTGP1Lu+lZpsPAokYkk6RZtjJibrtuZJCDP/xMtCfZ
+   tYmhyAp1uUOYt2uJs1kdghrU2Q9u9W+TlFv3cnHH7o3menN1T7UvLgS/r
+   /+W34L81z9C4AiAvSB3hC+m0rRGvVu5BMcqF0WuZwJhBe46pBuzZqE/jV
+   lRo9WYBjH1UuDpwrT9eB/1lbyz24d7E+9hABlhth9E2IsH4czsQ+ksMVy
+   A==;
+X-CSE-ConnectionGUID: zXY9WkvlSrqvr1iXt10evA==
+X-CSE-MsgGUID: xTKmgK1mQtqkenLJwCBZ1g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11617"; a="65286204"
+X-IronPort-AV: E=Sophos;i="6.19,315,1754982000"; 
+   d="scan'208";a="65286204"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Nov 2025 02:27:12 -0800
+X-CSE-ConnectionGUID: BabbyDhyQAOE+ZtEsTT7/g==
+X-CSE-MsgGUID: bIH3DAOlTZmt1WuzGTp/dQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,315,1754982000"; 
+   d="scan'208";a="195322765"
+Received: from rvuia-mobl.ger.corp.intel.com (HELO localhost) ([10.245.245.245])
+  by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Nov 2025 02:26:53 -0800
+Date: Wed, 19 Nov 2025 12:26:51 +0200
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Petr Mladek <pmladek@suse.com>
 Cc: Corey Minyard <corey@minyard.net>,
 	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
 	"Dr. David Alan Gilbert" <linux@treblig.org>,
@@ -138,9 +123,10 @@ Cc: Corey Minyard <corey@minyard.net>,
 	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
 	Andrew Morton <akpm@linux-foundation.org>
 Subject: Re: [PATCH v3 19/21] scsi: fnic: Switch to use %ptSp
-Message-ID: <aR2XAYWTEgMZu_Mx@pathway.suse.cz>
+Message-ID: <aR2bazZn8m4EMHdW@smile.fi.intel.com>
 References: <20251113150217.3030010-1-andriy.shevchenko@linux.intel.com>
  <20251113150217.3030010-20-andriy.shevchenko@linux.intel.com>
+ <aR2XAYWTEgMZu_Mx@pathway.suse.cz>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -149,115 +135,132 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251113150217.3030010-20-andriy.shevchenko@linux.intel.com>
+In-Reply-To: <aR2XAYWTEgMZu_Mx@pathway.suse.cz>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On Thu 2025-11-13 15:32:33, Andy Shevchenko wrote:
-> Use %ptSp instead of open coded variants to print content of
-> struct timespec64 in human readable format.
+On Wed, Nov 19, 2025 at 11:08:01AM +0100, Petr Mladek wrote:
+> On Thu 2025-11-13 15:32:33, Andy Shevchenko wrote:
+> > Use %ptSp instead of open coded variants to print content of
+> > struct timespec64 in human readable format.
+> 
+> I was about to commit the changes into printk/linux.git and
+> found a mistake during the final double check, see below.
+> 
+> > diff --git a/drivers/scsi/fnic/fnic_trace.c b/drivers/scsi/fnic/fnic_trace.c
+> > index cdc6b12b1ec2..0a849a195a8e 100644
+> > --- a/drivers/scsi/fnic/fnic_trace.c
+> > +++ b/drivers/scsi/fnic/fnic_trace.c
+> > @@ -215,30 +213,26 @@ int fnic_get_stats_data(struct stats_debug_info *debug,
+> >  {
+> >  	int len = 0;
+> >  	int buf_size = debug->buf_size;
+> > -	struct timespec64 val1, val2;
+> > +	struct timespec64 val, val1, val2;
+> >  	int i = 0;
+> >  
+> > -	ktime_get_real_ts64(&val1);
+> > +	ktime_get_real_ts64(&val);
+> >  	len = scnprintf(debug->debug_buffer + len, buf_size - len,
+> >  		"------------------------------------------\n"
+> >  		 "\t\tTime\n"
+> >  		"------------------------------------------\n");
+> >  
+> > +	val1 = timespec64_sub(val, stats->stats_timestamps.last_reset_time);
+> > +	val2 = timespec64_sub(val, stats->stats_timestamps.last_read_time);
+> >  	len += scnprintf(debug->debug_buffer + len, buf_size - len,
+> > -		"Current time :          [%lld:%ld]\n"
+> > -		"Last stats reset time:  [%lld:%09ld]\n"
+> > -		"Last stats read time:   [%lld:%ld]\n"
+> > -		"delta since last reset: [%lld:%ld]\n"
+> > -		"delta since last read:  [%lld:%ld]\n",
+> > -	(s64)val1.tv_sec, val1.tv_nsec,
+> > -	(s64)stats->stats_timestamps.last_reset_time.tv_sec,
+> > -	stats->stats_timestamps.last_reset_time.tv_nsec,
+> > -	(s64)stats->stats_timestamps.last_read_time.tv_sec,
+> > -	stats->stats_timestamps.last_read_time.tv_nsec,
+> > -	(s64)timespec64_sub(val1, stats->stats_timestamps.last_reset_time).tv_sec,
+> > -	timespec64_sub(val1, stats->stats_timestamps.last_reset_time).tv_nsec,
+> > -	(s64)timespec64_sub(val1, stats->stats_timestamps.last_read_time).tv_sec,
+> > -	timespec64_sub(val1, stats->stats_timestamps.last_read_time).tv_nsec);
+> > +			 "Current time :          [%ptSp]\n"
+> > +			 "Last stats reset time:  [%ptSp]\n"
+> > +			 "Last stats read time:   [%ptSp]\n"
+> > +			 "delta since last reset: [%ptSp]\n"
+> > +			 "delta since last read:  [%ptSp]\n",
+> 
+> Both delta times are printed at the end.
+> 
+> > +			 &val,
+> > +			 &stats->stats_timestamps.last_reset_time, &val1,
+> > +			 &stats->stats_timestamps.last_read_time, &val2);
+> 
+> I think that this should be:
+> 
+> 			 &stats->stats_timestamps.last_reset_time,
+> 			 &stats->stats_timestamps.last_read_time,
+> 			 &val1, &val2);
+> 
+> >  	stats->stats_timestamps.last_read_time = val1;
+> 
+> The original code stored the current time in "val1". This should be:
+> 
+> 	stats->stats_timestamps.last_read_time = val;
+> 
+> > @@ -416,8 +410,8 @@ int fnic_get_stats_data(struct stats_debug_info *debug,
+> >  	jiffies_to_timespec64(stats->misc_stats.last_ack_time, &val2);
+> 
+> Just for record. Another values are stored into @val1 and @val2 at
+> this point.
+> 
+> >  	len += scnprintf(debug->debug_buffer + len, buf_size - len,
+> > -		  "Last ISR time: %llu (%8llu.%09lu)\n"
+> > -		  "Last ACK time: %llu (%8llu.%09lu)\n"
+> > +		  "Last ISR time: %llu (%ptSp)\n"
+> > +		  "Last ACK time: %llu (%ptSp)\n"
+> >  		  "Max ISR jiffies: %llu\n"
+> >  		  "Max ISR time (ms) (0 denotes < 1 ms): %llu\n"
+> >  		  "Corr. work done: %llu\n"
+> > @@ -437,10 +431,8 @@ int fnic_get_stats_data(struct stats_debug_info *debug,
+> >  		  "Number of rport not ready: %lld\n"
+> >  		 "Number of receive frame errors: %lld\n"
+> >  		 "Port speed (in Mbps): %lld\n",
+> > -		  (u64)stats->misc_stats.last_isr_time,
+> > -		  (s64)val1.tv_sec, val1.tv_nsec,
+> > -		  (u64)stats->misc_stats.last_ack_time,
+> > -		  (s64)val2.tv_sec, val2.tv_nsec,
+> > +		  (u64)stats->misc_stats.last_isr_time, &val1,
+> > +		  (u64)stats->misc_stats.last_ack_time, &val2,
+> 
+> So, this is correct!
+> 
+> >  		  (u64)atomic64_read(&stats->misc_stats.max_isr_jiffies),
+> >  		  (u64)atomic64_read(&stats->misc_stats.max_isr_time_ms),
+> >  		  (u64)atomic64_read(&stats->misc_stats.corr_work_done),
+> 
+> 
+> Now, I think that there is no need to resend the entire huge patchset.
+> 
+> I could either fix this when comitting or commit the rest and
+> you could send only this patch for review.
 
-I was about to commit the changes into printk/linux.git and
-found a mistake during the final double check, see below.
+Thank you for the thoroughly done review, I changed that patch between the
+versions and the problem is that for printf() specifiers (extensions) we do not
+have an automatic type checking. We starve for a GCC plugin for that, yeah...
 
-> diff --git a/drivers/scsi/fnic/fnic_trace.c b/drivers/scsi/fnic/fnic_trace.c
-> index cdc6b12b1ec2..0a849a195a8e 100644
-> --- a/drivers/scsi/fnic/fnic_trace.c
-> +++ b/drivers/scsi/fnic/fnic_trace.c
-> @@ -215,30 +213,26 @@ int fnic_get_stats_data(struct stats_debug_info *debug,
->  {
->  	int len = 0;
->  	int buf_size = debug->buf_size;
-> -	struct timespec64 val1, val2;
-> +	struct timespec64 val, val1, val2;
->  	int i = 0;
->  
-> -	ktime_get_real_ts64(&val1);
-> +	ktime_get_real_ts64(&val);
->  	len = scnprintf(debug->debug_buffer + len, buf_size - len,
->  		"------------------------------------------\n"
->  		 "\t\tTime\n"
->  		"------------------------------------------\n");
->  
-> +	val1 = timespec64_sub(val, stats->stats_timestamps.last_reset_time);
-> +	val2 = timespec64_sub(val, stats->stats_timestamps.last_read_time);
->  	len += scnprintf(debug->debug_buffer + len, buf_size - len,
-> -		"Current time :          [%lld:%ld]\n"
-> -		"Last stats reset time:  [%lld:%09ld]\n"
-> -		"Last stats read time:   [%lld:%ld]\n"
-> -		"delta since last reset: [%lld:%ld]\n"
-> -		"delta since last read:  [%lld:%ld]\n",
-> -	(s64)val1.tv_sec, val1.tv_nsec,
-> -	(s64)stats->stats_timestamps.last_reset_time.tv_sec,
-> -	stats->stats_timestamps.last_reset_time.tv_nsec,
-> -	(s64)stats->stats_timestamps.last_read_time.tv_sec,
-> -	stats->stats_timestamps.last_read_time.tv_nsec,
-> -	(s64)timespec64_sub(val1, stats->stats_timestamps.last_reset_time).tv_sec,
-> -	timespec64_sub(val1, stats->stats_timestamps.last_reset_time).tv_nsec,
-> -	(s64)timespec64_sub(val1, stats->stats_timestamps.last_read_time).tv_sec,
-> -	timespec64_sub(val1, stats->stats_timestamps.last_read_time).tv_nsec);
-> +			 "Current time :          [%ptSp]\n"
-> +			 "Last stats reset time:  [%ptSp]\n"
-> +			 "Last stats read time:   [%ptSp]\n"
-> +			 "delta since last reset: [%ptSp]\n"
-> +			 "delta since last read:  [%ptSp]\n",
+In any case, if you fold your changes in, I will appreciate that!
+Otherwise it's also fine with me to send a patch separately later on.
 
-Both delta times are printed at the end.
+> PS: All other patches look good. Well, nobody acked 7th patch yet.
+>     But I think that the change is pretty straightforward and
+>     we could do it even without an ack.
 
-> +			 &val,
-> +			 &stats->stats_timestamps.last_reset_time, &val1,
-> +			 &stats->stats_timestamps.last_read_time, &val2);
+This is my understanding as well. It changes the output, but that output is
+debug anyway. So I don't expect breakage of anything we have an obligation
+to keep working.
 
-I think that this should be:
-
-			 &stats->stats_timestamps.last_reset_time,
-			 &stats->stats_timestamps.last_read_time,
-			 &val1, &val2);
-
->  	stats->stats_timestamps.last_read_time = val1;
-
-The original code stored the current time in "val1". This should be:
-
-	stats->stats_timestamps.last_read_time = val;
-
-> @@ -416,8 +410,8 @@ int fnic_get_stats_data(struct stats_debug_info *debug,
->  	jiffies_to_timespec64(stats->misc_stats.last_ack_time, &val2);
-
-Just for record. Another values are stored into @val1 and @val2 at
-this point.
-
->  	len += scnprintf(debug->debug_buffer + len, buf_size - len,
-> -		  "Last ISR time: %llu (%8llu.%09lu)\n"
-> -		  "Last ACK time: %llu (%8llu.%09lu)\n"
-> +		  "Last ISR time: %llu (%ptSp)\n"
-> +		  "Last ACK time: %llu (%ptSp)\n"
->  		  "Max ISR jiffies: %llu\n"
->  		  "Max ISR time (ms) (0 denotes < 1 ms): %llu\n"
->  		  "Corr. work done: %llu\n"
-> @@ -437,10 +431,8 @@ int fnic_get_stats_data(struct stats_debug_info *debug,
->  		  "Number of rport not ready: %lld\n"
->  		 "Number of receive frame errors: %lld\n"
->  		 "Port speed (in Mbps): %lld\n",
-> -		  (u64)stats->misc_stats.last_isr_time,
-> -		  (s64)val1.tv_sec, val1.tv_nsec,
-> -		  (u64)stats->misc_stats.last_ack_time,
-> -		  (s64)val2.tv_sec, val2.tv_nsec,
-> +		  (u64)stats->misc_stats.last_isr_time, &val1,
-> +		  (u64)stats->misc_stats.last_ack_time, &val2,
-
-So, this is correct!
-
->  		  (u64)atomic64_read(&stats->misc_stats.max_isr_jiffies),
->  		  (u64)atomic64_read(&stats->misc_stats.max_isr_time_ms),
->  		  (u64)atomic64_read(&stats->misc_stats.corr_work_done),
+-- 
+With Best Regards,
+Andy Shevchenko
 
 
-Now, I think that there is no need to resend the entire huge patchset.
-
-I could either fix this when comitting or commit the rest and
-you could send only this patch for review.
-
-Best Regards,
-Petr
-
-PS: All other patches look good. Well, nobody acked 7th patch yet.
-    But I think that the change is pretty straightforward and
-    we could do it even without an ack.
