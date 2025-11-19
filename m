@@ -1,72 +1,146 @@
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EBD42D6612
-	for <linux-staging@lists.linux.dev>; Wed, 19 Nov 2025 11:36:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C40B92EBBB7
+	for <linux-staging@lists.linux.dev>; Wed, 19 Nov 2025 13:11:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763552216; cv=none; b=VXlg7t/eWZo/aX2EaBKqts+JLOWxp+g0oXZ3Zedp4GaBHppHfWaKizIDrRmcRSk39nlkKrfWrohNKZpjH4N6CKPfifh4It8xCHQnJo4EccO7FdC6wAzV6vklcelTybymT27GTlLEqSXGYeZ17pwmfubVCA+6Kv/qdqbah+sohR4=
+	t=1763557882; cv=none; b=rGGcrO2lG+7cAVKju2w51wukT0Ebr1Xh/LxUrB5AAfb9Kcaeu/oXtd89LIOwETzEdh8pqbcTPe24qLvDURQ0oYsAYYEzmOyZt/D3Yd4U1dM0ZtouOVAJ2hZHrscUagAD6HUJpqgrJzQv1TSYrvnLgMdDup+S0uwqZj+4+RUfO2E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763552216; c=relaxed/simple;
-	bh=HEe8AlKbyrbex+A6CsUcwqdLVOWP1x9iesEZBUZLz4Y=;
+	s=arc-20240116; t=1763557882; c=relaxed/simple;
+	bh=sJLZgI9vl/ePXAMiM1HFoKkY761fjwT9P7fNtQPrjMI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WKbWcfOPfsrC62wDEOmXYvCkkNxjMtxuEANgPpU7AlWIfo9qsZCKUlkSvbWcibEKMApaf7sYEV4YhZdY19QVwpTZThgLzlPImEKUhAkbNZhuaFdAKLS00Rrpgl4WQgJi+u/sYHS9hb/4ugYpDmE9uhrSSrzbq5JFIeHrIpQY+9E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=N8kxBvQU; arc=none smtp.client-ip=209.85.128.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Type:Content-Disposition:In-Reply-To; b=j5hqt9yxKXrwE8qNZHS99MPimba+VzMML6GPP6I+nS/w6ATMeKWc+1ZjA2OmJXppelbOYHyqepr0RstfE0+S8Ay47HpgOHwnEnokZiIp9pdpmKCO/fqRzjUpqWg6B189cqqw6Mh7D9b0vAd1HD29Yw/VapK4tNHPmZVCpBs4eLY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=M91o6mZT; arc=none smtp.client-ip=209.85.208.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="N8kxBvQU"
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-47775fb6c56so66195435e9.1
-        for <linux-staging@lists.linux.dev>; Wed, 19 Nov 2025 03:36:54 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="M91o6mZT"
+Received: by mail-ed1-f47.google.com with SMTP id 4fb4d7f45d1cf-6418738efa0so11746964a12.1
+        for <linux-staging@lists.linux.dev>; Wed, 19 Nov 2025 05:11:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1763552213; x=1764157013; darn=lists.linux.dev;
+        d=suse.com; s=google; t=1763557878; x=1764162678; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=RaL6Q6a1Oa4RMEkF3Mz+hsRQDK/y2Ul63G+BJ3IdFOc=;
-        b=N8kxBvQUhO9rcC41PS0my6PGt+hPuAh7B04dgNnBrQCMek+7X6ASjDQt1rvkuTia+u
-         9zEOTsKvX8e6ub/dBbLy4syqL4o0FjlgPWoXE2wPmhaJMgyZcCgMwC5wfSAT0yrufkjj
-         ILbttHxf783SKmtOlqCikX3KE0XvwW7OQiBBDheyFQywRndWYzrlLyyN7K/nOigvC0dV
-         8E2LDCf7h60FvZibLjiwE7afWrndDfnYwIsVlu4HTjKg1u1Og1dXBuRQQKlX6iTMMs+t
-         Zez2qgaEQOnGcOWkVBq2RrQPP6iVv5p2XW68Q+dl5a1AFQRRzywr4yMXOlaPpAeoqyV0
-         x5Bg==
+        bh=2hIjgqXWXn3Sbfto+9OWapsp1QwhUBtS+kZIjBq+Tlw=;
+        b=M91o6mZTRrzaEa28tvonUJ3jk07pXGL6v0fFIhzfu8mE702D0pb1VRxx4tfFJz6zyl
+         Mqr8ueKN6EBu95h5v7eJpbOousAZJuMFoeQ+NfbuJNbWHe7txhNZP1dDOzn2p7/JEhsk
+         6yh2lZ40Apy3WE4+6c27Q22TifirxkYV2ZOd1f9ClzvuSkUIfBN/IWlrkYNCleWWAPMt
+         nKatkU50FOB0PQPcXldPe+BHGTMkrNj7zE+19BUlTiTaXJiGmME3Cu9o0yG/fz2EorS5
+         TOT7nxwLda/nEbGS4CCfIvonsxeDUBIq18cU4wzRaYqaPwHZGaqAv6CBAeh07wnCbH/q
+         E1tg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763552213; x=1764157013;
+        d=1e100.net; s=20230601; t=1763557878; x=1764162678;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=RaL6Q6a1Oa4RMEkF3Mz+hsRQDK/y2Ul63G+BJ3IdFOc=;
-        b=YqZoRexM7BpjHOAwJyoe8m+ejETKRnmGBfn2ntmElcbJPiMTs6DnSgyhguSGFJ8PWz
-         +RG5JYEE1xhNBMxjJDT89rFj86Y1l1BFGdkyxFPQHRss+5ik9+ANhBwdkzA+xiOsGTBu
-         nJIc+oXYV/aCB7C+y65/ueSjqkQ6aBoALQKeBl9xpxbpcr4nDOmP+3arsMsyzRWCB281
-         ET8K6PCJAj4IAK7mhNB+IOHpfcHDbM5/vpLF8qHh3VMEIwqvbI3lwihAPgI9XYsfMQ7J
-         0jZdZO8hTDzFJfbLM1jh6XZmv+fY5hmogScII9RAXWWwg5oZqlKDq623KEYwVGYQ61H6
-         G+Zw==
-X-Forwarded-Encrypted: i=1; AJvYcCUg9EoFS+x9JOix2ky6Eeyk3874IFv308O0mdziX4KlYgutcwyp0vwFBueXFTK7xYHoroTB8R+KyLyaoeQq@lists.linux.dev
-X-Gm-Message-State: AOJu0Yyv7Btc1pqQKJmSCsKJZfBu5lY6x5DfqHAG2O4RAn/v2vM7wYYz
-	QCCoRo9130IWng5glzoRYKKFnWtJhbj9iHwkGugDc2+HXusgGkgLi5t1vIyPvz3MY9Vh9KBluQa
-	J67M3
-X-Gm-Gg: ASbGncufDXN6UJQzEx8jUYW8OAkvzgA8IXWPpd8DXg1gHMRrBwco6lfoz4uUmC5aEAf
-	jFrZy1auZuoKIyCdYnod8fuq8kclGdsXxvRyytqG1c5VyyGALObPd4AsWG9gt7BY+N9iqb9QTye
-	l9adeKX+YS967EglCjbCAngBGGp64vjk8IqGwxqzUSRivo17zm0vIEygU+02cAcTvScBPv++aWv
-	EhZfHNzvOzjF9jFry6OLDxaLrzM/gK4RP+PTJYLUajd3jvtf4foFMlMBQ/NqqktsJrc7vWjAACP
-	k2yisMPv4OOD9TaIwR1IEPXCAgvRkg81sghUWvxw/JxoDnLDqk5bgsgOjGUXpY+8+5pqjw3eXcM
-	Xaz0/Kb+/gPk1xfexeIpZX4FJL62U00UnGh+TxY/tu+1KGqvRsk5FeCF3HhXqoJYBBZE+0ts3LQ
-	IWktKtbB8SDMzQnWXQjNMt/3LPVxBu/qB26IwqIw==
-X-Google-Smtp-Source: AGHT+IGKzxpIxTQ09/24XQQfgBbswtyCPN9yb0OnwrHcCKGoBYyE+rS4RFO+foxKQf6JrZbxPtEmyw==
-X-Received: by 2002:a05:600c:630d:b0:477:89d5:fdac with SMTP id 5b1f17b1804b1-4778fea1becmr219679975e9.31.1763552212408;
-        Wed, 19 Nov 2025 03:36:52 -0800 (PST)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-477a9df8db3sm37495865e9.11.2025.11.19.03.36.51
+        bh=2hIjgqXWXn3Sbfto+9OWapsp1QwhUBtS+kZIjBq+Tlw=;
+        b=fserhe7iDhcJsVVl5pE2vPTxttgRyG1fXcb6CuwJFOvS70y3O4hLHK9u5FRnv8fpoe
+         Za2eHsquvcqv7kRmyyAo8tMYAxUqryyRGx5YbrTDBaFZ7amMxi2AeWK5MW6v/1VLNsbr
+         z9QfdYu0kZvDeJJnr7edQDu+8Ng5jZU+FwF769SOiTMCY3jw/N8zUReSiHX2rOcm7VdM
+         nUGX+PKDGcGVK1dLaUxNYarIRAnTf0P8KrtVaqqV+1L1hehRVfSmHr4UvIs7piRQEH6d
+         V6aWquQnHforKOxlogXn4wVvD238n7n/9HFRs7OIz0HssHayRO9q27ZqEG74uj7a1bcL
+         qaKg==
+X-Forwarded-Encrypted: i=1; AJvYcCUYZFFeLd0iCRBDMQzeApneyhmZEdH+FWR0VsvlW77zs3YmhCjqKOu2+npPAMyq6QIKQH5r7ezigMjIF2p3@lists.linux.dev
+X-Gm-Message-State: AOJu0YzV0PmlqVtpe4oUXSwzBvluZLoIitpZHfM0NdP1t+6s5Djjr4PO
+	Bo2QkDkW+Tx4awX37vLbp49WjjGl0qrVHuOUAYX/FkTsWF5hnLQ76+0KFENYCgMAsAI=
+X-Gm-Gg: ASbGnct4fNiGOhnkCuWFoLM4y0QznAH2JMkiBnFcJHojce9xnaPbRmE2OteZsifPOIZ
+	Ann796PLqP3E3ziA9qP8CFVQcZ//Ooki02lnWpUz3V6kiUyxMznsP+54nB9+/ZEiV+2rB6xeK2N
+	HgpASps7PUd38qsLyH2VqpK9j5zvC7kedI0OK2FrsYhFrTVTYpSPnJyw2/pHy8gjvdeND5e8RZb
+	P9KqxzxM6zLKjoz1mqgwDmeLu3PTJWz0YnE3eoOei6wQO56mcJP6VvRFWomPlb4HrcEekeuiJcy
+	c/2RtVx6junPmY0DzpCM7zaoQwBg7NjYnjla9kON9jwGmsZ+/2qY6nS2hBIvb+/kte+d5V8TOz/
+	FRDCCJn6MMovYlyrK6AN3CC1UrgqTXAoUWHsHsDlPtU5ilY/6zUpVJ/uc1wW4qsAz8QZbNmi1Ie
+	PbP2hiI6XFYv4pcg==
+X-Google-Smtp-Source: AGHT+IHh/9HSY9QxYY7JWRlsHkQE77dEey/TQadLHho4kIFH9l0Cnuj5X98H1aD+vZkw9c2t87Tcgg==
+X-Received: by 2002:a17:907:96a7:b0:b6d:50f7:a805 with SMTP id a640c23a62f3a-b7367c02586mr2099815666b.59.1763557878059;
+        Wed, 19 Nov 2025 05:11:18 -0800 (PST)
+Received: from pathway.suse.cz ([176.114.240.130])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6433a3d8775sm15093392a12.5.2025.11.19.05.11.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 19 Nov 2025 03:36:51 -0800 (PST)
-Date: Wed, 19 Nov 2025 14:36:48 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Artur Stupa <arthur.stupa@gmail.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: rtl8723bs: core: fix block comment style issues
-Message-ID: <aR2r0A_fBj_w9JgZ@stanley.mountain>
-References: <20251119062701.38279-1-arthur.stupa@gmail.com>
+        Wed, 19 Nov 2025 05:11:17 -0800 (PST)
+Date: Wed, 19 Nov 2025 14:11:12 +0100
+From: Petr Mladek <pmladek@suse.com>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: Corey Minyard <corey@minyard.net>,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+	"Dr. David Alan Gilbert" <linux@treblig.org>,
+	Alex Deucher <alexander.deucher@amd.com>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+	Rob Clark <robin.clark@oss.qualcomm.com>,
+	Matthew Brost <matthew.brost@intel.com>,
+	Ulf Hansson <ulf.hansson@linaro.org>,
+	Aleksandr Loktionov <aleksandr.loktionov@intel.com>,
+	Vitaly Lifshits <vitaly.lifshits@intel.com>,
+	Manivannan Sadhasivam <mani@kernel.org>,
+	Niklas Cassel <cassel@kernel.org>, Calvin Owens <calvin@wbinvd.org>,
+	Vadim Fedorenko <vadim.fedorenko@linux.dev>,
+	Sagi Maimon <maimon.sagi@gmail.com>,
+	"Martin K. Petersen" <martin.petersen@oracle.com>,
+	Karan Tilak Kumar <kartilak@cisco.com>,
+	Hans Verkuil <hverkuil+cisco@kernel.org>,
+	Casey Schaufler <casey@schaufler-ca.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Viacheslav Dubeyko <Slava.Dubeyko@ibm.com>,
+	Max Kellermann <max.kellermann@ionos.com>,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	openipmi-developer@lists.sourceforge.net,
+	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	linaro-mm-sig@lists.linaro.org, amd-gfx@lists.freedesktop.org,
+	linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
+	intel-xe@lists.freedesktop.org, linux-mmc@vger.kernel.org,
+	netdev@vger.kernel.org, intel-wired-lan@lists.osuosl.org,
+	linux-pci@vger.kernel.org, linux-s390@vger.kernel.org,
+	linux-scsi@vger.kernel.org, linux-staging@lists.linux.dev,
+	ceph-devel@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
+	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+	Sergey Senozhatsky <senozhatsky@chromium.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	Gustavo Padovan <gustavo@padovan.org>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Dmitry Baryshkov <lumag@kernel.org>,
+	Abhinav Kumar <abhinav.kumar@linux.dev>,
+	Jessica Zhang <jesszhan0024@gmail.com>, Sean Paul <sean@poorly.run>,
+	Marijn Suijten <marijn.suijten@somainline.org>,
+	Konrad Dybcio <konradybcio@kernel.org>,
+	Lucas De Marchi <lucas.demarchi@intel.com>,
+	Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
+	Rodrigo Vivi <rodrigo.vivi@intel.com>,
+	Vladimir Oltean <olteanv@gmail.com>, Andrew Lunn <andrew@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Tony Nguyen <anthony.l.nguyen@intel.com>,
+	Przemek Kitszel <przemyslaw.kitszel@intel.com>,
+	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
+	Kishon Vijay Abraham I <kishon@kernel.org>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Rodolfo Giometti <giometti@enneenne.com>,
+	Jonathan Lemon <jonathan.lemon@gmail.com>,
+	Richard Cochran <richardcochran@gmail.com>,
+	Stefan Haberland <sth@linux.ibm.com>,
+	Jan Hoeppner <hoeppner@linux.ibm.com>,
+	Heiko Carstens <hca@linux.ibm.com>,
+	Vasily Gorbik <gor@linux.ibm.com>,
+	Alexander Gordeev <agordeev@linux.ibm.com>,
+	Christian Borntraeger <borntraeger@linux.ibm.com>,
+	Sven Schnelle <svens@linux.ibm.com>,
+	Satish Kharat <satishkh@cisco.com>,
+	Sesidhar Baddela <sebaddel@cisco.com>,
+	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Xiubo Li <xiubli@redhat.com>, Ilya Dryomov <idryomov@gmail.com>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	Andrew Morton <akpm@linux-foundation.org>
+Subject: Re: [PATCH v3 00/21] treewide: Introduce %ptS for struct timespec64
+ and convert users
+Message-ID: <aR3B8ECx9W6F0BV_@pathway.suse.cz>
+References: <20251113150217.3030010-1-andriy.shevchenko@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -75,44 +149,33 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251119062701.38279-1-arthur.stupa@gmail.com>
+In-Reply-To: <20251113150217.3030010-1-andriy.shevchenko@linux.intel.com>
 
-On Tue, Nov 18, 2025 at 10:26:40PM -0800, Artur Stupa wrote:
-> diff --git a/drivers/staging/rtl8723bs/core/rtw_ieee80211.c b/drivers/staging/rtl8723bs/core/rtw_ieee80211.c
-> index 027b2dd0a4b9..a5234fdbf984 100644
-> --- a/drivers/staging/rtl8723bs/core/rtw_ieee80211.c
-> +++ b/drivers/staging/rtl8723bs/core/rtw_ieee80211.c
-> @@ -133,8 +133,8 @@ u8 *rtw_set_ie(u8 *pbuf,
->  }
->  
->  /*----------------------------------------------------------------------------
-> -index: the information element id index, limit is the limit for search
-> ------------------------------------------------------------------------------*/
-> + * index: the information element id index, limit is the limit for search
-> + *--------------------------------------------------------------------------*/
+On Thu 2025-11-13 15:32:14, Andy Shevchenko wrote:
+> Here is the third part of the unification time printing in the kernel.
+> This time for struct timespec64. The first patch brings a support
+> into printf() implementation (test cases and documentation update
+> included) followed by the treewide conversion of the current users.
+> 
+> Petr, we got like more than a half being Acked, I think if you are okay
+> with this, the patches that have been tagged can be applied.
+> 
+> Note, not everything was compile-tested. Kunit test has been passed, though.
 
-We generally don't like these "****************" or "-----------------" lines.
+JFYI, the patchset has been committed into printk/linux.git,
+branch for-6.19-vsprintf-timespec64.
 
-[ snip ]
+Note, that I have:
 
-> @@ -1691,12 +1691,11 @@ void adaptive_early_32k(struct mlme_ext_priv *pmlmeext, u8 *pframe, uint len)
->  		/* pmlmeext->bcn_delay_ratio[delay_ms] = (pmlmeext->bcn_delay_cnt[delay_ms] * 100) /pmlmeext->bcn_cnt; */
->  
->  /*
-> -
-> -	for (i = 0; i<9; i++)
-> -	{
-> -			pmlmeext->bcn_delay_cnt[i] , i, pmlmeext->bcn_delay_ratio[i]);
-> -	}
-> -*/
-> + * for (i = 0; i<9; i++)
-> + * {
-> + *	pmlmeext->bcn_delay_cnt[i] , i, pmlmeext->bcn_delay_ratio[i]);
-> + * }
-> + */
+   + fixed the 19th patch as proposed, see
+     https://lore.kernel.org/all/aR2XAYWTEgMZu_Mx@pathway.suse.cz/
 
-Delete dead code.  Don't reformat it.
+   + reviewed all patches but I triple checked 7th patch which
+     did not have any ack yet. And I added my Reviewed-by tag
+     there. ;-)
 
-regards,
-dan carpenter
+   + I tried build with allyesconfig. It succeeded. I am not 100%
+     sure that it built all modified sources but...
 
+Best Regards,
+Petr
