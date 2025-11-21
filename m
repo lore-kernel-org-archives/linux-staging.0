@@ -1,74 +1,77 @@
-Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
+Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15A881E0083
-	for <linux-staging@lists.linux.dev>; Fri, 21 Nov 2025 19:11:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C29A30B517
+	for <linux-staging@lists.linux.dev>; Fri, 21 Nov 2025 22:41:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763752288; cv=none; b=m3e4fwGckVKr//W+WKEbd0kDECL7iEpjwpD7JEQtXv/x0jMGnfOecotAnAgcNxC8TODB+SJMEPLUpDGRG+Yk3IcjJcAqtEXvzLt8hTGH2TfAgxsUnNv8TxRoLfZecHgytgQosuF8BO0wZ9c9xVM2aG3hPmFPQI2vf7v0Ba7CmLI=
+	t=1763764917; cv=none; b=utbCd60J/HoG/h5Ehh8IePMw8CbIYUiGp7jhQjXZ8emkhLieK8UBbj6QDF/6GZZYxSeB+VCF6h2lbIswnidx5e16weaFiPWTMxYnqV5afDNOkYkxv+N7AY1JafKqJZyk1BWP6BQRjdeoT8dnxQZ0FjCzbxSUHWuBWcmwriXkHgw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763752288; c=relaxed/simple;
-	bh=ljJZ4VIbpdRv0RTxM4zp0f7hTSJ+niJAY9Mm2Kk5zmY=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=LbxAAlBPcrvPDj7SwdZzjROnM1xBGijx9DhzkSxhbb8JTDo1XE5/TIm9loBlBZKBh2GaKpdtztUlssp1UKTIvm/avAySwdvUU7UFeLCxjn6UChm2tQjoVr1/tE0eESla9ja88soJ2HKDS05h7rV/BQK0obtBqzaUdSD16qY0KU8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZNkz66W9; arc=none smtp.client-ip=209.85.216.43
+	s=arc-20240116; t=1763764917; c=relaxed/simple;
+	bh=WpjDsZwdbXdNB0xZQxAUOEnKMO2m601syyFEcR1POGY=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=BcGUeKTCCl5GsZeVuXkp5MKppdG6VRLyjl2/Pk9CFVYdVSs91PktXcMr+bQn0PHxfSqUsPYeFMiT6PrHI/4ARSFi3C0Ge4x/7mHmzBUj+tzBGdl9DlFax6gopVTS7Y4Y5T/QUylenUoaRMmG5+rvhCZPRLUQOzDCZLwbsZzvbPc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hYPDSF5a; arc=none smtp.client-ip=209.85.210.181
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZNkz66W9"
-Received: by mail-pj1-f43.google.com with SMTP id 98e67ed59e1d1-3436cbb723fso1991463a91.2
-        for <linux-staging@lists.linux.dev>; Fri, 21 Nov 2025 11:11:26 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hYPDSF5a"
+Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-7b7828bf7bcso3039305b3a.2
+        for <linux-staging@lists.linux.dev>; Fri, 21 Nov 2025 14:41:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1763752286; x=1764357086; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=UxxxdFjqDtP/cMZ4I1iSXbmLYQbz5xAaQL5dakKtJT0=;
-        b=ZNkz66W9uOfZjLq0Eg9iWzbj8CqI9Pvq0lG+Yo1bha/1d6QHpqikCOw9B8DN9zD+03
-         zDXV3cCQhAXyuW5aHUYxW+Yx0Gl+TE+2VtNFFQwQAUM+VhDD6xOufdB4pXCnY2MI0fUu
-         g60KQZxGkT5cdBNE0A1qmkKg5j/jg1+xqAylTe1ovdLq6pCtOHaKyfzxG4fmc5Tu9pSF
-         +USmG9FfOyFmrVG6EBpwcWV+fKZQt04YHGu6seFASC+ael9/bAQCVkOkq7GJUBgmFOyl
-         YxMGm0BMcWpDG9Fgt8t250g7U5msEMbTGHNC3vgIlmzuRkY/myVnEODv6I7k8/F8b9lj
-         Jgjw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763752286; x=1764357086;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1763764907; x=1764369707; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=UxxxdFjqDtP/cMZ4I1iSXbmLYQbz5xAaQL5dakKtJT0=;
-        b=kamXu0iuSQN/Qw97e+SvVNPQj3kKhsr5JNysC75kFyQy57m2nFIQ+SLNytUtaRR5k7
-         N9pnFDSC4dXbt75KUd7BgG95gyY8sF2VYQ2rvSVEwiL2cvGA4LZa02AtdqwIpkNN1yAS
-         GyfBQLcpMgiO4zz93lBLNsQiGfn78xVyDucj/Q6cYrAs6989dy2yWnmFnXxwcNWR0n/d
-         ce9wJ92p6c4OFkfhWfby/zxhQYzuJfL92s41xilpVHYfFHRc0NjX5dyw/Y3stuFB+bCM
-         V61ZlnOfLBNBxyQNB7tVRxShZZduunu1RJ6hPY7GXE2ZdteCjcNfY2vveIEmY/qfJ4Og
-         skRA==
-X-Forwarded-Encrypted: i=1; AJvYcCVnbsldntdEyxhbAnDUA+PRXcu64rpQAV4kHTjFn5ALEvc5P+tLy0FS8FEm3+7b0+YABzl+UuOVussg7AFm@lists.linux.dev
-X-Gm-Message-State: AOJu0YwyyJeA2C37qVnx3tyjZ4mVixtZyLYM7nlaAaUwNi9nyzfbaQ9H
-	yxJ/4eTMN5qM13AjQaDrmkOejUeh6CneDqTaEXZv2Qus+qp80uMpQXDK
-X-Gm-Gg: ASbGncv4aA+EyhU5V07mUeHoiG39ODmrUCktdwRUBL9xn2zrtzFa8xhqAYyIkkzE/ly
-	fhTpGDquRAzsYUwsmCSxtxKvw5q8fYti3FUAzkPoUkWM23mF2my1fA8kOqMA/NHOmCU6jK+yUkE
-	axlOu2MIhImYgFtCtwuhnND9OHtLW3cR6cdo9WIk3PA98j6Zgamxxflk+ouBHlDYxgVhB8/zKS6
-	XS1gEFCH7ZPIgB3tM+HK8ogyJ6t/zkRZ0/nMvu74QKBLpW1VRrVvO+u1UhTCIszk/X/TabgAtAy
-	1O63PBSFLPzaNRSrUcFIHdCXK4620FsJz5jHDD1oKz7U6yKzPwki13EnmaX9AB2uDr/1sAbKdf2
-	EVKyyEKv7W8uXaAeFFgoJj2A2qcJPUHpsy3dd82ff0KBAGywHhBxaxTqlhWXPPX2c+w/eQ9ficf
-	BaQKm20SWJNl9H9xcQuM1Cl9O269RR
-X-Google-Smtp-Source: AGHT+IGIXv65UL38Z/eXmYx5Eimhi6cwqJ76cU0qfZ4QV4BAA+iqhaNo0kkNOGw5wWGytn0+KN9xgw==
-X-Received: by 2002:a17:90b:58cc:b0:341:2150:4856 with SMTP id 98e67ed59e1d1-34733f0069emr4307346a91.17.1763752286246;
-        Fri, 21 Nov 2025 11:11:26 -0800 (PST)
-Received: from pavan.localdomain ([49.37.145.228])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-347267a1240sm6378545a91.7.2025.11.21.11.11.25
+        bh=9aAWYl0f4w903uiLJSKLpbKw548ECooDfjsYaWFk5QQ=;
+        b=hYPDSF5altZQzSw0DU1H2202MVuOiB66OcH51rdVL+be4Z/x9Ohgbzezj1DL9yC2+g
+         42sE9CTE5nvaYiOYxJY2obQIua/UaO+wz1GLtJgX4Zcv+zt0lAiaaoJk5CT9n4ZOn19G
+         L3PoodNqGSik/mJZhVSKanx4ub160z5tQs73ieR4QHQy0NQt1FzvbezrMAXt1ra0VqFL
+         7cG7+LkWNoUkyGV2DoyFs9RNWdFiT1YIe2yGqHr2jVgu4q9ZtIZ81uUZFlo8TkKkgvOk
+         42a3ma6Iqs5dybtyaMxhnso474zpUNwDDLSJCQDSXfFGEKrBljb7GN0Thj+pMtxzlcbq
+         C/gg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1763764907; x=1764369707;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=9aAWYl0f4w903uiLJSKLpbKw548ECooDfjsYaWFk5QQ=;
+        b=rjgRNJrdkOq30K45ilIhQC37pxtg2HIZ72assP/P9w8uvJCk0gwANMUF/0YtjkU2A1
+         f5ode1a9+hcKWF3YTld0Ed3kmlqKiFgU3Xpr1GMzPUJ+Je7CCtXqPUEwg41CibujJ5DB
+         Si9mM1Mcp3XBXH3Y7zczIBe3ico0jeiPhyKzgWGesNKXD/uoY3l+pBE/WUEKnGquzfMI
+         ttZej6rzHGXtSH3Eb5MV58QPbJj5wEaXzNkqYI3qQHUcYQ7EUI+3BQQB594CiteMOgNU
+         ViZn6OvM3JSaBdsh6PmOw9jyJ2KnzTP+KhkY40RPEg/kotEQDFl6vcebhnYBZf3AduAi
+         DWOQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVlhujH8sXSTyM/dh9sMYCk/gS6rNuttSBtbspqjOKbhDhNIWg0yQa98VK4MElLf/uA65flA4/3OOcnarHX@lists.linux.dev
+X-Gm-Message-State: AOJu0YzfSVCuE+bsfk9OFF7/JbHRkV1ggGyylewSRZEH9QtWAYplzgKO
+	N/oxG4Vm8NvEo3ZY+hOce+opaUB68M3U3zqg9RnveTXkFBV9FYS8dsVT
+X-Gm-Gg: ASbGnctDkddIS/8qexhw8cF49vR7mCKlvUJbLovUks0qvCDIA00IxHuloJJTP82/ZA4
+	g7Rxijm17pGTiJ+bNv27/nWHdej6PMZ7BgNt9yS+pA7VnlAFaF1NHdizehVKnGIpJiCdoSeHKRZ
+	HA4rNJswX4VUC4H8dy+K40vl0DFQUa/hLteBpeCAGoyFlTpjdhL3GHpzmEmkQmnEhAwOxhCABfo
+	gYeX5ZtMkGxOw/O9LU7VFEpm/fcDdcDpQHQwzEF0pikvEIaXYvafR5Mw9sN7c/yg0WfxRf2Zfnj
+	RbsdM67KvCca1zhtvv4nFY7KToZLFnHWgreoILwsiHl1ehWpHcjotKnDKQK6iZu1kklj4FDIR0e
+	kYq8Vuhd+CpRUqyIMd/ee3hr/FDtZIRFHR31T1R8kl2KJNZviP0kz6iuqlqXTiHv4EZGFin2G1I
+	rfAlwB3KekzzHYRIjF9PY/XIO2bAh5bQZBNResF/pL5+8yTvq6FzyrIo+WA0COuGLGHC117yipG
+	OAS/bQ1Etl/0qdHrG/FAY1EWarUtL8=
+X-Google-Smtp-Source: AGHT+IHgLvSSDc1IXKt3iorKmmUZSSgyq0FCvleCw8HkvkCa6escslUg5ZPnLcz4XyHDBeRjdCQq3g==
+X-Received: by 2002:a05:6a00:3919:b0:7b7:8aad:99cc with SMTP id d2e1a72fcca58-7c58c4a5ce9mr4442947b3a.3.1763764906968;
+        Fri, 21 Nov 2025 14:41:46 -0800 (PST)
+Received: from main.. (c-76-146-85-33.hsd1.wa.comcast.net. [76.146.85.33])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7c3ed076eb3sm7092813b3a.1.2025.11.21.14.41.45
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 21 Nov 2025 11:11:25 -0800 (PST)
-From: Pavan Kumar Yalagada <pavankumaryalagada@gmail.com>
-To: parthiban.veerasooran@microchip.com,
-	christian.gromm@microchip.com
-Cc: gregkh@linuxfoundation.org,
-	laurent.pinchart+renesas@ideasonboard.com,
-	hverkuil+cisco@kernel.org,
+        Fri, 21 Nov 2025 14:41:46 -0800 (PST)
+From: Artur Stupa <arthur.stupa@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: dan.carpenter@linaro.org,
 	linux-staging@lists.linux.dev,
-	Pavan Kumar Yalagada <pavankumaryalagada@gmail.com>
-Subject: [PATCH] staging: most: video: replace BUG_ON() with WARN_ON_ONCE()
-Date: Fri, 21 Nov 2025 14:09:09 -0500
-Message-ID: <20251121190909.115556-1-pavankumaryalagada@gmail.com>
-X-Mailer: git-send-email 2.47.3
+	linux-kernel@vger.kernel.org,
+	Artur Stupa <arthur.stupa@gmail.com>
+Subject: [PATCH v4 1/2] staging: rtl8723bs: core: fix block comment style issues
+Date: Fri, 21 Nov 2025 14:41:34 -0800
+Message-ID: <20251121224143.33701-1-arthur.stupa@gmail.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20251120203056.15314-1-arthur.stupa@gmail.com>
+References: <20251120203056.15314-1-arthur.stupa@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -77,27 +80,611 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-checkpatch.pl recommends replacing BUG_ON() with WARN_ON_ONCE()
-to avoid a kernel panic.
+Fix the following checkpatch warnings for block comments:
+* Block comments should align the * on each line
+* Block comments use * on subsequent lines
+* Block comments use a trailing */ on a separate line
 
-Signed-off-by: Pavan Kumar Yalagada <pavankumaryalagada@gmail.com>
+No functional changes.
+
+Signed-off-by: Artur Stupa <arthur.stupa@gmail.com>
 ---
- drivers/staging/most/video/video.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Changes in v4:
+* Documented changes between patch versions.
 
-diff --git a/drivers/staging/most/video/video.c b/drivers/staging/most/video/video.c
-index 32f71d9a9cf7..3a622bd597e6 100644
---- a/drivers/staging/most/video/video.c
-+++ b/drivers/staging/most/video/video.c
-@@ -575,7 +575,7 @@ static void __exit comp_exit(void)
- 
- 	most_deregister_configfs_subsys(&comp);
- 	most_deregister_component(&comp);
--	BUG_ON(!list_empty(&video_devices));
-+	WARN_ON_ONCE(!list_empty(&video_devices));
+Changes in v3:
+* Deleted ************* lines in comments.
+* Moved dead commented-out code deletion to patch 2/2.
+
+Changes in v2:
+* Fixed "trailing */" checkpatch warnings.
+* Deleted dead commented-out code in rtw_wlan_util.c.
+---
+ .../staging/rtl8723bs/core/rtw_ieee80211.c    | 22 +++---
+ drivers/staging/rtl8723bs/core/rtw_io.c       | 48 ++++++-----
+ drivers/staging/rtl8723bs/core/rtw_mlme.c     | 76 ++++++++----------
+ drivers/staging/rtl8723bs/core/rtw_mlme_ext.c | 59 ++++----------
+ drivers/staging/rtl8723bs/core/rtw_pwrctrl.c  | 10 +--
+ drivers/staging/rtl8723bs/core/rtw_security.c | 79 +++++++++----------
+ .../staging/rtl8723bs/core/rtw_wlan_util.c    |  6 +-
+ 7 files changed, 128 insertions(+), 172 deletions(-)
+
+diff --git a/drivers/staging/rtl8723bs/core/rtw_ieee80211.c b/drivers/staging/rtl8723bs/core/rtw_ieee80211.c
+index 027b2dd0a4b9..10911a661223 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_ieee80211.c
++++ b/drivers/staging/rtl8723bs/core/rtw_ieee80211.c
+@@ -132,9 +132,7 @@ u8 *rtw_set_ie(u8 *pbuf,
+ 	return pbuf + len + 2;
  }
  
- module_init(comp_init);
+-/*----------------------------------------------------------------------------
+-index: the information element id index, limit is the limit for search
+------------------------------------------------------------------------------*/
++/* index: the information element id index, limit is the limit for search */
+ u8 *rtw_get_ie(u8 *pbuf, signed int index, signed int *len, signed int limit)
+ {
+ 	signed int tmp, i;
+@@ -767,21 +765,27 @@ static int rtw_ieee802_11_parse_vendor_specific(u8 *pos, uint elen,
+ {
+ 	unsigned int oui;
+ 
+-	/* first 3 bytes in vendor specific information element are the IEEE
++	/*
++	 * first 3 bytes in vendor specific information element are the IEEE
+ 	 * OUI of the vendor. The following byte is used a vendor specific
+-	 * sub-type. */
++	 * sub-type.
++	 */
+ 	if (elen < 4)
+ 		return -1;
+ 
+ 	oui = get_unaligned_be24(pos);
+ 	switch (oui) {
+ 	case OUI_MICROSOFT:
+-		/* Microsoft/Wi-Fi information elements are further typed and
+-		 * subtyped */
++		/*
++		 * Microsoft/Wi-Fi information elements are further typed and
++		 * subtyped
++		 */
+ 		switch (pos[3]) {
+ 		case 1:
+-			/* Microsoft OUI (00:50:F2) with OUI Type 1:
+-			 * real WPA information element */
++			/*
++			 * Microsoft OUI (00:50:F2) with OUI Type 1:
++			 * real WPA information element
++			 */
+ 			elems->wpa_ie = pos;
+ 			elems->wpa_ie_len = elen;
+ 			break;
+diff --git a/drivers/staging/rtl8723bs/core/rtw_io.c b/drivers/staging/rtl8723bs/core/rtw_io.c
+index 79d543d88278..fe9f94001eed 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_io.c
++++ b/drivers/staging/rtl8723bs/core/rtw_io.c
+@@ -5,25 +5,23 @@
+  *
+  ******************************************************************************/
+ /*
+-
+-The purpose of rtw_io.c
+-
+-a. provides the API
+-
+-b. provides the protocol engine
+-
+-c. provides the software interface between caller and the hardware interface
+-
+-
+-Compiler Flag Option:
+-
+-1. CONFIG_SDIO_HCI:
+-    a. USE_SYNC_IRP:  Only sync operations are provided.
+-    b. USE_ASYNC_IRP:Both sync/async operations are provided.
+-
+-jackson@realtek.com.tw
+-
+-*/
++ * The purpose of rtw_io.c
++ *
++ * a. provides the API
++ *
++ * b. provides the protocol engine
++ *
++ * c. provides the software interface between caller and the hardware interface
++ *
++ *
++ * Compiler Flag Option:
++ *
++ * 1. CONFIG_SDIO_HCI:
++ *  a. USE_SYNC_IRP:  Only sync operations are provided.
++ *  b. USE_ASYNC_IRP:Both sync/async operations are provided.
++ *
++ *  jackson@realtek.com.tw
++ */
+ 
+ #include <drv_types.h>
+ 
+@@ -135,10 +133,10 @@ int rtw_init_io_priv(struct adapter *padapter, void (*set_intf_ops)(struct adapt
+ }
+ 
+ /*
+-* Increase and check if the continual_io_error of this @param dvobjprive is larger than MAX_CONTINUAL_IO_ERR
+-* @return true:
+-* @return false:
+-*/
++ * Increase and check if the continual_io_error of this @param dvobjprive is larger than MAX_CONTINUAL_IO_ERR
++ * @return true:
++ * @return false:
++ */
+ int rtw_inc_and_chk_continual_io_error(struct dvobj_priv *dvobj)
+ {
+ 	int error_count = atomic_inc_return(&dvobj->continual_io_error);
+@@ -149,9 +147,7 @@ int rtw_inc_and_chk_continual_io_error(struct dvobj_priv *dvobj)
+ 	return false;
+ }
+ 
+-/*
+-* Set the continual_io_error of this @param dvobjprive to 0
+-*/
++/* Set the continual_io_error of this @param dvobjprive to 0 */
+ void rtw_reset_continual_io_error(struct dvobj_priv *dvobj)
+ {
+ 	atomic_set(&dvobj->continual_io_error, 0);
+diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme.c b/drivers/staging/rtl8723bs/core/rtw_mlme.c
+index c06d990350e6..98704179ad35 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_mlme.c
++++ b/drivers/staging/rtl8723bs/core/rtw_mlme.c
+@@ -214,10 +214,10 @@ void _rtw_free_network_nolock(struct	mlme_priv *pmlmepriv, struct wlan_network *
+ }
+ 
+ /*
+-	return the wlan_network with the matching addr
+-
+-	Shall be called under atomic context... to avoid possible racing condition...
+-*/
++ * return the wlan_network with the matching addr
++ *
++ * Shall be called under atomic context... to avoid possible racing condition...
++ */
+ struct wlan_network *_rtw_find_network(struct __queue *scanned_queue, u8 *addr)
+ {
+ 	struct list_head	*phead, *plist;
+@@ -319,10 +319,10 @@ void rtw_free_network_nolock(struct adapter *padapter, struct wlan_network *pnet
+ }
+ 
+ /*
+-	return the wlan_network with the matching addr
+-
+-	Shall be called under atomic context... to avoid possible racing condition...
+-*/
++ * return the wlan_network with the matching addr
++ *
++ * Shall be called under atomic context... to avoid possible racing condition...
++ */
+ struct	wlan_network *rtw_find_network(struct __queue *scanned_queue, u8 *addr)
+ {
+ 	struct	wlan_network *pnetwork = _rtw_find_network(scanned_queue, addr);
+@@ -476,9 +476,7 @@ static void update_current_network(struct adapter *adapter, struct wlan_bssid_ex
+ 	}
+ }
+ 
+-/*
+-Caller must hold pmlmepriv->lock first.
+-*/
++/* Caller must hold pmlmepriv->lock first. */
+ void rtw_update_scanned_network(struct adapter *adapter, struct wlan_bssid_ex *target)
+ {
+ 	struct list_head	*plist, *phead;
+@@ -510,8 +508,10 @@ void rtw_update_scanned_network(struct adapter *adapter, struct wlan_bssid_ex *t
+ 			oldest = pnetwork;
+ 	}
+ 
+-	/* If we didn't find a match, then get a new network slot to initialize
+-	 * with this beacon's information */
++	/*
++	 * If we didn't find a match, then get a new network slot to initialize
++	 * with this beacon's information
++	 */
+ 	if (!target_find) {
+ 		if (list_empty(&pmlmepriv->free_bss_pool.queue)) {
+ 			/* If there are no more slots, expire the oldest */
+@@ -843,9 +843,7 @@ static void find_network(struct adapter *adapter)
+ 		rtw_free_network_nolock(adapter, pwlan);
+ }
+ 
+-/*
+-*rtw_free_assoc_resources: the caller has to lock pmlmepriv->lock
+-*/
++/* rtw_free_assoc_resources: the caller has to lock pmlmepriv->lock */
+ void rtw_free_assoc_resources(struct adapter *adapter, int lock_scanned_queue)
+ {
+ 	struct	mlme_priv *pmlmepriv = &adapter->mlmepriv;
+@@ -879,9 +877,7 @@ void rtw_free_assoc_resources(struct adapter *adapter, int lock_scanned_queue)
+ 	rtw_reset_rx_info(pdbgpriv);
+ }
+ 
+-/*
+-*rtw_indicate_connect: the caller has to lock pmlmepriv->lock
+-*/
++/* rtw_indicate_connect: the caller has to lock pmlmepriv->lock */
+ void rtw_indicate_connect(struct adapter *padapter)
+ {
+ 	struct mlme_priv *pmlmepriv = &padapter->mlmepriv;
+@@ -908,9 +904,7 @@ void rtw_indicate_connect(struct adapter *padapter)
+ 	rtw_set_scan_deny(padapter, 3000);
+ }
+ 
+-/*
+-*rtw_indicate_disconnect: the caller has to lock pmlmepriv->lock
+-*/
++/* rtw_indicate_disconnect: the caller has to lock pmlmepriv->lock */
+ void rtw_indicate_disconnect(struct adapter *padapter)
+ {
+ 	struct	mlme_priv *pmlmepriv = &padapter->mlmepriv;
+@@ -1543,9 +1537,9 @@ void rtw_wmm_event_callback(struct adapter *padapter, u8 *pbuf)
+ }
+ 
+ /*
+-* _rtw_join_timeout_handler - Timeout/failure handler for CMD JoinBss
+-* @adapter: pointer to struct adapter structure
+-*/
++ * _rtw_join_timeout_handler - Timeout/failure handler for CMD JoinBss
++ * @adapter: pointer to struct adapter structure
++ */
+ void _rtw_join_timeout_handler(struct timer_list *t)
+ {
+ 	struct adapter *adapter = timer_container_of(adapter, t,
+@@ -1586,9 +1580,9 @@ void _rtw_join_timeout_handler(struct timer_list *t)
+ }
+ 
+ /*
+-* rtw_scan_timeout_handler - Timeout/Failure handler for CMD SiteSurvey
+-* @adapter: pointer to struct adapter structure
+-*/
++ * rtw_scan_timeout_handler - Timeout/Failure handler for CMD SiteSurvey
++ * @adapter: pointer to struct adapter structure
++ */
+ void rtw_scan_timeout_handler(struct timer_list *t)
+ {
+ 	struct adapter *adapter = timer_container_of(adapter, t,
+@@ -1704,10 +1698,10 @@ void rtw_set_scan_deny(struct adapter *adapter, u32 ms)
+ }
+ 
+ /*
+-* Select a new roaming candidate from the original @param candidate and @param competitor
+-* @return true: candidate is updated
+-* @return false: candidate is not updated
+-*/
++ * Select a new roaming candidate from the original @param candidate and @param competitor
++ * @return true: candidate is updated
++ * @return false: candidate is not updated
++ */
+ static int rtw_check_roaming_candidate(struct mlme_priv *mlme
+ 	, struct wlan_network **candidate, struct wlan_network *competitor)
+ {
+@@ -1785,10 +1779,10 @@ int rtw_select_roaming_candidate(struct mlme_priv *mlme)
+ }
+ 
+ /*
+-* Select a new join candidate from the original @param candidate and @param competitor
+-* @return true: candidate is updated
+-* @return false: candidate is not updated
+-*/
++ * Select a new join candidate from the original @param candidate and @param competitor
++ * @return true: candidate is updated
++ * @return false: candidate is not updated
++ */
+ static int rtw_check_join_candidate(struct mlme_priv *mlme
+ 	, struct wlan_network **candidate, struct wlan_network *competitor)
+ {
+@@ -1829,11 +1823,11 @@ static int rtw_check_join_candidate(struct mlme_priv *mlme
+ }
+ 
+ /*
+-Calling context:
+-The caller of the sub-routine will be in critical section...
+-The caller must hold the following spinlock
+-pmlmepriv->lock
+-*/
++ * Calling context:
++ * The caller of the sub-routine will be in critical section...
++ * The caller must hold the following spinlock
++ * pmlmepriv->lock
++ */
+ 
+ int rtw_select_and_join_from_scanned_queue(struct mlme_priv *pmlmepriv)
+ {
+diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
+index 8fe0555ab033..016609cd1292 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
++++ b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
+@@ -18,9 +18,7 @@ static struct mlme_handler mlme_sta_tbl[] = {
+ 	{WIFI_PROBEREQ,		"OnProbeReq",	&OnProbeReq},
+ 	{WIFI_PROBERSP,		"OnProbeRsp",		&OnProbeRsp},
+ 
+-	/*----------------------------------------------------------
+-					below 2 are reserved
+-	-----------------------------------------------------------*/
++	/* below 2 are reserved */
+ 	{0,					"DoReserved",		&DoReserved},
+ 	{0,					"DoReserved",		&DoReserved},
+ 	{WIFI_BEACON,		"OnBeacon",		&OnBeacon},
+@@ -50,9 +48,7 @@ static struct action_handler OnAction_tbl[] = {
+ 
+ static u8 null_addr[ETH_ALEN] = {0, 0, 0, 0, 0, 0};
+ 
+-/**************************************************
+-OUI definitions for the vendor specific IE
+-***************************************************/
++/* OUI definitions for the vendor specific IE */
+ unsigned char RTW_WPA_OUI[] = {0x00, 0x50, 0xf2, 0x01};
+ unsigned char WMM_OUI[] = {0x00, 0x50, 0xf2, 0x02};
+ unsigned char WPS_OUI[] = {0x00, 0x50, 0xf2, 0x04};
+@@ -64,9 +60,7 @@ unsigned char WMM_PARA_OUI[] = {0x00, 0x50, 0xf2, 0x02, 0x01, 0x01};
+ 
+ static unsigned char REALTEK_96B_IE[] = {0x00, 0xe0, 0x4c, 0x02, 0x01, 0x20};
+ 
+-/********************************************************
+-ChannelPlan definitions
+-*********************************************************/
++/* ChannelPlan definitions */
+ static struct rt_channel_plan_2g	RTW_ChannelPlan2G[RT_CHANNEL_DOMAIN_2G_MAX] = {
+ 	{{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13}, 13},		/*  0x00, RT_CHANNEL_DOMAIN_2G_WORLD , Passive scan CH 12, 13 */
+ 	{{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13}, 13},		/*  0x01, RT_CHANNEL_DOMAIN_2G_ETSI1 */
+@@ -187,11 +181,7 @@ int rtw_ch_set_search_ch(struct rt_channel_info *ch_set, const u32 ch)
+ 	return i;
+ }
+ 
+-/****************************************************************************
+-
+-Following are the initialization functions for WiFi MLME
+-
+-*****************************************************************************/
++/* Following are the initialization functions for WiFi MLME */
+ 
+ int init_hw_mlme_ext(struct adapter *padapter)
+ {
+@@ -507,11 +497,7 @@ void mgt_dispatcher(struct adapter *padapter, union recv_frame *precv_frame)
+ 	}
+ }
+ 
+-/****************************************************************************
+-
+-Following are the callback functions for each subtype of the management frames
+-
+-*****************************************************************************/
++/* Following are the callback functions for each subtype of the management frames */
+ 
+ unsigned int OnProbeReq(struct adapter *padapter, union recv_frame *precv_frame)
+ {
+@@ -1950,11 +1936,7 @@ inline struct xmit_frame *alloc_mgtxmitframe(struct xmit_priv *pxmitpriv)
+ 	return _alloc_mgtxmitframe(pxmitpriv, false);
+ }
+ 
+-/****************************************************************************
+-
+-Following are some TX functions for WiFi MLME
+-
+-*****************************************************************************/
++/* Following are some TX functions for WiFi MLME */
+ 
+ void update_mgnt_tx_rate(struct adapter *padapter, u8 rate)
+ {
+@@ -3797,11 +3779,7 @@ unsigned int send_beacon(struct adapter *padapter)
+ 		return _SUCCESS;
+ }
+ 
+-/****************************************************************************
+-
+-Following are some utility functions for WiFi MLME
+-
+-*****************************************************************************/
++/* Following are some utility functions for WiFi MLME */
+ 
+ void site_survey(struct adapter *padapter)
+ {
+@@ -4392,11 +4370,7 @@ static void process_80211d(struct adapter *padapter, struct wlan_bssid_ex *bssid
+ 	}
+ }
+ 
+-/****************************************************************************
+-
+-Following are the functions to report events
+-
+-*****************************************************************************/
++/* Following are the functions to report events */
+ 
+ void report_survey_event(struct adapter *padapter, union recv_frame *precv_frame)
+ {
+@@ -4692,11 +4666,7 @@ void report_add_sta_event(struct adapter *padapter, unsigned char *MacAddr, int
+ 	rtw_enqueue_cmd(pcmdpriv, pcmd_obj);
+ }
+ 
+-/****************************************************************************
+-
+-Following are the event callback functions
+-
+-*****************************************************************************/
++/* Following are the event callback functions */
+ 
+ /* for sta/adhoc mode */
+ void update_sta_info(struct adapter *padapter, struct sta_info *psta)
+@@ -4863,8 +4833,10 @@ void mlmeext_joinbss_event_callback(struct adapter *padapter, int join_res)
+ 
+ 		rtw_sta_media_status_rpt(padapter, psta, 1);
+ 
+-		/* wakeup macid after join bss successfully to ensure
+-			the subsequent data frames can be sent out normally */
++		/*
++		 * wakeup macid after join bss successfully to ensure
++		 * the subsequent data frames can be sent out normally
++		 */
+ 		rtw_hal_macid_wakeup(padapter, psta->mac_id);
+ 	}
+ 
+@@ -4940,11 +4912,8 @@ void mlmeext_sta_del_event_callback(struct adapter *padapter)
+ 		rtw_mlmeext_disconnect(padapter);
+ }
+ 
+-/****************************************************************************
+-
+-Following are the functions for the timer handlers
++/* Following are the functions for the timer handlers */
+ 
+-*****************************************************************************/
+ void _linked_info_dump(struct adapter *padapter)
+ {
+ 	int i;
+diff --git a/drivers/staging/rtl8723bs/core/rtw_pwrctrl.c b/drivers/staging/rtl8723bs/core/rtw_pwrctrl.c
+index 7b643ac320f0..0ef788abf403 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_pwrctrl.c
++++ b/drivers/staging/rtl8723bs/core/rtw_pwrctrl.c
+@@ -999,11 +999,11 @@ inline void rtw_set_ips_deny(struct adapter *padapter, u32 ms)
+ }
+ 
+ /*
+-* rtw_pwr_wakeup - Wake the NIC up from: 1)IPS. 2)USB autosuspend
+-* @adapter: pointer to struct adapter structure
+-* @ips_deffer_ms: the ms will prevent from falling into IPS after wakeup
+-* Return _SUCCESS or _FAIL
+-*/
++ * rtw_pwr_wakeup - Wake the NIC up from: 1)IPS. 2)USB autosuspend
++ * @adapter: pointer to struct adapter structure
++ * @ips_deffer_ms: the ms will prevent from falling into IPS after wakeup
++ * Return _SUCCESS or _FAIL
++ */
+ 
+ int _rtw_pwr_wakeup(struct adapter *padapter, u32 ips_deffer_ms, const char *caller)
+ {
+diff --git a/drivers/staging/rtl8723bs/core/rtw_security.c b/drivers/staging/rtl8723bs/core/rtw_security.c
+index b2c783ada49b..2f941ffbd465 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_security.c
++++ b/drivers/staging/rtl8723bs/core/rtw_security.c
+@@ -30,9 +30,7 @@ const char *security_type_str(u8 value)
+ 
+ /* WEP related ===== */
+ 
+-/*
+-	Need to consider the fragment  situation
+-*/
++/* Need to consider the fragment  situation */
+ void rtw_wep_encrypt(struct adapter *padapter, u8 *pxmitframe)
+ {																	/*  exclude ICV */
+ 	union {
+@@ -343,23 +341,20 @@ static const unsigned short Sbox1[2][256] = {      /* Sbox for hash (can be in R
+ 	}
+ };
+ 
+- /*
+-**********************************************************************
+-* Routine: Phase 1 -- generate P1K, given TA, TK, IV32
+-*
+-* Inputs:
+-*     tk[]      = temporal key                         [128 bits]
+-*     ta[]      = transmitter's MAC address            [ 48 bits]
+-*     iv32      = upper 32 bits of IV                  [ 32 bits]
+-* Output:
+-*     p1k[]     = Phase 1 key                          [ 80 bits]
+-*
+-* Note:
+-*     This function only needs to be called every 2**16 packets,
+-*     although in theory it could be called every packet.
+-*
+-**********************************************************************
+-*/
++/*
++ * Routine: Phase 1 -- generate P1K, given TA, TK, IV32
++ *
++ * Inputs:
++ *     tk[]      = temporal key                         [128 bits]
++ *     ta[]      = transmitter's MAC address            [ 48 bits]
++ *     iv32      = upper 32 bits of IV                  [ 32 bits]
++ * Output:
++ *     p1k[]     = Phase 1 key                          [ 80 bits]
++ *
++ * Note:
++ *     This function only needs to be called every 2**16 packets,
++ *     although in theory it could be called every packet.
++ */
+ static void phase1(u16 *p1k, const u8 *tk, const u8 *ta, u32 iv32)
+ {
+ 	signed int  i;
+@@ -386,28 +381,25 @@ static void phase1(u16 *p1k, const u8 *tk, const u8 *ta, u32 iv32)
+ 
+ 
+ /*
+-**********************************************************************
+-* Routine: Phase 2 -- generate RC4KEY, given TK, P1K, IV16
+-*
+-* Inputs:
+-*     tk[]      = Temporal key                         [128 bits]
+-*     p1k[]     = Phase 1 output key                   [ 80 bits]
+-*     iv16      = low 16 bits of IV counter            [ 16 bits]
+-* Output:
+-*     rc4key[]  = the key used to encrypt the packet   [128 bits]
+-*
+-* Note:
+-*     The value {TA, IV32, IV16} for Phase1/Phase2 must be unique
+-*     across all packets using the same key TK value. Then, for a
+-*     given value of TK[], this TKIP48 construction guarantees that
+-*     the final RC4KEY value is unique across all packets.
+-*
+-* Suggested implementation optimization: if PPK[] is "overlaid"
+-*     appropriately on RC4KEY[], there is no need for the final
+-*     for loop below that copies the PPK[] result into RC4KEY[].
+-*
+-**********************************************************************
+-*/
++ * Routine: Phase 2 -- generate RC4KEY, given TK, P1K, IV16
++ *
++ * Inputs:
++ *     tk[]      = Temporal key                         [128 bits]
++ *     p1k[]     = Phase 1 output key                   [ 80 bits]
++ *     iv16      = low 16 bits of IV counter            [ 16 bits]
++ * Output:
++ *     rc4key[]  = the key used to encrypt the packet   [128 bits]
++ *
++ * Note:
++ *     The value {TA, IV32, IV16} for Phase1/Phase2 must be unique
++ *     across all packets using the same key TK value. Then, for a
++ *     given value of TK[], this TKIP48 construction guarantees that
++ *     the final RC4KEY value is unique across all packets.
++ *
++ * Suggested implementation optimization: if PPK[] is "overlaid"
++ *     appropriately on RC4KEY[], there is no need for the final
++ *     for loop below that copies the PPK[] result into RC4KEY[].
++ */
+ static void phase2(u8 *rc4key, const u8 *tk, const u16 *p1k, u16 iv16)
+ {
+ 	signed int  i;
+@@ -1483,7 +1475,8 @@ static int omac1_aes_128_vector(u8 *key, size_t num_elem,
+  * This is a mode for using block cipher (AES in this case) for authentication.
+  * OMAC1 was standardized with the name CMAC by NIST in a Special Publication
+  * (SP) 800-38B.
+- * modify for CONFIG_IEEE80211W */
++ * modify for CONFIG_IEEE80211W
++ */
+ int omac1_aes_128(u8 *key, u8 *data, size_t data_len, u8 *mac)
+ {
+ 	return omac1_aes_128_vector(key, 1, &data, &data_len, mac);
+diff --git a/drivers/staging/rtl8723bs/core/rtw_wlan_util.c b/drivers/staging/rtl8723bs/core/rtw_wlan_util.c
+index 74d3f2de360d..c8909ffe0248 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_wlan_util.c
++++ b/drivers/staging/rtl8723bs/core/rtw_wlan_util.c
+@@ -1021,9 +1021,9 @@ void HTOnAssocRsp(struct adapter *padapter)
+ 
+ 	/* handle A-MPDU parameter field */
+ 	/*
+-		AMPDU_para [1:0]:Max AMPDU Len => 0:8k , 1:16k, 2:32k, 3:64k
+-		AMPDU_para [4:2]:Min MPDU Start Spacing
+-	*/
++	 * AMPDU_para [1:0]:Max AMPDU Len => 0:8k , 1:16k, 2:32k, 3:64k
++	 * AMPDU_para [4:2]:Min MPDU Start Spacing
++	 */
+ 	max_AMPDU_len = pmlmeinfo->HT_caps.u.HT_cap_element.AMPDU_para & 0x03;
+ 
+ 	min_MPDU_spacing = (pmlmeinfo->HT_caps.u.HT_cap_element.AMPDU_para & 0x1c) >> 2;
 -- 
-2.47.3
+2.43.0
 
