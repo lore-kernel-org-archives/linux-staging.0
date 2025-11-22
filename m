@@ -1,71 +1,109 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03478217722
-	for <linux-staging@lists.linux.dev>; Sat, 22 Nov 2025 06:50:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C653A27FB18
+	for <linux-staging@lists.linux.dev>; Sat, 22 Nov 2025 08:38:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763794211; cv=none; b=s8tW3oigsHhpn0NOk+YfVXE4lnpgiToEcFWpV1itKgf4OMkZ6FmLe8zsW/sAhPBaTix+QanwgrE5m7NYZ+O2SONGXJz7yUBi5jpwBkHB3ej6Mezphvb3o7x8QWlfMK5UBhH9gVLJ3xv9Ml4cQmTd4eVSj+6GpwMDhxJdfOA5ghE=
+	t=1763800704; cv=none; b=YQTWhlCwKaSjUez6WI0WUCykYrrGBiXTDtkM9J79SWDqL3hvfqIaIob6+rJE56q1JKmT+u+itSXmHXgstLmTFZNmkqahYFXmOCLl9GLKem2l32l90a2/n2gtACpTNHq0phpLgcu/Er7zsJ3/VY3lBq9RPGJaO7fYeUObnuzzTnQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763794211; c=relaxed/simple;
-	bh=1EqPdpjn5u5pgrcN59q14C+lgyYSNGim9LgreGwJsUo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MiTrPju4Sse9TCVm5ekaivHtSlmrsT8+FmCYtPUd7k726Un4kMSo1B3jtN7jfpmjaWv2CLZU/vaBO/X4a7BzAdsxugurEHQx/tA1Blb5egGFHdRLMKsnxnk2xp6AcZY6JRzNrGOfa/pHC7xMO+5huYEp6ooz8DRCJe08Qo6BeZY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=hXdMDA/m; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1763800704; c=relaxed/simple;
+	bh=/E+AZA1M6iKEH07yXamPANq64XYIOi1xa4NoClhjtks=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=C2ke98x8gyVhYRr7MxyOKeTOv7G8bOon0NUfyZdCos6GuijC9ORZV61kCzlmokSJGMfAMGIq3tzFT3xtt6qrLZNs9HkHbNA52NwBkS8uRl4rt8GDtsC/pNILrxPZXctb6Apf62hPHX9ZwrW0nn1MLggNUVeQP8oF1wl/+WO7+a8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VxvnYPuV; arc=none smtp.client-ip=209.85.214.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="hXdMDA/m"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C6954C4CEF5;
-	Sat, 22 Nov 2025 06:50:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1763794210;
-	bh=1EqPdpjn5u5pgrcN59q14C+lgyYSNGim9LgreGwJsUo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=hXdMDA/mAZnc1pO88XasDJY7OqaNZEASnoial+pcNQJeyjRlU8UlYXbOEQ52DcoAm
-	 3YOvCrchexd65ofFEvBEjTglC7s7cJGWFlSiFER5o0h45S8wQxh8O7D6GelZAaflvI
-	 EtteYLGG+qXwuXQYDA87E5A0Q9rpDnC8jE+BCRBw=
-Date: Sat, 22 Nov 2025 07:50:06 +0100
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Pavan Kumar Yalagada <pavankumaryalagada@gmail.com>
-Cc: parthiban.veerasooran@microchip.com, christian.gromm@microchip.com,
-	laurent.pinchart+renesas@ideasonboard.com,
-	hverkuil+cisco@kernel.org, linux-staging@lists.linux.dev
-Subject: Re: [PATCH] staging: most: video: replace BUG_ON() with
- WARN_ON_ONCE()
-Message-ID: <2025112227-presume-protegee-2499@gregkh>
-References: <20251121190909.115556-1-pavankumaryalagada@gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VxvnYPuV"
+Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-298250d7769so20935685ad.0
+        for <linux-staging@lists.linux.dev>; Sat, 22 Nov 2025 00:38:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1763800702; x=1764405502; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=1VmZi+XsGyembJH8sEyfQBTag2EbSAHD6fF836jnsIc=;
+        b=VxvnYPuV/O1XYetVgPSgq6Su1SB7nnTbSdN6qa9oE77j43O17aS9U76RsT5xS06Wib
+         HtdW9z6lT/jzDmBlexRSD6Pz2dx71IcW5FDqR5zjfhHMSmUzdUdx/wmTtppixt2zpgc3
+         Mlo0gyzdmQefyl/LWypmODv3S/xCgfW7hoYm54iA9zlbCN3yc3Rq50XEap3IKfjy0s26
+         xvX9AJRDLRaWMyv4X1GzxVH82gX8oCdNGIjbvOJPB/b3rVrpvcNHCcmHI8/fmnuNyc8K
+         ilB9n4OiQRtGCdvZcDMPRTP58MHuO/90JTj04VZ74AjAmYQoeT41Ap2+cC4BbXagNAUW
+         QA1w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1763800702; x=1764405502;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=1VmZi+XsGyembJH8sEyfQBTag2EbSAHD6fF836jnsIc=;
+        b=bSClvaBB/scuwgvcElBlAlEqyWaO8M5Rg469CiwVYew1NjLco5+2VmTaqe6S1/gNZl
+         buYQf9LwoLJRQojzfMpuxzMIizX+w9R4k0mdACABbOZYjvGs+7vt7KpuxkDPvZfNo5E9
+         6bq41oFCuUfFDiACt+NIAA70h4pbOum7/QxZaUlqyqzViMv6Zv0UzuL7JevPcxtxARgV
+         ZyyielOBlYojoeMw+AZuWXvCtIMLS0OvibWySyiQ3wYuc3+r50jlNN8e//B9/BrL+SJn
+         4M8ew2jmWnw1Bmh3PUnB74YMXf0f2xDVKGInaCNMMR/LQoFM5uZFM9TVLKqDWs/oo/18
+         zVGQ==
+X-Forwarded-Encrypted: i=1; AJvYcCW7edkzF5Yr14XmTg49o7b2FCEx5dbA7aytr1/vaqRkqYocFrKqWyS9i7FLRZUCTZ5bqVLVI8pl8VKv9AsZ@lists.linux.dev
+X-Gm-Message-State: AOJu0Ywr0BEp7XRYK2fukw++ePuoOX+WSYEAuTkmELB+NeVBzE9lVTYB
+	pCsbxo8pNjOz71JLtuE7hY10BBQHvhwGJN/KdUO1TVzO+O/A90olqxk9t8POm5237g==
+X-Gm-Gg: ASbGncsF5w5dFyIDA168soC2Wcrs5wqMySZgb68RzSwW7q0H1N2APJRKuaWRqHqfy54
+	DHwsjckTpq1+kWjVIYTxdvvuX2cE6HtI2TeY4mkZ7BzoNoeqHg4kgN9nvcoHwvOWtA1E5e5r9yG
+	4t6USvvXf76qFKK75IjK03bi3FCVTy15CqV0aJSTM5IRAq/V/DmFeluLD1KLCdy0SaDA3B/9qF0
+	7pERSgcQQ6MUMsB/gs2zAEQpgLWKso1DSPcUYWf9pC5xY7kHDNaqcG2FbONUKosjd0nmcf8pECu
+	5UBfum70xm3UWaheZZ6p3CXOuTacWEzbqeYoKw2tO+oXzlLunQa/20VzipVWKZBMR3wM7q1QKEc
+	7xothqiYUEqhWQoLGGUHqHMkw/PtHzl7xKwDZCii2Iw77h9mA89ggqy0HgwoEKDmazIjTDCD5AR
+	9evsKtkWtOng0WYPeyuQFXnFYnp/9qlx1FQzOC7giEq3FMem4=
+X-Google-Smtp-Source: AGHT+IE6Bwt2XU0d7RVgrZTPP+UWNhOXbNNDhENa7OS6L/W5dtCZtXAohd7LmHb1i9/zYR+bLBwLnw==
+X-Received: by 2002:a17:903:1b43:b0:294:cc1d:e28d with SMTP id d9443c01a7336-29b6c50c704mr63285865ad.25.1763800701905;
+        Sat, 22 Nov 2025 00:38:21 -0800 (PST)
+Received: from samee-VMware-Virtual-Platform.. ([2402:e280:3d9e:537:8ccb:550c:e84d:a5b1])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-29b5b2809b6sm78503565ad.76.2025.11.22.00.38.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 22 Nov 2025 00:38:21 -0800 (PST)
+From: Sameeksha Sankpal <sameekshasankpal@gmail.com>
+To: vaibhav.sr@gmail.com,
+	mgreer@animalcreek.com
+Cc: johan@kernel.org,
+	elder@kernel.org,
+	gregkh@linuxfoundation.org,
+	greybus-dev@lists.linaro.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Sameeksha Sankpal <sameekshasankpal@gmail.com>
+Subject: [PATCH] staging: greybus: audio_manager: make envp[] static const
+Date: Sat, 22 Nov 2025 14:08:13 +0530
+Message-ID: <20251122083814.49753-1-sameekshasankpal@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251121190909.115556-1-pavankumaryalagada@gmail.com>
+Content-Transfer-Encoding: 8bit
 
-On Fri, Nov 21, 2025 at 02:09:09PM -0500, Pavan Kumar Yalagada wrote:
-> checkpatch.pl recommends replacing BUG_ON() with WARN_ON_ONCE()
-> to avoid a kernel panic.
-> 
-> Signed-off-by: Pavan Kumar Yalagada <pavankumaryalagada@gmail.com>
-> ---
->  drivers/staging/most/video/video.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/staging/most/video/video.c b/drivers/staging/most/video/video.c
-> index 32f71d9a9cf7..3a622bd597e6 100644
-> --- a/drivers/staging/most/video/video.c
-> +++ b/drivers/staging/most/video/video.c
-> @@ -575,7 +575,7 @@ static void __exit comp_exit(void)
->  
->  	most_deregister_configfs_subsys(&comp);
->  	most_deregister_component(&comp);
-> -	BUG_ON(!list_empty(&video_devices));
-> +	WARN_ON_ONCE(!list_empty(&video_devices));
+The envp[] array contains string literals and is never modified.
+Declare it as 'static const char * const' to place it in read-only
+memory and avoid unnecessary stack usage.
 
-But this doesn't handle the fact that the system is now unstable.
-Please fix the root cause of this, do not paper over the problem.
+This fixes a checkpatch warning:
+"char * array declaration might be better as static const"
 
-thanks,
+Signed-off-by: Sameeksha Sankpal <sameekshasankpal@gmail.com>
+---
+ drivers/staging/greybus/audio_manager_module.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-greg k-h
+diff --git a/drivers/staging/greybus/audio_manager_module.c b/drivers/staging/greybus/audio_manager_module.c
+index 4a4dfb42f50f..1b83c05f2434 100644
+--- a/drivers/staging/greybus/audio_manager_module.c
++++ b/drivers/staging/greybus/audio_manager_module.c
+@@ -159,7 +159,7 @@ static void send_add_uevent(struct gb_audio_manager_module *module)
+ 	char ip_devices_string[64];
+ 	char op_devices_string[64];
+ 
+-	char *envp[] = {
++	static const char * const envp[] = {
+ 		name_string,
+ 		vid_string,
+ 		pid_string,
+-- 
+2.43.0
+
