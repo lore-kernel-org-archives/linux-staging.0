@@ -1,72 +1,72 @@
-Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F82D28D82F
-	for <linux-staging@lists.linux.dev>; Sat, 22 Nov 2025 17:46:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FCA62857EA
+	for <linux-staging@lists.linux.dev>; Sat, 22 Nov 2025 17:46:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763833576; cv=none; b=Z62HMlB7w9/Vdq6aLubsieJR+SN75+XcHul2WdkWzap2jrbTWdy9DCGYh0Quy7urP2m0ctYjVjZsgIQlZpQSOKKOyBY8dgESq6f/nkGCmILQHjPyIe9jgsI1UZvlpqbm5EKyYwB5idm+ONwQBKKMzERY2Js09m5KHWBRMf6LHsc=
+	t=1763833578; cv=none; b=bS5LQNfvBqzZ1BqgNGBni64LX52ZXKDsKC4f/sG2cW5gxa5lsPgeTNeE/cKNxAZ5bG1d6f91lOCKZczUFGJ6wYKGT+42E8JYeOufR2fThEvzOthq3m5GdvL+LF22ga4u3QXFsQOZ85BdYOSZPkxpETKlDWSIc+HfQ0qZwmXQwag=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763833576; c=relaxed/simple;
-	bh=cpC1LEWWa2gxwbaSOO4EMuTVlGuvKC6DsecGI3j2hbI=;
+	s=arc-20240116; t=1763833578; c=relaxed/simple;
+	bh=UeqZgih//xcbMg5qWWo5PAoxCl0KtIgkLYghBcZd8sc=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=AoC5ArzXXDq1rURAXEk7C0En9JOe3FBbqA0lmD472Lbmf8YFIosOe2zRI6Bzwx+l4SomaWQD2BpsrXlAPUMomnLjc7jzMj3pLER/Y3paJu4TE/3JrorB7BN5tYpyC+8kJwynSsOPuOWhwl77b65JAoqYoyElZs3TSaHNxxmp0Ys=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lTY8pboH; arc=none smtp.client-ip=209.85.214.173
+	 MIME-Version; b=pVAN3mmOBoXqusVxtavWjKajoeSrqjmO8kij/BvPhMxeYb91tizfXTgbbqxXsX+pFjLtEMbzfuOX+DNpGMm9ABvCm8kpqpv5oNbnmDwSeY0fdvXyOCihq1LnlgdQZX/8lDSWMld7J/MiQKrttkj/HiPeqgiSXD6wNqF1tTcJZGU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PQl86YtB; arc=none smtp.client-ip=209.85.214.174
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lTY8pboH"
-Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-295548467c7so35948075ad.2
-        for <linux-staging@lists.linux.dev>; Sat, 22 Nov 2025 09:46:14 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PQl86YtB"
+Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-29586626fbeso36982825ad.0
+        for <linux-staging@lists.linux.dev>; Sat, 22 Nov 2025 09:46:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1763833574; x=1764438374; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1763833576; x=1764438376; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Q+C+5JbnNEtRzLTc+Dw5Knlrj9bR0dzDta5VOLCOrZs=;
-        b=lTY8pboH4W7ktBLEkXM0znQpulHdYIRpTeK+MLdJyL3VC5RYRmXMIDQzeENlvJPBEJ
-         hwra1qkWnIdQKRcE5MOdIPQNtqTZ8eYQdNq3UP1p+z9oljH0Ys9JgWWY4DiWghwGjzqV
-         N7hNyUo2BEk6CRGjRxi/Xficeq8RWSnW3phmIQ4tNk3dkP2J9t2zqT5Ez5V717vZBy+9
-         VC9kJyRLF9QsdEQJkTXhnvLbZ4jE0qMSHhy+E490YuFBwI35dawt15fymCk0xsLW+9+0
-         hpa2csi0WBzi1ESQeQmhOdmS2zNHqdlihXkGOXTX5a+C+P62J3xaTl1JsdPQ+lJjzw1D
-         Nt4w==
+        bh=nm1Pttzi3WYdg/JYocWz9qt9ZsVaCfZIkXAx0tm4lFU=;
+        b=PQl86YtBjqqxFiW940OgSsFdfBmnH4R3UqUZBRWYB2/tCDktDAHU5w6Xx0Vqx5gUh0
+         7PfbsNxXJ2bBpd03n9HV+RlNM9fg5GhATyxr2llpoltfvTsyR5G5HqB7p4OA455dWGBg
+         swtTlwB/zsA/YWT8jULyN1NhrKYiCEjj5SvbgQJrZalyS+018ls24bPhsUBBn9ptyUXp
+         P2xxUQReJMoOLqHz1GMyOG3Z/4ceeE5Abo1Auc3BNJz/yn1Fa+qfUlrw1rz0QD59qtkS
+         w/TDolRREk/sl/iWnPFDdYhI4HfsFywxDhjNWfLUJO5M1uqBEgnWdJlpAzrpHQ5JhH46
+         2BIA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763833574; x=1764438374;
+        d=1e100.net; s=20230601; t=1763833576; x=1764438376;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=Q+C+5JbnNEtRzLTc+Dw5Knlrj9bR0dzDta5VOLCOrZs=;
-        b=SPwt+yh7G9os6cnCaEz21PLVHkud3gZmUhTIEQd9/6sRz3xsITGFgAhI8H9r6OZAH/
-         1MRDdHVvlxAfieUjWsRx99nva3VJD9T4haoalYjzxRHac3qQn1O5sqoF8e+6fHMsZkD6
-         wkA23avdwl6rt6/LBlFXU0I0sEQ+KW2kU79cM69WitWYXv29p9eLRDbPDhWp/p/6U5tM
-         4LTAeXsOp54Ckk3DdG2D6HAXFUBAU+cQo+6GIPQW6QqOcMwILmks0ryGy3W3U9lQqzwu
-         kinELVPErvgnSyzo0arwWWufTAf7laTMn0mzzJ3zi7Ud2Qns1IXE1XpFDXvIt5Adfacb
-         30dA==
-X-Gm-Message-State: AOJu0Yyo9lrfSZb07hq4uE6VJUTgImtiG3wP/QbgLk/WsUilEsVrZdwp
-	LARMPeZgwhlDFSUNR7DSMk6cLRMzj7/sJljaQRyCFueDEbcZSjW2B27b
-X-Gm-Gg: ASbGncuMd77Xc5j8VN1aNC+3uTemCzQbHz19ewy6RVWxzilIkQX9Hk0W5UO2Qt8yr1Z
-	h7SA8ymV3Ms4AHJjiEKz7VgqIx/iIQru6TgtoHXXUzdYDeRENh1S/wWvYZA4UKriH5FQErV9fkJ
-	mTSXvdxQfBFGOZG4kRMo1kiPzdzrJhKlisCwP+MG7phQu8rNb6+Yt+Bm+IOHYB0WWn28VGiB/Cz
-	crXxITO1H9oCYzPNPuwWNEbQtzwyol+bdojqoTIR0cp2jIy5sSVWi5LvQ6G4t7Tp6FP0xpuLeja
-	MIbBlpfw12eAhRaRMwrxEqdu5/ccgB+nTeb1IO6/nFQs229y5TOQILIHZzqHZO6ZcV2EnMn0shw
-	2nbvrRLtd7arkIh1evNY6lOmMPQ37mDzOee1wAIZw6HPrH9lPMvrCHgojCvXR83tjYwNoA3Zffq
-	TAdX+KzWhjQ+GdzsPSmO4rJp+AV84E0+zUe5fZH/UYJmgDG9uZV6AcFaqVYvX1ANub24PELSXci
-	GcgnrwGSG1d+9n8dXg=
-X-Google-Smtp-Source: AGHT+IEKxtdwocd42UUdonOPfaZx89j1v4AcDfur13IE+AIwy4xKDfgaCuHHazlq6ph13PNAAPGuiw==
-X-Received: by 2002:a17:902:e548:b0:295:fc0:5a32 with SMTP id d9443c01a7336-29b6be8cb38mr88782895ad.3.1763833573873;
-        Sat, 22 Nov 2025 09:46:13 -0800 (PST)
+        bh=nm1Pttzi3WYdg/JYocWz9qt9ZsVaCfZIkXAx0tm4lFU=;
+        b=bMnneTHwOZ0nDlu5JwNZd7rfFwOc33LlOprMYURdk1r400Ml8RzrWUleJjABoU3p2B
+         Ml0GE8LqUZ30PsLSXIBlKDvhrk5m/216FiE8xcEDLU5PORniFiFxWQEhqhnRBpb/6T4S
+         uTVzh5/NCIasXvbhkxQiWWDN0FM2ZkwV1ohJvdQLCME2lIiW0qE6Qya3C03O7hOF/vhP
+         +VZ2POwCu3VwccI0XwbuAEfqDBTGLLDeBfOxyeE2LEvrvCb4Tbf5ALBXRS06CnPIU+4D
+         BkgblsG0wv+g1tPOmhk9CAkKi9Mj3vC4+vqPoYEjVuW4s1C/Ln5yXO1h/mhfjBlv2qfY
+         p4+A==
+X-Gm-Message-State: AOJu0YzN3qXJ2gfLsVH+ueP4+bvAiz3Diw+Lh5vEVa56ynO/BnIN8z1n
+	xYn9FR5BLck5/AUORAEeqmFxsrRxw1JmH7jFm4X3VCeLbrCxqHaepVnT
+X-Gm-Gg: ASbGncvE8W1dMpskzVKytJxvPh8adjyeg0RVZZoNBtW/JkA4YGo/2jn/RA2hgvbngLT
+	P3PGSQ9HmOykg0AxEHgD8x6/BROWGP4tariMVleLgIqDg4TK/ACAZVUos6LKIQZZ06PZ6gG2/ty
+	KOs1Bphm3WD/pwQXyG5FIpAJDC6c5LWKPG/cRmT9LJzCWK0vUPW2BPtRP4IXBgL97rpqxcr25/m
+	1L5OoYCx02haY7kCszXjaIK8ZkSlyGlYEhwBtljli0z/6xy/sATZ7WxU6fbWueN3dZE1KuRWR9o
+	378AYtt1552BJDVZgKJaMBy0gWCWoDCJkqFdIX4Fa+SZzobkYT5VdCz3hfv60WRNsGR+cr37dUr
+	/SHp2vnsLYeRxRB67o+DcXKDQnAPaP5+aF2zZ1Xja8Gn4JDOr3nqNzbi34Tl2KhxxNs3X2LH8s6
+	rINcwxXtD+ISyHhObXdEi3m9iVtr5sJ7Djyz3+O7ZqNnRRW5CBeUVBOdIZmaSxjHNv98KxhKN4C
+	306BiMfi4PdnghgJmFSYf1f3wtwZg==
+X-Google-Smtp-Source: AGHT+IHONysqwYe+aWBhDxMqwYiRxC2vVD70ctO21dUdd4EvtxvCSA0AS1KTCPZXYwmu9feRlkvLMg==
+X-Received: by 2002:a17:903:1b45:b0:297:c889:ba35 with SMTP id d9443c01a7336-29b6bf3bd93mr75597035ad.31.1763833576301;
+        Sat, 22 Nov 2025 09:46:16 -0800 (PST)
 Received: from CyberKunju.localdomain ([103.92.100.163])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-29b5b13a80csm90186085ad.35.2025.11.22.09.46.11
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-29b5b13a80csm90186085ad.35.2025.11.22.09.46.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 22 Nov 2025 09:46:13 -0800 (PST)
+        Sat, 22 Nov 2025 09:46:15 -0800 (PST)
 From: Navaneeth K <knavaneeth786@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Navaneeth K <knavaneeth786@gmail.com>
-Subject: [PATCH 2/5] staging: rtl8723bs: replace FIELD_OFFSET usage with offsetof
-Date: Sat, 22 Nov 2025 17:45:52 +0000
-Message-ID: <20251122174555.215109-3-knavaneeth786@gmail.com>
+Subject: [PATCH 3/5] staging: rtl8723bs: use standard offsetof in cfg80211 operations
+Date: Sat, 22 Nov 2025 17:45:53 +0000
+Message-ID: <20251122174555.215109-4-knavaneeth786@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20251122174555.215109-1-knavaneeth786@gmail.com>
 References: <20251122174555.215109-1-knavaneeth786@gmail.com>
@@ -79,30 +79,30 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
 Replace usage of the custom FIELD_OFFSET macro with the standard
-offsetof() macro in drv_types.h. This improves code readability and
-standardization.
+offsetof() macro in ioctl_cfg80211.c.
+
+This resolves coding style issues and standardizes
+memory offset calculations.
 
 Signed-off-by: Navaneeth K <knavaneeth786@gmail.com>
 ---
- drivers/staging/rtl8723bs/include/drv_types.h | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/staging/rtl8723bs/include/drv_types.h b/drivers/staging/rtl8723bs/include/drv_types.h
-index dd9018aa4ee5..47cabf8707f6 100644
---- a/drivers/staging/rtl8723bs/include/drv_types.h
-+++ b/drivers/staging/rtl8723bs/include/drv_types.h
-@@ -173,9 +173,9 @@ struct registry_priv {
+diff --git a/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c b/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
+index 315bab373729..784c9ebf6f9c 100644
+--- a/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
++++ b/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
+@@ -1712,7 +1712,8 @@ static int cfg80211_rtw_connect(struct wiphy *wiphy, struct net_device *ndev,
  
- 
- /* For registry parameters */
--#define RGTRY_OFT(field) ((u32)FIELD_OFFSET(struct registry_priv, field))
-+#define RGTRY_OFT(field) ((u32)offsetof(struct registry_priv, field))
- #define RGTRY_SZ(field)   sizeof(((struct registry_priv *)0)->field)
--#define BSSID_OFT(field) ((u32)FIELD_OFFSET(struct wlan_bssid_ex, field))
-+#define BSSID_OFT(field) ((u32)offsetof(struct wlan_bssid_ex, field))
- #define BSSID_SZ(field)   sizeof(((struct wlan_bssid_ex *) 0)->field)
- 
- #include <drv_types_sdio.h>
+ 		if (wep_key_len > 0) {
+ 			wep_key_len = wep_key_len <= 5 ? 5 : 13;
+-			wep_total_len = wep_key_len + FIELD_OFFSET(struct ndis_802_11_wep, key_material);
++			wep_total_len = wep_key_len +
++					offsetof(struct ndis_802_11_wep, key_material);
+ 			pwep = rtw_malloc(wep_total_len);
+ 			if (!pwep) {
+ 				ret = -ENOMEM;
 -- 
 2.43.0
 
