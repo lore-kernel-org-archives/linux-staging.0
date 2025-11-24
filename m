@@ -1,37 +1,38 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B67A274658;
-	Mon, 24 Nov 2025 16:38:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4310F1EDA02
+	for <linux-staging@lists.linux.dev>; Mon, 24 Nov 2025 16:40:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764002283; cv=none; b=KYuJusWz6n4Wm02aDFjJgcDNPWqiDRsXqBJCiAzGVslEcgcE5RW3YoUPoZCSuZce1pWSxh34PAcFLV5cQLqmCPJGWEoe+8WlYy0dFGE8KwUy119wrK6TuOxd9OorvZo/Kmkva5hU4/apSjC5ggzjxY826JSo/QmCzXgWqmZv6GI=
+	t=1764002459; cv=none; b=I5RE+wJYZCaBOPW0ze1AcsoYwtLtnmz04cvtc9Md6RQE/QRFFat2UujXia7jJm/Owt0JX67f5u+jaUMAqwXe3iNrdo6E0IJ2/D4+F+JZaXpJ/SJQoneWDMQXfqzL3RbCQysySyaLBhj7UMDNgidxYA9v2ZgeD2REoePe8QJXGTI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764002283; c=relaxed/simple;
-	bh=wQugYOHXFig3DIQ59puMZSl2HrVTJpj7XoRftj0gVo8=;
+	s=arc-20240116; t=1764002459; c=relaxed/simple;
+	bh=qefi9BsdDe9Opc6G9C1LOPWhk7b4sbJ271ZVCb/Q6JE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ksVhagejKmUeGwbsK/MRTMSaRAkJ6TrgXSMGBsOQYmxpJYAsMK5fnS+MlD5Tmz/yilct/CbEHR99PquzoOarn/ebpqiRU4p36Ulj1nw7jOQ1zc1IgND3vpNSzl1KSxItaA/H3Yx0ct7hN/fn1k4vepZn6iODSOJ5D8sh6RXtQwg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=GhAOBw1m; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=S2ZYnqhP3pkEs/a8jp0zdb2e+8lE9JurAXbGULoA6wjUO9KB+Eh4cBG5XUE9uFhC83gWGkQHbnplTqpheeFhobgcyV+tsEJmS3i12q/kNL5sValqOJY5XVFNUAmWgz5VvwYKtd13sKvRVivT2gU7j8Wrw1GBsBbarOHIKFFuwCA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=JheqMrFb; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="GhAOBw1m"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7D250C4CEF1;
-	Mon, 24 Nov 2025 16:38:01 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="JheqMrFb"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 68185C116C6;
+	Mon, 24 Nov 2025 16:40:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1764002281;
-	bh=wQugYOHXFig3DIQ59puMZSl2HrVTJpj7XoRftj0gVo8=;
+	s=korg; t=1764002458;
+	bh=qefi9BsdDe9Opc6G9C1LOPWhk7b4sbJ271ZVCb/Q6JE=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=GhAOBw1mpm38xM+ZHumHsfsqt2Am+3HEtP26jnyQoHljbCF5srYGzi1QqfEzT37/1
-	 tB3x0WjgfgWvqZcy4/7qnS812GVnl8HBJiAa8LzqNox4SRRuzj0zrFeB0EysYGWq+a
-	 bRIP0sN/jmk2by607mLrNeszT1LKwwvYks1BM21o=
-Date: Mon, 24 Nov 2025 17:37:25 +0100
+	b=JheqMrFbUAa2AO2tEuQm9OZDDoSao/obDyjy+BfIAWMA0emuzlFoDiDfT0vxeKG/g
+	 gLHRWbTtAzDzaCFqnl0ncG2Fxhd7jJ8KAXxZn6M1wbJVaK1IPY+LP1qO2ViDHF0+jZ
+	 bbv81nWprCnqOx6RtZpDRrHYhOHlml/IvlyvU+/U=
+Date: Mon, 24 Nov 2025 17:38:43 +0100
 From: Greg KH <gregkh@linuxfoundation.org>
-To: Sameeksha Sankpal <sameekshasankpal@gmail.com>
-Cc: vaibhav.sr@gmail.com, mgreer@animalcreek.com, johan@kernel.org,
-	elder@kernel.org, greybus-dev@lists.linaro.org,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: greybus: audio_manager: make envp[] static const
-Message-ID: <2025112407-gratify-demanding-c817@gregkh>
-References: <20251122083814.49753-1-sameekshasankpal@gmail.com>
+To: Ayaan Mirza Baig <ayaanmirzabaig85@gmail.com>
+Cc: johan@kernel.org, elder@kernel.org, linux-staging@lists.linux.dev,
+	greybus-dev@lists.linaro.org
+Subject: Re: [PATCH 01/13] staging: greybus: Remove completed GPIO conversion
+ TODO item
+Message-ID: <2025112425-jeeringly-squeezing-afaa@gregkh>
+References: <20251117181818.118139-1-ayaanmirzabaig85@gmail.com>
+ <20251117181818.118139-2-ayaanmirzabaig85@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -40,41 +41,16 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251122083814.49753-1-sameekshasankpal@gmail.com>
+In-Reply-To: <20251117181818.118139-2-ayaanmirzabaig85@gmail.com>
 
-On Sat, Nov 22, 2025 at 02:08:13PM +0530, Sameeksha Sankpal wrote:
-> The envp[] array contains string literals and is never modified.
-> Declare it as 'static const char * const' to place it in read-only
-> memory and avoid unnecessary stack usage.
-> 
-> This fixes a checkpatch warning:
-> "char * array declaration might be better as static const"
-> 
-> Signed-off-by: Sameeksha Sankpal <sameekshasankpal@gmail.com>
+On Mon, Nov 17, 2025 at 11:48:06PM +0530, Ayaan Mirza Baig wrote:
+> Signed-off-by: Ayaan Mirza Baig <ayaanmirzabaig85@gmail.com>
 > ---
->  drivers/staging/greybus/audio_manager_module.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/staging/greybus/audio_manager_module.c b/drivers/staging/greybus/audio_manager_module.c
-> index 4a4dfb42f50f..1b83c05f2434 100644
-> --- a/drivers/staging/greybus/audio_manager_module.c
-> +++ b/drivers/staging/greybus/audio_manager_module.c
-> @@ -159,7 +159,7 @@ static void send_add_uevent(struct gb_audio_manager_module *module)
->  	char ip_devices_string[64];
->  	char op_devices_string[64];
->  
-> -	char *envp[] = {
-> +	static const char * const envp[] = {
->  		name_string,
->  		vid_string,
->  		pid_string,
-> -- 
-> 2.43.0
-> 
-> 
+>  drivers/staging/greybus/TODO | 3 ---
+>  1 file changed, 3 deletions(-)
 
-Any specific reason why you did not build this patch before submitting
-it?  Please always do so.
+For obvious reasons I can't take a patch without any changelog text
+(hint, you don't want me to do that either...)
 
 thanks,
 
