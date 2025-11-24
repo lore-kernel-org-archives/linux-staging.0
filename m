@@ -1,74 +1,74 @@
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52ED636D4E7
-	for <linux-staging@lists.linux.dev>; Mon, 24 Nov 2025 08:05:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDAE82EA749
+	for <linux-staging@lists.linux.dev>; Mon, 24 Nov 2025 08:08:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1763971522; cv=none; b=RR4oh8VqbxlIElKDp2ghOedsR/uF3Vs0mtHYAsB20pVmTcAYOctg1adBkuRbkzjjqo9XJqb7fG34qPQIIIaGSQYBnJCPiVJz6dhunOoWhvaVjOnPrpOy2Cm6RL3FIe2CrRI8LealHC+wX0M3SG42J5P30IurjwTl85xi1clVP+s=
+	t=1763971722; cv=none; b=Zf+XvxiK0QVLL/qjhTJeMg/+z1tDnZoCbuU1BXy/MNaX/4g6lH/Y8h6vrFI1X1pxMZ6ITyiKB0fFQ5lzsQgqJcD7oLMuOMzrLgJVEfWSHszHnmuV6CL79Fu1dAM31QcumSeWKjH7mUE99jNalc2UMNppBIG+2PN/jT4pyp4spTA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1763971522; c=relaxed/simple;
-	bh=93452EB620tCOVE6CdHJwAE1M5qI39NTQFahOSQAR5c=;
+	s=arc-20240116; t=1763971722; c=relaxed/simple;
+	bh=Im77mryU7VUmttutMqwJrxYTuGiD46RxauoaARTENDg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lWJaogBmagz7OQoPqboFdB+tYHnDjIwjwDtHkdyGeRp4SZiKiGjjt8hh9i6QA//ruSVyGu4YpFerdvxYqdOxDzMrromb1jyNz70z/kraL/0IlCsdp9p91l/lQvV4mRFAsubow5MwgDA/pNHOgm5A2+QxSWndGqu1GcUsnBFWfUc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=amQprf38; arc=none smtp.client-ip=209.85.221.42
+	 Content-Type:Content-Disposition:In-Reply-To; b=hejqD/R72cBrOw4/ckPPNSE3QOPw8dz8b4KlNVmSuh84vPds4vuz+X+ZxAEBpajC1YxCY4gVOyuGadmtGOYnI3tJ6wpXbwxtCvD5QF+XqbU0pDUqHWm+2O5EbTHfiys/5DwbUcCMlxvWXIQrXSy18iykO2RXXQaM+Yf6afKA4SI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=eSt3Dd0b; arc=none smtp.client-ip=209.85.221.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="amQprf38"
-Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-42bb288c219so3476936f8f.1
-        for <linux-staging@lists.linux.dev>; Mon, 24 Nov 2025 00:05:20 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="eSt3Dd0b"
+Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-42b2dc17965so3867336f8f.3
+        for <linux-staging@lists.linux.dev>; Mon, 24 Nov 2025 00:08:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1763971518; x=1764576318; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1763971719; x=1764576519; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=g2bmDkURDxOy2WJzHQxx8tLDW5e0QoNw46GQCQQ26b4=;
-        b=amQprf38KqqJ60JhWdezbuUZdk7SVbdwCsi5ppo8O9t2pfHFxvmWA1N0t9V67bm6r1
-         cCi99NVPgD0n4/EZMgnxusPe60LDPKrX/733XFASsJZs3+3eIyVHD+wNVF3dWxdi0DO6
-         tpLXlmgegKSfro3UY2UxTHEbchwdBkgSmJPR49L0FNKfJokIUnZGy6FimxIlz8eWWjBW
-         CP6ylkzhfxxEqOi+jyof/3ilkhokS+/l35WaucxI6GsjMvm1i3LBJZvkzc0CZEpjN1mL
-         MZa0yf8++Bb2V4AakavrPgBdMioOUo0ulPxVU7VactRMrmfz2nVIhz5t1sWMwrybhmT+
-         5lXQ==
+        bh=1bYpGSEP1f0o4pmboA4QBRCWseRS1Ggtj4d/5mRHK9M=;
+        b=eSt3Dd0b5bt29o9HzZ4sCAjj6Plx45Wdl/lg7K1RaGP8c3k+PXHmXyVpp3ahR25ota
+         DJJYTJI3i3oMJjvlCcXiZ1xOMhZ4q8Ba6dzJJU3Jm6KZsK3o3zMIjpgIxtp+gOeWQRv+
+         Y9fBeRD6D3JQ0F4vcdMhvaDRoLsXuDGbktvXkVym/jtvrylWKI8ekAoTA7eRvGZoffVT
+         vaECcJFxT8Cukjgj9P3Kz4G9cPwwB8Ms4xr/Lo3ZytfD8Ij5BaUjC6zgy2UsWgIwYg3y
+         elPWd1klQu53jqBgPGfeI1KLE0x053UG5yI7r8zAoZJ5IBJXptas8QL1+IvO4xjYhFau
+         2AGA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1763971518; x=1764576318;
+        d=1e100.net; s=20230601; t=1763971719; x=1764576519;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=g2bmDkURDxOy2WJzHQxx8tLDW5e0QoNw46GQCQQ26b4=;
-        b=lJjeA43KyFFbQY+S/LXmNMzqnk3au2cyMa6sqjoArI4w3riEn2huC7ywAPreS4ltaV
-         7WFBoQs6RIHWXFMK/VmWmIF7ilh8+hR2GhxG48f/sI7By3HBYBtlYH9vZnKnSyHJR7G9
-         /AMl6sxxF74cSSQas3JBNTsXwV1gBq5GYgo0gOYzSfsQrlCe/QVngnpAHgaFNp13w8Jo
-         x89l4QRMsm17KSohyyiU6WtF7DXafatEDrdZD55wj/kCcS4fYPrlyT234FYVaZKSA3MC
-         YabNeznfcXyBeHWQEko+q09HVFO5QfMjzQGCIPXDDtN59owA7+0wrDT9EDI8sBIQkUJq
-         RPzA==
-X-Forwarded-Encrypted: i=1; AJvYcCWs6c6b8qv0TzB1t0Kedf2+HU0AvkBXMbVJavuRNuImhZV5kU/nssMP4DFrk/dnryB0kbNUA8l7GMdKXccA@lists.linux.dev
-X-Gm-Message-State: AOJu0YxYBus7l+E087qxgMpiST2XQrrTAOIGI5GjJKer0JFVhVlmqVWJ
-	TB+5eskhMpcT2T1H/UU7lw0A2/vGHG3jbkH19bnmvoqAN+obkVD7hgFiwx0Vfu5qq1U=
-X-Gm-Gg: ASbGncuUkiTxc7ztpNfBaCFFMOFx5j4fhDWt3ZZaBHVeLFsZdLl4iIRRZrWFARkVLak
-	rOQ8SiDofUoHPulw3jOWNpgN4OhNhaUB+bJXHRIOjGgtvEOqK5eMa2ojuU1GDTSgT/58i4curCI
-	Pf2YYbx5QVDK1xSjNM27Ve7MqSc4+lBlbLHu3QVKi3EE0KfruTzQirl2yI50L6czEJkpGbB60BU
-	5rwnvuZ4/41mhOfgq7xQfkKbD2j8dvc4uxvVb9FPos673f271FdRQQ1zVi7GEP4DmWeB0SyEEiF
-	K3wNyKPd0sL8SxpRRpFREjhdIVhi0nm5OT7CHjxQP/ZYo5gx7qfq3XQjQCdYJTpjHiw3GEqpQuo
-	k348zzcP0G2BTRDlJUC+8szg+D0N3byLNuxbHm4i+a8klrPNO/eRiZvMdCnIxSgfWhOs3JHWGQ/
-	s2Qzr5bfRk6Gk72UJp
-X-Google-Smtp-Source: AGHT+IGzKcXqLox5Tb/VUp7uIATtVnidS4hXd7lihaZJ58aIMGtOAlRTw64pXGhUDrjz+xkh2VfZCg==
-X-Received: by 2002:a05:6000:2411:b0:42b:3a84:1ee1 with SMTP id ffacd0b85a97d-42cc1cbd1f6mr10731102f8f.18.1763971518387;
-        Mon, 24 Nov 2025 00:05:18 -0800 (PST)
+        bh=1bYpGSEP1f0o4pmboA4QBRCWseRS1Ggtj4d/5mRHK9M=;
+        b=LiIu0zaOARn+nHVuOYG/R7ZpQWViX5ewhsosVQVErMFMeUs9iQ87Ftiw5ngbZocVJ6
+         K/FWwkGwWIqcIKQ8pykevyXrmQboSeTOrR3kLLJ3o2/9JbdhK1cxklwYIs9GaC78vVUV
+         dSuSB3ihQryP8s1dgfuMVCtC24Zv61JbzsWlGrXF7wdW8Dsw2W8gieoHjt+SYV8D7nMa
+         7fFqpMHJ8UTVI+BbrgxYsIUo7vvrEfa9OMHJLJxyyEHHE629q8BygfzCOBSBunNtQDVD
+         h+rHlDf4Qj6+MmsZv1PRqn+Q8L2AE2sd+Xh7lpSmaEI3uMod0CiV+BBto6oQma/q2EDF
+         bh4w==
+X-Forwarded-Encrypted: i=1; AJvYcCXg0x6/6LvpZ6GZ5BC+Vu5mKvVaZz//Rar1ttCxiRl/K2ZByusxMdpZYAIzXivpmAbx4G5b1cErxGwiytCt@lists.linux.dev
+X-Gm-Message-State: AOJu0YxCjwkA3T8IjzywpLYz9/Fm8NQLCcLdQ40jUiHjzfjRLITCqzDQ
+	ODHo7v5B46o0YQVbOYntgzaj9ZO0C6CWDXVfnqs1pd9A4ZEjgt1h+zP7CXyGk5wI4aYNBhmnSaa
+	e5h50
+X-Gm-Gg: ASbGncsxg2KJsMDsafH/A00GD/jA1uiW0GPWvEcCW/nbCnfEn4A9YFHuFNjTWGeEqFq
+	/cl4z6Pmmy3mnohd/EdaQM5TTcQTHeDYpY5WHOb2/7reGIqjQN+jrzIhZfeFKTso6jqGyIlAmk0
+	P8qWHzoZDzJFvGUfjM9uWhEV63vhFTY+BdeEFs8S7QHvLiZ5gaVpDrXEI7/zEAWlJDsNGGuHk3O
+	jX1qk3wCfxG9tXn6QLpw+WOjYWqBsfc/qJn0o2UjCR5skBLZ4nX4LTqo27uPW4XWjw5zvP61SXw
+	qp6pSFVDhFTeZt1QJ7nYDg1jXbQYugolRN929KYtcte/InmFJi0VEQptpz8Ni4SK19GS/mKXU1f
+	LRaXDHtLXrjBCno1t/4oPoz6jcX1J0MSxdSkNwgE/URObjkP6BgEAJGy7RvrhLrtkIJ873jW2TY
+	wf4Hopwux9TANwHgKl
+X-Google-Smtp-Source: AGHT+IHSFHz49v0WryO/nI4mAehBYzC0d20V6jCCnGCpQk78qJcnCmmXv7HckVQLKSyH39HGGXciNw==
+X-Received: by 2002:a05:6000:2411:b0:42b:3a84:1ee1 with SMTP id ffacd0b85a97d-42cc1cbd1f6mr10744412f8f.18.1763971719156;
+        Mon, 24 Nov 2025 00:08:39 -0800 (PST)
 Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-42cb7f34ff3sm27340790f8f.16.2025.11.24.00.05.17
+        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-42cb7fb8ff3sm28319422f8f.29.2025.11.24.00.08.38
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 24 Nov 2025 00:05:17 -0800 (PST)
-Date: Mon, 24 Nov 2025 11:05:14 +0300
+        Mon, 24 Nov 2025 00:08:38 -0800 (PST)
+Date: Mon, 24 Nov 2025 11:08:35 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Pavan Kumar Yalagada <pavankumaryalagada@gmail.com>
-Cc: parthiban.veerasooran@microchip.com, christian.gromm@microchip.com,
-	gregkh@linuxfoundation.org,
-	laurent.pinchart+renesas@ideasonboard.com,
-	hverkuil+cisco@kernel.org, linux-staging@lists.linux.dev
-Subject: Re: [PATCH] staging: most: video: replace BUG_ON() with
- WARN_ON_ONCE()
-Message-ID: <aSQRugdpdJjWe1S9@stanley.mountain>
-References: <20251121190909.115556-1-pavankumaryalagada@gmail.com>
+To: Navaneeth K <knavaneeth786@gmail.com>
+Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 2/5] staging: rtl8723bs: replace FIELD_OFFSET usage with
+ offsetof
+Message-ID: <aSQSg91zk2zCQ8xE@stanley.mountain>
+References: <20251122174555.215109-1-knavaneeth786@gmail.com>
+ <20251122174555.215109-3-knavaneeth786@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -77,36 +77,32 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251121190909.115556-1-pavankumaryalagada@gmail.com>
+In-Reply-To: <20251122174555.215109-3-knavaneeth786@gmail.com>
 
-On Fri, Nov 21, 2025 at 02:09:09PM -0500, Pavan Kumar Yalagada wrote:
-> checkpatch.pl recommends replacing BUG_ON() with WARN_ON_ONCE()
-> to avoid a kernel panic.
+On Sat, Nov 22, 2025 at 05:45:52PM +0000, Navaneeth K wrote:
+> Replace usage of the custom FIELD_OFFSET macro with the standard
+> offsetof() macro in drv_types.h. This improves code readability and
+> standardization.
 > 
-> Signed-off-by: Pavan Kumar Yalagada <pavankumaryalagada@gmail.com>
+> Signed-off-by: Navaneeth K <knavaneeth786@gmail.com>
 > ---
->  drivers/staging/most/video/video.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  drivers/staging/rtl8723bs/include/drv_types.h | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 > 
-> diff --git a/drivers/staging/most/video/video.c b/drivers/staging/most/video/video.c
-> index 32f71d9a9cf7..3a622bd597e6 100644
-> --- a/drivers/staging/most/video/video.c
-> +++ b/drivers/staging/most/video/video.c
-> @@ -575,7 +575,7 @@ static void __exit comp_exit(void)
+> diff --git a/drivers/staging/rtl8723bs/include/drv_types.h b/drivers/staging/rtl8723bs/include/drv_types.h
+> index dd9018aa4ee5..47cabf8707f6 100644
+> --- a/drivers/staging/rtl8723bs/include/drv_types.h
+> +++ b/drivers/staging/rtl8723bs/include/drv_types.h
+> @@ -173,9 +173,9 @@ struct registry_priv {
 >  
->  	most_deregister_configfs_subsys(&comp);
->  	most_deregister_component(&comp);
-> -	BUG_ON(!list_empty(&video_devices));
-> +	WARN_ON_ONCE(!list_empty(&video_devices));
+>  
+>  /* For registry parameters */
+> -#define RGTRY_OFT(field) ((u32)FIELD_OFFSET(struct registry_priv, field))
+> +#define RGTRY_OFT(field) ((u32)offsetof(struct registry_priv, field))
 
-The start of the function empties the list.  So the list would only
-not be empty if something were adding new entries to it via the
-comp_probe_channel() function.
-
-So what is preventing us from adding new stuff once comp_exit()
-starts being called?  Figure that bit out.  Fix the bug, don't
-add a warning about the bug.
+These casts to u32 are bogus garbage.  Delete them.
 
 regards,
 dan carpenter
+
 
