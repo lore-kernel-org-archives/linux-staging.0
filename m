@@ -1,65 +1,65 @@
-Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54])
+Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1AA6319610
-	for <linux-staging@lists.linux.dev>; Tue, 25 Nov 2025 11:21:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFFC131A555
+	for <linux-staging@lists.linux.dev>; Tue, 25 Nov 2025 11:21:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764069678; cv=none; b=eQlUeHXutXd9Dm8EkIAWK1ByPAX72c3sWGoP5QwPYYLVWDciiy/8ZjgmVO3AZeCHv2wfgmMfzKoKtO1JW/mkpTxmY10BhioiFGThwLnVaz4p4DSOO5cayD5Ilhx0tlnBw5lfSgARZ9jzn34KVhZ2fZDXRWU0vDfttzV3InCdaeM=
+	t=1764069681; cv=none; b=Ikb0+NXuWgCNZjCFAZdfuS6NBXs9Vkg4MO9OudmIFnp8Fs1QSh087N483x66QmoJRK5Z4VmmGqGNYN/TZjE67kCovVGWYv7YcNv+syEnc1JZ/CFjPqGCQPz0YCvz0ZkirlDbG8kTlgziclIuIft5FJgx5VmY6gY9N51H9vRt/w0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764069678; c=relaxed/simple;
-	bh=5A2pDKNhbF0/77JU3bsQaFVBTUYS4izX+U7cPkgVXAw=;
+	s=arc-20240116; t=1764069681; c=relaxed/simple;
+	bh=YBtaO/eBYbzQQWoYMOteVAhhJ+DKjGwoQ/N2zOVhKW0=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=IQI9KU7OtBYY18z23IiKa9xAunSmew1m5r3aaifV4kYWnOY6jsiVNR8DIfjM3Ztvv7yYCfBag0w2oYAJiYQS4YA/KFgnr/oi3hVStcFuJp0/++rLJyofyDFjeDNIt4cPpHcRucPhzz5BnmycysA6Nw62ujPnPDUD6y83NiU8Pqw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cFiGnMPY; arc=none smtp.client-ip=209.85.216.54
+	 MIME-Version; b=VIH6/PbNcv5URwmGu9QLpFkExvRdBOi9k/TvDOOiHYRXDUVyjz3337EH3d6gvwBJEbM69onAuRsONTmz62k2uQ3LFTVSAtuaTVc0MkVpAQngzvJCAS2MbInTb0IdmWHY0moca9nV7VC+IXRNztHwBVA9KtAxrniKyIOCWumc1Gc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=W4n9Z6ea; arc=none smtp.client-ip=209.85.214.177
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cFiGnMPY"
-Received: by mail-pj1-f54.google.com with SMTP id 98e67ed59e1d1-343684a06b2so5386172a91.1
-        for <linux-staging@lists.linux.dev>; Tue, 25 Nov 2025 03:21:16 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="W4n9Z6ea"
+Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-29558061c68so72792915ad.0
+        for <linux-staging@lists.linux.dev>; Tue, 25 Nov 2025 03:21:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1764069676; x=1764674476; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1764069679; x=1764674479; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=nYCzOSmeD3AlFpQHOBdKOssS9JyrnynNQJZhTfGWgls=;
-        b=cFiGnMPYwDzm4YnFIunI4ycgj2puGJZOgmwc+ywORUtk2rz0ahvirQFuX8DngnPDKN
-         d94So3fi+rX1ETXvxEx+YCKlAEoG16obxsqLv/c74ya8R0G8Q9dNixdtTdUTcDYEc2PI
-         ivgGKhpxfWTFa4rGFA88d7H6DXvzpeac7/juahnYMXjRYgIA2y/iECHOBSKsnfC0HTum
-         QadrRkGfnhiCNOHyABWHN6wd9Lhl3pwNRNRHXXjZzxm/xMhcrAtYatLpSFXsj6b7Kqiy
-         cvOzU/s5H1jvZpG5+r8jBMpPmUGmG2DS64EzXPQf9EXVF+b7E+/bupOVjkPqXfPaseWS
-         NoDw==
+        bh=ol6FJ1vrGQKaUJffz/esQb5b2URIUDMsH3CGBHb/slA=;
+        b=W4n9Z6eafWcgwPm2EMNGXEE1Mk2A+Wbmcp6h0PMEQ8Q5aQvmqglKmnT4s2bMhR9L2V
+         SS52W/IwqoJ3jnQN1qHNDsLF9Jy39cv2D514NOGJE4rfvbboCKmCSZOz4/MPQ28TCQQj
+         w9mduDrx2wvdT2RLiTKS9TdXhHzvvJFeSiHcV3Lh9j0+yzHj1biSTXXohsCRaIg8mKS/
+         NxV1PzhzwmSfwC7xZwq1AT4e5A+ngw/Sqi0HdyuLeobl+04Dw0f3Ay8f1Es2bgAHJEPY
+         ZJF9aY1dfcFAJyz0t0MBc2ulNac/0OgbDxLSYXKFVj0mxpV15IyYiQ56J/r5uqbng+7s
+         IVCA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764069676; x=1764674476;
+        d=1e100.net; s=20230601; t=1764069679; x=1764674479;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=nYCzOSmeD3AlFpQHOBdKOssS9JyrnynNQJZhTfGWgls=;
-        b=oZddw0um5wt4AG26Hz2KbnVgkFfQwjEA/HaK8P768gO5h0aDSsoKhIwjpuCyjmE/uP
-         avrwN/pynP0nnUMgCRg8jbXyPYPA/tfEXLijit6iV6sllidotRNM2f68NupFmpktxkgd
-         wGMZemlh+gUodpKXHZzIO52OIabcNDOFqNjjY6owjsIPW6SG2TULyMQJphKqWzYdBuWO
-         lOlxRx+xCuoXQx295aPdCQ14AJIlag/V8e6dGBEZ1JTFzGlqpq7G0iADXgnwhmSQhgCu
-         LBUymF73VnPfNqNvpo/iq82DIsgAird+DV1dIOCnp/+9vJtoc+zUjeQlr5hGGip+kI2o
-         fxqQ==
-X-Gm-Message-State: AOJu0YwEonwTuPJdRb9a6i1lGJCRHuYLpj0c5rNCPSyci1UwcnpI1Fup
-	OFmECujEFeQGnj9+Zf7sZghPzf8rGicsPZc0OFqL3LVXi0jXfaSJdvdL
-X-Gm-Gg: ASbGnctCeXJ4LRdV5Z9EipJQ2Pvobia9na+IlbCfkIMIxQLLwMXeFdgJetvd8rJ35tw
-	ctJ0svaFeEBx3vIZtvplTD2chzIvG0kJqCMWNrwK1RUl0mwyC7cp6kDvdThl6qmXmEzaRrirv3e
-	Kbc7YpJ2HxVWk2jghuNGsqWTrtjdxM7GfItNHQMZ+SWHDadO1cFZoeI0I8VGXps/LvVRCqi6HSn
-	nbEBjb8VWHm6+LuQrvZjXVtfYeEs20x4JDifOmpZhzyRmrxTp2HpNSal5fr9kiQ+ZsSrV+KrGhh
-	yV2BxV3WtxPJXybZXGiz4dAlQPvXmeDXu/OnRdQafy09Jp8AaeYnIPERy8wK1eG/v928Ow7fGEx
-	1gZTdLVXcBFsY3a7jVUeeZWP3hrdrSqYba4PDc3cckO0dpr0Bq2rwJaJuP07Sb6KxFX8MlyAIp/
-	usgodobF+CfQ1W2gUqMipAv5T7kTkPn7DUJDvx0TzJzpq0iWXFyHD7UedWJx4Pjc/Kd0Fi/6rXJ
-	iCJOWorf69vSI/CUc2BMzXpRmP0U5u9sQ/N1jnrjK6Wd6SkG664qDkBg+G0lqRaUlsP1i/Q4NH/
-	h5A7oKMe0eHuk/j1IHA=
-X-Google-Smtp-Source: AGHT+IH5lMArkNfhsGEGK/fgLgKF5OQcQdSf/g81Ys6AxJe2WVkBUoOLKtd7yNl3CKRxVTK3S/lf+g==
-X-Received: by 2002:a17:90b:1fc5:b0:32b:9750:10e4 with SMTP id 98e67ed59e1d1-34733f3eb71mr15682419a91.27.1764069676199;
-        Tue, 25 Nov 2025 03:21:16 -0800 (PST)
+        bh=ol6FJ1vrGQKaUJffz/esQb5b2URIUDMsH3CGBHb/slA=;
+        b=XMp4A7/2Amgag9kmBbXWQc1ZL6KvsJkEdUaCgIZ7zRSVbRlUII/UUPy3sW+IYx4rr7
+         k5HLSI2wBTIz8E8YV4O6YhwuS2SF7hxl+Dt0VQFn6lOI78DLnAKER4ykEwFekoCx9/vB
+         9WWLmMeQBrm7Uj+e+f0duQzinIlFCFWfDeNG7nXHB0IVSOx/zzi3U/5I9RzJOshi0nTN
+         SvUB5eR7XJ3EOykSSFyDKS5SGozwZqpnxC+3Yhbob+7doZ2jjO1JA3jCzb6ZsVnXB/7y
+         4MbGNYnGQLwIS7qO6cCF0VLi1OU09KRPUf39M6lKBYTnZTY2dPMy6IRyPYXdFIe4cync
+         H0zA==
+X-Gm-Message-State: AOJu0YwLQMWGse2ZMJh5f+8e+zqnaeM8FLiD2JTgt0NKGucVSBO9/iUn
+	AT/MHLKzOgRQdUIuu4AkSVZUX6H0VOKEA3L2Z09JGnTvOWp8CPEKAgX/
+X-Gm-Gg: ASbGncs4EvSSravQvtuZB6VyvB00m6rV8FtpkDKhX1K796lirj4QCjuW6IBbzwwcFT/
+	r8KDNML67g7hRqUd1gZLfdJ7mItGhzX9iSS5JDTXrwU2hFHSxlVL9PgifPOO47AxsXjZGDyW5hP
+	hPKsCCG7I0iXxoue133bPA7aPptYmjKjjV5exSihN+I4OEY4LEHRtu9xeKC0yN32ylU7jsQhLt0
+	XXLEcbL5Fmu8G7mHirDqnsEpOrOPJkedZMRt1jhXsBtsYyuJoyuTgIU4KT131t3PeAG0nNyyxUm
+	Z9VJNgKtSqc+Mzw/JmfA4RBTaMq9ZTuwt9TgrLjDvRJlV+r+zsstUF721REWKF73LyKZlL8yzwp
+	dTUC0RSm5UwCMI7p0lfbZ6cya5VizJYyDb4opOOP9dLJscOHzUA6YFiEi7wWhWsrUmr8XOjO58b
+	n3g670e3JaI1IV+4ZXS/gFrOb0lNStMvf26q0+LIxL3rxxqhAFynnjgN3rjTFOHhCvKmPk6qT+m
+	jZOXvppT+SkrOu5REK0KBrySMFFfL3PQNgDA5mgtauXh5TVRukXGrRwi8N0bmOkXMYJWfswpB+C
+	rcHtbYmFlmQl/FPXrM4osrUAx2EKrysifQ==
+X-Google-Smtp-Source: AGHT+IEznkxcTSR7i/lIJr2+8XsplWKM45jT6llpuiaa5oIQh+yi25Xglc4E8X8i2VZvEBaHegRsFQ==
+X-Received: by 2002:a17:90b:48c6:b0:340:5c38:3a56 with SMTP id 98e67ed59e1d1-34733f5cef1mr14909715a91.37.1764069678967;
+        Tue, 25 Nov 2025 03:21:18 -0800 (PST)
 Received: from cyberkunju.asia-south1-c.c.gen-lang-client-0196962068.internal (125.31.93.34.bc.googleusercontent.com. [34.93.31.125])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-34727bcaf13sm16296250a91.1.2025.11.25.03.21.13
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-34727bcaf13sm16296250a91.1.2025.11.25.03.21.16
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 25 Nov 2025 03:21:15 -0800 (PST)
+        Tue, 25 Nov 2025 03:21:18 -0800 (PST)
 From: Navaneeth K <knavaneeth786@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: linux-staging@lists.linux.dev,
@@ -67,9 +67,9 @@ Cc: linux-staging@lists.linux.dev,
 	dan.carpenter@linaro.org,
 	david.laight@runbox.com,
 	Navaneeth K <knavaneeth786@gmail.com>
-Subject: [PATCH v2 2/5] staging: rtl8723bs: use standard offsetof in cfg80211 operations
-Date: Tue, 25 Nov 2025 11:20:56 +0000
-Message-ID: <20251125112059.16913-3-knavaneeth786@gmail.com>
+Subject: [PATCH v2 3/5] staging: rtl8723bs: remove dead commented code from odm.c
+Date: Tue, 25 Nov 2025 11:20:57 +0000
+Message-ID: <20251125112059.16913-4-knavaneeth786@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20251125112059.16913-1-knavaneeth786@gmail.com>
 References: <20251125112059.16913-1-knavaneeth786@gmail.com>
@@ -81,45 +81,43 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Replace usage of the custom FIELD_OFFSET macro with the standard
-offsetof() macro in ioctl_cfg80211.c. This improves code readability
-and uses the kernel's standard mechanism.
+Remove obsolete commented-out code that references unsupported chip
+variants (ODM_RTL8723A, ODM_RTL8188E). This code has been dead since
+the driver was added to staging.
 
-Also include <linux/stddef.h> in basic_types.h to ensure offsetof()
-is available for this and future conversions.
+Also fix the resulting formatting by removing the unnecessary outer
+parentheses and moving the inline comment to its own line.
 
 Signed-off-by: Navaneeth K <knavaneeth786@gmail.com>
 ---
- drivers/staging/rtl8723bs/include/basic_types.h   | 1 +
- drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c | 3 ++-
- 2 files changed, 3 insertions(+), 1 deletion(-)
+ drivers/staging/rtl8723bs/hal/odm.c | 13 +++++--------
+ 1 file changed, 5 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/staging/rtl8723bs/include/basic_types.h b/drivers/staging/rtl8723bs/include/basic_types.h
-index 1c2da18e6210..16b270fe0203 100644
---- a/drivers/staging/rtl8723bs/include/basic_types.h
-+++ b/drivers/staging/rtl8723bs/include/basic_types.h
-@@ -12,6 +12,7 @@
- #define FAIL	(-1)
+diff --git a/drivers/staging/rtl8723bs/hal/odm.c b/drivers/staging/rtl8723bs/hal/odm.c
+index 4b36af47f680..639b6da2302b 100644
+--- a/drivers/staging/rtl8723bs/hal/odm.c
++++ b/drivers/staging/rtl8723bs/hal/odm.c
+@@ -609,15 +609,12 @@ void ODM_DMWatchdog(struct dm_odm_t *pDM_Odm)
+ 	/* 8723A or 8189ES platform */
+ 	/* NeilChen--2012--08--24-- */
+ 	/* Fix Leave LPS issue */
+-	if ((adapter_to_pwrctl(pDM_Odm->Adapter)->pwr_mode != PS_MODE_ACTIVE) /*  in LPS mode */
+-		/*  */
+-		/* (pDM_Odm->SupportICType & (ODM_RTL8723A))|| */
+-		/* (pDM_Odm->SupportICType & (ODM_RTL8188E) &&(&&(((pDM_Odm->SupportInterface  == ODM_ITRF_SDIO))) */
+-		/*  */
+-	) {
+-			odm_DIGbyRSSI_LPS(pDM_Odm);
+-	} else
++	if (adapter_to_pwrctl(pDM_Odm->Adapter)->pwr_mode != PS_MODE_ACTIVE) {
++		/* in LPS mode */
++		odm_DIGbyRSSI_LPS(pDM_Odm);
++	} else {
+ 		odm_DIG(pDM_Odm);
++	}
  
- #include <linux/types.h>
-+#include <linux/stddef.h>
- 
- #define FIELD_OFFSET(s, field)	((__kernel_ssize_t)&((s *)(0))->field)
- 
-diff --git a/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c b/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
-index 315bab373729..60edeae1cffe 100644
---- a/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
-+++ b/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
-@@ -1712,7 +1712,8 @@ static int cfg80211_rtw_connect(struct wiphy *wiphy, struct net_device *ndev,
- 
- 		if (wep_key_len > 0) {
- 			wep_key_len = wep_key_len <= 5 ? 5 : 13;
--			wep_total_len = wep_key_len + FIELD_OFFSET(struct ndis_802_11_wep, key_material);
-+			wep_total_len = wep_key_len +
-+				offsetof(struct ndis_802_11_wep, key_material);
- 			pwep = rtw_malloc(wep_total_len);
- 			if (!pwep) {
- 				ret = -ENOMEM;
+ 	{
+ 		struct dig_t *pDM_DigTable = &pDM_Odm->DM_DigTable;
 -- 
 2.43.0
 
