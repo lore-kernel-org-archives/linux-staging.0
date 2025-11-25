@@ -1,65 +1,65 @@
-Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
+Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40FD22EB878
-	for <linux-staging@lists.linux.dev>; Tue, 25 Nov 2025 22:56:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E72B52F12A0
+	for <linux-staging@lists.linux.dev>; Tue, 25 Nov 2025 22:56:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764111392; cv=none; b=R5ygLJcJfZYab1aWy8ufP9Alkyfz7fJWDR0Xje4EmfPNBI08SRanw7YH5yGSqKx1Qw/AdVVKEhvdL/N/SEDu8a0BcsTVlh9otKVAe1oh2StnLrphF4O8r7f4VxQvoe6hQlBm3mjuYh4jyjSctfmoUCMKmknb7Ylx2kRcdnErifQ=
+	t=1764111395; cv=none; b=KA7HW+jT+QOGW5lQsh0n7RrkPfEwdbWO9dSr4riFKEr4AEy4QSxFay/r7nDGbGQYd2wv7GVw+dvndAwpYkUj1lY21OZChIOIK1u0P+/vFln0FtKjm9zefusKCGej6W3tkHqPNMC3iXkv8gZxkHAnyAc6KbyCLJmNjpSa5qkimME=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764111392; c=relaxed/simple;
-	bh=nHdXGb2AdP2DgjNFeV3zcq8k0NdmnFBHBirPKHWn4Lk=;
+	s=arc-20240116; t=1764111395; c=relaxed/simple;
+	bh=UpVyaBs8eAOQi08DfycyxuWW04wnSjnuFTX2AkrDpkA=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=geNJsb5KvMVQywdUJRtWtwtM9YBniDK0glhYxDK8y9Woqsyw6X4u532EkIeKGoR4Q6EZYAmGPURk3XU02y1jlqpoFiPjmkD2OABw6zAW+0xP3ttjyHk26/5OnHJiR1ZMFTx1/9mLgBvSFGjhh5wBNaO+E1ehDlNJ7OfQxf1GSjU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=a1lJsnyu; arc=none smtp.client-ip=209.85.216.50
+	 MIME-Version; b=FFkw6tV7BM95r9H8yuIGd6nFVZKYatmOHbAXEaMHPFkaG6LBj0vpzBhuxvvL6orx82tGUTLtczCw//u65yt0zb3X/9R8XabKkOnZCzeyiiJkL0+X/W2RxkNevKz5BJXu/ue2wfoNl4vMrKhMGYpW7mtdqSBqdgwFmNzic1JM3jw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TxMldhxa; arc=none smtp.client-ip=209.85.216.44
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="a1lJsnyu"
-Received: by mail-pj1-f50.google.com with SMTP id 98e67ed59e1d1-343dfb673a8so5962275a91.0
-        for <linux-staging@lists.linux.dev>; Tue, 25 Nov 2025 14:56:31 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TxMldhxa"
+Received: by mail-pj1-f44.google.com with SMTP id 98e67ed59e1d1-3438d4ae152so6646100a91.1
+        for <linux-staging@lists.linux.dev>; Tue, 25 Nov 2025 14:56:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1764111390; x=1764716190; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1764111393; x=1764716193; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Zz05WzE00CjGABLWbGj8jFZgzfZ/0bbpM+rkTuSaLU8=;
-        b=a1lJsnyu0frghClZVC4jH8KSvAWgki6jIfele3ueFsNKwoabqsVq27wF3mYFMoTaK2
-         qu+gp6czjevDkcTIjd4rd8UoEEQ9X79LeX6nSaYMttmI88jKR8XveZQjJiTJscXNKv2X
-         lnqVdOGhTQKhnlWP52rlyEcoNxkyVtlMpyCtYnLYpuOvgszk4m/axpNIe26gzAK6tge9
-         39Vpls1bPBLhSi+DK6p6xFiESBXG+AaskZF/qQNb+yHwOvONeyHBQZROrJbisQ6IzpVV
-         WBpaITmwLb6FeKPjj+jF72h2UvQ/HzIiPk94v8JWdiCPXpdYoESxQu1qrbIWNyiUSs8N
-         6zqg==
+        bh=v8infRYS555HXMSuFzeioCvs9HbNCrDo+QxiT/yj2jU=;
+        b=TxMldhxaTEYrF6v/eyb20kgnjj/IO3PWvKEBXi7f9rHKP+bCBXBpABX9eu5zXi49Ag
+         O6JwvUSV5gRIyyZDvd/4CP371l7XZjq27mWR2sNKXMaa16GD51Lx5ouDamPLRZiQ+12w
+         2IZK+r1oK0XD3PAdsouH3eM+fyrY16Uyd742np+iYUnTVJ1EzCHtXVFqMb7MAfPmUAVT
+         wK0QRN/8ea/SNBMVF9j9avoWOJqWpTkGC0NsUHH0/b1VPMD7c54HIvOw0GqlhySUMJJg
+         O/YuULLWJJSyz5UZYSkJBEqWvB1LI/93Z4Yn+VyoMm9cSeAwqvDA+JgeICwT6x4yoqXL
+         Hfeg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764111390; x=1764716190;
+        d=1e100.net; s=20230601; t=1764111393; x=1764716193;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=Zz05WzE00CjGABLWbGj8jFZgzfZ/0bbpM+rkTuSaLU8=;
-        b=HjTNxBLowRLr0qfA2Ofxj8ddbXAWpncrvOq3Ig8nvOfUzrqexBSH9ghGryRdvCsPHc
-         tIcCXSRsNL1PNt/nbpy06BC4TpdZj/+ujLG8MFRwiTK5kDSZ9eGS2E0G4+pL47OjEKne
-         g61cBIS0dn9GfVr2AcxBW3xrj2MN9SnoxjpxDbLqk3QIyq/OGgUYPpbX3xEUyA1cf8NC
-         yRVROCvHwogjGrEWxVz0Yk4t4DkJ38Vl0TaFbgCOe2IQNUavdVUguJtZHt8F/weNjJkM
-         gac6DooI37Pmvo5eohTrsCuZbhanF93lW4PripE/zE4U0kb4XItEbXKjddl8oAZMAkXk
-         uXDg==
-X-Gm-Message-State: AOJu0YxhUFPwBFqMPIb51rq0bCXS01d449cEMn+qKem4B+IfhNnf3ERk
-	D/rOIQFRONVeCH2qRiouM5E17VPBS8i8az9TXhXBmMSjYsNa59TSBhZ0
-X-Gm-Gg: ASbGncsur4guXZXeYqwDCTm3Y/ox9B4Jyrf+9+a+RZVlImLgTqrlkvfFpnlmQLXiJwS
-	h/in/zIY3wUlVOdNU86m9owmDf85d0wWC5vaJR8hAH63y0RnudpoI5vccR7Twyxqn0KZ85GvV6M
-	7ASwoWHebnK5FRUwxwgbkYyI5qebihK7QoJizd2MQLoStla6z+2vJPvT3i8O4tZYa05m1QOv2rI
-	O1QaE/ujxmgHkEFC9Yx87dS+W0qoPBY92dvKNYPFiWHKyTpAV9CnXddudl2K1psXUypIe0/xBZx
-	4Q01NBpox5cuSOPzSWASTV1xt1YUDQTScs2jGSv0G4d3F+QJJ0huRW5OqlEiTGQIlTBE2jSB+yG
-	xB6TjPp/N+2q2GzZhGwuD6wd3Qgu63GvoYS1QqDQel5ZEMWZYkvQXwMU9yuNpNpiIPpp8opeaet
-	TJscTvXr3aghmp1KUJe7hlexM5z9fBVhroalwy/P5uzz6KVHv+cJ0LXvAUifRXLPBrVlzSrb4ZY
-	zKExmmRIViIDUL+Oy/rTaCy60N0DgwM3zieLlPfDjg7bRsRVxrmHae6f0u4Y0JpzEevlViJeiUR
-	QbE7Q2Cj/cJyHI9TJc3FwTFChTMyS9ITug==
-X-Google-Smtp-Source: AGHT+IHSAMT3z9iKxxRaqeZuqJy1nJTpeo3FuYnyVBT41pXi2yGCB/dHlw7gvfrBZM9/hCr7qkg3UQ==
-X-Received: by 2002:a17:90b:5183:b0:32e:9f1e:4ee4 with SMTP id 98e67ed59e1d1-34733f2278bmr18436896a91.17.1764111390426;
-        Tue, 25 Nov 2025 14:56:30 -0800 (PST)
+        bh=v8infRYS555HXMSuFzeioCvs9HbNCrDo+QxiT/yj2jU=;
+        b=vnJfs4wntVrO0p/2oLQ2/D1Tuy37ay1CrM7FSyaoUiRa8kjIa1vYEjzNGIRM1BCEDQ
+         k8qp9htRs/Zs41jDm8mC6M+RRneQoR7z4WaTQnYXNZgmfNQkx3decHSB/2fta3QP0GZ/
+         U8OF2YJ0u2JFi1yD6WT4qOYV8DHbHEtrb1zEzrkfl2Qvhc6pJCuN9fwssnOVAVVvYNsw
+         QHxQYz33TRA9/am7lxguyUfuaV50el1HScaDlZNm5CYrZPKeYn04TkWm4YYiBtObP+VK
+         eOYE0hFZl6uM9aBB86RajKQbogiEU+sQC8jd1RUqYI+PEU2ab7CJwgNW7L5Gj8F8fmpv
+         Qq5Q==
+X-Gm-Message-State: AOJu0Yz/WdO/CLS9U9/J0MMmLXDRhzfV9o2WdpwPoMoP0Ryt1M34n/qN
+	eW7uMWsmqtawKIb5Kpvy7xk8W6XO2oNZzG+mk78HX5/FXIFoxQvvkp6t
+X-Gm-Gg: ASbGncsKNSAC8SO+Je/TiH6Zdmyy3PzdPUwzTVEd+BqCmPB/6dJoeBxF1FYtoEfFHBa
+	+VMcxIxMEZ6sfDt5Q1e707T36idJPllr3ByqfRxNTnfgBYwP+5LS/IUCA9WBB/ypkb+lkB73e9B
+	TO3NJ6+CsJzGAX/tBa/rU3Xsc55BbGQL04WAM0nx7GvWJAnSNyyvzsacyEr4USYXXY9We1Sz9D+
+	jK4aRCWduT9JgHAxviyl7PQtOClk4JmCUi/6UTdr9K+31oqLC7AxQRjPiJcMf+qzQrK+v4HC0Ec
+	Jw6z2YGM0fzZZPcZb2CFyLHFrqBt19kKLcFz1MIPGEIWMOftbaW9jzxbIl63VIJ7Konr5URnOOK
+	pxJ1nhUhvfGa3NlHOEiHdh0xP9vgrNBM8lQYwJnDXMbDUuqMIYVyxsajuVF+3m6tAz0EXN0h7F1
+	Uxcn3vPw9c9551pNvhprIFJ0jJOvVL1jwq6X6wzzjl58ZiIb9nCJUGvgUmo/XuOlQZhOv3Gu7NI
+	7Z7uJB8rZIU3ulSiYY4P6c+ABMq4ShVnVOKnhSamtojVYQiKhfr4oSQPL2x5rT7pGpNDKvXHjuX
+	Y9ndsak/j7UOl1gX2hio8nnktvKjsTQo6A==
+X-Google-Smtp-Source: AGHT+IESYLJoTPg6cuS+nu96MVtqOjXbB1YQv3xzSC+BtOZqok/UZvc//J7EfkYrIt5EuDPpA/ldfQ==
+X-Received: by 2002:a17:90b:4f4c:b0:340:be40:fe0c with SMTP id 98e67ed59e1d1-34733f5c930mr15298749a91.36.1764111393291;
+        Tue, 25 Nov 2025 14:56:33 -0800 (PST)
 Received: from cyberkunju.asia-south1-c.c.gen-lang-client-0196962068.internal (125.31.93.34.bc.googleusercontent.com. [34.93.31.125])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3476a546ed0sm471842a91.3.2025.11.25.14.56.27
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3476a546ed0sm471842a91.3.2025.11.25.14.56.30
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 25 Nov 2025 14:56:29 -0800 (PST)
+        Tue, 25 Nov 2025 14:56:32 -0800 (PST)
 From: Navaneeth K <knavaneeth786@gmail.com>
 To: parthiban.veerasooran@microchip.com,
 	christian.gromm@microchip.com,
@@ -67,9 +67,9 @@ To: parthiban.veerasooran@microchip.com,
 Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Navaneeth K <knavaneeth786@gmail.com>
-Subject: [PATCH v2 1/2] most: core: fix resource leak in most_register_interface error paths
-Date: Tue, 25 Nov 2025 22:56:05 +0000
-Message-ID: <20251125225606.70719-2-knavaneeth786@gmail.com>
+Subject: [PATCH v2 2/2] most: usb: remove double cleanup of interface on registration failure
+Date: Tue, 25 Nov 2025 22:56:06 +0000
+Message-ID: <20251125225606.70719-3-knavaneeth786@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20251125225606.70719-1-knavaneeth786@gmail.com>
 References: <20251125225606.70719-1-knavaneeth786@gmail.com>
@@ -81,60 +81,62 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The function most_register_interface() did not correctly release resources
-if it failed early (before device_register). In these cases, it returned
-an error code immediately, leaking the memory allocated for the interface.
+Since most_register_interface() now correctly handles cleanup (calling
+put_device on failure), the manual cleanup in hdm_probe() would cause
+a double-free.
 
-Fix this by initializing the device early via device_initialize() and
-calling put_device() on all error paths. This ensures the release
-callback is triggered to free memory.
-
-Switch to using device_add() instead of device_register() to handle
-the split initialization.
+Remove the manual cleanup labels and return the error code directly.
 
 Signed-off-by: Navaneeth K <knavaneeth786@gmail.com>
 ---
- drivers/most/core.c | 9 +++++++--
- 1 file changed, 7 insertions(+), 2 deletions(-)
+ drivers/most/most_usb.c | 13 ++++---------
+ 1 file changed, 4 insertions(+), 9 deletions(-)
 
-diff --git a/drivers/most/core.c b/drivers/most/core.c
-index da319d108ea1d..8635fd08035e9 100644
---- a/drivers/most/core.c
-+++ b/drivers/most/core.c
-@@ -1283,18 +1283,23 @@ int most_register_interface(struct most_interface *iface)
- 	struct most_channel *c;
+diff --git a/drivers/most/most_usb.c b/drivers/most/most_usb.c
+index 10064d7b72498..597cf7f4e6b90 100644
+--- a/drivers/most/most_usb.c
++++ b/drivers/most/most_usb.c
+@@ -1058,7 +1058,7 @@ hdm_probe(struct usb_interface *interface, const struct usb_device_id *id)
  
- 	if (!iface || !iface->enqueue || !iface->configure ||
--	    !iface->poison_channel || (iface->num_channels > MAX_CHANNELS))
-+	    !iface->poison_channel || (iface->num_channels > MAX_CHANNELS) ||
-+	    !iface->dev)
- 		return -EINVAL;
+ 	ret = most_register_interface(&mdev->iface);
+ 	if (ret)
+-		goto err_free_busy_urbs;
++		return ret;
  
-+	device_initialize(iface->dev);
-+
- 	id = ida_alloc(&mdev_id, GFP_KERNEL);
- 	if (id < 0) {
- 		dev_err(iface->dev, "Failed to allocate device ID\n");
-+		put_device(iface->dev);
- 		return id;
+ 	mutex_lock(&mdev->io_mutex);
+ 	if (le16_to_cpu(usb_dev->descriptor.idProduct) == USB_DEV_ID_OS81118 ||
+@@ -1068,8 +1068,7 @@ hdm_probe(struct usb_interface *interface, const struct usb_device_id *id)
+ 		if (!mdev->dci) {
+ 			mutex_unlock(&mdev->io_mutex);
+ 			most_deregister_interface(&mdev->iface);
+-			ret = -ENOMEM;
+-			goto err_free_busy_urbs;
++			return -ENOMEM;
+ 		}
+ 
+ 		mdev->dci->dev.init_name = "dci";
+@@ -1077,19 +1076,15 @@ hdm_probe(struct usb_interface *interface, const struct usb_device_id *id)
+ 		mdev->dci->dev.groups = dci_groups;
+ 		mdev->dci->dev.release = release_dci;
+ 		if (device_register(&mdev->dci->dev)) {
++			put_device(&mdev->dci->dev);
+ 			mutex_unlock(&mdev->io_mutex);
+ 			most_deregister_interface(&mdev->iface);
+-			ret = -ENOMEM;
+-			goto err_free_dci;
++			return -ENOMEM;
+ 		}
+ 		mdev->dci->usb_device = mdev->usb_device;
  	}
- 
- 	iface->p = kzalloc(sizeof(*iface->p), GFP_KERNEL);
- 	if (!iface->p) {
- 		ida_free(&mdev_id, id);
-+		put_device(iface->dev);
- 		return -ENOMEM;
- 	}
- 
-@@ -1304,7 +1309,7 @@ int most_register_interface(struct most_interface *iface)
- 	iface->dev->bus = &mostbus;
- 	iface->dev->groups = interface_attr_groups;
- 	dev_set_drvdata(iface->dev, iface);
--	if (device_register(iface->dev)) {
-+	if (device_add(iface->dev)) {
- 		dev_err(iface->dev, "Failed to register interface device\n");
- 		kfree(iface->p);
- 		put_device(iface->dev);
+ 	mutex_unlock(&mdev->io_mutex);
+ 	return 0;
+-err_free_dci:
+-	put_device(&mdev->dci->dev);
+-err_free_busy_urbs:
+-	kfree(mdev->busy_urbs);
+ err_free_ep_address:
+ 	kfree(mdev->ep_address);
+ err_free_cap:
 -- 
 2.43.0
 
