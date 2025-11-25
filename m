@@ -1,122 +1,142 @@
-Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
+Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FC7A21A434
-	for <linux-staging@lists.linux.dev>; Tue, 25 Nov 2025 15:16:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31F15224AED
+	for <linux-staging@lists.linux.dev>; Tue, 25 Nov 2025 16:06:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764083820; cv=none; b=PJjM868qYpOXtXX7EiR3kLzav8s3XM9l1J7tPL4/ayaRdduU5FnipyGFntWQvxQBe84FnnUKiFe4Hqj518SiJ4KJXZpnlzwCysy2wxLGW/EPjGoiMgVF15FmlGRKNIP3V5xelZC5VqiSG+UV+UiMc7eMn8MFh4lcsVbRti3ozJo=
+	t=1764086784; cv=none; b=UE1xZf4xejfatOCxHaRlC/Mpxs1puJ2m60zucxPrd1lmCi48OyjtHbhWF+oFFozDiw/SOtDKF8oOtPyKFMtoOmE186VWjv6+GodVM3rDmO7i1XPU9uAEII8ZywqFwLPxwrGmnHAWUBA7nBkyuQFdIMiX/t9wqxsoE2QIshIdyMk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764083820; c=relaxed/simple;
-	bh=MD5nWVKY2jRB++muLXsU6nTHU+2ceOnjUYevse/xaIc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bNt1vWXeMilO3i9s4GKHT9kpuc2nXebgX2eLkXSylBBs4Mzz8N9JEs6viE8ockyqiyFd2IvduCPE+z/VWIJY8X51MCPWBTSJuMNIVoXXpnEOGRCHnbRkpDVj40rw4nN3i6xu4oUOLjq/IPSEJmsM5E1NYu/rCrHjeK1P4aJ0d9s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QuYgBxQK; arc=none smtp.client-ip=209.85.210.179
+	s=arc-20240116; t=1764086784; c=relaxed/simple;
+	bh=jgsGJBsnCvaNQU+L+rBP1pJ53Y+2N8jfRU0bZti+g8Q=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=HoZBcSvmpkyouvZqs2qJu8Ev5OEPYclCsbabbH6MJtYWJsGBK7qLzeb+AANPEaCtBxA/GHremmModevr2uf7VOIf39smAiCjcRShRpqeEc2oXsP+xgV1IKoGPXxLZS7jj23DO4s5G4/IY7qJlrwF/Gyo4KQGYWoTgAeLWGi6Ws8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=P9wB0fip; arc=none smtp.client-ip=209.85.210.178
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QuYgBxQK"
-Received: by mail-pf1-f179.google.com with SMTP id d2e1a72fcca58-7b8eff36e3bso8813265b3a.2
-        for <linux-staging@lists.linux.dev>; Tue, 25 Nov 2025 07:16:58 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="P9wB0fip"
+Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-7b9387df58cso9006971b3a.3
+        for <linux-staging@lists.linux.dev>; Tue, 25 Nov 2025 08:06:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1764083818; x=1764688618; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=YyuveUApEW6MqWB346tjkOT5gsvoDpbyWY++Z0qVq0c=;
-        b=QuYgBxQKZ/CjfE5Yk2Srgllmm7KpKyglKuBzTjGFdfKyFpLiuLASLo8KlozspxArB0
-         K8/ZZr+KW68UyWR41Q0lVFhvtIJyggu1CVe6T4BvT7/u7sb9ID7G+TuLJ9ZxEhFWHCvt
-         7x1g9PXVl82gMkp9NlzBjH0UOhUYQUavI0vfmlF9YNhMUUJM7dFnzabGT6yERS71Z6B/
-         sOL0iZM+pilEftgbTpVHdexIVHNG6NBcIx0S2egJUVfWDbu0rcQjER/7xXFOuMkLmitf
-         T2ENBSWYqMIj7pl7+2px3WVVRKS3fWJMFRkzM3vMJ/z9cQ8pULsq66c+IwUC27ssTl5j
-         zUJA==
+        d=gmail.com; s=20230601; t=1764086782; x=1764691582; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=eo5CI+Lni0xfVNflA2YV6V9mRS/kG552howy/H4Z7eE=;
+        b=P9wB0fip9fVJ5quhEvt2rB3VuDNcqjZhy0uPNLoQxo98oqLie3Rtay/48Yi5WQnwr0
+         SXKiGJ7wk24nt7V9kxinkewOrn1GMxOvv2+JEYsf6sSEY1vnCen2XEVeAHXBj+73G0Wn
+         9WyrGL980mKI6ogjYKtMBNP2i9t2HwaJnCCAJ53cak153iWP4p8pYRUgn1411FBqEXcC
+         cUbIgrUG2sXOFAVMdpbdfkhvl2Q4t+lf5R/TXzSjazftcbN0+WAhhIxOczzQm6ChHxdM
+         WL34t4iXywyz+BnPyFQbeo3k2wYSNbLfm17WTGXju7pUbOiR9KOKFWUSi6rfBI8VSxlW
+         eN7A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764083818; x=1764688618;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=YyuveUApEW6MqWB346tjkOT5gsvoDpbyWY++Z0qVq0c=;
-        b=AbTZRXM5/WG3yHzUz+S9g9y4+MrWZVDP7qI106q/+dzIk0VFnuqwAhq7wV/GP2TGE3
-         DYF+23PMypHv7uRnM4/uqaM21xf+TkbfSME6AvgUf5zJEUySRSwu8/i8TlV34lTgJkS2
-         3fvntQEgC890ur47LPT4JIwsDRisiz0VbL0rhE5qAyXm8qcO5rIRofcaGXR8NeCZ+kVt
-         XaemfmZqCyMIhSNdEmYwuVzNqW3tsHwgYQl3XcQ2WRyYkrIm2IQZ290bCPRSwtB4ugV1
-         4vHJ0sLZ+ht3cAWVN/cAtJcVIv7fdHaiUjo5ZhLzplV4fawAcb4dhaKPOoHSSdIvkUsD
-         g9tg==
-X-Forwarded-Encrypted: i=1; AJvYcCWCQIluhOclCmd5Fn72+lYMXhWXMi/MFGwWCAlsL/Skqw+voGh1f0a0X60BkhUguJJoCAHfdclcpksEwYvj@lists.linux.dev
-X-Gm-Message-State: AOJu0YxOOapi7TQ00/Tc2ggOFIeL3gTIuB3JQgwUzMiWPMyvHVYhQlYU
-	JRRygn+SKErqGyGz4oWk0OQtvXbm0mgmQdzPo7cFAulkgeG0ZLab85xn
-X-Gm-Gg: ASbGncsndoWRQsdprwsXGofxl7npIGEJZkXqaiIkRPLCAKc9E5lruFK3q2kmEaDm/X3
-	+/JVP2KiI7/DXGOw2O4+aiH3/odO4CHklfOLhwjsgbQVNuE61u5dNkT840p+iog9EoABYrr41Aa
-	tZ3hggBPIYaeYJwrBREJV5AtjexDsX8FKa6gvrr8aFsJF/QbWxKZx/AKFCFigfaBoegRxdIEFt8
-	5GROG7Gr5/up1J2FlGbfZ6P94G300MTUnG1+7Qu66nEgWpylHTftN0QsV1GpGmDqFH0C9IpIhqU
-	DjJjOelRXE4+KZN14E0jPjQ+ICaL4PFhuGwDph/wgLjPZN7w24Fw5j2Ak/Fbh/mzv77KbZoJkSS
-	LojPAGvGpKdpqOcr3ZLYUfli01lGyfItaUIUHy4GQAonz78rQrF5c1p9xxTbfkZMk
-X-Google-Smtp-Source: AGHT+IFmY4gEn5RSgbnY+b8HRDNSnBw5LS1ogEFSzfabUvMLIcZ+gb/f+1rnx+8c0DDa7uBAkobDQA==
-X-Received: by 2002:a05:6a00:3d10:b0:7aa:e5f2:617d with SMTP id d2e1a72fcca58-7ca8a138bfemr3371035b3a.30.1764083817909;
-        Tue, 25 Nov 2025 07:16:57 -0800 (PST)
-Received: from essd ([49.37.219.248])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7c3f0b63dbcsm18409406b3a.50.2025.11.25.07.16.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 25 Nov 2025 07:16:57 -0800 (PST)
-Date: Tue, 25 Nov 2025 20:46:51 +0530
-From: Abdun Nihaal <abdun.nihaal@gmail.com>
-To: Navaneeth K <knavaneeth786@gmail.com>
-Cc: parthiban.veerasooran@microchip.com, christian.gromm@microchip.com, 
-	gregkh@linuxfoundation.org, linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: most: dim2: fix missing cleanup on interface
- registration failure
-Message-ID: <sgvpvlvyjl2sd4ehwujuetrtzl5jvvwkk7yxmjourgduylqf2w@g3qosecznvic>
-References: <20251122185656.251902-1-knavaneeth786@gmail.com>
+        d=1e100.net; s=20230601; t=1764086782; x=1764691582;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=eo5CI+Lni0xfVNflA2YV6V9mRS/kG552howy/H4Z7eE=;
+        b=aaUfKPdfF/hXeA3EKMxNyHQ0wXVlnuDin764plfScA98g0G65u9LNYiTPoVUqOnc8j
+         QIUqJKT7NpnKqYHvDYCB5k7dURNvim/WkdpMq+SW3v7qJAfVFcrWY7WTnMmCK96ILZjK
+         6Cs3KeXatP9B4/bdlK/sdJIrteSvph224ShL66RRmEtXJKqgRdEMSpnK2TqUUlc/hDL6
+         1SgGuG3qsL0+qcxt3J5W2VG/c8lBrHrXDKt/fkB+6jK/inZ9CyHYeDRO4G2/yPG6MGQ9
+         UiC4vJzv0sbGgI50RtrIJ5Ji2ishsHWcKg4Co4qS47CqQzLZbrve4IFw4YCeO0LTMubY
+         BADA==
+X-Forwarded-Encrypted: i=1; AJvYcCVo3hcippWm9hUcSNePcnL67Fjgc/d1Gvzff/5l+9LmX1e+FGBiIV8BLZIdu5GGsNeW/0vmc+n5EVb4xO9x@lists.linux.dev
+X-Gm-Message-State: AOJu0YxC9dsKNNhExlOoL2jZ0C7GB3S/PN78TkU0Ue6QO+w1Om5nq2CB
+	xQxB5oK0JSmM6Lkl9zfJeY4TgJp8E35H4BPqvi8gx7bZrYTuqeclhulW
+X-Gm-Gg: ASbGncujOBy6ZUOclVPpyc0VdHcWm0QF6uZgvHgb7dHoOEnb7L2qeo1k+Qwr0Nqgl5K
+	UGO5zFeEAN9oKrK3sk2jVQThEWbldziEXoOnvH4ESEnnsy0RKMAlVmz2SgW8Gf6Txo3dmJoIsmO
+	VBun6/5wH+p808Ek2E6IDDZwtMvptY53C0ei1n70EC478hwG+hTu1OJfCSmNy4p6jqLtecT+Zzj
+	H68/Tj2jem4E1RqBnXv0Pu+WKnvD0a28YfoDsDO03Kc7mz3iWrmDvMtKWGe6nUo0kKybmLiY38M
+	XhWzk2tSmUo6xclhaHLHl5aSV4iZb6BU+vfPLVRCwmFe7E/scmMi+7kJPA7uMcsbyoFA1pTxJBa
+	CLegqRpkSRPp3WxXQF/z7D/Mt3xdkfTvIjYz3y+Fj/dszYZiz4XpGu0m24fmW+OHEMty7cHhLP1
+	uNu4TA+LervvZaW9g/iEs/JWG7AInRd1BtB+CZM3AyUesgY6axaV+5NhIrsjPp3fh0Kah7TbaVG
+	Y9fqvmYIhKSt68dsPxzD44b
+X-Google-Smtp-Source: AGHT+IG7OGSRvQ7WKhUnIXYvLxtQSWqyDNL66J6nGmL+PV2qif4FljnMdvwf0wHJJsMsudGRMsspXQ==
+X-Received: by 2002:a05:6a21:e098:b0:35d:1bcd:6874 with SMTP id adf61e73a8af0-3637db85c1emr3711017637.25.1764086781924;
+        Tue, 25 Nov 2025 08:06:21 -0800 (PST)
+Received: from [192.168.2.119] ([103.92.100.163])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7c3ed471022sm18603626b3a.21.2025.11.25.08.06.19
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 25 Nov 2025 08:06:21 -0800 (PST)
+Message-ID: <de76ebde-3453-4f4f-a0a4-d054121de553@gmail.com>
+Date: Tue, 25 Nov 2025 21:36:16 +0530
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251122185656.251902-1-knavaneeth786@gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] staging: most: dim2: fix missing cleanup on interface
+ registration failure
+To: Abdun Nihaal <abdun.nihaal@gmail.com>
+Cc: parthiban.veerasooran@microchip.com, christian.gromm@microchip.com,
+ gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+References: <20251122185656.251902-1-knavaneeth786@gmail.com>
+ <sgvpvlvyjl2sd4ehwujuetrtzl5jvvwkk7yxmjourgduylqf2w@g3qosecznvic>
+Content-Language: en-US
+From: Navaneeth K <knavaneeth786@gmail.com>
+In-Reply-To: <sgvpvlvyjl2sd4ehwujuetrtzl5jvvwkk7yxmjourgduylqf2w@g3qosecznvic>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
+Hi Nihaal,
+Thank you for the detailed explanation.
+That makes perfect sense. I wasn’t aware that most_register_interface()
+is intended to handle cleanup via the dev.release path even on failure.
+I will analyze most_register_interface() and prepare a follow-up patch
+to address the inconsistency in the early error paths where put_device()
+is missing, as you suggested.
 
-nack.
-
-On Sat, Nov 22, 2025 at 06:56:56PM +0000, Navaneeth K wrote:
-> If most_register_interface() fails, the function returned immediately
-> without freeing the allocated 'dev' structure or resetting the hardware
-> state via dim_shutdown().
-
-Based on the commit message of the following commit,
-most_register_interface() is expected to free the passed interface using
-device release both on success and error.
-commit baadf2a5c26e ("most: usb: fix double free on late probe failure")
-https://lore.kernel.org/all/20251029093029.28922-1-johan@kernel.org/
-
->  	dev->dev.release = dim2_release;
->  
-> -	return most_register_interface(&dev->most_iface);
-> +	ret = most_register_interface(&dev->most_iface);
-> +	if (ret)
-> +		goto err_shutdown_dim;
-> +
-> +	return 0;
-
-Commit d445aa402d60 ("staging: most: dim2: use device release method")
-converted this code to use device release, where the function stored in
-dev.release (dim2_release() here) will be called to free the device
-when put_device() or device_unregister() is called on the device.
-
-dim2_release() does free and shut down the hardware correctly, so doing
-it again in the error path would lead to a double free.
-
-However, I do see that in most_register_interface() function, the first
-few error paths (before the device_register() call) are not calling
-put_device() to free the interface device, which is inconsistent with
-the later error paths in that function.
-
-Leave this code as it is, and fix the most_register_interface()
-to consistently release the device on error, by calling put_device()
-on those early error paths.
-
-Also, when sending bug fixes, add a Fixes tag.
+Greg, since this version of the patch would introduce a double-free,
+could you please drop it from staging-testing?
 
 Regards,
-Nihaal
+Navaneeth
+
+On 25-11-2025 20:46, Abdun Nihaal wrote:
+> nack.
+>
+> On Sat, Nov 22, 2025 at 06:56:56PM +0000, Navaneeth K wrote:
+>> If most_register_interface() fails, the function returned immediately
+>> without freeing the allocated 'dev' structure or resetting the hardware
+>> state via dim_shutdown().
+> Based on the commit message of the following commit,
+> most_register_interface() is expected to free the passed interface using
+> device release both on success and error.
+> commit baadf2a5c26e ("most: usb: fix double free on late probe failure")
+> https://lore.kernel.org/all/20251029093029.28922-1-johan@kernel.org/
+>
+>>   	dev->dev.release = dim2_release;
+>>   
+>> -	return most_register_interface(&dev->most_iface);
+>> +	ret = most_register_interface(&dev->most_iface);
+>> +	if (ret)
+>> +		goto err_shutdown_dim;
+>> +
+>> +	return 0;
+> Commit d445aa402d60 ("staging: most: dim2: use device release method")
+> converted this code to use device release, where the function stored in
+> dev.release (dim2_release() here) will be called to free the device
+> when put_device() or device_unregister() is called on the device.
+>
+> dim2_release() does free and shut down the hardware correctly, so doing
+> it again in the error path would lead to a double free.
+>
+> However, I do see that in most_register_interface() function, the first
+> few error paths (before the device_register() call) are not calling
+> put_device() to free the interface device, which is inconsistent with
+> the later error paths in that function.
+>
+> Leave this code as it is, and fix the most_register_interface()
+> to consistently release the device on error, by calling put_device()
+> on those early error paths.
+>
+> Also, when sending bug fixes, add a Fixes tag.
+>
+> Regards,
+> Nihaal
