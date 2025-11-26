@@ -1,114 +1,142 @@
-Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
+Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 083152FDC56
-	for <linux-staging@lists.linux.dev>; Wed, 26 Nov 2025 22:08:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58F9CCA4E
+	for <linux-staging@lists.linux.dev>; Wed, 26 Nov 2025 22:09:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764194902; cv=none; b=bjN7ecEf5jeNP2DT2qTL85Z092qrNXNx9GvmIUdguPN3EsiHZ9s3dlEY9CDPuriGBBJUuOl5hC0BQnJKIxDpiaZW8R0KMcyBMWRe2z3flgY4kKW+DW4xXCBAKd1v2qyewSVyFmwdyW/HnlTtM3hjnzsGU22RonPpl3IjMRUPg/Q=
+	t=1764194959; cv=none; b=lU9bq5YI0qe9VzFGOqqtthLs0Unse8BCUD4XQ0B+b9uwZwcVKHOk2PQ4joSaO2xBizJ8T/yVFXoIAjJGriYrbV93CXmpXmSh3/dCSQoGwsiSRgYf+gZM8mRYnRfUlUTOm3ji71ygkOl3Fn0a3PA7rerr4e9EEd6tfZwoYQheY8s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764194902; c=relaxed/simple;
-	bh=rtiPfcGehEKgX/iZgoqnie41bS6mGZd2PttvNx6B2JQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Kv+eHQbn8Zrek3nUJQ7T4PuE9HtgBV+TaG5WmPbDEjNYAGhb6XqCaoZdiep2Iz8pou3LetIyDghM6LQD6ES+ppMPgCMpaaZMAr1OmbZ1V3ZhGcTwR7k4wf/u8cLnw8ySOyPXe+kmVUhBZ8BM9uDbVtjLLN4MTXHxvEEBwukDR+Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UwxAhq/+; arc=none smtp.client-ip=209.85.210.169
+	s=arc-20240116; t=1764194959; c=relaxed/simple;
+	bh=fFJ4O8O+iumC0sGJhycYMA5SybmSXTx9sGfajEwyps4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=BRO12W9MdcIAle8rwfTx1xDQmt3WuuguWoS1a+O7AWJDFt92HsBtLUhuY/UH3TIle0th7X0tKXesBXBdYXDLZFZhgKuPlMlOnaACQahwduQB0HIHOH98Hkb7MpBGnDT8xwJ+agJUDstwbUxR9SkzcvXmcV+U1GX2FAWvjqmn5Qk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OYM0qePH; arc=none smtp.client-ip=209.85.216.52
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UwxAhq/+"
-Received: by mail-pf1-f169.google.com with SMTP id d2e1a72fcca58-7ba49f92362so146405b3a.1
-        for <linux-staging@lists.linux.dev>; Wed, 26 Nov 2025 14:08:20 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OYM0qePH"
+Received: by mail-pj1-f52.google.com with SMTP id 98e67ed59e1d1-3437af8444cso216974a91.2
+        for <linux-staging@lists.linux.dev>; Wed, 26 Nov 2025 14:09:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1764194900; x=1764799700; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=xgiTZIOx+y+gqr86BpeS1BjQ5eXjgZJupPMHKmu6Swk=;
-        b=UwxAhq/+QoaxqjpmBGjfL4Mu6m3e5zLyO+BsR5WhkCfoKRYKS1MKcGepHsjMyMv2Y0
-         WnT/zthOnf0/q2Iz919p2aKZ0pZEj1DQBTl3MdcH3N7x5TW7HHjlnY3MZVRshFpBTvJJ
-         Q8Rk9LFoldDtF+3LdunK/v54sujIvX/+aMWdxwcvPt7pACmEKQ3icXqjtQdbq1PhynST
-         GuiFxjD423Zq2zqTza43jhKcX9baSvt+aYWO2nn9fV/MGXws8va6ANtlqtIjhWiDqlEA
-         Tul7KJU02n4lMQVFbN6RSTuXFqaRxiZhYUoGPT+BPBO+/M7TDXWdqxQFUAmSSkmzUxe4
-         sh9g==
+        d=gmail.com; s=20230601; t=1764194958; x=1764799758; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Pgycfg1lCnydPSo8irrQPUUm5jQlUHWZIzj/hIxjmeg=;
+        b=OYM0qePHL2k36ARLNgod2y7qMqbNe+GZdAcUWQ/972zOnxGK/4ZyfeHEJTfkYYkjKO
+         zLNUnS85ZJhRcRUzYpFbiJ55BO3Ohlx5tH+8uFWkz4OflWeDCe61lCvVr8965tbT1mYb
+         WC/j8BxcIX57khGYznjYNGwG+3XTr0Mc/T72spPzjaOblxZ5+g1VvdZ97KfzMXyR9GLA
+         3dMWWNKM4eOUbZK6xDZJpLG5Pj4cARyu2JDH9tCLlRGyDPv80ArBf4HuEO8bZlwK2nXg
+         5xhZ7LNLk/oqRGX+tFQhHVEnhq53gdO/XN5Od/OxwkaEtjToRIGmij1EmUgMgF80RUic
+         oO6A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764194900; x=1764799700;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=xgiTZIOx+y+gqr86BpeS1BjQ5eXjgZJupPMHKmu6Swk=;
-        b=V6f8bfEuITRvON7zxL6LFvwkJe0/rosbMrurbQkcJXi3jk11npVju2L6DRwLTSKQpp
-         AzbwccGCq4S1TYuaTyEHLT/+spZ4EJt2miuIGKUPCrfdqF33KZymDHvI1KP7jubnHmus
-         HnnwZZ2n0uMO9E22QYBWoCSjtvRaULK1yoPTrqYiJrymEfPCVIs73XPHb4k+ihQdNAY4
-         Bjiq+ocZJnvO8ThhhO5OM2+nPiY45QXmfELqGwtkgCgVf0/694H8/AStag33WbMyzX3I
-         nP3qyxLM86HU3D6wS9oY/FGo64m+3OmI3GvmkjiHstZ9AMxxWmyCv1lPRvshGU13i+oD
-         uVOg==
-X-Forwarded-Encrypted: i=1; AJvYcCV5V/8Pmwa9lw3ZXch/Hkhlm9eussMbkucna9xzgtez1sMA76OV64TITqa2bgLb+8aLmjnXl+CGQVjSyR0n@lists.linux.dev
-X-Gm-Message-State: AOJu0YyE9U/NXk/hGJCCl3uQHkVOIeZukeiKNj5SSjXL4WyK/UYV4Q5Q
-	87WG7cS5h5ULTrVbzc3OXNOENo5fGZV/TQCO5UjA08zojc3VTORCqm4X
-X-Gm-Gg: ASbGncsIGBNq0qM2MnhtIvoFjofCDlpiNW/4psV+yFem9XmI2j++8X2IFIRl6nDL9U8
-	Fa0v3PyexzZJ2xVXSl1v1KzmTyZVS8xkrPQ+nCyWWqXR5Uo4H8CMb9VJl5v7d82yHSxaYZArurM
-	pPnEwP48iGCCzqJsbAnHfP79Y7VUzjOq/MOC6Mh0ZQsjpuo8qcRW6Pm6BSrByUwZB/2i3ljHqQh
-	rkGh/RImem+B3ueYf0u3zj61yz9bnnp5B5p0cW4RJiM47L9qjGB+doV/hHaKmCasc+L+EVSjK7V
-	BH04/EvmSolc5dT4SxOXDF1RZCwUu2c7tDuhWiaLpJeWIu5/Jh+FXgFVGxv3xPto0BEbe9NNyfI
-	NCX0TPu52BgtGjsEWabig0OhKg7ER+Jf7n1GT0RDyN2vjumdmI3fqRWbwpQ5CNiqnnjLkcIasTa
-	o34XG4nZFgLEahgNni6kZDZPeZrYMo0LpPxp7aMkYLKhj0cXLMgkuULfu2awjdepkJoA5jnQh1Z
-	Da9UID1Ni+7Ea+XcBYjxhsO
-X-Google-Smtp-Source: AGHT+IFB41RdFB/0c7IO7tthz2DW2H1EvC3bEKDG9fDDMR8D4Oy8cmDnnS3vlPgC9fcEZdGEl55zjg==
-X-Received: by 2002:a05:6a20:4310:b0:35d:b415:7122 with SMTP id adf61e73a8af0-3614f54d36cmr21964226637.26.1764194900156;
-        Wed, 26 Nov 2025 14:08:20 -0800 (PST)
-Received: from [192.168.2.119] ([103.92.100.179])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-bd7610a6f80sm20199734a12.32.2025.11.26.14.08.17
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 26 Nov 2025 14:08:19 -0800 (PST)
-Message-ID: <75bbd0a9-1e33-4f63-85ed-de1607aa5e2e@gmail.com>
-Date: Thu, 27 Nov 2025 03:38:15 +0530
+        d=1e100.net; s=20230601; t=1764194958; x=1764799758;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Pgycfg1lCnydPSo8irrQPUUm5jQlUHWZIzj/hIxjmeg=;
+        b=Q4zQ4HGUTt91B7/mzxAVcX4gqvvbbujTQ4/21qfsd80UTdQQI/NYZLzGAreKbzEMRr
+         FoAojnzMFXF1CxzZ3jSN0wqv7EgdtkKsgrEiiGFN0rpcXbOazsURyeCoN4FLvlYRQYBV
+         SNC/8iPU5S0F7yhEUSQQLn+7bJgnyawsY/5LnoW/S2iqHwo8TMr/oLZ6XJwHbXcM3Jtm
+         nfoP+LwN3xA2HbsikF4ARPNGxZkSfybPjaOeYtybknUw8ekws2/Mh/dEudgtdHbEIZjF
+         UmzAL42sevNsG0gL2So2b8gCF3D5PYjERZzR4Ei1EAeNv5e/p9if0/xDMwZE7KY+uluz
+         zMfg==
+X-Gm-Message-State: AOJu0YyV/kpHGcgG/rlyxayaYIHr9SkxfcGLDOj+2HvSU+i2zlD+iRx2
+	Zmx+G+1LR+rH8xUfKSl5USJRlrqDc7z6+NXANITZIXlZjhZ7PNyISMeo
+X-Gm-Gg: ASbGncvX0nRwUsA5X/SeFJAxJWTLF7xzvMnQgklDPBywBMn6Wr+3/F9h3I3kpSo63NC
+	57D8o90aZ5E2gC8R2/3wYAngajiXfamKeBUwh5YKxMyCvEUV8zq4Vw0UYbrX/+fUXst3ogw7Nek
+	anJvdI9FHPqxg8UveTp1mnvFM0X7cewLEpVToJ0+RLLp7R0anvE3CqbfTkDSFaQdTzvr4G4FoJI
+	FR8DtKndqJ1ildHDC22Hwtt8t2FnSkwYnP6kLeRH4D5uutt1HjcY3AcIHJJg4oeC9UsxcrzTJ2T
+	ioDiW73sA5TKRSuhjr/y2R6c5drEbALG9eNR2gSqqwfS589nIjFy9f9NYN/oymil5QO6CQFkrhM
+	BTUhQtfLpb+HXGlcBGEAWDmBj2NZnkwMLmRazn8sWg7+uIjBgr+lOqQO+kub1SbUHZpfEbuXJOt
+	CkBcQ5K6jj1C3LAZDDs1HLjgYf7NuJlb1RuRp3bmmv0g0EIhHghF1Ot4SbNDBu19r8SPldEXyNd
+	F4LLCS/dJEBZHSYrQMpIfqDoU5wZ9Dp0Coy1gn+2XPc6Sxkp2f0TRa5CwMo8sQy5cZdaKDkf2D2
+	ay30o3gzV27JD+S3R2qH1y3TA8NHNezrww==
+X-Google-Smtp-Source: AGHT+IFtiRLP0ykw3vTEjN2HS8jH7oS9eKLxTNJM8TEYHICm80ZVMAQHCwxZRDjeWAHj+umd/hLZQg==
+X-Received: by 2002:a17:90a:d606:b0:343:b610:901c with SMTP id 98e67ed59e1d1-34733f3e4ddmr20870809a91.26.1764194957695;
+        Wed, 26 Nov 2025 14:09:17 -0800 (PST)
+Received: from cyberkunju.asia-south1-c.c.gen-lang-client-0196962068.internal (125.31.93.34.bc.googleusercontent.com. [34.93.31.125])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7c3f174d2c0sm22443347b3a.66.2025.11.26.14.09.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 26 Nov 2025 14:09:17 -0800 (PST)
+From: Navaneeth K <knavaneeth786@gmail.com>
+To: parthiban.veerasooran@microchip.com,
+	christian.gromm@microchip.com,
+	gregkh@linuxfoundation.org
+Cc: linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	abdun.nihaal@gmail.com,
+	Navaneeth K <knavaneeth786@gmail.com>
+Subject: [PATCH v3] most: core: fix resource leak in most_register_interface error paths
+Date: Wed, 26 Nov 2025 22:08:56 +0000
+Message-ID: <20251126220856.3918-1-knavaneeth786@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/2] most: usb: remove double cleanup of interface on
- registration failure
-To: Abdun Nihaal <abdun.nihaal@gmail.com>
-Cc: parthiban.veerasooran@microchip.com, christian.gromm@microchip.com,
- gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org
-References: <20251125225606.70719-1-knavaneeth786@gmail.com>
- <20251125225606.70719-3-knavaneeth786@gmail.com>
- <gavusoqf5ad2xmimbtuuxnp7znm5z57srcqaf3xodenc2wggt5@otqxmfdkogrd>
-Content-Language: en-US
-From: Navaneeth K <knavaneeth786@gmail.com>
-In-Reply-To: <gavusoqf5ad2xmimbtuuxnp7znm5z57srcqaf3xodenc2wggt5@otqxmfdkogrd>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-Hi Nihaal,
+The function most_register_interface() did not correctly release resources
+if it failed early (before device_register). In these cases, it returned
+an error code immediately, leaking the memory allocated for the interface.
 
-Thanks for pointing that out. I missed that Johan's patch was already in 
-linux-next.
+Fix this by initializing the device early via device_initialize() and
+calling put_device() on all error paths. This ensures the release
+callback is triggered to free memory.
 
-I will drop this patch and send v3 containing only the core fix (which 
-is still needed to prevent the leak).
+Switch to using device_add() instead of device_register() to handle
+the split initialization.
 
-Regards,
-Navaneeth
+Acked-by: Abdun Nihaal <abdun.nihaal@gmail.com>
+Signed-off-by: Navaneeth K <knavaneeth786@gmail.com>
+---
+Changes in v3:
+ - Dropped the USB cleanup patch as it was already applied upstream.
+ - Added Reported-by and Acked-by tags.
 
+ drivers/most/core.c | 9 +++++++--
+ 1 file changed, 7 insertions(+), 2 deletions(-)
 
-On 26-11-2025 23:01, Abdun Nihaal wrote:
-> On Tue, Nov 25, 2025 at 10:56:06PM +0000, Navaneeth K wrote:
->> Since most_register_interface() now correctly handles cleanup (calling
->> put_device on failure), the manual cleanup in hdm_probe() would cause
->> a double-free.
->>
->> Remove the manual cleanup labels and return the error code directly.
-> This exact change has already been done by Johan Hovold in the following
-> patch: https://lore.kernel.org/all/20251029093029.28922-1-johan@kernel.org/
->
-> I find that patch in Linux-next. It must have been already applied.
-> and so you can drop this patch.
->
-> Regards,
-> Nihaal
+diff --git a/drivers/most/core.c b/drivers/most/core.c
+index da319d108ea1d..8635fd08035e9 100644
+--- a/drivers/most/core.c
++++ b/drivers/most/core.c
+@@ -1283,18 +1283,23 @@ int most_register_interface(struct most_interface *iface)
+ 	struct most_channel *c;
+ 
+ 	if (!iface || !iface->enqueue || !iface->configure ||
+-	    !iface->poison_channel || (iface->num_channels > MAX_CHANNELS))
++	    !iface->poison_channel || (iface->num_channels > MAX_CHANNELS) ||
++	    !iface->dev)
+ 		return -EINVAL;
+ 
++	device_initialize(iface->dev);
++
+ 	id = ida_alloc(&mdev_id, GFP_KERNEL);
+ 	if (id < 0) {
+ 		dev_err(iface->dev, "Failed to allocate device ID\n");
++		put_device(iface->dev);
+ 		return id;
+ 	}
+ 
+ 	iface->p = kzalloc(sizeof(*iface->p), GFP_KERNEL);
+ 	if (!iface->p) {
+ 		ida_free(&mdev_id, id);
++		put_device(iface->dev);
+ 		return -ENOMEM;
+ 	}
+ 
+@@ -1304,7 +1309,7 @@ int most_register_interface(struct most_interface *iface)
+ 	iface->dev->bus = &mostbus;
+ 	iface->dev->groups = interface_attr_groups;
+ 	dev_set_drvdata(iface->dev, iface);
+-	if (device_register(iface->dev)) {
++	if (device_add(iface->dev)) {
+ 		dev_err(iface->dev, "Failed to register interface device\n");
+ 		kfree(iface->p);
+ 		put_device(iface->dev);
+-- 
+2.43.0
+
