@@ -1,34 +1,78 @@
-Received: from cstnet.cn (smtp84.cstnet.cn [159.226.251.84])
-	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 943101F956
-	for <linux-staging@lists.linux.dev>; Wed, 26 Nov 2025 01:37:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.84
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A54C3315D3E
+	for <linux-staging@lists.linux.dev>; Wed, 26 Nov 2025 06:52:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764121039; cv=none; b=RWqCxhmcwkQlPlc0tIT3liDKuvnemKIdsNI+C6CZ8TjE25nAdMPuna4FlKGm3cfZKqJ2Y8lPce1/smrvL+J8//4kTLKYU+OigVn/plxNFepwRQPe+s2nyllL8hdMam6tGuffY7HmzKV6xYuEQvNwIoALVMcTgMs670EEu2ptDro=
+	t=1764139981; cv=none; b=tqDgOEBo7nYQ5ggKXiBVujoBssq/WwwFuffbivQmEyMudGoHKMSGUNytiiCGDEli/wxKjmOMyitedRq+2nNQjEM54uyxB+AY/TQ8jySAkq4cXq9c7aZXnDrWNgTzpbmR2NDGZKK0rWPTOnFkg6BS9PWU3PHhJH2zGBrT+OLGjfo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764121039; c=relaxed/simple;
-	bh=cjvrCLgiWTJQ2DuepgAkYIMwb1wUd8sUBxmcd3hMEkg=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=rARl8+5GFjE1LQ84zIlY3ZNOvVN2iKm2LjlU4duQp/YgpC3vix7qqKx64UMJxTeVFsQe4zENQmhb0gkxDiHIToQQsH5pA3lIvfeQqqG604D3BPw8suanETIeUtsdjGiWr2xwh1vHU9fFxCGH+8QlZQjwrycJ6x8UsvFoC5n6ggs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass smtp.mailfrom=iscas.ac.cn; arc=none smtp.client-ip=159.226.251.84
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
-Received: from DESKTOP-L0HPE2S (unknown [124.16.141.245])
-	by APP-05 (Coremail) with SMTP id zQCowADn4mPGWSZpDwgWAg--.36141S2;
-	Wed, 26 Nov 2025 09:37:11 +0800 (CST)
-From: Haotian Zhang <vulab@iscas.ac.cn>
-To: dpenkler@gmail.com,
-	gregkh@linuxfoundation.org
-Cc: matchstick@neverthere.org,
-	niharchaithanya@gmail.com,
-	paul.retourne@orange.fr,
+	s=arc-20240116; t=1764139981; c=relaxed/simple;
+	bh=BK+tZ9pD5eAAc9qRGUcd0m51Raok99lisnLY6sDj8Js=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=YvQGs3ghN+QYHropqvP5j324l9jSTVraf4pfsRB5WIKD0CMKVPZ3H47wJjyIOBWBExl4msuOIOrQeXiw8oy2K9rFm5TAm5kWVinN3x9djP2sbY0KZn23VPpYigPlHba0e5GV5lVxY2y2Du7czGS2gAbCWpoAe1VKUUVfPGs9RNU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jpPhPdKZ; arc=none smtp.client-ip=209.85.210.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jpPhPdKZ"
+Received: by mail-pf1-f182.google.com with SMTP id d2e1a72fcca58-7b7828bf7bcso7867486b3a.2
+        for <linux-staging@lists.linux.dev>; Tue, 25 Nov 2025 22:52:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1764139979; x=1764744779; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=HgOIexVeDfDtUYQCupJMpajtM+/Y7OYtN4nw8vkU+0g=;
+        b=jpPhPdKZLpgccRnWb0jeBl7BJG+OU2cX2KXE/8xj19NATjiYceMf0pIgvSJio1y2ii
+         F9D01hhsdsuJ3zpKp3mPRzGprEgDwN9FECfqNhOYpRuGWdQKX19Ni/85GeIFwn95EAXb
+         jo9T1WRP76tt8tGm+t91RFoWDGlFhMNSFhFJL9t4EeswcGv/Rgn2LSc6YOP7MXK3Sf3s
+         VZx3t0+ax3JUaoj/J7jYGr21NNrYuBcL18Gi/MyeRN2B5GakH+QTpJrZn0i8ktGrU4cA
+         yZu2Jl072A0yN+FH12MyYQAIR0hql0KJQQkr+iyVK/RhN5REcoHliRTX5DSERlAWhX8d
+         1sZA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1764139979; x=1764744779;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=HgOIexVeDfDtUYQCupJMpajtM+/Y7OYtN4nw8vkU+0g=;
+        b=YTdkkuZigVasHIDYV4dKyJyYpUhQiRydvpbp+JLAKmj9F4Q2UA91x1vEtOTUmEukgN
+         UFAvVFUfp1CSX4bbgFbez0Lfz8LwK5qn6YPkevbbp2/ov7e25UQxW+F2Nx02yOchhEI+
+         haVORCq8iZuiDjZp3DGW/R2Lh34J5HKhQNjZqeMOQx8UpGvrCF/vCa9WA3rbjsAqpAzz
+         dtRE1nz2uX34KpNZRJiMAzsJUD2lJvtx6pPrS7FF2DN+01GZFX8MHZuExLgNoQonRkF6
+         5+2+XsWXKGGKAJc1uzpRoIt3u7lrmUjRCO6otWOZee1jzeTmIcq4x5xJIv0395zpyLIQ
+         PmSQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXzm2UQRT74011kuYRyz7aNgSFmS4mBwBU/dRgPY0f8Kdf2vgBBGBKx3y6pMKseGr7K1X2ew25FGKtkwbfK@lists.linux.dev
+X-Gm-Message-State: AOJu0Yzw1O/GxWTIqxeY946t2DNlo6SjRJ7itADA9ot0BnCfKWTnE/9R
+	PX2GI4EX54XqeNaEomBwu2mYGCbpOh9dTMuLHouCfgkE1gkoohLDlzzY
+X-Gm-Gg: ASbGncunMysEScnErLHWmOKW4qXiN4YDROvtdstYeomDKKbTZ0k+Tt8aqU4dzuigVPu
+	G1f5Vj9oMwcDTe06DFjr/wcjeNSo3r/jXM0sXYc1o/+1Hma8uE97MYBxbMZCb+4PFLy4j3pr/9N
+	+nv1YrmqI4FrrIIQ9lLN4/2RUJyXb+tqdz/esa6Yh76+Fstk9oVKgxx+6xOgexo0dCJz3/4mvsT
+	9+OpCabTIU7qoBiEPeRlkPdJba5w9rSgX+AoGrQuSQ+drgpG7wtj9UHuDmfO2L0FeoZPyiB93EL
+	3LpWOYHlkxBGdXg7TQiyGU8yH0ksQcXNMzGLBNYl/HzDfed6kWXlhkw1xYfZaj3/U+YeIBPeU8e
+	IIXA5aqkCx6puP3rT2zYu9ily9UPYANLT88BO/zN+GmdhnLVaQmKnJGb8pwEXItGnOknxAKXqlF
+	bMyDazQQ5gijdBtqxW2LaiQCgSVZDRAtgelKX6
+X-Google-Smtp-Source: AGHT+IEE4CTbu1c5peHPM99zicrUlC0JsRXRgiT1+i7EQCCIG5zPCF+CYZG2Zt6NXjE83or4Omrl3A==
+X-Received: by 2002:a05:6a00:92a2:b0:7b8:e02d:d5b1 with SMTP id d2e1a72fcca58-7c58e609950mr19280180b3a.16.1764139978740;
+        Tue, 25 Nov 2025 22:52:58 -0800 (PST)
+Received: from LAPTOP-6H9JJHSF.mshome.net ([61.1.189.195])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7c3f174c9dasm20077037b3a.65.2025.11.25.22.52.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 25 Nov 2025 22:52:58 -0800 (PST)
+From: Dharanitharan R <dharanitharan725@gmail.com>
+To: thierry.reding@gmail.com
+Cc: jonathanh@nvidia.com,
+	skomatineni@nvidia.com,
+	luca.ceresoli@bootlin.com,
+	mchehab@kernel.org,
+	gregkh@linuxfoundation.org,
+	linux-media@vger.kernel.org,
+	linux-tegra@vger.kernel.org,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
-	Haotian Zhang <vulab@iscas.ac.cn>
-Subject: [PATCH] staging: gpib: ines: Check the return value of ioremap()
-Date: Wed, 26 Nov 2025 09:36:18 +0800
-Message-ID: <20251126013618.1052-1-vulab@iscas.ac.cn>
-X-Mailer: git-send-email 2.50.1.windows.1
+	Dharanitharan R <dharanitharan725@gmail.com>
+Subject: [PATCH v1] media: tegra: vi: replace devm_kzalloc with kzalloc in probe
+Date: Wed, 26 Nov 2025 06:52:42 +0000
+Message-ID: <20251126065242.12186-1-dharanitharan725@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -36,54 +80,37 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:zQCowADn4mPGWSZpDwgWAg--.36141S2
-X-Coremail-Antispam: 1UD129KBjvdXoWruF15Jw1UKFy7CF1DXw15twb_yoWkXrb_Cr
-	WvqrWxX34FyFyfCw17XFs7CrWavF1Du34rX3y0q3y5ArZxuF4DAryqvrn8Zw47Wa92yFyD
-	Cr4xtr43u3W7CjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
-	9fnUUIcSsGvfJTRUUUb4kFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k26cxKx2IYs7xG
-	6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
-	A2z4x0Y4vE2Ix0cI8IcVAFwI0_Xr0_Ar1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr0_
-	Cr1l84ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVCY1x0267AKxVWxJr
-	0_GcWle2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E
-	2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJV
-	W8JwACjcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lc7CjxVAaw2AFwI0_
-	JF0_Jw1l42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67
-	AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIY
-	rxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14
-	v26r1j6r4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8
-	JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjfUYCJmUU
-	UUU
-X-CM-SenderInfo: pyxotu46lvutnvoduhdfq/1tbiBwwSA2kmSKVFFgAAsr
 
-The function ioremap() in ines_gpib_config() can fail and return NULL,
-which is dereferenced without checking, leading to a NULL pointer
-dereference.
+Replace devm_kzalloc() (line 1881) with kzalloc() in tegra_vi_probe()
+since memory must be freed manually in error paths. Freed via kfree() in
+rpm_disable, as recommended in the file comment (line 1204).
 
-Add a check for the return value of ioremap() and return -ENOMEM on
-failure.
-
-Fixes: bb1bd92fa0f2 ("staging: gpib: Add ines GPIB driver")
-Signed-off-by: Haotian Zhang <vulab@iscas.ac.cn>
+Signed-off-by: Dharanitharan R <dharanitharan725@gmail.com>
 ---
- drivers/staging/gpib/ines/ines_gpib.c | 5 +++++
- 1 file changed, 5 insertions(+)
+ drivers/staging/media/tegra-video/vi.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/staging/gpib/ines/ines_gpib.c b/drivers/staging/gpib/ines/ines_gpib.c
-index c851fd014f48..362a6310cab1 100644
---- a/drivers/staging/gpib/ines/ines_gpib.c
-+++ b/drivers/staging/gpib/ines/ines_gpib.c
-@@ -1144,6 +1144,11 @@ static int ines_gpib_config(struct pcmcia_device *link)
- 		return -ENODEV;
- 	}
- 	virt = ioremap(link->resource[2]->start, resource_size(link->resource[2]));
-+	if (!virt) {
-+		dev_warn(&link->dev, "ioremap failed\n");
-+		ines_gpib_release(link);
-+		return -ENOMEM;
-+	}
- 	writeb((link->resource[2]->start >> 2) & 0xff, virt + 0xf0); // IOWindow base
- 	iounmap(virt);
+diff --git a/drivers/staging/media/tegra-video/vi.c b/drivers/staging/media/tegra-video/vi.c
+index c9276ff76157..73127ea6ee49 100644
+--- a/drivers/staging/media/tegra-video/vi.c
++++ b/drivers/staging/media/tegra-video/vi.c
+@@ -1878,7 +1878,7 @@ static int tegra_vi_probe(struct platform_device *pdev)
+ 	struct tegra_vi *vi;
+ 	int ret;
+ 
+-	vi = devm_kzalloc(&pdev->dev, sizeof(*vi), GFP_KERNEL);
++	vi = kzalloc(sizeof(*vi), GFP_KERNEL);
+ 	if (!vi)
+ 		return -ENOMEM;
+ 
+@@ -1941,6 +1941,7 @@ static int tegra_vi_probe(struct platform_device *pdev)
+ 	if (vi->ops->vi_enable)
+ 		vi->ops->vi_enable(vi, false);
+ 	pm_runtime_disable(&pdev->dev);
++	kfree(vi);
+ 	return ret;
+ }
  
 -- 
-2.50.1.windows.1
+2.43.0
 
