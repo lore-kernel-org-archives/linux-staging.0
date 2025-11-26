@@ -1,145 +1,89 @@
-Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from cstnet.cn (smtp84.cstnet.cn [159.226.251.84])
+	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7E9D1096F
-	for <linux-staging@lists.linux.dev>; Tue, 25 Nov 2025 23:10:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 943101F956
+	for <linux-staging@lists.linux.dev>; Wed, 26 Nov 2025 01:37:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.84
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764112235; cv=none; b=XKaSmbja2mSaTuHyDwVfcMSeT1tbStILJXtqZjxhRDnXQyt5AnjWbgYnxEgT8e/fgjx8VgnleNOXeo8N4jodOTU1ZgJ5z8ZlNPhS0SqpraXHDBqOekmbQvGYKiYR1Ba1/KM5BvXvgaP16KFErHCXYt5oITKwe7ydfPGbA7zCq2Y=
+	t=1764121039; cv=none; b=RWqCxhmcwkQlPlc0tIT3liDKuvnemKIdsNI+C6CZ8TjE25nAdMPuna4FlKGm3cfZKqJ2Y8lPce1/smrvL+J8//4kTLKYU+OigVn/plxNFepwRQPe+s2nyllL8hdMam6tGuffY7HmzKV6xYuEQvNwIoALVMcTgMs670EEu2ptDro=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764112235; c=relaxed/simple;
-	bh=GAz6rudnJWHgJCE0zmPQ2wsWUjjzvI7RiRLLe3eT6eM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=tPaOfIUzlT0st7FTskTYzwQtQWZcgkMogjUf2tLlzHdYlVjmX0F8eZJ3S4+RFkxvrCVmqqrL7kkB4s3FANx+L93K2qN3N7FRP/uqcTTG+k/dGOtmNG9lprIxjFlKwrfVqNrQ3gBG9hHPZisNGeF4n1yt7gwdlmdIntRvuu4ZTO0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Tq/Zq/GE; arc=none smtp.client-ip=209.85.210.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Tq/Zq/GE"
-Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-7b8e49d8b35so7201251b3a.3
-        for <linux-staging@lists.linux.dev>; Tue, 25 Nov 2025 15:10:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1764112233; x=1764717033; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=CD0pBJhgUaQDsAOwHw/MNo/7uVvn8RgkGC14hlL7Z0s=;
-        b=Tq/Zq/GE8STgtllPnJUMEhMRIoRr3yCZM6SVZ1ZBu6jMy8389KoKDpG3HClivCisXC
-         ywRdQ2qNG4b2ghRX9xaBEFlSntBc4KAfrRWFcS7d624CGJwt04PMyclo6g4mZk4JKJLD
-         bHt1J8bH8oBJDP6irXAkRir9O8JEKGjGYFl69nFkpDpaqqLhp2SeRaeTDQDq9eBVkRZz
-         Gc5bbsk2dnZKtd8AcVpR+1XkFCgF9gpeR8TA7jWDTM/6ChlyO2UzEIHwgoyWSCIDu9x4
-         n8M8yh0C8MAN1Zy6sOWrBU5tZ5K2zlQCn/I5x5OAfVukZgL4otlq06z0h76Vw7Mqm+R1
-         /e3A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764112233; x=1764717033;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=CD0pBJhgUaQDsAOwHw/MNo/7uVvn8RgkGC14hlL7Z0s=;
-        b=DX0IXTZH+rLEMqBhR7IJS06c48YhVLWN4h+ubOlzX4MU77xOWU4zaUPo32D8HGO3/f
-         ZC1KRZX1PGCq+/51FR+GnTN4rZgy/MzMq5NvAJQLR9QlcF0XbqFZr0ducAtXgjga2NWe
-         nKkI4SGv3VTC8WOUE+j9ovgIA033MvRN4Z6Vwct4n8QPrIpx16v3fF04kcfizVJdGi0C
-         u9SpE6qVtgLtszZ0SkzUjk+JZrVAOKsu4cbgF3PyMqujP/0JIK4/GpspVjHuffMHQeqI
-         ymoDjn1BpcmQv+ujBZJaNF9CUZZbYJ4nHlkNnACbVhO+OBewoKOsLlOw46Ps0hHomLqP
-         YAuw==
-X-Gm-Message-State: AOJu0Yydl+l8Qu26eJGn1G3/aLlb6KiyeruWi8DD1ejNvDJhnaxjRbtD
-	gaD3sJizUr8IO8W2Kh2kHO33L6zUfoG8qktYSOdSQRwKNvHx4w0Ohhm2
-X-Gm-Gg: ASbGnctCw7A25cjkAQu7BubB1DEncu+XnN0fmAZTdMs8G0TcI2NJ7tE5HDG4G7oMVPj
-	ZWvZ94GjvIcTgX159VAJuHCycXqqIoBn24v8ZxZztVGXsILh0uDdQkNv6fr6Xw6CMUYVVKmaSOU
-	SYhOxUqSp3K9sqHLMo38tz+PFgzASDD/J2csg3cyYs8SibID6SpNqsfWeLEePzCsONklzwoLbta
-	bI7mTpueSwwRNX6fW46dDc9QpgCwlm4jgRC7kRZdSx5/TliVNHW8pC5pfGDfYT9voQeOANNlBaZ
-	EIuxF32iUMSLESwfuVe2qCgTPAuwoY4SdWNFaQ+28K7R2B4iGB2GkW1tj8vUpeAADm1q9T5I6md
-	PhZHJtCMtpSmC9JdRPvAX4DEzdnUwPLW6IKKrOUqToxsusmLTERnVMsj3GwKTQW4m0YXfzM5PMt
-	F1vh1h7v9tffc54tgX2FTSc6Ajhc6BIJ8TdU7y0Vgg8OiZXCY3ZhPXCm5MnavXKP9KIaGWFXdqP
-	0+M3dkaOlMleRbQdxnFG0Ci
-X-Google-Smtp-Source: AGHT+IF0hPWGJrlr/8b3tyVxhh4SrsjpYfS65KKz/d9hiwjUX+arN0GA7ZsEIoK1iVQfXntgWBjRtw==
-X-Received: by 2002:a05:6a00:2d11:b0:7ab:e844:1e52 with SMTP id d2e1a72fcca58-7c58e213682mr15710907b3a.23.1764112233061;
-        Tue, 25 Nov 2025 15:10:33 -0800 (PST)
-Received: from [192.168.2.119] ([103.92.100.179])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7c3ed379558sm19035658b3a.25.2025.11.25.15.10.30
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 25 Nov 2025 15:10:32 -0800 (PST)
-Message-ID: <de935747-acb4-4f08-a84e-e017b7d0f90c@gmail.com>
-Date: Wed, 26 Nov 2025 04:40:27 +0530
+	s=arc-20240116; t=1764121039; c=relaxed/simple;
+	bh=cjvrCLgiWTJQ2DuepgAkYIMwb1wUd8sUBxmcd3hMEkg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=rARl8+5GFjE1LQ84zIlY3ZNOvVN2iKm2LjlU4duQp/YgpC3vix7qqKx64UMJxTeVFsQe4zENQmhb0gkxDiHIToQQsH5pA3lIvfeQqqG604D3BPw8suanETIeUtsdjGiWr2xwh1vHU9fFxCGH+8QlZQjwrycJ6x8UsvFoC5n6ggs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass smtp.mailfrom=iscas.ac.cn; arc=none smtp.client-ip=159.226.251.84
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
+Received: from DESKTOP-L0HPE2S (unknown [124.16.141.245])
+	by APP-05 (Coremail) with SMTP id zQCowADn4mPGWSZpDwgWAg--.36141S2;
+	Wed, 26 Nov 2025 09:37:11 +0800 (CST)
+From: Haotian Zhang <vulab@iscas.ac.cn>
+To: dpenkler@gmail.com,
+	gregkh@linuxfoundation.org
+Cc: matchstick@neverthere.org,
+	niharchaithanya@gmail.com,
+	paul.retourne@orange.fr,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Haotian Zhang <vulab@iscas.ac.cn>
+Subject: [PATCH] staging: gpib: ines: Check the return value of ioremap()
+Date: Wed, 26 Nov 2025 09:36:18 +0800
+Message-ID: <20251126013618.1052-1-vulab@iscas.ac.cn>
+X-Mailer: git-send-email 2.50.1.windows.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/2] most: core: fix resource leak in
- most_register_interface error paths
-To: parthiban.veerasooran@microchip.com, christian.gromm@microchip.com,
- gregkh@linuxfoundation.org
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-References: <20251125225606.70719-1-knavaneeth786@gmail.com>
- <20251125225606.70719-2-knavaneeth786@gmail.com>
-Content-Language: en-US
-From: Navaneeth K <knavaneeth786@gmail.com>
-In-Reply-To: <20251125225606.70719-2-knavaneeth786@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:zQCowADn4mPGWSZpDwgWAg--.36141S2
+X-Coremail-Antispam: 1UD129KBjvdXoWruF15Jw1UKFy7CF1DXw15twb_yoWkXrb_Cr
+	WvqrWxX34FyFyfCw17XFs7CrWavF1Du34rX3y0q3y5ArZxuF4DAryqvrn8Zw47Wa92yFyD
+	Cr4xtr43u3W7CjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+	9fnUUIcSsGvfJTRUUUb4kFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k26cxKx2IYs7xG
+	6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
+	A2z4x0Y4vE2Ix0cI8IcVAFwI0_Xr0_Ar1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr0_
+	Cr1l84ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVCY1x0267AKxVWxJr
+	0_GcWle2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E
+	2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJV
+	W8JwACjcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lc7CjxVAaw2AFwI0_
+	JF0_Jw1l42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67
+	AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIY
+	rxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14
+	v26r1j6r4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8
+	JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjfUYCJmUU
+	UUU
+X-CM-SenderInfo: pyxotu46lvutnvoduhdfq/1tbiBwwSA2kmSKVFFgAAsr
 
-Apologies, I missed adding the credit for the original finding.
-If a v3 is needed for other reasons, I will include it. Otherwise, if 
-this is merged, please add:
-Reported-by: Abdun Nihaal <abdun.nihaal@gmail.com>
+The function ioremap() in ines_gpib_config() can fail and return NULL,
+which is dereferenced without checking, leading to a NULL pointer
+dereference.
 
+Add a check for the return value of ioremap() and return -ENOMEM on
+failure.
 
-On 26-11-2025 04:26, Navaneeth K wrote:
-> The function most_register_interface() did not correctly release resources
-> if it failed early (before device_register). In these cases, it returned
-> an error code immediately, leaking the memory allocated for the interface.
->
-> Fix this by initializing the device early via device_initialize() and
-> calling put_device() on all error paths. This ensures the release
-> callback is triggered to free memory.
->
-> Switch to using device_add() instead of device_register() to handle
-> the split initialization.
->
-> Signed-off-by: Navaneeth K <knavaneeth786@gmail.com>
-> ---
->   drivers/most/core.c | 9 +++++++--
->   1 file changed, 7 insertions(+), 2 deletions(-)
->
-> diff --git a/drivers/most/core.c b/drivers/most/core.c
-> index da319d108ea1d..8635fd08035e9 100644
-> --- a/drivers/most/core.c
-> +++ b/drivers/most/core.c
-> @@ -1283,18 +1283,23 @@ int most_register_interface(struct most_interface *iface)
->   	struct most_channel *c;
->   
->   	if (!iface || !iface->enqueue || !iface->configure ||
-> -	    !iface->poison_channel || (iface->num_channels > MAX_CHANNELS))
-> +	    !iface->poison_channel || (iface->num_channels > MAX_CHANNELS) ||
-> +	    !iface->dev)
->   		return -EINVAL;
->   
-> +	device_initialize(iface->dev);
-> +
->   	id = ida_alloc(&mdev_id, GFP_KERNEL);
->   	if (id < 0) {
->   		dev_err(iface->dev, "Failed to allocate device ID\n");
-> +		put_device(iface->dev);
->   		return id;
->   	}
->   
->   	iface->p = kzalloc(sizeof(*iface->p), GFP_KERNEL);
->   	if (!iface->p) {
->   		ida_free(&mdev_id, id);
-> +		put_device(iface->dev);
->   		return -ENOMEM;
->   	}
->   
-> @@ -1304,7 +1309,7 @@ int most_register_interface(struct most_interface *iface)
->   	iface->dev->bus = &mostbus;
->   	iface->dev->groups = interface_attr_groups;
->   	dev_set_drvdata(iface->dev, iface);
-> -	if (device_register(iface->dev)) {
-> +	if (device_add(iface->dev)) {
->   		dev_err(iface->dev, "Failed to register interface device\n");
->   		kfree(iface->p);
->   		put_device(iface->dev);
+Fixes: bb1bd92fa0f2 ("staging: gpib: Add ines GPIB driver")
+Signed-off-by: Haotian Zhang <vulab@iscas.ac.cn>
+---
+ drivers/staging/gpib/ines/ines_gpib.c | 5 +++++
+ 1 file changed, 5 insertions(+)
+
+diff --git a/drivers/staging/gpib/ines/ines_gpib.c b/drivers/staging/gpib/ines/ines_gpib.c
+index c851fd014f48..362a6310cab1 100644
+--- a/drivers/staging/gpib/ines/ines_gpib.c
++++ b/drivers/staging/gpib/ines/ines_gpib.c
+@@ -1144,6 +1144,11 @@ static int ines_gpib_config(struct pcmcia_device *link)
+ 		return -ENODEV;
+ 	}
+ 	virt = ioremap(link->resource[2]->start, resource_size(link->resource[2]));
++	if (!virt) {
++		dev_warn(&link->dev, "ioremap failed\n");
++		ines_gpib_release(link);
++		return -ENOMEM;
++	}
+ 	writeb((link->resource[2]->start >> 2) & 0xff, virt + 0xf0); // IOWindow base
+ 	iounmap(virt);
+ 
+-- 
+2.50.1.windows.1
+
