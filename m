@@ -1,37 +1,75 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3D96246BD5;
-	Wed, 26 Nov 2025 07:32:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 059C731A7F8
+	for <linux-staging@lists.linux.dev>; Wed, 26 Nov 2025 08:58:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764142380; cv=none; b=YG5wuV4us+IR5IGdj37c35Fws1/dljoLmMPJex+XSDbk1qGTaSPHNsBmL1Sc3WHvATZPyzkgUvuSMjn7cJMGG2sM4WVQkT2kvszcRWbeUkIX1u0ubYVVlDOyXPAjQcj30utjKO9vauO0qLZN8V/YGPvN8CDzAnik2D1j3p+QVo4=
+	t=1764147543; cv=none; b=qFy839hpNZJUKmIs3IKmjzv6YcCyt5w3mDh4soL+8VZCnacERZo44lfpuY0lft2+EB+BQKAKf/JN/ieXeziyCdYdxFI2JARBN+NowM89lquBTrYXyeKuZfWz+EB8vI0LWMoSJPL4c5z4Fv/dt4GO7HhuSLfyG4sx1oxPnbNBwPs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764142380; c=relaxed/simple;
-	bh=UecjVz1Ha9Yw3qELxU6785YJ4y2UOWWmWqmp2YhMQ7Q=;
+	s=arc-20240116; t=1764147543; c=relaxed/simple;
+	bh=nU9T+5BRaB/fG6RWKtMtWKMNEJMLJZh0XG1iyTeeGec=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Fjz8mw5KQon3C5Y3g0VTItqrNGq0fCEo8YCgHLhriNYo+Rw9XSuoaWeo+bJBhFwUV/EoOE3J2BwEnps4NFUlvelB0UyBDo6TipsGVODrdj9VOcQZBshUO7iz4x7rfDsxwk3gzArHJB16Klb/C1z+mgjbRIXNTFRN6xxAkr1P2HI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=k9pnSfqa; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=SIbRiiyxMZJFfLpkNKp9ffnCvJZCpxftIY5/Fj4PydC2CAFRyfpifUWs3cy1BIoLcb90LKY/DO2pMMxJCNZ1YndWXXGnqM9jbH3+hXdbbEf+6WQBzHbUN9A0soKfqftKZ1YeiyBUcdUTecHh165NRTdriFcA9QwJLrgBhl6leZM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=wiN2dqXH; arc=none smtp.client-ip=209.85.221.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="k9pnSfqa"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 27EA4C16AAE;
-	Wed, 26 Nov 2025 07:32:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1764142379;
-	bh=UecjVz1Ha9Yw3qELxU6785YJ4y2UOWWmWqmp2YhMQ7Q=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=k9pnSfqaDRI7mTvBZFV+CvqZQ67FWWySYQEB71wUje/gWUCgYpZdW2D0IAb7mEpzX
-	 XxwXK8/pwTVv6WU8oUzKW8bk7J5f0GVc19qxh0mLL/bI0pPBnWWSh4njcuxfRXeCmx
-	 fQ/0mCzDi7arByh9pHp+5hhH/AqZesNapQ3E1Vok=
-Date: Wed, 26 Nov 2025 08:32:53 +0100
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Tomasz Sadowski <tsdwski@gmail.com>
-Cc: Dave Penkler <dpenkler@gmail.com>, linux-staging@lists.linux.dev,
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="wiN2dqXH"
+Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-42b427cda88so4347038f8f.0
+        for <linux-staging@lists.linux.dev>; Wed, 26 Nov 2025 00:58:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1764147538; x=1764752338; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=/42H8lhYTk9A336jJOzqFf4ArqhwdfQJRSwAMTmYgKw=;
+        b=wiN2dqXH7tYLmIjC5tZnQE5iQ+S90b0aibMcZglekX7NmF21fEyaWVzmpKzSWXsk02
+         awpf++ta9Kf6xEsUUNGk8m/bk6ubyuD6jXTPCHZvVj5u8v8BHMLRn3ONkwjd/UPpyted
+         uPSdTTpiK7p0H42kgO1zvp5oC5ELynxLUCYbdPhmRD5loBXIWjzL/WzeuqneRnlA+P1/
+         VzOIkQQbfO1fCnO666m95cduIHGSo7ywQbfqTAYPvr32MnlSf8roFAV9l5iJLWqHB/5r
+         iJc6nXqPqsGEF3SYFGi/KOD433XCcMN5LjbVqMcpbam9x/UxNfL4R3fo/xyNBOHmDtWy
+         ukDg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1764147538; x=1764752338;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=/42H8lhYTk9A336jJOzqFf4ArqhwdfQJRSwAMTmYgKw=;
+        b=O2H6Zk/yiv8cc1PJgwFBr2gQjyPDVJcbgtkNyyuD/Rj33tdZ6KEHFSW5FIxCrO8a92
+         D2anY4RydaygNFYF2qc9o23T9Mx1jb5z65nkQgshMp9T9NcpH4ppdvoFrKa0+ofLqf32
+         TWdyAZsCmd6WtQKAYeT/IQdIzKrs1yoUskpll/Z7n2WHW/I/9BGpm+8rMGi1HFoy+QMt
+         bAr96YgjufL7GhOh2eS5fL0+krzSI0CqiRPL3pMQPVbdc8P4Fp2FHai8WargAF0G6aIE
+         AsrigZoBVa28iVkxdK2njWZV9gW/jQeR4vGWfcsaiK2thqFWrqDD/So+ys3f2kYyH+1m
+         g5Wg==
+X-Forwarded-Encrypted: i=1; AJvYcCU8ZFMe+VaJ2SZMTCDt6Ox+my1pzUJlePdD9FqZN1WI65GaI1e12THtYBQOScO/KQb9SXiMO4uR+PFLCzUY@lists.linux.dev
+X-Gm-Message-State: AOJu0YxovtNOg74Dqvd/ofTRkd4WsHDJ56G5yoij5H6ASvutWS9eK0qZ
+	XSrpQoHhnNDlHlN7ddowsD8QldFX69ZhvocvxUDjKcSayYa44yBQCUqPX+EoSgshU4Y=
+X-Gm-Gg: ASbGncv1pAZWdypuB340zNJYWge0ztBxgYNKLzhm/7TrzsXtbDOLXYk4wcCjUU2O61Y
+	9c2Gj8T5WOb+v/ue2zM7ba/XCb3mo1efjzFKF+I+rQ27QxCW26cjLurF9Qo9NPJ2Xd83s/pokQ5
+	AMZimwvV797E7sI4DWgJ/PRE693ZpzNLcaqATPu3fmVNckH8q+yV3YT4YKG5SjdLlzCw6sOlY3M
+	qksKwrLmbuTBBvD/oV9486at4o/QuagVLAeiL54zwUkSl2stHMI6b/AeIKMVwpBzDMOkEvNK8WO
+	rII/02oO8HhqrJuJXeqSYCU1kywYJH1IU6ssyrqTA7MYxattBBRKUB1iaDuiJIqY8K03D4GWUin
+	9Rjpyo0WN5Z9IYZPiFWeAotVIyEn7avdYOFQbwZ3OLnOf3fPI9d5mIMMM1mHUep/5TGV6HzZ1+C
+	I3K8xgRYWNQrY9doQ5
+X-Google-Smtp-Source: AGHT+IFv1Ops8n0OeoStz9TaphopQIFsUQ0FZ2Z6R6T+mCfhb8iJ7KwfJE3DEPeRt9VhmuTMP2gI6A==
+X-Received: by 2002:a5d:5848:0:b0:427:8c85:a4ac with SMTP id ffacd0b85a97d-42cc1d0c9d6mr20256329f8f.47.1764147538171;
+        Wed, 26 Nov 2025 00:58:58 -0800 (PST)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-42cb7fba20esm39223866f8f.37.2025.11.26.00.58.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 26 Nov 2025 00:58:57 -0800 (PST)
+Date: Wed, 26 Nov 2025 11:58:52 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Dharanitharan R <dharanitharan725@gmail.com>
+Cc: thierry.reding@gmail.com, jonathanh@nvidia.com, skomatineni@nvidia.com,
+	luca.ceresoli@bootlin.com, mchehab@kernel.org,
+	gregkh@linuxfoundation.org, linux-media@vger.kernel.org,
+	linux-tegra@vger.kernel.org, linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: fluke_gpib: use kzalloc instead of kmalloc +
- memset
-Message-ID: <2025112636-planner-straw-a530@gregkh>
-References: <20251125140357.87880-1-tsdwski@gmail.com>
+Subject: Re: [PATCH v1] media: tegra: vi: replace devm_kzalloc with kzalloc
+ in probe
+Message-ID: <aSbBTPXdk2wXQm7R@stanley.mountain>
+References: <20251126065242.12186-1-dharanitharan725@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -40,60 +78,37 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251125140357.87880-1-tsdwski@gmail.com>
+In-Reply-To: <20251126065242.12186-1-dharanitharan725@gmail.com>
 
-On Tue, Nov 25, 2025 at 03:03:35PM +0100, Tomasz Sadowski wrote:
-> Signed-off-by: Tomasz Sadowski <tsdwski@gmail.com>
-> ---
->  drivers/staging/gpib/eastwood/fluke_gpib.c | 3 +--
->  1 file changed, 1 insertion(+), 2 deletions(-)
-> 
-> diff --git a/drivers/staging/gpib/eastwood/fluke_gpib.c b/drivers/staging/gpib/eastwood/fluke_gpib.c
-> index 3ae848e3f738..2b6ba7882dba 100644
-> --- a/drivers/staging/gpib/eastwood/fluke_gpib.c
-> +++ b/drivers/staging/gpib/eastwood/fluke_gpib.c
-> @@ -853,11 +853,10 @@ static int fluke_allocate_private(struct gpib_board *board)
->  {
->  	struct fluke_priv *priv;
->  
-> -	board->private_data = kmalloc(sizeof(struct fluke_priv), GFP_KERNEL);
-> +	board->private_data = kzalloc(sizeof(*board->private_data), GFP_KERNEL);
->  	if (!board->private_data)
->  		return -ENOMEM;
->  	priv = board->private_data;
-> -	memset(priv, 0, sizeof(struct fluke_priv));
->  	init_nec7210_private(&priv->nec7210_priv);
->  	priv->dma_buffer_size = 0x7ff;
->  	priv->dma_buffer = kmalloc(priv->dma_buffer_size, GFP_KERNEL);
-> -- 
-> 2.52.0
-> 
+On Wed, Nov 26, 2025 at 06:52:42AM +0000, Dharanitharan R wrote:
+> Replace devm_kzalloc() (line 1881) with kzalloc() in tegra_vi_probe()
+> since memory must be freed manually in error paths. Freed via kfree() in
+> rpm_disable, as recommended in the file comment (line 1204).
 > 
 
-Hi,
+drivers/staging/media/tegra-video/vi.c
+  1197  static int tegra_vi_channel_alloc(struct tegra_vi *vi, unsigned int port_num,
+  1198                                    struct device_node *node, unsigned int lanes)
+  1199  {
+  1200          struct tegra_vi_channel *chan;
+  1201          unsigned int i;
+  1202  
+  1203          /*
+  1204           * Do not use devm_kzalloc as memory is freed immediately
+  1205           * when device instance is unbound but application might still
+  1206           * be holding the device node open. Channel memory allocated
+  1207           * with kzalloc is freed during video device release callback.
+  1208           */
+  1209          chan = kzalloc(sizeof(*chan), GFP_KERNEL);
+  1210          if (!chan)
+  1211                  return -ENOMEM;
+  1212  
 
-This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
-a patch that has triggered this response.  He used to manually respond
-to these common problems, but in order to save his sanity (he kept
-writing the same thing over and over, yet to different people), I was
-created.  Hopefully you will not take offence and will fix the problem
-in your patch and resubmit it so that it can be accepted into the Linux
-kernel tree.
+The comment is specific to "chan".
 
-You are receiving this message because of the following common error(s)
-as indicated below:
+Your patch introduces a number of memory leaks and it's not
+correct.
 
-- You did not specify a description of why the patch is needed, or
-  possibly, any description at all, in the email body.  Please read the
-  section entitled "The canonical patch format" in the kernel file,
-  Documentation/process/submitting-patches.rst for what is needed in
-  order to properly describe the change.
+regards,
+dan carpenter
 
-If you wish to discuss this problem further, or you have questions about
-how to resolve this issue, please feel free to respond to this email and
-Greg will reply once he has dug out from the pending patches received
-from other developers.
-
-thanks,
-
-greg k-h's patch email bot
