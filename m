@@ -1,117 +1,148 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36A192144C7;
-	Thu, 27 Nov 2025 13:22:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79A253370E0
+	for <linux-staging@lists.linux.dev>; Thu, 27 Nov 2025 16:54:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764249775; cv=none; b=odATcemZrdecZpmAMSTrDZeazPUXWXIZeUajGoVQMjUkxL5QXD0EJ6nTKmfa4HUOD2CxwcyGpviqyXZINrzPSMDKKKhz8y10TLOL5p+lWSXdBw3ADMiT9y0KlrppdiPa5t3bGBeQ1kMCwOsE/dL3qMwyw92YV0mSoNDHr+0rgH0=
+	t=1764262454; cv=none; b=McfOOxJGEUXkyBiJLap9e0AtecE4yDZkZlUjrblTRi8mh5UPli1nQ5gcL4sHPOYKTwn3dCd2aSxe3995F1LdmAe25icJeqBRO53FRezvz7sXe3oJve8GCJyhUqzsojJe2/mqgb6T8HOrc6rqteBl89zstDaIyC2JJvH+9SlwrUg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764249775; c=relaxed/simple;
-	bh=fKnNQFz4tv55GMgNw8e8PjfVCK5DPLfPqiUHl0YKqFs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JCOe4ybyoGZ13iOaqhF6n0jha2kLmm9z49uZjKbKXloiad+DKDuShQADO9Mln+jHkRKLjKOXqVz5OP6U1NnT3uLADk26TM4J3Wyeey8v2sr/Bmi9+9KLkv+Mgsml2p1usR2SfrP3HFjyjlEA3Cfcx1vPFJka844T7VCTAi/TmFo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=Hkjoh9+a; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1764262454; c=relaxed/simple;
+	bh=pW4aGxkyJzlDY8mzHVYKMSn48+6DhevnhNrwrfll3fE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=O7lyY0sJUDz/JMyYXraJX4WsySXx3rGlmljRWQ2+L7h8oNz0qsh1JpSTcti0Xv3vVDWtvexFjULpx+BUN97KK/W6MZvJPEZq3In6E71G8blHA4HikQivYyDYKdgCxlXW00kpjcgzIZ/HfXBdHSBCJdAzYxP59cXKugasUwYNgwY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FjLz1yqP; arc=none smtp.client-ip=209.85.210.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="Hkjoh9+a"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4350BC4CEF8;
-	Thu, 27 Nov 2025 13:22:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1764249774;
-	bh=fKnNQFz4tv55GMgNw8e8PjfVCK5DPLfPqiUHl0YKqFs=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Hkjoh9+aVPzj2eWkf42gDBRAGQL9KAsnSAuuXGTcfsofOOLRo1XgSIZRbjalHnAq3
-	 MFvS5RAtyYZ+gaOeRkAWCv2FXOiOHJQxIS3BD5SWf/nt2UXb9jEdlrYZLgpl4BXIWj
-	 9qzturn565vsCsi2r37iNtwix3Jc5QdTLQx7QLe0=
-Date: Thu, 27 Nov 2025 14:22:46 +0100
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Nathan Chancellor <nathan@kernel.org>
-Cc: Guenter Roeck <groeck@google.com>, kernelci@lists.linux.dev,
-	kernelci-results@groups.io, gus@collabora.com,
-	stable@vger.kernel.org, linux-staging@lists.linux.dev
-Subject: Re: [REGRESSION] stable-rc/linux-6.12.y: (build) variable 'val' is
- uninitialized when passed as a const pointer arg...
-Message-ID: <2025112730-sterilize-roaming-5c71@gregkh>
-References: <176398914850.89.13888454130518102455@f771fd7c9232>
- <20251124220404.GA2853001@ax162>
- <CABXOdTfbsoNdv6xMCppMq=JsfNBarp6YyFV4por3eA3cSWdT7g@mail.gmail.com>
- <20251124224046.GA3142687@ax162>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FjLz1yqP"
+Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-7b80fed1505so1229752b3a.3
+        for <linux-staging@lists.linux.dev>; Thu, 27 Nov 2025 08:54:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1764262450; x=1764867250; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=ExKtXnnneeww6lun1Yn14XCHi1VlQQEOBvjuqcrngAo=;
+        b=FjLz1yqPwHOAd4BEUmVQACXZd9p7TeZWpdjXKR7O4slquQmONhkRUgq78MKplB5bU1
+         +Wsm029ikmbCX0R80v1k5z8aqSfsOwuzODgL8wUO570OKlMfiJhy2OfWDRbl3I+txYWS
+         RSpHKTYsQClIjLWKlL4UF7QOCzrOti70cLF64ccUxRnzdhbvDkf6n2Yo297Ljtqrrn2A
+         a/ohyMnyHq70EeNzrdKPZXdS0Y3C/BUxt8KOMSYsowR+cVKvwK0d6aW3Zbmz8vNTfkMI
+         rmzYBPclIWZ6F/ter1P6U+MTEOXPbBV/S7LZ0LxIaeiwV1iDPxSe+YCKm+qhktXRYUnb
+         P/Dg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1764262450; x=1764867250;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ExKtXnnneeww6lun1Yn14XCHi1VlQQEOBvjuqcrngAo=;
+        b=xKdTJeeJqPOywc/1LgHufmAp4cpyvyC7Sm1GuWK8rgHIQAUfl8O4BpWr/CxSB0FKXl
+         w0pQThgjizDe5Mi4ijOHbWa1Md+jVI5oUMaOBNWr7GtsS03Bi3s49xt8MjFIBnxquCPF
+         8EWHkuzZhECpnjv7a7i5aNZNJli2M/4co12ccrHdUfZmTgoU9w+6hXo4rYgA1e52lso7
+         uhSE6uXkfD+BMUhLVJRDYC7/bB0OPyvmeSAD/oUExj/Uveh/yLasZAAq/YGyVEgy1MNh
+         /idvuKOy9y9wgHZcf1y7QREDrnXF7zZKbR4GvDnlF+X2lP+BhsqxgNpLItI36b7x+fpT
+         o4RA==
+X-Gm-Message-State: AOJu0Ywrwa/zHXP5vJ8aGU3ib/JWqJIOR2G8EhJVcDa8fgEeXxYk7qLG
+	BKeuP2NoDouwkssXbzYXyH6IVM5s8WqtT1tWaZySeyWUHIVBr+UtB+ZW
+X-Gm-Gg: ASbGncvSbd8ESyAGp0lBWyyg19Xf6Z4dpetVrm6T4tkQo2Djpj6JNgCq+bmp+DLdTAO
+	Xco9VLgEHkqyo92gorPG4W0vZFJiXAZdQrt4uIjK5oUI+j3CmL6bZjun3sE8Er8rijDcaDXSnxN
+	Fl4P3GhXhQBBk7dh/KMbJWyvUIsgeVI7JPQOdM2XW4hvUKBI0qByRzSCcIgKjvE2jJXJSA7/t6l
+	Y1c0WxTu+2wB/+yM3JC3ibzXhSheh8eo7O1cxxVXepgbNLI3NCL3oNtrzp1oMkOYLk0uJpj05uu
+	UB/yVcHZfRpzA3iz3idBbuZLmHS53lKBku5QErEqyx2Rm0IBh1U7cmss9ZNclFsygT/7ztTKTMv
+	JX2amV9XC3bgW5c1GOV21BmTMFnRq0l46zOG2zz47vAFZfWvn6OpbQxJSv4NNyS2XmEBrvUPdwt
+	13dwxXgpOMFtmNYNxUirkGxUrujoOqK4J7wFfNDtA5qwcc+6JPC83Hik/DeWKT5a8VLa+YXpETl
+	esQqYfclMbR8HL9LvhLb/kRNqHEBnkjMoi10fiiSX8OsnksW3AmvrJKbiizVPZ4OnDSI0zfDmXi
+	QtsU8FePCYmESzAJt8B5gUm29Axv9nxdjA==
+X-Google-Smtp-Source: AGHT+IFJ1v7QO6JslFxK1flOhHU+oJ1gZXfCghqcfNz5B9Ti0HUk4aTCJymj0eR745ra+Bs5ORAWdg==
+X-Received: by 2002:a05:6a00:1803:b0:7b6:dd81:db74 with SMTP id d2e1a72fcca58-7c58c999e9emr26931048b3a.12.1764262449642;
+        Thu, 27 Nov 2025 08:54:09 -0800 (PST)
+Received: from cyberkunju.asia-south1-c.c.gen-lang-client-0196962068.internal (125.31.93.34.bc.googleusercontent.com. [34.93.31.125])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7d15f175d95sm2404197b3a.45.2025.11.27.08.54.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 27 Nov 2025 08:54:09 -0800 (PST)
+From: Navaneeth K <knavaneeth786@gmail.com>
+To: parthiban.veerasooran@microchip.com,
+	christian.gromm@microchip.com,
+	gregkh@linuxfoundation.org
+Cc: linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	abdun.nihaal@gmail.com,
+	dan.carpenter@linaro.org,
+	Navaneeth K <knavaneeth786@gmail.com>
+Subject: [PATCH v4] most: core: fix resource leak in most_register_interface error paths
+Date: Thu, 27 Nov 2025 16:53:37 +0000
+Message-ID: <20251127165337.19172-1-knavaneeth786@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20251124224046.GA3142687@ax162>
 
-On Mon, Nov 24, 2025 at 03:40:46PM -0700, Nathan Chancellor wrote:
-> On Mon, Nov 24, 2025 at 02:35:26PM -0800, Guenter Roeck wrote:
-> > On Mon, Nov 24, 2025 at 2:04 PM Nathan Chancellor <nathan@kernel.org> wrote:
-> > >
-> > > On Mon, Nov 24, 2025 at 12:59:08PM -0000, KernelCI bot wrote:
-> > > > Hello,
-> > > >
-> > > > New build issue found on stable-rc/linux-6.12.y:
-> > > >
-> > > > ---
-> > > >  variable 'val' is uninitialized when passed as a const pointer argument here [-Werror,-Wuninitialized-const-pointer] in drivers/staging/rtl8712/rtl8712_cmd.o (drivers/staging/rtl8712/rtl8712_cmd.c) [logspec:kbuild,kbuild.compiler.error]
-> > > > ---
-> > > >
-> > > > - dashboard: https://d.kernelci.org/i/maestro:5b83acc62508c670164c5fceb3079a2d7d74e154
-> > > > - giturl: https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git
-> > > > - commit HEAD:  d5dc97879a97b328a89ec092271faa3db9f2bff3
-> > > > - tags: v6.12.59
-> > > >
-> > > >
-> > > > Log excerpt:
-> > > > =====================================================
-> > > > drivers/staging/rtl8712/rtl8712_cmd.c:148:28: error: variable 'val' is uninitialized when passed as a const pointer argument here [-Werror,-Wuninitialized-const-pointer]
-> > > >   148 |                 memcpy(pcmd->rsp, (u8 *)&val, pcmd->rspsz);
-> > > >       |                                          ^~~
-> > > > 1 error generated.
-> > >
-> > > This comes from a new subwarning of -Wuninitialized introduced in
-> > > clang-21:
-> > >
-> > >   https://github.com/llvm/llvm-project/commit/00dacf8c22f065cb52efb14cd091d441f19b319e
-> > >
-> > > This driver was removed upstream in commit 41e883c137eb ("staging:
-> > > rtl8712: Remove driver using deprecated API wext") in 6.13 so this only
-> > > impacts stable.
-> > >
-> > > This certainly does look broken...
-> > >
-> > >   static u8 read_rfreg_hdl(struct _adapter *padapter, u8 *pbuf)
-> > >   {
-> > >       u32 val;
-> > >       void (*pcmd_callback)(struct _adapter *dev, struct cmd_obj *pcmd);
-> > >       struct cmd_obj *pcmd  = (struct cmd_obj *)pbuf;
-> > >
-> > >       if (pcmd->rsp && pcmd->rspsz > 0)
-> > >           memcpy(pcmd->rsp, (u8 *)&val, pcmd->rspsz);
-> > >
-> > > Presumably this is never actually hit? It is rather hard to follow the
-> > > indirection in this driver but it does not seem like _Read_RFREG is ever
-> > > set as a cmdcode? Unfortunately, the only maintainer I see listed for
-> > > this file is Florian Schilhabel but a glance at lore shows no recent
-> > > activity so that probably won't be too much help. At the very least, we
-> > > could just zero initialize val, it cannot be any worse than what it is
-> > > currently doing and copying stack garbage?
-> > >
-> > 
-> > Or backport the patch removing the driver ? It is in staging, after
-> > all, so I don't know if there is value in trying to keep it alive in
-> > 6.12.y.
-> 
-> That would likely not be the end of the world for 6.12.y but this
-> warning appears all the way back to at least 5.15 (the point I start
-> caring about warnings because of CONFIG_WERROR).
+The function most_register_interface() did not correctly release resources
+if it failed early (before registering the device). In these cases, it
+returned an error code immediately, leaking the memory allocated for the
+interface.
 
-No objection from me to delete the driver from all of the stable trees :)
+Fix this by initializing the device early via device_initialize() and
+calling put_device() on all error paths.
 
-thanks,
+The most_register_interface() is expected to call put_device() on
+error which frees the resources allocated in the caller. The
+put_device() either calls release_mdev() or dim2_release(),
+depending on the caller.
 
-greg k-h
+Switch to using device_add() instead of device_register() to handle
+the split initialization.
+
+Acked-by: Abdun Nihaal <abdun.nihaal@gmail.com>
+Signed-off-by: Navaneeth K <knavaneeth786@gmail.com>
+---
+Changes in v4:
+ - Removed the '!iface->dev' NULL check as suggested by Dan Carpenter.
+ - Updated commit message to explicitly explain how put_device()
+   triggers the caller's release function (suggested by Dan Carpenter).
+
+Changes in v3:
+ - Dropped USB cleanup patch (already applied upstream).
+ - Added Acked-by.
+
+ drivers/most/core.c | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/most/core.c b/drivers/most/core.c
+index da319d108ea1d..6277e6702ca8c 100644
+--- a/drivers/most/core.c
++++ b/drivers/most/core.c
+@@ -1286,15 +1286,19 @@ int most_register_interface(struct most_interface *iface)
+ 	    !iface->poison_channel || (iface->num_channels > MAX_CHANNELS))
+ 		return -EINVAL;
+ 
++	device_initialize(iface->dev);
++
+ 	id = ida_alloc(&mdev_id, GFP_KERNEL);
+ 	if (id < 0) {
+ 		dev_err(iface->dev, "Failed to allocate device ID\n");
++		put_device(iface->dev);
+ 		return id;
+ 	}
+ 
+ 	iface->p = kzalloc(sizeof(*iface->p), GFP_KERNEL);
+ 	if (!iface->p) {
+ 		ida_free(&mdev_id, id);
++		put_device(iface->dev);
+ 		return -ENOMEM;
+ 	}
+ 
+@@ -1304,7 +1308,7 @@ int most_register_interface(struct most_interface *iface)
+ 	iface->dev->bus = &mostbus;
+ 	iface->dev->groups = interface_attr_groups;
+ 	dev_set_drvdata(iface->dev, iface);
+-	if (device_register(iface->dev)) {
++	if (device_add(iface->dev)) {
+ 		dev_err(iface->dev, "Failed to register interface device\n");
+ 		kfree(iface->p);
+ 		put_device(iface->dev);
+-- 
+2.43.0
+
