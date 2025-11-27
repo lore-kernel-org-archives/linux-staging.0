@@ -1,142 +1,103 @@
-Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58F9CCA4E
-	for <linux-staging@lists.linux.dev>; Wed, 26 Nov 2025 22:09:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B68C27EFE3
+	for <linux-staging@lists.linux.dev>; Thu, 27 Nov 2025 05:58:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764194959; cv=none; b=lU9bq5YI0qe9VzFGOqqtthLs0Unse8BCUD4XQ0B+b9uwZwcVKHOk2PQ4joSaO2xBizJ8T/yVFXoIAjJGriYrbV93CXmpXmSh3/dCSQoGwsiSRgYf+gZM8mRYnRfUlUTOm3ji71ygkOl3Fn0a3PA7rerr4e9EEd6tfZwoYQheY8s=
+	t=1764223105; cv=none; b=tFrXXARKD9UyLaxoa5oUK0tcL6wXLeQ/JzybUEwSezgBhisaR0q2JasdTojbas6I01ktTvX8t85RAKiVZBmBGVaPSvzUTqXZh4SypdBE308LfIMvIABcy30EJ2Ua3TzFs5qnQOvDWf432mK+hAtut1W7YnDchCznYKQ8kUJloYA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764194959; c=relaxed/simple;
-	bh=fFJ4O8O+iumC0sGJhycYMA5SybmSXTx9sGfajEwyps4=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=BRO12W9MdcIAle8rwfTx1xDQmt3WuuguWoS1a+O7AWJDFt92HsBtLUhuY/UH3TIle0th7X0tKXesBXBdYXDLZFZhgKuPlMlOnaACQahwduQB0HIHOH98Hkb7MpBGnDT8xwJ+agJUDstwbUxR9SkzcvXmcV+U1GX2FAWvjqmn5Qk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OYM0qePH; arc=none smtp.client-ip=209.85.216.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1764223105; c=relaxed/simple;
+	bh=7LVpe30vJ5eoFT90oqQVushjmVLn8Y3eCutASgYrWgg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=X4opbLpDGBleKM9XLkfpM0+bM6YP2LLtHCpWILVaPqjibrIeJ3oavZoFHlXSMMRFtWBchn4N8mP75EFrTy+pjG7tQQNhg9JcmgZQgnquZG5syAGXUvGH977wxJ1O1Y5nUbYAGw0DQnJbKpvfkeZaYrA+N/QcE3wgE6XwoWo4g/I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=sihKc9ZM; arc=none smtp.client-ip=209.85.128.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OYM0qePH"
-Received: by mail-pj1-f52.google.com with SMTP id 98e67ed59e1d1-3437af8444cso216974a91.2
-        for <linux-staging@lists.linux.dev>; Wed, 26 Nov 2025 14:09:18 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="sihKc9ZM"
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-477bf34f5f5so2585585e9.0
+        for <linux-staging@lists.linux.dev>; Wed, 26 Nov 2025 21:58:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1764194958; x=1764799758; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=Pgycfg1lCnydPSo8irrQPUUm5jQlUHWZIzj/hIxjmeg=;
-        b=OYM0qePHL2k36ARLNgod2y7qMqbNe+GZdAcUWQ/972zOnxGK/4ZyfeHEJTfkYYkjKO
-         zLNUnS85ZJhRcRUzYpFbiJ55BO3Ohlx5tH+8uFWkz4OflWeDCe61lCvVr8965tbT1mYb
-         WC/j8BxcIX57khGYznjYNGwG+3XTr0Mc/T72spPzjaOblxZ5+g1VvdZ97KfzMXyR9GLA
-         3dMWWNKM4eOUbZK6xDZJpLG5Pj4cARyu2JDH9tCLlRGyDPv80ArBf4HuEO8bZlwK2nXg
-         5xhZ7LNLk/oqRGX+tFQhHVEnhq53gdO/XN5Od/OxwkaEtjToRIGmij1EmUgMgF80RUic
-         oO6A==
+        d=linaro.org; s=google; t=1764223102; x=1764827902; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=CpZ+31QXeywScZ1oMMavLBCGYpwbi/j08FH/25KvCIg=;
+        b=sihKc9ZMDBZ1DDL+i+D8p5XnhFMjldPSleeFJQfpm7bf3JLPrpCTcbQLhEm4/Z2lpO
+         gfPSZvhS4YRAbLp/9I0hs7w5c3fT6KUemyFbdppL3Fk2jW7TpdN7sk9PoakmaYdPBIWk
+         XnF0hSmC1CiwNZUBbtrhmyhUDTJRO1DjJN02t2FwX8h796QtjuD5TSR3qs0H1UMgmrej
+         rjPE03mnkkMMkZejg09/RHiXgDrWk4tW6Xca5WtwcpTGqQB8JngYLgVDnK9HsKxCjW6w
+         aWnHxZ7Fk0tD7Sk2MM7FY5tPJar+OkEuC0pZ7eYcUaaMISljWsonLLmvlJvOsH7gb3ok
+         WN0A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764194958; x=1764799758;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Pgycfg1lCnydPSo8irrQPUUm5jQlUHWZIzj/hIxjmeg=;
-        b=Q4zQ4HGUTt91B7/mzxAVcX4gqvvbbujTQ4/21qfsd80UTdQQI/NYZLzGAreKbzEMRr
-         FoAojnzMFXF1CxzZ3jSN0wqv7EgdtkKsgrEiiGFN0rpcXbOazsURyeCoN4FLvlYRQYBV
-         SNC/8iPU5S0F7yhEUSQQLn+7bJgnyawsY/5LnoW/S2iqHwo8TMr/oLZ6XJwHbXcM3Jtm
-         nfoP+LwN3xA2HbsikF4ARPNGxZkSfybPjaOeYtybknUw8ekws2/Mh/dEudgtdHbEIZjF
-         UmzAL42sevNsG0gL2So2b8gCF3D5PYjERZzR4Ei1EAeNv5e/p9if0/xDMwZE7KY+uluz
-         zMfg==
-X-Gm-Message-State: AOJu0YyV/kpHGcgG/rlyxayaYIHr9SkxfcGLDOj+2HvSU+i2zlD+iRx2
-	Zmx+G+1LR+rH8xUfKSl5USJRlrqDc7z6+NXANITZIXlZjhZ7PNyISMeo
-X-Gm-Gg: ASbGncvX0nRwUsA5X/SeFJAxJWTLF7xzvMnQgklDPBywBMn6Wr+3/F9h3I3kpSo63NC
-	57D8o90aZ5E2gC8R2/3wYAngajiXfamKeBUwh5YKxMyCvEUV8zq4Vw0UYbrX/+fUXst3ogw7Nek
-	anJvdI9FHPqxg8UveTp1mnvFM0X7cewLEpVToJ0+RLLp7R0anvE3CqbfTkDSFaQdTzvr4G4FoJI
-	FR8DtKndqJ1ildHDC22Hwtt8t2FnSkwYnP6kLeRH4D5uutt1HjcY3AcIHJJg4oeC9UsxcrzTJ2T
-	ioDiW73sA5TKRSuhjr/y2R6c5drEbALG9eNR2gSqqwfS589nIjFy9f9NYN/oymil5QO6CQFkrhM
-	BTUhQtfLpb+HXGlcBGEAWDmBj2NZnkwMLmRazn8sWg7+uIjBgr+lOqQO+kub1SbUHZpfEbuXJOt
-	CkBcQ5K6jj1C3LAZDDs1HLjgYf7NuJlb1RuRp3bmmv0g0EIhHghF1Ot4SbNDBu19r8SPldEXyNd
-	F4LLCS/dJEBZHSYrQMpIfqDoU5wZ9Dp0Coy1gn+2XPc6Sxkp2f0TRa5CwMo8sQy5cZdaKDkf2D2
-	ay30o3gzV27JD+S3R2qH1y3TA8NHNezrww==
-X-Google-Smtp-Source: AGHT+IFtiRLP0ykw3vTEjN2HS8jH7oS9eKLxTNJM8TEYHICm80ZVMAQHCwxZRDjeWAHj+umd/hLZQg==
-X-Received: by 2002:a17:90a:d606:b0:343:b610:901c with SMTP id 98e67ed59e1d1-34733f3e4ddmr20870809a91.26.1764194957695;
-        Wed, 26 Nov 2025 14:09:17 -0800 (PST)
-Received: from cyberkunju.asia-south1-c.c.gen-lang-client-0196962068.internal (125.31.93.34.bc.googleusercontent.com. [34.93.31.125])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7c3f174d2c0sm22443347b3a.66.2025.11.26.14.09.14
+        d=1e100.net; s=20230601; t=1764223102; x=1764827902;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=CpZ+31QXeywScZ1oMMavLBCGYpwbi/j08FH/25KvCIg=;
+        b=X4xcqGKy5SrU5Nk7Nlz/CNI9OOEAXA2DdEhQXUl0NifDMAnWDagmRS49jSeD/DtP9x
+         5q93t/22d5dFuEHlIyxwpZ2Dz23DZfx2tiM8sFJfbIsX1FGC66qaQ66MkGayNSkOpE78
+         e8Rgo24zc7CjD6l1OjBElg1+m85sN1nBWa3l1dNRqFidKuNmwN23fHdcm3j2MbTuuSZc
+         HdDjHlFkj9yqWf0q4clJquuFWk0/bKWzt6XioPiWFVoc3ZcpX+BCRhoKi7ddfyyLvfxY
+         0uZwqE1u3XLCmJrZJqwhXMeNepau7eVNEkP31jc7+AGPBXb8MwakHHjEQp4uc11ltioG
+         pVLQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUnhz99USGLkWrEVpg/vMTDIXVBOl1OPSUTkLg1MppcFo/2mbky0etbTSJMHOaEndN3SwC35vQnOtdjzY61@lists.linux.dev
+X-Gm-Message-State: AOJu0YxUQC6Chj8SyYIvGOJtwxnUpB/TBBzeeDv58/71aqFS5T1D+6i4
+	j5BMGJuQiWeCD/T3+LIoXkcYWSxpH0WAF1bKjv84vmbVjMMqSkIK+b6+mcl4WFDlq+0=
+X-Gm-Gg: ASbGncud33abNn5QZoU3Qj14JAePMMyM+CKkqPoIUcnA+Pii+gAH/uOJa4JYMBpjTtN
+	zmrwoK7bHLXngub++yQzW4olzUx0pAluIxxAngzASHTPbH/Q9LEPy0V+yaJocDFM259UlJhilYL
+	NedhUeooZh95+yL/YVxSzh9Rg12aXf42CdTRrOcpiYLAUaW3WYfNOgJQHclFiFyaQVvuO1yurRj
+	hTCgp86rW9TgEr/Z17tKTNGa1kwV/YrRJsvfW/EeIPRDYzw/VwjQN2rIWuuD98Q84QTJP2TxJK7
+	ZvIM8xxV5yw37o5F2RAnatPq/JxG8eO3J9bAmvRnHEpCwPVa3xnHbtdLaoR1YyL3iyVWebjsnwE
+	hgU1Az5KdXo2V7b8ynP+Zn+4F34CmgIxTD62M5dRqDfYYYWmKDG7oaauEbBWZ8oDYKACVCMtDw0
+	WLSy7zcYF/r1NEaBo8
+X-Google-Smtp-Source: AGHT+IHoS+vHw7OgDV+LQl+ocDc+Q/1FYrfvu0OJINzDaReQZs2FHdj/Wq2gkWPzQem6oxrdv15fjw==
+X-Received: by 2002:a05:600c:354c:b0:477:a977:b8c2 with SMTP id 5b1f17b1804b1-47904ae7322mr91438835e9.13.1764223101558;
+        Wed, 26 Nov 2025 21:58:21 -0800 (PST)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-4791116c0acsm13099835e9.7.2025.11.26.21.58.19
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 26 Nov 2025 14:09:17 -0800 (PST)
-From: Navaneeth K <knavaneeth786@gmail.com>
-To: parthiban.veerasooran@microchip.com,
-	christian.gromm@microchip.com,
-	gregkh@linuxfoundation.org
-Cc: linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	abdun.nihaal@gmail.com,
-	Navaneeth K <knavaneeth786@gmail.com>
-Subject: [PATCH v3] most: core: fix resource leak in most_register_interface error paths
-Date: Wed, 26 Nov 2025 22:08:56 +0000
-Message-ID: <20251126220856.3918-1-knavaneeth786@gmail.com>
-X-Mailer: git-send-email 2.43.0
+        Wed, 26 Nov 2025 21:58:20 -0800 (PST)
+Date: Thu, 27 Nov 2025 08:58:16 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Tomasz Sadowski <tsdwski@gmail.com>
+Cc: Dave Penkler <dpenkler@gmail.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] staging: fluke_gpib: use kzalloc instead of kmalloc +
+ memset
+Message-ID: <aSfoeE0y_L0QHXw7@stanley.mountain>
+References: <20251126204838.17767-1-tsdwski@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251126204838.17767-1-tsdwski@gmail.com>
 
-The function most_register_interface() did not correctly release resources
-if it failed early (before device_register). In these cases, it returned
-an error code immediately, leaking the memory allocated for the interface.
+On Wed, Nov 26, 2025 at 09:45:49PM +0100, Tomasz Sadowski wrote:
+> v2:
+>  - Add proper commit description
+>  - No changes in patch
+> 
 
-Fix this by initializing the device early via device_initialize() and
-calling put_device() on all error paths. This ensures the release
-callback is triggered to free memory.
+This stuff needs to go under the --- cut off line.
 
-Switch to using device_add() instead of device_register() to handle
-the split initialization.
+> Use kzalloc() instead of kmalloc() + memset() to simplify memory allocation.
+> 
+> Also use sizeof(*board->private_data) instead of repeating the struct name.
+> This avoids duplication and keeps the code correct if the struct name
+> changes in the future.
+> 
+> Signed-off-by: Tomasz Sadowski <tsdwski@gmail.com>
+> ---
+  ^^^
 
-Acked-by: Abdun Nihaal <abdun.nihaal@gmail.com>
-Signed-off-by: Navaneeth K <knavaneeth786@gmail.com>
----
-Changes in v3:
- - Dropped the USB cleanup patch as it was already applied upstream.
- - Added Reported-by and Acked-by tags.
+Here.
 
- drivers/most/core.c | 9 +++++++--
- 1 file changed, 7 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/most/core.c b/drivers/most/core.c
-index da319d108ea1d..8635fd08035e9 100644
---- a/drivers/most/core.c
-+++ b/drivers/most/core.c
-@@ -1283,18 +1283,23 @@ int most_register_interface(struct most_interface *iface)
- 	struct most_channel *c;
- 
- 	if (!iface || !iface->enqueue || !iface->configure ||
--	    !iface->poison_channel || (iface->num_channels > MAX_CHANNELS))
-+	    !iface->poison_channel || (iface->num_channels > MAX_CHANNELS) ||
-+	    !iface->dev)
- 		return -EINVAL;
- 
-+	device_initialize(iface->dev);
-+
- 	id = ida_alloc(&mdev_id, GFP_KERNEL);
- 	if (id < 0) {
- 		dev_err(iface->dev, "Failed to allocate device ID\n");
-+		put_device(iface->dev);
- 		return id;
- 	}
- 
- 	iface->p = kzalloc(sizeof(*iface->p), GFP_KERNEL);
- 	if (!iface->p) {
- 		ida_free(&mdev_id, id);
-+		put_device(iface->dev);
- 		return -ENOMEM;
- 	}
- 
-@@ -1304,7 +1309,7 @@ int most_register_interface(struct most_interface *iface)
- 	iface->dev->bus = &mostbus;
- 	iface->dev->groups = interface_attr_groups;
- 	dev_set_drvdata(iface->dev, iface);
--	if (device_register(iface->dev)) {
-+	if (device_add(iface->dev)) {
- 		dev_err(iface->dev, "Failed to register interface device\n");
- 		kfree(iface->p);
- 		put_device(iface->dev);
--- 
-2.43.0
+regards,
+dan carpenter
 
