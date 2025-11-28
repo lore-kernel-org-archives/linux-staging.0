@@ -1,64 +1,64 @@
-Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
+Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF1CB3093C1
-	for <linux-staging@lists.linux.dev>; Fri, 28 Nov 2025 16:06:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7018732E728
+	for <linux-staging@lists.linux.dev>; Fri, 28 Nov 2025 16:06:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764345972; cv=none; b=Radm4RiVvuBAfc3CSIoriBdnTyv3ZvxJNrtnAul2/7pyXuqVhh2/EmSzvNOgoXxY9PCUsdu5fRz+7lDa9rO6GU3O/BZTJFuSLPGsLYUEmF930DkWpFkESHpgUsVpOzYQV0dq/vb6cqOosc7OcPcSiE7Mnvbzm2es5diwtkZMSIc=
+	t=1764345977; cv=none; b=k+qPDvG7HedPrS4LAfb+WMopNYpv4xYnn1KNGXBuCupjX3cpgwinm59cpihnU3hSzM5f3CQraX27+RpaCmogHi6KDA7/4BQirZDJ9ctlpyn9td0/e1tmj+FtG9Hv03jmvFsfF37gXeKZLyetpUKca1Iy6AyfSzQdT7o4Wf36chw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764345972; c=relaxed/simple;
-	bh=kyxULOv2H236l1ucHIwcTRr5nnWT32c4Zye+wWGrJ6s=;
+	s=arc-20240116; t=1764345977; c=relaxed/simple;
+	bh=HhT6z2DVcZ8yTv/m6DHxcDKqHPAmK3H4JJhD4dhIVH0=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=OOLVjC5jvlyXezwPjfvORGDwTziUFhb+SrM/NFSue8/eFG8vbVULm+x1Yu2OZa2wdZXN7GEF850d1VpdyjAUWk370g0t9vidS+qqwzw+sbrpfz3xZdyhGAgvRu/7xkmh63DxWZ3yAEeS0b/LONBMxPbYirjOWObxqmxD4w6r26Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ArJ4n1E7; arc=none smtp.client-ip=209.85.210.180
+	 MIME-Version; b=dASrakCUWTIRUlMC3mHmZJjY1jpKkge0Tj+M5gR/kUObfy+QmihdX3wheTj9maKoakFRAUubzCgpa7QEdW1dbUrybkJ9ONN3SGtPf1lC5oZObjRgM+zg5XHE1qecdfTlFECCApYbyBlTLpCikcaE/+fS12ka9jG7SWH3u5+U2W4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MRab7+7L; arc=none smtp.client-ip=209.85.210.173
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ArJ4n1E7"
-Received: by mail-pf1-f180.google.com with SMTP id d2e1a72fcca58-7aab7623f42so2211985b3a.2
-        for <linux-staging@lists.linux.dev>; Fri, 28 Nov 2025 08:06:09 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MRab7+7L"
+Received: by mail-pf1-f173.google.com with SMTP id d2e1a72fcca58-7acd9a03ba9so2319853b3a.1
+        for <linux-staging@lists.linux.dev>; Fri, 28 Nov 2025 08:06:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1764345969; x=1764950769; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1764345975; x=1764950775; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=scjH6AQBXgOEyOguxVYTHq5LOFFjJgFpmI1fsS6Z7tY=;
-        b=ArJ4n1E7oUpjK6qAYwOBE1+LekJgI024bEMSa4xVF9s5QSg6t0Ced+pYR/daMsGT/I
-         NsqV76EX6SpphR+GRYSRya+aHoWrJETlxBG21SRQogW2gJqec4E2ET73l65St4zsaoF3
-         HO5B7RJjHirQI4myHotZYqp9ozFLXXmwPA7/ko1pNCafbQplnBR9b7trtbUCjwhKIl+t
-         k00qRLFV9OZK2JKYXyUol1WVxFxGAr6qBKpL7Rd5dARdWTdP4Qz8zsHWr4Re/RDnieDv
-         bZaWxN+LwapI2X/7q+wBOB8tBqoQ/fAwOlUpkTtLFJIDo95qnUDgOCfaC2nKVyybUsjQ
-         htcQ==
+        bh=2Ivwth3bvYn00MIlpqUjU3pfVj9NAWsfF7rOKTWPDVU=;
+        b=MRab7+7LH4XmBLPIisofA5mWlFSG2pLWknoPRagLt6QIIoVzCY32Zkcudl3DcFo+7w
+         wp6sgsQmzhxWhNQl5JfTifPYoyUQYpUgbmXM/irwBXkZipr+zNbqdF3ALyw86IcOA0YM
+         qIZuT4k/Ukk2vJnyZiDnp1hBpEvmD7cM+a3HfPcH0aggIgHO4owcXNb9UJvIYE7D4si2
+         zbGdHhgtjJ4Yvvz6hsqlaoW8P7Aio8C9+uNaKVNrNOa2AFEeHpxrFnvZ07N6HkPehBRX
+         kTDRHwxQNJL65Y3N5+72TSlhgWzKM/mxGx2U00czbe+BP6i5w1W8Kfbem0Ut1vSogGFd
+         7zAw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764345969; x=1764950769;
+        d=1e100.net; s=20230601; t=1764345975; x=1764950775;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=scjH6AQBXgOEyOguxVYTHq5LOFFjJgFpmI1fsS6Z7tY=;
-        b=JkxdW0wvRq4KsIeRVwMAP4wlEnKy+i+vb5Aw90yUcCUtOJnPRQTSKkbcDuIGPUejPX
-         ag5RexlB3cZsHHY2TnbWXLBesGN7SLG1asA1oRz0Qy9wrW31RP3FCDk50Fdf2rZlccnL
-         4/E4H2/VEJ3Zy5ILe8LVcvi8a3Yhvgi7aCxr2iAcMolJpQZ+Wis5wqzrVHZuPwUz/rWT
-         Atk81seDL4vSz00axJBXaeg6TPc7KO3cxcmB9scqI3d0V8XB5LOVsWecbfDn8URy46WH
-         6INVUh6Cwki3zcUikRageKE/kj9d1gndFx0pT960MgPSJd7r4e2FTownxub5Vnjlz6+t
-         SPvg==
-X-Forwarded-Encrypted: i=1; AJvYcCUX6c1jBfK4/+2KyWbL71y4fA7GtV49xarUHMAEWnzfcEfx0j7yKk1+s12EMp7ADHfeRrRq2k0fC5ree9Iz@lists.linux.dev
-X-Gm-Message-State: AOJu0YyWq0VwSQAWvClQhqDBr0J+AgPDG97wQh47papmsoPUMyrldWl5
-	RIPfEXK6/IIGyGJRAfU7gMqW/LOrFbUxh45pSCkV56NRK1xMdR1M+7/h
-X-Gm-Gg: ASbGncua02jqyPpA864i/K5GkQLR2B+1Qq1mnqQkJoy3vPPABmrNyIK5I4MBW94NjV6
-	536vSpQQ/nsA065b0mP+aGsJaoWi2HhR1hQZHoMHzZRt4PYw6o/64PFO4PSbJK0IY0Vw4HufxQd
-	Qkan2ko3GmJhjo9rjRnQLaqE5MdGiwFaU47xpz5lI/uKA9SAZT2Nl3ZHCx+LsNu17BBiJuK2tNh
-	iItWaIOt/Rsh2Jz0SVAApt0CmSYnDPF/njcH2qr4pTOwoDdSQmBfSGQtzyhiqCEyTIhc6WBCcKk
-	HGdwzDAd0axPaAcuNBOfMYICbOPetEXg3dfdoV/UtgFZApu8rm/+knOuowBZ7qKj4aIfJ+58nvi
-	5/P7Blt/T4XpQ0UPCPvqaNCBJ+Iwc5ATly2dxOYmbz6Fr1SExh+z2akkz8EuY/GgRuXRis7wP5x
-	lf8u12c0DoBzXRrnx/v8qrEyu/Hb4zsD6ndeJX5w==
-X-Google-Smtp-Source: AGHT+IHAtGLDzEpjYjWhaB+rR7Dys+EF0UdlOe5GiYObNTvZAonn+cDCVIEt6kBF0Ch2hk5wj+FaCw==
-X-Received: by 2002:a05:6a00:b91:b0:7ab:5d1b:2d18 with SMTP id d2e1a72fcca58-7c58e6047eamr29577558b3a.26.1764345968898;
-        Fri, 28 Nov 2025 08:06:08 -0800 (PST)
+        bh=2Ivwth3bvYn00MIlpqUjU3pfVj9NAWsfF7rOKTWPDVU=;
+        b=WIvqOITZkgOxqo3TfSRunElcMqHfgxedSGvKPOwuUX2b+qfT4QZZruNQhkaOL7MxXP
+         yK2U58xrAkILp6dx+nnI7GTGRWgrMawssd3iPQqzJ/cORcaZ7XUkCQsoMN4kuqESAEY/
+         +2YkR5SBuD7vQzc7e5EAUxQI9MH8WLJwOCp7AOvScDB2hC8ZRxJFVNUJcT77iPxDS7ug
+         /lQ9nd5GyPyIIVE9nobUwnfNL2/8hQlHC23lKM0dD55W+tx07j8Gb2WYvmlWiStlc/+Y
+         vLdBn1rHfNtIv63nofHmINFSzQ9g/xgK8basAhcCYcMTTDWPfsUTt1rMM5C7KHN6DSeR
+         fGRw==
+X-Forwarded-Encrypted: i=1; AJvYcCW27yXTODrW9ruMdIYRG+zWGb9arTyS9I35XfoQhYbZDFwvwHMRtEUmWsGvxa/RIf6YmTNMJx5w8KmKFWtN@lists.linux.dev
+X-Gm-Message-State: AOJu0YztnjOp97FDGWY9i+MIIVS9282d9Zk5IB4v1aU7Td70c39/MMKA
+	OdlBDMQwxM9Rcoj4keHkjS3j2D31WYhFUYIvPOKq/eOFCR+Etno2QrnM
+X-Gm-Gg: ASbGncv2+wonimyQOzP83YAcVtaSoMiXr2ML1anTAQX4xNFX3VUykAi3oZwbhB/9DMq
+	1ookkGTtiToO4Ij/df+IbAUKSbCPTqDZgZhxAImPTURkcz0EdBhvtRSlvZUmWVV+v5hmJD7cZ3e
+	OUP7J8JTXeuegik0iZT28C9BQ57Col26X63BDlDDTsMb0A2fSf/pT8sCAzSC3wMQjTT6scAtU1Q
+	0g0I39qmN8c7uCSwuz5SQdx+0IZDQeA1qFeexLRPYOvHxRKYsBvQ6xGAnj+vgRlo+OhB9GT1rI8
+	AmWvNYrUTlXGOfb6PO5E/KiC4cvvQDFGyyt5TfvsnsCvClpO53nEcR+DjBBGojKbQ2X+H803QBi
+	1LDWxvrvHYZyJQnq3WkDVfzldyF2TuYV8v9bB4kvZIKOTXd6amKG3Bc/Kp2g+/TaYpihK0qI3Tw
+	i7oUMLqEah9212EpOlfchcl1Zf5ORWNIRPAAlc/Q==
+X-Google-Smtp-Source: AGHT+IFt9S/vPqjUM0mz+GQlgswc6/I0j11kLNLh5CdF1ZTntqzS++PULCgN0F0Q/MhhEDQPVXOPYQ==
+X-Received: by 2002:a05:6a00:3e29:b0:783:c2c4:9aa5 with SMTP id d2e1a72fcca58-7c58effc088mr29961873b3a.32.1764345974342;
+        Fri, 28 Nov 2025 08:06:14 -0800 (PST)
 Received: from name2965-Precision-7820-Tower.. ([121.185.186.233])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7d15f26f11fsm5408499b3a.50.2025.11.28.08.06.04
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7d15f26f11fsm5408499b3a.50.2025.11.28.08.06.09
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 28 Nov 2025 08:06:08 -0800 (PST)
+        Fri, 28 Nov 2025 08:06:13 -0800 (PST)
 From: Jeongjun Park <aha310510@gmail.com>
 To: stable@vger.kernel.org
 Cc: gregkh@linuxfoundation.org,
@@ -80,9 +80,9 @@ Cc: gregkh@linuxfoundation.org,
 	aha310510@gmail.com,
 	linux-staging@lists.linux.dev,
 	Jacob Keller <jacob.e.keller@intel.com>
-Subject: [PATCH 5.15.y 04/14] clocksource/drivers/sp804: Do not use timer namespace for timer_shutdown() function
-Date: Sat, 29 Nov 2025 01:05:29 +0900
-Message-Id: <20251128160539.358938-5-aha310510@gmail.com>
+Subject: [PATCH 5.15.y 05/14] timers: Get rid of del_singleshot_timer_sync()
+Date: Sat, 29 Nov 2025 01:05:30 +0900
+Message-Id: <20251128160539.358938-6-aha310510@gmail.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20251128160539.358938-1-aha310510@gmail.com>
 References: <20251128160539.358938-1-aha310510@gmail.com>
@@ -94,60 +94,126 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: "Steven Rostedt (Google)" <rostedt@goodmis.org>
+From: Thomas Gleixner <tglx@linutronix.de>
 
-[ Upstream commit 6e1fc2591f116dfb20b65cf27356475461d61bd8 ]
+[ Upstream commit 9a5a305686971f4be10c6d7251c8348d74b3e014 ]
 
-A new "shutdown" timer state is being added to the generic timer code. One
-of the functions to change the timer into the state is called
-"timer_shutdown()". This means that there can not be other functions
-called "timer_shutdown()" as the timer code owns the "timer_*" name space.
+del_singleshot_timer_sync() used to be an optimization for deleting timers
+which are not rearmed from the timer callback function.
 
-Rename timer_shutdown() to evt_timer_shutdown() to avoid this conflict.
+This optimization turned out to be broken and got mapped to
+del_timer_sync() about 17 years ago.
 
-Signed-off-by: Steven Rostedt (Google) <rostedt@goodmis.org>
+Get rid of the undocumented indirection and use del_timer_sync() directly.
+
+No functional change.
+
 Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
 Tested-by: Guenter Roeck <linux@roeck-us.net>
-Reviewed-by: Guenter Roeck <linux@roeck-us.net>
 Reviewed-by: Jacob Keller <jacob.e.keller@intel.com>
 Reviewed-by: Anna-Maria Behnsen <anna-maria@linutronix.de>
-Link: https://lkml.kernel.org/r/20221106212702.182883323@goodmis.org
-Link: https://lore.kernel.org/all/20221105060155.592778858@goodmis.org/
-Link: https://lore.kernel.org/r/20221110064147.158230501@goodmis.org
-Link: https://lore.kernel.org/r/20221123201624.634354813@linutronix.de
+Link: https://lore.kernel.org/r/20221123201624.706987932@linutronix.de
 Signed-off-by: Jeongjun Park <aha310510@gmail.com>
 ---
- drivers/clocksource/timer-sp804.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ drivers/char/tpm/tpm-dev-common.c     | 4 ++--
+ drivers/staging/wlan-ng/hfa384x_usb.c | 4 ++--
+ drivers/staging/wlan-ng/prism2usb.c   | 6 +++---
+ include/linux/timer.h                 | 2 --
+ kernel/time/timer.c                   | 2 +-
+ net/sunrpc/xprt.c                     | 2 +-
+ 6 files changed, 9 insertions(+), 11 deletions(-)
 
-diff --git a/drivers/clocksource/timer-sp804.c b/drivers/clocksource/timer-sp804.c
-index e6a87f4af2b5..cd1916c05325 100644
---- a/drivers/clocksource/timer-sp804.c
-+++ b/drivers/clocksource/timer-sp804.c
-@@ -155,14 +155,14 @@ static irqreturn_t sp804_timer_interrupt(int irq, void *dev_id)
- 	return IRQ_HANDLED;
- }
- 
--static inline void timer_shutdown(struct clock_event_device *evt)
-+static inline void evt_timer_shutdown(struct clock_event_device *evt)
+diff --git a/drivers/char/tpm/tpm-dev-common.c b/drivers/char/tpm/tpm-dev-common.c
+index 56e56a09cc90..c3fbbf4d3db7 100644
+--- a/drivers/char/tpm/tpm-dev-common.c
++++ b/drivers/char/tpm/tpm-dev-common.c
+@@ -157,7 +157,7 @@ ssize_t tpm_common_read(struct file *file, char __user *buf,
+ out:
+ 	if (!priv->response_length) {
+ 		*off = 0;
+-		del_singleshot_timer_sync(&priv->user_read_timer);
++		del_timer_sync(&priv->user_read_timer);
+ 		flush_work(&priv->timeout_work);
+ 	}
+ 	mutex_unlock(&priv->buffer_mutex);
+@@ -264,7 +264,7 @@ __poll_t tpm_common_poll(struct file *file, poll_table *wait)
+ void tpm_common_release(struct file *file, struct file_priv *priv)
  {
- 	writel(0, common_clkevt->ctrl);
+ 	flush_work(&priv->async_work);
+-	del_singleshot_timer_sync(&priv->user_read_timer);
++	del_timer_sync(&priv->user_read_timer);
+ 	flush_work(&priv->timeout_work);
+ 	file->private_data = NULL;
+ 	priv->response_length = 0;
+diff --git a/drivers/staging/wlan-ng/hfa384x_usb.c b/drivers/staging/wlan-ng/hfa384x_usb.c
+index 0d869b5e309c..8687e0bf3315 100644
+--- a/drivers/staging/wlan-ng/hfa384x_usb.c
++++ b/drivers/staging/wlan-ng/hfa384x_usb.c
+@@ -1116,8 +1116,8 @@ static int hfa384x_usbctlx_complete_sync(struct hfa384x *hw,
+ 		if (ctlx == get_active_ctlx(hw)) {
+ 			spin_unlock_irqrestore(&hw->ctlxq.lock, flags);
+ 
+-			del_singleshot_timer_sync(&hw->reqtimer);
+-			del_singleshot_timer_sync(&hw->resptimer);
++			del_timer_sync(&hw->reqtimer);
++			del_timer_sync(&hw->resptimer);
+ 			hw->req_timer_done = 1;
+ 			hw->resp_timer_done = 1;
+ 			usb_kill_urb(&hw->ctlx_urb);
+diff --git a/drivers/staging/wlan-ng/prism2usb.c b/drivers/staging/wlan-ng/prism2usb.c
+index 4b08dc1da4f9..83fcb937a58e 100644
+--- a/drivers/staging/wlan-ng/prism2usb.c
++++ b/drivers/staging/wlan-ng/prism2usb.c
+@@ -171,9 +171,9 @@ static void prism2sta_disconnect_usb(struct usb_interface *interface)
+ 		 */
+ 		prism2sta_ifstate(wlandev, P80211ENUM_ifstate_disable);
+ 
+-		del_singleshot_timer_sync(&hw->throttle);
+-		del_singleshot_timer_sync(&hw->reqtimer);
+-		del_singleshot_timer_sync(&hw->resptimer);
++		del_timer_sync(&hw->throttle);
++		del_timer_sync(&hw->reqtimer);
++		del_timer_sync(&hw->resptimer);
+ 
+ 		/* Unlink all the URBs. This "removes the wheels"
+ 		 * from the entire CTLX handling mechanism.
+diff --git a/include/linux/timer.h b/include/linux/timer.h
+index e78521bce565..3c166b4f704d 100644
+--- a/include/linux/timer.h
++++ b/include/linux/timer.h
+@@ -198,8 +198,6 @@ static inline int del_timer_sync(struct timer_list *timer)
+ 	return timer_delete_sync(timer);
  }
  
- static int sp804_shutdown(struct clock_event_device *evt)
- {
--	timer_shutdown(evt);
-+	evt_timer_shutdown(evt);
- 	return 0;
+-#define del_singleshot_timer_sync(t) del_timer_sync(t)
+-
+ extern void init_timers(void);
+ struct hrtimer;
+ extern enum hrtimer_restart it_real_fn(struct hrtimer *);
+diff --git a/kernel/time/timer.c b/kernel/time/timer.c
+index d4ce3ebe2c8c..6cd908cfbad4 100644
+--- a/kernel/time/timer.c
++++ b/kernel/time/timer.c
+@@ -1912,7 +1912,7 @@ signed long __sched schedule_timeout(signed long timeout)
+ 	timer_setup_on_stack(&timer.timer, process_timeout, 0);
+ 	__mod_timer(&timer.timer, expire, MOD_TIMER_NOTPENDING);
+ 	schedule();
+-	del_singleshot_timer_sync(&timer.timer);
++	del_timer_sync(&timer.timer);
+ 
+ 	/* Remove the timer from the object tracker */
+ 	destroy_timer_on_stack(&timer.timer);
+diff --git a/net/sunrpc/xprt.c b/net/sunrpc/xprt.c
+index 2db834318d14..2bccb5a90934 100644
+--- a/net/sunrpc/xprt.c
++++ b/net/sunrpc/xprt.c
+@@ -1160,7 +1160,7 @@ xprt_request_enqueue_receive(struct rpc_task *task)
+ 	spin_unlock(&xprt->queue_lock);
+ 
+ 	/* Turn off autodisconnect */
+-	del_singleshot_timer_sync(&xprt->timer);
++	del_timer_sync(&xprt->timer);
  }
  
-@@ -171,7 +171,7 @@ static int sp804_set_periodic(struct clock_event_device *evt)
- 	unsigned long ctrl = TIMER_CTRL_32BIT | TIMER_CTRL_IE |
- 			     TIMER_CTRL_PERIODIC | TIMER_CTRL_ENABLE;
- 
--	timer_shutdown(evt);
-+	evt_timer_shutdown(evt);
- 	writel(common_clkevt->reload, common_clkevt->load);
- 	writel(ctrl, common_clkevt->ctrl);
- 	return 0;
+ /**
 --
