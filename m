@@ -1,108 +1,277 @@
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D7282DEA87
-	for <linux-staging@lists.linux.dev>; Thu, 27 Nov 2025 17:06:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4808B242D62
+	for <linux-staging@lists.linux.dev>; Fri, 28 Nov 2025 08:30:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764263192; cv=none; b=qr0PbELVK3PvJ9g8m85yxbYHE4wt6f1MJEICoIPAv4/7R+jBOzVzZThMFxlJH1gSkJWtOPhZ3hG3rY7k95sOlF/Io7lf+cVPE7yxhB+fU05zbHICOcMxiGJoskZDrJU+Lvk9WjGMnTtz+2ckEJ6+t6vG9rS+pcfpVpb+bttmbmg=
+	t=1764318654; cv=none; b=ChroBnN9Zds0jEkBM3McUWoIabQRv17lIJu4Pm8yxT03vNXM9FxnvmNgpHSKAqy8De8FSJx7kFvynmUk25/L53uzOJ9RVLb4enMhaectgFlxchTlD25Hp4bUpNSHC9o5r4OReZZT9WoGdeMW3ofLsCykfZg16k7aMdzzDZEh3Tw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764263192; c=relaxed/simple;
-	bh=BAsPRTaHtCi5CeiW4Of9jHSn6/wypn/eJxc1JvhJ/tI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SrZLEoi7AxI6gKRZIbcPygwONzg/umxhUAY47h9A4HfDdMeLemKNOQgeXraYTIYKf5i34cfDoQAeV4dyu7LHI9RKKecNN8N+BdIXQAAezzFIvEhjD1B7fDmeCI+sS+aH4YRUXbIjHn8NVnkmijifEztfpnW6nHLFrREDkJ9bAO8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Dn+VvAkY; arc=none smtp.client-ip=209.85.221.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1764318654; c=relaxed/simple;
+	bh=AbkoDDN0W/JiQS8hA+ptDyzWCQKScMwbcbKNepk8s2c=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=JAWQg9XXfyqRVB3Y10R6Iwv/yq2wBrkDzrPVoidUy+WNoUQ811c0kNOZLG+N3G0bkbBEBU+yPrV6p7FbithhCUFjJqPC4Nr33djN4+Yk8B0Stpeqxo9cMy/UfyRt872JqgnQljKCnmK0ju5DbhmiGOxD2fvK1NvPXKwSacc+cTQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YDQRvx0j; arc=none smtp.client-ip=209.85.214.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Dn+VvAkY"
-Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-42b2e9ac45aso713202f8f.0
-        for <linux-staging@lists.linux.dev>; Thu, 27 Nov 2025 09:06:29 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YDQRvx0j"
+Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-297d4a56f97so23369495ad.1
+        for <linux-staging@lists.linux.dev>; Fri, 28 Nov 2025 00:30:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1764263187; x=1764867987; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=+OE5oMTnGnlJbhPFxwrvT5xdAfGsP+uSOcGdK+1GC8Q=;
-        b=Dn+VvAkY8GlLqflXoulc0wXrozX0w5RlHGtzoXXvSntZeIEls1HyfjsTpXuXdUJCZV
-         7g+2I4AfXArUqfmskcSuftdJC0lhuAS8khr70oGAQp+JPLjXT6M1IJZFpu2JLGm7W9WX
-         rldnvwAXhdcnWXDAV3FYR6Ta8GjHAdChoYeYIt7MvGkf+S041s5Ifh4ww/wNHlnUrlZc
-         czEWV4tDMTlvRdAu4meCTSDguDcNW57cAOwOgaclCapvubqcBeE8MBpGTATN6xVGJs2J
-         ob0JJTupfzKvMcUwZV4e2S2rH2fm86sDOpi5gF10tEbHBZsvG8AzOa+lUfRMehy+s+r2
-         Rnlg==
+        d=gmail.com; s=20230601; t=1764318651; x=1764923451; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=pm0lJY5Txyb3872TKvaRS0DwsrM2S0ScpTVma2hDu9w=;
+        b=YDQRvx0j1j5KhJSTAydwr30I3Ay00b1PULEwd6LxL0UcvRmCtolvTBgt/2xrwR+OrZ
+         sGTMHrgT85kwU6DIuAuGylvTEI8z1vOv0luNCIwfi7FhOs4DP9KOmELs45VLMONbI/yb
+         OGgONf8EBztFKGK7c6sYqG549ItiXXgiq2jmaSXBoxhtMV5gfyz3ccgxTI3CTrQ7vK73
+         5GOdG1PDF177jszqrkFA5sj5yr3XazRcejiaFpnX4oZaWIFvpQdbwGlG05Kh2zv0Mw6H
+         fwhe0nuEj1lr57dmg16CIEc3f4YiuPoPuoSR5NUexcpaIgFNO2IXmRsBwIErJCIo0rbJ
+         w68g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764263188; x=1764867988;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=+OE5oMTnGnlJbhPFxwrvT5xdAfGsP+uSOcGdK+1GC8Q=;
-        b=qX3xf13DD6lzzoSyrnTySJtUWzKEb+PjcZ5OU/cf1svDXzpYRpVloNEkOKr7LIzjKz
-         uv1qT76WMTxloW1YBB8d8w65m1r/NgRhQzJpwq5tt3mHJ3ApxFPe48YKxj9TQqkk4VKU
-         IyIlKDlMJArLDw4hWbkpmAIVcnCdHBMwNReEogrAJ2AazbqPEg/n6zNKZxu9GSUBOL5x
-         /oTJtqDA2rScn6hVo+HLY9lI6Fj4L0BWn1ZTH+e9BSeLwoAkHGH1kK1K1BzG1pRk1R7i
-         h0DNKD7pExPSvyyLTSnRHHl2rp/5plVtOZroB21ndVXj2lwQmKirH0JqiyVsYf8GDr4f
-         uhLw==
-X-Forwarded-Encrypted: i=1; AJvYcCWHsPcCnVXJiM3K3Ll+RxqsVkIEBBc63lnk0TP/lSUlNmxe4do9WB3OD3iWtY8bjbI9gNgOljPY1+96kfqa@lists.linux.dev
-X-Gm-Message-State: AOJu0YypW1eJnRI66jK183JBgWqkeRBjCnBo8bNqKLo3meYCyDhCiS7y
-	qoDaht3scnEHN4xkPUuL5dcf6C+PkKBT5usEpcakgP/m+jmTM9ABf8Kro8nAm5y9/ys=
-X-Gm-Gg: ASbGncuRPgkNwNLfEGOu2M8Gtzhrgv9QfJSFh8qBd38MWFfJtfArB8SKgtid4wkK9Qe
-	g/BQc6OL6obOiieYv/FNcpqRlxm/aYt5kKnbB6TTStheCsc6pCFdrLWh/gtz3spm/5Af8lupO5G
-	D4ocxdZf4PEFiv0R6/SF0cqZG07mMU07g+QDXYHExfIn5nkewX57tsUlpRK7FJLSqKyaJI7ebV2
-	EMpseJ/dI5g50tLLeFanFdJO1G0ShpwVB0n08aNvgPJz81s0wmhhmfGA1/na0Dd8dEts82INAOA
-	PeALOZx55+QSsIsI/TL16D71hxzpl0OfVGrVW7EuqxUtYfY0NzPbS+4M6nhkxb0wHNr99TcBqYI
-	BAeDDmwogyzc6B6tI3sUUXYUr92mZhXt5GcqjxpWWqcXwicfgh5PRtJExUTZXAsEjEk0laXA23i
-	odukTMtZ0bS3kK/16G
-X-Google-Smtp-Source: AGHT+IElmqwSXM2LD9Zj38iqiRpoNd0Jrn+lBJsy+HnDDx3pWEVsxIwu4rWoR33t2nCilhZqEUdiCA==
-X-Received: by 2002:a5d:588b:0:b0:429:c2fb:c268 with SMTP id ffacd0b85a97d-42e0f35bba3mr13000529f8f.56.1764263187474;
-        Thu, 27 Nov 2025 09:06:27 -0800 (PST)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-42e1ca40945sm4681712f8f.30.2025.11.27.09.06.26
+        d=1e100.net; s=20230601; t=1764318651; x=1764923451;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=pm0lJY5Txyb3872TKvaRS0DwsrM2S0ScpTVma2hDu9w=;
+        b=Lx9jSRYx5Z6qvOJIkZmCTBP2E6aR+nph8xpzkibf67etdNARjhRtqsT3FFT6fIq5Vz
+         ve6b9F5Jc8HRilxS2+ZE7zXeNX794I4HNWl5Se2tTi4krtj8ioPykpSp+f2qeGjR/+qP
+         VY93OX1op0O6tDblj/lBRpCxHvEcCBRIhbOi/jSG+TyfQAYUxbFp/1XK4TgY1WFwKwgw
+         IYXaH8d2UB0iTzuk6nY7kMMTaPmO09zoX6zSGbRYNhvCkdBWbnmbUhEhcN86vAH3KEBi
+         pbvrMRvO+8rmx0em04JY5G53fMDb8Fj8vrHeusIjKS1BrGICPz4zYjaalGWSiRlEMZO1
+         iM0g==
+X-Forwarded-Encrypted: i=1; AJvYcCUxjsjUiaZt61dnQN4zJkPjvz/OMvwgKA5q9GO2ElYC9KpELt+VFCcDMWwcOdWWi2gY/nHCQgqiWPPgMvF+@lists.linux.dev
+X-Gm-Message-State: AOJu0YwKdNepiUZ4Es6B0Ts62BlyPo9/R8xPa5G9nBbBSn6Qos8XAEV0
+	2g6hw2gnvj6uovKVA8cW+ezmZoB2CrFGonP0Y7EY3FKTpj+B9x29o3Sk
+X-Gm-Gg: ASbGncuwTouhWgBgv//HaIgHD9kq/zcLjXVebluHnDF3nGU1xsEic13tlXIdTBQ+O//
+	LC4TLF5Sxf7WWaBjw90wNitDTjMRi6HMtGgndiUCrKNY9Skn/09Qy45as1VREXkStuKNxItdaRo
+	3OfBvE5I6nfs4W8xn8m4xX1Hf5bh4LiTli4ZSmYAqYIPN79YvBSMnLLlQEakvU6xNVtTfIz7/ou
+	VNrpEuC0A7mLOQ6MgLNaCnO+GcV1XV7fk2PtCv9KU8gWgyP97IioYpBhjPj3GYiQICpUn+bgWIV
+	aVNDZPbZLd+QBajv8EIZYUZsgs2CnSwGCPYyIZblcBGtA20Dr+BCeDDnihSY9XirdZSFmCzYDCo
+	RWFuIY1tSGrFkV3CQ1u6wy2OialwdUjbjXsldBZB6VrFkmAD/OzZ41vq0Ad4XqXSYW7BHQuZo7H
+	svQfvMsnYjVMWufS7ivuW9YYqyrSLJ3/oJaVhVR1pJG8nB7WIeWXntswcXbLlmUgJSwAihZv/50
+	rfNASzrkVer2g9Q3sWpL6rv2rex+RI=
+X-Google-Smtp-Source: AGHT+IEYfdUjm8OFsm6QMOxGiI2iufk2HiAKoSfcIVImlRyINFUlzAe+ksKmPx/FKAbSEtdnuoabfA==
+X-Received: by 2002:a17:902:ebd2:b0:295:57f6:768 with SMTP id d9443c01a7336-29b6c575687mr276905675ad.33.1764318651335;
+        Fri, 28 Nov 2025 00:30:51 -0800 (PST)
+Received: from main.. (c-76-146-85-33.hsd1.wa.comcast.net. [76.146.85.33])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-29bceb277f9sm37587215ad.46.2025.11.28.00.30.50
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 27 Nov 2025 09:06:26 -0800 (PST)
-Date: Thu, 27 Nov 2025 20:06:22 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Navaneeth K <knavaneeth786@gmail.com>
-Cc: parthiban.veerasooran@microchip.com, christian.gromm@microchip.com,
-	gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org, abdun.nihaal@gmail.com
-Subject: Re: [PATCH v4] most: core: fix resource leak in
- most_register_interface error paths
-Message-ID: <aSiFDhzvuHDyBfJ_@stanley.mountain>
-References: <20251127165337.19172-1-knavaneeth786@gmail.com>
+        Fri, 28 Nov 2025 00:30:50 -0800 (PST)
+From: Artur Stupa <arthur.stupa@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	Artur Stupa <arthur.stupa@gmail.com>
+Subject: [PATCH] staging: vme_user: name function parameters
+Date: Fri, 28 Nov 2025 00:29:20 -0800
+Message-ID: <20251128083018.51315-1-arthur.stupa@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251127165337.19172-1-knavaneeth786@gmail.com>
+Content-Transfer-Encoding: 8bit
 
-On Thu, Nov 27, 2025 at 04:53:37PM +0000, Navaneeth K wrote:
-> The function most_register_interface() did not correctly release resources
-> if it failed early (before registering the device). In these cases, it
-> returned an error code immediately, leaking the memory allocated for the
-> interface.
-> 
-> Fix this by initializing the device early via device_initialize() and
-> calling put_device() on all error paths.
-> 
-> The most_register_interface() is expected to call put_device() on
-> error which frees the resources allocated in the caller. The
-> put_device() either calls release_mdev() or dim2_release(),
-> depending on the caller.
-> 
-> Switch to using device_add() instead of device_register() to handle
-> the split initialization.
-> 
-> Acked-by: Abdun Nihaal <abdun.nihaal@gmail.com>
-> Signed-off-by: Navaneeth K <knavaneeth786@gmail.com>
-> ---
+Fix the following checkpatch warning for all unnamed arguments:
+WARNING: function definition argument should also have an identifier name
 
-Thanks!
+No functional changes.
 
-Reviewed-by: Dan Carpenter <dan.carpenter@linaro.org>
+Signed-off-by: Artur Stupa <arthur.stupa@gmail.com>
+---
+ drivers/staging/vme_user/vme.c        |   2 +-
+ drivers/staging/vme_user/vme.h        | 109 +++++++++++++-------------
+ drivers/staging/vme_user/vme_bridge.h |  10 +--
+ drivers/staging/vme_user/vme_user.c   |   2 +-
+ 4 files changed, 62 insertions(+), 61 deletions(-)
 
-regards,
-dan carpenter
+diff --git a/drivers/staging/vme_user/vme.c b/drivers/staging/vme_user/vme.c
+index 2095de72596a..1d169f276bcf 100644
+--- a/drivers/staging/vme_user/vme.c
++++ b/drivers/staging/vme_user/vme.c
+@@ -1288,7 +1288,7 @@ EXPORT_SYMBOL(vme_irq_handler);
+  *         already in use. Hardware specific errors also possible.
+  */
+ int vme_irq_request(struct vme_dev *vdev, int level, int statid,
+-		    void (*callback)(int, int, void *),
++		    void (*callback)(int level, int statid, void *priv_data),
+ 		    void *priv_data)
+ {
+ 	struct vme_bridge *bridge;
+diff --git a/drivers/staging/vme_user/vme.h b/drivers/staging/vme_user/vme.h
+index 7753e736f9fd..797e9940fdd1 100644
+--- a/drivers/staging/vme_user/vme.h
++++ b/drivers/staging/vme_user/vme.h
+@@ -121,69 +121,70 @@ struct vme_dev {
+  */
+ struct vme_driver {
+ 	const char *name;
+-	int (*match)(struct vme_dev *);
+-	int (*probe)(struct vme_dev *);
+-	void (*remove)(struct vme_dev *);
++	int (*match)(struct vme_dev *vdev);
++	int (*probe)(struct vme_dev *vdev);
++	void (*remove)(struct vme_dev *vdev);
+ 	struct device_driver driver;
+ 	struct list_head devices;
+ };
+ 
+-void *vme_alloc_consistent(struct vme_resource *, size_t, dma_addr_t *);
+-void vme_free_consistent(struct vme_resource *, size_t,  void *, dma_addr_t);
++void *vme_alloc_consistent(struct vme_resource *resource, size_t size, dma_addr_t *dma);
++void vme_free_consistent(struct vme_resource *resource, size_t size, void *vaddr, dma_addr_t dma);
+ 
+-size_t vme_get_size(struct vme_resource *);
++size_t vme_get_size(struct vme_resource *resource);
+ int vme_check_window(struct vme_bridge *bridge, u32 aspace,
+ 		     unsigned long long vme_base, unsigned long long size);
+ 
+-struct vme_resource *vme_slave_request(struct vme_dev *, u32, u32);
+-int vme_slave_set(struct vme_resource *, int, unsigned long long,
+-		  unsigned long long, dma_addr_t, u32, u32);
+-int vme_slave_get(struct vme_resource *, int *, unsigned long long *,
+-		  unsigned long long *, dma_addr_t *, u32 *, u32 *);
+-void vme_slave_free(struct vme_resource *);
+-
+-struct vme_resource *vme_master_request(struct vme_dev *, u32, u32, u32);
+-int vme_master_set(struct vme_resource *, int, unsigned long long,
+-		   unsigned long long, u32, u32, u32);
+-int vme_master_get(struct vme_resource *, int *, unsigned long long *,
+-		   unsigned long long *, u32 *, u32 *, u32 *);
+-ssize_t vme_master_read(struct vme_resource *, void *, size_t, loff_t);
+-ssize_t vme_master_write(struct vme_resource *, void *, size_t, loff_t);
+-unsigned int vme_master_rmw(struct vme_resource *, unsigned int, unsigned int,
+-			    unsigned int, loff_t);
++struct vme_resource *vme_slave_request(struct vme_dev *vdev, u32 address, u32 cycle);
++int vme_slave_set(struct vme_resource *resource, int enabled, unsigned long long vme_base,
++		  unsigned long long size, dma_addr_t buf_base, u32 aspace, u32 cycle);
++int vme_slave_get(struct vme_resource *resource, int *enabled, unsigned long long *vme_base,
++		  unsigned long long *size, dma_addr_t *buf_base, u32 *aspace, u32 *cycle);
++void vme_slave_free(struct vme_resource *resource);
++
++struct vme_resource *vme_master_request(struct vme_dev *vdev, u32 address, u32 cycle, u32 dwidth);
++int vme_master_set(struct vme_resource *resource, int enabled, unsigned long long vme_base,
++		   unsigned long long size, u32 aspace, u32 cycle, u32 dwidth);
++int vme_master_get(struct vme_resource *resource, int *enabled, unsigned long long *vme_base,
++		   unsigned long long *size, u32 *aspace, u32 *cycle, u32 *dwidth);
++ssize_t vme_master_read(struct vme_resource *resource, void *buf, size_t count, loff_t offset);
++ssize_t vme_master_write(struct vme_resource *resource, void *buf, size_t count, loff_t offset);
++unsigned int vme_master_rmw(struct vme_resource *resource, unsigned int mask, unsigned int compare,
++			    unsigned int swap, loff_t offset);
+ int vme_master_mmap(struct vme_resource *resource, struct vm_area_struct *vma);
+-void vme_master_free(struct vme_resource *);
+-
+-struct vme_resource *vme_dma_request(struct vme_dev *, u32);
+-struct vme_dma_list *vme_new_dma_list(struct vme_resource *);
+-struct vme_dma_attr *vme_dma_pattern_attribute(u32, u32);
+-struct vme_dma_attr *vme_dma_pci_attribute(dma_addr_t);
+-struct vme_dma_attr *vme_dma_vme_attribute(unsigned long long, u32, u32, u32);
+-void vme_dma_free_attribute(struct vme_dma_attr *);
+-int vme_dma_list_add(struct vme_dma_list *, struct vme_dma_attr *,
+-		     struct vme_dma_attr *, size_t);
+-int vme_dma_list_exec(struct vme_dma_list *);
+-int vme_dma_list_free(struct vme_dma_list *);
+-int vme_dma_free(struct vme_resource *);
+-
+-int vme_irq_request(struct vme_dev *, int, int,
+-		    void (*callback)(int, int, void *), void *);
+-void vme_irq_free(struct vme_dev *, int, int);
+-int vme_irq_generate(struct vme_dev *, int, int);
+-
+-struct vme_resource *vme_lm_request(struct vme_dev *);
+-int vme_lm_count(struct vme_resource *);
+-int vme_lm_set(struct vme_resource *, unsigned long long, u32, u32);
+-int vme_lm_get(struct vme_resource *, unsigned long long *, u32 *, u32 *);
+-int vme_lm_attach(struct vme_resource *, int, void (*callback)(void *), void *);
+-int vme_lm_detach(struct vme_resource *, int);
+-void vme_lm_free(struct vme_resource *);
+-
+-int vme_slot_num(struct vme_dev *);
+-int vme_bus_num(struct vme_dev *);
+-
+-int vme_register_driver(struct vme_driver *, unsigned int);
+-void vme_unregister_driver(struct vme_driver *);
++void vme_master_free(struct vme_resource *resource);
++
++struct vme_resource *vme_dma_request(struct vme_dev *vdev, u32 route);
++struct vme_dma_list *vme_new_dma_list(struct vme_resource *resource);
++struct vme_dma_attr *vme_dma_pattern_attribute(u32 pattern, u32 type);
++struct vme_dma_attr *vme_dma_pci_attribute(dma_addr_t address);
++struct vme_dma_attr *vme_dma_vme_attribute(unsigned long long address,
++					   u32 aspace, u32 cycle, u32 dwidth);
++void vme_dma_free_attribute(struct vme_dma_attr *attributes);
++int vme_dma_list_add(struct vme_dma_list *list, struct vme_dma_attr *src,
++		     struct vme_dma_attr *dest, size_t count);
++int vme_dma_list_exec(struct vme_dma_list *list);
++int vme_dma_list_free(struct vme_dma_list *list);
++int vme_dma_free(struct vme_resource *resource);
++
++int vme_irq_request(struct vme_dev *vdev, int level, int statid,
++		    void (*callback)(int level, int statid, void *priv_data), void *priv_data);
++void vme_irq_free(struct vme_dev *vdev, int level, int statid);
++int vme_irq_generate(struct vme_dev *vdev, int level, int statid);
++
++struct vme_resource *vme_lm_request(struct vme_dev *vdev);
++int vme_lm_count(struct vme_resource *resource);
++int vme_lm_set(struct vme_resource *resource, unsigned long long lm_base, u32 aspace, u32 cycle);
++int vme_lm_get(struct vme_resource *resource, unsigned long long *lm_base, u32 *aspace, u32 *cycle);
++int vme_lm_attach(struct vme_resource *resource, int monitor, void (*callback)(void *), void *data);
++int vme_lm_detach(struct vme_resource *resource, int monitor);
++void vme_lm_free(struct vme_resource *resource);
++
++int vme_slot_num(struct vme_dev *vdev);
++int vme_bus_num(struct vme_dev *vdev);
++
++int vme_register_driver(struct vme_driver *drv, unsigned int ndevs);
++void vme_unregister_driver(struct vme_driver *drv);
+ 
+ #endif /* _VME_H_ */
+ 
+diff --git a/drivers/staging/vme_user/vme_bridge.h b/drivers/staging/vme_user/vme_bridge.h
+index abf880d68b12..92b0baa793d7 100644
+--- a/drivers/staging/vme_user/vme_bridge.h
++++ b/drivers/staging/vme_user/vme_bridge.h
+@@ -88,7 +88,7 @@ struct vme_error_handler {
+ };
+ 
+ struct vme_callback {
+-	void (*func)(int, int, void*);
++	void (*func)(int level, int statid, void *priv_data);
+ 	void *priv_data;
+ };
+ 
+@@ -178,11 +178,11 @@ struct vme_bridge {
+ };
+ 
+ void vme_bus_error_handler(struct vme_bridge *bridge, unsigned long long address, int am);
+-void vme_irq_handler(struct vme_bridge *, int, int);
++void vme_irq_handler(struct vme_bridge *bridge, int level, int statid);
+ 
+-struct vme_bridge *vme_init_bridge(struct vme_bridge *);
+-int vme_register_bridge(struct vme_bridge *);
+-void vme_unregister_bridge(struct vme_bridge *);
++struct vme_bridge *vme_init_bridge(struct vme_bridge *bridge);
++int vme_register_bridge(struct vme_bridge *bridge);
++void vme_unregister_bridge(struct vme_bridge *bridge);
+ struct vme_error_handler *vme_register_error_handler(struct vme_bridge *bridge, u32 aspace,
+ 						     unsigned long long address, size_t len);
+ void vme_unregister_error_handler(struct vme_error_handler *handler);
+diff --git a/drivers/staging/vme_user/vme_user.c b/drivers/staging/vme_user/vme_user.c
+index 5829a4141561..2012cccd0d09 100644
+--- a/drivers/staging/vme_user/vme_user.c
++++ b/drivers/staging/vme_user/vme_user.c
+@@ -690,7 +690,7 @@ static int vme_user_probe(struct vme_dev *vdev)
+ 	return err;
+ }
+ 
+-static void vme_user_remove(struct vme_dev *dev)
++static void vme_user_remove(struct vme_dev *vdev)
+ {
+ 	int i;
+ 
+-- 
+2.43.0
 
