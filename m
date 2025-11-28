@@ -1,62 +1,64 @@
-Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
+Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3628921CC44
-	for <linux-staging@lists.linux.dev>; Fri, 28 Nov 2025 16:05:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 969E629D267
+	for <linux-staging@lists.linux.dev>; Fri, 28 Nov 2025 16:05:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764345949; cv=none; b=EZF6KHHA8cquT7y4vtBqF9oHN6WoGCXX2pB+eN3BKFzdOnxfspg4CCXxY1h/f6hjuMdhvv036TX52AyL2hCVqv9IBIiIRN28TUDEX33vglw6fnPvTuBrPv4GrjS1omM5ND3pBAiIIrsnFCYFyaR/rYIsldY0aQpKJmzBKInNQo8=
+	t=1764345955; cv=none; b=T6AI8Ti24NgjnDAZ89rBUi5d/Kgi4x6NAcssUxUb679d4NqqdmgEJhn2KsQEDtr6DLkm0Y9aT8ed9fSbAfpMPYucpah1pj5F8ip/cwfgvXkJWy4rwld3mx5Vj8eVlv+2ziF3/6W/wQel87BH12J85glzHXn9HaRKLz9a9sRRBBk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764345949; c=relaxed/simple;
-	bh=7R/V3fLA5ZUpQU7ZkDgrTUeowxcERJCp6oWcWnZd8YQ=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=g+LAoHq1sLnziqAvCIqAbVycuJyYqOHFrogRNA05FSlFSdYTOQpen5tJWDmsF6gkgA2jFKue3EktE56CBmHdbLfPgwbbMOfUG52MznouqgB5UbcpA3+f6Tt2/ygM3gdE0GSGRJi42Cskzs6c8TaA0BdRoKfNsb7Gl9Hsjh3npQ0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TYoMGSaG; arc=none smtp.client-ip=209.85.214.170
+	s=arc-20240116; t=1764345955; c=relaxed/simple;
+	bh=BfuWtJpHFnoUxb8s7xJBVcBtioNVHYkElOeeOAD1d8Y=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=nwKEAgP1N3SKeKg3PGIw893uuel/z+Y9aCo4k1DEOSXrUYdM0dwoIiwVUhvxvDr89Zy/kQ7Llg51IxULG/Cy7s1rSCMxRSVqOp/ytisqzi0aW9cjqW7yDbEkrIcqJXEXznhYUEnFyxMqMBdQZGvs4jMLUCyxPBMltqR5Unq4hQ0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OEjZN20x; arc=none smtp.client-ip=209.85.210.179
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TYoMGSaG"
-Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-298287a26c3so24002875ad.0
-        for <linux-staging@lists.linux.dev>; Fri, 28 Nov 2025 08:05:48 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OEjZN20x"
+Received: by mail-pf1-f179.google.com with SMTP id d2e1a72fcca58-7b89c1ce9easo2435945b3a.2
+        for <linux-staging@lists.linux.dev>; Fri, 28 Nov 2025 08:05:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1764345947; x=1764950747; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=jr0436cSAe7dIJCuJ52U9qMmv3xepyLVevZMH0j277U=;
-        b=TYoMGSaGQWuSfFyFpUsUZUH0moMrVf7xlO6wbgjeDLzb1lwHSxe7a13YA5nnJeDntL
-         3rKQ8btdAVTVcGRRjOE1mMWKhblm5iVjIx1IIYe6C0Jm3V4hQmuUBQ41kgc84/HfDbRi
-         3SUqTGgVlcYRdowzg7Vhg4iVpG56H0cgafDsUIb3pMXWORzfnDlkyHUq/cG0QIYn1PSJ
-         NxXzw//5GuotFq04wIXmuNCImIvW3oKZ1sDXa/hdl/MRicH0E0OdYDliopT9PIVYh6yA
-         PP6KYacjEHotWrRJ268lOezqAFIPGQVGeYxQvmd9QdHNqMFzuleomMmK58vLCL433fBz
-         onpA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764345947; x=1764950747;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1764345953; x=1764950753; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=jr0436cSAe7dIJCuJ52U9qMmv3xepyLVevZMH0j277U=;
-        b=GVkCc6f1sVpZvIvMffEV13kBJl86siaePOYHCTSGhQrrj+kb+7781uRT0zXv8WOyzp
-         vfCZmeZN4eFU9KPhWJ7fEB2yBi+DFTHIid++LQVuyG7X4g67cc3nskgtidKPUpsy3/V0
-         Knne1pcDCzfCcSVGFODawwqgEY/iGk/w3fU6cRwsEj3HeU2vsdMMKU2z+vncUNKODSM8
-         10oadWETdpmnw1TBPrEeYH29fIoNUTNCZYVdYvlmL9mOBDfFWocYmG9M9VNXUg7d7rrp
-         vnanGBcUzlYfM481qGSlYPKoUuZDx8FpGdsWU3A7fDi/B09zOioR3UCyA2Hsh6q484Al
-         rR8w==
-X-Forwarded-Encrypted: i=1; AJvYcCU8rQMqFn0zwSmiZvf659LV/lDY2ZTaN1Oh73Tt+2pfJ+i19pbwms/YYLUQBTOiQ5T+Dgyqj8M83LvI5JRN@lists.linux.dev
-X-Gm-Message-State: AOJu0YyK1ZjwMrhtJlZES7AF/lP70zJcf1HFsk7YE89NUlRKwOccKJ2n
-	kkVvOu0OgoQ6h/Tfu2SMnf+v85/SfVTeXHnQf54nMzK5xGAf8+87mj+k
-X-Gm-Gg: ASbGnctsji6pERDQN6fiH01z/JygfKEKL9N4EpLVk5r9Ac6kplOvuXjA7dI/WiGUdyr
-	19MEFHmeIrBstsbxO5+hz3eUMaEte/yOd1cN6jDJrJEOc5h31Qw7wbcMZmsq+mzkrL8q12044dC
-	1Qm/J/7QGBhRrCnkTCMgKO8UeKRAJ4cAAr5eXOXohLWLEJon52/Qj5UeLQSwb7MxKG0/dByZvd0
-	04wvW17rvfpct/sWnQy4HqdRObinc6afOpxEb11vkS0tucFw37l5nwLj1NteqddCtxK5FbzkLOi
-	FVu2UO179krIIVRUng5l6K43X1COehd0+IfU2/+o9uPsoa6BAmhx8lzHeqFKyF5zjeyZ+P/NyRe
-	tfWRW0/IzKr0r3Q5UAACX72Hf1Yil0I6cD6qoo+aEhaRJoqVqsJsx6IhCJkHMZ9LOWQE4cFAyDa
-	Na1d33Rj2aicwIJzp3UeTf3g6c66ctpqzQsv6PeQ==
-X-Google-Smtp-Source: AGHT+IEbRdUXnl5aQOE+Qq55lmPGygxKdzplNnm4FsxdZSNypxAVuwWstG2sn4JYjVv8VNlcsFkFkQ==
-X-Received: by 2002:a17:903:11c3:b0:297:e3f5:4a20 with SMTP id d9443c01a7336-29b6bee38ecmr348858315ad.26.1764345946851;
-        Fri, 28 Nov 2025 08:05:46 -0800 (PST)
+        bh=rGAsWoT0ij2AF8u7lzQ99aTp0zEqYgQwfONKoWXhuNs=;
+        b=OEjZN20xLVEb0W2ObdmOtwXQdofFpuoe+RJHT39sG6JOxjDSOFOzgHs5PAKYWq/jlO
+         7v7Te+I3NRpwGK0N8syA0mkooECvOrNzTAqd6deZe3IHM6vUexNN5xZ4mFB4/VfBSxmz
+         TbRoGxQT9xPVJ0yK7XzAxdRsM9ffJld3EanRwd5EEBwJsWs8raJIiMWPEUjSHOsc8ThR
+         8zDuG0JDyBEFW6Ipc0u/vorG1WBtQ6lnk9KhNKxIWfLGC8//VMMwhOSNS8RctnJdf7H9
+         VUo2e/1B66MT0t2b1/DjhscR5HEO4rk/iGLxf4+dtnm5fRT85QBPhV4xUZF11WFHP7bw
+         q4vQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1764345953; x=1764950753;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=rGAsWoT0ij2AF8u7lzQ99aTp0zEqYgQwfONKoWXhuNs=;
+        b=mLqhC6V6F7w1VgLnw95dm4tXHJ847T+KH8a8ujlQetBpgO/hyubz8vzp/9srloMelh
+         66dPFcC+ZZCk6E0VptIGbZDlCjrkkpT0HoPAdy0Y9gKYMnUZQN6le0LYIhCq7X3rRl0N
+         dyu4xs6LsLgYiNMc0yq9xfiCVTOswpjp3jmibtmF72mQN2fxo71QhZ6LYafBAhXWHn6P
+         FwUWwYYctlB4SeiUd856826YorgcKcOaVuJ6zSP/F3RlNjdjedMFtS+5a0UFV7TadQKi
+         05sm0tFCYrTOumSp9/+agHKOR/Ut7fnZD8lOG0xh9JDhE2/VOL7wDsLv/e/zhdsY0/to
+         v1jQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXfK0NyaTJ4KQwz8cviu1nr1BX5AF2alOL0gArQ8YKyYjrQUPi5zD3rwI18/+uWwsCK36W+c4ZsdSC4MQk7@lists.linux.dev
+X-Gm-Message-State: AOJu0YyZh75IRfrHN5SrFPx5cs1ISpiJ4cyBLqS/wjXFk1tCytLChMb8
+	PYCoVj7mrWHwFbbPZWRBcmBpuQUyU55UmsKz64NfLFpIL9TAVn7VVRQl
+X-Gm-Gg: ASbGncvjK0IiUSrYJMGUNhOTtr4qiZi0XtCYr77cEwI5G5Ati0Lrc8qNdYBa+1pDvtn
+	yC1V9c2ZGECD4GHHgX1YjuPi9aTmEWlj2uyuXeZer3RKJlwzeQMVbjIeD9EII6DutJWK5kDhhXR
+	AyqWkykHzxKrGvCSUaWCysPX4CNLhQlvoJYEtY+mqnBQp6ZDKHKZJ2U0TfS1UHbAaeuxVH4M2VO
+	0BvQ3/WRrzAng/SYm+hZnAiz4/aWSaDem/G1FwLXaxzwHYvyj8Covuwsdp2hvolun8W76CHNeNc
+	gj6jAPGDTwYIUxSo8NW5/N40zInEe6tRZAhBcSdFi+a/FnWnBGRVz5F99l9PG+v1MllXor7kIUu
+	fo1EHGxYVWxeGGDFR4wCF89c81x9JN8QL+pcP7yjPjiJqF/fEzKYk79FnAzTp8VY9WaoPGfE+l7
+	c32dWLIXQpvq7dntB5nAtc5Y0Kegb2H2f45epeX+r3aTLRxbLh
+X-Google-Smtp-Source: AGHT+IHy5Mo29j/CWbee5Q6OSCJW+TSTmTNfb4OAc8LY3nxwbKHubZG/p57p57Ap+fsLvqvjiDlwdQ==
+X-Received: by 2002:a05:6a20:4328:b0:350:fa56:3f45 with SMTP id adf61e73a8af0-36150f033c0mr33804804637.35.1764345952577;
+        Fri, 28 Nov 2025 08:05:52 -0800 (PST)
 Received: from name2965-Precision-7820-Tower.. ([121.185.186.233])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7d15f26f11fsm5408499b3a.50.2025.11.28.08.05.41
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7d15f26f11fsm5408499b3a.50.2025.11.28.08.05.48
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 28 Nov 2025 08:05:45 -0800 (PST)
+        Fri, 28 Nov 2025 08:05:52 -0800 (PST)
 From: Jeongjun Park <aha310510@gmail.com>
 To: stable@vger.kernel.org
 Cc: gregkh@linuxfoundation.org,
@@ -76,54 +78,73 @@ Cc: gregkh@linuxfoundation.org,
 	sboyd@kernel.org,
 	viresh.kumar@linaro.org,
 	aha310510@gmail.com,
-	linux-staging@lists.linux.dev
-Subject: [PATCH 5.15.y 00/14] timers: Provide timer_shutdown[_sync]()
-Date: Sat, 29 Nov 2025 01:05:25 +0900
-Message-Id: <20251128160539.358938-1-aha310510@gmail.com>
+	linux-staging@lists.linux.dev,
+	Jacob Keller <jacob.e.keller@intel.com>
+Subject: [PATCH 5.15.y 01/14] Documentation: Remove bogus claim about del_timer_sync()
+Date: Sat, 29 Nov 2025 01:05:26 +0900
+Message-Id: <20251128160539.358938-2-aha310510@gmail.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20251128160539.358938-1-aha310510@gmail.com>
+References: <20251128160539.358938-1-aha310510@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-The "timers: Provide timer_shutdown[_sync]()" patch series implemented a
-useful feature that addresses various bugs caused by attempts to rearm
-shutdown timers.
+From: Thomas Gleixner <tglx@linutronix.de>
 
-https://lore.kernel.org/all/20221123201306.823305113@linutronix.de/
+[ Upstream commit b0b0aa5d858d4d2fe39a5e4486e0550e858108f6 ]
 
-However, this patch series was not fully backported to versions prior to
-6.2, requiring separate patches for older kernels if these bugs were
-encountered.
+del_timer_sync() does not return the number of times it tried to delete the
+timer which rearms itself. It's clearly documented:
 
-The biggest problem with this is that even if these bugs were discovered
-and patched in the upstream kernel, if the maintainer or author didn't
-create a separate backport patch for versions prior to 6.2, the bugs would
-remain untouched in older kernels.
+ The function returns whether it has deactivated a pending timer or not.
 
-Therefore, to reduce the hassle of having to write a separate patch, we
-should backport the remaining unbackported commits from the
-"timers: Provide timer_shutdown[_sync]()" patch series to versions prior
-to 6.2.
+This part of the documentation is from 2003 where del_timer_sync() really
+returned the number of deletion attempts for unknown reasons. The code
+was rewritten in 2005, but the documentation was not updated.
 
+Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
+Reviewed-by: Jacob Keller <jacob.e.keller@intel.com>
+Reviewed-by: Anna-Maria Behnsen <anna-maria@linutronix.de>
+Link: https://lore.kernel.org/r/20221123201624.452282769@linutronix.de
+Signed-off-by: Jeongjun Park <aha310510@gmail.com>
 ---
- Documentation/RCU/Design/Requirements/Requirements.rst      |   2 +-
- Documentation/core-api/local_ops.rst                        |   2 +-
- Documentation/kernel-hacking/locking.rst                    |  17 +++++++-----
- Documentation/timers/hrtimers.rst                           |   2 +-
- Documentation/translations/it_IT/kernel-hacking/locking.rst |  14 +++++-----
- Documentation/translations/zh_CN/core-api/local_ops.rst     |   2 +-
- arch/arm/mach-spear/time.c                                  |   8 +++---
- drivers/bluetooth/hci_qca.c                                 |  10 +++++--
- drivers/char/tpm/tpm-dev-common.c                           |   4 +--
- drivers/clocksource/arm_arch_timer.c                        |  12 ++++-----
- drivers/clocksource/timer-sp804.c                           |   6 ++---
- drivers/staging/wlan-ng/hfa384x_usb.c                       |   4 +--
- drivers/staging/wlan-ng/prism2usb.c                         |   6 ++---
- include/linux/timer.h                                       |  17 ++++++++++--
- kernel/time/timer.c                                         | 315 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++---------------------------------------
- net/sunrpc/xprt.c                                           |   2 +-
- 16 files changed, 322 insertions(+), 101 deletions(-)
+ Documentation/kernel-hacking/locking.rst                    | 3 +--
+ Documentation/translations/it_IT/kernel-hacking/locking.rst | 4 +---
+ 2 files changed, 2 insertions(+), 5 deletions(-)
+
+diff --git a/Documentation/kernel-hacking/locking.rst b/Documentation/kernel-hacking/locking.rst
+index 6805ae6e86e6..b26e4a3a9b7e 100644
+--- a/Documentation/kernel-hacking/locking.rst
++++ b/Documentation/kernel-hacking/locking.rst
+@@ -1006,8 +1006,7 @@ Another common problem is deleting timers which restart themselves (by
+ calling add_timer() at the end of their timer function).
+ Because this is a fairly common case which is prone to races, you should
+ use del_timer_sync() (``include/linux/timer.h``) to
+-handle this case. It returns the number of times the timer had to be
+-deleted before we finally stopped it from adding itself back in.
++handle this case.
+ 
+ Locking Speed
+ =============
+diff --git a/Documentation/translations/it_IT/kernel-hacking/locking.rst b/Documentation/translations/it_IT/kernel-hacking/locking.rst
+index 51af37f2d621..eddfba806e13 100644
+--- a/Documentation/translations/it_IT/kernel-hacking/locking.rst
++++ b/Documentation/translations/it_IT/kernel-hacking/locking.rst
+@@ -1027,9 +1027,7 @@ Un altro problema è l'eliminazione dei temporizzatori che si riavviano
+ da soli (chiamando add_timer() alla fine della loro esecuzione).
+ Dato che questo è un problema abbastanza comune con una propensione
+ alle corse critiche, dovreste usare del_timer_sync()
+-(``include/linux/timer.h``) per gestire questo caso. Questa ritorna il
+-numero di volte che il temporizzatore è stato interrotto prima che
+-fosse in grado di fermarlo senza che si riavviasse.
++(``include/linux/timer.h``) per gestire questo caso.
+ 
+ Velocità della sincronizzazione
+ ===============================
+--
