@@ -1,74 +1,57 @@
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7D3E309EEE
-	for <linux-staging@lists.linux.dev>; Sat, 29 Nov 2025 12:06:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35A798F7D
+	for <linux-staging@lists.linux.dev>; Sat, 29 Nov 2025 13:46:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764417991; cv=none; b=W3q6CsYzrk3iOvPUx7yF1CM/NXT//GfT3BL8OJslAf8ob1cF1J+KesHJ4wQ+R1uOPG3SItj9UddwS+73G0i6OCFjv5A4cBLXSDKXo4Pz5n9rsgwIRkIsJnyAaDOdKrRczQPArlptI0+0gCtfNanSKu+iPSTrXVnfQ/idogmsclg=
+	t=1764423982; cv=none; b=r2ibZ2EuxcREKE5UPQJF8/PCq55PMIn6InVOetCem2qszVlHoX54k7SLdlAJf7rLL6s9+GYvv2AHKgYxuKPlyVtN+1+uPplfQL8ypENXCivp2luuJXm5r5/TJYja0GIbSQkVpR7w3azguUXaJ6itfgCtVGzQPHHNIedPygkHEcg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764417991; c=relaxed/simple;
-	bh=OtdDpl4Q79uxy/txE0dp5UAv3CKH52SyoOzS5bBQcDY=;
+	s=arc-20240116; t=1764423982; c=relaxed/simple;
+	bh=DBn8THaWXII/TT1Ks5xpnf0Fh75fzFIBUe9w+Al9TiQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=oMxoLoXSjah9rSzLMKIgbh0ugbdoxSaNgR7DxwEGW4E6qQSMIh2HmeCkpANYdbLbWklQTdHyKhST8M2eAAvBr6OPc+4p8x51wFrEMf2FegOs0WvN1bomev5zSzKNO++aL5rilF/ScChKMXPqWe8ajQvLbRAYU9Ky73dssO1dMzA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=PBT+BCsa; arc=none smtp.client-ip=209.85.128.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Type:Content-Disposition:In-Reply-To; b=vEgqByYA4WmMvskeoNNxMPdHH+T9dsdykJYSg9GHBEaCnWIcXbVY87e4gMJJit4yfTv9ztryJlljsWjWvjaEiY3kZq6evUQWBrzo+TnARo9x1vw/ZQbRYWcDhTbEAJ8iU1OjzvvquaWf0BM6yalU5nqkJITYhNsHFtR3CYH4SsI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=B2M05/Vk; arc=none smtp.client-ip=192.198.163.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="PBT+BCsa"
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-477b91680f8so21693845e9.0
-        for <linux-staging@lists.linux.dev>; Sat, 29 Nov 2025 04:06:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1764417988; x=1765022788; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=nxsNPC5DUOJdpEIyAUiIrRx7gc0XcEcK6k1s8tu3gE8=;
-        b=PBT+BCsaqdOSjldaEM6RM2NktB1d8xjxjFR78NgIe4Qse0176lmQb5LatF2WMd7awJ
-         8CTnN/0KCUIAmuAQ4Dso0Us9Sqh+y0lkkoDGE7a9BpsOK5jiywWgBRRCwvYUwywZnYWQ
-         Om1s3tDcgTnr8cNImOeipZ8cf0VbbysoS6Vp67edYIcEzmn4UVGe9aZaF+mJYasYH6QT
-         KCJ2L2tODAV54pvz0ZiR3gvs7jVwonNFlhjOsnS0rC0lOvcTTsR378o8NH0o7YhpeIKE
-         sYUW3lef4QLf0M7FN6tCrnict7qrgMl3DM7bB5Nh7YplWGzda4y+kh46DjCJfMkutHeH
-         u5bg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764417988; x=1765022788;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=nxsNPC5DUOJdpEIyAUiIrRx7gc0XcEcK6k1s8tu3gE8=;
-        b=t+sI9vNtTe1fj5NXssd757IAD3v97l6orCIzH1Zi8561QBH7TLLjTLaXJuXPrSp2b6
-         jQKfL3DKGUdtbneYSbDMMlZM7WpQLvGn0aX1VwihmdbWRx+6nJ5rdXbmG4PW/mpLFWhz
-         1Fmwd+5xP+XqdMqzhOJsZsboNWpwAoISczMs9o7G9VxmevQnFqmJeUB7C9N3LIxcci6q
-         iOaqj/bMhP3w/PEqtB5poSGosDpu4r6wepSEwxwb221dkzEKRUS/5szkDT53U7gX+n04
-         JYFePIIlvgscLDTplkuU+bdUx2Mq4W1WLfvtZX5qRS3AesV25VGbLcWLqzqQgvWVUag5
-         6gvA==
-X-Forwarded-Encrypted: i=1; AJvYcCVMxpfxja/tm6O+dNetDNfnmSCgZUeRDLSH5+7ljrnMkh/J+Dctg0gCNwdGkh5Ubc3DNnUnLOq+Y3IqRp1L@lists.linux.dev
-X-Gm-Message-State: AOJu0YyVSdRhRw8t5WpPdShFCktiRFy9yKpCBhlblu5+cfJGZQPTVbR8
-	HPtsKED0IRZeyouOddmpZfl10Uye+sSQpgUgHKB/ltgH//oepDI3TgAG5na++Hj6YlE=
-X-Gm-Gg: ASbGncuoSmHIYTA+LJ5MSTT77m9trCO4a3qT1GLKfxQD39dLoc8RaR3zIS2KJQgkBXJ
-	GlvjA1vyM0eXtW80QKdjEhyBnqLbjulIS7gg1I5pVhDnifLz3/XEqCOKy8aG57tqlQgvJpKMpr5
-	A620Mu3x6c6L4pq8D2PK7dVA3J9HslebKfjAqiZCuM/N/5A0VswX3pmsH1P27rXf53gEsC8U/3A
-	yXjpDYjDDf71RE2YNVJWz5auH2DJwvjivZoWYa7C5FrMOnOzTsAGcTXoLtPx4j8UEdC+jlGwDOD
-	MD/xtBZP4owQzjdsXdOXaCxjLTdG0YdzzeVN39qZ4ibGpVVnZ5gtJ6+vUojV3DGSReELH9mXa4b
-	N1mTdEGvX7TKefjvCVB/GMvVFDPi7QKRscijYtRLKIUkf98r96yR8OXV8F9XzB5RU6GqBR1CCjB
-	dzWc0osqeb1/AmQhVJF97uwY41TfY=
-X-Google-Smtp-Source: AGHT+IEuwNmjwKX4nKswTwb3SXTfDuIX6lLeyzja2ucZyH+jzwm3vW1KQtsqWNtG6OMobXMT7/h1mw==
-X-Received: by 2002:a05:600c:3b01:b0:477:7c45:87b2 with SMTP id 5b1f17b1804b1-477c111607fmr352973135e9.16.1764417987920;
-        Sat, 29 Nov 2025 04:06:27 -0800 (PST)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-47913870b38sm49133025e9.15.2025.11.29.04.06.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 29 Nov 2025 04:06:27 -0800 (PST)
-Date: Sat, 29 Nov 2025 15:06:23 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Pavan Kumar Yalagada <pavankumaryalagada@gmail.com>
-Cc: parthiban.veerasooran@microchip.com, christian.gromm@microchip.com,
-	gregkh@linuxfoundation.org,
-	laurent.pinchart+renesas@ideasonboard.com,
-	hverkuil+cisco@kernel.org, linux-staging@lists.linux.dev
-Subject: Re: [PATCH v3] staging: most: video: prevent probes during component
- exit
-Message-ID: <aSrhv46__garLySK@stanley.mountain>
-References: <20251128165033.25060-1-pavankumaryalagada@gmail.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="B2M05/Vk"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1764423981; x=1795959981;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=DBn8THaWXII/TT1Ks5xpnf0Fh75fzFIBUe9w+Al9TiQ=;
+  b=B2M05/VkAcg9i2NSDdV8kjj4AAOkdnH7Z8n3QhFoA3wiL6DTYE8rk6JL
+   fQlt19H0vER4uXFMPnpwGJl0j8HOudxozIKsLVaF1RgoRhNsQIYyz582S
+   Capn15j9E3GsxT7z8IkgQ6F/ZCeV5bas72L/5zYCqfBU3UaosI7LFrt/7
+   lGfCh+Hb6//fngXfl5bfwUT0A7j/xxljx633BRsNnGfeLJqhSj98pg2gW
+   j/nIp3trusm/dEb9n+8GR9hnFvGEwiXccsWHm8vEMamf47jdeBi5MEUoB
+   Y/m5oBdpn+w4s3o9DlIMrB3O6NKjqKg6qa939WL+oueBSeAd8EYizaxn2
+   g==;
+X-CSE-ConnectionGUID: swdlt6IvShyiX94zpSEcUw==
+X-CSE-MsgGUID: 71n8kGoCSTCFxHDh1Bm84w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11627"; a="66314468"
+X-IronPort-AV: E=Sophos;i="6.20,236,1758610800"; 
+   d="scan'208";a="66314468"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Nov 2025 05:46:20 -0800
+X-CSE-ConnectionGUID: 2A9LJ3dPQaS22icfC3qqHw==
+X-CSE-MsgGUID: fga3RcU0R0Cpg5jnqNet0Q==
+X-ExtLoop1: 1
+Received: from egrumbac-mobl6.ger.corp.intel.com (HELO localhost) ([10.245.245.50])
+  by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Nov 2025 05:46:18 -0800
+Date: Sat, 29 Nov 2025 15:46:16 +0200
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: Hamdan Khan <hamdankhan212@gmail.com>
+Cc: hansg@kernel.org, mchehab@kernel.org, sakari.ailus@linux.intel.com,
+	andy@kernel.org, gregkh@linuxfoundation.org,
+	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: media: atomisp: Fix typos and comments
+ alignment issue in include/linux/* header files
+Message-ID: <aSr5KCPq-euRiqo6@smile.fi.intel.com>
+References: <20251129061228.6286-1-hamdankhan212@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -77,102 +60,131 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251128165033.25060-1-pavankumaryalagada@gmail.com>
+In-Reply-To: <20251129061228.6286-1-hamdankhan212@gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On Fri, Nov 28, 2025 at 11:50:33AM -0500, Pavan Kumar Yalagada wrote:
-> When comp_exit() runs, comp_probe_channel() could still add new devices
-> to video_devices, creating a race and potentially leaving the list in
-> an inconsistent state.
-> 
-> This patch prevents new devices from being added while exiting by:
-> 
->  - comp_exiting is set under lock to prevent new devices being added.
->  - Early exit paths free allocated memory (kfree) to avoid leaks.
->  - comp_probe_channel() checks comp_exiting before modifying video_devices.
->  - Removing WARN/BUG as it becomes unnecessary.
-> 
-> Signed-off-by: Pavan Kumar Yalagada <pavankumaryalagada@gmail.com>
-> 
-> ---
-> 
-> v3:
->  - comp_exiting flag update and memory cleanup for early exits.
->  - Commit message clarified for reviewers.
-> ---
->  drivers/staging/most/video/video.c | 19 ++++++++++++++++++-
->  1 file changed, 18 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/staging/most/video/video.c b/drivers/staging/most/video/video.c
-> index 32f71d9a9cf7..f257fb179813 100644
-> --- a/drivers/staging/most/video/video.c
-> +++ b/drivers/staging/most/video/video.c
-> @@ -60,6 +60,8 @@ static inline struct comp_fh *to_comp_fh(struct file *filp)
->  static LIST_HEAD(video_devices);
->  static DEFINE_SPINLOCK(list_lock);
-> 
-> +static bool comp_exiting;
-> +
->  static inline bool data_ready(struct most_video_dev *mdev)
->  {
->  	return !list_empty(&mdev->pending_mbos);
-> @@ -498,13 +500,22 @@ static int comp_probe_channel(struct most_interface *iface, int channel_idx,
->  		goto err_unreg;
-> 
->  	spin_lock_irq(&list_lock);
-> +	if (comp_exiting) {
-> +		spin_unlock_irq(&list_lock);
-> +		goto err_cleanup;
+On Sat, Nov 29, 2025 at 11:12:28AM +0500, Hamdan Khan wrote:
+> This patch fixes minor comment and code alignment issues in
+> atomisp/include/linux/*.h header files. Some of them were warnings
+> generated by checkpatch.pl (missing * at the start of the line or */
+> present in the same line)
 
-Why do you not need to unregister?  I don't think this error handling
-is correct.
+...
 
-> +	}
->  	list_add(&mdev->list, &video_devices);
->  	spin_unlock_irq(&list_lock);
->  	return 0;
-> 
-> +err_cleanup:
-> +	kfree(mdev);
-> +	return -EBUSY;
-> +
->  err_unreg:
->  	v4l2_device_disconnect(&mdev->v4l2_dev);
->  	v4l2_device_put(&mdev->v4l2_dev);
-> +	kfree(mdev);
->  	return ret;
->  }
-> 
-> @@ -553,8 +564,13 @@ static int __init comp_init(void)
-> 
->  static void __exit comp_exit(void)
->  {
-> +	unsigned long flags;
->  	struct most_video_dev *mdev, *tmp;
-> 
-> +	spin_lock_irqsave(&list_lock, flags);
-> +	comp_exiting = true;
-> +	spin_unlock_irqrestore(&list_lock, flags);
-> +
+> -	int matrix[3 * 3];	/* RGB2YUV Color matrix, signed
+> -				   <13-fraction_bits>.<fraction_bits> */
+> +	/* RGB2YUV Color matrix, signed
+> +	 * <13-fraction_bits>.<fraction_bits>
+> +	 */
 
-It doesn't make sense to call spin_unlock_irqrestore()
-and the spin_lock_irq() on the next line.
+/*
+ * This comment has to follow the common rules for
+ * multi-line comments. Use this as an example.
+ */
 
-So the issue is, we want a write barrier so that the write in comp_exit()
-happens before the read in comp_probe_channel(), which the spinlocks
-do accomplish, I suppose.
+...
 
->  	/*
->  	 * As the mostcore currently doesn't call disconnect_channel()
->  	 * for linked channels while we call most_deregister_component()
-> @@ -569,13 +585,14 @@ static void __exit comp_exit(void)
->  		comp_unregister_videodev(mdev);
->  		v4l2_device_disconnect(&mdev->v4l2_dev);
->  		v4l2_device_put(&mdev->v4l2_dev);
-> +		kfree(mdev);
+> +	/*
+> +	 * the frame containing the overlay data The overlay frame width should
 
-No no.  This isn't related to race conditions and it's probably
-wrong as well.
+This becomes even worse. Fix the English text properly.
 
-regards,
-dan carpenter
+>  	 * be the multiples of 2*ISP_VEC_NELEMS. The overlay frame height
+>  	 * should be the multiples of 2.
+>  	 */
+
+...
+
+>  	/* the overlay start x pixel position on output frame It should be the
+> -	   multiples of 2*ISP_VEC_NELEMS. */
+> +	 * multiples of 2*ISP_VEC_NELEMS.
+> +	 */
+
+The same as per two above comments.
+
+...
+
+>  	/* the overlay start y pixel position on output frame It should be the
+> -	   multiples of 2. */
+> +	 * multiples of 2.
+> +	 */
+
+Ditto.
+
+>  	/* CSI2-MIPI specific format: YUV data.
+>  	 */
+> -	ATOMISP_INPUT_FORMAT_YUV420_8_SHIFT,  /* YUV420 8-bit (Chroma Shifted
+> -						 Pixel Sampling) */
+> -	ATOMISP_INPUT_FORMAT_YUV420_10_SHIFT, /* YUV420 8-bit (Chroma Shifted
+> -						 Pixel Sampling) */
+> +	ATOMISP_INPUT_FORMAT_YUV420_8_SHIFT,   /* YUV420 8-bit (Chroma Shifted
+> +						* Pixel Sampling)
+> +						*/
+> +	ATOMISP_INPUT_FORMAT_YUV420_10_SHIFT,  /* YUV420 10-bit (Chroma Shifted
+> +						* Pixel Sampling)
+> +						*/
+
+Still not good. Make the comments to lead the definitions and also fix
+
+	/* CSI2-MIPI specific format: YUV data. */
+	...
+	/* YUV420 10-bit (Chroma Shifted Pixel Sampling) */
+	ATOMISP_INPUT_FORMAT_YUV420_10_SHIFT,
+
+>  	/* CSI2-MIPI specific format: Generic long packet data
+>  	 */
+
+As per above.
+
+You need to fix _all_ of them, do not leave the job half done.
+
+...
+
+>  /*
+> - *  Sensor of external ISP can send multiple streams with different mipi data
+> + * Sensor of external ISP can send multiple streams with different mipi data
+
+MIPI
+
+>   * type in the same virtual channel. This information needs to come from the
+>   * sensor or external ISP
+
+The sentence misses period at the end.
+
+>   */
+
+...
+
+>  	/* Sensor driver fills ch_id with the id
+> -	   of the virtual channel. */
+> +	 * of the virtual channel.
+> +	 */
+
+>  	/* Tells how many streams in this virtual channel. If 0 ignore rest
+> -	 * and the input format will be from mipi_info */
+> +	 * and the input format will be from mipi_info
+> +	 */
+
+> -	/*
+> -	 * if more isys_configs is more than 0, sensor needs to configure the
+> +	/* If isys_configs is more than 0, sensor needs to configure the
+>  	 * input format differently. width and height can be 0. If width and
+>  	 * height is not zero, then the corresponding data needs to be set
+>  	 */
+
+All the above must be fixed properly.
+
+...
+
+TL:DR; this patch needs much more work. Take your time, the driver
+is not so small. OTOH you can take one part of it and do this there.
+I dunno if fixing one header subfolder is good enough, we may start
+from it, but again, fix all problems, don't leave it in semi-baked
+state.
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
 
