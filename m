@@ -1,92 +1,104 @@
-Received: from cstnet.cn (smtp84.cstnet.cn [159.226.251.84])
-	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3844230F958
-	for <linux-staging@lists.linux.dev>; Tue,  2 Dec 2025 09:53:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.84
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2C2430C63B
+	for <linux-staging@lists.linux.dev>; Tue,  2 Dec 2025 10:18:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764669226; cv=none; b=YWfzD6TqRpWDtQXN530iOKxURp3S+gLPldqIriepMXbS7AMT+O5H2O+6cNBF9KcqrVRlRHMdiy3F5ig43q+5ddj7xkH/HjjYjHGYwOGB4weEP+fOCu59lXnn3EKCCQTtEUh8W5RQjKTLlD2cI7DXL8JtkMfUCTc50FBWuQO+38I=
+	t=1764670699; cv=none; b=s4FCmuZP8zcZrMRfUMEIUnBzHxl5BfrvZfqZD3riKVFwhysVWRvyMokC8B1OoR6s0ZfjqAFOlF0M/T7vhREsiYUeyO67phRSLov/CtwdaXeG8xm6CoIh2dLgmgdHC5xBs+Ps+JVBE+cKFm3nCcOFLbF3yZCSFO19gQ8fB91Sy7s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764669226; c=relaxed/simple;
-	bh=0KeOKsVSJx7LVbouVzJKxUnfef7c+nOYjkKdcPcY0hk=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=uxxCnWjkXJa26/BrBa0hhpEdLHYdrDYuq8vAGMlzA/5+aQJq96FqbpsAIhUOBpfOmSpFQ9Q2hUGHTBMW6QvYVrYNEUtr+zbOmFml8YZJgvEIpzOAnrYZaGWc8VJVpObilqikSZftOsy6bfaL51txFxgwiq9s0AtBqc3NCmlUH6M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass smtp.mailfrom=iscas.ac.cn; arc=none smtp.client-ip=159.226.251.84
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
-Received: from DESKTOP-L0HPE2S (unknown [124.16.141.245])
-	by APP-05 (Coremail) with SMTP id zQCowABXXW4Yty5pMOv0Ag--.51176S2;
-	Tue, 02 Dec 2025 17:53:30 +0800 (CST)
-From: Haotian Zhang <vulab@iscas.ac.cn>
-To: Florian Fainelli <florian.fainelli@broadcom.com>,
+	s=arc-20240116; t=1764670699; c=relaxed/simple;
+	bh=MT9zrf/cg1JZkz6GyWLfeQ8v3g0Z2erfHfgpesvFVnk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=r83zY7aey1Gnct9Q7UVxHel3xNtmOJFQyveu03u+K4U9VidKNJ+shpsUS3nqDXbb+NYkK2+IBeJGhd07Tw7QcmKyINaT8il6j3dOwuMx9Z4WFhDcPOtgQTEqPUhIexK+HsJjsS0cWB9poWAp6ZH6n2f/u+Vj7YNIwaN+BkeUB+w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=QByfGb/4; arc=none smtp.client-ip=209.85.128.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="QByfGb/4"
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-477aa218f20so35818605e9.0
+        for <linux-staging@lists.linux.dev>; Tue, 02 Dec 2025 02:18:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1764670695; x=1765275495; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=9cAk3oLL8ROCJ57k2VQByXGpSqsygpTMtS752h0isB8=;
+        b=QByfGb/4k8O2E/Ss0JD4Ah5lhAs37dq4+MmWUBMvT2ptRnwKk6Lv3xGfNyMF7h3vvZ
+         sBIpSRY8izrJpJkRRHzhR/MkVm3E0brQex+UWK/tq1RaTcGFRr+g6+1eq44bvVhQkPwz
+         MCJPw7Le7DnupG2qBXQRreD5pIo8nG/ZGyIzDpkzJjKq+Y3gk3dxvL0VO/RgK0xjGgx+
+         nrwI5w1pb6tiePqx9pbZ2V5zb/gR7hoa+xxxgwrQoPKKbijNn3FmRsqZJLojd0ifvZO6
+         3fQTZxmlnYOa5ib3z4+YpXAYYE63nPe4Voo1n96XyofOtHnxZPdbIFbQJtqjUekzKt7G
+         FqBg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1764670695; x=1765275495;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=9cAk3oLL8ROCJ57k2VQByXGpSqsygpTMtS752h0isB8=;
+        b=DyWoMD5R8qj5DJ05i8TuuLtrINMl52BaRDIiwRhRH6eu7rD7drgf47mhrZeTrcbbw0
+         rf1ngyp436MIdGsBxvHAyu9t467wvFy/WB7+U40tjXd6T2awiEpzNYyGVwzY9YmG1iX8
+         dWqlp3MFy+Nv0XV3W3gW6vMR0AZtXMQjF4Z0NhFKDhdCtYKD88/9X6zJDMlbTFgzE37H
+         L4++ivRij18DLDCuoI+B9RZQThsk2cKc+Llc0CxdOu5VKsBoCVrFGB1gcNOJTZYhFqgP
+         O6GnB/EQbO5BpY3XWJXi89uxHR0AeADoktO9L6bZFPJ5r/wf3v1CYlgnYs8KekZr/ZbC
+         iFBA==
+X-Forwarded-Encrypted: i=1; AJvYcCXvuUIszQyWU6K22Sy+rx1H4OkOqeU4UwVMY9tId0jxkjoivD/gF5A9JInBd6u6OnwZQQ7rCqfgwk8tOZIQ@lists.linux.dev
+X-Gm-Message-State: AOJu0YxpZodQ/iiMw3U8/fwShlVJ/cMqdszSmDzAVObObD+R5gy6dDfb
+	qiG8C4cM05K4WRVUQwpKJYr1CepMeClB17J5FuNcMNBWYSjbl0PSw5SQy7Crm7E8QOI=
+X-Gm-Gg: ASbGncvKrMzfPVVC9ZeRYFJ3ciKEjye8cJQ6V56Wm+W2qT/0h0wmoD76cOJb4w0l2MH
+	BKPpHJNLjykC0x+LK6z18tJalXIWliqzqgj3X3aTyRfvxRrRbfydegp51Hz2ReOR7ug/S/pAM3w
+	1zWwHqmTts79rpmx84se6htSU5C2Hp5+K724e91OIunQ5AXe1vT61V0cxoTzDh2chwRZ9QEvYFe
+	wuwSAGvnDfhR5iiNhcLHiDQXh3FkR9pez2a6c8bqLvUmoqeRF2qluSbhtWlmb/VdxAspmobEUfQ
+	W+kenblY4DcVm9M8jINpU3JxMTr+ZhI/1m+R97jd/atqu3qAydTi1n09SjkdwdFtJiLVIAlHkPG
+	bSpHvOwSDHEFKL1qZVQVBahaQvCxVg1kpoBeUQYuAUdaJSX8+BhoTlnyb1WgKRs6WB7fOCjzEJ2
+	qFXmAa6bLVeHBfUVeY
+X-Google-Smtp-Source: AGHT+IHy3nFX0LKMVWLipxBkC1l1bBeysdgOp+AnUue/+gwsKv8yLm3DSpc6vz+WjLvbvqXoMhctiA==
+X-Received: by 2002:a05:600c:3baa:b0:475:de12:d3b5 with SMTP id 5b1f17b1804b1-477c01ecc7cmr422115765e9.34.1764670695027;
+        Tue, 02 Dec 2025 02:18:15 -0800 (PST)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-47927808a3esm12254865e9.1.2025.12.02.02.18.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 02 Dec 2025 02:18:14 -0800 (PST)
+Date: Tue, 2 Dec 2025 13:18:10 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Haotian Zhang <vulab@iscas.ac.cn>
+Cc: Florian Fainelli <florian.fainelli@broadcom.com>,
 	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-rpi-kernel@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Haotian Zhang <vulab@iscas.ac.cn>
-Subject: [PATCH] staging: vc04_services: vchiq_bus: Check return value of of_dma_configure()
-Date: Tue,  2 Dec 2025 17:52:52 +0800
-Message-ID: <20251202095253.1640-1-vulab@iscas.ac.cn>
-X-Mailer: git-send-email 2.50.1.windows.1
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-rpi-kernel@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: vc04_services: vchiq_bus: Check return value of
+ of_dma_configure()
+Message-ID: <aS684lo6j3ldvrPn@stanley.mountain>
+References: <20251202095253.1640-1-vulab@iscas.ac.cn>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:zQCowABXXW4Yty5pMOv0Ag--.51176S2
-X-Coremail-Antispam: 1UD129KBjvJXoW7WF1UCFyxGFy3Ar1DAF15twb_yoW8Gw1fpF
-	4UWas5G34YgF45uws8XFZxWa4Yga92ka1rur97Gwn5Kr18Zryaqr9rKFy3Wrs5tr48Aay3
-	XFWjgw18uw4UGF7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUkC14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
-	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
-	1l84ACjcxK6xIIjxv20xvE14v26F1j6w1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26F4j
-	6r4UJwA2z4x0Y4vEx4A2jsIE14v26F4UJVW0owA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gc
-	CE3s1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E
-	2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r4j6F4UMcvjeVCFs4IE7xkEbVWUJV
-	W8JwACjcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lc7CjxVAaw2AFwI0_
-	JF0_Jw1l42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67
-	AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIY
-	rxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14
-	v26r1j6r4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8
-	JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjfUejjgDU
-	UUU
-X-CM-SenderInfo: pyxotu46lvutnvoduhdfq/1tbiBwkEA2kupaZFZQAAst
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251202095253.1640-1-vulab@iscas.ac.cn>
 
-vchiq_device_register() ignores the return value of of_dma_configure(),
-which may return -EPROBE_DEFER when the IOMMU is not ready or other error
-codes. This allows device registration to proceed with incomplete DMA
-configuration.
+You're not working against the latest tree so this doesn't apply.
 
-Check of_dma_configure() return value and fail device registration
-on error.
+On Tue, Dec 02, 2025 at 05:52:52PM +0800, Haotian Zhang wrote:
+> vchiq_device_register() ignores the return value of of_dma_configure(),
+> which may return -EPROBE_DEFER when the IOMMU is not ready or other error
+> codes. This allows device registration to proceed with incomplete DMA
+> configuration.
+> 
 
-Fixes: 027e5703de6b ("staging: vc04_services: vchiq_arm: Add new bus type and device type")
-Signed-off-by: Haotian Zhang <vulab@iscas.ac.cn>
----
- .../staging/vc04_services/interface/vchiq_arm/vchiq_bus.c  | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+If of_dma_configure() returns -EPROBE_DEFER then this will just fail and
+that's not really any better than the existing behavior...
 
-diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_bus.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_bus.c
-index 41ece91ab88a..8d920a7a3777 100644
---- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_bus.c
-+++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_bus.c
-@@ -80,7 +80,12 @@ vchiq_device_register(struct device *parent, const char *name)
- 
- 	device->drv_mgmt = dev_get_drvdata(parent);
- 
--	of_dma_configure(&device->dev, parent->of_node, true);
-+	ret = of_dma_configure(&device->dev, parent->of_node, true);
-+	if (ret) {
-+		dev_err(parent, "DMA configuration failed for %s: %d\n", name, ret);
-+		kfree(device);
-+		return NULL;
-+	}
- 
- 	ret = device_register(&device->dev);
- 	if (ret) {
--- 
-2.50.1.windows.1
+regards,
+dan carpenter
+
+> Check of_dma_configure() return value and fail device registration
+> on error.
+> 
+> Fixes: 027e5703de6b ("staging: vc04_services: vchiq_arm: Add new bus type and device type")
+> Signed-off-by: Haotian Zhang <vulab@iscas.ac.cn>
 
