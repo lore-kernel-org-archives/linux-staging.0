@@ -1,142 +1,156 @@
-Received: from mail-lj1-f195.google.com (mail-lj1-f195.google.com [209.85.208.195])
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13748312801
-	for <linux-staging@lists.linux.dev>; Tue,  2 Dec 2025 12:03:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 435E331ED66
+	for <linux-staging@lists.linux.dev>; Tue,  2 Dec 2025 13:55:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764676983; cv=none; b=WfFQo7WlVrDBEpro0SRromiOBn76f+Ccb30WLoUInXFQT2DPArpZj3IAp9WCAONLiYULs2AQcSL78WHTjw6ctfgCpGUPYWHPG26BjO1THG9Zosx69+cY/w3aWEbudry2O52cnl0aZKVAO4a7K5eB2kILCwUelrLP7uCaNCtoMPI=
+	t=1764683703; cv=none; b=BNsueRL8VbylmSMZn7ucqoGR0/mEbOkcvDQ5pkMQt/atVO9PKHg7uNKskIjRYN6EV7QSS79sxPy7hUphQadVyQZA42PODI9f3+4AyaDRsWqDljepYs2iDUt1dP4yj4JLAshkfnQeTvbaMY3uIQGfwp5By/NINvICjBoeaqDHKco=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764676983; c=relaxed/simple;
-	bh=fJWPwY723ULgtVgkQjZtPrkYZvNU8HxVmANectBbrDw=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=XMh86V9yOF102aDSdTK1jnK6tAh+pvUlwkvQzawtkKVnUj99xqZ9VoktogjoJwZZFBEZ1pLRiZIXIbkiTWhEiKcOlvc/hn9UoLTtFh8TIM88DZgbtkCo17ly7fYDxqMwdK6oIYLLeqHkXG6z2/On0IOHoj4t1PAmW8VP/Fi6arM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DvLBCxDj; arc=none smtp.client-ip=209.85.208.195
+	s=arc-20240116; t=1764683703; c=relaxed/simple;
+	bh=rYPu9wGVMJD3qxc3VrFM1hzhlwplY+KT749qc7N7eLY=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=jYUd5N7frFDxzNOILHtCKwfkOksoqeQ79ShWlDbQ3ZGNzDLoBFZlQHC7M5YNwbwEXaoveOeoI5u21EsDn99pvQT/naOPnjFmkr5M2/3PTsf1GzfXY2IlwYnEDTZ15ss1Y2fhGWnYNfqS6wGE9PL9j6k6x0kXYg/jAkhmorbV/oU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EQh6/VyN; arc=none smtp.client-ip=209.85.128.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DvLBCxDj"
-Received: by mail-lj1-f195.google.com with SMTP id 38308e7fff4ca-37bb8bef4cdso47378991fa.3
-        for <linux-staging@lists.linux.dev>; Tue, 02 Dec 2025 04:03:01 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EQh6/VyN"
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-477ba2c1ca2so63414015e9.2
+        for <linux-staging@lists.linux.dev>; Tue, 02 Dec 2025 05:55:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1764676980; x=1765281780; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=jG08/J7Wqu0U4ZYwI7Hu/RQAPwp2mHobhNdvN9y9utM=;
-        b=DvLBCxDjwM/0rXzVBlCHl/slFk5r94VGNKMYzVTfVZ1dCCfbXzvVCDQ1hjUc5Pvc64
-         AkiDoxxEVWPhCYM4OBSIY0NK5pJqyxPbK3nli6AyJt+Vg+6+kJWv1ZzliYSTn8mDM3wH
-         EZcHQAp8QTXDQPcCipe6i0sulkCkIQRRFBTP1B0Qa796QAC+5hGsbA+6BEQLDXSNh0Qu
-         ei5PPBjo17NZLkqfEEpW08bf8gY7Fwg2iRIVsCLfZ85B3zERVXIWQRxoomGYiOKla4Af
-         tl8S9j2gLbrzVtSVtCnK8gztTuC1/jqgNXWE04Jf6YaG4bnuMU7G8ScfvWH6kg0XKczK
-         zRng==
+        d=gmail.com; s=20230601; t=1764683699; x=1765288499; darn=lists.linux.dev;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=q/lyaGrD1zYP4nMnrlel1vvhznbrPEiq90hsTruO97U=;
+        b=EQh6/VyNWFnCH+0hbU3/bSP+63EqB3+Ukj+8p21xdjLo94GLUi+bU1KPv38nVHsUgr
+         AaNWznjJkn7hO7vXhWw1wTWY1gIZsKc6but1VKNBDp4qMNY8BAdff6Y/vC6pkVfci3UQ
+         k/jKpBdNL2EwExb4JxY5JmzvNlLl2f+4vyUbDbtK2EId+e87g5VUQxhVfAMi0JtS5Wtq
+         eY6IS8oaiLMgy5GU+QAbI8r/0gvWgY4Gynx8BnuSoCeprMrT7eHZxYldLtaRfXQzXHKF
+         NKt37LEhBvpCLEBPKasUrWLhnp+4wYJZkO6w42HeKr4L/ES3rLrJbRWmtJkBo39uS3YJ
+         Y6kg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764676980; x=1765281780;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=jG08/J7Wqu0U4ZYwI7Hu/RQAPwp2mHobhNdvN9y9utM=;
-        b=MT9L3t5SKdshKk2HVNC+iLJ+/a5lcgr3EJjc0uZJXx9ByWW32080Un0rCa8MD/2pwr
-         oN1BPMuRN3dFoosLRPkf2LXvPg3OTJ0b8ozhWHHmsFSEUH+RhGnSAwseYJu9vTmkVqe5
-         dGx1K6aD1ZHZHd6j0eF7h5MbadYwba3eWmRWt8nhIMNzg47zwZ6aFMW9FnQnINA/4opF
-         gAjggcQygd7hO3Im1lnJgVlrqVk0edhuQrwWlYGvw25tebsigXl4sgM0rhZ1eP9WUSc9
-         K9b4RgYcROnhNfTD6VqUKTBzNM3yVLi3zIFsq1oo5XN8qQK/9NZ6mNumwzzQzYwpNvIZ
-         FNjQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVks+OBAYDPBxm/PR/lB80L4NLVNN1WjtNQ+X1W3AfY+8zD3o50etAG2+w2Xx2wXXGqvTTfFDhGBQXZuX3C@lists.linux.dev
-X-Gm-Message-State: AOJu0Yw+z0o3/By8XDm0ARS8lO2Ep4HwM3cDtx4bDGgQRB8c2jmpXyUf
-	fbuJf6O/0sB7vf0ZXkVa9sKxZQPaqeI5JGJQ9mJ5v630kLhzq+X16ydh
-X-Gm-Gg: ASbGncsU4d5asga554QhLAUkYig3nUBzufi9HOVgprDt9X1BRjX3p/kNVAL6K0BDUHA
-	HWTZkFPJdZzypYt3myR6pHnGrczDizlgoPb2YbJBON9PhPHr4P1NjTeHVMjQGa79sb1ojwGbozY
-	UUv7HkY5M4W7qfUTcaIdcMRXAhmmvFVZ2OhkPC76e/TCF2+PgL6WM0/ETmAnEjKw66RamgfED2O
-	Vk+jw37iRcSkur+KcShoV2760+IfMUBTsI621Gs4pnmz+qQ7VU0jwPAegLTgGc3RacVvaqAuPtM
-	fNGgMg9AtRyGq/D7JVDQ8EmC+QQlvzM53kYJzy81UcsHtdTCs4pxF9hXyULEAvI2D5kz2bqJWgA
-	yunqQ5QitQ2nuBrWknzYsIqdc6/uYrDa7lepiBzuA1oQ7BUfrKfJ7cSz25aGEH9K0vjD14RwkBD
-	NyYDhNp2kRzS/hWMANTSufNKQccn2fyyLTkvRX6USSEM0KaouKCyRH6cRKmg==
-X-Google-Smtp-Source: AGHT+IGGPdkU3+EE7NrwXBfeL0c30Jy8lQQXAxk/MVHA5a3hbDVEH93tWcMS5Zm9tbkt8OF1LdZtOA==
-X-Received: by 2002:a05:651c:43d8:10b0:37a:4611:9fe5 with SMTP id 38308e7fff4ca-37d077cc7abmr72780701fa.18.1764676979653;
-        Tue, 02 Dec 2025 04:02:59 -0800 (PST)
-Received: from rbta-msk-lt-302690.astralinux.ru.astracloud.ru ([89.107.11.60])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-37d236dd67bsm37720721fa.14.2025.12.02.04.02.55
+        d=1e100.net; s=20230601; t=1764683699; x=1765288499;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=q/lyaGrD1zYP4nMnrlel1vvhznbrPEiq90hsTruO97U=;
+        b=DtvcWuPWG8htFNowuFZv+Mf8/C2U3ONsex2KU5fJzy4+bXBs//8nEzPWLT/X0bLEgb
+         tm2bvRc+b1m3JAXCQpuK3oECFSpuPoAvwKNf2G/0qiS5aXEiFIx73P2YiBS22ZuNI9Vc
+         EqzuEJoZl8aeeqIq12IlUjUM9c66qa1r/LaqKlSJpa7gXJRJufd6tVJJngfdgWG0yTdV
+         6zIk02p+19Sj9IutOFM1X4osqsXBMuIDwA+IBzMKHEmZgq9+fluIvL6rlbPVtF0p/KMm
+         JdEFH4F+SGKa7uJ5RKgRRXzl2TF9kqI4+2ZFzCHWsfp0UC8zKAK0T+5cUPGcHmzJrI5K
+         AFTA==
+X-Forwarded-Encrypted: i=1; AJvYcCWn6Yl6dkVUZECyWxP/X2jHwLglpkfOryOyqxntl8tOHGSePZxEK7ebP+QtB5ofzUvJwqjSw05x1xV0OT9A@lists.linux.dev
+X-Gm-Message-State: AOJu0Yyv+VjglEqa7VwP3rSjXXlFSyrc0ZWNCV9/T14qjl3Ldqn5CY83
+	S2U3QW+GSZJp70MGh6dr80KUyRcMuYysSPmP40l6+WdddiyY/PUdAFt5
+X-Gm-Gg: ASbGnctMM1xp21KRkOnP7BpE5GwifAF2SCUBV/2a0VEu/BCPYlLY+LvT2IL8AKFdh6r
+	f1p4Kk7dS7ZT+7Gq/2AaaGVvl1Q3ZXGccYe7DY4CV3kF8uiL7NTvG/gh7dzmSHL4ibt7a22sg50
+	2Cvv9fA75z2k5MRudFZnxYfpWVwB1nk8Ku/rym44hAUhG8cTabr3Y41WklpjtbdEKKqEjPCUDPN
+	WsdiKyHOc8fWN3hXdKDFcBoFWMtYep1MHTmmwAVWA7s5z5WFPB17t4hJ/SeOhEiCbJoBRDq00Cr
+	LP5+amWgu64+0fp6PqARavcPhc3QN6CRK1RuamHSF+tR6aJA9HNZJh01IoRWYgMkVkW3TuMhZzU
+	LHlJMq9PPJzSTKuZn1XQ86doZjt5RfsE3xXH/46HZX34SSm1ZmyUPDW+m18Wp38xh57ic8B0MpE
+	t5lTAqS4diKLODxZ4d2c0=
+X-Google-Smtp-Source: AGHT+IGPIJAb6n7MVUXkK/sY1lEb6sUlZ2omnYjaBcbZhIBLn498o8u4JCPCZAwkTS4bxKhIRR7lfA==
+X-Received: by 2002:a5d:64e5:0:b0:42b:3963:d08f with SMTP id ffacd0b85a97d-42e0f23179fmr33074672f8f.26.1764683699345;
+        Tue, 02 Dec 2025 05:54:59 -0800 (PST)
+Received: from [192.168.1.187] ([161.230.67.253])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-42e1c5d618csm32462903f8f.14.2025.12.02.05.54.58
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 02 Dec 2025 04:02:58 -0800 (PST)
-From: Alexandra Diupina <dyupina99999@gmail.com>
-To: Andy Shevchenko <andy@kernel.org>
-Cc: Alexandra Diupina <dyupina99999@gmail.com>,
-	Hans de Goede <hansg@kernel.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Alan Cox <alan@linux.intel.com>,
-	linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	lvc-project@linuxtesting.org
-Subject: [PATCH] media: atomisp: avoid memory leak in ia_css_pipe_create_cas_scaler_desc_single_output()
-Date: Tue,  2 Dec 2025 15:02:40 +0300
-Message-Id: <20251202120240.14670-1-dyupina99999@gmail.com>
-X-Mailer: git-send-email 2.30.2
+        Tue, 02 Dec 2025 05:54:59 -0800 (PST)
+Message-ID: <ac51767a823e71a4779beee246c50deb30b57db8.camel@gmail.com>
+Subject: Re: [PATCH] staging: iio: adt7316: replace sprintf() with
+ sysfs_emit()
+From: Nuno =?ISO-8859-1?Q?S=E1?= <noname.nuno@gmail.com>
+To: Jonathan Cameron <jonathan.cameron@huawei.com>, Andy Shevchenko
+	 <andy.shevchenko@gmail.com>
+Cc: Jonathan Cameron <jic23@kernel.org>, Shi Hao <i.shihao.999@gmail.com>, 
+	Michael.Hennerich@analog.com, lars@metafoo.de, dlechner@baylibre.com, 
+	nuno.sa@analog.com, andy@kernel.org, gregkh@linuxfoundation.org, 
+	linux-iio@vger.kernel.org, linux-staging@lists.linux.dev, 
+	linux-kernel@vger.kernel.org
+Date: Tue, 02 Dec 2025 13:55:39 +0000
+In-Reply-To: <20251119145751.00003a9c@huawei.com>
+References: <20251116101620.25277-1-i.shihao.999@gmail.com>
+		<CAHp75VdY7W8EgOfKuxtTALj777aVatxV5dqsxm688JTy=iVW2Q@mail.gmail.com>
+		<20251116152800.4c1849cc@jic23-huawei>
+		<34a55901fe0729145097d287a98746f23eea13d8.camel@gmail.com>
+		<CAHp75VejBvRX=5psgVgGPCsKk7gVgcDUd1q3Gn+4_jyzk=2pEw@mail.gmail.com>
+	 <20251119145751.00003a9c@huawei.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.58.2 
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-ia_css_pipe_create_cas_scaler_desc_single_output() may fail,
-so add cleanup by ia_css_pipe_destroy_cas_scaler_desc()
-rather than simply exiting the function.
+On Wed, 2025-11-19 at 14:57 +0000, Jonathan Cameron wrote:
+> On Tue, 18 Nov 2025 14:10:25 +0200
+> Andy Shevchenko <andy.shevchenko@gmail.com> wrote:
+>=20
+> > On Tue, Nov 18, 2025 at 10:17=E2=80=AFAM Nuno S=C3=A1 <noname.nuno@gmai=
+l.com> wrote:
+> > > On Sun, 2025-11-16 at 15:28 +0000, Jonathan Cameron wrote:=C2=A0=20
+> > > > On Sun, 16 Nov 2025 13:08:07 +0200
+> > > > Andy Shevchenko <andy.shevchenko@gmail.com> wrote:=C2=A0=20
+> >=20
+> > ...
+> >=20
+> > > > Applied, but I will note that this driver is a long way from suitab=
+le
+> > > > for moving out of staging and I would be surprised if more than
+> > > > one or two of the lines changed in this patch make it through the
+> > > > necessary refactors (should anyone actually have another go at
+> > > > doing them).=C2=A0 Anyhow, I still think this is worth taking just =
+to
+> > > > reduce the noise of remaining instances of this.
+> > > >=20
+> > > > I'd have deleted this long ago except I actually have one somewhere
+> > > > and it one of the supported parts was still listed as suitable for
+> > > > new designs when I checked not long ago.=C2=A0=20
+> > >=20
+> > > Seems to be now "just" in production. So no longer advised for new de=
+signs. I gave a
+> > > quick look and this is far from being a simple driver. It would requi=
+re a fair amount
+> > > of work to bring it out of staging. So, are there users relying on st=
+aging drivers?=C2=A0=20
+> >=20
+> > If there is no choice, yes. For example FBTFT is famous for being used
+> > by IoT / DIY _a lot_. Currently a bit less since we got tinyDRM
+> > subsystem with most popular drivers reimplemented there.
+> >=20
+> > > But I would assume that for staging we are still free to drop support=
+ it?=C2=A0=20
+> >=20
+> > At any level, we are still free to drop :-) Just different conditions
+> > applied. For staging is basically an "effective immediately" case.
+> >=20
+>=20
+> If no one replies to this thread in next few weeks to say otherwise, let =
+us see
+> if anyone objects to patches. I'll spin a series in a few weeks and they =
+can sit
+> in linux-next for most of the cycle to see anyone notices.=C2=A0 It is ea=
+sy to bring
+> drivers back if turns out anyone cares and then there is some motivation =
+to
+> finally clean them up.
+>=20
+> staging/iio/
+> 	accel/adis16203 is production
+> 	adc/ad7816 is production (7817, 7818) - the 7816 itself is obsolete.
+> 	addac/adt7316 is production (what we are discussing here)
 
-Found by Linux Verification Center (linuxtesting.org) with SVACE.
+I checked internally and we still have customers actually buying some of th=
+e chips supported by the
+above driver. Not sure if it is being used with linux though... And more im=
+portantly, I cannot also
+commit that someone will jump in to clean it up.
 
-Fixes: a49d25364dfb ("staging/atomisp: Add support for the Intel IPU v2")
-Signed-off-by: Alexandra Diupina <dyupina99999@gmail.com>
----
- drivers/staging/media/atomisp/pci/sh_css.c | 10 ++++++++--
- 1 file changed, 8 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/staging/media/atomisp/pci/sh_css.c b/drivers/staging/media/atomisp/pci/sh_css.c
-index 73bd87f43a8c..4b553209af56 100644
---- a/drivers/staging/media/atomisp/pci/sh_css.c
-+++ b/drivers/staging/media/atomisp/pci/sh_css.c
-@@ -4528,7 +4528,7 @@ static int load_video_binaries(struct ia_css_pipe *pipe)
- 			  NULL,
- 			  &cas_scaler_descr);
- 		if (err)
--			return err;
-+			goto ERR;
- 		mycs->num_yuv_scaler = cas_scaler_descr.num_stage;
- 		mycs->yuv_scaler_binary = kcalloc(cas_scaler_descr.num_stage,
- 						  sizeof(struct ia_css_binary),
-@@ -4561,7 +4561,10 @@ static int load_video_binaries(struct ia_css_pipe *pipe)
- 				return err;
- 			}
- 		}
-+ERR:
- 		ia_css_pipe_destroy_cas_scaler_desc(&cas_scaler_descr);
-+		if (err)
-+			return err;
- 	}
- 
- 	{
-@@ -5107,7 +5110,7 @@ static int load_primary_binaries(
- 			  &cas_scaler_descr);
- 		if (err) {
- 			IA_CSS_LEAVE_ERR_PRIVATE(err);
--			return err;
-+			goto ERR;
- 		}
- 		mycs->num_yuv_scaler = cas_scaler_descr.num_stage;
- 		mycs->yuv_scaler_binary = kcalloc(cas_scaler_descr.num_stage,
-@@ -5141,7 +5144,10 @@ static int load_primary_binaries(
- 				return err;
- 			}
- 		}
-+ERR:
- 		ia_css_pipe_destroy_cas_scaler_desc(&cas_scaler_descr);
-+		if (err)
-+			return err;
- 
- 	} else {
- 		capt_pp_out_info = pipe->output_info[0];
--- 
-2.30.2
+- Nuno S=C3=A1
 
