@@ -1,73 +1,70 @@
-Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com [209.85.215.173])
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6DC13019BD
-	for <linux-staging@lists.linux.dev>; Tue,  2 Dec 2025 23:43:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 633AB1DEFE9
+	for <linux-staging@lists.linux.dev>; Wed,  3 Dec 2025 01:32:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764719039; cv=none; b=DqCVRo8e2zh1/VVbu0B6akanATlc2l92HtZtm2/0heVu47zyDiftphyiI0DmMoQPplBCnQ64U80uDQqZq4KDZAtfo2BvYUamV+PRY1oBpKuSF7Mbw/tqzd45LNqM/b/1nMK0/pPs7tgX9eU785JcO3gDWkMFMCYCEAmPuYdCIco=
+	t=1764725566; cv=none; b=TkMqcBjJaMx+DB4C7Px0u7XHWyRnO6I9QTdc2glcfpKB4x5DMVJRbdlmcpUY/zrfKgUwW9+KzLOr3RmxibnvediEHp7tPvyVJB9LaGUDBDzZ/FmQpfHnx4jj6EUIuwDzn+M7QtxBu9fqwsbx1TAc5DnDEW1Pt2EcmsFRwXiVMGY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764719039; c=relaxed/simple;
-	bh=6dgwv1Q1J7fdQ0vYI+kxpaGgklmM8pdmIQOJbkRrcl0=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=GviQLKJgh11xpcXH3/UQe91BWT+GukmHKT+Qrg/P1wp6QAcEna0ARNJBDkKvJUyzpMcGamlMlsSs/2LzPdTcG2GLBPH3Lp3/p2pew89qupGlf9MrcWEXpOoPfN9xPA3WcYQaKOoJ4E1EM4zLo+aRiB06mzI9kZ7qT/KB/Yu/R64=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=b8leOtgx; arc=none smtp.client-ip=209.85.215.173
+	s=arc-20240116; t=1764725566; c=relaxed/simple;
+	bh=HdqN0TjGIINEFptm7Nvl1znQRgZDb6swtYIHkRRlvIY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=KKVgy92+ZVoD1GkBj4UgnWumNgJbvi3O08DtNwHvmXA4lE0QVumKXdBavZ2s1AZlTXJE9ED500MsEYVxsSL8gj+uzGrjyWZsUpeWZAFgnoioXtKl/z6NRnDhgJ+0j+JkuKSfwatpoNJu3O9IYf4pxGkOX48G36Tmcni6r/5Dros=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=h2IwD8EL; arc=none smtp.client-ip=209.85.128.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="b8leOtgx"
-Received: by mail-pg1-f173.google.com with SMTP id 41be03b00d2f7-bc4b952cc9dso5511007a12.3
-        for <linux-staging@lists.linux.dev>; Tue, 02 Dec 2025 15:43:57 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="h2IwD8EL"
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-477a219dbcaso56289645e9.3
+        for <linux-staging@lists.linux.dev>; Tue, 02 Dec 2025 17:32:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1764719037; x=1765323837; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1764725563; x=1765330363; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=ne4AZEqkxjkMa7PM+DDHLR3eHEfheOJMKi5RcUfuUD0=;
-        b=b8leOtgxe+FqDFjf5FPWjbL/SzWQdhLPE/6PMRkmJKNCovNQIN3Kha1KYjuZp6uzGV
-         QIW/trJh8vHlJ0AR1+rp0kmACCJrdjytkMQ9FFwvsBppvWK43pxY2qDQyNCf8vWcNlN0
-         FbusoxMNsm9DPqDLqmEpDug25Kcit3HKQhQlumafS3N2kI83aHV2Q3T5GeWAvlnguYtF
-         sj+VHRTPm75rz5fT/nTW7zDpYUlgMc4talAohftL0ibhXQT9B28Y7I2wTTECaUXyDxCW
-         Y1LBJQhNoK2HfK2EqS2v3A9pDzxBL2/CusPgmdRU84wk3ppHNnmsq8izw++nJmfZVHk7
-         yGIw==
+        bh=eTOcccqrFLWwThaWdKzVQ7M4eJzuu19XG8wwoiIcr+k=;
+        b=h2IwD8EL9uDyGu4rLMS6gkd69H/WiIWahUatiJreb6km3uZfPfoMvRuPLMCO+ITjl+
+         loob9gEgEitb4E3N3TDO7thlUJ2EvCKSCqcD8byo0ejYFMMG6/v7LssS/zUeQVTGbdAX
+         yjEdDjrqZKW8XHwsacFmHYe6QYa2kNK/LL0FTZlnMPLAcr1zsUX2cJy8yO1VXgdQzC2Y
+         12QHdIheW1oOdmVIZfeDUz5PV7uokJhxgpFTqdfs8HpTVHwVNnuQLvTT6v7mNX4Uj92u
+         I/4q0vaOfnMB+J0YiohmCKrX1tMZd11OhQqOedVryV0Y6qNbHC6n3t3aIe6YJjNqcjub
+         MbWw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764719037; x=1765323837;
+        d=1e100.net; s=20230601; t=1764725563; x=1765330363;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=ne4AZEqkxjkMa7PM+DDHLR3eHEfheOJMKi5RcUfuUD0=;
-        b=DiCqE+BToWl2HEaY1iHCpzGYQHAsMo8cxH0TW9kzjOxLdMN2WXnkDfsygQivQKreyN
-         D+GAEbOyR6+QhigfpiPHR4GfS8BCYoSk99KM89jkg6nS6sbOeZiBi/L5pEbxID4fBDB0
-         sMMLHNhCRlxpsGbMeT6bDpYdabJHX7CRlH2enzI52n1Id7nMTJUjyLxv+R9TY9xEZpnX
-         7iuwAgonHiRSRrCgqDNGVaKcaJqNqTpRzxYPYX+LkAPb2ygSm6nw6A6A43ye5CavZxIF
-         9M9URzfQcr8IMFxm0vev3d1wOeCjr4QMMuf8I8DuTUSdw7/xxPdwZ3xEiEbFa81rblbE
-         Xbig==
-X-Forwarded-Encrypted: i=1; AJvYcCVogrkAqTsSFOusLXj/hs80myoSZQ8d7nZv1GRXLeieHWpTJeJAalMv+3hfOrzMQmWpFl5qEVK58kGmyOSx@lists.linux.dev
-X-Gm-Message-State: AOJu0YyRFQqPa4+W101VNYII/LMb9EZxvToHNdefcPHfsuqKumIEAxsD
-	cuGeYr66lNyFipNqK7XCsxp1dGLPjdzdGp3qrbkxWD75gipsmJSbKZV/
-X-Gm-Gg: ASbGnctK4XckBKpoVsm0lN83vp8mYWk+fl96lySk2zwlmtpoxyQVuqsr5+iD6AugOvl
-	AFanITmZDWzP276/On36gp8UB3Bh0nBmaPqK/CidQ+XEpf4ys30S0aETnrwoay+bIiJF/8ys8zb
-	oHGZ/FJPweqopmAR+6U13hLSiT8V6xeYJJ5mxCJ/t2pJxOFDyaWYCYmddc7KxRanRFwZqKhahmB
-	uBww2xkEX8T+pvXSytDVVaGup+qQPz5FI/5xT43Xs1/ROTTFCH/OBGdjYe5hx2ak/61hCen+/oC
-	th9qCddsV4sRGKwT5v5hQUxXRQ06xDW1bZemI6fELgBMvGp3gpdsZReJUpFBGGMVf5ox2Ivc8kg
-	A5Be8Kv6txZxUa5uq1+y5vPkCNLzjw9HNkbfO6Jr6HXIesqtUHb7DkLrH/lOlmiHSpNoLSR8xyO
-	oUB81hwbtmTC3K+fVUGyRc/kq3AMpkHD4=
-X-Google-Smtp-Source: AGHT+IEGNq9iJyDzCYEqXt9ptFWaA68gfKVIKnVCUJtVrPEd8HwOlpYGuPSBaJmma1rXpd00116H7g==
-X-Received: by 2002:a05:7300:8605:b0:2a4:3594:d538 with SMTP id 5a478bee46e88-2ab92d54646mr274626eec.5.1764719036969;
-        Tue, 02 Dec 2025 15:43:56 -0800 (PST)
-Received: from hydrogen.tailccd71a.ts.net ([71.95.36.28])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2a965b47caasm61850810eec.6.2025.12.02.15.43.56
+        bh=eTOcccqrFLWwThaWdKzVQ7M4eJzuu19XG8wwoiIcr+k=;
+        b=KBlaF1EzPPjgaLzNE8J4s/gQW1lTdCo9ZGugTRzlQHp9+E9uRFEJpND71r3ktXCHGr
+         G5syLtkR3icsU6wG9EB/OZTzRTWQDN6Y0rSIJTKd+euAOvtVWZJTN4x8IondbbJSN+Fr
+         1gjBpYBRdlAV71a1gQUPpYxbCEJstiFYkbcHipZ2AINfNEuleUrVMVYwvptb+4QnKPAm
+         LpJuAtEn1iRtMDF14rrCUGFaCCeMmgX1hkmTY/rSUp0/3D2QEPLE9ZfI+fNdKNMwYa05
+         WlQwY5P8G9oALwqUyPSLmw9HKZaHQKihCX8K44mImNgJqZzxGc7hIf7PGrtl3+dtNubN
+         t33g==
+X-Gm-Message-State: AOJu0Yzrc3n8MdaWHKAbvWpJyFbikk4tz9UpFgvDya0JLMkfZPgQ9EzW
+	lKw/cpK71fPwIzjlTS0pXnYcpl+dY3jbG+4VIpGC8LiYKO9qv8EXufX2
+X-Gm-Gg: ASbGnctbcVP0Ddzwa9xRH8B/NbOy33AaFd2b8M9HA0aVLcs0aRrLwh35EQegN0GvbIC
+	+KMRMmCACFdYy+NQp+ReDBwEWs/yXerCh7v7qIflC9c+/QpcAc5UWp3bRjsR2Uk12XEOHhhQvLi
+	QXztFRp2KF0+hLoWF7lZ40qz8z8EA6anGgJHjK6hwVTS+ok6Y772o6qktIisL7/W90yAFvWjvVY
+	ndzDTCmZjd/CQmUU6QW8VLwQljyuCScP4TJ41Lte1loVENAro2vGUo9CJbQ2rlL0ezLPaf0vB0x
+	mjAP9LHSI8uWfGLLVqrkYrNDkhMreMU+BvrvGfM+HHQ64tDqoM5V9wXkwhdoRoc0JFVQyfBaPsT
+	6/sYnVXkfTIoNzKATTQv1X5ze5z87eq6VTbhl//JDql/RXlBLT88cJEs4OEA27oa7JhGtwgqeU3
+	iHRicEFygw6bkzfuTK
+X-Google-Smtp-Source: AGHT+IEET8MMX8Xhn2CMl4tEK1KqNLyGoioso3/ZgB1ZWKgRfMhon8oV9N2dNt1Y7AkGknU75WSwKQ==
+X-Received: by 2002:a05:600c:19ca:b0:477:557b:691d with SMTP id 5b1f17b1804b1-4792af3d28amr3978995e9.25.1764725562735;
+        Tue, 02 Dec 2025 17:32:42 -0800 (PST)
+Received: from felix.localdomain ([169.224.5.245])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-42e1ca1a310sm38151131f8f.26.2025.12.02.17.32.40
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 02 Dec 2025 15:43:56 -0800 (PST)
-From: Rutansh Suthar <rutanshsuthar@gmail.com>
+        Tue, 02 Dec 2025 17:32:41 -0800 (PST)
+From: duccdev <duccybaka@gmail.com>
 To: gregkh@linuxfoundation.org
-Cc: dan.carpenter@linaro.org,
-	zhaochenguang@kylinos.cn,
-	linux-staging@lists.linux.dev,
+Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
-	Rutansh Suthar <rutanshsuthar@gmail.com>
-Subject: [PATCH v1] staging: rtl8723bs: fix block comment coding style in rtw_io.c
-Date: Tue,  2 Dec 2025 15:43:18 -0800
-Message-ID: <20251202234318.75104-1-rutanshsuthar@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	duccdev <duccybaka@gmail.com>
+Subject: [PATCH] staging: rtl8723bs: clean up comments in rtw_ap.c
+Date: Wed,  3 Dec 2025 04:32:29 +0300
+Message-ID: <20251203013229.696285-1-duccybaka@gmail.com>
+X-Mailer: git-send-email 2.52.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -76,92 +73,71 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Fix block comment alignment and style in rtw_io.c to match kernel
-coding style standards.
+Fixed 4 multi-line comments to follow kernel coding style.
+Improved clarity and fixed overly long lines reported by checkpatch.
 
-No functional changes intended.
-
-Signed-off-by: Rutansh Suthar <rutanshsuthar@gmail.com>
+Signed-off-by: duccdev <duccybaka@gmail.com>
 ---
- drivers/staging/rtl8723bs/core/rtw_io.c | 51 +++++++++++++------------
- 1 file changed, 26 insertions(+), 25 deletions(-)
+ drivers/staging/rtl8723bs/core/rtw_ap.c | 25 ++++++++++++++++++-------
+ 1 file changed, 18 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_io.c b/drivers/staging/rtl8723bs/core/rtw_io.c
-index 79d543d88278..fc29a635a77c 100644
---- a/drivers/staging/rtl8723bs/core/rtw_io.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_io.c
-@@ -5,25 +5,25 @@
-  *
-  ******************************************************************************/
- /*
--
--The purpose of rtw_io.c
--
--a. provides the API
--
--b. provides the protocol engine
--
--c. provides the software interface between caller and the hardware interface
--
--
--Compiler Flag Option:
--
--1. CONFIG_SDIO_HCI:
--    a. USE_SYNC_IRP:  Only sync operations are provided.
--    b. USE_ASYNC_IRP:Both sync/async operations are provided.
--
--jackson@realtek.com.tw
--
--*/
-+ *
-+ * The purpose of rtw_io.c
-+ *
-+ * a. provides the API
-+ *
-+ * b. provides the protocol engine
-+ *
-+ * c. provides the software interface between caller and the hardware interface
-+ *
-+ *
-+ * Compiler Flag Option:
-+ *
-+ * 1. CONFIG_SDIO_HCI:
-+ *     a. USE_SYNC_IRP:  Only sync operations are provided.
-+ *     b. USE_ASYNC_IRP:Both sync/async operations are provided.
-+ *
-+ * jackson@realtek.com.tw
-+ *
-+ */
+diff --git a/drivers/staging/rtl8723bs/core/rtw_ap.c b/drivers/staging/rtl8723bs/core/rtw_ap.c
+index 0908f2234f67..210fa5388a01 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_ap.c
++++ b/drivers/staging/rtl8723bs/core/rtw_ap.c
+@@ -391,7 +391,7 @@ void update_bmc_sta(struct adapter *padapter)
  
- #include <drv_types.h>
+ 		memset((void *)&psta->sta_stats, 0, sizeof(struct stainfo_stats));
  
-@@ -135,10 +135,11 @@ int rtw_init_io_priv(struct adapter *padapter, void (*set_intf_ops)(struct adapt
- }
+-		/* psta->dot118021XPrivacy = _NO_PRIVACY_;//!!! remove it, because it has been set before this. */
++		/* psta->dot118021XPrivacy is already set earlier; do not reset it here. */
  
- /*
--* Increase and check if the continual_io_error of this @param dvobjprive is larger than MAX_CONTINUAL_IO_ERR
--* @return true:
--* @return false:
--*/
-+ * Increase and check if the continual_io_error of this @param dvobjprive is
-+ * larger than MAX_CONTINUAL_IO_ERR
-+ * @return true:
-+ * @return false:
-+ */
- int rtw_inc_and_chk_continual_io_error(struct dvobj_priv *dvobj)
- {
- 	int error_count = atomic_inc_return(&dvobj->continual_io_error);
-@@ -150,8 +151,8 @@ int rtw_inc_and_chk_continual_io_error(struct dvobj_priv *dvobj)
- }
+ 		/* prepare for add_RATid */
+ 		supportRateNum = rtw_get_rateset_len((u8 *)&pcur_network->supported_rates);
+@@ -658,9 +658,11 @@ void start_bss_network(struct adapter *padapter)
+ 	cur_bwmode = CHANNEL_WIDTH_20;
+ 	cur_ch_offset = HAL_PRIME_CHNL_OFFSET_DONT_CARE;
  
- /*
--* Set the continual_io_error of this @param dvobjprive to 0
--*/
-+ * Set the continual_io_error of this @param dvobjprive to 0
-+ */
- void rtw_reset_continual_io_error(struct dvobj_priv *dvobj)
- {
- 	atomic_set(&dvobj->continual_io_error, 0);
+-	/* check if there is wps ie, */
+-	/* if there is wpsie in beacon, the hostapd will update beacon twice when stating hostapd, */
+-	/* and at first time the security ie (RSN/WPA IE) will not include in beacon. */
++	/*
++	 * Check for a WPS IE. When WPS information is present in the beacon,
++	 * hostapd updates the beacon twice during startup. On the first update,
++	 * the security IE (RSN/WPA) may not yet be included.
++	 */
+ 	if (!rtw_get_wps_ie(pnetwork->ies + _FIXED_IE_LENGTH_,
+ 			    pnetwork->ie_length - _FIXED_IE_LENGTH_, NULL, NULL))
+ 		pmlmeext->bstart_bss = true;
+@@ -841,8 +843,16 @@ int rtw_check_beacon_data(struct adapter *padapter, u8 *pbuf,  int len)
+ 	memcpy(pbss_network->mac_address, myid(&padapter->eeprompriv), ETH_ALEN);
+ 
+ 	/* beacon interval */
+-	p = rtw_get_beacon_interval_from_ie(ie);/* ie + 8;	8: TimeStamp, 2: Beacon Interval 2:Capability */
+-	/* pbss_network->configuration.beacon_period = le16_to_cpu(*(unsigned short*)p); */
++	/*
++	 * In the beacon IE, the layout starts with:
++	 *   - 8 bytes: timestamp
++	 *   - 2 bytes: beacon interval
++	 *   - 2 bytes: capability info
++	 * rtw_get_beacon_interval_from_ie() extracts the beacon interval field.
++	 */
++	p = rtw_get_beacon_interval_from_ie(ie);
++
++	/* pbss_network->configuration.beacon_period = le16_to_cpu(*(unsigned short *)p); */
+ 	pbss_network->configuration.beacon_period = get_unaligned_le16(p);
+ 
+ 	/* capability */
+@@ -1147,7 +1157,8 @@ int rtw_check_beacon_data(struct adapter *padapter, u8 *pbuf,  int len)
+ 	/*  update AP's sta info */
+ 	update_ap_info(padapter, psta);
+ 
+-	psta->state |= WIFI_AP_STATE;		/* Aries, add, fix bug of flush_cam_entry at STOP AP mode , 0724 */
++	/* Aries, add, fix bug of flush_cam_entry at STOP AP mode, 0724 */
++	psta->state |= WIFI_AP_STATE;
+ 	rtw_indicate_connect(padapter);
+ 
+ 	pmlmepriv->cur_network.join_res = true;/* for check if already set beacon */
 -- 
-2.43.0
+2.52.0
 
