@@ -1,77 +1,82 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mail-05.mail-europe.com (mail-05.mail-europe.com [85.9.206.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BCFF2C181
-	for <linux-staging@lists.linux.dev>; Thu,  4 Dec 2025 06:21:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B81930EF92
+	for <linux-staging@lists.linux.dev>; Thu,  4 Dec 2025 11:44:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=85.9.206.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764829283; cv=none; b=gUL53YUSM3621MU/gr5+wuHThh76AA/uwRXXhQv1hEaQLPfGHWvrLejN27utbS9G9FtlJFnpMXPS2Obx5ADxdR5vWaXmHPIqEwRQVEs25Irfo1+OLwHW3sNEUWNipAsuyNoHHLGf3p7/xAU5cd7AiucnqWmSCV0BCyOVdoJq63k=
+	t=1764848678; cv=none; b=N0kl4WbC6hyHBNH0dRmmx7FusCDeOHTcJ5TawSon/IfdzaChGw0FlygEah61N5aF9BsPWjt1DqjJPRg+rSZ5S/khjUjnlnw1NHHPBf+CbzgE+eXt2yrxUBGTPPwltVzfKvz/sL6hF0UIAIXh49fbpPQoK/+IDHSPHPz4U59K1sU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764829283; c=relaxed/simple;
-	bh=6UjVHgWcw+NAuWF4TfaTqzBTtglqOCTwnF8HsyVSDZQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=NVuyIfgySGPWTYnbNl0kQWK20VE3+NFy7q0zpjaXB6olKYnLrxG9lggoYkCt15NZ5zXzSrwUSZgHj5e82jsnsV6PFDIAfPjTHklGR8kerRe9ysPuqzCAsJyke67FQ/BBGgnXgb0TpfX3OO0WvCIa6N2UxRPFlQG4SgtDn8EwqoA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fU4Yb9HW; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1764848678; c=relaxed/simple;
+	bh=UqlDLsG9V/pjp7xhJHIuGuyhD7/WHKIUoUiDMJnJuyw=;
+	h=Date:To:From:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=VeFfICam2tcKHvB0GGGMPE2e17E1ggJzLtvUbUhEDwsGUToPaZLukzDnuFOWQvfZVmSX9VELQ40IYhQzUZxr7m4XhWu79TXjmPOtobhiVz/ke6THq+fvfPpnQLmR5MyuTqaV51g7f6MEgJ7yI27z5/UQlfzW37qUD3e4bILWTvI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me; spf=pass smtp.mailfrom=proton.me; dkim=pass (2048-bit key) header.d=proton.me header.i=@proton.me header.b=SCpTmVag; arc=none smtp.client-ip=85.9.206.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=proton.me
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fU4Yb9HW"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8F9C2C113D0;
-	Thu,  4 Dec 2025 06:21:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1764829282;
-	bh=6UjVHgWcw+NAuWF4TfaTqzBTtglqOCTwnF8HsyVSDZQ=;
-	h=From:To:Cc:Subject:Date:From;
-	b=fU4Yb9HWKgqXbRFIhzjM8vC0HsuQgpadpoo+XmiEX1IxtCzOi8N7mJ3XZCvyPqtnR
-	 HPfZRE6AHw5hVY8zsbENtqjoyXoWzuP8PlmbSMkKvs0SEV86wVJgWpbX7jorHFcJGx
-	 eNV8ovOPyNv9oWCGZLMyFodhpID+CeBOlyIOKKe6Z1m/jff1QvtGKMBoQLMNNgBqSn
-	 PTqUW3r4SnVouJ6JSnk0Yiw4cdEFe0jh9tz6OCpDxPdiKIdJpy0PKZ8tJkj+JGcsJu
-	 a0KQeY0AGCgkkGSGoDt1wO4IG+FoSzl4RKcmeXjrtemuJsaiSn2tv/p2CX2CGmkzCv
-	 FV+uF0MRKMaKQ==
-From: Eric Biggers <ebiggers@kernel.org>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Yeking@Red54.com,
-	linux-staging@lists.linux.dev
-Cc: Eric Biggers <ebiggers@kernel.org>
-Subject: [PATCH] staging: rtl8723bs: select CRYPTO_LIB_UTILS instead of CRYPTO
-Date: Wed,  3 Dec 2025 22:18:31 -0800
-Message-ID: <20251204061831.499181-1-ebiggers@kernel.org>
-X-Mailer: git-send-email 2.52.0
+	dkim=pass (2048-bit key) header.d=proton.me header.i=@proton.me header.b="SCpTmVag"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=proton.me;
+	s=protonmail; t=1764848665; x=1765107865;
+	bh=wRx/g6kQBWGhw+60xEF6kyDqt+M5FlAucNwCh+O7Jdc=;
+	h=Date:To:From:Cc:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
+	 Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
+	b=SCpTmVagcrjXlowHlRvuVr51jNa2tH1JrYmFUAL31ba405cemRbgATG9ztu9PD3iu
+	 Civ/BqCmPrqYQ7P6IY26mxMXHT1uOvTSXe74sXdmxwGEfUCslJVmJ7gGN38uZloYRS
+	 FodStWu20sZBsBV6aYXBp6N0p0m9A8qGOB8eirW9yBa48op8mK9wtLWK2OshY5m2Tf
+	 NdEQJAyZWqurjT27d1f7IbEpGJq2FXL6oYpwYuuk5auHfg96pCthuT5F9vG0zsDLCy
+	 hm6XdOExp51CffmNqSTzhUI20rbJYUhjcgKmQBF4BFnEd+52oeCoZcBjScmOZZAvPH
+	 rUjVikS5HjW1g==
+Date: Thu, 04 Dec 2025 11:44:19 +0000
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+From: Bryant Boatright <bryant.boatright@proton.me>
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: [PATCH v3 0/2] Checkpatch cleanup patches
+Message-ID: <aTF0D_zaeNVIfP2E@ubuntu-desk>
+Feedback-ID: 74848953:user:proton
+X-Pm-Message-ID: 887373d3b73f1ab0b1d6b66af07411f17a988407
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-Since the rtl8723bs driver only uses the crypto library functions and
-not the traditional crypto API, select only the required options.  This
-avoids unnecessary pulling in the full traditional crypto API.
+Correct camel case names reported by checkpatch.
 
-Signed-off-by: Eric Biggers <ebiggers@kernel.org>
----
- drivers/staging/rtl8723bs/Kconfig | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+These patches are not required to be applied in any order.
 
-diff --git a/drivers/staging/rtl8723bs/Kconfig b/drivers/staging/rtl8723bs/Kconfig
-index 353e6ee2c145..414982893b6b 100644
---- a/drivers/staging/rtl8723bs/Kconfig
-+++ b/drivers/staging/rtl8723bs/Kconfig
-@@ -1,13 +1,13 @@
- # SPDX-License-Identifier: GPL-2.0
- config RTL8723BS
- 	tristate "Realtek RTL8723BS SDIO Wireless LAN NIC driver"
- 	depends on WLAN && MMC && CFG80211
- 	depends on m
--	select CRYPTO
- 	select CRYPTO_LIB_AES
- 	select CRYPTO_LIB_ARC4
-+	select CRYPTO_LIB_UTILS
- 	help
- 	This option enables support for RTL8723BS SDIO drivers, such as
- 	the wifi found on the 1st gen Intel Compute Stick, the CHIP
- 	and many other Intel Atom and ARM based devices.
- 	If built as a module, it will be called r8723bs.
+Changes in v3:
+   1. Patch 1: Updated parse_res to parse_result for clearer purpose per
+      feedback from gregkh@linuxfoundation.org.
+   2. Patch 1: Change definition of parse_result to multi-line definition p=
+er
+      feed feedback from gregkh@linuxfoundation.org.
+   3. Patch 2: Fix typo in commit message introduced in v2 per feedback fro=
+m
+      gregkh@linuxfoundation.org.
+   4. Remove patch 2 (from v2) as name change was not needed per feedback f=
+rom
+      gregkh@linuxfoundation.org.
+   5. Add changelog for patchset to cover letter per feedback from
+      gregkh@linuxfoundation.org.
 
-base-commit: b2c27842ba853508b0da00187a7508eb3a96c8f7
--- 
-2.52.0
+Changes in v2:
+   1. Patch 1: Make enumeration constant names all upper case per feedback =
+from
+   straube.linux@gmail.com.
+
+Bryant Boatright (2):
+  staging: rtl8723bs: Rename camel case enumeration
+  staging: rtl8723bs: Rename camel case variable
+
+ .../staging/rtl8723bs/core/rtw_ieee80211.c    | 26 +++++++++----------
+ drivers/staging/rtl8723bs/core/rtw_mlme_ext.c |  2 +-
+ drivers/staging/rtl8723bs/include/ieee80211.h | 12 ++++++---
+ 3 files changed, 22 insertions(+), 18 deletions(-)
+
+--=20
+2.43.0
+
 
