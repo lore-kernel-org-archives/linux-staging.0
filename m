@@ -1,73 +1,74 @@
-Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 914DB2C21C5
-	for <linux-staging@lists.linux.dev>; Thu,  4 Dec 2025 15:01:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB63B29C321
+	for <linux-staging@lists.linux.dev>; Thu,  4 Dec 2025 16:29:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764860511; cv=none; b=JdXLqU0VU+eUbK4n1yCn0WYvZ1ieW8WD1I35D/GqEAylZO1qWBjbnAt5qk1ZlfSxA0Y2UmyxX8Ag3TFOvzgjktKHm1fWuacCL/7VNS7RhrO2MG4juUeABLjET1+jndo6h1G3f7WkT7IvKAdLpQ6m8PIxNndUjym6+jjfI8BArrw=
+	t=1764865761; cv=none; b=ZENExkdN2DeF6K72bPrVjoQc+j0BBdtk9MzyxLI3zKG2vlyTBb08h1EsX5hsAO2MTnu/zF0ciF2hcuBBAON6daWI4KXd1kzXDkk7klhUd2KZ9pye8hjbfgNoqSZZmOxrEdynOoSidGRrsW8u3605EcONLz6S5KowU41bQYOMzJg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764860511; c=relaxed/simple;
-	bh=dRPFUVBTP1zpukb+JhI6LnO7y/jjwCnNcwxyPNz3Ntc=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=RYisMeYRIexXlE5RWpcWdOUL+v6GY3dFo6i6xLOlA62fZiybsOFzKCM5+hVdnMpkzCy4ptl/qv0y7aFZOR48Ml8DpHd/22GTl1Zc2YJikZIvtzxm9OydTm2w1kcnxdIPRldQ4m2R8is8K4qHFvT78OK0h92aTaFhKTFxfAufnbo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QMPW+bjd; arc=none smtp.client-ip=209.85.216.52
+	s=arc-20240116; t=1764865761; c=relaxed/simple;
+	bh=JmW6IfkNs6IQgXkkoQY6XBDJbkEtq06TJWwGCWOYDs4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=aM4kYmkC+4+2aJuXew4oPDA+HW0GiT359wyO+DCU7sRGRfSQNs3sStPuZWx1AtoG3t6XqrcHxMe3vR8FwaXPMDL3yonoO5XZWH8xCXrqvMyhIQi1rh7LCFK9QeUPXyCNCGYv10bISbpxeLVctu+Xt3O264VYR3XYKdlbiMsMXaE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Cyeuw0jX; arc=none smtp.client-ip=209.85.214.169
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QMPW+bjd"
-Received: by mail-pj1-f52.google.com with SMTP id 98e67ed59e1d1-3437c093ef5so916850a91.0
-        for <linux-staging@lists.linux.dev>; Thu, 04 Dec 2025 07:01:45 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Cyeuw0jX"
+Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-29806bd47b5so7061425ad.3
+        for <linux-staging@lists.linux.dev>; Thu, 04 Dec 2025 08:29:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1764860505; x=1765465305; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1764865758; x=1765470558; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=DW8v7DW6yQeogEEtYfiP42HqoFREpZw6xuPE1MYVj4M=;
-        b=QMPW+bjdKF77Nc07qiAa/oIlcZjkfVmenIepOfTEyDPQi8MpXr6trEGP6vmKwg0hSH
-         1bBVvvW2MEpwSH/WjfgH28pPit+pN1ZMoU2ZndZN/3+1vFnUMmffEXKJ25sBiTy+p0zw
-         KPMe5MI/aMiR4Cof/zVhzkgbC81wMJHn9JV6EzubBvME/+pMweoQwcPLEDdKsFsjbFHe
-         Kzn1gaiweUqMGCkBEH+sDAWdCLXtW+VcQV393TquxIDCpj4rJ0Df+Z94jb4C81WqfAPB
-         MO3dw/Mra++ZWDAx5nS9fCGJfrCuTqBLvvSngSqVJLn21F9z1z+NCjKfxWUK9XmXusaH
-         +J6Q==
+        bh=p2EOKJaJr5DVsyfexp+IIbTVfdVI8+rHJ5+Gsh6Mpxw=;
+        b=Cyeuw0jXCwTYPFJ/vxKRp4b06IdQxt5MA3fnA17e7km8dtawolmMcj6/AywNYq497B
+         knSF9EYHzWQSSbchmO9QQcqAkEp3gGNpvUCTDb9NXSPS8uCgEmv9pMzctxQLMdZPFaZX
+         NDS373cbHsCk6nYPktNJ3cD8hwMGbDaGSxjazb0/0C04rrYqQiDynIpH9z4k9jGy2T+C
+         o/DFGYw3+T9niRDag1wSIXTHcmNQN3a14IU1sHz07/pRhAs2PuQLbFFrboROxSqnoGFk
+         Eu2veaKlic1To5OTkwcHQpqpcqNPClXaoa56bs8S2T98c8rMJKnspdKVaaSD22cVaSY8
+         9oHw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764860505; x=1765465305;
+        d=1e100.net; s=20230601; t=1764865758; x=1765470558;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=DW8v7DW6yQeogEEtYfiP42HqoFREpZw6xuPE1MYVj4M=;
-        b=g31vFDEcrlbyE4qk/KLj3nE5vTvvPHzecRD+h6lyZGstwh/+ADWAbeoD+3xMUgM2BA
-         HvZWgYfqSN9dWKCE8e74cpwov4YxLSDa4RZCRFdvk/vxIhxnIO02c+ll403kEQgM/2dd
-         340EPWnWPsgONEVJWGyZ/t7dl7UadUgmFW00ktSMQncmj6TunJJ0+meMtiYqsHRMFwq6
-         fTXjXo9mtDIuydShtVdgr2jCGXO5MH87Sxjqizi0eQlVZs3PLUJ4pa62OwOs+1vlLHae
-         ORFtP0MpY52H2PkzUb+gBHF5RwYi0NojGfyCTQzUr9Xdk7WhW7KsODs59QXks+O9p/RH
-         D9wQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUw14wULVsmt9Ef1JY/t/vuuqgIDXRZjYtOGI4BZ3Dxv4HpdpevJapx3PJ3RgMXPiAbLBZSTsGuTBN6E7uV@lists.linux.dev
-X-Gm-Message-State: AOJu0YxaXdLuALj1Z8D/vnIjZDobsyNWDOUpXm3gwDEeOrkTR1hhG9uO
-	kFfT0aZDdpjQ+o9U3BpGLDxe1CcxfDw0ufCX7v3m9iEyEeWWTiP5uCQM
-X-Gm-Gg: ASbGncuScNKkK0QFiBUP+ZWvlWTf+Xg9AMJRlUWvU7KUC06B0Qgm++6ZrRMKoER+pTO
-	/tBtmLyapOWFZj1jU1KjdlXk6L0sl+GbxvBdUAuQYItjqhREuQnDIAQu6v1NLncxYY7xpy15UBx
-	kTCQO8hS7UhtTFalJUeImBexjztD8adLIiuHoJwoOYgpN7sBUvPOKsQHKCQRjH1vPkInlPS8qDE
-	xhr2eXnA8SNBSCa0JP3+gV974lDb7u8kDUe2AWh8qZncHKKx9T74PVRDLESoCAdauR41gPmioXP
-	6BI5YWBzKgLi0M76Lg98mqpYt9zI0NUVVNOUMk7APQvWdD01Y5UPl/wY2o+iqBPPCgSZEbHoYZp
-	MX4VY4EA0v2zn0WDwaEM68Z3KB7UNZtvGBD3PPfc5yLtbExILu0sSNxToXUMxVqck2iIMNSQMa6
-	JS1ptyPoT0AgioA7xRCm0zdcvH+/Rrk561ljFDcyW7dUTHb8nKtxLQ
-X-Google-Smtp-Source: AGHT+IHgRMuz5a6ZG+U2TTogSANcKnvcXgKJkNaITbT+aeWK7j8M6ROpFCS4SD4HvmKwzxlcm6GQbg==
-X-Received: by 2002:a17:90b:3e45:b0:343:6611:f21 with SMTP id 98e67ed59e1d1-349125ac880mr6023964a91.1.1764860504446;
-        Thu, 04 Dec 2025 07:01:44 -0800 (PST)
-Received: from fedora.tailfd33a8.ts.net ([119.161.98.68])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-bf68155047asm2142009a12.7.2025.12.04.07.01.41
+        bh=p2EOKJaJr5DVsyfexp+IIbTVfdVI8+rHJ5+Gsh6Mpxw=;
+        b=v1xbZhk9F33fyYOG4/He2TdNnMn8SD2p+DQTXF8eG4LcNqciHNM6NaWaOd4Yqq4/Fx
+         dpGE5v4ok4b/3Ib/gtDGTxjsV9eWlkgyhGfqTi48R9lbJcU4wRBNo56AomOJgvBG55Xz
+         a120op121yxqZEOC9CibbrO2UfPMCvrf3UWt5Dy4ewE9oP3pU6R7HQ3ApiSUpUjf/vv7
+         3LDMDOcZDMaWCeGqiQYxcvm2A5iVhcgoDj+TCHMCC8FRwkM9tQeDWTOKs1pTjW0YXelh
+         gD86L1PN8KqEUzzaDmHqN36NzKLpklaarKYtTSwDaa7/4KO/k2dHCjkVfG41bxh31ixc
+         aB0A==
+X-Forwarded-Encrypted: i=1; AJvYcCURsC/tt9YYlTV2Sg4mDA3oVhCkHiOfOqlYcreqxeLe4lFWv4nkOapUdG2Gp3P+qcbj8TxpoRjJvoBecGet@lists.linux.dev
+X-Gm-Message-State: AOJu0YwMRAYZJornXtj4inIyX1P4W95isOEhxsi5xUsV2SXxv2D56uTu
+	jizt8a3SHkpbYzcqwIok2K5Ko9LRU7ckX5T7KWuV0DYLknaJnXDELTzN
+X-Gm-Gg: ASbGncvEfmIA4U/ZLV/Xc1v8077QLjmlaQ+nz+xeRA3y/3ncoJthYAKpNqeMGnyKMzw
+	nOl3hWMM+W82dj5UjZv+m9tAO1Z859KyHInqvgp1izLd03L1kNTDjLJGOmvNq2sMN5nsXKNp6BU
+	Od+2Ri9tubJYsiG8Jb8aw3PW5M1LTHlaQ2SrpDlnLm+T/RHztWqzYtUGuOzGpCW9zUR524PpPOD
+	l3uQzJEsamVhvKPEJXAoE+qwSFzUIHhwu8OLQdrx2XNwoMZJXL9sAXZs3cpr+oGByh/GCK7ycAK
+	l7YC7ZG9ZnRHl9g3zVnisGcWRFYETgjIMCGqh9oGcZqrF0dwwDkgf8GswhYG5iM2U+7RFL1AbNb
+	u6Cv4dVMd4yBRv68OPm/lUfmfAhPuNpEDcb6oKtXt1QGCdXn/P13EJOXqNGnJulPT5lEU4Es3C0
+	S6NfTlO6jgtAz2
+X-Google-Smtp-Source: AGHT+IF8+Njgaeb1d/EncpVZ5EbXG3MJ+qNBAPIadQrubEDDyDmXTY/rcCmPXRT1WfIGcI0A1pBxsA==
+X-Received: by 2002:a05:7022:f95:b0:119:e56b:91ed with SMTP id a92af1059eb24-11df0c2fc7fmr4599394c88.30.1764865758250;
+        Thu, 04 Dec 2025 08:29:18 -0800 (PST)
+Received: from archlinux ([2804:1b2:9545:c615:2358:ef44:78a3:f69a])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2aba8395d99sm10106454eec.1.2025.12.04.08.29.15
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 04 Dec 2025 07:01:43 -0800 (PST)
-From: Karthikeya <garagakarthikeya2007@gmail.com>
-To: sudipm.mukherjee@gmail.com,
-	teddy.wang@siliconmotion.com,
+        Thu, 04 Dec 2025 08:29:17 -0800 (PST)
+From: Julioccps <julio191096@gmail.com>
+To: hvaibhav.linux@gmail.com,
+	johan@kernel.org,
+	elder@kernel.org,
 	gregkh@linuxfoundation.org
-Cc: linux-fbdev@vger.kernel.org,
+Cc: greybus-dev@lists.linaro.org,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
-	Karthikeya <garagakarthikeya2007@gmail.com>
-Subject: [PATCH] staging: sm750fb: Fix alignment in sm750_hw_cursor_set_size call
-Date: Thu,  4 Dec 2025 20:31:26 +0530
-Message-ID: <20251204150127.10844-1-garagakarthikeya2007@gmail.com>
+	Julioccps <julio191096@gmail.com>
+Subject: [PATCH v2] staging: greybus: arche-apb-ctrl: switch to device_property_read_bool
+Date: Thu,  4 Dec 2025 13:29:06 -0300
+Message-ID: <20251204162906.45005-1-julio191096@gmail.com>
 X-Mailer: git-send-email 2.52.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -77,32 +78,80 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Align the arguments of the sm750_hw_cursor_set_size function call
-with the opening parenthesis.
+Switch from the deprecated of_property_read_bool() to the common
+device_property_read_bool() API. This makes the driver agnostic to
+the underlying firmware interface (DT or ACPI) and simplifies the
+logic.
 
-This fixes a checkpatch.pl CHECK warning:
-'Alignment should match open parenthesis'
+Since the driver is no longer strictly dependent on Device Tree,
+include <linux/mod_devicetable.h> directly for the struct
+of_device_id definition, instead of relying on implicit inclusion
+via <linux/of_irq.h>, which has been removed as it is unused.
 
-Signed-off-by: Karthikeya <garagakarthikeya2007@gmail.com>
+Also rename apb_ctrl_get_devtree_data() to apb_ctrl_get_fw_data()
+to better reflect the agnostic nature of the new implementation.
+
+Signed-off-by: Julio Cesar Carvalho de Paula Souza <julio191096@gmail.com>
 ---
- drivers/staging/sm750fb/sm750.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/staging/greybus/arche-apb-ctrl.c | 11 ++++++-----
+ 1 file changed, 6 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/staging/sm750fb/sm750.c b/drivers/staging/sm750fb/sm750.c
-index 3659af7e5..9740f2705 100644
---- a/drivers/staging/sm750fb/sm750.c
-+++ b/drivers/staging/sm750fb/sm750.c
-@@ -121,8 +121,8 @@ static int lynxfb_ops_cursor(struct fb_info *info, struct fb_cursor *fbcursor)
- 	sm750_hw_cursor_disable(cursor);
- 	if (fbcursor->set & FB_CUR_SETSIZE)
- 		sm750_hw_cursor_set_size(cursor,
--					fbcursor->image.width,
--					fbcursor->image.height);
-+					 fbcursor->image.width,
-+					 fbcursor->image.height);
+diff --git a/drivers/staging/greybus/arche-apb-ctrl.c b/drivers/staging/greybus/arche-apb-ctrl.c
+index 90ab32638d3f..eea9648a461c 100644
+--- a/drivers/staging/greybus/arche-apb-ctrl.c
++++ b/drivers/staging/greybus/arche-apb-ctrl.c
+@@ -10,13 +10,14 @@
+ #include <linux/delay.h>
+ #include <linux/gpio/consumer.h>
+ #include <linux/interrupt.h>
+-#include <linux/of_irq.h>
+ #include <linux/module.h>
+ #include <linux/pinctrl/consumer.h>
+ #include <linux/platform_device.h>
+ #include <linux/pm.h>
++#include <linux/property.h>
+ #include <linux/regulator/consumer.h>
+ #include <linux/spinlock.h>
++#include <linux/mod_devicetable.h>
+ #include "arche_platform.h"
  
- 	if (fbcursor->set & FB_CUR_SETPOS)
- 		sm750_hw_cursor_set_pos(cursor,
+ static void apb_bootret_deassert(struct device *dev);
+@@ -314,7 +315,7 @@ static ssize_t state_show(struct device *dev,
+ 
+ static DEVICE_ATTR_RW(state);
+ 
+-static int apb_ctrl_get_devtree_data(struct platform_device *pdev,
++static int apb_ctrl_get_fw_data(struct platform_device *pdev,
+ 				     struct arche_apb_ctrl_drvdata *apb)
+ {
+ 	struct device *dev = &pdev->dev;
+@@ -378,7 +379,7 @@ static int apb_ctrl_get_devtree_data(struct platform_device *pdev,
+ 	}
+ 
+ 	/* Only applicable for platform >= V2 */
+-	if (of_property_read_bool(pdev->dev.of_node, "gb,spi-en-active-high"))
++	if (device_property_read_bool(&pdev->dev, "gb,spi-en-active-high"))
+ 		apb->spi_en_polarity_high = true;
+ 
+ 	return 0;
+@@ -394,7 +395,7 @@ static int arche_apb_ctrl_probe(struct platform_device *pdev)
+ 	if (!apb)
+ 		return -ENOMEM;
+ 
+-	ret = apb_ctrl_get_devtree_data(pdev, apb);
++	ret = apb_ctrl_get_fw_data(pdev, apb);
+ 	if (ret) {
+ 		dev_err(dev, "failed to get apb devicetree data %d\n", ret);
+ 		return ret;
+@@ -403,7 +404,7 @@ static int arche_apb_ctrl_probe(struct platform_device *pdev)
+ 	/* Initially set APB to OFF state */
+ 	apb->state = ARCHE_PLATFORM_STATE_OFF;
+ 	/* Check whether device needs to be enabled on boot */
+-	if (of_property_read_bool(pdev->dev.of_node, "arche,init-disable"))
++	if (device_property_read_bool(&pdev->dev, "arche,init-disable"))
+ 		apb->init_disabled = true;
+ 
+ 	platform_set_drvdata(pdev, apb);
 -- 
 2.52.0
 
