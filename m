@@ -1,39 +1,39 @@
-Received: from mail-24418.protonmail.ch (mail-24418.protonmail.ch [109.224.244.18])
+Received: from mail-4322.protonmail.ch (mail-4322.protonmail.ch [185.70.43.22])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 583FA2E9EB9
-	for <linux-staging@lists.linux.dev>; Thu,  4 Dec 2025 11:44:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=109.224.244.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA9CD2DEA68
+	for <linux-staging@lists.linux.dev>; Thu,  4 Dec 2025 11:46:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.70.43.22
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764848692; cv=none; b=rxLi/0sbtRgsnS32MwUaVbIECZvs5cmUe5AcB3885rPvg1NjcUlaJNckO8owUNJuRTTUicgeR26m7X1CHdQoKRPar98Jv1v8VKt5tzMiFhp39GBVZ5zfV1d4xVmZtbqA+LYL99SZabymriwspI3qH6i1Jpn5CN7O5q/xi4yULKo=
+	t=1764848778; cv=none; b=Jel+JPcKOfdlastQwonts9X5dh8aVsxpUe+arm1+kB+g/05DKZk7NysKYYIf+TsfrrkwIhSXPYbwWVJayQbL/4AWCvzEsSUdEuDBvJ7pM4DSZvEFuOx10vfkFnSdx2BuAP6GZXdmwYQ2DEufMIRe09seXYnrCChWG4mkWq67Bss=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764848692; c=relaxed/simple;
-	bh=sx4n/F6VvB0k8XaMT12HgOS2XLTzu6/Ri4P8PeAp2Wc=;
-	h=Date:To:From:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=O31l1/ZlV+qjHodWQDdZNRcqhngzGmWQrcGaynUSAaXMS90ViwEqDRNQDe7sDMat6YfhmNGRG2PqiJ7RsmVPaa/D81iTY/ImHOvPoAaWyCkecl1KckjvntAVnk4gBvn3htmYKL7cErZABIgIY+42n239FfNJAPLDPv+o0dF0deI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me; spf=pass smtp.mailfrom=proton.me; dkim=pass (2048-bit key) header.d=proton.me header.i=@proton.me header.b=gZ6f3+xT; arc=none smtp.client-ip=109.224.244.18
+	s=arc-20240116; t=1764848778; c=relaxed/simple;
+	bh=npDHgTgyPY3ucFFaDwrdSLbPCdofWw8fYy4XOYZvHK4=;
+	h=Date:To:From:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=MLQRT538VVRQu9bb7L0m3DNayGjFMvz0VrlhYQWPhSZ4lJdFNgwwQj1pZUzONR0rTIFtjcAuB3GkmTLNjJ3TIJv8yo9kdv11JUC3XV7epUWIFtWRotzrjDdY++CYpMWyIxJMEcbkldN9OSjjSVVfRr8phGBrqVVJNkfuLRIMs1A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me; spf=pass smtp.mailfrom=proton.me; dkim=pass (2048-bit key) header.d=proton.me header.i=@proton.me header.b=Lp8tDpvp; arc=none smtp.client-ip=185.70.43.22
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=proton.me
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=proton.me header.i=@proton.me header.b="gZ6f3+xT"
+	dkim=pass (2048-bit key) header.d=proton.me header.i=@proton.me header.b="Lp8tDpvp"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=proton.me;
-	s=protonmail; t=1764848681; x=1765107881;
-	bh=paINnLOfceEQswC5S7mSH7VqfOx4c8Rcyz3ZUBIADqY=;
+	s=protonmail; t=1764848769; x=1765107969;
+	bh=jPbju85S1/gio1c4oElkkZDp0MO5LCj15+wzGgdW0qY=;
 	h=Date:To:From:Cc:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
 	 Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
-	b=gZ6f3+xTOcy6qZ6A5/2VJbPi899In6+pXGGaWPTbj7pidTuzA3/q4OVM7MovuLvlv
-	 PtM75LOHsDbGMHkDu6PD+ThNx0IcfS3xqxMeQqPttEyVNQEe6XhAdOjjZF0N7eJc4w
-	 qB9YEEbnddfnn/4o7sqEhoxNetS6oHfe4o0ke2ejuPYlu9pTyMGbwPftWuikPLhmmd
-	 7ySI4soXItyzPen2aKyNixiVMWMYMFzshye1EC3XByz3rZcwB94quSrQgPlaQNyDU8
-	 j8FGwLt5hV+6Y08CwksWxh0O0+QXs748YsTXrONsuGIfHgkNjyTMJyy07hMefBt2qT
-	 C3x7FJpOeCBAg==
-Date: Thu, 04 Dec 2025 11:44:39 +0000
+	b=Lp8tDpvpIkx+N56cjj8VDzTAAUquI82gZZct80hv5XJL3DKU4oChdz0oWIcCjGdJR
+	 q5QrB8Gow2dxJ0ZhuVQNNMSR2Y72rOZ1+ZCObNhlHD0WPuwkT2PMQFj0JnplHBJlYN
+	 JRLvJXtyUEq+RMhopKb1JsF7uGUqWynytnezsGPZXqJAhZciajNH58RHRb6W3+BZzi
+	 3lGAwf/2T7go7GaJ/aex8Ccl9Y8BuCe1+/aXkBuYxQ2d+ctd/09JRySYIWW3URncSj
+	 jip3a9/oNQFIoBVXcCi0l6heT0Pp/r+hG/Tq24KqYuk7wjdJZrpSklKDKylAOI/lgJ
+	 v3V2uKg2Mf4xA==
+Date: Thu, 04 Dec 2025 11:46:02 +0000
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 From: Bryant Boatright <bryant.boatright@proton.me>
 Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH v3 1/2] staging: rtl8723bs: Rename camel case enumeration
-Message-ID: <aTF0IzaeavEIwrsw@ubuntu-desk>
+Subject: [PATCH v3 2/2] staging: rtl8723bs: Rename camel case variable
+Message-ID: <aTF0diMdLrA6v-WI@ubuntu-desk>
 Feedback-ID: 74848953:user:proton
-X-Pm-Message-ID: 36d9e660eecf83305ef08421ce917a99323564cb
+X-Pm-Message-ID: 0b468bd74d469c2c30f1ac9341d41fa87b0c4ccc
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -43,120 +43,73 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 
-Rename camel case enumeration to snake case and expand enumeration name
-for clarity. Update indentation of function prototype/definition based
-on new name length. Move enumeration definition from single line to
-multi-line definition.
+Adhere to Linux kernel coding style.
 
 Reported by checkpatch:
 
-CHECK: Avoid CamelCase: <ParseRes>
-CHECK: Avoid CamelCase: <ParseFailed>
-CHECK: Avoid CamelCase: <ParseUnknown>
-CHECK: Avoid CamelCase: <ParseOK>
+CHECK: Avoid CamelCase: <rateLen>
 
 Signed-off-by: Bryant Boatright <bryant.boatright@proton.me>
 ---
 Changes in v3:
-- Change parse_result definition to multi-line definition.
-- Change parse_res to parse_result for clearer enumeration purpose.
-- Update indentation in function prototype/definitions due to name
-  change for parse_result.
+    1 - Correct typo in commit message.
 
-Changes in v2:
-- Make enumeration constant names all upper case.
-
- drivers/staging/rtl8723bs/core/rtw_ieee80211.c | 12 ++++++------
- drivers/staging/rtl8723bs/core/rtw_mlme_ext.c  |  2 +-
- drivers/staging/rtl8723bs/include/ieee80211.h  | 12 ++++++++----
- 3 files changed, 15 insertions(+), 11 deletions(-)
+ drivers/staging/rtl8723bs/core/rtw_ieee80211.c | 14 +++++++-------
+ 1 file changed, 7 insertions(+), 7 deletions(-)
 
 diff --git a/drivers/staging/rtl8723bs/core/rtw_ieee80211.c b/drivers/stagi=
 ng/rtl8723bs/core/rtw_ieee80211.c
-index 8fdeeda88a6d..469388a4062c 100644
+index 469388a4062c..95539d6405b5 100644
 --- a/drivers/staging/rtl8723bs/core/rtw_ieee80211.c
 +++ b/drivers/staging/rtl8723bs/core/rtw_ieee80211.c
-@@ -845,9 +845,9 @@ static int rtw_ieee802_11_parse_vendor_specific(u8 *pos=
-, uint elen,
-  * @show_errors: Whether to show parsing errors in debug log
-  * Returns: Parsing result
-  */
--enum ParseRes rtw_ieee802_11_parse_elems(u8 *start, uint len,
--=09=09=09=09struct rtw_ieee802_11_elems *elems,
--=09=09=09=09int show_errors)
-+enum parse_result rtw_ieee802_11_parse_elems(u8 *start, uint len,
-+=09=09=09=09=09     struct rtw_ieee802_11_elems *elems,
-+=09=09=09=09=09     int show_errors)
+@@ -285,7 +285,7 @@ uint rtw_get_rateset_len(u8 *rateset)
+ int rtw_generate_ie(struct registry_priv *pregistrypriv)
  {
- =09uint left =3D len;
- =09u8 *pos =3D start;
-@@ -863,7 +863,7 @@ enum ParseRes rtw_ieee802_11_parse_elems(u8 *start, uin=
-t len,
- =09=09left -=3D 2;
+ =09u8 wireless_mode;
+-=09int=09sz =3D 0, rateLen;
++=09int=09sz =3D 0, rate_len;
+ =09struct wlan_bssid_ex *pdev_network =3D &pregistrypriv->dev_network;
+ =09u8 *ie =3D pdev_network->ies;
 =20
- =09=09if (elen > left)
--=09=09=09return ParseFailed;
-+=09=09=09return PARSE_FAILED;
+@@ -320,13 +320,13 @@ int rtw_generate_ie(struct registry_priv *pregistrypr=
+iv)
 =20
- =09=09switch (id) {
- =09=09case WLAN_EID_SSID:
-@@ -966,9 +966,9 @@ enum ParseRes rtw_ieee802_11_parse_elems(u8 *start, uin=
-t len,
+ =09rtw_set_supported_rate(pdev_network->supported_rates, wireless_mode);
+=20
+-=09rateLen =3D rtw_get_rateset_len(pdev_network->supported_rates);
++=09rate_len =3D rtw_get_rateset_len(pdev_network->supported_rates);
+=20
+-=09if (rateLen > 8) {
++=09if (rate_len > 8) {
+ =09=09ie =3D rtw_set_ie(ie, WLAN_EID_SUPP_RATES, 8, pdev_network->supporte=
+d_rates, &sz);
+-=09=09/* ie =3D rtw_set_ie(ie, WLAN_EID_EXT_SUPP_RATES, (rateLen - 8), (pd=
+ev_network->supported_rates + 8), &sz); */
++=09=09/* ie =3D rtw_set_ie(ie, WLAN_EID_EXT_SUPP_RATES, (rate_len - 8), (p=
+dev_network->supported_rates + 8), &sz); */
+ =09} else {
+-=09=09ie =3D rtw_set_ie(ie, WLAN_EID_SUPP_RATES, rateLen, pdev_network->su=
+pported_rates, &sz);
++=09=09ie =3D rtw_set_ie(ie, WLAN_EID_SUPP_RATES, rate_len, pdev_network->s=
+upported_rates, &sz);
  =09}
 =20
- =09if (left)
--=09=09return ParseFailed;
-+=09=09return PARSE_FAILED;
+ =09/* DS parameter set */
+@@ -336,8 +336,8 @@ int rtw_generate_ie(struct registry_priv *pregistrypriv=
+)
 =20
--=09return unknown ? ParseUnknown : ParseOK;
-+=09return unknown ? PARSE_UNKNOWN : PARSE_OK;
- }
+ =09ie =3D rtw_set_ie(ie, WLAN_EID_IBSS_PARAMS, 2, (u8 *)&(pdev_network->co=
+nfiguration.atim_window), &sz);
 =20
- void rtw_macaddr_cfg(struct device *dev, u8 *mac_addr)
-diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c b/drivers/stagin=
-g/rtl8723bs/core/rtw_mlme_ext.c
-index ac49bfbaa5bb..19889610c0ee 100644
---- a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-@@ -993,7 +993,7 @@ unsigned int OnAssocReq(struct adapter *padapter, union=
- recv_frame *precv_frame)
- =09pstat->capability =3D capab_info;
+-=09if (rateLen > 8)
+-=09=09ie =3D rtw_set_ie(ie, WLAN_EID_EXT_SUPP_RATES, (rateLen - 8), (pdev_=
+network->supported_rates + 8), &sz);
++=09if (rate_len > 8)
++=09=09ie =3D rtw_set_ie(ie, WLAN_EID_EXT_SUPP_RATES, (rate_len - 8), (pdev=
+_network->supported_rates + 8), &sz);
 =20
- =09/* now parse all ieee802_11 ie to point to elems */
--=09if (rtw_ieee802_11_parse_elems(pos, left, &elems, 1) =3D=3D ParseFailed=
- ||
-+=09if (rtw_ieee802_11_parse_elems(pos, left, &elems, 1) =3D=3D PARSE_FAILE=
-D ||
- =09    !elems.ssid) {
- =09=09status =3D WLAN_STATUS_CHALLENGE_FAIL;
- =09=09goto OnAssocReqFail;
-diff --git a/drivers/staging/rtl8723bs/include/ieee80211.h b/drivers/stagin=
-g/rtl8723bs/include/ieee80211.h
-index 1098b0209200..1ea0817cd155 100644
---- a/drivers/staging/rtl8723bs/include/ieee80211.h
-+++ b/drivers/staging/rtl8723bs/include/ieee80211.h
-@@ -724,11 +724,15 @@ struct rtw_ieee802_11_elems {
- =09u8 vht_op_mode_notify_len;
- };
-=20
--enum ParseRes { ParseOK =3D 0, ParseUnknown =3D 1, ParseFailed =3D -1 };
-+enum parse_result {
-+=09PARSE_OK =3D 0,
-+=09PARSE_UNKNOWN =3D 1,
-+=09PARSE_FAILED =3D -1
-+};
-=20
--enum ParseRes rtw_ieee802_11_parse_elems(u8 *start, uint len,
--=09=09=09=09struct rtw_ieee802_11_elems *elems,
--=09=09=09=09int show_errors);
-+enum parse_result rtw_ieee802_11_parse_elems(u8 *start, uint len,
-+=09=09=09=09=09     struct rtw_ieee802_11_elems *elems,
-+=09=09=09=09=09     int show_errors);
-=20
- u8 *rtw_set_fixed_ie(unsigned char *pbuf, unsigned int len, unsigned char =
-*source, unsigned int *frlen);
- u8 *rtw_set_ie(u8 *pbuf, signed int index, uint len, u8 *source, uint *frl=
-en);
+ =09/* HT Cap. */
+ =09if ((pregistrypriv->wireless_mode & WIRELESS_11_24N) &&
 --=20
 2.43.0
 
