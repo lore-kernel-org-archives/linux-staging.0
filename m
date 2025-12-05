@@ -1,102 +1,175 @@
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
+Received: from mail-vk1-f181.google.com (mail-vk1-f181.google.com [209.85.221.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51860355050
-	for <linux-staging@lists.linux.dev>; Fri,  5 Dec 2025 07:27:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B9BD27A91D
+	for <linux-staging@lists.linux.dev>; Fri,  5 Dec 2025 11:06:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764919650; cv=none; b=gJZ9JuOgi3xSHPip5IMqv7sHNmkyf58tzzhe2FDNPiGmmXWoYT8cVRhtW2hfSYxUM3xg2d7p7QApJ2MNykMXsvSjwmyJmihrhNFgEygOGETHM/T/bU26wqmC2be4W4RppeslCz8rSHyWxvlvjEZdN1Ji/YwnPpA7TN0Du68iOxM=
+	t=1764932783; cv=none; b=R4R+7S1VcgVcVyBZ8YoNpmN1PNrwpSBcRb/foOenmuB8CvaFMlejA+9w3r7+j2l+dMaOF/HGR+4M/OSQFNPkKZ3ZD9tNggKMi9hsHusyYVY3JrEWikTnjE9cZNZhqbbcUjVRAPJsgIQ8uBhNvVj9e1pbXiY63fKQwimJnks0lgk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764919650; c=relaxed/simple;
-	bh=CZILDV4rp3fLc54B2oxY0hTvE2X2XCFxhFLW4l/1SRw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JJKTjYK3nOZn5QqhYZ3TAmw0EIfrKDU2+YDyNglQZ3M7pdKmvmTJh9W7TCLZzLE1QCTLAZpa63NEWspK2hXfoMralhQvk3zRctjhKyPIVoAPghy02zYqvfgAlSf3Tc1m6hJK3+CRTfT3pGrCnuHbPrtvRO3lA6DO0OQbzIXOcLA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=hJq0p89r; arc=none smtp.client-ip=209.85.221.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1764932783; c=relaxed/simple;
+	bh=VYSDlK+wO3E5LHx9wHLxp5XNwDhXtCkLn4TZNQfl3Mk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=iy1nyDmGIWNOvZqu7GLU956DbyCLouoRIwoYsVrPU4z129ulczE6E+TBslH/xTtYNOPtFiTP4P+Ys6zMhRgXAU5eWwTyvco6wpALdcXFNnMzvIznF9dVbb0DxuKuTq0Cd7e4BVuiEDJSLJv6FxYuqbGTVaCVGXCh9rp4DrueYrs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NK7t+h7X; arc=none smtp.client-ip=209.85.221.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="hJq0p89r"
-Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-42e29739ff1so757701f8f.1
-        for <linux-staging@lists.linux.dev>; Thu, 04 Dec 2025 23:27:14 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NK7t+h7X"
+Received: by mail-vk1-f181.google.com with SMTP id 71dfb90a1353d-5599688d574so618270e0c.2
+        for <linux-staging@lists.linux.dev>; Fri, 05 Dec 2025 03:06:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1764919630; x=1765524430; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=cmdMp8pUxPj98ZnQAz0LAJJcQfL1Jq/MIx9tUtAqMG0=;
-        b=hJq0p89rSV8TdjZQKaz88xAofCPFusars2+bDCDAilzsRuKbe8hatL2x+OZQ7dEdJr
-         anHRx3dqvTtE96O2507SXJg1uGJ1OGKCsY5TetHRYMEprgUg59j5HWgEBmSLB+2uuJh2
-         7LF+o5OO+n+Hy9xkRa8M3OeOB1jmgMyewAPj4T0Pzv5iwC/qyEFNpAjTq2TZZnh4d5a3
-         43u6rlj+VD80IeeEn0t6jhJY34K53z76FQGhgThw1Iw938WVt7xljtTBAaFNg+1e+yyX
-         v75xBciPaPUoOY7JPdfnPYc5e7AJLJRUPvFCe1Gur2uBym6N1lnLLvHgqA09RjA2/q0V
-         FXog==
+        d=gmail.com; s=20230601; t=1764932780; x=1765537580; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=KZhvelUTNVQjpCwZjkIiRYWFFb4bmI4pkoHsXqQN7X4=;
+        b=NK7t+h7X32oaoSFV5A1U3qXb/A4Fe0Q2r9RhN8ZLqLRXLrjNzPOGYIzVDJ5aRfaI1q
+         GLPwN+lezo9iyMPp5U0kQ+zXJgpZoACXl9CjysUcKos0GVPm68Oieu4kYJ+cn+rB0ilX
+         YuOvQF2M9vgkMEmcJTkM+h0zsAPuz+N41CrDY5BqgFFN9+qWVsJPzwWAFuAJbzR0JiT5
+         4twiKHxft7BkbCewKfhhhU8NdAlTdtco2q+vcLCqUZVOOotC1sUeoorwnkNvs3RKlLHq
+         2WDnzq5Y3JXCXPhr0ft47ATYhYsKH99GbFDEtmELotRyvE7EPQXn0ERi1Ic/YoLx4ms7
+         eVuw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764919630; x=1765524430;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=cmdMp8pUxPj98ZnQAz0LAJJcQfL1Jq/MIx9tUtAqMG0=;
-        b=CwzDvweyut58NQB8S7HJfEqkwmF3admoJVFRYf8pfmuTyQzWj1tJTxh+QkEkONGbxe
-         81V0ofMLZYhPR5aT4SwRZyeThYwmchkXMFN2nD5aVQhBy4Mt1bpinXhDsr01AL0UZ3Y/
-         8yKIfNYYzvBfwAEO0Feoy5p8bwNYzmIo7yQ8MqNy5TFHB2cu+P1sCGWM5OHz7QUQtUH8
-         Z4cyja4tuHFygl09vtNyw6CrWJjDIVEfI4lBc4Ihc8jUtFP0fv0o2cK8v/fkJrBvuhjj
-         9eZDTGTzzUzhQKvGwLLbS/jhXlHnk+qbAs1UmRpKgqrKpErLWEuMsZuIaW6rLklC2lbb
-         k5dw==
-X-Forwarded-Encrypted: i=1; AJvYcCVWpnZTsN1K8R9BlWXakyyrWgCdhmrdoLJ45izRpJ8OEYXig+gXDbZe9MsabPirml/bRGU3p3SKy8XhocJo@lists.linux.dev
-X-Gm-Message-State: AOJu0Yx2ZtiKIz7qF6AIUc+g3BvBmnFI5vDZ+PqgQ3RXOerx3mi/vXCx
-	dPuK8ok5gPThSGBZH8EYd2FTRMjcAS83pHvGSm1rQ9NLsL/AIfZ4VNkS4WswHYCti4A=
-X-Gm-Gg: ASbGncuMY6HRJWCOCW3YYmsItb/Y6ZdP5Ey5cWXqUBTLe9E52aBMiFYNjlduJ9Aln4t
-	d04tANg7Sw43T02ygnFtF/LkDsNkiREd8Xd6L4E/fRPGXVev9WdaeNGS3AJGwcauEDbTFurP1d+
-	XjEcl1S0PPQ4+rmttLJ+2f3EBFEdhcbFxwifoLT8N9tw2R32NJ6XwY6XTvmDUgrKGhaeFK6Qa79
-	7zdyPifbe3mGxnUrbzrztKFbPp1S4kY9cGcSYBeiqRvLPBvThNKIRRHYu3G/34LiqxEw56RsnOn
-	IGbDEeFp+YZsWs4cUMCmvqa0rjNHEXs9r26WbXJpiy+UplFHVano2+kW9LBxvB0LzbszUrzws5+
-	cLWwQ2H5eE7xgQt7GO5Ew4lwQObDiYQNp7QKDl/OvzqC0jPvzuxOCfOxNzEDTKV/K7LsMkpITDe
-	tr8OB0wkc/r2KRaP3/
-X-Google-Smtp-Source: AGHT+IFBK31HtXZveFNyUwIRCfd9avIi+htsMbaBgOkfxItSOeqhFcRvaUxPxjnEtb200nCr3ZDiJg==
-X-Received: by 2002:a05:6000:608:b0:3e7:6424:1b47 with SMTP id ffacd0b85a97d-42f7875f62dmr6797375f8f.6.1764919629821;
-        Thu, 04 Dec 2025 23:27:09 -0800 (PST)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-42f7d3319ccsm7010344f8f.34.2025.12.04.23.27.08
+        d=1e100.net; s=20230601; t=1764932780; x=1765537580;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=KZhvelUTNVQjpCwZjkIiRYWFFb4bmI4pkoHsXqQN7X4=;
+        b=jm3edMfBgMjzHEnRBtRjR4RwnbHrfO8E1cEfQfSxem6mNfuVQs/sEp+Ke/wH22XbJE
+         /apBdXwrcVujNCfwGM6EfM3xuwUP5/wYgB9E3y2JCjJqasUCnpQ7h8lDBdLK8kXQDoFK
+         qr5orgWOJ+ieZPr8rZBvT+A6GZ14MbtWBLbOZSo6bTrCjAHbipeyvVdO2+1v5JjYWd4N
+         VMj/VJvY0b9r3u0TqYXzcYbUAZbWGhpway9EXhdjZWaeI9LISaigRMuO7PApUhAi+Z4m
+         88Ht0friSRi1N73tf1IWkKR8Ghk5R6m4ZVKGyBHLqMFL98HMd/XefWw/7B5K/KzYfYbE
+         1WNQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUBO3okLQJFNtu6KZKcB/k/6TFXVXGifH4zgZ44rtymLDUBFPBSxDsIJuXA5CTdomOQXBYs5uB2RPEX1mcf@lists.linux.dev
+X-Gm-Message-State: AOJu0YwjGOPgGfOTraH51FvY9vwrDuYJWfzVSdErZVyhjKEw6lLfmUYQ
+	lxYV35GYFr51PWm9HZEah0NH295/ZgKmpL0+TCR4NlvalXmoWHsxDHyo
+X-Gm-Gg: ASbGncu14IavVo5Iehpz8tyUTNbERp+f003jTDTrIeZe28W+isvQn3NLzZ7ZFmkEM7/
+	Wgtmx/yyG8zE86In1hsBlIeBs3Cu3brz4+8S5554CfTKNfNW2Ubev7wWLULTTMurT6I30/Y8sxw
+	SkdCialFHw7HOoyUiw/WAliWNzBJKIYv/FUJKDHyWPx58hdERYDJyyD8B/CMCLj9lr0mii/11Ai
+	u8DBjBNx0oRHcECg9YfjxiyRmQT29mxImAA5uB+Xe0fAAg2lKERBomH+/eKK7z4Z7xKkfEeXG3K
+	hxWbV6ry/aOb8eDSBLVD4ULbvl8bGlNWdw6NUjfFx6b4ka4tneYA09MlufCEhc/4mxDgJWU6EIZ
+	r7X9Li8rz6T1LcCKIhsX2SatA89nA33adxuDTLgqF9b/hb4MqTrNiZk8Pd8jyZR4/Zf5DOA/KF9
+	zHnN7MTZ2CY8jcTeYxPwWHrkc=
+X-Google-Smtp-Source: AGHT+IEkt8HW36gyLR1l2wdTY0ESpus9ypRrB4cqHbD2NMCLXH7kTrxq5PT359t4Ljci47BAN9TkQA==
+X-Received: by 2002:a05:6122:660d:b0:55b:305b:4e3d with SMTP id 71dfb90a1353d-55e5c043be0mr3726432e0c.19.1764932779670;
+        Fri, 05 Dec 2025 03:06:19 -0800 (PST)
+Received: from archlinux ([2804:1b2:9545:c615:2358:ef44:78a3:f69a])
+        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-93f01d022a4sm245598241.3.2025.12.05.03.06.16
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 04 Dec 2025 23:27:09 -0800 (PST)
-Date: Fri, 5 Dec 2025 10:27:06 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Julioccps <julio191096@gmail.com>
-Cc: hvaibhav.linux@gmail.com, johan@kernel.org, elder@kernel.org,
-	gregkh@linuxfoundation.org, greybus-dev@lists.linaro.org,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4] staging: greybus: arche-apb-ctrl: switch to
- device_property_read_bool
-Message-ID: <aTKJSmE_FdT9AUpq@stanley.mountain>
-References: <20251204231753.66229-1-julio191096@gmail.com>
+        Fri, 05 Dec 2025 03:06:19 -0800 (PST)
+From: Julio Cesar Carvalho de Paula Souza <julio191096@gmail.com>
+To: hvaibhav.linux@gmail.com,
+	johan@kernel.org,
+	elder@kernel.org,
+	gregkh@linuxfoundation.org,
+	dan.carpenter@linaro.org
+Cc: greybus-dev@lists.linaro.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Julio Cesar Carvalho de Paula Souza <julio191096@gmail.com>
+Subject: [PATCH v5] staging: greybus: arche-apb-ctrl: switch to device_property_read_bool
+Date: Fri,  5 Dec 2025 08:06:07 -0300
+Message-ID: <20251205110607.2438-1-julio191096@gmail.com>
+X-Mailer: git-send-email 2.52.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251204231753.66229-1-julio191096@gmail.com>
+Content-Transfer-Encoding: 8bit
 
-On Thu, Dec 04, 2025 at 08:17:53PM -0300, Julioccps wrote:
-> Switch from the deprecated of_property_read_bool() to the common
-> device_property_read_bool() API. This makes the driver agnostic to
-> the underlying firmware interface (DT or ACPI) and simplifies the
-> logic.
-> 
-> Since the driver is no longer strictly dependent on Device Tree,
-> include <linux/mod_devicetable.h> directly for the struct
-> of_device_id definition, instead of relying on implicit inclusion
-> via <linux/of_irq.h>, which has been removed as it is unused.
-> 
-> Also rename apb_ctrl_get_devtree_data() to apb_ctrl_get_fw_data()
-> to better reflect the agnostic nature of the new implementation.
-> 
-> Signed-off-by: Julio Cesar Carvalho de Paula Souza <julio191096@gmail.com>
-> ---
+Switch from the deprecated of_property_read_bool() to the common
+device_property_read_bool() API. This makes the driver agnostic to
+the underlying firmware interface (DT or ACPI) and simplifies the
+logic.
 
-Same comments as v3.
+Since the driver is no longer strictly dependent on Device Tree,
+include <linux/mod_devicetable.h> directly for the struct
+of_device_id definition, instead of relying on implicit inclusion
+via <linux/of_irq.h>, which has been removed as it is unused.
 
-regards,
-dan carpenter
+Also rename apb_ctrl_get_devtree_data() to apb_ctrl_get_fw_data()
+to better reflect the agnostic nature of the new implementation.
+
+Signed-off-by: Julio Cesar Carvalho de Paula Souza <julio191096@gmail.com>
+---
+
+Changes in v5:
+    - Fixed 'From' header mismatch(updated git config user.name)
+    - Fixed indentation aligment in function declaration as pointed out
+    by Dan Carpenter
+
+Changes in v4:
+    -  Fixed a typo in the v3 commit
+
+Changes in v3:
+  - Added changelog history as requested by the maintainer bot.
+
+Changes in v2:
+  - Shortened the subject line to match subsystem standards.
+  - Updated Signed-off-by to use full real name.
+ drivers/staging/greybus/arche-apb-ctrl.c | 13 +++++++------
+ 1 file changed, 7 insertions(+), 6 deletions(-)
+
+diff --git a/drivers/staging/greybus/arche-apb-ctrl.c b/drivers/staging/greybus/arche-apb-ctrl.c
+index 90ab32638d3f..6a4efa9a9e0e 100644
+--- a/drivers/staging/greybus/arche-apb-ctrl.c
++++ b/drivers/staging/greybus/arche-apb-ctrl.c
+@@ -10,13 +10,14 @@
+ #include <linux/delay.h>
+ #include <linux/gpio/consumer.h>
+ #include <linux/interrupt.h>
+-#include <linux/of_irq.h>
+ #include <linux/module.h>
+ #include <linux/pinctrl/consumer.h>
+ #include <linux/platform_device.h>
+ #include <linux/pm.h>
++#include <linux/property.h>
+ #include <linux/regulator/consumer.h>
+ #include <linux/spinlock.h>
++#include <linux/mod_devicetable.h>
+ #include "arche_platform.h"
+ 
+ static void apb_bootret_deassert(struct device *dev);
+@@ -314,8 +315,8 @@ static ssize_t state_show(struct device *dev,
+ 
+ static DEVICE_ATTR_RW(state);
+ 
+-static int apb_ctrl_get_devtree_data(struct platform_device *pdev,
+-				     struct arche_apb_ctrl_drvdata *apb)
++static int apb_ctrl_get_fw_data(struct platform_device *pdev,
++			        struct arche_apb_ctrl_drvdata *apb)
+ {
+ 	struct device *dev = &pdev->dev;
+ 	int ret;
+@@ -378,7 +379,7 @@ static int apb_ctrl_get_devtree_data(struct platform_device *pdev,
+ 	}
+ 
+ 	/* Only applicable for platform >= V2 */
+-	if (of_property_read_bool(pdev->dev.of_node, "gb,spi-en-active-high"))
++	if (device_property_read_bool(&pdev->dev, "gb,spi-en-active-high"))
+ 		apb->spi_en_polarity_high = true;
+ 
+ 	return 0;
+@@ -394,7 +395,7 @@ static int arche_apb_ctrl_probe(struct platform_device *pdev)
+ 	if (!apb)
+ 		return -ENOMEM;
+ 
+-	ret = apb_ctrl_get_devtree_data(pdev, apb);
++	ret = apb_ctrl_get_fw_data(pdev, apb);
+ 	if (ret) {
+ 		dev_err(dev, "failed to get apb devicetree data %d\n", ret);
+ 		return ret;
+@@ -403,7 +404,7 @@ static int arche_apb_ctrl_probe(struct platform_device *pdev)
+ 	/* Initially set APB to OFF state */
+ 	apb->state = ARCHE_PLATFORM_STATE_OFF;
+ 	/* Check whether device needs to be enabled on boot */
+-	if (of_property_read_bool(pdev->dev.of_node, "arche,init-disable"))
++	if (device_property_read_bool(&pdev->dev, "arche,init-disable"))
+ 		apb->init_disabled = true;
+ 
+ 	platform_set_drvdata(pdev, apb);
+-- 
+2.52.0
 
