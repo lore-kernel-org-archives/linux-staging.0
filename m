@@ -1,76 +1,83 @@
-Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2F053161AA
-	for <linux-staging@lists.linux.dev>; Fri,  5 Dec 2025 11:21:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B044C2D780C
+	for <linux-staging@lists.linux.dev>; Fri,  5 Dec 2025 20:28:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764933714; cv=none; b=BO5DWVYhHclK0CONTjF4yW9lF5I8TwM4kwcpeyxeNa4VZ7Rnfbjq1jHDk5wscFSdQurSc4f+bvXl0iVyyYxKMAl069XVDlO7o3mPy+qgMG+8Jmf050lkReUM1SxnCjC7dGo1YCNh0umbG7TN8IwLtrhc56g3NWmE+ZcaTfTRCXM=
+	t=1764966494; cv=none; b=ezGW82jiXL0biwt2LLs2HgZIAnAvhnfjHjy8iGTPFoogervNFWFfo+H7Uwk9JLt3Qv/iykJkWIvUhPmnIYJiL2dFPMMytGuufWSxxNUp9Uf53Evsj4Rb+buPkYweY23LDvr3pfIWnznyJn4qxkUP2QNdrAMICA/59x4nczCe9Ps=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764933714; c=relaxed/simple;
-	bh=2/gAulKtzzFr7YJbE8Gp5IY/e1RbiN7OHhRPWyb3QN8=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=QN5cLgTYTvfRFHbKJRWAh3TyOCfBAx0f879x99k4t3V62rHDP5oBoYokhICK7XyZxqvH2hRjv31QacMO639GcXUcyvSCPnPJvAdTx7Tx4VWcgtukPtnOETREfJBopmHcuxeb57seDPVIJ92KSF+XsEPkyKMsj3b7xi7T754ceqE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=J78S9c+x; arc=none smtp.client-ip=209.85.210.181
+	s=arc-20240116; t=1764966494; c=relaxed/simple;
+	bh=EVOhk1HI6FciASKyQp7+FOie/7X+cAATsS5lmRg1qfs=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=gbpkJur92LQ/trh5+9k2UmBpRa/0oaeKKw6gSBtOOw3yBukCKoACFdVgd/6uFz4wn3qkmB9+OkVeU1AyaM3fFdVk6BOL0jMe6YMlOX2SKdfIWLcqyfawk4dDIMyZArOOqhATVDPcgzbR3QL2qK0S5pC0yWS3eSIdITXEDau7kAk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CJiW+PNd; arc=none smtp.client-ip=209.85.214.181
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="J78S9c+x"
-Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-7b9a98b751eso1656791b3a.1
-        for <linux-staging@lists.linux.dev>; Fri, 05 Dec 2025 03:21:50 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CJiW+PNd"
+Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-2953ad5517dso25331105ad.0
+        for <linux-staging@lists.linux.dev>; Fri, 05 Dec 2025 12:28:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1764933710; x=1765538510; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1764966492; x=1765571292; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=P55QFDL5j85Vhd3CMucSVVVZVJ9u57AheboaCTxtyrw=;
-        b=J78S9c+xm8pnYW9d1a92j/dDN5xGQQyK2XC2+CTp0PG7qZd8Nd/io3jYXC03XWQNHF
-         kLSqkhip+4X1UItGP6gZNbBW8DLG40iCymQmvMzKkWuxsKMePOn37f/SHfV+6d548uUa
-         C4fWMiyd40Z9D4mPflhNLrzjNfiYQOESmFmB8aEexACoYOXdUVSlTVdQOQNhE+gH6AfN
-         BJlN2BO2Fz0Lfl3DlPlkGc9heFOtovXee6lIMgr/lWqmfAcIteHxSXY+qUReDqLLp6c7
-         eLI87aHh2pDMDqQLsmXLWL6SbpjkU0OKY+eQvMls5JrAnZcUMfRKkjCCsZBpNo7Mqwoi
-         wD3Q==
+        bh=SdEQYEeEhg+Pxb0AQxBFfKIUgC+j17YfvZoVKrA407E=;
+        b=CJiW+PNdLHjABxK+IIbychwwJh0srte/qWGbG8SRW6QaxTyuMEuH0e3OeUmUp2Ha/1
+         Hv36hGv6/PMELjkHAWaTB5RQOze77WnTwc/2pKVImIVmDKiqEYUHar8U/r5U0Ah9fQD/
+         FEOkxnjlx5/4vNEqOdCwIws8T4E21ktpNTTnO6cevvx5EMKO6YCeKOdFG4Tcj3l6p6n+
+         8qDiEBOE+zv8a8Xebe+2d+gh/Kc6pzImZsNKxC1rh4RzdnD2RK6Q54S6Ef9qNuWGmtFT
+         pvzQ/I4As7mSESiIYvHclgl6LzbQGQUEsyyMWmbkj4z1QeX55t7wJA3GTUqSUZRvr+HW
+         eloA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764933710; x=1765538510;
+        d=1e100.net; s=20230601; t=1764966492; x=1765571292;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=P55QFDL5j85Vhd3CMucSVVVZVJ9u57AheboaCTxtyrw=;
-        b=hVaoBHoJXdL9K+KSSyDMunDpWWOG/1mKeHndPo1a/dSIwipSkvPs9E7pinF9c37y4W
-         VQNhT8bIQIkn3SOuF9BNbY2bjtpA9oa/8G9/w+Mcql2ulAAjCZXFIf0d3GMQPIb1kO5d
-         2zb0ww8YZhafvirFU2JRqvaZ6ze1tEQmUumAQwagK9rqf/AvzqvB3W2ozU03/Si04ds6
-         PRv0/F+bhzYc7J61b03d55J7ye6I3rLhijxefHNvpJD3JvYfPMIw/ajUstYe761679U1
-         h2l3EnWOwBFOEpngQtDsgHbtBdM0oTobRUmuDiqaOCvmEGy3q9A6Q+rm2tOo5T+jPQgZ
-         PYEQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVFGKuMgnVjs9Cdx5EOVUnwyw7xAOBaF+jS1gHVU5FzLMI3hvfnW/aQaqhFGKvuDQrVw17BIOOakm2wFfSw@lists.linux.dev
-X-Gm-Message-State: AOJu0Yxx+fWb4dbZ7lM28mXoVHcrqC8Br4jY5Ph+stcnxBqLty5tyqsf
-	dy6aYGW4zIhpiMnLT4QHxD2Zm9lLVfc8cPwH6XwcMKGB0nVi/GyCvL21
-X-Gm-Gg: ASbGncvtaSpGdz7CQYC3WLjPEV7vOv2sgiyhLl4++iiE0ME9HblYkT72AUFUH4+V5eO
-	nT+hpAV64dTFWLfnuNtH0f8b+wXY7fXuSeH5HuGCEpPGsYOrj5p7hzSMoZuQKj99OK+fb45BKCE
-	rYvJKCQRYZrnErp1hLcZ09ZGctG4eVCnem2Fr8OnBvI5OtauC9FrtBx7O27aHBaAuGOUaY5XUXA
-	GWzMqaZ17U5y0CnhaBrS9HizOogR0/EaOc9lkNBzZhaB2WMeTRcdp1XgYdJq+HumikXr0nI29Jb
-	NxgpfVXq9NH37XA0wwMZ7w1jKErXYaAX2hVNwdDQxZMz2/Q98eC+9GpjZ3av3GzmtRZQ/MP/cZn
-	7xCUBj+nxAIFQZgUwiGnCF+JwYJL+5/oodpOEMO/2t4rPEN74VLcDE8Sa1IgRtSs7G/wPwpQeVb
-	AhAjY/YHJ7xVGR
-X-Google-Smtp-Source: AGHT+IFy2MHfCerrGnaj1Qc+/LL4wDTJCmzPsBHd2bOjZVbGPNG91rncOd1PgzI9xp3MZTEio0x3zw==
-X-Received: by 2002:a05:7022:e1f:b0:11b:af12:ba30 with SMTP id a92af1059eb24-11df643bf9emr4174980c88.8.1764933709822;
-        Fri, 05 Dec 2025 03:21:49 -0800 (PST)
-Received: from archlinux ([2804:1b2:9545:c615:2358:ef44:78a3:f69a])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-11df76edd4fsm15756550c88.8.2025.12.05.03.21.47
+        bh=SdEQYEeEhg+Pxb0AQxBFfKIUgC+j17YfvZoVKrA407E=;
+        b=lWhW2OyRkR0dJt0l9Ekh6Z1ZChnHgZqTXQPB4dY+G8TWWwqJxMdu3MNXRWWmsYaZMz
+         FSUQxAq/zcewCxZxJ6YJ2JY+OQ0Ry+q+FOtBS0+fPpUFLTxsXkvjntLeF1mG7pcESx+3
+         l84B4FyE4VpPIPsf0mxHEqacDZ7PlECXYM9BwWaNwtBfUsLu1kdvVbxyIWpUrhHup1+K
+         HyltnyQ/zkkCRVjCFkSFVJynYZ1xeSwsxOWghDpZqCJ5zDlWRFT2NR6+90Zbd+KSJ6J7
+         ksrlhYziqijZwGwx59a8iShWWVXgHsKcK9mPFabcrSr0NkDCX0PEfJC53c2pTIM1eN59
+         Fdfg==
+X-Forwarded-Encrypted: i=1; AJvYcCUmoblqXkTYzNn67i3loVGz/uzpkbgMqaylZHEh+hYLLAUFusWyKDZzwhcV6PHTzkCG3ZRXHxm28HpOT42H@lists.linux.dev
+X-Gm-Message-State: AOJu0YziYbwpZWQjtEEVygSYV1lG5SNgyVila3ftCftTGLmL4nrfSpG3
+	4hvo+vKTHJ7MzRxUreO9YRC/s3i6narGu8kH2f8/K6wdQd2rugS+kiYv
+X-Gm-Gg: ASbGncuQ9VPM46T05nkq+QGNQxg9j/2VIfBZktwmYFhkalk5L6JMF/KseSZWJoiXHTm
+	42DlGzCapGa0A7TwnY/Ns6TxAL/7N3VGBubg7Kq9G/nJxjKH+NFXpzJ0qGpGdPhtDYkisaRDHkB
+	iyT8+CG5DX8iD4CK+yw8O670+mQWnsMHF/6Lzm4xU9I53hgzNE+jm+u6q7I/nJzv40X41BMl4fP
+	Hmc3Ygr76ujUrsvfLEztbVPBpITr3hDQ14FrPx9d5e9DfK9BWBWpJ3t9TbivPQMfYNJpMa5ufJ3
+	SshSzn3XiYOQCGuAL1iDMrDC/wKsIg43WDz5b0lmjEAUKyZVuDb2FmjYLuRu9G9f3kZRspfPegq
+	Ylue9yRlEQYMMHgoC0zra+md6Oga0WTshCIh5Npc/qlBuMZT73KBAoKzYiRTKqDvZASAHGbGU2l
+	0AC/x92t0amJlBjQc1eGBzNe2/fmZT+NVKZnm6/U4tzk/rlhmgNNthVUOnatk7Mx9+jN5A/txrk
+	7+4jgoUmdlv48tXFGWDfBjR8K5yulHPibjFnSSsUKfO0FJXzu8LVYs7ohU6iWaMKoBkNMTN
+X-Google-Smtp-Source: AGHT+IE7SZxJEEgg2GMHkTTXb7pxe8bAQ0ErqGaRLH8Fgf3Ui7YDuS3yTvPgzhY3cUjHgxCL6TCIsw==
+X-Received: by 2002:a17:903:3510:b0:298:3a2f:2333 with SMTP id d9443c01a7336-29df610f3eamr2230825ad.31.1764966491847;
+        Fri, 05 Dec 2025 12:28:11 -0800 (PST)
+Received: from Lewboski.localdomain ([181.191.143.42])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-29dae99fa59sm57256845ad.58.2025.12.05.12.28.07
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 05 Dec 2025 03:21:49 -0800 (PST)
-From: Julio Cesar Carvalho de Paula Souza <julio191096@gmail.com>
-To: hvaibhav.linux@gmail.com,
-	johan@kernel.org,
-	elder@kernel.org,
-	gregkh@linuxfoundation.org,
-	dan.carpenter@linaro.org
-Cc: greybus-dev@lists.linaro.org,
-	linux-staging@lists.linux.dev,
+        Fri, 05 Dec 2025 12:28:11 -0800 (PST)
+From: Tomas Borquez <tomasborquez13@gmail.com>
+To: Jonathan Cameron <jic23@kernel.org>,
+	Lars-Peter Clausen <lars@metafoo.de>,
+	Michael Hennerich <Michael.Hennerich@analog.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: David Lechner <dlechner@baylibre.com>,
+	=?UTF-8?q?Nuno=20S=C3=A1?= <nuno.sa@analog.com>,
+	Andy Shevchenko <andy@kernel.org>,
+	linux-iio@vger.kernel.org,
+	devicetree@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	Julio Cesar Carvalho de Paula Souza <julio191096@gmail.com>
-Subject: [PATCH v6] staging: greybus: arche-apb-ctrl: switch to device_property_read_bool
-Date: Fri,  5 Dec 2025 08:21:38 -0300
-Message-ID: <20251205112138.3431-1-julio191096@gmail.com>
-X-Mailer: git-send-email 2.52.0
+	linux-staging@lists.linux.dev,
+	Tomas Borquez <tomasborquez13@gmail.com>
+Subject: [RFC PATCH 0/3] ad9832: driver cleanup
+Date: Fri,  5 Dec 2025 17:27:40 -0300
+Message-ID: <20251205202743.10530-1-tomasborquez13@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -79,101 +86,94 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Switch from the deprecated of_property_read_bool() to the common
-device_property_read_bool() API. This makes the driver agnostic to
-the underlying firmware interface (DT or ACPI) and simplifies the
-logic.
+This series is a general cleanup of ad9832, with the purpose of 
+graduating it from staging. The main changes are removing legacy 
+platform_data support, converting to IIO channels with read/write_raw 
+callbacks, and adding devicetree support.
 
-Since the driver is no longer strictly dependent on Device Tree,
-include <linux/mod_devicetable.h> directly for the struct
-of_device_id definition, instead of relying on implicit inclusion
-via <linux/of_irq.h>, which has been removed as it is unused.
+I'm sending this as an RFC because I have some concerns about the ABI 
+design and would appreciate guidance before putting more time into this.
 
-Also rename apb_ctrl_get_devtree_data() to apb_ctrl_get_fw_data()
-to better reflect the agnostic nature of the new implementation.
+Patch 1 removes the legacy platform_data support as suggested by
+Jonathan [1]. The driver now initializes to a safe state and lets
+userspace configure frequencies/phases via sysfs.
 
-Signed-off-by: Julio Cesar Carvalho de Paula Souza <julio191096@gmail.com>
----
+Patch 2 converts frequency and phase configuration from custom sysfs
+attributes to proper IIO channels using read_raw/write_raw callbacks
+(This is the main area where I'd like feedback).
 
-Changes in v6:
-    - Aligned function arguments with the open parenthesis in function declaration.
+Patch 3 adds devicetree bindings documentation.
 
-Changes in v5:
-    - Fixed 'From' header mismatch(updated git config user.name)
-    - Fixed indentation aligment in function declaration as pointed out
-    by Dan Carpenter
+Design Concerns:
+1) Channel Organization and ABI Break
 
-Changes in v4:
-    -  Fixed a typo in the v3 commit
+   The device has 2 frequency registers and 4 phase registers. Since both
+   frequency and phase must use IIO_ALTVOLTAGE since there's no better fit
+   (as far as I know), I've organized channels as:
 
-Changes in v3:
-  - Added changelog history as requested by the maintainer bot.
+     out_altvoltage0_frequency  (FREQ0)
+     out_altvoltage1_frequency  (FREQ1)
+     out_altvoltage2_phase      (PHASE0)
+     out_altvoltage3_phase      (PHASE1)
+     out_altvoltage4_phase      (PHASE2)
+     out_altvoltage5_phase      (PHASE3)
 
-Changes in v2:
-  - Shortened the subject line to match subsystem standards.
-  - Updated Signed-off-by to use full real name.
+   The old ABI used out_altvoltage0_frequency0, out_altvoltage0_frequency1,
+   out_altvoltage0_phase0, etc. 
 
- drivers/staging/greybus/arche-apb-ctrl.c | 13 +++++++------
- 1 file changed, 7 insertions(+), 6 deletions(-)
+   The new approach felt cleaner but I'm open to alternatives and better 
+   ways of mapping them. Is this channel mapping reasonable, or would a 
+   different organization be preferred? And is the ABI break okay?
 
-diff --git a/drivers/staging/greybus/arche-apb-ctrl.c b/drivers/staging/greybus/arche-apb-ctrl.c
-index 90ab32638d3f..33f26a65f0cc 100644
---- a/drivers/staging/greybus/arche-apb-ctrl.c
-+++ b/drivers/staging/greybus/arche-apb-ctrl.c
-@@ -10,13 +10,14 @@
- #include <linux/delay.h>
- #include <linux/gpio/consumer.h>
- #include <linux/interrupt.h>
--#include <linux/of_irq.h>
- #include <linux/module.h>
- #include <linux/pinctrl/consumer.h>
- #include <linux/platform_device.h>
- #include <linux/pm.h>
-+#include <linux/property.h>
- #include <linux/regulator/consumer.h>
- #include <linux/spinlock.h>
-+#include <linux/mod_devicetable.h>
- #include "arche_platform.h"
- 
- static void apb_bootret_deassert(struct device *dev);
-@@ -314,8 +315,8 @@ static ssize_t state_show(struct device *dev,
- 
- static DEVICE_ATTR_RW(state);
- 
--static int apb_ctrl_get_devtree_data(struct platform_device *pdev,
--				     struct arche_apb_ctrl_drvdata *apb)
-+static int apb_ctrl_get_fw_data(struct platform_device *pdev,
-+				struct arche_apb_ctrl_drvdata *apb)
- {
- 	struct device *dev = &pdev->dev;
- 	int ret;
-@@ -378,7 +379,7 @@ static int apb_ctrl_get_devtree_data(struct platform_device *pdev,
- 	}
- 
- 	/* Only applicable for platform >= V2 */
--	if (of_property_read_bool(pdev->dev.of_node, "gb,spi-en-active-high"))
-+	if (device_property_read_bool(&pdev->dev, "gb,spi-en-active-high"))
- 		apb->spi_en_polarity_high = true;
- 
- 	return 0;
-@@ -394,7 +395,7 @@ static int arche_apb_ctrl_probe(struct platform_device *pdev)
- 	if (!apb)
- 		return -ENOMEM;
- 
--	ret = apb_ctrl_get_devtree_data(pdev, apb);
-+	ret = apb_ctrl_get_fw_data(pdev, apb);
- 	if (ret) {
- 		dev_err(dev, "failed to get apb devicetree data %d\n", ret);
- 		return ret;
-@@ -403,7 +404,7 @@ static int arche_apb_ctrl_probe(struct platform_device *pdev)
- 	/* Initially set APB to OFF state */
- 	apb->state = ARCHE_PLATFORM_STATE_OFF;
- 	/* Check whether device needs to be enabled on boot */
--	if (of_property_read_bool(pdev->dev.of_node, "arche,init-disable"))
-+	if (device_property_read_bool(&pdev->dev, "arche,init-disable"))
- 		apb->init_disabled = true;
- 
- 	platform_set_drvdata(pdev, apb);
+2) Scale Attributes
+
+   The frequency scale is 1 Hz and phase scale is 2*PI/4096 radians.
+   I cannot use info_mask_shared_by_type for IIO_CHAN_INFO_SCALE because
+   all channels share IIO_ALTVOLTAGE.
+
+   So instead I'm using IIO_CONST_ATTR for the scales:
+
+     out_altvoltage_frequency_scale = "1"
+     out_altvoltage_phase_scale = "0.0015339808"
+
+   Is there a better approach here? Or should I just document the units and
+   skip scale attributes entirely?
+
+3) Remaining Custom Attributes
+
+   Other controls remain as custom sysfs attributes:
+
+     - out_altvoltage_frequencysymbol: select active frequency register
+     - out_altvoltage_phasesymbol: select active phase register  
+     - out_altvoltage_pincontrol_en: hardware pin control enable
+     - out_altvoltage_out_enable: output enable
+
+   I'm not sure if these map cleanly to IIO interfaces. Should these be
+   documented in ABI or is there a preferred way to handle them?
+
+4) Implementation Notes
+
+   - read_raw uses explicit address switching rather than channel index
+     arithmetic for clarity, though phase values could alternatively be
+     accessed via st->phase[chan->channel - 2] and directly in freq with
+     st->freq[chan->channel].
+   - I'm unsure if mutex guards on cached reads are necessary.
+
+Link: https://lore.kernel.org/linux-iio/20250628161040.3d21e2c4@jic23-huawei/ [1]
+Signed-off-by: Tomas Borquez <tomasborquez13@gmail.com>
+
+Tomas Borquez (3):
+  staging: iio: ad9832: remove platform_data support
+  staging: iio: ad9832: convert to iio channels
+  dt-bindings: iio: add analog devices ad9832/ad9835
+
+ .../bindings/iio/frequency/adi,ad9832.yaml    |  65 +++++
+ drivers/staging/iio/frequency/ad9832.c        | 264 +++++++++++-------
+ drivers/staging/iio/frequency/ad9832.h        |  33 ---
+ 3 files changed, 233 insertions(+), 129 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/iio/frequency/adi,ad9832.yaml
+ delete mode 100644 drivers/staging/iio/frequency/ad9832.h
+
 -- 
-2.52.0
+2.43.0
 
