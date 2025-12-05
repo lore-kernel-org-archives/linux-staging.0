@@ -1,63 +1,65 @@
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B044C2D780C
-	for <linux-staging@lists.linux.dev>; Fri,  5 Dec 2025 20:28:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E5462DF709
+	for <linux-staging@lists.linux.dev>; Fri,  5 Dec 2025 20:28:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764966494; cv=none; b=ezGW82jiXL0biwt2LLs2HgZIAnAvhnfjHjy8iGTPFoogervNFWFfo+H7Uwk9JLt3Qv/iykJkWIvUhPmnIYJiL2dFPMMytGuufWSxxNUp9Uf53Evsj4Rb+buPkYweY23LDvr3pfIWnznyJn4qxkUP2QNdrAMICA/59x4nczCe9Ps=
+	t=1764966505; cv=none; b=mr/c3VmGpMupt8i1BZLme2MNHxIzvzqf9CSDSviKJ/Xqg9tGhZhwCuTRRflmAGtCSS4fmT5mA302fKgFp01QzloWN8Liq5Qovtz3R4QSq+kRxt4xOncqG2ppWdyHvEQlH4uC2W3trI/2GTdRpp1MOzDe7mBY0eAQUWegDCFiRUk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764966494; c=relaxed/simple;
-	bh=EVOhk1HI6FciASKyQp7+FOie/7X+cAATsS5lmRg1qfs=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=gbpkJur92LQ/trh5+9k2UmBpRa/0oaeKKw6gSBtOOw3yBukCKoACFdVgd/6uFz4wn3qkmB9+OkVeU1AyaM3fFdVk6BOL0jMe6YMlOX2SKdfIWLcqyfawk4dDIMyZArOOqhATVDPcgzbR3QL2qK0S5pC0yWS3eSIdITXEDau7kAk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CJiW+PNd; arc=none smtp.client-ip=209.85.214.181
+	s=arc-20240116; t=1764966505; c=relaxed/simple;
+	bh=VhjRdW4KfUHyNC/C+mtuazEPEEU4C1nG1wSKWcNKCz8=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=u5R6gHAm6whbuNKEmU/9sp3gtT0dFlfJydzXakcTuH/0MAlcIkjd5k55L95+uE6Z2Y8qwXlUs0HTjx30aqrcDuTBpXPJrO2a82zW80DFP3WkaB4ToLqiH8iovcw07ZYfguZisUEzbg/QggDjZX6NK+RvwnhUiyqbE+8Ez4AG6Dc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XGAHvFJt; arc=none smtp.client-ip=209.85.214.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CJiW+PNd"
-Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-2953ad5517dso25331105ad.0
-        for <linux-staging@lists.linux.dev>; Fri, 05 Dec 2025 12:28:12 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XGAHvFJt"
+Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-2955623e6faso34666695ad.1
+        for <linux-staging@lists.linux.dev>; Fri, 05 Dec 2025 12:28:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1764966492; x=1765571292; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=SdEQYEeEhg+Pxb0AQxBFfKIUgC+j17YfvZoVKrA407E=;
-        b=CJiW+PNdLHjABxK+IIbychwwJh0srte/qWGbG8SRW6QaxTyuMEuH0e3OeUmUp2Ha/1
-         Hv36hGv6/PMELjkHAWaTB5RQOze77WnTwc/2pKVImIVmDKiqEYUHar8U/r5U0Ah9fQD/
-         FEOkxnjlx5/4vNEqOdCwIws8T4E21ktpNTTnO6cevvx5EMKO6YCeKOdFG4Tcj3l6p6n+
-         8qDiEBOE+zv8a8Xebe+2d+gh/Kc6pzImZsNKxC1rh4RzdnD2RK6Q54S6Ef9qNuWGmtFT
-         pvzQ/I4As7mSESiIYvHclgl6LzbQGQUEsyyMWmbkj4z1QeX55t7wJA3GTUqSUZRvr+HW
-         eloA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764966492; x=1765571292;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1764966502; x=1765571302; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=SdEQYEeEhg+Pxb0AQxBFfKIUgC+j17YfvZoVKrA407E=;
-        b=lWhW2OyRkR0dJt0l9Ekh6Z1ZChnHgZqTXQPB4dY+G8TWWwqJxMdu3MNXRWWmsYaZMz
-         FSUQxAq/zcewCxZxJ6YJ2JY+OQ0Ry+q+FOtBS0+fPpUFLTxsXkvjntLeF1mG7pcESx+3
-         l84B4FyE4VpPIPsf0mxHEqacDZ7PlECXYM9BwWaNwtBfUsLu1kdvVbxyIWpUrhHup1+K
-         HyltnyQ/zkkCRVjCFkSFVJynYZ1xeSwsxOWghDpZqCJ5zDlWRFT2NR6+90Zbd+KSJ6J7
-         ksrlhYziqijZwGwx59a8iShWWVXgHsKcK9mPFabcrSr0NkDCX0PEfJC53c2pTIM1eN59
-         Fdfg==
-X-Forwarded-Encrypted: i=1; AJvYcCUmoblqXkTYzNn67i3loVGz/uzpkbgMqaylZHEh+hYLLAUFusWyKDZzwhcV6PHTzkCG3ZRXHxm28HpOT42H@lists.linux.dev
-X-Gm-Message-State: AOJu0YziYbwpZWQjtEEVygSYV1lG5SNgyVila3ftCftTGLmL4nrfSpG3
-	4hvo+vKTHJ7MzRxUreO9YRC/s3i6narGu8kH2f8/K6wdQd2rugS+kiYv
-X-Gm-Gg: ASbGncuQ9VPM46T05nkq+QGNQxg9j/2VIfBZktwmYFhkalk5L6JMF/KseSZWJoiXHTm
-	42DlGzCapGa0A7TwnY/Ns6TxAL/7N3VGBubg7Kq9G/nJxjKH+NFXpzJ0qGpGdPhtDYkisaRDHkB
-	iyT8+CG5DX8iD4CK+yw8O670+mQWnsMHF/6Lzm4xU9I53hgzNE+jm+u6q7I/nJzv40X41BMl4fP
-	Hmc3Ygr76ujUrsvfLEztbVPBpITr3hDQ14FrPx9d5e9DfK9BWBWpJ3t9TbivPQMfYNJpMa5ufJ3
-	SshSzn3XiYOQCGuAL1iDMrDC/wKsIg43WDz5b0lmjEAUKyZVuDb2FmjYLuRu9G9f3kZRspfPegq
-	Ylue9yRlEQYMMHgoC0zra+md6Oga0WTshCIh5Npc/qlBuMZT73KBAoKzYiRTKqDvZASAHGbGU2l
-	0AC/x92t0amJlBjQc1eGBzNe2/fmZT+NVKZnm6/U4tzk/rlhmgNNthVUOnatk7Mx9+jN5A/txrk
-	7+4jgoUmdlv48tXFGWDfBjR8K5yulHPibjFnSSsUKfO0FJXzu8LVYs7ohU6iWaMKoBkNMTN
-X-Google-Smtp-Source: AGHT+IE7SZxJEEgg2GMHkTTXb7pxe8bAQ0ErqGaRLH8Fgf3Ui7YDuS3yTvPgzhY3cUjHgxCL6TCIsw==
-X-Received: by 2002:a17:903:3510:b0:298:3a2f:2333 with SMTP id d9443c01a7336-29df610f3eamr2230825ad.31.1764966491847;
-        Fri, 05 Dec 2025 12:28:11 -0800 (PST)
+        bh=E1kT6K3Ob3aEghOazhmPBd7i4Md15BQDt3Jsih2JLy4=;
+        b=XGAHvFJttHkbBxiZowpLd13oi8evUq4sSl2YvcGtMTlYOSi8L+/0dCNztTkTjuQVAV
+         mlJshavYnipWVT4N1AEHXZ1b+2fzVcLgRWH36jw2Ed8hNqe6Nia49YkfO7L1kYU0ZujE
+         h8l6RhRV/IayljBtwDKtXFvVrhhbqZsRmymXpJ9Ai0tR0Hit4WqimqNof0yHZil2pBvB
+         lFb3VB5NGm48x5RBTmQ94H9cSTm5b5U2VcPr/YBlImfjeto3vccEgC9ck/DA6UaEe8ky
+         aeUKnBhrPaoo9FNTXxcMw98JF4hDtmVDZiUZItETWZiUHF3e46NTu5++iNRotJt4sC9U
+         oCew==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1764966502; x=1765571302;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=E1kT6K3Ob3aEghOazhmPBd7i4Md15BQDt3Jsih2JLy4=;
+        b=fbFavdARL28yxb2K9p6u1LgGf6L07fowXpzxGQFvl/h74FwMMHQEgzpF0McCLUxqvE
+         X/hT8S06AdX+0m6wKtJJQu6xUV/whU0QYP7+H2czVvzXGMd3Mr1FhVhR4PZ+4+wpDy0c
+         ZJqcwgalyxTIEUJqPkEcwhZx2qeJzph+2DDZkHuJHJbbeBwdmSbekkW/q2cbHlRB+ig/
+         2w5LHoQomq4OSiKoMIpm9BePdFYL+PrJkPIhfcLr/rh8YEEvf9lum/1xNbKwPieRA5/H
+         jP4jrf/sob17AnCtqwwlV8RdWZIgwkjIZZa7Sx4gUKp973IGh9qHCqe3HfOCxK8wFBDq
+         YGLg==
+X-Forwarded-Encrypted: i=1; AJvYcCUp6m3G7pCtPQGnSJ3jCX59p9hbQettCBk5VZgBw+yUoN5Yvoq7yQSqSV0d6AY7B6uNa+ihnkPqR2JOuRi1@lists.linux.dev
+X-Gm-Message-State: AOJu0Yzn5GcQ+KzCDpchcPBrqmsiK8DkD1TcPncX5OsDDnSLvRsN8SAK
+	NhtHYVKlD5U6b91+o2vPrn1aOI+i8I4jjJ5XbEr9jJUnapCN/qRZGd+3
+X-Gm-Gg: ASbGncvNSBSxib2ufADZ3TxIHBzmX7wXft/rKyPY4N20JL2T+7H7kGukwbw9UW/oUHq
+	TKh5utPoPO8asltm4aXW5AXATAkBoKje3SKhZbQgFIRsA3FsfN6kRabUhcXdsiIXSp3e/SypeQW
+	+mbHnRBJI5DZDbe345eXPCQ323drhEVG5Ykl4AMbKTn1fOjUucqJGqGddOaoob6lsmibO24JztM
+	Woq2Bs9zzXis026ZJUNvq/y0GrdNfyJCeC+T8USPPvQuQCLfPt9Eqw8Xf6PqtHp+pgyNpz9foZo
+	XGoAY6eHjeQfkYFc2x9g2jMs/6yRyz76UZGd0l/M8+O+m7JraWOl2GLs37tnWAhcG3R1cphwXKu
+	iHq0ZWsUd+meqM0bsy4kOrvhjRWgOT6IQYPQUPcHp3hf7nTI6BuBjSv33RceQo7JoOAwguwyo0e
+	C07trPzdewoJUUnnv35v6tCs4WQ9pcMyICph1IdQiAGnCSNMzNrHnsSDNdx+DyCBvxFwwXPAuFU
+	hZWZ5qCnC+dAf+vO3FRvcTOxjBXjVFZZxRrDlY854lMBn1iQ7k81VHOZ+slRPtE/cOwg714
+X-Google-Smtp-Source: AGHT+IFTMT5Gqt3zxUUZz4Uief0KidTbdHtVVj8Bdg+zDGW3adOU9RZX8JRZKLTJtpJNPMg3XEQQqQ==
+X-Received: by 2002:a17:902:e783:b0:296:3f23:b93b with SMTP id d9443c01a7336-29df5a9d23fmr1726475ad.2.1764966502353;
+        Fri, 05 Dec 2025 12:28:22 -0800 (PST)
 Received: from Lewboski.localdomain ([181.191.143.42])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-29dae99fa59sm57256845ad.58.2025.12.05.12.28.07
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-29dae99fa59sm57256845ad.58.2025.12.05.12.28.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 05 Dec 2025 12:28:11 -0800 (PST)
+        Fri, 05 Dec 2025 12:28:22 -0800 (PST)
 From: Tomas Borquez <tomasborquez13@gmail.com>
 To: Jonathan Cameron <jic23@kernel.org>,
 	Lars-Peter Clausen <lars@metafoo.de>,
@@ -74,10 +76,12 @@ Cc: David Lechner <dlechner@baylibre.com>,
 	linux-kernel@vger.kernel.org,
 	linux-staging@lists.linux.dev,
 	Tomas Borquez <tomasborquez13@gmail.com>
-Subject: [RFC PATCH 0/3] ad9832: driver cleanup
-Date: Fri,  5 Dec 2025 17:27:40 -0300
-Message-ID: <20251205202743.10530-1-tomasborquez13@gmail.com>
+Subject: [RFC PATCH 1/3] staging: iio: ad9832: remove platform_data support
+Date: Fri,  5 Dec 2025 17:27:41 -0300
+Message-ID: <20251205202743.10530-2-tomasborquez13@gmail.com>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20251205202743.10530-1-tomasborquez13@gmail.com>
+References: <20251205202743.10530-1-tomasborquez13@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -86,94 +90,127 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This series is a general cleanup of ad9832, with the purpose of 
-graduating it from staging. The main changes are removing legacy 
-platform_data support, converting to IIO channels with read/write_raw 
-callbacks, and adding devicetree support.
+Remove legacy platform_data support as there are no in tree users and
+this approach belongs to a long gone era. The policy decision on what
+to output is a userspace problem, not something that should be provided
+from firmware.
 
-I'm sending this as an RFC because I have some concerns about the ABI 
-design and would appreciate guidance before putting more time into this.
+The driver now initializes the device to a safe state (SLEEP|RESET|CLR)
+outputting nothing. Userspace can configure the desired frequencies and
+phases via the existing sysfs attributes once the device is ready to be 
+used.
 
-Patch 1 removes the legacy platform_data support as suggested by
-Jonathan [1]. The driver now initializes to a safe state and lets
-userspace configure frequencies/phases via sysfs.
-
-Patch 2 converts frequency and phase configuration from custom sysfs
-attributes to proper IIO channels using read_raw/write_raw callbacks
-(This is the main area where I'd like feedback).
-
-Patch 3 adds devicetree bindings documentation.
-
-Design Concerns:
-1) Channel Organization and ABI Break
-
-   The device has 2 frequency registers and 4 phase registers. Since both
-   frequency and phase must use IIO_ALTVOLTAGE since there's no better fit
-   (as far as I know), I've organized channels as:
-
-     out_altvoltage0_frequency  (FREQ0)
-     out_altvoltage1_frequency  (FREQ1)
-     out_altvoltage2_phase      (PHASE0)
-     out_altvoltage3_phase      (PHASE1)
-     out_altvoltage4_phase      (PHASE2)
-     out_altvoltage5_phase      (PHASE3)
-
-   The old ABI used out_altvoltage0_frequency0, out_altvoltage0_frequency1,
-   out_altvoltage0_phase0, etc. 
-
-   The new approach felt cleaner but I'm open to alternatives and better 
-   ways of mapping them. Is this channel mapping reasonable, or would a 
-   different organization be preferred? And is the ABI break okay?
-
-2) Scale Attributes
-
-   The frequency scale is 1 Hz and phase scale is 2*PI/4096 radians.
-   I cannot use info_mask_shared_by_type for IIO_CHAN_INFO_SCALE because
-   all channels share IIO_ALTVOLTAGE.
-
-   So instead I'm using IIO_CONST_ATTR for the scales:
-
-     out_altvoltage_frequency_scale = "1"
-     out_altvoltage_phase_scale = "0.0015339808"
-
-   Is there a better approach here? Or should I just document the units and
-   skip scale attributes entirely?
-
-3) Remaining Custom Attributes
-
-   Other controls remain as custom sysfs attributes:
-
-     - out_altvoltage_frequencysymbol: select active frequency register
-     - out_altvoltage_phasesymbol: select active phase register  
-     - out_altvoltage_pincontrol_en: hardware pin control enable
-     - out_altvoltage_out_enable: output enable
-
-   I'm not sure if these map cleanly to IIO interfaces. Should these be
-   documented in ABI or is there a preferred way to handle them?
-
-4) Implementation Notes
-
-   - read_raw uses explicit address switching rather than channel index
-     arithmetic for clarity, though phase values could alternatively be
-     accessed via st->phase[chan->channel - 2] and directly in freq with
-     st->freq[chan->channel].
-   - I'm unsure if mutex guards on cached reads are necessary.
+Original discussion started here [1].
 
 Link: https://lore.kernel.org/linux-iio/20250628161040.3d21e2c4@jic23-huawei/ [1]
+Suggested-by: Jonathan Cameron <jic23@kernel.org>
 Signed-off-by: Tomas Borquez <tomasborquez13@gmail.com>
-
-Tomas Borquez (3):
-  staging: iio: ad9832: remove platform_data support
-  staging: iio: ad9832: convert to iio channels
-  dt-bindings: iio: add analog devices ad9832/ad9835
-
- .../bindings/iio/frequency/adi,ad9832.yaml    |  65 +++++
- drivers/staging/iio/frequency/ad9832.c        | 264 +++++++++++-------
- drivers/staging/iio/frequency/ad9832.h        |  33 ---
- 3 files changed, 233 insertions(+), 129 deletions(-)
- create mode 100644 Documentation/devicetree/bindings/iio/frequency/adi,ad9832.yaml
+---
+ drivers/staging/iio/frequency/ad9832.c | 32 -------------------------
+ drivers/staging/iio/frequency/ad9832.h | 33 --------------------------
+ 2 files changed, 65 deletions(-)
  delete mode 100644 drivers/staging/iio/frequency/ad9832.h
 
+diff --git a/drivers/staging/iio/frequency/ad9832.c b/drivers/staging/iio/frequency/ad9832.c
+index 49388da5a6..e2ad3e5a7a 100644
+--- a/drivers/staging/iio/frequency/ad9832.c
++++ b/drivers/staging/iio/frequency/ad9832.c
+@@ -23,8 +23,6 @@
+ #include <linux/iio/iio.h>
+ #include <linux/iio/sysfs.h>
+ 
+-#include "ad9832.h"
+-
+ #include "dds.h"
+ 
+ /* Registers */
+@@ -299,16 +297,10 @@ static const struct iio_info ad9832_info = {
+ 
+ static int ad9832_probe(struct spi_device *spi)
+ {
+-	struct ad9832_platform_data *pdata = dev_get_platdata(&spi->dev);
+ 	struct iio_dev *indio_dev;
+ 	struct ad9832_state *st;
+ 	int ret;
+ 
+-	if (!pdata) {
+-		dev_dbg(&spi->dev, "no platform data?\n");
+-		return -ENODEV;
+-	}
+-
+ 	indio_dev = devm_iio_device_alloc(&spi->dev, sizeof(*st));
+ 	if (!indio_dev)
+ 		return -ENOMEM;
+@@ -379,30 +371,6 @@ static int ad9832_probe(struct spi_device *spi)
+ 		return ret;
+ 	}
+ 
+-	ret = ad9832_write_frequency(st, AD9832_FREQ0HM, pdata->freq0);
+-	if (ret)
+-		return ret;
+-
+-	ret = ad9832_write_frequency(st, AD9832_FREQ1HM, pdata->freq1);
+-	if (ret)
+-		return ret;
+-
+-	ret = ad9832_write_phase(st, AD9832_PHASE0H, pdata->phase0);
+-	if (ret)
+-		return ret;
+-
+-	ret = ad9832_write_phase(st, AD9832_PHASE1H, pdata->phase1);
+-	if (ret)
+-		return ret;
+-
+-	ret = ad9832_write_phase(st, AD9832_PHASE2H, pdata->phase2);
+-	if (ret)
+-		return ret;
+-
+-	ret = ad9832_write_phase(st, AD9832_PHASE3H, pdata->phase3);
+-	if (ret)
+-		return ret;
+-
+ 	return devm_iio_device_register(&spi->dev, indio_dev);
+ }
+ 
+diff --git a/drivers/staging/iio/frequency/ad9832.h b/drivers/staging/iio/frequency/ad9832.h
+deleted file mode 100644
+index d0d840edb8..0000000000
+--- a/drivers/staging/iio/frequency/ad9832.h
++++ /dev/null
+@@ -1,33 +0,0 @@
+-/* SPDX-License-Identifier: GPL-2.0+ */
+-/*
+- * AD9832 SPI DDS driver
+- *
+- * Copyright 2011 Analog Devices Inc.
+- */
+-#ifndef IIO_DDS_AD9832_H_
+-#define IIO_DDS_AD9832_H_
+-
+-/*
+- * TODO: struct ad9832_platform_data needs to go into include/linux/iio
+- */
+-
+-/**
+- * struct ad9832_platform_data - platform specific information
+- * @freq0:		power up freq0 tuning word in Hz
+- * @freq1:		power up freq1 tuning word in Hz
+- * @phase0:		power up phase0 value [0..4095] correlates with 0..2PI
+- * @phase1:		power up phase1 value [0..4095] correlates with 0..2PI
+- * @phase2:		power up phase2 value [0..4095] correlates with 0..2PI
+- * @phase3:		power up phase3 value [0..4095] correlates with 0..2PI
+- */
+-
+-struct ad9832_platform_data {
+-	unsigned long		freq0;
+-	unsigned long		freq1;
+-	unsigned short		phase0;
+-	unsigned short		phase1;
+-	unsigned short		phase2;
+-	unsigned short		phase3;
+-};
+-
+-#endif /* IIO_DDS_AD9832_H_ */
 -- 
 2.43.0
 
