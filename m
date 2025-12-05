@@ -1,62 +1,64 @@
-Received: from mail-qk1-f174.google.com (mail-qk1-f174.google.com [209.85.222.174])
+Received: from mail-qv1-f51.google.com (mail-qv1-f51.google.com [209.85.219.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E922978F2E
-	for <linux-staging@lists.linux.dev>; Fri,  5 Dec 2025 02:14:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09FCF219A8D
+	for <linux-staging@lists.linux.dev>; Fri,  5 Dec 2025 02:14:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764900862; cv=none; b=UGXmw4zYdMQvab6lZFDvqMUqVcJ6nVAx145Bux/9gmh7lKnMYvK+/KUpA/egsFeT44Tsg5geDLt3SqGj6TOmsUOako8kz77X+3hC7QvYeXJ4VaWghp2cimZSzK9l22cQNHQHibH0DYLT7BuIFQGKWkI+gh16XiPZKgWtVbMOYDw=
+	t=1764900863; cv=none; b=H2WLw9x9KYU1eK0INkgsxykSiygq0mq3PL2JGMqrZpwgHXtbyXsCoFft4APKzxDEbTKPSbIlkUv9vfdpONqPLiYSRmqBw2/5BHmmRiNWHIe/fSm6kE5JnXu06WlxtfeBbDQUsUmNeGxvhBmfw/+nuWDLmoaxukADChkk0W/ABnU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764900862; c=relaxed/simple;
-	bh=MtL5ai83fZS44NIc05q1gOJt5gZmz3uUt9YGn0wq1NE=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=uPRLst+ahwruj9AlTkLaazNyScPuzh2b+RKKqPYP3bPF/uscOAyTIMj0xcWv4kKxTN+Mq03NBz/9XQ5RHwWvNNnTNyctIQ7tlGkc+XhxtiBVqyYgFpVo7o52R37S3M+UPXgDEykeBEmaCnsKS5BI3WUvHxnq9eKXtz9J9RiyRHY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Q1iKGQez; arc=none smtp.client-ip=209.85.222.174
+	s=arc-20240116; t=1764900863; c=relaxed/simple;
+	bh=EZnStdDDHzEYd8QEiON1kMATbv/vWB8VoAmeIlAx66c=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=YW1eqV1cn8SJVMkpFf1zPJyk7DxNIi6HTCS0C3fl94BbJaSyy60NBObwZGtjelkOchHSNw95RPCaL6Ils+3av/u+tvrqnKr1hst9n2ZFkOsu8SHBKrYyGmgJSR76SdyrdMsM0WqaiV/4bKy97m85W9khdKUoMWpSjXE727Cb9Bs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=A0NQlNmH; arc=none smtp.client-ip=209.85.219.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Q1iKGQez"
-Received: by mail-qk1-f174.google.com with SMTP id af79cd13be357-8b2f2c5ec36so167167685a.1
-        for <linux-staging@lists.linux.dev>; Thu, 04 Dec 2025 18:14:20 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="A0NQlNmH"
+Received: by mail-qv1-f51.google.com with SMTP id 6a1803df08f44-88678d7ed65so16759676d6.1
+        for <linux-staging@lists.linux.dev>; Thu, 04 Dec 2025 18:14:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1764900860; x=1765505660; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=Xi6dvPRZr1Reb1B8d+Gm7VQBYX2ePwevW0dzS3qybXM=;
-        b=Q1iKGQezbCPb57xWWz+WIGL9KeHGa4sPjiNWrKYW8CxUe16q/peaOOVGiK1640pWw0
-         JBEnmhRWqfSjeX/W+CIvzwXH0bbG+6YqAmU587jgq90yVkGCKm2EykxsRZgty9NSPZLd
-         bn4baOoswwJbSHP59Y+jqm3heoccUs7BJUaCdi3bv7TWLuz1I0uOxY5DamnBvqh2q2yV
-         o3VpcII5hSFZlmvrfs87/8Q+El3R4x1x3ndiEtV1hwXn5fU6OMHH8wCc+aDGI4f7qayK
-         YmpmFG5vc+FoQHCTS6rFy69eNYZqGR4YJ/ymNHzmUS0FmQETOfK4GlIG86TMsOmHABzd
-         N9pQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764900860; x=1765505660;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1764900861; x=1765505661; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Xi6dvPRZr1Reb1B8d+Gm7VQBYX2ePwevW0dzS3qybXM=;
-        b=lxHQhSqo5NLA15HFifMjbnJ5B8zXSDVvmfXyz11+aY7LHIX6rcfD0BV70CXVX+Y5kQ
-         +9DMLqT4duJC6/pkpIRYQP/CVvTgvy2ho0IU6DE/qRMxeLMN1JtpW0AbF6UtoRSTMdIk
-         4Uyd+bJb/SCG+HqdmXntRx+M0pE9DFpWF/XeIMNHdQOZMYo6ogfglAUH4D0/SqDN3ExH
-         CSinccznyhCdCaJZNU2/2RSU1begNCWWRxiR5E+t2bwiINpWU23d5QjorNvU9uhBdF8g
-         gfrrNRCRAAaUhZGeTa7dBgsfn3R29IIRv74UaWgRsyLifJxzqe3YdNEHPp7OsEx5Ahsm
-         QzkA==
-X-Forwarded-Encrypted: i=1; AJvYcCXYJT260ZiddXPrJH1FUCYv7hLOe07oUHsMiwLA5cXTnD4eAbv747OkGVq7K44RqAzNXOSQe5ZjsprtcJOR@lists.linux.dev
-X-Gm-Message-State: AOJu0YzoT/jc4kj0mPkaMPkjgfHhgSSqt98P9i/gz1e3LcKu9gqgetGn
-	1mPNoJ04iUg+RioKnEYTq/6b3LAvqKhrq0EWg39Oss7jEcN27GCG417o
-X-Gm-Gg: ASbGncvFgBRZBfbs6vZw2koKIt1q7kC2+ofwGqwV0UuCP7N+ro2eDT7sCVXSs2yrWtl
-	8iAjMFraax+k8hhdSuKoZcDkZgRBj5ViPVX0OAGKfofsuL59bFqcl63Wl3I5/cv/+i0uv3zUpV8
-	KYAamPEaV1qwlarAxvKnlA38uCOth04ktFtOuTxRJCaT2wxe/EruRgZeRxZOiYAyFE+2wzBHftn
-	xQPrPX2c0omkQmYx3SMjgiQBiz1v8FaTV2vaZRR3y2TaTWElujkAi/T2abwAJ4cU41nJkqZZgZg
-	tKMZrx+5/Qj2FhQygoNMy3ykoZabB3sHUWahnmFKoi7Upa3bfY6F9trm0/Bqqvg7m9rSgE7oU2h
-	mGYIaxOA129gX8JNS4efsTjhcWIJR3qoOlL7pp7+Q3QrCDCTbZRX6v/j8qgB0on47m6nOLCGuSD
-	qByLOdXa2hQQgznbz4vohDR2XkqHfm8JAdaP7yM8zS1so=
-X-Google-Smtp-Source: AGHT+IF3ep9nFOJuZs4iIWMYuTerRkgO5WM2PRiGUJg3KeJ/rSZnh0PxCbjcYLxI6JEbaC0xkgsVKw==
-X-Received: by 2002:a05:620a:280b:b0:8b2:7777:f662 with SMTP id af79cd13be357-8b5e6f7cd44mr1282523285a.64.1764900859802;
-        Thu, 04 Dec 2025 18:14:19 -0800 (PST)
+        bh=7jetWAZkuhxE1xmVEf4kdDUzFhZVeqe5Fy6VrrXWrDs=;
+        b=A0NQlNmHyTCi8wh1AY6mxMOwxRC+uQgVg+uCk8RMHg0TJU08tmS3RTSnZQIMqwPAnS
+         l9Xsjq/ul53vIdMNFUjM576PZ8DKhzySZbgbrqQeP+ATxBBDc/DnxbBt8m9Ms4EvcsFc
+         eCPg6f0aeOruIw+3OJGaIvoaeMdShEndN45oJoXgkKPuJHGL0NeCJvowoyOht5XTPVYd
+         5A8mLZmRZ2OJC9yG0ou7dIeEPwH+mxkN99B15gUNqpHzGysFn14bsO5NQhnV0AJSBPXH
+         zVBsWHidXeew6rnDUJC7v4voTYjUdJQXlNMR5T00JRDT3ZdpySDW7PAJGTeqh3acfaCv
+         nq6w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1764900861; x=1765505661;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=7jetWAZkuhxE1xmVEf4kdDUzFhZVeqe5Fy6VrrXWrDs=;
+        b=PjXRqPHv8tF4nIt/CJBGqWfFo+9/oJrc+YeLCW8N2gVkP1W9yz/BYoX2QZzEU5DT5J
+         syt4jHQZGPzFsf5m5IgzaXdKnRQHJs3TH+Rpl0Ljw0ci/L0qzUhOZ/5nBHx/edk/LQj9
+         pNfzfedccjtyIyBMchLz+3Xlr5WyjlQbWhCWxIV2CQM0ex53hn0/cgL3vtzIgZ6C3rjk
+         gbuZPBDpLZ+VcTW/WM9ZZJuZDKDcguGfsC+DW/2EZY+UP42VA9ucywww/zmk1VGBZcR1
+         5uh2XZaES1owU3LzBtpMKdrla1+R1Oli1My8u2auiAVFbjAB6SEMuf8X/l/RD6EW1Hxu
+         M1og==
+X-Forwarded-Encrypted: i=1; AJvYcCUF0V9v+lfufWmB9YDtyw0eqLEA5y/vFQti4IJm0JxPgPog5ffpMbEaOrpIdqkcN1icq02mqjE8zK9vkq1h@lists.linux.dev
+X-Gm-Message-State: AOJu0YyaPDFDBFhl1WCbhUxF/pKafMynkxomiIpkt/grpQVh8nc249zj
+	rMgSRpBps4V8DBsDM/kSTHb4oZDRFo9dTv+d+HoVSrjWGZk6nc3cJwevpz9ALQ==
+X-Gm-Gg: ASbGncv3DkTOttMaVcDKM7PhsPZtUNBn8hwxXS9mhrDa7NFRybYqqNMt2ob+n9+Sc71
+	mZqEYdOzKVW+eBO0SjmVJFszlEI5zXnvu9FA1yPDeP9ru7atNVWseEWHhcIVKCMB7zEWyp71dCi
+	c05t4mRzIsPHSYVAfIsAeh6U5w5G4FEdfxyAB5LIu54sSeDjep9ofW2J5XOgkwzCJziGtvOpCLj
+	KoWmZv/CNmeHxBXt+HvzLERqUug32c+D8DfHJxz0CcGJAyR8lrOoHc5K91zTB1DNiLrLhiKw7ot
+	nLq9KLzcvJd04LMxDZVVaFVa/jJvNe5DKs484MJTGGqu76ykJ18padKo+CSad4JlrZ5xwrg+yfh
+	JqD8+sbIWmjzHVJ5FncWYC0fCYvV0PTCLunVZcpKdxAdIGJmCRu2j71RPdV7bGIWkHeOd3hyjMl
+	vQRADeloR1DusU57hqp1l/7TRlB0D748o14ac677Y7r44=
+X-Google-Smtp-Source: AGHT+IHq1Raw5u4pVXCl3bUVMEl2r9ZK7iVf0oI/5DQHi1txU+N81ZKnsAbBLU7e53bnE9v1c7Wq1g==
+X-Received: by 2002:ad4:5b87:0:b0:797:1a0d:cdd3 with SMTP id 6a1803df08f44-8882482aa55mr81606406d6.19.1764900860845;
+        Thu, 04 Dec 2025 18:14:20 -0800 (PST)
 Received: from kernel-internship-machine.. ([143.110.209.46])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-88827f51ab8sm23661356d6.21.2025.12.04.18.14.17
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-88827f51ab8sm23661356d6.21.2025.12.04.18.14.19
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 04 Dec 2025 18:14:19 -0800 (PST)
+        Thu, 04 Dec 2025 18:14:20 -0800 (PST)
 From: Vivek BalachandharTN <vivek.balachandhar@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: straube.linux@gmail.com,
@@ -70,10 +72,12 @@ Cc: straube.linux@gmail.com,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	vivek.balachandhar@gmail.com
-Subject: [PATCH 0/2] staging: rtl8723bs: comment and style cleanups
-Date: Fri,  5 Dec 2025 02:14:15 +0000
-Message-Id: <20251205021417.2705864-1-vivek.balachandhar@gmail.com>
+Subject: [PATCH 1/2] staging: rtl8723bs: remove trailing whitespace in comment
+Date: Fri,  5 Dec 2025 02:14:16 +0000
+Message-Id: <20251205021417.2705864-2-vivek.balachandhar@gmail.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20251205021417.2705864-1-vivek.balachandhar@gmail.com>
+References: <20251205021417.2705864-1-vivek.balachandhar@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -82,26 +86,28 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Hi,
+A comment line in rtw_mlme.c contained trailing whitespace. This cleanup
+removes the unnecessary whitespace and aligns the file with kernel
+coding-style expectations. No functional changes.
 
-This small series does some minor cleanups in rtw_mlme.c for the
-rtl8723bs staging driver:
+Signed-off-by: Vivek BalachandharTN <vivek.balachandhar@gmail.com>
+---
+ drivers/staging/rtl8723bs/core/rtw_mlme.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-  - Patch 1 removes trailing whitespace in a multi-line comment.
-  - Patch 2 fixes spacing around operators as reported by checkpatch.pl.
-
-These are purely code-style changes and should be NFC.
-
-Best
-Vivek
-
-Vivek BalachandharTN (2):
-  staging: rtl8723bs: remove trailing whitespace in comment
-  staging: rtl8723bs: fix spacing around operators
-
- drivers/staging/rtl8723bs/core/rtw_mlme.c | 74 +++++++++++------------
- 1 file changed, 37 insertions(+), 37 deletions(-)
-
+diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme.c b/drivers/staging/rtl8723bs/core/rtw_mlme.c
+index c06d990350e6..778b8715cdb2 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_mlme.c
++++ b/drivers/staging/rtl8723bs/core/rtw_mlme.c
+@@ -2024,7 +2024,7 @@ int rtw_restruct_wmm_ie(struct adapter *adapter, u8 *in_ie, u8 *out_ie, uint in_
+ 	return ielength;
+ }
+ 
+-/* Ported from 8185: IsInPreAuthKeyList(). 
++/* Ported from 8185: IsInPreAuthKeyList().
+  * (Renamed from SecIsInPreAuthKeyList(), 2006-10-13.)
+  * Added by Annie, 2006-05-07.
+  *
 -- 
 2.34.1
 
