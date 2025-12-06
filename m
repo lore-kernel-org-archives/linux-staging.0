@@ -1,74 +1,45 @@
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A4112DC76D
-	for <linux-staging@lists.linux.dev>; Sat,  6 Dec 2025 10:10:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C081E244675;
+	Sat,  6 Dec 2025 15:42:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765015808; cv=none; b=CB2Kjg1h5BCBoXrNuTL1UD+YB1NkyDoyC9FvNGGbC1c836h5pZcbvGr4O7boDNOgq0a6Kg9xwesPWULghAIqSbIcuSpRkHIatqmmKLgQABp3/DmV/6AgRkmr/RcsFFaSwE6jDwZ8Bp41UATWUvG89JhQBMVh2L9+zZnGUuVsO3g=
+	t=1765035779; cv=none; b=XBo07MX5Lwx/KmV5w58g5lfaj0z9IRmmm6cfGuywdJ45osawqJ1zRNFZeMPVPHa+vdPJYttVmF6ltygNI2ad3xlYuECOALnkjJTjDBWvM9m4mI2r+g/vBG24xR5TpJCnceU/HMcNWN/KRw76fw6hAaQj/7tmg2p5IiD8Stw1lCA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765015808; c=relaxed/simple;
-	bh=+jGOeCwBw8II32ra0icNbqTPgNqvqPgK5Vys0nmFvas=;
+	s=arc-20240116; t=1765035779; c=relaxed/simple;
+	bh=Y+nB8jUrNe/Vy9wuhhDeU1eHbQjXRG5ckwzSR47dIVA=;
 	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=YgmGeaMI12Ywv4r87RxmCv8vCZBBjiHGd+hHAB/1mQWsxcrHydWYevFW18vZLqdthy6FiSB+xkt7nIpQXyn+j3DgYxYtSuOCmY/dzWn9Lc6yDxwa0K03NSEI0jy7xtaxNmsp/80VDy2uvovdUydPIud1y58lmeNuu8kJCGYEQJc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JkqenI0y; arc=none smtp.client-ip=209.85.128.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 MIME-Version:Content-Type; b=YScvTEUDY16oStczagez00/j7K+6cAWdHIBuLSNiT56cMN5L+FdzpUN9M4RjP+Cj+f9LkYjA5FsOljSURkwYQQT5XnR/KjPncM2LQe4m/MbFp1Z8N762dQz+7ycqB93q1RIjE78Lbv7PKSONucyXLFt/z4RLnKMMVjD1oLVC150=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nnjZPVAb; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JkqenI0y"
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-477b1cc8fb4so20041765e9.1
-        for <linux-staging@lists.linux.dev>; Sat, 06 Dec 2025 02:10:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1765015805; x=1765620605; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=e72Qsvat0tIoMqay2xUvf0obYBQDN80gqXGFbCav6vw=;
-        b=JkqenI0yV6UelNP3NK9KK+AR6EcyI4h1KT1YLgltVYDhPWea2fPwT5KExD5tNge+3X
-         tU8H7093XU815MlcdKPjATIMYHJ/Pyd6OyswEnE+Pa9qAZdzOsEa0qGsMxZiuyAOBB3p
-         NPHof72VTxmA3qx0r21v767SXm3wo7sgw25KolU5rLcwblpqxlD16rSLyvtH4oDtDTBh
-         cOM8pVsPhrUAgEX06anEt+/aO7yag+vykrj5xYQDsuy7bIRNRz0e06Ffrbzg1kvN5Kt0
-         gHYJFrqmmdA7u0CRgdUmQLKL2caSHU4lzz1OrP5O0rbWJYN3gTZZEKAfvKwDaDG6XSLR
-         K/ew==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765015805; x=1765620605;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=e72Qsvat0tIoMqay2xUvf0obYBQDN80gqXGFbCav6vw=;
-        b=Q5vfNoYOp81Hhhuc2C3pW0DORc99DhAmdzYtQvGxzxcTPhdc58nltNk/8KW7BpPYwC
-         /9K+ucbdFPFrkJcXG54dgQAqcC9iixy8NjS1mqLtojQlTsPDmBt6P8gAUe/bE9rVUjxx
-         W1j1q4MaF0+C3FjGLWPeDW8m1zwvr3ExyYszM1EgJvikuCY9zkerfPBY3wbwbvAyzvOG
-         +zQCy2EfLcDSehHuGeBxw2lqZW71kQNK4q3CVqf6LN+xNWHgtxxFkcr+f1kb31+PDuT3
-         z0uGhhZrgxd0ISgSUqKrFZhLL0TFQ1bHNk44loa5YEpKCG8ywGAQDzDVIy8eYNC4+zJb
-         kTaA==
-X-Forwarded-Encrypted: i=1; AJvYcCUexvVtgfNkFwtDvzq+VJ4gOl+Ef9FXg2Ta4I90aYGMReiuiuwjkoaRlsGy1z+Dn00yOVnyljVwBSdmok8Y@lists.linux.dev
-X-Gm-Message-State: AOJu0YwuUvamQyMMKf0onmyUxQsq2qUto+NrNaV9zCvUQM8cbYzxLYf4
-	JmSnNN27N5y9vMO4z72qzZZMashrqjgKp2HR1bPoMdjbM8smmj3AfNo/
-X-Gm-Gg: ASbGncv5goRGV/z7V7eop44b/NgFR/UXlYGbxzNGfOxagxmHzuPOIjgvS6kZNmmgLIz
-	1lcc5yF3xtkOw1TqR0zGEfkW6mSo/vriVjwAEZw/UUDLY/vO/QnocWKjyp3koSOjypd2EIHhwLJ
-	M7KDFdEBjh1nHB9l60lF3KuGPcLWurdFBH8I7FOimGs2wuOooD2nTX8VZGgRk/NvmhXJewYFTBk
-	M6/P8KPaVHYpXb03pGZ70xHw2iFaBGYsUdlu8ZYtczmEJXp3MUI9Cd71ALB7zWdd3dRD9e4qErc
-	OyaClNyM/mwSLfsDNgXv34HiaruSIFtQkrli8kGiw4yOkj22KWb7vURa5RqgynbtVhFBUEt4Htw
-	w0skDBygOSlyA/pe4zuFVkNNXxtbsbnjcx9nnJPjprXzoK9+rGHkPn5XOM0PQ3LxlFI7BRJZ4qh
-	R6Th4W6dDS5lSykOwNnOw5+XhgKxLsdaBjKNETQD3wi8zVZ+bOzpiB
-X-Google-Smtp-Source: AGHT+IEmSNHmcH4FFCPuz09y7GCEEGehvT+Ov7sgA5mGuWPM9fGYRimLpF+YjxKKyr6NA1GIzdWOnw==
-X-Received: by 2002:a05:600c:528d:b0:46e:53cb:9e7f with SMTP id 5b1f17b1804b1-47939e27a9fmr20278105e9.18.1765015804544;
-        Sat, 06 Dec 2025 02:10:04 -0800 (PST)
-Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-47930c747b8sm130665695e9.9.2025.12.06.02.10.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 06 Dec 2025 02:10:04 -0800 (PST)
-Date: Sat, 6 Dec 2025 10:10:02 +0000
-From: David Laight <david.laight.linux@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nnjZPVAb"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3CCEBC4CEF5;
+	Sat,  6 Dec 2025 15:42:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1765035779;
+	bh=Y+nB8jUrNe/Vy9wuhhDeU1eHbQjXRG5ckwzSR47dIVA=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=nnjZPVAbnht9sCYOwQ88rRnQuxy2iUxSfI/mpYJJV4mO1WUZ/avgpC3RTLJ0bMvLF
+	 7LcOe36daTdTcjfB13F7m1GhL8I/KGSoPex8U7gmqRgTtuCG4BWMPAtKXHoS+5ve+3
+	 rBm7AKrz1EMltT9WQHtVQb6Ox7aEWfrmPd4phNpbYbMV62Pvg0pEvbeYsjHKbDQQ34
+	 laqI5whJjuGhaS1WRnYqutTCeuKLMaiVN/gn7li5Z9tgVL3jmFvCLsNHApF0qAXnnB
+	 P8Lme+vt6Dx2fZVzHJGWaGwJD/gEUyG5huQWG9hoytGtfbJii/ai8SwGqGvXnSBgln
+	 anKG08Qr1KqmQ==
+Date: Sat, 6 Dec 2025 15:42:50 +0000
+From: Jonathan Cameron <jic23@kernel.org>
 To: Dharanitharan R <dharanitharan725@gmail.com>
-Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v1] staging: vme_user: replace (1 << n) with BIT(n)
-Message-ID: <20251206101002.5e05bed7@pumpkin>
-In-Reply-To: <20251206063619.30372-1-dharanitharan725@gmail.com>
-References: <20251206063619.30372-1-dharanitharan725@gmail.com>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
+Cc: Lars-Peter Clausen <lars@metafoo.de>, Michael Hennerich
+ <Michael.Hennerich@analog.com>, David Lechner <dlechner@baylibre.com>, Nuno
+ =?UTF-8?B?U8Oh?= <nuno.sa@analog.com>, Andy Shevchenko <andy@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-iio@vger.kernel.org,
+ linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v1] staging: iio: frequency: ad9832: replace long/short
+ with u32/u16
+Message-ID: <20251206154250.7d5dfa74@jic23-huawei>
+In-Reply-To: <20251206054831.26045-1-dharanitharan725@gmail.com>
+References: <20251206054831.26045-1-dharanitharan725@gmail.com>
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -78,62 +49,87 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-On Sat,  6 Dec 2025 06:36:19 +0000
+On Sat,  6 Dec 2025 05:48:31 +0000
 Dharanitharan R <dharanitharan725@gmail.com> wrote:
 
-> In drivers/staging/vme_user/vme.c, the functions vme_register_bridge()
-> and vme_unregister_bridge() use bit shifts like (1 << i) and
-> (1 << bridge->num) to manipulate vme_bus_numbers.
+> Cleanup the AD9832 header by explicitly including <linux/types.h> and
+> replacing ambiguous integer types with fixed-width kernel types:
 >=20
-> Replace these shifts with the BIT(n) macro for readability,
-> consistency, and kernel coding style.
-
-The whole loop is just doing ffz().
-So could be:
-	if (vme_bus_numbers !=3D ~0u) {
-		bus_num =3D ffz(vme_bus_numbers);
-		vme_bus_numbers =3D BIT(bus_num);
-		bridge->num =3D bus_num;
-		...
-		ret =3D 0;
-	}
-
-    David
-	=09
+> - unsigned long =E2=86=92 u32
+> - unsigned short =E2=86=92 u16
 >=20
-> Changes:
-> - vme_register_bridge(): (1 << i) =E2=86=92 BIT(i)
-> - vme_unregister_bridge(): (1 << bridge->num) =E2=86=92 BIT(bridge->num)
+> This improves type clarity and ensures consistent behavior across
+> architectures.
 >=20
 > Signed-off-by: Dharanitharan R <dharanitharan725@gmail.com>
+
+Hi Dharanitharan,
+
+Thanks for sending this.
+
+A few comments.  Firstly there is a reasonably high chance we'll be shortly
+dropping this driver from staging because it's had no significant work to
+bring it up to date in a very long time.  Unfortunately unless you were
+following that discussion deep in an unrelated looking thread there was
+no way for you to know that :(
+
+Following up on this particular patch, it doesn't make sense to just
+change the types where they are stored here.  These are passed into
+various functions that continue to take unsigned long / short parameters.
+For example, ad9832_write_frequency() and the calls under that.
+If we were going to tighten the types up it should be consistent.
+Such a patch would then show how these updated types interact with the
+other values in the driver for example the output of clk_get_rate().
+
+So in general this sort of cleanup might makes sense only if done
+right across all use of the values for which the types are being changed
+otherwise it just ends up adding to the confusion.
+
+Third, platform data like this is a nasty bit of legacy from the pre
+device tree days (this is a very old driver!) and so if we didn't fix
+up this driver it would likely go away as part of that effort.
+
+As noted though I wouldn't advise continuing with this particular
+driver on simple basis it will probably go away (unless someone shouts
+that they still need it when I send the removal patch!)
+
+Jonathan
+
+
 > ---
->  drivers/staging/vme_user/vme.c | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
+>  drivers/staging/iio/frequency/ad9832.h | 13 +++++++------
+>  1 file changed, 7 insertions(+), 6 deletions(-)
 >=20
-> diff --git a/drivers/staging/vme_user/vme.c b/drivers/staging/vme_user/vm=
-e.c
-> index 2095de72596a..f62a94ef35fc 100644
-> --- a/drivers/staging/vme_user/vme.c
-> +++ b/drivers/staging/vme_user/vme.c
-> @@ -1766,8 +1766,8 @@ int vme_register_bridge(struct vme_bridge *bridge)
+> diff --git a/drivers/staging/iio/frequency/ad9832.h b/drivers/staging/iio=
+/frequency/ad9832.h
+> index d0d840edb8d2..d59ad0627a9b 100644
+> --- a/drivers/staging/iio/frequency/ad9832.h
+> +++ b/drivers/staging/iio/frequency/ad9832.h
+> @@ -6,6 +6,7 @@
+>   */
+>  #ifndef IIO_DDS_AD9832_H_
+>  #define IIO_DDS_AD9832_H_
+> +#include <linux/types.h>
 > =20
->  	mutex_lock(&vme_buses_lock);
->  	for (i =3D 0; i < sizeof(vme_bus_numbers) * 8; i++) {
-> -		if ((vme_bus_numbers & (1 << i)) =3D=3D 0) {
-> -			vme_bus_numbers |=3D (1 << i);
-> +		if ((vme_bus_numbers & BIT(i)) =3D=3D 0) {
-> +			vme_bus_numbers |=3D BIT(i);
->  			bridge->num =3D i;
->  			INIT_LIST_HEAD(&bridge->devices);
->  			list_add_tail(&bridge->bus_list, &vme_bus_list);
-> @@ -1787,7 +1787,7 @@ void vme_unregister_bridge(struct vme_bridge *bridg=
-e)
->  	struct vme_dev *tmp;
+>  /*
+>   * TODO: struct ad9832_platform_data needs to go into include/linux/iio
+> @@ -22,12 +23,12 @@
+>   */
 > =20
->  	mutex_lock(&vme_buses_lock);
-> -	vme_bus_numbers &=3D ~(1 << bridge->num);
-> +	vme_bus_numbers &=3D ~BIT(bridge->num);
->  	list_for_each_entry_safe(vdev, tmp, &bridge->devices, bridge_list) {
->  		list_del(&vdev->drv_list);
->  		list_del(&vdev->bridge_list);
+>  struct ad9832_platform_data {
+> -	unsigned long		freq0;
+> -	unsigned long		freq1;
+> -	unsigned short		phase0;
+> -	unsigned short		phase1;
+> -	unsigned short		phase2;
+> -	unsigned short		phase3;
+> +	u32 freq0;
+> +	u32 freq1;
+> +	u16 phase0;
+> +	u16 phase1;
+> +	u16 phase2;
+> +	u16 phase3;
+>  };
+> =20
+>  #endif /* IIO_DDS_AD9832_H_ */
 
