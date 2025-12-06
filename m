@@ -1,175 +1,132 @@
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8E4C2E1758
-	for <linux-staging@lists.linux.dev>; Fri,  5 Dec 2025 20:28:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B4E018D658
+	for <linux-staging@lists.linux.dev>; Sat,  6 Dec 2025 05:49:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1764966517; cv=none; b=Y1HVrdrdn69NZGlbTQd1BgLR4Hz1CK3iSGt0yXhHe9CAcgL3SLq0zpzTmgWv8mRgCueozW3pXugEFvC75HLleWSZiAy88ArQyU5TBgEM+s9xbaGqBXALawmwz6rIvLWDME6MXa9hTv/m6DNCY+qPwI9PtO0is7X+/I5EIHm1j6w=
+	t=1765000144; cv=none; b=ApICi0AcD1c4SFPtNv2daexhx91wM4a9IgLLwdgWlfKHQH4cbFUxmVbhOX6jLemZwvW92p9wM7ckYLL+Ic8Y/UM9woiAejc9wSYDnpPZYOiabgSPsZ80QHgXBNBR8903pwDGUERKEHRTdHxphmI9EhyhY7BN0Z2d/sDAhVZpvUg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1764966517; c=relaxed/simple;
-	bh=azE6/sKR/pDr9h9pZaYF+h/EQIlraEjWOI9ZhVf1gRY=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=gsvzSaNZ8FZab3UqPMFnIu+qYDpx2H2GCsuianzeLmFfnLGcaaKS2hZnZOdXz3N3aFXCn1SEyhThnqV7GRNRseRR84ixdJ/OzKevhDkGx2UuQQc/UKxG7GAp8/IZYzUWu90iAV2S5rO7Dt2fKUAkpxy6Y6qBguRgaD7ei+eFei8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=W41Q2Dxf; arc=none smtp.client-ip=209.85.214.171
+	s=arc-20240116; t=1765000144; c=relaxed/simple;
+	bh=o2coofrVs1zJomFeinBd2SFMvIp0p05SWzZkRVLf+OA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=VmQ7WcRkiDIuoF5TPlIUZpi7x9Zr4CkwjzbfH3KmEuxdlYIBmuQS/35JdXlfzL2FMv+fm9JmszY0ovVhy2J+82yAj3thDYXi42fiw208GHMB+PT4+63vdHp9lLQbuwJ2U7C8Ga2Ba72LDkPCNlfUkxGzzD93d6+c7LOKc1842ts=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Qm2dLucG; arc=none smtp.client-ip=209.85.214.180
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="W41Q2Dxf"
-Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-29812589890so35520775ad.3
-        for <linux-staging@lists.linux.dev>; Fri, 05 Dec 2025 12:28:34 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Qm2dLucG"
+Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-2984dfae043so28984155ad.0
+        for <linux-staging@lists.linux.dev>; Fri, 05 Dec 2025 21:49:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1764966514; x=1765571314; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ZogGanCrO7NukEfQvdNpvWFAmgObDEJxIVV+nj78Ze8=;
-        b=W41Q2Dxf+S1zZVVQ+h/9/NHtZ7qoC3GQ5TU6Y0xblh5pfqCJA03r3XaEzPacHgHld8
-         x5h+Vtj915a4iKzQ28r7ZZgvVIGZT3aT3HmN+SK45au5yAo0dnmz/UT/YRw4kuytuKSz
-         ya69Oae2tdRpF3W0uXxNOfkhLiUDhdYt1O3TduF7hoQdXX3PwMr4Sdr3M6oNYblceZNY
-         srHCx4xvoDPSF0gWMLkh75KSt8sfBFquAXKKMm3afIxvejRte6eWEghW74+IKV59UqcG
-         /mzjNQpHwYtUE+bWxudKBn8QjaKV63t0STqBJPKF332JGMjNVaHCoaLp7F8VvWWB/27v
-         2iLQ==
+        d=gmail.com; s=20230601; t=1765000143; x=1765604943; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=t+5FbX5Ffi+j43ikWdc2hYKbS6cIVP11o/IGFWxUamw=;
+        b=Qm2dLucGw+gGC1uUc8zossgSHR0dHmfZ68n665VcTChUcarX1NmpHu9hCZS4lkTt70
+         y6Eu5QfMopCs/Ap010p/sggnQm/H4/WvOJU/iU3Ny9suWPw81XH6X30ALUaQN+d5oz1W
+         cKO0TQIhyZPyifLSCAslqRi+wLuc4xk41xkeFgBZJEKnRtxOHYQoNhK+J4cGqnlFjsB7
+         OJx0j+abrcIxn6Mj07O/xSiIDJsgoaQA0MhASOqHgBLizCcA3apRkqJ9u9NoAqeXep9P
+         F5CRh0Ovt+U8bZFmMvg7no4sVKXDVA55jwc+i55zU1fNO7GDCG8zAyqeVfHpLyrPWMoB
+         6sUQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1764966514; x=1765571314;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=ZogGanCrO7NukEfQvdNpvWFAmgObDEJxIVV+nj78Ze8=;
-        b=fqqWmLG7L1itgwvuBlHcHGylQPc7JfNqBwbicZ2DF29lnKWZCdn7g73sO/poWmGUnR
-         zGBHvo3Rp6ZKbY9+8RcqFmuPrJBuRIlH963i8pdRXK9N/Vh/GjeZkR3NR31K9bN3twJd
-         /7FjEDk4I1X+jAW0sBhzt6AkpMW9AL+ZV+XDW/u1q9CHDQJVY7joQZUpc0I8Uy/jFFmJ
-         7fFiV6SVN2zH4knGolgV9pkzk0B1GCplMhKz5I5UYeS0iKi5wvWCV4nnGJhCQKE/Ocps
-         nebYYE85C1m5lNMsuppDEZjlmCOcJRdf4A9M6d/MNJ2zkPOIeY6trVQOQNedlrz+fnih
-         GdDw==
-X-Forwarded-Encrypted: i=1; AJvYcCXAyKGa4gKvUIRI+W8crlSDtS1ybWO7t6kh08mxKQ6t2lATOGu6wr+x/4G8E8AhWdMVN3XFpx+5wbntjdCV@lists.linux.dev
-X-Gm-Message-State: AOJu0YwuGBi5JYjQXSgzpfoqZ9+teD9rgRgtxy2AsMS4ptjczq8vJlNl
-	P+l2ikzzBBRScplD19rMec8iBdIZUx2/Xg9NlzbuB/epruke2nYPcthk
-X-Gm-Gg: ASbGncv9i+NVdGGf57lpUOdNjmwVf924idTABRyQdV4oNtKwk0mSrN9ExazyOZjwSp7
-	JWNDOqklFr0W7BFq+9lrgWP/+vpEEQEUZU8QbSM5b6E2kmHmQ3uwH5NS6fqAqE5cCD3D53CZYpP
-	isPATy0u7JVsRpuPM4b/JiLbBaULmuATIwZQVCI/W9ljLj7xSeAfMakron75+P6lgH1HaAs5Cih
-	VI/sera3sVbc/mZDSmpvA73mFNPmDKLRDuiHEtemRYZsA6vFdlTe+g/x6YYbXPh1BFlWaTOWPNB
-	9dxc0Gy/TEmzVgct4At9BU9+qou47mL9vHts2GtsoI+9lj+O07ZD8UZTxBnOatWHNvDWEqWb0mY
-	UmomGTNAr8DQCYAoU2Lhw/N/VCFB8D3UjLYNb7Un//iOl0M0rnjCNObzskc8wGW5H/U42QyyNuI
-	ZBh9JEh8VBcV/Y9Wc9J3zWGOmJj31kWoRKRPQxGr3JzQEAO92tY2MqSxUY+MxhJqEfs1IBIUYCZ
-	ulxYaHqao7GlPdSLYjPuzXfTy4kQLbdnIEVAN9g7CrOcIHERuMLLsPG6XZw/7xddoUKvC49
-X-Google-Smtp-Source: AGHT+IF1wT7Td3ZI2BC55SXXYAJaxCzsMe1hAMjfGfhAUPysLAPT7MMB+HubIzcEFfpLuQKK5R0Glg==
-X-Received: by 2002:a17:902:cf0b:b0:297:fbff:fab8 with SMTP id d9443c01a7336-29df54761c4mr2295905ad.21.1764966513935;
-        Fri, 05 Dec 2025 12:28:33 -0800 (PST)
-Received: from Lewboski.localdomain ([181.191.143.42])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-29dae99fa59sm57256845ad.58.2025.12.05.12.28.30
+        d=1e100.net; s=20230601; t=1765000143; x=1765604943;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=t+5FbX5Ffi+j43ikWdc2hYKbS6cIVP11o/IGFWxUamw=;
+        b=V+HbN4PkJfkh3/Nr9FCqjllwGIWixkqhUC+TVTytQZw6rNfSqE9CPyAVH9V7LUOK3p
+         rYu2Kcf3t/5giZtCRzMoNszQFppoGkmyczSiWd/vHn5bp/YnLHDmqyqbXhE+/LiMtmz9
+         UxGFIGVcR8inwy7p57C32GzNsxdW5LEe9wyJzbq1Ajcqlf5j6GvOttQGTAT8llBcGKot
+         WrhVBuwrqdYGxXY70xxUFF2bW7aqjALJtaGnlt+3HWdrBLumvjtTOz8kddNR5zEwAMYI
+         gBBokP1QI/hg6xxYO7l3hrW8sNOfK7CAmzmF+ZmTQav52iuCigovSKN5vjGzqCfT3PyS
+         Hi/Q==
+X-Forwarded-Encrypted: i=1; AJvYcCXj9Q+4p2L/KG7oFpw924ALWwRwZgMk/dpXfrHDwPO3q9TGOwvKPWrgaoFZHCrlceSi/uBC3qMg96LN1Kmo@lists.linux.dev
+X-Gm-Message-State: AOJu0Yzin9uatOV3HkP33HMKYVitqn3yv55IezUZA71OkSJlGS45+Q5s
+	5C94XTHPJBc2167NH3w3eEFZ/MUB6iTxcm+dsNgmab+H00GRC/DE5koAnU43VnQ6
+X-Gm-Gg: ASbGnctQQLF20JMq4nkjw7j2awN+VuY870Bg/M59ZwYMIrl/oyMdyfBlqNjkd3KAUCR
+	NN3qCybdbkEoyaVmBM9fw6kZlfJSWrC+zyr00mhWfiBEzfyTbwLnmJ+JFdtsndLP54TKlePFOFf
+	Obe9EHjW9yDPNS8eOlizMDkh1JwG3m4jXHcBs/tW2j6Is8AJqyYc3uR9mwxMejQ8ex2mJv4BpP8
+	zLuXEg3pnL8c/ATe0kgM3hk847kV8ofazfbt+fKSjzaCzivdTZspdeXlFGOM0jflCS0wSlewckw
+	sIVadz//iogp+YEE78aO9Dvq6DfdhzoZM5wVG42WAOTttQM9zXPBcaPsr7sZXwGCDahFWZYO0D4
+	yClGX1WgH1MOfJ7Hn2QZIzXjHBxWspl6pXcU5nvx/tQqJh/Q7YeFK11I8lmEyZdNsEjt6UMruIz
+	j8q5nTl89ccjL38tZIoFUUsZ5YfVfU8V0=
+X-Google-Smtp-Source: AGHT+IGfWF7c2l+UxfYzOKmNOmjZspZVkTKFm9uM2+JEgBwMh4W018TL8R2geZ+WaGGdnvFYesbq7w==
+X-Received: by 2002:a17:902:f693:b0:275:81ca:2c5 with SMTP id d9443c01a7336-29df5de7aa4mr12038745ad.59.1765000142810;
+        Fri, 05 Dec 2025 21:49:02 -0800 (PST)
+Received: from localhost.localdomain ([103.98.63.195])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-29dae4cf52fsm65466005ad.39.2025.12.05.21.48.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 05 Dec 2025 12:28:33 -0800 (PST)
-From: Tomas Borquez <tomasborquez13@gmail.com>
-To: Jonathan Cameron <jic23@kernel.org>,
-	Lars-Peter Clausen <lars@metafoo.de>,
-	Michael Hennerich <Michael.Hennerich@analog.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: David Lechner <dlechner@baylibre.com>,
+        Fri, 05 Dec 2025 21:49:02 -0800 (PST)
+From: Dharanitharan R <dharanitharan725@gmail.com>
+To: Lars-Peter Clausen <lars@metafoo.de>
+Cc: Michael Hennerich <Michael.Hennerich@analog.com>,
+	Jonathan Cameron <jic23@kernel.org>,
+	David Lechner <dlechner@baylibre.com>,
 	=?UTF-8?q?Nuno=20S=C3=A1?= <nuno.sa@analog.com>,
 	Andy Shevchenko <andy@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-iio@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
 	linux-staging@lists.linux.dev,
-	Tomas Borquez <tomasborquez13@gmail.com>
-Subject: [RFC PATCH 3/3] dt-bindings: iio: add analog devices ad9832/ad9835
-Date: Fri,  5 Dec 2025 17:27:43 -0300
-Message-ID: <20251205202743.10530-4-tomasborquez13@gmail.com>
+	linux-kernel@vger.kernel.org,
+	Dharanitharan R <dharanitharan725@gmail.com>
+Subject: [PATCH v1] staging: iio: frequency: ad9832: replace long/short with u32/u16
+Date: Sat,  6 Dec 2025 05:48:31 +0000
+Message-ID: <20251206054831.26045-1-dharanitharan725@gmail.com>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20251205202743.10530-1-tomasborquez13@gmail.com>
-References: <20251205202743.10530-1-tomasborquez13@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Add devicetree binding documentation for the AD9832 and AD9835
-Digital Synthesizer chips.
+Cleanup the AD9832 header by explicitly including <linux/types.h> and
+replacing ambiguous integer types with fixed-width kernel types:
 
-Signed-off-by: Tomas Borquez <tomasborquez13@gmail.com>
+- unsigned long → u32
+- unsigned short → u16
+
+This improves type clarity and ensures consistent behavior across
+architectures.
+
+Signed-off-by: Dharanitharan R <dharanitharan725@gmail.com>
 ---
- .../bindings/iio/frequency/adi,ad9832.yaml    | 65 +++++++++++++++++++
- 1 file changed, 65 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/iio/frequency/adi,ad9832.yaml
+ drivers/staging/iio/frequency/ad9832.h | 13 +++++++------
+ 1 file changed, 7 insertions(+), 6 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/iio/frequency/adi,ad9832.yaml b/Documentation/devicetree/bindings/iio/frequency/adi,ad9832.yaml
-new file mode 100644
-index 0000000000..f14e054ab2
---- /dev/null
-+++ b/Documentation/devicetree/bindings/iio/frequency/adi,ad9832.yaml
-@@ -0,0 +1,65 @@
-+# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/iio/frequency/adi,ad9832.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Analog Devices AD9832/AD9835 Direct Digital Synthesizer
-+
-+maintainers:
-+  - Michael Hennerich <michael.hennerich@analog.com>
-+
-+properties:
-+  compatible:
-+    enum:
-+      - adi,ad9832
-+      - adi,ad9835
-+
-+  reg:
-+    maxItems: 1
-+
-+  spi-max-frequency:
-+    maximum: 20000000
-+
-+  clocks:
-+    maxItems: 1
-+
-+  clock-names:
-+    const: mclk
-+
-+  avdd-supply:
-+    description: Analog power supply.
-+
-+  dvdd-supply:
-+    description: Digital power supply.
-+
-+required:
-+  - compatible
-+  - reg
-+  - clocks
-+  - clock-names
-+  - avdd-supply
-+  - dvdd-supply
-+
-+allOf:
-+  - $ref: /schemas/spi/spi-peripheral-props.yaml#
-+
-+unevaluatedProperties: false
-+
-+examples:
-+  - |
-+    spi {
-+        #address-cells = <1>;
-+        #size-cells = <0>;
-+
-+        dds@0 {
-+            compatible = "adi,ad9832";
-+            reg = <0>;
-+            spi-max-frequency = <20000000>;
-+            clocks = <&dds_clk>;
-+            clock-names = "mclk";
-+            avdd-supply = <&avdd_reg>;
-+            dvdd-supply = <&dvdd_reg>;
-+        };
-+    };
-+...
+diff --git a/drivers/staging/iio/frequency/ad9832.h b/drivers/staging/iio/frequency/ad9832.h
+index d0d840edb8d2..d59ad0627a9b 100644
+--- a/drivers/staging/iio/frequency/ad9832.h
++++ b/drivers/staging/iio/frequency/ad9832.h
+@@ -6,6 +6,7 @@
+  */
+ #ifndef IIO_DDS_AD9832_H_
+ #define IIO_DDS_AD9832_H_
++#include <linux/types.h>
+ 
+ /*
+  * TODO: struct ad9832_platform_data needs to go into include/linux/iio
+@@ -22,12 +23,12 @@
+  */
+ 
+ struct ad9832_platform_data {
+-	unsigned long		freq0;
+-	unsigned long		freq1;
+-	unsigned short		phase0;
+-	unsigned short		phase1;
+-	unsigned short		phase2;
+-	unsigned short		phase3;
++	u32 freq0;
++	u32 freq1;
++	u16 phase0;
++	u16 phase1;
++	u16 phase2;
++	u16 phase3;
+ };
+ 
+ #endif /* IIO_DDS_AD9832_H_ */
 -- 
 2.43.0
 
