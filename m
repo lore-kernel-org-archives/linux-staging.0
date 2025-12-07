@@ -1,99 +1,131 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 438E719F137;
-	Sun,  7 Dec 2025 12:46:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EEB28287E
+	for <linux-staging@lists.linux.dev>; Sun,  7 Dec 2025 16:43:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765111592; cv=none; b=HcoTNzQaizhE9j56XiXoauNNBLecFa5U1BkaPIJfAaIRDErxVWF9H+Uh/fMxsTqHrNIQZdMx+kJW5AaxtUZpO4haUbqfWPgddbp05UUFpmt/VOinJRvxafQFJcMxtIq0R2VrBMmYTt1AMnnzmGOsrs8unpTOopnAx/NQ55RbIh8=
+	t=1765125829; cv=none; b=ewoqgl3tTC7qzcA1KihkFsPvMYV7kYKAxMvTJAvaREhKwYdOdvqKKCBtDxUOJ9V3/Nn3HgdxY0+GPiJRrevee7wa519nCHZy7B/cKCysWYeqPNq+/u0/GHMf159FB9Nr270bRDpdCvLKH2G89YLUXytryEb6JWKf/XqipL4iyuk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765111592; c=relaxed/simple;
-	bh=wlwFOLybU7M/idGP2NbqZBrcGPsdwoeze2WwfbPVysM=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=aPwnAVdVtve7MNnBphc9b4LBUdIo0jhtcPypJUyVi0Gmw433S01NOMa98BZR2UDwWAbb3kSHupR4NsLV15xzc/YHq3IYEBVs9tPU3IjDISFxmR5hm4zMkvvNy0wppQHeFeHLZgSsXidsRl8kTpPHccJT8fjF66gg/sxW0w2zWdk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ezaNlSHX; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1765125829; c=relaxed/simple;
+	bh=rwhCZkkLw3vwk1TFAStxf9y+lgxkE2sr5YH1FNclkSM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=eXAOV2W1CPlTd4Qebur1CshuChtX+6U/l15XKhJfxXX/rwbdp6f1vw5qfuYS70oel7iEQuuTCT3ndwRhGrFZpM1P40sZvKn7VftxwfRNIC0NPYIM6WXbkt7xPEI7fr9JaZMS/EIfWjOS7uUz8etkLw32eA4Jpkwfea4i2mG9IHo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GLmijdhp; arc=none smtp.client-ip=209.85.210.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ezaNlSHX"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D265CC4CEFB;
-	Sun,  7 Dec 2025 12:46:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1765111591;
-	bh=wlwFOLybU7M/idGP2NbqZBrcGPsdwoeze2WwfbPVysM=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=ezaNlSHXZjk73vFlt9Apj+XuFpyUB/2MRq9VxuyR9zQ9kTqoLeItv/3uiot1OUbzB
-	 W1XMuyG1oqafPgAKbXEzNgqHR9FM9vf3l03gMRoX0njh+w4sjY3zXMNMirA0Wilkzh
-	 xpb3e+SvDPoBzj3MV/qqvHN1989UfBfBAI0tmjK2AJflBlZzjqXGlG7JdhYAnl3V4F
-	 CTnKMuKTat8ogfRUwrnMqAgR9ixxwCCXUEI/PjM5T8qsH2LtgJ8h6UkldpN9CJWE+2
-	 DPd51wmCAaZQyb/b4pZgnnRZIKUADPOBWUZqF38IKQRi/3pTXinQ+REVdV6EdvFNEi
-	 CI558VSUPKX5w==
-Date: Sun, 7 Dec 2025 12:46:25 +0000
-From: Jonathan Cameron <jic23@kernel.org>
-To: Andy Shevchenko <andriy.shevchenko@intel.com>
-Cc: Tomas Borquez <tomasborquez13@gmail.com>, Lars-Peter Clausen
- <lars@metafoo.de>, Michael Hennerich <Michael.Hennerich@analog.com>, Rob
- Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor
- Dooley <conor+dt@kernel.org>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, David Lechner <dlechner@baylibre.com>, Nuno
- =?UTF-8?B?U8Oh?= <nuno.sa@analog.com>, Andy Shevchenko <andy@kernel.org>,
- linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
-Subject: Re: [RFC PATCH 1/3] staging: iio: ad9832: remove platform_data
- support
-Message-ID: <20251207124625.5db016cb@jic23-huawei>
-In-Reply-To: <aTRYsueq31e3CtYJ@smile.fi.intel.com>
-References: <20251205202743.10530-1-tomasborquez13@gmail.com>
-	<20251205202743.10530-2-tomasborquez13@gmail.com>
-	<aTRYsueq31e3CtYJ@smile.fi.intel.com>
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GLmijdhp"
+Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-7bc0cd6a13aso2032194b3a.0
+        for <linux-staging@lists.linux.dev>; Sun, 07 Dec 2025 08:43:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1765125827; x=1765730627; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=8XX5LTtkJfB9p2MjVfS1613FXxwOAuGBUTWB9MA6u2A=;
+        b=GLmijdhpWmo+AX9RxZ5ZRvN9reU32pBDDjdddvFLiTzcDRpQOa2qrMXb46q0ZeKAOi
+         mju7bLESG/PUkwmPve2kNIjOE2C9Fp3Ap2mkBk+/twBWPEcPrnZG5u3Z0kGlPx2rme2M
+         Z3dBtgL/ruZWBTv1LHop+w9FzMfAPJAQ8sWvXsjIp5SOAjeXB6DYzZTgDoj7Qd5RjWKa
+         An4AldxAOwWnq7cavO53Lt6W0CoSGouX6x3xI9Bq01HBNpfEaDGB4WjKSy2AQDV6nWvG
+         oalv4eFW2ln+UBlRaLyWQ8puq7WES70UxuBChGZQ1JsxnHqn5aHD7ynm7HaFmT6NvNjo
+         svkg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1765125827; x=1765730627;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=8XX5LTtkJfB9p2MjVfS1613FXxwOAuGBUTWB9MA6u2A=;
+        b=lmJtG+83a88HtYcDLz5oLCPmAwhbxvUWT62R39igk6txpJ2kcNIif4XlfqFGqdfSQ3
+         TtaTWVfTDJ9JD5YfaUc63FFla4i+kC7cyUmsNuHqZIupT6Gkti5Mw74AvWI/ubO/3hEs
+         5uryOv4GabHxgXVCVUgZnL4zNqqIdPJS+j5kG3/r12mdUIgGoNDyGEPn6ajRCnGl3jZx
+         FQOOwVHlZZYxH8xjbdeFpvV87Mn050V9K3TUZq08DRs0ZBQYPX9awC3xZ+js4ByL6g6i
+         fCbNX+sGnJj2sOfz1iWIp3ERpXzMOAJeiilJ6kjQyrac/j/5F67ptBk370pI4+621CHK
+         bjgA==
+X-Gm-Message-State: AOJu0YzgwQEslspQSNqh/1V6zOoNRxT+SyMWF5ygaaVrIGc11TiLV4Xl
+	e1sRH+gHKgBFZMjYzgJm7MLUzTkixkxV3Zgo474Rf7ksnxBAewswv6CIaNUgww==
+X-Gm-Gg: ASbGnct0kCV0/DJdo7bX+fw2Y21GSZcmCZIjGkaM7M2BCyj+mCozdfNWBhL5aY3PnDn
+	DBZMY1xcWXBWYGnoVzcnfHwDghzzwv1cTemmdMjtkUQtaDMw2YnUOAiUNzt7PmcEvF0gXeGMCKH
+	B8PjFAXwgtBcQFotcA1ASq00TidvS4fCVmmvTanV76W/THSxqfHIUZYoi0Whcr7RFq+AAD6XycQ
+	mabQasS6ZI+VmHe1rW/LkGD5hxLmV0i/CBZBNrXHHeUCbeK1AiUSv983Kw6fjD8AZQx9rNkD9gk
+	F8UlZQmW3eOXTcvcSjUF0XGuKZihnD8dUtByi1i2dF+TF++QOEIBMnAaiRgrakKsFaHf+dktGvK
+	Wb2cVx50k0tZlkz80uLJmf8wDp019pxaCYzolY7O0EbrnIIFNGi/QkDod+LQ9DIijSg5pmyZ6bF
+	T9tfL1SSft+N7kBitg1XyDh4VnZCtivnC0
+X-Google-Smtp-Source: AGHT+IHdH4XmI4hIo+FBoZVrnL+XFoqAh/bKrwaFHBEmbsavQyJYthDHroScXtzp+fiOHdBWvkM02w==
+X-Received: by 2002:a05:6a00:62c9:b0:7ae:b13f:37c2 with SMTP id d2e1a72fcca58-7e205c0d557mr8076285b3a.10.1765125827341;
+        Sun, 07 Dec 2025 08:43:47 -0800 (PST)
+Received: from localhost.localdomain ([38.224.232.243])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7e29fb94567sm10625779b3a.15.2025.12.07.08.43.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 07 Dec 2025 08:43:47 -0800 (PST)
+From: Dharanitharan R <dharanitharan725@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Dharanitharan R <dharanitharan725@gmail.com>,
+	David Laight <david.laight.linux@gmail.com>
+Subject: [PATCH v2] staging: vme_user: simplify bus number allocation using ffz()
+Date: Sun,  7 Dec 2025 16:43:17 +0000
+Message-ID: <20251207164317.4835-1-dharanitharan725@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On Sat, 6 Dec 2025 18:24:18 +0200
-Andy Shevchenko <andriy.shevchenko@intel.com> wrote:
+David Laight pointed out that the loop in vme_register_bridge()
+is effectively searching for the first zero bit in vme_bus_numbers.
 
-> On Fri, Dec 05, 2025 at 05:27:41PM -0300, Tomas Borquez wrote:
-> > Remove legacy platform_data support as there are no in tree users and
-> > this approach belongs to a long gone era. The policy decision on what
-> > to output is a userspace problem, not something that should be provided
-> > from firmware.
-> > 
-> > The driver now initializes the device to a safe state (SLEEP|RESET|CLR)
-> > outputting nothing. Userspace can configure the desired frequencies and
-> > phases via the existing sysfs attributes once the device is ready to be   
-> 
-> Tailing space on the above line (and the only line with this issue).
-> 
-> > used.
-> > 
-> > Original discussion started here [1].  
-> 
-> The change LGTM, Jonathan, can you amend the above and apply it?
-> (Yes, I have read the discussion about removal the driver, but meanwhile
->  the change is good on itself even if we are going to remove the driver.
->  It just makes an additional harmless step in my opinion.)
-OK done. Small side note. If adding comments to link tags (e.g. the [1])
-then use #[1].
+Replace the manual loop with ffz() and use BIT(n) for consistency.
 
-b4 otherwise picks the thing up as two link tags. At least I think that is
-what caused:
+Suggested-by: David Laight <david.laight.linux@gmail.com>
+Signed-off-by: Dharanitharan R <dharanitharan725@gmail.com>
+---
+ drivers/staging/vme_user/vme.c | 15 +++++++++++++----------
+ 1 file changed, 9 insertions(+), 6 deletions(-)
 
-  [PATCH RFC 1/3] staging: iio: ad9832: remove platform_data support
-    + Reviewed-by: Andy Shevchenko <andriy.shevchenko@intel.com>
-    + Link: ... [1]
-
-Looks like something stripped the extra space anyway when I was applying.
-I didn't bother to check what.
-
-Jonathan
-
-> 
-> FWIW,
-> Reviewed-by: Andy Shevchenko <andriy.shevchenko@intel.com>
-> 
+diff --git a/drivers/staging/vme_user/vme.c b/drivers/staging/vme_user/vme.c
+index 2095de72596a..45381e677475 100644
+--- a/drivers/staging/vme_user/vme.c
++++ b/drivers/staging/vme_user/vme.c
+@@ -1765,16 +1765,19 @@ int vme_register_bridge(struct vme_bridge *bridge)
+ 	int ret = -1;
+ 
+ 	mutex_lock(&vme_buses_lock);
+-	for (i = 0; i < sizeof(vme_bus_numbers) * 8; i++){
+-		if ((vme_bus_numbers & (1 << i)) == 0) {
+-			vme_bus_numbers |= (1 << i);
+-			bridge->num = i;
+-			INIT_LIST_HEAD(&bridge->devices);
+-			list_add_tail(&bridge->bus_list, &vme_bus_list);
+-			ret = 0;
+-			break;
+-		}
++	
++	/* Find the first clear bit */
++	i = ffz(vme_bus_numbers);
++
++	/* Ensure we have a free slot */
++	if (i < BITS_PER_LONG) {
++		vme_bus_numbers |= BIT(i);
++        bridge->num = i;
++        INIT_LIST_HEAD(&bridge->devices);
++        list_add_tail(&bridge->bus_list, &vme_bus_list);
++        ret = 0;
++	}
+ 	mutex_unlock(&vme_buses_lock);
+ 
+ 	return ret;
+@@ -1787,7 +1790,7 @@ void vme_unregister_bridge(struct vme_bridge *bridge)
+ 	struct vme_dev *tmp;
+ 
+ 	mutex_lock(&vme_buses_lock);
+-	vme_bus_numbers &= ~(1 << bridge->num);
++	vme_bus_numbers &= ~BIT(bridge->num);
+ 	list_for_each_entry_safe(vdev, tmp, &bridge->devices, bridge_list) {
+ 		list_del(&vdev->drv_list);
+ 		list_del(&vdev->bridge_list);
+-- 
+2.43.0
 
