@@ -1,63 +1,99 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D86528314A;
-	Sun,  7 Dec 2025 03:03:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 438E719F137;
+	Sun,  7 Dec 2025 12:46:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765076614; cv=none; b=GYomYa9UR9DUR2rsS9AjCItMa7LCrAbH9+jCpfidbnoF0V9zLqd3VjQTrAzRVfxFl1q+58G1BMzkZNQrJdKPuysA1fezZwUGfIELtB85GGB/41J9fVM7/Cw+Z0UXhQ2mNgnWxhIif8Xd6McHauOkZVS2Ceb+3U0HXPm122ht8Ps=
+	t=1765111592; cv=none; b=HcoTNzQaizhE9j56XiXoauNNBLecFa5U1BkaPIJfAaIRDErxVWF9H+Uh/fMxsTqHrNIQZdMx+kJW5AaxtUZpO4haUbqfWPgddbp05UUFpmt/VOinJRvxafQFJcMxtIq0R2VrBMmYTt1AMnnzmGOsrs8unpTOopnAx/NQ55RbIh8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765076614; c=relaxed/simple;
-	bh=IqIPH31vFQOrLaD+apIGNjeVWSbzvRbiu0JZyeQ7kGM=;
-	h=Subject:From:In-Reply-To:References:Message-Id:Date:To:Cc; b=JE4MEY3NYUgSNA3MgZejGjbZ1yMnXOPU8rLi8fS3jAw16ztwMNZzKRecHNKcbptmcI+eEfmIHV9bu9kGypCepYQvQSf+HRK7R0MkBJgpph8T9J5jVop7UtlZLme2rj4TqBzYF0nMfq9CniWQJiXijbB8VMDVAJv9HBu8ym0pFpI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qwnrfgiI; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1765111592; c=relaxed/simple;
+	bh=wlwFOLybU7M/idGP2NbqZBrcGPsdwoeze2WwfbPVysM=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=aPwnAVdVtve7MNnBphc9b4LBUdIo0jhtcPypJUyVi0Gmw433S01NOMa98BZR2UDwWAbb3kSHupR4NsLV15xzc/YHq3IYEBVs9tPU3IjDISFxmR5hm4zMkvvNy0wppQHeFeHLZgSsXidsRl8kTpPHccJT8fjF66gg/sxW0w2zWdk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ezaNlSHX; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qwnrfgiI"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F33F6C4CEF5;
-	Sun,  7 Dec 2025 03:03:33 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ezaNlSHX"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D265CC4CEFB;
+	Sun,  7 Dec 2025 12:46:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1765076614;
-	bh=IqIPH31vFQOrLaD+apIGNjeVWSbzvRbiu0JZyeQ7kGM=;
-	h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
-	b=qwnrfgiIkxE868OBOuFR57zVCxHxVk/XCDIRl14/Y+hICcEZRTxywfbnVPSvQpHgY
-	 0DGUxQRZNUDq1F7eVzZcgiYWb1/xsvVMUlIke2Dzz0UN7cKrFhgOIIa2wPJzwTrE4y
-	 U3SCItGLApsNhPZZisWQz0VrXsVVhL32AF7U29DohzGLYs9nO4QUz1WZxQPvNxiBp3
-	 ag59DnN0kEqnxxS0jSGroF96yN81bTBqW1aq6aW92AV5mYOnoHB+4HxIxasRSBlO/k
-	 RwZ+3AXgzy68kTcuBbnbszTVEUbac6WZBJIWO3zizQoF7JWKuQ++jeKdBBwh8oO6k/
-	 0MUVulGp3AN5A==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id F29E43808200;
-	Sun,  7 Dec 2025 03:00:31 +0000 (UTC)
-Subject: Re: [GIT PULL] Staging driver updates for 6.19-rc1
-From: pr-tracker-bot@kernel.org
-In-Reply-To: <aTTPQvLHK-amzrEA@kroah.com>
-References: <aTTPQvLHK-amzrEA@kroah.com>
-X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
-X-PR-Tracked-Message-Id: <aTTPQvLHK-amzrEA@kroah.com>
-X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git tags/staging-6.19-rc1
-X-PR-Tracked-Commit-Id: 502ddcc405b69fa92e0add6c1714d654504f6fd7
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: 37bb2e7217b01404e2abf9d90d8e5705a5603b52
-Message-Id: <176507643066.2278937.9796383144894205364.pr-tracker-bot@kernel.org>
-Date: Sun, 07 Dec 2025 03:00:30 +0000
-To: Greg KH <gregkh@linuxfoundation.org>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>, Andrew Morton <akpm@linux-foundation.org>, Stephen Rothwell <sfr@canb.auug.org.au>, linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
+	s=k20201202; t=1765111591;
+	bh=wlwFOLybU7M/idGP2NbqZBrcGPsdwoeze2WwfbPVysM=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=ezaNlSHXZjk73vFlt9Apj+XuFpyUB/2MRq9VxuyR9zQ9kTqoLeItv/3uiot1OUbzB
+	 W1XMuyG1oqafPgAKbXEzNgqHR9FM9vf3l03gMRoX0njh+w4sjY3zXMNMirA0Wilkzh
+	 xpb3e+SvDPoBzj3MV/qqvHN1989UfBfBAI0tmjK2AJflBlZzjqXGlG7JdhYAnl3V4F
+	 CTnKMuKTat8ogfRUwrnMqAgR9ixxwCCXUEI/PjM5T8qsH2LtgJ8h6UkldpN9CJWE+2
+	 DPd51wmCAaZQyb/b4pZgnnRZIKUADPOBWUZqF38IKQRi/3pTXinQ+REVdV6EdvFNEi
+	 CI558VSUPKX5w==
+Date: Sun, 7 Dec 2025 12:46:25 +0000
+From: Jonathan Cameron <jic23@kernel.org>
+To: Andy Shevchenko <andriy.shevchenko@intel.com>
+Cc: Tomas Borquez <tomasborquez13@gmail.com>, Lars-Peter Clausen
+ <lars@metafoo.de>, Michael Hennerich <Michael.Hennerich@analog.com>, Rob
+ Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor
+ Dooley <conor+dt@kernel.org>, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>, David Lechner <dlechner@baylibre.com>, Nuno
+ =?UTF-8?B?U8Oh?= <nuno.sa@analog.com>, Andy Shevchenko <andy@kernel.org>,
+ linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
+Subject: Re: [RFC PATCH 1/3] staging: iio: ad9832: remove platform_data
+ support
+Message-ID: <20251207124625.5db016cb@jic23-huawei>
+In-Reply-To: <aTRYsueq31e3CtYJ@smile.fi.intel.com>
+References: <20251205202743.10530-1-tomasborquez13@gmail.com>
+	<20251205202743.10530-2-tomasborquez13@gmail.com>
+	<aTRYsueq31e3CtYJ@smile.fi.intel.com>
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-The pull request you sent on Sun, 7 Dec 2025 09:50:10 +0900:
+On Sat, 6 Dec 2025 18:24:18 +0200
+Andy Shevchenko <andriy.shevchenko@intel.com> wrote:
 
-> git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git tags/staging-6.19-rc1
+> On Fri, Dec 05, 2025 at 05:27:41PM -0300, Tomas Borquez wrote:
+> > Remove legacy platform_data support as there are no in tree users and
+> > this approach belongs to a long gone era. The policy decision on what
+> > to output is a userspace problem, not something that should be provided
+> > from firmware.
+> > 
+> > The driver now initializes the device to a safe state (SLEEP|RESET|CLR)
+> > outputting nothing. Userspace can configure the desired frequencies and
+> > phases via the existing sysfs attributes once the device is ready to be   
+> 
+> Tailing space on the above line (and the only line with this issue).
+> 
+> > used.
+> > 
+> > Original discussion started here [1].  
+> 
+> The change LGTM, Jonathan, can you amend the above and apply it?
+> (Yes, I have read the discussion about removal the driver, but meanwhile
+>  the change is good on itself even if we are going to remove the driver.
+>  It just makes an additional harmless step in my opinion.)
+OK done. Small side note. If adding comments to link tags (e.g. the [1])
+then use #[1].
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/37bb2e7217b01404e2abf9d90d8e5705a5603b52
+b4 otherwise picks the thing up as two link tags. At least I think that is
+what caused:
 
-Thank you!
+  [PATCH RFC 1/3] staging: iio: ad9832: remove platform_data support
+    + Reviewed-by: Andy Shevchenko <andriy.shevchenko@intel.com>
+    + Link: ... [1]
 
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+Looks like something stripped the extra space anyway when I was applying.
+I didn't bother to check what.
+
+Jonathan
+
+> 
+> FWIW,
+> Reviewed-by: Andy Shevchenko <andriy.shevchenko@intel.com>
+> 
+
