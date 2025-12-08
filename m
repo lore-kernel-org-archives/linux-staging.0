@@ -1,202 +1,112 @@
-Received: from mail-lf1-f65.google.com (mail-lf1-f65.google.com [209.85.167.65])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3EE2B21D3D6
-	for <linux-staging@lists.linux.dev>; Mon,  8 Dec 2025 11:16:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.65
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B7DD5695;
+	Mon,  8 Dec 2025 14:13:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765192613; cv=none; b=QDhfuOzQ7eDi6YkWyTS29F9QiSYumSEvANj/g/XLwyE1BX6MEVSJv5fFChIgP/5bIVUbyw0CXAivdx29uzPMckdqOrizxELcZfyfYaOpZHCrMGGk7byAoTA72NYiZwk8CZ9j6oHpUvYNwWDSHW7mqPJwJ8Ey4yWNP1ojXrIpQf4=
+	t=1765203196; cv=none; b=YAWLO8fsw5TWb6cmWElm1o32rsenkGvM+GEXOBGMcqAjIVsy4Wzz0FVFq+Vr10LYFNdhKY0FxM7PyKWDChtHiJxWZyFUnChS6KUROHPjsOd2Tr9JwDZVYLg7owAd3orLFGXJgBeMl5vXv/4jKLnt7TZVR+u6Ade/9xrosrPNtz4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765192613; c=relaxed/simple;
-	bh=SOUqlzQpcjCK0fTaxI1RTsijxJFfgOEwIrAYv7Vz+lk=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=Ck99aa80jhMfvGI+6Ho74vBrcRgD0IhBZZmukByGSWq1IGuXFYw/UrzFsSKUFAyB9CQ1jfv8JaAneyQ22sou4tFPNftAECESSV8r6bMIdoUFh0cpocqCrQp1ofCKL8CjqhUyAPGuZT1VemZu7aVIMAgTpvfuIBUCUPFzD6ACUa4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KBl7A7+m; arc=none smtp.client-ip=209.85.167.65
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1765203196; c=relaxed/simple;
+	bh=ACDiG4MjEURSu33gwf8f5cO3UhpJ7QO4aDxGwmz1jd4=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=INnpoW3Wa3nYqUgD1xDp3QhebrNGe5tSMQ7eFD6buC2hG/P1Elsv3+jEqxtbVVoVyJD6FY8M0q1d8PJ0XRlZeaxdIwt9QsZ0EwrcytOpRsWtspBpasL3Ih7PzjzLtmRjfCILOKkJmqs5J2O6+yAEJ5PGPp0ubidq1/YjN5J9X8M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kTUXE2/E; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KBl7A7+m"
-Received: by mail-lf1-f65.google.com with SMTP id 2adb3069b0e04-597c83bb5c2so3291625e87.3
-        for <linux-staging@lists.linux.dev>; Mon, 08 Dec 2025 03:16:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1765192608; x=1765797408; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=k1FcJaTt57JlbJy66zrOJwhugl21WOuVNYEAfr8aZYo=;
-        b=KBl7A7+mtn0oeN3pL7LnBhwhbf3jxH1l9/H6M9Y6ovRzqNP8y7Fv7/ioombH/jzvqR
-         EM0KJ75IXpI7moIjrNWl006g2j5wgh1V+7R1YXNpwrEMIfy6sZAQ6ueHvdIqdjKWwej6
-         9kGYWUtJsMTuPPvnu/NzGLvzqOsROCij/TFDRgstnSxVq0ePcI+TZFKGfybl9lYL97/M
-         du/Os3l831rqqBMsFkPcgcHpzpNBxZ20lmLNLXd4jwY80tZbGS7lKSHLz5UJhRf+YTgV
-         8Hi5g8o4WCrroA0ZRlqadvnUMdJOXzxUE+BJXUlo0xVMDav7/3cNJRpDxCiD/Lt9HyzJ
-         lDAw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765192608; x=1765797408;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=k1FcJaTt57JlbJy66zrOJwhugl21WOuVNYEAfr8aZYo=;
-        b=nD2atRXpLi8G9idyq1/mcgfwkyaGWWCVxQ16aoVM7+g8IOypnzIQ3F5TTFxrIZ+JhR
-         s4izJab8XjVEqZgPt8ltMLX+6x2MQBr4Q2qNX3y3bIVHKp4ZdIYqS0J3a3H4uBr89+mE
-         VsD/iQWktaXrIx+sTlGNrAY/sqr2ePamthzFXUOKqvfnlGugjQ0flUyeuoCOeDa6jk7M
-         sbhRHyFUzph2vl8c62LGS1aG+jK6QF4HiE4N9AKo6t8Lw/ngbZtFpSbcXTrRT09/QjbA
-         DXZkiZ5x00fqmpJkQBrSMKflsBYt4zibbdxhuPKGQ+DDNH+4+79L570ZGzRm2DJPkWbV
-         LZ4Q==
-X-Forwarded-Encrypted: i=1; AJvYcCU4+FIwGuRzNT4SS8movOSyWb3Y84WoQqgZMH9Zn/0eE+ONG8VOUUQzLvku7UO087j7MzedA94w2TmOE5+S@lists.linux.dev
-X-Gm-Message-State: AOJu0YzbxItO4QFvVRMImNc2nWZcB0LO/mWo6uqzZi7KQC37BE0Pl23i
-	thCY5cF5UUKBjOP7rKDYk0Jx3kknjgBr2t0k3uHJ0eG+iD+UHEIglsoY
-X-Gm-Gg: ASbGncssj98BozYZhFfQT1R3wrmRgIMUy/ltBkD2cwBVLHTecu6WJWja9wdWo7TNivR
-	Xcp+I9eAuVnqvKV2Hh03N06Bws2QD3BPgmvb6ZGNKQbCJ3DDbWgc/hGsI12W6MfZKJG4q7Btsqe
-	V8GASr0Tpk6B7uMoemZYK7msFv68VEkmhw73NY6VPhgpIcXDCaTcrtlOudisWWRFgM4doeWDAcC
-	0bkOkCLpuTusJ+jkBdkio+ezkuuBpkwflsHR5Yn8ellDyt11tbSiR6+h9WOmPD9bbLLUzNtfLPg
-	hRDE/tZje9dV/q/OWbAuLF0AtjC+xAKTR/ZtGPGYBOApfTQwCCTn0Ga0GR7GDq/CRalfng6Q452
-	9/eqY/6f6ZSnhWIb67WTzoXKw/if72dWu5BZd29e6jw0j1+y3EjkMqqwIEobdCHk9i9Lk4lhDuA
-	ZE0sdqxE7auA1r9C3e+cINrC+bzmnpuVoIsygcCIxKMCv2VObeBPKgqpbqbA==
-X-Google-Smtp-Source: AGHT+IFU4R3moE77eHxDxOCHEP0tsIAxCKnS+8bBbj0g/HYxCv24Zem1PsGdmmHLOWneqk3oWD3pdA==
-X-Received: by 2002:a05:6512:234b:b0:594:5545:b743 with SMTP id 2adb3069b0e04-5987f918492mr2689851e87.27.1765192608021;
-        Mon, 08 Dec 2025 03:16:48 -0800 (PST)
-Received: from rbta-msk-lt-302690.astralinux.ru.astracloud.ru ([89.107.11.60])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-597d7c1e405sm3975815e87.49.2025.12.08.03.16.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 08 Dec 2025 03:16:47 -0800 (PST)
-From: Alexandra Diupina <dyupina99999@gmail.com>
-To: Hans de Goede <hansg@kernel.org>
-Cc: Alexandra Diupina <dyupina99999@gmail.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Andy Shevchenko <andy@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Alan Cox <alan@linux.intel.com>,
-	linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	lvc-project@linuxtesting.org
-Subject: [PATCH v2] media: atomisp: avoid memory leak in ia_css_pipe_create_cas_scaler_desc_single_output()
-Date: Mon,  8 Dec 2025 14:16:17 +0300
-Message-Id: <20251208111617.21966-1-dyupina99999@gmail.com>
-X-Mailer: git-send-email 2.30.2
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kTUXE2/E"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 36BF9C2BC86;
+	Mon,  8 Dec 2025 14:13:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1765203196;
+	bh=ACDiG4MjEURSu33gwf8f5cO3UhpJ7QO4aDxGwmz1jd4=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
+	b=kTUXE2/EDcifZgACoKCukTExkJmFyiFABu6FCVx66aKWYQ0Ecd7YBXYGs3a+AWKZR
+	 EirWHFjBqpwzvqYBVX/ihhVvUVtZSYEFfp22KWlen/rXxJDnS3VmjCcquetZTTnJ+v
+	 0fLErzrmgGcwb5sU2iffZkCeuXn47fRCPKi2vszEuZhhc47PJjDGLlXxv0qFLq8GPA
+	 6KIFEbSTLTB6CjBAgfUwfYVeti/Ch1iHeeaWHomn0BIoGMDomba54bDVr/2IQPtiSH
+	 /21Uz08VqRGW49LZcdAB04hLxtHHPjkVjnWvjkD8RVE/wmpcZjeBhAQEi1vU6zCeXL
+	 1kalAvoR4sU1A==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2C770D3B7E1;
+	Mon,  8 Dec 2025 14:13:16 +0000 (UTC)
+From: Dumitru Ceclan via B4 Relay <devnull+dumitru.ceclan.analog.com@kernel.org>
+Date: Mon, 08 Dec 2025 16:12:56 +0200
+Subject: [PATCH RESEND v8 04/21] dt-bindings: media: i2c: max96717: add
+ support for MAX9295A
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20251208-gmsl2-3_serdes-v8-4-7b8d457e2e04@analog.com>
+References: <20251208-gmsl2-3_serdes-v8-0-7b8d457e2e04@analog.com>
+In-Reply-To: <20251208-gmsl2-3_serdes-v8-0-7b8d457e2e04@analog.com>
+To: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>, 
+ Sakari Ailus <sakari.ailus@linux.intel.com>, 
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+ Julien Massot <julien.massot@collabora.com>, Rob Herring <robh@kernel.org>, 
+ =?utf-8?q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Dumitru Ceclan <dumitru.ceclan@analog.com>
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ devicetree@vger.kernel.org, linux-gpio@vger.kernel.org, 
+ linux-staging@lists.linux.dev, linux-gpio@vger.kernel.org, 
+ mitrutzceclan@gmail.com, Cosmin Tanislav <demonsingur@gmail.com>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1765203192; l=1215;
+ i=dumitru.ceclan@analog.com; s=20240313; h=from:subject:message-id;
+ bh=qFHvQ07hZLvZ0onPRIESlf90XBZdvoAf8MtlEW0qNXM=;
+ b=tCNr4VKHdjcFG2nrMkpgCZO/R2b5mAZXMsp+0y9K00GbwWsYMJMgVfTCG6Br2K1/+TjJFxYAq
+ +/UBx/Df1QXCMVBavg602UoUb0ogSGrBLZ8cMtt/wcueMMogboIl+uW
+X-Developer-Key: i=dumitru.ceclan@analog.com; a=ed25519;
+ pk=HdqMlVyrcazwoiai7oN6ghU+Bj1pusGUFRl30jhS7Bo=
+X-Endpoint-Received: by B4 Relay for dumitru.ceclan@analog.com/20240313
+ with auth_id=140
+X-Original-From: Dumitru Ceclan <dumitru.ceclan@analog.com>
+Reply-To: dumitru.ceclan@analog.com
 
-ia_css_pipe_create_cas_scaler_desc_single_output() may fail,
-so add cleanup by ia_css_pipe_destroy_cas_scaler_desc()
-rather than simply exiting the function. Also add error handling
-for kcalloc() in load_video_binaries() and load_primary_binaries().
+From: Cosmin Tanislav <demonsingur@gmail.com>
 
-Found by Linux Verification Center (linuxtesting.org) with SVACE.
+MAX9295A is an older variant of the MAX96717 which does not support
+tunnel mode.
 
-Fixes: a49d25364dfb ("staging/atomisp: Add support for the Intel IPU v2")
-Signed-off-by: Alexandra Diupina <dyupina99999@gmail.com>
+Document the compatibility.
+
+Signed-off-by: Cosmin Tanislav <demonsingur@gmail.com>
+Acked-by: Rob Herring (Arm) <robh@kernel.org>
 ---
-v2: add kcalloc() error handling
- drivers/staging/media/atomisp/pci/sh_css.c | 41 ++++++++++++++--------
- 1 file changed, 26 insertions(+), 15 deletions(-)
+ Documentation/devicetree/bindings/media/i2c/maxim,max96717.yaml | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/staging/media/atomisp/pci/sh_css.c b/drivers/staging/media/atomisp/pci/sh_css.c
-index 73bd87f43a8c..c1239e910fdc 100644
---- a/drivers/staging/media/atomisp/pci/sh_css.c
-+++ b/drivers/staging/media/atomisp/pci/sh_css.c
-@@ -4528,21 +4528,20 @@ static int load_video_binaries(struct ia_css_pipe *pipe)
- 			  NULL,
- 			  &cas_scaler_descr);
- 		if (err)
--			return err;
-+			goto ERR;
- 		mycs->num_yuv_scaler = cas_scaler_descr.num_stage;
- 		mycs->yuv_scaler_binary = kcalloc(cas_scaler_descr.num_stage,
- 						  sizeof(struct ia_css_binary),
- 						  GFP_KERNEL);
- 		if (!mycs->yuv_scaler_binary) {
--			mycs->num_yuv_scaler = 0;
- 			err = -ENOMEM;
--			return err;
-+			goto ERR;
- 		}
- 		mycs->is_output_stage = kcalloc(cas_scaler_descr.num_stage,
- 						sizeof(bool), GFP_KERNEL);
- 		if (!mycs->is_output_stage) {
- 			err = -ENOMEM;
--			return err;
-+			goto ERR;
- 		}
- 		for (i = 0; i < cas_scaler_descr.num_stage; i++) {
- 			struct ia_css_binary_descr yuv_scaler_descr;
-@@ -4556,12 +4555,19 @@ static int load_video_binaries(struct ia_css_pipe *pipe)
- 			err = ia_css_binary_find(&yuv_scaler_descr,
- 						 &mycs->yuv_scaler_binary[i]);
- 			if (err) {
--				kfree(mycs->is_output_stage);
--				mycs->is_output_stage = NULL;
--				return err;
-+				goto ERR;
- 			}
- 		}
-+ERR:
- 		ia_css_pipe_destroy_cas_scaler_desc(&cas_scaler_descr);
-+		if (err) {
-+			mycs->num_yuv_scaler = 0;
-+			kfree(mycs->yuv_scaler_binary);
-+			mycs->yuv_scaler_binary = NULL;
-+			kfree(mycs->is_output_stage);
-+			mycs->is_output_stage = NULL;
-+			return err;
-+		}
- 	}
+diff --git a/Documentation/devicetree/bindings/media/i2c/maxim,max96717.yaml b/Documentation/devicetree/bindings/media/i2c/maxim,max96717.yaml
+index d507cad18edc..bbb38b3de7df 100644
+--- a/Documentation/devicetree/bindings/media/i2c/maxim,max96717.yaml
++++ b/Documentation/devicetree/bindings/media/i2c/maxim,max96717.yaml
+@@ -24,12 +24,17 @@ description:
  
- 	{
-@@ -5106,8 +5112,7 @@ static int load_primary_binaries(
- 			  NULL,
- 			  &cas_scaler_descr);
- 		if (err) {
--			IA_CSS_LEAVE_ERR_PRIVATE(err);
--			return err;
-+			goto ERR;
- 		}
- 		mycs->num_yuv_scaler = cas_scaler_descr.num_stage;
- 		mycs->yuv_scaler_binary = kcalloc(cas_scaler_descr.num_stage,
-@@ -5115,15 +5120,13 @@ static int load_primary_binaries(
- 						  GFP_KERNEL);
- 		if (!mycs->yuv_scaler_binary) {
- 			err = -ENOMEM;
--			IA_CSS_LEAVE_ERR_PRIVATE(err);
--			return err;
-+			goto ERR;
- 		}
- 		mycs->is_output_stage = kcalloc(cas_scaler_descr.num_stage,
- 						sizeof(bool), GFP_KERNEL);
- 		if (!mycs->is_output_stage) {
- 			err = -ENOMEM;
--			IA_CSS_LEAVE_ERR_PRIVATE(err);
--			return err;
-+			goto ERR;
- 		}
- 		for (i = 0; i < cas_scaler_descr.num_stage; i++) {
- 			struct ia_css_binary_descr yuv_scaler_descr;
-@@ -5137,11 +5140,19 @@ static int load_primary_binaries(
- 			err = ia_css_binary_find(&yuv_scaler_descr,
- 						 &mycs->yuv_scaler_binary[i]);
- 			if (err) {
--				IA_CSS_LEAVE_ERR_PRIVATE(err);
--				return err;
-+				goto ERR;
- 			}
- 		}
-+ERR:
- 		ia_css_pipe_destroy_cas_scaler_desc(&cas_scaler_descr);
-+		if (err) {
-+			kfree(mycs->yuv_scaler_binary);
-+			mycs->yuv_scaler_binary = NULL;
-+			kfree(mycs->is_output_stage);
-+			mycs->is_output_stage = NULL;
-+			IA_CSS_LEAVE_ERR_PRIVATE(err);
-+			return err;
-+		}
+   The GMSL2 serial link operates at a fixed rate of 3Gbps or 6Gbps in the
+   forward direction and 187.5Mbps in the reverse direction.
++
+   MAX96717F only supports a fixed rate of 3Gbps in the forward direction.
  
- 	} else {
- 		capt_pp_out_info = pipe->output_info[0];
++  MAX9295A only supports pixel mode.
++
+ properties:
+   compatible:
+     oneOf:
+-      - const: maxim,max96717f
++      - enum:
++          - maxim,max9295a
++          - maxim,max96717f
+       - items:
+           - enum:
+               - maxim,max96717
+
 -- 
-2.30.2
+2.43.0
+
 
