@@ -1,38 +1,38 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC573314A8D;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1E84314D10;
 	Mon,  8 Dec 2025 14:13:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765203196; cv=none; b=XgmYhXr7uM8vpnT8QaNmTM0Kl+fISWIfhFkvWqFbp/3wFD/APlAEmzS8PgAGjZR0qf2/z9kgYLdJLGVzaZI9h15k4/fB3zXoAcIjkfdSEUkbmrT0CtJcubQz6z9XB65d7rl5coPKFF7161xGZm+cSPTf+D7uXiul42qTv0dJoIg=
+	t=1765203196; cv=none; b=VC2U8i6AiDSFEfdK7qvZKwyaJbEBdT4PFnsjj7GxCv7QNlAMPUFlG4fAHM8+cUjUgSnvwUDJdUqGaYvqdhevYBt2MSKuJBYkWAJ5iZR7n9ptrVi5JtWahD5UfNKXnJynYW28cldMMQLbmweg91XVmgXgdBXek1DBMdlNfSRJdIE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1765203196; c=relaxed/simple;
-	bh=t0Ap0jixaz5Oc/q13SwOSzs4iKSNVbkcsRuy+4E9yJ0=;
+	bh=yAVugGcsfjwGdtykUl9LoSgzCBF9KlU+EbkE3wTX/WA=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=QxBkb9rmgN+kA8Gw4FJYU7AzU1PpgN38H4gwHWjo+uiF2b7eessOR0tl5472FS+E9/rwkIRtWkb3gxS7anssL5pyjVN2rIUPbArxzGjScw5i2d2axwAWttY8gcM/nO1nsWBLtzRKmeLUcHnlXczpFZckgQ2SB2GCnj7gZaCnqHo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mBE+c0KJ; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:To:Cc; b=DGgIzV7fIBEr3NIFVYKrNyTT1YZVv1jypu4dFRKUsf+Z3xD2X7cq4JPZ5y+LGsRGKvXed1KWLkGKKvUa944+RNKNd3etqM8bjn9detul+1333HY9B/rahK5mZAz1s2WJyvnbqK3INMBmUaBtFyGPQdDgMoC1z6b6p6vJnwBkIAA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dMsships; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mBE+c0KJ"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 7CDFDC2BCB0;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dMsships"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 47322C2BCAF;
 	Mon,  8 Dec 2025 14:13:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1765203196;
-	bh=t0Ap0jixaz5Oc/q13SwOSzs4iKSNVbkcsRuy+4E9yJ0=;
+	bh=yAVugGcsfjwGdtykUl9LoSgzCBF9KlU+EbkE3wTX/WA=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=mBE+c0KJ+gyK1PtmsEMaH46hAHBacjpuzgSRzu5IsIn+QQ3TE63xqGe8wY4zPpEl8
-	 nuf9fwaPhLXUXIU7XeB4/WgTmhDl5HptAub7P/3y4ZqouU8E0Hf4Et8+4XHJxP6do5
-	 e/rVrRjh9BmSnJTLH1WonNF2MSmTlWRAif/IMHdK8Hl/A61iyBc9XGU8Hvl3tAB3mE
-	 NpfhZlBXWlhCiIXV0n5kZ38hM5rtDwLW5zNwIltaewEkiJQ+xJ1Bx1Ht9S4oy5cNwK
-	 JNTMPjhLNfo+mjDA7cmH7Y36Ets8D9U8z6qr+pBJAZgrju0FdpLqHFl3/XLgHu0ABO
-	 Y6it9lrNeA+4Q==
+	b=dMsshipsHG5VAL1h7A8KsA5ySAICCOBQjcKQraf/2MIJw941QK7UKQnwAf7tJe48n
+	 BwWze9tP2dulT/eAsiT6Pj2uynHPpzZmfSNVSh9OIaIHkbNOXCn7+Qy70Y5nW8jufk
+	 e2jGhh+5nhmSMnqg56FspHSMOlIScgRrcDc6xTdrIKYhVuUJLWepc5My7Xhiqim6hU
+	 QaGRdvhZOXvZglKMf2Y5qHO/PNIso94r8DeS5w9nlebOCTXBaJ5bqTBvBJHlRIKdhN
+	 epfHJftDnMdXtIPSP25YmJvwWRVbxqNwaIY62PKYZFYErLEa2OKd147MesMon3SCIy
+	 I1P/mSbCHTtvw==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 739D9D3B7E7;
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3EF79D3B7EF;
 	Mon,  8 Dec 2025 14:13:16 +0000 (UTC)
 From: Dumitru Ceclan via B4 Relay <devnull+dumitru.ceclan.analog.com@kernel.org>
-Date: Mon, 08 Dec 2025 16:13:00 +0200
-Subject: [PATCH RESEND v8 08/21] dt-bindings: media: i2c: max96712: add
- support for POC supplies
+Date: Mon, 08 Dec 2025 16:12:57 +0200
+Subject: [PATCH RESEND v8 05/21] dt-bindings: media: i2c: max96717: add
+ support for MAX96793
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -40,8 +40,8 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20251208-gmsl2-3_serdes-v8-8-7b8d457e2e04@analog.com>
+Content-Transfer-Encoding: 7bit
+Message-Id: <20251208-gmsl2-3_serdes-v8-5-7b8d457e2e04@analog.com>
 References: <20251208-gmsl2-3_serdes-v8-0-7b8d457e2e04@analog.com>
 In-Reply-To: <20251208-gmsl2-3_serdes-v8-0-7b8d457e2e04@analog.com>
 To: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>, 
@@ -55,14 +55,13 @@ To: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
 Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
  devicetree@vger.kernel.org, linux-gpio@vger.kernel.org, 
  linux-staging@lists.linux.dev, linux-gpio@vger.kernel.org, 
- mitrutzceclan@gmail.com, Cosmin Tanislav <demonsingur@gmail.com>, 
- =?utf-8?q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+ mitrutzceclan@gmail.com, Cosmin Tanislav <demonsingur@gmail.com>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1765203192; l=998;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1765203192; l=1028;
  i=dumitru.ceclan@analog.com; s=20240313; h=from:subject:message-id;
- bh=boTi/XzSOItLOWBd28vSUq5ZU/noM6hf3IRds/sdngY=;
- b=jnWzWKtz5AEdwcREBHl+QQRPnyMtkiTkP9SAew4gS3INO3fbTSkFctPzZRNhYtJOE6J4qyFO+
- FVEgQtb/0MVDk5GDnf7em9fIhz1GYjhs3+27LfSDU1Uz0KYEeFDt8GW
+ bh=jUZv+5/QKIiTJOWAbg2eAz9JgIILhVbuUVVpM3GLO1U=;
+ b=8Vj6QmolTo37GoQywg0yozsKwA5eBpIcswZHp2DdKCtBBkFD36npQmIml4OYfkEqkkD64dXp7
+ XRSjg+FZfDaAJY0JboIRC+nwpuJ9MTb+X86P+XXOjdZ9N564znkddMk
 X-Developer-Key: i=dumitru.ceclan@analog.com; a=ed25519;
  pk=HdqMlVyrcazwoiai7oN6ghU+Bj1pusGUFRl30jhS7Bo=
 X-Endpoint-Received: by B4 Relay for dumitru.ceclan@analog.com/20240313
@@ -72,33 +71,38 @@ Reply-To: dumitru.ceclan@analog.com
 
 From: Cosmin Tanislav <demonsingur@gmail.com>
 
-The GMSL links can carry power to the serializer when using coaxial
-cables.
+MAX96793 is a newer variant of the MAX96717 which also supports GMSL3
+links.
 
-Document this capability.
+Document this compatibility.
 
 Signed-off-by: Cosmin Tanislav <demonsingur@gmail.com>
 Acked-by: Rob Herring (Arm) <robh@kernel.org>
-Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
 ---
- Documentation/devicetree/bindings/media/i2c/maxim,max96712.yaml | 4 ++++
- 1 file changed, 4 insertions(+)
+ Documentation/devicetree/bindings/media/i2c/maxim,max96717.yaml | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/media/i2c/maxim,max96712.yaml b/Documentation/devicetree/bindings/media/i2c/maxim,max96712.yaml
-index abacc3c874a9..d2dd72f2e924 100644
---- a/Documentation/devicetree/bindings/media/i2c/maxim,max96712.yaml
-+++ b/Documentation/devicetree/bindings/media/i2c/maxim,max96712.yaml
-@@ -95,6 +95,10 @@ properties:
-       - required: [port@6]
-       - required: [port@7]
+diff --git a/Documentation/devicetree/bindings/media/i2c/maxim,max96717.yaml b/Documentation/devicetree/bindings/media/i2c/maxim,max96717.yaml
+index bbb38b3de7df..0d53637a6991 100644
+--- a/Documentation/devicetree/bindings/media/i2c/maxim,max96717.yaml
++++ b/Documentation/devicetree/bindings/media/i2c/maxim,max96717.yaml
+@@ -29,6 +29,8 @@ description:
  
-+patternProperties:
-+  '^port[0-3]-poc-supply$':
-+    description: Regulator providing Power over Coax for GMSL ports
+   MAX9295A only supports pixel mode.
+ 
++  MAX96793 also supports GMSL3 mode.
 +
- required:
-   - compatible
-   - reg
+ properties:
+   compatible:
+     oneOf:
+@@ -38,6 +40,7 @@ properties:
+       - items:
+           - enum:
+               - maxim,max96717
++              - maxim,max96793
+           - const: maxim,max96717f
+ 
+   '#gpio-cells':
 
 -- 
 2.43.0
