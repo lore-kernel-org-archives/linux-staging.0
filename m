@@ -1,44 +1,78 @@
-Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.5])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f65.google.com (mail-lf1-f65.google.com [209.85.167.65])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9AD6A30FF2F
-	for <linux-staging@lists.linux.dev>; Mon,  8 Dec 2025 09:28:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=117.135.210.5
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3EE2B21D3D6
+	for <linux-staging@lists.linux.dev>; Mon,  8 Dec 2025 11:16:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.65
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765186083; cv=none; b=HlkJN6qXMV/ec7GMuE7ICFVkCEDhbY9sGJY0FLe6wbamwAuzPuJHAo5CKLn/tABp6n+6TctRrhI+Nls0JjAkmwrw4svLT6fHLerMdbFJytqfhzGopJsVkXa6RU4bnOwcNlMOWykKr707mFWqp+iGZQfpJTk6w/mjUy8nHlz0EZk=
+	t=1765192613; cv=none; b=QDhfuOzQ7eDi6YkWyTS29F9QiSYumSEvANj/g/XLwyE1BX6MEVSJv5fFChIgP/5bIVUbyw0CXAivdx29uzPMckdqOrizxELcZfyfYaOpZHCrMGGk7byAoTA72NYiZwk8CZ9j6oHpUvYNwWDSHW7mqPJwJ8Ey4yWNP1ojXrIpQf4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765186083; c=relaxed/simple;
-	bh=aoqKqQiEPNpyzezO+H0oPqMpr4QDKaHeBSakO0ljG5Q=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=rHAougeCiac7I1zhpB2SXWFNMLWrrqmbSIEkzK+8lTlp3lbwDJzggZhnEQiW3/hr0kFlIfyIxQlF6e8ar+Q/p4neR3wHgj2+cQ0ecl9zqoXyDJuVOomR0wUqB5CE/GvwT6PNoQ8i3NO462ntBqW8YmrtFq1oo/sdPLeQMs0RgwY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=arPsEBnk; arc=none smtp.client-ip=117.135.210.5
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
+	s=arc-20240116; t=1765192613; c=relaxed/simple;
+	bh=SOUqlzQpcjCK0fTaxI1RTsijxJFfgOEwIrAYv7Vz+lk=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=Ck99aa80jhMfvGI+6Ho74vBrcRgD0IhBZZmukByGSWq1IGuXFYw/UrzFsSKUFAyB9CQ1jfv8JaAneyQ22sou4tFPNftAECESSV8r6bMIdoUFh0cpocqCrQp1ofCKL8CjqhUyAPGuZT1VemZu7aVIMAgTpvfuIBUCUPFzD6ACUa4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KBl7A7+m; arc=none smtp.client-ip=209.85.167.65
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="arPsEBnk"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=From:To:Subject:Date:Message-Id:MIME-Version; bh=gs
-	z9tNB9/8sHknbJBNmma0qTBrlJq/yDbnGrGXw2W+Q=; b=arPsEBnkKmJT/hgl8u
-	oLLNOBnceIIE2iPo928alCW4B9j+qy43p5YK3BnwwY+g5/1GMWyEyd6JqX/r31a5
-	jHchYHmnDABA+aHraAu4c9mSh/bcxLjEPQWGOxMT7LOkmozqyvVS1HBG349FJHIE
-	B6GjvlEISZx33sHHyj9QFiagQ=
-Received: from hello.company.local (unknown [])
-	by gzsmtp2 (Coremail) with SMTP id PSgvCgDntNsFmjZpP2eyHA--.46282S2;
-	Mon, 08 Dec 2025 17:27:34 +0800 (CST)
-From: Liang Jie <buaajxlj@163.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Alexandre Viard <xela@viard.dev>,
-	Liang Jie <liangjie@lixiang.com>,
-	fanggeng <fanggeng@lixiang.com>,
-	Michael Straube <straube.linux@gmail.com>,
-	Hans de Goede <hansg@kernel.org>,
-	linux-staging@lists.linux.dev (open list:STAGING SUBSYSTEM),
-	linux-kernel@vger.kernel.org (open list)
-Cc: yangchen11@lixiang.com,
-	stable@vger.kernel.org
-Subject: [PATCH] staging: rtl8723bs: fix missing status update on sdio_alloc_irq() failure
-Date: Mon,  8 Dec 2025 17:27:28 +0800
-Message-Id: <20251208092730.262499-1-buaajxlj@163.com>
-X-Mailer: git-send-email 2.25.1
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KBl7A7+m"
+Received: by mail-lf1-f65.google.com with SMTP id 2adb3069b0e04-597c83bb5c2so3291625e87.3
+        for <linux-staging@lists.linux.dev>; Mon, 08 Dec 2025 03:16:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1765192608; x=1765797408; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=k1FcJaTt57JlbJy66zrOJwhugl21WOuVNYEAfr8aZYo=;
+        b=KBl7A7+mtn0oeN3pL7LnBhwhbf3jxH1l9/H6M9Y6ovRzqNP8y7Fv7/ioombH/jzvqR
+         EM0KJ75IXpI7moIjrNWl006g2j5wgh1V+7R1YXNpwrEMIfy6sZAQ6ueHvdIqdjKWwej6
+         9kGYWUtJsMTuPPvnu/NzGLvzqOsROCij/TFDRgstnSxVq0ePcI+TZFKGfybl9lYL97/M
+         du/Os3l831rqqBMsFkPcgcHpzpNBxZ20lmLNLXd4jwY80tZbGS7lKSHLz5UJhRf+YTgV
+         8Hi5g8o4WCrroA0ZRlqadvnUMdJOXzxUE+BJXUlo0xVMDav7/3cNJRpDxCiD/Lt9HyzJ
+         lDAw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1765192608; x=1765797408;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=k1FcJaTt57JlbJy66zrOJwhugl21WOuVNYEAfr8aZYo=;
+        b=nD2atRXpLi8G9idyq1/mcgfwkyaGWWCVxQ16aoVM7+g8IOypnzIQ3F5TTFxrIZ+JhR
+         s4izJab8XjVEqZgPt8ltMLX+6x2MQBr4Q2qNX3y3bIVHKp4ZdIYqS0J3a3H4uBr89+mE
+         VsD/iQWktaXrIx+sTlGNrAY/sqr2ePamthzFXUOKqvfnlGugjQ0flUyeuoCOeDa6jk7M
+         sbhRHyFUzph2vl8c62LGS1aG+jK6QF4HiE4N9AKo6t8Lw/ngbZtFpSbcXTrRT09/QjbA
+         DXZkiZ5x00fqmpJkQBrSMKflsBYt4zibbdxhuPKGQ+DDNH+4+79L570ZGzRm2DJPkWbV
+         LZ4Q==
+X-Forwarded-Encrypted: i=1; AJvYcCU4+FIwGuRzNT4SS8movOSyWb3Y84WoQqgZMH9Zn/0eE+ONG8VOUUQzLvku7UO087j7MzedA94w2TmOE5+S@lists.linux.dev
+X-Gm-Message-State: AOJu0YzbxItO4QFvVRMImNc2nWZcB0LO/mWo6uqzZi7KQC37BE0Pl23i
+	thCY5cF5UUKBjOP7rKDYk0Jx3kknjgBr2t0k3uHJ0eG+iD+UHEIglsoY
+X-Gm-Gg: ASbGncssj98BozYZhFfQT1R3wrmRgIMUy/ltBkD2cwBVLHTecu6WJWja9wdWo7TNivR
+	Xcp+I9eAuVnqvKV2Hh03N06Bws2QD3BPgmvb6ZGNKQbCJ3DDbWgc/hGsI12W6MfZKJG4q7Btsqe
+	V8GASr0Tpk6B7uMoemZYK7msFv68VEkmhw73NY6VPhgpIcXDCaTcrtlOudisWWRFgM4doeWDAcC
+	0bkOkCLpuTusJ+jkBdkio+ezkuuBpkwflsHR5Yn8ellDyt11tbSiR6+h9WOmPD9bbLLUzNtfLPg
+	hRDE/tZje9dV/q/OWbAuLF0AtjC+xAKTR/ZtGPGYBOApfTQwCCTn0Ga0GR7GDq/CRalfng6Q452
+	9/eqY/6f6ZSnhWIb67WTzoXKw/if72dWu5BZd29e6jw0j1+y3EjkMqqwIEobdCHk9i9Lk4lhDuA
+	ZE0sdqxE7auA1r9C3e+cINrC+bzmnpuVoIsygcCIxKMCv2VObeBPKgqpbqbA==
+X-Google-Smtp-Source: AGHT+IFU4R3moE77eHxDxOCHEP0tsIAxCKnS+8bBbj0g/HYxCv24Zem1PsGdmmHLOWneqk3oWD3pdA==
+X-Received: by 2002:a05:6512:234b:b0:594:5545:b743 with SMTP id 2adb3069b0e04-5987f918492mr2689851e87.27.1765192608021;
+        Mon, 08 Dec 2025 03:16:48 -0800 (PST)
+Received: from rbta-msk-lt-302690.astralinux.ru.astracloud.ru ([89.107.11.60])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-597d7c1e405sm3975815e87.49.2025.12.08.03.16.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 08 Dec 2025 03:16:47 -0800 (PST)
+From: Alexandra Diupina <dyupina99999@gmail.com>
+To: Hans de Goede <hansg@kernel.org>
+Cc: Alexandra Diupina <dyupina99999@gmail.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Andy Shevchenko <andy@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Alan Cox <alan@linux.intel.com>,
+	linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	lvc-project@linuxtesting.org
+Subject: [PATCH v2] media: atomisp: avoid memory leak in ia_css_pipe_create_cas_scaler_desc_single_output()
+Date: Mon,  8 Dec 2025 14:16:17 +0300
+Message-Id: <20251208111617.21966-1-dyupina99999@gmail.com>
+X-Mailer: git-send-email 2.30.2
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -46,45 +80,123 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:PSgvCgDntNsFmjZpP2eyHA--.46282S2
-X-Coremail-Antispam: 1Uf129KBjvJXoWrKFWkJF1ruw1rCF4xCrWxWFg_yoW8JrWrpr
-	Z5C390krZ8tFy7C3W2y3WkCFyrCa4xWry8Cryq9w15uFyvvFy3Xr1DG34Fqr48Jry8Aa1r
-	tF9Yg3yFga1UCrJanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07j2CJPUUUUU=
-X-CM-SenderInfo: pexdtyx0omqiywtou0bp/1tbiNhIeIGk2jo-p3wAAsy
 
-From: Liang Jie <liangjie@lixiang.com>
+ia_css_pipe_create_cas_scaler_desc_single_output() may fail,
+so add cleanup by ia_css_pipe_destroy_cas_scaler_desc()
+rather than simply exiting the function. Also add error handling
+for kcalloc() in load_video_binaries() and load_primary_binaries().
 
-The return value of sdio_alloc_irq() was not stored in status.
-If sdio_alloc_irq() fails after rtw_drv_register_netdev() succeeds,
-status remains _SUCCESS and the error path skips resource cleanup,
-while rtw_drv_init() still returns success.
+Found by Linux Verification Center (linuxtesting.org) with SVACE.
 
-Store the return value of sdio_alloc_irq() in status and reuse the
-existing error handling which relies on status.
-
-Cc: stable@vger.kernel.org
-Fixes: 554c0a3abf21 ("staging: Add rtl8723bs sdio wifi driver")
-Reviewed-by: fanggeng <fanggeng@lixiang.com>
-Signed-off-by: Liang Jie <liangjie@lixiang.com>
+Fixes: a49d25364dfb ("staging/atomisp: Add support for the Intel IPU v2")
+Signed-off-by: Alexandra Diupina <dyupina99999@gmail.com>
 ---
- drivers/staging/rtl8723bs/os_dep/sdio_intf.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+v2: add kcalloc() error handling
+ drivers/staging/media/atomisp/pci/sh_css.c | 41 ++++++++++++++--------
+ 1 file changed, 26 insertions(+), 15 deletions(-)
 
-diff --git a/drivers/staging/rtl8723bs/os_dep/sdio_intf.c b/drivers/staging/rtl8723bs/os_dep/sdio_intf.c
-index f3caaa857c86..139ace51486d 100644
---- a/drivers/staging/rtl8723bs/os_dep/sdio_intf.c
-+++ b/drivers/staging/rtl8723bs/os_dep/sdio_intf.c
-@@ -377,7 +377,8 @@ static int rtw_drv_init(
- 	if (status != _SUCCESS)
- 		goto free_if1;
+diff --git a/drivers/staging/media/atomisp/pci/sh_css.c b/drivers/staging/media/atomisp/pci/sh_css.c
+index 73bd87f43a8c..c1239e910fdc 100644
+--- a/drivers/staging/media/atomisp/pci/sh_css.c
++++ b/drivers/staging/media/atomisp/pci/sh_css.c
+@@ -4528,21 +4528,20 @@ static int load_video_binaries(struct ia_css_pipe *pipe)
+ 			  NULL,
+ 			  &cas_scaler_descr);
+ 		if (err)
+-			return err;
++			goto ERR;
+ 		mycs->num_yuv_scaler = cas_scaler_descr.num_stage;
+ 		mycs->yuv_scaler_binary = kcalloc(cas_scaler_descr.num_stage,
+ 						  sizeof(struct ia_css_binary),
+ 						  GFP_KERNEL);
+ 		if (!mycs->yuv_scaler_binary) {
+-			mycs->num_yuv_scaler = 0;
+ 			err = -ENOMEM;
+-			return err;
++			goto ERR;
+ 		}
+ 		mycs->is_output_stage = kcalloc(cas_scaler_descr.num_stage,
+ 						sizeof(bool), GFP_KERNEL);
+ 		if (!mycs->is_output_stage) {
+ 			err = -ENOMEM;
+-			return err;
++			goto ERR;
+ 		}
+ 		for (i = 0; i < cas_scaler_descr.num_stage; i++) {
+ 			struct ia_css_binary_descr yuv_scaler_descr;
+@@ -4556,12 +4555,19 @@ static int load_video_binaries(struct ia_css_pipe *pipe)
+ 			err = ia_css_binary_find(&yuv_scaler_descr,
+ 						 &mycs->yuv_scaler_binary[i]);
+ 			if (err) {
+-				kfree(mycs->is_output_stage);
+-				mycs->is_output_stage = NULL;
+-				return err;
++				goto ERR;
+ 			}
+ 		}
++ERR:
+ 		ia_css_pipe_destroy_cas_scaler_desc(&cas_scaler_descr);
++		if (err) {
++			mycs->num_yuv_scaler = 0;
++			kfree(mycs->yuv_scaler_binary);
++			mycs->yuv_scaler_binary = NULL;
++			kfree(mycs->is_output_stage);
++			mycs->is_output_stage = NULL;
++			return err;
++		}
+ 	}
  
--	if (sdio_alloc_irq(dvobj) != _SUCCESS)
-+	status = sdio_alloc_irq(dvobj);
-+	if (status != _SUCCESS)
- 		goto free_if1;
+ 	{
+@@ -5106,8 +5112,7 @@ static int load_primary_binaries(
+ 			  NULL,
+ 			  &cas_scaler_descr);
+ 		if (err) {
+-			IA_CSS_LEAVE_ERR_PRIVATE(err);
+-			return err;
++			goto ERR;
+ 		}
+ 		mycs->num_yuv_scaler = cas_scaler_descr.num_stage;
+ 		mycs->yuv_scaler_binary = kcalloc(cas_scaler_descr.num_stage,
+@@ -5115,15 +5120,13 @@ static int load_primary_binaries(
+ 						  GFP_KERNEL);
+ 		if (!mycs->yuv_scaler_binary) {
+ 			err = -ENOMEM;
+-			IA_CSS_LEAVE_ERR_PRIVATE(err);
+-			return err;
++			goto ERR;
+ 		}
+ 		mycs->is_output_stage = kcalloc(cas_scaler_descr.num_stage,
+ 						sizeof(bool), GFP_KERNEL);
+ 		if (!mycs->is_output_stage) {
+ 			err = -ENOMEM;
+-			IA_CSS_LEAVE_ERR_PRIVATE(err);
+-			return err;
++			goto ERR;
+ 		}
+ 		for (i = 0; i < cas_scaler_descr.num_stage; i++) {
+ 			struct ia_css_binary_descr yuv_scaler_descr;
+@@ -5137,11 +5140,19 @@ static int load_primary_binaries(
+ 			err = ia_css_binary_find(&yuv_scaler_descr,
+ 						 &mycs->yuv_scaler_binary[i]);
+ 			if (err) {
+-				IA_CSS_LEAVE_ERR_PRIVATE(err);
+-				return err;
++				goto ERR;
+ 			}
+ 		}
++ERR:
+ 		ia_css_pipe_destroy_cas_scaler_desc(&cas_scaler_descr);
++		if (err) {
++			kfree(mycs->yuv_scaler_binary);
++			mycs->yuv_scaler_binary = NULL;
++			kfree(mycs->is_output_stage);
++			mycs->is_output_stage = NULL;
++			IA_CSS_LEAVE_ERR_PRIVATE(err);
++			return err;
++		}
  
- 	status = _SUCCESS;
+ 	} else {
+ 		capt_pp_out_info = pipe->output_info[0];
 -- 
-2.25.1
+2.30.2
 
