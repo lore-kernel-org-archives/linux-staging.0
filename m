@@ -1,38 +1,38 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89CAA25A2A5;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE4EF314B8C;
 	Mon,  8 Dec 2025 14:13:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765203196; cv=none; b=qd9aNn+Q3yo4hqj0z9ItJey6kBS6zECCfph4G0yH4kN0dRR2Xxxwe2mXv/c9TXgl9h74C7C1ty3xFvhYRd7y1cQgCUTUznDAy40kBto6NT0aRur1SkM7jIQ41N3DVOc+5pY6lxwp6oxcUaRwWwddnYCTpbaNcKZfnSaOCybxwYk=
+	t=1765203196; cv=none; b=btoDyObMh8gUoAVMSptrMbFCFtTb6T9JI28thtsmtDv08hllhJQXjG5fa6s90Z8RMqf/vmpPdABUxH0U3CCJWd4MMzyVusfqi+qWXDCdXQvcCMpE6o2pnFJMkyBQLVUUCN/fjvwSogEq7nMu3Y6N+wv8XsrpU0DDnj9OHRw8i1Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1765203196; c=relaxed/simple;
-	bh=s2RC3Cv/lcirKADTCnWcsQpzBrq+BxsGJZMcYVjlaA0=;
+	bh=mpKOJ7Al3H1RnU+ayGUbFEZ/kLo8EcOQlkvTb53y074=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=sumCG3MeVicvdHBus8F0bIE5MmPJ42GycPYh2RqPReZMmEpQTE+MTE+VXyLL2IrRvbRryRVPR0wlgtgY5dTZ2CKvBUAu5Qi/hKZpihWG65KNPfoW7Oogem0BCJfhoUGXb9JxwgddAl3rGQ6J6HYPOWxGOfH9Ssy8x0mHzYUMloc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FA8oHutU; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:To:Cc; b=nFCHUwtoX5tvG+yZ3/7aLNfn/B15/8So0XxcQJmkbQWRlLTGxHCJ50PUb20Ho7Fn0Ad56FL/qqG9WeywJBVRZp3IRfqf83cUdfkZewFsC5rsbpRW65Lo03HjmXi5gjCLlrGtBiJBXpmACns9PnUZ7gY9I71Fsw1QjxhAMTZQd1Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ser89HKj; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FA8oHutU"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 29D6CC19424;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ser89HKj"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 6C230C2BCB1;
 	Mon,  8 Dec 2025 14:13:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1765203196;
-	bh=s2RC3Cv/lcirKADTCnWcsQpzBrq+BxsGJZMcYVjlaA0=;
+	bh=mpKOJ7Al3H1RnU+ayGUbFEZ/kLo8EcOQlkvTb53y074=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=FA8oHutUJ4dF5JrhoSx7z3UljtVTlj4uPgvzbZlwxM5HhjQv0W76KVFX4JYWh9jrF
-	 EA1PTfhmEpa5eJVdqdg0e3uyRBiw6Dd/+H/g+L4hJUSlMYkWipFaq7eyw3c9Mvdk7q
-	 C9cwirygHKdrmLWdyfKMk0Lw/I2W4lsBKbYV1hFF+Rg/mWtNBV2dIM4HiHIlQjp4Hz
-	 jI8Hnd3w2PRm+dn4nnhnklpEK7q8uon1onXdR05r7rVcprg7AmVsjOeczYss4abQGZ
-	 n76tvGddng5YXfeG9YpiHyK/chJFMyWQwW0HQFnM+r/0BNnkZ0nmXZk6YGixJPDRN6
-	 SVDYhT6uThLhQ==
+	b=ser89HKjy0ZD5NoSj9OfbXImNGoRaJrRpVnbExURmorz4dGwSqHIfTigi4PvM2A3L
+	 roazVPD+x0gSKAKRqQhZrRp2sg8AuJW78kgw3lyT7DoqiCmw2VOH9WnLyy6L3sCTbp
+	 K6Q6YN4cwnkwMdAKIw63yfT8KYm9XOI/jYeO348/AfhmyC1ZvFwLwwCEW/I8lXGtE/
+	 4gkW8y4SZmAtGwlMk/k2xptbr0aK1jJWR3uH6eXbCl790+paOKWfzU5Vxb5OS29+pW
+	 MCcB1sMdwaKcKJGdI1qkzLzSqgmiTN2D5O6a0PkwlRwE7KFTcr8ruMfERNpDInTwXn
+	 wE2kqpQDA7M6Q==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1C49FD3B7E7;
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6280FD3B7E2;
 	Mon,  8 Dec 2025 14:13:16 +0000 (UTC)
 From: Dumitru Ceclan via B4 Relay <devnull+dumitru.ceclan.analog.com@kernel.org>
-Date: Mon, 08 Dec 2025 16:12:55 +0200
-Subject: [PATCH RESEND v8 03/21] dt-bindings: media: i2c: max96717: add
- support for pinctrl/pinconf
+Date: Mon, 08 Dec 2025 16:12:59 +0200
+Subject: [PATCH RESEND v8 07/21] dt-bindings: media: i2c: max96712: add
+ support for I2C ATR
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -41,7 +41,7 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20251208-gmsl2-3_serdes-v8-3-7b8d457e2e04@analog.com>
+Message-Id: <20251208-gmsl2-3_serdes-v8-7-7b8d457e2e04@analog.com>
 References: <20251208-gmsl2-3_serdes-v8-0-7b8d457e2e04@analog.com>
 In-Reply-To: <20251208-gmsl2-3_serdes-v8-0-7b8d457e2e04@analog.com>
 To: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>, 
@@ -57,11 +57,11 @@ Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-staging@lists.linux.dev, linux-gpio@vger.kernel.org, 
  mitrutzceclan@gmail.com, Cosmin Tanislav <demonsingur@gmail.com>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1765203192; l=4016;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1765203192; l=1871;
  i=dumitru.ceclan@analog.com; s=20240313; h=from:subject:message-id;
- bh=kTetx36e6p36odWBopL1YF3j+SvVauoquIQDNKiJNEU=;
- b=saPuK4E1wJeo6NjBw9VZCULUY/YpwNH18VF7xsgCeo12IWdzpDcS6sjlNFaIrl3VgtrEcyj+x
- 4TBIlSLxzYUAGZpookFUvA6Tr7mw38cdZCpuSiQ0LPbZ5IDPvQuOZAt
+ bh=C6HHjz83hpPiwogoD3BmCyMvwLt56EchxNo5MJM2dpQ=;
+ b=CFlrB9EomnH2OlRzWKXWf/sdruWZdHi/hXWI/RX0A2Cg/nYZcajIjEyQI/smdgQhX1Yd5V3Lz
+ n/dZmreJm9HAv2BcdRzdYLxa8QRRVtX2bvDaYeT5P0vljRxNAxDzX6f
 X-Developer-Key: i=dumitru.ceclan@analog.com; a=ed25519;
  pk=HdqMlVyrcazwoiai7oN6ghU+Bj1pusGUFRl30jhS7Bo=
 X-Endpoint-Received: by B4 Relay for dumitru.ceclan@analog.com/20240313
@@ -71,132 +71,72 @@ Reply-To: dumitru.ceclan@analog.com
 
 From: Cosmin Tanislav <demonsingur@gmail.com>
 
-MAX96717 is capable of configuring various pin properties.
+MAX96712 and MAX96724 have more than one GMSL2 link, and each link is
+capable of connecting to a separate serializer. If these serializers
+have the same CFG pins configuration, they will also have the same I2C
+address, causing conflicts unless the deserializer changes the address
+of the connected serializers.
 
-Add pinctrl/pinconf properties to support this usecase.
+The MAX96712 and MAX96724 support changing the I2C address of the
+connected serializers.
+
+Document this capability.
 
 Signed-off-by: Cosmin Tanislav <demonsingur@gmail.com>
-Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
+Acked-by: Rob Herring (Arm) <robh@kernel.org>
 ---
- .../bindings/media/i2c/maxim,max96717.yaml         | 105 +++++++++++++++++++++
- 1 file changed, 105 insertions(+)
+ .../bindings/media/i2c/maxim,max96712.yaml         | 31 ++++++++++++++++++++++
+ 1 file changed, 31 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/media/i2c/maxim,max96717.yaml b/Documentation/devicetree/bindings/media/i2c/maxim,max96717.yaml
-index 976f6dd2c164..d507cad18edc 100644
---- a/Documentation/devicetree/bindings/media/i2c/maxim,max96717.yaml
-+++ b/Documentation/devicetree/bindings/media/i2c/maxim,max96717.yaml
-@@ -120,6 +120,111 @@ required:
-   - reg
-   - ports
+diff --git a/Documentation/devicetree/bindings/media/i2c/maxim,max96712.yaml b/Documentation/devicetree/bindings/media/i2c/maxim,max96712.yaml
+index 583bbd60157c..abacc3c874a9 100644
+--- a/Documentation/devicetree/bindings/media/i2c/maxim,max96712.yaml
++++ b/Documentation/devicetree/bindings/media/i2c/maxim,max96712.yaml
+@@ -36,6 +36,30 @@ properties:
  
-+patternProperties:
-+  '-pins$':
+   enable-gpios: true
+ 
++  i2c-alias-pool:
++    maxItems: 4
++
++  i2c-atr:
 +    type: object
 +    additionalProperties: false
 +
 +    properties:
-+      function:
-+        enum: [gpio, rclkout]
++      '#address-cells':
++        const: 1
 +
-+      pins: true
-+      drive-open-drain: true
-+      drive-push-pull: true
-+      bias-disable: true
-+      output-disable: true
-+      output-enable: true
-+      output-low: true
-+      output-high: true
-+      input-enable: true
++      '#size-cells':
++        const: 0
 +
-+      slew-rate:
-+        description: |
-+          Slew rate.
-+          Rise and fall times represent the time needed for a GPIO to go
-+          from 20% to 80% of VDDIO.
-+          0 - Fastest
-+              rise:  1.0ns @ 1.8V,  0.6ns @ 3.3V,
-+              fall:  0.8ns @ 1.8V,  0.5ns @ 3.3V
-+          1 - Fast
-+              rise:  2.1ns @ 1.8V,  1.1ns @ 3.3V,
-+              fall:  2.0ns @ 1.8V,  1.1ns @ 3.3V
-+          2 - Slow
-+              rise:  4.0ns @ 1.8V, 2.3ns @3.3V,
-+              fall: 10.0ns @ 1.8V, 5.0ns @3.3V
-+          3 - Slowest
-+              rise:  9.0ns @ 1.8V, 5.0ns @3.3V,
-+              fall: 10.0ns @ 1.8V, 5.0ns @3.3V
-+        maximum: 3
++    patternProperties:
++      '^i2c@[0-3]$':
++        $ref: /schemas/i2c/i2c-controller.yaml#
++        unevaluatedProperties: false
++        properties:
++          reg:
++            items:
++              minimum: 0
++              maximum: 3
 +
-+      bias-pull-up:
-+        oneOf:
-+          - type: boolean
-+            description: Enable regular 40kOhm pull-up
-+          - enum: [ 40000, 1000000 ]
-+            description: Enable either the 40kOhm or the 1MOhm pull-up
-+
-+      bias-pull-down:
-+        oneOf:
-+          - type: boolean
-+            description: Enable regular 40kOhm pull-down
-+          - enum: [ 40000, 1000000 ]
-+            description: Enable either the 40kOhm or the 1MOhm pull-down
-+
-+      maxim,jitter-compensation:
-+        type: boolean
-+        description: |
-+          Enables jitter compensation.
-+          Jitter compensation is used to minimize the jitter of the
-+          signals transmitted from the deserializer to the serializer
-+          by adding a fixed delay to every transition on the serializer
-+          side. This can be used for pulse generation where timing is
-+          critical.
-+
-+      maxim,tx-id:
-+        $ref: /schemas/types.yaml#/definitions/uint32
-+        description:
-+          Enable transmission of the pin state from the serializer to
-+          the deserializer using the specified identifier.
-+        maximum: 31
-+
-+      maxim,rx-id:
-+        $ref: /schemas/types.yaml#/definitions/uint32
-+        description:
-+          Enable transmission of the pin state from the deserializer to
-+          the serializer using the specified identifier.
-+        maximum: 31
-+
-+    required:
-+      - pins
-+      - function
-+
-+    allOf:
-+      - $ref: /schemas/pinctrl/pincfg-node.yaml#
-+      - $ref: /schemas/pinctrl/pinmux-node.yaml#
-+
-+      - if:
-+          properties:
-+            function:
-+              const: gpio
-+        then:
-+          properties:
-+            pins:
-+              items:
-+                enum: [mfp0, mfp1, mfp2, mfp3, mfp4, mfp5, mfp6, mfp7,
-+                       mfp8, mfp9, mfp10]
-+
-+      - if:
-+          properties:
-+            function:
-+              const: rclkout
-+        then:
-+          properties:
-+            pins:
-+              items:
-+                enum: [mfp2, mfp4]
-+
+   ports:
+     $ref: /schemas/graph.yaml#/properties/ports
+ 
+@@ -78,6 +102,13 @@ required:
+ 
  additionalProperties: false
  
- allOf:
++allOf:
++  - $ref: /schemas/i2c/i2c-atr.yaml#
++
++dependentRequired:
++  i2c-atr: [i2c-alias-pool]
++  i2c-alias-pool: [i2c-atr]
++
+ examples:
+   - |
+     #include <dt-bindings/gpio/gpio.h>
 
 -- 
 2.43.0
