@@ -1,258 +1,106 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 950922773DE
-	for <linux-staging@lists.linux.dev>; Tue,  9 Dec 2025 08:42:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D8E027A93C
+	for <linux-staging@lists.linux.dev>; Tue,  9 Dec 2025 14:25:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765269729; cv=none; b=hSyM8ss+T9IexzBgMRTp4snhPB/P2hWE/LGOQx2OPB/QEaxqVJs0W8Z6BtiB84/ha0KOJ1OLoex3t8r4C0WofqqRjPMWJdbYpNbC5oiZ60AWdG4puLJmQQ2QJ5igDTLEZYnwRwzN0zKLxQhMOmjsJ8tebcNtfWIGL4gTvP+3WBI=
+	t=1765290349; cv=none; b=EUgm6fxGdMwct4wybjeb0LCrrogRtmyOANnF/450SMbowB0BiYwflMlhe+GDDueMFjLxwEDU8UqzOjnGU/Slmu3ckHF7bnAP2O9DtMy94zfmNH6wMQLh5txUBVdNWgbpxJ2LV7WkKnGD6lqIOK749r18eVyzR7FCPjow09Jts2Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765269729; c=relaxed/simple;
-	bh=JBWSMZz/pAuMr1EDIhh90m65W9QWEUMQMBfoaVwWb3g=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=jS9r7lb1ITQF7I0OLn0vPQUdZfdbMCC3zr2g3yzEZ/6qLgBO3FBtu9XNEWMR3IxC0Alq2CRidRr+OgJ7EsFh6hLFrlWvWmNNWVFQKlbCmltoOkOBiZ5tIrqyXLdnAfzOiWMJgg8lvEY4e5dJls4yioZlV0P5wsgvk7M8ERTBwEc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=OL0r6LgL; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=oLmnYet/; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=OL0r6LgL; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=oLmnYet/; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1765290349; c=relaxed/simple;
+	bh=p/QNLZHkkEp+08g4pHXLslu5TUvKGyb9J5Qo1iBjVxg=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=TBwIzam5KBeoBjLwePOd27GwhUJrrHRQTEbMuXk8iItvViqqv67q3eUx2sNC0KUvGeGoX7EEFdm4r8eawg3SIs2ZU3cknDL1ZZxP2Z8RIvtu1zOOmoEnMHchCTR5+OsaHbpzoTUluPRvWivKjCxhDIsU6zabW8Y2W+a3rJXH/sA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZsvVCk6V; arc=none smtp.client-ip=209.85.218.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="OL0r6LgL";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="oLmnYet/";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="OL0r6LgL";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="oLmnYet/"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 5830D5BD9C;
-	Tue,  9 Dec 2025 08:42:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1765269724; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=mkXnCCDibCT6NceqYRV8oQpGMsdF6XLcZr94DE5nJVM=;
-	b=OL0r6LgL1+dDhQOl7ThMpm9FBdi/rtKKgh7S0BNaKeKoJeh5UAHjwydL9yZgwbjpwApKGx
-	wv1vwOufVjqto5L/erjFModKsmTreWPCdoqJ6yu5avyCehoIpuCDlKfGLSbDUezhdkwd/D
-	8SEdupw1qEa6UZ57UIPaRQvZYJyEXhg=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1765269724;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=mkXnCCDibCT6NceqYRV8oQpGMsdF6XLcZr94DE5nJVM=;
-	b=oLmnYet/MjU46NsSflbcbECEhtMK/NXBx/ljSwhF5VfaLajWXCuUV2Vuu75a0Ul6wqv2Bz
-	XwkvZp7cQUZZOfBg==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=OL0r6LgL;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b="oLmnYet/"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1765269724; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=mkXnCCDibCT6NceqYRV8oQpGMsdF6XLcZr94DE5nJVM=;
-	b=OL0r6LgL1+dDhQOl7ThMpm9FBdi/rtKKgh7S0BNaKeKoJeh5UAHjwydL9yZgwbjpwApKGx
-	wv1vwOufVjqto5L/erjFModKsmTreWPCdoqJ6yu5avyCehoIpuCDlKfGLSbDUezhdkwd/D
-	8SEdupw1qEa6UZ57UIPaRQvZYJyEXhg=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1765269724;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=mkXnCCDibCT6NceqYRV8oQpGMsdF6XLcZr94DE5nJVM=;
-	b=oLmnYet/MjU46NsSflbcbECEhtMK/NXBx/ljSwhF5VfaLajWXCuUV2Vuu75a0Ul6wqv2Bz
-	XwkvZp7cQUZZOfBg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 1841C3EA63;
-	Tue,  9 Dec 2025 08:42:04 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id Jb93BNzgN2l8DQAAD6G6ig
-	(envelope-from <tzimmermann@suse.de>); Tue, 09 Dec 2025 08:42:04 +0000
-Message-ID: <90afab05-eb56-4c81-afd5-35337335c562@suse.de>
-Date: Tue, 9 Dec 2025 09:42:03 +0100
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZsvVCk6V"
+Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-b72bf7e703fso967569166b.2
+        for <linux-staging@lists.linux.dev>; Tue, 09 Dec 2025 06:25:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1765290346; x=1765895146; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=7tczTAGf+NRaPH/lcY4iGZ+jG9JiJwZWejZNNrAcawA=;
+        b=ZsvVCk6Vsjkk+Rnb4RDZKZ2MzoF4D2CIMpzES2j+7kDhNkay8NwST7yCzk8QJLYFpO
+         FCx3PHUcHrOXlMEvJriRt8YkIsvoEOzmGs1xyBzWNqU88yA71HEktxElDx16CVP6PZFW
+         4zMZBgLWZKOJ6dJVxOjSg7IedKvZCPUMokUxLFueBCK3wIPQ5L13vxjikqxiuul4PW/t
+         PQtTBDXTSK6RBRAXLmdyBnOrYKiIQ8ixYmNMxlsZglhWkhBxlKz57NG3stNHrls9AqzU
+         7zqEDuQV1RkLy5AqNNVCtjPOkL9czy/XVUPmGk56Qutbt0oXQaDWEDMHnWwGu4WqVMwW
+         DCZg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1765290346; x=1765895146;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=7tczTAGf+NRaPH/lcY4iGZ+jG9JiJwZWejZNNrAcawA=;
+        b=Fv3OqeELy88qgoQIFnl6A74rT6smq0LH+n0RLFVeoDjDEKd7saMbBeR+LjspgeyOhK
+         ngJ3pu5QStbLaUeyQdzgCSYkJDiS5TcIiBRhUgsL7QLDXFEY6Ql0iP0C05ooJFOWUU6Y
+         kV3lyjN0tVZOLVKBu7mrGYoEJXoN93VPG8eHDqyKVMPc7TbNfX2zyufl54QgRPkZ8UnC
+         WEH2kQBKlF2lNDHyigJ4GsvP3Jht8OsrLaQsReLPALW4a7q164nMenBlOPc9QqNMDOpG
+         61y9lMzoxPb/ZwfeoeT5islOfLs8rBSW2FgYOK6O6nLamxfeNX+D6ZfuFlWpxjM5B2Sw
+         I4Cg==
+X-Forwarded-Encrypted: i=1; AJvYcCWyMI1G+5Z9EZcUM5BSSgOtqcSfK8EvYwXDcnQ7iRsYHWDwOXcy0KXlYlDxgNRG/+KLJi86b0FsV76zuVXP@lists.linux.dev
+X-Gm-Message-State: AOJu0Yy0nHWTcfRek+VHZj7xS/DDzyygcaep7C7ogZrmr2TeLDvxc/WE
+	+ELHXarmXCYOsGc9AxPzGlibChotgZ6UeS4n9/v9NtbBHp77NT86kq0hp8yoVBqGxYdzf/xEtUF
+	N/GICz6xNMeqfsXnt3HK7e18Itpaiz8A=
+X-Gm-Gg: ASbGncuvd/yCFkxwdLvPVk+CJLpRcAmTHhqvu4AxJCcfmxIalbJTQlB+xhDeoNcuX0Y
+	8+p2BvLvYL59aFobdCXJ7EoqIAfiXwj6DaNkUYb0zGaRTGzg2s5EA0D5hgPZWrrW+Ecste6TzgG
+	dppg7lrX3p2+f7wHDPrEBv+ovAq5AvN7K4RFq7UsFTWunf43QLXsjMvzF6Gw48TBmReu+YgOqdT
+	BdXpbEiz6ewiQWjDqTbR0FdVRP6/qf7hACnIQO2Q4vrImzFqpuf/8bkkoTHqNmIPAaNbPy2QHb6
+	qwNDiOvALGfgVoY3Ugx6Yz2nfFFqBEvBA/IUJDMOWPHn9Wkj4AnVG6MBcAn7qSOtWXKXew8=
+X-Google-Smtp-Source: AGHT+IEUDyZqURELnRBTzjTZuETiToxli9ABhMGm4/e9CoRb3wfwUJvgUlRqDbyn79ps6rpZIghHoUYB7oNXT7FULvM=
+X-Received: by 2002:a17:907:720b:b0:b7a:1b3:5e5d with SMTP id
+ a640c23a62f3a-b7a242be82bmr1105272266b.8.1765290346242; Tue, 09 Dec 2025
+ 06:25:46 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/3] fbdev: Guard sysfs interfaces under CONFIG_FB_DEVICE
-To: Helge Deller <deller@gmx.de>, Chintan Patel <chintanlike@gmail.com>,
- linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev,
- linux-omap@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- andy@kernel.org, gregkh@linuxfoundation.org
-References: <20251209042744.7875-1-chintanlike@gmail.com>
- <19e8a1b0-75e3-4c8d-911a-15fd70f60bea@suse.de>
+References: <20251209042744.7875-1-chintanlike@gmail.com> <19e8a1b0-75e3-4c8d-911a-15fd70f60bea@suse.de>
  <f5d50007-5b48-47cb-8133-72fca274d562@gmx.de>
-Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
 In-Reply-To: <f5d50007-5b48-47cb-8133-72fca274d562@gmx.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-4.51 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com,gmx.de];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FREEMAIL_TO(0.00)[gmx.de,gmail.com,vger.kernel.org,lists.linux.dev];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[9];
-	MID_RHS_MATCH_FROM(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	RCVD_TLS_ALL(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:url,suse.de:email,suse.de:dkim,suse.de:mid,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Spam-Level: 
-X-Rspamd-Queue-Id: 5830D5BD9C
-X-Spam-Flag: NO
-X-Spam-Score: -4.51
+From: Andy Shevchenko <andy.shevchenko@gmail.com>
+Date: Tue, 9 Dec 2025 16:25:09 +0200
+X-Gm-Features: AQt7F2oJ-HAqvTo7dPHCW2Uqr5UaQh_WR7_Bb48h-O510S-3IyA861WvQJm_2eQ
+Message-ID: <CAHp75Vds8GP+daMe9WcEbOaNT91kMHUjidzGUN-1_kVDuWBtLw@mail.gmail.com>
+Subject: Re: [PATCH 0/3] fbdev: Guard sysfs interfaces under CONFIG_FB_DEVICE
+To: Helge Deller <deller@gmx.de>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, Chintan Patel <chintanlike@gmail.com>, 
+	linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev, 
+	linux-omap@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, andy@kernel.org, gregkh@linuxfoundation.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi
-
-Am 09.12.25 um 09:22 schrieb Helge Deller:
+On Tue, Dec 9, 2025 at 10:23=E2=80=AFAM Helge Deller <deller@gmx.de> wrote:
 > On 12/9/25 08:27, Thomas Zimmermann wrote:
->> Hi
->>
->> Am 09.12.25 um 05:27 schrieb Chintan Patel:
->>> Hi all,
->>>
->>> This small series makes several legacy fbdev drivers buildable with
->>> CONFIG_FB_DEVICE=n. Currently, multiple fbdev drivers rely on 
->>> fb_info->dev
->>> and sysfs attribute registration unconditionally, which leads to build
->>> failures whenever FB_DEVICE is disabled.
->>>
->>> Thomas previously noted that FB_DEVICE should eventually become 
->>> optional
->>> and that drivers should not depend on sysfs or fb_info->dev being 
->>> present
->>> unless the Kconfig explicitly selects it. This series pushes in that
->>> direction by tightening the FB_DEVICE dependency boundary without 
->>> changing
->>> any runtime behaviour when FB_DEVICE=y.
->>>
->>> What this series does *not* change
->>>
->>> - No functional behaviour changes when FB_DEVICE=y.
->>> - No removal of sysfs interfaces.
->>> - No changes to fbops, memory allocation, or display update paths.
->>>
->>> Build & test coverage
->>>
->>> Tested with the following combinations:
->>>
->>> 1. **FB=y, FB_DEVICE=y**
->>>     - Baseline configuration; no regressions expected.
->>>
->>> 2. **FB=y, FB_DEVICE=n**
->>>     - Drivers build successfully.
->>>     - No sysfs attributes are created.
->>>     - fbdev devices operate normally (where applicable).
->>>
->>> 3. **FB=n**
->>>     - Drivers depend on FB, so they properly do not build, unchanged.
->>>
->>> Motivation
->>>
->>> This moves fbdev closer to supporting FB_DEVICE as truly optional, 
->>> helps
->>> reduce Kconfig entanglement, and clears several long-standing TODO 
->>> items
->>> as suggested by Thomas Zimmermann around legacy sysfs usage inside 
->>> fbdev
->>> drivers.
->>>
->>> Feedback is welcome, especially on whether the guard boundaries around
->>> sysfs are placed correctly or whether more logic should be pulled under
->>> CONFIG_FB_DEVICE.
->>
->> I left a comment on the first patch. If things still build nicely, then
->>
->> Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
->>
->> for the series.
->
+
+...
+
 > This whole series adds a whole lot of ifdef'ery, which I think is the
 > worst approach. It makes the code less readable and leads to two code
 > paths, which may trigger different build errors depending on the config.
 >
 > I'm sure it must be possible to do the same without adding more #ifdefs,
-> e.g. by introducing a function like   dev_of_fbinfo(fbinfo)  which
-> simply returns NULL for the FB_DEVICE=n case.  Then, that value can be 
-> tested
+> e.g. by introducing a function like   dev_of_fbinfo(fbinfo)  which
+> simply returns NULL for the FB_DEVICE=3Dn case.  Then, that value can be =
+tested
 > like
->     if (dev_of_fbinfo(fbinfo))
->         {...do-the-things...}
-> For the FB_DEVICE=n case this will then be optimized out by the compiler,
+>         if (dev_of_fbinfo(fbinfo))
+>                 {...do-the-things...}
+> For the FB_DEVICE=3Dn case this will then be optimized out by the compile=
+r,
 > while you still have full compiler syntax checking.
 >
 > Thoughts?
 
-Your choice. I don't see this as an important fix. The FB_DEVICE=n case 
-is mostly useful for DRM-based systems that do not want to expose fbdev 
-interfaces to user space. Those are the vast majority today. The very 
-few special builds with fbdev drivers would likely use FB_DEVICE=y anyway.
+I second you. I am also not a fan of ifdeffery when it can be avoided.
 
-Best regards
-Thomas
-
->
-> Helge
->
-
--- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstr. 146, 90461 Nürnberg, Germany, www.suse.com
-GF: Jochen Jaser, Andrew McDonald, Werner Knoblich, (HRB 36809, AG Nürnberg)
-
-
+--=20
+With Best Regards,
+Andy Shevchenko
