@@ -1,213 +1,100 @@
-Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B9F2302149
-	for <linux-staging@lists.linux.dev>; Wed, 10 Dec 2025 08:31:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA12D270ED9
+	for <linux-staging@lists.linux.dev>; Wed, 10 Dec 2025 08:49:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765355520; cv=none; b=gpOCqpBASVIUUIgWHWw/GQ3iqQKTfDfsw5MrzO6m6N+9tVGzA92g2B0KSB2gIyhWuQ3dnXgoDQxckJfmiDyQFuJG4KES0upca8M68eRF1wAjdYAYJF+dUEOWOU9i7sAs5nNeyZKEfImEK2LkoTS5Oe6Yy8cs+4c7yI2yYVqUFeU=
+	t=1765356594; cv=none; b=TdCae9/fj7xWq+N5PtKF+gS+okNd4EbAsCr2wvzAQTLgPQ/gc6u0aCqTr7T29IF9yNHzlYkbd3z+6Sa9lt4tzS5LFWZwvEi6B01BNZ1MU7DtaKFh0a2vd7M/2xJ77vGzYjvEd2JY9dZ4A7uS5bHZw4Ju1cmTmZV33dTZc0BOtMg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765355520; c=relaxed/simple;
-	bh=FFNspWcgr6JBh3jF6KiuWIJwLT9QVchWO/Z3r4hqr+s=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=DYD3LgRp7J/IPUXTHr7bnUJ77u4GFMQwOzUDe9wvFRie02U6VwnbRmnU8ikxMYzzsRw5DXIsLJXoZEQPMYwCGPKbdkdvAIybRXRTolOW8AsnntBfNxvINNWmIvCaRB5yIy/2urxg1j02XM+KOcPMvNqUUZ068NVBdBumLNWx/m4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=xHsZTOqM; arc=none smtp.client-ip=209.85.218.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	s=arc-20240116; t=1765356594; c=relaxed/simple;
+	bh=Pms9rGKQrV/wWRMG+vyjpUCSrq1fJ3AkYkgjY3zlwIo=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=iDm+p8mb2J27EFJh4dvprtA+FhWIFl5bzzxyJFGAYHcMb0OuJjvQEEmCSEggQ8KMm2EuVJ/wCztBejHQ819u1n/Dht+zpent8e27PBPynOPKWqS8bOsH7G87U/kdjTQ1ajDp45s5gpP3L//91mVs2bauhLAtZAGVBXlP7GQDpYM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=l9ukw5PR; arc=none smtp.client-ip=209.85.214.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="xHsZTOqM"
-Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-b7277324054so980797166b.0
-        for <linux-staging@lists.linux.dev>; Wed, 10 Dec 2025 00:31:55 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="l9ukw5PR"
+Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-297dc3e299bso55955685ad.1
+        for <linux-staging@lists.linux.dev>; Wed, 10 Dec 2025 00:49:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1765355513; x=1765960313; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=lSMdgZiYQlpcrCoz/a1I+Tk8d9M7yHxRNKGn/fSx/9c=;
-        b=xHsZTOqM0nDRaXnNhY6I2VifmdlE/A8zrGiKhP/LMNBi710DIkkE5J5SAhifdNcyrv
-         DtDkgdfZHRVjL5SKEot7P4EWFxBvHDDNdEX0lkQnRGiCpiTzrf9OTvl145jT8UCWyQa7
-         gKGbHgZ6Iiwy6zd4fbYFGq1pbohLLuaSjRLDNSUVQ/KIuMAwAgjdPBc9nNJrN15J9rLU
-         lRRQouVh+fCBvQafu/4jKBv8P+eZ2Wmb8bLM0EBUqQQR+bTOA83XAAPlD9oJT9BiVhAu
-         bpEbcPLGHx8RktG/SUn2dhXvA1Dv5AEANL3ETOG9t1IRIysfr4677jWWTLZGABpEbvLC
-         ZcHA==
+        d=gmail.com; s=20230601; t=1765356592; x=1765961392; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=95BH0/uinAOxOXcQXE12PRP1dAEancDYlQp6ik6Xv4U=;
+        b=l9ukw5PRSzcIiF6OU0UVjzQLv4R5+IdIU0uPhMiASZRNQeAODi8cXFidSOFWx9QF0s
+         LsWZIToJw90sKQLgcLPo5sLDZshkYAUuWFdOls7yv8rjeyfY8T0i7SVJIVIh7Zr9jBsj
+         EksZi1M5wLqSrPFYSBN4yK8Dmm6vcRIInOjjkf8GaHzs+tKZp3WHE1dTYWDMs5Bxqd+B
+         d3JXmXf8CmJIl7Wxg5pYF8KhKsU3zyvDyn/zVeYpdLUryOL+xNTLerbFf7oXl1FOknTG
+         hJGc1PptEkP0YvrZtp80bb4ZDf+N1VcGpl3NUQNC/JJWPeHcT1rjv2uwbk0rKmjiZkW1
+         UmgA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765355513; x=1765960313;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=lSMdgZiYQlpcrCoz/a1I+Tk8d9M7yHxRNKGn/fSx/9c=;
-        b=eb7zhyRZWUXsKeBPl9/Fz9wKWybcxFO/kT0ZTDpdnIOhWR+YPZvi6t2resh0arx2Y7
-         EvJlUc/DCzRZaRiiVkJWBeNyiTFZ+WZtd1h7iU7GN4BEeZ883dhoBHL+oqzadj/GwU/+
-         SSu84SlFEy38EOwUuDvpxEOG2dflNsvgVDKr7sFTfvTXMXkVeu0S7+TYWJaSkYryXoOO
-         Mem5E7skhv4s9zXvZJY3478RyMcsysRxrs6pUjm+E2RbLSa4X/Q1GCIcM7VmIKsoJK1N
-         yhlMqpUeAUFwf61J5f7Yuapopety3Ez77F8IP1/vFlncBTYhUIwnU/2fjYM8daZC8eVL
-         8Oww==
-X-Forwarded-Encrypted: i=1; AJvYcCV/k+qL8csL/Eayu86mQZ60+UT3GRBpCDEq8pV5Bmy7kGsiPfftkYhP6SxfTOiq/5tnre8m+GHbSIckbAgk@lists.linux.dev
-X-Gm-Message-State: AOJu0YxHySKFr2oVmS/TspXlX9ccM2ouSOgFXiKd87jtOZxtLEzz9vGc
-	7Z1TeGcI5ATFlWzxij4iHgE+a/pSnPTS9qw1OuccbzFTjHcMLY4aG9qOg106NpNLewc=
-X-Gm-Gg: AY/fxX6gF6BA1GDQqJLtTUYku3m7PCu0i8vLtRyzF5E2fetmijhCFF4ENmMAlOvNMoW
-	ocVnncSOPagUc7VkcI0iUwWPf+vuM1dROEm8jKIfzv5KJQtsHthfPVuEeK6+H+OJFuqjUmEU8I9
-	GZrGbhrykNxwfSt/plf9md5B4oYD5TYWCiSpReK7UfVvYj2BZvyb/4zvBmkg665s6FJcLOmGsd7
-	g8wY/tW73F4D1FZz2TQWH/tTkimkAT+Rath2kt3B3jdHkvnOqIuH85yS9G5JlusEV5PPJqTLh/R
-	bAJzyydrcpmCRxcgcWGMzjGQKrp8tbfsd3Wga1/guIeStz5mcEqmUuqd+dO0dg3rL5KpaRMwKiI
-	pgJ+LmLLYKzLmAdsGrUIlRthoF57N8jjWJXvz6z5I75awh6fOA6AP/PVJy2l7CTP3BLpyLWEirc
-	FgOeUjqChn/zEDX9ZU
-X-Google-Smtp-Source: AGHT+IFYDRtX5PoiZPxafkMiANC8Xf6Bj78BEbFQEysHNafXsqKHXNdBL6htv855tq3hOMwvxyT2DQ==
-X-Received: by 2002:a17:906:dc89:b0:b7a:1b3:5e52 with SMTP id a640c23a62f3a-b7ce8245e92mr181408966b.17.1765355513484;
-        Wed, 10 Dec 2025 00:31:53 -0800 (PST)
-Received: from localhost ([2a02:8071:b783:6940:1d24:d58d:2b65:c291])
-        by smtp.gmail.com with UTF8SMTPSA id a640c23a62f3a-b79f4975c56sm1602897366b.33.2025.12.10.00.31.52
+        d=1e100.net; s=20230601; t=1765356592; x=1765961392;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=95BH0/uinAOxOXcQXE12PRP1dAEancDYlQp6ik6Xv4U=;
+        b=moJLB0DVf6UXjhzzXQDP3dUr5FmJRDw3Glpl3+UfRbPPeiumLVfHs1sM1Pfe6kQmfK
+         oBlyRJfH/iFQSRNPyWN4soGKNfyN59ALqlCLWDxdJSr9MQb0svRMwilWKkuQvR4W1ZX8
+         2RKXPcRXOIEIOZ52J3Qd4l6TF3sCRNNOyecXigQ9z62qua8hk2lRmRAAFQfkg01RiE5i
+         6niOMNW0KgNJSIILfCQ65dMbRVrddwDlimnPi9zqbAHFO5ETUMjfuexLD90Sxj35ryfW
+         cGwHQUNiqtnFU1H2lEXoMj51CeVgLveyf3CsSQp2waAoq0BSLE+kH5W/8YXPGYQIIUg+
+         m9/g==
+X-Forwarded-Encrypted: i=1; AJvYcCW+hHTDi/BKEjKey9d42MVdpFj8E/nKdWC9IbHH5obqTakRgs7dLSBkfSagCILQTfVLk2TbE4y1cM5XjsfJ@lists.linux.dev
+X-Gm-Message-State: AOJu0YyWLrlW9brWj8ukD+fvEaijd+LpYSoLyH2CDkQMtJAEoMrFpfEg
+	wFYBtH7/nAmJTpr81feTuvBDxDX88eC8A5XuxrMuON4REKBX4XBw2DGg
+X-Gm-Gg: AY/fxX4zjKhS8nvurVMVZsjO2vmN0oRtsXJpEeJnpWu4Vzu1zb22gmGONt8xR+lJAsE
+	FbJL5F8jcdz3XuPRBgH5AYcQoy2fA5BHfnBv59VyAxBTdzW/TR99EMmH7FWuFMVphM0Icc1JRMB
+	fTNzxrXAlHSJlJqgRZlJVfsKoEjX/LMGHR56avZJ6VOGNV0urO/mNSG1XEFGleqGnZgx6JKbPAW
+	GzkU2AedUpqLATu28iWGS5xdLd3d5kx7RlZnSTPsRgAzLrJ/c/w7XwnSsvBvLvKGzSHTc32y3YS
+	6f20Qcw61DxtiHIavDeE9p2OBg9sy1ZSHLnJkP5mdXEzEsddbLY+jE/WXt/LG3UGL6gZezgFdN6
+	zaBrodD9CgU6ZAdWa2AXEIZLN6vh75G6s9GA3NeIP9bg0l/n3X2DzAdR45lKN06CAdprnME3RXu
+	O3hiwKPOGHiN+jgU6cIqzCToh24xi9xsnM571Y4WM=
+X-Google-Smtp-Source: AGHT+IFmj1bjkQtCg9vIEJ/F2lg4ak6G1pJYIfG6cUi7R++G/g2JFMCCxQ10yK8/5Y1SfMmo75aN6w==
+X-Received: by 2002:a17:903:94b:b0:29d:df04:fcb4 with SMTP id d9443c01a7336-29ec2325129mr17348175ad.24.1765356591956;
+        Wed, 10 Dec 2025 00:49:51 -0800 (PST)
+Received: from SIQOL-WIN-8.localdomain ([49.36.67.171])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-29daeaabf7csm176332285ad.79.2025.12.10.00.49.47
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 10 Dec 2025 00:31:53 -0800 (PST)
-From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
-To: Akhil R <akhilrajeev@nvidia.com>,
-	Herbert Xu <herbert@gondor.apana.org.au>,
-	"David S. Miller" <davem@davemloft.net>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	Mikko Perttunen <mperttunen@nvidia.com>,
-	David Airlie <airlied@gmail.com>,
-	Simona Vetter <simona@ffwll.ch>,
-	Sowjanya Komatineni <skomatineni@nvidia.com>,
-	Luca Ceresoli <luca.ceresoli@bootlin.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-crypto@vger.kernel.org,
-	linux-tegra@vger.kernel.org,
+        Wed, 10 Dec 2025 00:49:51 -0800 (PST)
+From: Arjun Changla <arjunchangla7@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: straube.linux@gmail.com,
+	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
-	dri-devel@lists.freedesktop.org,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev
-Subject: [PATCH 2/2] host1x: Convert to bus methods
-Date: Wed, 10 Dec 2025 09:31:38 +0100
-Message-ID:  <dd55d034c68953268ea416aa5c13e41b158fcbb4.1765355236.git.u.kleine-koenig@baylibre.com>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <cover.1765355236.git.u.kleine-koenig@baylibre.com>
-References: <cover.1765355236.git.u.kleine-koenig@baylibre.com>
+	Arjun Changla <arjunchangla7@gmail.com>
+Subject: [PATCH] staging: rtl8723bs: remove trailing whitespace
+Date: Wed, 10 Dec 2025 08:49:15 +0000
+Message-ID: <20251210084916.4000-1-arjunchangla7@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3411; i=u.kleine-koenig@baylibre.com; h=from:subject:message-id; bh=FFNspWcgr6JBh3jF6KiuWIJwLT9QVchWO/Z3r4hqr+s=; b=owGbwMvMwMXY3/A7olbonx/jabUkhkxL/XeniljWpVlqZprUz387O3yFDZsen0Dv82P2G2Sm3 TlnKlbUyWjMwsDIxSArpshi37gm06pKLrJz7b/LMINYmUCmMHBxCsBEVC3Y/zu/fWz+PrXm6LS0 dE5ho5k693/XWU84d3BxsdDGBK8J1dxsNlGXf78pl87kPVPNdPVFGHN/poPqz/XF2R+y4+P+1Pm uF4y9sNcp+StnnJ+woIjkh4kejO9X8ru5rza4Jv51C38E74xrNc+9+s/5tdZ2eKV8MPe/cbB8iu cJA8ud7316C22vnJ8Va705o+iMduCiwGk7jKrzVOL++s14Lv+wt93cRPTHzfK2Ob1enG0Va8y73 AR/zb+W8Z1zSvTLS2YKRjzB/H1W97rMXDljNyk1tquedzktlBzCnO2smc3YUKHdeTDPcUruiQf6 sUVfGVMl1taKv/g0yShu35X6slxd4de/9vOe3K3QXAYA
-X-Developer-Key: i=u.kleine-koenig@baylibre.com; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
 Content-Transfer-Encoding: 8bit
 
-The callbacks .probe(), .remove() and .shutdown() for device_drivers
-should go away. So migrate to bus methods. There are two differences
-that need addressing:
+Fix checkpatch error by removing trailing whitespace at line 2021.
 
- - The bus remove callback returns void while the driver remove callback
-   returns int (the actual value is ignored by the core).
- - The bus shutdown callback is also called for unbound devices, so an
-   additional check for dev->driver != NULL is needed.
-
-Signed-off-by: Uwe Kleine-König <u.kleine-koenig@baylibre.com>
+Signed-off-by: Arjun Changla <arjunchangla7@gmail.com>
 ---
- drivers/gpu/host1x/bus.c | 67 ++++++++++++++++++++--------------------
- 1 file changed, 33 insertions(+), 34 deletions(-)
+ drivers/staging/rtl8723bs/core/rtw_mlme.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/host1x/bus.c b/drivers/gpu/host1x/bus.c
-index fd89512d4488..c0d7a9b5f07a 100644
---- a/drivers/gpu/host1x/bus.c
-+++ b/drivers/gpu/host1x/bus.c
-@@ -346,6 +346,36 @@ static int host1x_device_uevent(const struct device *dev,
- 	return 0;
+diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme.c b/drivers/staging/rtl8723bs/core/rtw_mlme.c
+index 98704179ad35..ff4e668f199c 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_mlme.c
++++ b/drivers/staging/rtl8723bs/core/rtw_mlme.c
+@@ -2018,7 +2018,7 @@ int rtw_restruct_wmm_ie(struct adapter *adapter, u8 *in_ie, u8 *out_ie, uint in_
+ 	return ielength;
  }
  
-+static int host1x_device_probe(struct device *dev)
-+{
-+	struct host1x_driver *driver = to_host1x_driver(dev->driver);
-+	struct host1x_device *device = to_host1x_device(dev);
-+
-+	if (driver->probe)
-+		return driver->probe(device);
-+
-+	return 0;
-+}
-+
-+static void host1x_device_remove(struct device *dev)
-+{
-+	struct host1x_driver *driver = to_host1x_driver(dev->driver);
-+	struct host1x_device *device = to_host1x_device(dev);
-+
-+	if (driver->remove)
-+		driver->remove(device);
-+}
-+
-+static void host1x_device_shutdown(struct device *dev)
-+{
-+	struct host1x_driver *driver = to_host1x_driver(dev->driver);
-+	struct host1x_device *device = to_host1x_device(dev);
-+
-+	if (dev->driver && driver->shutdown)
-+		driver->shutdown(device);
-+}
-+
-+
- static const struct dev_pm_ops host1x_device_pm_ops = {
- 	.suspend = pm_generic_suspend,
- 	.resume = pm_generic_resume,
-@@ -359,6 +389,9 @@ const struct bus_type host1x_bus_type = {
- 	.name = "host1x",
- 	.match = host1x_device_match,
- 	.uevent = host1x_device_uevent,
-+	.probe = host1x_device_probe,
-+	.remove = host1x_device_remove,
-+	.shutdown = host1x_device_shutdown,
- 	.pm = &host1x_device_pm_ops,
- };
- 
-@@ -611,37 +644,6 @@ int host1x_unregister(struct host1x *host1x)
- 	return 0;
- }
- 
--static int host1x_device_probe(struct device *dev)
--{
--	struct host1x_driver *driver = to_host1x_driver(dev->driver);
--	struct host1x_device *device = to_host1x_device(dev);
--
--	if (driver->probe)
--		return driver->probe(device);
--
--	return 0;
--}
--
--static int host1x_device_remove(struct device *dev)
--{
--	struct host1x_driver *driver = to_host1x_driver(dev->driver);
--	struct host1x_device *device = to_host1x_device(dev);
--
--	if (driver->remove)
--		driver->remove(device);
--
--	return 0;
--}
--
--static void host1x_device_shutdown(struct device *dev)
--{
--	struct host1x_driver *driver = to_host1x_driver(dev->driver);
--	struct host1x_device *device = to_host1x_device(dev);
--
--	if (driver->shutdown)
--		driver->shutdown(device);
--}
--
- /**
-  * host1x_driver_register_full() - register a host1x driver
-  * @driver: host1x driver
-@@ -672,9 +674,6 @@ int host1x_driver_register_full(struct host1x_driver *driver,
- 
- 	driver->driver.bus = &host1x_bus_type;
- 	driver->driver.owner = owner;
--	driver->driver.probe = host1x_device_probe;
--	driver->driver.remove = host1x_device_remove;
--	driver->driver.shutdown = host1x_device_shutdown;
- 
- 	return driver_register(&driver->driver);
- }
+-/* Ported from 8185: IsInPreAuthKeyList(). 
++/* Ported from 8185: IsInPreAuthKeyList().
+  * (Renamed from SecIsInPreAuthKeyList(), 2006-10-13.)
+  * Added by Annie, 2006-05-07.
+  *
 -- 
-2.47.3
+2.43.0
 
