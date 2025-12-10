@@ -1,134 +1,99 @@
-Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C42B0301715
-	for <linux-staging@lists.linux.dev>; Wed, 10 Dec 2025 09:43:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FA682FE041
+	for <linux-staging@lists.linux.dev>; Wed, 10 Dec 2025 09:51:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765359817; cv=none; b=kHm87hwdC9Zk9gXnIWzkJ9DTlMXRyvvOoHWe3TSGZyikV/5Ew0fz2+QJHHYqCBLK4UM6w3j0u9/hHjm/UD0BMeLQTm0eG+noQghVBbIFP5+mgOMBqaXEJsgt7c3wXFzweT/Q0CKp6pyyWeKVWGcCRHRdN8VnzuWPR0gPmV12sJs=
+	t=1765360269; cv=none; b=hP5FoSFzsTTmMekwacIW8sJkEtEXuqLTdEROCcPPOvJDgUiBj6rq6BtsiAOiHZKIHpB6BHgYBpp/j2qdapqWtDYxjp+t+b1rY155p5czYSz9Ld/kcdsQ0Yf2Jzl/Do3KKZa3LTDDNXvE+QcwEzDcYxpi2ZBP73qcqJlk8LFuE5g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765359817; c=relaxed/simple;
-	bh=dn3+h+xAQ2J8sDTnDOr/kyYXa2xXS2mubWTyZS2KGUE=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=porXkgkT+m7aVo2v05HCiJ650yOZnwy6YkJzz+en/te0xOZhkfkvKFmUfnMAZuBY1vn0zGBtMGA5+qCpFz637rIM6QMX2szu5BoHEwQ1ZRxqyetuRrhhzWYfzVWyUlfFhq7O+zkB1pDmvQWtJZLHV6o1zcyXbYTt8eF159GZM6Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EWqInfzn; arc=none smtp.client-ip=209.85.216.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1765360269; c=relaxed/simple;
+	bh=x0Xy004ajIQ6LdE02hLKph2/qBXwTL7ZBVlAQEUVqUI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=H9d4Xbu6IE5dQ+IQH8R5Kg+GSze0G8aQUAR2adXOSRzfpkkZ/lKTVoWSIdeFmFoRlhRWbnDCvCBkzcUuSjHz6djP3Szsgc6+wN2zjbSnHsX8963rhX5pRVMUawlB1kaI89OMoMyzQmDQ3hH421/VTicFzNpNXYUj+m0qXpnil14=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=jnqy/NkY; arc=none smtp.client-ip=209.85.128.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EWqInfzn"
-Received: by mail-pj1-f47.google.com with SMTP id 98e67ed59e1d1-349ae58a7baso3227442a91.0
-        for <linux-staging@lists.linux.dev>; Wed, 10 Dec 2025 01:43:35 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="jnqy/NkY"
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-477bf34f5f5so52258995e9.0
+        for <linux-staging@lists.linux.dev>; Wed, 10 Dec 2025 01:51:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1765359815; x=1765964615; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=+v9WYRYaF6ILbuAh4Y51zdZRPGNY6Q7/8y9sigJ+tU4=;
-        b=EWqInfznIJpIY9l4Fz2Ri9D/PdUdjMNkiyy0IvtiyoqXe47I3A9lq3DS8lxmWAWEvy
-         Uaou0h03cMTV51sgfINah3w+VB4NLnY7uSpvxbJ53yqCTpq0RkqkZzcAlcGMydtxhsH4
-         35UoCQpueLISURycaKEAV4I30TzbH9+TvwIZacFfszj+XpvLaOYX8vn6YGaX9e8UH+P2
-         Em3o/HlS967DoYXQVZcW9Ng9+KQLAGePCr9wey9oqqEeHZrorKYQD3D5qesWg+kJnzt7
-         PMIOe0Sard0IH24tgULG5LPdjB3LqgtxLrNUSI+PUa9c1RlPW6yTA2r65iuzhwAF2hSm
-         LOPw==
+        d=linaro.org; s=google; t=1765360266; x=1765965066; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=4B06qbhBhVCFFua5ibBTjFTdBd800LgTE6bPjUyYBuc=;
+        b=jnqy/NkYys2XimhUK0XnyB8sqRtaRUiUt/Iulra9u5disR0OZ3nZPBs3BZ0tPxUr8l
+         6RfSC7TeQ/LUg/Gi3iwG6fckg6HcHaKfydzdHjumAB7oXPjRdRIB2QESOYjmJVxK/VLn
+         MRxJreNMGpiMLkIRHLlgM8a4xqVJmUzG0AQTNKyJIOfxWv+yL7w6E3NVKJxMCdN9OFBS
+         Yuqw2AURYNHqrGLl3ZYIQNz2BXCAaDfdQXTxHUYkAe3gJF7vloAcXb6w/Twr+OxQnTgo
+         BPnrSJ9nzifwbhb2JUF7TMdei57nEy2kir7f7NbpqnRBGwk68Ru1l3i9gKPW2OjAkmJF
+         Kd8A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765359815; x=1765964615;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=+v9WYRYaF6ILbuAh4Y51zdZRPGNY6Q7/8y9sigJ+tU4=;
-        b=fKGrbaLm6oDJXt+oW0tRYiaK2ImB0fseFxrFX1fYpY19W7yITVpk3HaZvaHIjlQFgE
-         kQpmeZ4z4i+3BvGTk90a19KoNbwmVDhXo8eeY2JvICf1fxI7AzZ2saNPKHn7XDEQEyN0
-         pLM2sxMUWCb/Bt1ApCszEItVu/+krn5EP2WdZNQgQ0+P06n/gf8iArGAfSk7wTvamFxF
-         /t1rzckS1dFwj03SyL2YPQwmow6E0y3IqpNNe4MH4/Z3la6U2Plsj96FxrnOyqIp+O7I
-         d8d3hGCB7RjTAbrTYd002sB/Btgd7X//kpi39XehIHfPV+jM6gU5CqMCjrR+Dqs4Bofd
-         473g==
-X-Gm-Message-State: AOJu0YzF0gu7AG16yMZd7FxqATTjfXjclE7QDCWsskoXn8riNgIyxY5U
-	d9jXo1PkGmTJpZlIPsQQoKsAfR3hKzVQU+AyLlk9ZFvZaO+K8sTrCTcL
-X-Gm-Gg: AY/fxX6RYE3qk+1hVYWim/DQRGpCBfAF+WLA+Qs5jb+pHOHW4Kr7gveVjIUmg+UZOqV
-	60MulIUHGcEbP8THLIf056jikQsIAqjFmboLjxqENUwtmlZL8uzeDcD5zuXxu9W4DYIcnZILzkm
-	K7Tqx8ySAScjPl7t26tnXpNRSYvB0VbIH6jvwKuDfdBSS8qmB/1LeUbqoZ+VAJ93FLC4/FPgXVC
-	uSsUREu0eC6NVhk0VgP3kyT2k5xJpHtXM4ngmaFzAf7joiTr4WHFZtD+YmkJ+jktJwDrBgvsYyi
-	YLJW9PckoOCHVnLCDT7LNK4my5bsYFxn6QBwRAC6T7ri/tvWXX+OAO0eqB2GQnHXh55Cj3yNMWl
-	kSeCDO9VsZ4Y9mLV4moUyBw5fP41PfUS5HGnbuQCkOLcZTGc3HpWmz8qK1P55RCMQ8mEnQUV5x9
-	ign896q9NCqyV8QprjkoQRGGs1JnqwZl7M
-X-Google-Smtp-Source: AGHT+IF7gYSRSgFnmvZbN8Sg/iKDWrjC4V2sEN4Xs32FEwOFa5t+zuTqO26wAtymrMcBJ8ADa8s0+w==
-X-Received: by 2002:a17:90b:180d:b0:340:ad5e:cd with SMTP id 98e67ed59e1d1-34a7280cc32mr1502333a91.5.1765359814949;
-        Wed, 10 Dec 2025 01:43:34 -0800 (PST)
-Received: from localhost.localdomain ([38.134.139.135])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-34a47bb279fsm2597892a91.1.2025.12.10.01.43.32
+        d=1e100.net; s=20230601; t=1765360266; x=1765965066;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=4B06qbhBhVCFFua5ibBTjFTdBd800LgTE6bPjUyYBuc=;
+        b=WdfUkBZRyEchef7fFLApmkXWgPYlcoNmB+JJqwOvS6KFi6ESCPDaO+puOOP8/noOvN
+         sC/+0XZwRiqCoLMTvMlkKNqicgNWf/17Kjz4h4gCDoEJ2bzpVAKqz/Vx5dhN3To3rvS6
+         9wYiTTjjFRmMkRcz80w1R1VMuVxuNgX3OiOvUKmwBMPXNAVYbPY0K9WN3veXRnf0eJTh
+         faoozjl0SCp2we3U0jBPg6pYOmBVO+mc8iikwYZcUU0QfFQAQTOA8d/FyhhTZD0S8MVS
+         4QF7OtxHDNoj2chQPWy/h6tDSmA33p/K80rRE1aFGRRnNAg2eABX7LDTtfot50PLyvT2
+         /izQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXbzx2bTOYSeMskNiGlJW+2bEzUGbls4u/pERDgd+v2THap0z4XLc9WP7kNUX16T1By3/6pXLF/tSUqq3mP@lists.linux.dev
+X-Gm-Message-State: AOJu0YxpIxf12bguz7HiirR6QcKEoibUi6SLHYqIE0TGKUT+hbrhGHoA
+	H7YoSKJHX89a00RqA7YUGAwwmDG/QrwQ7i7labDvBixgNXJb0ozg7BoXDqEmtQ3OzGSDDVDl+Y5
+	A1j7W
+X-Gm-Gg: ASbGncupppx5ynB87tA/zOuaBBfjmlowcHpXM2by62nEW8cH/tDaD7HgaP0WHYpWs1U
+	wmu3C49TPQ7XAFBAVlHNP92iB45POxoal71XxsN9K+v/v5ldvADTaINcNz/zSeS5p/XUt91gL3X
+	D/7+sYM50Rx2DnjkZLjS4TEwxruCxUApS/W6uOBOsdIs1IGzG+D1dE7TA45bbaI8NjXaMsaFDDr
+	e4zjeqm4PP6LolpzP0P2YSm2bdAIhvhvg14PE8u4uOwMMYgTXaOGWQ0g6bs6Zz8DVqxXZgoG4tK
+	3jtkpgyAC1+wRZsHyCkF5Z3L0mVESzYrjz8NdU2ncLoBtTunujO9/K0BdsU9Hq5J+SXJeIrt07K
+	IKmtNFPpPq7ukHdd4Q4qc/UbvztJcyOCy3GTKVK5rLsL7xfsP0UNsGzw9o3b/eYWs9YueZzvqq2
+	wv5v0hKUc7WxijSBFW
+X-Google-Smtp-Source: AGHT+IFa/d2xPjcJ3GR9qiSLMDjzB7aq+qWaEk40sAjfzUvXODCPSHM38QrBJnIpCEE25wsU6L4OLQ==
+X-Received: by 2002:a05:600c:3e8d:b0:477:b642:9dc1 with SMTP id 5b1f17b1804b1-47a8378ce43mr15130005e9.20.1765360265752;
+        Wed, 10 Dec 2025 01:51:05 -0800 (PST)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-42f7d222478sm36232021f8f.20.2025.12.10.01.51.04
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 10 Dec 2025 01:43:34 -0800 (PST)
-From: Dharanitharan R <dharanitharan725@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	david.laight.linux@gmail.com,
-	dharanitharan725@gmail.com
-Subject: [PATCH v3] staging: vme_user: simplify bus number allocation using ffz()
-Date: Wed, 10 Dec 2025 09:42:08 +0000
-Message-ID: <20251210094207.33671-2-dharanitharan725@gmail.com>
-X-Mailer: git-send-email 2.43.0
+        Wed, 10 Dec 2025 01:51:05 -0800 (PST)
+Date: Wed, 10 Dec 2025 12:51:01 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Dharanitharan R <dharanitharan725@gmail.com>
+Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org, david.laight.linux@gmail.com
+Subject: Re: [PATCH v3] staging: vme_user: simplify bus number allocation
+ using ffz()
+Message-ID: <aTlChRvefnb6kwSX@stanley.mountain>
+References: <20251210094207.33671-2-dharanitharan725@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251210094207.33671-2-dharanitharan725@gmail.com>
 
-David Laight pointed out that the loop in vme_register_bridge()
-is effectively searching for the first zero bit in vme_bus_numbers.
-Add a check for vme_bus_numbers == ~0UL before calling ffz().
+On Wed, Dec 10, 2025 at 09:42:08AM +0000, Dharanitharan R wrote:
+> David Laight pointed out that the loop in vme_register_bridge()
+> is effectively searching for the first zero bit in vme_bus_numbers.
+> Add a check for vme_bus_numbers == ~0UL before calling ffz().
+> 
+> Replace the manual loop with ffz() and use BIT(n) for consistency.
+> 
+> Suggested-by: David Laight <david.laight.linux@gmail.com>
+> Signed-off-by: Dharanitharan R <dharanitharan725@gmail.com>
+> ---
 
-Replace the manual loop with ffz() and use BIT(n) for consistency.
+The patch is corrupted somehow and doesn't apply.
 
-Suggested-by: David Laight <david.laight.linux@gmail.com>
-Signed-off-by: Dharanitharan R <dharanitharan725@gmail.com>
----
- drivers/staging/vme_user/vme.c | 15 +++++++++++++----------
- 1 file changed, 13 insertions(+), 6 deletions(-)
+patching file drivers/staging/vme_user/vme.c
+patch: **** malformed patch at line 204:        return ret;
 
-diff --git a/drivers/staging/vme_user/vme.c b/drivers/staging/vme_user/vme.c
-index 2095de72596a..45381e677475 100644
---- a/drivers/staging/vme_user/vme.c
-+++ b/drivers/staging/vme_user/vme.c
-@@ -1765,16 +1765,19 @@ int vme_register_bridge(struct vme_bridge *bridge)
- 	int ret = -1;
- 
- 	mutex_lock(&vme_buses_lock);
--	for (i = 0; i < sizeof(vme_bus_numbers) * 8; i++){
--		if ((vme_bus_numbers & (1 << i)) == 0) {
--			vme_bus_numbers |= (1 << i);
--			bridge->num = i;
--			INIT_LIST_HEAD(&bridge->devices);
--			list_add_tail(&bridge->bus_list, &vme_bus_list);
--			ret = 0;
--			break;
--		}
-+	/* Ensure we have a free slot before using ffz() */
-+	if (vme_bus_numbers == ~0UL)
-+		goto out;   /* No free bus number */
-+
-+	/* Find the first clear bit */
-+	i = ffz(vme_bus_numbers);
-+
-+	vme_bus_numbers |= BIT(i);
-+	bridge->num = i;
-+	INIT_LIST_HEAD(&bridge->devices);
-+	list_add_tail(&bridge->bus_list, &vme_bus_list);
-+	ret = 0;
-+
-+out:
- 	mutex_unlock(&vme_buses_lock);
- 
- 	return ret;
-@@ -1787,7 +1790,7 @@ void vme_unregister_bridge(struct vme_bridge *bridge)
- 	struct vme_dev *tmp;
- 
- 	mutex_lock(&vme_buses_lock);
--	vme_bus_numbers &= ~(1 << bridge->num);
-+	vme_bus_numbers &= ~BIT(bridge->num);
- 	list_for_each_entry_safe(vdev, tmp, &bridge->devices, bridge_list) {
- 		list_del(&vdev->drv_list);
- 		list_del(&vdev->bridge_list);
--- 
-2.43.0
+regards,
+dan carpenter
 
