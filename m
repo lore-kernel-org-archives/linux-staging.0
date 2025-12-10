@@ -1,71 +1,70 @@
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
+Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA12D270ED9
-	for <linux-staging@lists.linux.dev>; Wed, 10 Dec 2025 08:49:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C42B0301715
+	for <linux-staging@lists.linux.dev>; Wed, 10 Dec 2025 09:43:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765356594; cv=none; b=TdCae9/fj7xWq+N5PtKF+gS+okNd4EbAsCr2wvzAQTLgPQ/gc6u0aCqTr7T29IF9yNHzlYkbd3z+6Sa9lt4tzS5LFWZwvEi6B01BNZ1MU7DtaKFh0a2vd7M/2xJ77vGzYjvEd2JY9dZ4A7uS5bHZw4Ju1cmTmZV33dTZc0BOtMg=
+	t=1765359817; cv=none; b=kHm87hwdC9Zk9gXnIWzkJ9DTlMXRyvvOoHWe3TSGZyikV/5Ew0fz2+QJHHYqCBLK4UM6w3j0u9/hHjm/UD0BMeLQTm0eG+noQghVBbIFP5+mgOMBqaXEJsgt7c3wXFzweT/Q0CKp6pyyWeKVWGcCRHRdN8VnzuWPR0gPmV12sJs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765356594; c=relaxed/simple;
-	bh=Pms9rGKQrV/wWRMG+vyjpUCSrq1fJ3AkYkgjY3zlwIo=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=iDm+p8mb2J27EFJh4dvprtA+FhWIFl5bzzxyJFGAYHcMb0OuJjvQEEmCSEggQ8KMm2EuVJ/wCztBejHQ819u1n/Dht+zpent8e27PBPynOPKWqS8bOsH7G87U/kdjTQ1ajDp45s5gpP3L//91mVs2bauhLAtZAGVBXlP7GQDpYM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=l9ukw5PR; arc=none smtp.client-ip=209.85.214.174
+	s=arc-20240116; t=1765359817; c=relaxed/simple;
+	bh=dn3+h+xAQ2J8sDTnDOr/kyYXa2xXS2mubWTyZS2KGUE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=porXkgkT+m7aVo2v05HCiJ650yOZnwy6YkJzz+en/te0xOZhkfkvKFmUfnMAZuBY1vn0zGBtMGA5+qCpFz637rIM6QMX2szu5BoHEwQ1ZRxqyetuRrhhzWYfzVWyUlfFhq7O+zkB1pDmvQWtJZLHV6o1zcyXbYTt8eF159GZM6Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EWqInfzn; arc=none smtp.client-ip=209.85.216.47
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="l9ukw5PR"
-Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-297dc3e299bso55955685ad.1
-        for <linux-staging@lists.linux.dev>; Wed, 10 Dec 2025 00:49:52 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EWqInfzn"
+Received: by mail-pj1-f47.google.com with SMTP id 98e67ed59e1d1-349ae58a7baso3227442a91.0
+        for <linux-staging@lists.linux.dev>; Wed, 10 Dec 2025 01:43:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1765356592; x=1765961392; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1765359815; x=1765964615; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=95BH0/uinAOxOXcQXE12PRP1dAEancDYlQp6ik6Xv4U=;
-        b=l9ukw5PRSzcIiF6OU0UVjzQLv4R5+IdIU0uPhMiASZRNQeAODi8cXFidSOFWx9QF0s
-         LsWZIToJw90sKQLgcLPo5sLDZshkYAUuWFdOls7yv8rjeyfY8T0i7SVJIVIh7Zr9jBsj
-         EksZi1M5wLqSrPFYSBN4yK8Dmm6vcRIInOjjkf8GaHzs+tKZp3WHE1dTYWDMs5Bxqd+B
-         d3JXmXf8CmJIl7Wxg5pYF8KhKsU3zyvDyn/zVeYpdLUryOL+xNTLerbFf7oXl1FOknTG
-         hJGc1PptEkP0YvrZtp80bb4ZDf+N1VcGpl3NUQNC/JJWPeHcT1rjv2uwbk0rKmjiZkW1
-         UmgA==
+        bh=+v9WYRYaF6ILbuAh4Y51zdZRPGNY6Q7/8y9sigJ+tU4=;
+        b=EWqInfznIJpIY9l4Fz2Ri9D/PdUdjMNkiyy0IvtiyoqXe47I3A9lq3DS8lxmWAWEvy
+         Uaou0h03cMTV51sgfINah3w+VB4NLnY7uSpvxbJ53yqCTpq0RkqkZzcAlcGMydtxhsH4
+         35UoCQpueLISURycaKEAV4I30TzbH9+TvwIZacFfszj+XpvLaOYX8vn6YGaX9e8UH+P2
+         Em3o/HlS967DoYXQVZcW9Ng9+KQLAGePCr9wey9oqqEeHZrorKYQD3D5qesWg+kJnzt7
+         PMIOe0Sard0IH24tgULG5LPdjB3LqgtxLrNUSI+PUa9c1RlPW6yTA2r65iuzhwAF2hSm
+         LOPw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765356592; x=1765961392;
+        d=1e100.net; s=20230601; t=1765359815; x=1765964615;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=95BH0/uinAOxOXcQXE12PRP1dAEancDYlQp6ik6Xv4U=;
-        b=moJLB0DVf6UXjhzzXQDP3dUr5FmJRDw3Glpl3+UfRbPPeiumLVfHs1sM1Pfe6kQmfK
-         oBlyRJfH/iFQSRNPyWN4soGKNfyN59ALqlCLWDxdJSr9MQb0svRMwilWKkuQvR4W1ZX8
-         2RKXPcRXOIEIOZ52J3Qd4l6TF3sCRNNOyecXigQ9z62qua8hk2lRmRAAFQfkg01RiE5i
-         6niOMNW0KgNJSIILfCQ65dMbRVrddwDlimnPi9zqbAHFO5ETUMjfuexLD90Sxj35ryfW
-         cGwHQUNiqtnFU1H2lEXoMj51CeVgLveyf3CsSQp2waAoq0BSLE+kH5W/8YXPGYQIIUg+
-         m9/g==
-X-Forwarded-Encrypted: i=1; AJvYcCW+hHTDi/BKEjKey9d42MVdpFj8E/nKdWC9IbHH5obqTakRgs7dLSBkfSagCILQTfVLk2TbE4y1cM5XjsfJ@lists.linux.dev
-X-Gm-Message-State: AOJu0YyWLrlW9brWj8ukD+fvEaijd+LpYSoLyH2CDkQMtJAEoMrFpfEg
-	wFYBtH7/nAmJTpr81feTuvBDxDX88eC8A5XuxrMuON4REKBX4XBw2DGg
-X-Gm-Gg: AY/fxX4zjKhS8nvurVMVZsjO2vmN0oRtsXJpEeJnpWu4Vzu1zb22gmGONt8xR+lJAsE
-	FbJL5F8jcdz3XuPRBgH5AYcQoy2fA5BHfnBv59VyAxBTdzW/TR99EMmH7FWuFMVphM0Icc1JRMB
-	fTNzxrXAlHSJlJqgRZlJVfsKoEjX/LMGHR56avZJ6VOGNV0urO/mNSG1XEFGleqGnZgx6JKbPAW
-	GzkU2AedUpqLATu28iWGS5xdLd3d5kx7RlZnSTPsRgAzLrJ/c/w7XwnSsvBvLvKGzSHTc32y3YS
-	6f20Qcw61DxtiHIavDeE9p2OBg9sy1ZSHLnJkP5mdXEzEsddbLY+jE/WXt/LG3UGL6gZezgFdN6
-	zaBrodD9CgU6ZAdWa2AXEIZLN6vh75G6s9GA3NeIP9bg0l/n3X2DzAdR45lKN06CAdprnME3RXu
-	O3hiwKPOGHiN+jgU6cIqzCToh24xi9xsnM571Y4WM=
-X-Google-Smtp-Source: AGHT+IFmj1bjkQtCg9vIEJ/F2lg4ak6G1pJYIfG6cUi7R++G/g2JFMCCxQ10yK8/5Y1SfMmo75aN6w==
-X-Received: by 2002:a17:903:94b:b0:29d:df04:fcb4 with SMTP id d9443c01a7336-29ec2325129mr17348175ad.24.1765356591956;
-        Wed, 10 Dec 2025 00:49:51 -0800 (PST)
-Received: from SIQOL-WIN-8.localdomain ([49.36.67.171])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-29daeaabf7csm176332285ad.79.2025.12.10.00.49.47
+        bh=+v9WYRYaF6ILbuAh4Y51zdZRPGNY6Q7/8y9sigJ+tU4=;
+        b=fKGrbaLm6oDJXt+oW0tRYiaK2ImB0fseFxrFX1fYpY19W7yITVpk3HaZvaHIjlQFgE
+         kQpmeZ4z4i+3BvGTk90a19KoNbwmVDhXo8eeY2JvICf1fxI7AzZ2saNPKHn7XDEQEyN0
+         pLM2sxMUWCb/Bt1ApCszEItVu/+krn5EP2WdZNQgQ0+P06n/gf8iArGAfSk7wTvamFxF
+         /t1rzckS1dFwj03SyL2YPQwmow6E0y3IqpNNe4MH4/Z3la6U2Plsj96FxrnOyqIp+O7I
+         d8d3hGCB7RjTAbrTYd002sB/Btgd7X//kpi39XehIHfPV+jM6gU5CqMCjrR+Dqs4Bofd
+         473g==
+X-Gm-Message-State: AOJu0YzF0gu7AG16yMZd7FxqATTjfXjclE7QDCWsskoXn8riNgIyxY5U
+	d9jXo1PkGmTJpZlIPsQQoKsAfR3hKzVQU+AyLlk9ZFvZaO+K8sTrCTcL
+X-Gm-Gg: AY/fxX6RYE3qk+1hVYWim/DQRGpCBfAF+WLA+Qs5jb+pHOHW4Kr7gveVjIUmg+UZOqV
+	60MulIUHGcEbP8THLIf056jikQsIAqjFmboLjxqENUwtmlZL8uzeDcD5zuXxu9W4DYIcnZILzkm
+	K7Tqx8ySAScjPl7t26tnXpNRSYvB0VbIH6jvwKuDfdBSS8qmB/1LeUbqoZ+VAJ93FLC4/FPgXVC
+	uSsUREu0eC6NVhk0VgP3kyT2k5xJpHtXM4ngmaFzAf7joiTr4WHFZtD+YmkJ+jktJwDrBgvsYyi
+	YLJW9PckoOCHVnLCDT7LNK4my5bsYFxn6QBwRAC6T7ri/tvWXX+OAO0eqB2GQnHXh55Cj3yNMWl
+	kSeCDO9VsZ4Y9mLV4moUyBw5fP41PfUS5HGnbuQCkOLcZTGc3HpWmz8qK1P55RCMQ8mEnQUV5x9
+	ign896q9NCqyV8QprjkoQRGGs1JnqwZl7M
+X-Google-Smtp-Source: AGHT+IF7gYSRSgFnmvZbN8Sg/iKDWrjC4V2sEN4Xs32FEwOFa5t+zuTqO26wAtymrMcBJ8ADa8s0+w==
+X-Received: by 2002:a17:90b:180d:b0:340:ad5e:cd with SMTP id 98e67ed59e1d1-34a7280cc32mr1502333a91.5.1765359814949;
+        Wed, 10 Dec 2025 01:43:34 -0800 (PST)
+Received: from localhost.localdomain ([38.134.139.135])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-34a47bb279fsm2597892a91.1.2025.12.10.01.43.32
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 10 Dec 2025 00:49:51 -0800 (PST)
-From: Arjun Changla <arjunchangla7@gmail.com>
+        Wed, 10 Dec 2025 01:43:34 -0800 (PST)
+From: Dharanitharan R <dharanitharan725@gmail.com>
 To: gregkh@linuxfoundation.org
-Cc: straube.linux@gmail.com,
-	linux-staging@lists.linux.dev,
+Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
-	Arjun Changla <arjunchangla7@gmail.com>
-Subject: [PATCH] staging: rtl8723bs: remove trailing whitespace
-Date: Wed, 10 Dec 2025 08:49:15 +0000
-Message-ID: <20251210084916.4000-1-arjunchangla7@gmail.com>
+	david.laight.linux@gmail.com,
+	dharanitharan725@gmail.com
+Subject: [PATCH v3] staging: vme_user: simplify bus number allocation using ffz()
+Date: Wed, 10 Dec 2025 09:42:08 +0000
+Message-ID: <20251210094207.33671-2-dharanitharan725@gmail.com>
 X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
@@ -75,26 +74,61 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Fix checkpatch error by removing trailing whitespace at line 2021.
+David Laight pointed out that the loop in vme_register_bridge()
+is effectively searching for the first zero bit in vme_bus_numbers.
+Add a check for vme_bus_numbers == ~0UL before calling ffz().
 
-Signed-off-by: Arjun Changla <arjunchangla7@gmail.com>
+Replace the manual loop with ffz() and use BIT(n) for consistency.
+
+Suggested-by: David Laight <david.laight.linux@gmail.com>
+Signed-off-by: Dharanitharan R <dharanitharan725@gmail.com>
 ---
- drivers/staging/rtl8723bs/core/rtw_mlme.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/staging/vme_user/vme.c | 15 +++++++++++++----------
+ 1 file changed, 13 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme.c b/drivers/staging/rtl8723bs/core/rtw_mlme.c
-index 98704179ad35..ff4e668f199c 100644
---- a/drivers/staging/rtl8723bs/core/rtw_mlme.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_mlme.c
-@@ -2018,7 +2018,7 @@ int rtw_restruct_wmm_ie(struct adapter *adapter, u8 *in_ie, u8 *out_ie, uint in_
- 	return ielength;
- }
+diff --git a/drivers/staging/vme_user/vme.c b/drivers/staging/vme_user/vme.c
+index 2095de72596a..45381e677475 100644
+--- a/drivers/staging/vme_user/vme.c
++++ b/drivers/staging/vme_user/vme.c
+@@ -1765,16 +1765,19 @@ int vme_register_bridge(struct vme_bridge *bridge)
+ 	int ret = -1;
  
--/* Ported from 8185: IsInPreAuthKeyList(). 
-+/* Ported from 8185: IsInPreAuthKeyList().
-  * (Renamed from SecIsInPreAuthKeyList(), 2006-10-13.)
-  * Added by Annie, 2006-05-07.
-  *
+ 	mutex_lock(&vme_buses_lock);
+-	for (i = 0; i < sizeof(vme_bus_numbers) * 8; i++){
+-		if ((vme_bus_numbers & (1 << i)) == 0) {
+-			vme_bus_numbers |= (1 << i);
+-			bridge->num = i;
+-			INIT_LIST_HEAD(&bridge->devices);
+-			list_add_tail(&bridge->bus_list, &vme_bus_list);
+-			ret = 0;
+-			break;
+-		}
++	/* Ensure we have a free slot before using ffz() */
++	if (vme_bus_numbers == ~0UL)
++		goto out;   /* No free bus number */
++
++	/* Find the first clear bit */
++	i = ffz(vme_bus_numbers);
++
++	vme_bus_numbers |= BIT(i);
++	bridge->num = i;
++	INIT_LIST_HEAD(&bridge->devices);
++	list_add_tail(&bridge->bus_list, &vme_bus_list);
++	ret = 0;
++
++out:
+ 	mutex_unlock(&vme_buses_lock);
+ 
+ 	return ret;
+@@ -1787,7 +1790,7 @@ void vme_unregister_bridge(struct vme_bridge *bridge)
+ 	struct vme_dev *tmp;
+ 
+ 	mutex_lock(&vme_buses_lock);
+-	vme_bus_numbers &= ~(1 << bridge->num);
++	vme_bus_numbers &= ~BIT(bridge->num);
+ 	list_for_each_entry_safe(vdev, tmp, &bridge->devices, bridge_list) {
+ 		list_del(&vdev->drv_list);
+ 		list_del(&vdev->bridge_list);
 -- 
 2.43.0
 
