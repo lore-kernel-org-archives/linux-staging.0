@@ -1,98 +1,105 @@
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C205239E9D
-	for <linux-staging@lists.linux.dev>; Wed, 10 Dec 2025 11:17:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60686285CB4
+	for <linux-staging@lists.linux.dev>; Thu, 11 Dec 2025 05:27:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765365469; cv=none; b=lHrVcf7G/gTPvU94Lo5h2XYTSXQ8q19WqUSQZeS8Fl+BjTmLgyJTVoHnNp4lDcDj/ra3u3wzHkgb3eUDiqY0MplsC5QXP+A3+4ui0vsptzF8wUybxHzkl4d2db8ig88Q8BItavdMrY1M4NNq5VeyiUPYjQpA56NgyuE+wIPdtv8=
+	t=1765430827; cv=none; b=lDXHJsjBlqjX5ZGQR4fMsIPNdvqbk9ASSKlrPCo//1JMG5zM3VsFhkJlTjBY035EHA7etkaYUngSbiewONYXUr+ArqpPj9r4o1haeBM/pOlKwXr9v100QacimxZxWIKchULoQK+XeUVCM4Jo6phtQb5GDSo3Tn/saeyBxDmcUoI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765365469; c=relaxed/simple;
-	bh=VhhskE+UrPrQZfzGKLnNT8yvDHfR+4/N3Neta1ivHII=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nzgPkMgE/MNg8VNiNX/a1KOEkofcBh7ZDOu7uZRSHJLIf9CvEmwLc8TktDvg4Z+Hi0fQ7wvqsUqdGRWMpxe46IgXTgFiEEQ6NdQiDWIaVRN+jHQayamZlva/FoFTgs5cu+fyNrtUB4pfpzJ67vykEnkcr9l2ByB0FDhTRbwFg6E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=RORu5OO8; arc=none smtp.client-ip=209.85.128.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1765430827; c=relaxed/simple;
+	bh=kwwU4P8Lw5MZyU9jOpxUXjd3N0RZwzFufYNIL83H7d0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=HDq2BBRFaD5w+dAQS0P35h/rd4eGpPDTxReqN2hLPIHLn+i3IsBk4PQ7NZWVqWETwDLX96p/7gw88X/bohM3roGfhNhVvEpCApNsM7argAXMSC86ngiMhRtVHYDrXMl38Bd6Fs1/MERr1xR1HWP3nDN8sft0LAUwYbZ5rfVsDvQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EM0ix/15; arc=none smtp.client-ip=209.85.216.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="RORu5OO8"
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-4779d47be12so60330095e9.2
-        for <linux-staging@lists.linux.dev>; Wed, 10 Dec 2025 03:17:47 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EM0ix/15"
+Received: by mail-pj1-f41.google.com with SMTP id 98e67ed59e1d1-343ee44d89aso641420a91.2
+        for <linux-staging@lists.linux.dev>; Wed, 10 Dec 2025 21:27:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1765365466; x=1765970266; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=tWMTnjoX007imdOqG+awD8ZozCQofkYnKJOG9L7fHGw=;
-        b=RORu5OO8tzYB3pqhKa14FKRyeoQcdPFMZcqaIeRDnQXm9fCDA3vFPgInZr9TkWM2Bp
-         mlYMuSEdk0DLCFB92Ci9TAhqJgcPSefxKO2z4yka1e1b6ZsSTwEbLFmiEHUgT7hrQ6Ve
-         qlwLxF2eQWS+tGnnqiUTgQxgdb4wm0IAUF1Up/WXhNIyno3i/4aJiJCtdUiwJzDPIh8S
-         bHaUtUx+PTkjXcn/4V75dzeNn2Zsjkd9gK/DqNqh5d1KNDihFrFzM/oBbiBGXhloH4HP
-         V3dz1MAzr6RtxL1Hb/XPcOHYlNMb1ROYg0r0dGSfYdrFrkzBtrm1v2+Y2zVAgVuLL+p9
-         t6zA==
+        d=gmail.com; s=20230601; t=1765430823; x=1766035623; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=4B1VSMVPR1C6GZoVVS5E6qY+3U167GtCSzdGbajzq7M=;
+        b=EM0ix/15qAgEoSw3e4jScwIwlq6EoTd6f4ED6fvCWVafw0sdjKK0MnL1twlfdiwhwG
+         lw+C8IMbqqAvtsuG2H0EVrLw1/KgWLdtweNFPggqmFKvYjFH507do3nyr+oUJ+TuW6Da
+         pdNPXK9vyNXEILRQHGCJMGo2QztTOuqZmu3sCgXBpfGIyvXYjBdDLFvtwI2gAZG0fyjP
+         /eUcQ1m5+M2rMyWd17h9NJuWseSmXMpIGW5SQjzF+fqOWyt7G8V1pA7mYJewTAz9Fnsf
+         jsWnarn4jsCbpR3m0R1zs+T8m6KigjL8MMUqMmtiRsjg1udqKeiw6s4jPWjn7QOC7nwY
+         HNUA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765365466; x=1765970266;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=tWMTnjoX007imdOqG+awD8ZozCQofkYnKJOG9L7fHGw=;
-        b=oC6yI9Fu8ykdxCvymgvNcqSmOlTJySkxu+aXttT0nMoPvDPzbeXtxi4fRRo4BPyU2W
-         y1JiQeSLl6cj/rJZvjkGJmThb6D4tlcZXQ1Szh+1fx18uN66mgC44KR1EOFCNVS90KEb
-         J6Ucl8YkRLd+v7o3PDkqEWkb5j4zgG47evNBnwK2XRmgN4dkEc27PCbwJZMDAN1dpmQK
-         tvgpaLZeV5FyHDdBrGMipkh0IzoNEKR8o3wWWdtYibsV3LE7HfzLIUiMCBagV85bpvlc
-         AIpvx1N1BRU6COE+BfKBim0iJeRXvR08FxOazpqiY5l8jhHRywVwDg+4CfMIeDPlYCxY
-         CbaA==
-X-Forwarded-Encrypted: i=1; AJvYcCXDmBXwkBebAzPJ0X7DVkbcvJkUis4jBp71GMiLmR1GFAlOKiv6Lar/md05a3Ao4m+AULjp5vZMzEQqp+GA@lists.linux.dev
-X-Gm-Message-State: AOJu0YwlEu8fMKfxQcO3PJNyCAsQK7uNVff0yLKwRYcr94Pn8rIJDadE
-	a7xkZH5ipl1rq0tZThYM3XVfBxeP/EgpYPizBJgCjgkjtCm28CZDqq4uKVMTzUn5ufk=
-X-Gm-Gg: AY/fxX508lfp7yZGGUih84rtqS2KiMiRaCI5eTN5PR3mq3t879V2SpcaAJT8qfB09ir
-	Ma1p8eEStstImEv67sXWw7U9tzNoMCz8dX5/9eMDS4yuYr3F+5NORUdUow1269ltjzzNu/bYxRf
-	o2PUlGTJU7jy53WdeLwYYzzoJmbQQTHVbU6L3kjy8Xyqia/VmVHiFYbXGXPCsQ0pJa7rvDlxL21
-	ggIOrkl32l1Tsz+/dRo1ZciHUP9y8tk/mowxfreXeItiYqS63BzcdaQq9pFm4CMXvGqJON30MjS
-	DLYz0+jPLJ+OD/WdpW5HTIFBz8mvAIFrrPhQLkFdJdaGATN7lj6J44FMpKUARqx2KExR/QfIUl1
-	2ZL/lGUr6zRa5wVWB1YZGfUzpI6+GzVXa3DsvMF4JAFT6nME02Tm5ayD5fr9FkQU8FE2xg3jOSA
-	Gvm0PrpALTA+VUxKEVVEs4OEYD8AA=
-X-Google-Smtp-Source: AGHT+IEkRitI5I6hXt/urNtM+ZX+S1SPKkUgxhsTnx2X1xj7hPM0gkF/kDMzUw20uPJaNdugGPHSXQ==
-X-Received: by 2002:a05:6000:2002:b0:42b:a40d:713d with SMTP id ffacd0b85a97d-42fa39d1d4bmr1813897f8f.21.1765365465633;
-        Wed, 10 Dec 2025 03:17:45 -0800 (PST)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-42f7d222478sm36672778f8f.20.2025.12.10.03.17.44
+        d=1e100.net; s=20230601; t=1765430823; x=1766035623;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=4B1VSMVPR1C6GZoVVS5E6qY+3U167GtCSzdGbajzq7M=;
+        b=OJFO3EYPutp5qgrCt3t0Mu8ilG3PQF7lmHuWXMKgUiTzBnLmtOGU/u3LJ+3Fnjn9oP
+         PG19EKpe8qW5u+0mCvGy6Tzhyh0b2bfBqiIPsyYwu5jwy+KQEncFievSHnNSWOj86IfY
+         95qZOSduiA3vMhrso6VLz3kTBdRfcH+tWsyL+82G+5JdLF2ZTRXEv9aybq4QyKLfqkgu
+         foETkv+vt4+EklyejLLJ9govK4hUvo/M92RWM6XN0zwg8ShN2KNw05xk2qfz6wkD8RS/
+         Ggmui6oIk4ZMHUJKVZzlwF9Cm0ovljxu17fHKr/+6hyttX6qZfeZ9fi8gj4M5tD3t62F
+         +wWA==
+X-Forwarded-Encrypted: i=1; AJvYcCVFyKgmcnkKeDbH3XiC3ZyY/eAWSZkMjAGSE98sb0j12Eg+J5TmRNYbPEOASFwgGX9KmRlXb+hMwPIu8d1X@lists.linux.dev
+X-Gm-Message-State: AOJu0YzvM9LHQSQJRGESt/YMu4F7ilda8KVLHjM1rbObVStLI5TuZLO6
+	a25e79OblmoIIqNLb/L0CycPBlaZ1CyeG+rMfm7AtkFoDMN1RRf1r7f7
+X-Gm-Gg: AY/fxX5dbWc3UEPUKPwz3rbX0+Mf6Jw7p5ChguHW3P0QCwQb+3N2hMupqUKUQyg07dY
+	Mk3C7DlY9hhrQsIWA9H5sjD9QyRmpA9nBXoZ91dk1YnIDKQjn3u4kNTsRWgJjAV90fYPB/KvWm7
+	DWb7x126XIBb6qWnJhPw0R6kJ/Oa6WuYf2HGWuqFV3rfR5F53whrHkNNtLUsW3mFuSraYc685g0
+	Uo3jAfbYzahKjuGeUKyFL6JeH+nxOc4TSDbsArG18ILjikDlrotHQ7GlKbxgmisU/Y4AS4rQqgf
+	7o3HOh1hYQS1T32y1uYEQyLjTTRCWNUrAPjwBgSBNxjSs6qilLzPa8+UhRO9UJEtTrzLu+y8qM0
+	LLGCO4ZU0khjSt8IJwaQC/aYMZeU9Q5LLzhRUnDa5wadEaYhMfdSt7UE3wrzrZ6sV3sk4wu25vg
+	P1L0c95499je4yOGseEFB0RCpizWh4
+X-Google-Smtp-Source: AGHT+IEgiV35Oco2tiCD6K79ILkKFXONEvzhj4i2bB5192dudF0Egw4s72j/Nd0K0uccWEnscaKwBw==
+X-Received: by 2002:a17:90b:4a88:b0:341:8ac7:24d3 with SMTP id 98e67ed59e1d1-34a72895d23mr4367080a91.34.1765430822964;
+        Wed, 10 Dec 2025 21:27:02 -0800 (PST)
+Received: from SIQOL-WIN-8.localdomain ([49.36.67.171])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-34a92733507sm640351a91.10.2025.12.10.21.26.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 10 Dec 2025 03:17:45 -0800 (PST)
-Date: Wed, 10 Dec 2025 14:17:41 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Dharanitharan R <dharanitharan725@gmail.com>
-Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org, david.laight.linux@gmail.com
-Subject: Re: [PATCH v3] staging: vme_user: simplify bus number allocation
- using ffz()
-Message-ID: <aTlW1VkhmvJAn8Hh@stanley.mountain>
-References: <20251210100023.33753-2-dharanitharan725@gmail.com>
+        Wed, 10 Dec 2025 21:27:02 -0800 (PST)
+From: Arjun Changla <arjunchangla7@gmail.com>
+To: hansg@kernel.org,
+	mchehab@kernel.org
+Cc: sakari.ailus@linux.intel.com,
+	gregkh@linuxfoundation.org,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Arjun Changla <arjunchangla7@gmail.com>
+Subject: [PATCH] staging: media: atomisp: fix trailing statement
+Date: Thu, 11 Dec 2025 05:26:51 +0000
+Message-ID: <20251211052652.3589-1-arjunchangla7@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251210100023.33753-2-dharanitharan725@gmail.com>
+Content-Transfer-Encoding: 8bit
 
-On Wed, Dec 10, 2025 at 10:00:24AM +0000, Dharanitharan R wrote:
-> David Laight pointed out that the loop in vme_register_bridge()
-> is effectively searching for the first zero bit in vme_bus_numbers.
-> Add a check for vme_bus_numbers == ~0UL before calling ffz().
-> 
-> Replace the manual loop with ffz() and use BIT(n) for consistency.
-> 
-> Suggested-by: David Laight <david.laight.linux@gmail.com>
-> Signed-off-by: Dharanitharan R <dharanitharan725@gmail.com>
-> ---
+Fix checkpatch error "trailing statements should be on next line"
+by moving the return statement to a new line.
 
-You need to write a change log here after the --- cut off line.
-https://staticthinking.wordpress.com/2022/07/27/how-to-send-a-v2-patch/
+Signed-off-by: Arjun Changla <arjunchangla7@gmail.com>
+---
+ .../atomisp/pci/isp/kernels/fc/fc_1.0/ia_css_formats.host.c    | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-This still doesn't apply.
-
-regards,
-dan carpenter
+diff --git a/drivers/staging/media/atomisp/pci/isp/kernels/fc/fc_1.0/ia_css_formats.host.c b/drivers/staging/media/atomisp/pci/isp/kernels/fc/fc_1.0/ia_css_formats.host.c
+index 6a10d3545278..e422cca55022 100644
+--- a/drivers/staging/media/atomisp/pci/isp/kernels/fc/fc_1.0/ia_css_formats.host.c
++++ b/drivers/staging/media/atomisp/pci/isp/kernels/fc/fc_1.0/ia_css_formats.host.c
+@@ -35,7 +35,8 @@ ia_css_formats_dump(
+     const struct sh_css_isp_formats_params *formats,
+     unsigned int level)
+ {
+-	if (!formats) return;
++	if (!formats)
++		return;
+ 	ia_css_debug_dtrace(level, "\t%-32s = %d\n",
+ 			    "video_full_range_flag", formats->video_full_range_flag);
+ }
+-- 
+2.43.0
 
