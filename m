@@ -1,181 +1,102 @@
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14AF7311C3D
-	for <linux-staging@lists.linux.dev>; Fri, 12 Dec 2025 09:09:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BE4030F7E8
+	for <linux-staging@lists.linux.dev>; Fri, 12 Dec 2025 09:23:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765530590; cv=none; b=VdfVmTgv8rKZVKyvBdF5MUG2X8H2MhDet7KoJ27i1EoyUWwqaILcawUbk3TtIFRQxNYofn27XbGWg0KKCMYjm3sbks8bSYQKAoOX7Qg9FBJ7CBhweLREbHnz03bUW09evg+oB0+82BcnrRblVcTSQ1uRwd8Ba76fNIVw7NkFf4k=
+	t=1765531431; cv=none; b=bebrsBhropkwJaxamtvWsV2phWQE5uahOWtlOYMLFQMRfBiyG0u5HMXOpOzGqfHasQ24xKARQWaziD7Sw0gkHgrNOUWSlADAMPpArwlLHxrcE/r3CJed+cWKTtnl8L/arEApSiJ3RBLQXaUxs6+4Y0L/XLLBPW/8BewAccURx1k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765530590; c=relaxed/simple;
-	bh=D3r6i/9NO+Z8npqC3z8MwA4TdeRf+4guQ8E3+jDRfts=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=g4kpnFarIhR51pvH4CoxOLEn9OCmsNx2E0GS2AyYie/I12tv1ZcprlkH2Y9rJ8wfENESUFn4POQTPqAtzW9mpBOVPxEzmQVLSZEcd8q7Or+7GTQ6KXLrOzKb/rZgJp0K92Up1cL5gU7mSvfoSI9ZETtdR31jyu3NXmXRh9+9XrE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=b8xFrEAl; arc=none smtp.client-ip=209.85.128.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1765531431; c=relaxed/simple;
+	bh=pUmu5YYgJZI53LKWuHsTZlhBNq17Yk013vZCURf+aRM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=kXKiR7MlKydOXGbtW8CanpwMHfkVTy8FOiFks9ptk0HLLMcIoAhF+kmVcsIlTZlEJqnnM+XVYBGSA3yphvyqFEhc6w3XzVZsPCfKFOiARC/1f9DeWbSBQ+sd4beB2W+94sib3ssH7oPUDs0SELJPOHmYXaCCaghORfgIuK0YrD4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=r2TO+7Gx; arc=none smtp.client-ip=209.85.221.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="b8xFrEAl"
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-477aa91e75dso1087885e9.3
-        for <linux-staging@lists.linux.dev>; Fri, 12 Dec 2025 01:09:45 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="r2TO+7Gx"
+Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-42e2e77f519so517064f8f.2
+        for <linux-staging@lists.linux.dev>; Fri, 12 Dec 2025 01:23:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1765530584; x=1766135384; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=Z0bywhy8b7lhxjwCitj4kHzqHoOqcr4/tmmb6FN4ugs=;
-        b=b8xFrEAl82qOWAcmOMSTHTKCmwwcmqDJEV0B0CCxWUUkTwHwAyKO5qg1cP2IgRe8xs
-         VuzOPrF16G946cZyzoSo+oB2exlwqzvHUrTbABJ3dSVjtNC9UTbV0LPYJvMLZhXnCe2V
-         zwjqjDy0tuS3gpmS6/RODHmeEkS8CA46wRpoEkOe+atsKT2yOn0RG1l0CuyocSEgbXce
-         KiX+pboQd2seN1QssmvdygZHZ7GFPECPEoFmTjgLPIZCWpYa1Hj11/ef5TPWC7Mj7uZb
-         u0fZ462nM0AXDb/Nicf8Xa5tu/4JVj5q8o3ZIgKj+qdoM+J9AsgqrLK25RjyZfaTlny6
-         2wIg==
+        d=linaro.org; s=google; t=1765531426; x=1766136226; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=bMc6iMu0ORBBPfwsIOc5/gxE4MTIOFMRwhH2GjIgDPw=;
+        b=r2TO+7Gxo02P9+j7GUHo8tegvWG/gA0yQ2coX3P3Pmg3s5uLZH3WcWswDqp8WI0+Sr
+         OrmZYmfgCkEy6qiguftnSO8ZwRiAa6Qf5N2qaadoXv+vNYkX8ktI36Sy+DFWXa86cux0
+         Db1QQa/SrnKHkotZohxE8715Gamnq2X8ZbdW6yLmZkwQgXVcSYUtUS/WYKVZmVewm4Vs
+         obdMxLpQ1t6LeJmKY9E4OVOOEIr4DGmgvcm10klK+VX9KWEeJ2QVl1WhyNAJVXsH9rgn
+         kdsSYu1xk9pKSsKx1WkYqkisyY7k8xem/lDaCZp6sCVCqRlaWU5ZPpnkwbbnXy+h4NVf
+         XmJA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765530584; x=1766135384;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Z0bywhy8b7lhxjwCitj4kHzqHoOqcr4/tmmb6FN4ugs=;
-        b=GtFdVmL/RuPa3B0ggr6DLymx+DS9dhan7K7cdgkhj5zt91V/0oXsI4OKZUuKujTugV
-         8aHkOGArBcXKDsi+I4s4iS4GFf0T9mcbuiEeYxGHRUvz8k/4kBBKx9E6zjdAOK3dXIji
-         GwEwm1FoSy+I3sBshQgjPbScgSgrHb8mnZPrpm7sKfL8xlE7iSELUTBfKKGICTn+rcLM
-         1ewlbv5rWO/MfQGMq1z4D87aT9DM/OOxSeQ3K69JTO/OJGazSohEo+HmOBhfCZeICIVK
-         Tpf9B8IKE0INcHeILHVPuYl1OHe+xBSVNySK3KY7XbTe3wbbhVYgfdgyN7E6cN6055hX
-         9d2w==
-X-Gm-Message-State: AOJu0YwVvlM8PW/qnz8OaIpQAGCidXrbCXYDa1Nqo9RVArHjJQtU4qHz
-	SX1A9rPBaOoNrPWc50nCZ0LkiHkNM2NSpHPP8ZCyUpF1A66g7Fny4C49
-X-Gm-Gg: AY/fxX5RF8I2fMKg8Xfhyzqgx9KaP+j/1bg40NHOjp0ZKoIswsUQqWCx1CLrZnVj9Am
-	HVHpXSTQEj3r7PKWT5Y3UaosfGOadNu4C8Z9F0N98DS0S9SvsWbYzw5lpNOVWlYpc1P2R7PEWN9
-	I5CECDNfBmOksgYl0SeVdWRdy20ucQQMS4ZquKKD5CSRB88Z6bJRBGGwEvHoLX/ljhGKkQDr7rX
-	WtAp8I8KiYkyB24ck2xq8MZuLcKKSmBcVNVXbeZdU2YotH5vQ1eDoqZO+wwFEIzaFUuPKPe+psT
-	+ViNDGHawAxb5k2LzLus9kzgFP9TNuCLHhFkCp2DYP/PtNYsyYaxlqk8gJayrzE1Aso6HMoVsR0
-	A42c7PmV7tN15S9Jbm3eY1Ei6MqNHGVbHmrh9AP2rX4Sb37gI92nOv3lYID5ioRQViUBYHowpGZ
-	EgBcTNJd770D8q2sJA9zU/XUT1nRrbdUk0QIoYKiiRHUAYZ7zLDuUFFM3U
-X-Google-Smtp-Source: AGHT+IGBXNFRXnl7TTmyc+Mpbg2I69mKInzMUHolOjpY480LxHY8Q9SSmMQGsanH5vxG1DT9j2vV7w==
-X-Received: by 2002:a05:600c:8b62:b0:471:1387:377e with SMTP id 5b1f17b1804b1-47a8f90f781mr8789955e9.6.1765530583578;
-        Fri, 12 Dec 2025 01:09:43 -0800 (PST)
-Received: from DESKTOP-5CG7AFG.localdomain ([149.3.87.76])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-47a8f8d9c6fsm21403645e9.11.2025.12.12.01.09.42
+        d=1e100.net; s=20230601; t=1765531426; x=1766136226;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=bMc6iMu0ORBBPfwsIOc5/gxE4MTIOFMRwhH2GjIgDPw=;
+        b=Y+jLUehQXKKFwdxcuKqdKImA8LZlsBk1DynA8Zjhb4IKLWMeiOhcd2rl9sxHH+5yaA
+         ZNS0dMnNVdaHwQBzyeXLE11URa1Y1+TtHClhNupk7H+PNpitdNK5GLF9u1wDzTB0eu9m
+         TwZQ9fUSWx5NeOEGXD3VLCQSuwruTtz/DrtYunAJqykvhy08l/6lKVUNkKchuzPDBcJm
+         fMvdU0K7lIGm18nDb6anNF7mdVAS+6s2l4NERDZqsf6YAh/+aYlhfL0ArdQSN1JqiZmg
+         VYVUpAeOpGXBN7VD8HmF/6M+rLxmMnqeSkE7md0uO5JVKOUA1WSflsmg+rRzHq64jnYR
+         1koA==
+X-Forwarded-Encrypted: i=1; AJvYcCWVu5pk4Lxp+NebG0DnaXDemzHuOgjmvb0Y1m+c6QcZXeJm7/JQSUzCTQWF3aGtJ1h4YhRtwSbCqOio+5+i@lists.linux.dev
+X-Gm-Message-State: AOJu0YyGZY0KtPxZ59izc74wa1ingjZCmvaINV3MVNTP0aRE2BA8FtRX
+	FLawIykCQLQ1QERTjRa9mwc76ArhI8bXCBhR8VlPOYYF39wEjeFop+iaIwjAc529w3OfcurmmQK
+	eJ9Zj
+X-Gm-Gg: AY/fxX7T2yP84dslZNBTPk4CvWkNErNGtELw+V66R8LGpb6UMFHFaMOGZAFYF4e/9YU
+	LJBEUV0FOWF0aXQIcpjrm2zeGDuw+wLBsMGsZZQwvQ5lFZd0yx/EQWj0b6JyUGoVE9FffztbEVt
+	YeL9FXcK+lyePrG7dc01Tj8G9cB+CxnYSDIhI4Yni0q/d5zs497h3Q0ItXirdyZwXX94wW1Kiju
+	m4TSGbhVNX3NnMRvZK9pGb5P0tu4Uzne5YoyQ/I3AtQir5aQMF87LXPCnw2EwR9Go2xLn7RgPug
+	c7cJQ1S+DEr1YoGOekWBZ6nIRvv8d1E1eXJC1V6T+A+9CzkzStDioMtD2ha9qOesRlx6lvqMMbG
+	4/9rOOmpeGx0tdS6VeBM0c2iS+kbD5feDtDaxZ4MLzDxbTqRgJPlmOJMOXy9tUmLucBkY7CPJZz
+	7e7yZ+uTqkNg3kJsFXNxaa1GfZLQc=
+X-Google-Smtp-Source: AGHT+IGyGi6GtcanElUSbdpdBuCTCLxzjBEe65AwAMydnmnIMqK4IYKr9EV/HpJTdhOxZ7j6PM+wSQ==
+X-Received: by 2002:a05:6000:2401:b0:42f:b219:2f2 with SMTP id ffacd0b85a97d-42fb44bc2a6mr1461470f8f.25.1765531426398;
+        Fri, 12 Dec 2025 01:23:46 -0800 (PST)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-42fa8a6fd62sm11842098f8f.10.2025.12.12.01.23.45
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 12 Dec 2025 01:09:43 -0800 (PST)
-From: Giorgi Tchankvetadze <giorgitchankvetadze1997@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Giorgi Tchankvetadze <giorgitchankvetadze1997@gmail.com>
-Subject: [PATCH] staging: rtl8723bs: fix memory leaks on rtw_enqueue_cmd() failure
-Date: Fri, 12 Dec 2025 13:09:21 +0400
-Message-ID: <20251212090920.84238-2-giorgitchankvetadze1997@gmail.com>
-X-Mailer: git-send-email 2.47.3
+        Fri, 12 Dec 2025 01:23:45 -0800 (PST)
+Date: Fri, 12 Dec 2025 12:23:42 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Giorgi Tchankvetadze <giorgitchankvetadze1997@gmail.com>
+Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] staging: rtl8723bs: fix memory leaks on
+ rtw_enqueue_cmd() failure
+Message-ID: <aTvfHr0E7X4fU6HD@stanley.mountain>
+References: <20251212090920.84238-2-giorgitchankvetadze1997@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251212090920.84238-2-giorgitchankvetadze1997@gmail.com>
 
-Add error handling for rtw_enqueue_cmd() failures in multiple event
-reporting functions.
+On Fri, Dec 12, 2025 at 01:09:21PM +0400, Giorgi Tchankvetadze wrote:
+> Add error handling for rtw_enqueue_cmd() failures in multiple event
+> reporting functions.
+> 
+> When rtw_enqueue_cmd() fails to enqueue a command, the allocated memory
+> for the command object and its parameter buffer is not freed, causing
+> memory leaks. Add proper error checks and free the allocated memory on
+> failure in report_survey_event(), report_surveydone_event(),
+> report_join_res(), report_wmm_edca_update(), report_del_sta_event(),
+> report_add_sta_event(), and survey_timer_hdl().
+> 
+> Signed-off-by: Giorgi Tchankvetadze <giorgitchankvetadze1997@gmail.com>
 
-When rtw_enqueue_cmd() fails to enqueue a command, the allocated memory
-for the command object and its parameter buffer is not freed, causing
-memory leaks. Add proper error checks and free the allocated memory on
-failure in report_survey_event(), report_surveydone_event(),
-report_join_res(), report_wmm_edca_update(), report_del_sta_event(),
-report_add_sta_event(), and survey_timer_hdl().
+What?  The patch is apparently against a tree that doesn't exist and it
+just messes up the indenting.
 
-Signed-off-by: Giorgi Tchankvetadze <giorgitchankvetadze1997@gmail.com>
----
- drivers/staging/rtl8723bs/core/rtw_mlme_ext.c | 34 +++++++++----------
- 1 file changed, 17 insertions(+), 17 deletions(-)
+I've reviewed some of your other emails to LMKL and I'm wondering if
+you're doing AI stuff or something?  What's going on?
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-index f0e3f5568..f0831d582 100644
---- a/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_mlme_ext.c
-@@ -4431,10 +4431,10 @@ void report_survey_event(struct adapter *padapter, union recv_frame *precv_frame
- 	process_80211d(padapter, &psurvey_evt->bss);
- 
- 	if (rtw_enqueue_cmd(pcmdpriv, pcmd_obj) == _FAIL) {
--	kfree(pcmd_obj);
--	kfree(pevtcmd);
-+		kfree(pcmd_obj);
-+		kfree(pevtcmd);
- 	return;
--	}
-+			}
- 
- 	pmlmeext->sitesurvey_res.bss_cnt++;
- 
-@@ -4481,8 +4481,8 @@ void report_surveydone_event(struct adapter *padapter)
- 	psurveydone_evt->bss_cnt = pmlmeext->sitesurvey_res.bss_cnt;
- 
- 	if (rtw_enqueue_cmd(pcmdpriv, pcmd_obj) == _FAIL) {
--	kfree(pcmd_obj);
--	kfree(pevtcmd);
-+		kfree(pcmd_obj);
-+		kfree(pevtcmd);
- 	}
- 
- 	return;
-@@ -4534,8 +4534,8 @@ void report_join_res(struct adapter *padapter, int res)
- 
- 
- 	if (rtw_enqueue_cmd(pcmdpriv, pcmd_obj) == _FAIL) {
--	kfree(pcmd_obj);
--	kfree(pevtcmd);
-+		kfree(pcmd_obj);
-+		kfree(pevtcmd);
- 	}
- 
- 	return;
-@@ -4581,8 +4581,8 @@ void report_wmm_edca_update(struct adapter *padapter)
- 	pwmm_event->wmm = 0;
- 
- 	if (rtw_enqueue_cmd(pcmdpriv, pcmd_obj) == _FAIL) {
--	kfree(pcmd_obj);
--	kfree(pevtcmd);
-+		kfree(pcmd_obj);
-+		kfree(pevtcmd);
- 	}
- 
- 	return;
-@@ -4640,9 +4640,9 @@ void report_del_sta_event(struct adapter *padapter, unsigned char *MacAddr, unsi
- 	pdel_sta_evt->mac_id = mac_id;
- 
- 	if (rtw_enqueue_cmd(pcmdpriv, pcmd_obj) == _FAIL) {
--	kfree(pcmd_obj);
--	kfree(pevtcmd);
-- }
-+		kfree(pcmd_obj);
-+		kfree(pevtcmd);
-+	}
- }
- 
- void report_add_sta_event(struct adapter *padapter, unsigned char *MacAddr, int cam_idx)
-@@ -4685,9 +4685,9 @@ void report_add_sta_event(struct adapter *padapter, unsigned char *MacAddr, int
- 	padd_sta_evt->cam_id = cam_idx;
- 
- 	if (rtw_enqueue_cmd(pcmdpriv, pcmd_obj) == _FAIL) {
--	kfree(pcmd_obj);
--	kfree(pevtcmd);
-- }
-+		kfree(pcmd_obj);
-+		kfree(pevtcmd);
-+	}
- }
- 
- /* Following are the event callback functions */
-@@ -5116,8 +5116,8 @@ void survey_timer_hdl(struct timer_list *t)
- 
- 		init_h2fwcmd_w_parm_no_rsp(ph2c, psurveyPara, GEN_CMD_CODE(_SiteSurvey));
- 		if (rtw_enqueue_cmd(pcmdpriv, ph2c) == _FAIL) {
--	kfree(ph2c);
--	kfree(psurveyPara);
-+			kfree(ph2c);
-+			kfree(psurveyPara);
- 	}
- 	}
- }
--- 
-2.47.3
+regards,
+dan carpenter
 
