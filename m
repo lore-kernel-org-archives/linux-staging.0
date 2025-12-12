@@ -1,102 +1,127 @@
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+Received: from mail-yx1-f52.google.com (mail-yx1-f52.google.com [74.125.224.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BE4030F7E8
-	for <linux-staging@lists.linux.dev>; Fri, 12 Dec 2025 09:23:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 673E03112D3
+	for <linux-staging@lists.linux.dev>; Fri, 12 Dec 2025 09:50:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765531431; cv=none; b=bebrsBhropkwJaxamtvWsV2phWQE5uahOWtlOYMLFQMRfBiyG0u5HMXOpOzGqfHasQ24xKARQWaziD7Sw0gkHgrNOUWSlADAMPpArwlLHxrcE/r3CJed+cWKTtnl8L/arEApSiJ3RBLQXaUxs6+4Y0L/XLLBPW/8BewAccURx1k=
+	t=1765533045; cv=none; b=ESvaiiHwIiJn1HeQpvtsPM8wXClg+6yfzcjTRXuuHpRjHEuIkbWKS0KMoM83WeWnXtvCGw46Dm4YKnwpW+8sVMsGrKGWlEfN0paHIo4ysssEd7N9793+o73x+AC4ht5vaoGlCf4cy4lZcFm0nynswaDXDUBGi/3fLBFCysLOFWQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765531431; c=relaxed/simple;
-	bh=pUmu5YYgJZI53LKWuHsTZlhBNq17Yk013vZCURf+aRM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kXKiR7MlKydOXGbtW8CanpwMHfkVTy8FOiFks9ptk0HLLMcIoAhF+kmVcsIlTZlEJqnnM+XVYBGSA3yphvyqFEhc6w3XzVZsPCfKFOiARC/1f9DeWbSBQ+sd4beB2W+94sib3ssH7oPUDs0SELJPOHmYXaCCaghORfgIuK0YrD4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=r2TO+7Gx; arc=none smtp.client-ip=209.85.221.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1765533045; c=relaxed/simple;
+	bh=Q6R7/LJ8zN96Z9uFUAuuFcpse6J/q1bTrJoyH/sft70=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=qLwShePrNpaeHhd7P6bbGdLvIQMoO0BNbuGUb8UJwssy8mSGW/4QjSu/AADu3SEE03lxwd8oNJ0fHWU0clru9jNjJct1Ce+bDOC4vbKBCPpveN2rBW5sKecHf/YgFLCt2FzGOnuYKiId4r7xbjA6/tipASLza9ZtEE1/Xt0wFoE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hOInAzOA; arc=none smtp.client-ip=74.125.224.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="r2TO+7Gx"
-Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-42e2e77f519so517064f8f.2
-        for <linux-staging@lists.linux.dev>; Fri, 12 Dec 2025 01:23:48 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hOInAzOA"
+Received: by mail-yx1-f52.google.com with SMTP id 956f58d0204a3-640fc308153so129576d50.1
+        for <linux-staging@lists.linux.dev>; Fri, 12 Dec 2025 01:50:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1765531426; x=1766136226; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=bMc6iMu0ORBBPfwsIOc5/gxE4MTIOFMRwhH2GjIgDPw=;
-        b=r2TO+7Gxo02P9+j7GUHo8tegvWG/gA0yQ2coX3P3Pmg3s5uLZH3WcWswDqp8WI0+Sr
-         OrmZYmfgCkEy6qiguftnSO8ZwRiAa6Qf5N2qaadoXv+vNYkX8ktI36Sy+DFWXa86cux0
-         Db1QQa/SrnKHkotZohxE8715Gamnq2X8ZbdW6yLmZkwQgXVcSYUtUS/WYKVZmVewm4Vs
-         obdMxLpQ1t6LeJmKY9E4OVOOEIr4DGmgvcm10klK+VX9KWEeJ2QVl1WhyNAJVXsH9rgn
-         kdsSYu1xk9pKSsKx1WkYqkisyY7k8xem/lDaCZp6sCVCqRlaWU5ZPpnkwbbnXy+h4NVf
-         XmJA==
+        d=gmail.com; s=20230601; t=1765533042; x=1766137842; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ZJbqM2O24wxnRn0NUgw4kPPlQVrLrutYAh9dEvpykuo=;
+        b=hOInAzOANggJmuvr/3NmWQX6GYM/VBdzvaQqDmlEm9vOJnsfSZBJYw3LrmuPcY3mzi
+         PnimJlUWQjbXQOj5n1Lf6qNiNvLuHqbhe8/39M1auasytH7exYdTsEay7Wy/5FAsyFrA
+         bTsIm9vYQlai9euMepVOa0u47HIf9seQzQUb8We4+ZYx4Eea/5hCdMXdYUpSElvwtz1I
+         fzumBnzlLtb5DEgKw/ft1NDx/p1mmW6zWS70jOoNHCe9vc66CnMRfyaeEs7WwuKX8oMn
+         +d+3vtc7qvL9q8ufnJDWbmCz2y2//WvAjJoyJJ2lUTMGPKLuNNrVFaJYsjElcluqtULm
+         ZIiQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765531426; x=1766136226;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=bMc6iMu0ORBBPfwsIOc5/gxE4MTIOFMRwhH2GjIgDPw=;
-        b=Y+jLUehQXKKFwdxcuKqdKImA8LZlsBk1DynA8Zjhb4IKLWMeiOhcd2rl9sxHH+5yaA
-         ZNS0dMnNVdaHwQBzyeXLE11URa1Y1+TtHClhNupk7H+PNpitdNK5GLF9u1wDzTB0eu9m
-         TwZQ9fUSWx5NeOEGXD3VLCQSuwruTtz/DrtYunAJqykvhy08l/6lKVUNkKchuzPDBcJm
-         fMvdU0K7lIGm18nDb6anNF7mdVAS+6s2l4NERDZqsf6YAh/+aYlhfL0ArdQSN1JqiZmg
-         VYVUpAeOpGXBN7VD8HmF/6M+rLxmMnqeSkE7md0uO5JVKOUA1WSflsmg+rRzHq64jnYR
-         1koA==
-X-Forwarded-Encrypted: i=1; AJvYcCWVu5pk4Lxp+NebG0DnaXDemzHuOgjmvb0Y1m+c6QcZXeJm7/JQSUzCTQWF3aGtJ1h4YhRtwSbCqOio+5+i@lists.linux.dev
-X-Gm-Message-State: AOJu0YyGZY0KtPxZ59izc74wa1ingjZCmvaINV3MVNTP0aRE2BA8FtRX
-	FLawIykCQLQ1QERTjRa9mwc76ArhI8bXCBhR8VlPOYYF39wEjeFop+iaIwjAc529w3OfcurmmQK
-	eJ9Zj
-X-Gm-Gg: AY/fxX7T2yP84dslZNBTPk4CvWkNErNGtELw+V66R8LGpb6UMFHFaMOGZAFYF4e/9YU
-	LJBEUV0FOWF0aXQIcpjrm2zeGDuw+wLBsMGsZZQwvQ5lFZd0yx/EQWj0b6JyUGoVE9FffztbEVt
-	YeL9FXcK+lyePrG7dc01Tj8G9cB+CxnYSDIhI4Yni0q/d5zs497h3Q0ItXirdyZwXX94wW1Kiju
-	m4TSGbhVNX3NnMRvZK9pGb5P0tu4Uzne5YoyQ/I3AtQir5aQMF87LXPCnw2EwR9Go2xLn7RgPug
-	c7cJQ1S+DEr1YoGOekWBZ6nIRvv8d1E1eXJC1V6T+A+9CzkzStDioMtD2ha9qOesRlx6lvqMMbG
-	4/9rOOmpeGx0tdS6VeBM0c2iS+kbD5feDtDaxZ4MLzDxbTqRgJPlmOJMOXy9tUmLucBkY7CPJZz
-	7e7yZ+uTqkNg3kJsFXNxaa1GfZLQc=
-X-Google-Smtp-Source: AGHT+IGyGi6GtcanElUSbdpdBuCTCLxzjBEe65AwAMydnmnIMqK4IYKr9EV/HpJTdhOxZ7j6PM+wSQ==
-X-Received: by 2002:a05:6000:2401:b0:42f:b219:2f2 with SMTP id ffacd0b85a97d-42fb44bc2a6mr1461470f8f.25.1765531426398;
-        Fri, 12 Dec 2025 01:23:46 -0800 (PST)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-42fa8a6fd62sm11842098f8f.10.2025.12.12.01.23.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 12 Dec 2025 01:23:45 -0800 (PST)
-Date: Fri, 12 Dec 2025 12:23:42 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Giorgi Tchankvetadze <giorgitchankvetadze1997@gmail.com>
-Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: rtl8723bs: fix memory leaks on
- rtw_enqueue_cmd() failure
-Message-ID: <aTvfHr0E7X4fU6HD@stanley.mountain>
-References: <20251212090920.84238-2-giorgitchankvetadze1997@gmail.com>
+        d=1e100.net; s=20230601; t=1765533042; x=1766137842;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=ZJbqM2O24wxnRn0NUgw4kPPlQVrLrutYAh9dEvpykuo=;
+        b=gED0am2AaFoH5suxNCvswreIggfT+023fUEOwaVr1PcWq7GqnvBvK6piHobkF/gfzh
+         ZoT0pOoloRKulnjPEXi29cLBZdiCwMYxo+/jXeRFLO/Pb3kkBHvo3fMhvSiGxuezq02Y
+         TEJEDHWjlx9pghazVjy9zmIKBzJ68OCqImADHMI/GdapXAoa/0hu7o6VhzQgXyMP6KMY
+         sAVOskNRNeGikt++kD8bbdAYX/jNbtVb+3iufb/a2noE5tqBIxpFqYaV9CkbqQk6WD3E
+         W6Mx8tY1StiKkk7cgjRSdEP9AZREnf1UnQEz8+emkUPlwr2jxgAjfUPbZ1tvnC1A6k2O
+         vk7w==
+X-Forwarded-Encrypted: i=1; AJvYcCWHOnH4aokX9TK7FxJIW8t2qD/Qdf2fxra8NKc04gk2Wo9Zir+GRyDDZ4YrLwqYogbyZ9kcGwLTNC8WV/pj@lists.linux.dev
+X-Gm-Message-State: AOJu0Yyhj+7ElAelIqTHtFZqZStjUbfLaejH/i/Wv7rnP3xPZJjdcYlX
+	CEJPwHo9sAfGiZ2ePF23AAjIpYI1APfyjfCFBPyKD/LhvbSQ1gHQQ7Zt6aC9R5Og/YpvuXXqUxW
+	WVZkEsuX37UWiA2847OMi510TLpK8gCo=
+X-Gm-Gg: AY/fxX6nY8QGNZIgwuuBbeSIMnZBMCTfxzggXKuRlo7va52Kb/SBLh6pH9feoW3uC1Y
+	C44dD3Z2LSietJe+Ko5fjotV/rXOHEQuKx5VbnFUIyFKtWZaOoYR7cPoqnBWapMNhWNtk0IA/mP
+	bnuJ1NOdfhjFsdZPts7LW3OyIVUDvM36SEt1hSfNJD4idFIZarq1nzytLDO7UwgQpkfSoGfvMrj
+	WvEeliEzrMO8Hu0nIyGDnH2dYou4wWdoc1PCHIQfZBAodI2y47C98bD3ubiyiZB3jQ2
+X-Google-Smtp-Source: AGHT+IEkQw4T7cGHNDMCb6WlmOsv+OiKicIlwgH//zcmfSe6IuSvE8mJjQi9FCFccuFFVDtQsDhNp+0zJIV55FyH4Tg=
+X-Received: by 2002:a05:690e:190a:b0:63f:aa52:8994 with SMTP id
+ 956f58d0204a3-645555ce2c6mr856076d50.1.1765533042456; Fri, 12 Dec 2025
+ 01:50:42 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251212090920.84238-2-giorgitchankvetadze1997@gmail.com>
+References: <20251212090920.84238-2-giorgitchankvetadze1997@gmail.com> <aTvfHr0E7X4fU6HD@stanley.mountain>
+In-Reply-To: <aTvfHr0E7X4fU6HD@stanley.mountain>
+From: Giorgi Tchankvetadze <giorgitchankvetadze1997@gmail.com>
+Date: Fri, 12 Dec 2025 13:50:31 +0400
+X-Gm-Features: AQt7F2r-ZGAX5rtcRfnn6ZSr5DEuc0fiZmJMxXR7ZCB-Uwx-ylihHHqPrIlFioU
+Message-ID: <CAE7dp2qUu3R7y=5Y14ih7Kv54M11FqczpWN--09v9i_iJY5ckA@mail.gmail.com>
+Subject: Re: [PATCH] staging: rtl8723bs: fix memory leaks on rtw_enqueue_cmd() failure
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, Dec 12, 2025 at 01:09:21PM +0400, Giorgi Tchankvetadze wrote:
-> Add error handling for rtw_enqueue_cmd() failures in multiple event
-> reporting functions.
-> 
-> When rtw_enqueue_cmd() fails to enqueue a command, the allocated memory
-> for the command object and its parameter buffer is not freed, causing
-> memory leaks. Add proper error checks and free the allocated memory on
-> failure in report_survey_event(), report_surveydone_event(),
-> report_join_res(), report_wmm_edca_update(), report_del_sta_event(),
-> report_add_sta_event(), and survey_timer_hdl().
-> 
-> Signed-off-by: Giorgi Tchankvetadze <giorgitchankvetadze1997@gmail.com>
+Hi Dan,
 
-What?  The patch is apparently against a tree that doesn't exist and it
-just messes up the indenting.
+Thank you for catching this. You're absolutely right and I was in the
+process of fixing it by the time you mailed me.
+The patch is broken due to a workflow error on my side. I made the
+code changes first, then tried to fix indentation in a subsequent edit
+on the same branch. This caused git to think the if statements already
+existed and only show whitespace changes.
 
-I've reviewed some of your other emails to LMKL and I'm wondering if
-you're doing AI stuff or something?  What's going on?
+The actual intent was to change:
+    rtw_enqueue_cmd(pcmdpriv, pcmd_obj);  <<<<<<<<<<<<<< (ORIGINAL )
 
-regards,
-dan carpenter
+To:
+    if (rtw_enqueue_cmd(pcmdpriv, pcmd_obj) =3D=3D _FAIL) {
+        kfree(pcmd_obj);
+        kfree(pevtcmd);
+    }
 
+
+I will resend v2 from a clean master branch with the changes applied
+correctly in a single commit.
+
+Apologies for the noise.
+
+Best regards,
+Giorgi
+
+On Fri, Dec 12, 2025 at 1:23=E2=80=AFPM Dan Carpenter <dan.carpenter@linaro=
+.org> wrote:
+>
+> On Fri, Dec 12, 2025 at 01:09:21PM +0400, Giorgi Tchankvetadze wrote:
+> > Add error handling for rtw_enqueue_cmd() failures in multiple event
+> > reporting functions.
+> >
+> > When rtw_enqueue_cmd() fails to enqueue a command, the allocated memory
+> > for the command object and its parameter buffer is not freed, causing
+> > memory leaks. Add proper error checks and free the allocated memory on
+> > failure in report_survey_event(), report_surveydone_event(),
+> > report_join_res(), report_wmm_edca_update(), report_del_sta_event(),
+> > report_add_sta_event(), and survey_timer_hdl().
+> >
+> > Signed-off-by: Giorgi Tchankvetadze <giorgitchankvetadze1997@gmail.com>
+>
+> What?  The patch is apparently against a tree that doesn't exist and it
+> just messes up the indenting.
+>
+> I've reviewed some of your other emails to LMKL and I'm wondering if
+> you're doing AI stuff or something?  What's going on?
+>
+> regards,
+> dan carpenter
+>
