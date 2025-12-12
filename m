@@ -1,127 +1,149 @@
-Received: from mail-yx1-f52.google.com (mail-yx1-f52.google.com [74.125.224.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail-gw02.astralinux.ru (mail-gw02.astralinux.ru [93.188.205.243])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 673E03112D3
-	for <linux-staging@lists.linux.dev>; Fri, 12 Dec 2025 09:50:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56A1829A2
+	for <linux-staging@lists.linux.dev>; Fri, 12 Dec 2025 12:45:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=93.188.205.243
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765533045; cv=none; b=ESvaiiHwIiJn1HeQpvtsPM8wXClg+6yfzcjTRXuuHpRjHEuIkbWKS0KMoM83WeWnXtvCGw46Dm4YKnwpW+8sVMsGrKGWlEfN0paHIo4ysssEd7N9793+o73x+AC4ht5vaoGlCf4cy4lZcFm0nynswaDXDUBGi/3fLBFCysLOFWQ=
+	t=1765543533; cv=none; b=HCLyn1oJdl9VGK3UJRRA+GvCvr0MG7Mj7fIG8kRzDbEflC6u0iSklL20UKqa8VAHSPdl9mUdiSfS2kwd1BB2HDKJUYrnM1HJT71zTCDE8FwrU17cYSN6mKHL7qJgV32V0ctEoGiLQbcgJvzEpkY0niv31hKBT7aWhOUcrqkLwTY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765533045; c=relaxed/simple;
-	bh=Q6R7/LJ8zN96Z9uFUAuuFcpse6J/q1bTrJoyH/sft70=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=qLwShePrNpaeHhd7P6bbGdLvIQMoO0BNbuGUb8UJwssy8mSGW/4QjSu/AADu3SEE03lxwd8oNJ0fHWU0clru9jNjJct1Ce+bDOC4vbKBCPpveN2rBW5sKecHf/YgFLCt2FzGOnuYKiId4r7xbjA6/tipASLza9ZtEE1/Xt0wFoE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hOInAzOA; arc=none smtp.client-ip=74.125.224.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1765543533; c=relaxed/simple;
+	bh=CQgIr5eFzozroxxTWjH25swNTkG1KEut38JnPYbwLvc=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=bQirzGIL4/TUSBoaOqMmBHVw8ii7UD6SV8un7p0zX3zfbiWnF35kSBb4BKDPGmrgxSL3FXp87w3jx6MCifc6mDTAAxj6FkZlBasZDrcRr90ufMf8quvuyqroKMahbyMu6bX6wDxGvu1CrZTx6TMpj/k8b0FjdEZSafKzGR1t2RU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=astralinux.ru; spf=pass smtp.mailfrom=astralinux.ru; dkim=pass (2048-bit key) header.d=astralinux.ru header.i=@astralinux.ru header.b=ns+NP5c8; arc=none smtp.client-ip=93.188.205.243
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=astralinux.ru
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=astralinux.ru
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hOInAzOA"
-Received: by mail-yx1-f52.google.com with SMTP id 956f58d0204a3-640fc308153so129576d50.1
-        for <linux-staging@lists.linux.dev>; Fri, 12 Dec 2025 01:50:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1765533042; x=1766137842; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ZJbqM2O24wxnRn0NUgw4kPPlQVrLrutYAh9dEvpykuo=;
-        b=hOInAzOANggJmuvr/3NmWQX6GYM/VBdzvaQqDmlEm9vOJnsfSZBJYw3LrmuPcY3mzi
-         PnimJlUWQjbXQOj5n1Lf6qNiNvLuHqbhe8/39M1auasytH7exYdTsEay7Wy/5FAsyFrA
-         bTsIm9vYQlai9euMepVOa0u47HIf9seQzQUb8We4+ZYx4Eea/5hCdMXdYUpSElvwtz1I
-         fzumBnzlLtb5DEgKw/ft1NDx/p1mmW6zWS70jOoNHCe9vc66CnMRfyaeEs7WwuKX8oMn
-         +d+3vtc7qvL9q8ufnJDWbmCz2y2//WvAjJoyJJ2lUTMGPKLuNNrVFaJYsjElcluqtULm
-         ZIiQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765533042; x=1766137842;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=ZJbqM2O24wxnRn0NUgw4kPPlQVrLrutYAh9dEvpykuo=;
-        b=gED0am2AaFoH5suxNCvswreIggfT+023fUEOwaVr1PcWq7GqnvBvK6piHobkF/gfzh
-         ZoT0pOoloRKulnjPEXi29cLBZdiCwMYxo+/jXeRFLO/Pb3kkBHvo3fMhvSiGxuezq02Y
-         TEJEDHWjlx9pghazVjy9zmIKBzJ68OCqImADHMI/GdapXAoa/0hu7o6VhzQgXyMP6KMY
-         sAVOskNRNeGikt++kD8bbdAYX/jNbtVb+3iufb/a2noE5tqBIxpFqYaV9CkbqQk6WD3E
-         W6Mx8tY1StiKkk7cgjRSdEP9AZREnf1UnQEz8+emkUPlwr2jxgAjfUPbZ1tvnC1A6k2O
-         vk7w==
-X-Forwarded-Encrypted: i=1; AJvYcCWHOnH4aokX9TK7FxJIW8t2qD/Qdf2fxra8NKc04gk2Wo9Zir+GRyDDZ4YrLwqYogbyZ9kcGwLTNC8WV/pj@lists.linux.dev
-X-Gm-Message-State: AOJu0Yyhj+7ElAelIqTHtFZqZStjUbfLaejH/i/Wv7rnP3xPZJjdcYlX
-	CEJPwHo9sAfGiZ2ePF23AAjIpYI1APfyjfCFBPyKD/LhvbSQ1gHQQ7Zt6aC9R5Og/YpvuXXqUxW
-	WVZkEsuX37UWiA2847OMi510TLpK8gCo=
-X-Gm-Gg: AY/fxX6nY8QGNZIgwuuBbeSIMnZBMCTfxzggXKuRlo7va52Kb/SBLh6pH9feoW3uC1Y
-	C44dD3Z2LSietJe+Ko5fjotV/rXOHEQuKx5VbnFUIyFKtWZaOoYR7cPoqnBWapMNhWNtk0IA/mP
-	bnuJ1NOdfhjFsdZPts7LW3OyIVUDvM36SEt1hSfNJD4idFIZarq1nzytLDO7UwgQpkfSoGfvMrj
-	WvEeliEzrMO8Hu0nIyGDnH2dYou4wWdoc1PCHIQfZBAodI2y47C98bD3ubiyiZB3jQ2
-X-Google-Smtp-Source: AGHT+IEkQw4T7cGHNDMCb6WlmOsv+OiKicIlwgH//zcmfSe6IuSvE8mJjQi9FCFccuFFVDtQsDhNp+0zJIV55FyH4Tg=
-X-Received: by 2002:a05:690e:190a:b0:63f:aa52:8994 with SMTP id
- 956f58d0204a3-645555ce2c6mr856076d50.1.1765533042456; Fri, 12 Dec 2025
- 01:50:42 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=astralinux.ru header.i=@astralinux.ru header.b="ns+NP5c8"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=astralinux.ru;
+	s=mail; t=1765543153;
+	bh=CQgIr5eFzozroxxTWjH25swNTkG1KEut38JnPYbwLvc=;
+	h=From:To:Cc:Subject:Date:From;
+	b=ns+NP5c8yEFWiJgo1lqJAn7dtCIE7wAocMSpXG4JCPcRaEhNv/CdWzut/DcrCQApR
+	 63Os41rf7vJv1aBqbdrX8W/rRpp2dbyhqq9oNgtZwWR8XCOHr0PSw1y+S07KIzwO0G
+	 TF6MVtGBFUqklZdJGhvbfM+WCwEETtDEcqomp4DISjeNNjLAj0J36+l7tn+voZDul2
+	 mP03xAYNv5fhQso9gvwsBQ7Z17z52rd1STWZZQL2YDE9TuJ3FP1wZv7+V/WcywCY+E
+	 Qmvec8JZ6FdJn3/BgAfWr63VwtApaqzGfxzNdp443QCwE+0/hqzYePrB2Kz3+FIdLH
+	 awNPCtRQflmsw==
+Received: from gca-msk-a-srv-ksmg01 (localhost [127.0.0.1])
+	by mail-gw02.astralinux.ru (Postfix) with ESMTP id 0D9A91FA17;
+	Fri, 12 Dec 2025 15:39:13 +0300 (MSK)
+Received: from new-mail.astralinux.ru (unknown [10.205.207.6])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mail-gw02.astralinux.ru (Postfix) with ESMTPS;
+	Fri, 12 Dec 2025 15:39:11 +0300 (MSK)
+Received: from rbta-msk-lt-169874.astralinux.ru.astracloud.ru (unknown [10.198.22.24])
+	by new-mail.astralinux.ru (Postfix) with ESMTPA id 4dSTXr6CVBzwPGy;
+	Fri, 12 Dec 2025 15:39:08 +0300 (MSK)
+From: Mikhail Dmitrichenko <mdmitrichenko@astralinux.ru>
+To: Hans de Goede <hansg@kernel.org>
+Cc: Mikhail Dmitrichenko <mdmitrichenko@astralinux.ru>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Andy Shevchenko <andy@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Peter Zijlstra (Intel)" <peterz@infradead.org>,
+	Thomas Andreatta <thomas.andreatta2000@gmail.com>,
+	Josh Poimboeuf <jpoimboe@kernel.org>,
+	Ingo Molnar <mingo@kernel.org>,
+	Alan Cox <alan@linux.intel.com>,
+	linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	lvc-project@linuxtesting.org
+Subject: [PATCH] media: staging: atomisp: remove unnecessary NULL checks in sensor drivers
+Date: Fri, 12 Dec 2025 15:38:14 +0300
+Message-Id: <20251212123814.78238-1-mdmitrichenko@astralinux.ru>
+X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20251212090920.84238-2-giorgitchankvetadze1997@gmail.com> <aTvfHr0E7X4fU6HD@stanley.mountain>
-In-Reply-To: <aTvfHr0E7X4fU6HD@stanley.mountain>
-From: Giorgi Tchankvetadze <giorgitchankvetadze1997@gmail.com>
-Date: Fri, 12 Dec 2025 13:50:31 +0400
-X-Gm-Features: AQt7F2r-ZGAX5rtcRfnn6ZSr5DEuc0fiZmJMxXR7ZCB-Uwx-ylihHHqPrIlFioU
-Message-ID: <CAE7dp2qUu3R7y=5Y14ih7Kv54M11FqczpWN--09v9i_iJY5ckA@mail.gmail.com>
-Subject: Re: [PATCH] staging: rtl8723bs: fix memory leaks on rtw_enqueue_cmd() failure
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-KSMG-AntiPhishing: NotDetected
+X-KSMG-AntiSpam-Auth: dkim=none
+X-KSMG-AntiSpam-Envelope-From: mdmitrichenko@astralinux.ru
+X-KSMG-AntiSpam-Info: LuaCore: 84 0.3.84 c2f198c3716e341b2aaf9aead95378b399603242, {Tracking_uf_ne_domains}, {Tracking_from_domain_doesnt_match_to}, astralinux.ru:7.1.1;new-mail.astralinux.ru:7.1.1;d41d8cd98f00b204e9800998ecf8427e.com:7.1.1;127.0.0.199:7.1.2, FromAlignment: s
+X-KSMG-AntiSpam-Interceptor-Info: scan successful
+X-KSMG-AntiSpam-Lua-Profiles: 198942 [Dec 12 2025]
+X-KSMG-AntiSpam-Method: none
+X-KSMG-AntiSpam-Rate: 0
+X-KSMG-AntiSpam-Status: not_detected
+X-KSMG-AntiSpam-Version: 6.1.1.20
+X-KSMG-AntiVirus: Kaspersky Secure Mail Gateway, version 2.1.0.7854, bases: 2025/12/12 10:26:00 #28051895
+X-KSMG-AntiVirus-Status: NotDetected, skipped
+X-KSMG-LinksScanning: NotDetected
+X-KSMG-Message-Action: skipped
+X-KSMG-Rule-ID: 1
 
-Hi Dan,
+There are unnecessary NULL checks for v4l2_subdev_format::format
+pointer in ov2722 and gc2235 sensor driver format operations.
+The fmt pointer is derived from &format->format where format
+is a pointer to an embedded struct v4l2_mbus_framefmt inside
+struct v4l2_subdev_format, therefore fmt cannot be NULL.
 
-Thank you for catching this. You're absolutely right and I was in the
-process of fixing it by the time you mailed me.
-The patch is broken due to a workflow error on my side. I made the
-code changes first, then tried to fix indentation in a subsequent edit
-on the same branch. This caused git to think the if statements already
-existed and only show whitespace changes.
+Remove unnecessary NULL checks for v4l2_subdev_format::format
+pointer to avoid unnecessary computations and make code
+clearer.
 
-The actual intent was to change:
-    rtw_enqueue_cmd(pcmdpriv, pcmd_obj);  <<<<<<<<<<<<<< (ORIGINAL )
+Found by Linux Verification Center (linuxtesting.org) with SVACE.
 
-To:
-    if (rtw_enqueue_cmd(pcmdpriv, pcmd_obj) =3D=3D _FAIL) {
-        kfree(pcmd_obj);
-        kfree(pevtcmd);
-    }
+Fixes: a49d25364dfb ("staging/atomisp: Add support for the Intel IPU v2")
+Signed-off-by: Mikhail Dmitrichenko <mdmitrichenko@astralinux.ru>
+---
+ drivers/staging/media/atomisp/i2c/atomisp-gc2235.c | 5 -----
+ drivers/staging/media/atomisp/i2c/atomisp-ov2722.c | 4 ----
+ 2 files changed, 9 deletions(-)
 
+diff --git a/drivers/staging/media/atomisp/i2c/atomisp-gc2235.c b/drivers/staging/media/atomisp/i2c/atomisp-gc2235.c
+index 6050637a0def..98d43b93a3ba 100644
+--- a/drivers/staging/media/atomisp/i2c/atomisp-gc2235.c
++++ b/drivers/staging/media/atomisp/i2c/atomisp-gc2235.c
+@@ -535,8 +535,6 @@ static int gc2235_set_fmt(struct v4l2_subdev *sd,
+ 		return -EINVAL;
+ 	if (format->pad)
+ 		return -EINVAL;
+-	if (!fmt)
+-		return -EINVAL;
+ 
+ 	mutex_lock(&dev->input_lock);
+ 	res = v4l2_find_nearest_size(gc2235_res_preview,
+@@ -577,9 +575,6 @@ static int gc2235_get_fmt(struct v4l2_subdev *sd,
+ 	if (format->pad)
+ 		return -EINVAL;
+ 
+-	if (!fmt)
+-		return -EINVAL;
+-
+ 	fmt->width = dev->res->width;
+ 	fmt->height = dev->res->height;
+ 	fmt->code = MEDIA_BUS_FMT_SGRBG10_1X10;
+diff --git a/drivers/staging/media/atomisp/i2c/atomisp-ov2722.c b/drivers/staging/media/atomisp/i2c/atomisp-ov2722.c
+index a4519babf37d..aaf30f072ad5 100644
+--- a/drivers/staging/media/atomisp/i2c/atomisp-ov2722.c
++++ b/drivers/staging/media/atomisp/i2c/atomisp-ov2722.c
+@@ -635,8 +635,6 @@ static int ov2722_set_fmt(struct v4l2_subdev *sd,
+ 
+ 	if (format->pad)
+ 		return -EINVAL;
+-	if (!fmt)
+-		return -EINVAL;
+ 	ov2722_info = v4l2_get_subdev_hostdata(sd);
+ 	if (!ov2722_info)
+ 		return -EINVAL;
+@@ -705,8 +703,6 @@ static int ov2722_get_fmt(struct v4l2_subdev *sd,
+ 
+ 	if (format->pad)
+ 		return -EINVAL;
+-	if (!fmt)
+-		return -EINVAL;
+ 
+ 	fmt->width = dev->res->width;
+ 	fmt->height = dev->res->height;
+-- 
+2.39.2
 
-I will resend v2 from a clean master branch with the changes applied
-correctly in a single commit.
-
-Apologies for the noise.
-
-Best regards,
-Giorgi
-
-On Fri, Dec 12, 2025 at 1:23=E2=80=AFPM Dan Carpenter <dan.carpenter@linaro=
-.org> wrote:
->
-> On Fri, Dec 12, 2025 at 01:09:21PM +0400, Giorgi Tchankvetadze wrote:
-> > Add error handling for rtw_enqueue_cmd() failures in multiple event
-> > reporting functions.
-> >
-> > When rtw_enqueue_cmd() fails to enqueue a command, the allocated memory
-> > for the command object and its parameter buffer is not freed, causing
-> > memory leaks. Add proper error checks and free the allocated memory on
-> > failure in report_survey_event(), report_surveydone_event(),
-> > report_join_res(), report_wmm_edca_update(), report_del_sta_event(),
-> > report_add_sta_event(), and survey_timer_hdl().
-> >
-> > Signed-off-by: Giorgi Tchankvetadze <giorgitchankvetadze1997@gmail.com>
->
-> What?  The patch is apparently against a tree that doesn't exist and it
-> just messes up the indenting.
->
-> I've reviewed some of your other emails to LMKL and I'm wondering if
-> you're doing AI stuff or something?  What's going on?
->
-> regards,
-> dan carpenter
->
