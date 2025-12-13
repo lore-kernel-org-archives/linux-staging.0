@@ -1,122 +1,147 @@
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
+Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7743115530C
-	for <linux-staging@lists.linux.dev>; Sat, 13 Dec 2025 14:39:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 790D82D94A2
+	for <linux-staging@lists.linux.dev>; Sat, 13 Dec 2025 16:11:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765636797; cv=none; b=eH0KrdhDxqcrgCOFbRNpE5+90uh8s4yqqzgtzcGcU2jkkPcgPFD+4EH3v6q4ZEWguip7acv9Y6iQyi9tg4PpOgmiYuMIBJWVnbNDsmPxoirgaKYhcIGkYC10p5WxxjjdyhLnpds7hnaGcHbFje17TACycvxiee/h/uP8Hp0w0WY=
+	t=1765642292; cv=none; b=tCzeDcEdbTJURC1nVcC4aCfuq8/GEysNzdtN8govsM2N1CwZZZNJqHcy36ee7qn3jH29u23QRJtHO9EGW18xn4bpOXttEVeSnFD0xsv5JYogacfIFPxD7Y4R2FaXddaX8WrhElzK8oyTzbR/l0KIacMgSCulqcsvxT6mZ88KbSY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765636797; c=relaxed/simple;
-	bh=TO0Vc04SBOWQX2FHQXYSAfgCIPgdhpi+DqfEsyORZJk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=oJu+UileMGpSFdWVLRaH83/Ob+962vbG6yJePd62mMnEbktbo1U3KWY0L92KOU5xcnl37ekUepq3fXpC6s7+AvtNKTznmYO89QRYSbQMp79uSJgzXmUs3GJWUGrImJVz8mnF8H0wSpWpOWYQQTyusdygXuaL4wC8NbHvUJg49v0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=K73I5YGq; arc=none smtp.client-ip=209.85.221.43
+	s=arc-20240116; t=1765642292; c=relaxed/simple;
+	bh=bEq/ZTGlDxmnyjk7Z52kTyCQ6ee29rpTCy6tmTpuBYE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=TVKhN4IYSP71v4s+PWB/JfFJIiBHAPz+p4AnAO00OXDIBOStwg/C6jWyyxqREAWCzTQrJRZHRiPuawrmdfZb+uNfvqu36gIVcZtnj7ElTx3Phz/ocvyOqy73IVw/VoHM+5ssIzY7ZzZboslt+IvkLEfRIYuVL/BNafiH7r6QGpI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=U+0K2CvC; arc=none smtp.client-ip=209.85.216.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="K73I5YGq"
-Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-42e33956e76so1007738f8f.3
-        for <linux-staging@lists.linux.dev>; Sat, 13 Dec 2025 06:39:55 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="U+0K2CvC"
+Received: by mail-pj1-f51.google.com with SMTP id 98e67ed59e1d1-343ea89896eso2235152a91.2
+        for <linux-staging@lists.linux.dev>; Sat, 13 Dec 2025 08:11:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1765636794; x=1766241594; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=VvAGfKFGF3RuaayUTSdoZFybLUCkoSlhrVT1qkFOtyA=;
-        b=K73I5YGq88jzZ/8JCfx5x15MNMQ9LUrJFkjeYF7Xj9OoXfde4h5LNDHResn+Z9HEpD
-         ELNovZfYkRvN1IOukfRfVnrGoMBtOFuOVyA5d0bilQWH4uKY2m0tLP0IJKb9zJgFWD3N
-         gkT3dKnW1ZS29SKLqAmj2wJUOlliEZnCGTa2R4uH77FLQlZr/JklxoApNoJZwjgZg0tl
-         F3wYypmL/aIk3NNUZDkX/wQc+b/pytTtgw0P+eQOv6aeNdFmusEM9v6P8KAHkY6RWCUl
-         qVSQhanxa+uXey6JXQPrwFQbNI0OSdr9wRBdYJk++GdGYkn02K8/pFULsgO/uAchmi2B
-         Ol7A==
+        d=gmail.com; s=20230601; t=1765642290; x=1766247090; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=jDSnf56RHeC4k3lfxzo2oRynLd5khsYlG4J+P5TtUFQ=;
+        b=U+0K2CvC/rlwn5TlTBRchF+QM5u7/pn6JwmSw7339VpFUFPGeMsIzg/4Xs/3rnfBbd
+         ex2aC/KDubioKTv0IpFjsfHIx++XtWedgs2pgTSGLeRe28+wyduFPCCKIiKwk5I4U39q
+         eZSVGnkWFH0d3E/PSiNySi1mLY0iVwuevHrFdLXw3BUpUDZmcURmQ+0zeu0lkgkvhX4G
+         SR9qOMnvAE9pe2xzZF4HoHs7qbef+OAhbbK5VjPyScXmnE9OLYm8oTxUZ7v/oVEYPWYQ
+         6/zXu4Fujx/fxqcgnWHUXhp2PXLBpu9J/OQNbWvUzRuHRauAUliuJDJRhIS6tsJp3cRy
+         r21g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765636794; x=1766241594;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=VvAGfKFGF3RuaayUTSdoZFybLUCkoSlhrVT1qkFOtyA=;
-        b=ZTjYZHYZFdnGNu26gUpk3Sda335+skJ9Yo02y0N4/9b+K8iBe9MCm92UC1xJbGSDpT
-         YaY7FSMcgeDuz06htsdD+crSm8+/UuxQJJBAT1mdGsF30w4V2H+v6fqyxlwmwiWt9QPq
-         6IVIzfi30zSHA7NhUKiVmbVSgIR0jI700Rv9uwe1K3GP25y094SaiOfE+++4i5YQ5Bhq
-         55Z9NXKVUdMJOgu//S9YXOgb7WAD4ogsx8/mGJvlHue+2aWKyMl4CqqSSYUNul3ELt+T
-         umDanbIZgTa5eG4sTwLH+NVK2ZfE6mBz/mQ7XONlCCvK/oHIBgKZntfzJyklWIQcXQvo
-         Prxg==
-X-Forwarded-Encrypted: i=1; AJvYcCWNeCHQ+sbFpYEq4/cH8/f27pQH0dfx6JqIcd7XkhlsWAJgSx4M/21fTV0+Rv9grOhlvGpvJe0bbgT9Wqr5@lists.linux.dev
-X-Gm-Message-State: AOJu0YxJD+AmsqUtf+VpwYyzy4N8hM9h3Ob3Ylaqnb5vU+oqYT7NDTRs
-	eOTVf0fFhOAVDfzOYFjKjsQT1sbs/6GBYUcDJVMFFrKV/0b9A5vkzPkI
-X-Gm-Gg: AY/fxX6isRoqRxUm/v/mUAW4gX4Z2yTQd2ZwHLH2iqLCvxNISdL5Cc1m8f9xSJV8w6f
-	eDFeCRO4brCEPxVM6UuHcrU9WezBnsbDaoN7KIm0C+QprDG0R2Lou25A/XIk2LH9eglrvy4BOIl
-	CVEAJwEwOofCEsiPNptyKd9jlnLKTj33Qk2qZpd/HZxu0D+qwhWEZ28Zhg0RW0raKI1U/QnmIXS
-	HX5DuUCXiiv+rbZIOXe5LAA8VxfW1lpJJ1si/ixizlgvUUEyhsm9CBXWXpP2ZkhRpGDD4IHZny5
-	UWE1IX6/PkMCRLQqYdOzmyRq0lkt9DtxZehfHBMq1599p0MUIy0gFekN1ugz2CmDEmcKPZdQFXW
-	G5W8BjUx8s4mzr/HCbLjWzeBCVq0mg1gzNXvAnQSwNagZPsVDWOJxMUWTh3LJ0lFVQr5ioX/9go
-	VqRAk=
-X-Google-Smtp-Source: AGHT+IEC9Iq4EaKhYx8qmUbYnuJvccsA4JfuYihpWx87kTUBAYRcJpYOGlPBXGZQc1wJV/sFNjFt2g==
-X-Received: by 2002:a05:6000:430d:b0:42b:4219:269 with SMTP id ffacd0b85a97d-42fb44ed6e6mr5912605f8f.41.1765636793620;
-        Sat, 13 Dec 2025 06:39:53 -0800 (PST)
-Received: from egonzo ([2a01:e0a:9ad:d3b0:ec4c:9f30:1dfe:440a])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-42fa8b8601csm19547827f8f.22.2025.12.13.06.39.53
+        d=1e100.net; s=20230601; t=1765642290; x=1766247090;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=jDSnf56RHeC4k3lfxzo2oRynLd5khsYlG4J+P5TtUFQ=;
+        b=LwuGaB6rZLS7hQ0i5jZ7cOlXYcLl37lr+ivuajchpfKK3hqeBHbffPVYeQCju8ouBL
+         erw9UI1kLW0DUVTpR8neeF/Wpk9E573wTs/5ZqnmTM1kzDhJoGmnfI8MJGEsMycuk3k8
+         F7OvU3+hWs/j88TOq6sLTYGJOc/0WHy1/4GAgiUIHbrh1vooHUEzPy9OteYIzpWg8Clw
+         zB1kjYky+h49N2PDNBOF5Qf8feUEmVMwqrepos9AcLxgyH4i9Afn/et4gBCbkSpUJ0zh
+         JQqd5nG7fkBxXCIeNye3wmE16HDSyYLc4vRZCFO0wCKhyCXdQlcLgBinLsY2U/RCnw/Z
+         mtrg==
+X-Gm-Message-State: AOJu0YwdPT1HZEXDN6wWVVJFxkUZogpgApfTuo15jA0WYd3kfJL+LHPU
+	e+jNTS8CT7k1NZr823PV0b3HDeIpK2XEEBtw3WoLyRvPikpBmvJH+yvi
+X-Gm-Gg: AY/fxX5P1iSJyeGqhlqopaslTOkVVpOzz2HDuM/EsatOtLdQn+32Ei0+9Y8C8qsNOLn
+	9YC9DizB2//QaG/itdinxS8tpDaEtv8K4YVOm06i9jGkMgZp2IZrtYMCgNlO718RRh2a3EUurDi
+	Eq8+rILlYJIAWIERTTFmEwaV0nB/rrhrEK1/P4g65r7JWjAqH0DMN0gycgaVXbxKbxl0BvywuGi
+	RfsGYkt8ej7uuOrKNKJ18NdhQkPCWpfCH1o3s9IrrQBUzLn6v3UL83WroEMMtlugBeHhqJttqYs
+	LsHH2lhyjODPBOwUce5R4K6Xem6MR8ObLF8DS8nPkCe6nC5Zq8UopdiLGgvm1xYhT6u1c5e5b0b
+	fTLbYkWN8osKc9vfkcX0iv2lu1fGRmnkQl/vp872d2Nae7v8MaMMHeWFL0+byrfrc0jLd2BbBxC
+	1zkHXm4Xw=
+X-Google-Smtp-Source: AGHT+IFZ4TVSxiV0Hs3M4yfuTF13SHYxBQKmO0Y7ERGfAi1IefZmLU5HJv3OAH+9sFvCuwFAUYitbg==
+X-Received: by 2002:a17:90b:2b46:b0:340:ff7d:c2e with SMTP id 98e67ed59e1d1-34abd77ec88mr4744682a91.29.1765642289692;
+        Sat, 13 Dec 2025 08:11:29 -0800 (PST)
+Received: from ubuntu.. ([211.234.206.60])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-34abe3dea94sm4893341a91.11.2025.12.13.08.11.27
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 13 Dec 2025 06:39:53 -0800 (PST)
-Date: Sat, 13 Dec 2025 15:39:51 +0100
-From: Dave Penkler <dpenkler@gmail.com>
-To: Tomasz Sadowski <tsdwski@gmail.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3] staging: fluke_gpib: use kzalloc instead of kmalloc +
- memset
-Message-ID: <aT16t-dFDMg7cR2M@egonzo>
-References: <20251127101055.8771-1-tsdwski@gmail.com>
+        Sat, 13 Dec 2025 08:11:29 -0800 (PST)
+From: Sanghyeon Lee <sanghae778@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Sanghyeon Lee <sanghae778@gmail.com>
+Subject: [PATCH] staging: rtl8723bs: remove unnecessary braces and else block
+Date: Sat, 13 Dec 2025 16:11:22 +0000
+Message-ID: <20251213161122.4280-1-sanghae778@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251127101055.8771-1-tsdwski@gmail.com>
+Content-Transfer-Encoding: 8bit
 
-On Thu, Nov 27, 2025 at 10:58:49AM +0100, Tomasz Sadowski wrote:
-> Use kzalloc() instead of kmalloc() + memset() to simplify memory allocation.
-> 
-> Also use sizeof(*board->private_data) instead of repeating the struct name.
-> This avoids duplication and keeps the code correct if the struct name
-> changes in the future.
-> 
-> Signed-off-by: Tomasz Sadowski <tsdwski@gmail.com>
-> ---
-> v3:
->  - Move version history below "---"
-> 
-> v2:
->  - Add proper commit description
->  - No changes in patch
-> 
->  drivers/staging/gpib/eastwood/fluke_gpib.c | 3 +--
->  1 file changed, 1 insertion(+), 2 deletions(-)
-> 
-> diff --git a/drivers/staging/gpib/eastwood/fluke_gpib.c b/drivers/staging/gpib/eastwood/fluke_gpib.c
-> index 3ae848e3f738..2b6ba7882dba 100644
-> --- a/drivers/staging/gpib/eastwood/fluke_gpib.c
-> +++ b/drivers/staging/gpib/eastwood/fluke_gpib.c
-> @@ -853,11 +853,10 @@ static int fluke_allocate_private(struct gpib_board *board)
->  {
->  	struct fluke_priv *priv;
->  
-> -	board->private_data = kmalloc(sizeof(struct fluke_priv), GFP_KERNEL);
-> +	board->private_data = kzalloc(sizeof(*board->private_data), GFP_KERNEL);
+This patch fixes coding style issues reported by checkpatch.pl in
+odm_CfoTracking.c.
 
-Good thing to use kzalloc here but using sizeof(*board->private_data) will
-not work. sizeof(void) is 1 not the size of the structure.
+The changes include:
+1. Removing unnecessary braces {} from single-line conditional
+   statements.
+2. Removing an unnecessary else statement after a return, which reduces
+   indentation  and simplifies the code flow.
 
->  	if (!board->private_data)
->  		return -ENOMEM;
->  	priv = board->private_data;
-> -	memset(priv, 0, sizeof(struct fluke_priv));
->  	init_nec7210_private(&priv->nec7210_priv);
->  	priv->dma_buffer_size = 0x7ff;
->  	priv->dma_buffer = kmalloc(priv->dma_buffer_size, GFP_KERNEL);
-> -- 
-> 2.52.0
-> 
+These changes verify clean with checkpatch.pl.
+
+Signed-off-by: Sanghyeon Lee <sanghae778@gmail.com>
+---
+ drivers/staging/rtl8723bs/hal/odm_CfoTracking.c | 17 ++++++++---------
+ 1 file changed, 8 insertions(+), 9 deletions(-)
+
+diff --git a/drivers/staging/rtl8723bs/hal/odm_CfoTracking.c b/drivers/staging/rtl8723bs/hal/odm_CfoTracking.c
+index 666a9f44012d..166af5f6c9e0 100644
+--- a/drivers/staging/rtl8723bs/hal/odm_CfoTracking.c
++++ b/drivers/staging/rtl8723bs/hal/odm_CfoTracking.c
+@@ -100,9 +100,8 @@ void ODM_CfoTracking(void *pDM_VOID)
+ 	u8 Adjust_Xtal = 1;
+ 
+ 	/* 4 Support ability */
+-	if (!(pDM_Odm->SupportAbility & ODM_BB_CFO_TRACKING)) {
++	if (!(pDM_Odm->SupportAbility & ODM_BB_CFO_TRACKING))
+ 		return;
+-	}
+ 
+ 	if (!pDM_Odm->bLinked || !pDM_Odm->bOneEntryOnly) {
+ 		/* 4 No link or more than one entry */
+@@ -110,9 +109,9 @@ void ODM_CfoTracking(void *pDM_VOID)
+ 	} else {
+ 		/* 3 1. CFO Tracking */
+ 		/* 4 1.1 No new packet */
+-		if (pCfoTrack->packetCount == pCfoTrack->packetCount_pre) {
++		if (pCfoTrack->packetCount == pCfoTrack->packetCount_pre)
+ 			return;
+-		}
++
+ 		pCfoTrack->packetCount_pre = pCfoTrack->packetCount;
+ 
+ 		/* 4 1.2 Calculate CFO */
+@@ -133,8 +132,9 @@ void ODM_CfoTracking(void *pDM_VOID)
+ 		) {
+ 			pCfoTrack->largeCFOHit = 1;
+ 			return;
+-		} else
+-			pCfoTrack->largeCFOHit = 0;
++		}
++
++		pCfoTrack->largeCFOHit = 0;
+ 		pCfoTrack->CFO_ave_pre = CFO_ave;
+ 
+ 		/* 4 1.4 Dynamic Xtal threshold */
+@@ -176,11 +176,10 @@ void ODM_CfoTracking(void *pDM_VOID)
+ 		}
+ 
+ 		/* 3 2. Dynamic ATC switch */
+-		if (CFO_ave < CFO_TH_ATC && CFO_ave > -CFO_TH_ATC) {
++		if (CFO_ave < CFO_TH_ATC && CFO_ave > -CFO_TH_ATC)
+ 			odm_SetATCStatus(pDM_Odm, false);
+-		} else {
++		else
+ 			odm_SetATCStatus(pDM_Odm, true);
+-		}
+ 	}
+ }
+ 
+-- 
+2.43.0
+
