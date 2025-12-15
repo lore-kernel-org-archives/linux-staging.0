@@ -1,100 +1,121 @@
-Received: from xmbghk7.mail.qq.com (xmbghk7.mail.qq.com [43.163.128.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F32A98634F
-	for <linux-staging@lists.linux.dev>; Mon, 15 Dec 2025 05:53:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=43.163.128.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36A8E326946
+	for <linux-staging@lists.linux.dev>; Mon, 15 Dec 2025 06:04:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765778038; cv=none; b=SwHtZZZbBNUVqCYHQc+XpJkvUMADuD75t+F8pEWH9zucrkAC2M5DUKTANw2ky05AJoYFqBYj2uH+OMnEtPXIbP5pL+/MM7FMxfD6qfORZrrQBNyBUr2A6QfrcieiwbzOYW/mgRpS34UpyYlbjnBY3iAkSOmd1oJC8kiZKYisvmw=
+	t=1765778655; cv=none; b=hiBjoWRsRX38khEa8tmykBKlc9VjMDuBP6JfiZxkdpHxDkNlazrvo6u+HBeRVQxHz/oox7WCZ6hghQqQyOuDTi+vXMsvFuWc1t1bcqZStFVXqE9VtpYrT/KlcpybJKWd3pOFwZsApIx6cEQedsO2lQdgvoSSdbD4108bIaSX3K8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765778038; c=relaxed/simple;
-	bh=y2Wz4iaq7mfAPBXvzAzHwsJsn9opQ47W468qJAl9crM=;
-	h=Message-ID:From:To:Cc:Subject:Date:MIME-Version; b=CS6LhOslrAYrfVYDtqdRUL8x+L78WS2RQ2yTILWXF+/hJgFytSxpNftHfVvJCfsL9w0Wh3XfFa4e8AdtG/Rv7mKeN/1PEQa7/kJ5aEkslOujSHgQRa34st2HKAFpe9b2VChE+Z80vPxTqecfssMYjcvdpyvCmoWEvT2oooM72TI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foxmail.com; spf=pass smtp.mailfrom=foxmail.com; dkim=pass (1024-bit key) header.d=foxmail.com header.i=@foxmail.com header.b=WDi53+QN; arc=none smtp.client-ip=43.163.128.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foxmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foxmail.com
+	s=arc-20240116; t=1765778655; c=relaxed/simple;
+	bh=4F7IPDEpmaFrVLMn02smTZ0UYQwCvehgCEWZQX67zu0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=UMHNdaYmgGq+YjXQb8+oQ4qy0n6uToDi+CQJFT3WacDNMpw0v0DlR2C35qIHKNgllXKxGDil9LkdlBe2IHC+E0VSePPkoXWmkDxe0N84yZm2Rxr/WpKJWk8YaTRDCLBvJELLHqHqCBMzrP7iANFrlKtP5nd5D/iv10j3NKEVayY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=pb5XLyKK; arc=none smtp.client-ip=209.85.221.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=foxmail.com header.i=@foxmail.com header.b="WDi53+QN"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foxmail.com;
-	s=s201512; t=1765778026;
-	bh=fB/z3spAkF5Iput0ekKl/sPzMaVVWo2fip3V1jbPxmU=;
-	h=From:To:Cc:Subject:Date;
-	b=WDi53+QNNWLGhCoLTdUvAD2PzYUsOaudlXYmp8GLnEoUPGcqJdAeSp+pc9Wr2l/YX
-	 JekkFO4VJBJi4tS5PFdX3ErXe5a7rshinkNTxKsBdQ0T/FBQ4G83Dl++r2+nAgnuOx
-	 VmfbgCdZYkE1asZsQzRP+HeKh5obOUysU66QnCn0=
-Received: from localhost ([2408:8207:c5b:c860:9ec7:6e84:86df:b3d9])
-	by newxmesmtplogicsvrszb51-0.qq.com (NewEsmtp) with SMTP
-	id D6C31A72; Mon, 15 Dec 2025 13:53:44 +0800
-X-QQ-mid: xmsmtpt1765778024t7lo7eyvh
-Message-ID: <tencent_C0328035BC37187FA2BED4352C504E3C5607@qq.com>
-X-QQ-XMAILINFO: NmYPxqSo4aXvNy4x+OVgmKYVTu3q7c5EaYLPotbxHZp0jCoGi/DJjBbLnooj/S
-	 +D2TJF0PTknOf6UZRPgH9kUxCvCo7SR2nda49yp2cymGwr8+TYYZ8p7uAaYHptLget0pCDq/et4w
-	 HUbAQg1DYuI6aS+yhisqFEHAd4kt4kkEztwN3mgKRr4LXdVQxnFrOFjYSV5zVzeoewc+A2jwDO4e
-	 6nDkVU2Ff15XNk8YpUU9oMksxG8TX+T9EF3ojY57pzhi3lS4jqHLrR4I8tgcZLNvc7Smejj0f1Lx
-	 WlJ49HVgzotr4kL4hjlhD5RRCno2BCkwStsOhTtcZuc0BJ5U8SuwTF0Md4yHzSbiQTIcZvpSQWnt
-	 stt7ibO0kOtggLzu5qYnWIuLlFjKJwtBarVo8emor+yt7DprEJvwQz5aVNrSmhQ2IScZ9o018las
-	 FTKYLe+UD/U0wA73JoOjCkRQaFIx79XsjOMz2OBhX2NOBtAm0PXbUKXQgdYXEKgrFfvBwNWFJkGf
-	 IiL+oUkbFbM/XTYWQVqZtL5NPGhdxC2+UKpzLoa9bnKns3dcRyfDEVCx65ECvAC381WI30FrGmGB
-	 zUalstqiHl3NV8tkGeb1VQXw/5hKQidV8i6Gg9nkCaiChg+iBXwAdGP4SRXKyYsOPJ4EtDSAMKqV
-	 9+Ao/UfV7fy2bb241R7AfDMbDqLK1SsKm4dL5QM8GFnvmT1xB0CBGCqJvByIJBDcHjTHwUBGncRP
-	 I2hdJu2Xw3xDZWA4f/TNSoWJ5tx4aVA0ixE0WHYIw+wjRlPDV93LwbHldAN5lCGe5h8lTN6g2+ZU
-	 6fHSfVute58gzhooszV+IftCUyZU8ilh2J2N+fKWiHcnRVuoOi2/Y0C0qrsO2LYGLfW44w6fti2S
-	 VjQCAl3NVFnzF9UTBG+R8sayampy2UMOJJ3sDWP3OFpfrW/CnL6VJpEZMQsv8mc9dWqH9VmH2Xkh
-	 H7IJktR5lnSeVhtA6B5caMJBC0p1VVklyooKZr0KY/75hFyneZq0tttfq+/dDRWfWRwXdl/EG4dZ
-	 TGOnYv/cURLE4Y1un9GxLXWBkEl5Pq4lRk40v+jbVd+RrEChaSzuqdTvE/2zXN4wh7jrzXIunmSw
-	 UTWJUfGDwZMtLH5bZt/u/MYP9arOGqTanb4UQK
-X-QQ-XMRINFO: NS+P29fieYNw95Bth2bWPxk=
-From: Zixuan Dong <dbeidachazi@foxmail.com>
-To: Hans de Goede <hansg@kernel.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Andy Shevchenko <andy@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Zixuan Dong <dbeidachazi@foxmail.com>
-Subject: [PATCH] media: staging: atomisp: remove redundant OOM error messages
-Date: Mon, 15 Dec 2025 13:53:32 +0800
-X-OQ-MSGID: <20251215055332.69660-1-dbeidachazi@foxmail.com>
-X-Mailer: git-send-email 2.52.0
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="pb5XLyKK"
+Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-42fb2314f52so1259467f8f.0
+        for <linux-staging@lists.linux.dev>; Sun, 14 Dec 2025 22:04:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1765778651; x=1766383451; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=arlTyocsJXy/LUdUqXV4o482As9ubD7mGnAFCPK1b04=;
+        b=pb5XLyKK1Xm9IHHUQzoXFYqdkTrRyAcPyuW0Zh65jnlgv8wRu10IWUCWvBv3AMYwR4
+         j4TyKoGajmjlmrsp1LRoKHwdSfrH+i1wLjolENKMLtcomk6FBQW7zjZVuQRMQ3v2KF/1
+         Or03mqRbcIlj1oTqR80Oe4BwL9irfaJISeBdmMiX5eRrOcc+FTH59PIgNYA4yCuRUiIM
+         H/60crd9nCqYZSWSaD8zXdldcCvGjp61SR98PWmwIJb9gTHCU8vJKejGDboY3pVO8ht8
+         81SO19g5mFBBr4dCDiE0ahYUa3ZMpuALrgXxAMBrQ82AJQuiYt1DdGBEmRdPV2dMyKkn
+         GN4A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1765778651; x=1766383451;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=arlTyocsJXy/LUdUqXV4o482As9ubD7mGnAFCPK1b04=;
+        b=CEOvP8sg27RFj4c0uzN5O8WC51p69wWNgeruvoW67nOOY0QoThPp61fZMUBXtXz8vJ
+         vi26+hHZSupAn+Ab0eJBj6oDsHLnkSBSUTDFGXYuB1sMOrfPz4OHpolV/UIZd8WNRsWc
+         vZqOHdV9NWPwdzy2xrAFXsDVcdQcouvBL/f+YQpPCZ9ZyhjIrvqcLTTqg+1Dj5deOtvF
+         PWD7BnvB8On+sEB+sbThmUU4WfCl0yuSUJi0t4UqCvH9Ef9VhTqhjeGk/1E02ZWICmwH
+         frEJWoi1PrTdITOz80AmwDGYYWMC6i1CFzEBPvqPW4RZp/qjBSxoazH9SFC5ZWQul6B2
+         NXJA==
+X-Forwarded-Encrypted: i=1; AJvYcCW7JRlU8wS7QyYwxz0eIOYMv3muxaX3sjm5Rdvuc7rGsZzPH8OLkCgYkLn7SoAjQJ+lpefbzl7xuWDqD7KN@lists.linux.dev
+X-Gm-Message-State: AOJu0YyY2h4TJcGbDiIY2n4ggQwTu00SabP5Fl++GFss7xwIseIdQdKd
+	nx0TuR4VfuZYQhEOMgC3SAkd26phfIIMlrnmYEa1c8tvQlHBDVEHb9kXL8/C1/u00cQ=
+X-Gm-Gg: AY/fxX5n2ctNJYKz1WUe7ViPDeMtol+ENEchb3y+KRh0u0XZWJX44+rewe+UQFgALwv
+	SOZmdRDu8KJRnzbW/M0OhomHd7FnNkMNitGLk49Y0RYErcu0AQhb2FhCfxRFY2m0dmXDjoQB9p2
+	7TS7BEcm2miKcNVY+78HzPk2wnGn+GveT+CM4eDL9DBaQM+ACdl/v2LXyBCS3i/zeU3AwaHQaar
+	QvWik8JLjCRbVjacwFF5xpLSWS1eccMvMISoYdR3OBQYiJS0pLgKY8JT0coZGGghibSM65xXuqZ
+	DXKKcGGFMfCcjbLPwTC8rt/jDnSx6KnOaebKmk9vu/hOmTphrKsgVx81GAXWk0+/JLULbZCEn9S
+	9Lt+GI6La9eIEl6FWcLAz0AmYtzTq3VUWQhFUGaQ9w99062pyEUZTZeQuulE1ydE+vM57tmuQTq
+	XR2GeV5Q/PF3VZjH4p
+X-Google-Smtp-Source: AGHT+IEKDFCT8gkJa8RFXLp7YKvDnPkpvyFtcKj+7AC6mdCnUgOnKilIu4LA0YlaXkJcpG+JwzXSQA==
+X-Received: by 2002:a05:6000:2f83:b0:42c:b8fd:21bd with SMTP id ffacd0b85a97d-42fb46e3985mr9980145f8f.39.1765778651298;
+        Sun, 14 Dec 2025 22:04:11 -0800 (PST)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-430f7475895sm8512414f8f.33.2025.12.14.22.04.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 14 Dec 2025 22:04:10 -0800 (PST)
+Date: Mon, 15 Dec 2025 09:04:07 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Zixuan Dong <dbeidachazi@foxmail.com>
+Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org, straube.linux@gmail.com
+Subject: Re: [PATCH] staging: rtl8723bs: Fix block comment coding style
+Message-ID: <aT-k12fYkV_FtoTW@stanley.mountain>
+References: <tencent_9CA8125E2399DA1ADBDBB8FF585FC95A3606@qq.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <tencent_9CA8125E2399DA1ADBDBB8FF585FC95A3606@qq.com>
 
-The memory allocation functions (kvzalloc) already emit a stack dump
-on failure when GFP_KERNEL is used. Printing an extra error message
-is redundant and increases code size.
+On Mon, Dec 15, 2025 at 12:01:28PM +0800, Zixuan Dong wrote:
+> Fix the following checkpatch warnings in os_intfs.c:
+> 
+>   WARNING: Block comments use * on subsequent lines
+>   WARNING: Block comments use a trailing */ on a separate line
+> 
+> Signed-off-by: Zixuan Dong <dbeidachazi@foxmail.com>
+> ---
+>  drivers/staging/rtl8723bs/os_dep/os_intfs.c | 18 ++++++++++--------
+>  1 file changed, 10 insertions(+), 8 deletions(-)
+> 
+> diff --git a/drivers/staging/rtl8723bs/os_dep/os_intfs.c b/drivers/staging/rtl8723bs/os_dep/os_intfs.c
+> index 6ca6dc548805..cd81d9e4a3d2 100644
+> --- a/drivers/staging/rtl8723bs/os_dep/os_intfs.c
+> +++ b/drivers/staging/rtl8723bs/os_dep/os_intfs.c
+> @@ -934,14 +934,16 @@ static int netdev_close(struct net_device *pnetdev)
+>  	padapter->net_closed = true;
+>  	padapter->netif_up = false;
+>  
+> -/*if (!padapter->hw_init_completed)
+> -	{
+> -
+> -		padapter->bDriverStopped = true;
+> -
+> -		rtw_dev_unload(padapter);
+> -	}
+> -	else*/
+> +/*
+> + * if (!padapter->hw_init_completed)
+> + * {
+> + *
+> + *	padapter->bDriverStopped = true;
+> + *
+> + *	rtw_dev_unload(padapter);
+> + * }
+> + * else
+> + */
 
-This resolves the checkpatch warnings:
-WARNING: Possible unnecessary 'out of memory' message
+Just delete this dead code.
 
-Signed-off-by: Zixuan Dong <dbeidachazi@foxmail.com>
----
- drivers/staging/media/atomisp/pci/atomisp_cmd.c | 5 +----
- 1 file changed, 1 insertion(+), 4 deletions(-)
-
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_cmd.c b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
-index 3a4eb4f6d3be..a3cd9d3e9ce7 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_cmd.c
-+++ b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
-@@ -2961,11 +2961,8 @@ int atomisp_set_parameters(struct video_device *vdev,
- 		 * per-frame setting only works for the main output frame.
- 		 */
- 		param = kvzalloc(sizeof(*param), GFP_KERNEL);
--		if (!param) {
--			dev_err(asd->isp->dev, "%s: failed to alloc params buffer\n",
--				__func__);
-+		if (!param)
- 			return -ENOMEM;
--		}
- 		css_param = &param->params;
- 	}
- 
--- 
-2.52.0
+regards,
+dan carpenter
 
