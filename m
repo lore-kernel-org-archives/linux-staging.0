@@ -1,66 +1,65 @@
-Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
+Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 290CA2BEFFB
-	for <linux-staging@lists.linux.dev>; Mon, 15 Dec 2025 19:08:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4248C327211
+	for <linux-staging@lists.linux.dev>; Mon, 15 Dec 2025 19:08:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765825715; cv=none; b=fglwySGVhaj0jEZoN9w42lMIDiKis/Ot6DEpLmYxmk6RZnR+d4s07U8HKzHhpOpeUgMW+tY7GXS7UsT2y1eezHon6kYdCyXGnCG+F+OxQqQkx+53U9/zD72/IRg4TWhFxubAExRm2azjoWxAbdIuWibeXS6HRcqGlT8XwT0OnHc=
+	t=1765825723; cv=none; b=pQrGJ8KCDFjrF9o7PElc+Vl8jnpiVchwtY+jEVVTNxKuBhWAPh6pH6xkpoyw8Wnxl3ym+XJ65P/VNpwK6e/pWiSN87GE38AzKCMMTzG5lgoDzHP7kiGRiwBMdNTH5z74DXnDsrXgeEkfO/U2FUEkNN9Cy9hasxgfcd/bhUSaFRE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765825715; c=relaxed/simple;
-	bh=iiqfqIItLqOEVIEr9T8YV8/GP3ebhE5wVXhm49vIAcU=;
+	s=arc-20240116; t=1765825723; c=relaxed/simple;
+	bh=g2Fo+SKpC6PjwBCJ943Rk64IScfy97UhiSWsSJqf/a8=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Z8VqtxFZWnPd2XW3Kk/FQ91uDNekmVPh6odYu3wT3RW05E5FqNj25TlIoC/7UOECRXFO6W6D4SRkcWMtACvMNwLzypy0JBkcXH14F+yLWwv1Y1GR1Zk6a7SOv0QYq1k53eL3KiFZPaOguQnsHYbMQxVEC7fWVAELMjP5tG6XJ2A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KT38weHm; arc=none smtp.client-ip=209.85.216.52
+	 MIME-Version; b=ecKDMrBdHkJOMG3K85jSnoIoyG2VWCahqGBCZEX69MhMcUSQhcK4/GEUaieJYz2GktEjW50UUYFhu6IJ86vi+hcvvlo0w4Bx6Sqr8UXwnCz5b4qKqB7r2B+VhkADd28NAYLwIe7R+imuBTwOHuK8s5FyOTjWKkVskrH1J9fGUb8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Md9xq0VQ; arc=none smtp.client-ip=209.85.216.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KT38weHm"
-Received: by mail-pj1-f52.google.com with SMTP id 98e67ed59e1d1-34c93e0269cso834304a91.1
-        for <linux-staging@lists.linux.dev>; Mon, 15 Dec 2025 11:08:32 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Md9xq0VQ"
+Received: by mail-pj1-f53.google.com with SMTP id 98e67ed59e1d1-34c84ec3b6eso1686918a91.3
+        for <linux-staging@lists.linux.dev>; Mon, 15 Dec 2025 11:08:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1765825712; x=1766430512; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1765825720; x=1766430520; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=qVWm9MlPY1BX7cwkR/c6Kgx/4hat1o0o4ZKQmaEFy3I=;
-        b=KT38weHmeOechx/p2jZ3OLpOa9zy8s/nsR2JN5lJlfYbK0RsZHYHkSTox2In6T5FJl
-         Pr9zPSDInysNfjvYFjFIsP91UNMJ3VTEo+z6a1SLeij0aZYmTL8gz79pvPn3jyL0LT5Z
-         FvPNGfSPheaKuRHu0BegzTEdIazVJTXWzyKnLCsn7S5gOcMnf397IMxqydfUNsaBhxFk
-         4N4tADj0u3NF/1FvEckCGk3E7BUhsvCPfov5AIqP9/dVytNHxAj59Z8UOANHB+2D1UY3
-         XQxBBviZgF0axiMg/Jk398V2jcsE938lLYYo9yX/b8iy/rcitoWV7KVswVfes9dDiA1t
-         2BUQ==
+        bh=WhOh34wHJYgJjZNzWKgXOXvukXHa40Pe75V9p09ZGls=;
+        b=Md9xq0VQxYBvWchil+w7YaP5Cp7F//A3O8SzBRjfahhvywWqk4ChBla5dvn5/nKqUk
+         8/xkzsROunHRo4wginnLFux+nBt3368XpD895ahjJ18c9KmAhANMDNFSVNeSby/10wn2
+         kCiR2orqcj0z13512LWbo2uWJ9QSt+CbiWAk3nWadJb0mtVXjzsuVaGxa4SBhFGUB4oq
+         3eaqQ3N3iAqRFWBUK//bLkiLC4ormqOzgkp3XYef1INJrPY6sAchKdRdtbPMz+qoUBYl
+         YE2ZeRccfAsKJYnFZ0Hj8ixehFcuP6b+JzZUvzJcMiMo9SIBRqBffIUlKk5o2+mee+cO
+         jvFw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765825712; x=1766430512;
+        d=1e100.net; s=20230601; t=1765825720; x=1766430520;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=qVWm9MlPY1BX7cwkR/c6Kgx/4hat1o0o4ZKQmaEFy3I=;
-        b=ZtAWcOMVkyKAzbMeVMR4ZkXLXNSYhAkReBGPKQXBcUo2zMN27yzmaBdoZG91DgV17u
-         +ksyBMkhpA/IoCJj4M6zkuC7GVMAA5vuFekifCPNa0VkIlspvgURgbcZSCnyRnYaNzAt
-         AJIO4wR9dvbz50Uxj5j58mrEx0qTtnV1PqW29EIPXhqOwsFmH4cNFWFA3DjawjEtapQM
-         2qqYtsiuseHHPY7fL6k7KaHI7OIppGefs30HycZd4eXQcQk/KwvWTENgg4AHqSBL4wjk
-         D6uFbz1ehHBPb2nbZIteY9DHui4WQ1hUVCmBZY5n3+kc205lBmt/ZQcQnFA1uKqKOzxh
-         lO/w==
-X-Forwarded-Encrypted: i=1; AJvYcCVRL1QKT1Phlk58IGxkarZvyvlidO+RGVaG9cjs4Kp7kd+pQPOzXnL1rpSTiIO1tFIrhWOxg+V9IkmSNrtO@lists.linux.dev
-X-Gm-Message-State: AOJu0YygdCJfkvY+ST0jpgdX2ZSjoQPLilfEnULnZ2O3lrv1sqzlfZdt
-	6ddYLXeoaVwlqj/qaKaJ+pSCsBNdkdXks4YG4NuHc38PoEQIVl1nb+AQ
-X-Gm-Gg: AY/fxX7jkAIcKWirsYYNvZYptxACJsJo7+WXVVJxfNSO8QBTUaluo3C7CrzFVTraUx/
-	RxDhdPlQxdJzS0TUYuUGPbMS6BXq+8rrOhpgA6QPJjAkeu8MlfMN8vjDW1ECURskm0CcgrU1GMX
-	+umoLaafTx+0qq+C/oeAsbgNAXf2aoLuwVMeUSBFchyc/KquKjkkoVwUtLX8hrvXs1sQ5wUOqT9
-	+zGGbGS7KY3B5yWBqWyt9Q71xWfVxg+vlhH8Re2tg+KbF/TZkMWj5rh/lkluG6vhk1GAKXKQW4c
-	/wO7co+EvSR5neDxHLm01Ai3g1RtT1fOkEGbUMxY8gT6bMtXiHtGcZd+wj2eNZo5F/D1uAExb6q
-	FJyPiDG5yuPJhXkqHM5WUcAKQ7kdbkjf7M/UwuLloW3NbhJDrCaQgpTpRkdPrc+UNpU28jGNQln
-	uLm8Zjbb2at4Hf7Vt1M36P5MAbqs5cFwlYFxw6Xlys5/BU4c9NfY1tKvvHYOY2fB7vuwvm6T1Wk
-	YdB9Ar8r85mwVy/87tdjCXX+A9ETmWAAvKnUAGdHOOKfJn6qtXQk0sCRwpmBbDBjyZ/L6EibFKu
-	j6nwjFM=
-X-Google-Smtp-Source: AGHT+IHlZrjRmZMvg8QnFBJE5MQog2I0zSPjkXC/st4XF7bxDpoTiQ0Afh13aU7N1YNh1R00VdLTng==
-X-Received: by 2002:a17:90b:4c90:b0:32e:23c9:6f41 with SMTP id 98e67ed59e1d1-34abdc6855emr11502040a91.5.1765825712028;
-        Mon, 15 Dec 2025 11:08:32 -0800 (PST)
+        bh=WhOh34wHJYgJjZNzWKgXOXvukXHa40Pe75V9p09ZGls=;
+        b=PFHjdMtkCszmUy63qWNYYnnkMdswwbs7tb2V/dBJobP+Qz/STEkueMFFzvIlNf/Az2
+         Yhfmxoajd+b/h3jQiDmO8s4Kp5OBJwyNPbB/lOzxyxYKJCMbI0VpcGNE8nMbFuSlys8t
+         6n/2Z6vLF2spkg5RSH5UKWKZMZ1Cye4t6u1iDsO3HjT3l8mdYnANJnRhn2bN2V3u3LP+
+         dmJOheqMSK1BfgeqYlpNGeonoBSmP8Jyp1CV2UorvCSzRfBR5o6JnfInE7TPdR4/zyAU
+         cn4Miov65CK1JvGJe/creyYzYK3A9NGk1oylJ0/AJq2mjU0NlNnWA2FSflZUpf2PDpwO
+         JifA==
+X-Forwarded-Encrypted: i=1; AJvYcCUFNi/vALPYfVEgAWf2Cyg+rxOKRfHSx1Cu4e2c8JMGgs2j2b4YUOixu526l8zoin2o4zvPEcfWh72DbTWt@lists.linux.dev
+X-Gm-Message-State: AOJu0YyFc6+ZcPefJ23Sd8/0qiw62ljC2v0y0jceNeqNPZLJtIi7W/e5
+	O2m2dmNUqujpw+RhQYRjnTV62h342WyGZhcjbZKTfA+M/LJ5HS3McC4c
+X-Gm-Gg: AY/fxX5z0I0dfudVAQP4MRETkEaf0ZkZc4o7N3C7b3yR5u/KyHKp4x2iIcG5GwqZA3W
+	4Ai3geZy1XzqAzRmsKvFx43TLrBffuW0sEOcKOhswF75ks0ZlaQgF6xis5xcB+/QNELFsHCmXM6
+	WSV0W66cXYLVteiECkNtpK+SNjJeYMjkiIu+i9/VAbEM8XZUCcyfiM7sjtox9h3C5ZyX0ajv74d
+	cMd+SMqorgL0/uJhXy3dKa4oweKA4BAuhZkI14dQc6v9avEPremUCrY/w5px3vyKFN7ccmWH+6J
+	IUX5t0lJMZkpdvw00gnColXUZuNgJfNNKV6YIbdAo7Ia0+wwEO/nOKCPAXRgvnWJ9AgXErfChGc
+	2l/0Gewzj+UJlTqdgWot6miOzQbQQ5bWs7Q5JznSklIFJ5035VE2H+VjuMgUPnR7wuYILydGn61
+	PJnGCjGsr0qIB4qjHjMaTiSpSJ1UA/DoPgu10NM0aLMoAGU6zlNxu0IS0W4f3s/uelpMgCvHnvy
+	o/Nt8MEyzw5oWLmG1QBUUYlQbtaD4DwBgxe8ymmc+caJtDaAX0tXH8LVdlxOlelRUaMp4mm
+X-Google-Smtp-Source: AGHT+IE2X6oysUvapY8yh52OObO92D47oeQuQSx8EW1cTC7n+R31cQfuPy0gzfOE75F6exzqvWW5XA==
+X-Received: by 2002:a17:90b:5287:b0:340:c179:3657 with SMTP id 98e67ed59e1d1-34abd7bae5dmr10401090a91.33.1765825715761;
+        Mon, 15 Dec 2025 11:08:35 -0800 (PST)
 Received: from Lewboski.localdomain ([181.191.143.42])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-34abe2948d1sm9958875a91.9.2025.12.15.11.08.28
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-34abe2948d1sm9958875a91.9.2025.12.15.11.08.32
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 15 Dec 2025 11:08:31 -0800 (PST)
+        Mon, 15 Dec 2025 11:08:35 -0800 (PST)
 From: Tomas Borquez <tomasborquez13@gmail.com>
 To: Jonathan Cameron <jic23@kernel.org>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -73,9 +72,9 @@ Cc: David Lechner <dlechner@baylibre.com>,
 	linux-iio@vger.kernel.org,
 	linux-staging@lists.linux.dev,
 	Tomas Borquez <tomasborquez13@gmail.com>
-Subject: [PATCH 4/5] staging: iio: ad9832: convert to iio channels and ext_info attrs
-Date: Mon, 15 Dec 2025 16:08:05 -0300
-Message-ID: <20251215190806.11003-5-tomasborquez13@gmail.com>
+Subject: [PATCH 5/5] staging: iio: ad9832: add sysfs documentation
+Date: Mon, 15 Dec 2025 16:08:06 -0300
+Message-ID: <20251215190806.11003-6-tomasborquez13@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20251215190806.11003-1-tomasborquez13@gmail.com>
 References: <20251215190806.11003-1-tomasborquez13@gmail.com>
@@ -87,442 +86,63 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Convert ad9832 from custom sysfs attributes to standard channel interface
-using a single IIO_ALTCURRENT channel with ext_info attributes, as this
-device is a current source DAC with one output, as well as removing the
-dds.h header.
-
-Changes:
-- Add single iio_chan_spec with ext_info for frequency0/1 and phase0-3
-- Phase attributes accept radians directly, driver converts internally
-- Frequency attributes accept Hz (unchanged)
-- Cache frequency and phase values in driver state for readback
-- Remove dependency on dds.h macros
-- Rename symbol attributes to frequency_symbol and phase_symbol
-
-The pincontrol_en attribute is kept temporarily with a TODO noting it
-should become a DT property during staging graduation.
-
-NOTE: This changes the ABI from out_altvoltage0_* to out_altcurrent0_*
-with different attribute organization.
+Add sysfs ABI documentation for the AD9832/AD9835 Direct Digital
+Synthesizer chips, documenting frequency, phase, output control,
+and pin control attributes.
 
 Signed-off-by: Tomas Borquez <tomasborquez13@gmail.com>
 ---
- drivers/staging/iio/frequency/ad9832.c | 279 +++++++++++++++++++------
- 1 file changed, 215 insertions(+), 64 deletions(-)
+ .../Documentation/sysfs-bus-iio-dds-ad9832    | 41 +++++++++++++++++++
+ 1 file changed, 41 insertions(+)
+ create mode 100644 drivers/staging/iio/Documentation/sysfs-bus-iio-dds-ad9832
 
-diff --git a/drivers/staging/iio/frequency/ad9832.c b/drivers/staging/iio/frequency/ad9832.c
-index 8d04f1b44f..454a317732 100644
---- a/drivers/staging/iio/frequency/ad9832.c
-+++ b/drivers/staging/iio/frequency/ad9832.c
-@@ -24,8 +24,6 @@
- #include <linux/iio/iio.h>
- #include <linux/iio/sysfs.h>
- 
--#include "dds.h"
--
- /* Registers */
- #define AD9832_FREQ0LL		0x0
- #define AD9832_FREQ0HL		0x1
-@@ -67,6 +65,7 @@
- #define AD9832_CLR		BIT(11)
- #define AD9832_FREQ_BITS	32
- #define AD9832_PHASE_BITS	12
-+#define AD9832_2PI_URAD		6283185UL
- #define AD9832_CMD_MSK		GENMASK(15, 12)
- #define AD9832_ADD_MSK		GENMASK(11, 8)
- #define AD9832_DAT_MSK		GENMASK(7, 0)
-@@ -78,6 +77,12 @@
-  * @ctrl_fp:		cached frequency/phase control word
-  * @ctrl_ss:		cached sync/selsrc control word
-  * @ctrl_src:		cached sleep/reset/clr word
-+ * @freq:		cached frequencies
-+ * @freq_sym:		cached frequency symbol selection
-+ * @phase:		cached phases
-+ * @phase_sym:		cached phase symbol selection
-+ * @output_en:		cached output enable state
-+ * @pinctrl_en:		cached pinctrl enable state
-  * @xfer:		default spi transfer
-  * @msg:		default spi message
-  * @freq_xfer:		tuning word spi transfer
-@@ -95,6 +100,12 @@ struct ad9832_state {
- 	unsigned short			ctrl_fp;
- 	unsigned short			ctrl_ss;
- 	unsigned short			ctrl_src;
-+	u32				freq[2];
-+	bool				freq_sym;
-+	u32				phase[4];
-+	u32				phase_sym;
-+	bool				output_en;
-+	bool				pinctrl_en;
- 	struct spi_transfer		xfer;
- 	struct spi_message		msg;
- 	struct spi_transfer		freq_xfer[4];
-@@ -113,7 +124,7 @@ struct ad9832_state {
- 	} __aligned(IIO_DMA_MINALIGN);
- };
- 
--static unsigned long ad9832_calc_freqreg(unsigned long mclk, unsigned long fout)
-+static unsigned long ad9832_calc_freqreg(unsigned long mclk, u32 fout)
- {
- 	unsigned long long freqreg = (u64)fout *
- 				     (u64)((u64)1L << AD9832_FREQ_BITS);
-@@ -121,19 +132,33 @@ static unsigned long ad9832_calc_freqreg(unsigned long mclk, unsigned long fout)
- 	return freqreg;
- }
- 
--static int ad9832_write_frequency(struct ad9832_state *st,
--				  unsigned int addr, unsigned long fout)
-+static ssize_t ad9832_write_frequency(struct iio_dev *indio_dev,
-+				      uintptr_t private,
-+				      struct iio_chan_spec const *chan,
-+				      const char *buf, size_t len)
- {
-+	struct ad9832_state *st = iio_priv(indio_dev);
- 	unsigned long clk_freq;
- 	unsigned long regval;
- 	u8 regval_bytes[4];
- 	u16 freq_cmd;
-+	u32 fout, addr;
-+	int ret;
- 
--	clk_freq = clk_get_rate(st->mclk);
-+	if (private > 1)
-+		return -EINVAL;
+diff --git a/drivers/staging/iio/Documentation/sysfs-bus-iio-dds-ad9832 b/drivers/staging/iio/Documentation/sysfs-bus-iio-dds-ad9832
+new file mode 100644
+index 0000000000..5ceea57917
+--- /dev/null
++++ b/drivers/staging/iio/Documentation/sysfs-bus-iio-dds-ad9832
+@@ -0,0 +1,41 @@
++What:		/sys/bus/iio/devices/iio:deviceX/out_altcurrent0_frequencyY
++KernelVersion:	6.19
++Contact:	linux-iio@vger.kernel.org
++Description:
++    Frequency in Hz for frequency register Y (0-1). The active
++    frequency register is selected via out_altcurrent0_frequency_symbol.
 +
-+	addr = (private == 0) ? AD9832_FREQ0HM : AD9832_FREQ1HM;
- 
-+	ret = kstrtou32(buf, 10, &fout);
-+	if (ret)
-+		return ret;
++What:		/sys/bus/iio/devices/iio:deviceX/out_altcurrent0_phaseY
++KernelVersion:	6.19
++Contact:	linux-iio@vger.kernel.org
++Description:
++    Phase offset in radians for phase register Y (0-3). Valid
++    range is 0 to 2*PI (exclusive) with 12-bit hardware resolution. The
++    active phase register is selected via out_altcurrent0_phase_symbol.
 +
-+	clk_freq = clk_get_rate(st->mclk);
- 	if (!clk_freq || fout > (clk_freq / 2))
- 		return -EINVAL;
- 
-+	guard(mutex)(&st->lock);
- 	regval = ad9832_calc_freqreg(clk_freq, fout);
- 	put_unaligned_be32(regval, regval_bytes);
- 
-@@ -145,18 +170,64 @@ static int ad9832_write_frequency(struct ad9832_state *st,
- 			FIELD_PREP(AD9832_DAT_MSK, regval_bytes[i]));
- 	}
- 
--	return spi_sync(st->spi, &st->freq_msg);
-+	ret = spi_sync(st->spi, &st->freq_msg);
-+	if (ret)
-+		return ret;
++What:		/sys/bus/iio/devices/iio:deviceX/out_altcurrent0_frequency_symbol
++KernelVersion:	6.19
++Contact:	linux-iio@vger.kernel.org
++Description:
++    Selects which frequency register (0 or 1) is active for output.
 +
-+	st->freq[private] = fout;
++What:		/sys/bus/iio/devices/iio:deviceX/out_altcurrent0_phase_symbol
++KernelVersion:	6.19
++Contact:	linux-iio@vger.kernel.org
++Description:
++    Selects which phase register (0-3) is active for output.
 +
-+	return len;
- }
- 
--static int ad9832_write_phase(struct ad9832_state *st,
--			      unsigned long addr, unsigned long phase)
-+static ssize_t ad9832_read_frequency(struct iio_dev *indio_dev,
-+				     uintptr_t private,
-+				     struct iio_chan_spec const *chan,
-+				     char *buf)
-+{
-+	struct ad9832_state *st = iio_priv(indio_dev);
-+	u32 val;
++What:		/sys/bus/iio/devices/iio:deviceX/out_altcurrent0_enable
++KernelVersion:	6.19
++Contact:	linux-iio@vger.kernel.org
++Description:
++    Enables (1) or disables (0) the output. When disabled, the
++    device is held in reset state.
 +
-+	if (private > 1)
-+		return -EINVAL;
-+
-+	guard(mutex)(&st->lock);
-+	val = st->freq[private];
-+
-+	return sysfs_emit(buf, "%u\n", val);
-+}
-+
-+static const u32 ad9832_phase_addr[] = {
-+	AD9832_PHASE0H, AD9832_PHASE1H, AD9832_PHASE2H, AD9832_PHASE3H
-+};
-+
-+static ssize_t ad9832_write_phase(struct iio_dev *indio_dev,
-+				  uintptr_t private,
-+				  struct iio_chan_spec const *chan,
-+				  const char *buf, size_t len)
- {
-+	struct ad9832_state *st = iio_priv(indio_dev);
- 	u8 phase_bytes[2];
- 	u16 phase_cmd;
-+	u32 phase_urad, phase;
-+	int val, val2, ret;
- 
--	if (phase >= BIT(AD9832_PHASE_BITS))
-+	if (private >= ARRAY_SIZE(ad9832_phase_addr))
- 		return -EINVAL;
- 
-+	ret = iio_str_to_fixpoint(buf, 100000, &val, &val2);
-+	if (ret)
-+		return ret;
-+
-+	if (val < 0 || val2 < 0)
-+		return -EINVAL;
-+
-+	phase_urad = val * 1000000 + val2;
-+	if (phase_urad >= AD9832_2PI_URAD)
-+		return -EINVAL;
-+
-+	/* Convert microradians to 12-bit phase register value (0 to 4095) */
-+	phase = ((u64)phase_urad << AD9832_PHASE_BITS) / AD9832_2PI_URAD;
-+
-+	guard(mutex)(&st->lock);
- 	put_unaligned_be16(phase, phase_bytes);
- 
-@@ -164,14 +235,38 @@ static int ad9832_write_phase(struct ad9832_state *st,
- 		phase_cmd = (i % 2 == 0) ? AD9832_CMD_PHA8BITSW : AD9832_CMD_PHA16BITSW;
- 
- 		st->phase_data[i] = cpu_to_be16(FIELD_PREP(AD9832_CMD_MSK, phase_cmd) |
--			FIELD_PREP(AD9832_ADD_MSK, addr - i) |
-+			FIELD_PREP(AD9832_ADD_MSK, ad9832_phase_addr[private] - i) |
- 			FIELD_PREP(AD9832_DAT_MSK, phase_bytes[i]));
- 	}
- 
--	return spi_sync(st->spi, &st->phase_msg);
-+	ret = spi_sync(st->spi, &st->phase_msg);
-+	if (ret)
-+		return ret;
-+
-+	st->phase[private] = phase;
-+
-+	return len;
-+}
-+
-+static ssize_t ad9832_read_phase(struct iio_dev *indio_dev,
-+				 uintptr_t private,
-+				 struct iio_chan_spec const *chan,
-+				 char *buf)
-+{
-+	struct ad9832_state *st = iio_priv(indio_dev);
-+	u32 phase_urad;
-+
-+	if (private >= ARRAY_SIZE(ad9832_phase_addr))
-+		return -EINVAL;
-+
-+	guard(mutex)(&st->lock);
-+	phase_urad = ((u64)st->phase[private] * AD9832_2PI_URAD) >> AD9832_PHASE_BITS;
-+
-+	return sysfs_emit(buf, "%u.%06u\n", phase_urad / 1000000, phase_urad % 1000000);
- }
- 
--static ssize_t ad9832_write(struct device *dev, struct device_attribute *attr,
-+static ssize_t ad9832_store(struct device *dev,
-+			    struct device_attribute *attr,
- 			    const char *buf, size_t len)
- {
- 	struct iio_dev *indio_dev = dev_to_iio_dev(dev);
-@@ -185,34 +280,20 @@ static ssize_t ad9832_write(struct device *dev, struct device_attribute *attr,
- 		return ret;
- 
- 	guard(mutex)(&st->lock);
--	switch ((u32)this_attr->address) {
--	case AD9832_FREQ0HM:
--	case AD9832_FREQ1HM:
--		ret = ad9832_write_frequency(st, this_attr->address, val);
--		break;
--	case AD9832_PHASE0H:
--	case AD9832_PHASE1H:
--	case AD9832_PHASE2H:
--	case AD9832_PHASE3H:
--		ret = ad9832_write_phase(st, this_attr->address, val);
--		break;
--	case AD9832_PINCTRL_EN:
--		st->ctrl_ss &= ~AD9832_SELSRC;
--		st->ctrl_ss |= FIELD_PREP(AD9832_SELSRC, val ? 0 : 1);
--
--		st->data = cpu_to_be16(FIELD_PREP(AD9832_CMD_MSK, AD9832_CMD_SYNCSELSRC) |
--						  st->ctrl_ss);
--		ret = spi_sync(st->spi, &st->msg);
--		break;
-+	switch (this_attr->address) {
- 	case AD9832_FREQ_SYM:
- 		if (val != 1 && val != 0)
- 			return -EINVAL;
- 
- 		st->ctrl_fp &= ~AD9832_FREQ;
--		st->ctrl_fp |= FIELD_PREP(AD9832_FREQ, val ? 1 : 0);
-+		st->ctrl_fp |= FIELD_PREP(AD9832_FREQ, val);
- 		st->data = cpu_to_be16(FIELD_PREP(AD9832_CMD_MSK, AD9832_CMD_FPSELECT) |
- 						  st->ctrl_fp);
- 		ret = spi_sync(st->spi, &st->msg);
-+		if (ret)
-+			return ret;
-+
-+		st->freq_sym = val;
- 		break;
- 	case AD9832_PHASE_SYM:
- 		if (val > 3)
-@@ -224,8 +305,15 @@ static ssize_t ad9832_write(struct device *dev, struct device_attribute *attr,
- 		st->data = cpu_to_be16(FIELD_PREP(AD9832_CMD_MSK, AD9832_CMD_FPSELECT) |
- 						  st->ctrl_fp);
- 		ret = spi_sync(st->spi, &st->msg);
-+		if (ret)
-+			return ret;
-+
-+		st->phase_sym = val;
- 		break;
- 	case AD9832_OUTPUT_EN:
-+		if (val != 1 && val != 0)
-+			return -EINVAL;
-+
- 		if (val)
- 			st->ctrl_src &= ~(AD9832_RESET | AD9832_SLEEP | AD9832_CLR);
- 		else
-@@ -234,49 +322,110 @@ static ssize_t ad9832_write(struct device *dev, struct device_attribute *attr,
- 		st->data = cpu_to_be16(FIELD_PREP(AD9832_CMD_MSK, AD9832_CMD_SLEEPRESCLR) |
- 						  st->ctrl_src);
- 		ret = spi_sync(st->spi, &st->msg);
-+		if (ret)
-+			return ret;
-+
-+		st->output_en = val;
-+		break;
-+	case AD9832_PINCTRL_EN:
-+		if (val != 1 && val != 0)
-+			return -EINVAL;
-+
-+		st->ctrl_ss &= ~AD9832_SELSRC;
-+		st->ctrl_ss |= FIELD_PREP(AD9832_SELSRC, val ? 0 : 1);
-+
-+		st->data = cpu_to_be16(FIELD_PREP(AD9832_CMD_MSK, AD9832_CMD_SYNCSELSRC) |
-+						 st->ctrl_ss);
-+		ret = spi_sync(st->spi, &st->msg);
-+		if (ret)
-+			return ret;
-+
-+		st->pinctrl_en = val;
- 		break;
- 	default:
- 		return -ENODEV;
- 	}
- 
--	return ret ? ret : len;
-+	return len;
- }
- 
--/*
-- * see dds.h for further information
-- */
-+static ssize_t ad9832_show(struct device *dev,
-+			   struct device_attribute *attr,
-+			   char *buf)
-+{
-+	struct iio_dev *indio_dev = dev_to_iio_dev(dev);
-+	struct ad9832_state *st = iio_priv(indio_dev);
-+	struct iio_dev_attr *this_attr = to_iio_dev_attr(attr);
- 
--static IIO_DEV_ATTR_FREQ(0, 0, 0200, NULL, ad9832_write, AD9832_FREQ0HM);
--static IIO_DEV_ATTR_FREQ(0, 1, 0200, NULL, ad9832_write, AD9832_FREQ1HM);
--static IIO_DEV_ATTR_FREQSYMBOL(0, 0200, NULL, ad9832_write, AD9832_FREQ_SYM);
--static IIO_CONST_ATTR_FREQ_SCALE(0, "1"); /* 1Hz */
-+	guard(mutex)(&st->lock);
-+	switch (this_attr->address) {
-+	case AD9832_FREQ_SYM:
-+		return sysfs_emit(buf, "%u\n", st->freq_sym);
-+	case AD9832_PHASE_SYM:
-+		return sysfs_emit(buf, "%u\n", st->phase_sym);
-+	case AD9832_OUTPUT_EN:
-+		return sysfs_emit(buf, "%u\n", st->output_en);
-+	case AD9832_PINCTRL_EN:
-+		return sysfs_emit(buf, "%u\n", st->pinctrl_en);
-+	default:
-+		return -ENODEV;
-+	}
-+}
-+
-+#define AD9832_CHAN_FREQ(_name, _channel) {			\
-+	.name = _name,						\
-+	.write = ad9832_write_frequency,			\
-+	.read = ad9832_read_frequency,				\
-+	.private = _channel,					\
-+	.shared = IIO_SEPARATE,					\
-+}
-+
-+#define AD9832_CHAN_PHASE(_name, _channel) {			\
-+	.name = _name,						\
-+	.write = ad9832_write_phase,				\
-+	.read = ad9832_read_phase,				\
-+	.private = _channel,					\
-+	.shared = IIO_SEPARATE,					\
-+}
-+
-+static const struct iio_chan_spec_ext_info ad9832_ext_info[] = {
-+	AD9832_CHAN_FREQ("frequency0", 0),
-+	AD9832_CHAN_FREQ("frequency1", 1),
-+	AD9832_CHAN_PHASE("phase0", 0),
-+	AD9832_CHAN_PHASE("phase1", 1),
-+	AD9832_CHAN_PHASE("phase2", 2),
-+	AD9832_CHAN_PHASE("phase3", 3),
-+	{ }
-+};
- 
--static IIO_DEV_ATTR_PHASE(0, 0, 0200, NULL, ad9832_write, AD9832_PHASE0H);
--static IIO_DEV_ATTR_PHASE(0, 1, 0200, NULL, ad9832_write, AD9832_PHASE1H);
--static IIO_DEV_ATTR_PHASE(0, 2, 0200, NULL, ad9832_write, AD9832_PHASE2H);
--static IIO_DEV_ATTR_PHASE(0, 3, 0200, NULL, ad9832_write, AD9832_PHASE3H);
--static IIO_DEV_ATTR_PHASESYMBOL(0, 0200, NULL,
--				ad9832_write, AD9832_PHASE_SYM);
--static IIO_CONST_ATTR_PHASE_SCALE(0, "0.0015339808"); /* 2PI/2^12 rad*/
-+static const struct iio_chan_spec ad9832_channels[] = {
-+	{
-+		.type = IIO_ALTCURRENT,
-+		.output = 1,
-+		.indexed = 1,
-+		.channel = 0,
-+		.ext_info = ad9832_ext_info,
-+	},
-+};
- 
--static IIO_DEV_ATTR_PINCONTROL_EN(0, 0200, NULL,
--				ad9832_write, AD9832_PINCTRL_EN);
--static IIO_DEV_ATTR_OUT_ENABLE(0, 0200, NULL,
--				ad9832_write, AD9832_OUTPUT_EN);
-+static IIO_DEVICE_ATTR(out_altcurrent0_frequency_symbol, 0644,
-+		       ad9832_show, ad9832_store, AD9832_FREQ_SYM);
-+static IIO_DEVICE_ATTR(out_altcurrent0_phase_symbol, 0644,
-+		       ad9832_show, ad9832_store, AD9832_PHASE_SYM);
-+static IIO_DEVICE_ATTR(out_altcurrent0_enable, 0644,
-+		       ad9832_show, ad9832_store, AD9832_OUTPUT_EN);
-+/*
-+ * TODO: Convert to DT property when graduating from staging.
-+ * Pin control configuration depends on hardware wiring.
-+ */
-+static IIO_DEVICE_ATTR(out_altcurrent0_pincontrol_en, 0644,
-+		       ad9832_show, ad9832_store, AD9832_PINCTRL_EN);
- 
- static struct attribute *ad9832_attributes[] = {
--	&iio_dev_attr_out_altvoltage0_frequency0.dev_attr.attr,
--	&iio_dev_attr_out_altvoltage0_frequency1.dev_attr.attr,
--	&iio_const_attr_out_altvoltage0_frequency_scale.dev_attr.attr,
--	&iio_dev_attr_out_altvoltage0_phase0.dev_attr.attr,
--	&iio_dev_attr_out_altvoltage0_phase1.dev_attr.attr,
--	&iio_dev_attr_out_altvoltage0_phase2.dev_attr.attr,
--	&iio_dev_attr_out_altvoltage0_phase3.dev_attr.attr,
--	&iio_const_attr_out_altvoltage0_phase_scale.dev_attr.attr,
--	&iio_dev_attr_out_altvoltage0_pincontrol_en.dev_attr.attr,
--	&iio_dev_attr_out_altvoltage0_frequencysymbol.dev_attr.attr,
--	&iio_dev_attr_out_altvoltage0_phasesymbol.dev_attr.attr,
--	&iio_dev_attr_out_altvoltage0_out_enable.dev_attr.attr,
-+	&iio_dev_attr_out_altcurrent0_frequency_symbol.dev_attr.attr,
-+	&iio_dev_attr_out_altcurrent0_phase_symbol.dev_attr.attr,
-+	&iio_dev_attr_out_altcurrent0_enable.dev_attr.attr,
-+	&iio_dev_attr_out_altcurrent0_pincontrol_en.dev_attr.attr,
- 	NULL,
- };
- 
-@@ -318,6 +467,8 @@ static int ad9832_probe(struct spi_device *spi)
- 	indio_dev->name = spi_get_device_id(spi)->name;
- 	indio_dev->info = &ad9832_info;
- 	indio_dev->modes = INDIO_DIRECT_MODE;
-+	indio_dev->channels = ad9832_channels;
-+	indio_dev->num_channels = ARRAY_SIZE(ad9832_channels);
- 
- 	/* Setup default messages */
- 	st->xfer.tx_buf = &st->data;
++What:		/sys/bus/iio/devices/iio:deviceX/out_altcurrent0_pincontrol_en
++KernelVersion:	6.19
++Contact:	linux-iio@vger.kernel.org
++Description:
++    Enables (1) or disables (0) hardware pin control for frequency
++    and phase selection. When enabled, external pins control
++    register selection instead of software.
 -- 
 2.43.0
 
