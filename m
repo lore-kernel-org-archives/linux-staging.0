@@ -1,61 +1,59 @@
-Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
+Received: from xmbghk7.mail.qq.com (xmbghk7.mail.qq.com [43.163.128.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDA751CD15
-	for <linux-staging@lists.linux.dev>; Mon, 15 Dec 2025 03:13:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED94E1A00F0
+	for <linux-staging@lists.linux.dev>; Mon, 15 Dec 2025 04:01:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=43.163.128.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765768396; cv=none; b=q3oPJ/iR+o7rReuxbqNdaEJMpVlwYflYxZ6oHqfry7ofi8aaICbZedK1GlUtgKJqhxBOdh034e0t93XSXrCag62GcJRPh8IcMmvhi06d4SzlROkc7nf3oZezPax2J3KvuHKm1v/fN4vHepD+5NpUJ8j3LRwPCDokHjwI8Rd0p6o=
+	t=1765771308; cv=none; b=Z9AtVzzIy4cVr0+g6A+SDnY5yb6TdlXm6JIYySE1FKvhrRZdr709xQVu+XZlJCZLZkClSyol8rAU4f5RaSu6bEzwa53AIGi/Cs2f8JsfKueqFAtMAzS4iZKvRlpEgSkU+q6JeWdC/xZ/5QQIjbxK0mWz+vUumYnxG3UJtE6r2K8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765768396; c=relaxed/simple;
-	bh=4pxfFewNpFp4CVv5v0c8f/D4LB7Lvw+g4E7JJTHYwwY=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=SPTQ5tBG4fbVFMMuLLrGfgWKdfdBGiCr4l1EKBdTONdB34HixP+lUV86ANHk3h1q3MpZpcDJEmrqOnXEiT9IBLBbVEBsLROiyZRgS8solgJP4GRPtNLqXMLPjbWaBk0RL/BgUcNhr6uppOQE73WTI6q8J/d4UWc264Cx/vKU7QE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
-X-UUID: fa4821e4d96311f0a38c85956e01ac42-20251215
-X-CTIC-Tags:
-	HR_CC_COUNT, HR_CC_DOMAIN_COUNT, HR_CC_NAME, HR_CC_NO_NAME, HR_CTE_8B
-	HR_CTT_MISS, HR_DATE_H, HR_DATE_WKD, HR_DATE_ZONE, HR_FROM_NAME
-	HR_SJ_DIGIT_LEN, HR_SJ_LANG, HR_SJ_LEN, HR_SJ_LETTER, HR_SJ_NOR_SYM
-	HR_SJ_PHRASE, HR_SJ_PHRASE_LEN, HR_SJ_WS, HR_TO_COUNT, HR_TO_DOMAIN_COUNT
-	HR_TO_NO_NAME, IP_TRUSTED, SRC_TRUSTED, DN_TRUSTED, SA_TRUSTED
-	SA_EXISTED, SN_TRUSTED, SN_EXISTED, SPF_NOPASS, DKIM_NOPASS
-	DMARC_NOPASS, CIE_GOOD, CIE_GOOD_SPF, GTI_FG_BS, GTI_RG_INFO
-	GTI_C_BU, AMN_GOOD, ABX_MISS_RDNS
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.3.6,REQID:a925372d-6a62-4225-87ee-2826c6c06d16,IP:15,U
-	RL:0,TC:0,Content:0,EDM:0,RT:0,SF:-30,FILE:0,BULK:0,RULE:Release_Ham,ACTIO
-	N:release,TS:-15
-X-CID-INFO: VERSION:1.3.6,REQID:a925372d-6a62-4225-87ee-2826c6c06d16,IP:15,URL
-	:0,TC:0,Content:0,EDM:0,RT:0,SF:-30,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
-	release,TS:-15
-X-CID-META: VersionHash:a9d874c,CLOUDID:f031a08fb9f9d2f1a8027034e100339c,BulkI
-	D:251215111309TA99YHIR,BulkQuantity:0,Recheck:0,SF:10|38|66|78|102|127|850
-	|898,TC:nil,Content:0|15|50,EDM:-3,IP:-2,URL:0,File:nil,RT:nil,Bulk:nil,QS
-	:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,A
-	RC:0
-X-CID-BVR: 2,SSN|SDN
-X-CID-BAS: 2,SSN|SDN,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR
-X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
-X-UUID: fa4821e4d96311f0a38c85956e01ac42-20251215
-X-User: pengcan@kylinos.cn
-Received: from localhost.localdomain [(116.128.244.171)] by mailgw.kylinos.cn
-	(envelope-from <pengcan@kylinos.cn>)
-	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
-	with ESMTP id 1409653995; Mon, 15 Dec 2025 11:13:07 +0800
-From: Can Peng <pengcan@kylinos.cn>
-To: gregkh@linuxfoundation.org,
-	weibu@redadmin.org,
-	karanja99erick@gmail.com
+	s=arc-20240116; t=1765771308; c=relaxed/simple;
+	bh=MkS0LQOdxvHc77uALW7FfqfopRejLuzBk24JnAEal6w=;
+	h=Message-ID:From:To:Cc:Subject:Date:MIME-Version; b=bS8awewSkdd9P8m4b6zTlYmM6Hw6QBGHubBsuxjHXlxTCldl/rfCnLHTSvg0FayBN7733R3azEHvicGD787nMFBcSS5tB0QrVs3QsFba4eVNvUGMa/FoQAn/UmeOVZZhSrnY6yKsnQaroIap8Wf3cCGwIR5/ivWHbaMHdKE3a00=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foxmail.com; spf=pass smtp.mailfrom=foxmail.com; dkim=pass (1024-bit key) header.d=foxmail.com header.i=@foxmail.com header.b=HUguZ6tG; arc=none smtp.client-ip=43.163.128.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foxmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foxmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=foxmail.com header.i=@foxmail.com header.b="HUguZ6tG"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foxmail.com;
+	s=s201512; t=1765771295;
+	bh=PTKAT0uQJfdikJBB13LrpiwUoCQrr8fSlG70rDq1JYk=;
+	h=From:To:Cc:Subject:Date;
+	b=HUguZ6tGlV9N5rALut8pFv4O0/rQ4L11vnYJ6XoO0SP2o6REgACKXWaiu1stld3g9
+	 jcpWZwkb5w5ExXcMDbalxR6awZfFOXgoBgAkFXQQ8SIiO64Nh3wi+4bcXqPBUr3bX4
+	 GJRhXqwv8ZAQ1XE6swMacZjtuQF2Le8xxqXCG3N0=
+Received: from localhost ([2408:8207:c5b:c860:9ec7:6e84:86df:b3d9])
+	by newxmesmtplogicsvrsza53-0.qq.com (NewEsmtp) with SMTP
+	id 6296413; Mon, 15 Dec 2025 12:01:34 +0800
+X-QQ-mid: xmsmtpt1765771294t3l2s1u57
+Message-ID: <tencent_9CA8125E2399DA1ADBDBB8FF585FC95A3606@qq.com>
+X-QQ-XMAILINFO: MDbayGdXPuoeWQwhfJghkSpmiDelpxLPSGgQWFEScweWaIWDL1H49QQ4k/wMiQ
+	 lx3MTMxB58nuNJC4hMGqkJ0zSOGdFX4VlIm71E3ZaI39vttUh9HQ2ss7JW52/26xfjRCE8Xz868i
+	 SxDrU5ltbOjScGU3rzJPZg7uszu9s0uiV4kbxbecE3nlo7Hn97BAYQ3DWsMS4b5IUXnWqbqxMgKe
+	 xcMxIDePFmfiRfjxdSXOUenmskpfkDE0ZxYYcERbrJ1LqyEViF3B61xlVT6djXJ7e/sum8gk2kyw
+	 D2X+LIKz7v6UHPQ5CvnhcDw0EzF21+6qIbgZEwrcH+tnn3r/HaQdhEI0QHXo1S7ZZKnAHWzeU6ix
+	 tvf/woT4NQVOsnk7YcnWKn4aBBtn7bsa0rqN5rB7TWO9UZbpiINUL6fvdRwcg6na+EVY/tSw2/AG
+	 byoHq7sTWl+ZZbRcPKZQeF1qEBcRJSS7l9aSKfJQv/Hje88Z/8G6SXZ+OhKecMwrTvP6mUDFsJrO
+	 NZ8pVkhp7rvmm+YLDh4DUR4hf6MnONewCtTbxs2SbCKkcD+d9YiP9+4HPVgrveEFhXPMt1uRLKcW
+	 Lpl3biHGbQPoMVqJefStCDeBvKTGWqyTYdMDAgFy9/7vbm9bU8Z6jF3/e55e2oh6GjZCRYD7pxxF
+	 54zQXpv14qK8W9I/walEASK2UI8Nhr8taxJUpUIj+Nc21FIGP0elAyBP3rcsNuDUVUKIHbfC8mNA
+	 Lwq0LThANsTIqalCUV+liMQjKorIfncU7Qvu+dY12L+ID4nK+emS+KO9vClHP02np8tav0VYCkj6
+	 8Z7/KoLptyaDTHZEAbDsm+m0lMCen8j0RNGaIRjgbeGcTMxsL3U/5VHdbh2G8ov9ibg0tzpHtKZ1
+	 qjyuvFoQFRWP8htSQSfUR97dEVjk3bM+oM7TIAKKCdw2y7AdnHCETR9y8IjRGBap9B87YqfXgP7I
+	 sZdzTj02v9R0VSteaZ0mhzv+bDPAxerCTQuP16QgmciQUN2cIxYy+psuYRQc5NiBUvw6AAO9HAQw
+	 w+hVRltkzCTUU77e/q33pOSPSxO0fDgMPLO5YXIGQ9UqaBwPtyQJ0pW/M3NIJjVv4TuIkQOLBK8h
+	 tUKDvs3ZcBlbBigZJ1wjgFcMSlkTfFJkqbxLIOb3w4bOxRqWU2YaE4eIoKwRv5FkHfzA6R
+X-QQ-XMRINFO: Mp0Kj//9VHAxr69bL5MkOOs=
+From: Zixuan Dong <dbeidachazi@foxmail.com>
+To: gregkh@linuxfoundation.org
 Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
-	Can Peng <pengcan@kylinos.cn>
-Subject: [PATCH 1/1] staging: rtl8723bs: use LIST_HEAD for stack-allocated list in xmit cleanup
-Date: Mon, 15 Dec 2025 11:11:50 +0800
-Message-Id: <20251215031150.49165-1-pengcan@kylinos.cn>
-X-Mailer: git-send-email 2.25.1
+	straube.linux@gmail.com,
+	Zixuan Dong <dbeidachazi@foxmail.com>
+Subject: [PATCH] staging: rtl8723bs: Fix block comment coding style
+Date: Mon, 15 Dec 2025 12:01:28 +0800
+X-OQ-MSGID: <20251215040128.41208-1-dbeidachazi@foxmail.com>
+X-Mailer: git-send-email 2.52.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -64,34 +62,45 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Replace the separate declaration of 'tmplist' and subsequent
-INIT_LIST_HEAD() call with LIST_HEAD(), which declares and
-initializes the list head in a single idiomatic step. This
-improves code clarity and follows common kernel coding patterns
-without changing functionality.
+Fix the following checkpatch warnings in os_intfs.c:
 
-Signed-off-by: Can Peng <pengcan@kylinos.cn>
+  WARNING: Block comments use * on subsequent lines
+  WARNING: Block comments use a trailing */ on a separate line
+
+Signed-off-by: Zixuan Dong <dbeidachazi@foxmail.com>
 ---
- drivers/staging/rtl8723bs/hal/rtl8723bs_xmit.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ drivers/staging/rtl8723bs/os_dep/os_intfs.c | 18 ++++++++++--------
+ 1 file changed, 10 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/staging/rtl8723bs/hal/rtl8723bs_xmit.c b/drivers/staging/rtl8723bs/hal/rtl8723bs_xmit.c
-index abb6fdfe7e1f..8c227ddc8e53 100644
---- a/drivers/staging/rtl8723bs/hal/rtl8723bs_xmit.c
-+++ b/drivers/staging/rtl8723bs/hal/rtl8723bs_xmit.c
-@@ -548,11 +548,10 @@ void rtl8723bs_free_xmit_priv(struct adapter *padapter)
- 	struct xmit_buf *pxmitbuf;
- 	struct __queue *pqueue = &pxmitpriv->pending_xmitbuf_queue;
- 	struct list_head *plist, *phead;
--	struct list_head tmplist;
-+	LIST_HEAD(tmplist);
+diff --git a/drivers/staging/rtl8723bs/os_dep/os_intfs.c b/drivers/staging/rtl8723bs/os_dep/os_intfs.c
+index 6ca6dc548805..cd81d9e4a3d2 100644
+--- a/drivers/staging/rtl8723bs/os_dep/os_intfs.c
++++ b/drivers/staging/rtl8723bs/os_dep/os_intfs.c
+@@ -934,14 +934,16 @@ static int netdev_close(struct net_device *pnetdev)
+ 	padapter->net_closed = true;
+ 	padapter->netif_up = false;
  
- 
- 	phead = get_list_head(pqueue);
--	INIT_LIST_HEAD(&tmplist);
- 
- 	spin_lock_bh(&pqueue->lock);
- 	if (!list_empty(&pqueue->queue)) {
+-/*if (!padapter->hw_init_completed)
+-	{
+-
+-		padapter->bDriverStopped = true;
+-
+-		rtw_dev_unload(padapter);
+-	}
+-	else*/
++/*
++ * if (!padapter->hw_init_completed)
++ * {
++ *
++ *	padapter->bDriverStopped = true;
++ *
++ *	rtw_dev_unload(padapter);
++ * }
++ * else
++ */
+ 	if (pwrctl->rf_pwrstate == rf_on) {
+ 		/* s1. */
+ 		if (pnetdev) {
 -- 
-2.25.1
+2.52.0
 
