@@ -1,72 +1,72 @@
-Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
+Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F11E135293F
-	for <linux-staging@lists.linux.dev>; Wed, 17 Dec 2025 15:42:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79AC9355022
+	for <linux-staging@lists.linux.dev>; Wed, 17 Dec 2025 15:42:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765986149; cv=none; b=FXUeb9dagOEpkxybHuJdoPD6XYE8GKQLebuytm9vt5UwUVwU9erE+wOjc6mVMLrDGLeesxR5kuJiPkcUyUhTHp/OpdH18nqGo//cTdCZcXiNziHQuK1ypPn7AQni82XSGJMZqSyjTC0dG/e7RHp37B5oOg41J4Su45jy4/ef0cg=
+	t=1765986154; cv=none; b=nZHnq/iGahlqRUAxrCA067A6IfhvdPHkspV/Ro6PVzyNSM48pMgnl/jOzpj+XVhBoimP09rtBvJnM35x9W6Vm7e+B7N7bnHrtOEbctpOD37/q80SFXy7CqfEP9zEzxH4DTBsbdOkMW+IgNsNzUat+5VQslLRo7y3tQhhZJW7ebM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765986149; c=relaxed/simple;
-	bh=qo6Su76KF6RBKyoix2E2RDK/JywRXHqupIsVexf9oxw=;
+	s=arc-20240116; t=1765986154; c=relaxed/simple;
+	bh=fH+JS5TmELysIY2xcaSYIWEw90PNr1cMplwNRB0XNVc=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=EwgI6rX0ud62GX+okFhNXR680K7L0IrqUUydqeLznrgH/7acYmPV2w2I6A+TNW5cRnqoDyL91/iIdX00ACiywDIAkVFpazacRawk38hWGLiP8OUuWwl4eLu48/wqLRgX/0Gnow2hBUyB4NjHLhwl5OsLmzZ5RBAQgc3XGoSVjTc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gCydkZ+M; arc=none smtp.client-ip=209.85.210.179
+	 MIME-Version; b=bzGhQXBjvrS6CKMS2HLzlj3S/9ZV+LHRXvdST9sXNfqkxtG8gHcjBq+uK8qGZ2gh1oZ3rdVP2kJpc/pWLHwDM4NYz4xpXQfQhNvr6x5dQJufcOqbk1kecUxuGMjtSYyJ6d7iurlLagQd9LR1t2Y8WreU86YNcoEhDzbhEV3ETlU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ermFsAmN; arc=none smtp.client-ip=209.85.210.175
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gCydkZ+M"
-Received: by mail-pf1-f179.google.com with SMTP id d2e1a72fcca58-7ade456b6abso4722871b3a.3
-        for <linux-staging@lists.linux.dev>; Wed, 17 Dec 2025 07:42:27 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ermFsAmN"
+Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-7bc0cd6a13aso440119b3a.0
+        for <linux-staging@lists.linux.dev>; Wed, 17 Dec 2025 07:42:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1765986147; x=1766590947; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1765986151; x=1766590951; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=u4990UMYfP5m0Pd8lQSzep58XLVK/86AzrKVZXcIZzc=;
-        b=gCydkZ+MrXrAnHY3/9aAC830Txakx8np2n4Gl85Fh859f9yEu4INaDBIoysczs6CbB
-         RbytDHejeqiGRX57LOyExkhP9ZU+20VUY1fyno355MzAjN2ipNHx7EwwR3fT2jG0MREC
-         1S20dBEj0FqcTDNkOvH/zSh6WBHabhhE58dohKFZrCnMJv8q2cbSBg2uux1Sp5KoJwiI
-         H9bqIDsCw5aNiXAR8FpIyZzbR7sCbFta/0OMj5ldOV+T9TtqG2RVMVCbWNiYX9qIbySd
-         m0uJ3GxyFpXMw1iADQdyjdSgZ6YxS7EFzHqKly53nDe8Zh9vPz8uRLPk6pYB4GvK7hM0
-         arYA==
+        bh=MDoeLCFPMBfxb+K/1kxZw2gcw5hr2QZDGXnEim5/zak=;
+        b=ermFsAmNvTz6+ch7gHaMJTzwxEI7gwbci1bXEERkLmD/5Qc+F1UoGIdPOUv97wyYzx
+         m8zZcxM0YPA2oDqkdsrAI8BQojfi19pANH2CulYDJ3SqVBd1L6CThrLc1+BKlxDtV6/z
+         j4UqCyZRBSEGmG8q78q+5qSjk+nLxx8nCOQJEyE8Ph5mh+yDWhM09xwBiUIfU5v2WHIy
+         cvizihhKpuqgnYFH6bZ8EbCO3Gjdn8t5OygTNs9/RdC8iBLmSMhCKWL00ae132alORgR
+         YqlnGCIV2aisJlYjHGXg82zYbbLSBbF/mC5RJZSjMQ5gkboS7VujRN9Op/NE7xN2VOEY
+         aa/Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765986147; x=1766590947;
+        d=1e100.net; s=20230601; t=1765986151; x=1766590951;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=u4990UMYfP5m0Pd8lQSzep58XLVK/86AzrKVZXcIZzc=;
-        b=PqosburzZNPTmoTQ2A4qN0/U21AjpaBLD2eAIA4RHdt8O8tMp3/8UekMWFy/eZxgJU
-         g/CHmK8U24Uv2WHPRss4a9G/6pfogqhBhtkNuuR6pNeBkCvucwqUpiT1xNEHl3LvTRzs
-         kYgUa2zINtCRI9xZI89f7iRR8EUxrRBmBtMruXcCXreVlv790mQ8UgjTSTl2aVECehPQ
-         gVxpjhCyEPXx05csoFSbaT7kZjHz6FDZ8Nt3IXchccxFo47bB/UuQkQ4VzS7fjuaoDP8
-         FA8qeM2WNAx1O22qGrR70erwPK2uDvata+AnTe/Hb6EZ1eKpL4sw4ngbEUF3GFsOwMEt
-         XvXg==
-X-Gm-Message-State: AOJu0YzQFAei0ZNIZCFO/Dx3ZHXsJYj8M6P7Cx3ZNQjFtN0rxjfxDqgV
-	vKP6ntM7ATv/jhY+q7l+2gQf4+A0IOrqGa4vAx2F9eXHTIhI5vEYupYa
-X-Gm-Gg: AY/fxX7A2ls1FwUIb+aO8l9SCl7AdukGQvcZyWKMV/xvziSTODxfRtl8MY8zsAFlnVn
-	vrz2Wv18gzSBlsxSEpLOQdGJwNlIyBUWHb4CaPrWbv6DWuPzo/s3CsIqCfTU/jPjuDhZQoFhUDM
-	ZkMRY7sfRj3VR1V2CQjOBIElV4EueWznTQYUYo1AcCrQcJFbO4ZRsq7R0ijQx/Uh58cE/wzJAex
-	tPu1y1FjRzVPALfsEtOSgsxawZ5VlrcX+w3IHyYw84s8UENA378rSBffcEcOtP2F9Tz+PrGVMtQ
-	FgH7Bh1jdlpS70df7nUkPrBA3nMZnxkJR2FZUsWkMCWoduB9Bm7G7hjfkwl1/LfQmJDoDFXvofF
-	THYkcHL95vjHZsbjwmzGFZfk/KNndvT0c5rWdQe3vmetbwvZJrWOSzI3D6v3Ef9xIsrr6MP8jrb
-	0arOXlrxk+S1qesM58GsU=
-X-Google-Smtp-Source: AGHT+IHadyQi6xNMdvMrPjltdmk7J941DIMQ0mMDl1p4lln2IAKs4sYxfJndp5hCYd8vKeXrbqdI5A==
-X-Received: by 2002:a05:6a00:330d:b0:7aa:93d5:820f with SMTP id d2e1a72fcca58-7f66810bd78mr17253928b3a.30.1765986147054;
-        Wed, 17 Dec 2025 07:42:27 -0800 (PST)
+        bh=MDoeLCFPMBfxb+K/1kxZw2gcw5hr2QZDGXnEim5/zak=;
+        b=VjFwlx04WkxQHCE0k3BB2haj7RCNwbZ6zQpgatzJzuvG+vFPMxvJpJp0AgqBug0FwX
+         lP6sue/XkHW67qMlcT6p6qxE4nyGWuqrHAnGHbjulwFpL0tPt5CK4juOejGkQbFIoncm
+         LP5zE5DRc7+lZdiQHKPuBMFc0txWJgNTBCkAmC5ex1ES2gN5lUgBmDW0L6yTBUYrV1nP
+         QCqhHlmNZdSCU5EyM2dHXsgOcMPVHh+wrh9ybasrSVeH9ibzD65iSSPw65HSSasGaoM1
+         RsNxUFqhnn96bupLuYbJfA1ZhETGhvWYo4AmGGz2Tx6DZX7MmWyE/A68xy1MVKSyEPHG
+         E5tQ==
+X-Gm-Message-State: AOJu0Yw0z4RjTMrLC3IkWmZRe0eDZ2Gmm3DD//j4BMtY/FkQo3tY7JWA
+	JcNxJ/dUgqi6CRsz49Bm95rEBSRjk3kR/XVfgmTR444Vkd2GsifEd+D23O9vCRZR
+X-Gm-Gg: AY/fxX4sKQCBcR4XOB8Fgcoha50yXz6TdmwOznzQuwLWV1BnAmE7/ByOmSC+C5c3gJh
+	TO57PQ0WYicJe/M2w2dKq0aXMZVrqzpUH6hXDrlZMlNu/oAe82ieaeIZNQNNStQANk5jJhqOz9L
+	Rggqx37Z8NrxQtT72Og9ZrNkDvcrFkdXBJoCp1wj/aH2rFe+4U4fwK2MCAmxhm//ZRxTNLqIFBq
+	iH4+rFsykW0drqj9UPBLe3sJLAr8js2XkEUCMSW9Jio0odQzxkgjTesu+dFoVSCi7Rm120B6NLO
+	FO7w0beiIwxIZOj2xylXMoZWZUqRYKFnGe2SFACo37GBY1bc9DPZclTF5jDlcUToZHEJp9SVOlt
+	PgMx1tw3JJ6KRKeaB9GJuzjGqQMIGhg7+f4DdIhiAWTMx42AlDkii2Rnt/glsB5QwtB78XP7IP7
+	jE4xtNNZ3SCsNU0B5KGpY=
+X-Google-Smtp-Source: AGHT+IFpZCOT96SGNqQ5tE04atSpXv04zTB3Q8g1l0Nxvr+ZuFntTjidduuzzDc5MWIq839Hc7UK7A==
+X-Received: by 2002:a05:6a00:4207:b0:7e8:3fcb:bc3c with SMTP id d2e1a72fcca58-7f6691b48aemr19121809b3a.17.1765986150746;
+        Wed, 17 Dec 2025 07:42:30 -0800 (PST)
 Received: from ubuntu.. ([211.234.192.122])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7fcbc0bebe7sm3097978b3a.59.2025.12.17.07.42.24
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7fcbc0bebe7sm3097978b3a.59.2025.12.17.07.42.28
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 17 Dec 2025 07:42:26 -0800 (PST)
+        Wed, 17 Dec 2025 07:42:30 -0800 (PST)
 From: Sanghyeon Lee <sanghae778@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	karanja99erick@gmail.com,
 	Sanghyeon Lee <sanghae778@gmail.com>
-Subject: [PATCH v3 1/2] staging: rtl8723bs: remove unnecessary braces
-Date: Wed, 17 Dec 2025 15:42:15 +0000
-Message-ID: <20251217154216.8921-2-sanghae778@gmail.com>
+Subject: [PATCH v3 2/2] staging: rtl8723bs: remove unnecessary else block
+Date: Wed, 17 Dec 2025 15:42:16 +0000
+Message-ID: <20251217154216.8921-3-sanghae778@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20251217154216.8921-1-sanghae778@gmail.com>
 References: <20251217154216.8921-1-sanghae778@gmail.com>
@@ -78,55 +78,30 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Remove unnecessary braces from single-line conditional statements in
+Remove unnecessary else block after return statement in
 odm_CfoTracking.c to fix a checkpatch warning.
 
 Signed-off-by: Sanghyeon Lee <sanghae778@gmail.com>
 ---
- drivers/staging/rtl8723bs/hal/odm_CfoTracking.c | 12 +++++-------
- 1 file changed, 5 insertions(+), 7 deletions(-)
+ drivers/staging/rtl8723bs/hal/odm_CfoTracking.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/staging/rtl8723bs/hal/odm_CfoTracking.c b/drivers/staging/rtl8723bs/hal/odm_CfoTracking.c
-index 666a9f44012d..0b70509f553b 100644
+index 0b70509f553b..166af5f6c9e0 100644
 --- a/drivers/staging/rtl8723bs/hal/odm_CfoTracking.c
 +++ b/drivers/staging/rtl8723bs/hal/odm_CfoTracking.c
-@@ -100,9 +100,8 @@ void ODM_CfoTracking(void *pDM_VOID)
- 	u8 Adjust_Xtal = 1;
- 
- 	/* 4 Support ability */
--	if (!(pDM_Odm->SupportAbility & ODM_BB_CFO_TRACKING)) {
-+	if (!(pDM_Odm->SupportAbility & ODM_BB_CFO_TRACKING))
- 		return;
--	}
- 
- 	if (!pDM_Odm->bLinked || !pDM_Odm->bOneEntryOnly) {
- 		/* 4 No link or more than one entry */
-@@ -110,9 +109,9 @@ void ODM_CfoTracking(void *pDM_VOID)
- 	} else {
- 		/* 3 1. CFO Tracking */
- 		/* 4 1.1 No new packet */
--		if (pCfoTrack->packetCount == pCfoTrack->packetCount_pre) {
-+		if (pCfoTrack->packetCount == pCfoTrack->packetCount_pre)
+@@ -132,8 +132,9 @@ void ODM_CfoTracking(void *pDM_VOID)
+ 		) {
+ 			pCfoTrack->largeCFOHit = 1;
  			return;
--		}
+-		} else
+-			pCfoTrack->largeCFOHit = 0;
++		}
 +
- 		pCfoTrack->packetCount_pre = pCfoTrack->packetCount;
++		pCfoTrack->largeCFOHit = 0;
+ 		pCfoTrack->CFO_ave_pre = CFO_ave;
  
- 		/* 4 1.2 Calculate CFO */
-@@ -176,11 +175,10 @@ void ODM_CfoTracking(void *pDM_VOID)
- 		}
- 
- 		/* 3 2. Dynamic ATC switch */
--		if (CFO_ave < CFO_TH_ATC && CFO_ave > -CFO_TH_ATC) {
-+		if (CFO_ave < CFO_TH_ATC && CFO_ave > -CFO_TH_ATC)
- 			odm_SetATCStatus(pDM_Odm, false);
--		} else {
-+		else
- 			odm_SetATCStatus(pDM_Odm, true);
--		}
- 	}
- }
- 
+ 		/* 4 1.4 Dynamic Xtal threshold */
 -- 
 2.43.0
 
