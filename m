@@ -1,36 +1,37 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C05F3376A3;
-	Wed, 17 Dec 2025 12:56:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB5AE342527;
+	Wed, 17 Dec 2025 13:01:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765976215; cv=none; b=eZQTMwDnd5TjEA8aoQNVANVXB4ZFdzh1IAwQ62wvf+OUNVBB1Rs1H3zMGLJed3ePuzdo3PAynOwgMLKs6LafN2GviLm9FsUnnejdHuslDzMEpeuPVeDZwP/KCmvBAJnIIskWd6T4VKXM+zixTcej8GtnUDVvzSry1aC6IJeMN0Y=
+	t=1765976465; cv=none; b=eJRYxMVjwOl7ULssJpfwU4GbF/sV180nlVhrIl3+Q0fdLj9T5IJAo9L0B1mHUfbnRrhSYFILA0Zr3/b9MrLxxlfJ0oElomVv5XpzOjPY2wvGxzXyuVhO9rCZb/w+u7ItdmdYeu3rrM7cOVJiXRd+NQNi/bSj5aq/YFZvKzYaeXE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765976215; c=relaxed/simple;
-	bh=SPMVbbG83y/sljnp11jJ5Y7aQtxP1R5i5XEe1vLYmog=;
+	s=arc-20240116; t=1765976465; c=relaxed/simple;
+	bh=JkyGt0LbaR5Qb8EH1JoU37cduEcWc4ieIxYhQM8jGFc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=p7ilLo9I+PwQNWy11zbkG7jyh2PvRdGwD5gf0x4gyVj7pZuDdxZ6YlvFBDJSopNxNNpkjmfGqdfAWFrlwtnZ16e5911jg1CpnfkokfhqyCjYudPmvSJDMKu36GnguANUVkglGToO4R08YZsOxoLJA+IQ7CQbolRUHL7AaM77JyU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=ZVsWWJhF; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=EUWsugcyjVcM7Fo/0DYQynG/Cf23PNfrJjnoNAHEi9dIY1GXT9CgWm706aVpcWNgnM1dLcb60j2fwQwdLan943IHHATq8QB3svbQnSYQ8LuBGXsW9wnNEjhs9ikDRKqZv1Ats4DUt3uQVQJP/h176Ze8dOaKJA3RTrViLxThPJU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=MCul9lNn; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="ZVsWWJhF"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3E4D0C4CEF5;
-	Wed, 17 Dec 2025 12:56:54 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="MCul9lNn"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AF2F2C4CEF5;
+	Wed, 17 Dec 2025 13:01:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1765976214;
-	bh=SPMVbbG83y/sljnp11jJ5Y7aQtxP1R5i5XEe1vLYmog=;
+	s=korg; t=1765976465;
+	bh=JkyGt0LbaR5Qb8EH1JoU37cduEcWc4ieIxYhQM8jGFc=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ZVsWWJhF9Aj/sxCjeSXcGlU/F5C6s7KrCbdzwHC4mItFySUrhVjBA2u7IcgFRBNnC
-	 gM4A69C8oVO8n/b5juDoOijGeN+aZxnsneBpkURo0CmtHfq3V1DFVNVo1sczqp11VL
-	 Qs9ykx1iMCC/9jH1Dof+flVHaiPflbjqbJifnoQE=
-Date: Wed, 17 Dec 2025 13:56:51 +0100
+	b=MCul9lNnceEcR3zbBklqWo91Zzz9+csAR0DrzKtyD39TGrlXKey8wb/g00UnQFnw7
+	 DLykFzeur7L730Xmm5vzJcn4nQ1Nd9MJnlLtUOanTfcuq6ym/gwQaLgh50ZYhg3F6l
+	 wCwDCRRo3cKUeL/+0KeBJXUQXRrzdQmJI9GVsrNI=
+Date: Wed, 17 Dec 2025 14:00:59 +0100
 From: Greg KH <gregkh@linuxfoundation.org>
-To: Sammy Malik <sammy@parkour.is>
-Cc: johan@kernel.org, elder@kernel.org, greybus-dev@lists.linaro.org,
+To: Rutansh Suthar <rutanshsuthar@gmail.com>
+Cc: dan.carpenter@linaro.org, zhaochenguang@kylinos.cn,
 	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: greybus: Remove completed PWN TODO item.
-Message-ID: <2025121732-brook-widely-dfc7@gregkh>
-References: <20251129104407.145907-1-sammy@parkour.is>
+Subject: Re: [PATCH v1] staging: rtl8723bs: fix block comment coding style in
+ rtw_io.c
+Message-ID: <2025121750-smartness-ship-b187@gregkh>
+References: <20251202234318.75104-1-rutanshsuthar@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -39,15 +40,17 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251129104407.145907-1-sammy@parkour.is>
+In-Reply-To: <20251202234318.75104-1-rutanshsuthar@gmail.com>
 
-On Sat, Nov 29, 2025 at 10:44:36AM +0000, Sammy Malik wrote:
-> The pwm.c driver already uses pwn_ops::apply. This item was completed
-> but never removed.
+On Tue, Dec 02, 2025 at 03:43:18PM -0800, Rutansh Suthar wrote:
+> Fix block comment alignment and style in rtw_io.c to match kernel
+> coding style standards.
+> 
+> No functional changes intended.
+> 
+> Signed-off-by: Rutansh Suthar <rutanshsuthar@gmail.com>
+> ---
+>  drivers/staging/rtl8723bs/core/rtw_io.c | 51 +++++++++++++------------
+>  1 file changed, 26 insertions(+), 25 deletions(-)
 
-What commit id fixed this up?  Please show that here in the changelog
-text.
-
-thanks,
-
-greg k-h
+Does not apply at all to the latest kernel tree :(
