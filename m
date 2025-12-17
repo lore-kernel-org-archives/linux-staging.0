@@ -1,71 +1,75 @@
-Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
+Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEA4B34FF48
-	for <linux-staging@lists.linux.dev>; Wed, 17 Dec 2025 15:42:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F11E135293F
+	for <linux-staging@lists.linux.dev>; Wed, 17 Dec 2025 15:42:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765986145; cv=none; b=Z4cHRqpu39XpS7FqFJcIdjOyq03A4o8xKZP8vR3fdD65HHf34NAyE8tJiq/3INdjn5zPfsynF4+NVVffI9fdanPiZCJvckE8wIaZxSMcU7fFBPK5mVNNI65Sz7SsmA6eebH9Tt1GtI4DmCFXR77Our6+S4y9J8JxlVHPf5pPG7w=
+	t=1765986149; cv=none; b=FXUeb9dagOEpkxybHuJdoPD6XYE8GKQLebuytm9vt5UwUVwU9erE+wOjc6mVMLrDGLeesxR5kuJiPkcUyUhTHp/OpdH18nqGo//cTdCZcXiNziHQuK1ypPn7AQni82XSGJMZqSyjTC0dG/e7RHp37B5oOg41J4Su45jy4/ef0cg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765986145; c=relaxed/simple;
-	bh=ZIFxr3cPkbypTedSJ87FyUlnd3SUFK/9NVjw1QNhSws=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=N47YqwlBFq67KqojaFhwR3RJsTB833yfBZ7vypCN7L4+5ETf2IHhSv/797RFqjw9YMemjQjuOF/fICEzNkNre36LBQ/UBggT529oMH06b71/E0Ln6LpMjr577GjZLyNV/Xy4d0lH4/tcquUGwUNofMcMkwdvFsh2KWTGXhucmNQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=f7rVmSNk; arc=none smtp.client-ip=209.85.210.172
+	s=arc-20240116; t=1765986149; c=relaxed/simple;
+	bh=qo6Su76KF6RBKyoix2E2RDK/JywRXHqupIsVexf9oxw=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=EwgI6rX0ud62GX+okFhNXR680K7L0IrqUUydqeLznrgH/7acYmPV2w2I6A+TNW5cRnqoDyL91/iIdX00ACiywDIAkVFpazacRawk38hWGLiP8OUuWwl4eLu48/wqLRgX/0Gnow2hBUyB4NjHLhwl5OsLmzZ5RBAQgc3XGoSVjTc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gCydkZ+M; arc=none smtp.client-ip=209.85.210.179
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="f7rVmSNk"
-Received: by mail-pf1-f172.google.com with SMTP id d2e1a72fcca58-7fc0c1d45a4so1684796b3a.0
-        for <linux-staging@lists.linux.dev>; Wed, 17 Dec 2025 07:42:23 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gCydkZ+M"
+Received: by mail-pf1-f179.google.com with SMTP id d2e1a72fcca58-7ade456b6abso4722871b3a.3
+        for <linux-staging@lists.linux.dev>; Wed, 17 Dec 2025 07:42:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1765986143; x=1766590943; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=6+YJsvh3cjhyILFUso1VF8aTZIvo+5pZ+aLYD/fRLlE=;
-        b=f7rVmSNkaZ84IcAn/SqXF9S2duIa9b0HnphZduxryTWPssN2HeEPAEiRWLP/xy8weV
-         mIPEwdaj4iuwTya8GjWaArIABbv4/+o9CzJ/cU8yTTb0nRrcWdGXUPZfoy/Jg98o/VP9
-         FH+j6tvrD0iffgX0EvrIl4SwoQrHyuc2b4BNidd7tZ+7DCMIBJCCqCqwoGa9rlWWKft8
-         Rpu9D9dQ1RzPgk/+UItFq0MX8nxdcChxQR4YoIjCl35LWHUYbNlq0yaHY0JNhnwB7ysX
-         9AFljZY3hfQ0E3vRsmB1Z3tQGHfjc+ARm0BNk4cyt2Mhy2FTsKf+Gpex4swoQY0Lt8pt
-         rqXw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765986143; x=1766590943;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1765986147; x=1766590947; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=6+YJsvh3cjhyILFUso1VF8aTZIvo+5pZ+aLYD/fRLlE=;
-        b=Fiyg2/fr+i6fYMV1XkFy2NtQ+9P3PXSSa1tS4ZOmgGPxcH9xJFaTujiqFtDvwv6wH3
-         KzjIndwAcg/G7FSYO4uufdjNP6d69ssq+n2KcnSPyMl9ko5Y+g4/FAdjjbXcvuhvc9s6
-         paaDDPEP9KQNrjlWc8/fITD/IKM9f1yY6SK66WwMpltZY4zWKmmOGz3cRdphsPgGqaVi
-         dRpAt90xryKHtJRF1UCeAqSCJp94CYk657JLWc58JZVu7ZEFa9ZZKe0HdYc2LA/clbdK
-         abQhdGqYY32yqWla1u0XVAzY50w60lU9q1Gw48gANTjlC8NC6aMdt4ffpZABMU4z42zz
-         ga5Q==
-X-Gm-Message-State: AOJu0Yx1NH+CDRK+4O09/TQ5qG0hIxuEc1MgC3wrvKeD5jl9SLAZzhvb
-	YEFgmC+dP0X7H5N6VMIDlxpfNZrgt87f/RsGlHS3+GKAmC9vOpqYvlFt
-X-Gm-Gg: AY/fxX7B61hq1sYHPx0AFrzUXD3TeaJCJgZlIkC9L9ocQWwfAyVrXpBUR9N9NF7+C7B
-	dwmPcIMs6Eyixwgk3KobsFCWitfWK9mrFcIae9cu8tXicjxBEG9/WBDHU+qqxBolAoctNMiJCvh
-	+tr4uIw0Jp1JN6yQ580fyHfj/upYMKl+rVdL79oQGadEBw8j3W55tgoll8MgFa8k0kTHlqVGb3n
-	x6kWhjZTV84NhTBpRw4AUuCWt8HasZ4znPq72lHu4XLuDwV+fUbsKx7GViDtSOqBeQLkOwoNK6Q
-	r9Tu7teovpSxCgc6jqvfdp7uxbhZs00OGYJBfxbYPDcuHpEGr1pPqwEusaq/sr7umU1PRqdJueL
-	EI8htR89la2zXtVQAXsPAvUGXqQqqiC2pEzggmovL+Yr7CcDdSS2pXI6Nl/r0AB7opusbHyIdo+
-	yNEe4bP/Y0
-X-Google-Smtp-Source: AGHT+IHxQRL5vNucXYa0ZPnSaWhjiXtgA7+SG1qVoYhjq6BTpafKpMUtBrrruQ1/n3T/iJIZA5orKg==
-X-Received: by 2002:a05:6a00:8683:b0:7e8:450c:61b5 with SMTP id d2e1a72fcca58-7f67156b796mr11119517b3a.37.1765986143136;
-        Wed, 17 Dec 2025 07:42:23 -0800 (PST)
+        bh=u4990UMYfP5m0Pd8lQSzep58XLVK/86AzrKVZXcIZzc=;
+        b=gCydkZ+MrXrAnHY3/9aAC830Txakx8np2n4Gl85Fh859f9yEu4INaDBIoysczs6CbB
+         RbytDHejeqiGRX57LOyExkhP9ZU+20VUY1fyno355MzAjN2ipNHx7EwwR3fT2jG0MREC
+         1S20dBEj0FqcTDNkOvH/zSh6WBHabhhE58dohKFZrCnMJv8q2cbSBg2uux1Sp5KoJwiI
+         H9bqIDsCw5aNiXAR8FpIyZzbR7sCbFta/0OMj5ldOV+T9TtqG2RVMVCbWNiYX9qIbySd
+         m0uJ3GxyFpXMw1iADQdyjdSgZ6YxS7EFzHqKly53nDe8Zh9vPz8uRLPk6pYB4GvK7hM0
+         arYA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1765986147; x=1766590947;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=u4990UMYfP5m0Pd8lQSzep58XLVK/86AzrKVZXcIZzc=;
+        b=PqosburzZNPTmoTQ2A4qN0/U21AjpaBLD2eAIA4RHdt8O8tMp3/8UekMWFy/eZxgJU
+         g/CHmK8U24Uv2WHPRss4a9G/6pfogqhBhtkNuuR6pNeBkCvucwqUpiT1xNEHl3LvTRzs
+         kYgUa2zINtCRI9xZI89f7iRR8EUxrRBmBtMruXcCXreVlv790mQ8UgjTSTl2aVECehPQ
+         gVxpjhCyEPXx05csoFSbaT7kZjHz6FDZ8Nt3IXchccxFo47bB/UuQkQ4VzS7fjuaoDP8
+         FA8qeM2WNAx1O22qGrR70erwPK2uDvata+AnTe/Hb6EZ1eKpL4sw4ngbEUF3GFsOwMEt
+         XvXg==
+X-Gm-Message-State: AOJu0YzQFAei0ZNIZCFO/Dx3ZHXsJYj8M6P7Cx3ZNQjFtN0rxjfxDqgV
+	vKP6ntM7ATv/jhY+q7l+2gQf4+A0IOrqGa4vAx2F9eXHTIhI5vEYupYa
+X-Gm-Gg: AY/fxX7A2ls1FwUIb+aO8l9SCl7AdukGQvcZyWKMV/xvziSTODxfRtl8MY8zsAFlnVn
+	vrz2Wv18gzSBlsxSEpLOQdGJwNlIyBUWHb4CaPrWbv6DWuPzo/s3CsIqCfTU/jPjuDhZQoFhUDM
+	ZkMRY7sfRj3VR1V2CQjOBIElV4EueWznTQYUYo1AcCrQcJFbO4ZRsq7R0ijQx/Uh58cE/wzJAex
+	tPu1y1FjRzVPALfsEtOSgsxawZ5VlrcX+w3IHyYw84s8UENA378rSBffcEcOtP2F9Tz+PrGVMtQ
+	FgH7Bh1jdlpS70df7nUkPrBA3nMZnxkJR2FZUsWkMCWoduB9Bm7G7hjfkwl1/LfQmJDoDFXvofF
+	THYkcHL95vjHZsbjwmzGFZfk/KNndvT0c5rWdQe3vmetbwvZJrWOSzI3D6v3Ef9xIsrr6MP8jrb
+	0arOXlrxk+S1qesM58GsU=
+X-Google-Smtp-Source: AGHT+IHadyQi6xNMdvMrPjltdmk7J941DIMQ0mMDl1p4lln2IAKs4sYxfJndp5hCYd8vKeXrbqdI5A==
+X-Received: by 2002:a05:6a00:330d:b0:7aa:93d5:820f with SMTP id d2e1a72fcca58-7f66810bd78mr17253928b3a.30.1765986147054;
+        Wed, 17 Dec 2025 07:42:27 -0800 (PST)
 Received: from ubuntu.. ([211.234.192.122])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7fcbc0bebe7sm3097978b3a.59.2025.12.17.07.42.20
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7fcbc0bebe7sm3097978b3a.59.2025.12.17.07.42.24
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 17 Dec 2025 07:42:22 -0800 (PST)
+        Wed, 17 Dec 2025 07:42:26 -0800 (PST)
 From: Sanghyeon Lee <sanghae778@gmail.com>
 To: gregkh@linuxfoundation.org
 Cc: linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	karanja99erick@gmail.com,
 	Sanghyeon Lee <sanghae778@gmail.com>
-Subject: [PATCH v3 0/2] staging: rtl8723bs: coding style cleanup
-Date: Wed, 17 Dec 2025 15:42:14 +0000
-Message-ID: <20251217154216.8921-1-sanghae778@gmail.com>
+Subject: [PATCH v3 1/2] staging: rtl8723bs: remove unnecessary braces
+Date: Wed, 17 Dec 2025 15:42:15 +0000
+Message-ID: <20251217154216.8921-2-sanghae778@gmail.com>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20251217154216.8921-1-sanghae778@gmail.com>
+References: <20251217154216.8921-1-sanghae778@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -74,18 +78,55 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Remove unnecessary braces and else block in odm_CfoTracking.c
+Remove unnecessary braces from single-line conditional statements in
+odm_CfoTracking.c to fix a checkpatch warning.
 
-Changes in v3:
-  - Clean up commit messages
+Signed-off-by: Sanghyeon Lee <sanghae778@gmail.com>
+---
+ drivers/staging/rtl8723bs/hal/odm_CfoTracking.c | 12 +++++-------
+ 1 file changed, 5 insertions(+), 7 deletions(-)
 
-Sanghyeon Lee (2):
-  staging: rtl8723bs: remove unnecessary braces
-  staging: rtl8723bs: remove unnecessary else block
-
- drivers/staging/rtl8723bs/hal/odm_CfoTracking.c | 17 ++++++++---------
- 1 file changed, 8 insertions(+), 9 deletions(-)
-
+diff --git a/drivers/staging/rtl8723bs/hal/odm_CfoTracking.c b/drivers/staging/rtl8723bs/hal/odm_CfoTracking.c
+index 666a9f44012d..0b70509f553b 100644
+--- a/drivers/staging/rtl8723bs/hal/odm_CfoTracking.c
++++ b/drivers/staging/rtl8723bs/hal/odm_CfoTracking.c
+@@ -100,9 +100,8 @@ void ODM_CfoTracking(void *pDM_VOID)
+ 	u8 Adjust_Xtal = 1;
+ 
+ 	/* 4 Support ability */
+-	if (!(pDM_Odm->SupportAbility & ODM_BB_CFO_TRACKING)) {
++	if (!(pDM_Odm->SupportAbility & ODM_BB_CFO_TRACKING))
+ 		return;
+-	}
+ 
+ 	if (!pDM_Odm->bLinked || !pDM_Odm->bOneEntryOnly) {
+ 		/* 4 No link or more than one entry */
+@@ -110,9 +109,9 @@ void ODM_CfoTracking(void *pDM_VOID)
+ 	} else {
+ 		/* 3 1. CFO Tracking */
+ 		/* 4 1.1 No new packet */
+-		if (pCfoTrack->packetCount == pCfoTrack->packetCount_pre) {
++		if (pCfoTrack->packetCount == pCfoTrack->packetCount_pre)
+ 			return;
+-		}
++
+ 		pCfoTrack->packetCount_pre = pCfoTrack->packetCount;
+ 
+ 		/* 4 1.2 Calculate CFO */
+@@ -176,11 +175,10 @@ void ODM_CfoTracking(void *pDM_VOID)
+ 		}
+ 
+ 		/* 3 2. Dynamic ATC switch */
+-		if (CFO_ave < CFO_TH_ATC && CFO_ave > -CFO_TH_ATC) {
++		if (CFO_ave < CFO_TH_ATC && CFO_ave > -CFO_TH_ATC)
+ 			odm_SetATCStatus(pDM_Odm, false);
+-		} else {
++		else
+ 			odm_SetATCStatus(pDM_Odm, true);
+-		}
+ 	}
+ }
+ 
 -- 
 2.43.0
 
