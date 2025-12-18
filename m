@@ -1,105 +1,122 @@
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C95832143D
-	for <linux-staging@lists.linux.dev>; Thu, 18 Dec 2025 06:26:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60A9226E6F0
+	for <linux-staging@lists.linux.dev>; Thu, 18 Dec 2025 07:12:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766039206; cv=none; b=GlLhIsAMuHfboiQflcsytj5i1Lv3uuIx4g3Xr8fWOf/LIKYDNuV/HdQayJBp9T2uwIcK9wKzFgB2RkwGX9Oe/DxDNf5ZvAZmCJvci1oDjTbYN4MVoYCy51r2llGwkqeIUCF0sz04y963VypCK6EpFIh2NhQ0VH4b8elT9kd1aDo=
+	t=1766041969; cv=none; b=ai74PYRVStLZy/8mPeiyZT5xpMus2XgTDGP+yoj1C8P6H/K6t5TjS3L1dgneJtmig4X6rhR8KSmDfAUObeUn+JcUAVMABcC9NLEywxjoqkQcQQ4E22lgjL+P4ayZRqYw3IqC7mfuqvwD449tqJt0EitYSRJEM293hT1GwdYP1ug=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766039206; c=relaxed/simple;
-	bh=UlMEygPgZYt1TC2YAh0pYgTJVUX3LvnVxttd0WMbq5g=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=KJaVxliuEZJMgj8WVYn/IHZh1m0qricpwnZwhHKAzDiSb8DLySAyOqmxKiN5XY+bO0HFIcZxuViJpw6FdDRniWJ/Y5WzyH2zFsszR2eNrxJt/vQWgtK62FFwSHnvJC0epdhaZnY4ATvvSdLBDTY6nwRKCJfvL4PVMycJ0KO/XK0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dtfmOFJb; arc=none smtp.client-ip=209.85.214.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1766041969; c=relaxed/simple;
+	bh=havm6bqjb6lnBnYAm3GPOpMNKkte4SuOAffY/lS98Y4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Kx/s1FQYAKA96ULUx8kn+fL02xfb86k/HqdH8CtCqPO4qV8Q5R5LiSFuyO9MzAf3aavD8DNlLKySxXhw4/mwE+BpWM6FIrtgbgzb4ai4lggmyDe3HlC0dBpwxgiH455rp1zNK+8hqSAf2Fvv8t0EtRc6LuSOGRyIkThNuDQ/OS4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Fbr67tHw; arc=none smtp.client-ip=209.85.128.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dtfmOFJb"
-Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-2a0c09bb78cso2050645ad.0
-        for <linux-staging@lists.linux.dev>; Wed, 17 Dec 2025 22:26:43 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Fbr67tHw"
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-47a95efd2ceso2327455e9.2
+        for <linux-staging@lists.linux.dev>; Wed, 17 Dec 2025 23:12:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1766039203; x=1766644003; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=p4VUBVbWwpNIpkjB1F2W0ja2iH35Nmps3FuQdZl02MI=;
-        b=dtfmOFJb0ucc6RYZT8MRkMDE7Jcr+oq+47kVg0BTc3SV9kSavaXAPupK9MKaaaFgZk
-         6S/jfgtvu6n0Om5va3J+dDXztqgIFwx+4o+4PkKDl3Le6c14U4GMMoynTyfUTzfifqsB
-         jEA6CACiiCps0HV3LJdIyVRM4YPByJjWhkvaZceJSjzYmB7RmzGXcBR9Hg09C+e2ILun
-         7tvHt3CAnqOxCKDdWYUYDLaQ+u9BnD3ZUpxIPgKXiuO44yq2Om9mVsa7YZU414+qsQ3R
-         riBVTawuxNk5j7+u5tWVqNLCto7/AO3u9+WCH4Y0DDdgp9mZfNcKtp906gCuyWnRBfBF
-         u+yw==
+        d=linaro.org; s=google; t=1766041966; x=1766646766; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=B9yVXoB/OYBdhrkXc0cF/nS6Lq/SPgGWFM6QmRezHSI=;
+        b=Fbr67tHw/ZuD2OE0lVPL5RGjWb35wPA7BK5sg7cUHD+LQTdjCdw81iOCqCM0Vvv2d+
+         svBkP6MlVElLhgVpcljUTsXrM7ZqML3D0gfjXZo14SKQ/oNfUkWH7JvihlO0GmmKtMfy
+         Jj5OZaV73WnSM8ATalvoWa5skvcsMw2fp/QfY0ln8BfgUmnKnVouycrHQszGm0tU0oQQ
+         O2EzVoGXpc3RGl6M0WnSGZdoQqEl4dTP5unvtx/14dPuR1ClrPIIssz1K9AGBIu6cXnc
+         IIvINQMZ0X4Go6YY3YOnldLHXm02KOrT7RpJZdpUlba04VZmJzXdLeH/0vt8twqMuIb3
+         uKDA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1766039203; x=1766644003;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=p4VUBVbWwpNIpkjB1F2W0ja2iH35Nmps3FuQdZl02MI=;
-        b=C/KOtOE+CYrSFJrcv1rR4JKxFF2Mk16OrRSHFTxtXxDS7NxBi0/J1g+Mtdd1Uayx5j
-         IlIDF8vI3zUrBrqjiYoox4ZlQTQRkka8n/4LCKoUYs+9fStW4/fcEN/ZI6Ykhf2Ye8/q
-         vlIwZmoo32UDeB5wa6i8iCP6trF0uEjvoSLkulBgVn1X6wvicRgEpXFGmzrr+k9E6dTL
-         nuhIwGg7IY6KKbKsm0MR3ZXWzsm/7Wt9SYpmnz4n2Z+pNhB+Tsvq/gMs3J9WH+kfZk7o
-         PBy5jAJQ6WrlElQTRAUP9V4el9nFjF3Nr5QBSPkic3xYo0Pu4Qd0vV7Wc6plM+Dipj8x
-         R16A==
-X-Forwarded-Encrypted: i=1; AJvYcCXrN4yr5wFF3NYzpHyoPJdqkGy83ogaZETg5zOBtcfHRHozQlF/16Dm1BQ82uxMfH8wF1BkO5gmtLMk8gJ9@lists.linux.dev
-X-Gm-Message-State: AOJu0YwgKaemwyzLhyRaelzoEB34pLSWkbfJ9B7gjcdmNYCFnsuFJ7HK
-	FB6gh3iJY2nE9+RaVTew7rDGVz/k0lpNst+YAhhNygDZZJh8qsRCjdod
-X-Gm-Gg: AY/fxX59fYtGCSIlVZ5t+T8zggWdcmyXsGMttS0idXBzaJKP4s0gWieahDLLehiYEJv
-	fJZgXnwpPbb5bw+dS6ZwYbQHPQdgVkuD7oW1NRfEaLIt8JQio7E2PckQ6wJnWGLG9B98Zt5zEYf
-	NIH59V7/0JWvxFpGIcVfKri+lnrO2l7Go8jg24TA1PopprufYzm76wWifuaSe2f5A8M5+v7lWdH
-	YC/hOSD3h96NN6EIjPXY/Akq961/x0eEDyf70QVtVRFFYWOK0HoMJxdANeDR5M0l9bMxJCdPB1y
-	AeVJoi5+jNIcdQNCe36mV7VXvz/BtppnAS6xtGLrstaemEC0mi5IGd8P3CKATSPS7eQIJLM57tO
-	lde/03CzVxD5F1ixWOADB4ZSSa3fXsGT7SGdU4RloQm4AmJMQTzj225yBJgBZiExICL2TGYLFIG
-	SRNQT6SgOqIEQh1dJ0mf7U/tJp+wB29yAhytK6iuE=
-X-Google-Smtp-Source: AGHT+IGx4R+PIVssXH4XccN262LJNTaBCUV1p76NtqjZyU02/zR3inToV5I3TKpqo+j5lyVmwcEt6g==
-X-Received: by 2002:a17:903:1c3:b0:262:f975:fcba with SMTP id d9443c01a7336-2a2caac6fa4mr17362855ad.9.1766039203082;
-        Wed, 17 Dec 2025 22:26:43 -0800 (PST)
-Received: from SIQOL-WIN-8.localdomain ([49.36.67.171])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2a2d193ce6esm12997115ad.95.2025.12.17.22.26.38
+        d=1e100.net; s=20230601; t=1766041966; x=1766646766;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=B9yVXoB/OYBdhrkXc0cF/nS6Lq/SPgGWFM6QmRezHSI=;
+        b=obWihdkz2fmVMv+4rBgAsU1rmk5xysiEp9YkO9y07XDr0p2UBD1Zakd4uwHJZTcNtF
+         XQs2G95Owjekh71RRvykyfsWIVp+BGKQs/NCKJ+ws6J+YwqR5x5Zm4W8TI68mqiun1SF
+         /Ks+kXRUWuuDxG6vaXKZ7XerT18aNH4gviiOZt6ZDfpgekghTdTzZfvIKhhJUXFNIWAe
+         oXPgDACwtyPjueisq+C0MX5eTcpJyeSlekum2YMkVDEXXus7U+q2wQ3kMpfifvudXNvm
+         nRyjLTfaj//exxsxRZobMAoxUiMkYLbVuKVqrUDGourGH/cRTDOzWGS10gdnIPB96nVT
+         Qhvw==
+X-Forwarded-Encrypted: i=1; AJvYcCV6rR7tbKrIPCSZ9PPIIK1kUdkg3qKVxGbTUQawaO5dJaelcc/D6AWWWwwYr0GEnb0zbdePORooaXfgqcXy@lists.linux.dev
+X-Gm-Message-State: AOJu0YyBmElMJWgfpWgs7Q2LztKBC6mK36sIIIkkL8q4LhrIvyS3d4E+
+	Psgy4kCkWdVSRPvU6q7U3trhhJ3vK4me2NqIrxNaQ3m0u76YSyQYfmThlgXkPi1j6E14Yn1K/Nn
+	6oLa0
+X-Gm-Gg: AY/fxX74AFnkrqhQtuMYFKiiV8YRm5g7+xkvbwwnSBccdhADqCZNHSGG8mVX399Vwps
+	rz+cKOZBI6JmiDAiRMXb3PR0BJCB7CNI0f9s3cjQ/zKuWO0aSKk2M27tQXcqM/7lKlYbY6rZs3/
+	Vz3WNI1DSWgjJKhU6N18ON+oLj1yJpI2n8EtFAq8/jSo41Rj2WjN6N/TwDuN9muoGz6tZaEcuQ0
+	JLf9fcButZN9wxijSOgncsOGlrOo404fa4hMRBBgkSctF/uAeYOCGn1ZoMbMMu12BGCVMGmuwHv
+	2/H1acH7UUP0n2DIifdp9MOWIXablRluWvx7gT+kN3bBCepXvAktjMPE4eVAkeR4Gkq4Ky92JRF
+	3qExQ68E99cjnFblFXK8s4f78GknfDHhMHEM52+jU90qLozJmwXvq1tAcnpfrfu1BOYy2kSuF8T
+	KAL7y8V0m63pr1TF6QlzbZZYp5Ptc=
+X-Google-Smtp-Source: AGHT+IHo5/JDwq31zF6KkHTuBIz8aun+WZrAHtozzUrszrWr/Eth7iMknLzyeFJBQFaf75it8rPdxg==
+X-Received: by 2002:a05:600d:14:b0:475:da1a:5418 with SMTP id 5b1f17b1804b1-47a8f9a825amr167451685e9.1.1766041965589;
+        Wed, 17 Dec 2025 23:12:45 -0800 (PST)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-47be3aed4c7sm8304385e9.18.2025.12.17.23.12.44
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 17 Dec 2025 22:26:42 -0800 (PST)
-From: Arjun Changla <arjunchangla7@gmail.com>
-To: hansg@kernel.org,
-	mchehab@kernel.org
-Cc: andy@kernel.org,
-	sakari.ailus@linux.intel.com,
-	gregkh@linuxfoundation.org,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Arjun Changla <arjunchangla7@gmail.com>
-Subject: [PATCH] staging: media: atomisp: fix code indentation
-Date: Thu, 18 Dec 2025 06:26:26 +0000
-Message-ID: <20251218062627.8340-1-arjunchangla7@gmail.com>
-X-Mailer: git-send-email 2.43.0
+        Wed, 17 Dec 2025 23:12:45 -0800 (PST)
+Date: Thu, 18 Dec 2025 10:12:41 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Samasth Norway Ananda <samasth.norway.ananda@oracle.com>
+Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 4/4] staging: rtl8723bs: check return value of
+ rtw_wdev_alloc()
+Message-ID: <aUOpadPIsbYr-yI0@stanley.mountain>
+References: <20251218011414.1781294-1-samasth.norway.ananda@oracle.com>
+ <20251218011414.1781294-5-samasth.norway.ananda@oracle.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251218011414.1781294-5-samasth.norway.ananda@oracle.com>
 
-Fix checkpatch error "code indent should use tabs where possible"
-by replacing spaces with tabs for proper indentation.
+On Wed, Dec 17, 2025 at 05:14:14PM -0800, Samasth Norway Ananda wrote:
+> Add missing error check for rtw_wdev_alloc() in rtw_sdio_if1_init().
+> 
+> rtw_wdev_alloc() can fail with -ENOMEM when wiphy_new() or rtw_zmalloc()
+> fails, or with other negative error codes when wiphy_register() fails.
+> Without checking the return value, initialization continues even when
+> wireless device allocation fails, potentially leaving the adapter in an
+> inconsistent state.
+> 
+> Jump to the error cleanup path when rtw_wdev_alloc() fails to ensure
+> proper resource cleanup and prevent use of an incompletely initialized
+> adapter.
+> 
+> Signed-off-by: Samasth Norway Ananda <samasth.norway.ananda@oracle.com>
+> ---
+>  drivers/staging/rtl8723bs/os_dep/sdio_intf.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/staging/rtl8723bs/os_dep/sdio_intf.c b/drivers/staging/rtl8723bs/os_dep/sdio_intf.c
+> index 1d0239eef114..432bc6aa1d90 100644
+> --- a/drivers/staging/rtl8723bs/os_dep/sdio_intf.c
+> +++ b/drivers/staging/rtl8723bs/os_dep/sdio_intf.c
+> @@ -296,7 +296,8 @@ static struct adapter *rtw_sdio_if1_init(struct dvobj_priv *dvobj, const struct
+>  	if (rtw_init_drv_sw(padapter) == _FAIL)
 
-Signed-off-by: Arjun Changla <arjunchangla7@gmail.com>
----
- .../pci/isp/kernels/output/output_1.0/ia_css_output.host.c      | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+This call to rtw_init_drv_sw() does a number of allocations.
 
-diff --git a/drivers/staging/media/atomisp/pci/isp/kernels/output/output_1.0/ia_css_output.host.c b/drivers/staging/media/atomisp/pci/isp/kernels/output/output_1.0/ia_css_output.host.c
-index d09365e0c471..dac0736f55a6 100644
---- a/drivers/staging/media/atomisp/pci/isp/kernels/output/output_1.0/ia_css_output.host.c
-+++ b/drivers/staging/media/atomisp/pci/isp/kernels/output/output_1.0/ia_css_output.host.c
-@@ -74,7 +74,7 @@ int ia_css_output0_config(struct sh_css_isp_output_isp_config       *to,
- }
- 
- int ia_css_output1_config(struct sh_css_isp_output_isp_config       *to,
--		          const struct ia_css_output1_configuration *from,
-+			  const struct ia_css_output1_configuration *from,
- 			  unsigned int size)
- {
- 	return ia_css_output_config(to, (const struct ia_css_output_configuration *)from, size);
--- 
-2.43.0
+>  		goto free_hal_data;
+>  
+> -	rtw_wdev_alloc(padapter, dvobj_to_dev(dvobj));
+> +	if (rtw_wdev_alloc(padapter, dvobj_to_dev(dvobj)))
+> +		goto free_hal_data;
+
+So this goto should free them as well.  I have a blog about how to
+write cleanup code in a systematic way.
+
+https://staticthinking.wordpress.com/2022/04/28/free-the-last-thing-style/
+
+regards,
+dan carpenter
 
