@@ -1,70 +1,105 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8824E31AA9A;
-	Thu, 18 Dec 2025 06:20:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C95832143D
+	for <linux-staging@lists.linux.dev>; Thu, 18 Dec 2025 06:26:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766038854; cv=none; b=OS+hQyC+78NyJrcsTOaBChudCfRh4jF2Vnn6YbeyPd7ArXc+Vh9w/FlpU2EzRRSZ8Ylh+rqlANA4YavSZFyjDvMSpTXUqcIPrYKexQwZRAAiFFOm3UTLRqlKvIQ1nqB9nsRrlXPwNO+Kfl8QWCK38gG1rmCKKFe+eU68Az/cweA=
+	t=1766039206; cv=none; b=GlLhIsAMuHfboiQflcsytj5i1Lv3uuIx4g3Xr8fWOf/LIKYDNuV/HdQayJBp9T2uwIcK9wKzFgB2RkwGX9Oe/DxDNf5ZvAZmCJvci1oDjTbYN4MVoYCy51r2llGwkqeIUCF0sz04y963VypCK6EpFIh2NhQ0VH4b8elT9kd1aDo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766038854; c=relaxed/simple;
-	bh=gempZFFkfiQxbRmznm2F62NQjRfy6OMCLS3448x/nVI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=H5MDucbAVqLRiP9C+PFV3El2rJq9MeellTPYP9zv1nURZvSmDgjb4uZqAY6GQ8U9cpT0YpoZIJYCLfLMIUTyvrCOGfMqW4dv49CMNLb+KwLkwKAnqqZk8a0RZjn1l7eqG7ubiyYT6xkNB3WKoyAsuRFMeIh9ks+eOxTdIv8FXMA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=cAYlR1Et; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1766039206; c=relaxed/simple;
+	bh=UlMEygPgZYt1TC2YAh0pYgTJVUX3LvnVxttd0WMbq5g=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=KJaVxliuEZJMgj8WVYn/IHZh1m0qricpwnZwhHKAzDiSb8DLySAyOqmxKiN5XY+bO0HFIcZxuViJpw6FdDRniWJ/Y5WzyH2zFsszR2eNrxJt/vQWgtK62FFwSHnvJC0epdhaZnY4ATvvSdLBDTY6nwRKCJfvL4PVMycJ0KO/XK0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dtfmOFJb; arc=none smtp.client-ip=209.85.214.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="cAYlR1Et"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 748E0C4CEFB;
-	Thu, 18 Dec 2025 06:20:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1766038854;
-	bh=gempZFFkfiQxbRmznm2F62NQjRfy6OMCLS3448x/nVI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=cAYlR1EtIxsDN9a/LHxwXyr1cUTiQeQ5vkwOj5/gE5GG6RNJQ0SewL/2en9fyifkI
-	 p/+NKfSuy3oUGOIXNS5Hc5R1Qnlc+bIHDHxnDlQgkMcVsT0w4vz4dUdfkUeKsiE1QM
-	 k/cv4wIJSBQafpicJkEGUXfEfFtkKF0pr1BH3fLY=
-Date: Thu, 18 Dec 2025 07:20:50 +0100
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Arjun Changla <arjunchangla7@gmail.com>
-Cc: andy@kernel.org, dri-devel@lists.freedesktop.org,
-	linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: fbtft: fix spacing before close parenthesis
-Message-ID: <2025121827-lubricant-salad-860c@gregkh>
-References: <20251218061406.8043-1-arjunchangla7@gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dtfmOFJb"
+Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-2a0c09bb78cso2050645ad.0
+        for <linux-staging@lists.linux.dev>; Wed, 17 Dec 2025 22:26:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1766039203; x=1766644003; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=p4VUBVbWwpNIpkjB1F2W0ja2iH35Nmps3FuQdZl02MI=;
+        b=dtfmOFJb0ucc6RYZT8MRkMDE7Jcr+oq+47kVg0BTc3SV9kSavaXAPupK9MKaaaFgZk
+         6S/jfgtvu6n0Om5va3J+dDXztqgIFwx+4o+4PkKDl3Le6c14U4GMMoynTyfUTzfifqsB
+         jEA6CACiiCps0HV3LJdIyVRM4YPByJjWhkvaZceJSjzYmB7RmzGXcBR9Hg09C+e2ILun
+         7tvHt3CAnqOxCKDdWYUYDLaQ+u9BnD3ZUpxIPgKXiuO44yq2Om9mVsa7YZU414+qsQ3R
+         riBVTawuxNk5j7+u5tWVqNLCto7/AO3u9+WCH4Y0DDdgp9mZfNcKtp906gCuyWnRBfBF
+         u+yw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1766039203; x=1766644003;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=p4VUBVbWwpNIpkjB1F2W0ja2iH35Nmps3FuQdZl02MI=;
+        b=C/KOtOE+CYrSFJrcv1rR4JKxFF2Mk16OrRSHFTxtXxDS7NxBi0/J1g+Mtdd1Uayx5j
+         IlIDF8vI3zUrBrqjiYoox4ZlQTQRkka8n/4LCKoUYs+9fStW4/fcEN/ZI6Ykhf2Ye8/q
+         vlIwZmoo32UDeB5wa6i8iCP6trF0uEjvoSLkulBgVn1X6wvicRgEpXFGmzrr+k9E6dTL
+         nuhIwGg7IY6KKbKsm0MR3ZXWzsm/7Wt9SYpmnz4n2Z+pNhB+Tsvq/gMs3J9WH+kfZk7o
+         PBy5jAJQ6WrlElQTRAUP9V4el9nFjF3Nr5QBSPkic3xYo0Pu4Qd0vV7Wc6plM+Dipj8x
+         R16A==
+X-Forwarded-Encrypted: i=1; AJvYcCXrN4yr5wFF3NYzpHyoPJdqkGy83ogaZETg5zOBtcfHRHozQlF/16Dm1BQ82uxMfH8wF1BkO5gmtLMk8gJ9@lists.linux.dev
+X-Gm-Message-State: AOJu0YwgKaemwyzLhyRaelzoEB34pLSWkbfJ9B7gjcdmNYCFnsuFJ7HK
+	FB6gh3iJY2nE9+RaVTew7rDGVz/k0lpNst+YAhhNygDZZJh8qsRCjdod
+X-Gm-Gg: AY/fxX59fYtGCSIlVZ5t+T8zggWdcmyXsGMttS0idXBzaJKP4s0gWieahDLLehiYEJv
+	fJZgXnwpPbb5bw+dS6ZwYbQHPQdgVkuD7oW1NRfEaLIt8JQio7E2PckQ6wJnWGLG9B98Zt5zEYf
+	NIH59V7/0JWvxFpGIcVfKri+lnrO2l7Go8jg24TA1PopprufYzm76wWifuaSe2f5A8M5+v7lWdH
+	YC/hOSD3h96NN6EIjPXY/Akq961/x0eEDyf70QVtVRFFYWOK0HoMJxdANeDR5M0l9bMxJCdPB1y
+	AeVJoi5+jNIcdQNCe36mV7VXvz/BtppnAS6xtGLrstaemEC0mi5IGd8P3CKATSPS7eQIJLM57tO
+	lde/03CzVxD5F1ixWOADB4ZSSa3fXsGT7SGdU4RloQm4AmJMQTzj225yBJgBZiExICL2TGYLFIG
+	SRNQT6SgOqIEQh1dJ0mf7U/tJp+wB29yAhytK6iuE=
+X-Google-Smtp-Source: AGHT+IGx4R+PIVssXH4XccN262LJNTaBCUV1p76NtqjZyU02/zR3inToV5I3TKpqo+j5lyVmwcEt6g==
+X-Received: by 2002:a17:903:1c3:b0:262:f975:fcba with SMTP id d9443c01a7336-2a2caac6fa4mr17362855ad.9.1766039203082;
+        Wed, 17 Dec 2025 22:26:43 -0800 (PST)
+Received: from SIQOL-WIN-8.localdomain ([49.36.67.171])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2a2d193ce6esm12997115ad.95.2025.12.17.22.26.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 17 Dec 2025 22:26:42 -0800 (PST)
+From: Arjun Changla <arjunchangla7@gmail.com>
+To: hansg@kernel.org,
+	mchehab@kernel.org
+Cc: andy@kernel.org,
+	sakari.ailus@linux.intel.com,
+	gregkh@linuxfoundation.org,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Arjun Changla <arjunchangla7@gmail.com>
+Subject: [PATCH] staging: media: atomisp: fix code indentation
+Date: Thu, 18 Dec 2025 06:26:26 +0000
+Message-ID: <20251218062627.8340-1-arjunchangla7@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251218061406.8043-1-arjunchangla7@gmail.com>
+Content-Transfer-Encoding: 8bit
 
-On Thu, Dec 18, 2025 at 06:14:06AM +0000, Arjun Changla wrote:
-> Fix checkpatch error "space prohibited before that close parenthesis"
-> on line 65 by removing the extra space.
-> 
-> Signed-off-by: Arjun Changla <arjunchangla7@gmail.com>
-> ---
->  drivers/staging/fbtft/fbtft-bus.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/staging/fbtft/fbtft-bus.c b/drivers/staging/fbtft/fbtft-bus.c
-> index 30e436ff19e4..2f7c891177fb 100644
-> --- a/drivers/staging/fbtft/fbtft-bus.c
-> +++ b/drivers/staging/fbtft/fbtft-bus.c
-> @@ -62,7 +62,7 @@ out:									      \
->  }                                                                             \
->  EXPORT_SYMBOL(func);
->  
-> -define_fbtft_write_reg(fbtft_write_reg8_bus8, u8, u8, )
-> +define_fbtft_write_reg(fbtft_write_reg8_bus8, u8, u8)
+Fix checkpatch error "code indent should use tabs where possible"
+by replacing spaces with tabs for proper indentation.
 
-But you just changed the function definition, does this still work now?
-If so, how?
+Signed-off-by: Arjun Changla <arjunchangla7@gmail.com>
+---
+ .../pci/isp/kernels/output/output_1.0/ia_css_output.host.c      | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-confused,
+diff --git a/drivers/staging/media/atomisp/pci/isp/kernels/output/output_1.0/ia_css_output.host.c b/drivers/staging/media/atomisp/pci/isp/kernels/output/output_1.0/ia_css_output.host.c
+index d09365e0c471..dac0736f55a6 100644
+--- a/drivers/staging/media/atomisp/pci/isp/kernels/output/output_1.0/ia_css_output.host.c
++++ b/drivers/staging/media/atomisp/pci/isp/kernels/output/output_1.0/ia_css_output.host.c
+@@ -74,7 +74,7 @@ int ia_css_output0_config(struct sh_css_isp_output_isp_config       *to,
+ }
+ 
+ int ia_css_output1_config(struct sh_css_isp_output_isp_config       *to,
+-		          const struct ia_css_output1_configuration *from,
++			  const struct ia_css_output1_configuration *from,
+ 			  unsigned int size)
+ {
+ 	return ia_css_output_config(to, (const struct ia_css_output_configuration *)from, size);
+-- 
+2.43.0
 
-greg k-h
