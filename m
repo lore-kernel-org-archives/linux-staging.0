@@ -1,75 +1,49 @@
-Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CAB5358D13
-	for <linux-staging@lists.linux.dev>; Wed, 17 Dec 2025 16:00:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0933D18A6A8;
+	Thu, 18 Dec 2025 01:14:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.165.32
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1765987217; cv=none; b=gPux3gRL/V0Lbmy9kyDZf7cgUEz5Je1XeTZMLhafEIAXH6w4uk9YSUGw12VBhpwcFVAqwK+nzWJdaowrJOSr2bHVykw/dPBENu6GE58LvrSvZ7V3k0ksAj1iMeIqBlKQ3xj2LFaI68WA5J3Qf93Tkz/D1gRYRr4vONYZ4+5sWlM=
+	t=1766020458; cv=none; b=dv+TOo5VLv3wTpN1sx7ft4gmoRJ0z9IVUUPjWznikQVt7mnadmN4a/GYxgSSR0niTKoDP05oZ/ZBonWHDjypAR4oiulO13m6jWEXwf7gJaTpe4zulwg0iLl46wEsPZL1XHvb3St4AI5+ixjz3Pu65MHoFu87nqrpqir04ME/3Cg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1765987217; c=relaxed/simple;
-	bh=fH+JS5TmELysIY2xcaSYIWEw90PNr1cMplwNRB0XNVc=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=RLXQLz/Qro9SPGVdpKFkbA2Q/t5a1AVyc8edCswJe2V9zBUC8r4ljkVkDh+1K18uQBeDSFZbcIZVMRzZ14+a5n+NaFSuOp7iIKWirsxmwnjJEJ525uEkZW4NvHEPsCvxZQYqp3L0MvNTkFCHHyZu4/sdzrEuLbacQxYlA++m29k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cz/q7Y/K; arc=none smtp.client-ip=209.85.210.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1766020458; c=relaxed/simple;
+	bh=0WY9q9t5dBLjmPbEuEuZd3KtITDwhQ8K1x6Z9kw/HeU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=lBfwd45HhBUmxKdsRcGYtW46q8MaJQ0e/P5GapspPZxWCzqNXDfyEa/yWhjer5mT4hbNkA2RGp6Huy1YQ47A0qER6l4ibMjiBFhLYIfGSdHli9r5YxslcNl8dC07IfDLFOBHCr5EK0FGPMcILrYqG+XKmMfn+pMgr6IFHF9fNHQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=FFV9DnVT; arc=none smtp.client-ip=205.220.165.32
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cz/q7Y/K"
-Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-7acd9a03ba9so6774072b3a.1
-        for <linux-staging@lists.linux.dev>; Wed, 17 Dec 2025 08:00:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1765987215; x=1766592015; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=MDoeLCFPMBfxb+K/1kxZw2gcw5hr2QZDGXnEim5/zak=;
-        b=cz/q7Y/KtvQV0+FuxuACJDzhlOCjCjQKUL0Ecypd29oe5Q0pN3ultV3yOiIEDymBbC
-         UidngUe/+n2TdPQc7rZbsUEXB3tPpYbxICxw0xa69Uhjq1+nb6xSCMcIuVd2Ynk5a5u4
-         t1WmeFlU5icfrdMqM1MP880mIJxuYXaloc0+6FMqaxVFhkUjtKxL6ayQwtXAWNmgb1mk
-         OnhKNzAMFyH6DXh2SQdIV6HzjAUWGhUYgpz9LOu3THBq1IIWqU5mbDvPqlhV+kawtlDW
-         xTAKYW+FGlfwY0BkRwVYXacCSVqYmHvKimbRDhNQ29uCYy7L/VEfd9S9kSHsfnws9ajE
-         JplQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1765987215; x=1766592015;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=MDoeLCFPMBfxb+K/1kxZw2gcw5hr2QZDGXnEim5/zak=;
-        b=vtAeztElYfKs3OOghrcVXQv1UXyy0pLuOn2ICfimS7cce1/CYQzTQzw8M6ALacN5Gl
-         lgUcj7vquEp3I7ohr6GkmQFb+CLTjRKtrtZ4YzGrLNgkSDFSfvbFnbQ7oT6OJF1o7+uY
-         zM3lcX3kC6s0GRTd+80OVjCsxi4owQnDyH14T9WIMxFpUNMLsewM7V7wuaOf0/f7f769
-         vPNvqg6jhd7SHqXeItpR4RWkyGmEX3BJmHU3wrs+UI7QPGgTnxhVzhD5w851+FnZJoDG
-         zohzIlyXJlMbKHucdgeEBHAT0qTXLS3AGCYzPgkFO9qEj3ilBZtMJybkVyxoEES9z9sq
-         49eQ==
-X-Gm-Message-State: AOJu0YyFbVjTw9JLYulqlkl6hFmbKTPT1H0eL3oldHDYqyYngYmi/Gju
-	oCPUfDWOVVgUOzLy683wy/YJ0pwcGr0Rlzw6JiFiMep8v6jihWTrwq9p
-X-Gm-Gg: AY/fxX7qhoSKbgL5hVplWdg29HOzqd4hKaPved0U7wdkVZOFzO/h2/W0rDsxJqurrL6
-	MA8EopBqgF3ofIkjkXAOKBAtVkLE0Tiho8Xlz2XtFzuK7vw4oO7GdpP9yB/WQSn8fKTJIFp6tqP
-	Fe42Yn8A8JkblExJRB12wEymFG/FmKC434z1n7J582hl8aCdpN6AAXs2Is8xUsw5ttNFIWZlkRX
-	nBcJvy3k7H62pylWREZnuo5AuPfhUgLzfPlVcsJJ0HyAIzKUHH5456d+yWaHPn5YK9nOkOf8Jmi
-	zAmU4NEV5l5gsh1UCIqdR2tPHIIIGe31w66dkWsDfDdScBqcc8C32ol/JOeYUgHC+jLK6pO00TO
-	MC4P/Xo09Nm7K3uJE2XyNeFoSgWnwy0m+w3CW5gTq3sgoOqeRhlM0n5++fkN7mAcCdEkNm1pHv+
-	yrdNxeHZ7Q
-X-Google-Smtp-Source: AGHT+IFzNmdDOHYeTw5VgipnMmKoEw4pBUpJokCB4ikQBqFR92XZfhqtIxS0SdetN9OPTgZpa1qgmg==
-X-Received: by 2002:a05:6a20:6a28:b0:364:387:8f4e with SMTP id adf61e73a8af0-369ae490337mr19041329637.34.1765987215185;
-        Wed, 17 Dec 2025 08:00:15 -0800 (PST)
-Received: from ubuntu.. ([211.234.192.122])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c0c2ad5663dsm19493289a12.17.2025.12.17.08.00.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 17 Dec 2025 08:00:14 -0800 (PST)
-From: Sanghyeon Lee <sanghae778@gmail.com>
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="FFV9DnVT"
+Received: from pps.filterd (m0246629.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5BHMNdN33801767;
+	Thu, 18 Dec 2025 01:14:15 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
+	:content-transfer-encoding:date:from:message-id:mime-version
+	:subject:to; s=corp-2025-04-25; bh=uUKhk56i5PyqhefjAR7/4jdPw1j1J
+	BGbuSe0uJA/b6I=; b=FFV9DnVTaJdVSlmaMgNHA8ZR79tq/PFSS4sMEErzOpedE
+	7oUmDIcc9JNjxW3YfXDI+o5caxUWus9qMZi+ie9UmSJQ9tezIFCedpwR5NcdcECe
+	GztbAmJXjzK8h5AjFsWU8X2hulLOiGXwGjD/rrZCmmSRUTl8RzP9KiPWD8FNjXWo
+	U0WkghfjCIsKCmzZDOed91JOVWQpSI/F5sbp324nAYqY0ln5gxCNH04G2e/7KXyz
+	nRXAoEI5wUU1Asj3mr9DP78iMSvZKf6TqcA/baTY318/wSqz61pNig1QG9ClvavO
+	3ye+uOL4iwurHtd4J7AUH5hgTzBSINllTTTbBgPhQ==
+Received: from phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta02.appoci.oracle.com [147.154.114.232])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 4b1015y1j0-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Thu, 18 Dec 2025 01:14:15 +0000 (GMT)
+Received: from pps.filterd (phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
+	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 5BI195XP025249;
+	Thu, 18 Dec 2025 01:14:15 GMT
+Received: from ca-dev112.us.oracle.com (ca-dev112.us.oracle.com [10.129.136.47])
+	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTP id 4b0xkcgjna-1;
+	Thu, 18 Dec 2025 01:14:14 +0000
+From: Samasth Norway Ananda <samasth.norway.ananda@oracle.com>
 To: gregkh@linuxfoundation.org
-Cc: linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	karanja99erick@gmail.com,
-	Sanghyeon Lee <sanghae778@gmail.com>
-Subject: [PATCH v4 2/2] staging: rtl8723bs: remove unnecessary else block
-Date: Wed, 17 Dec 2025 15:59:44 +0000
-Message-ID: <20251217155944.9000-3-sanghae778@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20251217155944.9000-1-sanghae778@gmail.com>
-References: <20251217155944.9000-1-sanghae778@gmail.com>
+Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: [PATCH 0/4] staging: rtl8723bs: Fix error handling and memory
+Date: Wed, 17 Dec 2025 17:14:10 -0800
+Message-ID: <20251218011414.1781294-1-samasth.norway.ananda@oracle.com>
+X-Mailer: git-send-email 2.50.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -77,31 +51,59 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
+ definitions=2025-12-18_01,2025-12-17_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999 spamscore=0 bulkscore=0
+ suspectscore=0 malwarescore=0 mlxscore=0 adultscore=0 phishscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2510240000
+ definitions=main-2512180007
+X-Proofpoint-GUID: FYLR_GM23j6NEIii4cPy_d60tM8SxAIt
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjE4MDAwNyBTYWx0ZWRfX9sPzPcZhAE2l
+ d18bMTtxy3M0xhX9AmcK+KmVFlnPzgh0dNy3EPBqFT4gOud89rxQirh4tv86/+GROvTAXQ69pcT
+ KlP4xqKwpSgjjU8kBveM0OGJpnBGJmeYIs4J82hvLKmAKN+h0MQDjkr3dGP7NLXEjRik0TzRHCS
+ KYPUoPVwIg2FhZQQEeXHBUzo9Gh4OTY+x+cR3WHrrNFhQueGVuMhQMMF6wC748fg+9BQM4llXLs
+ 7IW2VLGfRcQVwjZeEqDF+XEzOoa0cDn+SI3EwERs0oI5gmehCuf6BfWyFRKHpw1T6bNq4sAz8Z6
+ JmitPyj1X/YutiZ1YlG+cDBzyvgFTk1IdeBgqIwOm9atxHNsaFtx1rrNroFb1pTKqr0+sQlaZXl
+ XuEbwh9TK/XvHrM+gGcGlK63DcfKkg==
+X-Authority-Analysis: v=2.4 cv=GbUaXAXL c=1 sm=1 tr=0 ts=69435567 cx=c_pps
+ a=OOZaFjgC48PWsiFpTAqLcw==:117 a=OOZaFjgC48PWsiFpTAqLcw==:17
+ a=wP3pNCr1ah4A:10 a=VkNPw1HP01LnGYTKEx00:22 a=0iAus4mJ6vGRqwlwy6oA:9
+X-Proofpoint-ORIG-GUID: FYLR_GM23j6NEIii4cPy_d60tM8SxAIt
 
-Remove unnecessary else block after return statement in
-odm_CfoTracking.c to fix a checkpatch warning.
+This series fixes several error handling issues and memory leaks in the
+rtl8723bs staging driver, found through code review and static analysis.
 
-Signed-off-by: Sanghyeon Lee <sanghae778@gmail.com>
----
- drivers/staging/rtl8723bs/hal/odm_CfoTracking.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+The patches address the following issues:
 
-diff --git a/drivers/staging/rtl8723bs/hal/odm_CfoTracking.c b/drivers/staging/rtl8723bs/hal/odm_CfoTracking.c
-index 0b70509f553b..166af5f6c9e0 100644
---- a/drivers/staging/rtl8723bs/hal/odm_CfoTracking.c
-+++ b/drivers/staging/rtl8723bs/hal/odm_CfoTracking.c
-@@ -132,8 +132,9 @@ void ODM_CfoTracking(void *pDM_VOID)
- 		) {
- 			pCfoTrack->largeCFOHit = 1;
- 			return;
--		} else
--			pCfoTrack->largeCFOHit = 0;
-+		}
-+
-+		pCfoTrack->largeCFOHit = 0;
- 		pCfoTrack->CFO_ave_pre = CFO_ave;
- 
- 		/* 4 1.4 Dynamic Xtal threshold */
+1. Firmware memory leak: In rtl8723b_FirmwareDownload(), after
+   successfully calling request_firmware(), if subsequent checks fail, 
+   the firmware is not released before jumping to the error path.
+
+2. Buffer memory leak: In rtw_cfg80211_inform_bss(), when
+   cfg80211_inform_bss_frame() fails, the allocated buffer is not freed.
+
+3. Missing IS_ERR check: kthread_run() returns an ERR_PTR on failure,
+   not NULL. The code in rtl8723b_start_thread() was not checking for
+   this, which could cause issues when rtl8723b_stop_thread() later
+   checks if the thread pointer is non-NULL.
+
+4. Ignored return value: rtw_wdev_alloc() can fail, but its return
+   value was being ignored in rtw_sdio_if1_init(), potentially leaving 
+   the adapter in an inconsistent state.
+
+
+Samasth Norway Ananda (4):
+  staging: rtl8723bs: fix firmware memory leak on error path
+  staging: rtl8723bs: fix memory leak in rtw_cfg80211_inform_bss()
+  staging: rtl8723bs: add IS_ERR() check for kthread_run()
+  staging: rtl8723bs: check return value of rtw_wdev_alloc()
+
+ drivers/staging/rtl8723bs/hal/rtl8723b_hal_init.c | 12 ++++++++++--
+ drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c |  4 +++-
+ drivers/staging/rtl8723bs/os_dep/sdio_intf.c      |  3 ++-
+ 3 files changed, 15 insertions(+), 4 deletions(-)
+
 -- 
-2.43.0
+2.50.1
 
