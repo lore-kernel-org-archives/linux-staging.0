@@ -1,64 +1,64 @@
-Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
+Received: from mail-pg1-f193.google.com (mail-pg1-f193.google.com [209.85.215.193])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06C152BE04D
-	for <linux-staging@lists.linux.dev>; Thu, 18 Dec 2025 15:02:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDB223328E2
+	for <linux-staging@lists.linux.dev>; Thu, 18 Dec 2025 15:08:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.193
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766070181; cv=none; b=OqfuaOYYncGY42qHcUBUQG6Mr/gIM5TQvKkUoQFvksA3JtDxtZOqlWDCHFtoKcwxR/C3lyBeweMEfdojaMlweybP2sc6mB31JM+rfuUpuChEi+YI/1D3JNaVOA6sHigV2vKV5AyKCNtI7qjOJFAXyxEdIc1+RZa+F7h3BiQKl68=
+	t=1766070522; cv=none; b=eMeOSLtHGnA1LOdAs4F0EXpDiJcNhnpuDcRqzVljHjIn5/UrcQ6wwn/qnlODnJN8wgeLDkiDaI7pv8oRoVgTlTlX4La3Hn1dBzQMwfZW56+mSboFDjNG1RjHJ3iO+BM/3iy50INuDEoqZRE9zscqlMhqWXlI0bvmqr5eJTeMLSo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766070181; c=relaxed/simple;
-	bh=w0THe4Lp8brKdBJivpncKFOSxMmuG3qeA43zPqKvDqM=;
+	s=arc-20240116; t=1766070522; c=relaxed/simple;
+	bh=dG9BHkSmtvEZ5opsdi0zlbOpuH7wYROee/KrGE0p6dY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fr6EF471sH+K81KRSTLjSdN46eaIybDcF05XlGkZYEhzFzYpzMsciBwAJcJ3EKQDfbhBb5TJwN3Km7aTi12UaTUGPFM994DrhUFz0kuFjpZ75HIM7FjCQpZWRm5a1qy5K6ShQhRx5fVlOV5EI6UaX5jtc/4pcTPnWXcAyL5hqUQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Cm9ZyVGK; arc=none smtp.client-ip=209.85.210.178
+	 Content-Type:Content-Disposition:In-Reply-To; b=VPvjnZlFqmb/jtSptOQVzoFTjMdiHODPAwnZpqqMgM6Wh0Hqk3qdFTJeP2GeJUM4ozKCKDh6U30xN5/jK0ZmHH/UhSrM65T2ik2RN6B2x79cRQQNXV2QumUlmIezsdXdBy6tPygtWS/ZsoHWRVaMaJTx0FmdSnpzhrj/ozINoAo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=I78/+XPz; arc=none smtp.client-ip=209.85.215.193
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Cm9ZyVGK"
-Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-7b89c1ce9easo886147b3a.2
-        for <linux-staging@lists.linux.dev>; Thu, 18 Dec 2025 07:02:58 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="I78/+XPz"
+Received: by mail-pg1-f193.google.com with SMTP id 41be03b00d2f7-b98983bae80so673618a12.0
+        for <linux-staging@lists.linux.dev>; Thu, 18 Dec 2025 07:08:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1766070178; x=1766674978; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1766070520; x=1766675320; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=FZ+bJ8pyTlr1XYIP3IpwCQQATQ0QeMjZ+3f/m9PBBnw=;
-        b=Cm9ZyVGK/+bMr5ib+svHCFzsaVw5KKOlkgXAjUFLk2+R7YR4VWzTcLGls6gJjBKMWu
-         fW1WMVsH1Lr4kYZlAQiH3MlZdVeeAZCA7e75/RUr7qvG7vRrhnX/91onXYwWxn0hQHhB
-         wLL1qy1xY+I/P41a/LMHcutYW2Ba8kYE82OW0TxdGLOVl4zXM+jX5oHHbgnvkAsxhbC9
-         cnq/6zMnvft4+C57x/z/rcPtIdTMu4p9gqS1ObFT3ys4ji3jgNal3gsrC4zvcW/IeHMH
-         +ysfUfLpK1gQRhesTTdJzWWlH+JzKPjEaWN2o/i1+UtdUH6vFQcoVVhz8SBuHQLJkK2j
-         oV6Q==
+        bh=oM5Ed6yAJlRPec6L55p1WAYPdXfYMa3dip7n7XOXSAQ=;
+        b=I78/+XPzmV903NNdmb5KVAmXcckb0RZTWQZJoZR6yEL76vDW8J7ek9nIdzoUIG56m4
+         EKUrQUPnzW0z2F5+JHVBuELVK6LJZgZg3piB+xlWFJXVMTGZeCmFtN7C2zMF0qYUrR2a
+         Sc8YAUAQY7HVdYuoE5+EoWh0ag8dmKxcCeQJsU0AihfNdZHWUi3XZ5QOL7TVjIwy7UHY
+         d1Nuvuu53lcX+9DfcjGU1D0N0HDufupoEVSm2Si07zVHIvTXqlozwpKEhfwqFcVSH8Ng
+         OyjvbVk/h7Sla3H302gyQ5mxKKwY9rulsa8vybKrMyp10iatr6c+Ti8LlXbGMyyLSJJs
+         HMTw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1766070178; x=1766674978;
+        d=1e100.net; s=20230601; t=1766070520; x=1766675320;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=FZ+bJ8pyTlr1XYIP3IpwCQQATQ0QeMjZ+3f/m9PBBnw=;
-        b=P8cDE+pASieNOZqJ1Qqr7rnQBJkYyqGKY0C2l+r2oDWCgu8lAlmnN//mRU9Doei5jm
-         v/mbA+WHK0yNB5rG5QbVPDui9p6faK3nlvXQGMZ0WxIPf34wmomjgCUCoFFGh/6zck1G
-         wa4oCIzD8ZyMWiVPUEgwOp6efe1NEM8QfE2rWLgAxT7fM2JOZhSKPp74QCmiVUGLfTfv
-         2KQQTQzUFFvpnczHYLhzKrxLsH6bEIKi3cmZkr7ctkn0Ma6qEMMHcn6wLxCQ0ZHnY1O7
-         vi/sAaPFNUh2lcVW6ufjUoPBwgohTfK5PnEq96Q87HGcLbNZsG6tUeyegkLxVHUE6hW+
-         s+Og==
-X-Forwarded-Encrypted: i=1; AJvYcCUzUrpKiKsCdV5IyDEBA76saXuT3avpToxBJH+KXA8k2b/nSDoFw7met9ZFhtdEKbG8aL1XWr5nAdpzfYdI@lists.linux.dev
-X-Gm-Message-State: AOJu0Yyul3Z5KBq5nlqY8VUTMl8m0UXVIFfEgCbUl5svam/LugEgdFDh
-	gdwOx+edr8WLLRH7GtwBDRny/LK22azi7sGK5y99Minr6OGqipIUD2/h
-X-Gm-Gg: AY/fxX4d4vfN4U7i8zxdkmoowDXLLcfRwKlo9rJKLkURh7FUXij7p+5iJYB5t/LMf4D
-	gKlLL9fN2ougjWA0n7RvBdszRDykHeGIONUyhtGsQBhG6mdZjdPOF9MQidQgwZBPsEusZFvQfyP
-	9uvE95qicF2YXITskPuZW+h23EIEnTaugt2he3v8hLEnJfLUfDAQcBkmc/lOn7Yj00PjyjlMyB3
-	p9lgIZuHs6MfsaP1g5B0CwDwb3AHTMU/bFZ9bNN42kNw9L1YcJQ29OFa35U7+IT+BjdyiFL+v6j
-	52tSupZVbb0JpmnZNhjS2ntK2pWBVQiW2y1JeUV7Q+0TxME+QHhyhJtoVUAaik/eJGWCrrGpScO
-	jv9G/IyDOLZuY77QWucFbcGMHkN3MYOfnLIwy+m64unOhyuPxxDRKOmXfgOElzovxxxcFfGgDoT
-	5fiInlkGd55U1PPwf4O2qXanDJX/knEw==
-X-Google-Smtp-Source: AGHT+IGEZgxlURlbc9BT6zUVww+KIhdG/P7myFVk8CEhf45jw4gx6KpSM7glhLqD7CAM4n2HprtcqQ==
-X-Received: by 2002:a05:7022:7e0a:b0:119:fac9:cdb1 with SMTP id a92af1059eb24-11f34ac0a18mr16490521c88.20.1766070177283;
-        Thu, 18 Dec 2025 07:02:57 -0800 (PST)
+        bh=oM5Ed6yAJlRPec6L55p1WAYPdXfYMa3dip7n7XOXSAQ=;
+        b=kB1OWSzKE+5ZpGKSH4IG6jtwPPHVh5jyVEt9QfdiFQy8FFMSIwbp73A92LpVWFyTAO
+         ObLVs/gx/eBlif9fcbTAq1MfdQYAD4m9ONiRt2IXyrNk9Uo2IInP3FlzP7F2I5sPAi/K
+         E9KsCE2jZ+IzvA3h83vaockxjKE4m3Iy4NkoRki+PqvvkAyZ6sfm75jBIBJt/S61aZnb
+         xSh17cYclJkBT3oaf1c9QhReBF9rXVn2lLptaY+716z9AffBBgGk0fB91rVobpVgxarj
+         I0lBPhoUw36xdudJ5nFq99kdiLaSmMR4jRiupCArY3qDlpxYt6+aW/7B7JasGFgvIJtG
+         RdDg==
+X-Forwarded-Encrypted: i=1; AJvYcCUK0752TeOrLyQ05lugGtEkEjfIswIr2GKC3uPic5baYbouTR8G/ZCwCwXJp12MRMHkfMQ+IKtBAFQ7McXe@lists.linux.dev
+X-Gm-Message-State: AOJu0YwQdY2zJX331eRa6tgSmDy6vbJgHpnI8q7vSfFfZtsEgt+xQGnG
+	akcTSbjHlf7pGogfrv5V9Fk7X+rBIlhG5QdR0ux2fkziTKI+W964iJ4B
+X-Gm-Gg: AY/fxX6CcpohhqLh0LZ2ANv5gj+5m9u0LpgPVC6bp62sLNrYUvV60n3wIUWG0Ogh+qW
+	KQsu9FOv7quTMcD7X4PAcIRkJSIR/CHaCdiyLpqM9QpSOMfYa50E66K0cGrh3m+k3fzJgtAOcPB
+	q5wLiAp/wFK94i4wdSsNYCQzO96UigqiJEql//9mACgd/6sCrKyQxDeaCXZlHUcRn5cUgzT+tJC
+	OlBumv8JNG+2fcFNF+84oa32kJHquawmHuI1hTwRSd628AfWQ2LCa6tBczZ6h78D8sdqlti5JE/
+	CFIUm+v4dTruNcGH53Ze7TthjJm0WS3Sf7sja570wdy0TvybV4zQccuGd5Sz2fv3j66EGtI0AIo
+	ersme8QDAmhzXPNtv72aPE4lYExTXBy2+rzIQq9yGStHlTdxk4Cdd0S1xsnlEhCEotQmOkRGuVq
+	0hI0bb/U0uQ17WpNruogE=
+X-Google-Smtp-Source: AGHT+IE5702B//DpNe7SVJNLHPzYCxreGWqKSPdmhrv3HDBuK4Aix1Q2FMXA4yfLvlCympXY/u37Sg==
+X-Received: by 2002:a05:7300:7b16:b0:2a4:3f9c:9af8 with SMTP id 5a478bee46e88-2ac2f870512mr15965864eec.9.1766070519867;
+        Thu, 18 Dec 2025 07:08:39 -0800 (PST)
 Received: from localhost ([2804:30c:165b:7000:d59:b973:da75:f845])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-12061fceec2sm8059249c88.13.2025.12.18.07.02.55
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2b04e58d04asm5133994eec.2.2025.12.18.07.08.38
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 18 Dec 2025 07:02:56 -0800 (PST)
-Date: Thu, 18 Dec 2025 12:04:37 -0300
+        Thu, 18 Dec 2025 07:08:39 -0800 (PST)
+Date: Thu, 18 Dec 2025 12:10:19 -0300
 From: Marcelo Schmitt <marcelo.schmitt1@gmail.com>
 To: Tomas Borquez <tomasborquez13@gmail.com>
 Cc: Jonathan Cameron <jic23@kernel.org>,
@@ -69,11 +69,10 @@ Cc: Jonathan Cameron <jic23@kernel.org>,
 	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
 	Andy Shevchenko <andy@kernel.org>, linux-kernel@vger.kernel.org,
 	linux-iio@vger.kernel.org, linux-staging@lists.linux.dev
-Subject: Re: [PATCH 4/5] staging: iio: ad9832: convert to iio channels and
- ext_info attrs
-Message-ID: <aUQYBdiYVy3sn0Nx@debian-BULLSEYE-live-builder-AMD64>
+Subject: Re: [PATCH 5/5] staging: iio: ad9832: add sysfs documentation
+Message-ID: <aUQZW3XBusWl3TU4@debian-BULLSEYE-live-builder-AMD64>
 References: <20251215190806.11003-1-tomasborquez13@gmail.com>
- <20251215190806.11003-5-tomasborquez13@gmail.com>
+ <20251215190806.11003-6-tomasborquez13@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -82,172 +81,48 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251215190806.11003-5-tomasborquez13@gmail.com>
-
-Hi Tomas,
-
-The updates look mostly good to me. A few comments inline.
+In-Reply-To: <20251215190806.11003-6-tomasborquez13@gmail.com>
 
 On 12/15, Tomas Borquez wrote:
-> Convert ad9832 from custom sysfs attributes to standard channel interface
-> using a single IIO_ALTCURRENT channel with ext_info attributes, as this
-> device is a current source DAC with one output, as well as removing the
-> dds.h header.
-> 
-> Changes:
-> - Add single iio_chan_spec with ext_info for frequency0/1 and phase0-3
-> - Phase attributes accept radians directly, driver converts internally
-> - Frequency attributes accept Hz (unchanged)
-> - Cache frequency and phase values in driver state for readback
-> - Remove dependency on dds.h macros
-I'm not sure, was the dds stuff being used before this patch? Maybe dds.h
-removal would be better as another separate clean up patch.
-
-> - Rename symbol attributes to frequency_symbol and phase_symbol
-It's nice to have a change log between patch versions. Though, it's usually
-provided as part of extra patch info, not commit message.
-
-> 
-> The pincontrol_en attribute is kept temporarily with a TODO noting it
-> should become a DT property during staging graduation.
-> 
-> NOTE: This changes the ABI from out_altvoltage0_* to out_altcurrent0_*
-> with different attribute organization.
+> Add sysfs ABI documentation for the AD9832/AD9835 Direct Digital
+> Synthesizer chips, documenting frequency, phase, output control,
+> and pin control attributes.
 > 
 > Signed-off-by: Tomas Borquez <tomasborquez13@gmail.com>
 > ---
-
-The change log is usually provided here, below the '---'.
-
->  drivers/staging/iio/frequency/ad9832.c | 279 +++++++++++++++++++------
->  1 file changed, 215 insertions(+), 64 deletions(-)
-
-This patch fails to apply? I've tried getting it applied on top of current
-IIO testing branch with b4 shazam, git am <individual patches>, and
-git apply <patch4 on top of applied patch3>, but patch 4 fails to apply either way.
-Couldn't figure out how to fix that.
-
+>  .../Documentation/sysfs-bus-iio-dds-ad9832    | 41 +++++++++++++++++++
+>  1 file changed, 41 insertions(+)
+>  create mode 100644 drivers/staging/iio/Documentation/sysfs-bus-iio-dds-ad9832
 > 
-> diff --git a/drivers/staging/iio/frequency/ad9832.c b/drivers/staging/iio/frequency/ad9832.c
-> index 8d04f1b44f..454a317732 100644
-> --- a/drivers/staging/iio/frequency/ad9832.c
-> +++ b/drivers/staging/iio/frequency/ad9832.c
-...
-> +static const u32 ad9832_phase_addr[] = {
-> +	AD9832_PHASE0H, AD9832_PHASE1H, AD9832_PHASE2H, AD9832_PHASE3H
-> +};
-> +
-> +static ssize_t ad9832_write_phase(struct iio_dev *indio_dev,
-> +				  uintptr_t private,
-> +				  struct iio_chan_spec const *chan,
-> +				  const char *buf, size_t len)
->  {
-> +	struct ad9832_state *st = iio_priv(indio_dev);
->  	u8 phase_bytes[2];
->  	u16 phase_cmd;
-> +	u32 phase_urad, phase;
-> +	int val, val2, ret;
->  
-> -	if (phase >= BIT(AD9832_PHASE_BITS))
-> +	if (private >= ARRAY_SIZE(ad9832_phase_addr))
->  		return -EINVAL;
->  
-> +	ret = iio_str_to_fixpoint(buf, 100000, &val, &val2);
-Maybe I'm missing something but, why 100000 here? Should it be MICRO instead?
+> diff --git a/drivers/staging/iio/Documentation/sysfs-bus-iio-dds-ad9832 b/drivers/staging/iio/Documentation/sysfs-bus-iio-dds-ad9832
+> new file mode 100644
+> index 0000000000..5ceea57917
+> --- /dev/null
+> +++ b/drivers/staging/iio/Documentation/sysfs-bus-iio-dds-ad9832
+> @@ -0,0 +1,41 @@
+> +What:		/sys/bus/iio/devices/iio:deviceX/out_altcurrent0_frequencyY
+To be more generic, I think we could use a capital letter for the channel number
+too and avoid the symbol postfix in the this attribute's name.
++What:		/sys/bus/iio/devices/iio:deviceX/out_altcurrentY_frequency
 
-> +	if (ret)
-> +		return ret;
-> +
-> +	if (val < 0 || val2 < 0)
-> +		return -EINVAL;
-> +
-> +	phase_urad = val * 1000000 + val2;
-We can use macros to make it easier to read values that are related to metric units.
-	phase_urad = val * MICRO + val2;
-then
-#include <linux/units.h>
+> +KernelVersion:	6.19
+> +Contact:	linux-iio@vger.kernel.org
+> +Description:
+> +    Frequency in Hz for frequency register Y (0-1). The active
+> +    frequency register is selected via out_altcurrent0_frequency_symbol.
+Maybe, if we can keep only the 'Frequency in Hz for frequency channel Y.' part
+of the description, this is something that could actually go into sysfs-bus-iio
+when the driver graduates. Though, the 'register is selected via
+out_altcurrent0_frequency_symbol' part is trickier since it seems to be design
+specific. 
 
-...
-> +static ssize_t ad9832_read_phase(struct iio_dev *indio_dev,
-> +				 uintptr_t private,
-> +				 struct iio_chan_spec const *chan,
-> +				 char *buf)
-> +{
-> +	struct ad9832_state *st = iio_priv(indio_dev);
-> +	u32 phase_urad;
-> +
-> +	if (private >= ARRAY_SIZE(ad9832_phase_addr))
-> +		return -EINVAL;
-> +
-> +	guard(mutex)(&st->lock);
-> +	phase_urad = ((u64)st->phase[private] * AD9832_2PI_URAD) >> AD9832_PHASE_BITS;
-> +
-> +	return sysfs_emit(buf, "%u.%06u\n", phase_urad / 1000000, phase_urad % 1000000);
-	return sysfs_emit(buf, "%u.%06u\n", phase_urad / MICRO, phase_urad % MICRO);
+What if we do something like
++What:		/sys/bus/iio/devices/iio:deviceX/out_altcurrentY_frequency_symbolZ
++KernelVersion:	6.19
++Contact:	linux-iio@vger.kernel.org
++Description:
++    Frequency in Hz for symbol Z of frequency Y channel. The active
++    frequency symbol is selected via out_altcurrentY_frequency_symbol.
 ?
 
->  }
->  
-...
-> @@ -234,49 +322,110 @@ static ssize_t ad9832_write(struct device *dev, struct device_attribute *attr,
->  		st->data = cpu_to_be16(FIELD_PREP(AD9832_CMD_MSK, AD9832_CMD_SLEEPRESCLR) |
->  						  st->ctrl_src);
->  		ret = spi_sync(st->spi, &st->msg);
-> +		if (ret)
-> +			return ret;
-> +
-> +		st->output_en = val;
-> +		break;
-> +	case AD9832_PINCTRL_EN:
-> +		if (val != 1 && val != 0)
-> +			return -EINVAL;
-> +
-> +		st->ctrl_ss &= ~AD9832_SELSRC;
-> +		st->ctrl_ss |= FIELD_PREP(AD9832_SELSRC, val ? 0 : 1);
-this would then be only
-		st->ctrl_ss |= FIELD_PREP(AD9832_SELSRC, val);
-so we keep consistency with previous FIELD_PREP() in ad9832_store().
-
-> +
-> +		st->data = cpu_to_be16(FIELD_PREP(AD9832_CMD_MSK, AD9832_CMD_SYNCSELSRC) |
-> +						 st->ctrl_ss);
-> +		ret = spi_sync(st->spi, &st->msg);
-> +		if (ret)
-> +			return ret;
-> +
-> +		st->pinctrl_en = val;
->  		break;
->  	default:
->  		return -ENODEV;
->  	}
->  
-> -	return ret ? ret : len;
-> +	return len;
->  }
->  
-...
-> +#define AD9832_CHAN_FREQ(_name, _channel) {			\
-> +	.name = _name,						\
-> +	.write = ad9832_write_frequency,			\
-> +	.read = ad9832_read_frequency,				\
-> +	.private = _channel,					\
-Since the DAC has only one output channel, doesn't it look somewhat misleading
-to call private data _channel?
-Based on data sheet naming, I'd call it _select. Maybe _fselect _psel?
-
-> +	.shared = IIO_SEPARATE,					\
-> +}
-> +
-> +#define AD9832_CHAN_PHASE(_name, _channel) {			\
-> +	.name = _name,						\
-> +	.write = ad9832_write_phase,				\
-> +	.read = ad9832_read_phase,				\
-> +	.private = _channel,					\
-same here
-
-> +	.shared = IIO_SEPARATE,					\
-> +}
-> +
-
-Best regards,
-Marcelo
+Same thoughts about out_altcurrent0_phaseY.
