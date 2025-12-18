@@ -1,53 +1,74 @@
-Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C34324E4A1;
-	Thu, 18 Dec 2025 01:14:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.177.32
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD4012ED154
+	for <linux-staging@lists.linux.dev>; Thu, 18 Dec 2025 06:14:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766020460; cv=none; b=sqXfU0jruhSLf1zJjZ2qkFD+ANrzsOJyv4rglIUTDNpKAeUr1TCqKIEJOOBAGaBKTgnnEztucCAZGiAaTANeK+m656KLpjUgM9mXm3jPm0fnaTFDzAWOEzwxDdJja1TyLHAdmLeLFxOWe3VfskppQfHQjJrH4xtBnc+Cv4yygBw=
+	t=1766038484; cv=none; b=BlihMvtSFpiURcOcEyhSkusWEppLdpzVTc1fHDHWu7B05v7AoQ0nhWFYKaefJU+FPdkZxaaiKdIOpXi+61f9YzTb2si790QxOugu8JFd2BvMBaMFxU+sh470zqqf10+V3bAokXTebMI58uj6itaESU4bu5q8E6rx43mXHmrQvKw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766020460; c=relaxed/simple;
-	bh=4WdQ3QYIh2wIde1SJw5zV5Do5NFve00rX6yvj4+J1PQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=GWd8WXszZ3Yq1l07OwlQ/EHNgo6l6ZfScuHx/R7hbl2Q+9xwhpfPUOMJp81fQLUCIspp0XLTMVwhZIiWTxJBT2IwnDLgNgmLyQHtOhQjNciWhVdT6GG2fXMrIC2cvud6zCz+siKZw/t32O2LmD2KCEPz9sRbt0XQsxhKINed4bI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=qhu5m7uj; arc=none smtp.client-ip=205.220.177.32
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
+	s=arc-20240116; t=1766038484; c=relaxed/simple;
+	bh=Ggx3K3AWheIt4L0mh+WwSssxKcKkJcMLFPNyg1GrfRA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=fSgfefSA4bTz8o4YsbsJsW47++LIAlgi4EQqPQuY/3wY49BUDVKjze3gGsMP6LIbwwRC1iAcAdt2EOzrclMWJxG4wtjz7EOWDlOFqBOv7rRMk72cl1a/d//E2RwFnvuUDNX8AYJhstntb0qppm7U8uYKmyvqzyi6JogCI5l1q/w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=b/DyQMI3; arc=none smtp.client-ip=209.85.210.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="qhu5m7uj"
-Received: from pps.filterd (m0246631.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 5BI0hota3962311;
-	Thu, 18 Dec 2025 01:14:17 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
-	:content-transfer-encoding:date:from:in-reply-to:message-id
-	:mime-version:references:subject:to; s=corp-2025-04-25; bh=THeIB
-	JbrIQAufq9OFTrVIJ6Ek1ACjjoTDcEziBQzwZ8=; b=qhu5m7ujp23gv1bHHdbtz
-	khduE7AYr/YNoIqscbH49Gf7ExiQm5tzcFwjOQrkxZBSgLK00eI/tk8weET85rsD
-	E1zEc+GWH8OhA1J+5mBuAmGn8hYPF7I7seje1IlDNoGMPGWK9MbUd44mtn2BbQub
-	fJDDwXKYa79L0armUCIO0+xyO8KJ5TONI8ck/WFJg/Ek87cwlg6u049LDqrWKi/I
-	7vWhQo6SM98Bw6otAOwLzAU8BRyt8+IWZ0VqMSrhdzHSxdNRPCFKXjUUI8gPColl
-	Nud1MIgcOfA8u6XFZBG7aj56zL4Y/Gn3OL6jmIGkHrXzM7jCYX1UmZdgxvOzjMO4
-	A==
-Received: from phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta02.appoci.oracle.com [147.154.114.232])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 4b47ay80n7-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 18 Dec 2025 01:14:17 +0000 (GMT)
-Received: from pps.filterd (phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
-	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 5BI195XT025249;
-	Thu, 18 Dec 2025 01:14:16 GMT
-Received: from ca-dev112.us.oracle.com (ca-dev112.us.oracle.com [10.129.136.47])
-	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTP id 4b0xkcgjna-5;
-	Thu, 18 Dec 2025 01:14:16 +0000
-From: Samasth Norway Ananda <samasth.norway.ananda@oracle.com>
-To: gregkh@linuxfoundation.org
-Cc: linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH 4/4] staging: rtl8723bs: check return value of rtw_wdev_alloc()
-Date: Wed, 17 Dec 2025 17:14:14 -0800
-Message-ID: <20251218011414.1781294-5-samasth.norway.ananda@oracle.com>
-X-Mailer: git-send-email 2.50.1
-In-Reply-To: <20251218011414.1781294-1-samasth.norway.ananda@oracle.com>
-References: <20251218011414.1781294-1-samasth.norway.ananda@oracle.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="b/DyQMI3"
+Received: by mail-pf1-f174.google.com with SMTP id d2e1a72fcca58-7e2762ad850so347167b3a.3
+        for <linux-staging@lists.linux.dev>; Wed, 17 Dec 2025 22:14:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1766038482; x=1766643282; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=/ByPqHkzjH6Q1Om9pizog4Avqkf2U2qg2PTvWNAENUs=;
+        b=b/DyQMI3+Mr9bn7WIqHeEDd0EOkXwnAelizHA2FusTd9wWSFhW7hWSv7ctaDCpw330
+         2C01oIlZdZPumOQGz1xe3p7WY/t3BvwQgN/D+qb1FbT6+f8UDXsrRYIMD41JYRlpfzxb
+         TYEOPtKWAlOjnFuJ+uuwefeQRf1pYzDv0t+lE5oO1zrdLzbq/1RDbuiM2I7O1jhSkck0
+         j3PUVg6hvpAeRhqyG9AatslFRhWsf3471piCtmDtPjsnPMlzU0Zugc2Fq46EJvlY8uob
+         Kn/aFg8QcgVwA9aBbw6Obzf7VPBKQVuSrwGOTH3HAYWJ+eRI+VGu7fjo2ziNa7s/qo6b
+         iL4Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1766038482; x=1766643282;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=/ByPqHkzjH6Q1Om9pizog4Avqkf2U2qg2PTvWNAENUs=;
+        b=Q64CxXoxJ8XwIVrj/3RcAsrY99FJs5eTnYDxWJ3th0wwNrXRAXkYIheWgvaY/oX9rk
+         pA4F7F64HvvbusLDSw9QDNZ7gElnnQxTWhB2e7W0VLcBzG6wQeNYoRi3597/AxeS+HLm
+         ibSiM4KrVca+aMef75799YreKVfOuJ/fzCq+oF4bnEneDhZ5lYCPtDhZu67e9j9aF8/S
+         7ExNgIhr3uU4cLk7oGQg8W8gpULb59Sb+OMjD4KGXq1tTlu2+vEbzG2PzPGVjkSfAg7R
+         zod7HXN8d0aOaKHoPrk1IcTJH4/7xoc0mrMBqEAq49HJ+wHgikSvPmJ1tzzHYqb4acCh
+         GjCA==
+X-Forwarded-Encrypted: i=1; AJvYcCUfogK0E44NBxmsCvRhMmYMdYlrZML03/luzVXLnO87DuYF4T5eemeRMwm53uy5tp2kqf1FTbMn01zyWRPO@lists.linux.dev
+X-Gm-Message-State: AOJu0YwE73O+IONvshyUp+/PVxhLO68kmGAOMHw3x74DK4umgSFqXBTw
+	PdCYAVAHH/bBi22klkVIGE0juk6yZtIseK+Lq8Gozf5//CNYaVoEOVJsBd9AXa45
+X-Gm-Gg: AY/fxX6woHSPmrCeuJiZEAFpSQXWzDyuT6QsPh8NwwCLaTTtiDxAiM4DNaHCn2R6oAS
+	HBcN8aQEk/M8UX5LKm9HOHfXjWqoV0PufgEcoiNh0TqGYElFbrp9uuVfkvuU1BO09QXz+z7k3+q
+	xXwDXWLCZtwIvTqtgGIgzKP9Lqag4y6meKdUgtlmgBvZ0MnRMeWRf0Esmf1WrM753Vg8lG9Y5XD
+	3kg1nNkDLCbh4gMGjgPdtvm/tMnUwvnIIe9c1+ouS3EuNukTF5nWZfanPPxMopSrV3wWWslmyui
+	ggKu0llVx93NTP+Tod0M69E5pA+0+DNZuSOGJ74/o6B0MxWyUb4Cmq9fJ5MPzai5iGJvOxYG4K+
+	2Wz92R/6+elquGuOarjfDGIpnP7XCnAWNPWARq4NruwwKXHqScnJJ98c/kVkwMucuwjfVwt3Tnx
+	7DC0E93ygPaL37VNb25n6IdhYNS1XV
+X-Google-Smtp-Source: AGHT+IE/9wFIIieTQNvwxm86+AsvmVZQ7ekju2YVJBrytFbrdfTJ3zUvKtJoZsiHz7qoBXsSg5DZNg==
+X-Received: by 2002:a05:6a00:6ca4:b0:7b7:828b:f569 with SMTP id d2e1a72fcca58-7f667d20d99mr17684559b3a.25.1766038481793;
+        Wed, 17 Dec 2025 22:14:41 -0800 (PST)
+Received: from SIQOL-WIN-8.localdomain ([49.36.67.171])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7fe1456d417sm1347795b3a.58.2025.12.17.22.14.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 17 Dec 2025 22:14:41 -0800 (PST)
+From: Arjun Changla <arjunchangla7@gmail.com>
+To: andy@kernel.org,
+	gregkh@linuxfoundation.org
+Cc: dri-devel@lists.freedesktop.org,
+	linux-fbdev@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Arjun Changla <arjunchangla7@gmail.com>
+Subject: [PATCH] staging: fbtft: fix spacing before close parenthesis
+Date: Thu, 18 Dec 2025 06:14:06 +0000
+Message-ID: <20251218061406.8043-1-arjunchangla7@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -55,58 +76,28 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.100.49
- definitions=2025-12-18_01,2025-12-17_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999 spamscore=0 bulkscore=0
- suspectscore=0 malwarescore=0 mlxscore=0 adultscore=0 phishscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2510240000
- definitions=main-2512180007
-X-Authority-Analysis: v=2.4 cv=foDRpV4f c=1 sm=1 tr=0 ts=69435569 cx=c_pps
- a=OOZaFjgC48PWsiFpTAqLcw==:117 a=OOZaFjgC48PWsiFpTAqLcw==:17
- a=wP3pNCr1ah4A:10 a=VkNPw1HP01LnGYTKEx00:22 a=yPCof4ZbAAAA:8
- a=QIGcSY2F6k5Ja1lceT8A:9
-X-Proofpoint-GUID: -9fEAfGlRAETNy1bmics1gQKn6CaPJXh
-X-Proofpoint-ORIG-GUID: -9fEAfGlRAETNy1bmics1gQKn6CaPJXh
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMjE4MDAwNyBTYWx0ZWRfXzrfejlvWgywb
- eXWi8gxyoW0qX99iohZQVlE6MNGTmJml8ZQBoJ7WYQ74vweSJhsnw/ZZB6Nsmg63EYE+Tbwb8lo
- ObnC5ou5QCF6ChzlzQ+XsgYijKM44JpzubWzFTTDkFotMqhI8J5HyGQyQI3vTd3jDZ3QpMFqZPy
- MEuWZrUSY54BRh79M/A0Fu41sIrVF8Jb3OHE1PzzZ+y9/KQNpBORgaBAWsl9y9/do4oRV3yltvH
- x9ql1ccGxjaG7XF/nBePk492MdLxW+IDK1jGx2pgr/qVPa9Fzh7UQ5xSsXkAb2bFWHQVxl3x7lr
- I8xisBJOI8wx3Dxr5E1xgg9J8SePEjj19/dD0OgUZFveoDPurG7aV/GvUL8DX4ocN6PDgSIl204
- daxJqY/3DTk2CRt7XLZMPvbBEMfsig==
 
-Add missing error check for rtw_wdev_alloc() in rtw_sdio_if1_init().
+Fix checkpatch error "space prohibited before that close parenthesis"
+on line 65 by removing the extra space.
 
-rtw_wdev_alloc() can fail with -ENOMEM when wiphy_new() or rtw_zmalloc()
-fails, or with other negative error codes when wiphy_register() fails.
-Without checking the return value, initialization continues even when
-wireless device allocation fails, potentially leaving the adapter in an
-inconsistent state.
-
-Jump to the error cleanup path when rtw_wdev_alloc() fails to ensure
-proper resource cleanup and prevent use of an incompletely initialized
-adapter.
-
-Signed-off-by: Samasth Norway Ananda <samasth.norway.ananda@oracle.com>
+Signed-off-by: Arjun Changla <arjunchangla7@gmail.com>
 ---
- drivers/staging/rtl8723bs/os_dep/sdio_intf.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ drivers/staging/fbtft/fbtft-bus.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/staging/rtl8723bs/os_dep/sdio_intf.c b/drivers/staging/rtl8723bs/os_dep/sdio_intf.c
-index 1d0239eef114..432bc6aa1d90 100644
---- a/drivers/staging/rtl8723bs/os_dep/sdio_intf.c
-+++ b/drivers/staging/rtl8723bs/os_dep/sdio_intf.c
-@@ -296,7 +296,8 @@ static struct adapter *rtw_sdio_if1_init(struct dvobj_priv *dvobj, const struct
- 	if (rtw_init_drv_sw(padapter) == _FAIL)
- 		goto free_hal_data;
+diff --git a/drivers/staging/fbtft/fbtft-bus.c b/drivers/staging/fbtft/fbtft-bus.c
+index 30e436ff19e4..2f7c891177fb 100644
+--- a/drivers/staging/fbtft/fbtft-bus.c
++++ b/drivers/staging/fbtft/fbtft-bus.c
+@@ -62,7 +62,7 @@ out:									      \
+ }                                                                             \
+ EXPORT_SYMBOL(func);
  
--	rtw_wdev_alloc(padapter, dvobj_to_dev(dvobj));
-+	if (rtw_wdev_alloc(padapter, dvobj_to_dev(dvobj)))
-+		goto free_hal_data;
+-define_fbtft_write_reg(fbtft_write_reg8_bus8, u8, u8, )
++define_fbtft_write_reg(fbtft_write_reg8_bus8, u8, u8)
+ define_fbtft_write_reg(fbtft_write_reg16_bus8, __be16, u16, cpu_to_be16)
+ define_fbtft_write_reg(fbtft_write_reg16_bus16, u16, u16, )
  
- 	/* 3 8. get WLan MAC address */
- 	/*  set mac addr */
 -- 
-2.50.1
+2.43.0
 
