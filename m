@@ -1,26 +1,27 @@
 Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7A9E221FBA
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09A50246BBA
 	for <linux-staging@lists.linux.dev>; Thu, 18 Dec 2025 09:24:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766049847; cv=none; b=e1r5pT75tXZT23aM285vpM6KSV21hubsSnnZ3dnF/YMffuJLTklOyPb8jCVwrxtW/C3C4iALiO653GA89TcztaYZn814vLfGg4pIoITHbCeO4CuPcnqJ+psS1TrGaDo0zI/nmh65+A+DFrFgiiWL9lE2vLxp3ud8tMHvi1GHcJ8=
+	t=1766049847; cv=none; b=fCjVlSUI9zIBvLZAQPBhuCSr9WjDT6Q322YiUEMJWw+uUsuytspXV76Us9oJ6NMiHTWLDSh8veM/uCG4YZ+UoO1YJeb6hR2JPIMAsMPthS1GHVxlLmyK2lyb5IKzfdVfMBiyrVGccGfmcZaL1iNwndMnT4yxDKRvLMLhKGRJhOI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1766049847; c=relaxed/simple;
-	bh=a7ZN0BgPf1WahBqihGGqSVnKRzkNOJHjpkqofkRgfw0=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=FUgzcIFRWC2PhrcYpo11VLiYUYsXOAl8vAeDup/BXmYbPGEcrkvUIh/yIdEhv9oKobdlSXE2z0BoXqb3i5AqJG80Anz/Rohvb7+mQCdppXrR60admUGTNTBbJFZ/N9Sq2V2cPRGWMkVc5zyYB+11QqwPGVWarVyJ43my0Fchf0c=
+	bh=d/RGKZbBZ9O6QiQ6lDV6ig9NWEqYpAswwZWlks9LDsY=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=IZeER2d8FhEDC68q6hkROQEZU3P2k07PxbIGywRr5+QiilhE6xYpjroiL08S3axUqwMWRj0MWh/WscNFEhKlfP8JIqbtW9fJNwL3HJ/eEkcWLavjs0/GPslc4ZEa3o4ZZFTN0FVT1mqeHjxRIzhvp1jAXpafu58xqBZGfeHMhnU=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
 Received: from dude05.red.stw.pengutronix.de ([2a0a:edc0:0:1101:1d::54])
 	by metis.whiteo.stw.pengutronix.de with esmtp (Exim 4.92)
 	(envelope-from <m.tretter@pengutronix.de>)
-	id 1vWAEo-0002J4-FB; Thu, 18 Dec 2025 10:23:58 +0100
+	id 1vWAEo-0002J4-IZ; Thu, 18 Dec 2025 10:23:58 +0100
 From: Michael Tretter <m.tretter@pengutronix.de>
-Subject: [PATCH v2 0/3] media: imx-csi: cleanup media pipeline start
-Date: Thu, 18 Dec 2025 10:23:48 +0100
-Message-Id: <20251218-media-imx-cleanup-v2-0-9e3e3c269f7f@pengutronix.de>
+Date: Thu, 18 Dec 2025 10:23:50 +0100
+Subject: [PATCH v2 2/3] media: imx-csi: explicitly start media pipeline on
+ pad 0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -29,11 +30,9 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIACTIQ2kC/32NQQ6CMBBFr0Jm7Zh2rAquvIdh0dABJpHStEAwh
- LtbOYDL95L//gaJo3CCR7FB5EWSjD4DnQpoeus7RnGZgRRdtVZ3HNiJRRlWbN5s/RywUkSuMtq
- yMZB3IXIr69F81Zl7SdMYP8fFon/2X23RqLAtyd6qS0Nla56BfTdPcfSynh1Dve/7F0UsSCy3A
- AAA
-X-Change-ID: 20251107-media-imx-cleanup-9022d941ae44
+Message-Id: <20251218-media-imx-cleanup-v2-2-9e3e3c269f7f@pengutronix.de>
+References: <20251218-media-imx-cleanup-v2-0-9e3e3c269f7f@pengutronix.de>
+In-Reply-To: <20251218-media-imx-cleanup-v2-0-9e3e3c269f7f@pengutronix.de>
 To: Steve Longerbeam <slongerbeam@gmail.com>, 
  Philipp Zabel <p.zabel@pengutronix.de>, Frank Li <Frank.Li@nxp.com>, 
  Mauro Carvalho Chehab <mchehab@kernel.org>, 
@@ -50,38 +49,62 @@ X-SA-Exim-Mail-From: m.tretter@pengutronix.de
 X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
 X-PTX-Original-Recipient: linux-staging@lists.linux.dev
 
-The imx media device currently assumes that there is only a single media
-pipeline. However, the media graph has multiple imx capture devices.
-These may be started separately on media pipelines if they don't cause
-conflicts in the media graph.
+entity->pads is an array that contains all the pads of an entity.
 
-Move the media pipeline from the media device to the capture devices to
-properly track and handle multiple media pipelines for the imx-csi.
-Refactor the code to start the media pipeline from the driver to help
-the reader.
+Calling __media_pipeline_start() or __media_pipeline_stop() on the pads,
+implicitly starts the pipeline with the first pad in this array as
+origin.
 
+Explicitly use the first pad to start the pipeline to make this more
+obvious to the reader.
+
+Reviewed-by: Frank Li <Frank.Li@nxp.com>
+Reviewed-by: Philipp Zabel <p.zabel@pengutronix.de>
 Signed-off-by: Michael Tretter <m.tretter@pengutronix.de>
 ---
 Changes in v2:
-- Improve code readability in Patch 2
-- Update commit message of Patch 3 as suggested by Frank Li
-- Link to v1: https://patch.msgid.link/20251107-media-imx-cleanup-v1-0-f82a693c28f4@pengutronix.de
-
+- move struct media_pad *pad; before int ret = 0; for better read
 ---
-Michael Tretter (3):
-      media: imx-csi: move media_pipeline to video device
-      media: imx-csi: explicitly start media pipeline on pad 0
-      media: imx-csi: use media_pad_is_streaming helper
+ drivers/staging/media/imx/imx-media-utils.c | 11 +++++++----
+ 1 file changed, 7 insertions(+), 4 deletions(-)
 
- drivers/staging/media/imx/imx-media-capture.c |  8 ++++----
- drivers/staging/media/imx/imx-media-utils.c   | 12 ++++++++----
- drivers/staging/media/imx/imx-media.h         |  7 ++++---
- 3 files changed, 16 insertions(+), 11 deletions(-)
----
-base-commit: 8f0b4cce4481fb22653697cced8d0d04027cb1e8
-change-id: 20251107-media-imx-cleanup-9022d941ae44
+diff --git a/drivers/staging/media/imx/imx-media-utils.c b/drivers/staging/media/imx/imx-media-utils.c
+index f520529a7cfe..bd9af147a801 100644
+--- a/drivers/staging/media/imx/imx-media-utils.c
++++ b/drivers/staging/media/imx/imx-media-utils.c
+@@ -754,6 +754,7 @@ int imx_media_pipeline_set_stream(struct imx_media_dev *imxmd,
+ 				  bool on)
+ {
+ 	struct v4l2_subdev *sd;
++	struct media_pad *pad;
+ 	int ret = 0;
+ 
+ 	if (!is_media_entity_v4l2_subdev(entity))
+@@ -762,17 +763,19 @@ int imx_media_pipeline_set_stream(struct imx_media_dev *imxmd,
+ 
+ 	mutex_lock(&imxmd->md.graph_mutex);
+ 
++	pad = &entity->pads[0];
++
+ 	if (on) {
+-		ret = __media_pipeline_start(entity->pads, &vdev->pipe);
++		ret = __media_pipeline_start(pad, &vdev->pipe);
+ 		if (ret)
+ 			goto out;
+ 		ret = v4l2_subdev_call(sd, video, s_stream, 1);
+ 		if (ret)
+-			__media_pipeline_stop(entity->pads);
++			__media_pipeline_stop(pad);
+ 	} else {
+ 		v4l2_subdev_call(sd, video, s_stream, 0);
+-		if (media_pad_pipeline(entity->pads))
+-			__media_pipeline_stop(entity->pads);
++		if (media_pad_pipeline(pad))
++			__media_pipeline_stop(pad);
+ 	}
+ 
+ out:
 
-Best regards,
 -- 
-Michael Tretter <m.tretter@pengutronix.de>
+2.47.3
 
