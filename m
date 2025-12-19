@@ -1,81 +1,69 @@
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
+Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B14342D4B71
-	for <linux-staging@lists.linux.dev>; Fri, 19 Dec 2025 05:43:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76D3326B2B0
+	for <linux-staging@lists.linux.dev>; Fri, 19 Dec 2025 06:34:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766123031; cv=none; b=uuzRyrJzAASkI/bw5xLVc/n43l/pNXQ5tOCxU0a3jee6KqtOFRE0DAFgH8AkXAjieljiNEuZs0gpytEAX1l3BoC7PLaxRxvkiD8Bd8N4XXqWKMlM3QConzHBXLb4KBS9iO7F7P2mNyPZHdcry8n4BK7zXTwPioNM3rIK7R12Xek=
+	t=1766126065; cv=none; b=a/xITbNdsk+lUgPFmMAhbckHZuG7YBVN+4bO/i7prd6VmlPdB+auOUSd9GynMiKurPwh6+ckv2XIDmgygYx0YpBdPVcD8XJsyIuFyP1zva+74bz92E+XB31BKWtH4HWuXS8qNp2Sv2kJAj0RpvN+m1tD49Qg9QPl4hr2QZwx+RE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766123031; c=relaxed/simple;
-	bh=wTBNcJt2rI9S3EuSYIzTN+CG+sDnu9ds+FK4O8Ikt9Y=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=GCxGUEXii9DG5BvlzWUMBESIFD1HyyonrHtmLlaAq40TxesapStNht8e+k8lHAIYusID+JZgEvN4JEmUtnTDVpcrsD0I+yoc1TYZ3+kjut6ZMSIHmcTiTgroKy8XDzveAfok27MxdRYduarTHpkVbQNFICczOxKa302mYNqbizw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=eF7X5xHP; arc=none smtp.client-ip=209.85.214.171
+	s=arc-20240116; t=1766126065; c=relaxed/simple;
+	bh=7iDR8e3TeBaHyWqD+kkzzwHHw4yUuW1fbv1K+fMdMiU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Qj/Yozdr7+9KUWTZMkuUVV7it7iswySCmdOVJeouEp9+AyK/loRsVwRfYo3g+7IcWQ5//InMYMeJn3Sl/6gAq7KBo5Bgv/jAZvxB2Lx7P/1p7lxYQ82ivXP5q2Wd0x2Of/mqG+UXODBpq5Z0n11E6tcDLTkCefD1p/PWfQUwlOI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BBgBXXcz; arc=none smtp.client-ip=209.85.210.178
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="eF7X5xHP"
-Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-2a0a33d0585so13296935ad.1
-        for <linux-staging@lists.linux.dev>; Thu, 18 Dec 2025 21:43:49 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BBgBXXcz"
+Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-7baf61be569so1649971b3a.3
+        for <linux-staging@lists.linux.dev>; Thu, 18 Dec 2025 22:34:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1766123029; x=1766727829; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=GyhsaHMpowAoVL5AwJvNjQeVURBtbaVBE0KV9gHYSKY=;
-        b=eF7X5xHP7NooTz/OnL2IP0iC6qhcoXlnnbwAzbXcsxwGnGipuLAmZ7PEkDXfjMAL/d
-         QuiqJ8/nKA0PPgCSbqBYKdXq88xfbJTsd5KTfFwm+rKqqRqkjwj3HVn7R8e5/XbLUqB+
-         D9ysk0YzsfAFXlk3+aQwA3q2fZSIVsT3D7uXxYZH/ffC5FFBfL66S59rlmOYpcl20j+0
-         3JiejiZ3Y0YRVVTwcm9AksjKqRpEB7/ZG+DKMTBbpotSs3ff3E060MkxyhriOafSqeyy
-         lRH3jK4wTsDMxms/wrLr7nYxUYk4wxjhuqvoH/rnBktYBu8zvee1QJzmUSnRs5d3C9hw
-         wohQ==
+        d=gmail.com; s=20230601; t=1766126063; x=1766730863; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=PtApUwKq5LTlAZfiPhjoZp4RZhVCVrNP+ta/AnxmBAU=;
+        b=BBgBXXczod/xQV4eZqM4EDXI2Z9vPSgTuag5COolbHH6RneSy0kr4S8otydv3Zeh54
+         ELaSQuHumD3rw/Ka3Tv6rReXmsfnjaiCehZMjj94rNgyXhr8okwIHCnpErTRX8QoPvyA
+         daSZYr2HA4eKddxQKuuWVGuzC+IEOfO6ereKRN8MW9xrLkt2lLbaCVlILqUxURw1FyEo
+         Pxkv8EhYttOjjfBDF6BqVih4mpPvMyXrNhwnyVCwQeUvROaS1X/wJQAtvZOzQK7HDTZz
+         yxGnGO0rQ3CEel9Q4l/sVqpI0JQkgz1x59be8aWlTaElQy2jkN8avxn9ByQY+Ry0tu9G
+         5k7g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1766123029; x=1766727829;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=GyhsaHMpowAoVL5AwJvNjQeVURBtbaVBE0KV9gHYSKY=;
-        b=BCEnAMBVK8EyT0VqakEMmsv8s/0wqYGPMyP/Krlmlw4e7+sXlWW893cD19Oxf7UbQ9
-         vr650tOJTbRyVoVbIM2ODuoaxg51ScGCEthggdd9JrqCvZr4rRg+szJ12HvtT++U8z7i
-         +vSO1M5asLP6+PBFMGTnRIrf01aykEP/WdqNV/i+wYfDx4/dtZJJlC4YuvdP7OUS1Akc
-         /BQ0SRp1meHDdulPcSoddd29pL5yEVW57Mq3uoGQjvuYkiCHjrggKzhaen0td02IBUjV
-         sGElDc0byfbdMO3QaYO2oSDNtxrxdLrRDAtxSmw7DlXg6ty1QK77w2PNrssjEt70Rky1
-         x60g==
-X-Forwarded-Encrypted: i=1; AJvYcCX0lTH21Y+S2RuqUdJwbadKJ6cUUJgG2zVhGKJIzD+kcI++yo0DWQyEc8qzxR3Nm59C56DV2xkUyjN6cH1n@lists.linux.dev
-X-Gm-Message-State: AOJu0YwOaOmbQjPpPpt5ewA4J25kapc5c2M8cTG709SvJl17iwhhmh3x
-	SpAZoB8/aZXW/yzQojBkNS7mQqHX2AbZlc8l7aLF67QIV2JQBHoq/yCuee9ArhCl
-X-Gm-Gg: AY/fxX47gv8fO8FJd0sF/bbz3wltMlWIPxyos+nSRwcdJVu9w9BWxLV4jwShkeQ6ilR
-	5obMOPGHwQl1fiYAzSpu6WbZEgg3VfULw0fAYTrKhsnPeKJF2yLt+7MWYsR/am3eKBEZM4g90fq
-	+x6i4bV7rn/0q6N8Izc2fO1i3hDUPIeZJ26URaFPOKCO+sm+QMsY2Q691WFpN2TO2Wu/KB9q/CG
-	n6f2NJ11PMKbZUoZENwPVmm9P5550bULQwels04euy6qXu+0y4NFuEjO7LDh+B1gsE8mbij7Z4p
-	UDENaLAVjhgO2eLzDqziSO6iTMwUTRQ8Rv4NVtp4BLGGtmK6hnTb4GeFs/LEaxiJuQeHaU3gruy
-	Gtzd4cHSbcftyeSxeiW1F4WV7nfB3zrKME7adOsGtglbIfxj9bK7F1sFLy9I+J14PSg5E/yEMcA
-	KLBE5X/gTv/HNvhYgzKD6f1Tuk5FgHuCRemhNkufUcr9A=
-X-Google-Smtp-Source: AGHT+IHXEchSi8iM+Y5+MS3Ww91XngpXuQu21mxZ8hWmVfsLgeWot8cDnyt6+QWma8zqSPX6kmHH4g==
-X-Received: by 2002:a17:902:f68f:b0:29f:1fad:8e56 with SMTP id d9443c01a7336-2a2f22049acmr15569505ad.6.1766123029021;
-        Thu, 18 Dec 2025 21:43:49 -0800 (PST)
-Received: from cmpatel-home.hsd1.or.comcast.net ([2601:1c0:5780:9200:5160:2cad:cf88:afa5])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2a2f3da7dabsm9878955ad.25.2025.12.18.21.43.48
+        d=1e100.net; s=20230601; t=1766126063; x=1766730863;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=PtApUwKq5LTlAZfiPhjoZp4RZhVCVrNP+ta/AnxmBAU=;
+        b=XdYYm4E8cdh3+ehMyCfWDQwBosAlPXCYEYQwfnDW75GkaYjYS+8SphfsF6HzvllOZ3
+         y0/+WkvO34sIFQb+1hBkCBfVp2JmVUxXY2eAOLSthu7SQeOK8XsLL3PjsEFrKS7t0MoI
+         1AJdTvR/zawjLUKThulS9HujFRFoXNCTgVBtcAQgtF3uRUEniSIF1/xvkLo9MP2eVlfS
+         suyyCgU/4WPfP/H0AsddQPEubnGVAH3OJM2bPR+/yUpwTbvN0LeJhb+Y/cVlWmwADSPH
+         /1y6bFs2RMHjd+YlNNWnpRogGDT9itEnLq81oafdmAS9EPY8wKhVPO31S06ydKCPyIXv
+         wuDw==
+X-Gm-Message-State: AOJu0YxXyO3iSUqyBcWgqSHTEpKsbiWlcMaTwKWeQMctxv/6//mC6Ic6
+	JyiHOv7nH9fHInvZncrYSIHMdi/04Tj4UBEdcxBaS+EhxIIjCzacwqdfAEZiJLiQ
+X-Gm-Gg: AY/fxX7di1tlu8w5Hx2GJHBorJ4mOb9x6s+nyI1VhOcejzpXtSgEx6aQvBHnR+d442i
+	YRAXZDvvJiJmgm4IQJ7Slx6DuUN1UW8Q62LsCiOqgZr0uYkb+kPaBnej0tDy8KvtvgPNfJpFJqx
+	lyqu64mkyK76c2VTEUwyKXQbz6aGvubpOlgxNqw3IJbKzSXmYM30AnI7wKNwEen+0ZzEAHVfoVr
+	eQeH+l1XidS0eR0T0sjn6APswwmeWtLhSkGrpSeNGLH2cp8KlhhDBUixrC8lFwgBxxZYtNzhOjW
+	0n5uX4+7R34Xkr5epxuJ4bREh+7JBZ4wmFa/oJex2buN8v94vncPZwBwtzSy2+7RDPvWBpEFzcO
+	7QDyqUEMpE4GsxMamv0CMO9HbClvFT0PwToFOhuDMq/dJ4loscQJdvxV++2dsCVpjQTV125Lt/G
+	9aT+mzVGAFrPRpyFARnLqr
+X-Google-Smtp-Source: AGHT+IEBUhK2Xhd/vERxrRo3qb0qqafz1YfRLA38kwbJl4FPpUL8VK6BlUcPTMFVp3pKndE7f6Vc8g==
+X-Received: by 2002:a05:6a00:f95:b0:7e8:4471:ae5f with SMTP id d2e1a72fcca58-7ff67456610mr1698594b3a.43.1766126063362;
+        Thu, 18 Dec 2025 22:34:23 -0800 (PST)
+Received: from DESKTOP-MOQC9AF.mioffice.cn ([43.224.245.233])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7ff7a843a18sm1282071b3a.14.2025.12.18.22.34.20
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 18 Dec 2025 21:43:48 -0800 (PST)
-From: Chintan Patel <chintanlike@gmail.com>
-To: linux-fbdev@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-omap@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org,
-	dri-devel@lists.freedesktop.org,
-	tzimmermann@suse.de,
-	andy@kernel.org,
-	deller@gmx.de,
-	gregkh@linuxfoundation.org,
-	Chintan Patel <chintanlike@gmail.com>
-Subject: [PATCH v2 4/4] fbdev: sh_mobile_lcdc: Make FB_DEVICE dependency optional
-Date: Thu, 18 Dec 2025 21:43:19 -0800
-Message-ID: <20251219054320.447281-5-chintanlike@gmail.com>
+        Thu, 18 Dec 2025 22:34:22 -0800 (PST)
+From: Zhan Xusheng <zhanxusheng1024@gmail.com>
+X-Google-Original-From: Zhan Xusheng <zhanxusheng@xiaomi.com>
+To: linux-staging@lists.linux.dev
+Cc: Zhan Xusheng <zhanxusheng@xiaomi.com>
+Subject: [PATCH 0/4] greybus: staging fixes and cleanups
+Date: Fri, 19 Dec 2025 14:34:11 +0800
+Message-ID: <20251219063415.46818-1-zhanxusheng@xiaomi.com>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20251219054320.447281-1-chintanlike@gmail.com>
-References: <20251219054320.447281-1-chintanlike@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -84,45 +72,20 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The sh_mobile_lcdc driver exposes overlay configuration via sysfs, but the
-core driver does not require CONFIG_FB_DEVICE.
+This series fixes several issues in the greybus staging drivers:
 
-Make sysfs support optional by defining overlay_sysfs_groups as NULL when
-FB_DEVICE is disabled. The driver always sets .dev_groups, and the kernel
-naturally skips NULL attribute groups while the code remains buildable
-and type-checked.
+1/4  staging: greybus: spilib: fix function parameter indentation
+2/4  staging: greybus: audio: avoid macro with side effects
+3/4  staging: greybus: gb-camera: use BIT() macro and fix formatting
+4/4  staging: greybus: greybus_firmware: fix long macro lines
 
-v2:
-- Replace CONFIG_FB_DEVICE ifdefs with NULL overlay_sysfs_groups
-- Always populate .dev_groups
+ drivers/staging/greybus/audio_helper.c     |  6 +-----
+ drivers/staging/greybus/gb-camera.h        |  9 +++++----
+ drivers/staging/greybus/greybus_firmware.h | 15 ++++++++++-----
+ drivers/staging/greybus/spilib.c           |  6 ++++--
+ 4 files changed, 20 insertions(+), 16 deletions(-)
 
-Suggested-by: Helge Deller <deller@gmx.de>
-Signed-off-by: Chintan Patel <chintanlike@gmail.com>
----
- drivers/video/fbdev/sh_mobile_lcdcfb.c | 9 +++++++++
- 1 file changed, 9 insertions(+)
-
-diff --git a/drivers/video/fbdev/sh_mobile_lcdcfb.c b/drivers/video/fbdev/sh_mobile_lcdcfb.c
-index dd950e4ab5ce..704c17ad241e 100644
---- a/drivers/video/fbdev/sh_mobile_lcdcfb.c
-+++ b/drivers/video/fbdev/sh_mobile_lcdcfb.c
-@@ -1350,7 +1350,16 @@ static struct attribute *overlay_sysfs_attrs[] = {
- 	&dev_attr_overlay_rop3.attr,
- 	NULL,
- };
-+
-+#ifdef CONFIG_FB_DEVICE
- ATTRIBUTE_GROUPS(overlay_sysfs);
-+#else
-+/*
-+ * When CONFIG_FB_DEVICE is disabled, define overlay_sysfs_groups as NULL.
-+ * The compiler will optimize out the sysfs code paths when dev_groups is NULL.
-+ */
-+static const struct attribute_group *overlay_sysfs_groups[] = { NULL };
-+#endif
- 
- static const struct fb_fix_screeninfo sh_mobile_lcdc_overlay_fix  = {
- 	.id =		"SH Mobile LCDC",
+Cc: linux-staging@lists.linux.dev
 -- 
 2.43.0
 
