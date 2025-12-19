@@ -1,73 +1,50 @@
-Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F8D326B2B0
-	for <linux-staging@lists.linux.dev>; Fri, 19 Dec 2025 06:34:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2EB9303C83;
+	Fri, 19 Dec 2025 11:00:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766126091; cv=none; b=r+WgEGWtPTU8GuFrvRTb6Uq0ncC/8PyXDgHCpIgsykyfXDeYgj39hqzTXO7dbR+IT18VrVGv2ZXmny4Sr95MHQrolPjqU0nmKRSDUoCi6TS7toTC8EoIt7/1SqYbH082PnzLravMqQ+zYnNhZq++CSAbxLlh7ZDUaVnxRirYTmY=
+	t=1766142005; cv=none; b=VftC6KvJ9tGexsZ2qd32GM4AwZWLIu8PQlQ9YrgeHTpYY+F1bcZYo3dsN3sn9Af7irUBc+f5pI/W1mPh/8k9qKVj9tlpz1Kas4BM8mdfAVc81gpS4ows7ba5XJJivAq1s1VIWLKpQrA4xuFGOwTam+cDPL7n50+RYwxwP7Jpfmc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766126091; c=relaxed/simple;
-	bh=5XYnrBndNSgN3wqzh/1ZQgI2QbI7BEqovffqJ/MehXA=;
+	s=arc-20240116; t=1766142005; c=relaxed/simple;
+	bh=zXtoaGB9QB5Fkc+DJoOlTNeBL3v1x6M9tWrSIMdLjx8=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Fa1E7OOr0u0LYDBdbMITyssfa7wzDp8iUEbA8KCBungmWjAndIqyozBEMeJaTtcg8ddkDNOG1PmVaFFcKmSta2iNkCwBZeKpeFqCN13HINB0h3Dw+BylTdlOuZjypDKGF3bzgoGwZjIehkPPOHI/5iBpQMijruxF3IkstgOyc40=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ugx6L2CK; arc=none smtp.client-ip=209.85.210.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 MIME-Version; b=oXdPua00hzJ1C1sxM290dMOr4EFr83F/X7xdBoelaVgkE/FpZGTZLVohb/uZayyqhHVgMeFCD+oNr0eQz1zsXLeSpUx6vTdAsmJP1apaTWgkCIV8p0jYXjucMu1omIG0Ii1iEk3zYgIpGgz2Xjvpa6KFqzit9bgfUegmSbBsO8U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tc6TXj8K; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ugx6L2CK"
-Received: by mail-pf1-f169.google.com with SMTP id d2e1a72fcca58-7bb710d1d1dso2292580b3a.1
-        for <linux-staging@lists.linux.dev>; Thu, 18 Dec 2025 22:34:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1766126089; x=1766730889; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=IGKDt1qSwrqUg76PLiBZ0oJHGVHGcWLg6FW0JKlVBQc=;
-        b=Ugx6L2CK1GPuMHhKEv/OurcRKcw4bMT7vqBqFXuHQTSZHQ+MjRcdQ7cIj0ldD2pCLV
-         hfEo7c5N0NOOWjdnf9E0dKYlI7zxHWbygDkjMRvRHipAbtr6vvYcVTGtK5YMJU/MppxU
-         yB4JDYpiCmSsMKna02knpXtS8SmCiXJftJ0cwZ1EMmefsTsgSROzAE5Am9NZNVnGJZSx
-         MLpCVYKSV6TkeYu99j95qmH12y3Z9Qf24x1EZM7n9BOuJ9Ocm9iDDQZ7xGlcTiYJ0wfK
-         /cPzEXCRGs3pLbap+aW8ixDCgSM1OttTkVfMALXvdGQvFlhal+q2m6Uuwinkl+aP929g
-         Dm2A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1766126089; x=1766730889;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=IGKDt1qSwrqUg76PLiBZ0oJHGVHGcWLg6FW0JKlVBQc=;
-        b=I5ctJzKQ42Xd+SSyIb2H/wL4vxb2NLW72s5p3fY4R+D8EvXPWdr8LqdOqLsZoAiRq4
-         wLytByWaBhNXhWpYYYOxkQgmF5V8OcL+0ZaaJKhRBxhqKuITM1UwFvzXlem1JJxf6a1x
-         ewKJ/J9LCT6bZxLi4S2m/AfyWKaUlEoCy1W3tj1NCgX/7UsBfS86OGiu5CkP1fHsqJ07
-         +faQtTx9RnoO7XYGmgvTnc/GILecUjPds06Hi7ixb0XrZa0XPcHpNICJi4qhNMaHddGC
-         CA/aDq5N1HiSjuI9oOHznlscpsHivFSighOayxGF+52yVJIq7QObTgJGo2iynK6JMo+K
-         lwIg==
-X-Gm-Message-State: AOJu0Yz+fPeN4YTiEx++oubfLj4WxOA2rwhr1N3WqL/QKtWUWnO/3yH3
-	oozMXriwqx7LVL9LuLZOWUg3lhVwe8+JjUqZBWn0nsdYNsBQBdJtTwyq9A+2Kg==
-X-Gm-Gg: AY/fxX4HpstagjwXGg6CkWz3Jwp/w3ov8c7PeAffbGD39MawsO1zoOjZ54YG0vnuFEO
-	J8FIecLElsFyibLD226Ooq1lX/bn3gvb5D0ltazCbj7nA9ib6e1WGqYqNVW0awiEmICg0DTl1JV
-	00pcA0hOC2FWQkeJx3diX0GOzDDV7h4kfaiUXDO4qNQkfd4Gl2GR0R9zXX9Y7eDR+MJAW8iiywE
-	VvMIyUWVLw5gHi7lc12qb+2Zyi88lzeGW/nf6cPllFUweiHALaENFZz/wW2gsm1RbDB03lmi5UI
-	sDsQU/wdXsXaS6DHiU073IEh4ghH4m9tdFUXonrfuyNb/AJRIcRFgwDKyT58mTuj9yTQu3rVGYi
-	oRTSSX9CqLNfyHM0awl/+3OcRk+35xbZ9lB0emlp9KpdyPHnDsoLXM0wrRXs7RvKXroCw1a7xsI
-	ABJK2ZhwDIsXES/+OQIjK+
-X-Google-Smtp-Source: AGHT+IEitu8tNrXhhhFpVD5EHWXl8DR3AJgGt+GdQlDwp+9KH1fCButUnlQrtYH/d8GR3w5DWgZAow==
-X-Received: by 2002:a05:6a00:4514:b0:7f7:4a39:55cd with SMTP id d2e1a72fcca58-7ff6178be74mr2019244b3a.0.1766126089145;
-        Thu, 18 Dec 2025 22:34:49 -0800 (PST)
-Received: from DESKTOP-MOQC9AF.mioffice.cn ([43.224.245.233])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7ff7a843a18sm1282071b3a.14.2025.12.18.22.34.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 18 Dec 2025 22:34:48 -0800 (PST)
-From: Zhan Xusheng <zhanxusheng1024@gmail.com>
-X-Google-Original-From: Zhan Xusheng <zhanxusheng@xiaomi.com>
-To: linux-staging@lists.linux.dev
-Cc: Zhan Xusheng <zhanxusheng@xiaomi.com>
-Subject: [PATCH 4/4] staging: greybus: greybus_firmware: fix long macro lines
-Date: Fri, 19 Dec 2025 14:34:15 +0800
-Message-ID: <20251219063415.46818-5-zhanxusheng@xiaomi.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20251219063415.46818-1-zhanxusheng@xiaomi.com>
-References: <20251219063415.46818-1-zhanxusheng@xiaomi.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tc6TXj8K"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7C35CC19424;
+	Fri, 19 Dec 2025 11:00:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1766142005;
+	bh=zXtoaGB9QB5Fkc+DJoOlTNeBL3v1x6M9tWrSIMdLjx8=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=tc6TXj8KRQu1IINknkJJZUKVZlWusnW26+WVU7yZK39cQuLJoWOQS8stevsbfp3AX
+	 xTwrokYwRNUkjlcHs030FAiZY3P3xsmGldv05Av6sWDSVxNeRzT0+ktMdBdXAMkHxL
+	 2dVrLIOQRwEhOsOIIF76KWxipWXqOWPinU6I4r/CVnubEXDbCCO20Sm8u7HzeYA1QN
+	 qx801Nn3FOvDmOO+zFz+YS2X8SGQHikRbdv9v89ylsuntSMKJozFSqw1XJG7Mqf8Lp
+	 I9EqHahSpYTQuyXZAYw2ONjlTAY3JhrSo+JBmZa4xcMR6VC6b6EdA1bGMY1sss7GKs
+	 6JGXFwVtRHH8Q==
+Received: from johan by xi.lan with local (Exim 4.98.2)
+	(envelope-from <johan@kernel.org>)
+	id 1vWYDM-0000000065d-0C7a;
+	Fri, 19 Dec 2025 12:00:04 +0100
+From: Johan Hovold <johan@kernel.org>
+To: Johan Hovold <johan@kernel.org>,
+	Alex Elder <elder@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Vaibhav Hiremath <hvaibhav.linux@gmail.com>
+Cc: greybus-dev@lists.linaro.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Haotian Zhang <vulab@iscas.ac.cn>
+Subject: [PATCH 1/3] staging: greybus: arche-platform: fix coldboot probe error path
+Date: Fri, 19 Dec 2025 11:59:26 +0100
+Message-ID: <20251219105928.23329-2-johan@kernel.org>
+X-Mailer: git-send-email 2.51.2
+In-Reply-To: <20251219105928.23329-1-johan@kernel.org>
+References: <20251219105928.23329-1-johan@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -76,40 +53,43 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Break long ioctl macro definitions into multiple lines to satisfy
-checkpatch.pl line-length checks (<100 columns).
+Make sure to deregister the PM notifier in case the coldboot sequence
+fails during probe.
 
-Signed-off-by: Zhan Xusheng <zhanxusheng@xiaomi.com>
+Fixes: d29b67d44a7c ("greybus: arche-platform: Add support for init-off feature")
+Reported-by: Haotian Zhang <vulab@iscas.ac.cn>
+Link: https://lore.kernel.org/lkml/20251104090825.224-1-vulab@iscas.ac.cn/
+Signed-off-by: Johan Hovold <johan@kernel.org>
 ---
- drivers/staging/greybus/greybus_firmware.h | 15 ++++++++++-----
- 1 file changed, 10 insertions(+), 5 deletions(-)
+ drivers/staging/greybus/arche-platform.c | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/staging/greybus/greybus_firmware.h b/drivers/staging/greybus/greybus_firmware.h
-index b6042a82ada4..f59a2def3d45 100644
---- a/drivers/staging/greybus/greybus_firmware.h
-+++ b/drivers/staging/greybus/greybus_firmware.h
-@@ -64,11 +64,16 @@ struct fw_mgmt_ioc_backend_fw_update {
- } __packed;
+diff --git a/drivers/staging/greybus/arche-platform.c b/drivers/staging/greybus/arche-platform.c
+index d48464390f58..bd069d75391b 100644
+--- a/drivers/staging/greybus/arche-platform.c
++++ b/drivers/staging/greybus/arche-platform.c
+@@ -534,8 +534,9 @@ static int arche_platform_probe(struct platform_device *pdev)
+ 		mutex_lock(&arche_pdata->platform_state_mutex);
+ 		ret = arche_platform_coldboot_seq(arche_pdata);
+ 		if (ret) {
++			mutex_unlock(&arche_pdata->platform_state_mutex);
+ 			dev_err(dev, "Failed to cold boot svc %d\n", ret);
+-			goto err_coldboot;
++			goto err_unregister_pm_notifier;
+ 		}
+ 		arche_platform_wd_irq_en(arche_pdata);
+ 		mutex_unlock(&arche_pdata->platform_state_mutex);
+@@ -544,8 +545,8 @@ static int arche_platform_probe(struct platform_device *pdev)
+ 	dev_info(dev, "Device registered successfully\n");
+ 	return 0;
  
- #define FW_MGMT_IOCTL_BASE			'F'
--#define FW_MGMT_IOC_GET_INTF_FW			_IOR(FW_MGMT_IOCTL_BASE, 0, struct fw_mgmt_ioc_get_intf_version)
--#define FW_MGMT_IOC_GET_BACKEND_FW		_IOWR(FW_MGMT_IOCTL_BASE, 1, struct fw_mgmt_ioc_get_backend_version)
--#define FW_MGMT_IOC_INTF_LOAD_AND_VALIDATE	_IOWR(FW_MGMT_IOCTL_BASE, 2, struct fw_mgmt_ioc_intf_load_and_validate)
--#define FW_MGMT_IOC_INTF_BACKEND_FW_UPDATE	_IOWR(FW_MGMT_IOCTL_BASE, 3, struct fw_mgmt_ioc_backend_fw_update)
--#define FW_MGMT_IOC_SET_TIMEOUT_MS		_IOW(FW_MGMT_IOCTL_BASE, 4, unsigned int)
-+#define FW_MGMT_IOC_GET_INTF_FW			\
-+	_IOR(FW_MGMT_IOCTL_BASE, 0, struct fw_mgmt_ioc_get_intf_version)
-+#define FW_MGMT_IOC_GET_BACKEND_FW		\
-+	_IOWR(FW_MGMT_IOCTL_BASE, 1, struct fw_mgmt_ioc_get_backend_version)
-+#define FW_MGMT_IOC_INTF_LOAD_AND_VALIDATE	\
-+	_IOWR(FW_MGMT_IOCTL_BASE, 2, struct fw_mgmt_ioc_intf_load_and_validate)
-+#define FW_MGMT_IOC_INTF_BACKEND_FW_UPDATE	\
-+	_IOWR(FW_MGMT_IOCTL_BASE, 3, struct fw_mgmt_ioc_backend_fw_update)
-+#define FW_MGMT_IOC_SET_TIMEOUT_MS		\
-+	_IOW(FW_MGMT_IOCTL_BASE, 4, unsigned int)
- #define FW_MGMT_IOC_MODE_SWITCH			_IO(FW_MGMT_IOCTL_BASE, 5)
- 
- #endif /* __GREYBUS_FIRMWARE_USER_H */
+-err_coldboot:
+-	mutex_unlock(&arche_pdata->platform_state_mutex);
++err_unregister_pm_notifier:
++	unregister_pm_notifier(&arche_pdata->pm_notifier);
+ err_device_remove:
+ 	device_remove_file(&pdev->dev, &dev_attr_state);
+ 	return ret;
 -- 
-2.43.0
+2.51.2
 
