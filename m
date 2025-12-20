@@ -1,114 +1,76 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mail-4397.protonmail.ch (mail-4397.protonmail.ch [185.70.43.97])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7CDC218845;
-	Sat, 20 Dec 2025 13:35:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DB38306B11
+	for <linux-staging@lists.linux.dev>; Sat, 20 Dec 2025 13:57:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.70.43.97
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766237759; cv=none; b=Y1wYtaOd10LwwJtJlPThqPlmtSKCqOOQAcE86qyzMTKVhQDUrZ/TBkiYNTHQmPsjqMqGt12P/pA1dIy8zH1FMjZex99WJUL8rqqL63F0/8KQTVzvx25pPnkEp0qpTN2coHKsDfbFHm38Fp5jxS1Y77PmwCx8+m3OyNNhYN8CITE=
+	t=1766239024; cv=none; b=nTBVdOtdz++iVls16x8qIZ6ztHAjl2mlyXPN0nYi2aeI8rfuqNpOBSax+4qaWbHkjNVPSEq7nbEkPBmGmDL/T1aYpArKdQ4l3+nO1ld3Bv6tqrhjbPik7Vt+hpa9fIVvYtpnPUE2oeRz61YP11r6VM+7s+7R4k2t1sC835yR4dA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766237759; c=relaxed/simple;
-	bh=ezskSz0sv7K80z23n0Tip2Rc9GWmtbbYwI9uNkg5LOQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fEvvuiGkcRwEbwArNGPBSLKiXDSagv8rxVaka+/OZYStZb01UNI2GSd/pK0w7ukJZCklFSSQs64qKjqqk6Nc0++4Lep5iVYU8v1ou5F6vUGZnq2Ix30NTD1NM7tk8nbYbTc2UkVPThtk4Iko2Fu5la+IW+5VL2Ryh9zRUFCrAq4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Fq2EpVKR; arc=none smtp.client-ip=192.198.163.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1766239024; c=relaxed/simple;
+	bh=6fWe+oVRYsOV9HVbLiXz/wYYwaq1Bv5grjRxbEbSymY=;
+	h=Date:To:From:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=mJG0FiLBBbCm5PNEuIOrtTmNvASxZBi6UVKk1cGwelXr++IaaqKaH9GKEyDi0SGuOKF/MZDJxbp4DP+kMHajMAkf19Z/FR6rALNU18dQ4QSzWbuVtDEOWPe8sgQBOTOEuSEiK/n5/ufC1tYc/6UzZiTpL4JQssSLCig7OiERFZ4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=parkour.is; spf=pass smtp.mailfrom=parkour.is; dkim=pass (2048-bit key) header.d=parkour.is header.i=@parkour.is header.b=BWzJh9xN; arc=none smtp.client-ip=185.70.43.97
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=parkour.is
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=parkour.is
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Fq2EpVKR"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1766237758; x=1797773758;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=ezskSz0sv7K80z23n0Tip2Rc9GWmtbbYwI9uNkg5LOQ=;
-  b=Fq2EpVKRo39/3weByz+IQ1mk0KkWYE3pA7FwSiUQNAlY2dQ1trHQb5UJ
-   /eAVFagUyAbyISH4hJBEzMKNeEOvA30N/XGO9BpHv93QaXckRSf5QKKmu
-   Lchn9VXcGZyyiYPF1UvWyRcnbe8Mkz3kXNkTbmDaxqHaah34PMAYvOatV
-   rh6HPzZg/Wbsdf3KHugKXXsB2FnCE2gCnD4sKboXQYlRbtEiDjwghsf3s
-   P4dpWQP7ITnitCLMJDPFOJ502OszrGCMOwsYfGJkLAXeVblt3u7gwE98w
-   U0y3QyCNhEMhp3eiEZp6ppqbpc+QByUYewG1YeV2+R2NNPAzzOSROwTgb
-   w==;
-X-CSE-ConnectionGUID: ZZjDTLurTj2mkhJ9jDpgGQ==
-X-CSE-MsgGUID: YTmGMfzIRMChUwps9QaXRA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11648"; a="67371181"
-X-IronPort-AV: E=Sophos;i="6.21,164,1763452800"; 
-   d="scan'208";a="67371181"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Dec 2025 05:35:56 -0800
-X-CSE-ConnectionGUID: 03wkJFNkR/mGIr9S7WRaUQ==
-X-CSE-MsgGUID: ijjdsMViRjGA1kk4akL3Lg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.21,164,1763452800"; 
-   d="scan'208";a="204039160"
-Received: from lkp-server01.sh.intel.com (HELO 0d09efa1b85f) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 20 Dec 2025 05:35:53 -0800
-Received: from kbuild by 0d09efa1b85f with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1vWx7f-000000004Yv-39vv;
-	Sat, 20 Dec 2025 13:35:51 +0000
-Date: Sat, 20 Dec 2025 21:35:47 +0800
-From: kernel test robot <lkp@intel.com>
-To: Arjun Changla <arjunchangla7@gmail.com>, andy@kernel.org,
-	gregkh@linuxfoundation.org
-Cc: oe-kbuild-all@lists.linux.dev, dri-devel@lists.freedesktop.org,
-	linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Arjun Changla <arjunchangla7@gmail.com>
-Subject: Re: [PATCH] staging: fbtft: fix spacing before close parenthesis
-Message-ID: <202512202155.mVhDoKTO-lkp@intel.com>
-References: <20251218061406.8043-1-arjunchangla7@gmail.com>
+	dkim=pass (2048-bit key) header.d=parkour.is header.i=@parkour.is header.b="BWzJh9xN"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=parkour.is;
+	s=protonmail; t=1766239013; x=1766498213;
+	bh=nxDz1Vk+5ekSjMdlDr+dQjoEj6eaQ8Fx6OBPXnbcXbU=;
+	h=Date:To:From:Cc:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
+	 Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
+	b=BWzJh9xNLzMHVaXZz997Ddf/OcRwmEB2+qxE5N7ziNwjh8SIqvYvtJWc7vfv0XL2N
+	 MSx+eEFLXmcTZ/wbcg2QCAGKFzaoRcXtrWoH4hDG1F/aCuNKY7sCaRZfaTSsoc8s3N
+	 8LPGa0vrsrc6OQtFIl+3iviNHzXWWmNe+dGq/k9cniBJKQPBKL4Vws8TfIgTOmJcy6
+	 N12w20KnO5OcBIPyJg9eA0DE0r++aWmAsLuKd8QtKxf8hgzs1BLBZ4wVznVaR3cbAc
+	 FcIPja1RgXXGyuA0lGgIFeewamf5yNveyXL8GUva+L9dYQ3qOkDUdMqyXmWDtmz7Ru
+	 +IRagoUIY75pA==
+Date: Sat, 20 Dec 2025 13:56:48 +0000
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+From: Sammy Malik <sammy@parkour.is>
+Cc: Johan Hovold <johan@kernel.org>, Alex Elder <elder@kernel.org>, greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: [PATCH v2 1/1] staging: greybus: Remove completed PWM TODO item.
+Message-ID: <20251220135613.226912-1-sammy@parkour.is>
+Feedback-ID: 169234940:user:proton
+X-Pm-Message-ID: 97b67c31d679c3af491ce8a5c06a2860105b2a4d
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251218061406.8043-1-arjunchangla7@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-Hi Arjun,
+The pwm.c driver already uses pwm_ops::apply. This item was completed
+in commit 832ce36f44a2 ("staging: greybus: introduce pwm_ops::apply")
+but never removed from the TODO list.
 
-kernel test robot noticed the following build errors:
+Removed the outdated TODO item.
 
-[auto build test ERROR on staging/staging-testing]
+Signed-off-by: Sammy Malik <sammy@parkour.is>
+---
+Changes in v2:
+  - Added commit reference 832ce36f44a2 that originally implemented pwm_ops=
+::apply
+  - Fixed typos: PWN -> PWM, pwn_ops -> pwm_ops
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Arjun-Changla/staging-fbtft-fix-spacing-before-close-parenthesis/20251218-141736
-base:   staging/staging-testing
-patch link:    https://lore.kernel.org/r/20251218061406.8043-1-arjunchangla7%40gmail.com
-patch subject: [PATCH] staging: fbtft: fix spacing before close parenthesis
-config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20251220/202512202155.mVhDoKTO-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251220/202512202155.mVhDoKTO-lkp@intel.com/reproduce)
+ drivers/staging/greybus/TODO | 2 --
+ 1 file changed, 2 deletions(-)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202512202155.mVhDoKTO-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   drivers/staging/fbtft/fbtft-bus.c:65:53: error: macro 'define_fbtft_write_reg' requires 4 arguments, but only 3 given
-      65 | define_fbtft_write_reg(fbtft_write_reg8_bus8, u8, u8)
-         |                                                     ^
-   drivers/staging/fbtft/fbtft-bus.c:14:9: note: macro 'define_fbtft_write_reg' defined here
-      14 | #define define_fbtft_write_reg(func, buffer_type, data_type, modifier)        \
-         |         ^~~~~~~~~~~~~~~~~~~~~~
->> drivers/staging/fbtft/fbtft-bus.c:65:23: error: expected ';' before 'void'
-      65 | define_fbtft_write_reg(fbtft_write_reg8_bus8, u8, u8)
-         |                       ^
-         |                       ;
+diff --git a/drivers/staging/greybus/TODO b/drivers/staging/greybus/TODO
+index 6461e0132fe3..31f1f2cb401c 100644
+--- a/drivers/staging/greybus/TODO
++++ b/drivers/staging/greybus/TODO
+@@ -1,5 +1,3 @@
+ * Convert all uses of the old GPIO API from <linux/gpio.h> to the
+   GPIO descriptor API in <linux/gpio/consumer.h> and look up GPIO
+   lines from device tree or ACPI.
+-* Make pwm.c use the struct pwm_ops::apply instead of ::config, ::set_pola=
+rity,
+-  ::enable and ::disable.
+--=20
+2.52.0
 
 
-vim +65 drivers/staging/fbtft/fbtft-bus.c
-
-    64	
-  > 65	define_fbtft_write_reg(fbtft_write_reg8_bus8, u8, u8)
-    66	define_fbtft_write_reg(fbtft_write_reg16_bus8, __be16, u16, cpu_to_be16)
-    67	define_fbtft_write_reg(fbtft_write_reg16_bus16, u16, u16, )
-    68	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
