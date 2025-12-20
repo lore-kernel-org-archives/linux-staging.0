@@ -1,49 +1,52 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from sender2-pp-o97.zoho.in (sender2-pp-o97.zoho.in [169.148.134.97])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EEB3214A62B;
-	Fri, 19 Dec 2025 11:00:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766142006; cv=none; b=gzK9ekN55OYo/0tubhWR+HVVPvA0UHhwhljMGDfSGOU5HuYvmiOwUGLAIkxJZWZ5lCto+CfODGEPkVC26qHJlmDrIOQSlvTeSe+TCDi19joVZKtUfwtL+TKjPPdM9DBvNgRLva7nm4lqshW/9yVToMWXX8SWt4uzVWHI4Wji/Nc=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766142006; c=relaxed/simple;
-	bh=rF1yPDuyGMfo+9a72fmkdnuoNV1bBA7A6RwbKHhS2Ss=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=AEpbcUYyD0RjBPEw0G5lF7r3UlScSL3N6dWpUuBrHmrB6rL7iADObqC5DdobEoBSjQaGP3aCKavvobkx/QrXm6Io38v30kUmSKbTfMPOS50x5TQA8vgbGE/x59poZfpVcIgoVWbqhX4jTllMhXmr7yS2ZlxWw0Udygq9tSjKEwE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mWOYjAWW; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E84552FFDE2
+	for <linux-staging@lists.linux.dev>; Sat, 20 Dec 2025 09:23:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=169.148.134.97
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1766222595; cv=pass; b=DbT3yWDIu4BwdPh7c6wX4oPxt2g6ObANhW83ocudT6VRuKTb5g5+gwKRYVU64+ZiSXOWRxmYPt6uShfvtiI7UPojxfNsI/JEizctmJsRTpbACHKdrl3/Se0aMG1SYeexa5WcoXt+mkrHLtdtkwWsYeeEjKjnD+t/HSlkcSsQaSg=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1766222595; c=relaxed/simple;
+	bh=QC4S4A0dxtSyvs5KO9F2gPy6NDsyk4CJhCUlyY3y6e0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=DFBO4FuiQrpb0tL/C9hL3gAEGg6cHAEo2lyDGei/tGMo9/fkowjLqMdhwI+oqL3cncQsZI4NA2c7cZx29OolA77r9oJEnKOqdBOERDqTQ5JUUtiqrtTmsuZigHbDD6LXxZahIOOzfzT1rzybqHrXfwK85HwCny/TTpQxps/Wtxs=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=zohomail.in; spf=pass smtp.mailfrom=zohomail.in; dkim=pass (1024-bit key) header.d=zohomail.in header.i=preyas17@zohomail.in header.b=S6vcsCnL; arc=pass smtp.client-ip=169.148.134.97
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=zohomail.in
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zohomail.in
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mWOYjAWW"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8C082C116C6;
-	Fri, 19 Dec 2025 11:00:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1766142005;
-	bh=rF1yPDuyGMfo+9a72fmkdnuoNV1bBA7A6RwbKHhS2Ss=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=mWOYjAWWw07MCGCIFhNQyL1gDA/wi0yNnrbIUPLw0ly8jEULMs3/rFjWEatQzKqgd
-	 2GhSx+0+lioW708eKxQa0zj94uFLfjauZcTE6sPcagrbmP/WO93KO6lNclQlbnRFQy
-	 rQGcRo2PjRNzOSp/Ad3MxYG83MOU9FYykVQEKT/gkAtUrL0rbBeRne2Ka43k4slSSA
-	 rI6CdHmxArPv7KfEgntnL9GOp6PwdnW/6NFkzoBG/GoFJjGzY5YEKCNbFK2yq74KM5
-	 s6pY5nr8ZRmyFxibLkSsdmcEZexAaFoC0+uoySPS8t2WbTS1S9uB69VsxaL0cz2uro
-	 6IbvaqO38ZMzA==
-Received: from johan by xi.lan with local (Exim 4.98.2)
-	(envelope-from <johan@kernel.org>)
-	id 1vWYDM-0000000065i-0wjA;
-	Fri, 19 Dec 2025 12:00:04 +0100
-From: Johan Hovold <johan@kernel.org>
-To: Johan Hovold <johan@kernel.org>,
-	Alex Elder <elder@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Vaibhav Hiremath <hvaibhav.linux@gmail.com>
-Cc: greybus-dev@lists.linaro.org,
+	dkim=pass (1024-bit key) header.d=zohomail.in header.i=preyas17@zohomail.in header.b="S6vcsCnL"
+ARC-Seal: i=1; a=rsa-sha256; t=1766222578; cv=none; 
+	d=zohomail.in; s=zohoarc; 
+	b=ZWFJrbczGw5tTpNIxPyNwhSEofYqzkO4QQpdAGhKu4aNgNcGZr21ap0I+HsumoxMOjzWyKZwXiUOgyd+K4Mz0HVj0w1natNHKGCRCTgq0LjCFnj/rH9wGkwCdZZWPdN2oqK1+F4ARM5gA9dZMD5bQQd86g1/qR1wQ1bCfqVXvY4=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.in; s=zohoarc; 
+	t=1766222578; h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=OofW2aCYjbNCIjUw/ER8VfAdyT4D8osctIsy0RUyh8A=; 
+	b=L/fErKqCDlAuO+MSqpGWcjaB1FVOLyFp3fWbmrQfX1fZjLMbS8gQC5ZS5nEuZv4uN/OCSdazIGErm9EKHo6pE+ZinHhwoXEFbNKwkKFtzifX10R1sbCskMOEOfj/mseVyqtdZI4KaYUijErtl1ry5UcFfrNEB/x6sqBJGu61yvg=
+ARC-Authentication-Results: i=1; mx.zohomail.in;
+	dkim=pass  header.i=zohomail.in;
+	spf=pass  smtp.mailfrom=preyas17@zohomail.in;
+	dmarc=pass header.from=<preyas17@zohomail.in>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1766222578;
+	s=zoho; d=zohomail.in; i=preyas17@zohomail.in;
+	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:MIME-Version:Content-Transfer-Encoding:Message-Id:Reply-To;
+	bh=OofW2aCYjbNCIjUw/ER8VfAdyT4D8osctIsy0RUyh8A=;
+	b=S6vcsCnL2aOIySwiLurs0yKD0AjIpbVt4xJzYuA5FF49nG11T7Cu0e99Cv324iXN
+	d2wMw4RjIScNAibAR2u8MI9tuU0DnMET/k/Qf80XnOBp+IuuUN/l/byriyh6yiOYht/
+	vlORyA0tyGYXKlyK0ndXtPpCdwOr//jUUF8tzum8=
+Received: by mx.zoho.in with SMTPS id 1766222577179131.58919452716736;
+	Sat, 20 Dec 2025 14:52:57 +0530 (IST)
+From: Preyas <preyas17@zohomail.in>
+To: marvin24@gmx.de,
+	gregkh@linuxfoundation.org
+Cc: ac100@lists.launchpad.net,
+	linux-tegra@vger.kernel.org,
 	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH 3/3] staging: greybus: arche-platform: fix OF populate on driver rebind
-Date: Fri, 19 Dec 2025 11:59:28 +0100
-Message-ID: <20251219105928.23329-4-johan@kernel.org>
-X-Mailer: git-send-email 2.51.2
-In-Reply-To: <20251219105928.23329-1-johan@kernel.org>
-References: <20251219105928.23329-1-johan@kernel.org>
+	linux-kernel@vger.kernel.org,
+	Preyas Sharma <preyas17@zohomail.in>
+Subject: [PATCH] staging: nvec: replace short udelay with usleep_range
+Date: Sat, 20 Dec 2025 09:22:29 +0000
+Message-ID: <20251220092229.16606-1-preyas17@zohomail.in>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -51,49 +54,28 @@ List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-ZohoMailClient: External
 
-Since commit c6e126de43e7 ("of: Keep track of populated platform
-devices") child devices will not be created by of_platform_populate()
-if the devices had previously been deregistered individually so that the
-OF_POPULATED flag is still set in the corresponding OF nodes.
+From: Preyas Sharma <preyas17@zohomail.in>
 
-Switch to using of_platform_depopulate() instead of open coding so that
-the child devices are created if the driver is rebound.
-
-Fixes: bc142bbb4ceb ("greybus: arche_platform: Remove child's platform device as part of _remove() fn")
-Signed-off-by: Johan Hovold <johan@kernel.org>
+Signed-off-by: Preyas Sharma <preyas17@zohomail.in>
 ---
- drivers/staging/greybus/arche-platform.c | 11 +----------
- 1 file changed, 1 insertion(+), 10 deletions(-)
+ drivers/staging/nvec/nvec.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/staging/greybus/arche-platform.c b/drivers/staging/greybus/arche-platform.c
-index 7dcb33a6f2e3..8aaff4e45660 100644
---- a/drivers/staging/greybus/arche-platform.c
-+++ b/drivers/staging/greybus/arche-platform.c
-@@ -553,22 +553,13 @@ static int arche_platform_probe(struct platform_device *pdev)
- 	return ret;
- }
- 
--static int arche_remove_child(struct device *dev, void *unused)
--{
--	struct platform_device *pdev = to_platform_device(dev);
--
--	platform_device_unregister(pdev);
--
--	return 0;
--}
--
- static void arche_platform_remove(struct platform_device *pdev)
- {
- 	struct arche_platform_drvdata *arche_pdata = platform_get_drvdata(pdev);
- 
- 	unregister_pm_notifier(&arche_pdata->pm_notifier);
- 	device_remove_file(&pdev->dev, &dev_attr_state);
--	device_for_each_child(&pdev->dev, NULL, arche_remove_child);
-+	of_platform_depopulate(&pdev->dev);
- 	arche_platform_poweroff_seq(arche_pdata);
- 
- 	if (usb3613_hub_mode_ctrl(false))
+diff --git a/drivers/staging/nvec/nvec.c b/drivers/staging/nvec/nvec.c
+index 263774e6a78c..6ffe5e8656d1 100644
+--- a/drivers/staging/nvec/nvec.c
++++ b/drivers/staging/nvec/nvec.c
+@@ -648,7 +648,7 @@ static irqreturn_t nvec_interrupt(int irq, void *dev)
+ 		break;
+ 	case 2:		/* first byte after command */
+ 		if (status == (I2C_SL_IRQ | RNW | RCVD)) {
+-			udelay(33);
++			usleep_range(33, 66);
+ 			if (nvec->rx->data[0] != 0x01) {
+ 				dev_err(nvec->dev,
+ 					"Read without prior read command\n");
 -- 
-2.51.2
+2.43.0
 
