@@ -1,172 +1,110 @@
-Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B88B2264CB
-	for <linux-staging@lists.linux.dev>; Sun, 21 Dec 2025 19:43:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DFC21FC101;
+	Sun, 21 Dec 2025 19:44:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766346207; cv=none; b=kPpZU6VRUqdHNo073bMX3g/sYIEeStcUwWZBm4lI4fZ2ginmFyBDb5bT1l+6gDVXNCU5rqcWbgVFpMYy3cN0/XZE2uQWcdCJ/y0lY5kZK6z+bt46+DGMj300tPkk7vm2du9OYIukrKTiNYwyfl7ikbCzwpYrVXdi4ly5CcG9QJU=
+	t=1766346247; cv=none; b=T0hubBu9C6F7F2lmxNhbeTB0X2YEWecxBj1RXKk1Lrj1unijMdsLaAoO5Ny4GQMhlXP296poICVJGJ3DVEbDbmUbjI6Q/M/eNPfrFD+WQ8PIZFydoFAdS55JK40VdUCqJXjit1LWU1OAnQK1y9h9XfAfNCe7TxiyL0aOb6XOL6Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766346207; c=relaxed/simple;
-	bh=8MkiJ9l3gXf26l7eUhu+fHGq0DUPEJX+5VB55TLN1bk=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=jsL1uXkOxmxDrtUHkECafVhaZc3o12P2WG1pvS/doxQmOrWnGDFq2Kn8tH70Va7KsP8KfAkQIKLq0exrRswW+G49Yd0GZvK/+kOvlbM3GFZftetCwIxjxpL0D1qLU7lyuZn5Hvy0suFbCZvAFZoUnLRJFeOJvRnY2Ap1NC/foWE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Y2tHd/xa; arc=none smtp.client-ip=209.85.218.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1766346247; c=relaxed/simple;
+	bh=WnMxUpxZCdrp+8JHcHsUD15fQNhBBQ8TrewpeFAH0Ow=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=Uv9VIVzBNwbRlf8zfqYUeNghTL0do0fvPErcsWn/HNS7FqN8MwwwdQYMQq7AYDY56zY+WUw9Nvnbw1yzAACon5zRMRrFuN50PA1XYbYQkmEZV6RBdTYva4OJ/mP6PmqPkGplk3TGGaRRIaB62WCRMrBId0ceHesUBfI3VTj0RDE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oi86AWxe; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Y2tHd/xa"
-Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-b736ffc531fso597531066b.1
-        for <linux-staging@lists.linux.dev>; Sun, 21 Dec 2025 11:43:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1766346204; x=1766951004; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=jxh4QQw2NyKDdmoVRlV29xSMRqLITbJdSU7eZMok6SE=;
-        b=Y2tHd/xaeD+FBcDNjnAIGAvNHvZmBCtBOX5AnhnYJ8EuEz7LlR85O1zqwvAvq0rA5P
-         Ri48bae6E3qjIhMAzfDwyD05FuzNmDKSbwuDPugnHeDZHfq+Xb6e46ePtryvM53jk5Oy
-         H1dF9SGyC0wmtss+Dx+bBsLmurtz0Bg49SjRIlVLnXpHC8qYqOpVbWIV2/SQPmWmgn35
-         K2ocNq8ZTwlgZZ68RllDGqa7bqO2Gh6nwGpvADng3l2SsgnY2wpEAiqm+HlQHFXe+Ge/
-         iXzFblXp+kexuUrb08o6KixViRG3HMyUzprbePsIyeuojtyJahDx4nM0kTNymyjxwfiS
-         5oWA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1766346204; x=1766951004;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=jxh4QQw2NyKDdmoVRlV29xSMRqLITbJdSU7eZMok6SE=;
-        b=VSTUm7rXpksmOoqIDqt14mTLpONC6dOlxw4Ym7K0aqrxg1Vl2QVtuF8L+r2JAzAyy0
-         fcz8C+f+Kl+vR3Hg0Wn+s2GvXofZ20VibzRfl5anyu/oKEEP6/qvsGuqgYULcnq9V+ta
-         oNRrGiCsg4q5Nt0ExIUthgf8RU7GWLss+zO/hlQYvkkz4peUmJeIbJPtFhGGpMPP0nma
-         rz4rWAdhmkdl4HmO5X31F4vFgyHlh736SR4TKtE4iIF8+b7gyricuTSTPeZ6JbyQffYi
-         siwNkibusigDv5yWdIyf0Ai5m31R0kuxsgW9dKMY15B2tUhSf156T2jIrNl/dDBiiIJ6
-         rBUA==
-X-Gm-Message-State: AOJu0Yzx4U7YwbgaDpSX68oYaH9Xrl12DafT8Dtv8qTljAlhPKrQsTvc
-	rXmu6kp2W2LGBq5TcavDTkovK+9oCpF08qxSGO+Jqek/OzMRj0IqSdKq
-X-Gm-Gg: AY/fxX5dFYfajU9L9IOZnh8RdRVMNAbNdizZ6YBRZWx0W9OYjyMcUO0R+8xNQyWPTkU
-	qWA6UiFNZsxDa5ASxGRReY7EeihDzZRbb4p8q1NB+bzZywmYmoCyMnh2peA7BLrvkgouCPZt4bZ
-	9+x9p8SJcKe2Z1dW3kXlZmQ/6sOxaa2cpfh9AVmuhuXehQManUhz8cubfXN9bMl9l7wC6ROqv78
-	WMnwuo15FbDwasDiN2jKt0Syaon9dnOgG2PlXN+HwMasJHU95ZuYKoH5B6Fi0nc75EB/tlmQy8C
-	kM7SluywFXpN4eHbREOqPz6DsgClkfzwO+cHekse2d9dVzuq3zU8v5plqAaSpPIgwFiWf1GQ9C7
-	0Yt9blB5NIcs5CgaYTbICP2Nvr4uEfkxUdzCEDF0ADaIIApXCO7Tsz7TnhKjAWSSiSzSjCQCd31
-	WPmzRKIsNGvndSYF/YKseVw7jeFXeMuA==
-X-Google-Smtp-Source: AGHT+IGkIfh0VwS6BbVacOE2kQwJxWv5qp/5Cxbpal1MiVKjNto7RZRca4sUvWddiXaTy/fN+uPhCw==
-X-Received: by 2002:a17:907:75c3:b0:b80:3fb7:f3a8 with SMTP id a640c23a62f3a-b803fb7f6f6mr581892766b.63.1766346203667;
-        Sun, 21 Dec 2025 11:43:23 -0800 (PST)
-Received: from localhost.localdomain ([105.39.61.76])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b8045a086fasm653170066b.70.2025.12.21.11.43.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 21 Dec 2025 11:43:23 -0800 (PST)
-From: Khaled Saleh <khaled.saleh.req@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: linux-staging@lists.linux.dev,
-	greybus-dev@lists.linaro.org,
-	khaled <khaled.saleh.req@gmail.com>
-Subject: [PATCH] staging: greybus: split gb_audio_gb_get_topology() into helper functions
-Date: Sun, 21 Dec 2025 21:42:00 +0200
-Message-ID: <20251221194200.3734-1-khaled.saleh.req@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oi86AWxe"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 15781C4CEFB;
+	Sun, 21 Dec 2025 19:44:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1766346247;
+	bh=WnMxUpxZCdrp+8JHcHsUD15fQNhBBQ8TrewpeFAH0Ow=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=oi86AWxe+DwKCLEsi4wH9BhJsmlyVvgJTeCNYT1DaSfDMq9Ag/gA1fxVs5aOCnLM5
+	 01zFpwQiBj6NsOUSunI2H0omT4eU8I/V8ZtZxXAV9PGzFEuiYNW9TXUqmLvu/Vv1MR
+	 Du2EnBRKFX6d9V8/+QyxUy3Q2ldbcCpJWx4s8h3b4gIZ2QPhryEvKsvDaA1KTHuK2C
+	 nM26xtJK3RR4g0sFCG/FISC7E9fdsgMwHkhVRK6QCuCo5fMAoaeUUckfrTgfwhVcCV
+	 9rdDchGwPkqXCCPYhJdORLvGTHR17+z10IsgnmHk08G9SqoEKsnaF+Zyygq3Gfat0f
+	 D3LpzAtZmSPJw==
+Date: Sun, 21 Dec 2025 19:43:58 +0000
+From: Jonathan Cameron <jic23@kernel.org>
+To: Marcelo Schmitt <marcelo.schmitt1@gmail.com>
+Cc: Tomas Borquez <tomasborquez13@gmail.com>, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>, Lars-Peter Clausen <lars@metafoo.de>, Michael
+ Hennerich <Michael.Hennerich@analog.com>, David Lechner
+ <dlechner@baylibre.com>, Nuno =?UTF-8?B?U8Oh?= <nuno.sa@analog.com>, Andy
+ Shevchenko <andy@kernel.org>, linux-kernel@vger.kernel.org,
+ linux-iio@vger.kernel.org, linux-staging@lists.linux.dev
+Subject: Re: [PATCH 5/5] staging: iio: ad9832: add sysfs documentation
+Message-ID: <20251221194358.3284acb4@jic23-huawei>
+In-Reply-To: <aUQZW3XBusWl3TU4@debian-BULLSEYE-live-builder-AMD64>
+References: <20251215190806.11003-1-tomasborquez13@gmail.com>
+	<20251215190806.11003-6-tomasborquez13@gmail.com>
+	<aUQZW3XBusWl3TU4@debian-BULLSEYE-live-builder-AMD64>
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-From: khaled <khaled.saleh.req@gmail.com>
+On Thu, 18 Dec 2025 12:10:19 -0300
+Marcelo Schmitt <marcelo.schmitt1@gmail.com> wrote:
 
-The gb_audio_gb_get_topology() function performs multiple distinct
-operations: retrieving the topology size, allocating the topology buffer,
-and fetching the topology data. A TODO comment in the file notes that
-this logic should be split into separate calls.
+> On 12/15, Tomas Borquez wrote:
+> > Add sysfs ABI documentation for the AD9832/AD9835 Direct Digital
+> > Synthesizer chips, documenting frequency, phase, output control,
+> > and pin control attributes.
+> > 
+> > Signed-off-by: Tomas Borquez <tomasborquez13@gmail.com>
+> > ---
+> >  .../Documentation/sysfs-bus-iio-dds-ad9832    | 41 +++++++++++++++++++
+> >  1 file changed, 41 insertions(+)
+> >  create mode 100644 drivers/staging/iio/Documentation/sysfs-bus-iio-dds-ad9832
+> > 
+> > diff --git a/drivers/staging/iio/Documentation/sysfs-bus-iio-dds-ad9832 b/drivers/staging/iio/Documentation/sysfs-bus-iio-dds-ad9832
+> > new file mode 100644
+> > index 0000000000..5ceea57917
+> > --- /dev/null
+> > +++ b/drivers/staging/iio/Documentation/sysfs-bus-iio-dds-ad9832
+> > @@ -0,0 +1,41 @@
+> > +What:		/sys/bus/iio/devices/iio:deviceX/out_altcurrent0_frequencyY  
+> To be more generic, I think we could use a capital letter for the channel number
+> too and avoid the symbol postfix in the this attribute's name.
+> +What:		/sys/bus/iio/devices/iio:deviceX/out_altcurrentY_frequency
+> 
+> > +KernelVersion:	6.19
+> > +Contact:	linux-iio@vger.kernel.org
+> > +Description:
+> > +    Frequency in Hz for frequency register Y (0-1). The active
+> > +    frequency register is selected via out_altcurrent0_frequency_symbol.  
+> Maybe, if we can keep only the 'Frequency in Hz for frequency channel Y.' part
+> of the description, this is something that could actually go into sysfs-bus-iio
+> when the driver graduates. Though, the 'register is selected via
+> out_altcurrent0_frequency_symbol' part is trickier since it seems to be design
+> specific. 
 
-Introduce helper functions for each step and update
-gb_audio_gb_get_topology() to use them.
+For now, these interfaces are specific enough I'd be tempted to put them in
+sysfs-bus-iio-frequency or a driver specific file for now.
 
-This improves readability and maintainability without changing behavior.
+That lets us keep a little more track of how they are used. It's a lot
+easier to make sure documentation is generic enough once there are a few users
+(though as Marcelo suggests, make it as a general as possible from the start!)
 
-Signed-off-by: Khaled Saleh <khaled.saleh.req@gmail.com>
----
- drivers/staging/greybus/audio_gb.c | 47 +++++++++++++++++++++++-------
- 1 file changed, 36 insertions(+), 11 deletions(-)
+Jonathan
 
-diff --git a/drivers/staging/greybus/audio_gb.c b/drivers/staging/greybus/audio_gb.c
-index 9d8994fdb41a..0d5109ec14f6 100644
---- a/drivers/staging/greybus/audio_gb.c
-+++ b/drivers/staging/greybus/audio_gb.c
-@@ -9,36 +9,61 @@
- #include "audio_codec.h"
- 
- /* TODO: Split into separate calls */
-+static int gb_audio_topology_get_size(struct gb_connection *connection, u16 *size)
-+{
-+	struct gb_audio_get_topology_size_response resp;
-+	int ret;
-+
-+	ret = gb_operation_sync(connection,
-+				GB_AUDIO_TYPE_GET_TOPOLOGY_SIZE,
-+				NULL, 0,
-+				&resp, sizeof(resp));
-+	if (ret)
-+		return ret;
-+
-+	*size = le16_to_cpu(resp.size);
-+
-+	return 0;
-+}
-+
-+static struct gb_audio_topology *gb_audio_topology_alloc(u16 size)
-+{
-+	if (size < sizeof(struct gb_audio_topology))
-+		return NULL;
-+
-+	return kzalloc(size, GFP_KERNEL);
-+}
-+
-+static int gb_audio_topology_fetch(struct gb_connection *connection,
-+				   struct gb_audio_topology *topo, u16 size)
-+{
-+	return gb_operation_sync(connection,
-+				 GB_AUDIO_TYPE_GET_TOPOLOGY,
-+				 NULL, 0,
-+				 topo, size);
-+}
- int gb_audio_gb_get_topology(struct gb_connection *connection,
- 			     struct gb_audio_topology **topology)
- {
--	struct gb_audio_get_topology_size_response size_resp;
- 	struct gb_audio_topology *topo;
- 	u16 size;
- 	int ret;
- 
--	ret = gb_operation_sync(connection, GB_AUDIO_TYPE_GET_TOPOLOGY_SIZE,
--				NULL, 0, &size_resp, sizeof(size_resp));
-+	ret = gb_audio_topology_get_size(connection, &size);
- 	if (ret)
- 		return ret;
- 
--	size = le16_to_cpu(size_resp.size);
--	if (size < sizeof(*topo))
--		return -ENODATA;
--
--	topo = kzalloc(size, GFP_KERNEL);
-+	topo = gb_audio_topology_alloc(size);
- 	if (!topo)
- 		return -ENOMEM;
- 
--	ret = gb_operation_sync(connection, GB_AUDIO_TYPE_GET_TOPOLOGY, NULL, 0,
--				topo, size);
-+	ret = gb_audio_topology_fetch(connection, topo, size);
- 	if (ret) {
- 		kfree(topo);
- 		return ret;
- 	}
- 
- 	*topology = topo;
--
- 	return 0;
- }
- EXPORT_SYMBOL_GPL(gb_audio_gb_get_topology);
--- 
-2.43.0
+> 
+> What if we do something like
+> +What:		/sys/bus/iio/devices/iio:deviceX/out_altcurrentY_frequency_symbolZ
+> +KernelVersion:	6.19
+> +Contact:	linux-iio@vger.kernel.org
+> +Description:
+> +    Frequency in Hz for symbol Z of frequency Y channel. The active
+> +    frequency symbol is selected via out_altcurrentY_frequency_symbol.
+> ?
+> 
+> Same thoughts about out_altcurrent0_phaseY.
 
