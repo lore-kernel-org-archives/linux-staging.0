@@ -1,70 +1,74 @@
-Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
+Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF175221546
-	for <linux-staging@lists.linux.dev>; Mon, 22 Dec 2025 15:24:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DABEB32572F
+	for <linux-staging@lists.linux.dev>; Mon, 22 Dec 2025 15:24:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766417081; cv=none; b=DWvzN9ilGL+QeO9HHsDtTVuJfDfJ3nc844ukPfv4T4byt+J2IGhlag2nU9rBnPCFVsUx1h4AyOgHX2rs8etsV/AglhoY+uwGZDhAJ8mB3/NRJT8l+je4hQ8J3Og6Y/zTzxsIraeadnlquvT3lTH4sazqwVWNjTJ5W1Sg+luNkdw=
+	t=1766417090; cv=none; b=BGGjs9HS1L1rYTH9fcV6FugInUJaYGBQds/f6g+NGxJOMk2qgMKjGKAexqkKD8IcE+arQhucHnyPBkbDVVt396F7iKTKvTWbo2sq+AmYs1L8NzD+3fp0sEEPM/cq2XfRkoGYV3In6lMtEDJDqRU71clkGfiY5o7gRzt8wA3pE48=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766417081; c=relaxed/simple;
-	bh=5Dlr+DXmIhYkrj3YBKXs3vjTNnXgwVyETc9RB+3ijxc=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=mZlP7G7YdWV27M8h5kXtfjAFPF0BYUH8dadyaJHC51Vtjsrd8HYSLmxYsC39IPHbXiU8YLTJQ0wTOBkU0TwilwW2ROmymSUwTFNN9KmALFnGbh3qUsbzps5iX9f/5dp2LWFE4Rasmb6Diyu/87iVvlQc3Ule3+i7MJfqUDa2stk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NUxN/hjn; arc=none smtp.client-ip=209.85.210.178
+	s=arc-20240116; t=1766417090; c=relaxed/simple;
+	bh=O3bvYF8Cu+2KyZ+xsWomBvbypzhojHTCesUViVP/mX4=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=kiM+DbH4h1EMij7R4UMOn/6TRTz3xy1N8VrUEO2kG5+xmy/1Svd+mp/TyKjK314hjZHTnHt6j20adJrEUtct6Kz81pGYvmlM8QsXPrYY5/EsJjBsh4Xb7HpMtaXUFsRHZxKYcc0FDHA3BIo0isSQBrqutsdWN8p7E8lEgl7XTq0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RO4pE2bW; arc=none smtp.client-ip=209.85.210.176
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NUxN/hjn"
-Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-7a9c64dfa8aso3105878b3a.3
-        for <linux-staging@lists.linux.dev>; Mon, 22 Dec 2025 07:24:39 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RO4pE2bW"
+Received: by mail-pf1-f176.google.com with SMTP id d2e1a72fcca58-7aa2170adf9so3177507b3a.0
+        for <linux-staging@lists.linux.dev>; Mon, 22 Dec 2025 07:24:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1766417079; x=1767021879; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=Qzk04aLLaDlmqW4e3hThuySgeikMdNPDZULzEWFbri4=;
-        b=NUxN/hjnlnKLwk8YtXPtSs9rN4BXMisaR22pTndsnCdFe+hObPiIKQjq7Z/0PHicUD
-         ekgmO8LvzJ1nNCURmV8IgrVLOY73hqkBeT5Cq8Bm4SWXPjun1RpV1GklCwQ/DobtEMnv
-         9A3A3bCo0NKRk4flmLn13Sas9+rqFYEwXErrIrgmoq5efzZVixQ8fmAwC3IrIc1OSHV6
-         xTDBAgYD40b+EgIAQn9j67W/MCxfAT0JYknW9b+K/A3/rHSgSDhsE+6lOLPdjBsS2Gxq
-         XVKRrBOaozXqR1Wr9JfIdXNhPQHcNXWKEn6RSxgHqofVGD0uYBy1RVCJmzjCE0GvLbM6
-         HddQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1766417079; x=1767021879;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1766417087; x=1767021887; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Qzk04aLLaDlmqW4e3hThuySgeikMdNPDZULzEWFbri4=;
-        b=WrwNHbCAvlJTLJc0BerbFvGFJqDuISkXjsf1kAM6uyb0P3UkZeow/5vhq+8DhpZ3Ic
-         Wy+I+DPAE1Nd865utZyDk50IBUVJCwqBeG7YmKy+xZar0Zb2ZAg5IRTKThCDxotsSIfn
-         ru4BTw+bjaglctOsnBMY4r2jk52zr+j688xElSPRRrSsSQyfVoRbKw/xp0YoyokbZBou
-         qws/sPZI4g0xaJb8SeLoyLjhQkNjSy4Sg+AUJbvgnZ8BHHiHnntdE437+5vwTJ8vf/gr
-         meA8pDe7DImCFYuQ0aoyX7Y8vTPjOmmgEe3CTq5MXWY8suZeuaFlLcqexXXqoH+RmIIA
-         Lcbw==
-X-Gm-Message-State: AOJu0YzVbgE7ZIFjEJT3pVtkoO/pHDebrjdgc/o/A7bp8LTbhikyfIoI
-	jAnvxjp88hPmO6ei6FR1rn6RSyDzlMgPPxts0oq7FmEJjKiqMrALDpv1cXt1EA==
-X-Gm-Gg: AY/fxX500LORx790FsOysOuA5rHsFZbjTSIrngjOwq7ejEWiD1FGmtxxKmApgCj5Ilj
-	52O3or+DHK/5MJOqhcfIK4LP23PXbdfPCqIBl1hvAlWq7/9aJVoCF2mzhDPJgcgPmhXQtAjc7kb
-	JyGcmKVxF9CSjcnIdYWDIQrwtAHUfH2Q7MoPzjoegw+hOmf27Wy+ODRsuncQ/B6kFQZjz3TRUTL
-	k4J3moSs3gZGbJNzJFEWJIlgpRzpwN6Bp8v0rnu+PeMgy8+f+p/GoVjj5429aH/e/Y2iIV887wb
-	zOUFt2yAp7WmsRCdwdyjeZLYUv2d3ggqT5pS6DZtjTpq4w0ZrmmqWI9XsydsW1wOkv9xGNTsZne
-	iAoDZqqQ2ax+9BsPHOkQ1j1iOp/zte39ON8EB5Rd2jGNW1I3Eb24O5tCYeg9goXdmQVmZ07jOAo
-	hFC834DvkEYvt9C35mf+T4lv0fBPWpqGU4U4klX17DDwlmQg==
-X-Google-Smtp-Source: AGHT+IEgsPYDv+H+SeJ77HStEZw4X6YRqGWtpUpMV0RT3RoefFbhdOba5eCugnXmFUwYfBgJUeAIng==
-X-Received: by 2002:a05:6a20:914a:b0:334:97dd:c5b4 with SMTP id adf61e73a8af0-376a7aed514mr9344789637.27.1766417078680;
-        Mon, 22 Dec 2025 07:24:38 -0800 (PST)
+        bh=uEw0HhEC2FU8j5Q1jim4n7tU0qxbPYmbSD7ZkRKm7vQ=;
+        b=RO4pE2bWHemRi6r6XTQkyr2eBkSEVb8g9g0uL05rCjTqTf7+il7OXrTAIjODs5HAqC
+         ltVYtkBGMfnG1peFajXi4YpfqK/qlf7XNAIXVEo7hJux1QNP+/YDOD7CvBduN+HBhnsZ
+         NGEOzpav0377CNfRl/MS1dBREb26KlSqqcqyxaBPVYTBx0SMgm18wGfPqhxsro+1P9b2
+         6aPdyo22rbrtvAVkiNbd1JkiC0UIe2BmqcCtvqJPHYyu34XgYScMBRdwOxvCN4xocZX0
+         z+4H7ZwypyUp5p5DJU+MgVVEzPb3OzHqSPoKUJXxsapZ5NBsuQujuLvtTf2np1xDjbaU
+         tnFQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1766417087; x=1767021887;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=uEw0HhEC2FU8j5Q1jim4n7tU0qxbPYmbSD7ZkRKm7vQ=;
+        b=W8FnxYKnjOKAsuAT4TtYAVcZh0UmPpxvT+nIcty2rcgvOilVui7kCKlxlMFGSlOjOT
+         DacZ4M8yY8zBccyzTuLK9T+A/FSc36lrwZmfBK8ErdfrJgP7QTsVX7g8OHJi2FyQGH22
+         bjFW/EHVCedGgYtyaWpaZCNrFD+c0pEJ7tRJ6jkYxiW9NtjyfWJWKrrS2hxEjRJwra4s
+         LGjBsuUhhFWabkAKK2bSwagScQEu6c2xQYiay58FXj4QIAp6t54BdBIwdm7xmJUPeGR1
+         te0SS900cKf/3leKEWJwS0E5QpV32uowVSF/h11fAayHRCcEIB7okDHxD9ttW4Ia37pJ
+         LBCQ==
+X-Gm-Message-State: AOJu0Yw+TVDxCsoRaHWv6G73vTW7kzXiRRR0UxasrkMrOclr9H/aGYpR
+	swN/e7UjIkLOIDCq1eecIewNXDSQPVTWkq//YTup6+7mxVnuXbB8ZvfXiPpRPA==
+X-Gm-Gg: AY/fxX4PAlQbOt9u1AHByJRHbTN8x1PHLCmXGO8mkczECV473XE8vHYOzgq0yL0dwDy
+	tF8lYO9BObPMr0q+edRSlruk8nfBZJH/vbQyTUXseiBg5Kq5G+q8csZv/bO1qjFlLvb5XgnqP4v
+	f7qqh7sXWjojoON+8jW0zFPrYw5OEbT9mmY2kg4xxNzbM/DBDR1ECF7OJ/L7A74FqQXYryRXCCa
+	R8+tdwnRqbRJ6xEDHLAPj8jvLEC9XnKsNMlboB6Mr68X5DcfDeLdb/GKPYQP+5xYyd9IgL0zG2k
+	/9vemaYuQu231E6MydRyULxdMKpiZCtW9ZWIu+Ayyw6j12h2/tbYm9qCk5z9OgGo2EoMzFrn5wO
+	F/8koXOmgFyFVl9qc6DgcU4FBW/9ThqKYRpHdfFZ3PTK2GunyJXVoyqJmFencCtLtA6Hfh1D97u
+	XD88tzBZodS6TpnakA9t8inJEd8apmrs1PBNo=
+X-Google-Smtp-Source: AGHT+IFV7HzmxA6HVB4+TJiYXZSDwRicTd1X0heo2G2hdIXRGCAGn0HajJKNaoGvWZ0o3kXr8frU2g==
+X-Received: by 2002:a05:6a21:6daa:b0:343:72ff:af80 with SMTP id adf61e73a8af0-376a9acca7emr11717619637.58.1766417086592;
+        Mon, 22 Dec 2025 07:24:46 -0800 (PST)
 Received: from DESKTOP-MOQC9AF.mioffice.cn ([43.224.245.233])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c1e7961e039sm9620925a12.7.2025.12.22.07.24.35
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c1e7961e039sm9620925a12.7.2025.12.22.07.24.44
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 22 Dec 2025 07:24:37 -0800 (PST)
+        Mon, 22 Dec 2025 07:24:45 -0800 (PST)
 From: Zhan Xusheng <zhanxusheng1024@gmail.com>
 X-Google-Original-From: Zhan Xusheng <zhanxusheng@xiaomi.com>
 To: linux-staging@lists.linux.dev
 Cc: gregkh@linuxfoundation.org,
 	Zhan Xusheng <zhanxusheng@xiaomi.com>
-Subject: [PATCH v2 0/2] staging: greybus: gb-camera: use BIT() macro for flags
-Date: Mon, 22 Dec 2025 23:24:29 +0800
-Message-ID: <20251222152432.68555-1-zhanxusheng@xiaomi.com>
+Subject: [PATCH v2 1/2] staging: greybus: gb-camera: use BIT() macro for flags
+Date: Mon, 22 Dec 2025 23:24:30 +0800
+Message-ID: <20251222152432.68555-2-zhanxusheng@xiaomi.com>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20251222152432.68555-1-zhanxusheng@xiaomi.com>
+References: <20251222152432.68555-1-zhanxusheng@xiaomi.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -76,12 +80,27 @@ Content-Transfer-Encoding: 8bit
 Replace (1 << 0) with the BIT(0) macro for input/output flags
 to follow Linux kernel coding style.
 
-This patch series is a split of the original patch per review feedback
-from Greg Kroah-Hartman.
-
-No functional changes beyond what was previously proposed.
-
 Signed-off-by: Zhan Xusheng <zhanxusheng@xiaomi.com>
+---
+ drivers/staging/greybus/gb-camera.h | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/staging/greybus/gb-camera.h b/drivers/staging/greybus/gb-camera.h
+index 3e09147435a5..3e3e879120de 100644
+--- a/drivers/staging/greybus/gb-camera.h
++++ b/drivers/staging/greybus/gb-camera.h
+@@ -10,9 +10,9 @@
+ #include <linux/v4l2-mediabus.h>
+ 
+ /* Input flags need to be set from the caller */
+-#define GB_CAMERA_IN_FLAG_TEST		(1 << 0)
++#define GB_CAMERA_IN_FLAG_TEST		BIT(0)
+ /* Output flags returned */
+-#define GB_CAMERA_OUT_FLAG_ADJUSTED	(1 << 0)
++#define GB_CAMERA_OUT_FLAG_ADJUSTED	BIT(0)
+ 
+ /**
+  * struct gb_camera_stream - Represents greybus camera stream.
 -- 
 2.43.0
 
