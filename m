@@ -1,69 +1,73 @@
-Received: from mail-pg1-f174.google.com (mail-pg1-f174.google.com [209.85.215.174])
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF39E349AF5
-	for <linux-staging@lists.linux.dev>; Tue, 23 Dec 2025 18:49:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D1EC2D46B6
+	for <linux-staging@lists.linux.dev>; Tue, 23 Dec 2025 19:00:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766515792; cv=none; b=ZQ5+JgprXP/9v7xd0NL/kS2RyBUWm1Kfv9TcnQocF3f+GAUDprWaSRgWdNJua+L3DMMYv45LsBY02mNhfvIYZ0FJByplhnjUAqSBYe+qXOG1nDSc0UV0oS5VNgc95vi4/f75ObN8B33USRtxgnAXzDPmrfKtpuILm1/fjfEpRys=
+	t=1766516408; cv=none; b=URRzNBH8CoR3M1AROX7+tRSKfZ63UzT1hLvfa5yvvcjTPnFvpdp9BZrdyebF+ooaj+m20qebS8k3HbGIoAL/ZNf2x0Fi8HeuQII/QXB9L8Gd8hnE5zoxCGVLEcABaMe2hL4LiO02C0so+VhqfBx2FPfj83rDKR0Qu33iYQU0NP0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766515792; c=relaxed/simple;
-	bh=UhHBPT1IAwkHWoSN5KtqPVfjVIOfb+YunwUE2U1el1s=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=SfuPB4qO8aQr9Z58SYbnULmUdU1wBq89rrMyf26CwI39emgj3yf8RsslfJW6m8HYL91v3+LpLd7/CExouDOOuxE183moy4LFV05P7MQ7er5y5GzRivnaysVHkiV+GRxsRbySYhnYWUPU5YU6chPd8OuJ8siSkkq+Z+w/1Ju6qBw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SdP2K/o/; arc=none smtp.client-ip=209.85.215.174
+	s=arc-20240116; t=1766516408; c=relaxed/simple;
+	bh=0Y88mplztIxM7HXKshrFYXfqzTchd2WEF2D5dxep1s8=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=STZiRu5XWuQRuUacaSI5fmuS3T9/k03KEsRSMHsVL9WGV5ljMlkM4+FGxGbNPzmEH7Rrcim5XB8UcCNSZdVAlRl+/3AvGT2Wtvqj+10p+AyP0t2EiKC35J/ybDhJrFWCUJeNgAQWZDe+J5RETMyxrdZTYO8UmaIBRyo3Ou5UHJ4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=f93o3MdS; arc=none smtp.client-ip=209.85.214.174
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SdP2K/o/"
-Received: by mail-pg1-f174.google.com with SMTP id 41be03b00d2f7-bf1b402fa3cso5354258a12.3
-        for <linux-staging@lists.linux.dev>; Tue, 23 Dec 2025 10:49:50 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="f93o3MdS"
+Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-29f30233d8aso64725695ad.0
+        for <linux-staging@lists.linux.dev>; Tue, 23 Dec 2025 11:00:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1766515790; x=1767120590; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1766516403; x=1767121203; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=IBPVKntXo941JgDFBt+lGwP+2uqXEniYPiSkpRKqj/4=;
-        b=SdP2K/o/A34K38uqe0kWQv2b1VdyIva/hyeKr/Mlgi70ZfgPPW8kLzOF+GqY8MuWOX
-         tM8P8OnCq1VZIxv/dAvg+FQCwZNgaeAeAo7C2v1eC4COYOtZxtQHVN98NyHV/SHRjaoo
-         hP2KPtQjTb2H5yRcM/bgdA/ihFX8SU/ApmDGIE9t1QgxWiyrDf+sXie/Z8EVNblXb2Rh
-         ov4BdJPOwQBPH4+1Uzl925ajes/19Ix95R7ime27xHzZzLd3lcwdZ3fdl/rt+WPfBoig
-         D602FkapWCD8fzXaRvmc6uyXu8K58UV8cQLVVgjVdinD96u0GjmQ/p4G/nI2MP1s8u+L
-         10mw==
+        bh=6jBtO4dndspPVV4A9wtVY7GwksvV1hpeoiNFJc4zK5Q=;
+        b=f93o3MdSnCnsvUcB0ELTUxGK6RYKRDodtrP+Ke8FngwjCnMiVVjPVnZC6NdNOau01l
+         SFXHkkuvY67qGfHu4T8aMHOpXeM5pGbgYFojSQfErC7Bf1wW1T04zgvvrUEd1WV3EgOG
+         RzeDW2WRo8jPc4+KrOx9lT0jthdKvxIrR9UYKk7dB0bwB28L/QBQxgoBbVqvXWRGP0NW
+         EVgjZkpgBdvPWt1r3DSEIpvNfnHVFOjRj8UWaBlCR/BCAOE0lDm3DJb/Gd62rmUNXXA4
+         QZUtF82QeGMnNxQTTUtBjWHypwmFY/+8T0Qyua4ybrpG+gJCbVvmV0FlfZNrf96nkwEo
+         TMuQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1766515790; x=1767120590;
+        d=1e100.net; s=20230601; t=1766516403; x=1767121203;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=IBPVKntXo941JgDFBt+lGwP+2uqXEniYPiSkpRKqj/4=;
-        b=lXNbphGGCaM/8YvAizEhbw2Tt2Dt33fUSD1eOtQM1WcQz9Mp3Hs0CrTfov59ZWwjwm
-         S/RgHrTE04TpMFPek6GNdY3pFmjFskpA89iJtFLH6ebMqH4cESASWedAosr6IdQqEgZf
-         dZfaJ9Ijsw2fLB4Eb1TlY8ph5WgQjWebFi7lQfcRPJwODPWR9jF3BtvIw270UWMgEmyB
-         n9XixtfG7DcbNu/MbuNUIJYBoMZKqJl1Ys+TzjQnYfhsn3AQLHwFu3vgko2TOXDsoNwX
-         yl7QbhcXydr8xKg7RC37EX42oH6JQCAekPKVLdP+fWOvF+UohbMshcZvpYOGXPjkCtKU
-         mCAQ==
-X-Gm-Message-State: AOJu0YzDlAzrvQw0v3wSF5Ka6S0wOcvFxd0mgKHAbUKpGPkjgRGUBcBS
-	pn5A3MqM/Id6wQf6q5bv8rDCbJJaRMnkuCDkIkSHDRnNQ5+bDAP/CX2AQkoF87icZsSH9A==
-X-Gm-Gg: AY/fxX5Ffc3RssIhPer9i49NN+Yq2dQvIK4paVucEWgnP3icuSzl3NkpY9Zit1cZ4km
-	hScjitzhEmGHaFC4hmUEhScC4/WHrXoVllomE86TmeCWrY1XLcw5un/eGk061DUgORzTT2Td4XS
-	cgRMPGlaLWktOceGFlzVAlE9Tm9XZohh3dDaiESttVQa9l16SNFYh3z1AXgOE8mhzafI2W4znLw
-	fMqgMqxDdoGhCiffxMK0nOUonu6/v1ICBGCmvGbsfp5tlB4HXNYq79F8r2s83YWGTqx7sWKwbSz
-	1ry5ZAJmwawMEpIq3B2FpSgbO02Aq3kjUd+2lIZcLDXZ6dXKJHU+RKiIq1+PGvQl8/M0HDk77mn
-	I+KzxCNnPm7aEcUGzoKF/k3KCSPEz3crk4bq5hSYftjuyFBBmikPdYeUej8dBO/SR/hJU3/uxvZ
-	xaGv8SOeLAOwgP+ZIgqWYryNKXNeTtNg8GB7VE75khBVeiIKqsSw3ABuMs5x08VBqyY8+aq8c=
-X-Google-Smtp-Source: AGHT+IFjeba6jDdGxUAE46Rq0RIUW+zN/QsT1BmbuGh0wlpfaVv1dO8l90OhRYBS/Y2tPDHOO1TlSg==
-X-Received: by 2002:a05:7022:e01:b0:11b:40b3:c621 with SMTP id a92af1059eb24-121722e814emr21294876c88.24.1766515789457;
-        Tue, 23 Dec 2025 10:49:49 -0800 (PST)
-Received: from TestUbuntu22.. (c-73-231-208-80.hsd1.ca.comcast.net. [73.231.208.80])
-        by smtp.googlemail.com with ESMTPSA id a92af1059eb24-1217254d369sm63171706c88.16.2025.12.23.10.49.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 23 Dec 2025 10:49:48 -0800 (PST)
-From: Jennifer Guo <guojy.bj@gmail.com>
-To: linux-staging@lists.linux.dev
-Cc: gregkh@linuxfoundation.org,
-	guojy.bj@gmail.com
-Subject: [PATCH] staging: rtl8723bs: fix block comment whitespace
-Date: Tue, 23 Dec 2025 10:49:43 -0800
-Message-Id: <20251223184943.83688-1-guojy.bj@gmail.com>
-X-Mailer: git-send-email 2.34.1
+        bh=6jBtO4dndspPVV4A9wtVY7GwksvV1hpeoiNFJc4zK5Q=;
+        b=GfK28qgZfeh8VVPCUP9sqzRHuv0BwlRdR9spji1yhxlouDYTvvDgLyzcF9XhzJvnpu
+         DpBlXbHv+i8qfD2V7nSs6zt7ra9TDkE1MAneGyIKb2czkUID7xF52EF1AGqI15AusC6n
+         wQeQFyT623yg+krFuBeIT8eXdbyynSVR5fP195E3XDz8jaeosHtFrxhVOzJ/ILMuQv5Y
+         rZ9RVcczLKwTP7HjGU8qoMBERCWnxXDxTowCrvL0G+JfyTe2too+JDPLGI+p6MiP11zt
+         FoV4+wxvTtZYAw+1I5/CAlUhvdVFV1955Bn+IBPGfxswOeHXNFlOTXZTzzF6ESP/YKgz
+         /BJA==
+X-Forwarded-Encrypted: i=1; AJvYcCXXlQ7Yrhys6o/kqy81RfzKPLgsd1Jr6LdoH5QY7qaXHGAfh0dGmajUqUKOAY98UxWwRc3db6JQ7OBJ6k+s@lists.linux.dev
+X-Gm-Message-State: AOJu0YzXfc3KYNeiAfbGLgLsHFMRUjw/xFW8HVDoRYrj77VIK0jg/Gqx
+	DvEwR/Q6YcGrYo0nJMsT2jiWky5CFEAs14cE7GibUFVUWnyM/JITiy/u
+X-Gm-Gg: AY/fxX4+fKbJeHiJIX0y01xtVNInZE4RS3H2E7g5ruv7RINlNQs6Z1OC7AtjM3KFj3P
+	INzfDj8cpMZkuBInUnTQV6M9hEZc6Dy7V/0cvuCnF0A/xiPdRKSGLj/1rJJmbyz5UYoj8GUUNl2
+	EzLSgj9nd9ojmBjyRelvJx1eH/DhCCExo7GUWr5wrugoKFMmpilzLlJCBmmsosY6Mx2S5deIDj1
+	nPsA+I1FAqhdDbuElj/DlsEYQyaAgjOd0JbK+X2Nd7slX4lrbv2+ldjIexv2ZBynMJve3fyVj8Z
+	PstI6dyr5oGVsyG0lJHblw+XyDpCrEgE7lgmvlmxEO7UvAhEEmy/d/o/scbkjpcxE02BeioGTRj
+	n73J1gYekBgL9NhTxJVetqhN78xB9R50Y7kGBKi786TTXALbrk6/gFyIIE1PxJlLE72nGq64btg
+	gIw4xrLjnUYdLRAQ+L/L7cH//FnzL6kgjfcjfaCiWfX8v7ATpFUQz32RY=
+X-Google-Smtp-Source: AGHT+IE7jfEB8WE9Di5kUUN3m+9BJnxw1dEA/zZLfCeFxaE4nVXyo/8F8TLSXBu/nrwFR+4JHbVQ/w==
+X-Received: by 2002:a17:903:248:b0:2a2:f465:1271 with SMTP id d9443c01a7336-2a2f46512famr118389975ad.44.1766516403432;
+        Tue, 23 Dec 2025 11:00:03 -0800 (PST)
+Received: from localhost.localdomain ([2409:40c2:1052:c28c:d56c:4c53:fd22:65f7])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2a2f3d4cbdasm135320905ad.65.2025.12.23.11.00.00
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Tue, 23 Dec 2025 11:00:03 -0800 (PST)
+From: Tejas Chaudhari <tejaschaudhari038@gmail.com>
+To: Sudip Mukherjee <sudipm.mukherjee@gmail.com>,
+	Teddy Wang <teddy.wang@siliconmotion.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev,
+	linux-fbdev@vger.kernel.org,
+	Tejas Chaudhari <tejaschaudhari038@gmail.com>
+Subject: [PATCH] staging: sm750fb: improve clarity in TODO file
+Date: Wed, 24 Dec 2025 00:29:50 +0530
+Message-Id: <20251223185950.12328-1-tejaschaudhari038@gmail.com>
+X-Mailer: git-send-email 2.39.5 (Apple Git-154)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -72,64 +76,32 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add leading whitespace to block comments in
-HalHWImg8723B_BB.h to fix a checkpatch warning.
+Improve wording and consistency in the sm750fb TODO file
+by clarifying references to checkpatch.pl and improving
+sentence readability.
 
-Signed-off-by: Jennifer Guo <guojy.bj@gmail.com>
+No functional changes.
+
+Signed-off-by: Tejas Chaudhari <tejaschaudhari038@gmail.com>
 ---
- .../staging/rtl8723bs/hal/HalHWImg8723B_BB.h  | 21 +++++++++----------
- 1 file changed, 10 insertions(+), 11 deletions(-)
+ drivers/staging/sm750fb/TODO | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/staging/rtl8723bs/hal/HalHWImg8723B_BB.h b/drivers/staging/rtl8723bs/hal/HalHWImg8723B_BB.h
-index 186007ce5..054acfe23 100644
---- a/drivers/staging/rtl8723bs/hal/HalHWImg8723B_BB.h
-+++ b/drivers/staging/rtl8723bs/hal/HalHWImg8723B_BB.h
-@@ -1,17 +1,16 @@
- /* SPDX-License-Identifier: GPL-2.0 */
- /******************************************************************************
--*
--* Copyright(c) 2007 - 2011 Realtek Corporation. All rights reserved.
--*
--******************************************************************************/
-+ *
-+ * Copyright(c) 2007 - 2011 Realtek Corporation. All rights reserved.
-+ *
-+ ******************************************************************************/
+diff --git a/drivers/staging/sm750fb/TODO b/drivers/staging/sm750fb/TODO
+index 7ce632d04..56ffd9b36 100644
+--- a/drivers/staging/sm750fb/TODO
++++ b/drivers/staging/sm750fb/TODO
+@@ -1,8 +1,8 @@
+ TODO:
+-- lots of checkpatch cleanup
++- lots of checkpatch.pl cleanup
+ - use kernel coding style
+ - refine the code and remove unused code
+-- Implement hardware acceleration for imageblit if image->depth > 1
++- Implement hardware acceleration for imageblit when image->depth > 1
+ - must be ported to the atomic kms framework in the drm subsystem (which will
+   give you a basic fbdev driver for free)
  
- #ifndef __INC_MP_BB_HW_IMG_8723B_H
- #define __INC_MP_BB_HW_IMG_8723B_H
- 
--
- /******************************************************************************
--*                           AGC_TAB.TXT
--******************************************************************************/
-+ *                           AGC_TAB.TXT
-+ ******************************************************************************/
- 
- void
- ODM_ReadAndConfig_MP_8723B_AGC_TAB(/*  TC: Test Chip, MP: MP Chip */
-@@ -19,8 +18,8 @@ ODM_ReadAndConfig_MP_8723B_AGC_TAB(/*  TC: Test Chip, MP: MP Chip */
- );
- 
- /******************************************************************************
--*                           PHY_REG.TXT
--******************************************************************************/
-+ *                           PHY_REG.TXT
-+ ******************************************************************************/
- 
- void
- ODM_ReadAndConfig_MP_8723B_PHY_REG(/*  TC: Test Chip, MP: MP Chip */
-@@ -28,8 +27,8 @@ ODM_ReadAndConfig_MP_8723B_PHY_REG(/*  TC: Test Chip, MP: MP Chip */
- );
- 
- /******************************************************************************
--*                           PHY_REG_PG.TXT
--******************************************************************************/
-+ *                           PHY_REG_PG.TXT
-+ ******************************************************************************/
- 
- void
- ODM_ReadAndConfig_MP_8723B_PHY_REG_PG(/*  TC: Test Chip, MP: MP Chip */
 -- 
-2.34.1
+2.39.5 (Apple Git-154)
 
