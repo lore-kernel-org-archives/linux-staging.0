@@ -1,72 +1,73 @@
-Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42])
+Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E70E346AFF
-	for <linux-staging@lists.linux.dev>; Tue, 23 Dec 2025 19:27:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 132E24086A
+	for <linux-staging@lists.linux.dev>; Wed, 24 Dec 2025 10:04:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766518034; cv=none; b=XUM/YQGrNVwnQ6jiNjCrd1MtSSZXBJhdnmbTjDbpOBqr+xv3P9QD6MuK/D9AOIiJJGUtIQa92+ryCs9/AOnjk16MtOyF0eoz9aEjMtZHV+ylbbUCdotlI1O7S34dzx4WGykEEWTHUknIlNqlMFXq+B1Q8OF6wstO6k/P3IzdibY=
+	t=1766570677; cv=none; b=ohUDrY8xSYbLNAqwSV+FcRLd8A+kqAGvRR/Zasy3ovssqYx1lr9OYoqV9Xhzpq+UybfERfAI0SPtiYb9wLnndYWCmO50VVaI4TS809rVxKJXdISfz3fcu5DJ9ZIZjRieyL91+44sTY6ixqxZJJy2ueTnrbKIXZ2aaJQLwxMoCCQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766518034; c=relaxed/simple;
-	bh=Svz13no7Ji+bCzqqG+VAYqznHhuJawGZwtywOvf/dOI=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=meVbPK3nd/KwZ1vXGIvoBOp15Q75HxAPFBCEoaBregnrPRqhEclQK+Yk+Lt7NmNhv0Baqe6/vwaoBEe56XBTWfNgyl6QedTcDz6aoq6NYuEIExUgOGDN+a176qwOoe2Q4pNaai7PZBBGU67C10N3aCaPLATWEC9ecRd7SHzq6RY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dCD2ui9Y; arc=none smtp.client-ip=209.85.216.42
+	s=arc-20240116; t=1766570677; c=relaxed/simple;
+	bh=a1R9f9yHLwbz+I4PxKmZT+oys7sVkRkm1ijOJ+xQHh8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=UwU2lRwGJdKUFxNlN4VB6rfBYfB4VqqxiktAUHnAKR058zRGZPeq/EbmDwDafUT+7opJ0+BDwsxTQuUSovkKcyllAFddGpdWu8uqJ5zCRBbze1cQ4FNURwX0GvadXMu/ah0gonKaP4Sdfcixqt1LNaJ/fGGDiNqjV6z9ImQUleM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TkmzdaOB; arc=none smtp.client-ip=209.85.218.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dCD2ui9Y"
-Received: by mail-pj1-f42.google.com with SMTP id 98e67ed59e1d1-34abc7da414so4500109a91.0
-        for <linux-staging@lists.linux.dev>; Tue, 23 Dec 2025 11:27:13 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TkmzdaOB"
+Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-b734fcbf1e3so1152572366b.3
+        for <linux-staging@lists.linux.dev>; Wed, 24 Dec 2025 02:04:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1766518032; x=1767122832; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1766570674; x=1767175474; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=J355jvWq3/NjdApMIDzGb+6LceMfHS1TaMoQRJB+idQ=;
-        b=dCD2ui9Yyq11ktMV8WFRNn7PZWwMpOFDTxe3xR/ILciSCvWAmuRzaFQgWQcGxkz5iZ
-         8XRUtX4iZhIcf6qx25BCwhmFjHI5NQ7Hv31gJujuKqlHEpgEEyi2+c27IT9z1NzDP9bc
-         aIAYJ94Gi5BpDlm/7Dwx48kezmF3RPAH2v1BhjLE1Sugtu1GDNk6oNOJcCbunfJVEb/E
-         B9db4xMhZto0tmRY7qwAFWAupmnpnU4IxKdxx/8mibaB6V3aIyfJjOnLF6Webi8Tyuv9
-         qMCkCGJUY/Df7S8u6zLe5JugNbgLjkM5C3R5o7q8yoVZOkDm/ip6UK22g7j9Y7/ssm6h
-         WLTA==
+        bh=G9glelcpJM+PxER11SMVAuXCWtXkfXh4lHJsv/3Mb4o=;
+        b=TkmzdaOBqlvENNMg+y3pPE69YcW700yjdwkiM81DdwtGlyJNnIDfOxFJ6TebJOhpOb
+         zaAAWKQ4o7dF7SLXcoqu6ifiphiUkHnNz2T85nnjA2IoD4dDNn4lyTmkElwxLV7c2OrO
+         +4MnY+qhoXz7W2WsJx5DfbUeQGQzLQwwLieHDPnw7ClbFtj9xEMithwPvFUmv4MEcBPD
+         NBeuDvCl69n88UVIlqXEKnaWhyg+RnRoeHrkZ8ff36SiAyUirKeTvSVhnw47pK3Go8eh
+         8XahSbv3JeMdkOoNx1Ii2yJntHZGR1KWsIiyv+VDtyqyob+/P1UOM7lJ2X6LE6qsT9Z8
+         A+Wg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1766518032; x=1767122832;
+        d=1e100.net; s=20230601; t=1766570674; x=1767175474;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=J355jvWq3/NjdApMIDzGb+6LceMfHS1TaMoQRJB+idQ=;
-        b=U2Uv/0a3XPYgzcQFaxSypPU1+6cPYDXEELqgRg00lGnbQ5WIK6exDMi4H6xxPwYrCM
-         CGOItKf2o4GAu328440Olg46VK3NkRBsjzZ1YKYVnasIVSDORIxh/uvjtwyi+aO9IUdy
-         mr+JXpQ1vWXff6sY5BH4HkRwCZFv/JISdiUFRZMQHSv7W4COIEzIT4DtoHCbgMWSBION
-         JzZMOabcg70/EztHJ8qiJ7IYZJtvXNar5QN1ZIsgI0+BxNdc/0HQBJwNhXQeSQPyH+za
-         +eXGn8aSrsj8HtYxdWnIX9mKAYRpxkg7l+lXnwd2idl/AOTjWKzi/OEEvQpDXPDnK4Wp
-         v61Q==
-X-Gm-Message-State: AOJu0YxmB4Eia3xAmKb8jUY8oWUDv7NXztzUEFR+VIa5aPuFK3/tvJUQ
-	ZKwYKwRXJF7imYjcQ718DN7AIy+1kB6RYdSGVHxTWqzARCZkVQrbhx70C4/XDA==
-X-Gm-Gg: AY/fxX5k2K+LfYtBUlQ1QtOd7PnkkUDmm5ifuh2Qx4wMfVIMhEEDTGwySpC8vI87ugi
-	O7+DZSzJd6HPIgjOJUWsUMJQJT7WgFvCvH42m8zR8UDASdn6oGlsjRdwRWLE0ZQK93Y5/Vri5Ge
-	wN26byDHHbH4zXLHrEFxkr02+CurX8TUuUkZ4cc76klMTuXHI8PODvGm4hjHWnJ1NO181ECtSP8
-	HG0bMRzDs+l52xE0DrdSIxKKQ2/bTzHkSSAWNdmiZR6mT/qyT62KLZ7TlcbRyaWwHF+W1H6KN89
-	ApDWBVA8vW5C9eLW5QRDEB0xgsWXyfXYvXGC/7xI68lt88NB1ptyTYiboiN+eKL5U4qnV2BgDvz
-	KYEFJEzEZ5gW3bMs0HHO2Z95maGllF0Dk2RI870z3AD1cld4CtiGwdF2nyiYvHk0EjG/b4MAkn5
-	/G9WvliHylczKA2O09C7C/+hZjIC48FpSEQy4qzXvSnw2pRkgkLc1j7UM=
-X-Google-Smtp-Source: AGHT+IGdnbW5Jp8U/OoPPmNzlF8Qxi8K/UNYf+BqIxcTuxX0qAIWv7ytTm6Qo9/hP3yu9sa0Tpnprg==
-X-Received: by 2002:a17:90b:580e:b0:340:c179:365a with SMTP id 98e67ed59e1d1-34e91f6c085mr12620504a91.0.1766518032386;
-        Tue, 23 Dec 2025 11:27:12 -0800 (PST)
-Received: from localhost.localdomain ([2409:40c2:1052:c28c:d56c:4c53:fd22:65f7])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-34e70dcc4dcsm16518473a91.14.2025.12.23.11.27.09
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Tue, 23 Dec 2025 11:27:12 -0800 (PST)
-From: Tejas Chaudhari <tejaschaudhari038@gmail.com>
-To: linux-staging@lists.linux.dev
-Cc: linux-fbdev@vger.kernel.org,
-	sudipm.mukherjee@gmail.com,
-	teddy.wang@siliconmotion.com,
-	gregkh@linuxfoundation.org,
-	Tejas Chaudhari <tejaschaudhari038@gmail.com>
-Subject: [PATCH] staging: sm750fb: rename fixId to fix_id
-Date: Wed, 24 Dec 2025 00:57:03 +0530
-Message-Id: <20251223192703.16502-1-tejaschaudhari038@gmail.com>
-X-Mailer: git-send-email 2.39.5 (Apple Git-154)
+        bh=G9glelcpJM+PxER11SMVAuXCWtXkfXh4lHJsv/3Mb4o=;
+        b=dYJjJgKzI/IJox0IYfa5Xtjs59SRQaCxGxGVCbGoqDuY7lazYEnjD4hkp3rgIx/EPj
+         Jf+FFR2E8E7IyRhSTFh6Nu3qCZ5RZSeOrVQtSSpPqElKFANGRvj/PyurCEgdRQ5UDEp0
+         V+/zS6vggEKtKtO0pCnMC5tKJEYkX0tD2bqZ3fjZM4yCdbOFUBRjq1lIXtMH1gvfYUhL
+         7vEZ5xUZVbXxXCLX1VKrKVro22xzij3JJEmILdm09sEyPd5sB2TI9sen2cQYYpSF5OLv
+         VylbSbkFCzA8HbX8GkmNjhS0Np0OCnsX7rKjmNCy+IMz2cuk/hJwxuw5hHGa45kPWi9e
+         X15Q==
+X-Forwarded-Encrypted: i=1; AJvYcCWs+tLBvOwPs9b5XmDZAwGulR66mDi9XIneGxgriJLYZ4Ad4Pd3QMN74mXJy09pFrH1seXCCg3FMbQ0dsqR@lists.linux.dev
+X-Gm-Message-State: AOJu0YzZKxbW43HWqO0OzOF5HVD2rC7A03Mcu6Tuf2AyklNXjhiM6VJF
+	N6Wso8IxKzUGumsVD/cIbeu+ZA9s7cTEV5nr1AEhna3Xl6s0G7B5AbN91E0B1OMP
+X-Gm-Gg: AY/fxX5iCf1GHdEJ3cTh4fKdY2iTC6T+9UoYYzBXhili7EvRPkqJNldVyr0qOhY8goT
+	wX93QdHjjouEeyblH8B9g0bpoSkUdKXiN8TtRk7ly3SbHGLxsgJ7aUERwfae05w8a8R8E1Ykbnl
+	FZOLr3LDvVEAGoSCUou3iS3tQBboE6odEh/lYr9admHaYkmHpN+ZmdV7vtwznOaYqkurvI9uwsw
+	woE+zcWW7NL0jCk2cH6OvvMKckOhxUock9mi0S/+0nWVQdT6JiR23NHMXG5kZCTD7LxCVscYsEl
+	6bMMnUoNX1+yek9TpN2fAZ+O+8YmEl7Sn+3k3esjkB93AIyjAJhZqaFCNdvx3H08Ple1Qpcos8g
+	HdN5iJfsVdO1+i78tI3lpUXTAE0NY5yIg2aB2DcK711Ob9hFgryKvPSQgksRIjUxfWplM9OQJUi
+	Nc9zh8TKepUEKBFrmGxQSek9X4aEjfHU05C69OrGw2rUW6xzKpGRBdK1omP7mLOfI6Y7P5rYz1
+X-Google-Smtp-Source: AGHT+IFrit3HjGYBhSElt3+3JlaTipTh/uoXNKhnenjs0sUyaiTe6+SZD0FWJXgDi4riqOGq5h/YMg==
+X-Received: by 2002:a17:907:d87:b0:b73:5d8c:dd0d with SMTP id a640c23a62f3a-b80371d69e5mr1826627066b.52.1766570674054;
+        Wed, 24 Dec 2025 02:04:34 -0800 (PST)
+Received: from localhost (19.120-65-87.adsl-dyn.isp.belgacom.be. [87.65.120.19])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b8037a6050dsm1742246266b.9.2025.12.24.02.04.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 24 Dec 2025 02:04:33 -0800 (PST)
+From: William Hansen-Baird <william.hansen.baird@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Michael Straube <straube.linux@gmail.com>,
+	Hans de Goede <hansg@kernel.org>,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	William Hansen-Baird <william.hansen.baird@gmail.com>
+Subject: [PATCH 1/3] staging: rtl8723bs: core: remove empty if-statements
+Date: Wed, 24 Dec 2025 05:02:54 -0500
+Message-ID: <20251224100329.762141-1-william.hansen.baird@gmail.com>
+X-Mailer: git-send-email 2.52.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -75,39 +76,42 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Rename the local fixId array to fix_id to follow
-kernel naming conventions and fix a checkpatch
-CamelCase warning.
+This patch removes if-statements with no body in rtw_recv.c and rtw_xmit.c.
+If-statement conditions have no side-effect and can be safely removed.
 
-No functional changes.
-
-Signed-off-by: Tejas Chaudhari <tejaschaudhari038@gmail.com>
+Signed-off-by: William Hansen-Baird <william.hansen.baird@gmail.com>
 ---
- drivers/staging/sm750fb/sm750.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/staging/rtl8723bs/core/rtw_recv.c | 3 ---
+ drivers/staging/rtl8723bs/core/rtw_xmit.c | 2 --
+ 2 files changed, 5 deletions(-)
 
-diff --git a/drivers/staging/sm750fb/sm750.c b/drivers/staging/sm750fb/sm750.c
-index 15b5de33b..7afb58561 100644
---- a/drivers/staging/sm750fb/sm750.c
-+++ b/drivers/staging/sm750fb/sm750.c
-@@ -740,7 +740,7 @@ static int lynxfb_set_fbinfo(struct fb_info *info, int index)
- 		"kernel HELPERS prepared vesa_modes",
- 	};
+diff --git a/drivers/staging/rtl8723bs/core/rtw_recv.c b/drivers/staging/rtl8723bs/core/rtw_recv.c
+index e893cb6fa273..24cc4a9e0445 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_recv.c
++++ b/drivers/staging/rtl8723bs/core/rtw_recv.c
+@@ -2035,9 +2035,6 @@ static int recv_indicatepkt_reorder(struct adapter *padapter, union recv_frame *
  
--	static const char *fixId[2] = {
-+	static const char *fix_id[2] = {
- 		"sm750_fb1", "sm750_fb2",
- 	};
+ 			preorder_ctrl->indicate_seq = (preorder_ctrl->indicate_seq + 1)%4096;
  
-@@ -862,7 +862,7 @@ static int lynxfb_set_fbinfo(struct fb_info *info, int index)
- 	fix->ywrapstep = crtc->ywrapstep;
- 	fix->accel = FB_ACCEL_SMI;
+-			if (retval != _SUCCESS) {
+-			}
+-
+ 			return retval;
+ 		}
+ 	}
+diff --git a/drivers/staging/rtl8723bs/core/rtw_xmit.c b/drivers/staging/rtl8723bs/core/rtw_xmit.c
+index 21690857fd62..ae482c28b40b 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_xmit.c
++++ b/drivers/staging/rtl8723bs/core/rtw_xmit.c
+@@ -1707,8 +1707,6 @@ s32 rtw_free_xmitframe(struct xmit_priv *pxmitpriv, struct xmit_frame *pxmitfram
+ 		queue = &pxmitpriv->free_xmit_queue;
+ 	else if (pxmitframe->ext_tag == 1)
+ 		queue = &pxmitpriv->free_xframe_ext_queue;
+-	else {
+-	}
  
--	strscpy(fix->id, fixId[index], sizeof(fix->id));
-+	strscpy(fix->id, fix_id[index], sizeof(fix->id));
+ 	spin_lock_bh(&queue->lock);
  
- 	fix->smem_start = crtc->o_screen + sm750_dev->vidmem_start;
- 	pr_info("fix->smem_start = %lx\n", fix->smem_start);
 -- 
-2.39.5 (Apple Git-154)
+2.52.0
 
