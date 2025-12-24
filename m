@@ -1,62 +1,64 @@
-Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
+Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 132E24086A
-	for <linux-staging@lists.linux.dev>; Wed, 24 Dec 2025 10:04:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBA3632FA1B
+	for <linux-staging@lists.linux.dev>; Wed, 24 Dec 2025 10:05:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766570677; cv=none; b=ohUDrY8xSYbLNAqwSV+FcRLd8A+kqAGvRR/Zasy3ovssqYx1lr9OYoqV9Xhzpq+UybfERfAI0SPtiYb9wLnndYWCmO50VVaI4TS809rVxKJXdISfz3fcu5DJ9ZIZjRieyL91+44sTY6ixqxZJJy2ueTnrbKIXZ2aaJQLwxMoCCQ=
+	t=1766570735; cv=none; b=n/sXVmof67rELdO+NYdQ/NgqnqJ83p7WNRy03k/oAb1agln3Ytpp7m+mxCtOege3jXG3rFsXawEbGTMuJqA62lD/rfbNyZbgFd/bpkOequzK0WfL6qbeeZtgRiTgD+2pXyc/BrMVrfpqM6bwS/CuUMJb6hud1wReXO5J4XmnhPE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766570677; c=relaxed/simple;
-	bh=a1R9f9yHLwbz+I4PxKmZT+oys7sVkRkm1ijOJ+xQHh8=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=UwU2lRwGJdKUFxNlN4VB6rfBYfB4VqqxiktAUHnAKR058zRGZPeq/EbmDwDafUT+7opJ0+BDwsxTQuUSovkKcyllAFddGpdWu8uqJ5zCRBbze1cQ4FNURwX0GvadXMu/ah0gonKaP4Sdfcixqt1LNaJ/fGGDiNqjV6z9ImQUleM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TkmzdaOB; arc=none smtp.client-ip=209.85.218.53
+	s=arc-20240116; t=1766570735; c=relaxed/simple;
+	bh=4oG2Q7/Kau2MT5tevpME79E3dCyHA80Zxx8VTjFTs9I=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=pxAmehHrMVJlybinljg+Cy3mQoRkoU5Dw9LBHxErCxoDncBFIcPHa5+5TjtrDUuvnoSwSeMt7S7Pz3DedZL9gjMSiidmnv2Tev6y/DSJj8BMs0zyqDlxZvW2SJpGUIbEi4irmWFDcJYo2hXDsq8T0mVpkObH2dy3XWRmvN6dUIU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OXp+GuVf; arc=none smtp.client-ip=209.85.218.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TkmzdaOB"
-Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-b734fcbf1e3so1152572366b.3
-        for <linux-staging@lists.linux.dev>; Wed, 24 Dec 2025 02:04:35 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OXp+GuVf"
+Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-b7ffa421f1bso1169349066b.0
+        for <linux-staging@lists.linux.dev>; Wed, 24 Dec 2025 02:05:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1766570674; x=1767175474; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=G9glelcpJM+PxER11SMVAuXCWtXkfXh4lHJsv/3Mb4o=;
-        b=TkmzdaOBqlvENNMg+y3pPE69YcW700yjdwkiM81DdwtGlyJNnIDfOxFJ6TebJOhpOb
-         zaAAWKQ4o7dF7SLXcoqu6ifiphiUkHnNz2T85nnjA2IoD4dDNn4lyTmkElwxLV7c2OrO
-         +4MnY+qhoXz7W2WsJx5DfbUeQGQzLQwwLieHDPnw7ClbFtj9xEMithwPvFUmv4MEcBPD
-         NBeuDvCl69n88UVIlqXEKnaWhyg+RnRoeHrkZ8ff36SiAyUirKeTvSVhnw47pK3Go8eh
-         8XahSbv3JeMdkOoNx1Ii2yJntHZGR1KWsIiyv+VDtyqyob+/P1UOM7lJ2X6LE6qsT9Z8
-         A+Wg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1766570674; x=1767175474;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1766570731; x=1767175531; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=G9glelcpJM+PxER11SMVAuXCWtXkfXh4lHJsv/3Mb4o=;
-        b=dYJjJgKzI/IJox0IYfa5Xtjs59SRQaCxGxGVCbGoqDuY7lazYEnjD4hkp3rgIx/EPj
-         Jf+FFR2E8E7IyRhSTFh6Nu3qCZ5RZSeOrVQtSSpPqElKFANGRvj/PyurCEgdRQ5UDEp0
-         V+/zS6vggEKtKtO0pCnMC5tKJEYkX0tD2bqZ3fjZM4yCdbOFUBRjq1lIXtMH1gvfYUhL
-         7vEZ5xUZVbXxXCLX1VKrKVro22xzij3JJEmILdm09sEyPd5sB2TI9sen2cQYYpSF5OLv
-         VylbSbkFCzA8HbX8GkmNjhS0Np0OCnsX7rKjmNCy+IMz2cuk/hJwxuw5hHGa45kPWi9e
-         X15Q==
-X-Forwarded-Encrypted: i=1; AJvYcCWs+tLBvOwPs9b5XmDZAwGulR66mDi9XIneGxgriJLYZ4Ad4Pd3QMN74mXJy09pFrH1seXCCg3FMbQ0dsqR@lists.linux.dev
-X-Gm-Message-State: AOJu0YzZKxbW43HWqO0OzOF5HVD2rC7A03Mcu6Tuf2AyklNXjhiM6VJF
-	N6Wso8IxKzUGumsVD/cIbeu+ZA9s7cTEV5nr1AEhna3Xl6s0G7B5AbN91E0B1OMP
-X-Gm-Gg: AY/fxX5iCf1GHdEJ3cTh4fKdY2iTC6T+9UoYYzBXhili7EvRPkqJNldVyr0qOhY8goT
-	wX93QdHjjouEeyblH8B9g0bpoSkUdKXiN8TtRk7ly3SbHGLxsgJ7aUERwfae05w8a8R8E1Ykbnl
-	FZOLr3LDvVEAGoSCUou3iS3tQBboE6odEh/lYr9admHaYkmHpN+ZmdV7vtwznOaYqkurvI9uwsw
-	woE+zcWW7NL0jCk2cH6OvvMKckOhxUock9mi0S/+0nWVQdT6JiR23NHMXG5kZCTD7LxCVscYsEl
-	6bMMnUoNX1+yek9TpN2fAZ+O+8YmEl7Sn+3k3esjkB93AIyjAJhZqaFCNdvx3H08Ple1Qpcos8g
-	HdN5iJfsVdO1+i78tI3lpUXTAE0NY5yIg2aB2DcK711Ob9hFgryKvPSQgksRIjUxfWplM9OQJUi
-	Nc9zh8TKepUEKBFrmGxQSek9X4aEjfHU05C69OrGw2rUW6xzKpGRBdK1omP7mLOfI6Y7P5rYz1
-X-Google-Smtp-Source: AGHT+IFrit3HjGYBhSElt3+3JlaTipTh/uoXNKhnenjs0sUyaiTe6+SZD0FWJXgDi4riqOGq5h/YMg==
-X-Received: by 2002:a17:907:d87:b0:b73:5d8c:dd0d with SMTP id a640c23a62f3a-b80371d69e5mr1826627066b.52.1766570674054;
-        Wed, 24 Dec 2025 02:04:34 -0800 (PST)
+        bh=7zRbN3HWP+rq6HwG0N9Qdr/BNHS/3TvvhifFlxhocyU=;
+        b=OXp+GuVfZ/duk1kXq4rjkw2Y9ZV+MjZJ7OZO/whJzejSL0VZAVquafoCWNZ/eCDa85
+         +eDr9Z10nSdtWFqS4bUhnWmMYCVrnT5NGgyRiqlDUF3jyJyZu/qD+iJ5E20rbohWWKOw
+         TLqlfrG4gnKsOk42W+JPWHGIMFa2TNNqAYU20gzRYN+R5/Sf/tW7qJwuLkFGjmoWxnuc
+         JqAIxyAb8m7wMYHWHhOXbBJpgmnOHHv8DDNRDiV9OOYnkUMymNElE117Aw0KhuJi+fi+
+         SBvGX0boRZAiZ3qLq5oe/6zijhE/enRa2dTos0OIyMjqlSQZ9AsKEoTAYPYgLSYlQjCS
+         uHWw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1766570731; x=1767175531;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=7zRbN3HWP+rq6HwG0N9Qdr/BNHS/3TvvhifFlxhocyU=;
+        b=cZdEH+3VFncYEigIDpdYzqBGOrRnVZyi5h1uuXLdQrU3RV4QRFn5xOk5Lzy+JAURV5
+         5v0iYVYHPmTTrkGxgQsB2YeChqDww+mrkZJ0ucbC4nFkj6fvfdqFLCNhMYnp57EDLU7T
+         ZOcXMAIQgFt0aGbkUYDzTkEtTot3hBHRODlAEoH6oAK+cpn7MS3lqUmMZfxBLxhL/hb9
+         KRQnUjMYgqxVE9b328zvGssBecRv8+XRDfuizWPqFLREidWbvvVMT32evA+kNEeq4a7l
+         gFPxtkNo0BnASddVsAZU6OF+x3xCsYiT86sOm/FN87Tdwm6RnTg5dER1jvBKfyqSRmOR
+         mnzw==
+X-Forwarded-Encrypted: i=1; AJvYcCW+5rp047oNDzjd9VO4uLcd6OoBxyQS5xaH5X4tohM84dZAnujlcUHPqe3PqjH1mDGrdZlW3qkt6ie4RI3b@lists.linux.dev
+X-Gm-Message-State: AOJu0Yz5RtZxCRxDgT9EzZvbuYhFuLwGTg3AA8826n2sJPVoPS/taU+Q
+	0D58Nl36iAlmLiKhEGptkOf7ExEJmbHMeMK2wCy4rUAAQwAGvFPEO9pB
+X-Gm-Gg: AY/fxX4wSY7hyjCcNgn9DfNy6/PAztkGyP2rEfyb5wKvTtYffgzfBfK4OgxjKQvsnuA
+	5Kq73hWnw2aOrhDyAHTcUWHqMvdHgw7PlrK9URLcyvl60yQoGIrfWNe4fXqwFDSAuLpXCuUcw+X
+	ye2CQ7nsYostXGm1bY1n3ppNVwTOP6YE6jBHVng6sOsYVAhr/87MZWk3NcnlaoaghqKRFqR+95z
+	leZNhmryV5gzCDDI/m9PeUDMNP9uqYW+5L2UxlWt/34oSJKWqwS+raam1VWK67g5h0qX1OYgoUu
+	FoimGkpIVNAZAWKHFc3tn3bCVjfCRMYv+FAnYMYfPORz9xah4NyLB2RhrHvpEMPYrXSIoR6aUu9
+	PAcU5enb3xc+whr0ErflRve9j1mTl109m7h3YPfuYtLu0TwmCGXSSeAlUq/e8Q3ZwOx5AfWDy/a
+	40xh7XT3BEnVA7dH7ly4WPfDz+9LpxQ5K4t8p3C8DfhfdgOR6k4BDTRGZ8/T/6xg==
+X-Google-Smtp-Source: AGHT+IHsKAzoONmIoAhqjV0jBLZXoJSr/CX+ArSsxviP+J0Hsf6ir+67vWRx6VKvC+NB5gnXPG8hsw==
+X-Received: by 2002:a17:907:eb07:b0:b80:3205:5af3 with SMTP id a640c23a62f3a-b803205815emr1455264366b.15.1766570730612;
+        Wed, 24 Dec 2025 02:05:30 -0800 (PST)
 Received: from localhost (19.120-65-87.adsl-dyn.isp.belgacom.be. [87.65.120.19])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b8037a6050dsm1742246266b.9.2025.12.24.02.04.33
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-64b90f53c16sm16477810a12.1.2025.12.24.02.05.29
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 24 Dec 2025 02:04:33 -0800 (PST)
+        Wed, 24 Dec 2025 02:05:30 -0800 (PST)
 From: William Hansen-Baird <william.hansen.baird@gmail.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: Michael Straube <straube.linux@gmail.com>,
@@ -64,10 +66,12 @@ Cc: Michael Straube <straube.linux@gmail.com>,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	William Hansen-Baird <william.hansen.baird@gmail.com>
-Subject: [PATCH 1/3] staging: rtl8723bs: core: remove empty if-statements
-Date: Wed, 24 Dec 2025 05:02:54 -0500
-Message-ID: <20251224100329.762141-1-william.hansen.baird@gmail.com>
+Subject: [PATCH 2/3] staging: rtl8723bs: core: remove unnecessary else-statements
+Date: Wed, 24 Dec 2025 05:02:55 -0500
+Message-ID: <20251224100329.762141-2-william.hansen.baird@gmail.com>
 X-Mailer: git-send-email 2.52.0
+In-Reply-To: <20251224100329.762141-1-william.hansen.baird@gmail.com>
+References: <20251224100329.762141-1-william.hansen.baird@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -76,42 +80,192 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This patch removes if-statements with no body in rtw_recv.c and rtw_xmit.c.
-If-statement conditions have no side-effect and can be safely removed.
+Remove else statements where the preceding if-statement returns or breaks.
+
+In rtw_mlme.c the if either continues or breaks.
+The else-if always breaks, so the else is useless.
 
 Signed-off-by: William Hansen-Baird <william.hansen.baird@gmail.com>
 ---
- drivers/staging/rtl8723bs/core/rtw_recv.c | 3 ---
- drivers/staging/rtl8723bs/core/rtw_xmit.c | 2 --
- 2 files changed, 5 deletions(-)
+ drivers/staging/rtl8723bs/core/rtw_mlme.c     |  6 +-
+ drivers/staging/rtl8723bs/core/rtw_sta_mgt.c  | 97 +++++++++----------
+ .../staging/rtl8723bs/core/rtw_wlan_util.c    |  8 +-
+ 3 files changed, 54 insertions(+), 57 deletions(-)
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_recv.c b/drivers/staging/rtl8723bs/core/rtw_recv.c
-index e893cb6fa273..24cc4a9e0445 100644
---- a/drivers/staging/rtl8723bs/core/rtw_recv.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_recv.c
-@@ -2035,9 +2035,6 @@ static int recv_indicatepkt_reorder(struct adapter *padapter, union recv_frame *
+diff --git a/drivers/staging/rtl8723bs/core/rtw_mlme.c b/drivers/staging/rtl8723bs/core/rtw_mlme.c
+index 98704179ad35..6ea08ce05bf1 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_mlme.c
++++ b/drivers/staging/rtl8723bs/core/rtw_mlme.c
+@@ -1562,10 +1562,10 @@ void _rtw_join_timeout_handler(struct timer_list *t)
+ 					continue;
  
- 			preorder_ctrl->indicate_seq = (preorder_ctrl->indicate_seq + 1)%4096;
- 
--			if (retval != _SUCCESS) {
--			}
--
- 			return retval;
+ 				break;
+-			} else {
+-				rtw_indicate_disconnect(adapter);
+-				break;
+ 			}
++
++			rtw_indicate_disconnect(adapter);
++			break;
  		}
- 	}
-diff --git a/drivers/staging/rtl8723bs/core/rtw_xmit.c b/drivers/staging/rtl8723bs/core/rtw_xmit.c
-index 21690857fd62..ae482c28b40b 100644
---- a/drivers/staging/rtl8723bs/core/rtw_xmit.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_xmit.c
-@@ -1707,8 +1707,6 @@ s32 rtw_free_xmitframe(struct xmit_priv *pxmitpriv, struct xmit_frame *pxmitfram
- 		queue = &pxmitpriv->free_xmit_queue;
- 	else if (pxmitframe->ext_tag == 1)
- 		queue = &pxmitpriv->free_xframe_ext_queue;
--	else {
+ 
+ 	} else {
+diff --git a/drivers/staging/rtl8723bs/core/rtw_sta_mgt.c b/drivers/staging/rtl8723bs/core/rtw_sta_mgt.c
+index 3e80d03c4ec9..7ef22947134b 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_sta_mgt.c
++++ b/drivers/staging/rtl8723bs/core/rtw_sta_mgt.c
+@@ -191,77 +191,76 @@ struct	sta_info *rtw_alloc_stainfo(struct	sta_priv *pstapriv, u8 *hwaddr)
+ 		/* spin_unlock_bh(&(pfree_sta_queue->lock)); */
+ 		spin_unlock_bh(&(pstapriv->sta_hash_lock));
+ 		return NULL;
+-	} else {
+-		psta = container_of(get_next(&pfree_sta_queue->queue), struct sta_info, list);
++	}
++	psta = container_of(get_next(&pfree_sta_queue->queue), struct sta_info, list);
+ 
+-		list_del_init(&(psta->list));
++	list_del_init(&(psta->list));
+ 
+-		/* spin_unlock_bh(&(pfree_sta_queue->lock)); */
++	/* spin_unlock_bh(&(pfree_sta_queue->lock)); */
+ 
+-		_rtw_init_stainfo(psta);
++	_rtw_init_stainfo(psta);
+ 
+-		psta->padapter = pstapriv->padapter;
++	psta->padapter = pstapriv->padapter;
+ 
+-		memcpy(psta->hwaddr, hwaddr, ETH_ALEN);
++	memcpy(psta->hwaddr, hwaddr, ETH_ALEN);
+ 
+-		index = wifi_mac_hash(hwaddr);
++	index = wifi_mac_hash(hwaddr);
+ 
+-		if (index >= NUM_STA) {
+-			spin_unlock_bh(&(pstapriv->sta_hash_lock));
+-			psta = NULL;
+-			goto exit;
+-		}
+-		phash_list = &(pstapriv->sta_hash[index]);
++	if (index >= NUM_STA) {
++		spin_unlock_bh(&(pstapriv->sta_hash_lock));
++		psta = NULL;
++		goto exit;
++	}
++	phash_list = &(pstapriv->sta_hash[index]);
+ 
+-		/* spin_lock_bh(&(pstapriv->sta_hash_lock)); */
++	/* spin_lock_bh(&(pstapriv->sta_hash_lock)); */
+ 
+-		list_add_tail(&psta->hash_list, phash_list);
++	list_add_tail(&psta->hash_list, phash_list);
+ 
+-		pstapriv->asoc_sta_count++;
++	pstapriv->asoc_sta_count++;
+ 
+-		/* spin_unlock_bh(&(pstapriv->sta_hash_lock)); */
++	/* spin_unlock_bh(&(pstapriv->sta_hash_lock)); */
+ 
+-/*  Commented by Albert 2009/08/13 */
+-/*  For the SMC router, the sequence number of first packet of WPS handshake will be 0. */
+-/*  In this case, this packet will be dropped by recv_decache function if we use the 0x00 as the default value for tid_rxseq variable. */
+-/*  So, we initialize the tid_rxseq variable as the 0xffff. */
++	/*  Commented by Albert 2009/08/13 */
++	/*  For the SMC router, the sequence number of first packet of WPS handshake will be 0. */
++	/*  In this case, this packet will be dropped by recv_decache function if we use the 0x00 as the default value for tid_rxseq variable. */
++	/*  So, we initialize the tid_rxseq variable as the 0xffff. */
+ 
+-		for (i = 0; i < 16; i++)
+-			memcpy(&psta->sta_recvpriv.rxcache.tid_rxseq[i], &wRxSeqInitialValue, 2);
++	for (i = 0; i < 16; i++)
++		memcpy(&psta->sta_recvpriv.rxcache.tid_rxseq[i], &wRxSeqInitialValue, 2);
+ 
+-		timer_setup(&psta->addba_retry_timer, addba_timer_hdl, 0);
++	timer_setup(&psta->addba_retry_timer, addba_timer_hdl, 0);
+ 
+-		/* for A-MPDU Rx reordering buffer control */
+-		for (i = 0; i < 16 ; i++) {
+-			preorder_ctrl = &psta->recvreorder_ctrl[i];
++	/* for A-MPDU Rx reordering buffer control */
++	for (i = 0; i < 16 ; i++) {
++		preorder_ctrl = &psta->recvreorder_ctrl[i];
+ 
+-			preorder_ctrl->padapter = pstapriv->padapter;
++		preorder_ctrl->padapter = pstapriv->padapter;
+ 
+-			preorder_ctrl->enable = false;
++		preorder_ctrl->enable = false;
+ 
+-			preorder_ctrl->indicate_seq = 0xffff;
+-			preorder_ctrl->wend_b = 0xffff;
+-			/* preorder_ctrl->wsize_b = (NR_RECVBUFF-2); */
+-			preorder_ctrl->wsize_b = 64;/* 64; */
++		preorder_ctrl->indicate_seq = 0xffff;
++		preorder_ctrl->wend_b = 0xffff;
++		/* preorder_ctrl->wsize_b = (NR_RECVBUFF-2); */
++		preorder_ctrl->wsize_b = 64;/* 64; */
+ 
+-			INIT_LIST_HEAD(&preorder_ctrl->pending_recvframe_queue.queue);
+-			spin_lock_init(&preorder_ctrl->pending_recvframe_queue.lock);
++		INIT_LIST_HEAD(&preorder_ctrl->pending_recvframe_queue.queue);
++		spin_lock_init(&preorder_ctrl->pending_recvframe_queue.lock);
+ 
+-			/* init recv timer */
+-			timer_setup(&preorder_ctrl->reordering_ctrl_timer,
+-				    rtw_reordering_ctrl_timeout_handler, 0);
+-		}
++		/* init recv timer */
++		timer_setup(&preorder_ctrl->reordering_ctrl_timer,
++				rtw_reordering_ctrl_timeout_handler, 0);
++	}
+ 
+-		/* init for DM */
+-		psta->rssi_stat.UndecoratedSmoothedPWDB = (-1);
+-		psta->rssi_stat.UndecoratedSmoothedCCK = (-1);
++	/* init for DM */
++	psta->rssi_stat.UndecoratedSmoothedPWDB = (-1);
++	psta->rssi_stat.UndecoratedSmoothedCCK = (-1);
+ 
+-		/* init for the sequence number of received management frame */
+-		psta->RxMgmtFrameSeqNum = 0xffff;
+-		spin_unlock_bh(&(pstapriv->sta_hash_lock));
+-		/* alloc mac id for non-bc/mc station, */
+-		rtw_alloc_macid(pstapriv->padapter, psta);
 -	}
++	/* init for the sequence number of received management frame */
++	psta->RxMgmtFrameSeqNum = 0xffff;
++	spin_unlock_bh(&(pstapriv->sta_hash_lock));
++	/* alloc mac id for non-bc/mc station, */
++	rtw_alloc_macid(pstapriv->padapter, psta);
  
- 	spin_lock_bh(&queue->lock);
+ exit:
  
+diff --git a/drivers/staging/rtl8723bs/core/rtw_wlan_util.c b/drivers/staging/rtl8723bs/core/rtw_wlan_util.c
+index 5ffefa50699e..ad33c7947348 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_wlan_util.c
++++ b/drivers/staging/rtl8723bs/core/rtw_wlan_util.c
+@@ -694,8 +694,8 @@ int WMM_param_handler(struct adapter *padapter, struct ndis_80211_var_ie *pIE)
+ 
+ 	if (!memcmp(&(pmlmeinfo->WMM_param), (pIE->data + 6), sizeof(struct WMM_para_element)))
+ 		return false;
+-	else
+-		memcpy(&(pmlmeinfo->WMM_param), (pIE->data + 6), sizeof(struct WMM_para_element));
++
++	memcpy(&(pmlmeinfo->WMM_param), (pIE->data + 6), sizeof(struct WMM_para_element));
+ 
+ 	pmlmeinfo->WMM_enable = 1;
+ 	return true;
+@@ -1450,9 +1450,7 @@ unsigned char check_assoc_AP(u8 *pframe, uint len)
+ 				return get_realtek_assoc_AP_vender(pIE);
+ 			else if (!memcmp(pIE->data, AIRGOCAP_OUI, 3))
+ 				return HT_IOT_PEER_AIRGO;
+-			else
+-				break;
+-
++			break;
+ 		default:
+ 			break;
+ 		}
 -- 
 2.52.0
 
