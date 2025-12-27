@@ -1,73 +1,73 @@
-Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
+Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B76F4314B70
-	for <linux-staging@lists.linux.dev>; Sat, 27 Dec 2025 14:23:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 385413168F6
+	for <linux-staging@lists.linux.dev>; Sat, 27 Dec 2025 14:25:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766845432; cv=none; b=qrmXqDijw0Yww42yGHXOGXPv8UwRiAiQn7X+BvCkDBA3xHU5Cu/8HJ2zecV1yiRpddeCrDjOU4mdpCyMXpXZ0VYXM6nPEAcgfHc1MZ/5HWVvui2tpZpk7ZMuVUK436TM2vpYtYZD4L541TujO2b+PEH1qPd/CJowlX/FGQAq9Uc=
+	t=1766845514; cv=none; b=lVldE0FK+7k1q3KSZiPN9oGCEimaylgr5pzftlEm/CKC/V7kUShmDZE+2HUzdMRdxav1j38yX8aaRcgjJ51hnzr0eDawW7AfcnxZPNSPpXRVI/YJzA1Hq0W0NV9ww1740leGEv0MpAsjaUb5XLA0VdBPHL8B64LTS3hZ1xGmOCs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766845432; c=relaxed/simple;
-	bh=Tu3i4WlFX0wkjQWqS49NrgqXIOcBQ6oEp6NKqAmVAWk=;
+	s=arc-20240116; t=1766845514; c=relaxed/simple;
+	bh=J3Wwr64QQ2SpOhKfSDoML0fOFqI1wTu0FLnX32HL/bM=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=bZHn0WsyNlz4LGv7GNyqhcmSPo2lxFQ50Tls9Dc/DMKN2sFpndxuPh/MY0v1tAYSbknKBPi4vN2kuFiiALPLMwLGVHOcuqLmsyyiLKYoh0p5c7g4QFbeb+5ad5No1w7MKlkN0EowzU1/0IuViZMcjvgXqivjajV7vem7tmRPsWY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=A3fH6SMx; arc=none smtp.client-ip=209.85.208.54
+	 To:Cc:Content-Type; b=Mm9MW5STPQHC8lsJhTJbUmzugnWg9rOt9w0s0ASZW97OroPokIbi+wBtkUMW9e8Kq5ViPAYL4dXGoATkVKByFdqdXs7RASj3SBdkJ8dT6ldWEMrQ6rFTrtrJDd7rmY0AZpQQjJFfccOKWNOXK51JDtDrWgs5ainysesfpzeSKaw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gAD1vvhw; arc=none smtp.client-ip=209.85.218.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="A3fH6SMx"
-Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-64b9d01e473so10629677a12.2
-        for <linux-staging@lists.linux.dev>; Sat, 27 Dec 2025 06:23:50 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gAD1vvhw"
+Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-b832522b47cso244203766b.0
+        for <linux-staging@lists.linux.dev>; Sat, 27 Dec 2025 06:25:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1766845429; x=1767450229; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1766845512; x=1767450312; darn=lists.linux.dev;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Tu3i4WlFX0wkjQWqS49NrgqXIOcBQ6oEp6NKqAmVAWk=;
-        b=A3fH6SMxXBIaVgIasoCFj2XV+CpWvDrv23sNdJdVkHO6Q1rNYQuhMFGTK7QLi9TvET
-         J2penM8qkXxtuuO2MVGLDs3ARNosowRmvo55MTwoVS1lXWmKhgmzh4mzI3bb5EZgNCfo
-         /1faADJoNcB4o9hGpXWjiRyGOg0Y0DISB+SBPzh08NKGJeZwdcgGbk0oDsL7KBt0eJsb
-         WRFEWCxfvYhluyC4JfoIKzctPttENbscxEe4SoLfOiPpkgmfwTztHRSdUam3petYisAA
-         Teza5BvN70X2iVTB1YtvGifoDAW2aIkgnQZELQgL+G0DFxDokDlrdbtCKWwQZLKeFkti
-         Dxjw==
+        bh=J3Wwr64QQ2SpOhKfSDoML0fOFqI1wTu0FLnX32HL/bM=;
+        b=gAD1vvhwd/lfZMPcyUum4bRa9oLzhKg/kSeOccXZZylHyVs/cWHmokYenI/r/qjtqF
+         UPAtgWd/SNDcLdzukycC/aAZIl2S/MVrGtJUcKqmMxAWUdUsnZ1NzTcr8XoDAoa6XYpj
+         1GJAtOBFwtuwELlrgy9urZztlt8WLB/ydbJ++xmLqiG2Kb5zYdSXhGAFVZweYxkqJEKW
+         92Nr2JjsooI062HAgqp2+lZRMcvXb3EtdBH7Yu5rxsUeRfloCZ1ql8s5N6nyA9B+hyTM
+         79u/b1TrXKmzKHqILh2qS3HxTclFG7fRkvXY4nCEMZHx13o4CkUyEhVxschI2kGQB+vg
+         WFZA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1766845429; x=1767450229;
+        d=1e100.net; s=20230601; t=1766845512; x=1767450312;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=Tu3i4WlFX0wkjQWqS49NrgqXIOcBQ6oEp6NKqAmVAWk=;
-        b=sGXiRBWBrTfwD8XpYJx2koZejchGSBRoD/3EB73OOI/g5mtTOAIBf5q5jHJM9Bcl/Y
-         jUVayi9oUVHLr8gT4aAl5ujN/a+bHs3rOAQPjEexfrYBLawSM8O0cF2GTnK5sGveGi4c
-         RESZvSnIRd4BHvnemHnh8MWQojFP+zvcK4Qx//n9+0huog3W79430r895KAjlhAxxBfQ
-         DXX0cl0GuWwqa1Tfxec58U2qwhqm30hpDUcXuXI3i51Q/MesKW7bvJCOLvi3uwtU+CPT
-         gr/ltnjXLP0+51VDlpUud0jZ6fPe/afqbhOr1fXqTWY4CwmRV33efHlAld9iRUwrAVP1
-         04EA==
-X-Forwarded-Encrypted: i=1; AJvYcCWij2Q3VabFj1LqsUuXeCO4Y84rKy8jjKfFT3xzSjGGoeyog/Vf2+/Te/1KMOMWVuqT0vifHyutpxjxxkqE@lists.linux.dev
-X-Gm-Message-State: AOJu0Yyg6cbBLum9miFd77XqQ2sPpFGyCKRXO6o4NMo2orsRzBPGG8wq
-	Fn1xj7Uv+aIXpJ6AX19Fe2zIQ8dNz0NOMu110Axou/urDoerXYnrQyI/4RhFn/OPT4D+Bsvyfu2
-	fVpE1494s8K77/iLiKv3Pfm9oZk1XkSE=
-X-Gm-Gg: AY/fxX4JzPstYcQhXl3aNdm5cI7EDtDRnVNsyeTxuoSk+80e17yx3Bf1x5h8rYiI68y
-	zCGMuPtdSQkt4LbbrXsT5gKmYmSoa/5wnztj14L2BLFUcISLYZDJrY/pBMQsbn04Dhy97PC4sbs
-	O8aG0ULJHMKxLH+G9gx88y80Dj39x9XZHQOSlpaLsIwxUv5Z85DF++lymROc5bFQwT/8rHLEXhr
-	frYob19AKWhRhjS142jnRP7kTjU7i8JdSEHopIgBNizp87Vj5q8Bl8W/v+eZMmT2mInTLtCKmr5
-	qzhRFXJwGqWn7qJ8vr8AtaZMHvcCl9nROTDmhcQ0oOAQMnhTIh1Gw4+Z9Gc3osD9yFIFN3I=
-X-Google-Smtp-Source: AGHT+IEI+L27X3VYBwtvTtbD//tUK1cqRstOGm0x8A+wsW6Dy/BBoKlQjPvPMQaVva0Dsb4BJJYbeSNL+99aFRZdUpk=
-X-Received: by 2002:a17:907:2da0:b0:b73:5958:7e6c with SMTP id
- a640c23a62f3a-b8036f0add4mr2974716566b.3.1766845428952; Sat, 27 Dec 2025
- 06:23:48 -0800 (PST)
+        bh=J3Wwr64QQ2SpOhKfSDoML0fOFqI1wTu0FLnX32HL/bM=;
+        b=PS+hRVy1/O7G64vEUvR2VyUWzEpNmp0Lq0j6mai0RGEZVBx5FQS/vMk40JJg7yKKfV
+         //ojQ9R4UjNgLCipZssa2/PQQY6gFWcsLlHw7es5tzK712XNCHN/PHUAML1a/9Q28WfL
+         vd6EiZrINegRf0NmyjNGbxKdkp92Wr6OD8DSVz6kcLf6g2pLt+ItLumGNAmHSZraPboY
+         0oRHLEJG8mXnGUjH5GbCJsJlSyE7plXYDm5HI6DJEoPg5WspZyDZ7ebI26iaLRxNLLTJ
+         40ysSXXiYBkJW3nouVK8V+c3LtJMBcEJaw6pWrtn5RlINxw16M9aOwgPl4ABSDi2XFT5
+         QOjg==
+X-Forwarded-Encrypted: i=1; AJvYcCV93pRemBMrgoA1NJARdUqrNl/+efOQ6Hyw2HMLrwuA34yLqoSAccrngRW/5eWpTvVDf15yRRPrvDydQ5K9@lists.linux.dev
+X-Gm-Message-State: AOJu0YyfY+mH0qzqJQo9gA6ydA8sMM/FNXysFqUoK9FmekpX4uhUs9+j
+	Gr6uP3b9JOS6jQcQm52mh/Qj7PEV+OOEtrnxFTjViYdBJOYdPg6wSN/JMfWYxIoxRkSuFLFQLZR
+	lSvfItYQ3ixgCo0iw5S0IHQyMojzqqIrKBdE5
+X-Gm-Gg: AY/fxX4ExCmdVu0ajKIxUhJQqNewovirg5WwXA1/duzx8p+Sbex4avqZnoHQkj8BAyw
+	SO00QHLZQoxQrjlFdG6HOHJCijWhcp0AGSbHuNSROcl/mb0bIzMIxdc889uis7RLgXCFKSGOHB0
+	GyIQFkdkXWW1z0SozVhFF8mFUgV3Kc8z1Gt0WyTUmaBV/OPavBwtInDaZlzA8NVFjIrr30lhIPe
+	k0zAzC5OLVMseM30TEtzYNswaDBcKRMISJp4fkP0onuvNVonNQ2KqVVHIUD3wJyATEf1F/h92hc
+	+DTyHvKNaSlG0ChvgEKlBu4OOcn6m2NBZ08Fzw5Ep/6Br4JZyieBrn2kLRs2IQ8kSjQl9hU=
+X-Google-Smtp-Source: AGHT+IFX0lsgc4AotttgNOJdIQxVyJ6emc4QU5YPq31MHVjjCSjesmYFWIps47Gzc9uXozCoxrNAzwJrn4uIVEmnK7o=
+X-Received: by 2002:a17:907:3faa:b0:b79:fcc9:b00d with SMTP id
+ a640c23a62f3a-b80371f353bmr3038598866b.59.1766845511630; Sat, 27 Dec 2025
+ 06:25:11 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20251219054320.447281-1-chintanlike@gmail.com> <20251219054320.447281-2-chintanlike@gmail.com>
-In-Reply-To: <20251219054320.447281-2-chintanlike@gmail.com>
+References: <20251219054320.447281-1-chintanlike@gmail.com>
+In-Reply-To: <20251219054320.447281-1-chintanlike@gmail.com>
 From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Sat, 27 Dec 2025 16:23:12 +0200
-X-Gm-Features: AQt7F2oJx9_5rStc5In55eyBv3lfUDojQOUDP7FelHM31gT78_xqzMu7r2M2phQ
-Message-ID: <CAHp75VcumPK00xv4R1XKOspTf-8G76dmx16BG3y5G=tJ5v_b4A@mail.gmail.com>
-Subject: Re: [PATCH v2 1/4] fb: Add dev_of_fbinfo() helper for optional sysfs support
+Date: Sat, 27 Dec 2025 16:24:35 +0200
+X-Gm-Features: AQt7F2qk4lZCeAfQafLC_2U29jnpMMyMdVKvtqDPeHxqHBPfiIH3Qwz7nSdnytw
+Message-ID: <CAHp75VeiD518W13KU+vn1yykfw1pXA8Z9Co7t5bXbB+KhCtqPQ@mail.gmail.com>
+Subject: Re: [PATCH v2 0/4] fbdev: Make CONFIG_FB_DEVICE optional for drivers
 To: Chintan Patel <chintanlike@gmail.com>
 Cc: linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev, 
 	linux-omap@vger.kernel.org, linux-kernel@vger.kernel.org, 
@@ -79,14 +79,19 @@ Content-Transfer-Encoding: quoted-printable
 On Fri, Dec 19, 2025 at 7:43=E2=80=AFAM Chintan Patel <chintanlike@gmail.co=
 m> wrote:
 >
-> Add dev_of_fbinfo() to return the framebuffer struct device when
-> CONFIG_FB_DEVICE is enabled, or NULL otherwise.
+> This series makes CONFIG_FB_DEVICE optional for fbdev drivers that use
+> it only for sysfs interfaces, addressing Thomas Zimmermann=E2=80=99s TODO=
+ to
+> remove hard FB_DEVICE dependencies.
 >
-> This allows fbdev drivers to use sysfs interfaces via runtime checks
-> instead of CONFIG_FB_DEVICE ifdefs, keeping the code clean while
-> remaining fully buildable.
+> The series introduces a small helper, dev_of_fbinfo(), which returns
+> NULL when CONFIG_FB_DEVICE=3Dn. This allows sysfs code paths to be skippe=
+d
+> via runtime checks, avoids #ifdef CONFIG_FB_DEVICE clutter, and keeps
+> full compile-time syntax checking.
 
-Reviewed-by: Andy Shevchenko <andy@kernel.org>
+Please, address my comments and I give a tag for v3. I pretty much
+like the series, thanks!
 
 --=20
 With Best Regards,
