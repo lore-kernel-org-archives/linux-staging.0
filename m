@@ -1,71 +1,71 @@
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 429CB1F4262
-	for <linux-staging@lists.linux.dev>; Sat, 27 Dec 2025 21:27:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57BCF24A047
+	for <linux-staging@lists.linux.dev>; Sat, 27 Dec 2025 21:27:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766870876; cv=none; b=QaFzDSdJzHxzy2ZgArvbhgTpceVZn9DuOELQOInRa9TL726+PTdkV241ldcqamDvCNdZXAQvkOvuhMniA6HhKB7v4ELhU7CFdY0Fneh/RYAVHpalQxfj1lFGr1lfL5HfyWISVJbHBkyyqsM9NLlsVi0hAyWBeJiSOnUYdEmqf+U=
+	t=1766870877; cv=none; b=ixyrbjNTB85S8rE1pCBfJPjoQBQwz1OKE7M5a74LWnGXPt5OT2vB2Tpy+GySuIbU4FfKcPp/WX5aB+9ddClea/7jird5jsKldfaG94IVaA0eeOpAu8T7PQJB5TUfCahNjWSOac5EPkVvd50iAn1btMUnyJMQ983mt4w6Fv8/E1k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766870876; c=relaxed/simple;
-	bh=a2KHJNZ/IIKFFDJc0BuF7pdaPjfqHmZq3IkSLYCmtYw=;
+	s=arc-20240116; t=1766870877; c=relaxed/simple;
+	bh=90mAUlDTROPfVFCT8zoE0s/7atn+N12hHNBRrzgd2OM=;
 	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=IC9K/gxoUW7TF6VC33duvooFg+U4sRHl/FyG7Znl7optNAl4v5sCIXLf6F3FdcLOYmHYgDeIsI++410ESBfAnI/6n2sFL+ygxNP0V2UZIrXWACWFWbyvMhqlIwT35AerAnLMbxRo+fc0di9Z1d3b1XlZXJA+R0Qy91d2VQtV+qM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YgP94Sak; arc=none smtp.client-ip=209.85.128.43
+	 MIME-Version; b=jF9EzhYGFdmNVCt9LwDTvBy9KhLr11H4jEO6iTvbp35iRttUe5HoZQpyeU+ZhYsojB1qhBxynakgvaaK3MynG7vDHu0LWYkcHFpcrDGGKSIK+0LxYTDA+2ygPVmcHPjy27aCSQaKct0gkjfRbPIhCq3W0LxH5SARjMAvb+qhUR8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WF4/s8eM; arc=none smtp.client-ip=209.85.128.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YgP94Sak"
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-477a219dbcaso65752845e9.3
-        for <linux-staging@lists.linux.dev>; Sat, 27 Dec 2025 13:27:53 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WF4/s8eM"
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-477563e28a3so49341395e9.1
+        for <linux-staging@lists.linux.dev>; Sat, 27 Dec 2025 13:27:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1766870872; x=1767475672; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1766870873; x=1767475673; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=bIzryQQAx4iHG1IqZnJ66eEpohhF2mshzzBDmoevmOU=;
-        b=YgP94SakxvredYGjvNkZOGNTdJE7C2zWwae4sVMyNBRbvsHrxGuXXRHPL2nB1agMsQ
-         EUF+pml+gNMkKXcC58Kbty20bMPg0wroXatPEK2Z4zYMu7zzXZw+maTXrl1UzqxI3Lh8
-         nmFm3rOIjMg1JxqzR31BJdKiVA/Y0v2eLL5DUaM01/NBO5bbumj40hS/fOrmoD5Sl4G8
-         2KaUa+XYT/5K1P4395ivU+00ZxwWqivB3bjkuLICdPXpifLvRK+JrW1fgsTOl33CG5oS
-         p722uPx1EMM7n+K00O/DzK0Ukn5+sHE+d9UlQL+Rno9/of5n5zFHfiSzKxKv0rImiAg1
-         fJBA==
+        bh=XNJUqZKOGc1SDKNueloceJueHG9n2d7npGprfg7xtZs=;
+        b=WF4/s8eMp3xIJyaSSFn7b0ugWqBjS8x1xyBPWm+KYs5vx5sNOoFSQhxjv+CkJe8Ika
+         HuWAoyVOxYKayvH/Qs0BV+iH/Ptvn+cx9OP5EvPm33jZSWb5am0Th99crQvk7kACZrWN
+         TEDQNuzJj4hWUVXn9nEuUmmLFDka24WcLw5Nh1RCJ5CzlUuHDozahVzGY7V9mJZgZxJ6
+         YMnd9y9/e4Mp8d9yVLXpKbXwXRCt3zFUTdbfDTuuqbe+exFc++e6SAQuo28o3YgZgTyD
+         7qQoV0KdpJjoyn1uOqX/jEL4kJwsFeeEVotHzGBXsFC5FM8Y680UsqMbsg6eJmiW+PRd
+         MxwA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1766870872; x=1767475672;
+        d=1e100.net; s=20230601; t=1766870873; x=1767475673;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=bIzryQQAx4iHG1IqZnJ66eEpohhF2mshzzBDmoevmOU=;
-        b=Pr3VIqBimxQkYbBVJzXCxrbQ7GTQD0btbifCQz/4xeSl3kvXPLY8EsMTSDHKvCHuKY
-         8toYqUc+L+l9WomP7QJAWD7n+lDDYBHqWOdYs7dcImdwaPts/Jkf6cChIV9KN2pxaUYf
-         FNUJMlac2TCrprGIctm4itSzpPQyZX8A4FkHifeutuaQ1OYM/nx7kZjXjx84e6KMFmVQ
-         lW23horplE6KufsFHR39crAcwGfhCfS1hT986Df/hv4Zo6xzAmXa2XI3EN1PuQCQt4i/
-         80o7OmdNSbwMRsiW6lc8sNqxUatXTG6BPNleLjYG171UyesfiARbpKczWefs/AML3H5w
-         NhJQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUCb/kBZAK0rRtz4vppyI+r4J87c/m9uLi+DCXSSTfhPxud7QL/1pXZY7Q9rYSvpLdiOpikKY/aKRI/rkpZ@lists.linux.dev
-X-Gm-Message-State: AOJu0YyKyRehnzOTUeGP06FT8R9A99/m0ifpQE/DOxPl5tKYGmZG8S1M
-	kA+xIAWXN+lFn/3p6Irqe6qUAggG0uGF2rg4FJPU41EZ2Xt4KTG5yK6M
-X-Gm-Gg: AY/fxX5+4SBiHETqvP0yEBatKkqKsbxgClRn2Lda0BgZYvK3mTfWhdelNawB9ItX5O+
-	B7A1KouzNGyDBcDHQIUc48y8f7sldGkZ/8ldcNz2nEMGu721RQpIhOdAKHuhNfVxdgK17deAGIU
-	21Zb2WbrfMuNYso6p8ndihBz53RfjS1rW1Pv43C0x3DbwzMQ6LqqHB5qHmorxSSjOwdjMNBqHAC
-	Y1It+h/10LKxyh9ftA92ATOiE1AZ7nr6kgwSymxSaT66DqdwIdjlndI3GXSPDvQ6FN3bajaRf7l
-	Nn+1yi74r6tflrk5AlaYuAfD8imFUyr7GlJYvmzRipl2bB64cWQjP/GEXtbkRolP5IOTuy1ixkZ
-	FP9S1frZjjTEFNaPKnRm6yfm6PJt4SWjRBRSn2ya3AosnAcWvR1GHBsmEtSeL2RaaV/maatIUh5
-	gi4ZLW6omoIBiyDQ1jXMf0
-X-Google-Smtp-Source: AGHT+IGL0WZJ1CAdxcmUx7MKWp4RGqAb/TPRCorN3nAuyC0F2oH/zg723Me8DnSJyXMI493GGIc1WA==
-X-Received: by 2002:a05:600c:3b92:b0:477:6d96:b3ca with SMTP id 5b1f17b1804b1-47d1955b7e9mr316334385e9.5.1766870872517;
-        Sat, 27 Dec 2025 13:27:52 -0800 (PST)
+        bh=XNJUqZKOGc1SDKNueloceJueHG9n2d7npGprfg7xtZs=;
+        b=XMSEnR4/9+DYqnlg6C1Q578NQ+bMX17KWaKGmcHqWUZGH8pOmLsDYlxjPOrOPoAdaw
+         IoHDx90MB0H4cUpoRPYsM3cFtVAUlEBGGec5xMmHdKhxr87gY7wNPo4c8D/MoMkU2pBy
+         kcfctTymntC9WD85e+0LhafLVwLbwE0alGMl8RNhYXRLMVbEJNOkqJjbPQfCzgfTOge6
+         WbqFF4QJ4qFNEM4nv9MJHIccQvCTcsU5XnK0tA/UdROqr8hjvxGJmc+TAm2jo8kdku8R
+         NW5sHpj81RC5fkJWSt1wNlw2QxtSXxKNw2EuBvNVBElKdmnzh1/JbbWS/eut1gkbfgUq
+         qbGw==
+X-Forwarded-Encrypted: i=1; AJvYcCXC7wxWxLD3IaCbC5pgOtwcdp/AAYD9NA+8lfc81HT5bw7uUQ0FC7LREEKaoTI5+DUeKbZL26lMAu4JNsgl@lists.linux.dev
+X-Gm-Message-State: AOJu0YyID+hIsRNRuX/umIZXFFbotHJFeqYLkgTo/wLkY98T10g8pfBQ
+	qhPWJinG3Gbzx4SIPb6N2tFybueJiZxnHBihto39GqTsD1U2k7EO+w/E
+X-Gm-Gg: AY/fxX7bdo5egD+RqiPuWGyv3DAabzf42aVvLRfy44mvUJuEkVy7G0jAUHWf2gQXlLU
+	NGOjOMGH10dTGHt10uYPeyGwvn/0HQpoQmhq3gYVSTD3eegjW0uuh62mf+JtsWC2X+yfPEumqIg
+	5E4XUICcSoN3fOcHgj4PW+3GcqxGBKRvCqFJ9wjMOmQo2UHZKH2QAk4LTUs7p2putBQ9MBEpV9A
+	x6pfa+tr+8TuEE3DLVP49cn3XOixKWARsKyRHbGDrr1DSjYoxzFrMzqv2epVFrTbvXtdrtNAtHx
+	T6ArYVlRl+3rnjm27Fe8ACQ5zMBKcjDSTCQPpvnsTZ3Tj/6TtL5ZmD1FityeB112GDB+tW7BMd4
+	qb9XxMrWku1IlPKTlm3nR+9ApqY8NTMBVzJMN9If1Mn87IJxkaLoytYreulqP+vAFC0dV7pxDTc
+	CnzO5YLEnpn3IPoRxLDWi24dlG5IgTZN8=
+X-Google-Smtp-Source: AGHT+IGMPg76Vdk84Treatcb1rIplR+NzZiB7ZU2/mLvIxRUydL4BAJPqcfR+IjvqfJqpPr4Hto7IA==
+X-Received: by 2002:a05:600c:6749:b0:471:665:e688 with SMTP id 5b1f17b1804b1-47d18be89d5mr376171605e9.17.1766870873303;
+        Sat, 27 Dec 2025 13:27:53 -0800 (PST)
 Received: from ws-linux01 ([86.124.200.187])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-47d19346d33sm471531835e9.3.2025.12.27.13.27.51
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-47d19346d33sm471531835e9.3.2025.12.27.13.27.52
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 27 Dec 2025 13:27:52 -0800 (PST)
+        Sat, 27 Dec 2025 13:27:53 -0800 (PST)
 From: Ovidiu Panait <ovidiu.panait.oss@gmail.com>
 To: gregkh@linuxfoundation.org,
 	linux-kernel@vger.kernel.org,
 	linux-staging@lists.linux.dev
-Subject: [PATCH 2/9] staging: axis-fifo: Add poll() support
-Date: Sat, 27 Dec 2025 23:26:33 +0200
-Message-ID: <20251227212640.3321310-2-ovidiu.panait.oss@gmail.com>
+Subject: [PATCH 3/9] staging: axis-fifo: Use devm_kasprintf for device name allocation
+Date: Sat, 27 Dec 2025 23:26:34 +0200
+Message-ID: <20251227212640.3321310-3-ovidiu.panait.oss@gmail.com>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20251227212640.3321310-1-ovidiu.panait.oss@gmail.com>
 References: <20251227212640.3321310-1-ovidiu.panait.oss@gmail.com>
@@ -77,68 +77,58 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Implement poll() file operation to allow userspace applications to
-wait for FIFO readiness using select()/poll()/epoll().
-
-This replaces the module parameter-based timeouts removed in the
-previous commit.
+Replace manual kzalloc + snprintf with devm_kasprintf, which is
+cleaner and purpose-built for this use case.
 
 Signed-off-by: Ovidiu Panait <ovidiu.panait.oss@gmail.com>
 ---
- drivers/staging/axis-fifo/axis-fifo.c | 26 +++++++++++++++++++++++++-
- 1 file changed, 25 insertions(+), 1 deletion(-)
+ drivers/staging/axis-fifo/axis-fifo.c | 15 +++++++--------
+ 1 file changed, 7 insertions(+), 8 deletions(-)
 
 diff --git a/drivers/staging/axis-fifo/axis-fifo.c b/drivers/staging/axis-fifo/axis-fifo.c
-index b2a9f5542fc1..b9b2700410b8 100644
+index b9b2700410b8..d49bb401a227 100644
 --- a/drivers/staging/axis-fifo/axis-fifo.c
 +++ b/drivers/staging/axis-fifo/axis-fifo.c
-@@ -32,6 +32,7 @@
- #include <linux/jiffies.h>
- #include <linux/miscdevice.h>
- #include <linux/debugfs.h>
-+#include <linux/poll.h>
+@@ -537,7 +537,6 @@ static int axis_fifo_probe(struct platform_device *pdev)
+ 	struct resource *r_mem; /* IO mem resources */
+ 	struct device *dev = &pdev->dev; /* OS device (from device tree) */
+ 	struct axis_fifo *fifo = NULL;
+-	char *device_name;
+ 	int rc = 0; /* error return value */
+ 	int irq;
  
- /* ----------------------------
-  *       driver parameters
-@@ -345,6 +346,28 @@ static ssize_t axis_fifo_write(struct file *f, const char __user *buf,
- 	return ret;
- }
+@@ -546,10 +545,6 @@ static int axis_fifo_probe(struct platform_device *pdev)
+ 	 * ----------------------------
+ 	 */
  
-+static __poll_t axis_fifo_poll(struct file *f, poll_table *wait)
-+{
-+	struct axis_fifo *fifo = f->private_data;
-+	__poll_t mask = 0;
-+
-+	if (fifo->has_rx_fifo) {
-+		poll_wait(f, &fifo->read_queue, wait);
-+
-+		if (ioread32(fifo->base_addr + XLLF_RDFO_OFFSET))
-+			mask |= EPOLLIN | EPOLLRDNORM;
+-	device_name = devm_kzalloc(dev, 32, GFP_KERNEL);
+-	if (!device_name)
+-		return -ENOMEM;
+-
+ 	/* allocate device wrapper memory */
+ 	fifo = devm_kzalloc(dev, sizeof(*fifo), GFP_KERNEL);
+ 	if (!fifo)
+@@ -612,13 +607,17 @@ static int axis_fifo_probe(struct platform_device *pdev)
+ 	if (fifo->id < 0)
+ 		return fifo->id;
+ 
+-	snprintf(device_name, 32, "%s%d", DRIVER_NAME, fifo->id);
+-
+ 	/* create character device */
+ 	fifo->miscdev.fops = &fops;
+ 	fifo->miscdev.minor = MISC_DYNAMIC_MINOR;
+-	fifo->miscdev.name = device_name;
+ 	fifo->miscdev.parent = dev;
++	fifo->miscdev.name = devm_kasprintf(dev, GFP_KERNEL, "%s%d",
++					    DRIVER_NAME, fifo->id);
++	if (!fifo->miscdev.name) {
++		ida_free(&axis_fifo_ida, fifo->id);
++		return -ENOMEM;
 +	}
 +
-+	if (fifo->has_tx_fifo) {
-+		poll_wait(f, &fifo->write_queue, wait);
-+
-+		if (ioread32(fifo->base_addr + XLLF_TDFV_OFFSET))
-+			mask |= EPOLLOUT | EPOLLWRNORM;
-+	}
-+
-+	return mask;
-+}
-+
- static irqreturn_t axis_fifo_irq(int irq, void *dw)
- {
- 	struct axis_fifo *fifo = dw;
-@@ -410,7 +433,8 @@ static const struct file_operations fops = {
- 	.open = axis_fifo_open,
- 	.release = axis_fifo_close,
- 	.read = axis_fifo_read,
--	.write = axis_fifo_write
-+	.write = axis_fifo_write,
-+	.poll = axis_fifo_poll,
- };
- 
- static int axis_fifo_debugfs_regs_show(struct seq_file *m, void *p)
+ 	rc = misc_register(&fifo->miscdev);
+ 	if (rc < 0) {
+ 		ida_free(&axis_fifo_ida, fifo->id);
 -- 
 2.51.0
 
