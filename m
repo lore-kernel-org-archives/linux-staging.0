@@ -1,119 +1,169 @@
-Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
+Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E3A924113D
-	for <linux-staging@lists.linux.dev>; Sat, 27 Dec 2025 11:34:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEC8629408
+	for <linux-staging@lists.linux.dev>; Sat, 27 Dec 2025 14:16:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766835248; cv=none; b=M/SKbC+U08J0/ad8gzOh/W2fkGiiAhYmT+4ZNJkP4jVCS43s5xKoxmATgGUpji0QcCI0yLp0lNNpS52Xvzhj1KhKLTHLg1LWF1ixD/u2Bl0xyM5Su6f9EljpGAvwJXdtcXgy2Ax55bw3QYKQstlLu1h9J0K9dZphQS1fHwM8MTk=
+	t=1766844962; cv=none; b=fz/USV4rChyNHfggBE0j662lS4V1b6R5BVkWCXt1tO4IERZEE81vSOvlN4IhyBFgs+YLaEeGwmz6BsyphNci+v36EhYaPYNhlBTHWySI1Mo8oF4MIn+7ay7a07jgVI37b+viBK3AQeoFNErX/nyNK0h/hhDjhamJCFOLKkxIe1k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766835248; c=relaxed/simple;
-	bh=IbETXDuuCJUAhe39/dgny2zVW9vK0dT/ZG3WkpVVfxE=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=scucEP3Vxuz/BB87CR0e6Ob5vNtOCegL/EtkdDE9yhVyaoyD5iR7AwblCeTKH+S5NcZkg996KrDAuZFYvCA0yggo+yA/gtHE4SYIdorHpOEwVF+gW4D7gufaw9UyLl3IX9XGSvJi1TTr+WWHFrcnS9UCoc6vHVFrjXru8KflDnw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lmb7nzqH; arc=none smtp.client-ip=209.85.210.171
+	s=arc-20240116; t=1766844962; c=relaxed/simple;
+	bh=hiQNhsW0O2LINJmqDsutnCu2EMiEeW/p3tCBUzseyS0=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Zo6PZND9oU/lLLR/E+m6vQZgzScRdUUGZv8tlnwR8uUE6PbqkmDkVkivYl19n1MFq9hbhCDK5CKyUKj3IxaQCs+TRj+jk1OGwdPIXzEGd+7uH5xwSYQ7Bzg9IKfH4b4mwJDTEpVaXc1jj+688VUQGsuHJlq+dS5lmR331sOs6JI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LjKm2rSm; arc=none smtp.client-ip=209.85.218.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lmb7nzqH"
-Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-7b8eff36e3bso12440722b3a.2
-        for <linux-staging@lists.linux.dev>; Sat, 27 Dec 2025 03:34:06 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LjKm2rSm"
+Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-b79ea617f55so1470597166b.3
+        for <linux-staging@lists.linux.dev>; Sat, 27 Dec 2025 06:16:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1766835246; x=1767440046; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=Sl10PyASTrPvts2CGD791OiWHhRS9HrDmSZd1Cd9MuA=;
-        b=lmb7nzqHh/0St9Mh2OhZ3rC15/1xV3QPshpQoGe9A0fq3x4QoXg4sh/KB8QuQ8woqc
-         +WqcW2kIjGX8dMgwUYloFlP7UeQRzO6hB0fNxb0LLoRHr/i9U19iNsKLpNydxtK8WMcd
-         w6J9uDv94XEQWdohImqs9qQPJSk8IOTD53y6gO+VVvaNZIIpkQZNNcV5u7vu8ZxIgvAG
-         kXSj8ZpDtNBNcrekyhVtCYoGoGLafmTJlIdU1E35Sp89dB5MSCQ54lflrforbQimNaHl
-         LUeetH1zv93lfAfCFq7ywR93suFKI1Z0wRbJbWJdw7IhXxhNWu3cJOnSf15VOGMUx0dl
-         404w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1766835246; x=1767440046;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1766844959; x=1767449759; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Sl10PyASTrPvts2CGD791OiWHhRS9HrDmSZd1Cd9MuA=;
-        b=h1UWECwqcFaZAps0gQOSHQcXZLP95B5E/++7lBdmIPEebQ1qI3Gsq5UO7XUPx8taqQ
-         sin4/2nHaebGRRoI6kdu3WyTdnpRReNHB00iifTp8E8zuVpzUX2TOzi9ePFg8zVRswaA
-         lqqPx2BkuVQ+BPgwWQe4IQhYDtzKjTq5RNnrPOFx/OuQMblPV+Aif3NeCWWU/BdB72eb
-         +/ag3z4u1Ca1xJZk7pDd6PrCW3jIz36fU6teqeVIkoJ5RlGeP9H6QK0ghvloiW6EgarN
-         Izgt6e7RWtTKPegUS9Devc0RPdsbTEWtVFFij18ihWFE9StqjNstLR+7jRYRoE3LRh2c
-         WZ4w==
-X-Gm-Message-State: AOJu0YzxlKcMTl1g4wV+7yYHXFwHm2qtyN6sg9uMEOCPmqAw+ikeFjB+
-	/tEQ5aWnnIC9ixvfFr4Tp52gndmOB/EWDgLKjXWWfO01OzxyYY0JRLCzsGnhvg==
-X-Gm-Gg: AY/fxX7TXySz6vEYZY3efunJFhiiDX1FjloBpKIrCZ25wAcksYGTP+SPnXboutCSxHD
-	UZ3lYqeS3SfrN2HqUG9wrasb5hDsM2Vh9UPf+OYsAiFEMjnoX4X+L0wqh2dsqnIF79BKh0MCony
-	LAYvSjUmBIDovtlZtWsxzljTrQGJ7HUyogE9YTl0U6qgazg4Xx6MDaNvKgFqBzIDMcvZ3CGUJL/
-	3wW7QhiXMwAPEtnt8YyUpcnSDFm23L/aXdLGPry2/LKmQtN89hF62ZZODO1xP3oEBhlIX8psbS/
-	QmaLI0jmVWu4/AuJkKRW6YpKtXi4fCrQF72qxSPJ8Jfi/Hq2TABHLRD+suWHtatrmxRyw5ZBOYM
-	JdZYaNgMkYrwLhv78IynO/Pz9E4LQvn42BPo2FYc9SrWxFw0lzJZsuFxChP6UNASrcag1sQErae
-	ouwGX0bPON6tB/l7VMEd3V5A==
-X-Google-Smtp-Source: AGHT+IG8n+CGndJluKrsW7TOzwprYZpSjV8sCb6MR+wsZbDK7EqUsswEX9DbCxLyZs8gTvaKvCHRfw==
-X-Received: by 2002:a05:6a00:ac08:b0:7e8:450c:618c with SMTP id d2e1a72fcca58-7ff664814e0mr24628746b3a.35.1766835244713;
-        Sat, 27 Dec 2025 03:34:04 -0800 (PST)
-Received: from karthik.. ([43.247.159.43])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7ff7ae354easm24434239b3a.16.2025.12.27.03.34.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 27 Dec 2025 03:34:04 -0800 (PST)
-From: Karthikey D Kadati <karthikey3608@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Karthikey D Kadati <karthikey3608@gmail.com>
-Subject: [PATCH] staging: rtl8723bs: fix missing transmission lock in rtw_xmit
-Date: Sat, 27 Dec 2025 17:03:48 +0530
-Message-ID: <20251227113348.26272-1-karthikey3608@gmail.com>
-X-Mailer: git-send-email 2.43.0
+        bh=Qeew5kbRgKn77uDh8eaOpRmb++U6/kEJVcuYh9HUj70=;
+        b=LjKm2rSmw2KtpVVrpcPh9qlknTHLvDG+Ym49ra+sVNQP8vBD+i17ekC8N9iJPBXEyV
+         WhbrRW1ZEBOzRTP2McPgT6suAv+g3bHoTvTq8VNwmGwdNI+Z/666OniDzq1xg751xuFF
+         EtGPnEcTYaPPODjYBCPs9Hhdt94t95p/34HC+hSLWczZsZewyt4W+IiDhyAHvkn0TtwA
+         d9HGmeNq8EY1RzhHA3jSQnLtcTnTqxw8w+VxrsN29UWvMQlK2D1bjTDPYr4I4LfUEAWf
+         XOhC479IgBOhrAFwaMzmjaqiZlA2A/1iXSSIWM9yhZ96ghjPDHt5jgjyFvRZ609idajO
+         NJ8w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1766844959; x=1767449759;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=Qeew5kbRgKn77uDh8eaOpRmb++U6/kEJVcuYh9HUj70=;
+        b=vmBiK6TbaXSt6kQ5b7wWxWk2A1LmpWM6xWUNizFH9jfXL91vvhR6gRKB0P+aJu7kqe
+         J7BVhuLx3wlmxux/MiluYopyZ4Ym4b/8y0uUzLsvQUcJ6h+N8YlYjJpJm2z7mirymlRc
+         2QgXZv9hBrDyErgnogcYvmOVvA8vG5JkgwadgXjh7XcfMgZ3/W7GPdNVMlwe77sD6X4b
+         hvJ2JHBI1yr9xrP4D1GhNbkjRZCHPHGPYX36db5unjrEuhu3YGdnKQGo0k/TkiqwF14z
+         +RTdiONyhLYmHYvI45CawfW554U7el8W78OkxK8FJOwOPa53lJcXiDuKai+BAdZk+42j
+         dslQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVMlunP4mEoWTfXPejbh7K0X3tG5MMc2BQEEJOdmbg7AkUiV9PqaIfO2R4N8+1eSzBBMPteHXfdQsE+Sulu@lists.linux.dev
+X-Gm-Message-State: AOJu0Yx++TlO0mOnL1o8X/Di7S8HPKmLGsXciYJWp93ufYrwXddlF7tR
+	saknimH15aoIikjTEzJv2HpFtCuUv2A52asrZ0EAJANQU430QfRmhrOdMJTP4TKfI/m6bKOQphI
+	Ld0G+iWyJOU6UUruIQN4qIL1jzV64s8s=
+X-Gm-Gg: AY/fxX7fn4cVb010/hVp9MoiZebobSDNNI+C1O1uDe3P9AIjhIFWfbw48PPZYR2wZ4/
+	MMu5ywhy0rFIE+Kp+Pw5o10jF1/2uIkqcO1YRCW1qb3WU9vcfmB6MdbkxmvJcpWjymai6l/ogFN
+	Ge7n7St3/E+psX59jBOgfYIams43PW2VAHmVHK1XrBSJuZsuoSuizCYNvS3t32iyRyK8BFU+AVS
+	ZHOvaXPFUIHxcUm+GsnXTxuaUyGk8gFwnoDRvXUdw+TJqP6wboNGNN/180tw/m7ARqCjaubd9Wn
+	YPTZIuDFGCjd3EtZ2QVHUe6xt+ebhYK/kfiv2qDQQ1wjn1u95jwA6S7DOBK6FZ6oci+77zA=
+X-Google-Smtp-Source: AGHT+IE5XjXyiX8e5+y2/EJWJkUx9mNmIJWTZRQHZ+11Rz7xT9i6UD39yeJWDYfoSFEzyyea9QAld86n3jERGsExmoA=
+X-Received: by 2002:a17:907:7f25:b0:b80:614:b72a with SMTP id
+ a640c23a62f3a-b80371756d1mr2980300466b.31.1766844958759; Sat, 27 Dec 2025
+ 06:15:58 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20251219054320.447281-1-chintanlike@gmail.com> <20251219054320.447281-3-chintanlike@gmail.com>
+In-Reply-To: <20251219054320.447281-3-chintanlike@gmail.com>
+From: Andy Shevchenko <andy.shevchenko@gmail.com>
+Date: Sat, 27 Dec 2025 16:15:22 +0200
+X-Gm-Features: AQt7F2r_BktXpE7AknVIdZhLL9UU8kDl403QzVGaeIdoMKWSeHXNJeJhHMAVJRQ
+Message-ID: <CAHp75VeroxzYs7GScKMv-gOFqJz_U=561b5FH6ifdo2WQNYNyQ@mail.gmail.com>
+Subject: Re: [PATCH v2 2/4] staging: fbtft: Make FB_DEVICE dependency optional
+To: Chintan Patel <chintanlike@gmail.com>
+Cc: linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev, 
+	linux-omap@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, tzimmermann@suse.de, andy@kernel.org, 
+	deller@gmx.de, gregkh@linuxfoundation.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-The packet transmission path in rtw_xmit.c contained TODO comments
-indicating a missing lock. This patch implements spin_lock_bh and
-spin_unlock_bh around the station attribute update section.
+On Fri, Dec 19, 2025 at 7:43=E2=80=AFAM Chintan Patel <chintanlike@gmail.co=
+m> wrote:
+>
+> fbtft provides sysfs interfaces for debugging and gamma configuration,
+> but these are not required for the core driver.
+>
+> Drop the hard dependency on CONFIG_FB_DEVICE and make sysfs support
+> optional by using dev_of_fbinfo() at runtime. When FB_DEVICE is disabled,
+> sysfs operations are skipped while the code remains buildable and
+> type-checked.
+>
+> v2:
+> - Replace CONFIG_FB_DEVICE ifdefs with runtime checks
+> - Use dev_of_fbinfo() to guard sysfs creation and removal
+>
+> Suggested-by: Thomas Zimmermann <tzimmermann@suse.de>
+> Suggested-by: Helge Deller <deller@gmx.de>
+> Signed-off-by: Chintan Patel <chintanlike@gmail.com>
+> ---
+>  drivers/staging/fbtft/Kconfig       |  5 ++++-
+>  drivers/staging/fbtft/fbtft-sysfs.c | 18 ++++++++++++++----
+>  2 files changed, 18 insertions(+), 5 deletions(-)
+>
+> diff --git a/drivers/staging/fbtft/Kconfig b/drivers/staging/fbtft/Kconfi=
+g
+> index c2655768209a..578412a2f379 100644
+> --- a/drivers/staging/fbtft/Kconfig
+> +++ b/drivers/staging/fbtft/Kconfig
+> @@ -2,11 +2,14 @@
+>  menuconfig FB_TFT
+>         tristate "Support for small TFT LCD display modules"
+>         depends on FB && SPI
+> -       depends on FB_DEVICE
+>         depends on BACKLIGHT_CLASS_DEVICE
+>         depends on GPIOLIB || COMPILE_TEST
+>         select FB_BACKLIGHT
+>         select FB_SYSMEM_HELPERS_DEFERRED
+> +       help
+> +         Support for small TFT LCD display modules over SPI bus. FB_DEVI=
+CE
+> +         is not required, but if enabled, provides sysfs interface for d=
+ebugging
+> +         and gamma curve configuration.
+>
+>  if FB_TFT
+>
+> diff --git a/drivers/staging/fbtft/fbtft-sysfs.c b/drivers/staging/fbtft/=
+fbtft-sysfs.c
+> index e45c90a03a90..848702fc871a 100644
+> --- a/drivers/staging/fbtft/fbtft-sysfs.c
+> +++ b/drivers/staging/fbtft/fbtft-sysfs.c
+> @@ -203,14 +203,24 @@ static struct device_attribute debug_device_attr =
+=3D
+>
+>  void fbtft_sysfs_init(struct fbtft_par *par)
+>  {
+> -       device_create_file(par->info->dev, &debug_device_attr);
+> +       struct device *dev =3D dev_of_fbinfo(par->info);
+> +
+> +       if (!dev)
+> +               return;
+> +
+> +       device_create_file(dev, &debug_device_attr);
+>         if (par->gamma.curves && par->fbtftops.set_gamma)
+> -               device_create_file(par->info->dev, &gamma_device_attrs[0]=
+);
+> +               device_create_file(dev, &gamma_device_attrs[0]);
+>  }
+>
+>  void fbtft_sysfs_exit(struct fbtft_par *par)
+>  {
+> -       device_remove_file(par->info->dev, &debug_device_attr);
+> +       struct device *dev =3D dev_of_fbinfo(par->info);
+> +
+> +       if (!dev)
+> +               return;
+> +
+> +       device_remove_file(dev, &debug_device_attr);
+>         if (par->gamma.curves && par->fbtftops.set_gamma)
+> -               device_remove_file(par->info->dev, &gamma_device_attrs[0]=
+);
+> +               device_remove_file(dev, &gamma_device_attrs[0]);
+>  }
+> --
+> 2.43.0
+>
 
-This prevents a potential race condition where station security and
-PHY information could be modified on another CPU core during
-transmission. The use of _bh variants ensures safety in bottom-half
-contexts common in network transmit paths.
 
-Verified that psta is NULL-checked prior to acquisition and that no
-double-unlocks occur on the exit path.
-
-Signed-off-by: Karthikey D Kadati <karthikey3608@gmail.com>
----
- drivers/staging/rtl8723bs/core/rtw_xmit.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/staging/rtl8723bs/core/rtw_xmit.c b/drivers/staging/rtl8723bs/core/rtw_xmit.c
-index 21690857f..5f11afb63 100644
---- a/drivers/staging/rtl8723bs/core/rtw_xmit.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_xmit.c
-@@ -715,8 +715,9 @@ static s32 update_attrib(struct adapter *padapter, struct sk_buff *pkt, struct p
- 	if (!(psta->state & _FW_LINKED))
- 		return _FAIL;
- 
--	/* TODO:_lock */
-+	spin_lock_bh(&psta->lock);
- 	if (update_attrib_sec_info(padapter, pattrib, psta) == _FAIL) {
-+		spin_unlock_bh(&psta->lock);
- 		res = _FAIL;
- 		goto exit;
- 	}
-@@ -724,7 +725,7 @@ static s32 update_attrib(struct adapter *padapter, struct sk_buff *pkt, struct p
- 	update_attrib_phy_info(padapter, pattrib, psta);
- 
- 	pattrib->psta = psta;
--	/* TODO:_unlock */
-+	spin_unlock_bh(&psta->lock);
- 
- 	pattrib->pctrl = 0;
- 
--- 
-2.43.0
-
+--=20
+With Best Regards,
+Andy Shevchenko
