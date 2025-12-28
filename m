@@ -1,151 +1,110 @@
-Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
+Received: from mail-yx1-f54.google.com (mail-yx1-f54.google.com [74.125.224.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2FC119DF8D
-	for <linux-staging@lists.linux.dev>; Sun, 28 Dec 2025 03:36:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F4AB2AD0C
+	for <linux-staging@lists.linux.dev>; Sun, 28 Dec 2025 05:49:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766892967; cv=none; b=Fcdi79DaEfYeVCOZ0v6V0Y+xOskUo3r4g+nU4I0M+169OFKmd6Sqw+7S61Q6dJSQxBjdcLAjCZ1vXqOinXrpHhefAzWAamZKZf4+ouEVrrawnLull2+KkNuB52NF3xms4qpLt5kKBpEFJO8qPytvGJ5kXVGA4bNkC2lG56Hau2Y=
+	t=1766900975; cv=none; b=pw0KjBbxn+FtlFY/ls74RK2WhtWNKddooO8SG8ZZP28XThH3+BRI+5wXypl2Nk333yN4X3rpx5NT+DwqhzPpfL7ZT1ZXD22NUNLgYDjbYkSbBEUPrO4d8UvR2DRhW1kNPERbpIWhu5/ubmm0wPHOx7d+Wa7h3c/KyMWcDT5KHTA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766892967; c=relaxed/simple;
-	bh=7y9+JG1YQScaKpsvlkoSJnucnQXf3X7/A1e5+m7XKHo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=R70kPAmcMzOsGlmU7j4RoLevAeEtrqkS3OkFAY5z+kKdBKnAYY4F9VoB4qyS+ptuskAx2uGirgbewmYQoTqyMsEMmDUAcyQrZ/hlCmpdl0tw4gCZzY/qQCPELAxRlcVVu2rMwiEpOdFYoyZtDuLa3Efqv7Mp/DVPrxcTtt/PAtQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=U9X/gYTG; arc=none smtp.client-ip=209.85.210.174
+	s=arc-20240116; t=1766900975; c=relaxed/simple;
+	bh=XMgbu8I6j92R/5BJOZwxpCJxSEONI9ROo3og38A73h4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=AYu5BgC3Mj2efnOiPV9EjH9OfX10GCbilEZruQeZXPT3Xgu20i+2mlQVwHopAguMXwx+aExtNU0A0MLoeP5JHOYbT7TnG86VEqUJfSD3ok5WI6Nfa4ll5z5wAhscWr90dMLxwqjBfK4eJZXdrMD26JSQYQebvyGhbyMBNFEoWm8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AMet/rFy; arc=none smtp.client-ip=74.125.224.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="U9X/gYTG"
-Received: by mail-pf1-f174.google.com with SMTP id d2e1a72fcca58-7aae5f2633dso8220696b3a.3
-        for <linux-staging@lists.linux.dev>; Sat, 27 Dec 2025 19:36:04 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AMet/rFy"
+Received: by mail-yx1-f54.google.com with SMTP id 956f58d0204a3-6432842cafdso7200649d50.2
+        for <linux-staging@lists.linux.dev>; Sat, 27 Dec 2025 21:49:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1766892964; x=1767497764; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=9GYMWvgynMfX2fSBNVCofj8NHTkRdY3lznnd4Y2OMfk=;
-        b=U9X/gYTGI2QUtSfTHuTl/jxt+Gc9ZnLZooKXzeSK91nA9KwOXmYHUjvLMT0YkpEws4
-         7h+NVKT7t2/4LBYwK/fqG5CeOxLEeVe96lHUgpAtHb4wHwExVbB1UtHT9EQg2ri/la1l
-         hcwxYGR2VrjpT+l1PawsDtGfcDcblK1s8RQSrm+DC6y+p7BRITEeVgZdnDs7Dy0SMbTS
-         uJyhdOM1+HlRvLOSzNhefu98G8YBXB3IRLR/642b3JGEZZMcPS7tYPxFdu7sCd0gxXQr
-         iXMIQgx4fMbPnxV4XFrppluL3VcgK1NppmYp10eEloDC4GnpASra+jc2IGvF9nTxAMyR
-         rYBg==
+        d=gmail.com; s=20230601; t=1766900973; x=1767505773; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=oLRlB+9DB40DMYma1+D4O4IOOLwQtSeZhDOF66a3lXk=;
+        b=AMet/rFyR9E/hXTYUsquAgVx2klEToIZ0482qexYAIg0V9roZHGd/f0BcPhFGzp/VF
+         B7uGHeMGhMhqt3EUlo8C4I3ZvGYjfTHvi9M5Un4GvIZ5JVwtqIsabXtP3WMDH9XkUo75
+         BocKp0AiwPh/wp8bbP4yd+eUp6Nfmh/JPZ14wn7SZXnzlElX3oaSPOofVRtXoB7nx4dD
+         +fztsYk/hvKQ9dlf+w/jpVk2TlS0KsfAdtkqPyt9lgFFoAHvaQxN9GNlviZdVEY3gVNm
+         zvg5uSkN4kJqdU4JwPr8AQMftcAFQ4z1Q5dyYL68xTVBkFw81I/sjZG75WZf1tPbpGZn
+         AaMw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1766892964; x=1767497764;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=9GYMWvgynMfX2fSBNVCofj8NHTkRdY3lznnd4Y2OMfk=;
-        b=EtCXkKX1joqQW3R9bjFfrFR73VLJFAn5FAPN6+Sz7HM6SZ4COi3Ai4HcVuhiorXUmU
-         wN1UmunLpV3LVjMrVmACDrCUiktn3W3KFBKKVTQ+/yNTWs9NanJfVksPcKF0bPAYPMnm
-         ZJ89ac07a7eQFI1wbTjDQhjrSs9zBdLEsHIzOaJVFfPapttHcVQuKmB15WLJ2RCC4rqu
-         oAd2k4jsDsexgEjMeywjnU3PNd/XBOUBJWeNDRRUo/lMbEKShknJQLA8sJVyJJlEQldn
-         YH0zvfhCqw66z5zhSbpFNphsb+R/uvfSpsFoOWtA67oMpUVJPcp/KHoxojqsDAz0J5Qt
-         k5eg==
-X-Forwarded-Encrypted: i=1; AJvYcCUCQ5TLJVinjOZsE+AC00b4tlYESMRwXdmvb/z1URyEuAPoxHUafVXSfweRmZ6G9SyEKdkcpgbyU/rj1QIF@lists.linux.dev
-X-Gm-Message-State: AOJu0Yx362CVlPPZROBJowOwwfKKmJEJ24bOa2ZohraS66MI+Xnv+vCB
-	244yCwt4sfFY8sajGQV1WcgNwtPAPNtSIxvR2uwQ00eRdFFIrR0h+TKA
-X-Gm-Gg: AY/fxX4nCOK0+6ABp0ydygIhccbIE/h2JdES1VnF60aPrFmPcx7zEbNcDv+j1RkRA4Q
-	cwU3dwdLkFgWtN4AosjkeWZFI90uqLQLUwkw4OkD2OeelMKkHuhaYhX9PNuGBCg39ibG9zQ9AWE
-	ANuuN8cdN7j9tWiXtJCErDFsY8fDKoKrnjM9XLvTW1GhkeQ4Lv8j/lQOqs2nESY6WnXj+nGpPL5
-	4K1KFEoPbmg0RO/9hJm5IC1GY2FNHT+3hGF3D7eeZhmu+hIaol61q2Qvb1CFZoeH8y7Ulg3+33o
-	ooZd2TIpOqGoyDG8ch5Z+cfnzA/ZVDKbHD/JiAmD8r2XXhBPOS1NLu3l4MUZe5oZ53xFrkeMD/I
-	7aYgCfkptPWHxpQCMWNPudfismbZ/QqqLIkSdOdMtWaejB6N5wbX7d/cXnfmRypvLXzJT0s2uTD
-	LZa+HEbdcddpkPXdoDC0+d/RituXiPMLswR8ErtOxG9XINdN2FeRY7rMYM8IbfV9Td4/4hLeM=
-X-Google-Smtp-Source: AGHT+IHTWL3q8c+FeXaSOBHPaw/cADChxlI8DiI1o2Cg5IPCvZurA0tG1OaDi1zTnHTBCrTFoMuu6w==
-X-Received: by 2002:a05:6a00:6caa:b0:7e8:450c:61c2 with SMTP id d2e1a72fcca58-7ff66679603mr21673397b3a.50.1766892964131;
-        Sat, 27 Dec 2025 19:36:04 -0800 (PST)
-Received: from ?IPV6:2601:1c0:5780:9200:a91e:86e3:6d78:53d4? ([2601:1c0:5780:9200:a91e:86e3:6d78:53d4])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7ff7e797aadsm25834180b3a.61.2025.12.27.19.36.03
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 27 Dec 2025 19:36:03 -0800 (PST)
-Message-ID: <ec86f093-8fe8-4fc8-b330-dc7ee8a01de9@gmail.com>
-Date: Sat, 27 Dec 2025 19:36:03 -0800
+        d=1e100.net; s=20230601; t=1766900973; x=1767505773;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=oLRlB+9DB40DMYma1+D4O4IOOLwQtSeZhDOF66a3lXk=;
+        b=TPhCIWzYx+m6sgBfjjLRTqkqZMivwJ/QwdGt7HRhroE3NC3HuhEbYB52iGElzB/0ZP
+         RnM2edCHBixF5bv3aAC78VjbjLB+vRNar53rBPUy9cLAoEvrdj/kyiRem480gABW0VWy
+         396IiDHia5MCH4Sd7ptnTCzyHns0KMAeDU50/eVulpe+w/HwRlrX8btoAloJI+NSZUMV
+         Wo2Y494WWyKXMvewKtDdYFUcFG227fY6alNn++XAR3iFdiHhrwbkWawN/PLQGW1WXn+C
+         pIk4zFTdb0ydp7Cgq20YVrajP9bgK8wbqz6qfs60lLwhYMOGVd/m7CR+xt+atMqHkeix
+         ZoSA==
+X-Gm-Message-State: AOJu0YwJq3C6VJ774vJGscYiTHuVgO6QWPpvVa5kL16Bz8DcYC3z6VTT
+	6Rq0JjjLdCN0xMfJvWObnEAOss01/0AgAegDEw/GnapNx6oH84xPmO1n
+X-Gm-Gg: AY/fxX50DhEQGD1mLTPUqXiLSaMwjhxbWWkCIfEf69O0hX+diSInsxfX19uYzR4ceLF
+	pKKWNPkHyg8+uhFRXi+5kOq9+UGAge7a3xoM+Ng8YjVUV6JEhUDl5JNTvxoJbDeHTxRze1zHWIZ
+	FpYl8Lq/8JXyc6+itiamE8BwhSnClkOP7GTs0+tL5ENgLCP/fn6nK8Zbu1ILOAPk9nB85Nt58Rc
+	28CH6tMJsKCGcNqHhwcDND06hF2C4mrPuarPU9iER/SqdQw2VCTNZZUCUGAIlVVdG1nmxD1ZbJ8
+	+QExtCFJUHtEEofAGdCpGvt9j5j2zkBdoui6nVTIQVjDRYkT3Q24F+tb3kwxV3OlnyJ27JV2YZW
+	ezpogZ/IJEds85OftB5LElKaSfj7FReflEekdkp5CydlXEqVvEvSu3MXCUb4YD1Z1eVx8pC3vIP
+	CTM5SVvsTHkNnll8ct/cMhPYKNKeVbfQpptq/Sy9ZvysN+eqIVwfkhBzrY0kEqXPorjBOnp4Vil
+	2/NdhG5PA==
+X-Google-Smtp-Source: AGHT+IF6p50/Sff+qjFcoZSSqgD6VwygtZHX89upMLmejiSZQ694evbPc/vHg1C5h3FwPrb0pYLmZw==
+X-Received: by 2002:a53:ad89:0:b0:645:61fc:43c2 with SMTP id 956f58d0204a3-6466a845493mr14278575d50.8.1766900973023;
+        Sat, 27 Dec 2025 21:49:33 -0800 (PST)
+Received: from localhost.localdomain (108-214-96-168.lightspeed.sntcca.sbcglobal.net. [108.214.96.168])
+        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-6466a81d4e4sm13226007d50.0.2025.12.27.21.49.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 27 Dec 2025 21:49:32 -0800 (PST)
+From: Sun Jian <sun.jian.kdev@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-staging@lists.linux.dev,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Ignacio Pena <ignacio.pena87@gmail.com>,
+	Bryant Boatright <bryant.boatright@proton.me>,
+	JJ Strnad <strnad.jj@gmail.com>,
+	linux-kernel@vger.kernel.org,
+	Sun Jian <sun.jian.kdev@gmail.com>
+Subject: [PATCH] staging: rtl8723bs: avoid short msleep duration
+Date: Sun, 28 Dec 2025 13:49:02 +0800
+Message-ID: <20251228054902.9065-1-sun.jian.kdev@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/4] staging: fbtft: Make FB_DEVICE dependency optional
-To: Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc: linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev,
- linux-omap@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, tzimmermann@suse.de, andy@kernel.org,
- deller@gmx.de, gregkh@linuxfoundation.org
-References: <20251219054320.447281-1-chintanlike@gmail.com>
- <20251219054320.447281-3-chintanlike@gmail.com>
- <CAHp75VeLF8nd-JiPFnxJ2H43ZS=oYgW4=BTZjR_GuUuj03gyRg@mail.gmail.com>
-Content-Language: en-US
-From: Chintan Patel <chintanlike@gmail.com>
-In-Reply-To: <CAHp75VeLF8nd-JiPFnxJ2H43ZS=oYgW4=BTZjR_GuUuj03gyRg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-Hi Andy,
+msleep() is documented to sleep for at least the specified
+number of milliseconds, but small values may result in a
+longer delay due to scheduler granularity.
 
-On 12/27/25 06:19, Andy Shevchenko wrote:
-> On Fri, Dec 19, 2025 at 7:43 AM Chintan Patel <chintanlike@gmail.com> wrote:
->>
->> fbtft provides sysfs interfaces for debugging and gamma configuration,
->> but these are not required for the core driver.
->>
->> Drop the hard dependency on CONFIG_FB_DEVICE and make sysfs support
->> optional by using dev_of_fbinfo() at runtime. When FB_DEVICE is disabled,
->> sysfs operations are skipped while the code remains buildable and
->> type-checked.
-> 
->> v2:
->> - Replace CONFIG_FB_DEVICE ifdefs with runtime checks
->> - Use dev_of_fbinfo() to guard sysfs creation and removal
-> 
-> The place for the change log is either a cover letter, or...
-> 
->> Suggested-by: Thomas Zimmermann <tzimmermann@suse.de>
->> Suggested-by: Helge Deller <deller@gmx.de>
->> Signed-off-by: Chintan Patel <chintanlike@gmail.com>
->> ---
-> 
-> ...a comment block here. It's not so important to be in the Git
-> history since we have a lore.kernel.org archive.
+Replace msleep(10) with msleep(20) to match the effective
+sleep duration and silence checkpatch warning.
 
-Thank you for suggestion! Will move to coverletter.
+No functional change intended.
 
->>   drivers/staging/fbtft/Kconfig       |  5 ++++-
->>   drivers/staging/fbtft/fbtft-sysfs.c | 18 ++++++++++++++----
-> 
-> ...
-> 
->>   void fbtft_sysfs_init(struct fbtft_par *par)
->>   {
->> -       device_create_file(par->info->dev, &debug_device_attr);
->> +       struct device *dev = dev_of_fbinfo(par->info);
->> +
->> +       if (!dev)
->> +               return;
-> 
-> 
-> The better way is to decouple the definition and the assignment in the
-> cases when it's followed by a conditional (validation check). In this
-> case any new code added in between doesn't affect readability and
-> maintenance efforts.
-> 
->         struct device *dev;
-> 
->         dev = dev_of_fbinfo(par->info);
->         if (!dev)
->                 return;
-> 
->> +       device_create_file(dev, &debug_device_attr);
->>          if (par->gamma.curves && par->fbtftops.set_gamma)
->> -               device_create_file(par->info->dev, &gamma_device_attrs[0]);
->> +               device_create_file(dev, &gamma_device_attrs[0]);
->>   }
-> 
-> Ditto for the rest.
+Signed-off-by: Sun Jian <sun.jian.kdev@gmail.com>
+---
+ drivers/staging/rtl8723bs/core/rtw_cmd.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Will do v3 and re-send. Thanks for reviews!
-
+diff --git a/drivers/staging/rtl8723bs/core/rtw_cmd.c b/drivers/staging/rtl8723bs/core/rtw_cmd.c
+index ef2d92b5588a..0edf9ecc4bed 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_cmd.c
++++ b/drivers/staging/rtl8723bs/core/rtw_cmd.c
+@@ -215,7 +215,7 @@ void _rtw_free_evt_priv(struct	evt_priv *pevtpriv)
+ {
+ 	_cancel_workitem_sync(&pevtpriv->c2h_wk);
+ 	while (pevtpriv->c2h_wk_alive)
+-		msleep(10);
++		msleep(20);
+ 
+ 	while (!rtw_cbuf_empty(pevtpriv->c2h_queue)) {
+ 		void *c2h = rtw_cbuf_pop(pevtpriv->c2h_queue);
+-- 
+2.43.0
 
