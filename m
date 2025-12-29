@@ -1,130 +1,108 @@
-Received: from mail-pg1-f174.google.com (mail-pg1-f174.google.com [209.85.215.174])
+Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51B9B22F74D
-	for <linux-staging@lists.linux.dev>; Mon, 29 Dec 2025 07:01:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0182F233711
+	for <linux-staging@lists.linux.dev>; Mon, 29 Dec 2025 07:41:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1766991702; cv=none; b=Zvor6U+wmgZKu+cNcMbheF5yo9PvjW9G0XpcU8nEHO1lGACzW4qW0fSPyROA1nx6ym/RF9i2VeA24FmZL3XwF5uMn3p37Gr8XXeImhINlFoAAf7gRfkRRO8cDvY9V93aRalo5OKDp0sVv0QmYuKAJnuLylW2Bm3ppkyfvG2vpzY=
+	t=1766994100; cv=none; b=PQdD52mzkx3B8Y+uZV5ye2Wj++w4nbuCG6LI2/5gJT//K2E3FWUYc6PSTO+2N+WeFCZAxwSfE3CgUPFrHpXDPwi+UYa4wCW1AjtcbGwEBSd+gLu53iyRN4zv4JjEd+vQHdmk45kJkZaylcqho6zxXgMJkI123c0DfzkNrtv1qe4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1766991702; c=relaxed/simple;
-	bh=h2keJZQTTt4orCNWk1YI1WP1CMKaiyM8tZBdR25fcFI=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=fkJgJZKeem/Kxx4sLW3Fyz9lUi/jJ88S+3LJ4d3BAGz9hkscs8MUYJehjQubU43yXdy3+Er75ya5CaftreOI20e/g4nI1EpMziU6a52KA9G2lV5w+jCIrvGxTBImCBjaQ96TtI66/b1tH1aXm8tep9pdnXfnLWGpET32PHHtT3w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IKrVKqur; arc=none smtp.client-ip=209.85.215.174
+	s=arc-20240116; t=1766994100; c=relaxed/simple;
+	bh=eOkQciggp/BXsj7NQj5bVAYGclg96Z8dCMeXzgcsVS8=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=e5X8I4+a+2e7dKEPOxMtSJIVR5hI6uIcdIbphreWouWEQjDie71XvetR4DzaX0b4fDBhTWDf2hm7cHOilLYx1KfPD6JRu5FTWQX1OEIt2ct+mJFkCIGhXJqmiLWH92j49/NWebSAzeWX2Q5qB2G1eqKRUf+poqZsHsIkqbTyfhI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MUUHcAjt; arc=none smtp.client-ip=209.85.218.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IKrVKqur"
-Received: by mail-pg1-f174.google.com with SMTP id 41be03b00d2f7-bc0d7255434so5130507a12.0
-        for <linux-staging@lists.linux.dev>; Sun, 28 Dec 2025 23:01:39 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MUUHcAjt"
+Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-b79af62d36bso1501516466b.3
+        for <linux-staging@lists.linux.dev>; Sun, 28 Dec 2025 23:41:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1766991699; x=1767596499; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=4cn1YA2jaa3c7NmmlHPNdV/Y/XHTIDC7PRzAlwxcDII=;
-        b=IKrVKqurXIkzteyiYd/S+DJE4gqhFyDZar/lW5av7mJqjok7SYRiu+5kvAIisBmZ2M
-         JK3gZI8LSzbPhnlRg/mlTmtqU3a7kQTOSA+J1Z5ba7ig87uL4B7LAx6f/futAx3vflxH
-         xV2YdF4cbT+Ua61znf3eR4+jX85/VVFAI9gYd82UM5DKgQ7vT31i4pYTD045hVVvZ4ff
-         IcOjytAahxlx7K3NcOBLXyW3UW7a/Dc4hWgaox8dEMLNBM78c4/stkTIghyQnICth/I7
-         b3WwWmgZBdMSYl+raBEGqPdd/yRambaRpPZKlHBwZvgAgErcIqs7ubxgPevJyFI/66bQ
-         h0PA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1766991699; x=1767596499;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1766994097; x=1767598897; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=4cn1YA2jaa3c7NmmlHPNdV/Y/XHTIDC7PRzAlwxcDII=;
-        b=VB/DSsBErTkNZmXi982aR0DxmvPn2wafYrqumV3e71RrVERe6v62t6pvNyebPxCpBy
-         XCniq2G3ySFiEJmn+CoOUEipvyWG3i9T4dau+AMhX8g+uy3X6x2aj8YgzCQA/UhxsheS
-         A5nquM1YRD8BVNlLnG05RoUyU4nRwk23xDNt0PneJRUeU2JTVCTQy9WxTiHTzy4aVyPF
-         x0/ra1njHyCZsaa3qrlC2AncSGngs78oL+0BnJSZMTj1ak6Fahk3S7a623xcGFgAeRKL
-         eL23UOuBOj4FQCidQdaEsT9mWUTon0iR5zJgqAxZyoL5wge6DZhQZf//CPwn08im9DgI
-         7qLA==
-X-Forwarded-Encrypted: i=1; AJvYcCU2QwIFwLGgitDzOqHt7mNyUBBMFDJuE9jrJ4tfWYzXATp3+omBmx5HdBSH/RrovF9X1pYVuh9mdUGYm20p@lists.linux.dev
-X-Gm-Message-State: AOJu0Yx/QcF/Apz5p0TM4xc1sd+wYLSkDPISNIc77eLrlixBK3SrWPWO
-	16vCBIhAyFGD1vr4rFNR9kXOedwj6A9DPKZye2xk/vU3khcM+NAfpr2m
-X-Gm-Gg: AY/fxX6cxeIB7lVMmVdXCxBFhWAymy8sN6u4rwfDSnOik91u1kv+FGL7h5pKpA6M82/
-	dkx6cy3IHkGtjhhGzooaVnciZ/f12jAV5nKfWP34DlLZrN6inTLhYVJCqeevHPK1wRuhTrkDH9A
-	8pxH5rt6sWBCGnEmG3Jr2Y+CyvcWK9jPpw2SLB8gMwqdkOsS4d5PdrDGbJSOwcy3PB1P6R2Zv9c
-	4xgoa4g5s5SX7BQlG8+Cdqia+3xDciwPYXtPmeit86iG9zNBORLM0FERjYqPIOEPOjI+Lt1DF7s
-	mPSmz/MZeojdLV6rI7ThO+bbXxNKCbJmsmakKwWpfvd2uVEMlt0hBCQJ6Vn8tfZQH4mBqf0Ix4W
-	kO9dXjTwykzv9okuUl35xu3gJYBBNTioFvmzYPtt11twpxL+3FEvlHIxLOPKeur/24c6Out+6Hm
-	et1CjcvDCRUPQmUbQHpy/4Q72ghnC4Nk4YuGBNSogbZVFmawRZ1Jlpz3FKHZUWBDSVdTYxRYyqc
-	bynYng=
-X-Google-Smtp-Source: AGHT+IEg54VjCsdGwWrQZg836LQ7kq2l1RLk9ija49iOphX2yVvtnRWpvx5GP4wRoVgfNEIVMzd4YA==
-X-Received: by 2002:a05:7300:f584:b0:2ae:566b:1213 with SMTP id 5a478bee46e88-2b05ec74b3fmr17880492eec.28.1766991698499;
-        Sun, 28 Dec 2025 23:01:38 -0800 (PST)
-Received: from ubuntu-linux-2404.. (108-214-96-168.lightspeed.sntcca.sbcglobal.net. [108.214.96.168])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2b06a046e99sm73086507eec.6.2025.12.28.23.01.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 28 Dec 2025 23:01:38 -0800 (PST)
-From: Sun Jian <sun.jian.kdev@gmail.com>
-To: Thierry Reding <thierry.reding@gmail.com>
-Cc: Jonathan Hunter <jonathanh@nvidia.com>,
-	Sowjanya Komatineni <skomatineni@nvidia.com>,
-	Luca Ceresoli <luca.ceresoli@bootlin.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-media@vger.kernel.org,
-	linux-tegra@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Sun Jian <sun.jian.kdev@gmail.com>
-Subject: [PATCH] staging: media: tegra-video: move tegra210_csi_soc declaration to csi.h
-Date: Mon, 29 Dec 2025 15:01:25 +0800
-Message-ID: <20251229070125.98741-1-sun.jian.kdev@gmail.com>
-X-Mailer: git-send-email 2.43.0
+        bh=7CA0M70EsX+ac4/joS2XDMeJK6N5Tfgg4wZNTxTHbv4=;
+        b=MUUHcAjt3IdQ9NC9cr2s/UcRUfb1AZW8tlN8jgsw1NuHWRDUfPH/Zkn3uoZSBGfHJv
+         C2BDvidkLFHO1JNj8epB7PJ6vFQNl/TKueyJZ7dx3EDHMD8TjTZFvnSeB4yNwPcfH3y0
+         MqDgTskCPivVAn2BOSbTPDolsPbz2wrhyj6gl8BBRbRnMdGwSWoAhoA6G8oE8BZovxCp
+         FLoSbHmqMam6kP6pSRqCR1vVKhY0W8Q6yz+6Wzc6VYUmhwtBVTpaRZUm1iXRnSJNU93v
+         cTpZ9nkTyM4roKBMP62gwDrK+Zxg0GnU6UvvCiV8NyGWEuudofu3GOhwpl8AvBHEvOg0
+         Ccog==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1766994097; x=1767598897;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=7CA0M70EsX+ac4/joS2XDMeJK6N5Tfgg4wZNTxTHbv4=;
+        b=OMdtmJK6ALZWoWZHVmCLlJ9MkZttxgK9T7EyCPsi34WJP9F2+BNPugA9Enxgc5g9Vo
+         37Udyk5L89wQw6vr+gg8SZ+FNmcWXetZIlqjbhFBKgkbHSJG04YnKPNKhJkHDkMSDy3V
+         kat4uo6r3mOnqVa6cmP0uD/2ufLI052ukG1WcK7IfdSiTNMmjtxRMEWeXKw8FpR5afxL
+         IpOMpU1QOGzKb1B+LfWqWpnXt0UUH9JrG3BclPg2/YY3vuEAHDL5n2H8HMZYoaoZzglj
+         1i9H51nKpiFcLbc9GgN30dt3IRFvGpLtQvX4bf0CRhSzEc40TXiEGYGBL7jd8l1lEB3t
+         u6qQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUJiaD0LrSQh1O/0+FEqgNCuU/LYpzZOxIQxS+l1vsOZ7SM53suNb22yM6C5VOtCpDJp8y6siodoKW/8BLe@lists.linux.dev
+X-Gm-Message-State: AOJu0Yyq3K3phS9szKGIZhJ3PwnZF/5/6uJfpk26gZQx0j69lxES5956
+	SUjUNBAb2Oe1aQwyK/TLvjRtfQUp6+99IK2ZKSSCrpSP4n5G9IhC4+uPVal2W3MzTFSADxOmBZ2
+	Y/3793p6i7T0BDYXqHvDf/JrD1eGM0SE=
+X-Gm-Gg: AY/fxX4iS9hEcw/Ce/xRKMjLoz40+bAHpFfHspVgKRFz+nXWf/aRM4VNOyHuhSUETmY
+	CjVMU5HT5kMcEKxSJ/jH5UFHcWdReAjicLG8qtn3wW/6aYgQLItEcyZsymsEylSC+Di1TluygOg
+	/wM0dhnkfskf5kZQ/bD7ONN0Wgpv9uRV07T6D38p9BB3QK8QIk34GhITdi7WeCaBcP+1P97ggwU
+	BKZ7G2kqRlAzmWDHXeYAAhh0tIIAhR0yNvTDibBEIF7W9nvBuJtfCE1nJbRrU9aqCNVB/+zZGKW
+	CJTpvqtVyRPyHVcG3dtyKscRI/0OT6ICVuF9GrslNs1YgPIG0mDd2sc68V4hEPP31OZnuB+3Vwp
+	dM0U8gqI=
+X-Google-Smtp-Source: AGHT+IFsiw3jWtdQEDQH/mXP+tcbghOYcPeWqAbdVDVv7o7/abPtivB78goQWZ0idTFYi+CcJ/7gCrJl+TRRu/MiPwo=
+X-Received: by 2002:a17:907:9809:b0:b71:ea7c:e4ff with SMTP id
+ a640c23a62f3a-b8036ec9e3emr2773470266b.6.1766994096979; Sun, 28 Dec 2025
+ 23:41:36 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20251229010814.94255-1-spxxky.dev@gmail.com>
+In-Reply-To: <20251229010814.94255-1-spxxky.dev@gmail.com>
+From: Andy Shevchenko <andy.shevchenko@gmail.com>
+Date: Mon, 29 Dec 2025 09:41:00 +0200
+X-Gm-Features: AQt7F2r1dDWzOTpFWamMt3UW53SPeTfq7dsNRjTugzb_U_DAnDoUbownyn-BlB8
+Message-ID: <CAHp75Vc9fnuMb3s-KtX5r+nmOH5BztP=d+h9FXpn2i34sCv2-Q@mail.gmail.com>
+Subject: Re: [PATCH] Replace udelay() with usleep_range() in PLL
+ initialization code. According to Documentation/timers/timers-howto.rst,
+ usleep_range() is preferred for delays "10us - 20ms"
+To: Alexandru Costin <spxxky.dev@gmail.com>
+Cc: andy@kernel.org, gregkh@linuxfoundation.org, 
+	dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org, 
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Sparse warns that tegra210_csi_soc is not declared in tegra210.c.
-The symbol is referenced from csi.c, so it must remain global. Move the
-declaration to csi.h so users see it via the header and avoid extern
-declarations in .c files.
+On Mon, Dec 29, 2025 at 3:09=E2=80=AFAM Alexandru Costin <spxxky.dev@gmail.=
+com> wrote:
+>
+> Resolves checkpatch warnings:
+>   WARNING: usleep_range is preferred over udelay
 
-No functional change intended.
+First of all, fix checkpatch to point to a newer API, i.e. fsleep().
 
-Signed-off-by: Sun Jian <sun.jian.kdev@gmail.com>
----
- drivers/staging/media/tegra-video/csi.c | 4 ----
- drivers/staging/media/tegra-video/csi.h | 4 ++++
- 2 files changed, 4 insertions(+), 4 deletions(-)
+...
 
-diff --git a/drivers/staging/media/tegra-video/csi.c b/drivers/staging/media/tegra-video/csi.c
-index 604185c00a1a..3c3f6e3fd1ec 100644
---- a/drivers/staging/media/tegra-video/csi.c
-+++ b/drivers/staging/media/tegra-video/csi.c
-@@ -835,10 +835,6 @@ static void tegra_csi_remove(struct platform_device *pdev)
- 	pm_runtime_disable(&pdev->dev);
- }
- 
--#if defined(CONFIG_ARCH_TEGRA_210_SOC)
--extern const struct tegra_csi_soc tegra210_csi_soc;
--#endif
--
- static const struct of_device_id tegra_csi_of_id_table[] = {
- #if defined(CONFIG_ARCH_TEGRA_210_SOC)
- 	{ .compatible = "nvidia,tegra210-csi", .data = &tegra210_csi_soc },
-diff --git a/drivers/staging/media/tegra-video/csi.h b/drivers/staging/media/tegra-video/csi.h
-index 3e6e5ee1bb1e..609c5952e050 100644
---- a/drivers/staging/media/tegra-video/csi.h
-+++ b/drivers/staging/media/tegra-video/csi.h
-@@ -130,6 +130,10 @@ struct tegra_csi_soc {
- 	unsigned int tpg_frmrate_table_size;
- };
- 
-+#if defined(CONFIG_ARCH_TEGRA_210_SOC)
-+extern const struct tegra_csi_soc tegra210_csi_soc;
-+#endif
-+
- /**
-  * struct tegra_csi - NVIDIA Tegra CSI device structure
-  *
--- 
-2.43.0
+> @@ -210,7 +210,8 @@ static void write_reg8_bus8(struct fbtft_par *par, in=
+t len, ...)
 
+> -       udelay(100);
+> +       usleep_range(100, 120);
+
+> @@ -231,7 +232,7 @@ static void write_reg8_bus8(struct fbtft_par *par, in=
+t len, ...)
+
+> -       udelay(100);
+> +       usleep_range(100, 120);
+
+This is an IO function for the hardware in question. Have you tested
+it? How do you know that this is a non-atomic context?
+
+--=20
+With Best Regards,
+Andy Shevchenko
