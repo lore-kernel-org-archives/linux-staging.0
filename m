@@ -1,81 +1,47 @@
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21AB22EB5A6
-	for <linux-staging@lists.linux.dev>; Tue, 30 Dec 2025 05:29:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 244022DC344;
+	Tue, 30 Dec 2025 06:27:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767072551; cv=none; b=YJb9dpSqN4IrGhV7YnYFACydyZ4/W1SCcedAwItvztMQ9hSYN3kANYQHyrt1CouXNmTHBNbC3w7FXQIv8sxZc0sXFz4XaFTqoXqxXlxSByb4rep0uV3gL3S1iIqGleeBNRCbEFY1N5S35Tz9Iq4D1HdEL6XSGt0Ow97i3uikJVk=
+	t=1767076031; cv=none; b=OOHlpzFfHWMDTtry+/8Xz0f9MjZQ/cJN5p3twE8vad3TzlE8NiofgoCcJdi3WACzR/OBNnyaG+H9Z4f1dLmPLeXTQa6xFSV7NmVQtIpUdDNpHggOqlDKFtHJCfF+BwyjSpNVL/M/dI2JnNb16Z6KAV/hnSkDFQ+pruACFH32c4w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767072551; c=relaxed/simple;
-	bh=GAGjpPhjgIvIUqlyfKlbs+tqnrLy69m1dh/HDqos+sw=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=sHPh56IVDsBCrpyFsfYSL3bo4dOsPjwbvULoofgB/AoxafaUV37KBZP/XnF40KQ7MNtygwUl7sHxI7TIBHmdAN2rHUzjTQp5u6GfID/WXTiAeoq6wXlXqB2NVRxFCyEysnH89fBOgiffsdrmvMVk2TJBEwZpA6GW1lFS/zMvaeE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=l6jONEi3; arc=none smtp.client-ip=209.85.214.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1767076031; c=relaxed/simple;
+	bh=3aQrbE9LkiUgtGb+JI7M5QgaHgQ1GkGnpkE+IOO463M=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=a7icnW58I0pjn1HVXIxPXU2BtO1SwpgR2tTzbq3MpEUbITM+w6ySKh2K96XB0fi73IDEbQguZOBidG1U+xsqDt5Q788Q0/08Hpt9CyOTbwbpEldyryoQE3VNo7nSnD03GirzHSvMBUkbcz8hKNKT+lhEKxYsk//RzxhlFaN8F+4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=bq3wyLlA; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="l6jONEi3"
-Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-2a0833b5aeeso132176625ad.1
-        for <linux-staging@lists.linux.dev>; Mon, 29 Dec 2025 21:29:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1767072549; x=1767677349; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=LJqOs0RXEJY8E2s1bb5OeUsv+WqHfc5EFgK5KbB75l4=;
-        b=l6jONEi3QzggiHYWCKxlSk+//ZCs9TiM/FYjV6BwhtdzhIqspC+g9+3M5+ZVmUQ4f+
-         I/k2zgtgNYr3DX2GzLAe7qtxG1EW1d2GvIHS5kOwfdT94yVeDdGVdA683XExtK9jEMex
-         9CYVVQLhtV0YsJdUz/elkG7JMub6JTxfCAh2F6bBCFPF9FTIgJRJLHZoK9NlDVf0Hhmq
-         SvEiO0XDHUEtDwmavvVdkuHCBNnEM08BpfirInSS+kEly7Y+IQoA7P955p3t12jqg166
-         xyxOi6UFsfUATsgXWFmDKpsbeUQRBw5X3twnW5l2mfNUtvHI/D+Oia/nOFh9yDCdW6AH
-         SHuA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767072549; x=1767677349;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=LJqOs0RXEJY8E2s1bb5OeUsv+WqHfc5EFgK5KbB75l4=;
-        b=lHG3ipma+lPpvKqf//KeHKJxYyGv2Xq9UnnPVF7NX8JHvC2JFIgryXZtLhzKE2PKLg
-         e9NpQBGm506hxQstoiBaJeIyhXxd61jjni8le2qCuP7kSPyh8UThH+r/ag2YIZc/XM8p
-         hCo3qZyolcqejV2ycxuFT4smT/QHSj6o1M99RbCYqv5epIcv2zPgdNU1gPZISBRGpFsp
-         zWaxu6lhYnUc8ZhwCSM928F4n867sMh/6NBvhNRCQkVJcJfvubUQXCiZx4/zmkZloxqJ
-         jIHqMhBOprQ0Hqki1xmnLIViKPBQa4y0NzVpazQT28oVNlJM7KrXeZ2V8xOV/IoSBn8W
-         b7Yg==
-X-Forwarded-Encrypted: i=1; AJvYcCXb+VOyRwVoadMpIx0ovJVnY0F1QoYUKD1gAV9hJkEiwztvfiFYliO01eNwX5stcpBnC1JtSBHdRBSLPkJC@lists.linux.dev
-X-Gm-Message-State: AOJu0YxlSgZG1k5EJro/zZJ9uECq1hWcM6xgnuy4ZuBEE0DSD3r86TQy
-	7eey6WLVmccmxrfkWF+JsKRUcBwifzx9K0/eYUY1MMMD+njUNHKDucfS
-X-Gm-Gg: AY/fxX7QjfOg+Q01WQjzIr4Pnd+VsOoqSmDQA+gz3IQuD7uWPcVyUnXCDZFwTkdM/pb
-	0d0bAFaMumBl3hyJAkUMOPMDAzJd7+WKlhgPyelSn0Zxx5m+8gwEOckurpXthkFWpv1MGyBbpB4
-	EglXPOldEeGzGQaZDSWkGxhYy2lfayRBKIZvE50JabOZaA0wh9+WnLK3ddIWGmG44t/2upfIF9o
-	KkzXQJrvCZHEvkKZPl9lAN7hOFJKRFWYK2onnt6xLYiiI+1fMz90IL8q0JAIGFRH6x6YW48ivq+
-	5OCm9LksG+r5OwfEr2VbBxXI6fQsd8ET1TAQh/D9FeXcWFr+eWDQsEA3z2PLxvuq0w1ts7ccr5/
-	LdnqV1LATeBdzN91ecVN3N5Zfpo7kI1ql8Qz0wqQvGnZhN3+kw/lSQmy6Wpwxqi8zBMpD0JzPpo
-	F76uWmMMbY/w0sXeHUOa3v/tgwhslDsaK6+f1qbTcn80Pm/4DW/DEs
-X-Google-Smtp-Source: AGHT+IHpNTh/+mtzP6KtG3m//yZa/VBoJcww6MwkW4PNCEdqrAaxVfXefkHC54eoavSEs+b2060qpw==
-X-Received: by 2002:a17:902:cf08:b0:2a2:ecb6:55ac with SMTP id d9443c01a7336-2a2f220cbf6mr374425555ad.7.1767072549441;
-        Mon, 29 Dec 2025 21:29:09 -0800 (PST)
-Received: from cmpatel-home.hsd1.or.comcast.net ([2601:1c0:5780:9200:f7a0:c2f:d915:faf0])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2a2f3c8286esm289290375ad.33.2025.12.29.21.29.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 29 Dec 2025 21:29:09 -0800 (PST)
-From: Chintan Patel <chintanlike@gmail.com>
-To: linux-fbdev@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-omap@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org,
-	dri-devel@lists.freedesktop.org,
-	tzimmermann@suse.de,
-	andy@kernel.org,
-	deller@gmx.de,
-	gregkh@linuxfoundation.org,
-	Chintan Patel <chintanlike@gmail.com>
-Subject: [PATCH v3 4/4] fbdev: sh_mobile_lcdc: Make FB_DEVICE dependency optional
-Date: Mon, 29 Dec 2025 21:28:22 -0800
-Message-ID: <20251230052827.4676-5-chintanlike@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20251230052827.4676-1-chintanlike@gmail.com>
-References: <20251230052827.4676-1-chintanlike@gmail.com>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="bq3wyLlA"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
+	Content-ID:Content-Description:In-Reply-To:References;
+	bh=T0LFWDsTRHcdccaHeIxD74ix0q1QgkGIfA+ExJTok6o=; b=bq3wyLlABzaQHg9Xya3OuWMcoY
+	KZYK4JICm8PQObdDNutf0Dic/RrEkMzbkzy0eMtTeWzfB9D+rjXULkSFjkQp4NU8LnSWolWuexUXg
+	ih1VzAP35SpsX5PGnZKf7RAdlLASQAIEQI08svXcoUmTyRFKHvaBMsn2eHChQRe+3I9LNwgYYpd9q
+	nZLpSMzgRWPKz0uL3ZUFldHaNLteOFy9c1ziOjcOXTDPnRVagBLH3G1kv/pfVc2XjnQjAQKf9f4hx
+	DYYPz0jttx9BaTUQ9SfYCee2sAAs/xjbNLtAPysS98XLzgXQTovRwGJ6m6Aw2jQPwrAtZ6UUBDl+U
+	pdH0+aFA==;
+Received: from [50.53.43.113] (helo=bombadil.infradead.org)
+	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1vaTCE-00000004Szq-0w56;
+	Tue, 30 Dec 2025 06:27:08 +0000
+From: Randy Dunlap <rdunlap@infradead.org>
+To: linux-kernel@vger.kernel.org
+Cc: Randy Dunlap <rdunlap@infradead.org>,
+	Vaibhav Hiremath <hvaibhav.linux@gmail.com>,
+	Johan Hovold <johan@kernel.org>,
+	Alex Elder <elder@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	greybus-dev@lists.linaro.org,
+	linux-staging@lists.linux.dev
+Subject: [PATCH] staging: greybus: arche: drop dangling Kconfig symbol
+Date: Mon, 29 Dec 2025 22:27:04 -0800
+Message-ID: <20251230062704.3339404-1-rdunlap@infradead.org>
+X-Mailer: git-send-email 2.52.0
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -84,43 +50,47 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The sh_mobile_lcdc driver exposes overlay configuration via sysfs, but the
-core driver does not require CONFIG_FB_DEVICE.
+The Kconfig symbol USB_HSIC_USB3613 is not defined in the kernel source
+tree. Drop it since it unused.
 
-Make sysfs support optional by defining overlay_sysfs_groups conditionally
-using PTR_IF(). The driver always sets .dev_groups, and the kernel
-naturally skips NULL attribute groups while the code remains buildable
-and type-checked.
-
-Suggested-by: Helge Deller <deller@gmx.de>
-Signed-off-by: Chintan Patel <chintanlike@gmail.com>
+Fixes: 2eccd4aa19fc ("staging: greybus: enable compile testing of arche driver")
+Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
 ---
- drivers/video/fbdev/sh_mobile_lcdcfb.c | 12 +++++++++++-
- 1 file changed, 11 insertions(+), 1 deletion(-)
+Cc: Vaibhav Hiremath <hvaibhav.linux@gmail.com>
+Cc: Johan Hovold <johan@kernel.org>
+Cc: Alex Elder <elder@kernel.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: greybus-dev@lists.linaro.org
+Cc: linux-staging@lists.linux.dev
 
-diff --git a/drivers/video/fbdev/sh_mobile_lcdcfb.c b/drivers/video/fbdev/sh_mobile_lcdcfb.c
-index dd950e4ab5ce..cb7ed1ff9165 100644
---- a/drivers/video/fbdev/sh_mobile_lcdcfb.c
-+++ b/drivers/video/fbdev/sh_mobile_lcdcfb.c
-@@ -1350,7 +1350,17 @@ static struct attribute *overlay_sysfs_attrs[] = {
- 	&dev_attr_overlay_rop3.attr,
- 	NULL,
- };
--ATTRIBUTE_GROUPS(overlay_sysfs);
-+
-+#ifdef CONFIG_FB_DEVICE
-+static const struct attribute_group overlay_sysfs_group = {
-+	.attrs = overlay_sysfs_attrs,
-+};
-+#endif
-+
-+static const struct attribute_group *overlay_sysfs_groups[] = {
-+	PTR_IF(IS_ENABLED(CONFIG_FB_DEVICE), &overlay_sysfs_group),
-+	NULL,
-+};
+ drivers/staging/greybus/Kconfig          |    1 -
+ drivers/staging/greybus/arche-platform.c |    4 ----
+ 2 files changed, 5 deletions(-)
+
+--- linux-next-20251219.orig/drivers/staging/greybus/arche-platform.c
++++ linux-next-20251219/drivers/staging/greybus/arche-platform.c
+@@ -23,14 +23,10 @@
+ #include <linux/of.h>
+ #include "arche_platform.h"
  
- static const struct fb_fix_screeninfo sh_mobile_lcdc_overlay_fix  = {
- 	.id =		"SH Mobile LCDC",
--- 
-2.43.0
-
+-#if IS_ENABLED(CONFIG_USB_HSIC_USB3613)
+-#include <linux/usb/usb3613.h>
+-#else
+ static inline int usb3613_hub_mode_ctrl(bool unused)
+ {
+ 	return 0;
+ }
+-#endif
+ 
+ #define WD_COLDBOOT_PULSE_WIDTH_MS	30
+ 
+--- linux-next-20251219.orig/drivers/staging/greybus/Kconfig
++++ linux-next-20251219/drivers/staging/greybus/Kconfig
+@@ -206,7 +206,6 @@ endif	# GREYBUS_BRIDGED_PHY
+ 
+ config GREYBUS_ARCHE
+ 	tristate "Greybus Arche Platform driver"
+-	depends on USB_HSIC_USB3613 || COMPILE_TEST
+ 	help
+ 	  Select this option if you have an Arche device.
+ 
