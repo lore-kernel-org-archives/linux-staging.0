@@ -1,118 +1,92 @@
-Received: from mail-vk1-f178.google.com (mail-vk1-f178.google.com [209.85.221.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 668F41E1C02
-	for <linux-staging@lists.linux.dev>; Tue, 30 Dec 2025 10:42:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 416892DA765
+	for <linux-staging@lists.linux.dev>; Tue, 30 Dec 2025 11:34:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767091368; cv=none; b=fa1tudIBHwZzTBxudE1x/8X3TPHyOj9Z/iIvJqow5mpZE//90v4/xC+r5xAopASe9k7aZ4805jYXU+Lb6H/zIsZTu/FmKnZiLjfcTuJvum5sMs3jX2g0XnEbggJ3xprT2yqo/ztTS1Rr9SZyDkzfTIYmwiDEzDgxM+N+DStUDKk=
+	t=1767094444; cv=none; b=XnLEID7rEtDjJNfbxMZqdFZEDMkazaAdb+Nq3XIdByF6ViOmo41sqBYo56B7pdVtNjF+u6bmuic/wGwG1XrM4HnXTugQ5EbgXSAX+5e5gmcPIRZlbnr7Us0zWCMOVYqInJCxjVLBPhMPKoYGt1NLbGrT3mT1yrl/tunusDqf8iI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767091368; c=relaxed/simple;
-	bh=0B/Bipl7+h4OUQlhrKD7iLvmec+IqCXBh4udpZHNfVI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=hht8BERtqHCliexsperv1Egj1UVLmS5PKmziMI5Y5OwRFC/jVTHElVcaH5G8quw3G4/OMRjgQbJKkAoIzpmqca+dVJaRYFl1eTwHYebeM0HIhdKaETJt6Xhiz4JAN+n8iht2Btrlv1QWfo1mgAcsrCQsrYF928jyTrtdTALo1BY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vk1-f178.google.com with SMTP id 71dfb90a1353d-5597a426807so6784394e0c.2
-        for <linux-staging@lists.linux.dev>; Tue, 30 Dec 2025 02:42:47 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767091366; x=1767696166;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=+mbKEnmZAcKrKemN4xL227aXv/cGZhXjnFcbO82dy/o=;
-        b=uHYmVJFeWnk9zB2YengkdWwyVkn0er8JkoRuU52wr9dZ+Vt79Xrgm3+XiQIQGRioa/
-         J2oyUk5p/FzANNmIsjx0OmwG6aMuMGTlHtBgq3vDuQGmjHi+TRk2//G5GLs5hfdeI/ga
-         yY4XgIGNGQeUaGAyRbP4Wnj+r3aMaLeOTXWKASqAdUEgr9cauAYlihc3XomeKPpCQ2LJ
-         l95AWFUSNs28GbXjfimpd/I2vBENxzvfWvvy4wbVsGLDfa1ByOy2rQaCVxtSKIkhtc8X
-         ZRRiaLCrXb6gh1LgxD0dK1T5nbojlsmDqVHjGJ6rwakvjRxynPHQBseU6U6vO2Z3Khki
-         Ncgg==
-X-Forwarded-Encrypted: i=1; AJvYcCVf/IxhXxnFyipTOZA5JrwleACLlfx2sYBhctJMNBnoBV0yVoWV+Q0wtKiyudFBHn7a6UttxJ2tRouRjM9p@lists.linux.dev
-X-Gm-Message-State: AOJu0YwwGO0sV/8QNZMpc/xanu6M+HOI229AtI06Q6aZrFoB/WeA1Tmm
-	3VxjxKc40lj8Esv/qlX/RymFUrBXSzLeNgM9gh3wNv/mV+CvGbG37D97tWa5o3i6
-X-Gm-Gg: AY/fxX6VeJE+HBvliS1GGY4ZHaVCL+HqEBq0t4Y1C4dPujOMm+nxhI4waVul8oF6nuz
-	iiSaj8XD54+i4RtoBkX8eWhLbqcV6iVRNsNDLtaAGBN5DWi18qdH4glcwQvqZ7Gy+nemDEzE1gq
-	zKuxOv2cjIY/SC52/3vSRziAXtuj9y206wk5RMCK9+Nfy81jAoJCKJz/TGxyUs60Rqsf89Gm6eo
-	WrA3AMqIDCL7sQBSg0v3WFQ4TFvBVLLQQg1G4jpJTMp1/TiOVzntrIa71GvWUINpMqQaZ2TFu0S
-	m1BoPjilowYbxiI0i/vONCzBvqcfGpnGEPkLiCN3RzgWYzGMBKfmmTsaDIjjspRfu8HMn5KQP/g
-	j/UF1w6rh+i4LtKdAP23jpuoeXQI8DlOzKzqdageZkjydDQg96HaxE4Sk7LP8tOpqyjK5a2+DCH
-	iY653/Ux9Pmx9qhk+BidyIisBw8wfGA8X5Jr8Q338FSc+GbOVQ
-X-Google-Smtp-Source: AGHT+IFQIljp6VKrMPD1sM2j+jcn7+Tqyyx2h0leFeo7T5XGIaI8+jhjY7kqCpw0pabVjwqEwd5N/Q==
-X-Received: by 2002:a05:6122:c95:b0:55b:9c1a:7c04 with SMTP id 71dfb90a1353d-5615bd6f32bmr9577928e0c.8.1767091366374;
-        Tue, 30 Dec 2025 02:42:46 -0800 (PST)
-Received: from mail-vs1-f47.google.com (mail-vs1-f47.google.com. [209.85.217.47])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-5615d060b37sm10121413e0c.6.2025.12.30.02.42.45
-        for <linux-staging@lists.linux.dev>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 30 Dec 2025 02:42:45 -0800 (PST)
-Received: by mail-vs1-f47.google.com with SMTP id ada2fe7eead31-5eb8f9be588so4071633137.3
-        for <linux-staging@lists.linux.dev>; Tue, 30 Dec 2025 02:42:45 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCWtCWnAqmMU1d8OOUshDQJlGEqnJDFpzDzrApFSwU6mpfiXNwheG95DyZMArBnB0nACmMnF2AXQmAPWoOd8@lists.linux.dev
-X-Received: by 2002:a67:e702:0:b0:5de:31b1:1ffe with SMTP id
- ada2fe7eead31-5eb1a827522mr13153064137.32.1767091365057; Tue, 30 Dec 2025
- 02:42:45 -0800 (PST)
+	s=arc-20240116; t=1767094444; c=relaxed/simple;
+	bh=Cbe+8bPo4xtiKIpnJiQxtHfRAryAeLaAaMe/2CqZYlc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Z5DuVaef/Lk3sErnIAjuXEq5DdK4+zGzdJNHS8o52gyNuj3fcoyxOKGnT9BeyzjmHnc3yRRPde+4n6vSUM2/9Q2GtDfpE30+Nu8reUtc8H5UTn9PJaJ9sRlam9xiqCK0+/f+uVnIUOFWE+IySg2IyUPXj87deZSAn4g946Vdh44=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gzW4zhEj; arc=none smtp.client-ip=198.175.65.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gzW4zhEj"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1767094443; x=1798630443;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=Cbe+8bPo4xtiKIpnJiQxtHfRAryAeLaAaMe/2CqZYlc=;
+  b=gzW4zhEjpNwZjid790An151luhxGZnZqAuUYOsLqjCbzcIqNbamxfOBS
+   733NoH9PQ+HSAfLnJ/u/zoyF1LDjhxcLPZUxn8+C6LTPVlazbi+BN7ZiY
+   HiWI4ENQZVZHkAaNiFUD5IlOXeHtEzh4MEQma03nKvAEHQq2niSvp8v+f
+   1SS12/CBlXEqDqr0IEDXcT1AfgnHiuj87wLEVjZ0P6Jt8gjgyLcL5p8fM
+   snLM/NT1VNBTkg2SkWWWE8vyYa/lN5MeH+xa+s61j1PpHa8qj628qC6lJ
+   9MygK+FWvSFa4YN9xMQecTeAk1ov+D84AACmjWiublot1+ZoD0Sn/jS7i
+   w==;
+X-CSE-ConnectionGUID: zrR8BfNnRwyw7jAdZj7iRg==
+X-CSE-MsgGUID: sD51ohdoRRCGuYpXNDpweg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11656"; a="80134434"
+X-IronPort-AV: E=Sophos;i="6.21,188,1763452800"; 
+   d="scan'208";a="80134434"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Dec 2025 03:34:03 -0800
+X-CSE-ConnectionGUID: ygyrfsbRQA+ybPTCbdlPSg==
+X-CSE-MsgGUID: GL0VmTBwQJexoBqoyHeidA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.21,188,1763452800"; 
+   d="scan'208";a="205676780"
+Received: from egrumbac-mobl6.ger.corp.intel.com (HELO localhost) ([10.245.245.103])
+  by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Dec 2025 03:34:00 -0800
+Date: Tue, 30 Dec 2025 13:33:58 +0200
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: Chintan Patel <chintanlike@gmail.com>
+Cc: linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev,
+	linux-omap@vger.kernel.org, linux-kernel@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, tzimmermann@suse.de,
+	andy@kernel.org, deller@gmx.de, gregkh@linuxfoundation.org
+Subject: Re: [PATCH v3 0/4] fbdev: Make CONFIG_FB_DEVICE optional for drivers
+Message-ID: <aVO4pslXIvnc00J3@smile.fi.intel.com>
+References: <20251230052827.4676-1-chintanlike@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20251230052827.4676-1-chintanlike@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 In-Reply-To: <20251230052827.4676-1-chintanlike@gmail.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Tue, 30 Dec 2025 11:42:34 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdUEXBRW68sPMrVX5B6ebtbbS93umtrB_BZsegD4mym_+A@mail.gmail.com>
-X-Gm-Features: AQt7F2pZRr92trscSLmSOVfaiLPojcm1vUHVQnsT-rKg90xEirIjjF_9VqRIcIM
-Message-ID: <CAMuHMdUEXBRW68sPMrVX5B6ebtbbS93umtrB_BZsegD4mym_+A@mail.gmail.com>
-Subject: Re: [PATCH v3 0/4] fbdev: Make CONFIG_FB_DEVICE optional for drivers
-To: Chintan Patel <chintanlike@gmail.com>
-Cc: linux-fbdev@vger.kernel.org, linux-staging@lists.linux.dev, 
-	linux-omap@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, tzimmermann@suse.de, andy@kernel.org, 
-	deller@gmx.de, gregkh@linuxfoundation.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-Hi Chintan.
-
-On Tue, 30 Dec 2025 at 06:29, Chintan Patel <chintanlike@gmail.com> wrote:
+On Mon, Dec 29, 2025 at 09:28:18PM -0800, Chintan Patel wrote:
 > This series makes CONFIG_FB_DEVICE optional for fbdev drivers that use
-> it only for sysfs interfaces, addressing Thomas Zimmermann=E2=80=99s TODO=
- to
+> it only for sysfs interfaces, addressing Thomas Zimmermann’s TODO to
 > remove hard FB_DEVICE dependencies.
->
+> 
 > The series introduces a small helper, dev_of_fbinfo(), which returns
-> NULL when CONFIG_FB_DEVICE=3Dn. This allows sysfs code paths to be skippe=
-d
+> NULL when CONFIG_FB_DEVICE=n. This allows sysfs code paths to be skipped
 > via runtime checks, avoids #ifdef CONFIG_FB_DEVICE clutter, and keeps
 > full compile-time syntax checking.
->
+
 > Signed-off-by: Chintan Patel <chintanlike@gmail.com>
 > ---
 > Changes in v3:
-> - Use PTR_IF() to conditionally include overlay_sysfs_group in
+> - Use PTR_IF() to conditionally include overlay_sysfs_group in 
 >   overlay_sysfs_groups
 > - Decouple variable definition and assignment in fbtft_sysfs_init/exit
->
-> Changes in v2:
-> - Add dev_of_fbinfo() helper (suggested by Geert Uytterhoeven)
 
-by Helge Deller, not me.
+Any particular reasons you ignored my tag from v2?
 
-> - Replace #ifdef CONFIG_FB_DEVICE blocks with runtime NULL checks
-> - Switch to fb_dbg() / fb_info() logging (suggested by Thomas Zimmermann)
+-- 
+With Best Regards,
+Andy Shevchenko
 
-Gr{oetje,eeting}s,
 
-                        Geert
-
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
-
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
