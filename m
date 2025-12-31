@@ -1,119 +1,83 @@
-Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A72D32F25F0
-	for <linux-staging@lists.linux.dev>; Wed, 31 Dec 2025 08:44:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5065316180
+	for <linux-staging@lists.linux.dev>; Wed, 31 Dec 2025 09:15:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.85.4
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767170648; cv=none; b=Hew1ZNnjt+2Z7tkBL55VAxEAHKmrwXgvD9rZuk5waC2p/MxThLGkTNADUO3tU3471iZNRpJWh3dE7bfg6m1xLNrvcg0tiKeLLqMyueVrcRsCGxXdG1XHKoTGN1me4Kw5zOuyh0MVrSGEQuKa1VcAJm0tUm6U7EMsy86r6RSwp4U=
+	t=1767172505; cv=none; b=l6oJIT6Dj7ymy3S9XlJ6GtIrWlUopwH0WHHi2eYWG5ylSwsPV8y5nYfm9TC8Edire3xnodlTWTcyz1iDboERiXVs632kIDUN36sYOtSEY/Q6VAYOCzu5ZfO8qopglAJBylR52weRbzETaAbU2Pfxgj36Yj4LhFhmffkC05cuPMk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767170648; c=relaxed/simple;
-	bh=DkRhZdxei5qu4BgfW3zP19hCloWvhT4FwV1aeSz2QZ0=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Gv0sNo02D7Y/VmjQWpippAdfewJRxGjqyTY2XoymJ6ZZaN+NjZTDLuwJCNxzuEonzNlwIcW6KbfG/oxEusWVi2qn7NYSqotbSfcmIdjt8KAYuMTtkZZS2rNi0206dgpIRfo0Kj5Es/62/SAuYib/l5L92SmXgasadgaXPhZ63xg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mXEjT5nU; arc=none smtp.client-ip=209.85.216.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1767172505; c=relaxed/simple;
+	bh=uvY5D395av1Fzi8rWyPb3NDwQB1JNSZRGeRvOXJX3qo=;
+	h=Mime-Version:Content-Type:Date:Message-Id:From:Subject:Cc:To:
+	 References:In-Reply-To; b=EuuUKvwxH+qEa6xiNIT5fgYjBEWKatYftBsCwbW0Ali/CNC7Cx1uKHSSs9lOs22h5NJ95rDHOKxD9Q+8i/G+f7XwpW4vP0nQ+hlBGMcUlGd3mLHpoAgjM7ILGMK3LqD9GJzZ3Q7yMkTVDxYKyXC5X8Ezzlkz4yWFFddEudj6k6c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=m+4MNxrS; arc=none smtp.client-ip=185.246.85.4
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mXEjT5nU"
-Received: by mail-pj1-f50.google.com with SMTP id 98e67ed59e1d1-34abca71f9cso1215686a91.3
-        for <linux-staging@lists.linux.dev>; Wed, 31 Dec 2025 00:44:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1767170644; x=1767775444; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=WTA4UpQquInN3DAlR0a58Y20HDQ0cgvOo2wpk1OQ4QQ=;
-        b=mXEjT5nUFMyMzUoRkQb2/qA1EXUDpNYKL/btz8GDuCptIV3RnMRbQvfmBweGHo+HBA
-         Rdzp5fIuC121YD4Tzhkt2SuDfXgr5bYBTtOqMu3t60LWwtgt2NM2261Z3oMh8yIfbkzz
-         f+H3/NM/Lhic5olL2Awvsj57t/O2iu7B6Vzhdxdz8RqAriz0KQanp1T4Y5ag/+MFTMpT
-         FQmVO7MYgqzkuRNIe0FJid2gKJ1CXX4d8FE/+Tal3OlxTHBku4nUBjp4fvtIdGyB/c++
-         x+8Yj2bmVLZHGTN9xgsREqD9e8fPRrdos8JqhnXp4xw2zTGGZU8ZcyxO5btod4oJLjQK
-         EcOg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767170644; x=1767775444;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=WTA4UpQquInN3DAlR0a58Y20HDQ0cgvOo2wpk1OQ4QQ=;
-        b=FP+kLVe2Hg9MrxQfoAPcjuhlFolNBTfcY905/AyF01XIn/3FpZYEQb+MRypA9QDXzN
-         V/x5AsthpZmiuT8frqwVAwcpar2/P6MuZFzgMK+E3fn5NLbUyhV/PvMV8roPpV+DG1h9
-         HgJRapLHDSqxONaNTe/BSCojMiyV+Ngeo+hnkLJ0MHosl7p0nT2itSCxWbCOCAOA9j62
-         OVyFFiv2sm2rNibWomLSoqdFCNNqSaKd/heYCTSS+Lh66m9WgdtddOyGIlpM6Kwyg+M4
-         vBYGsJ7eKVG2iH7BgR0/cXTE0FQFfXIwK8AVGNpdm+nhd5iLkKqYdqFOuKBAbRIm8O/J
-         qznw==
-X-Gm-Message-State: AOJu0YyJy5T/6dJLbMvsxCenFA1JnKwLZHc3RNrjz+U1I8rZwjLa3ICN
-	SabblkZhP8QOG362/CWpG9PtiKh4DFzfYUvY/8SA4/cQ9jGER6nOmh61
-X-Gm-Gg: AY/fxX4mqQeYiU+9990cQTILPdwTtzJwZ62j6S7jSQlSOaqWK+GTiMaja1vEiRUUmqs
-	lIErHCjsmIwwlLfNUqAWIVpHMpjU8tCQksf4gbDf1Pr1u8TJulLny8l26sCKLKou1dMTqhJmBQN
-	+ebqXR9+an4sfKajvDEVV2wUmEDrqIbK7boXhCl+lDibZU8PM+q6kT17OgfID3h7ZVWbsNAvTPW
-	0ZIP4ClF0Vg2jXjlKqf0o5ydCsrlorNCeihoHIzuv4+nMq5Msf9SxkwLHjQVpOZW+eCx4SGB6Gr
-	MYAr2ugsEtz8ZIapNMoZjXexc5P7oWlk+PtS95bLB5QpdKtSYAECj/DoraJXMVneo8nxS9XezCE
-	VF1F0jJ7Itky84lsGEeXZLbCBre0HqiW/J21RhJcUH4gX3E///QmCnKVehZhxaIxTrJiGEbko/S
-	yLuxMOYfFg6OK6dI6psIQalA2qyONCwFBIj1NqsmSQEsVS8LE=
-X-Google-Smtp-Source: AGHT+IGtYGqaJ648hOJVuyXLiBXDMLOE8warfEryKmx1T4YYeHLZjOzbI46YYlazkFx8rhkYtJKgZQ==
-X-Received: by 2002:a17:90b:6cd:b0:349:9eaf:34cc with SMTP id 98e67ed59e1d1-34e9221b109mr22117063a91.8.1767170643720;
-        Wed, 31 Dec 2025 00:44:03 -0800 (PST)
-Received: from zlabs-hw-ts-ws2.csez.zohocorpin.com ([202.0.112.226])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-34e9219f03esm31475378a91.4.2025.12.31.00.44.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 31 Dec 2025 00:44:03 -0800 (PST)
-From: MottiKumar <mottikumarbabu@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-staging@lists.linux.dev,
-	lkp@intel.com,
-	MottiKumar <mottikumarbabu@gmail.com>
-Subject: [PATCH v2] staging: sm750fb: fix const array warning for fix_id
-Date: Wed, 31 Dec 2025 14:11:30 +0530
-Message-ID: <20251231084130.364502-1-mottikumarbabu@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <202512311146.XB8ZVrTY-lkp@intel.com>
-References: <202512311146.XB8ZVrTY-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="m+4MNxrS"
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-03.galae.net (Postfix) with ESMTPS id 69A124E41EAC;
+	Wed, 31 Dec 2025 09:14:54 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 24BFE60744;
+	Wed, 31 Dec 2025 09:14:54 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id EDB1A113B0755;
+	Wed, 31 Dec 2025 10:14:46 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1767172493; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=uvY5D395av1Fzi8rWyPb3NDwQB1JNSZRGeRvOXJX3qo=;
+	b=m+4MNxrSClxe2FMQDwRiICic9Rd6awW1oEfHO9MeRVPI6hGOshZAD8joRR7/xq2zao6QnL
+	LX0Em3O0qEikXTWAKfGKg2ezktnODOumU5M1Z8NM0FOcQnuU9CWwIfRxP6DeonZE8YZL5r
+	g5iJpGe03lHtSipqGfXVjGMes88i6QJB+LnwB4ubBjgBRLLruGpN+L84Tl4iUgPK6ShW2S
+	P3g5Rq2OH4GLeLDEhWyYJ8mHRv72R99Vi2q7uPRuVedrgfXYql0jG3Rs/tCdq92CmnQlfJ
+	Xxo1WWN/RLtcMgh87zBKETB+jNYu66y0v48f7MORDZPlHWHgnNHG4oWh3+JuQg==
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Wed, 31 Dec 2025 10:14:45 +0100
+Message-Id: <DFCAD4LVB5RF.3PI81T1E0OIID@bootlin.com>
+From: "Luca Ceresoli" <luca.ceresoli@bootlin.com>
+Subject: Re: [PATCH 1/2] host1x: Make remove callback return void
+Cc: <linux-crypto@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+ <linux-media@vger.kernel.org>, <linux-staging@lists.linux.dev>
+To: =?utf-8?q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>, "Akhil
+ R" <akhilrajeev@nvidia.com>, "Herbert Xu" <herbert@gondor.apana.org.au>,
+ "David S. Miller" <davem@davemloft.net>, "Thierry Reding"
+ <thierry.reding@gmail.com>, "Jonathan Hunter" <jonathanh@nvidia.com>,
+ "Mikko Perttunen" <mperttunen@nvidia.com>, "David Airlie"
+ <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>, "Sowjanya
+ Komatineni" <skomatineni@nvidia.com>, "Mauro Carvalho Chehab"
+ <mchehab@kernel.org>, "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
+X-Mailer: aerc 0.20.1
+References: <cover.1765355236.git.u.kleine-koenig@baylibre.com>
+ <d364fd4ec043d36ee12e46eaef98c57658884f63.1765355236.git.u.kleine-koenig@baylibre.com>
+In-Reply-To: <d364fd4ec043d36ee12e46eaef98c57658884f63.1765355236.git.u.kleine-koenig@baylibre.com>
+X-Last-TLS-Session-Version: TLSv1.3
 
-This is version 2 of the patch. The previous version incorrectly
-modified the g_fbmode array, which caused a build failure because
-that array is modified at runtime.
+Hello Uwe,
 
-This version leaves g_fbmode alone and instead applies the const
-fix to the fix_id array, which is a read-only lookup table.
+On Wed Dec 10, 2025 at 9:31 AM CET, Uwe Kleine-K=C3=B6nig wrote:
+> The return value of struct device_driver::remove is ignored by the core
+> (see device_remove() in drivers/base/dd.c). So it doesn't make sense to
+> let the host1x remove callback return an int just to ignore it later.
+>
+> So make the callback return void. All current implementors return 0, so
+> they are easily converted.
+>
+> Signed-off-by: Uwe Kleine-K=C3=B6nig <u.kleine-koenig@baylibre.com>
 
-Reported-by: kernel test robot <lkp@intel.com>
-Closes: https://lore.kernel.org/oe-kbuild-all/202512311146.XB8ZVrTY-lkp@intel.com/
+Tested-by: Luca Ceresoli <luca.ceresoli@bootlin.com> # tegra20 tegra-video
+Reviewed-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 
-Signed-off-by: MottiKumar <mottikumarbabu@gmail.com>
----
- drivers/staging/sm750fb/sm750.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/staging/sm750fb/sm750.c b/drivers/staging/sm750fb/sm750.c
-index 7afb58561a0c..092cfbadada4 100644
---- a/drivers/staging/sm750fb/sm750.c
-+++ b/drivers/staging/sm750fb/sm750.c
-@@ -33,7 +33,7 @@
- static int g_hwcursor = 1;
- static int g_noaccel;
- static int g_nomtrr;
--static const char * const g_fbmode[] = {NULL, NULL};
-+static const char *g_fbmode[] = {NULL, NULL};
- static const char *g_def_fbmode = "1024x768-32@60";
- static char *g_settings;
- static int g_dualview;
-@@ -740,7 +740,7 @@ static int lynxfb_set_fbinfo(struct fb_info *info, int index)
- 		"kernel HELPERS prepared vesa_modes",
- 	};
- 
--	static const char *fix_id[2] = {
-+	static const char * const fix_id[2] = {
- 		"sm750_fb1", "sm750_fb2",
- 	};
- 
--- 
-2.43.0
-
+--
+Luca Ceresoli, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
