@@ -1,74 +1,74 @@
-Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
+Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D407620C490
-	for <linux-staging@lists.linux.dev>; Wed, 31 Dec 2025 07:23:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A72D32F25F0
+	for <linux-staging@lists.linux.dev>; Wed, 31 Dec 2025 08:44:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767165834; cv=none; b=JSMqtqYQvydLPbQ708nyw3WgBHFcFwL8KYA1grHaZvGj52awFcncOsqCuT6HBVDcAPPE+MlcT1JNxinCERnqe/bUE1A6k9JMsItfuk/WDblEm/7q8MwUOcWr/THzAS0RNs6UbcjA1q9CAGvktaggCfnYOHzXy4cqf9+Dt81XgWo=
+	t=1767170648; cv=none; b=Hew1ZNnjt+2Z7tkBL55VAxEAHKmrwXgvD9rZuk5waC2p/MxThLGkTNADUO3tU3471iZNRpJWh3dE7bfg6m1xLNrvcg0tiKeLLqMyueVrcRsCGxXdG1XHKoTGN1me4Kw5zOuyh0MVrSGEQuKa1VcAJm0tUm6U7EMsy86r6RSwp4U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767165834; c=relaxed/simple;
-	bh=Ic729iSxHFJlBWj4QhO96ljPDweuWwGmChE9gmFOKjo=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=J52gMiLqe5HKrOEUj6UvFlneup8QaNNDKsQ6oqUpIKGIc6EYT9Da7WF8Ce/BuKJemcvGL94ORg+PXMXMOYECCzTe2SOUgTIBrg5lKPc+GTO/7+unyw54Nzlj1b9tCua0h150C3XOTQ29gtCUZr4qH/UzZ99KudS96wTfr6L4uKc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=c2drDKmB; arc=none smtp.client-ip=209.85.208.54
+	s=arc-20240116; t=1767170648; c=relaxed/simple;
+	bh=DkRhZdxei5qu4BgfW3zP19hCloWvhT4FwV1aeSz2QZ0=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=Gv0sNo02D7Y/VmjQWpippAdfewJRxGjqyTY2XoymJ6ZZaN+NjZTDLuwJCNxzuEonzNlwIcW6KbfG/oxEusWVi2qn7NYSqotbSfcmIdjt8KAYuMTtkZZS2rNi0206dgpIRfo0Kj5Es/62/SAuYib/l5L92SmXgasadgaXPhZ63xg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mXEjT5nU; arc=none smtp.client-ip=209.85.216.50
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="c2drDKmB"
-Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-64d30dc4ed7so13324275a12.0
-        for <linux-staging@lists.linux.dev>; Tue, 30 Dec 2025 23:23:52 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mXEjT5nU"
+Received: by mail-pj1-f50.google.com with SMTP id 98e67ed59e1d1-34abca71f9cso1215686a91.3
+        for <linux-staging@lists.linux.dev>; Wed, 31 Dec 2025 00:44:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1767165831; x=1767770631; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=h+b5o973rngY1LzICZlY9YEpoZpOFAzrQHPMh8uFpyI=;
-        b=c2drDKmB9hUjmKC5C+ityEb00NUklHMl7VZbSyb+V7MeWZgjLREFQ/L2X3nnNvEddX
-         4DbKaL0BsSocEs16ITXlVkvHHHZdqgTdTwBOXdWQ4VN/fVYDTCH0LISZ1nLqzrXjIC8l
-         i6KiB01HVJWQLK2Ba//rwqirSaF1+2YBDILbg0NPsfbkyTWspkp1c6gTlMUKHXmYD92K
-         e1vtZmkJTtGf4RsjFSaAW02Tj8s9m8bifC6pyBbsFVC+AoDKDhEMJYW5QFNkQs4Q+dIm
-         H5P/1N2Ky1f6N9LMdkqyMnKlKR1ljSK83M94rs8TfVddOBIziWr+IFPwMWRwptcg75jV
-         hCVQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767165831; x=1767770631;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1767170644; x=1767775444; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=h+b5o973rngY1LzICZlY9YEpoZpOFAzrQHPMh8uFpyI=;
-        b=wG54vhRvivWOSM9iOvSlefYwQxGdzdrNvkSMiEDglVBNdBDIhR3rpj7OiOoaZxWHx+
-         W/RxWnDWPu3rAeunboWVDqLwxYtF4qN7YxdmjVAmBebmiPrNtfBZm6fWDywOh3UEeXdL
-         M3gg3m41EO2XivpaZdtd45r95w2K9ZQy61Bi46qQF+sRaRo1AQkJJ91iBa8pJiRV+mHx
-         xSpPhaCumcR6bhnfdD0FFbRYJtDiDCwl3YHUO2Ffvv25ImghYh0nkb3WeO14j+k5VglY
-         jvk0ZgCfL2/0LQfTX8KEBoVxj7IZU9lhAL1qCjcsBpIx584agk7vX5iAkYuQUDmKY5RM
-         QfIQ==
-X-Forwarded-Encrypted: i=1; AJvYcCX/e7pnO0G8586PRmBGngtSx1TuRSsPHzj7k5u4bRvJjK89x7vJpKaEZwzA/Zy3P4LoJt2p6FLnV7PG+8KN@lists.linux.dev
-X-Gm-Message-State: AOJu0Yws+LPHShOcurq42p4rzD6I8q8/JiAi6eDMQvfbXCiTVccIkqmX
-	9q+qOQ/W1yP233sOmqwV38lE8cbCFQRba3tFY76WCiV6GI9SXUhFPREL
-X-Gm-Gg: AY/fxX7kl0fxCkSPKx506MkHLiUVanTctbu98ruBp+fPH0CmqIzzOD2IeRxckFzC+Wh
-	2P10TJEtmofQ2LquwrpflM49/xXcx2h6WcuPpixWeIfL0q028v0bjqlqO4diohR+GtEhKzkEVDt
-	q70C8eRhGxOnGloZIzjsOLePzauimumJQ4pUhe9vYSgXY23rYfqZUmILc9ylf5Xil4kSz3N/sxB
-	oAXuPwZwlqLRZy4yfjQQR82wChsfCVcpAGpKXFM6ACOfBoxhgmrE7ITPbRwyvuJELIvHJbaI577
-	hgcvMZzFMelXBcv/wpLeYhTMOb3rLxupb7NInsmG7WrbAa8eUwlX/h3ORbrLaj7kC60iYa7YpYO
-	ezzJOnSfSQr1fNuVnDukVWkXWAyyKYskFLLcXF8AqNKoQPkMk49dJXbv8AR53pynD5NQn/iXT5Z
-	+KXRD+XZoMrJLMWHPK52vqQ4VQqUXZxCqN
-X-Google-Smtp-Source: AGHT+IFMsFj5RZJGPp7mNrkG9G0Ex6AGvaDnXTTwc47Xtz7b7EKV3iV9tKu1hpQxcYIzzJbuCW+FFQ==
-X-Received: by 2002:a05:6402:5213:b0:640:edb3:90b5 with SMTP id 4fb4d7f45d1cf-64b8e93c176mr36032566a12.7.1767165831037;
-        Tue, 30 Dec 2025 23:23:51 -0800 (PST)
-Received: from DESKTOP-3B0KT9P.localdomain ([188.121.148.46])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-64b90f5400bsm37051952a12.4.2025.12.30.23.23.48
+        bh=WTA4UpQquInN3DAlR0a58Y20HDQ0cgvOo2wpk1OQ4QQ=;
+        b=mXEjT5nUFMyMzUoRkQb2/qA1EXUDpNYKL/btz8GDuCptIV3RnMRbQvfmBweGHo+HBA
+         Rdzp5fIuC121YD4Tzhkt2SuDfXgr5bYBTtOqMu3t60LWwtgt2NM2261Z3oMh8yIfbkzz
+         f+H3/NM/Lhic5olL2Awvsj57t/O2iu7B6Vzhdxdz8RqAriz0KQanp1T4Y5ag/+MFTMpT
+         FQmVO7MYgqzkuRNIe0FJid2gKJ1CXX4d8FE/+Tal3OlxTHBku4nUBjp4fvtIdGyB/c++
+         x+8Yj2bmVLZHGTN9xgsREqD9e8fPRrdos8JqhnXp4xw2zTGGZU8ZcyxO5btod4oJLjQK
+         EcOg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1767170644; x=1767775444;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=WTA4UpQquInN3DAlR0a58Y20HDQ0cgvOo2wpk1OQ4QQ=;
+        b=FP+kLVe2Hg9MrxQfoAPcjuhlFolNBTfcY905/AyF01XIn/3FpZYEQb+MRypA9QDXzN
+         V/x5AsthpZmiuT8frqwVAwcpar2/P6MuZFzgMK+E3fn5NLbUyhV/PvMV8roPpV+DG1h9
+         HgJRapLHDSqxONaNTe/BSCojMiyV+Ngeo+hnkLJ0MHosl7p0nT2itSCxWbCOCAOA9j62
+         OVyFFiv2sm2rNibWomLSoqdFCNNqSaKd/heYCTSS+Lh66m9WgdtddOyGIlpM6Kwyg+M4
+         vBYGsJ7eKVG2iH7BgR0/cXTE0FQFfXIwK8AVGNpdm+nhd5iLkKqYdqFOuKBAbRIm8O/J
+         qznw==
+X-Gm-Message-State: AOJu0YyJy5T/6dJLbMvsxCenFA1JnKwLZHc3RNrjz+U1I8rZwjLa3ICN
+	SabblkZhP8QOG362/CWpG9PtiKh4DFzfYUvY/8SA4/cQ9jGER6nOmh61
+X-Gm-Gg: AY/fxX4mqQeYiU+9990cQTILPdwTtzJwZ62j6S7jSQlSOaqWK+GTiMaja1vEiRUUmqs
+	lIErHCjsmIwwlLfNUqAWIVpHMpjU8tCQksf4gbDf1Pr1u8TJulLny8l26sCKLKou1dMTqhJmBQN
+	+ebqXR9+an4sfKajvDEVV2wUmEDrqIbK7boXhCl+lDibZU8PM+q6kT17OgfID3h7ZVWbsNAvTPW
+	0ZIP4ClF0Vg2jXjlKqf0o5ydCsrlorNCeihoHIzuv4+nMq5Msf9SxkwLHjQVpOZW+eCx4SGB6Gr
+	MYAr2ugsEtz8ZIapNMoZjXexc5P7oWlk+PtS95bLB5QpdKtSYAECj/DoraJXMVneo8nxS9XezCE
+	VF1F0jJ7Itky84lsGEeXZLbCBre0HqiW/J21RhJcUH4gX3E///QmCnKVehZhxaIxTrJiGEbko/S
+	yLuxMOYfFg6OK6dI6psIQalA2qyONCwFBIj1NqsmSQEsVS8LE=
+X-Google-Smtp-Source: AGHT+IGtYGqaJ648hOJVuyXLiBXDMLOE8warfEryKmx1T4YYeHLZjOzbI46YYlazkFx8rhkYtJKgZQ==
+X-Received: by 2002:a17:90b:6cd:b0:349:9eaf:34cc with SMTP id 98e67ed59e1d1-34e9221b109mr22117063a91.8.1767170643720;
+        Wed, 31 Dec 2025 00:44:03 -0800 (PST)
+Received: from zlabs-hw-ts-ws2.csez.zohocorpin.com ([202.0.112.226])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-34e9219f03esm31475378a91.4.2025.12.31.00.44.01
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 30 Dec 2025 23:23:50 -0800 (PST)
-From: "moradi.saeed" <saeed.b.67@gmail.com>
+        Wed, 31 Dec 2025 00:44:03 -0800 (PST)
+From: MottiKumar <mottikumarbabu@gmail.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Johannes Berg <johannes.berg@intel.com>,
-	Michael Straube <straube.linux@gmail.com>,
-	Dan Carpenter <dan.carpenter@linaro.org>,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	"moradi.saeed" <saeed.b.67@gmail.com>
-Subject: [PATCH] staging: rtl8723bs: return -ENOENT for AP/Ad-Hoc get_station
-Date: Wed, 31 Dec 2025 10:53:41 +0330
-Message-Id: <20251231072341.61195-1-saeed.b.67@gmail.com>
-X-Mailer: git-send-email 2.34.1
+Cc: linux-staging@lists.linux.dev,
+	lkp@intel.com,
+	MottiKumar <mottikumarbabu@gmail.com>
+Subject: [PATCH v2] staging: sm750fb: fix const array warning for fix_id
+Date: Wed, 31 Dec 2025 14:11:30 +0530
+Message-ID: <20251231084130.364502-1-mottikumarbabu@gmail.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <202512311146.XB8ZVrTY-lkp@intel.com>
+References: <202512311146.XB8ZVrTY-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -77,33 +77,43 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The cfg80211 get_station callback must return -ENOENT when
-station information is unavailable. The AP/Ad-Hoc path
-currently returns success without filling station_info,
-leading to invalid data exposure to userspace.
+This is version 2 of the patch. The previous version incorrectly
+modified the g_fbmode array, which caused a build failure because
+that array is modified at runtime.
 
-Fix this by returning -ENOENT for unimplemented modes.
+This version leaves g_fbmode alone and instead applies the const
+fix to the fix_id array, which is a read-only lookup table.
 
-Signed-off-by: moradi.saeed <saeed.b.67@gmail.com>
+Reported-by: kernel test robot <lkp@intel.com>
+Closes: https://lore.kernel.org/oe-kbuild-all/202512311146.XB8ZVrTY-lkp@intel.com/
+
+Signed-off-by: MottiKumar <mottikumarbabu@gmail.com>
 ---
- drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ drivers/staging/sm750fb/sm750.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c b/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
-index 60edeae1cffe..c6562b8a59a6 100644
---- a/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
-+++ b/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
-@@ -1011,7 +1011,9 @@ static int cfg80211_rtw_get_station(struct wiphy *wiphy,
- 	     check_fwstate(pmlmepriv, WIFI_ADHOC_MASTER_STATE) ||
- 	     check_fwstate(pmlmepriv, WIFI_AP_STATE)) &&
- 	    check_fwstate(pmlmepriv, _FW_LINKED)) {
--		/* TODO: should acquire station info... */
-+		ret = -ENOENT;
-+		goto exit;
-+
- 	}
+diff --git a/drivers/staging/sm750fb/sm750.c b/drivers/staging/sm750fb/sm750.c
+index 7afb58561a0c..092cfbadada4 100644
+--- a/drivers/staging/sm750fb/sm750.c
++++ b/drivers/staging/sm750fb/sm750.c
+@@ -33,7 +33,7 @@
+ static int g_hwcursor = 1;
+ static int g_noaccel;
+ static int g_nomtrr;
+-static const char * const g_fbmode[] = {NULL, NULL};
++static const char *g_fbmode[] = {NULL, NULL};
+ static const char *g_def_fbmode = "1024x768-32@60";
+ static char *g_settings;
+ static int g_dualview;
+@@ -740,7 +740,7 @@ static int lynxfb_set_fbinfo(struct fb_info *info, int index)
+ 		"kernel HELPERS prepared vesa_modes",
+ 	};
  
- exit:
+-	static const char *fix_id[2] = {
++	static const char * const fix_id[2] = {
+ 		"sm750_fb1", "sm750_fb2",
+ 	};
+ 
 -- 
-2.34.1
+2.43.0
 
