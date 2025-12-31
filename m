@@ -1,76 +1,74 @@
-Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
+Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0ECBE5B1EB
-	for <linux-staging@lists.linux.dev>; Wed, 31 Dec 2025 05:24:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D407620C490
+	for <linux-staging@lists.linux.dev>; Wed, 31 Dec 2025 07:23:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767158677; cv=none; b=J9NB94XsqRCRdgU8ZXlB/XdKP8fuTXS3tjIQRMQOG1Bbs7xOaEHIlptYdZ5GBDzjwnhKcmyrp6h0t2yeUi1BaAyrptEN2TmeZmGRZ7qm2SYkUhxNZCbL4Ag8qFSgPo8lh0Q8aApEp4sQB6UO/gygk0ceqCqYPv7R5UKDOk2oiNU=
+	t=1767165834; cv=none; b=JSMqtqYQvydLPbQ708nyw3WgBHFcFwL8KYA1grHaZvGj52awFcncOsqCuT6HBVDcAPPE+MlcT1JNxinCERnqe/bUE1A6k9JMsItfuk/WDblEm/7q8MwUOcWr/THzAS0RNs6UbcjA1q9CAGvktaggCfnYOHzXy4cqf9+Dt81XgWo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767158677; c=relaxed/simple;
-	bh=c9ubX7ai/qwqA+ba+ASKq+KnXFMC1M1ULeLSCnqQ5vA=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=kJPz0A+4OLnv+0HsJ4M6lisEo5MHejDQBkyzFPZg0aoFMXlekYrpf9KOc6UgeeuZcCjpYNrRV2DRmuefR2mBF8d2ZLnEOTS8Rjb0IxwLtxYOH6pvjPbn5CndvVIEHNemmGAO1Ju+MROHRyf3ltVEhx7pP1lJG4luBpdq1CAk8Bg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IMfgzcbp; arc=none smtp.client-ip=209.85.210.179
+	s=arc-20240116; t=1767165834; c=relaxed/simple;
+	bh=Ic729iSxHFJlBWj4QhO96ljPDweuWwGmChE9gmFOKjo=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=J52gMiLqe5HKrOEUj6UvFlneup8QaNNDKsQ6oqUpIKGIc6EYT9Da7WF8Ce/BuKJemcvGL94ORg+PXMXMOYECCzTe2SOUgTIBrg5lKPc+GTO/7+unyw54Nzlj1b9tCua0h150C3XOTQ29gtCUZr4qH/UzZ99KudS96wTfr6L4uKc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=c2drDKmB; arc=none smtp.client-ip=209.85.208.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IMfgzcbp"
-Received: by mail-pf1-f179.google.com with SMTP id d2e1a72fcca58-8035e31d834so8079932b3a.2
-        for <linux-staging@lists.linux.dev>; Tue, 30 Dec 2025 21:24:35 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="c2drDKmB"
+Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-64d30dc4ed7so13324275a12.0
+        for <linux-staging@lists.linux.dev>; Tue, 30 Dec 2025 23:23:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1767158675; x=1767763475; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1767165831; x=1767770631; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=nZBUgEksAy0wDWZsDFUpREOsS5QTTJSKv9aUl7dZr6M=;
-        b=IMfgzcbpWxeGSYTee7E1hlXHjGGrwDYzo3GuVKLGbk99C5lqhz6LJrA+4m8NsyRcfq
-         /8VpwScMNYC5/HFyvlQwRJRWILEUzT04k/v4I1Z0QnRDA612rET2TQFetih9e6dJuuu7
-         JZxbxQkfx/Kf31LfIWZ+We9syJPhpPioPMrPU826312YeD1lAsox+7UkNpftvih93VGN
-         MjnorDisZLlwEiC44rSVIcKHOPU9su42r1a+3GeLPucAkonMR4hzRiXPpQLnM//JEu1a
-         FrjaI1MGOF0ClstyC8LGf6WVnkQwHRAKTlg02g+9mltKttpCorXDTHFzIxTbaWk2gQTY
-         8sFg==
+        bh=h+b5o973rngY1LzICZlY9YEpoZpOFAzrQHPMh8uFpyI=;
+        b=c2drDKmB9hUjmKC5C+ityEb00NUklHMl7VZbSyb+V7MeWZgjLREFQ/L2X3nnNvEddX
+         4DbKaL0BsSocEs16ITXlVkvHHHZdqgTdTwBOXdWQ4VN/fVYDTCH0LISZ1nLqzrXjIC8l
+         i6KiB01HVJWQLK2Ba//rwqirSaF1+2YBDILbg0NPsfbkyTWspkp1c6gTlMUKHXmYD92K
+         e1vtZmkJTtGf4RsjFSaAW02Tj8s9m8bifC6pyBbsFVC+AoDKDhEMJYW5QFNkQs4Q+dIm
+         H5P/1N2Ky1f6N9LMdkqyMnKlKR1ljSK83M94rs8TfVddOBIziWr+IFPwMWRwptcg75jV
+         hCVQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767158675; x=1767763475;
+        d=1e100.net; s=20230601; t=1767165831; x=1767770631;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=nZBUgEksAy0wDWZsDFUpREOsS5QTTJSKv9aUl7dZr6M=;
-        b=LpggU0QPw2hrXvgwQJwu13mKX8ivBNS/osab9ubu4IFtYcEIEq2CfDESMBjP5EIWtK
-         ITc/hpG76jDaUyBi9rAE/OfrzasUZtUB0FgX0QTLpg1XUloLA9TvkDCQyX2gbuQHDI5l
-         mMoit4PtxanfaR0rFXZWLF2ydXF4FjT6tEG9q/mPoC8PBl4UTcCSbF7Bi6QHVkvMZHnB
-         +a7+giSHkn1P8fB7DiXVBq5OSG8tqzLkX1EZYLLnX+p1t7DjAZhpJh26+gjLeAAVTTKr
-         lDITPZAqvvwCUuw3jJ0xyDFLWEJa7WnhzVeU67Jwfzo3lN2XdJBt/rRxmLHHsxJ8rire
-         aYbw==
-X-Forwarded-Encrypted: i=1; AJvYcCUbrh7kcAYKYVvZHJn3O02B2qqyjLCoN4M2XqFVVCQxs05IIEfTdaZZhHdRgWVPhXYuIjdsYVVf58rutq1W@lists.linux.dev
-X-Gm-Message-State: AOJu0YzCOmaeRiITVLic9+/IhSU2Qn1z0OqgWy1KsiJbwnTxpyVnKx5j
-	cVgYcBhDFo/pRjdbwh4dyoJBp1yMF6eALnuYHR3OMO8qITdnUxsaPDI3
-X-Gm-Gg: AY/fxX6e/51lpFFfwNaqolVsgncPTzi5S1mEks7aThWmAVCvO669HdiiMI93WSM1Msr
-	1U3Yz0ru16LK7kFJVQ/TxKmzed9ubgjtIC04SQluzJGt2iVzflTD0twE8lSYxuXeYQnHjFrSYgg
-	DndivpASbdoj7FYMCtfQTZdkKygVAvSg8g93mm6WmFOuz2rBHOrlxitHCZjBRX/zRaywvw/GroL
-	0Gq/wJitJC3rVl9AvVmSLt6cNvRD5mdBZjdmPXJVqHoXPgIkLHkQ9aTOdqYacIIKtyU8naoPQYn
-	DkhFbtcxYGXiIBX5CB5UFC//auFUmmvUse3KLhxDXN2vAYehmeHxmb6KqH8+HxT7oI8L+r9Nu+2
-	janTdN2L69wgN1sC2QPvrP7FL/Ey3SfJr7rWxkc3mvUj3gTqfvm6awFfzmO+cF3h33kGEIOdP0F
-	o/FpsyuLZoGqk=
-X-Google-Smtp-Source: AGHT+IGyO1jeZ+2WgT5h8ytwtHL7NzTQKQbBl4WgLNbmRrgy9RVIz52E4M5tultTxpJqkmy8KLDOPA==
-X-Received: by 2002:aa7:930b:0:b0:7ad:564:bf92 with SMTP id d2e1a72fcca58-7ff657a64f5mr33762165b3a.27.1767158675270;
-        Tue, 30 Dec 2025 21:24:35 -0800 (PST)
-Received: from karthik.. ([43.247.159.43])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7ff7b423b9asm34388142b3a.28.2025.12.30.21.24.31
+        bh=h+b5o973rngY1LzICZlY9YEpoZpOFAzrQHPMh8uFpyI=;
+        b=wG54vhRvivWOSM9iOvSlefYwQxGdzdrNvkSMiEDglVBNdBDIhR3rpj7OiOoaZxWHx+
+         W/RxWnDWPu3rAeunboWVDqLwxYtF4qN7YxdmjVAmBebmiPrNtfBZm6fWDywOh3UEeXdL
+         M3gg3m41EO2XivpaZdtd45r95w2K9ZQy61Bi46qQF+sRaRo1AQkJJ91iBa8pJiRV+mHx
+         xSpPhaCumcR6bhnfdD0FFbRYJtDiDCwl3YHUO2Ffvv25ImghYh0nkb3WeO14j+k5VglY
+         jvk0ZgCfL2/0LQfTX8KEBoVxj7IZU9lhAL1qCjcsBpIx584agk7vX5iAkYuQUDmKY5RM
+         QfIQ==
+X-Forwarded-Encrypted: i=1; AJvYcCX/e7pnO0G8586PRmBGngtSx1TuRSsPHzj7k5u4bRvJjK89x7vJpKaEZwzA/Zy3P4LoJt2p6FLnV7PG+8KN@lists.linux.dev
+X-Gm-Message-State: AOJu0Yws+LPHShOcurq42p4rzD6I8q8/JiAi6eDMQvfbXCiTVccIkqmX
+	9q+qOQ/W1yP233sOmqwV38lE8cbCFQRba3tFY76WCiV6GI9SXUhFPREL
+X-Gm-Gg: AY/fxX7kl0fxCkSPKx506MkHLiUVanTctbu98ruBp+fPH0CmqIzzOD2IeRxckFzC+Wh
+	2P10TJEtmofQ2LquwrpflM49/xXcx2h6WcuPpixWeIfL0q028v0bjqlqO4diohR+GtEhKzkEVDt
+	q70C8eRhGxOnGloZIzjsOLePzauimumJQ4pUhe9vYSgXY23rYfqZUmILc9ylf5Xil4kSz3N/sxB
+	oAXuPwZwlqLRZy4yfjQQR82wChsfCVcpAGpKXFM6ACOfBoxhgmrE7ITPbRwyvuJELIvHJbaI577
+	hgcvMZzFMelXBcv/wpLeYhTMOb3rLxupb7NInsmG7WrbAa8eUwlX/h3ORbrLaj7kC60iYa7YpYO
+	ezzJOnSfSQr1fNuVnDukVWkXWAyyKYskFLLcXF8AqNKoQPkMk49dJXbv8AR53pynD5NQn/iXT5Z
+	+KXRD+XZoMrJLMWHPK52vqQ4VQqUXZxCqN
+X-Google-Smtp-Source: AGHT+IFMsFj5RZJGPp7mNrkG9G0Ex6AGvaDnXTTwc47Xtz7b7EKV3iV9tKu1hpQxcYIzzJbuCW+FFQ==
+X-Received: by 2002:a05:6402:5213:b0:640:edb3:90b5 with SMTP id 4fb4d7f45d1cf-64b8e93c176mr36032566a12.7.1767165831037;
+        Tue, 30 Dec 2025 23:23:51 -0800 (PST)
+Received: from DESKTOP-3B0KT9P.localdomain ([188.121.148.46])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-64b90f5400bsm37051952a12.4.2025.12.30.23.23.48
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 30 Dec 2025 21:24:34 -0800 (PST)
-From: Karthikey D Kadati <karthikey3608@gmail.com>
-To: Hans de Goede <hansg@kernel.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Andy Shevchenko <andy@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-media@vger.kernel.org,
+        Tue, 30 Dec 2025 23:23:50 -0800 (PST)
+From: "moradi.saeed" <saeed.b.67@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Johannes Berg <johannes.berg@intel.com>,
+	Michael Straube <straube.linux@gmail.com>,
+	Dan Carpenter <dan.carpenter@linaro.org>,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
-	Karthikey D Kadati <karthikey3608@gmail.com>
-Subject: [PATCH] media: atomisp: remove private white balance IOCTLs
-Date: Wed, 31 Dec 2025 10:54:27 +0530
-Message-ID: <20251231052427.58840-1-karthikey3608@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	"moradi.saeed" <saeed.b.67@gmail.com>
+Subject: [PATCH] staging: rtl8723bs: return -ENOENT for AP/Ad-Hoc get_station
+Date: Wed, 31 Dec 2025 10:53:41 +0330
+Message-Id: <20251231072341.61195-1-saeed.b.67@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -79,115 +77,33 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This patch resolves a MUST-FIX graduation blocker identified in the
-atomisp TODO by removing the private ATOMISP_IOC_G_ISP_WHITE_BALANCE
-and ATOMISP_IOC_S_ISP_WHITE_BALANCE and replacing them with standard
-V4L2 control handling.
+The cfg80211 get_station callback must return -ENOENT when
+station information is unavailable. The AP/Ad-Hoc path
+currently returns success without filling station_info,
+leading to invalid data exposure to userspace.
 
-The private IOCTLs were used to set white balance parameters. This
-functionality is now mapped to the standard V4L2 controls
-V4L2_CID_RED_BALANCE and V4L2_CID_BLUE_BALANCE.
+Fix this by returning -ENOENT for unimplemented modes.
 
-A helper function `atomisp_v4l2_set_wb` is introduced to translate the
-V4L2 control values to the driver's internal configuration format.
-
-Signed-off-by: Karthikey D Kadati <karthikey3608@gmail.com>
+Signed-off-by: moradi.saeed <saeed.b.67@gmail.com>
 ---
- .../media/atomisp/include/linux/atomisp.h     |  5 +-
- .../staging/media/atomisp/pci/atomisp_ioctl.c | 49 ++++++++++++++++---
- 2 files changed, 44 insertions(+), 10 deletions(-)
+ drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/staging/media/atomisp/include/linux/atomisp.h b/drivers/staging/media/atomisp/include/linux/atomisp.h
-index 3c8fa3f58..fcf116cc4 100644
---- a/drivers/staging/media/atomisp/include/linux/atomisp.h
-+++ b/drivers/staging/media/atomisp/include/linux/atomisp.h
-@@ -741,10 +741,7 @@ enum atomisp_burst_capture_options {
- 	_IOW('v', BASE_VIDIOC_PRIVATE + 15, struct atomisp_ctc_table)
+diff --git a/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c b/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
+index 60edeae1cffe..c6562b8a59a6 100644
+--- a/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
++++ b/drivers/staging/rtl8723bs/os_dep/ioctl_cfg80211.c
+@@ -1011,7 +1011,9 @@ static int cfg80211_rtw_get_station(struct wiphy *wiphy,
+ 	     check_fwstate(pmlmepriv, WIFI_ADHOC_MASTER_STATE) ||
+ 	     check_fwstate(pmlmepriv, WIFI_AP_STATE)) &&
+ 	    check_fwstate(pmlmepriv, _FW_LINKED)) {
+-		/* TODO: should acquire station info... */
++		ret = -ENOENT;
++		goto exit;
++
+ 	}
  
- /* white balance Correction */
--#define ATOMISP_IOC_G_ISP_WHITE_BALANCE \
--	_IOR('v', BASE_VIDIOC_PRIVATE + 16, struct atomisp_wb_config)
--#define ATOMISP_IOC_S_ISP_WHITE_BALANCE \
--	_IOW('v', BASE_VIDIOC_PRIVATE + 16, struct atomisp_wb_config)
-+
- 
- /* fpn table loading */
- #define ATOMISP_IOC_S_ISP_FPN_TABLE \
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_ioctl.c b/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
-index bb8b2f221..5c0a1d92b 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
-+++ b/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
-@@ -1083,6 +1083,38 @@ static int atomisp_g_ctrl(struct file *file, void *fh,
-  * applications initialize the id and value fields of a struct v4l2_control
-  * and call this ioctl.
-  */
-+static int atomisp_v4l2_set_wb(struct atomisp_sub_device *asd, int id,
-+			       int value)
-+{
-+	struct atomisp_device *isp = asd->isp;
-+	struct atomisp_wb_config config;
-+	int ret;
-+
-+	if (atomisp_css_get_wb_config(asd, &config)) {
-+		dev_err(isp->dev, "%s: can't get wb config\n", __func__);
-+		return -EINVAL;
-+	}
-+
-+	switch (id) {
-+	case V4L2_CID_BLUE_BALANCE:
-+		config.b = value << (16 - 8 - config.integer_bits + 1);
-+		break;
-+	case V4L2_CID_RED_BALANCE:
-+		config.r = value << (16 - 8 - config.integer_bits + 1);
-+		break;
-+	default:
-+		return -EINVAL;
-+	}
-+
-+	ret = atomisp_white_balance_param(asd, 1, &config);
-+	if (ret) {
-+		dev_err(isp->dev, "%s: set wb config failed\n", __func__);
-+		return ret;
-+	}
-+
-+	return 0;
-+}
-+
- static int atomisp_s_ctrl(struct file *file, void *fh,
- 			  struct v4l2_control *control)
- {
-@@ -1122,6 +1154,17 @@ static int atomisp_s_ctrl(struct file *file, void *fh,
- 	case V4L2_CID_ATOMISP_LOW_LIGHT:
- 		ret = atomisp_low_light(asd, 1, &control->value);
- 		break;
-+	case V4L2_CID_AUTO_WHITE_BALANCE:
-+		/*
-+		 * TODO: Auto White Balance is not supported yet.
-+		 * It is currently handled by the ISP.
-+		 */
-+		ret = 0;
-+		break;
-+	case V4L2_CID_RED_BALANCE:
-+	case V4L2_CID_BLUE_BALANCE:
-+		ret = atomisp_v4l2_set_wb(asd, control->id, control->value);
-+		break;
- 	default:
- 		ret = -EINVAL;
- 		break;
-@@ -1484,13 +1527,7 @@ static long atomisp_vidioc_default(struct file *file, void *fh,
- 		err = atomisp_ctc(asd, 1, arg);
- 		break;
- 
--	case ATOMISP_IOC_G_ISP_WHITE_BALANCE:
--		err = atomisp_white_balance_param(asd, 0, arg);
--		break;
- 
--	case ATOMISP_IOC_S_ISP_WHITE_BALANCE:
--		err = atomisp_white_balance_param(asd, 1, arg);
--		break;
- 
- 	case ATOMISP_IOC_G_3A_CONFIG:
- 		err = atomisp_3a_config_param(asd, 0, arg);
+ exit:
 -- 
-2.43.0
+2.34.1
 
