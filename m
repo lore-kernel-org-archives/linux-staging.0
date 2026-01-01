@@ -1,134 +1,148 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E5F930596D;
-	Wed, 31 Dec 2025 18:35:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 555B5296BD7
+	for <linux-staging@lists.linux.dev>; Thu,  1 Jan 2026 16:41:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767206109; cv=none; b=R5Wbx8totVSk2k2QHLJW1ziP31SpSAnF/o1jw5A2zuqyMd7uwb9Am2zn6TKGfsHPKxz7f04OaQhzn9+9XCsJs91ywJ3+6bQyT2oOFWRmhhVKan503TT7R2ZSBEX/kUy+L9eK3MW/BAdbD3Ii5S668P7Bcv6tRkg7KhTIHiCxPlo=
+	t=1767285688; cv=none; b=imKF/0DfKZJ3+G6x0n+FlwBggjy4B/Y0UYoYt6TuMdFrIfROel01ba+jLiEQjMl0CowteZSi6hr0NoUry+X5Akp9UDsEfKr+/LYY7r1MiGvnA9rtrbVf2KyYa93W/zPZoyHGCgdlayMDA0V1fK+VVLxYLe/3ovSMUyPY+N5rjCI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767206109; c=relaxed/simple;
-	bh=1gKaAaDWngc09h7jLSPvqo8YVe3MpyDLC3yRlnMdTcQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=VvzQdBAvk7AIIuT13OUWm4tPtx7zzhE3dADMrp1EmLyqCjOfznYe5uHa28MQ3ud06Bbq129KDCrr1tW2VQaX2akFadyuXp5v0PWX+rcWgb7DNxa9/rsTv+91HG48rJW7MYr4wZ284VuJlKUkorzD+Yj7Ntz3XPncFe/K/rlX5YE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YTIeLiGG; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1767285688; c=relaxed/simple;
+	bh=NQEfzUm8CoXDEDaIg+I/sw4HQyVJ5kOYQMNLSWHizCU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=HgTMKjjsnx1clMuEEZBmBUo5Eo7vw6w7QMdYWMxNGifSEARvWfXqYYhHYJ4ODWlS1KTh/WrWrNsIGzUwvOa4nD4fVg0Sm4B5pO2w+YA/gRhnay5y+8N0gISMIdHwXXJt4yT+OtqnNyPO0BQaXLemoUr493OjiwWOTTK4FDKv/1M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HFLO5GOH; arc=none smtp.client-ip=209.85.128.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YTIeLiGG"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 81423C113D0;
-	Wed, 31 Dec 2025 18:35:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1767206108;
-	bh=1gKaAaDWngc09h7jLSPvqo8YVe3MpyDLC3yRlnMdTcQ=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=YTIeLiGGlekT1Tv9H3QaPix3UnDY2ZijzrDhsDUuLFuG8DW9fMffaMlnW28Vv+gcg
-	 X56zF0Xb/X0sjrgHhDtB86m7CI9O721SlgkaKjUbl6nDerrz+BUSQ1sh3BCGBfnv7b
-	 YHLhRHfK2nvSOij4EBngZ6OCdxEDrt6PmROhmn20v74oYqoFvQzIZl/AvqosRr9ZY0
-	 1NjxD+SefxApNGXAwFukqsKSqI/W53QG4G9DeX77gJ0VNRftY8Emuh84CT/8RBMRSF
-	 NsXhBQbHyjvsvF7wR0VA63izyOyeFD1UEug4+8dHK+fxDQtRXAO44u0wYp7i+hZHvR
-	 k/uUIjXI5AtgQ==
-Date: Wed, 31 Dec 2025 18:35:02 +0000
-From: Jonathan Cameron <jic23@kernel.org>
-To: Tomas Borquez <tomasborquez13@gmail.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Lars-Peter Clausen
- <lars@metafoo.de>, Michael Hennerich <Michael.Hennerich@analog.com>, David
- Lechner <dlechner@baylibre.com>, Nuno =?UTF-8?B?U8Oh?=
- <nuno.sa@analog.com>, Andy Shevchenko <andy@kernel.org>,
- linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org,
- linux-staging@lists.linux.dev
-Subject: Re: [PATCH v2 6/6] staging: iio: ad9832: add sysfs documentation
-Message-ID: <20251231183502.26182f0c@jic23-huawei>
-In-Reply-To: <20251230203459.28935-7-tomasborquez13@gmail.com>
-References: <20251230203459.28935-1-tomasborquez13@gmail.com>
-	<20251230203459.28935-7-tomasborquez13@gmail.com>
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HFLO5GOH"
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-47775fb6c56so88777585e9.1
+        for <linux-staging@lists.linux.dev>; Thu, 01 Jan 2026 08:41:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1767285685; x=1767890485; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=ZFn5mZZ1GFrLX+zltD0NdQ5QIlUaqG+YHTjhL+HRPtI=;
+        b=HFLO5GOHoKE3ZfDkV1tNjlo0Lqyx9a4JTjTj3s/1us6KweJSus4P5IZpU7QjKXMXYw
+         ksFSD/yx5nex2Gusfii38yThpiTpAGTZum+VYvBqWOZqH78zu2IyH66L7Bcbny5szoeS
+         YkhRlpAszFX1cHsatAJo7JbyyeSARMEaEUpCVcoMzzTSHk6+PCtEKvI0SD1eWVwXyOPO
+         pvKNvOsDpfc3NJ4bxl2DWa/yTcog+8OWMrJLc+CdS2Z4VLbbBHU9fVi5fi7zlQQmuQwX
+         CPVCMI6s16zRGwnJdjNwgWqckMxBsUswlPDi9dMZnByLCv/NdtJwFFpQnTuaOoL6Dd4m
+         o8zw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1767285685; x=1767890485;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ZFn5mZZ1GFrLX+zltD0NdQ5QIlUaqG+YHTjhL+HRPtI=;
+        b=LrDYyrgcC7+XHXgqYSynxxf9wk+bXhyd57xeG/eyrTAqyempjNlMpm1w14tg7RU2W0
+         n2PDffWB9Eto51IypcG0xVIV+iRKSluntvGE2eA7FAaoYOX2F9VVgWhLtlR98c1AgBlg
+         h49E9Qm1xBqHoQxWc7DFLC6OEnHmGFQPJLYSEOlSUmfX6FQtWgR/NAolCzrHDeoJYXGr
+         3ZVQZzUzGelCd1pdPWTi+ZXv2AbrF1x2LlEVf/N9o22yXLbZDEKs1TdBWlolvgJS7HJv
+         y6kNyvig3Tih6S2nDnBJJQM7+w1k9xi44d2Cyvmh3bGrIl0U5igE1wNOD6tu6MV5xC72
+         EU8A==
+X-Forwarded-Encrypted: i=1; AJvYcCXhIiPaFasJEvm83mfV5fOOmisN3R9r7wcUGhijvt1uJSlZuylRBepxo+TJnLa0Ld1fB+pMf1NQLpSAtdhh@lists.linux.dev
+X-Gm-Message-State: AOJu0YytLpBlWOvELcInQFPr3G5ufY4mj8AIN+H97tBqc4fzT2UL2pQl
+	Ah1WLwH3RFGSa4MCk+3IjgRDa2dfXCTvVmNO+uCRPb9Z4hqO1rUyKZRr
+X-Gm-Gg: AY/fxX4sPAFlBB3hn4tPDpVZv3waSdLZ66INv/54IRleAitn3ixymuYyCP9+modWX7D
+	NhPyXUq7/kcWc03S6m42Q/pfcXTilnn5kSsNOAaZC3opzIoxifztYrr2vKooSRWq5GgC+UUEmMg
+	zsPj2yPtTCN7xgfVviSf7wzbqSnkBbVVbFWzMOzNubb7RuePxbHfZOZsXzIiFopa6JplYNQMnmL
+	guk4WndFAQkGgGYy5QW87zG9/xm+V+fkRlZF6FgbkmZqp2WIr0ctyXl/y798oQOlsaZgUTfb73v
+	O5MrV1kZmllqigoOD/kMnUbEcL+/I3g/eCIuZT+quEf1zzpD7V2SU+iXJnVjzqV38gY64h72WQ0
+	5XtlC34V0IOH0Fp2yeTRSM1vM0huWbeN2/TkGOP6W7iOYlGmYD8obU8KnAvoYlPw/M6wiZKbPlf
+	58wTTgyRKAkau0kb1XSvADw6v8
+X-Google-Smtp-Source: AGHT+IFvVQu4Gd5ZRQSV1t2Koilx6EPmTM0D/s54QwT1w/8bMlds5wzVPAa25EjjdjImABNxaa+7tg==
+X-Received: by 2002:a05:600c:4fd4:b0:477:7bca:8b34 with SMTP id 5b1f17b1804b1-47d1955b744mr452339575e9.6.1767285684569;
+        Thu, 01 Jan 2026 08:41:24 -0800 (PST)
+Received: from localhost.localdomain ([2400:adc1:447:6d00:1c1a:7818:23f6:aae1])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4324e9ba877sm80995853f8f.0.2026.01.01.08.41.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 01 Jan 2026 08:41:24 -0800 (PST)
+From: Mahad Ibrahim <mahad.ibrahim.dev@gmail.com>
+To: hansg@kernel.org,
+	mchehab@kernel.org,
+	andy@kernel.org
+Cc: sakari.ailus@linux.intel.com,
+	gregkh@linuxfoundation.org,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Mahad Ibrahim <mahad.ibrahim.dev@gmail.com>
+Subject: [PATCH] media: atomisp: Fix block comment coding style in sh_css_param_shading.c
+Date: Thu,  1 Jan 2026 21:41:17 +0500
+Message-ID: <20260101164117.14292-1-mahad.ibrahim.dev@gmail.com>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On Tue, 30 Dec 2025 17:34:59 -0300
-Tomas Borquez <tomasborquez13@gmail.com> wrote:
+Fix checkpatch.pl warnings in sh_css_param_shading.c regarding block
+comment formatting.
 
-> Add sysfs ABI documentation for the AD9832/AD9835 Direct Digital
-> Synthesizer chips, documenting frequency, phase, output control,
-> and pin control attributes.
-> 
-> Signed-off-by: Tomas Borquez <tomasborquez13@gmail.com>
-Hi Tomas,
+The warning was:
+- Block comments use a trailing */ on a separate line
 
-Good docs, one entry of which reminded me we tend to use powerdown for
-output devices rather than _en (for enable)
+This change also moves text from the first line of block comments to
+subsequent lines to adhere to the standard Linux kernel coding style.
 
-Jonathan
+Signed-off-by: Mahad Ibrahim <mahad.ibrahim.dev@gmail.com>
+---
+ .../media/atomisp/pci/sh_css_param_shading.c   | 18 ++++++++++++------
+ 1 file changed, 12 insertions(+), 6 deletions(-)
 
-> ---
->  .../iio/Documentation/sysfs-bus-iio-frequency | 40 +++++++++++++++++++
->  1 file changed, 40 insertions(+)
->  create mode 100644 drivers/staging/iio/Documentation/sysfs-bus-iio-frequency
-> 
-> diff --git a/drivers/staging/iio/Documentation/sysfs-bus-iio-frequency b/drivers/staging/iio/Documentation/sysfs-bus-iio-frequency
-> new file mode 100644
-> index 000000000000..10627c19bdb7
-> --- /dev/null
-> +++ b/drivers/staging/iio/Documentation/sysfs-bus-iio-frequency
-> @@ -0,0 +1,40 @@
-> +What:		/sys/bus/iio/devices/iio:deviceX/out_altcurrentY_frequencyZ
-> +KernelVersion:	6.19
-> +Contact:	linux-iio@vger.kernel.org
-> +Description:
-> +    Frequency in Hz for symbol Z of channel Y. The active
-> +    frequency symbol is selected via out_altcurrentY_frequency_symbol.
-> +
-> +What:		/sys/bus/iio/devices/iio:deviceX/out_altcurrentY_phaseZ
-> +KernelVersion:	6.19
-> +Contact:	linux-iio@vger.kernel.org
-> +Description:
-> +    Phase offset in radians for symbol Z of channel Y. Valid range
-> +    is 0 to 2*PI (exclusive). The active phase symbol is selected
-> +    via out_altcurrentY_phase_symbol.
-> +
-> +What:		/sys/bus/iio/devices/iio:deviceX/out_altcurrentY_frequency_symbol
-> +KernelVersion:	6.19
-> +Contact:	linux-iio@vger.kernel.org
-> +Description:
-> +    Selects which frequency symbol is active for channel Y.
-> +
-> +What:		/sys/bus/iio/devices/iio:deviceX/out_altcurrentY_phase_symbol
-> +KernelVersion:	6.19
-> +Contact:	linux-iio@vger.kernel.org
-> +Description:
-> +    Selects which phase symbol is active for channel Y.
-> +
-> +What:		/sys/bus/iio/devices/iio:deviceX/out_altcurrentY_enable
-
-Ah. I probably led you astray on this in an earlier review. Would be _en
-and added to the standard docs in sysfs-bus-iio in the block that starts with in_energyY_en
-
-However, I think that might not be the right attribute to use based on this
-being more similar to a DAC channel than those which are about enabling internal
-accumulators. For a DAC the common terminology is about powerdown  (so effectively !enable).
-That lines up with the use of SLEEP here on the datasheet.
-
-So I think this should be out_altcurrentY_powerdown and documented in the block
-with out_altvoltageY_powerdown in sysfs-bus-iio with a tweak to make the descriptive
-text cover currents as well as voltages.
-
-Obviously remember to flip the sense of the control though.
-
-> +KernelVersion:	6.19
-> +Contact:	linux-iio@vger.kernel.org
-> +Description:
-> +    Enables (1) or disables (0) the output for channel Y.
-> +
-> +What:		/sys/bus/iio/devices/iio:deviceX/out_altcurrentY_pincontrol_en
-> +KernelVersion:	6.19
-> +Contact:	linux-iio@vger.kernel.org
-> +Description:
-> +    Enables (1) or disables (0) hardware pin control for frequency
-> +    and phase symbol selection on channel Y. When enabled, external
-> +    pins control symbol selection instead of software.
+diff --git a/drivers/staging/media/atomisp/pci/sh_css_param_shading.c b/drivers/staging/media/atomisp/pci/sh_css_param_shading.c
+index 513e272f2fdc..b5e9d11b28a6 100644
+--- a/drivers/staging/media/atomisp/pci/sh_css_param_shading.c
++++ b/drivers/staging/media/atomisp/pci/sh_css_param_shading.c
+@@ -20,7 +20,8 @@
+ 
+ #include "platform_support.h"
+ 
+-/* Bilinear interpolation on shading tables:
++/*
++ * Bilinear interpolation on shading tables:
+  * For each target point T, we calculate the 4 surrounding source points:
+  * ul (upper left), ur (upper right), ll (lower left) and lr (lower right).
+  * We then calculate the distances from the T to the source points: x0, x1,
+@@ -116,8 +117,10 @@ crop_and_interpolate(unsigned int cropped_width,
+ 		 */
+ 		ty = out_start_row + i * out_cell_size;
+ 
+-		/* calculate closest source points in shading table and
+-		   make sure they fall within the table */
++		/*
++		 * calculate closest source points in shading table and
++		 * make sure they fall within the table
++		 */
+ 		src_y0 = ty / (int)in_cell_size;
+ 		if (in_cell_size < out_cell_size)
+ 			src_y1 = (ty + out_cell_size) / in_cell_size;
+@@ -173,7 +176,8 @@ crop_and_interpolate(unsigned int cropped_width,
+ 			dx0 = tx - sx0;
+ 			dx1 = sx1 - tx;
+ 			divx = sx1 - sx0;
+-			/* if we're at the edge, we just use the closest
++			/*
++			 * if we're at the edge, we just use the closest
+ 			 * point still in the grid. We make up for the divider
+ 			 * in this case by setting the distance to
+ 			 * out_cell_size, since it's actually 0.
+@@ -291,8 +295,10 @@ prepare_shading_table(const struct ia_css_shading_table *in_table,
+ 	input_width  = min(input_width,  in_table->sensor_width);
+ 	input_height = min(input_height, in_table->sensor_height);
+ 
+-	/* This prepare_shading_table() function is called only in legacy API (not in new API).
+-	   Then, the legacy shading table width and height should be used. */
++	/*
++	 * This prepare_shading_table() function is called only in legacy API (not in new API).
++	 * Then, the legacy shading table width and height should be used.
++	 */
+ 	table_width  = binary->sctbl_width_per_color;
+ 	table_height = binary->sctbl_height;
+ 
+-- 
+2.47.3
 
