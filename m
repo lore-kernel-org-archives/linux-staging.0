@@ -1,76 +1,74 @@
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com [209.85.210.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 555B5296BD7
-	for <linux-staging@lists.linux.dev>; Thu,  1 Jan 2026 16:41:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62981CA52
+	for <linux-staging@lists.linux.dev>; Thu,  1 Jan 2026 18:31:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767285688; cv=none; b=imKF/0DfKZJ3+G6x0n+FlwBggjy4B/Y0UYoYt6TuMdFrIfROel01ba+jLiEQjMl0CowteZSi6hr0NoUry+X5Akp9UDsEfKr+/LYY7r1MiGvnA9rtrbVf2KyYa93W/zPZoyHGCgdlayMDA0V1fK+VVLxYLe/3ovSMUyPY+N5rjCI=
+	t=1767292297; cv=none; b=n2RWyfjpXtusNq5WbldAZ6TGeCHhXP9BWQUux9knUZoMg16OAsvXlSLdSUX1Bvlms8sS4YZeYJ2kCPsyK/YR5xVyULM9bfdfwajxFHDI1lzSBhH20VQ7Q1NNsVnMHhPBb/SxFdmVDYGcV3eUk2fhN3ih9bsL/FDGT4fYDXKLkS4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767285688; c=relaxed/simple;
-	bh=NQEfzUm8CoXDEDaIg+I/sw4HQyVJ5kOYQMNLSWHizCU=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=HgTMKjjsnx1clMuEEZBmBUo5Eo7vw6w7QMdYWMxNGifSEARvWfXqYYhHYJ4ODWlS1KTh/WrWrNsIGzUwvOa4nD4fVg0Sm4B5pO2w+YA/gRhnay5y+8N0gISMIdHwXXJt4yT+OtqnNyPO0BQaXLemoUr493OjiwWOTTK4FDKv/1M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HFLO5GOH; arc=none smtp.client-ip=209.85.128.44
+	s=arc-20240116; t=1767292297; c=relaxed/simple;
+	bh=oFaGLhGNj1bnIHJxy5hflV3MYQwQ7qpGQCHDjrB62FM=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=WbEZfCHZ8Nyou7OrCMzYuD9EdbDWhYqGeB0PKsn7lE4T/rbCffS77HrlifeZ+o76FCqoKm5jYNo3IivmPw1WsvJH7XhaHAphIq+0ie2Behs+ItvPX6JG3Yu+a7eUsYsdyzrQoA5paudTt1+HLBiurdfUcARhpRUXf1x7rPK1r5A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iePGuIoI; arc=none smtp.client-ip=209.85.210.177
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HFLO5GOH"
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-47775fb6c56so88777585e9.1
-        for <linux-staging@lists.linux.dev>; Thu, 01 Jan 2026 08:41:26 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iePGuIoI"
+Received: by mail-pf1-f177.google.com with SMTP id d2e1a72fcca58-81345800791so42569b3a.0
+        for <linux-staging@lists.linux.dev>; Thu, 01 Jan 2026 10:31:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1767285685; x=1767890485; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1767292296; x=1767897096; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=ZFn5mZZ1GFrLX+zltD0NdQ5QIlUaqG+YHTjhL+HRPtI=;
-        b=HFLO5GOHoKE3ZfDkV1tNjlo0Lqyx9a4JTjTj3s/1us6KweJSus4P5IZpU7QjKXMXYw
-         ksFSD/yx5nex2Gusfii38yThpiTpAGTZum+VYvBqWOZqH78zu2IyH66L7Bcbny5szoeS
-         YkhRlpAszFX1cHsatAJo7JbyyeSARMEaEUpCVcoMzzTSHk6+PCtEKvI0SD1eWVwXyOPO
-         pvKNvOsDpfc3NJ4bxl2DWa/yTcog+8OWMrJLc+CdS2Z4VLbbBHU9fVi5fi7zlQQmuQwX
-         CPVCMI6s16zRGwnJdjNwgWqckMxBsUswlPDi9dMZnByLCv/NdtJwFFpQnTuaOoL6Dd4m
-         o8zw==
+        bh=G8eYxH+forI3+7Mpchd7RAfe+9ibvYrZjRyLKKzcJUQ=;
+        b=iePGuIoIkgxt+ax19jL3g8BoqGDQNtThlHf3wHASaLbVnlggovOuU5dImopllpDfKI
+         YytWy4ZZvVL5UOxvILBlVqlwsGuQPrP8T+4dHsXk7RjO9qw4EVD+9jtGEKuKTC9sQSSH
+         0t5JgWGZAgx4yhFqO4mVkoMiew48qlinyPFZsg8ho1rZb/CSnAJTIW9r+Lo1OFNjfmFt
+         E4ane0SgqMC3eKjx640h0oauVQOl5UVLcd2ttc1OeMeQNj++AUrMToj8ko+ysurGnnkm
+         wh8IN6e+KPaIEhc1ri3yOfEIdmHko8lB+kMueBZMxhCZH66WOlaaKGh2zCr0dTJ2Ekvf
+         69ow==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767285685; x=1767890485;
+        d=1e100.net; s=20230601; t=1767292296; x=1767897096;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=ZFn5mZZ1GFrLX+zltD0NdQ5QIlUaqG+YHTjhL+HRPtI=;
-        b=LrDYyrgcC7+XHXgqYSynxxf9wk+bXhyd57xeG/eyrTAqyempjNlMpm1w14tg7RU2W0
-         n2PDffWB9Eto51IypcG0xVIV+iRKSluntvGE2eA7FAaoYOX2F9VVgWhLtlR98c1AgBlg
-         h49E9Qm1xBqHoQxWc7DFLC6OEnHmGFQPJLYSEOlSUmfX6FQtWgR/NAolCzrHDeoJYXGr
-         3ZVQZzUzGelCd1pdPWTi+ZXv2AbrF1x2LlEVf/N9o22yXLbZDEKs1TdBWlolvgJS7HJv
-         y6kNyvig3Tih6S2nDnBJJQM7+w1k9xi44d2Cyvmh3bGrIl0U5igE1wNOD6tu6MV5xC72
-         EU8A==
-X-Forwarded-Encrypted: i=1; AJvYcCXhIiPaFasJEvm83mfV5fOOmisN3R9r7wcUGhijvt1uJSlZuylRBepxo+TJnLa0Ld1fB+pMf1NQLpSAtdhh@lists.linux.dev
-X-Gm-Message-State: AOJu0YytLpBlWOvELcInQFPr3G5ufY4mj8AIN+H97tBqc4fzT2UL2pQl
-	Ah1WLwH3RFGSa4MCk+3IjgRDa2dfXCTvVmNO+uCRPb9Z4hqO1rUyKZRr
-X-Gm-Gg: AY/fxX4sPAFlBB3hn4tPDpVZv3waSdLZ66INv/54IRleAitn3ixymuYyCP9+modWX7D
-	NhPyXUq7/kcWc03S6m42Q/pfcXTilnn5kSsNOAaZC3opzIoxifztYrr2vKooSRWq5GgC+UUEmMg
-	zsPj2yPtTCN7xgfVviSf7wzbqSnkBbVVbFWzMOzNubb7RuePxbHfZOZsXzIiFopa6JplYNQMnmL
-	guk4WndFAQkGgGYy5QW87zG9/xm+V+fkRlZF6FgbkmZqp2WIr0ctyXl/y798oQOlsaZgUTfb73v
-	O5MrV1kZmllqigoOD/kMnUbEcL+/I3g/eCIuZT+quEf1zzpD7V2SU+iXJnVjzqV38gY64h72WQ0
-	5XtlC34V0IOH0Fp2yeTRSM1vM0huWbeN2/TkGOP6W7iOYlGmYD8obU8KnAvoYlPw/M6wiZKbPlf
-	58wTTgyRKAkau0kb1XSvADw6v8
-X-Google-Smtp-Source: AGHT+IFvVQu4Gd5ZRQSV1t2Koilx6EPmTM0D/s54QwT1w/8bMlds5wzVPAa25EjjdjImABNxaa+7tg==
-X-Received: by 2002:a05:600c:4fd4:b0:477:7bca:8b34 with SMTP id 5b1f17b1804b1-47d1955b744mr452339575e9.6.1767285684569;
-        Thu, 01 Jan 2026 08:41:24 -0800 (PST)
-Received: from localhost.localdomain ([2400:adc1:447:6d00:1c1a:7818:23f6:aae1])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4324e9ba877sm80995853f8f.0.2026.01.01.08.41.22
+        bh=G8eYxH+forI3+7Mpchd7RAfe+9ibvYrZjRyLKKzcJUQ=;
+        b=aMzVeyqkR4gKVqvtqFa764Ovk2apdCB8YsklNu4aRWWwAZ6X+49k1ayk6BX/BsejO9
+         3/Y/wvFgsn5TlCpm4h3cyEJEqSEFfF8geUJxxASd7c/ptE3tFDCdE5uZAsfeLKBO9Gz1
+         BZ4VV2STju0bqeVT/HdSp9QdRVCydD4gD13FlujRSDeC3knhlnxnQshAnmb0ECHQBZmV
+         23AP7u1llWWIuFHiLM6agm+HQfnmgsKZRpuiif50dItem/e68y2Hjd/DYv0S6JkvObPY
+         qKT1u9XsOi90ApqOcCVS60q9NjrZoVDIFuFxutDigSTz8jRyudxUOXxpT/e/c+PQgRVU
+         FC6w==
+X-Forwarded-Encrypted: i=1; AJvYcCUa6lnRtggVnDvStXPyVPWmeu7YFl5ugTAog6uulgWWHKaMQaT1gn920usW5my9NiP1ffxKnHLPyb3sTCdo@lists.linux.dev
+X-Gm-Message-State: AOJu0YxUSdaZrKVc1zBm3lxtCRzLCkGw0Kf4dAGCe2M94ZaL1YtJVuDB
+	bSHRGENG5GM2UEB7c7WFn2JR/vyEuWFZxaGHm7jh+m1XX89VEt9PT/RA
+X-Gm-Gg: AY/fxX55IKAndsgZZRO5vetq+mpZYDwv2DJMAqBa5dwmPC2ERmqTjhL4LbobzN8jH01
+	099ml7rRnSoNvOI9ISduTfkLMngKMuyNc6PmL7Pef8D22rsovRqDpimx9q/rQd1Q+kMwX+9gWDu
+	RKlLTXTToaAoEeUHxgvtGI6TQiqO4XWQouh/Scdrljp5DrY0UybQBKFm9qNy6IsOGhoro1zZfOY
+	MAkg/RpDmF7vJSWAk46Ix9pVXEYe9y3nUysaCEQikKi8QLz/sUViQ/0qka/AiXt+S2bOs8EF9yN
+	GSGTpulutpzibAsqnkmdhH4Ac9sTmAQC+5UwS6Lz2cPUIjsHxhnsLzdgfHtXmQw70Cxgal4XawW
+	JOfGpWrfzUXzKVKijD6nzbYoF0v+mPG+ve21RnszTBTV2yuoszNywpmgT1HhrCdnmLQoj87iA59
+	LubRpQHxDIlBFBOhg=
+X-Google-Smtp-Source: AGHT+IEmuusfxvTARnNvOnl6wuN2a/2Px9ZMkIByWNb40eomkRUtBPa6cBWW+G2UF8v3MpvnH5wwCg==
+X-Received: by 2002:a05:6a00:4c8c:b0:7f7:1d4c:a067 with SMTP id d2e1a72fcca58-7ff64cd432dmr39601811b3a.27.1767292295559;
+        Thu, 01 Jan 2026 10:31:35 -0800 (PST)
+Received: from diksha-pc.. ([106.51.167.149])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7ff7e0a19d8sm38281239b3a.42.2026.01.01.10.31.32
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 01 Jan 2026 08:41:24 -0800 (PST)
-From: Mahad Ibrahim <mahad.ibrahim.dev@gmail.com>
-To: hansg@kernel.org,
-	mchehab@kernel.org,
-	andy@kernel.org
-Cc: sakari.ailus@linux.intel.com,
-	gregkh@linuxfoundation.org,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Mahad Ibrahim <mahad.ibrahim.dev@gmail.com>
-Subject: [PATCH] media: atomisp: Fix block comment coding style in sh_css_param_shading.c
-Date: Thu,  1 Jan 2026 21:41:17 +0500
-Message-ID: <20260101164117.14292-1-mahad.ibrahim.dev@gmail.com>
-X-Mailer: git-send-email 2.47.3
+        Thu, 01 Jan 2026 10:31:34 -0800 (PST)
+From: Diksha Kumari <dikshakdevgan@gmail.com>
+To: gregkh@linuxfoundation.org,
+	straube.linux@gmail.com,
+	hansg@kernel.org,
+	arthur.stupa@gmail.com,
+	tglx@linutronix.de,
+	linux-staging@lists.linux.dev
+Cc: Diksha Kumari <dikshakdevgan@gmail.com>
+Subject: [PATCH v1] rtl8723bs:fix spacing around operators
+Date: Fri,  2 Jan 2026 00:01:24 +0530
+Message-Id: <20260101183124.10322-1-dikshakdevgan@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -79,70 +77,63 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Fix checkpatch.pl warnings in sh_css_param_shading.c regarding block
-comment formatting.
+Fix missing spaces around arithmetic operators to address coding 
+style issues reported by checkpatch.pl.
 
-The warning was:
-- Block comments use a trailing */ on a separate line
-
-This change also moves text from the first line of block comments to
-subsequent lines to adhere to the standard Linux kernel coding style.
-
-Signed-off-by: Mahad Ibrahim <mahad.ibrahim.dev@gmail.com>
+Signed-off-by: Diksha Kumari <dikshakdevgan@gmail.com>
 ---
- .../media/atomisp/pci/sh_css_param_shading.c   | 18 ++++++++++++------
- 1 file changed, 12 insertions(+), 6 deletions(-)
+ drivers/staging/rtl8723bs/core/rtw_sta_mgt.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/staging/media/atomisp/pci/sh_css_param_shading.c b/drivers/staging/media/atomisp/pci/sh_css_param_shading.c
-index 513e272f2fdc..b5e9d11b28a6 100644
---- a/drivers/staging/media/atomisp/pci/sh_css_param_shading.c
-+++ b/drivers/staging/media/atomisp/pci/sh_css_param_shading.c
-@@ -20,7 +20,8 @@
+diff --git a/drivers/staging/rtl8723bs/core/rtw_sta_mgt.c b/drivers/staging/rtl8723bs/core/rtw_sta_mgt.c
+index 3e80d03c4ec9..af31763ff628 100644
+--- a/drivers/staging/rtl8723bs/core/rtw_sta_mgt.c
++++ b/drivers/staging/rtl8723bs/core/rtw_sta_mgt.c
+@@ -54,7 +54,7 @@ u32 _rtw_init_sta_priv(struct	sta_priv *pstapriv)
+ 	struct sta_info *psta;
+ 	s32 i;
  
- #include "platform_support.h"
+-	pstapriv->pallocated_stainfo_buf = vzalloc(sizeof(struct sta_info) * NUM_STA+4);
++	pstapriv->pallocated_stainfo_buf = vzalloc(sizeof(struct sta_info) * NUM_STA + 4);
  
--/* Bilinear interpolation on shading tables:
-+/*
-+ * Bilinear interpolation on shading tables:
-  * For each target point T, we calculate the 4 surrounding source points:
-  * ul (upper left), ur (upper right), ll (lower left) and lr (lower right).
-  * We then calculate the distances from the T to the source points: x0, x1,
-@@ -116,8 +117,10 @@ crop_and_interpolate(unsigned int cropped_width,
- 		 */
- 		ty = out_start_row + i * out_cell_size;
+ 	if (!pstapriv->pallocated_stainfo_buf)
+ 		return _FAIL;
+@@ -105,7 +105,7 @@ u32 _rtw_init_sta_priv(struct	sta_priv *pstapriv)
  
--		/* calculate closest source points in shading table and
--		   make sure they fall within the table */
-+		/*
-+		 * calculate closest source points in shading table and
-+		 * make sure they fall within the table
-+		 */
- 		src_y0 = ty / (int)in_cell_size;
- 		if (in_cell_size < out_cell_size)
- 			src_y1 = (ty + out_cell_size) / in_cell_size;
-@@ -173,7 +176,8 @@ crop_and_interpolate(unsigned int cropped_width,
- 			dx0 = tx - sx0;
- 			dx1 = sx1 - tx;
- 			divx = sx1 - sx0;
--			/* if we're at the edge, we just use the closest
-+			/*
-+			 * if we're at the edge, we just use the closest
- 			 * point still in the grid. We make up for the divider
- 			 * in this case by setting the distance to
- 			 * out_cell_size, since it's actually 0.
-@@ -291,8 +295,10 @@ prepare_shading_table(const struct ia_css_shading_table *in_table,
- 	input_width  = min(input_width,  in_table->sensor_width);
- 	input_height = min(input_height, in_table->sensor_height);
+ inline int rtw_stainfo_offset(struct sta_priv *stapriv, struct sta_info *sta)
+ {
+-	int offset = (((u8 *)sta) - stapriv->pstainfo_buf)/sizeof(struct sta_info);
++	int offset = (((u8 *)sta) - stapriv->pstainfo_buf) / sizeof(struct sta_info);
  
--	/* This prepare_shading_table() function is called only in legacy API (not in new API).
--	   Then, the legacy shading table width and height should be used. */
-+	/*
-+	 * This prepare_shading_table() function is called only in legacy API (not in new API).
-+	 * Then, the legacy shading table width and height should be used.
-+	 */
- 	table_width  = binary->sctbl_width_per_color;
- 	table_height = binary->sctbl_height;
- 
+ 	return offset;
+ }
+@@ -311,7 +311,7 @@ u32 rtw_free_stainfo(struct adapter *padapter, struct sta_info *psta)
+ 	/* spin_lock_bh(&(pxmitpriv->vi_pending.lock)); */
+ 	rtw_free_xmitframe_queue(pxmitpriv, &pstaxmitpriv->vi_q.sta_pending);
+ 	list_del_init(&(pstaxmitpriv->vi_q.tx_pending));
+-	phwxmit = pxmitpriv->hwxmits+1;
++	phwxmit = pxmitpriv->hwxmits + 1;
+ 	phwxmit->accnt -= pstaxmitpriv->vi_q.qcnt;
+ 	pstaxmitpriv->vi_q.qcnt = 0;
+ 	/* spin_unlock_bh(&(pxmitpriv->vi_pending.lock)); */
+@@ -320,7 +320,7 @@ u32 rtw_free_stainfo(struct adapter *padapter, struct sta_info *psta)
+ 	/* spin_lock_bh(&(pxmitpriv->be_pending.lock)); */
+ 	rtw_free_xmitframe_queue(pxmitpriv, &pstaxmitpriv->be_q.sta_pending);
+ 	list_del_init(&(pstaxmitpriv->be_q.tx_pending));
+-	phwxmit = pxmitpriv->hwxmits+2;
++	phwxmit = pxmitpriv->hwxmits + 2;
+ 	phwxmit->accnt -= pstaxmitpriv->be_q.qcnt;
+ 	pstaxmitpriv->be_q.qcnt = 0;
+ 	/* spin_unlock_bh(&(pxmitpriv->be_pending.lock)); */
+@@ -329,7 +329,7 @@ u32 rtw_free_stainfo(struct adapter *padapter, struct sta_info *psta)
+ 	/* spin_lock_bh(&(pxmitpriv->bk_pending.lock)); */
+ 	rtw_free_xmitframe_queue(pxmitpriv, &pstaxmitpriv->bk_q.sta_pending);
+ 	list_del_init(&(pstaxmitpriv->bk_q.tx_pending));
+-	phwxmit = pxmitpriv->hwxmits+3;
++	phwxmit = pxmitpriv->hwxmits + 3;
+ 	phwxmit->accnt -= pstaxmitpriv->bk_q.qcnt;
+ 	pstaxmitpriv->bk_q.qcnt = 0;
+ 	/* spin_unlock_bh(&(pxmitpriv->bk_pending.lock)); */
 -- 
-2.47.3
+2.34.1
 
