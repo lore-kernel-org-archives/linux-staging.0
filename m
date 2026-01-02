@@ -1,74 +1,83 @@
-Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com [209.85.210.177])
+Received: from mail-yx1-f48.google.com (mail-yx1-f48.google.com [74.125.224.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62981CA52
-	for <linux-staging@lists.linux.dev>; Thu,  1 Jan 2026 18:31:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6EB6530DEDC
+	for <linux-staging@lists.linux.dev>; Fri,  2 Jan 2026 11:45:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767292297; cv=none; b=n2RWyfjpXtusNq5WbldAZ6TGeCHhXP9BWQUux9knUZoMg16OAsvXlSLdSUX1Bvlms8sS4YZeYJ2kCPsyK/YR5xVyULM9bfdfwajxFHDI1lzSBhH20VQ7Q1NNsVnMHhPBb/SxFdmVDYGcV3eUk2fhN3ih9bsL/FDGT4fYDXKLkS4=
+	t=1767354331; cv=none; b=dlKHxfwjBIlO8WQpdidZK+8CXhpSvfRmWIrnu4WA6uOZWKahcI2VjPvitOQdQAr435mzf3DlfNYnIJmzai1GC7Gsf3sC5fqtweelm1l1CFVbmfsVbAf2HqEDd9CXpVabKSyPtsihmgxelQvA0Em1fdqCdSe0LM2exqESyXDwzyo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767292297; c=relaxed/simple;
-	bh=oFaGLhGNj1bnIHJxy5hflV3MYQwQ7qpGQCHDjrB62FM=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=WbEZfCHZ8Nyou7OrCMzYuD9EdbDWhYqGeB0PKsn7lE4T/rbCffS77HrlifeZ+o76FCqoKm5jYNo3IivmPw1WsvJH7XhaHAphIq+0ie2Behs+ItvPX6JG3Yu+a7eUsYsdyzrQoA5paudTt1+HLBiurdfUcARhpRUXf1x7rPK1r5A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iePGuIoI; arc=none smtp.client-ip=209.85.210.177
+	s=arc-20240116; t=1767354331; c=relaxed/simple;
+	bh=TDJbXfFyAbZcEQrNkjWXCeHspNOTitXO3owb4PmXNMY=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=MjJIoNaaHWVG3TSOED/PV0w+QGecyD+MNUP6ZuZfZrSC3ZFGiDaXLgMS2PqmZfAWabyU73uvYdKA9ByZZvc9GbI0xAie9K3mBMYphinnZjTTN0e9Jhw9KOhL8uCWk6M1RhB9oEcvXnBfIpzSpaJ17joFcbe/2rZgzAzaBlknvHE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=S3fBNk2O; arc=none smtp.client-ip=74.125.224.48
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iePGuIoI"
-Received: by mail-pf1-f177.google.com with SMTP id d2e1a72fcca58-81345800791so42569b3a.0
-        for <linux-staging@lists.linux.dev>; Thu, 01 Jan 2026 10:31:36 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="S3fBNk2O"
+Received: by mail-yx1-f48.google.com with SMTP id 956f58d0204a3-640e065991dso9921569d50.3
+        for <linux-staging@lists.linux.dev>; Fri, 02 Jan 2026 03:45:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1767292296; x=1767897096; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=G8eYxH+forI3+7Mpchd7RAfe+9ibvYrZjRyLKKzcJUQ=;
-        b=iePGuIoIkgxt+ax19jL3g8BoqGDQNtThlHf3wHASaLbVnlggovOuU5dImopllpDfKI
-         YytWy4ZZvVL5UOxvILBlVqlwsGuQPrP8T+4dHsXk7RjO9qw4EVD+9jtGEKuKTC9sQSSH
-         0t5JgWGZAgx4yhFqO4mVkoMiew48qlinyPFZsg8ho1rZb/CSnAJTIW9r+Lo1OFNjfmFt
-         E4ane0SgqMC3eKjx640h0oauVQOl5UVLcd2ttc1OeMeQNj++AUrMToj8ko+ysurGnnkm
-         wh8IN6e+KPaIEhc1ri3yOfEIdmHko8lB+kMueBZMxhCZH66WOlaaKGh2zCr0dTJ2Ekvf
-         69ow==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767292296; x=1767897096;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1767354328; x=1767959128; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=G8eYxH+forI3+7Mpchd7RAfe+9ibvYrZjRyLKKzcJUQ=;
-        b=aMzVeyqkR4gKVqvtqFa764Ovk2apdCB8YsklNu4aRWWwAZ6X+49k1ayk6BX/BsejO9
-         3/Y/wvFgsn5TlCpm4h3cyEJEqSEFfF8geUJxxASd7c/ptE3tFDCdE5uZAsfeLKBO9Gz1
-         BZ4VV2STju0bqeVT/HdSp9QdRVCydD4gD13FlujRSDeC3knhlnxnQshAnmb0ECHQBZmV
-         23AP7u1llWWIuFHiLM6agm+HQfnmgsKZRpuiif50dItem/e68y2Hjd/DYv0S6JkvObPY
-         qKT1u9XsOi90ApqOcCVS60q9NjrZoVDIFuFxutDigSTz8jRyudxUOXxpT/e/c+PQgRVU
-         FC6w==
-X-Forwarded-Encrypted: i=1; AJvYcCUa6lnRtggVnDvStXPyVPWmeu7YFl5ugTAog6uulgWWHKaMQaT1gn920usW5my9NiP1ffxKnHLPyb3sTCdo@lists.linux.dev
-X-Gm-Message-State: AOJu0YxUSdaZrKVc1zBm3lxtCRzLCkGw0Kf4dAGCe2M94ZaL1YtJVuDB
-	bSHRGENG5GM2UEB7c7WFn2JR/vyEuWFZxaGHm7jh+m1XX89VEt9PT/RA
-X-Gm-Gg: AY/fxX55IKAndsgZZRO5vetq+mpZYDwv2DJMAqBa5dwmPC2ERmqTjhL4LbobzN8jH01
-	099ml7rRnSoNvOI9ISduTfkLMngKMuyNc6PmL7Pef8D22rsovRqDpimx9q/rQd1Q+kMwX+9gWDu
-	RKlLTXTToaAoEeUHxgvtGI6TQiqO4XWQouh/Scdrljp5DrY0UybQBKFm9qNy6IsOGhoro1zZfOY
-	MAkg/RpDmF7vJSWAk46Ix9pVXEYe9y3nUysaCEQikKi8QLz/sUViQ/0qka/AiXt+S2bOs8EF9yN
-	GSGTpulutpzibAsqnkmdhH4Ac9sTmAQC+5UwS6Lz2cPUIjsHxhnsLzdgfHtXmQw70Cxgal4XawW
-	JOfGpWrfzUXzKVKijD6nzbYoF0v+mPG+ve21RnszTBTV2yuoszNywpmgT1HhrCdnmLQoj87iA59
-	LubRpQHxDIlBFBOhg=
-X-Google-Smtp-Source: AGHT+IEmuusfxvTARnNvOnl6wuN2a/2Px9ZMkIByWNb40eomkRUtBPa6cBWW+G2UF8v3MpvnH5wwCg==
-X-Received: by 2002:a05:6a00:4c8c:b0:7f7:1d4c:a067 with SMTP id d2e1a72fcca58-7ff64cd432dmr39601811b3a.27.1767292295559;
-        Thu, 01 Jan 2026 10:31:35 -0800 (PST)
-Received: from diksha-pc.. ([106.51.167.149])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7ff7e0a19d8sm38281239b3a.42.2026.01.01.10.31.32
+        bh=k1dnW+Zt54C69hvmZUhWgW5bAae7MU/KIyFI4r0RGm8=;
+        b=S3fBNk2OBR7cxEF38PO1RS6JhqntWMTskF8HNqegAyoMA0HZjNO9Nb06nS4ihnajuo
+         yo9Veh76rbbp7mmW4iRZOEarnBd52yg4fdSorP12D4EQy46KOKlVZc0PfSn6NLrZnr2e
+         dPmJZ25naqTE932dj53I/AlkN7jaWyNG2n8FpUNNRxKXKuYa8BxgBhrO4+cZu14w25ii
+         YTK4cLspyzrl0xyPWcfCZRoezpEI6DIwP5oeA6zqZvIXdg5Jj5XS+IpK+iHsUKHdITsB
+         JdAcu5KLNMOmwZM9zRoipYmTbGlCg+edVR5H8EViqcRh4MOw5/+r97Gw9mNaTrZYWFpc
+         K0HQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1767354328; x=1767959128;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=k1dnW+Zt54C69hvmZUhWgW5bAae7MU/KIyFI4r0RGm8=;
+        b=wVTT5gDwRU5C5ANO/cW3cI2GxZ992ubdtH0H9SJqpdpAYzQmGtvx4lUvBRthn0EHFR
+         l0FYbUX8jaUjEx3OY4AmqdAvJ2E5JcXJvMGoIAaE1ImGGb3dQXMe9RGDV08AHLpK6zug
+         XJjkRC4hHykS1mm2aVKdhUb1z6o0HHSFOoh623yrj3dJN4JX/otMXRNuV3SsR8LxwWgV
+         7fbe4dp2Jmgl8eH7hA21zu31X6Ho1J6V8Lapfl86WDqokEsxaUc9fWlyVyDhDNrQBYbU
+         ChRh6gOCI11MwOebas8EhBuHru2ytRNVsFSFhcIV0Ln9VLNfgf9uiDNDrVIJxcTJLnt3
+         Z+gQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXQ6Cwpn7COGViZkxmHSjpRkt9mMFpQci3biAGZMd9cFYlJSAxkHeOktxpx4ePwiqgAe1c9FACBpG71BaqK@lists.linux.dev
+X-Gm-Message-State: AOJu0YwD6uxnr8gbU8szAQkDy2wqXe+GoM3B7odfc+pTT8K1QAq0tyCZ
+	WRmh2kuWLL/XU+4IfHAcel20FOgNtciLUTyCwbMC6yLcQToEkbbPvwcZ
+X-Gm-Gg: AY/fxX40K2CfJHEJkdtrXbIaMrzXAg75qQ4ykTe56uzb67Zrjq/LggcgxgGEwR9BtX9
+	wLdyluKEofcTMkay8Xn9C7smtkkO0CRbOnOkimfPUwuUcYMcJ5zBHfb57JLwS//c1HHwt7XZRPg
+	/hbrT5/XVqzGKJhYZcMaK04k3C2MW6veCvpZsuXb4od6N4m75nH4ow/6nDyZ6PqxvSMzw36PSBj
+	2GUVuCkdEOTN2H3R1s5wcwha8Q928yaq7cc+DI8mk42SZMsFwodRubNN+ONv+X3iASbncMHtlN9
+	OsPB4KG8/H1MKhGR7/UX+no+3KwmZ/qc4J/c2mAy3ioNmHSkY0ZUFBuFYrsf4bdqvik7y25z9dH
+	W8QNPVeL8q5/NGoUNu3a2MqoRPG2oby0WXk5HpDK39a5dhl4m5fyxLRWfLUIn8oOU0QFTStzPY+
+	21VFK9MehDFWL3LZ6oCY/QJTAa0XZfagXQ43K/PCWwZSi4TfjCZngTrBhPVBpX0IzrbMm6HwKl9
+	+opglY=
+X-Google-Smtp-Source: AGHT+IE6ACYtbfDtIgHRuD99sx3uuiu8dKeGyrijkk8cNwMwXUe595t6B/utOB2BInhViBh0R6kqVg==
+X-Received: by 2002:a05:690e:1486:b0:63e:b41:cebc with SMTP id 956f58d0204a3-6466a8395admr33899090d50.17.1767354328416;
+        Fri, 02 Jan 2026 03:45:28 -0800 (PST)
+Received: from ubuntu-linux-2404.. (108-214-96-168.lightspeed.sntcca.sbcglobal.net. [108.214.96.168])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-78fb4562df4sm156230587b3.55.2026.01.02.03.45.21
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 01 Jan 2026 10:31:34 -0800 (PST)
-From: Diksha Kumari <dikshakdevgan@gmail.com>
-To: gregkh@linuxfoundation.org,
-	straube.linux@gmail.com,
-	hansg@kernel.org,
-	arthur.stupa@gmail.com,
-	tglx@linutronix.de,
-	linux-staging@lists.linux.dev
-Cc: Diksha Kumari <dikshakdevgan@gmail.com>
-Subject: [PATCH v1] rtl8723bs:fix spacing around operators
-Date: Fri,  2 Jan 2026 00:01:24 +0530
-Message-Id: <20260101183124.10322-1-dikshakdevgan@gmail.com>
-X-Mailer: git-send-email 2.34.1
+        Fri, 02 Jan 2026 03:45:27 -0800 (PST)
+From: Sun Jian <sun.jian.kdev@gmail.com>
+To: Thierry Reding <thierry.reding@gmail.com>
+Cc: Jonathan Hunter <jonathanh@nvidia.com>,
+	Sowjanya Komatineni <skomatineni@nvidia.com>,
+	Luca Ceresoli <luca.ceresoli@bootlin.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-media@vger.kernel.org,
+	linux-tegra@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Sun Jian <sun.jian.kdev@gmail.com>
+Subject: [PATCH v3 0/2] staging: media: tegra-video: move shared SoC declarations to headers
+Date: Fri,  2 Jan 2026 19:44:59 +0800
+Message-ID: <20260102114501.42312-1-sun.jian.kdev@gmail.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20251229070125.98741-1-sun.jian.kdev@gmail.com>
+References: <20251229070125.98741-1-sun.jian.kdev@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -77,63 +86,34 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Fix missing spaces around arithmetic operators to address coding 
-style issues reported by checkpatch.pl.
+This series cleans up tegra-video SoC data declarations shared across
+translation units by moving them to the corresponding headers, avoiding
+local extern declarations in .c files.
 
-Signed-off-by: Diksha Kumari <dikshakdevgan@gmail.com>
+No functional change intended.
+
 ---
- drivers/staging/rtl8723bs/core/rtw_sta_mgt.c | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+Changes in v3:
+  - Wrap the SPARSE warning in patch 1 commit message to <= 75 columns.
 
-diff --git a/drivers/staging/rtl8723bs/core/rtw_sta_mgt.c b/drivers/staging/rtl8723bs/core/rtw_sta_mgt.c
-index 3e80d03c4ec9..af31763ff628 100644
---- a/drivers/staging/rtl8723bs/core/rtw_sta_mgt.c
-+++ b/drivers/staging/rtl8723bs/core/rtw_sta_mgt.c
-@@ -54,7 +54,7 @@ u32 _rtw_init_sta_priv(struct	sta_priv *pstapriv)
- 	struct sta_info *psta;
- 	s32 i;
- 
--	pstapriv->pallocated_stainfo_buf = vzalloc(sizeof(struct sta_info) * NUM_STA+4);
-+	pstapriv->pallocated_stainfo_buf = vzalloc(sizeof(struct sta_info) * NUM_STA + 4);
- 
- 	if (!pstapriv->pallocated_stainfo_buf)
- 		return _FAIL;
-@@ -105,7 +105,7 @@ u32 _rtw_init_sta_priv(struct	sta_priv *pstapriv)
- 
- inline int rtw_stainfo_offset(struct sta_priv *stapriv, struct sta_info *sta)
- {
--	int offset = (((u8 *)sta) - stapriv->pstainfo_buf)/sizeof(struct sta_info);
-+	int offset = (((u8 *)sta) - stapriv->pstainfo_buf) / sizeof(struct sta_info);
- 
- 	return offset;
- }
-@@ -311,7 +311,7 @@ u32 rtw_free_stainfo(struct adapter *padapter, struct sta_info *psta)
- 	/* spin_lock_bh(&(pxmitpriv->vi_pending.lock)); */
- 	rtw_free_xmitframe_queue(pxmitpriv, &pstaxmitpriv->vi_q.sta_pending);
- 	list_del_init(&(pstaxmitpriv->vi_q.tx_pending));
--	phwxmit = pxmitpriv->hwxmits+1;
-+	phwxmit = pxmitpriv->hwxmits + 1;
- 	phwxmit->accnt -= pstaxmitpriv->vi_q.qcnt;
- 	pstaxmitpriv->vi_q.qcnt = 0;
- 	/* spin_unlock_bh(&(pxmitpriv->vi_pending.lock)); */
-@@ -320,7 +320,7 @@ u32 rtw_free_stainfo(struct adapter *padapter, struct sta_info *psta)
- 	/* spin_lock_bh(&(pxmitpriv->be_pending.lock)); */
- 	rtw_free_xmitframe_queue(pxmitpriv, &pstaxmitpriv->be_q.sta_pending);
- 	list_del_init(&(pstaxmitpriv->be_q.tx_pending));
--	phwxmit = pxmitpriv->hwxmits+2;
-+	phwxmit = pxmitpriv->hwxmits + 2;
- 	phwxmit->accnt -= pstaxmitpriv->be_q.qcnt;
- 	pstaxmitpriv->be_q.qcnt = 0;
- 	/* spin_unlock_bh(&(pxmitpriv->be_pending.lock)); */
-@@ -329,7 +329,7 @@ u32 rtw_free_stainfo(struct adapter *padapter, struct sta_info *psta)
- 	/* spin_lock_bh(&(pxmitpriv->bk_pending.lock)); */
- 	rtw_free_xmitframe_queue(pxmitpriv, &pstaxmitpriv->bk_q.sta_pending);
- 	list_del_init(&(pstaxmitpriv->bk_q.tx_pending));
--	phwxmit = pxmitpriv->hwxmits+3;
-+	phwxmit = pxmitpriv->hwxmits + 3;
- 	phwxmit->accnt -= pstaxmitpriv->bk_q.qcnt;
- 	pstaxmitpriv->bk_q.qcnt = 0;
- 	/* spin_unlock_bh(&(pxmitpriv->bk_pending.lock)); */
+Changes in v2:
+  - Add the exact sparse warning line to patch 1 commit message.
+  - Add patch 2 moving tegra20_vip_soc declaration to vip.h for consistency.
+
+Changes in v1:
+  - Initial version.
+
+Sun Jian (2):
+  staging: media: tegra-video: move tegra210_csi_soc declaration to
+    csi.h
+  staging: media: tegra-video: move tegra20_vip_soc declaration to vip.h
+
+ drivers/staging/media/tegra-video/csi.c | 4 ----
+ drivers/staging/media/tegra-video/csi.h | 4 ++++
+ drivers/staging/media/tegra-video/vip.c | 4 ----
+ drivers/staging/media/tegra-video/vip.h | 4 ++++
+ 4 files changed, 8 insertions(+), 8 deletions(-)
+
 -- 
-2.34.1
+2.43.0
 
