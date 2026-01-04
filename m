@@ -1,124 +1,116 @@
-Received: from mail-pg1-f176.google.com (mail-pg1-f176.google.com [209.85.215.176])
+Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFD492D4B66
-	for <linux-staging@lists.linux.dev>; Sun,  4 Jan 2026 05:25:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 278692C0270
+	for <linux-staging@lists.linux.dev>; Sun,  4 Jan 2026 05:38:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767504327; cv=none; b=q6mqSx00TMS9IeCnjpj8u87Yz8DFy/aUWvescYtOyW+z9AfXZfsxCYnCzkpH22TexVows3aw5Butfxb2JqrZv7P51pKrLQkNLogMZiPkmWJIA/BaBj8qyTA5O6CoXizjXJYNmQOop1I1TrgB+G3EVh4oMSEpsWgjJJc7o8/50+Y=
+	t=1767505134; cv=none; b=iUsk7iKh7yAlfsqVCSX28hxBi7xL+EecciaRHH7ksE1Yj63EXv70RR8rJsSck8zh9iNpEgWcf0N+4fcKAE3ihIkPKPezXXMYH2FmD7jb0RLvfXbA2QI9DqX4ft+0ptFA7jvq/u0L9aaqgFlm7oFmy6qFU8PBNpPwRWfWFX973CE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767504327; c=relaxed/simple;
-	bh=I3WCzlV2edorTmg3PJ7toRE7SlA6LWsaLpA8+ZFEhQ4=;
+	s=arc-20240116; t=1767505134; c=relaxed/simple;
+	bh=1cy/7omDUaB5WW8ifDmvv3jc+tFSD3izpn1YCB7cvj4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=b5ip/4QOPKJihmWiXOx2yTgz0VAQauoSMpz/vfnNcTr2nXJoDlX04EOzdXRMjasqk1WYZqjHn5jwcbSdXiysFOWlEj5OAH6NhEnUCaHp/Ifm7XHOPoGuGVeBXI1RMF3hqWzngRXphElChgMF4TeZthBOIkONzO1h99DhLd3CwEM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Y4PTfnnT; arc=none smtp.client-ip=209.85.215.176
+	 Content-Type:Content-Disposition:In-Reply-To; b=s0lwdztDRJ0LsLuKGl40b596Yq8pexKC4afwvJJGUc7EEb9VPuSjd638fD1qJWcf26v2j3/lyxjV4legIrNoIkMSfT2xKisVq7CNnpvI+si8mXsA3jgB9wElnlc1f3RotwqiD9f87VvuqSH6RqQGcE3xA/STLuXa8kVzy94Zpfk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LsdybrbM; arc=none smtp.client-ip=209.85.216.44
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Y4PTfnnT"
-Received: by mail-pg1-f176.google.com with SMTP id 41be03b00d2f7-c06cb8004e8so10308848a12.0
-        for <linux-staging@lists.linux.dev>; Sat, 03 Jan 2026 21:25:25 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LsdybrbM"
+Received: by mail-pj1-f44.google.com with SMTP id 98e67ed59e1d1-34b75fba315so14194798a91.3
+        for <linux-staging@lists.linux.dev>; Sat, 03 Jan 2026 21:38:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1767504325; x=1768109125; darn=lists.linux.dev;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=dQEr16uxByFpZ6dsm0QP3DXZzS+3qaAEyzf1bKeZK5E=;
-        b=Y4PTfnnTxWLJ+JNTt3WF5XgDfeIuUnezY5E1LBP3hXlr17CyZ6lc2O3vGjMtGwjFyO
-         TfJ2oPTrrTvRfL9n90vfR4VRDhnV7meCPq+tlKSyLbua81qx1KkvIuwTp8T4RnWnW6D2
-         SiLmXcm6jwvYVXiJGa/oVR2S2PX4uyLFYsPZbkS+2rqMFNwCaxhBKSWWg8Hy8VLrbOI8
-         IOsh3fKRnT8mTyZoxH7JBeRszekisR1UXLeMBVpMAl7y5dEQq7Uof7gC1LDLxzpVODmf
-         MWvSW858BV5cESHucHVr+YY5MMpWxwJihvPDGdPY0Akt7bHSOKKgRFMVmUE7K/avRpTH
-         i/MA==
+        d=gmail.com; s=20230601; t=1767505132; x=1768109932; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=BFnxtKrucpWCo/zUoxUrPbX5HS36ZTXbhXduqwcqQ/M=;
+        b=LsdybrbMd6IGnRtmzpRUjqHtmGKwRDanNLqj0llL/WDrvGopLX24jYECnk2cyOLSRi
+         JaiilDh3Z4EOpsuZ8T//4YaBoYevvYPdEZiM2bwEE+pdXtA8zbxQMbHdKkfxZROGy/lc
+         zeyfPAcxiWU7dROR3IOjL0Bh+2unzZMjQKYHD+HxBzlLHO6Eog8MT2sfUeQd5OrYqtCU
+         HR1SRC5mSo34+JF/p90Eq1fEIkreALg/pZ05qW9HaAmAOghkUTqAO1EPPRgOTaANpw1b
+         PiCkzoyHOdo2zFaIkdzLLqOj0H/mSK48vsFot7VicDg5QAqUeQbH4bXT6QkoXUx3ArEW
+         hlgA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767504325; x=1768109125;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=dQEr16uxByFpZ6dsm0QP3DXZzS+3qaAEyzf1bKeZK5E=;
-        b=dYThHwiR4fi9+sHD7NqbLVkykogZCgnkbRUruHKhnRJ46FMs4TUoGpRFVkb4C0qjJG
-         i1ea+yFuMKmmBeyz02cB/nm/jy7UlEsAq+m0RhrjUzKwyRX3JxSOSsvZb/S6MjB5Ak1Q
-         oyNEFG3DQ/UCF1yfIybVl0g0AppbdyVwQ2vljbTm/mdCuEq2DJVOmQL/LAJx4+1Z4nWR
-         nji8lvoXXAaHifVEfmlGXEZvdrokmELD+gcBZC35CDZXG4P5SQpokqfu2w2j2uhbqXEM
-         Im0UNhQRUDoNN6s77Neuky1qrP58W/XH1wnpkLHDE3wthhPd6hKrqIBD7Ob6TGofKXY0
-         24wQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXyFDQXp9f1GK7qPYtq82xsoPpJ9uet76zpxefRKdut4AgCd4A35FA550vFdqomJ6deIPMa1Imu6yf3Pa5e@lists.linux.dev
-X-Gm-Message-State: AOJu0Yx22N0qHsUo7gbsmMYEc6C4AxhuOp48fc/GDOcDUE5F4BSK5Jrg
-	NwlLM0NPzc5aWCm5x5wallYlS+2ZB+DJp+sflrtr2ZAl4IDyCvSZcUkO
-X-Gm-Gg: AY/fxX6GgZUeU5XykK9cpFQ+GcYq7L8KMzVbGafJ3YXmj7NLlImvMKGb7D/39E+2AXt
-	1cqnIXgAv2h5oZTVO3D9fXtnl78OG3HaPRox7EIIMc/LVYhfj6u4/UN09mS0JsQqSGMWT0dBB6/
-	1iC4cXgurkeHaP9otPFMQp6lQXQZMcc1xk3VczUEDQuLJHzz403r+yinzSuMHdcCxsxaWbRrTFC
-	PjxQYVZGp2lhzOzmKSMcViGJsBTnlTLjnBz5+0uo0W/cIz/01Y5pG/Hu5yyZznkKErjVDBm7HHN
-	M2l5Mw/5swoKcHITY2RVTI9WXhdWgzCXpiEhKWpVsKrCoT+MDRLue/UESTD9vmG8gFCgSUdI8F1
-	tue/qcUXO0j/bf9MmSQhfwjQvfa2+U0XhmOITEW/1smMKgQ34mCX0E7MQISi9jvWbYCZXqoB7l/
-	QKF0BBmI5T9bf01+Xc7ISr6BcjbG218xQwU9K2WI4nuU1n8XgRULrqs2BxOgwwI+3v2gePP4XKr
-	5sJRWKWI7P8WG0etw8FgHHdiGKHtsoJ+BvHIsCeNrCq1+72IiQejkqubHc=
-X-Google-Smtp-Source: AGHT+IGv88ZyKsdGGf/yXvuvui+FMzWsvVI3MeuxnLqxqPfBAUWpeCfAt+yWc6QsN/FnF7dCNxMOnw==
-X-Received: by 2002:a05:7301:815:b0:2b0:4902:c189 with SMTP id 5a478bee46e88-2b05ecab250mr28973064eec.33.1767504324670;
-        Sat, 03 Jan 2026 21:25:24 -0800 (PST)
+        d=1e100.net; s=20230601; t=1767505132; x=1768109932;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=BFnxtKrucpWCo/zUoxUrPbX5HS36ZTXbhXduqwcqQ/M=;
+        b=ANrQPWO3E436+9Z0NTFVROdNbiThk+EcsYJOx5VFCSSApxWoXYBw/bNzwhBrTuHv8j
+         iTkXZD1E0kf6nvokXr4SOZIjLL02Csj2SibPWH3O8usrpdJ/fIiGpGc6dwemO7f+Y/Xs
+         d43lmjA0b153arCwOYnzRZ8WXgmVMmKTHpMPI7XJ/Rhgz5EdCzABks+6Nqne6l7gocnH
+         20hK0anRFyiCAn71AI0W0YFBmdWq/92yzF+F6myMFbbjgMLWgQP9+HeZ+KQxbT28AHeg
+         OYWH9V1uo0YWUcYk6hzm4dYNvOzcTt54OajKZuXAGj9L5iTROGum4vR72NwQR/SO9Zj4
+         +M6w==
+X-Forwarded-Encrypted: i=1; AJvYcCX4DabYv94Wqdy9STmYC8rSyj7s6a+Di3B8Cpkqn1p6tynexERoX89MnR9unKsZ7E7SMIl9OX+EYE8U7ZH8@lists.linux.dev
+X-Gm-Message-State: AOJu0Yx3rN1A2u1R1MasSfRIQBjSD9tqQ0G8Dg2HIqStzD+hK6Azdo1d
+	U462Yml2z2LhJ/lqRMUkQBYyuH14FmqKEfCa3UNVlSqolpv25sqnqhUR
+X-Gm-Gg: AY/fxX6yXPFunZWn0jicP/BQPt6z/oMIZKG3/+G5pl5Pmq63cFnqefh5Hg588QqtF3e
+	oaq4hwDesudNGRSpun/ywG5cl7UxETea2rDBykVx9q045lNk79OaJddEpv/3vCj++3W4XhrmfO6
+	WYfGZWz7bazp1XLDljP2vnzEh8NaxKoiPufVv7iL8YU7PiJBQfC75SBKEvrQqUhE/W/aSE+y7oE
+	2/VLnmz52BNuHBecjMKmK17dc2EcrAJStTKea5fwlwH6n9QF9hn8VDQMqDuQ+JJzQpUOdEcTF3C
+	PArpyj9Ydw6ykVmteJI+GAC9QJTO588E3v4tC3UQEU+C0Pv0yQWh2sKb9b8wvVjMLmDb8oL6qT/
+	yF2i3FPJ3oJC7AgY7vDfuvMSW728bhiA2al/ek1VaqSBTgmYRSRPPfRjBoQUp3+RmhDNgvUTAOo
+	ZZ78YKbu1PTqaWiN/JUFv/ayg8eyJiykgPu/Sbq5qnTgTxSgRIjuCketbZdHNUza1RUlZnRlFvG
+	v4afyxtnv7QiB6RKK/Ys57hcTBPlVOJZJTFD2kja2KQxbLcv+pAkR5kqXg=
+X-Google-Smtp-Source: AGHT+IFuU8vk9mK3i7jVlpZJLCONCafucoWR4wnV/MEWErIkN9otjQLB08bVxfsOiCswR8zeLPY+Kg==
+X-Received: by 2002:a05:7022:4287:b0:11b:9386:a3c8 with SMTP id a92af1059eb24-121723018d9mr53382128c88.41.1767505132287;
+        Sat, 03 Jan 2026 21:38:52 -0800 (PST)
 Received: from localhost ([181.191.143.214])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2b05fcfc1b7sm97642003eec.0.2026.01.03.21.25.23
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-121724ddc30sm170899611c88.6.2026.01.03.21.38.51
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 03 Jan 2026 21:25:24 -0800 (PST)
-Date: Sun, 4 Jan 2026 02:25:23 -0300
+        Sat, 03 Jan 2026 21:38:51 -0800 (PST)
+Date: Sun, 4 Jan 2026 02:38:50 -0300
 From: Tomas Borquez <tomasborquez13@gmail.com>
-To: Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc: Jonathan Cameron <jic23@kernel.org>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Lars-Peter Clausen <lars@metafoo.de>, 
-	Michael Hennerich <Michael.Hennerich@analog.com>, David Lechner <dlechner@baylibre.com>, 
-	Nuno =?utf-8?B?U8Oh?= <nuno.sa@analog.com>, Andy Shevchenko <andy@kernel.org>, linux-kernel@vger.kernel.org, 
-	linux-iio@vger.kernel.org, linux-staging@lists.linux.dev
+To: Jonathan Cameron <jic23@kernel.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Lars-Peter Clausen <lars@metafoo.de>, Michael Hennerich <Michael.Hennerich@analog.com>, 
+	David Lechner <dlechner@baylibre.com>, Nuno =?utf-8?B?U8Oh?= <nuno.sa@analog.com>, 
+	Andy Shevchenko <andy@kernel.org>, linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org, 
+	linux-staging@lists.linux.dev
 Subject: Re: [PATCH v2 4/6] staging: iio: ad9832: remove dds.h dependency
-Message-ID: <hjspdsgz6ey7iaczw3qxn5qwlmpv7pnhxxmrzmfigygc33at2r@3gq2xps7idza>
+Message-ID: <7s5n34ucflr5jvn7xpotj7qnp5msf45t37ziydh2g4eej4j6ai@irs5mrlpwcyr>
 References: <20251230203459.28935-1-tomasborquez13@gmail.com>
  <20251230203459.28935-5-tomasborquez13@gmail.com>
- <CAHp75VefAPs8C9gJdz-zTkS3cpExg5pwOTMreiUs-ikSgpygOw@mail.gmail.com>
+ <20251231180939.422e9e62@jic23-huawei>
+ <20251231181153.556f14fe@jic23-huawei>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAHp75VefAPs8C9gJdz-zTkS3cpExg5pwOTMreiUs-ikSgpygOw@mail.gmail.com>
+In-Reply-To: <20251231181153.556f14fe@jic23-huawei>
 
-On Wed, Dec 31, 2025 at 12:46:28AM +0200, Andy Shevchenko wrote:
-> On Tue, Dec 30, 2025 at 10:35 PM Tomas Borquez <tomasborquez13@gmail.com> wrote:
-> >
-> > Remove dependency on dds.h by converting custom macros to standard IIO
-> > attribute declarations.
+On Wed, Dec 31, 2025 at 06:11:53PM +0000, Jonathan Cameron wrote:
+> On Wed, 31 Dec 2025 18:09:39 +0000
+> Jonathan Cameron <jic23@kernel.org> wrote:
 > 
+> > On Tue, 30 Dec 2025 17:34:57 -0300
+> > Tomas Borquez <tomasborquez13@gmail.com> wrote:
+> > 
+> > > Remove dependency on dds.h by converting custom macros to standard IIO
+> > > attribute declarations.
+> > > 
+> > > Signed-off-by: Tomas Borquez <tomasborquez13@gmail.com>  
+> > Hi Tomas,
+> > 
+> > Happy new year (almost)
+Hey Jonathan,
+
+Happy new year!
+
+...
+
+> > I'm not that keen on having the documentation only several patches later. Drag that
+> > before this patch or combine adding the new ABI and documentation in the same patch
+> Ah. I'd missed that this is deliberately a no change patch with old abi.
 > 
-> > +static IIO_DEVICE_ATTR(out_altvoltage0_frequency0, 0200, NULL, ad9832_write, AD9832_FREQ0HM);
-> > +static IIO_DEVICE_ATTR(out_altvoltage0_frequency1, 0200, NULL, ad9832_write, AD9832_FREQ1HM);
-> 
-> Any particular point in not using _WO() / _RO() variants of the
-> IIO_DEVICE_ATTR_*() macros?
-I was looking into this and saw that the definition for both _WO() and _RO() only takes _name and _addr:
+> So ignore the stuff that doesn't make sense with that in mind!
 
-#define IIO_DEVICE_ATTR_WO(_name, _addr) \
-	struct iio_dev_attr iio_dev_attr_##_name = IIO_ATTR_WO(_name, _addr)
-
-So if we use it for frequency0 for example, it assumes the store function
-since we don't pass it:
-
-static IIO_DEVICE_ATTR_WO(out_altvoltage0_frequency0, AD9832_FREQ0HM);
-
-// Expands to
-struct iio_dev_attr iio_dev_attr_out_altvoltage0_frequency0 = {
-    .dev_attr = {
-        . attr = {
-          ...
-          .store = out_altvoltage0_frequency0_store,
-        }
-    }
-}
-
-Meaning we would have to create a store for each one instead of using
-just one write function
-
-> -- 
-> With Best Regards,
-> Andy Shevchenko
+Just to make sure I understood:
+- I should just remove out_altvoltage0_frequency_scale
+- And add documentation in the same patch with all the ABI changes
+  "staging: iio: ad9832: convert to iio channels and ext_info attrs"
+  or as a separate patch like it is now?
