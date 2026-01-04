@@ -1,62 +1,64 @@
-Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com [209.85.128.67])
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2DF62DF12F
-	for <linux-staging@lists.linux.dev>; Sun,  4 Jan 2026 19:05:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.67
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBD98283159
+	for <linux-staging@lists.linux.dev>; Sun,  4 Jan 2026 19:05:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767553520; cv=none; b=lmb4Dbeq4nKO7l998bQxOHxz5IWZDNE8wHUqouc+g/sCDGPKp4pgSvgcaS9Fph0+AmnNgHrFYDhB7GhwQnwGkJ+xYCXiKqfik03PqESCwVcbMw6OskD+bfpSDU3mAg+bzvK8ffuHCqm8ybnC0rCPLXdETd0S/ABiC8nND1Tie9c=
+	t=1767553559; cv=none; b=c/L7hVXT/sIKmNi+lDQtj5QM50rhQj+vh7FvQUi9JpIK/a0AmzNR5l66an5nYjWIE7Kmi8WU8j40aHBDjtb8tatmeawgsVbWTTJbMa3inlrVScVWPWnEEh+BcPqWf63JpTfCsBmSQ+78ig3OSMl8vg7IjbaJLNXHq0maBvYyjN4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767553520; c=relaxed/simple;
-	bh=6/zCJJXx9DZfY48PIkypH/UZeZ/cOMZ7xcc/kYBfYdg=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Xpa4OhGeGcMu9GHEwjF1SnidnkHPkb2JZNHM3DoTehaApn74/gixKMAts5cl3F1RBCrOfPTq7i90yr1ubx00UFLJZ/UtShpSz6/VkvagcwBYIQWtsWYUvELV8UKy/rhXfybRDncwMQ0bOlpcUujI+MY0UHdLTs+Fa0zKgBkvh0M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TNoSHhMb; arc=none smtp.client-ip=209.85.128.67
+	s=arc-20240116; t=1767553559; c=relaxed/simple;
+	bh=OyC+g03aFlX7lZSthSQHkxNGwEsoEs0Tb0cf0wHv4Gc=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=A3lqTrqcMACICfF8yZdSS4bqmEksDuo28hPdPVS89EwRNBfJ2Opl1rhAOgkkltnAHlcMccQYooLFoKvkuPWZksoaBOgKh1om7tu9Y2SaTZW7R7QEvV7TUh0fSKwbizwxg7vgj0RVLZZdkhqjuTCWko7gOS6WcSDrHObY2DYh6s8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DkYBgpB1; arc=none smtp.client-ip=209.85.221.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TNoSHhMb"
-Received: by mail-wm1-f67.google.com with SMTP id 5b1f17b1804b1-4775ae77516so139949055e9.1
-        for <linux-staging@lists.linux.dev>; Sun, 04 Jan 2026 11:05:18 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DkYBgpB1"
+Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-42fb2314f52so7464733f8f.0
+        for <linux-staging@lists.linux.dev>; Sun, 04 Jan 2026 11:05:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1767553517; x=1768158317; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=kH7dAkCMy49tzMgoDi5R1yw9hpYDlkp4ghtVJ345QuA=;
-        b=TNoSHhMbx9DMU7eDHAVksAUgc18BjSA2zZoQaV+PJWJtSL2teLWnLc1lspB4+k7Dl0
-         uvn8FWXh1gV7k2H9jGxICNFlfLwLzTrl+QJLqoIbIooVQsH2Ki4gD+mSeJnV7F06oBb/
-         zXZCKHJIWGqeEDvXchPMtOrtK+5Motkjm5foYfeYo3fN8dTgUWxUC0TvwLlxmLVwFDOc
-         MTHrCXDPC4Hc4gxbApL+OMio8tNaB2GApxQ4jEcrfM41dBLF5SWE6WJZ72m/h7QDQxVa
-         QQkMndDHdax3/kD8Q/BAcxcLhoUSsoFEZQ66mWRDhI7QtbmnWCDPj0Lt4RTSnz3+5wMh
-         580Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767553517; x=1768158317;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1767553556; x=1768158356; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=kH7dAkCMy49tzMgoDi5R1yw9hpYDlkp4ghtVJ345QuA=;
-        b=aMzg738zv2b/t0QW8xbOIbA9Ky8LzJj2E7qbkEwnhZhbJRgPCXaf0OLhPoWZOFVGdr
-         28vPjuNIY4Lu1VlJoNNINcOsYBCSPTOdalPyZZoihrzq91/+dyKaVv0T1ViZ4NPJmicn
-         tAmypttvA6aVKOC5LwgnBfAe6mZ78szFPixwHdboKlnhW1d3UX62wuxM1AytccVLCnNT
-         FKDSjVOGfLp7otAO5BGwVLeD2Z7EBdZ+5SXLrgzhE0VyyuJ4u2kJI32NExKkCVUyFxAG
-         wy2X4z6dg0CefPqy6oohHiaKd6MufKrjrg/woMCS6A0JwPfHaPJ86+yFBZMFkSDPmDP1
-         WdQA==
-X-Forwarded-Encrypted: i=1; AJvYcCVRi/Dy1l2UyzzmZgf5P0EOiu5Eqm1kqTpRs7Wes4aIdTixcdvIU2I93vAnHejiY+2b/gfFOzzMfS1ftgV4@lists.linux.dev
-X-Gm-Message-State: AOJu0YxJn5q1Q0wZxFxZ8h6jBrdwmnvjI3xeFPvRhqshmGmtd9/HGMMg
-	g6Ikb/16I2iFCvHh4lvOAaOqyIMs9M7vC6hAGBXYzPSCXlgoBYhphlGT
-X-Gm-Gg: AY/fxX68cFezCD/yqbQZorgzmZWxbyLhkFEB5Us8bcMTKmfdPK6S9jOJYvWcR4O6kni
-	lk+UmVvPMtoisufpTxBa3QgpcluNlhIwAWVFu/+rLtpE3Kjrd+G97ScxmIZJv0oxgqEExMIidx5
-	Yh5CxDejIXcHKHLrAUV4dQuHBNclj9OwiwDCVtJ8arAzHm8S0xcDoJrHHmbGkrMFQofVqYPLwJk
-	0QW0DH+GMlKckHMl3bZB0KQhe2oUOxKVkckMkuKAlJrn2PPfkFXs7F6Pi64ABFNkPxg/2bwzoHp
-	9uB6aisGLclry3VpyBqdtwL/Dox8mGSZhPxRSSEe6s15EEz2xj0lV2IXodh2XS/gDilcLBx9yWb
-	xEBHwO+OUEu3XwJZMBI4625m8tvHHggyoY2J4S/Fct7qxgER5UkrTS9RG0gDaD64wdBoN4mStud
-	z0xduEikMqOTw4YgrIY76irS993e36VcCnORW2eTQ=
-X-Google-Smtp-Source: AGHT+IHrVdiL/42Ek87wCD1+Dv/YGTDvseNRtk1LjSkqIgCTkDD3F5Hmvfq293naJjBGVzQPVVIIbg==
-X-Received: by 2002:a05:600c:8b56:b0:479:3a86:dc1a with SMTP id 5b1f17b1804b1-47d5b21d77emr251472445e9.36.1767553516932;
-        Sun, 04 Jan 2026 11:05:16 -0800 (PST)
+        bh=PWgc9+y+yljidHQMYhQLHs/5E2QnwKnp6O+oSXf5cSk=;
+        b=DkYBgpB13ElC7AaExOoXZSpRwFtLxqt0KVLJB/lG2PAs2lTReXWO8Tauc+bOhZ7py1
+         1v0+Za+CwvHyRaj4cmHz0gxXMIWE5tyF2gSgC0MRlupa+IR2/yVL40zyzhH3L9ofVmmx
+         NRz+z61R5Gkl8Jkio0d+91BuWVHf3kidsloSFD2WKdHrD73po7FZpWD72jwoaINBaS0V
+         fFhiUVrXu9qaDXTUxi5dL0Vw3V6ub6Wf3J160FwgucqgGrqHJ/wVdcavQ/9pfvtcht0o
+         gk/iyaEzFYojKusWkoArrD4Zy+dSINfEnIs/gDwTt5WNJgY+lEb+y9l1mwChJLggBxpr
+         KjAQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1767553556; x=1768158356;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=PWgc9+y+yljidHQMYhQLHs/5E2QnwKnp6O+oSXf5cSk=;
+        b=XFcRfdZHISkMtqlna+ZdgfJEfoUNwnQV4DgLuh10uE5tTVVJiSTVJyMsRcQFHjzLjV
+         y+x83t6rV6xmfFwhhYI8gG1efrxqChwyjY/OWaKxtl9EcoOH9xvk55ELQ6qUud+pYldz
+         Cjr7XExrGlqF5bgpn8E8tc1HJaovbMfIewCOv1qGCZ22oc+vu8hi8nJ+5vOkVCLXpSGj
+         dkmmtxJ3CX1+Mm/OsCQy1Xx6SzzhNVbnIqmDJ7Yc1hMJfD2Wu5m+T6DIhCIzSZXHzton
+         SJQojy3tyaMt6+ureKgclP4jNjHuNlCpRcGyEoZB4r+oO2NcCHijoJlb+CZsmMrTHPMk
+         KQRg==
+X-Forwarded-Encrypted: i=1; AJvYcCUwySFHRpyfWlQOrNBbA+RkI0712td4N/INjWPmNf+3+YsoUqqHg9jRfgxlVJFpfa4w6oL+ei/jkwiKPWKh@lists.linux.dev
+X-Gm-Message-State: AOJu0Yx3DsVIIAzY6e7P9ouDhm/sFQupyWBn9qd0kkYqjziKYdMwutN/
+	4hOfneA+y20GlglE+AuvVcdO1yV1Zy9QiFx6odUf/vjQo2MXbWLXOkNrSN8gm7o4
+X-Gm-Gg: AY/fxX71YZKkNkeI0o/iehAB/AAm07DAFjyU1m1dMnP6B7MhHJCn2uYUPgIb5aAGSiz
+	D24Q7NV+SH2ivvvE1noboFY2oY6DvzRffeyW9GrSGnXW9W68g+lsA+XNXVRUUhFnqH12emXcCmp
+	DmdCz5rNxTkh4OXuIb5iNfEwcCLWTJhthBhghcx9EAlAtDdn7y0/6oVUBlkDHJN0M36/iczXPwK
+	HQPeSNjLNoKjuo5LvHu9yKAT5/HQByI5HNSv7cH3PetJh0yobNWFwnAGi0r4voS6vt/4gwwDSqm
+	+VdnSc+BFZ14D2k/1dfTAX0WhTVSpQM36xqeWRjh8Pzum9e+4jgvPDTAcQVbFFlFQ2j+kdgRbxd
+	6earswoPyF3wivFWjRvhO6/cEmKcZSbiaJO9UwCPuQvDuuuAWRjQUkXQ4A6/j1ohIIN5LBt2GsV
+	wHo2wNvTUKFnlB40LqqXCLy8WlG8/ihWj7xD6bzC+yu38GAjVM4g==
+X-Google-Smtp-Source: AGHT+IE0wNk1jmGNWpzD9tmrWUTxX1bKR2z9THWxZWvHHtqvM339Z8w94MLeOag/HytCXIrXR+WPrA==
+X-Received: by 2002:a05:6000:2203:b0:42f:b707:56e6 with SMTP id ffacd0b85a97d-4324e5035d1mr50944550f8f.34.1767553556057;
+        Sun, 04 Jan 2026 11:05:56 -0800 (PST)
 Received: from localhost.localdomain ([2400:adc1:447:6d00:1c1a:7818:23f6:aae1])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4324eab2c4fsm96505089f8f.42.2026.01.04.11.05.14
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4324eab2c4fsm96505089f8f.42.2026.01.04.11.05.54
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 04 Jan 2026 11:05:16 -0800 (PST)
+        Sun, 04 Jan 2026 11:05:55 -0800 (PST)
 From: Mahad Ibrahim <mahad.ibrahim.dev@gmail.com>
 To: Mahad Ibrahim <mahad.ibrahim.dev@gmail.com>,
 	Hans de Goede <hansg@kernel.org>,
@@ -67,10 +69,12 @@ Cc: Andy Shevchenko <andy@kernel.org>,
 	linux-media@vger.kernel.org,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v1 0/5] media: atomisp: Cleanup and documentation fixes for mmu_public.h
-Date: Mon,  5 Jan 2026 00:05:04 +0500
-Message-ID: <20260104190509.19683-1-mahad.ibrahim.dev@gmail.com>
+Subject: [PATCH v1 1/5] media: atomisp: Remove redundant return statement
+Date: Mon,  5 Jan 2026 00:05:05 +0500
+Message-ID: <20260104190509.19683-2-mahad.ibrahim.dev@gmail.com>
 X-Mailer: git-send-email 2.47.3
+In-Reply-To: <20260104190509.19683-1-mahad.ibrahim.dev@gmail.com>
+References: <20260104190509.19683-1-mahad.ibrahim.dev@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -79,30 +83,29 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This series addresses multiple style and documentation issues in the
-AtomISP staging driver, specifically in pci/hive_isp_css_include/host/mmu_public.h.
+The function mmu_reg_store() returns void. The final return
+statement is redundant as it is followed by the closing brace.
 
-The series starts by fixing checkpatch warnings regarding redundant
-return statements, function signature alignment, and block comment coding
-style issues.
+Remove the redundant return statement to simplify code and adhere to
+kernel coding style.
 
-It then removes erroneous function documentation where additional parameters
-were being shown but the actual function signature did not accept any
-such parameters.
+Signed-off-by: Mahad Ibrahim <mahad.ibrahim.dev@gmail.com>
+---
+ .../media/atomisp/pci/hive_isp_css_include/host/mmu_public.h     | 1 -
+ 1 file changed, 1 deletion(-)
 
-Finally, the Doxygen-style comments were converted to the standard
-kernel-doc format to adhere to the Linux kernel standards.
-
-Mahad Ibrahim (5):
-  media: atomisp: Remove redundant return statement
-  media: atomisp: Fix function signature alignment
-  media: atomisp: Fix block comment coding style
-  media: atomisp: Fix erroneous parameter descriptions
-  media: atomisp: Convert comments to kernel-doc
-
- .../hive_isp_css_include/host/mmu_public.h    | 87 ++++++++-----------
- 1 file changed, 38 insertions(+), 49 deletions(-)
-
+diff --git a/drivers/staging/media/atomisp/pci/hive_isp_css_include/host/mmu_public.h b/drivers/staging/media/atomisp/pci/hive_isp_css_include/host/mmu_public.h
+index 1a435a348318..2fc137ef46da 100644
+--- a/drivers/staging/media/atomisp/pci/hive_isp_css_include/host/mmu_public.h
++++ b/drivers/staging/media/atomisp/pci/hive_isp_css_include/host/mmu_public.h
+@@ -63,7 +63,6 @@ static inline void mmu_reg_store(
+ 	assert(ID < N_MMU_ID);
+ 	assert(MMU_BASE[ID] != (hrt_address) - 1);
+ 	ia_css_device_store_uint32(MMU_BASE[ID] + reg * sizeof(hrt_data), value);
+-	return;
+ }
+ 
+ /*! Read from a control register of MMU[ID]
 -- 
 2.47.3
 
