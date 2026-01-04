@@ -1,64 +1,64 @@
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC689283159
-	for <linux-staging@lists.linux.dev>; Sun,  4 Jan 2026 19:05:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E4A6314B84
+	for <linux-staging@lists.linux.dev>; Sun,  4 Jan 2026 19:06:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767553561; cv=none; b=dF6jyKVnTKoeioqN0U/XQIgzExa8V/87AgmZQs1xHMMNrg0YCnko/QHSLoo2elmqN9gZ6MnJ1SXwonYLrC5xL2ot0xyNJeIh2gV7VP5j0h/E15uUFeeVio6Ic27oGWIeiYQXUO4u5fS1lLUolAXTJ0uI9ry+tR0mlF2F0PjTzC0=
+	t=1767553563; cv=none; b=rmvOT+FKY/lTe/ap4LZZoO5kPKMwBUinbFJR93//QGNBkBQNNy3Eoy1f6L3WPOY+8pSqY6CXNuKqk7cysY8X19pjZ9+UJCxUyKumDIWrr4XtZs5fowjnLJBbaODXQR+/VoSxtUyzZUE7ACELPBjmJV8EGQUy9byctnZPF7Vuwgw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767553561; c=relaxed/simple;
-	bh=W6NyjsgqJpje0GxOZQmAwqJGhMN1MSoT9QtbYe3sD84=;
+	s=arc-20240116; t=1767553563; c=relaxed/simple;
+	bh=NSa0ydNb2NewPQiwrxnfe27gMuqCMYdIWFpwwvfk7K4=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Dt3ZmBlCW4xGinAbUbqhq/iw/HDIUvjsgDj4wYInWpY3l9oia+1K3UOyM1utjtMU9yZZGAUxi2IsThMKrSLUoo/DBtCvxa4ihrvTx5Dk5Ciq35cyGX0lRz3uSCMwtAq2SdBdeK6GdfQ9qCr90odAeUG4QXowJP5GhJcU+gLbKQs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TM8JqAT/; arc=none smtp.client-ip=209.85.221.47
+	 MIME-Version; b=Yy+TuJCWZm47eu8rA2m0M29hjY7vWzHBq2C5Vhnu4V8kvyok7lii+9ynB4eNsS1qU/zqWPNx/KL44YEEl/IEplU9QIexjveAj7ypXlkln+s4Qq2Ti3kkQxVt9iLLrBZg2W1oGDkudl7NxsepxSEZCtyVoW8bzz5vTJnExqxhiZw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hexMfnGf; arc=none smtp.client-ip=209.85.128.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TM8JqAT/"
-Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-42fb0fc5aa9so5439089f8f.1
-        for <linux-staging@lists.linux.dev>; Sun, 04 Jan 2026 11:05:59 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hexMfnGf"
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-47aa03d3326so86415395e9.3
+        for <linux-staging@lists.linux.dev>; Sun, 04 Jan 2026 11:06:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1767553558; x=1768158358; darn=lists.linux.dev;
+        d=gmail.com; s=20230601; t=1767553560; x=1768158360; darn=lists.linux.dev;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=mPN4xTgI6JHPvReSWeqoK8IgjRhln3sF5NWInwVvHG8=;
-        b=TM8JqAT/Io1zHmMcP0KmZJGbgPZ9Cy/lrlfTfTtLKrXfClIGEiFA1JU+XWwJ1z5kN0
-         jw3bRBVRg6PMC3vb6hAMN/+SeTNDlf2JdRR4D20VqL6xJe8HUsfuRVwox4ARXkEZuTxV
-         1jWpVqVEphjsOHUOLIRU8Z3pgpY8KMX8l2FdpbNqTEo6jOz81IkYgV9gMwk2wpMGYWbF
-         tzi7R8QxVYOjK7YuN4eAMvX8C1CilzxYVGTNmB5noXrrqsvzqNtXx047KtugsXIjZsE/
-         kGAhNSoX4nGxPa79aw1iBc+GD98dCHVfrvUz091bYgkpDG98B4DvSULtLR3G7V4tjFuM
-         9jtQ==
+        bh=eRnKQCftC330uBXvExSnKK33O3Emg004thzOz4/211g=;
+        b=hexMfnGfsjgkQgGEEGqatgxDKIOKGDNcLDCdNFYoOZGUbX+r07EZcQtNWHAHG2tQCW
+         yX2tLfBmJU2YBhA+pjFomh+l+6chlSZJ8MxZgI5xuLT2dgOFFVX6KhB9q5HvGYlzL87o
+         hQvS1pdBqbU/ViyY6HZwJIFQb0V7bjmdrJlzzpM7X7AVxXlCfH6VWz2WBm7GeEAcEksv
+         bLfHyUA5MkKdIYltw5kqQfcxDQ2hHjKJGEcpWHGnMCdxC5sGCAr2o0L6ygcE6gu1PY8G
+         21hUUDkSmnwhBgY0GzzlEi/x7kulEOfpOmmAod5KAR63QHUlvDhNu/HoRZuAZAGO4f3S
+         XemQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767553558; x=1768158358;
+        d=1e100.net; s=20230601; t=1767553560; x=1768158360;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=mPN4xTgI6JHPvReSWeqoK8IgjRhln3sF5NWInwVvHG8=;
-        b=GHWJnuCMPejncFaWhKXo0j5yXCbqj/HzZKSZXXAT5KzyvIxVKdELceAKVWS2oQWKNX
-         /h1vWYtHyFx4X6GjFBJsquM5RqMfAuqp2wj16X9tHeejFMY2n94w5SlV0BEDv0JtPd5x
-         3H28bELi1q1nCjuDYseX0oynfP4SQlHjP2+GdcIIlrvFQA6zgVeJOHJJBGicX82sclGU
-         1QJzvTZswXLbqufe2nk6hWSjqItOeyUnS1DMqQQDz6MVMD4dCiIQeUJGWF6vzFgRiXRY
-         h5p0nmfG+rdU6wsiqi46nZ0XsvBTrBu+Ed2r8Pzs57ZgTjzWyvmPi1ju5b/p/F2eX58R
-         /x1Q==
-X-Forwarded-Encrypted: i=1; AJvYcCWjAVZPLjtwjbwpE3pEUO1hqNW6RV+j2C7eGySbWuOM87818ecAxPzfbU5ow3lD3ovMcA+T8sQLk1z82HRw@lists.linux.dev
-X-Gm-Message-State: AOJu0YxK5PARz6KcE8SQGPo6MNpc/XNYUFmtY2P/n3utiJoI4O1kKbRu
-	nO7Y1NeP9OQBRUYBeXQNJieD4yng9HZaM5jAqQo5su79VpN/yweO2RA2
-X-Gm-Gg: AY/fxX6JZ2TKukMl/0s4dYt6Aww+dqV8L/rY0bsI3NQqo8ZUs12EJ8dS2w77cIdkalm
-	g6nIkX4Q1648D+tvNeGycaKens+z1q7m5ec0fOr1eaQOEx6I4BIRmOQbbs8EaSMrOOMl9HAVM2T
-	nHJ1EARUv6Mlj/iidtscIHXRn3moC7PplCMpDUOrkChJT3mXkZwHG5Tb6jtI93VCs+Ue/g3Myan
-	N93moVPZTeJUcZeGLX5D/29dvzfu5AzwnE4xToDsPd8dQCGcP+oYDIm0i9NqLi1aqm50O64ZWlZ
-	fDLWX+SXhVE7LYgEVlMr+HWeCLR0kFIIo0PLVCKLNRiDdBKL5LAg48Bc1YGb8oVpN8bTXnt7bZA
-	mZ80LpP41CZy9zYjHWYbPYF+wAVVrUt0lKrCKRCr+R053zAmZb2s6l6GXqUpmTD22Hu3kX/IhvP
-	jZAv7QTX0vpQNCy1X7520BAKfKq9HefSlZcwv0qUs=
-X-Google-Smtp-Source: AGHT+IGG1wvzUbObPV/Nlzp0VzBlVYRvQA5fZ35AlHFfaESwLJK1dRu09w7xLw8bYO2P1pz4+O+HKw==
-X-Received: by 2002:a05:6000:290b:b0:430:8583:d189 with SMTP id ffacd0b85a97d-4324e4fb659mr64947627f8f.39.1767553558167;
-        Sun, 04 Jan 2026 11:05:58 -0800 (PST)
+        bh=eRnKQCftC330uBXvExSnKK33O3Emg004thzOz4/211g=;
+        b=cdgXTfzV82JtW1iTLtREIU03UHihHUyjxqnCV0XSuPcp3QcrVpZKdfEVQBFl9lu5O2
+         nz5CIdulfNBjregvNy/L4c4ezAzdTTbIm6P8F/dnVCqJtsBiPvoa4foS+et1k13FKzzx
+         Vt03RQQsaoIfyNdsvrZBAKMvHbZ/q/cXwWnqQT8nFyC+psFOvOOmQv+eRisezMtpODuM
+         sodCZUv0NFd+wZFDIktar8dtKWYAcZFXeraL03oBXJruPrt8m8Sbsn0WRwTw8WnQlCHx
+         H8kQPvm54Pts+rtT6nuSjjl9hWdQcwLyf1hMsgvYYgWd1Ik5B1ADb8lypY/lisPwMJEI
+         QDVA==
+X-Forwarded-Encrypted: i=1; AJvYcCWB+nA95PsAy24rHxUWfAow8GjaGOB6iT91BWwAp65mFXQw/VIrH71ro3TAABQgddmwD+f9AbFhDc48lShb@lists.linux.dev
+X-Gm-Message-State: AOJu0Yydq8GufJFQuurbGnMIxP9fwU+iGXYOrnNiyhWIQj5NvdX2xEY+
+	lxzrT6O9sXtLkpo3AeWEFPtbkridFeItaoqRYzMkLFlyQTOPowRcynLc
+X-Gm-Gg: AY/fxX588ZpGBXcvIS8fV0o03Q12js6O52bfJVjrxxNm+4p0G4iijUpQXqkD4nswhf8
+	YXki6Iwv2+kBeSbHATtqk6D8WI5rGoAfnri0I/ZaU946SpjRpVwVTl+0DpbmFgFJGw6y6L4S6zN
+	wivRalBYivil8qAfN9P9/ZXbOJqVYzPnw0FtC4Bo8Wu1e9Q+EPDgM6Bcdw0yFFchmOrEouR4bLF
+	D5/pGhcyL5ei5c/vVewwuOIEGyOCNg1wH/8XZod5khzBqm8WJ++S4jku+xYwRAMnxyOK+pNUgcR
+	tE/bvO+gjZV1Ap/8YvxbnO+IqKVCI9tsvgsoPxBci2auK6+/Q4vPA/fHjL+4ZsYxJCbShbgRhOq
+	8ywIWtuhmU5i8YKwHMrB/ut17S9kyr3Z8G35haem28w/HTxSBAUAmZ7z/lyjwaftMwGX/JPhrJE
+	U+v/9nUiZ8HIXo7rbNQQYJFGsXQQzGjdw32DaTlcE=
+X-Google-Smtp-Source: AGHT+IHsQnN2VPxYp9iDD0AHlXOkhb01+CEtZhlhG8AY1CequXMX/3Y8Lilm3EOsO9rHTI988aVnkw==
+X-Received: by 2002:a05:600c:470a:b0:477:7b16:5f9f with SMTP id 5b1f17b1804b1-47d1958a61fmr575821605e9.31.1767553560265;
+        Sun, 04 Jan 2026 11:06:00 -0800 (PST)
 Received: from localhost.localdomain ([2400:adc1:447:6d00:1c1a:7818:23f6:aae1])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4324eab2c4fsm96505089f8f.42.2026.01.04.11.05.56
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4324eab2c4fsm96505089f8f.42.2026.01.04.11.05.58
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 04 Jan 2026 11:05:57 -0800 (PST)
+        Sun, 04 Jan 2026 11:05:59 -0800 (PST)
 From: Mahad Ibrahim <mahad.ibrahim.dev@gmail.com>
 To: Mahad Ibrahim <mahad.ibrahim.dev@gmail.com>,
 	Hans de Goede <hansg@kernel.org>,
@@ -69,9 +69,9 @@ Cc: Andy Shevchenko <andy@kernel.org>,
 	linux-media@vger.kernel.org,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v1 2/5] media: atomisp: Fix function signature alignment
-Date: Mon,  5 Jan 2026 00:05:06 +0500
-Message-ID: <20260104190509.19683-3-mahad.ibrahim.dev@gmail.com>
+Subject: [PATCH v1 3/5] media: atomisp: Fix block comment coding style
+Date: Mon,  5 Jan 2026 00:05:07 +0500
+Message-ID: <20260104190509.19683-4-mahad.ibrahim.dev@gmail.com>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <20260104190509.19683-1-mahad.ibrahim.dev@gmail.com>
 References: <20260104190509.19683-1-mahad.ibrahim.dev@gmail.com>
@@ -83,78 +83,120 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Fix checkpatch.pl warnings regarding lines ending with "(" and improper
-spacing for indentation.
+Fix checkpatch.pl warnings regarding block comments.
 
-This change fixes the function signatures for both function prototypes
-and static inline function definations in mmu_public.h.
-
-The kernel coding style prefers arguments to start immediately after
-the open parenthesis.
+Add missing asterisks to block comments to adhere to the kernel coding
+style.
 
 Signed-off-by: Mahad Ibrahim <mahad.ibrahim.dev@gmail.com>
 ---
- .../hive_isp_css_include/host/mmu_public.h    | 19 +++++--------------
- 1 file changed, 5 insertions(+), 14 deletions(-)
+ .../hive_isp_css_include/host/mmu_public.h    | 74 ++++++++++---------
+ 1 file changed, 40 insertions(+), 34 deletions(-)
 
 diff --git a/drivers/staging/media/atomisp/pci/hive_isp_css_include/host/mmu_public.h b/drivers/staging/media/atomisp/pci/hive_isp_css_include/host/mmu_public.h
-index 2fc137ef46da..90a2e4e8f510 100644
+index 90a2e4e8f510..c3495ec4835c 100644
 --- a/drivers/staging/media/atomisp/pci/hive_isp_css_include/host/mmu_public.h
 +++ b/drivers/staging/media/atomisp/pci/hive_isp_css_include/host/mmu_public.h
-@@ -18,9 +18,7 @@
+@@ -11,45 +11,50 @@
+ #include "device_access.h"
+ #include "assert_support.h"
  
-  \return none, MMU[ID].page_table_base_index = base_index
+-/*! Set the page table base index of MMU[ID]
+-
+- \param	ID[in]				MMU identifier
+- \param	base_index[in]		page table base index
+-
+- \return none, MMU[ID].page_table_base_index = base_index
++/*
++ *! Set the page table base index of MMU[ID]
++ *
++ *\param	ID[in]				MMU identifier
++ *\param	base_index[in]		page table base index
++ *
++ *\return none, MMU[ID].page_table_base_index = base_index
   */
--void mmu_set_page_table_base_index(
--    const mmu_ID_t		ID,
--    const hrt_data		base_index);
-+void mmu_set_page_table_base_index(const mmu_ID_t ID, const hrt_data base_index);
+ void mmu_set_page_table_base_index(const mmu_ID_t ID, const hrt_data base_index);
  
- /*! Get the page table base index of MMU[ID]
- 
-@@ -29,8 +27,7 @@ void mmu_set_page_table_base_index(
- 
-  \return MMU[ID].page_table_base_index
+-/*! Get the page table base index of MMU[ID]
+-
+- \param	ID[in]				MMU identifier
+- \param	base_index[in]		page table base index
+-
+- \return MMU[ID].page_table_base_index
++/*
++ *! Get the page table base index of MMU[ID]
++ *
++ *\param	ID[in]				MMU identifier
++ *\param	base_index[in]		page table base index
++ *
++ *\return MMU[ID].page_table_base_index
   */
--hrt_data mmu_get_page_table_base_index(
--    const mmu_ID_t		ID);
-+hrt_data mmu_get_page_table_base_index(const mmu_ID_t ID);
+ hrt_data mmu_get_page_table_base_index(const mmu_ID_t ID);
  
- /*! Invalidate the page table cache of MMU[ID]
- 
-@@ -38,8 +35,7 @@ hrt_data mmu_get_page_table_base_index(
- 
-  \return none
+-/*! Invalidate the page table cache of MMU[ID]
+-
+- \param	ID[in]				MMU identifier
+-
+- \return none
++/*
++ *! Invalidate the page table cache of MMU[ID]
++ *
++ *\param	ID[in]				MMU identifier
++ *
++ *\return none
   */
--void mmu_invalidate_cache(
--    const mmu_ID_t		ID);
-+void mmu_invalidate_cache(const mmu_ID_t ID);
+ void mmu_invalidate_cache(const mmu_ID_t ID);
  
- /*! Invalidate the page table cache of all MMUs
- 
-@@ -55,10 +51,7 @@ void mmu_invalidate_cache_all(void);
- 
-  \return none, MMU[ID].ctrl[reg] = value
+-/*! Invalidate the page table cache of all MMUs
+-
+- \return none
++/*
++ *! Invalidate the page table cache of all MMUs
++ *
++ *\return none
   */
--static inline void mmu_reg_store(
--    const mmu_ID_t		ID,
--    const unsigned int	reg,
--    const hrt_data		value)
-+static inline void mmu_reg_store(const mmu_ID_t ID, const unsigned int reg, const hrt_data value)
+ void mmu_invalidate_cache_all(void);
+ 
+-/*! Write to a control register of MMU[ID]
+-
+- \param	ID[in]				MMU identifier
+- \param	reg[in]				register index
+- \param value[in]			The data to be written
+-
+- \return none, MMU[ID].ctrl[reg] = value
++/*
++ *! Write to a control register of MMU[ID]
++ *
++ *\param	ID[in]				MMU identifier
++ *\param	reg[in]				register index
++ *\param value[in]			The data to be written
++ *
++ *\return none, MMU[ID].ctrl[reg] = value
+  */
+ static inline void mmu_reg_store(const mmu_ID_t ID, const unsigned int reg, const hrt_data value)
  {
- 	assert(ID < N_MMU_ID);
- 	assert(MMU_BASE[ID] != (hrt_address) - 1);
-@@ -73,9 +66,7 @@ static inline void mmu_reg_store(
+@@ -58,13 +63,14 @@ static inline void mmu_reg_store(const mmu_ID_t ID, const unsigned int reg, cons
+ 	ia_css_device_store_uint32(MMU_BASE[ID] + reg * sizeof(hrt_data), value);
+ }
  
-  \return MMU[ID].ctrl[reg]
+-/*! Read from a control register of MMU[ID]
+-
+- \param	ID[in]				MMU identifier
+- \param	reg[in]				register index
+- \param value[in]			The data to be written
+-
+- \return MMU[ID].ctrl[reg]
++/*
++ *! Read from a control register of MMU[ID]
++ *
++ *\param	ID[in]				MMU identifier
++ *\param	reg[in]				register index
++ *\param value[in]			The data to be written
++ *
++ *\return MMU[ID].ctrl[reg]
   */
--static inline hrt_data mmu_reg_load(
--    const mmu_ID_t		ID,
--    const unsigned int	reg)
-+static inline hrt_data mmu_reg_load(const mmu_ID_t ID, const unsigned int reg)
+ static inline hrt_data mmu_reg_load(const mmu_ID_t ID, const unsigned int reg)
  {
- 	assert(ID < N_MMU_ID);
- 	assert(MMU_BASE[ID] != (hrt_address) - 1);
 -- 
 2.47.3
 
