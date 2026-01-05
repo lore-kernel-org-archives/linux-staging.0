@@ -1,113 +1,138 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42A3B2EB5A1
-	for <linux-staging@lists.linux.dev>; Mon,  5 Jan 2026 15:52:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5FE93101A8
+	for <linux-staging@lists.linux.dev>; Mon,  5 Jan 2026 16:28:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767628366; cv=none; b=iV8hNKyVvQ0IeiZhWY9hubsYzm6NsKFoZSUbAlFmEQMPAbdzJwV37hGYkcNKvAXqAgllkJkiebwfX5FypvmqtUJwX2cRip20b2hi59W2QcBIvMrQ4vW+TjrR0qJhvnESU29Gw0UaQqTPgGZZrCTRiSKEnCyRkfiOGb3MwuoSyCc=
+	t=1767630524; cv=none; b=GwngglJVz1lKm1xZDv5zAny5iKV87hTqRxw0UIoLpmdA8gRj24l0pFLoj8livJXFWDtIQR+qEz00WTco4e1S4sE2jxCnRfC6Nz+N5/fwK0nJyeM9FKWDYMx1b75RMQJ5NPWJimHGWDtFOuKCV0m4C6yYPfscyFtHGfdoAgJqe10=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767628366; c=relaxed/simple;
-	bh=m9e9DIlJ/pYKWW7t8Lu0hofeC3X55rgFKER632Qvmnc=;
+	s=arc-20240116; t=1767630524; c=relaxed/simple;
+	bh=FsPS/LubOaNTccnvOYz0BxmjeM7vrFfXaA9Rl62TCtg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bY+R+KRRAdxIJuce8bS+Xd8I96T+Vx9ZgkPCFgO256XctpTHh1wsiUanfOtzRNLHfyz/T7p3i771pWAbr2KfyyxQxIqlFaRWwKMCL2IghTkIbKHrXS/rLmTwKBdGW9tV+jU08agDuGbK8jzTiwkpHnXtPnReyLXUc7xeE+L68Ik=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iYRC4obx; arc=none smtp.client-ip=192.198.163.19
+	 Content-Type:Content-Disposition:In-Reply-To; b=gB5cAn//N3WarSUF2z7kV/NCGuOu3W94XeRhaI4uG+O8unZNMyL8mqkb0QRPywKSg+ffjp66mNaLcoHeKDJjF14jAfc4aamDRQJdrW2rsyC7oNcL2/oavcslZFSVa8Xixzx1ChguTCcn8lQzCfsKL8dUBDYt1JfADOIncYTgW2M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HcoIqinR; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iYRC4obx"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HcoIqinR"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1767628365; x=1799164365;
+  t=1767630522; x=1799166522;
   h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=m9e9DIlJ/pYKWW7t8Lu0hofeC3X55rgFKER632Qvmnc=;
-  b=iYRC4obxfgumMl3vCctSVzFrWnnfXu2L0udU4EzyThQGQfA3i5i4xJ1k
-   WpLiGBC2gGN61qcpAQfCmxsWSwPxWtHlojdNVv6uWj8+64gGP4LEgheLH
-   Kk8goRABbdHoCv3gKv6NFrFP7Tuw7U6GMygvIytCGFqPYMCYn7nTH9j5B
-   SgxGWUo0AFTlupBARQxlx5qfBp1AYbtH0+oQgXqf2htyDsTBJdYLULFIU
-   qfx4wd/cYH3uc5E/XXwxZLCBroYa57ZUv0JWjzTJ8iH/BgH7KrshC9PAg
-   r9RiThNwRZlAi0SHmPiw0J0FLzl3cQ0+NZvT2OqPcVTrOsSFtdHYXjmbX
-   w==;
-X-CSE-ConnectionGUID: 5TmZBUgpSP29Uk0vjOBYag==
-X-CSE-MsgGUID: AQqk3R+KReuIvfk7J6yJYA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11662"; a="68005935"
+   mime-version:in-reply-to;
+  bh=FsPS/LubOaNTccnvOYz0BxmjeM7vrFfXaA9Rl62TCtg=;
+  b=HcoIqinR7+ySvfXw8DkOrydpZ6qWis5p7Nr7KhfglO5HdzhT87hvR++k
+   A4oZHc6TLUOywVN+qQPha3E65cLVDbrwFutXCa15iQBuKO7edRUB4a6xy
+   FfTITd2InUB/XhFPmO8oGiBPyxQuFMHeN14Gjeav5UnS+dCMbYTxG5U4s
+   g4V4xtRf8mX6vVhvKyaOqDKCTDktGwNmslOFIjLpHsap+Wom0Rbnequn+
+   1pA9M/ROkfeTCiff3DEdxK1QpdnrhosHrUMjXWc2bATwXtD/0XfoR7/AP
+   20HnjX2R55QWOYJfzX8s5SmH8U+tkO6MlIMEcWRCV6WgHGk2a1EaVzaiQ
+   Q==;
+X-CSE-ConnectionGUID: lFBGuP24TYGyyaRo8UBbJg==
+X-CSE-MsgGUID: hBODry5STh2gPzqy6vNo0w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11662"; a="71574084"
 X-IronPort-AV: E=Sophos;i="6.21,203,1763452800"; 
-   d="scan'208";a="68005935"
+   d="scan'208";a="71574084"
 Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jan 2026 07:52:44 -0800
-X-CSE-ConnectionGUID: TrkGWDyMQ+mMXGGUmgQFPQ==
-X-CSE-MsgGUID: vbjSLmRoTKK2VrXnxrdy6A==
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jan 2026 08:28:35 -0800
+X-CSE-ConnectionGUID: yjeDY+T2RFOcWKugteKcWw==
+X-CSE-MsgGUID: HHb9E8xQQ6CS5mko4iL4fA==
 X-ExtLoop1: 1
 Received: from klitkey1-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.244.215])
-  by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jan 2026 07:52:41 -0800
-Date: Mon, 5 Jan 2026 17:52:39 +0200
+  by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jan 2026 08:28:33 -0800
+Date: Mon, 5 Jan 2026 18:28:31 +0200
 From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: Tomas Borquez <tomasborquez13@gmail.com>
-Cc: Andy Shevchenko <andy.shevchenko@gmail.com>,
-	Jonathan Cameron <jic23@kernel.org>,
+To: Sun Jian <sun.jian.kdev@gmail.com>
+Cc: Andy Shevchenko <andy@kernel.org>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Lars-Peter Clausen <lars@metafoo.de>,
-	Michael Hennerich <Michael.Hennerich@analog.com>,
-	David Lechner <dlechner@baylibre.com>,
-	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
-	Andy Shevchenko <andy@kernel.org>, linux-kernel@vger.kernel.org,
-	linux-iio@vger.kernel.org, linux-staging@lists.linux.dev
-Subject: Re: [PATCH v2 4/6] staging: iio: ad9832: remove dds.h dependency
-Message-ID: <aVveR7GEPEaO8juK@smile.fi.intel.com>
-References: <20251230203459.28935-1-tomasborquez13@gmail.com>
- <20251230203459.28935-5-tomasborquez13@gmail.com>
- <CAHp75VefAPs8C9gJdz-zTkS3cpExg5pwOTMreiUs-ikSgpygOw@mail.gmail.com>
- <hjspdsgz6ey7iaczw3qxn5qwlmpv7pnhxxmrzmfigygc33at2r@3gq2xps7idza>
+	linux-staging@lists.linux.dev, linux-fbdev@vger.kernel.org,
+	dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH v1 1/4] staging: fbtft: core: avoid large stack usage in
+ DT init parsing
+Message-ID: <aVvmr2qOrFvoEKGV@smile.fi.intel.com>
+References: <20260104110638.532615-1-sun.jian.kdev@gmail.com>
+ <20260104110638.532615-2-sun.jian.kdev@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
 List-Subscribe: <mailto:linux-staging+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <hjspdsgz6ey7iaczw3qxn5qwlmpv7pnhxxmrzmfigygc33at2r@3gq2xps7idza>
+In-Reply-To: <20260104110638.532615-2-sun.jian.kdev@gmail.com>
 Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
  krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On Sun, Jan 04, 2026 at 02:25:23AM -0300, Tomas Borquez wrote:
-> On Wed, Dec 31, 2025 at 12:46:28AM +0200, Andy Shevchenko wrote:
-> > On Tue, Dec 30, 2025 at 10:35 PM Tomas Borquez <tomasborquez13@gmail.com> wrote:
+On Sun, Jan 04, 2026 at 07:06:35PM +0800, Sun Jian wrote:
+> Clang reports a large stack frame for fbtft_init_display_from_property()
+> (-Wframe-larger-than=1024) when the init sequence is emitted through a
+> fixed 64-argument write_register() call.
+> 
+> write_reg()/write_register() relies on NUMARGS((int[]){...}) and large
+> varargs which inflates stack usage. Switch the DT "init" path to send the
+> command byte and the payload via fbtft_write_buf_dc() instead.
+> 
+> No functional change intended: the same register values are sent in the
+> same order, only the transport is changed.
+
+How did you test this?
 
 ...
 
-> > > +static IIO_DEVICE_ATTR(out_altvoltage0_frequency0, 0200, NULL, ad9832_write, AD9832_FREQ0HM);
-> > > +static IIO_DEVICE_ATTR(out_altvoltage0_frequency1, 0200, NULL, ad9832_write, AD9832_FREQ1HM);
-> > 
-> > Any particular point in not using _WO() / _RO() variants of the
-> > IIO_DEVICE_ATTR_*() macros?
-> I was looking into this and saw that the definition for both _WO() and _RO() only takes _name and _addr:
-> 
-> #define IIO_DEVICE_ATTR_WO(_name, _addr) \
-> 	struct iio_dev_attr iio_dev_attr_##_name = IIO_ATTR_WO(_name, _addr)
-> 
-> So if we use it for frequency0 for example, it assumes the store function
-> since we don't pass it:
-> 
-> static IIO_DEVICE_ATTR_WO(out_altvoltage0_frequency0, AD9832_FREQ0HM);
-> 
-> // Expands to
-> struct iio_dev_attr iio_dev_attr_out_altvoltage0_frequency0 = {
->     .dev_attr = {
->         . attr = {
->           ...
->           .store = out_altvoltage0_frequency0_store,
->         }
->     }
-> }
-> 
-> Meaning we would have to create a store for each one instead of using
-> just one write function
+>  	struct device *dev = par->info->device;
+> -	int buf[64], count, index, i, j, ret;
+> +	u8 buf[64];
+> +	int count, index, i, j, ret;
 
-Yes, and it will be fine, no? Explicit is better than implicit
-(at least in this case).
+Please, try to preserve reversed xmas tree order.
+
+>  	u32 *values;
+>  	u32 val;
+>  
+
+...
+
+> -				buf[i++] = val;
+> +				buf[i++] = val & 0xFF;
+
+Unneeded change, I suppose.
+
+...
+
+> -			par->fbtftops.write_register(par, i,
+> -				buf[0], buf[1], buf[2], buf[3],
+> -				buf[4], buf[5], buf[6], buf[7],
+> -				buf[8], buf[9], buf[10], buf[11],
+> -				buf[12], buf[13], buf[14], buf[15],
+> -				buf[16], buf[17], buf[18], buf[19],
+> -				buf[20], buf[21], buf[22], buf[23],
+> -				buf[24], buf[25], buf[26], buf[27],
+> -				buf[28], buf[29], buf[30], buf[31],
+> -				buf[32], buf[33], buf[34], buf[35],
+> -				buf[36], buf[37], buf[38], buf[39],
+> -				buf[40], buf[41], buf[42], buf[43],
+> -				buf[44], buf[45], buf[46], buf[47],
+> -				buf[48], buf[49], buf[50], buf[51],
+> -				buf[52], buf[53], buf[54], buf[55],
+> -				buf[56], buf[57], buf[58], buf[59],
+> -				buf[60], buf[61], buf[62], buf[63]);
+> +			/* buf[0] is command, buf[1..i-1] is data */
+> +			ret = fbtft_write_buf_dc(par, &buf[0], 1, 0);
+> +			if (ret < 0)
+> +				goto out_free;
+> +
+> +			if (i > 1) {
+> +				ret = fbtft_write_buf_dc(par, &buf[1], i - 1, 1);
+> +				if (ret < 0)
+> +					goto out_free;
+> +			}
+
+I believe this is incorrect change and has not to be applied. write !=
+write_register. Without any evidence of testing, definite NAK to it.
+Otherwise, please provide detailed testing pattern and which devices were
+tested.
 
 -- 
 With Best Regards,
