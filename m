@@ -1,72 +1,75 @@
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BB9B30E83B
-	for <linux-staging@lists.linux.dev>; Mon,  5 Jan 2026 09:29:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AD0F2F12DB
+	for <linux-staging@lists.linux.dev>; Mon,  5 Jan 2026 10:09:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1767605363; cv=none; b=WysFsjy1CxMoKt1bvaWTdfEDFoVnc27POgNl0yOdpGAgHYzEzQIJEchHgcQ18PRft1CQWgx/LFgeHkw5vT77JZ5WF8QaXbxLBbMIwbeV71+fTBU6Dp9S+l/HMEUIqVdfvpotTLznELH2HTfDluWOEyyaYJ6q+PXCK5XHXe5l9AQ=
+	t=1767607764; cv=none; b=n14nqaj/YzA9h14GlzSQWSmR03se9QkqxAIhdej2baDNSrvBxdlnbA4GwD5k6wnI1jTVieHDt/jhBni7UbWjCDHFIx1a6/01fLBZHjLcn6WuRkJRpsvQOU1/ecahuW80bwlpLQ0QNliEqVURWdCJ9xzPA+Qq4Ajnzj99l/6l3mc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1767605363; c=relaxed/simple;
-	bh=kulg8XpQJj0RJsRzeEiMoGn3kCVl+Azl9DkbzbDNaSQ=;
+	s=arc-20240116; t=1767607764; c=relaxed/simple;
+	bh=HaEzEYyza8lmatOqf1za2pkgn5bN+AvWVk7IoeviXAE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MJBNcghzZuDTHpsjfYn/A4p3YOV00hyh8CVK/YKecZXr3DD639xjLJpbjffXTbaofNQcJp1w1xArWy4DqWZNH8mxIlVLLfkpEyer2CUgNAUB2O9gRIiDcnE4whQ+Ah0H/ouDbpjXyMAWQRiKoBpF6kN3ZsARvhFz4eCbSxYcSfc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=tnIULlhd; arc=none smtp.client-ip=209.85.221.44
+	 Content-Type:Content-Disposition:In-Reply-To; b=O0seoIpZZ7a5yc3rGPJhH40pbGyPo2MTDb8KAbPpedXCK7jqh/JUVch/hoyNGxPjgtrfXZDsAd1QI2RcbQ9u2A8bfHa+OaCY1RgSppKlpv5xHHi2HD1MCvFF2fRwgpyr0oQBRXtGoDjuI1IgQbRbt8TgyU93dVWkAP9AFs0xjNI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=igH7GBXo; arc=none smtp.client-ip=209.85.128.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="tnIULlhd"
-Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-4308d81fdf6so6572628f8f.2
-        for <linux-staging@lists.linux.dev>; Mon, 05 Jan 2026 01:29:16 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="igH7GBXo"
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-477a2ab455fso130912375e9.3
+        for <linux-staging@lists.linux.dev>; Mon, 05 Jan 2026 02:09:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1767605353; x=1768210153; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1767607760; x=1768212560; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=3FOjzDY/r2U/Kq/8+NQu0xSKjWhumQpilnNpvJw2ez0=;
-        b=tnIULlhdIBcTDOOfGrwWBqonGEhiBCT5X8LqtZhnvzztFlBDgz72zNy/YF68y3aaHI
-         uXNpetQNi0YoOfzsYuqjN1eopgkIDxIDoaPGknaQ7eNfHI5YhKoNYIsi8cf0NBlLycfU
-         35oFE+fsmQMvLEUFNry4H2c1braVk3RiXkJkP0807IjSFUb4w5vH298gi/pdSyQCU+FJ
-         pBJGzDsdw6+WU0TRcilx54KoFUOalwqH5eBFBxYhrQsIvGD0InDqD3M/vRkcqc007SkB
-         cP/Rn7bBdAyNtZqEWiYmw+uby+J88nc6rb4sxtWCqG/g6HiipxL9pyZXYkMY34qFSuIi
-         bgiA==
+        bh=IlzeuvMnWpm21LjmYT/5/RVCRr6/oOpHIWXrd20iuz4=;
+        b=igH7GBXoEi9HH4u9R5crNrKhnxnPZ5Yeww0QxuZlI0xXRrNrrpd77qYh5E8RK7Ew4K
+         ZyEhQmaqGpWQWG8tAx80BvyZTFEC2TSrqMa4/NatFFEkuylFnlTDy4vvCDDgSKW3Q/TW
+         QFnmp5UH9FV46RuUSKq+Nnjn/GLa3OMtHflRpSLYZsSZz1gbdLxKs7KefI9ycLu2hqp2
+         EgCBluaxz6YJXZC+RmBxi863x33W4sns001APT70Ka9vudJLM2CvKIgyrPdR0cb/DsRg
+         R4qK3tlyKBrkJI+ROyE1NBo+vwutcQflXJJ/dwWfZ7kj4V83Wz2UZY2xiCNgJzk68ruT
+         OiCA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1767605353; x=1768210153;
+        d=1e100.net; s=20230601; t=1767607760; x=1768212560;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=3FOjzDY/r2U/Kq/8+NQu0xSKjWhumQpilnNpvJw2ez0=;
-        b=dXQdjj795zTSd6lbHWkcib8FcexXoj1KQ2LNn5CiZJtIBkFkjonSeiKd4V1ycwxkXU
-         MY/PG6InCFbBpea879pXa6yvRSxxD96BiKq2Voyr1uXtewTxvY7puctYAXdQqp65noqv
-         NevN0mOvGczyp6m7pSp84dLYWRJigZEKbxAcbOj0fO+KBvsngviyeisFKcsIUzqkK3Q3
-         naL1VqxkRZSX5IFpFgp9oOPxYXNiEq4Br0mozCJ3sPgJpeALF3khDVashH9aSFQ6Trqs
-         JcFivoUe9uGxE1+cppEL58pqLm8/+WrSzGW9HeNEhd1p/RF5BQp8JzTLRDpChrVa4kFL
-         gTVA==
-X-Forwarded-Encrypted: i=1; AJvYcCXHUi6+QLgjfhGeUU5agKFlTC2pugBaHXpPbRs8In4/3RjkwZY/yuOui5TBZTkTeaoEumCGkPh+KvxEJ37S@lists.linux.dev
-X-Gm-Message-State: AOJu0Yy8u0HT+WHJGslKyzeCbmRwLamztlHIhBOAj/91a3wOgnewTUK5
-	LCoYFpRC9Vz1jOBotwilwfkYA/Z/UaAM9CnGfuL1sF9aSJDLSrep9ZK5FeFXOE/TYxw=
-X-Gm-Gg: AY/fxX7dviNeDs5Y/5Q3CrYeMoF4no9JJEHRmaBIXMWHBEpLweRV+SkzHp1Vn9/QOCA
-	eNcqZoTZ4cqnSvxkv4Hhk9Hej6bLtVf/c27D/GlZxLEphQL2deSnKbnYCCtPQ2hceKTKi6NEYTt
-	saIUl656ZfnweXbdk3nJX+dgNyMOGacHuggUzamuLvrDcxg220aqSa/9siHB0gwXplZDUKeATEY
-	8EejczWJ4NckaxZtyoMVRstYAsOXZvayuWyUOiy1IaX/ELr/Tl2bIxgfnn/Csx1B43eg3/CMmNQ
-	SVB0mkYNTKpKQGxfo1DxPsi0eKp6K5ro1+mHEtqSINfooIF1cyC8RTp5AOYpnAPkDcsTXlz3vC7
-	QXlv1ZCDM7PcBtFcnDkJI6zDbCofc62ZuGgLuueVZ6r63L1RTX50TNTJBNAXT9vf5V55cD9NewI
-	RFUi6XAhTHhuE/6Sl/ogYygXeTLNc=
-X-Google-Smtp-Source: AGHT+IGLRjvHkbD51sq0sAkqKxpj1rcyV+vQVTA74eAF94lRvk/+SSjX418hZaRMI0oM7tM6XrvOng==
-X-Received: by 2002:a05:6000:24c4:b0:430:fc3a:fbce with SMTP id ffacd0b85a97d-4324e4c9d45mr74505993f8f.15.1767605352648;
-        Mon, 05 Jan 2026 01:29:12 -0800 (PST)
+        bh=IlzeuvMnWpm21LjmYT/5/RVCRr6/oOpHIWXrd20iuz4=;
+        b=qzkl5VIW3XaKMDjE1bkbR63xoyeTy9YI0uRLckPJT1YzzvBPYWVY5lJ6Qek53aJmwX
+         nAjKG2Ce6cNojD55o5LFmxUtlT1RkMfhQxdyyBJewsIGYRixqpKApHVoz2SpCA5A5Voc
+         zxDet5ig2VYvhlM+CXKP1nJelzdiW48ZJs05iHYi3mgjmLxcKWEg5QmE3w9STLAPexda
+         1Xtn69BNiGi8m+VphIFEgkUen/8UjH9IOrD6HY+pTDw+ebjka4rzfBcAvRkct21dCgtt
+         8x39CuRKadm3+cWx6b1ecSucJhbSq4hjfCJqyrW7zTcVyqWCoCCWcDZrFj4ehC3aFsi/
+         vkiA==
+X-Forwarded-Encrypted: i=1; AJvYcCVDQjCoVLdZHCJZw6uUu42gKeFLCJWVdmrF7/LwfMB/F1J9jYC5/erqs4g5RJhRAJFp59B59iLcEtgeIW6o@lists.linux.dev
+X-Gm-Message-State: AOJu0Yzzk/iJlwiHBJoeawRiY+z+p8zmof4o264PkpJ2HBCs0DTn8abm
+	BzcrIsVUj1c+gLTbUqrR4e0Bvu1NKE4Hgcsdm5ouigq1Y9YNtZXGtsPhehy4RihoMS4=
+X-Gm-Gg: AY/fxX653qvuVohwYRxa+d8pLaoC37RKBtml0rPD9As876liW5/MaPZpuOlSSB5NQ9L
+	yaqcnX1EblgSmPJ/xjqv9RatSZMh6lwdP4hIR1D2fUMjn5oLzYzbjS1A1SLACK2i1svzMDenMr/
+	+BQ2CIpHXYoIcy3X5wGduH61bTR8FqqAgNQu59aaF8lCc4dCqlHox48JQNIFL8EB7xF7cKy0wqt
+	4VSCMi1agVFlYWznTt4dGGqz/hOKJUwVcVpAz23ir+BkHuARWVJEDcZwMOMrguZ713GePjrioUN
+	wKlN41Htr5u3pbCy7lFQ7BOQVssTURlHSq8PrBkGa2xbU/zgj5UMw7sF0nqoAYUW5QFA62mqvS6
+	zjscYiy1IGEOI6SSm6ZK5qwnOn4hRJV1znDUmrCjGLgdmoRaBY0cU6yKCt4ewpO02BxbbjWlqfA
+	H8voCzoWmVObeivdbT
+X-Google-Smtp-Source: AGHT+IFF6mlDf4rn8+0EUNe/LlrIVzaNSb3DcRNWYLhGl4RcIOvMWinAt4Wkd+BSxs91cxf6lLf6ew==
+X-Received: by 2002:a05:6000:402a:b0:430:f41f:bd5d with SMTP id ffacd0b85a97d-4324e708e9amr50906571f8f.55.1767607760494;
+        Mon, 05 Jan 2026 02:09:20 -0800 (PST)
 Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4324eaa46c0sm99932867f8f.34.2026.01.05.01.29.11
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4324eaa0908sm99614680f8f.31.2026.01.05.02.09.19
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 05 Jan 2026 01:29:12 -0800 (PST)
-Date: Mon, 5 Jan 2026 12:29:09 +0300
+        Mon, 05 Jan 2026 02:09:20 -0800 (PST)
+Date: Mon, 5 Jan 2026 13:09:17 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Khaled Saleh <khaled.saleh.req@gmail.com>
-Cc: gregkh@linuxfoundation.org, linux-staging@lists.linux.dev,
-	greybus-dev@lists.linaro.org
-Subject: Re: [PATCH] staging: greybus: split gb_audio_gb_get_topology() into
- helper functions
-Message-ID: <aVuEZQ11i0gS_t7q@stanley.mountain>
-References: <20251221194200.3734-1-khaled.saleh.req@gmail.com>
+To: Randy Dunlap <rdunlap@infradead.org>
+Cc: linux-kernel@vger.kernel.org,
+	Vaibhav Hiremath <hvaibhav.linux@gmail.com>,
+	Johan Hovold <johan@kernel.org>, Alex Elder <elder@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	greybus-dev@lists.linaro.org, linux-staging@lists.linux.dev
+Subject: Re: [PATCH] staging: greybus: arche: drop dangling Kconfig symbol
+Message-ID: <aVuNzWb3TEj74t2M@stanley.mountain>
+References: <20251230062704.3339404-1-rdunlap@infradead.org>
+ <d81069b8-04fa-437c-8bbc-51360784952a@infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-staging@lists.linux.dev
 List-Id: <linux-staging.lists.linux.dev>
@@ -75,77 +78,31 @@ List-Unsubscribe: <mailto:linux-staging+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251221194200.3734-1-khaled.saleh.req@gmail.com>
+In-Reply-To: <d81069b8-04fa-437c-8bbc-51360784952a@infradead.org>
 
-On Sun, Dec 21, 2025 at 09:42:00PM +0200, Khaled Saleh wrote:
-> From: khaled <khaled.saleh.req@gmail.com>
-
-Full name, please.
-
+On Tue, Dec 30, 2025 at 10:23:40AM -0800, Randy Dunlap wrote:
 > 
-> The gb_audio_gb_get_topology() function performs multiple distinct
-> operations: retrieving the topology size, allocating the topology buffer,
-> and fetching the topology data. A TODO comment in the file notes that
-> this logic should be split into separate calls.
 > 
-> Introduce helper functions for each step and update
-> gb_audio_gb_get_topology() to use them.
+> On 12/29/25 10:27 PM, Randy Dunlap wrote:
+> > --- linux-next-20251219.orig/drivers/staging/greybus/Kconfig
+> > +++ linux-next-20251219/drivers/staging/greybus/Kconfig
+> > @@ -206,7 +206,6 @@ endif	# GREYBUS_BRIDGED_PHY
+> >  
+> >  config GREYBUS_ARCHE
+> >  	tristate "Greybus Arche Platform driver"
+> > -	depends on USB_HSIC_USB3613 || COMPILE_TEST
+> >  	help
+> >  	  Select this option if you have an Arche device.
 > 
-> This improves readability and maintainability without changing behavior.
+> Perhaps I should have left COMPILE_TEST here, like:
 > 
-> Signed-off-by: Khaled Saleh <khaled.saleh.req@gmail.com>
-> ---
->  drivers/staging/greybus/audio_gb.c | 47 +++++++++++++++++++++++-------
->  1 file changed, 36 insertions(+), 11 deletions(-)
+> 	depends on COMPILE_TEST
 > 
-> diff --git a/drivers/staging/greybus/audio_gb.c b/drivers/staging/greybus/audio_gb.c
-> index 9d8994fdb41a..0d5109ec14f6 100644
-> --- a/drivers/staging/greybus/audio_gb.c
-> +++ b/drivers/staging/greybus/audio_gb.c
-> @@ -9,36 +9,61 @@
->  #include "audio_codec.h"
->  
->  /* TODO: Split into separate calls */
-> +static int gb_audio_topology_get_size(struct gb_connection *connection, u16 *size)
+> ?
 
-Use size_t for sizes.
-
-> +{
-> +	struct gb_audio_get_topology_size_response resp;
-> +	int ret;
-> +
-> +	ret = gb_operation_sync(connection,
-> +				GB_AUDIO_TYPE_GET_TOPOLOGY_SIZE,
-> +				NULL, 0,
-> +				&resp, sizeof(resp));
-> +	if (ret)
-> +		return ret;
-> +
-> +	*size = le16_to_cpu(resp.size);
-> +
-> +	return 0;
-> +}
-> +
-> +static struct gb_audio_topology *gb_audio_topology_alloc(u16 size)
-
-Same.
-
-> +{
-> +	if (size < sizeof(struct gb_audio_topology))
-> +		return NULL;
-> +
-> +	return kzalloc(size, GFP_KERNEL);
-> +}
-> +
-> +static int gb_audio_topology_fetch(struct gb_connection *connection,
-> +				   struct gb_audio_topology *topo, u16 size)
-
-Same.
-
-It's fine for now since there is just one caller, but using anything
-other that size_t for sizes is just asking for integer overflow bugs.
+If we're going to do that, we should just delete it.  It's been
+impossible to build for eight years.
 
 regards,
 dan carpenter
-
 
